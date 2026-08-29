@@ -67,17 +67,30 @@
   moduł zbiorczy wampirów energetycznych, cały Moduł 1 (czeka na treść źródłową — patrz niżej),
   CI (rozdział 11 standardu), delegowanie części UI do v0/Vercel (czeka na ten kontrakt
   `CalcResult`/`Warning` jako punkt odniesienia dla mockowanych ekranów).
-- **Luka 1.19** (Moduł 2, "Agregat prądotwórczy") — do dopisania jako ekran D przy Etapie 3 treści Modułu 2. Treść źródłowa gotowa w Biblii (poza tym repo, u właściciela projektu).
-- Materiały źródłowe Offgrid (Biblia pełna, Zasady UX Doradcy, plik scalony wszystkich modułów) żyją **poza tym repo** — u użytkownika, przesyłane doraźnie do sesji AI. Rozważyć, czy nie powinny trafić do repo (np. `docs/domena/`) dla trwałej dostępności.
-- **Brak pełnej treści Modułu 1/"Lokalizacja" (Geostruktura, dawny Rozdział 0 Biblii).** Mamy tylko skrótowy wiersz audytu (4 funkcje: 0.1 GPS/klimat, 0.2 Skaner działki, 0.3 Analiza zacienienia, 0.4 Bryła budynku) z `Zasady_UX_Doradca_v2_1.md` §20, nie pełną treść ekranów w stylu `Tresc_Modul_X_Ekrany.md`. Pełną treść Modułu 2 "Zapotrzebowanie" (Bilans obciążeń, 16 ekranów) MAMY w całości. Do implementacji Rozdziału 0+1 potrzebna albo pełna treść Modułu 1 od użytkownika, albo start od samego Modułu 2, z Modułem 1 dogranym później.
+- **Luka 1.19** (Moduł 2, "Agregat prądotwórczy") — do dopisania jako ekran D przy Etapie 3 treści Modułu 2. Treść źródłowa gotowa w Biblii, patrz `docs/domena/Biblia_Offgrid_v2_0_Architektura_Modulowa.md`.
+- ~~Materiały źródłowe Offgrid żyją poza tym repo~~ — **rozstrzygnięte 2026-08-29, patrz wpis niżej.**
+- ~~Brak pełnej treści Modułu 1~~ — **rozstrzygnięte 2026-08-29** — pełna treść Modułu 1 (4 ekrany) dotarła i jest w `docs/domena/Tresc_Modul_1_Lokalizacja_Ekrany.md`.
 
 ## Decyzje i uzasadnienie (c.d.)
 
 - **2026-08-29 — Wznowiono Etap 1 (szkielet architektury).** Pauza z `ZASADY_APLIKACJI.md` §14 (2026-08-28) zakończona decyzją autora. Pierwszy moduł domenowy: Rozdział 0+1 (Geostruktura + Bilans obciążeń), zgodnie z pierwotną, zatwierdzoną teraz kolejnością. Zmiana odnotowana w `ZASADY_APLIKACJI.md` §14 i `USTALENIA.md` (jawna korekta, stara notatka zachowana obok nowej, zgodnie z rozdziałem 14.2 standardu).
 
+## Decyzje i uzasadnienie (c.d. 5)
+
+- **2026-08-29 — Materiały źródłowe Offgrid przeniesione do repo (`docs/domena/`).** Powód: przy
+  kompresji kontekstu długiej sesji AI traci dostęp do wcześniej wklejonej treści plików źródłowych
+  (nawet jeśli w podsumowaniu zostaje odnotowane, że "zostały przeczytane") — realny koszt: pytanie
+  do autora o ponowne wysłanie tego, co już raz dostarczył. Rozwiązanie: pliki trafiają do repo jako
+  kopia 1:1, dostępna dla każdej przyszłej sesji AI bez ponownego wysyłania. Skopiowano komplet:
+  wszystkie 13 plików `Tresc_Modul_X_*_Ekrany.md` (moduły 1–13), `Tresc_WSZYSTKIE_MODULY_scalone.md`,
+  `Zasady_UX_Doradca_v2_1.md`, `Biblia_Offgrid_v2_0_Architektura_Modulowa.md`. Indeks i zasady
+  aktualizacji: `docs/domena/README.md`. Zamyka otwartą sprawę z sekcji niżej i lukę "brak treści
+  Modułu 1" (Moduł 1 dotarł w komplecie, 4 ekrany).
+
 ## Mapa orientacyjna
 
 - `docs/standards/00-INDEKS.md` — standard wspólny dla rodziny aplikacji, zacznij tu przy pytaniach "jak mamy to robić".
 - `ZASADY_APLIKACJI.md` (pełna) / `USTALENIA.md` (skrót) — konstytucja Offgrid, nadrzędna wobec kodu.
+- `docs/domena/` — materiały źródłowe Offgrid (Biblia, treść 13 modułów, plik scalony, Zasady UX Doradcy) — przeszukiwać tu zamiast pytać użytkownika o ponowne wysłanie.
 - `app/`, `components/ui/`, `lib/utils.ts` — obecny szkielet Next.js, bez kodu domenowego.
 - `CLAUDE.md` — punkt wejścia dla AI, odsyła tutaj i do standardu.
