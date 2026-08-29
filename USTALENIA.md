@@ -2,7 +2,7 @@
 
 **Projekt:** Inżynier Offgrid Pro (aplikacja Off‑Grid PV)
 **Cel dokumentu:** jedno miejsce, w którym spisane są WSZYSTKIE zatwierdzone zasady i decyzje.
-**Wersja zasad:** 0.1.2
+**Wersja zasad:** 0.1.3
 **Data:** 2026‑08‑28
 **Target:** Web / PWA (offline‑first), architektura gotowa na przeniesienie na mobile
 
@@ -82,8 +82,10 @@
 
 ## CZĘŚĆ II — Decyzje zatwierdzone przez autora
 
-### D‑1 · Rozdział 7 = 50 funkcji  (2026‑08‑28)
-Rozdział 7 ma **50 funkcji**. Wartość „3" widoczna w źródle to **błąd scalenia** w powtórzonym bloku Biblii — odrzucona.
+### D‑1 · Rozdział 7 (Tryb Live) = 33 funkcje  (2026‑08‑28, skorygowane 2026‑08‑29)
+Pierwotnie: Rozdział 7 ma **50 funkcji**, wartość „3" widoczna w źródle uznana za błąd scalenia w powtórzonym bloku Biblii — odrzucona.
+
+**Korekta (2026‑08‑29, weryfikacja programistyczna):** ta decyzja jest zastąpiona. Rozdział 7 (Tryb Live) ma **33 realne funkcje** (7.1–7.8 + 7.26–7.50; numeracja 7.9–7.25 nie istnieje w treści źródłowej). Wartość „50" odrzucona. Źródło: `Tresc_WSZYSTKIE_MODULY_scalone.md`, ustalone przeliczeniem faktycznej treści, nie z metryczki dokumentu.
 
 ### D‑2 · Podział FREE / PRO  (2026‑08‑28)
 | Tier | Zakres |
@@ -95,8 +97,12 @@ Rozdział 7 ma **50 funkcji**. Wartość „3" widoczna w źródle to **błąd s
 
 ## CZĘŚĆ III — Sprawy otwarte (do rozstrzygnięcia)
 
-- **Dług D‑01 (reszta):** która wersja Biblii jest kanoniczna (1.5 vs 1.7) oraz finalna łączna liczba funkcji — weryfikacja, czy przy Rozdz. 7 = 50 suma domyka się do 540.
 - **Punkt B — kolejność budowy / szkielet architektury:** wstrzymane. Autor projektuje szkielet z innym narzędziem i wróci z decyzją. **Do tego czasu nie startujemy kodu.**
+
+> **Dług D‑01 — zamknięty (2026‑08‑29).** Kanoniczna wersja Biblii: **v2.0 (Architektura Modułowa)**.
+> Finalna łączna liczba funkcji: **579** (nie 540 — metryczka źródła była nieaktualna), zweryfikowane
+> programistycznie na podstawie `Tresc_WSZYSTKIE_MODULY_scalone.md`. Patrz też D‑1 (CZĘŚĆ II) —
+> korekta Rozdziału 7 z 50 na 33 funkcje, część tej samej weryfikacji.
 
 ---
 
@@ -104,9 +110,9 @@ Rozdział 7 ma **50 funkcji**. Wartość „3" widoczna w źródle to **błąd s
 
 | Element | Wartość |
 |---|---|
-| Wersja zasad | 0.1.2 |
+| Wersja zasad | 0.1.3 |
 | Rozdziały Biblii objęte planem | 13 (0–12 + załączniki) |
-| Funkcje Biblii (wg metryczki źródła) | 540 — do potwierdzenia (D‑01) |
+| Funkcje Biblii | 579 (zweryfikowane programistycznie, D‑01 zamknięty) |
 | Funkcje z zaimplementowanym kodem | 0 |
 | Profile krajowe | 0 (planowany start: PL) |
 
