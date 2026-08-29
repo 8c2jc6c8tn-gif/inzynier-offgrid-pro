@@ -12,7 +12,7 @@ notatkę, zgodnie z `docs/standards/15-wspolpraca-z-ai.md` (15.3, "nie usuwaj �
 
 | Ekran | ID Biblii | Nazwa | Status | Notatka |
 |---|---|---|---|---|
-| 1 | 1.1 | Systemy podtrzymania życia (Survival Core) | todo | |
+| 1 | 1.1 | Systemy podtrzymania życia (Survival Core) | **done** | `lib/core/modules/zapotrzebowanie/systemy-podtrzymania-zycia/`, UI: `app/kalkulatory/systemy-podtrzymania-zycia/page.tsx`, 6 testów. "Ogrzewanie" bez domyślnej mocy — luka źródła, wymaga ręcznego wpisania (błąd 🔴, nie ciche zero). |
 | 2 | 1.2 | Inteligentny bojler C.W.U. | todo | |
 | 3 | 1.3, 1.4, 1.5 | Urządzenia zmienne + płyta indukcyjna + klasa energetyczna | todo | |
 | 4 | 1.6 | Liczba domowników | todo | |
