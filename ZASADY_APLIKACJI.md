@@ -2,7 +2,7 @@
 
 **Projekt:** Inżynier Offgrid Pro (aplikacja Off‑Grid PV)
 **Status dokumentu:** żywy — konstytucja projektu
-**Wersja zasad:** 0.1.2
+**Wersja zasad:** 0.1.3
 **Data:** 2026‑08‑28
 **Źródło wymagań:** „Biblia Off‑Grid PV" v1.5 (nagłówek) / metryczka v1.7 — patrz Dług D‑01
 **Target:** Web / PWA (offline‑first), architektura przygotowana na przeniesienie na mobile
@@ -160,12 +160,13 @@ Profil zawiera m.in.: strefy klimatyczne, strefy wiatrowe/śniegowe, głębokoś
 - **Żadnej funkcji nie wolno usunąć ani pominąć bez jawnego potwierdzenia** zapisanego w dzienniku zmian.
 - Rejestr pokrycia: dla każdej z ~540 funkcji status `todo / in‑progress / done`, mapowany po ID z Biblii.
 
-**Dług D‑01 (częściowo rozstrzygnięty).** Biblia 1.5 jest wewnętrznie niespójna: nagłówek/stopka mówią „1.5", metryczka „1.7 / 540 funkcji", a spis treści jednego z powtórzonych bloków skraca Rozdz. 7 do 3 funkcji.
+**Dług D‑01 (rozstrzygnięty).** Biblia 1.5 jest wewnętrznie niespójna: nagłówek/stopka mówią „1.5", metryczka „1.7 / 540 funkcji", a spis treści jednego z powtórzonych bloków skraca Rozdz. 7 do 3 funkcji.
 
 - **Rozstrzygnięte (2026‑08‑28, decyzja autora):** Rozdział 7 ma **50 funkcji**. Wartość „3" to błąd scalenia w powtórzonym bloku i jest odrzucona.
-- **Do rozstrzygnięcia:** wersja kanoniczna (1.5 vs 1.7) i finalna łączna liczba funkcji (weryfikacja, czy przy Rozdz. 7 = 50 suma domyka się do 540).
+- **Skorygowane (2026‑08‑29, weryfikacja programistyczna).** Powyższa decyzja z 2026‑08‑28 jest zastąpiona: Rozdział 7 (Tryb Live) ma **33 realne funkcje** (7.1–7.8 + 7.26–7.50; numery 7.9–7.25 nie istnieją w treści źródłowej), nie 50. Wartość „50" jest odrzucona. Źródło korekty: `Tresc_WSZYSTKIE_MODULY_scalone.md`, liczba ustalona przeliczeniem faktycznej treści, nie z deklaratywnej metryczki dokumentu.
+- **Finalna łączna liczba funkcji Biblii: 579** (nie 540 — metryczka źródła była nieaktualna), zweryfikowane programistycznie tą samą metodą. Kanoniczna wersja do dalszego użytku: **v2.0 (Architektura Modułowa)**.
 
-Ustalamy **jedną kanoniczną listę funkcji** zanim policzymy pokrycie. Do tego czasu rejestr pokrycia jest wstępny.
+Kanoniczna lista funkcji jest ustalona (579, wg v2.0). Rejestr pokrycia może być liczony względem tej liczby.
 
 ---
 
@@ -202,13 +203,14 @@ Fundament → dziedzina → nadbudowa. Kolejne etapy zatwierdzamy osobno.
 | 0.1.0 | 2026‑08‑28 | Pierwsza wersja konstytucji na podstawie Biblii v1.5. Zarejestrowano Dług D‑01 (niespójność wersji Biblii). |
 | 0.1.1 | 2026‑08‑28 | D‑01 częściowo rozstrzygnięty: Rozdział 7 = 50 funkcji (decyzja autora), wartość „3" odrzucona jako błąd scalenia. |
 | 0.1.2 | 2026‑08‑28 | §11 podział FREE/PRO zatwierdzony przez autora. §14: Etap 1 (szkielet) wstrzymany — autor projektuje szkielet osobno; kod nie startuje. |
+| 0.1.3 | 2026‑08‑29 | D‑01 zamknięty: korekta decyzji z 2026‑08‑28 — Rozdział 7 (Tryb Live) ma 33 funkcje, nie 50 (numeracja 7.9–7.25 nie istnieje w źródle); finalna liczba funkcji Biblii ustalona na 579 (nie 540). Obie wartości zweryfikowane programistycznie na podstawie `Tresc_WSZYSTKIE_MODULY_scalone.md`. |
 
 ## Metryczka (stan bieżący)
 
 | Element | Wartość |
 |---|---|
-| Wersja zasad | 0.1.2 |
+| Wersja zasad | 0.1.3 |
 | Rozdziały Biblii objęte planem | 13 (0–12 + załączniki) |
-| Funkcje Biblii (wg metryczki źródła) | 540 — do potwierdzenia (D‑01) |
+| Funkcje Biblii | 579 (zweryfikowane programistycznie, D‑01 zamknięty) |
 | Funkcje z zaimplementowanym kodem | 0 |
 | Profile krajowe | 0 (planowany start: PL) |
