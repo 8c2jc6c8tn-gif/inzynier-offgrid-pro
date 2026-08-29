@@ -185,6 +185,8 @@ Kanoniczna lista funkcji jest ustalona (579, wg v2.0). Rejestr pokrycia może by
 Fundament → dziedzina → nadbudowa. Kolejne etapy zatwierdzamy osobno.
 
 > **Status (2026‑08‑28):** Etap 1 (szkielet architektury) **wstrzymany** — autor opracowuje projekt szkieletu z innym narzędziem i wróci z decyzją. Do tego czasu **nie zaczynamy kodu**. Poniższa kolejność jest propozycją, jeszcze niezatwierdzoną.
+>
+> **Wznowione (2026‑08‑29, decyzja autora).** Pauza zakończona — zaczynamy kod wg poniższej kolejności, startując od punktu 1 (szkielet architektury) zgodnie z pakietem standardów `docs/standards/`. Pierwszy moduł domenowy: **Rozdział 0+1 (Geostruktura + Bilans obciążeń)**, punkt 2 poniżej.
 
 1. **Szkielet architektury**: podział core/adapters/app, i18n, StorageAdapter (IndexedDB), profil `PL`, typ `CalcResult`, Reporter, rejestr pokrycia.
 2. **Rozdział 0 + 1** (Geostruktura + Bilans obciążeń) — serce danych wejściowych.

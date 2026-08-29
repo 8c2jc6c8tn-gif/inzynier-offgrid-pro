@@ -6,7 +6,7 @@
 **Data:** 2026‑08‑28
 **Target:** Web / PWA (offline‑first), architektura gotowa na przeniesienie na mobile
 
-> Uwaga: kolejność budowy aplikacji (dawny „punkt B" / §14 roadmapy) jest celowo **pominięta** w tym dokumencie — jest wstrzymana, bo autor projektuje szkielet osobno.
+> Uwaga: kolejność budowy aplikacji (dawny „punkt B" / §14 roadmapy) była celowo **pominięta** w tym dokumencie jako wstrzymana. **Wznowiona 2026‑08‑29** (decyzja autora) — pełna kolejność i status w `ZASADY_APLIKACJI.md` §14. Start: szkielet architektury, potem Rozdział 0+1 (Geostruktura + Bilans obciążeń).
 
 ---
 
@@ -97,7 +97,7 @@ Pierwotnie: Rozdział 7 ma **50 funkcji**, wartość „3" widoczna w źródle u
 
 ## CZĘŚĆ III — Sprawy otwarte (do rozstrzygnięcia)
 
-- **Punkt B — kolejność budowy / szkielet architektury:** wstrzymane. Autor projektuje szkielet z innym narzędziem i wróci z decyzją. **Do tego czasu nie startujemy kodu.**
+- **Punkt B — kolejność budowy / szkielet architektury:** ~~wstrzymane~~ → **wznowione 2026‑08‑29** (decyzja autora), patrz notatka na górze dokumentu i `ZASADY_APLIKACJI.md` §14. Kod startuje.
 
 > **Dług D‑01 — zamknięty (2026‑08‑29).** Kanoniczna wersja Biblii: **v2.0 (Architektura Modułowa)**.
 > Finalna łączna liczba funkcji: **579** (nie 540 — metryczka źródła była nieaktualna), zweryfikowane
