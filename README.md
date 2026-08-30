@@ -1,6 +1,18 @@
-# inzynier-offgrid-pro
+# Inżynier Offgrid Pro
 
-This is a [Next.js](https://nextjs.org) project bootstrapped with [v0](https://v0.app).
+Kalkulator/doradca inżynierski dla systemów off-grid PV (panele, magazyn energii, ogrzewanie,
+bezpieczeństwo). Web/PWA offline-first (Next.js 16 / React 19 / TypeScript), z architekturą
+przygotowaną na przeniesienie na mobile. Część rodziny aplikacji "Inżynier Pro".
+
+## Dokumentacja — od czego zacząć
+
+- [`CLAUDE.md`](./CLAUDE.md) — punkt wejścia (dla AI i dla człowieka): kolejność czytania, zasady pracy z tym repo.
+- [`docs/memory.md`](./docs/memory.md) — żywy log decyzji, pułapek i aktualnego stanu tego projektu.
+- [`docs/standards/00-INDEKS.md`](./docs/standards/00-INDEKS.md) — pełny standard architektoniczny wspólny dla całej rodziny aplikacji (16 rozdziałów).
+- [`ZASADY_APLIKACJI.md`](./ZASADY_APLIKACJI.md) / [`USTALENIA.md`](./USTALENIA.md) — zasady i decyzje specyficzne dla Offgrid Pro (konstytucja tego projektu, nadrzędna wobec kodu).
+- [`docs/rejestr-pokrycia.md`](./docs/rejestr-pokrycia.md) — status implementacji per ekran/moduł.
+- [`docs/brief-dla-v0.md`](./docs/brief-dla-v0.md) — brief techniczny i projektowy dla v0.
+- [`docs/domena/`](./docs/domena/) — materiały źródłowe Offgrid (Biblia architektury, treść modułów, Zasady UX Doradcy).
 
 ## Built with v0
 
@@ -10,23 +22,17 @@ This repository is linked to a [v0](https://v0.app) project. You can continue de
 
 ## Getting Started
 
-First, run the development server:
-
 ```bash
-npm run dev
-# or
-yarn dev
-# or
+pnpm install
 pnpm dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Otwórz [http://localhost:3000](http://localhost:3000) w przeglądarce.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+Inne komendy: `pnpm build` / `pnpm start` / `pnpm test` (Vitest) / `pnpm lint` (ESLint).
+Jeden lockfile w repo: `pnpm-lock.yaml` — nie dodawać `package-lock.json` ani `yarn.lock` obok niego.
 
 ## Learn More
-
-To learn more, take a look at the following resources:
 
 - [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
 - [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.

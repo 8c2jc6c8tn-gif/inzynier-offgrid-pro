@@ -32,7 +32,7 @@ Zasada nadrzędna: **ZACHOWAJ → ZROZUM → ZMIEŃ TYLKO TO, CO POTRZEBNE → S
 
 ## Stan repo (skrót — pełny stan w `docs/memory.md`)
 
-Obecnie: szkielet Next.js (`app/`, `components/ui/`, `lib/utils.ts`) bez kodu domenowego. Brak jeszcze testów, lintera, CI. Komendy dostępne dziś: `pnpm dev` / `pnpm build` / `pnpm start`. Gdy dojdą test/lint, dopisz komendy tutaj i w `docs/memory.md`.
+Etap 1 wznowiony (patrz `docs/memory.md`) — repo ma już warstwę domenową: `lib/core/modules/` (kalkulatory z pełnym wzorcem input/calculator/validation/warnings/testy), 8 przykładowych ekranów wzorców UI A–H, pulpit adaptacyjny (`app/page.tsx`, `lib/pulpit/`), Ustawienia z personalizacją wyglądu (`app/ustawienia/`, `lib/wyglad/`, `lib/theme/`), stronę-wzornik `/wzornik`. Aktualny status per ekran/moduł: `docs/rejestr-pokrycia.md`. Brak jeszcze CI (rozdział 11 standardu). Komendy: `pnpm dev` / `pnpm build` / `pnpm start` / `pnpm test` (Vitest) / `pnpm lint` (ESLint).
 
 ## Definicja ukończenia zadania
 
