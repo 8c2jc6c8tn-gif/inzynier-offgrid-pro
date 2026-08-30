@@ -2,7 +2,7 @@
 
 **Projekt:** Inżynier Offgrid Pro (aplikacja Off‑Grid PV)
 **Status dokumentu:** żywy — konstytucja projektu
-**Wersja zasad:** 0.1.4
+**Wersja zasad:** 0.1.6
 **Data:** 2026‑08‑28
 **Źródło wymagań:** „Biblia Off‑Grid PV" v1.5 (nagłówek) / metryczka v1.7 — patrz Dług D‑01
 **Target:** Web / PWA (offline‑first), architektura przygotowana na przeniesienie na mobile
@@ -149,7 +149,7 @@ Profil zawiera m.in.: strefy klimatyczne, strefy wiatrowe/śniegowe, głębokoś
 **Reguła.** Podział free/pro definiowany **danymi** (mapa `feature → tier`), nie rozsypanymi `if`. Egzekwowanie limitu **po stronie serwera**, nie tylko w UI. Płatności przez **Stripe** (integracja Vercela), z idempotency keys. Restore/subskrypcje App Store/Google Play — dopiero w wersji mobile.
 
 **Podział zatwierdzony (2026‑08‑28, decyzja autora):**
-- **FREE:** 1 projekt, tryb prosty, kalkulatory awaryjne (Rozdz. 8).
+- **FREE:** 1 projekt, tryb prosty, kalkulatory awaryjne (dawny Rozdz. 8, dzisiejszy Moduł 12).
 - **PRO:** wiele projektów, Tryb Inżyniera, stress‑test zimowy, tryb Live, eksport PDF/CSV, AI.
 
 ---
@@ -185,16 +185,50 @@ Kanoniczna lista funkcji jest ustalona (579, wg v2.0). Rejestr pokrycia może by
 
 Fundament → dziedzina → nadbudowa. Kolejne etapy zatwierdzamy osobno.
 
-> **Uwaga o numeracji (2026-08-30):** poniższa lista używa numeracji "Rozdział 0–12" ustalonej
-> przed dotarciem pełnej treści modułów (`docs/domena/`), która wprowadziła numerację "Moduł/Kafel
-> 1–13". Te dwa systemy **nie pokrywają się 1:1** (np. "Rozdział 6" tutaj ≠ dzisiejszy "Moduł 6" —
-> patrz `docs/pulpit-i-nawigacja.md`, sekcja 2). Ta lista opisuje kolejność, w jakiej **my**
-> budujemy kod — to nie to samo, co kolejność kafli na pulpicie usera (ta może się zmieniać
-> swobodnie, nie wymaga synchronizacji z tym planem).
-
 > **Status (2026‑08‑28):** Etap 1 (szkielet architektury) **wstrzymany** — autor opracowuje projekt szkieletu z innym narzędziem i wróci z decyzją. Do tego czasu **nie zaczynamy kodu**. Poniższa kolejność jest propozycją, jeszcze niezatwierdzoną.
 >
-> **Wznowione (2026‑08‑29, decyzja autora).** Pauza zakończona — zaczynamy kod wg poniższej kolejności, startując od punktu 1 (szkielet architektury) zgodnie z pakietem standardów `docs/standards/`. Pierwszy moduł domenowy: **Rozdział 0+1 (Geostruktura + Bilans obciążeń)**, punkt 2 poniżej.
+> **Wznowione (2026‑08‑29, decyzja autora).** Pauza zakończona — zaczynamy kod wg poniższej kolejności, startując od punktu 1 (szkielet architektury) zgodnie z pakietem standardów `docs/standards/`.
+
+**Skorygowane 2026‑08‑30, druga wersja (jawna korekta, Zasada 14.2 — nic nie usunięte, obie
+poprzednie wersje niżej).** Ta roadmapa używa **wyłącznie** numeracji Moduł N (ten sam system co
+wszędzie indziej w repo) i **czystej kolejności zależności danych 1→13** (kto czyta dane od kogo —
+pełne uzasadnienie per moduł: `docs/pulpit-i-nawigacja.md`, sekcja 2), bez wyjątków. Poprzednia
+wersja (0.1.5, niżej) wyciągała Moduł 12 do przodu "na wczesne demo" — **decyzja autora
+(2026‑08‑30): to już nieaktualne, porzucone**, wraca do czystej kolejności. Kafel 14 (Ustawienia)
+dostaje **własny, jawny punkt** w planie (krok 2) — wcześniej był tylko domyślnie wliczony w
+szkielet bez wymienienia z nazwy, co autor uznał za mylące.
+
+1. **Szkielet architektury**: podział core/adapters/app, i18n, StorageAdapter (IndexedDB), profil `PL`, typ `CalcResult`, Reporter, rejestr pokrycia.
+2. **Kafel 14 — Ustawienia**: ekran ustawień/preferencji, w tym konfiguracja pulpitu (`docs/pulpit-i-nawigacja.md`) i docelowo profil "Mój sprzęt".
+3. **Moduł 1** — Lokalizacja i teren — fundament: klimat, nasłonecznienie, strefy.
+4. **Moduł 2** — Zapotrzebowanie energetyczne — potrzebuje 1.
+5. **Moduł 3** — Instalacja PV — potrzebuje 1, 2.
+6. **Moduł 4** — Magazyn energii / baterie — potrzebuje 2, 3.
+7. **Moduł 5** — Okablowanie i zabezpieczenia — potrzebuje 3, 4.
+8. **Moduł 6** — Ogrzewanie / pompa ciepła — potrzebuje 1, 2.
+9. **Moduł 7** — Stress‑test zimowy — spina moduły 1–6, musi być po nich.
+10. **Moduł 8** — Bezpieczeństwo i sytuacje awaryjne — czerpie z 4, 5, 6, 7, 9 (patrz krok 11 niżej — w praktyce budowany równolegle z 9 lub tuż po).
+11. **Moduł 9** — Elektronika / ESP32 / sensoryka — infrastruktura, względnie niezależny.
+12. **Moduł 10** — AI i prognozy — czerpie z prawie wszystkiego wcześniejszego.
+13. **Moduł 11** — Montaż baterii — proceduralny, potrzebuje 4.
+14. **Moduł 12** — Szybki kalkulator / tryb mobilny — w większości samodzielny.
+15. **Moduł 13** — Tryb Live — monitoring tego, co już zbudowane, ma sens dopiero na końcu.
+
+<details>
+<summary>Wersja z 2026‑08‑30, pierwsza korekta (zastąpiona powyżej — wyciągała Moduł 12 do przodu, autor to porzucił)</summary>
+
+1. **Szkielet architektury**: podział core/adapters/app, i18n, StorageAdapter (IndexedDB), profil `PL`, typ `CalcResult`, Reporter, rejestr pokrycia.
+2. **Moduł 1 + 2** (Lokalizacja i teren + Zapotrzebowanie energetyczne) — serce danych wejściowych.
+3. **Moduł 3 + 4** (Instalacja PV + Magazyn energii/baterie) — najcięższa fizyka.
+4. **Moduł 5 + 6** (Okablowanie i zabezpieczenia + Ogrzewanie/pompa ciepła).
+5. **Moduł 7** (Stress‑test zimowy) — spina moduły 1–6.
+6. **Moduł 12** (Szybki kalkulator / tryb mobilny) — samodzielny, dobry na wczesne demo/free.
+7. **Moduł 13** (Tryb Live), **Moduł 9** (ESP32), **Moduł 10** (AI), **Moduł 11** (Montaż baterii, 2 ścieżki chemii), **Moduł 8** (Bezpieczeństwo — spina moduły 4, 5, 6, 7, 9, budować na końcu tego kroku) — nadbudowa zależna od sprzętu/telemetrii.
+
+</details>
+
+<details>
+<summary>Wersja pierwotna z 2026‑08‑28 (numeracja "Rozdział", zastąpiona — zachowana jako historia decyzji, Zasada 14.2)</summary>
 
 1. **Szkielet architektury**: podział core/adapters/app, i18n, StorageAdapter (IndexedDB), profil `PL`, typ `CalcResult`, Reporter, rejestr pokrycia.
 2. **Rozdział 0 + 1** (Geostruktura + Bilans obciążeń) — serce danych wejściowych.
@@ -203,6 +237,8 @@ Fundament → dziedzina → nadbudowa. Kolejne etapy zatwierdzamy osobno.
 5. **Rozdział 6** (Stress‑test zimowy) — spina wszystko.
 6. **Rozdział 8** (Kalkulatory awaryjne) — samodzielny, dobry na wczesne demo/free.
 7. **Rozdziały 9–10** (instrukcje montażu), **7** (Live), **11** (ESP32), **12** (AI) — nadbudowa zależna od sprzętu/telemetrii.
+
+</details>
 
 ---
 
@@ -215,12 +251,14 @@ Fundament → dziedzina → nadbudowa. Kolejne etapy zatwierdzamy osobno.
 | 0.1.2 | 2026‑08‑28 | §11 podział FREE/PRO zatwierdzony przez autora. §14: Etap 1 (szkielet) wstrzymany — autor projektuje szkielet osobno; kod nie startuje. |
 | 0.1.3 | 2026‑08‑29 | D‑01 zamknięty: korekta decyzji z 2026‑08‑28 — Rozdział 7 (Tryb Live) ma 33 funkcje, nie 50 (numeracja 7.9–7.25 nie istnieje w źródle); finalna liczba funkcji Biblii ustalona na 579 (nie 540). Obie wartości zweryfikowane programistycznie na podstawie `Tresc_WSZYSTKIE_MODULY_scalone.md`. |
 | 0.1.4 | 2026‑08‑30 | §14: dopisano zastrzeżenie o rozjeździe numeracji "Rozdział" (ta lista) vs "Moduł/Kafel" (`docs/domena/`) — nie pokrywają się 1:1, kolejność budowy ≠ kolejność kafli na pulpicie usera. Nowy dokument `docs/pulpit-i-nawigacja.md` (pulpit adaptacyjny, 14 kafli, presety onboardingu) + generyczny mechanizm w `docs/standards/08-ui-ux.md` (8.11). |
+| 0.1.5 | 2026‑08‑30 | §14 przepisane na numerację Moduł N (zamiast "Rozdział") — jawna korekta, wersja pierwotna zachowana w zwijanym bloku. Rozstrzygnięcie: stary Rozdział 0–6 to nowy Moduł 1–7 (proste przesunięcie +1, bo stary system liczył od 0), dalej numeracja faktycznie się przetasowała (Live/ESP32/AI/Montaż zamieniły miejsca, Moduł 8 Bezpieczeństwo złożony z kawałków starych 6+11+12, nie istniał jako osobny rozdział). Pełne mapowanie: `docs/pulpit-i-nawigacja.md` §2. |
+| 0.1.6 | 2026‑08‑30 | §14 skorygowane po raz drugi (decyzja autora): porzucono wyciąganie Modułu 12 do przodu "na wczesne demo" (nieaktualne) — roadmapa to teraz czysta kolejność zależności danych 1→13, identyczna z kolejnością kafli pulpitu w `docs/pulpit-i-nawigacja.md`. Kafel 14 (Ustawienia) dostał własny, jawny punkt w planie (krok 2) zamiast być domyślnie/niejawnie wliczonym w szkielet. Obie poprzednie wersje zachowane w zwijanych blokach. |
 
 ## Metryczka (stan bieżący)
 
 | Element | Wartość |
 |---|---|
-| Wersja zasad | 0.1.4 |
+| Wersja zasad | 0.1.6 |
 | Rozdziały Biblii objęte planem | 13 (0–12 + załączniki) |
 | Funkcje Biblii | 579 (zweryfikowane programistycznie, D‑01 zamknięty) |
 | Funkcje z zaimplementowanym kodem | 0 |

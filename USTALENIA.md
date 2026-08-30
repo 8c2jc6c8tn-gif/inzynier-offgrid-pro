@@ -2,11 +2,11 @@
 
 **Projekt:** Inżynier Offgrid Pro (aplikacja Off‑Grid PV)
 **Cel dokumentu:** jedno miejsce, w którym spisane są WSZYSTKIE zatwierdzone zasady i decyzje.
-**Wersja zasad:** 0.1.4
+**Wersja zasad:** 0.1.6
 **Data:** 2026‑08‑30
 **Target:** Web / PWA (offline‑first), architektura gotowa na przeniesienie na mobile
 
-> Uwaga: kolejność budowy aplikacji (dawny „punkt B" / §14 roadmapy) była celowo **pominięta** w tym dokumencie jako wstrzymana. **Wznowiona 2026‑08‑29** (decyzja autora) — pełna kolejność i status w `ZASADY_APLIKACJI.md` §14. Start: szkielet architektury, potem Rozdział 0+1 (Geostruktura + Bilans obciążeń).
+> Uwaga: kolejność budowy aplikacji (dawny „punkt B" / §14 roadmapy) była celowo **pominięta** w tym dokumencie jako wstrzymana. **Wznowiona 2026‑08‑29** (decyzja autora) — pełna kolejność i status w `ZASADY_APLIKACJI.md` §14. Start: szkielet architektury, potem Moduł 1+2 (Lokalizacja i teren + Zapotrzebowanie energetyczne). Numeracja skorygowana 2026‑08‑30 z "Rozdział" na "Moduł" — patrz `ZASADY_APLIKACJI.md` §14.
 
 ---
 
@@ -91,7 +91,7 @@ Pierwotnie: Rozdział 7 ma **50 funkcji**, wartość „3" widoczna w źródle u
 ### D‑2 · Podział FREE / PRO  (2026‑08‑28)
 | Tier | Zakres |
 |---|---|
-| **FREE** | 1 projekt · tryb prosty · kalkulatory awaryjne (Rozdz. 8) |
+| **FREE** | 1 projekt · tryb prosty · kalkulatory awaryjne (dawny Rozdz. 8, dzisiejszy Moduł 12) |
 | **PRO** | wiele projektów · Tryb Inżyniera · stress‑test zimowy · tryb Live · eksport PDF/CSV · AI |
 
 ---
@@ -111,7 +111,7 @@ Pierwotnie: Rozdział 7 ma **50 funkcji**, wartość „3" widoczna w źródle u
 
 | Element | Wartość |
 |---|---|
-| Wersja zasad | 0.1.4 |
+| Wersja zasad | 0.1.6 |
 | Rozdziały Biblii objęte planem | 13 (0–12 + załączniki) |
 | Funkcje Biblii | 579 (zweryfikowane programistycznie, D‑01 zamknięty) |
 | Funkcje z zaimplementowanym kodem | 0 |
