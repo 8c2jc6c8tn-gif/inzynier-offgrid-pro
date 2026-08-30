@@ -2,6 +2,7 @@
 
 import Link from "next/link"
 import { useSyncExternalStore } from "react"
+import { Button } from "@/components/ui/button"
 import { CzcionkaEdytor } from "@/components/czcionka-edytor"
 import { KolorGrupaEdytor } from "@/components/kolor-grupa-edytor"
 import { ThemeToggle } from "@/components/theme-toggle"
@@ -47,11 +48,16 @@ export default function UstawieniaPage() {
   return (
     <main className="mx-auto flex max-w-md flex-col gap-6 p-6">
       <div>
-        <Link href="/" className="text-sm text-muted-foreground hover:underline">
+        <Link
+          href="/"
+          className="rounded-md text-small text-muted-foreground transition-colors hover:text-foreground focus-visible:ring-2 focus-visible:ring-ring/50 focus-visible:outline-none"
+        >
           ← Pulpit
         </Link>
-        <h1 className="mt-2 text-xl font-semibold">⚙️ Ustawienia — Skonfiguruj pulpit</h1>
-        <p className="mt-1 text-sm text-muted-foreground">
+        <h1 className="mt-2 text-h1 font-semibold">
+          <span aria-hidden="true">⚙️</span> Ustawienia — Skonfiguruj pulpit
+        </h1>
+        <p className="mt-1 text-small text-muted-foreground">
           Pokaż/ukryj moduł, zmień kolejność (↑/↓). Ukrycie nie usuwa modułu — zawsze możesz go
           przywrócić. Zmiany zapisują się automatycznie w tej przeglądarce.
         </p>
@@ -67,60 +73,56 @@ export default function UstawieniaPage() {
             <li
               key={id}
               className={cn(
-                "flex items-center gap-3 rounded-md border p-3",
+                "flex items-center gap-3 rounded-md border p-3 transition-opacity",
                 ukryty && "opacity-50",
               )}
             >
-              <span className="text-xl">{kafel.ikona}</span>
-              <span className="flex-1 text-sm font-medium">
+              <span className="text-xl" aria-hidden="true">
+                {kafel.ikona}
+              </span>
+              <span className="flex-1 text-small font-medium">
                 {kafel.id}. {kafel.nazwa}
               </span>
 
               <div className="flex items-center gap-1">
-                <button
+                <Button
                   type="button"
+                  variant="outline"
+                  size="icon-sm"
                   onClick={() => przesun(id, -1)}
                   disabled={index === 0}
-                  className="flex h-8 w-8 items-center justify-center rounded-md border text-sm disabled:opacity-30"
                   aria-label="Przenieś wyżej"
                 >
                   ↑
-                </button>
-                <button
+                </Button>
+                <Button
                   type="button"
+                  variant="outline"
+                  size="icon-sm"
                   onClick={() => przesun(id, 1)}
                   disabled={index === stan.order.length - 1}
-                  className="flex h-8 w-8 items-center justify-center rounded-md border text-sm disabled:opacity-30"
                   aria-label="Przenieś niżej"
                 >
                   ↓
-                </button>
-                <button
-                  type="button"
-                  onClick={() => przelaczWidocznosc(id)}
-                  className="ml-1 min-h-8 rounded-md border px-2 text-xs font-medium"
-                >
+                </Button>
+                <Button type="button" variant="outline" size="sm" className="ml-1" onClick={() => przelaczWidocznosc(id)}>
                   {ukryty ? "Pokaż" : "Ukryj"}
-                </button>
+                </Button>
               </div>
             </li>
           )
         })}
       </ul>
 
-      <button
-        type="button"
-        onClick={przywrocDomyslne}
-        className="min-h-11 rounded-md border px-4 text-sm font-medium hover:bg-muted"
-      >
+      <Button type="button" variant="outline" onClick={przywrocDomyslne} className="min-h-11">
         Przywróć domyślne
-      </button>
+      </Button>
 
       <div className="flex flex-col gap-6 border-t pt-6">
         <div className="flex items-center justify-between">
           <div>
-            <h2 className="text-lg font-semibold">Personalizacja wyglądu</h2>
-            <p className="text-sm text-muted-foreground">
+            <h2 className="text-h2 font-semibold">Personalizacja wyglądu</h2>
+            <p className="text-small text-muted-foreground">
               Motyw, kolory i czcionka. Podgląd wszystkich elementów naraz:{" "}
               <Link href="/wzornik" className="underline">
                 /wzornik
@@ -132,12 +134,12 @@ export default function UstawieniaPage() {
         </div>
 
         <div>
-          <h3 className="mb-2 text-sm font-semibold">Kolory</h3>
+          <h3 className="mb-2 text-small font-semibold">Kolory</h3>
           <KolorGrupaEdytor />
         </div>
 
         <div>
-          <h3 className="mb-2 text-sm font-semibold">Czcionka</h3>
+          <h3 className="mb-2 text-small font-semibold">Czcionka</h3>
           <CzcionkaEdytor />
         </div>
       </div>

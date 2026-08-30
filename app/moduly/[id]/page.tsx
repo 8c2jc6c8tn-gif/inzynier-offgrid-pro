@@ -15,23 +15,29 @@ export default async function ModulPage({ params }: { params: Promise<{ id: stri
   return (
     <main className="mx-auto flex max-w-md flex-col gap-6 p-6">
       <div>
-        <Link href="/" className="text-sm text-muted-foreground hover:underline">
+        <Link
+          href="/"
+          className="rounded-md text-small text-muted-foreground transition-colors hover:text-foreground focus-visible:ring-2 focus-visible:ring-ring/50 focus-visible:outline-none"
+        >
           ← Pulpit
         </Link>
-        <h1 className="mt-2 text-xl font-semibold">
-          {kafel.ikona} Moduł {kafel.id} — {kafel.nazwa}
+        <h1 className="mt-2 text-h1 font-semibold">
+          <span aria-hidden="true">{kafel.ikona}</span> Moduł {kafel.id} — {kafel.nazwa}
         </h1>
-        <p className="mt-1 text-sm text-muted-foreground">{kafel.opis}</p>
+        <p className="mt-1 text-small text-muted-foreground">{kafel.opis}</p>
       </div>
 
-      <ul className="flex flex-col gap-3">
+      <ul className="flex flex-col gap-2">
         {kafel.ekrany.map((ekran) => (
           <li key={ekran.href}>
             <Link
               href={ekran.href}
-              className="flex min-h-11 items-center rounded-md border p-3 text-sm font-medium hover:bg-muted"
+              className="flex min-h-11 items-center justify-between rounded-md border p-3 text-small font-medium transition-colors hover:border-foreground/20 hover:bg-muted focus-visible:ring-2 focus-visible:ring-ring/50 focus-visible:outline-none"
             >
               {ekran.label}
+              <span aria-hidden="true" className="text-muted-foreground">
+                →
+              </span>
             </Link>
           </li>
         ))}

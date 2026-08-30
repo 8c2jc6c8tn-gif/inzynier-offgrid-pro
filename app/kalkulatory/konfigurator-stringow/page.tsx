@@ -3,8 +3,12 @@
 import { useMemo, useState } from "react"
 import { calculateKonfiguratorStringow } from "@/lib/core/modules/pv/konfigurator-stringow/calculator"
 import type { KonfiguratorStringowInput } from "@/lib/core/modules/pv/konfigurator-stringow/input"
+import { Pole, PoleSelect } from "@/components/ui/pole"
 import { WerdyktPanel, type WerdyktPoziom } from "@/components/werdykt"
 import { NawigacjaEkranu } from "@/components/nawigacja-ekranu"
+import { NaglowekEkranu } from "@/components/wzorce/naglowek-ekranu"
+import { WynikGlowny } from "@/components/wzorce/wynik-glowny"
+import { WynikSzczegoly } from "@/components/wzorce/wynik-szczegoly"
 
 type Mode = KonfiguratorStringowInput["mode"]
 
@@ -12,36 +16,6 @@ const MODE_LABELS: Record<Mode, string> = {
   szereg: "Szereg",
   rownolegle: "Równolegle",
   mieszany: "Mieszany (grupy szeregowe równolegle)",
-}
-
-const inputClass =
-  "w-full min-h-11 rounded-md border border-input bg-background px-3 text-base outline-none focus-visible:ring-2 focus-visible:ring-ring"
-
-function Field({
-  label,
-  unit,
-  value,
-  onChange,
-}: {
-  label: string
-  unit: string
-  value: string
-  onChange: (value: string) => void
-}) {
-  return (
-    <label className="flex flex-col gap-1 text-sm">
-      <span className="font-medium">
-        {label} <span className="text-muted-foreground">[{unit}]</span>
-      </span>
-      <input
-        type="number"
-        inputMode="decimal"
-        className={inputClass}
-        value={value}
-        onChange={(e) => onChange(e.target.value)}
-      />
-    </label>
-  )
 }
 
 export default function KonfiguratorStringowPage() {
@@ -77,50 +51,51 @@ export default function KonfiguratorStringowPage() {
   return (
     <main className="mx-auto flex max-w-md flex-col gap-6 p-6">
       <NawigacjaEkranu href="/kalkulatory/konfigurator-stringow" />
-      <div>
-        <h1 className="text-xl font-semibold">Konfigurator stringów</h1>
-        <p className="text-sm text-muted-foreground">
-          Szereg dodaje napięcia, równoległe dodaje prądy — to jak łączenie ogniw latarki: jedna
-          za drugą (szereg) albo obok siebie (równolegle). Moduł 3, Ekran 11.
-        </p>
-      </div>
+      <NaglowekEkranu tytul="Konfigurator stringów">
+        Szereg dodaje napięcia, równoległe dodaje prądy — to jak łączenie ogniw latarki: jedna za
+        drugą (szereg) albo obok siebie (równolegle). Moduł 3, Ekran 11.
+      </NaglowekEkranu>
 
-      <label className="flex flex-col gap-1 text-sm">
-        <span className="font-medium">Tryb</span>
-        <select
-          className={inputClass}
-          value={mode}
-          onChange={(e) => setMode(e.target.value as Mode)}
-        >
-          {Object.entries(MODE_LABELS).map(([value, label]) => (
-            <option key={value} value={value}>
-              {label}
-            </option>
-          ))}
-        </select>
-      </label>
+      <PoleSelect label="Tryb" value={mode} onChange={(e) => setMode(e.target.value as Mode)}>
+        {Object.entries(MODE_LABELS).map(([value, label]) => (
+          <option key={value} value={value}>
+            {label}
+          </option>
+        ))}
+      </PoleSelect>
 
       <div className="flex flex-col gap-4">
-        <Field label="Napięcie Vmp panelu" unit="V" value={vmpV} onChange={setVmpV} />
-        <Field label="Prąd Imp panelu" unit="A" value={impA} onChange={setImpA} />
+        <Pole label="Napięcie Vmp panelu" unit="V" type="number" inputMode="decimal" value={vmpV} onChange={(e) => setVmpV(e.target.value)} />
+        <Pole label="Prąd Imp panelu" unit="A" type="number" inputMode="decimal" value={impA} onChange={(e) => setImpA(e.target.value)} />
 
         {mode === "mieszany" ? (
           <>
-            <Field
+            <Pole
               label="Paneli w grupie (szereg)"
               unit="szt."
+              type="number"
+              inputMode="decimal"
               value={panelWGrupie}
-              onChange={setPanelWGrupie}
+              onChange={(e) => setPanelWGrupie(e.target.value)}
             />
-            <Field
+            <Pole
               label="Liczba grup (równolegle)"
               unit="szt."
+              type="number"
+              inputMode="decimal"
               value={liczbaGrup}
-              onChange={setLiczbaGrup}
+              onChange={(e) => setLiczbaGrup(e.target.value)}
             />
           </>
         ) : (
-          <Field label="Liczba paneli" unit="szt." value={liczbaPaneli} onChange={setLiczbaPaneli} />
+          <Pole
+            label="Liczba paneli"
+            unit="szt."
+            type="number"
+            inputMode="decimal"
+            value={liczbaPaneli}
+            onChange={(e) => setLiczbaPaneli(e.target.value)}
+          />
         )}
       </div>
 
@@ -128,28 +103,11 @@ export default function KonfiguratorStringowPage() {
         {result.status === "INVALID_INPUT" ? (
           <p className="mt-1">Nie da się policzyć — sprawdź dane wejściowe powyżej.</p>
         ) : (
-          <p className="mt-1 text-2xl font-semibold">
+          <WynikGlowny>
             {result.value.voltageV.toFixed(1)} V &nbsp;/&nbsp; {result.value.currentA.toFixed(2)} A
-          </p>
+          </WynikGlowny>
         )}
-
-        {result.assumptions.length > 0 && (
-          <ul className="mt-2 text-sm opacity-90">
-            {result.assumptions.map((a) => (
-              <li key={a}>Założenie: {a}</li>
-            ))}
-          </ul>
-        )}
-
-        {result.warnings.length > 0 && (
-          <ul className="mt-2 space-y-1 text-sm">
-            {result.warnings.map((w) => (
-              <li key={w.code}>{w.message}</li>
-            ))}
-          </ul>
-        )}
-
-        <p className="mt-3 font-mono text-xs opacity-70">{result.formula}</p>
+        <WynikSzczegoly assumptions={result.assumptions} warnings={result.warnings} formula={result.formula} />
       </WerdyktPanel>
     </main>
   )

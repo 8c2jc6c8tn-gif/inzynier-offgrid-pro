@@ -56,6 +56,25 @@
   --radius-2xl: calc(var(--radius) * 1.8);
   --radius-3xl: calc(var(--radius) * 2.2);
   --radius-4xl: calc(var(--radius) * 2.6);
+
+  /* Skala typografii jako token (docs/brief-dla-v0.md, sekcja 8) — jedno źródło używane przez
+     /wzornik i wszystkie ekrany, zamiast dobierania text-sm/text-lg/text-2xl od nowa na każdym
+     ekranie. Nazwy opisują rolę (display/h1/h2/h3/body/small/caption), nie rozmiar w px. */
+  --text-display: 1.75rem;
+  --text-display--line-height: 1.25;
+  --text-display--letter-spacing: -0.01em;
+  --text-h1: 1.375rem;
+  --text-h1--line-height: 1.3;
+  --text-h2: 1.125rem;
+  --text-h2--line-height: 1.4;
+  --text-h3: 1rem;
+  --text-h3--line-height: 1.45;
+  --text-body: 0.9375rem;
+  --text-body--line-height: 1.55;
+  --text-small: 0.8125rem;
+  --text-small--line-height: 1.45;
+  --text-caption: 0.75rem;
+  --text-caption--line-height: 1.4;
 }
 
 :root {
@@ -82,18 +101,29 @@
   --card-foreground: oklch(0.145 0 0);
   --popover: oklch(1 0 0);
   --popover-foreground: oklch(0.145 0 0);
-  --primary: oklch(0.205 0 0);
-  --primary-foreground: oklch(0.985 0 0);
+  /* Akcent — "Techniczny błękit" (docs/brief-dla-v0.md, sekcja 3). Dobrany, by nie kolidować z
+     werdyktami: hue 245 (błękit) leży daleko od 152 (zielony ok), 70 (bursztyn uwaga) i 27
+     (czerwony błąd), więc "aktywne/wybrane" nigdy nie wygląda jak status. Nadpisywalny w
+     Ustawieniach/​`/wzornik` (lib/wyglad/storage.ts, grupa "akcent") — to jest tylko domyślna
+     wartość startowa. */
+  --primary: oklch(0.52 0.18 245);
+  --primary-foreground: oklch(0.98 0 0);
   --secondary: oklch(0.97 0 0);
   --secondary-foreground: oklch(0.205 0 0);
   --muted: oklch(0.97 0 0);
-  --muted-foreground: oklch(0.556 0 0);
+  --muted-foreground: oklch(0.48 0 0);
   --accent: oklch(0.97 0 0);
   --accent-foreground: oklch(0.205 0 0);
   --destructive: oklch(0.577 0.245 27.325);
-  --border: oklch(0.922 0 0);
-  --input: oklch(0.922 0 0);
-  --ring: oklch(0.708 0 0);
+  /* 0.62, nie 0.9 — audyt kontrastu (scripts/audyt-kontrastu.mjs) pokazał 1.35:1 przy 0.9,
+     poniżej wymogu WCAG 1.4.11 (≥3:1 dla granic komponentów UI: obrys Pole, przycisk outline).
+     0.62 → 3.64:1, z marginesem. Dotyczy też dekoracyjnych linii (Sekcja) — akceptowalne, to
+     wciąż jasny neutralny szary, nie ciemny. */
+  --border: oklch(0.62 0 0);
+  --input: oklch(0.62 0 0);
+  /* Alpha 0.8, nie 0.6 — audyt kontrastu (scripts/audyt-kontrastu.mjs) pokazał 2.58:1 przy 0.6,
+     poniżej wymogu WCAG 1.4.11/2.4.11 (≥3:1 dla obrysu fokusu na tle). 0.8 → 3.68:1, z marginesem. */
+  --ring: oklch(0.52 0.18 245 / 0.8);
   --chart-1: oklch(0.87 0 0);
   --chart-2: oklch(0.556 0 0);
   --chart-3: oklch(0.439 0 0);
@@ -102,12 +132,12 @@
   --radius: 0.625rem;
   --sidebar: oklch(0.985 0 0);
   --sidebar-foreground: oklch(0.145 0 0);
-  --sidebar-primary: oklch(0.205 0 0);
-  --sidebar-primary-foreground: oklch(0.985 0 0);
+  --sidebar-primary: oklch(0.52 0.18 245);
+  --sidebar-primary-foreground: oklch(0.98 0 0);
   --sidebar-accent: oklch(0.97 0 0);
   --sidebar-accent-foreground: oklch(0.205 0 0);
-  --sidebar-border: oklch(0.922 0 0);
-  --sidebar-ring: oklch(0.708 0 0);
+  --sidebar-border: oklch(0.9 0 0);
+  --sidebar-ring: oklch(0.52 0.18 245 / 0.8);
 }
 
 .dark {
@@ -124,18 +154,24 @@
   --card-foreground: oklch(0.985 0 0);
   --popover: oklch(0.205 0 0);
   --popover-foreground: oklch(0.985 0 0);
-  --primary: oklch(0.922 0 0);
-  --primary-foreground: oklch(0.205 0 0);
+  /* Ta sama para hue/chroma co w :root (245/0.18), tylko podniesiona lekko lightness (0.52→0.68)
+     — na ciemnym tle zbyt ciemny akcent ginie i traci kontrast jako sam tekst linku (nie tylko
+     jako tło przycisku). Foreground wraca do ciemnego tekstu, tak jak reszta tokenów w tym
+     motywie (ten sam wzorzec co --muted/--accent poniżej). */
+  --primary: oklch(0.68 0.15 245);
+  --primary-foreground: oklch(0.15 0 0);
   --secondary: oklch(0.269 0 0);
   --secondary-foreground: oklch(0.985 0 0);
   --muted: oklch(0.269 0 0);
-  --muted-foreground: oklch(0.708 0 0);
+  --muted-foreground: oklch(0.72 0 0);
   --accent: oklch(0.269 0 0);
   --accent-foreground: oklch(0.985 0 0);
   --destructive: oklch(0.704 0.191 22.216);
-  --border: oklch(1 0 0 / 10%);
-  --input: oklch(1 0 0 / 15%);
-  --ring: oklch(0.556 0 0);
+  /* Alpha 38%, nie 12/15% — ta sama poprawka WCAG 1.4.11 co w :root, przeliczona dla ciemnego
+     tła: biały nakładany z alpha 12% na tło 0.145 dawał ~1.33:1, 38% → ~3.5:1. */
+  --border: oklch(1 0 0 / 38%);
+  --input: oklch(1 0 0 / 38%);
+  --ring: oklch(0.68 0.15 245 / 0.6);
   --chart-1: oklch(0.87 0 0);
   --chart-2: oklch(0.556 0 0);
   --chart-3: oklch(0.439 0 0);
@@ -143,12 +179,12 @@
   --chart-5: oklch(0.269 0 0);
   --sidebar: oklch(0.205 0 0);
   --sidebar-foreground: oklch(0.985 0 0);
-  --sidebar-primary: oklch(0.488 0.243 264.376);
-  --sidebar-primary-foreground: oklch(0.985 0 0);
+  --sidebar-primary: oklch(0.68 0.15 245);
+  --sidebar-primary-foreground: oklch(0.15 0 0);
   --sidebar-accent: oklch(0.269 0 0);
   --sidebar-accent-foreground: oklch(0.985 0 0);
-  --sidebar-border: oklch(1 0 0 / 10%);
-  --sidebar-ring: oklch(0.556 0 0);
+  --sidebar-border: oklch(1 0 0 / 38%);
+  --sidebar-ring: oklch(0.68 0.15 245 / 0.6);
 }
 
 @media (prefers-color-scheme: dark) {
@@ -166,18 +202,18 @@
     --card-foreground: oklch(0.985 0 0);
     --popover: oklch(0.205 0 0);
     --popover-foreground: oklch(0.985 0 0);
-    --primary: oklch(0.922 0 0);
-    --primary-foreground: oklch(0.205 0 0);
+    --primary: oklch(0.68 0.15 245);
+    --primary-foreground: oklch(0.15 0 0);
     --secondary: oklch(0.269 0 0);
     --secondary-foreground: oklch(0.985 0 0);
     --muted: oklch(0.269 0 0);
-    --muted-foreground: oklch(0.708 0 0);
+    --muted-foreground: oklch(0.72 0 0);
     --accent: oklch(0.269 0 0);
     --accent-foreground: oklch(0.985 0 0);
     --destructive: oklch(0.704 0.191 22.216);
-    --border: oklch(1 0 0 / 10%);
-    --input: oklch(1 0 0 / 15%);
-    --ring: oklch(0.556 0 0);
+    --border: oklch(1 0 0 / 38%);
+    --input: oklch(1 0 0 / 38%);
+    --ring: oklch(0.68 0.15 245 / 0.6);
     --chart-1: oklch(0.87 0 0);
     --chart-2: oklch(0.556 0 0);
     --chart-3: oklch(0.439 0 0);
@@ -185,12 +221,12 @@
     --chart-5: oklch(0.269 0 0);
     --sidebar: oklch(0.205 0 0);
     --sidebar-foreground: oklch(0.985 0 0);
-    --sidebar-primary: oklch(0.488 0.243 264.376);
-    --sidebar-primary-foreground: oklch(0.985 0 0);
+    --sidebar-primary: oklch(0.68 0.15 245);
+    --sidebar-primary-foreground: oklch(0.15 0 0);
     --sidebar-accent: oklch(0.269 0 0);
     --sidebar-accent-foreground: oklch(0.985 0 0);
-    --sidebar-border: oklch(1 0 0 / 10%);
-    --sidebar-ring: oklch(0.556 0 0);
+    --sidebar-border: oklch(1 0 0 / 38%);
+    --sidebar-ring: oklch(0.68 0.15 245 / 0.6);
   }
 }
 

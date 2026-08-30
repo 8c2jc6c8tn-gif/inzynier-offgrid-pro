@@ -5,6 +5,8 @@ import { calculateKalkulatoryPomocnicze } from "@/lib/core/modules/zapotrzebowan
 import type { KalkulatoryPomocniczeInput } from "@/lib/core/modules/zapotrzebowanie/kalkulatory-pomocnicze/input"
 import { WerdyktPanel, type WerdyktPoziom } from "@/components/werdykt"
 import { NawigacjaEkranu } from "@/components/nawigacja-ekranu"
+import { Pole, PoleSelect } from "@/components/ui/pole"
+import { NaglowekEkranu } from "@/components/wzorce/naglowek-ekranu"
 
 type Mode = KalkulatoryPomocniczeInput["mode"]
 
@@ -13,36 +15,6 @@ const MODE_LABELS: Record<Mode, string> = {
   "ah-to-wh": "Ah → Wh",
   "wh-to-ah": "Wh → Ah",
   runtime: "Szacowany czas pracy z baterii",
-}
-
-const inputClass =
-  "w-full min-h-11 rounded-md border border-input bg-background px-3 text-base outline-none focus-visible:ring-2 focus-visible:ring-ring"
-
-function Field({
-  label,
-  unit,
-  value,
-  onChange,
-}: {
-  label: string
-  unit: string
-  value: string
-  onChange: (value: string) => void
-}) {
-  return (
-    <label className="flex flex-col gap-1 text-sm">
-      <span className="font-medium">
-        {label} <span className="text-muted-foreground">[{unit}]</span>
-      </span>
-      <input
-        type="number"
-        inputMode="decimal"
-        className={inputClass}
-        value={value}
-        onChange={(e) => onChange(e.target.value)}
-      />
-    </label>
-  )
 }
 
 export default function KalkulatoryPomocniczePage() {
@@ -85,46 +57,40 @@ export default function KalkulatoryPomocniczePage() {
   return (
     <main className="mx-auto flex max-w-md flex-col gap-6 p-6">
       <NawigacjaEkranu href="/kalkulatory/pomocnicze" />
-      <div>
-        <h1 className="text-xl font-semibold">Kalkulatory pomocnicze</h1>
-        <p className="text-sm text-muted-foreground">
-          To Twój podręczny „kalkulator kieszonkowy” do szybkich przeliczeń w terenie, bez
-          przechodzenia przez pełny proces projektowy. Moduł 2, Ekran 16.
-        </p>
-      </div>
+      <NaglowekEkranu tytul="Kalkulatory pomocnicze">
+        To Twój podręczny „kalkulator kieszonkowy” do szybkich przeliczeń w terenie, bez
+        przechodzenia przez pełny proces projektowy. Moduł 2, Ekran 16.
+      </NaglowekEkranu>
 
-      <label className="flex flex-col gap-1 text-sm">
-        <span className="font-medium">Tryb</span>
-        <select
-          className={inputClass}
-          value={mode}
-          onChange={(e) => setMode(e.target.value as Mode)}
-        >
-          {Object.entries(MODE_LABELS).map(([value, label]) => (
-            <option key={value} value={value}>
-              {label}
-            </option>
-          ))}
-        </select>
-      </label>
+      <PoleSelect label="Tryb" value={mode} onChange={(e) => setMode(e.target.value as Mode)}>
+        {Object.entries(MODE_LABELS).map(([value, label]) => (
+          <option key={value} value={value}>
+            {label}
+          </option>
+        ))}
+      </PoleSelect>
 
       <div className="flex flex-col gap-4">
         {(mode === "watt-to-amp" || mode === "runtime") && (
-          <Field label="Moc urządzenia" unit="W" value={powerW} onChange={setPowerW} />
+          <Pole label="Moc urządzenia" unit="W" type="number" inputMode="decimal" value={powerW} onChange={(e) => setPowerW(e.target.value)} />
         )}
         {(mode === "watt-to-amp" || mode === "ah-to-wh" || mode === "wh-to-ah" || mode === "runtime") && (
-          <Field label="Napięcie systemu" unit="V" value={voltageV} onChange={setVoltageV} />
+          <Pole label="Napięcie systemu" unit="V" type="number" inputMode="decimal" value={voltageV} onChange={(e) => setVoltageV(e.target.value)} />
         )}
         {(mode === "ah-to-wh" || mode === "runtime") && (
-          <Field label="Pojemność" unit="Ah" value={capacityAh} onChange={setCapacityAh} />
+          <Pole label="Pojemność" unit="Ah" type="number" inputMode="decimal" value={capacityAh} onChange={(e) => setCapacityAh(e.target.value)} />
         )}
-        {mode === "wh-to-ah" && <Field label="Energia" unit="Wh" value={energyWh} onChange={setEnergyWh} />}
+        {mode === "wh-to-ah" && (
+          <Pole label="Energia" unit="Wh" type="number" inputMode="decimal" value={energyWh} onChange={(e) => setEnergyWh(e.target.value)} />
+        )}
         {(mode === "watt-to-amp" || mode === "runtime") && (
-          <Field
+          <Pole
             label="Sprawność układu (opcjonalnie, domyślnie 0,92)"
             unit="0–1"
+            type="number"
+            inputMode="decimal"
             value={efficiency}
-            onChange={setEfficiency}
+            onChange={(e) => setEfficiency(e.target.value)}
           />
         )}
       </div>
@@ -133,13 +99,13 @@ export default function KalkulatoryPomocniczePage() {
         {result.status === "INVALID_INPUT" ? (
           <p className="mt-1">Nie da się policzyć — sprawdź dane wejściowe poniżej.</p>
         ) : (
-          <p className="mt-1 text-2xl font-semibold">
+          <p className="mt-1 text-h1 font-semibold">
             {Number.isFinite(result.value) ? result.value.toFixed(3) : "—"} {result.unit}
           </p>
         )}
 
         {result.assumptions.length > 0 && (
-          <ul className="mt-2 text-sm opacity-90">
+          <ul className="mt-2 text-small opacity-90">
             {result.assumptions.map((a) => (
               <li key={a}>Założenie: {a}</li>
             ))}
@@ -147,14 +113,14 @@ export default function KalkulatoryPomocniczePage() {
         )}
 
         {result.warnings.length > 0 && (
-          <ul className="mt-2 space-y-1 text-sm">
+          <ul className="mt-2 space-y-1 text-small">
             {result.warnings.map((w) => (
               <li key={w.code}>{w.message}</li>
             ))}
           </ul>
         )}
 
-        <p className="mt-3 font-mono text-xs opacity-70">{result.formula}</p>
+        <p className="mt-3 font-mono text-caption opacity-70">{result.formula}</p>
       </WerdyktPanel>
     </main>
   )

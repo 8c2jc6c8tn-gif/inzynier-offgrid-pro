@@ -5,8 +5,9 @@ import { calculateSurvivalCore } from "@/lib/core/modules/zapotrzebowanie/system
 import { DEFAULT_CRITICAL_LOADS } from "@/lib/core/modules/zapotrzebowanie/systemy-podtrzymania-zycia/constants"
 import type { CriticalLoadItem } from "@/lib/core/modules/zapotrzebowanie/systemy-podtrzymania-zycia/input"
 import { WerdyktPanel, type WerdyktPoziom } from "@/components/werdykt"
-import { cn } from "@/lib/utils"
 import { NawigacjaEkranu } from "@/components/nawigacja-ekranu"
+import { NaglowekEkranu } from "@/components/wzorce/naglowek-ekranu"
+import { StanPusty } from "@/components/ui/stany"
 
 const initialItems: CriticalLoadItem[] = DEFAULT_CRITICAL_LOADS.map((def) => ({
   id: def.id,
@@ -14,6 +15,13 @@ const initialItems: CriticalLoadItem[] = DEFAULT_CRITICAL_LOADS.map((def) => ({
   selected: false,
   powerW: def.defaultPowerW ?? 0,
 }))
+
+/** Pole liczbowe w rzędzie listy — świadomie nie `Pole` (bez etykiety/wrappera, bo etykieta jest
+ * już w <label> checkboxa po lewej), ale te same tokeny stanu co components/ui/pole.tsx. */
+const INLINE_INPUT_KLASY =
+  "w-24 min-h-11 rounded-md border border-input bg-background px-2 text-body outline-none transition-colors " +
+  "hover:not-disabled:border-foreground/30 focus-visible:border-ring focus-visible:ring-2 focus-visible:ring-ring/50 " +
+  "disabled:cursor-not-allowed disabled:opacity-50 disabled:hover:border-input"
 
 export default function SystemyPodtrzymaniaZyciaPage() {
   const [items, setItems] = useState<CriticalLoadItem[]>(initialItems)
@@ -42,31 +50,28 @@ export default function SystemyPodtrzymaniaZyciaPage() {
   return (
     <main className="mx-auto flex max-w-md flex-col gap-6 p-6">
       <NawigacjaEkranu href="/kalkulatory/systemy-podtrzymania-zycia" />
-      <div>
-        <h1 className="text-xl font-semibold">Systemy podtrzymania życia</h1>
-        <p className="text-sm text-muted-foreground">
-          To jest lista rzeczy, bez których dom przestaje być bezpieczny do mieszkania — reszta
-          aplikacji będzie chronić te odbiorniki jako pierwsze, cokolwiek by się działo. Moduł 2,
-          Ekran 1.
-        </p>
-      </div>
+      <NaglowekEkranu tytul="Systemy podtrzymania życia">
+        To jest lista rzeczy, bez których dom przestaje być bezpieczny do mieszkania — reszta
+        aplikacji będzie chronić te odbiorniki jako pierwsze, cokolwiek by się działo. Moduł 2,
+        Ekran 1.
+      </NaglowekEkranu>
 
       <ul className="flex flex-col gap-3">
         {items.map((item) => {
           const def = DEFAULT_CRITICAL_LOADS.find((d) => d.id === item.id)
           return (
-            <li key={item.id} className="flex items-center gap-3">
+            <li key={item.id} className="flex items-center gap-3 rounded-md border p-3 transition-colors hover:bg-muted/60">
               <input
                 type="checkbox"
-                className="h-5 w-5 shrink-0"
+                className="h-5 w-5 shrink-0 cursor-pointer accent-primary outline-none focus-visible:ring-2 focus-visible:ring-ring/50 focus-visible:ring-offset-2"
                 checked={item.selected}
                 onChange={() => toggleSelected(item.id)}
                 id={`item-${item.id}`}
               />
-              <label htmlFor={`item-${item.id}`} className="flex-1 text-sm font-medium">
+              <label htmlFor={`item-${item.id}`} className="flex-1 text-small font-medium">
                 {item.label}
                 {def?.defaultPowerW === null && (
-                  <span className="block text-xs font-normal text-muted-foreground">
+                  <span className="block text-caption font-normal text-muted-foreground">
                     brak wartości domyślnej — wpisz ręcznie
                   </span>
                 )}
@@ -74,12 +79,13 @@ export default function SystemyPodtrzymaniaZyciaPage() {
               <input
                 type="number"
                 inputMode="decimal"
-                className="w-24 min-h-11 rounded-md border border-input bg-background px-2 text-base outline-none focus-visible:ring-2 focus-visible:ring-ring"
+                className={INLINE_INPUT_KLASY}
                 value={item.powerW}
                 disabled={!item.selected}
                 onChange={(e) => updatePower(item.id, Number(e.target.value))}
+                aria-label={`Moc — ${item.label}`}
               />
-              <span className="w-4 text-xs text-muted-foreground">W</span>
+              <span className="w-4 text-caption text-muted-foreground">W</span>
             </li>
           )
         })}
@@ -89,7 +95,7 @@ export default function SystemyPodtrzymaniaZyciaPage() {
         const dodatki = (
           <>
             {result.assumptions.length > 0 && (
-              <ul className="mt-2 text-sm opacity-90">
+              <ul className="mt-2 text-small opacity-90">
                 {result.assumptions.map((a) => (
                   <li key={a}>Założenie: {a}</li>
                 ))}
@@ -97,7 +103,7 @@ export default function SystemyPodtrzymaniaZyciaPage() {
             )}
 
             {result.warnings.length > 0 && (
-              <ul className="mt-2 space-y-1 text-sm">
+              <ul className="mt-2 space-y-1 text-small">
                 {result.warnings.map((w) => (
                   <li key={w.code}>{w.message}</li>
                 ))}
@@ -107,12 +113,7 @@ export default function SystemyPodtrzymaniaZyciaPage() {
         )
 
         if (poziom === null) {
-          return (
-            <div className={cn("rounded-lg border-2 p-4", "border-muted-foreground/40 bg-muted text-muted-foreground")}>
-              <p className="font-medium">Zaznacz przynajmniej jeden odbiornik krytyczny.</p>
-              {dodatki}
-            </div>
-          )
+          return <StanPusty tytul="Zaznacz przynajmniej jeden odbiornik krytyczny.">{dodatki}</StanPusty>
         }
         return (
           <WerdyktPanel
@@ -120,7 +121,7 @@ export default function SystemyPodtrzymaniaZyciaPage() {
             etykieta={poziom === "blad" ? "Nie da się policzyć — sprawdź zaznaczone pozycje poniżej" : undefined}
           >
             {poziom !== "blad" && (
-              <p className="mt-1 text-2xl font-semibold">
+              <p className="mt-1 text-h1 font-semibold">
                 {result.value.toFixed(0)} {result.unit}
               </p>
             )}

@@ -4,8 +4,10 @@ import { useMemo, useState } from "react"
 import { calculateProceduraBlackStart } from "@/lib/core/modules/stress-test/procedura-black-start/calculator"
 import { CHECKLIST_ITEMS, OSTRZEZENIA_STALE } from "@/lib/core/modules/stress-test/procedura-black-start/constants"
 import { WerdyktPanel, type WerdyktPoziom } from "@/components/werdykt"
-import { cn } from "@/lib/utils"
 import { NawigacjaEkranu } from "@/components/nawigacja-ekranu"
+import { NaglowekEkranu } from "@/components/wzorce/naglowek-ekranu"
+import { ListaChecklist } from "@/components/wzorce/lista-checklist"
+import { StanPusty } from "@/components/ui/stany"
 
 export default function ProceduraBlackStartPage() {
   const [potwierdzoneIds, setPotwierdzoneIds] = useState<string[]>([])
@@ -25,36 +27,25 @@ export default function ProceduraBlackStartPage() {
   return (
     <main className="mx-auto flex max-w-md flex-col gap-6 p-6">
       <NawigacjaEkranu href="/kalkulatory/procedura-black-start" />
-      <div>
-        <h1 className="text-xl font-semibold">Procedura Black Start</h1>
-        <p className="text-sm text-muted-foreground">
-          To jak rozruch samochodu po nocy na mrozie — trzeba wiedzieć dokładnie, co i w jakiej
-          kolejności przekręcić, żeby zapalić. Moduł 7, Ekran 5.
-        </p>
-      </div>
+      <NaglowekEkranu tytul="Procedura Black Start">
+        To jak rozruch samochodu po nocy na mrozie — trzeba wiedzieć dokładnie, co i w jakiej
+        kolejności przekręcić, żeby zapalić. Moduł 7, Ekran 5.
+      </NaglowekEkranu>
 
-      <ol className="flex flex-col gap-3">
-        {CHECKLIST_ITEMS.map((item, index) => {
-          const checked = potwierdzoneIds.includes(item.id)
-          return (
-            <li key={item.id} className="flex items-start gap-3 rounded-md border p-3">
-              <input
-                type="checkbox"
-                className="mt-1 h-5 w-5 shrink-0"
-                checked={checked}
-                onChange={() => toggle(item.id)}
-                id={`step-${item.id}`}
-              />
-              <label htmlFor={`step-${item.id}`} className="flex-1 text-sm">
-                <span className="font-medium">Krok {index + 1}. </span>
-                {item.krok}
-              </label>
-            </li>
-          )
-        })}
-      </ol>
+      <ListaChecklist
+        items={CHECKLIST_ITEMS}
+        potwierdzoneIds={potwierdzoneIds}
+        onToggle={toggle}
+        numerowana
+        renderLabel={(item, index) => (
+          <>
+            <span className="font-medium">Krok {index + 1}. </span>
+            {item.krok}
+          </>
+        )}
+      />
 
-      <ul className="space-y-1 text-xs text-muted-foreground">
+      <ul className="flex flex-col gap-1 text-caption text-muted-foreground">
         {OSTRZEZENIA_STALE.map((w) => (
           <li key={w}>🔴 {w}</li>
         ))}
@@ -63,17 +54,15 @@ export default function ProceduraBlackStartPage() {
       {poziom ? (
         <WerdyktPanel poziom={poziom} etykieta={poziom === "ok" ? "Procedura zakończona" : undefined}>
           {result.warnings.map((w) => (
-            <p key={w.code} className="mt-1 text-sm">
+            <p key={w.code} className="mt-1 text-small">
               {w.message}
             </p>
           ))}
         </WerdyktPanel>
       ) : (
-        <div className={cn("rounded-lg border-2 p-4", "border-muted-foreground/40 bg-muted text-muted-foreground")}>
-          <p className="font-medium">
-            Potwierdzono {result.value.potwierdzoneWKolejnosci} / {result.value.razem} kroków po kolei
-          </p>
-        </div>
+        <StanPusty
+          tytul={`Potwierdzono ${result.value.potwierdzoneWKolejnosci} / ${result.value.razem} kroków po kolei`}
+        />
       )}
     </main>
   )

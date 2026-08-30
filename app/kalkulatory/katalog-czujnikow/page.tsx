@@ -5,9 +5,10 @@ import { calculateKatalogCzujnikow } from "@/lib/core/modules/esp32/katalog-czuj
 import { MIGAWKA_KATALOGU, SENSOR_TYPES } from "@/lib/core/modules/esp32/katalog-czujnikow/constants"
 import type { SensorInstance } from "@/lib/core/modules/esp32/katalog-czujnikow/input"
 import { NawigacjaEkranu } from "@/components/nawigacja-ekranu"
-
-const inputClass =
-  "w-full min-h-11 rounded-md border border-input bg-background px-3 text-base outline-none focus-visible:ring-2 focus-visible:ring-ring"
+import { Button } from "@/components/ui/button"
+import { Pole, PoleSelect } from "@/components/ui/pole"
+import { NaglowekEkranu } from "@/components/wzorce/naglowek-ekranu"
+import { BudowniczyListy, PrzyciskUsun } from "@/components/wzorce/budowniczy-listy"
 
 let nextId = 1
 
@@ -37,89 +38,58 @@ export default function KatalogCzujnikowPage() {
   return (
     <main className="mx-auto flex max-w-md flex-col gap-6 p-6">
       <NawigacjaEkranu href="/kalkulatory/katalog-czujnikow" />
-      <div>
-        <h1 className="text-xl font-semibold">Katalog czujników</h1>
-        <p className="text-sm text-muted-foreground">{MIGAWKA_KATALOGU} Moduł 9, Katalog 1.</p>
-      </div>
+      <NaglowekEkranu tytul="Katalog czujników">{MIGAWKA_KATALOGU} Moduł 9, Katalog 1.</NaglowekEkranu>
 
-      <div className="flex flex-col gap-3 rounded-lg border p-4">
-        <label className="flex flex-col gap-1 text-sm">
-          <span className="font-medium">Typ czujnika</span>
-          <select className={inputClass} value={typeId} onChange={(e) => setTypeId(e.target.value)}>
-            {SENSOR_TYPES.map((t) => (
-              <option key={t.id} value={t.id}>
-                {t.pozycja}
-              </option>
-            ))}
-          </select>
-        </label>
-        <p className="text-xs text-muted-foreground">
-          {selectedType.modelTechnologia} — {selectedType.kluczoweDaneDoboru}
-        </p>
+      <BudowniczyListy
+        pozycje={instances}
+        pustyTekst="Nie dodano jeszcze żadnego czujnika."
+        podsumowanie={`Dodane: ${result.value.liczbaInstancji} (typów: ${result.value.liczbaTypowUzytych})`}
+        formularz={
+          <>
+            <PoleSelect label="Typ czujnika" value={typeId} onChange={(e) => setTypeId(e.target.value)}>
+              {SENSOR_TYPES.map((t) => (
+                <option key={t.id} value={t.id}>
+                  {t.pozycja}
+                </option>
+              ))}
+            </PoleSelect>
+            <p className="text-caption text-muted-foreground">
+              {selectedType.modelTechnologia} — {selectedType.kluczoweDaneDoboru}
+            </p>
 
-        <label className="flex flex-col gap-1 text-sm">
-          <span className="font-medium">Etykieta</span>
-          <input
-            className={inputClass}
-            value={etykieta}
-            onChange={(e) => setEtykieta(e.target.value)}
-            placeholder="np. Czujnik dymu — sypialnia"
-          />
-        </label>
-        <label className="flex flex-col gap-1 text-sm">
-          <span className="font-medium">Lokalizacja (opcjonalnie)</span>
-          <input
-            className={inputClass}
-            value={lokalizacja}
-            onChange={(e) => setLokalizacja(e.target.value)}
-          />
-        </label>
+            <Pole
+              label="Etykieta"
+              value={etykieta}
+              onChange={(e) => setEtykieta(e.target.value)}
+              placeholder="np. Czujnik dymu — sypialnia"
+            />
+            <Pole
+              label="Lokalizacja (opcjonalnie)"
+              value={lokalizacja}
+              onChange={(e) => setLokalizacja(e.target.value)}
+            />
 
-        <button
-          type="button"
-          onClick={addInstance}
-          disabled={!etykieta.trim()}
-          className="min-h-11 rounded-md bg-primary px-4 text-sm font-medium text-primary-foreground disabled:opacity-50"
-        >
-          Dodaj czujnik
-        </button>
-      </div>
-
-      <div>
-        <p className="mb-2 text-sm font-medium">
-          Dodane: {result.value.liczbaInstancji} (typów: {result.value.liczbaTypowUzytych})
-        </p>
-        {result.status === "INCOMPLETE" ? (
-          <p className="text-sm text-muted-foreground">Nie dodano jeszcze żadnego czujnika.</p>
-        ) : (
-          <ul className="flex flex-col gap-2">
-            {instances.map((instance) => {
-              const type = SENSOR_TYPES.find((t) => t.id === instance.typeId)!
-              return (
-                <li
-                  key={instance.id}
-                  className="flex items-center justify-between gap-3 rounded-md border p-3 text-sm"
-                >
-                  <div>
-                    <span className="block font-medium">{instance.etykieta}</span>
-                    <span className="block text-xs text-muted-foreground">
-                      {type.pozycja}
-                      {instance.lokalizacja && ` — ${instance.lokalizacja}`}
-                    </span>
-                  </div>
-                  <button
-                    type="button"
-                    onClick={() => removeInstance(instance.id)}
-                    className="text-xs text-red-600 hover:underline dark:text-red-400"
-                  >
-                    Usuń
-                  </button>
-                </li>
-              )
-            })}
-          </ul>
-        )}
-      </div>
+            <Button type="button" onClick={addInstance} disabled={!etykieta.trim()}>
+              Dodaj czujnik
+            </Button>
+          </>
+        }
+        renderPozycja={(instance) => {
+          const type = SENSOR_TYPES.find((t) => t.id === instance.typeId)!
+          return (
+            <div className="flex items-center justify-between gap-3 rounded-md border p-3 text-small">
+              <div>
+                <span className="block font-medium">{instance.etykieta}</span>
+                <span className="block text-caption text-muted-foreground">
+                  {type.pozycja}
+                  {instance.lokalizacja && ` — ${instance.lokalizacja}`}
+                </span>
+              </div>
+              <PrzyciskUsun onClick={() => removeInstance(instance.id)} />
+            </div>
+          )
+        }}
+      />
     </main>
   )
 }
