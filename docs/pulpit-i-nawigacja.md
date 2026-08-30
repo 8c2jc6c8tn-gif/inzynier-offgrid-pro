@@ -1,8 +1,11 @@
 # Pulpit i nawigacja — Inżynier Offgrid Pro
 
-**Status:** decyzja projektowa, zatwierdzona co do mechanizmu i zasad (2026-08-30). Konkretne presety
-onboardingu (sekcja 3) to **pierwsza wersja robocza do przejrzenia przez autora** — nie traktować
-jako ostateczne bez potwierdzenia. Zero kodu na tym etapie — to jest specyfikacja do implementacji.
+**Status:** mechanizm i zasady zatwierdzone, **v1 zaimplementowana (2026-08-30)** — pulpit, strony
+modułów i ustawienia z pokaż/ukryj/przenieś/przywróć domyślne działają (`lib/pulpit/`, `app/page.tsx`,
+`app/moduly/[id]/page.tsx`, `app/ustawienia/page.tsx` — szczegóły w `docs/rejestr-pokrycia.md`,
+sekcja "Pulpit i nawigacja"). Konkretne presety onboardingu (sekcja 3 niżej) to wciąż **pierwsza
+wersja robocza do przejrzenia przez autora** — nie zaimplementowane (ekran onboardingu przy
+pierwszym uruchomieniu jeszcze nie istnieje), nie traktować listy jako ostateczną bez potwierdzenia.
 
 Mechanizm generyczny (reużywalny w innych aplikacjach rodziny): `docs/standards/08-ui-ux.md`, 8.11.
 Ten dokument to jego konkretna instancja dla Offgrid — 14 kafli, ich domyślna kolejność, presety
@@ -125,9 +128,17 @@ komponent (`AdaptiveMenu`, 08.11) na swoim poziomie, nie osobną implementację:
 
 ## Otwarte sprawy
 
-- 8 presetów z sekcji 3 to wersja robocza — do przejrzenia i skorygowania przez autora przed
-  implementacją.
+- 8 presetów z sekcji 3 to wersja robocza — do przejrzenia i skorygowania przez autora. **Ekran
+  onboardingu ("Co chcesz teraz zrobić?") jeszcze nie zaimplementowany** — v1 pulpitu startuje
+  zawsze z pełną, domyślną kolejnością wszystkich 13 kafli, presety trzeba zastosować ręcznie w
+  Ustawieniach dopóki onboarding nie powstanie.
 - Semantyka "Trybu pracy" przy wielu zaznaczonych kategoriach (unia zbiorów) — założenie robocze,
-  do potwierdzenia.
+  do potwierdzenia. Nie zaimplementowane — v1 ma tylko pojedyncze pokaż/ukryj per kafel.
+  Kompanuje presetów (`docs/rejestr-pokrycia.md`, "Otwarte sprawy") — do zrobienia.
 - Konkretne presety per moduł (sekcja 5) — odłożone do momentu, gdy dany moduł ma zaimplementowane
   wystarczająco dużo ekranów, żeby preset miał sens.
+- **Uproszczenie v1 (2026-08-30):** "Przenieś" w Ustawieniach to przyciski ↑/↓, nie przeciąganie
+  (drag-and-drop) — ten sam efekt funkcjonalny, bez nowej zależności. Realne przeciąganie można
+  dodać później bez zmiany kształtu stanu (`PulpitState.order`).
+- "Zmień rozmiar" i "Przypnij" z menu `⋮` (sekcja 4) — nie zaimplementowane w v1, tylko
+  pokaż/ukryj/przenieś/przywróć domyślne.
