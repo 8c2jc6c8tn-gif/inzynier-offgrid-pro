@@ -87,6 +87,41 @@
   aktualizacji: `docs/domena/README.md`. Zamyka otwartą sprawę z sekcji niżej i lukę "brak treści
   Modułu 1" (Moduł 1 dotarł w komplecie, 4 ekrany).
 
+## Decyzje i uzasadnienie (c.d. 6)
+
+- **2026-08-29 — Zbudowano 8 ekranów wzorcowych (A–H) jako przygotowanie do przekazania v0.**
+  Zamiast kontynuować Moduł 2 ekran-po-ekranie, na wyraźną decyzję autora ("zrobimy od A do H a
+  nie kilka") zbudowano po jednym w pełni zaimplementowanym przykładzie dla każdego z 8 wzorców UI
+  z `docs/standards/08-ui-ux.md` (8.2), żeby dać v0 spójny materiał do ustalenia jednego systemu
+  projektowego naraz, zamiast osobnych sesji per moduł. Wybrane ekrany (szczegóły i pliki:
+  `docs/rejestr-pokrycia.md`, sekcja "Moduły 3–13 — wzorce UI reprezentatywne"):
+  - A: Moduł 3/Ekran 11 — Konfigurator stringów PV (szereg/równolegle/mieszany)
+  - B: Moduł 4/Ekran 30 — Porównanie technologii magazynów
+  - C: Moduł 3/Ekran 24 — Czystość i śnieg na panelach (akordeon)
+  - D: Moduł 4/Ekran 24 — Dobór bezpiecznika DC (AIC) — twardy stop bezpieczeństwa
+  - E: Moduł 4/Ekran 11 — Moment dokręcania śrub (checklist)
+  - F: Moduł 5/Ekran 19 — Trasy kablowe (ilustracja SVG, bez pól i bez kalkulatora)
+  - G: Moduł 8/Ekran 11 — Audyt bezpieczeństwa pożarowego (raport na danych demonstracyjnych)
+  - H: Moduł 9/Katalog 1 — Katalog czujników (21 typów, dodawanie wielu instancji)
+
+  Wszystkie zweryfikowane: testy (E i F celowo bez pełnego kompletu plików — patrz notatki w
+  rejestrze), lint, `tsc --noEmit`, `next build`, ręcznie w przeglądarce (Playwright, wszystkie
+  stany werdyktu i brak błędów konsoli).
+
+  **Świadome uproszczenia, nie przeoczenia:**
+  - Ekran G (audyt pożarowy) używa danych demonstracyjnych (`SAMPLE_AUDIT_ITEMS`), jawnie
+    oznaczonych w kodzie i UI — realna wersja wymaga Modułów 8/9/13 (na żywo), niezbudowanych.
+  - Ekran C: zakres kąta 10–15° nie ma jednoznacznej klasyfikacji w źródle — zgłoszone jako
+    ostrzeżenie w UI, nie zgadywane.
+  - Ekran D: margines AIC vs prąd zwarciowy oparty wyłącznie na jawnie podanych w źródle
+    regułach (AIC < I_zw = 🔴 twardy stop; AIC < 10 000 A zalecane minimum LiFePO4 = 🟡) — bez
+    dodatkowego, nieuzasadnionego źródłowo współczynnika bezpieczeństwa.
+
+  **Pozostaje do zrobienia:** przygotować zbiorczą notatkę/brief dla v0 (linki do wszystkich 8
+  ekranów + krótki opis wzorca każdego), zaktualizować pełne wyliczenie per-funkcja dla modułów
+  3/4/5/8/9 w rejestrze pokrycia (dziś: tylko te 8 ekranów jako `done`, reszta jako grupowe
+  `todo` bez enumeracji — nie zgadywana teraz).
+
 ## Mapa orientacyjna
 
 - `docs/standards/00-INDEKS.md` — standard wspólny dla rodziny aplikacji, zacznij tu przy pytaniach "jak mamy to robić".
