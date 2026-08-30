@@ -3,6 +3,7 @@
 import { useMemo, useState } from "react"
 import { calculateDoborBezpiecznika } from "@/lib/core/modules/baterie/dobor-bezpiecznika-dc/calculator"
 import { WerdyktPanel, type WerdyktPoziom } from "@/components/werdykt"
+import { NawigacjaEkranu } from "@/components/nawigacja-ekranu"
 
 const inputClass =
   "w-full min-h-11 rounded-md border border-input bg-background px-3 text-base outline-none focus-visible:ring-2 focus-visible:ring-ring"
@@ -80,6 +81,7 @@ export default function DoborBezpiecznikaDcPage() {
 
   return (
     <main className="mx-auto flex max-w-md flex-col gap-6 p-6">
+      <NawigacjaEkranu href="/kalkulatory/dobor-bezpiecznika-dc" />
       <div>
         <h1 className="text-xl font-semibold">Dobór bezpiecznika DC</h1>
         <p className="text-sm text-muted-foreground">

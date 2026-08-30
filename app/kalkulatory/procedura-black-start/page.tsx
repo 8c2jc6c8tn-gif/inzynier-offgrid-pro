@@ -5,6 +5,7 @@ import { calculateProceduraBlackStart } from "@/lib/core/modules/stress-test/pro
 import { CHECKLIST_ITEMS, OSTRZEZENIA_STALE } from "@/lib/core/modules/stress-test/procedura-black-start/constants"
 import { WerdyktPanel, type WerdyktPoziom } from "@/components/werdykt"
 import { cn } from "@/lib/utils"
+import { NawigacjaEkranu } from "@/components/nawigacja-ekranu"
 
 export default function ProceduraBlackStartPage() {
   const [potwierdzoneIds, setPotwierdzoneIds] = useState<string[]>([])
@@ -23,6 +24,7 @@ export default function ProceduraBlackStartPage() {
 
   return (
     <main className="mx-auto flex max-w-md flex-col gap-6 p-6">
+      <NawigacjaEkranu href="/kalkulatory/procedura-black-start" />
       <div>
         <h1 className="text-xl font-semibold">Procedura Black Start</h1>
         <p className="text-sm text-muted-foreground">

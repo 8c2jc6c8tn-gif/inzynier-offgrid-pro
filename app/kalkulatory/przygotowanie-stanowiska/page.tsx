@@ -5,6 +5,7 @@ import { calculatePrzygotowanieStanowiska } from "@/lib/core/modules/montaz-bate
 import { CHECKLIST_ITEMS } from "@/lib/core/modules/montaz-baterii/przygotowanie-stanowiska/constants"
 import { WerdyktPanel } from "@/components/werdykt"
 import { cn } from "@/lib/utils"
+import { NawigacjaEkranu } from "@/components/nawigacja-ekranu"
 
 export default function PrzygotowanieStanowiskaPage() {
   const [potwierdzoneIds, setPotwierdzoneIds] = useState<string[]>([])
@@ -20,6 +21,7 @@ export default function PrzygotowanieStanowiskaPage() {
 
   return (
     <main className="mx-auto flex max-w-md flex-col gap-6 p-6">
+      <NawigacjaEkranu href="/kalkulatory/przygotowanie-stanowiska" />
       <div>
         <h1 className="text-xl font-semibold">Przygotowanie stanowiska i narzędzi</h1>
         <p className="text-sm text-muted-foreground">

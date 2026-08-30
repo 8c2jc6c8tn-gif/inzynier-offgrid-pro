@@ -4,6 +4,7 @@ import { useMemo, useState } from "react"
 import { calculateKatalogCzujnikow } from "@/lib/core/modules/esp32/katalog-czujnikow/calculator"
 import { MIGAWKA_KATALOGU, SENSOR_TYPES } from "@/lib/core/modules/esp32/katalog-czujnikow/constants"
 import type { SensorInstance } from "@/lib/core/modules/esp32/katalog-czujnikow/input"
+import { NawigacjaEkranu } from "@/components/nawigacja-ekranu"
 
 const inputClass =
   "w-full min-h-11 rounded-md border border-input bg-background px-3 text-base outline-none focus-visible:ring-2 focus-visible:ring-ring"
@@ -35,6 +36,7 @@ export default function KatalogCzujnikowPage() {
 
   return (
     <main className="mx-auto flex max-w-md flex-col gap-6 p-6">
+      <NawigacjaEkranu href="/kalkulatory/katalog-czujnikow" />
       <div>
         <h1 className="text-xl font-semibold">Katalog czujników</h1>
         <p className="text-sm text-muted-foreground">{MIGAWKA_KATALOGU} Moduł 9, Katalog 1.</p>

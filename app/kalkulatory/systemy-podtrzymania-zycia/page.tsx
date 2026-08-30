@@ -6,6 +6,7 @@ import { DEFAULT_CRITICAL_LOADS } from "@/lib/core/modules/zapotrzebowanie/syste
 import type { CriticalLoadItem } from "@/lib/core/modules/zapotrzebowanie/systemy-podtrzymania-zycia/input"
 import { WerdyktPanel, type WerdyktPoziom } from "@/components/werdykt"
 import { cn } from "@/lib/utils"
+import { NawigacjaEkranu } from "@/components/nawigacja-ekranu"
 
 const initialItems: CriticalLoadItem[] = DEFAULT_CRITICAL_LOADS.map((def) => ({
   id: def.id,
@@ -40,6 +41,7 @@ export default function SystemyPodtrzymaniaZyciaPage() {
 
   return (
     <main className="mx-auto flex max-w-md flex-col gap-6 p-6">
+      <NawigacjaEkranu href="/kalkulatory/systemy-podtrzymania-zycia" />
       <div>
         <h1 className="text-xl font-semibold">Systemy podtrzymania życia</h1>
         <p className="text-sm text-muted-foreground">

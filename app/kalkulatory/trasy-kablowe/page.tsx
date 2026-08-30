@@ -1,4 +1,5 @@
 import { MIGAWKA, TRASY_KABLOWE_RULES } from "@/lib/core/modules/okablowanie/trasy-kablowe/constants"
+import { NawigacjaEkranu } from "@/components/nawigacja-ekranu"
 
 function TrasyIlustracja() {
   return (
@@ -63,6 +64,7 @@ function TrasyIlustracja() {
 export default function TrasyKabloweePage() {
   return (
     <main className="mx-auto flex max-w-md flex-col gap-6 p-6">
+      <NawigacjaEkranu href="/kalkulatory/trasy-kablowe" />
       <div>
         <h1 className="text-xl font-semibold">Trasy kablowe — prowadzenie i separacja</h1>
         <p className="text-sm text-muted-foreground">Moduł 5, Ekran 19.</p>

@@ -1,6 +1,9 @@
+import { NawigacjaEkranu } from "@/components/nawigacja-ekranu"
+
 export default function TrybLivePage() {
   return (
     <main className="mx-auto flex max-w-md flex-col gap-6 p-6">
+      <NawigacjaEkranu href="/kalkulatory/tryb-live" />
       <div>
         <h1 className="text-xl font-semibold">Tryb Live</h1>
         <p className="text-sm text-muted-foreground">

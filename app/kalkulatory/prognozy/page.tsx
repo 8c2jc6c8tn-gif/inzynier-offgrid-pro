@@ -1,12 +1,14 @@
 import { calculatePrognozy } from "@/lib/core/modules/ai/prognozy/calculator"
 import { SAMPLE_PROGNOZA_24H } from "@/lib/core/modules/ai/prognozy/constants"
 import { WerdyktPanel } from "@/components/werdykt"
+import { NawigacjaEkranu } from "@/components/nawigacja-ekranu"
 
 export default function PrognozyPage() {
   const result = calculatePrognozy(SAMPLE_PROGNOZA_24H)
 
   return (
     <main className="mx-auto flex max-w-md flex-col gap-6 p-6">
+      <NawigacjaEkranu href="/kalkulatory/prognozy" />
       <div>
         <h1 className="text-xl font-semibold">Prognozy</h1>
         <p className="text-sm text-muted-foreground">
