@@ -72,3 +72,21 @@ Przykład: *"Brakuje informacji o klasie materiału. Wynik został policzony ori
 ## 8.10. Dostępność
 
 Nie polegaj wyłącznie na kolorze do przekazania informacji (werdykty 🟢🟡🔴 mają też kształt/ikonę, nie tylko barwę). Zachowaj odpowiedni kontrast. Etykiety dla czytników ekranu. Nie blokuj powiększenia. Obsługa klawiaturą. Unikaj migających elementów.
+
+## 8.11. Pulpit adaptacyjny — personalizacja nawigacji wielopoziomowej
+
+**Kontekst.** Aplikacje tej rodziny mają dziesiątki modułów i setki ekranów (Offgrid: 13 modułów). Pokazanie wszystkiego naraz koliduje z zasadą mobile-first (8.9) i przytłacza usera, który w danym momencie pracuje nad jedną rzeczą. Rozwiązanie: pulpit, który **proponuje** dobry punkt startowy, ale nigdy nie ogranicza dostępu do reszty.
+
+**Reguła — mechanizm, nie dwa.** Ten sam komponent nawigacyjny (robocza nazwa: `AdaptiveMenu`) obsługuje zarówno pulpit główny (lista modułów), jak i wnętrze każdego modułu (lista jego ekranów) — nie buduje się dwóch osobnych implementacji tego samego wzorca. Komponent przyjmuje: listę pozycji, opcjonalne presety (predefiniowane podzbiory + kolejność), stan widoczności/kolejności/rozmiaru per pozycja.
+
+**Reguła — onboarding proponuje, nie narzuca.** Pierwsze uruchomienie (lub wejście do modułu z wieloma ekranami) pyta "co chcesz teraz robić" i na tej podstawie proponuje układ (widoczne pozycje + kolejność). To jest **jednorazowa propozycja do zatwierdzenia**, nie ciągła autoadaptacja w tle — system nigdy nie zmienia układu samodzielnie w trakcie pracy usera (to by było irytujące i nieprzewidywalne). Zmiana układu w odpowiedzi na zmianę kontekstu pracy wymaga jawnej akcji usera (np. przycisk "Dopasuj do mojej pracy").
+
+**Reguła — ukrycie ≠ usunięcie.** Schowana pozycja nie znika z systemu, tylko z widoku — zawsze dostępna przez "Pełne menu" / "+ Dodaj pozycję". Zwolnione miejsce wypełnia się przez powiększenie pozostałych pozycji (reflow), nie zostaje pusta przestrzeń.
+
+**Reguła — pełna kontrola usera.** Każda pozycja ma menu z opcjami: Przenieś / Zmień rozmiar / Ukryj / Przypnij / Przywróć domyślne. Stan "Mój pulpit" (własna konfiguracja usera) jest oddzielony od "Pulpit proponowany" (domyślny/wygenerowany z presetu) — przełączenie na własny nie kasuje możliwości powrotu do proponowanego.
+
+**Reguła — terminologia.** To jest deterministyczne mapowanie preset → zestaw pozycji, nie uczenie maszynowe ani personalizacja oparta o zachowanie usera. Nie nazywać tego "AI" w UI ani w kodzie — patrz [09 Zasady i granice AI](09-ai-w-produkcie.md), żeby nie wciągać prostego mapowania w wymogi stawiane realnym funkcjom AI.
+
+**Konsekwencja — przechowywanie.** Układ pulpitu to "drobna preferencja UI" (rozdział 05, offline-first), nie dana projektu — żyje w lekkim magazynie preferencji (np. `localStorage` na web), osobno od `StorageAdapter`/danych projektu, i nie musi być częścią eksportu/backupu projektu.
+
+**Konsekwencja — domyślna kolejność.** Domyślna kolejność pozycji (zanim user cokolwiek zmieni) wynika z realnego przepływu zależności danych między nimi (kto czyta dane od kogo), nie z arbitralnego wyboru. Konkretna instancja tego wzorca dla Offgrid (13+1 kafli, kolejność, presety onboardingu): `docs/pulpit-i-nawigacja.md`.

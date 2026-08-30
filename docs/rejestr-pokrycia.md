@@ -46,17 +46,71 @@ notatkę, zgodnie z `docs/standards/15-wspolpraca-z-ai.md` (15.3, "nie usuwaj �
 
 ## Moduł 1 — Lokalizacja (Geostruktura)
 
-**Brak pełnej treści źródłowej w tym repo** — mamy tylko skrót audytowy (`docs/memory.md`).
-Rejestr poniżej wstępny, do uzupełnienia gdy treść dotrze.
+~~Brak pełnej treści źródłowej w tym repo~~ — **korekta 2026-08-29:** pełna treść (4 ekrany)
+dotarła i jest w `docs/domena/Tresc_Modul_1_Lokalizacja_Ekrany.md`. ~~Implementacja wciąż nie
+rozpoczęta~~ — **korekta 2026-08-30:** Ekran 1 zaimplementowany (żeby Kafel 1 na pulpicie miał
+gdzie prowadzić), pozostałe 3 nadal `todo`.
 
-| Ekran | ID Biblii | Nazwa | Status |
-|---|---|---|---|
-| 1 | 0.1 | GPS i pobranie lokalizacji/klimatu | todo |
-| 2 | 0.2 | Skaner działki (online/offline) | todo |
-| 3 | 0.3 | Analiza zacienienia (horyzont cieni) | todo |
-| 4 | 0.4 | Bryła budynku i orientacja ścian | todo |
+| Ekran | ID Biblii | Nazwa | Status | Notatka |
+|---|---|---|---|---|
+| 1 | 0.1 | GPS i pobranie lokalizacji/klimatu | **done** | `lib/core/modules/lokalizacja/lokalizacja-i-klimat/`, UI: `app/kalkulatory/lokalizacja-i-klimat/page.tsx`, 6 testów. Tylko tryb offline (ręczne wpisanie) — integracja PVGIS/PVWatts poza zakresem, jawnie oznaczona jako `assumption`. |
+| 2 | 0.2 | Skaner działki (online/offline) | todo | |
+| 3 | 0.3 | Analiza zacienienia (horyzont cieni) | todo | |
+| 4 | 0.4 | Bryła budynku i orientacja ścian | todo | |
 
-## Pozostałe moduły (3–13)
+## Moduły 3–13 — wzorce UI reprezentatywne (przygotowanie pod v0)
 
-Nie rozpoczęte. Rejestr zostanie rozszerzony o kolejne moduły w miarę postępu prac, zgodnie z
-kolejnością z `ZASADY_APLIKACJI.md` §14.
+**2026-08-29 — decyzja:** zamiast budować moduły 3–13 po kolei ekran-po-ekranie, wybrano po
+jednym reprezentatywnym ekranie na każdy z 8 wzorców UI A–H (`docs/standards/08-ui-ux.md`, 8.2),
+żeby zebrać je w jedną, spójną paczkę do przekazania v0/Vercel (ustalenie systemu projektowego
+naraz, zamiast osobno per moduł). Treść źródłowa dla wszystkich 13 modułów jest już kompletna w
+`docs/domena/`. Poniższe 8 ekranów jest w pełni zaimplementowane (domena + testy + UI,
+zweryfikowane ręcznie w przeglądarce); **pozostałe ekrany tych modułów są nadal `todo`** — pełne
+wyliczenie per-funkcja dla modułów 3, 4, 5, 8, 9 do dopisania w kolejnym przejściu, nie zgadywane
+teraz. Moduły 6, 7, 10, 11, 12, 13 dostały dodatkowo (2026-08-30) po jednym ekranie każdy — patrz
+tabela niżej — żeby każdy kafel pulpitu (`docs/pulpit-i-nawigacja.md`) prowadził do czegoś realnego,
+nie ślepego zaułka.
+
+| Wzorzec | Moduł / Ekran | ID Biblii | Nazwa | Status | Notatka |
+|---|---|---|---|---|---|
+| A — przełącznik trybu | Moduł 3 / Ekran 11 | 2.19–2.21 | Konfigurator stringów PV (szereg/równolegle/mieszany) | **done** | `lib/core/modules/pv/konfigurator-stringow/`, UI: `app/kalkulatory/konfigurator-stringow/page.tsx`, 8 testów. |
+| B — karty porównawcze | Moduł 4 / Ekran 30 | 3.34 | Porównanie technologii magazynów (LiFePO4/AGM/GEL/Trakcyjna) | **done** | `lib/core/modules/baterie/porownanie-technologii/`, UI: `app/kalkulatory/porownanie-technologii-magazynow/page.tsx`, 5 testów. |
+| C — akordeon/informacja | Moduł 3 / Ekran 24 | 2.16, 2.40, 2.44 | Czystość i śnieg na panelach | **done** | `lib/core/modules/pv/czystosc-i-snieg/`, UI: `app/kalkulatory/czystosc-i-snieg/page.tsx`, 12 testów. Zakres kąta 10–15° — luka źródła zgłoszona w kodzie (komunikat, nie cichy default). |
+| D — Doradca (werdykt bezpieczeństwa) | Moduł 4 / Ekran 24 | 3.27 | Dobór bezpiecznika DC (AIC/Class T/NH) | **done** | `lib/core/modules/baterie/dobor-bezpiecznika-dc/`, UI: `app/kalkulatory/dobor-bezpiecznika-dc/page.tsx`, 6 testów. Jeden z najpoważniejszych twardych stopów źródła (AIC < prąd zwarciowy → 🔴). |
+| E — checklist weryfikacyjna | Moduł 4 / Ekran 11 | 3.12 | Moment dokręcania śrub (Torque Control) | **done** | `lib/core/modules/baterie/moment-dokrecania-srub/`, UI: `app/kalkulatory/moment-dokrecania-srub/page.tsx`, 5 testów. Bez validation.ts/warnings.ts — checklist nie ma stanu nieprawidłowego do walidacji. |
+| F — przewodnik z ilustracją | Moduł 5 / Ekran 19 | 4.22 | Trasy kablowe — prowadzenie i separacja | **done** | `lib/core/modules/okablowanie/trasy-kablowe/` (tylko `constants.ts`, brak kalkulatora — ekran bez pól wejściowych), UI: `app/kalkulatory/trasy-kablowe/page.tsx` z ilustracją SVG. Bez testów jednostkowych (brak logiki domenowej do testowania). |
+| G — raport/podsumowanie | Moduł 8 / Ekran 11 | 12.57 | Autonomiczny audyt bezpieczeństwa pożarowego | **done** | `lib/core/modules/bezpieczenstwo/audyt-pozarowy/`, UI: `app/kalkulatory/audyt-pozarowy/page.tsx`, 5 testów. **Dane demonstracyjne** (`SAMPLE_AUDIT_ITEMS`) — docelowa wersja czerpie na żywo z Modułów 8/9/13, jawnie oznaczone w kodzie i UI. |
+| H — katalog komponentów | Moduł 9 / Katalog 1 | — | Katalog czujników (dodawanie wielu instancji) | **done** | `lib/core/modules/esp32/katalog-czujnikow/`, UI: `app/kalkulatory/katalog-czujnikow/page.tsx`, 3 testy. Katalog 21 typów czujników 1:1 ze źródła. |
+
+## Moduły 6, 7, 10, 11, 12, 13 — po jednym ekranie (pokrycie pulpitu, 2026-08-30)
+
+**2026-08-30 — decyzja:** autor poprosił o pulpit adaptacyjny (`docs/pulpit-i-nawigacja.md`) do
+przekazania razem z paczką dla v0, z wymogiem, żeby każdy z 13 kafli dało się kliknąć i trafić na
+realny ekran, nie stronę pustą/404. Moduły 3, 4, 5, 8, 9 miały to już z wzorców A–H wyżej — poniższe
+sześć dostało dodatkowo po jednym prostym, w pełni zweryfikowanym ekranie. Pozostałe ekrany tych
+modułów nadal `todo` — pełne wyliczenie per-funkcja do zrobienia w kolejnym przejściu.
+
+| Moduł | ID Biblii | Nazwa | Status | Notatka |
+|---|---|---|---|---|
+| 6 — Ogrzewanie | 5.5 | COP pompy ciepła w funkcji temperatury | **done** | `lib/core/modules/ogrzewanie/cop-pompy-ciepla/`, UI: `app/kalkulatory/cop-pompy-ciepla/page.tsx`, 6 testów. |
+| 7 — Stress-test zimowy | 6.5 | Procedura Black Start (checklist, kolejność ma znaczenie) | **done** | `lib/core/modules/stress-test/procedura-black-start/`, UI: `app/kalkulatory/procedura-black-start/page.tsx`, 4 testy. |
+| 10 — AI i prognozy | 12.1–12.5, 12.43 | Prognozy (raport) | **done** | `lib/core/modules/ai/prognozy/`, UI: `app/kalkulatory/prognozy/page.tsx`, 4 testy. Dane demonstracyjne (jak wzorzec G Modułu 8) — docelowo z silnika symulacji rocznej. |
+| 11 — Montaż baterii | 9.9 | Przygotowanie stanowiska i narzędzi (checklist, ścieżka LiFePO4) | **done** | `lib/core/modules/montaz-baterii/przygotowanie-stanowiska/`, UI: `app/kalkulatory/przygotowanie-stanowiska/page.tsx`, 4 testy. |
+| 12 — Kalkulator/mobilny | 8.1 | Tryb uproszczony — dobór akumulatora i odbiorników | **done** | `lib/core/modules/kalkulator-mobilny/tryb-uproszczony/`, UI: `app/kalkulatory/tryb-uproszczony/page.tsx`, 4 testy. |
+| 13 — Tryb Live | 7.1 | Wejście w tryb Live (brama, bez telemetrii) | **done** | UI: `app/kalkulatory/tryb-live/page.tsx`, bez modułu domenowego (czysta bramka informacyjna, brak logiki do testowania) — jawnie pokazuje status "brak połączenia z telemetrią", nie fabrykuje danych live. |
+
+## Pulpit i nawigacja (implementacja, 2026-08-30)
+
+Zaimplementowana pierwsza wersja mechanizmu z `docs/pulpit-i-nawigacja.md`: `lib/pulpit/registry.ts`
+(rejestr 13 kafli + Kafel 14), `lib/pulpit/storage.ts` (preferencje w `localStorage`, przez
+`useSyncExternalStore` — bez efektu ubocznego w `useEffect`), `app/page.tsx` (pulpit — zastąpił
+przestarzały `UstaleniaViewer`, usunięty jako martwy kod), `app/moduly/[id]/page.tsx` (lista
+ekranów modułu), `app/ustawienia/page.tsx` (pokaż/ukryj/przenieś/przywróć domyślne). Uproszczenie
+świadome: "Przenieś" to przyciski ↑/↓, nie przeciąganie (drag-and-drop) — ten sam efekt
+funkcjonalny bez nowej zależności; realne przeciąganie można dodać później bez zmiany API stanu.
+
+## Pozostałe moduły (6, 7, 10, 11, 12, 13 — reszta ekranów)
+
+Poza jednym ekranem wyżej — nie rozpoczęte. Treść źródłowa kompletna w `docs/domena/`. Rejestr
+zostanie rozszerzony o kolejne ekrany w miarę postępu prac, zgodnie z kolejnością z
+`ZASADY_APLIKACJI.md` §14.

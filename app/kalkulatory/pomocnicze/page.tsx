@@ -3,7 +3,7 @@
 import { useMemo, useState } from "react"
 import { calculateKalkulatoryPomocnicze } from "@/lib/core/modules/zapotrzebowanie/kalkulatory-pomocnicze/calculator"
 import type { KalkulatoryPomocniczeInput } from "@/lib/core/modules/zapotrzebowanie/kalkulatory-pomocnicze/input"
-import { cn } from "@/lib/utils"
+import { WerdyktPanel, type WerdyktPoziom } from "@/components/werdykt"
 
 type Mode = KalkulatoryPomocniczeInput["mode"]
 
@@ -74,12 +74,12 @@ export default function KalkulatoryPomocniczePage() {
 
   const result = useMemo(() => calculateKalkulatoryPomocnicze(input), [input])
 
-  const verdictColor =
+  const poziom: WerdyktPoziom =
     result.status === "INVALID_INPUT"
-      ? "border-red-500 bg-red-50 text-red-900 dark:bg-red-950 dark:text-red-100"
+      ? "blad"
       : result.status === "VALID_WITH_WARNINGS"
-        ? "border-amber-500 bg-amber-50 text-amber-900 dark:bg-amber-950 dark:text-amber-100"
-        : "border-green-600 bg-green-50 text-green-900 dark:bg-green-950 dark:text-green-100"
+        ? "uwaga"
+        : "ok"
 
   return (
     <main className="mx-auto flex max-w-md flex-col gap-6 p-6">
@@ -127,11 +127,11 @@ export default function KalkulatoryPomocniczePage() {
         )}
       </div>
 
-      <div className={cn("rounded-lg border-2 p-4", verdictColor)}>
+      <WerdyktPanel poziom={poziom}>
         {result.status === "INVALID_INPUT" ? (
-          <p className="font-medium">Nie da się policzyć — sprawdź dane wejściowe poniżej.</p>
+          <p className="mt-1">Nie da się policzyć — sprawdź dane wejściowe poniżej.</p>
         ) : (
-          <p className="text-2xl font-semibold">
+          <p className="mt-1 text-2xl font-semibold">
             {Number.isFinite(result.value) ? result.value.toFixed(3) : "—"} {result.unit}
           </p>
         )}
@@ -153,7 +153,7 @@ export default function KalkulatoryPomocniczePage() {
         )}
 
         <p className="mt-3 font-mono text-xs opacity-70">{result.formula}</p>
-      </div>
+      </WerdyktPanel>
     </main>
   )
 }
