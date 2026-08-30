@@ -3,6 +3,7 @@
 import { useMemo, useState } from "react"
 import { calculateProceduraBlackStart } from "@/lib/core/modules/stress-test/procedura-black-start/calculator"
 import { CHECKLIST_ITEMS, OSTRZEZENIA_STALE } from "@/lib/core/modules/stress-test/procedura-black-start/constants"
+import { WerdyktPanel, type WerdyktPoziom } from "@/components/werdykt"
 import { cn } from "@/lib/utils"
 
 export default function ProceduraBlackStartPage() {
@@ -17,12 +18,8 @@ export default function ProceduraBlackStartPage() {
     setPotwierdzoneIds((prev) => (prev.includes(id) ? prev.filter((x) => x !== id) : [...prev, id]))
   }
 
-  const verdictColor =
-    result.status === "VALID"
-      ? "border-green-600 bg-green-50 text-green-900 dark:bg-green-950 dark:text-green-100"
-      : result.status === "VALID_WITH_WARNINGS"
-        ? "border-amber-500 bg-amber-50 text-amber-900 dark:bg-amber-950 dark:text-amber-100"
-        : "border-muted-foreground/40 bg-muted text-muted-foreground"
+  const poziom: WerdyktPoziom | null =
+    result.status === "VALID" ? "ok" : result.status === "VALID_WITH_WARNINGS" ? "uwaga" : null
 
   return (
     <main className="mx-auto flex max-w-md flex-col gap-6 p-6">
@@ -61,18 +58,21 @@ export default function ProceduraBlackStartPage() {
         ))}
       </ul>
 
-      <div className={cn("rounded-lg border-2 p-4", verdictColor)}>
-        <p className="font-medium">
-          {result.status === "VALID"
-            ? "🟢 Procedura zakończona"
-            : `Potwierdzono ${result.value.potwierdzoneWKolejnosci} / ${result.value.razem} kroków po kolei`}
-        </p>
-        {result.warnings.map((w) => (
-          <p key={w.code} className="mt-1 text-sm">
-            {w.message}
+      {poziom ? (
+        <WerdyktPanel poziom={poziom} etykieta={poziom === "ok" ? "Procedura zakończona" : undefined}>
+          {result.warnings.map((w) => (
+            <p key={w.code} className="mt-1 text-sm">
+              {w.message}
+            </p>
+          ))}
+        </WerdyktPanel>
+      ) : (
+        <div className={cn("rounded-lg border-2 p-4", "border-muted-foreground/40 bg-muted text-muted-foreground")}>
+          <p className="font-medium">
+            Potwierdzono {result.value.potwierdzoneWKolejnosci} / {result.value.razem} kroków po kolei
           </p>
-        ))}
-      </div>
+        </div>
+      )}
     </main>
   )
 }

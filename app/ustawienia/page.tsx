@@ -2,6 +2,9 @@
 
 import Link from "next/link"
 import { useSyncExternalStore } from "react"
+import { CzcionkaEdytor } from "@/components/czcionka-edytor"
+import { KolorGrupaEdytor } from "@/components/kolor-grupa-edytor"
+import { ThemeToggle } from "@/components/theme-toggle"
 import { znajdzKafel } from "@/lib/pulpit/registry"
 import {
   domyslnyStan,
@@ -112,6 +115,32 @@ export default function UstawieniaPage() {
       >
         Przywróć domyślne
       </button>
+
+      <div className="flex flex-col gap-6 border-t pt-6">
+        <div className="flex items-center justify-between">
+          <div>
+            <h2 className="text-lg font-semibold">Personalizacja wyglądu</h2>
+            <p className="text-sm text-muted-foreground">
+              Motyw, kolory i czcionka. Podgląd wszystkich elementów naraz:{" "}
+              <Link href="/wzornik" className="underline">
+                /wzornik
+              </Link>
+              .
+            </p>
+          </div>
+          <ThemeToggle />
+        </div>
+
+        <div>
+          <h3 className="mb-2 text-sm font-semibold">Kolory</h3>
+          <KolorGrupaEdytor />
+        </div>
+
+        <div>
+          <h3 className="mb-2 text-sm font-semibold">Czcionka</h3>
+          <CzcionkaEdytor />
+        </div>
+      </div>
     </main>
   )
 }

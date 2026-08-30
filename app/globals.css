@@ -5,6 +5,19 @@
 @custom-variant dark (&:is(.dark *));
 
 @theme inline {
+  --font-sans: var(--font-sans-user, ui-sans-serif, system-ui, sans-serif);
+  --color-werdykt-ok: var(--werdykt-ok);
+  --color-werdykt-ok-bg: var(--werdykt-ok-bg);
+  --color-werdykt-ok-border: var(--werdykt-ok-border);
+  --color-werdykt-ok-foreground: var(--werdykt-ok-foreground);
+  --color-werdykt-uwaga: var(--werdykt-uwaga);
+  --color-werdykt-uwaga-bg: var(--werdykt-uwaga-bg);
+  --color-werdykt-uwaga-border: var(--werdykt-uwaga-border);
+  --color-werdykt-uwaga-foreground: var(--werdykt-uwaga-foreground);
+  --color-werdykt-blad: var(--werdykt-blad);
+  --color-werdykt-blad-bg: var(--werdykt-blad-bg);
+  --color-werdykt-blad-border: var(--werdykt-blad-border);
+  --color-werdykt-blad-foreground: var(--werdykt-blad-foreground);
   --color-sidebar-ring: var(--sidebar-ring);
   --color-sidebar-border: var(--sidebar-border);
   --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
@@ -47,6 +60,22 @@
 
 :root {
   color-scheme: light;
+  --font-sans-user: var(--font-inter);
+  /* Werdykt 🟢🟡🔴 — bazowy kolor edytowalny w Ustawieniach (lib/wyglad/), reszta (tło/obramowanie/
+     tekst) liczona automatycznie z color-mix(), żeby zmiana jednego koloru dawała spójny komplet
+     odcieni bez ręcznego dobierania trzech wartości naraz. */
+  --werdykt-ok: oklch(0.52 0.15 152);
+  --werdykt-ok-bg: color-mix(in oklch, var(--werdykt-ok) 10%, white);
+  --werdykt-ok-border: var(--werdykt-ok);
+  --werdykt-ok-foreground: color-mix(in oklch, var(--werdykt-ok) 65%, black);
+  --werdykt-uwaga: oklch(0.7 0.16 70);
+  --werdykt-uwaga-bg: color-mix(in oklch, var(--werdykt-uwaga) 12%, white);
+  --werdykt-uwaga-border: var(--werdykt-uwaga);
+  --werdykt-uwaga-foreground: color-mix(in oklch, var(--werdykt-uwaga) 65%, black);
+  --werdykt-blad: oklch(0.58 0.24 27);
+  --werdykt-blad-bg: color-mix(in oklch, var(--werdykt-blad) 10%, white);
+  --werdykt-blad-border: var(--werdykt-blad);
+  --werdykt-blad-foreground: color-mix(in oklch, var(--werdykt-blad) 60%, black);
   --background: oklch(1 0 0);
   --foreground: oklch(0.145 0 0);
   --card: oklch(1 0 0);
@@ -83,6 +112,12 @@
 
 .dark {
   color-scheme: dark;
+  --werdykt-ok-bg: color-mix(in oklch, var(--werdykt-ok) 18%, black);
+  --werdykt-ok-foreground: color-mix(in oklch, var(--werdykt-ok) 55%, white);
+  --werdykt-uwaga-bg: color-mix(in oklch, var(--werdykt-uwaga) 20%, black);
+  --werdykt-uwaga-foreground: color-mix(in oklch, var(--werdykt-uwaga) 55%, white);
+  --werdykt-blad-bg: color-mix(in oklch, var(--werdykt-blad) 18%, black);
+  --werdykt-blad-foreground: color-mix(in oklch, var(--werdykt-blad) 60%, white);
   --background: oklch(0.145 0 0);
   --foreground: oklch(0.985 0 0);
   --card: oklch(0.205 0 0);
@@ -119,6 +154,12 @@
 @media (prefers-color-scheme: dark) {
   :root:not(.light) {
     color-scheme: dark;
+    --werdykt-ok-bg: color-mix(in oklch, var(--werdykt-ok) 18%, black);
+    --werdykt-ok-foreground: color-mix(in oklch, var(--werdykt-ok) 55%, white);
+    --werdykt-uwaga-bg: color-mix(in oklch, var(--werdykt-uwaga) 20%, black);
+    --werdykt-uwaga-foreground: color-mix(in oklch, var(--werdykt-uwaga) 55%, white);
+    --werdykt-blad-bg: color-mix(in oklch, var(--werdykt-blad) 18%, black);
+    --werdykt-blad-foreground: color-mix(in oklch, var(--werdykt-blad) 60%, white);
     --background: oklch(0.145 0 0);
     --foreground: oklch(0.985 0 0);
     --card: oklch(0.205 0 0);
@@ -159,5 +200,12 @@
   }
   body {
     @apply bg-background text-foreground;
+    font-family: var(--font-sans);
+    font-weight: var(--waga-tekstu, 400);
   }
+}
+
+/* Waga tekstu — preferencja z lib/wyglad/, przełączana klasą na <html> (ten sam wzorzec co .dark). */
+.czcionka-pogrubiona {
+  --waga-tekstu: 550;
 }

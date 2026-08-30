@@ -1,5 +1,6 @@
 import { calculatePrognozy } from "@/lib/core/modules/ai/prognozy/calculator"
 import { SAMPLE_PROGNOZA_24H } from "@/lib/core/modules/ai/prognozy/constants"
+import { WerdyktPanel } from "@/components/werdykt"
 
 export default function PrognozyPage() {
   const result = calculatePrognozy(SAMPLE_PROGNOZA_24H)
@@ -14,8 +15,8 @@ export default function PrognozyPage() {
         </p>
       </div>
 
-      <div className="rounded-lg border-2 border-green-600 bg-green-50 p-4 text-green-900 dark:bg-green-950 dark:text-green-100">
-        <p className="text-2xl font-semibold">
+      <WerdyktPanel poziom="ok">
+        <p className="mt-1 text-2xl font-semibold">
           Bilans dobowy: {result.value.bilansKwh.toFixed(1)} kWh
         </p>
         <p className="mt-1 text-sm">
@@ -23,7 +24,7 @@ export default function PrognozyPage() {
           {result.value.zuzycieLaczneKwh.toFixed(1)} kWh. Szczyt zużycia o godz.{" "}
           {result.value.godzinaSzczytuZuzycia}:00.
         </p>
-      </div>
+      </WerdyktPanel>
 
       <div className="overflow-x-auto rounded-lg border">
         <table className="w-full text-sm">

@@ -4,6 +4,7 @@ import { useMemo, useState } from "react"
 import { calculateSurvivalCore } from "@/lib/core/modules/zapotrzebowanie/systemy-podtrzymania-zycia/calculator"
 import { DEFAULT_CRITICAL_LOADS } from "@/lib/core/modules/zapotrzebowanie/systemy-podtrzymania-zycia/constants"
 import type { CriticalLoadItem } from "@/lib/core/modules/zapotrzebowanie/systemy-podtrzymania-zycia/input"
+import { WerdyktPanel, type WerdyktPoziom } from "@/components/werdykt"
 import { cn } from "@/lib/utils"
 
 const initialItems: CriticalLoadItem[] = DEFAULT_CRITICAL_LOADS.map((def) => ({
@@ -18,14 +19,14 @@ export default function SystemyPodtrzymaniaZyciaPage() {
 
   const result = useMemo(() => calculateSurvivalCore({ items }), [items])
 
-  const verdictColor =
+  const poziom: WerdyktPoziom | null =
     result.status === "INVALID_INPUT"
-      ? "border-red-500 bg-red-50 text-red-900 dark:bg-red-950 dark:text-red-100"
+      ? "blad"
       : result.status === "INCOMPLETE"
-        ? "border-muted-foreground/40 bg-muted text-muted-foreground"
+        ? null
         : result.status === "VALID_WITH_WARNINGS"
-          ? "border-amber-500 bg-amber-50 text-amber-900 dark:bg-amber-950 dark:text-amber-100"
-          : "border-green-600 bg-green-50 text-green-900 dark:bg-green-950 dark:text-green-100"
+          ? "uwaga"
+          : "ok"
 
   function toggleSelected(id: string) {
     setItems((prev) =>
@@ -82,35 +83,49 @@ export default function SystemyPodtrzymaniaZyciaPage() {
         })}
       </ul>
 
-      <div className={cn("rounded-lg border-2 p-4", verdictColor)}>
-        {result.status === "INVALID_INPUT" || result.status === "INCOMPLETE" ? (
-          <p className="font-medium">
-            {result.status === "INCOMPLETE"
-              ? "Zaznacz przynajmniej jeden odbiornik krytyczny."
-              : "Nie da się policzyć — sprawdź zaznaczone pozycje poniżej."}
-          </p>
-        ) : (
-          <p className="text-2xl font-semibold">
-            {result.value.toFixed(0)} {result.unit}
-          </p>
-        )}
+      {(() => {
+        const dodatki = (
+          <>
+            {result.assumptions.length > 0 && (
+              <ul className="mt-2 text-sm opacity-90">
+                {result.assumptions.map((a) => (
+                  <li key={a}>Założenie: {a}</li>
+                ))}
+              </ul>
+            )}
 
-        {result.assumptions.length > 0 && (
-          <ul className="mt-2 text-sm opacity-90">
-            {result.assumptions.map((a) => (
-              <li key={a}>Założenie: {a}</li>
-            ))}
-          </ul>
-        )}
+            {result.warnings.length > 0 && (
+              <ul className="mt-2 space-y-1 text-sm">
+                {result.warnings.map((w) => (
+                  <li key={w.code}>{w.message}</li>
+                ))}
+              </ul>
+            )}
+          </>
+        )
 
-        {result.warnings.length > 0 && (
-          <ul className="mt-2 space-y-1 text-sm">
-            {result.warnings.map((w) => (
-              <li key={w.code}>{w.message}</li>
-            ))}
-          </ul>
-        )}
-      </div>
+        if (poziom === null) {
+          return (
+            <div className={cn("rounded-lg border-2 p-4", "border-muted-foreground/40 bg-muted text-muted-foreground")}>
+              <p className="font-medium">Zaznacz przynajmniej jeden odbiornik krytyczny.</p>
+              {dodatki}
+            </div>
+          )
+        }
+        return (
+          <WerdyktPanel
+            poziom={poziom}
+            etykieta={poziom === "blad" ? "Nie da się policzyć — sprawdź zaznaczone pozycje poniżej" : undefined}
+          >
+            {poziom !== "blad" && (
+              <p className="mt-1 text-2xl font-semibold">
+                {result.value.toFixed(0)} {result.unit}
+              </p>
+            )}
+            {dodatki}
+          </WerdyktPanel>
+        )
+      })()}
     </main>
   )
 }

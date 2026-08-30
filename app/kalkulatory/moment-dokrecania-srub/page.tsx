@@ -3,6 +3,7 @@
 import { useMemo, useState } from "react"
 import { calculateMomentDokrecania } from "@/lib/core/modules/baterie/moment-dokrecania-srub/calculator"
 import { CHECKLIST_ITEMS, OSTRZEZENIA_STALE } from "@/lib/core/modules/baterie/moment-dokrecania-srub/constants"
+import { WerdyktPanel } from "@/components/werdykt"
 import { cn } from "@/lib/utils"
 
 export default function MomentDokrecaniaSrubPage() {
@@ -18,11 +19,6 @@ export default function MomentDokrecaniaSrubPage() {
       prev.includes(id) ? prev.filter((x) => x !== id) : [...prev, id],
     )
   }
-
-  const verdictColor =
-    result.status === "VALID"
-      ? "border-green-600 bg-green-50 text-green-900 dark:bg-green-950 dark:text-green-100"
-      : "border-muted-foreground/40 bg-muted text-muted-foreground"
 
   return (
     <main className="mx-auto flex max-w-md flex-col gap-6 p-6">
@@ -64,13 +60,15 @@ export default function MomentDokrecaniaSrubPage() {
         ))}
       </ul>
 
-      <div className={cn("rounded-lg border-2 p-4", verdictColor)}>
-        <p className="font-medium">
-          {result.status === "VALID"
-            ? "🟢 Wszystkie kroki potwierdzone"
-            : `Potwierdzono ${result.value.potwierdzone} / ${result.value.razem} kroków`}
-        </p>
-      </div>
+      {result.status === "VALID" ? (
+        <WerdyktPanel poziom="ok" etykieta="Wszystkie kroki potwierdzone" />
+      ) : (
+        <div className={cn("rounded-lg border-2 p-4", "border-muted-foreground/40 bg-muted text-muted-foreground")}>
+          <p className="font-medium">
+            Potwierdzono {result.value.potwierdzone} / {result.value.razem} kroków
+          </p>
+        </div>
+      )}
     </main>
   )
 }

@@ -5,6 +5,7 @@ import {
   classifyKatSamooczyszczania,
   ocenHarmonogramCzyszczenia,
 } from "@/lib/core/modules/pv/czystosc-i-snieg/calculator"
+import { WerdyktPanel } from "@/components/werdykt"
 import { cn } from "@/lib/utils"
 
 const inputClass =
@@ -71,12 +72,12 @@ export default function CzystoscISniegPage() {
               />
             </label>
             {katResult.status === "INVALID_INPUT" ? (
-              <p className="text-sm text-red-600 dark:text-red-400">Kąt musi być z przedziału 0–90°.</p>
+              <p className="text-sm text-werdykt-blad">Kąt musi być z przedziału 0–90°.</p>
             ) : (
               <p
                 className={cn(
                   "text-sm",
-                  katResult.status === "VALID_WITH_WARNINGS" && "text-amber-700 dark:text-amber-400",
+                  katResult.status === "VALID_WITH_WARNINGS" && "text-werdykt-uwaga",
                 )}
               >
                 {katResult.value.opis}
@@ -119,26 +120,20 @@ export default function CzystoscISniegPage() {
             </label>
 
             {harmonogramResult.status === "INVALID_INPUT" ? (
-              <p className="text-sm text-red-600 dark:text-red-400">Spadek musi być z przedziału 0–100%.</p>
+              <p className="text-sm text-werdykt-blad">Spadek musi być z przedziału 0–100%.</p>
             ) : (
-              <div
-                className={cn(
-                  "rounded-md border p-3 text-sm",
-                  harmonogramResult.value.rekomendacjaMycia
-                    ? "border-amber-500 bg-amber-50 text-amber-900 dark:bg-amber-950 dark:text-amber-100"
-                    : "border-green-600 bg-green-50 text-green-900 dark:bg-green-950 dark:text-green-100",
-                )}
+              <WerdyktPanel
+                poziom={harmonogramResult.value.rekomendacjaMycia ? "uwaga" : "ok"}
+                etykieta={harmonogramResult.value.rekomendacjaMycia ? "Zalecane mycie paneli" : "Mycie niepotrzebne"}
+                className="p-3 text-sm"
               >
-                <p className="font-medium">
-                  {harmonogramResult.value.rekomendacjaMycia ? "Zalecane mycie paneli" : "Mycie niepotrzebne"}
-                </p>
                 <p className="mt-1">{harmonogramResult.value.powod}</p>
                 {harmonogramResult.assumptions.map((a) => (
                   <p key={a} className="mt-1 opacity-80">
                     Założenie: {a}
                   </p>
                 ))}
-              </div>
+              </WerdyktPanel>
             )}
           </div>
         </AccordionSection>

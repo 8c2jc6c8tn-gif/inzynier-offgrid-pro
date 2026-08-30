@@ -2,6 +2,7 @@
 
 import Link from "next/link"
 import { useSyncExternalStore } from "react"
+import { ThemeToggle } from "@/components/theme-toggle"
 import { KAFLE, USTAWIENIA_KAFEL, znajdzKafel } from "@/lib/pulpit/registry"
 import { getServerSnapshot, getSnapshot, subscribe } from "@/lib/pulpit/storage"
 
@@ -32,6 +33,7 @@ export default function PulpitPage() {
           <span className="text-muted-foreground" title="Brak powiadomień">
             🔔
           </span>
+          <ThemeToggle />
         </nav>
       </header>
 

@@ -2,7 +2,7 @@
 
 import { useMemo, useState } from "react"
 import { calculateTrybUproszczony } from "@/lib/core/modules/kalkulator-mobilny/tryb-uproszczony/calculator"
-import { cn } from "@/lib/utils"
+import { WerdyktPanel } from "@/components/werdykt"
 
 const inputClass =
   "w-full min-h-11 rounded-md border border-input bg-background px-3 text-base outline-none focus-visible:ring-2 focus-visible:ring-ring"
@@ -22,10 +22,6 @@ export default function TrybUproszczonyPage() {
     [pojemnoscAh, napiecieV, mocOdbiornikaW],
   )
 
-  const verdictColor =
-    result.status === "INVALID_INPUT"
-      ? "border-red-500 bg-red-50 text-red-900 dark:bg-red-950 dark:text-red-100"
-      : "border-green-600 bg-green-50 text-green-900 dark:bg-green-950 dark:text-green-100"
 
   return (
     <main className="mx-auto flex max-w-md flex-col gap-6 p-6">
@@ -76,11 +72,11 @@ export default function TrybUproszczonyPage() {
         </label>
       </div>
 
-      <div className={cn("rounded-lg border-2 p-4", verdictColor)}>
+      <WerdyktPanel poziom={result.status === "INVALID_INPUT" ? "blad" : "ok"}>
         {result.status === "INVALID_INPUT" ? (
-          <p className="font-medium">Nie da się policzyć — sprawdź dane wejściowe powyżej.</p>
+          <p className="mt-1">Nie da się policzyć — sprawdź dane wejściowe powyżej.</p>
         ) : (
-          <p className="text-2xl font-semibold">{result.value.toFixed(1)} {result.unit}</p>
+          <p className="mt-1 text-2xl font-semibold">{result.value.toFixed(1)} {result.unit}</p>
         )}
 
         {result.assumptions.length > 0 && (
@@ -92,7 +88,7 @@ export default function TrybUproszczonyPage() {
         )}
 
         <p className="mt-3 font-mono text-xs opacity-70">{result.formula}</p>
-      </div>
+      </WerdyktPanel>
     </main>
   )
 }

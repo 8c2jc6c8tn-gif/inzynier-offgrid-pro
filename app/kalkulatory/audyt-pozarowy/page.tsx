@@ -1,18 +1,18 @@
 import { calculateAuditPozarowy } from "@/lib/core/modules/bezpieczenstwo/audyt-pozarowy/calculator"
 import { SAMPLE_AUDIT_ITEMS } from "@/lib/core/modules/bezpieczenstwo/audyt-pozarowy/constants"
-import { cn } from "@/lib/utils"
+import { WerdyktPanel, type WerdyktPoziom } from "@/components/werdykt"
 
 const STATUS_ICON = { ok: "🟢", warning: "🟡", critical: "🔴" } as const
 
 export default function AudytPozarowyPage() {
   const result = calculateAuditPozarowy(SAMPLE_AUDIT_ITEMS)
 
-  const gotowoscColor =
+  const poziom: WerdyktPoziom =
     result.value.liczbaKrytycznych > 0
-      ? "border-red-500 bg-red-50 text-red-900 dark:bg-red-950 dark:text-red-100"
+      ? "blad"
       : result.value.liczbaOstrzezen > 0
-        ? "border-amber-500 bg-amber-50 text-amber-900 dark:bg-amber-950 dark:text-amber-100"
-        : "border-green-600 bg-green-50 text-green-900 dark:bg-green-950 dark:text-green-100"
+        ? "uwaga"
+        : "ok"
 
   return (
     <main className="mx-auto flex max-w-md flex-col gap-6 p-6">
@@ -24,13 +24,13 @@ export default function AudytPozarowyPage() {
         </p>
       </div>
 
-      <div className={cn("rounded-lg border-2 p-4", gotowoscColor)}>
-        <p className="text-2xl font-semibold">{result.value.procentGotowosci}% gotowości</p>
+      <WerdyktPanel poziom={poziom}>
+        <p className="mt-1 text-2xl font-semibold">{result.value.procentGotowosci}% gotowości</p>
         <p className="mt-1 text-sm">
           {result.value.liczbaOk} OK, {result.value.liczbaOstrzezen} do sprawdzenia,{" "}
           {result.value.liczbaKrytycznych} krytycznych — z {result.value.razem} elementów.
         </p>
-      </div>
+      </WerdyktPanel>
 
       <ul className="flex flex-col gap-2">
         {SAMPLE_AUDIT_ITEMS.map((item) => (

@@ -2,7 +2,7 @@
 
 import { useMemo, useState } from "react"
 import { calculateCopPompyCiepla } from "@/lib/core/modules/ogrzewanie/cop-pompy-ciepla/calculator"
-import { cn } from "@/lib/utils"
+import { WerdyktPanel, type WerdyktPoziom } from "@/components/werdykt"
 
 const inputClass =
   "w-full min-h-11 rounded-md border border-input bg-background px-3 text-base outline-none focus-visible:ring-2 focus-visible:ring-ring"
@@ -16,12 +16,12 @@ export default function CopPompyCieplaPage() {
     [mocCieplnaKw, cop],
   )
 
-  const verdictColor =
+  const poziom: WerdyktPoziom =
     result.status === "INVALID_INPUT"
-      ? "border-red-500 bg-red-50 text-red-900 dark:bg-red-950 dark:text-red-100"
+      ? "blad"
       : result.status === "VALID_WITH_WARNINGS"
-        ? "border-amber-500 bg-amber-50 text-amber-900 dark:bg-amber-950 dark:text-amber-100"
-        : "border-green-600 bg-green-50 text-green-900 dark:bg-green-950 dark:text-green-100"
+        ? "uwaga"
+        : "ok"
 
   return (
     <main className="mx-auto flex max-w-md flex-col gap-6 p-6">
@@ -60,11 +60,11 @@ export default function CopPompyCieplaPage() {
         </label>
       </div>
 
-      <div className={cn("rounded-lg border-2 p-4", verdictColor)}>
+      <WerdyktPanel poziom={poziom}>
         {result.status === "INVALID_INPUT" ? (
-          <p className="font-medium">Nie da się policzyć — sprawdź dane wejściowe powyżej.</p>
+          <p className="mt-1">Nie da się policzyć — sprawdź dane wejściowe powyżej.</p>
         ) : (
-          <p className="text-2xl font-semibold">{result.value.toFixed(2)} {result.unit}</p>
+          <p className="mt-1 text-2xl font-semibold">{result.value.toFixed(2)} {result.unit}</p>
         )}
 
         {result.assumptions.length > 0 && (
@@ -84,7 +84,7 @@ export default function CopPompyCieplaPage() {
         )}
 
         <p className="mt-3 font-mono text-xs opacity-70">{result.formula}</p>
-      </div>
+      </WerdyktPanel>
     </main>
   )
 }

@@ -1,6 +1,14 @@
 import { Analytics } from '@vercel/analytics/next'
 import type { Metadata, Viewport } from 'next'
+import { Inter, Lato, Roboto, Source_Sans_3 } from 'next/font/google'
 import './globals.css'
+
+// latin-ext = polskie znaki diakrytyczne (ą ć ę ł ń ó ś ź ż) — bez tego subsetu nie renderują się
+// poprawnie. Wagi 400-700 pod przełącznik "pogrubiona" w lib/wyglad/storage.ts.
+const inter = Inter({ subsets: ['latin', 'latin-ext'], weight: ['400', '500', '600', '700'], variable: '--font-inter' })
+const sourceSans = Source_Sans_3({ subsets: ['latin', 'latin-ext'], weight: ['400', '500', '600', '700'], variable: '--font-source-sans' })
+const roboto = Roboto({ subsets: ['latin', 'latin-ext'], weight: ['400', '500', '700'], variable: '--font-roboto' })
+const lato = Lato({ subsets: ['latin', 'latin-ext'], weight: ['400', '700'], variable: '--font-lato' })
 
 export const metadata: Metadata = {
   title: 'v0 App',
@@ -33,13 +41,65 @@ export const viewport: Viewport = {
   ],
 }
 
+// Ustawia motyw, kolory i czcionkę na <html> synchronicznie, przed pierwszym malowaniem — bez
+// tego byłby widoczny błysk domyślnego wyglądu przy odświeżeniu strony (lib/theme/storage.ts,
+// lib/wyglad/storage.ts). Mapowanie grup kolorów zduplikowane tu w czystym JS celowo — ten skrypt
+// biegnie przed hydracją Reacta, nie może importować modułów TS.
+const WYGLAD_INIT_SCRIPT = `
+(function () {
+  try {
+    var tryb = window.localStorage.getItem('offgrid.theme.v1');
+    if (tryb === 'light' || tryb === 'dark') {
+      document.documentElement.classList.add(tryb);
+    }
+  } catch (e) {}
+
+  try {
+    var raw = window.localStorage.getItem('offgrid.wyglad.v1');
+    if (raw) {
+      var stan = JSON.parse(raw);
+      var mapa = {
+        tlo: ['--background'],
+        karty: ['--card', '--popover'],
+        tekst: ['--foreground', '--card-foreground', '--popover-foreground'],
+        akcent: ['--primary'],
+        sukces: ['--werdykt-ok'],
+        uwaga: ['--werdykt-uwaga'],
+        blad: ['--werdykt-blad'],
+      };
+      var root = document.documentElement;
+      if (stan.kolory) {
+        for (var grupa in mapa) {
+          var wartosc = stan.kolory[grupa];
+          if (typeof wartosc === 'string' && /^#[0-9a-fA-F]{6}$/.test(wartosc)) {
+            mapa[grupa].forEach(function (zmienna) { root.style.setProperty(zmienna, wartosc); });
+          }
+        }
+      }
+      var zmienneCzcionek = { inter: '--font-inter', 'source-sans': '--font-source-sans', roboto: '--font-roboto', lato: '--font-lato' };
+      if (stan.czcionka && zmienneCzcionek[stan.czcionka]) {
+        root.style.setProperty('--font-sans-user', 'var(' + zmienneCzcionek[stan.czcionka] + ')');
+      }
+      if (stan.waga === 'pogrubiona') root.classList.add('czcionka-pogrubiona');
+    }
+  } catch (e) {}
+})();
+`
+
 export default function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode
 }>) {
   return (
-    <html lang="en">
+    <html
+      lang="en"
+      suppressHydrationWarning
+      className={`${inter.variable} ${sourceSans.variable} ${roboto.variable} ${lato.variable}`}
+    >
+      <head>
+        <script dangerouslySetInnerHTML={{ __html: WYGLAD_INIT_SCRIPT }} />
+      </head>
       <body className="antialiased">
         {children}
         {process.env.NODE_ENV === 'production' && <Analytics />}

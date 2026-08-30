@@ -3,6 +3,7 @@
 import { useMemo, useState } from "react"
 import { calculatePorownanieTechnologii } from "@/lib/core/modules/baterie/porownanie-technologii/calculator"
 import { CENA_STARTOWA_LABELS } from "@/lib/core/modules/baterie/porownanie-technologii/constants"
+import { WerdyktPanel } from "@/components/werdykt"
 import { cn } from "@/lib/utils"
 
 const inputClass =
@@ -47,9 +48,7 @@ export default function PorownanieTechnologiiMagazynowPage() {
       </label>
 
       {isInvalid ? (
-        <div className="rounded-lg border-2 border-red-500 bg-red-50 p-4 text-red-900 dark:bg-red-950 dark:text-red-100">
-          <p className="font-medium">{result.warnings[0]?.message}</p>
-        </div>
+        <WerdyktPanel poziom="blad" etykieta={result.warnings[0]?.message} />
       ) : (
         <div className="overflow-x-auto rounded-lg border">
           <table className="w-full min-w-[640px] text-sm">

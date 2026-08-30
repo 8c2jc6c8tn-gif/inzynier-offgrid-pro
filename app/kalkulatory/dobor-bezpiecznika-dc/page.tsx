@@ -2,7 +2,7 @@
 
 import { useMemo, useState } from "react"
 import { calculateDoborBezpiecznika } from "@/lib/core/modules/baterie/dobor-bezpiecznika-dc/calculator"
-import { cn } from "@/lib/utils"
+import { WerdyktPanel, type WerdyktPoziom } from "@/components/werdykt"
 
 const inputClass =
   "w-full min-h-11 rounded-md border border-input bg-background px-3 text-base outline-none focus-visible:ring-2 focus-visible:ring-ring"
@@ -64,18 +64,18 @@ export default function DoborBezpiecznikaDcPage() {
           ? "yellow"
           : "green"
 
-  const verdictColor: Record<typeof verdict, string> = {
-    invalid: "border-red-500 bg-red-50 text-red-900 dark:bg-red-950 dark:text-red-100",
-    red: "border-red-500 bg-red-50 text-red-900 dark:bg-red-950 dark:text-red-100",
-    yellow: "border-amber-500 bg-amber-50 text-amber-900 dark:bg-amber-950 dark:text-amber-100",
-    green: "border-green-600 bg-green-50 text-green-900 dark:bg-green-950 dark:text-green-100",
+  const verdictPoziom: Record<typeof verdict, WerdyktPoziom> = {
+    invalid: "blad",
+    red: "blad",
+    yellow: "uwaga",
+    green: "ok",
   }
 
   const verdictLabel: Record<typeof verdict, string> = {
     invalid: "Nie da się policzyć",
-    red: "🔴 Zabronione",
-    yellow: "🟡 Dopuszczalne, ale poniżej zalecanego minimum",
-    green: "🟢 Zalecane",
+    red: "Zabronione",
+    yellow: "Dopuszczalne, ale poniżej zalecanego minimum",
+    green: "Zalecane",
   }
 
   return (
@@ -111,9 +111,7 @@ export default function DoborBezpiecznikaDcPage() {
         />
       </div>
 
-      <div className={cn("rounded-lg border-2 p-4", verdictColor[verdict])}>
-        <p className="font-medium">{verdictLabel[verdict]}</p>
-
+      <WerdyktPanel poziom={verdictPoziom[verdict]} etykieta={verdictLabel[verdict]}>
         {result.status !== "INVALID_INPUT" && (
           <p className="mt-1 text-2xl font-semibold">
             I_zw = {result.value.pradZwarciowyA.toLocaleString("pl-PL")} A
@@ -137,7 +135,7 @@ export default function DoborBezpiecznikaDcPage() {
         )}
 
         <p className="mt-3 font-mono text-xs opacity-70">{result.formula}</p>
-      </div>
+      </WerdyktPanel>
     </main>
   )
 }
