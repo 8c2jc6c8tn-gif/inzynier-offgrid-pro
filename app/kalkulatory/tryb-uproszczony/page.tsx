@@ -3,9 +3,9 @@
 import { useMemo, useState } from "react"
 import { calculateTrybUproszczony } from "@/lib/core/modules/kalkulator-mobilny/tryb-uproszczony/calculator"
 import { WerdyktPanel } from "@/components/werdykt"
-
-const inputClass =
-  "w-full min-h-11 rounded-md border border-input bg-background px-3 text-base outline-none focus-visible:ring-2 focus-visible:ring-ring"
+import { Pole } from "@/components/ui/pole"
+import { NaglowekEkranu } from "@/components/wzorce/naglowek-ekranu"
+import { NawigacjaEkranu } from "@/components/nawigacja-ekranu"
 
 export default function TrybUproszczonyPage() {
   const [pojemnoscAh, setPojemnoscAh] = useState("100")
@@ -22,72 +22,59 @@ export default function TrybUproszczonyPage() {
     [pojemnoscAh, napiecieV, mocOdbiornikaW],
   )
 
-
   return (
     <main className="mx-auto flex max-w-md flex-col gap-6 p-6">
-      <div>
-        <h1 className="text-xl font-semibold">Tryb uproszczony</h1>
-        <p className="text-sm text-muted-foreground">
-          To wejście dla kogoś, kto nie chce przechodzić przez pełny proces projektowy — szybka
-          odpowiedź na jedno pytanie. Moduł 12, Ekran 1.
-        </p>
-      </div>
+      <NawigacjaEkranu href="/kalkulatory/tryb-uproszczony" />
+      <NaglowekEkranu tytul="Tryb uproszczony">
+        To wejście dla kogoś, kto nie chce przechodzić przez pełny proces projektowy — szybka
+        odpowiedź na jedno pytanie. Moduł 12, Ekran 1.
+      </NaglowekEkranu>
 
       <div className="flex flex-col gap-4">
-        <label className="flex flex-col gap-1 text-sm">
-          <span className="font-medium">
-            Pojemność akumulatora <span className="text-muted-foreground">[Ah]</span>
-          </span>
-          <input
-            type="number"
-            inputMode="decimal"
-            className={inputClass}
-            value={pojemnoscAh}
-            onChange={(e) => setPojemnoscAh(e.target.value)}
-          />
-        </label>
-        <label className="flex flex-col gap-1 text-sm">
-          <span className="font-medium">
-            Napięcie <span className="text-muted-foreground">[V]</span>
-          </span>
-          <input
-            type="number"
-            inputMode="decimal"
-            className={inputClass}
-            value={napiecieV}
-            onChange={(e) => setNapiecieV(e.target.value)}
-          />
-        </label>
-        <label className="flex flex-col gap-1 text-sm">
-          <span className="font-medium">
-            Moc odbiornika <span className="text-muted-foreground">[W]</span>
-          </span>
-          <input
-            type="number"
-            inputMode="decimal"
-            className={inputClass}
-            value={mocOdbiornikaW}
-            onChange={(e) => setMocOdbiornikaW(e.target.value)}
-          />
-        </label>
+        <Pole
+          label="Pojemność akumulatora"
+          unit="Ah"
+          type="number"
+          inputMode="decimal"
+          value={pojemnoscAh}
+          onChange={(e) => setPojemnoscAh(e.target.value)}
+        />
+        <Pole
+          label="Napięcie"
+          unit="V"
+          type="number"
+          inputMode="decimal"
+          value={napiecieV}
+          onChange={(e) => setNapiecieV(e.target.value)}
+        />
+        <Pole
+          label="Moc odbiornika"
+          unit="W"
+          type="number"
+          inputMode="decimal"
+          value={mocOdbiornikaW}
+          onChange={(e) => setMocOdbiornikaW(e.target.value)}
+        />
       </div>
 
       <WerdyktPanel poziom={result.status === "INVALID_INPUT" ? "blad" : "ok"}>
         {result.status === "INVALID_INPUT" ? (
           <p className="mt-1">Nie da się policzyć — sprawdź dane wejściowe powyżej.</p>
         ) : (
-          <p className="mt-1 text-2xl font-semibold">{result.value.toFixed(1)} {result.unit}</p>
+          <p className="mt-1 text-h1 font-semibold">
+            {result.value.toFixed(1)} {result.unit}
+          </p>
         )}
 
         {result.assumptions.length > 0 && (
-          <ul className="mt-2 text-sm opacity-90">
+          <ul className="mt-2 text-small opacity-90">
             {result.assumptions.map((a) => (
               <li key={a}>Założenie: {a}</li>
             ))}
           </ul>
         )}
 
-        <p className="mt-3 font-mono text-xs opacity-70">{result.formula}</p>
+        <p className="mt-3 font-mono text-caption opacity-70">{result.formula}</p>
       </WerdyktPanel>
     </main>
   )

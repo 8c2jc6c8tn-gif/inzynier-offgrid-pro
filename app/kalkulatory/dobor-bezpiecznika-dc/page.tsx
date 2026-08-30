@@ -2,41 +2,12 @@
 
 import { useMemo, useState } from "react"
 import { calculateDoborBezpiecznika } from "@/lib/core/modules/baterie/dobor-bezpiecznika-dc/calculator"
+import { Pole } from "@/components/ui/pole"
 import { WerdyktPanel, type WerdyktPoziom } from "@/components/werdykt"
 import { NawigacjaEkranu } from "@/components/nawigacja-ekranu"
-
-const inputClass =
-  "w-full min-h-11 rounded-md border border-input bg-background px-3 text-base outline-none focus-visible:ring-2 focus-visible:ring-ring"
-
-function Field({
-  label,
-  unit,
-  value,
-  onChange,
-  hint,
-}: {
-  label: string
-  unit: string
-  value: string
-  onChange: (value: string) => void
-  hint?: string
-}) {
-  return (
-    <label className="flex flex-col gap-1 text-sm">
-      <span className="font-medium">
-        {label} <span className="text-muted-foreground">[{unit}]</span>
-      </span>
-      <input
-        type="number"
-        inputMode="decimal"
-        className={inputClass}
-        value={value}
-        onChange={(e) => onChange(e.target.value)}
-      />
-      {hint && <span className="text-xs text-muted-foreground">{hint}</span>}
-    </label>
-  )
-}
+import { NaglowekEkranu } from "@/components/wzorce/naglowek-ekranu"
+import { WynikGlowny } from "@/components/wzorce/wynik-glowny"
+import { WynikSzczegoly } from "@/components/wzorce/wynik-szczegoly"
 
 export default function DoborBezpiecznikaDcPage() {
   const [napiecieBateriiV, setNapiecieBateriiV] = useState("48")
@@ -82,61 +53,45 @@ export default function DoborBezpiecznikaDcPage() {
   return (
     <main className="mx-auto flex max-w-md flex-col gap-6 p-6">
       <NawigacjaEkranu href="/kalkulatory/dobor-bezpiecznika-dc" />
-      <div>
-        <h1 className="text-xl font-semibold">Dobór bezpiecznika DC</h1>
-        <p className="text-sm text-muted-foreground">
-          Bezpiecznik musi umieć ugasić pożar elektryczny, a nie tylko się przepalić — źle
-          dobrany pod względem AIC sam staje się źródłem łuku elektrycznego. Moduł 4, Ekran 24.
-        </p>
-      </div>
+      <NaglowekEkranu tytul="Dobór bezpiecznika DC">
+        Bezpiecznik musi umieć ugasić pożar elektryczny, a nie tylko się przepalić — źle dobrany
+        pod względem AIC sam staje się źródłem łuku elektrycznego. Moduł 4, Ekran 24.
+      </NaglowekEkranu>
 
       <div className="flex flex-col gap-4">
-        <Field
+        <Pole
           label="Napięcie baterii"
           unit="V"
+          type="number"
+          inputMode="decimal"
           value={napiecieBateriiV}
-          onChange={setNapiecieBateriiV}
+          onChange={(e) => setNapiecieBateriiV(e.target.value)}
         />
-        <Field
+        <Pole
           label="Rezystancja wewnętrzna pakietu"
           unit="Ω"
+          type="number"
+          inputMode="decimal"
           value={rezystancjaWewnetrznaOhm}
-          onChange={setRezystancjaWewnetrznaOhm}
+          onChange={(e) => setRezystancjaWewnetrznaOhm(e.target.value)}
           hint="Z pomiaru lub karty katalogowej ogniw."
         />
-        <Field
+        <Pole
           label="AIC wybranego bezpiecznika"
           unit="A"
+          type="number"
+          inputMode="decimal"
           value={aicBezpiecznikaA}
-          onChange={setAicBezpiecznikaA}
+          onChange={(e) => setAicBezpiecznikaA(e.target.value)}
           hint="Zdolność wyłączania, z karty katalogowej bezpiecznika."
         />
       </div>
 
       <WerdyktPanel poziom={verdictPoziom[verdict]} etykieta={verdictLabel[verdict]}>
         {result.status !== "INVALID_INPUT" && (
-          <p className="mt-1 text-2xl font-semibold">
-            I_zw = {result.value.pradZwarciowyA.toLocaleString("pl-PL")} A
-          </p>
+          <WynikGlowny>I_zw = {result.value.pradZwarciowyA.toLocaleString("pl-PL")} A</WynikGlowny>
         )}
-
-        {result.assumptions.length > 0 && (
-          <ul className="mt-2 text-sm opacity-90">
-            {result.assumptions.map((a) => (
-              <li key={a}>Założenie: {a}</li>
-            ))}
-          </ul>
-        )}
-
-        {result.warnings.length > 0 && (
-          <ul className="mt-2 space-y-1 text-sm">
-            {result.warnings.map((w) => (
-              <li key={w.code}>{w.message}</li>
-            ))}
-          </ul>
-        )}
-
-        <p className="mt-3 font-mono text-xs opacity-70">{result.formula}</p>
+        <WynikSzczegoly assumptions={result.assumptions} warnings={result.warnings} formula={result.formula} />
       </WerdyktPanel>
     </main>
   )

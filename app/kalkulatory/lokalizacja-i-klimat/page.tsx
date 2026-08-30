@@ -3,11 +3,10 @@
 import { useMemo, useState } from "react"
 import { calculateLokalizacja } from "@/lib/core/modules/lokalizacja/lokalizacja-i-klimat/calculator"
 import { WerdyktPanel } from "@/components/werdykt"
-import { cn } from "@/lib/utils"
 import { NawigacjaEkranu } from "@/components/nawigacja-ekranu"
-
-const inputClass =
-  "w-full min-h-11 rounded-md border border-input bg-background px-3 text-base outline-none focus-visible:ring-2 focus-visible:ring-ring"
+import { Pole } from "@/components/ui/pole"
+import { StanPusty } from "@/components/ui/stany"
+import { NaglowekEkranu } from "@/components/wzorce/naglowek-ekranu"
 
 export default function LokalizacjaIKlimatPage() {
   const [adres, setAdres] = useState("")
@@ -29,7 +28,7 @@ export default function LokalizacjaIKlimatPage() {
   const dodatki = (
     <>
       {result.assumptions.length > 0 && (
-        <ul className="mt-2 text-sm opacity-90">
+        <ul className="mt-2 text-small opacity-90">
           {result.assumptions.map((a) => (
             <li key={a}>Założenie: {a}</li>
           ))}
@@ -37,7 +36,7 @@ export default function LokalizacjaIKlimatPage() {
       )}
 
       {result.warnings.length > 0 && (
-        <ul className="mt-2 space-y-1 text-sm">
+        <ul className="mt-2 space-y-1 text-small">
           {result.warnings.map((w) => (
             <li key={w.code}>{w.message}</li>
           ))}
@@ -49,66 +48,45 @@ export default function LokalizacjaIKlimatPage() {
   return (
     <main className="mx-auto flex max-w-md flex-col gap-6 p-6">
       <NawigacjaEkranu href="/kalkulatory/lokalizacja-i-klimat" />
-      <div>
-        <h1 className="text-xl font-semibold">Lokalizacja i dane klimatyczne</h1>
-        <p className="text-sm text-muted-foreground">
-          Dane stąd zasilają niemal wszystkie pozostałe moduły — kąt padania słońca, strefę
-          wiatrową i śniegową, minima temperaturowe do stress-testów zimowych. Moduł 1, Ekran 1.
-          Tryb offline: wpisz dane ręcznie.
-        </p>
-      </div>
+      <NaglowekEkranu tytul="Lokalizacja i dane klimatyczne">
+        Dane stąd zasilają niemal wszystkie pozostałe moduły — kąt padania słońca, strefę
+        wiatrową i śniegową, minima temperaturowe do stress-testów zimowych. Moduł 1, Ekran 1.
+        Tryb offline: wpisz dane ręcznie.
+      </NaglowekEkranu>
 
       <div className="flex flex-col gap-4">
-        <label className="flex flex-col gap-1 text-sm">
-          <span className="font-medium">Adres / działka (opcjonalnie)</span>
-          <input className={inputClass} value={adres} onChange={(e) => setAdres(e.target.value)} />
-        </label>
-        <label className="flex flex-col gap-1 text-sm">
-          <span className="font-medium">
-            Szerokość geograficzna <span className="text-muted-foreground">[°]</span>
-          </span>
-          <input
-            type="number"
-            inputMode="decimal"
-            className={inputClass}
-            value={szerokosc}
-            onChange={(e) => setSzerokosc(e.target.value)}
-            placeholder="np. 52.23"
-          />
-        </label>
-        <label className="flex flex-col gap-1 text-sm">
-          <span className="font-medium">
-            Długość geograficzna <span className="text-muted-foreground">[°]</span>
-          </span>
-          <input
-            type="number"
-            inputMode="decimal"
-            className={inputClass}
-            value={dlugosc}
-            onChange={(e) => setDlugosc(e.target.value)}
-            placeholder="np. 21.01"
-          />
-        </label>
-        <label className="flex flex-col gap-1 text-sm">
-          <span className="font-medium">
-            Temperatura minimalna w lokalizacji <span className="text-muted-foreground">[°C]</span>
-          </span>
-          <input
-            type="number"
-            inputMode="decimal"
-            className={inputClass}
-            value={temperaturaMin}
-            onChange={(e) => setTemperaturaMin(e.target.value)}
-            placeholder="np. -22"
-          />
-        </label>
+        <Pole label="Adres / działka (opcjonalnie)" value={adres} onChange={(e) => setAdres(e.target.value)} />
+        <Pole
+          label="Szerokość geograficzna"
+          unit="°"
+          type="number"
+          inputMode="decimal"
+          value={szerokosc}
+          onChange={(e) => setSzerokosc(e.target.value)}
+          placeholder="np. 52.23"
+        />
+        <Pole
+          label="Długość geograficzna"
+          unit="°"
+          type="number"
+          inputMode="decimal"
+          value={dlugosc}
+          onChange={(e) => setDlugosc(e.target.value)}
+          placeholder="np. 21.01"
+        />
+        <Pole
+          label="Temperatura minimalna w lokalizacji"
+          unit="°C"
+          type="number"
+          inputMode="decimal"
+          value={temperaturaMin}
+          onChange={(e) => setTemperaturaMin(e.target.value)}
+          placeholder="np. -22"
+        />
       </div>
 
       {result.status === "INCOMPLETE" ? (
-        <div className={cn("rounded-lg border-2 p-4", "border-muted-foreground/40 bg-muted text-muted-foreground")}>
-          <p className="font-medium">Uzupełnij współrzędne i temperaturę minimalną.</p>
-          {dodatki}
-        </div>
+        <StanPusty tytul="Uzupełnij współrzędne i temperaturę minimalną.">{dodatki}</StanPusty>
       ) : (
         <WerdyktPanel
           poziom={result.status === "INVALID_INPUT" ? "blad" : "ok"}

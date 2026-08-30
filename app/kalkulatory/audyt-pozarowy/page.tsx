@@ -2,8 +2,14 @@ import { calculateAuditPozarowy } from "@/lib/core/modules/bezpieczenstwo/audyt-
 import { SAMPLE_AUDIT_ITEMS } from "@/lib/core/modules/bezpieczenstwo/audyt-pozarowy/constants"
 import { WerdyktPanel, type WerdyktPoziom } from "@/components/werdykt"
 import { NawigacjaEkranu } from "@/components/nawigacja-ekranu"
+import { NaglowekEkranu } from "@/components/wzorce/naglowek-ekranu"
+import { ListaOdczytowa, type PozycjaOdczytowa } from "@/components/wzorce/panel-odczytowy"
 
-const STATUS_ICON = { ok: "🟢", warning: "🟡", critical: "🔴" } as const
+const STATUS_NA_POZIOM: Record<(typeof SAMPLE_AUDIT_ITEMS)[number]["status"], WerdyktPoziom> = {
+  ok: "ok",
+  warning: "uwaga",
+  critical: "blad",
+}
 
 export default function AudytPozarowyPage() {
   const result = calculateAuditPozarowy(SAMPLE_AUDIT_ITEMS)
@@ -15,40 +21,32 @@ export default function AudytPozarowyPage() {
         ? "uwaga"
         : "ok"
 
+  const pozycje: PozycjaOdczytowa[] = SAMPLE_AUDIT_ITEMS.map((item) => ({
+    id: item.id,
+    poziom: STATUS_NA_POZIOM[item.status],
+    tytul: `${item.kategoria} — ${item.element}`,
+    opis: item.opis,
+  }))
+
   return (
     <main className="mx-auto flex max-w-md flex-col gap-6 p-6">
       <NawigacjaEkranu href="/kalkulatory/audyt-pozarowy" />
-      <div>
-        <h1 className="text-xl font-semibold">Autonomiczny audyt bezpieczeństwa pożarowego</h1>
-        <p className="text-sm text-muted-foreground">
-          AI regularnie sprawdza, czy w razie pożaru wszystko zadziała tak, jak powinno — żeby
-          nie odkryć zepsutego czujnika dopiero w trakcie prawdziwego pożaru. Moduł 8, Ekran 11.
-        </p>
-      </div>
+      <NaglowekEkranu tytul="Autonomiczny audyt bezpieczeństwa pożarowego">
+        AI regularnie sprawdza, czy w razie pożaru wszystko zadziała tak, jak powinno — żeby nie
+        odkryć zepsutego czujnika dopiero w trakcie prawdziwego pożaru. Moduł 8, Ekran 11.
+      </NaglowekEkranu>
 
       <WerdyktPanel poziom={poziom}>
-        <p className="mt-1 text-2xl font-semibold">{result.value.procentGotowosci}% gotowości</p>
-        <p className="mt-1 text-sm">
+        <p className="mt-1 text-h1 font-semibold">{result.value.procentGotowosci}% gotowości</p>
+        <p className="mt-1 text-small">
           {result.value.liczbaOk} OK, {result.value.liczbaOstrzezen} do sprawdzenia,{" "}
           {result.value.liczbaKrytycznych} krytycznych — z {result.value.razem} elementów.
         </p>
       </WerdyktPanel>
 
-      <ul className="flex flex-col gap-2">
-        {SAMPLE_AUDIT_ITEMS.map((item) => (
-          <li key={item.id} className="flex items-start gap-3 rounded-md border p-3 text-sm">
-            <span>{STATUS_ICON[item.status]}</span>
-            <div>
-              <span className="block font-medium">
-                {item.kategoria} — {item.element}
-              </span>
-              {item.opis && <span className="block text-muted-foreground">{item.opis}</span>}
-            </div>
-          </li>
-        ))}
-      </ul>
+      <ListaOdczytowa pozycje={pozycje} />
 
-      <p className="text-xs text-muted-foreground">
+      <p className="text-caption text-muted-foreground">
         {result.assumptions.join(" ")} To ekran wyłącznie do odczytu — nie ma tu pól do
         wypełnienia, tylko wyniki innych systemów.
       </p>

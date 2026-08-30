@@ -1,5 +1,7 @@
 import { MIGAWKA, TRASY_KABLOWE_RULES } from "@/lib/core/modules/okablowanie/trasy-kablowe/constants"
 import { NawigacjaEkranu } from "@/components/nawigacja-ekranu"
+import { NaglowekEkranu } from "@/components/wzorce/naglowek-ekranu"
+import { MigawkaBox } from "@/components/wzorce/migawka-box"
 
 function TrasyIlustracja() {
   return (
@@ -65,25 +67,20 @@ export default function TrasyKabloweePage() {
   return (
     <main className="mx-auto flex max-w-md flex-col gap-6 p-6">
       <NawigacjaEkranu href="/kalkulatory/trasy-kablowe" />
-      <div>
-        <h1 className="text-xl font-semibold">Trasy kablowe — prowadzenie i separacja</h1>
-        <p className="text-sm text-muted-foreground">Moduł 5, Ekran 19.</p>
-      </div>
+      <NaglowekEkranu tytul="Trasy kablowe — prowadzenie i separacja">Moduł 5, Ekran 19.</NaglowekEkranu>
 
       <TrasyIlustracja />
 
       <ul className="flex flex-col gap-3">
         {TRASY_KABLOWE_RULES.map((rule) => (
-          <li key={rule.id} className="rounded-md border p-3 text-sm">
+          <li key={rule.id} className="rounded-md border p-3 text-small">
             <span className="block font-medium">{rule.tytul}</span>
             <span className="block text-muted-foreground">{rule.opis}</span>
           </li>
         ))}
       </ul>
 
-      <p className="rounded-lg border-2 border-muted-foreground/30 bg-muted p-4 text-sm italic text-muted-foreground">
-        {MIGAWKA}
-      </p>
+      <MigawkaBox>{MIGAWKA}</MigawkaBox>
     </main>
   )
 }
