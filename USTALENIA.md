@@ -2,8 +2,8 @@
 
 **Projekt:** Inżynier Offgrid Pro (aplikacja Off‑Grid PV)
 **Cel dokumentu:** jedno miejsce, w którym spisane są WSZYSTKIE zatwierdzone zasady i decyzje.
-**Wersja zasad:** 0.1.3
-**Data:** 2026‑08‑28
+**Wersja zasad:** 0.1.4
+**Data:** 2026‑08‑30
 **Target:** Web / PWA (offline‑first), architektura gotowa na przeniesienie na mobile
 
 > Uwaga: kolejność budowy aplikacji (dawny „punkt B" / §14 roadmapy) była celowo **pominięta** w tym dokumencie jako wstrzymana. **Wznowiona 2026‑08‑29** (decyzja autora) — pełna kolejność i status w `ZASADY_APLIKACJI.md` §14. Start: szkielet architektury, potem Rozdział 0+1 (Geostruktura + Bilans obciążeń).
@@ -51,6 +51,7 @@
 2. **Tryb Inżyniera** — przełącznik globalny; domyślnie tryb prosty (suwaki, kafle). Stan trwały.
 3. **Powiązania Bloków** — pole `powiazania: string[]`; linki w UI + propagacja danych między funkcjami.
 4. **Mobile‑first** — dotyk ≥44px, input ≥16px, brak auto‑zoom iOS, potem desktop.
+5. **Pulpit adaptacyjny** — pulpit (13 kafli + Kafel 14 Ustawienia) i wnętrze każdego modułu używają tego samego mechanizmu personalizacji (proponuje, user zawsze zmienia, nic nie znika). Szczegóły: `docs/standards/08-ui-ux.md` §8.11, `docs/pulpit-i-nawigacja.md`.
 
 ### 9. Audit trail i błędy
 - Każde nietrywialne przeliczenie loguje: `traceId`, funkcja, wejścia, wynik, wersja jądra, czas („Czarna Skrzynka").
@@ -110,7 +111,7 @@ Pierwotnie: Rozdział 7 ma **50 funkcji**, wartość „3" widoczna w źródle u
 
 | Element | Wartość |
 |---|---|
-| Wersja zasad | 0.1.3 |
+| Wersja zasad | 0.1.4 |
 | Rozdziały Biblii objęte planem | 13 (0–12 + załączniki) |
 | Funkcje Biblii | 579 (zweryfikowane programistycznie, D‑01 zamknięty) |
 | Funkcje z zaimplementowanym kodem | 0 |
