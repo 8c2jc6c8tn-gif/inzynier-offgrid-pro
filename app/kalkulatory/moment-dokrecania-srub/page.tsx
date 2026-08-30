@@ -5,6 +5,7 @@ import { calculateMomentDokrecania } from "@/lib/core/modules/baterie/moment-dok
 import { CHECKLIST_ITEMS, OSTRZEZENIA_STALE } from "@/lib/core/modules/baterie/moment-dokrecania-srub/constants"
 import { WerdyktPanel } from "@/components/werdykt"
 import { cn } from "@/lib/utils"
+import { NawigacjaEkranu } from "@/components/nawigacja-ekranu"
 
 export default function MomentDokrecaniaSrubPage() {
   const [potwierdzoneIds, setPotwierdzoneIds] = useState<string[]>([])
@@ -22,6 +23,7 @@ export default function MomentDokrecaniaSrubPage() {
 
   return (
     <main className="mx-auto flex max-w-md flex-col gap-6 p-6">
+      <NawigacjaEkranu href="/kalkulatory/moment-dokrecania-srub" />
       <div>
         <h1 className="text-xl font-semibold">Moment dokręcania śrub</h1>
         <p className="text-sm text-muted-foreground">

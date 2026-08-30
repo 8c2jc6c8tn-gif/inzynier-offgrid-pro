@@ -134,3 +134,14 @@ export const USTAWIENIA_KAFEL = {
 export function znajdzKafel(id: number): KafelEntry | undefined {
   return KAFLE.find((k) => k.id === id)
 }
+
+/** Odwrotne wyszukiwanie: dla danego href ekranu znajdź jego kafel (do okruszków/przycisku wstecz). */
+export function znajdzKafelIEkranPoHref(
+  href: string,
+): { kafel: KafelEntry; ekran: EkranEntry } | undefined {
+  for (const kafel of KAFLE) {
+    const ekran = kafel.ekrany.find((e) => e.href === href)
+    if (ekran) return { kafel, ekran }
+  }
+  return undefined
+}

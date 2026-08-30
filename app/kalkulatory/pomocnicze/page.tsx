@@ -4,6 +4,7 @@ import { useMemo, useState } from "react"
 import { calculateKalkulatoryPomocnicze } from "@/lib/core/modules/zapotrzebowanie/kalkulatory-pomocnicze/calculator"
 import type { KalkulatoryPomocniczeInput } from "@/lib/core/modules/zapotrzebowanie/kalkulatory-pomocnicze/input"
 import { WerdyktPanel, type WerdyktPoziom } from "@/components/werdykt"
+import { NawigacjaEkranu } from "@/components/nawigacja-ekranu"
 
 type Mode = KalkulatoryPomocniczeInput["mode"]
 
@@ -83,6 +84,7 @@ export default function KalkulatoryPomocniczePage() {
 
   return (
     <main className="mx-auto flex max-w-md flex-col gap-6 p-6">
+      <NawigacjaEkranu href="/kalkulatory/pomocnicze" />
       <div>
         <h1 className="text-xl font-semibold">Kalkulatory pomocnicze</h1>
         <p className="text-sm text-muted-foreground">

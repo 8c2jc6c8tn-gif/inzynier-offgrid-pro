@@ -5,6 +5,7 @@ import { calculatePorownanieTechnologii } from "@/lib/core/modules/baterie/porow
 import { CENA_STARTOWA_LABELS } from "@/lib/core/modules/baterie/porownanie-technologii/constants"
 import { WerdyktPanel } from "@/components/werdykt"
 import { cn } from "@/lib/utils"
+import { NawigacjaEkranu } from "@/components/nawigacja-ekranu"
 
 const inputClass =
   "w-full min-h-11 rounded-md border border-input bg-background px-3 text-base outline-none focus-visible:ring-2 focus-visible:ring-ring"
@@ -24,6 +25,7 @@ export default function PorownanieTechnologiiMagazynowPage() {
 
   return (
     <main className="mx-auto flex max-w-2xl flex-col gap-6 p-6">
+      <NawigacjaEkranu href="/kalkulatory/porownanie-technologii-magazynow" />
       <div>
         <h1 className="text-xl font-semibold">Porównanie technologii magazynów</h1>
         <p className="text-sm text-muted-foreground">

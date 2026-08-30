@@ -3,6 +3,7 @@
 import { useMemo, useState } from "react"
 import { calculateCopPompyCiepla } from "@/lib/core/modules/ogrzewanie/cop-pompy-ciepla/calculator"
 import { WerdyktPanel, type WerdyktPoziom } from "@/components/werdykt"
+import { NawigacjaEkranu } from "@/components/nawigacja-ekranu"
 
 const inputClass =
   "w-full min-h-11 rounded-md border border-input bg-background px-3 text-base outline-none focus-visible:ring-2 focus-visible:ring-ring"
@@ -25,6 +26,7 @@ export default function CopPompyCieplaPage() {
 
   return (
     <main className="mx-auto flex max-w-md flex-col gap-6 p-6">
+      <NawigacjaEkranu href="/kalkulatory/cop-pompy-ciepla" />
       <div>
         <h1 className="text-xl font-semibold">Pompa ciepła — COP w funkcji temperatury</h1>
         <p className="text-sm text-muted-foreground">

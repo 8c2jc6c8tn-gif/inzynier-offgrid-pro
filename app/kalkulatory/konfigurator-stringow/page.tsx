@@ -4,6 +4,7 @@ import { useMemo, useState } from "react"
 import { calculateKonfiguratorStringow } from "@/lib/core/modules/pv/konfigurator-stringow/calculator"
 import type { KonfiguratorStringowInput } from "@/lib/core/modules/pv/konfigurator-stringow/input"
 import { WerdyktPanel, type WerdyktPoziom } from "@/components/werdykt"
+import { NawigacjaEkranu } from "@/components/nawigacja-ekranu"
 
 type Mode = KonfiguratorStringowInput["mode"]
 
@@ -75,6 +76,7 @@ export default function KonfiguratorStringowPage() {
 
   return (
     <main className="mx-auto flex max-w-md flex-col gap-6 p-6">
+      <NawigacjaEkranu href="/kalkulatory/konfigurator-stringow" />
       <div>
         <h1 className="text-xl font-semibold">Konfigurator stringów</h1>
         <p className="text-sm text-muted-foreground">

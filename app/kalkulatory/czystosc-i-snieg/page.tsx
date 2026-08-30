@@ -7,6 +7,7 @@ import {
 } from "@/lib/core/modules/pv/czystosc-i-snieg/calculator"
 import { WerdyktPanel } from "@/components/werdykt"
 import { cn } from "@/lib/utils"
+import { NawigacjaEkranu } from "@/components/nawigacja-ekranu"
 
 const inputClass =
   "w-full min-h-11 rounded-md border border-input bg-background px-3 text-base outline-none focus-visible:ring-2 focus-visible:ring-ring"
@@ -48,6 +49,7 @@ export default function CzystoscISniegPage() {
 
   return (
     <main className="mx-auto flex max-w-md flex-col gap-6 p-6">
+      <NawigacjaEkranu href="/kalkulatory/czystosc-i-snieg" />
       <div>
         <h1 className="text-xl font-semibold">Czystość i śnieg na panelach</h1>
         <p className="text-sm text-muted-foreground">

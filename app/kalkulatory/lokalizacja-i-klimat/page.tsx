@@ -4,6 +4,7 @@ import { useMemo, useState } from "react"
 import { calculateLokalizacja } from "@/lib/core/modules/lokalizacja/lokalizacja-i-klimat/calculator"
 import { WerdyktPanel } from "@/components/werdykt"
 import { cn } from "@/lib/utils"
+import { NawigacjaEkranu } from "@/components/nawigacja-ekranu"
 
 const inputClass =
   "w-full min-h-11 rounded-md border border-input bg-background px-3 text-base outline-none focus-visible:ring-2 focus-visible:ring-ring"
@@ -47,6 +48,7 @@ export default function LokalizacjaIKlimatPage() {
 
   return (
     <main className="mx-auto flex max-w-md flex-col gap-6 p-6">
+      <NawigacjaEkranu href="/kalkulatory/lokalizacja-i-klimat" />
       <div>
         <h1 className="text-xl font-semibold">Lokalizacja i dane klimatyczne</h1>
         <p className="text-sm text-muted-foreground">

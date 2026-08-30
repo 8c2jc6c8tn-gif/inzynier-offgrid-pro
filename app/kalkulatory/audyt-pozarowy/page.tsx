@@ -1,6 +1,7 @@
 import { calculateAuditPozarowy } from "@/lib/core/modules/bezpieczenstwo/audyt-pozarowy/calculator"
 import { SAMPLE_AUDIT_ITEMS } from "@/lib/core/modules/bezpieczenstwo/audyt-pozarowy/constants"
 import { WerdyktPanel, type WerdyktPoziom } from "@/components/werdykt"
+import { NawigacjaEkranu } from "@/components/nawigacja-ekranu"
 
 const STATUS_ICON = { ok: "🟢", warning: "🟡", critical: "🔴" } as const
 
@@ -16,6 +17,7 @@ export default function AudytPozarowyPage() {
 
   return (
     <main className="mx-auto flex max-w-md flex-col gap-6 p-6">
+      <NawigacjaEkranu href="/kalkulatory/audyt-pozarowy" />
       <div>
         <h1 className="text-xl font-semibold">Autonomiczny audyt bezpieczeństwa pożarowego</h1>
         <p className="text-sm text-muted-foreground">
