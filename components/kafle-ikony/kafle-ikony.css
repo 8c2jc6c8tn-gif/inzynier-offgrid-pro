@@ -1,0 +1,153 @@
+/**
+ * Animacje ikon kafli pulpitu (kafle 1–7). Wszystkie selektory zaczepione o `.kafel-ikona-svg`
+ * (nadawana każdej instancji <svg><use></svg> w ikona.tsx) i wszystkie nazwy @keyframes z
+ * prefiksem `ki-` — to plik globalny (import w definicje-symboli.tsx), a nazwy typu `.bar`
+ * czy `.flow` byłyby zbyt ogólne, żeby wypuszczać je bez przestrzeni nazw do reszty aplikacji.
+ * Źródło treści/timing: artefakt roboczy "Off-Grid Tile Set" — przy kolejnym zablokowanym
+ * kaflu (08+) dopisać tu jego animacje i symbol w definicje-symboli.tsx.
+ */
+
+@media (prefers-reduced-motion: reduce) {
+  .kafel-ikona-svg * {
+    animation-play-state: paused !important;
+  }
+}
+
+/* ============ generyczne, współdzielone między kaflami ============ */
+.kafel-ikona-svg .cloud { transform-box: fill-box; transform-origin: center; animation: ki-cloud-drift 16s ease-in-out infinite; }
+@keyframes ki-cloud-drift { 0%, 100% { transform: translateX(0); } 50% { transform: translateX(10px); } }
+
+.kafel-ikona-svg .particle { transform-box: fill-box; transform-origin: center; animation: ki-particle-float 4.6s ease-in-out infinite; }
+@keyframes ki-particle-float { 0% { transform: translateY(0); opacity: 0; } 20% { opacity: .7; } 80% { opacity: .7; } 100% { transform: translateY(-20px); opacity: 0; } }
+
+.kafel-ikona-svg .contour { animation: ki-contour-pulse 4s ease-in-out infinite; }
+@keyframes ki-contour-pulse { 0%, 100% { opacity: .32; } 50% { opacity: .8; } }
+
+.kafel-ikona-svg .sat-light { transform-box: fill-box; transform-origin: center; animation: ki-blink 1.6s ease-in-out infinite; }
+@keyframes ki-blink { 0%, 100% { opacity: .35; } 50% { opacity: 1; } }
+
+.kafel-ikona-svg .signal, .kafel-ikona-svg .flow { animation: ki-dash-flow 1.8s linear infinite; }
+@keyframes ki-dash-flow { to { stroke-dashoffset: -32; } }
+
+.kafel-ikona-svg .packet { animation: ki-packet-travel 3s ease-in-out infinite; opacity: 0; }
+@keyframes ki-packet-travel { 0% { offset-distance: 0%; opacity: 0; } 10% { opacity: 1; } 88% { opacity: 1; } 100% { offset-distance: 100%; opacity: 0; } }
+
+.kafel-ikona-svg .gps-ring { transform-box: fill-box; transform-origin: center; animation: ki-gps-pulse 2.4s ease-out infinite; }
+@keyframes ki-gps-pulse { 0% { transform: scale(.55); opacity: .9; } 70% { opacity: 0; } 100% { transform: scale(2.3); opacity: 0; } }
+
+.kafel-ikona-svg .needle { transform-box: fill-box; transform-origin: center; animation: ki-spin-slow 6s linear infinite; }
+@keyframes ki-spin-slow { to { transform: rotate(360deg); } }
+
+.kafel-ikona-svg .window-glow { transform-box: fill-box; transform-origin: center; animation: ki-glow-pulse 2.4s ease-in-out infinite; }
+@keyframes ki-glow-pulse { 0%, 100% { opacity: .65; } 50% { opacity: 1; } }
+
+.kafel-ikona-svg .bolt { transform-box: fill-box; transform-origin: center; animation: ki-bolt-pulse 1.6s ease-in-out infinite; }
+@keyframes ki-bolt-pulse { 0%, 100% { opacity: .45; transform: scale(.85); } 50% { opacity: 1; transform: scale(1.08); } }
+
+.kafel-ikona-svg .flow-packet { animation: ki-flow-travel 1.8s ease-in-out infinite; opacity: 0; }
+@keyframes ki-flow-travel { 0% { offset-distance: 0%; opacity: 0; } 12% { opacity: 1; } 88% { opacity: 1; } 100% { offset-distance: 100%; opacity: 0; } }
+
+.kafel-ikona-svg .bar { transform-box: fill-box; transform-origin: bottom; animation: ki-bar-grow 2.6s ease-in-out infinite; }
+@keyframes ki-bar-grow { 0%, 100% { transform: scaleY(.72); } 50% { transform: scaleY(1); } }
+
+.kafel-ikona-svg .heat-wave { transform-box: fill-box; transform-origin: center; animation: ki-heat-rise 2.4s ease-in-out infinite; opacity: 0; }
+@keyframes ki-heat-rise { 0% { transform: translateY(4px); opacity: 0; } 30% { opacity: .85; } 100% { transform: translateY(-10px); opacity: 0; } }
+
+/* ============ Kafle 02 / 03 — wspólny zegar dzień-noc (20s) ============ */
+.kafel-ikona-svg .sky-day { animation: ki-phase-day 20s linear infinite; }
+.kafel-ikona-svg .sky-evening { animation: ki-phase-evening 20s linear infinite; }
+.kafel-ikona-svg .sky-night { animation: ki-phase-night 20s linear infinite; }
+.kafel-ikona-svg .sky-dawn { animation: ki-phase-dawn 20s linear infinite; }
+@keyframes ki-phase-day { 0% { opacity: 1; } 20% { opacity: 1; } 28% { opacity: 0; } 92% { opacity: 0; } 100% { opacity: 1; } }
+@keyframes ki-phase-evening { 0% { opacity: 0; } 18% { opacity: 0; } 28% { opacity: 1; } 45% { opacity: 1; } 55% { opacity: 0; } 100% { opacity: 0; } }
+@keyframes ki-phase-night { 0% { opacity: 0; } 45% { opacity: 0; } 55% { opacity: 1; } 78% { opacity: 1; } 88% { opacity: 0; } 100% { opacity: 0; } }
+@keyframes ki-phase-dawn { 0% { opacity: 0; } 78% { opacity: 0; } 88% { opacity: 1; } 96% { opacity: 1; } 100% { opacity: 0; } }
+
+.kafel-ikona-svg .phase-sun { animation: ki-phase-sun-op 20s linear infinite; }
+@keyframes ki-phase-sun-op { 0% { opacity: 1; } 20% { opacity: 1; } 30% { opacity: .55; } 45% { opacity: .15; } 55% { opacity: 0; } 78% { opacity: 0; } 88% { opacity: .4; } 96% { opacity: .9; } 100% { opacity: 1; } }
+.kafel-ikona-svg .sun-glow { animation: ki-sun-twinkle 3s ease-in-out infinite; transform-box: fill-box; transform-origin: center; }
+@keyframes ki-sun-twinkle { 0%, 100% { opacity: .6; } 50% { opacity: 1; } }
+
+.kafel-ikona-svg .phase-moon { animation: ki-phase-moon-op 20s linear infinite; }
+@keyframes ki-phase-moon-op { 0% { opacity: 0; } 20% { opacity: 0; } 30% { opacity: .3; } 45% { opacity: .85; } 55% { opacity: 1; } 78% { opacity: 1; } 88% { opacity: .5; } 96% { opacity: 0; } 100% { opacity: 0; } }
+.kafel-ikona-svg .star { animation: ki-blink 2.4s ease-in-out infinite; }
+
+.kafel-ikona-svg .window-phase { animation: ki-phase-window 20s linear infinite; }
+@keyframes ki-phase-window { 0% { opacity: .06; } 20% { opacity: .06; } 32% { opacity: .5; } 45% { opacity: .9; } 55% { opacity: 1; } 78% { opacity: 1; } 88% { opacity: .45; } 96% { opacity: .08; } 100% { opacity: .06; } }
+
+.kafel-ikona-svg .bars-scale-demand { animation: ki-phase-demand 20s linear infinite; transform-box: fill-box; transform-origin: bottom; }
+@keyframes ki-phase-demand { 0% { transform: scaleY(.4); } 20% { transform: scaleY(.4); } 32% { transform: scaleY(.75); } 45% { transform: scaleY(1); } 55% { transform: scaleY(.85); } 78% { transform: scaleY(.8); } 88% { transform: scaleY(.55); } 96% { transform: scaleY(.4); } 100% { transform: scaleY(.4); } }
+
+.kafel-ikona-svg .bars-scale-production { animation: ki-phase-production-scale 20s linear infinite; transform-box: fill-box; transform-origin: bottom; }
+@keyframes ki-phase-production-scale { 0% { transform: scaleY(1); } 20% { transform: scaleY(1); } 30% { transform: scaleY(.4); } 45% { transform: scaleY(.15); } 55% { transform: scaleY(.02); } 78% { transform: scaleY(.02); } 88% { transform: scaleY(.2); } 96% { transform: scaleY(.55); } 100% { transform: scaleY(1); } }
+.kafel-ikona-svg .phase-production { animation: ki-phase-production-op 20s linear infinite; }
+@keyframes ki-phase-production-op { 0% { opacity: 1; } 20% { opacity: 1; } 30% { opacity: .4; } 45% { opacity: .15; } 55% { opacity: .02; } 78% { opacity: .02; } 88% { opacity: .2; } 96% { opacity: .55; } 100% { opacity: 1; } }
+
+.kafel-ikona-svg .kw-day, .kafel-ikona-svg .kw-evening, .kafel-ikona-svg .kw-night, .kafel-ikona-svg .kw-dawn { opacity: 0; }
+.kafel-ikona-svg .kw-day { animation: ki-kwd-day 20s linear infinite; }
+.kafel-ikona-svg .kw-evening { animation: ki-kwd-evening 20s linear infinite; }
+.kafel-ikona-svg .kw-night { animation: ki-kwd-night 20s linear infinite; }
+.kafel-ikona-svg .kw-dawn { animation: ki-kwd-dawn 20s linear infinite; }
+@keyframes ki-kwd-day { 0% { opacity: 1; } 22% { opacity: 1; } 27% { opacity: 0; } 97% { opacity: 0; } 100% { opacity: 1; } }
+@keyframes ki-kwd-evening { 0% { opacity: 0; } 23% { opacity: 0; } 29% { opacity: 1; } 43% { opacity: 1; } 48% { opacity: 0; } 100% { opacity: 0; } }
+@keyframes ki-kwd-night { 0% { opacity: 0; } 47% { opacity: 0; } 53% { opacity: 1; } 76% { opacity: 1; } 81% { opacity: 0; } 100% { opacity: 0; } }
+@keyframes ki-kwd-dawn { 0% { opacity: 0; } 80% { opacity: 0; } 86% { opacity: 1; } 94% { opacity: 1; } 98% { opacity: 0; } 100% { opacity: 0; } }
+
+/* ============ Kafel 04 — magazyn energii ============ */
+.kafel-ikona-svg .cell-level { transform-box: fill-box; transform-origin: bottom; animation: ki-cell-breathe 8s ease-in-out infinite; }
+@keyframes ki-cell-breathe { 0%, 100% { transform: scaleY(.45); } 50% { transform: scaleY(.92); } }
+.kafel-ikona-svg .bus-packet { animation: ki-bus-travel 2.8s ease-in-out infinite; opacity: 0; }
+@keyframes ki-bus-travel { 0% { offset-distance: 0%; opacity: 0; } 15% { opacity: 1; } 85% { opacity: 1; } 100% { offset-distance: 100%; opacity: 0; } }
+.kafel-ikona-svg .pack-a, .kafel-ikona-svg .pack-b, .kafel-ikona-svg .pack-c { opacity: 0; }
+.kafel-ikona-svg .pack-a { animation: ki-pack-a-cyc 9s infinite; }
+.kafel-ikona-svg .pack-b { animation: ki-pack-b-cyc 9s infinite; }
+.kafel-ikona-svg .pack-c { animation: ki-pack-c-cyc 9s infinite; }
+@keyframes ki-pack-a-cyc { 0% { opacity: 1; } 30% { opacity: 1; } 34% { opacity: 0; } 100% { opacity: 0; } }
+@keyframes ki-pack-b-cyc { 0% { opacity: 0; } 33% { opacity: 0; } 36% { opacity: 1; } 63% { opacity: 1; } 67% { opacity: 0; } 100% { opacity: 0; } }
+@keyframes ki-pack-c-cyc { 0% { opacity: 0; } 66% { opacity: 0; } 69% { opacity: 1; } 97% { opacity: 1; } 100% { opacity: 0; } }
+
+/* ============ Kafel 05 — okablowanie ============ */
+.kafel-ikona-svg .breaker-lever { animation: ki-lever-flip 4s ease-in-out infinite; }
+@keyframes ki-lever-flip { 0%, 55% { transform: rotate(0deg); } 62%, 92% { transform: rotate(-22deg); } 100% { transform: rotate(0deg); } }
+.kafel-ikona-svg .breaker-light { animation: ki-light-switch 4s ease-in-out infinite; }
+@keyframes ki-light-switch { 0%, 55% { fill: #FB923C; } 62%, 92% { fill: #2FAE60; } 100% { fill: #FB923C; } }
+.kafel-ikona-svg .shield-confirm { transform-box: fill-box; transform-origin: center; animation: ki-shield-pop 4s ease-in-out infinite; opacity: 0; }
+@keyframes ki-shield-pop { 0%, 58% { opacity: 0; transform: scale(.6); } 64% { opacity: 1; transform: scale(1); } 80% { opacity: 1; transform: scale(1); } 92%, 100% { opacity: 0; transform: scale(.9); } }
+.kafel-ikona-svg .flow-gate { animation: ki-gate-visible 4s ease-in-out infinite; }
+@keyframes ki-gate-visible { 0%, 60% { opacity: 0; } 66% { opacity: 1; } 92% { opacity: 1; } 100% { opacity: 0; } }
+
+/* ============ Kafel 06 — pompa ciepła ============ */
+.kafel-ikona-svg .fan-spin { transform-box: fill-box; transform-origin: center; animation: ki-spin-fast 2.5s linear infinite; }
+@keyframes ki-spin-fast { to { transform: rotate(360deg); } }
+.kafel-ikona-svg .floor-heat { transform-box: fill-box; transform-origin: center; animation: ki-glow-pulse 2.4s ease-in-out infinite; }
+.kafel-ikona-svg .ind-a, .kafel-ikona-svg .ind-b, .kafel-ikona-svg .ind-c { opacity: 0; }
+.kafel-ikona-svg .ind-a { animation: ki-ind-a-cyc 7.2s infinite; }
+.kafel-ikona-svg .ind-b { animation: ki-ind-b-cyc 7.2s infinite; }
+.kafel-ikona-svg .ind-c { animation: ki-ind-c-cyc 7.2s infinite; }
+@keyframes ki-ind-a-cyc { 0% { opacity: 1; } 28% { opacity: 1; } 33% { opacity: 0; } 100% { opacity: 0; } }
+@keyframes ki-ind-b-cyc { 0% { opacity: 0; } 31% { opacity: 0; } 36% { opacity: 1; } 64% { opacity: 1; } 69% { opacity: 0; } 100% { opacity: 0; } }
+@keyframes ki-ind-c-cyc { 0% { opacity: 0; } 67% { opacity: 0; } 72% { opacity: 1; } 97% { opacity: 1; } 100% { opacity: 0; } }
+
+/* ============ Kafel 07 — stress-test zimowy ============ */
+.kafel-ikona-svg .snowflake { animation: ki-snow-fall 6s linear infinite; }
+@keyframes ki-snow-fall { 0% { transform: translate(0, 0); opacity: 0; } 6% { opacity: .95; } 90% { opacity: .95; } 100% { transform: translate(14px, 270px); opacity: 0; } }
+.kafel-ikona-svg .cell-level-single { transform-box: fill-box; transform-origin: bottom; animation: ki-single-drain 9s linear infinite; }
+@keyframes ki-single-drain { 0% { transform: scaleY(.95); } 30% { transform: scaleY(.78); } 63% { transform: scaleY(.55); } 97% { transform: scaleY(.3); } 100% { transform: scaleY(.95); } }
+
+.kafel-ikona-svg .temp-a, .kafel-ikona-svg .temp-b, .kafel-ikona-svg .temp-c, .kafel-ikona-svg .temp-d { opacity: 0; }
+.kafel-ikona-svg .temp-a { animation: ki-temp-a-cyc 11s infinite; }
+.kafel-ikona-svg .temp-b { animation: ki-temp-b-cyc 11s infinite; }
+.kafel-ikona-svg .temp-c { animation: ki-temp-c-cyc 11s infinite; }
+.kafel-ikona-svg .temp-d { animation: ki-temp-d-cyc 11s infinite; }
+@keyframes ki-temp-a-cyc { 0% { opacity: 1; } 20% { opacity: 1; } 25% { opacity: 0; } 100% { opacity: 0; } }
+@keyframes ki-temp-b-cyc { 0% { opacity: 0; } 23% { opacity: 0; } 28% { opacity: 1; } 45% { opacity: 1; } 50% { opacity: 0; } 100% { opacity: 0; } }
+@keyframes ki-temp-c-cyc { 0% { opacity: 0; } 48% { opacity: 0; } 53% { opacity: 1; } 70% { opacity: 1; } 75% { opacity: 0; } 100% { opacity: 0; } }
+@keyframes ki-temp-d-cyc { 0% { opacity: 0; } 73% { opacity: 0; } 78% { opacity: 1; } 97% { opacity: 1; } 100% { opacity: 0; } }
+
+.kafel-ikona-svg .itemp-a, .kafel-ikona-svg .itemp-b, .kafel-ikona-svg .itemp-c { opacity: 0; }
+.kafel-ikona-svg .itemp-a { animation: ki-itemp-a-cyc 9s infinite; }
+.kafel-ikona-svg .itemp-b { animation: ki-itemp-b-cyc 9s infinite; }
+.kafel-ikona-svg .itemp-c { animation: ki-itemp-c-cyc 9s infinite; }
+@keyframes ki-itemp-a-cyc { 0% { opacity: 1; } 30% { opacity: 1; } 35% { opacity: 0; } 100% { opacity: 0; } }
+@keyframes ki-itemp-b-cyc { 0% { opacity: 0; } 33% { opacity: 0; } 38% { opacity: 1; } 63% { opacity: 1; } 68% { opacity: 0; } 100% { opacity: 0; } }
+@keyframes ki-itemp-c-cyc { 0% { opacity: 0; } 66% { opacity: 0; } 71% { opacity: 1; } 97% { opacity: 1; } 100% { opacity: 0; } }

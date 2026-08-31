@@ -4,6 +4,8 @@ import Link from "next/link"
 import { useSyncExternalStore } from "react"
 import { ThemeToggle } from "@/components/theme-toggle"
 import { StanPusty } from "@/components/ui/stany"
+import { KafleIkonySymbole } from "@/components/kafle-ikony/definicje-symboli"
+import { KafelIkonaSvg, KAFLE_ZE_ZBUDOWANA_IKONA } from "@/components/kafle-ikony/ikona"
 import { KAFLE, USTAWIENIA_KAFEL, znajdzKafel } from "@/lib/pulpit/registry"
 import { getServerSnapshot, getSnapshot, subscribe } from "@/lib/pulpit/storage"
 
@@ -17,6 +19,7 @@ export default function PulpitPage() {
 
   return (
     <div className="min-h-screen bg-background text-foreground">
+      <KafleIkonySymbole />
       <header className="flex flex-wrap items-center justify-between gap-3 border-b px-4 py-3 text-small">
         <span className="font-mono text-caption uppercase tracking-widest text-muted-foreground">
           ☰ Inżynier Offgrid Pro
@@ -76,9 +79,15 @@ export default function PulpitPage() {
                   href={`/moduly/${kafel.id}`}
                   className="flex min-h-28 flex-col justify-between gap-2 rounded-lg border p-4 transition-colors hover:border-foreground/20 hover:bg-muted focus-visible:ring-2 focus-visible:ring-ring/50 focus-visible:outline-none"
                 >
-                  <span className="text-2xl" aria-hidden="true">
-                    {kafel.ikona}
-                  </span>
+                  {KAFLE_ZE_ZBUDOWANA_IKONA.includes(kafel.id) ? (
+                    <span className="block overflow-hidden rounded-md" aria-hidden="true">
+                      <KafelIkonaSvg kafelId={kafel.id} />
+                    </span>
+                  ) : (
+                    <span className="text-2xl" aria-hidden="true">
+                      {kafel.ikona}
+                    </span>
+                  )}
                   <span className="text-small font-medium leading-tight">{kafel.nazwa}</span>
                 </Link>
               </li>
