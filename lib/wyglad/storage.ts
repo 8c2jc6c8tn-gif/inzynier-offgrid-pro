@@ -10,6 +10,8 @@
  * wpływa jednocześnie na tło/obramowanie/tekst każdego miejsca w apce, które używa tego tokenu.
  */
 
+import { consoleReporter } from "@/lib/core/reporter"
+
 export type GrupaKolorow = "tlo" | "karty" | "tekst" | "akcent" | "sukces" | "uwaga" | "blad"
 
 export const GRUPY_KOLOROW: { id: GrupaKolorow; etykieta: string; opis: string }[] = [
@@ -78,7 +80,13 @@ function parsujStan(raw: string | null): WygladState {
       czcionka: jestCzcionka(parsed.czcionka) ? parsed.czcionka : "inter",
       waga: parsed.waga === "pogrubiona" ? "pogrubiona" : "normalna",
     }
-  } catch {
+  } catch (err) {
+    consoleReporter.reportError({
+      userMessage: "Nie udało się odczytać zapisanego wyglądu — pokazany domyślny.",
+      technicalDetails: `JSON.parse(${STORAGE_KEY}) nie powiódł się`,
+      source: "lib/wyglad/storage.parsujStan",
+      cause: err,
+    })
     return DOMYSLNY_STAN
   }
 }
@@ -86,7 +94,13 @@ function parsujStan(raw: string | null): WygladState {
 function odczytajRaw(): string | null {
   try {
     return window.localStorage.getItem(STORAGE_KEY)
-  } catch {
+  } catch (err) {
+    consoleReporter.reportError({
+      userMessage: "Nie udało się odczytać zapisanego wyglądu — pokazany domyślny.",
+      technicalDetails: `localStorage.getItem(${STORAGE_KEY}) nie powiódł się`,
+      source: "lib/wyglad/storage.odczytajRaw",
+      cause: err,
+    })
     return null
   }
 }
@@ -153,8 +167,14 @@ function zapisz(state: WygladState): void {
   zastosujWyglad(state)
   try {
     window.localStorage.setItem(STORAGE_KEY, JSON.stringify(state))
-  } catch {
+  } catch (err) {
     // localStorage niedostępny — preferencja zastosowana na tę sesję, nie zapamiętana.
+    consoleReporter.reportError({
+      userMessage: "Nie udało się zapisać wyglądu — zmiana obowiązuje tylko w tej sesji.",
+      technicalDetails: `localStorage.setItem(${STORAGE_KEY}) nie powiódł się`,
+      source: "lib/wyglad/storage.zapisz",
+      cause: err,
+    })
   }
   window.dispatchEvent(new Event(CHANGE_EVENT))
 }

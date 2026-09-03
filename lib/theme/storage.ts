@@ -9,6 +9,8 @@
  * skrypt w `app/layout.tsx`, który czyta ten sam klucz synchronicznie przed pierwszym malowaniem.
  */
 
+import { consoleReporter } from "@/lib/core/reporter"
+
 export type ThemeMode = "system" | "light" | "dark"
 
 export const STORAGE_KEY = "offgrid.theme.v1"
@@ -21,7 +23,13 @@ function jestTrybem(value: unknown): value is ThemeMode {
 function odczytajRaw(): string | null {
   try {
     return window.localStorage.getItem(STORAGE_KEY)
-  } catch {
+  } catch (err) {
+    consoleReporter.reportError({
+      userMessage: "Nie udało się odczytać zapisanego motywu — pokazany systemowy.",
+      technicalDetails: `localStorage.getItem(${STORAGE_KEY}) nie powiódł się`,
+      source: "lib/theme/storage.odczytajRaw",
+      cause: err,
+    })
     return null
   }
 }
@@ -61,9 +69,15 @@ export function zapiszTryb(mode: ThemeMode): void {
   zastosujTryb(mode)
   try {
     window.localStorage.setItem(STORAGE_KEY, mode)
-  } catch {
+  } catch (err) {
     // localStorage niedostępny (tryb prywatny itp.) — wybór nie zostanie zapamiętany,
     // ale motyw i tak jest zastosowany na tę sesję (drobna preferencja UI, nie błąd krytyczny).
+    consoleReporter.reportError({
+      userMessage: "Nie udało się zapisać motywu — zmiana obowiązuje tylko w tej sesji.",
+      technicalDetails: `localStorage.setItem(${STORAGE_KEY}) nie powiódł się`,
+      source: "lib/theme/storage.zapiszTryb",
+      cause: err,
+    })
   }
   window.dispatchEvent(new Event(CHANGE_EVENT))
 }
