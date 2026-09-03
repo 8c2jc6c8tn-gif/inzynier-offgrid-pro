@@ -54,6 +54,7 @@ export const KAFLE: KafelEntry[] = [
     opis: "Dobór i bezpieczeństwo magazynu energii.",
     ikona: "🔋",
     ekrany: [
+      { href: "/kalkulatory/dobor-pojemnosci-baterii", label: "Dobór pojemności baterii" },
       { href: "/kalkulatory/porownanie-technologii-magazynow", label: "Porównanie technologii magazynów" },
       { href: "/kalkulatory/dobor-bezpiecznika-dc", label: "Dobór bezpiecznika DC" },
       { href: "/kalkulatory/moment-dokrecania-srub", label: "Moment dokręcania śrub" },

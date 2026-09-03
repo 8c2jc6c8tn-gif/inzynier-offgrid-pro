@@ -709,6 +709,41 @@
   `pnpm test` (142/142, bez zmian — tylko ścieżki w komentarzach)/`pnpm build` czysto,
   `grep -rn "docs/domena"` w projekcie po zmianie — pusty wynik.
 
+## Decyzje i uzasadnienie (c.d. 29)
+
+- **2026-09-04 — Ekran 1, Moduł 4 (Baterie): "Dobór pojemności baterii" — pierwszy ekran tego
+  modułu poza wzorcami reprezentatywnymi B/D/E, na wyraźną prośbę autora o dwukrotne sprawdzanie
+  wszystkich obliczeń.** Wybrany jako następny krok: fundament doboru magazynu energii (pojemność
+  użyteczna), formuła w pełni podana w źródle, bez brakujących norm zewnętrznych (w odróżnieniu od
+  zablokowanego Modułu 5 Ekranu 1).
+  - **Wzór 1:1 ze źródła** (Sekcja B): `C_uzyteczna = (E_dobowe × d_autonomii) / (η_falownika × DoD)`.
+  - **Podwójna weryfikacja przed napisaniem kodu** (nowa dyscyplina na prośbę autora): przykład
+    źródła (Sekcja C: "12 kWh/dobę, 3 dni autonomii → 45 kWh użytecznej") policzony niezależnie w
+    Pythonie DWOMA metodami — arytmetyką zmiennoprzecinkową i dokładnym ułamkiem (`Fraction`) —
+    zanim powstał jakikolwiek kod kalkulatora. **Znaleziona i udokumentowana rozbieżność w samym
+    źródle:** przykład w Sekcji C odtwarza się dokładnie tylko przy sprawności falownika = 100%,
+    NIE przy 95% wskazanej jako "domyślnie 95%, edytowalne" w Sekcji A tego samego ekranu (95% →
+    47,368421 kWh, nie 45). Rozstrzygnięcie: wzór wdrożony dokładnie jak podany w Sekcji B
+    (autorytatywne "Silnik oceny"), rozbieżność w ilustracyjnym przykładzie Sekcji C udokumentowana
+    w kodzie (komentarz w `calculator.ts`) i tutaj — **nie cicho "poprawiona"**, zgodnie z zasadą
+    integralności informacji (nie rozstrzygaj sam, pokaż A/B). Oba warianty (η=100%→45 kWh,
+    η=95%→47,4 kWh) zweryfikowane też w przeglądarce (Playwright) — wynik UI zgodny co do jednego
+    miejsca po przecinku z obiema niezależnymi metodami obliczeniowymi.
+  - Bufor starzeniowy (Ekran 6, "np. +20% na 10 lat") świadomie NIE doliczony — Ekran 6 jeszcze
+    nie istnieje w kodzie, doliczenie teraz wymagałoby zbudowania jego logiki przy okazji.
+  - `lib/core/modules/baterie/dobor-pojemnosci/`, 7 testów (w tym dwa niezależnie zweryfikowane
+    przypadki liczbowe + graniczny + 3 błędne/niekompletne dane), UI: `app/kalkulatory/
+    dobor-pojemnosci-baterii/page.tsx`. Dopisane pierwsze pełne wyliczenie per-funkcja Modułu 4
+    (34 ekrany) do `docs/rejestr-pokrycia.md` — wcześniej moduł miał tylko 3 rozproszone wpisy w
+    tabeli wzorców reprezentatywnych.
+  - **Zidentyfikowany dobry następny krok:** Ekran 7 (Obwód Pre-Charge, Moduł 4) powinien
+    re-używać logikę już zbudowaną w M11/A4 (`podlaczenie-bms`, wzór `T = 5×R×C`), nie duplikować
+    jej — wzorzec "echo" (`docs/standards/01-architektura.md`). Odnotowane w `docs/rejestr-pokrycia.md`.
+  - Zweryfikowane: `tsc`/`lint` czysto (1 błąd `react/no-unescaped-entities` znaleziony i
+    naprawiony — proste cudzysłowy wokół "użyteczna" zamienione na typograficzne „…", ten sam
+    wzorzec błędu co wcześniej w A9), `pnpm test` 149/149 (7 nowych), `pnpm build` czysto,
+    Playwright na obu wariantach liczbowych.
+
 ## Mapa orientacyjna
 
 - `docs/rejestr-twardych-stopow.md` — zbiorczy indeks warunków zawsze skutkujących 🔴 (04.3), z odsyłaczami do modułu/ekranu/pliku źródłowego. Dopisz tu nowy twardy stop, gdy kolejny moduł go wprowadzi.
