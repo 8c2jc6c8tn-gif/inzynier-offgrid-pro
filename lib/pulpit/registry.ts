@@ -110,6 +110,7 @@ export const KAFLE: KafelEntry[] = [
       { href: "/kalkulatory/polaczenia-elektryczne", label: "Połączenia elektryczne i kolejność łączenia" },
       { href: "/kalkulatory/podlaczenie-bms", label: "Podłączenie BMS" },
       { href: "/kalkulatory/demontaz-pakietu", label: "Demontaż pakietu" },
+      { href: "/kalkulatory/ratowanie-ogniwa", label: "Ratowanie głęboko rozładowanego ogniwa" },
       { href: "/kalkulatory/przygotowanie-stanowiska", label: "Przygotowanie stanowiska i narzędzi" },
     ],
   },
