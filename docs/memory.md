@@ -635,6 +635,48 @@
   liczba-domownikow/page.tsx`. Zweryfikowane: `tsc`/`lint`/`pnpm test` (142/142)/`pnpm build`
   czysto, Playwright (4 domowników → 200–280 l/dobę, zgodne z ręcznym przeliczeniem).
 
+## Decyzje i uzasadnienie (c.d. 27)
+
+- **2026-09-03 — Rysunki/schematy dodane do ekranów montażu baterii, na wyraźną prośbę autora.**
+  Autor zauważył trafnie: "w elektryce bez rysunków nie ma opcji — połączenie akumulatorów musi
+  być narysowane i krok po kroku prowadzone." Dotąd wszystkie ekrany Modułu 11 opisujące fizyczne
+  łączenie/rozłączanie akumulatorów (A3, A4, A6, B3, B4, B7) miały tylko tekst kroków checklisty
+  — realna luka, nie świadome pominięcie. Naprawione dodaniem inline'owych ilustracji SVG,
+  **konsekwentnie w tym samym wzorcu, co już istniejący precedens** — Wzorzec F z Ekranu 19
+  Modułu 5 (`trasy-kablowe`, lokalna funkcja komponentu w `page.tsx`, nie osobny współdzielony
+  komponent — świadomie, żeby uniknąć przedwczesnej abstrakcji przy zaledwie 6 użyciach o różnej
+  treści). Zakres:
+  - **A3** (Połączenia elektryczne LiFePO4) — schemat 4 ogniw w szeregu z ponumerowaną
+    kolejnością łączenia (1→2→3, minus do plusa następnego).
+  - **A4** (Podłączenie BMS) — schemat Pakiet→BMS→Falownik z trzema oznaczonymi połączeniami:
+    wtyczka balansująca (1), B− do minusa pakietu (2), P− przez rezystor pre-charge (3, symbol
+    zygzaka), plus główny plus prowadzony bezpośrednio z pominięciem BMS.
+  - **A6** (Demontaż pakietu) — ten sam układ co A3, ale zamiast pełnej numeracji 1-2-3 tylko
+    znacznik "Zacznij tu (Pakiet +)" przy końcu o najwyższym potencjale — świadomie NIE
+    wymyślono precyzyjnej kolejności rozpinania każdego z 3 wewnętrznych połączeń, bo źródło
+    podaje tylko ogólną zasadę ("od końca o najwyższym potencjale"), nie pełny algorytm dla
+    N ogniw.
+  - **B3** (Połączenia kwasowe) — dwa panele: szeregowo (wyższe napięcie, 12+12=24V) i
+    równolegle (większa pojemność, plusy razem/minusy razem) — bezpośrednio z treści źródła
+    ("szeregowo dla napięcia, równolegle dla pojemności").
+  - **B4** (Balansery zewnętrzne) — schemat balansera podłączonego równolegle do KAŻDEGO
+    akumulatora, z podpisem wprost mówiącym "powtórz dla wszystkich, nie tylko dla dwóch
+    pokazanych" (żeby 2-akumulatorowy przykład nie sugerował fałszywie, że dotyczy tylko pary).
+  - **B7** (Demontaż kwasowy) — schemat z 3 ponumerowanymi krokami: 1 minus systemowy, 2 plus
+    systemowy, 3 szereg wewnętrzny (z tą samą zasadą "od najwyższego potencjału" co A6).
+  - **Pułapka znaleziona i naprawiona podczas budowy:** tekst wyśrodkowany (`textAnchor="middle"`)
+    blisko krawędzi `viewBox` (np. etykieta "Do systemu (+)" wyśrodkowana na x=20 w SVG
+    zaczynającym się od x=0) wychodzi poza `viewBox` i zostaje **obcięty** (domyślne
+    `overflow:hidden` korzenia `<svg>`) — złapane dopiero na zrzutach ekranu Playwright w B3 i
+    B7, nie na `tsc`/`lint` (błąd czysto wizualny, niewidoczny statycznie). Naprawione zmianą
+    `textAnchor` na `start`/`end` przy etykietach blisko krawędzi, oraz przeprojektowaniem B3 na
+    pełną szerokość `viewBox` (400→440, x wyśrodkowane na 220 zamiast 120). **Wniosek na
+    przyszłość: każdą nową ilustrację SVG z etykietami blisko krawędzi zrzutować w Playwright
+    przed commitem — `tsc`/`lint`/`pnpm test` tego nie złapią.**
+  - Zweryfikowane: `tsc`/`lint` czysto, `pnpm test` 142/142 (bez zmian — ilustracje czysto
+    prezentacyjne, brak nowej logiki domenowej), `pnpm build` czysto, Playwright na wszystkich
+    6 ekranach (w tym dwie iteracje na B3/B7 po znalezieniu i naprawieniu obcięcia tekstu).
+
 ## Mapa orientacyjna
 
 - `docs/rejestr-twardych-stopow.md` — zbiorczy indeks warunków zawsze skutkujących 🔴 (04.3), z odsyłaczami do modułu/ekranu/pliku źródłowego. Dopisz tu nowy twardy stop, gdy kolejny moduł go wprowadzi.

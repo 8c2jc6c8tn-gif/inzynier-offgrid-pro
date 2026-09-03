@@ -9,6 +9,55 @@ import { NaglowekEkranu } from "@/components/wzorce/naglowek-ekranu"
 import { ListaChecklist } from "@/components/wzorce/lista-checklist"
 import { StanPusty } from "@/components/ui/stany"
 
+/** Schemat: kolejność demontażu — najpierw minus systemowy, potem plus, na końcu szereg wewnętrzny. */
+function DemontazOlowIlustracja() {
+  return (
+    <svg
+      viewBox="0 0 400 170"
+      className="w-full rounded-lg border bg-muted/30 text-foreground"
+      role="img"
+      aria-label="Schemat demontażu akumulatorów kwasowo-ołowiowych: minus systemowy pierwszy, potem plus, na końcu rozpinanie szeregu wewnętrznego od końca o najwyższym potencjale"
+    >
+      <rect x="45" y="60" width="90" height="46" rx="4" className="fill-indigo-400/60 stroke-current" />
+      <text x="90" y="87" textAnchor="middle" className="fill-current text-[9px]">
+        Akum. 1
+      </text>
+      <rect x="235" y="60" width="90" height="46" rx="4" className="fill-indigo-400/60 stroke-current" />
+      <text x="280" y="87" textAnchor="middle" className="fill-current text-[9px]">
+        Akum. 2
+      </text>
+      <text x="53" y="56" className="fill-current text-[9px] font-semibold">+</text>
+      <text x="123" y="56" className="fill-current text-[9px] font-semibold">−</text>
+      <text x="243" y="56" className="fill-current text-[9px] font-semibold">+</text>
+      <text x="313" y="56" className="fill-current text-[9px] font-semibold">−</text>
+
+      {/* wewnętrzny szereg */}
+      <line x1="135" y1="83" x2="235" y2="83" className="stroke-red-500" strokeWidth="3" />
+      <circle cx="185" cy="103" r="9" className="fill-red-500" />
+      <text x="185" y="107" textAnchor="middle" className="fill-white text-[9px] font-bold">3</text>
+
+      {/* główny plus systemowy — od Akum.1(+) */}
+      <line x1="6" y1="83" x2="45" y2="83" className="stroke-current" strokeWidth="3" />
+      <circle cx="20" cy="63" r="9" className="fill-red-500" />
+      <text x="20" y="67" textAnchor="middle" className="fill-white text-[9px] font-bold">2</text>
+      <text x="4" y="46" textAnchor="start" className="fill-current text-[8px] font-medium">Do systemu (+)</text>
+
+      {/* główny minus systemowy — od Akum.2(−) */}
+      <line x1="325" y1="83" x2="394" y2="83" className="stroke-current" strokeWidth="3" />
+      <circle cx="360" cy="63" r="9" className="fill-red-500" />
+      <text x="360" y="67" textAnchor="middle" className="fill-white text-[9px] font-bold">1</text>
+      <text x="396" y="46" textAnchor="end" className="fill-current text-[8px] font-medium">Do systemu (−)</text>
+
+      <text x="200" y="140" textAnchor="middle" className="fill-muted-foreground text-[9px]">
+        1: minus systemowy → 2: plus systemowy → 3: szereg wewnętrzny,
+      </text>
+      <text x="200" y="154" textAnchor="middle" className="fill-muted-foreground text-[9px]">
+        od końca o najwyższym potencjale (przy &gt;2 akumulatorach).
+      </text>
+    </svg>
+  )
+}
+
 export default function DemontazOlowPage() {
   const [potwierdzoneIds, setPotwierdzoneIds] = useState<string[]>([])
 
@@ -28,6 +77,8 @@ export default function DemontazOlowPage() {
         Ta sama zasada co w LiFePO4 — masa (minus) zawsze pierwsza przy odłączaniu. Moduł 11,
         Ekran B7 (Ścieżka B — kwasowo-ołowiowa).
       </NaglowekEkranu>
+
+      <DemontazOlowIlustracja />
 
       <ListaChecklist
         items={CHECKLIST_ITEMS}
