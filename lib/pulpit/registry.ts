@@ -107,6 +107,7 @@ export const KAFLE: KafelEntry[] = [
     ikona: "🛠️",
     ekrany: [
       { href: "/kalkulatory/weryfikacja-ogniw", label: "Weryfikacja kompletności i kontrola wstępna ogniw" },
+      { href: "/kalkulatory/polaczenia-elektryczne", label: "Połączenia elektryczne i kolejność łączenia" },
       { href: "/kalkulatory/przygotowanie-stanowiska", label: "Przygotowanie stanowiska i narzędzi" },
     ],
   },

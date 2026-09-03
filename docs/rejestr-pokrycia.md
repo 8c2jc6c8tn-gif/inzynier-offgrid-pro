@@ -68,7 +68,7 @@ chemii (LiFePO4, kwasowo-ołowiowa) ze wspólnym szkieletem UI. Ekran A7 był ju
 |---|---|---|---|---|
 | A1 | 9.1, 9.8 | Weryfikacja kompletności + kontrola wstępna ogniw | **done** | `lib/core/modules/montaz-baterii/weryfikacja-ogniw/`, UI: `app/kalkulatory/weryfikacja-ogniw/page.tsx`, 8 testów. Dwa twarde stopy z kodu (nie tylko checklist): brak BMS z balancerem, różnica napięć ogniw >0,05V — obydwa liczone z tych samych danych, które user i tak wpisuje (bez osobnych checkboxów "czy sprawdziłeś"). |
 | A2 | 9.2, 9.10 | Montaż mechaniczny + separacja ogniw | todo | |
-| A3 | 9.3, 9.11 | Połączenia elektryczne + kolejność łączenia | todo | |
+| A3 | 9.3, 9.11 | Połączenia elektryczne + kolejność łączenia | **done** | `lib/core/modules/montaz-baterii/polaczenia-elektryczne/`, UI: `app/kalkulatory/polaczenia-elektryczne/page.tsx`, 4 testy. Ten sam wzorzec co Procedura Black Start (kolejność wymuszona). |
 | A4 | 9.4, 9.5, 9.12 | Podłączenie BMS (+ procedura pre-charge, Wzorzec D) | todo | ma realny wzór `T = 5 × R_pre × C` — kandydat na kolejny prawdziwy kalkulator w tym module. |
 | A5 | 9.6, 9.13 | Pierwsze uruchomienie + test balansowania | todo | |
 | A6 | 9.7, 9.14, 9.15 | Demontaż — procedura, SoC, odłączanie BMS | todo | ten sam wzorzec co już zbudowana Procedura Black Start (kolejność ma znaczenie). |
