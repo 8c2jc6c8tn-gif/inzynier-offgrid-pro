@@ -522,6 +522,22 @@
   `app/kalkulatory/ratowanie-ogniwa/page.tsx`. Zweryfikowane: `tsc`/`lint`/`pnpm test`
   (118/118)/`pnpm build` czysto, Playwright (trzy strefy: 🔴 0V, 🟡 niskie-niezerowe, 🟢 bezpieczne).
 
+## Decyzje i uzasadnienie (c.d. 23)
+
+- **2026-09-03 — Ekran A8, Moduł 11: "Ocena zużycia ogniwa po demontażu" — 7/10 Ścieżki A.**
+  Źródło opisuje trzy "pomiary do wykonania" (grubość vs fabryczna, napięcie po 24h, rezystancja
+  wewnętrzna) bez podania progów liczbowych dla żadnego z nich — świadomie zamodelowane jako
+  checklist procesu (Wzorzec E), nie jako pola z walidacją, żeby nie wymyślać tolerancji, których
+  źródło nie podaje. Jedyny realnie decydowalny warunek to ocena wizualna puchnięcia obudowy —
+  ten sam wzorzec co pozycja "ocena wizualna" w checklistcie Ekranu A1 (przycisk Tak/Nie zamiast
+  liczonego progu grubości, bo źródło opisuje to jako ocenę wzrokową, nie pomiar z tolerancją).
+  Puchnięcie wygrywa natychmiast, niezależnie od postępu checklisty. Dopisano do
+  `docs/rejestr-twardych-stopow.md`. `lib/core/modules/montaz-baterii/ocena-zuzycia/`, 4 testy,
+  UI: `app/kalkulatory/ocena-zuzycia/page.tsx` (pierwsze użycie w tym repo par przycisków
+  Tak/Nie stylowanych przez Tailwind `aria-pressed:` zamiast osobnego komponentu — sprawdzone
+  w przeglądarce, działa poprawnie). Zweryfikowane: `tsc`/`lint`/`pnpm test` (122/122)/`pnpm build`
+  czysto, Playwright (puchnięcie → 🔴 natychmiast, checklist pełny bez puchnięcia → 🟢).
+
 ## Mapa orientacyjna
 
 - `docs/rejestr-twardych-stopow.md` — zbiorczy indeks warunków zawsze skutkujących 🔴 (04.3), z odsyłaczami do modułu/ekranu/pliku źródłowego. Dopisz tu nowy twardy stop, gdy kolejny moduł go wprowadzi.

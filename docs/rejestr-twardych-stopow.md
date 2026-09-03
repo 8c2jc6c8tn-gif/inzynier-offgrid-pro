@@ -24,6 +24,10 @@ nie do audytu poprawności formularza webowego.
 - **Pasta miedziowa na aluminium** — korozja galwaniczna połączenia.
   (M4/E11 — `lib/core/modules/baterie/moment-dokrecania-srub/constants.ts`,
   `OSTRZEZENIA_STALE`; cross-ref M5/E4)
+- **Widoczne puchnięcie obudowy ogniwa LiFePO4 po demontażu** — ogniwo do wycofania z
+  eksploatacji, nie do ponownego montażu.
+  (M11/A8 — `lib/core/modules/montaz-baterii/ocena-zuzycia/warnings.ts`, `widoczneWybrzuszenie`,
+  kod `WIDOCZNE-WYBRZUSZENIE`)
 - **Metalowe przedmioty luzem na stanowisku montażu baterii** — ryzyko zwarcia podczas pracy przy
   odkrytych terminalach.
   (M11/A7 — `lib/core/modules/montaz-baterii/przygotowanie-stanowiska/constants.ts`,
