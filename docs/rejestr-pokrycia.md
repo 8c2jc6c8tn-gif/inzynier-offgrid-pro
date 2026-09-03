@@ -15,7 +15,7 @@ notatkę, zgodnie z `docs/standards/15-wspolpraca-z-ai.md` (15.3, "nie usuwaj �
 | 1 | 1.1 | Systemy podtrzymania życia (Survival Core) | **done** | `lib/core/modules/zapotrzebowanie/systemy-podtrzymania-zycia/`, UI: `app/kalkulatory/systemy-podtrzymania-zycia/page.tsx`, 6 testów. "Ogrzewanie" bez domyślnej mocy — luka źródła, wymaga ręcznego wpisania (błąd 🔴, nie ciche zero). |
 | 2 | 1.2 | Inteligentny bojler C.W.U. | todo | |
 | 3 | 1.3, 1.4, 1.5 | Urządzenia zmienne + płyta indukcyjna + klasa energetyczna | todo | |
-| 4 | 1.6 | Liczba domowników | todo | |
+| 4 | 1.6 | Liczba domowników | **done** | `lib/core/modules/zapotrzebowanie/liczba-domownikow/`, UI: `app/kalkulatory/liczba-domownikow/page.tsx`, 5 testów. Liczy tylko dobowe C.W.U. (jedyny fragment z gotowym wzorem 1:1 ze źródła, 50–70 l/osobę/dobę) — Ekrany 2/3, które ta wartość ma docelowo zasilać, jeszcze nie istnieją. |
 | 5 | 1.7, 1.16 | Profil dobowy + astronomiczny dzień/noc | todo | |
 | 6 | 1.8 | Sezonowość i tryb wakacyjny | todo | |
 | 7 | 1.9 | Dni autonomii | todo | |

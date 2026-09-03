@@ -608,6 +608,33 @@
     B10 checklist objawów z ostrzeżeniem). **Moduł 11 razem: 19/22 (Ścieżka A 8/10, Ścieżka B
     11/12, B5 blocked, A2/A5 odłożone).**
 
+## Decyzje i uzasadnienie (c.d. 26)
+
+- **2026-09-03 — Moduł 5 Ekran 1 sprawdzony i odrzucony jako następny krok (blocked, nie
+  zbudowany) — konsekwentne z decyzją B5.** Po zamknięciu Ścieżki B (PR #20), naturalnym
+  następnym krokiem wydawało się zbudowanie Moduł 5 Ekran 1 (dobór przekroju kabla), bo
+  odblokowałoby to zawieszony Ekran B5. Po przeczytaniu pełnego źródła (`docs/domena/
+  Tresc_Modul_5_Okablowanie_Ekrany.md`, linie 9–52) okazało się, że silnik wymaga tabeli
+  normatywnej PN-IEC 60364-5-52 (obciążalność bazowa kabla wg przekroju/materiału) oraz pełnych
+  tabel współczynników korekcyjnych (temperatura, liczba kabli w wiązce, sposób ułożenia) — źródło
+  podaje tylko PO JEDNEJ przykładowej wartości na współczynnik (k1=0,87 dla 40°C, k2=0,70 dla 4
+  kabli), nie kompletne tabele. Budowa silnika bez tych danych oznaczałaby wymyślenie norm
+  bezpieczeństwa elektrycznego — złamałoby to najbardziej podstawowy zakaz z CLAUDE.md. **Decyzja:
+  nie budować.** Oba ekrany (M5/E1 i B5) zostają `⚠️ blocked` w `docs/rejestr-pokrycia.md` i
+  `docs/rejestr-twardych-stopow.md`, czekając na dostarczenie pełnej tabeli normatywnej przez
+  właściciela projektu — to nie jest "zabrakło czasu", to świadome zatrzymanie się przed granicą
+  wymyślania danych inżynierskich.
+- **2026-09-03 — Ekran 4, Moduł 2: "Liczba domowników" (Wzorzec D-lite) zaimplementowany
+  zamiast tego.** Wybrany jako następny krok po odrzuceniu M5/E1 — jedyny ekran w kolejce
+  `docs/rejestr-pokrycia.md` (Moduł 2) ze standalone, kompletnym wzorem źródłowym niezależnym od
+  jeszcze niezbudowanych ekranów. Źródło: suwak 1–6 osób, zasilający docelowo C.W.U. (Ekran 2),
+  częstotliwość prania/gotowania (Ekran 3) i profil zużycia wody (Moduł 10) — żaden z tych trzech
+  ekranów jeszcze nie istnieje, więc zaimplementowano tylko jedyny fragment z gotowym wzorem
+  niezależnym od nich: dobowe zapotrzebowanie C.W.U. = liczba domowników × 50–70 l (zakres 1:1 ze
+  źródła). `lib/core/modules/zapotrzebowanie/liczba-domownikow/`, 5 testów, UI: `app/kalkulatory/
+  liczba-domownikow/page.tsx`. Zweryfikowane: `tsc`/`lint`/`pnpm test` (142/142)/`pnpm build`
+  czysto, Playwright (4 domowników → 200–280 l/dobę, zgodne z ręcznym przeliczeniem).
+
 ## Mapa orientacyjna
 
 - `docs/rejestr-twardych-stopow.md` — zbiorczy indeks warunków zawsze skutkujących 🔴 (04.3), z odsyłaczami do modułu/ekranu/pliku źródłowego. Dopisz tu nowy twardy stop, gdy kolejny moduł go wprowadzi.
