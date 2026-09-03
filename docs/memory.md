@@ -8,6 +8,18 @@
 
 <!-- Obowiązkowe od GOD BOOK Część Y.6. Sprawdzaj AKTUALIZACJE.md w new-app-standards co ≤7 dni. Brak wpisu = "nigdy nie sprawdzono". -->
 - **2026-09-03 — pełna synchronizacja wykonana** (pierwsza, wcześniej nie istniała). Odświeżono `docs/standards/00`–`16` (dodano brakujący rozdział 16), dodano `docs/god-book/instrukcja-uniwersalna-biblii-projektu-v2_3.md`, `PROMPT_STARTOWY.md`, `docs/lista-do-zrobienia.md`, `docs/wklad-do-standardu.md`. Punktowo poprawiono `CLAUDE.md` i `.claude/skills/standards/SKILL.md` (nowe odsyłacze do GOD BOOK Część Y, bez nadpisania lokalnej treści). Szczegóły niżej, sekcja "Decyzje i uzasadnienie". Świadomie NIE wykonano: migracji `ZASADY_APLIKACJI.md`/`USTALENIA.md`/`docs/domena/` do kanonicznego formatu GOD BOOK (`00_Biblia.md` itd.) — to osobna, większa decyzja, patrz `docs/lista-do-zrobienia.md`.
+- **2026-09-04 — sprawdzono `AKTUALIZACJE.md`, znaleziono i zsynchronizowano 2 nowe wersje (v2.4, v2.5).** Obie dot. GOD BOOK: nowa, obowiązkowa **Y.9** — 9-pozycyjna checklist kompletności do przejścia przy *każdym* sprawdzeniu (nie tylko pierwszej instalacji), jawnie raportowana właścicielowi. `docs/standards/00`–`16` — bez zmian merytorycznych (tylko 2 kosmetyczne odsyłacze do nazwy pliku GOD BOOK w `00-INDEKS.md`/`00-filozofia.md`). Wykonane: podmieniono GOD BOOK w całości (`...v2_3.md` → `...v2_5.md`, stara nazwa usunięta, NIETYKALNE), nadpisano `PROMPT_STARTOWY.md` w całości (NIETYKALNE), punktowo poprawiono odsyłacze do wersji w `docs/standards/00-INDEKS.md`/`00-filozofia.md`/`CLAUDE.md`/`README.md` oraz `.claude/skills/standards/SKILL.md` (dodatkowo: doprecyzowanie punktu 2 o wariant pełnej Biblii, ADAPTOWALNE).
+  **Wynik checklisty Y.9 (pokazany właścicielowi projektu przed uznaniem za zakończone):**
+  1. `docs/standards/` — ✅ aktualne (odświeżone odsyłacze).
+  2. GOD BOOK — ✅ podmienione na v2.5.
+  3. `CLAUDE.md` — ✅ istnieje, odsyłacz zaktualizowany.
+  4. `docs/memory.md` (nie pełna Biblia) — ✅ istnieje; treść nietknięta (LOKALNE). Otwarta decyzja o migracji do kanonicznego formatu GOD BOOK pozostaje nierozstrzygnięta (patrz niżej i `docs/lista-do-zrobienia.md`).
+  5. `docs/lista-do-zrobienia.md` — ✅ istnieje.
+  6. `docs/wklad-do-standardu.md` — ✅ istnieje.
+  7. `docs/zrodla/` — ⚠️ **formalnie brakuje, ale w praktyce już istnieje pod inną nazwą: `docs/domena/`** (Biblia Offgrid, treść 13 modułów, Zasady UX Doradcy — dokładnie materiały źródłowe 1:1, nietknięte, które B.5 GOD BOOK opisuje). To nie jest zwykłe "załóż pusty folder" — to ta sama, już otwarta decyzja o nazewnictwie kanonicznym co pozycja 4/9 (`docs/lista-do-zrobienia.md`, wpis z 2026-09-03). **Świadomie NIE rozstrzygnięte samodzielnie** — czeka na właściciela projektu: (a) zmienić nazwę `docs/domena/` → `docs/zrodla/`, (b) zostawić `docs/domena/` i uznać równoważność bez zmiany nazwy, czy (c) coś innego.
+  8. `.claude/skills/standards/SKILL.md` — ✅ istnieje, spatchowane.
+  9. `01_Zasady_Pracy_i_Konwencje.md` + `02_Dyrektywy_AI_Projektu.md` — nie dotyczy (projekt nie prowadzi pełnej Biblii, tylko `docs/memory.md`).
+  Zweryfikowano: `grep -rn "v2_3"` w projekcie po synchronizacji trafia wyłącznie w historyczne wpisy tego logu i `docs/lista-do-zrobienia.md` (poprawnie — append-only, nie nadpisuje się historii) oraz w CHANGELOG samego pliku GOD BOOK (odniesienia do własnych, starszych wersji — też poprawne).
 
 ## Decyzje i uzasadnienie
 
