@@ -71,7 +71,7 @@ chemii (LiFePO4, kwasowo-ołowiowa) ze wspólnym szkieletem UI. Ekran A7 był ju
 | A3 | 9.3, 9.11 | Połączenia elektryczne + kolejność łączenia | **done** | `lib/core/modules/montaz-baterii/polaczenia-elektryczne/`, UI: `app/kalkulatory/polaczenia-elektryczne/page.tsx`, 4 testy. Ten sam wzorzec co Procedura Black Start (kolejność wymuszona). |
 | A4 | 9.4, 9.5, 9.12 | Podłączenie BMS (+ procedura pre-charge, Wzorzec D) | **done** | `lib/core/modules/montaz-baterii/podlaczenie-bms/`, UI: `app/kalkulatory/podlaczenie-bms/page.tsx`, 6 testów. Prawdziwy kalkulator: `T = 5 × R_pre × C` liczony niezależnie od checklisty (user potrzebuje liczby przed wykonaniem kroku), kolejność checklisty rządzi tylko werdyktem gotowości. |
 | A5 | 9.6, 9.13 | Pierwsze uruchomienie + test balansowania | todo | |
-| A6 | 9.7, 9.14, 9.15 | Demontaż — procedura, SoC, odłączanie BMS | todo | ten sam wzorzec co już zbudowana Procedura Black Start (kolejność ma znaczenie). |
+| A6 | 9.7, 9.14, 9.15 | Demontaż — procedura, SoC, odłączanie BMS | **done** | `lib/core/modules/montaz-baterii/demontaz-pakietu/`, UI: `app/kalkulatory/demontaz-pakietu/page.tsx`, 6 testów. Napięcie na ogniwo liczone z pakietu (reużywa `OCZEKIWANA_LICZBA_OGNIW` z Ekranu A1) — jeśli pakiet wciąż naładowany (>3,2V/ogniwo), krytyczne ostrzeżenie natychmiast, niezależnie od checklisty. |
 | A7 | 9.9 | Przygotowanie stanowiska i narzędzi | **done** | `lib/core/modules/montaz-baterii/przygotowanie-stanowiska/`, UI: `app/kalkulatory/przygotowanie-stanowiska/page.tsx`, 4 testy. |
 | A8 | 9.16 | Ocena zużycia ogniwa po demontażu | todo | |
 | A9 | 9.17 | Ratowanie głęboko rozładowanego ogniwa (Wzorzec D) | todo | |

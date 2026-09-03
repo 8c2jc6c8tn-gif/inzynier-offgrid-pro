@@ -492,6 +492,22 @@
   (kategoria Elektryczne/pożarowe: brak pre-charge → zaiskrzenie i uszkodzenie styków).
   Zweryfikowane: `tsc`/`lint`/`pnpm test` (106/106)/`pnpm build` czysto, Playwright.
 
+## Decyzje i uzasadnienie (c.d. 21)
+
+- **2026-09-03 — Ekran A6, Moduł 11: "Demontaż pakietu" — zamyka zaplanowaną czwórkę
+  Ścieżki A (A1/A3/A4/A6).** Checklist z wymuszoną kolejnością (jak A3/A4) + warunek wstępny ze
+  źródła policzony naprawdę: napięcie ogniwa = napięcie pakietu / S (reużywa
+  `OCZEKIWANA_LICZBA_OGNIW` z Ekranu A1, zero duplikacji tej samej stałej domenowej), ostrzeżenie
+  krytyczne gdy >3,2V/ogniwo — dokładny próg ze źródła, nic nie wymyślone. `lib/core/modules/
+  montaz-baterii/demontaz-pakietu/`, 6 testów, UI: `app/kalkulatory/demontaz-pakietu/page.tsx`.
+  Dopisano do `docs/rejestr-twardych-stopow.md`. Zweryfikowane: `tsc`/`lint`/`pnpm test`
+  (112/112)/`pnpm build` czysto, Playwright (stan "wciąż naładowany" → 🔴, stan bezpieczny + pełny
+  checklist → 🟢).
+  **Rozdział "podłączanie baterii" (Moduł 11, Ścieżka A) — 6/10 ekranów gotowych** (A1, A3, A4, A6,
+  A7 gotowe wcześniej; A2/A5 świadomie odłożone; A8–A10 i cała Ścieżka B nadal `todo`). Właściciel
+  projektu ustalił termin: piątek 2026-09-04 20:00, maksymalna liczba rozdziałów — następny krok
+  (kontynuacja Modułu 11 vs. inny moduł) do potwierdzenia na starcie kolejnej rundy pracy.
+
 ## Mapa orientacyjna
 
 - `docs/rejestr-twardych-stopow.md` — zbiorczy indeks warunków zawsze skutkujących 🔴 (04.3), z odsyłaczami do modułu/ekranu/pliku źródłowego. Dopisz tu nowy twardy stop, gdy kolejny moduł go wprowadzi.
