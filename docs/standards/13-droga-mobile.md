@@ -23,6 +23,6 @@ Powiązane: [01 Architektura](01-architektura.md) · [05 Baza danych i offline-f
 
 ## 13.3. Etapowanie (przykładowe, do adaptacji per projekt)
 
-Kolejność sprawdzona w praktyce dla tej rodziny projektów: (1) desktop/tablet jako prototyp, (2) PWA responsywna z pełnym trybem offline, (3) wersje sprzętowe zróżnicowane funkcjonalnie (ekonomiczna bez ciężkiego lokalnego AI / premium z lokalnym asystentem i kamerą), (4) AR na urządzeniach mobilnych z odpowiednim wsparciem, (5) VR/MR jako wersja premium. Każdy kolejny etap jest **nadbudową** nad tym samym jądrem domenowym, nie jego zamianą.
+Poniższa kolejność to **jeden konkretny przykład** etapowania z jednego z naszych wcześniejszych projektów, nie obowiązujący dla wszystkich wzorzec: (1) desktop/tablet jako prototyp, (2) PWA responsywna z pełnym trybem offline, (3) warianty funkcjonalne zróżnicowane wg potrzeb (np. wersja podstawowa bez ciężkiego lokalnego AI / wersja premium z lokalnym asystentem i kamerą), (4) natywna aplikacja mobilna tam, gdzie uzasadnione, (5) rozszerzenia specjalistyczne (AR/VR/inne), jeśli domena tego wymaga. Każdy kolejny etap jest **nadbudową** nad tym samym jądrem domenowym, nie jego zamianą — większość projektów zatrzyma się na etapie 2 lub 3, i to jest normalne, nie niedokończenie.
 
 Konkretna roadmapa i tempo etapowania to decyzja per projekt — należy do `docs/memory.md`, nie do tego standardu. Zasada procesowa: roadmapa opisuje kierunek, nie sztywny harmonogram; każda zmiana priorytetów jest zapisywana z uzasadnieniem, nie cicho.

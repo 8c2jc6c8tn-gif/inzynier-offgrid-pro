@@ -2,7 +2,7 @@
 
 Powiązane: [14 Proces i pamięć](14-proces-i-pamiec.md) · [00 Filozofia](00-filozofia.md) · `CLAUDE.md` (root repo — krótka wersja operacyjna tego rozdziału)
 
-**Cel.** Ten rozdział określa nadrzędne zasady pracy modeli AI (Claude Code i inne narzędzia kodujące) nad kodem i dokumentacją projektów tej rodziny. Każdy model powinien przeczytać ten dokument (lub jego skrót w `CLAUDE.md`) przed rozpoczęciem większego zadania.
+**Cel.** Ten rozdział określa nadrzędne zasady pracy modeli AI (Claude Code i inne narzędzia kodujące) nad kodem i dokumentacją naszych projektów. Każdy model powinien przeczytać ten dokument (lub jego skrót w `CLAUDE.md`) przed rozpoczęciem większego zadania.
 
 ---
 
@@ -26,7 +26,7 @@ Gdy istniejąca informacja wydaje się nieaktualna, błędna, sprzeczna z nową 
 
 **To jest najważniejsza pojedyncza reguła tego rozdziału.** Jeśli w projekcie występują dwie sprzeczne informacje (dwie decyzje, dwa dokumenty, dokumentacja vs kod), AI **nie wybiera** jednej wg własnego uznania. Pokazuje: informację A, informację B, na czym polega sprzeczność, jakie są konsekwencje każdej opcji, co konkretnie należy rozstrzygnąć. Dopiero decyzja użytkownika (lub jednoznaczne, nowe dane rozstrzygające konflikt — np. programistyczna weryfikacja liczby, rozdział 14.3) mogą zmienić stan projektu.
 
-Ta metoda była w praktyce stosowana w tej sesji: znaleziona luka w treści i sprzeczność dwóch decyzji o liczbie funkcji zostały przedstawione użytkownikowi z pełnym kontekstem (co A mówi, co B mówi, źródło każdego), zamiast rozstrzygnięte automatycznie.
+Ta metoda była w praktyce stosowana w jednym z naszych projektów: znaleziona luka w treści i sprzeczność dwóch decyzji o liczbie funkcji zostały przedstawione użytkownikowi z pełnym kontekstem (co A mówi, co B mówi, źródło każdego), zamiast rozstrzygnięte automatycznie.
 
 ## 15.5. Hierarchia źródeł prawdy przy konflikcie
 
@@ -57,7 +57,7 @@ Jeśli AI nie ma wystarczających informacji, mówi to wprost: *"Brakuje mi dany
 
 ## 15.9. Zakazane zachowania AI (dodatkowo do 15.1-15.2 i rozdziału 9)
 
-Nie: tworzyć fikcyjnych norm/wzorów/wartości materiałowych · wpisywać losowych współczynników bezpieczeństwa · deklarować zgodności z normą bez wskazania wersji i zakresu · mieszać jednostek · zapisywać sekretów/kluczy API w repozytorium · zmieniać wielu niezwiązanych modułów naraz · zostawiać nieużywanych funkcji i importów · omijać testów przez wyłączanie walidacji · "sprzątać" kod/dokumentację uznaną za zbędną bez zgody (stary kod, "nieużywana" funkcja, "za długi" dokument — zawsze pytanie, nigdy cicha decyzja).
+Nie: tworzyć fikcyjnych norm/wzorów/wartości referencyjnych · wpisywać losowych współczynników bezpieczeństwa · deklarować zgodności z normą bez wskazania wersji i zakresu · mieszać jednostek · zapisywać sekretów/kluczy API w repozytorium · zmieniać wielu niezwiązanych modułów naraz · zostawiać nieużywanych funkcji i importów · omijać testów przez wyłączanie walidacji · "sprzątać" kod/dokumentację uznaną za zbędną bez zgody (stary kod, "nieużywana" funkcja, "za długi" dokument — zawsze pytanie, nigdy cicha decyzja).
 
 ## 15.10. Format odpowiedzi przy większych zadaniach
 

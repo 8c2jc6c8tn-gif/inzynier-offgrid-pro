@@ -8,7 +8,7 @@ Powiązane: [10 Testy](10-testy.md) · [14 Proces i pamięć](14-proces-i-pamiec
 
 **Reguła.** Repozytorium ma dokładnie jeden lockfile jednego menedżera pakietów, od pierwszego commita. Obecność drugiego (nawet nieaktualnego, "zapomnianego") jest blokowana automatycznie — nie ręcznym przeglądem, tylko hookiem/kontrolą uruchamianą przy każdej próbie dodania pliku.
 
-**Uzasadnienie.** Udokumentowany, realny incydent w rodzinie tych projektów: nieaktualny drugi lockfile obok żywego spowodował, że hosting wybierał zły menedżer pakietów i failował instalację na każdym PR przez kilka dni, niezależnie od treści zmian — przyczyna była całkowicie niezwiązana z rzeczywistą treścią commitów, co maksymalnie utrudniło diagnozę.
+**Uzasadnienie.** Udokumentowany, realny incydent w jednym z naszych wcześniejszych projektów: nieaktualny drugi lockfile obok żywego spowodował, że hosting wybierał zły menedżer pakietów i failował instalację na każdym PR przez kilka dni, niezależnie od treści zmian — przyczyna była całkowicie niezwiązana z rzeczywistą treścią commitów, co maksymalnie utrudniło diagnozę.
 
 ## 11.2. CI niezależne od dashboardu hostingu
 

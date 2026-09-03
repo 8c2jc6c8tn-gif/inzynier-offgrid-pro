@@ -16,7 +16,7 @@ Powiązane: [06 API i sieć](06-api-i-siec.md) · [07 Bezpieczeństwo](07-bezpie
 
 ## 12.3. Płatności
 
-**Reguła.** Integracja płatności (np. Stripe) z kluczami idempotency przy każdym żądaniu płatności (patrz rozdział 06.4) — zapobiega podwójnemu obciążeniu przy powtórzeniu żądania w niestabilnych warunkach sieciowych (typowe w zastosowaniach terenowych). Restore/subskrypcje sklepów natywnych (App Store/Google Play) dochodzą dopiero w wersji mobile, nie są wymagane na starcie web.
+**Reguła.** Integracja płatności (np. Stripe) z kluczami idempotency przy każdym żądaniu płatności (patrz rozdział 06.4) — zapobiega podwójnemu obciążeniu przy powtórzeniu żądania w niestabilnych warunkach sieciowych. Restore/subskrypcje sklepów natywnych (App Store/Google Play) dochodzą dopiero w wersji mobile, nie są wymagane na starcie web.
 
 ## 12.4. Podział tier'ów — decyzja per projekt
 

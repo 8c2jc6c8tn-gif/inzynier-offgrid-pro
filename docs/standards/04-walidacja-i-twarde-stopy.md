@@ -1,6 +1,6 @@
 # 04 — Walidacja, ostrzeżenia i twarde stopy
 
-Powiązane: [03 Jądro obliczeniowe](03-jadro-obliczeniowe.md) · [08 UI/UX i treść](08-ui-ux.md) · [07 Bezpieczeństwo](07-bezpieczenstwo.md)
+Powiązane: [03 Jądro logiki domenowej](03-jadro-obliczeniowe.md) · [08 UI/UX i treść](08-ui-ux.md) · [07 Bezpieczeństwo](07-bezpieczenstwo.md)
 
 ---
 
@@ -12,7 +12,7 @@ Powiązane: [03 Jądro obliczeniowe](03-jadro-obliczeniowe.md) · [08 UI/UX i tr
 - 🟡 **Dopuszczalne, ale gorsze** — działa, ale blisko limitu albo nieoptymalne.
 - 🔴 **Zabronione — ryzyko** — przekracza granicę bezpieczeństwa. Patrz 4.3 (twarde stopy).
 
-Każdy werdykt ma **jednozdaniowe uzasadnienie fizyczne/techniczne** — nigdy samo "błąd walidacji", zawsze konkretna przyczyna (np. "napięcie przy mrozie przekroczy limit wejścia DC").
+Każdy werdykt ma **jednozdaniowe uzasadnienie merytoryczne** — nigdy samo "błąd walidacji", zawsze konkretna przyczyna (np. "napięcie przy mrozie przekroczy limit wejścia DC" w projekcie inżynierskim, albo "produkt przekroczył termin PAO o 14 dni" w projekcie spożywczym).
 
 Dla projektów potrzebujących większej granulacji przy komunikatach nie-bezpieczeństwa (np. jakość danych, kompletność), dopuszczalny jest dodatkowy, wewnętrzny 4-poziomowy system `INFO / NOTICE / WARNING / CRITICAL`, **mapowany na powyższy trójstopniowy język w warstwie prezentacji** — użytkownik zawsze widzi 🟢🟡🔴, nigdy surowe nazwy poziomów wewnętrznych.
 
@@ -34,13 +34,15 @@ Struktura pojedynczego ostrzeżenia: kod, poziom, komunikat dla użytkownika ("p
 
 **Uzasadnienie.** Przy dziesiątkach modułów nikt nie jest w stanie utrzymać w głowie wszystkich twardych stopów aplikacji naraz. Scentralizowany rejestr służy do: audytu bezpieczeństwa całej instalacji/projektu na koniec pracy, wykrywania luk (czy jakiś oczywisty przypadek nie ma jeszcze twardego stopu), onboardingu nowych osób/AI pracujących nad kodem.
 
-**Konsekwencja — wzór struktury** (przykład zweryfikowany w praktyce na ~580-funkcyjnym projekcie):
+**Konsekwencja — wzór struktury** (przykład zweryfikowany w praktyce na dużym projekcie z wieloma modułami domenowymi):
 
 ```
-Kategoria tematyczna (np. "Elektryczne/pożarowe", "Bateryjne", "Bezpieczeństwo życia")
+Kategoria tematyczna (nazwa zależy od domeny projektu,
+                       np. w projekcie inżynierskim: "Elektryczne/pożarowe", "Bezpieczeństwo życia";
+                       w projekcie spożywczym: "Zdrowotne/toksykologiczne", "Alergeny")
   - Opis warunku                                    (ID modułu/ekranu źródłowego)
-  - Przekrój kabla poniżej wyliczonego minimum        (M5/E1)
-  - AIC bezpiecznika poniżej prądu zwarciowego         (M4/E24)
+  - <konkretny warunek graniczny nr 1>                (M5/E1)
+  - <konkretny warunek graniczny nr 2>                (M4/E24)
   ...
 ```
 
@@ -48,8 +50,8 @@ Każda pozycja odsyła do modułu/ekranu, w którym warunek jest faktycznie spra
 
 ## 4.4. Świadome odblokowanie błędu do ostrzeżenia
 
-**Reguła.** Błąd (🔴) może zostać obniżony do ostrzeżenia (🟡) **wyłącznie** przez jawną, świadomą zgodę użytkownika (np. zaznaczenie checkboxa "potwierdzam ryzyko"). Sam brak działania nigdy nie obniża poziomu automatycznie. Niektóre twarde stopy (te o najwyższym ryzyku — porażenie, pożar) nie mają takiego obejścia z premedytacji i pozostają zablokowane bez wyjątku — decyzja, które to są, należy do właściciela projektu i ma być spisana w `docs/memory.md`.
+**Reguła.** Błąd (🔴) może zostać obniżony do ostrzeżenia (🟡) **wyłącznie** przez jawną, świadomą zgodę użytkownika (np. zaznaczenie checkboxa "potwierdzam ryzyko"). Sam brak działania nigdy nie obniża poziomu automatycznie. Niektóre twarde stopy (te o najwyższym ryzyku dla zdrowia lub bezpieczeństwa) nie mają takiego obejścia z premedytacji i pozostają zablokowane bez wyjątku — decyzja, które to są, należy do właściciela projektu i ma być spisana w `docs/memory.md`.
 
 ## 4.5. Walidacja wielowarstwowa
 
-**Reguła.** Waliduj: zakresy, jednostki, wartości zerowe/ujemne tam gdzie nie mają sensu fizycznego, zależności między polami, kompletność danych, zgodność wersji schematu danych (rozdział 02). **Walidacja interfejsu nigdy nie zastępuje walidacji domenowej** — ta sama reguła musi obowiązywać niezależnie od tego, przez jaką warstwę prezentacji dane wejdą (formularz, API, import pliku, głos).
+**Reguła.** Waliduj: zakresy, jednostki, wartości zerowe/ujemne tam gdzie nie mają sensu domenowego, zależności między polami, kompletność danych, zgodność wersji schematu danych (rozdział 02). **Walidacja interfejsu nigdy nie zastępuje walidacji domenowej** — ta sama reguła musi obowiązywać niezależnie od tego, przez jaką warstwę prezentacji dane wejdą (formularz, API, import pliku, głos).
