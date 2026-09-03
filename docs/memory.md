@@ -805,6 +805,43 @@
     `lint` czysto, `pnpm test` 168/168 (11 nowych), `pnpm build` czysto, `lib/core/` nadal nie
     importuje z `app/`/`components/`.
 
+## Decyzje i uzasadnienie (c.d. 32)
+
+- **2026-09-04 — Ekran 15, Moduł 4: "Cold Cranking Amps" — rozbieżność między listą pól Sekcji
+  A a wzorem Sekcji B tego samego ekranu, rozwiązana transparentnie, nie ukryta.** Wzór
+  `V_sag = V_oc − I_rozruch × R_wewn` wymaga napięcia pakietu bez obciążenia (V_oc), ale Sekcja A
+  źródła wymienia jako pola wejściowe tylko "temperaturę ogniw, prąd rozruchowy odbiornika,
+  rezystancję wewnętrzną ogniw, min. napięcie pracy falownika" — bez V_oc. Bez tej wartości wzoru
+  nie da się w ogóle policzyć. Rozstrzygnięcie: V_oc dodany jako pole wejściowe, bo to realna,
+  mierzalna wielkość (napięcie pakietu odczytane bez obciążenia), nie wymyślony współczynnik czy
+  norma — różni się jakościowo od przypadków blokady (M5/E1, Ekran 2 Moduł 4), gdzie brakowało
+  całych tabel norm, nie pojedynczej mierzalnej wartości. Notatka o tej rozbieżności zostawiona
+  w kodzie (`input.ts`) i tutaj, zamiast cichego dopisania bez śladu.
+  - **Temperatura ogniw** (też wymieniona w Sekcji A) świadomie NIE stała się osobnym polem
+    obliczeniowym — nie wchodzi do wzoru wprost, tylko pośrednio wpływa na już zmierzoną
+    rezystancję wewnętrzną (user mierzy R_wewn w bieżącej, zimnej temperaturze). Dodanie martwego
+    pola bez wpływu na wynik byłoby niepotrzebną abstrakcją.
+  - Przykład źródła (Sekcja C: "-20°C ... 40,5V") ma opisowy charakter bez pełnego kompletu liczb
+    wejściowych (I_rozruch, R_wewn, V_oc nie podane) — nie do odtworzenia 1:1 jak w innych
+    ekranach. Zamiast tego zbudowano własny, samodzielnie spójny przykład testowy (V_oc=51,2V,
+    I=800A, R=13mΩ → 40,8V, bardzo blisko 40,5V źródła) i **zweryfikowano niezależnie w Pythonie
+    przed napisaniem kodu**, jawnie oznaczony w teście jako "ilustracyjny", nie "odtwarza
+    dokładnie przykład źródła".
+  - `lib/core/modules/baterie/cold-cranking-amps/`, 5 testów (w tym przypadek graniczny —
+    V_sag dokładnie równe V_min, próg włącznie policzony przez odwrócenie wzoru: I potrzebne do
+    V_sag=44V przy V_oc=51,2V, R=13mΩ → 553,846...A, też zweryfikowane w Pythonie), UI:
+    `app/kalkulatory/cold-cranking-amps/page.tsx`.
+  - **Sprawdzono też Ekran 2 (Sugestia napięcia systemowego) jako kandydata — okazał się tylko
+    częściowo zablokowany, nie w całości** (poprawka własnego pierwszego wrażenia po dokładniejszym
+    czytaniu): rekomendacja napięcia (>3000W→48V, <1000W→12V) jest obliczalna wprost, ale zakres
+    1000–3000W to kolejna luka w tabeli źródła (jak Ekran 12), a porównanie przekrojów kabli
+    wymaga tej samej brakującej tabeli PN-IEC 60364-5-52 co M5/E1 i B5. Nie budowany teraz — wymaga
+    decyzji o zakresie (okrojona wersja bez kabli, czy czekać na dane), patrz
+    `docs/lista-do-zrobienia.md`.
+  - Zweryfikowane: `tsc`/`lint` czysto, `pnpm test` 173/173 (5 nowych), `pnpm build` czysto,
+    `lib/core/` nadal nie importuje z `app/`/`components/`, Playwright na obu stanach (falownik
+    się wyłączy / falownik wytrzyma), wartości zgodne co do dziesiątych z niezależnym przeliczeniem.
+
 ## Mapa orientacyjna
 
 - `docs/rejestr-twardych-stopow.md` — zbiorczy indeks warunków zawsze skutkujących 🔴 (04.3), z odsyłaczami do modułu/ekranu/pliku źródłowego. Dopisz tu nowy twardy stop, gdy kolejny moduł go wprowadzi.

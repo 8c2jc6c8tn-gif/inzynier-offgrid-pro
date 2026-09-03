@@ -111,7 +111,7 @@ B/D/E, patrz sekcja niżej) — zaczęte 2026-09-04 od Ekranu 1 (fundament dobor
 | 12 | 3.13 | Ograniczenie prądu ładowania w mrozie (Cold C-Rate) | **done** | `lib/core/modules/baterie/cold-c-rate/`, UI: `app/kalkulatory/cold-c-rate/page.tsx`, 11 testów. Tabela 4 stref 1:1 ze źródła + jawnie oznaczona 5. strefa (5–10°C, `OUT_OF_SCOPE`) — źródło ma lukę w tym zakresie, nie interpolowano wymyślonej wartości. Twardy stop: ładowanie <-10°C całkowicie zablokowane (dopisane do `docs/rejestr-twardych-stopow.md`). Przykład źródła (-5°C, 280Ah → 28A) zweryfikowany niezależnie w Pythonie przed implementacją i odtworzony dokładnie w teście. |
 | 13 | 3.15 | Algorytm końca ładowania (Tail Current / Absorption) | todo | |
 | 14 | 3.16, 3.33 | SoH (State of Health) — prognoza żywotności | todo | |
-| 15 | 3.17 | Cold Cranking Amps (zimny start dużych odbiorników) | todo | |
+| 15 | 3.17 | Cold Cranking Amps (zimny start dużych odbiorników) | **done** | `lib/core/modules/baterie/cold-cranking-amps/`, UI: `app/kalkulatory/cold-cranking-amps/page.tsx`, 5 testów. Wzór `V_sag = V_oc − I×R_wewn` 1:1 ze źródła (Sekcja B). **Rozbieżność udokumentowana**: Sekcja A nie wymienia V_oc jako pole wejściowe, mimo że wzór go wymaga — dodane jako realna, mierzalna wielkość, nie wymyślony współczynnik, z notatką w kodzie. Temperatura ogniw (też w Sekcji A) świadomie nie stała się osobnym polem obliczeniowym — nie wchodzi do wzoru, tylko pośrednio wpływa na już zmierzoną rezystancję wewnętrzną. |
 | 16 | 3.18 | Tryb Long Term Storage (odstawienie na zimę) | todo | możliwy duplikat/uzupełnienie M11 A10/B12 (przechowywanie) — sprawdzić przy budowie |
 | 17 | 3.19 | Analiza Second-Life (baterie z EV) | todo | |
 | 18 | 3.20 | Łączenie równoległe różnych baterii (Mixing) | todo | |
