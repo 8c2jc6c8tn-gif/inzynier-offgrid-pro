@@ -5,7 +5,7 @@ Kalkulator/doradca inżynierski dla systemów off-grid PV (panele, magazyn energ
 ## Zanim zaczniesz — przeczytaj w tej kolejności
 
 1. `docs/standards/00-INDEKS.md` — pełny standard architektoniczny (17 rozdziałów), wspólny dla całej rodziny aplikacji — fundament, niezależny od tego zadania. Rozdział dotyczący Twojego zadania — nie ładuj wszystkich naraz.
-2. `docs/god-book/instrukcja-uniwersalna-biblii-projektu-v2_3.md` — metodologia procesowa (GOD BOOK); Część Y opisuje relację z powyższym standardem (fundament poprzedzający, nie kolejny poziom hierarchii). Ten projekt nie ma jeszcze pełnej Biblii w jej kanonicznym nazewnictwie — patrz punkt 3.
+2. `docs/god-book/instrukcja-uniwersalna-biblii-projektu-v2_5.md` — metodologia procesowa (GOD BOOK); Część Y opisuje relację z powyższym standardem (fundament poprzedzający, nie kolejny poziom hierarchii). Ten projekt nie ma jeszcze pełnej Biblii w jej kanonicznym nazewnictwie — patrz punkt 3.
 3. `docs/lista-do-zrobienia.md` — bieżące zadania, żeby nie eksplorować całego projektu od nowa.
 4. `docs/memory.md` — decyzje, pułapki i stan tego konkretnego projektu, w tym data ostatniej synchronizacji ze standardem (sprawdzaj `AKTUALIZACJE.md` w `new-app-standards` co ≤7 dni, GOD BOOK Y.6).
 5. `ZASADY_APLIKACJI.md` / `USTALENIA.md` — zasady i decyzje specyficzne dla Offgrid Pro (konstytucja tego projektu, nadrzędna wobec kodu; pełni rolę "Biblii" GOD BOOK dla tego projektu).
