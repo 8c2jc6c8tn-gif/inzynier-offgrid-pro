@@ -892,6 +892,22 @@
     `lib/core/` nadal nie importuje z `app/`/`components/`, Playwright (61,32 kWh i 0,024 kWh/dobę,
     zgodne z niezależnym przeliczeniem co do dwóch miejsc po przecinku).
 
+## Decyzje i uzasadnienie (c.d. 35)
+
+- **2026-09-04 — Ekran 28, Moduł 4: "Kalibracja i dokładność SoC" — najprostszy ekran serii,
+  jeden próg czasowy, bez formuły numerycznej do zweryfikowania.** Źródło: coulomb counting w
+  BMS kumuluje błąd bez okresowego pełnego naładowania, "po ok. 2 tygodniach" (14 dni)
+  rekomendowana kalibracja. Przykład Sekcji C ("rozjechał się o 12%") jest czystą ilustracją —
+  źródło nie podaje wzoru wiążącego czas bez ładowania z wielkością błędu SoC, więc świadomie NIE
+  liczony (wymyślenie takiej zależności byłoby złamaniem zasady "nie wymyślaj brakujących
+  danych"). Kalkulator sprawdza wyłącznie jeden, jawnie podany próg: `dni >= 14`.
+  - `lib/core/modules/baterie/kalibracja-soc/`, 6 testów (w tym granica dokładnie przy 14 dniach
+    i 0 dni jako prawidłowa wartość — "dziś było pełne ładowanie" — nie placeholder), UI:
+    `app/kalkulatory/kalibracja-soc/page.tsx`.
+  - Zweryfikowane: `tsc`/`lint` czysto, `pnpm test` 190/190 (6 nowych), `pnpm build` czysto,
+    `lib/core/` nadal nie importuje z `app/`/`components/`, Playwright (20 dni → rekomendacja
+    kalibracji, zgodnie z progiem >=14).
+
 ## Mapa orientacyjna
 
 - `docs/rejestr-twardych-stopow.md` — zbiorczy indeks warunków zawsze skutkujących 🔴 (04.3), z odsyłaczami do modułu/ekranu/pliku źródłowego. Dopisz tu nowy twardy stop, gdy kolejny moduł go wprowadzi.
