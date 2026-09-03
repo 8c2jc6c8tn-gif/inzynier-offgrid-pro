@@ -8,6 +8,7 @@
  * w sposób bezpieczny dla SSR/hydracji (bez ostrzeżenia react-hooks/set-state-in-effect).
  */
 
+import { consoleReporter } from "@/lib/core/reporter"
 import { KAFLE } from "./registry"
 
 const STORAGE_KEY = "offgrid.pulpit.v1"
@@ -48,7 +49,13 @@ function parsujStan(raw: string | null): PulpitState {
     const brakujace = domyslnaKolejnosc().filter((id) => !zapisaneWKolejnosci.includes(id))
 
     return { hiddenIds, order: [...zapisaneWKolejnosci, ...brakujace] }
-  } catch {
+  } catch (err) {
+    consoleReporter.reportError({
+      userMessage: "Nie udało się odczytać zapisanego układu pulpitu — pokazany domyślny.",
+      technicalDetails: `JSON.parse(${STORAGE_KEY}) nie powiódł się`,
+      source: "lib/pulpit/storage.parsujStan",
+      cause: err,
+    })
     return DOMYSLNY_STAN
   }
 }
@@ -56,7 +63,13 @@ function parsujStan(raw: string | null): PulpitState {
 function odczytajRaw(): string | null {
   try {
     return window.localStorage.getItem(STORAGE_KEY)
-  } catch {
+  } catch (err) {
+    consoleReporter.reportError({
+      userMessage: "Nie udało się odczytać zapisanego układu pulpitu — pokazany domyślny.",
+      technicalDetails: `localStorage.getItem(${STORAGE_KEY}) nie powiódł się`,
+      source: "lib/pulpit/storage.odczytajRaw",
+      cause: err,
+    })
     return null
   }
 }
@@ -89,8 +102,15 @@ export function zapiszStanPulpitu(state: PulpitState): void {
   try {
     window.localStorage.setItem(STORAGE_KEY, JSON.stringify(state))
     window.dispatchEvent(new Event(CHANGE_EVENT))
-  } catch {
+  } catch (err) {
     // localStorage niedostępny (tryb prywatny itp.) — preferencja nie zostanie zapamiętana,
-    // ale to nie jest błąd krytyczny (drobna preferencja UI, nie dana projektu).
+    // ale to nie jest błąd krytyczny (drobna preferencja UI, nie dana projektu) — stąd tylko
+    // raport, bez rzucania dalej.
+    consoleReporter.reportError({
+      userMessage: "Nie udało się zapisać układu pulpitu — zmiana obowiązuje tylko w tej sesji.",
+      technicalDetails: `localStorage.setItem(${STORAGE_KEY}) nie powiódł się`,
+      source: "lib/pulpit/storage.zapiszStanPulpitu",
+      cause: err,
+    })
   }
 }
