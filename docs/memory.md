@@ -744,6 +744,37 @@
     wzorzec błędu co wcześniej w A9), `pnpm test` 149/149 (7 nowych), `pnpm build` czysto,
     Playwright na obu wariantach liczbowych.
 
+## Decyzje i uzasadnienie (c.d. 30)
+
+- **2026-09-04 — Ekran 7, Moduł 4: "Obwód Pre-Charge" — pierwszy praktyczny przypadek
+  zastosowania wzorca "echo" (`docs/standards/01-architektura.md`, 1.3) w tym repo.** Źródło tego
+  ekranu opisuje dokładnie ten sam fakt fizyczny (`T = 5×R×C`, przykład 50Ω/50W, to samo
+  ostrzeżenie 🔴) co Ekran A4 Modułu 11 (`podlaczenie-bms`), zbudowany wcześniej w tej sesji —
+  klasyczny przypadek organicznego duplikatu treści między modułami (Moduł 4 = ogólna wiedza
+  elektryczna, Moduł 11 = ta sama wiedza w kontekście procedury montażu), dokładnie ten wzorzec,
+  o którym mówi rozdział 14 standardu.
+  - **Refaktor, nie duplikat:** wydzielono czystą funkcję `obliczCzasPreChargeS(R, C)` do
+    `lib/core/modules/baterie/obwod-precharge/calculator.ts` jako kanoniczne źródło wzoru.
+    `podlaczenie-bms/calculator.ts` (M11/A4) zrefaktoryzowany, żeby ją importować i wywoływać,
+    zamiast liczyć inline — **własna walidacja/statusy M11/A4 zostały nietknięte** (ten ekran
+    traktuje `pojemność=0` jako `INVALID_INPUT`, nowy Ekran 7 jako `INCOMPLETE` — świadomie różne
+    konwencje dwóch różnych ekranów, więc re-użyty został tylko sam wzór liczbowy, nie cały
+    wrapper `CalcResult`).
+  - **Weryfikacja poprawności refaktoru:** istniejący plik testowy M11/A4 (6 testów, sprzed tej
+    sesji) uruchomiony BEZ ŻADNEJ zmiany w swojej treści — przeszedł w całości, potwierdzając że
+    refaktor nie zmienił zachowania. Dodatkowo zweryfikowane w przeglądarce: oba ekrany dla tych
+    samych danych (R=50Ω, C=2200µF) pokazują identyczny wynik 0,55 s.
+  - **Podwójna weryfikacja wzoru przed napisaniem kodu** (kontynuacja dyscypliny z Ekranu 1):
+    R=50Ω/C=2200µF→0,55s i R=50Ω/C=10000µF→2,5s przeliczone niezależnie w Pythonie przed
+    implementacją; dodatkowo sprawdzone przeliczenie odwrotne — przykład źródła "R=50Ω/50W,
+    T≈3s" odpowiada pojemności ok. 12000µF (realistyczna wartość dla większego falownika, nie
+    sprzeczność).
+  - `lib/core/modules/baterie/obwod-precharge/`, 8 testów (w tym test na samej czystej funkcji
+    `obliczCzasPreChargeS`, osobno od testów na pełnym `CalcResult`), UI: `app/kalkulatory/
+    obwod-precharge/page.tsx`. Zweryfikowane: `tsc`/`lint` czysto, `pnpm test` 157/157 (8 nowych
+    + 6 istniejących M11/A4 bez zmian), `pnpm build` czysto, `lib/core/` nadal nie importuje z
+    `app/`/`components/`, Playwright na obu ekranach.
+
 ## Mapa orientacyjna
 
 - `docs/rejestr-twardych-stopow.md` — zbiorczy indeks warunków zawsze skutkujących 🔴 (04.3), z odsyłaczami do modułu/ekranu/pliku źródłowego. Dopisz tu nowy twardy stop, gdy kolejny moduł go wprowadzi.

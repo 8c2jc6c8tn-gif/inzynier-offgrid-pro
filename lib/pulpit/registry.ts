@@ -55,6 +55,7 @@ export const KAFLE: KafelEntry[] = [
     ikona: "🔋",
     ekrany: [
       { href: "/kalkulatory/dobor-pojemnosci-baterii", label: "Dobór pojemności baterii" },
+      { href: "/kalkulatory/obwod-precharge", label: "Obwód Pre-Charge" },
       { href: "/kalkulatory/porownanie-technologii-magazynow", label: "Porównanie technologii magazynów" },
       { href: "/kalkulatory/dobor-bezpiecznika-dc", label: "Dobór bezpiecznika DC" },
       { href: "/kalkulatory/moment-dokrecania-srub", label: "Moment dokręcania śrub" },

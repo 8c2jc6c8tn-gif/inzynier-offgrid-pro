@@ -3,6 +3,7 @@ import type { PodlaczenieBmsInput } from "./input"
 import { validateInput } from "./validation"
 import { krokPozaKolejnoscia } from "./warnings"
 import { CHECKLIST_ITEMS } from "./constants"
+import { obliczCzasPreChargeS } from "@/lib/core/modules/baterie/obwod-precharge/calculator"
 
 export const CALCULATOR_VERSION = "1.0.0"
 
@@ -19,6 +20,11 @@ const FORMULA = "T = 5 \\cdot R_{pre} \\cdot C"
  * docs/zrodla/Tresc_Modul_11_MontazBaterii_Ekrany.md). Czas pre-charge liczony niezależnie od
  * checklisty (user potrzebuje tej liczby, ZANIM zacznie odhaczać krok 3), kolejność checklisty
  * (jak w Ekranie A3 / Procedurze Black Start) rządzi tylko werdyktem gotowości.
+ *
+ * (2026-09-04) Sam wzór `T = 5×R×C` re-używany z `lib/core/modules/baterie/obwod-precharge/
+ * calculator.ts` (Ekran 7, Moduł 4 — kanoniczne źródło tego faktu fizycznego, wzorzec "echo",
+ * docs/standards/01-architektura.md 1.3) zamiast duplikowany inline — walidacja/statusy tego
+ * ekranu (checklist, `<=0` → INVALID_INPUT) zostają własne, bo różnią się od Ekranu 7.
  */
 export function calculatePodlaczenieBms(input: PodlaczenieBmsInput): CalcResult<PodlaczenieBmsResult> {
   const { errors } = validateInput(input)
@@ -41,8 +47,7 @@ export function calculatePodlaczenieBms(input: PodlaczenieBmsInput): CalcResult<
     }
   }
 
-  const pojemnoscF = input.pojemnoscFalownikaUf * 1e-6
-  const czasPreChargeS = Math.round(5 * input.rezystancjaPreChargeOhm * pojemnoscF * 1000) / 1000
+  const czasPreChargeS = obliczCzasPreChargeS(input.rezystancjaPreChargeOhm, input.pojemnoscFalownikaUf)
 
   const checked = new Set(input.potwierdzoneIds)
   let potwierdzoneWKolejnosci = 0
