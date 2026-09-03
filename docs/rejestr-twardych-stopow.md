@@ -117,6 +117,15 @@ nie do audytu poprawności formularza webowego.
   kabla, żeby nie wymyślać norm/tabel obciążalności bez realnego źródła. Gdy Moduł 5 Ekran 1
   powstanie, B5 powinien go re-używać (wzorzec "echo", nie duplikować logiki), patrz
   `docs/rejestr-pokrycia.md`.
+- **Moduł 5, Ekran 1 (Dobór przekroju kabla) sam też zablokowany — ten sam powód co B5.**
+  Sprawdzone (2026-09-03): źródło (`docs/domena/Tresc_Modul_5_Okablowanie_Ekrany.md`, linie 9–52)
+  odwołuje się do "tabeli normatywnej (PN-IEC 60364-5-52)" dla obciążalności bazowej kabla wg
+  przekroju/materiału, ale samej tabeli nie podaje — tylko po jednej przykładowej wartości
+  współczynnika korekcyjnego (`k1=0,87` dla 40°C, `k2=0,70` dla 4 kabli w wiązce), nie pełne
+  tabele dla wszystkich kombinacji temperatury/liczby kabli/sposobu ułożenia, których silnik by
+  wymagał. Budowa tego ekranu bez kompletnej tabeli oznaczałaby wymyślenie norm bezpieczeństwa —
+  wprost zakazane (CLAUDE.md, "Nie wymyślaj brakujących danych, norm ani współczynników
+  bezpieczeństwa"). Czeka na dostarczenie pełnej tabeli normatywnej przez właściciela projektu.
 
 ## Walidacja danych wejściowych (wzorzec ogólny, nie wypisany pozycja po pozycji)
 

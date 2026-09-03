@@ -34,6 +34,7 @@ export const KAFLE: KafelEntry[] = [
     ikona: "⚡",
     ekrany: [
       { href: "/kalkulatory/systemy-podtrzymania-zycia", label: "Systemy podtrzymania życia" },
+      { href: "/kalkulatory/liczba-domownikow", label: "Liczba domowników" },
       { href: "/kalkulatory/pomocnicze", label: "Kalkulatory pomocnicze" },
     ],
   },
