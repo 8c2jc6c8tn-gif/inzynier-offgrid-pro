@@ -538,6 +538,23 @@
   w przeglądarce, działa poprawnie). Zweryfikowane: `tsc`/`lint`/`pnpm test` (122/122)/`pnpm build`
   czysto, Playwright (puchnięcie → 🔴 natychmiast, checklist pełny bez puchnięcia → 🟢).
 
+## Decyzje i uzasadnienie (c.d. 24)
+
+- **2026-09-03 — Ekran A10, Moduł 11: "Przechowywanie / recykling / narzędzia diagnostyczne" —
+  Ścieżka A LiFePO4 kompletna (8/10, A2/A5 świadomie odłożone).** Wzorzec C, dokładnie ten sam
+  kształt co `trasy-kablowe` (Moduł 5) i `czystosc-i-snieg` (Moduł 3): brak kalkulatora, treść
+  1:1 ze źródła w trzech niezależnych, uzupełniających się akordeonach (`SekcjaAkordeon`) —
+  Przechowywanie / Recykling / Narzędzia diagnostyczne. `lib/core/modules/montaz-baterii/
+  przechowywanie-recykling/constants.ts`, UI: `app/kalkulatory/przechowywanie-recykling/page.tsx`.
+  Brak nowych testów (ten wzorzec ekranu nigdy ich nie miał — nie ma logiki do przetestowania).
+  **Rozważono i świadomie NIE dopisano do `docs/rejestr-twardych-stopow.md`:** źródło opisuje
+  rozładowanie pakietu do 0V przed oddaniem do recyklingu (np. przez zanurzenie w słonej wodzie)
+  jako "metodę kontrolowaną, wymagającą zrozumienia ryzyka" — realna ostrożność, ale bez żadnego
+  werdyktu 🔴/logiki na tym ekranie (ekran nie ma kalkulatora), więc nie pasuje do zakresu
+  rejestru (który indeksuje warunki *sprawdzane w kodzie*, nie każdą ostrożną uwagę w treści).
+  Zweryfikowane: `tsc`/`lint`/`pnpm test` (122/122, bez zmian — brak nowej logiki)/`pnpm build`
+  czysto, Playwright (wszystkie 3 akordeony rozwijają się poprawnie, treść zgodna ze źródłem).
+
 ## Mapa orientacyjna
 
 - `docs/rejestr-twardych-stopow.md` — zbiorczy indeks warunków zawsze skutkujących 🔴 (04.3), z odsyłaczami do modułu/ekranu/pliku źródłowego. Dopisz tu nowy twardy stop, gdy kolejny moduł go wprowadzi.
