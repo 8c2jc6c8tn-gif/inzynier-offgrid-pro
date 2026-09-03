@@ -28,6 +28,9 @@ nie do audytu poprawności formularza webowego.
   odkrytych terminalach.
   (M11/A7 — `lib/core/modules/montaz-baterii/przygotowanie-stanowiska/constants.ts`,
   pozycja checklisty `brak-metalu-luzem`)
+- **Załączenie głównego bezpiecznika/stycznika bez procedury pre-charge kondensatorów
+  falownika** — zaiskrzenie i uszkodzenie styków bezpiecznika.
+  (M11/A4 — `lib/core/modules/montaz-baterii/podlaczenie-bms/constants.ts`, `OSTRZEZENIA_STALE`)
 
 ## Bateryjne
 
