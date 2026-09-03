@@ -873,6 +873,25 @@
     `lib/core/` nadal nie importuje z `app/`/`components/`, Playwright (56,3 kWh / 80% pozostałej
     pojemności, zgodne z niezależnym przeliczeniem).
 
+## Decyzje i uzasadnienie (c.d. 34)
+
+- **2026-09-04 — Ekran 22, Moduł 4: "Pobór własny BMS i tryb uśpienia" — najprostszy wzór z
+  całej serii tego dnia, dwuwarstwowy przykład źródła zweryfikowany w całości.** Wzór
+  `E_roczna = P_pobór × 24 × 365 / 1000` (kWh).
+  - Przykład źródła ma dwie osobne liczby do sprawdzenia: "7W ciągle = 61 kWh rocznie" (7×24×365/
+    1000 = 61,32, zgodne z zaokrągleniem źródła) i "deep sleep → 0,024 kWh/dobę" — ta druga liczba
+    odtwarza się dokładnie tylko przy poborze uśpienia = 1W, górnej granicy podanego zakresu
+    0,5-1W (1×24/1000=0,024), nie przy dolnej granicy ani środku zakresu. Oba przeliczone
+    niezależnie w Pythonie przed implementacją.
+  - Kalkulator zwraca też wielkości niewymienione wprost w przykładzie źródła, ale wynikające z
+    tego samego wzoru wprost (roczna strata w uśpieniu, oszczędność roczna ciągłe-vs-uśpienie) —
+    nie nowa logika, tylko ten sam wzór zastosowany do drugiego zestawu danych wejściowych.
+  - `lib/core/modules/baterie/pobor-wlasny-bms/`, 5 testów, UI: `app/kalkulatory/
+    pobor-wlasny-bms/page.tsx`.
+  - Zweryfikowane: `tsc`/`lint` czysto, `pnpm test` 184/184 (5 nowych), `pnpm build` czysto,
+    `lib/core/` nadal nie importuje z `app/`/`components/`, Playwright (61,32 kWh i 0,024 kWh/dobę,
+    zgodne z niezależnym przeliczeniem co do dwóch miejsc po przecinku).
+
 ## Mapa orientacyjna
 
 - `docs/rejestr-twardych-stopow.md` — zbiorczy indeks warunków zawsze skutkujących 🔴 (04.3), z odsyłaczami do modułu/ekranu/pliku źródłowego. Dopisz tu nowy twardy stop, gdy kolejny moduł go wprowadzi.

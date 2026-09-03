@@ -59,6 +59,7 @@ export const KAFLE: KafelEntry[] = [
       { href: "/kalkulatory/obwod-precharge", label: "Obwód Pre-Charge" },
       { href: "/kalkulatory/cold-c-rate", label: "Ograniczenie prądu ładowania w mrozie" },
       { href: "/kalkulatory/cold-cranking-amps", label: "Cold Cranking Amps — zimny start dużych odbiorników" },
+      { href: "/kalkulatory/pobor-wlasny-bms", label: "Pobór własny BMS i tryb uśpienia" },
       { href: "/kalkulatory/porownanie-technologii-magazynow", label: "Porównanie technologii magazynów" },
       { href: "/kalkulatory/dobor-bezpiecznika-dc", label: "Dobór bezpiecznika DC" },
       { href: "/kalkulatory/moment-dokrecania-srub", label: "Moment dokręcania śrub" },

@@ -118,7 +118,7 @@ B/D/E, patrz sekcja niżej) — zaczęte 2026-09-04 od Ekranu 1 (fundament dobor
 | 19 | 3.21 | Vehicle-to-Home (V2H) | todo | |
 | 20 | 3.22 | Komunikacja BMS — CAN/RS485/Modbus | todo | |
 | 21 | 3.23 | Pozycjonowanie ogniw (kompresja/spuchnięcie) | todo | |
-| 22 | 3.24 | Pobór własny BMS i tryb uśpienia | todo | |
+| 22 | 3.24 | Pobór własny BMS i tryb uśpienia | **done** | `lib/core/modules/baterie/pobor-wlasny-bms/`, UI: `app/kalkulatory/pobor-wlasny-bms/page.tsx`, 5 testów. Wzór `E_roczna = P×24×365/1000` 1:1 ze źródła. Przykład źródła (7W ciągle → 61 kWh/rok, deep sleep → 0,024 kWh/dobę) odtworzony dokładnie (druga wartość przy poborze uśpienia=1W, górna granica zakresu 0,5-1W), zweryfikowany niezależnie w Pythonie przed implementacją. |
 | 23 | 3.25 | Analiza opłacalności magazynu (True Cost of Storage) | todo | |
 | 24 | 3.27 | Dobór bezpiecznika DC (AIC/Class T/NH) | **done** | `lib/core/modules/baterie/dobor-bezpiecznika-dc/`, UI: `app/kalkulatory/dobor-bezpiecznika-dc/page.tsx`, 6 testów. Wzorzec D reprezentatywny, twardy stop AIC. |
 | 25 | 3.28, 3.38 | Szyny zbiorcze i połączenia międzypakietowe | todo | |
