@@ -58,6 +58,37 @@ gdzie prowadzić), pozostałe 3 nadal `todo`.
 | 3 | 0.3 | Analiza zacienienia (horyzont cieni) | todo | |
 | 4 | 0.4 | Bryła budynku i orientacja ścian | todo | |
 
+## Moduł 11 — Montaż baterii
+
+Treść źródłowa kompletna w `docs/domena/Tresc_Modul_11_MontazBaterii_Ekrany.md`. Dwie ścieżki
+chemii (LiFePO4, kwasowo-ołowiowa) ze wspólnym szkieletem UI. Ekran A7 był już zaimplementowany
+(pokrycie pulpitu, 2026-08-30); Ekran A1 dodany 2026-09-03.
+
+| Ekran | ID Biblii | Nazwa | Status | Notatka |
+|---|---|---|---|---|
+| A1 | 9.1, 9.8 | Weryfikacja kompletności + kontrola wstępna ogniw | **done** | `lib/core/modules/montaz-baterii/weryfikacja-ogniw/`, UI: `app/kalkulatory/weryfikacja-ogniw/page.tsx`, 8 testów. Dwa twarde stopy z kodu (nie tylko checklist): brak BMS z balancerem, różnica napięć ogniw >0,05V — obydwa liczone z tych samych danych, które user i tak wpisuje (bez osobnych checkboxów "czy sprawdziłeś"). |
+| A2 | 9.2, 9.10 | Montaż mechaniczny + separacja ogniw | todo | |
+| A3 | 9.3, 9.11 | Połączenia elektryczne + kolejność łączenia | todo | |
+| A4 | 9.4, 9.5, 9.12 | Podłączenie BMS (+ procedura pre-charge, Wzorzec D) | todo | ma realny wzór `T = 5 × R_pre × C` — kandydat na kolejny prawdziwy kalkulator w tym module. |
+| A5 | 9.6, 9.13 | Pierwsze uruchomienie + test balansowania | todo | |
+| A6 | 9.7, 9.14, 9.15 | Demontaż — procedura, SoC, odłączanie BMS | todo | ten sam wzorzec co już zbudowana Procedura Black Start (kolejność ma znaczenie). |
+| A7 | 9.9 | Przygotowanie stanowiska i narzędzi | **done** | `lib/core/modules/montaz-baterii/przygotowanie-stanowiska/`, UI: `app/kalkulatory/przygotowanie-stanowiska/page.tsx`, 4 testy. |
+| A8 | 9.16 | Ocena zużycia ogniwa po demontażu | todo | |
+| A9 | 9.17 | Ratowanie głęboko rozładowanego ogniwa (Wzorzec D) | todo | |
+| A10 | 9.18–9.20 | Przechowywanie / recykling / narzędzia diagnostyczne | todo | |
+| B1 | 10.1, 10.8 | Weryfikacja + kontrola wstępna (kwasowo-ołowiowa) | todo | |
+| B2 | 10.2, 10.11 | Montaż mechaniczny + mocowanie/wentylacja | todo | twardy stop źródła: brak wentylacji przy akumulatorach kwasowych — ryzyko wybuchu wodoru. |
+| B3 | 10.3, 10.10 | Połączenia + czyszczenie biegunów | todo | |
+| B4 | 10.4, 10.12 | Balansery zewnętrzne (Wzorzec D) | todo | |
+| B5 | 10.5 | Dobór kabli, bezpieczników i zabezpieczeń (Wzorzec D) | todo | cross-ref: ten sam silnik co Moduł 5, Ekran 1 — inne wartości wejściowe. |
+| B6 | 10.6 | Pierwsze uruchomienie i testy | todo | |
+| B7 | 10.7, 10.14, 10.15 | Demontaż — procedura, kolejność, zabezpieczenie | todo | |
+| B8 | 10.9 | Bezpieczeństwo pracy z kwasem | todo | |
+| B9 | 10.13 | Test pojemności i gęstości elektrolitu (Wzorzec D) | todo | |
+| B10 | 10.16 | Ocena zużycia — siarczanowanie | todo | |
+| B11 | 10.17 | Ratowanie zasiarczonego akumulatora (Wzorzec D) | todo | |
+| B12 | 10.18–10.20 | Przechowywanie / recykling / narzędzia | todo | dwa twarde stopy źródła: rozładowany akumulator w mrozie (pęka obudowa), zakaz wylewania kwasu do kanalizacji. |
+
 ## Moduły 3–13 — wzorce UI reprezentatywne (przygotowanie pod v0)
 
 **2026-08-29 — decyzja:** zamiast budować moduły 3–13 po kolei ekran-po-ekranie, wybrano po

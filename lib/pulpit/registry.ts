@@ -105,7 +105,10 @@ export const KAFLE: KafelEntry[] = [
     nazwa: "Montaż baterii",
     opis: "Procedury montażu — LiFePO4 i kwasowo-ołowiowe.",
     ikona: "🛠️",
-    ekrany: [{ href: "/kalkulatory/przygotowanie-stanowiska", label: "Przygotowanie stanowiska i narzędzi" }],
+    ekrany: [
+      { href: "/kalkulatory/weryfikacja-ogniw", label: "Weryfikacja kompletności i kontrola wstępna ogniw" },
+      { href: "/kalkulatory/przygotowanie-stanowiska", label: "Przygotowanie stanowiska i narzędzi" },
+    ],
   },
   {
     id: 12,
