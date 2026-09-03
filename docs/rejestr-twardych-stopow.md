@@ -39,6 +39,10 @@ nie do audytu poprawności formularza webowego.
   gromadzący się wodór grozi wybuchem.
   (M11/B2 — `lib/core/modules/montaz-baterii/montaz-mechaniczny-olow/constants.ts`,
   `OSTRZEZENIA_STALE`)
+- **Ładowanie ogniwa LiFePO4 poniżej -10°C** — całkowicie zablokowane w źródle; ładowanie w tych
+  warunkach trwale uszkadza ogniwa (osadzanie litu metalicznego).
+  (M4/E12 — `lib/core/modules/baterie/cold-c-rate/warnings.ts`, `blokadaCalkowita`, kod
+  `BLOKADA-LADOWANIA-MROZ`)
 
 ## Bateryjne
 
@@ -126,6 +130,13 @@ nie do audytu poprawności formularza webowego.
   wymagał. Budowa tego ekranu bez kompletnej tabeli oznaczałaby wymyślenie norm bezpieczeństwa —
   wprost zakazane (CLAUDE.md, "Nie wymyślaj brakujących danych, norm ani współczynników
   bezpieczeństwa"). Czeka na dostarczenie pełnej tabeli normatywnej przez właściciela projektu.
+- **Moduł 4, Ekran 12 (Cold C-Rate) — luka w samej tabeli źródła dla zakresu 5–10°C.** Tabela
+  limitów C-rate wg temperatury (`docs/zrodla/Tresc_Modul_4_Baterie_Ekrany.md`, linie 156–162) ma
+  4 wiersze (`<-10°C`, `-10 do 0°C`, `0 do 5°C`, `>10°C`) — zakres 5–10°C nie jest zdefiniowany
+  żadnym wierszem. Sprawdzone dwukrotnie (odczyt źródła + niezależne przeliczenie w Pythonie)
+  przed implementacją. Kalkulator (`lib/core/modules/baterie/cold-c-rate/calculator.ts`) zwraca
+  dla tego zakresu status `OUT_OF_SCOPE` z jawnym komunikatem o luce, zamiast interpolować
+  wymyśloną wartość pośrednią między 0,2C a "pełny prąd".
 
 ## Walidacja danych wejściowych (wzorzec ogólny, nie wypisany pozycja po pozycji)
 

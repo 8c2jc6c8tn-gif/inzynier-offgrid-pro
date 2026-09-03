@@ -108,7 +108,7 @@ B/D/E, patrz sekcja niżej) — zaczęte 2026-09-04 od Ekranu 1 (fundament dobor
 | 9 | 3.9 | Detekcja zwarcia i e-Fuse | todo | |
 | 10 | 3.11 | Ochrona przed wilgocią i kondensacją | todo | |
 | 11 | 3.12 | Moment dokręcania śrub (Torque Control) | **done** | `lib/core/modules/baterie/moment-dokrecania-srub/`, UI: `app/kalkulatory/moment-dokrecania-srub/page.tsx`, 5 testów. Wzorzec E reprezentatywny. |
-| 12 | 3.13 | Ograniczenie prądu ładowania w mrozie (Cold C-Rate) | todo | |
+| 12 | 3.13 | Ograniczenie prądu ładowania w mrozie (Cold C-Rate) | **done** | `lib/core/modules/baterie/cold-c-rate/`, UI: `app/kalkulatory/cold-c-rate/page.tsx`, 11 testów. Tabela 4 stref 1:1 ze źródła + jawnie oznaczona 5. strefa (5–10°C, `OUT_OF_SCOPE`) — źródło ma lukę w tym zakresie, nie interpolowano wymyślonej wartości. Twardy stop: ładowanie <-10°C całkowicie zablokowane (dopisane do `docs/rejestr-twardych-stopow.md`). Przykład źródła (-5°C, 280Ah → 28A) zweryfikowany niezależnie w Pythonie przed implementacją i odtworzony dokładnie w teście. |
 | 13 | 3.15 | Algorytm końca ładowania (Tail Current / Absorption) | todo | |
 | 14 | 3.16, 3.33 | SoH (State of Health) — prognoza żywotności | todo | |
 | 15 | 3.17 | Cold Cranking Amps (zimny start dużych odbiorników) | todo | |
