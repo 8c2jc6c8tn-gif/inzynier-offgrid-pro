@@ -113,6 +113,7 @@ export const KAFLE: KafelEntry[] = [
       { href: "/kalkulatory/ratowanie-ogniwa", label: "Ratowanie głęboko rozładowanego ogniwa" },
       { href: "/kalkulatory/ocena-zuzycia", label: "Ocena zużycia ogniwa po demontażu" },
       { href: "/kalkulatory/przygotowanie-stanowiska", label: "Przygotowanie stanowiska i narzędzi" },
+      { href: "/kalkulatory/przechowywanie-recykling", label: "Przechowywanie / recykling / narzędzia diagnostyczne" },
     ],
   },
   {
