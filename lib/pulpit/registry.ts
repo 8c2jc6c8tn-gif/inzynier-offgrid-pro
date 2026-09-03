@@ -55,6 +55,7 @@ export const KAFLE: KafelEntry[] = [
     ikona: "🔋",
     ekrany: [
       { href: "/kalkulatory/dobor-pojemnosci-baterii", label: "Dobór pojemności baterii" },
+      { href: "/kalkulatory/starzenie-degradacja", label: "Starzenie i degradacja ogniw" },
       { href: "/kalkulatory/obwod-precharge", label: "Obwód Pre-Charge" },
       { href: "/kalkulatory/cold-c-rate", label: "Ograniczenie prądu ładowania w mrozie" },
       { href: "/kalkulatory/cold-cranking-amps", label: "Cold Cranking Amps — zimny start dużych odbiorników" },
