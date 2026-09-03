@@ -89,6 +89,49 @@ chemii (LiFePO4, kwasowo-ołowiowa) ze wspólnym szkieletem UI. Ekran A7 był ju
 | B11 | 10.17 | Ratowanie zasiarczonego akumulatora | **done** | `lib/core/modules/montaz-baterii/ratowanie-zasiarczenia/`, UI: `app/kalkulatory/ratowanie-zasiarczenia/page.tsx`. **Odstępstwo od pierwotnej etykiety "Wzorzec D":** źródło nie podaje żadnego progu liczbowego ani gałęzi decyzyjnej — jedno stałe zalecenie (odsiarczanie), więc ekran zbudowany jako czysta treść (Wzorzec C), nie kalkulator D. |
 | B12 | 10.18–10.20 | Przechowywanie / recykling / narzędzia | **done** | `lib/core/modules/montaz-baterii/przechowywanie-recykling-olow/`, UI: `app/kalkulatory/przechowywanie-recykling-olow/page.tsx`. Bez kalkulatora — czysta treść, ten sam wzorzec co A10. Dwa twarde stopy źródła (oba oznaczone 🔴 w źródle, w odróżnieniu od A10): rozładowany akumulator w mrozie (pęka obudowa), zakaz wylewania kwasu do kanalizacji — oba dopisane do `docs/rejestr-twardych-stopow.md`. **Ścieżka B niemal kompletna: 11/12 (B5 blocked).** |
 
+## Moduł 4 — Magazyn energii / baterie
+
+Treść źródłowa kompletna w `docs/zrodla/Tresc_Modul_4_Baterie_Ekrany.md` (34 ekrany). Pierwsze
+pełne wyliczenie per-funkcja dla tego modułu (wcześniej tylko 3 reprezentatywne ekrany wzorców
+B/D/E, patrz sekcja niżej) — zaczęte 2026-09-04 od Ekranu 1 (fundament doboru magazynu).
+
+| Ekran | ID Biblii | Nazwa | Status | Notatka |
+|---|---|---|---|---|
+| 1 | 3.1 | Dobór pojemności baterii | **done** | `lib/core/modules/baterie/dobor-pojemnosci/`, UI: `app/kalkulatory/dobor-pojemnosci-baterii/page.tsx`, 7 testów. Wzór `C_uzyteczna = (E_dobowe × d_autonomii) / (η × DoD)` 1:1 ze źródła; przykład źródła (Sekcja C, 45 kWh) odtworzony dokładnie w teście, zweryfikowany niezależnie (Python, ułamek dokładny) przed implementacją. Bez bufora starzeniowego (Ekran 6 — jeszcze nie zbudowany). |
+| 2 | 3.2 | Sugestia napięcia systemowego (12/24/48V) | todo | |
+| 3 | 3.3 | Symulacja czasu ładowania/rozładowania | todo | wymaga profilu produkcji PV (Moduł 3) i obciążenia (Moduł 2) — cross-modułowe |
+| 4 | 3.4 | Moduł EV — ładowanie samochodu elektrycznego | todo | |
+| 5 | 3.5, 3.14 | Grzałki BMS i ochrona przed mrozem | todo | |
+| 6 | 3.6 | Starzenie i degradacja ogniw (bufor projektowy) | todo | zasila Ekran 1 (bufor starzeniowy) i Moduł 3 Ekran 19 (1.18) |
+| 7 | 3.7 | Obwód Pre-Charge | todo | cross-ref: logika częściowo już zaimplementowana w M11/A4 (`podlaczenie-bms`, `T = 5×R×C`) — ten ekran powinien go re-używać, nie duplikować |
+| 8 | 3.8 | Symulacja "Słabego Ogniwa" (Cell Drift & Balancing) | todo | |
+| 9 | 3.9 | Detekcja zwarcia i e-Fuse | todo | |
+| 10 | 3.11 | Ochrona przed wilgocią i kondensacją | todo | |
+| 11 | 3.12 | Moment dokręcania śrub (Torque Control) | **done** | `lib/core/modules/baterie/moment-dokrecania-srub/`, UI: `app/kalkulatory/moment-dokrecania-srub/page.tsx`, 5 testów. Wzorzec E reprezentatywny. |
+| 12 | 3.13 | Ograniczenie prądu ładowania w mrozie (Cold C-Rate) | todo | |
+| 13 | 3.15 | Algorytm końca ładowania (Tail Current / Absorption) | todo | |
+| 14 | 3.16, 3.33 | SoH (State of Health) — prognoza żywotności | todo | |
+| 15 | 3.17 | Cold Cranking Amps (zimny start dużych odbiorników) | todo | |
+| 16 | 3.18 | Tryb Long Term Storage (odstawienie na zimę) | todo | możliwy duplikat/uzupełnienie M11 A10/B12 (przechowywanie) — sprawdzić przy budowie |
+| 17 | 3.19 | Analiza Second-Life (baterie z EV) | todo | |
+| 18 | 3.20 | Łączenie równoległe różnych baterii (Mixing) | todo | |
+| 19 | 3.21 | Vehicle-to-Home (V2H) | todo | |
+| 20 | 3.22 | Komunikacja BMS — CAN/RS485/Modbus | todo | |
+| 21 | 3.23 | Pozycjonowanie ogniw (kompresja/spuchnięcie) | todo | |
+| 22 | 3.24 | Pobór własny BMS i tryb uśpienia | todo | |
+| 23 | 3.25 | Analiza opłacalności magazynu (True Cost of Storage) | todo | |
+| 24 | 3.27 | Dobór bezpiecznika DC (AIC/Class T/NH) | **done** | `lib/core/modules/baterie/dobor-bezpiecznika-dc/`, UI: `app/kalkulatory/dobor-bezpiecznika-dc/page.tsx`, 6 testów. Wzorzec D reprezentatywny, twardy stop AIC. |
+| 25 | 3.28, 3.38 | Szyny zbiorcze i połączenia międzypakietowe | todo | |
+| 26 | 3.29 | Topologia BMS (Common Port vs Separate Port) | todo | |
+| 27 | 3.30 | Chłodzenie baterii latem | todo | |
+| 28 | 3.31 | Kalibracja i dokładność SoC | todo | |
+| 29 | 3.32 | Detekcja doziemienia (Ground Fault & IMD) | todo | |
+| 30 | 3.34 | Porównanie technologii magazynów | **done** | `lib/core/modules/baterie/porownanie-technologii/`, UI: `app/kalkulatory/porownanie-technologii-magazynow/page.tsx`, 5 testów. Wzorzec B reprezentatywny. |
+| 31 | 3.35 | Napięcie odcięcia vs żywotność (DoD vs Voltage Cut-off) | todo | |
+| 32 | 3.36 | Hierarchia ładowania (PV > Agregat > Sieć) | todo | |
+| 33 | 3.37 | Symulacja miesiąca zachmurzenia (No-Sun Scenario) | todo | cross-ref Moduł 7 (Stress-test zimowy), wymaga danych historycznych z Modułu 1 |
+| 34 | 3.39 | Matryca alarmów BMS i reakcje systemu | todo | Wzorzec C, tabela referencyjna — podobny kształt do M11 A10/B12, bez kalkulatora |
+
 ## Moduły 3–13 — wzorce UI reprezentatywne (przygotowanie pod v0)
 
 **2026-08-29 — decyzja:** zamiast budować moduły 3–13 po kolei ekran-po-ekranie, wybrano po
