@@ -4,7 +4,7 @@ import type { GodzinaPrognozy } from "./input"
  * PRZYKŁADOWE dane demonstracyjne — w docelowej implementacji ten ekran czerpie z silnika
  * symulacji rocznej (§15.1 Zasad UX) i prognozy pogody live (§15.3), które nie są jeszcze
  * zbudowane (docs/rejestr-pokrycia.md). Kształt danych (produkcja/zużycie per godzina) jest
- * 1:1 ze źródła (docs/domena/Tresc_Modul_10_AI_Ekrany.md, Ekran 1) — same wartości liczbowe są
+ * 1:1 ze źródła (docs/zrodla/Tresc_Modul_10_AI_Ekrany.md, Ekran 1) — same wartości liczbowe są
  * ilustracyjne, nie realną prognozą żadnej instalacji.
  */
 export const SAMPLE_PROGNOZA_24H: GodzinaPrognozy[] = [

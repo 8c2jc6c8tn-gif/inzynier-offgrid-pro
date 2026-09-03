@@ -3,7 +3,7 @@ import { MAX_ROZNICA_NAPIEC_V } from "./constants"
 
 /**
  * Katalog ostrzeżeń tego kalkulatora (docs/standards/04-walidacja-i-twarde-stopy.md, 4.1).
- * Treść cytatów 🔴 1:1 ze źródła (docs/domena/Tresc_Modul_11_MontazBaterii_Ekrany.md, Ekran A1).
+ * Treść cytatów 🔴 1:1 ze źródła (docs/zrodla/Tresc_Modul_11_MontazBaterii_Ekrany.md, Ekran A1).
  */
 
 export function napiecieOgniwaNiedodatnie(index: number, value: number): Warning {

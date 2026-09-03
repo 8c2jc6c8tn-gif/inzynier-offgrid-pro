@@ -15,7 +15,7 @@ const FORMULA = "V_{CWU} = n \\times (50\\text{–}70)\\ l"
 
 /**
  * Ekran 4, Moduł 2 — "Liczba domowników" (dawne 1.6,
- * docs/domena/Tresc_Modul_2_Zapotrzebowanie_Ekrany.md). Liczy tylko dobowe zapotrzebowanie na
+ * docs/zrodla/Tresc_Modul_2_Zapotrzebowanie_Ekrany.md). Liczy tylko dobowe zapotrzebowanie na
  * C.W.U. (jedyny fragment z gotowym wzorem, niezależny od Ekranów 2/3, które jeszcze nie
  * istnieją) — sama liczba domowników jako taka jest zapisywana i re-używana przez te ekrany,
  * gdy powstaną.

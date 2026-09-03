@@ -1,6 +1,6 @@
 /**
  * Ekran B11, Moduł 11 "Montaż baterii", Ścieżka B (kwasowo-ołowiowa) — "Ratowanie zasiarczonego
- * akumulatora" (dawne 10.17 — docs/domena/Tresc_Modul_11_MontazBaterii_Ekrany.md).
+ * akumulatora" (dawne 10.17 — docs/zrodla/Tresc_Modul_11_MontazBaterii_Ekrany.md).
  * Wzorzec C/treść — źródło nie podaje żadnego liczbowego progu decyzyjnego (w odróżnieniu od
  * Ekranu A9/B9): diagnoza zasiarczenia przychodzi z Ekranu B10, a zalecenie jest jedno, stałe
  * (ładowanie impulsowe/desulfacja) — nie ma tu gałęzi do policzenia, więc ekran jest czystą

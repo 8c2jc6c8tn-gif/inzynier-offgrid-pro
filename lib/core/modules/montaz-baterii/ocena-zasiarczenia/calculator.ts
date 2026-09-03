@@ -11,7 +11,7 @@ export type OcenaZasiarczeniaResult = {
 
 /**
  * Ekran B10, Moduł 11, Ścieżka B — "Ocena zużycia — siarczanowanie" (dawne 10.16,
- * docs/domena/Tresc_Modul_11_MontazBaterii_Ekrany.md).
+ * docs/zrodla/Tresc_Modul_11_MontazBaterii_Ekrany.md).
  */
 export function calculateOcenaZasiarczenia(
   input: OcenaZasiarczeniaInput,

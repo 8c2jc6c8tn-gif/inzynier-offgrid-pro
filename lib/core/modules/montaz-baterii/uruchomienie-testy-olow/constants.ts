@@ -1,6 +1,6 @@
 /**
  * Ekran B6, Moduł 11 "Montaż baterii", Ścieżka B (kwasowo-ołowiowa) — "Pierwsze uruchomienie i
- * testy" (dawne 10.6 — docs/domena/Tresc_Modul_11_MontazBaterii_Ekrany.md).
+ * testy" (dawne 10.6 — docs/zrodla/Tresc_Modul_11_MontazBaterii_Ekrany.md).
  * Wzorzec E — checklist weryfikacyjna, bez wymuszonej kolejności.
  */
 

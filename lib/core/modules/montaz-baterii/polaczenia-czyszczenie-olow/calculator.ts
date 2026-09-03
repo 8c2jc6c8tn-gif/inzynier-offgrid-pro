@@ -11,7 +11,7 @@ export type PolaczeniaCzyszczenieOlowResult = {
 
 /**
  * Ekran B3, Moduł 11, Ścieżka B — "Połączenia + czyszczenie biegunów" (scala dawne 10.3, 10.10,
- * docs/domena/Tresc_Modul_11_MontazBaterii_Ekrany.md).
+ * docs/zrodla/Tresc_Modul_11_MontazBaterii_Ekrany.md).
  */
 export function calculatePolaczeniaCzyszczenieOlow(
   input: PolaczeniaCzyszczenieOlowInput,

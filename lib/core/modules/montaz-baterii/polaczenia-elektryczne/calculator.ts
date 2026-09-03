@@ -11,7 +11,7 @@ export type PolaczeniaElektryczneResult = {
 
 /**
  * Ekran A3, Moduł 11 — "Połączenia elektryczne + kolejność łączenia" (dawne 9.3, 9.11,
- * docs/domena/Tresc_Modul_11_MontazBaterii_Ekrany.md). Logika 1:1 z Procedury Black Start
+ * docs/zrodla/Tresc_Modul_11_MontazBaterii_Ekrany.md). Logika 1:1 z Procedury Black Start
  * (Moduł 7, Ekran 5) — kolejność kroków ma znaczenie.
  */
 export function calculatePolaczeniaElektryczne(

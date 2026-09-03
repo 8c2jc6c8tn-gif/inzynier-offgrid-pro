@@ -47,7 +47,7 @@ notatkę, zgodnie z `docs/standards/15-wspolpraca-z-ai.md` (15.3, "nie usuwaj �
 ## Moduł 1 — Lokalizacja (Geostruktura)
 
 ~~Brak pełnej treści źródłowej w tym repo~~ — **korekta 2026-08-29:** pełna treść (4 ekrany)
-dotarła i jest w `docs/domena/Tresc_Modul_1_Lokalizacja_Ekrany.md`. ~~Implementacja wciąż nie
+dotarła i jest w `docs/zrodla/Tresc_Modul_1_Lokalizacja_Ekrany.md`. ~~Implementacja wciąż nie
 rozpoczęta~~ — **korekta 2026-08-30:** Ekran 1 zaimplementowany (żeby Kafel 1 na pulpicie miał
 gdzie prowadzić), pozostałe 3 nadal `todo`.
 
@@ -60,7 +60,7 @@ gdzie prowadzić), pozostałe 3 nadal `todo`.
 
 ## Moduł 11 — Montaż baterii
 
-Treść źródłowa kompletna w `docs/domena/Tresc_Modul_11_MontazBaterii_Ekrany.md`. Dwie ścieżki
+Treść źródłowa kompletna w `docs/zrodla/Tresc_Modul_11_MontazBaterii_Ekrany.md`. Dwie ścieżki
 chemii (LiFePO4, kwasowo-ołowiowa) ze wspólnym szkieletem UI. Ekran A7 był już zaimplementowany
 (pokrycie pulpitu, 2026-08-30); Ekran A1 dodany 2026-09-03.
 
@@ -95,7 +95,7 @@ chemii (LiFePO4, kwasowo-ołowiowa) ze wspólnym szkieletem UI. Ekran A7 był ju
 jednym reprezentatywnym ekranie na każdy z 8 wzorców UI A–H (`docs/standards/08-ui-ux.md`, 8.2),
 żeby zebrać je w jedną, spójną paczkę do przekazania v0/Vercel (ustalenie systemu projektowego
 naraz, zamiast osobno per moduł). Treść źródłowa dla wszystkich 13 modułów jest już kompletna w
-`docs/domena/`. Poniższe 8 ekranów jest w pełni zaimplementowane (domena + testy + UI,
+`docs/zrodla/`. Poniższe 8 ekranów jest w pełni zaimplementowane (domena + testy + UI,
 zweryfikowane ręcznie w przeglądarce); **pozostałe ekrany tych modułów są nadal `todo`** — pełne
 wyliczenie per-funkcja dla modułów 3, 4, 5, 8, 9 do dopisania w kolejnym przejściu, nie zgadywane
 teraz. Moduły 6, 7, 10, 11, 12, 13 dostały dodatkowo (2026-08-30) po jednym ekranie każdy — patrz
@@ -142,6 +142,6 @@ funkcjonalny bez nowej zależności; realne przeciąganie można dodać późnie
 
 ## Pozostałe moduły (6, 7, 10, 11, 12, 13 — reszta ekranów)
 
-Poza jednym ekranem wyżej — nie rozpoczęte. Treść źródłowa kompletna w `docs/domena/`. Rejestr
+Poza jednym ekranem wyżej — nie rozpoczęte. Treść źródłowa kompletna w `docs/zrodla/`. Rejestr
 zostanie rozszerzony o kolejne ekrany w miarę postępu prac, zgodnie z kolejnością z
 `ZASADY_APLIKACJI.md` §14.

@@ -10,7 +10,7 @@ export type LokalizacjaResult = {
 
 /**
  * Ekran 1, Moduł 1 — "GPS i dane klimatyczne" (dawne 0.1,
- * docs/domena/Tresc_Modul_1_Lokalizacja_Ekrany.md). Tryb offline: zapis współrzędnych/temperatury
+ * docs/zrodla/Tresc_Modul_1_Lokalizacja_Ekrany.md). Tryb offline: zapis współrzędnych/temperatury
  * minimalnej wpisanych ręcznie. Bez silnika obliczeniowego — to ekran infrastrukturalny, zasila
  * pozostałe moduły (klimat/strefy dla PV, ogrzewania, stress-testu).
  */

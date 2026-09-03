@@ -11,7 +11,7 @@ export type BezpieczenstwoKwasResult = {
 
 /**
  * Ekran B8, Moduł 11, Ścieżka B — "Bezpieczeństwo pracy z kwasem" (dawne 10.9,
- * docs/domena/Tresc_Modul_11_MontazBaterii_Ekrany.md).
+ * docs/zrodla/Tresc_Modul_11_MontazBaterii_Ekrany.md).
  */
 export function calculateBezpieczenstwoKwas(
   input: BezpieczenstwoKwasInput,

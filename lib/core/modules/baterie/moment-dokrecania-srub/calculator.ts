@@ -11,7 +11,7 @@ export type MomentDokrecaniaResult = {
 
 /**
  * Ekran 11, Moduł 4 — "Moment dokręcania śrub" (dawne 3.12,
- * docs/domena/Tresc_Modul_4_Baterie_Ekrany.md). Checklist bez formuły — status
+ * docs/zrodla/Tresc_Modul_4_Baterie_Ekrany.md). Checklist bez formuły — status
  * odzwierciedla postęp potwierdzeń, nie wynik liczbowy.
  */
 export function calculateMomentDokrecania(

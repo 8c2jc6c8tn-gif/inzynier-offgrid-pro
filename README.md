@@ -14,7 +14,7 @@ przygotowaną na przeniesienie na mobile. Część rodziny aplikacji "Inżynier 
 - [`ZASADY_APLIKACJI.md`](./ZASADY_APLIKACJI.md) / [`USTALENIA.md`](./USTALENIA.md) — zasady i decyzje specyficzne dla Offgrid Pro (konstytucja tego projektu, nadrzędna wobec kodu).
 - [`docs/rejestr-pokrycia.md`](./docs/rejestr-pokrycia.md) — status implementacji per ekran/moduł.
 - [`docs/brief-dla-v0.md`](./docs/brief-dla-v0.md) — brief techniczny i projektowy dla v0.
-- [`docs/domena/`](./docs/domena/) — materiały źródłowe Offgrid (Biblia architektury, treść modułów, Zasady UX Doradcy).
+- [`docs/zrodla/`](./docs/zrodla/) — materiały źródłowe Offgrid (Biblia architektury, treść modułów, Zasady UX Doradcy).
 
 ## Built with v0
 

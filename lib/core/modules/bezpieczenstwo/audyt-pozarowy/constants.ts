@@ -4,7 +4,7 @@ import type { AuditCheckItem } from "./input"
  * PRZYKŁADOWE dane demonstracyjne — w docelowej implementacji ten ekran czerpie na żywo
  * z Modułu 8 (czujniki/klapy/UPS), Modułu 9 (ESP32/czujniki) i Modułu 13 (Tryb Live),
  * które nie są jeszcze zbudowane (docs/rejestr-pokrycia.md). Lista kategorii sprawdzanych
- * elementów jest 1:1 ze źródła (docs/domena/Tresc_Modul_8_Bezpieczenstwo_Ekrany.md, Ekran 11):
+ * elementów jest 1:1 ze źródła (docs/zrodla/Tresc_Modul_8_Bezpieczenstwo_Ekrany.md, Ekran 11):
  * czujniki dymu, obecność i sprawność gaśnic, drożność dróg ewakuacyjnych, poprawna reakcja
  * klap pożarowych, historia testów i przeglądów — konkretne wpisy poniżej są ilustracyjne,
  * nie realnym audytem żadnej instalacji.

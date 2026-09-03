@@ -1,6 +1,6 @@
 /**
  * Ekran A10, Moduł 11 "Montaż baterii", Ścieżka A (LiFePO4) — "Przechowywanie / recykling /
- * narzędzia diagnostyczne" (dawne 9.18, 9.19, 9.20 — docs/domena/Tresc_Modul_11_MontazBaterii_Ekrany.md).
+ * narzędzia diagnostyczne" (dawne 9.18, 9.19, 9.20 — docs/zrodla/Tresc_Modul_11_MontazBaterii_Ekrany.md).
  * Wzorzec C — trzy niezależne, uzupełniające się tematy, bez pól wejściowych (docs/standards/08-ui-ux.md,
  * 8.2). Ten ekran nie ma kalkulatora — to czysta treść, dane 1:1 ze źródła.
  */

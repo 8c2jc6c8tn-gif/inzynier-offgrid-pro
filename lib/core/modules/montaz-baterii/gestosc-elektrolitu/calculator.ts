@@ -15,7 +15,7 @@ export type GestoscElektrolituResult = {
 
 /**
  * Ekran B9, Moduł 11, Ścieżka B — "Test pojemności i gęstości elektrolitu" (dawne 10.13,
- * docs/domena/Tresc_Modul_11_MontazBaterii_Ekrany.md). Trzy strefy z tabeli referencyjnej
+ * docs/zrodla/Tresc_Modul_11_MontazBaterii_Ekrany.md). Trzy strefy z tabeli referencyjnej
  * źródła (1,28=pełny / 1,20=połowa / 1,12=rozładowany) — granice stref to same podane wartości
  * referencyjne (ten sam wzorzec co Ekran A9 z jednym progiem 1,5V), nic pomiędzy nie jest
  * wymyślone. Źródło nie oznacza żadnego z tych stanów jako 🔴 — stąd oba niepełne stany mają

@@ -109,7 +109,7 @@ nie do audytu poprawności formularza webowego.
   właściciela projektu, nie zmienione samodzielnie w ramach tego audytu (`docs/standards/15`, 15.4
   — nie rozstrzygaj konfliktu/niejasności sam).
 - Moduły z ekranami wciąż `todo` (większość Modułu 2, Moduł 1 ekrany 2–4, reszta ekranów 3/4/5/8/9)
-  mogą kryć kolejne twarde stopy w treści źródłowej (`docs/domena/`), jeszcze nieprzepisane do
+  mogą kryć kolejne twarde stopy w treści źródłowej (`docs/zrodla/`), jeszcze nieprzepisane do
   kodu — ten rejestr rośnie razem z `docs/rejestr-pokrycia.md`, nie wyprzedza go.
 - **Ekran B5 (Moduł 11, Ścieżka B — dobór kabli/bezpieczników) zablokowany, nie zbudowany.**
   Źródło wprost każe użyć "tego samego silnika co Moduł 5, Ekran 1", ale ten ekran jeszcze nie
@@ -118,7 +118,7 @@ nie do audytu poprawności formularza webowego.
   powstanie, B5 powinien go re-używać (wzorzec "echo", nie duplikować logiki), patrz
   `docs/rejestr-pokrycia.md`.
 - **Moduł 5, Ekran 1 (Dobór przekroju kabla) sam też zablokowany — ten sam powód co B5.**
-  Sprawdzone (2026-09-03): źródło (`docs/domena/Tresc_Modul_5_Okablowanie_Ekrany.md`, linie 9–52)
+  Sprawdzone (2026-09-03): źródło (`docs/zrodla/Tresc_Modul_5_Okablowanie_Ekrany.md`, linie 9–52)
   odwołuje się do "tabeli normatywnej (PN-IEC 60364-5-52)" dla obciążalności bazowej kabla wg
   przekroju/materiału, ale samej tabeli nie podaje — tylko po jednej przykładowej wartości
   współczynnika korekcyjnego (`k1=0,87` dla 40°C, `k2=0,70` dla 4 kabli w wiązce), nie pełne

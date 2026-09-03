@@ -1,5 +1,5 @@
 /**
- * Katalog technologii magazynów — dane 1:1 z tabeli źródłowej (docs/domena/Tresc_Modul_4_Baterie_Ekrany.md,
+ * Katalog technologii magazynów — dane 1:1 z tabeli źródłowej (docs/zrodla/Tresc_Modul_4_Baterie_Ekrany.md,
  * Ekran 30). Tam gdzie źródło podaje przedział cykli, w `cyklePrzyDodReprezentatywne` używamy
  * środka przedziału jako wartości reprezentatywnej do obliczeń — jawnie oznaczone w `assumptions`
  * wyniku, nie ukryte. Tam gdzie źródło nie podaje liczby (np. sprawność akumulatora trakcyjnego —

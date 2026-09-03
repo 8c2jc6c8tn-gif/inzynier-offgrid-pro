@@ -1,6 +1,6 @@
 /**
  * Moduł 9 "Elektronika / ESP32 / sensoryka" — KATALOG 1: Czujniki (21 pozycji)
- * (docs/domena/Tresc_Modul_9_ESP32_Ekrany.md). Wzorzec H — katalog komponentów:
+ * (docs/zrodla/Tresc_Modul_9_ESP32_Ekrany.md). Wzorzec H — katalog komponentów:
  * user dodaje dowolną liczbę instancji każdego typu, każda konfigurowana osobno
  * (docs/standards/08-ui-ux.md, 8.2). Dane 1:1 ze źródła.
  */

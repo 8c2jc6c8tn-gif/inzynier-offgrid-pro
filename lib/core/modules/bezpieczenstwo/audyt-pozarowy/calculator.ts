@@ -13,7 +13,7 @@ export type AuditPozarowyResult = {
 
 /**
  * Ekran 11, Moduł 8 — "Autonomiczny audyt bezpieczeństwa pożarowego" (dawne 12.57,
- * docs/domena/Tresc_Modul_8_Bezpieczenstwo_Ekrany.md). AI regularnie sprawdza, czy
+ * docs/zrodla/Tresc_Modul_8_Bezpieczenstwo_Ekrany.md). AI regularnie sprawdza, czy
  * w razie pożaru wszystko zadziała tak, jak powinno — żeby nie odkryć zepsutego
  * czujnika dopiero w trakcie prawdziwego pożaru.
  */

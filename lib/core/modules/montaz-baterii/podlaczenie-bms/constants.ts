@@ -1,6 +1,6 @@
 export type ChecklistItem = { id: string; krok: string }
 
-/** Dane 1:1 ze źródła (docs/domena/Tresc_Modul_11_MontazBaterii_Ekrany.md, Ekran A4). */
+/** Dane 1:1 ze źródła (docs/zrodla/Tresc_Modul_11_MontazBaterii_Ekrany.md, Ekran A4). */
 export const CHECKLIST_ITEMS: ChecklistItem[] = [
   { id: "wtyczka-balansujaca", krok: "Wtyczka balansująca (pomiarowa) — podłączana pierwsza." },
   { id: "przewody-glowne", krok: "Przewody główne: B− do minusa pakietu, P− do odbiornika. Nigdy nie zamieniać kolejności." },

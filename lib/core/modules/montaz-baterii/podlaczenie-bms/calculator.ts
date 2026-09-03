@@ -16,7 +16,7 @@ const FORMULA = "T = 5 \\cdot R_{pre} \\cdot C"
 
 /**
  * Ekran A4, Moduł 11 — "Podłączenie BMS" (dawne 9.4, 9.5, 9.12,
- * docs/domena/Tresc_Modul_11_MontazBaterii_Ekrany.md). Czas pre-charge liczony niezależnie od
+ * docs/zrodla/Tresc_Modul_11_MontazBaterii_Ekrany.md). Czas pre-charge liczony niezależnie od
  * checklisty (user potrzebuje tej liczby, ZANIM zacznie odhaczać krok 3), kolejność checklisty
  * (jak w Ekranie A3 / Procedurze Black Start) rządzi tylko werdyktem gotowości.
  */

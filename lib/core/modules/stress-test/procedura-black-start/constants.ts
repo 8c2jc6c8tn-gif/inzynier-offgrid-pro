@@ -1,6 +1,6 @@
 /**
  * Ekran 5, Moduł 7 "Stress-test zimowy" — "Procedura Black Start" (dawne 6.5,
- * docs/domena/Tresc_Modul_7_StressTest_Ekrany.md). Wzorzec E — checklist weryfikacyjna, sekwencja
+ * docs/zrodla/Tresc_Modul_7_StressTest_Ekrany.md). Wzorzec E — checklist weryfikacyjna, sekwencja
  * musi być wykonana w podanej kolejności (docs/standards/08-ui-ux.md, 8.2).
  */
 

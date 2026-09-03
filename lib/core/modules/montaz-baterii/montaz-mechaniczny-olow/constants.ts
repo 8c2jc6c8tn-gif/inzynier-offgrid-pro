@@ -1,6 +1,6 @@
 /**
  * Ekran B2, Moduł 11 "Montaż baterii", Ścieżka B (kwasowo-ołowiowa) — "Montaż mechaniczny +
- * mocowanie/wentylacja" (scala dawne 10.2, 10.11 — docs/domena/Tresc_Modul_11_MontazBaterii_Ekrany.md).
+ * mocowanie/wentylacja" (scala dawne 10.2, 10.11 — docs/zrodla/Tresc_Modul_11_MontazBaterii_Ekrany.md).
  * Wzorzec E — checklist weryfikacyjna, bez wymuszonej kolejności.
  */
 

@@ -1,6 +1,6 @@
 /**
  * Ekran 11, Moduł 4 "Magazyn energii / baterie" — "Moment dokręcania śrub (Torque Control)"
- * (dawne 3.12 — docs/domena/Tresc_Modul_4_Baterie_Ekrany.md).
+ * (dawne 3.12 — docs/zrodla/Tresc_Modul_4_Baterie_Ekrany.md).
  * Wzorzec E — checklist weryfikacyjna: sekwencja "zrób i potwierdź", nie kalkulacja
  * (docs/standards/08-ui-ux.md, 8.2). Wartości momentów dokręcania — dane 1:1 ze źródła.
  */

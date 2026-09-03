@@ -16,7 +16,7 @@ onboardingu, i sposób, w jaki ten sam wzorzec powtarza się wewnątrz każdego 
 ## 1. Model pojęciowy
 
 **Pulpit główny** = siatka kafli. Kafel = jeden z 13 modułów domenowych (`Moduł 1`–`Moduł 13`,
-`docs/domena/`) + **Kafel 14 = Ustawienia** (ta numeracja już istnieje w źródle:
+`docs/zrodla/`) + **Kafel 14 = Ustawienia** (ta numeracja już istnieje w źródle:
 `Tresc_WSZYSTKIE_MODULY_scalone.md`, metryczka "Moduły (kafle pulpitu): 13 + 1").
 
 **Pasek górny** (stały, zawsze widoczny, niezależny od stanu pulpitu):
@@ -32,7 +32,7 @@ nich szybki dostęp niezależnie od tego, czy user akurat schował je z pulpitu.
 
 Kolejność wynika z realnego przepływu zależności danych (kto czyta dane od kogo), nie jest
 arbitralna. Jest to **dokładnie kolejność już używana** w numeracji `Moduł 1`–`13` w
-`docs/domena/Tresc_Modul_*_Ekrany.md` — nie nowy wymysł, tylko potwierdzenie, że istniejąca
+`docs/zrodla/Tresc_Modul_*_Ekrany.md` — nie nowy wymysł, tylko potwierdzenie, że istniejąca
 numeracja już koduje logiczną kolejność.
 
 | # | Kafel | Zależy od (czyta dane z) |
@@ -55,7 +55,7 @@ numeracja już koduje logiczną kolejność.
 jakiej kolejności *my* implementujemy kod; kolejność kafli opisuje, co domyślnie widzi *user* na
 pulpicie. To dwie różne rzeczy, mogą się różnić bez sprzeczności — kolejność kafli może się
 zmieniać swobodnie, nie sugeruje planu pracy zespołu. Jedyne realne ryzyko pomyłki: `§14` używa
-starszej numeracji "Rozdział 0–12" sprzed ustalenia numeracji `Moduł/Kafel 1–13` z `docs/domena/`,
+starszej numeracji "Rozdział 0–12" sprzed ustalenia numeracji `Moduł/Kafel 1–13` z `docs/zrodla/`,
 i te dwa systemy numeracji **nie pokrywają się 1:1** (np. stary "Rozdział 6" ≠ dzisiejszy "Moduł
 6") — w `§14` dopisano jednozdaniowe zastrzeżenie, żeby to nie zostało pomylone w przyszłej sesji.
 
@@ -108,7 +108,7 @@ komponent (`AdaptiveMenu`, 08.11) na swoim poziomie, nie osobną implementację:
 - Wejście do modułu bez wcześniejszej konfiguracji pokazuje **skrócone menu** — podzbiór ekranów
   dobrany wg presetu (np. "Montaż paneli", "Dobór akumulatora") zamiast wszystkich naraz.
 - **"Pełne menu"** = wszystkie ekrany modułu widoczne, w kolejności już ustalonej przez numerację
-  źródłową `Ekran 1, 2, 3...` w `docs/domena/Tresc_Modul_X_*_Ekrany.md` — ta kolejność **już
+  źródłową `Ekran 1, 2, 3...` w `docs/zrodla/Tresc_Modul_X_*_Ekrany.md` — ta kolejność **już
   istnieje i jest logiczna** (ustalona przez autorów treści przy scalaniu funkcji), nie trzeba jej
   wymyślać od nowa dla każdego modułu.
 - Presety per moduł (lista zadań typu "co potrzebne do montażu paneli") — do opracowania osobno
