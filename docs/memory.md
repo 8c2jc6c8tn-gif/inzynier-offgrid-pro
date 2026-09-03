@@ -508,6 +508,20 @@
   projektu ustalił termin: piątek 2026-09-04 20:00, maksymalna liczba rozdziałów — następny krok
   (kontynuacja Modułu 11 vs. inny moduł) do potwierdzenia na starcie kolejnej rundy pracy.
 
+## Decyzje i uzasadnienie (c.d. 22)
+
+- **2026-09-03 — Ekran A9, Moduł 11: "Ratowanie głęboko rozładowanego ogniwa".** Drugi prawdziwy
+  Doradca (Wzorzec D) w tym module — trzy strefy decyzyjne z pomiaru napięcia (0V / (0,1,5V] /
+  >1,5V), dokładnie jak w źródle, nic pomiędzy nie wymyślone. **Ważna różnica konstrukcyjna
+  względem Ekranu A1:** tu `0` jest prawdziwym, krytycznym wynikiem pomiaru (ogniwo martwe), nie
+  placeholderem "jeszcze niewypełnione" jak w A1 — więc `napiecieOgniwaV: number | null` zamiast
+  reużycia sztuczki "0 = incomplete". Typ zamknięty `Strefa = "krytyczna"|"ryzykowna"|"bezpieczna"`
+  (16.4). Dopisano do `docs/rejestr-twardych-stopow.md`. Złapany przez lint przed commitem: proste
+  cudzysłowy w JSX (`react/no-unescaped-entities`) — poprawione na typograficzne „…”.
+  `lib/core/modules/montaz-baterii/ratowanie-ogniwa/`, 6 testów, UI:
+  `app/kalkulatory/ratowanie-ogniwa/page.tsx`. Zweryfikowane: `tsc`/`lint`/`pnpm test`
+  (118/118)/`pnpm build` czysto, Playwright (trzy strefy: 🔴 0V, 🟡 niskie-niezerowe, 🟢 bezpieczne).
+
 ## Mapa orientacyjna
 
 - `docs/rejestr-twardych-stopow.md` — zbiorczy indeks warunków zawsze skutkujących 🔴 (04.3), z odsyłaczami do modułu/ekranu/pliku źródłowego. Dopisz tu nowy twardy stop, gdy kolejny moduł go wprowadzi.

@@ -46,6 +46,10 @@ nie do audytu poprawności formularza webowego.
   naładowany, ryzyko iskrzenia i uszkodzenia terminali przy odłączaniu.
   (M11/A6 — `lib/core/modules/montaz-baterii/demontaz-pakietu/warnings.ts`,
   `pakietWciazNaladowany`, kod `PAKIET-WCIAZ-NALADOWANY`)
+- **Próba ratowania ogniwa LiFePO4 zmierzonego na 0 V** — prawdopodobne przebicie separatora,
+  ładowanie grozi pożarem; zalecana utylizacja, nie ratunek.
+  (M11/A9 — `lib/core/modules/montaz-baterii/ratowanie-ogniwa/warnings.ts`, `ogniwoZeroWoltowe`,
+  kod `OGNIWO-ZERO-WOLTOWE`)
 - **Agregat podłączony bezpośrednio do baterii, bez ładowarki/MPPT pomiędzy** — uszkodzenie ogniw.
   (M7/E5 — `lib/core/modules/stress-test/procedura-black-start/constants.ts`, `OSTRZEZENIA_STALE`)
 - **Klucz udarowy zamiast dynamometrycznego na terminalach ogniw** — uszkodzenie połączenia/obudowy

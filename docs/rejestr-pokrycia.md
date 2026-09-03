@@ -74,7 +74,7 @@ chemii (LiFePO4, kwasowo-ołowiowa) ze wspólnym szkieletem UI. Ekran A7 był ju
 | A6 | 9.7, 9.14, 9.15 | Demontaż — procedura, SoC, odłączanie BMS | **done** | `lib/core/modules/montaz-baterii/demontaz-pakietu/`, UI: `app/kalkulatory/demontaz-pakietu/page.tsx`, 6 testów. Napięcie na ogniwo liczone z pakietu (reużywa `OCZEKIWANA_LICZBA_OGNIW` z Ekranu A1) — jeśli pakiet wciąż naładowany (>3,2V/ogniwo), krytyczne ostrzeżenie natychmiast, niezależnie od checklisty. |
 | A7 | 9.9 | Przygotowanie stanowiska i narzędzi | **done** | `lib/core/modules/montaz-baterii/przygotowanie-stanowiska/`, UI: `app/kalkulatory/przygotowanie-stanowiska/page.tsx`, 4 testy. |
 | A8 | 9.16 | Ocena zużycia ogniwa po demontażu | todo | |
-| A9 | 9.17 | Ratowanie głęboko rozładowanego ogniwa (Wzorzec D) | todo | |
+| A9 | 9.17 | Ratowanie głęboko rozładowanego ogniwa (Wzorzec D) | **done** | `lib/core/modules/montaz-baterii/ratowanie-ogniwa/`, UI: `app/kalkulatory/ratowanie-ogniwa/page.tsx`, 6 testów. Trzy strefy decyzyjne z pomiaru napięcia (0V / (0,1,5V] / >1,5V), dokładnie jak w źródle. `0` to prawidłowy, krytyczny wynik pomiaru — nie placeholder (`napiecieOgniwaV: number \| null`, inaczej niż w A1). |
 | A10 | 9.18–9.20 | Przechowywanie / recykling / narzędzia diagnostyczne | todo | |
 | B1 | 10.1, 10.8 | Weryfikacja + kontrola wstępna (kwasowo-ołowiowa) | todo | |
 | B2 | 10.2, 10.11 | Montaż mechaniczny + mocowanie/wentylacja | todo | twardy stop źródła: brak wentylacji przy akumulatorach kwasowych — ryzyko wybuchu wodoru. |
