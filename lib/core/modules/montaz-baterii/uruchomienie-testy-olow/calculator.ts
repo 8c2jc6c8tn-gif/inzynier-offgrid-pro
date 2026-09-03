@@ -11,7 +11,7 @@ export type UruchomienieTestyOlowResult = {
 
 /**
  * Ekran B6, Moduł 11, Ścieżka B — "Pierwsze uruchomienie i testy" (dawne 10.6,
- * docs/domena/Tresc_Modul_11_MontazBaterii_Ekrany.md).
+ * docs/zrodla/Tresc_Modul_11_MontazBaterii_Ekrany.md).
  */
 export function calculateUruchomienieTestyOlow(
   input: UruchomienieTestyOlowInput,

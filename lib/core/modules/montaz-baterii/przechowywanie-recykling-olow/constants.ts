@@ -1,6 +1,6 @@
 /**
  * Ekran B12, Moduł 11 "Montaż baterii", Ścieżka B (kwasowo-ołowiowa) — "Przechowywanie /
- * recykling / narzędzia" (dawne 10.18, 10.19, 10.20 — docs/domena/Tresc_Modul_11_MontazBaterii_Ekrany.md).
+ * recykling / narzędzia" (dawne 10.18, 10.19, 10.20 — docs/zrodla/Tresc_Modul_11_MontazBaterii_Ekrany.md).
  * Wzorzec C — trzy niezależne, uzupełniające się tematy, bez pól wejściowych. Ten ekran nie ma
  * kalkulatora — to czysta treść, dane 1:1 ze źródła. Dwa fakty oznaczone 🔴 w źródle (mróz,
  * zakaz wylewania kwasu) dopisane też do docs/rejestr-twardych-stopow.md.

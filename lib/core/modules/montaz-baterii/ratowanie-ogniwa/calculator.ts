@@ -17,7 +17,7 @@ const FORMULA = ""
 
 /**
  * Ekran A9, Moduł 11 — "Ratowanie głęboko rozładowanego ogniwa" (dawne 9.17,
- * docs/domena/Tresc_Modul_11_MontazBaterii_Ekrany.md). Trzy strefy decyzyjne z pomiaru napięcia,
+ * docs/zrodla/Tresc_Modul_11_MontazBaterii_Ekrany.md). Trzy strefy decyzyjne z pomiaru napięcia,
  * dokładnie tak jak w źródle — nic pomiędzy nie jest wymyślone: 0V, (0, 1,5V], (1,5V, ∞).
  */
 export function calculateRatowanieOgniwa(input: RatowanieOgniwaInput): CalcResult<RatowanieOgniwaResult> {

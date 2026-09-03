@@ -11,7 +11,7 @@ export type PrzygotowanieStanowiskaResult = {
 
 /**
  * Ekran A7, Moduł 11 — "Przygotowanie stanowiska i narzędzi" (dawne 9.9,
- * docs/domena/Tresc_Modul_11_MontazBaterii_Ekrany.md).
+ * docs/zrodla/Tresc_Modul_11_MontazBaterii_Ekrany.md).
  */
 export function calculatePrzygotowanieStanowiska(
   input: PrzygotowanieStanowiskaInput,

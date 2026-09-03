@@ -1,6 +1,6 @@
 /**
  * Ekran A3, Moduł 11 "Montaż baterii" — "Połączenia elektryczne + kolejność łączenia"
- * (dawne 9.3, 9.11, docs/domena/Tresc_Modul_11_MontazBaterii_Ekrany.md, ścieżka LiFePO4).
+ * (dawne 9.3, 9.11, docs/zrodla/Tresc_Modul_11_MontazBaterii_Ekrany.md, ścieżka LiFePO4).
  * Wzorzec E — checklist z wymuszoną kolejnością (ten sam wzorzec co Procedura Black Start,
  * Moduł 7, Ekran 5): kolejność ma znaczenie, zaznaczenie kroku poza kolejnością nie liczy się
  * do postępu.

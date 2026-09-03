@@ -11,7 +11,7 @@ export type WeryfikacjaWstepnaOlowResult = {
 
 /**
  * Ekran B1, Moduł 11, Ścieżka B — "Weryfikacja + kontrola wstępna" (scala dawne 10.1, 10.8,
- * docs/domena/Tresc_Modul_11_MontazBaterii_Ekrany.md).
+ * docs/zrodla/Tresc_Modul_11_MontazBaterii_Ekrany.md).
  */
 export function calculateWeryfikacjaWstepnaOlow(
   input: WeryfikacjaWstepnaOlowInput,

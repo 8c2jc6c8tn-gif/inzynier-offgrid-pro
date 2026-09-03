@@ -13,7 +13,7 @@ export type BalanseryZewnetrzneOlowResult = {
 
 /**
  * Ekran B4, Moduł 11, Ścieżka B — "Balansery zewnętrzne" (scala dawne 10.4, 10.12,
- * docs/domena/Tresc_Modul_11_MontazBaterii_Ekrany.md).
+ * docs/zrodla/Tresc_Modul_11_MontazBaterii_Ekrany.md).
  */
 export function calculateBalanseryZewnetrzneOlow(
   input: BalanseryZewnetrzneOlowInput,

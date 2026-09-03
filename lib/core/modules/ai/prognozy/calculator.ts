@@ -11,7 +11,7 @@ export type PrognozyResult = {
 }
 
 /**
- * Ekran 1, Moduł 10 — "Prognozy" (docs/domena/Tresc_Modul_10_AI_Ekrany.md). To jest "pogoda"
+ * Ekran 1, Moduł 10 — "Prognozy" (docs/zrodla/Tresc_Modul_10_AI_Ekrany.md). To jest "pogoda"
  * Twojego systemu energetycznego — nie tylko atmosferyczna, ale cała: ile będziesz mieć prądu,
  * ile zużyjesz, i kiedy będzie ciasno.
  */

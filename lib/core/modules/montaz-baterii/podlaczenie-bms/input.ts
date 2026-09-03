@@ -1,6 +1,6 @@
 /**
  * Ekran A4, Moduł 11 "Montaż baterii" — "Podłączenie BMS" (dawne 9.4, 9.5, 9.12,
- * docs/domena/Tresc_Modul_11_MontazBaterii_Ekrany.md, ścieżka LiFePO4). Wzorzec E (checklist
+ * docs/zrodla/Tresc_Modul_11_MontazBaterii_Ekrany.md, ścieżka LiFePO4). Wzorzec E (checklist
  * z wymuszoną kolejnością, jak A3) z wbudowanym elementem D — procedura pre-charge ma realny
  * wzór (T = 5 × R_pre × C), nie jest tylko krokiem do odhaczenia.
  */

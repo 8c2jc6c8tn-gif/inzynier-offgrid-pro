@@ -32,7 +32,7 @@ function buildInvalid(
 
 /**
  * Ekran 11, Moduł 3 — "Konfigurator stringów: szereg / równolegle / mieszany"
- * (dawne 2.19-2.21, docs/domena/Tresc_Modul_3_PV_Ekrany.md).
+ * (dawne 2.19-2.21, docs/zrodla/Tresc_Modul_3_PV_Ekrany.md).
  * Szereg dodaje napięcia, równoległe dodaje prądy — to jak łączenie ogniw latarki.
  */
 export function calculateKonfiguratorStringow(

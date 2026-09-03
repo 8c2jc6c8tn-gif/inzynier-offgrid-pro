@@ -14,7 +14,7 @@ const FORMULA = "E_{całkowita} = pojemność \\times cykle \\times DoD"
 
 /**
  * Ekran 30, Moduł 4 — "Porównanie technologii magazynów" (dawne 3.34,
- * docs/domena/Tresc_Modul_4_Baterie_Ekrany.md). Wzorzec B: cena zakupu to nie to
+ * docs/zrodla/Tresc_Modul_4_Baterie_Ekrany.md). Wzorzec B: cena zakupu to nie to
  * samo co koszt w całym cyklu życia — dlatego liczymy energię całkowitą, nie tylko
  * pojemność nominalną.
  */

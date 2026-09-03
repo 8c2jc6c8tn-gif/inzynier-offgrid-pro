@@ -8,7 +8,7 @@ const FORMULA = "P_{elektryczna} = P_{cieplna} / COP"
 
 /**
  * Ekran 5, Moduł 6 — "Pompa ciepła — COP/SCOP w funkcji temperatury" (dawne 5.5,
- * docs/domena/Tresc_Modul_6_Ogrzewanie_Ekrany.md). COP to "mnożnik" — pompa nie produkuje ciepła
+ * docs/zrodla/Tresc_Modul_6_Ogrzewanie_Ekrany.md). COP to "mnożnik" — pompa nie produkuje ciepła
  * z niczego, tylko przenosi je z zewnątrz, zużywając mniej prądu niż grzałka elektryczna.
  */
 export function calculateCopPompyCiepla(input: CopPompyCieplaInput): CalcResult<number> {

@@ -1,6 +1,6 @@
 /**
  * Ekran 24, Moduł 3 "Instalacja PV" — "Czystość i śnieg na panelach"
- * (scala dawne: 2.16, 2.40, 2.44 — docs/domena/Tresc_Modul_3_PV_Ekrany.md).
+ * (scala dawne: 2.16, 2.40, 2.44 — docs/zrodla/Tresc_Modul_3_PV_Ekrany.md).
  * Wzorzec C — akordeon: trzy tematy uzupełniające się, każdy z osobną, lekką logiką
  * (docs/standards/08-ui-ux.md, 8.2). Nie ma tu jednego werdyktu — to informacja
  * z lokalnymi obliczeniami tam, gdzie źródło podaje konkretne liczby.

@@ -17,7 +17,7 @@ const FORMULA = "V_{ogniwo} = V_{pakietu} / S"
 
 /**
  * Ekran A6, Moduł 11 — "Demontaż — procedura, SoC, odłączanie BMS" (dawne 9.7, 9.14, 9.15,
- * docs/domena/Tresc_Modul_11_MontazBaterii_Ekrany.md). Napięcie na ogniwo liczone z pakietu i
+ * docs/zrodla/Tresc_Modul_11_MontazBaterii_Ekrany.md). Napięcie na ogniwo liczone z pakietu i
  * napięcia systemu (ten sam podział S co Ekran A1) — jeśli pakiet wciąż naładowany, ostrzeżenie
  * krytyczne pojawia się natychmiast, niezależnie od postępu checklisty.
  */

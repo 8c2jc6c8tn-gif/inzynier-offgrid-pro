@@ -16,7 +16,7 @@ export default function TrybLivePage() {
           Tryb Live czerpie dane z falownika/BMS na żywo przez Modbus lub MQTT — to połączenie
           nie jest jeszcze skonfigurowane. Po podłączeniu ten ekran stanie się bramką do
           biblioteki widżetów (Ekran 2: dashboard z wybieranymi widżetami — moc PV, SoC baterii,
-          alarmy i inne, docs/domena/Tresc_Modul_13_Live_Ekrany.md).
+          alarmy i inne, docs/zrodla/Tresc_Modul_13_Live_Ekrany.md).
         </p>
       </StanPusty>
 

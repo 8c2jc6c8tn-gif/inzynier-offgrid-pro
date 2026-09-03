@@ -9,7 +9,7 @@ export type KatalogCzujnikowResult = {
 }
 
 /**
- * Moduł 9, Katalog 1 — "Czujniki" (docs/domena/Tresc_Modul_9_ESP32_Ekrany.md).
+ * Moduł 9, Katalog 1 — "Czujniki" (docs/zrodla/Tresc_Modul_9_ESP32_Ekrany.md).
  * Wzorzec H: brak "wyniku" w sensie fizycznym — to podsumowanie stanu katalogu,
  * ile instancji dodano i ile różnych typów jest w użyciu.
  */

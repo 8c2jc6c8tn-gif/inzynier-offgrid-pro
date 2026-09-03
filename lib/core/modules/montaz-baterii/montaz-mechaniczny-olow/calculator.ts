@@ -11,7 +11,7 @@ export type MontazMechanicznyOlowResult = {
 
 /**
  * Ekran B2, Moduł 11, Ścieżka B — "Montaż mechaniczny + mocowanie/wentylacja" (scala dawne
- * 10.2, 10.11, docs/domena/Tresc_Modul_11_MontazBaterii_Ekrany.md).
+ * 10.2, 10.11, docs/zrodla/Tresc_Modul_11_MontazBaterii_Ekrany.md).
  */
 export function calculateMontazMechanicznyOlow(
   input: MontazMechanicznyOlowInput,

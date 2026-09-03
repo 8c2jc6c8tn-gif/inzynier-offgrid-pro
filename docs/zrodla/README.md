@@ -1,4 +1,9 @@
-# docs/domena/ — materiały źródłowe Offgrid (Biblia + treść modułów)
+# docs/zrodla/ — materiały źródłowe Offgrid (Biblia + treść modułów)
+
+**2026-09-04 — zmiana nazwy z `docs/domena/`** na kanoniczną nazwę z GOD BOOK Część B.5
+(`docs/zrodla/` — katalog materiałów źródłowych, nietykalny, tylko do odczytu). Ten folder pełnił
+tę rolę od początku, tylko pod inną nazwą — na wyraźną decyzję właściciela projektu ujednolicono
+nazewnictwo ze standardem. Treść plików bez zmian, patrz `docs/memory.md`.
 
 To są surowe materiały produktowe/domenowe (specyfikacja Off-Grid PV v1.5/v2.0), **nie** część
 `docs/standards/` (te są generyczne dla całej rodziny aplikacji). Trzymane w repo, żeby nie trzeba

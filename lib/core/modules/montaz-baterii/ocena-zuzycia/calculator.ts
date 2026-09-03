@@ -12,7 +12,7 @@ export type OcenaZuzyciaResult = {
 
 /**
  * Ekran A8, Moduł 11 — "Ocena zużycia ogniwa po demontażu" (dawne 9.16,
- * docs/domena/Tresc_Modul_11_MontazBaterii_Ekrany.md). Puchnięcie obudowy wygrywa natychmiast,
+ * docs/zrodla/Tresc_Modul_11_MontazBaterii_Ekrany.md). Puchnięcie obudowy wygrywa natychmiast,
  * niezależnie od tego, ile pomiarów z checklisty już wykonano.
  */
 export function calculateOcenaZuzycia(input: OcenaZuzyciaInput): CalcResult<OcenaZuzyciaResult> {

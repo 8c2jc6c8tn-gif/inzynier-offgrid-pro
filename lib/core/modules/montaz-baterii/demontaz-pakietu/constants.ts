@@ -1,6 +1,6 @@
 export type ChecklistItem = { id: string; krok: string }
 
-/** Dane 1:1 ze źródła (docs/domena/Tresc_Modul_11_MontazBaterii_Ekrany.md, Ekran A6) — kolejność
+/** Dane 1:1 ze źródła (docs/zrodla/Tresc_Modul_11_MontazBaterii_Ekrany.md, Ekran A6) — kolejność
  * to dokładna odwrotność montażu (A2–A4), każde odstępstwo zwiększa ryzyko zwarcia w rękach. */
 export const CHECKLIST_ITEMS: ChecklistItem[] = [
   { id: "zatrzymaj-obciazenia", krok: "Zatrzymaj wszystkie obciążenia i ładowarki (falownik, MPPT, agregat) — poczekaj, aż przestaną pobierać prąd." },

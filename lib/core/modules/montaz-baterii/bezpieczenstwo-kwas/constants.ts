@@ -1,6 +1,6 @@
 /**
  * Ekran B8, Moduł 11 "Montaż baterii", Ścieżka B (kwasowo-ołowiowa) — "Bezpieczeństwo pracy z
- * kwasem" (dawne 10.9 — docs/domena/Tresc_Modul_11_MontazBaterii_Ekrany.md).
+ * kwasem" (dawne 10.9 — docs/zrodla/Tresc_Modul_11_MontazBaterii_Ekrany.md).
  * Wzorzec E — checklist weryfikacyjna, bez wymuszonej kolejności.
  */
 

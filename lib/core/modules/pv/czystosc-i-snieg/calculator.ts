@@ -27,7 +27,7 @@ const KAT_OPISY: Record<KatBand, string> = {
 
 /**
  * Ekran 24, Moduł 3, sekcja "Kąt a samooczyszczanie" (dawne 2.44,
- * docs/domena/Tresc_Modul_3_PV_Ekrany.md).
+ * docs/zrodla/Tresc_Modul_3_PV_Ekrany.md).
  */
 export function classifyKatSamooczyszczania(
   input: KatSamooczyszczaniaInput,
@@ -87,7 +87,7 @@ export type HarmonogramCzyszczeniaResult = {
 
 /**
  * Ekran 24, Moduł 3, sekcja "Harmonogram czyszczenia — live" (dawne 2.40,
- * docs/domena/Tresc_Modul_3_PV_Ekrany.md). Próg rekomendacji mycia: strata >5-10%
+ * docs/zrodla/Tresc_Modul_3_PV_Ekrany.md). Próg rekomendacji mycia: strata >5-10%
  * (tu: środek przedziału), z odroczeniem, jeśli deszcz naturalnie umyje panele.
  */
 export function ocenHarmonogramCzyszczenia(

@@ -1,7 +1,7 @@
 /**
  * Ekran B7, Moduł 11 "Montaż baterii", Ścieżka B (kwasowo-ołowiowa) — "Demontaż — procedura,
  * kolejność, zabezpieczenie" (scala dawne 10.7, 10.14, 10.15 —
- * docs/domena/Tresc_Modul_11_MontazBaterii_Ekrany.md). Wzorzec E — checklist z wymuszoną
+ * docs/zrodla/Tresc_Modul_11_MontazBaterii_Ekrany.md). Wzorzec E — checklist z wymuszoną
  * kolejnością (ten sam wzorzec co Ekran A3/Procedura Black Start): kolejność ma znaczenie,
  * zaznaczenie kroku poza kolejnością nie liczy się do postępu.
  */

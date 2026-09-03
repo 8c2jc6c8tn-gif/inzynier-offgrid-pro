@@ -1,6 +1,6 @@
 /**
  * Ekran 19, Moduł 5 "Okablowanie i zabezpieczenia" — "Trasy kablowe — prowadzenie i separacja"
- * (dawne 4.22 — docs/domena/Tresc_Modul_5_Okablowanie_Ekrany.md).
+ * (dawne 4.22 — docs/zrodla/Tresc_Modul_5_Okablowanie_Ekrany.md).
  * Wzorzec F — przewodnik z ilustracją: reguła przestrzenna, rysunek + zasada, bez pól
  * wejściowych (docs/standards/08-ui-ux.md, 8.2). Ten ekran nie ma kalkulatora — to
  * czysta treść, dane 1:1 ze źródła.

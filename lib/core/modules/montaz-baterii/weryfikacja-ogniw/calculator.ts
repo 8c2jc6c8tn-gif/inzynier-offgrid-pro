@@ -17,7 +17,7 @@ const FORMULA = "\\Delta V = V_{max} - V_{min}"
 
 /**
  * Ekran A1, Moduł 11 — "Weryfikacja kompletności + kontrola wstępna ogniw" (dawne 9.1, 9.8,
- * docs/domena/Tresc_Modul_11_MontazBaterii_Ekrany.md). Krytyczne kontrole liczbowe (BMS,
+ * docs/zrodla/Tresc_Modul_11_MontazBaterii_Ekrany.md). Krytyczne kontrole liczbowe (BMS,
  * różnica napięć) surowo zwyciężają nad statusem "niekompletne" — jeśli dane wystarczają, żeby
  * wykryć realne zagrożenie, aplikacja to pokazuje od razu, nie chowa za "dokończ checklistę".
  */

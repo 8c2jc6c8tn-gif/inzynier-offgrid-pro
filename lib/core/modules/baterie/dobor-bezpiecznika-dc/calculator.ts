@@ -14,7 +14,7 @@ const FORMULA = "I_{zw} = V / R_{wewn}"
 
 /**
  * Ekran 24, Moduł 4 — "Dobór bezpiecznika DC (AIC/Class T/NH)" (dawne 3.27,
- * docs/domena/Tresc_Modul_4_Baterie_Ekrany.md). Bezpiecznik musi umieć ugasić pożar
+ * docs/zrodla/Tresc_Modul_4_Baterie_Ekrany.md). Bezpiecznik musi umieć ugasić pożar
  * elektryczny, a nie tylko się przepalić — źle dobrany pod względem AIC sam staje się
  * źródłem łuku elektrycznego.
  */

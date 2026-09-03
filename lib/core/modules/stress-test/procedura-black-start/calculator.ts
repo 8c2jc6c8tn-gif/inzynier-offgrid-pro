@@ -11,7 +11,7 @@ export type ProceduraBlackStartResult = {
 
 /**
  * Ekran 5, Moduł 7 — "Procedura Black Start" (dawne 6.5,
- * docs/domena/Tresc_Modul_7_StressTest_Ekrany.md). Kolejność kroków ma znaczenie (analogicznie do
+ * docs/zrodla/Tresc_Modul_7_StressTest_Ekrany.md). Kolejność kroków ma znaczenie (analogicznie do
  * kolejności łączenia ogniw w Module 11) — zaznaczenie kroku poza kolejnością jest oznaczane jako
  * ostrzeżenie, nie liczy się do postępu.
  */

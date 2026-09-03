@@ -11,7 +11,7 @@ export type DemontazOlowResult = {
 
 /**
  * Ekran B7, Moduł 11, Ścieżka B — "Demontaż — procedura, kolejność, zabezpieczenie" (scala dawne
- * 10.7, 10.14, 10.15, docs/domena/Tresc_Modul_11_MontazBaterii_Ekrany.md). Logika 1:1 z Ekranu A3
+ * 10.7, 10.14, 10.15, docs/zrodla/Tresc_Modul_11_MontazBaterii_Ekrany.md). Logika 1:1 z Ekranu A3
  * (Połączenia elektryczne) — kolejność kroków ma znaczenie.
  */
 export function calculateDemontazOlow(input: DemontazOlowInput): CalcResult<DemontazOlowResult> {

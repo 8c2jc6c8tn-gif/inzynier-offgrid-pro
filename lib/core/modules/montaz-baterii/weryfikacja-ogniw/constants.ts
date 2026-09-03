@@ -1,7 +1,7 @@
 import type { NapiecieSystemu } from "./input"
 
 /**
- * Ekran A1, Moduł 11 — dane 1:1 ze źródła (docs/domena/Tresc_Modul_11_MontazBaterii_Ekrany.md).
+ * Ekran A1, Moduł 11 — dane 1:1 ze źródła (docs/zrodla/Tresc_Modul_11_MontazBaterii_Ekrany.md).
  */
 
 /** 12V=4S, 24V=8S, 48V=16S — oczekiwana liczba ogniw w szeregu dla danego napięcia systemu. */
