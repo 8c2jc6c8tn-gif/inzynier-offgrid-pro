@@ -775,6 +775,36 @@
     + 6 istniejących M11/A4 bez zmian), `pnpm build` czysto, `lib/core/` nadal nie importuje z
     `app/`/`components/`, Playwright na obu ekranach.
 
+## Decyzje i uzasadnienie (c.d. 31)
+
+- **2026-09-04 — Ekran 12, Moduł 4: "Ograniczenie prądu ładowania w mrozie (Cold C-Rate)" —
+  pierwszy przypadek prawdziwej luki wewnątrz tabeli tego samego ekranu (nie brakującej normy
+  zewnętrznej jak M5/E1, tylko brakującego wiersza we własnej tabeli źródła).** Tabela limitów
+  C-rate (Sekcja B) ma 4 wiersze: `<-10°C` (blokada), `-10 do 0°C` (0,1C), `0 do 5°C` (0,2C),
+  `>10°C` (pełny prąd) — zakres **5–10°C nie jest zdefiniowany żadnym wierszem**.
+  - **Znalezione i zweryfikowane dwukrotnie przed napisaniem kodu:** ręczny odczyt tabeli źródła +
+    niezależny skrypt Pythona potwierdzający brak pokrycia tego przedziału przez którykolwiek z 4
+    warunków (`t < -10`, `t < 0`, `t < 5`, `t <= 10` z resztą jako "pełny") — bez piątej,
+    specjalnej gałęzi ten zakres wpadłby milcząco w błędną klasyfikację.
+  - **Rozstrzygnięcie:** piąta strefa `luka-zrodla`, status `OUT_OF_SCOPE` (pierwsze użycie tego
+    statusu w tym repo — istniał w typie `Status` od początku, nieużywany dotąd), z jawnym
+    komunikatem o luce zamiast interpolowanej/zgadywanej wartości pośredniej między 0,2C a "pełny
+    prąd". Świadomie usunięta z pierwszej wersji komunikatu sugestia "użyj 0,2C jako bezpieczniejszej
+    granicy" — to też byłaby wymyślona rekomendacja bezpieczeństwa, nie stwierdzenie ze źródła.
+  - **"Pełny prąd" (>10°C) też bez wymyślonego maksimum:** źródło nie podaje konkretnej liczby
+    C-rate dla tej strefy (tylko słowo "pełny"), więc `maxPradA` zostaje `null`, nie np. "1C" —
+    `assumptions` jawnie mówi "brak ograniczenia od strony temperatury", nie podaje liczby.
+  - **Nowy twardy stop dopisany do rejestru:** ładowanie poniżej -10°C — całkowita blokada w
+    źródle, trwałe uszkodzenie ogniw (osadzanie litu metalicznego).
+  - Przykład źródła (-5°C, 280Ah → 28A, strefa 0,1C) zweryfikowany niezależnie w Pythonie przed
+    implementacją i odtworzony dokładnie w teście oraz w przeglądarce. Wszystkie 4 realne strefy +
+    luka zweryfikowane wizualnie (Playwright, 4 zrzuty ekranu).
+  - `lib/core/modules/baterie/cold-c-rate/`, 11 testów (w tym testy dokładnie na granicach każdej
+    strefy — `-10`, `0`, `4.9`, `5`, `10`, `10.1`, wszystkie przeliczone niezależnie w Pythonie
+    przed napisaniem testów), UI: `app/kalkulatory/cold-c-rate/page.tsx`. Zweryfikowane: `tsc`/
+    `lint` czysto, `pnpm test` 168/168 (11 nowych), `pnpm build` czysto, `lib/core/` nadal nie
+    importuje z `app/`/`components/`.
+
 ## Mapa orientacyjna
 
 - `docs/rejestr-twardych-stopow.md` — zbiorczy indeks warunków zawsze skutkujących 🔴 (04.3), z odsyłaczami do modułu/ekranu/pliku źródłowego. Dopisz tu nowy twardy stop, gdy kolejny moduł go wprowadzi.
