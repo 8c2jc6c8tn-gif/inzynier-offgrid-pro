@@ -39,7 +39,7 @@ Powiązane: [06 API i sieć](06-api-i-siec.md) · [09 Zasady i granice AI](09-ai
 
 **Uzasadnienie.** To rozszerza zasadę offline-first (rozdział 05) o wymiar prywatności, nie tylko dostępności — "działa bez internetu" i "nic nie wycieka bez zgody" to dwie osobne, równie ważne właściwości.
 
-**Konsekwencja przy funkcjach lokalizacyjnych/społecznościowych.** Jeśli aplikacja udostępnia przybliżoną lokalizację innym użytkownikom (np. do porównań regionalnych), pozycja jest zaokrąglana do siatki/gminy, **nigdy** dokładny punkt GPS — to nie jest tylko kwestia prywatności w sensie ogólnym, ujawnienie dokładnej lokalizacji instalacji o wysokiej wartości (np. duży magazyn energii) to realne ryzyko włamania. Rozdzielczość ma to uwzględniać od pierwszej wersji, nie jako poprawkę po fakcie.
+**Konsekwencja przy funkcjach lokalizacyjnych/społecznościowych.** Jeśli aplikacja udostępnia przybliżoną lokalizację innym użytkownikom (np. do porównań regionalnych czy funkcji społecznościowych), pozycja jest zaokrąglana do siatki/gminy, **nigdy** dokładny punkt GPS. To nie jest tylko kwestia prywatności w sensie ogólnym — jeśli lokalizacja wskazuje coś o wysokiej wartości lub wrażliwości (np. adres domowy, duża instalacja, magazyn), ujawnienie dokładnego punktu to realne ryzyko fizyczne (np. włamania), nie tylko cyfrowe. Rozdzielczość ma to uwzględniać od pierwszej wersji, nie jako poprawkę po fakcie.
 
 ## 7.6. Bezpieczeństwo płatności i freemium
 

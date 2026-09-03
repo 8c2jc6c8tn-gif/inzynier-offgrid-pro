@@ -1,0 +1,22 @@
+# docs/lista-do-zrobienia.md — Inżynier Offgrid Pro
+
+Bieżąca, operacyjna lista zadań tego projektu. Format i zasada aktualizacji: `docs/god-book/instrukcja-uniwersalna-biblii-projektu-v2_3.md`, Część B.6. Ten projekt nie ma (jeszcze) pełnej Biblii w formacie GOD BOOK (`00_Biblia.md`) — czytaj tę listę zaraz po `docs/memory.md`, na starcie każdej sesji, żeby AI nie musiało eksplorować całego projektu od nowa, żeby wiedzieć, od czego zacząć.
+
+**To nie to samo, co:**
+- `backlog-poza-v1.md` — rzeczy świadomie odłożone poza zakres (decyzje o skali/fazowaniu produktu, zbierane przy audycie).
+- `mapa-wdrozenia.md` — status per moduł (M#), granularny, podczas Wdrożenia.
+
+Tu trafia bieżący stan pracy: co w trakcie, co zablokowane, co następne — aktualizowane na bieżąco, nie tylko przy audycie.
+
+**Statusy:** 🔲 do zrobienia · 🔄 w trakcie · ✅ zrobione · ⏳ odłożone (z powodem) · ⚠️ zablokowane (czeka na decyzję/informację)
+
+**Zasada aktualizacji:** nie usuwamy wpisów (Część D GOD BOOK). Zmiana statusu = dopisanie nowej daty i statusu obok starego, nie kasowanie.
+
+---
+
+## Zadania
+
+- ✅ (2026-09-03) Synchronizacja pakietu `new-app-standards`: rozdziały 00–16 odświeżone, dodano `docs/god-book/`, `PROMPT_STARTOWY.md`, ten plik i `docs/wklad-do-standardu.md`. Szczegóły: `docs/memory.md`, sekcja "Synchronizacja ze standardem".
+- ⚠️ (2026-09-03) Do decyzji: czy migrować `ZASADY_APLIKACJI.md`/`USTALENIA.md`/`docs/domena/` do kanonicznego formatu GOD BOOK (`00_Biblia.md`, `01_Zasady_Pracy_i_Konwencje.md`, `rejestr-decyzji.md`...), czy zostać przy obecnej strukturze, która pełni tę samą rolę. Nie rozstrzygnięte — czeka na właściciela projektu, patrz GOD BOOK Część P/S.
+- 🔲 Kontynuacja kafli pulpitu 08–14 (animowane ikony) — patrz artefakt roboczy "Off-Grid Tile Set" i `docs/memory.md`.
+- 🔲 Kontynuacja Modułu 2 wg `docs/rejestr-pokrycia.md` (ekrany jeszcze nie zbudowane).

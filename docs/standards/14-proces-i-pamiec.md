@@ -12,7 +12,7 @@ Powiązane: [00 Filozofia](00-filozofia.md) · [15 Współpraca z AI](15-wspolpr
 
 **Reguła.** Gdy wcześniejsza decyzja okazuje się błędna lub nieaktualna, **nie usuwa się jej z dokumentu**. Zamiast tego: stara decyzja zostaje, oznaczona jako zastąpiona, obok pojawia się nowa decyzja z datą i uzasadnieniem korekty.
 
-**Wzorcowy przykład z praktyki tego zespołu** (Offgrid Pro, 2026-08-29): decyzja D-1 z 28.08 mówiła "Rozdział 7 ma 50 funkcji". Dokładniejsza, programistyczna weryfikacja treści wykazała 33. Zapis w dokumencie:
+**Wzorcowy przykład z praktyki** (jeden z naszych wcześniejszych projektów, 2026-08-29): decyzja D-1 z 28.08 mówiła "Rozdział 7 ma 50 funkcji". Dokładniejsza, programistyczna weryfikacja treści wykazała 33. Zapis w dokumencie:
 
 ```
 ### D‑1 · Rozdział 7 = 33 funkcje (2026‑08‑28, skorygowane 2026‑08‑29)
@@ -53,4 +53,4 @@ Wpisy krótkie: data + treść, nie eseje.
 
 **Zasada aktualizacji.** Agent AI czyta `docs/memory.md` na starcie każdej sesji pracy nad projektem. Dopisuje wpis po: nietrywialnej decyzji architektonicznej, znalezionym i naprawionym błędzie/pułapce wartej zapamiętania, zamknięciu większego etapu, odkrytej rozbieżności/konflikcie w dokumentacji. **Nie** po każdym drobnym commicie — inaczej plik się zaśmieca i przestaje być użyteczny.
 
-**Lokalizacja.** `docs/memory.md` w root każdego projektu z rodziny — w tym w repozytorium, w którym trzyma się ten sam standard (decyzje podjęte przy budowie/rozwoju standardu też są warte zapamiętania).
+**Lokalizacja.** `docs/memory.md` w root każdego naszego projektu — w tym w repozytorium, w którym trzyma się ten sam standard (decyzje podjęte przy budowie/rozwoju standardu też są warte zapamiętania).

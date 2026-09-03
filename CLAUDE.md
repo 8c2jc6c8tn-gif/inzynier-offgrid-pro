@@ -4,9 +4,11 @@ Kalkulator/doradca inżynierski dla systemów off-grid PV (panele, magazyn energ
 
 ## Zanim zaczniesz — przeczytaj w tej kolejności
 
-1. `docs/memory.md` — decyzje, pułapki i stan tego konkretnego projektu.
-2. `docs/standards/00-INDEKS.md` — pełny standard architektoniczny (16 rozdziałów), wspólny dla całej rodziny aplikacji. Rozdział dotyczący Twojego zadania — nie ładuj wszystkich naraz.
-3. `ZASADY_APLIKACJI.md` / `USTALENIA.md` — zasady i decyzje specyficzne dla Offgrid Pro (konstytucja tego projektu, nadrzędna wobec kodu).
+1. `docs/standards/00-INDEKS.md` — pełny standard architektoniczny (17 rozdziałów), wspólny dla całej rodziny aplikacji — fundament, niezależny od tego zadania. Rozdział dotyczący Twojego zadania — nie ładuj wszystkich naraz.
+2. `docs/god-book/instrukcja-uniwersalna-biblii-projektu-v2_3.md` — metodologia procesowa (GOD BOOK); Część Y opisuje relację z powyższym standardem (fundament poprzedzający, nie kolejny poziom hierarchii). Ten projekt nie ma jeszcze pełnej Biblii w jej kanonicznym nazewnictwie — patrz punkt 3.
+3. `docs/lista-do-zrobienia.md` — bieżące zadania, żeby nie eksplorować całego projektu od nowa.
+4. `docs/memory.md` — decyzje, pułapki i stan tego konkretnego projektu, w tym data ostatniej synchronizacji ze standardem (sprawdzaj `AKTUALIZACJE.md` w `new-app-standards` co ≤7 dni, GOD BOOK Y.6).
+5. `ZASADY_APLIKACJI.md` / `USTALENIA.md` — zasady i decyzje specyficzne dla Offgrid Pro (konstytucja tego projektu, nadrzędna wobec kodu; pełni rolę "Biblii" GOD BOOK dla tego projektu).
 
 Nie duplikuj treści tych plików tutaj ani nigdzie indziej — jeśli czegoś tu brakuje, dopisz to tam, gdzie merytorycznie należy, i tylko odeślij stąd.
 
@@ -16,7 +18,7 @@ Traktuj cały dostarczony materiał jako źródło prawdy i istniejący stan pro
 
 Pracuj metodą minimalnej zmiany. Zachowuj istniejącą strukturę, decyzje, założenia, ograniczenia, parametry, liczby, jednostki, komentarze, uzasadnienia, testy i historię projektu.
 
-Jeżeli znajdziesz informację, która wydaje się błędna, przestarzała lub sprzeczna — **nie usuwaj jej samodzielnie i nie rozstrzygaj konfliktu na własną rękę**. Pokaż obie strony (A, B), na czym polega sprzeczność, jakie są konsekwencje, i zapytaj.
+Jeżeli znajdziesz informację, która wydaje się błędna, przestarzała lub sprzeczna — **nie usuwaj jej samodzielnie i nie rozstrzygaj konfliktu na własną rękę**. Pokaż obie strony (A, B), na czym polega sprzeczność, jakie są konsekwencje, i zapytaj. Wyjątek (GOD BOOK Część Y.2): kod, który po prostu odjechał od już ustalonej reguły standardu bez żadnej świadomej decyzji — to nie konflikt, to błąd; napraw od razu i zapisz w `docs/memory.md`.
 
 Nie przedstawiaj hipotez jako faktów. Nie wymyślaj brakujących danych, norm ani współczynników bezpieczeństwa — to aplikacja licząca twarde fakty fizyczne (`docs/standards/00-filozofia.md`), nie zgadywanka.
 

@@ -6,23 +6,23 @@ Powiązane: [01 Architektura](01-architektura.md) · [02 Model danych](02-model-
 
 ## 5.1. Zapisuj Seed, nigdy Wynik
 
-**Reguła.** Jedyną trwałą daną jest surowe wejście użytkownika ("Seed"). Wyniki obliczeń ("Wynik") są zawsze przeliczane od nowa po wczytaniu — nigdy nie są jedynym źródłem prawdy zapisanym na dysku.
+**Reguła.** Jedyną trwałą daną jest surowe wejście użytkownika ("Seed"). Wyniki obliczeń/decyzji ("Wynik") są zawsze przeliczane od nowa po wczytaniu — nigdy nie są jedynym źródłem prawdy zapisanym na dysku.
 
-**Uzasadnienie.** Wzory i logika ewoluują. Jeśli zapiszemy wynik zamiast danych źródłowych, poprawka błędu w kalkulatorze nigdy nie dotrze do już zapisanych projektów — użytkownik zobaczy stary, błędny wynik na zawsze, mimo że aplikacja "naprawiła" logikę.
+**Uzasadnienie.** Reguły i logika ewoluują. Jeśli zapiszemy wynik zamiast danych źródłowych, poprawka błędu w logice domenowej nigdy nie dotrze do już zapisanych danych — użytkownik zobaczy stary, błędny wynik na zawsze, mimo że aplikacja "naprawiła" logikę.
 
 **Konsekwencja w kodzie.** Typy `PersistedState` (Seed) i `ComputedState` (Wynik) są rozdzielone na poziomie typów, nie tylko konwencji. Mechanizm trwałości (np. `persist` w store) ma trwałość ograniczoną wyłącznie do Seedów; po wczytaniu z dysku silnik obliczeniowy (rozdział 01, 1.2) przelicza wszystkie wyniki od zera.
 
 ## 5.2. StorageAdapter
 
-**Reguła.** Cały stan projektu jest zapisywany/odczytywany przez jeden interfejs `StorageAdapter`, nigdy przez bezpośrednie wywołania konkretnej bazy rozsiane po kodzie aplikacji. Implementacja: IndexedDB (web) dziś, SQLite (mobile) jutro — bez zmiany logiki, która z adaptera korzysta.
+**Reguła.** Cały stan aplikacji jest zapisywany/odczytywany przez jeden interfejs `StorageAdapter`, nigdy przez bezpośrednie wywołania konkretnej bazy rozsiane po kodzie aplikacji. Implementacja: IndexedDB (web) dziś, SQLite (mobile) jutro — bez zmiany logiki, która z adaptera korzysta.
 
-**Zakaz.** `localStorage` jako baza danych stanu projektu. Dopuszczalny wyłącznie dla drobnych, nieistotnych preferencji UI urządzenia (np. ostatnio wybrany motyw kolorystyczny) — nigdy dla danych domenowych.
+**Zakaz.** `localStorage` jako baza danych stanu domenowego. Dopuszczalny wyłącznie dla drobnych, nieistotnych preferencji UI urządzenia (np. ostatnio wybrany motyw kolorystyczny) — nigdy dla danych domenowych.
 
 ## 5.3. Offline-first jako wymóg, nie dodatek
 
-**Reguła.** Funkcje podstawowe muszą działać w pełni offline po pierwszym pobraniu danych: otwieranie projektu, kalkulatory, zapis danych, dokumentacja zdjęciowa, raport roboczy, lokalne wyszukiwanie w dokumentacji. Funkcje wymagające sieci (synchronizacja chmurowa, ciężkie modele AI, aktualizacje danych pogodowych) są **dodatkiem**, nigdy warunkiem podstawowego działania.
+**Reguła.** Funkcje podstawowe muszą działać w pełni offline po pierwszym pobraniu danych: otwieranie projektu/widoku, logika domenowa, zapis danych, dokumentacja zdjęciowa, raport roboczy, lokalne wyszukiwanie w dokumentacji. Funkcje wymagające sieci (synchronizacja chmurowa, ciężkie modele AI, aktualizacje danych zewnętrznych) są **dodatkiem**, nigdy warunkiem podstawowego działania.
 
-**Konsekwencja (web).** Dane trwałe w IndexedDB, service worker do cache'owania assetów, jednorazowe zapytania online (dane pogodowe/klimatyczne, geolokalizacja) buforowane na stałe po pierwszym pobraniu.
+**Konsekwencja (web).** Dane trwałe w IndexedDB, service worker do cache'owania assetów, jednorazowe zapytania online (np. dane referencyjne, geolokalizacja) buforowane na stałe po pierwszym pobraniu.
 
 ## 5.4. Struktura magazynu
 
