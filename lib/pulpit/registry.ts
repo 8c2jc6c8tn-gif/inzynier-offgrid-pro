@@ -111,6 +111,7 @@ export const KAFLE: KafelEntry[] = [
       { href: "/kalkulatory/podlaczenie-bms", label: "Podłączenie BMS" },
       { href: "/kalkulatory/demontaz-pakietu", label: "Demontaż pakietu" },
       { href: "/kalkulatory/ratowanie-ogniwa", label: "Ratowanie głęboko rozładowanego ogniwa" },
+      { href: "/kalkulatory/ocena-zuzycia", label: "Ocena zużycia ogniwa po demontażu" },
       { href: "/kalkulatory/przygotowanie-stanowiska", label: "Przygotowanie stanowiska i narzędzi" },
     ],
   },
