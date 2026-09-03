@@ -8,6 +8,52 @@ import { NawigacjaEkranu } from "@/components/nawigacja-ekranu"
 import { NaglowekEkranu } from "@/components/wzorce/naglowek-ekranu"
 import { WynikSzczegoly } from "@/components/wzorce/wynik-szczegoly"
 
+/** Schemat: balanser zewnętrzny podłączony równolegle do KAŻDEGO akumulatora w szeregu. */
+function BalanseryIlustracja() {
+  return (
+    <svg
+      viewBox="0 0 400 190"
+      className="w-full rounded-lg border bg-muted/30 text-foreground"
+      role="img"
+      aria-label="Schemat: balanser zewnętrzny podłączony równolegle do każdego akumulatora w szeregu"
+    >
+      {[0, 1].map((i) => {
+        const x = 40 + i * 190
+        return (
+          <g key={i}>
+            <rect x={x} y="90" width="90" height="46" rx="4" className="fill-indigo-400/60 stroke-current" />
+            <text x={x + 45} y="117" textAnchor="middle" className="fill-current text-[9px]">
+              Akum. {i + 1}
+            </text>
+            <text x={x + 8} y="86" className="fill-current text-[9px] font-semibold">+</text>
+            <text x={x + 78} y="86" className="fill-current text-[9px] font-semibold">−</text>
+
+            {/* balanser podłączony równolegle nad akumulatorem */}
+            <rect x={x + 10} y="24" width="70" height="30" rx="4" className="fill-amber-400/70 stroke-current" />
+            <text x={x + 45} y="43" textAnchor="middle" className="fill-current text-[8px] font-medium">
+              Balanser
+            </text>
+            <line x1={x + 15} y1="54" x2={x + 8} y2="90" className="stroke-amber-500" strokeWidth="2" />
+            <line x1={x + 75} y1="54" x2={x + 82} y2="90" className="stroke-amber-500" strokeWidth="2" />
+          </g>
+        )
+      })}
+
+      {/* połączenie szeregowe między akumulatorami */}
+      <line x1="130" y1="113" x2="230" y2="113" className="stroke-red-500" strokeWidth="3" />
+      <line x1="6" y1="113" x2="40" y2="113" className="stroke-current" strokeWidth="2" />
+      <line x1="360" y1="113" x2="394" y2="113" className="stroke-current" strokeWidth="2" />
+
+      <text x="200" y="165" textAnchor="middle" className="fill-muted-foreground text-[9px]">
+        Każdy akumulator w szeregu dostaje własny balanser równoległy —
+      </text>
+      <text x="200" y="179" textAnchor="middle" className="fill-muted-foreground text-[9px]">
+        powtórz dla wszystkich akumulatorów, nie tylko dla dwóch pokazanych.
+      </text>
+    </svg>
+  )
+}
+
 export default function BalanseryZewnetrzneOlowPage() {
   const [iloscAkumulatorow, setIloscAkumulatorow] = useState("")
   const [posiadaBalanserZewnetrzny, setPosiadaBalanserZewnetrzny] = useState(false)
@@ -49,6 +95,8 @@ export default function BalanseryZewnetrzneOlowPage() {
         pilnującego równowagi — trzeba go dodać z zewnątrz, inaczej najsłabszy akumulator ograniczy
         cały zestaw. Moduł 11, Ekran B4 (Ścieżka B — kwasowo-ołowiowa).
       </NaglowekEkranu>
+
+      <BalanseryIlustracja />
 
       <Pole
         label="Liczba akumulatorów w szeregu"

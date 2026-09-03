@@ -11,6 +11,96 @@ import { NaglowekEkranu } from "@/components/wzorce/naglowek-ekranu"
 import { WynikGlowny } from "@/components/wzorce/wynik-glowny"
 import { WynikSzczegoly } from "@/components/wzorce/wynik-szczegoly"
 
+/** Schemat: kolejność podłączania BMS — wtyczka balansująca, potem B−, potem pre-charge do P−. */
+function PodlaczenieBmsIlustracja() {
+  return (
+    <svg
+      viewBox="0 0 440 210"
+      className="w-full rounded-lg border bg-muted/30 text-foreground"
+      role="img"
+      aria-label="Schemat podłączenia BMS: wtyczka balansująca do ogniw, przewód B- do minusa pakietu, przewód P- przez rezystor pre-charge do falownika"
+    >
+      {/* Pakiet ogniw */}
+      <rect x="16" y="76" width="96" height="48" rx="4" className="fill-indigo-400/60 stroke-current" />
+      <text x="64" y="104" textAnchor="middle" className="fill-current text-[10px] font-medium">
+        Pakiet ogniw
+      </text>
+      <text x="26" y="72" className="fill-current text-[10px] font-semibold">
+        +
+      </text>
+      <text x="98" y="72" className="fill-current text-[10px] font-semibold">
+        −
+      </text>
+
+      {/* BMS */}
+      <rect x="180" y="76" width="80" height="48" rx="4" className="fill-sky-400/60 stroke-current" />
+      <text x="220" y="104" textAnchor="middle" className="fill-current text-[10px] font-medium">
+        BMS
+      </text>
+
+      {/* Falownik */}
+      <rect x="336" y="76" width="88" height="48" rx="4" className="fill-emerald-400/60 stroke-current" />
+      <text x="380" y="104" textAnchor="middle" className="fill-current text-[10px] font-medium">
+        Falownik
+      </text>
+
+      {/* 1: wtyczka balansująca — kilka cienkich przewodów od góry pakietu do BMS */}
+      {[0, 1, 2, 3].map((i) => (
+        <line
+          key={i}
+          x1={30 + i * 22}
+          y1="76"
+          x2={190 + i * 12}
+          y2="76"
+          className="stroke-amber-500"
+          strokeWidth="1.5"
+        />
+      ))}
+      <circle cx="150" cy="52" r="9" className="fill-amber-500" />
+      <text x="150" y="56" textAnchor="middle" className="fill-white text-[9px] font-bold">
+        1
+      </text>
+      <text x="150" y="38" textAnchor="middle" className="fill-current text-[8px] font-medium">
+        Wtyczka balansująca
+      </text>
+
+      {/* 2: B- od minusa pakietu do BMS */}
+      <line x1="112" y1="112" x2="180" y2="112" className="stroke-red-500" strokeWidth="3" />
+      <circle cx="146" cy="128" r="9" className="fill-red-500" />
+      <text x="146" y="132" textAnchor="middle" className="fill-white text-[9px] font-bold">
+        2
+      </text>
+      <text x="146" y="150" textAnchor="middle" className="fill-current text-[8px] font-medium">
+        B− do minusa pakietu
+      </text>
+
+      {/* Rezystor pre-charge symbol między BMS a Falownikiem (linia P-) */}
+      <path
+        d="M 260 112 L 270 112 L 275 104 L 285 120 L 295 104 L 305 120 L 310 112 L 336 112"
+        className="fill-none stroke-red-500"
+        strokeWidth="2.5"
+      />
+      <circle cx="298" cy="128" r="9" className="fill-red-500" />
+      <text x="298" y="132" textAnchor="middle" className="fill-white text-[9px] font-bold">
+        3
+      </text>
+      <text x="298" y="150" textAnchor="middle" className="fill-current text-[8px] font-medium">
+        P− przez R pre-charge
+      </text>
+
+      {/* Główny plus, bezpośrednio z pakietu do falownika (nad BMS) */}
+      <path d="M 64 76 L 64 24 L 380 24 L 380 76" className="fill-none stroke-current" strokeWidth="2" />
+      <text x="220" y="18" textAnchor="middle" className="fill-current text-[8px] font-medium">
+        Główny plus (+) — bezpośrednio, bez BMS
+      </text>
+
+      <text x="220" y="192" textAnchor="middle" className="fill-muted-foreground text-[9px]">
+        Kolejność 1→2→3. Główny bezpiecznik załączany dopiero po pre-charge.
+      </text>
+    </svg>
+  )
+}
+
 export default function PodlaczenieBmsPage() {
   const [pojemnoscFalownikaUf, setPojemnoscFalownikaUf] = useState("2200")
   const [rezystancjaPreChargeOhm, setRezystancjaPreChargeOhm] = useState(String(PRZYKLADOWA_REZYSTANCJA_OHM))
@@ -46,6 +136,8 @@ export default function PodlaczenieBmsPage() {
         Zanim główny bezpiecznik/stycznik pójdzie w górę, kondensatory wejściowe falownika muszą
         się najpierw naładować przez rezystor — inaczej zaiskrzy. Moduł 11, Ekran A4.
       </NaglowekEkranu>
+
+      <PodlaczenieBmsIlustracja />
 
       <div className="flex flex-col gap-4">
         <Pole

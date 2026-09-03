@@ -12,6 +12,77 @@ import { NawigacjaEkranu } from "@/components/nawigacja-ekranu"
 import { NaglowekEkranu } from "@/components/wzorce/naglowek-ekranu"
 import { WynikSzczegoly } from "@/components/wzorce/wynik-szczegoly"
 
+/** Schemat: ten sam szereg co przy montażu, rozpinany od końca o najwyższym potencjale. */
+function DemontazIlustracja() {
+  const cellXs = [55, 150, 245, 340]
+  const cellW = 65
+  const cellY = 44
+  const cellH = 56
+  const midY = cellY + cellH / 2
+
+  return (
+    <svg
+      viewBox="0 0 440 160"
+      className="w-full rounded-lg border bg-muted/30 text-foreground"
+      role="img"
+      aria-label="Schemat demontażu: rozpinanie szeregu ogniw zaczyna się od końca pakietu o najwyższym potencjale"
+    >
+      {cellXs.map((x, i) => (
+        <g key={x}>
+          <rect x={x} y={cellY} width={cellW} height={cellH} rx="4" className="fill-indigo-400/60 stroke-current" />
+          <text x={x + 13} y={midY - 10} textAnchor="middle" className="fill-current text-[11px] font-semibold">
+            +
+          </text>
+          <text x={x + cellW - 13} y={midY - 10} textAnchor="middle" className="fill-current text-[11px] font-semibold">
+            −
+          </text>
+          <text x={x + cellW / 2} y={midY + 20} textAnchor="middle" className="fill-current text-[9px]">
+            Ogniwo {i + 1}
+          </text>
+        </g>
+      ))}
+
+      {[0, 1, 2].map((i) => {
+        const x1 = cellXs[i] + cellW
+        const x2 = cellXs[i + 1]
+        return <line key={i} x1={x1} y1={midY} x2={x2} y2={midY} className="stroke-red-500" strokeWidth="3" />
+      })}
+
+      <line x1="6" y1={midY} x2={cellXs[0]} y2={midY} className="stroke-current" strokeWidth="3" />
+      <line
+        x1={cellXs[3] + cellW}
+        y1={midY}
+        x2="434"
+        y2={midY}
+        className="stroke-current"
+        strokeWidth="3"
+      />
+      <text x="434" y={midY - 12} textAnchor="end" className="fill-current text-[8px] font-medium">
+        Do BMS (−)
+      </text>
+
+      {/* Znacznik startu demontażu — koniec o najwyższym potencjale. */}
+      <circle cx="6" cy={midY} r="10" className="fill-red-500" />
+      <text x="6" y={midY + 3} textAnchor="middle" className="fill-white text-[9px] font-bold">
+        1
+      </text>
+      <text x="6" y={midY - 24} textAnchor="start" className="fill-red-500 text-[8px] font-semibold">
+        Zacznij tu
+      </text>
+      <text x="6" y={midY - 14} textAnchor="start" className="fill-red-500 text-[8px] font-semibold">
+        (Pakiet +)
+      </text>
+
+      <text x="220" y="128" textAnchor="middle" className="fill-muted-foreground text-[9px]">
+        Rozpinanie zaczyna się od końca o najwyższym potencjale (Pakiet +),
+      </text>
+      <text x="220" y="142" textAnchor="middle" className="fill-muted-foreground text-[9px]">
+        dokładna odwrotność kolejności montażu.
+      </text>
+    </svg>
+  )
+}
+
 export default function DemontazPakietuPage() {
   const [napiecieSystemu, setNapiecieSystemu] = useState<NapiecieSystemu>(48)
   const [napieciePakietuV, setNapieciePakietuV] = useState("49.6")
@@ -50,6 +121,8 @@ export default function DemontazPakietuPage() {
         Ta kolejność nie jest sugestią — to dokładna odwrotność kolejności montażu, i każde
         odstępstwo zwiększa ryzyko zwarcia w rękach. {WYMAGANE_WYPOSAZENIE} Moduł 11, Ekran A6.
       </NaglowekEkranu>
+
+      <DemontazIlustracja />
 
       <PoleSelect
         label="Napięcie systemu"
