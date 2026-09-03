@@ -842,6 +842,37 @@
     `lib/core/` nadal nie importuje z `app/`/`components/`, Playwright na obu stanach (falownik
     się wyłączy / falownik wytrzyma), wartości zgodne co do dziesiątych z niezależnym przeliczeniem.
 
+## Decyzje i uzasadnienie (c.d. 33)
+
+- **2026-09-04 — Ekran 6, Moduł 4: "Starzenie i degradacja ogniw" — domyka bufor starzeniowy
+  zapowiedziany, ale świadomie pominięty w Ekranie 1.** Model liniowy 1:1 ze źródła:
+  `C_początkowa = C_dziś / (1 − r_degradacji × lata)`.
+  - **Podwójna weryfikacja przed napisaniem kodu:** źródło mówi "LiFePO4 traci ok. 2-3% rocznie →
+    po 10 latach ok. 80% pojemności" — sprawdzone w Pythonie, że 80% po 10 latach modelem liniowym
+    odpowiada dokładnie stawce 2%/rok (dolna granica podanego zakresu 2-3%, nie środek), nie
+    stawce kompoundowanej. Przykład Sekcji C (45 kWh dziś → "56 kWh za 10 lat") przeliczony
+    niezależnie: 45 / (1 − 0,02×10) = 45/0,8 = 56,25 — zgodne z zaokrągleniem źródła do 56.
+  - **Świadomie NIE doliczony ostatni krok przykładu źródła** ("zamów akumulator o pojemności
+    60 kWh" — zaokrąglenie w górę do dostępnego rozmiaru komercyjnego). Źródło nie podaje siatki
+    dostępnych pojemności produktów (60 kWh to jeden przykład, nie reguła), więc doliczenie tego
+    kroku wymagałoby wymyślenia nieistniejącej normy handlowej. Kalkulator zwraca dokładną liczbę
+    (56,25 kWh, wyświetlaną jako 56,3 kWh), z `assumption` jawnie tłumaczącym, że w praktyce
+    zaokrągla się w górę do realnego produktu.
+  - **Nowa, jawnie odnotowana luka integracyjna:** Ekran 1 (Dobór pojemności baterii) i Ekran 6
+    liczą pokrewne wielkości, ale nie są ze sobą spięte — oba mają dziś niezależne pole ręcznego
+    wpisu "pojemność użyteczna". Prawdziwa integracja (Ekran 1 → auto-wypełnia Ekran 6 → wynik
+    Ekranu 6 wraca jako rekomendacja zakupu) wymaga wspólnego stanu wejściowego między ekranami,
+    którego ten projekt jeszcze nie ma (koncepcja "Mój sprzęt"/profil wejściowy ze standardu,
+    §13 wzorców z wcześniejszej fazy planowania) — nie budowane teraz, odnotowane w
+    `docs/lista-do-zrobienia.md` jako osobny krok, nie cicho pominięte.
+  - `lib/core/modules/baterie/starzenie-degradacja/`, 6 testów (w tym test na granicy modelu
+    liniowego — `degradacja × lata >= 100%` → `INVALID_INPUT`, bo model liniowy fizycznie się
+    załamuje poza tym zakresem), UI: `app/kalkulatory/starzenie-degradacja/page.tsx` (suwak 5/10/15
+    lat ze źródła jako `PoleSelect`, nie dowolna liczba).
+  - Zweryfikowane: `tsc`/`lint` czysto, `pnpm test` 179/179 (6 nowych), `pnpm build` czysto,
+    `lib/core/` nadal nie importuje z `app/`/`components/`, Playwright (56,3 kWh / 80% pozostałej
+    pojemności, zgodne z niezależnym przeliczeniem).
+
 ## Mapa orientacyjna
 
 - `docs/rejestr-twardych-stopow.md` — zbiorczy indeks warunków zawsze skutkujących 🔴 (04.3), z odsyłaczami do modułu/ekranu/pliku źródłowego. Dopisz tu nowy twardy stop, gdy kolejny moduł go wprowadzi.
