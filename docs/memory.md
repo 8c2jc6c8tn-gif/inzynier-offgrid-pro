@@ -555,6 +555,59 @@
   Zweryfikowane: `tsc`/`lint`/`pnpm test` (122/122, bez zmian — brak nowej logiki)/`pnpm build`
   czysto, Playwright (wszystkie 3 akordeony rozwijają się poprawnie, treść zgodna ze źródłem).
 
+## Decyzje i uzasadnienie (c.d. 25)
+
+- **2026-09-03 — Ścieżka B (kwasowo-ołowiowa), Moduł 11: 11/12 ekranów w jednym przejściu, po
+  zamknięciu Ścieżki A.** Pełny tekst źródłowy B1–B12 przeczytany naraz
+  (`docs/domena/Tresc_Modul_11_MontazBaterii_Ekrany.md`, linie 145–282), co pozwoliło zaprojektować
+  wszystkie ekrany od razu zamiast pojedynczo — bez zmiany rygoru weryfikacji (każdy ekran ma swój
+  wpis w `docs/rejestr-pokrycia.md`, testy tam gdzie jest logika domenowa, jeden wspólny PR).
+  - **B1/B3/B6/B8** — checklisty bez wymuszonej kolejności, dokładny klon wzorca A1/A7 (`ChecklistItem`
+    z opcjonalnym `uwaga`, `calculate*` liczy tylko `potwierdzone/razem`).
+  - **B2/B7** — B2 to ten sam wzorzec co B1 (twardy stop wentylacji dopisany jako `OSTRZEZENIA_STALE`,
+    nie osobna gałąź logiki — checklist i tak wymaga 100% przed VALID). B7 to checklist z wymuszoną
+    kolejnością, klon A3/A6.
+  - **B4 (Balansery zewnętrzne)** — źródło nie podaje explicit progu liczbowego, ale sekcja B
+    jednoznacznie mówi "balanser wymagany przy akumulatorach w szeregu" — próg `≥2` wyprowadzony
+    wprost z definicji "szeregu" (1 akumulator = brak szeregu = brak ryzyka rozjazdu), nie
+    wymyślony. 5 testów, dopisany do `docs/rejestr-twardych-stopow.md`.
+  - **B5 (Dobór kabli) — świadomie NIE zbudowany.** Źródło: "ten sam silnik co Moduł 5, Ekran 1 —
+    inne wartości wejściowe." Ale Moduł 5 Ekran 1 (dobór przekroju kabla) nie istnieje jeszcze w
+    kodzie (Moduł 5 ma tylko Ekran 19 — trasy kablowe). Budowa tymczasowego, równoległego silnika
+    wymagałaby wymyślenia tabel obciążalności/AIC nieobecnych w dostępnym materiale źródłowym dla
+    B5 samodzielnie — złamałoby to zasadę "nie wymyślaj brakujących norm" (CLAUDE.md). Zamiast
+    tego: flagowane jako `⚠️ blocked` w `docs/rejestr-pokrycia.md` i `docs/rejestr-twardych-stopow.md`
+    ("Znane luki"), czeka na Moduł 5 Ekran 1, który B5 powinien wtedy re-używać (wzorzec "echo").
+  - **B9 (Gęstość elektrolitu)** — trzy strefy z tabeli referencyjnej źródła (1,28=pełny/1,20=
+    połowa/1,12=rozładowany); granice stref = same podane wartości (ten sam wzorzec co pojedynczy
+    próg 1,5V w A9), żadna wartość pośrednia nie została wymyślona. Przykład źródła (gęstość
+    1,15 g/cm³ → "naładowany w ok. 35%, wymagane doładowanie") odtworzony w teście jako
+    `stan: "rozladowany"` — celowo NIE zaimplementowano interpolacji liniowej do wyliczania
+    dokładnego %, żeby nie ryzykować wymyślenia formuły, której źródło nie podaje wprost; ekran
+    pokazuje strefę i cytuje przykład jako opis, nie liczy %.
+  - **B10 (Ocena zasiarczenia) — świadome odstępstwo od wzorca checklisty procesu.** W
+    odróżnieniu od A7/B1/B6/B8 (gdzie "niezaznaczone" = "jeszcze nie sprawdzone"), tu każda
+    pozycja to obserwowalny objaw — "niezaznaczone" realnie znaczy "nieobserwowany". Dlatego
+    kalkulator ma pełną logikę werdyktu (≥1 objaw → ostrzeżenie z odesłaniem do B11), czego A8
+    świadomie unikał dla swoich 2 pomiarów bez progu (tam wybór był między "brak progu" a
+    "wymyślony próg"; tu wyboru nie trzeba było robić, bo semantyka pola jest inna).
+  - **B11 (Ratowanie zasiarczenia) — zmiana etykiety z "Wzorzec D" na treść (Wzorzec C).**
+    Pierwotny wpis w `docs/rejestr-pokrycia.md` (sprzed tej sesji) oznaczał B11 jako Wzorzec D,
+    ale źródło nie daje żadnej gałęzi decyzyjnej ani progu — jedno stałe zalecenie (tryb
+    "Repair"/"Desulfation" ładowarki). Zbudowany jako czysta treść, jawnie odnotowane jako
+    odstępstwo od pierwotnej etykiety w `docs/rejestr-pokrycia.md`, nie ciche przemilczenie.
+  - **B12 (Przechowywanie/recykling)** — ten sam wzorzec co A10, ale z ważną różnicą: oba twarde
+    fakty (mróz, zakaz wylewania kwasu) SĄ oznaczone 🔴 w źródle (w odróżnieniu od A10, gdzie
+    ostrożność przy słonej wodzie nie miała takiego oznaczenia) — dlatego, inaczej niż przy A10,
+    tu oba fakty DOPISANO do `docs/rejestr-twardych-stopow.md`, mimo że ekran nie ma kalkulatora
+    (rejestr indeksuje fakty oznaczone 🔴 w źródle, nie tylko warunki gated przez żywą logikę —
+    potwierdzone precedensem `moment-dokrecania-srub`/`OSTRZEZENIA_STALE`).
+  - Zweryfikowane razem: `tsc`/`lint` czysto, `pnpm test` 137/137 (15 nowych, w B4/B9/B10),
+    `pnpm build` czysto (11 nowych tras), Playwright na 3 reprezentatywnych ekranach (B4 werdykt
+    krytyczny→ok po zaznaczeniu balansera, B9 strefa "rozładowany" dokładnie wg przykładu źródła,
+    B10 checklist objawów z ostrzeżeniem). **Moduł 11 razem: 19/22 (Ścieżka A 8/10, Ścieżka B
+    11/12, B5 blocked, A2/A5 odłożone).**
+
 ## Mapa orientacyjna
 
 - `docs/rejestr-twardych-stopow.md` — zbiorczy indeks warunków zawsze skutkujących 🔴 (04.3), z odsyłaczami do modułu/ekranu/pliku źródłowego. Dopisz tu nowy twardy stop, gdy kolejny moduł go wprowadzi.

@@ -35,6 +35,10 @@ nie do audytu poprawności formularza webowego.
 - **Załączenie głównego bezpiecznika/stycznika bez procedury pre-charge kondensatorów
   falownika** — zaiskrzenie i uszkodzenie styków bezpiecznika.
   (M11/A4 — `lib/core/modules/montaz-baterii/podlaczenie-bms/constants.ts`, `OSTRZEZENIA_STALE`)
+- **Brak wentylacji pomieszczenia z akumulatorami kwasowo-ołowiowymi podczas ładowania** —
+  gromadzący się wodór grozi wybuchem.
+  (M11/B2 — `lib/core/modules/montaz-baterii/montaz-mechaniczny-olow/constants.ts`,
+  `OSTRZEZENIA_STALE`)
 
 ## Bateryjne
 
@@ -62,6 +66,14 @@ nie do audytu poprawności formularza webowego.
   `terminal-m6`, pole `uwaga`)
 - **Podkładki sprężyste bezpośrednio na terminalu ogniwa** — obniża pewność połączenia.
   (M4/E11 — `lib/core/modules/baterie/moment-dokrecania-srub/constants.ts`, `OSTRZEZENIA_STALE`)
+- **≥2 akumulatory kwasowo-ołowiowe w szeregu bez balansera zewnętrznego** — z czasem rozjeżdżają
+  się napięciowo (brak wbudowanego BMS-balancera jak w LiFePO4), najsłabszy ogranicza cały zestaw.
+  (M11/B4 — `lib/core/modules/montaz-baterii/balansery-zewnetrzne-olow/warnings.ts`,
+  `brakBalanseraZewnetrznego`, kod `BRAK-BALANSERA-ZEWNETRZNEGO`)
+- **Przechowywanie rozładowanego akumulatora kwasowo-ołowiowego w mrozie** — elektrolit o niskiej
+  gęstości zamarza i pęka obudowa.
+  (M11/B12 — `lib/core/modules/montaz-baterii/przechowywanie-recykling-olow/constants.ts`,
+  pozycja `mroz` w `PRZECHOWYWANIE_FAKTY`)
 
 ## Bezpieczeństwo życia / montaż
 
@@ -76,6 +88,14 @@ nie do audytu poprawności formularza webowego.
   (M7/E5 — `lib/core/modules/stress-test/procedura-black-start/calculator.ts`, kod
   `KROK-POZA-KOLEJNOSCIA` — obecnie poziom `warning`, nie `critical`; do rewizji, patrz
   "Znane luki" niżej)
+- **Praca bez okularów ochronnych przy akumulatorach kwasowo-ołowiowych z korkami** — ryzyko
+  pryśnięcia kwasu przy sprawdzaniu poziomu elektrolitu.
+  (M11/B8 — `lib/core/modules/montaz-baterii/bezpieczenstwo-kwas/constants.ts`,
+  `OSTRZEZENIA_STALE`)
+- **Wylewanie kwasu z akumulatora kwasowo-ołowiowego do kanalizacji lub gruntu** — kategoryczny
+  zakaz źródła.
+  (M11/B12 — `lib/core/modules/montaz-baterii/przechowywanie-recykling-olow/constants.ts`,
+  pozycja `zakaz-wylewania` w `RECYKLING_FAKTY`)
 
 ## Znane luki (świadomie, nie przeoczenie)
 
@@ -91,6 +111,12 @@ nie do audytu poprawności formularza webowego.
 - Moduły z ekranami wciąż `todo` (większość Modułu 2, Moduł 1 ekrany 2–4, reszta ekranów 3/4/5/8/9)
   mogą kryć kolejne twarde stopy w treści źródłowej (`docs/domena/`), jeszcze nieprzepisane do
   kodu — ten rejestr rośnie razem z `docs/rejestr-pokrycia.md`, nie wyprzedza go.
+- **Ekran B5 (Moduł 11, Ścieżka B — dobór kabli/bezpieczników) zablokowany, nie zbudowany.**
+  Źródło wprost każe użyć "tego samego silnika co Moduł 5, Ekran 1", ale ten ekran jeszcze nie
+  istnieje w kodzie — świadomie nie budowano tymczasowego, równoległego silnika doboru przekroju
+  kabla, żeby nie wymyślać norm/tabel obciążalności bez realnego źródła. Gdy Moduł 5 Ekran 1
+  powstanie, B5 powinien go re-używać (wzorzec "echo", nie duplikować logiki), patrz
+  `docs/rejestr-pokrycia.md`.
 
 ## Walidacja danych wejściowych (wzorzec ogólny, nie wypisany pozycja po pozycji)
 
