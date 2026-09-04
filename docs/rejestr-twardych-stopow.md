@@ -78,6 +78,14 @@ nie do audytu poprawności formularza webowego.
   gęstości zamarza i pęka obudowa.
   (M11/B12 — `lib/core/modules/montaz-baterii/przechowywanie-recykling-olow/constants.ts`,
   pozycja `mroz` w `PRZECHOWYWANIE_FAKTY`)
+- **Różnica napięć >0,2V między dwiema bateriami łączonymi równolegle** — ryzyko iskrzenia w
+  chwili połączenia (prąd wyrównawczy `ΔV/(R1+R2)`).
+  (M4/E18 — `lib/core/modules/baterie/mixing-rownolegle/warnings.ts`, `roznicaNapiecZaDuza`,
+  kod `ROZNICA-NAPIEC-ZA-DUZA`)
+- **Mieszanie różnych chemii ogniw w połączeniu równoległym bez izolacji galwanicznej** —
+  niebezpieczne (np. LiFePO4 + AGM w tym samym obwodzie).
+  (M4/E18 — `lib/core/modules/baterie/mixing-rownolegle/warnings.ts`, `innaChemiaBezIzolacji`,
+  kod `INNA-CHEMIA-BEZ-IZOLACJI`)
 
 ## Bezpieczeństwo życia / montaż
 

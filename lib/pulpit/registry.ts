@@ -62,6 +62,7 @@ export const KAFLE: KafelEntry[] = [
       { href: "/kalkulatory/pobor-wlasny-bms", label: "Pobór własny BMS i tryb uśpienia" },
       { href: "/kalkulatory/kalibracja-soc", label: "Kalibracja i dokładność SoC" },
       { href: "/kalkulatory/long-term-storage", label: "Tryb Long Term Storage (odstawienie na zimę)" },
+      { href: "/kalkulatory/mixing-rownolegle", label: "Łączenie równoległe różnych baterii (Mixing)" },
       { href: "/kalkulatory/porownanie-technologii-magazynow", label: "Porównanie technologii magazynów" },
       { href: "/kalkulatory/dobor-bezpiecznika-dc", label: "Dobór bezpiecznika DC" },
       { href: "/kalkulatory/moment-dokrecania-srub", label: "Moment dokręcania śrub" },
