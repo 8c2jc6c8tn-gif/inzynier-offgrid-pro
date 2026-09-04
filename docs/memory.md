@@ -1398,6 +1398,32 @@
   - Zweryfikowane: `lint` czysto, `pnpm build` czysto (306 testów), Playwright (12,4 kWh + 20% →
     "14,9 kWh/dobę", zgodne z przeliczeniem referencyjnym).
 
+## Decyzje i uzasadnienie (c.d. 57)
+
+- **2026-09-04 — Ekran 7, Moduł 2: "Dni autonomii" (dawne 1.9, Wzorzec D-lite) — trzecie
+  zastosowanie wzorca "echo" w tej sesji.** Wartość główna to prosty wybór suwaka (1/2/3/5/7 dni,
+  literalnie ze źródła), która docelowo auto-zasila Moduł 4/Ekran 1 ("Dobór pojemności baterii") —
+  ta integracja nie istnieje jeszcze (brak współdzielonego stanu projektu), więc na razie ekran
+  tylko produkuje i pokazuje wybraną wartość.
+  - Źródło żąda też: "ekran powinien pokazywać na żywo szacunkowy wpływ na wielkość/koszt
+    magazynu przy przesuwaniu suwaka" — zbudowane jako **opcjonalny** podgląd (trzy dodatkowe
+    pola: zapotrzebowanie dobowe, sprawność falownika, DoD — te same co Moduł 4/Ekran 1), a nie
+    obowiązkowa część ekranu, bo to nie jest jego własny zakres danych.
+  - Zamiast duplikować wzór `C_użyteczna = E_dobowe × d_autonomii / (η × DoD)`, wyekstrahowano go
+    z `lib/core/modules/baterie/dobor-pojemnosci/calculator.ts` do osobnej, eksportowanej funkcji
+    `obliczPojemnoscUzytecznaKwh` i zaimportowano tutaj — dokładnie ten sam wzorzec co przy
+    Ekranie 9 M4 (`obliczPradZwarciowyA`) i Pre-Charge (M4/M11) wcześniej w tej sesji. 7 istniejących
+    testów `dobor-pojemnosci` nienaruszonych (refaktoryzacja czysto mechaniczna, bez zmiany logiki).
+    Koszt (druga część żądania źródła) świadomie NIE policzony — wymagałby ceny magazynu/kWh, co
+    duplikowałoby zakres `oplacalnosc-magazynu` (M4/Ekran 23) bez wyraźnej potrzeby tutaj.
+  - `lib/core/modules/zapotrzebowanie/dni-autonomii/`, 5 testów, UI: `app/kalkulatory/
+    dni-autonomii/page.tsx`.
+  - Zweryfikowane: `tsc`/`lint` czysto, `pnpm test` 311/311 (5 nowych), `pnpm build` czysto,
+    `lib/core/` nadal nie importuje z `app/`/`components/` (import między dwoma modułami `lib/core/
+    modules/` jest dozwolony — to nie jest import w górę warstw), Playwright (3 dni + 12 kWh/95%/80%
+    → "47,4 kWh", zgodne z wartością referencyjną 900/19≈47,368 policzoną wcześniej dla tego samego
+    wzoru w Ekranie 1 M4).
+
 ## Mapa orientacyjna
 
 - `docs/rejestr-twardych-stopow.md` — zbiorczy indeks warunków zawsze skutkujących 🔴 (04.3), z odsyłaczami do modułu/ekranu/pliku źródłowego. Dopisz tu nowy twardy stop, gdy kolejny moduł go wprowadzi.

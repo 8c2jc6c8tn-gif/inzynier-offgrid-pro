@@ -41,6 +41,7 @@ export const KAFLE: KafelEntry[] = [
       { href: "/kalkulatory/przetwornice-dcdc", label: "Przetwornice DC/DC" },
       { href: "/kalkulatory/moc-pozorna-cosfi", label: "Moc pozorna (cos φ)" },
       { href: "/kalkulatory/bufor-rozbudowe", label: "Bufor na rozbudowę" },
+      { href: "/kalkulatory/dni-autonomii", label: "Dni autonomii" },
     ],
   },
   {
