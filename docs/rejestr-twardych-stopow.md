@@ -150,6 +150,12 @@ nie do audytu poprawności formularza webowego.
   przed implementacją. Kalkulator (`lib/core/modules/baterie/cold-c-rate/calculator.ts`) zwraca
   dla tego zakresu status `OUT_OF_SCOPE` z jawnym komunikatem o luce, zamiast interpolować
   wymyśloną wartość pośrednią między 0,2C a "pełny prąd".
+- **Moduł 4, Ekran 25 (Szyny zbiorcze i połączenia międzypakietowe) zablokowany, nie
+  zbudowany.** Sekcja C źródła daje tylko ilustracyjne przykłady nierównego rozkładu prądu
+  ("20% więcej na ogniwie #1", "40% vs 15% między bateriami"), ale nie podaje wzoru wiążącego
+  długość/przekrój/rezystancję kabla z wielkością tego rozkładu — ten sam rodzaj luki co M5/E1 i
+  M11/B5 (brak tabeli/wzoru normatywnego). Budowa oznaczałaby wymyślenie zależności fizycznej —
+  wprost zakazane (CLAUDE.md).
 - **Moduł 4, Ekran 5 (Grzałki BMS i ochrona przed mrozem) — luka na granicy SoC=30%.** Źródło
   (`docs/zrodla/Tresc_Modul_4_Baterie_Ekrany.md`, linie 67–72) podaje warunki "SoC > 30% → grzanie
   z baterii" i "SoC < 30% → grzanie wstrzymane" jako dwa osobne, rozłączne warunki — wartość
