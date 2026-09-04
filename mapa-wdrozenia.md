@@ -20,14 +20,14 @@ TL;DR: Status opisany/zaimplementowany/przetestowany per moduł (M1–M13, Czę�
 | M5 | Okablowanie i zabezpieczenia | ✅ | 🔄 (1/~20 ekranów) | ✅ | ~5% — Ekran 1 (mega-Doradca doboru kabla) `⚠️ blocked`, brak normy PN-IEC 60364-5-52 |
 | M6 | Ogrzewanie / pompa ciepła | ✅ | 🔄 (7/~46 ekranów) | ✅ | ~15% — rozpoczęte 04.09.2026 (COP + pompy cyrkulacyjne + bufor ciepła + ryzyko niskiego napięcia + kocioł elektryczny + infiltracja powietrza + wentylacja z odzyskiem), reszta w większości `todo`/blocked (auto z Modułu 1) |
 | M7 | Stress-test zimowy | ✅ | 🔄 (1 ekran reprezentatywny) | ✅ | Fundament (Black Start) gotowy, spina M1–M6 — sensowny dopiero po nich |
-| M8 | Bezpieczeństwo i sytuacje awaryjne | ✅ | 🔄 (2/~11 ekranów) | ✅ | Audyt pożarowy (dane demo, docelowo z M8/M9/M13 na żywo) + UPS krytyczny (dobór sprzętowy, częściowy) |
+| M8 | Bezpieczeństwo i sytuacje awaryjne | ✅ | 🔄 (3/~11 ekranów) | ✅ | Audyt pożarowy (dane demo) + UPS krytyczny (dobór sprzętowy, częściowy) + dogrzewanie paliwem stałym (3 twarde stopy) |
 | M9 | Elektronika / ESP32 / sensoryka | ✅ | 🔄 (1 katalog reprezentatywny) | ✅ | Katalog czujników (21 typów, Wzorzec H) gotowy, reszta `todo` |
 | M10 | AI i prognozy | ✅ | 🔄 (1 ekran reprezentatywny, dane demonstracyjne) | ✅ | Czerpie z prawie wszystkiego wcześniejszego — naturalnie ostatni |
 | M11 | Montaż baterii | ✅ | ✅ (19/22 ekranów) | ✅ | ~86% — Ścieżka A 8/10, Ścieżka B 11/12, reszta świadomie odłożona/blocked |
 | M12 | Szybki kalkulator / tryb mobilny | ✅ | 🔄 (1 ekran reprezentatywny) | ✅ | Tryb uproszczony gotowy, reszta `todo` |
 | M13 | Tryb Live | ✅ | 🔄 (1 ekran — brama bez telemetrii) | — (brak logiki domenowej) | Świadomie minimalny — sensowny dopiero, gdy reszta systemu ma dane na żywo do pokazania |
 
-**Łącznie:** 91 pozycji ze statusem `done` w `docs/rejestr-pokrycia.md` (stan na 04.09.2026), rozłożone głównie na M2/M3/M4/M11.
+**Łącznie:** 92 pozycji ze statusem `done` w `docs/rejestr-pokrycia.md` (stan na 04.09.2026), rozłożone głównie na M2/M3/M4/M11.
 
 ## Uwagi do interpretacji
 
@@ -54,3 +54,4 @@ TL;DR: Status opisany/zaimplementowany/przetestowany per moduł (M1–M13, Czę�
 | 04.09.2026 | M6: dodano Ekran 12 (infiltracja powietrza, częściowy — bez poprawy 8% po uszczelnieniu) → 6/~46, 89 `done` łącznie. |
 | 04.09.2026 | M6: dodano Ekran 3 (wentylacja z odzyskiem ciepła, częściowy — tylko bilans podstawowy) → 7/~46, 90 `done` łącznie. |
 | 04.09.2026 | M8: dodano Ekran 6 (UPS krytyczny — dobór sprzętowy, częściowy — bez zarządzania priorytetami AI) → 2/~11, 91 `done` łącznie. Pierwszy nowy ekran M8 poza reprezentantem (audyt pożarowy). |
+| 04.09.2026 | M8: dodano Ekran 2 (bezpieczeństwo pożarowe — dogrzewanie paliwem stałym, 3 twarde stopy) → 3/~11, 92 `done` łącznie. |
