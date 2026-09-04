@@ -125,6 +125,7 @@ export const KAFLE: KafelEntry[] = [
       { href: "/kalkulatory/pompy-cyrkulacyjne", label: "Pompy cyrkulacyjne — dobór" },
       { href: "/kalkulatory/bufor-ciepla", label: "Bufor ciepła — dobór pojemności" },
       { href: "/kalkulatory/ryzyko-niskiego-napiecia", label: "Ryzyko wyłączenia pompy przy niskim napięciu" },
+      { href: "/kalkulatory/kociol-elektryczny", label: "Kocioł elektryczny vs pompa ciepła" },
     ],
   },
   {
