@@ -1520,6 +1520,29 @@
     Playwright (priorytet 3 + SoC 18% → "Odłączony", żółty; priorytet 1 + SoC 18% → "Aktywny",
     zielony — zgodne z przykładem źródła).
 
+## Decyzje i uzasadnienie (c.d. 62)
+
+- **2026-09-04 — Ekran 2, Moduł 4: "Sugestia napięcia systemowego (12/24/48V)" (dawne 3.2,
+  Wzorzec D) — dawny "blocked" z Modułu 4 teraz otwarty; Moduł 2 wyczerpany, wracamy dobierać
+  pojedyncze buildowalne ekrany z innych modułów.** Moduł 2 doszedł do 13/17, a pozostałe cztery
+  pozycje (Ekran 3 urządzenia zmienne, Ekran 10 sprawność inwertera, Ekran 14 architektura
+  1-/3-fazowa, Ekran 15 kategorie specjalne) wymagają bazy komponentów lub progu nieobecnego w
+  źródle (krzywa sprawności inwertera to tylko dwa luźne zakresy bez wzoru; próg "znacznej
+  asymetrii" faz nigdzie nie podany liczbowo) — sprawdzone i odrzucone jako niebuildowalne bez
+  wymyślania danych, tym samym wzorcem co poprzednie odrzucenia w tej sesji.
+  - Sekcja B źródła podaje dwa progi wprost: `moc>3000W → 48V`, `moc<1000W → 12V`. Pasmo
+    1000-3000W dopowiedziane logicznie jako 24V (jedyna pozostała opcja z trzech wymienionych w
+    tytule ekranu) — udokumentowane jawnie jako uzupełnienie struktury, nie ukryty wymysł.
+  - Prąd `I=P/V` dla wszystkich trzech napięć (czyste prawo Ohma) — przykład źródła (4800W →
+    400A@12V, 100A@48V) odtworzony dokładnie w Pythonie przed implementacją i w teście.
+  - Porównanie wymaganych przekrojów kabli (Sekcja C: "kabel 95mm²"/"25mm²") świadomie NIE
+    zbudowane — wymaga tabeli obciążalności prądowej (PN-IEC 60364-5-52), ta sama brakująca
+    norma co Moduł 5/Ekran 1 (już wcześniej blocked).
+  - `lib/core/modules/baterie/napiecie-systemowe/`, 8 testów, UI: `app/kalkulatory/
+    napiecie-systemowe/page.tsx`.
+  - Zweryfikowane: `tsc`/`lint` czysto, `pnpm test` 351/351 (8 nowych), `pnpm build` czysto,
+    Playwright (4800W → "48V", "400A@12V · 200A@24V · 100A@48V", zgodne z przykładem źródła).
+
 ## Mapa orientacyjna
 
 - `docs/rejestr-twardych-stopow.md` — zbiorczy indeks warunków zawsze skutkujących 🔴 (04.3), z odsyłaczami do modułu/ekranu/pliku źródłowego. Dopisz tu nowy twardy stop, gdy kolejny moduł go wprowadzi.
