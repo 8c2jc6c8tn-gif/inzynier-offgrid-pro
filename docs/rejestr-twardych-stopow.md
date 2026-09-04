@@ -123,6 +123,14 @@ nie do audytu poprawności formularza webowego.
   (M4/E5 — `lib/core/modules/baterie/grzalki-bms-mroz/warnings.ts`, `grzanieWstrzymane`,
   kod `GRZANIE-WSTRZYMANE`)
 
+## Cieplne / systemowe
+
+- **Napięcie systemu off-grid poniżej minimalnego napięcia pracy pompy ciepła** — przy
+  rozładowanej baterii pompa wyłącza się dokładnie w najgorszym możliwym momencie (mróz +
+  rozładowana bateria), gdy jest najbardziej potrzebna.
+  (M6/dawne 5.63 — `lib/core/modules/ogrzewanie/ryzyko-niskiego-napiecia/warnings.ts`,
+  `pompaSieWylaczy`, kod `POMPA-SIE-WYLACZY`)
+
 ## Bezpieczeństwo życia / montaż
 
 - **Rozpoczęcie montażu baterii LiFePO4 bez pełnego kompletu: mata izolacyjna, klucz
