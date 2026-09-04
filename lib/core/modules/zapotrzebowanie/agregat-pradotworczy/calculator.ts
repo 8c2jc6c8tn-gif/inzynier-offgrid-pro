@@ -1,0 +1,85 @@
+import type { CalcResult } from "@/lib/core/calc-result"
+import type { AgregatPradotworczyInput } from "./input"
+import { validateInput } from "./validation"
+import { brakWyjsciaSterujacego, maWyjscieSterujace } from "./warnings"
+import { OPTYMALNE_OBCIAZENIE_PCT } from "./constants"
+
+export const CALCULATOR_VERSION = "1.0.0"
+
+export type AgregatPradotworczyResult = {
+  godzinyPracy: number
+  zuzyciePaliwaLitry: number
+  kosztZl: number
+}
+
+const FORMULA =
+  "t_{h} = deficyt / (P_{agregat} \\times 0{,}8); \\ paliwo = t_{h} \\times zużycie_{l/h}; \\ koszt = paliwo \\times cena_{zł/l}"
+
+/**
+ * Ekran 17, Moduł 2 "Zapotrzebowanie energetyczne" — "Agregat prądotwórczy – definicja i logika
+ * pracy" (Biblia, funkcja 1.19/2.19). Godziny pracy przy optymalnym obciążeniu (górna granica
+ * zakresu 70-80% ze źródła — patrz `constants.ts`), zużycie paliwa i koszt — cały łańcuch
+ * zweryfikowany niezależnie w Pythonie i odtwarza dokładnie własny przykład źródła (deficyt
+ * 80 kWh, agregat 5 kW → 20 godzin, 25 l, 200 zł).
+ */
+export function calculateAgregatPradotworczy(
+  input: AgregatPradotworczyInput,
+): CalcResult<AgregatPradotworczyResult> {
+  const { errors } = validateInput(input)
+  const pustyWynik: AgregatPradotworczyResult = { godzinyPracy: 0, zuzyciePaliwaLitry: 0, kosztZl: 0 }
+  const inputs = {
+    deficytKwh: input.deficytKwh,
+    mocAgregatuKw: input.mocAgregatuKw,
+    sredniZuzycieLH: input.sredniZuzycieLH,
+    cenaZaLitrZl: input.cenaZaLitrZl,
+  }
+
+  if (errors.length > 0) {
+    return {
+      value: pustyWynik,
+      unit: "zł",
+      status: "INVALID_INPUT",
+      formula: FORMULA,
+      inputs,
+      assumptions: [],
+      warnings: errors,
+      calculatorVersion: CALCULATOR_VERSION,
+    }
+  }
+
+  if (
+    input.deficytKwh === 0 ||
+    input.mocAgregatuKw === 0 ||
+    input.sredniZuzycieLH === 0 ||
+    input.cenaZaLitrZl === 0
+  ) {
+    return {
+      value: pustyWynik,
+      unit: "zł",
+      status: "INCOMPLETE",
+      formula: FORMULA,
+      inputs,
+      assumptions: [],
+      warnings: [],
+      calculatorVersion: CALCULATOR_VERSION,
+    }
+  }
+
+  const mocEfektywnaKw = input.mocAgregatuKw * (OPTYMALNE_OBCIAZENIE_PCT / 100)
+  const godzinyPracy = input.deficytKwh / mocEfektywnaKw
+  const zuzyciePaliwaLitry = godzinyPracy * input.sredniZuzycieLH
+  const kosztZl = zuzyciePaliwaLitry * input.cenaZaLitrZl
+
+  return {
+    value: { godzinyPracy, zuzyciePaliwaLitry, kosztZl },
+    unit: "zł",
+    status: input.maWyjscieSterujaceBms ? "VALID" : "VALID_WITH_WARNINGS",
+    formula: FORMULA,
+    inputs,
+    assumptions: [
+      `Optymalne obciążenie agregatu przyjęte na ${OPTYMALNE_OBCIAZENIE_PCT}% mocy znamionowej — górna granica zakresu 70-80% ze źródła.`,
+    ],
+    warnings: [input.maWyjscieSterujaceBms ? maWyjscieSterujace() : brakWyjsciaSterujacego()],
+    calculatorVersion: CALCULATOR_VERSION,
+  }
+}

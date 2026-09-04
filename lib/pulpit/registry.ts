@@ -36,6 +36,7 @@ export const KAFLE: KafelEntry[] = [
       { href: "/kalkulatory/systemy-podtrzymania-zycia", label: "Systemy podtrzymania życia" },
       { href: "/kalkulatory/liczba-domownikow", label: "Liczba domowników" },
       { href: "/kalkulatory/pomocnicze", label: "Kalkulatory pomocnicze" },
+      { href: "/kalkulatory/agregat-pradotworczy", label: "Agregat prądotwórczy — definicja i logika pracy" },
     ],
   },
   {

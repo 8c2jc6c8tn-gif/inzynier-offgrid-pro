@@ -28,6 +28,7 @@ notatkę, zgodnie z `docs/standards/15-wspolpraca-z-ai.md` (15.3, "nie usuwaj �
 | 14 | 1.26 | Architektura 1-fazowa/3-fazowa | todo | |
 | 15 | 1.27 | Kategorie specjalne (warsztat/gospodarstwo/oświetlenie terenowe) | todo | |
 | **16** | **1.22, 1.23** | **Kalkulatory pomocnicze (W→A, Ah↔Wh, czas pracy)** | **done** | pierwszy pełny przykład end-to-end: `lib/core/modules/zapotrzebowanie/kalkulatory-pomocnicze/` (input/calculator/validation/warnings/constants + 9 testów), UI: `app/kalkulatory/pomocnicze/page.tsx`. Zweryfikowane: testy, typecheck, lint, build, ręcznie w przeglądarce (3 stany werdyktu). |
+| 17 | 1.19 / 2.19 | Agregat prądotwórczy — definicja i logika pracy | **done** | `lib/core/modules/zapotrzebowanie/agregat-pradotworczy/`, UI: `app/kalkulatory/agregat-pradotworczy/page.tsx`, 5 testów. **Domyka lukę 1.19** (patrz sekcja "Luka wykryta i udokumentowana" niżej — status zmieniony na rozwiązana, wpis zachowany, nie usunięty). Treść źródłowa z `docs/zrodla/Biblia_Offgrid_v2_0_Architektura_Modulowa.md` (linie 503-521, funkcja 2.19). Wzór (godziny pracy przy optymalnym obciążeniu 70-80%, zużycie paliwa, koszt) odtwarza dokładnie własny przykład źródła (deficyt 80 kWh, agregat 5 kW → 20h, 25l, 200 zł) — zweryfikowany niezależnie w Pythonie przed implementacją. Deficyt wpisywany wprost przez użytkownika (nie wyprowadzany automatycznie z Modułów 1/3 — ta integracja to osobny, nie rozpoczęty krok). |
 | — | 1.24, 1.28–1.50 | Moduł zbiorczy: Wampiry energetyczne (24 funkcje) | todo | jeden ekran zbiorczy, treść w Biblii poza tym repo |
 
 ### Funkcje przeniesione (nie mają tu ekranu — implementować przy docelowym module)
@@ -42,7 +43,7 @@ notatkę, zgodnie z `docs/standards/15-wspolpraca-z-ai.md` (15.3, "nie usuwaj �
 
 | ID Biblii | Nazwa | Status | Notatka |
 |---|---|---|---|
-| 1.19 | Agregat prądotwórczy — definicja i logika | **luka** | zaplanowana jako osobny ekran D w Module 2 (§20 Zasad UX), treść źródłowa gotowa w Biblii, nigdy nie przepisana do pliku treści modułu ani ujęta w sekcji "znane luki" pliku scalonego — patrz `docs/memory.md`. Do dopisania przy domykaniu Modułu 2. |
+| 1.19 | Agregat prądotwórczy — definicja i logika | ~~**luka**~~ **rozwiązana (2026-09-04)** | zaplanowana jako osobny ekran D w Module 2 (§20 Zasad UX), treść źródłowa gotowa w Biblii, nigdy nie przepisana do pliku treści modułu ani ujęta w sekcji "znane luki" pliku scalonego — patrz `docs/memory.md`. **Domknięta**: zaimplementowana jako Ekran 17, patrz wiersz wyżej w tabeli głównej i `docs/memory.md` (2026-09-04). Wpis zachowany zgodnie z zasadą "nie usuwaj — oznacz" (`docs/standards/15-wspolpraca-z-ai.md`, 15.3). |
 
 ## Moduł 1 — Lokalizacja (Geostruktura)
 
