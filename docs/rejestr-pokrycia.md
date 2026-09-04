@@ -167,6 +167,7 @@ per-funkcja całego modułu (to nadal osobny, nie rozpoczęty krok).
 | Ekran | ID Biblii | Nazwa | Status | Notatka |
 |---|---|---|---|---|
 | 18 | 2.33 | Wpływ temperatury na wydajność | **done** | `lib/core/modules/pv/wplyw-temperatury/`, UI: `app/kalkulatory/wplyw-temperatury/page.tsx`, 5 testów. Wzór `P_rzeczywista = P_nominalna × (1 + γ×(T_panel−25))` 1:1 ze źródła. Przyrost temperatury panelu (25-30°C) i współczynnik γ (-0,3 do -0,45%/°C) to zakresy ze źródła, nie pojedyncze liczby — oba pola wymagają ręcznego wpisania (podpowiedź o typowym zakresie, nie ukryty domyślny). Przykład źródła (35°C+25°C→60°C panel, strata ok. 15%) odtworzony dokładnie przy γ≈-0,43%/°C. |
+| 8 | 2.14 | Straty na okablowaniu DC (efekt Joule'a) | **done** | `lib/core/modules/pv/straty-okablowanie-dc/`, UI: `app/kalkulatory/straty-okablowanie-dc/page.tsx`, 6 testów. Wzór `R=ρ×2L/S` 1:1 ze źródła (ρ_Cu=0,0175 Ω·mm²/m — stała fizyczna podana wprost). 2×L (pętla plus/minus) — standardowa praktyka DC, nie wymyślona. Przykład źródła (30m/15A: 4mm²→6%, 6mm²→4%, 10mm²→2,4%) odtworzony dokładnie dla wszystkich trzech przekrojów jednocześnie, przy Vmp wyprowadzonym z przykładu. Dodatkowo porównanie 4 standardowych przekrojów (4/6/10/16mm², katalogowe IEC, nie wymyślone) na jednym ekranie. |
 
 ## Moduły 6, 7, 10, 11, 12, 13 — po jednym ekranie (pokrycie pulpitu, 2026-08-30)
 

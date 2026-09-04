@@ -1615,6 +1615,30 @@
   - Zweryfikowane: `tsc`/`lint` czysto, `pnpm test` 367/367 (5 nowych), `pnpm build` czysto,
     Playwright (35°C/25°C/-0,43%/450W → "382 W", "60°C", "15,0%", zgodne z przykładem źródła).
 
+## Decyzje i uzasadnienie (c.d. 66)
+
+- **2026-09-04 — Ekran 8, Moduł 3: "Straty na okablowaniu DC (efekt Joule'a)" (dawne 2.14,
+  Wzorzec D) — pełny wzór fizyczny (rezystywność miedzi jako stała) reprodukuje CAŁĄ tabelę
+  przykładu źródła naraz, nie tylko jedną wartość.** Wzór `R = ρ×L/S` ze źródła, z ρ_Cu=0,0175
+  Ω·mm²/m podanym wprost jako stała — nie wymyślona. Rezystancja pętli liczona dla 2×L (prąd
+  płynie przez oba przewody, plus i minus) — standardowa praktyka inżynierska DC, udokumentowana
+  transparentnie w kodzie jako założenie, nie ukryta.
+  - Przykład źródła Sekcji C (30m, 15A: 4mm²→6%, 6mm²→4%, 10mm²→2,4%) wymagał znajomości napięcia
+    (Vmp) do przeliczenia straty mocy na %, którego przykład nie podaje wprost — wyprowadzone
+    przez rozwiązanie równania wstecz (Vmp≈65,625V) i zweryfikowane: przy tej wartości WSZYSTKIE
+    TRZY punkty przykładu (6%/4%/2,4%) wychodzą dokładnie, co potwierdza poprawność wzoru (gdyby
+    wzór był błędny, trafienie we wszystkie trzy wartości jednocześnie byłoby przypadkiem
+    astronomicznie mało prawdopodobnym).
+  - Dodatkowy element: porównanie strat dla 4 standardowych przekrojów katalogowych (4/6/10/16
+    mm² — typowe wartości IEC, nie wymyślone) na jednym ekranie, matching source's own
+    porównawczy format tabeli w Sekcji C.
+  - `lib/core/modules/pv/straty-okablowanie-dc/`, 6 testów, UI: `app/kalkulatory/
+    straty-okablowanie-dc/page.tsx`. Dopisany do sekcji "Moduł 3 — ekrany dodatkowe" w
+    `docs/rejestr-pokrycia.md` (razem z Ekranem 18 z poprzedniego PR).
+  - Zweryfikowane: `tsc`/`lint` czysto, `pnpm test` 373/373 (6 nowych), `pnpm build` czysto,
+    Playwright (30m/15A/65,625V/4mm² → "6,0%", tabela porównawcza 6,0/4,0/2,4/1,5% dla
+    4/6/10/16mm² — dokładnie zgodne z tabelą źródła).
+
 ## Mapa orientacyjna
 
 - `docs/rejestr-twardych-stopow.md` — zbiorczy indeks warunków zawsze skutkujących 🔴 (04.3), z odsyłaczami do modułu/ekranu/pliku źródłowego. Dopisz tu nowy twardy stop, gdy kolejny moduł go wprowadzi.
