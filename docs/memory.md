@@ -1270,6 +1270,29 @@
     `lib/core/` nadal nie importuje z `app/`/`components/`, Playwright (0,25→0,71mΩ → czerwony
     "+184% względem fabrycznej / Ogniwo do wymiany", zgodne z przykładem źródła).
 
+## Decyzje i uzasadnienie (c.d. 51)
+
+- **2026-09-04 — Ekran 17, Moduł 4: "Analiza Second-Life (baterie z EV)" — dwie alternatywne
+  metody szacunku ze źródła, obie zaimplementowane, user wybiera którą ma dane do zastosowania.**
+  Źródło (Sekcja B): SoH szacowany "na podstawie wieku/przebiegu (~2-3%/rok lub ~1%/10 000 km)".
+  Dolna granica zakresu rocznego (2%/rok) — ten sam wzorzec konserwatywnego wyboru już
+  zastosowany w Ekranie 6 (Starzenie i degradacja). Przykład Sekcji C (10 kWh, SoH ~72% →
+  7,2 kWh, 6000 zł → 833 zł/kWh) zweryfikowany niezależnie w Pythonie: **obie metody**
+  niezależnie reprodukują dokładnie 72% SoH przy self-konsystentnych wartościach (14 lat przy
+  metodzie wieku, 280 000 km przy metodzie przebiegu) — źródło nie podaje, które dane wejściowe
+  faktycznie użyło w tym przykładzie, więc żadna z dwóch metod nie jest "tą jedyną słuszną",
+  obie są równie uprawnione i obie dają ten sam wynik na tym konkretnym przykładzie.
+  - Cena nowej baterii LiFePO4 (w źródle: "1200 zł/kWh") świadomie NIE stała się stałą aplikacji
+    — to zmienna cena rynkowa, nie stały parametr fizyczny/normatywny, więc pole opcjonalne z
+    ceną wpisywaną przez użytkownika, nie hardkodowana wartość, która szybko staje się
+    nieaktualna.
+  - Skrajny przypadek: gdy model degradacji sprowadza SoH do 0% (bardzo stara/przejechana
+    bateria), zwracane jest osobne, krytyczne ostrzeżenie zamiast dzielenia przez zero.
+  - `lib/core/modules/baterie/second-life/`, 7 testów, UI: `app/kalkulatory/second-life/page.tsx`.
+  - Zweryfikowane: `tsc`/`lint` czysto, `pnpm test` 283/283 (7 nowych), `pnpm build` czysto,
+    `lib/core/` nadal nie importuje z `app/`/`components/`, Playwright (10kWh/6000zł/14 lat →
+    zielony "Szacowany SoH: 72%" / "833 zł/kWh", dokładnie zgodne z przykładem źródła).
+
 ## Mapa orientacyjna
 
 - `docs/rejestr-twardych-stopow.md` — zbiorczy indeks warunków zawsze skutkujących 🔴 (04.3), z odsyłaczami do modułu/ekranu/pliku źródłowego. Dopisz tu nowy twardy stop, gdy kolejny moduł go wprowadzi.

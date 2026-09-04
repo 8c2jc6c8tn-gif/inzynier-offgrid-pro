@@ -79,6 +79,7 @@ export const KAFLE: KafelEntry[] = [
       { href: "/kalkulatory/detekcja-doziemienia", label: "Detekcja doziemienia (Ground Fault & IMD)" },
       { href: "/kalkulatory/pozycjonowanie-ogniw", label: "Pozycjonowanie ogniw (kompresja/spuchnięcie)" },
       { href: "/kalkulatory/soh-per-ogniwo", label: "SoH — diagnostyka per ogniwo" },
+      { href: "/kalkulatory/second-life", label: "Analiza Second-Life (baterie z EV)" },
     ],
   },
   {
