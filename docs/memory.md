@@ -1104,6 +1104,25 @@
     "Wybierz Separate Port", zgodny z przykładem źródła; 200A/150A → zielony "Common Port
     wystarczy").
 
+## Decyzje i uzasadnienie (c.d. 43)
+
+- **2026-09-04 — Ekran 20, Moduł 4: "Komunikacja BMS — CAN/RS485/Modbus" — sprawdzenie
+  zgodności protokołów jako prosta równość, z jawnie oznaczonym trzecim stanem "nieznany".**
+  Źródło (Sekcja B) opisuje "sprawdzenie kompatybilności" między protokołem BMS a
+  falownika/ładowarki — bez tabeli konkretnych par, to zwykła równość dwóch wybranych wartości
+  z tej samej listy (CAN/RS485/Modbus/Pylontech). Cena konwertera z przykładu Sekcji C ("ok. 150
+  zł") jest ilustracyjna, nie ogólny cennik — nie liczona.
+  - Dodana wartość "Inny/nieznany" na liście protokołów, z osobnym traktowaniem: jeśli
+    którekolwiek urządzenie ma protokół "inny", zwracany jest `OUT_OF_SCOPE` zamiast fałszywego
+    "zgodne" (dwa nieznane protokoły niekoniecznie są tym samym protokołem) — świadoma decyzja,
+    żeby nie zgadywać zgodności tam, gdzie dane są niewystarczające.
+  - `lib/core/modules/baterie/komunikacja-bms/`, 4 testy, UI: `app/kalkulatory/
+    komunikacja-bms/page.tsx`. Bez `validation.ts` — brak wartości liczbowych do walidowania,
+    tylko wybór z zamkniętej listy.
+  - Zweryfikowane: `tsc`/`lint` czysto, `pnpm test` 237/237 (4 nowe), `pnpm build` czysto,
+    `lib/core/` nadal nie importuje z `app/`/`components/`, Playwright (Pylontech vs CAN →
+    żółty "Potrzebny konwerter protokołu", Pylontech vs Pylontech → zielony "Zgodne").
+
 ## Mapa orientacyjna
 
 - `docs/rejestr-twardych-stopow.md` — zbiorczy indeks warunków zawsze skutkujących 🔴 (04.3), z odsyłaczami do modułu/ekranu/pliku źródłowego. Dopisz tu nowy twardy stop, gdy kolejny moduł go wprowadzi.
