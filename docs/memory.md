@@ -1684,6 +1684,35 @@
     Playwright (8 paneli → "520 V", czerwony "Zabronione"; 4 panele → "260 V", zielony "Bezpieczny
     margines" — oba stany zgodne z przykładem i rekomendacją źródła).
 
+## Decyzje i uzasadnienie (c.d. 69)
+
+- **2026-09-04 — Ekran 17, Moduł 3: "Niedopasowanie mocy paneli (mismatch)" (scala dawne
+  2.32/2.41, Wzorzec D) — dla stringu szeregowego 2 paneli, tak jak podaje przykład źródła.**
+  Wzór `P_rzeczywista = 2×min(I1,I2)×V_wspólne` (prąd stringu ogranicza najsłabszy panel).
+  - Przykład źródła (400W/11A + 330W/9A, Vmp=40V → 720W zamiast 730W teoretycznych, strata 1,4%)
+    odtworzony dokładnie, zweryfikowany niezależnie w Pythonie przed implementacją.
+  - **Napięcie wspólne (Vmp) wpisywane ręcznie** — źródło używa jednej, uśrednionej wartości
+    (40V) w swoim przykładzie, ale nie podaje jej jako osobnego pola wejściowego w Sekcji A (tam
+    są tylko moc i Imp per panel); próba wyprowadzenia Vmp z P/I każdego panelu osobno (36,36V i
+    36,67V) i zsumowania ich jak w prawdziwym obwodzie szeregowym daje INNY wynik niż przykład
+    źródła (657W, nie 720W) — sprawdzone w Pythonie. Źródło używa uproszczonego modelu z jedną
+    wspólną wartością, więc ta wartość musi pochodzić z zewnątrz (wpisana ręcznie), nie być
+    zgadywana ani wyprowadzana przez "poprawniejszą" fizykę, która akurat nie pasuje do przykładu.
+  - Twardy próg (Sekcja C: "🔴 różnica mocy paneli >10-15%") zaimplementowany jako trójstopniowe
+    kubełkowanie z użyciem OBU podanych granic (< 10% zielone, 10-15% żółte, >15% czerwone) —
+    zakres źródła wykorzystany w całości, nie zawężony do jednej wymyślonej liczby. Przykład
+    źródła ma różnicę mocy 17,5% → poprawnie ląduje w czerwonej strefie.
+  - Sekcja C osobno wspomina "strata może sięgać nawet 18% wg dawnej analizy ryzyka 2.41" — to
+    inna liczba niż 1,4% obliczone wzorem z Sekcji B dla tego samego przykładu. Źródło samo to
+    tłumaczy ("strata rośnie nieliniowo przy większej różnicy") — nie próbowano tego godzić:
+    zbudowany tylko dokładny wzór z Sekcji B, druga liczba (18%) to osobna, nieformułowa
+    obserwacja źródła, nie została wdrożona jako osobne obliczenie.
+  - `lib/core/modules/pv/niedopasowanie-paneli/`, 5 testów, UI: `app/kalkulatory/
+    niedopasowanie-paneli/page.tsx`.
+  - Zweryfikowane: `tsc`/`lint` czysto, `pnpm test` 384/384 (5 nowych), `pnpm build` czysto,
+    Playwright (400W/11A + 330W/9A + 40V → "720 W", "strata: 1,4%", "różnica mocy paneli: 17,5%",
+    czerwony werdykt — zgodne z przykładem źródła).
+
 ## Mapa orientacyjna
 
 - `docs/rejestr-twardych-stopow.md` — zbiorczy indeks warunków zawsze skutkujących 🔴 (04.3), z odsyłaczami do modułu/ekranu/pliku źródłowego. Dopisz tu nowy twardy stop, gdy kolejny moduł go wprowadzi.

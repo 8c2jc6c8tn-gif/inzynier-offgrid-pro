@@ -59,6 +59,7 @@ export const KAFLE: KafelEntry[] = [
       { href: "/kalkulatory/wplyw-temperatury", label: "Wpływ temperatury na wydajność" },
       { href: "/kalkulatory/straty-okablowanie-dc", label: "Straty na okablowaniu DC" },
       { href: "/kalkulatory/stress-test-mppt", label: "Zimowy stress-test napięciowy MPPT (Voc max)" },
+      { href: "/kalkulatory/niedopasowanie-paneli", label: "Niedopasowanie mocy paneli (mismatch)" },
     ],
   },
   {
