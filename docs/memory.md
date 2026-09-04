@@ -1791,6 +1791,33 @@
     Playwright (Isc=12A/3 stringi bez zabezpieczeń → "15,0 A", czerwony "Zabronione"; z
     zabezpieczeniem → zielony "Dobrany bezpiecznik" — oba stany zgodne z przykładem źródła).
 
+## Decyzje i uzasadnienie (c.d. 73)
+
+- **2026-09-04 — Ekran 13, Moduł 3: "Symulacja zacienienia i wpływ na diody bocznikujące"**
+  (scala dawne 2.23, 2.49, Wzorzec D) — **zbudowany świadomie tylko częściowo (poziom panelu),
+  poziom stringu pozostawiony niepoliczony.**
+  - Źródło podaje dwa poziomy: strata panelu (1 sekcja→33%, 2 sekcje→66%) i strata CAŁEGO
+    STRINGU (przykład: 1 zacieniony panel w stringu 6 paneli → strata stringu 55%+, "zależnie
+    od konfiguracji"). Tylko pierwszy poziom ma odtwarzalny wzór — drugi jest jawnie opisany
+    przez źródło jako zależny od konfiguracji (topologia MPPT, liczba paneli, okablowanie), bez
+    podanego wzoru.
+  - Rozpoznanie: "1 sekcja→33%, 2 sekcje→66%" nie jest dowolną liczbą do zgadnięcia — to wynika
+    wprost z konstrukcyjnego faktu, że standardowy panel PV (60/72-ogniwowy) ma 3 sekcje ogniw,
+    każda z osobną diodą bocznikującą. Zacienienie sekcji uruchamia jej diodę, obniżając napięcie
+    panelu o 1/3 przy zbliżonym prądzie → `strata_panelu = sekcje_zacienione/3`. Zweryfikowane
+    niezależnie w Pythonie przed implementacją: 1/3=33,3%, 2/3=66,7% — zgodne z zaokrągleniem
+    źródła do pełnych procent (33%/66%), nie rozbieżność formuły.
+  - Poziom stringu (55%+) świadomie NIE dostał wymyślonego wzoru (np. proporcji liczby paneli) —
+    byłoby to naruszenie Dyrektywy #1 (`02_Dyrektywy_AI_Projektu.md`, nigdy nie zgaduj brakującego
+    współczynnika/normy). Zamiast tego: opisowa uwaga w `assumptions` wyniku, cytująca wprost
+    przykład i zastrzeżenie źródła "zależy od konfiguracji". 🟡 rekomendacja mikroinwerterów przy
+    regularnym/częściowym zacienieniu (cross-ref Ekran 18) wpisana do treści ostrzeżeń.
+  - `lib/core/modules/pv/zacienienie-diody-bocznikujace/`, 7 testów, UI: `app/kalkulatory/
+    zacienienie-diody-bocznikujace/page.tsx`.
+  - Zweryfikowane: `tsc`/`lint` czysto, `pnpm test` 401/401 (7 nowych), `pnpm build` czysto,
+    Playwright (400W panel, 2 zacienione sekcje, string 6 paneli → "66,7%" straty, "133 W" moc
+    rzeczywista, czerwony werdykt z pełnym uzasadnieniem tekstowym — zgodne z oczekiwaniem).
+
 ## Mapa orientacyjna
 
 - `docs/rejestr-twardych-stopow.md` — zbiorczy indeks warunków zawsze skutkujących 🔴 (04.3), z odsyłaczami do modułu/ekranu/pliku źródłowego. Dopisz tu nowy twardy stop, gdy kolejny moduł go wprowadzi.
