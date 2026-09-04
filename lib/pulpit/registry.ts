@@ -123,6 +123,7 @@ export const KAFLE: KafelEntry[] = [
     ekrany: [
       { href: "/kalkulatory/cop-pompy-ciepla", label: "COP pompy ciepła w funkcji temperatury" },
       { href: "/kalkulatory/pompy-cyrkulacyjne", label: "Pompy cyrkulacyjne — dobór" },
+      { href: "/kalkulatory/bufor-ciepla", label: "Bufor ciepła — dobór pojemności" },
     ],
   },
   {
