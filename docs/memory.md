@@ -1856,6 +1856,29 @@
     621V → czerwony "Konfiguracja niedopasowana"; pozostałe 3 kryteria zielone/info w tym samym
     scenariuszu — zgodne z testem jednostkowym).
 
+## Decyzje i uzasadnienie (c.d. 75)
+
+- **2026-09-04 — Ekran 26, Moduł 3: "Straty na złączkach MC4 w praktyce"** (dawne 2.46,
+  Wzorzec C z elementami D) — czysta fizyka (prawo Joule'a, `P=n×I²×R`), rezystancja złączki
+  jako pole ręcznego wpisu w zakresie źródła.
+  - Źródło podaje zakres, nie pojedynczą liczbę: złączka w dobrym stanie 0,5-2 mΩ, luźna/
+    zaśniedziała "nawet 10× więcej" — zgodnie z D16 rezystancja jest polem ręcznego wpisu, nie
+    ukrytym domyślnym.
+  - Przykład źródła (20 złączek, prąd 10A, dobry styk → strata 2W) odtworzony DOKŁADNIE przy
+    R=1mΩ (środek zakresu 0,5-2 mΩ), zweryfikowane niezależnie w Pythonie przed implementacją.
+  - Przykład "zły styk → nawet 25W" jest z natury przybliżony (źródło samo używa słowa "nawet"
+    zarówno dla mnożnika 10× jak i dla wyniku) — przy R=20mΩ (10× górna granica dobrego stanu)
+    wzór daje 40W, nie 25W dokładnie. Zgodnie z Dyrektywą #13 (nie naciągaj wzoru do przykładu)
+    wzór wdrożony dokładnie jak podany, rozbieżność udokumentowana w kodzie, analogicznie do
+    precedensów `napor-wiatru`/`niedopasowanie-paneli`.
+  - Progi bucketowania ostrzeżeń (🟢 ≤2mΩ, 🟡 2-20mΩ, 🔴 >20mΩ) to granice zakresu źródła
+    (górna granica "dobry stan" i jej 10-krotność), nie wymyślone liczby.
+  - `lib/core/modules/pv/straty-zlaczki-mc4/`, 6 testów, UI: `app/kalkulatory/
+    straty-zlaczki-mc4/page.tsx`.
+  - Zweryfikowane: `tsc`/`lint` czysto, `pnpm test` 416/416 (6 nowych), `pnpm build` czysto,
+    Playwright (R=25mΩ, 20 złączek, 10A → "50,0 W" straty, czerwony werdykt z uzasadnieniem
+    "realne ryzyko przegrzania/pożaru" — zgodne z testem jednostkowym).
+
 ## Mapa orientacyjna
 
 - `docs/rejestr-twardych-stopow.md` — zbiorczy indeks warunków zawsze skutkujących 🔴 (04.3), z odsyłaczami do modułu/ekranu/pliku źródłowego. Dopisz tu nowy twardy stop, gdy kolejny moduł go wprowadzi.

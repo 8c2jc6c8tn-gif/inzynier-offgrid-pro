@@ -15,7 +15,7 @@ TL;DR: Status opisany/zaimplementowany/przetestowany per moduł (M1–M13, Czę�
 |---|---|---|---|---|---|
 | M1 | Lokalizacja i teren | ✅ | ✅ (1 ekran, infrastrukturalny) | — (brak logiki do testowania) | Fundament gotowy, reszta ekranów `todo` |
 | M2 | Zapotrzebowanie energetyczne | ✅ | ✅ (13/17 ekranów) | ✅ | ~76% — reszta (Ekrany 3/10/14/15, wampiry) `⚠️ blocked` |
-| M3 | Instalacja PV | ✅ | 🔄 (10/~27 ekranów) | ✅ | ~37% — rozpoczęte 04.09.2026, w toku |
+| M3 | Instalacja PV | ✅ | 🔄 (11/~27 ekranów) | ✅ | ~41% — rozpoczęte 04.09.2026, w toku |
 | M4 | Magazyn energii / baterie | ✅ | ✅ (29/34 ekranów) | ✅ | ~85% — reszta `⚠️ blocked` (cross-modułowe/brak normy) |
 | M5 | Okablowanie i zabezpieczenia | ✅ | 🔄 (1/~20 ekranów) | ✅ | ~5% — Ekran 1 (mega-Doradca doboru kabla) `⚠️ blocked`, brak normy PN-IEC 60364-5-52 |
 | M6 | Ogrzewanie / pompa ciepła | ✅ | 🔄 (1 ekran reprezentatywny) | ✅ | Fundament (COP) gotowy, reszta `todo` |
@@ -27,7 +27,7 @@ TL;DR: Status opisany/zaimplementowany/przetestowany per moduł (M1–M13, Czę�
 | M12 | Szybki kalkulator / tryb mobilny | ✅ | 🔄 (1 ekran reprezentatywny) | ✅ | Tryb uproszczony gotowy, reszta `todo` |
 | M13 | Tryb Live | ✅ | 🔄 (1 ekran — brama bez telemetrii) | — (brak logiki domenowej) | Świadomie minimalny — sensowny dopiero, gdy reszta systemu ma dane na żywo do pokazania |
 
-**Łącznie:** 82 pozycji ze statusem `done` w `docs/rejestr-pokrycia.md` (stan na 04.09.2026), rozłożone głównie na M2/M3/M4/M11.
+**Łącznie:** 83 pozycji ze statusem `done` w `docs/rejestr-pokrycia.md` (stan na 04.09.2026), rozłożone głównie na M2/M3/M4/M11.
 
 ## Uwagi do interpretacji
 
@@ -45,3 +45,4 @@ TL;DR: Status opisany/zaimplementowany/przetestowany per moduł (M1–M13, Czę�
 | 04.09.2026 | Utworzono — zbudowana z `docs/rejestr-pokrycia.md` (stan na 04.09.2026, 80 ekranów `done`). Wersja 1.0. |
 | 04.09.2026 | M3: dodano Ekran 13 (zacienienie/diody bocznikujące, częściowy — tylko poziom panelu) → 9/~27, 81 `done` łącznie. |
 | 04.09.2026 | M3: dodano Ekran 14 (dopasowanie tablicy PV do falownika, częściowy — 4/6 kryteriów) → 10/~27, 82 `done` łącznie. |
+| 04.09.2026 | M3: dodano Ekran 26 (straty na złączkach MC4) → 11/~27, 83 `done` łącznie. |

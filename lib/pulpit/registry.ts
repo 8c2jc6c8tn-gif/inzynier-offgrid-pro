@@ -67,6 +67,7 @@ export const KAFLE: KafelEntry[] = [
         label: "Zacienienie i diody bocznikujące",
       },
       { href: "/kalkulatory/dopasowanie-tablicy-falownika", label: "Dopasowanie tablicy PV do falownika" },
+      { href: "/kalkulatory/straty-zlaczki-mc4", label: "Straty na złączkach MC4 w praktyce" },
     ],
   },
   {
