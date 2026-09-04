@@ -66,6 +66,7 @@ export const KAFLE: KafelEntry[] = [
     ekrany: [
       { href: "/kalkulatory/dobor-pojemnosci-baterii", label: "Dobór pojemności baterii" },
       { href: "/kalkulatory/napiecie-systemowe", label: "Sugestia napięcia systemowego (12/24/48V)" },
+      { href: "/kalkulatory/modul-ev", label: "Moduł EV — ładowanie samochodu elektrycznego" },
       { href: "/kalkulatory/grzalki-bms-mroz", label: "Grzałki BMS i ochrona przed mrozem" },
       { href: "/kalkulatory/starzenie-degradacja", label: "Starzenie i degradacja ogniw" },
       { href: "/kalkulatory/obwod-precharge", label: "Obwód Pre-Charge" },
