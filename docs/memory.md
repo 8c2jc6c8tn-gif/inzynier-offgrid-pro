@@ -1343,6 +1343,25 @@
     `lib/core/` nadal nie importuje z `app/`/`components/`, Playwright (45W → 1,08 kWh/dobę,
     zgodne z przykładem źródła).
 
+## Decyzje i uzasadnienie (c.d. 54)
+
+- **2026-09-04 — Ekran 11, Moduł 2: "Przetwornice DC/DC" — przykład źródła zweryfikowany
+  matematycznie z niebanalnym wynikiem: strata jako % dotyczy mocy realnie pobranej, nie
+  znamionowej urządzenia.** Wzór `P_realne = P_urządzenia / sprawność`. Źródło (Sekcja C):
+  "sprawność ~92% → traci 8% energii". Sprawdzone w Pythonie: `strataW / P_realne × 100`
+  wychodzi dokładnie `100 - sprawność` (tu: 8,0%) — czyli "traci 8%" ze źródła to strata
+  liczona względem mocy faktycznie pobranej z magistrali (żeby dostarczyć 100W na wyjściu,
+  urządzenie musi pobrać 108,7W, z czego 8,7W/108,7W = dokładnie 8% to strata) — nie jest to
+  przypadkowe uproszczenie "100-sprawność", tylko matematycznie ścisła zależność.
+  - Pole "zasilanie bezpośrednie" (bez przetwornicy) jako przełącznik — gdy aktywne, pole
+    sprawności ukryte w UI (nieistotne), status VALID bez strat, zamiast wymuszać wpisanie
+    nieużywanej wartości.
+  - `lib/core/modules/zapotrzebowanie/przetwornice-dcdc/`, 4 testy, UI: `app/kalkulatory/
+    przetwornice-dcdc/page.tsx`.
+  - Zweryfikowane: `tsc`/`lint` czysto, `pnpm test` 296/296 (4 nowe), `pnpm build` czysto,
+    `lib/core/` nadal nie importuje z `app/`/`components/`, Playwright (100W/92% → 108,7W,
+    "traci 8% (8,7 W)", zgodne z przykładem źródła).
+
 ## Mapa orientacyjna
 
 - `docs/rejestr-twardych-stopow.md` — zbiorczy indeks warunków zawsze skutkujących 🔴 (04.3), z odsyłaczami do modułu/ekranu/pliku źródłowego. Dopisz tu nowy twardy stop, gdy kolejny moduł go wprowadzi.
