@@ -56,6 +56,7 @@ export const KAFLE: KafelEntry[] = [
     ekrany: [
       { href: "/kalkulatory/konfigurator-stringow", label: "Konfigurator stringów" },
       { href: "/kalkulatory/czystosc-i-snieg", label: "Czystość i śnieg na panelach" },
+      { href: "/kalkulatory/wplyw-temperatury", label: "Wpływ temperatury na wydajność" },
     ],
   },
   {

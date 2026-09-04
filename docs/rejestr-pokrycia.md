@@ -157,6 +157,17 @@ nie ślepego zaułka.
 | G — raport/podsumowanie | Moduł 8 / Ekran 11 | 12.57 | Autonomiczny audyt bezpieczeństwa pożarowego | **done** | `lib/core/modules/bezpieczenstwo/audyt-pozarowy/`, UI: `app/kalkulatory/audyt-pozarowy/page.tsx`, 5 testów. **Dane demonstracyjne** (`SAMPLE_AUDIT_ITEMS`) — docelowa wersja czerpie na żywo z Modułów 8/9/13, jawnie oznaczone w kodzie i UI. |
 | H — katalog komponentów | Moduł 9 / Katalog 1 | — | Katalog czujników (dodawanie wielu instancji) | **done** | `lib/core/modules/esp32/katalog-czujnikow/`, UI: `app/kalkulatory/katalog-czujnikow/page.tsx`, 3 testy. Katalog 21 typów czujników 1:1 ze źródła. |
 
+## Moduł 3 — ekrany dodatkowe (poza wzorcami reprezentatywnymi, 2026-09-04)
+
+Po zamknięciu Modułu 2 (13/17) i Modułu 4 (29/34) do stanu, gdzie pozostałe pozycje są blocked
+(baza komponentów lub brakująca norma), kontynuacja przeszła do pojedynczych, samodzielnie
+buildowalnych ekranów Modułu 3 z gotowym wzorem fizycznym w źródle — bez pełnego wyliczenia
+per-funkcja całego modułu (to nadal osobny, nie rozpoczęty krok).
+
+| Ekran | ID Biblii | Nazwa | Status | Notatka |
+|---|---|---|---|---|
+| 18 | 2.33 | Wpływ temperatury na wydajność | **done** | `lib/core/modules/pv/wplyw-temperatury/`, UI: `app/kalkulatory/wplyw-temperatury/page.tsx`, 5 testów. Wzór `P_rzeczywista = P_nominalna × (1 + γ×(T_panel−25))` 1:1 ze źródła. Przyrost temperatury panelu (25-30°C) i współczynnik γ (-0,3 do -0,45%/°C) to zakresy ze źródła, nie pojedyncze liczby — oba pola wymagają ręcznego wpisania (podpowiedź o typowym zakresie, nie ukryty domyślny). Przykład źródła (35°C+25°C→60°C panel, strata ok. 15%) odtworzony dokładnie przy γ≈-0,43%/°C. |
+
 ## Moduły 6, 7, 10, 11, 12, 13 — po jednym ekranie (pokrycie pulpitu, 2026-08-30)
 
 **2026-08-30 — decyzja:** autor poprosił o pulpit adaptacyjny (`docs/pulpit-i-nawigacja.md`) do
