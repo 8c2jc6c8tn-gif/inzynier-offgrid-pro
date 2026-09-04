@@ -130,7 +130,7 @@ B/D/E, patrz sekcja niżej) — zaczęte 2026-09-04 od Ekranu 1 (fundament dobor
 | 31 | 3.35 | Napięcie odcięcia vs żywotność (DoD vs Voltage Cut-off) | todo | |
 | 32 | 3.36 | Hierarchia ładowania (PV > Agregat > Sieć) | todo | |
 | 33 | 3.37 | Symulacja miesiąca zachmurzenia (No-Sun Scenario) | todo | cross-ref Moduł 7 (Stress-test zimowy), wymaga danych historycznych z Modułu 1 |
-| 34 | 3.39 | Matryca alarmów BMS i reakcje systemu | todo | Wzorzec C, tabela referencyjna — podobny kształt do M11 A10/B12, bez kalkulatora |
+| 34 | 3.39 | Matryca alarmów BMS i reakcje systemu | **done** | `lib/core/modules/baterie/matryca-alarmow-bms/`, UI: `app/kalkulatory/matryca-alarmow-bms/page.tsx`. Wzorzec C — tabela 7 alarmów→reakcji + przykładowy komunikat, 1:1 ze źródła, bez kalkulatora (ten sam kształt co M11 A10/B12). |
 
 ## Moduły 3–13 — wzorce UI reprezentatywne (przygotowanie pod v0)
 

@@ -979,6 +979,23 @@
     zgodne z niezależnym przeliczeniem w Pythonie; oba twarde stopy potwierdzone jako czerwone
     "Zabronione" po naprawie błędu opisanego wyżej).
 
+## Decyzje i uzasadnienie (c.d. 38)
+
+- **2026-09-04 — Ekran 34, Moduł 4: "Matryca alarmów BMS i reakcje systemu" — najszybszy ekran
+  serii, czysta tabela referencyjna bez kalkulatora, ten sam wzorzec co M11 A10/B12.** Źródło
+  daje kompletną tabelę 7 wierszy (alarm → reakcja systemu) plus jeden przykładowy komunikat —
+  przepisane 1:1, bez żadnej logiki do obliczenia. `lib/core/modules/baterie/matryca-alarmow-bms/`
+  ma tylko `constants.ts` (bez `input.ts`/`calculator.ts`/`validation.ts`/`warnings.ts`/testów),
+  dokładnie jak `przechowywanie-recykling` (M11/A10) — ta flaga z rejestru pokrycia
+  ("podobny kształt do M11 A10/B12, bez kalkulatora") okazała się trafna.
+  - UI: `app/kalkulatory/matryca-alarmow-bms/page.tsx`, tabela w tym samym stylu co `prognozy`
+    (jedyny dotąd ekran z `<table>`) — ponowne użycie istniejącego wzorca HTML zamiast wymyślania
+    nowego układu dla tabeli dwukolumnowej.
+  - Zweryfikowane: `tsc`/`lint` czysto, `pnpm test` 206/206 (bez zmian — brak nowej logiki do
+    testowania), `pnpm build` czysto, `lib/core/` nadal nie importuje z `app/`/`components/`,
+    Playwright (tabela renderuje się poprawnie, 7 wierszy, przykładowy komunikat i migawka na
+    dole).
+
 ## Mapa orientacyjna
 
 - `docs/rejestr-twardych-stopow.md` — zbiorczy indeks warunków zawsze skutkujących 🔴 (04.3), z odsyłaczami do modułu/ekranu/pliku źródłowego. Dopisz tu nowy twardy stop, gdy kolejny moduł go wprowadzi.
