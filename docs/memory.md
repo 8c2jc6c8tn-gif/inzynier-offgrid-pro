@@ -1591,6 +1591,30 @@
     `pnpm build` czysto, Playwright (80/10/60%/20000zł/1000cykli → "42,0 kWh", "0,42 zł/kWh",
     żółty werdykt z ostrzeżeniem "tylko V2L" przy niezaznaczonym checkboxie).
 
+## Decyzje i uzasadnienie (c.d. 65)
+
+- **2026-09-04 — Ekran 18, Moduł 3: "Wpływ temperatury na wydajność" (dawne 2.33, Wzorzec D) —
+  przejście na pojedyncze buildowalne ekrany Modułu 3 po wyczerpaniu Modułów 2 i 4.** Moduł 2
+  doszedł do 13/17 (reszta wymaga bazy komponentów lub progu nieobecnego w źródle), Moduł 4 do
+  29/34 (Ekrany 3/25/31/32/33 blocked — brak normy/wzoru/danych historycznych). Moduł 3 miał
+  dotąd tylko 2 ekrany (jako reprezentanci wzorców A i C z decyzji 2026-08-29) — ten ekran to
+  pierwszy krok w kierunku pełnego wyliczenia per-funkcja tego modułu, wybrany bo ma kompletny,
+  gotowy wzór fizyczny w źródle.
+  - Wzór `P_rzeczywista = P_nominalna × (1 + γ×(T_panel−25))` 1:1 ze źródła (Sekcja B). Oba
+    parametry wejściowe źródło podaje jako ZAKRESY, nie liczby: przyrost temperatury panelu
+    ponad otoczenie "25-30°C" i współczynnik temperaturowy γ "typowo -0,3 do -0,45%/°C" — oba
+    pola wymagają ręcznego wpisania (z podpowiedzią o typowym zakresie w UI), ta sama zasada co
+    ΔT w Ekranie 2 M2 (bojler C.W.U.) i przyrost/γ w tym ekranie — nie przyjęto żadnej wartości
+    środkowej jako cichego domyślnego.
+  - Przykład źródła (35°C otoczenia + 25°C przyrost → 60°C panel, strata ok. 15%) odtworzony
+    dokładnie przy γ≈-0,43%/°C — zweryfikowane niezależnie w Pythonie przed implementacją.
+  - `lib/core/modules/pv/wplyw-temperatury/`, 5 testów, UI: `app/kalkulatory/
+    wplyw-temperatury/page.tsx`. Nowa sekcja "Moduł 3 — ekrany dodatkowe" w
+    `docs/rejestr-pokrycia.md` (nie wymuszona do tabeli wzorców A-H, która jest 1:1 z ośmioma
+    wzorcami, nie z modułami).
+  - Zweryfikowane: `tsc`/`lint` czysto, `pnpm test` 367/367 (5 nowych), `pnpm build` czysto,
+    Playwright (35°C/25°C/-0,43%/450W → "382 W", "60°C", "15,0%", zgodne z przykładem źródła).
+
 ## Mapa orientacyjna
 
 - `docs/rejestr-twardych-stopow.md` — zbiorczy indeks warunków zawsze skutkujących 🔴 (04.3), z odsyłaczami do modułu/ekranu/pliku źródłowego. Dopisz tu nowy twardy stop, gdy kolejny moduł go wprowadzi.
