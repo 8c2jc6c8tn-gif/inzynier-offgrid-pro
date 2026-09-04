@@ -2,7 +2,7 @@
 
 **Projekt:** Inżynier Offgrid Pro (aplikacja Off‑Grid PV)
 **Status dokumentu:** żywy — konstytucja projektu
-**Wersja zasad:** 0.1.6
+**Wersja zasad:** 0.1.7
 **Data:** 2026‑08‑28
 **Źródło wymagań:** „Biblia Off‑Grid PV" v1.5 (nagłówek) / metryczka v1.7 — patrz Dług D‑01
 **Target:** Web / PWA (offline‑first), architektura przygotowana na przeniesienie na mobile
@@ -14,6 +14,23 @@
 Ten plik jest **nadrzędny wobec kodu**. Jeśli kod i ten dokument się nie zgadzają — dokument wygrywa albo dokument zostaje świadomie zmieniony (z wpisem w dzienniku zmian). To nie jest specyfikacja funkcji — te są w „Biblii". To jest zbiór **reguł architektonicznych i procesowych**, według których każda z ~540 funkcji ma być budowana.
 
 Każda zasada ma: **regułę → uzasadnienie → konsekwencję w kodzie**.
+
+### 0.1 Ekspertyza domenowa
+
+Zgodnie z `docs/god-book/instrukcja-uniwersalna-biblii-projektu-v2_5.md` §0.2 ("Ekspertyza
+domenowa — automatyczna, nie na żądanie"): przy pracy nad tym projektem AI przyjmuje personę
+doświadczonego eksperta domeny, bez czekania na polecenie.
+
+**Ekspertyza domenowa: elektryk / inżynier instalacji off‑grid PV (panele, magazyny energii,
+ogrzewanie, bezpieczeństwo elektryczne), poziom: senior / 20 lat doświadczenia w terenie.**
+
+Konsekwencja w kodzie: każdy wzór weryfikowany niezależnie przed implementacją (Zasada 4, §4
+niżej), rozróżnianie uniwersalnej, fundamentalnej fizyki (prawo Ohma, ciepło właściwe wody,
+rezystywność miedzi, równanie Magnusa-Tetensa, deklinacja Słońca) od współczynników
+projektowych/normatywnych, których źródło nie podaje wprost — te drugie nigdy nie są zgadywane
+(Zasada 4, `docs/standards/15-wspolpraca-z-ai.md`). Sprzeczności fizyczne we własnych przykładach
+źródła (jeśli się pojawią) są wyłapywane i jawnie dokumentowane, nie ciche poprawiane ani ślepo
+kopiowane.
 
 ---
 
@@ -253,12 +270,13 @@ szkielet bez wymienienia z nazwy, co autor uznał za mylące.
 | 0.1.4 | 2026‑08‑30 | §14: dopisano zastrzeżenie o rozjeździe numeracji "Rozdział" (ta lista) vs "Moduł/Kafel" (`docs/zrodla/`) — nie pokrywają się 1:1, kolejność budowy ≠ kolejność kafli na pulpicie usera. Nowy dokument `docs/pulpit-i-nawigacja.md` (pulpit adaptacyjny, 14 kafli, presety onboardingu) + generyczny mechanizm w `docs/standards/08-ui-ux.md` (8.11). |
 | 0.1.5 | 2026‑08‑30 | §14 przepisane na numerację Moduł N (zamiast "Rozdział") — jawna korekta, wersja pierwotna zachowana w zwijanym bloku. Rozstrzygnięcie: stary Rozdział 0–6 to nowy Moduł 1–7 (proste przesunięcie +1, bo stary system liczył od 0), dalej numeracja faktycznie się przetasowała (Live/ESP32/AI/Montaż zamieniły miejsca, Moduł 8 Bezpieczeństwo złożony z kawałków starych 6+11+12, nie istniał jako osobny rozdział). Pełne mapowanie: `docs/pulpit-i-nawigacja.md` §2. |
 | 0.1.6 | 2026‑08‑30 | §14 skorygowane po raz drugi (decyzja autora): porzucono wyciąganie Modułu 12 do przodu "na wczesne demo" (nieaktualne) — roadmapa to teraz czysta kolejność zależności danych 1→13, identyczna z kolejnością kafli pulpitu w `docs/pulpit-i-nawigacja.md`. Kafel 14 (Ustawienia) dostał własny, jawny punkt w planie (krok 2) zamiast być domyślnie/niejawnie wliczonym w szkielet. Obie poprzednie wersje zachowane w zwijanych blokach. |
+| 0.1.7 | 2026‑09‑04 | Naprawa dryfu (GOD BOOK Część Y.2): dopisano §0.1 "Ekspertyza domenowa" — deklaracja wymagana przez GOD BOOK §0.2, merytorycznie już stosowana przez całą sesję (niezależna weryfikacja wzorów, wyłapywanie sprzeczności fizycznych w źródle), ale nigdy nie zapisana jawnie w konstytucji projektu. |
 
 ## Metryczka (stan bieżący)
 
 | Element | Wartość |
 |---|---|
-| Wersja zasad | 0.1.6 |
+| Wersja zasad | 0.1.7 |
 | Rozdziały Biblii objęte planem | 13 (0–12 + załączniki) |
 | Funkcje Biblii | 579 (zweryfikowane programistycznie, D‑01 zamknięty) |
 | Funkcje z zaimplementowanym kodem | 0 |
