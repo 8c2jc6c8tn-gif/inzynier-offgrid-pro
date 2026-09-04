@@ -1495,6 +1495,31 @@
   - Zweryfikowane: `tsc`/`lint` czysto, `pnpm test` 334/334 (9 nowych), `pnpm build` czysto,
     Playwright (52,2°/dzień 355/50W → "7,5 h dnia / 16,5 h nocy", "0,83 kWh tej doby").
 
+## Decyzje i uzasadnienie (c.d. 61)
+
+- **2026-09-04 — Ekran 12, Moduł 2: "Macierz priorytetów odłączania (Smart Load Shedding)"
+  (dawne 1.20, Wzorzec D) — buildowalny bez bazy urządzeń, bo progi SoC są podane wprost.**
+  W przeciwieństwie do wcześniej odrzuconych sub-punktów (np. prądy rozruchowe w Ekranie 8),
+  ten ekran NIE wymaga bazy komponentów — logika działa na pojedynczym priorytecie (1/2/3) i
+  aktualnym SoC, a oba progi (20% dla priorytetu 2, 90% dla priorytetu 3) są jawnie podane w
+  Sekcji A źródła, nie wymyślone.
+  - Logika: priorytet 1 nigdy nie odłączany; priorytet 2 odłączany gdy `SoC < 20%`; priorytet 3
+    odłączany gdy `SoC < 90%` LUB brak nadwyżki PV (drugi warunek też wprost ze źródła: "lub
+    braku nadwyżki PV").
+  - Przykład źródła Sekcji C (SoC 18% → odłączone: zmywarka/suszarka [priorytet 3]; aktywne:
+    ogrzewanie/pompa głębinowa [priorytet 1]) odtworzony dokładnie w testach.
+  - Agregacja po wielu urządzeniach naraz (żeby np. wyświetlić "co dokładnie zostanie odłączone
+    w Twoim domu") świadomie NIE zbudowana — wymaga listy urządzeń z Ekranu 3 (jeszcze nie
+    istnieje) — ten ekran liczy pojedynczy odbiornik/kategorię na raz, zgodnie z ustalonym
+    wzorcem "manualne wpisanie zamiast auto z ekranu, który jeszcze nie istnieje".
+  - `socPct: number | null` — `null` jako sentinel "nie wpisano" (0% to legalna, krytyczna
+    wartość SoC), ten sam wzorzec co w `profil-astronomiczny` i `chlodzenie-latem` (M4).
+  - `lib/core/modules/zapotrzebowanie/load-shedding/`, 9 testów, UI: `app/kalkulatory/
+    load-shedding/page.tsx`.
+  - Zweryfikowane: `tsc`/`lint` czysto, `pnpm test` 343/343 (9 nowych), `pnpm build` czysto,
+    Playwright (priorytet 3 + SoC 18% → "Odłączony", żółty; priorytet 1 + SoC 18% → "Aktywny",
+    zielony — zgodne z przykładem źródła).
+
 ## Mapa orientacyjna
 
 - `docs/rejestr-twardych-stopow.md` — zbiorczy indeks warunków zawsze skutkujących 🔴 (04.3), z odsyłaczami do modułu/ekranu/pliku źródłowego. Dopisz tu nowy twardy stop, gdy kolejny moduł go wprowadzi.
