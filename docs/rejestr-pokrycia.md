@@ -22,7 +22,7 @@ notatkę, zgodnie z `docs/standards/15-wspolpraca-z-ai.md` (15.3, "nie usuwaj �
 | 8 | 1.10, 1.11, 1.21 | Zaawansowane parametry obciążenia | todo | |
 | 9 | 1.12 | Pobór własny falownika | **done** | `lib/core/modules/zapotrzebowanie/pobor-wlasny-falownika/`, UI: `app/kalkulatory/pobor-wlasny-falownika/page.tsx`, 4 testy. Wzór `E_doba = P_jałowy × 24 / 1000` 1:1 ze źródła — przykład źródła (45W → 1,08 kWh/dobę) zweryfikowany niezależnie i odtworzony dokładnie. |
 | 10 | 1.13 | Sprawność inwertera przy niskim obciążeniu | todo | |
-| 11 | 1.17 | Przetwornice DC/DC | todo | |
+| 11 | 1.17 | Przetwornice DC/DC | **done** | `lib/core/modules/zapotrzebowanie/przetwornice-dcdc/`, UI: `app/kalkulatory/przetwornice-dcdc/page.tsx`, 4 testy. Wzór `P_realne = P_urządzenia / sprawność` 1:1 ze źródła — przykład źródła ("sprawność ~92% → traci 8%") zweryfikowany niezależnie: strata jako % mocy realnie pobranej wynosi dokładnie `1 - sprawność`, potwierdzone w Pythonie. |
 | 12 | 1.20 | Macierz priorytetów odłączania (Smart Load Shedding) | todo | |
 | 13 | 1.25 | Bufor na rozbudowę | todo | |
 | 14 | 1.26 | Architektura 1-fazowa/3-fazowa | todo | |

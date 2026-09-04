@@ -38,6 +38,7 @@ export const KAFLE: KafelEntry[] = [
       { href: "/kalkulatory/pomocnicze", label: "Kalkulatory pomocnicze" },
       { href: "/kalkulatory/agregat-pradotworczy", label: "Agregat prądotwórczy — definicja i logika pracy" },
       { href: "/kalkulatory/pobor-wlasny-falownika", label: "Pobór własny falownika" },
+      { href: "/kalkulatory/przetwornice-dcdc", label: "Przetwornice DC/DC" },
     ],
   },
   {
