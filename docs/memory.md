@@ -20,6 +20,11 @@
   8. `.claude/skills/standards/SKILL.md` — ✅ istnieje, spatchowane.
   9. `01_Zasady_Pracy_i_Konwencje.md` + `02_Dyrektywy_AI_Projektu.md` — nie dotyczy (projekt nie prowadzi pełnej Biblii, tylko `docs/memory.md`).
   Zweryfikowano: `grep -rn "v2_3"` w projekcie po synchronizacji trafia wyłącznie w historyczne wpisy tego logu i `docs/lista-do-zrobienia.md` (poprawnie — append-only, nie nadpisuje się historii) oraz w CHANGELOG samego pliku GOD BOOK (odniesienia do własnych, starszych wersji — też poprawne).
+- **2026-09-04 — pełna Biblia GOD BOOK napisana; `AKTUALIZACJE.md` sprawdzone ponownie, bez nowych wpisów od poprzedniego sprawdzenia tego samego dnia (nadal v2.5).** Migracja `ZASADY_APLIKACJI.md`/`USTALENIA.md` do kanonicznego formatu, wykonana na wyraźne polecenie właściciela projektu (poprzednio otwarta jako "czeka na decyzję" — patrz wpis wyżej i `docs/lista-do-zrobienia.md`). **Aktualizacja checklisty Y.9** (poprzedni wynik wyżej, punkty 4 i 9, zostaje jako historyczny snapshot — to nowy, osobny przebieg checklisty, nie edycja starego):
+  1–3, 5–8. Bez zmian od poprzedniego sprawdzenia (✅).
+  4. `docs/memory.md`/pełna Biblia — **✅➕ teraz PEŁNA BIBLIA istnieje**: `00_Biblia.md` + 11 dokumentów Części S (`01_Zasady_Pracy_i_Konwencje.md`, `02_Dyrektywy_AI_Projektu.md`, `zlote-zasady.md`, `rejestr-decyzji.md`, `slownik-pojec.md`, `wiedza-surowa.md`, `kontrakty-rdzenia.md`, `mapa-wdrozenia.md`, `backlog-poza-v1.md`, `dlug-techniczny.md`; `docs/zrodla/` i `docs/lista-do-zrobienia.md` już istniały = 14/14 pozycji Części S kompletne). `docs/memory.md` zostaje jako główny, szczegółowy dziennik roboczy — rozróżnienie od `rejestr-decyzji.md` opisane w nagłówku tego drugiego pliku.
+  9. `01_Zasady_Pracy_i_Konwencje.md` + `02_Dyrektywy_AI_Projektu.md` — **✅➕ dotyczy teraz, oba istnieją.**
+  `ZASADY_APLIKACJI.md`/`USTALENIA.md` oznaczone na nagłówku jako historyczne/zastąpione (Część D GOD BOOK — nic nie usunięte, cała treść zmapowana 1:1 do nowych plików, mapowanie w `00_Biblia.md`).
 
 ## Decyzje i uzasadnienie
 
@@ -1712,6 +1717,44 @@
   - Zweryfikowane: `tsc`/`lint` czysto, `pnpm test` 384/384 (5 nowych), `pnpm build` czysto,
     Playwright (400W/11A + 330W/9A + 40V → "720 W", "strata: 1,4%", "różnica mocy paneli: 17,5%",
     czerwony werdykt — zgodne z przykładem źródła).
+
+## Decyzje i uzasadnienie (c.d. 70)
+
+- **2026-09-04 — Napisano pełną Biblię projektu w kanonicznym formacie GOD BOOK, na wyraźne
+  polecenie właściciela projektu ("napisz pełną biblię, żeby projekt odpowiadał w całości
+  naszym standardom").** Poprzedzone sprawdzeniem `AKTUALIZACJE.md` w `new-app-standards` (bez
+  nowych wpisów od ostatniej synchronizacji tego samego dnia — v2.5 nadal aktualna).
+  - **12 nowych plików w repo root** (Część S GOD BOOK, pozycje 1–8 i 10–12; pozycje 9 i 13–14
+    już istniały): `00_Biblia.md`, `01_Zasady_Pracy_i_Konwencje.md`,
+    `02_Dyrektywy_AI_Projektu.md`, `zlote-zasady.md`, `rejestr-decyzji.md` (D1–D19 + Z1),
+    `slownik-pojec.md`, `wiedza-surowa.md`, `kontrakty-rdzenia.md`, `mapa-wdrozenia.md`,
+    `backlog-poza-v1.md`, `dlug-techniczny.md`.
+  - **Decyzja projektowa świadomie podjęta przy migracji: NIE re-transkrybować per-moduł
+    specyfikacji wszystkich ~579 funkcji z `docs/zrodla/` do nowych plików Części S (pozycja 9,
+    "osobny plik per moduł").** `docs/zrodla/` (materiały źródłowe, już istniało) i
+    `docs/rejestr-pokrycia.md` (status/wzór/przykład per ekran, już istniało) już pełnią tę
+    rolę merytorycznie — kopiowanie ich treści do równoległych plików byłoby złamaniem I.2
+    GOD BOOK ("nie kopiuj treści drugi raz"), nie realizacją Części S. `00_Biblia.md`'s tabela
+    dokumentów wprost mapuje te dwie pozycje Części S na istniejące artefakty, zamiast je
+    duplikować — udokumentowane jawnie w `00_Biblia.md`, sekcja "Tabela dokumentów", żeby nie
+    wyglądało to na przeoczenie przy przyszłym audycie Y.9.
+  - **`rejestr-decyzji.md` (D1–D19)** zawiera tylko decyzje **strategiczne/fundamentalne**
+    (Krok 4 GOD BOOK — blokujące wiele rzeczy naraz), nie każdą z dziesiątek drobnych decyzji
+    implementacyjnych per ekran z tej sesji — te zostają w `docs/memory.md` (rozróżnienie opisane
+    wprost w nagłówku `rejestr-decyzji.md`). Bez tego rozróżnienia rejestr D# rozrósłby się do
+    setek wpisów i przestał pełnić swoją rolę ("co obowiązuje odtąd w całym projekcie").
+  - **`mapa-wdrozenia.md`** zbudowana z aktualnego stanu `docs/rejestr-pokrycia.md` (80 ekranów
+    `done` na 04.09.2026) — naprawia przy okazji dryf: metryczka w starym `ZASADY_APLIKACJI.md`
+    ("Funkcje z zaimplementowanym kodem: 0") nigdy nie była aktualizowana mimo ~100 zbudowanych
+    ekranów — nowy dokument zastępuje statyczną metryczkę żywą tabelą per moduł.
+  - **`ZASADY_APLIKACJI.md`/`USTALENIA.md` NIE usunięte** — nagłówek każdego oznaczony jako
+    "ZASTĄPIONE — treść zachowana", z jawnym mapowaniem sekcja-po-sekcji do nowych plików w
+    `00_Biblia.md`. Zero utraconej treści (Część D GOD BOOK, zasada nienaruszalności).
+  - `CLAUDE.md` punktowo poprawiony (odsyłacz z punktu 5 na `00_Biblia.md` zamiast na stare
+    pliki), `docs/lista-do-zrobienia.md` zaktualizowana (otwarta decyzja z 03.09.2026 domknięta).
+  - Zweryfikowane: żaden plik kodu nie zmieniony w tym kroku (czysto dokumentacyjna migracja),
+    `pnpm build`/`pnpm test`/`pnpm lint` uruchomione po migracji dla pewności, że nic się nie
+    zepsuło (dokumentacja nie powinna wpływać na kod, ale sprawdzone zgodnie z dyscypliną sesji).
 
 ## Mapa orientacyjna
 
