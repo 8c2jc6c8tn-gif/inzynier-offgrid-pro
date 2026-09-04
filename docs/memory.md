@@ -1818,6 +1818,44 @@
     Playwright (400W panel, 2 zacienione sekcje, string 6 paneli → "66,7%" straty, "133 W" moc
     rzeczywista, czerwony werdykt z pełnym uzasadnieniem tekstowym — zgodne z oczekiwaniem).
 
+## Decyzje i uzasadnienie (c.d. 74)
+
+- **2026-09-04 — Ekran 14, Moduł 3: "Dopasowanie tablicy PV do falownika"** (scala dawne 2.24,
+  2.25, 2.26, 2.27, 2.37, 2.42, Wzorzec D) — **"mega-scalenie" 6 dawnych funkcji w jeden silnik,
+  zbudowane świadomie tylko 4 z 6 kryteriów.**
+  - Źródło samo mówi "ten ekran już zbudowany i zademonstrowany jako trzeci przykład w tej
+    konwersacji" — to odniesienie do demonstracji z ORYGINALNEJ rozmowy specyfikującej projekt
+    (przed powstaniem tego repo), nie dowód, że kod istnieje w tym repo. Sprawdzone: nie istnieje
+    (`docs/rejestr-pokrycia.md` go nie wymieniał, brak plików `dopasowanie-tablicy-falownika`) —
+    zbudowany od zera w tej sesji.
+  - Cztery zbudowane kryteria, każde z jawnym wzorem/zakresem ze źródła: (1) napięcie zimowe
+    stringu vs limit DC falownika — **wzorzec echo**: `obliczNapiecieStringuZimowego` wyekstrahowany
+    z `stress-test-mppt/calculator.ts` (Ekran 5), zamiast duplikowania tego samego wzoru
+    `V_max=Voc×(1+β×(Tmin−25))`; (2) napięcie robocze (STC, `Vmp×n`) vs okno MPPT falownika;
+    (3) prąd roboczy (`Imp`) vs maks. prąd MPPT; (5+6) współczynnik przewymiarowania DC/AC
+    (`P_PV/P_AC`, `P_PV` liczone jako `Vmp×Imp×n` — fizyka P=V×I, nie wpisywane osobno),
+    zalecany zakres 1,1-1,3 dla off-gridu 1:1 ze źródła. Kryterium 6 ("ryzyko skrajności") to
+    tylko interpretacja tej samej liczby z kryterium 5 (za mało = niewykorzystany potencjał, za
+    dużo = przegrzewanie/obcinanie mocy) — scalone, nie osobny wzór.
+  - **Kryterium 4 (napięcie startowe w upale) świadomie NIE zbudowane.** Źródłowy przykład
+    ("Vmp 35V → w upał spada do 31V") to tylko ilustracja liczbowa, nie definiuje współczynnika
+    temperaturowego Vmp — a to inny współczynnik niż β (który dotyczy Voc, użyty w kryterium 1).
+    Sekcja A źródła też go nie wymienia jako osobnego pola wejściowego. Zgodnie z Dyrektywą #1
+    (nigdy nie zgaduj brakującego współczynnika) — pominięte, udokumentowane w kodzie
+    (`calculator.ts` docstring) i tutaj, nie przemilczane cicho.
+  - Refaktor `stress-test-mppt/calculator.ts`: wewnętrzna logika `V_max`/`V_string` wyodrębniona
+    do eksportowanej `obliczNapiecieStringuZimowego()`, oryginalne 6 testów Ekranu 5 nadal
+    przechodzi bez zmian (potwierdza, że refaktor nie zmienił zachowania).
+  - Zweryfikowane niezależnie w Pythonie/testach: dwa pełne scenariusze (8 paneli/wszystkie 4
+    kryteria OK; 12 paneli z ciaśniejszymi limitami falownika → napięcie zimowe 🔴, MPPT-max i
+    prąd i DC/AC osobno przetestowane w kolejnych scenariuszach) — 9 testów.
+  - `lib/core/modules/pv/dopasowanie-tablicy-falownika/`, UI: `app/kalkulatory/
+    dopasowanie-tablicy-falownika/page.tsx`.
+  - Zweryfikowane: `tsc`/`lint` czysto, `pnpm test` 410/410 (9 nowych), `pnpm build` czysto,
+    Playwright (12 paneli, Voc=45V/β=-0,3%/Tmin=-25°C/limit falownika 500V → napięcie zimowe
+    621V → czerwony "Konfiguracja niedopasowana"; pozostałe 3 kryteria zielone/info w tym samym
+    scenariuszu — zgodne z testem jednostkowym).
+
 ## Mapa orientacyjna
 
 - `docs/rejestr-twardych-stopow.md` — zbiorczy indeks warunków zawsze skutkujących 🔴 (04.3), z odsyłaczami do modułu/ekranu/pliku źródłowego. Dopisz tu nowy twardy stop, gdy kolejny moduł go wprowadzi.

@@ -15,6 +15,21 @@ const FORMULA =
   "V_{max} = V_{oc} \\times (1 + \\beta \\times (T_{min} - 25)) \\;\\; ; \\;\\; V_{string} = V_{max} \\times n_{paneli}"
 
 /**
+ * Napięcie stringu w najzimniejszych warunkach — wzorzec echo, reużywane m.in. przez
+ * `dopasowanie-tablicy-falownika` (Ekran 14) zamiast duplikowania tego samego wzoru.
+ */
+export function obliczNapiecieStringuZimowego(
+  vocStcV: number,
+  betaPctNaC: number,
+  tminC: number,
+  liczbaPaneliWStringu: number,
+): number {
+  const beta = betaPctNaC / 100
+  const vMaxV = vocStcV * (1 + beta * (tminC - TEMPERATURA_REFERENCYJNA_STC_C))
+  return vMaxV * liczbaPaneliWStringu
+}
+
+/**
  * Ekran 5, Moduł 3 "Instalacja PV" — "Zimowy stress-test napięciowy MPPT (Voc max)" (dawne 2.11,
  * docs/zrodla/Tresc_Modul_3_PV_Ekrany.md, Sekcja B). Wzór 1:1 ze źródła. Przykład źródła (Voc
  * 56,5V, β=-0,3%/°C, Tmin=-25°C, 8 paneli → 520V, limit 450V → 🔴) odtworzony dokładnie,
@@ -66,9 +81,13 @@ export function calculateStressTestMppt(input: StressTestMpptInput): CalcResult<
   }
 
   const tminC: number = input.tminC ?? 0
-  const beta = input.betaPctNaC / 100
-  const vMaxV = input.vocStcV * (1 + beta * (tminC - TEMPERATURA_REFERENCYJNA_STC_C))
-  const vStringV = vMaxV * input.liczbaPaneliWStringu
+  const vStringV = obliczNapiecieStringuZimowego(
+    input.vocStcV,
+    input.betaPctNaC,
+    tminC,
+    input.liczbaPaneliWStringu,
+  )
+  const vMaxV = vStringV / input.liczbaPaneliWStringu
   const progOstrzegawczyV = PROG_OSTRZEGAWCZY_UDZIAL_LIMITU * input.limitMpptV
 
   const warnings =
