@@ -1998,6 +1998,33 @@
     Playwright (40 kWh zapotrzebowania, COP=3, 1 zł/kWh → "26,67 zł" oszczędności, "3,0× więcej
     prądu" — zgodne z testem jednostkowym i przykładem źródła).
 
+## Decyzje i uzasadnienie (c.d. 81)
+
+- **2026-09-04 — Ekran 12, Moduł 6: "Infiltracja powietrza (test szczelności)"** (dawne 5.12,
+  Wzorzec D) — piąty dodatkowy ekran M6, druga fizyka termiczna po `bojler-cwu` (M2/E2, ciepło
+  właściwe wody) — tym razem ciepło właściwe i gęstość powietrza.
+  - `Q = n×V×ρ×cp×ΔT/3600` — strata ciepła przez wymianę powietrza (n wymian/h × kubatura ×
+    gęstość powietrza × ciepło właściwe powietrza × różnica temperatur). ρ=1,2 kg/m³,
+    cp=1005 J/(kg·K) to uniwersalne stałe fizyczne, nie dane specyficzne dla źródła.
+    Współczynnik ρ×cp/3600≈0,335 Wh/(m³·K) odpowiada powszechnie cytowanej w budownictwie
+    stałej ~0,33-0,34 Wh/(m³·K) — sprawdzone jako sanity check przed implementacją.
+  - Źródło NIE podaje kubatury budynku ani ΔT dla swojego przykładu ("0,8 wymiany/h" bez
+    towarzyszących liczb) — nie da się więc dokładnie odtworzyć jego konkretnego wyniku
+    liczbowego (w przeciwieństwie do większości poprzednich ekranów tej sesji). Zdecydowano
+    mimo to zbudować ekran, bo sam wzór jest niekwestionowaną, uniwersalną fizyką (analogicznie
+    do `napor-wiatru`, gdzie też zbudowano wzór mimo niereprodukowalnego przykładu źródła) —
+    zweryfikowany niezależnie w Pythonie na wewnętrznie spójnych wartościach testowych.
+  - Poprawa "uszczelnienie obniży straty o 8%" (Sekcja C źródła) świadomie NIE liczona — to
+    pojedynczy przykład liczbowy, nie ogólny współczynnik przenoszący się na inne budynki.
+  - 🔴 ostrzeżenie źródła o ryzyku pleśni przy zbyt szczelnym domu bez wentylacji mechanicznej
+    NIE zaimplementowane jako warunek liczbowy — źródło nie podaje progu ACH, od którego zaczyna
+    się to ryzyko, tylko stwierdzenie jakościowe.
+  - `lib/core/modules/ogrzewanie/infiltracja-powietrza/`, 6 testów, UI: `app/kalkulatory/
+    infiltracja-powietrza/page.tsx`.
+  - Zweryfikowane: `tsc`/`lint` czysto, `pnpm test` 449/449 (6 nowych), `pnpm build` czysto,
+    Playwright (0,8 wym/h, 300m³, ΔT=30K → "2,41 kW" straty, zielony werdykt — zgodne z testem
+    jednostkowym: Q=0,8×300×1,2×1005×30/3600=2412W).
+
 ## Mapa orientacyjna
 
 - `docs/rejestr-twardych-stopow.md` — zbiorczy indeks warunków zawsze skutkujących 🔴 (04.3), z odsyłaczami do modułu/ekranu/pliku źródłowego. Dopisz tu nowy twardy stop, gdy kolejny moduł go wprowadzi.

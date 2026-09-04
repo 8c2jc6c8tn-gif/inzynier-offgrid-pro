@@ -126,6 +126,7 @@ export const KAFLE: KafelEntry[] = [
       { href: "/kalkulatory/bufor-ciepla", label: "Bufor ciepła — dobór pojemności" },
       { href: "/kalkulatory/ryzyko-niskiego-napiecia", label: "Ryzyko wyłączenia pompy przy niskim napięciu" },
       { href: "/kalkulatory/kociol-elektryczny", label: "Kocioł elektryczny vs pompa ciepła" },
+      { href: "/kalkulatory/infiltracja-powietrza", label: "Infiltracja powietrza (test szczelności)" },
     ],
   },
   {
