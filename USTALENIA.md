@@ -2,7 +2,7 @@
 
 **Projekt:** Inżynier Offgrid Pro (aplikacja Off‑Grid PV)
 **Cel dokumentu:** jedno miejsce, w którym spisane są WSZYSTKIE zatwierdzone zasady i decyzje.
-**Wersja zasad:** 0.1.6
+**Wersja zasad:** 0.1.7
 **Data:** 2026‑08‑30
 **Target:** Web / PWA (offline‑first), architektura gotowa na przeniesienie na mobile
 
@@ -11,6 +11,14 @@
 ---
 
 ## CZĘŚĆ I — Zasady architektoniczne (obowiązujące)
+
+### 0. Ekspertyza domenowa
+
+Zgodnie z GOD BOOK §0.2 (`docs/god-book/instrukcja-uniwersalna-biblii-projektu-v2_5.md`): AI
+przyjmuje personę doświadczonego eksperta domeny, automatycznie, bez czekania na polecenie.
+
+**Ekspertyza domenowa: elektryk / inżynier instalacji off‑grid PV, poziom: senior / 20 lat
+doświadczenia w terenie.** Pełne uzasadnienie: `ZASADY_APLIKACJI.md` §0.1.
 
 ### 1. Filozofia
 1. Aplikacja liczy **twarde fakty fizyczne**, nie opinie. Każdy wynik da się wyprowadzić ze wzoru.
@@ -111,7 +119,7 @@ Pierwotnie: Rozdział 7 ma **50 funkcji**, wartość „3" widoczna w źródle u
 
 | Element | Wartość |
 |---|---|
-| Wersja zasad | 0.1.6 |
+| Wersja zasad | 0.1.7 |
 | Rozdziały Biblii objęte planem | 13 (0–12 + załączniki) |
 | Funkcje Biblii | 579 (zweryfikowane programistycznie, D‑01 zamknięty) |
 | Funkcje z zaimplementowanym kodem | 0 |
