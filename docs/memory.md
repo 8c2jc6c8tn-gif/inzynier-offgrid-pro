@@ -1974,6 +1974,30 @@
     Playwright (min. napięcie pompy 46V, aktualne napięcie systemu 44V → "-2.0 V" margines,
     czerwony werdykt "Pompa się wyłączy" z pełnym uzasadnieniem — zgodne z testem jednostkowym).
 
+## Decyzje i uzasadnienie (c.d. 80)
+
+- **2026-09-04 — Ekran dodatkowy, Moduł 6: "Kocioł elektryczny — porównanie kosztu z pompą
+  ciepła"** (dawne 5.33, Część 2A źródła — "Alternatywne źródła ciepła") — czwarty dodatkowy
+  ekran M6, wzorzec echo Ekranu 5.
+  - Źródło rekomenduje jeden ekran porównawczy (Wzorzec B) dla wszystkich 5 alternatywnych źródeł
+    ciepła (kominek z płaszczem wodnym, kocioł elektryczny, grzejniki IR, maty kapilarne, magazyn
+    PCM) — ale tylko kocioł elektryczny ma jawnie podaną liczbę do policzenia (COP=1 vs COP=3-4);
+    pozostałe 4 są opisowe/jakościowe bez wzoru. Zbudowany tylko kocioł elektryczny jako
+    samodzielny kalkulator Wzorzec D, zamiast wymuszać całą piątkę w jeden ekran bez liczb.
+  - `E_elektryczna = Q_cieplna / COP` — dokładnie ten sam wzór co Ekran 5 (COP pompy ciepła),
+    zastosowany dwukrotnie: raz dla pompy (COP wpisany ręcznie, tak jak w Ekranie 5), raz dla
+    kotła (COP=1, sprawność 99% zaokrąglona — różnica 1% pomijalna wobec różnicy 3-4×). Nie
+    wyodrębniono osobnej funkcji echo (jak przy `obliczNapiecieStringuZimowego`) — sama operacja
+    to jedno dzielenie, zbyt trywialne żeby uzasadniać ekstrakcję.
+  - Przykład źródła ("kocioł zużywa 3-4× więcej prądu na kWh ciepła, COP=1 vs COP=3-4") odtworzony
+    DOKŁADNIE — przy wpisaniu copPompy=3 lub 4 obliczony mnożnik zużycia wychodzi dokładnie 3×
+    lub 4×, zweryfikowane w testach.
+  - `lib/core/modules/ogrzewanie/kociol-elektryczny/`, 6 testów, UI: `app/kalkulatory/
+    kociol-elektryczny/page.tsx`.
+  - Zweryfikowane: `tsc`/`lint` czysto, `pnpm test` 443/443 (6 nowych), `pnpm build` czysto,
+    Playwright (40 kWh zapotrzebowania, COP=3, 1 zł/kWh → "26,67 zł" oszczędności, "3,0× więcej
+    prądu" — zgodne z testem jednostkowym i przykładem źródła).
+
 ## Mapa orientacyjna
 
 - `docs/rejestr-twardych-stopow.md` — zbiorczy indeks warunków zawsze skutkujących 🔴 (04.3), z odsyłaczami do modułu/ekranu/pliku źródłowego. Dopisz tu nowy twardy stop, gdy kolejny moduł go wprowadzi.
