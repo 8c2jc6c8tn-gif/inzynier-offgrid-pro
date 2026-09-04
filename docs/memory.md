@@ -1468,6 +1468,33 @@
     Playwright (sezonowy 6→9, sprawdzany miesiąc 7 → "Aktywne", 3,00 kWh/dobę; miesiąc 12 →
     "Nieaktywne", 0,00 kWh/dobę — zgodne z przykładem źródła).
 
+## Decyzje i uzasadnienie (c.d. 60)
+
+- **2026-09-04 — Ekran 5, Moduł 2: "Profil dobowy + astronomiczny dzień/noc" (scala dawne
+  1.7/1.16, Wzorzec D) — zbudowana tylko część astronomiczna, czwarte zastosowanie
+  precedensu "uniwersalna fizyka/astronomia niepodana wprost w źródle, ale nie wymyślona".**
+  Sekcja A/C źródła każe liczyć długość dnia/nocy z szerokości geograficznej — standardowe
+  równanie wschodu/zachodu Słońca z przybliżeniem deklinacji metodą Coopera (1969),
+  `δ = 23,45° sin(360/365 × (284+n))`, `N = (2/15) arccos(-tanφ·tanδ)` — uniwersalna, dobrze
+  udokumentowana formuła inżynierii słonecznej (ten sam rodzaj precedensu co Magnus-Tetens w
+  Ekranie 10 M4 i ciepło właściwe wody w Ekranie 2 M2), nie dana specyficzna dla źródła.
+  - Zweryfikowane niezależnie w Pythonie przed implementacją: Warszawa (φ≈52,2°N), 21 grudnia
+    (dzień 355) → 7,47h dnia / 16,53h nocy — zgodne z przykładem źródła Sekcji C ("Grudzień: 8h
+    dnia, 16h nocy", zaokrąglone). Równik/równonoc → dokładnie 12h/12h (test sanity). Koło
+    podbiegunowe (70°N) → poprawnie zwraca noc/dzień polarny (0h/24h) z ostrzeżeniem info.
+  - Sekcja B (profil godzinowych współczynników zapotrzebowania, "0,3 w nocy, 1,5 w szczycie")
+    świadomie NIE zbudowana — to przykładowe wartości ilustracyjne źródła, nie uniwersalna
+    tabela, więc przyjęcie ich jako reguły byłoby wymyślaniem danych.
+  - `szerokoscGeograficzna: number | null` — `null` jako sentinel "nie wpisano" (0° to legalna
+    wartość na równiku), ten sam wzorzec co `temperaturaOgniwC` w `chlodzenie-latem` (M4).
+  - Dodatkowy, praktyczny output: opcjonalna energia nocna odbiornika działającego tylko w
+    ciemności (np. oświetlenie zewnętrzne) = moc × długość nocy — bezpośrednio realizuje
+    przykład D źródła.
+  - `lib/core/modules/zapotrzebowanie/profil-astronomiczny/`, 9 testów, UI: `app/kalkulatory/
+    profil-astronomiczny/page.tsx`.
+  - Zweryfikowane: `tsc`/`lint` czysto, `pnpm test` 334/334 (9 nowych), `pnpm build` czysto,
+    Playwright (52,2°/dzień 355/50W → "7,5 h dnia / 16,5 h nocy", "0,83 kWh tej doby").
+
 ## Mapa orientacyjna
 
 - `docs/rejestr-twardych-stopow.md` — zbiorczy indeks warunków zawsze skutkujących 🔴 (04.3), z odsyłaczami do modułu/ekranu/pliku źródłowego. Dopisz tu nowy twardy stop, gdy kolejny moduł go wprowadzi.
