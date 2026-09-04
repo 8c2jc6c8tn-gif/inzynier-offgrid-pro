@@ -61,6 +61,7 @@ export const KAFLE: KafelEntry[] = [
       { href: "/kalkulatory/cold-cranking-amps", label: "Cold Cranking Amps — zimny start dużych odbiorników" },
       { href: "/kalkulatory/pobor-wlasny-bms", label: "Pobór własny BMS i tryb uśpienia" },
       { href: "/kalkulatory/kalibracja-soc", label: "Kalibracja i dokładność SoC" },
+      { href: "/kalkulatory/long-term-storage", label: "Tryb Long Term Storage (odstawienie na zimę)" },
       { href: "/kalkulatory/porownanie-technologii-magazynow", label: "Porównanie technologii magazynów" },
       { href: "/kalkulatory/dobor-bezpiecznika-dc", label: "Dobór bezpiecznika DC" },
       { href: "/kalkulatory/moment-dokrecania-srub", label: "Moment dokręcania śrub" },

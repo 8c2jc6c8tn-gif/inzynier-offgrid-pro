@@ -908,11 +908,45 @@
     `lib/core/` nadal nie importuje z `app/`/`components/`, Playwright (20 dni → rekomendacja
     kalibracji, zgodnie z progiem >=14).
 
+## Decyzje i uzasadnienie (c.d. 36)
+
+- **2026-09-04 — Ekran 16, Moduł 4: "Tryb Long Term Storage (odstawienie na zimę)" — pierwszy
+  ekran serii łączący dwie realne kontrole liczbowe z checklistą procedury (Wzorzec D z
+  elementem E, jak M11/A4, ale bez wymuszonej kolejności checklisty).** Dwa progi ze źródła:
+  SoC docelowy przed odstawieniem powinien mieścić się w 50–60% (nie przesuszona, nie przelana),
+  temperatura miejsca przechowywania nie powinna spadać poniżej -20°C. Plus dwuelementowy
+  checklist procedury (odłączenie od falownika/obciążeń, uśpienie BMS) — w odróżnieniu od M11/A4
+  (pre-charge) źródło nie opisuje tu wymuszonej sekwencji kroków, więc checklist jest
+  nieuporządkowany (zwykły `Set`, nie porównanie z kolejnością tablicy).
+  - Status łączony wg precedensu z `podlaczenie-bms`: `VALID` gdy oba progi liczbowe spełnione
+    ORAZ checklist w komplecie; `VALID_WITH_WARNINGS` gdy jest co najmniej jedno realne
+    ostrzeżenie (SoC poza zakresem lub temperatura za niska); `INCOMPLETE` gdy pola liczbowe
+    jeszcze nie wpisane ALBO gdy oba progi są w porządku, ale checklist nie w komplecie (ten
+    drugi przypadek celowo nie generuje ostrzeżenia — czysta niekompletność kroków, nie błąd
+    fizyczny).
+  - **Sprawdzona i rozstrzygnięta flaga z rejestru pokrycia** ("możliwy duplikat/uzupełnienie
+    M11 A10/B12 — sprawdzić przy budowie"): NIE jest duplikatem. A10/B12 to Wzorzec C — czysta
+    treść informacyjna (3 akordeony: przechowywanie/recykling/narzędzia diagnostyczne), bez
+    żadnego kalkulatora. Ten ekran to realny kalkulator dwóch progów liczbowych + checklist —
+    inny wzorzec, inna treść źródłowa (3.18 vs 9.18–9.20/10.18–10.20), zero pokrywającej się
+    logiki do zastosowania wzorca "echo".
+  - Przy okazji naprawiona drobna drift-owa nieścisłość w tym pliku (Mapa orientacyjna niżej):
+    odnośnik do GOD BOOK wskazywał nieistniejący już `...v2_3.md` (plik zastąpiony `...v2_5.md`
+    w PR #23, referencja w tej sekcji nie została wtedy zaktualizowana) — poprawione zgodnie z
+    zasadą Część Y.2 (dryf bez świadomej decyzji, nie konflikt do zgłoszenia).
+  - `lib/core/modules/baterie/long-term-storage/`, 9 testów (w tym obie granice zakresu SoC
+    50%/60% włącznie i granica temperatury dokładnie -20°C jako jeszcze bezpieczna), UI:
+    `app/kalkulatory/long-term-storage/page.tsx`.
+  - Zweryfikowane: `tsc`/`lint` czysto, `pnpm test` 199/199 (9 nowych), `pnpm build` czysto,
+    `lib/core/` nadal nie importuje z `app/`/`components/`, Playwright (3 stany: puste/INCOMPLETE,
+    55%+5°C+checklist komplet→VALID "Gotowe do odstawienia", 100%→VALID_WITH_WARNINGS "Dopuszczalne"
+    z komunikatem o zakresie 50–60%).
+
 ## Mapa orientacyjna
 
 - `docs/rejestr-twardych-stopow.md` — zbiorczy indeks warunków zawsze skutkujących 🔴 (04.3), z odsyłaczami do modułu/ekranu/pliku źródłowego. Dopisz tu nowy twardy stop, gdy kolejny moduł go wprowadzi.
 - `docs/standards/00-INDEKS.md` — standard wspólny dla rodziny aplikacji (17 rozdziałów), zacznij tu przy pytaniach "jak mamy to robić".
-- `docs/god-book/instrukcja-uniwersalna-biblii-projektu-v2_3.md` — metodologia procesowa (GOD BOOK) — jak prowadzić Biblię projektu; Część Y opisuje relację ze standardem powyżej. `PROMPT_STARTOWY.md` (root) to gotowy tekst startowy sesji wg tej metodologii.
+- `docs/god-book/instrukcja-uniwersalna-biblii-projektu-v2_5.md` — metodologia procesowa (GOD BOOK) — jak prowadzić Biblię projektu; Część Y opisuje relację ze standardem powyżej. `PROMPT_STARTOWY.md` (root) to gotowy tekst startowy sesji wg tej metodologii.
 - `docs/lista-do-zrobienia.md` — bieżące zadania, czytaj zaraz po tym pliku na starcie sesji.
 - `docs/wklad-do-standardu.md` — tu AI dopisuje z własnej inicjatywy spostrzeżenia warte rozważenia dla całego `new-app-standards` (nigdy nie edytuje repo źródłowego bezpośrednio).
 - `ZASADY_APLIKACJI.md` (pełna) / `USTALENIA.md` (skrót) — konstytucja Offgrid, nadrzędna wobec kodu. Pełni rolę "Biblii" tego projektu (GOD BOOK), jeszcze nie zmigrowana do jego kanonicznego nazewnictwa — patrz decyzja wyżej.
