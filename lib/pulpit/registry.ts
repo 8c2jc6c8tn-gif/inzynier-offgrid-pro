@@ -76,6 +76,7 @@ export const KAFLE: KafelEntry[] = [
       { href: "/kalkulatory/slabe-ogniwo", label: "Symulacja Słabego Ogniwa (Cell Drift & Balancing)" },
       { href: "/kalkulatory/detekcja-zwarcia-efuse", label: "Detekcja zwarcia i e-Fuse" },
       { href: "/kalkulatory/koniec-ladowania", label: "Algorytm końca ładowania (Tail Current / Absorption)" },
+      { href: "/kalkulatory/detekcja-doziemienia", label: "Detekcja doziemienia (Ground Fault & IMD)" },
     ],
   },
   {
