@@ -1083,6 +1083,27 @@
     25000zł/15kWh/5000cykli/98% — zgodne z niezależnym przeliczeniem w Pythonie; oba stany
     porównania z alternatywą, tańszy/droższy, zweryfikowane wizualnie).
 
+## Decyzje i uzasadnienie (c.d. 42)
+
+- **2026-09-04 — Ekran 26, Moduł 4: "Topologia BMS (Common Port vs Separate Port)" —
+  hybryda Wzorca B (karty porównawcze) z pojedynczym, prostym progiem z Sekcji C.** Etykieta
+  źródła to "Wzorzec B", więc rdzeń ekranu to opisowe porównanie dwóch topologii (jak
+  `porownanie-technologii`) — ale Sekcja C daje konkretny, w pełni policzalny przykład ("BMS
+  Common Port 100A, falownik pobiera 150A przy rozruchu → wybierz Separate Port"), więc dodano
+  to jako prosty próg (`bmsCommonPortA >= falownikPradRozruchuA`), zamiast zostawiać go tylko
+  jako tekst. Przykład źródła odtworzony dokładnie w teście.
+  - `lib/core/modules/baterie/topologia-bms/`, 5 testów, UI: `app/kalkulatory/
+    topologia-bms/page.tsx`.
+  - **Przy okazji sprawdzony i zablokowany Ekran 25** ("Szyny zbiorcze i połączenia
+    międzypakietowe") — ten sam rodzaj luki co M5/E1 i M11/B5: Sekcja C daje tylko ilustracyjne
+    przykłady nierównego rozkładu prądu ("20%", "40% vs 15%"), źródło nie podaje wzoru wiążącego
+    długość/przekrój kabla z wielkością tego rozkładu. Dopisany do `docs/rejestr-twardych-
+    stopow.md`, sekcja "Znane luki", i do `docs/rejestr-pokrycia.md` jako `⚠️ blocked`.
+  - Zweryfikowane: `tsc`/`lint` czysto, `pnpm test` 233/233 (5 nowych), `pnpm build` czysto,
+    `lib/core/` nadal nie importuje z `app/`/`components/`, Playwright (100A/150A → czerwony
+    "Wybierz Separate Port", zgodny z przykładem źródła; 200A/150A → zielony "Common Port
+    wystarczy").
+
 ## Mapa orientacyjna
 
 - `docs/rejestr-twardych-stopow.md` — zbiorczy indeks warunków zawsze skutkujących 🔴 (04.3), z odsyłaczami do modułu/ekranu/pliku źródłowego. Dopisz tu nowy twardy stop, gdy kolejny moduł go wprowadzi.
