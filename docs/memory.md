@@ -2055,6 +2055,38 @@
     Playwright (250 m³/h, 85%, ΔT=30K, pobór 70W → "2.14 kW" odzysku — zgodne z testem
     jednostkowym i przybliżeniem przykładu źródła).
 
+## Decyzje i uzasadnienie (c.d. 83)
+
+- **2026-09-04 — po wyczerpaniu łatwo buildowalnych ekranów Modułu 6, użytkownik wybrał
+  przejście do innego modułu (opcja 1: kolejny moduł, nie ekrany informacyjne, nie zatrzymanie).**
+  Sprawdzony Moduł 8 (Bezpieczeństwo) — miał dotąd tylko 1 ekran (audyt pożarowy, wzorzec G,
+  dane demonstracyjne). Ten moduł jest cross-cuttingowy (zbiera funkcje z rozdziałów źródła 6,
+  11, 12) — większość ekranów to "sprzęt + logika AI" scalone, gdzie warstwa AI to sekwencje
+  sterowania bez progu liczbowego (np. Ekran 4 gaszenie, Ekran 7 ewakuacja adaptacyjna) — blocked
+  dla warstwy AI, ale warstwa sprzętowa bywa policzalna.
+- **Ekran 6, Moduł 8: "UPS krytyczny — sprzęt i zarządzanie AI"** (scala dawne 11.54, 12.54,
+  Wzorzec D) — pierwszy nowy ekran M8 poza reprezentantem, zbudowana TYLKO warstwa sprzętowa
+  (11.54, "dobór sprzętowy"), warstwa AI (12.54, zarządzanie priorytetami przy rozładowaniu)
+  świadomie pominięta — to reguła sterowania ("najpierw centrala i ESP32, potem router, na
+  końcu siłowniki"), nie próg liczbowy do policzenia.
+  - **Podwójny wzorzec echo** — rzadki przypadek łączący dwa wcześniejsze wzorce w jednym
+    ekranie: (1) checklist urządzeń z edytowalną mocą i sumowaniem zaznaczonych, identyczny wzór
+    co `systemy-podtrzymania-zycia` (M2/E1); (2) formuła czasu podtrzymania `t=(C_Ah×V×η)/P`,
+    identyczna z trybem "runtime" już istniejącym w `kalkulatory-pomocnicze` (M2/E16) — sprawność
+    domyślna (0,92) zaimportowana wprost z tamtego modułu (`EFFICIENCY_DEFAULT`), nie
+    zduplikowana liczba.
+  - Źródło NIE podaje mocy żadnego z 5 domyślnych urządzeń (ESP32, router, siłowniki, centrala
+    pożarowa, oświetlenie awaryjne) — w przeciwieństwie do `systemy-podtrzymania-zycia`, gdzie
+    część miała domyślne W. Wszystkie pola tu wymagają ręcznego wpisania.
+  - Źródło nie podaje konkretnych liczb dla swojego przykładu ("Czas podtrzymania: 45 minut" bez
+    towarzyszącej pojemności/poboru) — nie da się go dokładnie odtworzyć, ale to ten sam,
+    już zweryfikowany wzór z M2/E16, więc nie wymagało nowej weryfikacji w Pythonie.
+  - `lib/core/modules/bezpieczenstwo/ups-krytyczny/`, 6 testów, UI: `app/kalkulatory/
+    ups-krytyczny/page.tsx`.
+  - Zweryfikowane: `tsc`/`lint` czysto, `pnpm test` 461/461 (6 nowych), `pnpm build` czysto,
+    Playwright (5 urządzeń zaznaczonych, moce 5/10/15/10/10W=50W łącznie, 20Ah/12V → "4.42 h"
+    podtrzymania — zgodne z testem jednostkowym: t=20×12×0,92/50=4,416h).
+
 ## Mapa orientacyjna
 
 - `docs/rejestr-twardych-stopow.md` — zbiorczy indeks warunków zawsze skutkujących 🔴 (04.3), z odsyłaczami do modułu/ekranu/pliku źródłowego. Dopisz tu nowy twardy stop, gdy kolejny moduł go wprowadzi.

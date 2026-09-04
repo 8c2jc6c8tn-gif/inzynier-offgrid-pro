@@ -142,7 +142,10 @@ export const KAFLE: KafelEntry[] = [
     nazwa: "Bezpieczeństwo i sytuacje awaryjne",
     opis: "Pożar, ewakuacja, systemy alarmowe.",
     ikona: "🚨",
-    ekrany: [{ href: "/kalkulatory/audyt-pozarowy", label: "Autonomiczny audyt bezpieczeństwa pożarowego" }],
+    ekrany: [
+      { href: "/kalkulatory/audyt-pozarowy", label: "Autonomiczny audyt bezpieczeństwa pożarowego" },
+      { href: "/kalkulatory/ups-krytyczny", label: "UPS krytyczny — dobór sprzętowy" },
+    ],
   },
   {
     id: 9,
