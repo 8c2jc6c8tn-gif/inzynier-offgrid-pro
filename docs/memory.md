@@ -942,6 +942,43 @@
     55%+5°C+checklist komplet→VALID "Gotowe do odstawienia", 100%→VALID_WITH_WARNINGS "Dopuszczalne"
     z komunikatem o zakresie 50–60%).
 
+## Decyzje i uzasadnienie (c.d. 37)
+
+- **2026-09-04 — Ekran 18, Moduł 4: "Łączenie równoległe różnych baterii (Mixing)" — dwa
+  twarde stopy 🔴 jednocześnie, plus druga formuła wyprowadzona z tych samych wejść (nie
+  osobna, wymyślona zależność).** Źródło (Sekcja B): `I_wyrównawczy = ΔV / (R1+R2)`, próg
+  0,2V (Sekcja D, 🔴). Dodatkowo policzony udział każdej baterii w prądzie obciążenia
+  (dzielnik prądowy `udział_i = R_druga / (R1+R2)`) — to bezpośrednia konsekwencja tego samego
+  prawa Ohma dla gałęzi równoległych, liczona z tych samych dwóch zmierzonych rezystancji, nie
+  nowy współczynnik. Świadomie odrzucony pomysł osobnego progu ostrzegawczego na wielkość
+  nierównomierności (np. "powyżej 55% → ostrzeżenie") — źródło nie podaje takiego progu, byłoby
+  to wymyślenie normy; liczby udziału pokazane jako informacja, nie jako wyzwalacz ostrzeżenia.
+  Wiek/SoH z Sekcji A świadomie NIE stały się osobnym polem wejściowym — nie wchodzą do żadnego
+  wzoru w źródle (efekt SoH jest już ujęty w zmierzonej rezystancji wewnętrznej, którą user
+  wpisuje wprost) — dodanie ich byłoby polem dekoracyjnym bez wpływu na wynik.
+  - **Błąd znaleziony i naprawiony w trakcie budowy tego samego ekranu (nie osobna sesja):**
+    pierwsza wersja UI liczyła kolor werdyktu wyłącznie z `CalcResult.status`
+    (`VALID_WITH_WARNINGS` → zawsze żółte "Dopuszczalne"), więc oba twarde stopy 🔴 renderowały
+    się jako żółte ostrzeżenie zamiast czerwone "Zabronione" — visualnie niewidoczne w
+    testach jednostkowych (te sprawdzają tylko `status`/`warnings`, nie kolor), złapane dopiero
+    w zrzucie przeglądarki. Naprawione przez przejście na wzorzec z `dobor-bezpiecznika-dc`
+    (już istniejący w kodzie): UI liczy własny 3-poziomowy werdykt z `warning.level` (`critical`
+    → zawsze czerwony, niezależnie od `status`), a nie tylko z `CalcResult.status`. **Lekcja do
+    zapamiętania na przyszłość**: przy każdym ekranie z twardym stopem 🔴 sprawdzić w
+    przeglądarce, czy kolor werdyktu faktycznie jest czerwony, nie tylko czy `status` i
+    `warnings[].code` się zgadzają w teście — dwa niezależne mechanizmy (`CalcResult.status` do
+    kompletności/poprawności danych, `warning.level` do koloru werdyktu bezpieczeństwa) łatwo
+    pomylić.
+  - `lib/core/modules/baterie/mixing-rownolegle/`, 7 testów, UI: `app/kalkulatory/
+    mixing-rownolegle/page.tsx`. Chemia ogniw w UI re-używa katalogu `BATTERY_TECHNOLOGIES`
+    z Ekranu 30 (`porownanie-technologii`) zamiast duplikować listę — kolejne zastosowanie
+    wzorca "echo", tym razem dla danych referencyjnych, nie tylko formuły.
+  - Oba twarde stopy dopisane do `docs/rejestr-twardych-stopow.md` (sekcja Bateryjne).
+  - Zweryfikowane: `tsc`/`lint` czysto, `pnpm test` 206/206 (7 nowych), `pnpm build` czysto,
+    `lib/core/` nadal nie importuje z `app/`/`components/`, Playwright (4 A przy ΔV=0,1V —
+    zgodne z niezależnym przeliczeniem w Pythonie; oba twarde stopy potwierdzone jako czerwone
+    "Zabronione" po naprawie błędu opisanego wyżej).
+
 ## Mapa orientacyjna
 
 - `docs/rejestr-twardych-stopow.md` — zbiorczy indeks warunków zawsze skutkujących 🔴 (04.3), z odsyłaczami do modułu/ekranu/pliku źródłowego. Dopisz tu nowy twardy stop, gdy kolejny moduł go wprowadzi.
