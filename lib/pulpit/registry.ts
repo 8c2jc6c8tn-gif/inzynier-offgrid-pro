@@ -74,6 +74,7 @@ export const KAFLE: KafelEntry[] = [
       { href: "/kalkulatory/komunikacja-bms", label: "Komunikacja BMS — CAN/RS485/Modbus" },
       { href: "/kalkulatory/ochrona-wilgoc", label: "Ochrona przed wilgocią i kondensacją" },
       { href: "/kalkulatory/slabe-ogniwo", label: "Symulacja Słabego Ogniwa (Cell Drift & Balancing)" },
+      { href: "/kalkulatory/detekcja-zwarcia-efuse", label: "Detekcja zwarcia i e-Fuse" },
     ],
   },
   {
