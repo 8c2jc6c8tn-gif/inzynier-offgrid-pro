@@ -19,7 +19,7 @@ notatkę, zgodnie z `docs/standards/15-wspolpraca-z-ai.md` (15.3, "nie usuwaj �
 | 5 | 1.7, 1.16 | Profil dobowy + astronomiczny dzień/noc | todo | |
 | 6 | 1.8 | Sezonowość i tryb wakacyjny | todo | |
 | 7 | 1.9 | Dni autonomii | todo | |
-| 8 | 1.10, 1.11, 1.21 | Zaawansowane parametry obciążenia | todo | |
+| 8 | 1.10, 1.11, 1.21 | Zaawansowane parametry obciążenia | **done** (częściowo) | `lib/core/modules/zapotrzebowanie/moc-pozorna-cosfi/`, UI: `app/kalkulatory/moc-pozorna-cosfi/page.tsx`, 5 testów. Zbudowany wyłącznie podpunkt 1 (dawne 1.10, moc pozorna `VA = P / cos φ`, domyślny cos φ=0,7 z silnikami 1:1 ze źródła). Podpunkty 2 (prądy rozruchowe, dawne 1.11) i 3 (współczynnik jednoczesności, dawne 1.21) NIE zbudowane — wymagają bazy komponentów (współczynniki rozruchu per typ urządzenia) lub statystycznego modelu jednoczesności, których źródło nie podaje jako konkretnych liczb. |
 | 9 | 1.12 | Pobór własny falownika | **done** | `lib/core/modules/zapotrzebowanie/pobor-wlasny-falownika/`, UI: `app/kalkulatory/pobor-wlasny-falownika/page.tsx`, 4 testy. Wzór `E_doba = P_jałowy × 24 / 1000` 1:1 ze źródła — przykład źródła (45W → 1,08 kWh/dobę) zweryfikowany niezależnie i odtworzony dokładnie. |
 | 10 | 1.13 | Sprawność inwertera przy niskim obciążeniu | todo | |
 | 11 | 1.17 | Przetwornice DC/DC | **done** | `lib/core/modules/zapotrzebowanie/przetwornice-dcdc/`, UI: `app/kalkulatory/przetwornice-dcdc/page.tsx`, 4 testy. Wzór `P_realne = P_urządzenia / sprawność` 1:1 ze źródła — przykład źródła ("sprawność ~92% → traci 8%") zweryfikowany niezależnie: strata jako % mocy realnie pobranej wynosi dokładnie `1 - sprawność`, potwierdzone w Pythonie. |

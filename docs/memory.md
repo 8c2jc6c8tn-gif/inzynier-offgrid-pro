@@ -1362,6 +1362,26 @@
     `lib/core/` nadal nie importuje z `app/`/`components/`, Playwright (100W/92% → 108,7W,
     "traci 8% (8,7 W)", zgodne z przykładem źródła).
 
+## Decyzje i uzasadnienie (c.d. 55)
+
+- **2026-09-04 — Ekran 8, Moduł 2: "Zaawansowane parametry obciążenia" — zbudowany tylko jeden
+  z trzech podpunktów źródła, ten z prawdziwym, samodzielnym wzorem.** Sekcja B źródła opisuje
+  "trzy powiązane korekty": (1) moc pozorna/cos φ — wzór podany wprost (`VA = P / cos φ`),
+  domyślny cos φ=0,7 dla silników też podany wprost; (2) prądy rozruchowe — współczynniki (5× dla
+  pompy głębinowej, 6× dla starej lodówki) opisane jako "z bazy komponentów", której ten projekt
+  nie ma — użycie tych konkretnych mnożników jako uniwersalnej reguły byłoby wymyślaniem danych
+  dla urządzeń spoza tych dwóch przykładów; (3) współczynnik jednoczesności — czysto opisowy,
+  źródło nie podaje żadnej konkretnej liczby/wzoru statystycznego. Zbudowany wyłącznie podpunkt 1.
+  - Przykład Sekcji C łączy wszystkie trzy podpunkty naraz (3,2 kW → 4,8 kVA przy rozruchu pompy)
+    — nie da się go odtworzyć przy zbudowaniu tylko jednego podpunktu, więc test używa
+    self-konsystentnych wartości (2000W/cos φ=0,7 → 2857 VA), nie próbuje wymusić dopasowania do
+    przykładu źródła.
+  - `lib/core/modules/zapotrzebowanie/moc-pozorna-cosfi/`, 5 testów, UI: `app/kalkulatory/
+    moc-pozorna-cosfi/page.tsx`.
+  - Zweryfikowane: `tsc`/`lint` czysto, `pnpm test` 301/301 (5 nowych), `pnpm build` czysto,
+    `lib/core/` nadal nie importuje z `app/`/`components/`, Playwright (2000W/cos φ=0,7 →
+    2857 VA, zgodne z niezależnym przeliczeniem w Pythonie).
+
 ## Mapa orientacyjna
 
 - `docs/rejestr-twardych-stopow.md` — zbiorczy indeks warunków zawsze skutkujących 🔴 (04.3), z odsyłaczami do modułu/ekranu/pliku źródłowego. Dopisz tu nowy twardy stop, gdy kolejny moduł go wprowadzi.
