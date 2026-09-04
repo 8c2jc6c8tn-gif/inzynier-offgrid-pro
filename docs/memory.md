@@ -1879,6 +1879,31 @@
     Playwright (R=25mΩ, 20 złączek, 10A → "50,0 W" straty, czerwony werdykt z uzasadnieniem
     "realne ryzyko przegrzania/pożaru" — zgodne z testem jednostkowym).
 
+## Decyzje i uzasadnienie (c.d. 76)
+
+- **2026-09-04 — Ekran 16, Moduł 3: "Panele bifacjalne"** (dawne 2.31, Wzorzec D) — zbudowany
+  świadomie BEZ współczynnika bifacjalności panelu, tylko na podstawie zakresów % per typ
+  powierzchni.
+  - Źródło podaje dwie różne liczby dla tego samego zjawiska: współczynnik bifacjalności panelu
+    (70-90%, "z bazy komponentów") ORAZ bezpośredni zakres dodatkowego uzysku per typ powierzchni
+    (biała membrana 10-20%, jasny beton 8-15%, piasek 10-18%, trawa 3-5%). Źródło NIE podaje
+    wzoru łączącego te dwie liczby (np. czy zakres per powierzchnia zakłada już jakiś domyślny
+    współczynnik bifacjalności, czy trzeba go dodatkowo mnożyć) — próba wymyślenia takiej formuły
+    naruszałaby Dyrektywę #1. Decyzja: użyć TYLKO zakresu per powierzchnia (bezpośrednio
+    reprezentuje końcowy efekt), pominąć współczynnik bifacjalności jako osobne pole.
+  - Procent dodatkowego uzysku to pole ręcznego wpisu (D16), z podpowiedzią pokazującą zakres
+    dla wybranej powierzchni. Przykład źródła ("jasny beton → 12%") odtworzony DOKŁADNIE — 12%
+    mieści się w podanym zakresie 8-15% i jest wprost tą samą liczbą co w źródle, nie wymaga
+    żadnej dodatkowej weryfikacji Pythonem (to czysta arytmetyka procentowa, nie nowy wzór
+    fizyczny).
+  - 🟡 ostrzeżenie o niskim zysku na trawie wpisane 1:1 z cytatu źródła ("nie przepłacaj za tę
+    technologię, jeśli montujesz na trawie").
+  - `lib/core/modules/pv/panele-bifacjalne/`, 5 testów, UI: `app/kalkulatory/
+    panele-bifacjalne/page.tsx`.
+  - Zweryfikowane: `tsc`/`lint` czysto, `pnpm test` 421/421 (5 nowych), `pnpm build` czysto,
+    Playwright (5000 kWh bazowe, jasny beton, 12% → "5600 kWh" całkowitego uzysku, zielony
+    werdykt — zgodne z testem jednostkowym i przykładem źródła).
+
 ## Mapa orientacyjna
 
 - `docs/rejestr-twardych-stopow.md` — zbiorczy indeks warunków zawsze skutkujących 🔴 (04.3), z odsyłaczami do modułu/ekranu/pliku źródłowego. Dopisz tu nowy twardy stop, gdy kolejny moduł go wprowadzi.
