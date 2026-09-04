@@ -62,6 +62,10 @@ export const KAFLE: KafelEntry[] = [
       { href: "/kalkulatory/niedopasowanie-paneli", label: "Niedopasowanie mocy paneli (mismatch)" },
       { href: "/kalkulatory/napor-wiatru", label: "Aerodynamika — napór wiatru" },
       { href: "/kalkulatory/ochrona-stringow", label: "Ochrona stringów (bezpieczniki, diody blokujące)" },
+      {
+        href: "/kalkulatory/zacienienie-diody-bocznikujace",
+        label: "Zacienienie i diody bocznikujące",
+      },
     ],
   },
   {
