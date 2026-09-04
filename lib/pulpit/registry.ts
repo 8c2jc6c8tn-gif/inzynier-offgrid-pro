@@ -73,6 +73,7 @@ export const KAFLE: KafelEntry[] = [
       { href: "/kalkulatory/topologia-bms", label: "Topologia BMS (Common Port vs Separate Port)" },
       { href: "/kalkulatory/komunikacja-bms", label: "Komunikacja BMS — CAN/RS485/Modbus" },
       { href: "/kalkulatory/ochrona-wilgoc", label: "Ochrona przed wilgocią i kondensacją" },
+      { href: "/kalkulatory/slabe-ogniwo", label: "Symulacja Słabego Ogniwa (Cell Drift & Balancing)" },
     ],
   },
   {
