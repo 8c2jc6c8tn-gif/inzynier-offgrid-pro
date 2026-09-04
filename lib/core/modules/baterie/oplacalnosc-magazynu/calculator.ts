@@ -22,6 +22,17 @@ const FORMULA = "koszt_{kWh} = cena / (pojemność \\times cykle \\times \\eta)"
  * tempie zwrotu (źródło nie podaje wzoru na "liczbę cykli do zwrotu", przykład Sekcji C jest
  * ilustracyjny).
  */
+export function obliczKosztZaKwh(
+  cenaZl: number,
+  pojemnoscKwh: number,
+  liczbaCykli: number,
+  sprawnoscPct: number,
+): { energiaCalkowitaZyciaKwh: number; kosztZaKwh: number } {
+  const energiaCalkowitaZyciaKwh = pojemnoscKwh * liczbaCykli * (sprawnoscPct / 100)
+  const kosztZaKwh = cenaZl / energiaCalkowitaZyciaKwh
+  return { energiaCalkowitaZyciaKwh, kosztZaKwh }
+}
+
 export function calculateOplacalnoscMagazynu(
   input: OplacalnoscMagazynuInput,
 ): CalcResult<OplacalnoscMagazynuResult> {
@@ -66,9 +77,12 @@ export function calculateOplacalnoscMagazynu(
     }
   }
 
-  const energiaCalkowitaZyciaKwh =
-    input.pojemnoscUzytecznaKwh * input.liczbaCykli * (input.sprawnoscPct / 100)
-  const kosztZaKwh = input.cenaBateriiZl / energiaCalkowitaZyciaKwh
+  const { energiaCalkowitaZyciaKwh, kosztZaKwh } = obliczKosztZaKwh(
+    input.cenaBateriiZl,
+    input.pojemnoscUzytecznaKwh,
+    input.liczbaCykli,
+    input.sprawnoscPct,
+  )
 
   const warnings: Warning[] = []
   let tansze: boolean | null = null

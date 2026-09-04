@@ -1565,6 +1565,32 @@
   - Zweryfikowane: `tsc`/`lint` czysto, `pnpm test` 356/356 (5 nowych), `pnpm build` czysto,
     Playwright (10/12/3 kWh → "Latem: pokryte", "Zimą: brak 7,0 kWh", zgodne z przykładem źródła).
 
+## Decyzje i uzasadnienie (c.d. 64)
+
+- **2026-09-04 — Ekran 19, Moduł 4: "Vehicle-to-Home (V2H)" (dawne 3.21, Wzorzec D) —
+  czwarte zastosowanie wzorca "echo" w tej sesji.** Koszt za kWh z baterii trakcyjnej EV to
+  strukturalnie identyczny wzór co "True Cost of Storage" (Ekran 23, `cena / (pojemność × cykle
+  × sprawność)`) — zamiast duplikować, wyekstrahowano `obliczKosztZaKwh` jako czystą funkcję z
+  `oplacalnosc-magazynu/calculator.ts` i zaimportowano tutaj z innymi polami wejścia (bateria
+  trakcyjna zamiast domowej). 6 istniejących testów `oplacalnosc-magazynu` nienaruszonych po
+  refaktoryzacji (potwierdzone przed dalszą pracą).
+  - "Rezerwa na dojazd, degradacja, straty" (Sekcja B źródła) — trzy słowa bez rozbicia na osobne
+    wzory. Zamiast zgadywać podział, zamodelowano jako: rezerwa (wprost odejmowana od pojemności)
+    + jeden łączny "współczynnik sprawności efektywnej" (degradacja+straty razem, wpisywany
+    ręcznie przez użytkownika). Przykład źródła (80 kWh → 40 kWh) jest z natury niejednoznaczny —
+    wiele kombinacji rezerwa/sprawność go odtwarza — więc test świadomie NIE wymusza dopasowania
+    do tego konkretnego przykładu, tylko sprawdza self-konsystentne wartości (ta sama zasada co
+    Ekran 8 M2 wcześniej w tej sesji).
+  - Boolean `wspieraV2h` (V2H pełny dom vs V2L pojedyncze urządzenia, max ok. 3,6 kW — wartość
+    "np." ze źródła, użyta tylko w treści komunikatu, NIE jako twardy próg w kodzie) → info/
+    warning zamiast blokowania obliczeń (numery liczą się niezależnie od trybu, zgodnie z
+    przykładem źródła, gdzie liczby są pokazane nawet dla auta wspierającego tylko V2L).
+  - `lib/core/modules/baterie/vehicle-to-home/`, 6 testów, UI: `app/kalkulatory/
+    vehicle-to-home/page.tsx`.
+  - Zweryfikowane: `tsc`/`lint` czysto, `pnpm test` 362/362 (12 nowych łącznie z refaktoryzacją),
+    `pnpm build` czysto, Playwright (80/10/60%/20000zł/1000cykli → "42,0 kWh", "0,42 zł/kWh",
+    żółty werdykt z ostrzeżeniem "tylko V2L" przy niezaznaczonym checkboxie).
+
 ## Mapa orientacyjna
 
 - `docs/rejestr-twardych-stopow.md` — zbiorczy indeks warunków zawsze skutkujących 🔴 (04.3), z odsyłaczami do modułu/ekranu/pliku źródłowego. Dopisz tu nowy twardy stop, gdy kolejny moduł go wprowadzi.
