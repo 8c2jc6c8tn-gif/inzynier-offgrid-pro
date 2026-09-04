@@ -13,6 +13,15 @@ export type DoborBezpiecznikaResult = {
 const FORMULA = "I_{zw} = V / R_{wewn}"
 
 /**
+ * Prąd zwarciowy pakietu — model prostego zwarcia pełnego (prawo Ohma, rezystancja przewodów
+ * i połączeń pominięta). Kanoniczna implementacja tego wzoru — Ekran 9 (`detekcja-zwarcia-efuse`)
+ * re-używa tę funkcję zamiast duplikować (wzorzec "echo", docs/standards/01-architektura.md, 1.3).
+ */
+export function obliczPradZwarciowyA(napiecieBateriiV: number, rezystancjaWewnetrznaOhm: number): number {
+  return napiecieBateriiV / rezystancjaWewnetrznaOhm
+}
+
+/**
  * Ekran 24, Moduł 4 — "Dobór bezpiecznika DC (AIC/Class T/NH)" (dawne 3.27,
  * docs/zrodla/Tresc_Modul_4_Baterie_Ekrany.md). Bezpiecznik musi umieć ugasić pożar
  * elektryczny, a nie tylko się przepalić — źle dobrany pod względem AIC sam staje się
@@ -41,7 +50,7 @@ export function calculateDoborBezpiecznika(
     }
   }
 
-  const pradZwarciowyA = input.napiecieBateriiV / input.rezystancjaWewnetrznaOhm
+  const pradZwarciowyA = obliczPradZwarciowyA(input.napiecieBateriiV, input.rezystancjaWewnetrznaOhm)
   const warnings: Warning[] = []
 
   if (input.aicBezpiecznikaA < pradZwarciowyA) {

@@ -1172,6 +1172,27 @@
     `lib/core/` nadal nie importuje z `app/`/`components/`, Playwright (280Ah/3% → 271,6Ah,
     zgodne z niezależnym przeliczeniem w Pythonie).
 
+## Decyzje i uzasadnienie (c.d. 46)
+
+- **2026-09-04 — Ekran 9, Moduł 4: "Detekcja zwarcia i e-Fuse" — drugie zastosowanie wzorca
+  "echo" tej sesji (po Obwodzie Pre-Charge).** Sekcja A źródła wprost odwołuje się do prądu
+  zwarciowego "z rezystancji wewnętrznej" — dokładnie ten sam wzór Ohma (`I_zw = V/R_wewn`) już
+  zaimplementowany w Ekranie 24 (Dobór bezpiecznika DC). Zamiast duplikować, wzór wyekstrahowany
+  do samodzielnej, eksportowanej funkcji `obliczPradZwarciowyA` w
+  `lib/core/modules/baterie/dobor-bezpiecznika-dc/calculator.ts`, którą ten ekran importuje.
+  Istniejące 6 testów Ekranu 24 przeszło bez zmian po refaktorze (zachowanie identyczne).
+  - Próg: jeśli prąd zwarciowy przekracza zdolność łączeniową tranzystorów BMS (podawaną przez
+    użytkownika z karty katalogowej, nie zgadywaną), zwykły bezpiecznik (~10ms) jest za wolny —
+    wymagana funkcja e-Fuse (<100µs). Przykład źródła (48V/0,0096Ω → 5000A, poniżej 500A
+    tranzystorów) odtworzony dokładnie w teście.
+  - Twardy stop dopisany do `docs/rejestr-twardych-stopow.md`, sekcja Elektryczne/pożarowe.
+  - `lib/core/modules/baterie/detekcja-zwarcia-efuse/`, 5 testów, UI: `app/kalkulatory/
+    detekcja-zwarcia-efuse/page.tsx`.
+  - Zweryfikowane: `tsc`/`lint` czysto, `pnpm test` 254/254 (5 nowych, `dobor-bezpiecznika-dc`
+    nadal 6/6 po refaktorze), `pnpm build` czysto, `lib/core/` nadal nie importuje z
+    `app/`/`components/`, Playwright (48V/0,0096Ω/500A → czerwony "Wymagana funkcja e-Fuse",
+    I_zw=5000A zgodne z przykładem źródła).
+
 ## Mapa orientacyjna
 
 - `docs/rejestr-twardych-stopow.md` — zbiorczy indeks warunków zawsze skutkujących 🔴 (04.3), z odsyłaczami do modułu/ekranu/pliku źródłowego. Dopisz tu nowy twardy stop, gdy kolejny moduł go wprowadzi.

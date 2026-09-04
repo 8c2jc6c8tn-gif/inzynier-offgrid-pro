@@ -47,6 +47,10 @@ nie do audytu poprawności formularza webowego.
   kondensacja w środku prowadzi do zwarcia na mokrym BMS/szynach.
   (M4/E10 — `lib/core/modules/baterie/ochrona-wilgoc/warnings.ts`, `ipPonizejWymaganego`, kod
   `IP-PONIZEJ-WYMAGANEGO`)
+- **Prąd zwarciowy pakietu przekracza zdolność łączeniową tranzystorów BMS** — zwykły
+  bezpiecznik (~10ms) jest za wolny, wymagana funkcja e-Fuse (<100µs).
+  (M4/E9 — `lib/core/modules/baterie/detekcja-zwarcia-efuse/warnings.ts`, `wymaganyEFuse`, kod
+  `WYMAGANY-E-FUSE`)
 
 ## Bateryjne
 
