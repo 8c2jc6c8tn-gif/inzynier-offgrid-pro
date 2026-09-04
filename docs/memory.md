@@ -1055,6 +1055,34 @@
     `lib/core/` nadal nie importuje z `app/`/`components/`, Playwright (48°C → czerwony "Powyżej
     dopuszczalnej temperatury", 25°C → zielony "W dopuszczalnym zakresie").
 
+## Decyzje i uzasadnienie (c.d. 41)
+
+- **2026-09-04 — Ekran 23, Moduł 4: "Analiza opłacalności magazynu (True Cost of Storage)" —
+  pierwszy ekran serii z osobnym, opcjonalnym polem porównawczym.** Źródło (Sekcja B) daje pełny,
+  gotowy wzór: `energia_całkowita_życia = pojemność × liczba_cykli × sprawność`,
+  `koszt_za_kWh = cena_baterii / energia_całkowita_życia` — oba przeliczone niezależnie w
+  Pythonie przed implementacją. Źródło wprost oznacza ten ekran jako wchłaniający dawną funkcję
+  12.12 z Modułu AI ("ocena opłacalności magazynowania (AI)") — uznaną w źródle za duplikat tego
+  samego tematu, więc nie budowana osobno.
+  - **Pole "koszt alternatywy" (agregat/sieć) jest opcjonalne** (`number | null`, nie `0`-jako-
+    placeholder, bo `0 zł/kWh` byłoby samo w sobie prawidłową, choć nierealistyczną, wartością
+    porównawczą) — porównanie to prosta różnica (`koszt magazynu < koszt alternatywy?`), BEZ
+    próby policzenia "liczby cykli do zwrotu" wspomnianej w przykładzie źródła Sekcji C ("zwraca
+    się po ok. 1200 cyklach") — to wymagałoby dodatkowego założenia o tempie zużycia energii
+    (ile kWh/rok faktycznie pobierane z magazynu), którego źródło nie podaje.
+  - **Poprawka podczas budowy**: pierwsza wersja `calculator.ts` ustawiała status
+    `VALID_WITH_WARNINGS` przy DOWOLNYM niepustym `warnings[]`, także gdy jedyne ostrzeżenie
+    miało poziom `info` (np. "magazyn tańszy niż alternatywa" — to dobra wiadomość, nie powód do
+    żółtego werdyktu). Naprawione przed commitem: status liczony z `warnings.some(w => w.level
+    !== "info")`, zgodnie z tym, jak inne ekrany tej sesji (np. `grzalki-bms-mroz`) już
+    traktowały poziom `info` jako nie wpływający na status.
+  - `lib/core/modules/baterie/oplacalnosc-magazynu/`, 6 testów, UI: `app/kalkulatory/
+    oplacalnosc-magazynu/page.tsx`.
+  - Zweryfikowane: `tsc`/`lint` czysto, `pnpm test` 228/228 (6 nowych), `pnpm build` czysto,
+    `lib/core/` nadal nie importuje z `app/`/`components/`, Playwright (0,34 zł/kWh przy
+    25000zł/15kWh/5000cykli/98% — zgodne z niezależnym przeliczeniem w Pythonie; oba stany
+    porównania z alternatywą, tańszy/droższy, zweryfikowane wizualnie).
+
 ## Mapa orientacyjna
 
 - `docs/rejestr-twardych-stopow.md` — zbiorczy indeks warunków zawsze skutkujących 🔴 (04.3), z odsyłaczami do modułu/ekranu/pliku źródłowego. Dopisz tu nowy twardy stop, gdy kolejny moduł go wprowadzi.
