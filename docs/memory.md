@@ -1543,6 +1543,28 @@
   - Zweryfikowane: `tsc`/`lint` czysto, `pnpm test` 351/351 (8 nowych), `pnpm build` czysto,
     Playwright (4800W → "48V", "400A@12V · 200A@24V · 100A@48V", zgodne z przykładem źródła).
 
+## Decyzje i uzasadnienie (c.d. 63)
+
+- **2026-09-04 — Ekran 4, Moduł 4: "Moduł EV — ładowanie samochodu elektrycznego" (dawne 3.4,
+  Wzorzec D) — zapotrzebowanie EV wpisywane wprost, nie wyprowadzane z przebiegu.** Sekcja A
+  źródła wymienia "pojemność baterii EV, dzienny przebieg, moc ładowarki" jako wejścia, ale
+  Sekcja B liczy "dodatkowe zapotrzebowanie" bez podania wzoru przebieg→energia — zużycie
+  energii na kilometr różni się mocno między modelami EV (typowo 0,15-0,25 kWh/km, ale to
+  zależy od modelu) i źródło nie podaje konkretnej liczby, więc nie jest zgadywane. Zamiast tego
+  użytkownik wpisuje dobowe zapotrzebowanie EV wprost (własny szacunek lub dane z ładowarki).
+  - Logika: `brak_sezon = max(0, E_EV - nadwyżka_PV_sezon)` dla lata i zimy osobno (nadwyżka PV
+    wpisywana ręcznie — docelowo z Modułu 3, jeszcze nie istnieje jako integracja).
+  - Przykład źródła Sekcji C (10 kWh/dobę EV, latem pokryte, zimą brak — "zimą będziesz musiał
+    zwiększyć PV o 4 panele") odtworzony dokładnie w testach i Playwright (12/3 kWh nadwyżki →
+    "Latem: pokryte", "Zimą: brak 7,0 kWh"). Przeliczenie braku energii na liczbę potrzebnych
+    paneli PV świadomie NIE zbudowane — wymaga mocy panela i godzin nasłonecznienia, które
+    dodałyby kolejną warstwę zgadywania.
+  - `nadwyzkaPvLatemKwh`/`nadwyzkaPvZimaKwh: number | null` — `null` jako sentinel "nie wpisano"
+    (0 kWh nadwyżki zimą to bardzo realna, legalna wartość).
+  - `lib/core/modules/baterie/modul-ev/`, 5 testów, UI: `app/kalkulatory/modul-ev/page.tsx`.
+  - Zweryfikowane: `tsc`/`lint` czysto, `pnpm test` 356/356 (5 nowych), `pnpm build` czysto,
+    Playwright (10/12/3 kWh → "Latem: pokryte", "Zimą: brak 7,0 kWh", zgodne z przykładem źródła).
+
 ## Mapa orientacyjna
 
 - `docs/rejestr-twardych-stopow.md` — zbiorczy indeks warunków zawsze skutkujących 🔴 (04.3), z odsyłaczami do modułu/ekranu/pliku źródłowego. Dopisz tu nowy twardy stop, gdy kolejny moduł go wprowadzi.
