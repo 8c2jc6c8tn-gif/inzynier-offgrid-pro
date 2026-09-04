@@ -25,6 +25,17 @@ const FORMULA =
  * nie błąd tego wzoru; wzór wdrożony dokładnie jak podany w Sekcji B, rozbieżność udokumentowana
  * tutaj i w docs/memory.md zamiast cicho "poprawiona".
  */
+export function obliczPojemnoscUzytecznaKwh(
+  zapotrzebowanieDoboweKwh: number,
+  dniAutonomii: number,
+  sprawnoscFalownikaPct: number,
+  dodPct: number,
+): number {
+  const sprawnosc = sprawnoscFalownikaPct / 100
+  const dod = dodPct / 100
+  return (zapotrzebowanieDoboweKwh * dniAutonomii) / (sprawnosc * dod)
+}
+
 export function calculateDoborPojemnosci(input: DoborPojemnosciInput): CalcResult<DoborPojemnosciResult> {
   const { errors } = validateInput(input)
   const pustyWynik: DoborPojemnosciResult = { pojemnoscUzytecznaKwh: 0 }
@@ -67,9 +78,12 @@ export function calculateDoborPojemnosci(input: DoborPojemnosciInput): CalcResul
     }
   }
 
-  const sprawnosc = input.sprawnoscFalownikaPct / 100
-  const dod = input.dodPct / 100
-  const pojemnoscUzytecznaKwh = (input.zapotrzebowanieDoboweKwh * input.dniAutonomii) / (sprawnosc * dod)
+  const pojemnoscUzytecznaKwh = obliczPojemnoscUzytecznaKwh(
+    input.zapotrzebowanieDoboweKwh,
+    input.dniAutonomii,
+    input.sprawnoscFalownikaPct,
+    input.dodPct,
+  )
 
   return {
     value: { pojemnoscUzytecznaKwh },
