@@ -86,6 +86,11 @@ nie do audytu poprawności formularza webowego.
   niebezpieczne (np. LiFePO4 + AGM w tym samym obwodzie).
   (M4/E18 — `lib/core/modules/baterie/mixing-rownolegle/warnings.ts`, `innaChemiaBezIzolacji`,
   kod `INNA-CHEMIA-BEZ-IZOLACJI`)
+- **Temperatura poniżej 5°C, brak produkcji PV i SoC poniżej 30%** — brak źródła prądu na
+  grzałki BMS, grzanie wstrzymane, BMS blokuje ładowanie do czasu pojawienia się PV lub wzrostu
+  SoC.
+  (M4/E5 — `lib/core/modules/baterie/grzalki-bms-mroz/warnings.ts`, `grzanieWstrzymane`,
+  kod `GRZANIE-WSTRZYMANE`)
 
 ## Bezpieczeństwo życia / montaż
 
@@ -145,6 +150,12 @@ nie do audytu poprawności formularza webowego.
   przed implementacją. Kalkulator (`lib/core/modules/baterie/cold-c-rate/calculator.ts`) zwraca
   dla tego zakresu status `OUT_OF_SCOPE` z jawnym komunikatem o luce, zamiast interpolować
   wymyśloną wartość pośrednią między 0,2C a "pełny prąd".
+- **Moduł 4, Ekran 5 (Grzałki BMS i ochrona przed mrozem) — luka na granicy SoC=30%.** Źródło
+  (`docs/zrodla/Tresc_Modul_4_Baterie_Ekrany.md`, linie 67–72) podaje warunki "SoC > 30% → grzanie
+  z baterii" i "SoC < 30% → grzanie wstrzymane" jako dwa osobne, rozłączne warunki — wartość
+  dokładnie SoC=30% nie należy do żadnego z nich. Kalkulator
+  (`lib/core/modules/baterie/grzalki-bms-mroz/calculator.ts`) zwraca dla tej wartości status
+  `OUT_OF_SCOPE`, zamiast przypisywać ją arbitralnie do jednej ze stron progu.
 
 ## Walidacja danych wejściowych (wzorzec ogólny, nie wypisany pozycja po pozycji)
 

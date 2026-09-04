@@ -996,6 +996,42 @@
     Playwright (tabela renderuje się poprawnie, 7 wierszy, przykładowy komunikat i migawka na
     dole).
 
+## Decyzje i uzasadnienie (c.d. 39)
+
+- **2026-09-04 — Ekran 5, Moduł 4: "Grzałki BMS i ochrona przed mrozem" — zbudowana tylko
+  jedna z dwóch warstw silnika opisanego w źródle, druga świadomie pominięta.** Źródło (Sekcja
+  B) opisuje "dwie warstwy zintegrowane w jeden silnik": (1) bilans energetyczny grzania —
+  dawne 3.5, tylko dwa ilustracyjne przykłady liczbowe (0,5 kWh/dobę w styczniu, 0,6 kWh/dobę w
+  nieogrzewanym garażu), bez żadnego wzoru wiążącego temperaturę/czas z ilością energii; (2)
+  logika decyzyjna skąd brać prąd na grzanie — dawne 3.14, pełne drzewo decyzyjne z jawnymi
+  progami (5°C, 30% SoC). Zbudowana wyłącznie warstwa 2 — warstwa 1 pokazana w UI jako czysta
+  informacja (dwa przykłady ze źródła, bez przeliczania), nie jako wynik obliczenia z danych
+  usera, żeby nie wymyślać brakującego wzoru.
+  - **Znaleziona i udokumentowana luka**: źródło definiuje "SoC > 30% → grzanie z baterii" i
+    "SoC < 30% → grzanie wstrzymane" jako dwa rozłączne warunki — SoC dokładnie 30% nie należy
+    do żadnego z nich (ten sam rodzaj luki co Cold C-Rate 5–10°C, tym razem na granicy
+    dyskretnego drzewa decyzyjnego, nie tabeli ciągłej). Kalkulator zwraca `OUT_OF_SCOPE`
+    zamiast przypisywać wartość arbitralnie do jednej strony. Dopisane do
+    `docs/rejestr-twardych-stopow.md`, sekcja "Znane luki".
+  - Stan "grzanie wstrzymane" (mróz + brak PV + SoC<30%) potraktowany jako twardy stop —
+    BMS realnie blokuje ładowanie w tym stanie, dopóki nie pojawi się PV lub SoC nie wzrośnie —
+    dopisany do rejestru twardych stopów, sekcja Bateryjne, poziom `critical`.
+  - Pole "czy magazyn jest w pomieszczeniu ogrzewanym" z Sekcji A świadomie NIE stało się
+    osobnym polem wejściowym — źródło nie podaje formuły łączącej ten fakt z temperaturą
+    zewnętrzną z Modułu 1 (ile stopni cieplej wewnątrz). Zamiast tego user wpisuje wprost
+    rzeczywistą temperaturę przy baterii (ten sam wzorzec co temperatura ogniw w Cold Cranking
+    Amps/Cold C-Rate — bezpośredni pomiar, nie wyprowadzona wartość), z podpowiedzią w UI.
+  - `lib/core/modules/baterie/grzalki-bms-mroz/`, 9 testów (w tym granica dokładnie 5°C jako
+    "brak potrzeby" i granica SoC dokładnie 30% jako `OUT_OF_SCOPE`), UI: `app/kalkulatory/
+    grzalki-bms-mroz/page.tsx`. UI ponownie stosuje wzorzec z `mixing-rownolegle`/
+    `dobor-bezpiecznika-dc`: własny 3-poziomowy werdykt liczony z `warning.level`, nie tylko
+    z `CalcResult.status`, plus osobny stan wizualny dla `OUT_OF_SCOPE`.
+  - Zweryfikowane: `tsc`/`lint` czysto (jeden przypadek `react/no-unescaped-entities` naprawiony
+    typograficznymi cudzysłowami „…", ten sam nawracający błąd co wcześniej w sesji), `pnpm test`
+    215/215 (9 nowych), `pnpm build` czysto, `lib/core/` nadal nie importuje z `app/`/
+    `components/`, Playwright (4 stany: PV→zielony, bateria→żółty, wstrzymane→czerwony,
+    SoC=30%→OUT_OF_SCOPE żółty z wyjaśnieniem luki).
+
 ## Mapa orientacyjna
 
 - `docs/rejestr-twardych-stopow.md` — zbiorczy indeks warunków zawsze skutkujących 🔴 (04.3), z odsyłaczami do modułu/ekranu/pliku źródłowego. Dopisz tu nowy twardy stop, gdy kolejny moduł go wprowadzi.

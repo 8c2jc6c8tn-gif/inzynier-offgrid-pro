@@ -55,6 +55,7 @@ export const KAFLE: KafelEntry[] = [
     ikona: "🔋",
     ekrany: [
       { href: "/kalkulatory/dobor-pojemnosci-baterii", label: "Dobór pojemności baterii" },
+      { href: "/kalkulatory/grzalki-bms-mroz", label: "Grzałki BMS i ochrona przed mrozem" },
       { href: "/kalkulatory/starzenie-degradacja", label: "Starzenie i degradacja ogniw" },
       { href: "/kalkulatory/obwod-precharge", label: "Obwód Pre-Charge" },
       { href: "/kalkulatory/cold-c-rate", label: "Ograniczenie prądu ładowania w mrozie" },
