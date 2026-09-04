@@ -1032,6 +1032,29 @@
     `components/`, Playwright (4 stany: PV→zielony, bateria→żółty, wstrzymane→czerwony,
     SoC=30%→OUT_OF_SCOPE żółty z wyjaśnieniem luki).
 
+## Decyzje i uzasadnienie (c.d. 40)
+
+- **2026-09-04 — Ekran 27, Moduł 4: "Chłodzenie baterii latem" — jedno proste sprawdzenie
+  progowe, druga część źródła (wielkość przyspieszenia degradacji) świadomie pominięta.**
+  Źródło (Sekcja B): "dopuszczalny zakres pracy (typowo 15-35°C); powyżej 35°C wykrywane ryzyko
+  przyspieszonej degradacji" — próg policzony 1:1. Przykład Sekcji C ("degradacja przyspieszy o
+  30%") jest czysto ilustracyjny — źródło nie podaje wzoru wiążącego wielkość przekroczenia
+  temperatury z wielkością przyspieszenia degradacji, więc świadomie NIE liczony (ten sam rodzaj
+  decyzji co w Ekranie 5 tego samego dnia — jedna warstwa źródła ma gotowy wzór/próg, druga tylko
+  ilustrację).
+  - Zakres sprawdzany symetrycznie (15–35°C, oba brzegi włącznie), ale z asymetryczną wagą
+    komunikatu: powyżej 35°C → `critical` (dokładnie temat tego ekranu, źródło mówi wprost o
+    "trwale przyspieszonej degradacji"), poniżej 15°C → `info` z odesłaniem do Cold C-Rate/Cold
+    Cranking Amps (osobne ekrany o ograniczeniach przy niskiej temperaturze — nie duplikowanie
+    ich logiki, tylko wskazanie, gdzie szukać).
+  - `lib/core/modules/baterie/chlodzenie-latem/`, 7 testów (w tym granice 15°C/35°C włącznie i
+    0°C jako poprawna, nieplaceholderowa wartość — pole `temperaturaOgniwC: number | null` z
+    `null` jako jedynym sentinelem "nie wpisano", ten sam wzorzec co Cold Cranking Amps/Cold
+    C-Rate), UI: `app/kalkulatory/chlodzenie-latem/page.tsx`.
+  - Zweryfikowane: `tsc`/`lint` czysto, `pnpm test` 222/222 (7 nowych), `pnpm build` czysto,
+    `lib/core/` nadal nie importuje z `app/`/`components/`, Playwright (48°C → czerwony "Powyżej
+    dopuszczalnej temperatury", 25°C → zielony "W dopuszczalnym zakresie").
+
 ## Mapa orientacyjna
 
 - `docs/rejestr-twardych-stopow.md` — zbiorczy indeks warunków zawsze skutkujących 🔴 (04.3), z odsyłaczami do modułu/ekranu/pliku źródłowego. Dopisz tu nowy twardy stop, gdy kolejny moduł go wprowadzi.

@@ -68,6 +68,7 @@ export const KAFLE: KafelEntry[] = [
       { href: "/kalkulatory/dobor-bezpiecznika-dc", label: "Dobór bezpiecznika DC" },
       { href: "/kalkulatory/moment-dokrecania-srub", label: "Moment dokręcania śrub" },
       { href: "/kalkulatory/matryca-alarmow-bms", label: "Matryca alarmów BMS i reakcje systemu" },
+      { href: "/kalkulatory/chlodzenie-latem", label: "Chłodzenie baterii latem" },
     ],
   },
   {
