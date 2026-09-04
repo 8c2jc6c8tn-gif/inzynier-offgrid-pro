@@ -56,6 +56,12 @@ nie do audytu poprawności formularza webowego.
   niż zmienny.
   (M4/E29 — `lib/core/modules/baterie/detekcja-doziemienia/warnings.ts`, `brakZabezpieczenia`,
   kod `BRAK-ZABEZPIECZENIA-DOZIEMIENIA`)
+- **Napięcie stringu PV w mrozie (Voc rośnie przy spadku temperatury) przekracza limit wejściowy
+  MPPT falownika** — źródło określa to wprost jako "jeden z najważniejszych twardych stopów w
+  całej aplikacji": przekroczenie limitu to gwarantowane uszkodzenie wejścia DC falownika, nie
+  tylko ryzyko. Mroźny, słoneczny poranek jest groźniejszy niż upalne lato.
+  (M3/E5 — `lib/core/modules/pv/stress-test-mppt/warnings.ts`, `przekroczonyLimitMppt`, kod
+  `PRZEKROCZONY-LIMIT-MPPT`)
 
 ## Bateryjne
 
