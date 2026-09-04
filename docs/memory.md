@@ -1247,6 +1247,29 @@
     `lib/core/` nadal nie importuje z `app/`/`components/`, Playwright (350kgf + luz potwierdzony
     → zielone "Docisk prawidłowy").
 
+## Decyzje i uzasadnienie (c.d. 50)
+
+- **2026-09-04 — Ekran 14, Moduł 4: "SoH — diagnostyka per ogniwo" — zbudowana tylko jedna z
+  dwóch warstw źródła, druga świadomie odrzucona jako niemożliwa do policzenia z jednorazowego
+  wejścia.** Źródło (Sekcja B) opisuje "dwa powiązane silniki": (1) SoH ogólny pakietu metodą
+  coulombowską, uwzględniający historię cykli/temperatury/DoD w czasie — wymaga ciągłego
+  logowania danych z BMS (integracja z żywym strumieniem danych, którego apka jeszcze nie ma);
+  (2) diagnostyka per ogniwo z jawnie podanym progiem ("wzrost rezystancji o 50% względem
+  wartości fabrycznej = utrata pojemności"). Zbudowana wyłącznie warstwa 2 — warstwa 1 nie jest
+  ani brakiem normy, ani brakiem wzoru (jak w innych blocked screenach), tylko brakiem
+  architektury do zbierania danych w czasie — inny rodzaj blokady, odnotowany osobno.
+  - Przykład Sekcji C ("Ogniwo #12: 0,71 mΩ — KRYTYCZNE") zweryfikowany niezależnie: przy
+    typowej fabrycznej rezystancji 0,25 mΩ (wartość ogniwa #1 z tej samej tabeli, "OK") wzrost
+    wynosi +184%, dużo powyżej progu 50% — spójne z klasyfikacją źródła. Środkowa strefa "UWAGA"
+    (ogniwo #7: 0,48 mΩ) nie ma podanego progu liczbowego oddzielającego ją od "OK" — ocena
+    pozostaje dwustanowa (OK / do wymiany), nie trójstanowa, żeby nie wymyślać granicy.
+  - Twardy stop dopisany do `docs/rejestr-twardych-stopow.md`, sekcja Bateryjne.
+  - `lib/core/modules/baterie/soh-per-ogniwo/`, 5 testów, UI: `app/kalkulatory/
+    soh-per-ogniwo/page.tsx`.
+  - Zweryfikowane: `tsc`/`lint` czysto, `pnpm test` 276/276 (5 nowych), `pnpm build` czysto,
+    `lib/core/` nadal nie importuje z `app/`/`components/`, Playwright (0,25→0,71mΩ → czerwony
+    "+184% względem fabrycznej / Ogniwo do wymiany", zgodne z przykładem źródła).
+
 ## Mapa orientacyjna
 
 - `docs/rejestr-twardych-stopow.md` — zbiorczy indeks warunków zawsze skutkujących 🔴 (04.3), z odsyłaczami do modułu/ekranu/pliku źródłowego. Dopisz tu nowy twardy stop, gdy kolejny moduł go wprowadzi.

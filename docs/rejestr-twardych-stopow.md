@@ -95,6 +95,10 @@ nie do audytu poprawności formularza webowego.
   wewnętrznego, przyspieszona degradacja; za duży: uszkodzenie mechaniczne ogniw.
   (M4/E21 — `lib/core/modules/baterie/pozycjonowanie-ogniw/warnings.ts`, `dociskZaMaly` /
   `dociskZaDuzy`, kody `DOCISK-ZA-MALY` / `DOCISK-ZA-DUZY`)
+- **Rezystancja wewnętrzna ogniwa wzrosła o 50%+ względem wartości fabrycznej** — ogniwo
+  straciło znaczącą część pojemności, do wymiany.
+  (M4/E14 — `lib/core/modules/baterie/soh-per-ogniwo/warnings.ts`, `ogniwoDoWymiany`, kod
+  `OGNIWO-DO-WYMIANY`)
 - **Różnica napięć >0,2V między dwiema bateriami łączonymi równolegle** — ryzyko iskrzenia w
   chwili połączenia (prąd wyrównawczy `ΔV/(R1+R2)`).
   (M4/E18 — `lib/core/modules/baterie/mixing-rownolegle/warnings.ts`, `roznicaNapiecZaDuza`,
