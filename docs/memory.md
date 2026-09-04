@@ -1904,6 +1904,33 @@
     Playwright (5000 kWh bazowe, jasny beton, 12% → "5600 kWh" całkowitego uzysku, zielony
     werdykt — zgodne z testem jednostkowym i przykładem źródła).
 
+## Decyzje i uzasadnienie (c.d. 77)
+
+- **2026-09-04 — po wyczerpaniu łatwo buildowalnych ekranów Modułu 3, użytkownik wybrał
+  przejście do innego modułu zamiast budowania ekranów czysto informacyjnych.** Sprawdzony
+  Moduł 6 (Ogrzewanie) — miał dotąd tylko 1 ekran (COP, wzorzec reprezentatywny). Większość
+  z 26 funkcji Części 1 wymaga danych "auto z Modułu 1" (model termiczny budynku, współczynniki
+  U, PVGIS) nieobecnych w tym repo — blocked, analogicznie do Modułu 3.
+- **Ekran 15, Moduł 6: "Pompy cyrkulacyjne — dobór"** (dawne 5.15, Wzorzec D) — pierwszy nowy
+  ekran M6 poza reprezentatywnym wzorcem, w pełni samodzielny (żadnej zależności od "auto z
+  Modułu 1").
+  - `E = P × h / 1000` to definicja jednostki (kilowatogodzina), nie wymyślony współczynnik —
+    porównanie zużycia energii pompy stałoobrotowej (typowo 100-150 W) vs elektronicznej PWM
+    (typowo 5-50 W) przy tej samej liczbie godzin pracy.
+  - Godziny pracy dobowo to pole ręcznego wpisu (D16) — źródło opisuje profil pracy pompy jako
+    "ciągły/sterowany", ale nie podaje wzoru przeliczającego "sterowany" na konkretną liczbę
+    godzin (ile dokładnie godzin dziennie pracuje pompa w trybie sterowanym zależy od
+    indywidualnej konfiguracji sterownika, nie jest daną fizyczną).
+  - Przykład źródła (pompa 45W pracująca 24/7 → 1,08 kWh/dobę; pompa elektroniczna 8W → 0,19
+    kWh/dobę) odtworzony DOKŁADNIE przy godzinyPracyDobowoH=24, zweryfikowany niezależnie w
+    Pythonie przed implementacją — oszczędność wynosi 82%.
+  - `lib/core/modules/ogrzewanie/pompy-cyrkulacyjne/`, 6 testów, UI: `app/kalkulatory/
+    pompy-cyrkulacyjne/page.tsx`.
+  - Zweryfikowane: `tsc`/`lint` czysto, `pnpm test` 427/427 (6 nowych), `pnpm build` czysto,
+    Playwright (45W obecna/8W nowa/24h → "0,89 kWh" oszczędności, "1,08 kWh/dobę" obecna,
+    "0,19 kWh/dobę" nowa, "82%" oszczędności, zielony werdykt — zgodne z testem jednostkowym i
+    przykładem źródła).
+
 ## Mapa orientacyjna
 
 - `docs/rejestr-twardych-stopow.md` — zbiorczy indeks warunków zawsze skutkujących 🔴 (04.3), z odsyłaczami do modułu/ekranu/pliku źródłowego. Dopisz tu nowy twardy stop, gdy kolejny moduł go wprowadzi.

@@ -18,7 +18,7 @@ TL;DR: Status opisany/zaimplementowany/przetestowany per moduł (M1–M13, Czę�
 | M3 | Instalacja PV | ✅ | 🔄 (12/~27 ekranów) | ✅ | ~44% — rozpoczęte 04.09.2026, w toku |
 | M4 | Magazyn energii / baterie | ✅ | ✅ (29/34 ekranów) | ✅ | ~85% — reszta `⚠️ blocked` (cross-modułowe/brak normy) |
 | M5 | Okablowanie i zabezpieczenia | ✅ | 🔄 (1/~20 ekranów) | ✅ | ~5% — Ekran 1 (mega-Doradca doboru kabla) `⚠️ blocked`, brak normy PN-IEC 60364-5-52 |
-| M6 | Ogrzewanie / pompa ciepła | ✅ | 🔄 (1 ekran reprezentatywny) | ✅ | Fundament (COP) gotowy, reszta `todo` |
+| M6 | Ogrzewanie / pompa ciepła | ✅ | 🔄 (2/~46 ekranów) | ✅ | ~4% — rozpoczęte 04.09.2026 (COP + pompy cyrkulacyjne), reszta w większości `todo`/blocked (auto z Modułu 1) |
 | M7 | Stress-test zimowy | ✅ | 🔄 (1 ekran reprezentatywny) | ✅ | Fundament (Black Start) gotowy, spina M1–M6 — sensowny dopiero po nich |
 | M8 | Bezpieczeństwo i sytuacje awaryjne | ✅ | 🔄 (1 ekran reprezentatywny, dane demonstracyjne) | ✅ | Audyt pożarowy zbudowany z danych demo — docelowo z M8/M9/M13 na żywo |
 | M9 | Elektronika / ESP32 / sensoryka | ✅ | 🔄 (1 katalog reprezentatywny) | ✅ | Katalog czujników (21 typów, Wzorzec H) gotowy, reszta `todo` |
@@ -27,7 +27,7 @@ TL;DR: Status opisany/zaimplementowany/przetestowany per moduł (M1–M13, Czę�
 | M12 | Szybki kalkulator / tryb mobilny | ✅ | 🔄 (1 ekran reprezentatywny) | ✅ | Tryb uproszczony gotowy, reszta `todo` |
 | M13 | Tryb Live | ✅ | 🔄 (1 ekran — brama bez telemetrii) | — (brak logiki domenowej) | Świadomie minimalny — sensowny dopiero, gdy reszta systemu ma dane na żywo do pokazania |
 
-**Łącznie:** 84 pozycji ze statusem `done` w `docs/rejestr-pokrycia.md` (stan na 04.09.2026), rozłożone głównie na M2/M3/M4/M11.
+**Łącznie:** 85 pozycji ze statusem `done` w `docs/rejestr-pokrycia.md` (stan na 04.09.2026), rozłożone głównie na M2/M3/M4/M11.
 
 ## Uwagi do interpretacji
 
@@ -47,3 +47,4 @@ TL;DR: Status opisany/zaimplementowany/przetestowany per moduł (M1–M13, Czę�
 | 04.09.2026 | M3: dodano Ekran 14 (dopasowanie tablicy PV do falownika, częściowy — 4/6 kryteriów) → 10/~27, 82 `done` łącznie. |
 | 04.09.2026 | M3: dodano Ekran 26 (straty na złączkach MC4) → 11/~27, 83 `done` łącznie. |
 | 04.09.2026 | M3: dodano Ekran 16 (panele bifacjalne, częściowy — bez współczynnika bifacjalności) → 12/~27, 84 `done` łącznie. |
+| 04.09.2026 | M6: dodano Ekran 15 (pompy cyrkulacyjne — dobór) → 2/~46, 85 `done` łącznie. Pierwszy nowy ekran M6 poza reprezentatywnym wzorcem D (COP). |
