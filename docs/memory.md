@@ -1123,6 +1123,36 @@
     `lib/core/` nadal nie importuje z `app/`/`components/`, Playwright (Pylontech vs CAN →
     żółty "Potrzebny konwerter protokołu", Pylontech vs Pylontech → zielony "Zgodne").
 
+## Decyzje i uzasadnienie (c.d. 44)
+
+- **2026-09-04 — Ekran 10, Moduł 4: "Ochrona przed wilgocią i kondensacją" — pierwszy ekran
+  serii wykorzystujący standardowy wzór fizyczny nie podany wprost w źródle, PLUS znaleziona i
+  udokumentowana wewnętrzna niespójność we własnym przykładzie źródła.** Źródło (Sekcja B) każe
+  "obliczyć punkt rosy dla zadanej temperatury/wilgotności", ale nie podaje samego wzoru —
+  użyty standardowy wzór meteorologiczny Magnusa-Tetensa (stałe dla wody ciekłej, a=17,27,
+  b=237,7°C). To rozstrzygnięcie inne niż w większości ekranów tej sesji (gdzie wzór był zawsze
+  cytowany wprost) — uzasadnione tym, że to fundamentalna, jednoznaczna fizyka (jak prawo Ohma
+  użyte wcześniej dla prądu zwarciowego), nie wymyślony współczynnik bezpieczeństwa czy norma.
+  Zweryfikowany niezależnie w Pythonie, zgodny z zaokrągleniem własnego przykładu źródła
+  (-5°C/85%RH → wzór daje -7,12°C, źródło pisze "-7°C").
+  - **Znaleziona i udokumentowana niespójność fizyczna w przykładzie źródła (Sekcja C)**: "obudowa
+    osiągnie -6°C — w środku wykropli się woda" przy punkcie rosy -7°C. Poprawna fizyka:
+    kondensacja zachodzi, gdy powierzchnia jest ZIMNIEJSZA (lub równa) punktowi rosy; -6°C jest
+    CIEPLEJSZE niż -7°C, więc przy tych liczbach kondensacja nie powinna zajść. To prawdopodobny
+    błąd redakcyjny w źródle, nie w tej implementacji. Zgodnie z zasadą "nie usuwaj — oznacz"
+    (i tym samym podejściem zastosowanym wcześniej przy Ekranie 1/Sekcja C): silnik liczy
+    poprawną zależność fizyczną, przykład źródła NIE jest odtwarzany dosłownie w teście (byłoby
+    to utrwalenie błędnej logiki), rozbieżność opisana wprost w komentarzu kodu i tutaj.
+  - Twardy stop "obudowa poniżej IP55 w środowisku wilgotnym" 1:1 ze źródła — dopisany do
+    `docs/rejestr-twardych-stopow.md`, sekcja Elektryczne/pożarowe.
+  - `lib/core/modules/baterie/ochrona-wilgoc/`, 7 testów (w tym dokładna wartość punktu rosy
+    zweryfikowana z sześcioma miejscami po przecinku), UI: `app/kalkulatory/
+    ochrona-wilgoc/page.tsx`.
+  - Zweryfikowane: `tsc`/`lint` czysto, `pnpm test` 244/244 (7 nowych), `pnpm build` czysto,
+    `lib/core/` nadal nie importuje z `app/`/`components/`, Playwright (2 stany: żółte ryzyko
+    kondensacji przy -15°C obudowy/-11,3°C punktu rosy, czerwony twardy stop przy IP20 w
+    środowisku wilgotnym).
+
 ## Mapa orientacyjna
 
 - `docs/rejestr-twardych-stopow.md` — zbiorczy indeks warunków zawsze skutkujących 🔴 (04.3), z odsyłaczami do modułu/ekranu/pliku źródłowego. Dopisz tu nowy twardy stop, gdy kolejny moduł go wprowadzi.

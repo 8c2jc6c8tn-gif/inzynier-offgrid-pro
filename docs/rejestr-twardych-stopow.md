@@ -43,6 +43,10 @@ nie do audytu poprawności formularza webowego.
   warunkach trwale uszkadza ogniwa (osadzanie litu metalicznego).
   (M4/E12 — `lib/core/modules/baterie/cold-c-rate/warnings.ts`, `blokadaCalkowita`, kod
   `BLOKADA-LADOWANIA-MROZ`)
+- **Obudowa poniżej IP55 w środowisku narażonym na wilgoć (garaż, komora zewnętrzna)** —
+  kondensacja w środku prowadzi do zwarcia na mokrym BMS/szynach.
+  (M4/E10 — `lib/core/modules/baterie/ochrona-wilgoc/warnings.ts`, `ipPonizejWymaganego`, kod
+  `IP-PONIZEJ-WYMAGANEGO`)
 
 ## Bateryjne
 
