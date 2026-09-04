@@ -5,10 +5,10 @@ Kalkulator/doradca inżynierski dla systemów off-grid PV (panele, magazyn energ
 ## Zanim zaczniesz — przeczytaj w tej kolejności
 
 1. `docs/standards/00-INDEKS.md` — pełny standard architektoniczny (17 rozdziałów), wspólny dla całej rodziny aplikacji — fundament, niezależny od tego zadania. Rozdział dotyczący Twojego zadania — nie ładuj wszystkich naraz.
-2. `docs/god-book/instrukcja-uniwersalna-biblii-projektu-v2_5.md` — metodologia procesowa (GOD BOOK); Część Y opisuje relację z powyższym standardem (fundament poprzedzający, nie kolejny poziom hierarchii). Ten projekt nie ma jeszcze pełnej Biblii w jej kanonicznym nazewnictwie — patrz punkt 3.
+2. `docs/god-book/instrukcja-uniwersalna-biblii-projektu-v2_5.md` — metodologia procesowa (GOD BOOK); Część Y opisuje relację z powyższym standardem (fundament poprzedzający, nie kolejny poziom hierarchii).
 3. `docs/lista-do-zrobienia.md` — bieżące zadania, żeby nie eksplorować całego projektu od nowa.
 4. `docs/memory.md` — decyzje, pułapki i stan tego konkretnego projektu, w tym data ostatniej synchronizacji ze standardem (sprawdzaj `AKTUALIZACJE.md` w `new-app-standards` co ≤7 dni, GOD BOOK Y.6).
-5. `ZASADY_APLIKACJI.md` / `USTALENIA.md` — zasady i decyzje specyficzne dla Offgrid Pro (konstytucja tego projektu, nadrzędna wobec kodu; pełni rolę "Biblii" GOD BOOK dla tego projektu).
+5. `00_Biblia.md` — indeks kanonicznej Biblii projektu (format GOD BOOK, od 04.09.2026), nadrzędnej wobec kodu. Zaczynaj tu, nie zgaduj kolejności — sekcja "Jak zacząć pracę" tam wskazuje dalej (`01_Zasady_Pracy_i_Konwencje.md`, `02_Dyrektywy_AI_Projektu.md`, `rejestr-decyzji.md`, `zlote-zasady.md`...). `ZASADY_APLIKACJI.md`/`USTALENIA.md` są historyczne (zastąpione, treść zmapowana 1:1, nie usunięta) — nie czytaj ich jako aktualne źródło, chyba że szukasz oryginalnego brzmienia starej decyzji.
 
 Nie duplikuj treści tych plików tutaj ani nigdzie indziej — jeśli czegoś tu brakuje, dopisz to tam, gdzie merytorycznie należy, i tylko odeślij stąd.
 
@@ -30,7 +30,7 @@ Zasada nadrzędna: **ZACHOWAJ → ZROZUM → ZMIEŃ TYLKO TO, CO POTRZEBNE → S
 
 - **Jeden lockfile.** Tylko `pnpm-lock.yaml`. Nigdy nie dodawaj `package-lock.json` ani `yarn.lock` obok niego — to konkretny, udokumentowany sposób, w jaki poprzedni projekt tej rodziny zerwał sobie deploy na kilka dni (`docs/standards/11-ci-deployment.md`, 11.1).
 - **`lib/`/`core`/domena nigdy nie importuje z `app/`/`components/`** (UI) ani z niczego platformowego, gdy powstanie warstwa domenowa — patrz `docs/standards/01-architektura.md`.
-- **Nie startuj implementacji jądra obliczeniowego bez sprawdzenia aktualnego statusu w `docs/memory.md`** — Etap 1 (szkielet architektury) był wstrzymany decyzją autora (patrz `ZASADY_APLIKACJI.md` §14); sprawdź, czy to nadal aktualne, zanim zaczniesz pisać kod domenowy.
+- **Nie startuj implementacji jądra obliczeniowego bez sprawdzenia aktualnego statusu w `docs/memory.md`** — Etap 1 (szkielet architektury) był wcześniej wstrzymany decyzją autora, potem wznowiony (patrz `mapa-wdrozenia.md`, `rejestr-decyzji.md` D3/D5); sprawdź, czy to nadal aktualne, zanim zaczniesz pisać kod domenowy.
 
 ## Stan repo (skrót — pełny stan w `docs/memory.md`)
 

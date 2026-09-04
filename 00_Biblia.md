@@ -1,0 +1,80 @@
+# 00. Biblia — Inżynier Offgrid Pro
+
+**Wersja:** 1.0 | **Filar:** — (indeks, poza podziałem na filary) | **Data utworzenia:** 04.09.2026 | **Ostatnia aktualizacja:** 04.09.2026 | **Status:** Stabilny
+**Powiązane dokumenty:** wszystkie poniżej (tabela dokumentów)
+
+TL;DR: Indeks kanonicznej Biblii projektu w formacie GOD BOOK (`docs/god-book/instrukcja-uniwersalna-biblii-projektu-v2_5.md`, Część S). Migracja z `ZASADY_APLIKACJI.md`/`USTALENIA.md`, które pełniły tę rolę wcześniej pod inną nazwą — treść tamtych plików **zachowana, nie usunięta** (oznaczone jako historyczne, patrz "Relacja ze starą konstytucją" niżej).
+
+---
+
+## Streszczenie projektu
+
+**Inżynier Offgrid Pro** — kalkulator/doradca inżynierski dla systemów off-grid PV (panele, magazyn energii, ogrzewanie, bezpieczeństwo). Web/PWA offline-first (Next.js 16 / React 19 / TypeScript), architektura przygotowana na przeniesienie na mobile. Część rodziny aplikacji "Inżynier Pro". Liczy twarde fakty fizyczne (nie opinie), tłumaczy je "po ludzku" i pokazuje wzór za każdym wynikiem, działa w pełni offline po pierwszym pobraniu danych.
+
+## Ekspertyza domenowa (Część 0.2 GOD BOOK)
+
+**Elektryk / inżynier instalacji off-grid PV (panele, magazyny energii, ogrzewanie, bezpieczeństwo elektryczne), poziom: senior / 20 lat doświadczenia w terenie.**
+
+Konsekwencja praktyczna: każdy wzór weryfikowany niezależnie przed implementacją; uniwersalna, fundamentalna fizyka (prawo Ohma, ciepło właściwe wody, rezystywność miedzi, równanie Magnusa-Tetensa, deklinacja Słońca, standardowa praktyka DC dla pętli 2×L) odróżniana od współczynników projektowych/normatywnych, których źródło nie podaje wprost — te drugie nigdy nie są zgadywane; sprzeczności fizyczne we własnych przykładach źródła wyłapywane i jawnie dokumentowane, nie ciche poprawiane ani ślepo kopiowane. Pełne uzasadnienie i historia: `01_Zasady_Pracy_i_Konwencje.md` §1, `rejestr-decyzji.md` D18.
+
+## Tryb sesji domyślny
+
+**Pisanie** (Część 0.3 GOD BOOK) — sesje tego projektu w 2026-09 to głównie budowa kolejnych ekranów/modułów. Tryb Audyt używany świadomie przy sprawdzaniu spójności/synchronizacji ze standardem (patrz `docs/memory.md`, sekcja "Synchronizacja ze standardem").
+
+## Jak zacząć pracę (Część P.2 GOD BOOK)
+
+0. **Fundament wspólny rodziny aplikacji** (poprzedza tę Biblię, Część Y GOD BOOK): `docs/standards/00-INDEKS.md` + `CLAUDE.md`.
+1. Ten plik (`00_Biblia.md`) w całości.
+2. `docs/lista-do-zrobienia.md` — najszybszy sposób ustalenia, od czego zacząć (Część B.6).
+3. `01_Zasady_Pracy_i_Konwencje.md` i `02_Dyrektywy_AI_Projektu.md`.
+4. `rejestr-decyzji.md` — sprawdź, co już zdecydowano, zanim zaczniesz.
+5. `docs/memory.md` — żywy log decyzji/pułapek specyficznych dla tego repo, szczegółowszy od rejestru decyzji (patrz rozróżnienie w `rejestr-decyzji.md`).
+6. Dopiero potem: konkretny moduł/ekran, nad którym pracujesz w tej sesji (`docs/rejestr-pokrycia.md` → `docs/zrodla/Tresc_Modul_N_*.md` → kod).
+
+## Relacja ze starą konstytucją (`ZASADY_APLIKACJI.md` / `USTALENIA.md`)
+
+Do 04.09.2026 rolę Biblii pełniły `ZASADY_APLIKACJI.md` (pełna) i `USTALENIA.md` (skrót) — merytorycznie tę samą treść co ta Biblia, tylko poza kanonicznym nazewnictwem GOD BOOK. Ta decyzja o migracji (nie kasacji) opisana w `rejestr-decyzji.md`, D19. **Oba pliki zostają w repo, oznaczone na nagłówku jako historyczne/zastąpione** (Część D GOD BOOK — nic nie usuwamy) — ich treść (14 Zasad, D-1, D-2, dziennik zmian 0.1.0–0.1.7) została w całości przeniesiona/zmapowana do dokumentów poniżej, nic nie zginęło:
+
+| Sekcja starego pliku | Nowe miejsce |
+|---|---|
+| §0.1 Ekspertyza domenowa | Ten plik, wyżej + `01_Zasady_Pracy_i_Konwencje.md` §1 |
+| §1 Filozofia | `zlote-zasady.md` |
+| §2–§13 Zasady 1–14 (architektura, jądro, offline, UI, bezpieczeństwo...) | `zlote-zasady.md` (zasady-kompas) + `kontrakty-rdzenia.md` (konkretne kontrakty techniczne) |
+| §14 Kolejność budowy / roadmapa | `mapa-wdrozenia.md` |
+| Dziennik zmian 0.1.0–0.1.7 | `rejestr-decyzji.md` D1–D19 |
+| USTALENIA D‑1, D‑2 | `rejestr-decyzji.md` D1, D2 |
+| Metryczka (funkcje/rozdziały) | `mapa-wdrozenia.md` (metryczka na bieżąco, nie statyczna tabela) |
+
+## Tabela dokumentów
+
+| # | Dokument | Filar | Wersja | Status | Opis |
+|---|---|---|---|---|---|
+| 00 | `00_Biblia.md` (ten plik) | — | 1.0 | Stabilny | Indeks |
+| 01 | `01_Zasady_Pracy_i_Konwencje.md` | C | 1.0 | Stabilny | Wyciąg operacyjny z GOD BOOK dla tego projektu |
+| 02 | `02_Dyrektywy_AI_Projektu.md` | C | 1.0 | Stabilny | Twarde reguły zachowania AI specyficzne dla domeny off-grid |
+| — | `zlote-zasady.md` | C | 1.0 | Stabilny | Kompas projektu — 4 filozofie + 14 zasad architektonicznych |
+| — | `rejestr-decyzji.md` | C | 1.0 | Stabilny | D1, D2, D3… decyzje strategiczne, ponumerowane, rosnące |
+| — | `slownik-pojec.md` | C | 1.0 | Stabilny | Terminy branżowe (SoC, DoD, MPPT, Voc, C-rate...) |
+| — | `wiedza-surowa.md` | C | 1.0 | Stabilny | Synteza materiałów źródłowych — wskaźnik do `docs/zrodla/`, nie duplikat |
+| — | `kontrakty-rdzenia.md` | A | 1.0 | Stabilny | `CalcResult<T>`, Status, Warning, warstwy, wzorzec echo — konkretne kontrakty tego projektu |
+| — | `docs/zrodla/` | C | — | Stabilny | Materiały źródłowe, niezmienione, tylko do odczytu (Filar C, B.5 GOD BOOK) — **już istniało** przed migracją |
+| — | `docs/rejestr-pokrycia.md` | B | — | Stabilny (rosnący) | Per-moduł/ekran: status, wzór, przykład, notatki — pełni rolę "osobnego pliku per moduł" (Część S poz. 9) — **już istniało** przed migracją, nie duplikowane w nowym formacie |
+| — | `mapa-wdrozenia.md` | C | 1.0 | Stabilny (rosnący) | M#, opisany/zaimplementowany/przetestowany, gotowość — zbudowana z `docs/rejestr-pokrycia.md` |
+| — | `backlog-poza-v1.md` | C | 1.0 | Stabilny (rosnący) | Świadomie odłożone/blocked — ekstrakcja z `docs/rejestr-pokrycia.md` i `docs/lista-do-zrobienia.md` |
+| — | `dlug-techniczny.md` | C | 1.0 | Stabilny (rosnący) | Świadome uproszczenia kodu względem specyfikacji źródła |
+| — | `docs/lista-do-zrobienia.md` | C | — | Stabilny (rosnący) | Bieżąca lista zadań — **już istniało** przed migracją |
+| — | `docs/memory.md` | C | — | Stabilny (rosnący) | Żywy, szczegółowy log decyzji/pułapek — **już istniało**, zostaje główny dziennik roboczy (patrz rozróżnienie w `rejestr-decyzji.md`) |
+
+## Kluczowe wyróżniki projektu
+
+- Liczy **twarde fakty fizyczne** — każdy wynik ma wzór (`CalcResult.formula`), nie "opinię".
+- **Nigdy nie zgaduje brakujących danych** — gdy źródło podaje tylko zakres/przykład bez wzoru, pole wymaga ręcznego wpisania (nie ukryty domyślny) albo ekran zostaje `⚠️ blocked` (patrz `backlog-poza-v1.md`).
+- **Podwójna weryfikacja** — każdy krytyczny wzór zweryfikowany niezależnie (Python) przed implementacją i pokryty testem z wartością referencyjną.
+- **Offline-first**, architektura `core`/`adapters`/`app` gotowa na mobile.
+- Rodzina aplikacji dzieli wspólny Standard Architektoniczny (`docs/standards/`, `new-app-standards`) — ta Biblia jest warstwą specyficzną dla *tego* projektu, poprzedzoną tamtym fundamentem (Część Y GOD BOOK).
+
+## Dziennik zmian (tego indeksu)
+
+| Data | Zmiana |
+|---|---|
+| 04.09.2026 | Utworzono `00_Biblia.md` — migracja z `ZASADY_APLIKACJI.md`/`USTALENIA.md` do kanonicznego formatu GOD BOOK, na wniosek właściciela projektu. Wersja 1.0 (pierwsza stabilna). |

@@ -1,8 +1,13 @@
 # USTALENIA — Inżynier Offgrid Pro
 
+> ⚠️ **[04.09.2026] ZASTĄPIONE — treść zachowana, nie usunięta (Część D GOD BOOK).**
+> Rolę konstytucji projektu od 04.09.2026 pełni kanoniczna Biblia w formacie GOD BOOK: zacznij
+> od **`00_Biblia.md`**. D‑1/D‑2 tego pliku odpowiadają D1/D2 w `rejestr-decyzji.md`. Ten plik
+> zostaje jako materiał historyczny, **nic z niego nie zniknęło**. Decyzja migracji: `rejestr-decyzji.md` D19.
+
 **Projekt:** Inżynier Offgrid Pro (aplikacja Off‑Grid PV)
-**Cel dokumentu:** jedno miejsce, w którym spisane są WSZYSTKIE zatwierdzone zasady i decyzje.
-**Wersja zasad:** 0.1.7
+**Cel dokumentu:** historyczny — jedno miejsce, w którym spisane były WSZYSTKIE zatwierdzone zasady i decyzje, zastąpiony przez `00_Biblia.md` (04.09.2026)
+**Wersja zasad:** 0.1.7 (ostatnia wersja przed migracją)
 **Data:** 2026‑08‑30
 **Target:** Web / PWA (offline‑first), architektura gotowa na przeniesienie na mobile
 

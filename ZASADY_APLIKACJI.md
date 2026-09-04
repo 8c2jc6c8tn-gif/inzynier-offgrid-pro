@@ -1,8 +1,15 @@
 # ZASADY_APLIKACJI.md
 
+> ⚠️ **[04.09.2026] ZASTĄPIONE — treść zachowana, nie usunięta (Część D GOD BOOK).**
+> Rolę konstytucji projektu od 04.09.2026 pełni kanoniczna Biblia w formacie GOD BOOK:
+> zacznij od **`00_Biblia.md`**. Cała treść tego pliku (14 Zasad, Dług D‑01, dziennik zmian
+> 0.1.0–0.1.7) jest zmapowana 1:1 do nowych dokumentów — mapowanie: `00_Biblia.md`, sekcja
+> "Relacja ze starą konstytucją". Ten plik zostaje jako materiał historyczny/źródłowy
+> (`docs/zrodla/`-podobna rola), **nic z niego nie zniknęło**. Decyzja migracji: `rejestr-decyzji.md` D19.
+
 **Projekt:** Inżynier Offgrid Pro (aplikacja Off‑Grid PV)
-**Status dokumentu:** żywy — konstytucja projektu
-**Wersja zasad:** 0.1.7
+**Status dokumentu:** historyczny — zastąpiony przez `00_Biblia.md` (04.09.2026), treść zachowana
+**Wersja zasad:** 0.1.7 (ostatnia wersja przed migracją)
 **Data:** 2026‑08‑28
 **Źródło wymagań:** „Biblia Off‑Grid PV" v1.5 (nagłówek) / metryczka v1.7 — patrz Dług D‑01
 **Target:** Web / PWA (offline‑first), architektura przygotowana na przeniesienie na mobile
