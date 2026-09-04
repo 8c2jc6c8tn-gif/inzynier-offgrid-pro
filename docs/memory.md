@@ -1424,6 +1424,29 @@
     → "47,4 kWh", zgodne z wartością referencyjną 900/19≈47,368 policzoną wcześniej dla tego samego
     wzoru w Ekranie 1 M4).
 
+## Decyzje i uzasadnienie (c.d. 58)
+
+- **2026-09-04 — Ekran 2, Moduł 2: "Inteligentny bojler C.W.U." (dawne 1.2, Wzorzec D) — ΔT
+  jako pole ręczne, nie domyślne, żeby nie wymyślać danych.** Sekcja B źródła każe liczyć
+  "dobowe zapotrzebowanie na ciepłą wodę na podstawie pojemności cieplnej i liczby osób" —
+  fizycznie to `Q = m × c_wody × ΔT` (specyficzne ciepło wody, uniwersalna stała fizyczna,
+  4186 J/(kg·K), ten sam rodzaj precedensu co wzór Magnusa-Tetensa w Ekranie 10 M4). Ale w
+  przeciwieństwie do tamtego wzoru, tu jest wolny parametr projektowy: ΔT (wzrost temperatury
+  zimna→C.W.U.), zależny od lokalnych warunków (temperatura wody wodociągowej, docelowa
+  temperatura bojlera) — źródło NIE podaje go jako liczby.
+  - Przykład Sekcji C (200l, 4 osoby → ok. 8 kWh) odpowiada ΔT≈35K (dokładnie 34,4K dla równego
+    8,000 kWh) — zweryfikowane niezależnie w Pythonie. To nie jest jawnie stwierdzona dana
+    źródła, więc NIE przyjęte jako domyślna wartość (byłoby wymyślaniem współczynnika projektowego)
+    — pole wymaga ręcznego wpisania, ta sama zasada co "ogrzewanie" bez domyślnej mocy w Ekranie 1.
+  - Dodatkowy, niewymyślony check: ostrzeżenie (poziom `warning`, nie `critical`) gdy pojemność
+    zbiornika bojlera mniejsza niż dobowe zapotrzebowanie w litrach — to prosta różnica
+    wielkości, nie tabela normatywna, więc nie łamie zasady "nie wymyślaj norm".
+  - `lib/core/modules/zapotrzebowanie/bojler-cwu/`, 5 testów, UI: `app/kalkulatory/bojler-cwu/
+    page.tsx`.
+  - Zweryfikowane: `tsc`/`lint` czysto, `pnpm test` 316/316 (5 nowych), `pnpm build` czysto,
+    Playwright (200l/ΔT=35K/2kW/200l → "8,1 kWh/dobę", zgodne z przykładem źródła "ok. 8 kWh";
+    zmiana pojemności bojlera na 150l poprawnie przełącza werdykt na żółty z ostrzeżeniem).
+
 ## Mapa orientacyjna
 
 - `docs/rejestr-twardych-stopow.md` — zbiorczy indeks warunków zawsze skutkujących 🔴 (04.3), z odsyłaczami do modułu/ekranu/pliku źródłowego. Dopisz tu nowy twardy stop, gdy kolejny moduł go wprowadzi.

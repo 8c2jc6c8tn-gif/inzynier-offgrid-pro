@@ -1,0 +1,99 @@
+"use client"
+
+import { useMemo, useState } from "react"
+import { calculateBojlerCwu } from "@/lib/core/modules/zapotrzebowanie/bojler-cwu/calculator"
+import { Pole } from "@/components/ui/pole"
+import { WerdyktPanel } from "@/components/werdykt"
+import { NawigacjaEkranu } from "@/components/nawigacja-ekranu"
+import { NaglowekEkranu } from "@/components/wzorce/naglowek-ekranu"
+import { WynikGlowny } from "@/components/wzorce/wynik-glowny"
+import { WynikSzczegoly } from "@/components/wzorce/wynik-szczegoly"
+
+export default function BojlerCwuPage() {
+  const [wolumenCwuLDoba, setWolumenCwuLDoba] = useState("")
+  const [deltaTK, setDeltaTK] = useState("")
+  const [mocGrzalkiKw, setMocGrzalkiKw] = useState("")
+  const [pojemnoscBojleraL, setPojemnoscBojleraL] = useState("")
+
+  const result = useMemo(
+    () =>
+      calculateBojlerCwu({
+        wolumenCwuLDoba: wolumenCwuLDoba === "" ? 0 : Number(wolumenCwuLDoba),
+        deltaTK: deltaTK === "" ? 0 : Number(deltaTK),
+        mocGrzalkiKw: mocGrzalkiKw === "" ? 0 : Number(mocGrzalkiKw),
+        pojemnoscBojleraL: pojemnoscBojleraL === "" ? 0 : Number(pojemnoscBojleraL),
+      }),
+    [wolumenCwuLDoba, deltaTK, mocGrzalkiKw, pojemnoscBojleraL],
+  )
+
+  return (
+    <main className="mx-auto flex max-w-md flex-col gap-6 p-6">
+      <NawigacjaEkranu href="/kalkulatory/bojler-cwu" />
+      <NaglowekEkranu tytul="Inteligentny bojler C.W.U.">
+        Bojler to jeden z największych „elastycznych” odbiorników w domu — dobowe zapotrzebowanie
+        na energię i czas potrzebny na jego naładowanie, żeby zaplanować grzanie w oknie
+        produkcji PV. Moduł 2, Ekran 2.
+      </NaglowekEkranu>
+
+      <div className="flex flex-col gap-4">
+        <Pole
+          label="Dobowe zapotrzebowanie na C.W.U."
+          unit="l/dobę"
+          type="number"
+          inputMode="decimal"
+          min={0}
+          value={wolumenCwuLDoba}
+          onChange={(e) => setWolumenCwuLDoba(e.target.value)}
+          hint="Docelowo automatycznie z Modułu 2, Ekran 4 (liczba domowników × 50–70 l/osobę) — na razie wpisz ręcznie."
+        />
+        <Pole
+          label="Wzrost temperatury wody (zimna → C.W.U.)"
+          unit="K"
+          type="number"
+          inputMode="decimal"
+          min={0}
+          value={deltaTK}
+          onChange={(e) => setDeltaTK(e.target.value)}
+          hint="Źródło nie podaje wartości domyślnej — wpisz własną (np. z 10°C do 45°C = 35K)."
+        />
+        <Pole
+          label="Moc grzałki"
+          unit="kW"
+          type="number"
+          inputMode="decimal"
+          min={0}
+          value={mocGrzalkiKw}
+          onChange={(e) => setMocGrzalkiKw(e.target.value)}
+        />
+        <Pole
+          label="Pojemność zbiornika bojlera"
+          unit="l"
+          type="number"
+          inputMode="decimal"
+          min={0}
+          value={pojemnoscBojleraL}
+          onChange={(e) => setPojemnoscBojleraL(e.target.value)}
+        />
+      </div>
+
+      {result.status === "INVALID_INPUT" ? (
+        <WerdyktPanel poziom="blad" etykieta="Nie da się policzyć — sprawdź wpisane dane">
+          <WynikSzczegoly assumptions={[]} warnings={result.warnings} />
+        </WerdyktPanel>
+      ) : result.status === "INCOMPLETE" ? (
+        <p className="text-small text-muted-foreground">Wypełnij wszystkie pola, żeby zobaczyć wynik.</p>
+      ) : (
+        <WerdyktPanel
+          poziom={result.status === "VALID_WITH_WARNINGS" ? "uwaga" : "ok"}
+          etykieta="Dobowe zapotrzebowanie na energię"
+        >
+          <WynikGlowny>{result.value.energiaDobowaKwh.toFixed(1)} kWh/dobę</WynikGlowny>
+          <p className="mt-2 text-small">
+            Czas ładowania przy tej mocy grzałki: ok. {result.value.czasLadowaniaH.toFixed(1)} h/dobę.
+          </p>
+          <WynikSzczegoly assumptions={result.assumptions} warnings={result.warnings} formula={result.formula} />
+        </WerdyktPanel>
+      )}
+    </main>
+  )
+}

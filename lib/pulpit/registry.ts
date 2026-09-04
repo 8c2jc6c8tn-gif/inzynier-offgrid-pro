@@ -34,14 +34,15 @@ export const KAFLE: KafelEntry[] = [
     ikona: "⚡",
     ekrany: [
       { href: "/kalkulatory/systemy-podtrzymania-zycia", label: "Systemy podtrzymania życia" },
+      { href: "/kalkulatory/bojler-cwu", label: "Inteligentny bojler C.W.U." },
       { href: "/kalkulatory/liczba-domownikow", label: "Liczba domowników" },
+      { href: "/kalkulatory/dni-autonomii", label: "Dni autonomii" },
       { href: "/kalkulatory/pomocnicze", label: "Kalkulatory pomocnicze" },
       { href: "/kalkulatory/agregat-pradotworczy", label: "Agregat prądotwórczy — definicja i logika pracy" },
       { href: "/kalkulatory/pobor-wlasny-falownika", label: "Pobór własny falownika" },
       { href: "/kalkulatory/przetwornice-dcdc", label: "Przetwornice DC/DC" },
       { href: "/kalkulatory/moc-pozorna-cosfi", label: "Moc pozorna (cos φ)" },
       { href: "/kalkulatory/bufor-rozbudowe", label: "Bufor na rozbudowę" },
-      { href: "/kalkulatory/dni-autonomii", label: "Dni autonomii" },
     ],
   },
   {
