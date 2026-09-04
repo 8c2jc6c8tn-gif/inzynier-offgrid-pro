@@ -1293,6 +1293,43 @@
     `lib/core/` nadal nie importuje z `app/`/`components/`, Playwright (10kWh/6000zł/14 lat →
     zielony "Szacowany SoH: 72%" / "833 zł/kWh", dokładnie zgodne z przykładem źródła).
 
+## Decyzje i uzasadnienie (c.d. 52)
+
+- **2026-09-04 — Zamknięcie sweepu Modułu 4 na 26/34, decyzja użytkownika: przejść do Modułu 2.**
+  Zapytany wprost (AskUserQuestion), użytkownik wybrał kontynuację w Module 2 zamiast dalszego
+  szukania pojedynczych budowalnych ekranów w resztkach Modułu 4 (pozostałe pozycje: 2 częściowo
+  blocked, 3 cross-module, 4/25/31/32 blocked, 19/33 nie sprawdzone — odłożone, nie porzucone).
+
+- **2026-09-04 — Ekran 17, Moduł 2: "Agregat prądotwórczy — definicja i logika pracy" — domyka
+  lukę 1.19 znalezioną 2026-08-29 przy budowie standardu.** Ta luka była udokumentowana od
+  początku Etapu 1 jako "treść źródłowa gotowa w Biblii, nigdy nie przepisana do pliku treści
+  modułu" — teraz faktycznie odzyskana i zaimplementowana. Treść źródłowa:
+  `docs/zrodla/Biblia_Offgrid_v2_0_Architektura_Modulowa.md`, linie 503-521, funkcja 2.19
+  (dawne 1.19). Trzy wzory w łańcuchu, wszystkie zweryfikowane niezależnie w Pythonie przed
+  implementacją i razem odtwarzające dokładnie własny przykład źródła (deficyt 80 kWh, agregat
+  5 kW → 20 godzin, 25 l paliwa, 200 zł):
+  1. `godziny = deficytKwh / (mocAgregatuKw × 0,8)` — źródło podaje zakres "optymalne obciążenie
+     70-80%", użyta górna granica (80%) jest jedyną wartością w tym zakresie, przy której wynik
+     wychodzi dokładnie 20h (nie 21,3h ani inna wartość) — silny sygnał, że to właśnie ta granica
+     została użyta w oryginalnym przykładzie, nie środek zakresu.
+  2. `paliwo = godziny × zużycieLH` (zużycie w l/h jako bezpośredni input użytkownika, zgodnie z
+     Sekcją "Skąd czerpie dane" Biblii).
+  3. `koszt = paliwo × cenaZaLitr` (cena paliwa jako pole użytkownika — zmienna cena rynkowa, nie
+     stała aplikacji, ten sam wzorzec co cena nowej baterii w Ekranie 17 Modułu 4 tego samego dnia).
+  - **Deficyt energetyczny w najgorszym miesiącu wpisywany wprost przez użytkownika**, nie
+    wyprowadzany automatycznie z produkcji PV (Moduł 3) minus zapotrzebowanie (ten sam Moduł 2) —
+    ta integracja międzymodułowa to osobny, nie rozpoczęty krok, zgodnie z wzorcem stosowanym
+    konsekwentnie w tej sesji (user wpisuje bezpośrednio zmierzoną/oszacowaną wartość zamiast
+    czekać na pełny potok danych).
+  - **Wpis "luka" w `docs/rejestr-pokrycia.md` NIE usunięty, tylko oznaczony jako rozwiązany**
+    (przekreślenie + data + odniesienie do nowego wiersza) — zgodnie z zasadą "nie usuwaj —
+    oznacz" (`docs/standards/15-wspolpraca-z-ai.md`, 15.3), ten sam wzorzec co korekta D-1.
+  - `lib/core/modules/zapotrzebowanie/agregat-pradotworczy/`, 5 testów, UI: `app/kalkulatory/
+    agregat-pradotworczy/page.tsx`.
+  - Zweryfikowane: `tsc`/`lint` czysto, `pnpm test` 288/288 (5 nowych), `pnpm build` czysto,
+    `lib/core/` nadal nie importuje z `app/`/`components/`, Playwright (80kWh/5kW/1,25 l-h/8 zł/l
+    → "20 h", "25 l", "200 zł", dokładnie zgodne z przykładem źródła).
+
 ## Mapa orientacyjna
 
 - `docs/rejestr-twardych-stopow.md` — zbiorczy indeks warunków zawsze skutkujących 🔴 (04.3), z odsyłaczami do modułu/ekranu/pliku źródłowego. Dopisz tu nowy twardy stop, gdy kolejny moduł go wprowadzi.
