@@ -75,6 +75,7 @@ export const KAFLE: KafelEntry[] = [
       { href: "/kalkulatory/ochrona-wilgoc", label: "Ochrona przed wilgocią i kondensacją" },
       { href: "/kalkulatory/slabe-ogniwo", label: "Symulacja Słabego Ogniwa (Cell Drift & Balancing)" },
       { href: "/kalkulatory/detekcja-zwarcia-efuse", label: "Detekcja zwarcia i e-Fuse" },
+      { href: "/kalkulatory/koniec-ladowania", label: "Algorytm końca ładowania (Tail Current / Absorption)" },
     ],
   },
   {
