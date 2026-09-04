@@ -1153,6 +1153,25 @@
     kondensacji przy -15°C obudowy/-11,3°C punktu rosy, czerwony twardy stop przy IP20 w
     środowisku wilgotnym).
 
+## Decyzje i uzasadnienie (c.d. 45)
+
+- **2026-09-04 — Ekran 8, Moduł 4: "Symulacja Słabego Ogniwa (Cell Drift & Balancing)" —
+  najprostszy wzór serii, jedna linijka mnożenia.** Źródło (Sekcja B): "Użyteczna pojemność
+  pakietu = pojemność najsłabszego ogniwa" — w połączeniu szeregowym cały pakiet jest
+  ograniczony najgorszym ogniwem. Zaimplementowany najgorszy przypadek: ogniwo dokładnie na
+  dolnej granicy tolerancji fabrycznej (domyślnie ±3% ze źródła).
+  - "Liczba ogniw w szeregu" z Sekcji A świadomie NIE stała się polem wzoru — nie jest potrzebna
+    do tego konkretnego obliczenia (pojemność w Ah nie zależy od liczby ogniw w szeregu, tylko
+    napięcie pakietu by zależało, a napięcia ogniwa nie ma w Sekcji A). Wynik podany w Ah i %,
+    nie w kWh — unikanie wymyślenia napięcia ogniwa.
+  - Rekomendacja prądu balansera z przykładu Sekcji C ("2A") świadomie NIE liczona — czysto
+    ilustracyjna, źródło nie podaje zależności między wielkością rozjazdu a zalecanym prądem.
+  - `lib/core/modules/baterie/slabe-ogniwo/`, 5 testów, UI: `app/kalkulatory/
+    slabe-ogniwo/page.tsx`.
+  - Zweryfikowane: `tsc`/`lint` czysto, `pnpm test` 249/249 (5 nowych), `pnpm build` czysto,
+    `lib/core/` nadal nie importuje z `app/`/`components/`, Playwright (280Ah/3% → 271,6Ah,
+    zgodne z niezależnym przeliczeniem w Pythonie).
+
 ## Mapa orientacyjna
 
 - `docs/rejestr-twardych-stopow.md` — zbiorczy indeks warunków zawsze skutkujących 🔴 (04.3), z odsyłaczami do modułu/ekranu/pliku źródłowego. Dopisz tu nowy twardy stop, gdy kolejny moduł go wprowadzi.
