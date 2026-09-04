@@ -1948,6 +1948,32 @@
     Playwright (8kW pompa, 400l bufor → "400 l" zalecanej pojemności, zielony werdykt "bufor
     mieści zalecaną pojemność" — zgodne z testem jednostkowym i przykładem źródła).
 
+## Decyzje i uzasadnienie (c.d. 79)
+
+- **2026-09-04 — Ekran dodatkowy, Moduł 6: "Ryzyko wyłączenia pompy przy niskim napięciu"**
+  (dawne 5.63, Część 2C źródła — "genuinie nowy, odrębny temat off-gridowy", nie ma numeru w
+  sekwencji Ekranów 1-20 Części 1) — pierwszy bezpieczeństwo-krytyczny (twardy stop 🔴) ekran
+  Modułu 6.
+  - Wybrany zamiast innego kandydata z tej samej sekcji źródła (5.42, wymiarowanie kolektora
+    gruntowego) — sprawdzony i odrzucony: przykład źródła (pompa 8kW → 400m² kolektora
+    poziomego) jest niereprodukowalny z podanym zakresem (60-120 m²/10kW → dla 8kW oczekiwano by
+    48-96 m², nie 400 m² — rozbieżność 4-8×, zweryfikowane w Pythonie), podobnie przykład
+    kolektora pionowego (1 odwiert 100m dla 8kW, przy podanym zakresie 1m/50-70W wymagałoby
+    114-160m) — dwie niereprodukowalne rozbieżności w jednym ekranie, gorszy kandydat niż 5.63.
+  - `margines = V_{system} - V_{min,pompy}` — prosta różnica dwóch napięć, żaden wymyślony
+    współczynnik. Napięcie systemu przy danym SoC baterii NIE jest tu wyprowadzane z SoC —
+    zależy od krzywej rozładowania konkretnej technologii ogniw (specyficznej dla producenta),
+    a źródło podaje tylko ilustracyjny przykład ("przy SoC 20% napięcie spada do 44V"), nie
+    wzór/krzywą uniwersalną — więc napięcie systemu jest polem ręcznego wpisu (docelowo auto z
+    Modułu 4, gdy tryb Live będzie miał dane na żywo).
+  - Nowy twardy stop dopisany do `docs/rejestr-twardych-stopow.md`, nowa kategoria "Cieplne /
+    systemowe" (pierwsza pozycja tej kategorii).
+  - `lib/core/modules/ogrzewanie/ryzyko-niskiego-napiecia/`, 5 testów, UI: `app/kalkulatory/
+    ryzyko-niskiego-napiecia/page.tsx`.
+  - Zweryfikowane: `tsc`/`lint` czysto, `pnpm test` 437/437 (5 nowych), `pnpm build` czysto,
+    Playwright (min. napięcie pompy 46V, aktualne napięcie systemu 44V → "-2.0 V" margines,
+    czerwony werdykt "Pompa się wyłączy" z pełnym uzasadnieniem — zgodne z testem jednostkowym).
+
 ## Mapa orientacyjna
 
 - `docs/rejestr-twardych-stopow.md` — zbiorczy indeks warunków zawsze skutkujących 🔴 (04.3), z odsyłaczami do modułu/ekranu/pliku źródłowego. Dopisz tu nowy twardy stop, gdy kolejny moduł go wprowadzi.
