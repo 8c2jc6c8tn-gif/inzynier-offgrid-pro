@@ -77,6 +77,7 @@ export const KAFLE: KafelEntry[] = [
       { href: "/kalkulatory/detekcja-zwarcia-efuse", label: "Detekcja zwarcia i e-Fuse" },
       { href: "/kalkulatory/koniec-ladowania", label: "Algorytm końca ładowania (Tail Current / Absorption)" },
       { href: "/kalkulatory/detekcja-doziemienia", label: "Detekcja doziemienia (Ground Fault & IMD)" },
+      { href: "/kalkulatory/pozycjonowanie-ogniw", label: "Pozycjonowanie ogniw (kompresja/spuchnięcie)" },
     ],
   },
   {

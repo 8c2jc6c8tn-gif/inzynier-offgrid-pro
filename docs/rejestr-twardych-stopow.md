@@ -91,6 +91,10 @@ nie do audytu poprawności formularza webowego.
   gęstości zamarza i pęka obudowa.
   (M11/B12 — `lib/core/modules/montaz-baterii/przechowywanie-recykling-olow/constants.ts`,
   pozycja `mroz` w `PRZECHOWYWANIE_FAKTY`)
+- **Docisk na pakiet ogniw pryzmatycznych poza zakresem 300-400 kgf** — za mały: utrata kontaktu
+  wewnętrznego, przyspieszona degradacja; za duży: uszkodzenie mechaniczne ogniw.
+  (M4/E21 — `lib/core/modules/baterie/pozycjonowanie-ogniw/warnings.ts`, `dociskZaMaly` /
+  `dociskZaDuzy`, kody `DOCISK-ZA-MALY` / `DOCISK-ZA-DUZY`)
 - **Różnica napięć >0,2V między dwiema bateriami łączonymi równolegle** — ryzyko iskrzenia w
   chwili połączenia (prąd wyrównawczy `ΔV/(R1+R2)`).
   (M4/E18 — `lib/core/modules/baterie/mixing-rownolegle/warnings.ts`, `roznicaNapiecZaDuza`,
