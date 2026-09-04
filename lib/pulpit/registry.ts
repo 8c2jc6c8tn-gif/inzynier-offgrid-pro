@@ -68,6 +68,7 @@ export const KAFLE: KafelEntry[] = [
       },
       { href: "/kalkulatory/dopasowanie-tablicy-falownika", label: "Dopasowanie tablicy PV do falownika" },
       { href: "/kalkulatory/straty-zlaczki-mc4", label: "Straty na złączkach MC4 w praktyce" },
+      { href: "/kalkulatory/panele-bifacjalne", label: "Panele bifacjalne" },
     ],
   },
   {
