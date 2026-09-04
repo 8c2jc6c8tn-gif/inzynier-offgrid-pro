@@ -1228,6 +1228,25 @@
     `lib/core/` nadal nie importuje z `app/`/`components/`, Playwright (domyślnie czerwony "Brak
     zabezpieczenia", po zaznaczeniu IMD → zielony "Zabezpieczone").
 
+## Decyzje i uzasadnienie (c.d. 49)
+
+- **2026-09-04 — Ekran 21, Moduł 4: "Pozycjonowanie ogniw (kompresja/spuchnięcie)" — docisk
+  podawany wprost w kgf, świadomie NIE przeliczany na moment dokręcania.** Źródło (Sekcja B)
+  podaje zalecany zakres docisku 300-400 kgf dla ogniw pryzmatycznych. Przykład Sekcji C
+  dodatkowo podaje "moment 3 N·m" dla konkretnego zestawu (16S 280Ah, 4 pręty M8) — ale to
+  pojedynczy wynik dla jednej konfiguracji, nie ogólny wzór; przeliczenie siła→moment wymagałoby
+  skoku gwintu i współczynnika tarcia (wzór `T = K×D×F`), których źródło nie podaje. Zamiast
+  zgadywać te dwie wartości, user wpisuje zastosowany docisk bezpośrednio w kgf (np. z klucza
+  dynamometrycznego skalibrowanego na docisk, albo z dokumentacji producenta prętów).
+  - Drugi element: potwierdzenie zostawionego luzu na dylatację (ogniwa rosną 1-2% podczas
+    ładowania) — checkbox, nie liczba, zgodnie z opisowym charakterem tego faktu w źródle.
+  - Twardy stop (docisk poza zakresem w obie strony) dopisany do `docs/rejestr-twardych-stopow.md`.
+  - `lib/core/modules/baterie/pozycjonowanie-ogniw/`, 7 testów (w tym granice 300/400 kgf
+    włącznie), UI: `app/kalkulatory/pozycjonowanie-ogniw/page.tsx`.
+  - Zweryfikowane: `tsc`/`lint` czysto, `pnpm test` 271/271 (7 nowych), `pnpm build` czysto,
+    `lib/core/` nadal nie importuje z `app/`/`components/`, Playwright (350kgf + luz potwierdzony
+    → zielone "Docisk prawidłowy").
+
 ## Mapa orientacyjna
 
 - `docs/rejestr-twardych-stopow.md` — zbiorczy indeks warunków zawsze skutkujących 🔴 (04.3), z odsyłaczami do modułu/ekranu/pliku źródłowego. Dopisz tu nowy twardy stop, gdy kolejny moduł go wprowadzi.
