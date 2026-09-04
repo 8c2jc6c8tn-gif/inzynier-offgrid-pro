@@ -1330,6 +1330,19 @@
     `lib/core/` nadal nie importuje z `app/`/`components/`, Playwright (80kWh/5kW/1,25 l-h/8 zł/l
     → "20 h", "25 l", "200 zł", dokładnie zgodne z przykładem źródła).
 
+## Decyzje i uzasadnienie (c.d. 53)
+
+- **2026-09-04 — Ekran 9, Moduł 2: "Pobór własny falownika" — bezpośredni odpowiednik już
+  zbudowanego wzorca (M4/E22 Pobór własny BMS), ten sam kształt wzoru.** Wzór
+  `E_doba = P_jałowy × 24 / 1000` (kWh/dobę) 1:1 ze źródła. Przykład źródła ("45W → 1,08 kWh/dobę")
+  zweryfikowany niezależnie przed implementacją i odtworzony dokładnie. Domyślna wartość 50W
+  (gdy model nieznany) pokazana jako podpowiedź w UI, nie ukryty domyślny stan pola.
+  - `lib/core/modules/zapotrzebowanie/pobor-wlasny-falownika/`, 4 testy, UI: `app/kalkulatory/
+    pobor-wlasny-falownika/page.tsx`.
+  - Zweryfikowane: `tsc`/`lint` czysto, `pnpm test` 292/292 (4 nowe), `pnpm build` czysto,
+    `lib/core/` nadal nie importuje z `app/`/`components/`, Playwright (45W → 1,08 kWh/dobę,
+    zgodne z przykładem źródła).
+
 ## Mapa orientacyjna
 
 - `docs/rejestr-twardych-stopow.md` — zbiorczy indeks warunków zawsze skutkujących 🔴 (04.3), z odsyłaczami do modułu/ekranu/pliku źródłowego. Dopisz tu nowy twardy stop, gdy kolejny moduł go wprowadzi.
