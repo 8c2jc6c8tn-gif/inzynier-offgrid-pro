@@ -2025,6 +2025,36 @@
     Playwright (0,8 wym/h, 300m³, ΔT=30K → "2,41 kW" straty, zielony werdykt — zgodne z testem
     jednostkowym: Q=0,8×300×1,2×1005×30/3600=2412W).
 
+## Decyzje i uzasadnienie (c.d. 82)
+
+- **2026-09-04 — Ekran 3, Moduł 6: "System wentylacji z odzyskiem ciepła"** (scala dawne 5.3,
+  5.23, 5.24, Wzorzec D) — siódmy dodatkowy ekran M6, wzorzec echo `infiltracja-powietrza`
+  (M6/E12).
+  - Źródło scala 3 dawne funkcje w jeden ekran (bilans podstawowy 5.3, projekt strumieni per
+    pomieszczenie 5.23, bypass letni 5.24) — zbudowany TYLKO bilans podstawowy (5.3), jedyny z
+    trzech mający jawny wzór fizyczny. 5.23 wymaga tabeli wymaganych strumieni per typ
+    pomieszczenia (łazienki/kuchnia = wywiew, sypialnie = nawiew — reguła jakościowa, nie liczba)
+    i danych z modelu 3D budynku; 5.24 to logika sterowania (automatyczny bypass w nocy) bez
+    progu liczbowego. Oba świadomie pominięte, udokumentowane w kodzie.
+  - `Q_odzysk = V̇×η×ρ×cp×ΔT/3600` — dokładnie ten sam wzór fizyczny co Ekran 12 (infiltracja),
+    tu pomnożony przez sprawność rekuperatora zamiast liczony jako czysta strata. Nie
+    wyodrębniono osobnej funkcji echo — obie implementacje różnią się tylko jednym czynnikiem
+    (η) i różnym kontekstem (odzysk vs strata), a duplikacja jednej krótkiej linijki arytmetyki
+    nie uzasadnia ekstrakcji (analogicznie do decyzji przy `kociol-elektryczny`).
+  - Przykład źródła (centrala 250 m³/h, sprawność 85%, ΔT dorozumiane z "−10°C" → odzysk 2,1 kW)
+    odtworzony PRZYBLIŻONYM dopasowaniem: przy założeniu 20°C wewnątrz (typowa temperatura
+    komfortu, nie podana explicite w źródle dla tego przykładu) ΔT=30K, wzór daje 2,14 kW —
+    różnica 0,04 kW to zaokrąglenie źródła, nie rozbieżność wzoru. Zweryfikowane niezależnie w
+    Pythonie przed implementacją.
+  - Stały pobór wentylatorów (50-100 W, zakres ze źródła, D16) raportowany OSOBNO — nie
+    odejmowany od odzyskanego ciepła, bo to dwie różne domeny (elektryczna vs cieplna), zgodnie
+    z tym, jak źródło samo je rozdziela ("dolicza się do bilansu elektrycznego").
+  - `lib/core/modules/ogrzewanie/wentylacja-odzysk-ciepla/`, 6 testów, UI: `app/kalkulatory/
+    wentylacja-odzysk-ciepla/page.tsx`.
+  - Zweryfikowane: `tsc`/`lint` czysto, `pnpm test` 455/455 (6 nowych), `pnpm build` czysto,
+    Playwright (250 m³/h, 85%, ΔT=30K, pobór 70W → "2.14 kW" odzysku — zgodne z testem
+    jednostkowym i przybliżeniem przykładu źródła).
+
 ## Mapa orientacyjna
 
 - `docs/rejestr-twardych-stopow.md` — zbiorczy indeks warunków zawsze skutkujących 🔴 (04.3), z odsyłaczami do modułu/ekranu/pliku źródłowego. Dopisz tu nowy twardy stop, gdy kolejny moduł go wprowadzi.

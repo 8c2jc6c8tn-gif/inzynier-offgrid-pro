@@ -127,6 +127,7 @@ export const KAFLE: KafelEntry[] = [
       { href: "/kalkulatory/ryzyko-niskiego-napiecia", label: "Ryzyko wyłączenia pompy przy niskim napięciu" },
       { href: "/kalkulatory/kociol-elektryczny", label: "Kocioł elektryczny vs pompa ciepła" },
       { href: "/kalkulatory/infiltracja-powietrza", label: "Infiltracja powietrza (test szczelności)" },
+      { href: "/kalkulatory/wentylacja-odzysk-ciepla", label: "System wentylacji z odzyskiem ciepła" },
     ],
   },
   {
