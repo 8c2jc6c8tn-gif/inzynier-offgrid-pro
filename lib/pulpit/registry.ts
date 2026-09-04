@@ -44,6 +44,7 @@ export const KAFLE: KafelEntry[] = [
       { href: "/kalkulatory/pobor-wlasny-falownika", label: "Pobór własny falownika" },
       { href: "/kalkulatory/przetwornice-dcdc", label: "Przetwornice DC/DC" },
       { href: "/kalkulatory/moc-pozorna-cosfi", label: "Moc pozorna (cos φ)" },
+      { href: "/kalkulatory/load-shedding", label: "Macierz priorytetów odłączania (Smart Load Shedding)" },
       { href: "/kalkulatory/bufor-rozbudowe", label: "Bufor na rozbudowę" },
     ],
   },
