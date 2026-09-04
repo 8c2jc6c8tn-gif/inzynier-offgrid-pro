@@ -37,6 +37,7 @@ export const KAFLE: KafelEntry[] = [
       { href: "/kalkulatory/bojler-cwu", label: "Inteligentny bojler C.W.U." },
       { href: "/kalkulatory/liczba-domownikow", label: "Liczba domowników" },
       { href: "/kalkulatory/dni-autonomii", label: "Dni autonomii" },
+      { href: "/kalkulatory/profil-astronomiczny", label: "Profil dobowy + astronomiczny dzień/noc" },
       { href: "/kalkulatory/sezonowosc", label: "Sezonowość i tryb wakacyjny" },
       { href: "/kalkulatory/pomocnicze", label: "Kalkulatory pomocnicze" },
       { href: "/kalkulatory/agregat-pradotworczy", label: "Agregat prądotwórczy — definicja i logika pracy" },
