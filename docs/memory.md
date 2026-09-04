@@ -1931,6 +1931,23 @@
     "0,19 kWh/dobę" nowa, "82%" oszczędności, zielony werdykt — zgodne z testem jednostkowym i
     przykładem źródła).
 
+## Decyzje i uzasadnienie (c.d. 78)
+
+- **2026-09-04 — Ekran 14, Moduł 6: "Bufor ciepła — dobór pojemności"** (dawne 5.14, Wzorzec D) —
+  drugi nowy ekran M6 poza reprezentatywnym wzorcem, ekran o najprostszym wzorze budowanym w tej
+  sesji (jedna stała, jedno mnożenie).
+  - Współczynnik 50 l/kW (zalecana pojemność bufora na każdy kW mocy pompy ciepła) podany wprost
+    jako pojedyncza liczba w źródle, nie zakres — więc żadnej decyzji D16 tu nie trzeba (w
+    przeciwieństwie do większości poprzednich ekranów tej sesji).
+  - Przykład źródła (pompa 8kW → zalecany bufor 400l) odtworzony DOKŁADNIE (8×50=400).
+  - Dodano porównanie z posiadaną/planowaną pojemnością bufora (analogicznie do wzorca z
+    `bojler-cwu`, M2/E2) — 🟡 gdy za mały, informacyjnie gdy wystarczający.
+  - `lib/core/modules/ogrzewanie/bufor-ciepla/`, 5 testów, UI: `app/kalkulatory/
+    bufor-ciepla/page.tsx`.
+  - Zweryfikowane: `tsc`/`lint` czysto, `pnpm test` 432/432 (5 nowych), `pnpm build` czysto,
+    Playwright (8kW pompa, 400l bufor → "400 l" zalecanej pojemności, zielony werdykt "bufor
+    mieści zalecaną pojemność" — zgodne z testem jednostkowym i przykładem źródła).
+
 ## Mapa orientacyjna
 
 - `docs/rejestr-twardych-stopow.md` — zbiorczy indeks warunków zawsze skutkujących 🔴 (04.3), z odsyłaczami do modułu/ekranu/pliku źródłowego. Dopisz tu nowy twardy stop, gdy kolejny moduł go wprowadzi.
