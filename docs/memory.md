@@ -1660,6 +1660,30 @@
     ogrzewanie, bezpieczeństwo elektryczne), poziom: senior / 20 lat doświadczenia w terenie.**
     Obowiązuje dla całej dalszej pracy nad tym projektem — nie tylko od teraz.
 
+## Decyzje i uzasadnienie (c.d. 68)
+
+- **2026-09-04 — Ekran 5, Moduł 3: "Zimowy stress-test napięciowy MPPT (Voc max)" (dawne 2.11,
+  Wzorzec D) — źródło samo nazywa to "jednym z najważniejszych twardych stopów w całej
+  aplikacji".** Wzór `V_max = Voc×(1+β×(Tmin−25))`, `V_string = V_max×n_paneli` 1:1 ze źródła
+  (Sekcja B), z jawnymi progami werdyktu: 🔴 gdy `V_string > limit MPPT`, 🟡 gdy `V_string >
+  0,95×limit`, 🟢 inaczej — też 1:1 ze źródła, nie wymyślone.
+  - Przykład źródła (Voc 56,5V, β=-0,3%/°C, Tmin=-25°C, 8 paneli → 520V, limit MPPT 450V → 🔴,
+    rekomendacja "2 stringi po 4 panele") odtworzony dokładnie: 8 paneli daje 519,8V (🔴), 4
+    panele (rekomendacja źródła) daje 259,9V (🟢) — zweryfikowane niezależnie w Pythonie przed
+    implementacją, oba warianty przetestowane.
+  - β (współczynnik temperaturowy Voc) to zakres ze źródła (-0,29 do -0,32%/°C, "typowo") — pole
+    ręczne z podpowiedzią, nie ukryty domyślny (ta sama zasada co ΔT/γ w poprzednich ekranach).
+  - UI liczy `hasCritical`/`hasWarning` z poziomów ostrzeżeń (nie bezpośrednio ze `status`), ten
+    sam wzorzec co `dobor-bezpiecznika-dc` (M4/E24) — czerwony/żółty/zielony werdykt niezależny
+    od dwuwartościowego `Status` enum.
+  - **Dopisany do `docs/rejestr-twardych-stopow.md`** (sekcja "Elektryczne/pożarowe") — jeden z
+    ważniejszych wpisów w tym rejestrze wg własnej oceny źródła.
+  - `lib/core/modules/pv/stress-test-mppt/`, 6 testów, UI: `app/kalkulatory/
+    stress-test-mppt/page.tsx`.
+  - Zweryfikowane: `tsc`/`lint` czysto, `pnpm test` 379/379 (6 nowych), `pnpm build` czysto,
+    Playwright (8 paneli → "520 V", czerwony "Zabronione"; 4 panele → "260 V", zielony "Bezpieczny
+    margines" — oba stany zgodne z przykładem i rekomendacją źródła).
+
 ## Mapa orientacyjna
 
 - `docs/rejestr-twardych-stopow.md` — zbiorczy indeks warunków zawsze skutkujących 🔴 (04.3), z odsyłaczami do modułu/ekranu/pliku źródłowego. Dopisz tu nowy twardy stop, gdy kolejny moduł go wprowadzi.

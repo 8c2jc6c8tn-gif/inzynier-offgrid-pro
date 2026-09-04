@@ -58,6 +58,7 @@ export const KAFLE: KafelEntry[] = [
       { href: "/kalkulatory/czystosc-i-snieg", label: "Czystość i śnieg na panelach" },
       { href: "/kalkulatory/wplyw-temperatury", label: "Wpływ temperatury na wydajność" },
       { href: "/kalkulatory/straty-okablowanie-dc", label: "Straty na okablowaniu DC" },
+      { href: "/kalkulatory/stress-test-mppt", label: "Zimowy stress-test napięciowy MPPT (Voc max)" },
     ],
   },
   {
