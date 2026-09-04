@@ -1447,6 +1447,27 @@
     Playwright (200l/ΔT=35K/2kW/200l → "8,1 kWh/dobę", zgodne z przykładem źródła "ok. 8 kWh";
     zmiana pojemności bojlera na 150l poprawnie przełącza werdykt na żółty z ostrzeżeniem).
 
+## Decyzje i uzasadnienie (c.d. 59)
+
+- **2026-09-04 — Ekran 6, Moduł 2: "Sezonowość i tryb wakacyjny" (dawne 1.8, Wzorzec D) —
+  granice sezonu wpisywane per urządzenie, nie zakładane globalnie.** Sekcja C źródła podaje
+  jeden przykład: "klimatyzacja aktywna tylko czerwiec-wrzesień" — to konkretna charakterystyka
+  TEGO urządzenia (klimatyzacji), nie jawna, uniwersalna definicja "lato"/"zima" w miesiącach
+  dla wszystkich urządzeń tej kategorii. Przyjęcie własnych granic (np. "lato = czerwiec-sierpień")
+  byłoby wymyślaniem danych nieobecnych w źródle. Rozwiązanie: użytkownik wpisuje miesiąc
+  początku/końca sezonu osobno dla każdego urządzenia — dokładnie odtwarza przykład źródła przy
+  wpisaniu 6/9, ale nie narzuca tej granicy innym urządzeniom.
+  - Trzy typy: całoroczny (zawsze aktywne), sezonowy (aktywne w oknie miesięcy, z obsługą
+    przełomu roku — np. zima 12→2 — przetestowane), weekendowy (checkbox "czy dzisiaj weekend").
+  - `CalcResult.inputs` jest typowany jako `Record<string, number>` — pola nienumeryczne (`typ`,
+    `czyWeekend`) pominięte w `inputs`, zgodnie z istniejącym wzorcem z `komunikacja-bms` i
+    `detekcja-doziemienia` (oba też mają nienumeryczne pola wejścia).
+  - `lib/core/modules/zapotrzebowanie/sezonowosc/`, 9 testów, UI: `app/kalkulatory/sezonowosc/
+    page.tsx`.
+  - Zweryfikowane: `tsc`/`lint` czysto, `pnpm test` 325/325 (9 nowych), `pnpm build` czysto,
+    Playwright (sezonowy 6→9, sprawdzany miesiąc 7 → "Aktywne", 3,00 kWh/dobę; miesiąc 12 →
+    "Nieaktywne", 0,00 kWh/dobę — zgodne z przykładem źródła).
+
 ## Mapa orientacyjna
 
 - `docs/rejestr-twardych-stopow.md` — zbiorczy indeks warunków zawsze skutkujących 🔴 (04.3), z odsyłaczami do modułu/ekranu/pliku źródłowego. Dopisz tu nowy twardy stop, gdy kolejny moduł go wprowadzi.
