@@ -51,6 +51,11 @@ nie do audytu poprawności formularza webowego.
   bezpiecznik (~10ms) jest za wolny, wymagana funkcja e-Fuse (<100µs).
   (M4/E9 — `lib/core/modules/baterie/detekcja-zwarcia-efuse/warnings.ts`, `wymaganyEFuse`, kod
   `WYMAGANY-E-FUSE`)
+- **Brak monitora izolacji (IMD) i różnicówki DC** — przebicie w panelu spowoduje pojawienie się
+  niebezpiecznego potencjału na ramie bez wykrycia; prąd stały trzyma ofiarę porażenia mocniej
+  niż zmienny.
+  (M4/E29 — `lib/core/modules/baterie/detekcja-doziemienia/warnings.ts`, `brakZabezpieczenia`,
+  kod `BRAK-ZABEZPIECZENIA-DOZIEMIENIA`)
 
 ## Bateryjne
 

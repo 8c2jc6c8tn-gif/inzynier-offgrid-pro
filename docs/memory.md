@@ -1211,6 +1211,23 @@
     20A → żółta faza CV-końcówka, prąd 14A → zielone "Ładowanie zakończone", oba zgodne z progiem
     14A z przykładu źródła).
 
+## Decyzje i uzasadnienie (c.d. 48)
+
+- **2026-09-04 — Ekran 29, Moduł 4: "Detekcja doziemienia (Ground Fault & IMD)" — najprostszy
+  ekran serii, dwa checkboxy i logiczne OR, bez pól numerycznych/`validation.ts`.** Źródło
+  (Sekcja B) redukuje się do sprawdzenia obecności zabezpieczenia (IMD lub różnicówka DC) —
+  binarny fakt, nie liczba do walidacji. Symulacja scenariusza przebicia z Sekcji C jest opisowa
+  ("niebezpieczny potencjał na ramie"), nie liczbowa, więc nie liczona.
+  - Domyślny stan (oba checkboxy odznaczone) poprawnie pokazuje czerwony twardy stop od razu —
+    dla ekranu bezpieczeństwa to właściwe zachowanie (brak potwierdzonego zabezpieczenia = alarm),
+    inaczej niż pola liczbowe, gdzie 0/pusty musi być stanem `INCOMPLETE`, nie ostrzeżeniem.
+  - Twardy stop dopisany do `docs/rejestr-twardych-stopow.md`, sekcja Elektryczne/pożarowe.
+  - `lib/core/modules/baterie/detekcja-doziemienia/`, 4 testy, UI: `app/kalkulatory/
+    detekcja-doziemienia/page.tsx`.
+  - Zweryfikowane: `tsc`/`lint` czysto, `pnpm test` 264/264 (4 nowe), `pnpm build` czysto,
+    `lib/core/` nadal nie importuje z `app/`/`components/`, Playwright (domyślnie czerwony "Brak
+    zabezpieczenia", po zaznaczeniu IMD → zielony "Zabezpieczone").
+
 ## Mapa orientacyjna
 
 - `docs/rejestr-twardych-stopow.md` — zbiorczy indeks warunków zawsze skutkujących 🔴 (04.3), z odsyłaczami do modułu/ekranu/pliku źródłowego. Dopisz tu nowy twardy stop, gdy kolejny moduł go wprowadzi.
