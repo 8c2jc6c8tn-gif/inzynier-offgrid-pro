@@ -15,7 +15,7 @@ TL;DR: Status opisany/zaimplementowany/przetestowany per moduł (M1–M13, Czę�
 |---|---|---|---|---|---|
 | M1 | Lokalizacja i teren | ✅ | ✅ (1 ekran, infrastrukturalny) | — (brak logiki do testowania) | Fundament gotowy, reszta ekranów `todo` |
 | M2 | Zapotrzebowanie energetyczne | ✅ | ✅ (13/17 ekranów) | ✅ | ~76% — reszta (Ekrany 3/10/14/15, wampiry) `⚠️ blocked` |
-| M3 | Instalacja PV | ✅ | 🔄 (7/~27 ekranów) | ✅ | ~26% — rozpoczęte 04.09.2026, w toku |
+| M3 | Instalacja PV | ✅ | 🔄 (8/~27 ekranów) | ✅ | ~30% — rozpoczęte 04.09.2026, w toku |
 | M4 | Magazyn energii / baterie | ✅ | ✅ (29/34 ekranów) | ✅ | ~85% — reszta `⚠️ blocked` (cross-modułowe/brak normy) |
 | M5 | Okablowanie i zabezpieczenia | ✅ | 🔄 (1/~20 ekranów) | ✅ | ~5% — Ekran 1 (mega-Doradca doboru kabla) `⚠️ blocked`, brak normy PN-IEC 60364-5-52 |
 | M6 | Ogrzewanie / pompa ciepła | ✅ | 🔄 (1 ekran reprezentatywny) | ✅ | Fundament (COP) gotowy, reszta `todo` |

@@ -62,6 +62,10 @@ nie do audytu poprawności formularza webowego.
   tylko ryzyko. Mroźny, słoneczny poranek jest groźniejszy niż upalne lato.
   (M3/E5 — `lib/core/modules/pv/stress-test-mppt/warnings.ts`, `przekroczonyLimitMppt`, kod
   `PRZEKROCZONY-LIMIT-MPPT`)
+- **Brak bezpieczników/diod blokujących przy ≥3 stringach PV połączonych równolegle** — przy
+  zwarciu jednego stringa prąd z pozostałych popłynie wstecz przez uszkodzony, ryzyko pożaru.
+  (M3/E22 — `lib/core/modules/pv/ochrona-stringow/warnings.ts`, `brakZabezpieczenPrzy3Stringach`,
+  kod `BRAK-ZABEZPIECZEN-PRZY-3-STRINGACH`)
 
 ## Bateryjne
 

@@ -1775,6 +1775,22 @@
   - Zweryfikowane: `tsc`/`lint` czysto, `pnpm test` 388/388 (4 nowe), `pnpm build` czysto,
     Playwright (33,33 m/s / 2 m² / Cd=1,3 → "1769 N", zgodne z wartością referencyjną).
 
+## Decyzje i uzasadnienie (c.d. 72)
+
+- **2026-09-04 — Ekran 22, Moduł 3: "Ochrona stringów (bezpieczniki, diody blokujące)"
+  (dawne 2.38, Wzorzec D) — czysty, w pełni dany przykład bez rozbieżności, priorytet ze
+  względu na wpisany wprost twardy stop.** Wzór `I_bezpiecznik = 1,25×Isc` — współczynnik 1,25
+  podany wprost jako liczba (nie zakres), przykład źródła (Isc→15A) odtworzony dokładnie.
+  - Twardy stop dany wprost: przy ≥3 stringach równoległych bez bezpieczników/diod blokujących
+    źródło samo oznacza to 🔴 z konkretnym uzasadnieniem fizycznym (prąd wsteczny z pozostałych
+    stringów przy zwarciu jednego). Próg (3) i mechanizm w pełni określone, żadnej wymyślonej
+    wartości.
+  - `lib/core/modules/pv/ochrona-stringow/`, 6 testów, UI: `app/kalkulatory/
+    ochrona-stringow/page.tsx`. Dopisany do `docs/rejestr-twardych-stopow.md`.
+  - Zweryfikowane: `tsc`/`lint` czysto, `pnpm test` 394/394 (6 nowych), `pnpm build` czysto,
+    Playwright (Isc=12A/3 stringi bez zabezpieczeń → "15,0 A", czerwony "Zabronione"; z
+    zabezpieczeniem → zielony "Dobrany bezpiecznik" — oba stany zgodne z przykładem źródła).
+
 ## Mapa orientacyjna
 
 - `docs/rejestr-twardych-stopow.md` — zbiorczy indeks warunków zawsze skutkujących 🔴 (04.3), z odsyłaczami do modułu/ekranu/pliku źródłowego. Dopisz tu nowy twardy stop, gdy kolejny moduł go wprowadzi.

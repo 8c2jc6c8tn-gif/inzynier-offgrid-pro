@@ -61,6 +61,7 @@ export const KAFLE: KafelEntry[] = [
       { href: "/kalkulatory/stress-test-mppt", label: "Zimowy stress-test napięciowy MPPT (Voc max)" },
       { href: "/kalkulatory/niedopasowanie-paneli", label: "Niedopasowanie mocy paneli (mismatch)" },
       { href: "/kalkulatory/napor-wiatru", label: "Aerodynamika — napór wiatru" },
+      { href: "/kalkulatory/ochrona-stringow", label: "Ochrona stringów (bezpieczniki, diody blokujące)" },
     ],
   },
   {
