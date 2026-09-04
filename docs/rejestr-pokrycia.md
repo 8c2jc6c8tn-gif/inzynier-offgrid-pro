@@ -123,7 +123,7 @@ B/D/E, patrz sekcja niżej) — zaczęte 2026-09-04 od Ekranu 1 (fundament dobor
 | 24 | 3.27 | Dobór bezpiecznika DC (AIC/Class T/NH) | **done** | `lib/core/modules/baterie/dobor-bezpiecznika-dc/`, UI: `app/kalkulatory/dobor-bezpiecznika-dc/page.tsx`, 6 testów. Wzorzec D reprezentatywny, twardy stop AIC. |
 | 25 | 3.28, 3.38 | Szyny zbiorcze i połączenia międzypakietowe | todo | |
 | 26 | 3.29 | Topologia BMS (Common Port vs Separate Port) | todo | |
-| 27 | 3.30 | Chłodzenie baterii latem | todo | |
+| 27 | 3.30 | Chłodzenie baterii latem | **done** | `lib/core/modules/baterie/chlodzenie-latem/`, UI: `app/kalkulatory/chlodzenie-latem/page.tsx`, 7 testów. Sprawdzenie temperatury ogniw względem dopuszczalnego zakresu pracy (15–35°C) 1:1 ze źródła. Świadomie NIE liczona wielkość przyspieszenia degradacji — przykład źródła ("+30%") jest ilustracyjny, brak wzoru wiążącego przekroczenie temperatury z wielkością przyspieszenia. |
 | 28 | 3.31 | Kalibracja i dokładność SoC | **done** | `lib/core/modules/baterie/kalibracja-soc/`, UI: `app/kalkulatory/kalibracja-soc/page.tsx`, 6 testów. Jeden próg czasowy 1:1 ze źródła ("po ok. 2 tygodniach" → 14 dni) — bez wzoru na wielkość błędu SoC (przykład źródła "rozjechał się o 12%" jest ilustracyjny, źródło nie podaje wzoru wiążącego czas z tą wartością, więc nie liczony). |
 | 29 | 3.32 | Detekcja doziemienia (Ground Fault & IMD) | todo | |
 | 30 | 3.34 | Porównanie technologii magazynów | **done** | `lib/core/modules/baterie/porownanie-technologii/`, UI: `app/kalkulatory/porownanie-technologii-magazynow/page.tsx`, 5 testów. Wzorzec B reprezentatywny. |
