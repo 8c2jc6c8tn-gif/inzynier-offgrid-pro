@@ -39,6 +39,7 @@ export const KAFLE: KafelEntry[] = [
       { href: "/kalkulatory/agregat-pradotworczy", label: "Agregat prądotwórczy — definicja i logika pracy" },
       { href: "/kalkulatory/pobor-wlasny-falownika", label: "Pobór własny falownika" },
       { href: "/kalkulatory/przetwornice-dcdc", label: "Przetwornice DC/DC" },
+      { href: "/kalkulatory/moc-pozorna-cosfi", label: "Moc pozorna (cos φ)" },
     ],
   },
   {
