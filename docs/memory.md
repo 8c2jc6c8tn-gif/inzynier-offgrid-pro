@@ -1193,6 +1193,24 @@
     `app/`/`components/`, Playwright (48V/0,0096Ω/500A → czerwony "Wymagana funkcja e-Fuse",
     I_zw=5000A zgodne z przykładem źródła).
 
+## Decyzje i uzasadnienie (c.d. 47)
+
+- **2026-09-04 — Ekran 13, Moduł 4: "Algorytm końca ładowania (Tail Current / Absorption)" —
+  formuła 1:1 ze źródła potwierdzona liczbowo przez własny przykład Sekcji C.** Źródło (Sekcja
+  B): próg prądu końcowego jako ułamek C-rate (np. 0,05C) razy pojemność. Przykład Sekcji C
+  ("prąd spadnie do 14A") sprawdzony niezależnie w Pythonie: 280Ah × 0,05C = dokładnie 14A —
+  potwierdza, że to właśnie ten wzór, nie tylko podobny.
+  - Trzy fazy ładowania jako proste, w pełni określone drzewo decyzyjne z tej samej Sekcji B:
+    CC (napięcie jeszcze poniżej absorpcji) → CV-końcówka (napięcie osiągnięte, prąd wciąż nad
+    progiem) → zakończone (prąd na progu lub poniżej).
+  - `lib/core/modules/baterie/koniec-ladowania/`, 6 testów (w tym dokładna granica 14A jako
+    "zakończone", nie "CV-końcówka" — nie `>` tylko `<=`), UI: `app/kalkulatory/
+    koniec-ladowania/page.tsx`.
+  - Zweryfikowane: `tsc`/`lint` czysto, `pnpm test` 260/260 (6 nowych), `pnpm build` czysto,
+    `lib/core/` nadal nie importuje z `app/`/`components/`, Playwright (280Ah/3,55V/0,05C: prąd
+    20A → żółta faza CV-końcówka, prąd 14A → zielone "Ładowanie zakończone", oba zgodne z progiem
+    14A z przykładu źródła).
+
 ## Mapa orientacyjna
 
 - `docs/rejestr-twardych-stopow.md` — zbiorczy indeks warunków zawsze skutkujących 🔴 (04.3), z odsyłaczami do modułu/ekranu/pliku źródłowego. Dopisz tu nowy twardy stop, gdy kolejny moduł go wprowadzi.
