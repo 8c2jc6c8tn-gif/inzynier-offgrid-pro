@@ -19,7 +19,7 @@
 
 ### 0. Ekspertyza domenowa
 
-Zgodnie z GOD BOOK §0.2 (`docs/god-book/instrukcja-uniwersalna-biblii-projektu-v2_5.md`): AI
+Zgodnie z GOD BOOK §0.2 (`docs/god-book/instrukcja-uniwersalna-biblii-projektu-v2_8.md`): AI
 przyjmuje personę doświadczonego eksperta domeny, automatycznie, bez czekania na polecenie.
 
 **Ekspertyza domenowa: elektryk / inżynier instalacji off‑grid PV, poziom: senior / 20 lat

@@ -25,6 +25,20 @@
   4. `docs/memory.md`/pełna Biblia — **✅➕ teraz PEŁNA BIBLIA istnieje**: `00_Biblia.md` + 11 dokumentów Części S (`01_Zasady_Pracy_i_Konwencje.md`, `02_Dyrektywy_AI_Projektu.md`, `zlote-zasady.md`, `rejestr-decyzji.md`, `slownik-pojec.md`, `wiedza-surowa.md`, `kontrakty-rdzenia.md`, `mapa-wdrozenia.md`, `backlog-poza-v1.md`, `dlug-techniczny.md`; `docs/zrodla/` i `docs/lista-do-zrobienia.md` już istniały = 14/14 pozycji Części S kompletne). `docs/memory.md` zostaje jako główny, szczegółowy dziennik roboczy — rozróżnienie od `rejestr-decyzji.md` opisane w nagłówku tego drugiego pliku.
   9. `01_Zasady_Pracy_i_Konwencje.md` + `02_Dyrektywy_AI_Projektu.md` — **✅➕ dotyczy teraz, oba istnieją.**
   `ZASADY_APLIKACJI.md`/`USTALENIA.md` oznaczone na nagłówku jako historyczne/zastąpione (Część D GOD BOOK — nic nie usunięte, cała treść zmapowana 1:1 do nowych plików, mapowanie w `00_Biblia.md`).
+- **2026-09-04 — sprawdzono `AKTUALIZACJE.md` ponownie (na żądanie właściciela projektu, "audyt zgodnie z książką" po zamknięciu ekranu M8/E2), znaleziono i zsynchronizowano 3 nowe wersje GOD BOOK (v2.5→v2.8).** Zmiany merytoryczne: U.4 (zbieranie wkładu z `docs/wklad-do-standardu.md` projektów downstream wprost z dysku — dotyczy tylko sesji nad `new-app-standards`, brak akcji tutaj), N.2 (audyt dwuwarstwowy dla Biblii wielorozdziałowej — przyrostowo po każdym rozdziale/Fazie ORAZ w pełni na końcu, nigdy podział pracy między warstwami), X.4 rozszerzone o kotwiczenie długu technicznego markerami `🔎 TD#` w kodzie (audyt Część N sprawdza zgodność `dlug-techniczny.md` ↔ kod przez grep w obie strony — dług nieudokumentowany i wpisy-widma). `docs/standards/00`–`16` bez zmian merytorycznych (tylko odsyłacze do nazwy pliku GOD BOOK w `00-INDEKS.md`/`00-filozofia.md`, jak poprzednio).
+  **Wynik checklisty Y.9 (9 pozycji, pokazany właścicielowi projektu przed uznaniem za zakończone):**
+  1. `docs/standards/00`–`16` + `00-INDEKS.md` — ✅ aktualne (2 pliki nadpisane, tylko odsyłacz do wersji GOD BOOK się zmienił).
+  2. GOD BOOK — ✅ podmienione w całości (`...v2_5.md` → `...v2_8.md`, stara nazwa usunięta, `git rm`+dodanie nowego pliku).
+  3. `CLAUDE.md` — ✅ istnieje, odsyłacz do wersji zaktualizowany (PATCH, reszta treści nietknięta).
+  4. Pełna Biblia (Część S, 14 pozycji) — ✅ komplet nadal istnieje (`00_Biblia.md` + 11 dokumentów + `docs/zrodla/` + `docs/lista-do-zrobienia.md`), sprawdzone ponownie że żadna pozycja nie zniknęła.
+  5. `docs/lista-do-zrobienia.md` — ✅ istnieje; przy okazji naprawiony drobny dryf: nagłówek pliku wciąż twierdził "ten projekt nie ma jeszcze pełnej Biblii" mimo że `00_Biblia.md` powstał 2026-09-04 — poprawione na aktualny opis (Y.2.1, dryf bez świadomej decyzji, nie konflikt).
+  6. `docs/wklad-do-standardu.md` — ✅ istnieje.
+  7. `docs/zrodla/` — ✅ istnieje.
+  8. `.claude/skills/standards/SKILL.md` — ✅ istnieje, odsyłacz do wersji zaktualizowany (PATCH).
+  9. `01_Zasady_Pracy_i_Konwencje.md` + `02_Dyrektywy_AI_Projektu.md` — ✅ oba istnieją; zweryfikowano że §10 (`01_Zasady_Pracy_i_Konwencje.md`) faktycznie odsyła do `docs/standards/10-testy.md`/`11-ci-deployment.md` (nie lokalny wynalazek sprzed integracji) — odsyłacz do wersji GOD BOOK zaktualizowany.
+  Dodatkowo poprawione odsyłacze do wersji (nie pozycje Y.9 same w sobie, ale te same pliki, spójność): `README.md`, `PROMPT_STARTOWY.md`, `00_Biblia.md`, `ZASADY_APLIKACJI.md`, `USTALENIA.md`.
+  Zweryfikowano: `grep -rln "instrukcja-uniwersalna-biblii-projektu-v2_5"` po synchronizacji — zero trafień w całym repo. Pozostałe historyczne wzmianki starszych wersji (v2_3) w tym logu i `docs/lista-do-zrobienia.md` celowo nietknięte (append-only, Część D GOD BOOK).
+  **Nie wykonano (świadomie, poza zakresem tej sesji):** dopisanie tego projektu do `docs/projekty-downstream.md` w `new-app-standards` (U.4) — wymagałoby zmiany w repo `new-app-standards`, nie tutaj; do rozważenia przy najbliższej sesji nad tamtym repo.
 
 ## Decyzje i uzasadnienie
 
@@ -2117,7 +2131,7 @@
 
 - `docs/rejestr-twardych-stopow.md` — zbiorczy indeks warunków zawsze skutkujących 🔴 (04.3), z odsyłaczami do modułu/ekranu/pliku źródłowego. Dopisz tu nowy twardy stop, gdy kolejny moduł go wprowadzi.
 - `docs/standards/00-INDEKS.md` — standard wspólny dla rodziny aplikacji (17 rozdziałów), zacznij tu przy pytaniach "jak mamy to robić".
-- `docs/god-book/instrukcja-uniwersalna-biblii-projektu-v2_5.md` — metodologia procesowa (GOD BOOK) — jak prowadzić Biblię projektu; Część Y opisuje relację ze standardem powyżej. `PROMPT_STARTOWY.md` (root) to gotowy tekst startowy sesji wg tej metodologii.
+- `docs/god-book/instrukcja-uniwersalna-biblii-projektu-v2_8.md` — metodologia procesowa (GOD BOOK) — jak prowadzić Biblię projektu; Część Y opisuje relację ze standardem powyżej. `PROMPT_STARTOWY.md` (root) to gotowy tekst startowy sesji wg tej metodologii.
 - `docs/lista-do-zrobienia.md` — bieżące zadania, czytaj zaraz po tym pliku na starcie sesji.
 - `docs/wklad-do-standardu.md` — tu AI dopisuje z własnej inicjatywy spostrzeżenia warte rozważenia dla całego `new-app-standards` (nigdy nie edytuje repo źródłowego bezpośrednio).
 - `ZASADY_APLIKACJI.md` (pełna) / `USTALENIA.md` (skrót) — konstytucja Offgrid, nadrzędna wobec kodu. Pełni rolę "Biblii" tego projektu (GOD BOOK), jeszcze nie zmigrowana do jego kanonicznego nazewnictwa — patrz decyzja wyżej.
