@@ -61,6 +61,7 @@ export const KAFLE: KafelEntry[] = [
       { href: "/kalkulatory/cold-c-rate", label: "Ograniczenie prądu ładowania w mrozie" },
       { href: "/kalkulatory/cold-cranking-amps", label: "Cold Cranking Amps — zimny start dużych odbiorników" },
       { href: "/kalkulatory/pobor-wlasny-bms", label: "Pobór własny BMS i tryb uśpienia" },
+      { href: "/kalkulatory/oplacalnosc-magazynu", label: "Analiza opłacalności magazynu (True Cost of Storage)" },
       { href: "/kalkulatory/kalibracja-soc", label: "Kalibracja i dokładność SoC" },
       { href: "/kalkulatory/long-term-storage", label: "Tryb Long Term Storage (odstawienie na zimę)" },
       { href: "/kalkulatory/mixing-rownolegle", label: "Łączenie równoległe różnych baterii (Mixing)" },

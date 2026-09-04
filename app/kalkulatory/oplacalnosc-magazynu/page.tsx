@@ -1,0 +1,124 @@
+"use client"
+
+import { useMemo, useState } from "react"
+import { calculateOplacalnoscMagazynu } from "@/lib/core/modules/baterie/oplacalnosc-magazynu/calculator"
+import { Pole } from "@/components/ui/pole"
+import { WerdyktPanel, type WerdyktPoziom } from "@/components/werdykt"
+import { NawigacjaEkranu } from "@/components/nawigacja-ekranu"
+import { NaglowekEkranu } from "@/components/wzorce/naglowek-ekranu"
+import { WynikGlowny } from "@/components/wzorce/wynik-glowny"
+import { WynikSzczegoly } from "@/components/wzorce/wynik-szczegoly"
+
+export default function OplacalnoscMagazynuPage() {
+  const [cenaBateriiZl, setCenaBateriiZl] = useState("")
+  const [pojemnoscUzytecznaKwh, setPojemnoscUzytecznaKwh] = useState("")
+  const [liczbaCykli, setLiczbaCykli] = useState("")
+  const [sprawnoscPct, setSprawnoscPct] = useState("")
+  const [kosztAlternatywyZlZaKwh, setKosztAlternatywyZlZaKwh] = useState("")
+
+  const result = useMemo(
+    () =>
+      calculateOplacalnoscMagazynu({
+        cenaBateriiZl: cenaBateriiZl === "" ? 0 : Number(cenaBateriiZl),
+        pojemnoscUzytecznaKwh: pojemnoscUzytecznaKwh === "" ? 0 : Number(pojemnoscUzytecznaKwh),
+        liczbaCykli: liczbaCykli === "" ? 0 : Number(liczbaCykli),
+        sprawnoscPct: sprawnoscPct === "" ? 0 : Number(sprawnoscPct),
+        kosztAlternatywyZlZaKwh: kosztAlternatywyZlZaKwh === "" ? null : Number(kosztAlternatywyZlZaKwh),
+      }),
+    [cenaBateriiZl, pojemnoscUzytecznaKwh, liczbaCykli, sprawnoscPct, kosztAlternatywyZlZaKwh],
+  )
+
+  const poziom: WerdyktPoziom | null =
+    result.status === "INVALID_INPUT"
+      ? "blad"
+      : result.status === "VALID"
+        ? "ok"
+        : result.status === "VALID_WITH_WARNINGS"
+          ? "uwaga"
+          : null
+
+  return (
+    <main className="mx-auto flex max-w-md flex-col gap-6 p-6">
+      <NawigacjaEkranu href="/kalkulatory/oplacalnosc-magazynu" />
+      <NaglowekEkranu tytul="Analiza opłacalności magazynu (True Cost of Storage)">
+        Bateria to skarbonka energii, ale sama też kosztuje — dopiero policzenie kosztu za każdą
+        oddaną kWh pokazuje, czy się faktycznie opłaca. Moduł 4, Ekran 23.
+      </NaglowekEkranu>
+
+      <div className="flex flex-col gap-4">
+        <Pole
+          label="Cena baterii"
+          unit="zł"
+          type="number"
+          inputMode="decimal"
+          value={cenaBateriiZl}
+          onChange={(e) => setCenaBateriiZl(e.target.value)}
+        />
+        <Pole
+          label="Pojemność użyteczna"
+          unit="kWh"
+          type="number"
+          inputMode="decimal"
+          value={pojemnoscUzytecznaKwh}
+          onChange={(e) => setPojemnoscUzytecznaKwh(e.target.value)}
+        />
+        <Pole
+          label="Liczba cykli życia przy wybranym DoD"
+          type="number"
+          inputMode="numeric"
+          value={liczbaCykli}
+          onChange={(e) => setLiczbaCykli(e.target.value)}
+          hint="Z karty katalogowej albo Ekranu 30 (Porównanie technologii)."
+        />
+        <Pole
+          label="Sprawność magazynu"
+          unit="%"
+          type="number"
+          inputMode="numeric"
+          min={0}
+          max={100}
+          value={sprawnoscPct}
+          onChange={(e) => setSprawnoscPct(e.target.value)}
+        />
+        <Pole
+          label="Koszt alternatywy (agregat/sieć) — opcjonalnie"
+          unit="zł/kWh"
+          type="number"
+          inputMode="decimal"
+          value={kosztAlternatywyZlZaKwh}
+          onChange={(e) => setKosztAlternatywyZlZaKwh(e.target.value)}
+          hint="Zostaw puste, żeby zobaczyć sam koszt magazynu, bez porównania."
+        />
+      </div>
+
+      {result.status === "INCOMPLETE" ? (
+        <p className="text-small text-muted-foreground">
+          Wypełnij dane, żeby zobaczyć koszt energii z magazynu.
+        </p>
+      ) : result.status === "INVALID_INPUT" ? (
+        <WerdyktPanel poziom="blad" etykieta="Nie da się policzyć — sprawdź wpisane dane">
+          <WynikSzczegoly assumptions={[]} warnings={result.warnings} />
+        </WerdyktPanel>
+      ) : (
+        poziom !== null &&
+        poziom !== "blad" && (
+          <WerdyktPanel poziom={poziom} etykieta="Koszt energii z magazynu">
+            <WynikGlowny>
+              {result.value.kosztZaKwh.toLocaleString("pl-PL", { maximumFractionDigits: 2 })} zł/kWh
+            </WynikGlowny>
+            <p className="mt-1 text-small">
+              Całkowita energia oddana przez baterię w ciągu życia:{" "}
+              {result.value.energiaCalkowitaZyciaKwh.toLocaleString("pl-PL", { maximumFractionDigits: 0 })} kWh.
+            </p>
+            {result.warnings.map((w) => (
+              <p key={w.code} className="mt-2 text-small">
+                {w.message}
+              </p>
+            ))}
+            <WynikSzczegoly assumptions={result.assumptions} formula={result.formula} />
+          </WerdyktPanel>
+        )
+      )}
+    </main>
+  )
+}
