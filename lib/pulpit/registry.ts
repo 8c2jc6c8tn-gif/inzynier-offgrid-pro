@@ -78,6 +78,7 @@ export const KAFLE: KafelEntry[] = [
       { href: "/kalkulatory/koniec-ladowania", label: "Algorytm końca ładowania (Tail Current / Absorption)" },
       { href: "/kalkulatory/detekcja-doziemienia", label: "Detekcja doziemienia (Ground Fault & IMD)" },
       { href: "/kalkulatory/pozycjonowanie-ogniw", label: "Pozycjonowanie ogniw (kompresja/spuchnięcie)" },
+      { href: "/kalkulatory/soh-per-ogniwo", label: "SoH — diagnostyka per ogniwo" },
     ],
   },
   {
