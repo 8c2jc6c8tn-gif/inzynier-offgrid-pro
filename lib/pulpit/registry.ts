@@ -66,6 +66,7 @@ export const KAFLE: KafelEntry[] = [
         href: "/kalkulatory/zacienienie-diody-bocznikujace",
         label: "Zacienienie i diody bocznikujące",
       },
+      { href: "/kalkulatory/dopasowanie-tablicy-falownika", label: "Dopasowanie tablicy PV do falownika" },
     ],
   },
   {
