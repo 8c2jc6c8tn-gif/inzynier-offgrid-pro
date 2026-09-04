@@ -24,7 +24,7 @@ notatkę, zgodnie z `docs/standards/15-wspolpraca-z-ai.md` (15.3, "nie usuwaj �
 | 10 | 1.13 | Sprawność inwertera przy niskim obciążeniu | todo | |
 | 11 | 1.17 | Przetwornice DC/DC | **done** | `lib/core/modules/zapotrzebowanie/przetwornice-dcdc/`, UI: `app/kalkulatory/przetwornice-dcdc/page.tsx`, 4 testy. Wzór `P_realne = P_urządzenia / sprawność` 1:1 ze źródła — przykład źródła ("sprawność ~92% → traci 8%") zweryfikowany niezależnie: strata jako % mocy realnie pobranej wynosi dokładnie `1 - sprawność`, potwierdzone w Pythonie. |
 | 12 | 1.20 | Macierz priorytetów odłączania (Smart Load Shedding) | todo | |
-| 13 | 1.25 | Bufor na rozbudowę | todo | |
+| 13 | 1.25 | Bufor na rozbudowę | **done** | `lib/core/modules/zapotrzebowanie/bufor-rozbudowe/`, UI: `app/kalkulatory/bufor-rozbudowe/page.tsx`, 5 testów. Wzór `E_z buforem = E_całkowite × (1 + bufor%)` 1:1 ze źródła — wartości suwaka (0/10/20/30%) literalnie ze źródła, tylko info-level ostrzeżenie (status zawsze VALID, nigdy VALID_WITH_WARNINGS). |
 | 14 | 1.26 | Architektura 1-fazowa/3-fazowa | todo | |
 | 15 | 1.27 | Kategorie specjalne (warsztat/gospodarstwo/oświetlenie terenowe) | todo | |
 | **16** | **1.22, 1.23** | **Kalkulatory pomocnicze (W→A, Ah↔Wh, czas pracy)** | **done** | pierwszy pełny przykład end-to-end: `lib/core/modules/zapotrzebowanie/kalkulatory-pomocnicze/` (input/calculator/validation/warnings/constants + 9 testów), UI: `app/kalkulatory/pomocnicze/page.tsx`. Zweryfikowane: testy, typecheck, lint, build, ręcznie w przeglądarce (3 stany werdyktu). |

@@ -1382,6 +1382,22 @@
     `lib/core/` nadal nie importuje z `app/`/`components/`, Playwright (2000W/cos φ=0,7 →
     2857 VA, zgodne z niezależnym przeliczeniem w Pythonie).
 
+## Decyzje i uzasadnienie (c.d. 56)
+
+- **2026-09-04 — Ekran 13, Moduł 2: "Bufor na rozbudowę" (dawne 1.25, Wzorzec D-lite).** Prosty
+  mnożnik procentowy na sumie całkowitego zapotrzebowania dobowego, wartości suwaka (0/10/20/30%)
+  1:1 ze źródła — bez interpolacji ani wartości pośrednich, których źródło nie podaje.
+  - Wzór `E_z buforem = E_całkowite × (1 + bufor%)`, `dodatek = E_z buforem - E_całkowite`.
+    Przykład (12,4 kWh + 20% → 14,88 ≈ 14,9 kWh) zweryfikowany niezależnie w Pythonie przed
+    implementacją i potwierdzony w przeglądarce (Playwright).
+  - Tylko ostrzeżenie info-level ("bufor 20% dolicza X kWh/dobę zapasu...") — status zawsze
+    `VALID`, zgodnie ze standardową konwencją tej sesji (info-only nigdy nie obniża statusu do
+    `VALID_WITH_WARNINGS`).
+  - `lib/core/modules/zapotrzebowanie/bufor-rozbudowe/`, 5 testów, UI: `app/kalkulatory/
+    bufor-rozbudowe/page.tsx`.
+  - Zweryfikowane: `lint` czysto, `pnpm build` czysto (306 testów), Playwright (12,4 kWh + 20% →
+    "14,9 kWh/dobę", zgodne z przeliczeniem referencyjnym).
+
 ## Mapa orientacyjna
 
 - `docs/rejestr-twardych-stopow.md` — zbiorczy indeks warunków zawsze skutkujących 🔴 (04.3), z odsyłaczami do modułu/ekranu/pliku źródłowego. Dopisz tu nowy twardy stop, gdy kolejny moduł go wprowadzi.
