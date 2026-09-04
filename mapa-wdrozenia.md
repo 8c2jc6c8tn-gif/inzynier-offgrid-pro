@@ -18,7 +18,7 @@ TL;DR: Status opisany/zaimplementowany/przetestowany per moduł (M1–M13, Czę�
 | M3 | Instalacja PV | ✅ | 🔄 (12/~27 ekranów) | ✅ | ~44% — rozpoczęte 04.09.2026, w toku |
 | M4 | Magazyn energii / baterie | ✅ | ✅ (29/34 ekranów) | ✅ | ~85% — reszta `⚠️ blocked` (cross-modułowe/brak normy) |
 | M5 | Okablowanie i zabezpieczenia | ✅ | 🔄 (1/~20 ekranów) | ✅ | ~5% — Ekran 1 (mega-Doradca doboru kabla) `⚠️ blocked`, brak normy PN-IEC 60364-5-52 |
-| M6 | Ogrzewanie / pompa ciepła | ✅ | 🔄 (6/~46 ekranów) | ✅ | ~13% — rozpoczęte 04.09.2026 (COP + pompy cyrkulacyjne + bufor ciepła + ryzyko niskiego napięcia + kocioł elektryczny + infiltracja powietrza), reszta w większości `todo`/blocked (auto z Modułu 1) |
+| M6 | Ogrzewanie / pompa ciepła | ✅ | 🔄 (7/~46 ekranów) | ✅ | ~15% — rozpoczęte 04.09.2026 (COP + pompy cyrkulacyjne + bufor ciepła + ryzyko niskiego napięcia + kocioł elektryczny + infiltracja powietrza + wentylacja z odzyskiem), reszta w większości `todo`/blocked (auto z Modułu 1) |
 | M7 | Stress-test zimowy | ✅ | 🔄 (1 ekran reprezentatywny) | ✅ | Fundament (Black Start) gotowy, spina M1–M6 — sensowny dopiero po nich |
 | M8 | Bezpieczeństwo i sytuacje awaryjne | ✅ | 🔄 (1 ekran reprezentatywny, dane demonstracyjne) | ✅ | Audyt pożarowy zbudowany z danych demo — docelowo z M8/M9/M13 na żywo |
 | M9 | Elektronika / ESP32 / sensoryka | ✅ | 🔄 (1 katalog reprezentatywny) | ✅ | Katalog czujników (21 typów, Wzorzec H) gotowy, reszta `todo` |
@@ -27,7 +27,7 @@ TL;DR: Status opisany/zaimplementowany/przetestowany per moduł (M1–M13, Czę�
 | M12 | Szybki kalkulator / tryb mobilny | ✅ | 🔄 (1 ekran reprezentatywny) | ✅ | Tryb uproszczony gotowy, reszta `todo` |
 | M13 | Tryb Live | ✅ | 🔄 (1 ekran — brama bez telemetrii) | — (brak logiki domenowej) | Świadomie minimalny — sensowny dopiero, gdy reszta systemu ma dane na żywo do pokazania |
 
-**Łącznie:** 89 pozycji ze statusem `done` w `docs/rejestr-pokrycia.md` (stan na 04.09.2026), rozłożone głównie na M2/M3/M4/M11.
+**Łącznie:** 90 pozycji ze statusem `done` w `docs/rejestr-pokrycia.md` (stan na 04.09.2026), rozłożone głównie na M2/M3/M4/M11.
 
 ## Uwagi do interpretacji
 
@@ -52,3 +52,4 @@ TL;DR: Status opisany/zaimplementowany/przetestowany per moduł (M1–M13, Czę�
 | 04.09.2026 | M6: dodano ekran dodatkowy (dawne 5.63, ryzyko wyłączenia pompy przy niskim napięciu) → 4/~46, 87 `done` łącznie. Nowy twardy stop dopisany do `docs/rejestr-twardych-stopow.md`. |
 | 04.09.2026 | M6: dodano ekran dodatkowy (dawne 5.33, kocioł elektryczny vs pompa ciepła) → 5/~46, 88 `done` łącznie. |
 | 04.09.2026 | M6: dodano Ekran 12 (infiltracja powietrza, częściowy — bez poprawy 8% po uszczelnieniu) → 6/~46, 89 `done` łącznie. |
+| 04.09.2026 | M6: dodano Ekran 3 (wentylacja z odzyskiem ciepła, częściowy — tylko bilans podstawowy) → 7/~46, 90 `done` łącznie. |
