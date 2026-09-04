@@ -145,6 +145,10 @@ export const KAFLE: KafelEntry[] = [
     ekrany: [
       { href: "/kalkulatory/audyt-pozarowy", label: "Autonomiczny audyt bezpieczeństwa pożarowego" },
       { href: "/kalkulatory/ups-krytyczny", label: "UPS krytyczny — dobór sprzętowy" },
+      {
+        href: "/kalkulatory/dogrzewanie-paliwem-stalym",
+        label: "Bezpieczeństwo pożarowe — dogrzewanie paliwem stałym",
+      },
     ],
   },
   {

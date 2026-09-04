@@ -66,6 +66,18 @@ nie do audytu poprawności formularza webowego.
   zwarciu jednego stringa prąd z pozostałych popłynie wstecz przez uszkodzony, ryzyko pożaru.
   (M3/E22 — `lib/core/modules/pv/ochrona-stringow/warnings.ts`, `brakZabezpieczenPrzy3Stringach`,
   kod `BRAK-ZABEZPIECZEN-PRZY-3-STRINGACH`)
+- **Odległość źródła spalania paliwa stałego od materiałów palnych poniżej 40 cm** — realne
+  ryzyko pożaru, próg podany wprost przez źródło jako liczba, nie zakres.
+  (M8/E2 — `lib/core/modules/bezpieczenstwo/dogrzewanie-paliwem-stalym/warnings.ts`,
+  `zaMalaOdleglosc`, kod `ZA-MALA-ODLEGLOSC`)
+- **Brak osobnego nawiewu powietrza do spalania przy źródle paliwa stałego** — ryzyko
+  niedotlenienia pomieszczenia i cofki spalin.
+  (M8/E2 — `lib/core/modules/bezpieczenstwo/dogrzewanie-paliwem-stalym/warnings.ts`,
+  `brakNawiewu`, kod `BRAK-NAWIEWU`)
+- **Brak czujnika czadu (CO) w pomieszczeniu z otwartym źródłem spalania paliwa stałego** —
+  zagrożenie życia, nie tylko mienia; czad nie ma zapachu i zabija we śnie.
+  (M8/E2 — `lib/core/modules/bezpieczenstwo/dogrzewanie-paliwem-stalym/warnings.ts`,
+  `brakCzujnikaCo`, kod `BRAK-CZUJNIKA-CO`)
 
 ## Bateryjne
 

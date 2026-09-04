@@ -1,0 +1,90 @@
+"use client"
+
+import { useMemo, useState } from "react"
+import { calculateDogrzewaniePaliwemStalym } from "@/lib/core/modules/bezpieczenstwo/dogrzewanie-paliwem-stalym/calculator"
+import type { PaliwoStale } from "@/lib/core/modules/bezpieczenstwo/dogrzewanie-paliwem-stalym/input"
+import { Pole, PoleSelect, PoleCheckbox } from "@/components/ui/pole"
+import { WerdyktPanel } from "@/components/werdykt"
+import { NawigacjaEkranu } from "@/components/nawigacja-ekranu"
+import { NaglowekEkranu } from "@/components/wzorce/naglowek-ekranu"
+import { WynikGlowny } from "@/components/wzorce/wynik-glowny"
+import { WynikSzczegoly } from "@/components/wzorce/wynik-szczegoly"
+
+export default function DogrzewaniePaliwemStalymPage() {
+  const [typPaliwa, setTypPaliwa] = useState<PaliwoStale | "">("")
+  const [odlegloscOdMaterialowPalnychCm, setOdlegloscOdMaterialowPalnychCm] = useState("")
+  const [maNawiewPowietrzaDoSpalania, setMaNawiewPowietrzaDoSpalania] = useState(false)
+  const [maCzujnikCo, setMaCzujnikCo] = useState(false)
+
+  const result = useMemo(
+    () =>
+      calculateDogrzewaniePaliwemStalym({
+        typPaliwa: typPaliwa === "" ? null : typPaliwa,
+        odlegloscOdMaterialowPalnychCm:
+          odlegloscOdMaterialowPalnychCm === "" ? 0 : Number(odlegloscOdMaterialowPalnychCm),
+        maNawiewPowietrzaDoSpalania,
+        maCzujnikCo,
+      }),
+    [typPaliwa, odlegloscOdMaterialowPalnychCm, maNawiewPowietrzaDoSpalania, maCzujnikCo],
+  )
+
+  const hasCritical = result.warnings.some((w) => w.level === "critical") && result.status !== "INVALID_INPUT"
+
+  return (
+    <main className="mx-auto flex max-w-md flex-col gap-6 p-6">
+      <NawigacjaEkranu href="/kalkulatory/dogrzewanie-paliwem-stalym" />
+      <NaglowekEkranu tytul="Bezpieczeństwo pożarowe — dogrzewanie paliwem stałym">
+        Otwarty ogień w domu to realna odpowiedzialność — spalanie zużywa tlen z pomieszczenia i
+        produkuje czad, który nie ma zapachu i zabija we śnie. Moduł 8, Ekran 2.
+      </NaglowekEkranu>
+
+      <div className="flex flex-col gap-4">
+        <PoleSelect
+          label="Typ paliwa"
+          value={typPaliwa}
+          onChange={(e) => setTypPaliwa(e.target.value as PaliwoStale)}
+        >
+          <option value="">— wybierz —</option>
+          <option value="drewno">Drewno</option>
+          <option value="pellet">Pellet</option>
+          <option value="wegiel">Węgiel</option>
+        </PoleSelect>
+        <Pole
+          label="Odległość od materiałów palnych"
+          unit="cm"
+          type="number"
+          inputMode="decimal"
+          min={0}
+          value={odlegloscOdMaterialowPalnychCm}
+          onChange={(e) => setOdlegloscOdMaterialowPalnychCm(e.target.value)}
+        />
+        <PoleCheckbox
+          id="ma-nawiew"
+          label="Jest osobny nawiew powietrza do spalania"
+          checked={maNawiewPowietrzaDoSpalania}
+          onChange={(e) => setMaNawiewPowietrzaDoSpalania(e.target.checked)}
+        />
+        <PoleCheckbox
+          id="ma-czujnik-co"
+          label="Jest czujnik czadu (CO) w pomieszczeniu"
+          checked={maCzujnikCo}
+          onChange={(e) => setMaCzujnikCo(e.target.checked)}
+        />
+      </div>
+
+      {result.status === "INVALID_INPUT" ? (
+        <WerdyktPanel poziom="blad" etykieta="Nie da się policzyć — sprawdź wpisane dane">
+          <WynikSzczegoly assumptions={[]} warnings={result.warnings} />
+        </WerdyktPanel>
+      ) : result.status === "INCOMPLETE" ? (
+        <p className="text-small text-muted-foreground">Wypełnij wszystkie pola, żeby zobaczyć wynik.</p>
+      ) : (
+        <WerdyktPanel poziom={hasCritical ? "blad" : "ok"} etykieta={hasCritical ? "Wykryto braki bezpieczeństwa" : "Instalacja zgodna z minimalnymi wymaganiami"}>
+          <WynikGlowny>{result.value.marginesOdlegloscCm >= 0 ? "+" : ""}{result.value.marginesOdlegloscCm.toFixed(0)} cm</WynikGlowny>
+          <p className="mt-2 text-small">Margines względem minimalnej odległości (40 cm).</p>
+          <WynikSzczegoly assumptions={result.assumptions} warnings={result.warnings} formula={result.formula} />
+        </WerdyktPanel>
+      )}
+    </main>
+  )
+}

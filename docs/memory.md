@@ -2087,6 +2087,32 @@
     Playwright (5 urządzeń zaznaczonych, moce 5/10/15/10/10W=50W łącznie, 20Ah/12V → "4.42 h"
     podtrzymania — zgodne z testem jednostkowym: t=20×12×0,92/50=4,416h).
 
+## Decyzje i uzasadnienie (c.d. 84)
+
+- **2026-09-04 — Ekran 2, Moduł 8: "Bezpieczeństwo pożarowe przy dogrzewaniu paliwem stałym"**
+  (dawne 6.25, Wzorzec D) — drugi dodatkowy ekran M8, trzy niezależne twarde stopy w jednym
+  ekranie.
+  - Minimalna odległość 40 cm od materiałów palnych — źródło formułuje to jako stanowczy wymóg
+    ("Piec na drewno wymaga minimum 40 cm..."), nie jako liczbę przypisaną tylko do jednego
+    przykładu — potraktowane jak dana norma, analogicznie do "1,25×Isc" (M3/E22) czy "50 l/kW"
+    (M6/E14): pojedyncza podana liczba, nie zakres wymagający D16.
+  - Dwa pola boolowskie (nawiew powietrza do spalania, czujnik CO) zaprojektowane z domyślną
+    wartością `false` — świadoma decyzja zgodna z zasadą UI_GUIDE §5 ("dane wpływające na
+    bezpieczeństwo nie mogą być ukryte jako wartość domyślna 'tak'"): użytkownik musi aktywnie
+    potwierdzić obecność zabezpieczenia, inaczej ekran domyślnie pokazuje najgorszy scenariusz.
+    To odstępstwo od wcześniejszego wzorca `ochrona-stringow` (który też ma `boolean` domyślnie
+    `false`), więc nie nowy wzorzec — potwierdzenie już ustalonej konwencji.
+  - Rozważono i odrzucono wariant z `boolean | null` (jak `deltaTK` w innych ekranach) — dla pól
+    bezpieczeństwa `false`-jako-brak-potwierdzenia jest bezpieczniejszym stanem początkowym niż
+    "jeszcze nie wiadomo", więc `null` nie daje tu żadnej dodatkowej wartości.
+  - Wszystkie trzy warunki (odległość, nawiew, czujnik CO) dopisane do
+    `docs/rejestr-twardych-stopow.md`, sekcja "Elektryczne / pożarowe".
+  - `lib/core/modules/bezpieczenstwo/dogrzewanie-paliwem-stalym/`, 6 testów, UI: `app/kalkulatory/
+    dogrzewanie-paliwem-stalym/page.tsx`.
+  - Zweryfikowane: `tsc`/`lint` czysto, `pnpm test` 467/467 (6 nowych), `pnpm build` czysto,
+    Playwright (drewno, 30cm, brak nawiewu, brak czujnika CO → "-10 cm" margines, czerwony
+    werdykt ze wszystkimi trzema ostrzeżeniami — zgodne z testem jednostkowym).
+
 ## Mapa orientacyjna
 
 - `docs/rejestr-twardych-stopow.md` — zbiorczy indeks warunków zawsze skutkujących 🔴 (04.3), z odsyłaczami do modułu/ekranu/pliku źródłowego. Dopisz tu nowy twardy stop, gdy kolejny moduł go wprowadzi.
