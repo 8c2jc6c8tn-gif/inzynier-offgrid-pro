@@ -120,7 +120,10 @@ export const KAFLE: KafelEntry[] = [
     nazwa: "Ogrzewanie / pompa ciepła",
     opis: "Termika budynku, pompa ciepła, wentylacja.",
     ikona: "🔥",
-    ekrany: [{ href: "/kalkulatory/cop-pompy-ciepla", label: "COP pompy ciepła w funkcji temperatury" }],
+    ekrany: [
+      { href: "/kalkulatory/cop-pompy-ciepla", label: "COP pompy ciepła w funkcji temperatury" },
+      { href: "/kalkulatory/pompy-cyrkulacyjne", label: "Pompy cyrkulacyjne — dobór" },
+    ],
   },
   {
     id: 7,
