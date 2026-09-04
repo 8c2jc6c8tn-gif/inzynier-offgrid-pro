@@ -1756,6 +1756,25 @@
     `pnpm build`/`pnpm test`/`pnpm lint` uruchomione po migracji dla pewności, że nic się nie
     zepsuło (dokumentacja nie powinna wpływać na kod, ale sprawdzone zgodnie z dyscypliną sesji).
 
+## Decyzje i uzasadnienie (c.d. 71)
+
+- **2026-09-04 — Ekran 6, Moduł 3: "Aerodynamika — napór wiatru i ssanie" (dawne 2.12,
+  Wzorzec D) — kolejna znaleziona rozbieżność w przykładzie źródła, tym razem w formule
+  fizycznej z realnym stałym współczynnikiem.** Wzór `F = 0,5×ρ×v²×A×Cd` 1:1 ze źródła, `ρ` jako
+  gęstość powietrza (1,225 kg/m³) podana wprost jako stała fizyczna.
+  - Przykład źródła Sekcji C ("przy 120 km/h na panel działa 350 N") sprawdzony niezależnie w
+    Pythonie: dla Cd w podanym zakresie (1,2–1,5) wymagałoby to powierzchni panelu 0,34–0,43 m²
+    — nierealistycznie małej (rzeczywiste panele PV to ~1,6–2,6 m²). To rozbieżność wewnętrzna
+    źródła (ten sam rodzaj co M3/E17 mismatch, 1,4% vs 18%) — wzór wdrożony dokładnie jak
+    podany, test używa self-konsystentnych wartości (2 m², Cd=1,3 → 1769 N), nie wymuszony do
+    dopasowania nieodtwarzalnej liczby.
+  - Zbudowana tylko siła naporu (parcie na przód panelu). Siła ssania od spodu ("efekt
+    skrzydła"), moment wywracający i wymagany balast NIE zbudowane — wymagają geometrii montażu
+    (dźwignia od ziemi do środka parcia, typ konstrukcji), której źródło nie podaje jako liczb.
+  - `lib/core/modules/pv/napor-wiatru/`, 4 testy, UI: `app/kalkulatory/napor-wiatru/page.tsx`.
+  - Zweryfikowane: `tsc`/`lint` czysto, `pnpm test` 388/388 (4 nowe), `pnpm build` czysto,
+    Playwright (33,33 m/s / 2 m² / Cd=1,3 → "1769 N", zgodne z wartością referencyjną).
+
 ## Mapa orientacyjna
 
 - `docs/rejestr-twardych-stopow.md` — zbiorczy indeks warunków zawsze skutkujących 🔴 (04.3), z odsyłaczami do modułu/ekranu/pliku źródłowego. Dopisz tu nowy twardy stop, gdy kolejny moduł go wprowadzi.

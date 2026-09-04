@@ -60,6 +60,7 @@ export const KAFLE: KafelEntry[] = [
       { href: "/kalkulatory/straty-okablowanie-dc", label: "Straty na okablowaniu DC" },
       { href: "/kalkulatory/stress-test-mppt", label: "Zimowy stress-test napięciowy MPPT (Voc max)" },
       { href: "/kalkulatory/niedopasowanie-paneli", label: "Niedopasowanie mocy paneli (mismatch)" },
+      { href: "/kalkulatory/napor-wiatru", label: "Aerodynamika — napór wiatru" },
     ],
   },
   {
