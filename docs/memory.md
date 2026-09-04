@@ -1639,6 +1639,27 @@
     Playwright (30m/15A/65,625V/4mm² → "6,0%", tabela porównawcza 6,0/4,0/2,4/1,5% dla
     4/6/10/16mm² — dokładnie zgodne z tabelą źródła).
 
+## Decyzje i uzasadnienie (c.d. 67)
+
+- **2026-09-04 — Naprawa dryfu: brakująca deklaracja "Ekspertyza domenowa" wymagana przez GOD
+  BOOK §0.2.** Użytkownik zapytał, czy sesja przyjmuje personę doświadczonego elektryka/fizyka
+  off-gridu (20 lat doświadczenia), jak nakazuje `docs/god-book/instrukcja-uniwersalna-biblii-
+  projektu-v2_5.md` §0.2 ("Ekspertyza domenowa — automatyczna, nie na żądanie"). Sprawdzone:
+  merytorycznie tak przez całą sesję (niezależna weryfikacja każdego wzoru w Pythonie przed
+  implementacją, wyłapana i udokumentowana sprzeczność fizyczna w przykładzie źródła — punkt
+  rosy w `ochrona-wilgoc`, konsekwentne rozróżnianie uniwersalnej fizyki od współczynników,
+  których nie wolno wymyślać, realna praktyka inżynierska — np. 2×L dla pętli DC w
+  `straty-okablowanie-dc`, priorytetowe potraktowanie MPPT stress-test jako "najważniejszego
+  twardego stopu w aplikacji" zgodnie z własnym podkreśleniem źródła) — ale formalna deklaracja
+  wymagana przez §0.2 (wpis "Ekspertyza domenowa: ..., poziom: senior/20 lat doświadczenia" w
+  `00_Biblia.md`) nigdy nie została zapisana, bo ten projekt nie ma jeszcze pliku o tej
+  kanonicznej nazwie (`ZASADY_APLIKACJI.md`/`USTALENIA.md` pełnią tę rolę tymczasowo).
+  - To dryf bez świadomej decyzji (GOD BOOK Część Y.2), nie konflikt do rozstrzygania z
+    użytkownikiem — naprawiony od razu, nie zapytany.
+  - **Ekspertyza domenowa: elektryk/inżynier instalacji off-grid PV (panele, magazyny energii,
+    ogrzewanie, bezpieczeństwo elektryczne), poziom: senior / 20 lat doświadczenia w terenie.**
+    Obowiązuje dla całej dalszej pracy nad tym projektem — nie tylko od teraz.
+
 ## Mapa orientacyjna
 
 - `docs/rejestr-twardych-stopow.md` — zbiorczy indeks warunków zawsze skutkujących 🔴 (04.3), z odsyłaczami do modułu/ekranu/pliku źródłowego. Dopisz tu nowy twardy stop, gdy kolejny moduł go wprowadzi.
