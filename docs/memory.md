@@ -108,6 +108,39 @@ Zarejestrowane od razu: `docs/rejestr-pokrycia.md`, `mapa-wdrozenia.md` (2/29→
 czysto, `pnpm build` (nowa trasa, zero błędów). Obie partie tego wątku (Ekran 6, Ekran 22)
 budowane i commitowane osobno, zgodnie z Dyrektywą #14.
 
+## Norma PN-HD 60364-5-52:2011 dostarczona i przeanalizowana (05.09.2026)
+
+Właściciel projektu kupił i dostarczył (push bezpośrednio do `main`, plik 45 MB) brakującą normę
+blokującą M5/Ekran 1 ("mega-Doradca doboru kabla"), M11/B5 i M4/Ekran 25 — dokładnie tę, o której
+brak wspominał `backlog-poza-v1.md` od 04.09.2026.
+
+**Naprawiony dryf przy okazji:** nazwa pliku dostarczona z macOS miała polskie znaki zapisane w
+formie zdekomponowanej Unicode (NFD — "ę" jako "e"+U+0328), w odróżnieniu od NFC/ASCII używanego
+we wszystkich pozostałych plikach `docs/zrodla/`. Realny problem, nie kosmetyczny: powodował
+`FileNotFoundError` przy próbie odczytu przez standardowe API (mimo że `ls` pokazywał plik
+poprawnie). Przemianowano na ASCII (`git mv`, wykryty poprawnymi bajtami przez `os.listdir`),
+zgodnie z konwencją reszty folderu.
+
+**Analiza:** PDF to skan (96 stron, 0 znaków przy bezpośredniej ekstrakcji tekstu) — zainstalowano
+`tesseract-ocr` + pakiet polski, wyrenderowano wszystkie strony (300 DPI) i wykonano OCR. Zbudowano
+mapę struktury dokumentu (klauzule 520-529 = tekst normatywny, Załączniki A-I + ZA-ZC = tabele i
+odstępstwa krajowe) i podzielono na 19 plików w `docs/zrodla/norma-PN-HD-60364-5-52/` (indeks:
+`00-INDEKS.md`) — jeden plik na rozdział/załącznik, mirror konwencji `Tresc_Modul_N` już istniejącej
+w tym folderze.
+
+**Kluczowe empiryczne odkrycie o jakości OCR (Dyrektywa #3 w praktyce):** zweryfikowano Tablicę
+B.52.4 (obciążalność prądowa PVC/3 żyły/miedź-aluminium) równolegle OCR-em i bezpośrednim odczytem
+obrazu strony — sam skan jest bardzo czytelny, ale OCR ma realne, ciche błędy w cyfrach na tej
+jednej tabeli (`2,5`→`28`, `13,5`→`13:95`, `77`→`Ł44` w jednej komórce). Wniosek zapisany jawnie w
+`00-INDEKS.md`: **każda konkretna liczba z tabel Załącznika B/C/E/G użyta w kodzie kalkulatora musi
+być zweryfikowana wizualnie względem renderu oryginalnej strony PDF, nie ufać samemu tekstowi OCR.**
+Renderowanie strony z PDF jest szybkie (~70s dla wszystkich 96 stron przy 300 DPI) — nie ma potrzeby
+trzymać wyrenderowanych obrazów w repo, można je odtworzyć na żądanie przy weryfikacji konkretnej tabeli.
+
+**Status:** dokument przeanalizowany i podzielony, ale **jeszcze niewykorzystany w kodzie** — M5/E1,
+M11/B5, M4/E25 pozostają `⚠️ blocked` do czasu osobnej sesji budowy tych ekranów (transkrypcja
+konkretnych potrzebnych tabel + kod kalkulatora, po kolei małymi partiami zgodnie z Dyrektywą #14).
+
 ## Synchronizacja ze standardem
 
 <!-- Obowiązkowe od GOD BOOK Część Y.6. Sprawdzaj AKTUALIZACJE.md w new-app-standards co ≤7 dni. Brak wpisu = "nigdy nie sprawdzono". -->

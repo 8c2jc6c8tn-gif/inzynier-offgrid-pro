@@ -41,3 +41,15 @@ którykolwiek plik źródłowy, nadpisać tutaj i odnotować w `docs/memory.md` 
 **Ważne:** pliki modułów oznaczają swoją własną, zamkniętą numerację ekranów (np. "Ekran 15"
 Modułu 2) — nie mylić z ID Biblii (`1.27` itd.) ani z numerami z `docs/rejestr-pokrycia.md`,
 które mapują 1:1 na ID Biblii, nie na numer ekranu w pliku treści.
+
+## Norma PN-HD 60364-5-52:2011 (05.09.2026)
+
+[05.09.2026] ✅ DODANO — źródło: właściciel projektu, zakupiona oficjalnie. Brakująca norma
+blokująca M5/Ekran 1, M11/B5, M4/Ekran 25 (`docs/rejestr-pokrycia.md`) — tabele obciążalności
+prądowej kabli. Plik: `PN-HD-60364-5-52-2011-Instalacje-elektryczne-niskiego-napiecia-Oprzewodowanie.pdf`
+(96 stron, **skan**, nie tekst). Przeanalizowany i podzielony na rozdziały:
+**`docs/zrodla/norma-PN-HD-60364-5-52/00-INDEKS.md`** — zacznij tutaj, ma mapę rozdziałów i
+**obowiązkowe zastrzeżenie o jakości OCR** (treść tabel liczbowych wymaga wizualnej weryfikacji
+względem oryginalnego PDF przed użyciem w kodzie — zweryfikowane empirycznie, znaleziono realne
+błędy OCR w cyfrach). Status wykorzystania: dopiero przeanalizowany, żaden kalkulator jeszcze go
+nie używa — patrz `docs/rejestr-pokrycia.md` i `docs/memory.md`.
