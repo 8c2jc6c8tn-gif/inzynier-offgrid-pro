@@ -63,8 +63,16 @@ docisku w zakresie). Zarejestrowany od razu: `docs/rejestr-pokrycia.md`, `mapa-w
 Zweryfikowane: `tsc --noEmit` czysto, `pnpm test` 474/474, `pnpm lint` czysto, `pnpm build` (nowa
 trasa `/kalkulatory/montaz-mechaniczny` w liście, zero błędów kompilacji).
 
-**Następny krok (ta sama sesja, ten sam wątek):** A5 "Pierwsze uruchomienie + test balansowania" —
-osobna partia, osobny commit, po tej samej dyscyplinie.
+**A5 zbudowany jako druga, osobna partia (ta sama sesja).** `lib/core/modules/montaz-baterii/pierwsze-uruchomienie/`
+— prąd testowy `I=0,1C×C_Ah` liczony wprost z pojemności (1:1 ze źródła), próg Top Balancing (3,55V)
+sprawdzany jako kamień milowy poziomu `info` (Dyrektywa #6 — nigdy nie podnosi statusu), checklist
+2-punktowy dla reszty kroków. 7 testów. Zarejestrowany od razu: `docs/rejestr-pokrycia.md`,
+`mapa-wdrozenia.md` (20/22→21/22, **Ścieżka A LiFePO4 teraz kompletna 10/10**), `backlog-poza-v1.md`
+(wpis "odłożone" oznaczony jako zamknięty, nie usunięty), `lib/pulpit/registry.ts`.
+
+Zweryfikowane: `tsc --noEmit` czysto, `pnpm test` 481/481, `pnpm lint` czysto, `pnpm build` (nowa
+trasa `/kalkulatory/pierwsze-uruchomienie`, zero błędów). Obie partie (A2, A5) budowane i
+commitowane osobno, zgodnie z Dyrektywą #14 — żadna nie czekała na drugą do zarejestrowania.
 
 ## Synchronizacja ze standardem
 

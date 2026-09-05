@@ -23,7 +23,7 @@ TL;DR: Status opisany/zaimplementowany/przetestowany per moduł (M1–M13, Czę�
 | M8 | Bezpieczeństwo i sytuacje awaryjne | ✅ | 🔄 (3/~11 ekranów) | ✅ | Audyt pożarowy (dane demo) + UPS krytyczny (dobór sprzętowy, częściowy) + dogrzewanie paliwem stałym (3 twarde stopy) |
 | M9 | Elektronika / ESP32 / sensoryka | ✅ | 🔄 (1 katalog reprezentatywny) | ✅ | Katalog czujników (21 typów, Wzorzec H) gotowy, reszta `todo` |
 | M10 | AI i prognozy | ✅ | 🔄 (1 ekran reprezentatywny, dane demonstracyjne) | ✅ | Czerpie z prawie wszystkiego wcześniejszego — naturalnie ostatni |
-| M11 | Montaż baterii | ✅ | ✅ (20/22 ekranów) | ✅ | ~91% — Ścieżka A 9/10 (A5 pozostaje), Ścieżka B 11/12, reszta świadomie odłożona/blocked |
+| M11 | Montaż baterii | ✅ | ✅ (21/22 ekranów) | ✅ | ~95% — **Ścieżka A kompletna (10/10)**, Ścieżka B 11/12 (B5 blocked, czeka na Moduł 5/Ekran 1) |
 | M12 | Szybki kalkulator / tryb mobilny | ✅ | 🔄 (1 ekran reprezentatywny) | ✅ | Tryb uproszczony gotowy, reszta `todo` |
 | M13 | Tryb Live | ✅ | 🔄 (1 ekran — brama bez telemetrii) | — (brak logiki domenowej) | Świadomie minimalny — sensowny dopiero, gdy reszta systemu ma dane na żywo do pokazania |
 

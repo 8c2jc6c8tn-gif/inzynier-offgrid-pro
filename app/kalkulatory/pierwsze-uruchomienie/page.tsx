@@ -1,0 +1,99 @@
+"use client"
+
+import { useMemo, useState } from "react"
+import { calculatePierwszeUruchomienie } from "@/lib/core/modules/montaz-baterii/pierwsze-uruchomienie/calculator"
+import { CHECKLIST_ITEMS, PROG_TOP_BALANCING_V } from "@/lib/core/modules/montaz-baterii/pierwsze-uruchomienie/constants"
+import { Pole } from "@/components/ui/pole"
+import { ListaChecklist } from "@/components/wzorce/lista-checklist"
+import { WerdyktPanel, type WerdyktPoziom } from "@/components/werdykt"
+import { NawigacjaEkranu } from "@/components/nawigacja-ekranu"
+import { NaglowekEkranu } from "@/components/wzorce/naglowek-ekranu"
+import { WynikSzczegoly } from "@/components/wzorce/wynik-szczegoly"
+
+export default function PierwszeUruchomieniePage() {
+  const [pojemnoscAh, setPojemnoscAh] = useState(0)
+  const [napiecieNajwyzszegoOgniwaV, setNapiecieNajwyzszegoOgniwaV] = useState(0)
+  const [potwierdzoneIds, setPotwierdzoneIds] = useState<string[]>([])
+
+  const result = useMemo(
+    () => calculatePierwszeUruchomienie({ pojemnoscAh, napiecieNajwyzszegoOgniwaV, potwierdzoneIds }),
+    [pojemnoscAh, napiecieNajwyzszegoOgniwaV, potwierdzoneIds],
+  )
+
+  function toggle(id: string) {
+    setPotwierdzoneIds((prev) => (prev.includes(id) ? prev.filter((x) => x !== id) : [...prev, id]))
+  }
+
+  const hasCritical = result.warnings.some((w) => w.level === "critical")
+
+  const poziom: WerdyktPoziom | null =
+    result.status === "INVALID_INPUT" || hasCritical
+      ? "blad"
+      : result.status === "INCOMPLETE" && pojemnoscAh === 0
+        ? null
+        : result.status === "VALID"
+          ? "ok"
+          : "uwaga"
+
+  const etykieta =
+    result.status === "INVALID_INPUT"
+      ? "Nie da się policzyć — sprawdź wpisane dane"
+      : result.status === "VALID"
+        ? "Test zakończony — pakiet gotowy do pełnego obciążenia"
+        : "Test w toku — kontynuuj ładowanie małym prądem"
+
+  return (
+    <main className="mx-auto flex max-w-md flex-col gap-6 p-6">
+      <NawigacjaEkranu href="/kalkulatory/pierwsze-uruchomienie" />
+      <NaglowekEkranu tytul="Pierwsze uruchomienie i test balansowania">
+        Pierwsze ładowanie to nie jest &bdquo;włącz i zapomnij&rdquo; — to moment, kiedy BMS uczy
+        się Twojego pakietu i wyrównuje różnice między ogniwami z fabryki. Moduł 11, Ekran A5
+        (ścieżka LiFePO4).
+      </NaglowekEkranu>
+
+      <Pole
+        label="Pojemność pakietu"
+        unit="Ah"
+        type="number"
+        inputMode="decimal"
+        min={0}
+        value={pojemnoscAh || ""}
+        onChange={(e) => setPojemnoscAh(Number(e.target.value))}
+        hint="Do wyliczenia prądu testowego ładowania (0,1C przez 30 minut)."
+      />
+
+      {pojemnoscAh > 0 && (
+        <p className="text-small">
+          Ładuj prądem testowym <strong>{result.value.pradTestowyA} A</strong> przez 30 minut.
+        </p>
+      )}
+
+      <Pole
+        label="Napięcie najwyżej naładowanego ogniwa"
+        unit="V"
+        type="number"
+        inputMode="decimal"
+        step="0.01"
+        min={0}
+        value={napiecieNajwyzszegoOgniwaV || ""}
+        onChange={(e) => setNapiecieNajwyzszegoOgniwaV(Number(e.target.value))}
+        hint={`Top Balancing osiągnięty przy ${PROG_TOP_BALANCING_V} V.`}
+      />
+
+      <ListaChecklist
+        items={CHECKLIST_ITEMS}
+        potwierdzoneIds={potwierdzoneIds}
+        onToggle={toggle}
+        renderLabel={(item) => item.element}
+      />
+
+      {poziom === null ? (
+        <p className="text-small text-muted-foreground">Wpisz pojemność pakietu, żeby zobaczyć werdykt.</p>
+      ) : (
+        <WerdyktPanel poziom={poziom} etykieta={etykieta}>
+          <WynikSzczegoly assumptions={result.assumptions} warnings={result.warnings} />
+        </WerdyktPanel>
+      )}
+    </main>
+  )
+}

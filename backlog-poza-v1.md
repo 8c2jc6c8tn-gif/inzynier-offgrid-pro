@@ -57,7 +57,7 @@ Pełne wyliczenie per-funkcja nierozpoczęte (rozpoczęto pojedyncze buildowalne
 
 ### Moduł 11 — Montaż baterii
 - **Ścieżka B, pozycja B5** — blocked (szczegóły: `docs/rejestr-pokrycia.md`, sekcja Moduł 11).
-- ~~**A2, A5** — świadomie odłożone~~ — **[05.09.2026] A2 zbudowany** (na wyraźną prośbę autora, kompletuje przygotowanie do realnego montażu 16S). **A5 pozostaje odłożone**, nie "blocked" w sensie brakujących danych — inna kategoria, patrz `docs/rejestr-pokrycia.md`. Warunek powrotu: przy następnej rundzie budowy Ścieżki A (LiFePO4).
+- ~~**A2, A5** — świadomie odłożone~~ — **[05.09.2026] Oba zbudowane** (na wyraźną prośbę autora, kompletuje przygotowanie do realnego montażu 16S). **Ścieżka A (LiFePO4) teraz kompletna, 10/10.** Wpis zachowany jako historia decyzji "odłóż", nie usunięty (zasada "nie usuwaj — oznacz").
 
 ---
 
