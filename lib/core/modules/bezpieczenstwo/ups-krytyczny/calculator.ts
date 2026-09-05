@@ -4,6 +4,9 @@ import { validateInput } from "./validation"
 import { czasPodtrzymaniaInfo } from "./warnings"
 import { EFFICIENCY_DEFAULT } from "@/lib/core/modules/zapotrzebowanie/kalkulatory-pomocnicze/constants"
 
+// 🔎 TD6 (dlug-techniczny.md): buduje TYLKO dobór sprzętowy (11.54). Zarządzanie priorytetami AI
+// przy zbliżającym się rozładowaniu (12.54 — odcinanie obwodów wg kolejności ważności) NIE
+// zbudowane — logika sterowania bez progu liczbowego podanego w źródle.
 export const CALCULATOR_VERSION = "1.0.0"
 
 export type UpsKrytycznyResult = {

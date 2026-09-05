@@ -1,6 +1,6 @@
 # 02. Dyrektywy AI Projektu — Inżynier Offgrid Pro
 
-**Wersja:** 1.0 | **Filar:** C | **Data utworzenia:** 04.09.2026 | **Ostatnia aktualizacja:** 04.09.2026 | **Status:** Stabilny (rosnący)
+**Wersja:** 1.1 | **Filar:** C | **Data utworzenia:** 04.09.2026 | **Ostatnia aktualizacja:** 05.09.2026 | **Status:** Stabilny (rosnący)
 **Powiązane dokumenty:** `00_Biblia.md`, `01_Zasady_Pracy_i_Konwencje.md`, `CLAUDE.md`
 
 TL;DR: Twarde reguły zachowania AI specyficzne dla domeny off-grid PV i dla historii tego konkretnego projektu — nie formatowanie (to `01_Zasady_Pracy_i_Konwencje.md`), tylko *co robić/czego nie robić* wynikające z natury tej domeny albo z powtarzających się błędów wykrytych w tej sesji. Rośnie w miarę jak projekt odkrywa nowe sytuacje ryzykowne (P.3 GOD BOOK).
@@ -39,6 +39,10 @@ TL;DR: Twarde reguły zachowania AI specyficzne dla domeny off-grid PV i dla his
 
 **#13 — Nie rozstrzygaj samodzielnie sprzeczności między dwoma źródłami danych (np. Sekcja B kontra Sekcja C tego samego ekranu, jeśli dają różne liczby) — zaimplementuj dokładny wzór z Sekcji z formułą, udokumentuj rozbieżność, nie próbuj jej "pogodzić" przez wymyślenie łączącej zależności.** Precedens: `niedopasowanie-paneli` (M3/E17) — 1,4% z wzoru vs 18% z narracji, oba zostawione jako osobne fakty.
 
+**#14 — Rejestruj natychmiast, nie w seriach. Przy pracy nad ekranem/funkcją X sprawdź w tym samym kroku wszystkie SĄSIADUJĄCE pozycje tego samego fragmentu źródła (te same sekcje/podsekcje, ten sam klaster w Biblii) i nadaj każdej wiersz w `docs/rejestr-pokrycia.md` — `done`, `todo` albo `⚠️ blocked` — zanim przejdziesz dalej.** Brak wiersza to nie to samo co `todo`: `todo` jest widoczne i policzalne, brak wiersza jest niewidoczny i wygląda jak "sprawdzone" dopóki nikt nie porówna źródła linia po linii. Analogicznie: gdy kod świadomie skraca specyfikację (buduje tylko część ekranu), wpis `🔎 TD#` w `dlug-techniczny.md` + marker w kodzie piszesz **od razu przy pisaniu tego kodu**, nie przy najbliższym audycie. Preferuj małe partie w pełni dopieszczone (jedna funkcja: kod + testy + wiersz w rejestrze + ewentualny TD# w jednym kroku) nad dużymi seriami budowanymi szybko z zamiarem "uzupełnić rejestr później" — szukanie błędów po fakcie jest droższe niż ich niedopuszczenie.
+
+**Precedens (dlaczego ta dyrektywa istnieje):** luka 1.19 (2026-08-29, Moduł 2) była pierwszym przypadkiem tego błędu. Mimo dyrektywy #12 ("zaktualizuj rejestr w tym samym zestawie zmian") ten sam wzorzec powtórzył się w kolejnych czterech modułach — 2.15 (Moduł 3, PID), 5.46 i 5.31 (Moduł 6), 8.8 (Moduł 12), 7.7 (Moduł 13) — zanim dedykowany audyt GOD BOOK Część N (05.09.2026, 13 agentów równoległych, moduł po module) to złapał. #12 mówiła "zaktualizuj po zmianie" — nie mówiła wprost "sprawdź też sąsiadów w źródle, nie tylko to co właśnie budujesz". Ta dyrektywa domyka tę lukę.
+
 ---
 
 ## Log zmian
@@ -46,3 +50,4 @@ TL;DR: Twarde reguły zachowania AI specyficzne dla domeny off-grid PV i dla his
 | Data | Zmiana |
 |---|---|
 | 04.09.2026 | Utworzono — dyrektywy #1–#13 zrekonstruowane z `CLAUDE.md`, `docs/memory.md` (pułapki i lekcje) i historii tej sesji. Wersja 1.0. |
+| 05.09.2026 | Dodano **#14** ("rejestruj natychmiast, nie w seriach") — na wyraźne polecenie właściciela projektu po audycie GOD BOOK Część N (13 agentów, pełne przejście modułów), który znalazł tę samą klasę błędu (gotowa treść źródłowa nigdzie niezarejestrowana) w 5 modułach, nie tylko w Module 2 gdzie została po raz pierwszy znaleziona i "naprawiona". Wersja 1.0→1.1. |

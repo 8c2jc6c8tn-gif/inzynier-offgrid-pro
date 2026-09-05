@@ -4,6 +4,8 @@ import { validateInput } from "./validation"
 import { silaNaporu } from "./warnings"
 import { GESTOSC_POWIETRZA_KG_M3 } from "./constants"
 
+// 🔎 TD9 (dlug-techniczny.md): tylko siła naporu wiatru z przodu. Siła ssania od spodu, moment
+// wywracający i wymagany balast NIE liczone — wymagają geometrii montażu nieobecnej w źródle.
 export const CALCULATOR_VERSION = "1.0.0"
 
 export type NaporWiatruResult = {

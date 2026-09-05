@@ -16,6 +16,9 @@ import {
 } from "./warnings"
 import { DC_AC_RATIO_ZALECANE_MIN, DC_AC_RATIO_ZALECANE_MAX } from "./constants"
 
+// 🔎 TD11 (dlug-techniczny.md): sprawdza tylko 4 z 6 kryteriów źródła (napięcie zimowe, okno MPPT,
+// prąd, przewymiarowanie DC/AC). Kryterium napięcia startowego w upale NIE zbudowane — wymaga
+// współczynnika temperaturowego Vmp nieobecnego w źródle jako wzór.
 export const CALCULATOR_VERSION = "1.0.0"
 
 export type DopasowanieTablicyFalownikaResult = {

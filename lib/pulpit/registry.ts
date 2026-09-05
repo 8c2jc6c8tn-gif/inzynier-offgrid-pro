@@ -113,7 +113,11 @@ export const KAFLE: KafelEntry[] = [
     nazwa: "Okablowanie i zabezpieczenia",
     opis: "Przekroje, trasy, ochrona instalacji.",
     ikona: "🔌",
-    ekrany: [{ href: "/kalkulatory/trasy-kablowe", label: "Trasy kablowe — prowadzenie i separacja" }],
+    ekrany: [
+      { href: "/kalkulatory/trasy-kablowe", label: "Trasy kablowe — prowadzenie i separacja" },
+      { href: "/kalkulatory/dobor-bezpiecznika-rozlacznika", label: "Dobór bezpieczników i rozłączników" },
+      { href: "/kalkulatory/string-box", label: "String Box / Array Box" },
+    ],
   },
   {
     id: 6,
@@ -172,8 +176,10 @@ export const KAFLE: KafelEntry[] = [
     ikona: "🛠️",
     ekrany: [
       { href: "/kalkulatory/weryfikacja-ogniw", label: "Weryfikacja kompletności i kontrola wstępna ogniw" },
+      { href: "/kalkulatory/montaz-mechaniczny", label: "Montaż mechaniczny i separacja ogniw" },
       { href: "/kalkulatory/polaczenia-elektryczne", label: "Połączenia elektryczne i kolejność łączenia" },
       { href: "/kalkulatory/podlaczenie-bms", label: "Podłączenie BMS" },
+      { href: "/kalkulatory/pierwsze-uruchomienie", label: "Pierwsze uruchomienie i test balansowania" },
       { href: "/kalkulatory/demontaz-pakietu", label: "Demontaż pakietu" },
       { href: "/kalkulatory/ratowanie-ogniwa", label: "Ratowanie głęboko rozładowanego ogniwa" },
       { href: "/kalkulatory/ocena-zuzycia", label: "Ocena zużycia ogniwa po demontażu" },
