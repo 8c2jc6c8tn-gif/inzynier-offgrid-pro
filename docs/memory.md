@@ -40,6 +40,10 @@ Kontynuacja audytu z sekcji wyżej ("Audyt GOD BOOK Część N (05.09.2026)"). W
 
 **Weryfikacja po zmianach:** `tsc --noEmit` czysto, `pnpm test` 467/467 (bez regresji — zmiany to komentarze `🔎 TD#` w 7 plikach + poprawki w rejestrach/dokumentacji, zero zmian logiki). Zmienione pliki: `docs/rejestr-pokrycia.md` (nowe wiersze M3/M6/M7/M9/M10/M12/M13, nowa sekcja M5, korekta ID M4/E15), `mapa-wdrozenia.md` (terminologia M2/M4, liczba ekranów M5), `backlog-poza-v1.md` (korekta M6, dodanie 5.42/A2-A5-warunek), `dlug-techniczny.md` (TD6-TD12, wersja 1.1→1.2).
 
+## Decyzja procesowa: praca małymi partiami, rejestracja natychmiastowa (05.09.2026)
+
+Właściciel projektu, po zobaczeniu wyników audytu 13 modułów: dyrektywa na przyszłość, nie tylko wniosek z przeszłości. Polecenie wprost: brać pod uwagę tę klasę błędów i już ich nie popełniać — sprawdzać, czy wszystko jest wpisane od razu, pracować małymi partiami kodu w pełni dopieszczonymi, zamiast budować szybko seriami i potem szukać błędów zbiorczym audytem. Zapisane jako **Dyrektywa #14** w `02_Dyrektywy_AI_Projektu.md` (P.3 GOD BOOK — dokument dyrektyw specyficznych dla projektu rośnie właśnie w reakcji na takie odkrycia). Konsekwencja praktyczna na przyszłość: przy pracy nad kolejnym ekranem/funkcją — sprawdzić w tym samym kroku sąsiadujące pozycje tej samej sekcji źródła i nadać im wiersz w `docs/rejestr-pokrycia.md` (nawet `todo`), zamiast zostawiać je bez wiersza do wyłapania przy następnym audycie.
+
 ## Synchronizacja ze standardem
 
 <!-- Obowiązkowe od GOD BOOK Część Y.6. Sprawdzaj AKTUALIZACJE.md w new-app-standards co ≤7 dni. Brak wpisu = "nigdy nie sprawdzono". -->
