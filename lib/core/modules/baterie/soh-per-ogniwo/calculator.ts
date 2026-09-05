@@ -4,6 +4,8 @@ import { validateInput } from "./validation"
 import { ogniwoDoWymiany, ogniwoOk } from "./warnings"
 import { PROG_KRYTYCZNY_WZROSTU_PCT } from "./constants"
 
+// 🔎 TD4 (dlug-techniczny.md): tylko warstwa 2 (diagnostyka per ogniwo, rezystancja). Warstwa 1
+// (SoH ogólny metodą coulombowską) wymaga logowania historii w czasie, niemożliwa z danych jednorazowych.
 export const CALCULATOR_VERSION = "1.0.0"
 
 export type SohPerOgniwoResult = {

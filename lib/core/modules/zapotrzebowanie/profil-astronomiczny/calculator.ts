@@ -4,6 +4,8 @@ import { validateInput } from "./validation"
 import { energiaNocna, nocPolarnaLubDzienPolarny } from "./warnings"
 import { DEKLINACJA_AMPLITUDA_DEG, DEKLINACJA_PRZESUNIECIE_DNI, DNI_W_ROKU } from "./constants"
 
+// 🔎 TD1 (dlug-techniczny.md): tylko część astronomiczna (Sekcja A/C). Profil godzinowych
+// współczynników zapotrzebowania (Sekcja B źródła) nie zbudowany — przykładowe, nie uniwersalne wartości.
 export const CALCULATOR_VERSION = "1.0.0"
 
 export type ProfilAstronomicznyResult = {

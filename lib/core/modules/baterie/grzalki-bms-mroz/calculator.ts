@@ -4,6 +4,8 @@ import { validateInput } from "./validation"
 import { brakPotrzebyGrzania, grzanieWstrzymane, grzanieZBaterii, grzanieZPv } from "./warnings"
 import { PROG_SOC_WSTRZYMANIA_PCT, PROG_TEMPERATURY_GRZANIA_C } from "./constants"
 
+// 🔎 TD3 (dlug-techniczny.md): tylko druga warstwa (drzewo decyzyjne skąd brać prąd na grzanie).
+// Pierwsza warstwa (bilans dobowy grzania w kWh) nie liczona — źródło nie podaje wzoru.
 export const CALCULATOR_VERSION = "1.0.0"
 
 export type ZrodloGrzania = "brak-potrzeby" | "pv" | "bateria" | "wstrzymane"

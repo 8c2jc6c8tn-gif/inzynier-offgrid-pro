@@ -4,6 +4,20 @@
 
 ---
 
+## Audyt GOD BOOK Część N (05.09.2026)
+
+[05.09.2026] ✅ DODANO — źródło: właściciel projektu, korekta wprost ("nie czytałeś GOD BOOK, tam jest opisany audyt, przeczytaj książkę i wszystkie standardy i podążaj według nich"). Wcześniejsze przejścia tej sesji (2026-09-03, "audyt zgodności ze standardem"; wpisy Y.9 z 2026-09-03/04) były checklistami **kompletności/synchronizacji** (Y.9 GOD BOOK) — sprawdzają, czy plik/rozdział istnieje i jest w aktualnej wersji. To **nie jest** to samo co Część N ("Audyt kompletności") — weryfikacja punkt-po-punkcie każdego materiału źródłowego względem faktycznie zintegrowanej treści, sprawdzana bezpośrednio w źródle, nie z pamięci. Pomylenie tych dwóch procedur w poprzednich przejściach było błędem, teraz naprawionym: przed audytem przeczytana w całości GOD BOOK (Części 0–Y, w tym Część X i Y dotąd nieczytane w tej sesji) oraz wszystkie 18 plików `docs/standards/` (00-INDEKS + 00–16).
+
+**Wykonane sprawdzenia (N.1, bezpośrednio w źródle, nie z metryczki):**
+1. `grep` dwukierunkowy `🔎 TD#` w kodzie ↔ `dlug-techniczny.md` — **znalezisko**: rejestr istniał od 04.09.2026, ale bez numerów TD# i bez ani jednego markera w kodzie, mimo że GOD BOOK v2.8 (rozszerzenie X.4, wprowadzone tego samego dnia co plik) tego wymaga. Naprawione: wpisy przenumerowane TD1–TD5 wg formatu X.4 (moduł/co skrócono/ryzyko/priorytet), dodane 5 markerów `🔎 TD#` w odpowiednich `calculator.ts`. Zweryfikowane po naprawie: `grep` w obie strony daje dokładnie 5/5 dopasowań, `tsc --noEmit` czysty (zmiana to tylko komentarze).
+2. Własna sekcja źródła "Znane luki do domknięcia" (`docs/zrodla/Tresc_WSZYSTKIE_MODULY_scalone.md`, linie 138–143) skonfrontowana z `backlog-poza-v1.md`/`docs/rejestr-pokrycia.md`/`mapa-wdrozenia.md` — **znalezisko**: 4 pozycje uczciwie oznaczone przez autorów źródła (Moduł 6 Część 2A/2C/2D — alternatywne źródła ciepła, silnik czynników COP, silnik czynników zapotrzebowania; Asystent głosowy 12.41 — poza wzorcami A-H) nigdy nie trafiły do żadnego z naszych rejestrów śledzenia — dokładnie ten sam rodzaj przeoczenia co luka 1.19 znaleziona 2026-08-29 (deklaratywne "znane luki" źródła nie zostały przeliczone/przeniesione). Naprawione: skonsolidowane do `backlog-poza-v1.md`.
+3. Stare wersje plików (git-mv artefakty, nazwy z poprzednich wersji GOD BOOK/CLAUDE template) — `find` po wzorcach `v2_[0-7]`, `*.md.bak` — czysto, brak stray plików (poprzednie sync'i Y.9 poprawnie usuwały stare nazwy, nie duplikowały).
+4. Naming/branding konsystencja — sprawdzona wcześniej i na bieżąco przy każdym Y.9 sync (nie powtórzone od zera, N.1 punkt 3 wymaga tylko "wystarczająco, żeby nie blokowało domknięcia", nie osobnego pełnego przejścia).
+
+**Świadomie NIE wykonane w tym przejściu (zakres, nie przeoczenie):** pełne, dosłowne porównanie każdej z 579 funkcji źródła z `docs/rejestr-pokrycia.md` linia po linii — rejestr już dokumentuje każdy zbudowany ekran z bezpośrednim odniesieniem do numeru linii/sekcji źródła i niezależną weryfikacją wzoru (widoczne w samym rejestrze), a moduły z ekranami wciąż zbiorczo `todo` (M3 ~44%, M5 ~5%, M6 ~15%, M7/M9/M10/M12/M13 po 1 ekranie) są już jawnie, uczciwie oznaczone jako niekompletne w `mapa-wdrozenia.md` — to nie jest ukryta luka w rozumieniu N.1, tylko widoczny, śledzony backlog. Pełne przejście funkcja-po-funkcji dla tych modułów to praca budowy ekranów (`docs/lista-do-zrobienia.md`), nie audytu.
+
+**N.2 (audyt dwuwarstwowy) — zastosowanie do tego projektu:** ta Biblia nie ma jeszcze osobnych "rozdziałów" w sensie Części B.3 (jeden płaski zestaw plików w Filarze C, nie drzewo kategorii) — N.2 dosłownie nie ma dziś zastosowania (nie ma warstwy "przyrostowej po rozdziale" odrębnej od tego pełnego przejścia). Jeśli struktura się rozrośnie do dwupoziomowej, N.2 zaczyna obowiązywać od tego momentu, nie retroaktywnie.
+
 ## Synchronizacja ze standardem
 
 <!-- Obowiązkowe od GOD BOOK Część Y.6. Sprawdzaj AKTUALIZACJE.md w new-app-standards co ≤7 dni. Brak wpisu = "nigdy nie sprawdzono". -->

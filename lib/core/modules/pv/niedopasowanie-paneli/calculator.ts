@@ -4,6 +4,8 @@ import { validateInput } from "./validation"
 import { duzaRoznicaMocy, malaRoznicaMocy, umiarkowanaRoznicaMocy } from "./warnings"
 import { ROZNICA_MOCY_KRYTYCZNA_PCT, ROZNICA_MOCY_OSTRZEZENIE_PCT } from "./constants"
 
+// 🔎 TD5 (dlug-techniczny.md): druga liczba źródła (Sekcja C, "strata może sięgać nawet 18%") nie
+// zaimplementowana jako osobne obliczenie — źródło nie podaje wzoru na tę nieliniowość.
 export const CALCULATOR_VERSION = "1.0.0"
 
 export type NiedopasowaniePaneliResult = {

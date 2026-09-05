@@ -3,6 +3,8 @@ import type { MocPozornaCosfiInput } from "./input"
 import { validateInput } from "./validation"
 import { mocPozornaInfo } from "./warnings"
 
+// 🔎 TD2 (dlug-techniczny.md): tylko podpunkt 1 (moc pozorna). Podpunkty 2 (prądy rozruchowe) i 3
+// (współczynnik jednoczesności) wymagają bazy komponentów/modelu statystycznego, nieobecnych w źródle.
 export const CALCULATOR_VERSION = "1.0.0"
 
 export type MocPozornaCosfiResult = {
