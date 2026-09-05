@@ -3,6 +3,8 @@ import type { PaneleBifacjalneInput } from "./input"
 import { validateInput } from "./validation"
 import { trawaNiskiZysk, dobraPowierzchnia } from "./warnings"
 
+// 🔎 TD12 (dlug-techniczny.md): współczynnik bifacjalności panelu (70-90%) świadomie NIE jest
+// osobnym polem — źródło nie podaje wzoru łączącego go z już podanymi zakresami % uzysku.
 export const CALCULATOR_VERSION = "1.0.0"
 
 export type PaneleBifacjalneResult = {

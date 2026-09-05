@@ -1,6 +1,9 @@
 import type { CalcResult } from "@/lib/core/calc-result"
 import type { GodzinaPrognozy } from "./input"
 
+// 🔎 TD7 (dlug-techniczny.md): liczy tylko bilans 24h i godzinę szczytu (12.1, 12.2, 12.5).
+// 12.3 (trend produkcji 1-12 mies.), 12.4 (symulacja SoC 24-72h) i 12.43 (wizualizacja zbiorcza)
+// NIE zbudowane, mimo że rejestr pokrycia wcześniej wymieniał je razem jako pokryte.
 export const CALCULATOR_VERSION = "1.0.0"
 
 export type PrognozyResult = {

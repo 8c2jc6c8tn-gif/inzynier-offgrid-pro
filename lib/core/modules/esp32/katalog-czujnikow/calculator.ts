@@ -1,6 +1,9 @@
 import type { CalcResult } from "@/lib/core/calc-result"
 import type { KatalogCzujnikowInput } from "./input"
 
+// 🔎 TD8 (dlug-techniczny.md): instancja czujnika ma tylko etykietę i lokalizację. Źródło
+// wprost specyfikuje trzecią właściwość konfiguracyjną per instancję — "progi alarmowe" —
+// NIE zbudowaną (brak pola w typie i w UI).
 export const CALCULATOR_VERSION = "1.0.0"
 
 export type KatalogCzujnikowResult = {

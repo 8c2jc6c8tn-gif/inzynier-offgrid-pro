@@ -1,6 +1,6 @@
 # Mapa wdrożenia — Inżynier Offgrid Pro
 
-**Wersja:** 1.0 | **Filar:** C | **Data utworzenia:** 04.09.2026 | **Ostatnia aktualizacja:** 04.09.2026 | **Status:** Stabilny (rosnący)
+**Wersja:** 1.1 | **Filar:** C | **Data utworzenia:** 04.09.2026 | **Ostatnia aktualizacja:** 05.09.2026 | **Status:** Stabilny (rosnący)
 **Powiązane dokumenty:** `00_Biblia.md`, `docs/rejestr-pokrycia.md`, `zlote-zasady.md` (Zasada 14 — kolejność budowy)
 
 TL;DR: Status opisany/zaimplementowany/przetestowany per moduł (M1–M13, Część T.2 GOD BOOK) — status *kodu*, w odróżnieniu od statusu *opisu* w `docs/zrodla/` (które jest kompletne dla wszystkich 13 modułów od 29.08.2026). Budowana z `docs/rejestr-pokrycia.md`, aktualizowana przy każdej sesji implementacyjnej, nie tylko przy audycie.
@@ -14,10 +14,10 @@ TL;DR: Status opisany/zaimplementowany/przetestowany per moduł (M1–M13, Czę�
 | Moduł (ID) | Nazwa | Opisany w źródle | Zaimplementowany | Przetestowany | Gotowość |
 |---|---|---|---|---|---|
 | M1 | Lokalizacja i teren | ✅ | ✅ (1 ekran, infrastrukturalny) | — (brak logiki do testowania) | Fundament gotowy, reszta ekranów `todo` |
-| M2 | Zapotrzebowanie energetyczne | ✅ | ✅ (13/17 ekranów) | ✅ | ~76% — reszta (Ekrany 3/10/14/15, wampiry) `⚠️ blocked` |
+| M2 | Zapotrzebowanie energetyczne | ✅ | ✅ (13/17 ekranów) | ✅ | ~76% — reszta (Ekrany 3/10/14/15, wampiry) `todo` (nie `blocked` — sprawdzone i nieoceniane, nie sprawdzone-i-odrzucone, patrz `backlog-poza-v1.md`) |
 | M3 | Instalacja PV | ✅ | 🔄 (12/~27 ekranów) | ✅ | ~44% — rozpoczęte 04.09.2026, w toku |
-| M4 | Magazyn energii / baterie | ✅ | ✅ (29/34 ekranów) | ✅ | ~85% — reszta `⚠️ blocked` (cross-modułowe/brak normy) |
-| M5 | Okablowanie i zabezpieczenia | ✅ | 🔄 (1/~20 ekranów) | ✅ | ~5% — Ekran 1 (mega-Doradca doboru kabla) `⚠️ blocked`, brak normy PN-IEC 60364-5-52 |
+| M4 | Magazyn energii / baterie | ✅ | ✅ (29/34 ekranów) | ✅ | ~85% — tylko Ekran 25 (szyny zbiorcze) faktycznie `⚠️ blocked`; Ekrany 3/31/32/33 to `todo` (cross-modułowe/nieocenione, nie sprawdzone-i-odrzucone) |
+| M5 | Okablowanie i zabezpieczenia | ✅ | 🔄 (1/29 ekranów) | ✅ | ~3% — tylko Ekran 1 (mega-Doradca doboru kabla) `⚠️ blocked`, brak normy PN-IEC 60364-5-52; pozostałe 27 ekranów mają samodzielne wzory NIEZALEŻNE od tej normy — zweryfikowane audytem 05.09.2026, buildowalne równolegle bez czekania na Ekran 1 |
 | M6 | Ogrzewanie / pompa ciepła | ✅ | 🔄 (7/~46 ekranów) | ✅ | ~15% — rozpoczęte 04.09.2026 (COP + pompy cyrkulacyjne + bufor ciepła + ryzyko niskiego napięcia + kocioł elektryczny + infiltracja powietrza + wentylacja z odzyskiem), reszta w większości `todo`/blocked (auto z Modułu 1) |
 | M7 | Stress-test zimowy | ✅ | 🔄 (1 ekran reprezentatywny) | ✅ | Fundament (Black Start) gotowy, spina M1–M6 — sensowny dopiero po nich |
 | M8 | Bezpieczeństwo i sytuacje awaryjne | ✅ | 🔄 (3/~11 ekranów) | ✅ | Audyt pożarowy (dane demo) + UPS krytyczny (dobór sprzętowy, częściowy) + dogrzewanie paliwem stałym (3 twarde stopy) |
@@ -55,3 +55,4 @@ TL;DR: Status opisany/zaimplementowany/przetestowany per moduł (M1–M13, Czę�
 | 04.09.2026 | M6: dodano Ekran 3 (wentylacja z odzyskiem ciepła, częściowy — tylko bilans podstawowy) → 7/~46, 90 `done` łącznie. |
 | 04.09.2026 | M8: dodano Ekran 6 (UPS krytyczny — dobór sprzętowy, częściowy — bez zarządzania priorytetami AI) → 2/~11, 91 `done` łącznie. Pierwszy nowy ekran M8 poza reprezentantem (audyt pożarowy). |
 | 04.09.2026 | M8: dodano Ekran 2 (bezpieczeństwo pożarowe — dogrzewanie paliwem stałym, 3 twarde stopy) → 3/~11, 92 `done` łącznie. |
+| 05.09.2026 | **Wynik audytu GOD BOOK Część N** (13 agentów równoległych, moduł po module źródło↔rejestr): poprawiono niespójność terminologii `todo`/`⚠️ blocked` w wierszach M2 i M4 (tylko realnie zablokowane ekrany oznaczone `blocked`, reszta `todo`), poprawiono liczbę ekranów Modułu 5 z "~20" na 29 (zweryfikowane audytem względem własnej metryczki źródła) i dopisano potwierdzenie, że 27 z 29 ekranów M5 jest niezależnych od blokady Ekranu 1. Szczegóły wszystkich znalezisk audytu: `docs/memory.md`. |

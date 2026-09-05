@@ -112,7 +112,7 @@ B/D/E, patrz sekcja niżej) — zaczęte 2026-09-04 od Ekranu 1 (fundament dobor
 | 12 | 3.13 | Ograniczenie prądu ładowania w mrozie (Cold C-Rate) | **done** | `lib/core/modules/baterie/cold-c-rate/`, UI: `app/kalkulatory/cold-c-rate/page.tsx`, 11 testów. Tabela 4 stref 1:1 ze źródła + jawnie oznaczona 5. strefa (5–10°C, `OUT_OF_SCOPE`) — źródło ma lukę w tym zakresie, nie interpolowano wymyślonej wartości. Twardy stop: ładowanie <-10°C całkowicie zablokowane (dopisane do `docs/rejestr-twardych-stopow.md`). Przykład źródła (-5°C, 280Ah → 28A) zweryfikowany niezależnie w Pythonie przed implementacją i odtworzony dokładnie w teście. |
 | 13 | 3.15 | Algorytm końca ładowania (Tail Current / Absorption) | **done** | `lib/core/modules/baterie/koniec-ladowania/`, UI: `app/kalkulatory/koniec-ladowania/page.tsx`, 6 testów. Próg prądu końcowego `I_koncowy = próg_C × pojemność` 1:1 ze źródła — przykład źródła (280Ah × 0,05C = 14A) zweryfikowany niezależnie w Pythonie i odtworzony dokładnie w teście. Trzy fazy (CC/CV-końcówka/zakończone) — proste drzewo decyzyjne z tej samej Sekcji B. |
 | 14 | 3.16, 3.33 | SoH (State of Health) — prognoza żywotności | **done** (częściowo) | `lib/core/modules/baterie/soh-per-ogniwo/`, UI: `app/kalkulatory/soh-per-ogniwo/page.tsx`, 5 testów. Zbudowana wyłącznie warstwa 2 (dawne 3.33, diagnostyka per ogniwo) — próg "wzrost rezystancji o 50%" 1:1 ze źródła, przykład Sekcji C (0,25→0,71mΩ = +184%, KRYTYCZNE) odtworzony dokładnie. Warstwa 1 (dawne 3.16, SoH ogólny metodą coulombowską) NIE zbudowana — wymaga ciągłego logowania historii cykli/temperatury/DoD z BMS w czasie, niemożliwe do policzenia z jednorazowych danych wejściowych bez wymyślenia modelu degradacji. Twardy stop dopisany do rejestru. |
-| 15 | 3.17 | Cold Cranking Amps (zimny start dużych odbiorników) | **done** | `lib/core/modules/baterie/cold-cranking-amps/`, UI: `app/kalkulatory/cold-cranking-amps/page.tsx`, 5 testów. Wzór `V_sag = V_oc − I×R_wewn` 1:1 ze źródła (Sekcja B). **Rozbieżność udokumentowana**: Sekcja A nie wymienia V_oc jako pole wejściowe, mimo że wzór go wymaga — dodane jako realna, mierzalna wielkość, nie wymyślony współczynnik, z notatką w kodzie. Temperatura ogniw (też w Sekcji A) świadomie nie stała się osobnym polem obliczeniowym — nie wchodzi do wzoru, tylko pośrednio wpływa na już zmierzoną rezystancję wewnętrzną. |
+| 15 | 3.17, 6.13 | Cold Cranking Amps (zimny start dużych odbiorników) | **done** | `lib/core/modules/baterie/cold-cranking-amps/`, UI: `app/kalkulatory/cold-cranking-amps/page.tsx`, 5 testów. Wzór `V_sag = V_oc − I×R_wewn` 1:1 ze źródła (Sekcja B). **Rozbieżność udokumentowana**: Sekcja A nie wymienia V_oc jako pole wejściowe, mimo że wzór go wymaga — dodane jako realna, mierzalna wielkość, nie wymyślony współczynnik, z notatką w kodzie. Temperatura ogniw (też w Sekcji A) świadomie nie stała się osobnym polem obliczeniowym — nie wchodzi do wzoru, tylko pośrednio wpływa na już zmierzoną rezystancję wewnętrzną. **[05.09.2026, audyt GOD BOOK Część N] Scala dawną funkcję 6.13 "Test Mroźnego Startu Baterii"** (Moduł 7 StressTest) — potwierdzone w trzech niezależnych źródłach (`Tresc_WSZYSTKIE_MODULY_scalone.md:130`, `Tresc_Modul_7_StressTest_Ekrany.md:340`, Biblia linia 7476), analogicznie do scalenia 3.25+12.12 w Ekranie 23, ale dotąd nieodnotowane tutaj — ID Biblii poprawione z samego "3.17" na "3.17, 6.13". |
 | 16 | 3.18 | Tryb Long Term Storage (odstawienie na zimę) | **done** | `lib/core/modules/baterie/long-term-storage/`, UI: `app/kalkulatory/long-term-storage/page.tsx`, 9 testów. Wzorzec D z elementem E: dwie realne kontrole liczbowe (SoC docelowy vs zalecany zakres 50–60%, temperatura vs bezpieczne minimum -20°C) + checklist 2-punktowy (odłączenie, uśpienie BMS), kolejność checklisty nieistotna (źródło nie opisuje sekwencji, w odróżnieniu od M11/A4). **Sprawdzona wcześniejsza flaga "możliwy duplikat M11 A10/B12":** nie jest duplikatem — A10/B12 to Wzorzec C (czyste akordeony treści o przechowywaniu/recyklingu/narzędziach, bez kalkulatora), ten ekran to realny kalkulator SoC/temperatura, różny wzorzec i różna treść źródłowa. |
 | 17 | 3.19 | Analiza Second-Life (baterie z EV) | **done** | `lib/core/modules/baterie/second-life/`, UI: `app/kalkulatory/second-life/page.tsx`, 7 testów. SoH szacowany z wieku LUB przebiegu (obie metody ze źródła, dolna granica zakresu rocznego 2%/rok jak w Ekranie 6) — obie metody niezależnie odtwarzają przykład źródła (10kWh/6000zł, SoH 72% → 833 zł/kWh) przy self-konsystentnych wartościach (14 lat lub 280 000 km); źródło nie podaje dokładnego wieku/przebiegu użytego w swoim przykładzie. |
 | 18 | 3.20 | Łączenie równoległe różnych baterii (Mixing) | **done** | `lib/core/modules/baterie/mixing-rownolegle/`, UI: `app/kalkulatory/mixing-rownolegle/page.tsx`, 7 testów. Wzorzec D — dwa twarde stopy źródła (🔴): różnica napięć >0,2V (prąd wyrównawczy `ΔV/(R1+R2)`, 1:1 ze źródła), mieszanie różnych chemii bez izolacji — oba dopisane do `docs/rejestr-twardych-stopow.md`. Udział w prądzie obciążenia liczony dzielnikiem prądowym `R_druga/(R1+R2)` z tych samych dwóch rezystancji (konsekwencja prawa Ohma dla gałęzi równoległych, nie osobna wymyślona zależność). Wiek/SoH z Sekcji A świadomie nie stały się osobnym polem — nie wchodzą do żadnego wzoru, efekt praktyczny już ujęty w zmierzonej rezystancji wewnętrznej. |
@@ -132,6 +132,44 @@ B/D/E, patrz sekcja niżej) — zaczęte 2026-09-04 od Ekranu 1 (fundament dobor
 | 32 | 3.36 | Hierarchia ładowania (PV > Agregat > Sieć) | todo | |
 | 33 | 3.37 | Symulacja miesiąca zachmurzenia (No-Sun Scenario) | todo | cross-ref Moduł 7 (Stress-test zimowy), wymaga danych historycznych z Modułu 1 |
 | 34 | 3.39 | Matryca alarmów BMS i reakcje systemu | **done** | `lib/core/modules/baterie/matryca-alarmow-bms/`, UI: `app/kalkulatory/matryca-alarmow-bms/page.tsx`. Wzorzec C — tabela 7 alarmów→reakcji + przykładowy komunikat, 1:1 ze źródła, bez kalkulatora (ten sam kształt co M11 A10/B12). |
+
+## Moduł 5 — Okablowanie i zabezpieczenia
+
+[05.09.2026] ✅ DODANO — źródło: audyt GOD BOOK Część N. Wcześniej ten moduł nie miał własnej sekcji (tylko wiersz w tabeli wzorców reprezentatywnych niżej), mimo że rejestr od 04.09.2026 zapowiadał "pełne wyliczenie per-funkcja do dopisania w kolejnym przejściu". Treść źródłowa kompletna w `docs/zrodla/Tresc_Modul_5_Okablowanie_Ekrany.md` — **29 ekranów** (nie ~20/~21, jak wcześniej błędnie liczono w `mapa-wdrozenia.md`/`backlog-poza-v1.md` — poprawione tym samym audytem, zweryfikowane względem własnej metryczki źródła: "Finalny wynik Modułu 5... 29 ekranów").
+
+**Kluczowe ustalenie audytu:** norma PN-IEC 60364-5-52 (brakująca tabela obciążalności kabli) blokuje wyłącznie **Ekran 1** — pojawia się w źródle dokładnie raz. Pozostałe 27 z 29 ekranów (Ekran 19 już `done`, patrz niżej w tabeli wzorców reprezentatywnych) mają samodzielne, kompletne wzory niezależne od tej normy: SPD (margines napięciowy), szyny zbiorcze (wytrzymałość zwarciowa + stałe momenty), pary metali Cu-Al (stały mnożnik 1,6×), złącza MC4 (baza komponentów), bezpieczniki/rozłączniki (`I×1,25`), moc falownika, przepust powietrza, uziemienie (rezystywność gruntu), analiza zwarciowa (`V/R`), selektywność, wyłączniki DC/RCD, ochrona przed dotykiem, IMD, oznakowanie, String Box, izolacja kabla, pomiary powykonawcze i inne — żaden nie odwołuje się do tabeli obciążalności. **Nie są dziś budowane, ale są `todo`, nie `blocked`** — gotowe do równoległej budowy bez czekania na Ekran 1.
+
+| Ekran | ID Biblii | Nazwa | Status | Wymaga PN-IEC 60364-5-52? |
+|---|---|---|---|---|
+| 1 | 4.1, 4.18, 4.27, 4.30 | Dobór przekroju kabla (mega-Doradca) | ⚠️ **blocked** | **TAK** — jedyne wystąpienie normy w źródle |
+| 2 | 4.5, 4.6, 4.7, 2.47 | Ochrona przeciwprzepięciowa (SPD) | todo | Nie |
+| 3 | 4.19, 4.20, 4.24 | Szyny zbiorcze i połączenia | todo | Nie |
+| 4 | 4.36, 4.37, 4.39 | Łączenie Cu-Al / korozja | todo | Nie |
+| 5 | 4.21, 4.35 | Złącza MC4 | todo | Nie |
+| 6 | 4.2 | Bezpieczniki i rozłączniki | todo | Nie |
+| 7 | 4.3 | Dobór mocy falownika | todo | Nie |
+| 8 | 4.4 | Przepust powietrza pod panelami | todo | Nie |
+| 9 | 4.8 | Projekt uziemienia | todo | Nie |
+| 10 | 4.9 | Główna Szyna Wyrównawcza (GSW) | todo | Nie |
+| 11 | 4.10 | Uziemienie funkcjonalne vs ochronne | todo | Nie |
+| 12 | 4.11 | Analiza zwarciowa | todo | Nie |
+| 13 | 4.12 | Selektywność zabezpieczeń | todo | Nie |
+| 14 | 4.13 | Wyłączniki nadprądowe DC | todo | Nie |
+| 15 | 4.14 | Ochrona przed odwrotną polaryzacją | todo | Nie |
+| 16 | 4.15 | Wyłączniki RCD | todo | Nie |
+| 17 | 4.16 | Ochrona przed dotykiem | todo | Nie |
+| 18 | 4.17 | IMD | todo | Nie |
+| 19 | 4.22 | Trasy kablowe — prowadzenie i separacja | **done** | patrz Wzorzec F niżej |
+| 20 | 4.23 | Oznakowanie obwodów | todo | Nie (inna norma, PN-EN 60445) |
+| 21 | 4.26 | Normy i certyfikaty | todo | Nie |
+| 22 | 4.28 | String Box | todo | Nie |
+| 23 | 4.29 | Separacja EMC | todo | Nie |
+| 24 | 4.31 | Peszle/koryta/rurki | todo | Nie |
+| 25 | 4.32 | Ochrona przed gryzoniami | todo | Nie |
+| 26 | 4.33 | Optymalizacja trasy / TCO | todo | Nie |
+| 27 | 4.34 | Puszki połączeniowe | todo | Nie |
+| 28 | 4.38 | Dobór izolacji kabla | todo | Nie |
+| 29 | 4.40 | Pomiary powykonawcze | todo | Nie |
 
 ## Moduły 3–13 — wzorce UI reprezentatywne (przygotowanie pod v0)
 
@@ -157,7 +195,7 @@ nie ślepego zaułka.
 | G — raport/podsumowanie | Moduł 8 / Ekran 11 | 12.57 | Autonomiczny audyt bezpieczeństwa pożarowego | **done** | `lib/core/modules/bezpieczenstwo/audyt-pozarowy/`, UI: `app/kalkulatory/audyt-pozarowy/page.tsx`, 5 testów. **Dane demonstracyjne** (`SAMPLE_AUDIT_ITEMS`) — docelowa wersja czerpie na żywo z Modułów 8/9/13, jawnie oznaczone w kodzie i UI. |
 | D | Moduł 8 / Ekran 6 | 11.54, 12.54 | UPS krytyczny — dobór sprzętowy | **done** (częściowo) | `lib/core/modules/bezpieczenstwo/ups-krytyczny/`, UI: `app/kalkulatory/ups-krytyczny/page.tsx`, 6 testów. Buduje TYLKO dobór sprzętowy (11.54) — wzorzec echo trybu "runtime" z `kalkulatory-pomocnicze` (M2/E16): `t=(C_Ah×V×η)/P`, tu zastosowany do sumy poboru mocy urządzeń krytycznych (checklist w stylu `systemy-podtrzymania-zycia`, M2/E1). Sprawność domyślna (0,92) importowana z `kalkulatory-pomocnicze/constants.ts`, nie zduplikowana liczba. Zarządzanie priorytetami AI przy rozładowaniu (12.54) świadomie NIE zbudowane — logika sterowania bez progu liczbowego. |
 | D | Moduł 8 / Ekran 2 | 6.25 | Bezpieczeństwo pożarowe przy dogrzewaniu paliwem stałym | **done** | `lib/core/modules/bezpieczenstwo/dogrzewanie-paliwem-stalym/`, UI: `app/kalkulatory/dogrzewanie-paliwem-stalym/page.tsx`, 6 testów. Trzy niezależne warunki bezpieczeństwa: minimalna odległość od materiałów palnych (40 cm — podana wprost jako liczba, nie zakres), obecność nawiewu powietrza do spalania, obecność czujnika CO — oba boolowskie, domyślnie `false` (brak ukrytego domyślnego "tak" dla danych bezpieczeństwa, UI_GUIDE §5). Wszystkie trzy dodane jako twarde stopy do `docs/rejestr-twardych-stopow.md`. |
-| H — katalog komponentów | Moduł 9 / Katalog 1 | — | Katalog czujników (dodawanie wielu instancji) | **done** | `lib/core/modules/esp32/katalog-czujnikow/`, UI: `app/kalkulatory/katalog-czujnikow/page.tsx`, 3 testy. Katalog 21 typów czujników 1:1 ze źródła. |
+| H — katalog komponentów | Moduł 9 / Katalog 1 | — | Katalog czujników (dodawanie wielu instancji) | **done** (częściowo) | `lib/core/modules/esp32/katalog-czujnikow/`, UI: `app/kalkulatory/katalog-czujnikow/page.tsx`, 3 testy. Katalog 21 typów czujników 1:1 ze źródła (tabela nazwa/model/dane doboru). **[05.09.2026, audyt GOD BOOK Część N]** Instancja czujnika ma tylko `etykieta`+`lokalizacja` — źródło wprost specyfikuje trzecią właściwość per instancję, "progi alarmowe", NIE zbudowaną — TD8, `dlug-techniczny.md`. |
 
 ## Moduł 3 — ekrany dodatkowe (poza wzorcami reprezentatywnymi, 2026-09-04)
 
@@ -178,6 +216,7 @@ per-funkcja całego modułu (to nadal osobny, nie rozpoczęty krok).
 | 14 | 2.24, 2.25, 2.26, 2.27, 2.37, 2.42 | Dopasowanie tablicy PV do falownika | **done** (częściowo) | `lib/core/modules/pv/dopasowanie-tablicy-falownika/`, UI: `app/kalkulatory/dopasowanie-tablicy-falownika/page.tsx`, 9 testów. "Mega-scalenie" źródła — sprawdza JEDNOCZEŚNIE 4 z 6 kryteriów: (1) napięcie zimowe vs limit falownika — wzorzec echo, `obliczNapiecieStringuZimowego` wyekstrahowany z Ekranu 5 (`stress-test-mppt/calculator.ts`); (2) napięcie robocze (STC) vs okno MPPT; (3) prąd roboczy vs max prąd MPPT; (5+6) współczynnik przewymiarowania DC/AC, zalecany zakres 1,1-1,3 dla off-gridu 1:1 ze źródła (kryterium 6 "ryzyko skrajności" to interpretacja tej samej liczby, scalone z 5). Kryterium 4 (napięcie startowe w upale, wymaga współczynnika temperaturowego Vmp nieobecnego w źródle jako wzór) świadomie NIE zbudowane — udokumentowane w kodzie i `docs/memory.md`. Wszystkie 4 zbudowane kryteria zweryfikowane niezależnie w Pythonie/testach na dwóch pełnych scenariuszach (wszystko OK / wszystko przekroczone). |
 | 26 | 2.46 | Straty na złączkach MC4 w praktyce | **done** | `lib/core/modules/pv/straty-zlaczki-mc4/`, UI: `app/kalkulatory/straty-zlaczki-mc4/page.tsx`, 6 testów. Prawo Joule'a `P=n×I²×R` — fizyka bez wolnego parametru poza rezystancją złączki, którą źródło podaje jako zakres (0,5-2 mΩ dobry stan, nawet 10× więcej zła), więc pole ręcznego wpisu (D16). Przykład źródła (20 złączek, 10A, dobry styk → 2W) odtworzony DOKŁADNIE przy R=1mΩ, zweryfikowany niezależnie w Pythonie. Przykład "zły styk → nawet 25W" jest przybliżeniem źródła (własne słowo "nawet"), nie pojedynczą wartością — wzór wdrożony dokładnie jak podany. Próg bucketowania (2 mΩ / 20 mΩ) to granice zakresu źródła, nie wymyślona liczba, analogicznie do `niedopasowanie-paneli`. |
 | 16 | 2.31 | Panele bifacjalne | **done** (częściowo) | `lib/core/modules/pv/panele-bifacjalne/`, UI: `app/kalkulatory/panele-bifacjalne/page.tsx`, 5 testów. Dodatkowy uzysk z tylnej strony = % (ręcznie wpisany w zakresie danym per typ powierzchni: biała membrana 10-20%, jasny beton 8-15%, piasek 10-18%, trawa 3-5%, wszystkie 1:1 ze źródła) × roczny uzysk z przedniej strony. Przykład źródła ("jasny beton → 12%") odtworzony dokładnie (12% mieści się w zakresie 8-15%). Współczynnik bifacjalności panelu (70-90%, "z bazy komponentów") świadomie NIE jest osobnym polem — źródło nie podaje wzoru łączącego go z już podanymi zakresami %, wymyślanie takiej formuły naruszałoby Dyrektywę #1. 🟡 ostrzeżenie o niskim zysku na trawie 1:1 ze źródła. |
+| — | 2.15 | Zjawisko PID (degradacja indukowana napięciem) | todo | **[05.09.2026, audyt GOD BOOK Część N] Luka znaleziona i domknięta natychmiast (zarejestrowana, nie zbudowana)**: gotowa, kompletna treść źródłowa istnieje (Biblia, linia 1536 — własne dane wejściowe, próg >400-500V DC + wysoka wilgotność, komunikat ekranowy), redakcyjna notatka Biblii (linia 1238) jawnie odróżnia PID/LID/LETID (2.15/2.29/2.34) jako trzy osobne funkcje — ale 2.15 nigdy nie trafiło do `Tresc_Modul_3_PV_Ekrany.md` (który deklaruje pokrycie "50 pierwotnych funkcji", faktycznie 49) ani do żadnego rejestru. Ten sam wzorzec co luka 1.19 (Moduł 2). Gotowe do budowy — wzór/próg/komunikat kompletne w źródle. |
 
 ## Moduły 6, 7, 10, 11, 12, 13 — po jednym ekranie (pokrycie pulpitu, 2026-08-30)
 
@@ -196,11 +235,53 @@ modułów nadal `todo` — pełne wyliczenie per-funkcja do zrobienia w kolejnym
 | 6 — Ogrzewanie | 5.33 | Kocioł elektryczny — porównanie kosztu z pompą ciepła | **done** | `lib/core/modules/ogrzewanie/kociol-elektryczny/`, UI: `app/kalkulatory/kociol-elektryczny/page.tsx`, 6 testów. Ekran dodatkowy z Części 2A źródła ("Alternatywne źródła ciepła"). Wzorzec echo Ekranu 5 (COP): `E_elektryczna = Q_cieplna / COP`, zastosowany dwukrotnie (pompa z COP wpisanym ręcznie, kocioł z COP=1 — sprawność 99% podana wprost przez źródło, zaokrąglona). Przykład źródła ("kocioł zużywa 3-4× więcej prądu, COP=1 vs COP=3-4") odtworzony DOKŁADNIE — przy copPompy=3 lub 4 mnożnik zużycia wychodzi dokładnie 3× lub 4×. |
 | 6 — Ogrzewanie | 5.12 | Infiltracja powietrza (test szczelności) | **done** (częściowo) | `lib/core/modules/ogrzewanie/infiltracja-powietrza/`, UI: `app/kalkulatory/infiltracja-powietrza/page.tsx`, 6 testów. Wzór `Q=n×V×ρ×cp×ΔT/3600` — fizyka bez wolnego parametru poza gęstością/ciepłem właściwym powietrza (stałe fizyczne, analogicznie do `bojler-cwu`). Współczynnik ρ×cp/3600≈0,335 Wh/(m³·K) odpowiada powszechnie cytowanej stałej budowlanej ~0,33-0,34 Wh/(m³·K). Źródło NIE podaje kubatury/ΔT dla swojego przykładu ("0,8 wym/h") — nie da się dokładnie odtworzyć jego konkretnej liczby, ale wzór sam jest uniwersalną fizyką, zweryfikowaną niezależnie w Pythonie. Poprawa "8% po uszczelnieniu" (pojedynczy przykład, nie ogólny współczynnik) świadomie NIE liczona. |
 | 6 — Ogrzewanie | 5.3, 5.23, 5.24 | System wentylacji z odzyskiem ciepła | **done** (częściowo) | `lib/core/modules/ogrzewanie/wentylacja-odzysk-ciepla/`, UI: `app/kalkulatory/wentylacja-odzysk-ciepla/page.tsx`, 6 testów. Buduje TYLKO podstawowy bilans (dawne 5.3) — wzorzec echo `infiltracja-powietrza` (M6/E12), ten sam wzór strumienia ciepła powietrza pomnożony przez sprawność rekuperatora: `Q_odzysk=V̇×η×ρ×cp×ΔT/3600`. Przykład źródła (250 m³/h, sprawność 85%, −10°C → odzysk 2,1 kW) odtworzony PRZYBLIŻONYM dopasowaniem (2,14 kW przy ΔT=30K), mała rozbieżność zaokrąglenia, zweryfikowana niezależnie w Pythonie. Projekt strumieni per pomieszczenie (5.23) i logika bypassu letniego (5.24) świadomie NIE zbudowane — wymagają danych/reguł nieobecnych w źródle jako wzór. |
-| 7 — Stress-test zimowy | 6.5 | Procedura Black Start (checklist, kolejność ma znaczenie) | **done** | `lib/core/modules/stress-test/procedura-black-start/`, UI: `app/kalkulatory/procedura-black-start/page.tsx`, 4 testy. |
-| 10 — AI i prognozy | 12.1–12.5, 12.43 | Prognozy (raport) | **done** | `lib/core/modules/ai/prognozy/`, UI: `app/kalkulatory/prognozy/page.tsx`, 4 testy. Dane demonstracyjne (jak wzorzec G Modułu 8) — docelowo z silnika symulacji rocznej. |
+| 6 — Ogrzewanie | 5.46 | Ryzyko zamarznięcia dolnego źródła (Część 2C, twardy stop 🔴) | todo | **[05.09.2026, audyt GOD BOOK Część N] Luka znaleziona i domknięta natychmiast**: gotowa, pełna treść Doradcy z formułą, przykładem liczbowym i twardym stopem (`Tresc_Modul_6_Ogrzewanie_Ekrany.md:306-311`), jedna z sześciu funkcji wymienionych w podsumowaniu modułu jako "twardy stop" — dotąd nigdzie nieodnotowana (nie w kodzie, nie w `backlog-poza-v1.md`, nie w `docs/rejestr-twardych-stopow.md`). Gotowe do budowy. |
+| 6 — Ogrzewanie | 5.31 | Hałas i wibracje pompy ciepła (Część 2C, 🟡) | todo | **[05.09.2026, audyt GOD BOOK Część N]** Jedna z czterech w pełni rozpisanych funkcji Części 2C — dotąd nigdzie nieodnotowana. Niższy priorytet niż 5.46 (nie jest twardym stopem bezpieczeństwa). |
+| 7 — Stress-test zimowy | 6.5 | Procedura Black Start (checklist, kolejność ma znaczenie) | **done** | `lib/core/modules/stress-test/procedura-black-start/`, UI: `app/kalkulatory/procedura-black-start/page.tsx`, 4 testy. Pozostałe 25 ekranów Modułu 7: patrz nowa sekcja "Moduł 7 — ekrany dodatkowe" niżej (dopisana audytem 05.09.2026, wcześniej tylko zbiorcze zdanie bez tabeli per-ekran). |
+| 10 — AI i prognozy | 12.1, 12.2, 12.5 | Prognozy (raport) | **done** (częściowo) | `lib/core/modules/ai/prognozy/`, UI: `app/kalkulatory/prognozy/page.tsx`, 4 testy. Dane demonstracyjne (jak wzorzec G Modułu 8) — docelowo z silnika symulacji rocznej. **[05.09.2026, audyt GOD BOOK Część N] Korekta zakresu:** poprzedni wpis ("12.1–12.5, 12.43") sugerował pokrycie 6 funkcji, ale kod liczy tylko bilans 24h i godzinę szczytu (12.1, 12.2, 12.5). **12.3 (trend miesięczny), 12.4 (symulacja SoC 24-72h) i 12.43 (wizualizacja zbiorcza) NIE zbudowane** — TD7, `dlug-techniczny.md`. |
 | 11 — Montaż baterii | 9.9 | Przygotowanie stanowiska i narzędzi (checklist, ścieżka LiFePO4) | **done** | `lib/core/modules/montaz-baterii/przygotowanie-stanowiska/`, UI: `app/kalkulatory/przygotowanie-stanowiska/page.tsx`, 4 testy. |
 | 12 — Kalkulator/mobilny | 8.1 | Tryb uproszczony — dobór akumulatora i odbiorników | **done** | `lib/core/modules/kalkulator-mobilny/tryb-uproszczony/`, UI: `app/kalkulatory/tryb-uproszczony/page.tsx`, 4 testy. |
+| 12 — Kalkulator/mobilny | 8.8 | Dobór regulatora ładowania PWM vs MPPT do małej instalacji | todo | **[05.09.2026, audyt GOD BOOK Część N] Luka znaleziona i domknięta natychmiast**: gotowa, pełna treść źródłowa (Biblia, linia 12578-12590 — progi mocy 200-300W, sprawność 95%+, wzór na dobór prądu, przykładowy komunikat) — nigdy nie trafiła do `Tresc_Modul_12_Kalkulator_Ekrany.md` (deklaruje pokrycie 70 funkcji, faktycznie pomija tylko tę jedną) ani do żadnego rejestru. Ten sam wzorzec co luka 1.19/2.15. Gotowe do budowy. |
 | 13 — Tryb Live | 7.1 | Wejście w tryb Live (brama, bez telemetrii) | **done** | UI: `app/kalkulatory/tryb-live/page.tsx`, bez modułu domenowego (czysta bramka informacyjna, brak logiki do testowania) — jawnie pokazuje status "brak połączenia z telemetrią", nie fabrykuje danych live. |
+| 13 — Tryb Live | 7.7 | Powiadomienia push, SMS, e-mail (widżet biblioteki Ekranu 2) | todo | **[05.09.2026, audyt GOD BOOK Część N]** D-1 ("33 funkcje Trybu Live") potwierdzone jako poprawne w kanonicznej Biblii — ale `Tresc_Modul_13_Live_Ekrany.md`, mimo deklaracji "kompletna lista wszystkich 33 pozycji", faktycznie wymienia tylko 32 — 7.7 pominięte. Dopisane tu, żeby nie zniknęło cicho przy budowie biblioteki widżetów Ekranu 2 (dziś w całości `todo`). |
+
+## Moduł 7 — ekrany dodatkowe (2026-09-05, dopisane audytem GOD BOOK Część N)
+
+Wcześniej Moduł 7 miał tylko zbiorcze zdanie "pozostałe ekrany nie rozpoczęte", bez tabeli per-ekran
+jak M2/M3/M4/M11 — audyt (13 agentów równoległych, moduł po module) sprawdził to jako pierwszy
+uzupełnia lukę granularności. Kolumna "Zależność" pochodzi z analizy audytu, nie ze źródła wprost —
+większość ekranów spina dane z modułów 1-6 (stąd moduł jest "sensowny dopiero po nich"), ale kilka
+ma samodzielny wzór fizyczny i nie musi czekać.
+
+| Ekran | ID (dawne→dzisiejsze) | Nazwa | Status | Zależność / notatka |
+|---|---|---|---|---|
+| 1 | 6.1→7.1 | Symulacja -20/-30°C | todo | zależny (M1-M6) |
+| 2 | 6.2→7.2 | Deficyty miesięczne i agregat | todo | zależny (wynik Ekranu 1) |
+| 3 | 6.3→7.3 | Raport kryzysowy | todo | zależny (agreguje 1,2,4) |
+| 4 | 6.4→7.4 | Blackout | todo | **potencjalnie samodzielny** — architektonicznie bliski już zbudowanemu `agregat-pradotworczy` (M2/E17, dane wpisywane wprost) |
+| 5 | 6.5→7.5 | Procedura Black Start | **done** | patrz wiersz wyżej |
+| 6 | 6.6→7.6 | Freeze protection load shedding | todo | zależny (model termiczny M6, priorytety M2) |
+| 7 | 6.7,6.20→7.7,7.19 | Śnieg i oblodzenie PV | todo | zależny (M1 klimat, M3 panele) |
+| 8 | 6.9,6.23,6.36→7.9,7.22,7.34 | Agregat w mrozie | todo | zależny częściowo |
+| 9 | 6.10,6.21→7.10,7.20 | Albedo/bifacjalne w śniegu | todo | zależny (M3 panele) |
+| 10 | 6.12→7.12 | SPOF | todo | zależny (lista komponentów wszystkich modułów) |
+| 11 | 6.16→7.16 | Grzałki dachowe/rynnowe | todo | zależny (M1 dach) |
+| 12 | 6.14→7.14 | Współczynnik Bezpieczeństwa Zimowego | todo | zależny (agreguje 6.1,6.4,6.7,6.9,6.11...) |
+| 13 | 6.17→7.17 | Sztywnienie izolacji w mrozie | todo | **niezależny kandydat** — progi materiałowe to stała tabela, nie wymaga bazy komponentów |
+| 14 | 6.18→7.18 | Wieczna mgła/szadź | todo | zależny (M1, M3) |
+| 15 | 6.22→7.21 | Krótkie okno słoneczne | todo | zależny (M3 produkcja, M2 zapotrzebowanie) |
+| 16 | 6.24→7.23 | Turbina wiatrowa zimą | todo | zależny (dane wiatrowe M1) |
+| 17 | 6.26→7.24 | **Wind Chill** | todo | **najsilniejszy niezależny kandydat** — wzór to uniwersalna fizyka (analogicznie do Magnusa-Tetensa w `ochrona-wilgoc`/M4, deklinacji Coopera w `profil-astronomiczny`/M2), tylko 2 pola ręczne (wiatr, temperatura), nie wymaga danych z M1-M6 |
+| 18 | 6.28→7.26 | Pre-Heat Thermal Storage | todo | zależny (M6 pojemność cieplna) |
+| 19 | 6.29→7.27 | Elektronika w mrozie | todo | **niezależny kandydat** — analogiczne do już zbudowanego `cold-cranking-amps`/`komunikacja-bms` |
+| 20 | 6.30→7.28 | Bez wentylacji (frozen recuperation) | todo | zależny (M6 wentylacja) |
+| 21 | 6.32→7.30 | Pompy/zawory w mrozie | todo | zależny częściowo |
+| 22 | 6.15,27,31,35,37→7.15,25,29,33,35 | Ryzyko zamarznięcia (rury/grunt) | todo | zależny (model budynku M1) |
+| 23 | 6.34→7.32 | Obciążenie dachu śniegiem | todo | zależny, ryzyko braku normy budowlanej (podobne do luki M5/E1) |
+| 24 | 6.38→7.36 | Falownik THD zimą | todo | zależny + źródło nie daje czystego wzoru (ryzyko `blocked` przy próbie budowy) |
+| 25 | 6.39→7.37 | Deep Winter Energy Budget | todo | zależny (agreguje M2, M6, Ekran 16) |
+| 26 | 6.40→7.38 | Awaria stringa PV zimą | todo | zależny (M3 stringi) |
+| — | 6.8,6.11,6.13,6.19,6.25,6.33 | Funkcje przeniesione do M6/M4/M8/M13 | — | jawnie opisane w `Tresc_Modul_7_StressTest_Ekrany.md:336-342`, potwierdzone w Biblii (linie 7101, 8287, 8317) |
 
 ## Pulpit i nawigacja (implementacja, 2026-08-30)
 
