@@ -2330,6 +2330,51 @@ konkretnych potrzebnych tabel + kod kalkulatora, po kolei małymi partiami zgodn
     M5/E1, M11/B5, M4/E25 była już wcześniej udokumentowana w `backlog-poza-v1.md`) — do
     ustalenia względem Biblii projektu przy właściwej implementacji.
 
+## Decyzje i uzasadnienie (c.d. 86)
+
+- **2026-09-05 — Dodano trzy kolejne pliki: PN-IEC 60364-4-41:2000, PN-IEC 60364-4-43:1999,
+  materiał branżowy "Bezpieczeństwo instalacji fotowoltaicznych" 2019.** Kontekst: właściciel
+  projektu dostarczył je po rozmowie o tym, jakich norm jeszcze brakuje (4-41 i 4-43 były wcześniej
+  wskazane jako przydatne, bo cytowane wielokrotnie wewnątrz normy 5-54).
+  - **Nowy format źródłowy: pliki `.doc` (Word 95/97 binarny), nie PDF.** LibreOffice/`soffice`
+    odmówił ich otwarcia ("source file could not be loaded") — zainstalowano `antiword` i `wv`
+    (pakiet `wv`/`wvHtml`) jako alternatywne narzędzia do starych binarnych `.doc`. Kodowanie
+    plików to cp1250 — antiword wymaga jawnego podania mapy znaków (`-m 8859-2.txt` albo
+    `-m cp1250.txt`), inaczej polskie znaki wychodzą jako mojibake (`bezpieczeñstwa` zamiast
+    `bezpieczeństwa`). Zapamiętane jako nowy wzorzec narzędziowy obok już znanego OCR-dla-skanów.
+  - **🔴 Znalezisko krytyczne w PN-IEC 60364-4-41 — Tablice 41A i 41B fizycznie nie istnieją w
+    tym pliku.** Dokument to jawnie oznaczony "(Wyciąg)" (excerpt), nie pełny tekst normy. Miejsce,
+    gdzie w oryginale byłaby treść tych tablic (czasy wyłączenia zasilania wg napięcia, układy
+    TN/IT), jest po prostu puste — sprawdzone dwiema niezależnymi metodami konwersji (`antiword`
+    tekstowo, `wvHtml` strukturalnie z odzyskaniem 4 osadzonych obrazów WMF) — żadna nie znalazła
+    tych tablic ani jako tekstu, ani jako obrazu, ani jako uszkodzonego placeholdera. Świadomie
+    **nie uzupełniono tych wartości z pamięci/wiedzy ogólnej**, mimo że są to dobrze znane,
+    standardowe wartości branżowe (Dyrektywa: "nie wymyślaj brakujących danych" — dotyczy też
+    "dobrze znanych" wartości spoza aktualnie posiadanego źródła, nie tylko zupełnie nieznanych).
+    Zapisane jawnie jako zastrzeżenie w `docs/zrodla/norma-PN-IEC-60364-4-41/00-INDEKS.md` — każda
+    przyszła próba zbudowania kalkulatora weryfikującego samoczynne wyłączenie zasilania (Zs×Ia≤U0
+    itd.) będzie potrzebować osobnego, kompletnego źródła tych dwóch tablic.
+  - **PN-IEC 60364-4-43 był kompletny** — Tablica 43A (współczynnik k dla przewodów roboczych)
+    zweryfikowana dwiema niezależnymi metodami ekstrakcji (ASCII-art z antiword vs realna struktura
+    `<table>` z wvHtml) z identycznym wynikiem, wysoka pewność. Ta tabela to brakująca połowa
+    układanki do wzoru S=√(I²t)/k z Załącznika A normy 5-54 (5-54 miała tylko k dla przewodu
+    ochronnego, ta norma daje k dla przewodu fazowego/roboczego — komplet potrzebny do
+    interpretacji przypadku, gdy PE jest z innego materiału niż przewód fazowy).
+  - **Materiał branżowy PV 2019** (dodatek do "Rynek Elektryczny", nie formalna norma) —
+    świadomie oznaczony inną nazwą folderu (`materialy-branzowe-PV-2019/`, nie `norma-*`) żeby nie
+    sugerować statusu prawnego normy. Zawiera najobszerniejszy dotąd znaleziony indeks norm
+    specyficznych dla PV (43 pozycje) — w tym **PN-HD 60364-7-712** (norma instalacji PV, wcześniej
+    tylko domyślana z ogólnej wiedzy, teraz potwierdzona z niezależnego źródła jako realnie
+    istniejąca i faktycznie używana branżowo) oraz **PN-EN 61427-1** i **PN-EN 62124** — dwie normy
+    specyficznie dla systemów **autonomicznych/off-grid**, których wcześniej nie było na żadnej
+    liście w tym projekcie mimo że to dokładnie profil tej aplikacji. Znaleziono też konkretne,
+    działające ostrzeżenie do sprawdzenia względem istniejącego kodu: **złącza DC różnych
+    producentów (nawet deklarowane "kompatybilne z MC4") są zakazane przez IEC 62548 i
+    IEC 60364-7-712:2017** — do sprawdzenia, czy moduł `string-box`/`zlacza-mc4` (Moduł 5) już to
+    ostrzeżenie ma, czy trzeba dopisać.
+  - Status wszystkich trzech: przeanalizowane, podzielone na pliki, niewykorzystane jeszcze w
+    kodzie kalkulatorów.
+
 ## Mapa orientacyjna
 
 - `docs/rejestr-twardych-stopow.md` — zbiorczy indeks warunków zawsze skutkujących 🔴 (04.3), z odsyłaczami do modułu/ekranu/pliku źródłowego. Dopisz tu nowy twardy stop, gdy kolejny moduł go wprowadzi.

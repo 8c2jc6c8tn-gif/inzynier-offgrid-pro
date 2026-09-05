@@ -58,6 +58,31 @@ przed użyciem którejkolwiek liczby stamtąd, zweryfikuj wizualnie względem PD
 wykorzystania: dane źródłowe gotowe i wiarygodne (Załącznik B), ale żaden kalkulator jeszcze ich
 nie używa — patrz `docs/rejestr-pokrycia.md` i `docs/memory.md`.
 
+## Normy PN-IEC 60364-4-41 i 4-43 (05.09.2026)
+
+[05.09.2026] ✅ DODANO — źródło: właściciel projektu, pliki `.doc` (Word 95/97, prywatne
+wyciągi/tłumaczenia z 2002, nie oficjalny skan PKN). Ekstrakcja: `antiword`/`wvHtml` (natywny
+tekst z binarnego .doc, nie OCR).
+- **PN-IEC 60364-4-41:2000** (Ochrona przeciwporażeniowa) — `docs/zrodla/norma-PN-IEC-60364-4-41/`.
+  **🔴 Tablice 41A i 41B (czasy wyłączenia w układach TN/IT) nie istnieją w tym pliku** — dokument
+  to świadomy "Wyciąg", nie pełny tekst; sprawdzone dwiema niezależnymi metodami. Reszta treści
+  (definicje SELV/PELV/FELV, wzory Zs×Ia≤U0, RA×Ia≤50V i warianty IT) kompletna.
+- **PN-IEC 60364-4-43:1999** (Ochrona przed prądem przetężeniowym) — `docs/zrodla/norma-PN-IEC-60364-4-43/`.
+  Kompletny, zweryfikowany krzyżowo. Zawiera Tablicę 43A (współczynnik k dla przewodów roboczych) —
+  uzupełnia Załącznik A normy 5-54 (który podaje k dla przewodu ochronnego).
+
+Status wykorzystania: przeanalizowane, niewykorzystane jeszcze w kodzie.
+
+## Materiały branżowe: "Bezpieczeństwo instalacji fotowoltaicznych" 2019 (05.09.2026)
+
+[05.09.2026] ✅ DODANO — źródło: właściciel projektu, dodatek do magazynu "Rynek Elektryczny" 3/2019.
+**Nie jest formalną normą** (literatura branżowa/szkoleniowa) — `docs/zrodla/materialy-branzowe-PV-2019/`.
+Zawiera obszerny indeks norm specyficznych dla PV (w tym PN-HD 60364-7-712, PN-EN 62305, PN-EN 62852,
+PN-EN 61215, PN-EN 62109, PN-EN 61427-1 dla off-grid), zasady prowadzenia przewodów DC/łuku
+elektrycznego (tabele promieni gięcia i odległości montażowych), ochronę odgromową/przeciwprzepięciową,
+zalecenia dla służb ratowniczych, harmonogram konserwacji. Status: przeanalizowany, niewykorzystany
+w kodzie.
+
 ## Norma PN-HD 60364-5-54:2010 (05.09.2026)
 
 [05.09.2026] ✅ DODANO — źródło: właściciel projektu, zakupiona oficjalnie. Dotyczy uziemień,
