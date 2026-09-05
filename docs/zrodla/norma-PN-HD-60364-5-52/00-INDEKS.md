@@ -10,18 +10,40 @@ sprawdzonej strony). Treść w plikach `docs/zrodla/norma-PN-HD-60364-5-52/*.md`
 (sprawdzone ręcznie), ale **treść samych tabel liczbowych (Załącznik B i pokrewne) może zawierać
 błędy OCR w cyfrach** (np. `8`↔`3`, `0`↔`O`, rozjechane kolumny). Zgodnie z Dyrektywą #3
 (`02_Dyrektywy_AI_Projektu.md`) i CLAUDE.md ("nie wymyślaj brakujących danych") — **przed użyciem
-jakiejkolwiek konkretnej wartości liczbowej z Załącznika B/C/E/G w kodzie kalkulatora, zweryfikuj ją
-wizualnie względem oryginalnego PDF** (odpowiednia strona, renderowana z pliku źródłowego — numery
-stron w tym indeksie odpowiadają numeracji PDF liczonej od 0), nie ufaj samemu tekstowi OCR dla liczb
-bezpieczeństwa-krytycznych.
+jakiejkolwiek konkretnej wartości liczbowej z Załącznika A/C/E/F/G/H/I/ZA-ZC w kodzie kalkulatora,
+zweryfikuj ją wizualnie względem oryginalnego PDF** (odpowiednia strona, renderowana z pliku
+źródłowego — numery stron w tym indeksie odpowiadają numeracji PDF liczonej od 0), nie ufaj samemu
+tekstowi OCR dla liczb bezpieczeństwa-krytycznych. **Załącznik B jest już w pełni zweryfikowany i
+skorygowany — patrz niżej — reszta dokumentu (Załączniki A, C, E, F, G, H, I, ZA-ZC oraz klauzule
+520-529) ma tylko wstępny, niesystematyczny spot-check, nie pełną weryfikację.**
 
-**Konkretny dowód (05.09.2026):** strona 41 (Tablica B.52.4) sprawdzona równolegle OCR-em i wizualnie
-(bezpośredni odczyt obrazu strony). Nagłówek tabeli i większość z ok. 340 liczb w tabeli zgadza się,
-ale znaleziono realne błędy OCR w konkretnych komórkach: `2,5` odczytane jako `28`, `13,5` jako
-`13:95`, wartość `77` (kolumna B2, wiersz Aluminium 35 mm²) zgubiona jako `Ł44`. Skan sam w sobie
-jest wysokiej jakości (czytelny bezpośrednio, bez OCR) — błędy są w warstwie OCR, nie w źródle.
-Wniosek: renderowanie strony i bezpośredni odczyt obrazu (nie OCR) to jedyna wiarygodna metoda dla
-tabel liczbowych tej normy.
+**05.09.2026 — pełna weryfikacja i korekta Załącznika B (str. 33-58, wszystkie 26 stron, Tablice
+B.52.1-B.52.21).** Pierwszy spot-check (jedna strona, Tablica B.52.4) znalazł 3 błędy OCR w
+cyfrach i zaniepokoił na tyle, że zlecono **pełną wizualną weryfikację wszystkich 26 stron**
+(5 równoległych przebiegów, każdy porównujący bezpośredni odczyt renderu strony z tekstem OCR,
+komórka po komórce) — nie tylko pojedynczych błędnie odczytanych cyfr, ale też **całych brakujących
+kolumn i wierszy**, których sam spot-check by nie wykrył. Wynik: **~35 błędów znalezionych i
+poprawionych** w pliku `zalacznik-B-tablice-obciazalnosci.md`, w tym:
+- pojedyncze błędnie odczytane cyfry (np. `2,5`→`28`, `13,5`→`13:95`, `77`→`Ł44`/`mr`/`ŚL`,
+  `BD`→`75`, `144`→`77`, `FT`→`77`, `22`→`32`) — Tablice B.52.2, B.52.4, B.52.5, B.52.6, B.52.8,
+  B.52.9, B.52.12, B.52.14;
+- **całe kolumny cicho pominięte** w wybranych wierszach (nie błędny znak, brak znaku w ogóle) —
+  Tablice B.52.6 i B.52.8 (500 V, przekroje 1,5/2,5/4 mm²);
+- **cały wiersz danych całkowicie brakujący** (Tablica B.52.20, Drabinki instalacyjne, Stykające
+  się, wiersz "3") i jeden wiersz nieodzyskiwalny z samego OCR (ten sam załącznik, Perforowane
+  korytka, Oddalone od siebie, wiersz "3") — oba odtworzone z wizualnego odczytu strony;
+- **Tablica B.52.1** (str. 36-37, wykaz metod referencyjnych A1/A2/B1/B2/C/D/D2/E/F/G) i **Tablice
+  B.52.16/B.52.17** (str. 51, współczynniki poprawkowe/zmniejszające) miały strukturalne
+  uszkodzenie OCR na tyle poważne (rozjechane kolumny, brakujące kody metod i odnośniki), że
+  zostały **w całości przepisane ręcznie** z wizualnego odczytu strony zamiast łatane punktowo;
+- podwójny/zduplikowany etykiet wiersza (Tablica B.52.14: dwa wiersze oznaczone "20", brakujący
+  wiersz "25") — naprawiony.
+
+Skan sam w sobie jest wysokiej jakości (czytelny bezpośrednio, bez OCR) — błędy są w warstwie OCR,
+nie w źródle. **Wniosek, potwierdzony teraz na pełnej próbie 26 stron, nie tylko jednej:**
+renderowanie strony i bezpośredni odczyt obrazu (nie OCR) to jedyna wiarygodna metoda dla tabel
+liczbowych tej normy — pojedynczy spot-check nie wystarczy, bo najpoważniejsze błędy (brakujące
+kolumny/wiersze) są niewidoczne bez sprawdzenia każdej strony osobno.
 
 ## Mapa rozdziałów
 
@@ -67,7 +89,9 @@ konkretne liczby:
 
 ## Status wykorzystania w projekcie
 
-Na 05.09.2026: dokument **przeanalizowany i podzielony**, ale **jeszcze niewykorzystany w żadnym
-kalkulatorze** — M5/Ekran 1, M11/B5, M4/Ekran 25 nadal `⚠️ blocked` w `docs/rejestr-pokrycia.md`,
-dopóki nie zostanie wykonana wizualna weryfikacja konkretnych tabel (patrz zastrzeżenie wyżej) i
-napisany kod. To osobny, następny krok.
+Na 05.09.2026: dokument **przeanalizowany, podzielony, a Załącznik B (tabele obciążalności
+prądowej — to, czego faktycznie potrzebują zablokowane ekrany) w pełni wizualnie zweryfikowany i
+skorygowany** (patrz zastrzeżenie wyżej) — ale **jeszcze niewykorzystany w żadnym kalkulatorze**.
+M5/Ekran 1, M11/B5, M4/Ekran 25 nadal `⚠️ blocked` w `docs/rejestr-pokrycia.md`, dopóki nie
+powstanie kod. To osobny, następny krok — dane źródłowe są już gotowe i wiarygodne, brakuje tylko
+implementacji (input/calculator/validation/warnings/testy + UI, wg wzorca reszty projektu).

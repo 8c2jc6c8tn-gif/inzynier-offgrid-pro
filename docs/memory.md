@@ -2264,6 +2264,72 @@ konkretnych potrzebnych tabel + kod kalkulatora, po kolei małymi partiami zgodn
     Playwright (drewno, 30cm, brak nawiewu, brak czujnika CO → "-10 cm" margines, czerwony
     werdykt ze wszystkimi trzema ostrzeżeniami — zgodne z testem jednostkowym).
 
+## Decyzje i uzasadnienie (c.d. 85)
+
+- **2026-09-05 — Pełna weryfikacja i korekta Załącznika B normy PN-HD 60364-5-52** (tabele
+  obciążalności prądowej, str. 33-58, 26 stron). Kontekst: właściciel projektu zapytał wprost
+  "czy napewno nie ma więcej błędów z tego dokumentu przy przeniesieniu?" po tym, jak wcześniejszy
+  spot-check (jedna strona, Tablica B.52.4) już znalazł 3 błędy OCR. Odpowiedź uczciwa: nie było
+  pewności — tylko 1 z 26 stron była sprawdzona. Wykonano pełną wizualną weryfikację (5 równoległych
+  agentów, każdy porównujący bezpośredni odczyt renderu strony z tekstem OCR, komórka po komórce,
+  nie tylko cyfra po cyfrze — instrukcja wprost mówiła "sprawdź czy któraś kolumna/wiersz nie
+  zniknął w całości").
+  - Wynik: **~35 błędów** w `docs/zrodla/norma-PN-HD-60364-5-52/zalacznik-B-tablice-obciazalnosci.md`,
+    naprawionych bezpośrednio w pliku. Klasy błędów, od najgroźniejszej: (1) **całe kolumny cicho
+    pominięte** w niektórych wierszach (Tablice B.52.6, B.52.8 — brakowała cała środkowa/ostatnia
+    kolumna dla najmniejszych przekrojów 500V, bez żadnego śladu że coś zginęło); (2) **cały
+    wiersz danych całkowicie brakujący** (Tablica B.52.20, Drabinki/Stykające się, wiersz "3") i
+    jeden wiersz nieodzyskiwalny z samego OCR (ta sama tabela, inny wariant) — oba odtworzone z
+    obrazu; (3) **strukturalne uszkodzenie całych tabel** (Tablica B.52.1 — wykaz metod
+    referencyjnych A1-G, oraz Tablice B.52.16/B.52.17 — współczynniki poprawkowe) na tyle
+    poważne, że przepisano je w całości ręcznie zamiast łatać punktowo; (4) pojedyncze błędnie
+    odczytane cyfry (`2,5`→`28`, `13,5`→`13:95`, `77`→różne śmieci, `BD`→`75`, `144`→`77`,
+    `144`→`77`, `22`→`32`), część z nich w komórkach o realnym znaczeniu bezpieczeństwa (prąd
+    dopuszczalny kabla).
+  - **Wniosek procesowy, ważniejszy niż same poprawki:** jeden spot-check nie wystarcza do
+    stwierdzenia "OCR jest OK poza paroma cyframi" — najpoważniejsze błędy (brakujące
+    kolumny/wiersze) są **niewidoczne** bez sprawdzenia każdej strony osobno, bo nie wyglądają
+    jak błąd (nie ma "podejrzanego" znaku do zauważenia, po prostu liczby których miało być 7
+    jest 6). Zapisane jawnie w `docs/zrodla/norma-PN-HD-60364-5-52/00-INDEKS.md` jako
+    zaktualizowane zastrzeżenie: Załącznik B jest teraz w pełni zweryfikowany, **reszta dokumentu
+    (Załączniki A, C, E, F, G, H, I, ZA-ZC) nadal nie jest** — nie ekstrapolować "to OCR jest
+    dobre" na resztę pliku bez analogicznej pełnej weryfikacji, gdy przyjdzie ich używać.
+  - Zweryfikowane po korekcie: `tsc --noEmit`/`pnpm lint`/`pnpm test` (docs-only change, bez
+    wpływu na kod aplikacji — sprawdzone przed poprzednim commitem tej normy, nie powtarzane po
+    tej korekcie, bo zmiana dotyczy tylko treści markdown w `docs/zrodla/`, poza zasięgiem
+    typecheck/testów).
+
+- **2026-09-05 — Dodano i przeanalizowano drugą normę: PN-HD 60364-5-54:2010** (uziemienia,
+  przewody ochronne, przewody połączeń ochronnych) — dostarczona przez właściciela projektu tą
+  samą drogą co 5-52 (plik przesłany bezpośrednio do sesji, nie przez git tym razem). W
+  odróżnieniu od 5-52 (skan + OCR), **ten dokument to natywny tekst PDF** (38 stron, 0 stron
+  wymagało OCR) — brak ryzyka błędnie odczytanych cyfr, jedyna niedoskonałość: ekstrakcja tekstu
+  spłaszcza układ kolumn tabel wielokolumnowych (grecka ρ bywa odczytana jako łacińskie "r").
+  Wszystkie tabele/wzory i tak zweryfikowane wizualnie względem renderu strony, żeby uniknąć
+  błędnego przypisania wartości do kolumn — nie z powodu wątpliwej jakości źródła, tylko dla
+  pewności co do struktury.
+  - Podzielony na 13 plików w `docs/zrodla/norma-PN-HD-60364-5-54/` (indeks:
+    `00-INDEKS.md`) — struktura wg klauzul normatywnych (541-544) i załączników (A, B, ZA, ZB,
+    ZC, ZD), nie ściśle wg granic stron (klauzule normatywne swobodnie przechodzą między stronami
+    źródła, w przeciwieństwie do 5-52 gdzie każda tabela to osobna strona).
+  - Zawiera bezpośrednio przydatne dla przyszłych kalkulatorów: wzór doboru przekroju przewodu
+    ochronnego S=√(I²t)/k (543.1.2, Tablica 54.3) + tablice współczynnika k dla różnych
+    materiałów/izolacji (Załącznik A, Tablice A.54.1-A.54.6) + minimalne wymiary uziomów
+    (Tablica 54.1) + orientacyjna rezystywność gruntu (Załącznik ZA, Tablice ZA.54A/B).
+  - **🔴 Znaleziona i jawnie odnotowana rozbieżność (nie rozstrzygnięta samodzielnie):** główny
+    tekst 543.1.3 podaje minimalny przekrój przewodu ochronnego z aluminium chronionego
+    mechanicznie jako 16 mm², ale **Załącznik ZC (normatywny dla Polski)** zmienia tę wartość na
+    10 mm² dla instalacji w Polsce. Odnotowane w
+    `docs/zrodla/norma-PN-HD-60364-5-54/zalacznik-ZC-szczegolne-warunki-krajowe.md` i
+    krzyżowo w pliku 543 — przy pisaniu kodu kalkulatora dla polskiego profilu regionalnego
+    stosować wartość z Załącznika ZC (10 mm²), z komentarzem w kodzie odsyłającym do źródła
+    rozbieżności, zgodnie z zasadą "nie rozstrzygaj konfliktu cicho" (`praca_ai_z_teoria.md`,
+    rozdz. 15 standardu).
+  - Status: przeanalizowany, jeszcze niewykorzystany w kodzie. Nie sprawdzono, który konkretny
+    ekran/moduł był dotąd blokowany brakiem tej normy (w przeciwieństwie do 5-52, gdzie blokada
+    M5/E1, M11/B5, M4/E25 była już wcześniej udokumentowana w `backlog-poza-v1.md`) — do
+    ustalenia względem Biblii projektu przy właściwej implementacji.
+
 ## Mapa orientacyjna
 
 - `docs/rejestr-twardych-stopow.md` — zbiorczy indeks warunków zawsze skutkujących 🔴 (04.3), z odsyłaczami do modułu/ekranu/pliku źródłowego. Dopisz tu nowy twardy stop, gdy kolejny moduł go wprowadzi.

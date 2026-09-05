@@ -239,92 +239,43 @@ UWAGA 6 Jeśli puszka łączeniowa w suficie służy do zasilania opraw oświetl
 opraw może powodować wzrost temperatury otoczenia powyżej tych określonych w Tablicach od B.52.2 do B.52.5, patrz
 także 522.2.1. Temperatura może mieścić sie w zakresie od 40 * C do 50 * C, i wówczas należy zastosować współczynnik
 zmniejszający zgodnie z „Tablicą B.52. 14”.
-Tablica B.52.1 — Wykaz metod referencyjnych stanowiących podstawę
-tabelarycznego wyznaczania obciążalności prądowej długotrwałej
-pojedynczych "a Współ-
-Referencyjna metoda wykonania instalacji Izolacja Izolacja Izolacja czynnik czynnik
-termoplastyczna | termoutwardzalna | mineralna | temperatury | 7 niej-
-otoczenia szający
-| a Ja] s | a | s | e | r | 8 | s |
-Przewody A1 B.52.4 B.52.3 B.52.5 B.52.14 B.52.17
-izolowane Kol. 2 Kol. 2 Kol. 2
-m Pomie- (jednożyłowe)
-| szcze- w rurze
-A nie instalacyjnej
-w izolowanej
-cieplnie ścianie
-Przewody A2| B.52.2 | B.52.4 B.52.3 B.52.5 B.52.14 B.52.17
-GR 4 ; wielożyłowe Kol. 3 | Kol.3 | Kol. 3 Kol. 3 oprócz D
-| em w rurze (Stosuje
-e, QĄ | nie instalacyjnej, się Tablicę
-CZĘ w izolowanej B.52.19)
-cieplnie ścianie
-Przewody B.52.2 | B.52.4 | B.52.3 B.52.5 B.52.14 B.52.17
-: izolowane Kol. 4 | Kol.4 Kol. 4 Kol. 4
-5 ! (jednożyłowe)
-Tm instalacyjnej
-o na drewnianej
-ścianie
+**[05.09.2026 — TRANSKRYPCJA POPRAWIONA]** Poniższa tabela (str. 36-37, cała Tablica B.52.1) była w
+pierwotnym OCR strukturalnie nieczytelna (rozjechane kolumny, brakujące kody metod i odnośniki do
+tablic) — zweryfikowana wizualnie względem `page_037.png`/`page_038.png` i przepisana ręcznie w
+całości, nie łatana punktowo. Oryginalny (błędny) tekst OCR usunięty, żeby nie mylić z poprawną
+wersją niżej.
+
+Tablica B.52.1 — Wykaz metod referencyjnych stanowiących podstawę tabelarycznego wyznaczania
+obciążalności prądowej długotrwałej (część 1: metody A1, A2, B1)
+
+| Referencyjna metoda wykonania instalacji | Kod | Izolacja termoplastyczna, 2 żyły (Kol.) | Izolacja termoplastyczna, 3 żyły (Kol.) | Izolacja termoutwardzalna, 2 żyły (Kol.) | Izolacja termoutwardzalna, 3 żyły (Kol.) | Izolacja mineralna, 2 i 3 żyły | Współczynnik temperatury otoczenia | Współczynnik zmniejszający dla wiązki |
+|---|---|---|---|---|---|---|---|---|
+| Przewody izolowane (jednożyłowe) w rurze instalacyjnej w izolowanej cieplnie ścianie | A1 | B.52.2 Kol. 2 | B.52.4 Kol. 2 | B.52.3 Kol. 2 | B.52.5 Kol. 2 | – | B.52.14 | B.52.17 |
+| Przewody wielożyłowe w rurze instalacyjnej, w izolowanej cieplnie ścianie | A2 | B.52.2 Kol. 3 | B.52.4 Kol. 3 | B.52.3 Kol. 3 | B.52.5 Kol. 3 | – | B.52.14 | B.52.17 oprócz D (Stosuje się Tablicę B.52.19) |
+| Przewody izolowane (jednożyłowe) w rurze instalacyjnej na drewnianej ścianie | B1 | B.52.2 Kol. 4 | B.52.4 Kol. 4 | B.52.3 Kol. 4 | B.52.5 Kol. 4 | – | B.52.14 | B.52.17 |
+
 36
 
 
 <!-- === STRONA 38 (PDF, liczone od 0) === -->
 
 HD 60364-5-52:2011
-Tablica B.52.1 (ciąg dalszy)
-Obciążalności prądowe długotrwałe dla obwodów
-pojedynczych aoi Współ:
-Referencyjna metoda wykonania instalacji Izolacja Izolacja Izolacja czynnik czynnik
-termoplastyczna | termoutwardzalna | mineralna temperatury zmniej-
-toczeni szający
-Liczba obciążonych żył SZK | wiązki
-| 0400000 Je] s | a | s | e | r | e | s |
-Przewody B.52.4 | B.52.3 | B.52.5 B.52.17
-Ę wielożyłowe Kol. 5 Kol. 5 Kol. 5
-Ą (2) w rurze
-SZ instalacyjnej
-Ę na drewnianej
-ścianie
-RO Przewody C | B.52.2 | B.52:4 | B'523 | B.5S25 70*C B.52.17
-8:0 jednożyłowe Kol. 6 Kol. 6 Kol. 6 Kol. 6 Osłona
-s lub wielożyłowe B.52.6
-A> na drewnianej 105 *C
-3 DY ścianie Gebia
-8 B.52.7
-FEET] Kable wielożyłowe B.52.2 | B.52.4 | B.52.3 B.52.5 B.52.19
-o cd w osłonie, Kol.7 | Kol.7 | Kol.7 | Kol.7
-Z UBI w gruncie
-ODE
-ACJAĄF
-PP
-TRPTENTTEETJT) Kable jednożyłowe Kol 8
-HEEEEEEEEY" *YNEEEEEEHE w powłoce
-HHHHHRCOOOH EHHH bepośrednio
-KHAHRSTAHRHHHH| w gruncie
-Przewody Miedź Miedź 70*C
-wielożyłowe B.52.10 B.52.12 Powłoka
-w powietrzu B.52.8
-| Aluminium Aluminium 105 *C
-B.52.11 B.52.13 Powłoka
-Odległość do ściany B.52.9
-nie mniejsza niż 0,3
-średnicy przewodu
-Fo Stykające Miedź Miedź 70*C B.52.14
-OO) się przewody B.52.10 B.52.12 Powłoka
-OGÓ jednożyłowe, B.52.8
-Q w powietrzu Aluminium Aluminium 105 *C
-% B.52.11 B.52.13 Powłoka
-Odległość do ściany nie SZ
-mniejsza niż średnica
-przewodu
-© Przewody Miedź Miedź 70*C
-| jednofazowe B.52.10 B.52.12 Powłoka
-© oddalone B.52.8
-A paw || wo | wo | ae
-w powietrzu .52. .52.
-'Co najmniej e Powłoka
-„średnica przewodu B.52.9
-ASC
+**[05.09.2026 — TRANSKRYPCJA POPRAWIONA]** Ciąg dalszy Tablicy B.52.1 (str. 37, metody B2, C, D, D2,
+E, F, G) — ten sam problem i to samo rozwiązanie co w części 1 wyżej: OCR strukturalnie nieczytelny,
+przepisano ręcznie z `page_038.png`.
+
+Tablica B.52.1 (ciąg dalszy) — część 2: metody B2, C, D, D2, E, F, G
+
+| Referencyjna metoda wykonania instalacji | Kod | Izolacja termoplastyczna, 2 żyły (Kol.) | Izolacja termoplastyczna, 3 żyły (Kol.) | Izolacja termoutwardzalna, 2 żyły (Kol.) | Izolacja termoutwardzalna, 3 żyły (Kol.) | Izolacja mineralna, 2 i 3 żyły | Współczynnik temperatury otoczenia | Współczynnik zmniejszający dla wiązki |
+|---|---|---|---|---|---|---|---|---|
+| Przewody wielożyłowe w rurze instalacyjnej na drewnianej ścianie | B2 | B.52.2 Kol. 5 | B.52.4 Kol. 5 | B.52.3 Kol. 5 | B.52.5 Kol. 5 | – | B.52.14 | B.52.17 |
+| Przewody jednożyłowe lub wielożyłowe na drewnianej ścianie | C | B.52.2 Kol. 6 | B.52.4 Kol. 6 | B.52.3 Kol. 6 | B.52.5 Kol. 6 | 70 °C Osłona B.52.6 / 105 °C Osłona B.52.7 | B.52.14 | B.52.17 |
+| Kable wielożyłowe w osłonie, w gruncie | D | B.52.2 Kol. 7 | B.52.4 Kol. 7 | B.52.3 Kol. 7 | B.52.5 Kol. 7 | – | B.52.15 | B.52.19 |
+| Kable jednożyłowe oraz wielożyłowe w powłoce bezpośrednio w gruncie | D2 | Kol. 8 | Kol. 8 | Kol. 8 | Kol. 8 | Kol. 8 | Kol. 8 | Kol. 8 |
+| Przewody wielożyłowe w powietrzu (odległość do ściany nie mniejsza niż 0,3 średnicy przewodu) | E | Miedź B.52.10 / Aluminium B.52.11 | Miedź B.52.10 / Aluminium B.52.11 | Miedź B.52.12 / Aluminium B.52.13 | Miedź B.52.12 / Aluminium B.52.13 | 70 °C Powłoka B.52.8 / 105 °C Powłoka B.52.9 | B.52.14 | B.52.20 |
+| Stykające się przewody jednożyłowe, w powietrzu (odległość do ściany nie mniejsza niż średnica przewodu) | F | Miedź B.52.10 / Aluminium B.52.11 | Miedź B.52.10 / Aluminium B.52.11 | Miedź B.52.12 / Aluminium B.52.13 | Miedź B.52.12 / Aluminium B.52.13 | 70 °C Powłoka B.52.8 / 105 °C Powłoka B.52.9 | B.52.14 | B.52.21 |
+| Przewody jednofazowe oddalone od siebie, w powietrzu (odstęp co najmniej średnica przewodu) | G | Miedź B.52.10 / Aluminium B.52.11 | Miedź B.52.10 / Aluminium B.52.11 | Miedź B.52.12 / Aluminium B.52.13 | Miedź B.52.12 / Aluminium B.52.13 | 70 °C Powłoka B.52.8 / 105 °C Powłoka B.52.9 | B.52.14 | – |
+
 37
 
 
@@ -345,7 +296,7 @@ SAGQH | HSS
 1 | 2 | 8 | 4 | 8] e | ro] 8
 Miedź
 1,5 14,5 14 17,5 16,5 19,5 22 22
-2:2 19,5 18,5 24 23 27 29 28
+2,5 19,5 18,5 24 23 27 29 28
 4 26 25 32 30 36 37 38
 6 34 32 41 38 46 46 48
 10 46 43 57 52 63 60 64
@@ -366,8 +317,8 @@ Aluminium
 6 26 25 32 30 36 36
 10 36 33 44 41 49 47
 16 48 44 60 54 66 61 63
-25 63 58 79 71 83 144 82
-35 FT 71 97 86 103 93 98
+25 63 58 79 71 83 77 82
+35 77 71 97 86 103 93 98
 50 93 86 118 104 125 109 117
 70 118 108 150 131 160 135 145
 95 142 130 181 157 195 159 173
@@ -467,13 +418,13 @@ Miedź
 240 286 261 346 297 403 280 320
 300 328 298 394 339 464 316 359
 Aluminium
-28 14 13:95 16,5 13 18,5 18,5
+2,5 14 13,5 16,5 15,5 18,5 18,5
 4 18,5 17,5 22 21 25 24
 6 24 23 28 27 32 30
 10 32 31 39 36 44 39
 16 43 41 53 48 59 50 53
 25 57 53 70 62 73 64 69
-35 70 65 86 Ł44 90 77 83
+35 70 65 86 77 90 77 83
 50 84 78 104 92 110 91 99
 70 107 98 133 116 140 112 122
 95 129 118 161 139 170 132 148
@@ -502,7 +453,7 @@ K4 eg i (= |GO AsZEĄ A RERŻERAA
 DA) | BA
 | 4, | 2 |] a | «4 | s | e | ro] 8]
 Miedź
-1:8 17 16,5 20 19,5 22 21 23
+1,5 17 16,5 20 19,5 22 21 23
 2,5 23 22 28 26 30 28 30
 4 31 30 37 35 40 36 39
 6 40 38 48 44 52 44 49
@@ -519,12 +470,12 @@ Miedź
 240 380 346 450 398 500 324 375
 300 435 396 514 455 576 365 419
 Aluminium
-2,0 19 18 za 21 24 22
-4 25 24 29 28 22 28
+2,5 19 18 22 21 24 22
+4 25 24 29 28 32 28
 6 32 31 38 35 41 35
 10 44 41 52 48 57 46
 16 58 55 71 64 76 59 64
-25 76 71 93 84 90 r4:) 82
+25 76 71 93 84 90 75 82
 35 94 87 116 103 112 90 98
 50 113 104 140 124 136 106 117
 70 142 131 179 156 174 130 144
@@ -559,15 +510,15 @@ O LJ) :g
 R Ś o
 |A| m8] 4
 500 V
-1,5 23 21
-2,5 31 29
-4 40 38
+1,5 23 19 21
+2,5 31 26 29
+4 40 35 38
 750 V
 1,5 25 21 23
 2,5 34 28 31
 4 45 37 41
 6 57 48 52
-10 mr 65 70
+10 77 65 70
 16 102 86 92
 25 133 112 120
 35 163 137 147
@@ -658,9 +609,9 @@ Metoda ElubF | MetodaE lubF Metoda F Metoda G Metoda G
 o © Ś o p.
 oa | 200] 0800]00400 | 800] 6]
 500 V
-1,5 25 21 23 26
-2,5 33 28 31 34
-4 44 37 41 45
+1,5 25 21 23 26 29
+2,5 33 28 31 34 39
+4 44 37 41 45 51
 750 V
 1,5 26 22 26 28 32
 2,5 36 30 34 37 43
@@ -715,7 +666,7 @@ loa ] 2] 80] 4] 8] 8]
 1,5 33 28 32 35 40
 2,5 45 38 43 47 54
 4 60 50 56 61 70
-6 76 64 ŚL 78 89
+6 76 64 71 78 89
 10 104 87 96 105 120
 16 137 115 127 137 157
 25 179 150 164 178 204
@@ -753,7 +704,7 @@ ce 000 EF (o)
 5 g j| 0. o”
 Metoda E Metoda E Metoda F Metoda F Metoda F Metoda G Metoda G
 l a, | a | 8 | 4 | s | e | r | 8]
-1,5 22 18,5 - — — —
+1,5 22 18,5 - — — - —
 2,5 30 25 - — - - -
 4 40 34 - - - - —
 6 51 43 - - — — —
@@ -798,7 +749,7 @@ GO) „lub Ś g!ub ć qg, SD,
 Metoda E Metoda E Metoda F Metoda F Metoda F Metoda G Metoda G
 la | 2 | 8 | 4 | s |] e | r] e
 2,5 23 19,5 — - — — —
-4 31 26 z - z z —
+4 31 26 - - - - —
 6 39 33 — — — — —
 10 54 46 — — — — —
 16 73 61 — — — — —
@@ -842,7 +793,7 @@ l 4] a | 8 | 4 | 8] e | ro] 8
 2,5 36 32 z — z — —
 4 49 42 - - — - —
 6 63 54 — — — — —
-10 86 BD — — — — —
+10 86 75 — — — — —
 16 115 100 - — — — —
 25 149 127 161 135 141 182 161
 35 185 158 200 169 176 226 201
@@ -856,7 +807,7 @@ l 4] a | 8 | 4 | 8] e | ro] 8
 300 741 621 783 703 736 902 833
 400 — — 940 823 868 1085 1008
 500 — — 1083 946 998 1253 1169
-630 — — 1 254 1 088 1.151 1 454 1 362
+630 — — 1 254 1 088 1 151 1 454 1 362
 UWAGA 1 Przyjęto, że żyły o przekrojach do 16 mm? włącznie są okrągłe. Wartości dla większych przekrojów odnoszą się
 do żył sektorowych i mogą być bezpiecznie stosowane do żył okrągłych.
 UWAGA 2 D, jest zewnętrzną średnicą przewodu.
@@ -885,9 +836,9 @@ s dlo |H
 l a. | 2 | 8 | «4 | s | e | 7 | 8 (|
 2,5 28 24 - - — — -
 4 38 32 — - — — —
-6 49 42 — - z z -
-10 67 58 - — = = 2
-16 91 77 - — z — —
+6 49 42 — - - - -
+10 67 58 - — - - -
+16 91 77 - — - — —
 25 108 97 121 103 107 138 122
 35 135 120 150 129 135 172 153
 50 164 146 184 159 165 210 188
@@ -917,10 +868,10 @@ otoczenia p ; Osłona z PVC Mia atari
 © vc XLPE iEPR lub bez osłony, krortysięh
 ŚDRIPNA ś temperatura 105 ?C
 temperatura 70 *C
-10 1.22 1.15 1,26 1,14
-15 1547 1,12 1,20 11
+10 1,22 1,15 1,26 1,14
+15 1,17 1,12 1,20 1,11
 20 1,12 1,08 1,14 1,07
-20 1,06 1,04 1,07 1,04
+25 1,06 1,04 1,07 1,04
 30 1,00 1,00 1,00 1,00
 35 0,94 0,96 0,93 0,96
 40 0,87 0,91 0,85 0,92
@@ -929,12 +880,12 @@ temperatura 70 *C
 55 0,61 0,76 0,57 0,80
 60 0,50 0,71 0,45 0,75
 65 — 0,65 — 0,70
-70 = 0,58 a 0,65
+70 — 0,58 — 0,65
 75 — 0,50 — 0,60
 80 — 0,41 — 0,54
 85 - - - 0,47
 90 — — - 0,40
-95 ę = = 0,32
+95 — — — 0,32
 Tablica B.52.15 — Współczynniki poprawkowe dla temperatury otaczającej ziemi innej
 niż 20 *C, stosowane do obciążalności prądowej długotrwałej kabli w ziemi
 Koe==
@@ -953,7 +904,7 @@ ziemi
 60 0,45 0,65
 65 - 0,60
 70 — 0,53
-75 a 0,46
+75 — 0,46
 80 — 0,38
 50
 
@@ -961,13 +912,20 @@ ziemi
 <!-- === STRONA 52 (PDF, liczone od 0) === -->
 
 HD 60364-5-52:2011
-Tablica B.52.16 Współczynniki poprawkowe dla kabli ułożonych bezpośrednio w gruncie
-lub w osłonach w gruncie dla rezystywności cieplnych gruntu innych niż 2,5 K:'m/W, stosowane
+Tablica B.52.16 — Współczynniki poprawkowe dla kabli ułożonych bezpośrednio w gruncie
+lub w osłonach w gruncie dla rezystywności cieplnych gruntu innych niż 2,5 K·m/W, stosowane
 do obciążalności prądowych długotrwałych kabli ułożonych z zastosowaniem metody D
-Współczynnik poprawkowy dla kabli ułożonych 1,28 1,20 1,18 1,1 1,05 1
-w osłonach
-Współczynnik poprawkowy dla kabli ułożonych 1,88 1,62 1,5 1,28 1,12 1
-bezpośrednio w gruncie
+
+**[05.09.2026 — TRANSKRYPCJA POPRAWIONA]** Ta tabela (oraz Tablica B.52.17 niżej) miała w
+pierwotnym OCR masowo brakujące wartości (całe nagłówki kolumn i pojedyncze komórki cicho
+pominięte, nie tylko błędnie odczytane cyfry) — zweryfikowana wizualnie względem `page_052.png`
+i przepisana ręcznie w całości.
+
+| Opór cieplny, K·m/W | 0,5 | 0,7 | 1 | 1,5 | 2 | 2,5 | 3 |
+|---|---|---|---|---|---|---|---|
+| Współczynnik poprawkowy dla kabli ułożonych w osłonach | 1,28 | 1,20 | 1,18 | 1,1 | 1,05 | 1 | 0,96 |
+| Współczynnik poprawkowy dla kabli ułożonych bezpośrednio w gruncie | 1,88 | 1,62 | 1,5 | 1,28 | 1,12 | 1 | 0,90 |
+
 UWAGA 1 Współczynniki poprawkowe podano jako uśrednione w zakresie przekroju żyły i rodzajów instalacji podanych
 w Tablicach od 52.2 do B.52.5. W całym zakresie dokładność współczynników poprawkowych wynosi +5 %.
 UWAGA 2 Współczynniki poprawkowe stosuje się do kabli wciągniętych do osłon w ziemi; dla kabli ułożonych bezpośrednio
@@ -983,30 +941,19 @@ wielożyłowego, lub dla wiązek złożonych z więcej niż jednego obwodu lub z
 przewodu wielożyłowego, stosowane dla obciążalności prądowych długotrwałych podanych
 w Tablicach od B.52.2 do B.52.13
 
-Do stosowania
-, , Liczba obwodów lub przewodów wielożyłowych dla obciążalności
-Rozmieszczenie prądowych
-(przewody stykające się) długotrwałych,
-7 według
-1 Wiązka w powietrzu, 1,00 | 0,80 | 0,70 0,57 0,45 Od B.52.2
-na powierzchni, wbudowana do B.52.13
-lub obudowana Metody od A do F
-W pojedynczej warstwie 1,00 0,79 | 0,75 | 0,73 | 0,72 | 0,72 | 0,71 | 0,70
-na ścianie, podłodze lub
-w nieperforowanym korytku s Od B.52.2
-instalacyjnym p Maty do B.52.7
-obwodów lub
-W pojedynczej warstwie 0,72 | 0,68 przewodów Metoda C
-bezpośrednio pod wielożyłowych
-drewnianym sufitem większej niż
-W pojedynczej warstwie 0,88 0.77 | 0,75 | 0,73 | 0,73 | 0,72 | 0,72|  dziewięćnie
-w poziomym lub pionowym stosuje się
-perforowanym korytku dalszych OdB.528
-instalacyjnym współczynników do B.52.13
-; : : poprawkowych IF
-W pojedynczej warstwie 1,00 | 0,87 0,80 | 0,80 | 0,79 | 0,79 | 0,78 | 0,78 Metody E i
-na drabince instalacyjnej,
-w uchwytach instalacyjnych itp.
+Kolumny = liczba obwodów lub przewodów wielożyłowych stykających się (1,2,3,4,5,6,7,8,9,12,16,20).
+Dla pozycji 2-5, gdy ta liczba przekracza 9, tablica nie podaje dalszych współczynników poprawkowych
+(patrz UWAGA w oryginale) — stąd puste komórki w kolumnach 12/16/20 dla tych pozycji, nie błąd
+transkrypcji.
+
+| Pozycja | Rozmieszczenie (przewody stykające się) | 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 | 12 | 16 | 20 | Do stosowania dla obciążalności prądowych długotrwałych według |
+|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|
+| 1 | Wiązka w powietrzu, na powierzchni, wbudowana lub obudowana | 1,00 | 0,80 | 0,70 | 0,65 | 0,60 | 0,57 | 0,54 | 0,52 | 0,50 | 0,45 | 0,41 | 0,38 | Od B.52.2 do B.52.13, Metody od A do F |
+| 2 | W pojedynczej warstwie na ścianie, podłodze lub w nieperforowanym korytku instalacyjnym | 1,00 | 0,85 | 0,79 | 0,75 | 0,73 | 0,72 | 0,72 | 0,71 | 0,70 | – | – | – | Od B.52.2 do B.52.7, Metoda C |
+| 3 | W pojedynczej warstwie bezpośrednio pod drewnianym sufitem | 0,95 | 0,81 | 0,72 | 0,68 | 0,66 | 0,64 | 0,63 | 0,62 | 0,61 | – | – | – | Od B.52.2 do B.52.7, Metoda C |
+| 4 | W pojedynczej warstwie w poziomym lub pionowym perforowanym korytku instalacyjnym | 1,00 | 0,88 | 0,82 | 0,77 | 0,75 | 0,73 | 0,73 | 0,72 | 0,72 | – | – | – | Od B.52.8 do B.52.13, Metody E i F |
+| 5 | W pojedynczej warstwie na drabince instalacyjnej, w uchwytach instalacyjnych itp. | 1,00 | 0,87 | 0,82 | 0,80 | 0,80 | 0,79 | 0,79 | 0,78 | 0,78 | – | – | – | Od B.52.8 do B.52.13, Metody E i F |
+
 UWAGA 1 Niniejsze współczynniki stosuje się dla wiązek takich samych, jednakowo obciążonych przewodów.
 UWAGA 2 Jeżeli poziome odstępy między sąsiednimi przewodami są większe niż ich dwukrotna całkowita średnica, nie
 wymaga się stosowania współczynnika zmniejszającego.
@@ -1084,9 +1031,9 @@ HD 60364-5-52:2011
 Tablica B.52.19 — Współczynniki zmniejszające dla kabli układanych w osłonach, w gruncie,
 składających się z więcej niż jednego obwodu — Instalacja wykonana z zastosowaniem metody D1
 podanej w Tablicach od B.52.2 do B.52.5
-MIFSESESEW
-(osłony
-stykające się)
+**[05.09.2026 — nagłówek poprawiony wizualnie, wartości liczbowe niżej były już poprawne]**
+A) Kable wielożyłowe w oddzielnych osłonach — Liczba kabli, Prześwit między osłonami:
+Zero (osłony stykające się) | 0,25 m | 0,5 m | 1,0 m
 
 2 0,85 0,90 0,95 0,95
 
@@ -1098,7 +1045,7 @@ stykające się)
 
 6 0,60 0,80 0,80 0,90
 
-f 0,57 0,76 0,80 0,88
+7 0,57 0,76 0,80 0,88
 
 8 0,54 0,74 0,78 0,88
 
@@ -1131,9 +1078,10 @@ f 0,57 0,76 0,80 0,88
 <!-- === STRONA 55 (PDF, liczone od 0) === -->
 
 HD 60364-5-52:2011
-złożonych z dwóch
-lub trzech kabli Zero
-EFE|E |= |= e
+**[05.09.2026 — nagłówek poprawiony wizualnie, wartości liczbowe niżej były już poprawne]**
+B) Kable jednożyłowe w oddzielnych osłonach nieposiadających właściwości magnetycznych —
+Liczba obwodów złożonych z dwóch lub trzech kabli jednożyłowych, Prześwit między osłonami:
+Zero (osłony stykające się) | 0,25 m | 0,5 m | 1,0 m
 2 0,80 0,90 0,90 0,95
 3 0,70 0,80 0,85 0,90
 4 0,65 0,75 0,80 0,90
@@ -1172,56 +1120,60 @@ HD 60364-5-52:2011
 Tablica B.52.20 — Współczynniki zmniejszające dla wiązek złożonych z więcej niż jednego przewodu
 wielożyłowego stosowane do podstawowych wartości dla przewodów wielożyłowych w powietrzu —
 Instalacja wykonana metodą E podaną w Tablicach od B.52.8 do B.52.13
-Liczba Liczba przewodów na korytko
-korytek lub drabinkę
-=" " : lub
-Metoda wykonania instalacji wg Tablicy A.52.3 drabinsk
-instala- 1
-cyjnych
-Stykające się
-1 1,00 | 0,88 | 0,82 | 0,79 | 0,76 | 0,73
-UOMONONOMOŃ ł ' i
-NOODYCYDYCEJ 2 1,00 | 0,87 | 0,80 | 0,77 | 0,73 | 0,68
-3 1,00 | 0,86 | 0,79 | 0,76 | 0,71 | 0,66
-owca [00,60,00,00,00) 6 1,00 | 0,84 | 0,77 | 0,73 | 0,68 | 0,64
-orytka a óiwiewnininwtnciinini
-instalacyjne z > 20 mm > 300 mm
-3
-wag Oddalone od siebie
-Dz 1 1,00 | 1,00 | 0,98 | 0,95 | 0,91
-kani>="= ż 1,00 | 0,99 | 0,96 | 0,92 | 0,87
-jebie |; |im|ao || aw | os
->20mm
-Stykające się
-= [7
-GQ  K$0
-G3E= "IE 1 1,00 | 0,88 | 0,82 | 0,78 | 0,73 | 0,72
-A 225 © 2 1,00 | 0,88 | 0,81 | 0,76 | 0,71 | 0,70
-Pionowe SO, mm eB
-perforowane 189
-korytka 31 —
-instalacyjne Oddalone od siebie
-(uwaga 4)
-1 1,00 | 0,91 | 0,89 | 0,88 | 0,87
-SO urag JR 2 1,00 | 0,91 | 0,88 | 0,87 | 0,85
-1 jt desk.
-! 225 1 I
-mm
-Stykające się
-1 0,97 | 0,84 | 0,78 | 0,75 | 0,71 | 0,68
-» OMOMOMOMO , , ,
-i » (09,.69,69,60,68 2 0,97 | 0,83 | 0,76 | 0,72 | 0,68 | 0,63
-pa dona 38 | 0,97 | 0,82 | 0,75 | 0,71 | 0,66 | 0,61
-J LONOMONOMOŃ
-09,00,09,89,09 6 0,97 | 0,81 | 0,73 | 0,69 | 0,63 | 0,58
-LL->20 mm > 300 mm
-Stykające się
-. Almie " |CSZSYSBSS, 1 1,00 | 0,87 | 0,82 | 0,80 | 0,79 | 0,78
-UNOÓ " 2 1,00 | 0,86 | 0,80 | 0,78 | 0,76 | 0,73
-" G3636303,68) 6 | 100 | 0,84 | 0,77 | 0,73 | 0,68 | 0,64
-(uwaga 3)
-|--=- > 20 mm |
-2 300 mm
+**[05.09.2026 — TRANSKRYPCJA POPRAWIONA]** OCR tej tabeli miał najcięższe uszkodzenia znalezione
+w całym Załączniku B: całkowicie brakujący wiersz danych (Drabinki instalacyjne, Stykające się,
+wiersz "3") i jeden wiersz nieodzyskiwalny z samego tekstu OCR (Perforowane korytka, Oddalone od
+siebie, wiersz "3"). Zweryfikowana wizualnie względem `page_056.png` i przepisana ręcznie w całości.
+Kolumny = liczba przewodów na korytko lub drabinkę (1, 2, 3, 4, 6, 9); "–" = nie dotyczy.
+
+**Perforowane korytka instalacyjne** (pozycja 31 wg Tablicy A.52.3):
+
+Stykające się — liczba korytek/drabinek:
+| | 1 | 2 | 3 | 4 | 6 | 9 |
+|---|---|---|---|---|---|---|
+| 1 | 1,00 | 0,88 | 0,82 | 0,79 | 0,76 | 0,73 |
+| 2 | 1,00 | 0,87 | 0,80 | 0,77 | 0,73 | 0,68 |
+| 3 | 1,00 | 0,86 | 0,79 | 0,76 | 0,71 | 0,66 |
+| 6 | 1,00 | 0,84 | 0,77 | 0,73 | 0,68 | 0,64 |
+
+Oddalone od siebie (co najmniej 20 mm) — liczba korytek/drabinek:
+| | 1 | 2 | 3 | 4 | 6 | 9 |
+|---|---|---|---|---|---|---|
+| 1 | 1,00 | 1,00 | 0,98 | 0,95 | 0,91 | – |
+| 2 | 1,00 | 0,99 | 0,96 | 0,92 | 0,87 | – |
+| 3 | 1,00 | 0,98 | 0,95 | 0,91 | 0,85 | – |
+
+**Pionowe perforowane korytka instalacyjne** (pozycja 31, uwaga 4, odstęp ≥225 mm):
+
+Stykające się — liczba korytek/drabinek:
+| | 1 | 2 | 3 | 4 | 6 | 9 |
+|---|---|---|---|---|---|---|
+| 1 | 1,00 | 0,88 | 0,82 | 0,78 | 0,73 | 0,72 |
+| 2 | 1,00 | 0,88 | 0,81 | 0,76 | 0,71 | 0,70 |
+
+Oddalone od siebie — liczba korytek/drabinek:
+| | 1 | 2 | 3 | 4 | 6 | 9 |
+|---|---|---|---|---|---|---|
+| 1 | 1,00 | 0,91 | 0,89 | 0,88 | 0,87 | – |
+| 2 | 1,00 | 0,91 | 0,88 | 0,87 | 0,85 | – |
+
+**Nieperforowane korytka instalacyjne** (pozycja 31) — Stykające się, liczba korytek/drabinek:
+| | 1 | 2 | 3 | 4 | 6 | 9 |
+|---|---|---|---|---|---|---|
+| 1 | 0,97 | 0,84 | 0,78 | 0,75 | 0,71 | 0,68 |
+| 2 | 0,97 | 0,83 | 0,76 | 0,72 | 0,68 | 0,63 |
+| 3 | 0,97 | 0,82 | 0,75 | 0,71 | 0,66 | 0,61 |
+| 6 | 0,97 | 0,81 | 0,73 | 0,69 | 0,63 | 0,58 |
+
+**Drabinki instalacyjne, uchwyty instalacyjne itp.** (pozycje 32, 33, 34, uwaga 3) — Stykające się,
+liczba korytek/drabinek:
+| | 1 | 2 | 3 | 4 | 6 | 9 |
+|---|---|---|---|---|---|---|
+| 1 | 1,00 | 0,87 | 0,82 | 0,80 | 0,79 | 0,78 |
+| 2 | 1,00 | 0,86 | 0,80 | 0,78 | 0,76 | 0,73 |
+| 3 | 1,00 | 0,85 | 0,79 | 0,76 | 0,73 | 0,70 |
+| 6 | 1,00 | 0,84 | 0,77 | 0,73 | 0,68 | 0,64 |
+
 55
 
 
@@ -1304,7 +1256,7 @@ instalacyjne > 300 zm 2 0,97 | 0,93 | 0,89
 |--— > 20 mm
 . Oddalone od siebie
 Pionowe TZ sa
-perforowane CE _I > 205 1 1,00 | 0,91 | 0,89 | Trzech przewodów
+perforowane CE _I > 225 1 1,00 | 0,91 | 0,89 | Trzech przewodów
 korytka 31 KIEM w układzie
 instalacyjne cgi 225 lez: e 1,00 | 0,90 | 0,86 trójkątnym
 G% mm (S*+

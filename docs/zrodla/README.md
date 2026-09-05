@@ -49,7 +49,28 @@ blokująca M5/Ekran 1, M11/B5, M4/Ekran 25 (`docs/rejestr-pokrycia.md`) — tabe
 prądowej kabli. Plik: `PN-HD-60364-5-52-2011-Instalacje-elektryczne-niskiego-napiecia-Oprzewodowanie.pdf`
 (96 stron, **skan**, nie tekst). Przeanalizowany i podzielony na rozdziały:
 **`docs/zrodla/norma-PN-HD-60364-5-52/00-INDEKS.md`** — zacznij tutaj, ma mapę rozdziałów i
-**obowiązkowe zastrzeżenie o jakości OCR** (treść tabel liczbowych wymaga wizualnej weryfikacji
-względem oryginalnego PDF przed użyciem w kodzie — zweryfikowane empirycznie, znaleziono realne
-błędy OCR w cyfrach). Status wykorzystania: dopiero przeanalizowany, żaden kalkulator jeszcze go
+**obowiązkowe zastrzeżenie o jakości OCR**. [05.09.2026, aktualizacja] Załącznik B (tabele
+B.52.1-B.52.21, str. 33-58) w pełni zweryfikowany wizualnie strona po stronie (nie tylko
+spot-check) i skorygowany — znaleziono i naprawiono ~35 błędów OCR, w tym całe brakujące
+kolumny/wiersze danych, nie tylko pojedyncze błędnie odczytane cyfry. Reszta dokumentu
+(Załączniki A, C, E, F, G, H, I, ZA-ZC) ma nadal tylko wstępny spot-check, nie pełną weryfikację —
+przed użyciem którejkolwiek liczby stamtąd, zweryfikuj wizualnie względem PDF. Status
+wykorzystania: dane źródłowe gotowe i wiarygodne (Załącznik B), ale żaden kalkulator jeszcze ich
 nie używa — patrz `docs/rejestr-pokrycia.md` i `docs/memory.md`.
+
+## Norma PN-HD 60364-5-54:2010 (05.09.2026)
+
+[05.09.2026] ✅ DODANO — źródło: właściciel projektu, zakupiona oficjalnie. Dotyczy uziemień,
+przewodów ochronnych (PE) i przewodów połączeń ochronnych — temat oddzielny od 5-52 (tam:
+obciążalność prądowa/dobór przekroju fazowego). Plik:
+`PN-HD-60364-5-54-2010-Instalacje-elektryczne-niskiego-napiecia-Uziemienia-przewody-ochronne-i-polaczen-ochronnych.pdf`
+(38 stron, **natywny tekst PDF, nie skan** — bez ryzyka błędów OCR, w odróżnieniu od 5-52).
+Przeanalizowany i podzielony na rozdziały: **`docs/zrodla/norma-PN-HD-60364-5-54/00-INDEKS.md`** —
+zacznij tutaj. Wszystkie tabele/wzory dodatkowo zweryfikowane wizualnie względem renderu strony
+(żeby uniknąć błędnego przypisania wartości do kolumn przy spłaszczeniu tekstu). Zawiera m.in.
+wzór doboru przekroju przewodu ochronnego (S=√(I²t)/k, Tablica 54.3) i tablice współczynnika k
+(Załącznik A) — bezpośrednio przydatne do kalkulatorów doboru PE. **Uwaga: Załącznik ZC (krajowy,
+Polska) zmienia wartość 543.1.3 dla aluminium chronionego mechanicznie na 10 mm², inaczej niż
+16 mm² w głównym tekście — rozbieżność odnotowana jawnie w pliku ZC, nie rozstrzygnięta cicho.**
+Status wykorzystania: dopiero przeanalizowany, żaden kalkulator jeszcze go nie używa — patrz
+`docs/memory.md`.
