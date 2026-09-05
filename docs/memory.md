@@ -44,6 +44,28 @@ Kontynuacja audytu z sekcji wyżej ("Audyt GOD BOOK Część N (05.09.2026)"). W
 
 Właściciel projektu, po zobaczeniu wyników audytu 13 modułów: dyrektywa na przyszłość, nie tylko wniosek z przeszłości. Polecenie wprost: brać pod uwagę tę klasę błędów i już ich nie popełniać — sprawdzać, czy wszystko jest wpisane od razu, pracować małymi partiami kodu w pełni dopieszczonymi, zamiast budować szybko seriami i potem szukać błędów zbiorczym audytem. Zapisane jako **Dyrektywa #14** w `02_Dyrektywy_AI_Projektu.md` (P.3 GOD BOOK — dokument dyrektyw specyficznych dla projektu rośnie właśnie w reakcji na takie odkrycia). Konsekwencja praktyczna na przyszłość: przy pracy nad kolejnym ekranem/funkcją — sprawdzić w tym samym kroku sąsiadujące pozycje tej samej sekcji źródła i nadać im wiersz w `docs/rejestr-pokrycia.md` (nawet `todo`), zamiast zostawiać je bez wiersza do wyłapania przy następnym audycie.
 
+## Ekran A2, Moduł 11 (Montaż mechaniczny + separacja ogniw) — 05.09.2026
+
+Autor poprosił o dokończenie sekcji "łączenia akumulatorów" (Moduł 11, Ścieżka A LiFePO4) — będzie
+montował realny pakiet 16S i potrzebuje wszystkich funkcji tej ścieżki gotowych, budowanych po
+kolei małymi partiami (zgodnie z Dyrektywą #14, ustaloną tego samego dnia). Ustalono zakres: cała
+Ścieżka A (A1-A10), włącznie z A2 i A5 dotąd świadomie odłożonymi.
+
+**A2 zbudowany jako pierwszy.** `lib/core/modules/montaz-baterii/montaz-mechaniczny/` — **wzorzec
+"echo" w praktyce**: docisk (300-400 kgf) reużywa gotowego progu i komunikatów ostrzegawczych z
+Modułu 4/Ekran 21 (`pozycjonowanie-ogniw/{constants,warnings}.ts`), zamiast duplikować — źródło
+wprost każe użyć tego samego progu ("cross-ref Moduł 4, Ekran 21"). Checklist 3-punktowy
+(separatory/krawędzie/obudowa) bez własnej logiki liczbowej, ten sam wzorzec co A7. 7 testów
+(nominalny/graniczny/oba kierunki poza zakresem/błędne dane/brak danych/checklist niepełny mimo
+docisku w zakresie). Zarejestrowany od razu: `docs/rejestr-pokrycia.md`, `mapa-wdrozenia.md`
+(19/22→20/22), `backlog-poza-v1.md` (A2 wykreślone z listy odłożonych, A5 zostaje), `lib/pulpit/registry.ts`.
+
+Zweryfikowane: `tsc --noEmit` czysto, `pnpm test` 474/474, `pnpm lint` czysto, `pnpm build` (nowa
+trasa `/kalkulatory/montaz-mechaniczny` w liście, zero błędów kompilacji).
+
+**Następny krok (ta sama sesja, ten sam wątek):** A5 "Pierwsze uruchomienie + test balansowania" —
+osobna partia, osobny commit, po tej samej dyscyplinie.
+
 ## Synchronizacja ze standardem
 
 <!-- Obowiązkowe od GOD BOOK Część Y.6. Sprawdzaj AKTUALIZACJE.md w new-app-standards co ≤7 dni. Brak wpisu = "nigdy nie sprawdzono". -->

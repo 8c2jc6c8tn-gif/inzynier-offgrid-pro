@@ -172,6 +172,7 @@ export const KAFLE: KafelEntry[] = [
     ikona: "🛠️",
     ekrany: [
       { href: "/kalkulatory/weryfikacja-ogniw", label: "Weryfikacja kompletności i kontrola wstępna ogniw" },
+      { href: "/kalkulatory/montaz-mechaniczny", label: "Montaż mechaniczny i separacja ogniw" },
       { href: "/kalkulatory/polaczenia-elektryczne", label: "Połączenia elektryczne i kolejność łączenia" },
       { href: "/kalkulatory/podlaczenie-bms", label: "Podłączenie BMS" },
       { href: "/kalkulatory/demontaz-pakietu", label: "Demontaż pakietu" },
