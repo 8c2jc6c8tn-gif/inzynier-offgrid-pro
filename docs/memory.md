@@ -74,6 +74,29 @@ Zweryfikowane: `tsc --noEmit` czysto, `pnpm test` 481/481, `pnpm lint` czysto, `
 trasa `/kalkulatory/pierwsze-uruchomienie`, zero błędów). Obie partie (A2, A5) budowane i
 commitowane osobno, zgodnie z Dyrektywą #14 — żadna nie czekała na drugą do zarejestrowania.
 
+## Ekran 6, Moduł 5 (Dobór bezpieczników i rozłączników) — 05.09.2026
+
+Autor poprosił o zajęcie się "przewodami" (Moduł 5, Okablowanie) — wybrał start od Ekranu 6
+(Bezpieczniki/rozłączniki DC) + Ekranu 22 (String Box), zamiast czekać na zablokowany Ekran 1
+(brak normy PN-IEC). Budowane po kolei, osobno, zgodnie z Dyrektywą #14.
+
+**Ekran 6 zbudowany jako pierwszy.** `lib/core/modules/okablowanie/dobor-bezpiecznika-rozlacznika/`
+— **wzorzec "echo"**: wzór `I_bezpiecznik=1,25×I` jest identyczny z Ekranem 22 Modułu 3
+(`ochrona-stringow`), więc zamiast duplikować, wyekstrahowano `obliczPradBezpiecznikaA()` do
+kanonicznego miejsca (`ochrona-stringow/calculator.ts`) i zaimportowano tutaj — refaktor
+zweryfikowany (istniejące 6 testów `ochrona-stringow` przeszły bez zmian). Twardy stop AIC < prąd
+zwarciowy (1:1 ze źródła 🔴) — prąd zwarciowy dziś ręczny wpis (docelowo z Ekranu 12, Analiza
+zwarciowa, jeszcze niezbudowanego), sprawdzenie jawnie pomijane (nie fałszywie "OK"), dopóki oba
+pola (AIC + prąd zwarciowy) niepodane — `aicWystarczajace: boolean | null`. Koordynacja
+selektywności z Ekranem 13 świadomie NIE sprawdzana (ekran nie istnieje) — w `assumptions`, nie
+cicho pominięta. 7 testów.
+
+Zarejestrowane od razu: `docs/rejestr-pokrycia.md` (sekcja Moduł 5, wiersz Ekran 6 → done),
+`mapa-wdrozenia.md` (1/29→2/29), `lib/pulpit/registry.ts`. Zweryfikowane: `tsc --noEmit` czysto,
+`pnpm test` 488/488, `pnpm lint` czysto, `pnpm build` (nowa trasa, zero błędów).
+
+**Następny krok (ten sam wątek):** Ekran 22 "String Box / Array Box" — osobna partia, osobny commit.
+
 ## Synchronizacja ze standardem
 
 <!-- Obowiązkowe od GOD BOOK Część Y.6. Sprawdzaj AKTUALIZACJE.md w new-app-standards co ≤7 dni. Brak wpisu = "nigdy nie sprawdzono". -->

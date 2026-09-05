@@ -146,7 +146,7 @@ B/D/E, patrz sekcja niżej) — zaczęte 2026-09-04 od Ekranu 1 (fundament dobor
 | 3 | 4.19, 4.20, 4.24 | Szyny zbiorcze i połączenia | todo | Nie |
 | 4 | 4.36, 4.37, 4.39 | Łączenie Cu-Al / korozja | todo | Nie |
 | 5 | 4.21, 4.35 | Złącza MC4 | todo | Nie |
-| 6 | 4.2 | Bezpieczniki i rozłączniki | todo | Nie |
+| 6 | 4.2 | Dobór bezpieczników i rozłączników | **done** | `lib/core/modules/okablowanie/dobor-bezpiecznika-rozlacznika/`, UI: `app/kalkulatory/dobor-bezpiecznika-rozlacznika/page.tsx`, 7 testów. (2026-09-05, na wyraźną prośbę autora) **Wzorzec "echo"**: `I_bezpiecznik=1,25×I` reużyty z Modułu 3/Ekran 22 (`ochrona-stringow`, wyekstrahowany do `obliczPradBezpiecznikaA`), nie zduplikowany. Twardy stop AIC < prąd zwarciowy (1:1 ze źródła 🔴) — prąd zwarciowy dziś ręczny wpis (docelowo z Ekranu 12, jeszcze niezbudowanego), sprawdzenie AIC pomijane (nie fałszywie "OK"), dopóki oba pola niepodane. Koordynacja selektywności z Ekranem 13 świadomie NIE sprawdzana (ekran nie istnieje) — jawnie w `assumptions`. |
 | 7 | 4.3 | Dobór mocy falownika | todo | Nie |
 | 8 | 4.4 | Przepust powietrza pod panelami | todo | Nie |
 | 9 | 4.8 | Projekt uziemienia | todo | Nie |

@@ -113,7 +113,10 @@ export const KAFLE: KafelEntry[] = [
     nazwa: "Okablowanie i zabezpieczenia",
     opis: "Przekroje, trasy, ochrona instalacji.",
     ikona: "🔌",
-    ekrany: [{ href: "/kalkulatory/trasy-kablowe", label: "Trasy kablowe — prowadzenie i separacja" }],
+    ekrany: [
+      { href: "/kalkulatory/trasy-kablowe", label: "Trasy kablowe — prowadzenie i separacja" },
+      { href: "/kalkulatory/dobor-bezpiecznika-rozlacznika", label: "Dobór bezpieczników i rozłączników" },
+    ],
   },
   {
     id: 6,
