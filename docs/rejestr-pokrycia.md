@@ -162,7 +162,7 @@ B/D/E, patrz sekcja niżej) — zaczęte 2026-09-04 od Ekranu 1 (fundament dobor
 | 19 | 4.22 | Trasy kablowe — prowadzenie i separacja | **done** | patrz Wzorzec F niżej |
 | 20 | 4.23 | Oznakowanie obwodów | todo | Nie (inna norma, PN-EN 60445) |
 | 21 | 4.26 | Normy i certyfikaty | todo | Nie |
-| 22 | 4.28 | String Box | todo | Nie |
+| 22 | 4.28 | String Box / Array Box | **done** | `lib/core/modules/okablowanie/string-box/`, UI: `app/kalkulatory/string-box/page.tsx`, 8 testów. (2026-09-05, na wyraźną prośbę autora) Twardy stop 1:1 ze źródła: brak skrzynki IP66 przy łączeniu stringów na wolnym powietrzu (checkbox domyślnie `false` — dane bezpieczeństwa nigdy jako ukryty domyślny "tak", UI_GUIDE §5). Bezpiecznik stringowy sprawdzany wobec zakresu 15-20A/string (1:1 ze źródła). Liczba wejść skrzynki vs liczba stringów. SPD Typ 2 (cross-ref Ekran 2) i rozłącznik izolacyjny DC świadomie NIE liczone — źródło nie podaje parametrów, jawnie w `assumptions`. |
 | 23 | 4.29 | Separacja EMC | todo | Nie |
 | 24 | 4.31 | Peszle/koryta/rurki | todo | Nie |
 | 25 | 4.32 | Ochrona przed gryzoniami | todo | Nie |

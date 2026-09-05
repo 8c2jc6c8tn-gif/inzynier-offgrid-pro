@@ -95,7 +95,18 @@ Zarejestrowane od razu: `docs/rejestr-pokrycia.md` (sekcja Moduł 5, wiersz Ekra
 `mapa-wdrozenia.md` (1/29→2/29), `lib/pulpit/registry.ts`. Zweryfikowane: `tsc --noEmit` czysto,
 `pnpm test` 488/488, `pnpm lint` czysto, `pnpm build` (nowa trasa, zero błędów).
 
-**Następny krok (ten sam wątek):** Ekran 22 "String Box / Array Box" — osobna partia, osobny commit.
+**Ekran 22 zbudowany jako druga, osobna partia (ten sam wątek).** `lib/core/modules/okablowanie/string-box/`
+— twardy stop 1:1 ze źródła: brak skrzynki IP66 przy łączeniu stringów na wolnym powietrzu
+(checkbox domyślnie `false`, dane bezpieczeństwa nigdy jako ukryty domyślny "tak", UI_GUIDE §5).
+Bezpiecznik stringowy sprawdzany wobec zakresu 15-20A/string, liczba wejść skrzynki vs liczba
+stringów — oba jako opcjonalne sprawdzenia (`boolean | null`, ten sam wzorzec co Ekran 6, pomijane
+jawnie w `assumptions` dopóki niepodane, nie fałszywie "OK"). SPD Typ 2 i rozłącznik izolacyjny DC
+świadomie NIE liczone — źródło nie podaje parametrów. 8 testów.
+
+Zarejestrowane od razu: `docs/rejestr-pokrycia.md`, `mapa-wdrozenia.md` (2/29→3/29),
+`lib/pulpit/registry.ts`. Zweryfikowane: `tsc --noEmit` czysto, `pnpm test` 496/496, `pnpm lint`
+czysto, `pnpm build` (nowa trasa, zero błędów). Obie partie tego wątku (Ekran 6, Ekran 22)
+budowane i commitowane osobno, zgodnie z Dyrektywą #14.
 
 ## Synchronizacja ze standardem
 
