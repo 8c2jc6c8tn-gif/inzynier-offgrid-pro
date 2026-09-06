@@ -31,6 +31,7 @@ Pakiet referencyjny wspólny dla wszystkich naszych aplikacji (obecnych i przysz
 | [14](14-proces-i-pamiec.md) | Proces, wersjonowanie i pamięć projektu | Dziennik zmian, znane luki, `docs/memory.md`. |
 | [15](15-wspolpraca-z-ai.md) | Współpraca z asystentami AI | Integralność informacji, hierarchia źródeł prawdy, zgłaszanie konfliktów. Źródło `CLAUDE.md`. |
 | [16](16-standard-kodowania.md) | Standard kodowania | Priorytety jakości, nazewnictwo, projektowanie funkcji, niemutowalność, nazwane typy błędów, komentarze — przekrojowo, niezależnie od warstwy i języka. |
+| [17](17-przetwarzanie-materialow-zrodlowych.md) | Przetwarzanie materiałów źródłowych | Rozpoznanie formatu (PDF natywny/skan, .doc, .docx), ekstrakcja per typ (OCR, antiword/wv, python-docx), weryfikacja pełnostronicowa zamiast spot-checku, struktura `docs/zrodla/`, zasady przy brakujących/sprzecznych danych. |
 
 ## Zasada dla tego pakietu samego w sobie
 

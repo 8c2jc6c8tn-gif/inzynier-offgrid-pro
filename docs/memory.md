@@ -2444,6 +2444,27 @@ konkretnych potrzebnych tabel + kod kalkulatora, po kolei małymi partiami zgodn
     czytane bezbłędnie, ale złożone diagramy/smart-art tracą strukturę przy konwersji — odwrotna
     sytuacja niż przy skanach, gdzie to wizualny odczyt jest bardziej wiarygodny niż OCR).
 
+## Decyzje i uzasadnienie (c.d. 89)
+
+- **2026-09-06 — Dodano nowy rozdział 17 standardu: "Przetwarzanie materiałów źródłowych"**
+  (`docs/standards/17-przetwarzanie-materialow-zrodlowych.md`), na wyraźną prośbę właściciela
+  projektu ("muszę taką instrukcję dać na inną sesję żeby nie zgadywała tego, czego nie pamiętam").
+  Spisuje w formie samodzielnej, gotowej do przekazania instrukcji całą metodologię wypracowaną w
+  tej sesji przy przetwarzaniu ~10 dostarczonych dokumentów źródłowych (norm PN/IEC/EN/HD i
+  materiałów branżowych): rozpoznanie formatu (PDF natywny vs skan, stary binarny `.doc`, `.docx`),
+  konkretne narzędzia i komendy per format (pypdfium2, tesseract+pol, antiword z jawną mapą znaków
+  `-m 8859-2.txt`, wvHtml+wmf2gd dla obiektów WMF w starych `.doc`, python-docx dla tabel), zasadę
+  pełnej weryfikacji strona-po-stronie zamiast spot-checku (z audytu Załącznika B normy 5-52, gdzie
+  jeden spot-check nie wykrył ~35 błędów wykrytych dopiero pełnym przejściem), strukturę folderów
+  `docs/zrodla/norma-*` vs `materialy-branzowe-*`, oraz rozróżnienie dwóch pozornie podobnych
+  sytuacji: "stara/nowa wersja normy z jawnie podaną datą ważności" (rozstrzygnąć samodzielnie) vs
+  "realna merytoryczna sprzeczność bez jednoznacznego wskazania" (zgłosić, nie rozstrzygać).
+  - Umieszczony w `docs/standards/` (nie lokalnie w `docs/zrodla/`), bo ten folder jest jawnie
+    zadeklarowany (`00-INDEKS.md` tego folderu) jako "pakiet wspólny dla wszystkich naszych
+    aplikacji" — metodologia ekstrakcji dokumentów źródłowych dotyczy każdej przyszłej apki rodziny,
+    nie tylko Offgrid. Zaktualizowano `docs/standards/00-INDEKS.md` (nowy wiersz w spisie) i
+    `CLAUDE.md` (licznik rozdziałów 17→18).
+
 ## Mapa orientacyjna
 
 - `docs/rejestr-twardych-stopow.md` — zbiorczy indeks warunków zawsze skutkujących 🔴 (04.3), z odsyłaczami do modułu/ekranu/pliku źródłowego. Dopisz tu nowy twardy stop, gdy kolejny moduł go wprowadzi.
