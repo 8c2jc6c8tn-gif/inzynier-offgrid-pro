@@ -66,7 +66,9 @@ tekst z binarnego .doc, nie OCR).
 - **PN-IEC 60364-4-41:2000** (Ochrona przeciwporażeniowa) — `docs/zrodla/norma-PN-IEC-60364-4-41/`.
   **🔴 Tablice 41A i 41B (czasy wyłączenia w układach TN/IT) nie istnieją w tym pliku** — dokument
   to świadomy "Wyciąg", nie pełny tekst; sprawdzone dwiema niezależnymi metodami. Reszta treści
-  (definicje SELV/PELV/FELV, wzory Zs×Ia≤U0, RA×Ia≤50V i warianty IT) kompletna.
+  (definicje SELV/PELV/FELV, wzory Zs×Ia≤U0, RA×Ia≤50V i warianty IT) kompletna. **✅ Rozwiązane
+  05.09.2026** przez materiał branżowy niżej — zawiera aktualną Tablicę 41.1 (norma obowiązująca
+  dziś, PN-HD 60364-4-41:2009), do stosowania zamiast starych 41A/41B.
 - **PN-IEC 60364-4-43:1999** (Ochrona przed prądem przetężeniowym) — `docs/zrodla/norma-PN-IEC-60364-4-43/`.
   Kompletny, zweryfikowany krzyżowo. Zawiera Tablicę 43A (współczynnik k dla przewodów roboczych) —
   uzupełnia Załącznik A normy 5-54 (który podaje k dla przewodu ochronnego).
@@ -82,6 +84,31 @@ PN-EN 61215, PN-EN 62109, PN-EN 61427-1 dla off-grid), zasady prowadzenia przewo
 elektrycznego (tabele promieni gięcia i odległości montażowych), ochronę odgromową/przeciwprzepięciową,
 zalecenia dla służb ratowniczych, harmonogram konserwacji. Status: przeanalizowany, niewykorzystany
 w kodzie.
+
+## Cztery kolejne pliki: PN-EN 60445, IEC 62109-2, HD 60364-7-712, materiał ochrony przeciwporażeniowej (05.09.2026)
+
+[05.09.2026] ✅ DODANO — źródło: właściciel projektu.
+- **PN-EN 60445:2010** (identyfikacja zacisków urządzeń i zakończeń przewodów) —
+  `docs/zrodla/norma-PN-EN-60445/`. Skan PKN, 16 stron, przeczytany w całości wizualnie (dokument
+  krótki). Kompletny — zawiera Tablicę 1 (znakowanie L1/L2/L3/N/PE/PEN itd.). **Odblokowuje
+  M5/Ekran 20 "Oznakowanie obwodów"** (`docs/rejestr-pokrycia.md:163`).
+- **IEC 62109-2:2011** (bezpieczeństwo przetwornic mocy PV — falowniki) —
+  `docs/zrodla/norma-IEC-62109-2/`. Angielski oryginał (FDIS), natywny tekst, 30 stron, kompletny
+  od strony tytułowej po bibliografię. Dotyczy też falowników off-grid/multi-mode, nie tylko
+  on-grid. Zawiera konkretne progi liczbowe (Tabela 31 — czasy odłączenia przy prądzie
+  resztkowym, progi 4.8.3.1) i wymagania THD dla falowników stand-alone.
+- **UNE-HD 60364-7-712:2017** (instalacje PV) —
+  `docs/zrodla/norma-HD-60364-7-712/`. 🔴 **Tylko wyciąg — spis treści + bibliografia (6 stron),
+  brak całej treści technicznej** (712.41-712.6, Załącznik B z obliczeniem U_OC MAX/I_SC MAX).
+  Praktycznie nie odblokowuje niczego w obecnej postaci — do faktycznego wykorzystania potrzebny
+  zakup pełnego tekstu.
+- **Materiał branżowy "Aktualne przepisy w zakresie ochrony przeciwporażeniowej"** (prezentacja
+  szkoleniowa, nie norma) — `docs/zrodla/materialy-branzowe-ochrona-przeciwporazeniowa-2010/`.
+  **Rozwiązuje krytyczny brak Tablic 41A/41B** z normy PN-IEC 60364-4-41 (patrz wyżej) — ale
+  jednocześnie pokazuje, że aktualnie obowiązująca norma (PN-HD 60364-4-41:2009) ma inną, bardziej
+  szczegółową Tablicę 41.1, którą należy stosować zamiast starych wartości. Zawiera też porównanie
+  starej/nowej rezystancji izolacji oraz podsumowanie normy PN-HD 60364-7-704:2010 (instalacje na
+  terenie budowy — nowa, dotąd nieomawiana norma).
 
 ## Norma PN-HD 60364-5-54:2010 (05.09.2026)
 

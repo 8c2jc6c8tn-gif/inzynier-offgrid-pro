@@ -2375,6 +2375,46 @@ konkretnych potrzebnych tabel + kod kalkulatora, po kolei małymi partiami zgodn
   - Status wszystkich trzech: przeanalizowane, podzielone na pliki, niewykorzystane jeszcze w
     kodzie kalkulatorów.
 
+## Decyzje i uzasadnienie (c.d. 87)
+
+- **2026-09-06 — Dodano cztery kolejne pliki źródłowe: PN-EN 60445:2010, IEC 62109-2:2011,
+  UNE-HD 60364-7-712:2017 (wyciąg), materiał szkoleniowy "Aktualne przepisy ochrony
+  przeciwporażeniowej".** Kontekst: kontynuacja serii dostarczania norm po rozmowie o brakujących
+  dokumentach.
+  - **PN-EN 60445:2010** — skan PKN, tylko 16 stron, przeczytany w całości bezpośrednio wizualnie
+    (szybsze i pewniejsze niż uruchamianie pełnego pipeline'u OCR dla tak małego pliku — nowy,
+    świadomy wybór metody skalowany do rozmiaru dokumentu). Kompletny, zawiera Tablicę 1
+    (znakowanie L1/L2/L3/N/PE itd.) — odblokowuje M5/Ekran 20.
+  - **IEC 62109-2:2011** — pobrany z pdfcoffee.com, angielski, natywny tekst, 30 stron, w pełni
+    kompletny (FDIS — formalnie wersja projektowa do głosowania równoległego, ale merytorycznie
+    odpowiada finalnej normie). Obejmuje falowniki multi-mode/stand-alone, nie tylko on-grid —
+    bezpośrednio istotne dla systemów off-grid tego projektu. Zawiera konkretne progi liczbowe
+    (czasy odłączenia przy prądzie resztkowym, wymagania THD dla fali wyjściowej stand-alone).
+  - **🔴 UNE-HD 60364-7-712:2017 — dostarczony jako "najważniejsza brakująca norma dla PV", ale
+    plik zawiera TYLKO spis treści i bibliografię (6 stron), żadnej właściwej treści technicznej.**
+    Sprawdzone w całości — jawnie oznaczone w samym pliku jako "WYCIĄG". Brakuje dokładnie tego, co
+    było potrzebne: 712.41-712.6 (ochrona, dobór materiałów, SPD) i Załącznika B (obliczenie
+    U_OC MAX/I_SC MAX dla stringów PV — metoda, której szukaliśmy formalnego źródła dla już
+    istniejącego modułu `konfigurator-stringow`). Zapisane jawnie jako praktycznie bezużyteczny w
+    obecnej postaci — nie udawać, że problem jest rozwiązany, bo plik "jest" w repo. Jedyna
+    wartość: potwierdzona struktura normy i pełna lista norm powołanych (nowe tropy: HD
+    60364-4-443, HD 60364-5-551, pełna seria EN 62305/EN 61439, których dotąd nie mieliśmy nawet
+    z nazwy).
+  - **✅ Materiał szkoleniowy "Aktualne przepisy..." (48 slajdów, nie norma) rozwiązuje krytyczny
+    brak Tablic 41A/41B** zgłoszony wcześniej w normie PN-IEC 60364-4-41 — ale z ważnym
+    zastrzeżeniem znalezionym przy tej okazji: **stare tablice 41A/41B (z normy z 2000 r.) różnią
+    się wartościami i strukturą od aktualnie obowiązującej Tablicy 41.1 (norma PN-HD
+    60364-4-41:2009, przywołana Rozporządzeniem Ministra Infrastruktury z 12.03.2009 r.)**.
+    Zdecydowano: do nowego kodu kalkulatora stosować Tablicę 41.1 (aktualną), stare tablice
+    zachować tylko jako kontekst historyczny w dokumentacji źródła. To jest przykład sytuacji z
+    CLAUDE.md ("informacja, która wydaje się nieaktualna") — rozstrzygnięte samodzielnie, bo to nie
+    jest sprzeczność do zgłoszenia użytkownikowi, tylko prosta relacja starsza-norma/nowsza-norma z
+    jednoznacznie wskazaną datą obowiązywania w samym materiale źródłowym.
+  - Wzorzec narzędziowy potwierdzony po raz kolejny: dla krótkich dokumentów (≤20 stron) czytać
+    bezpośrednio wizualnie zamiast uruchamiać pełen pipeline OCR — oszczędza czas, ryzyko błędu
+    OCR i tak eliminowane przez wizualną weryfikację na końcu.
+  - Status wszystkich czterech: przeanalizowane, niewykorzystane jeszcze w kodzie kalkulatorów.
+
 ## Mapa orientacyjna
 
 - `docs/rejestr-twardych-stopow.md` — zbiorczy indeks warunków zawsze skutkujących 🔴 (04.3), z odsyłaczami do modułu/ekranu/pliku źródłowego. Dopisz tu nowy twardy stop, gdy kolejny moduł go wprowadzi.

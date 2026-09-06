@@ -20,14 +20,17 @@ konwersji z mojej strony (sprawdzone dwoma niezależnymi narzędziami, zgodny wy
 prostu nie zostały ujęte w tym konkretnym wyciągu z 2002 roku.
 
 **Skutek praktyczny:** wzory warunków wyłączenia (Zs×Ia≤U₀ dla TN, RA×Ia≤50V dla TT, warianty dla
-IT) są w pliku kompletne i poprawne — ale **bez wartości granicznych czasu wyłączenia (0,4s / 0,2s
-itd. w zależności od napięcia), które te wzory mają weryfikować, nie da się dokończyć żadnego
-kalkulatora sprawdzającego samoczynne wyłączenie zasilania.** Zgodnie z CLAUDE.md ("nie wymyślaj
-brakujących danych — to aplikacja licząca twarde fakty fizyczne") wartości te NIE zostały uzupełnione
-z pamięci/wiedzy ogólnej mimo że są to dobrze znane, standardowe wartości branżowe — **wymagają
-potwierdzenia z rzeczywistego, kompletnego tekstu normy** (np. aktualnej wersji PN-HD 60364-4-41,
-która zastąpiła tę z 2000 roku — sprawdź `docs/rejestr-pokrycia.md`/`backlog-poza-v1.md`, czy to
-faktycznie blokuje któryś ekran, zanim dokupisz kolejny dokument).
+IT) są w pliku kompletne i poprawne — ale bez wartości granicznych czasu wyłączenia te wzory nie
+dają się dokończyć.
+
+**✅ 05.09.2026 — ROZWIĄZANE innym źródłem.** Materiał szkoleniowy
+`docs/zrodla/materialy-branzowe-ochrona-przeciwporazeniowa-2010/00-INDEKS.md` zawiera zarówno stare
+Tablice 41A/41B (dokładnie ten brak, historyczny kontekst), jak i — co ważniejsze —
+**aktualną Tablicę 41.1 z obowiązującej dziś normy PN-HD 60364-4-41:2009** (przywołanej
+Rozporządzeniem Ministra Infrastruktury z 12.03.2009 r.). Struktura i wartości Tablicy 41.1 różnią
+się od starych 41A/41B (m.in. rozbicie a.c./d.c., osobne pasma TT). **Do nowego kodu kalkulatora
+używać Tablicy 41.1 (aktualnej), nie 41A/41B (te pozostają tu tylko jako kontekst historyczny,
+dlaczego "Wyciąg" ich nie zawierał).**
 
 ## Co ten dokument faktycznie zawiera (kompletne i użyteczne)
 
