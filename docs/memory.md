@@ -2553,6 +2553,29 @@ konkretnych potrzebnych tabel + kod kalkulatora, po kolei małymi partiami zgodn
     folderze" ustaliła się dopiero przy trzecim źródle. Flaga zostawiona w manifeście do
     ujednolicenia przy kopiowaniu do wspólnej biblioteki.
 
+## Decyzje i uzasadnienie (c.d. 94)
+
+- **2026-09-06 — Dodano ilustracje maskotki "Bob" dla 6 z 13 kafli pulpitu**, dostarczone przez
+  właściciela projektu jako PNG (~2-2,5 MB każdy, wygenerowane obrazy AI). Przeskalowane do maks.
+  900px na dłuższym boku i przekonwertowane na WebP (Python/Pillow) — z ~14 MB łącznie do ~900 KB,
+  bo w odróżnieniu od norm PDF w `docs/zrodla/` (referencje rzadko czytane) te obrazy ładują się
+  przy każdym wejściu na pulpit/stronę modułu.
+  - Nowy plik `lib/pulpit/maskotki.ts` — `MASKOTKA_PO_ID_KAFLA` (mapowanie id kafla → ścieżka
+    WebP w `public/maskotki-bob/`), ten sam wzorzec fallbacku co `KAFLE_ZE_ZBUDOWANA_IKONA` w
+    `components/kafle-ikony/ikona.tsx` (kafel bez wpisu = dotychczasowa ikona SVG/emoji, bez zmian).
+  - `app/page.tsx` — kafel z maskotką pokazuje ją (64×64, `object-cover object-top`) zamiast
+    ikony SVG/emoji, priorytet: maskotka > animowane SVG > emoji.
+  - `app/moduly/[id]/page.tsx` — maskotka jako hero-obraz (h-48, pełna szerokość) nad nagłówkiem
+    modułu, gdy dostępna.
+  - Pokrycie: Moduł 3 (PV — panele na dachu), 5 (Okablowanie — rozdzielnica, potwierdzone wprost
+    przez właściciela projektu), 6 (Ogrzewanie — ogrzewanie podłogowe/pompa ciepła), 7 (Stress-test
+    zimowy — bateria w śniegu), 9 (ESP32/sensoryka — warsztat elektroniczny), 11 (Montaż baterii —
+    składanie pakietu). Brakuje: 1, 2, 4, 8, 10, 12, 13 (+ opcjonalnie 14 Ustawienia).
+  - Zweryfikowane: `tsc`/`lint`(2 nieblokujące warningi `no-img-element`, świadomie zaakceptowane —
+    `next.config.mjs` ma `images.unoptimized: true`, `next/image` nic by tu nie zoptymalizował)/
+    `test` (496/496)/`build` czyste; `pnpm dev` + zrzuty ekranu Playwrightem (pulpit + Moduł 3) —
+    wygląda poprawnie, obraz przycięty sensownie (`object-top`, twarz Boba zawsze widoczna).
+
 ## Mapa orientacyjna
 
 - `docs/rejestr-twardych-stopow.md` — zbiorczy indeks warunków zawsze skutkujących 🔴 (04.3), z odsyłaczami do modułu/ekranu/pliku źródłowego. Dopisz tu nowy twardy stop, gdy kolejny moduł go wprowadzi.
