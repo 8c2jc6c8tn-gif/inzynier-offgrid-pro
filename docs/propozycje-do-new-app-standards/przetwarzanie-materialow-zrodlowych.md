@@ -1,4 +1,11 @@
-# 17. Przetwarzanie materiałów źródłowych (normy, PDF, skany, .doc/.docx)
+# PROPOZYCJA dla `new-app-standards` — Przetwarzanie materiałów źródłowych (normy, PDF, skany, .doc/.docx)
+
+> **Status: propozycja, nie standard.** Ten plik to pełny szkic roboczy powiązany ze zgłoszeniem w
+> `docs/wklad-do-standardu.md` (wpis z 06.09.2026). **Nie jest częścią `docs/standards/`** i nie ma
+> mocy obowiązującej — konsolidacja i decyzja o promocji do faktycznej reguły standardu dzieje się
+> wyłącznie w sesji pracującej bezpośrednio nad repo `new-app-standards` (GOD BOOK Część Y.8). Ten
+> plik istnieje wyłącznie po to, żeby ta przyszła sesja miała gotowy materiał do oceny, zamiast
+> odtwarzać go od zera z historii czatu.
 
 Instrukcja operacyjna: co robić, gdy użytkownik dostarcza dokument źródłowy (normę PN/IEC/EN,
 materiał branżowy/szkoleniowy, specyfikację), który ma trafić do `docs/zrodla/` i być użyty jako
@@ -6,9 +13,9 @@ podstawa kodu kalkulatora. Napisana tak, żeby dało się ją dać nowej sesji A
 tłumaczenia od nowa — self-contained, z konkretnymi komendami.
 
 **Zasada nadrzędna, z której wynika cała reszta:** to aplikacja licząca twarde fakty fizyczne
-(`00-filozofia.md`). Żadna liczba bezpieczeństwa-krytyczna nie trafia do dokumentacji ani kodu bez
-faktycznego sprawdzenia w źródle — nigdy z pamięci/wiedzy ogólnej, nawet jeśli wartość wydaje się
-"dobrze znana branżowo".
+(`docs/standards/00-filozofia.md`). Żadna liczba bezpieczeństwa-krytyczna nie trafia do dokumentacji
+ani kodu bez faktycznego sprawdzenia w źródle — nigdy z pamięci/wiedzy ogólnej, nawet jeśli wartość
+wydaje się "dobrze znana branżowo".
 
 ## Krok 0 — rozpoznaj format i zdecyduj o metodzie
 
@@ -124,8 +131,8 @@ Tabele realne w oryginalnym dokumencie (Word/PowerPoint) wychodzą jako czysty, 
 lepszy punkt wyjścia niż odczyt wizualny, bo nie ma ryzyka błędnego odczytu znaku. **Ale**: diagramy
 narysowane kształtami/SmartArt (typowe dla prezentacji — schematy blokowe, drzewa decyzyjne)
 konwertują się na tabele z **pustymi komórkami** (treść żyła w kształtach, nie w komórkach) — nie
-traktuj pustej tabeli jako braku treści, sprawdź czy dana informacja nie jest opisana equivalentnie
-w tekście akapitów w innym miejscu tego samego dokumentu (`d.paragraphs`).
+traktuj pustej tabeli jako braku treści, sprawdź czy dana informacja nie jest opisana równoważnie w
+tekście akapitów w innym miejscu tego samego dokumentu (`d.paragraphs`).
 
 Jeśli użytkownik dostarczy `.docx` **tej samej treści**, którą już przetworzyłeś z PDF — nie
 powtarzaj całej analizy automatycznie. Wyciągnij tabele/tekst z `.docx` i porównaj z tym, co już
@@ -178,12 +185,12 @@ W każdym folderze:
   klauzule normy, nie sztywno wg granic stron, chyba że oryginał i tak jest podzielony 1:1 na strony
   jak skan tabel).
 
-## Krok 4 — zasady nadrzędne przy niepełnych/sprzecznych źródłach (z `CLAUDE.md`)
+## Krok 4 — zasady nadrzędne przy niepełnych/sprzecznych źródłach
 
 - **Brakujące dane (tabela nie istnieje w dostarczonym pliku)** — nie wymyślaj wartości, nawet
   "dobrze znanych" ogólnie w branży. Napisz to wprost w `00-INDEKS.md` jako krytyczne zastrzeżenie
-  (przykład: Tablice 41A/41B nieobecne w `PN-IEC 60364-4-41:2000` "Wyciąg" — odnotowane, nie
-  zgadywane, dopóki nie znalazło się innego źródła z tą samą tabelą).
+  (przykład z pracy nad Offgrid Pro: Tablice 41A/41B nieobecne w `PN-IEC 60364-4-41:2000` "Wyciąg"
+  — odnotowane, nie zgadywane, dopóki nie znalazło się innego źródła z tą samą tabelą).
 - **Dwie wersje tej samej normy z różnymi wartościami** — rozróżnij dwa przypadki:
   - Jeśli materiał **sam jednoznacznie mówi**, która wersja jest aktualna/obowiązująca (np. slajd
     podpisany "norma nieaktualna" obok slajdu "norma aktualna", z podanymi datami/numerami wydań) —
@@ -192,21 +199,21 @@ W każdym folderze:
     samodzielnie, odnotuj w `docs/memory.md`.
   - Jeśli **nie ma jednoznacznego wskazania**, która wersja obowiązuje, albo to nie jest kwestia
     starzenia się normy tylko realna merytoryczna rozbieżność (np. dwa różne krajowe załączniki
-    podają różne wartości dla tego samego parametru) — **nie rozstrzygaj sam**, pokaż A/B i zapytaj
-    (`AskUserQuestion` albo zapis w dokumentacji z jawnym `🔴` i pytaniem otwartym).
+    podają różne wartości dla tego samego parametru) — **nie rozstrzygaj sam**, pokaż A/B i zapytaj.
 - **Dokument dostarczony jako "najważniejsze rozwiązanie X", a po analizie okazuje się fragmentem
   bez treści technicznej (sam spis treści, sama bibliografia)** — powiedz to wprost, nie udawaj że
-  problem jest rozwiązany dlatego że plik "jest już w repo". Przykład: `UNE-HD 60364-7-712:2017`
-  dostarczony jako rozwiązanie brakującej normy PV, ale zawierał tylko 6 stron spisu treści i
-  bibliografii — zapisane jawnie jako "praktycznie bezużyteczny w obecnej postaci".
+  problem jest rozwiązany dlatego że plik "jest już w repo". Przykład z pracy nad Offgrid Pro:
+  `UNE-HD 60364-7-712:2017` dostarczony jako rozwiązanie brakującej normy PV, ale zawierał tylko 6
+  stron spisu treści i bibliografii — zapisane jawnie jako "praktycznie bezużyteczny w obecnej
+  postaci".
 
 ## Krok 5 — po ekstrakcji: aktualizacja i commit
 
 1. Zaktualizuj `docs/zrodla/README.md` — nowa sekcja z datą, źródłem, jednym-dwoma zdaniami co
    dokument wnosi, statusem wykorzystania.
-2. Zaktualizuj `docs/memory.md` — wpis "Decyzje i uzasadnienie (c.d. N)" z: co dodano, jaką metodą,
-   jakie znaleziska (błędy, luki, rozbieżności), jaka decyzja podjęta i dlaczego. To jest główne
-   miejsce, które pozwala kolejnej sesji nie zgadywać, co się wydarzyło.
+2. Zaktualizuj `docs/memory.md` — wpis "Decyzje i uzasadnienie" z: co dodano, jaką metodą, jakie
+   znaleziska (błędy, luki, rozbieżności), jaka decyzja podjęta i dlaczego. To jest główne miejsce,
+   które pozwala kolejnej sesji nie zgadywać, co się wydarzyło.
 3. Uruchom weryfikację projektu nawet dla zmian samego `docs/` (tania, szybka pewność że nic się nie
    zepsuło): `npx tsc --noEmit`, `pnpm lint`, `pnpm test`.
 4. `git add` tylko plików faktycznie dotyczących tej zmiany (nowe źródło + dokumentacja +
@@ -225,3 +232,9 @@ W każdym folderze:
 | Stary binarny `.doc` → HTML+obrazy | `wv` (`wvHtml`) |
 | Konwersja WMF → PNG | `libwmf-bin` (`wmf2gd`) |
 | `.docx` → tekst/tabele | `pip install python-docx` |
+
+## Gdzie umiejscowić tę regułę w strukturze standardu (propozycja)
+
+Kandydat: nowy rozdział w `docs/standards/` (np. po rozdziale 14 "Proces i pamięć" albo po
+rozdziale 02 "Model danych", jako że dotyczy pozyskiwania danych domenowych) — **decyzja o numerze
+i dokładnym umiejscowieniu należy do sesji pracującej nad `new-app-standards`**, nie do tej propozycji.

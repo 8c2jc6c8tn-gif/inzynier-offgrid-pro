@@ -2465,6 +2465,27 @@ konkretnych potrzebnych tabel + kod kalkulatora, po kolei małymi partiami zgodn
     nie tylko Offgrid. Zaktualizowano `docs/standards/00-INDEKS.md` (nowy wiersz w spisie) i
     `CLAUDE.md` (licznik rozdziałów 17→18).
 
+## Decyzje i uzasadnienie (c.d. 90) — korekta wpisu 89
+
+- **2026-09-06 — KOREKTA:** decyzja opisana wyżej ("c.d. 89", dodanie rozdziału 17 do
+  `docs/standards/`) była **błędem procesowym**, wskazanym przez właściciela projektu ("Nie, musisz
+  mi tutaj dać Promt, a twoja propozycję dać jako propozycję dla new standards app według zasad").
+  `docs/standards/` to lokalna, **nieautorytatywna** synchronizowana kopia zewnętrznego repo
+  `new-app-standards` — nowe reguły uniwersalne nigdy nie wchodzą tam bezpośrednio z tej sesji;
+  właściwy kanał to `docs/wklad-do-standardu.md` (surowy materiał zgłoszeniowy, konsolidacja tylko
+  w sesji nad `new-app-standards`, Część Y.8 GOD BOOK) — dokładnie to, co ten plik sam o sobie mówi
+  w nagłówku, i co przeoczyłem przy poprzednim wpisie.
+  - **Cofnięte:** `docs/standards/17-przetwarzanie-materialow-zrodlowych.md` usunięty,
+    `docs/standards/00-INDEKS.md` i `CLAUDE.md` przywrócone do stanu sprzed tej zmiany (liczba
+    rozdziałów z powrotem 17, bez nowego wiersza w spisie).
+  - **Zrobione poprawnie zamiast tego:** dopisany wpis kategorii POMYSŁ NA REGUŁĘ w
+    `docs/wklad-do-standardu.md` (opisujący tę samą lukę — brak procedury przetwarzania materiałów
+    źródłowych), a pełna treść robocza przeniesiona do
+    `docs/propozycje-do-new-app-standards/przetwarzanie-materialow-zrodlowych.md` — jawnie
+    oznaczona jako "propozycja, nie standard", czeka na sesję nad `new-app-standards`.
+  - Zgodnie z zasadą "jawna korekta zamiast cichego nadpisania" (rozdział 14) — wpis 89 pozostaje
+    w historii niezmieniony, ta korekta stoi obok niego, nie zamiast niego.
+
 ## Mapa orientacyjna
 
 - `docs/rejestr-twardych-stopow.md` — zbiorczy indeks warunków zawsze skutkujących 🔴 (04.3), z odsyłaczami do modułu/ekranu/pliku źródłowego. Dopisz tu nowy twardy stop, gdy kolejny moduł go wprowadzi.
