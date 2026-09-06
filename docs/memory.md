@@ -108,6 +108,39 @@ Zarejestrowane od razu: `docs/rejestr-pokrycia.md`, `mapa-wdrozenia.md` (2/29→
 czysto, `pnpm build` (nowa trasa, zero błędów). Obie partie tego wątku (Ekran 6, Ekran 22)
 budowane i commitowane osobno, zgodnie z Dyrektywą #14.
 
+## Norma PN-HD 60364-5-52:2011 dostarczona i przeanalizowana (05.09.2026)
+
+Właściciel projektu kupił i dostarczył (push bezpośrednio do `main`, plik 45 MB) brakującą normę
+blokującą M5/Ekran 1 ("mega-Doradca doboru kabla"), M11/B5 i M4/Ekran 25 — dokładnie tę, o której
+brak wspominał `backlog-poza-v1.md` od 04.09.2026.
+
+**Naprawiony dryf przy okazji:** nazwa pliku dostarczona z macOS miała polskie znaki zapisane w
+formie zdekomponowanej Unicode (NFD — "ę" jako "e"+U+0328), w odróżnieniu od NFC/ASCII używanego
+we wszystkich pozostałych plikach `docs/zrodla/`. Realny problem, nie kosmetyczny: powodował
+`FileNotFoundError` przy próbie odczytu przez standardowe API (mimo że `ls` pokazywał plik
+poprawnie). Przemianowano na ASCII (`git mv`, wykryty poprawnymi bajtami przez `os.listdir`),
+zgodnie z konwencją reszty folderu.
+
+**Analiza:** PDF to skan (96 stron, 0 znaków przy bezpośredniej ekstrakcji tekstu) — zainstalowano
+`tesseract-ocr` + pakiet polski, wyrenderowano wszystkie strony (300 DPI) i wykonano OCR. Zbudowano
+mapę struktury dokumentu (klauzule 520-529 = tekst normatywny, Załączniki A-I + ZA-ZC = tabele i
+odstępstwa krajowe) i podzielono na 19 plików w `docs/zrodla/norma-PN-HD-60364-5-52/` (indeks:
+`00-INDEKS.md`) — jeden plik na rozdział/załącznik, mirror konwencji `Tresc_Modul_N` już istniejącej
+w tym folderze.
+
+**Kluczowe empiryczne odkrycie o jakości OCR (Dyrektywa #3 w praktyce):** zweryfikowano Tablicę
+B.52.4 (obciążalność prądowa PVC/3 żyły/miedź-aluminium) równolegle OCR-em i bezpośrednim odczytem
+obrazu strony — sam skan jest bardzo czytelny, ale OCR ma realne, ciche błędy w cyfrach na tej
+jednej tabeli (`2,5`→`28`, `13,5`→`13:95`, `77`→`Ł44` w jednej komórce). Wniosek zapisany jawnie w
+`00-INDEKS.md`: **każda konkretna liczba z tabel Załącznika B/C/E/G użyta w kodzie kalkulatora musi
+być zweryfikowana wizualnie względem renderu oryginalnej strony PDF, nie ufać samemu tekstowi OCR.**
+Renderowanie strony z PDF jest szybkie (~70s dla wszystkich 96 stron przy 300 DPI) — nie ma potrzeby
+trzymać wyrenderowanych obrazów w repo, można je odtworzyć na żądanie przy weryfikacji konkretnej tabeli.
+
+**Status:** dokument przeanalizowany i podzielony, ale **jeszcze niewykorzystany w kodzie** — M5/E1,
+M11/B5, M4/E25 pozostają `⚠️ blocked` do czasu osobnej sesji budowy tych ekranów (transkrypcja
+konkretnych potrzebnych tabel + kod kalkulatora, po kolei małymi partiami zgodnie z Dyrektywą #14).
+
 ## Synchronizacja ze standardem
 
 <!-- Obowiązkowe od GOD BOOK Część Y.6. Sprawdzaj AKTUALIZACJE.md w new-app-standards co ≤7 dni. Brak wpisu = "nigdy nie sprawdzono". -->
@@ -2231,9 +2264,322 @@ budowane i commitowane osobno, zgodnie z Dyrektywą #14.
     Playwright (drewno, 30cm, brak nawiewu, brak czujnika CO → "-10 cm" margines, czerwony
     werdykt ze wszystkimi trzema ostrzeżeniami — zgodne z testem jednostkowym).
 
+## Decyzje i uzasadnienie (c.d. 85)
+
+- **2026-09-05 — Pełna weryfikacja i korekta Załącznika B normy PN-HD 60364-5-52** (tabele
+  obciążalności prądowej, str. 33-58, 26 stron). Kontekst: właściciel projektu zapytał wprost
+  "czy napewno nie ma więcej błędów z tego dokumentu przy przeniesieniu?" po tym, jak wcześniejszy
+  spot-check (jedna strona, Tablica B.52.4) już znalazł 3 błędy OCR. Odpowiedź uczciwa: nie było
+  pewności — tylko 1 z 26 stron była sprawdzona. Wykonano pełną wizualną weryfikację (5 równoległych
+  agentów, każdy porównujący bezpośredni odczyt renderu strony z tekstem OCR, komórka po komórce,
+  nie tylko cyfra po cyfrze — instrukcja wprost mówiła "sprawdź czy któraś kolumna/wiersz nie
+  zniknął w całości").
+  - Wynik: **~35 błędów** w `docs/zrodla/norma-PN-HD-60364-5-52/zalacznik-B-tablice-obciazalnosci.md`,
+    naprawionych bezpośrednio w pliku. Klasy błędów, od najgroźniejszej: (1) **całe kolumny cicho
+    pominięte** w niektórych wierszach (Tablice B.52.6, B.52.8 — brakowała cała środkowa/ostatnia
+    kolumna dla najmniejszych przekrojów 500V, bez żadnego śladu że coś zginęło); (2) **cały
+    wiersz danych całkowicie brakujący** (Tablica B.52.20, Drabinki/Stykające się, wiersz "3") i
+    jeden wiersz nieodzyskiwalny z samego OCR (ta sama tabela, inny wariant) — oba odtworzone z
+    obrazu; (3) **strukturalne uszkodzenie całych tabel** (Tablica B.52.1 — wykaz metod
+    referencyjnych A1-G, oraz Tablice B.52.16/B.52.17 — współczynniki poprawkowe) na tyle
+    poważne, że przepisano je w całości ręcznie zamiast łatać punktowo; (4) pojedyncze błędnie
+    odczytane cyfry (`2,5`→`28`, `13,5`→`13:95`, `77`→różne śmieci, `BD`→`75`, `144`→`77`,
+    `144`→`77`, `22`→`32`), część z nich w komórkach o realnym znaczeniu bezpieczeństwa (prąd
+    dopuszczalny kabla).
+  - **Wniosek procesowy, ważniejszy niż same poprawki:** jeden spot-check nie wystarcza do
+    stwierdzenia "OCR jest OK poza paroma cyframi" — najpoważniejsze błędy (brakujące
+    kolumny/wiersze) są **niewidoczne** bez sprawdzenia każdej strony osobno, bo nie wyglądają
+    jak błąd (nie ma "podejrzanego" znaku do zauważenia, po prostu liczby których miało być 7
+    jest 6). Zapisane jawnie w `docs/zrodla/norma-PN-HD-60364-5-52/00-INDEKS.md` jako
+    zaktualizowane zastrzeżenie: Załącznik B jest teraz w pełni zweryfikowany, **reszta dokumentu
+    (Załączniki A, C, E, F, G, H, I, ZA-ZC) nadal nie jest** — nie ekstrapolować "to OCR jest
+    dobre" na resztę pliku bez analogicznej pełnej weryfikacji, gdy przyjdzie ich używać.
+  - Zweryfikowane po korekcie: `tsc --noEmit`/`pnpm lint`/`pnpm test` (docs-only change, bez
+    wpływu na kod aplikacji — sprawdzone przed poprzednim commitem tej normy, nie powtarzane po
+    tej korekcie, bo zmiana dotyczy tylko treści markdown w `docs/zrodla/`, poza zasięgiem
+    typecheck/testów).
+
+- **2026-09-05 — Dodano i przeanalizowano drugą normę: PN-HD 60364-5-54:2010** (uziemienia,
+  przewody ochronne, przewody połączeń ochronnych) — dostarczona przez właściciela projektu tą
+  samą drogą co 5-52 (plik przesłany bezpośrednio do sesji, nie przez git tym razem). W
+  odróżnieniu od 5-52 (skan + OCR), **ten dokument to natywny tekst PDF** (38 stron, 0 stron
+  wymagało OCR) — brak ryzyka błędnie odczytanych cyfr, jedyna niedoskonałość: ekstrakcja tekstu
+  spłaszcza układ kolumn tabel wielokolumnowych (grecka ρ bywa odczytana jako łacińskie "r").
+  Wszystkie tabele/wzory i tak zweryfikowane wizualnie względem renderu strony, żeby uniknąć
+  błędnego przypisania wartości do kolumn — nie z powodu wątpliwej jakości źródła, tylko dla
+  pewności co do struktury.
+  - Podzielony na 13 plików w `docs/zrodla/norma-PN-HD-60364-5-54/` (indeks:
+    `00-INDEKS.md`) — struktura wg klauzul normatywnych (541-544) i załączników (A, B, ZA, ZB,
+    ZC, ZD), nie ściśle wg granic stron (klauzule normatywne swobodnie przechodzą między stronami
+    źródła, w przeciwieństwie do 5-52 gdzie każda tabela to osobna strona).
+  - Zawiera bezpośrednio przydatne dla przyszłych kalkulatorów: wzór doboru przekroju przewodu
+    ochronnego S=√(I²t)/k (543.1.2, Tablica 54.3) + tablice współczynnika k dla różnych
+    materiałów/izolacji (Załącznik A, Tablice A.54.1-A.54.6) + minimalne wymiary uziomów
+    (Tablica 54.1) + orientacyjna rezystywność gruntu (Załącznik ZA, Tablice ZA.54A/B).
+  - **🔴 Znaleziona i jawnie odnotowana rozbieżność (nie rozstrzygnięta samodzielnie):** główny
+    tekst 543.1.3 podaje minimalny przekrój przewodu ochronnego z aluminium chronionego
+    mechanicznie jako 16 mm², ale **Załącznik ZC (normatywny dla Polski)** zmienia tę wartość na
+    10 mm² dla instalacji w Polsce. Odnotowane w
+    `docs/zrodla/norma-PN-HD-60364-5-54/zalacznik-ZC-szczegolne-warunki-krajowe.md` i
+    krzyżowo w pliku 543 — przy pisaniu kodu kalkulatora dla polskiego profilu regionalnego
+    stosować wartość z Załącznika ZC (10 mm²), z komentarzem w kodzie odsyłającym do źródła
+    rozbieżności, zgodnie z zasadą "nie rozstrzygaj konfliktu cicho" (`praca_ai_z_teoria.md`,
+    rozdz. 15 standardu).
+  - Status: przeanalizowany, jeszcze niewykorzystany w kodzie. Nie sprawdzono, który konkretny
+    ekran/moduł był dotąd blokowany brakiem tej normy (w przeciwieństwie do 5-52, gdzie blokada
+    M5/E1, M11/B5, M4/E25 była już wcześniej udokumentowana w `backlog-poza-v1.md`) — do
+    ustalenia względem Biblii projektu przy właściwej implementacji.
+
+## Decyzje i uzasadnienie (c.d. 86)
+
+- **2026-09-05 — Dodano trzy kolejne pliki: PN-IEC 60364-4-41:2000, PN-IEC 60364-4-43:1999,
+  materiał branżowy "Bezpieczeństwo instalacji fotowoltaicznych" 2019.** Kontekst: właściciel
+  projektu dostarczył je po rozmowie o tym, jakich norm jeszcze brakuje (4-41 i 4-43 były wcześniej
+  wskazane jako przydatne, bo cytowane wielokrotnie wewnątrz normy 5-54).
+  - **Nowy format źródłowy: pliki `.doc` (Word 95/97 binarny), nie PDF.** LibreOffice/`soffice`
+    odmówił ich otwarcia ("source file could not be loaded") — zainstalowano `antiword` i `wv`
+    (pakiet `wv`/`wvHtml`) jako alternatywne narzędzia do starych binarnych `.doc`. Kodowanie
+    plików to cp1250 — antiword wymaga jawnego podania mapy znaków (`-m 8859-2.txt` albo
+    `-m cp1250.txt`), inaczej polskie znaki wychodzą jako mojibake (`bezpieczeñstwa` zamiast
+    `bezpieczeństwa`). Zapamiętane jako nowy wzorzec narzędziowy obok już znanego OCR-dla-skanów.
+  - **🔴 Znalezisko krytyczne w PN-IEC 60364-4-41 — Tablice 41A i 41B fizycznie nie istnieją w
+    tym pliku.** Dokument to jawnie oznaczony "(Wyciąg)" (excerpt), nie pełny tekst normy. Miejsce,
+    gdzie w oryginale byłaby treść tych tablic (czasy wyłączenia zasilania wg napięcia, układy
+    TN/IT), jest po prostu puste — sprawdzone dwiema niezależnymi metodami konwersji (`antiword`
+    tekstowo, `wvHtml` strukturalnie z odzyskaniem 4 osadzonych obrazów WMF) — żadna nie znalazła
+    tych tablic ani jako tekstu, ani jako obrazu, ani jako uszkodzonego placeholdera. Świadomie
+    **nie uzupełniono tych wartości z pamięci/wiedzy ogólnej**, mimo że są to dobrze znane,
+    standardowe wartości branżowe (Dyrektywa: "nie wymyślaj brakujących danych" — dotyczy też
+    "dobrze znanych" wartości spoza aktualnie posiadanego źródła, nie tylko zupełnie nieznanych).
+    Zapisane jawnie jako zastrzeżenie w `docs/zrodla/norma-PN-IEC-60364-4-41/00-INDEKS.md` — każda
+    przyszła próba zbudowania kalkulatora weryfikującego samoczynne wyłączenie zasilania (Zs×Ia≤U0
+    itd.) będzie potrzebować osobnego, kompletnego źródła tych dwóch tablic.
+  - **PN-IEC 60364-4-43 był kompletny** — Tablica 43A (współczynnik k dla przewodów roboczych)
+    zweryfikowana dwiema niezależnymi metodami ekstrakcji (ASCII-art z antiword vs realna struktura
+    `<table>` z wvHtml) z identycznym wynikiem, wysoka pewność. Ta tabela to brakująca połowa
+    układanki do wzoru S=√(I²t)/k z Załącznika A normy 5-54 (5-54 miała tylko k dla przewodu
+    ochronnego, ta norma daje k dla przewodu fazowego/roboczego — komplet potrzebny do
+    interpretacji przypadku, gdy PE jest z innego materiału niż przewód fazowy).
+  - **Materiał branżowy PV 2019** (dodatek do "Rynek Elektryczny", nie formalna norma) —
+    świadomie oznaczony inną nazwą folderu (`materialy-branzowe-PV-2019/`, nie `norma-*`) żeby nie
+    sugerować statusu prawnego normy. Zawiera najobszerniejszy dotąd znaleziony indeks norm
+    specyficznych dla PV (43 pozycje) — w tym **PN-HD 60364-7-712** (norma instalacji PV, wcześniej
+    tylko domyślana z ogólnej wiedzy, teraz potwierdzona z niezależnego źródła jako realnie
+    istniejąca i faktycznie używana branżowo) oraz **PN-EN 61427-1** i **PN-EN 62124** — dwie normy
+    specyficznie dla systemów **autonomicznych/off-grid**, których wcześniej nie było na żadnej
+    liście w tym projekcie mimo że to dokładnie profil tej aplikacji. Znaleziono też konkretne,
+    działające ostrzeżenie do sprawdzenia względem istniejącego kodu: **złącza DC różnych
+    producentów (nawet deklarowane "kompatybilne z MC4") są zakazane przez IEC 62548 i
+    IEC 60364-7-712:2017** — do sprawdzenia, czy moduł `string-box`/`zlacza-mc4` (Moduł 5) już to
+    ostrzeżenie ma, czy trzeba dopisać.
+  - Status wszystkich trzech: przeanalizowane, podzielone na pliki, niewykorzystane jeszcze w
+    kodzie kalkulatorów.
+
+## Decyzje i uzasadnienie (c.d. 87)
+
+- **2026-09-06 — Dodano cztery kolejne pliki źródłowe: PN-EN 60445:2010, IEC 62109-2:2011,
+  UNE-HD 60364-7-712:2017 (wyciąg), materiał szkoleniowy "Aktualne przepisy ochrony
+  przeciwporażeniowej".** Kontekst: kontynuacja serii dostarczania norm po rozmowie o brakujących
+  dokumentach.
+  - **PN-EN 60445:2010** — skan PKN, tylko 16 stron, przeczytany w całości bezpośrednio wizualnie
+    (szybsze i pewniejsze niż uruchamianie pełnego pipeline'u OCR dla tak małego pliku — nowy,
+    świadomy wybór metody skalowany do rozmiaru dokumentu). Kompletny, zawiera Tablicę 1
+    (znakowanie L1/L2/L3/N/PE itd.) — odblokowuje M5/Ekran 20.
+  - **IEC 62109-2:2011** — pobrany z pdfcoffee.com, angielski, natywny tekst, 30 stron, w pełni
+    kompletny (FDIS — formalnie wersja projektowa do głosowania równoległego, ale merytorycznie
+    odpowiada finalnej normie). Obejmuje falowniki multi-mode/stand-alone, nie tylko on-grid —
+    bezpośrednio istotne dla systemów off-grid tego projektu. Zawiera konkretne progi liczbowe
+    (czasy odłączenia przy prądzie resztkowym, wymagania THD dla fali wyjściowej stand-alone).
+  - **🔴 UNE-HD 60364-7-712:2017 — dostarczony jako "najważniejsza brakująca norma dla PV", ale
+    plik zawiera TYLKO spis treści i bibliografię (6 stron), żadnej właściwej treści technicznej.**
+    Sprawdzone w całości — jawnie oznaczone w samym pliku jako "WYCIĄG". Brakuje dokładnie tego, co
+    było potrzebne: 712.41-712.6 (ochrona, dobór materiałów, SPD) i Załącznika B (obliczenie
+    U_OC MAX/I_SC MAX dla stringów PV — metoda, której szukaliśmy formalnego źródła dla już
+    istniejącego modułu `konfigurator-stringow`). Zapisane jawnie jako praktycznie bezużyteczny w
+    obecnej postaci — nie udawać, że problem jest rozwiązany, bo plik "jest" w repo. Jedyna
+    wartość: potwierdzona struktura normy i pełna lista norm powołanych (nowe tropy: HD
+    60364-4-443, HD 60364-5-551, pełna seria EN 62305/EN 61439, których dotąd nie mieliśmy nawet
+    z nazwy).
+  - **✅ Materiał szkoleniowy "Aktualne przepisy..." (48 slajdów, nie norma) rozwiązuje krytyczny
+    brak Tablic 41A/41B** zgłoszony wcześniej w normie PN-IEC 60364-4-41 — ale z ważnym
+    zastrzeżeniem znalezionym przy tej okazji: **stare tablice 41A/41B (z normy z 2000 r.) różnią
+    się wartościami i strukturą od aktualnie obowiązującej Tablicy 41.1 (norma PN-HD
+    60364-4-41:2009, przywołana Rozporządzeniem Ministra Infrastruktury z 12.03.2009 r.)**.
+    Zdecydowano: do nowego kodu kalkulatora stosować Tablicę 41.1 (aktualną), stare tablice
+    zachować tylko jako kontekst historyczny w dokumentacji źródła. To jest przykład sytuacji z
+    CLAUDE.md ("informacja, która wydaje się nieaktualna") — rozstrzygnięte samodzielnie, bo to nie
+    jest sprzeczność do zgłoszenia użytkownikowi, tylko prosta relacja starsza-norma/nowsza-norma z
+    jednoznacznie wskazaną datą obowiązywania w samym materiale źródłowym.
+  - Wzorzec narzędziowy potwierdzony po raz kolejny: dla krótkich dokumentów (≤20 stron) czytać
+    bezpośrednio wizualnie zamiast uruchamiać pełen pipeline OCR — oszczędza czas, ryzyko błędu
+    OCR i tak eliminowane przez wizualną weryfikację na końcu.
+  - Status wszystkich czterech: przeanalizowane, niewykorzystane jeszcze w kodzie kalkulatorów.
+
+## Decyzje i uzasadnienie (c.d. 88)
+
+- **2026-09-06 — Właściciel projektu przekonwertował dwa wcześniej dostarczone PDF-y na `.docx`
+  ("Udało mi się dla ciebie przerobić pliki") — wykorzystane do uzupełnienia, nie powtórzenia
+  analizy.** Sprawdzono najpierw, czy wersja `.docx` wnosi coś nowego względem tego, co już
+  wyekstrahowano z PDF wizualnie, zamiast automatycznie przerabiać obie analizy od zera:
+  - **och_pPp.docx** (materiał o ochronie przeciwporażeniowej) — 14 tabel, ale większość diagramów
+    organizacyjnych (schematy blokowe SELV/PELV itd.) skonwertowały się jako puste komórki (to były
+    kształty/smart-art w oryginale, nie prawdziwe tabele). Tabele z realnymi danymi (rezystancja
+    izolacji, Tablica 54.2, stara tabela czasów wyłączenia dla warunków zwiększonego zagrożenia)
+    **potwierdziły dokładnie** to, co już zapisano z odczytu wizualnego PDF — żadnej korekty
+    niepotrzebnej, tylko dodatkowa pewność.
+  - **PV2019.docx** (dodatek "Rynek Elektryczny" 2019) — tu konwersja wniosła realną wartość: 31
+    tabel z czystym, edytowalnym tekstem, w tym **dokładny, numerowany wykaz norm** (wcześniej
+    opisany tylko przykładowo, "pełna lista w PDF"). Wydobyto 34 z 43 pozycji z dokładnym numerem i
+    opisem — m.in. nową, wcześniej nieznaną pozycję **PN-EN 50565-1:2014** (przewody elektryczne).
+    9 pozycji (#2, #6, #10, #13, #17, #27, #29, #33, #37) zgubiło się przy konwersji PPTX→DOCX
+    (prawdopodobnie na granicach slajdów) — **odnotowane jawnie jako nieznane, nie zgadywane**.
+    Zaktualizowano `docs/zrodla/materialy-branzowe-PV-2019/01-tresc.md`: zastąpiono przykładową
+    listę norm pełną numerowaną tabelą, doprecyzowano Tabelę 11 (progi mocy mikroinstalacji wg
+    IRiESD: ≤3,68kW / 3,68-10kW / 10-40kW, z dokładnymi wymaganiami per próg — wcześniej opisane
+    tylko ogólnie).
+  - Wzorzec procesowy: kiedy użytkownik dostarcza tę samą treść w innym formacie, **najpierw
+    sprawdzić różnicę (diff), nie zakładać z góry ani że nic się nie zmieniło, ani że trzeba
+    powtórzyć całą pracę** — tu format `.docx` z zachowanymi tabelami okazał się bardziej
+    wiarygodnym źródłem tabel niż odczyt wizualny slajdów PowerPointa (gdzie tabele-z-tekstem są
+    czytane bezbłędnie, ale złożone diagramy/smart-art tracą strukturę przy konwersji — odwrotna
+    sytuacja niż przy skanach, gdzie to wizualny odczyt jest bardziej wiarygodny niż OCR).
+
+## Decyzje i uzasadnienie (c.d. 89)
+
+- **2026-09-06 — Dodano nowy rozdział 17 standardu: "Przetwarzanie materiałów źródłowych"**
+  (`docs/standards/17-przetwarzanie-materialow-zrodlowych.md`), na wyraźną prośbę właściciela
+  projektu ("muszę taką instrukcję dać na inną sesję żeby nie zgadywała tego, czego nie pamiętam").
+  Spisuje w formie samodzielnej, gotowej do przekazania instrukcji całą metodologię wypracowaną w
+  tej sesji przy przetwarzaniu ~10 dostarczonych dokumentów źródłowych (norm PN/IEC/EN/HD i
+  materiałów branżowych): rozpoznanie formatu (PDF natywny vs skan, stary binarny `.doc`, `.docx`),
+  konkretne narzędzia i komendy per format (pypdfium2, tesseract+pol, antiword z jawną mapą znaków
+  `-m 8859-2.txt`, wvHtml+wmf2gd dla obiektów WMF w starych `.doc`, python-docx dla tabel), zasadę
+  pełnej weryfikacji strona-po-stronie zamiast spot-checku (z audytu Załącznika B normy 5-52, gdzie
+  jeden spot-check nie wykrył ~35 błędów wykrytych dopiero pełnym przejściem), strukturę folderów
+  `docs/zrodla/norma-*` vs `materialy-branzowe-*`, oraz rozróżnienie dwóch pozornie podobnych
+  sytuacji: "stara/nowa wersja normy z jawnie podaną datą ważności" (rozstrzygnąć samodzielnie) vs
+  "realna merytoryczna sprzeczność bez jednoznacznego wskazania" (zgłosić, nie rozstrzygać).
+  - Umieszczony w `docs/standards/` (nie lokalnie w `docs/zrodla/`), bo ten folder jest jawnie
+    zadeklarowany (`00-INDEKS.md` tego folderu) jako "pakiet wspólny dla wszystkich naszych
+    aplikacji" — metodologia ekstrakcji dokumentów źródłowych dotyczy każdej przyszłej apki rodziny,
+    nie tylko Offgrid. Zaktualizowano `docs/standards/00-INDEKS.md` (nowy wiersz w spisie) i
+    `CLAUDE.md` (licznik rozdziałów 17→18).
+
+## Decyzje i uzasadnienie (c.d. 90) — korekta wpisu 89
+
+- **2026-09-06 — KOREKTA:** decyzja opisana wyżej ("c.d. 89", dodanie rozdziału 17 do
+  `docs/standards/`) była **błędem procesowym**, wskazanym przez właściciela projektu ("Nie, musisz
+  mi tutaj dać Promt, a twoja propozycję dać jako propozycję dla new standards app według zasad").
+  `docs/standards/` to lokalna, **nieautorytatywna** synchronizowana kopia zewnętrznego repo
+  `new-app-standards` — nowe reguły uniwersalne nigdy nie wchodzą tam bezpośrednio z tej sesji;
+  właściwy kanał to `docs/wklad-do-standardu.md` (surowy materiał zgłoszeniowy, konsolidacja tylko
+  w sesji nad `new-app-standards`, Część Y.8 GOD BOOK) — dokładnie to, co ten plik sam o sobie mówi
+  w nagłówku, i co przeoczyłem przy poprzednim wpisie.
+  - **Cofnięte:** `docs/standards/17-przetwarzanie-materialow-zrodlowych.md` usunięty,
+    `docs/standards/00-INDEKS.md` i `CLAUDE.md` przywrócone do stanu sprzed tej zmiany (liczba
+    rozdziałów z powrotem 17, bez nowego wiersza w spisie).
+  - **Zrobione poprawnie zamiast tego:** dopisany wpis kategorii POMYSŁ NA REGUŁĘ w
+    `docs/wklad-do-standardu.md` (opisujący tę samą lukę — brak procedury przetwarzania materiałów
+    źródłowych), a pełna treść robocza przeniesiona do
+    `docs/propozycje-do-new-app-standards/przetwarzanie-materialow-zrodlowych.md` — jawnie
+    oznaczona jako "propozycja, nie standard", czeka na sesję nad `new-app-standards`.
+  - Zgodnie z zasadą "jawna korekta zamiast cichego nadpisania" (rozdział 14) — wpis 89 pozostaje
+    w historii niezmieniony, ta korekta stoi obok niego, nie zamiast niego.
+
+## Decyzje i uzasadnienie (c.d. 91)
+
+- **2026-09-06 — Utworzono `docs/normy-brakujace.md` i odświeżono status norm w istniejących
+  dokumentach.** Na prośbę właściciela projektu ("odśwież wszystko i zapisz to wszystko na
+  specjalną listę brakujące normy"), po przeglądzie całego stanu `docs/zrodla/` względem
+  wcześniejszych rozmów o normach potrzebnych/blokujących kalkulator.
+  - **Nowy plik `docs/normy-brakujace.md`** — zbiorcza lista wszystkich norm zidentyfikowanych jako
+    potrzebne, ale bez pełnej treści: 🔴 krytyczna (UNE-HD 60364-7-712 pełny tekst — wciąż brak
+    Załącznika B z wzorem U_OC MAX/I_SC MAX dla stringów PV), 🔵 spodziewana (Eurokod śnieg
+    PN-EN 1991-1-3 — właściciel projektu zapowiedział dostarczenie), 🟡 potrzebne bez aktywnej
+    blokady kodu (IEC 62109-1, IEC 61215, IEC 62619, EN 61439 — wcześniej tylko wyjaśnione
+    koncepcyjnie), ⚪ zidentyfikowane tylko z nazwy (HD 60364-4-443, HD 60364-5-551 — nowe tropy z
+    bibliografii 7-712, w tym 5-551 bezpośrednio istotna dla funkcji 1.19 "Agregat prądotwórczy";
+    EN 62305, EN 62852, EN 61427-1, PN-EN 50565-1), ⚫ 9 pozycji z listy PV-2019 nieznanych nawet z
+    nazwy (zgubione przy konwersji PPTX→DOCX).
+  - **Naprawiony dryf w dokumentacji:** `docs/rejestr-pokrycia.md` (M5/Ekran 1, M11/B5, M4/Ekran 2,
+    M4/Ekran 25), `docs/rejestr-twardych-stopow.md` i `docs/lista-do-zrobienia.md` nadal mówiły
+    "⚠️ blocked"/"czeka na dostarczenie normy" dla tabel obciążalności kabli, mimo że norma
+    PN-HD 60364-5-52 została kupiona i Załącznik B w pełni zweryfikowany już 05.09.2026 (patrz wpis
+    wyżej) — to były cztery zapomniane, nieodświeżone statusy, nie świadoma decyzja. Zgodnie z
+    Częścią Y.2 GOD BOOK (dryf bez świadomej decyzji naprawia się od razu, nie zgłasza jako
+    konflikt) — statusy zmienione na `todo` z jawną notatką "norma już dostępna, do transkrypcji",
+    stare wpisy w `docs/lista-do-zrobienia.md` (dziennik dat 09-03/09-04) NIE nadpisane, tylko
+    dopisana korekta niżej w tym samym pliku (15.3 "nie usuwaj — oznacz").
+  - **Rozróżnienie ważne dla przyszłych sesji:** brak normy źródłowej (`docs/normy-brakujace.md`)
+    to inna kategoria niż brak wzoru fizycznego w samym źródle Biblii (np. Moduł 4/Ekran 12, luka
+    5–10°C w tabeli Cold C-Rate) — to drugie zostaje `OUT_OF_SCOPE` w kodzie niezależnie od tego,
+    ile norm zewnętrznych dostarczy właściciel projektu, bo problem leży w źródle domenowym, nie w
+    normie.
+
+## Decyzje i uzasadnienie (c.d. 92)
+
+- **2026-09-06 — Dodano piątą normę tej serii: PN-EN 1991-1-3:2005 (Eurokod 1, obciążenie
+  śniegiem)**, dostarczoną przez właściciela projektu na zapowiedź z `docs/normy-brakujace.md`
+  ("Śnieg zaraz ci dam"). Skan, 54 strony, przeczytany w pełni wizualnie (6 partii po 10 stron,
+  narzędzie `Read` z `pages`) — nie OCR, nie spot-check. Dokument kompletny od okładki po ISBN.
+  - **Zawartość kluczowa:** polski Załącznik krajowy NB — mapa 5 stref + Tablica NB.1
+    (`s_k = f(strefa, A)`, np. strefa 2 stała 0,9 kN/m², strefa 5 górska `0,93·exp(0,00134A)` z
+    minimum 2,0 kN/m²); wzór główny Rozdziału 5 `s = μ·Ce·Ct·sk`; Tablica 5.2 (współczynniki
+    kształtu dachu `μ1`/`μ2` w funkcji kąta nachylenia — dokładnie to, czego brakowało dla ekranu
+    "Obciążenie dachu śniegiem").
+  - **Krzyżowa weryfikacja potwierdzona samoistnie**: mapa polskich stref w Załączniku NB
+    (Rysunek NB.1, str. 4) identyczna z mapą w Załączniku C (Rysunek C.13, "Polska", str. 43) —
+    ten sam podział na 5 stref, ten sam wzór, dwa niezależne miejsca w tym samym dokumencie,
+    zgodne.
+  - Dokumentacja: `docs/zrodla/norma-PN-EN-1991-1-3/` (00-INDEKS + 10 plików treści: NA/NB,
+    rozdziały 1-3/4/5/6, załączniki A-E), zaktualizowane `docs/zrodla/README.md`,
+    `docs/rejestr-pokrycia.md` (ekran "Obciążenie dachu śniegiem" — notatka "ryzyko braku normy"
+    zastąpiona odniesieniem do realnego źródła) i `docs/normy-brakujace.md` (pozycja przeniesiona
+    z 🔵 spodziewane do sekcji "Pozyskane").
+  - Status: przeanalizowana i podzielona, niewykorzystana jeszcze w kodzie kalkulatora.
+
+## Decyzje i uzasadnienie (c.d. 93)
+
+- **2026-09-06 — Zgłoszono pomysł współdzielonej biblioteki norm źródłowych między projektami
+  rodziny**, na pytanie właściciela projektu o to, gdzie leżą oryginały vs przerobiona treść, i
+  chęć udostępnienia tego przez `new-app-standards` innym projektom. Zgodnie z ustalonym procesem
+  (nie edytować `docs/standards/` bezpośrednio — patrz korekta wyżej, wpis 90): utworzono
+  `docs/propozycje-do-new-app-standards/biblioteka-norm-zrodlowych.md` — pełny manifest 10 źródeł
+  w `docs/zrodla/` (co jest, w jakim stanie weryfikacji, dla kogo uniwersalne, rekomendacja
+  kopiowania) — oraz dopisano zgłoszenie w `docs/wklad-do-standardu.md`.
+  - Przy tej okazji odnotowany (nie naprawiony — poza zakresem tego zgłoszenia) drobny, nieszkodliwy
+    dryf: oryginały PN-HD 60364-5-52 i 5-54 leżą w `docs/zrodla/` bezpośrednio, nie wewnątrz swoich
+    folderów `norma-*/` jak wszystkie kolejno dodane źródła — konwencja "oryginał w tym samym
+    folderze" ustaliła się dopiero przy trzecim źródle. Flaga zostawiona w manifeście do
+    ujednolicenia przy kopiowaniu do wspólnej biblioteki.
+
+## Decyzje i uzasadnienie (c.d. 94)
+
+- **2026-09-06 — Dodano ilustracje maskotki "Bob" dla 6 z 13 kafli pulpitu**, dostarczone przez
+  właściciela projektu jako PNG (~2-2,5 MB każdy, wygenerowane obrazy AI). Przeskalowane do maks.
+  900px na dłuższym boku i przekonwertowane na WebP (Python/Pillow) — z ~14 MB łącznie do ~900 KB,
+  bo w odróżnieniu od norm PDF w `docs/zrodla/` (referencje rzadko czytane) te obrazy ładują się
+  przy każdym wejściu na pulpit/stronę modułu.
+  - Nowy plik `lib/pulpit/maskotki.ts` — `MASKOTKA_PO_ID_KAFLA` (mapowanie id kafla → ścieżka
+    WebP w `public/maskotki-bob/`), ten sam wzorzec fallbacku co `KAFLE_ZE_ZBUDOWANA_IKONA` w
+    `components/kafle-ikony/ikona.tsx` (kafel bez wpisu = dotychczasowa ikona SVG/emoji, bez zmian).
+  - `app/page.tsx` — kafel z maskotką pokazuje ją (64×64, `object-cover object-top`) zamiast
+    ikony SVG/emoji, priorytet: maskotka > animowane SVG > emoji.
+  - `app/moduly/[id]/page.tsx` — maskotka jako hero-obraz (h-48, pełna szerokość) nad nagłówkiem
+    modułu, gdy dostępna.
+  - Pokrycie: Moduł 3 (PV — panele na dachu), 5 (Okablowanie — rozdzielnica, potwierdzone wprost
+    przez właściciela projektu), 6 (Ogrzewanie — ogrzewanie podłogowe/pompa ciepła), 7 (Stress-test
+    zimowy — bateria w śniegu), 9 (ESP32/sensoryka — warsztat elektroniczny), 11 (Montaż baterii —
+    składanie pakietu). Brakuje: 1, 2, 4, 8, 10, 12, 13 (+ opcjonalnie 14 Ustawienia).
+  - Zweryfikowane: `tsc`/`lint`(2 nieblokujące warningi `no-img-element`, świadomie zaakceptowane —
+    `next.config.mjs` ma `images.unoptimized: true`, `next/image` nic by tu nie zoptymalizował)/
+    `test` (496/496)/`build` czyste; `pnpm dev` + zrzuty ekranu Playwrightem (pulpit + Moduł 3) —
+    wygląda poprawnie, obraz przycięty sensownie (`object-top`, twarz Boba zawsze widoczna).
+
 ## Mapa orientacyjna
 
 - `docs/rejestr-twardych-stopow.md` — zbiorczy indeks warunków zawsze skutkujących 🔴 (04.3), z odsyłaczami do modułu/ekranu/pliku źródłowego. Dopisz tu nowy twardy stop, gdy kolejny moduł go wprowadzi.
+- `docs/normy-brakujace.md` — zbiorcza lista norm/materiałów formalnych, które są potrzebne kalkulatorom, ale których pełnej treści jeszcze nie mamy (w odróżnieniu od `docs/zrodla/`, gdzie leży to, co już mamy). Sprawdź tu, zanim zapytasz właściciela projektu "czy mamy normę X".
 - `docs/standards/00-INDEKS.md` — standard wspólny dla rodziny aplikacji (17 rozdziałów), zacznij tu przy pytaniach "jak mamy to robić".
 - `docs/god-book/instrukcja-uniwersalna-biblii-projektu-v2_8.md` — metodologia procesowa (GOD BOOK) — jak prowadzić Biblię projektu; Część Y opisuje relację ze standardem powyżej. `PROMPT_STARTOWY.md` (root) to gotowy tekst startowy sesji wg tej metodologii.
 - `docs/lista-do-zrobienia.md` — bieżące zadania, czytaj zaraz po tym pliku na starcie sesji.

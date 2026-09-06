@@ -6,6 +6,7 @@ import { ThemeToggle } from "@/components/theme-toggle"
 import { StanPusty } from "@/components/ui/stany"
 import { KafleIkonySymbole } from "@/components/kafle-ikony/definicje-symboli"
 import { KafelIkonaSvg, KAFLE_ZE_ZBUDOWANA_IKONA } from "@/components/kafle-ikony/ikona"
+import { MASKOTKA_PO_ID_KAFLA } from "@/lib/pulpit/maskotki"
 import { KAFLE, USTAWIENIA_KAFEL, znajdzKafel } from "@/lib/pulpit/registry"
 import { getServerSnapshot, getSnapshot, subscribe } from "@/lib/pulpit/storage"
 
@@ -79,7 +80,15 @@ export default function PulpitPage() {
                   href={`/moduly/${kafel.id}`}
                   className="flex min-h-28 flex-col justify-between gap-2 rounded-lg border p-4 transition-colors hover:border-foreground/20 hover:bg-muted focus-visible:ring-2 focus-visible:ring-ring/50 focus-visible:outline-none"
                 >
-                  {KAFLE_ZE_ZBUDOWANA_IKONA.includes(kafel.id) ? (
+                  {MASKOTKA_PO_ID_KAFLA[kafel.id] ? (
+                    <span className="block h-16 w-16 overflow-hidden rounded-md" aria-hidden="true">
+                      <img
+                        src={MASKOTKA_PO_ID_KAFLA[kafel.id]}
+                        alt=""
+                        className="h-full w-full object-cover object-top"
+                      />
+                    </span>
+                  ) : KAFLE_ZE_ZBUDOWANA_IKONA.includes(kafel.id) ? (
                     <span className="block overflow-hidden rounded-md" aria-hidden="true">
                       <KafelIkonaSvg kafelId={kafel.id} />
                     </span>

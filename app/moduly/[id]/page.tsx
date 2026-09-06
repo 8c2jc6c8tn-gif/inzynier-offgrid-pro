@@ -1,5 +1,6 @@
 import Link from "next/link"
 import { notFound } from "next/navigation"
+import { MASKOTKA_PO_ID_KAFLA } from "@/lib/pulpit/maskotki"
 import { KAFLE, znajdzKafel } from "@/lib/pulpit/registry"
 
 export function generateStaticParams() {
@@ -12,6 +13,8 @@ export default async function ModulPage({ params }: { params: Promise<{ id: stri
 
   if (!kafel) notFound()
 
+  const maskotka = MASKOTKA_PO_ID_KAFLA[kafel.id]
+
   return (
     <main className="mx-auto flex max-w-md flex-col gap-6 p-6">
       <div>
@@ -21,6 +24,14 @@ export default async function ModulPage({ params }: { params: Promise<{ id: stri
         >
           ← Pulpit
         </Link>
+        {maskotka ? (
+          <img
+            src={maskotka}
+            alt=""
+            aria-hidden="true"
+            className="mt-3 h-48 w-full rounded-lg object-cover object-top"
+          />
+        ) : null}
         <h1 className="mt-2 text-h1 font-semibold">
           <span aria-hidden="true">{kafel.ikona}</span> Moduł {kafel.id} — {kafel.nazwa}
         </h1>

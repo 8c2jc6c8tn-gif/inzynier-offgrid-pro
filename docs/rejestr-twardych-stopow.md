@@ -184,7 +184,8 @@ nie do audytu poprawności formularza webowego.
   istnieje w kodzie — świadomie nie budowano tymczasowego, równoległego silnika doboru przekroju
   kabla, żeby nie wymyślać norm/tabel obciążalności bez realnego źródła. Gdy Moduł 5 Ekran 1
   powstanie, B5 powinien go re-używać (wzorzec "echo", nie duplikować logiki), patrz
-  `docs/rejestr-pokrycia.md`.
+  `docs/rejestr-pokrycia.md`. **[06.09.2026] KOREKTA:** norma dostarczona (patrz niżej) — pozostaje
+  wyłącznie zależność od Moduł 5/Ekran 1, nie brak źródła.
 - **Moduł 5, Ekran 1 (Dobór przekroju kabla) sam też zablokowany — ten sam powód co B5.**
   Sprawdzone (2026-09-03): źródło (`docs/zrodla/Tresc_Modul_5_Okablowanie_Ekrany.md`, linie 9–52)
   odwołuje się do "tabeli normatywnej (PN-IEC 60364-5-52)" dla obciążalności bazowej kabla wg
@@ -194,6 +195,12 @@ nie do audytu poprawności formularza webowego.
   wymagał. Budowa tego ekranu bez kompletnej tabeli oznaczałaby wymyślenie norm bezpieczeństwa —
   wprost zakazane (CLAUDE.md, "Nie wymyślaj brakujących danych, norm ani współczynników
   bezpieczeństwa"). Czeka na dostarczenie pełnej tabeli normatywnej przez właściciela projektu.
+  **[06.09.2026] KOREKTA — dostarczona i zweryfikowana:** norma PN-HD 60364-5-52:2011 kupiona przez
+  właściciela projektu (05.09.2026), Załącznik B (pełne tabele obciążalności, wszystkie kombinacje
+  temperatury/liczby kabli/ułożenia) w pełni zweryfikowany strona po stronie
+  (`docs/zrodla/norma-PN-HD-60364-5-52/`). **Ekran nie jest już blokowany brakiem normy** — pozostaje
+  wyłącznie zadanie implementacyjne (transkrypcja konkretnych tabel do kodu kalkulatora). Status
+  odświeżony na `todo` w `docs/rejestr-pokrycia.md`.
 - **Moduł 4, Ekran 12 (Cold C-Rate) — luka w samej tabeli źródła dla zakresu 5–10°C.** Tabela
   limitów C-rate wg temperatury (`docs/zrodla/Tresc_Modul_4_Baterie_Ekrany.md`, linie 156–162) ma
   4 wiersze (`<-10°C`, `-10 do 0°C`, `0 do 5°C`, `>10°C`) — zakres 5–10°C nie jest zdefiniowany
@@ -206,7 +213,10 @@ nie do audytu poprawności formularza webowego.
   ("20% więcej na ogniwie #1", "40% vs 15% między bateriami"), ale nie podaje wzoru wiążącego
   długość/przekrój/rezystancję kabla z wielkością tego rozkładu — ten sam rodzaj luki co M5/E1 i
   M11/B5 (brak tabeli/wzoru normatywnego). Budowa oznaczałaby wymyślenie zależności fizycznej —
-  wprost zakazane (CLAUDE.md).
+  wprost zakazane (CLAUDE.md). **[06.09.2026] KOREKTA:** norma PN-HD 60364-5-52 (tabele
+  obciążalności) już dostarczona i zweryfikowana — luka fizyczna (brak wzoru na rozkład prądu
+  między bateriami) pozostaje odrębna i wciąż nierozwiązana, ale nie jest to już kwestia tej samej
+  brakującej normy co M5/E1.
 - **Moduł 4, Ekran 5 (Grzałki BMS i ochrona przed mrozem) — luka na granicy SoC=30%.** Źródło
   (`docs/zrodla/Tresc_Modul_4_Baterie_Ekrany.md`, linie 67–72) podaje warunki "SoC > 30% → grzanie
   z baterii" i "SoC < 30% → grzanie wstrzymane" jako dwa osobne, rozłączne warunki — wartość
