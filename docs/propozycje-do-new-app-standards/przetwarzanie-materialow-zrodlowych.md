@@ -12,6 +12,95 @@ materiał branżowy/szkoleniowy, specyfikację), który ma trafić do `docs/zrod
 podstawa kodu kalkulatora. Napisana tak, żeby dało się ją dać nowej sesji AI bez konieczności
 tłumaczenia od nowa — self-contained, z konkretnymi komendami.
 
+---
+
+## PROMPT — gotowy do skopiowania i przekazania dowolnej innej sesji/projektowi
+
+> Ten blok jest samodzielny i skrócony (bez uzasadnień/przykładów z Offgrid Pro poniżej) — zamierzony
+> do wklejenia wprost jako pierwsza wiadomość nowej sesji AI, w tym w projektach spoza tej rodziny
+> aplikacji. Sesja pracująca nad `new-app-standards` może pobrać ten blok 1:1 (bez przepisywania) i
+> dołączyć go do materiałów przekazywanych dalej — pełna wersja z uzasadnieniami i przykładami jest w
+> reszcie tego pliku, poniżej.
+
+```
+PROMPT: Przetwarzanie dostarczonych materiałów źródłowych (normy, PDF, skany, .doc/.docx)
+
+Dostaję od użytkownika dokumenty źródłowe (normy PN/IEC/EN/HD, materiały branżowe/szkoleniowe) w
+różnych formatach. Cel: wyciągnąć treść bezbłędnie, nic nie zgubić, nic nie zmyślić, i zapisać w
+docs/zrodla/ w ustandaryzowanej strukturze.
+
+Krok 0 — rozpoznanie formatu
+- PDF: sprawdź pypdfium2 → page.get_textpage().get_text_range() na kilku stronach. Setki/tysiące
+  znaków = natywny tekst (czytaj bezpośrednio narzędziem Read albo ekstrakcją tekstu). Zero znaków =
+  skan → OCR.
+- Stary binarny .doc (Word 95/97): LibreOffice/soffice --convert-to nie otworzy tego pliku ("source
+  file could not be loaded") — nie trać na to czasu, od razu użyj antiword/wv.
+- .docx: python-docx (pip install python-docx).
+
+Krok 1 — ekstrakcja per format
+- Skan PDF: pypdfium2 renderuje strony do PNG przy 300 DPI (page.render(scale=300/72)), potem
+  tesseract -l pol --psm 6 dla tekstu OCR. Zasada krytyczna: nigdy nie ufaj tekstowi OCR dla liczb
+  bezpieczeństwa-krytycznych — zawsze zweryfikuj wizualnie względem wyrenderowanego obrazu strony
+  (użyj narzędzia Read na obrazie, nie tylko na tekście OCR).
+- Krótki skan (kilkanaście stron): nie buduj całego pipeline'u OCR — czytaj bezpośrednio narzędziem
+  Read z parametrem stron (wymaga poppler-utils/pdftoppm zainstalowanego).
+- Stary .doc: antiword -m 8859-2.txt plik.doc | iconv -f ISO-8859-2 -t UTF-8 dla czystego tekstu (bez
+  jawnej mapy znaków antiword daje mojibake na polskich znakach — sprawdź faktyczny kodepage przez
+  file, czasem to cp1250.txt). Do struktury tabel i osadzonych obrazów: wvHtml plik.doc out.html
+  (daje prawdziwe <table>, nie ASCII-art). Osadzone obrazy WMF (małe wzory): wmf2gd (pakiet
+  libwmf-bin) → PNG do odczytu wizualnego. wvHtml zgłaszający StrangeNoGraphicData = nieodzyskiwalny
+  obiekt OLE — sprawdź najpierw, czy potrzebna treść (np. cała tabela) po prostu nie występuje w tym
+  konkretnym pliku (np. bo to "Wyciąg"/skrót), zanim uznasz to za porażkę odzyskiwania.
+- .docx: docx.Document(path), iteruj .tables (prawdziwe tabele Worda/PPT → czysty ustrukturyzowany
+  tekst, bardziej wiarygodny niż wizualne czytanie złożonych tabel) i .paragraphs. Uwaga: diagramy/
+  kształty/SmartArt (częste w dokumentach z PowerPointa) konwertują się do tabel z pustymi komórkami
+  — nie myl pustej tabeli z brakiem treści, sprawdź otaczający tekst akapitów.
+
+Krok 2 — dyscyplina weryfikacji: pełne przejście, nie spot-check
+Pojedyncze sprawdzenie jednej strony daje fałszywe poczucie bezpieczeństwa — najgorsze błędy (całe
+brakujące kolumny/wiersze) są niewidoczne przy losowej próbce, bo nie wyglądają jak błąd, po prostu
+jest mniej liczb niż powinno. Dla dużych załączników: podziel weryfikację na równoległe subagenty
+(Agent tool, w tle) po ~5 stron każdy, każdy ma czytać obrazy stron bezpośrednio (nie ufać
+dostarczonemu tekstowi OCR) i zgłosić każdą rozbieżność z dokładną lokalizacją, jawnie potwierdzając
+"strona NN: brak rozbieżności" dla czystych stron.
+
+Krok 3 — struktura folderów w docs/zrodla/
+- norma-<OZNACZENIE>/ dla formalnych norm PN/IEC/EN/HD (np. norma-PN-HD-60364-5-52/).
+- materialy-branzowe-<TEMAT>-<ROK>/ dla materiałów nieformalnych/branżowych/szkoleniowych — celowo
+  inna nazwa, żeby nikt nie pomylił statusu prawnego.
+- W każdym folderze: oryginalny plik(i) źródłowy bez zmian, 00-INDEKS.md (metoda ekstrakcji,
+  zastrzeżenia co do jakości źródła, status użycia), pliki z treścią (01-...md, zalacznik-X-...md)
+  zorganizowane wg struktury oryginału.
+
+Krok 4 — obsługa brakujących/sprzecznych danych
+- Jeśli tabela/wartość naprawdę nie istnieje w dostarczonym dokumencie — powiedz to wprost, nigdy nie
+  wymyślaj wartości nawet jeśli "powszechnie znana" w branży.
+- Jeśli dwie wersje normy podają różne wartości I źródło samo jednoznacznie wskazuje, która jest
+  aktualna/zastąpiona (z datami) — to nie jest sprzeczność wymagająca pytania użytkownika: rozstrzygnij
+  sam (użyj aktualnej, zachowaj starą jako kontekst historyczny), zapisz uzasadnienie w docs/memory.md.
+- Jeśli nie ma takiego jasnego wskazania, albo to realna merytoryczna rozbieżność (nie tylko
+  stara-vs-nowa) — nie rozstrzygaj sam, pokaż A vs B i zapytaj użytkownika.
+
+Krok 5 — uczciwość wobec niekompletnych dostaw
+Jeśli dokument dostarczony jako "kluczowy brakujący element" okazuje się być tylko spisem treści +
+bibliografią bez merytorycznej treści — powiedz to wprost, nie sugeruj że luka jest zamknięta tylko
+dlatego, że plik istnieje teraz w repo.
+
+Ściąga narzędzi:
+pip install pypdfium2 python-docx
+apt-get install -y poppler-utils tesseract-ocr tesseract-ocr-pol antiword wv libwmf-bin
+
+- pdftoppm (poppler-utils) — wymagane przez narzędzie Read do czytania stron PDF jako obrazów.
+- tesseract -l pol --psm 6 obraz.png out — OCR po polsku.
+- antiword -m 8859-2.txt plik.doc — tekst ze starego .doc.
+- wvHtml plik.doc out.html — struktura HTML + odzyskanie obrazów ze starego .doc.
+- wmf2gd wzor.wmf wzor.png — konwersja osadzonego WMF do PNG.
+```
+
+---
+
+## Pełna wersja robocza (z uzasadnieniami i przykładami z Offgrid Pro)
+
 **Zasada nadrzędna, z której wynika cała reszta:** to aplikacja licząca twarde fakty fizyczne
 (`docs/standards/00-filozofia.md`). Żadna liczba bezpieczeństwa-krytyczna nie trafia do dokumentacji
 ani kodu bez faktycznego sprawdzenia w źródle — nigdy z pamięci/wiedzy ogólnej, nawet jeśli wartość

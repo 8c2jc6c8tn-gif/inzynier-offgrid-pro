@@ -50,7 +50,11 @@ ad-hoc w trakcie sesji, z kilkoma realnymi wpadkami po drodze zanim ustaliła si
   formatu pliku.
 Pełny, samodzielny opis kroków i komend: `docs/propozycje-do-new-app-standards/przetwarzanie-materialow-zrodlowych.md`
 w tym repo — surowy szkic, **nie jest częścią standardu**, czeka na konsolidację przez sesję
-pracującą bezpośrednio nad repo `new-app-standards` (Część Y.8 GOD BOOK).
+pracującą bezpośrednio nad repo `new-app-standards` (Część Y.8 GOD BOOK). Ten plik zawiera na
+samej górze osobną sekcję **"PROMPT — gotowy do skopiowania i przekazania dowolnej innej sesji/
+projektowi"** — skrócony, samodzielny blok bez uzasadnień/przykładów, do wzięcia 1:1 i przekazania
+dalej innym projektom rodziny (albo poza nią) bez czekania na formalną promocję do reguły
+standardu — sesja `new-app-standards` może go od razu ściągnąć i redystrybuować.
 
 Dlaczego warto zgłosić do new-app-standards: każda aplikacja tej rodziny prędzej czy później
 dostanie od właściciela dokument źródłowy (normę, specyfikację, materiał branżowy) w jednym z tych
