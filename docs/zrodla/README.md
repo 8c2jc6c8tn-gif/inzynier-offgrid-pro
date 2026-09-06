@@ -130,3 +130,24 @@ Polska) zmienia wartość 543.1.3 dla aluminium chronionego mechanicznie na 10 m
 16 mm² w głównym tekście — rozbieżność odnotowana jawnie w pliku ZC, nie rozstrzygnięta cicho.**
 Status wykorzystania: dopiero przeanalizowany, żaden kalkulator jeszcze go nie używa — patrz
 `docs/memory.md`.
+
+## Norma PN-EN 1991-1-3:2005 — Eurokod 1, obciążenie śniegiem (06.09.2026)
+
+[06.09.2026] ✅ DODANO — źródło: właściciel projektu, zapowiedziana wcześniej w
+`docs/normy-brakujace.md` (pozycja "Eurokod śnieg", 🔵 spodziewana), teraz przeniesiona do sekcji
+"Pozyskane". Plik: `PN-EN-1991-1-3-2005-Eurokod-1-Obciazenie-sniegiem.pdf` (54 strony, **skan**,
+nie tekst). Przeanalizowany i podzielony: **`docs/zrodla/norma-PN-EN-1991-1-3/00-INDEKS.md`** —
+zacznij tutaj. **Wszystkie 54 strony przeczytane wizualnie bezpośrednio** (nie OCR, nie
+spot-check) — dla dokumentu tej wielkości odczyt wizualny bezpośredni zastępuje pełny pipeline
+OCR+weryfikacja bez utraty pewności. Dokument kompletny od okładki po ISBN, nie jest wyciągiem.
+
+Zawiera: polski Załącznik krajowy NB (mapa 5 stref obciążenia śniegiem gruntu + Tablica NB.1,
+wzory `s_k(strefa, A)`), wzór główny obciążenia dachu `s = μ Ce Ct sk` (Rozdział 5), **Tablicę 5.2**
+(współczynniki kształtu dachu `μ1`/`μ2` wg kąta nachylenia — jedno-/dwu-/wielopołaciowe), dachy
+walcowe i przylegające do wyższych budowli, obciążenia miejscowe (zaspy, nawisy, barierki
+przeciwśnieżne, Rozdział 6), oraz Załączniki A–E (sytuacje obliczeniowe, wyjątkowe zaspy, mapy
+europejskie — nieużywane dla Polski, okres powrotu, ciężar objętościowy śniegu).
+
+**Odblokowuje ekran "Obciążenie dachu śniegiem"** (`docs/rejestr-pokrycia.md`, Moduł 3, dawne
+6.34→7.32) — wcześniej `todo` z notatką "ryzyko braku normy budowlanej", teraz ma pełne, formalne
+źródło normatywne. Status wykorzystania: przeanalizowany, jeszcze niewykorzystany w kodzie.

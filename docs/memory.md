@@ -2516,6 +2516,28 @@ konkretnych potrzebnych tabel + kod kalkulatora, po kolei małymi partiami zgodn
     ile norm zewnętrznych dostarczy właściciel projektu, bo problem leży w źródle domenowym, nie w
     normie.
 
+## Decyzje i uzasadnienie (c.d. 92)
+
+- **2026-09-06 — Dodano piątą normę tej serii: PN-EN 1991-1-3:2005 (Eurokod 1, obciążenie
+  śniegiem)**, dostarczoną przez właściciela projektu na zapowiedź z `docs/normy-brakujace.md`
+  ("Śnieg zaraz ci dam"). Skan, 54 strony, przeczytany w pełni wizualnie (6 partii po 10 stron,
+  narzędzie `Read` z `pages`) — nie OCR, nie spot-check. Dokument kompletny od okładki po ISBN.
+  - **Zawartość kluczowa:** polski Załącznik krajowy NB — mapa 5 stref + Tablica NB.1
+    (`s_k = f(strefa, A)`, np. strefa 2 stała 0,9 kN/m², strefa 5 górska `0,93·exp(0,00134A)` z
+    minimum 2,0 kN/m²); wzór główny Rozdziału 5 `s = μ·Ce·Ct·sk`; Tablica 5.2 (współczynniki
+    kształtu dachu `μ1`/`μ2` w funkcji kąta nachylenia — dokładnie to, czego brakowało dla ekranu
+    "Obciążenie dachu śniegiem").
+  - **Krzyżowa weryfikacja potwierdzona samoistnie**: mapa polskich stref w Załączniku NB
+    (Rysunek NB.1, str. 4) identyczna z mapą w Załączniku C (Rysunek C.13, "Polska", str. 43) —
+    ten sam podział na 5 stref, ten sam wzór, dwa niezależne miejsca w tym samym dokumencie,
+    zgodne.
+  - Dokumentacja: `docs/zrodla/norma-PN-EN-1991-1-3/` (00-INDEKS + 10 plików treści: NA/NB,
+    rozdziały 1-3/4/5/6, załączniki A-E), zaktualizowane `docs/zrodla/README.md`,
+    `docs/rejestr-pokrycia.md` (ekran "Obciążenie dachu śniegiem" — notatka "ryzyko braku normy"
+    zastąpiona odniesieniem do realnego źródła) i `docs/normy-brakujace.md` (pozycja przeniesiona
+    z 🔵 spodziewane do sekcji "Pozyskane").
+  - Status: przeanalizowana i podzielona, niewykorzystana jeszcze w kodzie kalkulatora.
+
 ## Mapa orientacyjna
 
 - `docs/rejestr-twardych-stopow.md` — zbiorczy indeks warunków zawsze skutkujących 🔴 (04.3), z odsyłaczami do modułu/ekranu/pliku źródłowego. Dopisz tu nowy twardy stop, gdy kolejny moduł go wprowadzi.

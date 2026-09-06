@@ -277,7 +277,7 @@ ma samodzielny wzór fizyczny i nie musi czekać.
 | 20 | 6.30→7.28 | Bez wentylacji (frozen recuperation) | todo | zależny (M6 wentylacja) |
 | 21 | 6.32→7.30 | Pompy/zawory w mrozie | todo | zależny częściowo |
 | 22 | 6.15,27,31,35,37→7.15,25,29,33,35 | Ryzyko zamarznięcia (rury/grunt) | todo | zależny (model budynku M1) |
-| 23 | 6.34→7.32 | Obciążenie dachu śniegiem | todo | zależny, ryzyko braku normy budowlanej (podobne do luki M5/E1) |
+| 23 | 6.34→7.32 | Obciążenie dachu śniegiem | todo | **[06.09.2026]** Norma dostarczona i w pełni zweryfikowana wizualnie (`docs/zrodla/norma-PN-EN-1991-1-3/`) — PN-EN 1991-1-3:2005 (Eurokod 1, Załącznik krajowy NB: mapa 5 stref + wzór `s_k(strefa,A)`, Rozdział 5: `s=μCeCtsk` + Tablica 5.2 współczynników kształtu wg kąta dachu). Zależność od Modułu 1 (lokalizacja/wysokość n.p.m.) pozostaje, ale to już nie jest brak normy — czysto implementacyjne. |
 | 24 | 6.38→7.36 | Falownik THD zimą | todo | zależny + źródło nie daje czystego wzoru (ryzyko `blocked` przy próbie budowy) |
 | 25 | 6.39→7.37 | Deep Winter Energy Budget | todo | zależny (agreguje M2, M6, Ekran 16) |
 | 26 | 6.40→7.38 | Awaria stringa PV zimą | todo | zależny (M3 stringi) |

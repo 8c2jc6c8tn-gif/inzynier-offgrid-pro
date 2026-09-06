@@ -30,9 +30,7 @@ innej normy albo z indeksu branżowego), treść nieznana nawet pobieżnie.
 
 ## 🔵 Spodziewane — zapowiedziane przez właściciela projektu
 
-- **Eurokod obciążenia śniegiem (PN-EN 1991-1-3 + załącznik krajowy).** Potrzebny dla ekranu
-  "Obciążenie dachu śniegiem" (`docs/rejestr-pokrycia.md`, dziś `todo` z notatką "ryzyko braku
-  normy budowlanej"). **[06.09.2026] Zapowiedziane przez właściciela projektu — w drodze.**
+*(pusta na razie)*
 
 ## 🟡 Potrzebne, nie blokują dziś konkretnego kodu (zidentyfikowane wcześniej w rozmowie o normach)
 
@@ -78,5 +76,7 @@ dostęp do oryginalnej prezentacji (nie konwersji), warto sprawdzić te konkretn
 
 ## Pozyskane (historia — dla śledzenia, co przeszło z tej listy do `docs/zrodla/`)
 
-*(pusta na razie — pierwszy wpis pojawi się, gdy któraś z norm powyżej zostanie dostarczona i
-przeniesiona do `docs/zrodla/README.md`)*
+- **[06.09.2026] Eurokod obciążenia śniegiem — PN-EN 1991-1-3:2005**, dostarczony przez
+  właściciela projektu, 54 strony, w pełni zweryfikowany wizualnie strona po stronie (nie
+  spot-check). Odblokowuje ekran "Obciążenie dachu śniegiem" (`docs/rejestr-pokrycia.md`). Pełny
+  opis: `docs/zrodla/norma-PN-EN-1991-1-3/00-INDEKS.md` i `docs/zrodla/README.md`.
