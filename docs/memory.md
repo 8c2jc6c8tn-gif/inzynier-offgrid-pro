@@ -2613,6 +2613,42 @@ konkretnych potrzebnych tabel + kod kalkulatora, po kolei małymi partiami zgodn
   - **Wciąż nie zbudowane (świadomie, następny krok, nie ten):** B5 (Moduł 11) i M4/Ekran 25 mogą
     teraz reużyć ten silnik jako "echo" — status w `docs/rejestr-pokrycia.md` pozostaje `todo`.
 
+- **2026-09-06 — norma HD 60364-7-712 dodana (`docs/zrodla/559094399-060364NHDD149-ES.pdf`,
+  UNE-HD 60364-7-712:2017 / HD 60364-7-712:2016, "Sistemas de alimentación solar fotovoltaica"),
+  przeanalizowana pod kątem przydatności, i użyta do korekty M3/Ekran 22.**
+  - **Potwierdzenie bez zmian**: wzór `stress-test-mppt` (M3/E5, `V_max=Voc×(1+β×(Tmin−25))`) to
+    dosłownie Załącznik B.1 tej normy (`U_OC_MAX=K_U×U_OC_STC`) — wcześniej "1:1 ze źródła
+    produktowego", teraz niezależnie potwierdzone normatywnie.
+  - **🔴 Sprzeczność znaleziona i naprawiona na wyraźną prośbę autora ("Przepisz zgodnie z
+    normą")**: `ochrona-stringow` (M3/E22) miało wzór `bezpiecznik=1,25×Isc` + sztywny próg
+    "obowiązkowe od ≥3 stringów" — oznaczone w kodzie jako "1:1 ze źródła [produktowego]". Norma
+    pokazała, że współczynnik 1,25 to Załącznik B.2 (margines `I_SC_STC→I_SC_MAX`, K1min=1,25),
+    NIE wzór na dobór bezpiecznika — rzeczywisty dobór to przedział §712.431.102
+    `1,1×I_SC_MAX ≤ In ≤ I_MOD_MAX_OCPR` (górna granica z karty katalogowej panelu, nowe pole
+    wejściowe `iModMaxOcprA`), a obowiązkowość przy Ns>2 to warunek §712.431.101
+    `1,35×I_MOD_MAX_OCPR < (Ns−1)×I_SC_MAX`, nie sztywne "≥3". Przepisano: `CALCULATOR_VERSION`
+    1.0.0→2.0.0, wynik zmieniony z pojedynczej liczby na zakres `[inMinA, inMaxA]` + osobny
+    twardy stop gdy zakres jest sprzeczny (`inMinA>inMaxA`, ZAKRES-BEZPIECZNIKA-NIEPOPRAWNY).
+    Alternatywa kablowa normy (§712.433.101, gdy ochrona niewymagana wzorem przy Ns>2) zgłaszana
+    jako ostrzeżenie do weryfikacji osobno w module doboru kabla — nie objęta tym kalkulatorem
+    (brak dostępu do Iz stąd). Stary przykład źródła (Isc=12A→15A) nieodtwarzalny pod nowym
+    wzorem — testy przepisane na własne, w pełni zweryfikowane scenariusze (ten sam wzorzec co
+    M5/E1 i M3/E6 wcześniej w projekcie).
+  - **Wzorzec "echo" M5/Ekran 6 (`dobor-bezpiecznika-rozlacznika`) ROZDZIELONY**: reużywał
+    `obliczPradBezpiecznikaA` z `ochrona-stringow`, bo oba miały przypadkiem ten sam mnożnik
+    1,25×. Norma pokazała, że to dwa różne prawa (margines Isc PV vs. ogólny margines na obwód
+    elektryczny) — echo było przypadkowe, nie tym samym wzorem fizycznym. M5/E6 dostał lokalną
+    kopię formuły (`obliczPradBezpiecznikaOgolnegoA`), zachowanie i testy M5/E6 bez zmian.
+  - **Poza zakresem tej korekty (kandydaci do backlogu, nie budowane teraz)**: temperatura
+    odniesienia kabli DC stringów ≥70°C (§712.523.101), dobór kabla na prąd wsteczny przy
+    stringach równoległych (§712.433, `Iz≥(Ns−1)×I_SC_MAX`), reguła doboru diody blokującej
+    (§712.512.101: napięcie wsteczne ≥2×U_OC_MAX, prąd ≥1,1×I_SC_MAX — brak modułu),
+    tabele L_crit/U_w do decyzji o ochronie przepięciowej DC (§712.443, Tabela 712.102/712.534),
+    wymóg RCD typu B po stronie AC (§712.530.3.101), etykieta ostrzegawcza PV (§712.514).
+  - Zweryfikowane: `tsc`/`lint`/`test` (510/510)/`build` czyste; `pnpm start` + zrzuty ekranu
+    Playwrightem (VALID z zakresem 13,75–20,00 A, oraz 🔴 brak obowiązkowego zabezpieczenia) —
+    oba stany wizualnie poprawne.
+
 ## Mapa orientacyjna
 
 - `docs/rejestr-twardych-stopow.md` — zbiorczy indeks warunków zawsze skutkujących 🔴 (04.3), z odsyłaczami do modułu/ekranu/pliku źródłowego. Dopisz tu nowy twardy stop, gdy kolejny moduł go wprowadzi.

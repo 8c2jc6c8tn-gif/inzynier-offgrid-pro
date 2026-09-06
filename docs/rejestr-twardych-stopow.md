@@ -62,10 +62,16 @@ nie do audytu poprawności formularza webowego.
   tylko ryzyko. Mroźny, słoneczny poranek jest groźniejszy niż upalne lato.
   (M3/E5 — `lib/core/modules/pv/stress-test-mppt/warnings.ts`, `przekroczonyLimitMppt`, kod
   `PRZEKROCZONY-LIMIT-MPPT`)
-- **Brak bezpieczników/diod blokujących przy ≥3 stringach PV połączonych równolegle** — przy
-  zwarciu jednego stringa prąd z pozostałych popłynie wstecz przez uszkodzony, ryzyko pożaru.
-  (M3/E22 — `lib/core/modules/pv/ochrona-stringow/warnings.ts`, `brakZabezpieczenPrzy3Stringach`,
-  kod `BRAK-ZABEZPIECZEN-PRZY-3-STRINGACH`)
+- **Brak zabezpieczenia nadprądowego przy stringach PV połączonych równolegle, gdy norma
+  HD 60364-7-712 tego wymaga** — przy zwarciu jednego stringa prąd z pozostałych popłynie
+  wstecz przez uszkodzony, ryzyko pożaru. **[06.09.2026] PRZEPISANE wg normy** (poprzednio:
+  sztywny próg "≥3 stringi", kod `BRAK-ZABEZPIECZEN-PRZY-3-STRINGACH" — ZASTĄPIONE, mylił
+  współczynnik K1 z Załącznika B.2 z rzeczywistym warunkiem obowiązkowości §712.431.101). Teraz:
+  test `1,35×I_MOD_MAX_OCPR < (Ns−1)×I_SC_MAX` dla Ns>2, plus osobny twardy stop gdy sam zakres
+  bezpiecznika `[1,1×I_SC_MAX, I_MOD_MAX_OCPR]` jest sprzeczny (dolna granica > górna).
+  (M3/E22 — `lib/core/modules/pv/ochrona-stringow/warnings.ts`, `ochronaObowiazkowaBrak` kod
+  `OCHRONA-OBOWIAZKOWA-BRAK`, `zakresBezpiecznikaNiepoprawny` kod
+  `ZAKRES-BEZPIECZNIKA-NIEPOPRAWNY`)
 - **Odległość źródła spalania paliwa stałego od materiałów palnych poniżej 40 cm** — realne
   ryzyko pożaru, próg podany wprost przez źródło jako liczba, nie zakres.
   (M8/E2 — `lib/core/modules/bezpieczenstwo/dogrzewanie-paliwem-stalym/warnings.ts`,

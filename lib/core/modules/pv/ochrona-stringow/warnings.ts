@@ -10,20 +10,47 @@ export function wartoscUjemna(field: string, value: number): Warning {
   }
 }
 
-export function brakZabezpieczenPrzy3Stringach(liczbaStringow: number): Warning {
+export function ochronaObowiazkowaBrak(ns: number, iScMaxA: number, iModMaxOcprA: number): Warning {
   return {
-    code: "BRAK-ZABEZPIECZEN-PRZY-3-STRINGACH",
+    code: "OCHRONA-OBOWIAZKOWA-BRAK",
     level: "critical",
-    message: `Brak bezpieczników/diod blokujących przy ${liczbaStringow} stringach równoległych grozi pożarem przy zwarciu jednego stringa — prąd z pozostałych popłynie wstecz przez uszkodzony.`,
-    technicalMessage: `liczbaStringowRownoleglych=${liczbaStringow} >= 3, maZabezpieczeniaPerString=false`,
+    message: `Norma HD 60364-7-712 wymaga zabezpieczenia nadprądowego każdego z ${ns} równoległych stringów — brak grozi pożarem od prądu wstecznego z pozostałych stringów przy zwarciu jednego.`,
+    technicalMessage: `Ns=${ns}, 1,35×I_MOD_MAX_OCPR=${(1.35 * iModMaxOcprA).toFixed(2)}A < (Ns-1)×I_SC_MAX=${((ns - 1) * iScMaxA).toFixed(2)}A, maZabezpieczeniaPerString=false`,
   }
 }
 
-export function bezpiecznikDobrany(bezpiecznikA: number): Warning {
+export function zakresBezpiecznikaNiepoprawny(inMinA: number, inMaxA: number): Warning {
+  return {
+    code: "ZAKRES-BEZPIECZNIKA-NIEPOPRAWNY",
+    level: "critical",
+    message: `Nie istnieje bezpiecznik spełniający wymagania normy dla tej konfiguracji (dolna granica ${inMinA.toFixed(2)} A przekracza górną granicę ${inMaxA.toFixed(2)} A z karty katalogowej panelu) — zmniejsz liczbę stringów równoległych na jedno zabezpieczenie lub wybierz panel o wyższym I_MOD_MAX_OCPR.`,
+    technicalMessage: `inMinA=${inMinA}, inMaxA=${inMaxA}`,
+  }
+}
+
+export function wybranyBezpiecznikPozaZakresem(wybranyA: number, inMinA: number, inMaxA: number): Warning {
+  return {
+    code: "WYBRANY-BEZPIECZNIK-POZA-ZAKRESEM",
+    level: "critical",
+    message: `Wybrany bezpiecznik ${wybranyA.toFixed(1)} A jest poza wymaganym zakresem [${inMinA.toFixed(2)}, ${inMaxA.toFixed(2)}] A.`,
+    technicalMessage: `wybranyBezpiecznikA=${wybranyA}, inMinA=${inMinA}, inMaxA=${inMaxA}`,
+  }
+}
+
+export function alternatywaKablowaNiesprawdzona(ns: number, iScMaxA: number): Warning {
+  return {
+    code: "ALTERNATYWA-KABLOWA-NIESPRAWDZONA",
+    level: "warning",
+    message: `Zabezpieczenie nadprądowe nie jest tu wymagane wzorem normy, ale przy ${ns} stringach równoległych kabel string musi wytrzymać prąd wsteczny ${((ns - 1) * iScMaxA).toFixed(2)} A — sprawdź to osobno w doborze przekroju kabla.`,
+    technicalMessage: `Ns=${ns}, wymaganeIzA=${(ns - 1) * iScMaxA}`,
+  }
+}
+
+export function bezpiecznikDobrany(inMinA: number, inMaxA: number): Warning {
   return {
     code: "BEZPIECZNIK-DOBRANY",
     level: "info",
-    message: `Każdy string powinien mieć bezpiecznik ${bezpiecznikA.toFixed(1)} A DC.`,
-    technicalMessage: `bezpiecznikA=${bezpiecznikA}`,
+    message: `Dobierz bezpiecznik gPV w zakresie ${inMinA.toFixed(2)}–${inMaxA.toFixed(2)} A per string.`,
+    technicalMessage: `inMinA=${inMinA}, inMaxA=${inMaxA}`,
   }
 }
