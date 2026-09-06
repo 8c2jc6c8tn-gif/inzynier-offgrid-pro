@@ -114,6 +114,7 @@ export const KAFLE: KafelEntry[] = [
     opis: "Przekroje, trasy, ochrona instalacji.",
     ikona: "🔌",
     ekrany: [
+      { href: "/kalkulatory/dobor-przekroju-kabla", label: "Dobór przekroju kabla" },
       { href: "/kalkulatory/trasy-kablowe", label: "Trasy kablowe — prowadzenie i separacja" },
       { href: "/kalkulatory/dobor-bezpiecznika-rozlacznika", label: "Dobór bezpieczników i rozłączników" },
       { href: "/kalkulatory/string-box", label: "String Box / Array Box" },
