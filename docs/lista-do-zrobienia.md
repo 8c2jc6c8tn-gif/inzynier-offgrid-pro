@@ -99,3 +99,11 @@ Tu trafia bieżący stan pracy: co w trakcie, co zablokowane, co następne — a
 - ✅ (2026-09-04) Ekran 6, Moduł 8 (Bezpieczeństwo) — "UPS krytyczny — dobór sprzętowy" zaimplementowany (częściowo, świadomie). Pierwszy nowy ekran M8 poza reprezentantem. Wzorzec echo trybu "runtime" z `kalkulatory-pomocnicze` (M2/E16) zastosowany do sumy poboru mocy checklisty urządzeń krytycznych (wzorzec z `systemy-podtrzymania-zycia`, M2/E1). Zarządzanie priorytetami AI przy rozładowaniu (12.54) świadomie nie zbudowane.
 - ✅ (2026-09-04) Ekran 2, Moduł 8 (Bezpieczeństwo) — "Bezpieczeństwo pożarowe przy dogrzewaniu paliwem stałym" zaimplementowany. Trzy niezależne twarde stopy: min. odległość 40 cm od materiałów palnych (liczba wprost ze źródła), obecność nawiewu do spalania, obecność czujnika CO — boolowskie pola domyślnie `false` (dane bezpieczeństwa nigdy jako ukryty domyślny "tak"). Wszystkie trzy dopisane do `docs/rejestr-twardych-stopow.md`.
 - ✅ (2026-09-04) Sprawdzono `AKTUALIZACJE.md` w `new-app-standards` (GOD BOOK Y.6) — znaleziono i zsynchronizowano 3 nowe wersje (v2.5→v2.8): GOD BOOK podmieniony w całości, odsyłacze do wersji poprawione w 12 plikach (`docs/standards/00-INDEKS.md`/`00-filozofia.md`, `CLAUDE.md`, `README.md`, `.claude/skills/standards/SKILL.md`, `PROMPT_STARTOWY.md`, `00_Biblia.md`, `ZASADY_APLIKACJI.md`, `USTALENIA.md`, `01_Zasady_Pracy_i_Konwencje.md`, ten plik). Przy okazji naprawiony drobny dryf w nagłówku tego pliku (nieaktualne "projekt nie ma jeszcze Biblii"). Pełny wynik checklisty Y.9 (9 pozycji, wszystkie ✅): `docs/memory.md`.
+- ✅ (2026-09-06) **KOREKTA — norma PN-HD 60364-5-52 dostarczona i Załącznik B w pełni zweryfikowany
+  (05.09.2026, `docs/zrodla/norma-PN-HD-60364-5-52/`).** Cztery pozycje oznaczone wyżej (09-03/09-04)
+  jako `blocked`/"brak normy" — B5 (Moduł 11), M5/Ekran 1, M4/Ekran 2 (część porównania kabli), M4/Ekran
+  25 — **nie są już blokowane brakiem źródła**, tylko brakiem transkrypcji tabel do kodu (czyste
+  zadanie implementacyjne). Odświeżone w `docs/rejestr-pokrycia.md` (statusy zmienione na `todo` z
+  notatką). Stare wpisy wyżej celowo NIE usunięte/nadpisane (`docs/standards/15-wspolpraca-z-ai.md`,
+  15.3) — poprawnie opisywały stan na swoją datę. Pełna, aktualna lista wszystkich norm wciąż
+  brakujących (nigdy nie pozyskanych, w odróżnieniu od tej czwórki): `docs/normy-brakujace.md`.

@@ -2486,9 +2486,40 @@ konkretnych potrzebnych tabel + kod kalkulatora, po kolei małymi partiami zgodn
   - Zgodnie z zasadą "jawna korekta zamiast cichego nadpisania" (rozdział 14) — wpis 89 pozostaje
     w historii niezmieniony, ta korekta stoi obok niego, nie zamiast niego.
 
+## Decyzje i uzasadnienie (c.d. 91)
+
+- **2026-09-06 — Utworzono `docs/normy-brakujace.md` i odświeżono status norm w istniejących
+  dokumentach.** Na prośbę właściciela projektu ("odśwież wszystko i zapisz to wszystko na
+  specjalną listę brakujące normy"), po przeglądzie całego stanu `docs/zrodla/` względem
+  wcześniejszych rozmów o normach potrzebnych/blokujących kalkulator.
+  - **Nowy plik `docs/normy-brakujace.md`** — zbiorcza lista wszystkich norm zidentyfikowanych jako
+    potrzebne, ale bez pełnej treści: 🔴 krytyczna (UNE-HD 60364-7-712 pełny tekst — wciąż brak
+    Załącznika B z wzorem U_OC MAX/I_SC MAX dla stringów PV), 🔵 spodziewana (Eurokod śnieg
+    PN-EN 1991-1-3 — właściciel projektu zapowiedział dostarczenie), 🟡 potrzebne bez aktywnej
+    blokady kodu (IEC 62109-1, IEC 61215, IEC 62619, EN 61439 — wcześniej tylko wyjaśnione
+    koncepcyjnie), ⚪ zidentyfikowane tylko z nazwy (HD 60364-4-443, HD 60364-5-551 — nowe tropy z
+    bibliografii 7-712, w tym 5-551 bezpośrednio istotna dla funkcji 1.19 "Agregat prądotwórczy";
+    EN 62305, EN 62852, EN 61427-1, PN-EN 50565-1), ⚫ 9 pozycji z listy PV-2019 nieznanych nawet z
+    nazwy (zgubione przy konwersji PPTX→DOCX).
+  - **Naprawiony dryf w dokumentacji:** `docs/rejestr-pokrycia.md` (M5/Ekran 1, M11/B5, M4/Ekran 2,
+    M4/Ekran 25), `docs/rejestr-twardych-stopow.md` i `docs/lista-do-zrobienia.md` nadal mówiły
+    "⚠️ blocked"/"czeka na dostarczenie normy" dla tabel obciążalności kabli, mimo że norma
+    PN-HD 60364-5-52 została kupiona i Załącznik B w pełni zweryfikowany już 05.09.2026 (patrz wpis
+    wyżej) — to były cztery zapomniane, nieodświeżone statusy, nie świadoma decyzja. Zgodnie z
+    Częścią Y.2 GOD BOOK (dryf bez świadomej decyzji naprawia się od razu, nie zgłasza jako
+    konflikt) — statusy zmienione na `todo` z jawną notatką "norma już dostępna, do transkrypcji",
+    stare wpisy w `docs/lista-do-zrobienia.md` (dziennik dat 09-03/09-04) NIE nadpisane, tylko
+    dopisana korekta niżej w tym samym pliku (15.3 "nie usuwaj — oznacz").
+  - **Rozróżnienie ważne dla przyszłych sesji:** brak normy źródłowej (`docs/normy-brakujace.md`)
+    to inna kategoria niż brak wzoru fizycznego w samym źródle Biblii (np. Moduł 4/Ekran 12, luka
+    5–10°C w tabeli Cold C-Rate) — to drugie zostaje `OUT_OF_SCOPE` w kodzie niezależnie od tego,
+    ile norm zewnętrznych dostarczy właściciel projektu, bo problem leży w źródle domenowym, nie w
+    normie.
+
 ## Mapa orientacyjna
 
 - `docs/rejestr-twardych-stopow.md` — zbiorczy indeks warunków zawsze skutkujących 🔴 (04.3), z odsyłaczami do modułu/ekranu/pliku źródłowego. Dopisz tu nowy twardy stop, gdy kolejny moduł go wprowadzi.
+- `docs/normy-brakujace.md` — zbiorcza lista norm/materiałów formalnych, które są potrzebne kalkulatorom, ale których pełnej treści jeszcze nie mamy (w odróżnieniu od `docs/zrodla/`, gdzie leży to, co już mamy). Sprawdź tu, zanim zapytasz właściciela projektu "czy mamy normę X".
 - `docs/standards/00-INDEKS.md` — standard wspólny dla rodziny aplikacji (17 rozdziałów), zacznij tu przy pytaniach "jak mamy to robić".
 - `docs/god-book/instrukcja-uniwersalna-biblii-projektu-v2_8.md` — metodologia procesowa (GOD BOOK) — jak prowadzić Biblię projektu; Część Y opisuje relację ze standardem powyżej. `PROMPT_STARTOWY.md` (root) to gotowy tekst startowy sesji wg tej metodologii.
 - `docs/lista-do-zrobienia.md` — bieżące zadania, czytaj zaraz po tym pliku na starcie sesji.
