@@ -2576,6 +2576,43 @@ konkretnych potrzebnych tabel + kod kalkulatora, po kolei małymi partiami zgodn
     `test` (496/496)/`build` czyste; `pnpm dev` + zrzuty ekranu Playwrightem (pulpit + Moduł 3) —
     wygląda poprawnie, obraz przycięty sensownie (`object-top`, twarz Boba zawsze widoczna).
 
+## Decyzje i uzasadnienie (c.d. 95)
+
+- **2026-09-06 — Ekran 1, Moduł 5 "Dobór przekroju kabla" (mega-Doradca) zaimplementowany.**
+  Odblokowany po dostarczeniu i pełnej weryfikacji normy PN-HD 60364-5-52 (05.09.2026). Był
+  jedynym miejscem w źródle wymagającym tej normy — blokował też B5 (Moduł 11) i pośrednio M4/E2
+  i M4/E25 (patrz `docs/rejestr-pokrycia.md`, `docs/rejestr-twardych-stopow.md`).
+  - `lib/core/modules/okablowanie/dobor-przekroju-kabla/` — silnik: obciążalność bazowa (Tablica
+    B.52.2, Cu/Al, PVC, 2 żyły obciążone) × korekta temperatury (B.52.14 powietrze / B.52.15
+    grunt, interpolacja liniowa punktów co 5°C) × korekta wiązki (B.52.17 metody C/enclosed,
+    B.52.18 grunt) — iteracja po 8 standardowych przekrojach (Cu) / 7 (Al, brak 1,5mm² w normie),
+    plus sprawdzenie spadku napięcia. 11 testów, wartości referencyjne policzone niezależnie
+    (ręcznie) przed napisaniem testów, nie "sprawdzone przez uruchomienie kalkulatora".
+  - **Zakres świadomie ograniczony (decyzja, nie luka):** izolacja PVC przyjęta jako domyślna
+    (Sekcja A źródła nie pyta o typ izolacji — PVC ma niższą obciążalność niż XLPE/EPR, więc jest
+    zachowawczym wyborem); liczba żył obciążonych = 2 (obwód DC/jednofazowy AC — źródło nie
+    rozróżnia dalej). "Sposób ułożenia" (4 opcje źródła) zmapowany na metody referencyjne normy:
+    swobodnie→C, w peszlu→B2, w ziemi→D, w wiązce→C+korekta wiązki.
+  - **Rozbieżność znaleziona i udokumentowana** (nie ukryta, ten sam wzorzec co Ekran 6 M3
+    "aerodynamika wiatru" i Ekran 10 M4 "ochrona przed wilgocią"): źródło produktowe podaje wzór
+    spadku napięcia `ΔU=I×R, R=ρ×L/S` (bez ×2), co pomija drogę powrotną prądu i zaniżyłoby
+    wynik o połowę. Użyto `R=ρ×2L/S` — ten sam, fizycznie poprawny wzór co już zweryfikowany
+    `straty-okablowanie-dc` (M3/E8). Ilustracyjny przykład Sekcji C źródła ("20m/20A/48V/w
+    peszlu/35°C → 6mm², spadek 2,1%") nie odtwarza się dokładnie z poprawnego wzoru (daje ok.
+    4,9%) — nie wymuszono dopasowania testu do niereprodukowalnego przykładu, testy używają
+    własnych, w pełni zweryfikowanych scenariuszy.
+  - Osobno: opisany w źródle mnożnik "k3" (korekta sposobu ułożenia) **nie istnieje w tej
+    postaci w samej normie** — norma różnicuje sposób ułożenia przez wybór innej kolumny tabeli
+    (metoda referencyjna), nie przez wspólny współczynnik. Zaimplementowano wersję zgodną z
+    normą, rozbieżność względem uproszczonego opisu produktowego udokumentowana w kodzie.
+  - Twardy stop 🔴 z opcji "sprawdź mój przekrój" (user ręcznie wybiera mniejszy przekrój niż
+    wyliczone minimum) dopisany do `docs/rejestr-twardych-stopow.md`.
+  - Dodany do `lib/pulpit/registry.ts` (Moduł 5, pierwszy ekran na liście). Zweryfikowane:
+    `tsc`/`lint`/`test` (507/507)/`build` czyste; `pnpm dev` + zrzuty ekranu Playwrightem (pusty
+    formularz, wypełniony 🟡, twardy stop 🔴) — wszystkie trzy stany wizualnie poprawne.
+  - **Wciąż nie zbudowane (świadomie, następny krok, nie ten):** B5 (Moduł 11) i M4/Ekran 25 mogą
+    teraz reużyć ten silnik jako "echo" — status w `docs/rejestr-pokrycia.md` pozostaje `todo`.
+
 ## Mapa orientacyjna
 
 - `docs/rejestr-twardych-stopow.md` — zbiorczy indeks warunków zawsze skutkujących 🔴 (04.3), z odsyłaczami do modułu/ekranu/pliku źródłowego. Dopisz tu nowy twardy stop, gdy kolejny moduł go wprowadzi.

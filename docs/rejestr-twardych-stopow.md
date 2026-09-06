@@ -200,7 +200,12 @@ nie do audytu poprawności formularza webowego.
   temperatury/liczby kabli/ułożenia) w pełni zweryfikowany strona po stronie
   (`docs/zrodla/norma-PN-HD-60364-5-52/`). **Ekran nie jest już blokowany brakiem normy** — pozostaje
   wyłącznie zadanie implementacyjne (transkrypcja konkretnych tabel do kodu kalkulatora). Status
-  odświeżony na `todo` w `docs/rejestr-pokrycia.md`.
+  odświeżony na `todo` w `docs/rejestr-pokrycia.md`. **[06.09.2026] ZBUDOWANY:**
+  `lib/core/modules/okablowanie/dobor-przekroju-kabla/` — status `**done**` w `docs/rejestr-pokrycia.md`.
+  Twardy stop 🔴 zaimplementowany dokładnie jak w źródle: opcja "sprawdź mój przekrój" zwraca
+  `PRZEKROJ-PONIZEJ-WYLICZONEGO` (level `critical`), gdy user ręcznie wybrał przekrój mniejszy niż
+  wyliczone minimum (ryzyko przegrzania izolacji/pożaru). Dodatkowo: OUT_OF_SCOPE (nie zgadywanie) gdy
+  temperatura otoczenia lub liczba kabli w wiązce wykracza poza zakres tabel normy dla PVC.
 - **Moduł 4, Ekran 12 (Cold C-Rate) — luka w samej tabeli źródła dla zakresu 5–10°C.** Tabela
   limitów C-rate wg temperatury (`docs/zrodla/Tresc_Modul_4_Baterie_Ekrany.md`, linie 156–162) ma
   4 wiersze (`<-10°C`, `-10 do 0°C`, `0 do 5°C`, `>10°C`) — zakres 5–10°C nie jest zdefiniowany

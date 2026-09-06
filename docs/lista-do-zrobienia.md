@@ -107,3 +107,12 @@ Tu trafia bieżący stan pracy: co w trakcie, co zablokowane, co następne — a
   notatką). Stare wpisy wyżej celowo NIE usunięte/nadpisane (`docs/standards/15-wspolpraca-z-ai.md`,
   15.3) — poprawnie opisywały stan na swoją datę. Pełna, aktualna lista wszystkich norm wciąż
   brakujących (nigdy nie pozyskanych, w odróżnieniu od tej czwórki): `docs/normy-brakujace.md`.
+- ✅ (2026-09-06) **Ekran 1, Moduł 5 — "Dobór przekroju kabla" (mega-Doradca) zaimplementowany.**
+  Domyka odblokowanie z wpisu wyżej (05-06.09.2026) — silnik w pełni oparty na tabelach normy
+  PN-HD 60364-5-52 (B.52.2 obciążalność bazowa, B.52.14/15 korekta temperatury, B.52.17/18 korekta
+  wiązki), `lib/core/modules/okablowanie/dobor-przekroju-kabla/`, 11 testów, wartości referencyjne
+  policzone niezależnie przed implementacją. Zakres świadomie ograniczony (izolacja PVC domyślna,
+  2 żyły obciążone — udokumentowane w kodzie/`docs/rejestr-pokrycia.md`). Znaleziona i udokumentowana
+  rozbieżność: wzór spadku napięcia w opisie produktowym źródła (`R=ρ×L/S`) pomija drogę powrotną
+  prądu — użyto poprawnego `R=ρ×2L/S` (ten sam wzór co M3/E8, już zweryfikowany). B5 (Moduł 11) i
+  Ekran 25 (Moduł 4) mogą teraz reużyć ten silnik jako "echo" — wciąż `todo`, nie zbudowane.
