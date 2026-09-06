@@ -83,7 +83,11 @@ Zawiera obszerny indeks norm specyficznych dla PV (w tym PN-HD 60364-7-712, PN-E
 PN-EN 61215, PN-EN 62109, PN-EN 61427-1 dla off-grid), zasady prowadzenia przewodów DC/łuku
 elektrycznego (tabele promieni gięcia i odległości montażowych), ochronę odgromową/przeciwprzepięciową,
 zalecenia dla służb ratowniczych, harmonogram konserwacji. Status: przeanalizowany, niewykorzystany
-w kodzie.
+w kodzie. **[06.09.2026]** Właściciel projektu dostarczył wersję `.docx` tego samego dokumentu
+(konwersja z zachowanymi natywnymi tabelami) — pozwoliło to uzupełnić listę norm do 34 z 43
+dokładnych pozycji (wcześniej tylko przykłady) oraz doprecyzować Tabelę 11 (progi mocy
+mikroinstalacji). 9 pozycji nadal nieznanych (zgubione przy konwersji PPTX→DOCX) — odnotowane
+jawnie w `01-tresc.md`.
 
 ## Cztery kolejne pliki: PN-EN 60445, IEC 62109-2, HD 60364-7-712, materiał ochrony przeciwporażeniowej (05.09.2026)
 

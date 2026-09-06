@@ -273,7 +273,18 @@ wymaganiami krajowymi; urządzenia wchodzące w skład mikroinstalacji — badan
 norm współpracy z siecią; montaż przez instalatorów z odpowiednimi/potwierdzonymi kwalifikacjami;
 właściciel musi dysponować schematem jednokresowym mikroinstalacji przygotowanym przez instalatora.
 
-**Tabela 11** (wymagania mikroinstalacji wg mocy zainstalowanej): patrz sekcja tabel niżej.
+**Tabela 11 — wymagania mikroinstalacji wg mocy zainstalowanej Pn [kW]** (uzupełniona 06.09.2026 z
+wersji `.docx`, dokładniejsza struktura niż pierwotny odczyt wizualny):
+
+| Wymaganie | Pn ≤ 3,68 kW | 3,68 < Pn ≤ 10 kW | 10 < Pn ≤ 40 kW |
+|---|---|---|---|
+| Zdalne sterowanie mocą czynną i zdalne odłączenie mikroinstalacji (zaprzestanie generacji do sieci) | — | — | Wymagane |
+| Regulacja mocy biernej wg zadanej charakterystyki Q(U) i cos φ(P) | — | TAK | TAK |
+| Układ zabezpieczeń nad-/podnapięciowych, nad-/podczęstotliwościowych i od pracy wyspowej | Zintegrowany z falownikiem | Zintegrowany z falownikiem | Zintegrowany z falownikiem |
+| Sposób przyłączenia | 1-fazowo lub 3-fazowo | — | 3-fazowo |
+
+(Progi mocy pochodzą z Instrukcji Ruchu i Eksploatacji Sieci Dystrybucyjnej — IRiESD, wspomnianej w
+sekcji 2.8 wyżej.)
 
 ---
 
@@ -332,35 +343,55 @@ właściciel musi dysponować schematem jednokresowym mikroinstalacji przygotowa
 
 ### Tabela 1-5 (str. 8-9) — Wykaz norm związanych z projektowaniem/montażem/bezpieczeństwem instalacji PV
 
-Pełny wykaz (43 pozycje, 5 tabel tematycznych) — najważniejsze pozycje specyficzne dla PV,
-nieobecne dotąd w tym repo:
+**[06.09.2026 — LISTA UZUPEŁNIONA]** Właściciel projektu dostarczył wersję `.docx` tego samego
+dokumentu (konwersja z PDF zachowująca natywne tabele) — pozwoliło to wydobyć dokładny, numerowany
+tekst 34 z 43 pozycji bez ryzyka pominięcia szczegółu przy odczycie wizualnym. **9 pozycji (#2, #6,
+#10, #13, #17, #27, #29, #33, #37) zgubiło się przy konwersji PPTX→DOCX** (prawdopodobnie na
+granicach slajdów) i pozostają nieznane — do sprawdzenia względem oryginalnego pliku, jeśli
+którejś z nich zabraknie przy realnej potrzebie.
 
-| Numer normy | Opis |
-|---|---|
-| **PN-HD 60364-7-712:2016-05** | Instalacje elektryczne niskiego napięcia — Wymagania dotyczące specjalnych instalacji lub lokalizacji — Fotowoltaiczne (PV) układy zasilania — **najważniejsza brakująca norma specyficznie dla PV**, cytowana w tym dokumencie jako podstawa oznakowania (7.2) i zakazu łączenia złączy różnych producentów (5.4.1) |
-| PN-EN 61439-2:2011 | Rozdzielnice i sterownice niskonapięciowe — Część 2: Rozdzielnice i sterownice do rozdziału energii elektrycznej (to jest dokładnie ta "EN 61439" wspomniana wcześniej w tej sesji — teraz wiadomo, że chodzi konkretnie o Część 2, nie ogólnie o serię) |
-| PN-EN 62305-1 do -4 | Ochrona odgromowa — Część 1: Zasady ogólne; Część 2: Zarządzanie ryzykiem; Część 3: Uszkodzenia fizyczne obiektów i zagrożenie życia; Część 4: Urządzenia elektryczne i elektroniczne w obiektach |
-| PN-EN 62852:2015-05 | Złącza DC stosowane w systemach fotowoltaicznych — Wymagania bezpieczeństwa i badania |
-| PN-EN 50618:2015-03 | Kable i przewody elektryczne do systemów fotowoltaicznych |
-| PN-EN 60269-6:2011 | Bezpieczniki topikowe niskonapięciowe — Część 6: Wymagania dodatkowe dotyczące wkładek topikowych stosowanych do zabezpieczenia fotowoltaicznych systemów energetycznych |
-| PN-EN 61173:2002 | Ochrona przepięciowa fotowoltaicznych (PV) systemów wytwarzania mocy — Przewodnik |
-| PN-EN 61724-1:2017-10 | Wydajność systemu fotowoltaicznego — Część 1: Monitorowanie |
-| PN-EN 62446-1:2016-08 | Systemy fotowoltaiczne (PV) — Wymagania dotyczące badań, dokumentacji i utrzymania — Część 1: Systemy podłączone do sieci — Dokumentacja, odbiory i nadzór |
-| PN-EN 62446-2 / IEC 62446-2 | j.w. — Część 2: Konserwacja systemów podłączonych do sieci |
-| PN-EN 62852:2015-05 | Złącza DC stosowane w systemach fotowoltaicznych — Wymagania bezpieczeństwa i badania |
-| PN-EN 50380:2018-04 | Wymagania dotyczące oznakowania i dokumentacji modułów fotowoltaicznych |
-| PN-EN 60904-2:2007 | Elementy fotowoltaiczne — Część 2: Pomiar charakterystyk prądowo-napięciowych elementów fotowoltaicznych |
-| PN-EN 61215-1:2017-01 / -2:2017-05 | Moduły fotowoltaiczne (PV) do zastosowań naziemnych — Kwalifikacja konstrukcji i aprobata typu — Część 1: Wymagania dotyczące badań / Część 2: Metody badań |
-| PN-EN IEC 61730-1/-2:2018-06 | Ocena bezpieczeństwa modułu fotowoltaicznego (PV) — Część 1: Wymagania dotyczące konstrukcji / Część 2: Wymagania dotyczące badań |
-| PN-EN 50549-1:2019-02 / -2:2019-04 | Wymagania dla instalacji generacyjnych przeznaczonych do równoległego przyłączenia do publicznych sieci rozdzielczych niskiego (Część 1) / średniego (Część 2) napięcia |
-| PN-EN 61000 (seria) | Kompatybilność elektromagnetyczna (EMC) |
-| **PN-EN 62109-1:2010 / -2:2011** | Bezpieczeństwo konwerterów mocy stosowanych w fotowoltaicznych systemach energetycznych — Część 1: Wymagania ogólne / Część 2: Wymagania szczegółowe dotyczące falowników — **norma odpowiadająca IEC 62109 wspomnianej wcześniej w tej sesji jako checklist certyfikatów** |
-| PN-EN 62116:2014-11 | Falowniki fotoelektryczne włączone do sieci energetycznej — Procedura badania ochrony przed zanikiem napięcia |
-| PN-EN 61194:2002 | Parametry charakterystyczne autonomicznych systemów fotowoltaicznych (PV) — **potencjalnie przydatna dla off-grid, w odróżnieniu od reszty dokumentu skupionego na on-grid** |
-| PN-EN 62124:2005 | Systemy fotowoltaiczne (PV) wolnostojące — Weryfikacja projektu — **j.w., dotyczy off-grid** |
-| PN-EN 62093:2005 | Elementy uzupełniające w systemach fotowoltaicznych — Założenia kwalifikacyjne dla środowiska naturalnego |
-| PN-EN 61427-1:2013-12 | Wtórne ogniwa i akumulatory wykorzystywane w celu magazynowania energii w systemach energetyki odnawialnej — Część 1: Zastosowanie w systemach fotowoltaicznych niepodłączonych do publicznej sieci energetycznej — **bezpośrednio dotyczy off-grid + akumulatorów, potencjalnie bardzo przydatna dla tego projektu** |
-| PN-EN 62509:2011 | Urządzenia kontrolujące proces ładowania akumulatorów w systemach fotowoltaicznych — Parametry i działanie |
-
-Pełna lista 43 pozycji (w tym norm krajowych N SEP-E 002/004/005 i aktów prawnych) znajduje się w
-oryginalnym pliku PDF, str. 8-9, jeśli potrzebna dokładniejsza weryfikacja pojedynczej pozycji.
+| # | Numer normy | Wersja językowa | Opis |
+|---|---|---|---|
+| 1 | PN-EN 50565-1:2014-11 | polska | Przewody elektryczne — Wytyczne stosowania przewodów na napięcie znamionowe nieprzekraczające 450/750 V (U0/U) — Część 1: Wskazówki ogólne |
+| 2 | *(nieznana — zgubiona w konwersji)* | — | — |
+| 3 | PN-HD 60364-5-54:2011 | polska | Instalacje elektryczne niskiego napięcia — Część 5-54: Dobór i montaż wyposażenia elektrycznego — Układy uziemiające i przewody ochronne |
+| 4 | PN-EN 61140:2016-07 | angielska | Ochrona przed porażeniem prądem elektrycznym — Wspólne aspekty instalacji i urządzeń |
+| 5 | PN-EN 61439-2:2011 | polska | Rozdzielnice i sterownice niskonapięciowe — Część 2: Rozdzielnice i sterownice do rozdziału energii elektrycznej |
+| 6 | *(nieznana — zgubiona w konwersji)* | — | — |
+| 7 | **PN-EN 62305-2:2011** | polska | Ochrona odgromowa — Część 2: Zarządzanie ryzykiem |
+| 8 | **PN-EN 62305-3:2011** | polska | Ochrona odgromowa — Część 3: Uszkodzenia fizyczne obiektów i zagrożenie życia |
+| 9 | **PN-EN 62305-4:2011** | polska | Ochrona odgromowa — Część 4: Urządzenia elektryczne i elektroniczne w obiektach |
+| 10 | *(nieznana — zgubiona w konwersji)* | — | — |
+| 11 | N SEP-E 004 | polska | Elektroenergetyczne i sygnalizacyjne linie kablowe. Projektowanie i budowa |
+| 12 | N SEP-E 005 | polska | Dobór przewodów elektrycznych do urządzeń, których funkcjonowanie jest niezbędne w czasie pożaru |
+| 13 | *(nieznana — zgubiona w konwersji)* | — | — |
+| 14 | PN-EN 60269-6:2011 | angielska | Bezpieczniki topikowe niskonapięciowe — Część 6: Wymagania dodatkowe dotyczące wkładek topikowych do zabezpieczania fotowoltaicznych systemów energetycznych |
+| 15 | **PN-HD 60364-7-712:2016-05** | polska | Instalacje elektryczne niskiego napięcia — Część 7-712: Wymagania dotyczące specjalnych instalacji lub lokalizacji — Fotowoltaiczne (PV) układy zasilania — **najważniejsza norma specyficznie dla PV**; mamy dziś tylko wyciąg (spis treści+bibliografia), patrz `docs/zrodla/norma-HD-60364-7-712/` |
+| 16 | PN-EN 61173:2002 | polska | Ochrona przepięciowa fotowoltaicznych (PV) systemów wytwarzania mocy elektrycznej — Przewodnik |
+| 17 | *(nieznana — zgubiona w konwersji)* | — | — |
+| 18 | PN-EN 61724-1:2017-10 | angielska | Wydajność systemu fotowoltaicznego — Część 1: Monitorowanie |
+| 19 | PN-EN 61727:2002 | angielska | Systemy fotowoltaiczne (PV) — Charakterystyki uniwersalnych złączy standardowych |
+| 20 | PN-EN 62446-1:2016-08 | angielska | Systemy fotowoltaiczne (PV) — Wymagania dotyczące badań, dokumentacji i utrzymania — Część 1: Systemy podłączone do sieci — Dokumentacja, odbiory i nadzór |
+| 21 | IEC 62446-2 (nieobowiązująca w Polsce) | angielska | j.w. — Część 2: Konserwacja systemów podłączonych do sieci |
+| 22 | PN-EN 62852:2015-05 | angielska | Złącza DC stosowane w systemach fotowoltaicznych — Wymagania bezpieczeństwa i badania |
+| 23 | PN-EN 50380:2018-04 | angielska | Wymagania dotyczące oznakowania i dokumentacji modułów fotowoltaicznych |
+| 24 | PN-EN 60904-1:2007 | angielska | Elementy fotowoltaiczne — Część 1: Pomiar charakterystyk prądowo-napięciowych elementów fotowoltaicznych |
+| 25 | PN-EN 61215-1:2017-01 | angielska | Moduły fotowoltaiczne (PV) do zastosowań naziemnych — Kwalifikacja konstrukcji i aprobata typu — Część 1: Wymagania dotyczące badań |
+| 26 | PN-EN 61215-2:2017-05 | angielska | j.w. — Część 2: Metody badań |
+| 27 | *(nieznana — zgubiona w konwersji)* | — | — |
+| 28 | PN-EN IEC 61730-2:2018-06 | angielska | Ocena bezpieczeństwa modułu fotowoltaicznego (PV) — Część 2: Wymagania dotyczące badań |
+| 29 | *(nieznana — zgubiona w konwersji, prawdopodobnie 61730-1 wg wcześniejszego odczytu wizualnego)* | — | — |
+| 30 | PN-EN 50524:2009 | angielska | Karta danych i tabliczka znamionowa falowników do systemów fotowoltaicznych |
+| 31 | PN-EN 50530:2010 | angielska | Całkowita sprawność falowników fotowoltaicznych |
+| 32 | PN-EN 50549-1:2019-02 (zastępuje PN-EN 50438) | angielska | Wymagania dla instalacji generacyjnych przeznaczonych do równoległego przyłączania do publicznych sieci dystrybucyjnych — Część 1: Przyłączanie do sieci dystrybucyjnej nN — Instalacje generacyjne aż do typu B włącznie |
+| 33 | *(nieznana — zgubiona w konwersji, prawdopodobnie 50549-2 wg wcześniejszego odczytu wizualnego)* | — | — |
+| 34 | PN-EN 61000 (seria) | — | Seria norm dotycząca kompatybilności elektromagnetycznej (EMC) |
+| 35 | **PN-EN 62109-1:2010** | angielska | Bezpieczeństwo konwerterów mocy stosowanych w fotowoltaicznych systemach energetycznych — Część 1: Wymagania ogólne |
+| 36 | **PN-EN 62109-2:2011** | angielska | j.w. — Część 2: Wymagania szczegółowe dotyczące falowników — **mamy dziś pełną treść (IEC 62109-2), patrz `docs/zrodla/norma-IEC-62109-2/`** |
+| 37 | *(nieznana — zgubiona w konwersji, prawdopodobnie 62116 wg wcześniejszego odczytu wizualnego)* | — | — |
+| 38 | PN-EN 61194:2002 | polska | Parametry charakterystyczne autonomicznych systemów fotowoltaicznych (PV) — **off-grid** |
+| 39 | PN-EN 62124:2005 | angielska | Systemy fotowoltaiczne (PV) wolnostojące — Weryfikacja projektu — **off-grid** |
+| 40 | PN-EN 50521:2009 (norma wycofana) | angielska | Złącza elektryczne do zastosowań w systemach fotowoltaicznych — Wymagania bezpieczeństwa i badania |
+| 41 | PN-EN 62093:2005 | angielska | Elementy uzupełniające w systemach fotowoltaicznych — Założenia kwalifikacyjne dla środowiska naturalnego |
+| 42 | **PN-EN 61427-1:2013-12** | angielska | Wtórne ogniwa i akumulatory wykorzystywane do magazynowania energii w systemach energetyki odnawialnej — Część 1: Zastosowanie w systemach fotowoltaicznych **niepodłączonych do publicznej sieci energetycznej** — bezpośrednio dotyczy off-grid + akumulatorów |
+| 43 | PN-EN 62509:2011 | angielska | Urządzenia kontrolujące proces ładowania akumulatorów w systemach fotowoltaicznych — Parametry i działanie |

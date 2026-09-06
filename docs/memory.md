@@ -2415,6 +2415,35 @@ konkretnych potrzebnych tabel + kod kalkulatora, po kolei małymi partiami zgodn
     OCR i tak eliminowane przez wizualną weryfikację na końcu.
   - Status wszystkich czterech: przeanalizowane, niewykorzystane jeszcze w kodzie kalkulatorów.
 
+## Decyzje i uzasadnienie (c.d. 88)
+
+- **2026-09-06 — Właściciel projektu przekonwertował dwa wcześniej dostarczone PDF-y na `.docx`
+  ("Udało mi się dla ciebie przerobić pliki") — wykorzystane do uzupełnienia, nie powtórzenia
+  analizy.** Sprawdzono najpierw, czy wersja `.docx` wnosi coś nowego względem tego, co już
+  wyekstrahowano z PDF wizualnie, zamiast automatycznie przerabiać obie analizy od zera:
+  - **och_pPp.docx** (materiał o ochronie przeciwporażeniowej) — 14 tabel, ale większość diagramów
+    organizacyjnych (schematy blokowe SELV/PELV itd.) skonwertowały się jako puste komórki (to były
+    kształty/smart-art w oryginale, nie prawdziwe tabele). Tabele z realnymi danymi (rezystancja
+    izolacji, Tablica 54.2, stara tabela czasów wyłączenia dla warunków zwiększonego zagrożenia)
+    **potwierdziły dokładnie** to, co już zapisano z odczytu wizualnego PDF — żadnej korekty
+    niepotrzebnej, tylko dodatkowa pewność.
+  - **PV2019.docx** (dodatek "Rynek Elektryczny" 2019) — tu konwersja wniosła realną wartość: 31
+    tabel z czystym, edytowalnym tekstem, w tym **dokładny, numerowany wykaz norm** (wcześniej
+    opisany tylko przykładowo, "pełna lista w PDF"). Wydobyto 34 z 43 pozycji z dokładnym numerem i
+    opisem — m.in. nową, wcześniej nieznaną pozycję **PN-EN 50565-1:2014** (przewody elektryczne).
+    9 pozycji (#2, #6, #10, #13, #17, #27, #29, #33, #37) zgubiło się przy konwersji PPTX→DOCX
+    (prawdopodobnie na granicach slajdów) — **odnotowane jawnie jako nieznane, nie zgadywane**.
+    Zaktualizowano `docs/zrodla/materialy-branzowe-PV-2019/01-tresc.md`: zastąpiono przykładową
+    listę norm pełną numerowaną tabelą, doprecyzowano Tabelę 11 (progi mocy mikroinstalacji wg
+    IRiESD: ≤3,68kW / 3,68-10kW / 10-40kW, z dokładnymi wymaganiami per próg — wcześniej opisane
+    tylko ogólnie).
+  - Wzorzec procesowy: kiedy użytkownik dostarcza tę samą treść w innym formacie, **najpierw
+    sprawdzić różnicę (diff), nie zakładać z góry ani że nic się nie zmieniło, ani że trzeba
+    powtórzyć całą pracę** — tu format `.docx` z zachowanymi tabelami okazał się bardziej
+    wiarygodnym źródłem tabel niż odczyt wizualny slajdów PowerPointa (gdzie tabele-z-tekstem są
+    czytane bezbłędnie, ale złożone diagramy/smart-art tracą strukturę przy konwersji — odwrotna
+    sytuacja niż przy skanach, gdzie to wizualny odczyt jest bardziej wiarygodny niż OCR).
+
 ## Mapa orientacyjna
 
 - `docs/rejestr-twardych-stopow.md` — zbiorczy indeks warunków zawsze skutkujących 🔴 (04.3), z odsyłaczami do modułu/ekranu/pliku źródłowego. Dopisz tu nowy twardy stop, gdy kolejny moduł go wprowadzi.
