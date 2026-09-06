@@ -63,3 +63,31 @@ otwiera starych .doc, OCR bez pełnej weryfikacji daje fałszywe poczucie bezpie
 jawnej mapy znaków) od nowa, tracąc czas i ryzykując ciche błędy w danych bezpieczeństwa-krytycznych.
 
 Status: 🔎 nowe
+
+---
+
+[06.09.2026] KATEGORIA: POMYSŁ NA REGUŁĘ — brak współdzielonej, wielorazowej biblioteki norm źródłowych między projektami rodziny
+
+Szczegóły: W tym projekcie zgromadzono i przeprocesowano (metodologia — patrz zgłoszenie wyżej,
+06.09.2026) 10 źródeł: 8 formalnych norm PN/IEC/EN/HD i 2 materiały branżowe, dotyczące w większości
+**generycznej elektryki niskiego napięcia i budownictwa** (instalacje elektryczne, ochrona
+przeciwporażeniowa, PV, obciążenie śniegiem dachów) — nie tylko off-grid. Każda przyszła aplikacja
+inżynierska tej rodziny (np. kolejny "Kalkulator Inżyniera Pro", instalator PV on-grid, projektant
+instalacji elektrycznej budynku) prędzej czy później potrzebuje tych samych norm. Dziś, bez
+mechanizmu współdzielenia, każdy kolejny projekt musiałby kupować/skanować/OCR-ować/weryfikować je
+od nowa — realny koszt czasu i pieniędzy (część tych norm to płatne zakupy PKN), a przy okazji
+ryzyko, że różne projekty rodziny zbudują kalkulatory na niezależnie (i niespójnie) zweryfikowanych
+kopiach tej samej normy.
+
+Pełny manifest — dokładnie co jest, gdzie leży, w jakim jest stanie (jaka część zweryfikowana w
+pełni vs spot-check vs bezużyteczny wyciąg) i czy nadaje się do skopiowania 1:1 do współdzielonej
+biblioteki: `docs/propozycje-do-new-app-standards/biblioteka-norm-zrodlowych.md` w tym repo —
+surowy szkic, czeka na konsolidację przez sesję pracującą bezpośrednio nad `new-app-standards`
+(albo osobnym repo pod nim, np. `biblioteka-norm`, do decyzji tamtej sesji).
+
+Dlaczego warto zgłosić do new-app-standards: to naturalne rozszerzenie pomysłu zgłoszonego wyżej
+(procedura przetwarzania materiałów) — ta reguluje JAK przetwarzać nowy dokument, ta tutaj reguluje
+GDZIE trzymać wynik, żeby nie przetwarzać tego samego dokumentu dwa razy w dwóch różnych projektach
+rodziny. Dotyczy każdej aplikacji inżynierskiej tej rodziny, nie tylko Offgrid.
+
+Status: 🔎 nowe

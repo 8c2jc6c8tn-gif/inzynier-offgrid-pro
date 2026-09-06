@@ -2538,6 +2538,21 @@ konkretnych potrzebnych tabel + kod kalkulatora, po kolei małymi partiami zgodn
     z 🔵 spodziewane do sekcji "Pozyskane").
   - Status: przeanalizowana i podzielona, niewykorzystana jeszcze w kodzie kalkulatora.
 
+## Decyzje i uzasadnienie (c.d. 93)
+
+- **2026-09-06 — Zgłoszono pomysł współdzielonej biblioteki norm źródłowych między projektami
+  rodziny**, na pytanie właściciela projektu o to, gdzie leżą oryginały vs przerobiona treść, i
+  chęć udostępnienia tego przez `new-app-standards` innym projektom. Zgodnie z ustalonym procesem
+  (nie edytować `docs/standards/` bezpośrednio — patrz korekta wyżej, wpis 90): utworzono
+  `docs/propozycje-do-new-app-standards/biblioteka-norm-zrodlowych.md` — pełny manifest 10 źródeł
+  w `docs/zrodla/` (co jest, w jakim stanie weryfikacji, dla kogo uniwersalne, rekomendacja
+  kopiowania) — oraz dopisano zgłoszenie w `docs/wklad-do-standardu.md`.
+  - Przy tej okazji odnotowany (nie naprawiony — poza zakresem tego zgłoszenia) drobny, nieszkodliwy
+    dryf: oryginały PN-HD 60364-5-52 i 5-54 leżą w `docs/zrodla/` bezpośrednio, nie wewnątrz swoich
+    folderów `norma-*/` jak wszystkie kolejno dodane źródła — konwencja "oryginał w tym samym
+    folderze" ustaliła się dopiero przy trzecim źródle. Flaga zostawiona w manifeście do
+    ujednolicenia przy kopiowaniu do wspólnej biblioteki.
+
 ## Mapa orientacyjna
 
 - `docs/rejestr-twardych-stopow.md` — zbiorczy indeks warunków zawsze skutkujących 🔴 (04.3), z odsyłaczami do modułu/ekranu/pliku źródłowego. Dopisz tu nowy twardy stop, gdy kolejny moduł go wprowadzi.
