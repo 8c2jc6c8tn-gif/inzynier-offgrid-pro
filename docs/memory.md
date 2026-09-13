@@ -3114,3 +3114,22 @@ brak wzoru wiążącego szczelinę z temperaturą), Ekran 9 (uziemienie), Ekran 
 przed gryzoniami), Ekran 27 (puszki połączeniowe) — te ostatnie 5 (17, 23–25, 27) są buildowalne
 jako proste Wzorce B/C/F (treść porównawcza/referencyjna, dane konkretne w źródle), po prostu
 jeszcze nie zbudowane w tej rundzie, nie zablokowane merytorycznie.
+
+## Moduł 5 — trzecia partia: ostatnie 5 niezablokowanych ekranów (13.09.2026)
+
+[13.09.2026] ✅ DODANO — dokończenie prostych Wzorców B/C/F zidentyfikowanych w poprzednim wpisie
+jako buildowalne. Zbudowane: Ekran 17 (ochrona przed dotykiem — checklist 2 mechanizmów, źródło
+nie podaje twardego stopu dla tego ekranu; "lista IP wg miejsca" NIE zbudowana — brak tabeli
+miejsce→IP w treści TEGO ekranu, w odróżnieniu od Ekranu 27), Ekran 23 (separacja EMC — Wzorzec F
+bez kalkulatora, jak Ekran 19: treść + ilustracja SVG), Ekran 24 (peszle/koryta/rurki — Wzorzec B,
+dopasowanie miejsca montażu do 1 z 4 osłon), Ekran 25 (ochrona przed gryzoniami — "auto z Modułu 1"
+zastąpione ręcznym wyborem poziomu ryzyka, M1 nie ma pola "typ terenu"), Ekran 27 (puszki
+połączeniowe — Wzorzec B wg lokalizacji; "auto-lista punktów z Ekranu 19" NIE zbudowana, Ekran 19
+nie ma modelu danych tras). `tsc --noEmit`/`pnpm test` (631/631)/`pnpm lint`/`pnpm build` — czyste,
+zweryfikowane w przeglądarce (Playwright) w tym sprawdzenie duplikatów DOM `id` na każdej stronie
+(nauczka z poprzedniej partii, Ekran 26).
+
+**To zamyka wszystkie merytorycznie niezablokowane ekrany Modułu 5.** Pozostałe `todo` (6 ekranów:
+5 MC4, 8 przepust powietrza, 9 uziemienie, 13 selektywność, 18 IMD, 21 normy/certyfikaty) wymagają
+bazy komponentów albo wzoru nieobecnego w źródle — pozostają świadomie odłożone, nie przeoczone.
+Moduł 5: 23 z 29 ekranów **done** (79%).
