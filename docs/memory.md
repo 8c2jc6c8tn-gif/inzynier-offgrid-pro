@@ -2857,10 +2857,12 @@ powiedział, że nie wie, gdzie ten moduł najlepiej pasuje; nie decydować samo
 
 **Do sprawdzenia na etapie poprawek (zauważone przy zapisie, nierozstrzygnięte, nie naprawiane
 samodzielnie — to materiał źródłowy, nietykalny):**
-- Tabela C.1 podaje identyczną wartość "Maks. prąd przy szczytowej mocy: do 208 A" dla **obu**
-  kolumn 12 V i 24 V, mimo że przy tej samej mocy szczytowej (górna granica przedziału 24V to
-  5000W, dla 12V to 2500W) prądy powinny się różnić — wygląda na artefakt kopiowania, nie
-  świadomą wartość. Do potwierdzenia z właścicielem, nie poprawiać cicho.
+- ~~Tabela C.1 "do 208 A" dla obu kolumn 12V/24V — artefakt kopiowania~~ **[13.09.2026] SPROSTOWANIE:**
+  po przeliczeniu to NIE jest błąd — matematyczna koincydencja, poprawna: 2500W/12V = 5000W/24V =
+  208,3A dokładnie (bo 5000=2×2500 i 24=2×12). Tabela poprawna, tylko niejasno podpisana (miesza
+  "maks. prąd w danym paśmie" z "prąd na granicy poprzedniego pasma"). Mój wcześniejszy wpis w tym
+  miejscu był błędny — zostawiony przekreślony, nie usunięty (Zasada 15.4/GOD BOOK "nie usuwaj —
+  oznacz").
 - Materiał częściowo pokrywa się tematycznie z już istniejącym ekranem `napiecie-systemowe`
   (`lib/core/modules/baterie/napiecie-systemowe/`, M4) — ten nowy materiał go znacznie
   rozszerza (kontekst zastosowania, ogrzewanie, koszty, PV, łączenie pakietów, konwersja 24V→48V).
@@ -2899,3 +2901,91 @@ Realnie nowa logika do napisania (nieistniejąca nigdzie): Etap A (kontekst+ogrz
 (kreator odbiorników + analiza jednoczesności/długotrwałości), Etap E (3 kosztorysy), Etap F
 (rozpływ prądu w łączeniu równoległym pakietów), Etap G (dobór paneli PV do falownika), Etap H
 (pułapka 24V→48V, koszt przejścia).
+
+**[13.09.2026] Zasada nadrzędna potwierdzona przez właściciela dla całego tego modułu:** gdziekolwiek
+aplikacja ma już własne, precyzyjniejsze dane/kalkulator niż uproszczenie z tego materiału
+źródłowego — **zawsze wygrywa istniejący kalkulator aplikacji**, materiał źródłowy traktowany jako
+"pierwsze przybliżenie do zweryfikowania", nie jako ostateczna liczba. Dotyczy to już ustalonego
+Etapu C (wyżej) i rozszerza się teraz jawnie na Etap G (patrz niżej).
+
+## Poprawki do modułu "Dobór napięcia" — runda 2 (13.09.2026)
+
+Właściciel dostarczył kartę katalogową JA Solar JAM60D41 LB (zdjęcie, zapisana jako
+`docs/zrodla/karta-katalogowa-JA-Solar-JAM60D41-LB/`) i podjął decyzje po analizie z rundy 1.
+
+**A.3 (pytanie o ogrzewanie) — USTALENIE:** moduł ma domyślnie **czytać dane o ogrzewaniu z reszty
+aplikacji** (Moduł 1 lokalizacja-i-klimat i/lub Moduł 6 ogrzewanie, jeśli użytkownik je już
+wypełnił), zamiast pytać od nowa. Opcja "Nie dotyczy" pozostaje zawsze ręcznie wybieralna — dla
+kontekstów, gdzie ogrzewanie elektryczne budynku nie ma zastosowania (łódź, kamper, inny obiekt
+bez ogrzewania). To jest kolejny przypadek wspólnego stanu wejściowego (nie tylko echo wyniku
+obliczenia, jak w Etapach C/G, ale echo DANYCH WEJŚCIOWYCH między modułami) — spójne z ideą
+"profilu sprzętu/obiektu użytkownika" ze standardu (`docs/standards/`). Niespójność 80 W/m² vs
+zakres 100-150 W/m² w przykładzie A.3 (zgłoszona w rundzie 1) pozostaje otwarta, nie dotyczy tej
+decyzji.
+
+**B.3 (długotrwałe obciążenie) — POPRAWKA:** wiersz "Pralka (grzanie wody)" w tabeli B.3 był
+błędnie oznaczony jako "Chwilowe obciążenie" mimo czasu pracy 0,5-1h, co wg własnej definicji
+sekcji ("odbiorniki pracujące długotrwale = powyżej 30 minut") kwalifikuje się jako
+**długotrwałe**. Poprawka do zastosowania przy budowie: Pralka klasyfikowana jako długotrwałe
+(wpływ: "przewody muszą być dobrane na prąd ciągły", jak pozostałe wiersze tej tabeli), nie
+chwilowe.
+
+**B.2 (analiza jednoczesności) — ZAPROJEKTOWANY ALGORYTM** (materiał źródłowy dawał tylko
+przykłady, bez reguły — poniższe jest propozycją do zaakceptowania przed kodowaniem, nie jeszcze
+zaimplementowane):
+1. Podział zaznaczonych odbiorników na dwie grupy: **bazowe/ciągłe** (lodówka, router, oświetlenie,
+   monitoring — działają praktycznie zawsze razem, sumowane bezwarunkowo) i **przełączalne/
+   wysokomocowe** (AGD, narzędzia, ogrzewanie — użytkownik włącza je świadomie, mogą, ale nie
+   muszą, nakładać się w czasie).
+2. `sumaWorstCase = bazowe + Σ(wszystkie zaznaczone przełączalne)` — scenariusz najgorszego
+   przypadku (wszystko naraz).
+3. Jeśli `sumaWorstCase ≤ mocCiagłaFalownika` → brak możliwego konfliktu, jeden komunikat "OK",
+   koniec (unika sprawdzania 2^n podzbiorów, co jest niepotrzebne i nieczytelne dla użytkownika).
+4. Jeśli `sumaWorstCase > mocCiagłaFalownika` → konflikt istnieje. Żeby dać użytkownikowi
+   praktyczną odpowiedź (nie tylko "masz konflikt"), algorytm:
+   - sortuje przełączalne malejąco wg mocy,
+   - podaje `nadwyzka = sumaWorstCase - mocCiagła` i zachłannie wskazuje najmniejszy zestaw
+     odbiorników (zaczynając od największego), których wyłączenie/nieuruchamianie jednocześnie
+     sprowadza sumę poniżej limitu — komunikat w stylu materiału źródłowego
+     ("nie uruchamiaj razem: X + Y", zamiast enumerować wszystkie kombinacje).
+5. **Waga ostrzeżenia z Etapu B.3:** konflikt między dwoma odbiornikami, które OBA mają
+   długotrwały czas pracy (≥30 min, po poprawce wyżej) → `critical` (realne ryzyko przegrzania
+   długotrwałego). Konflikt, gdzie przynajmniej jeden jest chwilowy (np. czajnik) → `warning`
+   (przejściowe obciążenie, mniejsze ryzyko, ale wciąż warte zgłoszenia).
+6. Świadomie POZA zakresem (brak danych źródłowych, nie zgadywane): prąd rozruchowy/inrush
+   silników i pomp — źródło podaje tylko moc znamionową, nie prąd rozruchowy, więc nie jest on
+   uwzględniany.
+
+**E.4 pkt 1 ("6× więcej miedzi przy 12V") — USUNIĘTE, zastąpione echem z M5.** Sprawdzone: to
+twierdzenie nie ma podanego wzoru i po przeliczeniu wygląda na nieprecyzyjne — przy stałym %
+dopuszczalnego spadku napięcia wymagany przekrój skaluje się jak 1/V² (bo `%spadek = I×ρ×2L /
+(A×V)`, a `I=P/V`, więc `A ∝ P×ρ×2L/(V²×próg%)`) — przejście z 48V na 12V (÷4 napięcia) dawałoby
+**~16×** większy przekrój, nie 6×. Ale **ta liczba "16×" TEŻ jest tylko moim ręcznym przeliczeniem
+pod jednym konkretnym kryterium (spadek napięcia) — nie jest to wartość do wpisania do kodu.**
+Zgodnie z zasadą nadrzędną (wyżej): moduł ma pokazywać **realne wartości z echa
+`calculateDoborPrzekrojuKabla`** (M5) dla 12V/24V/48V przy tej samej mocy/długości trasy — ten
+kalkulator **już liczy** `przekrojMm2` (rzeczywisty, normatywny) ORAZ `strataRocznaKwh` (roczna
+strata energii w kablu, patrz `calculator.ts` M5/Ekran1) — czyli dokładnie to porównanie "o ile
+mniejszy spadek napięcia/strata", o które pytał właściciel, **już istnieje gotowe w kodzie**, nic
+nowego nie trzeba liczyć. Nowy moduł ma pokazać te trzy wyniki obok siebie (12V/24V/48V), nie
+żadną wymyśloną wielokrotność.
+
+**G.1 (brakujące parametry elektryczne panelu) — ROZWIĄZANE.** Karta katalogowa JA Solar
+JAM60D41-500/LB (dostarczona, `docs/zrodla/karta-katalogowa-JA-Solar-JAM60D41-LB/00-INDEKS.md`)
+daje realne wartości: Voc=43,85V, Vmp=36,91V, Isc=14,42A, Imp=13,55A, β(Voc)=−0,250%/°C. Te
+zastępują przybliżenie "Voc~50V" z materiału. **Przeliczenie kontrolne** (wzór z
+`stress-test-mppt`, założenie Tmin=−25°C spójne z resztą aplikacji): napięcie stringu w mrozie na
+panel = 43,85×(1+(−0,0025)×(−25−25)) = **49,33V** (blisko przybliżenia "50V" materiału, więc
+wnioski jakościowe Etapu G się nie zmieniają, ale teraz są policzone z realnych danych, nie
+zgadywane):
+- Model 2 (24V, 8 paneli w szeregu, limit MPPT 500V): string w mrozie = 394,7V → margines 21,1%
+  do limitu. STC: 295,3V (w oknie MPPT), moc = 4000W (zgodne z materiałem).
+- Model 3 (48V, 2×4, limit MPPT 145V): string w mrozie = 98,7V → margines 32,0% do limitu. STC:
+  73,8V (w oknie MPPT), moc = 4000W (zgodne z materiałem).
+
+Wniosek: konfiguracje z materiału (8 szeregowo dla Modelu 2, 2×4 dla Modelu 3) **potwierdzone**
+jako bezpieczne, teraz z policzonym realnym marginesem zamiast przybliżenia. Przy budowie: te
+wartości mają wejść jako `vocStcV`/`vmpStcV`/`impA`/`betaPctNaC` do echa
+`calculateStressTestMppt`/`calculateDopasowanieTablicyFalownika` (M3), nie jako nowa logika w tym
+module. Otwarte i nierozwiązane: brak analogicznej karty katalogowej dla 3 falowników VEVOR
+(potrzebne realne okna MPPT/prądy do pełnej weryfikacji, dziś tylko z materiału źródłowego).

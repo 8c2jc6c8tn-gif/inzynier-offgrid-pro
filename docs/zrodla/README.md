@@ -193,7 +193,20 @@ VEVOR, oraz kluczowy rozdział H — dlaczego nie można łączyć dwóch pakiet
 wie, gdzie ten moduł najlepiej pasuje. Ma częściowe pokrycie tematyczne z już istniejącymi
 ekranami: `lib/core/modules/baterie/napiecie-systemowe/` (M4, sugestia napięcia wg mocy — ten
 materiał go znacznie rozszerza), Moduł 2 (bilans odbiorników, Etapy A-B), Moduł 5 (przekroje/
-prądy, Etap C). Decyzja o przypisaniu i budowie **czeka na etap poprawek**, nie podejmowana
-samodzielnie — patrz `docs/memory.md`.
+prądy, Etap C), Moduł 3 (dobór paneli PV do falownika, Etap G — pokrywa się z
+`dopasowanie-tablicy-falownika`/`stress-test-mppt`/`konfigurator-stringow`). Decyzja o
+przypisaniu i budowie **czeka na etap poprawek**, nie podejmowana samodzielnie — patrz
+`docs/memory.md`.
 
-Status wykorzystania: zapisany, jeszcze niewykorzystany w kodzie.
+Status wykorzystania: zapisany, trwa etap poprawek (patrz `docs/memory.md`, 13.09.2026),
+jeszcze niewykorzystany w kodzie.
+
+## Karta katalogowa JA Solar JAM60D41 LB, seria 485-510W (13.09.2026)
+
+[13.09.2026] ✅ DODANO — źródło: właściciel projektu, zdjęcie karty katalogowej producenta.
+Uzupełnia lukę zgłoszoną przy analizie materiału wyżej (Etap G nie miał realnych Voc/Vmp/Isc/Imp/
+współczynników temperaturowych panelu). Plik: `docs/zrodla/karta-katalogowa-JA-Solar-JAM60D41-LB/`,
+zacznij od `00-INDEKS.md`. Zawiera pełną tabelę elektryczną dla 6 wariantów mocy (485-510W) +
+parametry mechaniczne + warunki pracy. Status wykorzystania: przeanalizowany, wartości dla
+wariantu -500/LB przeliczone kontrolnie względem istniejących kalkulatorów M3
+(`stress-test-mppt`/`dopasowanie-tablicy-falownika`) — patrz `docs/memory.md`.
