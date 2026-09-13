@@ -2768,6 +2768,36 @@ konkretnych potrzebnych tabel + kod kalkulatora, po kolei małymi partiami zgodn
     cross-referencja), zgodnie z zakresem prośby właściciela projektu. Decyzje o dalszym kroku
     (rozstrzygnięcie sprzeczności momentu, budowa nowej treści) czekają na właściciela.
 
+- **2026-09-13 (kontynuacja) — Ekran A3b, Moduł 11: generator sekwencji montażu (busbary + BMS),
+  parametryzowany liczbą ogniw (4S/8S/16S), z miejscem na media per krok.** Realizacja pierwszych
+  dwóch pozycji z listy "nowa treść bez pokrycia" z poprzedniego wpisu — na wyraźną prośbę
+  właściciela: *"trzeba opracować, żeby nasz poradnik dopasowywał się do 4S,8s,16s"* +
+  *"poradnik musi prowadzić dokładnie krok po kroku z pokazaniem zdjęć albo nagrań"*.
+  - `lib/core/modules/montaz-baterii/sekwencja-montazu/` — czyste, testowalne generatory
+    (`generujPolaczeniaBusbarow`, `generujOkablowanieBms`) uogólniające wzorzec 16S ze źródła
+    (2 rzędy, serpentyna) na dowolną parzystą liczbę ogniw. 14 testów, w tym dokładna weryfikacja
+    16S względem numeracji źródła (połączenie #8 = przejście między rzędami, `Połączenie 8` w
+    źródle — dokładnie się zgadza) — nie tylko własna, niezależna reimplementacja.
+  - **Rozróżnienie 1:1 ze źródła vs. logiczne rozszerzenie**: dla 4S/8S/16S `assumptions` mówi
+    "1:1 ze źródła"; dla innej parzystej liczby (np. 6S, 10S) — "nie 1:1 ze źródła", bo źródło
+    opisuje wprost tylko te trzy wartości. Nieparzysta/za mała (<4)/za duża (>32) liczba ogniw →
+    `OUT_OF_SCOPE`, układ dwurzędowy nie ma sensu albo źródło go nie potwierdza — nie zgadywane.
+  - **Nowy komponent `components/wzorce/krok-z-media.tsx`** (`KrokZMedia`) — pierwszy w projekcie
+    komponent z opcjonalnym slotem na zdjęcie/nagranie per krok. **Ważne: żadne prawdziwe
+    zdjęcia/nagrania nie zostały dostarczone** — komponent renderuje jawny placeholder
+    ("Miejsce na zdjęcie/nagranie tego kroku — do dodania") zamiast wymyślonego/wygenerowanego
+    obrazu (zasada "nie wymyślaj brakujących danych" — to samo dotyczy materiału wizualnego z
+    realnego montażu, nie tylko liczb). Gotowy na `media: {typ, url, opis}`, gdy właściciel dostarczy
+    prawdziwe pliki — do ustalenia jak (upload, linki).
+  - Zarejestrowany w `lib/pulpit/registry.ts` (Moduł 11, po A3). Zweryfikowane: `tsc`/`test`
+    (524/524)/`lint`/`build` czyste; `pnpm start` + zrzuty ekranu Playwrightem (16S — 15 połączeń
+    busbarów poprawnie ponumerowanych z placeholderami media; 4S — 3 połączenia + 5 przewodów BMS,
+    poprawne napięcia 0/3,2/6,4/9,6/12,8V, werdykt 🟢 12,8V; niepoprawna liczba (7, nieparzysta) —
+    🔴 z jasnym komunikatem) — wszystkie trzy stany wizualnie poprawne.
+  - **Poza zakresem tej sesji (pozostałe punkty z listy "nowa treść"):** selekcja ogniw/
+    top-balancing przedmontażowy, konfiguracja parametrów BMS (OVP/UVP/float), tabele przekrojów
+    przewodów i złączy oczkowych — wciąż nie zbudowane, `docs/memory.md` (2026-09-13, wpis wyżej).
+
 ## Mapa orientacyjna
 
 - `docs/rejestr-twardych-stopow.md` — zbiorczy indeks warunków zawsze skutkujących 🔴 (04.3), z odsyłaczami do modułu/ekranu/pliku źródłowego. Dopisz tu nowy twardy stop, gdy kolejny moduł go wprowadzi.
