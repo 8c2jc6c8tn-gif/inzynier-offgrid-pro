@@ -157,11 +157,10 @@ nie do audytu poprawności formularza webowego.
   (M11/A7 — `lib/core/modules/montaz-baterii/przygotowanie-stanowiska/calculator.ts`, status
   `VALID` tylko gdy wszystkie pozycje potwierdzone)
 - **Krok procedury Black Start potwierdzony poza kolejnością** — kolejność ma znaczenie (np.
-  naładowanie baterii przed podłączeniem agregatu do ładowarki), pominięcie kroku nie liczy się do
-  postępu.
+  naładowanie baterii przed podłączeniem agregatu do ładowarki), zła kolejność rozruchu może
+  uszkodzić sprzęt.
   (M7/E5 — `lib/core/modules/stress-test/procedura-black-start/calculator.ts`, kod
-  `KROK-POZA-KOLEJNOSCIA` — obecnie poziom `warning`, nie `critical`; do rewizji, patrz
-  "Znane luki" niżej)
+  `KROK-POZA-KOLEJNOSCIA` — poziom `critical` od 07.09.2026, patrz "Znane luki" niżej po historię)
 - **Praca bez okularów ochronnych przy akumulatorach kwasowo-ołowiowych z korkami** — ryzyko
   pryśnięcia kwasu przy sprawdzaniu poziomu elektrolitu.
   (M11/B8 — `lib/core/modules/montaz-baterii/bezpieczenstwo-kwas/constants.ts`,
@@ -178,10 +177,10 @@ nie do audytu poprawności formularza webowego.
   demonstracyjne, nie realnym zestawem twardych stopów instalacji. Realne kryteria (np. "brak
   czujnika dymu w sypialni", "gaśnica po terminie ważności") do zdefiniowania, gdy ekran zostanie
   spięty z Modułami 8/9/13 (`docs/rejestr-pokrycia.md`).
-- **`KROK-POZA-KOLEJNOSCIA` (Black Start) jest `warning`, nie `critical`** — mimo że opisuje realne
-  ryzyko (uszkodzenie sprzętu przy złej kolejności rozruchu). Zostawione świadomie jako pytanie do
-  właściciela projektu, nie zmienione samodzielnie w ramach tego audytu (`docs/standards/15`, 15.4
-  — nie rozstrzygaj konfliktu/niejasności sam).
+- ~~**`KROK-POZA-KOLEJNOSCIA` (Black Start) jest `warning`, nie `critical`**~~ — **[07.09.2026]
+  ROZSTRZYGNIĘTE**: właściciel projektu potwierdził podniesienie do `critical` (pytanie otwarte od
+  03.09.2026, zgłoszone bez samodzielnego rozstrzygania — `docs/standards/15`, 15.4). Wpis
+  zachowany jako historia (zasada "nie usuwaj — oznacz").
 - Moduły z ekranami wciąż `todo` (większość Modułu 2, Moduł 1 ekrany 2–4, reszta ekranów 3/4/5/8/9)
   mogą kryć kolejne twarde stopy w treści źródłowej (`docs/zrodla/`), jeszcze nieprzepisane do
   kodu — ten rejestr rośnie razem z `docs/rejestr-pokrycia.md`, nie wyprzedza go.

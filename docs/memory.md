@@ -2701,6 +2701,27 @@ konkretnych potrzebnych tabel + kod kalkulatora, po kolei małymi partiami zgodn
   - Zweryfikowane: `tsc`/`test` (510/510)/`lint` (0 błędów, 2 nieblokujące istniejące ostrzeżenia
     `no-img-element`) czyste po wszystkich poprawkach.
 
+- **2026-09-07 — Oba pytania z audytu Część N rozstrzygnięte przez właściciela projektu ("D20
+  wpisuj i podnosić poziom do critical").**
+  - **D20 dopisane** do `rejestr-decyzji.md` — wzorzec "echo" (D12) wymaga wspólnego uzasadnienia
+    fizycznego/normatywnego, nie tylko wspólnej wartości liczbowej (przypadek M3/E22↔M5/E6).
+  - **`KROK-POZA-KOLEJNOSCIA` (Black Start, M7/E5) podniesiony z `warning` na `critical`**
+    (`lib/core/modules/stress-test/procedura-black-start/calculator.ts`, `CALCULATOR_VERSION`
+    1.0.0→1.1.0). Dotyczy tylko tego ekranu — ten sam kod ostrzeżenia jest niezależnie zdefiniowany
+    (nie echo, osobne literały) w kilku ekranach Modułu 11 (`polaczenia-elektryczne`,
+    `podlaczenie-bms`, `demontaz-pakietu`, `demontaz-olow`), świadomie NIEZMIENIONYCH — decyzja
+    dotyczyła wprost Black Start, nie całego wzorca.
+  - **Znaleziony i naprawiony bug przy okazji**: UI (`app/kalkulatory/procedura-black-start/page.tsx`)
+    liczyło werdykt bezpośrednio ze `Status` (`VALID_WITH_WARNINGS`→🟡), nie z poziomów
+    `result.warnings` (D14) — dokładnie przypadek, przed którym D14 ostrzega. Bez tej poprawki
+    podniesienie poziomu na `critical` nie miałoby żadnego widocznego efektu w UI. Naprawione
+    (`hasCritical` → 🔴), zweryfikowane zrzutem ekranu Playwrightem (krok 5 zaznaczony przed
+    krokiem 2-4 → 🔴 "Zabronione").
+  - `docs/rejestr-twardych-stopow.md` (Znane luki) i `docs/lista-do-zrobienia.md` (otwarte pytanie
+    z 03.09.2026) oznaczone jako rozstrzygnięte, nie usunięte.
+  - Zweryfikowane: `tsc`/`test` (510/510, w tym nowa asercja `level==="critical"`)/`lint`/`build`
+    czyste.
+
 ## Mapa orientacyjna
 
 - `docs/rejestr-twardych-stopow.md` — zbiorczy indeks warunków zawsze skutkujących 🔴 (04.3), z odsyłaczami do modułu/ekranu/pliku źródłowego. Dopisz tu nowy twardy stop, gdy kolejny moduł go wprowadzi.

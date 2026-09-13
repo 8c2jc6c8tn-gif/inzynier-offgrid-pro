@@ -30,12 +30,13 @@ describe("calculateProceduraBlackStart", () => {
     expect(result.value.potwierdzoneWKolejnosci).toBe(5)
   })
 
-  it("krok zaznaczony poza kolejnością -> ostrzeżenie, nie liczy się do postępu", () => {
+  it("krok zaznaczony poza kolejnością -> twardy stop krytyczny, nie liczy się do postępu", () => {
     const result = calculateProceduraBlackStart({
       potwierdzoneIds: ["uruchom-agregat", "wlacz-falownik"],
     })
     expect(result.status).toBe("VALID_WITH_WARNINGS")
     expect(result.value.potwierdzoneWKolejnosci).toBe(1)
     expect(result.warnings[0].code).toBe("KROK-POZA-KOLEJNOSCIA")
+    expect(result.warnings[0].level).toBe("critical")
   })
 })
