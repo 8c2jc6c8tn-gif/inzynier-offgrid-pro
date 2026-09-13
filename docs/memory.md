@@ -2989,3 +2989,24 @@ wartości mają wejść jako `vocStcV`/`vmpStcV`/`impA`/`betaPctNaC` do echa
 `calculateStressTestMppt`/`calculateDopasowanieTablicyFalownika` (M3), nie jako nowa logika w tym
 module. Otwarte i nierozwiązane: brak analogicznej karty katalogowej dla 3 falowników VEVOR
 (potrzebne realne okna MPPT/prądy do pełnej weryfikacji, dziś tylko z materiału źródłowego).
+
+## Poprawki do modułu "Dobór napięcia" — runda 3: C.3 rozstrzygnięte (13.09.2026)
+
+**C.3 (spadek napięcia 100A/25mm²/3m) — właściciel wybrał opcję A.** Liczba w materiale
+("~1,2V, 10% napięcia systemu") zastąpiona rzeczywistym wynikiem tego samego wzoru, którego
+materiał używa w C.2 (`R=ρ×2×L/A`, ρ=0,0172):
+
+R = 0,0172×2×3/25 = 0,00413 Ω → U = 100A×0,00413Ω = **0,41V (3,4% z 12V)**, nie 1,2V/10%.
+
+Do zastosowania przy budowie tego fragmentu (Etap C.3, akapit "Ostrzeżenie: Prąd 100A przy 12V"):
+zdanie "Spadki napięcia: Przy 100A i przewodzie 25mm² o długości 3m spadek napięcia wynosi ~1,2V
+(10% napięcia systemu!)" zamienić na "...spadek napięcia wynosi ~0,41V (3,4% napięcia systemu)".
+Reszta akapitu (prąd spawalniczy, nagrzewanie złączek, ryzyko pożaru przy wibracjach) zostaje bez
+zmian — to jedyna liczba w C.3 niezgodna z własnym wzorem dokumentu, pozostałe trzy argumenty
+ostrzeżenia są poprawne i nie wymagają korekty. Ogólny wniosek akapitu (100A@12V jest niebezpieczne)
+pozostaje prawdziwy — opiera się głównie na ryzyku łuku elektrycznego i nagrzewania złączek, nie na
+samym spadku napięcia.
+
+**Status pozostałych otwartych punktów z rundy 1:** niespójność 80 W/m² vs 100–150 W/m² w
+przykładzie A.3 oraz miejsce/numer modułu w strukturze aplikacji — wciąż nierozstrzygnięte, czekają
+na kolejną rundę.
