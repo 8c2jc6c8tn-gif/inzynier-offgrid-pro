@@ -3010,3 +3010,25 @@ samym spadku napięcia.
 **Status pozostałych otwartych punktów z rundy 1:** niespójność 80 W/m² vs 100–150 W/m² w
 przykładzie A.3 oraz miejsce/numer modułu w strukturze aplikacji — wciąż nierozstrzygnięte, czekają
 na kolejną rundę.
+
+## Poprawki do modułu "Dobór napięcia" — runda 4: A.3 rozstrzygnięte (13.09.2026)
+
+**A.3 (niespójność 80 W/m² vs zakres 100–150 W/m²) — WYKREŚLONE, nie poprawione liczbowo.**
+Sprawdzone: w aplikacji **nie istnieje dziś żaden kalkulator liczący moc szczytową ogrzewania z
+powierzchni budynku** — Moduł 6 (`lib/core/modules/ogrzewanie/kociol-elektryczny/` i inne) bierze
+`zapotrzebowanieCieplneKwh` jako gotowy input, nie liczy go z m²/typu izolacji. Skoro (decyzja z
+rundy 2) A.3 ma czytać moc ogrzewania z danych już wpisanych w aplikacji (M2/Ekran 1
+`systemy-podtrzymania-zycia`, pole "ogrzewanie" — patrz wątek w tym pliku o luce źródłowej dla tej
+kategorii) albo z "Nie dotyczy", to **worked example materiału (100m²×80W/m²=8000W→667A/333A/167A)
+nigdy nie stanie się żywą kalkulacją w kodzie** — jest to czysto ilustracyjne ręczne szacowanie,
+zdegradowane do roli fallbacku.
+
+**Decyzja:** ten konkretny przykład (i jego niespójna liczba 80 W/m²) **nie jest odtwarzany** przy
+budowie modułu. Sama tabela kategorii ogrzewania z Etapu A.3 (zakresy W/m², nie punktowe liczby)
+zostaje zachowana wyłącznie jako pomocniczy fallback do ręcznego wpisania mocy, gdy użytkownik nie
+ma jeszcze żadnych danych w M2/M6 — jako zakresy (nie konkretne liczby) nie są wewnętrznie
+sprzeczne, więc nie wymagają korekty.
+
+**Etap A.3 uznany za w pełni rozstrzygnięty.** Jedyny pozostały otwarty punkt z całej rundy 1-4
+poprawek: **miejsce/numer modułu w strukturze 13 modułów aplikacji** (patrz wątek "Nowy materiał
+źródłowy" wyżej — właściciel wprost nie wie, gdzie to ma trafić).
