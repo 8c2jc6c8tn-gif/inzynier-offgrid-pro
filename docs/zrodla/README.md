@@ -171,3 +171,29 @@ tabela kontrolna wartości.
 jedna wartość (moment dokręcania M6) jest w jawnej sprzeczności z wartością już w kodzie
 (`moment-dokrecania-srub`, M4/E11) — zgłoszone do rozstrzygnięcia właścicielowi projektu, nie
 rozstrzygnięte samodzielnie. Pełna analiza: `docs/memory.md` (2026-09-13).
+
+## Propozycja nowego modułu — Dobór napięcia systemu Off-Grid v3.0 (13.09.2026)
+
+[13.09.2026] ✅ DODANO — źródło: właściciel projektu, pełna specyfikacja robocza (nie formalna
+norma, materiał produktowy/koncepcyjny analogiczny do plików `Tresc_Modul_*`). Plik:
+**`docs/zrodla/Material_Nowy_Modul_Dobor_Napiecia_Systemu_OffGrid_v3_0.md`** — zapisany 1:1, bez
+zmian treści, jako pierwszy krok ustalonego z właścicielem procesu: (1) zapisać jak jest → (2)
+wnieść poprawki → (3) zbudować moduł.
+
+Zawiera: kontekst zastosowania (dom/kamper/łódź/nowy budynek), pytanie o ogrzewanie i jego wpływ
+na wymagane napięcie, kreator odbiorników z automatyczną analizą jednoczesności i długotrwałego
+obciążenia, progi decyzyjne 12/24/48V, analizę nagrzewania przewodów (P=I²R) i bezpieczeństwa
+prądowego (100A@12V), rekomendację oświetlenia DC (24V vs 230V vs 48V + koszt przetwornic),
+trzy kosztorysy równoległe (EVE MB31 314Ah, falowniki VEVOR), problem równoległego łączenia
+pakietów akumulatorów (busbar vs daisy-chain), dobór paneli JA Solar 500W do 3 modeli falowników
+VEVOR, oraz kluczowy rozdział H — dlaczego nie można łączyć dwóch pakietów 24V szeregowo w 48V
+(rozjazd BMS, brak komunikacji master-slave) i koszt "przejścia" 24V→48V.
+
+**Przypisanie do numeru modułu Off-Grid: NIEROZSTRZYGNIĘTE**, właściciel wprost zaznaczył, że nie
+wie, gdzie ten moduł najlepiej pasuje. Ma częściowe pokrycie tematyczne z już istniejącymi
+ekranami: `lib/core/modules/baterie/napiecie-systemowe/` (M4, sugestia napięcia wg mocy — ten
+materiał go znacznie rozszerza), Moduł 2 (bilans odbiorników, Etapy A-B), Moduł 5 (przekroje/
+prądy, Etap C). Decyzja o przypisaniu i budowie **czeka na etap poprawek**, nie podejmowana
+samodzielnie — patrz `docs/memory.md`.
+
+Status wykorzystania: zapisany, jeszcze niewykorzystany w kodzie.

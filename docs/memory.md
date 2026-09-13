@@ -2845,3 +2845,32 @@ konkretnych potrzebnych tabel + kod kalkulatora, po kolei małymi partiami zgodn
 **Pułapka znaleziona i naprawiona przy Ekranie 29:** `rezystancjaUziemieniaOhm=0` i `czasZadzialaniaRcdS=0` (konwencja "0 = jeszcze nie wpisano") by pomyłkowo przeszły próg `< 10/30 Ω` i `< 0,4 s` jako fałszywy pass (0 < próg jest matematycznie prawdą). Rozwiązanie: dodane osobne ostrzeżenia `REZYSTANCJA-UZIEMIENIA-NIEZMIERZONA`/`CZAS-RCD-NIEZMIERZONY` (critical) dla wartości 0, sprawdzane przed porównaniem z progiem — nie dotyczy `rezystancjaIzolacjiMohm` (próg ">1MΩ" — 0 naturalnie i poprawnie nie przechodzi progu).
 
 **Powtórzona pułapka typów (już znana z wcześniejszych ekranów, dwa nowe przypadki tej sesji):** `CalcResult.inputs` to `Record<string, number>` — pola string/boolean (np. `material1`/`material2` w Ekranie 4, `uzywanaJakoPrzylaczeOdbiornikow` w Ekranie 10) muszą być pominięte w `inputs`, nie tylko w logice. Złapane przez `tsc --noEmit` uruchamiane od razu po każdym `calculator.ts`, nie na końcu partii.
+
+## Nowy materiał źródłowy — propozycja modułu "Dobór napięcia systemu Off-Grid v3.0" (13.09.2026)
+
+[13.09.2026] ✅ DODANO, decyzja o budowie **wstrzymana na wyraźną prośbę właściciela**. Właściciel
+dostarczył pełną specyfikację roboczą nowego modułu — zapisana 1:1, bez zmian, jako
+`docs/zrodla/Material_Nowy_Modul_Dobor_Napiecia_Systemu_OffGrid_v3_0.md` (indeks: `docs/zrodla/README.md`).
+Ustalony proces: (1) zapis jak jest [wykonane] → (2) poprawki [oczekujące] → (3) budowa modułu
+[oczekujące]. **Przypisanie do numeru modułu Off-Grid NIEROZSTRZYGNIĘTE** — właściciel wprost
+powiedział, że nie wie, gdzie ten moduł najlepiej pasuje; nie decydować samodzielnie.
+
+**Do sprawdzenia na etapie poprawek (zauważone przy zapisie, nierozstrzygnięte, nie naprawiane
+samodzielnie — to materiał źródłowy, nietykalny):**
+- Tabela C.1 podaje identyczną wartość "Maks. prąd przy szczytowej mocy: do 208 A" dla **obu**
+  kolumn 12 V i 24 V, mimo że przy tej samej mocy szczytowej (górna granica przedziału 24V to
+  5000W, dla 12V to 2500W) prądy powinny się różnić — wygląda na artefakt kopiowania, nie
+  świadomą wartość. Do potwierdzenia z właścicielem, nie poprawiać cicho.
+- Materiał częściowo pokrywa się tematycznie z już istniejącym ekranem `napiecie-systemowe`
+  (`lib/core/modules/baterie/napiecie-systemowe/`, M4) — ten nowy materiał go znacznie
+  rozszerza (kontekst zastosowania, ogrzewanie, koszty, PV, łączenie pakietów, konwersja 24V→48V).
+  Do ustalenia: czy nowy moduł **zastępuje** istniejący ekran, **rozszerza** go, czy to odrębne,
+  równoległe ścieżki.
+- Etap C (przekroje/prądy/nagrzewanie przewodów) częściowo nakłada się z Modułem 5 (Okablowanie),
+  w tym z już zbudowanym `dobor-przekroju-kabla` (M5/Ekran 1, oparty na normie PN-HD 60364-5-52) —
+  wzór `P_strat = I²R` w tym materiale jest uproszczony (bez uwzględnienia normy obciążalności),
+  do ustalenia czy ma być zastąpiony/uzupełniony przez istniejący silnik normatywny, czy to
+  świadomie inny, uproszczony poziom analizy (edukacyjny, nie projektowy).
+- Ceny/kursy walut (75,50 USD/szt., 1 USD≈4,00 PLN, ceny VEVOR) są orientacyjne i ulegną
+  dezaktualizacji — moduł ma już zaplanowaną opcję "wpisania własnych cen" (punkt 13 w treści),
+  co jest zgodne z zasadą "nie wymyślaj/nie zamrażaj twardych danych rynkowych w kodzie".
