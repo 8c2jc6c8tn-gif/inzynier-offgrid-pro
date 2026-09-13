@@ -2,7 +2,15 @@
 
 import { useMemo, useState } from "react"
 import { calculateMomentDokrecania } from "@/lib/core/modules/baterie/moment-dokrecania-srub/calculator"
-import { CHECKLIST_ITEMS, OSTRZEZENIA_STALE } from "@/lib/core/modules/baterie/moment-dokrecania-srub/constants"
+import {
+  CHECKLIST_ITEMS,
+  formatujMoment,
+  OSTRZEZENIA_STALE,
+  OSTRZEZENIE_INNE_OGNIWO,
+  TYPY_OGNIW,
+  znajdzTypOgniwa,
+} from "@/lib/core/modules/baterie/moment-dokrecania-srub/constants"
+import { PoleSelect } from "@/components/ui/pole"
 import { WerdyktPanel } from "@/components/werdykt"
 import { NawigacjaEkranu } from "@/components/nawigacja-ekranu"
 import { NaglowekEkranu } from "@/components/wzorce/naglowek-ekranu"
@@ -11,10 +19,27 @@ import { StanPusty } from "@/components/ui/stany"
 
 export default function MomentDokrecaniaSrubPage() {
   const [potwierdzoneIds, setPotwierdzoneIds] = useState<string[]>([])
+  const [typOgniwaId, setTypOgniwaId] = useState(TYPY_OGNIW[0].id)
 
   const result = useMemo(
     () => calculateMomentDokrecania({ potwierdzoneIds }),
     [potwierdzoneIds],
+  )
+
+  const typOgniwa = znajdzTypOgniwa(typOgniwaId)
+  const czyInne = typOgniwaId === "inne-m6" || typOgniwaId === "inne-m8"
+
+  // Podmienia tylko tekst momentu dla gwintu pasującego do wybranego typu ogniwa — sam checklist
+  // (id kroków, ich liczba, logika VALID/INCOMPLETE) zostaje bez zmian.
+  const items = useMemo(
+    () =>
+      CHECKLIST_ITEMS.map((item) => {
+        if (!typOgniwa) return item
+        const idGwintu = typOgniwa.gwint === "M6" ? "terminal-m6" : "terminal-m8"
+        if (item.id !== idGwintu) return item
+        return { ...item, moment: formatujMoment(typOgniwa.moment) }
+      }),
+    [typOgniwa],
   )
 
   function toggle(id: string) {
@@ -31,8 +56,24 @@ export default function MomentDokrecaniaSrubPage() {
         końcówkę kablową, ani trochę więcej. Moduł 4, Ekran 11.
       </NaglowekEkranu>
 
+      <PoleSelect
+        label="Typ / pojemność ogniwa"
+        value={typOgniwaId}
+        onChange={(e) => setTypOgniwaId(e.target.value)}
+      >
+        {TYPY_OGNIW.map((typ) => (
+          <option key={typ.id} value={typ.id}>
+            {typ.etykieta}
+          </option>
+        ))}
+      </PoleSelect>
+
+      {czyInne && (
+        <p className="text-small text-muted-foreground">⚠️ {OSTRZEZENIE_INNE_OGNIWO}</p>
+      )}
+
       <ListaChecklist
-        items={CHECKLIST_ITEMS}
+        items={items}
         potwierdzoneIds={potwierdzoneIds}
         onToggle={toggle}
         renderLabel={(item) => (

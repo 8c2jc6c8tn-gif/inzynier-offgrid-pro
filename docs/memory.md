@@ -2798,6 +2798,28 @@ konkretnych potrzebnych tabel + kod kalkulatora, po kolei małymi partiami zgodn
     top-balancing przedmontażowy, konfiguracja parametrów BMS (OVP/UVP/float), tabele przekrojów
     przewodów i złączy oczkowych — wciąż nie zbudowane, `docs/memory.md` (2026-09-13, wpis wyżej).
 
+- **2026-09-13 (kontynuacja) — Sprzeczność momentu dokręcania M6 (M4/E11) rozstrzygnięta przez
+  właściciela projektu — decyzja: "Moment dokręcania podamy do wyboru dla kilku popularnych ogniw
+  i ich pojemności. Jeśli nie ma Twojego ogniwa, sprawdź w instrukcji producenta albo użyj
+  bezpiecznego momentu."**
+  - **Rozwiązanie nie wybiera jednej z dwóch sprzecznych wartości — zachowuje obie, poprawnie
+    zakresowane** (zasada "nie usuwaj — oznacz", nie "nowsze wygrywa"): `TYPY_OGNIW` w
+    `lib/core/modules/baterie/moment-dokrecania-srub/constants.ts`, 7 pozycji — oryginalne
+    4–4,5 N·m z Biblii v2.0 jako opcja "pojemność nieznana" (nie usunięte), 4 nowe pozycje z
+    `Uzupelnienie_Modul_11_Montaz_16S_Praktyczny.md` (50-150Ah→5-6, 280Ah/EVE LF280K→6-7,
+    EVE MB31→maks.6, większe/M8→8-10), 2 fallbacki "Inne" (M6/M8) z bezpieczną najniższą wartością
+    znaną w projekcie dla danego gwintu + dokładnie ta wiadomość, którą podał właściciel.
+  - **Żaden inny model/producent nie został wymyślony** — tylko te 5 konkretnych pozycji, które
+    faktycznie mają źródło w którymś z dwóch dokumentów. Ktoś z innym ogniwem dostaje "Inne" +
+    instrukcję sprawdzenia karty katalogowej, nie zgadywaną liczbę.
+  - Implementacja: UI dostał selektor typu ogniwa; wybór podmienia tylko wyświetlany tekst
+    momentu dla pasującego gwintu (M6 albo M8) w istniejącym checkliście — id kroków, ich liczba
+    i logika VALID/postęp bez zmian, więc 5 oryginalnych testów przeszło bez modyfikacji. 7 nowych
+    testów dla katalogu/formatowania (`typy-ogniw.test.ts`).
+  - Zweryfikowane: `tsc`/`test` (531/531)/`lint`/`build` czyste; zrzuty ekranu Playwrightem
+    (280Ah/EVE LF280K → "6–7 N·m" na kroku M6; "Inne (M6)" → "maks. 4 N·m" + ostrzeżenie
+    dokładnie z instrukcji właściciela) — oba stany wizualnie poprawne.
+
 ## Mapa orientacyjna
 
 - `docs/rejestr-twardych-stopow.md` — zbiorczy indeks warunków zawsze skutkujących 🔴 (04.3), z odsyłaczami do modułu/ekranu/pliku źródłowego. Dopisz tu nowy twardy stop, gdy kolejny moduł go wprowadzi.
