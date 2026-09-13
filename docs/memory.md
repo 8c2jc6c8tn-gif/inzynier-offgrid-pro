@@ -3066,3 +3066,51 @@ osadzona w większym ekranie.
 
 **Wszystkie 4 rundy poprawek do tego materiału są teraz zamknięte.** Kolejny krok to budowa —
 osobne zadanie, nie część tej sesji poprawek.
+
+## Moduł 5 — druga partia niezablokowanych ekranów (13.09.2026)
+
+[13.09.2026] ✅ DODANO — kontynuacja pracy nad Modułem 5 po przerwie na poprawki innego materiału.
+Zbudowana kolejna partia 7 ekranów zidentyfikowanych jako buildowalne bez zgadywania danych:
+Ekran 3 (tylko dolna sekcja — checklist momentów dokręcania szyn zbiorczych; górna sekcja dobór
+przekroju szyny wg wytrzymałości zwarciowej pozostaje `todo`, brak wzoru w źródle), Ekran 7 (dobór
+mocy falownika), Ekran 11 (uziemienie funkcjonalne vs ochronne), Ekran 14 (wyłączniki nadprądowe
+DC), Ekran 15 (ochrona przed odwrotną polaryzacją), Ekran 20 (oznakowanie obwodów), Ekran 26
+(optymalizacja trasy i kosztu kabla). Pełny wzorzec plikowy każdy, zarejestrowane w
+`lib/pulpit/registry.ts` i `docs/rejestr-pokrycia.md`. `tsc --noEmit`/`pnpm test` (616/616)/
+`pnpm lint`/`pnpm build` — czyste.
+
+**Odkrycie przy Ekranie 20 (Oznakowanie obwodów):** treść źródłowa tego ekranu wspomina
+kolorystykę żył ("czerwony +", "żółto-zielony PE" itd.) jako rzekomo "wg PN-EN 60445" — **to
+nieprawda**. Sprawdzone bezpośrednio w `docs/zrodla/norma-PN-EN-60445/00-INDEKS.md`: ta norma
+normuje WYŁĄCZNIE kody alfanumeryczne/graficzne (Tabela 1: +, −, PE, U/V/W, N...), nie kolorystykę
+— tę normuje osobna norma (IEC 60446), której nie mamy w projekcie. Zbudowano tylko część
+faktycznie potwierdzoną (kody alfanumeryczne), kolorystyka świadomie pominięta z jawną notatką w
+kodzie i UI — nie przypisano normie treści, której nie zawiera.
+
+**Pułapka znaleziona i naprawiona przy Ekranie 26 (Optymalizacja trasy i kosztu kabla) —
+zweryfikowana w przeglądarce, nie tylko w testach jednostkowych:**
+1. Dwa pola `Pole` o identycznym tekście etykiety ("Długość trasy" w Trasie A i B) generowały
+   duplikat `id` (auto-generowany z tekstu etykiety w `components/ui/pole.tsx`), co łamało
+   powiązanie `label`/`input` dla drugiego wystąpienia — złapane przez Playwright (`getByLabel`
+   nie widział drugiego pola), nie przez `tsc`/testy jednostkowe. Naprawione: jawne unikalne `id`
+   na każdym polu w sekcjach Trasa A/Trasa B. **Wniosek procesowy:** gdy ekran ma dwa powtórzone
+   bloki pól o tej samej etykiecie (porównanie A/B, warianty), zawsze nadawać jawne `id` — nie
+   polegać na auto-generowaniu z etykiety.
+2. Realny błąd logiczny (nie tylko UI): gdy trasa nie spełnia wymagań przekroju, echo
+   `calculateDoborPrzekrojuKabla` celowo zwraca `strataRocznaKwh=0` dla tej trasy (nie liczy
+   straty dla niezgodnego przekroju — patrz kod M5/E1, tryb "sprawdź mój przekrój"). Pierwsza
+   wersja kalkulatora TCO tego nie uwzględniała i pokazywała niezgodną trasę jako fałszywie
+   "tańszą" (bo miała 0 kWh/rok straty). Naprawione: TCO NIE jest liczony/pokazywany, dopóki OBIE
+   trasy nie spełniają wymagań przekroju — tylko krytyczne ostrzeżenie wskazujące, którą trasę
+   poprawić. Znalezione dopiero przy ręcznym teście w przeglądarce z realnymi liczbami, nie przy
+   pisaniu testów jednostkowych (które testowały tylko "zgodny" scenariusz) — potwierdza zasadę
+   "kompiluje się ≠ działa" z `docs/standards/10-testy.md`.
+
+**Nadal `todo` w Module 5** (świadomie odłożone — wymagają bazy komponentów/wzoru nieobecnego w
+źródle): Ekran 5 (MC4), Ekran 8 (przepust powietrza — tylko jeden punkt danych "szczelina<5cm→70°C",
+brak wzoru wiążącego szczelinę z temperaturą), Ekran 9 (uziemienie), Ekran 13 (selektywność), Ekran
+17 (ochrona przed dotykiem — treść statyczna, niezbudowana w tej rundzie), Ekran 18 (IMD), Ekran 21
+(normy i certyfikaty), Ekran 23 (separacja EMC), Ekran 24 (peszle/koryta/rurki), Ekran 25 (ochrona
+przed gryzoniami), Ekran 27 (puszki połączeniowe) — te ostatnie 5 (17, 23–25, 27) są buildowalne
+jako proste Wzorce B/C/F (treść porównawcza/referencyjna, dane konkretne w źródle), po prostu
+jeszcze nie zbudowane w tej rundzie, nie zablokowane merytorycznie.
