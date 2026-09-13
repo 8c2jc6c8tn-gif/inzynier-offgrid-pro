@@ -2874,3 +2874,28 @@ samodzielnie — to materiał źródłowy, nietykalny):**
 - Ceny/kursy walut (75,50 USD/szt., 1 USD≈4,00 PLN, ceny VEVOR) są orientacyjne i ulegną
   dezaktualizacji — moduł ma już zaplanowaną opcję "wpisania własnych cen" (punkt 13 w treści),
   co jest zgodne z zasadą "nie wymyślaj/nie zamrażaj twardych danych rynkowych w kodzie".
+
+**[13.09.2026] USTALENIE (potwierdzone z właścicielem):** Etap C tego materiału (wzór
+`P_strat=I²R`, tabela nagrzewania przewodów) **nie zostanie zaimplementowany jako nowa logika**.
+Zamiast tego przyszły moduł ma wywołać (echo, nie duplikacja):
+1. `calculateNapiecieSystemowe` (`lib/core/modules/baterie/napiecie-systemowe/calculator.ts`,
+   M4/Ekran 2) — już liczy `I=P/V` dla 12/24/48V i rekomenduje napięcie wg mocy szczytowej. Nic
+   nowego do napisania, tylko import + wywołanie z mocą szczytową wyliczoną w nowych Etapach A/B.
+2. `calculateDoborPrzekrojuKabla` (`lib/core/modules/okablowanie/dobor-przekroju-kabla/calculator.ts`,
+   M5/Ekran 1) — trzykrotnie (dla 12V, 24V, 48V z tą samą mocą) da realny, normatywny (PN-HD
+   60364-5-52) przekrój/straty roczne/margines dla porównania — zamiast uproszczonego,
+   nienormatywnego `P=I²R` z materiału.
+
+Powód: M4 i M5 działają poprawnie i kompletnie w swoim zakresie — M4 świadomie NIE liczy
+przekroju (zapisane w jego własnych `assumptions`), M5 liczy przekrój, ale wymaga 6 dodatkowych
+danych wejściowych, których nie ma w M4 ani w tym materiale (długość trasy, materiał, sposób
+ułożenia, temperatura otoczenia, liczba kabli w wiązce, dopuszczalny spadek napięcia%). Nowy
+moduł ma dostarczyć formularz z tymi 6 polami RAZ i wywołać M5 trzykrotnie (różne V/I na wejściu)
+— to jest brakujący element ("nie dograne"), nie brakująca fizyka. Zgodne z zasadą "echo zamiast
+duplikowania logiki" (`docs/standards/01-architektura.md`), już stosowaną w tej sesji przy
+`analiza-zwarciowa` (M5/E12, echo z `dobor-bezpiecznika-dc`).
+
+Realnie nowa logika do napisania (nieistniejąca nigdzie): Etap A (kontekst+ogrzewanie), Etap B
+(kreator odbiorników + analiza jednoczesności/długotrwałości), Etap E (3 kosztorysy), Etap F
+(rozpływ prądu w łączeniu równoległym pakietów), Etap G (dobór paneli PV do falownika), Etap H
+(pułapka 24V→48V, koszt przejścia).
