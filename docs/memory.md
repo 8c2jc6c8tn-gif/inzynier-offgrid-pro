@@ -3032,3 +3032,37 @@ sprzeczne, więc nie wymagają korekty.
 **Etap A.3 uznany za w pełni rozstrzygnięty.** Jedyny pozostały otwarty punkt z całej rundy 1-4
 poprawek: **miejsce/numer modułu w strukturze 13 modułów aplikacji** (patrz wątek "Nowy materiał
 źródłowy" wyżej — właściciel wprost nie wie, gdzie to ma trafić).
+
+## Miejsce modułu "Dobór napięcia" — ROZSTRZYGNIĘTE (13.09.2026)
+
+**Decyzja (propozycja AI, zaakceptowana przez właściciela):** ten materiał **NIE** staje się
+nowym, 14. modułem. Zamiast tego **rozbudowuje istniejący Ekran 2 Modułu 4** (Magazyn energii/
+baterie) — `lib/core/modules/baterie/napiecie-systemowe/` — z dzisiejszego jednopolowego `I=P/V`
+do pełnego Wzorca D "Doradca doboru napięcia".
+
+**Uzasadnienie:**
+1. Ekran 2 M4 już jest dokładnie tym samym pytaniem ("jakie napięcie systemu") — to rozbudowa
+   istniejącego slotu, nie nowy temat.
+2. Wybór napięcia systemu jest z natury decyzją architektury bateryjnej/DC (BMS, falownik,
+   topologia) — to charter M4, nie M2 (obciążenia)/M3 (PV)/M5 (okablowanie), które dostarczają
+   dane wejściowe przez echo, ale nie są miejscem samej decyzji.
+3. M4 ma już sąsiadujące, pokrewne ekrany: `mixing-rownolegle` (blisko nowego Etapu F — rozpływ
+   prądu przy łączeniu równoległym pakietów) i `oplacalnosc-magazynu` (blisko Etapu E, kosztorysy).
+4. Odrzucony 14. moduł — struktura 13 modułów jest już wpisana wszędzie (`lib/pulpit/registry.ts`,
+   `docs/rejestr-pokrycia.md`, GOD BOOK, nawigacja `/moduly/[id]`); dodanie kolejnego modułu dla
+   jednego (choć dużego) ekranu byłoby nieproporcjonalną zmianą strukturalną wobec gotowego,
+   pasującego slotu.
+
+**Docelowy kształt ekranu** (do budowy w kolejnym kroku, poza zakresem tej sesji poprawek):
+sekcje kontekstu (Etap A, echo z M1 lokalizacja-i-klimat / M2 systemy-podtrzymania-zycia dla
+ogrzewania), kreator odbiorników + analiza jednoczesności (Etap B, nowa logika wg zaprojektowanego
+algorytmu wyżej), rekomendacja napięcia (dotychczasowe `I=P/V`, zachowane bez zmian), echo realnego
+przekroju kabla i strat rocznych z `dobor-przekroju-kabla` (Etap C→M5, dla 12V/24V/48V), kosztorysy
+(Etap E, nowa logika z cenami edytowalnymi przez użytkownika), ostrzeżenie o łączeniu pakietów
+(Etap F, blisko `mixing-rownolegle`), echo doboru PV z `stress-test-mppt`/`dopasowanie-tablicy-falownika`
+(Etap G→M3, z realnymi Voc/Vmp/Imp/β z karty katalogowej), pułapka konwersji 24V→48V (Etap H, nowa
+logika). Wersja kalkulatora rośnie (np. 2.0.0), stara logia `I=P/V` nie jest usuwana, tylko
+osadzona w większym ekranie.
+
+**Wszystkie 4 rundy poprawek do tego materiału są teraz zamknięte.** Kolejny krok to budowa —
+osobne zadanie, nie część tej sesji poprawek.
