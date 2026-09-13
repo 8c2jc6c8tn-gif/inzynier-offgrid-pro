@@ -1,6 +1,6 @@
 # Kontrakty rdzenia — Inżynier Offgrid Pro
 
-**Wersja:** 1.0 | **Filar:** A | **Data utworzenia:** 04.09.2026 | **Ostatnia aktualizacja:** 04.09.2026 | **Status:** Stabilny
+**Wersja:** 1.1 | **Filar:** A | **Data utworzenia:** 04.09.2026 | **Ostatnia aktualizacja:** 07.09.2026 | **Status:** Stabilny
 **Powiązane dokumenty:** `00_Biblia.md`, `zlote-zasady.md`, `docs/standards/01-architektura.md`, `docs/standards/03-jadro-obliczeniowe.md`, `docs/standards/04-walidacja-i-twarde-stopy.md`
 
 TL;DR: Konkretne, przetestowane kontrakty tego projektu — realizacja abstrakcyjnego wymogu G.3 GOD BOOK. Startuje jako kopia rozdz. 01–07 Standardu wspólnego (Część Y.3 GOD BOOK), tu tylko to, co specyficzne dla off-grid PV albo warte podkreślenia w formie skróconej. Pełna treść: `docs/standards/`.
@@ -54,6 +54,8 @@ Zapisujemy dane wejściowe (`input`), nie wynik obliczenia (`CalcResult.value`) 
 
 Gdy drugi kalkulator potrzebuje tego samego wzoru co istniejący: wyekstrahuj wzór z pierwszego do osobnej, eksportowanej, czystej funkcji (`export function oblicz...(...)`) obok głównej funkcji `calculate...`, zaimportuj ją w drugim module. Przykłady w kodzie: `obliczCzasPreChargeS` (M4/M11), `obliczPradZwarciowyA` (M4/E9↔E24), `obliczPojemnoscUzytecznaKwh` (M2/E7↔M4/E1), `obliczKosztZaKwh` (M4/E19↔E23).
 
+**[07.09.2026] ✅ DOPISANO — pułapka znaleziona przy audycie GOD BOOK Część N:** echo zakłada, że dwa miejsca liczą **ten sam wzór/regułę**, nie tylko tę samą liczbę przez przypadek. `ochrona-stringow` (M3/E22) i `dobor-bezpiecznika-rozlacznika` (M5/E6) współdzieliły funkcję przez ~2 dni, bo obie mnożyły przez 1,25 — ale to były dwa różne prawa (margines Isc_STC→Isc_max wg Załącznika B.2 normy PV vs. ogólny margines doboru bezpiecznika obwodu), które tylko przypadkiem miały ten sam współczynnik. Gdy norma HD 60364-7-712 poprawiła pierwszy wzór, echo trzeba było rozdzielić (szczegóły: `docs/memory.md`, `dlug-techniczny.md`). **Zanim wyekstrahujesz echo: sprawdź, czy współdzielona liczba wynika z tego samego uzasadnienia fizycznego/normatywnego, nie tylko z tej samej wartości.**
+
 ## §5 Konwencja `number | null` dla pól, gdzie `0` jest legalną wartością (D15)
 
 Domyślnie `0` = "jeszcze nie wpisano" dla pól zawsze dodatnich (moc, długość, cena). Gdy `0` jest realną, legalną wartością (temperatura, SoC, nadwyżka produkcji) — typ pola to `number | null`, `null` = "nie wpisano".
@@ -88,3 +90,4 @@ Rejestracja w `lib/pulpit/registry.ts` (jedyne źródło prawdy dla nawigacji), 
 | Data | Zmiana |
 |---|---|
 | 04.09.2026 | Utworzono — konkretne kontrakty tego projektu, wyciągnięte z kodu (`lib/core/calc-result.ts`) i wzorców powtórzonych w ~100 zbudowanych ekranach. Wersja 1.0. |
+| 07.09.2026 | **Wynik audytu GOD BOOK Część N**: dopisano do §4 pułapkę "echo z przypadku" znalezioną tego dnia (M3/E22↔M5/E6 rozdzielone, patrz `dlug-techniczny.md`, `docs/memory.md`) — dwie funkcje dzieliły współczynnik 1,25 przez zbieg okoliczności, nie wspólną regułę. Wersja 1.0→1.1. |

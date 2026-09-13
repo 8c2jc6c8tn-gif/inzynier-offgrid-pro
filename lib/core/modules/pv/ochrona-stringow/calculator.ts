@@ -15,6 +15,10 @@ import {
   WSPOLCZYNNIK_TESTU_OBOWIAZKOWOSCI,
 } from "./constants"
 
+// 🔎 TD13 (dlug-techniczny.md): reguła doboru diody blokującej (§712.512.101 normy
+// HD 60364-7-712: napięcie wsteczne ≥2×U_OC_MAX, prąd ≥1,1×I_SC_MAX) świadomie NIE zbudowana —
+// poza wąskim zakresem korekty 06-07.09.2026, mimo że tytuł źródłowy ekranu ją wymienia wprost.
+
 export const CALCULATOR_VERSION = "2.0.0"
 
 export type OchronaStringowResult = {
@@ -63,7 +67,7 @@ export function obliczIScMaxA(iscStcA: number): number {
  * Ekran 22, Moduł 3 "Instalacja PV" — "Ochrona stringów (bezpieczniki, diody blokujące)"
  * (dawne 2.38, docs/zrodla/Tresc_Modul_3_PV_Ekrany.md, Sekcja B).
  *
- * PRZEPISANE wg normy HD 60364-7-712:2016 (docs/zrodla/559094399-060364NHDD149-ES.pdf),
+ * PRZEPISANE wg normy HD 60364-7-712:2016 (docs/zrodla/norma-HD-60364-7-712/UNE-HD-60364-7-712-2017-pelny-tekst.pdf),
  * §712.431-433 + Załącznik B.2 — na wyraźną prośbę autora, po znalezieniu sprzeczności między
  * poprzednim uproszczeniem produktowym i tekstem normy (patrz docs/memory.md, korekta).
  *

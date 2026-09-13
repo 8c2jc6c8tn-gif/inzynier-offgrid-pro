@@ -20,13 +20,11 @@ innej normy albo z indeksu branżowego), treść nieznana nawet pobieżnie.
 
 ## 🔴 Krytyczne — aktywnie potrzebne dla już zidentyfikowanego ekranu
 
-- **UNE-HD 60364-7-712:2017 (instalacje PV), pełny tekst.** Dziś mamy tylko wyciąg — sam spis
-  treści + bibliografia (6 stron), `docs/zrodla/norma-HD-60364-7-712/`. Brakuje dokładnie
-  klauzul 712.41–712.6 (ochrona, dobór materiałów, SPD) i **Załącznika B** (wzór
-  U_OC MAX / I_SC MAX dla stringów PV) — formalnego źródła normatywnego dla modułu
-  `konfigurator-stringow` (dziś ten wzór w kodzie nie jest oparty o żadną normę, bo żadnej nie
-  mieliśmy). To jest dziś **jedyna** pozycja w tej sekcji z realnym, nazwanym wpływem na
-  konkretny, już istniejący kod.
+*(pusta — jedyna pozycja, UNE-HD 60364-7-712, dostarczona w pełni 06.09.2026, patrz "Pozyskane
+(historia)" niżej. [07.09.2026] ✅ PRZENIESIONO — wynik audytu GOD BOOK Część N, znaleziony dryf:
+plik pełnej normy trafił do repo bezpośrednio na `main` 06.09.2026 i został użyty w kodzie tego
+samego dnia, ale ten wpis oraz odpowiedni `00-INDEKS.md`/`docs/zrodla/README.md` nie zostały
+wtedy zaktualizowane — naprawione teraz, przy okazji.)*
 
 ## 🔵 Spodziewane — zapowiedziane przez właściciela projektu
 
@@ -80,3 +78,11 @@ dostęp do oryginalnej prezentacji (nie konwersji), warto sprawdzić te konkretn
   właściciela projektu, 54 strony, w pełni zweryfikowany wizualnie strona po stronie (nie
   spot-check). Odblokowuje ekran "Obciążenie dachu śniegiem" (`docs/rejestr-pokrycia.md`). Pełny
   opis: `docs/zrodla/norma-PN-EN-1991-1-3/00-INDEKS.md` i `docs/zrodla/README.md`.
+- **[06.09.2026] UNE-HD 60364-7-712:2017, pełny tekst (35 stron)**, dostarczony przez właściciela
+  projektu bezpośrednio na `main` (poprzednio mieliśmy tylko 6-stronicowy wyciąg spisu treści).
+  Przeczytany w całości i użyty tego samego dnia do przepisania `ochrona-stringow` (M3/E22) wg
+  §712.431-433 + Załącznik B.2 (K1=1,25, I_SC_MAX, przedział doboru bezpiecznika); wzór w
+  `stress-test-mppt` (M3/E5) potwierdzony jako zgodny z Załącznikiem B.1 bez zmian. Plik
+  przeniesiony do `docs/zrodla/norma-HD-60364-7-712/UNE-HD-60364-7-712-2017-pelny-tekst.pdf` przy
+  audycie 07.09.2026 (wcześniej leżał luzem w `docs/zrodla/` pod nieopisową nazwą). Pełny opis:
+  `docs/zrodla/norma-HD-60364-7-712/00-INDEKS.md` i `docs/zrodla/README.md`.

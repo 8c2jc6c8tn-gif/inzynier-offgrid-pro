@@ -3,7 +3,7 @@
  * (dawne 2.38, docs/zrodla/Tresc_Modul_3_PV_Ekrany.md). Wzorzec D.
  *
  * Przepisane wg normy HD 60364-7-712:2016 (UNE-HD 60364-7-712:2017, "Sistemas de alimentación
- * solar fotovoltaica", docs/zrodla/559094399-060364NHDD149-ES.pdf), §712.431-433 + Załącznik B.2
+ * solar fotovoltaica", docs/zrodla/norma-HD-60364-7-712/UNE-HD-60364-7-712-2017-pelny-tekst.pdf), §712.431-433 + Załącznik B.2
  * — patrz `calculator.ts` po uzasadnienie zmiany.
  */
 

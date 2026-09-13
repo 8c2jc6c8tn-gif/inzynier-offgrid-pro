@@ -1,6 +1,6 @@
 # Backlog poza v1 — Inżynier Offgrid Pro
 
-**Wersja:** 1.2 | **Filar:** C | **Data utworzenia:** 04.09.2026 | **Ostatnia aktualizacja:** 05.09.2026 | **Status:** Stabilny (rosnący)
+**Wersja:** 1.3 | **Filar:** C | **Data utworzenia:** 04.09.2026 | **Ostatnia aktualizacja:** 07.09.2026 | **Status:** Stabilny (rosnący)
 **Powiązane dokumenty:** `00_Biblia.md`, `docs/rejestr-pokrycia.md`, `docs/lista-do-zrobienia.md`, `mapa-wdrozenia.md`
 
 TL;DR: Rzeczy świadomie odłożone poza zakres pierwszej wersji — decyzje o skali/fazowaniu (N.2 GOD BOOK), zbierane tutaj przy audycie. **Nie to samo, co `docs/lista-do-zrobienia.md`** (bieżący stan pracy, inny rytm — patrz B.6 GOD BOOK). Dwie kategorie: (1) **⚠️ blocked** — ekran/funkcja sprawdzona i odrzucona jako niebuildowalna bez wymyślania danych, jawne uzasadnienie; (2) **⏳ poza zakresem v1** — świadomie odłożone całe obszary produktu (infrastruktura, płatności, i18n), nie kwestia brakujących danych.
@@ -37,7 +37,7 @@ Pełne wyliczenie per-funkcja nierozpoczęte (rozpoczęto pojedyncze buildowalne
 - **Ekran 33 (Symulacja miesiąca zachmurzenia)** — wymaga historycznych danych pogodowych z M1, niedostępnych.
 
 ### Moduł 5 — Okablowanie
-- **Ekran 1 (mega-Doradca doboru kabla)** — brak tabeli obciążalności prądowej normy PN-IEC 60364-5-52. Jedyny ekran modułu realnie zależny od tej normy — zweryfikowane audytem GOD BOOK Część N (05.09.2026): pozostałe 27 z 29 ekranów M5 mają samodzielne wzory (SPD, uziemienie, analiza zwarciowa, selektywność, izolacja kabla itd.), niezależne od tej blokady i buildowalne równolegle.
+- ~~**Ekran 1 (mega-Doradca doboru kabla)** — brak tabeli obciążalności prądowej normy PN-HD 60364-5-52.~~ — **[06.09.2026] Zbudowany** — norma dostarczona i zweryfikowana 05.09.2026, silnik zaimplementowany 06.09.2026 (`lib/core/modules/okablowanie/dobor-przekroju-kabla/`). Wpis zachowany jako historia (zasada "nie usuwaj — oznacz"); nazwa normy poprawiona przy okazji audytu 07.09.2026 (było błędnie "PN-IEC", norma to PN-HD 60364-5-52). Pozostałe 25 z 29 ekranów M5 mają samodzielne wzory, niezależne od tej normy.
 
 ### Moduł 6 — Ogrzewanie
 [05.09.2026] ✅ DODANO — źródło: audyt GOD BOOK Część N, drugie przejście (korekta wpisu 2A/2C/2D wyżej).
@@ -56,8 +56,17 @@ Pełne wyliczenie per-funkcja nierozpoczęte (rozpoczęto pojedyncze buildowalne
 - **Asystent głosowy (dawne 12.41)** — źródło: "nie mieści się we wzorcach A–H (inny kanał interakcji), wymaga osobnej specyfikacji drzewa intencji". Odłożone nie z powodu brakujących danych, tylko dlatego że wymaga innego rodzaju specyfikacji (drzewo intencji głosowych) niż reszta aplikacji — inna kategoria niż `⚠️ blocked` niżej.
 
 ### Moduł 11 — Montaż baterii
-- **Ścieżka B, pozycja B5** — blocked (szczegóły: `docs/rejestr-pokrycia.md`, sekcja Moduł 11).
+- ~~**Ścieżka B, pozycja B5** — blocked~~ — **[06.09.2026] Odblokowane źródłowo**: norma PN-HD 60364-5-52 dostarczona, M5/Ekran 1 (silnik doboru przekroju kabla) gotowy do reużycia jako "echo". Przeniesione z `⚠️ Blocked` do zwykłego `todo` — to już nie brak danych, tylko czysta praca implementacyjna (szczegóły: `docs/rejestr-pokrycia.md`, sekcja Moduł 11). Wpis zachowany jako historia (zasada "nie usuwaj — oznacz"), przeklasyfikowany przy audycie 07.09.2026.
 - ~~**A2, A5** — świadomie odłożone~~ — **[05.09.2026] Oba zbudowane** (na wyraźną prośbę autora, kompletuje przygotowanie do realnego montażu 16S). **Ścieżka A (LiFePO4) teraz kompletna, 10/10.** Wpis zachowany jako historia decyzji "odłóż", nie usunięty (zasada "nie usuwaj — oznacz").
+
+### Moduł 3 — Instalacja PV (poza zakresem korekty `ochrona-stringow`, HD 60364-7-712, 06-07.09.2026)
+
+[07.09.2026] ✅ DODANO — źródło: przepisanie `ochrona-stringow` (M3/E22) wg normy HD 60364-7-712 znalazło dodatkowe wymagania normy, świadomie nieobjęte tą korektą (poza jej wąskim zakresem, nie brak danych — treść normy jest znana i dostępna).
+- ~~**Reguła doboru diody blokującej**~~ — **[07.09.2026] Przeniesione do `dlug-techniczny.md` TD13**: to część istniejącego, częściowo zbudowanego ekranu M3/E22 (`ochrona-stringow` — tytuł źródłowy wprost "bezpieczniki, **diody blokujące**"), nie osobny nieoceniony obszar, więc pasuje do wzorca TD# (X.4 GOD BOOK), nie tego pliku. Treść: `dlug-techniczny.md`.
+- **Alternatywa kablowa przy braku wymaganej ochrony nadprądowej** (§712.433.101: `Iz kabla stringu ≥ (Ns-1)×I_SC_MAX`) — `ochrona-stringow` zgłasza to jako ostrzeżenie do weryfikacji, ale sam kabel nie jest sprawdzany (wymaga integracji z M5/E1, `dobor-przekroju-kabla`).
+- **Tabele decyzji o ochronie przepięciowej DC** (§712.443, Tabela 712.102 L_crit wg gęstości wyładowań Ng, Tabela 712.534 U_w wg U_OC_MAX) — brak ekranu.
+- **Wymóg RCD typu B po stronie AC** (§712.530.3.101) — brak ekranu.
+- **Etykieta ostrzegawcza PV na budynku** (§712.514, rysunek 712.514.101) — treść informacyjna/checklist, nie kalkulator; kandydat do ekranu montażowego (wzorzec E).
 
 ---
 
@@ -68,3 +77,4 @@ Pełne wyliczenie per-funkcja nierozpoczęte (rozpoczęto pojedyncze buildowalne
 | 04.09.2026 | Utworzono — ekstrakcja z `docs/rejestr-pokrycia.md` i `docs/lista-do-zrobienia.md`. Wersja 1.0. |
 | 05.09.2026 | **Wynik audytu GOD BOOK Część N** (nie rutynowa integracja): skonsolidowano 4 pozycje z własnej sekcji "Znane luki do domknięcia" źródła (`Tresc_WSZYSTKIE_MODULY_scalone.md`), nigdzie dotąd nieodnotowane w tym pliku ani w `docs/rejestr-pokrycia.md`/`mapa-wdrozenia.md` — Moduł 6 Część 2A/2C/2D (alternatywne źródła ciepła, silnik czynników COP, silnik czynników zapotrzebowania) i Asystent głosowy (12.41, poza wzorcami A-H). Wersja 1.0→1.1. |
 | 05.09.2026 | **Wynik drugiego przejścia audytu Część N** (13 agentów równoległych, moduł po module): skorygowano błąd merytoryczny we wpisie Moduł 6/2C wyżej (COP błędnie przypisany do Części 2C); dodano wpis 5.42 (kolektor gruntowy, sprawdzone i odrzucone, dotąd tylko w `docs/memory.md`) do sekcji Blocked; doprecyzowano Moduł 5 — tylko Ekran 1 realnie zablokowany normą, 27/29 pozostałych ekranów niezależnych; dopisano warunek powrotu do A2/A5 (Moduł 11). Wersja 1.1→1.2. |
+| 07.09.2026 | **Wynik audytu GOD BOOK Część N (na żądanie właściciela projektu)**: plik nie był aktualizowany od 05.09.2026 mimo znaczącej pracy w międzyczasie. Poprawiono: wpis M5/Ekran 1 (zbudowany 06.09.2026, nie jest już blocked; skorygowana nazwa normy PN-IEC→PN-HD 60364-5-52), wpis M11/B5 (przeniesiony z `⚠️ Blocked` do zwykłego `todo` — odblokowany źródłowo tego samego dnia). Dodano nową sekcję M3 z pięcioma pozycjami świadomie poza zakresem dzisiejszej korekty `ochrona-stringow` wg HD 60364-7-712 (dioda blokująca, alternatywa kablowa, tabele SPD, RCD typu B, etykieta PV) — dotąd tylko w `docs/memory.md`/kodzie, nigdzie skonsolidowane. Wersja 1.2→1.3. |

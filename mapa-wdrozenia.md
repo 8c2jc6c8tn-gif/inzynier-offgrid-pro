@@ -1,6 +1,6 @@
 # Mapa wdrożenia — Inżynier Offgrid Pro
 
-**Wersja:** 1.1 | **Filar:** C | **Data utworzenia:** 04.09.2026 | **Ostatnia aktualizacja:** 05.09.2026 | **Status:** Stabilny (rosnący)
+**Wersja:** 1.2 | **Filar:** C | **Data utworzenia:** 04.09.2026 | **Ostatnia aktualizacja:** 07.09.2026 | **Status:** Stabilny (rosnący)
 **Powiązane dokumenty:** `00_Biblia.md`, `docs/rejestr-pokrycia.md`, `zlote-zasady.md` (Zasada 14 — kolejność budowy)
 
 TL;DR: Status opisany/zaimplementowany/przetestowany per moduł (M1–M13, Część T.2 GOD BOOK) — status *kodu*, w odróżnieniu od statusu *opisu* w `docs/zrodla/` (które jest kompletne dla wszystkich 13 modułów od 29.08.2026). Budowana z `docs/rejestr-pokrycia.md`, aktualizowana przy każdej sesji implementacyjnej, nie tylko przy audycie.
@@ -17,7 +17,7 @@ TL;DR: Status opisany/zaimplementowany/przetestowany per moduł (M1–M13, Czę�
 | M2 | Zapotrzebowanie energetyczne | ✅ | ✅ (13/17 ekranów) | ✅ | ~76% — reszta (Ekrany 3/10/14/15, wampiry) `todo` (nie `blocked` — sprawdzone i nieoceniane, nie sprawdzone-i-odrzucone, patrz `backlog-poza-v1.md`) |
 | M3 | Instalacja PV | ✅ | 🔄 (12/~27 ekranów) | ✅ | ~44% — rozpoczęte 04.09.2026, w toku |
 | M4 | Magazyn energii / baterie | ✅ | ✅ (29/34 ekranów) | ✅ | ~85% — tylko Ekran 25 (szyny zbiorcze) faktycznie `⚠️ blocked`; Ekrany 3/31/32/33 to `todo` (cross-modułowe/nieocenione, nie sprawdzone-i-odrzucone) |
-| M5 | Okablowanie i zabezpieczenia | ✅ | 🔄 (3/29 ekranów) | ✅ | ~10% — tylko Ekran 1 (mega-Doradca doboru kabla) `⚠️ blocked`, brak normy PN-IEC 60364-5-52; pozostałe 26 ekranów mają samodzielne wzory NIEZALEŻNE od tej normy — zweryfikowane audytem 05.09.2026, buildowalne równolegle bez czekania na Ekran 1 |
+| M5 | Okablowanie i zabezpieczenia | ✅ | 🔄 (4/29 ekranów) | ✅ | ~14% — **[07.09.2026] Ekran 1 (mega-Doradca doboru kabla) już `done`** (norma PN-HD 60364-5-52 dostarczona i zweryfikowana 05-06.09.2026, silnik zaimplementowany 06.09.2026) — nie jest już blocked; pozostałe 25 ekranów mają samodzielne wzory niezależne od tej normy, buildowalne równolegle |
 | M6 | Ogrzewanie / pompa ciepła | ✅ | 🔄 (7/~46 ekranów) | ✅ | ~15% — rozpoczęte 04.09.2026 (COP + pompy cyrkulacyjne + bufor ciepła + ryzyko niskiego napięcia + kocioł elektryczny + infiltracja powietrza + wentylacja z odzyskiem), reszta w większości `todo`/blocked (auto z Modułu 1) |
 | M7 | Stress-test zimowy | ✅ | 🔄 (1 ekran reprezentatywny) | ✅ | Fundament (Black Start) gotowy, spina M1–M6 — sensowny dopiero po nich |
 | M8 | Bezpieczeństwo i sytuacje awaryjne | ✅ | 🔄 (3/~11 ekranów) | ✅ | Audyt pożarowy (dane demo) + UPS krytyczny (dobór sprzętowy, częściowy) + dogrzewanie paliwem stałym (3 twarde stopy) |
@@ -27,7 +27,7 @@ TL;DR: Status opisany/zaimplementowany/przetestowany per moduł (M1–M13, Czę�
 | M12 | Szybki kalkulator / tryb mobilny | ✅ | 🔄 (1 ekran reprezentatywny) | ✅ | Tryb uproszczony gotowy, reszta `todo` |
 | M13 | Tryb Live | ✅ | 🔄 (1 ekran — brama bez telemetrii) | — (brak logiki domenowej) | Świadomie minimalny — sensowny dopiero, gdy reszta systemu ma dane na żywo do pokazania |
 
-**Łącznie:** 92 pozycji ze statusem `done` w `docs/rejestr-pokrycia.md` (stan na 04.09.2026), rozłożone głównie na M2/M3/M4/M11.
+**Łącznie:** 101 pozycji ze statusem `done` w `docs/rejestr-pokrycia.md` (stan na 07.09.2026, zweryfikowane przeliczeniem, nie z metryczki — poprzednia wartość 92 była z 04.09.2026), rozłożone głównie na M2/M3/M4/M11.
 
 ## Uwagi do interpretacji
 
@@ -56,3 +56,4 @@ TL;DR: Status opisany/zaimplementowany/przetestowany per moduł (M1–M13, Czę�
 | 04.09.2026 | M8: dodano Ekran 6 (UPS krytyczny — dobór sprzętowy, częściowy — bez zarządzania priorytetami AI) → 2/~11, 91 `done` łącznie. Pierwszy nowy ekran M8 poza reprezentantem (audyt pożarowy). |
 | 04.09.2026 | M8: dodano Ekran 2 (bezpieczeństwo pożarowe — dogrzewanie paliwem stałym, 3 twarde stopy) → 3/~11, 92 `done` łącznie. |
 | 05.09.2026 | **Wynik audytu GOD BOOK Część N** (13 agentów równoległych, moduł po module źródło↔rejestr): poprawiono niespójność terminologii `todo`/`⚠️ blocked` w wierszach M2 i M4 (tylko realnie zablokowane ekrany oznaczone `blocked`, reszta `todo`), poprawiono liczbę ekranów Modułu 5 z "~20" na 29 (zweryfikowane audytem względem własnej metryczki źródła) i dopisano potwierdzenie, że 27 z 29 ekranów M5 jest niezależnych od blokady Ekranu 1. Szczegóły wszystkich znalezisk audytu: `docs/memory.md`. |
+| 07.09.2026 | **Wynik kolejnego audytu GOD BOOK Część N** (na żądanie właściciela projektu): dokument nie był aktualizowany od 05.09.2026 mimo znaczącej pracy w międzyczasie — M5/Ekran 1 zbudowany 06.09.2026 (norma PN-HD 60364-5-52 dostarczona), ale wiersz M5 wciąż opisywał go jako `⚠️ blocked`/"brak normy". Poprawiono wiersz M5 (3/29→4/29, ~10%→~14%) i łączną liczbę `done` (92→101, przeliczone bezpośrednio z `docs/rejestr-pokrycia.md`, nie z pamięci). Wersja 1.1→1.2. |

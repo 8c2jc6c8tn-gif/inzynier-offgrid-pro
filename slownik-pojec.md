@@ -22,6 +22,8 @@ TL;DR: Terminy branżowe (off-grid PV/baterie/elektryka) i skróty specyficzne d
 - **e-Fuse** — elektroniczny bezpiecznik reagujący w <100µs, szybszy niż zwykły topikowy (~10ms); wymagany, gdy prąd zwarciowy przekracza zdolność łączeniową tranzystorów BMS.
 - **IMD (Insulation Monitoring Device)** — monitor izolacji, wykrywa doziemienie w obwodzie DC pływającym.
 - **AIC (Ampere Interrupting Capacity)** — zdolność wyłączania bezpiecznika; musi przekraczać prąd zwarciowy obwodu.
+- **OCPR (Overcurrent Protection Rating)** — `I_MOD_MAX_OCPR`, maksymalny prąd zabezpieczenia nadprądowego dopuszczalny dla modułu PV wg jego karty katalogowej (EN 61730-1); górna granica przedziału doboru bezpiecznika stringu, norma HD 60364-7-712 §712.431.102.
+- **I_SC_MAX / K1** — prąd maksymalny zwarciowy stringu PV, `I_SC_MAX = K1 × I_SC_STC` (K1≥1,25, minimum normowe), Załącznik B.2 normy HD 60364-7-712 — margines na katalogowym Isc, odrębny od doboru bezpiecznika (nie mylić, patrz `dlug-techniczny.md`/`docs/memory.md`, korekta 06-07.09.2026).
 - **IP-kod** — stopień ochrony obudowy (np. IP55) wg normy IEC 60529.
 - **V2H / V2L (Vehicle-to-Home / Vehicle-to-Load)** — oddawanie energii z baterii trakcyjnej EV do domu (V2H, wysoka moc) albo do pojedynczych urządzeń (V2L, niższa moc, np. do 3,6 kW).
 - **cos φ** — współczynnik mocy, stosunek mocy czynnej do pozornej; `VA = P / cos φ`.
@@ -50,3 +52,4 @@ TL;DR: Terminy branżowe (off-grid PV/baterie/elektryka) i skróty specyficzne d
 | Data | Zmiana |
 |---|---|
 | 04.09.2026 | Utworzono — pierwszy zestaw terminów zebrany z kodu i materiałów źródłowych zaimplementowanych ekranów. Wersja 1.0. |
+| 07.09.2026 | **Wynik audytu GOD BOOK Część N**: dopisano OCPR i I_SC_MAX/K1 — terminy wprowadzone 06.09.2026 przy przepisaniu `ochrona-stringow` wg normy HD 60364-7-712, dotąd nieobecne mimo zasady "rośnie od pierwszego użycia" (C.9). |

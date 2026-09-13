@@ -102,10 +102,14 @@ jawnie w `01-tresc.md`.
   on-grid. Zawiera konkretne progi liczbowe (Tabela 31 — czasy odłączenia przy prądzie
   resztkowym, progi 4.8.3.1) i wymagania THD dla falowników stand-alone.
 - **UNE-HD 60364-7-712:2017** (instalacje PV) —
-  `docs/zrodla/norma-HD-60364-7-712/`. 🔴 **Tylko wyciąg — spis treści + bibliografia (6 stron),
-  brak całej treści technicznej** (712.41-712.6, Załącznik B z obliczeniem U_OC MAX/I_SC MAX).
-  Praktycznie nie odblokowuje niczego w obecnej postaci — do faktycznego wykorzystania potrzebny
-  zakup pełnego tekstu.
+  `docs/zrodla/norma-HD-60364-7-712/`. 🔴 **[HISTORYCZNE, 05.09.2026]** Wtedy: tylko wyciąg — spis
+  treści + bibliografia (6 stron), brak całej treści technicznej (712.41-712.6, Załącznik B z
+  obliczeniem U_OC MAX/I_SC MAX), praktycznie nic nie odblokowywał.
+  **[06.09.2026] ✅ PEŁNY TEKST DOSTARCZONY** (35 stron, bezpośrednio na `main`) — przeczytany w
+  całości i użyty tego samego dnia do przepisania `ochrona-stringow` (M3/Ekran 22) wg §712.431-433
+  + Załącznik B.2; wzór w `stress-test-mppt` (M3/E5) potwierdzony jako zgodny z Załącznikiem B.1.
+  Plik: `docs/zrodla/norma-HD-60364-7-712/UNE-HD-60364-7-712-2017-pelny-tekst.pdf`. Szczegóły:
+  `docs/zrodla/norma-HD-60364-7-712/00-INDEKS.md`, `docs/memory.md`.
 - **Materiał branżowy "Aktualne przepisy w zakresie ochrony przeciwporażeniowej"** (prezentacja
   szkoleniowa, nie norma) — `docs/zrodla/materialy-branzowe-ochrona-przeciwporazeniowa-2010/`.
   **Rozwiązuje krytyczny brak Tablic 41A/41B** z normy PN-IEC 60364-4-41 (patrz wyżej) — ale

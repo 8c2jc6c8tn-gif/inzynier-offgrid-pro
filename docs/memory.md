@@ -2613,7 +2613,7 @@ konkretnych potrzebnych tabel + kod kalkulatora, po kolei małymi partiami zgodn
   - **Wciąż nie zbudowane (świadomie, następny krok, nie ten):** B5 (Moduł 11) i M4/Ekran 25 mogą
     teraz reużyć ten silnik jako "echo" — status w `docs/rejestr-pokrycia.md` pozostaje `todo`.
 
-- **2026-09-06 — norma HD 60364-7-712 dodana (`docs/zrodla/559094399-060364NHDD149-ES.pdf`,
+- **2026-09-06 — norma HD 60364-7-712 dodana (`docs/zrodla/norma-HD-60364-7-712/UNE-HD-60364-7-712-2017-pelny-tekst.pdf`,
   UNE-HD 60364-7-712:2017 / HD 60364-7-712:2016, "Sistemas de alimentación solar fotovoltaica"),
   przeanalizowana pod kątem przydatności, i użyta do korekty M3/Ekran 22.**
   - **Potwierdzenie bez zmian**: wzór `stress-test-mppt` (M3/E5, `V_max=Voc×(1+β×(Tmin−25))`) to
@@ -2648,6 +2648,58 @@ konkretnych potrzebnych tabel + kod kalkulatora, po kolei małymi partiami zgodn
   - Zweryfikowane: `tsc`/`lint`/`test` (510/510)/`build` czyste; `pnpm start` + zrzuty ekranu
     Playwrightem (VALID z zakresem 13,75–20,00 A, oraz 🔴 brak obowiązkowego zabezpieczenia) —
     oba stany wizualnie poprawne.
+
+- **2026-09-07 — Audyt GOD BOOK Część N (na żądanie właściciela projektu, "przeprowadź audyt
+  według god book"), pełne przejście N.1 przez wszystkie 14 pozycji Części S.** Metoda:
+  bezpośrednie sprawdzenie każdego dokumentu (daty "Ostatnia aktualizacja", liczby przeliczone z
+  `docs/rejestr-pokrycia.md`, nie z pamięci ani metryczek), nie "na oko wygląda dobrze" (N.1.1).
+  - **Znaleziony i naprawiony dryf** (Część Y.2 — błąd, nie świadoma decyzja, więc naprawiony od
+    razu, nie tylko zgłoszony): `mapa-wdrozenia.md` i `backlog-poza-v1.md` nie były aktualizowane
+    od 05.09.2026 mimo znaczącej pracy w międzyczasie — oba wciąż opisywały M5/Ekran 1 jako
+    `⚠️ blocked`/"brak normy", chociaż norma PN-HD 60364-5-52 dostarczona i ekran zbudowany
+    06.09.2026. Poprawione: licznik `done` 92→101 (przeliczony bezpośrednio z rejestru), wiersz M5
+    (3/29→4/29), M11/B5 przeniesione z `⚠️ Blocked` do `todo` (odblokowane źródłowo, nie brak
+    danych). `backlog-poza-v1.md` błędnie nazywał normę "PN-IEC" zamiast "PN-HD" — poprawione.
+  - **Znaleziony i naprawiony dryf strukturalny w `docs/zrodla/`**: pełny tekst normy
+    HD 60364-7-712 (35 stron, dostarczony 06.09.2026 bezpośrednio na `main`, użyty tego samego dnia
+    do korekty `ochrona-stringow`) trafił luzem do `docs/zrodla/` pod nieopisową nazwą pliku
+    (`559094399-060364NHDD149-ES.pdf`), zamiast do istniejącego katalogu
+    `docs/zrodla/norma-HD-60364-7-712/` (gdzie leżał już 6-stronicowy wyciąg z 05.09.2026, z
+    `00-INDEKS.md` jawnie stwierdzającym brak pełnego tekstu). Dokładnie ten antywzorzec, przed
+    którym ostrzega GOD BOOK I.3 ("dwa niezależne opracowania tego samego tematu bez wzajemnego
+    odesłania") — mój własny proces z 06.09.2026 (analiza pliku → użycie w kodzie) pominął krok
+    zarejestrowania go we właściwym miejscu. Naprawione: `git mv` do
+    `docs/zrodla/norma-HD-60364-7-712/UNE-HD-60364-7-712-2017-pelny-tekst.pdf`, odsyłacze w kodzie
+    (`ochrona-stringow/input.ts`, `calculator.ts`) i w tym pliku zaktualizowane, `00-INDEKS.md`
+    dostał sekcję "PEŁNY TEKST DOSTARCZONY" (stara analiza wyciągu zachowana jako historia, nie
+    usunięta), `docs/zrodla/README.md` i `docs/normy-brakujace.md` zaktualizowane (jedyna pozycja
+    🔴 krytyczna przeniesiona do "Pozyskane (historia)").
+  - **Znaleziona i naprawiona luka w `slownik-pojec.md`** (C.9 — rośnie od pierwszego użycia):
+    OCPR i I_SC_MAX/K1, wprowadzone 06.09.2026, nigdzie zdefiniowane.
+  - **TD13 dodane do `dlug-techniczny.md`** (X.4): reguła doboru diody blokującej (§712.512.101)
+    świadomie poza zakresem korekty `ochrona-stringow` — przeniesione z `backlog-poza-v1.md`, gdzie
+    było błędnie sklasyfikowane jako "cały nieoceniony obszar" zamiast częściowego skrócenia
+    istniejącego ekranu (tytuł źródłowy ekranu wprost wymienia "diody blokujące"). Bidirekcyjne
+    sprawdzenie `grep "🔎 TD"` ↔ wpisy TD1-TD12 wykonane najpierw — w pełni zgodne, zero sierot.
+  - **`kontrakty-rdzenia.md` §4 (wzorzec echo) dopisany**: pułapka "echo z przypadku" — dwie
+    funkcje mogą dzielić tę samą liczbę (1,25) bez dzielenia tej samej reguły fizycznej/normatywnej
+    (dokładnie przypadek M3/E22↔M5/E6 z dzisiejszej korekty). Zanim wyekstrahujesz echo: sprawdź
+    uzasadnienie, nie tylko wartość.
+  - **Backlog uzupełniony** o 4 pozostałe pozycje z normy HD 60364-7-712 świadomie poza zakresem
+    (alternatywa kablowa, tabele SPD, RCD typu B, etykieta PV) — dotąd tylko w kodzie/na czacie,
+    nigdzie skonsolidowane (N.1.2).
+  - **Znalezione, NIE rozstrzygnięte samodzielnie (zgłoszone do rozważenia właścicielowi
+    projektu, zgodnie z I.1 — nie rozstrzygaj konfliktu sam):**
+    - Czy dzisiejsza korekta `ochrona-stringow` (norma + rozdzielenie echo) zasługuje na wpis D20 w
+      `rejestr-decyzji.md`? Rejestr nie miał nowego wpisu od D19 (04.09.2026) mimo kilku
+      per-modułowych korekt formuł w międzyczasie (wzorzec ρ×2L/S, ta korekta) — dotychczas
+      traktowane jako `docs/memory.md`-poziom, nie strategiczne, ale warto potwierdzić, że to
+      wciąż właściwa granica.
+    - Otwarte pytanie z `docs/lista-do-zrobienia.md` (2026-09-03): poziom ostrzeżenia
+      `KROK-POZA-KOLEJNOSCIA` w Black Start (M7/E5) — `warning` czy `critical`? Nieruszane od
+      ~10 dni (W.6, kontrola starzenia) — wciąż czeka na decyzję właściciela projektu.
+  - Zweryfikowane: `tsc`/`test` (510/510)/`lint` (0 błędów, 2 nieblokujące istniejące ostrzeżenia
+    `no-img-element`) czyste po wszystkich poprawkach.
 
 ## Mapa orientacyjna
 
