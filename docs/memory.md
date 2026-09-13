@@ -2722,6 +2722,52 @@ konkretnych potrzebnych tabel + kod kalkulatora, po kolei małymi partiami zgodn
   - Zweryfikowane: `tsc`/`test` (510/510, w tym nowa asercja `level==="critical"`)/`lint`/`build`
     czyste.
 
+- **2026-09-13 — Uzupełnienie praktyczne Modułu 11 (montaż 16S LiFePO4) dostarczone przez
+  właściciela projektu i przeanalizowane wg GOD BOOK Część L (moduł Biblii → dokument gotowy do
+  implementacji).** Zapisane w całości, niezmienione:
+  `docs/zrodla/Uzupelnienie_Modul_11_Montaz_16S_Praktyczny.md` (5 tomów). Cel wprost od właściciela:
+  "żeby było wiadomo na bazie czego było robione" — dokument to notatki z realnego montażu, nie
+  formalna norma (status jak `materialy-branzowe-*`).
+  - **Sprawdzone względem duplikatów (I.2)** — Ścieżka A LiFePO4 (A1-A10) jest już `done` w całości
+    (10/10, `docs/rejestr-pokrycia.md`), więc każdy fragment nowego materiału porównany z
+    odpowiednim istniejącym ekranem, nie potraktowany jako nowy, nieoceniony obszar.
+  - **Pytanie właściciela wprost: czy dioda jest potrzebna przy BMS↔falownik? ODPOWIEDŹ z nowego
+    materiału: NIE.** Rezystor pre-charge tak, dioda nie — dokładnie to, co kod już zakłada
+    (`obwod-precharge` M4/E7, `podlaczenie-bms` M11/A4 — żaden nigdy nie miał diody w tym miejscu).
+    **Ważne rozróżnienie, żeby nie pomylić z inną, niezależną "diodą" w projekcie**: to pytanie o
+    diodę BMS↔falownik (blokada wstecznego prądu między równoległymi pakietami) jest CAŁKOWICIE
+    INNYM tematem niż TD13 (`dlug-techniczny.md`, dopisane 07.09.2026) — dioda blokująca stringu PV
+    wg normy HD 60364-7-712 §712.512.101 (M3/E22, `ochrona-stringow`). Dwie różne diody, dwa różne
+    konteksty, żadnego związku poza nazwą.
+  - **🔴 Sprzeczność znaleziona, NIE rozstrzygnięta samodzielnie (I.1)**: moment dokręcania
+    terminala M6 — kod ma dziś 4-4,5 N·m (1:1 z oryginalnej Biblii v2.0, `moment-dokrecania-srub`
+    M4/E11), nowy materiał praktyczny podaje 5-7 N·m zależnie od pojemności ogniwa (dla EVE MB31
+    max 6 N·m). M8 zgodne w przybliżeniu. Zgłoszone w `docs/rejestr-pokrycia.md` (wiersz M4/E11),
+    czeka na decyzję właściciela — który wzór ma obowiązywać (może zależeć od konkretnego ogniwa,
+    więc rozwiązaniem może być rozszerzenie ekranu o wybór ogniwa, nie prosta podmiana liczby).
+  - **Drobna rozbieżność, niekrytyczna**: sugerowana startowa wartość UI rezystora pre-charge
+    (`PRZYKLADOWA_REZYSTANCJA_OHM=50` Ω) różni się 50× od "typowo 1 Ω" z nowego materiału — pole
+    edytowalne, nie ukryty domyślny, więc nie blokuje niczego, ale wartości aż tak różne sugerują
+    zależność od wielkości falownika/sposobu przełączania, niewyjaśnioną w żadnym źródle. Zgłoszone,
+    nie zmienione.
+  - **Genuinie nowa treść, dziś nigdzie niepokryta w kodzie** (kandydaci do rozbudowy A2/A3/A4,
+    nie budowane w tej sesji — czysto dokumentacyjny krok na razie):
+    - Etap 0: selekcja ogniw (OCV ≤10mV rozstępu, IR testerem AC 1kHz, odrzucenie odstających >20%
+      od mediany) i top-balancing przedmontażowy (ogniwa równolegle, zasilacz 3,60V, do ±5mV) —
+      kandydat do rozszerzenia A2 lub nowego ekranu przed A2.
+    - Dobór busbarów (wymiary, elastyczne vs sztywne) i obalenie mitu "dziurka w środku busbara
+      poprawia balansowanie" (rezystancja miedzi pomijalna, jedyna zaleta to wygoda serwisowa) —
+      kandydat do A3.
+    - Konfiguracja parametrów BMS po podłączeniu (OVP/UVP/napięcie float/próg balansowania,
+      konkretne wartości LiFePO4) — dziś A4 kończy się na podłączeniu fizycznym, nie konfiguracji.
+    - Tabele przekrojów przewodów (ogniwo↔BMS, BMS↔falownik wg prądu) i dobór złączy oczkowych
+      (materiał — miedź cynowana vs mosiądz, wymiary, konkretni dostawcy) — dziś brak odpowiednika
+      w Module 11 (M5/E1 `dobor-przekroju-kabla` to inny, ogólny silnik normowy, nie ten sam zakres
+      praktyczny).
+  - Nie zbudowano żadnego nowego kodu w tej sesji — czysto dokumentacyjny krok (zapisanie źródła +
+    cross-referencja), zgodnie z zakresem prośby właściciela projektu. Decyzje o dalszym kroku
+    (rozstrzygnięcie sprzeczności momentu, budowa nowej treści) czekają na właściciela.
+
 ## Mapa orientacyjna
 
 - `docs/rejestr-twardych-stopow.md` — zbiorczy indeks warunków zawsze skutkujących 🔴 (04.3), z odsyłaczami do modułu/ekranu/pliku źródłowego. Dopisz tu nowy twardy stop, gdy kolejny moduł go wprowadzi.

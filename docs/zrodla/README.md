@@ -155,3 +155,19 @@ europejskie — nieużywane dla Polski, okres powrotu, ciężar objętościowy �
 **Odblokowuje ekran "Obciążenie dachu śniegiem"** (`docs/rejestr-pokrycia.md`, Moduł 3, dawne
 6.34→7.32) — wcześniej `todo` z notatką "ryzyko braku normy budowlanej", teraz ma pełne, formalne
 źródło normatywne. Status wykorzystania: przeanalizowany, jeszcze niewykorzystany w kodzie.
+
+## Uzupełnienie praktyczne — Montaż 16S LiFePO4, Moduł 11 (13.09.2026)
+
+[13.09.2026] ✅ DODANO — źródło: właściciel projektu, notatki z realnego montażu pakietu 16S
+LiFePO4 (nie formalna norma, materiał praktyczny — analogicznie do `materialy-branzowe-*`).
+Plik: **`docs/zrodla/Uzupelnienie_Modul_11_Montaz_16S_Praktyczny.md`** — 5 tomów: selekcja ogniw
+i top-balancing, montaż mechaniczny/kompresja, dobór i montaż busbarów (+ obalenie mitu o
+wierceniu otworu w środku busbara), sekwencja podłączenia/konfiguracji BMS, przekroje
+przewodów/dobór złączy oczkowych, dioda vs rezystor pre-charge przy podłączeniu do falownika,
+tabela kontrolna wartości.
+
+**Status wykorzystania:** przeanalizowane względem już zbudowanych ekranów A2–A5 Modułu 11
+(`docs/rejestr-pokrycia.md`) — część treści potwierdza istniejące wartości, część je uszczegóławia,
+jedna wartość (moment dokręcania M6) jest w jawnej sprzeczności z wartością już w kodzie
+(`moment-dokrecania-srub`, M4/E11) — zgłoszone do rozstrzygnięcia właścicielowi projektu, nie
+rozstrzygnięte samodzielnie. Pełna analiza: `docs/memory.md` (2026-09-13).
