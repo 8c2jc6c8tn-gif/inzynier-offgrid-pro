@@ -115,9 +115,16 @@ export const KAFLE: KafelEntry[] = [
     ikona: "🔌",
     ekrany: [
       { href: "/kalkulatory/dobor-przekroju-kabla", label: "Dobór przekroju kabla" },
+      { href: "/kalkulatory/ochrona-przepieciowa-spd", label: "Ochrona przeciwprzepięciowa (SPD)" },
       { href: "/kalkulatory/trasy-kablowe", label: "Trasy kablowe — prowadzenie i separacja" },
+      { href: "/kalkulatory/laczenie-cu-al", label: "Łączenie Cu-Al i ochrona przed korozją" },
       { href: "/kalkulatory/dobor-bezpiecznika-rozlacznika", label: "Dobór bezpieczników i rozłączników" },
       { href: "/kalkulatory/string-box", label: "String Box / Array Box" },
+      { href: "/kalkulatory/glowna-szyna-wyrownawcza", label: "Główna Szyna Wyrównawcza (GSW)" },
+      { href: "/kalkulatory/analiza-zwarciowa", label: "Analiza zwarciowa" },
+      { href: "/kalkulatory/wylaczniki-rcd", label: "Wyłączniki RCD" },
+      { href: "/kalkulatory/dobor-izolacji-kabla", label: "Dobór izolacji kabla do warunków montażu" },
+      { href: "/kalkulatory/pomiary-powykonawcze", label: "Pomiary i testy powykonawcze" },
     ],
   },
   {

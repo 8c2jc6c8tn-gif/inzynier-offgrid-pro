@@ -2835,3 +2835,13 @@ konkretnych potrzebnych tabel + kod kalkulatora, po kolei małymi partiami zgodn
 - `components/kafle-ikony/` — animowane SVG ikony kafli pulpitu (na razie 1–7); dopisz tu kolejny `<symbol>` + wpis w `ikona.tsx`, gdy kolejny kafel zostanie zablokowany jako finalny w artefakcie roboczym "Off-Grid Tile Set".
 - `app/`, `components/ui/`, `lib/utils.ts` — obecny szkielet Next.js, bez kodu domenowego.
 - `CLAUDE.md` — punkt wejścia dla AI, odsyła tutaj i do standardu.
+
+## Moduł 5 — 7 nowych ekranów niezablokowanych (13.09.2026)
+
+[13.09.2026] ✅ DODANO — na polecenie właściciela ("zacznijmy z tych co nic nie blokuje"): zbudowana pierwsza partia ekranów Modułu 5 zidentyfikowanych w audycie jako `todo` (nie `blocked`), buildowalnych bez wymyślania danych. Zaimplementowane: Ekran 2 (SPD), Ekran 4 (Łączenie Cu-Al), Ekran 10 (GSW), Ekran 12 (Analiza zwarciowa), Ekran 16 (Wyłączniki RCD), Ekran 28 (Dobór izolacji kabla), Ekran 29 (Pomiary powykonawcze) — pełny wzorzec plikowy każdy (input/constants/warnings/validation/calculator/testy + UI), zarejestrowane w `lib/pulpit/registry.ts` (Kafel 5) i `docs/rejestr-pokrycia.md`. `tsc --noEmit`/`pnpm test` (584/584)/`pnpm lint`/`pnpm build` — wszystkie czyste po całej partii.
+
+**Świadomie NIE zbudowane w tej partii** (wymagają bazy komponentów albo wzoru nieobecnego w źródle, żeby nie zgadywać — pozostają `todo`, nie `blocked`): Ekran 5 (złącza MC4 — baza producentów), Ekran 9 (uziemienie — brak wzoru rezystywności gruntu w źródle), Ekran 13 (selektywność — baza krzywych wyzwalania), Ekran 18 (IMD — zależny od nierozstrzygniętego Ekranu 11, a próg "50kΩ" źródła jest wprost oznaczony jako "np.", nie normatywny), Ekran 21 (normy i certyfikaty — baza certyfikatów).
+
+**Pułapka znaleziona i naprawiona przy Ekranie 29:** `rezystancjaUziemieniaOhm=0` i `czasZadzialaniaRcdS=0` (konwencja "0 = jeszcze nie wpisano") by pomyłkowo przeszły próg `< 10/30 Ω` i `< 0,4 s` jako fałszywy pass (0 < próg jest matematycznie prawdą). Rozwiązanie: dodane osobne ostrzeżenia `REZYSTANCJA-UZIEMIENIA-NIEZMIERZONA`/`CZAS-RCD-NIEZMIERZONY` (critical) dla wartości 0, sprawdzane przed porównaniem z progiem — nie dotyczy `rezystancjaIzolacjiMohm` (próg ">1MΩ" — 0 naturalnie i poprawnie nie przechodzi progu).
+
+**Powtórzona pułapka typów (już znana z wcześniejszych ekranów, dwa nowe przypadki tej sesji):** `CalcResult.inputs` to `Record<string, number>` — pola string/boolean (np. `material1`/`material2` w Ekranie 4, `uzywanaJakoPrzylaczeOdbiornikow` w Ekranie 10) muszą być pominięte w `inputs`, nie tylko w logice. Złapane przez `tsc --noEmit` uruchamiane od razu po każdym `calculator.ts`, nie na końcu partii.

@@ -145,21 +145,21 @@ B/D/E, patrz sekcja niżej) — zaczęte 2026-09-04 od Ekranu 1 (fundament dobor
 | Ekran | ID Biblii | Nazwa | Status | Wymaga PN-IEC 60364-5-52? |
 |---|---|---|---|---|
 | 1 | 4.1, 4.18, 4.27, 4.30 | Dobór przekroju kabla (mega-Doradca) | **done** | `lib/core/modules/okablowanie/dobor-przekroju-kabla/`, UI: `app/kalkulatory/dobor-przekroju-kabla/page.tsx`, 11 testów. **[06.09.2026]** Zaimplementowany po pozyskaniu i weryfikacji normy PN-HD 60364-5-52. Tabele użyte: B.52.2 (obciążalność bazowa Cu/Al, PVC, 2 żyły obciążone — metody C/B2/D per sposób ułożenia), B.52.14/15 (korekta temperatury, interpolacja liniowa punktów co 5°C), B.52.17/18 (korekta wiązki). Zakres świadomie ograniczony: izolacja PVC domyślna (nie pytana w Sekcji A — zachowawczy wybór), 2 żyły obciążone (nie ma osobnego pola 3-fazowe). **Rozbieżność znaleziona i udokumentowana**: wzór spadku napięcia w źródle produktowym (`R=ρ×L/S`) pomija drogę powrotną prądu — użyto `R=ρ×2L/S`, ten sam (poprawny, już zweryfikowany) wzór co M3/E8. Korekta "k3" opisana w źródle jako mnożnik nie istnieje w tej postaci w normie — zaimplementowano jako wybór właściwej kolumny tabeli (zgodnie z normą), nie wymyślony współczynnik. |
-| 2 | 4.5, 4.6, 4.7, 2.47 | Ochrona przeciwprzepięciowa (SPD) | todo | Nie |
+| 2 | 4.5, 4.6, 4.7, 2.47 | Ochrona przeciwprzepięciowa (SPD) | **done** | `lib/core/modules/okablowanie/ochrona-przepieciowa-spd/`, UI: `app/kalkulatory/ochrona-przepieciowa-spd/page.tsx`, 7 testów. (2026-09-13) Typ wymagany (Typ 1 z instalacją odgromową / Typ 2 bez) i margines napięciowy `Uc ≥ Voc_max × 1,25` (przykład źródła 320V→400V odtworzony dokładnie), odległość od zwodu ≥0,5m, uziemienie SPD via GSW — cztery niezależne twarde stopy 1:1 ze źródła. |
 | 3 | 4.19, 4.20, 4.24 | Szyny zbiorcze i połączenia | todo | Nie |
-| 4 | 4.36, 4.37, 4.39 | Łączenie Cu-Al / korozja | todo | Nie |
+| 4 | 4.36, 4.37, 4.39 | Łączenie Cu-Al / korozja | **done** | `lib/core/modules/okablowanie/laczenie-cu-al/`, UI: `app/kalkulatory/laczenie-cu-al/page.tsx`, 10 testów. (2026-09-13) Tylko 5 par metal/środowisko wprost udokumentowanych w źródle zaimplementowane (lookup po znormalizowanym kluczu pary); każda inna kombinacja (np. Cu+Cu, stal-nierdzewna+Al w środowisku wilgotnym) → `OUT_OF_SCOPE`, nie zgadywana. Przelicznik przekroju Al względem Cu (×1,6) liczony niezależnie od pary. |
 | 5 | 4.21, 4.35 | Złącza MC4 | todo | Nie |
 | 6 | 4.2 | Dobór bezpieczników i rozłączników | **done** | `lib/core/modules/okablowanie/dobor-bezpiecznika-rozlacznika/`, UI: `app/kalkulatory/dobor-bezpiecznika-rozlacznika/page.tsx`, 7 testów. (2026-09-05, na wyraźną prośbę autora) Twardy stop AIC < prąd zwarciowy (1:1 ze źródła 🔴) — prąd zwarciowy dziś ręczny wpis (docelowo z Ekranu 12, jeszcze niezbudowanego), sprawdzenie AIC pomijane (nie fałszywie "OK"), dopóki oba pola niepodane. Koordynacja selektywności z Ekranem 13 świadomie NIE sprawdzana (ekran nie istnieje) — jawnie w `assumptions`. **[06.09.2026] KOREKTA:** wzorzec "echo" z Modułu 3/Ekran 22 (`ochrona-stringow`) ROZDZIELONY — norma HD 60364-7-712 pokazała, że dobór bezpiecznika stringu PV to inna reguła niż ten ogólny margines 1,25× na prąd znamionowy obwodu; ten ekran ma teraz lokalną kopię wzoru (`obliczPradBezpiecznikaOgolnegoA`), zachowanie i testy bez zmian. |
 | 7 | 4.3 | Dobór mocy falownika | todo | Nie |
 | 8 | 4.4 | Przepust powietrza pod panelami | todo | Nie |
 | 9 | 4.8 | Projekt uziemienia | todo | Nie |
-| 10 | 4.9 | Główna Szyna Wyrównawcza (GSW) | todo | Nie |
+| 10 | 4.9 | Główna Szyna Wyrównawcza (GSW) | **done** | `lib/core/modules/okablowanie/glowna-szyna-wyrownawcza/`, UI: `app/kalkulatory/glowna-szyna-wyrownawcza/page.tsx`, 4 testy. (2026-09-13) Checklist 5 połączeń obowiązkowych (konstrukcja paneli/falownik/bateria/instalacja wodna/uziom, z minimalnym przekrojem 1:1 ze źródła) + twardy stop niezależny: GSW użyta jako przyłącze odbiorników (błąd koncepcyjny, krytyczne 1:1 ze źródła). |
 | 11 | 4.10 | Uziemienie funkcjonalne vs ochronne | todo | Nie |
-| 12 | 4.11 | Analiza zwarciowa | todo | Nie |
+| 12 | 4.11 | Analiza zwarciowa | **done** | `lib/core/modules/okablowanie/analiza-zwarciowa/`, UI: `app/kalkulatory/analiza-zwarciowa/page.tsx`, 6 testów. (2026-09-13) `I_zw_bateria = V/R` (echo `obliczPradZwarciowyA` z `baterie/dobor-bezpiecznika-dc`) i `I_zw_PV = Isc × N_stringów` liczone niezależnie, wzięty max; przykład źródła 48V/0,01Ω→4800A odtworzony dokładnie. AIC zabezpieczenia sprawdzany opcjonalnie (0 = pomiń, nie fałszywy pass). |
 | 13 | 4.12 | Selektywność zabezpieczeń | todo | Nie |
 | 14 | 4.13 | Wyłączniki nadprądowe DC | todo | Nie |
 | 15 | 4.14 | Ochrona przed odwrotną polaryzacją | todo | Nie |
-| 16 | 4.15 | Wyłączniki RCD | todo | Nie |
+| 16 | 4.15 | Wyłączniki RCD | **done** | `lib/core/modules/okablowanie/wylaczniki-rcd/`, UI: `app/kalkulatory/wylaczniki-rcd/page.tsx`, 8 testów. (2026-09-13) Trzy reguły niezależne (falownik hybrydowy→Typ B; silniki→min. Typ A; próg 30mA ochrona osób / 300mA ochrona pożarowa), oba przykłady źródła ("obwód gniazd typ A 30mA", "główny typ B 300mA") odtworzone dokładnie. Świadomie NIE połączone w jedną kaskadę "wymagany typ" — źródło nie podaje minimum dla przypadku bez falownika hybrydowego i bez silników, jawnie w `assumptions`. |
 | 17 | 4.16 | Ochrona przed dotykiem | todo | Nie |
 | 18 | 4.17 | IMD | todo | Nie |
 | 19 | 4.22 | Trasy kablowe — prowadzenie i separacja | **done** | patrz Wzorzec F niżej |
@@ -171,8 +171,8 @@ B/D/E, patrz sekcja niżej) — zaczęte 2026-09-04 od Ekranu 1 (fundament dobor
 | 25 | 4.32 | Ochrona przed gryzoniami | todo | Nie |
 | 26 | 4.33 | Optymalizacja trasy / TCO | todo | Nie |
 | 27 | 4.34 | Puszki połączeniowe | todo | Nie |
-| 28 | 4.38 | Dobór izolacji kabla | todo | Nie |
-| 29 | 4.40 | Pomiary powykonawcze | todo | Nie |
+| 28 | 4.38 | Dobór izolacji kabla | **done** | `lib/core/modules/okablowanie/dobor-izolacji-kabla/`, UI: `app/kalkulatory/dobor-izolacji-kabla/page.tsx`, 6 testów. (2026-09-13) Progi temperaturowe 1:1 ze źródła (PVC ≤70°C, XLPE ≤90°C). `miejsceTrasy` to podpowiedź informacyjna, nie wpływa na wynik — sprawdzana jest rzeczywiście wybrana izolacja. |
+| 29 | 4.40 | Pomiary powykonawcze | **done** | `lib/core/modules/okablowanie/pomiary-powykonawcze/`, UI: `app/kalkulatory/pomiary-powykonawcze/page.tsx`, 12 testów. (2026-09-13) 6 testów niezależnych wg progów źródła (izolacja >1MΩ, uziemienie <10Ω odgromowe/<30Ω ochronne, RCD <0,4s, plus 3 potwierdzenia boolowskie) — każdy nieukończony lub poza progiem jest `critical` (twardy stop 1:1 ze źródła: "dowolny wynik poza progiem = brak formalnego odbioru"). Wartość 0 dla uziemienia/czasu RCD rozróżniona od "pomiar OK przy 0" — traktowana jako "jeszcze niezmierzone", nie fałszywy pass. |
 
 ## Moduły 3–13 — wzorce UI reprezentatywne (przygotowanie pod v0)
 
