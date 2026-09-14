@@ -12,6 +12,5 @@ export function validateInput(input: NapiecieSystemoweInput): ValidationResult {
   if (input.ogrzewanieMocW < 0) errors.push(wartoscUjemna("ogrzewanieMocW", input.ogrzewanieMocW))
   if (input.mocCiaglaFalownikaPlanowanaW < 0) errors.push(wartoscUjemna("mocCiaglaFalownikaPlanowanaW", input.mocCiaglaFalownikaPlanowanaW))
   if (input.docelowaPojemnoscKwh < 0) errors.push(wartoscUjemna("docelowaPojemnoscKwh", input.docelowaPojemnoscKwh))
-  if (input.liczbaPaneliWStringu < 0) errors.push(wartoscUjemna("liczbaPaneliWStringu", input.liczbaPaneliWStringu))
   return { errors }
 }

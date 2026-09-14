@@ -1,5 +1,4 @@
 import type { CalcResult, Status, Warning } from "@/lib/core/calc-result"
-import { isComputed } from "@/lib/core/calc-result"
 import type { NapiecieSystemoweInput } from "./input"
 import { validateInput } from "./validation"
 import {
@@ -9,42 +8,18 @@ import {
   pradWysokiPrzy12V,
   pulapkaKonwersji24Do48,
 } from "./warnings"
-import {
-  PROG_12V_MAX_W,
-  PROG_48V_MIN_W,
-  KATALOG_ODBIORNIKOW,
-  FALOWNIKI_VEVOR,
-  PANEL_JA_SOLAR_500W,
-  type FalownikVevorSpec,
-} from "./constants"
+import { PROG_12V_MAX_W, PROG_48V_MIN_W, KATALOG_ODBIORNIKOW } from "./constants"
 import { analizaJednoczesnosci, type OdbiornikDoAnalizy } from "./jednoczesnosc"
 import { obliczKosztorys, obliczKosztKonwersji24Do48, type KosztorysWynik } from "./kosztorys"
 import { calculateDoborPrzekrojuKabla } from "@/lib/core/modules/okablowanie/dobor-przekroju-kabla/calculator"
-import {
-  calculateDopasowanieTablicyFalownika,
-  type DopasowanieTablicyFalownikaResult,
-} from "@/lib/core/modules/pv/dopasowanie-tablicy-falownika/calculator"
-import { przewymiarowanieZaMale, przewymiarowanieZaDuze, przewymiarowanieOk } from "@/lib/core/modules/pv/dopasowanie-tablicy-falownika/warnings"
-import { DC_AC_RATIO_ZALECANE_MIN, DC_AC_RATIO_ZALECANE_MAX } from "@/lib/core/modules/pv/dopasowanie-tablicy-falownika/constants"
 
-export const CALCULATOR_VERSION = "2.0.0"
+export const CALCULATOR_VERSION = "2.1.0"
 
 export type KabelPorownanie = {
   przekrojMm2: number
   obciazalnoscEfektywnaA: number
   spadekNapieciaPct: number
   strataRocznaKwh: number
-  status: Status
-  warnings: Warning[]
-}
-
-export type PvWynik = {
-  falownik: FalownikVevorSpec
-  liczbaPaneliWStringu: number
-  liczbaStringowRownoleglych: number
-  mocPvCalkowitaWpW: number
-  dcAcRatioCalkowity: number
-  echo: CalcResult<DopasowanieTablicyFalownikaResult> | null
   status: Status
   warnings: Warning[]
 }
@@ -58,7 +33,6 @@ export type NapiecieSystemoweResult = {
   jednoczesnosc: ReturnType<typeof analizaJednoczesnosci> | null
   kable: { v12: KabelPorownanie; v24: KabelPorownanie; v48: KabelPorownanie } | null
   kosztorysy: { v12: KosztorysWynik; v24: KosztorysWynik; v48: KosztorysWynik } | null
-  pv: PvWynik | null
   kosztKonwersji24Do48Zl: number | null
 }
 
@@ -74,7 +48,6 @@ function pustyWynik(): NapiecieSystemoweResult {
     jednoczesnosc: null,
     kable: null,
     kosztorysy: null,
-    pv: null,
     kosztKonwersji24Do48Zl: null,
   }
 }
@@ -101,99 +74,22 @@ function echoKabelDlaNapiecia(napiecieV: number, pradA: number, input: NapiecieS
   }
 }
 
-function obliczPv(input: NapiecieSystemoweInput): PvWynik | null {
-  if (input.falownikVevor === null) return null
-  const falownik = FALOWNIKI_VEVOR.find((f) => f.id === input.falownikVevor)
-  if (!falownik) return null
-
-  const liczbaPaneliWStringu = input.liczbaPaneliWStringu > 0 ? input.liczbaPaneliWStringu : falownik.liczbaPaneliWSzereguRekomendowana
-  const liczbaStringowRownoleglych = falownik.liczbaStringowRownoleglychRekomendowana
-  const mocPvJednegoStringuWpW = PANEL_JA_SOLAR_500W.mocWp * liczbaPaneliWStringu
-  const mocPvCalkowitaWpW = mocPvJednegoStringuWpW * liczbaStringowRownoleglych
-
-  if (!falownik.maMppt) {
-    // Model bez wbudowanego MPPT (12V) — brak formuły do sprawdzenia w źródle poza wymogiem
-    // zewnętrznego regulatora (100-150V, 40-60A); tylko informacyjnie, bez twardego wyniku.
-    return {
-      falownik,
-      liczbaPaneliWStringu,
-      liczbaStringowRownoleglych,
-      mocPvCalkowitaWpW,
-      dcAcRatioCalkowity: mocPvCalkowitaWpW / falownik.mocCiaglaW,
-      echo: null,
-      status: "VALID",
-      warnings: [],
-    }
-  }
-
-  const echo = calculateDopasowanieTablicyFalownika({
-    vocStcV: PANEL_JA_SOLAR_500W.vocStcV,
-    vmpStcV: PANEL_JA_SOLAR_500W.vmpStcV,
-    impA: PANEL_JA_SOLAR_500W.impA,
-    betaPctNaC: PANEL_JA_SOLAR_500W.betaPctNaC,
-    tminC: input.tminC,
-    liczbaPaneliWStringu,
-    vMaxFalownikaV: falownik.vMaxFalownikaV ?? 0,
-    mpptMinV: falownik.mpptMinV ?? 0,
-    mpptMaxV: falownik.mpptMaxV ?? 0,
-    iMaxMpptA: falownik.iMaxMpptA ?? 0,
-    mocFalownikaAcW: falownik.mocCiaglaW,
-  })
-
-  if (!isComputed(echo.status)) {
-    return {
-      falownik,
-      liczbaPaneliWStringu,
-      liczbaStringowRownoleglych,
-      mocPvCalkowitaWpW,
-      dcAcRatioCalkowity: 0,
-      echo,
-      status: echo.status,
-      warnings: echo.warnings,
-    }
-  }
-
-  // Kalkulator echowany sprawdza JEDEN string — jego własne ostrzeżenie DC/AC porównuje moc
-  // jednego stringu z mocą całego falownika, co jest mylące przy kilku stringach równoległych
-  // (Model 3: 2 panele/string × 4 stringi). Odfiltrowane i policzone od nowa z mocą CAŁKOWITĄ.
-  const dcAcRatioCalkowity = mocPvCalkowitaWpW / falownik.mocCiaglaW
-  const warningsBezDcAc = echo.warnings.filter((w) => !w.code.startsWith("DC-AC"))
-  const dcAcWarning =
-    dcAcRatioCalkowity < DC_AC_RATIO_ZALECANE_MIN
-      ? przewymiarowanieZaMale(dcAcRatioCalkowity, DC_AC_RATIO_ZALECANE_MIN)
-      : dcAcRatioCalkowity > DC_AC_RATIO_ZALECANE_MAX
-        ? przewymiarowanieZaDuze(dcAcRatioCalkowity, DC_AC_RATIO_ZALECANE_MAX)
-        : przewymiarowanieOk(dcAcRatioCalkowity)
-
-  const warnings = [...warningsBezDcAc, dcAcWarning]
-  const maNieinformacyjne = warnings.some((w) => w.level !== "info")
-
-  return {
-    falownik,
-    liczbaPaneliWStringu,
-    liczbaStringowRownoleglych,
-    mocPvCalkowitaWpW,
-    dcAcRatioCalkowity,
-    echo,
-    status: maNieinformacyjne ? "VALID_WITH_WARNINGS" : "VALID",
-    warnings,
-  }
-}
-
 /**
  * Ekran 2, Moduł 4 "Magazyn energii / baterie" — "Doradca doboru napięcia systemowego". Wersja
  * 2.0.0: rdzeń I=P/V (Etap "historyczny", wzór i progi niezmienione od 1.0.0) rozbudowany o
  * materiał źródłowy "Dobór napięcia systemu Off-Grid v3.0" (docs/zrodla/Material_Nowy_Modul_...),
  * poprawiony w 4 rundach zamkniętych 13.09.2026 (docs/memory.md). Zasada nadrzędna zastosowana
  * wszędzie: gdziekolwiek aplikacja ma już precyzyjniejszy kalkulator niż uproszczenie źródła —
- * echo tego kalkulatora wygrywa (Etap C→M5/E1 dobor-przekroju-kabla, Etap G→M3/E14
- * dopasowanie-tablicy-falownika), zamiast duplikowania nienormatywnych wzorów źródła.
+ * echo tego kalkulatora wygrywa (Etap C→M5/E1 dobor-przekroju-kabla), zamiast duplikowania
+ * nienormatywnych wzorów źródła.
  *
- * Etap D (rekomendacja oświetlenia/gniazd DC) i Etap F (łączenie równoległe pakietów) świadomie
- * BEZ własnej logiki liczącej w tym kalkulatorze — Etap D to czysto informacyjne porównanie
- * (tabela w UI, żadnego nowego wzoru), Etap F odsyła do już zbudowanego, fizycznie poprawnego
- * `szyny-zbiorcze-miedzypakietowe` (M4/Ekran 25, rozkład prądu w gałęziach równoległych) zamiast
- * duplikować tę samą fizykę drugi raz w tym module.
+ * Wersja 2.1.0 (14.09.2026, zgłoszenie użytkownika): usunięto Etapy D/F/G — nie odpowiadały na
+ * pytanie tego ekranu ("jakie napięcie systemowe wybrać"), tylko przykleiły się przy kolejnych
+ * rundach rozbudowy. Etap D (oświetlenie/gniazda DC) przenosi się do przyszłego modułu
+ * "Oświetlenie" (dane zachowane w constants.ts, oznaczone). Etap F (łączenie pakietów) i Etap G
+ * (dobór PV do falownika VEVOR) usunięte całkowicie — pierwsze tylko duplikowało odnośnik do już
+ * istniejącego `szyny-zbiorcze-miedzypakietowe`, drugie dotyczyło osobnej decyzji pokrytej przez
+ * `dopasowanie-tablicy-falownika` (M3/E14). Zobacz docs/memory.md.
  */
 export function calculateNapiecieSystemowe(input: NapiecieSystemoweInput): CalcResult<NapiecieSystemoweResult> {
   const { errors } = validateInput(input)
@@ -224,8 +120,6 @@ export function calculateNapiecieSystemowe(input: NapiecieSystemoweInput): CalcR
     liczbaKabliWWiazce: input.liczbaKabliWWiazce,
     dopuszczalnySpadekNapieciaPct: input.dopuszczalnySpadekNapieciaPct,
     docelowaPojemnoscKwh: input.docelowaPojemnoscKwh,
-    liczbaPaneliWStringu: input.liczbaPaneliWStringu,
-    tminC: input.tminC ?? 0,
   }
 
   if (errors.length > 0) {
@@ -360,12 +254,6 @@ export function calculateNapiecieSystemowe(input: NapiecieSystemoweInput): CalcR
     }
   }
 
-  // Etap G — echo dopasowanie-tablicy-falownika.
-  const pv = obliczPv(input)
-  if (pv && pv.warnings.some((w) => w.level !== "info")) {
-    warnings.push(...pv.warnings.filter((w) => w.level !== "info"))
-  }
-
   // Etap H — pułapka konwersji 24V→48V (reużywa cen z Etapu E).
   const kosztKonwersji24Do48Zl = input.planowanaKonwersja24Do48
     ? obliczKosztKonwersji24Do48({
@@ -390,7 +278,6 @@ export function calculateNapiecieSystemowe(input: NapiecieSystemoweInput): CalcR
       jednoczesnosc,
       kable,
       kosztorysy,
-      pv,
       kosztKonwersji24Do48Zl,
     },
     unit: "V",
@@ -403,8 +290,6 @@ export function calculateNapiecieSystemowe(input: NapiecieSystemoweInput): CalcR
       "Etap B.2 (konflikt jednoczesności) sprawdzany tylko gdy podano planowaną moc ciągłą falownika — bez niej nie ma z czym porównać sumy 'worst case'.",
       "Etap C: przekrój/spadek napięcia/straty roczne liczone przez echo M5/Ekran1 (norma PN-HD 60364-5-52), nie przez uproszczony wzór P=I²R z materiału źródłowego.",
       "Etap E: kosztorysy dla TEJ SAMEJ docelowej pojemności energetycznej u wszystkich trzech napięć (poprawne porównanie wg źródła, nie naiwne porównanie tą samą liczbą ogniw). Koszt BMS liczony jako jedna sztuka niezależnie od liczby równoległych stringów — zgodnie z literalnymi tabelami źródła.",
-      "Etap F (łączenie pakietów równoległych) NIE liczony tu ponownie — odsyła do już zbudowanego M4/Ekran25 (szyny-zbiorcze-miedzypakietowe), które liczy realny rozkład prądu w gałęziach.",
-      "Etap G: dane panelu JA Solar JAM60D41-500/LB z karty katalogowej (Voc/Vmp/Imp/β realne, nie przybliżenie '~50V' z materiału). Model 12V (bez MPPT) tylko informacyjny — źródło nie podaje konkretnego regulatora do sprawdzenia. DC/AC total przeliczone własnym wzorem (moc WSZYSTKICH stringów), bo echowany kalkulator sprawdza tylko jeden string.",
     ],
     warnings,
     calculatorVersion: CALCULATOR_VERSION,

@@ -123,8 +123,11 @@ export const KATALOG_ODBIORNIKOW: OdbiornikKatalogowy[] = [
 export const PROG_DLUGOTRWALE_MIN = 30
 
 // ---------------------------------------------------------------------------------------------
-// Etap D — rekomendacja oświetlenia i odbiorników DC (czysto informacyjne; koszt przetwornic
-// DC-DC dla linii 24V w systemie 48V liczy się już w Etapie E — kosztorys.ts).
+// WYCOFANE Z TEGO EKRANU (14.09.2026, zgłoszenie użytkownika) — treść poniżej dotyczy oświetlenia,
+// nie doboru napięcia systemowego, i nie jest tu już renderowana. Zachowana tylko jako materiał
+// do przeniesienia do przyszłego modułu "Oświetlenie" (jeszcze nie zbudowanego) — nie usuwać przy
+// porządkach dead-code, patrz docs/memory.md. Koszt przetwornic DC-DC dla linii 24V w systemie
+// 48V nadal liczy się w Etapie E (kosztorys.ts) — to zostaje, niezależnie od przeniesienia.
 // ---------------------------------------------------------------------------------------------
 
 export type PorownanieOswietlenia = {
@@ -196,83 +199,11 @@ export const CENY_DOMYSLNE = {
 }
 
 // ---------------------------------------------------------------------------------------------
-// Etap G — dobór PV (dane panelu z karty katalogowej, specyfikacje falowników VEVOR ze źródła)
+// USUNIĘTE Z TEGO EKRANU (14.09.2026, zgłoszenie użytkownika: "F i G mają się nijak do tego
+// rozdziału, nic tu nie wnoszą oprócz zamętu"). Etap G dobierał panele PV do konkretnych modeli
+// falowników VEVOR — to nie odpowiada na pytanie "jakie napięcie systemowe wybrać", to osobna
+// decyzja (dobór PV do już wybranego falownika), którą pokrywa już M3/Ekran14
+// dopasowanie-tablicy-falownika. Dane (PANEL_JA_SOLAR_500W, FALOWNIKI_VEVOR) nie są używane
+// nigdzie indziej w repo (sprawdzone grepem) — usunięte całkowicie, nie przeniesione. Historia
+// w git (commit poprzedzający tę zmianę) i w docs/memory.md, gdyby trzeba było je odtworzyć.
 // ---------------------------------------------------------------------------------------------
-
-/** JA Solar JAM60D41-500/LB — docs/zrodla/karta-katalogowa-JA-Solar-JAM60D41-LB/00-INDEKS.md. */
-export const PANEL_JA_SOLAR_500W = {
-  mocWp: 500,
-  vocStcV: 43.85,
-  vmpStcV: 36.91,
-  iscA: 14.42,
-  impA: 13.55,
-  betaPctNaC: -0.25,
-}
-
-export type FalownikVevorId = "vevor_12v_1500w" | "vevor_24v_3000w" | "vevor_48v_5000va"
-
-export type FalownikVevorSpec = {
-  id: FalownikVevorId
-  label: string
-  napiecieDcV: 12 | 24 | 48
-  mocCiaglaW: number
-  mocSzczytowaW: number
-  maMppt: boolean
-  mpptMinV: number | null
-  mpptMaxV: number | null
-  iMaxMpptA: number | null
-  vMaxFalownikaV: number | null
-  liczbaPaneliWSzereguRekomendowana: number
-  liczbaStringowRownoleglychRekomendowana: number
-  cenaZl: number
-}
-
-/** Trzy modele ze źródła (Etap G.2/G.3) — dane katalogowe producenta, nie zgadywane. Model 3
- *  MPPT ma podany zakres prądu 60-87A; użyty konserwatywny dolny koniec (60A). */
-export const FALOWNIKI_VEVOR: FalownikVevorSpec[] = [
-  {
-    id: "vevor_12v_1500w",
-    label: "VEVOR 12V 1500W (bez wbudowanego MPPT)",
-    napiecieDcV: 12,
-    mocCiaglaW: 1500,
-    mocSzczytowaW: 3000,
-    maMppt: false,
-    mpptMinV: null,
-    mpptMaxV: null,
-    iMaxMpptA: null,
-    vMaxFalownikaV: null,
-    liczbaPaneliWSzereguRekomendowana: 2,
-    liczbaStringowRownoleglychRekomendowana: 2,
-    cenaZl: 700,
-  },
-  {
-    id: "vevor_24v_3000w",
-    label: "VEVOR 24V 3000W Hybrid (MPPT 80A wbudowany)",
-    napiecieDcV: 24,
-    mocCiaglaW: 3000,
-    mocSzczytowaW: 6000,
-    maMppt: true,
-    mpptMinV: 60,
-    mpptMaxV: 500,
-    iMaxMpptA: 80,
-    vMaxFalownikaV: 500,
-    liczbaPaneliWSzereguRekomendowana: 8,
-    liczbaStringowRownoleglychRekomendowana: 1,
-    cenaZl: 1100,
-  },
-  {
-    id: "vevor_48v_5000va",
-    label: "VEVOR 48V 5000VA/4000W MPS-5K (MPPT 60-87A wbudowany)",
-    napiecieDcV: 48,
-    mocCiaglaW: 4000,
-    mocSzczytowaW: 5000,
-    maMppt: true,
-    mpptMinV: 60,
-    mpptMaxV: 145,
-    iMaxMpptA: 60,
-    vMaxFalownikaV: 145,
-    liczbaPaneliWSzereguRekomendowana: 2,
-    liczbaStringowRownoleglychRekomendowana: 4,
-    cenaZl: 1500,
-  },
-]

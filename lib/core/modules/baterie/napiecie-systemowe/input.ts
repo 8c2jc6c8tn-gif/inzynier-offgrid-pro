@@ -9,7 +9,7 @@
  */
 
 import type { Material, SposobUlozenia } from "@/lib/core/modules/okablowanie/dobor-przekroju-kabla/constants"
-import type { Zastosowanie, Priorytet, FalownikVevorId } from "./constants"
+import type { Zastosowanie, Priorytet } from "./constants"
 
 export type OdbiornikWybor = {
   id: string
@@ -68,13 +68,6 @@ export type NapiecieSystemoweInput = {
    *  kosztorysu 48V (Etap D.1). 0 = brak/nie dotyczy. */
   liczbaLiniiOswietlenia24vPrzySystemie48v: number
   cenaPrzetwornicyDcDcZl: number
-
-  // Etap G — echo doboru PV do falownika (M3/Ekran 14) dla wybranego modelu VEVOR.
-  falownikVevor: FalownikVevorId | null
-  /** Liczba paneli w szeregu — 0 = użyj rekomendowanej domyślnej dla wybranego modelu. */
-  liczbaPaneliWStringu: number
-  /** Minimalna temperatura w lokalizacji [°C], do stress-testu zimowego. null = nie podano. */
-  tminC: number | null
 
   // Etap H — pułapka konwersji 24V→48V (koszt przejścia, reużywa cen z Etapu E).
   planowanaKonwersja24Do48: boolean
