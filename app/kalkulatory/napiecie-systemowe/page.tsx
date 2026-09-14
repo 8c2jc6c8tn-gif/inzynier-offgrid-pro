@@ -30,10 +30,21 @@ import { WynikSzczegoly } from "@/components/wzorce/wynik-szczegoly"
 
 const num = (s: string) => (s === "" ? 0 : Number(s))
 
-type OdbiornikStan = { mocW: string; czasPracyMin: string; selected: boolean }
+type JednostkaCzasu = "min" | "h"
+
+type OdbiornikStan = { mocW: string; czasWartosc: string; czasJednostka: JednostkaCzasu; selected: boolean }
+
+/** Domyślna jednostka: godziny, gdy domyślny czas to pełne godziny ≥60 min — nikt nie chce
+ *  przeliczać "16 godzin" na "960 minut" (zgłoszenie użytkownika, 14.09.2026). */
+function domyslnyCzasStan(czasPracyDomyslnyMin: number): { czasWartosc: string; czasJednostka: JednostkaCzasu } {
+  if (czasPracyDomyslnyMin >= 60 && czasPracyDomyslnyMin % 60 === 0) {
+    return { czasWartosc: String(czasPracyDomyslnyMin / 60), czasJednostka: "h" }
+  }
+  return { czasWartosc: String(czasPracyDomyslnyMin), czasJednostka: "min" }
+}
 
 const ODBIORNIKI_POCZATKOWE: Record<string, OdbiornikStan> = Object.fromEntries(
-  KATALOG_ODBIORNIKOW.map((o) => [o.id, { mocW: String(o.mocDomyslnaW), czasPracyMin: String(o.czasPracyDomyslnyMin), selected: false }]),
+  KATALOG_ODBIORNIKOW.map((o) => [o.id, { mocW: String(o.mocDomyslnaW), ...domyslnyCzasStan(o.czasPracyDomyslnyMin), selected: false }]),
 )
 
 const SEKCJA_KLASY = "flex flex-col gap-4 rounded-lg border p-4"
@@ -92,8 +103,18 @@ export default function NapiecieSystemowePage() {
   function toggleOdbiornik(id: string) {
     setOdbiorniki((prev) => ({ ...prev, [id]: { ...prev[id], selected: !prev[id].selected } }))
   }
-  function aktualizujOdbiornik(id: string, pole: "mocW" | "czasPracyMin", wartosc: string) {
+  function aktualizujOdbiornik(id: string, pole: "mocW" | "czasWartosc", wartosc: string) {
     setOdbiorniki((prev) => ({ ...prev, [id]: { ...prev[id], [pole]: wartosc } }))
+  }
+  /** Przelicza wpisaną wartość na nową jednostkę, żeby przełączenie min↔h nie gubiło danych. */
+  function zmienJednostkeCzasu(id: string, nowaJednostka: JednostkaCzasu) {
+    setOdbiorniki((prev) => {
+      const stan = prev[id]
+      if (stan.czasJednostka === nowaJednostka) return prev
+      const wartoscMin = stan.czasJednostka === "h" ? num(stan.czasWartosc) * 60 : num(stan.czasWartosc)
+      const nowaWartosc = nowaJednostka === "h" ? wartoscMin / 60 : wartoscMin
+      return { ...prev, [id]: { ...stan, czasJednostka: nowaJednostka, czasWartosc: nowaWartosc === 0 ? "" : String(nowaWartosc) } }
+    })
   }
 
   const kategorie = useMemo(() => {
@@ -110,7 +131,7 @@ export default function NapiecieSystemowePage() {
       Object.entries(odbiorniki).map(([id, s]) => ({
         id,
         mocW: num(s.mocW),
-        czasPracyMin: num(s.czasPracyMin),
+        czasPracyMin: s.czasJednostka === "h" ? num(s.czasWartosc) * 60 : num(s.czasWartosc),
         selected: s.selected,
       })),
     [odbiorniki],
@@ -282,38 +303,48 @@ export default function NapiecieSystemowePage() {
                 {pozycje.map((o) => {
                   const stan = odbiorniki[o.id]
                   return (
-                    <li key={o.id} className="flex flex-wrap items-center gap-2 rounded-md border p-2">
-                      <input
-                        type="checkbox"
-                        id={`odb-${o.id}`}
-                        className="h-5 w-5 shrink-0 cursor-pointer accent-primary"
-                        checked={stan.selected}
-                        onChange={() => toggleOdbiornik(o.id)}
-                      />
-                      <label htmlFor={`odb-${o.id}`} className="min-w-[10rem] flex-1 text-small">
-                        {o.label}
-                        <span className="block text-caption text-muted-foreground">{o.uwagi}</span>
+                    <li key={o.id} className="flex flex-col gap-2 rounded-md border p-2">
+                      <label htmlFor={`odb-${o.id}`} className="flex items-start gap-2 text-small cursor-pointer">
+                        <input
+                          type="checkbox"
+                          id={`odb-${o.id}`}
+                          className="mt-0.5 h-5 w-5 shrink-0 cursor-pointer accent-primary"
+                          checked={stan.selected}
+                          onChange={() => toggleOdbiornik(o.id)}
+                        />
+                        <span>
+                          {o.label}
+                          <span className="block text-caption text-muted-foreground">{o.uwagi}</span>
+                        </span>
                       </label>
-                      <input
-                        type="number"
-                        inputMode="decimal"
-                        aria-label={`Moc — ${o.label}`}
-                        className="w-20 min-h-9 rounded-md border border-input bg-background px-2 text-small"
-                        value={stan.mocW}
-                        disabled={!stan.selected}
-                        onChange={(e) => aktualizujOdbiornik(o.id, "mocW", e.target.value)}
-                      />
-                      <span className="text-caption text-muted-foreground">W</span>
-                      <input
-                        type="number"
-                        inputMode="decimal"
-                        aria-label={`Czas pracy jednorazowo — ${o.label}`}
-                        className="w-16 min-h-9 rounded-md border border-input bg-background px-2 text-small"
-                        value={stan.czasPracyMin}
-                        disabled={!stan.selected}
-                        onChange={(e) => aktualizujOdbiornik(o.id, "czasPracyMin", e.target.value)}
-                      />
-                      <span className="text-caption text-muted-foreground">min</span>
+                      <div className="flex flex-nowrap items-center gap-2">
+                        <input
+                          type="number"
+                          inputMode="decimal"
+                          aria-label={`Moc — ${o.label}`}
+                          className="w-16 min-h-9 shrink-0 rounded-md border border-input bg-background px-2 text-small"
+                          value={stan.mocW}
+                          onChange={(e) => aktualizujOdbiornik(o.id, "mocW", e.target.value)}
+                        />
+                        <span className="shrink-0 text-caption text-muted-foreground">W</span>
+                        <input
+                          type="number"
+                          inputMode="decimal"
+                          aria-label={`Czas pracy jednorazowo — ${o.label}`}
+                          className="w-14 min-h-9 shrink-0 rounded-md border border-input bg-background px-2 text-small"
+                          value={stan.czasWartosc}
+                          onChange={(e) => aktualizujOdbiornik(o.id, "czasWartosc", e.target.value)}
+                        />
+                        <select
+                          aria-label={`Jednostka czasu — ${o.label}`}
+                          className="shrink-0 min-h-9 rounded-md border border-input bg-background px-1 text-caption"
+                          value={stan.czasJednostka}
+                          onChange={(e) => zmienJednostkeCzasu(o.id, e.target.value as JednostkaCzasu)}
+                        >
+                          <option value="min">min</option>
+                          <option value="h">godz.</option>
+                        </select>
+                      </div>
                     </li>
                   )
                 })}
