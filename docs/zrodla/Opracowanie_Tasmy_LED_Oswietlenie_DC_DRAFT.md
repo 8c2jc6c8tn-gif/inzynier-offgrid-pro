@@ -38,8 +38,16 @@ RF/IR, sterowanie WiFi/Bluetooth (z ryzykiem zależności od chmury producenta),
 home (Zigbee/Tuya/Matter/Home Assistant, z rozróżnieniem "działa z Tuya" od natywnej integracji),
 profesjonalne magistrale DALI/KNX, ściemniacze DC, czujniki i harmonogramy, oraz konsekwencja
 off-gridowa: stały pobór kontrolerów WiFi/chmurowych w trybie czuwania jako kategoria odbiornika
-bazowego (echo Etapu B.2 modułu "Dobór napięcia"). Dokument wciąż czeka na akceptację całości —
-przed nią nic w kodzie/Biblii się nie zmienia.
+bazowego (echo Etapu B.2 modułu "Dobór napięcia").
+
+**[14.09.2026, runda 7]** Dodana Sekcja 1.6a: taśmy LED "230V" z wbudowanym prostownikiem (High
+Voltage LED Strip) — odpowiedź na pytanie autora, czy istnieją taśmy z "wlutowanym zasilaczem na
+220V". Tak, to osobny, realny produkt (nie to samo co "gotowe oprawy" z 1.6) — prostownik
+wbudowany segmentowo w samą elastyczną taśmę, bez centralnego zasilacza. Kluczowa, jawnie
+wyróżniona różnica: to jedyna taśma w całym dokumencie, która NIE jest SELV — napięcie sieciowe
+jest fizycznie obecne w samej taśmie, nie tylko w obudowie zasilacza. Tabela 1.1 i Sekcja 14.5
+(ściemniacze) zaktualizowane z odnośnikiem. Dokument wciąż czeka na akceptację całości — przed nią
+nic w kodzie/Biblii się nie zmienia.
 
 **Konwencja tagowania (zgodna z `docs/standards/15-wspolpraca-z-ai.md` / GOD BOOK):**
 - `[FAKT]` — twarde prawo fizyki/elektrotechniki, niezależne od producenta (Ohm, moc, temperatura barwowa jako wielkość fizyczna).
@@ -74,9 +82,9 @@ pokazujący realne możliwości kolorystyczne taśmy. Uwagi UI dla tego kroku s�
 | **24V DC** | Szeroka, rośnie | 5 m, coraz częściej 10 m | 2× dłuższa niż 12V przy tej samej mocy/m | Domy off-grid, dłuższe trasy, listwy sufitowe | SELV — bezpieczne |
 | **36V DC** | Wąska nisza | 5 m | Pośrednia | Rzadkie, głównie profesjonalne/przemysłowe instalacje | SELV — bezpieczne |
 | **48V DC** | Rosnąca (profesjonalny segment) | 5 m, projekty na 10-20 m | Najdłuższa z DC | Duże domy off-grid, linie oświetleniowe zintegrowane z magazynem 48V | Blisko granicy SELV (50V) — do przestrzegania |
-| **230V AC** | Bardzo szeroka (segment "gotowe oprawy") | Dowolna (zasilanie z sieci/falownika) | Bez ograniczenia praktycznego (napięcie sieciowe) | Domy z falownikiem, gdy nie buduje się osobnej instalacji DC | Wymaga zabezpieczeń AC (RCD), nie wolno dotykać żył |
+| **230V AC** | Bardzo szeroka (gotowe oprawy ORAZ taśmy z wbudowanym prostownikiem — patrz 1.6a) | Dowolna (zasilanie z sieci/falownika) | Bez ograniczenia praktycznego (napięcie sieciowe) | Domy z falownikiem, gdy nie buduje się osobnej instalacji DC | Wymaga zabezpieczeń AC (RCD) — **nie wolno dotykać żył, a w taśmach 1.6a napięcie sieciowe jest w samej elastycznej taśmie, nie tylko w zasilaczu** |
 
-*„Maks. długość bez spadku napięcia" — patrz algorytm w Sekcji 8; zależy od mocy taśmy na metr, nie jest stałą.
+*„Maks. długość bez spadku napięcia" — patrz algorytm w Sekcji 8; zależy od mocy taśmy na metr, nie jest stałą. Wyjątek: taśmy 230V (1.6a) nie mają tego problemu — patrz uzasadnienie tam.
 
 ### 1.2 12V — plusy i minusy
 
@@ -134,6 +142,55 @@ napięcia — podwójna konwersja to strata rzędu 15-25% [TYPOWA WARTOŚĆ, źr
 napięcia D.2]), każda oprawa ma własny mały zasilacz/driver — to dodatkowe ciepło i dodatkowy
 punkt awarii na każdą lampę, gorsza filozofia off-gridowa (patrz Etap D.1 modułu Dobór napięcia —
 ten sam wniosek co dla żarówek LED 230V vs 24V).
+
+**Ważne — powyższe dotyczy GOTOWYCH OPRAW (żarówki, listwy z wtyczką), nie taśmy LED jako takiej.
+Sama taśma LED zasilana bezpośrednio 230V to inny, osobny produkt — patrz 1.6a.**
+
+### 1.6a Taśmy LED "230V" z wbudowanym prostownikiem (High Voltage LED Strip) — TAK, to istnieje
+
+Odpowiedź na pytanie wprost: **tak**, istnieją taśmy LED przeznaczone do podłączenia bezpośrednio
+do sieci 230V, bez żadnego zewnętrznego zasilacza/transformatora — sprzedawane jako "High Voltage
+LED Strip" / "230V LED Strip" / "Mains Voltage LED Strip". To **nie** jest to samo co "gotowa
+oprawa z driverem" z 1.6 (tam driver siedzi w obudowie żarówki/listwy) — tu prostownik jest
+wbudowany bezpośrednio w samą elastyczną taśmę, po kawałku, na całej jej długości.
+
+**Jak to działa** `[FAKT]`: taśma jest podzielona na segmenty (typowo co kilka-kilkanaście cm,
+`[TYPOWA WARTOŚĆ]` zależnie od producenta), a każdy segment ma własną, małą grupę diod
+połączonych szeregowo (tyle diod w szeregu, żeby suma ich napięć przewodzenia z grubsza
+odpowiadała wyprostowanemu napięciu sieci ~310V DC szczytowe) plus mały mostek prostowniczy
+(4 diody prostownicze) i element ograniczający prąd (rezystor lub kondensator) — każdy segment
+samodzielnie prostuje lokalnie napięcie sieciowe i ogranicza sobie prąd, **bez** centralnego
+zasilacza w osobnej obudowie. Cięcie taśmy możliwe **tylko** w wyznaczonych miejscach na granicy
+segmentu (mniej elastyczne niż w taśmach niskonapięciowych, gdzie czasem można ciąć gęściej).
+
+**🔴 Kluczowa różnica bezpieczeństwa — to NIE jest SELV.** `[FAKT]` W przeciwieństwie do
+WSZYSTKICH pozostałych opcji w tym dokumencie (12/24/36/48V DC — bezpieczne w dotyku, patrz tabela
+1.1), w tej taśmie **realne napięcie sieciowe 230V jest obecne bezpośrednio w elastycznej
+taśmie**, nie tylko w sztywnej obudowie zasilacza. Uszkodzony fragment, przecięte zakończenie bez
+zaślepki, albo odsłonięty punkt lutowniczy stwarza realne ryzyko porażenia — jakościowo inny
+poziom ryzyka niż reszta tego dokumentu. Wymaga: prawidłowego, szczelnego zakończenia
+przewodów/wpustu kablowego, zaślepek na cięciach, ochrony różnicowoprądowej (RCD) na obwodzie, i
+traktowania montażu z taką samą ostrożnością jak każdej innej instalacji 230V — nie tak
+"swobodnie" jak przy taśmie 12V, którą można bezpiecznie dotykać gołymi rękami.
+
+**Zaleta praktyczna — brak problemu spadku napięcia z Sekcji 8.** Ponieważ każdy segment
+prostuje napięcie lokalnie z sieci, nie ma kumulującego się spadku napięcia wzdłuż długiej trasy
+DC opisanego w Sekcji 8 — to właśnie dlatego w tabeli 1.1 kategoria 230V ma "brak ograniczenia
+praktycznego" długości. To realna przewaga przy bardzo długich, jednolitych trasach (iluminacje
+zewnętrzne, dekoracje na dużą odległość).
+
+**Wady** `[OCENA INŻYNIERSKA]`: awaria jednego elementu w segmencie (np. mostka prostowniczego)
+zwykle gasi cały ten segment naraz, nie pojedynczą diodę; ściemnianie wymaga ściemniacza
+przeznaczonego do napięcia sieciowego (TRIAC, kompatybilnego z obciążeniem konkretnego segmentu),
+nie prostej regulacji PWM jak w taśmach DC (patrz Sekcja 14.5); mniejsza elastyczność cięcia niż
+w taśmach niskonapięciowych.
+
+**Wniosek off-gridowy:** to wciąż napięcie sieciowe AC — w systemie off-gridowym nadal wymaga
+falownika, dokładnie tak samo jak "gotowe oprawy" z 1.6, więc nie zmienia ogólnej rekomendacji
+tego dokumentu (24V DC jako domyślny wybór off-gridowy, Sekcja 1.3/4.3) — ale to inny, realny
+produkt, na który kupujący trafi na AliExpress i musi rozpoznać, że to nie zwykła taśma
+niskonapięciowa z osobnym zasilaczem, tylko coś, co ma sieciowe napięcie "w środku" na całej
+długości.
 
 ### 1.7 Nazewnictwo rynkowe — jak wygląda oferta sklepu/AliExpress
 
@@ -960,9 +1017,11 @@ wstawienie osobnego ściemniacza w przewód zasilający — sam kontroler RGB/CC
 instalacjach bez wbudowanej regulacji w kontrolerze), musi być zgodny z typem sterowania taśmy
 (PWM-dimmable vs rzadziej spotykany analogowy 0-10V, typowy raczej w oprawach profesjonalnych niż
 hobbystycznych taśmach) — niedopasowanie objawia się migotaniem, brzęczeniem albo brakiem
-ściemniania w ogóle. Dla ścieżki 230V AC (Sekcja 1.6, gotowe oprawy przez falownik) obowiązują
-odrębne zasady doboru ściemniacza AC (typ obciążenia — rezystancyjne/pojemnościowe/indukcyjne),
-niezwiązane z tym rozdziałem.
+ściemniania w ogóle. Dla ścieżki 230V AC (Sekcja 1.6, gotowe oprawy przez falownik, oraz Sekcja
+1.6a, taśmy z wbudowanym prostownikiem) obowiązują odrębne zasady doboru ściemniacza sieciowego
+(TRIAC, dopasowanego do typu obciążenia — rezystancyjne/pojemnościowe/indukcyjne), niezwiązane z
+tym rozdziałem — w 1.6a niedopasowany ściemniacz sieciowy jest tym bardziej istotny, bo dotyczy
+napięcia obecnego bezpośrednio w taśmie, nie tylko w obudowie zasilacza.
 
 ### 14.6 Czujniki ruchu/zmierzchu i harmonogramy (timery)
 
