@@ -123,6 +123,52 @@ export const KATALOG_ODBIORNIKOW: OdbiornikKatalogowy[] = [
 export const PROG_DLUGOTRWALE_MIN = 30
 
 // ---------------------------------------------------------------------------------------------
+// Etap D — rekomendacja oświetlenia i odbiorników DC (czysto informacyjne; koszt przetwornic
+// DC-DC dla linii 24V w systemie 48V liczy się już w Etapie E — kosztorys.ts).
+// ---------------------------------------------------------------------------------------------
+
+export type PorownanieOswietlenia = {
+  cecha: string
+  v230: string
+  v24: string
+  v48: string
+}
+
+/** D.1 — tabela porównawcza LED 230V/24V/48V, dane 1:1 ze źródła. */
+export const POROWNANIE_OSWIETLENIA_LED: PorownanieOswietlenia[] = [
+  { cecha: "Pobór mocy", v230: "8–15 W", v24: "5–10 W", v48: "5–10 W" },
+  { cecha: "Grzejność", v230: "Wyższa (zasilacz w każdej żarówce)", v24: "Niższa (brak przetwornicy)", v48: "Niższa (brak przetwornicy)" },
+  { cecha: "Żywotność", v230: "Krótsza (ciepło skraca życie LED)", v24: "Dłuższa (mniejsze ciepło)", v48: "Dłuższa (mniejsze ciepło)" },
+  { cecha: "Jakość światła", v230: "Dobra", v24: "Lepsza (2× jaśniejsza przy tym samym poborze)", v48: "Lepsza" },
+  { cecha: "Kompatybilność z Off-Grid", v230: "Wymaga falownika 230V", v24: "Bezpośrednie zasilanie z DC", v48: "Bezpośrednie zasilanie z DC" },
+  { cecha: "Straty", v230: "Przetwornica 230V→DC w każdej żarówce", v24: "Brak przetwornicy", v48: "Brak przetwornicy" },
+  { cecha: "Koszt", v230: "Niższy początkowy", v24: "Wyższy początkowy (ale niższy eksploatacyjny)", v48: "Wyższy początkowy" },
+  { cecha: "Dostępność", v230: "Powszechna", v24: "Dobra", v48: "Ograniczona" },
+  { cecha: "Koszt przetwornicy DC-DC", v230: "–", v24: "–", v48: "48V→24V: ~350–400 zł/szt." },
+]
+
+export const ZALECENIE_OSWIETLENIA_LED =
+  "W systemie Off-Grid zawsze wybieraj oświetlenie 24V. LEDy 24V mniej się grzeją, dwa razy lepiej świecą przy tym samym poborze prądu i nie wymagają falownika. W systemie 48V rozważ oświetlenie 48V (jeśli dostępne) lub zaakceptuj koszt przetwornic DC-DC — policzony w kosztorysie Etapu E."
+
+export type UrzadzenieDcKatalog = {
+  urzadzenie: string
+  napiecieZasilania: string
+  zalecaneRozwiazanie: string
+}
+
+/** D.2 — dedykowane gniazda DC dla elektroniki, dane 1:1 ze źródła. */
+export const KATALOG_URZADZEN_DC: UrzadzenieDcKatalog[] = [
+  { urzadzenie: "Router WiFi", napiecieZasilania: "12 V DC", zalecaneRozwiazanie: "Gniazdo DC 12V (bezpośrednio z pakietu)" },
+  { urzadzenie: "Telewizor", napiecieZasilania: "19 V DC", zalecaneRozwiazanie: "Przetwornica DC-DC 24V→19V" },
+  { urzadzenie: "Laptop", napiecieZasilania: "19 V DC", zalecaneRozwiazanie: "Przetwornica DC-DC 24V→19V" },
+  { urzadzenie: "Telefon/tablet", napiecieZasilania: "5 V DC (USB)", zalecaneRozwiazanie: "Gniazdo USB 5V z przetwornicą DC-DC" },
+  { urzadzenie: "Radio", napiecieZasilania: "12 V DC", zalecaneRozwiazanie: "Gniazdo DC 12V" },
+]
+
+export const ZALETA_GNIAZD_DC =
+  "Unikasz podwójnej konwersji (DC → AC → DC), która generuje straty rzędu 15–25%."
+
+// ---------------------------------------------------------------------------------------------
 // Etap E — kosztorysy (E.1 założenia cenowe, wszystkie edytowalne przez użytkownika)
 // ---------------------------------------------------------------------------------------------
 

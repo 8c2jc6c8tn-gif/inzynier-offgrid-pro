@@ -12,6 +12,10 @@ import {
   CENY_DOMYSLNE,
   CENA_OGNIWA_DOMYSLNA_ZL,
   FALOWNIKI_VEVOR,
+  POROWNANIE_OSWIETLENIA_LED,
+  ZALECENIE_OSWIETLENIA_LED,
+  KATALOG_URZADZEN_DC,
+  ZALETA_GNIAZD_DC,
   type Zastosowanie,
   type Priorytet,
   type FalownikVevorId,
@@ -447,6 +451,64 @@ export default function NapiecieSystemowePage() {
               )}
             </div>
           )}
+        </div>
+      </details>
+
+      {/* Etap D — rekomendacja oświetlenia i odbiorników DC (czysto informacyjne) */}
+      <details className={SEKCJA_KLASY}>
+        <summary className={`cursor-pointer ${SEKCJA_TYTUL_KLASY}`}>Etap D — rekomendacja oświetlenia i odbiorników DC</summary>
+        <div className="mt-4 flex flex-col gap-5 text-small">
+          <div>
+            <p className="mb-2 font-medium">D.1 — Oświetlenie LED: 24V vs 230V vs 48V</p>
+            <div className="overflow-x-auto">
+              <table className="w-full text-small">
+                <thead>
+                  <tr className="text-left text-caption text-muted-foreground">
+                    <th></th>
+                    <th>LED 230V</th>
+                    <th>LED 24V</th>
+                    <th>LED 48V</th>
+                  </tr>
+                </thead>
+                <tbody className="[&_td]:py-1 [&_td]:pr-3">
+                  {POROWNANIE_OSWIETLENIA_LED.map((w) => (
+                    <tr key={w.cecha}>
+                      <td className="text-muted-foreground">{w.cecha}</td>
+                      <td>{w.v230}</td>
+                      <td>{w.v24}</td>
+                      <td>{w.v48}</td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+            <p className="mt-3 rounded-md border p-3">{ZALECENIE_OSWIETLENIA_LED}</p>
+          </div>
+
+          <div>
+            <p className="mb-2 font-medium">D.2 — Dedykowane gniazda DC dla elektroniki</p>
+            <div className="overflow-x-auto">
+              <table className="w-full text-small">
+                <thead>
+                  <tr className="text-left text-caption text-muted-foreground">
+                    <th>Urządzenie</th>
+                    <th>Napięcie zasilania</th>
+                    <th>Zalecane rozwiązanie</th>
+                  </tr>
+                </thead>
+                <tbody className="[&_td]:py-1 [&_td]:pr-3">
+                  {KATALOG_URZADZEN_DC.map((u) => (
+                    <tr key={u.urzadzenie}>
+                      <td>{u.urzadzenie}</td>
+                      <td>{u.napiecieZasilania}</td>
+                      <td>{u.zalecaneRozwiazanie}</td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+            <p className="mt-3 text-caption text-muted-foreground">{ZALETA_GNIAZD_DC}</p>
+          </div>
         </div>
       </details>
 

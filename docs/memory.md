@@ -3213,3 +3213,30 @@ wprost, bez etykiety "bezpieczne/niebezpieczne".
 przeglądarce (Playwright), w tym sprawdzenie duplikatów DOM `id` (formularz M4/E25 ma dynamiczną
 listę gałęzi z jawnymi unikalnymi `id` per gałąź — nauczka z Ekranu 26 zastosowana od razu przy
 projektowaniu, nie znaleziona post factum).
+
+## Dobudowa Etapu D w module "Dobór napięcia" (14.09.2026)
+
+Na wyraźną prośbę autora dobudowany pominięty wcześniej Etap D (patrz sekcja "Budowa modułu
+'Dobór napięcia' — zakończona" wyżej, akapit "Odstępstwo od planu"). Przeczytany pełny materiał
+źródłowy (`docs/zrodla/Material_Nowy_Modul_Dobor_Napiecia_Systemu_OffGrid_v3_0.md`, linie 231-277):
+D.1 (porównanie LED 230V/24V/48V + zalecenie) i D.2 (dedykowane gniazda DC dla elektroniki:
+router/TV/laptop/telefon/radio).
+
+**Ustalone przed implementacją:** numeryczny rdzeń D.1 (koszt przetwornic DC-DC 48V→24V dla linii
+oświetlenia) już liczy się w Etapie E (`kosztorys.ts`, pola `liczbaLiniiOswietlenia24vPrzySystemie48v`/
+`cenaPrzetwornicyDcDcZl`, zbudowane wcześniej) — więc Etap D nie potrzebuje nowej logiki
+obliczeniowej ani nowego kalkulatora, tylko czysto informacyjnej treści (ten sam wzorzec co już
+zbudowany Etap F: statyczne tabele + tekst, bez `calculator.ts`).
+
+Dodane: `POROWNANIE_OSWIETLENIA_LED`, `ZALECENIE_OSWIETLENIA_LED`, `KATALOG_URZADZEN_DC`,
+`ZALETA_GNIAZD_DC` w `constants.ts` (dane 1:1 ze źródła) + nowa sekcja `<details>` "Etap D" w
+`app/kalkulatory/napiecie-systemowe/page.tsx`, umieszczona między Etapem C a Etapem E (kolejność
+źródła). Brak zmian w `calculator.ts`/`input.ts`/testach — CALCULATOR_VERSION pozostaje 2.0.0
+(treść informacyjna, nie logika).
+
+Zweryfikowane: `tsc --noEmit` czyste, `vitest run` 658/658 (bez zmian — brak nowej logiki do
+testowania), `pnpm lint` czyste (te same 2 niepowiązane ostrzeżenia `<img>`), `pnpm build` bez
+błędów, smoke test Playwright (sekcja Etap D otwarta i odczytana — pełna treść D.1/D.2 renderuje
+się poprawnie, brak duplikatów DOM `id`, brak błędów konsoli). `docs/rejestr-pokrycia.md`
+(M4/Ekran2) zaktualizowany — usunięta wzmianka o świadomym pominięciu Etapu D, zastąpiona opisem
+dobudowy.
