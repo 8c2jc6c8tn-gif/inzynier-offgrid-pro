@@ -91,3 +91,82 @@ GDZIE trzymać wynik, żeby nie przetwarzać tego samego dokumentu dwa razy w dw
 rodziny. Dotyczy każdej aplikacji inżynierskiej tej rodziny, nie tylko Offgrid.
 
 Status: 🔎 nowe
+
+---
+
+[14.09.2026] KATEGORIA: POMYSŁ NA REGUŁĘ — rozdział 09 (AI w produkcie) ma zasady, ale brak
+konkretnego kontraktu narzędzia, wzorca UX i budżetu/kosztu
+
+Szczegóły: `docs/standards/09-ai-w-produkcie.md` opisuje dobre, spójne zasady etyczne/architektoniczne
+(co AI może/nie może, tryby OFFLINE/HYBRID/CLOUD_ASSISTED, obrona przed prompt injection), ale w
+przeciwieństwie do rozdziału 03 (konkretny typ `CalcResult`) nie daje żadnego konkretnego kształtu
+narzędzia (function calling), żadnego wzorca UX dla obecności AI w interfejsie (rozdział 08 ma pełną
+taksonomię Wzorców A-H dla ekranów, zero dla AI), i nie porusza budżetu/kosztu wywołań modelu mimo
+istniejącej warstwy freemium (rozdział 12). Każdy projekt rodziny, który zacznie faktycznie budować
+funkcję AI, wymyśli te trzy rzeczy od nowa, niespójnie z resztą rodziny.
+
+Pełna propozycja (konkretny typ `AiToolDefinition`, dwa wzorce UX — asystent inline vs czat, reguła
+budżetu z łagodną degradacją, pole `zaproponowaneBy: "ai"` w procesie wersjonowania):
+`docs/propozycje-do-new-app-standards/ai-w-produkcie-rozbudowa.md` w tym repo — gotowy do
+konsolidacji, nie zależy od żadnego innego repo rodziny.
+
+Dlaczego warto zgłosić do new-app-standards: AI-w-produkcie to nie specyfika Offgrid — każda apka
+rodziny prędzej czy później dostanie funkcję asystenta, a bez wspólnego kontraktu narzędzia i
+wzorca UX każdy projekt zbuduje niekompatybilną, jednorazową implementację, tak jak dziś dzieje się
+z i18n i logowaniem (patrz dwa zgłoszenia niżej).
+
+Status: 🔎 nowe
+
+---
+
+[14.09.2026] KATEGORIA: POMYSŁ NA REGUŁĘ — brak w standardzie/GOD BOOK jakiegokolwiek rozdziału o
+logowaniu i kontach użytkownika
+
+Szczegóły: Sprawdzone wprost (nie zgadywane) — zero trafień na "logowanie"/"konto użytkownika"/
+"uwierzytelnianie"/"autoryzacja" w całym pakiecie `docs/standards/00`-`16` i w GOD BOOK. To nie jest
+luka tylko tego projektu (ten też nie ma żadnego kodu auth) — to luka na poziomie samego pakietu.
+Właściciel projektu wskazał apkę `zero-waste` (siostrzany projekt rodziny) jako wzorzec, na którym
+mają bazować rekomendacje — ta sesja nie miała dostępu do tamtego repo, więc zgłoszenie jest
+świadomie niedokończone (szkielet + pytania, nie gotowa specyfikacja).
+
+Co już ustalone bez zero-waste (echo istniejących zasad: offline-first musi przetrwać brak konta,
+prywatność lokalna-domyślna = logowanie jako moment zgody na chmurę, freemium egzekwowane
+server-side, `StorageAdapter` jako miejsce na dane sesji) oraz pełna lista pytań czekających na
+odpowiedź z realnego kodu zero-waste (dostawca auth, model konta, co dokładnie wymaga logowania,
+spięcie offline↔online, role, zakres bezpieczeństwa):
+`docs/propozycje-do-new-app-standards/logowanie-i-konta.md` w tym repo — **celowo niedokończony**,
+czeka na dołączenie repo `zero-waste` do przyszłej sesji.
+
+Dlaczego warto zgłosić do new-app-standards: logowanie to jeden z tych tematów, które "zawsze są
+zakładane, nigdy nie są nigdzie zapisane" — dokładnie to odkryła ta sesja, sprawdzając wprost zamiast
+zakładać. Dotyczy każdej apki rodziny, która kiedykolwiek doda konta użytkownika.
+
+Status: 🔎 nowe
+
+---
+
+[14.09.2026] KATEGORIA: POMYSŁ NA REGUŁĘ — wielojęzyczność wspomniana jednym zdaniem (rozdział 01),
+brak strategii
+
+Szczegóły: Jedyna wzmianka o i18n w całym standardzie to jedno zdanie w `01-architektura.md` — i18n
+ma żyć w warstwie domenowej jako czysta funkcja, nie w UI. To reguła GDZIE, nie strategia JAK (które
+języki, format tłumaczeń, przełącznik, fallback). Zero implementacji w tym projekcie. Tak jak przy
+logowaniu — właściciel projektu wskazał `zero-waste` jako wzorzec, ta sesja nie miała dostępu, więc
+zgłoszenie jest świadomie niedokończone.
+
+Najważniejsze znalezisko możliwe bez zero-waste: realna kolizja z regułą z rozdziału 01 — pola
+`CalcResult.formula`/`assumptions`/`Warning.message` (rozdział 03) są dziś tekstem w jednym języku
+wpisanym wprost w logice domenowej, co narusza "i18n jako czysta funkcja w warstwie domenowej" —
+brak decyzji, czy jądro obliczeniowe ma zwracać klucze tłumaczeń czy gotowy tekst w wybranym języku,
+to fundamentalna zmiana dotycząca KAŻDEGO istniejącego kalkulatora w KAŻDYM projekcie rodziny, nie
+kosmetyka. Pełna analiza + lista pytań czekających na odpowiedź z zero-waste (zakres języków,
+biblioteka, wykrywanie języka, fallback, oraz osobne ryzyko: tłumaczenie treści normatywnych/
+bezpieczeństwa-krytycznych, specyficzne dla projektów inżynierskich typu Offgrid):
+`docs/propozycje-do-new-app-standards/wielojezycznosc.md` w tym repo — **celowo niedokończony**,
+czeka na dołączenie repo `zero-waste`.
+
+Dlaczego warto zgłosić do new-app-standards: kolizja z rozdziałem 01 (punkt B.3 w pliku) to nie
+drobiazg — to pytanie architektoniczne o kształt `CalcResult`/`Warning`, współdzielony przez każdy
+kalkulator w każdej apce rodziny; im później rozstrzygnięte, tym droższa migracja wstecz.
+
+Status: 🔎 nowe
