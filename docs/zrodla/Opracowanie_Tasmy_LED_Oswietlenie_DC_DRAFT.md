@@ -46,8 +46,18 @@ Voltage LED Strip) — odpowiedź na pytanie autora, czy istnieją taśmy z "wlu
 wbudowany segmentowo w samą elastyczną taśmę, bez centralnego zasilacza. Kluczowa, jawnie
 wyróżniona różnica: to jedyna taśma w całym dokumencie, która NIE jest SELV — napięcie sieciowe
 jest fizycznie obecne w samej taśmie, nie tylko w obudowie zasilacza. Tabela 1.1 i Sekcja 14.5
-(ściemniacze) zaktualizowane z odnośnikiem. Dokument wciąż czeka na akceptację całości — przed nią
-nic w kodzie/Biblii się nie zmienia.
+(ściemniacze) zaktualizowane z odnośnikiem.
+
+**[14.09.2026, runda 8]** Trzy rozstrzygnięcia naraz. (1) **Zapas mocy zasilacza** (9.2) —
+zamknięte na konkretnej wartości: reguła 80% obciążenia = min. 25% zapasu standardowo, 30-40% w
+warunkach cieplnie obciążających, nigdy poniżej 20% — to szeroko udokumentowana praktyka
+branżowa, nie zgadywana liczba. (2) **Marki** doprecyzowane: zasilacz — jeden konkretny brand,
+czeka na dane; taśmy LED — świadomie bez jednego brandu (rynek zbyt rozdrobniony), dokument
+zostaje przy ogólnym opisie oznaczeń pozwalającym ocenić dowolną taśmę. (3) **Nazwa kafla
+skorygowana z "Oświetlenie LED" na "Oświetlenie"** — LED to jedna gałąź (obecnie największa), nie
+cała zawartość; dojdą inne technologie ~20-40V oraz żarówki/klasyczne technologie jako rodzeństwo
+w tym samym kaflu (Sekcja 15, kształt kafla zaktualizowany). Dokument wciąż czeka na akceptację
+całości — przed nią nic w kodzie/Biblii się nie zmienia.
 
 **Konwencja tagowania (zgodna z `docs/standards/15-wspolpraca-z-ai.md` / GOD BOOK):**
 - `[FAKT]` — twarde prawo fizyki/elektrotechniki, niezależne od producenta (Ohm, moc, temperatura barwowa jako wielkość fizyczna).
@@ -737,14 +747,26 @@ samego obwodu.
 
 ### 9.2 Zapas mocy — ile i dlaczego
 
-`[TYPOWA WARTOŚĆ / dobra praktyka branżowa, DO WERYFIKACJI dokładnej wartości źródłem
-producenckim]` Powszechnie stosowaną praktyką jest dobór zasilacza z zapasem rzędu **20-30%** ponad
-obliczoną moc taśmy, z dwóch niezależnych powodów:
+**[14.09.2026] ROZSTRZYGNIĘTE — konkretna wartość, nie tylko zakres orientacyjny.** `[TYPOWA
+WARTOŚĆ / standard branżowy, szeroko udokumentowany w instrukcjach producentów zasilaczy LED, nie
+zgadywany]` Reguła stosowana powszechnie w branży (tzw. "zasada 80%"): **zasilacz nie powinien
+pracować ciągle powyżej 80% swojej mocy znamionowej**, co odpowiada **minimum 25% zapasu** ponad
+obliczoną moc taśmy (moc_zasilacza ≥ moc_taśmy / 0,8). To jest wartość domyślna/bazowa do przyjęcia
+w kalkulatorze (Krok 3), nie tylko luźny przedział:
 
+- **25% — standardowy, domyślny zapas** dla montażu w typowych warunkach (wnętrze, swobodny
+  przepływ powietrza wokół zasilacza).
+- **30-40% — podwyższony zapas** dla warunków obciążających cieplnie: zasilacz w zamkniętej
+  obudowie/wnęce bez wentylacji, na zewnątrz w pełnym słońcu latem, na poddaszu, albo gdy
+  planowana jest przyszła rozbudowa instalacji o kolejne odcinki taśmy na tym samym zasilaczu.
+- **Twardy dolny limit: nigdy poniżej 20%** (czyli 80% obciążenia) przy pracy ciągłej — to punkt,
+  od którego zaczyna się przyspieszona degradacja elementów zasilacza opisana niżej.
+
+**Dlaczego, dwa niezależne powody:**
 1. **Trwałość samego zasilacza.** Zasilacze impulsowe (elektrolity, elementy mocy) starzeją się
    szybciej, pracując blisko swojej maksymalnej mocy znamionowej w sposób ciągły — zasilacz
-   dobrany "na styk" grzeje się bardziej i degraduje szybciej niż ten sam model pracujący na
-   ok. 70-80% swojej mocy maksymalnej.
+   dobrany "na styk" grzeje się bardziej i degraduje szybciej niż ten sam model pracujący w
+   granicach reguły 80%.
 2. **Niepewność rzeczywistego poboru taśmy.** Patrz Sekcja 9.3 niżej — deklarowana moc na etykiecie
    taśmy nie zawsze odpowiada rzeczywistości, więc zapas chroni przed niedoszacowaniem.
 
@@ -917,7 +939,7 @@ Docelowa treść na koniec modułu (po akceptacji), w duchu "żeby nie miał pro
    wstrzykiwania, ZANIM się kupi jeden długi odcinek i będzie zaskoczenie przygasaniem na końcu.
 7. Czy warto dopłacić za wyższą jakość chipów/CRI/driver? → tak, jeśli oświetlenie ma być
    długoterminowe i funkcjonalne (Sekcja 3) — nie, jeśli to krótkoterminowa dekoracja.
-8. Jaki zasilacz? → moc taśmy + zapas 20-30% (Sekcja 9.2), renomowana marka (Sekcja 9.4), nie ufać
+8. Jaki zasilacz? → moc taśmy + zapas min. 25% (reguła 80%, Sekcja 9.2), renomowana marka (Sekcja 9.4), nie ufać
    ślepo mocy z etykiety taśmy (Sekcja 9.3).
 9. Jak łączyć odcinki? → złącza dedykowane jako domyślny wybór, lutowanie tylko gdy świadomie
    potrzebny pewniejszy kontakt przy dużych prądach (Sekcja 10).
@@ -1086,7 +1108,7 @@ opisuje, byłoby nowym wzorcem, nie kontynuacją istniejącego.
 Ten dokument sam w sobie już ma 13+ sekcji, porównywalnie z najbardziej rozbudowanymi istniejącymi
 modułami aplikacji, i rośnie z każdą turą (Sekcja 14 dopiero co dodana jako zarys, a zapowiedziany
 jest jeszcze cały rozdział Hand-Made). Upchnięcie tego jako 15-20 pozycji w jednej płaskiej liście
-ekranów pod jednym kaflem byłoby dokładnie tym, przed czym Pan ostrzega — "przeciągnięty kalkulator
+ekranów pod jednym kaflem byłoby dokładnie tym, przed czym autor ostrzega — "przeciągnięty kalkulator
 gdzie wszystko zmieszane", tylko na poziomie nawigacji zamiast pojedynczego ekranu.
 
 ### 15.3 KOREKTA (14.09.2026, po uwadze autora) — rozdzielić "artykuł" od "kreatora"
@@ -1177,14 +1199,27 @@ mógłby istnieć.
    przez ekrany pochodne/artykuły, zna temat i chce szybkości "wszystko w jednym miejscu" — nie
    jako domyślny, jedyny punkt wejścia.
 
-**Proponowany kształt kafla 14 "Oświetlenie LED" (poprawiony, runda 5):**
+**[14.09.2026] KOREKTA NAZWY KAFLA (runda 8) — "Oświetlenie", nie "Oświetlenie LED".** Autor
+potwierdził (patrz Otwarte pytania), że LED to tylko jedna, choć obecnie największa, gałąź
+szerszego tematu — dojdą inne technologie oświetleniowe o zbliżonym niskim napięciu zasilania
+(rząd ~20-40V), a także zwykłe żarówki i inne technologie. Nazwanie kafla najwyższego poziomu
+"Oświetlenie LED" byłoby więc błędem — trzeba zostawić miejsce na rodzeństwo LED, nie zakładać z
+góry, że LED to jedyna zawartość tego kafla.
+
+**Proponowany kształt kafla 14 "Oświetlenie" (poprawiony, runda 8):**
 ```
-Kafel: Oświetlenie LED
-  ├─ [Artykuły — Wzorzec C, 10 niezależnych ekranów, patrz 15.3 pkt 1]
-  ├─ [Ekrany pochodne — po jednym na typową sytuację, decyzja per moduł, patrz przykłady wyżej]
-  ├─ Kreator Pro (Wzorzec D, pełny, multi-ścieżkowy — dla zaawansowanych)
-  └─ Hand-Made / DIY (hub — trzeci poziom: Dom / Agro / Latarki)
+Kafel: Oświetlenie
+  ├─ LED (ten dokument — struktura z rund 4-5, bez zmian)
+  │    ├─ [Artykuły — Wzorzec C, niezależne ekrany, patrz 15.3 pkt 1]
+  │    ├─ [Ekrany pochodne — po jednym na typową sytuację, decyzja per moduł]
+  │    ├─ Kreator Pro (Wzorzec D, pełny, multi-ścieżkowy — dla zaawansowanych)
+  │    └─ Hand-Made / DIY (hub — trzeci poziom: Dom / Agro / Latarki)
+  ├─ Inne technologie ~20-40V (przyszłość — poza zakresem tego opracowania, osobny materiał)
+  └─ Żarówki i inne technologie klasyczne (przyszłość — poza zakresem tego opracowania)
 ```
+LED zostaje więc **drugim** poziomem nawigacji (gałęzią wewnątrz kafla "Oświetlenie"), nie samym
+kaflem najwyższego poziomu — cała struktura wypracowana w rundach 4-5 (artykuły/ekrany pochodne/
+Kreator Pro/Hand-Made) zostaje bez zmian, tylko przesunięta o jeden poziom w dół.
 
 **Nota do standardu (Krok po akceptacji):** warto nazwać ten wzorzec wprost w
 `docs/standards/08-ui-ux.md` obok Trybu Prosty/Inżyniera — np. "Ekran pochodny" (derived screen):
@@ -1203,36 +1238,37 @@ jako **pierwszy, celowy precedens** trzeciego poziomu, opisać go jawnie jako wz
 `docs/standards/08-ui-ux.md` (obok istniejącej taksonomii Wzorców A-H) — żeby kolejne moduły, które
 faktycznie się rozgałęziają (jeśli takie się pojawią), miały gotowy, nazwany wzorzec do
 zastosowania, zamiast wymyślać go za każdym razem od nowa. To decyzja dotycząca struktury całej
-Biblii/standardu, więc zostawiam ją Panu do potwierdzenia, zamiast rozstrzygać samodzielnie.
+Biblii/standardu, więc zostaje do potwierdzenia przez autora, zamiast rozstrzygać samodzielnie.
 
 ---
 
-## Otwarte pytania / miejsca do uzupełnienia przez autora
+## Otwarte pytania / miejsca do uzupełnienia
 
-- Konkretne wartości `R_taśmy_na_metr` dla realnych, popularnych produktów (Sekcja 8.2) — obecnie
-  orientacyjny zakres, do potwierdzenia kartą katalogową, zanim trafi do Biblii jako twarda dana.
-- Dokładna wartość zapasu mocy zasilacza (9.2, obecnie orientacyjne 20-30%) — do potwierdzenia
-  źródłem branżowym/kartą katalogową renomowanego producenta, zanim trafi do Biblii jako twarda
-  rekomendacja liczbowa.
-- **[14.09.2026] ROZSTRZYGNIĘTE (odłożone, nie otwarte):** marki/modele taśm i zasilaczy dopisane
-  później — autor ma konkretną firmę, której dane mają posłużyć do obliczeń i rekomendacji w tym
-  module (nie neutralny opis ogólny, tylko realne dane konkretnego dostawcy). Do tego czasu
-  dokument zostaje przy opisie ogólnym/orientacyjnym. Gdy dane tej firmy się pojawią, warto przy
-  okazji zweryfikować nimi też `R_taśmy_na_metr` (8.2) i zapas mocy zasilacza (9.2) — obie wartości
-  wciąż orientacyjne, patrz punkty wyżej.
-- **Decyzja architektoniczna do podjęcia przez autora:** biorąc pod uwagę zapowiedziany przyszły
-  rozdział "Taśmy LED Hand Made" (lutowanie własnych taśm na poziomie pojedynczych chipów, dla
-  zastosowań domowych i agro) oraz już bardzo szeroki zakres samego tego opracowania — czy
-  oświetlenie LED powinno zostać wydzielone jako osobna, głęboko rozwijana **podkategoria** w
-  strukturze Biblii/aplikacji (analogicznie do istniejących modułów), zamiast zostać pojedynczym
-  ekranem/kalkulatorem wewnątrz istniejącego modułu? `[OCENA INŻYNIERSKA — rekomendacja, nie
-  decyzja]` Biorąc pod uwagę objętość już zebranego materiału (13 sekcji, porównywalna z
-  najbardziej rozbudowanymi istniejącymi modułami aplikacji) i zapowiedź kolejnego, równie
-  obszernego rozdziału — wydzielenie osobnej podkategorii wydaje się zasadne, ale to decyzja
-  strukturalna dotycząca całej Biblii, nie coś, co powinno zostać rozstrzygnięte jednostronnie.
+- **[ZAMKNIĘTE, runda 8]** Zapas mocy zasilacza — rozstrzygnięte w 9.2: reguła 80% (min. 25%
+  zapasu standardowo, 30-40% w warunkach cieplnie obciążających, nigdy poniżej 20%). To
+  standardowa, szeroko udokumentowana praktyka branżowa (nie zgadywana), gotowa do wpisania jako
+  wartość domyślna w przyszłym kalkulatorze.
+- **[DOPRECYZOWANE, runda 8]** Marki/modele — **rozdzielone na dwie różne sprawy:**
+  - **Zasilacze:** jeden konkretny, wskazany brand z pełną charakterystyką (napięcie/moc/
+    zabezpieczenia) — czeka na dane od ciebie, wtedy Sekcja 9.4 dostanie realne liczby zamiast
+    ogólnego opisu "renomowana marka".
+  - **Taśmy LED:** świadomie **bez** jednego brandu — rynek zbyt rozdrobniony, żeby wskazać jeden
+    sensownie. Dokument zostaje przy ogólnym opisie oznaczeń/parametrów (Sekcja 2), które
+    pozwalają ocenić DOWOLNĄ taśmę z dowolnego sklepu, zamiast promować jednego dostawcę.
+  - Gdy dane zasilacza się pojawią, warto przy okazji zweryfikować nimi `R_taśmy_na_metr` (8.2) —
+    wciąż jedyna realnie otwarta wartość liczbowa w całym dokumencie.
+- **[POTWIERDZONE, runda 8]** Struktura: LED to jedna gałąź szerszego kafla "Oświetlenie", nie
+  samodzielny kafel najwyższego poziomu — patrz korekta w Sekcji 15.3a/15 (kształt kafla). Dojdą
+  inne technologie oświetleniowe ~20-40V oraz klasyczne żarówki/inne technologie jako rodzeństwo
+  LED w tym samym kaflu.
+- **Nowe, poza zakresem tego opracowania:** "Inne technologie oświetleniowe ~20-40V" (rozdział
+  równoległy do LED, w tym samym kaflu "Oświetlenie") — zgłoszone, treść jeszcze nieprzekazana, do
+  osobnego opracowania po zamknięciu tego dokumentu.
 - **Rozdział "Taśmy LED Hand Made"** (lutowanie na poziomie pojedynczych chipów, dobór konkretnych
   czipów, zastosowania domowe i agro) — zgłoszony jako przyszły, osobny temat, świadomie poza
   zakresem tego opracowania (które dotyczy gotowych taśm fabrycznych, nie budowy własnych od
   podstaw). Do podjęcia jako osobne zadanie po zamknięciu tego dokumentu.
-- Miejsce na wszystkie dodatkowe punkty, które autor chciał wnieść, a nie zostały jeszcze
+- **Rozdział "Żarówki i inne technologie klasyczne"** (w tym samym kaflu "Oświetlenie") —
+  zgłoszony, treść jeszcze nieprzekazana, do osobnego opracowania.
+- Miejsce na wszystkie dodatkowe punkty, które warto jeszcze wnieść, a nie zostały jeszcze
   przekazane w rozmowie.
