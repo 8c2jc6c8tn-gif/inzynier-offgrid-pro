@@ -12,6 +12,13 @@ zawyżaniu mocy przez producentów, pełna tabela IP jako przyszły zasób wspó
 pełny katalog typów rynkowych z AliExpress, złącza dedykowane vs lutowanie, doradca weryfikacji
 taśmy po zakupie). Wciąż szkic — czeka na dalsze uzupełnienia i akceptację.
 
+**[14.09.2026, runda 3]** Uzupełniona luka: Sekcja 6.5 opisywała tylko protokoły sterowania (SPI
+vs PWM), nie realne sposoby sterowania oświetleniem (piloty, aplikacje, smart home, profesjonalne
+protokoły). Dodana jako Sekcja 14 — **stub/zarys, świadomie niepełny**, do głębszego rozwinięcia w
+kolejnej turze (na wyraźną prośbę autora: "potem będziemy to głębiej rozwijać"). Dodana też
+propozycja struktury nawigacyjnej (hierarchia kafli/ekranów) w Sekcji 15, w odpowiedzi na pytanie
+architektoniczne autora — czeka na akceptację, przed nią nic w kodzie/Biblii się nie zmienia.
+
 **Konwencja tagowania (zgodna z `docs/standards/15-wspolpraca-z-ai.md` / GOD BOOK):**
 - `[FAKT]` — twarde prawo fizyki/elektrotechniki, niezależne od producenta (Ohm, moc, temperatura barwowa jako wielkość fizyczna).
 - `[TYPOWA WARTOŚĆ]` — wartość powszechnie spotykana w ofertach rynkowych, ale zależna od konkretnego producenta/modelu — nie traktować jako uniwersalnej stałej.
@@ -837,6 +844,112 @@ Docelowa treść na koniec modułu (po akceptacji), w duchu "żeby nie miał pro
    potrzebny pewniejszy kontakt przy dużych prądach (Sekcja 10).
 10. Po dostawie — jak sprawdzić, zanim się zamontuje na stałe? → pełna procedura w Sekcji 11, nie
     test "na rolce przez parę sekund".
+
+---
+
+## 14. Sterowanie oświetleniem — rodzaje kontrolerów i sposoby (ZARYS — do głębszego rozwinięcia)
+
+**Ten rozdział jest świadomie niepełny** — zarys tematów do rozwinięcia w kolejnej turze, żeby nie
+zgubić zakresu, zanim zostanie napisany dogłębnie. Różni się od Sekcji 6.5 (która opisuje
+elektroniczny PROTOKÓŁ sterowania — SPI/cyfrowy vs PWM/analogowy, czyli JAK sygnał dociera do
+diody) — ten rozdział ma opisać, CZYM i W JAKI SPOSÓB człowiek faktycznie steruje światłem.
+
+Tematy do rozwinięcia:
+1. **Piloty RF/IR** — zasięg, blokowanie przez przeszkody (IR wymaga linii wzroku, RF nie),
+   typowa liczba scen/efektów, ograniczenia (jeden pilot = zwykle jedna strefa, brak pamięci stanu
+   po zaniku zasilania w tańszych modelach).
+2. **Sterowanie przez aplikację (WiFi/Bluetooth)** — zależność od chmury producenta (co się dzieje,
+   gdy producent zamknie serwer/aplikację — realne ryzyko dla sprzętu kupowanego na AliExpress),
+   Bluetooth jako lokalna alternatywa bez chmury ale z ograniczonym zasięgiem.
+3. **Integracje smart home** — Zigbee/Tuya/Matter/Home Assistant — automatyzacje (wyzwalanie wg
+   czasu/czujnika/scenariusza), kompatybilność (nie każdy tani kontroler RGB obsługuje te
+   protokoły, mimo że w ofercie bywa to sugerowane).
+4. **Profesjonalne magistrale (DALI/KNX)** — gdy oświetlenie ma być częścią większej instalacji
+   automatyki budynkowej, nie tylko pojedynczych taśm.
+5. **Ściemniacze (dimmery)** — zgodność z typem taśmy (PWM-dimmable vs analogowe 0-10V vs
+   inne), częsty błąd zakupowy: ściemniacz niekompatybilny z konkretnym sterownikiem/zasilaczem
+   powoduje migotanie.
+6. **Czujniki ruchu/zmierzchu i harmonogramy (timery)** — automatyczne załączanie bez ingerencji
+   człowieka — istotne w kontekście off-gridowym (oszczędność energii z ograniczonego magazynu).
+7. **Ograniczenia off-gridowe specyficzne dla tego projektu** — sterowniki WiFi/chmurowe zużywają
+   energię stale (tryb czuwania) nawet gdy światło jest zgaszone — w systemie z ograniczonym
+   budżetem energetycznym (magazyn baterii) to realny, choć mały, stały pobór do uwzględnienia
+   (możliwe echo do Etapu B modułu "Dobór napięcia" — kategoria odbiorników bazowych/ciągłych).
+
+**Nota do UI (Krok 3):** ten temat najprawdopodobniej zasługuje na osobny ekran/kafelek w strukturze
+opisanej w Sekcji 15, nie na dopisanie do ekranu "dobór taśmy" — dokładnie z powodu, który Pan
+wskazał: różne tematy, różne decyzje zakupowe, nie jeden przeciągnięty kalkulator.
+
+---
+
+## 15. Propozycja struktury nawigacyjnej — PROPOZYCJA, czeka na akceptację
+
+Odpowiedź na pytanie architektoniczne: czy to osobny rozdział, pod-rozdział, i czy wzorzec
+kafelek→kafelki powinien objąć całą aplikację.
+
+### 15.1 Jak apka jest zbudowana dzisiaj (sprawdzone w kodzie, nie zgadywane)
+
+Obecnie **dwa poziomy**, jednolicie w całej aplikacji (`lib/pulpit/registry.ts`):
+```
+Pulpit (13 kafli, np. "Instalacja PV", "Baterie")
+  → wejście w kafel → płaska lista ekranów/kalkulatorów tego modułu (`/moduly/[id]`)
+    → wejście w ekran → konkretny kalkulator/doradca (Wzorzec A-H)
+```
+Żaden istniejący moduł nie ma dziś TRZECIEGO poziomu (kafelki wewnątrz kafelka) — to, co Pan
+opisuje, byłoby nowym wzorcem, nie kontynuacją istniejącego.
+
+### 15.2 Dlaczego zwykła płaska lista by tu nie wystarczyła
+
+Ten dokument sam w sobie już ma 13+ sekcji, porównywalnie z najbardziej rozbudowanymi istniejącymi
+modułami aplikacji, i rośnie z każdą turą (Sekcja 14 dopiero co dodana jako zarys, a zapowiedziany
+jest jeszcze cały rozdział Hand-Made). Upchnięcie tego jako 15-20 pozycji w jednej płaskiej liście
+ekranów pod jednym kaflem byłoby dokładnie tym, przed czym Pan ostrzega — "przeciągnięty kalkulator
+gdzie wszystko zmieszane", tylko na poziomie nawigacji zamiast pojedynczego ekranu.
+
+### 15.3 Rekomendacja (do potwierdzenia lub korekty przez autora)
+
+**Rozróżnienie kluczowe:** nie każdy podział tematyczny to prawdziwe rozgałęzienie treści. Trzeba
+odróżnić:
+- **Kolejne kroki JEDNEJ decyzji zakupowej** (dobór taśmy → zasilacz → sterowanie → montaż →
+  weryfikacja) — to nie są niezależne gałęzie, tylko sekwencja. Dla nich **wystarcza istniejący
+  dwupoziomowy wzorzec**: osobny kafel "Oświetlenie LED" (bo temat jest już wystarczająco duży na
+  własny, 14. moduł, a nie podrzędny ekran w istniejącym module), z płaską listą ekranów w środku —
+  dokładnie tak jak działają już wszystkie 13 istniejących modułów.
+- **Prawdziwe rozgałęzienie treści, bo fizycznie różne dane wejściowe** (Pana przykład: Agro vs Dom
+  vs Latarki — różne czipy, różne wymagania IP, różne priorytety projektowe) — **to uzasadnia
+  trzeci poziom**, bo to nie "więcej informacji o tym samym", tylko naprawdę osobne ścieżki
+  decyzyjne z różnymi danymi źródłowymi. Tu propozycja: ekran "Hand-Made / DIY" wewnątrz kafla
+  "Oświetlenie LED" jako **hub** (wzorzec H — katalog), z trzema dalszymi podekranami: Dom / Agro /
+  Latarki i małe dedykowane projekty.
+
+**Proponowany kształt kafla 14 "Oświetlenie LED":**
+```
+Kafel: Oświetlenie LED
+  ├─ Dobór taśmy (ten dokument, Sekcje 1-7)
+  ├─ Zasilacze (Sekcja 9)
+  ├─ Sterowanie i kontrolery (Sekcja 14, po rozwinięciu)
+  ├─ Montaż i łączenie (Sekcja 10)
+  ├─ Algorytm spadku napięcia / rozstaw zasilania (Sekcja 8)
+  ├─ Jak sprawdzić taśmę po zakupie (Sekcja 11)
+  └─ Hand-Made / DIY (hub — TRZECI poziom, bo prawdziwe rozgałęzienie)
+       ├─ Oświetlenie domowe DIY
+       ├─ Oświetlenie agro (inne czipy/IP — hale, szklarnie, inwentarz)
+       └─ Latarki i małe dedykowane projekty
+```
+
+### 15.4 Czy to ma być ogólny wzorzec dla całej apki?
+
+`[OCENA INŻYNIERSKA — rekomendacja, nie decyzja]` **Nie jako sztywna, wszędzie stosowana zasada** —
+ale tak, jako **dostępna opcja wzorca, używana świadomie tam, gdzie treść się naprawdę rozgałęzia**.
+Powód: większość z 13 istniejących modułów działa dobrze na dwóch poziomach właśnie dlatego, że ich
+ekrany to kroki jednej ścieżki, nie niezależne rozgałęzienia — dodanie trzeciego poziomu wszędzie
+"na zapas" byłoby przekombinowaniem nawigacji tam, gdzie nie jest potrzebne (sprzeczne z zasadą
+"nie dodawaj warstw ponad to, czego wymaga zadanie"). Rekomendacja: potraktować oświetlenie LED
+jako **pierwszy, celowy precedens** trzeciego poziomu, opisać go jawnie jako wzorzec nawigacyjny w
+`docs/standards/08-ui-ux.md` (obok istniejącej taksonomii Wzorców A-H) — żeby kolejne moduły, które
+faktycznie się rozgałęziają (jeśli takie się pojawią), miały gotowy, nazwany wzorzec do
+zastosowania, zamiast wymyślać go za każdym razem od nowa. To decyzja dotycząca struktury całej
+Biblii/standardu, więc zostawiam ją Panu do potwierdzenia, zamiast rozstrzygać samodzielnie.
 
 ---
 
