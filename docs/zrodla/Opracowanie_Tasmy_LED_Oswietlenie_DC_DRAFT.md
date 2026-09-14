@@ -16,8 +16,15 @@ taśmy po zakupie). Wciąż szkic — czeka na dalsze uzupełnienia i akceptacj�
 vs PWM), nie realne sposoby sterowania oświetleniem (piloty, aplikacje, smart home, profesjonalne
 protokoły). Dodana jako Sekcja 14 — **stub/zarys, świadomie niepełny**, do głębszego rozwinięcia w
 kolejnej turze (na wyraźną prośbę autora: "potem będziemy to głębiej rozwijać"). Dodana też
-propozycja struktury nawigacyjnej (hierarchia kafli/ekranów) w Sekcji 15, w odpowiedzi na pytanie
-architektoniczne autora — czeka na akceptację, przed nią nic w kodzie/Biblii się nie zmienia.
+propozycja struktury nawigacyjnej (hierarchia kafli/ekranów) w Sekcji 15.
+
+**[14.09.2026, runda 4 — korekta]** Autor słusznie skorygował pierwszą wersję Sekcji 15: myliła
+ona "kroki ścieżki zakupowej" z "materiałem edukacyjnym", efektywnie proponując jeden
+ekran-wykład zamiast właściwego zastosowania już istniejącej w apce taksonomii Wzorców A-H.
+Sekcja 15.3 poprawiona: rozdzielono **artykuły referencyjne (Wzorzec C, 10 niezależnych ekranów,
+wejście po konkretną wiedzę bez wymuszonej kolejności)** od **osobnego, celowo chudego kreatora/
+doradcy (Wzorzec D, tylko pytania→werdykt, z linkami do artykułów zamiast ich treści wklejonej
+między krokami)**. Wciąż czeka na akceptację — przed nią nic w kodzie/Biblii się nie zmienia.
 
 **Konwencja tagowania (zgodna z `docs/standards/15-wspolpraca-z-ai.md` / GOD BOOK):**
 - `[FAKT]` — twarde prawo fizyki/elektrotechniki, niezależne od producenta (Ohm, moc, temperatura barwowa jako wielkość fizyczna).
@@ -906,35 +913,63 @@ jest jeszcze cały rozdział Hand-Made). Upchnięcie tego jako 15-20 pozycji w j
 ekranów pod jednym kaflem byłoby dokładnie tym, przed czym Pan ostrzega — "przeciągnięty kalkulator
 gdzie wszystko zmieszane", tylko na poziomie nawigacji zamiast pojedynczego ekranu.
 
-### 15.3 Rekomendacja (do potwierdzenia lub korekty przez autora)
+### 15.3 KOREKTA (14.09.2026, po uwadze autora) — rozdzielić "artykuł" od "kreatora"
 
-**Rozróżnienie kluczowe:** nie każdy podział tematyczny to prawdziwe rozgałęzienie treści. Trzeba
-odróżnić:
-- **Kolejne kroki JEDNEJ decyzji zakupowej** (dobór taśmy → zasilacz → sterowanie → montaż →
-  weryfikacja) — to nie są niezależne gałęzie, tylko sekwencja. Dla nich **wystarcza istniejący
-  dwupoziomowy wzorzec**: osobny kafel "Oświetlenie LED" (bo temat jest już wystarczająco duży na
-  własny, 14. moduł, a nie podrzędny ekran w istniejącym module), z płaską listą ekranów w środku —
-  dokładnie tak jak działają już wszystkie 13 istniejących modułów.
-- **Prawdziwe rozgałęzienie treści, bo fizycznie różne dane wejściowe** (Pana przykład: Agro vs Dom
-  vs Latarki — różne czipy, różne wymagania IP, różne priorytety projektowe) — **to uzasadnia
-  trzeci poziom**, bo to nie "więcej informacji o tym samym", tylko naprawdę osobne ścieżki
-  decyzyjne z różnymi danymi źródłowymi. Tu propozycja: ekran "Hand-Made / DIY" wewnątrz kafla
-  "Oświetlenie LED" jako **hub** (wzorzec H — katalog), z trzema dalszymi podekranami: Dom / Agro /
-  Latarki i małe dedykowane projekty.
+Wersja niżej poprawia pierwotną propozycję z tej sekcji, która myliła dwie różne rzeczy: **kroki
+ścieżki zakupowej** i **materiał edukacyjny**, jakby to było to samo. Autor słusznie zauważył: apka
+już ma na to gotowe rozróżnienie w istniejącej taksonomii Wzorców A-H (`docs/standards/08-...`),
+którego pierwsza wersja tej sekcji nie zastosowała poprawnie:
 
-**Proponowany kształt kafla 14 "Oświetlenie LED":**
+- **Wzorzec C (akordeon/informacja)** — tematy uzupełniające się, każdy samodzielny, wchodzi się
+  po konkretną wiedzę, niezależnie od reszty, bez wymuszonej kolejności.
+- **Wzorzec D (Doradca)** — krótka ścieżka pytanie→pytanie→werdykt, BEZ wykładu wciśniętego
+  pomiędzy krokami.
+
+Pierwotna propozycja traktowała "Dobór taśmy" jako jeden ekran-wykład zawierający całe Sekcje 1-7
+naraz — to dokładnie ten błąd, o którym mówi autor: kilka artykułów forum wepchniętych w jeden
+mega-artykuł, i jednocześnie brak osobnego miejsca na czystą edukację dla kogoś, kto NIE chce
+przechodzić ścieżki zakupowej, tylko dowiedzieć się jednej konkretnej rzeczy.
+
+**Poprawiona struktura — dwa niezależne typy ekranów, nie jeden:**
+
+1. **Artykuły referencyjne (Wzorzec C)** — jeden temat = jeden ekran, wejście z dowolnego miejsca
+   (z pulpitu, z wyszukiwarki, z linku "dowiedz się więcej" w kreatorze), bez wymuszania
+   przechodzenia przez resztę:
+   - Rodzaje taśm wg napięcia (Sekcja 1)
+   - Jak czytać oznaczenia — SMD/COB/FCOB, gęstość, moc, IP, CRI (Sekcja 2, 7)
+   - Żywotność — co wpływa i dlaczego (Sekcja 3)
+   - Biel czy RGBW/RGBCCT (Sekcja 4)
+   - Temperatura barwowa — z żywym podglądem na suwaku (Sekcja 5)
+   - RGB/RGBIC — prawda o "milionach kolorów", z paskiem kolorów na czarnym tle (Sekcja 6)
+   - Zasilacze 220V→DC — dobór, zapas mocy, jakość (Sekcja 9)
+   - Łączenie taśm — złącza dedykowane vs lutowanie (Sekcja 10)
+   - Jak sprawdzić taśmę po zakupie (Sekcja 11)
+   - Sterowanie — kontrolery i sposoby, po rozwinięciu Sekcji 14
+
+2. **Kreator/Doradca (Wzorzec D)** — osobny, celowo chudy ekran: kilka pytań (napięcie systemu
+   docelowego — echo z modułu "Dobór napięcia", zastosowanie/lokalizacja, długość planowanej
+   trasy) → konkretna rekomendacja (jakie napięcie/typ taśmy/IP) + wbudowany kalkulator rozstawu
+   punktów zasilania (Sekcja 8.4 — to jest faktyczne narzędzie liczące, więc żyje TU, jako wynik,
+   nie jako wykład) + linki "dowiedz się więcej →" do odpowiednich artykułów z punktu 1, zamiast
+   wklejania ich treści między krokami. Kto chce tylko przejść ścieżkę z podpowiedziami, dostaje
+   dokładnie to i nic więcej — dokładnie tak, jak opisał autor.
+
+3. **Hand-Made / DIY (hub, trzeci poziom nawigacji)** — bez zmian względem poprzedniej wersji:
+   prawdziwe rozgałęzienie treści (różne czipy/IP/priorytety), nie kolejny artykuł ani krok
+   kreatora, więc zasługuje na własny poziom:
+   ```
+   Hand-Made / DIY
+     ├─ Oświetlenie domowe DIY
+     ├─ Oświetlenie agro (inne czipy/IP — hale, szklarnie, inwentarz)
+     └─ Latarki i małe dedykowane projekty
+   ```
+
+**Proponowany kształt kafla 14 "Oświetlenie LED" (poprawiony):**
 ```
 Kafel: Oświetlenie LED
-  ├─ Dobór taśmy (ten dokument, Sekcje 1-7)
-  ├─ Zasilacze (Sekcja 9)
-  ├─ Sterowanie i kontrolery (Sekcja 14, po rozwinięciu)
-  ├─ Montaż i łączenie (Sekcja 10)
-  ├─ Algorytm spadku napięcia / rozstaw zasilania (Sekcja 8)
-  ├─ Jak sprawdzić taśmę po zakupie (Sekcja 11)
-  └─ Hand-Made / DIY (hub — TRZECI poziom, bo prawdziwe rozgałęzienie)
-       ├─ Oświetlenie domowe DIY
-       ├─ Oświetlenie agro (inne czipy/IP — hale, szklarnie, inwentarz)
-       └─ Latarki i małe dedykowane projekty
+  ├─ [Artykuły — Wzorzec C, 10 niezależnych ekranów z listy wyżej]
+  ├─ Kreator doboru taśmy (Wzorzec D — krótki, linkuje do artykułów, nie zawiera ich treści)
+  └─ Hand-Made / DIY (hub — trzeci poziom: Dom / Agro / Latarki)
 ```
 
 ### 15.4 Czy to ma być ogólny wzorzec dla całej apki?
