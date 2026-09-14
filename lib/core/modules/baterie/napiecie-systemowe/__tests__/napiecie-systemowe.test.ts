@@ -34,9 +34,6 @@ function pustyInput(overrides: Partial<NapiecieSystemoweInput> = {}): NapiecieSy
     cenaBezpiecznika48vZl: CENY_DOMYSLNE.bezpiecznik48vZl,
     liczbaLiniiOswietlenia24vPrzySystemie48v: 0,
     cenaPrzetwornicyDcDcZl: CENY_DOMYSLNE.przetwornicaDcDcZl,
-    falownikVevor: null,
-    liczbaPaneliWStringu: 0,
-    tminC: null,
     planowanaKonwersja24Do48: false,
     ...overrides,
   }
@@ -205,40 +202,6 @@ describe("calculateNapiecieSystemowe — Etap E (kosztorysy ×3, ta sama pojemno
   it("bez docelowej pojemności -> kosztorysy=null", () => {
     const result = calculateNapiecieSystemowe(pustyInput({ mocSzczytowaW: 2000 }))
     expect(result.value.kosztorysy).toBeNull()
-  })
-})
-
-describe("calculateNapiecieSystemowe — Etap G (echo dopasowanie-tablicy-falownika, dane JA Solar)", () => {
-  it("Model 2 (24V, 8 paneli), Tmin=-25°C -> odtwarza kontrolne przeliczenie z memory.md", () => {
-    const result = calculateNapiecieSystemowe(
-      pustyInput({ mocSzczytowaW: 2000, falownikVevor: "vevor_24v_3000w", tminC: -25 }),
-    )
-    const pv = result.value.pv!
-    expect(pv.liczbaPaneliWStringu).toBe(8)
-    expect(pv.echo!.value.vStringColdV).toBeCloseTo(394.65, 1)
-    expect(pv.echo!.value.vStringStcV).toBeCloseTo(295.28, 1)
-    expect(pv.mocPvCalkowitaWpW).toBeCloseTo(4000, 0)
-  })
-
-  it("Model 3 (48V, 2 panele × 4 stringi) -> DC/AC total przeliczony z mocą WSZYSTKICH stringów", () => {
-    const result = calculateNapiecieSystemowe(
-      pustyInput({ mocSzczytowaW: 2000, falownikVevor: "vevor_48v_5000va", tminC: -25 }),
-    )
-    const pv = result.value.pv!
-    expect(pv.liczbaStringowRownoleglych).toBe(4)
-    expect(pv.mocPvCalkowitaWpW).toBeCloseTo(4000, 0) // 2×500×4
-    expect(pv.dcAcRatioCalkowity).toBeCloseTo(4000 / 4000, 6) // = 1.0, w zakresie zalecanym? poniżej 1.1
-    expect(pv.warnings.some((w) => w.code === "DC-AC-ZA-MALE")).toBe(true)
-    // pojedynczy string (własny echo, bez przeliczenia) miałby ratio 1000/4000=0.25 - upewniamy się że NIE to jest użyte
-    expect(pv.echo!.value.dcAcRatio).toBeCloseTo(0.25, 2)
-  })
-
-  it("Model 1 (12V, brak MPPT) -> tylko informacyjnie, echo=null", () => {
-    const result = calculateNapiecieSystemowe(
-      pustyInput({ mocSzczytowaW: 2000, falownikVevor: "vevor_12v_1500w" }),
-    )
-    expect(result.value.pv!.echo).toBeNull()
-    expect(result.value.pv!.status).toBe("VALID")
   })
 })
 

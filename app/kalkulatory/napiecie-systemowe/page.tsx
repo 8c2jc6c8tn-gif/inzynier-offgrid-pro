@@ -1,8 +1,6 @@
 "use client"
 
 import { useMemo, useState } from "react"
-import Link from "next/link"
-import { isComputed } from "@/lib/core/calc-result"
 import { calculateNapiecieSystemowe } from "@/lib/core/modules/baterie/napiecie-systemowe/calculator"
 import type { NapiecieSystemoweInput, OdbiornikWybor } from "@/lib/core/modules/baterie/napiecie-systemowe/input"
 import {
@@ -11,14 +9,8 @@ import {
   KATALOG_ODBIORNIKOW,
   CENY_DOMYSLNE,
   CENA_OGNIWA_DOMYSLNA_ZL,
-  FALOWNIKI_VEVOR,
-  POROWNANIE_OSWIETLENIA_LED,
-  ZALECENIE_OSWIETLENIA_LED,
-  KATALOG_URZADZEN_DC,
-  ZALETA_GNIAZD_DC,
   type Zastosowanie,
   type Priorytet,
-  type FalownikVevorId,
 } from "@/lib/core/modules/baterie/napiecie-systemowe/constants"
 import type { Material, SposobUlozenia } from "@/lib/core/modules/okablowanie/dobor-przekroju-kabla/constants"
 import { Pole, PoleSelect, PoleCheckbox } from "@/components/ui/pole"
@@ -92,11 +84,6 @@ export default function NapiecieSystemowePage() {
   })
   const [liczbaLiniiOswietlenia24v, setLiczbaLiniiOswietlenia24v] = useState("0")
 
-  // Etap G
-  const [falownikVevor, setFalownikVevor] = useState<FalownikVevorId | "">("")
-  const [liczbaPaneliWStringu, setLiczbaPaneliWStringu] = useState("")
-  const [tminC, setTminC] = useState("")
-
   // Etap H
   const [planowanaKonwersja24Do48, setPlanowanaKonwersja24Do48] = useState(false)
 
@@ -168,9 +155,6 @@ export default function NapiecieSystemowePage() {
       cenaBezpiecznika48vZl: num(ceny.cenaBezpiecznika48vZl),
       liczbaLiniiOswietlenia24vPrzySystemie48v: num(liczbaLiniiOswietlenia24v),
       cenaPrzetwornicyDcDcZl: num(ceny.cenaPrzetwornicyDcDcZl),
-      falownikVevor: falownikVevor === "" ? null : falownikVevor,
-      liczbaPaneliWStringu: num(liczbaPaneliWStringu),
-      tminC: tminC === "" ? null : num(tminC),
       planowanaKonwersja24Do48,
     }),
     [
@@ -190,9 +174,6 @@ export default function NapiecieSystemowePage() {
       docelowaPojemnoscKwh,
       ceny,
       liczbaLiniiOswietlenia24v,
-      falownikVevor,
-      liczbaPaneliWStringu,
-      tminC,
       planowanaKonwersja24Do48,
     ],
   )
@@ -201,8 +182,6 @@ export default function NapiecieSystemowePage() {
 
   const poziom: WerdyktPoziom | null =
     result.status === "INVALID_INPUT" ? "blad" : result.status === "INCOMPLETE" ? null : result.status === "VALID_WITH_WARNINGS" ? "uwaga" : "ok"
-
-  const falownikWybrany = FALOWNIKI_VEVOR.find((f) => f.id === falownikVevor)
 
   return (
     <main className="mx-auto flex max-w-2xl flex-col gap-6 p-6">
@@ -485,64 +464,6 @@ export default function NapiecieSystemowePage() {
         </div>
       </details>
 
-      {/* Etap D — rekomendacja oświetlenia i odbiorników DC (czysto informacyjne) */}
-      <details className={SEKCJA_KLASY}>
-        <summary className={`cursor-pointer ${SEKCJA_TYTUL_KLASY}`}>Etap D — rekomendacja oświetlenia i odbiorników DC</summary>
-        <div className="mt-4 flex flex-col gap-5 text-small">
-          <div>
-            <p className="mb-2 font-medium">D.1 — Oświetlenie LED: 24V vs 230V vs 48V</p>
-            <div className="overflow-x-auto">
-              <table className="w-full text-small">
-                <thead>
-                  <tr className="text-left text-caption text-muted-foreground">
-                    <th></th>
-                    <th>LED 230V</th>
-                    <th>LED 24V</th>
-                    <th>LED 48V</th>
-                  </tr>
-                </thead>
-                <tbody className="[&_td]:py-1 [&_td]:pr-3">
-                  {POROWNANIE_OSWIETLENIA_LED.map((w) => (
-                    <tr key={w.cecha}>
-                      <td className="text-muted-foreground">{w.cecha}</td>
-                      <td>{w.v230}</td>
-                      <td>{w.v24}</td>
-                      <td>{w.v48}</td>
-                    </tr>
-                  ))}
-                </tbody>
-              </table>
-            </div>
-            <p className="mt-3 rounded-md border p-3">{ZALECENIE_OSWIETLENIA_LED}</p>
-          </div>
-
-          <div>
-            <p className="mb-2 font-medium">D.2 — Dedykowane gniazda DC dla elektroniki</p>
-            <div className="overflow-x-auto">
-              <table className="w-full text-small">
-                <thead>
-                  <tr className="text-left text-caption text-muted-foreground">
-                    <th>Urządzenie</th>
-                    <th>Napięcie zasilania</th>
-                    <th>Zalecane rozwiązanie</th>
-                  </tr>
-                </thead>
-                <tbody className="[&_td]:py-1 [&_td]:pr-3">
-                  {KATALOG_URZADZEN_DC.map((u) => (
-                    <tr key={u.urzadzenie}>
-                      <td>{u.urzadzenie}</td>
-                      <td>{u.napiecieZasilania}</td>
-                      <td>{u.zalecaneRozwiazanie}</td>
-                    </tr>
-                  ))}
-                </tbody>
-              </table>
-            </div>
-            <p className="mt-3 text-caption text-muted-foreground">{ZALETA_GNIAZD_DC}</p>
-          </div>
-        </div>
-      </details>
-
       {/* Etap E — kosztorysy */}
       <details className={SEKCJA_KLASY}>
         <summary className={`cursor-pointer ${SEKCJA_TYTUL_KLASY}`}>Etap E — kosztorysy (ta sama docelowa pojemność, ceny edytowalne)</summary>
@@ -661,94 +582,6 @@ export default function NapiecieSystemowePage() {
                 </tbody>
               </table>
             </div>
-          )}
-        </div>
-      </details>
-
-      {/* Etap F — łączenie pakietów */}
-      <details className={SEKCJA_KLASY}>
-        <summary className={`cursor-pointer ${SEKCJA_TYTUL_KLASY}`}>Etap F — równoległe łączenie pakietów akumulatorów</summary>
-        <div className="mt-4 flex flex-col gap-3 text-small">
-          <p>
-            Prąd zawsze płynie ścieżką o najmniejszym oporze — przy równoległym łączeniu pakietów nierówne długości/przekroje kabli dają nierówny rozpływ
-            prądu, nawet gdy pakiety są identyczne. Akumulator najbliżej falownika pracuje najciężej, nagrzewa się i starzeje szybciej.
-          </p>
-          <ul className="list-disc pl-5">
-            <li>
-              <strong>Szyna zbiorcza (busbar)</strong> — każdy pakiet osobno do wspólnej szyny +/− — najlepsza metoda dla 3+ akumulatorów.
-            </li>
-            <li>
-              <strong>Identyczne kable</strong> — ta sama długość, przekrój, typ złączek na każdej gałęzi.
-            </li>
-            <li>
-              <strong>Unikaj łańcuszka (daisy-chain)</strong> — podłączenie falownika do pierwszego akumulatora w łańcuchu daje największe nierówności.
-            </li>
-            <li>Ładowanie wielu pakietów przez jeden falownik wymaga tego samego typu ogniw, tej samej pojemności i komunikujących się BMS (master-slave).</li>
-          </ul>
-          <p className="rounded-md border p-3">
-            Żeby policzyć realny rozkład prądu między konkretnymi gałęziami (różne długości/przekroje), użyj{" "}
-            <Link href="/kalkulatory/szyny-zbiorcze-miedzypakietowe" className="underline">
-              kalkulatora rozpływu prądu w szynach zbiorczych
-            </Link>{" "}
-            (Moduł 4, Ekran 25) — liczy realną fizykę (dzielnik prądu wg rezystancji gałęzi), nie duplikowaną tutaj.
-          </p>
-        </div>
-      </details>
-
-      {/* Etap G — dobór PV */}
-      <details className={SEKCJA_KLASY}>
-        <summary className={`cursor-pointer ${SEKCJA_TYTUL_KLASY}`}>Etap G — dobór paneli PV do falownika</summary>
-        <div className="mt-4 flex flex-col gap-4">
-          <PoleSelect label="Model falownika VEVOR" value={falownikVevor} onChange={(e) => setFalownikVevor(e.target.value as FalownikVevorId | "")}>
-            <option value="">— wybierz —</option>
-            {FALOWNIKI_VEVOR.map((f) => (
-              <option key={f.id} value={f.id}>
-                {f.label}
-              </option>
-            ))}
-          </PoleSelect>
-
-          {falownikWybrany && (
-            <>
-              <div className="grid grid-cols-2 gap-3">
-                <Pole
-                  label={`Liczba paneli w szeregu (rekomendowana: ${falownikWybrany.liczbaPaneliWSzereguRekomendowana})`}
-                  type="number"
-                  inputMode="numeric"
-                  min={0}
-                  value={liczbaPaneliWStringu}
-                  onChange={(e) => setLiczbaPaneliWStringu(e.target.value)}
-                />
-                <Pole label="Minimalna temperatura w lokalizacji" unit="°C" type="number" inputMode="decimal" value={tminC} onChange={(e) => setTminC(e.target.value)} />
-              </div>
-
-              {!falownikWybrany.maMppt ? (
-                <p className="rounded-md border p-3 text-small">
-                  Ten falownik nie ma wbudowanego MPPT. Potrzebujesz zewnętrznego regulatora MPPT (40-60A, maks. napięcie PV 100-150V, ~400-500 zł). Maks. 2
-                  panele w szeregu (Voc ~88V, poniżej 150V), 2-3 stringi równolegle — łącznie ok. 2000-3000W paneli JA Solar 500W.
-                </p>
-              ) : (
-                result.value.pv && (
-                  <div className="rounded-md border p-3 text-small">
-                    <p>
-                      {result.value.pv.liczbaPaneliWStringu} paneli × {result.value.pv.liczbaStringowRownoleglych} string(i) = {result.value.pv.mocPvCalkowitaWpW.toFixed(0)} Wp
-                      łącznie · DC/AC = {result.value.pv.dcAcRatioCalkowity.toFixed(2)}
-                    </p>
-                    {result.value.pv.echo && isComputed(result.value.pv.status) && (
-                      <p className="mt-1 text-caption text-muted-foreground">
-                        Napięcie stringu w mrozie: {result.value.pv.echo.value.vStringColdV.toFixed(1)} V · napięcie robocze (STC):{" "}
-                        {result.value.pv.echo.value.vStringStcV.toFixed(1)} V
-                      </p>
-                    )}
-                    <ul className="mt-2 space-y-1">
-                      {result.value.pv.warnings.map((w) => (
-                        <li key={w.code}>{w.message}</li>
-                      ))}
-                    </ul>
-                  </div>
-                )
-              )}
-            </>
           )}
         </div>
       </details>

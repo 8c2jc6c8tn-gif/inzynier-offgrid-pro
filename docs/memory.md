@@ -3292,3 +3292,35 @@ Kreator Pro** (`docs/standards/08-ui-ux.md` §8.11, zgłoszona równolegle do `n
 do konsolidacji), i szkielety logowania/wielojęzyczności (świadomie niedokończone, autor robi
 `zero-waste` osobno — nie ruszać tych dwóch plików w `docs/propozycje-do-new-app-standards/` do
 czasu wyraźnej prośby).
+
+## M4/Ekran2 (Dobór napięcia systemowego) — poprawki Etapu B + usunięcie Etapów D/F/G (14.09.2026)
+
+Pierwsze zastosowanie §8.11 w praktyce, znalezione podczas przeglądu app-wide zainicjowanego przez
+autora ("jaka to funkcja, a ja sprawdzę w apce"). Autor zgłosił trzy niezależne rzeczy:
+
+1. **Błąd Etapu B (kreator odbiorników):** pola moc/czas miały `disabled={!stan.selected}` — nie
+   dało się w nie wpisać wartości, dopóki nie zaznaczono checkboxa. Naprawione (usunięte
+   `disabled`), plus dwa dodatkowe usprawnienia zgłoszone razem: układ wiersza przebudowany, żeby
+   pola moc/czas/jednostka trzymały się jednej linii (`flex-nowrap`) niezależnie od szerokości
+   ekranu, i dodany wybór jednostki czasu min/godz. z konwersją przy przełączaniu (żeby nie trzeba
+   było przeliczać "16 godzin" na minuty w głowie). PR #87.
+2. **Analiza strukturalna na żądanie autora** ("do czego ten rozdział ma służyć, jakie pytanie ma
+   odpowiadać, jakie funkcje tam wylądowały"): pytanie ekranu to "jakie napięcie systemowe (12/24/
+   48V) wybrać". Etapy A/B/C/E/H odpowiadają na to pytanie (kontekst, dane wejściowe, argument
+   kosztu kabla, argument kosztu całości, pułapka konwersji). **Etapy D/F/G nie odpowiadały** —
+   przykleiły się przy kolejnych rundach rozbudowy bez sprawdzenia dopasowania do tematu ekranu.
+3. **Decyzja autora (potwierdzona wprost):** "F i G mają się nijak do tego rozdziału, nic tu nie
+   wnoszą oprócz zamętu. Etap D do oświetlenia." Wykonane: Etap D (porównanie LED 24/48/230V,
+   katalog gniazd DC) usunięty z UI, dane zachowane w `constants.ts` (oznaczone komentarzem) do
+   przeniesienia do przyszłego modułu "Oświetlenie" (jeszcze nie zbudowanego — nie usuwać przy
+   porządkach dead-code). Etap F (link do `szyny-zbiorcze-miedzypakietowe`) i Etap G (dobór PV do
+   falowników VEVOR, dane `FALOWNIKI_VEVOR`/`PANEL_JA_SOLAR_500W`) **usunięte całkowicie** z kodu
+   (nie tylko z UI) — sprawdzone grepem, że te dane nie są używane nigdzie indziej w repo.
+   `CALCULATOR_VERSION` 2.0.0→2.1.0. Testy: 25→22 (usunięte 3 testy Etapu G), `tsc`/`vitest`/
+   `lint`/`build` czyste. `docs/rejestr-pokrycia.md` zaktualizowany.
+
+**Lekcja procesowa dla dalszego przeglądu app-wide (§8.11):** kandydaci "mega-Doradca" mogą mieć
+nie tylko problem "za dużo w jednym ekranie" (rozwiązanie: ekrany pochodne/Kreator Pro), ale też
+**etapy, które nie należą do tematu ekranu wcale** (rozwiązanie: usunięcie/przeniesienie, nie
+rozbicie). Sprawdzać oba pytania przy każdym kolejnym kandydacie (M5/Ekran1, M3/Ekran14), nie tylko
+"czy jest za duży".
