@@ -2,9 +2,8 @@ import type { CalcResult, Warning } from "@/lib/core/calc-result"
 import type { DoborBezpiecznikaRozlacznikaInput } from "./input"
 import { validateInput } from "./validation"
 import { aicPonizejPraduZwarciowego } from "./warnings"
-import { obliczPradBezpiecznikaA } from "@/lib/core/modules/pv/ochrona-stringow/calculator"
 
-export const CALCULATOR_VERSION = "1.0.0"
+export const CALCULATOR_VERSION = "1.0.1"
 
 export type DoborBezpiecznikaRozlacznikaResult = {
   pradBezpiecznikaZalecanyA: number
@@ -15,11 +14,25 @@ export type DoborBezpiecznikaRozlacznikaResult = {
 const FORMULA = "I_{bezpiecznik} = 1{,}25 \\times I"
 
 /**
+ * Margines doboru bezpieczników/rozłączników ogólnych obwodów instalacji względem prądu
+ * znamionowego obwodu — reguła produktowa (Sekcja B, `Tresc_Modul_5_Okablowanie_Ekrany.md`),
+ * niezależna od normy PV HD 60364-7-712.
+ */
+function obliczPradBezpiecznikaOgolnegoA(pradZnamionowyA: number): number {
+  return 1.25 * pradZnamionowyA
+}
+
+/**
  * Ekran 6, Moduł 5 "Okablowanie i zabezpieczenia" — "Dobór bezpieczników i rozłączników"
- * (dawne 4.2, docs/zrodla/Tresc_Modul_5_Okablowanie_Ekrany.md). Wzorzec "echo": wzór
- * `I_bezpiecznik = 1,25 × I` jest tu tym samym wzorem co Ekran 22, Moduł 3
- * (`ochrona-stringow`, `obliczPradBezpiecznikaA`) — reużyty, nie zduplikowany, mimo że tam
- * prądem odniesienia jest Isc stringu, a tu prąd znamionowy obwodu.
+ * (dawne 4.2, docs/zrodla/Tresc_Modul_5_Okablowanie_Ekrany.md).
+ *
+ * Wcześniej wzorzec "echo" z Ekranu 22, Moduł 3 (`ochrona-stringow`, `obliczPradBezpiecznikaA`) —
+ * ROZDZIELONE (2026-09-06, patrz docs/memory.md): norma HD 60364-7-712 pokazała, że dobór
+ * bezpiecznika stringu PV (§712.431.102: przedział 1,1×Isc_max ≤ In ≤ I_MOD_MAX_OCPR z karty
+ * katalogowej panelu) to zupełnie inna reguła niż ten ogólny margines 1,25× na prąd znamionowy
+ * obwodu — współdzielona liczba 1,25 była przypadkowa, nie tym samym prawem fizycznym. Ten
+ * ekran zachowuje dotychczasową, niezmienioną regułę produktową lokalnie (nie dotyczy go norma
+ * PV) — zachowanie i testy bez zmian.
  *
  * Sprawdzenie koordynacji selektywności z Ekranem 13 (Selektywność zabezpieczeń) NIE zbudowane —
  * ten ekran jeszcze nie istnieje. Prąd zwarciowy docelowo z Ekranu 12 (Analiza zwarciowa),
@@ -62,7 +75,7 @@ export function calculateDoborBezpiecznikaRozlacznika(
     }
   }
 
-  const pradBezpiecznikaZalecanyA = obliczPradBezpiecznikaA(input.pradZnamionowyA)
+  const pradBezpiecznikaZalecanyA = obliczPradBezpiecznikaOgolnegoA(input.pradZnamionowyA)
   const sprawdzanoAic = input.aicBezpiecznikaA > 0 && input.pradZwarciowyA > 0
   const aicWystarczajace = sprawdzanoAic ? input.aicBezpiecznikaA >= input.pradZwarciowyA : null
 

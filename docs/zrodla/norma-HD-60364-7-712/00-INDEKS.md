@@ -1,6 +1,24 @@
 # Indeks — UNE-HD 60364-7-712:2017 ("Instalacje elektryczne niskiego napięcia — Część 7-712: Wymagania dotyczące instalacji lub specjalne miejsca — Systemy zasilania energią słoneczną fotowoltaiczną")
 
-Źródło: `docs/zrodla/norma-HD-60364-7-712/UNE-HD-60364-7-712-2017-wyciag-spis-tresci-i-bibliografia.pdf`
+## [07.09.2026] ✅ PEŁNY TEKST DOSTARCZONY — sekcja niżej jest HISTORYCZNA (opis wyciągu z 05.09.2026)
+
+Właściciel projektu dostarczył pełny tekst normy (35 stron, hiszpańska wersja UNE, tekst po
+hiszpańsku, nie tłumaczenie maszynowe jak poniższy wyciąg) bezpośrednio do repo 06.09.2026 —
+`UNE-HD-60364-7-712-2017-pelny-tekst.pdf` w tym katalogu. Przeczytany w całości tego samego dnia i
+użyty do przepisania `lib/core/modules/pv/ochrona-stringow/` (M3/Ekran 22) wg §712.431-433
+(przedział doboru bezpiecznika, test obowiązkowości ochrony przy Ns>2) i Załącznika B.2
+(I_SC_MAX = K1×I_SC_STC, K1=1,25 minimum). Załącznik B.1 (U_OC_MAX) potwierdził bez zmian już
+istniejący wzór w `stress-test-mppt` (M3/E5). Pełne uzasadnienie: `docs/memory.md` (2026-09-06/07),
+`docs/rejestr-pokrycia.md` (M3/E22).
+
+Sekcja "🔴 KRYTYCZNE OGRANICZENIE" niżej opisywała stan **przed** tą dostawą (tylko wyciąg spisu
+treści) — zostaje jako historia (GOD BOOK Część D, "nie usuwamy"), już NIEAKTUALNA co do wniosku
+"ten plik NIE odblokowuje żadnego ekranu" i "potrzebny zakup pełnego tekstu": oba stwierdzenia
+rozwiązane przez dostawę z 06.09.2026.
+
+---
+
+Źródło (wyciąg, historyczny): `docs/zrodla/norma-HD-60364-7-712/UNE-HD-60364-7-712-2017-wyciag-spis-tresci-i-bibliografia.pdf`
 (6 stron, hiszpańska adopcja HD 60364-7-712:2016, ale tekst w pliku jest **po polsku** — prawdopodobnie
 przetłumaczony automatycznie/maszynowo, widoczne błędy tłumaczenia jak "toda część instalacji"
 zamiast "całą instalację"). Metoda ekstrakcji: tekst natywny PDF.

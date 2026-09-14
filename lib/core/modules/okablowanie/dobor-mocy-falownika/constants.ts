@@ -1,0 +1,4 @@
+/** Progi 1:1 ze źródła (Ekran 7, Sekcja B). */
+export const DOMYSLNY_WSPOLCZYNNIK_JEDNOCZESNOSCI = 0.7
+export const CZAS_PRZECIAZENIA_ROZRUCHOWEGO_S = 5
+export const ZALECANA_PRZECIAZALNOSC_PCT = 200

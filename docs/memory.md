@@ -2613,6 +2613,213 @@ konkretnych potrzebnych tabel + kod kalkulatora, po kolei małymi partiami zgodn
   - **Wciąż nie zbudowane (świadomie, następny krok, nie ten):** B5 (Moduł 11) i M4/Ekran 25 mogą
     teraz reużyć ten silnik jako "echo" — status w `docs/rejestr-pokrycia.md` pozostaje `todo`.
 
+- **2026-09-06 — norma HD 60364-7-712 dodana (`docs/zrodla/norma-HD-60364-7-712/UNE-HD-60364-7-712-2017-pelny-tekst.pdf`,
+  UNE-HD 60364-7-712:2017 / HD 60364-7-712:2016, "Sistemas de alimentación solar fotovoltaica"),
+  przeanalizowana pod kątem przydatności, i użyta do korekty M3/Ekran 22.**
+  - **Potwierdzenie bez zmian**: wzór `stress-test-mppt` (M3/E5, `V_max=Voc×(1+β×(Tmin−25))`) to
+    dosłownie Załącznik B.1 tej normy (`U_OC_MAX=K_U×U_OC_STC`) — wcześniej "1:1 ze źródła
+    produktowego", teraz niezależnie potwierdzone normatywnie.
+  - **🔴 Sprzeczność znaleziona i naprawiona na wyraźną prośbę autora ("Przepisz zgodnie z
+    normą")**: `ochrona-stringow` (M3/E22) miało wzór `bezpiecznik=1,25×Isc` + sztywny próg
+    "obowiązkowe od ≥3 stringów" — oznaczone w kodzie jako "1:1 ze źródła [produktowego]". Norma
+    pokazała, że współczynnik 1,25 to Załącznik B.2 (margines `I_SC_STC→I_SC_MAX`, K1min=1,25),
+    NIE wzór na dobór bezpiecznika — rzeczywisty dobór to przedział §712.431.102
+    `1,1×I_SC_MAX ≤ In ≤ I_MOD_MAX_OCPR` (górna granica z karty katalogowej panelu, nowe pole
+    wejściowe `iModMaxOcprA`), a obowiązkowość przy Ns>2 to warunek §712.431.101
+    `1,35×I_MOD_MAX_OCPR < (Ns−1)×I_SC_MAX`, nie sztywne "≥3". Przepisano: `CALCULATOR_VERSION`
+    1.0.0→2.0.0, wynik zmieniony z pojedynczej liczby na zakres `[inMinA, inMaxA]` + osobny
+    twardy stop gdy zakres jest sprzeczny (`inMinA>inMaxA`, ZAKRES-BEZPIECZNIKA-NIEPOPRAWNY).
+    Alternatywa kablowa normy (§712.433.101, gdy ochrona niewymagana wzorem przy Ns>2) zgłaszana
+    jako ostrzeżenie do weryfikacji osobno w module doboru kabla — nie objęta tym kalkulatorem
+    (brak dostępu do Iz stąd). Stary przykład źródła (Isc=12A→15A) nieodtwarzalny pod nowym
+    wzorem — testy przepisane na własne, w pełni zweryfikowane scenariusze (ten sam wzorzec co
+    M5/E1 i M3/E6 wcześniej w projekcie).
+  - **Wzorzec "echo" M5/Ekran 6 (`dobor-bezpiecznika-rozlacznika`) ROZDZIELONY**: reużywał
+    `obliczPradBezpiecznikaA` z `ochrona-stringow`, bo oba miały przypadkiem ten sam mnożnik
+    1,25×. Norma pokazała, że to dwa różne prawa (margines Isc PV vs. ogólny margines na obwód
+    elektryczny) — echo było przypadkowe, nie tym samym wzorem fizycznym. M5/E6 dostał lokalną
+    kopię formuły (`obliczPradBezpiecznikaOgolnegoA`), zachowanie i testy M5/E6 bez zmian.
+  - **Poza zakresem tej korekty (kandydaci do backlogu, nie budowane teraz)**: temperatura
+    odniesienia kabli DC stringów ≥70°C (§712.523.101), dobór kabla na prąd wsteczny przy
+    stringach równoległych (§712.433, `Iz≥(Ns−1)×I_SC_MAX`), reguła doboru diody blokującej
+    (§712.512.101: napięcie wsteczne ≥2×U_OC_MAX, prąd ≥1,1×I_SC_MAX — brak modułu),
+    tabele L_crit/U_w do decyzji o ochronie przepięciowej DC (§712.443, Tabela 712.102/712.534),
+    wymóg RCD typu B po stronie AC (§712.530.3.101), etykieta ostrzegawcza PV (§712.514).
+  - Zweryfikowane: `tsc`/`lint`/`test` (510/510)/`build` czyste; `pnpm start` + zrzuty ekranu
+    Playwrightem (VALID z zakresem 13,75–20,00 A, oraz 🔴 brak obowiązkowego zabezpieczenia) —
+    oba stany wizualnie poprawne.
+
+- **2026-09-07 — Audyt GOD BOOK Część N (na żądanie właściciela projektu, "przeprowadź audyt
+  według god book"), pełne przejście N.1 przez wszystkie 14 pozycji Części S.** Metoda:
+  bezpośrednie sprawdzenie każdego dokumentu (daty "Ostatnia aktualizacja", liczby przeliczone z
+  `docs/rejestr-pokrycia.md`, nie z pamięci ani metryczek), nie "na oko wygląda dobrze" (N.1.1).
+  - **Znaleziony i naprawiony dryf** (Część Y.2 — błąd, nie świadoma decyzja, więc naprawiony od
+    razu, nie tylko zgłoszony): `mapa-wdrozenia.md` i `backlog-poza-v1.md` nie były aktualizowane
+    od 05.09.2026 mimo znaczącej pracy w międzyczasie — oba wciąż opisywały M5/Ekran 1 jako
+    `⚠️ blocked`/"brak normy", chociaż norma PN-HD 60364-5-52 dostarczona i ekran zbudowany
+    06.09.2026. Poprawione: licznik `done` 92→101 (przeliczony bezpośrednio z rejestru), wiersz M5
+    (3/29→4/29), M11/B5 przeniesione z `⚠️ Blocked` do `todo` (odblokowane źródłowo, nie brak
+    danych). `backlog-poza-v1.md` błędnie nazywał normę "PN-IEC" zamiast "PN-HD" — poprawione.
+  - **Znaleziony i naprawiony dryf strukturalny w `docs/zrodla/`**: pełny tekst normy
+    HD 60364-7-712 (35 stron, dostarczony 06.09.2026 bezpośrednio na `main`, użyty tego samego dnia
+    do korekty `ochrona-stringow`) trafił luzem do `docs/zrodla/` pod nieopisową nazwą pliku
+    (`559094399-060364NHDD149-ES.pdf`), zamiast do istniejącego katalogu
+    `docs/zrodla/norma-HD-60364-7-712/` (gdzie leżał już 6-stronicowy wyciąg z 05.09.2026, z
+    `00-INDEKS.md` jawnie stwierdzającym brak pełnego tekstu). Dokładnie ten antywzorzec, przed
+    którym ostrzega GOD BOOK I.3 ("dwa niezależne opracowania tego samego tematu bez wzajemnego
+    odesłania") — mój własny proces z 06.09.2026 (analiza pliku → użycie w kodzie) pominął krok
+    zarejestrowania go we właściwym miejscu. Naprawione: `git mv` do
+    `docs/zrodla/norma-HD-60364-7-712/UNE-HD-60364-7-712-2017-pelny-tekst.pdf`, odsyłacze w kodzie
+    (`ochrona-stringow/input.ts`, `calculator.ts`) i w tym pliku zaktualizowane, `00-INDEKS.md`
+    dostał sekcję "PEŁNY TEKST DOSTARCZONY" (stara analiza wyciągu zachowana jako historia, nie
+    usunięta), `docs/zrodla/README.md` i `docs/normy-brakujace.md` zaktualizowane (jedyna pozycja
+    🔴 krytyczna przeniesiona do "Pozyskane (historia)").
+  - **Znaleziona i naprawiona luka w `slownik-pojec.md`** (C.9 — rośnie od pierwszego użycia):
+    OCPR i I_SC_MAX/K1, wprowadzone 06.09.2026, nigdzie zdefiniowane.
+  - **TD13 dodane do `dlug-techniczny.md`** (X.4): reguła doboru diody blokującej (§712.512.101)
+    świadomie poza zakresem korekty `ochrona-stringow` — przeniesione z `backlog-poza-v1.md`, gdzie
+    było błędnie sklasyfikowane jako "cały nieoceniony obszar" zamiast częściowego skrócenia
+    istniejącego ekranu (tytuł źródłowy ekranu wprost wymienia "diody blokujące"). Bidirekcyjne
+    sprawdzenie `grep "🔎 TD"` ↔ wpisy TD1-TD12 wykonane najpierw — w pełni zgodne, zero sierot.
+  - **`kontrakty-rdzenia.md` §4 (wzorzec echo) dopisany**: pułapka "echo z przypadku" — dwie
+    funkcje mogą dzielić tę samą liczbę (1,25) bez dzielenia tej samej reguły fizycznej/normatywnej
+    (dokładnie przypadek M3/E22↔M5/E6 z dzisiejszej korekty). Zanim wyekstrahujesz echo: sprawdź
+    uzasadnienie, nie tylko wartość.
+  - **Backlog uzupełniony** o 4 pozostałe pozycje z normy HD 60364-7-712 świadomie poza zakresem
+    (alternatywa kablowa, tabele SPD, RCD typu B, etykieta PV) — dotąd tylko w kodzie/na czacie,
+    nigdzie skonsolidowane (N.1.2).
+  - **Znalezione, NIE rozstrzygnięte samodzielnie (zgłoszone do rozważenia właścicielowi
+    projektu, zgodnie z I.1 — nie rozstrzygaj konfliktu sam):**
+    - Czy dzisiejsza korekta `ochrona-stringow` (norma + rozdzielenie echo) zasługuje na wpis D20 w
+      `rejestr-decyzji.md`? Rejestr nie miał nowego wpisu od D19 (04.09.2026) mimo kilku
+      per-modułowych korekt formuł w międzyczasie (wzorzec ρ×2L/S, ta korekta) — dotychczas
+      traktowane jako `docs/memory.md`-poziom, nie strategiczne, ale warto potwierdzić, że to
+      wciąż właściwa granica.
+    - Otwarte pytanie z `docs/lista-do-zrobienia.md` (2026-09-03): poziom ostrzeżenia
+      `KROK-POZA-KOLEJNOSCIA` w Black Start (M7/E5) — `warning` czy `critical`? Nieruszane od
+      ~10 dni (W.6, kontrola starzenia) — wciąż czeka na decyzję właściciela projektu.
+  - Zweryfikowane: `tsc`/`test` (510/510)/`lint` (0 błędów, 2 nieblokujące istniejące ostrzeżenia
+    `no-img-element`) czyste po wszystkich poprawkach.
+
+- **2026-09-07 — Oba pytania z audytu Część N rozstrzygnięte przez właściciela projektu ("D20
+  wpisuj i podnosić poziom do critical").**
+  - **D20 dopisane** do `rejestr-decyzji.md` — wzorzec "echo" (D12) wymaga wspólnego uzasadnienia
+    fizycznego/normatywnego, nie tylko wspólnej wartości liczbowej (przypadek M3/E22↔M5/E6).
+  - **`KROK-POZA-KOLEJNOSCIA` (Black Start, M7/E5) podniesiony z `warning` na `critical`**
+    (`lib/core/modules/stress-test/procedura-black-start/calculator.ts`, `CALCULATOR_VERSION`
+    1.0.0→1.1.0). Dotyczy tylko tego ekranu — ten sam kod ostrzeżenia jest niezależnie zdefiniowany
+    (nie echo, osobne literały) w kilku ekranach Modułu 11 (`polaczenia-elektryczne`,
+    `podlaczenie-bms`, `demontaz-pakietu`, `demontaz-olow`), świadomie NIEZMIENIONYCH — decyzja
+    dotyczyła wprost Black Start, nie całego wzorca.
+  - **Znaleziony i naprawiony bug przy okazji**: UI (`app/kalkulatory/procedura-black-start/page.tsx`)
+    liczyło werdykt bezpośrednio ze `Status` (`VALID_WITH_WARNINGS`→🟡), nie z poziomów
+    `result.warnings` (D14) — dokładnie przypadek, przed którym D14 ostrzega. Bez tej poprawki
+    podniesienie poziomu na `critical` nie miałoby żadnego widocznego efektu w UI. Naprawione
+    (`hasCritical` → 🔴), zweryfikowane zrzutem ekranu Playwrightem (krok 5 zaznaczony przed
+    krokiem 2-4 → 🔴 "Zabronione").
+  - `docs/rejestr-twardych-stopow.md` (Znane luki) i `docs/lista-do-zrobienia.md` (otwarte pytanie
+    z 03.09.2026) oznaczone jako rozstrzygnięte, nie usunięte.
+  - Zweryfikowane: `tsc`/`test` (510/510, w tym nowa asercja `level==="critical"`)/`lint`/`build`
+    czyste.
+
+- **2026-09-13 — Uzupełnienie praktyczne Modułu 11 (montaż 16S LiFePO4) dostarczone przez
+  właściciela projektu i przeanalizowane wg GOD BOOK Część L (moduł Biblii → dokument gotowy do
+  implementacji).** Zapisane w całości, niezmienione:
+  `docs/zrodla/Uzupelnienie_Modul_11_Montaz_16S_Praktyczny.md` (5 tomów). Cel wprost od właściciela:
+  "żeby było wiadomo na bazie czego było robione" — dokument to notatki z realnego montażu, nie
+  formalna norma (status jak `materialy-branzowe-*`).
+  - **Sprawdzone względem duplikatów (I.2)** — Ścieżka A LiFePO4 (A1-A10) jest już `done` w całości
+    (10/10, `docs/rejestr-pokrycia.md`), więc każdy fragment nowego materiału porównany z
+    odpowiednim istniejącym ekranem, nie potraktowany jako nowy, nieoceniony obszar.
+  - **Pytanie właściciela wprost: czy dioda jest potrzebna przy BMS↔falownik? ODPOWIEDŹ z nowego
+    materiału: NIE.** Rezystor pre-charge tak, dioda nie — dokładnie to, co kod już zakłada
+    (`obwod-precharge` M4/E7, `podlaczenie-bms` M11/A4 — żaden nigdy nie miał diody w tym miejscu).
+    **Ważne rozróżnienie, żeby nie pomylić z inną, niezależną "diodą" w projekcie**: to pytanie o
+    diodę BMS↔falownik (blokada wstecznego prądu między równoległymi pakietami) jest CAŁKOWICIE
+    INNYM tematem niż TD13 (`dlug-techniczny.md`, dopisane 07.09.2026) — dioda blokująca stringu PV
+    wg normy HD 60364-7-712 §712.512.101 (M3/E22, `ochrona-stringow`). Dwie różne diody, dwa różne
+    konteksty, żadnego związku poza nazwą.
+  - **🔴 Sprzeczność znaleziona, NIE rozstrzygnięta samodzielnie (I.1)**: moment dokręcania
+    terminala M6 — kod ma dziś 4-4,5 N·m (1:1 z oryginalnej Biblii v2.0, `moment-dokrecania-srub`
+    M4/E11), nowy materiał praktyczny podaje 5-7 N·m zależnie od pojemności ogniwa (dla EVE MB31
+    max 6 N·m). M8 zgodne w przybliżeniu. Zgłoszone w `docs/rejestr-pokrycia.md` (wiersz M4/E11),
+    czeka na decyzję właściciela — który wzór ma obowiązywać (może zależeć od konkretnego ogniwa,
+    więc rozwiązaniem może być rozszerzenie ekranu o wybór ogniwa, nie prosta podmiana liczby).
+  - **Drobna rozbieżność, niekrytyczna**: sugerowana startowa wartość UI rezystora pre-charge
+    (`PRZYKLADOWA_REZYSTANCJA_OHM=50` Ω) różni się 50× od "typowo 1 Ω" z nowego materiału — pole
+    edytowalne, nie ukryty domyślny, więc nie blokuje niczego, ale wartości aż tak różne sugerują
+    zależność od wielkości falownika/sposobu przełączania, niewyjaśnioną w żadnym źródle. Zgłoszone,
+    nie zmienione.
+  - **Genuinie nowa treść, dziś nigdzie niepokryta w kodzie** (kandydaci do rozbudowy A2/A3/A4,
+    nie budowane w tej sesji — czysto dokumentacyjny krok na razie):
+    - Etap 0: selekcja ogniw (OCV ≤10mV rozstępu, IR testerem AC 1kHz, odrzucenie odstających >20%
+      od mediany) i top-balancing przedmontażowy (ogniwa równolegle, zasilacz 3,60V, do ±5mV) —
+      kandydat do rozszerzenia A2 lub nowego ekranu przed A2.
+    - Dobór busbarów (wymiary, elastyczne vs sztywne) i obalenie mitu "dziurka w środku busbara
+      poprawia balansowanie" (rezystancja miedzi pomijalna, jedyna zaleta to wygoda serwisowa) —
+      kandydat do A3.
+    - Konfiguracja parametrów BMS po podłączeniu (OVP/UVP/napięcie float/próg balansowania,
+      konkretne wartości LiFePO4) — dziś A4 kończy się na podłączeniu fizycznym, nie konfiguracji.
+    - Tabele przekrojów przewodów (ogniwo↔BMS, BMS↔falownik wg prądu) i dobór złączy oczkowych
+      (materiał — miedź cynowana vs mosiądz, wymiary, konkretni dostawcy) — dziś brak odpowiednika
+      w Module 11 (M5/E1 `dobor-przekroju-kabla` to inny, ogólny silnik normowy, nie ten sam zakres
+      praktyczny).
+  - Nie zbudowano żadnego nowego kodu w tej sesji — czysto dokumentacyjny krok (zapisanie źródła +
+    cross-referencja), zgodnie z zakresem prośby właściciela projektu. Decyzje o dalszym kroku
+    (rozstrzygnięcie sprzeczności momentu, budowa nowej treści) czekają na właściciela.
+
+- **2026-09-13 (kontynuacja) — Ekran A3b, Moduł 11: generator sekwencji montażu (busbary + BMS),
+  parametryzowany liczbą ogniw (4S/8S/16S), z miejscem na media per krok.** Realizacja pierwszych
+  dwóch pozycji z listy "nowa treść bez pokrycia" z poprzedniego wpisu — na wyraźną prośbę
+  właściciela: *"trzeba opracować, żeby nasz poradnik dopasowywał się do 4S,8s,16s"* +
+  *"poradnik musi prowadzić dokładnie krok po kroku z pokazaniem zdjęć albo nagrań"*.
+  - `lib/core/modules/montaz-baterii/sekwencja-montazu/` — czyste, testowalne generatory
+    (`generujPolaczeniaBusbarow`, `generujOkablowanieBms`) uogólniające wzorzec 16S ze źródła
+    (2 rzędy, serpentyna) na dowolną parzystą liczbę ogniw. 14 testów, w tym dokładna weryfikacja
+    16S względem numeracji źródła (połączenie #8 = przejście między rzędami, `Połączenie 8` w
+    źródle — dokładnie się zgadza) — nie tylko własna, niezależna reimplementacja.
+  - **Rozróżnienie 1:1 ze źródła vs. logiczne rozszerzenie**: dla 4S/8S/16S `assumptions` mówi
+    "1:1 ze źródła"; dla innej parzystej liczby (np. 6S, 10S) — "nie 1:1 ze źródła", bo źródło
+    opisuje wprost tylko te trzy wartości. Nieparzysta/za mała (<4)/za duża (>32) liczba ogniw →
+    `OUT_OF_SCOPE`, układ dwurzędowy nie ma sensu albo źródło go nie potwierdza — nie zgadywane.
+  - **Nowy komponent `components/wzorce/krok-z-media.tsx`** (`KrokZMedia`) — pierwszy w projekcie
+    komponent z opcjonalnym slotem na zdjęcie/nagranie per krok. **Ważne: żadne prawdziwe
+    zdjęcia/nagrania nie zostały dostarczone** — komponent renderuje jawny placeholder
+    ("Miejsce na zdjęcie/nagranie tego kroku — do dodania") zamiast wymyślonego/wygenerowanego
+    obrazu (zasada "nie wymyślaj brakujących danych" — to samo dotyczy materiału wizualnego z
+    realnego montażu, nie tylko liczb). Gotowy na `media: {typ, url, opis}`, gdy właściciel dostarczy
+    prawdziwe pliki — do ustalenia jak (upload, linki).
+  - Zarejestrowany w `lib/pulpit/registry.ts` (Moduł 11, po A3). Zweryfikowane: `tsc`/`test`
+    (524/524)/`lint`/`build` czyste; `pnpm start` + zrzuty ekranu Playwrightem (16S — 15 połączeń
+    busbarów poprawnie ponumerowanych z placeholderami media; 4S — 3 połączenia + 5 przewodów BMS,
+    poprawne napięcia 0/3,2/6,4/9,6/12,8V, werdykt 🟢 12,8V; niepoprawna liczba (7, nieparzysta) —
+    🔴 z jasnym komunikatem) — wszystkie trzy stany wizualnie poprawne.
+  - **Poza zakresem tej sesji (pozostałe punkty z listy "nowa treść"):** selekcja ogniw/
+    top-balancing przedmontażowy, konfiguracja parametrów BMS (OVP/UVP/float), tabele przekrojów
+    przewodów i złączy oczkowych — wciąż nie zbudowane, `docs/memory.md` (2026-09-13, wpis wyżej).
+
+- **2026-09-13 (kontynuacja) — Sprzeczność momentu dokręcania M6 (M4/E11) rozstrzygnięta przez
+  właściciela projektu — decyzja: "Moment dokręcania podamy do wyboru dla kilku popularnych ogniw
+  i ich pojemności. Jeśli nie ma Twojego ogniwa, sprawdź w instrukcji producenta albo użyj
+  bezpiecznego momentu."**
+  - **Rozwiązanie nie wybiera jednej z dwóch sprzecznych wartości — zachowuje obie, poprawnie
+    zakresowane** (zasada "nie usuwaj — oznacz", nie "nowsze wygrywa"): `TYPY_OGNIW` w
+    `lib/core/modules/baterie/moment-dokrecania-srub/constants.ts`, 7 pozycji — oryginalne
+    4–4,5 N·m z Biblii v2.0 jako opcja "pojemność nieznana" (nie usunięte), 4 nowe pozycje z
+    `Uzupelnienie_Modul_11_Montaz_16S_Praktyczny.md` (50-150Ah→5-6, 280Ah/EVE LF280K→6-7,
+    EVE MB31→maks.6, większe/M8→8-10), 2 fallbacki "Inne" (M6/M8) z bezpieczną najniższą wartością
+    znaną w projekcie dla danego gwintu + dokładnie ta wiadomość, którą podał właściciel.
+  - **Żaden inny model/producent nie został wymyślony** — tylko te 5 konkretnych pozycji, które
+    faktycznie mają źródło w którymś z dwóch dokumentów. Ktoś z innym ogniwem dostaje "Inne" +
+    instrukcję sprawdzenia karty katalogowej, nie zgadywaną liczbę.
+  - Implementacja: UI dostał selektor typu ogniwa; wybór podmienia tylko wyświetlany tekst
+    momentu dla pasującego gwintu (M6 albo M8) w istniejącym checkliście — id kroków, ich liczba
+    i logika VALID/postęp bez zmian, więc 5 oryginalnych testów przeszło bez modyfikacji. 7 nowych
+    testów dla katalogu/formatowania (`typy-ogniw.test.ts`).
+  - Zweryfikowane: `tsc`/`test` (531/531)/`lint`/`build` czyste; zrzuty ekranu Playwrightem
+    (280Ah/EVE LF280K → "6–7 N·m" na kroku M6; "Inne (M6)" → "maks. 4 N·m" + ostrzeżenie
+    dokładnie z instrukcji właściciela) — oba stany wizualnie poprawne.
+
 ## Mapa orientacyjna
 
 - `docs/rejestr-twardych-stopow.md` — zbiorczy indeks warunków zawsze skutkujących 🔴 (04.3), z odsyłaczami do modułu/ekranu/pliku źródłowego. Dopisz tu nowy twardy stop, gdy kolejny moduł go wprowadzi.
@@ -2628,3 +2835,460 @@ konkretnych potrzebnych tabel + kod kalkulatora, po kolei małymi partiami zgodn
 - `components/kafle-ikony/` — animowane SVG ikony kafli pulpitu (na razie 1–7); dopisz tu kolejny `<symbol>` + wpis w `ikona.tsx`, gdy kolejny kafel zostanie zablokowany jako finalny w artefakcie roboczym "Off-Grid Tile Set".
 - `app/`, `components/ui/`, `lib/utils.ts` — obecny szkielet Next.js, bez kodu domenowego.
 - `CLAUDE.md` — punkt wejścia dla AI, odsyła tutaj i do standardu.
+
+## Moduł 5 — 7 nowych ekranów niezablokowanych (13.09.2026)
+
+[13.09.2026] ✅ DODANO — na polecenie właściciela ("zacznijmy z tych co nic nie blokuje"): zbudowana pierwsza partia ekranów Modułu 5 zidentyfikowanych w audycie jako `todo` (nie `blocked`), buildowalnych bez wymyślania danych. Zaimplementowane: Ekran 2 (SPD), Ekran 4 (Łączenie Cu-Al), Ekran 10 (GSW), Ekran 12 (Analiza zwarciowa), Ekran 16 (Wyłączniki RCD), Ekran 28 (Dobór izolacji kabla), Ekran 29 (Pomiary powykonawcze) — pełny wzorzec plikowy każdy (input/constants/warnings/validation/calculator/testy + UI), zarejestrowane w `lib/pulpit/registry.ts` (Kafel 5) i `docs/rejestr-pokrycia.md`. `tsc --noEmit`/`pnpm test` (584/584)/`pnpm lint`/`pnpm build` — wszystkie czyste po całej partii.
+
+**Świadomie NIE zbudowane w tej partii** (wymagają bazy komponentów albo wzoru nieobecnego w źródle, żeby nie zgadywać — pozostają `todo`, nie `blocked`): Ekran 5 (złącza MC4 — baza producentów), Ekran 9 (uziemienie — brak wzoru rezystywności gruntu w źródle), Ekran 13 (selektywność — baza krzywych wyzwalania), Ekran 18 (IMD — zależny od nierozstrzygniętego Ekranu 11, a próg "50kΩ" źródła jest wprost oznaczony jako "np.", nie normatywny), Ekran 21 (normy i certyfikaty — baza certyfikatów).
+
+**Pułapka znaleziona i naprawiona przy Ekranie 29:** `rezystancjaUziemieniaOhm=0` i `czasZadzialaniaRcdS=0` (konwencja "0 = jeszcze nie wpisano") by pomyłkowo przeszły próg `< 10/30 Ω` i `< 0,4 s` jako fałszywy pass (0 < próg jest matematycznie prawdą). Rozwiązanie: dodane osobne ostrzeżenia `REZYSTANCJA-UZIEMIENIA-NIEZMIERZONA`/`CZAS-RCD-NIEZMIERZONY` (critical) dla wartości 0, sprawdzane przed porównaniem z progiem — nie dotyczy `rezystancjaIzolacjiMohm` (próg ">1MΩ" — 0 naturalnie i poprawnie nie przechodzi progu).
+
+**Powtórzona pułapka typów (już znana z wcześniejszych ekranów, dwa nowe przypadki tej sesji):** `CalcResult.inputs` to `Record<string, number>` — pola string/boolean (np. `material1`/`material2` w Ekranie 4, `uzywanaJakoPrzylaczeOdbiornikow` w Ekranie 10) muszą być pominięte w `inputs`, nie tylko w logice. Złapane przez `tsc --noEmit` uruchamiane od razu po każdym `calculator.ts`, nie na końcu partii.
+
+## Nowy materiał źródłowy — propozycja modułu "Dobór napięcia systemu Off-Grid v3.0" (13.09.2026)
+
+[13.09.2026] ✅ DODANO, decyzja o budowie **wstrzymana na wyraźną prośbę właściciela**. Właściciel
+dostarczył pełną specyfikację roboczą nowego modułu — zapisana 1:1, bez zmian, jako
+`docs/zrodla/Material_Nowy_Modul_Dobor_Napiecia_Systemu_OffGrid_v3_0.md` (indeks: `docs/zrodla/README.md`).
+Ustalony proces: (1) zapis jak jest [wykonane] → (2) poprawki [oczekujące] → (3) budowa modułu
+[oczekujące]. **Przypisanie do numeru modułu Off-Grid NIEROZSTRZYGNIĘTE** — właściciel wprost
+powiedział, że nie wie, gdzie ten moduł najlepiej pasuje; nie decydować samodzielnie.
+
+**Do sprawdzenia na etapie poprawek (zauważone przy zapisie, nierozstrzygnięte, nie naprawiane
+samodzielnie — to materiał źródłowy, nietykalny):**
+- ~~Tabela C.1 "do 208 A" dla obu kolumn 12V/24V — artefakt kopiowania~~ **[13.09.2026] SPROSTOWANIE:**
+  po przeliczeniu to NIE jest błąd — matematyczna koincydencja, poprawna: 2500W/12V = 5000W/24V =
+  208,3A dokładnie (bo 5000=2×2500 i 24=2×12). Tabela poprawna, tylko niejasno podpisana (miesza
+  "maks. prąd w danym paśmie" z "prąd na granicy poprzedniego pasma"). Mój wcześniejszy wpis w tym
+  miejscu był błędny — zostawiony przekreślony, nie usunięty (Zasada 15.4/GOD BOOK "nie usuwaj —
+  oznacz").
+- Materiał częściowo pokrywa się tematycznie z już istniejącym ekranem `napiecie-systemowe`
+  (`lib/core/modules/baterie/napiecie-systemowe/`, M4) — ten nowy materiał go znacznie
+  rozszerza (kontekst zastosowania, ogrzewanie, koszty, PV, łączenie pakietów, konwersja 24V→48V).
+  Do ustalenia: czy nowy moduł **zastępuje** istniejący ekran, **rozszerza** go, czy to odrębne,
+  równoległe ścieżki.
+- Etap C (przekroje/prądy/nagrzewanie przewodów) częściowo nakłada się z Modułem 5 (Okablowanie),
+  w tym z już zbudowanym `dobor-przekroju-kabla` (M5/Ekran 1, oparty na normie PN-HD 60364-5-52) —
+  wzór `P_strat = I²R` w tym materiale jest uproszczony (bez uwzględnienia normy obciążalności),
+  do ustalenia czy ma być zastąpiony/uzupełniony przez istniejący silnik normatywny, czy to
+  świadomie inny, uproszczony poziom analizy (edukacyjny, nie projektowy).
+- Ceny/kursy walut (75,50 USD/szt., 1 USD≈4,00 PLN, ceny VEVOR) są orientacyjne i ulegną
+  dezaktualizacji — moduł ma już zaplanowaną opcję "wpisania własnych cen" (punkt 13 w treści),
+  co jest zgodne z zasadą "nie wymyślaj/nie zamrażaj twardych danych rynkowych w kodzie".
+
+**[13.09.2026] USTALENIE (potwierdzone z właścicielem):** Etap C tego materiału (wzór
+`P_strat=I²R`, tabela nagrzewania przewodów) **nie zostanie zaimplementowany jako nowa logika**.
+Zamiast tego przyszły moduł ma wywołać (echo, nie duplikacja):
+1. `calculateNapiecieSystemowe` (`lib/core/modules/baterie/napiecie-systemowe/calculator.ts`,
+   M4/Ekran 2) — już liczy `I=P/V` dla 12/24/48V i rekomenduje napięcie wg mocy szczytowej. Nic
+   nowego do napisania, tylko import + wywołanie z mocą szczytową wyliczoną w nowych Etapach A/B.
+2. `calculateDoborPrzekrojuKabla` (`lib/core/modules/okablowanie/dobor-przekroju-kabla/calculator.ts`,
+   M5/Ekran 1) — trzykrotnie (dla 12V, 24V, 48V z tą samą mocą) da realny, normatywny (PN-HD
+   60364-5-52) przekrój/straty roczne/margines dla porównania — zamiast uproszczonego,
+   nienormatywnego `P=I²R` z materiału.
+
+Powód: M4 i M5 działają poprawnie i kompletnie w swoim zakresie — M4 świadomie NIE liczy
+przekroju (zapisane w jego własnych `assumptions`), M5 liczy przekrój, ale wymaga 6 dodatkowych
+danych wejściowych, których nie ma w M4 ani w tym materiale (długość trasy, materiał, sposób
+ułożenia, temperatura otoczenia, liczba kabli w wiązce, dopuszczalny spadek napięcia%). Nowy
+moduł ma dostarczyć formularz z tymi 6 polami RAZ i wywołać M5 trzykrotnie (różne V/I na wejściu)
+— to jest brakujący element ("nie dograne"), nie brakująca fizyka. Zgodne z zasadą "echo zamiast
+duplikowania logiki" (`docs/standards/01-architektura.md`), już stosowaną w tej sesji przy
+`analiza-zwarciowa` (M5/E12, echo z `dobor-bezpiecznika-dc`).
+
+Realnie nowa logika do napisania (nieistniejąca nigdzie): Etap A (kontekst+ogrzewanie), Etap B
+(kreator odbiorników + analiza jednoczesności/długotrwałości), Etap E (3 kosztorysy), Etap F
+(rozpływ prądu w łączeniu równoległym pakietów), Etap G (dobór paneli PV do falownika), Etap H
+(pułapka 24V→48V, koszt przejścia).
+
+**[13.09.2026] Zasada nadrzędna potwierdzona przez właściciela dla całego tego modułu:** gdziekolwiek
+aplikacja ma już własne, precyzyjniejsze dane/kalkulator niż uproszczenie z tego materiału
+źródłowego — **zawsze wygrywa istniejący kalkulator aplikacji**, materiał źródłowy traktowany jako
+"pierwsze przybliżenie do zweryfikowania", nie jako ostateczna liczba. Dotyczy to już ustalonego
+Etapu C (wyżej) i rozszerza się teraz jawnie na Etap G (patrz niżej).
+
+## Poprawki do modułu "Dobór napięcia" — runda 2 (13.09.2026)
+
+Właściciel dostarczył kartę katalogową JA Solar JAM60D41 LB (zdjęcie, zapisana jako
+`docs/zrodla/karta-katalogowa-JA-Solar-JAM60D41-LB/`) i podjął decyzje po analizie z rundy 1.
+
+**A.3 (pytanie o ogrzewanie) — USTALENIE:** moduł ma domyślnie **czytać dane o ogrzewaniu z reszty
+aplikacji** (Moduł 1 lokalizacja-i-klimat i/lub Moduł 6 ogrzewanie, jeśli użytkownik je już
+wypełnił), zamiast pytać od nowa. Opcja "Nie dotyczy" pozostaje zawsze ręcznie wybieralna — dla
+kontekstów, gdzie ogrzewanie elektryczne budynku nie ma zastosowania (łódź, kamper, inny obiekt
+bez ogrzewania). To jest kolejny przypadek wspólnego stanu wejściowego (nie tylko echo wyniku
+obliczenia, jak w Etapach C/G, ale echo DANYCH WEJŚCIOWYCH między modułami) — spójne z ideą
+"profilu sprzętu/obiektu użytkownika" ze standardu (`docs/standards/`). Niespójność 80 W/m² vs
+zakres 100-150 W/m² w przykładzie A.3 (zgłoszona w rundzie 1) pozostaje otwarta, nie dotyczy tej
+decyzji.
+
+**B.3 (długotrwałe obciążenie) — POPRAWKA:** wiersz "Pralka (grzanie wody)" w tabeli B.3 był
+błędnie oznaczony jako "Chwilowe obciążenie" mimo czasu pracy 0,5-1h, co wg własnej definicji
+sekcji ("odbiorniki pracujące długotrwale = powyżej 30 minut") kwalifikuje się jako
+**długotrwałe**. Poprawka do zastosowania przy budowie: Pralka klasyfikowana jako długotrwałe
+(wpływ: "przewody muszą być dobrane na prąd ciągły", jak pozostałe wiersze tej tabeli), nie
+chwilowe.
+
+**B.2 (analiza jednoczesności) — ZAPROJEKTOWANY ALGORYTM** (materiał źródłowy dawał tylko
+przykłady, bez reguły — poniższe jest propozycją do zaakceptowania przed kodowaniem, nie jeszcze
+zaimplementowane):
+1. Podział zaznaczonych odbiorników na dwie grupy: **bazowe/ciągłe** (lodówka, router, oświetlenie,
+   monitoring — działają praktycznie zawsze razem, sumowane bezwarunkowo) i **przełączalne/
+   wysokomocowe** (AGD, narzędzia, ogrzewanie — użytkownik włącza je świadomie, mogą, ale nie
+   muszą, nakładać się w czasie).
+2. `sumaWorstCase = bazowe + Σ(wszystkie zaznaczone przełączalne)` — scenariusz najgorszego
+   przypadku (wszystko naraz).
+3. Jeśli `sumaWorstCase ≤ mocCiagłaFalownika` → brak możliwego konfliktu, jeden komunikat "OK",
+   koniec (unika sprawdzania 2^n podzbiorów, co jest niepotrzebne i nieczytelne dla użytkownika).
+4. Jeśli `sumaWorstCase > mocCiagłaFalownika` → konflikt istnieje. Żeby dać użytkownikowi
+   praktyczną odpowiedź (nie tylko "masz konflikt"), algorytm:
+   - sortuje przełączalne malejąco wg mocy,
+   - podaje `nadwyzka = sumaWorstCase - mocCiagła` i zachłannie wskazuje najmniejszy zestaw
+     odbiorników (zaczynając od największego), których wyłączenie/nieuruchamianie jednocześnie
+     sprowadza sumę poniżej limitu — komunikat w stylu materiału źródłowego
+     ("nie uruchamiaj razem: X + Y", zamiast enumerować wszystkie kombinacje).
+5. **Waga ostrzeżenia z Etapu B.3:** konflikt między dwoma odbiornikami, które OBA mają
+   długotrwały czas pracy (≥30 min, po poprawce wyżej) → `critical` (realne ryzyko przegrzania
+   długotrwałego). Konflikt, gdzie przynajmniej jeden jest chwilowy (np. czajnik) → `warning`
+   (przejściowe obciążenie, mniejsze ryzyko, ale wciąż warte zgłoszenia).
+6. Świadomie POZA zakresem (brak danych źródłowych, nie zgadywane): prąd rozruchowy/inrush
+   silników i pomp — źródło podaje tylko moc znamionową, nie prąd rozruchowy, więc nie jest on
+   uwzględniany.
+
+**E.4 pkt 1 ("6× więcej miedzi przy 12V") — USUNIĘTE, zastąpione echem z M5.** Sprawdzone: to
+twierdzenie nie ma podanego wzoru i po przeliczeniu wygląda na nieprecyzyjne — przy stałym %
+dopuszczalnego spadku napięcia wymagany przekrój skaluje się jak 1/V² (bo `%spadek = I×ρ×2L /
+(A×V)`, a `I=P/V`, więc `A ∝ P×ρ×2L/(V²×próg%)`) — przejście z 48V na 12V (÷4 napięcia) dawałoby
+**~16×** większy przekrój, nie 6×. Ale **ta liczba "16×" TEŻ jest tylko moim ręcznym przeliczeniem
+pod jednym konkretnym kryterium (spadek napięcia) — nie jest to wartość do wpisania do kodu.**
+Zgodnie z zasadą nadrzędną (wyżej): moduł ma pokazywać **realne wartości z echa
+`calculateDoborPrzekrojuKabla`** (M5) dla 12V/24V/48V przy tej samej mocy/długości trasy — ten
+kalkulator **już liczy** `przekrojMm2` (rzeczywisty, normatywny) ORAZ `strataRocznaKwh` (roczna
+strata energii w kablu, patrz `calculator.ts` M5/Ekran1) — czyli dokładnie to porównanie "o ile
+mniejszy spadek napięcia/strata", o które pytał właściciel, **już istnieje gotowe w kodzie**, nic
+nowego nie trzeba liczyć. Nowy moduł ma pokazać te trzy wyniki obok siebie (12V/24V/48V), nie
+żadną wymyśloną wielokrotność.
+
+**G.1 (brakujące parametry elektryczne panelu) — ROZWIĄZANE.** Karta katalogowa JA Solar
+JAM60D41-500/LB (dostarczona, `docs/zrodla/karta-katalogowa-JA-Solar-JAM60D41-LB/00-INDEKS.md`)
+daje realne wartości: Voc=43,85V, Vmp=36,91V, Isc=14,42A, Imp=13,55A, β(Voc)=−0,250%/°C. Te
+zastępują przybliżenie "Voc~50V" z materiału. **Przeliczenie kontrolne** (wzór z
+`stress-test-mppt`, założenie Tmin=−25°C spójne z resztą aplikacji): napięcie stringu w mrozie na
+panel = 43,85×(1+(−0,0025)×(−25−25)) = **49,33V** (blisko przybliżenia "50V" materiału, więc
+wnioski jakościowe Etapu G się nie zmieniają, ale teraz są policzone z realnych danych, nie
+zgadywane):
+- Model 2 (24V, 8 paneli w szeregu, limit MPPT 500V): string w mrozie = 394,7V → margines 21,1%
+  do limitu. STC: 295,3V (w oknie MPPT), moc = 4000W (zgodne z materiałem).
+- Model 3 (48V, 2×4, limit MPPT 145V): string w mrozie = 98,7V → margines 32,0% do limitu. STC:
+  73,8V (w oknie MPPT), moc = 4000W (zgodne z materiałem).
+
+Wniosek: konfiguracje z materiału (8 szeregowo dla Modelu 2, 2×4 dla Modelu 3) **potwierdzone**
+jako bezpieczne, teraz z policzonym realnym marginesem zamiast przybliżenia. Przy budowie: te
+wartości mają wejść jako `vocStcV`/`vmpStcV`/`impA`/`betaPctNaC` do echa
+`calculateStressTestMppt`/`calculateDopasowanieTablicyFalownika` (M3), nie jako nowa logika w tym
+module. Otwarte i nierozwiązane: brak analogicznej karty katalogowej dla 3 falowników VEVOR
+(potrzebne realne okna MPPT/prądy do pełnej weryfikacji, dziś tylko z materiału źródłowego).
+
+## Poprawki do modułu "Dobór napięcia" — runda 3: C.3 rozstrzygnięte (13.09.2026)
+
+**C.3 (spadek napięcia 100A/25mm²/3m) — właściciel wybrał opcję A.** Liczba w materiale
+("~1,2V, 10% napięcia systemu") zastąpiona rzeczywistym wynikiem tego samego wzoru, którego
+materiał używa w C.2 (`R=ρ×2×L/A`, ρ=0,0172):
+
+R = 0,0172×2×3/25 = 0,00413 Ω → U = 100A×0,00413Ω = **0,41V (3,4% z 12V)**, nie 1,2V/10%.
+
+Do zastosowania przy budowie tego fragmentu (Etap C.3, akapit "Ostrzeżenie: Prąd 100A przy 12V"):
+zdanie "Spadki napięcia: Przy 100A i przewodzie 25mm² o długości 3m spadek napięcia wynosi ~1,2V
+(10% napięcia systemu!)" zamienić na "...spadek napięcia wynosi ~0,41V (3,4% napięcia systemu)".
+Reszta akapitu (prąd spawalniczy, nagrzewanie złączek, ryzyko pożaru przy wibracjach) zostaje bez
+zmian — to jedyna liczba w C.3 niezgodna z własnym wzorem dokumentu, pozostałe trzy argumenty
+ostrzeżenia są poprawne i nie wymagają korekty. Ogólny wniosek akapitu (100A@12V jest niebezpieczne)
+pozostaje prawdziwy — opiera się głównie na ryzyku łuku elektrycznego i nagrzewania złączek, nie na
+samym spadku napięcia.
+
+**Status pozostałych otwartych punktów z rundy 1:** niespójność 80 W/m² vs 100–150 W/m² w
+przykładzie A.3 oraz miejsce/numer modułu w strukturze aplikacji — wciąż nierozstrzygnięte, czekają
+na kolejną rundę.
+
+## Poprawki do modułu "Dobór napięcia" — runda 4: A.3 rozstrzygnięte (13.09.2026)
+
+**A.3 (niespójność 80 W/m² vs zakres 100–150 W/m²) — WYKREŚLONE, nie poprawione liczbowo.**
+Sprawdzone: w aplikacji **nie istnieje dziś żaden kalkulator liczący moc szczytową ogrzewania z
+powierzchni budynku** — Moduł 6 (`lib/core/modules/ogrzewanie/kociol-elektryczny/` i inne) bierze
+`zapotrzebowanieCieplneKwh` jako gotowy input, nie liczy go z m²/typu izolacji. Skoro (decyzja z
+rundy 2) A.3 ma czytać moc ogrzewania z danych już wpisanych w aplikacji (M2/Ekran 1
+`systemy-podtrzymania-zycia`, pole "ogrzewanie" — patrz wątek w tym pliku o luce źródłowej dla tej
+kategorii) albo z "Nie dotyczy", to **worked example materiału (100m²×80W/m²=8000W→667A/333A/167A)
+nigdy nie stanie się żywą kalkulacją w kodzie** — jest to czysto ilustracyjne ręczne szacowanie,
+zdegradowane do roli fallbacku.
+
+**Decyzja:** ten konkretny przykład (i jego niespójna liczba 80 W/m²) **nie jest odtwarzany** przy
+budowie modułu. Sama tabela kategorii ogrzewania z Etapu A.3 (zakresy W/m², nie punktowe liczby)
+zostaje zachowana wyłącznie jako pomocniczy fallback do ręcznego wpisania mocy, gdy użytkownik nie
+ma jeszcze żadnych danych w M2/M6 — jako zakresy (nie konkretne liczby) nie są wewnętrznie
+sprzeczne, więc nie wymagają korekty.
+
+**Etap A.3 uznany za w pełni rozstrzygnięty.** Jedyny pozostały otwarty punkt z całej rundy 1-4
+poprawek: **miejsce/numer modułu w strukturze 13 modułów aplikacji** (patrz wątek "Nowy materiał
+źródłowy" wyżej — właściciel wprost nie wie, gdzie to ma trafić).
+
+## Miejsce modułu "Dobór napięcia" — ROZSTRZYGNIĘTE (13.09.2026)
+
+**Decyzja (propozycja AI, zaakceptowana przez właściciela):** ten materiał **NIE** staje się
+nowym, 14. modułem. Zamiast tego **rozbudowuje istniejący Ekran 2 Modułu 4** (Magazyn energii/
+baterie) — `lib/core/modules/baterie/napiecie-systemowe/` — z dzisiejszego jednopolowego `I=P/V`
+do pełnego Wzorca D "Doradca doboru napięcia".
+
+**Uzasadnienie:**
+1. Ekran 2 M4 już jest dokładnie tym samym pytaniem ("jakie napięcie systemu") — to rozbudowa
+   istniejącego slotu, nie nowy temat.
+2. Wybór napięcia systemu jest z natury decyzją architektury bateryjnej/DC (BMS, falownik,
+   topologia) — to charter M4, nie M2 (obciążenia)/M3 (PV)/M5 (okablowanie), które dostarczają
+   dane wejściowe przez echo, ale nie są miejscem samej decyzji.
+3. M4 ma już sąsiadujące, pokrewne ekrany: `mixing-rownolegle` (blisko nowego Etapu F — rozpływ
+   prądu przy łączeniu równoległym pakietów) i `oplacalnosc-magazynu` (blisko Etapu E, kosztorysy).
+4. Odrzucony 14. moduł — struktura 13 modułów jest już wpisana wszędzie (`lib/pulpit/registry.ts`,
+   `docs/rejestr-pokrycia.md`, GOD BOOK, nawigacja `/moduly/[id]`); dodanie kolejnego modułu dla
+   jednego (choć dużego) ekranu byłoby nieproporcjonalną zmianą strukturalną wobec gotowego,
+   pasującego slotu.
+
+**Docelowy kształt ekranu** (do budowy w kolejnym kroku, poza zakresem tej sesji poprawek):
+sekcje kontekstu (Etap A, echo z M1 lokalizacja-i-klimat / M2 systemy-podtrzymania-zycia dla
+ogrzewania), kreator odbiorników + analiza jednoczesności (Etap B, nowa logika wg zaprojektowanego
+algorytmu wyżej), rekomendacja napięcia (dotychczasowe `I=P/V`, zachowane bez zmian), echo realnego
+przekroju kabla i strat rocznych z `dobor-przekroju-kabla` (Etap C→M5, dla 12V/24V/48V), kosztorysy
+(Etap E, nowa logika z cenami edytowalnymi przez użytkownika), ostrzeżenie o łączeniu pakietów
+(Etap F, blisko `mixing-rownolegle`), echo doboru PV z `stress-test-mppt`/`dopasowanie-tablicy-falownika`
+(Etap G→M3, z realnymi Voc/Vmp/Imp/β z karty katalogowej), pułapka konwersji 24V→48V (Etap H, nowa
+logika). Wersja kalkulatora rośnie (np. 2.0.0), stara logia `I=P/V` nie jest usuwana, tylko
+osadzona w większym ekranie.
+
+**Wszystkie 4 rundy poprawek do tego materiału są teraz zamknięte.** Kolejny krok to budowa —
+osobne zadanie, nie część tej sesji poprawek.
+
+## Budowa modułu "Dobór napięcia" — zakończona (14.09.2026)
+
+Ekran `napiecie-systemowe` (M4/Ekran 2) rozbudowany do wersji 2.0.0 zgodnie z planem wyżej. Rdzeń
+`I=P/V` (progi, formuła) **niezmieniony** — wszystkie 8 dawnych testów przechodzi bez modyfikacji
+logiki. Nowe pliki w module: `jednoczesnosc.ts` (Etap B.2/B.3), `kosztorys.ts` (Etap E + H.4).
+25 testów jednostkowych, wszystkie zweryfikowane ręcznie względem przykładów/tabel źródła.
+
+**Odstępstwo od planu — Etap D świadomie pominięty.** Plan wyżej ("docelowy kształt ekranu") nie
+wymieniał Etapu D (rekomendacja oświetlenia 24V vs 230V vs 48V, gniazda DC) — sprawdzone: to
+czysto informacyjne tabele źródła, bez żadnego wzoru, więc pominięcie nie jest luką liczącą, tylko
+brakiem osobnej sekcji UI. Nie dodane w tej turze (zgodnie z literalnym zakresem planu), do
+ewentualnego dopisania jako czysto informacyjna sekcja w przyszłości, bez wpływu na kalkulator.
+
+**Znaleziony i naprawiony błąd w trakcie budowy: liczba ogniw szeregowo ≠ V/3,2V.** Pierwsza wersja
+`kosztorys.ts` liczyła `liczbaOgniwSzeregowo = napiecieV / 3.2` (np. 12/3.2=3.75 — niecałkowita,
+fizycznie bez sensu). Poprawne: pakiet "12V" LiFePO4 to etykieta handlowa dla 4S (4×3,2V=12,8V
+nominalnie), "24V"→8S, "48V"→16S — 1:1 ze źródła (Sekcja E). Naprawione tabelą `{12:4, 24:8, 48:16}`,
+wykryte przez test jednostkowy (oczekiwane 16 ogniw dla 16kWh@12V, otrzymane 18,75 — niecałkowita
+wartość natychmiast zdradziła błąd). Po poprawce kosztorys 16kWh odtwarza dokładnie tabelę E.3
+źródła: 6332/6582/7162 zł (12V/24V/48V, bez przetwornic).
+
+**Znaleziony i naprawiony błąd UI: kolizja klucza React w zbiorczej liście ostrzeżeń.** Ostrzeżenia
+z echa `dobor-przekroju-kabla` dla 12V/24V/48V (Etap C) były dołączane do wspólnej listy
+`result.warnings`, renderowanej przez `WynikSzczegoly` z `key={w.code}` — gdy DWA napięcia dają to
+samo ostrzeżenie (np. `BRAK-PASUJACEGO-PRZEKROJU` przy bardzo dużej mocy i 12V ORAZ 24V naraz),
+React dostawał duplikat klucza (wykryte na żywo przez Playwright: `[console] Encountered two
+children with the same key`). Naprawione przez tagowanie kodu napięciem przed dołączeniem do
+zbiorczej listy (`${w.code}-${v}V`) w `calculator.ts` — ostrzeżenia wewnątrz panelu Etapu C (per
+napięcie) zachowały oryginalny kod. Ponowny smoke test: `NO CONSOLE/PAGE ERRORS`.
+
+**Realny, pouczający wynik silnika normatywnego (nie błąd):** przy dużej mocy (np. 4615W) i 12V/24V
+Etap C poprawnie zwraca "brak pasującego przekroju" (żaden z dostępnych standardowych przekrojów
+do 35mm² nie udźwignie 385A/192A) — dokładnie demonstrując problem, przed którym cały ten ekran ma
+ostrzegać, tym razem policzony z prawdziwej normy (PN-HD 60364-5-52), nie z uproszczonego `P=I²R`
+materiału źródłowego.
+
+**Weryfikacja końcowa:** `npx tsc --noEmit` czyste, `npx vitest run` 658/658 (105 plików), `pnpm
+lint` czyste (2 niepowiązane wcześniejsze ostrzeżenia `<img>`), `pnpm build` bez błędów, smoke test
+Playwright (formularz wypełniony przez wszystkie Etapy A-H, brak duplikatów DOM id, brak błędów
+konsoli, wartości zgodne z ręcznymi przeliczeniami: kosztorys 6332/6582/7162 zł@16kWh, PV
+4000Wp/DC-AC=1.33 dla modelu 24V/8 paneli, koszt konwersji 2250 zł). `docs/rejestr-pokrycia.md`
+(M4/Ekran2) i `lib/pulpit/registry.ts` (etykieta kafla) zaktualizowane.
+
+## Moduł 5 — druga partia niezablokowanych ekranów (13.09.2026)
+
+[13.09.2026] ✅ DODANO — kontynuacja pracy nad Modułem 5 po przerwie na poprawki innego materiału.
+Zbudowana kolejna partia 7 ekranów zidentyfikowanych jako buildowalne bez zgadywania danych:
+Ekran 3 (tylko dolna sekcja — checklist momentów dokręcania szyn zbiorczych; górna sekcja dobór
+przekroju szyny wg wytrzymałości zwarciowej pozostaje `todo`, brak wzoru w źródle), Ekran 7 (dobór
+mocy falownika), Ekran 11 (uziemienie funkcjonalne vs ochronne), Ekran 14 (wyłączniki nadprądowe
+DC), Ekran 15 (ochrona przed odwrotną polaryzacją), Ekran 20 (oznakowanie obwodów), Ekran 26
+(optymalizacja trasy i kosztu kabla). Pełny wzorzec plikowy każdy, zarejestrowane w
+`lib/pulpit/registry.ts` i `docs/rejestr-pokrycia.md`. `tsc --noEmit`/`pnpm test` (616/616)/
+`pnpm lint`/`pnpm build` — czyste.
+
+**Odkrycie przy Ekranie 20 (Oznakowanie obwodów):** treść źródłowa tego ekranu wspomina
+kolorystykę żył ("czerwony +", "żółto-zielony PE" itd.) jako rzekomo "wg PN-EN 60445" — **to
+nieprawda**. Sprawdzone bezpośrednio w `docs/zrodla/norma-PN-EN-60445/00-INDEKS.md`: ta norma
+normuje WYŁĄCZNIE kody alfanumeryczne/graficzne (Tabela 1: +, −, PE, U/V/W, N...), nie kolorystykę
+— tę normuje osobna norma (IEC 60446), której nie mamy w projekcie. Zbudowano tylko część
+faktycznie potwierdzoną (kody alfanumeryczne), kolorystyka świadomie pominięta z jawną notatką w
+kodzie i UI — nie przypisano normie treści, której nie zawiera.
+
+**Pułapka znaleziona i naprawiona przy Ekranie 26 (Optymalizacja trasy i kosztu kabla) —
+zweryfikowana w przeglądarce, nie tylko w testach jednostkowych:**
+1. Dwa pola `Pole` o identycznym tekście etykiety ("Długość trasy" w Trasie A i B) generowały
+   duplikat `id` (auto-generowany z tekstu etykiety w `components/ui/pole.tsx`), co łamało
+   powiązanie `label`/`input` dla drugiego wystąpienia — złapane przez Playwright (`getByLabel`
+   nie widział drugiego pola), nie przez `tsc`/testy jednostkowe. Naprawione: jawne unikalne `id`
+   na każdym polu w sekcjach Trasa A/Trasa B. **Wniosek procesowy:** gdy ekran ma dwa powtórzone
+   bloki pól o tej samej etykiecie (porównanie A/B, warianty), zawsze nadawać jawne `id` — nie
+   polegać na auto-generowaniu z etykiety.
+2. Realny błąd logiczny (nie tylko UI): gdy trasa nie spełnia wymagań przekroju, echo
+   `calculateDoborPrzekrojuKabla` celowo zwraca `strataRocznaKwh=0` dla tej trasy (nie liczy
+   straty dla niezgodnego przekroju — patrz kod M5/E1, tryb "sprawdź mój przekrój"). Pierwsza
+   wersja kalkulatora TCO tego nie uwzględniała i pokazywała niezgodną trasę jako fałszywie
+   "tańszą" (bo miała 0 kWh/rok straty). Naprawione: TCO NIE jest liczony/pokazywany, dopóki OBIE
+   trasy nie spełniają wymagań przekroju — tylko krytyczne ostrzeżenie wskazujące, którą trasę
+   poprawić. Znalezione dopiero przy ręcznym teście w przeglądarce z realnymi liczbami, nie przy
+   pisaniu testów jednostkowych (które testowały tylko "zgodny" scenariusz) — potwierdza zasadę
+   "kompiluje się ≠ działa" z `docs/standards/10-testy.md`.
+
+**Nadal `todo` w Module 5** (świadomie odłożone — wymagają bazy komponentów/wzoru nieobecnego w
+źródle): Ekran 5 (MC4), Ekran 8 (przepust powietrza — tylko jeden punkt danych "szczelina<5cm→70°C",
+brak wzoru wiążącego szczelinę z temperaturą), Ekran 9 (uziemienie), Ekran 13 (selektywność), Ekran
+17 (ochrona przed dotykiem — treść statyczna, niezbudowana w tej rundzie), Ekran 18 (IMD), Ekran 21
+(normy i certyfikaty), Ekran 23 (separacja EMC), Ekran 24 (peszle/koryta/rurki), Ekran 25 (ochrona
+przed gryzoniami), Ekran 27 (puszki połączeniowe) — te ostatnie 5 (17, 23–25, 27) są buildowalne
+jako proste Wzorce B/C/F (treść porównawcza/referencyjna, dane konkretne w źródle), po prostu
+jeszcze nie zbudowane w tej rundzie, nie zablokowane merytorycznie.
+
+## Moduł 5 — trzecia partia: ostatnie 5 niezablokowanych ekranów (13.09.2026)
+
+[13.09.2026] ✅ DODANO — dokończenie prostych Wzorców B/C/F zidentyfikowanych w poprzednim wpisie
+jako buildowalne. Zbudowane: Ekran 17 (ochrona przed dotykiem — checklist 2 mechanizmów, źródło
+nie podaje twardego stopu dla tego ekranu; "lista IP wg miejsca" NIE zbudowana — brak tabeli
+miejsce→IP w treści TEGO ekranu, w odróżnieniu od Ekranu 27), Ekran 23 (separacja EMC — Wzorzec F
+bez kalkulatora, jak Ekran 19: treść + ilustracja SVG), Ekran 24 (peszle/koryta/rurki — Wzorzec B,
+dopasowanie miejsca montażu do 1 z 4 osłon), Ekran 25 (ochrona przed gryzoniami — "auto z Modułu 1"
+zastąpione ręcznym wyborem poziomu ryzyka, M1 nie ma pola "typ terenu"), Ekran 27 (puszki
+połączeniowe — Wzorzec B wg lokalizacji; "auto-lista punktów z Ekranu 19" NIE zbudowana, Ekran 19
+nie ma modelu danych tras). `tsc --noEmit`/`pnpm test` (631/631)/`pnpm lint`/`pnpm build` — czyste,
+zweryfikowane w przeglądarce (Playwright) w tym sprawdzenie duplikatów DOM `id` na każdej stronie
+(nauczka z poprzedniej partii, Ekran 26).
+
+**To zamyka wszystkie merytorycznie niezablokowane ekrany Modułu 5.** Pozostałe `todo` (6 ekranów:
+5 MC4, 8 przepust powietrza, 9 uziemienie, 13 selektywność, 18 IMD, 21 normy/certyfikaty) wymagają
+bazy komponentów albo wzoru nieobecnego w źródle — pozostają świadomie odłożone, nie przeoczone.
+Moduł 5: 23 z 29 ekranów **done** (79%).
+
+## B5 (Moduł 11) i M4/Ekran 25 — echo doboru kabli, nowa fizyka podziału prądu (14.09.2026)
+
+[14.09.2026] ✅ DODANO — dwa dawno zidentyfikowane "gotowe do echa" ekrany, wreszcie zbudowane.
+
+**B5 (Moduł 11, Ścieżka B — kwasowo-ołowiowa) "Dobór kabli, bezpieczników i zabezpieczeń":**
+`lib/core/modules/montaz-baterii/dobor-kabli-bezpiecznikow-olow/`, 5 testów. Źródło jest
+jednoznaczne: *"Dobór kabla nie zależy od chemii baterii, tylko od prądu i długości — ten sam
+silnik obliczeniowy co w Module 5, tylko podstawiasz inne liczby."* Zaimplementowane jako czyste
+echo dwóch gotowych kalkulatorów: `calculateDoborPrzekrojuKabla` (M5/Ekran 1) dla przekroju,
+`calculateDoborBezpiecznikaRozlacznika` (M5/Ekran 6) dla bezpiecznika+AIC — zero nowej logiki
+liczącej. Status łączny propagowany funkcją `najgorszyStatus` (ten sam wzorzec co w
+`optymalizacja-trasy-kabla`, M5/Ekran 26).
+
+**M4/Ekran 25 "Szyny zbiorcze i połączenia międzypakietowe":** `lib/core/modules/baterie/szyny-zbiorcze-miedzypakietowe/`,
+5 testów. Wcześniej oznaczone jako wymagające "dodatkowej logiki ponad echo" — sekcja C źródła
+daje tylko ilustracyjne przykłady (spadek "20%", "40% vs 15%") bez wzoru. Rozstrzygnięcie:
+problem N gałęzi równoległych do wspólnego węzła ma dobrze znane, **niewymyślone** rozwiązanie —
+regułę podziału prądu z prawa Ohma (prąd dzieli się odwrotnie proporcjonalnie do rezystancji
+gałęzi), z rezystancją liczoną identycznym wzorem co M5/Ekran 1 (R=ρ×2L/A). Podwójna weryfikacja
+ręczna w teście: 2 gałęzie z R_B=3×R_A dają dokładnie 75%/25% (bo I_A/I_total=R_B/(R_A+R_B)=3/4).
+
+**Świadome ograniczenie zakresu M4/E25 (udokumentowane w kodzie, nie ukryte):** model obejmuje
+TYLKO topologię gwiazda (każda gałąź niezależnym odcinkiem do wspólnego węzła/szyny). NIE
+obejmuje: (a) połączenia kaskadowego — rezystancja sumuje się wzdłuż łańcucha, inna topologia
+obwodu (drugi przykład źródła, "4 baterie kaskadowo"); (b) asymetrii punktu zasilania wzdłuż
+JEDNEJ szyny zbiorczej — rozłożona rezystancja wzdłuż szyny, inny model niż N niezależnych gałęzi
+(pierwszy przykład źródła, "ogniwo #1 vs #8, przesuń kabel na środek szyny"). Obie te topologie
+wymagałyby osobnego modelu sieciowego (nie prostego podzielnika prądu) — świadomie nie zbudowane,
+nie zgadywane. Żaden próg "niebezpiecznego" % odchylenia nie został wymyślony — źródło nie podaje
+takiego progu (oba przykłady są ilustracyjne), więc kalkulator pokazuje policzone odchylenie
+wprost, bez etykiety "bezpieczne/niebezpieczne".
+
+`tsc --noEmit`/`pnpm test` (641/641)/`pnpm lint`/`pnpm build` — czyste. Zweryfikowane w
+przeglądarce (Playwright), w tym sprawdzenie duplikatów DOM `id` (formularz M4/E25 ma dynamiczną
+listę gałęzi z jawnymi unikalnymi `id` per gałąź — nauczka z Ekranu 26 zastosowana od razu przy
+projektowaniu, nie znaleziona post factum).
+
+## Dobudowa Etapu D w module "Dobór napięcia" (14.09.2026)
+
+Na wyraźną prośbę autora dobudowany pominięty wcześniej Etap D (patrz sekcja "Budowa modułu
+'Dobór napięcia' — zakończona" wyżej, akapit "Odstępstwo od planu"). Przeczytany pełny materiał
+źródłowy (`docs/zrodla/Material_Nowy_Modul_Dobor_Napiecia_Systemu_OffGrid_v3_0.md`, linie 231-277):
+D.1 (porównanie LED 230V/24V/48V + zalecenie) i D.2 (dedykowane gniazda DC dla elektroniki:
+router/TV/laptop/telefon/radio).
+
+**Ustalone przed implementacją:** numeryczny rdzeń D.1 (koszt przetwornic DC-DC 48V→24V dla linii
+oświetlenia) już liczy się w Etapie E (`kosztorys.ts`, pola `liczbaLiniiOswietlenia24vPrzySystemie48v`/
+`cenaPrzetwornicyDcDcZl`, zbudowane wcześniej) — więc Etap D nie potrzebuje nowej logiki
+obliczeniowej ani nowego kalkulatora, tylko czysto informacyjnej treści (ten sam wzorzec co już
+zbudowany Etap F: statyczne tabele + tekst, bez `calculator.ts`).
+
+Dodane: `POROWNANIE_OSWIETLENIA_LED`, `ZALECENIE_OSWIETLENIA_LED`, `KATALOG_URZADZEN_DC`,
+`ZALETA_GNIAZD_DC` w `constants.ts` (dane 1:1 ze źródła) + nowa sekcja `<details>` "Etap D" w
+`app/kalkulatory/napiecie-systemowe/page.tsx`, umieszczona między Etapem C a Etapem E (kolejność
+źródła). Brak zmian w `calculator.ts`/`input.ts`/testach — CALCULATOR_VERSION pozostaje 2.0.0
+(treść informacyjna, nie logika).
+
+Zweryfikowane: `tsc --noEmit` czyste, `vitest run` 658/658 (bez zmian — brak nowej logiki do
+testowania), `pnpm lint` czyste (te same 2 niepowiązane ostrzeżenia `<img>`), `pnpm build` bez
+błędów, smoke test Playwright (sekcja Etap D otwarta i odczytana — pełna treść D.1/D.2 renderuje
+się poprawnie, brak duplikatów DOM `id`, brak błędów konsoli). `docs/rejestr-pokrycia.md`
+(M4/Ekran2) zaktualizowany — usunięta wzmianka o świadomym pominięciu Etapu D, zastąpiona opisem
+dobudowy.
+
+## Nowa reguła standardu: Ekrany pochodne i Kreator Pro (14.09.2026)
+
+Podczas projektowania (jeszcze roboczego, nieopublikowanego) modułu "Oświetlenie LED"
+(`docs/zrodla/Opracowanie_Tasmy_LED_Oswietlenie_DC_DRAFT.md`, Sekcja 15) autor doprowadził w
+dyskusji do nowej, ogólnej reguły nawigacyjnej — zapisanej jako `docs/standards/08-ui-ux.md`
+§8.11, nie tylko w szkicu tego jednego modułu, bo **ma być zastosowana retroaktywnie w całej
+aplikacji** (wyraźna prośba autora — "musimy przejść przez całą apkę i wnieść takie same
+poprawki").
+
+**Reguła w skrócie:** w obrębie jednego modułu rozróżniamy trzy role ekranu, nigdy nie mieszane w
+jeden: (1) **artykuł referencyjny** (Wzorzec C, samodzielny, edukacyjny) — nie wplatany między
+kroki Doradcy; (2) **ekran pochodny** — cienka nakładka na już istniejącą funkcję kalkulatora
+(echo, zero nowej logiki), zawężony/nazwany kontekst, jeden konkretny wynik zamiast pełnego
+drzewa opcji, motywowany zarówno prowadzeniem początkującego za rękę jak i postrzeganą wartością
+aplikacji (użytkownik ocenia po tym, co widzi jako osobne kafelki, nie po tym, co ukryte wewnątrz
+jednego złożonego ekranu); (3) **Kreator Pro** — pełny, multi-ścieżkowy wariant Wzorca D/A, jako
+świadomie wybierana opcja dla zaawansowanego użytkownika, nie domyślny punkt wejścia (to ten sam
+podział co istniejące już §8.5 Tryb prosty/zaawansowany, tylko zrealizowany jako osobny ekran
+zamiast przełącznika).
+
+Decyzja **które konkretnie** ekrany pochodne wydzielić z Kreatora Pro zapada osobno w każdym
+module (kryterium: da się odpowiedzieć jednym wywołaniem istniejącej funkcji na pojedyncze,
+nazwane pytanie początkującego) — nie jest to sztywna, odgórna lista.
+
+**Konsekwencja praktyczna, jeszcze nie wykonana:** autor zlecił przegląd **całej** istniejącej
+aplikacji pod kątem tej reguły — czy któryś z 13 istniejących modułów ma dziś ekran, który w
+jednym miejscu miesza artykuł/edukację z krokami Doradcy, albo który powinien dostać ekrany
+pochodne dla typowych, nazwanych pytań początkujących. To osobne, jeszcze nierozpoczęte zadanie
+(wymaga przejścia modułu po module) — nie mylić z samym zapisaniem reguły w standardzie, co
+zostało wykonane teraz.
+
+## Opracowanie "Oświetlenie LED" — wstrzymane na jednym punkcie (14.09.2026)
+
+Szkic `docs/zrodla/Opracowanie_Tasmy_LED_Oswietlenie_DC_DRAFT.md` (15 sekcji, ~1280 linii) jest
+merytorycznie kompletny i czeka na finalną akceptację autora przed Krokiem 2 (dodanie do Biblii).
+**Jedyny blokujący punkt:** `R_taśmy_na_metr` (Sekcja 8.2) wymaga karty katalogowej konkretnego
+producenta TAŚM (nie zasilaczy — to inna firma, pomyłka z wcześniejszej tury poprawiona w
+dokumencie). Autor świadomie nie przekazał jeszcze tej karty w tej turze i przechodzi do innych
+zadań — **nie proponować samodzielnie wartości `R_taśmy_na_metr` ani nie zamykać opracowania bez
+tego dokumentu**, tylko czekać, aż autor go dostarczy. Wszystko inne w dokumencie (rodzaje taśm,
+oznaczenia, żywotność, biel/RGBW, CCT, RGB/RGBIC, SMD/COB/FCOB, algorytm spadku napięcia, dobór
+zasilacza — zapas mocy zamknięty na regule 80%, złącza, weryfikacja po zakupie, sterowanie,
+struktura nawigacji "Oświetlenie"→LED z artykułami/ekranami pochodnymi/Kreatorem Pro/hubem
+Hand-Made) jest gotowe i nie wymaga dalszej pracy do czasu tej jednej karty katalogowej.
+
+Przy okazji tego opracowania powstała też nowa, ogólna reguła standardu — **Ekrany pochodne i
+Kreator Pro** (`docs/standards/08-ui-ux.md` §8.11, zgłoszona równolegle do `new-app-standards` w
+`docs/wklad-do-standardu.md`) — oraz trzy zgłoszenia do `new-app-standards`: rozbudowa AI (gotowa
+do konsolidacji), i szkielety logowania/wielojęzyczności (świadomie niedokończone, autor robi
+`zero-waste` osobno — nie ruszać tych dwóch plików w `docs/propozycje-do-new-app-standards/` do
+czasu wyraźnej prośby).

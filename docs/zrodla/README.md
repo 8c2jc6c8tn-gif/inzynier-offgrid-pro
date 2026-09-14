@@ -102,10 +102,14 @@ jawnie w `01-tresc.md`.
   on-grid. Zawiera konkretne progi liczbowe (Tabela 31 — czasy odłączenia przy prądzie
   resztkowym, progi 4.8.3.1) i wymagania THD dla falowników stand-alone.
 - **UNE-HD 60364-7-712:2017** (instalacje PV) —
-  `docs/zrodla/norma-HD-60364-7-712/`. 🔴 **Tylko wyciąg — spis treści + bibliografia (6 stron),
-  brak całej treści technicznej** (712.41-712.6, Załącznik B z obliczeniem U_OC MAX/I_SC MAX).
-  Praktycznie nie odblokowuje niczego w obecnej postaci — do faktycznego wykorzystania potrzebny
-  zakup pełnego tekstu.
+  `docs/zrodla/norma-HD-60364-7-712/`. 🔴 **[HISTORYCZNE, 05.09.2026]** Wtedy: tylko wyciąg — spis
+  treści + bibliografia (6 stron), brak całej treści technicznej (712.41-712.6, Załącznik B z
+  obliczeniem U_OC MAX/I_SC MAX), praktycznie nic nie odblokowywał.
+  **[06.09.2026] ✅ PEŁNY TEKST DOSTARCZONY** (35 stron, bezpośrednio na `main`) — przeczytany w
+  całości i użyty tego samego dnia do przepisania `ochrona-stringow` (M3/Ekran 22) wg §712.431-433
+  + Załącznik B.2; wzór w `stress-test-mppt` (M3/E5) potwierdzony jako zgodny z Załącznikiem B.1.
+  Plik: `docs/zrodla/norma-HD-60364-7-712/UNE-HD-60364-7-712-2017-pelny-tekst.pdf`. Szczegóły:
+  `docs/zrodla/norma-HD-60364-7-712/00-INDEKS.md`, `docs/memory.md`.
 - **Materiał branżowy "Aktualne przepisy w zakresie ochrony przeciwporażeniowej"** (prezentacja
   szkoleniowa, nie norma) — `docs/zrodla/materialy-branzowe-ochrona-przeciwporazeniowa-2010/`.
   **Rozwiązuje krytyczny brak Tablic 41A/41B** z normy PN-IEC 60364-4-41 (patrz wyżej) — ale
@@ -151,3 +155,58 @@ europejskie — nieużywane dla Polski, okres powrotu, ciężar objętościowy �
 **Odblokowuje ekran "Obciążenie dachu śniegiem"** (`docs/rejestr-pokrycia.md`, Moduł 3, dawne
 6.34→7.32) — wcześniej `todo` z notatką "ryzyko braku normy budowlanej", teraz ma pełne, formalne
 źródło normatywne. Status wykorzystania: przeanalizowany, jeszcze niewykorzystany w kodzie.
+
+## Uzupełnienie praktyczne — Montaż 16S LiFePO4, Moduł 11 (13.09.2026)
+
+[13.09.2026] ✅ DODANO — źródło: właściciel projektu, notatki z realnego montażu pakietu 16S
+LiFePO4 (nie formalna norma, materiał praktyczny — analogicznie do `materialy-branzowe-*`).
+Plik: **`docs/zrodla/Uzupelnienie_Modul_11_Montaz_16S_Praktyczny.md`** — 5 tomów: selekcja ogniw
+i top-balancing, montaż mechaniczny/kompresja, dobór i montaż busbarów (+ obalenie mitu o
+wierceniu otworu w środku busbara), sekwencja podłączenia/konfiguracji BMS, przekroje
+przewodów/dobór złączy oczkowych, dioda vs rezystor pre-charge przy podłączeniu do falownika,
+tabela kontrolna wartości.
+
+**Status wykorzystania:** przeanalizowane względem już zbudowanych ekranów A2–A5 Modułu 11
+(`docs/rejestr-pokrycia.md`) — część treści potwierdza istniejące wartości, część je uszczegóławia,
+jedna wartość (moment dokręcania M6) jest w jawnej sprzeczności z wartością już w kodzie
+(`moment-dokrecania-srub`, M4/E11) — zgłoszone do rozstrzygnięcia właścicielowi projektu, nie
+rozstrzygnięte samodzielnie. Pełna analiza: `docs/memory.md` (2026-09-13).
+
+## Propozycja nowego modułu — Dobór napięcia systemu Off-Grid v3.0 (13.09.2026)
+
+[13.09.2026] ✅ DODANO — źródło: właściciel projektu, pełna specyfikacja robocza (nie formalna
+norma, materiał produktowy/koncepcyjny analogiczny do plików `Tresc_Modul_*`). Plik:
+**`docs/zrodla/Material_Nowy_Modul_Dobor_Napiecia_Systemu_OffGrid_v3_0.md`** — zapisany 1:1, bez
+zmian treści, jako pierwszy krok ustalonego z właścicielem procesu: (1) zapisać jak jest → (2)
+wnieść poprawki → (3) zbudować moduł.
+
+Zawiera: kontekst zastosowania (dom/kamper/łódź/nowy budynek), pytanie o ogrzewanie i jego wpływ
+na wymagane napięcie, kreator odbiorników z automatyczną analizą jednoczesności i długotrwałego
+obciążenia, progi decyzyjne 12/24/48V, analizę nagrzewania przewodów (P=I²R) i bezpieczeństwa
+prądowego (100A@12V), rekomendację oświetlenia DC (24V vs 230V vs 48V + koszt przetwornic),
+trzy kosztorysy równoległe (EVE MB31 314Ah, falowniki VEVOR), problem równoległego łączenia
+pakietów akumulatorów (busbar vs daisy-chain), dobór paneli JA Solar 500W do 3 modeli falowników
+VEVOR, oraz kluczowy rozdział H — dlaczego nie można łączyć dwóch pakietów 24V szeregowo w 48V
+(rozjazd BMS, brak komunikacji master-slave) i koszt "przejścia" 24V→48V.
+
+**Przypisanie do numeru modułu Off-Grid: NIEROZSTRZYGNIĘTE**, właściciel wprost zaznaczył, że nie
+wie, gdzie ten moduł najlepiej pasuje. Ma częściowe pokrycie tematyczne z już istniejącymi
+ekranami: `lib/core/modules/baterie/napiecie-systemowe/` (M4, sugestia napięcia wg mocy — ten
+materiał go znacznie rozszerza), Moduł 2 (bilans odbiorników, Etapy A-B), Moduł 5 (przekroje/
+prądy, Etap C), Moduł 3 (dobór paneli PV do falownika, Etap G — pokrywa się z
+`dopasowanie-tablicy-falownika`/`stress-test-mppt`/`konfigurator-stringow`). Decyzja o
+przypisaniu i budowie **czeka na etap poprawek**, nie podejmowana samodzielnie — patrz
+`docs/memory.md`.
+
+Status wykorzystania: zapisany, trwa etap poprawek (patrz `docs/memory.md`, 13.09.2026),
+jeszcze niewykorzystany w kodzie.
+
+## Karta katalogowa JA Solar JAM60D41 LB, seria 485-510W (13.09.2026)
+
+[13.09.2026] ✅ DODANO — źródło: właściciel projektu, zdjęcie karty katalogowej producenta.
+Uzupełnia lukę zgłoszoną przy analizie materiału wyżej (Etap G nie miał realnych Voc/Vmp/Isc/Imp/
+współczynników temperaturowych panelu). Plik: `docs/zrodla/karta-katalogowa-JA-Solar-JAM60D41-LB/`,
+zacznij od `00-INDEKS.md`. Zawiera pełną tabelę elektryczną dla 6 wariantów mocy (485-510W) +
+parametry mechaniczne + warunki pracy. Status wykorzystania: przeanalizowany, wartości dla
+wariantu -500/LB przeliczone kontrolnie względem istniejących kalkulatorów M3
+(`stress-test-mppt`/`dopasowanie-tablicy-falownika`) — patrz `docs/memory.md`.

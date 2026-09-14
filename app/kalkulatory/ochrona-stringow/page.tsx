@@ -10,18 +10,25 @@ import { WynikGlowny } from "@/components/wzorce/wynik-glowny"
 import { WynikSzczegoly } from "@/components/wzorce/wynik-szczegoly"
 
 export default function OchronaStringowPage() {
-  const [iscA, setIscA] = useState("")
+  const [iscStcA, setIscStcA] = useState("")
+  const [iModMaxOcprA, setIModMaxOcprA] = useState("")
   const [liczbaStringowRownoleglych, setLiczbaStringowRownoleglych] = useState("")
   const [maZabezpieczeniaPerString, setMaZabezpieczeniaPerString] = useState(false)
+  const [sprawdzamWybrany, setSprawdzamWybrany] = useState(false)
+  const [wybranyBezpiecznikA, setWybranyBezpiecznikA] = useState("")
 
   const result = useMemo(
     () =>
       calculateOchronaStringow({
-        iscA: iscA === "" ? 0 : Number(iscA),
-        liczbaStringowRownoleglych: liczbaStringowRownoleglych === "" ? 0 : Number(liczbaStringowRownoleglych),
+        iscStcA: iscStcA === "" ? 0 : Number(iscStcA),
+        iModMaxOcprA: iModMaxOcprA === "" ? 0 : Number(iModMaxOcprA),
+        liczbaStringowRownoleglych:
+          liczbaStringowRownoleglych === "" ? 0 : Number(liczbaStringowRownoleglych),
         maZabezpieczeniaPerString,
+        wybranyBezpiecznikA:
+          sprawdzamWybrany && wybranyBezpiecznikA !== "" ? Number(wybranyBezpiecznikA) : null,
       }),
-    [iscA, liczbaStringowRownoleglych, maZabezpieczeniaPerString],
+    [iscStcA, iModMaxOcprA, liczbaStringowRownoleglych, maZabezpieczeniaPerString, sprawdzamWybrany, wybranyBezpiecznikA],
   )
 
   const hasCritical = result.warnings.some((w) => w.level === "critical")
@@ -39,8 +46,8 @@ export default function OchronaStringowPage() {
   const verdictLabel: Record<typeof verdict, string> = {
     invalid: "Nie da się policzyć",
     incomplete: "Wypełnij wszystkie pola",
-    red: "Zabronione — brak wymaganych zabezpieczeń",
-    green: "Dobrany bezpiecznik per string",
+    red: "Zabronione — norma HD 60364-7-712 nie jest spełniona",
+    green: "Zgodne z normą HD 60364-7-712",
   }
 
   return (
@@ -48,18 +55,27 @@ export default function OchronaStringowPage() {
       <NawigacjaEkranu href="/kalkulatory/ochrona-stringow" />
       <NaglowekEkranu tytul="Ochrona stringów">
         Chroń każdy string osobno, żeby awaria jednego nie pociągnęła za sobą reszty instalacji.
-        Moduł 3, Ekran 22.
+        Moduł 3, Ekran 22. Wg normy HD 60364-7-712 (§712.431-433, Załącznik B.2).
       </NaglowekEkranu>
 
       <div className="flex flex-col gap-4">
         <Pole
-          label="Prąd zwarciowy panelu (Isc)"
+          label="Prąd zwarciowy panelu w STC (Isc)"
           unit="A"
           type="number"
           inputMode="decimal"
           min={0}
-          value={iscA}
-          onChange={(e) => setIscA(e.target.value)}
+          value={iscStcA}
+          onChange={(e) => setIscStcA(e.target.value)}
+        />
+        <Pole
+          label="Maks. prąd zabezpieczenia nadprądowego modułu (I_MOD_MAX_OCPR, karta katalogowa)"
+          unit="A"
+          type="number"
+          inputMode="decimal"
+          min={0}
+          value={iModMaxOcprA}
+          onChange={(e) => setIModMaxOcprA(e.target.value)}
         />
         <Pole
           label="Liczba stringów równoległych"
@@ -72,15 +88,34 @@ export default function OchronaStringowPage() {
         />
         <PoleCheckbox
           id="ma-zabezpieczenia"
-          label="Zainstalowane są bezpieczniki/diody blokujące per string"
+          label="Zainstalowane jest zabezpieczenie nadprądowe per string"
           checked={maZabezpieczeniaPerString}
           onChange={(e) => setMaZabezpieczeniaPerString(e.target.checked)}
         />
+        <PoleCheckbox
+          id="sprawdzam-wybrany"
+          label="Sprawdzam już wybrany bezpiecznik"
+          checked={sprawdzamWybrany}
+          onChange={(e) => setSprawdzamWybrany(e.target.checked)}
+        />
+        {sprawdzamWybrany && (
+          <Pole
+            label="Prąd znamionowy wybranego bezpiecznika"
+            unit="A"
+            type="number"
+            inputMode="decimal"
+            min={0}
+            value={wybranyBezpiecznikA}
+            onChange={(e) => setWybranyBezpiecznikA(e.target.value)}
+          />
+        )}
       </div>
 
       <WerdyktPanel poziom={verdictPoziom[verdict]} etykieta={verdictLabel[verdict]}>
         {verdict !== "invalid" && verdict !== "incomplete" && (
-          <WynikGlowny>{result.value.bezpiecznikA.toFixed(1)} A</WynikGlowny>
+          <WynikGlowny>
+            {result.value.inMinA.toFixed(2)}–{result.value.inMaxA.toFixed(2)} A
+          </WynikGlowny>
         )}
         <WynikSzczegoly assumptions={result.assumptions} warnings={result.warnings} formula={result.formula} />
       </WerdyktPanel>

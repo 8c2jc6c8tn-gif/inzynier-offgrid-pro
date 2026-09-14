@@ -1,6 +1,6 @@
 # Rejestr decyzji — Inżynier Offgrid Pro
 
-**Wersja:** 1.0 | **Filar:** C | **Data utworzenia:** 04.09.2026 | **Ostatnia aktualizacja:** 04.09.2026 | **Status:** Stabilny (rosnący)
+**Wersja:** 1.1 | **Filar:** C | **Data utworzenia:** 04.09.2026 | **Ostatnia aktualizacja:** 07.09.2026 | **Status:** Stabilny (rosnący)
 **Powiązane dokumenty:** `00_Biblia.md`, `docs/memory.md`, `USTALENIA.md` (historyczny, Część II)
 
 TL;DR: D1, D2, D3… — decyzje **strategiczne/fundamentalne** (blokujące wiele innych rzeczy naraz, Krok 4 GOD BOOK), ponumerowane, nigdy nie kasowane, tylko unieważniane jawnie (F.5). **Nie duplikuje `docs/memory.md`**: tam żyje pełna, szczegółowa historia każdej sesji (setki drobnych decyzji implementacyjnych per ekran) — tu tylko decyzje, które zmieniły kierunek/regułę obowiązującą cały projekt. Gdy wpis niżej odsyła do `docs/memory.md`, tam jest pełne uzasadnienie i przykłady.
@@ -49,6 +49,8 @@ TL;DR: D1, D2, D3… — decyzje **strategiczne/fundamentalne** (blokujące wiel
 
 **D19 (04.09.2026) — Migracja `ZASADY_APLIKACJI.md`/`USTALENIA.md` do kanonicznego formatu GOD BOOK (`00_Biblia.md` i pozostałe dokumenty Części S).** Koszt cofnięcia: średni (zmiana struktury plików, nie treści — wszystko zmapowane, nic nie usunięte). Decyzja właściciela projektu, wcześniej otwarta w `docs/lista-do-zrobienia.md` jako "czeka na właściciela" (patrz D17 tego rejestru — ta sama sesja). Stare pliki zostają, oznaczone jako historyczne (Część D GOD BOOK — nic nie usuwamy).
 
+**D20 (07.09.2026) — Wzorzec "echo" (D12) wymaga wspólnego uzasadnienia fizycznego/normatywnego, nie tylko wspólnej wartości liczbowej — doprecyzowanie, nie unieważnienie D12.** Koszt cofnięcia: tani, ale wysoka wartość zapobiegawcza (dotyczy każdego przyszłego echo w projekcie). Znalezione przy audycie GOD BOOK Część N: `ochrona-stringow` (M3/E22) i `dobor-bezpiecznika-rozlacznika` (M5/E6) dzieliły funkcję `obliczPradBezpiecznikaA` przez ~2 dni, bo obie mnożyły przez współczynnik 1,25 — ale to były dwa niezależne prawa (margines Isc_STC→Isc_max wg Załącznika B.2 normy HD 60364-7-712 vs. ogólny margines doboru bezpiecznika obwodu), które tylko przypadkiem miały tę samą wartość. Gdy norma poprawiła pierwszy wzór (przedział `[1,1×I_SC_MAX, I_MOD_MAX_OCPR]` zamiast stałej `1,25×Isc`), echo trzeba było rozdzielić — M5/E6 dostał lokalną kopię formuły. Decyzja właściciela projektu, na wyraźną prośbę. Pełne: `docs/memory.md` (2026-09-07), `dlug-techniczny.md` TD13, `kontrakty-rdzenia.md` §4.
+
 ---
 
 ## Założenia robocze (F.7 GOD BOOK)
@@ -62,3 +64,4 @@ TL;DR: D1, D2, D3… — decyzje **strategiczne/fundamentalne** (blokujące wiel
 | Data | Zmiana |
 |---|---|
 | 04.09.2026 | Utworzono — D1–D19 zrekonstruowane z `USTALENIA.md` Część II, dziennika zmian `ZASADY_APLIKACJI.md`, oraz decyzji strategicznych z `docs/memory.md`. Z1 dodane. Wersja 1.0. |
+| 07.09.2026 | Dodano D20 (echo wymaga wspólnego uzasadnienia, nie tylko wspólnej wartości) — na wyraźną prośbę właściciela projektu, po audycie GOD BOOK Część N. Wersja 1.0→1.1. |

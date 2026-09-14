@@ -21,8 +21,16 @@ export default function ProceduraBlackStartPage() {
     setPotwierdzoneIds((prev) => (prev.includes(id) ? prev.filter((x) => x !== id) : [...prev, id]))
   }
 
+  const hasCritical = result.warnings.some((w) => w.level === "critical")
+
   const poziom: WerdyktPoziom | null =
-    result.status === "VALID" ? "ok" : result.status === "VALID_WITH_WARNINGS" ? "uwaga" : null
+    result.status === "VALID"
+      ? "ok"
+      : result.status === "VALID_WITH_WARNINGS"
+        ? hasCritical
+          ? "blad"
+          : "uwaga"
+        : null
 
   return (
     <main className="mx-auto flex max-w-md flex-col gap-6 p-6">
