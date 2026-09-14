@@ -3240,3 +3240,34 @@ błędów, smoke test Playwright (sekcja Etap D otwarta i odczytana — pełna t
 się poprawnie, brak duplikatów DOM `id`, brak błędów konsoli). `docs/rejestr-pokrycia.md`
 (M4/Ekran2) zaktualizowany — usunięta wzmianka o świadomym pominięciu Etapu D, zastąpiona opisem
 dobudowy.
+
+## Nowa reguła standardu: Ekrany pochodne i Kreator Pro (14.09.2026)
+
+Podczas projektowania (jeszcze roboczego, nieopublikowanego) modułu "Oświetlenie LED"
+(`docs/zrodla/Opracowanie_Tasmy_LED_Oswietlenie_DC_DRAFT.md`, Sekcja 15) autor doprowadził w
+dyskusji do nowej, ogólnej reguły nawigacyjnej — zapisanej jako `docs/standards/08-ui-ux.md`
+§8.11, nie tylko w szkicu tego jednego modułu, bo **ma być zastosowana retroaktywnie w całej
+aplikacji** (wyraźna prośba autora — "musimy przejść przez całą apkę i wnieść takie same
+poprawki").
+
+**Reguła w skrócie:** w obrębie jednego modułu rozróżniamy trzy role ekranu, nigdy nie mieszane w
+jeden: (1) **artykuł referencyjny** (Wzorzec C, samodzielny, edukacyjny) — nie wplatany między
+kroki Doradcy; (2) **ekran pochodny** — cienka nakładka na już istniejącą funkcję kalkulatora
+(echo, zero nowej logiki), zawężony/nazwany kontekst, jeden konkretny wynik zamiast pełnego
+drzewa opcji, motywowany zarówno prowadzeniem początkującego za rękę jak i postrzeganą wartością
+aplikacji (użytkownik ocenia po tym, co widzi jako osobne kafelki, nie po tym, co ukryte wewnątrz
+jednego złożonego ekranu); (3) **Kreator Pro** — pełny, multi-ścieżkowy wariant Wzorca D/A, jako
+świadomie wybierana opcja dla zaawansowanego użytkownika, nie domyślny punkt wejścia (to ten sam
+podział co istniejące już §8.5 Tryb prosty/zaawansowany, tylko zrealizowany jako osobny ekran
+zamiast przełącznika).
+
+Decyzja **które konkretnie** ekrany pochodne wydzielić z Kreatora Pro zapada osobno w każdym
+module (kryterium: da się odpowiedzieć jednym wywołaniem istniejącej funkcji na pojedyncze,
+nazwane pytanie początkującego) — nie jest to sztywna, odgórna lista.
+
+**Konsekwencja praktyczna, jeszcze nie wykonana:** autor zlecił przegląd **całej** istniejącej
+aplikacji pod kątem tej reguły — czy któryś z 13 istniejących modułów ma dziś ekran, który w
+jednym miejscu miesza artykuł/edukację z krokami Doradcy, albo który powinien dostać ekrany
+pochodne dla typowych, nazwanych pytań początkujących. To osobne, jeszcze nierozpoczęte zadanie
+(wymaga przejścia modułu po module) — nie mylić z samym zapisaniem reguły w standardzie, co
+zostało wykonane teraz.
