@@ -32,7 +32,14 @@ artykułów i Kreatora, dodane **ekrany pochodne** — cienkie, jednozadaniowe n
 funkcje kalkulatora (zero nowej logiki, czysty echo), po jednym na typową, nazwaną sytuację
 początkującego (np. "jaka taśma do kuchni"). Pełny multi-ścieżkowy kreator z pierwotnej wersji
 15.3 przemianowany na **Kreator Pro** — opcja dla zaawansowanych, nie domyślny punkt wejścia.
-Wciąż czeka na akceptację — przed nią nic w kodzie/Biblii się nie zmienia.
+
+**[14.09.2026, runda 6]** Rozwinięta Sekcja 14 (dotąd świadomy zarys) do pełnej głębi: piloty
+RF/IR, sterowanie WiFi/Bluetooth (z ryzykiem zależności od chmury producenta), integracje smart
+home (Zigbee/Tuya/Matter/Home Assistant, z rozróżnieniem "działa z Tuya" od natywnej integracji),
+profesjonalne magistrale DALI/KNX, ściemniacze DC, czujniki i harmonogramy, oraz konsekwencja
+off-gridowa: stały pobór kontrolerów WiFi/chmurowych w trybie czuwania jako kategoria odbiornika
+bazowego (echo Etapu B.2 modułu "Dobór napięcia"). Dokument wciąż czeka na akceptację całości —
+przed nią nic w kodzie/Biblii się nie zmienia.
 
 **Konwencja tagowania (zgodna z `docs/standards/15-wspolpraca-z-ai.md` / GOD BOOK):**
 - `[FAKT]` — twarde prawo fizyki/elektrotechniki, niezależne od producenta (Ohm, moc, temperatura barwowa jako wielkość fizyczna).
@@ -862,38 +869,140 @@ Docelowa treść na koniec modułu (po akceptacji), w duchu "żeby nie miał pro
 
 ---
 
-## 14. Sterowanie oświetleniem — rodzaje kontrolerów i sposoby (ZARYS — do głębszego rozwinięcia)
+## 14. Sterowanie oświetleniem — rodzaje kontrolerów i sposoby
 
-**Ten rozdział jest świadomie niepełny** — zarys tematów do rozwinięcia w kolejnej turze, żeby nie
-zgubić zakresu, zanim zostanie napisany dogłębnie. Różni się od Sekcji 6.5 (która opisuje
-elektroniczny PROTOKÓŁ sterowania — SPI/cyfrowy vs PWM/analogowy, czyli JAK sygnał dociera do
-diody) — ten rozdział ma opisać, CZYM i W JAKI SPOSÓB człowiek faktycznie steruje światłem.
+Różni się od Sekcji 6.5 (która opisuje elektroniczny PROTOKÓŁ sterowania — SPI/cyfrowy vs
+PWM/analogowy, czyli JAK sygnał dociera do diody) — ta sekcja opisuje, CZYM i W JAKI SPOSÓB
+człowiek faktycznie steruje światłem na co dzień.
 
-Tematy do rozwinięcia:
-1. **Piloty RF/IR** — zasięg, blokowanie przez przeszkody (IR wymaga linii wzroku, RF nie),
-   typowa liczba scen/efektów, ograniczenia (jeden pilot = zwykle jedna strefa, brak pamięci stanu
-   po zaniku zasilania w tańszych modelach).
-2. **Sterowanie przez aplikację (WiFi/Bluetooth)** — zależność od chmury producenta (co się dzieje,
-   gdy producent zamknie serwer/aplikację — realne ryzyko dla sprzętu kupowanego na AliExpress),
-   Bluetooth jako lokalna alternatywa bez chmury ale z ograniczonym zasięgiem.
-3. **Integracje smart home** — Zigbee/Tuya/Matter/Home Assistant — automatyzacje (wyzwalanie wg
-   czasu/czujnika/scenariusza), kompatybilność (nie każdy tani kontroler RGB obsługuje te
-   protokoły, mimo że w ofercie bywa to sugerowane).
-4. **Profesjonalne magistrale (DALI/KNX)** — gdy oświetlenie ma być częścią większej instalacji
-   automatyki budynkowej, nie tylko pojedynczych taśm.
-5. **Ściemniacze (dimmery)** — zgodność z typem taśmy (PWM-dimmable vs analogowe 0-10V vs
-   inne), częsty błąd zakupowy: ściemniacz niekompatybilny z konkretnym sterownikiem/zasilaczem
-   powoduje migotanie.
-6. **Czujniki ruchu/zmierzchu i harmonogramy (timery)** — automatyczne załączanie bez ingerencji
-   człowieka — istotne w kontekście off-gridowym (oszczędność energii z ograniczonego magazynu).
-7. **Ograniczenia off-gridowe specyficzne dla tego projektu** — sterowniki WiFi/chmurowe zużywają
-   energię stale (tryb czuwania) nawet gdy światło jest zgaszone — w systemie z ograniczonym
-   budżetem energetycznym (magazyn baterii) to realny, choć mały, stały pobór do uwzględnienia
-   (możliwe echo do Etapu B modułu "Dobór napięcia" — kategoria odbiorników bazowych/ciągłych).
+### 14.1 Piloty RF/IR
 
-**Nota do UI (Krok 3):** ten temat najprawdopodobniej zasługuje na osobny ekran/kafelek w strukturze
-opisanej w Sekcji 15, nie na dopisanie do ekranu "dobór taśmy" — dokładnie z powodu, który Pan
-wskazał: różne tematy, różne decyzje zakupowe, nie jeden przeciągnięty kalkulator.
+`[FAKT]` Dwie technologie bezprzewodowe, fizycznie różne:
+
+- **IR (podczerwień)** — wymaga bezpośredniej linii wzroku między pilotem a odbiornikiem
+  (przeszkoda = brak sterowania), krótszy zasięg `[TYPOWA WARTOŚĆ]` ok. 8-10 m w linii prostej,
+  najtańsza i najpowszechniejsza technologia w budżetowych kontrolerach RGB/RGBW. Typowe piloty
+  IR mają 24 lub 44 przyciski z zaprogramowanymi na stałe kolorami/trybami — nie "uczą się"
+  nowych barw, tylko wybierają z zaszytej w pilocie palety.
+- **RF (radio)** — nie wymaga linii wzroku, działa przez ściany/meble, dłuższy zasięg
+  `[TYPOWA WARTOŚĆ]` rzędu 20-30 m, częściej dostępny jako panel dotykowy naścienny (montowany
+  jak zwykły włącznik) zamiast małego pilota.
+
+**Ograniczenia wspólne dla obu:** `[OCENA INŻYNIERSKA]` jeden pilot/kontroler to zwykle jedna
+strefa (jedna taśma/grupa taśm) — sterowanie kilkoma niezależnymi strefami wymaga zwykle
+osobnych par pilot-odbiornik, chyba że kontroler jawnie deklaruje obsługę wielostrefową. Tańsze
+modele nie pamiętają ostatniego stanu (koloru/jasności) po zaniku zasilania — po awarii prądu
+taśma wraca do ustawienia fabrycznego, nie do tego, co było ustawione wcześniej. Zgubienie pilota
+przy braku zapasowego identycznego modelu oznacza utratę sterowania (chyba że kontroler ma też
+inną metodę, np. przycisk fizyczny).
+
+### 14.2 Sterowanie przez aplikację (WiFi/Bluetooth)
+
+`[FAKT]` Dwie różne architektury:
+
+- **WiFi** — kontroler łączy się z siecią domową i (w zdecydowanej większości tanich produktów
+  z AliExpress) z chmurą producenta. Umożliwia sterowanie spoza domu, ale **zależy od tego, czy
+  serwer producenta wciąż działa**. `[OCENA INŻYNIERSKA — realne ryzyko dla sprzętu z
+  AliExpress]` Drobni/bezmarkowi producenci potrafią zamknąć serwery bez ostrzeżenia — wtedy
+  funkcje chmurowe (harmonogramy w aplikacji, sterowanie zdalne, integracje) przestają działać,
+  nawet jeśli samo podstawowe włącz/wyłącz z pilota fizycznego wciąż działa lokalnie. Warto przed
+  zakupem sprawdzić, czy producent/aplikacja wspiera **tryb lokalny** (sterowanie w obrębie sieci
+  domowej bez przechodzenia przez internet) — nie wszystkie tanie moduły to oferują, mimo że
+  technicznie mogłyby.
+- **Bluetooth** — połączenie lokalne, bez zależności od chmury, ale krótszy zasięg
+  `[TYPOWA WARTOŚĆ]` rzędu 10-30 m zależnie od przeszkód, i brak sterowania zdalnego spoza
+  zasięgu (poza domem). Prostsze, tańsze moduły, mniej podatne na "zniknięcie" funkcjonalności
+  wraz z zamknięciem serwera producenta.
+
+### 14.3 Integracje smart home
+
+`[FAKT]` Kilka niezależnych ekosystemów, często mylonych ze sobą:
+
+- **Zigbee** — protokół sieci kratowej (mesh) o niskim poborze energii, wymaga bramki/huba;
+  urządzenia Zigbee działają też jako repeatery, wydłużając zasięg sieci.
+- **Tuya** — nie protokół radiowy, tylko konkretna platforma chmurowa + aplikacja, pod którą
+  działa bardzo wiele "białych etykiet" (ten sam sprzęt sprzedawany pod dziesiątkami różnych
+  marek na AliExpress). `[OCENA INŻYNIERSKA]` Oferta reklamująca "działa z Alexa/Google Home"
+  często oznacza w praktyce "działa z aplikacją Tuya, która mostkuje do Alexy/Google", a nie
+  bezpośrednią, lokalną integrację — to inna jakość integracji niż urządzenie natywnie Zigbee/
+  Matter, warto rozróżniać przy czytaniu oferty.
+- **Matter** — nowszy (2022+), wspólny standard mający ujednolicić sterowanie między
+  ekosystemami różnych producentów (Apple/Google/Amazon i inni); `[TYPOWA WARTOŚĆ]` wciąż
+  rzadziej spotykany w tanich kontrolerach LED niż Tuya/WiFi, ale rosnący udział na rynku — warto
+  sprawdzać wprost w ofercie, nie zakładać.
+- **Home Assistant** — otwarte, samodzielnie hostowane oprogramowanie automatyki domowej,
+  popularne wśród użytkowników chcących sterowania **lokalnego**, bez chmury producenta. Wiele
+  tanich modułów Tuya/WiFi da się podłączyć albo oficjalną integracją chmurową, albo (społecznościowo
+  rozwijanym) mechanizmem lokalnym omijającym chmurę producenta — wymaga sprawdzenia zgodności
+  konkretnego modelu przed zakupem, jeśli zależy na tym rozwiązaniu.
+
+### 14.4 Profesjonalne magistrale (DALI/KNX)
+
+`[FAKT]` Standardy budynkowej automatyki, rzadko spotykane w hobbystycznych instalacjach taśm
+LED, ale warte odnotowania dla kompletności i większych projektów off-gridowych:
+
+- **DALI** (Digital Addressable Lighting Interface) — dwuprzewodowa magistrala cyfrowa,
+  adresująca indywidualnie do 64 urządzeń na jednej linii, standard w instalacjach
+  komercyjnych/biurowych.
+- **KNX** — szerszy standard automatyki budynkowej (nie tylko oświetlenie — też rolety, ogrzewanie
+  itd.), stosowany gdy oświetlenie ma być jednym elementem większego, zintegrowanego systemu.
+
+`[OCENA INŻYNIERSKA]` Dla typowej instalacji off-gridowej (dom jednorodzinny, kamper, działka)
+to zwykle nieproporcjonalnie drogie i złożone rozwiązanie względem potrzeb — istotne głównie przy
+świadomej decyzji o budowie pełnej automatyki budynkowej, nie przy zwykłym doborze taśmy LED.
+
+### 14.5 Ściemniacze (dimmery)
+
+`[FAKT]` Kluczowa różnica względem ściemniania żarówek sieciowych 230V: w taśmie DC (12/24/48V)
+ściemnianie odbywa się **na poziomie kontrolera/sterownika** (regulacja PWM), a nie przez
+wstawienie osobnego ściemniacza w przewód zasilający — sam kontroler RGB/CCT z pilotem *jest* już
+ściemniaczem. Jeśli mimo to używany jest osobny, dedykowany moduł ściemniający DC (np. w
+instalacjach bez wbudowanej regulacji w kontrolerze), musi być zgodny z typem sterowania taśmy
+(PWM-dimmable vs rzadziej spotykany analogowy 0-10V, typowy raczej w oprawach profesjonalnych niż
+hobbystycznych taśmach) — niedopasowanie objawia się migotaniem, brzęczeniem albo brakiem
+ściemniania w ogóle. Dla ścieżki 230V AC (Sekcja 1.6, gotowe oprawy przez falownik) obowiązują
+odrębne zasady doboru ściemniacza AC (typ obciążenia — rezystancyjne/pojemnościowe/indukcyjne),
+niezwiązane z tym rozdziałem.
+
+### 14.6 Czujniki ruchu/zmierzchu i harmonogramy (timery)
+
+`[FAKT]` Automatyzacja bez ingerencji człowieka, trzy niezależne mechanizmy, często łączone:
+
+- **Czujnik ruchu (PIR)** — załącza/zmienia scenę po wykryciu ruchu, `[TYPOWA WARTOŚĆ]` typowy
+  zasięg detekcji rzędu kilku metrów, regulowana czułość i czas podtrzymania. Popularny tani
+  dodatek do taśm pod szafkami/na schodach.
+- **Czujnik zmierzchu** — załącza wg poziomu światła otoczenia, typowe zastosowanie: oświetlenie
+  zewnętrzne załączające się automatycznie o zmroku, bez potrzeby harmonogramu godzinowego
+  (który musiałby się przesuwać wraz z porą roku).
+- **Harmonogram/timer** — sterowanie wg zaplanowanego czasu; może być częścią aplikacji
+  WiFi/smart home (14.2/14.3) albo **całkowicie niezależnym, prostym modułem sprzętowym**
+  (mechaniczny/cyfrowy timer w linii zasilania), bez żadnej zależności od chmury czy aplikacji —
+  wart rozważenia właśnie z powodu niezależności od dostawcy, patrz 14.7.
+
+### 14.7 Ograniczenia off-gridowe specyficzne dla tego projektu
+
+`[OCENA INŻYNIERSKA, wartość liczbowa DO WERYFIKACJI]` Kontrolery WiFi/chmurowe (14.2, 14.3)
+oparte o popularne moduły radiowe (typowo układy klasy ESP8266/ESP32 w tanich produktach)
+pobierają energię **stale**, w trybie czuwania nasłuchując sieci WiFi, **nawet gdy podłączona
+taśma jest zgaszona** — rząd wielkości pojedynczych watów na kontroler, do potwierdzenia kartą
+katalogową konkretnego modelu przed wpisaniem jako twarda dana. W systemie off-gridowym z
+ograniczonym, kosztownym magazynem energii (baterie) to realny, mały, ale **ciągły** pobór —
+dokładnie kategoria "odbiornik bazowy/ciągły" z Etapu B.2 modułu "Dobór napięcia systemowego"
+(echo — ten sam mechanizm klasyfikacji, nie nowa logika).
+
+**Konsekwencja praktyczna:** dla filozofii minimalizacji strat, którą ta aplikacja już przyjmuje
+gdzie indziej (patrz Sekcja 1.6 — "gorsza filozofia off-gridowa" dla ścieżki 230V przez falownik),
+prosty pilot RF/IR albo sprzętowy timer bez chmury (14.1, koniec 14.6) jest zgodny z tą samą
+minimalistyczną filozofią, podczas gdy wygoda WiFi/smart home jest świadomym kompromisem
+energetycznym, nie rozwiązaniem "za darmo" — wart jawnego nazwania w przyszłym kalkulatorze, nie
+przemilczenia.
+
+### 14.8 Notatka do UI (Krok 3)
+
+Ten temat zasługuje na osobny artykuł referencyjny w strukturze z Sekcji 15 (Wzorzec C), nie na
+dopisanie do ekranu "dobór taśmy" — różne tematy, różne decyzje zakupowe. Dobry kandydat też na
+ekran pochodny (Sekcja 15.3a): "Czy ten kontroler zadziała bez internetu/chmury?" jako prosty,
+jednozadaniowy test decyzyjny wyprowadzony z 14.2/14.3.
 
 ---
 
@@ -952,7 +1061,7 @@ przechodzić ścieżki zakupowej, tylko dowiedzieć się jednej konkretnej rzecz
    - Zasilacze 220V→DC — dobór, zapas mocy, jakość (Sekcja 9)
    - Łączenie taśm — złącza dedykowane vs lutowanie (Sekcja 10)
    - Jak sprawdzić taśmę po zakupie (Sekcja 11)
-   - Sterowanie — kontrolery i sposoby, po rozwinięciu Sekcji 14
+   - Sterowanie — kontrolery i sposoby (Sekcja 14)
 
 2. **Hand-Made / DIY (hub, trzeci poziom nawigacji)** — bez zmian względem poprzedniej wersji:
    prawdziwe rozgałęzienie treści (różne czipy/IP/priorytety), nie kolejny artykuł ani krok
