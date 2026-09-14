@@ -1255,8 +1255,10 @@ Biblii/standardu, więc zostaje do potwierdzenia przez autora, zamiast rozstrzyg
   - **Taśmy LED:** świadomie **bez** jednego brandu — rynek zbyt rozdrobniony, żeby wskazać jeden
     sensownie. Dokument zostaje przy ogólnym opisie oznaczeń/parametrów (Sekcja 2), które
     pozwalają ocenić DOWOLNĄ taśmę z dowolnego sklepu, zamiast promować jednego dostawcę.
-  - Gdy dane zasilacza się pojawią, warto przy okazji zweryfikować nimi `R_taśmy_na_metr` (8.2) —
-    wciąż jedyna realnie otwarta wartość liczbowa w całym dokumencie.
+  - **[14.09.2026] KOREKTA:** wcześniejsza notatka o weryfikacji `R_taśmy_na_metr` danymi tej samej
+    firmy była błędna — firma produkuje zasilacze, nie taśmy, więc jej dane tego nie dotyczą.
+    `R_taśmy_na_metr` (8.2) zostaje osobnym, wciąż otwartym punktem — potrzebna karta katalogowa
+    konkretnego producenta TAŚM, nie zasilaczy.
 - **[POTWIERDZONE, runda 8]** Struktura: LED to jedna gałąź szerszego kafla "Oświetlenie", nie
   samodzielny kafel najwyższego poziomu — patrz korekta w Sekcji 15.3a/15 (kształt kafla). Dojdą
   inne technologie oświetleniowe ~20-40V oraz klasyczne żarówki/inne technologie jako rodzeństwo
