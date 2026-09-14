@@ -24,7 +24,15 @@ ekran-wykład zamiast właściwego zastosowania już istniejącej w apce taksono
 Sekcja 15.3 poprawiona: rozdzielono **artykuły referencyjne (Wzorzec C, 10 niezależnych ekranów,
 wejście po konkretną wiedzę bez wymuszonej kolejności)** od **osobnego, celowo chudego kreatora/
 doradcy (Wzorzec D, tylko pytania→werdykt, z linkami do artykułów zamiast ich treści wklejonej
-między krokami)**. Wciąż czeka na akceptację — przed nią nic w kodzie/Biblii się nie zmienia.
+między krokami)**.
+
+**[14.09.2026, runda 5 — doprecyzowanie]** Autor dodał trzeci wymiar: postrzeganą wartość apki dla
+początkującego (liczba/nazwy widocznych kafelków, nie to, co ukryte w środku). Sekcja 15.3a: obok
+artykułów i Kreatora, dodane **ekrany pochodne** — cienkie, jednozadaniowe nakładki na te same
+funkcje kalkulatora (zero nowej logiki, czysty echo), po jednym na typową, nazwaną sytuację
+początkującego (np. "jaka taśma do kuchni"). Pełny multi-ścieżkowy kreator z pierwotnej wersji
+15.3 przemianowany na **Kreator Pro** — opcja dla zaawansowanych, nie domyślny punkt wejścia.
+Wciąż czeka na akceptację — przed nią nic w kodzie/Biblii się nie zmienia.
 
 **Konwencja tagowania (zgodna z `docs/standards/15-wspolpraca-z-ai.md` / GOD BOOK):**
 - `[FAKT]` — twarde prawo fizyki/elektrotechniki, niezależne od producenta (Ohm, moc, temperatura barwowa jako wielkość fizyczna).
@@ -946,15 +954,7 @@ przechodzić ścieżki zakupowej, tylko dowiedzieć się jednej konkretnej rzecz
    - Jak sprawdzić taśmę po zakupie (Sekcja 11)
    - Sterowanie — kontrolery i sposoby, po rozwinięciu Sekcji 14
 
-2. **Kreator/Doradca (Wzorzec D)** — osobny, celowo chudy ekran: kilka pytań (napięcie systemu
-   docelowego — echo z modułu "Dobór napięcia", zastosowanie/lokalizacja, długość planowanej
-   trasy) → konkretna rekomendacja (jakie napięcie/typ taśmy/IP) + wbudowany kalkulator rozstawu
-   punktów zasilania (Sekcja 8.4 — to jest faktyczne narzędzie liczące, więc żyje TU, jako wynik,
-   nie jako wykład) + linki "dowiedz się więcej →" do odpowiednich artykułów z punktu 1, zamiast
-   wklejania ich treści między krokami. Kto chce tylko przejść ścieżkę z podpowiedziami, dostaje
-   dokładnie to i nic więcej — dokładnie tak, jak opisał autor.
-
-3. **Hand-Made / DIY (hub, trzeci poziom nawigacji)** — bez zmian względem poprzedniej wersji:
+2. **Hand-Made / DIY (hub, trzeci poziom nawigacji)** — bez zmian względem poprzedniej wersji:
    prawdziwe rozgałęzienie treści (różne czipy/IP/priorytety), nie kolejny artykuł ani krok
    kreatora, więc zasługuje na własny poziom:
    ```
@@ -964,13 +964,64 @@ przechodzić ścieżki zakupowej, tylko dowiedzieć się jednej konkretnej rzecz
      └─ Latarki i małe dedykowane projekty
    ```
 
-**Proponowany kształt kafla 14 "Oświetlenie LED" (poprawiony):**
+### 15.3a DOPRECYZOWANIE (14.09.2026, runda 5) — ekrany pochodne + Kreator Pro
+
+Autor zwrócił uwagę na trzeci wymiar, którego wersja 15.3 jeszcze nie uwzględniała: **postrzeganą
+wartość aplikacji dla początkującego użytkownika**. Chowanie dziesiątek/setek funkcji wewnątrz
+jednego skonsolidowanego ekranu jest efektywne dla inżyniera, ale użytkownik płaci uwagą/zaufaniem
+za to, **co widzi** (liczbę i nazwy kafelków), nie za to, czego musi się domyślić, że jest ukryte w
+środku. Aplikacja jest kierowana do początkujących, więc czasem warto dodać ekran, który **nie
+liczy nic nowego** (żadnej nowej logiki, echo tej samej funkcji co ekran ogólny), tylko pokazuje
+**jeden, zawężony wynik dla jednej konkretnej, nazwanej sytuacji** — żeby początkujący trafił od
+razu na kafelek pasujący do jego pytania, zamiast musieć przejść pełną ścieżkę wielopytaniowego
+kreatora.
+
+To rozszerza rozróżnienie z 15.3 do **trzech**, nie dwóch, rodzajów ekranów — i jest to
+bezpośrednie zastosowanie na poziomie nawigacji już istniejącej w projekcie zasady **Tryb Prosty
+vs Tryb Inżyniera** (Zasada 8 standardu), tylko realizowanej jako osobne kafelki zamiast
+przełącznika w obrębie jednego ekranu — silniejsze dla kogoś, kto nawet nie wie, że przełącznik
+mógłby istnieć.
+
+1. **Artykuły referencyjne (Wzorzec C)** — jak w 15.3, edukacja, bez zmian.
+
+2. **Ekrany pochodne / dedykowane (nowe — wielość, po jednym na typową sytuację początkującego)**
+   — każdy to cienka nakładka na TĘ SAMĄ funkcję kalkulatora co ekran ogólny (zero nowej logiki,
+   czysty "echo" — identyczna zasada jak reużycie `dobor-przekroju-kabla` w module "Dobór
+   napięcia"), tylko z zawężonym kontekstem i jednym, konkretnym wynikiem zamiast pełnego drzewa
+   opcji. Przykłady dla tego modułu:
+   - "Jaką taśmę do kuchni?" / "do łazienki?" / "na zewnątrz?" / "do akwarium/oczka wodnego?" —
+     zawężone IP+CCT+CRI z Sekcji 2.4/2.6/5, jeden werdykt zamiast pytania o wszystko.
+   - "Ile metrów mogę zasilić z jednego końca?" — bezpośrednie wywołanie wzoru L_max (Sekcja 8.4)
+     z typowymi, gotowymi kombinacjami napięcie/moc do wyboru, bez pytania o resztę.
+   - "Jaki zasilacz do mojej taśmy?" — bezpośrednie wywołanie Sekcji 9, osobno od reszty.
+   - Konwerter "LED na odcinku → LED/m" (Sekcja 2.2/1.7) jako osobne, jednozadaniowe narzędzie.
+
+   **Decyzja, które konkretnie ekrany pochodne wydzielić, zapada osobno w każdym rozdziale/module**
+   (tak jak zaproponował autor) — nie jest to sztywna lista, tylko konsekwentnie stosowana zasada:
+   gdziekolwiek pojedyncza, nazwana sytuacja początkującego da się odpowiedzieć jednym wywołaniem
+   istniejącej funkcji, warto rozważyć osobny kafelek, zamiast zakładać, że użytkownik sam
+   "wydłubie" tę odpowiedź z ogólnego kreatora.
+
+3. **Kreator Pro (Wzorzec D, pełny, multi-ścieżkowy)** — dokładnie to, co było w pierwotnej wersji
+   15.3 jako jedyny "kreator": WSZYSTKIE pytania i ścieżki w jednym miejscu (napięcie, zastosowanie,
+   IP, kolor, długość trasy, zasilacz — wszystko naraz). Ale teraz poprawnie umiejscowiony jako
+   **dodatkowa, świadomie wybierana opcja dla zaawansowanego użytkownika**, który przeszedł już
+   przez ekrany pochodne/artykuły, zna temat i chce szybkości "wszystko w jednym miejscu" — nie
+   jako domyślny, jedyny punkt wejścia.
+
+**Proponowany kształt kafla 14 "Oświetlenie LED" (poprawiony, runda 5):**
 ```
 Kafel: Oświetlenie LED
-  ├─ [Artykuły — Wzorzec C, 10 niezależnych ekranów z listy wyżej]
-  ├─ Kreator doboru taśmy (Wzorzec D — krótki, linkuje do artykułów, nie zawiera ich treści)
+  ├─ [Artykuły — Wzorzec C, 10 niezależnych ekranów, patrz 15.3 pkt 1]
+  ├─ [Ekrany pochodne — po jednym na typową sytuację, decyzja per moduł, patrz przykłady wyżej]
+  ├─ Kreator Pro (Wzorzec D, pełny, multi-ścieżkowy — dla zaawansowanych)
   └─ Hand-Made / DIY (hub — trzeci poziom: Dom / Agro / Latarki)
 ```
+
+**Nota do standardu (Krok po akceptacji):** warto nazwać ten wzorzec wprost w
+`docs/standards/08-ui-ux.md` obok Trybu Prosty/Inżyniera — np. "Ekran pochodny" (derived screen):
+zero nowej logiki, jeden zawężony wynik, echo istniejącej funkcji — żeby kolejne moduły miały
+gotową, nazwaną decyzję do podjęcia, zamiast wymyślać ją od nowa za każdym razem.
 
 ### 15.4 Czy to ma być ogólny wzorzec dla całej apki?
 
