@@ -3271,3 +3271,24 @@ jednym miejscu miesza artykuł/edukację z krokami Doradcy, albo który powinien
 pochodne dla typowych, nazwanych pytań początkujących. To osobne, jeszcze nierozpoczęte zadanie
 (wymaga przejścia modułu po module) — nie mylić z samym zapisaniem reguły w standardzie, co
 zostało wykonane teraz.
+
+## Opracowanie "Oświetlenie LED" — wstrzymane na jednym punkcie (14.09.2026)
+
+Szkic `docs/zrodla/Opracowanie_Tasmy_LED_Oswietlenie_DC_DRAFT.md` (15 sekcji, ~1280 linii) jest
+merytorycznie kompletny i czeka na finalną akceptację autora przed Krokiem 2 (dodanie do Biblii).
+**Jedyny blokujący punkt:** `R_taśmy_na_metr` (Sekcja 8.2) wymaga karty katalogowej konkretnego
+producenta TAŚM (nie zasilaczy — to inna firma, pomyłka z wcześniejszej tury poprawiona w
+dokumencie). Autor świadomie nie przekazał jeszcze tej karty w tej turze i przechodzi do innych
+zadań — **nie proponować samodzielnie wartości `R_taśmy_na_metr` ani nie zamykać opracowania bez
+tego dokumentu**, tylko czekać, aż autor go dostarczy. Wszystko inne w dokumencie (rodzaje taśm,
+oznaczenia, żywotność, biel/RGBW, CCT, RGB/RGBIC, SMD/COB/FCOB, algorytm spadku napięcia, dobór
+zasilacza — zapas mocy zamknięty na regule 80%, złącza, weryfikacja po zakupie, sterowanie,
+struktura nawigacji "Oświetlenie"→LED z artykułami/ekranami pochodnymi/Kreatorem Pro/hubem
+Hand-Made) jest gotowe i nie wymaga dalszej pracy do czasu tej jednej karty katalogowej.
+
+Przy okazji tego opracowania powstała też nowa, ogólna reguła standardu — **Ekrany pochodne i
+Kreator Pro** (`docs/standards/08-ui-ux.md` §8.11, zgłoszona równolegle do `new-app-standards` w
+`docs/wklad-do-standardu.md`) — oraz trzy zgłoszenia do `new-app-standards`: rozbudowa AI (gotowa
+do konsolidacji), i szkielety logowania/wielojęzyczności (świadomie niedokończone, autor robi
+`zero-waste` osobno — nie ruszać tych dwóch plików w `docs/propozycje-do-new-app-standards/` do
+czasu wyraźnej prośby).

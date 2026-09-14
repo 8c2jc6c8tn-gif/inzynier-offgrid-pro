@@ -1259,6 +1259,10 @@ Biblii/standardu, więc zostaje do potwierdzenia przez autora, zamiast rozstrzyg
     firmy była błędna — firma produkuje zasilacze, nie taśmy, więc jej dane tego nie dotyczą.
     `R_taśmy_na_metr` (8.2) zostaje osobnym, wciąż otwartym punktem — potrzebna karta katalogowa
     konkretnego producenta TAŚM, nie zasilaczy.
+  - **[14.09.2026] STATUS: ⏳ CZEKAM.** Autor świadomie nie przekazuje jeszcze karty katalogowej
+    taśm w tej turze ("teraz ci nie podam dokumentu do LED") — praca nad resztą projektu toczy się
+    dalej równolegle. To jedyny punkt wstrzymujący ostateczne domknięcie tego opracowania (Krok 2 —
+    dodanie do Biblii) — reszta dokumentu (Sekcje 1-15) jest gotowa niezależnie od tego punktu.
 - **[POTWIERDZONE, runda 8]** Struktura: LED to jedna gałąź szerszego kafla "Oświetlenie", nie
   samodzielny kafel najwyższego poziomu — patrz korekta w Sekcji 15.3a/15 (kształt kafla). Dojdą
   inne technologie oświetleniowe ~20-40V oraz klasyczne żarówki/inne technologie jako rodzeństwo
