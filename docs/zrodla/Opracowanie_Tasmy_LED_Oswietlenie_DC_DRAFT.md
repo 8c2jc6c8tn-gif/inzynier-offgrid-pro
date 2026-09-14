@@ -1155,8 +1155,12 @@ Biblii/standardu, więc zostawiam ją Panu do potwierdzenia, zamiast rozstrzyga�
 - Dokładna wartość zapasu mocy zasilacza (9.2, obecnie orientacyjne 20-30%) — do potwierdzenia
   źródłem branżowym/kartą katalogową renomowanego producenta, zanim trafi do Biblii jako twarda
   rekomendacja liczbowa.
-- Czy do dokumentu dodać konkretne, polecane marki/modele (taśm, zasilaczy, kontrolerów), czy
-  zostać przy opisie ogólnym (neutralność wobec konkretnych producentów)?
+- **[14.09.2026] ROZSTRZYGNIĘTE (odłożone, nie otwarte):** marki/modele taśm i zasilaczy dopisane
+  później — autor ma konkretną firmę, której dane mają posłużyć do obliczeń i rekomendacji w tym
+  module (nie neutralny opis ogólny, tylko realne dane konkretnego dostawcy). Do tego czasu
+  dokument zostaje przy opisie ogólnym/orientacyjnym. Gdy dane tej firmy się pojawią, warto przy
+  okazji zweryfikować nimi też `R_taśmy_na_metr` (8.2) i zapas mocy zasilacza (9.2) — obie wartości
+  wciąż orientacyjne, patrz punkty wyżej.
 - **Decyzja architektoniczna do podjęcia przez autora:** biorąc pod uwagę zapowiedziany przyszły
   rozdział "Taśmy LED Hand Made" (lutowanie własnych taśm na poziomie pojedynczych chipów, dla
   zastosowań domowych i agro) oraz już bardzo szeroki zakres samego tego opracowania — czy
