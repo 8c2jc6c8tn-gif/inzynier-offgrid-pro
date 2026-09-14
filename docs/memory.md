@@ -3133,3 +3133,40 @@ zweryfikowane w przeglądarce (Playwright) w tym sprawdzenie duplikatów DOM `id
 5 MC4, 8 przepust powietrza, 9 uziemienie, 13 selektywność, 18 IMD, 21 normy/certyfikaty) wymagają
 bazy komponentów albo wzoru nieobecnego w źródle — pozostają świadomie odłożone, nie przeoczone.
 Moduł 5: 23 z 29 ekranów **done** (79%).
+
+## B5 (Moduł 11) i M4/Ekran 25 — echo doboru kabli, nowa fizyka podziału prądu (14.09.2026)
+
+[14.09.2026] ✅ DODANO — dwa dawno zidentyfikowane "gotowe do echa" ekrany, wreszcie zbudowane.
+
+**B5 (Moduł 11, Ścieżka B — kwasowo-ołowiowa) "Dobór kabli, bezpieczników i zabezpieczeń":**
+`lib/core/modules/montaz-baterii/dobor-kabli-bezpiecznikow-olow/`, 5 testów. Źródło jest
+jednoznaczne: *"Dobór kabla nie zależy od chemii baterii, tylko od prądu i długości — ten sam
+silnik obliczeniowy co w Module 5, tylko podstawiasz inne liczby."* Zaimplementowane jako czyste
+echo dwóch gotowych kalkulatorów: `calculateDoborPrzekrojuKabla` (M5/Ekran 1) dla przekroju,
+`calculateDoborBezpiecznikaRozlacznika` (M5/Ekran 6) dla bezpiecznika+AIC — zero nowej logiki
+liczącej. Status łączny propagowany funkcją `najgorszyStatus` (ten sam wzorzec co w
+`optymalizacja-trasy-kabla`, M5/Ekran 26).
+
+**M4/Ekran 25 "Szyny zbiorcze i połączenia międzypakietowe":** `lib/core/modules/baterie/szyny-zbiorcze-miedzypakietowe/`,
+5 testów. Wcześniej oznaczone jako wymagające "dodatkowej logiki ponad echo" — sekcja C źródła
+daje tylko ilustracyjne przykłady (spadek "20%", "40% vs 15%") bez wzoru. Rozstrzygnięcie:
+problem N gałęzi równoległych do wspólnego węzła ma dobrze znane, **niewymyślone** rozwiązanie —
+regułę podziału prądu z prawa Ohma (prąd dzieli się odwrotnie proporcjonalnie do rezystancji
+gałęzi), z rezystancją liczoną identycznym wzorem co M5/Ekran 1 (R=ρ×2L/A). Podwójna weryfikacja
+ręczna w teście: 2 gałęzie z R_B=3×R_A dają dokładnie 75%/25% (bo I_A/I_total=R_B/(R_A+R_B)=3/4).
+
+**Świadome ograniczenie zakresu M4/E25 (udokumentowane w kodzie, nie ukryte):** model obejmuje
+TYLKO topologię gwiazda (każda gałąź niezależnym odcinkiem do wspólnego węzła/szyny). NIE
+obejmuje: (a) połączenia kaskadowego — rezystancja sumuje się wzdłuż łańcucha, inna topologia
+obwodu (drugi przykład źródła, "4 baterie kaskadowo"); (b) asymetrii punktu zasilania wzdłuż
+JEDNEJ szyny zbiorczej — rozłożona rezystancja wzdłuż szyny, inny model niż N niezależnych gałęzi
+(pierwszy przykład źródła, "ogniwo #1 vs #8, przesuń kabel na środek szyny"). Obie te topologie
+wymagałyby osobnego modelu sieciowego (nie prostego podzielnika prądu) — świadomie nie zbudowane,
+nie zgadywane. Żaden próg "niebezpiecznego" % odchylenia nie został wymyślony — źródło nie podaje
+takiego progu (oba przykłady są ilustracyjne), więc kalkulator pokazuje policzone odchylenie
+wprost, bez etykiety "bezpieczne/niebezpieczne".
+
+`tsc --noEmit`/`pnpm test` (641/641)/`pnpm lint`/`pnpm build` — czyste. Zweryfikowane w
+przeglądarce (Playwright), w tym sprawdzenie duplikatów DOM `id` (formularz M4/E25 ma dynamiczną
+listę gałęzi z jawnymi unikalnymi `id` per gałąź — nauczka z Ekranu 26 zastosowana od razu przy
+projektowaniu, nie znaleziona post factum).

@@ -1,0 +1,118 @@
+"use client"
+
+import { useMemo, useState } from "react"
+import { calculateDoborKabliBezpiecznikowOlow } from "@/lib/core/modules/montaz-baterii/dobor-kabli-bezpiecznikow-olow/calculator"
+import type { Material, SposobUlozenia } from "@/lib/core/modules/okablowanie/dobor-przekroju-kabla/constants"
+import { Pole, PoleSelect } from "@/components/ui/pole"
+import { WerdyktPanel, type WerdyktPoziom } from "@/components/werdykt"
+import { NawigacjaEkranu } from "@/components/nawigacja-ekranu"
+import { NaglowekEkranu } from "@/components/wzorce/naglowek-ekranu"
+import { WynikGlowny } from "@/components/wzorce/wynik-glowny"
+import { WynikSzczegoly } from "@/components/wzorce/wynik-szczegoly"
+
+export default function DoborKabliBezpiecznikowOlowPage() {
+  const [pradA, setPradA] = useState("")
+  const [napiecieV, setNapiecieV] = useState("")
+  const [dlugoscTrasyM, setDlugoscTrasyM] = useState("")
+  const [material, setMaterial] = useState<Material>("Cu")
+  const [sposobUlozenia, setSposobUlozenia] = useState<SposobUlozenia>("swobodnie")
+  const [temperaturaOtoczeniaC, setTemperaturaOtoczeniaC] = useState("")
+  const [liczbaKabliWWiazce, setLiczbaKabliWWiazce] = useState("1")
+  const [dopuszczalnySpadekNapieciaPct, setDopuszczalnySpadekNapieciaPct] = useState("3")
+  const [pradZwarciowyA, setPradZwarciowyA] = useState("")
+  const [aicBezpiecznikaA, setAicBezpiecznikaA] = useState("")
+
+  const result = useMemo(
+    () =>
+      calculateDoborKabliBezpiecznikowOlow({
+        pradA: pradA === "" ? 0 : Number(pradA),
+        napiecieV: napiecieV === "" ? 0 : Number(napiecieV),
+        dlugoscTrasyM: dlugoscTrasyM === "" ? 0 : Number(dlugoscTrasyM),
+        material,
+        sposobUlozenia,
+        temperaturaOtoczeniaC: temperaturaOtoczeniaC === "" ? null : Number(temperaturaOtoczeniaC),
+        liczbaKabliWWiazce: liczbaKabliWWiazce === "" ? 0 : Number(liczbaKabliWWiazce),
+        dopuszczalnySpadekNapieciaPct: dopuszczalnySpadekNapieciaPct === "" ? 0 : Number(dopuszczalnySpadekNapieciaPct),
+        sprawdzanyPrzekrojMm2: null,
+        pradZwarciowyA: pradZwarciowyA === "" ? 0 : Number(pradZwarciowyA),
+        aicBezpiecznikaA: aicBezpiecznikaA === "" ? 0 : Number(aicBezpiecznikaA),
+      }),
+    [
+      pradA,
+      napiecieV,
+      dlugoscTrasyM,
+      material,
+      sposobUlozenia,
+      temperaturaOtoczeniaC,
+      liczbaKabliWWiazce,
+      dopuszczalnySpadekNapieciaPct,
+      pradZwarciowyA,
+      aicBezpiecznikaA,
+    ],
+  )
+
+  const hasCritical = result.warnings.some((w) => w.level === "critical")
+  const verdict =
+    result.status === "INVALID_INPUT"
+      ? "invalid"
+      : result.status === "OUT_OF_SCOPE"
+        ? "invalid"
+        : result.status === "INCOMPLETE"
+          ? "incomplete"
+          : hasCritical
+            ? "red"
+            : "green"
+
+  const verdictPoziom: Record<typeof verdict, WerdyktPoziom> = {
+    invalid: "blad",
+    incomplete: "ok",
+    red: "blad",
+    green: "ok",
+  }
+  const verdictLabel: Record<typeof verdict, string> = {
+    invalid: "Nie da się policzyć",
+    incomplete: "Wypełnij dane obwodu",
+    red: "Zabronione — sprawdź ostrzeżenia poniżej",
+    green: "Kabel i bezpiecznik dobrane poprawnie",
+  }
+
+  return (
+    <main className="mx-auto flex max-w-md flex-col gap-6 p-6">
+      <NawigacjaEkranu href="/kalkulatory/dobor-kabli-bezpiecznikow-olow" />
+      <NaglowekEkranu tytul="Dobór kabli, bezpieczników i zabezpieczeń">
+        Dobór kabla nie zależy od chemii baterii, tylko od prądu i długości — ten sam silnik
+        obliczeniowy co w Module 5, tylko podstawiasz inne liczby. Moduł 11, Ekran B5.
+      </NaglowekEkranu>
+
+      <div className="flex flex-col gap-4">
+        <Pole label="Prąd ładowania/rozładowania" unit="A" type="number" inputMode="decimal" min={0} value={pradA} onChange={(e) => setPradA(e.target.value)} />
+        <Pole label="Napięcie systemu" unit="V" type="number" inputMode="decimal" min={0} value={napiecieV} onChange={(e) => setNapiecieV(e.target.value)} />
+        <Pole label="Długość trasy kabla" unit="m" type="number" inputMode="decimal" min={0} value={dlugoscTrasyM} onChange={(e) => setDlugoscTrasyM(e.target.value)} />
+        <PoleSelect label="Materiał" value={material} onChange={(e) => setMaterial(e.target.value as Material)}>
+          <option value="Cu">Miedź (Cu)</option>
+          <option value="Al">Aluminium (Al)</option>
+        </PoleSelect>
+        <PoleSelect label="Sposób ułożenia" value={sposobUlozenia} onChange={(e) => setSposobUlozenia(e.target.value as SposobUlozenia)}>
+          <option value="swobodnie">Swobodnie / na ścianie</option>
+          <option value="w_peszlu">W peszlu</option>
+          <option value="w_ziemi">W ziemi</option>
+          <option value="w_wiazce">W wiązce</option>
+        </PoleSelect>
+        <Pole label="Temperatura otoczenia" unit="°C" type="number" inputMode="decimal" value={temperaturaOtoczeniaC} onChange={(e) => setTemperaturaOtoczeniaC(e.target.value)} />
+        <Pole label="Liczba kabli w wiązce" unit="szt." type="number" inputMode="decimal" min={0} value={liczbaKabliWWiazce} onChange={(e) => setLiczbaKabliWWiazce(e.target.value)} />
+        <Pole label="Dopuszczalny spadek napięcia" unit="%" type="number" inputMode="decimal" min={0} value={dopuszczalnySpadekNapieciaPct} onChange={(e) => setDopuszczalnySpadekNapieciaPct(e.target.value)} />
+        <Pole label="Prąd zwarciowy zestawu (opcjonalnie)" unit="A" type="number" inputMode="decimal" min={0} value={pradZwarciowyA} onChange={(e) => setPradZwarciowyA(e.target.value)} />
+        <Pole label="Zdolność wyłączania (AIC) bezpiecznika (opcjonalnie)" unit="A" type="number" inputMode="decimal" min={0} value={aicBezpiecznikaA} onChange={(e) => setAicBezpiecznikaA(e.target.value)} />
+      </div>
+
+      <WerdyktPanel poziom={verdictPoziom[verdict]} etykieta={verdictLabel[verdict]}>
+        {verdict === "green" || verdict === "red" ? (
+          <WynikGlowny>
+            Przekrój: {result.value.przekrojMm2} mm² · Bezpiecznik: {result.value.pradBezpiecznikaZalecanyA.toFixed(1)} A
+          </WynikGlowny>
+        ) : null}
+        <WynikSzczegoly assumptions={result.assumptions} warnings={result.warnings} formula={result.formula} />
+      </WerdyktPanel>
+    </main>
+  )
+}
