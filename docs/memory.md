@@ -3067,6 +3067,49 @@ osadzona w większym ekranie.
 **Wszystkie 4 rundy poprawek do tego materiału są teraz zamknięte.** Kolejny krok to budowa —
 osobne zadanie, nie część tej sesji poprawek.
 
+## Budowa modułu "Dobór napięcia" — zakończona (14.09.2026)
+
+Ekran `napiecie-systemowe` (M4/Ekran 2) rozbudowany do wersji 2.0.0 zgodnie z planem wyżej. Rdzeń
+`I=P/V` (progi, formuła) **niezmieniony** — wszystkie 8 dawnych testów przechodzi bez modyfikacji
+logiki. Nowe pliki w module: `jednoczesnosc.ts` (Etap B.2/B.3), `kosztorys.ts` (Etap E + H.4).
+25 testów jednostkowych, wszystkie zweryfikowane ręcznie względem przykładów/tabel źródła.
+
+**Odstępstwo od planu — Etap D świadomie pominięty.** Plan wyżej ("docelowy kształt ekranu") nie
+wymieniał Etapu D (rekomendacja oświetlenia 24V vs 230V vs 48V, gniazda DC) — sprawdzone: to
+czysto informacyjne tabele źródła, bez żadnego wzoru, więc pominięcie nie jest luką liczącą, tylko
+brakiem osobnej sekcji UI. Nie dodane w tej turze (zgodnie z literalnym zakresem planu), do
+ewentualnego dopisania jako czysto informacyjna sekcja w przyszłości, bez wpływu na kalkulator.
+
+**Znaleziony i naprawiony błąd w trakcie budowy: liczba ogniw szeregowo ≠ V/3,2V.** Pierwsza wersja
+`kosztorys.ts` liczyła `liczbaOgniwSzeregowo = napiecieV / 3.2` (np. 12/3.2=3.75 — niecałkowita,
+fizycznie bez sensu). Poprawne: pakiet "12V" LiFePO4 to etykieta handlowa dla 4S (4×3,2V=12,8V
+nominalnie), "24V"→8S, "48V"→16S — 1:1 ze źródła (Sekcja E). Naprawione tabelą `{12:4, 24:8, 48:16}`,
+wykryte przez test jednostkowy (oczekiwane 16 ogniw dla 16kWh@12V, otrzymane 18,75 — niecałkowita
+wartość natychmiast zdradziła błąd). Po poprawce kosztorys 16kWh odtwarza dokładnie tabelę E.3
+źródła: 6332/6582/7162 zł (12V/24V/48V, bez przetwornic).
+
+**Znaleziony i naprawiony błąd UI: kolizja klucza React w zbiorczej liście ostrzeżeń.** Ostrzeżenia
+z echa `dobor-przekroju-kabla` dla 12V/24V/48V (Etap C) były dołączane do wspólnej listy
+`result.warnings`, renderowanej przez `WynikSzczegoly` z `key={w.code}` — gdy DWA napięcia dają to
+samo ostrzeżenie (np. `BRAK-PASUJACEGO-PRZEKROJU` przy bardzo dużej mocy i 12V ORAZ 24V naraz),
+React dostawał duplikat klucza (wykryte na żywo przez Playwright: `[console] Encountered two
+children with the same key`). Naprawione przez tagowanie kodu napięciem przed dołączeniem do
+zbiorczej listy (`${w.code}-${v}V`) w `calculator.ts` — ostrzeżenia wewnątrz panelu Etapu C (per
+napięcie) zachowały oryginalny kod. Ponowny smoke test: `NO CONSOLE/PAGE ERRORS`.
+
+**Realny, pouczający wynik silnika normatywnego (nie błąd):** przy dużej mocy (np. 4615W) i 12V/24V
+Etap C poprawnie zwraca "brak pasującego przekroju" (żaden z dostępnych standardowych przekrojów
+do 35mm² nie udźwignie 385A/192A) — dokładnie demonstrując problem, przed którym cały ten ekran ma
+ostrzegać, tym razem policzony z prawdziwej normy (PN-HD 60364-5-52), nie z uproszczonego `P=I²R`
+materiału źródłowego.
+
+**Weryfikacja końcowa:** `npx tsc --noEmit` czyste, `npx vitest run` 658/658 (105 plików), `pnpm
+lint` czyste (2 niepowiązane wcześniejsze ostrzeżenia `<img>`), `pnpm build` bez błędów, smoke test
+Playwright (formularz wypełniony przez wszystkie Etapy A-H, brak duplikatów DOM id, brak błędów
+konsoli, wartości zgodne z ręcznymi przeliczeniami: kosztorys 6332/6582/7162 zł@16kWh, PV
+4000Wp/DC-AC=1.33 dla modelu 24V/8 paneli, koszt konwersji 2250 zł). `docs/rejestr-pokrycia.md`
+(M4/Ekran2) i `lib/pulpit/registry.ts` (etykieta kafla) zaktualizowane.
+
 ## Moduł 5 — druga partia niezablokowanych ekranów (13.09.2026)
 
 [13.09.2026] ✅ DODANO — kontynuacja pracy nad Modułem 5 po przerwie na poprawki innego materiału.
