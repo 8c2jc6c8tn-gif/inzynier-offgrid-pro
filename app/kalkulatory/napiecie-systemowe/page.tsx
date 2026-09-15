@@ -1,6 +1,6 @@
 "use client"
 
-import { useMemo, useState } from "react"
+import { useMemo } from "react"
 import { calculateNapiecieSystemowe } from "@/lib/core/modules/baterie/napiecie-systemowe/calculator"
 import type { NapiecieSystemoweInput, OdbiornikWybor } from "@/lib/core/modules/baterie/napiecie-systemowe/input"
 import {
@@ -13,6 +13,7 @@ import {
   type Priorytet,
 } from "@/lib/core/modules/baterie/napiecie-systemowe/constants"
 import type { Material, SposobUlozenia } from "@/lib/core/modules/okablowanie/dobor-przekroju-kabla/constants"
+import { usePersistedDraft } from "@/lib/adapters/use-persisted-draft"
 import { Pole, PoleSelect, PoleCheckbox } from "@/components/ui/pole"
 import { WerdyktPanel, WerdyktBadge, type WerdyktPoziom } from "@/components/werdykt"
 import { NawigacjaEkranu } from "@/components/nawigacja-ekranu"
@@ -39,34 +40,61 @@ const ODBIORNIKI_POCZATKOWE: Record<string, OdbiornikStan> = Object.fromEntries(
   KATALOG_ODBIORNIKOW.map((o) => [o.id, { mocW: String(o.mocDomyslnaW), ...domyslnyCzasStan(o.czasPracyDomyslnyMin), selected: false }]),
 )
 
-const SEKCJA_KLASY = "flex flex-col gap-4 rounded-lg border p-4"
-const SEKCJA_TYTUL_KLASY = "text-small font-semibold uppercase tracking-wide text-muted-foreground"
+type CenyStan = {
+  cenaOgniwaZl: string
+  cenaBms4sZl: string
+  cenaBms8sZl: string
+  cenaBms16sZl: string
+  cenaFalownika12vZl: string
+  cenaFalownika24vZl: string
+  cenaFalownika48vZl: string
+  cenaPrzewodow12vZl: string
+  cenaPrzewodow24vZl: string
+  cenaPrzewodow48vZl: string
+  cenaBezpiecznika12vZl: string
+  cenaBezpiecznika24vZl: string
+  cenaBezpiecznika48vZl: string
+  cenaPrzetwornicyDcDcZl: string
+}
 
-export default function NapiecieSystemowePage() {
-  // Rdzeń / pole ręczne (v1.0.0)
-  const [mocSzczytowaW, setMocSzczytowaW] = useState("")
+/** Seed tego ekranu (docs/standards/05-baza-danych-offline.md, 5.1) — jedyny obiekt persystowany
+ *  przez `usePersistedDraft`, żeby przeładowanie strony nie gubiło wpisanych danych. */
+type FormularzStan = {
+  mocSzczytowaW: string
+  zastosowanie: Zastosowanie | ""
+  priorytet: Priorytet | ""
+  ogrzewanieNieDotyczy: boolean
+  ogrzewanieMocW: string
+  odbiorniki: Record<string, OdbiornikStan>
+  mocCiaglaFalownikaPlanowanaW: string
+  dlugoscTrasyM: string
+  material: Material
+  sposobUlozenia: SposobUlozenia
+  temperaturaOtoczeniaC: string
+  liczbaKabliWWiazce: string
+  dopuszczalnySpadekNapieciaPct: string
+  docelowaPojemnoscKwh: string
+  ceny: CenyStan
+  liczbaLiniiOswietlenia24v: string
+  planowanaKonwersja24Do48: boolean
+}
 
-  // Etap A
-  const [zastosowanie, setZastosowanie] = useState<Zastosowanie | "">("")
-  const [priorytet, setPriorytet] = useState<Priorytet | "">("")
-  const [ogrzewanieNieDotyczy, setOgrzewanieNieDotyczy] = useState(false)
-  const [ogrzewanieMocW, setOgrzewanieMocW] = useState("")
-
-  // Etap B
-  const [odbiorniki, setOdbiorniki] = useState<Record<string, OdbiornikStan>>(ODBIORNIKI_POCZATKOWE)
-  const [mocCiaglaFalownikaPlanowanaW, setMocCiaglaFalownikaPlanowanaW] = useState("")
-
-  // Etap C
-  const [dlugoscTrasyM, setDlugoscTrasyM] = useState("")
-  const [material, setMaterial] = useState<Material>("Cu")
-  const [sposobUlozenia, setSposobUlozenia] = useState<SposobUlozenia>("swobodnie")
-  const [temperaturaOtoczeniaC, setTemperaturaOtoczeniaC] = useState("")
-  const [liczbaKabliWWiazce, setLiczbaKabliWWiazce] = useState("1")
-  const [dopuszczalnySpadekNapieciaPct, setDopuszczalnySpadekNapieciaPct] = useState("3")
-
-  // Etap E
-  const [docelowaPojemnoscKwh, setDocelowaPojemnoscKwh] = useState("")
-  const [ceny, setCeny] = useState({
+const STAN_POCZATKOWY: FormularzStan = {
+  mocSzczytowaW: "",
+  zastosowanie: "",
+  priorytet: "",
+  ogrzewanieNieDotyczy: false,
+  ogrzewanieMocW: "",
+  odbiorniki: ODBIORNIKI_POCZATKOWE,
+  mocCiaglaFalownikaPlanowanaW: "",
+  dlugoscTrasyM: "",
+  material: "Cu",
+  sposobUlozenia: "swobodnie",
+  temperaturaOtoczeniaC: "",
+  liczbaKabliWWiazce: "1",
+  dopuszczalnySpadekNapieciaPct: "3",
+  docelowaPojemnoscKwh: "",
+  ceny: {
     cenaOgniwaZl: String(CENA_OGNIWA_DOMYSLNA_ZL),
     cenaBms4sZl: String(CENY_DOMYSLNE.bms4sZl),
     cenaBms8sZl: String(CENY_DOMYSLNE.bms8sZl),
@@ -81,11 +109,76 @@ export default function NapiecieSystemowePage() {
     cenaBezpiecznika24vZl: String(CENY_DOMYSLNE.bezpiecznik24vZl),
     cenaBezpiecznika48vZl: String(CENY_DOMYSLNE.bezpiecznik48vZl),
     cenaPrzetwornicyDcDcZl: String(CENY_DOMYSLNE.przetwornicaDcDcZl),
-  })
-  const [liczbaLiniiOswietlenia24v, setLiczbaLiniiOswietlenia24v] = useState("0")
+  },
+  liczbaLiniiOswietlenia24v: "0",
+  planowanaKonwersja24Do48: false,
+}
+
+const SEKCJA_KLASY = "flex flex-col gap-4 rounded-lg border p-4"
+const SEKCJA_TYTUL_KLASY = "text-small font-semibold uppercase tracking-wide text-muted-foreground"
+
+export default function NapiecieSystemowePage() {
+  // Seed całego formularza — persystowany (IndexedDB) pod jednym kluczem, żeby przeładowanie
+  // strony nie gubiło wpisanych danych (zgłoszenie użytkownika, 15.09.2026).
+  const [stan, setStan] = usePersistedDraft<FormularzStan>("napiecie-systemowe", STAN_POCZATKOWY)
+  const {
+    mocSzczytowaW,
+    zastosowanie,
+    priorytet,
+    ogrzewanieNieDotyczy,
+    ogrzewanieMocW,
+    odbiorniki,
+    mocCiaglaFalownikaPlanowanaW,
+    dlugoscTrasyM,
+    material,
+    sposobUlozenia,
+    temperaturaOtoczeniaC,
+    liczbaKabliWWiazce,
+    dopuszczalnySpadekNapieciaPct,
+    docelowaPojemnoscKwh,
+    ceny,
+    liczbaLiniiOswietlenia24v,
+    planowanaKonwersja24Do48,
+  } = stan
+
+  /** Aktualizuje jedno pole Seed-u, zachowując resztę — akceptuje wartość albo funkcję
+   *  aktualizującą, tak jak `useState`, żeby wywołania niżej (`setX((prev) => ...)`) działały bez zmian. */
+  function setPole<K extends keyof FormularzStan>(pole: K, akcja: FormularzStan[K] | ((prev: FormularzStan[K]) => FormularzStan[K])) {
+    setStan((prev) => ({
+      ...prev,
+      [pole]: typeof akcja === "function" ? (akcja as (p: FormularzStan[K]) => FormularzStan[K])(prev[pole]) : akcja,
+    }))
+  }
+
+  // Rdzeń / pole ręczne (v1.0.0)
+  const setMocSzczytowaW = (a: string | ((p: string) => string)) => setPole("mocSzczytowaW", a)
+
+  // Etap A
+  const setZastosowanie = (a: (Zastosowanie | "") | ((p: Zastosowanie | "") => Zastosowanie | "")) => setPole("zastosowanie", a)
+  const setPriorytet = (a: (Priorytet | "") | ((p: Priorytet | "") => Priorytet | "")) => setPole("priorytet", a)
+  const setOgrzewanieNieDotyczy = (a: boolean | ((p: boolean) => boolean)) => setPole("ogrzewanieNieDotyczy", a)
+  const setOgrzewanieMocW = (a: string | ((p: string) => string)) => setPole("ogrzewanieMocW", a)
+
+  // Etap B
+  const setOdbiorniki = (a: Record<string, OdbiornikStan> | ((p: Record<string, OdbiornikStan>) => Record<string, OdbiornikStan>)) =>
+    setPole("odbiorniki", a)
+  const setMocCiaglaFalownikaPlanowanaW = (a: string | ((p: string) => string)) => setPole("mocCiaglaFalownikaPlanowanaW", a)
+
+  // Etap C
+  const setDlugoscTrasyM = (a: string | ((p: string) => string)) => setPole("dlugoscTrasyM", a)
+  const setMaterial = (a: Material | ((p: Material) => Material)) => setPole("material", a)
+  const setSposobUlozenia = (a: SposobUlozenia | ((p: SposobUlozenia) => SposobUlozenia)) => setPole("sposobUlozenia", a)
+  const setTemperaturaOtoczeniaC = (a: string | ((p: string) => string)) => setPole("temperaturaOtoczeniaC", a)
+  const setLiczbaKabliWWiazce = (a: string | ((p: string) => string)) => setPole("liczbaKabliWWiazce", a)
+  const setDopuszczalnySpadekNapieciaPct = (a: string | ((p: string) => string)) => setPole("dopuszczalnySpadekNapieciaPct", a)
+
+  // Etap E
+  const setDocelowaPojemnoscKwh = (a: string | ((p: string) => string)) => setPole("docelowaPojemnoscKwh", a)
+  const setCeny = (a: CenyStan | ((p: CenyStan) => CenyStan)) => setPole("ceny", a)
+  const setLiczbaLiniiOswietlenia24v = (a: string | ((p: string) => string)) => setPole("liczbaLiniiOswietlenia24v", a)
 
   // Etap H
-  const [planowanaKonwersja24Do48, setPlanowanaKonwersja24Do48] = useState(false)
+  const setPlanowanaKonwersja24Do48 = (a: boolean | ((p: boolean) => boolean)) => setPole("planowanaKonwersja24Do48", a)
 
   function toggleOdbiornik(id: string) {
     setOdbiorniki((prev) => ({ ...prev, [id]: { ...prev[id], selected: !prev[id].selected } }))

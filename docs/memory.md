@@ -3344,3 +3344,34 @@ nie tylko problem "za dużo w jednym ekranie" (rozwiązanie: ekrany pochodne/Kre
 **etapy, które nie należą do tematu ekranu wcale** (rozwiązanie: usunięcie/przeniesienie, nie
 rozbicie). Sprawdzać oba pytania przy każdym kolejnym kandydacie (M5/Ekran1, M3/Ekran14), nie tylko
 "czy jest za duży".
+
+## Pierwsza realna implementacja `StorageAdapter` — autozapis Seed formularza (15.09.2026)
+
+**Zgłoszenie autora:** "strona się sama przeładowywała" na telefonie i po przeładowaniu wszystkie
+wpisane dane (Etap A-H, `napiecie-systemowe`) trzeba wpisywać od nowa. Diagnoza: nie jest to błąd
+tego ekranu — żaden kalkulator w apce nie zapisywał Seed-u formularza, `lib/adapters/storage-adapter.ts`
+miał od początku (świadomie, patrz komentarz w pliku) tylko kontrakt, bez implementacji, do czasu
+"pierwszej realnej funkcji zapisu". Samo przeładowanie karty na telefonie to prawdopodobnie
+zachowanie przeglądarki mobilnej pod presją pamięci (odświeżenie karty w tle) — nie do naprawienia
+w kodzie tej apki — ale brak zapisu Seed-u sprawiał, że KAŻDE odświeżenie (manualne, HMR w dev,
+albo mobilne w tle) kosztowało cały wpisany formularz.
+
+**Decyzja:** to jest właśnie ten moment z komentarza w `storage-adapter.ts` — zaimplementowano
+`IndexedDbStorageAdapter` (`lib/adapters/indexeddb-storage-adapter.ts`, jedna baza `offgrid-storage`,
+jeden object store `kv`, zgodnie z 5.2/5.3) oraz hook `usePersistedDraft<T>` (`lib/adapters/use-persisted-draft.ts`)
+— zamiennik `useState` o identycznym kształcie `[stan, setStan]`, autozapis debounce 500ms, odczyt
+asynchroniczny (SSR-safe, pierwszy render = wartość początkowa, dane doładowują się na kliencie).
+
+**Zakres tej sesji: pilotaż na jednym ekranie** (`napiecie-systemowe`, ten który zgłoszono) —
+13 osobnych `useState` scalone w jeden obiekt `FormularzStan` (Seed tego ekranu, 5.1 — Seed nie
+Wynik), persystowany pod kluczem `offgrid.draft.napiecie-systemowe`. Wywołania niżej w komponencie
+(JSX, `toggleOdbiornik`, `zmienJednostkeCzasu`, edytor cen) **nie zostały zmienione** — każdy
+`setX` to teraz wrapper wołający `setPole(pole, akcja)`, akceptujący wartość albo funkcję
+aktualizującą tak jak oryginalny `useState`, żeby nie przepisywać całego pliku. Zweryfikowano:
+`tsc --noEmit`, `pnpm lint`, `pnpm test` (655/655), `pnpm build` — wszystko czyste.
+
+**Świadomie NIE wykonane w tej sesji (do rozważenia, nie zapomniane):** wdrożenie tego samego
+mechanizmu na pozostałych ~100 ekranach kalkulatorów — `usePersistedDraft` jest gotowy do
+skopiowania 1:1 (jedna linia zamiast `useState` + bundle pól w jeden typ `FormularzStan`), ale
+zrobienie tego dla każdego ekranu naraz to osobne, duże zadanie, nie część naprawy zgłoszonego
+błędu. Do rozważenia jako kolejny krok, ekran po ekranie albo partiami.
