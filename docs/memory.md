@@ -3478,3 +3478,64 @@ Kolejność rollout-u nie ustalona — naturalny kandydat to moduły najczęści
 złapać nieoczywiste call site'y (renderowanie bezpośrednie z pominięciem współdzielonego
 komponentu, konsumpcja międzymodułowa przez echo) — `tsc --noEmit` po zmianie typu bazowego jest
 jedynym wiarygodnym sposobem znalezienia ich wszystkich, nie grep po nazwie pola.
+
+## Szkielet logowania (rozdz. 18) — bez realnych kluczy Supabase (15.09.2026)
+
+**Kontekst:** trzecia z 4 niezgodności znalezionych przy synchronizacji ze standardem (po i18n).
+Projekt nie miał żadnego kodu auth (zero zależności Supabase, zero `.env`, zero `middleware.ts`).
+Rozdz. 18 wymaga realnej infrastruktury (Supabase Auth, Google/Apple OAuth, sesja HttpOnly) — nie
+dało się tego zbudować bez prawdziwego projektu Supabase, którego autor nie miał w tej sesji
+(potwierdzone po kilku rundach wyjaśniania — patrz transkrypt, nie ma potrzeby powtarzać tu
+przebiegu). **Decyzja: szkielet kodu teraz, bez kluczy — flip na "żywe" logowanie = wklejenie
+`NEXT_PUBLIC_SUPABASE_URL`/`NEXT_PUBLIC_SUPABASE_ANON_KEY` do `.env.local`, bez zmian w kodzie.**
+
+**Wykonane:**
+- `@supabase/supabase-js` + `@supabase/ssr` jako zależności (jeden lockfile pnpm, bez naruszenia
+  11.1). `.env.example` z placeholderami i komentarzem "skąd wziąć wartości".
+- `lib/adapters/supabase/config.ts` — `isSupabaseConfigured()`: jedyne miejsce decydujące, czy
+  Supabase jest realnie skonfigurowany (placeholder URL = "nie"). Cała reszta kodu pyta to, nigdy
+  nie sprawdza `process.env` bezpośrednio — jedno miejsce prawdy.
+- `lib/adapters/supabase/client.ts` (przeglądarka) / `server.ts` (Server Components/Actions/Route
+  Handlers) — sesja wyłącznie przez `@supabase/ssr`, nigdy ręczne cookie (18.5).
+- `middleware.ts` — 18.1 (konto wymagane od startu), ale **wyłączony całkowicie, gdy Supabase
+  nieskonfigurowany** (`isSupabaseConfigured()` na wejściu, `return NextResponse.next()`) — jawny,
+  dokumentowany stan przejściowy, nie cichy fallback. Zweryfikowane realnie (`pnpm build` +
+  `pnpm start` + `curl`): `/kalkulatory/pomocnicze` odpowiada 200 bez przekierowania, dokładnie
+  jak przed tym commitem — apka nie zmieniła zachowania dla użytkownika, dopóki nie ma kluczy.
+- `app/auth/login/page.tsx` — 3 równorzędni dostawcy (18.2): magic link e-mail (formularz +
+  Server Action `signInWithMagicLink`), Google/Apple (`signInWithOAuth`). Wymagało wrappera
+  `<Suspense>` wokół `useSearchParams()` — bez tego `pnpm build` failował na prerenderingu
+  (Next.js wymaga tego jawnie, nie ostrzeżenie, błąd zatrzymujący build).
+- `app/auth/callback/route.ts` — wymiana kodu na sesję. `next` (URL powrotny) przechodzi przez
+  `safeNextPath()` (nowy plik `lib/adapters/supabase/safe-redirect.ts`, z testami) — **realny
+  fix na open redirect z 18.2 (dopisek 15.09.2026)**, nie tylko wzmianka w komentarzu: odrzuca
+  wszystko, co nie zaczyna się od jednego `/` (łapie też `//host` protocol-relative).
+- `app/auth/signout/route.ts` + `components/konto-sekcja.tsx` (sekcja w `/ustawienia`, renderuje
+  się na coś tylko gdy `isSupabaseConfigured()` — inaczej apka nie ma jeszcze konceptu
+  "zalogowany", pusta sekcja byłaby myląca, nie tylko nieprzydatna).
+- `supabase/migrations/0001_profiles.sql` — `public.profiles` (1:1 z `auth.users`, `ON DELETE
+  CASCADE` — prawdziwy DELETE, 18.8), RLS (`auth.uid() = id`), trigger auto-insert przy rejestracji.
+  Pole `tier` (freemium, rozdz. 12) świadomie NIE dodane teraz — dojdzie, gdy projekt zdecyduje
+  się na freemium, nie spekulacyjnie.
+- `next.config.mjs` — `connect-src` w CSP dopuszcza URL Supabase, tylko gdy zmienna środowiskowa
+  istnieje (`process.env.NEXT_PUBLIC_SUPABASE_URL ?? ""` — pusty string nie dodaje nic do CSP).
+- Zweryfikowano: `tsc --noEmit`/`pnpm lint`/`pnpm test` (660/660, +5 nowych testów
+  `safe-redirect.test.ts`)/`pnpm build` czyste. `pnpm start`+`curl` potwierdza brak regresji w
+  zachowaniu apki bez kluczy.
+
+**Świadomie NIE wykonane (wymaga działań właściciela projektu, poza zasięgiem sesji):**
+1. Założenie realnego projektu Supabase (supabase.com → New Project → Settings → API) i wklejenie
+   `NEXT_PUBLIC_SUPABASE_URL`/`NEXT_PUBLIC_SUPABASE_ANON_KEY` do `.env.local`.
+2. Uruchomienie `supabase/migrations/0001_profiles.sql` w Supabase Dashboard → SQL Editor.
+3. Włączenie dostawców Google/Apple w Supabase Dashboard → Authentication → Providers (wymaga
+   danych OAuth z Google Cloud Console / Apple Developer Program — **99 USD/rok**, 18.2 — koszt
+   realny, nie tylko konfiguracyjny, do rozważenia zanim się włączy).
+4. Model grupy współdzielonej (18.7), rozwiązywanie konfliktu synchronizacji (18.14, wzorzec
+   opcjonalny) — żadnego z tego projekt jeszcze nie potrzebuje (brak danych do synchronizacji w
+   ogóle, poza tym co dziś żyje lokalnie w IndexedDB, patrz sekcja `usePersistedDraft` wyżej).
+   `docs/lista-do-zrobienia.md` ma wpis na kolejny krok.
+
+**Lekcja procesowa:** rozdz. 18 to pierwsza niezgodność z tej listy czterech, która jest naprawdę
+blokowana na zewnętrznym zasobie (konto Supabase), nie na decyzji projektowej czy nakładzie pracy
+— i18n/AI-kontrakt/freemium da się zaplanować i częściowo wdrożyć bez niczyjej zewnętrznej akcji,
+logowanie nie. Warto to rozpoznawać wcześniej (przed pisaniem kodu), nie w trakcie.

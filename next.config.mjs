@@ -12,6 +12,11 @@ const WYGLAD_INIT_SCRIPT_HASH = "sha256-+/C91khub/JBkArKcNvM0bLh3IjvzPutrWc2hmWb
 
 const isDev = process.env.NODE_ENV !== "production"
 
+// docs/standards/18-logowanie.md — klient przeglądarkowy Supabase woła bezpośrednio URL projektu
+// (auth/REST). Puste, dopóki .env.local nie ma realnych wartości (szkielet, 15.09.2026) — 'self'
+// starczy do reszty apki, nic w kodzie nie łamie CSP samym faktem braku tego wpisu.
+const supabaseConnectSrc = process.env.NEXT_PUBLIC_SUPABASE_URL ?? ""
+
 // Next.js dev mode (React Refresh/HMR) wstrzykuje własne inline skrypty i wymaga 'unsafe-eval' —
 // osłabienie CSP tylko w dev, produkcja zostaje ściśle ograniczona do 'self' + hash powyżej.
 const scriptSrc = isDev ? `'self' 'unsafe-inline' 'unsafe-eval'` : `'self' '${WYGLAD_INIT_SCRIPT_HASH}'`
@@ -22,7 +27,7 @@ const csp = [
   `style-src 'self' 'unsafe-inline'`,
   `img-src 'self' data: blob:`,
   `font-src 'self'`,
-  `connect-src 'self'`,
+  `connect-src 'self'${supabaseConnectSrc ? ` ${supabaseConnectSrc}` : ""}`,
   `frame-ancestors 'none'`,
   `base-uri 'self'`,
   `form-action 'self'`,

@@ -132,3 +132,13 @@ Tu trafia bieżący stan pracy: co w trakcie, co zablokowane, co następne — a
   naraz byłaby wysokim ryzykiem bez proporcjonalnej korzyści (dziś jest tylko jeden język — PL —
   więc brak zmigrowanego modułu nie psuje niczego użytkownikowi, tylko odkłada techniczny porządek).
   Szczegóły procesu i decyzji: `docs/memory.md`.
+- ⚠️ (2026-09-15) **Niezgodność #2 (logowanie, rozdz. 18) — szkielet gotowy, czeka na działanie
+  właściciela projektu.** Kod (Supabase Auth, magic link/Google/Apple, middleware, RLS jako
+  `.sql`) napisany i zweryfikowany (`tsc`/`lint`/`test`/`build`), ale wyłączony do czasu realnych
+  danych — apka dziś działa identycznie jak przed tym szkieletem. Do zrobienia przez właściciela:
+  1. Załóż projekt na supabase.com (New Project → Settings → API), wklej URL + anon key do
+     `.env.local` (wzór: `.env.example`).
+  2. Uruchom `supabase/migrations/0001_profiles.sql` w Supabase Dashboard → SQL Editor.
+  3. (Opcjonalnie, koszt: Google — darmowe, Apple — **99 USD/rok**) Włącz dostawców w Supabase
+     Dashboard → Authentication → Providers.
+  Po tym logowanie działa bez żadnych zmian w kodzie. Szczegóły: `docs/memory.md`.
