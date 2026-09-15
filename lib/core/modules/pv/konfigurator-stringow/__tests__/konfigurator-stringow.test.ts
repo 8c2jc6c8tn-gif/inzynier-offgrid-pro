@@ -34,7 +34,7 @@ describe("calculateKonfiguratorStringow", () => {
     })
     expect(result.status).toBe("VALID")
     expect(result.value).toEqual({ voltageV: 160, currentA: 22 })
-    expect(result.assumptions.some((a) => a.includes("Razem 8 paneli"))).toBe(true)
+    expect(result.assumptions.some((a) => typeof a === "string" && a.includes("Razem 8 paneli"))).toBe(true)
   })
 
   it("przypadek graniczny: 1 panel w szeregu to po prostu ten panel", () => {

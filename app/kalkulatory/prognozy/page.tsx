@@ -3,6 +3,7 @@ import { SAMPLE_PROGNOZA_24H } from "@/lib/core/modules/ai/prognozy/constants"
 import { WerdyktPanel } from "@/components/werdykt"
 import { NawigacjaEkranu } from "@/components/nawigacja-ekranu"
 import { NaglowekEkranu } from "@/components/wzorce/naglowek-ekranu"
+import { t } from "@/lib/i18n/t"
 
 export default function PrognozyPage() {
   const result = calculatePrognozy(SAMPLE_PROGNOZA_24H)
@@ -48,8 +49,8 @@ export default function PrognozyPage() {
       </div>
 
       <ul className="text-caption text-muted-foreground">
-        {result.assumptions.map((a) => (
-          <li key={a}>Założenie: {a}</li>
+        {result.assumptions.map((a, i) => (
+          <li key={typeof a === "string" ? a : a.kod + i}>Założenie: {typeof a === "string" ? a : t(a.kod, a.params)}</li>
         ))}
       </ul>
     </main>

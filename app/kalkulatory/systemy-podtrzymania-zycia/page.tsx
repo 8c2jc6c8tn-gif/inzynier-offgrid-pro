@@ -8,6 +8,7 @@ import { WerdyktPanel, type WerdyktPoziom } from "@/components/werdykt"
 import { NawigacjaEkranu } from "@/components/nawigacja-ekranu"
 import { NaglowekEkranu } from "@/components/wzorce/naglowek-ekranu"
 import { StanPusty } from "@/components/ui/stany"
+import { t } from "@/lib/i18n/t"
 
 const initialItems: CriticalLoadItem[] = DEFAULT_CRITICAL_LOADS.map((def) => ({
   id: def.id,
@@ -96,8 +97,8 @@ export default function SystemyPodtrzymaniaZyciaPage() {
           <>
             {result.assumptions.length > 0 && (
               <ul className="mt-2 text-small opacity-90">
-                {result.assumptions.map((a) => (
-                  <li key={a}>Założenie: {a}</li>
+                {result.assumptions.map((a, i) => (
+                  <li key={typeof a === "string" ? a : a.kod + i}>Założenie: {typeof a === "string" ? a : t(a.kod, a.params)}</li>
                 ))}
               </ul>
             )}

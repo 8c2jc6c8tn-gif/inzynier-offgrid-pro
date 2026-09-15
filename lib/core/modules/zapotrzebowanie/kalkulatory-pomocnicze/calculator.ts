@@ -1,4 +1,4 @@
-import type { CalcResult, Warning } from "@/lib/core/calc-result"
+import type { Assumption, CalcResult, Warning } from "@/lib/core/calc-result"
 import type { KalkulatoryPomocniczeInput } from "./input"
 import { EFFICIENCY_DEFAULT } from "./constants"
 import { validateInput } from "./validation"
@@ -39,10 +39,8 @@ export function calculateKalkulatoryPomocnicze(
       if (errors.length > 0) return buildInvalid(inputs, formula, errors)
 
       const efficiency = input.efficiency ?? EFFICIENCY_DEFAULT
-      const assumptions =
-        input.efficiency === undefined
-          ? [`Sprawność układu przyjęta jako ${efficiency} (wartość domyślna, nie zmierzona).`]
-          : []
+      const assumptions: Assumption[] =
+        input.efficiency === undefined ? [{ kod: "SPRAWNOSC-DOMYSLNA", params: { efficiency } }] : []
       const value = input.powerW / (input.voltageV * efficiency)
 
       return {
@@ -103,10 +101,8 @@ export function calculateKalkulatoryPomocnicze(
       if (errors.length > 0) return buildInvalid(inputs, formula, errors)
 
       const efficiency = input.efficiency ?? EFFICIENCY_DEFAULT
-      const assumptions =
-        input.efficiency === undefined
-          ? [`Sprawność układu przyjęta jako ${efficiency} (wartość domyślna, nie zmierzona).`]
-          : []
+      const assumptions: Assumption[] =
+        input.efficiency === undefined ? [{ kod: "SPRAWNOSC-DOMYSLNA", params: { efficiency } }] : []
       const value = (input.capacityAh * input.voltageV * efficiency) / input.powerW
 
       return {

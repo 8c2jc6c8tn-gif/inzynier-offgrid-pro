@@ -27,7 +27,7 @@ describe("calculateOptymalizacjaTrasyKabla", () => {
     expect(result.value.strataRocznaBKwh).toBeCloseTo(306.6, 1)
     expect(result.value.tcoAZl).toBeCloseTo(1549.75, 2)
     expect(result.value.tcoBZl).toBeCloseTo(3366, 1)
-    expect(result.warnings.some((w) => w.code === "POROWNANIE-KOSZTOW" && w.message.includes("trasa A"))).toBe(true)
+    expect(result.warnings.some((w) => w.code === "POROWNANIE-KOSZTOW" && w.message?.includes("trasa A"))).toBe(true)
   })
 
   it("KRYTYCZNE — trasa B ma przekrój niewystarczający na obciążalność: TCO NIE pokazywany (nie fałszywie 'tańszy')", () => {

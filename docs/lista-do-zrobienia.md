@@ -117,3 +117,18 @@ Tu trafia bieżący stan pracy: co w trakcie, co zablokowane, co następne — a
   rozbieżność: wzór spadku napięcia w opisie produktowym źródła (`R=ρ×L/S`) pomija drogę powrotną
   prądu — użyto poprawnego `R=ρ×2L/S` (ten sam wzór co M3/E8, już zweryfikowany). B5 (Moduł 11) i
   Ekran 25 (Moduł 4) mogą teraz reużyć ten silnik jako "echo" — wciąż `todo`, nie zbudowane.
+- ✅ (2026-09-15) **Rozstrzygnięte częściowo: `StorageAdapter` (wpis ⏳ z 2026-09-03) ma teraz realną
+  implementację** — `IndexedDbStorageAdapter` (`lib/adapters/indexeddb-storage-adapter.ts`) + hook
+  `usePersistedDraft` (`lib/adapters/use-persisted-draft.ts`), pilotaż na ekranie `napiecie-systemowe`
+  (zgłoszenie użytkownika: strona sama się przeładowywała, dane się gubiły). Pozostałe ~115 ekranów
+  kalkulatorów jeszcze nie korzystają z autozapisu — rollout ekran po ekranie, `usePersistedDraft`
+  gotowy do skopiowania 1:1. Szczegóły: `docs/memory.md`.
+- 🔲 (2026-09-15) **Rollout rozdz. 17 (i18n) na resztę modułów.** Kontrakt (`Warning.i18nKey`/`params`,
+  `CalcResult.Assumption` jako `string | {kod, params}`) i wzorzec migracji ustalone i sprawdzone na
+  module pilotażowym `kalkulatory-pomocnicze` (M2/E16) — `lib/i18n/dictionary-pl.ts` + `lib/i18n/t.ts`.
+  Pozostaje: ~89 plików `warnings.ts` (326 miejsc z gotowym tekstem PL w `message`) + ~109 miejsc z
+  `assumptions` jako `string[]` w innych modułach. Świadomie NIE zrobione teraz w całości — standard
+  sam (17.9) wymaga migracji moduł po module, nie big bang; jednorazowa migracja ~115 modułów
+  naraz byłaby wysokim ryzykiem bez proporcjonalnej korzyści (dziś jest tylko jeden język — PL —
+  więc brak zmigrowanego modułu nie psuje niczego użytkownikowi, tylko odkłada techniczny porządek).
+  Szczegóły procesu i decyzji: `docs/memory.md`.

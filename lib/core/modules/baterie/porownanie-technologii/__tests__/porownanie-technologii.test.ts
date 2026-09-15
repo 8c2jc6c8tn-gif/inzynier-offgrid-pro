@@ -6,7 +6,7 @@ describe("calculatePorownanieTechnologii", () => {
     const result = calculatePorownanieTechnologii({})
     expect(result.status).toBe("VALID")
     expect(result.value).toHaveLength(4)
-    expect(result.assumptions.some((a) => a.includes("baseline"))).toBe(true)
+    expect(result.assumptions.some((a) => typeof a === "string" && a.includes("baseline"))).toBe(true)
 
     // referencja ręczna: LiFePO4 -> 1 kWh × 5000 cykli × 0,8 DoD = 4000 kWh
     const lifepo4 = result.value.find((t) => t.id === "lifepo4")

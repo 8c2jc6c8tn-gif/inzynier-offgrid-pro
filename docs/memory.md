@@ -3375,3 +3375,71 @@ mechanizmu na pozostałych ~100 ekranach kalkulatorów — `usePersistedDraft` j
 skopiowania 1:1 (jedna linia zamiast `useState` + bundle pól w jeden typ `FormularzStan`), ale
 zrobienie tego dla każdego ekranu naraz to osobne, duże zadanie, nie część naprawy zgłoszonego
 błędu. Do rozważenia jako kolejny krok, ekran po ekranie albo partiami.
+
+## Pierwsza implementacja i18n — pilotaż na module `kalkulatory-pomocnicze` (15.09.2026)
+
+**Kontekst:** przy synchronizacji ze standardem (v2.8→v2.17, patrz sekcja "Synchronizacja ze
+standardem" wyżej) wykryto niezgodność: rozdz. 17 (i18n, 17.2) i PATCH do 03.2/04 wymagają, żeby
+Kernel zwracał **klucze tłumaczeń**, nigdy gotowy tekst — a cały istniejący kod (`Warning.message`,
+`CalcResult.assumptions: string[]`) zwraca wprost polski tekst. Autor wybrał tę niezgodność jako
+pierwszą do domknięcia (z listy 4: i18n / logowanie / freemium / kontrakt AI).
+
+**Skala sprawdzona przed decyzją o zakresie (nie zgadywana):** 116 katalogów modułów, 90 plików
+`warnings.ts`, **326 wystąpień `message:`** w `lib/core/modules` (bez testów), **110 plików**
+używających `assumptions`. Migracja wszystkiego naraz byłaby dokładnie tym, co standard sam
+zabrania (17.9: "migracja stopniowa, moduł po module, nigdy big bang") — dodatkowo część
+`message:` to szablony z wartościami dynamicznymi (np. `label`/`value` wstrzykiwane w runtime),
+więc ekstrakcja do słownika wymaga decyzji per funkcja (co jest parametrem, co kluczem), nie jest
+czysto mechaniczna dla całego kodu naraz.
+
+**Decyzja o zakresie tej sesji:** zbudować infrastrukturę + zmigrować **jeden pilotażowy moduł**
+w całości (ten sam wzorzec co przy `usePersistedDraft` — pilotaż, nie big bang), zamiast czekać z
+czymkolwiek do czasu, aż wszystkie 116 modułów zostaną zrobione naraz.
+
+**Wykonane:**
+1. `lib/i18n/dictionary-pl.ts` — słownik `{klucz: szablon}`, klucze wielkimi literami z myślnikiem
+   (ta sama konwencja co dotychczasowy `Warning.code`), placeholdery `{param}`. Dziś tylko klucze
+   faktycznie użyte przez zmigrowany moduł — **nie wolno dopisywać kluczy "na przyszłość"** bez
+   migracji modułu, który ich używa (martwe klucze to dług, nie postęp — zapisane jako komentarz
+   w samym pliku, żeby przetrwało kompaktowanie kontekstu).
+2. `lib/i18n/t.ts` — `t(kod, params?)`, podstawia `{param}` w szablonie. Brakujący klucz nie jest
+   cichym fallbackiem (17.1) — raportowany przez `consoleReporter` i widoczny w UI jako `⚠ [KOD]`,
+   żeby błąd migracji był widoczny od razu, nie ukryty.
+3. **Kontrakt (`lib/core/calc-result.ts`) — zmiana addytywna, nie usuwająca.** `Warning.message`
+   stał się **opcjonalny** (oznaczony `@deprecated`, z komentarzem odsyłającym do tej sekcji),
+   dodano `i18nKey?`/`params?`. `CalcResult.assumptions` zmieniło typ z `string[]` na nowy
+   `Assumption = string | {kod, params?}`. **To jest świadomy, tymczasowy stan przejściowy** — nie
+   każe wszystkim 115 pozostałym modułom migrować się natychmiast (są nadal poprawne typowo,
+   zwracając same stringi/`message`), ale otwiera legalną ścieżkę dla modułów zmigrowanych.
+   Rozstrzyga to WPROST napięcie między 17.1 ("brakujący klucz = błąd typu, nie cichy fallback")
+   i 17.9 ("migracja stopniowa, nigdy big bang") — 17.1 opisuje stan DOCELOWY (po migracji
+   wszystkiego), nie wymóg natychmiastowy w trakcie przejścia.
+4. **Pilotaż w całości:** `lib/core/modules/zapotrzebowanie/kalkulatory-pomocnicze/warnings.ts`
+   (4 funkcje — `message` usunięty, `i18nKey`/`params` gdzie kod jest dynamiczny per pole, np.
+   `notPositive`) i `calculator.ts` (2 miejsca `assumptions` → `{kod: "SPRAWNOSC-DOMYSLNA", params}`).
+   `components/wzorce/wynik-szczegoly.tsx` (komponent współdzielony przez kilka ekranów) i
+   `app/kalkulatory/pomocnicze/page.tsx` rozwiązują teraz `Assumption`/`Warning` niezależnie od
+   tego, czy pochodzą z modułu zmigrowanego czy nie (`typeof a === "string" ? a : t(a.kod, a.params)`).
+5. **Efekt uboczny zmiany typu (naprawiony, nie przeoczony):** poszerzenie `assumptions` na typ
+   unii złapało 7 dodatkowych ekranów renderujących `assumptions.map` **bezpośrednio**, nie przez
+   `WynikSzczegoly` (`cop-pompy-ciepla`, `czystosc-i-snieg`, `lokalizacja-i-klimat`,
+   `porownanie-technologii-magazynow`, `prognozy`, `systemy-podtrzymania-zycia`, `tryb-uproszczony`)
+   — każdy naprawiony tym samym wzorcem odczytu (moduły tych ekranów NIE są zmigrowane, nadal
+   zwracają czyste stringi, tylko renderowanie musi już umieć obsłużyć oba kształty). Też: jedno
+   miejsce w kodzie DOMENOWYM (`optymalizacja-trasy-kabla/calculator.ts`) czytające `w.message`
+   z echo innego modułu jako wymagany `string` — naprawione fallbackiem `?? w.code` (transitional,
+   do usunięcia gdy `dobor-przekroju-kabla` też się zmigruje). 2 testy asercji na dosłowny tekst
+   `assumptions` i 1 na `w.message` — poprawione na `.includes`/`?.` odpowiednio bezpieczne dla
+   typu unii/opcjonalnego pola.
+6. Zweryfikowano: `tsc --noEmit`, `pnpm lint`, `pnpm test` (655/655), `pnpm build` — wszystko czyste.
+
+**Świadomie NIE wykonane (rollout, osobne zadanie, `docs/lista-do-zrobienia.md`):** pozostałe ~89
+plików `warnings.ts` (326 wystąpień `message:`) i ~109 innych plików z `assumptions: string[]`.
+Kolejność rollout-u nie ustalona — naturalny kandydat to moduły najczęściej odwiedzane/najbardziej
+"mega-Doradca" (per przegląd §8.11), ale to decyzja na kolejną sesję, nie założenie z tej.
+
+**Lekcja procesowa:** zmiana typu współdzielonego kontraktu (`CalcResult`/`Warning`) używanego w
+100+ miejscach, nawet "addytywna" (nowe pole opcjonalne, unia zamiast pojedynczego typu), potrafi
+złapać nieoczywiste call site'y (renderowanie bezpośrednie z pominięciem współdzielonego
+komponentu, konsumpcja międzymodułowa przez echo) — `tsc --noEmit` po zmianie typu bazowego jest
+jedynym wiarygodnym sposobem znalezienia ich wszystkich, nie grep po nazwie pola.

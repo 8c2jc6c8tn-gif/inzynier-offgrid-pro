@@ -137,8 +137,10 @@ export function calculateOptymalizacjaTrasyKabla(
   const warnings: Warning[] = []
   const echoAKrytyczne = echoA.warnings.filter((w) => w.level === "critical")
   const echoBKrytyczne = echoB.warnings.filter((w) => w.level === "critical")
-  for (const w of echoAKrytyczne) warnings.push(trasaNieSpelniaWymagan("A", w.message))
-  for (const w of echoBKrytyczne) warnings.push(trasaNieSpelniaWymagan("B", w.message))
+  // `dobor-przekroju-kabla` (echo) nie jest jeszcze zmigrowany do i18n (17.9) — `.message` jest
+  // dziś zawsze ustawione w praktyce; fallback tylko na wypadek przyszłej migracji tamtego modułu.
+  for (const w of echoAKrytyczne) warnings.push(trasaNieSpelniaWymagan("A", w.message ?? w.code))
+  for (const w of echoBKrytyczne) warnings.push(trasaNieSpelniaWymagan("B", w.message ?? w.code))
 
   // Jeśli którakolwiek trasa nie spełnia normy (za mały przekrój), echo M5/E1 celowo zwraca
   // strataRocznaKwh=0 dla tej trasy (nie liczy straty dla niezgodnego przekroju) — porównanie
