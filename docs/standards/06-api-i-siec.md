@@ -27,3 +27,11 @@ Powiązane: [05 Baza danych i offline-first](05-baza-danych-offline.md) · [07 B
 ## 6.4. Idempotency przy płatnościach
 
 **Reguła.** Każde żądanie płatności niesie klucz idempotency, żeby powtórzenie żądania (np. przez niestabilne połączenie) nie skutkowało podwójnym obciążeniem. Patrz rozdział 12.
+
+## 6.5. Konfiguracja czytana przez SQL na hostowanym Postgresie: tabela z RLS, nigdy `ALTER DATABASE ... SET`
+
+**Reguła.** Wartość konfiguracyjna czytana przez backend przez SQL (np. e-mail administratora panelu, próg limitu, flaga funkcji) żyje w zwykłej tabeli z RLS/`security definer`, nigdy w niestandardowym parametrze serwera (`current_setting('app.xxx')`, ustawianym `alter database ... set app.xxx = '...'`).
+
+**Uzasadnienie.** `alter database ... set` zmienia konfigurację **całej instancji Postgresa**, nie jednej bazy per-aplikacja — hostowane platformy (np. Supabase) odmawiają tego z poziomu SQL Editora zwykłemu użytkownikowi (`ERROR 42501: permission denied to set parameter`), bo pozwoliłoby to jednemu klientowi platformy zmieniać ustawienia współdzielonego serwera innych klientów. Lokalny Postgres z kontem superusera nie ma tego ograniczenia — więc mechanizm przechodzi każdą lokalną weryfikację i wybucha dopiero przy pierwszym wdrożeniu na docelowej platformie hostowanej, gdzie moment odkrycia jest najdroższy.
+
+**Konsekwencja.** `INSERT`/`UPDATE` na zwykłej tabeli schematu `public` to zwykłe uprawnienie na obiekt, nie ustawienie serwera — działa identycznie lokalnie i na platformie hostowanej. Jeśli projekt korzysta z hostowanego Postgresa (Supabase czy podobnego) i lokalna weryfikacja obejmuje tylko poprawność SQL/RLS, a nie model uprawnień samej platformy hostującej (7.4) — to nie jest pełna weryfikacja, tylko jej część.

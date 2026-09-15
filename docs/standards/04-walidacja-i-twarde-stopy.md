@@ -18,6 +18,8 @@ Dla projektów potrzebujących większej granulacji przy komunikatach nie-bezpie
 
 Struktura pojedynczego ostrzeżenia: kod, poziom, komunikat dla użytkownika ("po ludzku"), komunikat techniczny, pole/wynik którego dotyczy, zalecana czynność.
 
+[15.09.2026] ✅ DODANO — źródło: integracja z rozdz. 17 (i18n), kolizja zgłoszona przez inzynier-offgrid-pro. **`kod` jako jedyny output domenowy.** Domenowa funkcja generująca ostrzeżenie zwraca wyłącznie `kod` — nigdy gotowy `komunikat dla użytkownika`. Ten komunikat jest wygenerowany dopiero w warstwie prezentacji, odczytem `kod` ze słownika tłumaczeń (17.2), tak samo jak `komunikat techniczny` pozostaje wewnętrzny/deweloperski i nie podlega i18n. Bez tego rozróżnienia domenowa funkcja produkowałaby twardy tekst w jednym języku, kolidując z 01.1.
+
 **Reguła priorytetu.** Ostrzeżenia nigdy nie zmieniają statusu wyniku (3.3) same z siebie. Priorytet stanu widżetu/ekranu: `BŁĄD > NIEKOMPLETNE > OK`.
 
 ## 4.2. Kontrakt wyniku prezentacyjnego (Kontrakt Widżetu)

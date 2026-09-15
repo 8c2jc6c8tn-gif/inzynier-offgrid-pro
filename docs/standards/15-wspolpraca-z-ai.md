@@ -49,7 +49,9 @@ Jeśli AI nie ma wystarczających informacji, mówi to wprost: *"Brakuje mi dany
 
 ## 15.8. Procedura zadania
 
-**Przed kodowaniem:** zidentyfikuj moduł, którego dotyczy zadanie · przeczytaj `CLAUDE.md`, ten rozdział, `docs/memory.md`, dokument domenowy związany z zadaniem · znajdź istniejące implementacje podobnych funkcji (nie duplikuj) · zapisz krótki plan zmian · wskaż ryzyka i brakujące dane.
+**Przed kodowaniem:** zidentyfikuj moduł, którego dotyczy zadanie · przeczytaj `CLAUDE.md`, ten rozdział, GOD BOOK (`docs/god-book/instrukcja-uniwersalna-biblii-projektu-*.md`, w zakresie wg jego C.8) i `docs/memory.md`, dokument domenowy związany z zadaniem — nie tylko przy pierwszej sesji, ale przed każdym kolejnym większym zadaniem (GOD BOOK Y.4, wzmocnione w wersji 2.12), bez czekania na przypomnienie · znajdź istniejące implementacje podobnych funkcji (nie duplikuj) · zapisz krótki plan zmian · wskaż ryzyka i brakujące dane.
+
+Faza planu (powyżej) i faza pisania kodu (**Podczas kodowania** niżej) to dwie osobne postawy AI, nie jedno ciągłe działanie — pełna specyfikacja: GOD BOOK 0.3 (tryby sesji: Audyt/Pisanie treści dla planu, Wdrożenie zawsze dla pisania kodu, przełączane w trakcie jednej sesji bez osobnego ogłoszenia).
 
 **Podczas kodowania:** małe, logiczne zmiany · zachowuj kompatybilność publicznych interfejsów, chyba że zmiana jest uzasadniona i jawna · dodawaj walidację danych wejściowych (rozdział 04) · jawne typy i jednoznaczne nazwy · nie ukrywaj błędów · nie zostawiaj kodu tymczasowego bez oznaczenia.
 
@@ -92,3 +94,37 @@ Nigdy: PRZEPISZ → UPROŚĆ → SKRÓĆ → ZAPOMNIJ → WYJAŚNIJ.
 > Po większej zmianie przedstaw: ZMIENIONO, DODANO, USUNIĘTO oraz WPŁYW NA ISTNIEJĄCE ELEMENTY.
 >
 > Zasada nadrzędna: ZACHOWAJ → ZROZUM → ZMIEŃ TYLKO TO, CO POTRZEBNE → SPRAWDŹ → ZARAPORTUJ.
+>
+> Komunikuj się z właścicielem projektu wyłącznie po polsku — łącznie z opisem tego, co robisz, i widoczną treścią myślową. Kod (nazwy, komentarze) pisz po angielsku; polska nazwa domenowa jest dopuszczalna tylko tam, gdzie ułatwia orientację, i stosowana wtedy konsekwentnie.
+
+## 15.15. Język komunikacji: polski; język kodu: angielski
+
+[08.09.2026] ✅ DODANO — źródło: właściciel projektu, `new-app-standards`. Pełne umocowanie procesowe: GOD BOOK 0.7.
+
+**Reguła.** AI komunikuje się z właścicielem projektu wyłącznie po polsku — dotyczy to odpowiedzi, opisu planu i podjętych działań, pytań, wyjaśnień oraz wszelkiej widocznej treści myślowej/rozumowania, jeśli narzędzie ją pokazuje. Wyjątki: dosłowne cytaty źródłowe w oryginalnym języku, nazwy własne, terminy techniczne bez naturalnego polskiego odpowiednika (np. nazwy funkcji/bibliotek).
+
+Kod źródłowy (nazwy zmiennych, funkcji, klas, plików, komentarze, komunikaty w logach/wyjątkach przeznaczone dla programistów) jest po angielsku — zgodnie z rozdz. 16 i światową konwencją inżynierską. **Wyjątek:** polska nazwa domenowa w kodzie jest dopuszczalna tam, gdzie realnie przyspiesza orientację w logice specyficznej dla polskiej domeny projektu (np. termin branżowy bez naturalnego, jednoznacznego tłumaczenia) — to świadoma decyzja projektowa, nie domyślne zachowanie, i raz przyjęta jest stosowana konsekwentnie w całym module, nie naprzemiennie z angielskim odpowiednikiem tego samego pojęcia.
+
+**Uzasadnienie.** Właściciel projektu pracuje po polsku i to on ocenia jakość analizy/decyzji — komunikacja w innym języku utrudnia mu tę ocenę i zwiększa ryzyko przeoczenia błędu. Kod z kolei czyta też ekosystem narzędzi (lintery, biblioteki, dokumentacja, przyszli współpracownicy spoza tego zespołu) zbudowany wokół angielskiego — pisanie kodu po polsku byłoby niezgodne z resztą świata inżynierskiego i utrudniłoby integrację/hiring w przyszłości.
+
+**Konsekwencja.** Reguła obowiązuje od pierwszej wiadomości w sesji, niezależnie od języka, w jakim napisano polecenie, i nie wymaga przypomnienia — dokładnie ta sama logika egzekwowania co GOD BOOK 0.2 (ekspertyza domenowa) i Y.4 (kolejność czytania, wzmocniona w wersji 2.12 tej instrukcji o ten sam wymóg braku przypomnienia).
+
+## 15.16. Higiena okna kontekstu — kompaktowanie na granicach zadań
+
+[09.09.2026] ✅ DODANO — źródło: właściciel projektu, `new-app-standards`. Ograniczenie techniczne opisane niżej zweryfikowane w tej samej sesji, przed dodaniem tej reguły — patrz Uwaga na końcu.
+
+**Reguła.** Gdy zadanie jest zakończone (kod działa, zmiany zacommitowane i wypchnięte/zmergowane zgodnie z poleceniem właściciela projektu) — zanim AI zacznie kolejne, niezwiązane zadanie w tej samej sesji, ocenia, czy sesja urosła na tyle, że warto skompaktować kontekst przed kontynuacją, i jeśli tak, **jawnie proponuje właścicielowi projektu uruchomienie `/compact`**, zamiast milcząco kontynuować pracę w rosnącym oknie. Orientacyjny próg: rząd wielkości ~300 tys. tokenów sesji. Jeśli pojedyncze zadanie naturalnie kończy się przy wyższym zużyciu — dokończ je bez przerywania w środku; propozycja kompaktowania pada dopiero na granicy zadań (po commit/push/PR/merge), nigdy w trakcie pracy nad jednym zadaniem.
+
+**Uwaga — ograniczenie techniczne, nie do obejścia kolejnym zapisem reguły.** AI nie ma narzędzia dającego dokładny, bieżący odczyt liczby tokenów zajmowanych przez okno kontekstu tej sesji (liczniki widoczne czasem w narzędziu odzwierciedlają inny rodzaj budżetu, nie zapełnienie okna) ani narzędzia pozwalającego samodzielnie wywołać `/compact` — to komenda interfejsu, uruchamiana przez właściciela projektu. Dlatego ta reguła działa jako **rekomendacja z inicjatywy AI, na podstawie jakościowych sygnałów** (długość sesji, liczba dużych plików/dokumentów wczytanych, ewentualne sygnały samego narzędzia o zbliżaniu się do limitu) — nie jako precyzyjny automat progowy. AI nie udaje precyzji, której nie ma: jeśli nie jest pewne, czy sesja jest już "duża", mówi to wprost zamiast zgadywać liczbę.
+
+**Uzasadnienie.** Każda kolejna wiadomość w rosnącej sesji ponownie wysyła cały dotychczasowy kontekst — praca dalej w bardzo dużym oknie (rzędu 700 tys.+) po zakończeniu zadania bezsensownie zwiększa koszt kolejnych wiadomości, bez korzyści dla jakości pracy nad kolejnym, niezwiązanym zadaniem.
+
+**Konsekwencja.** To nie jest twardy limit ani przerywanie pracy w połowie zadania — to zmiana z "kontynuuj milcząco, niezależnie od rozmiaru sesji" na "zaproponuj kompaktowanie na naturalnej granicy zadania, zanim zaczniesz coś nowego".
+
+## 15.17. Rekomendacja zmiany pliku NIETYKALNEGO ma jeden adres — nigdy bezpośrednia edycja mirrora
+
+[10.09.2026] ✅ DODANO — źródło: incydent inzynier-szkieletowy-pro (`docs/god-book/memory.md`, wpis 10.09.2026 "korekta procesu"). AI tamtego projektu samodzielnie dopisało nową regułę wprost do lokalnej kopii `docs/standards/10-testy.md` (plik kategorii NIETYKALNE, GOD BOOK Y.8 — mirror tego repo, zero lokalnej adaptacji), zamiast zapisać rekomendację w `docs/wklad-do-standardu.md` i poczekać na decyzję w sesji nad `new-app-standards`. Błąd znaleziony i naprawiony przez tamten projekt tego samego dnia.
+
+**Reguła.** 15.4 ("nigdy nie rozstrzygaj konfliktu samodzielnie") już obejmuje ten przypadek w duchu, ale doświadczenie pokazało, że to za mało jawne przy jednym konkretnym typie pokusy: AI natrafiające na coś, co uznaje za oczywiście słuszną, uniwersalną regułę, może po prostu **dopisać ją od razu do pliku standardu/GOD BOOK w swojej lokalnej kopii**, zamiast zapisać to jako rekomendację. To nie jest "rozstrzyganie konfliktu" w oczywistym sensie (nic tu nie jest sprzeczne) — dlatego łatwiej to przeoczyć niż typowy przypadek 15.4. Dla plików kategorii **NIETYKALNE** (Y.8: `docs/standards/00–16`, GOD BOOK, `PROMPT_STARTOWY.md`) obowiązuje **jeden dopuszczalny adres** dla każdego "to powinno być regułą": `docs/wklad-do-standardu.md` tego projektu (Y.8, "Kanał zwrotny"), nigdy bezpośrednia edycja pliku NIETYKALNEGO lokalnie — niezależnie od tego, jak oczywiście słuszna wydaje się reguła, jak małą zmianą by to było, ani jak pewne jest AI co do jej uniwersalności. Decyzja o promocji do standardu dzieje się wyłącznie w sesji nad `new-app-standards` (Y.8, U.3).
+
+**Konsekwencja.** Jeśli AI już zauważyło, że coś powinno wejść do standardu — to jest **koniec** jego roli w tej decyzji, nie początek edycji. Zapisz rekomendację, zaraportuj właścicielowi projektu, że zapisano, i zatrzymaj się tam.

@@ -2,7 +2,7 @@
 
 Pakiet referencyjny wspólny dla wszystkich naszych aplikacji (obecnych i przyszłych, niezależnie od domeny). Jeden plik = jeden rozdział, każdy samodzielnie czytelny. Powiązany z `docs/memory.md` (specyfika tego konkretnego projektu) i `CLAUDE.md` (krótki punkt wejścia dla AI).
 
-**Relacja do GOD BOOK.** Ten standard opisuje *czym budujemy* (stała architektura, wspólna dla całej rodziny aplikacji). Osobny dokument, `docs/god-book/instrukcja-uniwersalna-biblii-projektu-v2_8.md`, opisuje *jak prowadzić proces* budowy Biblii tego konkretnego projektu — od burzy mózgów do wdrożenia. Pełna relacja i kolejność czytania obu naraz: Część Y tamtego dokumentu.
+**Relacja do GOD BOOK.** Ten standard opisuje *czym budujemy* (stała architektura, wspólna dla całej rodziny aplikacji). Osobny dokument, `docs/god-book/instrukcja-uniwersalna-biblii-projektu-v2_17.md`, opisuje *jak prowadzić proces* budowy Biblii tego konkretnego projektu — od burzy mózgów do wdrożenia. Pełna relacja i kolejność czytania obu naraz: Część Y tamtego dokumentu.
 
 ## Zalecana kolejność czytania
 
@@ -23,7 +23,7 @@ Pakiet referencyjny wspólny dla wszystkich naszych aplikacji (obecnych i przysz
 | [06](06-api-i-siec.md) | API i sieć | Proxy bez zmyślania danych, offline queue, sekrety server-side. |
 | [07](07-bezpieczenstwo.md) | Bezpieczeństwo i prywatność | Mapowanie natywne→web, nagłówki, prywatność lokalna-domyślna. |
 | [08](08-ui-ux.md) | UI/UX i treść | Taksonomia wzorców ekranu A-H, szablon Doradcy, tryb prosty/zaawansowany. |
-| [09](09-ai-w-produkcie.md) | Zasady i granice AI w produkcie | AI vs logika deterministyczna, architektura narzędziowa, ujawnianie niepewności. |
+| [09](09-ai-w-produkcie.md) | Zasady i granice AI w produkcie | Obowiązkowość AI (warstwa wyłącznie-online nad rdzeniem), AI vs logika deterministyczna, kontrakt `AiToolDefinition`, budżet/koszt egzekwowany jak freemium, wzorce UX, ujawnianie niepewności. |
 | [10](10-testy.md) | Testy | Minimalny zestaw per moduł, test integracyjny jądra, DoD. |
 | [11](11-ci-deployment.md) | CI/Deployment | Jeden lockfile, CI niezależne od hostingu. |
 | [12](12-freemium.md) | Freemium i płatności | Feature→tier jako dane, egzekwowanie server-side. |
@@ -31,6 +31,8 @@ Pakiet referencyjny wspólny dla wszystkich naszych aplikacji (obecnych i przysz
 | [14](14-proces-i-pamiec.md) | Proces, wersjonowanie i pamięć projektu | Dziennik zmian, znane luki, `docs/memory.md`. |
 | [15](15-wspolpraca-z-ai.md) | Współpraca z asystentami AI | Integralność informacji, hierarchia źródeł prawdy, zgłaszanie konfliktów. Źródło `CLAUDE.md`. |
 | [16](16-standard-kodowania.md) | Standard kodowania | Priorytety jakości, nazewnictwo, projektowanie funkcji, niemutowalność, nazwane typy błędów, komentarze — przekrojowo, niezależnie od warstwy i języka. |
+| [17](17-i18n.md) | Wielojęzyczność (i18n) | Kernel zwraca klucze nie tekst, profil regionalny vs język UI, stan lokalny nie URL routing, treść rozpoznawana ≠ tłumaczenie 1:1, pułapki regex/ICU plural, status draft/reviewed, treść bezpieczeństwo-krytyczna. |
+| [18](18-logowanie.md) | Logowanie, konta i tożsamość | Dostawcy (magic link/Google/Apple), scalanie tożsamości, Supabase Auth, sesja/tokeny, multi-device vs multi-user, grupy współdzielone, sync = Seed nigdy Wynik, rozwiązywanie konfliktu synchronizacji. |
 
 ## Zasada dla tego pakietu samego w sobie
 

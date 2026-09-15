@@ -31,3 +31,11 @@ Powiązane: [01 Architektura](01-architektura.md) · [02 Model danych](02-model-
 ## 5.5. Odporność na uszkodzone/starsze dane
 
 **Reguła.** Mechanizm wczytywania danych ma naprawiać typowe, znane uszkodzenia struktury (np. tablica zserializowana błędnie jako obiekt przez wcześniejszy bug) w jednym miejscu, z testami odzwierciedlającymi dokładnie historyczne przypadki, które taką naprawę uzasadniły. Nie jest to zamiennik migracji wersji schematu (2.4) — to dodatkowa warstwa odporności na błędy, które migracja nie przewidziała.
+
+## 5.6. Blob po przejściu przez Web Workera: odtwórz przed zapisem do IndexedDB
+
+**Reguła.** Gdy `Blob` powstaje w Web Workerze (np. wynik kompresji zdjęcia, przekazany do głównego wątku przez `postMessage`) i ma trafić do IndexedDB (5.2), odtwórz go z surowych bajtów tuż przed zapisem — `await blob.arrayBuffer()` → `new Blob([bytes], {type})` — zawsze, nie warunkowo dla jednej platformy.
+
+**Uzasadnienie.** Ten sam kod (kompresja w Workerze → zapis `Blob` do IndexedDB) działa bez zarzutu na Chrome/Desktop, ale na Safari/iOS rzuca `UnknownError: Error preparing Blob/File data to be stored in object store` przy każdej próbie zapisu — Blob, który przeszedł przez granicę Workera, bywa tam niezapisywalny. Błąd nie ujawnia się w typowym CI: silniki testowe (jsdom/happy-dom) nie mają prawdziwej implementacji IndexedDB Safari, a e2e uruchamiany na Chromium tego wariantu nie widzi — realnie wykrywalny dopiero na fizycznym urządzeniu Apple.
+
+**Konsekwencja.** Koszt odtworzenia Bloba jest znikomy — stosuj go zawsze przy tej ścieżce (Worker → IndexedDB), nie tylko po wykryciu problemu na Safari.
