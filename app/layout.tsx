@@ -45,6 +45,9 @@ export const viewport: Viewport = {
 // tego byłby widoczny błysk domyślnego wyglądu przy odświeżeniu strony (lib/theme/storage.ts,
 // lib/wyglad/storage.ts). Mapowanie grup kolorów zduplikowane tu w czystym JS celowo — ten skrypt
 // biegnie przed hydracją Reacta, nie może importować modułów TS.
+// CSP (next.config.mjs, docs/standards/07-bezpieczenstwo.md 7.3) dopuszcza ten inline <script>
+// wyłącznie przez SHA-256 hash jego treści — zmiana treści wymaga przeliczenia hasha tam, inaczej
+// produkcyjna CSP zablokuje skrypt po cichu (błysk domyślnego wyglądu, bez widocznego błędu).
 const WYGLAD_INIT_SCRIPT = `
 (function () {
   try {

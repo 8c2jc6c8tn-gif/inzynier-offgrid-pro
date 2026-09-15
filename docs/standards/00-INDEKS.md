@@ -20,19 +20,19 @@ Pakiet referencyjny wspólny dla wszystkich naszych aplikacji (obecnych i przysz
 | [03](03-jadro-obliczeniowe.md) | Jądro logiki domenowej | Kontrakt wyniku, status, podwójna weryfikacja, jednostki i zaokrąglenia, audit trail. |
 | [04](04-walidacja-i-twarde-stopy.md) | Walidacja, ostrzeżenia i twarde stopy | Werdykt 🟢🟡🔴, Kontrakt Widżetu, zbiorczy rejestr twardych stopów. |
 | [05](05-baza-danych-offline.md) | Baza danych i offline-first | Seed vs Wynik, StorageAdapter, offline jako wymóg. |
-| [06](06-api-i-siec.md) | API i sieć | Proxy bez zmyślania danych, offline queue, sekrety server-side. |
-| [07](07-bezpieczenstwo.md) | Bezpieczeństwo i prywatność | Mapowanie natywne→web, nagłówki, prywatność lokalna-domyślna. |
+| [06](06-api-i-siec.md) | API i sieć | Proxy bez zmyślania danych, offline queue, sekrety server-side, SSRF przy żądaniach na podstawie danych użytkownika. |
+| [07](07-bezpieczenstwo.md) | Bezpieczeństwo i prywatność | Mapowanie natywne→web, nagłówki (CSP, clickjacking), prywatność lokalna-domyślna, sanityzacja treści przeciw XSS u źródła, SQL injection. |
 | [08](08-ui-ux.md) | UI/UX i treść | Taksonomia wzorców ekranu A-H, szablon Doradcy, tryb prosty/zaawansowany. |
 | [09](09-ai-w-produkcie.md) | Zasady i granice AI w produkcie | Obowiązkowość AI (warstwa wyłącznie-online nad rdzeniem), AI vs logika deterministyczna, kontrakt `AiToolDefinition`, budżet/koszt egzekwowany jak freemium, wzorce UX, ujawnianie niepewności. |
 | [10](10-testy.md) | Testy | Minimalny zestaw per moduł, test integracyjny jądra, DoD. |
-| [11](11-ci-deployment.md) | CI/Deployment | Jeden lockfile, CI niezależne od hostingu. |
+| [11](11-ci-deployment.md) | CI/Deployment | Jeden lockfile, CI niezależne od hostingu, skanowanie podatności zależności. |
 | [12](12-freemium.md) | Freemium i płatności | Feature→tier jako dane, egzekwowanie server-side. |
 | [13](13-droga-mobile.md) | Droga web → mobile | Punkty wymiany, etapowanie. |
 | [14](14-proces-i-pamiec.md) | Proces, wersjonowanie i pamięć projektu | Dziennik zmian, znane luki, `docs/memory.md`. |
 | [15](15-wspolpraca-z-ai.md) | Współpraca z asystentami AI | Integralność informacji, hierarchia źródeł prawdy, zgłaszanie konfliktów. Źródło `CLAUDE.md`. |
 | [16](16-standard-kodowania.md) | Standard kodowania | Priorytety jakości, nazewnictwo, projektowanie funkcji, niemutowalność, nazwane typy błędów, komentarze — przekrojowo, niezależnie od warstwy i języka. |
 | [17](17-i18n.md) | Wielojęzyczność (i18n) | Kernel zwraca klucze nie tekst, profil regionalny vs język UI, stan lokalny nie URL routing, treść rozpoznawana ≠ tłumaczenie 1:1, pułapki regex/ICU plural, status draft/reviewed, treść bezpieczeństwo-krytyczna. |
-| [18](18-logowanie.md) | Logowanie, konta i tożsamość | Dostawcy (magic link/Google/Apple), scalanie tożsamości, Supabase Auth, sesja/tokeny, multi-device vs multi-user, grupy współdzielone, sync = Seed nigdy Wynik, rozwiązywanie konfliktu synchronizacji. |
+| [18](18-logowanie.md) | Logowanie, konta i tożsamość | Dostawcy (magic link/Google/Apple), open redirect w linku powrotnym, scalanie tożsamości, Supabase Auth, sesja/tokeny (SameSite/CSRF), multi-device vs multi-user, grupy współdzielone, sync = Seed nigdy Wynik, rozwiązywanie konfliktu synchronizacji, transfer danych między powiązanymi appkami przez plik. |
 
 ## Zasada dla tego pakietu samego w sobie
 

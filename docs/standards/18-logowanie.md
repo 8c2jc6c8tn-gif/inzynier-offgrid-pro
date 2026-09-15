@@ -25,6 +25,8 @@ Trzy równorzędne metody logowania od startu: **magic link e-mail** (passwordle
 
 2FA poza zakresem uniwersalnego wymogu v1 — decyzja per projekt.
 
+[15.09.2026] ✅ DODANO — źródło: właściciel repo, audyt zabezpieczenia sesji. **Magic link niesie URL powrotny (redirect) po kliknięciu w linku e-mail — to klasyczny wektor open redirect, jeśli nie jest sprawdzony.** Bez walidacji atakujący może wygenerować pozornie normalny link logowania do Twojej domeny, w którym parametr powrotny wskazuje na stronę atakującego — ofiara loguje się prawdziwie (link faktycznie przyszedł z Twojego systemu), po czym zostaje przekierowana gdzie indziej, z zaufaniem wynikającym z tego, że cały proces zaczął się na Twojej domenie (phishing korzystający z Twojej reputacji). **Wymóg:** URL powrotny zawsze sprawdzany wobec allowlisty własnych, znanych ścieżek/domen aplikacji (nigdy przyjmowany jako dowolny string z parametru) — dopuszczalna jest tylko ścieżka względna w obrębie własnej aplikacji albo pełny URL na jawnie wypisanej liście własnych domen (np. wersje web/mobile tej samej aplikacji).
+
 ## 18.3. Scalanie tożsamości
 
 **Automatyczne** — ten sam zweryfikowany adres e-mail zalogowany przez różnych providerów to jedno konto, scalane automatycznie po adresie.
@@ -45,6 +47,15 @@ Wszystkie projekty rodziny korzystają z Supabase Auth, spójnie z wzorcem RLS-c
 ## 18.5. Sesja i tokeny — bezpieczeństwo
 
 Token sesji wyłącznie w `HttpOnly` cookie, **nigdy** przez `StorageAdapter` projektu — spójne z już istniejącym 7.2 ("tokeny w HttpOnly cookies"). `StorageAdapter` (5.2) abstrahuje dane domenowe (Seed), nie sekrety sesji — łatwa pomyłka łamiąca 7.2 po cichu, warta jawnego zakazu.
+
+[15.09.2026] ✅ DODANO — źródło: właściciel repo, pytanie kontrolne o kompletność zabezpieczenia sesji. **`HttpOnly` samo w sobie broni tylko przed wyniesieniem tokenu przez XSS — nie przed CSRF ani przed działaniem XSS "na żywo" w ramach sesji.** Cookie sesyjne wymaga dodatkowo:
+
+- **`Secure`** — cookie nigdy nie leci przez zwykłe HTTP, wyłącznie HTTPS.
+- **`SameSite=Lax` jako domyślny wybór** (`Strict` tam, gdzie projekt nie potrzebuje, by sesja przetrwała wejście z linku zewnętrznego — np. z e-maila magic-linku, patrz 18.2). `SameSite=Lax` blokuje dołączenie cookie do żądań wywołanych z obcej strony (CSRF) **z wyjątkiem** nawigacji GET na najwyższym poziomie — dlatego:
+- **Żadna operacja zmieniająca stan (POST/PUT/PATCH/DELETE) nigdy nie jest wywoływana przez GET** (patrz też 4.5, walidacja wejścia) — to zamyka lukę, którą `SameSite=Lax` świadomie zostawia otwartą.
+- **Token CSRF (synchronizer token albo double-submit cookie) na każdym endpointzie zmieniającym stan**, niezależnie od `SameSite` — obrona w głąb, nie zamiennik. `SameSite` to ochrona przeglądarki, token CSRF to ochrona po stronie serwera; jedno bez drugiego zostawia lukę, gdy przeglądarka użytkownika jest starsza/źle skonfigurowana albo gdy projekt kiedyś złagodzi `SameSite`.
+
+**Granica tego, czego to nie rozwiązuje.** XSS, który już wykonuje się na stronie, nadal może wywoływać żądania do Twojego API w imieniu zalogowanego użytkownika (przeglądarka dołączy `HttpOnly` cookie automatycznie) — powyższe chroni przed **wyniesieniem** tokenu i przed **obcą stroną**, nie przed złośliwym skryptem działającym w obrębie Twojej własnej strony. To domyka 7.3 (nagłówki bezpieczeństwa, w tym CSP) — ograniczenie tego, co w ogóle może się wykonać, jest komplementarne, nie zastępcze wobec zabezpieczeń cookie tutaj.
 
 ## 18.6. Multi-device vs multi-user — dwa różne problemy
 
@@ -100,3 +111,19 @@ Chmura/synchronizacja jest dostępna wyłącznie po zakupie premium, we wszystki
 **Krok 4 — Widoczność w Profilu/Ustawieniach.** Sekcja "Synchronizacja", obok statusu "Zalogowano i zsynchronizowano ✅", dodatkowa podsekcja widoczna tylko gdy istnieją wpisy w `zapisane_rozbieznosci`: nazwa rekordu, data rozjazdu, etykieta "zachowane na prośbę użytkownika", dwie akcje — **Przywróć** (jawnie ponownie uruchamia Krok 1 wobec aktualnej wersji kanonicznej) i **Usuń trwale**.
 
 **Krok 5 — Zasada nadrzędna.** Żadna z trzech opcji w Kroku 2 nie usuwa danych trwale bez osobnej, jawnej akcji użytkownika w Kroku 4. Rozszerzenie 0.4.4 (zero cichych luk) na przypadek konfliktu sync.
+
+## 18.15. Transfer danych między powiązanymi appkami rodziny (wzorzec opcjonalny)
+
+[15.09.2026] ✅ DODANO — źródło: właściciel repo, projekt inzynier-szkieletowy-pro / inzynier-offgrid-pro (dwie appki tej samej marki, jedna kontynuacją drugiej — nie każdy użytkownik potrzebuje obu).
+
+**Status.** Nie jest to reguła obowiązkowa — dotyczy wyłącznie klastrów appek rodziny, gdzie jedna appka realnie korzysta z danych wygenerowanych w drugiej (np. dane budynku z appki konstrukcyjnej potrzebne appce instalacji elektrycznej tego samego budynku). Większość projektów rodziny nie ma takiej pary i nie potrzebuje tego wzorca.
+
+**Decyzja podstawowa: plik, nie żywe połączenie baz.** Transfer między dwiema niezależnymi appkami idzie przez **eksport do pliku wg wersjonowanego schematu** w appce źródłowej i **import tego pliku** w appce docelowej — nigdy przez bezpośrednie zapytanie appki B do bazy appki A. Konsekwencja: appki mogą (i domyślnie powinny) mieć **osobne bazy/projekty backendu**, bez żadnej zależności infrastrukturalnej między nimi — brak wspólnego `auth.uid()`, brak mostka API, brak współdzielonych limitów hostingu. Rozstrzyga to wprost pytanie "wspólny projekt Supabase dla powiązanych appek czy osobne" na korzyść **osobnych**, gdy jedyną realną potrzebą integracji jest jednorazowy transfer danych (nie wspólna subskrypcja/bundle — patrz niżej) — mniej ruchomych części, mniej okazji do rozjazdu.
+
+**Reguła 1 — schemat eksportu ma własną wersję, niezależną od schematu bazy (02).** Plik niesie pole `schemaVersion` (albo równoważne). Appka docelowa sprawdza tę wersję przy imporcie i jawnie odmawia/ostrzega przy niezgodności — nigdy nie zgaduje kształtu starszego/nowszego pliku. Bez tego: refaktoring wewnętrznego schematu appki źródłowej (nawet niezwiązany z eksportem) może po cichu zepsuć import w appce docelowej. Ten sam mechanizm anty-dryfu co przy `schema_version` rekordu projektu (02), zastosowany do granicy międzyappkowej zamiast wewnątrzprojektowej.
+
+**Reguła 2 — plik niesie wyłącznie Seed, nigdy Wynik.** Rozszerzenie 5.1/18.9 na transfer międzyappkowy: eksportowane są surowe fakty (wymiary, geometria, parametry wejściowe), nigdy wartości już policzone przez silnik appki źródłowej. Appka docelowa liczy własnym Kernelem od zera na podstawie zaimportowanych faktów — nigdy nie ufa cudzemu wynikowi jako gotowej wartości. Bez tego rozróżnienia błąd/nieaktualność w jednym kalkulatorze cicho zaraża drugi, niezależny produkt.
+
+**Reguła 3 — import jest jednorazową kopią, nie sync.** Po imporcie oba projekty (źródłowy i docelowy) żyją niezależnie — zmiana w appce źródłowej **nie** propaguje się automatycznie do już zaimportowanej kopii. UI importu komunikuje to jawnie w momencie transferu (np. "zaimportowano stan na dziś — dalsza edycja w obu appkach jest niezależna"), żeby użytkownik nie oczekiwał cichej, ciągłej synchronizacji, której ten wzorzec świadomie nie zapewnia.
+
+**Granica — czego to nie rozwiązuje.** Ten wzorzec nie jest substytutem współdzielonej subskrypcji/bundla między appkami (to osobna decyzja biznesowa, zależna m.in. od ograniczeń platform — natywne bundle App Store nie obsługują appek z subskrypcją) ani wspólnej tożsamości/logowania. Jeśli projekt rodziny osobno potrzebuje jednego z tych dwóch — to nie jest ten sam problem i nie jest rozwiązywane tym samym mechanizmem.

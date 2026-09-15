@@ -196,6 +196,41 @@ konkretnych potrzebnych tabel + kod kalkulatora, po kolei małymi partiami zgodn
   9. `01_Zasady_Pracy_i_Konwencje.md` + `02_Dyrektywy_AI_Projektu.md` — ✅ oba istnieją.
   **Moduł opcjonalny Y.10 (osobno od Y.9, nie automatyczny) — NIE zainstalowany w tej sesji, świadomie:** `docs/playbooki-opcjonalne/przetwarzanie-materialow-zrodlowych.md` (playbook uogólniony z naszego własnego zgłoszenia z 06.09.2026) i skanonizowany `docs/biblioteka-norm/` w `new-app-standards` (dla którego TEN projekt był źródłem plików, commit `d7c81d1`) — projekt ma dziś normy w `docs/zrodla/` w innej, lokalnej strukturze; zgodnie z Y.10 ("nigdy automatycznie, tylko po jawnym potwierdzeniu dopasowania") to osobna propozycja do zatwierdzenia, nie część tej synchronizacji. Do rozważenia w kolejnej sesji, jeśli właściciel projektu chce ujednolicić strukturę z kanonicznym modułem.
   Zweryfikowano: `grep -rln "v2_8"` po synchronizacji — zero trafień poza historycznymi wzmiankami (ten log, `docs/lista-do-zrobienia.md`, `docs/propozycje-do-new-app-standards/logowanie-i-konta.md` — jawnie oznaczone jako nieaktualne odniesienie w statusie na górze pliku — i changelog GOD BOOK samego, odniesienia do własnych starszych wersji), zgodnie z Częścią D GOD BOOK (append-only, historia nie jest cicho nadpisywana).
+- **2026-09-15 (druga synchronizacja tego dnia) — `AKTUALIZACJE.md` sprawdzone ponownie na wyraźną
+  wskazówkę właściciela projektu ("odpowiedź znajdziesz w nowej aktualizacji"), przed rozpoczęciem
+  pracy nad rozdz. 18 (logowanie). `git fetch`+`git pull` w lokalnym klonie `new-app-standards`
+  ujawniło 8 nowych commitów od poprzedniej synchronizacji (GOD BOOK bez zmiany wersji, wciąż
+  v2.17 — tylko 6 plików `docs/standards/` zmienionych: `00-INDEKS`, `04`, `06`, `07`, `11`, `18`).**
+  Nadpisane wszystkie 6 w całości (NIETYKALNE). Treść: dokończenie audytu bezpieczeństwa sesji
+  zainicjowanego przy poprzedniej synchronizacji — nowa **7.7** (sanityzacja XSS u źródła, zakaz
+  `dangerouslySetInnerHTML`/regex-filtrów dla treści użytkownika), dopisek do **7.3** (CSP +
+  `X-Frame-Options`/`frame-ancestors` przeciw clickjackingowi), nowa **6.6** (SSRF — reguła
+  warunkowa, tylko gdy backend robi fetch na URL od użytkownika), nowa **7.4** pozycja checklisty
+  (SQL wyłącznie przez ORM/bind params, nigdy konkatenacja — osobne zagrożenie od RLS 6.5), nowa
+  **11.5** (audyt podatności zależności jako bramka CI). Plus **18.15** (moduł opcjonalny — transfer
+  danych między powiązanymi appkami rodziny przez plik, nie przez żywe połączenie baz) i dopisek do
+  **18.2** (magic link a open redirect na URL powrotny).
+  **Sprawdzone względem TEGO kodu (nie zgadywane):** `grep` na `dangerouslySetInnerHTML`/`innerHTML`
+  — 2 wystąpienia, oba na treści statycznej autorskiej (skrypt inicjalizacji motywu w
+  `app/layout.tsx`, definicje symboli SVG w `components/kafle-ikony/definicje-symboli.tsx`), **nie**
+  treści od użytkownika — 7.7 nie jest naruszona, tylko warta odnotowania jako sprawdzona świadomie.
+  6.6 (SSRF) i 7.4-SQL nie mają jeszcze zastosowania — projekt nie ma backendu wykonującego fetch na
+  URL od użytkownika ani żadnych zapytań SQL (brak Supabase/bazy na razie). **11.5 nieaktualne do
+  wdrożenia — projekt nie ma jeszcze żadnego CI** (`.github/` nie istnieje), znana, już zapisana luka.
+  **Wykonane od razu, niezależnie od tematu logowania (7.3 — realny, zero-zależnościowy gap):**
+  `next.config.mjs` nie miał ŻADNEGO nagłówka bezpieczeństwa. Dodano `headers()`: CSP (`script-src`
+  ograniczony do `'self'` + SHA-256 hash jedynego inline-skryptu w apce — `WYGLAD_INIT_SCRIPT` z
+  `app/layout.tsx`, nie `'unsafe-inline'`; w dev mode CSP celowo łagodniejsza dla React Refresh/HMR),
+  `X-Frame-Options: DENY`, `X-Content-Type-Options: nosniff`, `Referrer-Policy`,
+  `Strict-Transport-Security`, `Permissions-Policy` (odmawia camera/microphone/geolocation — apka
+  dziś nie używa żadnego z tych API, zweryfikowane grepem). Krzyżowy komentarz w obu plikach
+  (`next.config.mjs` ↔ `app/layout.tsx`) tłumaczący, że zmiana treści skryptu wymaga przeliczenia
+  hasha — inaczej CSP ubiłaby skrypt po cichu (błysk domyślnego wyglądu, bez widocznego błędu).
+  Zweryfikowano: `tsc`/`lint`/`build` czyste, `pnpm start` + `curl -D-` potwierdza realne wysyłanie
+  wszystkich 6 nagłówków z poprawną treścią CSP. **Nie zweryfikowano w headless browserze** (brak
+  pakietu `playwright` jako zależności projektu, tylko sama binarka Chromium w środowisku) — hash
+  wyliczony bezpośrednio z tego samego stringa co w kodzie, `dangerouslySetInnerHTML` nie przechodzi
+  przez minifikację JS, więc ryzyko rozjazdu niskie, ale to rozumowanie, nie potwierdzenie wizualne.
 
 ## Decyzje i uzasadnienie
 
