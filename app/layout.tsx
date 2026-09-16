@@ -1,6 +1,8 @@
 import { Analytics } from '@vercel/analytics/next'
 import type { Metadata, Viewport } from 'next'
 import { Inter, Lato, Roboto, Source_Sans_3 } from 'next/font/google'
+import { LanguageProvider } from '@/lib/i18n/language-context'
+import { getServerLanguage } from '@/lib/i18n/server-language'
 import './globals.css'
 
 // latin-ext = polskie znaki diakrytyczne (ą ć ę ł ń ó ś ź ż) — bez tego subsetu nie renderują się
@@ -89,14 +91,19 @@ const WYGLAD_INIT_SCRIPT = `
 })();
 `
 
-export default function RootLayout({
+export default async function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode
 }>) {
+  // Czytane z cookie `jezyk` (middleware.ts ustawia ją na pierwszej wizycie z Accept-Language,
+  // docs/standards/17-i18n.md 17.4/17.4a) — server-rendered <html lang> i wartość początkowa
+  // LanguageProvider są zgodne od pierwszego bajtu HTML, bez migotania złego języka.
+  const language = await getServerLanguage()
+
   return (
     <html
-      lang="en"
+      lang={language}
       suppressHydrationWarning
       className={`${inter.variable} ${sourceSans.variable} ${roboto.variable} ${lato.variable}`}
     >
@@ -104,8 +111,10 @@ export default function RootLayout({
         <script dangerouslySetInnerHTML={{ __html: WYGLAD_INIT_SCRIPT }} />
       </head>
       <body className="antialiased">
-        {children}
-        {process.env.NODE_ENV === 'production' && <Analytics />}
+        <LanguageProvider language={language}>
+          {children}
+          {process.env.NODE_ENV === 'production' && <Analytics />}
+        </LanguageProvider>
       </body>
     </html>
   )

@@ -1,23 +1,18 @@
+"use client"
+
 import type { Assumption, Warning } from "@/lib/core/calc-result"
-import { t } from "@/lib/i18n/t"
+import { useTranslate } from "@/lib/i18n/language-context"
 
 /**
  * Trzy listy, które CalcResult niesie razem z wynikiem — założenia/ostrzeżenia/wzór — renderowane
  * identycznie wewnątrz WerdyktPanel na większości ekranów kalkulatorów (A, D i pomocnicze).
- * Wydzielone, żeby zmiana stylu (np. rozmiar czcionki wzoru) nie wymagała edycji 7+ plików.
+ * Wydzielone, żeby zmiana stylu (np. rozmiar czcionki wzoru) nie wymagała edycji dziesiątek plików.
  *
  * `assumptions`/`warnings` mogą pochodzić z modułu zmigrowanego do i18n (rozdz. 17) albo
  * niezmigrowanego (stan przejściowy, 17.9) — ten komponent rozwiązuje oba kształty jednym
- * miejscem, żeby żaden ekran nie musiał tego robić samodzielnie.
+ * miejscem, żeby żaden ekran nie musiał tego robić samodzielnie. `useTranslate()` (Client
+ * Component) — wszyscy importerzy tego komponentu już są "use client".
  */
-function tekstZalozenia(a: Assumption): string {
-  return typeof a === "string" ? a : t(a.kod, a.params)
-}
-
-function tekstOstrzezenia(w: Warning): string {
-  return w.message ?? t(w.i18nKey ?? w.code, w.params)
-}
-
 export function WynikSzczegoly({
   assumptions,
   warnings,
@@ -27,6 +22,16 @@ export function WynikSzczegoly({
   warnings?: Warning[]
   formula?: string
 }) {
+  const t = useTranslate()
+
+  function tekstZalozenia(a: Assumption): string {
+    return typeof a === "string" ? a : t(a.kod, a.params)
+  }
+
+  function tekstOstrzezenia(w: Warning): string {
+    return w.message ?? t(w.i18nKey ?? w.code, w.params)
+  }
+
   return (
     <>
       {assumptions.length > 0 && (

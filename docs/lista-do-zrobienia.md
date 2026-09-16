@@ -197,3 +197,15 @@ Tu trafia bieżący stan pracy: co w trakcie, co zablokowane, co następne — a
   zastępuje `pnpm audit --audit-level=high` w `.github/workflows/ci.yml`. Blokuje merge tylko na
   high/critical w zależności bezpośredniej, tranzytywne informacyjnie. Szczegóły weryfikacji:
   `docs/memory.md`.
+- ✅ (2026-09-16) **Przełącznik języka w Ustawieniach + EN/RU dodane.** `lib/i18n/language.ts`
+  (typ `Language`, `negocjujJezyk` z `Accept-Language`), `dictionary-en.ts`/`dictionary-ru.ts`
+  (parytet kluczy z PL wymuszony typem), `t()` language-aware, `LanguageProvider`/`useTranslate()`,
+  cookie `jezyk` (nie `localStorage` — 17.4), `middleware.ts` ustawia ją na pierwszej wizycie,
+  `app/layout.tsx` czyta ją server-side. `components/jezyk-wybor.tsx` w Ustawieniach. **Nie zmienia**
+  stanu rollout'u z wpisu (2026-09-15) niżej — nadal 1/116 modułów ma klucze tłumaczeń (~89 plików
+  `warnings.ts`/~109 miejsc `assumptions` wciąż z gotowym tekstem PL) — to dodaje infrastrukturę
+  (języki + przełącznik), nie migruje więcej modułów. Zweryfikowano Playwright: negocjacja
+  Accept-Language, przełączanie PL/EN/RU, `<html lang>` poprawny po SSR, realny przetłumaczony tekst
+  na ekranie modułu pilotażowego, zero błędów konsoli. `docs/wklad-do-standardu.md` i
+  `docs/propozycje-do-new-app-standards/wielojezycznosc.md` zaktualizowane (nie czeka już na
+  `zero-waste`, na wyraźne polecenie właściciela projektu). Szczegóły: `docs/memory.md`.

@@ -8,7 +8,7 @@ import { WerdyktPanel, type WerdyktPoziom } from "@/components/werdykt"
 import { NawigacjaEkranu } from "@/components/nawigacja-ekranu"
 import { NaglowekEkranu } from "@/components/wzorce/naglowek-ekranu"
 import { StanPusty } from "@/components/ui/stany"
-import { t } from "@/lib/i18n/t"
+import { useTranslate } from "@/lib/i18n/language-context"
 
 const initialItems: CriticalLoadItem[] = DEFAULT_CRITICAL_LOADS.map((def) => ({
   id: def.id,
@@ -25,6 +25,7 @@ const INLINE_INPUT_KLASY =
   "disabled:cursor-not-allowed disabled:opacity-50 disabled:hover:border-input"
 
 export default function SystemyPodtrzymaniaZyciaPage() {
+  const t = useTranslate()
   const [items, setItems] = useState<CriticalLoadItem[]>(initialItems)
 
   const result = useMemo(() => calculateSurvivalCore({ items }), [items])

@@ -3769,3 +3769,109 @@ to repo w zasięgu z innego powodu. Dla tego projektu jedyny legalny wyjście st
   **Bez zmian (już znane, nie odkryte na nowo):** rozdz. 09 (kontrakt AI) i 12 (freemium) — nie
   zaimplementowane, z listy "4 niezgodności" z 15.09.2026; rozdz. 18 (logowanie) — szkielet gotowy,
   czeka na akcję właściciela; rozdz. 17 (i18n) — guard działa, rollout moduł po module w toku.
+
+- **2026-09-16 — Decyzja procesowa: koniec czekania na dostęp do repo innych projektów rodziny
+  (`zero-waste`) dla zgłoszeń niedokończonych w `docs/propozycje-do-new-app-standards/`.**
+  Polecenie właściciela projektu wprost: "Nie musisz grzebać w innych repo projektów, żeby coś
+  wyjaśniać... jak czegoś ci brakuje czy nie wiesz czegoś, piszesz w wkład do standardu i tam
+  decydują co i jak." Dotyczy dwóch plików oznaczonych dotąd jako "celowo niedokończone, czekają na
+  zero-waste": `wielojezycznosc.md` (rozstrzygnięty tą samą sesją, patrz niżej) i
+  `logowanie-i-konta.md` (wciąż otwarty — nie było dziś nowej pracy nad logowaniem, status bez
+  zmian, ale ta sama zasada obowiązuje: nie czekać na `zero-waste`, tylko zgłosić co wiadomo z
+  własnego kodu/decyzji właściciela, gdy będzie następna sesja nad tym tematem). Nie zmienia
+  fundamentalnej zasady 15.17 (nigdy nie edytuj `new-app-standards` bezpośrednio) — zmienia tylko
+  to, że brak dostępu do TRZECIEGO repo (nie `new-app-standards`, nie tego projektu) przestaje być
+  powodem, żeby trzymać zgłoszenie w stanie szkicu.
+
+- **2026-09-16 — Wielojęzyczność: przełącznik języka w Ustawieniach + dodane EN i RU.** Polecenie
+  właściciela projektu wprost ("zrób w ustawieniach możliwość wyboru języka... dodaj nowe języki
+  angielski i rosyjski"), połączone z decyzją procesową wyżej (nie czekać na `zero-waste`).
+
+  **Zakres — dodaje infrastrukturę wielojęzyczności, NIE migruje więcej modułów.** Stan przed tą
+  pracą: 1/116 modułów ma klucze tłumaczeń (`kalkulatory-pomocnicze`), słownik tylko polski, zero
+  przełącznika UI. Ten wpis dodaje: drugi i trzeci język do istniejącego mechanizmu, przełącznik w
+  Ustawieniach, i infrastrukturę SSR-bezpiecznego przechowywania wyboru. **Nie dodaje** nowych
+  zmigrowanych modułów — rollout z wpisu 2026-09-15 (~89 plików `warnings.ts`/~109 miejsc
+  `assumptions` wciąż z gotowym tekstem PL) zostaje bez zmian, świadomie (17.9: moduł po module).
+
+  **Decyzja architektoniczna — cookie, nie `localStorage`, mimo że `lib/theme/storage.ts` i
+  `lib/wyglad/storage.ts` (ten sam rodzaj "drobnej preferencji UI") używają `localStorage` +
+  inline-skrypt w `app/layout.tsx`.** To NIE jest niespójność/dryf do naprawienia — inny kształt
+  problemu: theme/wyglad zmieniają tylko klasy CSS/zmienne, które inline-skrypt może ustawić
+  synchronicznie PRZED pierwszym malowaniem (zero widocznego błysku nawet przy twardym
+  przeładowaniu). Język zmienia TEKST already server-rendered w strumieniu HTML — nie da się tego
+  „naprawić” skryptem przed malowaniem bez przepisania DOM-u (co i tak dałoby widoczny błysk).
+  Dokładnie to jest powód korekty 17.4/17.4a zsynchronizowanej dziś wcześniej (v2.18): SSR + cookie,
+  nie `localStorage`. Dwa różne mechanizmy dla dwóch różnych klas problemu, oba świadome — nie
+  wymaga zgłoszenia do `docs/wklad-do-standardu.md` jako konflikt, bo to nie jest konflikt reguł,
+  tylko różne wymagania techniczne dwóch typów danych (CSS vs tekst).
+
+  **Architektura (`lib/i18n/`):**
+  - `language.ts` — `Language = "pl" | "en" | "ru"`, `negocjujJezyk(Accept-Language)` (Edge-safe,
+    bez zależności od `next/headers`/DOM — używany też w `middleware.ts`), `LANGUAGE_COOKIE`/
+    `LANGUAGE_COOKIE_MAX_AGE_SECONDS` jako nazwane stałe (nie magiczne liczby/stringi powielone).
+  - `dictionary-en.ts`/`dictionary-ru.ts` — `satisfies Record<KluczTlumaczenia, string>` (typ z
+    `dictionary-pl.ts`) wymusza dokładny parytet kluczy z bazowym słownikiem — brakujący/dodatkowy
+    klucz to błąd kompilacji, zweryfikowane testem (`__tests__/t.test.ts`, "parytet kluczy").
+  - `t(language, kod, params?)` — sygnatura ZMIENIONA (był `t(kod, params?)`, niejawnie
+    `dictionaryPl`). Język jako jawny parametr, nie moduł-globalna zmienna — SSR w Next.js dzieli
+    proces serwera między równoległe żądania różnych userów, moduł-globalny "aktualny język" na
+    serwerze przeciekałby między nimi.
+  - `language-context.tsx` (Client) — `LanguageProvider`/`useLanguage()`/`useTranslate()` (hook
+    wiążący `t` z językiem z kontekstu, dla wygody wywołania identycznej jak przed zmianą sygnatury
+    w większości miejsc: `const t = useTranslate(); ...t(kod, params)`).
+  - `server-language.ts` — `getServerLanguage()` (jedyne miejsce w warstwie i18n importujące
+    `next/headers` — Client Components nie mogą tego bundlować).
+  - `client-language.ts` — `ustawCookieJezyka()` jako **funkcja modułowa, nie zamknięcie wewnątrz
+    komponentu**. Odkryte przy pierwszym podejściu (inline `document.cookie = ...` w `onClick`
+    wewnątrz `JezykWybor`): React Compiler (`react-hooks/immutability` z eslintem tego projektu)
+    odrzuca mutację obiektu spoza zasięgu komponentu (`document`) zdefiniowaną w ciele
+    komponentu/hooka — ten sam wzorzec ograniczenia, któremu już podlegają `zapiszTryb`/
+    `zastosujTryb` w `lib/theme/storage.ts` (funkcje modułowe, nie closures). Naprawione przez
+    wydzielenie do osobnego pliku, zgodnie z już istniejącą konwencją repo.
+
+  **Integracja:**
+  - `middleware.ts` — `ustawJezykJesliBrak()` ustawia cookie z `Accept-Language` tylko gdy cookie
+    jeszcze nie istnieje (nigdy nie nadpisuje świadomego wyboru usera), wywoływana na WSZYSTKICH
+    ścieżkach zwrotu (early-return bez Supabase, redirect do loginu, normalny `next()`) — istniejąca
+    logika auth (18.5) zostawiona bez zmian, tylko dodany krok przed każdym `return`.
+  - `app/layout.tsx` — Server Component (był, teraz jawnie `async`), czyta `getServerLanguage()`,
+    ustawia `<html lang={language}>` (**naprawiony przy okazji realny, niezwiązany błąd** — było na
+    sztywno `lang="en"` mimo że cała treść jest po polsku; nikt tego świadomie nie zdecydował, więc
+    naprawione od razu per zasada dryfu bez pytania) i owija `children` w `<LanguageProvider>`.
+  - `components/wzorce/wynik-szczegoly.tsx` — komponent współdzielony przez **70 stron**
+    kalkulatorów (odkryte przy typecheck: znacznie więcej niż sugerował własny komentarz pliku
+    "7+ plików", drift metryczki niewart osobnego zgłoszenia, skorygowany w komentarzu). Dodano
+    `"use client"` + `useTranslate()` — bezpieczne, bo wszyscy 70 importerów już są `"use client"`
+    (zweryfikowane `grep` przed zmianą, nie zgadywane).
+  - 8 stron z własnym, zduplikowanym renderowaniem `assumptions` (nie przez `WynikSzczegoly` —
+    osobny, starszy wzorzec, nieruszany poza wymaganą zmianą sygnatury): 7 Client Components →
+    `useTranslate()` hook; `app/kalkulatory/prognozy/page.tsx` jedyny Server Component z tej grupy
+    → `getServerLanguage()` + `t(language, kod, params)` wprost (Server Components nie mogą używać
+    Reactowego kontekstu).
+  - `components/jezyk-wybor.tsx` — przełącznik w Ustawieniach (`app/ustawienia/page.tsx`, nowa
+    sekcja "Język"), zapisuje cookie + `router.refresh()` (cookie jest źródłem prawdy, kontekst
+    tylko go odzwierciedla — bez dualnego stanu klient/serwer, w odróżnieniu od wzorca
+    `useSyncExternalStore` używanego przez theme/wyglad, bo tam localStorage JEST źródłem prawdy).
+
+  **Zweryfikowano:** `tsc --noEmit`/`pnpm lint` czyste (0 błędów, te same 2 znane niezwiązane
+  warningi `<img>`), `pnpm test` 699/699 (685 + 14 nowych: `language.test.ts`, `t.test.ts` — w tym
+  parytet kluczy, negocjacja Accept-Language z realnymi nagłówkami, podstawianie `{params}`, widoczny
+  fallback przy brakującym kluczu), `pnpm check:i18n-guard` OK (bez regresji), `pnpm build` czysty.
+  **Playwright na realnym `pnpm dev`** (nie tylko typecheck): pierwsza wizyta bez cookie →
+  `<html lang="en">` (Accept-Language kontenera to `en-US` — potwierdza działającą negocjację, nie
+  błąd domyślnego PL); kliknięcie "English"/"Русский" w Ustawieniach → cookie ustawiona poprawnie
+  (nie `HttpOnly`, `path=/`, ~365 dni), `<html lang>` zmienia się po `router.refresh()`, utrzymuje
+  się po nawigacji na inną stronę; realny przetłumaczony tekst na ekranie `kalkulatory/pomocnicze`
+  ("System efficiency assumed as 0.92 (default value, not measured)." zamiast polskiego), reszta
+  treści strony (nagłówki, etykiety) nadal po polsku — zgodnie z oczekiwanym stanem przejściowym
+  17.9, nie błąd. Zero błędów konsoli/strony w całym przebiegu.
+
+  **Dokumentacja/promocja (zgodnie z decyzją procesową wyżej):**
+  `docs/propozycje-do-new-app-standards/wielojezycznosc.md` przepisany ze statusu "SZKIELET, czeka
+  na zero-waste" na "gotowa do konsolidacji" — sekcja C (6 pytań) zastąpiona rozstrzygnięciami z tej
+  implementacji, poza C6 (treści bezpieczeństwa-krytyczne), które zostaje świadomie otwarte — ten
+  projekt tego nie rozwiązał w praktyce, nie tylko nie zgłosił, więc nieuczciwe byłoby przedstawić
+  to jako gotową odpowiedź. `docs/wklad-do-standardu.md`, wpis 14.09.2026 — dopisana aktualizacja
+  statusu (nie nowy wpis — kontynuacja tego samego zgłoszenia), z odsyłaczem do rozstrzygniętego
+  punktu B.3.

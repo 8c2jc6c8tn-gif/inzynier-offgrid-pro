@@ -6,9 +6,10 @@ import { WerdyktPanel } from "@/components/werdykt"
 import { Pole } from "@/components/ui/pole"
 import { NaglowekEkranu } from "@/components/wzorce/naglowek-ekranu"
 import { NawigacjaEkranu } from "@/components/nawigacja-ekranu"
-import { t } from "@/lib/i18n/t"
+import { useTranslate } from "@/lib/i18n/language-context"
 
 export default function TrybUproszczonyPage() {
+  const t = useTranslate()
   const [pojemnoscAh, setPojemnoscAh] = useState("100")
   const [napiecieV, setNapiecieV] = useState("12")
   const [mocOdbiornikaW, setMocOdbiornikaW] = useState("50")

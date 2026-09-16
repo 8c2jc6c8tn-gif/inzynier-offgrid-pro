@@ -6,9 +6,10 @@ import { WerdyktPanel, type WerdyktPoziom } from "@/components/werdykt"
 import { NawigacjaEkranu } from "@/components/nawigacja-ekranu"
 import { Pole } from "@/components/ui/pole"
 import { NaglowekEkranu } from "@/components/wzorce/naglowek-ekranu"
-import { t } from "@/lib/i18n/t"
+import { useTranslate } from "@/lib/i18n/language-context"
 
 export default function CopPompyCieplaPage() {
+  const t = useTranslate()
   const [mocCieplnaKw, setMocCieplnaKw] = useState("40")
   const [cop, setCop] = useState("2.8")
 

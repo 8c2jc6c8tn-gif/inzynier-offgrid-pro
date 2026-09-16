@@ -8,7 +8,7 @@ import { WerdyktPanel } from "@/components/werdykt"
 import { NawigacjaEkranu } from "@/components/nawigacja-ekranu"
 import { KartaPorownawcza, type Kolumna } from "@/components/wzorce/karta-porownawcza"
 import { NaglowekEkranu } from "@/components/wzorce/naglowek-ekranu"
-import { t } from "@/lib/i18n/t"
+import { useTranslate } from "@/lib/i18n/language-context"
 
 type Tech = ReturnType<typeof calculatePorownanieTechnologii>["value"][number]
 
@@ -27,6 +27,7 @@ const KOLUMNY: Kolumna<Tech>[] = [
 ]
 
 export default function PorownanieTechnologiiMagazynowPage() {
+  const t = useTranslate()
   const [pojemnoscKwh, setPojemnoscKwh] = useState("")
 
   const result = useMemo(
