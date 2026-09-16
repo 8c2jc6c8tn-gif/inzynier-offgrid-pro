@@ -201,6 +201,10 @@ odkrywa te same pułapki od zera (włączenie bramki audytu bez sprawdzenia najp
 AST dla guardu i18n, brak testu na prawdziwym wzorcu warunkowym) — dokładnie to, co już się
 zdarzyło w TYM projekcie mimo że reguła była znana od dnia wcześniej.
 
-Status: ✅ przekazane do new-app-standards (16.09.2026) — skonsolidowane jako nowe `docs/przyklady/ci/`
-i `docs/przyklady/i18n/` + podsekcje 11.6/17.11, PR: https://github.com/8c2jc6c8tn-gif/new-app-standards/pull/9
-(otwarty, czeka na merge właściciela repo).
+Status: 🔎 nowe. **Korekta (16.09.2026):** ta sesja błędnie oznaczyła to jako "przekazane" i otworzyła
+PR wprost w `new-app-standards` (#9, teraz zamknięty bez mergowania, żadna treść nie trafiła na
+`main` tamtego repo) — naruszenie zasady z góry tego pliku: "nigdy nie edytuj stąd bezpośrednio
+plików w `new-app-standards`". Właściciel repo poprawił: samo dołączenie tamtego repo do sesji nie
+czyni jej "sesją nad `new-app-standards`" uprawnioną do konsolidacji — jedyny dopuszczalny kanał
+stąd to ten plik, konsolidacja zapada wyłącznie w osobnej, dedykowanej sesji. Wpis wyżej pozostaje
+aktualnym zgłoszeniem, czeka na tamtą sesję, nie na nic z tego repo.
