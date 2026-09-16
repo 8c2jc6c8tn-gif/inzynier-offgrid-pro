@@ -1,4 +1,4 @@
-import type { CalcResult } from "@/lib/core/calc-result"
+import type { Assumption, CalcResult } from "@/lib/core/calc-result"
 import type { SurvivalCoreInput } from "./input"
 import { DEFAULT_CRITICAL_LOADS } from "./constants"
 import { validateInput } from "./validation"
@@ -45,12 +45,12 @@ export function calculateSurvivalCore(input: SurvivalCoreInput): CalcResult<numb
 
   const value = selected.reduce((sum, item) => sum + item.powerW, 0)
 
-  const assumptions: string[] = selected
+  const assumptions: Assumption[] = selected
     .filter((item) => {
       const def = DEFAULT_CRITICAL_LOADS.find((d) => d.id === item.id)
       return def?.defaultPowerW !== null && def?.defaultPowerW === item.powerW
     })
-    .map((item) => `"${item.label}" przyjęte z domyślną mocą ${item.powerW} W (nie edytowane).`)
+    .map((item) => ({ kod: "POZYCJA-WARTOSC-DOMYSLNA", params: { label: item.label, value: item.powerW } }))
 
   return {
     value,

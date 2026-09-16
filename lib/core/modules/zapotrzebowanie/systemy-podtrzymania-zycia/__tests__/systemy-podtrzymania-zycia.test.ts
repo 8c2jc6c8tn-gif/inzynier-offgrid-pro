@@ -76,4 +76,21 @@ describe("Ekran 1 (Moduł 2): Systemy podtrzymania życia (Survival Core)", () =
     expect(result.status).toBe("INCOMPLETE")
     expect(result.warnings.some((w) => w.code === "BRAK-ZAZNACZONYCH")).toBe(true)
   })
+
+  it("i18n (17.2): warnings mają i18nKey/params, nie gotowy tekst PL", () => {
+    const bezMocy = calculateSurvivalCore({ items: itemsFromCatalog({ ogrzewanie: { selected: true, powerW: 0 } }) })
+    const [warn] = bezMocy.warnings
+    expect(warn.i18nKey).toBe("POZYCJA-NIEDODATNIA")
+    expect(warn.params).toEqual({ label: "Ogrzewanie" })
+    expect(warn.message).toBeUndefined()
+
+    const pusty = calculateSurvivalCore({ items: itemsFromCatalog({}) })
+    expect(pusty.warnings[0].i18nKey).toBe("BRAK-ZAZNACZONYCH")
+    expect(pusty.warnings[0].message).toBeUndefined()
+  })
+
+  it("i18n (17.2): assumptions to {kod, params}, nie gotowy tekst PL", () => {
+    const result = calculateSurvivalCore({ items: itemsFromCatalog({ router: { selected: true } }) })
+    expect(result.assumptions).toEqual([{ kod: "POZYCJA-WARTOSC-DOMYSLNA", params: { label: "Router", value: 15 } }])
+  })
 })

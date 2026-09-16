@@ -4245,3 +4245,62 @@ to repo w zasięgu z innego powodu. Dla tego projektu jedyny legalny wyjście st
   samego dnia przez kanał `wklad-do-standardu.md` → konsolidacja → `AKTUALIZACJE.md`, dokładnie
   tak, jak przewiduje mechanizm U.2/U.4 GOD BOOK — potwierdzenie, że ten proces działa
   end-to-end w praktyce, nie tylko w teorii dokumentu.
+
+- **2026-09-16 — Start rolloutu treści i18n (17.9: moduł po module), pierwsza partia — 3 moduły.**
+  Kontekst: audyt wcześniej dziś ustalił, że infrastruktura i18n jest gotowa, ale treść
+  zmigrowana tylko w 1/90 plików `warnings.ts` (pilotaż `kalkulatory-pomocnicze`). Właściciel
+  projektu: zacznij rollout. Wybór pierwszej partii: 3 z 6 modułów, których strony UI JUŻ
+  korzystały z `useTranslate()` (widoczne przez wcześniejsze podłączenie tych stron do i18n bez
+  migracji treści źródłowej) — `systemy-podtrzymania-zycia`, `cop-pompy-ciepla`,
+  `lokalizacja-i-klimat`. Pozostałe 3 z tej szóstki (`czystosc-i-snieg`,
+  `porownanie-technologii`, `prognozy`) celowo pominięte w tej partii — mają trudniejszy kształt
+  problemu (patrz niżej), nie prosty `Warning.message`/`assumptions` string.
+
+  **8 nowych kluczy słownika** (`WARTOSC-POZA-ZAKRESEM`, `POZYCJA-NIEDODATNIA`,
+  `BRAK-ZAZNACZONYCH`, `POZYCJA-WARTOSC-DOMYSLNA`, `COP-POZA-ZAKRESEM`,
+  `MOC-CIEPLNA-NIETYPOWO-WYSOKA`, `COP-ZALEZY-OD-TEMPERATURY`, `DANE-KLIMATYCZNE-TRYB-OFFLINE`) w
+  `dictionary-{pl,en,ru}.ts`. Jeden klucz z pilotażu (`WARTOSC-NIEDODATNIA`) okazał się od razu
+  wielokrotnego użytku — `cop-pompy-ciepla`'s `notPositive` ma identyczny kształt komunikatu, więc
+  reużyty bez tworzenia duplikatu (dowód, że wspólny słownik zapobiega dryfowi identycznych
+  komunikatów rozjeżdżających się osobno per moduł).
+
+  **🔴 Realny błąd znaleziony PRZED uruchomieniem, przez czytanie kodu, nie przez awarię w
+  przeglądarce — warty zapamiętania jako wzorzec audytu.** Wszystkie trzy docelowe strony
+  (`app/kalkulatory/{systemy-podtrzymania-zycia,cop-pompy-ciepla,lokalizacja-i-klimat}/page.tsx`)
+  renderowały `warnings` przez samo `{w.message}`, BEZ fallbacku `?? t(w.i18nKey ?? w.code,
+  w.params)` — w odróżnieniu od `assumptions` na tych samych stronach, które już miały poprawny
+  wzorzec, i od współdzielonego `components/wzorce/wynik-szczegoly.tsx` (używanego przez ~70
+  innych stron), który też ma to poprawnie. Skutek, gdyby to przeoczyć: po usunięciu
+  `Warning.message` z tych trzech modułów (co ta migracja właśnie robi), ostrzeżenia
+  renderowałyby się jako **puste teksty** — `{w.message}` samo w sobie, bez `?? t(...)`, po
+  prostu wypisuje `undefined` jako nic. Naprawione — dodany brakujący fallback we wszystkich
+  trzech miejscach, zanim treść została zmigrowana (nie po fakcie).
+  **Wzorzec do zapamiętania dla kolejnych partii:** "strona już używa `useTranslate()`" nie jest
+  dowodem, że KAŻDA ścieżka renderowania na niej faktycznie tłumaczy — `assumptions` i `warnings`
+  to dwie niezależne ścieżki kodu na tej samej stronie, obie trzeba sprawdzić osobno przed
+  migracją treści źródłowej, nie zakładać z faktu importu `useTranslate()`.
+
+  **Napotkane, świadomie odłożone przypadki trudniejsze niż `i18nKey`/`params`** (do rozważenia w
+  osobnej sesji/partii, nie tego samego kształtu co reszta rollout):
+  - `czystosc-i-snieg` — `CalcResult.value` (nie `warnings`/`assumptions`) zawiera bezpośrednio
+    tekst PL: `KAT_OPISY` (Record z gotowym opisem per pasmo kąta) i `powod` (budowany przez
+    interpolację string w `ocenHarmonogramCzyszczenia`). Migracja wymaga zmiany kształtu typu
+    wyniku (`KatSamooczyszczaniaResult`/`HarmonogramCzyszczeniaResult`) na `opisKey`/`powodKey` +
+    `params`, nie tylko podmiany `message`→`i18nKey` — większa zmiana kontraktu, nie ten sam
+    wzorzec co reszta partii.
+  - `porownanie-technologii` — `BATTERY_TECHNOLOGIES` w `constants.ts` zawiera nazwy/opisy
+    technologii bateryjnych po polsku — to dane katalogowe, nie komunikaty `Warning`/
+    `Assumption`; wymaga osobnej decyzji architektonicznej (czy katalog danych referencyjnych
+    dostaje własny mechanizm i18n, czy zostaje częścią "profilu regionalnego" z 02-model-danych),
+    nie mieści się w istniejącym wzorcu `i18nKey`/`params` bez zmiany.
+  - `prognozy` — nie sprawdzone jeszcze w tej sesji (brak `warnings.ts`, moduł typu "raport" —
+    może mieć własny kształt tekstu osadzonego w wyniku, analogicznie do `czystosc-i-snieg`).
+
+  Zweryfikowane end-to-end w realnej przeglądarce (Playwright, `pnpm build && pnpm start`,
+  wszystkie 3 moduły × PL/EN/RU, osobno `assumptions` i osobno `warnings` — formularze faktycznie
+  wypełniane, nie tylko stan początkowy): poprawny przetłumaczony tekst w każdym przypadku, zero
+  znaczników `⚠ [...]`, zero błędów konsoli związanych z i18n. 8 nowych testów: parytet/
+  podstawianie parametrów dla nowych kluczy w `lib/i18n/__tests__/t.test.ts` + w każdym z 3
+  modułów asercja, że `warnings`/`assumptions` mają `i18nKey`/`kod`+`params` i `message ===
+  undefined` (17.9: test treściowy w tej samej turze co treść, nie później).
+  `pnpm typecheck`/`lint`/`check:i18n-guard`/`test` (730/730)/`build` czyste.

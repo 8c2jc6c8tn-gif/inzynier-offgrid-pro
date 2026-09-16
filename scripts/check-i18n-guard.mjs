@@ -21,6 +21,9 @@ import path from "node:path"
 
 const MIGRATED_MODULES = [
   "lib/core/modules/zapotrzebowanie/kalkulatory-pomocnicze",
+  "lib/core/modules/zapotrzebowanie/systemy-podtrzymania-zycia",
+  "lib/core/modules/ogrzewanie/cop-pompy-ciepla",
+  "lib/core/modules/lokalizacja/lokalizacja-i-klimat",
 ]
 
 const FILES_TO_CHECK = ["warnings.ts", "calculator.ts"]

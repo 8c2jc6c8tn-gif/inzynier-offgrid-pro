@@ -107,7 +107,7 @@ export default function SystemyPodtrzymaniaZyciaPage() {
             {result.warnings.length > 0 && (
               <ul className="mt-2 space-y-1 text-small">
                 {result.warnings.map((w) => (
-                  <li key={w.code}>{w.message}</li>
+                  <li key={w.code}>{w.message ?? t(w.i18nKey ?? w.code, w.params)}</li>
                 ))}
               </ul>
             )}

@@ -337,3 +337,33 @@ Tu trafia bieżący stan pracy: co w trakcie, co zablokowane, co następne — a
   rejestruje się automatycznie, offline nadal działa. Dodatkowo zweryfikowany `pnpm dev` (CSP
   złagodzona dla HMR, cookie języka nadal poprawnie ustawiana) — middleware nie regresował.
   `pnpm typecheck`/`lint`/`test` (722/722)/`build` czyste. Szczegóły uzasadnień: `docs/memory.md`.
+- ✅ (2026-09-16) **Start rolloutu i18n (moduł po module, 17.9) — pierwsza partia: 3 moduły ponad
+  pilotaż.** Zmigrowane do `i18nKey`/`params` (bez gotowego tekstu PL w `Warning.message`/
+  `assumptions`): `systemy-podtrzymania-zycia`, `cop-pompy-ciepla`, `lokalizacja-i-klimat` —
+  wybrane jako pierwsza partia, bo ich strony UI już korzystały z `useTranslate()`
+  (najszybszy realny efekt: tylko treść, UI już podłączone). 8 nowych kluczy w
+  `dictionary-{pl,en,ru}.ts`. `scripts/check-i18n-guard.mjs` → `MIGRATED_MODULES` rozszerzone
+  z 1 do 4 pozycji.
+  **Realny błąd znaleziony i naprawiony przy tej migracji (nie w tych trzech modułach — w
+  stronach UI, które je renderują):** wszystkie trzy strony renderowały ostrzeżenia przez samo
+  `{w.message}`, bez fallbacku `?? t(w.i18nKey ?? w.code, w.params)` (w odróżnieniu od
+  `assumptions`, które już miały poprawny wzorzec, i od współdzielonego
+  `components/wzorce/wynik-szczegoly.tsx`, który też ma to poprawnie) — po usunięciu
+  `Warning.message` z tych trzech modułów ostrzeżenia renderowałyby się jako puste. Naprawione
+  w `app/kalkulatory/{systemy-podtrzymania-zycia,cop-pompy-ciepla,lokalizacja-i-klimat}/page.tsx`.
+  Znalezione przez czytanie kodu przed uruchomieniem, nie przez awarię w przeglądarce — ale
+  pokazuje, że "strona już używa `useTranslate()`" nie jest dowodem, że KAŻDA ścieżka renderowania
+  na niej faktycznie tłumaczy — trzeba sprawdzić `warnings` i `assumptions` osobno.
+  Zweryfikowane end-to-end w realnej przeglądarce (Playwright, `pnpm build && pnpm start`,
+  wszystkie 3 moduły × PL/EN/RU, zarówno `assumptions` jak i `warnings`): poprawny przetłumaczony
+  tekst, zero znaczników braku klucza (`⚠ [...]`), zero błędów konsoli związanych z i18n. 8 nowych
+  testów (parytet/podstawianie parametrów w `t.test.ts` + asercje `i18nKey`/`params`/`message ===
+  undefined` w każdym z 3 modułów, zgodnie z 17.9 — test w tej samej turze co treść).
+  `pnpm typecheck`/`lint`/`check:i18n-guard`/`test` (730/730)/`build` czyste.
+  **Pozostało do zrobienia** (świadomie odłożone do kolejnych partii, nie przeoczenie):
+  ~86 pozostałych plików `warnings.ts`/`calculator.ts` z gotowym tekstem PL, cała reszta UI
+  chrome (Pulpit, Ustawienia, nawigacja, etykiety werdyktu) — 0% zmigrowane. Napotkane, odłożone
+  przypadki trudniejsze niż prosty `i18nKey`/`params`: `czystosc-i-snieg` (tekst PL wprost w polu
+  `value` wyniku, np. `opis`/`powod` — wymaga zmiany kształtu typu wyniku, nie tylko
+  `warnings`/`assumptions`), `porownanie-technologii` (nazwy/opisy technologii bateryjnych w
+  `constants.ts` — osobna kategoria danych, nie komunikat). Szczegóły: `docs/memory.md`.

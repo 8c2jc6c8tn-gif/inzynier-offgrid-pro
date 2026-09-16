@@ -33,4 +33,24 @@ describe("calculateCopPompyCiepla", () => {
     const result = calculateCopPompyCiepla({ mocCieplnaKw: 150, cop: 3 })
     expect(result.status).toBe("VALID_WITH_WARNINGS")
   })
+
+  it("i18n (17.2): warnings mają i18nKey/params, nie gotowy tekst PL", () => {
+    const ujemna = calculateCopPompyCiepla({ mocCieplnaKw: -5, cop: 3 })
+    expect(ujemna.warnings[0].i18nKey).toBe("WARTOSC-NIEDODATNIA")
+    expect(ujemna.warnings[0].params).toEqual({ label: "moc cieplna" })
+    expect(ujemna.warnings[0].message).toBeUndefined()
+
+    const copZly = calculateCopPompyCiepla({ mocCieplnaKw: 5, cop: 15 })
+    expect(copZly.warnings[0].i18nKey).toBe("COP-POZA-ZAKRESEM")
+    expect(copZly.warnings[0].message).toBeUndefined()
+
+    const wysoka = calculateCopPompyCiepla({ mocCieplnaKw: 150, cop: 3 })
+    expect(wysoka.warnings[0].i18nKey).toBe("MOC-CIEPLNA-NIETYPOWO-WYSOKA")
+    expect(wysoka.warnings[0].message).toBeUndefined()
+  })
+
+  it("i18n (17.2): assumption to {kod}, nie gotowy tekst PL", () => {
+    const result = calculateCopPompyCiepla({ mocCieplnaKw: 40, cop: 2.8 })
+    expect(result.assumptions).toEqual([{ kod: "COP-ZALEZY-OD-TEMPERATURY" }])
+  })
 })
