@@ -4,6 +4,7 @@ import Link from "next/link"
 import { useSyncExternalStore } from "react"
 import { Button } from "@/components/ui/button"
 import { KontoSekcja } from "@/components/konto-sekcja"
+import { JezykWybor } from "@/components/jezyk-wybor"
 import { CzcionkaEdytor } from "@/components/czcionka-edytor"
 import { KolorGrupaEdytor } from "@/components/kolor-grupa-edytor"
 import { ThemeToggle } from "@/components/theme-toggle"
@@ -143,6 +144,15 @@ export default function UstawieniaPage() {
           <h3 className="mb-2 text-small font-semibold">Czcionka</h3>
           <CzcionkaEdytor />
         </div>
+      </div>
+
+      <div className="flex flex-col gap-2 border-t pt-6">
+        <h2 className="text-h2 font-semibold">Język</h2>
+        <p className="text-small text-muted-foreground">
+          Dotyczy komunikatów, które mają dziś tłumaczenie (rozdz. 17 standardu — migracja trwa
+          moduł po module). Pozostałe teksty wciąż pokazują się po polsku.
+        </p>
+        <JezykWybor />
       </div>
 
       <KontoSekcja />

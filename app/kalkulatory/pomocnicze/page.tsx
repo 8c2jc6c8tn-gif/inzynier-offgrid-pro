@@ -7,7 +7,7 @@ import { WerdyktPanel, type WerdyktPoziom } from "@/components/werdykt"
 import { NawigacjaEkranu } from "@/components/nawigacja-ekranu"
 import { Pole, PoleSelect } from "@/components/ui/pole"
 import { NaglowekEkranu } from "@/components/wzorce/naglowek-ekranu"
-import { t } from "@/lib/i18n/t"
+import { useTranslate } from "@/lib/i18n/language-context"
 
 type Mode = KalkulatoryPomocniczeInput["mode"]
 
@@ -19,6 +19,7 @@ const MODE_LABELS: Record<Mode, string> = {
 }
 
 export default function KalkulatoryPomocniczePage() {
+  const t = useTranslate()
   const [mode, setMode] = useState<Mode>("watt-to-amp")
   const [powerW, setPowerW] = useState("100")
   const [voltageV, setVoltageV] = useState("12")

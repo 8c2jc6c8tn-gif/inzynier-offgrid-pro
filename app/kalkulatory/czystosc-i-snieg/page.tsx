@@ -8,12 +8,13 @@ import {
 import { Pole, PoleCheckbox } from "@/components/ui/pole"
 import { WerdyktPanel } from "@/components/werdykt"
 import { NaglowekEkranu } from "@/components/wzorce/naglowek-ekranu"
-import { t } from "@/lib/i18n/t"
+import { useTranslate } from "@/lib/i18n/language-context"
 import { SekcjaAkordeon } from "@/components/wzorce/sekcja-akordeon"
 import { cn } from "@/lib/utils"
 import { NawigacjaEkranu } from "@/components/nawigacja-ekranu"
 
 export default function CzystoscISniegPage() {
+  const t = useTranslate()
   const [katStopni, setKatStopni] = useState("20")
   const katResult = useMemo(
     () => classifyKatSamooczyszczania({ katStopni: Number(katStopni) }),

@@ -7,9 +7,10 @@ import { NawigacjaEkranu } from "@/components/nawigacja-ekranu"
 import { Pole } from "@/components/ui/pole"
 import { StanPusty } from "@/components/ui/stany"
 import { NaglowekEkranu } from "@/components/wzorce/naglowek-ekranu"
-import { t } from "@/lib/i18n/t"
+import { useTranslate } from "@/lib/i18n/language-context"
 
 export default function LokalizacjaIKlimatPage() {
+  const t = useTranslate()
   const [adres, setAdres] = useState("")
   const [szerokosc, setSzerokosc] = useState("")
   const [dlugosc, setDlugosc] = useState("")
