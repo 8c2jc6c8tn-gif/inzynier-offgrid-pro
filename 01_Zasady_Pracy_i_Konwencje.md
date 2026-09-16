@@ -1,7 +1,7 @@
 # 01. Zasady Pracy i Konwencje — Inżynier Offgrid Pro
 
 **Wersja:** 1.0 | **Filar:** C | **Data utworzenia:** 04.09.2026 | **Ostatnia aktualizacja:** 04.09.2026 | **Status:** Stabilny
-**Powiązane dokumenty:** `00_Biblia.md`, `02_Dyrektywy_AI_Projektu.md`, `docs/god-book/instrukcja-uniwersalna-biblii-projektu-v2_17.md` (Część P.1)
+**Powiązane dokumenty:** `00_Biblia.md`, `02_Dyrektywy_AI_Projektu.md`, `docs/god-book/instrukcja-uniwersalna-biblii-projektu-v2_18.md` (Część P.1)
 
 TL;DR: Wyciąg operacyjny z GOD BOOK — jak formatować i prowadzić tę Biblię, dopasowany do tego projektu. Ktoś (człowiek albo AI), kto dostanie ten dokument bez GOD BOOK, ma tu wszystko potrzebne do dalszej pracy zgodnej z metodologią.
 

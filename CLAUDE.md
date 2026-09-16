@@ -11,9 +11,9 @@ Kalkulator/doradca inżynierski dla systemów off-grid PV (panele, magazyn energ
 ## Zanim zaczniesz — przeczytaj w tej kolejności
 
 1. `docs/standards/00-INDEKS.md` — pełny standard architektoniczny (19 rozdziałów), wspólny dla całej rodziny aplikacji — fundament, niezależny od tego zadania. Rozdział dotyczący Twojego zadania — nie ładuj wszystkich naraz.
-2. `docs/god-book/instrukcja-uniwersalna-biblii-projektu-v2_17.md` — metodologia procesowa (GOD BOOK); Część Y opisuje relację z powyższym standardem (fundament poprzedzający, nie kolejny poziom hierarchii).
+2. `docs/god-book/instrukcja-uniwersalna-biblii-projektu-v2_18.md` — metodologia procesowa (GOD BOOK); Część Y opisuje relację z powyższym standardem (fundament poprzedzający, nie kolejny poziom hierarchii).
 3. `docs/lista-do-zrobienia.md` — bieżące zadania, żeby nie eksplorować całego projektu od nowa.
-4. `docs/memory.md` — decyzje, pułapki i stan tego konkretnego projektu, w tym data ostatniej synchronizacji ze standardem (sprawdzaj `AKTUALIZACJE.md` w `new-app-standards` co ≤7 dni, GOD BOOK Y.6).
+4. `docs/memory.md` — decyzje, pułapki i stan tego konkretnego projektu, w tym data/godzina ostatniej synchronizacji ze standardem (sprawdzaj `AKTUALIZACJE.md` w `new-app-standards` co ≤3 godziny, GOD BOOK Y.6 — cykl skrócony z 7 dni od wersji 2.18).
 5. `00_Biblia.md` — indeks kanonicznej Biblii projektu (format GOD BOOK, od 04.09.2026), nadrzędnej wobec kodu. Zaczynaj tu, nie zgaduj kolejności — sekcja "Jak zacząć pracę" tam wskazuje dalej (`01_Zasady_Pracy_i_Konwencje.md`, `02_Dyrektywy_AI_Projektu.md`, `rejestr-decyzji.md`, `zlote-zasady.md`...). `ZASADY_APLIKACJI.md`/`USTALENIA.md` są historyczne (zastąpione, treść zmapowana 1:1, nie usunięta) — nie czytaj ich jako aktualne źródło, chyba że szukasz oryginalnego brzmienia starej decyzji.
 
 Nie duplikuj treści tych plików tutaj ani nigdzie indziej — jeśli czegoś tu brakuje, dopisz to tam, gdzie merytorycznie należy, i tylko odeślij stąd.
@@ -27,6 +27,12 @@ Pracuj metodą minimalnej zmiany. Zachowuj istniejącą strukturę, decyzje, za�
 Jeżeli znajdziesz informację, która wydaje się błędna, przestarzała lub sprzeczna — **nie usuwaj jej samodzielnie i nie rozstrzygaj konfliktu na własną rękę**. Pokaż obie strony (A, B), na czym polega sprzeczność, jakie są konsekwencje, i zapytaj. Wyjątek (GOD BOOK Część Y.2): kod, który po prostu odjechał od już ustalonej reguły standardu bez żadnej świadomej decyzji — to nie konflikt, to błąd; napraw od razu i zapisz w `docs/memory.md`.
 
 **Pliki `docs/standards/*` i GOD BOOK w tym projekcie to mirror `new-app-standards` (kategoria NIETYKALNE) — nigdy nie dopisuj do nich nowej reguły lokalnie, nawet oczywiście słusznej.** Jeden dopuszczalny adres dla "to powinno być regułą standardu": `docs/wklad-do-standardu.md` tego projektu. Decyzja o promocji zapada wyłącznie w sesji nad `new-app-standards` (standard 15.17).
+
+**Słownik pojęć (żeby te dwa słowa znaczyły to samo w każdej sesji/projekcie):**
+- **"Aktualizacja" / "zaktualizuj z new-app-standards"** = sprawdź `AKTUALIZACJE.md` źródła i wnieś brakujące zmiany **do tego projektu** (Y.6/Y.9 GOD BOOK). Kierunek: standard → projekt.
+- **"Promocja" / "wypromuj [pomysł/błąd/dobrą praktykę]"** = zapisz wpis w `docs/wklad-do-standardu.md` **tego projektu** (kanał zwrotny, Część U.2 GOD BOOK) — **nigdy** bezpośrednia zmiana `docs/standards/`/GOD BOOK tutaj. Kierunek: projekt → standard, ale kończy się na zapisie rekomendacji — samą decyzję o wpisaniu do reguły podejmuje wyłącznie sesja nad `new-app-standards` (zdanie wyżej).
+
+**Zgłaszaj do `docs/wklad-do-standardu.md` częściej, nie rzadziej.** Standard rozwija się tylko tym kanałem — im rzadziej ktoś tam pisze, tym wolniej cała rodzina projektów korzysta z lekcji wyciągniętych gdzie indziej. Nie czekaj na "coś naprawdę dużego" — błąd, który kosztował choćby pół godziny, albo rozwiązanie, którego nie chciałbyś wymyślać od zera w kolejnym projekcie, już się kwalifikuje (pełne kryteria: `docs/wklad-do-standardu.md`, sekcja "Co zapisywać").
 
 Nie przedstawiaj hipotez jako faktów. Nie wymyślaj brakujących danych, norm ani współczynników bezpieczeństwa — to aplikacja licząca twarde fakty fizyczne (`docs/standards/00-filozofia.md`), nie zgadywanka.
 
@@ -42,7 +48,7 @@ Zasada nadrzędna: **ZACHOWAJ → ZROZUM → ZMIEŃ TYLKO TO, CO POTRZEBNE → S
 
 ## Stan repo (skrót — pełny stan w `docs/memory.md`)
 
-Etap 1 wznowiony (patrz `docs/memory.md`) — repo ma już warstwę domenową: `lib/core/modules/` (kalkulatory z pełnym wzorcem input/calculator/validation/warnings/testy), 8 przykładowych ekranów wzorców UI A–H, pulpit adaptacyjny (`app/page.tsx`, `lib/pulpit/`), Ustawienia z personalizacją wyglądu (`app/ustawienia/`, `lib/wyglad/`, `lib/theme/`), stronę-wzornik `/wzornik`. Aktualny status per ekran/moduł: `docs/rejestr-pokrycia.md`. Brak jeszcze CI (rozdział 11 standardu). Komendy: `pnpm dev` / `pnpm build` / `pnpm start` / `pnpm test` (Vitest) / `pnpm lint` (ESLint).
+Etap 1 wznowiony (patrz `docs/memory.md`) — repo ma już warstwę domenową: `lib/core/modules/` (kalkulatory z pełnym wzorcem input/calculator/validation/warnings/testy), 8 przykładowych ekranów wzorców UI A–H, pulpit adaptacyjny (`app/page.tsx`, `lib/pulpit/`), Ustawienia z personalizacją wyglądu (`app/ustawienia/`, `lib/wyglad/`, `lib/theme/`), stronę-wzornik `/wzornik`. Aktualny status per ekran/moduł: `docs/rejestr-pokrycia.md`. CI: `.github/workflows/ci.yml` (11.2 jakość + 11.5 audyt podatności, patrz `docs/memory.md`). Komendy: `pnpm dev` / `pnpm build` / `pnpm start` / `pnpm test` (Vitest) / `pnpm lint` (ESLint) / `pnpm typecheck` / `pnpm check:i18n-guard`.
 
 ## Definicja ukończenia zadania
 

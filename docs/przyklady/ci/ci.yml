@@ -1,0 +1,62 @@
+name: CI
+
+# docs/standards/11-ci-deployment.md, 11.2 + 11.5 — sygnał o awarii ma być jawny w repo (PR),
+# nie tylko pośrednio przez build hostingu. Dwa niezależne joby: jakość kodu (11.2) i audyt
+# podatności zależności (11.5) — rozdzielone, żeby znana, nienaprawialna od razu podatność
+# nie blokowała np. mergowania czystego fixa lintera, i odwrotnie.
+
+on:
+  pull_request:
+  push:
+    branches: [main]
+
+concurrency:
+  group: ci-${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  quality:
+    name: Lint, typecheck, test, build
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: pnpm/action-setup@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: pnpm
+
+      - run: pnpm install --frozen-lockfile
+
+      - run: pnpm lint
+      - run: pnpm typecheck
+      - run: pnpm check:i18n-guard
+      - run: pnpm test
+      - run: pnpm build
+
+  dependency-audit:
+    name: Dependency vulnerability audit (11.5)
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: pnpm/action-setup@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: pnpm
+
+      - run: pnpm install --frozen-lockfile
+
+      # UWAGA: `pnpm audit --audit-level=high` blokuje na KAŻDEJ podatności high/critical,
+      # także w zależnościach TRANZYTYWNYCH — 11.5 mówi wyraźnie "w bezpośredniej
+      # zależności", więc to szerszy zakres niż reguła wymaga. Prostsze (ten wiersz) —
+      # szybkie do wdrożenia, ale nadgorliwe. Wierne regule (filtruje po zależności
+      # bezpośredniej) — audit-gate.mjs w tym katalogu, źródło npm/isDirect, wymaga
+      # adaptacji execSync na `pnpm audit --json` i sprawdzenia realnego kształtu JSON-a
+      # pnpm (nie zakładaj identycznego z npm) — patrz README. Świadomie zaakceptowane
+      # wyjątki: odnotować w docs/memory.md z powodem, nie wyciszać tutaj bez śladu.
+      - run: pnpm audit --audit-level=high
