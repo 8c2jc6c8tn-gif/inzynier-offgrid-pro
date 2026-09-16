@@ -317,6 +317,22 @@ konkretnych potrzebnych tabel + kod kalkulatora, po kolei małymi partiami zgodn
   tylko bezpośrednie, przechodnie tylko informacyjnie). Dziś **0 podatności obu rodzajów** (wpis
   wyżej) — decyzja nie jest paląca, ale otwarta; do zapytania właściciela projektu przy najbliższej
   okazji, zapisana też w `docs/lista-do-zrobienia.md`.
+- **2026-09-16 (trzecia edycja tego dnia) — Rozstrzygnięte: wariant B ("Zrób zgodnie z god book"
+  — polecenie właściciela projektu).** `scripts/audit-gate.mjs` dodany, `pnpm audit:gate` (nowy
+  skrypt `package.json`) zastępuje `pnpm audit --audit-level=high` w
+  `.github/workflows/ci.yml`. **Adaptacja do pnpm, nie kopia `docs/przyklady/ci/audit-gate.mjs`:**
+  źródłowy skrypt filtruje po `advisory.isDirect` z `npm audit --json` (npm audit report v2) —
+  sprawdzone wprost w bundlu `pnpm` (`/opt/node22/lib/node_modules/pnpm/dist/pnpm.cjs`,
+  `pnpm audit --json` zwraca starszy format `advisories`/`module_name`/`findings[].paths`, **bez
+  pola `isDirect`**). Rozwiązanie: "bezpośrednia zależność" wg 11.5 = pakiet będący kluczem w
+  `dependencies`/`devDependencies`/`optionalDependencies` własnego `package.json` — czytane wprost
+  z pliku, nie parsowane ze stringów `paths` (format nieudokumentowany, ryzyko rozjazdu między
+  wersjami pnpm). Zweryfikowano: `node --check` czysty; `pnpm audit:gate` uruchomiony na realnym
+  drzewie zależności (0 podatności — bez zmiany zachowania dziś); logika klasyfikacji
+  blokujące/tranzytywne sprawdzona osobno na spreparowanych danych (`react` jako pakiet
+  rzeczywiście bezpośredni w `package.json` → blokuje przy `high`; nieznany pakiet → tylko
+  informacyjnie; `low` nie blokuje nawet dla bezpośredniego) — trzy przypadki, wszystkie
+  poprawne. `pnpm lint`/`typecheck`/`test` (685/685) czyste po zmianie.
 - **2026-09-16 (tego samego dnia, druga synchronizacja — GOD BOOK v2.18→v2.19) — sprawdzone
   ponownie na wyraźne polecenie właściciela projektu ("New app standards aktualizacja... Ostatnia
   wersja 2.19"), `git fetch`+`git pull` w lokalnym klonie `new-app-standards`
