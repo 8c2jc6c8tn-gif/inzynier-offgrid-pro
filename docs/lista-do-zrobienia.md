@@ -227,3 +227,26 @@ Tu trafia bieżący stan pracy: co w trakcie, co zablokowane, co następne — a
   od `lib/core/profiles/`, brak UI regionu do naprawienia), wzorzec async-reset 16.7 (jedyny
   kandydat, `app/auth/login/page.tsx`, sprawdzony — nie występuje), e2e port-cleanup 10.6 (nie
   dotyczy — brak infrastruktury e2e). Szczegóły: `docs/memory.md`.
+- 🔲 (2026-09-16) **Audyt pełnego pakietu `docs/standards/` (00-18) + GOD BOOK na polecenie
+  właściciela projektu ("przeczytaj dokładnie i zrób listę co nie jest zrobione").** Każdy rozdział
+  przeczytany w całości, sprawdzone względem kodu (`grep`), nie z metryczki. Wynik — cztery
+  pozycje, w kolejności priorytetu:
+  1. **Rozdział 9 (AI w produkcie) — OBOWIĄZKOWY wg 9.0, zero implementacji.** Zero
+     `AiToolDefinition`/`isAiAvailable`/trybów OFFLINE-HYBRID-CLOUD_ASSISTED w kodzie. W trakcie
+     realizacji — patrz kolejny wpis niżej.
+  2. **Rozdział 12 (Freemium) — jedyny model rodziny wg 12.8, zero implementacji.** Zero
+     Stripe/podziału feature→tier/`isPro` w kodzie — cała apka dziś w 100% darmowa.
+  3. **5.3 (PWA offline-first) — brak `manifest.json`/service workera/biblioteki PWA**, mimo że
+     `CLAUDE.md` nazywa projekt "PWA offline-first". `IndexedDbStorageAdapter` (5.2) już działa
+     (`use-persisted-draft.ts`) — to tylko połowa wymogu 5.3.
+  4. **18.3 (scalanie tożsamości multi-provider)** — nie zbudowane, wymaga już zalogowanego usera
+     do testowania, odłożone do czasu żywego logowania (blokowane na akcję właściciela, patrz
+     wpis 15.09.2026 wyżej).
+  Świadomie odłożone, nie pominięte: rollout i18n (89 plików/109 miejsc, wpis 15.09.2026 wyżej),
+  10.5 (audyt K1-K8 na 116 modułach — rozkładalny w czasie), 57 pozycji `todo` w
+  `docs/rejestr-pokrycia.md` (głównie klaster stress-test zimowy, w większości zależne od innych
+  modułów). Przy tej okazji naprawione dwie nieaktualności dokumentacji (higiena, nie nowa
+  funkcja): stary komentarz w `lib/adapters/storage-adapter.ts` (twierdził "apka nie ma jeszcze
+  funkcji zapisującej Seed" — nieprawda od czasu `use-persisted-draft.ts`) i przestarzały akapit w
+  `docs/rejestr-pokrycia.md` ("moduły 6,7,10-13 nie rozpoczęte" z 30.08 — nieaktualne, każdy ma już
+  min. jeden ekran `done`). Szczegóły: `docs/memory.md`.
