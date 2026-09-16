@@ -3,10 +3,11 @@
  *
  * CSP `script-src` dopuszcza dokładnie jeden inline `<script>` przez hash (nie
  * `'unsafe-inline'`) — `WYGLAD_INIT_SCRIPT` w `app/layout.tsx` (ustawia motyw przed pierwszym
- * malowaniem). Jeśli zmienisz treść tego skryptu, przelicz hash i zaktualizuj go tutaj —
- * inaczej CSP zablokuje skrypt po cichu (błysk domyślnego wyglądu przy każdym ładowaniu),
- * bez błędu w konsoli widocznego zwykłemu użytkownikowi. Przeliczenie:
- * `node -e "console.log('sha256-' + require('crypto').createHash('sha256').update(SKRYPT, 'utf8').digest('base64'))"`
+ * malowaniem). Zmiana treści tego skryptu bez przeliczenia hasha po cichu blokuje go w
+ * produkcyjnej CSP (błysk domyślnego wyglądu, bez błędu w konsoli widocznego zwykłemu
+ * użytkownikowi) — `pnpm check:csp-hash` (scripts/check-csp-hash.mjs, w CI) liczy hash
+ * automatycznie z treści skryptu i porównuje z wartością niżej, więc rozjazd jest wykrywany
+ * w CI, nie ręcznie (7.3: "hash liczony automatycznie, nigdy ręcznie").
  */
 const WYGLAD_INIT_SCRIPT_HASH = "sha256-+/C91khub/JBkArKcNvM0bLh3IjvzPutrWc2hmWbp6o="
 
