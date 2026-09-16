@@ -170,3 +170,35 @@ drobiazg — to pytanie architektoniczne o kształt `CalcResult`/`Warning`, wsp�
 kalkulator w każdej apce rodziny; im później rozstrzygnięte, tym droższa migracja wstecz.
 
 Status: 🔎 nowe
+
+---
+
+[16.09.2026] KATEGORIA: DOBRA PRAKTYKA — referencyjny CI (11.2/11.5) i mechanizm strażniczy i18n
+(17.9) jako konkretne, sprawdzone przykłady dla reguł, które standard dotąd opisywał tylko abstrakcyjnie
+
+Szczegóły: W tym projekcie 11.5 (audyt podatności jako bramka CI) i 17.9 (mechanizm strażniczy
+wykrywający regresję i18n) istniały w standardzie jako **tekst reguły**, ale bez żadnego konkretnego
+przykładu implementacji — dokładnie ten sam wzorzec luki, co już zgłoszony wcześniej dla rozdziału
+09 (AI w produkcie: zasady są, kontraktu narzędzia nie ma). Zbudowano i zweryfikowano oba jako
+realny, działający kod (nie szkic):
+- `.github/workflows/ci.yml` — dwa niezależne joby (jakość / audyt), próg `high`, z realną,
+  dokumentowaną lekcją: pierwsze włączenie bramki audytu **nie przechodziło** (22 podatności `high`),
+  naprawione bez obniżania progu, w granicach już zadeklarowanych zakresów semver, zweryfikowane
+  pełnym łańcuchem lint/typecheck/test/build po każdej zmianie zależności.
+- `scripts/check-i18n-guard.mjs` — parsowanie AST (nie regex, żeby nie łapać pól świadomie
+  wyłączonych z i18n) plus explicit allowlist modułów już zmigrowanych. Złapany i naprawiony
+  realny błąd własnej pierwszej wersji (nie wykrywała regresji za wzorcem `warunek ? [...] : []`,
+  mimo że to normalny, częsty wzorzec w kodzie, nie edge case) — znaleziony wyłącznie dzięki
+  wstrzyknięciu prawdziwej regresji do prawdziwego pliku przed wdrożeniem, nie przez samo
+  przeczytanie kodu skryptu.
+
+Pełny opis (kształt decyzji transferowalny między stackami + konkretny YAML/skrypt do adaptacji +
+"PROMPT" gotowy do wklejenia w innej sesji, bez czekania na formalną promocję):
+`docs/propozycje-do-new-app-standards/ci-referencyjny-i-mechanizm-strazniczy-i18n.md` w tym repo.
+
+Dlaczego warto zgłosić do new-app-standards: bez konkretnego przykładu każdy projekt rodziny
+odkrywa te same pułapki od zera (włączenie bramki audytu bez sprawdzenia najpierw, regex zamiast
+AST dla guardu i18n, brak testu na prawdziwym wzorcu warunkowym) — dokładnie to, co już się
+zdarzyło w TYM projekcie mimo że reguła była znana od dnia wcześniej.
+
+Status: 🔎 nowe
