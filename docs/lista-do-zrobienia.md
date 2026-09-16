@@ -1,6 +1,6 @@
 # docs/lista-do-zrobienia.md — Inżynier Offgrid Pro
 
-Bieżąca, operacyjna lista zadań tego projektu. Format i zasada aktualizacji: `docs/god-book/instrukcja-uniwersalna-biblii-projektu-v2_8.md`, Część B.6. Czytana **zaraz po `00_Biblia.md`**, na starcie każdej sesji (Część P.2) — żeby AI nie musiało eksplorować całego projektu od nowa, żeby wiedzieć, od czego zacząć.
+Bieżąca, operacyjna lista zadań tego projektu. Format i zasada aktualizacji: `docs/god-book/instrukcja-uniwersalna-biblii-projektu-v2_17.md`, Część B.6. Czytana **zaraz po `00_Biblia.md`**, na starcie każdej sesji (Część P.2) — żeby AI nie musiało eksplorować całego projektu od nowa, żeby wiedzieć, od czego zacząć.
 
 **To nie to samo, co:**
 - `backlog-poza-v1.md` — rzeczy świadomie odłożone poza zakres (decyzje o skali/fazowaniu produktu, zbierane przy audycie).
@@ -117,3 +117,33 @@ Tu trafia bieżący stan pracy: co w trakcie, co zablokowane, co następne — a
   rozbieżność: wzór spadku napięcia w opisie produktowym źródła (`R=ρ×L/S`) pomija drogę powrotną
   prądu — użyto poprawnego `R=ρ×2L/S` (ten sam wzór co M3/E8, już zweryfikowany). B5 (Moduł 11) i
   Ekran 25 (Moduł 4) mogą teraz reużyć ten silnik jako "echo" — wciąż `todo`, nie zbudowane.
+- ✅ (2026-09-15) **Rozstrzygnięte częściowo: `StorageAdapter` (wpis ⏳ z 2026-09-03) ma teraz realną
+  implementację** — `IndexedDbStorageAdapter` (`lib/adapters/indexeddb-storage-adapter.ts`) + hook
+  `usePersistedDraft` (`lib/adapters/use-persisted-draft.ts`), pilotaż na ekranie `napiecie-systemowe`
+  (zgłoszenie użytkownika: strona sama się przeładowywała, dane się gubiły). Pozostałe ~115 ekranów
+  kalkulatorów jeszcze nie korzystają z autozapisu — rollout ekran po ekranie, `usePersistedDraft`
+  gotowy do skopiowania 1:1. Szczegóły: `docs/memory.md`.
+- 🔲 (2026-09-15) **Rollout rozdz. 17 (i18n) na resztę modułów.** Kontrakt (`Warning.i18nKey`/`params`,
+  `CalcResult.Assumption` jako `string | {kod, params}`) i wzorzec migracji ustalone i sprawdzone na
+  module pilotażowym `kalkulatory-pomocnicze` (M2/E16) — `lib/i18n/dictionary-pl.ts` + `lib/i18n/t.ts`.
+  Pozostaje: ~89 plików `warnings.ts` (326 miejsc z gotowym tekstem PL w `message`) + ~109 miejsc z
+  `assumptions` jako `string[]` w innych modułach. Świadomie NIE zrobione teraz w całości — standard
+  sam (17.9) wymaga migracji moduł po module, nie big bang; jednorazowa migracja ~115 modułów
+  naraz byłaby wysokim ryzykiem bez proporcjonalnej korzyści (dziś jest tylko jeden język — PL —
+  więc brak zmigrowanego modułu nie psuje niczego użytkownikowi, tylko odkłada techniczny porządek).
+  Szczegóły procesu i decyzji: `docs/memory.md`.
+- ⚠️ (2026-09-15) **Niezgodność #2 (logowanie, rozdz. 18) — szkielet gotowy, czeka na działanie
+  właściciela projektu.** Kod (Supabase Auth, magic link/Google/Apple, middleware, RLS jako
+  `.sql`) napisany i zweryfikowany (`tsc`/`lint`/`test`/`build`), ale wyłączony do czasu realnych
+  danych — apka dziś działa identycznie jak przed tym szkieletem. Do zrobienia przez właściciela:
+  1. Załóż projekt na supabase.com (New Project → Settings → API), wklej URL + anon key do
+     `.env.local` (wzór: `.env.example`).
+  2. Uruchom `supabase/migrations/0001_profiles.sql` w Supabase Dashboard → SQL Editor.
+  3. (Opcjonalnie, koszt: Google — darmowe, Apple — **99 USD/rok**) Włącz dostawców w Supabase
+     Dashboard → Authentication → Providers.
+  Po tym logowanie działa bez żadnych zmian w kodzie. Szczegóły: `docs/memory.md`.
+- ✅ (2026-09-16) **Luka "brak CI" (11.2/11.5) zamknięta.** `.github/workflows/ci.yml` — dwa
+  niezależne joby na każdym PR + push na `main`: `quality` (lint/typecheck/test/build) i
+  `dependency-audit` (`pnpm audit --audit-level=high`, 11.5). Przy tej okazji zaktualizowano
+  zależności i naprawiono 22 podatności `high` wykryte przy pierwszym uruchomieniu audytu (audyt
+  dziś: 0 wykrytych). Szczegóły procesu i decyzji: `docs/memory.md`.

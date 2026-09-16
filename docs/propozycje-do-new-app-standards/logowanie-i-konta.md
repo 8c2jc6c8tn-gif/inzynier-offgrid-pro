@@ -1,6 +1,13 @@
 # PROPOZYCJA dla `new-app-standards` — Nowy rozdział: Logowanie i konta użytkownika
 
-> **Status: SZKIELET, nie propozycja gotowa do przyjęcia.** Ten plik to szkic rozszerzenia,
+> **✅ Status (15.09.2026): ROZSTRZYGNIĘTE.** `new-app-standards` dodał `docs/standards/18-logowanie.md`
+> (18.1–18.14) — źródło jawnie wymienia wnioski tego projektu (obok zero-waste i inzynier-szkieletowy-pro)
+> jako jeden z wkładów. Ta propozycja zostaje niżej w całości jako historyczny zapis analizy luki
+> (Część D GOD BOOK — nie usuwamy, tylko oznaczamy) — nie jest już aktualnym źródłem prawdy o temacie,
+> patrz `docs/standards/18-logowanie.md`. Projekt nie ma jeszcze wdrożonego logowania w kodzie —
+> to osobne zadanie, patrz `docs/lista-do-zrobienia.md`.
+
+> **Status oryginalny (przy powstaniu, nieaktualny): SZKIELET, nie propozycja gotowa do przyjęcia.** Ten plik to szkic rozszerzenia,
 > powiązany ze zgłoszeniem w `docs/wklad-do-standardu.md`. **Nie jest częścią `docs/standards/`** i
 > nie ma mocy obowiązującej. W odróżnieniu od pozostałych plików w tym folderze — ten **celowo nie
 > jest dokończony**: właściciel projektu zlecił, żeby rekomendacje logowania bazowały na realnej

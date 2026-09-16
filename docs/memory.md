@@ -176,6 +176,103 @@ konkretnych potrzebnych tabel + kod kalkulatora, po kolei małymi partiami zgodn
   Dodatkowo poprawione odsyłacze do wersji (nie pozycje Y.9 same w sobie, ale te same pliki, spójność): `README.md`, `PROMPT_STARTOWY.md`, `00_Biblia.md`, `ZASADY_APLIKACJI.md`, `USTALENIA.md`.
   Zweryfikowano: `grep -rln "instrukcja-uniwersalna-biblii-projektu-v2_5"` po synchronizacji — zero trafień w całym repo. Pozostałe historyczne wzmianki starszych wersji (v2_3) w tym logu i `docs/lista-do-zrobienia.md` celowo nietknięte (append-only, Część D GOD BOOK).
   **Nie wykonano (świadomie, poza zakresem tej sesji):** dopisanie tego projektu do `docs/projekty-downstream.md` w `new-app-standards` (U.4) — wymagałoby zmiany w repo `new-app-standards`, nie tutaj; do rozważenia przy najbliższej sesji nad tamtym repo.
+- **2026-09-15 — sprawdzono `AKTUALIZACJE.md` (11 dni zaległości, ostatni sync 04.09.2026 przy v2.8; lokalny klon `new-app-standards` był 25 commitów za `origin/main` — wykonano `git fetch`+`git pull` przed odczytem, zgodnie z Y.6 1a/1b, żeby nie powtórzyć błędu "nieodświeżony klon = fałszywe 'brak nowości'"). Znaleziono i zsynchronizowano 15 wpisów logu (v2.8→v2.17). Pełna synchronizacja wykonana na wyraźne polecenie właściciela projektu, po zaprezentowaniu zakresu i uzyskaniu zgody (Y.6 punkt 7).**
+  **Zmiany merytoryczne z realnym wpływem na ten projekt (zaplanowane, NIE wdrożone w tej sesji — zgodnie z zakresem zgody "sync dokumentacji, nie kodu"):**
+  1. **Rozdz. 17 (i18n), nowy — 17.2 rozstrzyga kolizję zgłoszoną przez TEN projekt**: Kernel ma zwracać klucze tłumaczeń, nigdy gotowy tekst — PATCH do 01.1/03.2/04 (assumptions jako klucz+parametry, `Warning` zwraca wyłącznie `kod`). **Dzisiejszy kod całego `lib/core/modules/` zwraca wprost polski tekst w `assumptions` i komunikatach `Warning` — to niezgodność do zaplanowania**, nie pilna (tak formułuje sam standard). Do dopisania jako pozycja w `docs/lista-do-zrobienia.md`, gdy projekt zdecyduje się na i18n.
+  2. **Rozdz. 18 (logowanie/konta), nowy** — obowiązkowy wzorzec (Supabase Auth, magic link/Google/Apple, sesja w HttpOnly cookie, sync = Seed nigdy Wynik). Projekt nie ma jeszcze żadnego logowania — nowy, duży temat do zaplanowania od Kroku 2 GOD BOOK, nie tylko doczytania rozdziału. Nasza własna propozycja `docs/propozycje-do-new-app-standards/logowanie-i-konta.md` (SZKIELET, 06.09.2026) została jawnie wymieniona jako jeden ze źródeł tego rozdziału — oznaczona tam jako rozstrzygnięta (nagłówek), treść zachowana jako historyczny zapis analizy.
+  3. **Rozbudowa rozdz. 09 (AI w produkcie)** — konkretny kontrakt `AiToolDefinition<TInput,TOutput>` (read/write, `requiresConfirmation` dla write), AI teraz obowiązkowe (nie opcjonalne) jako warstwa wyłącznie-online nad rdzeniem. Projekt nie ma jeszcze AI w runtime — do zaplanowania, nie pilne.
+  4. **Rozbudowa rozdz. 12 (freemium)** — trial dwuetapowy (FREE bez karty → PRO z kartą 24h), płaski podział FREE/PRO. Projekt nie ma jeszcze freemium wdrożonego — do zaplanowania.
+  5. Reszta (rozdz. 03, 04, 05, 06, 10, 14, 15 — poprawki techniczne: wynik wielopolowy z `calculatorVersion`/`traceId` obowiązkowym, Blob z Web Workera odtwarzany przed zapisem do IndexedDB na Safari/iOS, `ALTER DATABASE ... SET` zakazane na hostowanym Postgresie z RLS, K1–K8 audyt modułu, higiena okna kontekstu/`/compact`, zakaz lokalnego dopisywania do mirrora standardu) — czysto techniczne, NIETYKALNE, bez decyzji do podjęcia. Zweryfikowano: projekt dziś nie używa `ALTER DATABASE`, nie kompresuje plików w Web Workerze do IndexedDB — te dwie pułapki nie dotyczą jeszcze tego kodu.
+  **Wykonane w tej sesji:** nadpisano `docs/standards/00-INDEKS.md`, `00-filozofia.md`, `03`, `04`, `05`, `06`, `09`, `10`, `12`, `14`, `15` w całości; dodano nowe `17-i18n.md`, `18-logowanie.md`; podmieniono GOD BOOK w całości (`...v2_8.md` → `...v2_17.md`, `git rm`+nowy plik); nadpisano `PROMPT_STARTOWY.md` w całości (nowe: sekcja języka/persony/trybów rozszerzona, higiena okna kontekstu); PATCH (nie REWRITE) do `CLAUDE.md` (nowa sekcja "Zasady bezwzględne" z wypełnionym TODO ekspertyzy: "projektowanie i instalacja systemów fotowoltaicznych off-grid", akapit o micie `docs/standards/*` jako NIETYKALNE mirror, akapit `/compact` w Definicji ukończenia, licznik rozdziałów 17→19); odświeżono odsyłacze do wersji GOD BOOK w `USTALENIA.md`, `00_Biblia.md`, `README.md`, `ZASADY_APLIKACJI.md`, `01_Zasady_Pracy_i_Konwencje.md`, `.claude/skills/standards/SKILL.md`, `docs/lista-do-zrobienia.md`.
+  **Wynik checklisty Y.9 (9 pozycji):**
+  1. `docs/standards/00`–`18` + INDEKS — ✅ aktualne (odświeżone w tej sesji).
+  2. GOD BOOK — ✅ podmienione na v2.17.
+  3. `CLAUDE.md` — ✅ istnieje, spatchowane (PATCH, nie REWRITE — cała lokalna adaptacja zachowana).
+  4. Pełna Biblia (Część S, 14 pozycji) — ✅ komplet nadal istnieje, zweryfikowane ponownie że żadna pozycja nie zniknęła.
+  5. `docs/lista-do-zrobienia.md` — ✅ istnieje, odsyłacz do wersji zaktualizowany.
+  6. `docs/wklad-do-standardu.md` — ✅ istnieje.
+  7. `docs/zrodla/` — ✅ istnieje.
+  8. `.claude/skills/standards/SKILL.md` — ✅ istnieje, odsyłacz do wersji zaktualizowany.
+  9. `01_Zasady_Pracy_i_Konwencje.md` + `02_Dyrektywy_AI_Projektu.md` — ✅ oba istnieją.
+  **Moduł opcjonalny Y.10 (osobno od Y.9, nie automatyczny) — NIE zainstalowany w tej sesji, świadomie:** `docs/playbooki-opcjonalne/przetwarzanie-materialow-zrodlowych.md` (playbook uogólniony z naszego własnego zgłoszenia z 06.09.2026) i skanonizowany `docs/biblioteka-norm/` w `new-app-standards` (dla którego TEN projekt był źródłem plików, commit `d7c81d1`) — projekt ma dziś normy w `docs/zrodla/` w innej, lokalnej strukturze; zgodnie z Y.10 ("nigdy automatycznie, tylko po jawnym potwierdzeniu dopasowania") to osobna propozycja do zatwierdzenia, nie część tej synchronizacji. Do rozważenia w kolejnej sesji, jeśli właściciel projektu chce ujednolicić strukturę z kanonicznym modułem.
+  Zweryfikowano: `grep -rln "v2_8"` po synchronizacji — zero trafień poza historycznymi wzmiankami (ten log, `docs/lista-do-zrobienia.md`, `docs/propozycje-do-new-app-standards/logowanie-i-konta.md` — jawnie oznaczone jako nieaktualne odniesienie w statusie na górze pliku — i changelog GOD BOOK samego, odniesienia do własnych starszych wersji), zgodnie z Częścią D GOD BOOK (append-only, historia nie jest cicho nadpisywana).
+- **2026-09-15 (druga synchronizacja tego dnia) — `AKTUALIZACJE.md` sprawdzone ponownie na wyraźną
+  wskazówkę właściciela projektu ("odpowiedź znajdziesz w nowej aktualizacji"), przed rozpoczęciem
+  pracy nad rozdz. 18 (logowanie). `git fetch`+`git pull` w lokalnym klonie `new-app-standards`
+  ujawniło 8 nowych commitów od poprzedniej synchronizacji (GOD BOOK bez zmiany wersji, wciąż
+  v2.17 — tylko 6 plików `docs/standards/` zmienionych: `00-INDEKS`, `04`, `06`, `07`, `11`, `18`).**
+  Nadpisane wszystkie 6 w całości (NIETYKALNE). Treść: dokończenie audytu bezpieczeństwa sesji
+  zainicjowanego przy poprzedniej synchronizacji — nowa **7.7** (sanityzacja XSS u źródła, zakaz
+  `dangerouslySetInnerHTML`/regex-filtrów dla treści użytkownika), dopisek do **7.3** (CSP +
+  `X-Frame-Options`/`frame-ancestors` przeciw clickjackingowi), nowa **6.6** (SSRF — reguła
+  warunkowa, tylko gdy backend robi fetch na URL od użytkownika), nowa **7.4** pozycja checklisty
+  (SQL wyłącznie przez ORM/bind params, nigdy konkatenacja — osobne zagrożenie od RLS 6.5), nowa
+  **11.5** (audyt podatności zależności jako bramka CI). Plus **18.15** (moduł opcjonalny — transfer
+  danych między powiązanymi appkami rodziny przez plik, nie przez żywe połączenie baz) i dopisek do
+  **18.2** (magic link a open redirect na URL powrotny).
+  **Sprawdzone względem TEGO kodu (nie zgadywane):** `grep` na `dangerouslySetInnerHTML`/`innerHTML`
+  — 2 wystąpienia, oba na treści statycznej autorskiej (skrypt inicjalizacji motywu w
+  `app/layout.tsx`, definicje symboli SVG w `components/kafle-ikony/definicje-symboli.tsx`), **nie**
+  treści od użytkownika — 7.7 nie jest naruszona, tylko warta odnotowania jako sprawdzona świadomie.
+  6.6 (SSRF) i 7.4-SQL nie mają jeszcze zastosowania — projekt nie ma backendu wykonującego fetch na
+  URL od użytkownika ani żadnych zapytań SQL (brak Supabase/bazy na razie). **11.5 nieaktualne do
+  wdrożenia — projekt nie ma jeszcze żadnego CI** (`.github/` nie istnieje), znana, już zapisana luka.
+  **Wykonane od razu, niezależnie od tematu logowania (7.3 — realny, zero-zależnościowy gap):**
+  `next.config.mjs` nie miał ŻADNEGO nagłówka bezpieczeństwa. Dodano `headers()`: CSP (`script-src`
+  ograniczony do `'self'` + SHA-256 hash jedynego inline-skryptu w apce — `WYGLAD_INIT_SCRIPT` z
+  `app/layout.tsx`, nie `'unsafe-inline'`; w dev mode CSP celowo łagodniejsza dla React Refresh/HMR),
+  `X-Frame-Options: DENY`, `X-Content-Type-Options: nosniff`, `Referrer-Policy`,
+  `Strict-Transport-Security`, `Permissions-Policy` (odmawia camera/microphone/geolocation — apka
+  dziś nie używa żadnego z tych API, zweryfikowane grepem). Krzyżowy komentarz w obu plikach
+  (`next.config.mjs` ↔ `app/layout.tsx`) tłumaczący, że zmiana treści skryptu wymaga przeliczenia
+  hasha — inaczej CSP ubiłaby skrypt po cichu (błysk domyślnego wyglądu, bez widocznego błędu).
+  Zweryfikowano: `tsc`/`lint`/`build` czyste, `pnpm start` + `curl -D-` potwierdza realne wysyłanie
+  wszystkich 6 nagłówków z poprawną treścią CSP. **Nie zweryfikowano w headless browserze** (brak
+  pakietu `playwright` jako zależności projektu, tylko sama binarka Chromium w środowisku) — hash
+  wyliczony bezpośrednio z tego samego stringa co w kodzie, `dangerouslySetInnerHTML` nie przechodzi
+  przez minifikację JS, więc ryzyko rozjazdu niskie, ale to rozumowanie, nie potwierdzenie wizualne.
+- **2026-09-16 — CI (11.2/11.5) zbudowane, luka z wpisu wyżej ("projekt nie ma jeszcze żadnego
+  CI") zamknięta.** `.github/workflows/ci.yml`, dwa niezależne joby na `pull_request` + `push`
+  do `main`, rozdzielone celowo (znany, nienaprawialny natychmiast high w jednej zależności nie
+  ma blokować mergowania czystego fixa lintera w drugim, i odwrotnie):
+  - `quality` — `pnpm lint` → `pnpm typecheck` (nowy skrypt, `tsc --noEmit` — nie istniał wcześniej
+    jako skrypt npm, tylko wywoływany ręcznie przez sesje AI) → `pnpm test` → `pnpm build`, na
+    `pnpm/action-setup` + `actions/setup-node@22` z cache pnpm, `pnpm install --frozen-lockfile`
+    (11.1 — lockfile jako źródło prawdy instalacji, nie tylko lokalnie).
+  - `dependency-audit` — `pnpm audit --audit-level=high` (11.5, dosłownie z treści reguły).
+  **Decyzja zakresu (to, co ta reguła sama nazywa "większą decyzją, nie mechaniczną łatką"):**
+  pierwsze uruchomienie audytu **nie przechodziło** — 22 podatności `high` (`brace-expansion`,
+  `js-yaml`, `fast-uri`, `postcss`, `sharp`), gdyby CI powstało wcześniej i włączono bramkę bez
+  sprawdzenia, pierwszy PR zostałby zablokowany od zera. Rozstrzygnięcie: **nie** obniżono progu
+  i **nie** dodano wyjątku/`--production`/allowlisty — sprawdzono każdą pozycję i naprawiono to,
+  co naprawialne w granicach już zadeklarowanych zakresów `package.json` (żadna zmiana major, żadne
+  ręczne podniesienie zakresu semver):
+  1. `postcss` (`^8.5`, zależność bezpośrednia — dokładnie przypadek, który 11.5 nazywa
+     najpoważniejszym) miał zainstalowaną `8.5.6` < łatka `8.5.12` mimo że zakres to dopuszczał —
+     `pnpm update postcss` wystarczyło.
+  2. Pozostałe 4 pakiety (`brace-expansion`/`js-yaml`/`fast-uri`/`sharp`) to zależności przechodnie
+     dev-only (łańcuchy `eslint-config-next→...→minimatch`, `shadcn→cosmiconfig`/`@modelcontextprotocol/sdk→ajv`)
+     plus `next→sharp` (produkcyjna, ale nieużywana realnie — `images.unoptimized: true` w
+     `next.config.mjs`, zweryfikowane wcześniej). `pnpm update` (bez argumentu, w granicach
+     zakresów `^` już zadeklarowanych) podciągnął `eslint-config-next`/`shadcn`/`react`/
+     `react-dom`/`@base-ui/react`/`lucide-react`/`zod`/`tailwind-merge`/`@types/*` do najnowszych
+     wersji dopuszczonych przez istniejące zakresy — to rozwiązało wszystkie 4 pozostałe pakiety
+     przez łańcuch zależności, bez ręcznej ingerencji w `overrides`/`resolutions`.
+  Wynik: `pnpm audit --audit-level=high` → **0 podatności** (`No known vulnerabilities found`).
+  Zero wyjątków zapisanych — nie było potrzeby, każda pozycja miała realną łatkę w already-declared
+  zakresie. **Zweryfikowano po zmianie zależności** (nie tylko sam audyt): `lint`/`typecheck`/
+  `test` (660/660)/`build` — wszystkie czyste, żadna z podniesionych wersji nie złamała niczego.
+  Dodane `packageManager: "pnpm@10.33.0"` do `package.json` (wzmacnia 11.1 — jawna, reprodukowalna
+  wersja menedżera pakietów w CI, nie tylko lockfile). Jeden lockfile (`pnpm-lock.yaml`) — bez zmian
+  w tej zasadzie, tylko zaktualizowany.
+  **Korekta tego samego dnia:** poprzednia wersja tego wpisu twierdziła, że `moderate`/`low`
+  (18+3) zostały świadomie zostawione — nieprawdziwe, nie zweryfikowane wystarczająco (sprawdzony
+  był tylko `pnpm audit --audit-level=high`, nie pełny `pnpm audit` bez filtra poziomu). Pełny
+  `pnpm audit` (bez `--audit-level`) po tym samym `pnpm update` daje **0 podatności wszystkich
+  poziomów** (`metadata.vulnerabilities` z `--json`: info/low/moderate/high/critical = 0) —
+  `eslint-config-next`/`shadcn`, źródło większości `moderate`/`low`, to te same łańcuchy zależności
+  co naprawione `high`. Nic do zaostrzenia — próg `high` w CI (11.5) dziś i tak nie miał nic do
+  odfiltrowania.
 
 ## Decyzje i uzasadnienie
 
@@ -3324,3 +3421,163 @@ nie tylko problem "za dużo w jednym ekranie" (rozwiązanie: ekrany pochodne/Kre
 **etapy, które nie należą do tematu ekranu wcale** (rozwiązanie: usunięcie/przeniesienie, nie
 rozbicie). Sprawdzać oba pytania przy każdym kolejnym kandydacie (M5/Ekran1, M3/Ekran14), nie tylko
 "czy jest za duży".
+
+## Pierwsza realna implementacja `StorageAdapter` — autozapis Seed formularza (15.09.2026)
+
+**Zgłoszenie autora:** "strona się sama przeładowywała" na telefonie i po przeładowaniu wszystkie
+wpisane dane (Etap A-H, `napiecie-systemowe`) trzeba wpisywać od nowa. Diagnoza: nie jest to błąd
+tego ekranu — żaden kalkulator w apce nie zapisywał Seed-u formularza, `lib/adapters/storage-adapter.ts`
+miał od początku (świadomie, patrz komentarz w pliku) tylko kontrakt, bez implementacji, do czasu
+"pierwszej realnej funkcji zapisu". Samo przeładowanie karty na telefonie to prawdopodobnie
+zachowanie przeglądarki mobilnej pod presją pamięci (odświeżenie karty w tle) — nie do naprawienia
+w kodzie tej apki — ale brak zapisu Seed-u sprawiał, że KAŻDE odświeżenie (manualne, HMR w dev,
+albo mobilne w tle) kosztowało cały wpisany formularz.
+
+**Decyzja:** to jest właśnie ten moment z komentarza w `storage-adapter.ts` — zaimplementowano
+`IndexedDbStorageAdapter` (`lib/adapters/indexeddb-storage-adapter.ts`, jedna baza `offgrid-storage`,
+jeden object store `kv`, zgodnie z 5.2/5.3) oraz hook `usePersistedDraft<T>` (`lib/adapters/use-persisted-draft.ts`)
+— zamiennik `useState` o identycznym kształcie `[stan, setStan]`, autozapis debounce 500ms, odczyt
+asynchroniczny (SSR-safe, pierwszy render = wartość początkowa, dane doładowują się na kliencie).
+
+**Zakres tej sesji: pilotaż na jednym ekranie** (`napiecie-systemowe`, ten który zgłoszono) —
+13 osobnych `useState` scalone w jeden obiekt `FormularzStan` (Seed tego ekranu, 5.1 — Seed nie
+Wynik), persystowany pod kluczem `offgrid.draft.napiecie-systemowe`. Wywołania niżej w komponencie
+(JSX, `toggleOdbiornik`, `zmienJednostkeCzasu`, edytor cen) **nie zostały zmienione** — każdy
+`setX` to teraz wrapper wołający `setPole(pole, akcja)`, akceptujący wartość albo funkcję
+aktualizującą tak jak oryginalny `useState`, żeby nie przepisywać całego pliku. Zweryfikowano:
+`tsc --noEmit`, `pnpm lint`, `pnpm test` (655/655), `pnpm build` — wszystko czyste.
+
+**Świadomie NIE wykonane w tej sesji (do rozważenia, nie zapomniane):** wdrożenie tego samego
+mechanizmu na pozostałych ~100 ekranach kalkulatorów — `usePersistedDraft` jest gotowy do
+skopiowania 1:1 (jedna linia zamiast `useState` + bundle pól w jeden typ `FormularzStan`), ale
+zrobienie tego dla każdego ekranu naraz to osobne, duże zadanie, nie część naprawy zgłoszonego
+błędu. Do rozważenia jako kolejny krok, ekran po ekranie albo partiami.
+
+## Pierwsza implementacja i18n — pilotaż na module `kalkulatory-pomocnicze` (15.09.2026)
+
+**Kontekst:** przy synchronizacji ze standardem (v2.8→v2.17, patrz sekcja "Synchronizacja ze
+standardem" wyżej) wykryto niezgodność: rozdz. 17 (i18n, 17.2) i PATCH do 03.2/04 wymagają, żeby
+Kernel zwracał **klucze tłumaczeń**, nigdy gotowy tekst — a cały istniejący kod (`Warning.message`,
+`CalcResult.assumptions: string[]`) zwraca wprost polski tekst. Autor wybrał tę niezgodność jako
+pierwszą do domknięcia (z listy 4: i18n / logowanie / freemium / kontrakt AI).
+
+**Skala sprawdzona przed decyzją o zakresie (nie zgadywana):** 116 katalogów modułów, 90 plików
+`warnings.ts`, **326 wystąpień `message:`** w `lib/core/modules` (bez testów), **110 plików**
+używających `assumptions`. Migracja wszystkiego naraz byłaby dokładnie tym, co standard sam
+zabrania (17.9: "migracja stopniowa, moduł po module, nigdy big bang") — dodatkowo część
+`message:` to szablony z wartościami dynamicznymi (np. `label`/`value` wstrzykiwane w runtime),
+więc ekstrakcja do słownika wymaga decyzji per funkcja (co jest parametrem, co kluczem), nie jest
+czysto mechaniczna dla całego kodu naraz.
+
+**Decyzja o zakresie tej sesji:** zbudować infrastrukturę + zmigrować **jeden pilotażowy moduł**
+w całości (ten sam wzorzec co przy `usePersistedDraft` — pilotaż, nie big bang), zamiast czekać z
+czymkolwiek do czasu, aż wszystkie 116 modułów zostaną zrobione naraz.
+
+**Wykonane:**
+1. `lib/i18n/dictionary-pl.ts` — słownik `{klucz: szablon}`, klucze wielkimi literami z myślnikiem
+   (ta sama konwencja co dotychczasowy `Warning.code`), placeholdery `{param}`. Dziś tylko klucze
+   faktycznie użyte przez zmigrowany moduł — **nie wolno dopisywać kluczy "na przyszłość"** bez
+   migracji modułu, który ich używa (martwe klucze to dług, nie postęp — zapisane jako komentarz
+   w samym pliku, żeby przetrwało kompaktowanie kontekstu).
+2. `lib/i18n/t.ts` — `t(kod, params?)`, podstawia `{param}` w szablonie. Brakujący klucz nie jest
+   cichym fallbackiem (17.1) — raportowany przez `consoleReporter` i widoczny w UI jako `⚠ [KOD]`,
+   żeby błąd migracji był widoczny od razu, nie ukryty.
+3. **Kontrakt (`lib/core/calc-result.ts`) — zmiana addytywna, nie usuwająca.** `Warning.message`
+   stał się **opcjonalny** (oznaczony `@deprecated`, z komentarzem odsyłającym do tej sekcji),
+   dodano `i18nKey?`/`params?`. `CalcResult.assumptions` zmieniło typ z `string[]` na nowy
+   `Assumption = string | {kod, params?}`. **To jest świadomy, tymczasowy stan przejściowy** — nie
+   każe wszystkim 115 pozostałym modułom migrować się natychmiast (są nadal poprawne typowo,
+   zwracając same stringi/`message`), ale otwiera legalną ścieżkę dla modułów zmigrowanych.
+   Rozstrzyga to WPROST napięcie między 17.1 ("brakujący klucz = błąd typu, nie cichy fallback")
+   i 17.9 ("migracja stopniowa, nigdy big bang") — 17.1 opisuje stan DOCELOWY (po migracji
+   wszystkiego), nie wymóg natychmiastowy w trakcie przejścia.
+4. **Pilotaż w całości:** `lib/core/modules/zapotrzebowanie/kalkulatory-pomocnicze/warnings.ts`
+   (4 funkcje — `message` usunięty, `i18nKey`/`params` gdzie kod jest dynamiczny per pole, np.
+   `notPositive`) i `calculator.ts` (2 miejsca `assumptions` → `{kod: "SPRAWNOSC-DOMYSLNA", params}`).
+   `components/wzorce/wynik-szczegoly.tsx` (komponent współdzielony przez kilka ekranów) i
+   `app/kalkulatory/pomocnicze/page.tsx` rozwiązują teraz `Assumption`/`Warning` niezależnie od
+   tego, czy pochodzą z modułu zmigrowanego czy nie (`typeof a === "string" ? a : t(a.kod, a.params)`).
+5. **Efekt uboczny zmiany typu (naprawiony, nie przeoczony):** poszerzenie `assumptions` na typ
+   unii złapało 7 dodatkowych ekranów renderujących `assumptions.map` **bezpośrednio**, nie przez
+   `WynikSzczegoly` (`cop-pompy-ciepla`, `czystosc-i-snieg`, `lokalizacja-i-klimat`,
+   `porownanie-technologii-magazynow`, `prognozy`, `systemy-podtrzymania-zycia`, `tryb-uproszczony`)
+   — każdy naprawiony tym samym wzorcem odczytu (moduły tych ekranów NIE są zmigrowane, nadal
+   zwracają czyste stringi, tylko renderowanie musi już umieć obsłużyć oba kształty). Też: jedno
+   miejsce w kodzie DOMENOWYM (`optymalizacja-trasy-kabla/calculator.ts`) czytające `w.message`
+   z echo innego modułu jako wymagany `string` — naprawione fallbackiem `?? w.code` (transitional,
+   do usunięcia gdy `dobor-przekroju-kabla` też się zmigruje). 2 testy asercji na dosłowny tekst
+   `assumptions` i 1 na `w.message` — poprawione na `.includes`/`?.` odpowiednio bezpieczne dla
+   typu unii/opcjonalnego pola.
+6. Zweryfikowano: `tsc --noEmit`, `pnpm lint`, `pnpm test` (655/655), `pnpm build` — wszystko czyste.
+
+**Świadomie NIE wykonane (rollout, osobne zadanie, `docs/lista-do-zrobienia.md`):** pozostałe ~89
+plików `warnings.ts` (326 wystąpień `message:`) i ~109 innych plików z `assumptions: string[]`.
+Kolejność rollout-u nie ustalona — naturalny kandydat to moduły najczęściej odwiedzane/najbardziej
+"mega-Doradca" (per przegląd §8.11), ale to decyzja na kolejną sesję, nie założenie z tej.
+
+**Lekcja procesowa:** zmiana typu współdzielonego kontraktu (`CalcResult`/`Warning`) używanego w
+100+ miejscach, nawet "addytywna" (nowe pole opcjonalne, unia zamiast pojedynczego typu), potrafi
+złapać nieoczywiste call site'y (renderowanie bezpośrednie z pominięciem współdzielonego
+komponentu, konsumpcja międzymodułowa przez echo) — `tsc --noEmit` po zmianie typu bazowego jest
+jedynym wiarygodnym sposobem znalezienia ich wszystkich, nie grep po nazwie pola.
+
+## Szkielet logowania (rozdz. 18) — bez realnych kluczy Supabase (15.09.2026)
+
+**Kontekst:** trzecia z 4 niezgodności znalezionych przy synchronizacji ze standardem (po i18n).
+Projekt nie miał żadnego kodu auth (zero zależności Supabase, zero `.env`, zero `middleware.ts`).
+Rozdz. 18 wymaga realnej infrastruktury (Supabase Auth, Google/Apple OAuth, sesja HttpOnly) — nie
+dało się tego zbudować bez prawdziwego projektu Supabase, którego autor nie miał w tej sesji
+(potwierdzone po kilku rundach wyjaśniania — patrz transkrypt, nie ma potrzeby powtarzać tu
+przebiegu). **Decyzja: szkielet kodu teraz, bez kluczy — flip na "żywe" logowanie = wklejenie
+`NEXT_PUBLIC_SUPABASE_URL`/`NEXT_PUBLIC_SUPABASE_ANON_KEY` do `.env.local`, bez zmian w kodzie.**
+
+**Wykonane:**
+- `@supabase/supabase-js` + `@supabase/ssr` jako zależności (jeden lockfile pnpm, bez naruszenia
+  11.1). `.env.example` z placeholderami i komentarzem "skąd wziąć wartości".
+- `lib/adapters/supabase/config.ts` — `isSupabaseConfigured()`: jedyne miejsce decydujące, czy
+  Supabase jest realnie skonfigurowany (placeholder URL = "nie"). Cała reszta kodu pyta to, nigdy
+  nie sprawdza `process.env` bezpośrednio — jedno miejsce prawdy.
+- `lib/adapters/supabase/client.ts` (przeglądarka) / `server.ts` (Server Components/Actions/Route
+  Handlers) — sesja wyłącznie przez `@supabase/ssr`, nigdy ręczne cookie (18.5).
+- `middleware.ts` — 18.1 (konto wymagane od startu), ale **wyłączony całkowicie, gdy Supabase
+  nieskonfigurowany** (`isSupabaseConfigured()` na wejściu, `return NextResponse.next()`) — jawny,
+  dokumentowany stan przejściowy, nie cichy fallback. Zweryfikowane realnie (`pnpm build` +
+  `pnpm start` + `curl`): `/kalkulatory/pomocnicze` odpowiada 200 bez przekierowania, dokładnie
+  jak przed tym commitem — apka nie zmieniła zachowania dla użytkownika, dopóki nie ma kluczy.
+- `app/auth/login/page.tsx` — 3 równorzędni dostawcy (18.2): magic link e-mail (formularz +
+  Server Action `signInWithMagicLink`), Google/Apple (`signInWithOAuth`). Wymagało wrappera
+  `<Suspense>` wokół `useSearchParams()` — bez tego `pnpm build` failował na prerenderingu
+  (Next.js wymaga tego jawnie, nie ostrzeżenie, błąd zatrzymujący build).
+- `app/auth/callback/route.ts` — wymiana kodu na sesję. `next` (URL powrotny) przechodzi przez
+  `safeNextPath()` (nowy plik `lib/adapters/supabase/safe-redirect.ts`, z testami) — **realny
+  fix na open redirect z 18.2 (dopisek 15.09.2026)**, nie tylko wzmianka w komentarzu: odrzuca
+  wszystko, co nie zaczyna się od jednego `/` (łapie też `//host` protocol-relative).
+- `app/auth/signout/route.ts` + `components/konto-sekcja.tsx` (sekcja w `/ustawienia`, renderuje
+  się na coś tylko gdy `isSupabaseConfigured()` — inaczej apka nie ma jeszcze konceptu
+  "zalogowany", pusta sekcja byłaby myląca, nie tylko nieprzydatna).
+- `supabase/migrations/0001_profiles.sql` — `public.profiles` (1:1 z `auth.users`, `ON DELETE
+  CASCADE` — prawdziwy DELETE, 18.8), RLS (`auth.uid() = id`), trigger auto-insert przy rejestracji.
+  Pole `tier` (freemium, rozdz. 12) świadomie NIE dodane teraz — dojdzie, gdy projekt zdecyduje
+  się na freemium, nie spekulacyjnie.
+- `next.config.mjs` — `connect-src` w CSP dopuszcza URL Supabase, tylko gdy zmienna środowiskowa
+  istnieje (`process.env.NEXT_PUBLIC_SUPABASE_URL ?? ""` — pusty string nie dodaje nic do CSP).
+- Zweryfikowano: `tsc --noEmit`/`pnpm lint`/`pnpm test` (660/660, +5 nowych testów
+  `safe-redirect.test.ts`)/`pnpm build` czyste. `pnpm start`+`curl` potwierdza brak regresji w
+  zachowaniu apki bez kluczy.
+
+**Świadomie NIE wykonane (wymaga działań właściciela projektu, poza zasięgiem sesji):**
+1. Założenie realnego projektu Supabase (supabase.com → New Project → Settings → API) i wklejenie
+   `NEXT_PUBLIC_SUPABASE_URL`/`NEXT_PUBLIC_SUPABASE_ANON_KEY` do `.env.local`.
+2. Uruchomienie `supabase/migrations/0001_profiles.sql` w Supabase Dashboard → SQL Editor.
+3. Włączenie dostawców Google/Apple w Supabase Dashboard → Authentication → Providers (wymaga
+   danych OAuth z Google Cloud Console / Apple Developer Program — **99 USD/rok**, 18.2 — koszt
+   realny, nie tylko konfiguracyjny, do rozważenia zanim się włączy).
+4. Model grupy współdzielonej (18.7), rozwiązywanie konfliktu synchronizacji (18.14, wzorzec
+   opcjonalny) — żadnego z tego projekt jeszcze nie potrzebuje (brak danych do synchronizacji w
+   ogóle, poza tym co dziś żyje lokalnie w IndexedDB, patrz sekcja `usePersistedDraft` wyżej).
+   `docs/lista-do-zrobienia.md` ma wpis na kolejny krok.
+
+**Lekcja procesowa:** rozdz. 18 to pierwsza niezgodność z tej listy czterech, która jest naprawdę
+blokowana na zewnętrznym zasobie (konto Supabase), nie na decyzji projektowej czy nakładzie pracy
+— i18n/AI-kontrakt/freemium da się zaplanować i częściowo wdrożyć bez niczyjej zewnętrznej akcji,
+logowanie nie. Warto to rozpoznawać wcześniej (przed pisaniem kodu), nie w trakcie.

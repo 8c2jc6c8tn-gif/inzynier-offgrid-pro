@@ -3,6 +3,7 @@
 import Link from "next/link"
 import { useSyncExternalStore } from "react"
 import { Button } from "@/components/ui/button"
+import { KontoSekcja } from "@/components/konto-sekcja"
 import { CzcionkaEdytor } from "@/components/czcionka-edytor"
 import { KolorGrupaEdytor } from "@/components/kolor-grupa-edytor"
 import { ThemeToggle } from "@/components/theme-toggle"
@@ -143,6 +144,8 @@ export default function UstawieniaPage() {
           <CzcionkaEdytor />
         </div>
       </div>
+
+      <KontoSekcja />
     </main>
   )
 }

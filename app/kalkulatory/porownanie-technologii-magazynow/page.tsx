@@ -8,6 +8,7 @@ import { WerdyktPanel } from "@/components/werdykt"
 import { NawigacjaEkranu } from "@/components/nawigacja-ekranu"
 import { KartaPorownawcza, type Kolumna } from "@/components/wzorce/karta-porownawcza"
 import { NaglowekEkranu } from "@/components/wzorce/naglowek-ekranu"
+import { t } from "@/lib/i18n/t"
 
 type Tech = ReturnType<typeof calculatePorownanieTechnologii>["value"][number]
 
@@ -65,8 +66,8 @@ export default function PorownanieTechnologiiMagazynowPage() {
 
       {result.assumptions.length > 0 && (
         <ul className="text-small text-muted-foreground">
-          {result.assumptions.map((a) => (
-            <li key={a}>Założenie: {a}</li>
+          {result.assumptions.map((a, i) => (
+            <li key={typeof a === "string" ? a : a.kod + i}>Założenie: {typeof a === "string" ? a : t(a.kod, a.params)}</li>
           ))}
         </ul>
       )}

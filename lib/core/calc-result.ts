@@ -17,13 +17,31 @@ export type Warning = {
   /** Krótki, stabilny identyfikator (np. "FALOWNIK-NISKIE-OBCIAZENIE") — do testów i rejestru. */
   code: string
   level: WarningLevel
-  /** Komunikat "po ludzku", konkretny, bez straszenia (docs/standards/08-ui-ux.md, 8.8). */
-  message: string
-  /** Uzasadnienie techniczne/fizyczne — nigdy "błąd walidacji" bez treści. */
+  /**
+   * @deprecated Migracja i18n w toku (docs/standards/17-i18n.md, 17.2 — kolizja rozstrzygnięta
+   * 15.09.2026). Moduł niezmigrowany zwraca tu gotowy tekst PL — to nie błąd, to świadomy stan
+   * przejściowy (17.9: migracja moduł po module, nigdy big bang), patrz docs/memory.md. Moduł
+   * zmigrowany pomija to pole; warstwa prezentacji rozwiązuje `i18nKey ?? code` przez `lib/i18n/t()`.
+   * Nie dodawaj tego pola w nowym/migrowanym kodzie.
+   */
+  message?: string
+  /** Klucz słownika tłumaczeń (17.2), gdy różny od `code` — np. `code` jest dynamiczny per pole
+   *  (`"${field}-NIEDODATNI"`), a treść komunikatu jest wspólna dla wielu pól. Tylko moduły zmigrowane. */
+  i18nKey?: string
+  /** Parametry do podstawienia w szablonie `{param}` ze słownika (`lib/i18n/t()`). Tylko moduły zmigrowane. */
+  params?: Record<string, string | number>
+  /** Uzasadnienie techniczne/fizyczne — nigdy "błąd walidacji" bez treści. Nie podlega i18n (17.2/04-PATCH). */
   technicalMessage: string
   /** Pole lub część wyniku, której dotyczy ostrzeżenie (opcjonalne). */
   field?: string
 }
+
+/**
+ * Jedna pozycja `CalcResult.assumptions` — docs/standards/17-i18n.md, 03-PATCH 15.09.2026.
+ * `string`: moduł niezmigrowany, gotowy tekst PL (stan przejściowy, 17.9).
+ * `{kod, params}`: moduł zmigrowany — warstwa prezentacji rozwiązuje przez `lib/i18n/t(kod, params)`.
+ */
+export type Assumption = string | { kod: string; params?: Record<string, string | number> }
 
 export type CalcResult<T> = {
   value: T
@@ -34,7 +52,7 @@ export type CalcResult<T> = {
   /** Wartości wejściowe faktycznie użyte do obliczenia. */
   inputs: Record<string, number>
   /** Przyjęte założenia, np. "η falownika = 0,92 (wartość domyślna)". */
-  assumptions: string[]
+  assumptions: Assumption[]
   warnings: Warning[]
   /** Wersja kalkulatora/metody — rośnie przy zmianie wzoru (docs/standards/14, rejestr pokrycia). */
   calculatorVersion: string

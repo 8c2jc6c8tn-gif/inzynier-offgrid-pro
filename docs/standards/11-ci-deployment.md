@@ -23,3 +23,9 @@ Powiązane: [10 Testy](10-testy.md) · [14 Proces i pamięć](14-proces-i-pamiec
 ## 11.4. Świadomość dodatkowych branchy narzędziowych
 
 Niektóre narzędzia startowe (np. generatory projektów, buildery wizualne) tworzą własne, dodatkowe branche jako punkt odniesienia dla swoich wdrożeń, poza normalnym przepływem PR-ów zespołu. Przypadkowe usunięcie takiego brancha potrafi zerwać integrację niezależnie od treści commitów w PR-ach zespołu. Jeśli projekt startuje z takiego narzędzia — odnotuj ten fakt w `docs/memory.md` od razu, zanim ktoś (człowiek lub AI) "posprząta" branch wyglądający na nieużywany.
+
+## 11.5. Skanowanie podatności zależności w CI
+
+[15.09.2026] ✅ DODANO — źródło: właściciel repo, audyt zabezpieczenia sesji (rozdz. 07). **Reguła.** CI uruchamia audyt podatności zależności (`npm audit`/`pnpm audit`/Dependabot albo równoważnik menedżera pakietów z 11.1) na każdym PR, tym samym mechanizmem co lint/typecheck/testy (11.2) — nie tylko ręcznie od czasu do czasu. Podatność o poziomie krytycznym/wysokim w bezpośredniej zależności blokuje merge, chyba że świadomie zaakceptowana i odnotowana (z powodem — np. brak dostępnej łatki, ryzyko nie dotyczy sposobu użycia biblioteki w tym projekcie) w `docs/memory.md`.
+
+**Uzasadnienie.** Ten sam powód co 11.2 — poleganie na tym, że "ktoś kiedyś zauważy" ostrzeżenie w logu instalacji albo w dashboardzie zewnętrznej usługi, zamiast na jawnym, wymuszonym sygnale w CI, systematycznie kończy się tym, że znana, załatana podatność siedzi w produkcji miesiącami.

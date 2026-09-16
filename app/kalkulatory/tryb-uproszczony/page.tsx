@@ -6,6 +6,7 @@ import { WerdyktPanel } from "@/components/werdykt"
 import { Pole } from "@/components/ui/pole"
 import { NaglowekEkranu } from "@/components/wzorce/naglowek-ekranu"
 import { NawigacjaEkranu } from "@/components/nawigacja-ekranu"
+import { t } from "@/lib/i18n/t"
 
 export default function TrybUproszczonyPage() {
   const [pojemnoscAh, setPojemnoscAh] = useState("100")
@@ -68,8 +69,8 @@ export default function TrybUproszczonyPage() {
 
         {result.assumptions.length > 0 && (
           <ul className="mt-2 text-small opacity-90">
-            {result.assumptions.map((a) => (
-              <li key={a}>Założenie: {a}</li>
+            {result.assumptions.map((a, i) => (
+              <li key={typeof a === "string" ? a : a.kod + i}>Założenie: {typeof a === "string" ? a : t(a.kod, a.params)}</li>
             ))}
           </ul>
         )}

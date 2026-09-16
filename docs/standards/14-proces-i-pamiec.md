@@ -8,6 +8,8 @@ Powiązane: [00 Filozofia](00-filozofia.md) · [15 Współpraca z AI](15-wspolpr
 
 **Reguła.** Każda wersja dokumentu zasad/standardu i danych ma metryczkę (liczba rozdziałów/funkcji/sekcji, gdzie ma to zastosowanie). **Żadnej funkcji/reguły nie wolno usunąć ani pominąć bez jawnego potwierdzenia zapisanego w dzienniku zmian.** Rejestr pokrycia (dla projektów z dużą liczbą funkcji domenowych): status `todo / in-progress / done` per pozycja, mapowany po identyfikatorze ze specyfikacji źródłowej.
 
+[15.09.2026] ✅ DODANO — źródło: inzynier-offgrid-pro, integracja z rozdz. 09 (AI w produkcie). Pozycja rejestru może dodatkowo nieść opcjonalne pole `zaproponowaneBy: "ai" | "czlowiek"`, gdy pierwszy szkic zasugerował asystent AI działający w produkcie (rozdział 09.10, nie AI piszące kod — rozdział 15). Czysto informacyjne — nie zwalnia z decyzji człowieka o wdrożeniu.
+
 ## 14.2. Dziennik zmian — jawna korekta, nigdy ciche nadpisanie
 
 **Reguła.** Gdy wcześniejsza decyzja okazuje się błędna lub nieaktualna, **nie usuwa się jej z dokumentu**. Zamiast tego: stara decyzja zostaje, oznaczona jako zastąpiona, obok pojawia się nowa decyzja z datą i uzasadnieniem korekty.

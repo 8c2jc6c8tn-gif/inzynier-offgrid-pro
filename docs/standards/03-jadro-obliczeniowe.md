@@ -30,6 +30,12 @@ type CalcResult<T> = {
 
 **Konsekwencja.** Zakaz "magicznych liczb" w kodzie. Wszystkie stałe (współczynniki, tolerancje, progi) pochodzą z nazwanych stałych lub z profilu kontekstowego (rozdział 02), nigdy nie są wpisane wprost w środku wzoru/reguły.
 
+[05.09.2026] ✅ DODANO — źródło: inzynier-szkieletowy-pro, przyniesione przez właściciela projektu. **Wynik bogaty, wielopolowy.** `CalcResult<T>` powyżej modeluje kalkulator zwracający jedną wartość skalarną — jeden wzór, jedna jednostka, jeden zestaw założeń. Gdy funkcja domenowa zwraca wiele różnotypowych wartości naraz (różne jednostki, różne wzory dla każdego pola — silnik z dziesiątkami wyliczeń na moduł, nie pojedynczy kalkulator), dosłowne opakowanie całego wyniku w jeden `CalcResult<T>` fałszywie sugerowałoby jeden `formula`/`unit`/`inputs` na cały wynik; opakowanie każdego pola osobno oznaczałoby dublowanie tych samych `inputs`/`assumptions` dziesiątki razy zamiast jednego źródła danych — więcej kodu i więcej okazji do rozjazdu, nie mniej.
+
+Dozwolony wariant dla tego przypadku: `formula`/`assumptions` opisane w dokumentacji modułu (nie jako pole runtime per wartość), `inputs` odtwarzalne z aktualnego kontekstu/Seed (dopuszczalne tylko tam, gdzie wynik zawsze odzwierciedla bieżące dane — nigdy nie jest przechowywany obok już nieaktualnych danych wejściowych), `status`/`warnings` w bogatszej strukturze walidacji niż pojedynczy `Warning[]` (rozdział 04). **Niezależnie od wybranego kształtu — jednowartościowego `CalcResult<T>` czy bogatego wielopolowego — `calculatorVersion` i `traceId` (3.6) muszą istnieć przy wyniku każdego nietrywialnego modułu.** Ich brak nie jest usprawiedliwiony bogatym kształtem wyniku; to jedyne dwa pola niezależne od tego, ile wartości i jakich jednostek wynik faktycznie niesie.
+
+[15.09.2026] ✅ DODANO — źródło: integracja z rozdz. 17 (i18n), kolizja zgłoszona przez inzynier-offgrid-pro. **`assumptions` i i18n.** `assumptions: string[]` w kontrakcie wyżej nie może być gotowym tekstem w jednym języku — koliduje z 01.1 (i18n jako czysta funkcja domenowa). Domenowa funkcja zwraca zamiast tego strukturę `{kod: string, params?: Record<string, number | string>}[]`; tłumaczenie na tekst dla użytkownika dzieje się wyłącznie w warstwie prezentacji, przez odczyt `kod` ze słownika (17.2). `formula` pozostaje bez zmian, gdy jest notacją symboliczną/LaTeX (językowo neutralną z natury); ten sam wymóg klucza dotyczy `formula` tylko wtedy, gdy w konkretnym module jest opisową prozą, nie zapisem symbolicznym.
+
 ## 3.3. Status wyniku
 
 | Status | Znaczenie |

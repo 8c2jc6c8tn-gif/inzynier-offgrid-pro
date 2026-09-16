@@ -15,9 +15,7 @@ describe("Ekran 16 (Moduł 2): Kalkulatory pomocnicze", () => {
       expect(result.status).toBe("VALID")
       expect(result.unit).toBe("A")
       expect(result.value).toBeCloseTo(100 / (12 * EFFICIENCY_DEFAULT), 6)
-      expect(result.assumptions).toContain(
-        `Sprawność układu przyjęta jako ${EFFICIENCY_DEFAULT} (wartość domyślna, nie zmierzona).`,
-      )
+      expect(result.assumptions).toContainEqual({ kod: "SPRAWNOSC-DOMYSLNA", params: { efficiency: EFFICIENCY_DEFAULT } })
       expect(result.warnings).toHaveLength(0)
     })
 

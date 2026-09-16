@@ -18,6 +18,8 @@ Dla projektów potrzebujących większej granulacji przy komunikatach nie-bezpie
 
 Struktura pojedynczego ostrzeżenia: kod, poziom, komunikat dla użytkownika ("po ludzku"), komunikat techniczny, pole/wynik którego dotyczy, zalecana czynność.
 
+[15.09.2026] ✅ DODANO — źródło: integracja z rozdz. 17 (i18n), kolizja zgłoszona przez inzynier-offgrid-pro. **`kod` jako jedyny output domenowy.** Domenowa funkcja generująca ostrzeżenie zwraca wyłącznie `kod` — nigdy gotowy `komunikat dla użytkownika`. Ten komunikat jest wygenerowany dopiero w warstwie prezentacji, odczytem `kod` ze słownika tłumaczeń (17.2), tak samo jak `komunikat techniczny` pozostaje wewnętrzny/deweloperski i nie podlega i18n. Bez tego rozróżnienia domenowa funkcja produkowałaby twardy tekst w jednym języku, kolidując z 01.1.
+
 **Reguła priorytetu.** Ostrzeżenia nigdy nie zmieniają statusu wyniku (3.3) same z siebie. Priorytet stanu widżetu/ekranu: `BŁĄD > NIEKOMPLETNE > OK`.
 
 ## 4.2. Kontrakt wyniku prezentacyjnego (Kontrakt Widżetu)
@@ -55,3 +57,5 @@ Każda pozycja odsyła do modułu/ekranu, w którym warunek jest faktycznie spra
 ## 4.5. Walidacja wielowarstwowa
 
 **Reguła.** Waliduj: zakresy, jednostki, wartości zerowe/ujemne tam gdzie nie mają sensu domenowego, zależności między polami, kompletność danych, zgodność wersji schematu danych (rozdział 02). **Walidacja interfejsu nigdy nie zastępuje walidacji domenowej** — ta sama reguła musi obowiązywać niezależnie od tego, przez jaką warstwę prezentacji dane wejdą (formularz, API, import pliku, głos).
+
+[15.09.2026] ✅ DODANO — źródło: właściciel repo, kontynuacja audytu zabezpieczenia sesji (18.5/7.3). **Granica względem sanityzacji bezpieczeństwa.** Ta sekcja dotyczy wyłącznie **poprawności domenowej** wejścia (czy wartość ma sens w domenie projektu) — nie **bezpieczeństwa** treści (czy wejście może wykonać się jako kod w cudzej przeglądarce, XSS). 7.1 odsyłał tu błędnie jako do źródła "sanityzacji" — sanityzacja przeciw wstrzyknięciom jest osobnym tematem, rozdział 7.7. Te dwie walidacje nie zastępują się nawzajem: pole może przejść 4.5 (liczba w poprawnym zakresie) i nadal być wektorem ataku, jeśli trafi do UI bez odpowiedniego escapowania (dotyczy głównie pól tekstowych, nie liczbowych — ale nazwy/opisy/notatki wpisywane przez użytkownika są tu typowym przypadkiem).

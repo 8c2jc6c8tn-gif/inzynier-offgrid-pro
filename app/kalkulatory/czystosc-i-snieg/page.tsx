@@ -8,6 +8,7 @@ import {
 import { Pole, PoleCheckbox } from "@/components/ui/pole"
 import { WerdyktPanel } from "@/components/werdykt"
 import { NaglowekEkranu } from "@/components/wzorce/naglowek-ekranu"
+import { t } from "@/lib/i18n/t"
 import { SekcjaAkordeon } from "@/components/wzorce/sekcja-akordeon"
 import { cn } from "@/lib/utils"
 import { NawigacjaEkranu } from "@/components/nawigacja-ekranu"
@@ -98,9 +99,9 @@ export default function CzystoscISniegPage() {
                 className="p-3 text-small"
               >
                 <p className="mt-1">{harmonogramResult.value.powod}</p>
-                {harmonogramResult.assumptions.map((a) => (
-                  <p key={a} className="mt-1 opacity-80">
-                    Założenie: {a}
+                {harmonogramResult.assumptions.map((a, i) => (
+                  <p key={typeof a === "string" ? a : a.kod + i} className="mt-1 opacity-80">
+                    Założenie: {typeof a === "string" ? a : t(a.kod, a.params)}
                   </p>
                 ))}
               </WerdyktPanel>
