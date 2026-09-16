@@ -1,0 +1,79 @@
+"use client"
+
+/**
+ * Asystent AI (docs/standards/09-ai-w-produkcie.md, 9.9 — "czat swobodny") — pierwsza realna
+ * integracja rozdziału 9. Renderuje się na coś tylko, gdy `isAiAvailable()` zwróci `true` (9.0 —
+ * bezpieczna degradacja w milczeniu, ten sam wzorzec co `KontoSekcja`/Supabase). Pojedyncze
+ * pytanie-odpowiedź, bez pamięci rozmowy (9.7 — świadome uproszczenie pierwszego kroku, nie
+ * pominięcie: brak dziś miejsca w stanie projektu, do którego decyzje z czatu miałyby trafić).
+ */
+import { useEffect, useState } from "react"
+import { Button } from "@/components/ui/button"
+import { Pole } from "@/components/ui/pole"
+import { isAiAvailable } from "@/lib/ai/is-ai-available"
+import { pytajAsystenta } from "@/lib/ai/pytaj-asystenta"
+
+export function AsystentAi() {
+  const [dostepny, setDostepny] = useState(false)
+  const [sprawdzono, setSprawdzono] = useState(false)
+  const [pytanie, setPytanie] = useState("")
+  const [wysylanie, setWysylanie] = useState(false)
+  const [odpowiedz, setOdpowiedz] = useState<string | null>(null)
+  const [zrodlo, setZrodlo] = useState<string | null>(null)
+  const [blad, setBlad] = useState<string | null>(null)
+
+  useEffect(() => {
+    isAiAvailable().then((wynik) => {
+      setDostepny(wynik)
+      setSprawdzono(true)
+    })
+  }, [])
+
+  if (!sprawdzono || !dostepny) return null
+
+  async function wyslij() {
+    setWysylanie(true)
+    setBlad(null)
+    setOdpowiedz(null)
+    const wynik = await pytajAsystenta(pytanie)
+    setWysylanie(false)
+    if ("blad" in wynik) {
+      setBlad(wynik.blad)
+      return
+    }
+    setOdpowiedz(wynik.odpowiedz)
+    setZrodlo(wynik.zrodlo ?? null)
+  }
+
+  return (
+    <section className="flex flex-col gap-3 rounded-lg border p-4">
+      <h2 className="text-small font-semibold uppercase tracking-wide text-muted-foreground">
+        Zapytaj asystenta
+      </h2>
+      <p className="text-caption text-muted-foreground">
+        Asystent liczy wyłącznie przez prawdziwy kalkulator — nie zgaduje wartości.
+      </p>
+      <Pole
+        label="Pytanie"
+        placeholder="np. Jaki prąd popłynie przy mocy 400W i napięciu 24V?"
+        value={pytanie}
+        onChange={(e) => setPytanie(e.target.value)}
+        disabled={wysylanie}
+      />
+      <Button type="button" onClick={wyslij} disabled={wysylanie || !pytanie.trim()}>
+        {wysylanie ? "Pytam…" : "Zapytaj"}
+      </Button>
+      {blad && (
+        <p role="alert" className="text-small text-werdykt-blad-foreground">
+          {blad}
+        </p>
+      )}
+      {odpowiedz && (
+        <div className="flex flex-col gap-1 rounded-md bg-muted/60 p-3 text-small">
+          <p>{odpowiedz}</p>
+          {zrodlo && <p className="text-caption text-muted-foreground">Źródło: kalkulator v{zrodlo}</p>}
+        </div>
+      )}
+    </section>
+  )
+}

@@ -4049,3 +4049,45 @@ to repo w zasięgu z innego powodu. Dla tego projektu jedyny legalny wyjście st
     drugą stronę (twierdzą "nie ma", a jest).
 
   Następny krok (na wyraźne polecenie): rozdz. 9 (AI w produkcie), patrz kolejny wpis.
+
+- **2026-09-16 — Rozdz. 9 (AI w produkcie): pierwsza realna integracja, "Zapytaj asystenta" na
+  `/kalkulatory/pomocnicze`.** Zakres celowo wąski (ten sam rytm co rollout i18n, 17.9: moduł po
+  module, nie big bang) — jedno narzędzie AI, jeden ekran pilotażowy. Decyzje warte zapamiętania:
+
+  - **`@anthropic-ai/sdk` 0.126.0 (aktualnie zainstalowana wersja) nie ma jeszcze beta Tool
+    Runnera ani `betaZodTool`/`client.beta.messages.toolRunner`** — zweryfikowane wprost przez
+    `find`/`grep` w `node_modules` przed napisaniem kodu (nie zgadywane z priorów treningowych,
+    zgodnie z dyscypliną skilla `claude-api`: "Never guess SDK usage"). Zamiast tego użyto w pełni
+    udokumentowanego, stabilnego wzorca ręcznej pętli agentowej (manual agentic loop) z tego
+    samego skilla. **Jeśli w przyszłości SDK zostanie zaktualizowane**, warto rozważyć migrację na
+    Tool Runner (mniej kodu do utrzymania) — nie zrobione teraz świadomie, nie przeoczenie.
+  - **`z.toJSONSchema()`** (Zod v4, już zależność projektu) generuje `Anthropic.Tool.InputSchema`
+    bezpośrednio ze schematu Zod narzędzia — bez dodatkowej biblioteki/helpera. `Tool.InputSchema`
+    ma indeks `[k: string]: unknown`, więc toleruje dodatkowe pole `$schema`, które Zod dokłada.
+  - **Rejestr narzędzi AI jest z natury heterogeniczny** (różne `TInput`/`TOutput` per narzędzie)
+    — próba otypowania tablicy rejestru jako `AiToolDefinition<never, never>` dała błędy wariancji
+    TypeScript (`TS2352`/`TS2345`). Rozwiązanie: `AiToolDefinition<any, any>` na granicy rejestru
+    (`lib/ai/types.ts`, `lib/ai/to-anthropic-tool.ts`, `lib/ai/pytaj-asystenta.ts`), z komentarzem
+    uzasadniającym + `eslint-disable-next-line @typescript-eslint/no-explicit-any` — pojedyncza
+    definicja narzędzia (np. `kalkulatoryPomocniczeTool`) zostaje w pełni typowana w swoim miejscu
+    deklaracji, `any` jest tylko wymazaniem typu na granicy, nie utratą bezpieczeństwa.
+  - **Pułapka złapana przy pierwszym podejściu:** `eslint-disable-next-line` wyłącza regułę
+    wyłącznie dla linii bezpośrednio pod dyrektywą — komentarz wyjaśniający w 2-3 liniach
+    umieszczony NAD dyrektywą (zamiast pod nią, tuż nad kodem) sprawia, że dyrektywa "next line"
+    trafia w kolejną linię komentarza, nie w kod, i `pnpm lint` zgłasza jednocześnie "unused
+    eslint-disable directive" ORAZ oryginalny błąd `no-explicit-any` na tej samej linii. Poprawny
+    wzorzec: wyjaśnienie jako zwykłe komentarze, `eslint-disable-next-line` jako **ostatnia** linia
+    tuż przed kodem, którego dotyczy.
+  - `eslint.config.mjs` (presety `eslint-config-next/core-web-vitals` + `.../typescript`) **ma
+    aktywną regułę `@typescript-eslint/no-explicit-any` jako błąd** (nie tylko warning) — mimo że
+    nie widać jej jawnie w pliku configu (dziedziczona z presetu). Sprawdzone programistycznie
+    (`pnpm lint`), nie zgadywane z samej treści configu.
+  - **9.4 (obrona przed prompt injection) rozstrzygnięta jako dziś niskie ryzyko, nie pominięta:**
+    jedyny wektor wejścia to tekst pytania użytkownika, już traktowany jako zwykły `tool_result`/
+    `user` content w kolejnej turze pętli, nigdy nie wstrzykiwany do `system`. Ryzyko wzrośnie,
+    gdy pojawi się import zdjęć/dokumentów (AI_CAMERA-owy wzorzec z planu) — wtedy 9.4 wymaga
+    ponownego przejrzenia.
+  - Świadomie odłożone (nie przeoczenie): więcej narzędzi/ekranów AI, `AiMode` (9.6) nie
+    podłączony do trwałego stanu (dziś tylko `CLOUD_ASSISTED` ma sens — brak modelu lokalnego),
+    pamięć rozmowy czatu (9.7), budżet/limity zapytań (9.8). Pełny zakres i lista plików:
+    `docs/lista-do-zrobienia.md`.
