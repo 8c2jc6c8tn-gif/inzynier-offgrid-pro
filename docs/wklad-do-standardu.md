@@ -201,4 +201,6 @@ odkrywa te same pułapki od zera (włączenie bramki audytu bez sprawdzenia najp
 AST dla guardu i18n, brak testu na prawdziwym wzorcu warunkowym) — dokładnie to, co już się
 zdarzyło w TYM projekcie mimo że reguła była znana od dnia wcześniej.
 
-Status: 🔎 nowe
+Status: ✅ przekazane do new-app-standards (16.09.2026) — skonsolidowane jako nowe `docs/przyklady/ci/`
+i `docs/przyklady/i18n/` + podsekcje 11.6/17.11, PR: https://github.com/8c2jc6c8tn-gif/new-app-standards/pull/9
+(otwarty, czeka na merge właściciela repo).
