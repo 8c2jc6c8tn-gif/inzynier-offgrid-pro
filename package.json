@@ -12,7 +12,8 @@
     "test:watch": "vitest",
     "lint": "eslint .",
     "typecheck": "tsc --noEmit",
-    "check:i18n-guard": "node scripts/check-i18n-guard.mjs"
+    "check:i18n-guard": "node scripts/check-i18n-guard.mjs",
+    "audit:gate": "node scripts/audit-gate.mjs"
   },
   "dependencies": {
     "@base-ui/react": "^1.8.0",

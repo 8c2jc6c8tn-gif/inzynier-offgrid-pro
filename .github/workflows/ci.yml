@@ -51,7 +51,10 @@ jobs:
 
       - run: pnpm install --frozen-lockfile
 
-      # Poziom "high" — krytyczne/wysokie w zależności bezpośredniej blokują merge (11.5).
-      # Świadomie zaakceptowane wyjątki: odnotować w docs/memory.md z powodem, nie wyciszać
-      # tutaj bez śladu.
-      - run: pnpm audit --audit-level=high
+      # 11.5 dosłownie: podatność high/critical w zależności BEZPOŚREDNIEJ blokuje merge,
+      # tranzytywne tylko informacyjnie. `pnpm audit --audit-level=high` sam blokowałby też
+      # na tranzytywnych (szerszy zakres niż reguła wymaga) — scripts/audit-gate.mjs filtruje
+      # po package.json (pnpm audit --json nie ma pola isDirect jak npm, patrz komentarz w
+      # skrypcie i docs/przyklady/ci/README.md). Świadomie zaakceptowane wyjątki: odnotować
+      # w docs/memory.md z powodem, nie wyciszać tutaj bez śladu.
+      - run: pnpm audit:gate

@@ -191,3 +191,9 @@ Tu trafia bieżący stan pracy: co w trakcie, co zablokowane, co następne — a
   `AKTUALIZACJE.md`, dotyczy wyłącznie wewnętrznego mechanizmu `new-app-standards` (live-test
   Routine U.4), zero nowej reguły dla tego projektu. Plik GOD BOOK nadpisany pod nową nazwą,
   odsyłacze poprawione. Szczegóły: `docs/memory.md`.
+- ✅ (2026-09-16) **Rozstrzygnięte: wariant B — zgodnie z dosłownym 11.5.** `scripts/audit-gate.mjs`
+  (adaptacja `docs/przyklady/ci/audit-gate.mjs` z npm/`isDirect` na pnpm/`package.json` — `pnpm
+  audit --json` nie ma pola `isDirect`, sprawdzone wprost w bundlu pnpm) + `pnpm audit:gate`
+  zastępuje `pnpm audit --audit-level=high` w `.github/workflows/ci.yml`. Blokuje merge tylko na
+  high/critical w zależności bezpośredniej, tranzytywne informacyjnie. Szczegóły weryfikacji:
+  `docs/memory.md`.
