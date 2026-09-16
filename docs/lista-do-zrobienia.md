@@ -161,6 +161,14 @@ Tu trafia bieżący stan pracy: co w trakcie, co zablokowane, co następne — a
   3. (Opcjonalnie, koszt: Google — darmowe, Apple — **99 USD/rok**) Włącz dostawców w Supabase
      Dashboard → Authentication → Providers.
   Po tym logowanie działa bez żadnych zmian w kodzie. Szczegóły: `docs/memory.md`.
+  **Aktualizacja (2026-09-16, na polecenie "Zajmij się logowaniem i kontami"):** audyt szkieletu
+  względem pełnej treści rozdz. 18 znalazł i naprawił dwie realne luki bez potrzeby realnych
+  kluczy Supabase — **18.5 (`@supabase/ssr` domyślnie `httpOnly: false`, `createBrowserClient`
+  usunięty)** i **18.8 (usuwanie konta, było całkowicie nieobecne — dodany szkielet z kluczem
+  service role, tak samo bezpiecznie zdegradowany bez realnych danych jak reszta)**. Kroki 1–3
+  wyżej wciąż aktualne i niezmienione — to wciąż jedyne, co blokuje żywe logowanie. Dwa zgłoszenia
+  do `docs/wklad-do-standardu.md` (konflikt 18.4/18.5 dla `createBrowserClient`, otwarte pytanie o
+  Server Actions vs token CSRF). Szczegóły: `docs/memory.md`.
 - ✅ (2026-09-16) **Luka "brak CI" (11.2/11.5) zamknięta.** `.github/workflows/ci.yml` — dwa
   niezależne joby na każdym PR + push na `main`: `quality` (lint/typecheck/test/build) i
   `dependency-audit` (`pnpm audit --audit-level=high`, 11.5). Przy tej okazji zaktualizowano
