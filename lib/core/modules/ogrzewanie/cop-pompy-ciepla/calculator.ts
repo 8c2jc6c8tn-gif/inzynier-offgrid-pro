@@ -36,10 +36,7 @@ export function calculateCopPompyCiepla(input: CopPompyCieplaInput): CalcResult<
     status: warnings.length > 0 ? "VALID_WITH_WARNINGS" : "VALID",
     formula: FORMULA,
     inputs,
-    assumptions: [
-      "COP zależy od temperatury zewnętrznej — podana wartość dotyczy tylko aktualnych warunków, " +
-        "nie jest stała przez cały sezon (patrz krzywa COP producenta).",
-    ],
+    assumptions: [{ kod: "COP-ZALEZY-OD-TEMPERATURY" }],
     warnings,
     calculatorVersion: CALCULATOR_VERSION,
   }

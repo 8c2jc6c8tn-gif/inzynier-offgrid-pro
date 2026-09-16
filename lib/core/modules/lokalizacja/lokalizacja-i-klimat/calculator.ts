@@ -59,10 +59,7 @@ export function calculateLokalizacja(input: LokalizacjaInput): CalcResult<Lokali
     status: "VALID",
     formula: "",
     inputs,
-    assumptions: [
-      "Dane nasłonecznienia/strefy klimatycznej wymagają docelowo integracji z PVGIS/PVWatts " +
-        "(online) — w tym kroku dostępny jest tylko tryb offline z ręcznym wpisaniem temperatury minimalnej.",
-    ],
+    assumptions: [{ kod: "DANE-KLIMATYCZNE-TRYB-OFFLINE" }],
     warnings: [],
     calculatorVersion: CALCULATOR_VERSION,
   }

@@ -34,6 +34,44 @@ describe("t", () => {
   })
 })
 
+describe("t — klucze zmigrowane 16.09.2026 (systemy-podtrzymania-zycia, cop-pompy-ciepla, lokalizacja-i-klimat)", () => {
+  const kluczeZParametrami: Record<string, Record<string, string | number>> = {
+    "WARTOSC-POZA-ZAKRESEM": { label: "szerokość geograficzna", min: -90, max: 90 },
+    "POZYCJA-NIEDODATNIA": { label: "Router" },
+    "POZYCJA-WARTOSC-DOMYSLNA": { label: "Router", value: 15 },
+    "COP-POZA-ZAKRESEM": { min: 1, max: 8 },
+  }
+  const kluczeBezParametrow = ["BRAK-ZAZNACZONYCH", "MOC-CIEPLNA-NIETYPOWO-WYSOKA", "COP-ZALEZY-OD-TEMPERATURY", "DANE-KLIMATYCZNE-TRYB-OFFLINE"]
+
+  it("klucze z parametrami: podstawiają wartości i różnią się między językami w każdym", () => {
+    for (const [kod, params] of Object.entries(kluczeZParametrami)) {
+      const pl = t("pl", kod, params)
+      const en = t("en", kod, params)
+      const ru = t("ru", kod, params)
+      for (const wartosc of Object.values(params)) {
+        expect(pl).toContain(String(wartosc))
+        expect(en).toContain(String(wartosc))
+        expect(ru).toContain(String(wartosc))
+      }
+      expect(pl).not.toBe(en)
+      expect(pl).not.toBe(ru)
+      expect(en).not.toBe(ru)
+    }
+  })
+
+  it("klucze bez parametrów: tekst istnieje i różni się między językami", () => {
+    for (const kod of kluczeBezParametrow) {
+      const pl = t("pl", kod)
+      const en = t("en", kod)
+      const ru = t("ru", kod)
+      expect(pl.length).toBeGreaterThan(0)
+      expect(pl).not.toBe(en)
+      expect(pl).not.toBe(ru)
+      expect(en).not.toBe(ru)
+    }
+  })
+})
+
 describe("dictionaries — parytet kluczy", () => {
   it("każdy język ma dokładnie ten sam zestaw kluczy co polski", () => {
     const kluczePl = Object.keys(dictionaries.pl).sort()

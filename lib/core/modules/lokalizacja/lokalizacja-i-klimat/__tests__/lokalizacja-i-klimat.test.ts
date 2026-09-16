@@ -49,4 +49,24 @@ describe("calculateLokalizacja", () => {
     })
     expect(result.status).toBe("INVALID_INPUT")
   })
+
+  it("i18n (17.2): warning ma i18nKey/params, nie gotowy tekst PL", () => {
+    const result = calculateLokalizacja({
+      szerokoscGeograficzna: 120,
+      dlugoscGeograficzna: 21.0,
+      temperaturaMinimalnaC: -22,
+    })
+    expect(result.warnings[0].i18nKey).toBe("WARTOSC-POZA-ZAKRESEM")
+    expect(result.warnings[0].params).toEqual({ label: "szerokość geograficzna", min: -90, max: 90 })
+    expect(result.warnings[0].message).toBeUndefined()
+  })
+
+  it("i18n (17.2): assumption to {kod}, nie gotowy tekst PL", () => {
+    const result = calculateLokalizacja({
+      szerokoscGeograficzna: 52.2,
+      dlugoscGeograficzna: 21.0,
+      temperaturaMinimalnaC: -22,
+    })
+    expect(result.assumptions).toEqual([{ kod: "DANE-KLIMATYCZNE-TRYB-OFFLINE" }])
+  })
 })
