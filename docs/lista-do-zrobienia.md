@@ -147,3 +147,10 @@ Tu trafia bieżący stan pracy: co w trakcie, co zablokowane, co następne — a
   `dependency-audit` (`pnpm audit --audit-level=high`, 11.5). Przy tej okazji zaktualizowano
   zależności i naprawiono 22 podatności `high` wykryte przy pierwszym uruchomieniu audytu (audyt
   dziś: 0 wykrytych). Szczegóły procesu i decyzji: `docs/memory.md`.
+- ✅ (2026-09-16) **Luka "brak mechanizmu strażniczego i18n" (17.9) zamknięta.**
+  `scripts/check-i18n-guard.mjs` (parsowanie AST, nie regex) blokuje w CI regresję na modułach już
+  zmigrowanych (dziś: `kalkulatory-pomocnicze`) — nowy `message`/gołe stringi w `assumptions`. Przy
+  tej okazji rozpatrzono i **odrzucono** zmianę kluczy i18n na angielski (17.1 dopuszcza wyjątek —
+  cały projekt już ma polską konwencję `Warning.code`, zmiana rozbiłaby ją na dwie równoległe bez
+  korzyści funkcjonalnej). **Ważne dla przyszłych migracji:** dopisz nowy moduł do
+  `MIGRATED_MODULES` w tym samym kroku, w którym go migrujesz. Szczegóły: `docs/memory.md`.
