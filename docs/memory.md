@@ -265,9 +265,14 @@ konkretnych potrzebnych tabel + kod kalkulatora, po kolei małymi partiami zgodn
   Dodane `packageManager: "pnpm@10.33.0"` do `package.json` (wzmacnia 11.1 — jawna, reprodukowalna
   wersja menedżera pakietów w CI, nie tylko lockfile). Jeden lockfile (`pnpm-lock.yaml`) — bez zmian
   w tej zasadzie, tylko zaktualizowany.
-  **Poza zakresem tej zmiany, świadomie:** `moderate`/`low` z tego samego audytu (18+3, wciąż
-  obecne po aktualizacji) — 11.5 blokuje merge tylko na `high`/krytyczne, niższe poziomy nie są
-  bramką CI; jeśli właściciel projektu chce zaostrzyć próg, to osobna decyzja.
+  **Korekta tego samego dnia:** poprzednia wersja tego wpisu twierdziła, że `moderate`/`low`
+  (18+3) zostały świadomie zostawione — nieprawdziwe, nie zweryfikowane wystarczająco (sprawdzony
+  był tylko `pnpm audit --audit-level=high`, nie pełny `pnpm audit` bez filtra poziomu). Pełny
+  `pnpm audit` (bez `--audit-level`) po tym samym `pnpm update` daje **0 podatności wszystkich
+  poziomów** (`metadata.vulnerabilities` z `--json`: info/low/moderate/high/critical = 0) —
+  `eslint-config-next`/`shadcn`, źródło większości `moderate`/`low`, to te same łańcuchy zależności
+  co naprawione `high`. Nic do zaostrzenia — próg `high` w CI (11.5) dziś i tak nie miał nic do
+  odfiltrowania.
 
 ## Decyzje i uzasadnienie
 
