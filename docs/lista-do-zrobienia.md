@@ -300,3 +300,21 @@ Tu trafia bieżący stan pracy: co w trakcie, co zablokowane, co następne — a
   rejestruje się automatycznie, strona odwiedzona wcześniej ładuje się offline (status 200,
   poprawna treść) po przejściu w tryb offline. `pnpm typecheck`/`lint`/`test` (722/722)/`build`
   czyste. Szczegóły: `docs/memory.md`.
+- ✅ (2026-09-16, czwarta synchronizacja tego dnia) **Aktualizacja ze standardem — 7 nowych wpisów
+  `AKTUALIZACJE.md` (wiersze 67-73), GOD BOOK bez zmiany wersji (nadal v2.19).** Nadpisane:
+  `00-INDEKS.md`, `07-bezpieczenstwo.md`, `15-wspolpraca-z-ai.md`, `17-i18n.md`, `18-logowanie.md`.
+  **Konkretne zadanie dla tego projektu (wpis 70, 7.3 — "hash CSP liczony automatycznie, nigdy
+  ręcznie"):** nowy `scripts/check-csp-hash.mjs` w CI (`pnpm check:csp-hash`) — liczy SHA-256
+  `WYGLAD_INIT_SCRIPT` z `app/layout.tsx` i porównuje z `WYGLAD_INIT_SCRIPT_HASH` w
+  `next.config.mjs`, blokuje merge przy rozjeździe zamiast polegać na pamięci. Zweryfikowany na
+  obu przypadkach (zgodny hash → OK; ręcznie zepsuty skrypt → wykryty, exit 1).
+  **🔴 Ważne rozróżnienie, nie pomylić:** ten wpis NIE naprawia krytycznego błędu znalezionego
+  przy pracy nad 5.3 (PWA) — produkcyjna CSP nadal blokuje inline-skrypty RSC streaming Next.js
+  na każdej stronie (`React error #412`), bo wpis 70 dotyczy tylko ryzyka rozjazdu hasha dla
+  JEDNEGO już istniejącego skryptu, nie fundamentalnej niekompatybilności statycznego hasha z
+  dynamicznie generowanymi skryptami Next.js. Właściwa naprawa (CSP oparta o nonce-per-request)
+  wciąż nie jest częścią standardu — pozostaje odłożona, tak jak ustalono wcześniej dziś.
+  Pozostałe wpisy (67-69, 71-73) nie wymagały zmian w kodzie — projekt już zgodny (18.5:
+  `createBrowserClient` już usunięty w rozdz. 18; 17.4: cookie+server-side już jedyny mechanizm;
+  17.8: pl/en/ru już zbudowane) albo dotyczą innych projektów rodziny/samego mechanizmu U.4.
+  Szczegóły: `docs/memory.md`.

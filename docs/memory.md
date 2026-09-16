@@ -349,6 +349,21 @@ konkretnych potrzebnych tabel + kod kalkulatora, po kolei małymi partiami zgodn
   `docs/lista-do-zrobienia.md`) — historyczne wzmianki starszych wersji nietknięte (Część D GOD
   BOOK). Zweryfikowano `grep -rln "v2_18"` po synchronizacji — zero trafień poza tym logiem (który
   używa formatu `v2.18` z kropką, nie nazwy pliku, celowo nietknięty).
+- **2026-09-16 (czwarta synchronizacja tego dnia) — 7 wpisów `AKTUALIZACJE.md` (wiersze 67-73),
+  GOD BOOK bez zmiany wersji (nadal v2.19).** Pełne przetworzenie każdego wiersza: `docs/lista-do-zrobienia.md`,
+  szczegóły uzasadnień: sekcja "Decyzje i uzasadnienie" niżej. W skrócie: jedno konkretne zadanie
+  kodowe (7.3 — `scripts/check-csp-hash.mjs` w CI), reszta albo już spełniona (18.5/17.4/17.8),
+  albo nie dotyczy tego projektu (71/73), albo czysto procesowa (69).
+  **Wynik checklisty Y.9 (spot-check istnienia, nie tylko domniemanie z poprzednich sprawdzeń):**
+  1. `docs/standards/` — ✅ (5 plików nadpisanych tą synchronizacją).
+  2. GOD BOOK — ✅ v2.19 (bez zmiany wersji w tej partii).
+  3. `CLAUDE.md` — ✅ istnieje, bez zmian wymaganych tą partią.
+  4. `docs/memory.md` — ✅ (ten wpis).
+  5. `docs/lista-do-zrobienia.md` — ✅ (wpis dopisany).
+  6. `docs/wklad-do-standardu.md` — ✅ istnieje.
+  7. `docs/zrodla/` — ✅ istnieje.
+  8. `.claude/skills/standards/SKILL.md` — ✅ istnieje, bez zmian wymaganych tą partią.
+  9. `01_Zasady_Pracy_i_Konwencje.md` + `02_Dyrektywy_AI_Projektu.md` — ✅ oba istnieją.
 
 ## Decyzje i uzasadnienie
 
@@ -4141,3 +4156,45 @@ to repo w zasięgu z innego powodu. Dla tego projektu jedyny legalny wyjście st
   tylko nieuzupełniony placeholder — realna nazwa "Inżynier Offgrid Pro" już ustalona wszędzie
   indziej w repo). Własne logo to decyzja wizualna właściciela, nie techniczna — pozostawiona do
   osobnego rozstrzygnięcia.
+
+- **2026-09-16 (czwarta synchronizacja tego dnia) — Aktualizacja ze standardem, 7 wpisów
+  `AKTUALIZACJE.md` (wiersze 67-73).** GOD BOOK bez zmiany wersji (nadal v2.19 — brak nowego
+  rename pliku w tej partii). Nadpisane w całości (NIETYKALNE): `00-INDEKS.md`,
+  `07-bezpieczenstwo.md`, `15-wspolpraca-z-ai.md`, `17-i18n.md`, `18-logowanie.md`.
+
+  **Przetworzone wiersz po wierszu:**
+  - **67 (18.5 doprecyzowana)** — pułapka `createBrowserClient()`/`httpOnly:false` + rozstrzygnięcie
+    Origin/Host jako CSRF dla Server Actions. To dosłownie **nasze własne zgłoszenie** z pracy nad
+    rozdz. 18 tego samego dnia (`docs/wklad-do-standardu.md`), teraz skonsolidowane z powrotem do
+    standardu. Zero akcji — już zgodni (`lib/adapters/supabase/client.ts` usunięty, stan logowania
+    czytany wyłącznie server-side, PR #96).
+  - **68 (17.4 uproszczona)** — cookie+server-side obowiązkowy dla KAŻDEGO projektu z jakimkolwiek
+    runtime server-side (koniec oceny "SPA czy nie"). Zero akcji — już tak mamy (cookie `jezyk`,
+    nigdy `localStorage`).
+  - **69 (15.17 rozszerzona)** — przy niejednoznacznym poleceniu o "aktualizacji standardu"
+    pierwszy krok to zawsze `git fetch` + odczyt `AKTUALIZACJE.md` przed budową czegokolwiek.
+    Dokładnie to zrobione w tej synchronizacji. Zero akcji w kodzie.
+  - **70 (nowa 7.3 — hash CSP liczony automatycznie) — JEDYNE konkretne zadanie kodowe z tej
+    partii, nazwane wprost dla tego projektu.** Zbudowano `scripts/check-csp-hash.mjs` (liczy
+    SHA-256 z treści `WYGLAD_INIT_SCRIPT` w `app/layout.tsx`, porównuje z `WYGLAD_INIT_SCRIPT_HASH`
+    w `next.config.mjs`, exit 1 przy rozjeździe), dopięty do CI (`pnpm check:csp-hash`, krok w
+    `.github/workflows/ci.yml` obok `check:i18n-guard`). Zweryfikowany na obu przypadkach (zgodny
+    hash → OK; ręcznie zepsuty skrypt → wykryty).
+    **🔴 Jawne rozróżnienie, żeby nie pomylić dwóch różnych problemów CSP w tym samym pliku:**
+    ten wpis rozwiązuje wyłącznie ryzyko *rozjazdu* hasha jednego, konkretnego, już istniejącego
+    skryptu po jego edycji — **nie** rozwiązuje krytycznego znaleziska z tej samej sesji (wpis PWA
+    wyżej): produkcyjna CSP z definicji nie może dopuścić przez statyczny hash inline-skryptów RSC
+    streaming, które Next.js generuje dynamicznie per-request, więc hydracja Reacta nadal psuje
+    się na każdym ekranie w realnej produkcji. Właściwa naprawa (nonce-per-request) nie jest dziś
+    częścią standardu — sprawdzone wprost w tej samej partii `AKTUALIZACJE.md`, żaden z 7 wpisów
+    tego nie porusza. Pozostaje odłożona zgodnie z wcześniejszą decyzją właściciela projektu.
+  - **71 (5.2 doprecyzowana)** — wzorzec blokującego skryptu pre-paint dla przełączników CSS
+    (motyw/kontrast) potwierdzony jako poprawny, z tym projektem jako wzorzec źródłowy. Akcja
+    nazwana dla innego projektu rodziny (inzynier-szkieletowy-pro), nie dla nas. Zero akcji.
+  - **72 (nowa 17.8 — domyślne języki EN+RU)** — wpis wprost potwierdza: "inzynier-offgrid-pro:
+    już zgodny (pl/en/ru zbudowane) — bez akcji." Zero akcji.
+  - **73 (nowa 15.18)** — metareguła procesowa dla sesji nad `new-app-standards` (konsolidacja
+    niesie gotową receptę innym projektom). Nie dotyczy kodu tego projektu.
+
+  Zweryfikowane po zmianach: `pnpm typecheck`/`lint`/`check:csp-hash`/`check:i18n-guard`/`test`
+  (722/722)/`build` — wszystkie czyste.

@@ -13,6 +13,7 @@
     "lint": "eslint .",
     "typecheck": "tsc --noEmit",
     "check:i18n-guard": "node scripts/check-i18n-guard.mjs",
+    "check:csp-hash": "node scripts/check-csp-hash.mjs",
     "audit:gate": "node scripts/audit-gate.mjs"
   },
   "dependencies": {
