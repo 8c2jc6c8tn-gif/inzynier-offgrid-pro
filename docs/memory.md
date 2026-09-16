@@ -4091,3 +4091,53 @@ to repo w zasięgu z innego powodu. Dla tego projektu jedyny legalny wyjście st
     podłączony do trwałego stanu (dziś tylko `CLOUD_ASSISTED` ma sens — brak modelu lokalnego),
     pamięć rozmowy czatu (9.7), budżet/limity zapytań (9.8). Pełny zakres i lista plików:
     `docs/lista-do-zrobienia.md`.
+
+- **2026-09-16 — 5.3 (PWA offline-first): manifest + service worker.** Zakres: `app/manifest.ts`
+  (Next.js Metadata File convention), `public/sw.js` (ręczny, bez biblioteki typu next-pwa/
+  Serwist — 5.3 dla tego projektu to wąski wymóg: cache assetów + stron po pierwszym pobraniu,
+  nie pełny runtime-caching framework; własny, w pełni audytowalny kod pasuje lepiej niż czarna
+  skrzynka generowana przez bibliotekę, zwłaszcza przy już restrykcyjnej, ręcznie pisanej CSP w
+  `next.config.mjs`), `public/register-sw.js` + warunkowy `<script src>` w `app/layout.tsx`.
+
+  **Odkrycie krytyczne, poza zakresem tego zadania — udokumentowane, NIE naprawione na wyraźne
+  polecenie właściciela projektu ("poprawki idą z aktualizacją standardu, zaczekaj"):**
+  Podczas weryfikacji w prawdziwej przeglądarce z produkcyjną CSP (`pnpm build && pnpm start`,
+  Playwright, nie `pnpm dev` gdzie CSP jest złagodzone o `unsafe-inline`) odkryłem, że **hydracja
+  Reacta psuje się na każdym ekranie aplikacji** — `React error #412`. Przyczyna: CSP `script-src`
+  w `next.config.mjs` dopuszcza wyłącznie jeden zahardkodowany SHA-256 hash (dla
+  `WYGLAD_INIT_SCRIPT`, ustawiającego motyw przed pierwszym malowaniem) — nie obejmuje to
+  inline-skryptów RSC streaming (`self.__next_f.push(...)`), które Next.js App Router generuje
+  dynamicznie, per żądanie, na każdej stronie. Statyczny hash z definicji nie może objąć treści,
+  która różni się między requestami. **Zweryfikowane programistycznie, że to błąd pre-existing,
+  niespowodowany tą zmianą:** identyczny błąd reprodukuje się na czystym `main` (commit `b5fb177`,
+  sprzed PWA), sprawdzone w izolowanym `git worktree`. Najpewniej niewykryte wcześniej, bo cała
+  dotychczasowa weryfikacja w przeglądarce w tej sesji szła przez `pnpm dev` (złagodzona CSP), a
+  nie przez `pnpm start` z prawdziwą produkcyjną CSP — pierwszy raz w tej sesji przetestowano
+  rzeczywistą produkcyjną hydrację w realnej przeglądarce.
+  **Właściwa naprawa** (zgłoszona właścicielowi, do decyzji): CSP oparta o nonce-per-request
+  (oficjalny wzorzec Next.js — middleware generuje losowy nonce na każde żądanie, obejmuje
+  wszystkie skrypty w tym RSC), zamiast statycznego hasha — silniejsze bezpieczeństwo niż dziś,
+  bez `unsafe-inline`. Wymaga zmiany `next.config.mjs` (nagłówki przez middleware, nie statyczną
+  funkcję `headers()`) + `app/layout.tsx` (nonce w inline skrypcie motywu). **Świadomie
+  odłożone** — właściciel projektu: poprawki mają nadejść z aktualizacją standardu, czekamy.
+  **Wpływ na to zadanie:** rejestracja service workera została celowo zaprojektowana tak, by NIE
+  zależeć od hydracji Reacta — zewnętrzny plik (`public/register-sw.js` przez `<script src>` w
+  `<head>`, warunkowany `process.env.NODE_ENV === 'production'` tym samym wzorcem co
+  `<Analytics />`), nie komponent kliencki w drzewie Reacta. CSP `script-src 'self'` obejmuje
+  zewnętrzne skrypty tej samej domeny bez potrzeby hasha (hash dotyczy wyłącznie treści inline)
+  — to ominięcie problemu w zakresie własnego zadania, nie naprawa samego problemu CSP.
+  Potwierdzone działające mimo błędu hydracji: SW rejestruje się automatycznie (Playwright,
+  `pnpm start`), manifest serwowany poprawnie, strona odwiedzona wcześniej ładuje się offline.
+  **Wzorzec do zapamiętania:** weryfikacja przez `pnpm dev` nie jest wystarczająca dla niczego
+  związanego z CSP/bezpieczeństwem nagłówków — `pnpm dev` celowo osłabia CSP (`unsafe-inline`/
+  `unsafe-eval` dla HMR), więc maskuje dokładnie tę klasę błędów. Przyszła weryfikacja
+  bezpieczeństwa/CSP wymaga `pnpm build && pnpm start` + prawdziwej przeglądarki, nie samego
+  `curl` (curl nie wykonuje JS, nie zobaczy naruszeń CSP) ani `pnpm dev`.
+
+  **Świadomie odłożone (nie przeoczenie), zgłoszone jawnie w raporcie końcowym:** ikony PWA
+  (192/512px, `icon.svg`, `apple-icon.png`) to nadal domyślny znak graficzny v0.app (szkielet, z
+  którego projekt wystartował) — `app/layout.tsx` miał też tytuł "v0 App"/"Created with v0",
+  nigdy niewypełniony realną nazwą projektu; to akurat poprawione od razu (nie decyzja wizualna,
+  tylko nieuzupełniony placeholder — realna nazwa "Inżynier Offgrid Pro" już ustalona wszędzie
+  indziej w repo). Własne logo to decyzja wizualna właściciela, nie techniczna — pozostawiona do
+  osobnego rozstrzygnięcia.
