@@ -143,7 +143,7 @@ konkretnych potrzebnych tabel + kod kalkulatora, po kolei małymi partiami zgodn
 
 ## Synchronizacja ze standardem
 
-<!-- Obowiązkowe od GOD BOOK Część Y.6. Sprawdzaj AKTUALIZACJE.md w new-app-standards co ≤7 dni. Brak wpisu = "nigdy nie sprawdzono". -->
+<!-- Obowiązkowe od GOD BOOK Część Y.6. Sprawdzaj AKTUALIZACJE.md w new-app-standards co ≤3 godziny (GOD BOOK v2.18, było ≤7 dni). Brak wpisu = "nigdy nie sprawdzono". -->
 - **2026-09-03 — pełna synchronizacja wykonana** (pierwsza, wcześniej nie istniała). Odświeżono `docs/standards/00`–`16` (dodano brakujący rozdział 16), dodano `docs/god-book/instrukcja-uniwersalna-biblii-projektu-v2_3.md`, `PROMPT_STARTOWY.md`, `docs/lista-do-zrobienia.md`, `docs/wklad-do-standardu.md`. Punktowo poprawiono `CLAUDE.md` i `.claude/skills/standards/SKILL.md` (nowe odsyłacze do GOD BOOK Część Y, bez nadpisania lokalnej treści). Szczegóły niżej, sekcja "Decyzje i uzasadnienie". Świadomie NIE wykonano: migracji `ZASADY_APLIKACJI.md`/`USTALENIA.md`/`docs/domena/` (nazwa sprzed zmiany 2026-09-04, patrz niżej) do kanonicznego formatu GOD BOOK (`00_Biblia.md` itd.) — to osobna, większa decyzja, patrz `docs/lista-do-zrobienia.md`.
 - **2026-09-04 — sprawdzono `AKTUALIZACJE.md`, znaleziono i zsynchronizowano 2 nowe wersje (v2.4, v2.5).** Obie dot. GOD BOOK: nowa, obowiązkowa **Y.9** — 9-pozycyjna checklist kompletności do przejścia przy *każdym* sprawdzeniu (nie tylko pierwszej instalacji), jawnie raportowana właścicielowi. `docs/standards/00`–`16` — bez zmian merytorycznych (tylko 2 kosmetyczne odsyłacze do nazwy pliku GOD BOOK w `00-INDEKS.md`/`00-filozofia.md`). Wykonane: podmieniono GOD BOOK w całości (`...v2_3.md` → `...v2_5.md`, stara nazwa usunięta, NIETYKALNE), nadpisano `PROMPT_STARTOWY.md` w całości (NIETYKALNE), punktowo poprawiono odsyłacze do wersji w `docs/standards/00-INDEKS.md`/`00-filozofia.md`/`CLAUDE.md`/`README.md` oraz `.claude/skills/standards/SKILL.md` (dodatkowo: doprecyzowanie punktu 2 o wariant pełnej Biblii, ADAPTOWALNE).
   **Wynik checklisty Y.9 (pokazany właścicielowi projektu przed uznaniem za zakończone):**
@@ -273,6 +273,66 @@ konkretnych potrzebnych tabel + kod kalkulatora, po kolei małymi partiami zgodn
   `eslint-config-next`/`shadcn`, źródło większości `moderate`/`low`, to te same łańcuchy zależności
   co naprawione `high`. Nic do zaostrzenia — próg `high` w CI (11.5) dziś i tak nie miał nic do
   odfiltrowania.
+- **2026-09-16 (na wyraźne polecenie właściciela projektu — "Aktualizacje.md") — sprawdzone
+  `AKTUALIZACJE.md` w lokalnym klonie `new-app-standards` (`git fetch`+`git pull`, `d950077..92b7bcf`,
+  8 nowych wpisów tego dnia). Wszystkie wniesione do tego projektu:**
+  1. **GOD BOOK v2.17→v2.18** (rename pliku, `git rm`+nowy) — cykl Y.6 (projekt sprawdza standard)
+     skrócony z 7 dni do **3 godzin**; U.4 (odwrotny kierunek, dotyczy tylko sesji nad
+     `new-app-standards`, nie tego projektu). Odsyłacze do nazwy pliku poprawione wszędzie, gdzie
+     to bieżące wskazanie (nie cytat historyczny): `CLAUDE.md`, `USTALENIA.md`, `00_Biblia.md`,
+     `README.md`, `ZASADY_APLIKACJI.md`, `01_Zasady_Pracy_i_Konwencje.md`,
+     `.claude/skills/standards/SKILL.md`, `docs/standards/00-filozofia.md`, nagłówek (nie treść
+     wpisów) `docs/lista-do-zrobienia.md`. Historyczne wzmianki `v2_17`/starszych wersji w tym logu
+     i w `docs/lista-do-zrobienia.md` celowo nietknięte (Część D GOD BOOK, append-only).
+  2. **Nadpisane w całości (NIETYKALNE):** `docs/standards/00-INDEKS.md`, `11-ci-deployment.md`,
+     `13-droga-mobile.md`, `15-wspolpraca-z-ai.md`, `17-i18n.md`, `PROMPT_STARTOWY.md`.
+  3. **Nowy `docs/przyklady/`** (README, PROMPT, `ci/{README,ci.yml,audit-gate.mjs}`,
+     `i18n/{README,check-i18n-guard.mjs}`) skopiowany w całości — materiał referencyjny, pochodzi
+     pierwotnie z **tego** projektu (własne zgłoszenie DOBRA PRAKTYKA z 16.09, patrz
+     `docs/wklad-do-standardu.md`), teraz wraca jako promowana treść standardu.
+  4. **PATCH (nie REWRITE) do `CLAUDE.md`:** dopisany słownik "aktualizacja"/"promocja" (sekcja
+     Rdzeń operacyjny), cykl sync 7 dni→3h (punkt 4 "Zanim zaczniesz"), oraz — zauważone przy
+     tej samej edycji, nie część zgłoszenia AKTUALIZACJE.md — poprawiona nieaktualna wzmianka
+     "Brak jeszcze CI" w sekcji "Stan repo" (CI istnieje od 2026-09-16, wpis wyżej).
+  5. **PATCH do `docs/wklad-do-standardu.md`:** dopisana klauzula "zgłaszaj częściej, nie rzadziej"
+     (próg zgłoszenia niżej niż wygląda) z `docs/wklad-do-standardu.template.md`.
+  **17.4/17.4a (SSR flash złego języka, cookie zamiast `localStorage`, `Accept-Language` nie
+  `navigator.language`) — sprawdzone względem TEGO kodu, nie zgadywane: `grep -rl localStorage`
+  nie znajduje żadnego mechanizmu przechowywania preferencji języka (tylko `lib/pulpit/storage.ts`,
+  `lib/wyglad/storage.ts`, `lib/theme/storage.ts` — pulpit/wygląd/motyw, nie i18n) i żadnego
+  language switchera w `app/`/`lib/`. Projekt nie ma jeszcze pełnego przełącznika języka UI (rollout
+  17 wciąż tylko na poziomie strażnika AST per-moduł, `scripts/check-i18n-guard.mjs`) — poprawka
+  standardu przyjęta do treści `17-i18n.md`, ale **nie ma dziś żadnego kodu do naprawienia**; zapisane
+  jako rzecz do zastosowania przy budowie realnego przełącznika języka, nie zaległy dług.**
+  **13.2 (preferencja języka web→mobile)** — czysto dokumentacyjne, projekt nie ma jeszcze fazy
+  mobile (rozdział 13 poza obecnym zakresem), bez wpływu na kod dziś.
+  **11.6/audit-gate.mjs (zawężenie audytu podatności do zależności bezpośrednich) — otwarta decyzja,
+  NIE zastosowana automatycznie w `.github/workflows/ci.yml`.** Obecny `dependency-audit`
+  (`pnpm audit --audit-level=high`, wpis wyżej z 2026-09-16) blokuje merge na KAŻDEJ podatności
+  `high`/`critical`, w tym przechodniej — szerszy zakres niż dosłowne brzmienie 11.5 ("zależność
+  bezpośrednia"). To zmiana semantyki bramki CI (co dokładnie blokuje merge), nie mechaniczna
+  łatka — zgodnie z zasadą "nie rozstrzygaj sam, pokaż A/B" nie podjęto decyzji za właściciela
+  projektu. **A: zostać przy szerszym zakresie** (bezpieczniej, ale czasem blokuje na podatności
+  poza kontrolą projektu). **B: przyjąć `docs/przyklady/ci/audit-gate.mjs`** (wiernie 11.5, blokuje
+  tylko bezpośrednie, przechodnie tylko informacyjnie). Dziś **0 podatności obu rodzajów** (wpis
+  wyżej) — decyzja nie jest paląca, ale otwarta; do zapytania właściciela projektu przy najbliższej
+  okazji, zapisana też w `docs/lista-do-zrobienia.md`.
+- **2026-09-16 (tego samego dnia, druga synchronizacja — GOD BOOK v2.18→v2.19) — sprawdzone
+  ponownie na wyraźne polecenie właściciela projektu ("New app standards aktualizacja... Ostatnia
+  wersja 2.19"), `git fetch`+`git pull` w lokalnym klonie `new-app-standards`
+  (`92b7bcf..741352e`, 1 nowy wpis `AKTUALIZACJE.md`).** Treść nowego wpisu dotyczy wyłącznie
+  wewnętrznego mechanizmu procesowego samego repo `new-app-standards` (pierwszy live-test
+  zaplanowanej Routine U.4 — self-bind działa, z opóźnieniem do końca tury; doprecyzowanie, że w
+  środowisku z wyznaczonym branchem "commit+push na main" realizuje się jako PR+merge) — **U.4
+  dotyczy tylko sesji nad `new-app-standards`, nie Y.6 tego projektu**, zero nowej reguły
+  zastosowania w tym repo. Mimo to plik GOD BOOK (NIETYKALNE, mirror) nadpisany w całości pod
+  nową nazwą (rename `git rm`+nowy plik), odsyłacze do nazwy poprawione we wszystkich bieżących
+  wskazaniach (`CLAUDE.md`, `USTALENIA.md`, `00_Biblia.md`, `README.md`, `ZASADY_APLIKACJI.md`,
+  `01_Zasady_Pracy_i_Konwencje.md`, `.claude/skills/standards/SKILL.md`,
+  `docs/standards/00-filozofia.md`, `docs/standards/00-INDEKS.md`, `PROMPT_STARTOWY.md`, nagłówek
+  `docs/lista-do-zrobienia.md`) — historyczne wzmianki starszych wersji nietknięte (Część D GOD
+  BOOK). Zweryfikowano `grep -rln "v2_18"` po synchronizacji — zero trafień poza tym logiem (który
+  używa formatu `v2.18` z kropką, nie nazwy pliku, celowo nietknięty).
 
 ## Decyzje i uzasadnienie
 

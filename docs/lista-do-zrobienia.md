@@ -1,6 +1,6 @@
 # docs/lista-do-zrobienia.md — Inżynier Offgrid Pro
 
-Bieżąca, operacyjna lista zadań tego projektu. Format i zasada aktualizacji: `docs/god-book/instrukcja-uniwersalna-biblii-projektu-v2_17.md`, Część B.6. Czytana **zaraz po `00_Biblia.md`**, na starcie każdej sesji (Część P.2) — żeby AI nie musiało eksplorować całego projektu od nowa, żeby wiedzieć, od czego zacząć.
+Bieżąca, operacyjna lista zadań tego projektu. Format i zasada aktualizacji: `docs/god-book/instrukcja-uniwersalna-biblii-projektu-v2_19.md`, Część B.6. Czytana **zaraz po `00_Biblia.md`**, na starcie każdej sesji (Część P.2) — żeby AI nie musiało eksplorować całego projektu od nowa, żeby wiedzieć, od czego zacząć.
 
 **To nie to samo, co:**
 - `backlog-poza-v1.md` — rzeczy świadomie odłożone poza zakres (decyzje o skali/fazowaniu produktu, zbierane przy audycie).
@@ -173,3 +173,21 @@ Tu trafia bieżący stan pracy: co w trakcie, co zablokowane, co następne — a
   cały projekt już ma polską konwencję `Warning.code`, zmiana rozbiłaby ją na dwie równoległe bez
   korzyści funkcjonalnej). **Ważne dla przyszłych migracji:** dopisz nowy moduł do
   `MIGRATED_MODULES` w tym samym kroku, w którym go migrujesz. Szczegóły: `docs/memory.md`.
+- ✅ (2026-09-16) **Aktualizacja ze standardu wykonana** (8 nowych wpisów `AKTUALIZACJE.md`,
+  GOD BOOK v2.17→v2.18, cykl sprawdzania Y.6 skrócony 7 dni→3h). Nadpisane w całości: `00-INDEKS.md`,
+  `11-ci-deployment.md`, `13-droga-mobile.md`, `15-wspolpraca-z-ai.md`, `17-i18n.md`,
+  `PROMPT_STARTOWY.md`; nowy `docs/przyklady/` skopiowany (CI + i18n-guard referencyjne — pochodzą
+  pierwotnie z tego projektu, promowane i wracają jako standard); PATCH do `CLAUDE.md` (słownik
+  aktualizacja/promocja, cykl 3h) i `docs/wklad-do-standardu.md`. 17.4 (SSR flash języka) i 13.2
+  (mobile) bez wpływu na kod dziś — projekt nie ma jeszcze przełącznika języka UI ani fazy mobile.
+  Szczegóły pełnej checklisty: `docs/memory.md`, sekcja "Synchronizacja ze standardem".
+- ⚠️ (2026-09-16) Do decyzji: `dependency-audit` w `.github/workflows/ci.yml`
+  (`pnpm audit --audit-level=high`) blokuje merge na KAŻDEJ podatności high/critical, także
+  przechodniej — szerszy zakres niż dosłowne brzmienie 11.5 ("zależność bezpośrednia"). Standard
+  ma teraz gotowy przykład węższego zakresu (`docs/przyklady/ci/audit-gate.mjs`, filtruje po
+  `isDirect`). Dziś 0 podatności obu rodzajów — nie paląca, ale otwarta: zostać przy szerszym
+  zakresie (bezpieczniej) czy zawężyć do 11.5 dosłownie? Patrz `docs/memory.md`.
+- ✅ (2026-09-16, druga synchronizacja tego dnia) GOD BOOK v2.18→v2.19 — 1 nowy wpis
+  `AKTUALIZACJE.md`, dotyczy wyłącznie wewnętrznego mechanizmu `new-app-standards` (live-test
+  Routine U.4), zero nowej reguły dla tego projektu. Plik GOD BOOK nadpisany pod nową nazwą,
+  odsyłacze poprawione. Szczegóły: `docs/memory.md`.
