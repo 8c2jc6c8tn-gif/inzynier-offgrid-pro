@@ -3917,3 +3917,94 @@ to repo w zasięgu z innego powodu. Dla tego projektu jedyny legalny wyjście st
     nadpisywanej bezwarunkowo po powrocie — wzorzec z 16.7 NIE występuje, false negative
     wykluczony przez czytanie kodu, nie zgadywanie. 10.7 to reguła procesowa (nie etykietuj testu
     jako "flaky" bez diagnozy) — bez zastosowania dziś (brak testów e2e w ogóle).
+
+- **2026-09-16 — Rozdział 18 (logowanie/konta): audyt na polecenie właściciela projektu
+  ("Zajmij się logowaniem i kontami"), dwie realne luki znalezione i zamknięte BEZ realnych
+  kluczy Supabase** (wciąż blokujących samo "żywe" logowanie — bez zmian, patrz wpis 15.09.2026
+  wyżej, kroki 1-3 dla właściciela projektu niezmienione).
+
+  **Metoda audytu:** przeczytany cały `docs/standards/18-logowanie.md` (18.1-18.15), każda reguła
+  sprawdzona wprost względem kodu (nie z metryczki) — 18.1/18.2/18.4/18.9-18.13 potwierdzone zgodne
+  bez zmian; 18.6/18.7/18.14/18.15 świadomie bez zastosowania dziś (brak modelu grupy/sync — projekt
+  nie ma jeszcze żadnych danych do synchronizacji); 18.3 (scalanie tożsamości) świadomie NIE
+  zbudowane — wymaga już zalogowanego usera do przetestowania flow, przedwczesne bez realnego konta,
+  zostaje jako kolejny krok po odblokowaniu przez właściciela, nie dzisiejsze zadanie.
+
+  **Znalezisko #1 (18.5) — `@supabase/ssr` domyślnie `httpOnly: false`, sprawdzone wprost w
+  `node_modules`, nie zgadywane.** `DEFAULT_COOKIE_OPTIONS` biblioteki
+  (`node_modules/@supabase/ssr/dist/main/utils/constants.js`): `{ path: "/", sameSite: "lax",
+  httpOnly: false }`. Powód architektoniczny (potwierdzony w README pakietu): `createBrowserClient`
+  musi zapisywać tę samą cookie z poziomu JS przeglądarki, co z definicji wymaga `httpOnly: false`
+  (JS nie może ustawić `HttpOnly` — ograniczenie platformy). Projekt miał dokładnie jedno miejsce
+  używające `createBrowserClient` (`components/konto-sekcja.tsx`, odczyt statusu logowania w
+  Ustawieniach) — samo to jedno miejsce wystarczyłoby, żeby przy pierwszym odświeżeniu tokenu
+  cicho złamać 18.5, niezależnie od tego, co ustawia serwer.
+
+  **Naprawione:**
+  - `lib/adapters/supabase/client.ts` (`createSupabaseBrowserClient`) **usunięty całkowicie** — to
+    była jedyna funkcja w projekcie tworząca klienta Supabase w przeglądarce, zero innych miejsc do
+    sprawdzenia (`grep` przed usunięciem, potwierdzone).
+  - `lib/adapters/supabase/get-account-status.ts` (nowy, `"use server"`) — status logowania czytany
+    server-side, `components/konto-sekcja.tsx` woła to zamiast klienta przeglądarkowego (ten sam
+    kształt UX: `useEffect` + `useState`, tylko inne źródło danych).
+  - `lib/adapters/supabase/config.ts`: nowa `sessionCookieOptions()` (`{ httpOnly: true, secure:
+    NODE_ENV === "production", sameSite: "lax" }`) — nazwana funkcja, nie duplikat literałów w
+    dwóch miejscach. Przekazana jako `cookieOptions` do `createServerClient` w `server.ts` i
+    `middleware.ts` (jedyne dwa miejsca tworzące klienta server-side). Sprawdzone wprost w
+    `node_modules/@supabase/ssr`, że `cookieOptions` przekazane przez wywołującego POPRAWNIE
+    nadpisują `DEFAULT_COOKIE_OPTIONS` (`{...DEFAULT_COOKIE_OPTIONS, ...cookieOptions}` — kolejność
+    spreadu, nie zgadywane z dokumentacji, przeczytane z kodu biblioteki).
+  - Efekt: teraz, bez żadnego `createBrowserClient` gdziekolwiek w kodzie, jawne `httpOnly: true`
+    faktycznie obowiązuje przez cały cykl życia sesji (logowanie, odświeżenie w middleware,
+    wylogowanie) — 18.5 spełnione dosłownie, nie tylko deklaratywnie.
+  - Zgłoszone do `docs/wklad-do-standardu.md` (BŁĄD): 18.4 (Supabase) i 18.5 (czyste HttpOnly)
+    kolidują dla "oczywistego" wzorca użycia biblioteki (klient przeglądarkowy do odczytu stanu
+    logowania) — żaden z dwóch punktów standardu dziś o tym nie ostrzega.
+
+  **Znalezisko #2 (18.8) — usuwanie konta całkowicie nieobecne.** Migracja SQL miała już
+  `ON DELETE CASCADE` przygotowane (`supabase/migrations/0001_profiles.sql`), ale nic w kodzie nie
+  wywoływało usunięcia wiersza `auth.users` — funkcja wymagana przez standard (nie opcjonalny
+  wzorzec jak 18.7/18.14) po prostu nie istniała.
+
+  **Zbudowane (ten sam wzorzec bezpiecznej degradacji co reszta szkieletu — bez realnych kluczy
+  kod istnieje i się kompiluje, ale funkcjonalnie zwraca czytelny błąd zamiast awarii):**
+  - `.env.example` — nowa `SUPABASE_SERVICE_ROLE_KEY` (jawnie NIE `NEXT_PUBLIC_`, komentarz
+    ostrzegający + skąd wziąć). `lib/adapters/supabase/config.ts`:
+    `isServiceRoleConfigured()`/`supabaseServiceRoleKey()`, ten sam wzorzec co
+    `isSupabaseConfigured()` (placeholder = "nie skonfigurowane").
+  - `lib/adapters/supabase/admin.ts` (nowy) — `createSupabaseAdminClient()`, klucz service role,
+    **`import "server-only"`** (nowa zależność, `pnpm add server-only` — oficjalny pakiet
+    Next.js/Vercel, czysto build-time, zero runtime — błąd builda, gdyby ten plik trafił
+    przypadkiem do bundla klienckiego; klucz service role nigdy nie może dotrzeć do przeglądarki,
+    ryzyko zbyt poważne, żeby polegać wyłącznie na dyscyplinie importów).
+  - `lib/adapters/supabase/delete-account.ts` (nowy, `"use server"`) — weryfikuje zalogowanego
+    usera, sprawdza `isServiceRoleConfigured()` (czytelny błąd, nie awaria, gdy brak klucza),
+    `admin.auth.admin.deleteUser(user.id)` → CASCADE usuwa profil automatycznie → `signOut()` →
+    `redirect("/auth/login")`. Klauzula 18.8 "administrator grupy nie może się usunąć" —
+    nieaplikowalna dziś (brak modelu grupy, 18.7 nie zbudowane), odnotowana w komentarzu, nie
+    pominięta po cichu.
+  - `components/konto-sekcja.tsx` — przycisk "Usuń konto" (`variant="destructive"`),
+    `window.confirm()` przed wywołaniem (proporcjonalne do skali — bez realnych kluczy i tak
+    zawsze kończy się komunikatem błędu), stan `usuwam`/`błąd` lokalny w komponencie.
+
+  **Przy okazji (18.5, obrona w głąb przeciw CSRF) — `/auth/signout` z Route Handlera na Server
+  Action.** Było: `app/auth/signout/route.ts`, zwykły `POST`, zero ochrony CSRF poza samym
+  `SameSite=Lax` cookie (co 18.5 explicite nazywa niewystarczające — "obrona w głąb, nie
+  zamiennik"). Teraz: `app/auth/signout/actions.ts` (`"use server"`) — Next.js weryfikuje nagłówek
+  Origin/Host przy każdym wywołaniu Server Action, mechanizm wbudowany w framework. **Nie jest to
+  dosłownie "token CSRF" (synchronizer/double-submit) z litery 18.5** — zgłoszone do
+  `docs/wklad-do-standardu.md` (POMYSŁ NA REGUŁĘ) jako otwarte pytanie, nie rozstrzygnięte
+  samodzielnie: czy ochrona Origin/Host Next.js Server Actions spełnia wymóg 18.5, czy potrzebny
+  jest dodatkowo prawdziwy token nawet na Server Actions. Server Action to i tak poprawa względem
+  stanu wyjściowego (zero ochrony → ochrona frameworkowa) niezależnie od odpowiedzi.
+
+  **Zweryfikowano:** `tsc --noEmit`/`pnpm lint` czyste (`.next/` wyczyszczone najpierw — stary
+  wygenerowany `validator.ts` referencjonował usunięty `route.ts`, fałszywy błąd typów niezwiązany
+  z kodem źródłowym, zniknął po `rm -rf .next`). `pnpm test` 709/709 (699 + 10 nowych,
+  `lib/adapters/supabase/__tests__/config.test.ts`: `isSupabaseConfigured`/
+  `isServiceRoleConfigured` z placeholderem i realną wartością, `sessionCookieOptions` — httpOnly
+  zawsze true, sameSite=lax, secure zależny od `NODE_ENV`). `pnpm build` czysty. `pnpm start`+`curl`
+  na `/kalkulatory/pomocnicze` i `/ustawienia` — oba 200, zero błędów w logu serwera, identyczne
+  zachowanie jak przed zmianą (bez realnych kluczy `KontoSekcja` nadal zwraca `null` przed
+  jakimkolwiek wywołaniem `getAccountStatus()`) — refaktoring nie zmienił zachowania apki dla
+  użytkownika, tylko strukturę kodu pod spodem.

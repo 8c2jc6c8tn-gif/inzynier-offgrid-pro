@@ -220,3 +220,67 @@ plików w `new-app-standards`". Właściciel repo poprawił: samo dołączenie t
 czyni jej "sesją nad `new-app-standards`" uprawnioną do konsolidacji — jedyny dopuszczalny kanał
 stąd to ten plik, konsolidacja zapada wyłącznie w osobnej, dedykowanej sesji. Wpis wyżej pozostaje
 aktualnym zgłoszeniem, czeka na tamtą sesję, nie na nic z tego repo.
+
+---
+
+[16.09.2026] KATEGORIA: BŁĄD — 18.4 (Supabase Auth jako wymóg) i 18.5 (token sesji wyłącznie w
+`HttpOnly` cookie) kolidują w praktyce dla "oczywistego" sposobu użycia biblioteki
+
+Szczegóły: Przy porządkowaniu szkieletu logowania (bez realnych kluczy, patrz `docs/memory.md`)
+sprawdzone wprost w `node_modules/@supabase/ssr` (nie zgadywane): `DEFAULT_COOKIE_OPTIONS`
+biblioteki to `{ path: "/", sameSite: "lax", httpOnly: **false** }`. Powód: `createBrowserClient()`
+(klient dla komponentów klienckich, dokumentowany jako standardowy sposób odczytu stanu logowania
+po stronie przeglądarki) musi umieć zapisać/odświeżyć tę samą cookie z poziomu JS — a `HttpOnly`
+jest z definicji niemożliwy do ustawienia przez JS w przeglądarce (ograniczenie platformy, nie
+wybór biblioteki). Skutek: każdy projekt, który podąży za "oczywistym" wzorcem (Server Component
+loguje przez `createServerClient`, komponent kliencki czyta status logowania przez
+`createBrowserClient().auth.getUser()` — dokładnie to, co ten projekt miał do 16.09.2026,
+`components/konto-sekcja.tsx`) **cicho łamie 18.5** przy pierwszym odświeżeniu tokenu przez klienta
+przeglądarkowego, mimo poprawnie ustawionych opcji po stronie serwera — sama obecność
+`createBrowserClient` gdziekolwiek w kodzie wystarczy, żeby zepsuć całą resztę.
+
+Naprawione w tym projekcie: `createBrowserClient`/`lib/adapters/supabase/client.ts` usunięte
+całkowicie (jedyne użycie zastąpione Server Actionem, `lib/adapters/supabase/get-account-status.ts`
+— stan logowania czytany server-side, nigdy przez klienta Supabase w przeglądarce). Dopiero bez
+żadnego `createBrowserClient` w kodzie jawne `cookieOptions: { httpOnly: true, secure: ..., sameSite:
+"lax" }` przekazane do `createServerClient` (sprawdzone w `node_modules`: biblioteka poprawnie
+nadpisuje `DEFAULT_COOKIE_OPTIONS` przekazanymi opcjami) faktycznie działa zgodnie z 18.5, bez
+ryzyka cichego nadpisania przez inny fragment kodu.
+
+Dlaczego warto zgłosić do new-app-standards: 18.4 nakazuje Supabase Auth "spójnie z 6.5", 18.5
+nakazuje czyste `HttpOnly` — żaden z dwóch punktów nie ostrzega, że najbardziej oczywisty,
+udokumentowany wzorzec użycia narzędzia z 18.4 (klient przeglądarkowy do odczytu stanu logowania)
+łamie 18.5 po cichu. Każdy kolejny projekt rodziny, który zacznie od klienta przeglądarkowego (bo
+to jest to, co pokazuje oficjalna dokumentacja Supabase), odkryje to dopiero przy audycie
+bezpieczeństwa, nie przy pisaniu kodu. Warta dopisania jako jawna, nazwana pułapka w 18.5 (albo
+nowy podpunkt): "nigdy nie używaj `createBrowserClient`/klienta Supabase w przeglądarce do odczytu
+stanu sesji — stan logowania czytany wyłącznie server-side (Server Component/Server Action), nawet
+kosztem dodatkowego round-tripu do serwera przy każdym odczycie w komponencie klienckim".
+
+Status: 🔎 nowe
+
+---
+
+[16.09.2026] KATEGORIA: POMYSŁ NA REGUŁĘ — 18.5 wymaga "tokenu CSRF" na każdym endpoincie
+zmieniającym stan, ale nie rozstrzyga, czy wbudowana ochrona Next.js Server Actions to spełnia
+
+Szczegóły: 18.5 (dopisek 15.09.2026) mówi wprost: "Token CSRF (synchronizer token albo
+double-submit cookie) na każdym endpoincie zmieniającym stan, niezależnie od `SameSite` — obrona w
+głąb, nie zamiennik." Ten projekt miał `/auth/signout` jako zwykły Route Handler (`POST`) bez
+żadnego tokenu — zamieniony na Server Action (`app/auth/signout/actions.ts`), bo Next.js
+weryfikuje nagłówek Origin/Host przy każdym wywołaniu Server Action (mechanizm wbudowany w
+framework, nie kod tego projektu). To realna, sprawdzalna ochrona — ale **nie jest to dosłownie
+"synchronizer token" ani "double-submit cookie"**, tylko porównanie nagłówków żądania. Nie znaleziono
+w tej sesji jednoznacznej odpowiedzi (bez zgadywania), czy sprawdzenie Origin/Host przez framework
+ma być traktowane jako spełniające literę 18.5, czy 18.5 wymaga dodatkowo prawdziwego tokenu nawet
+na Server Actions. Świadomie NIE rozstrzygnięte samodzielnie w tym projekcie — Server Actions
+zamiast Route Handlerów to i tak poprawa względem stanu wyjściowego (zero ochrony → ochrona
+frameworkowa), niezależnie od odpowiedzi na to pytanie.
+
+Dlaczego warto zgłosić do new-app-standards: każdy projekt rodziny na Next.js App Router używający
+Server Actions do logowania/wylogowania (ten wzorzec już jest w 18.2/18.5 przykładach) natrafi na
+to samo pytanie. Jednoznaczne rozstrzygnięcie w rozdziale 18 (czy ochrona Origin/Host Next.js
+Server Actions wystarcza, czy zawsze wymagany jest dodatkowy token) oszczędzi każdej kolejnej
+sesji tę samą niepewność.
+
+Status: 🔎 nowe

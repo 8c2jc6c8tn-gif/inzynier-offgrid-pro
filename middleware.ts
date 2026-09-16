@@ -10,7 +10,12 @@
  */
 import { createServerClient } from "@supabase/ssr"
 import { NextResponse, type NextRequest } from "next/server"
-import { isSupabaseConfigured, supabaseAnonKey, supabaseUrl } from "@/lib/adapters/supabase/config"
+import {
+  isSupabaseConfigured,
+  sessionCookieOptions,
+  supabaseAnonKey,
+  supabaseUrl,
+} from "@/lib/adapters/supabase/config"
 import { LANGUAGE_COOKIE, LANGUAGE_COOKIE_MAX_AGE_SECONDS, negocjujJezyk } from "@/lib/i18n/language"
 
 const PUBLIC_PATH_PREFIXES = ["/auth/"]
@@ -39,6 +44,7 @@ export async function middleware(request: NextRequest) {
   let response = NextResponse.next({ request })
 
   const supabase = createServerClient(supabaseUrl(), supabaseAnonKey(), {
+    cookieOptions: sessionCookieOptions(),
     cookies: {
       getAll() {
         return request.cookies.getAll()
