@@ -257,7 +257,9 @@ nowy podpunkt): "nigdy nie używaj `createBrowserClient`/klienta Supabase w prze
 stanu sesji — stan logowania czytany wyłącznie server-side (Server Component/Server Action), nawet
 kosztem dodatkowego round-tripu do serwera przy każdym odczycie w komponencie klienckim".
 
-Status: 🔎 nowe
+Status: ✅ skonsolidowane (16.09.2026, `AKTUALIZACJE.md` wiersz 67 — nowa 18.5, "pułapka nazwana
+wprost": `createBrowserClient()` ma domyślnie `httpOnly:false`, stan logowania czytany wyłącznie
+server-side). Dokładnie ta pułapka, dokładnie to rozwiązanie.
 
 ---
 
@@ -282,5 +284,76 @@ Server Actions do logowania/wylogowania (ten wzorzec już jest w 18.2/18.5 przyk
 to samo pytanie. Jednoznaczne rozstrzygnięcie w rozdziale 18 (czy ochrona Origin/Host Next.js
 Server Actions wystarcza, czy zawsze wymagany jest dodatkowy token) oszczędzi każdej kolejnej
 sesji tę samą niepewność.
+
+Status: ✅ skonsolidowane (16.09.2026, `AKTUALIZACJE.md` wiersz 67 — rozstrzygnięcie: ochrona
+Origin/Host wbudowana we frameworku dla prawdziwych Server Actions spełnia wymóg "tokenu CSRF" z
+18.5; zwykłe Route Handlery nadal wymagają jawnego tokenu). Dokładnie to pytanie, dokładnie ta
+odpowiedź.
+
+---
+
+[16.09.2026] KATEGORIA: BŁĄD — 7.3 (hash CSP dla inline `<script>`) jest architektonicznie
+niekompatybilny z Next.js App Router: produkcyjna CSP psuje hydrację Reacta na KAŻDEJ stronie
+
+Szczegóły: Przy pracy nad 5.3 (PWA offline-first, ten sam dzień) — pierwsza w tej sesji realna
+weryfikacja produkcyjnej CSP w prawdziwej przeglądarce (`pnpm build && pnpm start` + Playwright,
+nie `pnpm dev`, gdzie CSP jest celowo złagodzona o `unsafe-inline`/`unsafe-eval` dla HMR) —
+odkryto, że **hydracja Reacta psuje się na każdym ekranie aplikacji**, zawsze, w każdej produkcji:
+`Uncaught (in promise) Minified React error #412` w konsoli, poprzedzony seriami `Refused to
+execute inline script because it violates the following Content Security Policy directive`, za
+każdym razem z INNYM wymaganym hashem SHA-256.
+
+Przyczyna źródłowa: `script-src` tej CSP (wzorzec z rozdz. 7.3 tego standardu, wpis 16.09.2026,
+wiersz 70 — "hash liczony automatycznie, nigdy ręcznie") dopuszcza inline-skrypty wyłącznie przez
+jawnie wymieniony, stały hash — poprawne i wystarczające dla JEDNEGO, statycznego, znanego z góry
+skryptu (np. `WYGLAD_INIT_SCRIPT` tego projektu, ustawiający motyw przed pierwszym malowaniem).
+Next.js App Router (13+, w tym wersja tego projektu — 16) generuje jednak WŁASNE, dodatkowe
+inline `<script>` do przesłania payloadu RSC streaming (`self.__next_f.push([...])`) — jeden lub
+więcej PER ŻĄDANIE, z treścią zależną od danych renderowanej strony. Taka treść z definicji nie
+może mieć stałego hasha z góry — każde żądanie generuje inny hash, więc żaden statyczny wpis w
+`script-src` nigdy go nie obejmie. Rezultat: CSP oparta wyłącznie o statyczne hashe blokuje
+hydrację na KAŻDEJ stronie z jakąkolwiek dynamiczną treścią (czyli praktycznie każdej), nie tylko
+teoretycznie — potwierdzone jako **obecny, aktywny stan produkcji** tego projektu, nie ryzyko.
+
+Zweryfikowane jako niezwiązane z konkretną zmianą tej sesji (PWA) — identyczny błąd reprodukuje
+się na czystym `main` sprzed PWA (commit `b5fb177`), sprawdzone w izolowanym `git worktree`.
+Najpewniej niewykryte wcześniej, bo cała dotychczasowa weryfikacja w przeglądarce w tej sesji szła
+przez `pnpm dev` (złagodzona CSP) — nigdy przez `pnpm start` z prawdziwą produkcyjną CSP w
+rzeczywistej przeglądarce, dopóki nie zaszła potrzeba realnie sprawdzić rejestrację service
+workera.
+
+Rozwiązanie standardowe dla tej klasy problemu (nieprzetestowane jeszcze w praktyce w żadnym
+projekcie rodziny, ale to udokumentowany, oficjalny wzorzec Next.js): **CSP oparta o nonce
+generowany per żądanie w middleware**, nie o stałe hashe. Middleware generuje losowy nonce
+(`crypto.randomUUID()`/`crypto.randomBytes`), dokłada go do nagłówka CSP (`script-src 'self'
+'nonce-{wartość}'`) ustawianego DYNAMICZNIE w middleware (nie w statycznej funkcji `headers()`
+w `next.config.mjs`, bo ta nie ma dostępu do per-request nonce'u), i przekazuje ten sam nonce do
+`<html>` przez nagłówek `x-nonce` odczytywany w Server Component roota — Next.js automatycznie
+dokłada ten nonce do WSZYSTKICH generowanych przez siebie inline-skryptów (w tym RSC streaming),
+jeśli wykryje go w nagłówku odpowiedzi zgodnie z własnym mechanizmem. To eliminuje potrzebę
+ręcznego wyliczania hasha dla własnych inline-skryptów (jak `WYGLAD_INIT_SCRIPT`) — te też dostają
+ten sam nonce zamiast osobnego hasha.
+
+Dlaczego warto zgłosić do new-app-standards: **7.3 dziś opisuje wyłącznie wzorzec hash-based CSP**
+(ostatnio wzmocniony wiersza 70 AKTUALIZACJE.md o automatyczne liczenie hasha) — ten wzorzec
+działa poprawnie tylko dla stron w pełni statycznych, bez żadnego dynamicznego contentu
+renderowanego przez RSC/Suspense. Każdy przyszły i obecny projekt rodziny na Next.js App Router
+(dziś: ten projekt, potencjalnie inzynier-szkieletowy-pro), który wdroży hash-based CSP dosłownie
+wg dzisiejszego brzmienia 7.3, odziedziczy dokładnie ten sam błąd — całkowicie zepsutą hydrację w
+produkcji, cichą (bez błędu widocznego zwykłemu userowi, tylko w konsoli deweloperskiej), i bardzo
+łatwą do przeoczyć, bo `pnpm dev`/testy lokalne z reguły nie używają identycznej, ścisłej CSP co
+produkcja. Rekomendacja: 7.3 powinna jawnie rozróżnić dwa reżimy — (a) hash-based, tylko dla
+projektów BEZ App Routera Next.js albo ze stronami w pełni statycznymi (`output: "export"`), (b)
+nonce-per-request jako WYMAGANY wzorzec dla każdego projektu Next.js App Router z jakąkolwiek
+stroną renderowaną dynamicznie (czyli w praktyce: prawie zawsze) — z konkretnym przykładem
+middleware + odczytu nonce'u w root layout, analogicznym do już istniejących przykładów w
+`docs/przyklady/`.
+
+Świadomie NIE naprawione w tym projekcie na razie — właściciel repo zdecydował poczekać na
+rozstrzygnięcie przez tę konsolidację, zamiast budować naprawę lokalnie przed nią. Bieżący,
+częściowy obejście w tym projekcie: rejestracja service workera (5.3/PWA) zaprojektowana tak, by
+NIE zależeć od hydracji Reacta (zewnętrzny plik `public/register-sw.js` przez zwykły `<script
+src>`, nie komponent kliencki) — działa mimo błędu, ale to obejście jednego symptomu, nie
+naprawa przyczyny; reszta interaktywności aplikacji zależnej od hydracji pozostaje dotknięta.
 
 Status: 🔎 nowe
