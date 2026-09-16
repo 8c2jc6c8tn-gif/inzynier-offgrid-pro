@@ -1,5 +1,6 @@
 import { Analytics } from '@vercel/analytics/next'
 import type { Metadata, Viewport } from 'next'
+import { headers } from 'next/headers'
 import { Inter, Lato, Roboto, Source_Sans_3 } from 'next/font/google'
 import { LanguageProvider } from '@/lib/i18n/language-context'
 import { getServerLanguage } from '@/lib/i18n/server-language'
@@ -54,9 +55,9 @@ export const viewport: Viewport = {
 // tego byłby widoczny błysk domyślnego wyglądu przy odświeżeniu strony (lib/theme/storage.ts,
 // lib/wyglad/storage.ts). Mapowanie grup kolorów zduplikowane tu w czystym JS celowo — ten skrypt
 // biegnie przed hydracją Reacta, nie może importować modułów TS.
-// CSP (next.config.mjs, docs/standards/07-bezpieczenstwo.md 7.3) dopuszcza ten inline <script>
-// wyłącznie przez SHA-256 hash jego treści — zmiana treści wymaga przeliczenia hasha tam, inaczej
-// produkcyjna CSP zablokuje skrypt po cichu (błysk domyślnego wyglądu, bez widocznego błędu).
+// CSP (middleware.ts, docs/standards/07-bezpieczenstwo.md 7.3) dopuszcza ten inline <script>
+// przez nonce-per-request (atrybut `nonce` niżej) — nie hash, żeby nie kolidować z inline-
+// skryptami RSC streaming Next.js, które też potrzebują tego samego nonce'u.
 const WYGLAD_INIT_SCRIPT = `
 (function () {
   try {
@@ -108,6 +109,11 @@ export default async function RootLayout({
   // LanguageProvider są zgodne od pierwszego bajtu HTML, bez migotania złego języka.
   const language = await getServerLanguage()
 
+  // Nonce wygenerowany per żądanie w middleware.ts (docs/standards/07-bezpieczenstwo.md, 7.3) —
+  // dokładany do WŁASNYCH inline-skryptów tego layoutu; Next.js dokłada go automatycznie do
+  // swoich własnych (RSC streaming), bo wykrywa go w nagłówku Content-Security-Policy.
+  const nonce = (await headers()).get('x-nonce') ?? undefined
+
   return (
     <html
       lang={language}
@@ -115,10 +121,11 @@ export default async function RootLayout({
       className={`${inter.variable} ${sourceSans.variable} ${roboto.variable} ${lato.variable}`}
     >
       <head>
-        <script dangerouslySetInnerHTML={{ __html: WYGLAD_INIT_SCRIPT }} />
-        {/* Zewnętrzny plik (nie inline) — CSP script-src 'self' go obejmuje bez hasha, rejestracja
-            nie zależy od hydracji Reacta (docs/standards/05-baza-danych-offline.md, 5.3). */}
-        {process.env.NODE_ENV === 'production' && <script src="/register-sw.js" defer />}
+        <script nonce={nonce} dangerouslySetInnerHTML={{ __html: WYGLAD_INIT_SCRIPT }} />
+        {/* Zewnętrzny plik (nie inline) — rejestracja nie zależy od hydracji Reacta
+            (docs/standards/05-baza-danych-offline.md, 5.3). Wymaga nonce mimo bycia zewnętrznym:
+            'self' w script-src wystarczyłby, ale nonce trzymamy spójnie na obu własnych <script>. */}
+        {process.env.NODE_ENV === 'production' && <script nonce={nonce} src="/register-sw.js" defer />}
       </head>
       <body className="antialiased">
         <LanguageProvider language={language}>
