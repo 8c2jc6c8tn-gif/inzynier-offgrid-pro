@@ -117,6 +117,25 @@ Tu trafia bieżący stan pracy: co w trakcie, co zablokowane, co następne — a
   rozbieżność: wzór spadku napięcia w opisie produktowym źródła (`R=ρ×L/S`) pomija drogę powrotną
   prądu — użyto poprawnego `R=ρ×2L/S` (ten sam wzór co M3/E8, już zweryfikowany). B5 (Moduł 11) i
   Ekran 25 (Moduł 4) mogą teraz reużyć ten silnik jako "echo" — wciąż `todo`, nie zbudowane.
+- ✅ (2026-09-16, wpis retroaktywny) **Domknięta dziura w tym pliku za okres 2026-09-05 →
+  2026-09-14** — znaleziona przy audycie zgodności ze standardem (rozdz. 14: ten plik ma być
+  aktualizowany na bieżąco). Praca w tym oknie była poprawnie odnotowana na bieżąco w
+  `docs/rejestr-pokrycia.md` i `docs/memory.md`, tylko nie przeniesiona tutaj — nic w kodzie nie
+  wymagało korekty, tylko ten log. Zbudowano: **(05.09)** Moduł 5/Ekran 6 "Dobór bezpieczników i
+  rozłączników" i Moduł 3/Ekran 22 pochodny Ekran "String Box", na wyraźną prośbę autora, przed
+  jeszcze pełnym Ekranem 1; **(06.09)** norma PN-HD 60364-5-52 (Załącznik B) w pełni zweryfikowana
+  i Moduł 5/Ekran 1 "Dobór przekroju kabla" (mega-Doradca) zbudowany — odblokował 4 wcześniej
+  `blocked` ekrany (B5/M11, M5/E1 samo, M4/E2 porównanie kabli, M4/E25); **(13.09)** 14 kolejnych
+  ekranów Modułu 5/okablowanie w jednym przejściu — SPD, szyny zbiorcze i połączenia (dolna
+  sekcja), Cu-Al/korozja, dobór mocy falownika, Główna Szyna Wyrównawcza, uziemienie
+  funkcjonalne/ochronne, analiza zwarciowa, wyłączniki nadprądowe DC, ochrona przed odwrotną
+  polaryzacją, wyłączniki RCD, ochrona przed dotykiem, oznakowanie obwodów, optymalizacja trasy
+  kabla/TCO, dobór izolacji kabla, pomiary powykonawcze; **(13-14.09)** przebudowa Moduł 4/Ekran 2
+  "napiecie-systemowe" do v2.1.0 (kreator odbiorników, analiza jednoczesności, echo doboru
+  przekroju kabla ×3 dla 12/24/48V, kosztorysy ×3); **(14.09)** Moduł 11/B5 "dobor-kabli-
+  bezpiecznikow-olow" i Moduł 4/Ekran 25 "szyny-zbiorcze-miedzypakietowe" odblokowane jako echo
+  Moduł 5/Ekran 1. Pełne szczegóły per ekran, z numerami funkcji źródłowych i uzasadnieniami
+  zakresu: `docs/rejestr-pokrycia.md` (wiersze z datami 2026-09-05/06/13/14).
 - ✅ (2026-09-15) **Rozstrzygnięte częściowo: `StorageAdapter` (wpis ⏳ z 2026-09-03) ma teraz realną
   implementację** — `IndexedDbStorageAdapter` (`lib/adapters/indexeddb-storage-adapter.ts`) + hook
   `usePersistedDraft` (`lib/adapters/use-persisted-draft.ts`), pilotaż na ekranie `napiecie-systemowe`

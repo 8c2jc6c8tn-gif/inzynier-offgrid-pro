@@ -3658,3 +3658,38 @@ autoryzacja do promocji treści do niego. "Sesja nad `new-app-standards`" w sens
 osobna, celowo otwarta sesja poświęcona konsolidacji wkładu — nie dowolną sesję, która akurat ma
 to repo w zasięgu z innego powodu. Dla tego projektu jedyny legalny wyjście stąd jest zawsze plik
 `docs/wklad-do-standardu.md`, bez wyjątków, niezależnie od tego, co technicznie jest możliwe.
+
+- **2026-09-16 — Audyt pełny ("Audyt pełny", na żądanie właściciela projektu) — dwie realne
+  niezgodności znalezione i naprawione.** Sprawdzone programistycznie (grep + odczyt kodu +
+  realne odpalenie `pnpm test`/`typecheck`/`lint`, nie z metryczek dokumentów), przekrojowo przez
+  wszystkie 19 rozdziałów standardu (00–18), z naciskiem na rozdziały architektoniczne/procesowe —
+  pełny przegląd 117 stron kalkulatorów ekran-po-ekran uznany za nieproporcjonalny do budżetu
+  jednego przejścia (każdy moduł miał już własną weryfikację przy budowie).
+
+  **Zgodne (zweryfikowane, nie tylko zadeklarowane):** 01 (0 importów `app/`/`components/` w
+  `lib/core/`), 07 (CSP z hashem skryptu, pełny zestaw nagłówków, `connect-src` warunkowy na
+  Supabase), 11 (CI zielony), 660/660 testów przed poprawką.
+
+  **Niezgodność #1 (rozdz. 10, Testy/DoD) — 6 modułów bez żadnych testów.**
+  `lib/core/modules/montaz-baterii/{weryfikacja-wstepna-olow, bezpieczenstwo-kwas,
+  uruchomienie-testy-olow, polaczenia-czyszczenie-olow, montaz-mechaniczny-olow, demontaz-olow}`
+  (Ścieżka B, Moduł 11) miały realną logikę domenową (`calculator.ts`, checklist →
+  VALID/INCOMPLETE, `demontaz-olow` dodatkowo z wymuszoną kolejnością i ostrzeżeniem
+  `KROK-POZA-KOLEJNOSCIA`), ale zero plików `__tests__` — nieodnotowane w `dlug-techniczny.md` ani
+  gdzie indziej jako świadome odłożenie. **Naprawione:** dopisano 6 plików testowych (25 testów),
+  wzorowanych na już istniejącym `przygotowanie-stanowiska`/`demontaz-pakietu` (ten sam wzorzec
+  checklisty). `pnpm test` po poprawce: 685/685 (było 660/660), `tsc --noEmit`/`lint` czyste.
+
+  **Niezgodność #2 (rozdz. 14, Proces i pamięć) — `docs/lista-do-zrobienia.md` z dziurą
+  09-05→09-14.** W tym oknie zbudowano 14 ekranów Modułu 5/okablowanie + M5/Ekran 1 (norma
+  PN-HD 60364-5-52) + przebudowę `napiecie-systemowe` v2 + odblokowanie B5/M11 i M4/E25 —
+  poprawnie odnotowane na bieżąco w `docs/rejestr-pokrycia.md` i tu, w `docs/memory.md`, ale nie
+  przeniesione do `docs/lista-do-zrobienia.md`, wbrew jego własnej deklarowanej zasadzie
+  "aktualizowane na bieżąco". Nic w kodzie nie wymagało korekty — tylko log. **Naprawione:** jeden
+  zbiorczy wpis retroaktywny dopisany do `docs/lista-do-zrobienia.md`, jawnie oznaczony jako
+  retroaktywny (nie cichy dopisek udający wpis "na żywo" z tamtej daty), z odsyłaczem do
+  `docs/rejestr-pokrycia.md` po szczegóły per ekran.
+
+  **Bez zmian (już znane, nie odkryte na nowo):** rozdz. 09 (kontrakt AI) i 12 (freemium) — nie
+  zaimplementowane, z listy "4 niezgodności" z 15.09.2026; rozdz. 18 (logowanie) — szkielet gotowy,
+  czeka na akcję właściciela; rozdz. 17 (i18n) — guard działa, rollout moduł po module w toku.
