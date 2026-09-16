@@ -237,7 +237,8 @@ Tu trafia bieżący stan pracy: co w trakcie, co zablokowane, co następne — a
      Stripe/podziału feature→tier/`isPro` w kodzie — cała apka dziś w 100% darmowa.
   3. **5.3 (PWA offline-first) — brak `manifest.json`/service workera/biblioteki PWA**, mimo że
      `CLAUDE.md` nazywa projekt "PWA offline-first". `IndexedDbStorageAdapter` (5.2) już działa
-     (`use-persisted-draft.ts`) — to tylko połowa wymogu 5.3.
+     (`use-persisted-draft.ts`) — to tylko połowa wymogu 5.3. ✅ Zbudowane (2026-09-16) — patrz
+     kolejny wpis niżej.
   4. **18.3 (scalanie tożsamości multi-provider)** — nie zbudowane, wymaga już zalogowanego usera
      do testowania, odłożone do czasu żywego logowania (blokowane na akcję właściciela, patrz
      wpis 15.09.2026 wyżej).
@@ -273,3 +274,29 @@ Tu trafia bieżący stan pracy: co w trakcie, co zablokowane, co następne — a
   ryzyko: brak zdjęć/OCR/importu dokumentów do apki, jedyny wektor to tekst pytania usera, już
   traktowany jako dane w `tool_result`, nigdy jako `system`). Szczegóły i uzasadnienia
   architektoniczne: `docs/memory.md`.
+- ✅ (2026-09-16) **5.3 (PWA offline-first) — manifest + service worker (Priorytet 2 z audytu
+  wyżej).** `app/manifest.ts` (konwencja Next.js Metadata File → `/manifest.webmanifest`),
+  `public/sw.js` (ręcznie pisany, bez biblioteki — cache-first dla `/_next/static/*`,
+  network-first z fallbackiem do cache dla nawigacji), rejestrowany przez zewnętrzny
+  `public/register-sw.js` (`<script src>` w `app/layout.tsx`, tylko produkcja). Ikony 192/512px
+  wyrenderowane z istniejącego `public/icon.svg`. Przy okazji naprawiony realny placeholder:
+  `app/layout.tsx` miał tytuł "v0 App"/"Created with v0" (nieużywany szkielet v0.app, nigdy
+  niewypełniony) — teraz prawdziwa nazwa i opis projektu + `appleWebApp` (instalacja na iOS).
+  **Uczciwie zgłoszone, nie ukryte:** ikony (`icon.svg`/`apple-icon.png`/192/512px) to wciąż
+  domyślny znak graficzny v0.app, nie własne logo "Inżynier Offgrid Pro" — świadomie
+  niezaadresowane w tym zadaniu (decyzja wizualna, nie inżynierska), do rozważenia osobno.
+  **Znalezisko przy weryfikacji (poza zakresem tego zadania, zgłoszone i pozostawione na
+  wyraźne polecenie właściciela — "poprawki idą z aktualizacją standardu, zaczekaj"):**
+  produkcyjna CSP (`next.config.mjs`, 7.3) dopuszcza tylko jeden zahardkodowany hash inline
+  skryptu (`WYGLAD_INIT_SCRIPT`) — nie obejmuje inline-skryptów RSC streaming, które Next.js
+  generuje na każdej stronie, więc **hydracja Reacta psuje się na każdym ekranie w realnej
+  produkcji** (`React error #412`), niezależnie od tego zadania. Zweryfikowane programistycznie
+  jako pre-existing (identyczne na `main` sprzed PWA, w izolowanym worktree) — nie spowodowane
+  tą zmianą. Rejestracja SW celowo zaprojektowana tak, by NIE zależeć od tej zepsutej hydracji
+  (zewnętrzny `<script src>`, nie komponent kliencki w drzewie Reacta) — potwierdzone działające
+  mimo błędu CSP. Właściwa naprawa (nonce-per-request zamiast statycznego hasha) czeka na
+  aktualizację ze standardu, NIE wykonana teraz na wyraźną prośbę. Zweryfikowane end-to-end
+  (Playwright, `pnpm start`, prawdziwa produkcyjna CSP): manifest serwowany poprawnie, SW
+  rejestruje się automatycznie, strona odwiedzona wcześniej ładuje się offline (status 200,
+  poprawna treść) po przejściu w tryb offline. `pnpm typecheck`/`lint`/`test` (722/722)/`build`
+  czyste. Szczegóły: `docs/memory.md`.

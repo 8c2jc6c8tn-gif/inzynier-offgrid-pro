@@ -13,9 +13,9 @@ const roboto = Roboto({ subsets: ['latin', 'latin-ext'], weight: ['400', '500', 
 const lato = Lato({ subsets: ['latin', 'latin-ext'], weight: ['400', '700'], variable: '--font-lato' })
 
 export const metadata: Metadata = {
-  title: 'v0 App',
-  description: 'Created with v0',
-  generator: 'v0.app',
+  title: 'Inżynier Offgrid Pro',
+  description:
+    'Kalkulator/doradca inżynierski dla systemów off-grid PV (panele, magazyn energii, ogrzewanie, bezpieczeństwo).',
   icons: {
     icon: [
       {
@@ -32,6 +32,13 @@ export const metadata: Metadata = {
       },
     ],
     apple: '/apple-icon.png',
+  },
+  // 5.3 — instalowalna PWA na iOS (Safari nie czyta manifest.webmanifest w pełni, potrzebuje
+  // tych meta tagów osobno, żeby aplikacja otwierała się jako "standalone", nie w pasku Safari).
+  appleWebApp: {
+    capable: true,
+    statusBarStyle: 'default',
+    title: 'Offgrid Pro',
   },
 }
 
@@ -109,6 +116,9 @@ export default async function RootLayout({
     >
       <head>
         <script dangerouslySetInnerHTML={{ __html: WYGLAD_INIT_SCRIPT }} />
+        {/* Zewnętrzny plik (nie inline) — CSP script-src 'self' go obejmuje bez hasha, rejestracja
+            nie zależy od hydracji Reacta (docs/standards/05-baza-danych-offline.md, 5.3). */}
+        {process.env.NODE_ENV === 'production' && <script src="/register-sw.js" defer />}
       </head>
       <body className="antialiased">
         <LanguageProvider language={language}>
