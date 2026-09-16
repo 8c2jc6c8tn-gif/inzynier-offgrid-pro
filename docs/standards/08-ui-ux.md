@@ -12,8 +12,6 @@ Ekran dotyczący decyzji użytkownika o realnych konsekwencjach (dobór, kompaty
 
 Punkt startowy, nie zamknięta lista — jeśli funkcja nie pasuje dobrze do żadnego wzorca, tworzy się nowy dedykowany, zamiast naciągać istniejący (naciąganie na siłę pogarsza UX bardziej niż dodanie kolejnego wzorca).
 
-Ta tabela opisuje typ **pojedynczego ekranu**. Jak profilować **wiele powiązanych ekranów w obrębie jednego modułu** (co jest artykułem, co ekranem pochodnym, co pełnym Kreatorem Pro) — patrz 8.11.
-
 | Wzorzec | Kiedy stosować |
 |---|---|
 | **A — Przełącznik trybu** | Opcje wzajemnie się wykluczają i są równoważne (ten sam typ wejścia/wyjścia, inna reguła/wzór). |
@@ -51,8 +49,6 @@ Każdy parametr liczbowy na dowolnym ekranie (nie tylko Doradcy) ma mały znak `
 
 **Reguła.** Globalny przełącznik, stan trwały w preferencjach użytkownika. Domyślnie tryb prosty (suwaki, kafle, mniej pól). Tryb zaawansowany odsłania parametry dodatkowe (dla projektu technicznego: protokoły komunikacji, momenty dokręcania; dla innej domeny: pełne dane źródłowe, zaawansowane filtry — dobór wg projektu). **Menu pozostaje zawsze dostępne, również w trybie prowadzonym/prostym** — nigdy nie zamyka użytkownika w liniowej ścieżce bez wyjścia.
 
-Ta sama para prosty/zaawansowany ma też wariant **na poziomie nawigacji modułu**, nie tylko jako przełącznik w obrębie jednego ekranu — patrz 8.11 (Ekrany pochodne i Kreator Pro).
-
 ## 8.6. Bezpieczne wartości domyślne
 
 **Reguła.** Dane wpływające na bezpieczeństwo nie mogą mieć ukrytej wartości domyślnej, którą użytkownik przeoczy. Jeśli pole ma wartość domyślną, musi być jawnie oznaczone jako domyślne/orientacyjne, nie wyglądać jak dana wpisana świadomie przez użytkownika.
@@ -69,6 +65,8 @@ Ta sama para prosty/zaawansowany ma też wariant **na poziomie nawigacji modułu
 
 Przykład: *"Brakuje informacji o dacie otwarcia opakowania. Wynik został policzony orientacyjnie dla wartości domyślnej i nie powinien być traktowany jako pewność."*
 
+[16.09.2026] ✅ DODANO — źródło: inzynier-offgrid-pro (U.4). Reguła wyżej dotyczy stylu treści w języku bazowym — dla projektu z i18n (rozdz. 17) obowiązuje w **każdym** obsługiwanym języku, nie tylko oryginale. Ton komunikatu (prosty, konkretny, bez straszenia, bez udawanej pewności) jest częścią kryterium jakości tłumaczenia, sprawdzaną tak samo jak poprawność merytoryczna przy nadawaniu tłumaczeniu statusu `reviewed` (17.7) — tłumaczenie może być poprawne językowo i jednocześnie łamać ten styl (np. bardziej alarmistyczne albo bardziej stanowcze niż oryginał), co status `reviewed` powinien wyłapać.
+
 ## 8.9. Mobile-first
 
 **Reguła.** Projektuje się pod telefon jako pierwszy cel (dotyk ≥44px, input ≥16px, brak auto-zoom iOS na focusie pola), potem rozwija na tablet/desktop. Scenariusz użycia "w terenie"/poza biurkiem (jeśli dotyczy projektu) wymaga dodatkowo: automatycznego zapisu, dużych przycisków, trybu wysokiego kontrastu, czytelności w jasnym otoczeniu, obsługi jedną ręką.
@@ -76,54 +74,3 @@ Przykład: *"Brakuje informacji o dacie otwarcia opakowania. Wynik został polic
 ## 8.10. Dostępność
 
 Nie polegaj wyłącznie na kolorze do przekazania informacji (werdykty 🟢🟡🔴 mają też kształt/ikonę, nie tylko barwę). Zachowaj odpowiedni kontrast. Etykiety dla czytników ekranu. Nie blokuj powiększenia. Obsługa klawiaturą. Unikaj migających elementów.
-
-## 8.11. Ekrany pochodne i Kreator Pro — profilowanie nawigacji wewnątrz modułu
-
-Wypracowane 14.09.2026 przy projektowaniu modułu "Oświetlenie LED" (szkic:
-`docs/zrodla/Opracowanie_Tasmy_LED_Oswietlenie_DC_DRAFT.md`, Sekcja 15), na wyraźną prośbę
-autora do zastosowania retroaktywnie w całej aplikacji, nie tylko w tym module.
-
-**Problem.** Moduł, który rozrasta się do wielu powiązanych funkcji (dziesiątki/setki), rodzi
-pokusę, żeby upchnąć wszystko w jeden, w pełni multi-ścieżkowy ekran Doradcy — "jeden kreator ze
-wszystkim". To dobre dla inżyniera, ale dla początkującego jest dokładnie tym, czego 8.1 zakazuje:
-aplikacja przestaje prowadzić za rękę. Ma to też konsekwencję biznesową/percepcyjną: użytkownik
-ocenia wartość aplikacji po tym, **co widzi** (liczba i nazwy kafli/ekranów), nie po tym, co jest
-ukryte wewnątrz jednego złożonego ekranu — chowanie dziesiątek funkcji za jednym kaflem zaniża
-postrzeganą wartość, nawet jeśli funkcjonalnie nic nie brakuje.
-
-**Reguła — trzy różne role ekranu w obrębie jednego modułu, nigdy nie mieszane w jeden ekran:**
-
-1. **Artykuł referencyjny (Wzorzec C, 8.2).** Samodzielny, wchodzi się po jedną konkretną wiedzę,
-   z dowolnego miejsca, bez wymuszonej kolejności. Nigdy nie jest wplatany między kroki Doradcy
-   (Sekcja D "Migawka edukacyjna" z 8.4 to co innego — krótkie zdanie kontekstu przy WYNIKU, nie
-   pełny artykuł między pytaniami).
-
-2. **Ekran pochodny (nowa kategoria, nie osobny Wzorzec — cienka warstwa nad Wzorcem D/A/H).**
-   Zero nowej logiki: wywołuje dokładnie tę samą funkcję kalkulatora co ekran ogólny (echo,
-   rozdział 01), tylko z zawężonym/nazwanym kontekstem i jednym, konkretnym wynikiem zamiast
-   pełnego drzewa opcji. Uzasadnienie architektoniczne: to prezentacja, nie duplikacja obliczenia
-   — nie narusza zakazu duplikowania logiki. Uzasadnienie produktowe: początkujący trafia od razu
-   na kafelek nazwany po jego sytuacji, zamiast musieć "wydłubać" tę samą odpowiedź z ogólnego
-   kreatora. Przykład: zamiast jednego ekranu "Dobór kabla" z polami na wszystko, dodatkowy
-   ekran-skrót "Jaki kabel do panelu na dachu, 10 metrów?" wywołujący tę samą funkcję z zawężonym
-   kontekstem.
-
-3. **Kreator Pro (pełny, multi-ścieżkowy wariant Wzorca D/A).** Wszystkie pytania/ścieżki w jednym
-   miejscu — dokładnie to, do czego przed tą regułą skłaniała się domyślna intuicja budowy modułu.
-   Zostaje, ale jako **świadomie wybierana opcja dla zaawansowanego użytkownika**, nie jako
-   domyślny/jedyny punkt wejścia do tematu. To ten sam podział co 8.5 (Tryb prosty/zaawansowany),
-   tylko zrealizowany jako osobny ekran zamiast przełącznika w obrębie jednego ekranu — silniejszy
-   dla początkującego, bo nie musi nawet wiedzieć, że przełącznik mógłby istnieć.
-
-**Prawdziwe rozgałęzienie treści (osobna sprawa).** Gdy różne warianty tematu mają naprawdę różne
-dane źródłowe/fizykę (nie tylko "więcej informacji o tym samym") — np. oświetlenie domowe vs
-rolnicze, inne chipy, inne wymagania IP — to nie jest kandydat na ekran pochodny ani Kreator Pro,
-tylko na osobny hub z dalszymi podekranami (trzeci poziom nawigacji, wyjątek od standardowego
-dwupoziomowego Pulpit→Moduł→Ekran).
-
-**Zasada wyboru — decyzja per moduł, nie sztywna lista.** To, które konkretnie ekrany pochodne
-warto wydzielić z ogólnego Kreatora Pro, rozstrzyga się osobno w każdym module, w zależności od
-tego, jakie konkretne, nazwane pytania rzeczywiście zadają początkujący użytkownicy tego tematu.
-Kryterium kwalifikacji: da się odpowiedzieć jednym wywołaniem istniejącej funkcji, z zawężonym
-kontekstem, na pojedyncze pytanie w stylu "jaki/ile/czy pasuje" — jeśli tak, warto rozważyć osobny
-kafelek, zamiast zakładać, że użytkownik sam odnajdzie tę odpowiedź w ogólnym kreatorze.
