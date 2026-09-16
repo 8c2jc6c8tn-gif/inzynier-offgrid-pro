@@ -298,6 +298,13 @@ funkcjonalny bez nowej zależności; realne przeciąganie można dodać późnie
 
 ## Pozostałe moduły (6, 7, 10, 11, 12, 13 — reszta ekranów)
 
-Poza jednym ekranem wyżej — nie rozpoczęte. Treść źródłowa kompletna w `docs/zrodla/`. Rejestr
-zostanie rozszerzony o kolejne ekrany w miarę postępu prac, zgodnie z kolejnością z
-`ZASADY_APLIKACJI.md` §14.
+[16.09.2026] **Korekta higieny dokumentacji — ten akapit był nieaktualny od 30.08.2026, twierdząc
+"nie rozpoczęte" mimo że każdy z tych modułów ma dziś przynajmniej jeden ekran `done` (patrz wiersze
+wyżej: M6 COP pompy ciepła, M7 Procedura Black Start + sekcja "Moduł 7 — ekrany dodatkowe", M10
+Prognozy, M11 Przygotowanie stanowiska + Montaż baterii, M12 Tryb uproszczony, M13 Tryb Live).
+Zostawione bez usuwania (14.2 — jawna korekta, nie ciche nadpisanie), zamiast usunąć: stary tekst
+mylił, bo nikt go nie odświeżył w miarę postępu prac.**
+
+Aktualny stan per moduł/ekran: patrz wiersze wyżej w tym pliku (kolumna status). Ekrany nadal
+`todo` w tych modułach: patrz `docs/lista-do-zrobienia.md`. Treść źródłowa kompletna w
+`docs/zrodla/`.

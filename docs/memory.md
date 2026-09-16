@@ -4008,3 +4008,44 @@ to repo w zasięgu z innego powodu. Dla tego projektu jedyny legalny wyjście st
   zachowanie jak przed zmianą (bez realnych kluczy `KontoSekcja` nadal zwraca `null` przed
   jakimkolwiek wywołaniem `getAccountStatus()`) — refaktoring nie zmienił zachowania apki dla
   użytkownika, tylko strukturę kodu pod spodem.
+
+- **2026-09-16 — Audyt pełnego `docs/standards/` (00-18) + GOD BOOK na polecenie właściciela
+  projektu ("Przeczytaj nowe standardy i god book dokładnie... Zrób listę do zrobienia").** Każdy
+  z 19 rozdziałów przeczytany w całości (nie z metryczki/nagłówka), krzyżowo sprawdzony względem
+  kodu przez `grep` tam, gdzie twierdzenie dało się sprawdzić programistycznie (14.3). Pełna lista
+  w `docs/lista-do-zrobienia.md`, tu tylko streszczenie metody i największe znaleziska.
+
+  **Cztery realne luki, w kolejności priorytetu:**
+  1. Rozdz. 9 (AI w produkcie) — 9.0 mówi wprost "obowiązkowy element każdego projektu rodziny",
+     nie moduł opcjonalny (w odróżnieniu od Y.10 GOD BOOK). Zero implementacji dziś.
+  2. Rozdz. 12 (Freemium) — 12.8 "jedyny model rodziny". Zero implementacji, apka w 100% darmowa.
+  3. 5.3 (PWA offline-first) — `CLAUDE.md` deklaruje "PWA offline-first", ale zero
+     `manifest.json`/service workera/biblioteki PWA w `package.json`. `IndexedDbStorageAdapter`
+     (5.2) działa od dawna (`use-persisted-draft.ts`) — to była tylko połowa wymogu 5.3, druga
+     połowa (cache assetów przez SW) nigdy nie powstała i nikt tego wcześniej nie zauważył, bo
+     żaden wcześniejszy audyt nie sprawdzał 5.3 dosłownie, tylko 5.1/5.2 (Seed/StorageAdapter).
+  4. 18.3 (scalanie tożsamości) — już znane, bez zmian (patrz wpis wyżej, blokowane na żywe
+     logowanie).
+
+  **Świadomie NIE dodane jako nowe luki** (już znane/odłożone, żeby nie dublować): rollout i18n
+  (89 plików/109 miejsc), 10.5 (audyt K1-K8, 116 modułów — rozłożony w czasie z definicji), 57
+  pozycji `todo` w `docs/rejestr-pokrycia.md` (stress-test zimowy, w większości zależne).
+
+  **Przy okazji znalezione i naprawione — higiena dokumentacji, nie nowa funkcja (14.2, jawna
+  korekta nie ciche nadpisanie):**
+  - `lib/adapters/storage-adapter.ts` — komentarz twierdził "apka nie ma jeszcze żadnej funkcji
+    zapisującej Seed projektu, implementacja to osobne zadanie" — nieprawda od momentu powstania
+    `IndexedDbStorageAdapter`/`use-persisted-draft.ts` (wcześniejsza sesja, nigdy nie wrócono
+    poprawić ten konkretny komentarz). Poprawiony, odsyła teraz do realnej implementacji.
+  - `docs/rejestr-pokrycia.md`, sekcja "Pozostałe moduły (6,7,10,11,12,13)" — z 30.08.2026,
+    twierdziła "nie rozpoczęte" mimo że każdy z tych modułów ma dziś min. jeden ekran `done`
+    (potwierdzone wierszami wyżej w tym samym pliku: M6 COP pompy ciepła, M7 Black Start, M10
+    Prognozy, M11 Przygotowanie stanowiska + Montaż baterii, M12 Tryb uproszczony, M13 Tryb Live).
+    Stary tekst zostawiony (nie usunięty), oznaczony jako korekta, z odsyłaczem do aktualnego stanu.
+  - **Wzorzec do zapamiętania:** oba znaleziska to ten sam kształt błędu — komentarz/notatka
+    napisana w momencie "jeszcze nie zbudowane", nikt nie wrócił jej poprawić, gdy budowa faktycznie
+    nastąpiła w innej sesji/innym wątku pracy. Warte uwagi przy przyszłych audytach: szukać nie
+    tylko brakującego kodu, ale też komentarzy/dokumentacji, które kłamią o istniejącym kodzie w
+    drugą stronę (twierdzą "nie ma", a jest).
+
+  Następny krok (na wyraźne polecenie): rozdz. 9 (AI w produkcie), patrz kolejny wpis.
