@@ -142,3 +142,8 @@ Tu trafia bieżący stan pracy: co w trakcie, co zablokowane, co następne — a
   3. (Opcjonalnie, koszt: Google — darmowe, Apple — **99 USD/rok**) Włącz dostawców w Supabase
      Dashboard → Authentication → Providers.
   Po tym logowanie działa bez żadnych zmian w kodzie. Szczegóły: `docs/memory.md`.
+- ✅ (2026-09-16) **Luka "brak CI" (11.2/11.5) zamknięta.** `.github/workflows/ci.yml` — dwa
+  niezależne joby na każdym PR + push na `main`: `quality` (lint/typecheck/test/build) i
+  `dependency-audit` (`pnpm audit --audit-level=high`, 11.5). Przy tej okazji zaktualizowano
+  zależności i naprawiono 22 podatności `high` wykryte przy pierwszym uruchomieniu audytu (audyt
+  dziś: 0 wykrytych). Szczegóły procesu i decyzji: `docs/memory.md`.

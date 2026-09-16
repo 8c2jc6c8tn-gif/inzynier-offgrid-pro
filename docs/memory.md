@@ -231,6 +231,43 @@ konkretnych potrzebnych tabel + kod kalkulatora, po kolei małymi partiami zgodn
   pakietu `playwright` jako zależności projektu, tylko sama binarka Chromium w środowisku) — hash
   wyliczony bezpośrednio z tego samego stringa co w kodzie, `dangerouslySetInnerHTML` nie przechodzi
   przez minifikację JS, więc ryzyko rozjazdu niskie, ale to rozumowanie, nie potwierdzenie wizualne.
+- **2026-09-16 — CI (11.2/11.5) zbudowane, luka z wpisu wyżej ("projekt nie ma jeszcze żadnego
+  CI") zamknięta.** `.github/workflows/ci.yml`, dwa niezależne joby na `pull_request` + `push`
+  do `main`, rozdzielone celowo (znany, nienaprawialny natychmiast high w jednej zależności nie
+  ma blokować mergowania czystego fixa lintera w drugim, i odwrotnie):
+  - `quality` — `pnpm lint` → `pnpm typecheck` (nowy skrypt, `tsc --noEmit` — nie istniał wcześniej
+    jako skrypt npm, tylko wywoływany ręcznie przez sesje AI) → `pnpm test` → `pnpm build`, na
+    `pnpm/action-setup` + `actions/setup-node@22` z cache pnpm, `pnpm install --frozen-lockfile`
+    (11.1 — lockfile jako źródło prawdy instalacji, nie tylko lokalnie).
+  - `dependency-audit` — `pnpm audit --audit-level=high` (11.5, dosłownie z treści reguły).
+  **Decyzja zakresu (to, co ta reguła sama nazywa "większą decyzją, nie mechaniczną łatką"):**
+  pierwsze uruchomienie audytu **nie przechodziło** — 22 podatności `high` (`brace-expansion`,
+  `js-yaml`, `fast-uri`, `postcss`, `sharp`), gdyby CI powstało wcześniej i włączono bramkę bez
+  sprawdzenia, pierwszy PR zostałby zablokowany od zera. Rozstrzygnięcie: **nie** obniżono progu
+  i **nie** dodano wyjątku/`--production`/allowlisty — sprawdzono każdą pozycję i naprawiono to,
+  co naprawialne w granicach już zadeklarowanych zakresów `package.json` (żadna zmiana major, żadne
+  ręczne podniesienie zakresu semver):
+  1. `postcss` (`^8.5`, zależność bezpośrednia — dokładnie przypadek, który 11.5 nazywa
+     najpoważniejszym) miał zainstalowaną `8.5.6` < łatka `8.5.12` mimo że zakres to dopuszczał —
+     `pnpm update postcss` wystarczyło.
+  2. Pozostałe 4 pakiety (`brace-expansion`/`js-yaml`/`fast-uri`/`sharp`) to zależności przechodnie
+     dev-only (łańcuchy `eslint-config-next→...→minimatch`, `shadcn→cosmiconfig`/`@modelcontextprotocol/sdk→ajv`)
+     plus `next→sharp` (produkcyjna, ale nieużywana realnie — `images.unoptimized: true` w
+     `next.config.mjs`, zweryfikowane wcześniej). `pnpm update` (bez argumentu, w granicach
+     zakresów `^` już zadeklarowanych) podciągnął `eslint-config-next`/`shadcn`/`react`/
+     `react-dom`/`@base-ui/react`/`lucide-react`/`zod`/`tailwind-merge`/`@types/*` do najnowszych
+     wersji dopuszczonych przez istniejące zakresy — to rozwiązało wszystkie 4 pozostałe pakiety
+     przez łańcuch zależności, bez ręcznej ingerencji w `overrides`/`resolutions`.
+  Wynik: `pnpm audit --audit-level=high` → **0 podatności** (`No known vulnerabilities found`).
+  Zero wyjątków zapisanych — nie było potrzeby, każda pozycja miała realną łatkę w already-declared
+  zakresie. **Zweryfikowano po zmianie zależności** (nie tylko sam audyt): `lint`/`typecheck`/
+  `test` (660/660)/`build` — wszystkie czyste, żadna z podniesionych wersji nie złamała niczego.
+  Dodane `packageManager: "pnpm@10.33.0"` do `package.json` (wzmacnia 11.1 — jawna, reprodukowalna
+  wersja menedżera pakietów w CI, nie tylko lockfile). Jeden lockfile (`pnpm-lock.yaml`) — bez zmian
+  w tej zasadzie, tylko zaktualizowany.
+  **Poza zakresem tej zmiany, świadomie:** `moderate`/`low` z tego samego audytu (18+3, wciąż
+  obecne po aktualizacji) — 11.5 blokuje merge tylko na `high`/krytyczne, niższe poziomy nie są
+  bramką CI; jeśli właściciel projektu chce zaostrzyć próg, to osobna decyzja.
 
 ## Decyzje i uzasadnienie
 
