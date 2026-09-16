@@ -209,3 +209,13 @@ Tu trafia bieżący stan pracy: co w trakcie, co zablokowane, co następne — a
   na ekranie modułu pilotażowego, zero błędów konsoli. `docs/wklad-do-standardu.md` i
   `docs/propozycje-do-new-app-standards/wielojezycznosc.md` zaktualizowane (nie czeka już na
   `zero-waste`, na wyraźne polecenie właściciela projektu). Szczegóły: `docs/memory.md`.
+- ✅ (2026-09-16, trzecia synchronizacja tego dnia) **Aktualizacja ze standardem — 7 nowych wpisów
+  `AKTUALIZACJE.md`, GOD BOOK bez zmiany wersji (v2.19).** Nadpisane: `00-INDEKS.md`, `08-ui-ux.md`,
+  `10-testy.md`, `16-standard-kodowania.md`, `17-i18n.md`. **Własne zgłoszenie z dzisiejszej
+  wcześniejszej pracy (`wielojezycznosc.md`) zostało skonsolidowane** — 3 nowe reguły standardu
+  (8.8, 17.4, nowa 17.7a) cytują wprost ten plik, w tym potwierdzenie naszego dzisiejszego wyboru
+  (cookie per-urządzenie bez kont, `⚠ [klucz]` zamiast cichego fallbacku). Sprawdzone względem kodu:
+  next-intl (nie dotyczy — nie używamy), region obliczeń/towarów (przełącznik języka już niezależny
+  od `lib/core/profiles/`, brak UI regionu do naprawienia), wzorzec async-reset 16.7 (jedyny
+  kandydat, `app/auth/login/page.tsx`, sprawdzony — nie występuje), e2e port-cleanup 10.6 (nie
+  dotyczy — brak infrastruktury e2e). Szczegóły: `docs/memory.md`.

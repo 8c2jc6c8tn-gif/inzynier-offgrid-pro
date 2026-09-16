@@ -50,3 +50,11 @@ Ten rozdział, w odróżnieniu od reszty pakietu, nie dotyczy jednej warstwy czy
 **Reguła.** Komentarz tłumaczy **dlaczego**, nie **co robi kod** — dobrze nazwane zmienne i funkcje mówią "co" same. Komentarz wart napisania to: nieoczywiste ograniczenie, obejście konkretnego błędu, powód biznesowy/domenowy decyzji, ostrzeżenie przed pułapką, którą ktoś już raz odkrył (patrz `docs/memory.md`, rozdział 14).
 
 **Konsekwencja dla funkcji domenowych.** Nazwa wzoru/reguły, znaczenie zmiennych, jednostki, źródło/dokument odniesienia i ograniczenia zastosowania nie muszą żyć w komentarzu — żyją w kontrakcie wyniku w runtime (`formula`, `inputs`, `assumptions`, rozdział 03.2) i w teście z wartością referencyjną (rozdział 03.4). To jest **silniejsza** gwarancja niż docstring: kontrakt i test nie mogą się rozjechać z kodem po cichu tak, jak potrafi się rozjechać komentarz, którego nikt nie zaktualizował.
+
+## 16.7. Efekt uboczny `await`-a nie może cicho nadpisać świeższą akcję użytkownika
+
+[16.09.2026] ✅ DODANO — źródło: zero-waste (U.4). Ten sam kształt błędu wystąpił w tym projekcie **trzy razy, w trzech niezależnych ekranach**: wzorzec `setBusy(true)` → `await mutacja()` → bezwarunkowe nadpisanie/zresetowanie stanu lokalnego (`setPole('')`, wybrany tryb, zaznaczenie) po zakończeniu `await`. Gdy użytkownik zdążył zmienić ten sam stan, zanim operacja się zakończyła (realny scenariusz przy szybkim wpisywaniu/klikaniu, nie tylko wyścig testu), spóźniony reset kasował jego świeżą akcję po cichu — bez błędu, bez ostrzeżenia, czasem z trwale zablokowanym UI w efekcie.
+
+**Reguła.** Asynchroniczna operacja, która na końcu resetuje/nadpisuje powiązany stan lokalny, zapamiętuje wartość tego stanu **PRZED** `await` i po zakończeniu operacji nadpisuje warunkowo — funkcyjnym `setState` porównującym wartość bieżącą z zapamiętaną (`setPole((current) => current === zapamietana ? '' : current)`), nigdy bezwarunkowo. Jeśli użytkownik zmienił stan w międzyczasie, jego świeższa wartość zostaje nietknięta.
+
+**Znalezienie tego wzorca błędu jest metodologicznie powiązane z 10.7** — wykryty nie przez zgadywanie, tylko przez odmowę zamknięcia niestabilnego testu e2e etykietą "flaky" bez diagnozy.

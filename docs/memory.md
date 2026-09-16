@@ -3875,3 +3875,45 @@ to repo w zasięgu z innego powodu. Dla tego projektu jedyny legalny wyjście st
   to jako gotową odpowiedź. `docs/wklad-do-standardu.md`, wpis 14.09.2026 — dopisana aktualizacja
   statusu (nie nowy wpis — kontynuacja tego samego zgłoszenia), z odsyłaczem do rozstrzygniętego
   punktu B.3.
+
+- **2026-09-16 (trzecia synchronizacja tego dnia) — sprawdzone `AKTUALIZACJE.md` na polecenie
+  właściciela projektu ("Aktualizacja"), `git fetch`+`git pull` w lokalnym klonie
+  `new-app-standards` (`741352e..c89abb7`, 7 nowych wpisów). GOD BOOK bez zmiany wersji (nadal
+  v2.19).** Nadpisane w całości (NIETYKALNE): `docs/standards/00-INDEKS.md`, `08-ui-ux.md`,
+  `10-testy.md`, `16-standard-kodowania.md`, `17-i18n.md`. Pominięte świadomie: `docs/god-book/
+  memory.md`, `docs/lista-do-zrobienia.md`, `docs/projekty-downstream.md` w `new-app-standards` —
+  to własne pliki procesowe tamtej sesji (log U.3/U.4, rejestr projektów downstream), nie
+  szablony/standard do mirrorowania tutaj.
+
+  **Miła niespodzianka: własne zgłoszenie z dzisiejszej wcześniejszej pracy zostało skonsolidowane.**
+  Jeden z 7 wpisów cytuje wprost "pełną treść offgrid-pro `docs/propozycje-do-new-app-standards/
+  wielojezycznosc.md`" jako źródło trzech nowych reguł (8.8 rozszerzona — styl tłumaczeń jak
+  oryginał; **17.4 rozszerzona — rozstrzyga nazwane pytanie otwarte z naszej sekcji C.4**: przy
+  aktywnych kontach język synchronizuje się przez konto jak inne ustawienia 18.6/18.9, bez kont
+  zostaje per-urządzenie — dokładnie nasz dzisiejszy wybór, teraz potwierdzony jako reguła rodziny,
+  nie lokalna decyzja; **nowa 17.7a — dosłownie nasza implementacja** `⚠ [klucz]` zamiast cichego
+  fallbacku, teraz kanoniczna). Cykl zamknięty tego samego dnia: zgłoszenie → sesja nad
+  `new-app-standards` → wraca jako reguła, zamiast czekać tygodniami (dokładnie powód skrócenia
+  cyklu Y.6/U.4 do 3h, zsynchronizowanego wcześniej dziś).
+
+  **Sprawdzone względem TEGO kodu (nie zgadywane), pozostałe 4 wpisy:**
+  - **17.4a (next-intl, pułapka `[locale]`/`localePrefix`)** — nie dotyczy: ten projekt nie używa
+    next-intl ani żadnej biblioteki i18n (świadoma decyzja, patrz wpis wcześniej dziś, sekcja C.2 w
+    `wielojezycznosc.md`), brak segmentów `[locale]` w `app/`. Zero wpływu na kod.
+  - **17.3 (region obliczeń/towarów jako osobne osie + wymóg ręcznej zmiany języka)** —
+    `grep` potwierdza `lib/i18n/`/`components/jezyk-wybor.tsx` nie dotykają `lib/core/profiles/`
+    (jedyny profil: `pl.ts`) — przełącznik języka jest już niezależny od profilu regionalnego,
+    zgodnie z regułą. Wymóg "zmiana języka zawsze ręcznie dostępna" — spełniony (Ustawienia).
+    Projekt nie ma dziś żadnego UI wyboru regionu obliczeń/towarów (tylko wewnętrzny profil `PL`
+    bez przełącznika) — nic do naprawienia, zapamiętane na przyszłość: gdy taki przełącznik
+    powstanie, **nigdy GPS/geolokalizacja** (rozstrzygnięcie z kolejnego wpisu, ten sam dzień).
+  - **10.6/16.7/10.7 (z zero-waste — port-based e2e cleanup, wzorzec async-reset, zakaz etykiety
+    "flaky" bez diagnozy)** — 10.6 nie dotyczy dziś (projekt nie ma infrastruktury e2e z lokalnym
+    dev-serwerem, tylko ad-hoc Playwright w tej sesji, nie stały skrypt). **16.7 sprawdzone realnie:**
+    jedyny kandydat w kodzie (`async`+`useState` w komponencie klienckim) to
+    `app/auth/login/page.tsx` (`handleMagicLink`) — przeanalizowany linia po linii: `status`/`error`
+    są własnością TEGO konkretnego wywołania (przycisk wyłączony na czas `sending`, `email` nigdy
+    nie jest nadpisywany przez wynik async), nie ma przechwyconej "przed `await`" wartości
+    nadpisywanej bezwarunkowo po powrocie — wzorzec z 16.7 NIE występuje, false negative
+    wykluczony przez czytanie kodu, nie zgadywanie. 10.7 to reguła procesowa (nie etykietuj testu
+    jako "flaky" bez diagnozy) — bez zastosowania dziś (brak testów e2e w ogóle).
