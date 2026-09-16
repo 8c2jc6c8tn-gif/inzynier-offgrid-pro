@@ -317,6 +317,22 @@ konkretnych potrzebnych tabel + kod kalkulatora, po kolei małymi partiami zgodn
   tylko bezpośrednie, przechodnie tylko informacyjnie). Dziś **0 podatności obu rodzajów** (wpis
   wyżej) — decyzja nie jest paląca, ale otwarta; do zapytania właściciela projektu przy najbliższej
   okazji, zapisana też w `docs/lista-do-zrobienia.md`.
+- **2026-09-16 (tego samego dnia, druga synchronizacja — GOD BOOK v2.18→v2.19) — sprawdzone
+  ponownie na wyraźne polecenie właściciela projektu ("New app standards aktualizacja... Ostatnia
+  wersja 2.19"), `git fetch`+`git pull` w lokalnym klonie `new-app-standards`
+  (`92b7bcf..741352e`, 1 nowy wpis `AKTUALIZACJE.md`).** Treść nowego wpisu dotyczy wyłącznie
+  wewnętrznego mechanizmu procesowego samego repo `new-app-standards` (pierwszy live-test
+  zaplanowanej Routine U.4 — self-bind działa, z opóźnieniem do końca tury; doprecyzowanie, że w
+  środowisku z wyznaczonym branchem "commit+push na main" realizuje się jako PR+merge) — **U.4
+  dotyczy tylko sesji nad `new-app-standards`, nie Y.6 tego projektu**, zero nowej reguły
+  zastosowania w tym repo. Mimo to plik GOD BOOK (NIETYKALNE, mirror) nadpisany w całości pod
+  nową nazwą (rename `git rm`+nowy plik), odsyłacze do nazwy poprawione we wszystkich bieżących
+  wskazaniach (`CLAUDE.md`, `USTALENIA.md`, `00_Biblia.md`, `README.md`, `ZASADY_APLIKACJI.md`,
+  `01_Zasady_Pracy_i_Konwencje.md`, `.claude/skills/standards/SKILL.md`,
+  `docs/standards/00-filozofia.md`, `docs/standards/00-INDEKS.md`, `PROMPT_STARTOWY.md`, nagłówek
+  `docs/lista-do-zrobienia.md`) — historyczne wzmianki starszych wersji nietknięte (Część D GOD
+  BOOK). Zweryfikowano `grep -rln "v2_18"` po synchronizacji — zero trafień poza tym logiem (który
+  używa formatu `v2.18` z kropką, nie nazwy pliku, celowo nietknięty).
 
 ## Decyzje i uzasadnienie
 
