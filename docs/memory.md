@@ -4198,3 +4198,50 @@ to repo w zasięgu z innego powodu. Dla tego projektu jedyny legalny wyjście st
 
   Zweryfikowane po zmianach: `pnpm typecheck`/`lint`/`check:csp-hash`/`check:i18n-guard`/`test`
   (722/722)/`build` — wszystkie czyste.
+
+- **2026-09-16 (piąta synchronizacja tego dnia) — Naprawiony krytyczny błąd CSP/RSC streaming:
+  nonce-per-request zastąpił hash-based CSP.** Zamknięcie pętli: błąd znaleziony przy pracy nad
+  5.3 (PWA), zgłoszony do `docs/wklad-do-standardu.md` (PR #101), skonsolidowany przez
+  `new-app-standards` tego samego dnia z konkretną, jednoznaczną akcją — "przejdź na
+  nonce-per-request w middleware, nie auto-liczony hash — to teraz błąd produkcyjny aktywny, nie
+  tylko ryzyko" (`AKTUALIZACJE.md`, wiersz 74, KOREKTA tego samego dnia co wiersz 70).
+
+  **Implementacja:**
+  - `middleware.ts` — nowa funkcja `buildCsp(nonce)` (przeniesiona z `next.config.mjs`, z
+    `script-src` opartym o `'nonce-{wartość}'` zamiast hasha w produkcji; dev bez zmian —
+    `'unsafe-inline' 'unsafe-eval'` dla HMR). Nonce generowany raz na żądanie
+    (`crypto.randomUUID()`), ustawiany jako nagłówek żądania `x-nonce` (propagowany do Server
+    Componentów) ORAZ jako nagłówek odpowiedzi `Content-Security-Policy` (przez nową funkcję
+    `zastosujCsp()`, wywoływaną na wszystkich trzech ścieżkach zwrotu middleware — bez
+    Supabase, po przekierowaniu do loginu, i na ścieżce normalnej — żadna odpowiedź nie omija
+    CSP).
+  - `next.config.mjs` — CSP całkowicie usunięta stąd (statyczna funkcja `headers()` nie ma
+    dostępu do per-request nonce'u, z definicji nie może wygenerować poprawnej CSP dla tego
+    wzorca) — zostają tylko pozostałe, statyczne nagłówki bezpieczeństwa (X-Frame-Options itd.).
+  - `app/layout.tsx` — `const nonce = (await headers()).get('x-nonce')`, dokładany jawnie do
+    obu własnych `<script>` (inline `WYGLAD_INIT_SCRIPT` i zewnętrzny `register-sw.js`). Next.js
+    automatycznie dokłada ten sam nonce do własnych, dynamicznie generowanych inline-skryptów
+    (RSC streaming), gdy wykryje go w nagłówku odpowiedzi — to jest właściwy mechanizm, nie coś
+    do ręcznej implementacji.
+  - Usunięty `scripts/check-csp-hash.mjs` + krok w CI + skrypt w `package.json` — nieaktualny,
+    nie ma już hasha do zweryfikowania (zastąpiony wzorzec nie używa hasha wcale).
+
+  **Zweryfikowane end-to-end w realnej przeglądarce (Playwright, `pnpm build && pnpm start`,
+  prawdziwa produkcyjna CSP z nagłówkiem realnie zawierającym `'nonce-...'`, sprawdzone przez
+  `curl -D -`):** zero błędów CSP w konsoli (poprzednio: seria `Refused to execute inline
+  script`), zero `React error #412`. **Kluczowy dowód, że to nie tylko "strona się renderuje"**
+  (SSR HTML wygląda poprawnie nawet gdy hydracja jest zepsuta — to właśnie zmyliło wcześniejsze
+  sesje): zmiana trybu w selektorze na `/kalkulatory/pomocnicze` po załadowaniu strony realnie
+  przelicza wynik na żywo (9.058 A → 1200.000 Wh) — to wymaga działających event handlerów
+  Reacta, niemożliwych bez udanej hydracji. Service worker (5.3) rejestruje się automatycznie
+  (nie tylko przez obejście z zewnętrznego `<script src>` — teraz działałby nawet jako zwykły
+  komponent kliencki, obejście zostaje jako dodatkowa odporność, nie jedyny mechanizm). Offline
+  nadal działa. Dodatkowo zweryfikowany `pnpm dev` — CSP złagodzona jak wcześniej, cookie języka
+  nadal poprawnie ustawiana, middleware nie zaregresował.
+
+  **Wzorzec do zapamiętania:** to zamyka temat otwarty w dwóch wcześniejszych wpisach tego dnia
+  (5.3/PWA i aktualizacja ze standardem) — oba jawnie ostrzegały "to NIE jest naprawiony błąd,
+  tylko auto-liczony hash dla innego, węższego problemu". Naprawa faktycznie nadeszła tego
+  samego dnia przez kanał `wklad-do-standardu.md` → konsolidacja → `AKTUALIZACJE.md`, dokładnie
+  tak, jak przewiduje mechanizm U.2/U.4 GOD BOOK — potwierdzenie, że ten proces działa
+  end-to-end w praktyce, nie tylko w teorii dokumentu.

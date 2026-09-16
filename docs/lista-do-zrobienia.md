@@ -318,3 +318,22 @@ Tu trafia bieżący stan pracy: co w trakcie, co zablokowane, co następne — a
   `createBrowserClient` już usunięty w rozdz. 18; 17.4: cookie+server-side już jedyny mechanizm;
   17.8: pl/en/ru już zbudowane) albo dotyczą innych projektów rodziny/samego mechanizmu U.4.
   Szczegóły: `docs/memory.md`.
+- ✅ (2026-09-16, piąta synchronizacja tego dnia) **Naprawiony krytyczny błąd CSP/RSC streaming
+  — hydracja Reacta działa poprawnie w produkcji.** Zgłoszony do `wklad-do-standardu.md` (PR #101)
+  wcześniej dziś błąd (hash-based CSP blokujący inline-skrypty RSC Next.js na każdej stronie)
+  został skonsolidowany przez `new-app-standards` z konkretną, jednoznaczną akcją dla tego
+  projektu — nonce-per-request zamiast statycznego hasha. Wdrożone: `middleware.ts` generuje
+  losowy nonce (`crypto.randomUUID()`) na każde żądanie, ustawia CSP dynamicznie (`script-src
+  'self' 'nonce-{wartość}'`) i przekazuje nonce do `app/layout.tsx` przez nagłówek `x-nonce`
+  (odczyt przez `headers()` z `next/headers`) — Next.js automatycznie dokłada ten sam nonce do
+  własnych inline-skryptów RSC streaming. `next.config.mjs` już nie ustawia CSP (nie ma dostępu
+  do per-request nonce'u w statycznej funkcji `headers()`) — tylko pozostałe, statyczne nagłówki
+  bezpieczeństwa. Usunięty `scripts/check-csp-hash.mjs` (nieaktualny — nie ma już hasha do
+  weryfikacji).
+  **Zweryfikowane end-to-end w realnej przeglądarce (Playwright, `pnpm build && pnpm start`,
+  prawdziwa produkcyjna CSP):** zero błędów CSP w konsoli, zero `React error #412`, **interakcja
+  po hydracji realnie działa** (zmiana trybu w selektorze przelicza wynik na żywo — dowód, że to
+  nie tylko "strona się ładuje", ale że hydracja faktycznie się powiodła), service worker
+  rejestruje się automatycznie, offline nadal działa. Dodatkowo zweryfikowany `pnpm dev` (CSP
+  złagodzona dla HMR, cookie języka nadal poprawnie ustawiana) — middleware nie regresował.
+  `pnpm typecheck`/`lint`/`test` (722/722)/`build` czyste. Szczegóły uzasadnień: `docs/memory.md`.
