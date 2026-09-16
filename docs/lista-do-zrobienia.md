@@ -231,9 +231,8 @@ Tu trafia bieżący stan pracy: co w trakcie, co zablokowane, co następne — a
   właściciela projektu ("przeczytaj dokładnie i zrób listę co nie jest zrobione").** Każdy rozdział
   przeczytany w całości, sprawdzone względem kodu (`grep`), nie z metryczki. Wynik — cztery
   pozycje, w kolejności priorytetu:
-  1. **Rozdział 9 (AI w produkcie) — OBOWIĄZKOWY wg 9.0, zero implementacji.** Zero
-     `AiToolDefinition`/`isAiAvailable`/trybów OFFLINE-HYBRID-CLOUD_ASSISTED w kodzie. W trakcie
-     realizacji — patrz kolejny wpis niżej.
+  1. **Rozdział 9 (AI w produkcie) — OBOWIĄZKOWY wg 9.0, zero implementacji.** ✅ Pierwsza realna
+     integracja zbudowana (2026-09-16) — patrz kolejny wpis niżej.
   2. **Rozdział 12 (Freemium) — jedyny model rodziny wg 12.8, zero implementacji.** Zero
      Stripe/podziału feature→tier/`isPro` w kodzie — cała apka dziś w 100% darmowa.
   3. **5.3 (PWA offline-first) — brak `manifest.json`/service workera/biblioteki PWA**, mimo że
@@ -250,3 +249,27 @@ Tu trafia bieżący stan pracy: co w trakcie, co zablokowane, co następne — a
   funkcji zapisującej Seed" — nieprawda od czasu `use-persisted-draft.ts`) i przestarzały akapit w
   `docs/rejestr-pokrycia.md` ("moduły 6,7,10-13 nie rozpoczęte" z 30.08 — nieaktualne, każdy ma już
   min. jeden ekran `done`). Szczegóły: `docs/memory.md`.
+- ✅ (2026-09-16) **Rozdział 9 (AI w produkcie) — pierwsza realna integracja (Priorytet 1, punkt 1
+  z audytu wyżej).** Zakres świadomie wąski: jedno narzędzie AI (`kalkulatoryPomocniczeTool`,
+  `operationType: "read"`), jeden pilotażowy ekran (`/kalkulatory/pomocnicze`, ten sam moduł co
+  pilot i18n). Zbudowano: `lib/ai/types.ts` (kontrakt `AiToolDefinition<TInput,TOutput>` 1:1 z
+  9.3 + `validateAiToolDefinition` — rzuca błąd dla `write`+`requiresConfirmation: false`),
+  `lib/adapters/ai/{config,client}.ts` (`isAiConfigured()`, `createAnthropicClient()`,
+  `server-only`), `lib/ai/tools/kalkulatory-pomocnicze-tool.ts` (handler deleguje do prawdziwego
+  `calculateKalkulatoryPomocnicze()`, nigdy nie liczy sam), `lib/ai/to-anthropic-tool.ts`
+  (`z.toJSONSchema()` — bez dodatkowej biblioteki), `lib/ai/pytaj-asystenta.ts` (ręczna pętla
+  agentowa — zainstalowana wersja `@anthropic-ai/sdk` 0.126.0 nie ma jeszcze beta Tool Runnera,
+  sprawdzone wprost w `node_modules`), `lib/ai/is-ai-available.ts` + `components/asystent-ai.tsx`
+  (degradacja w milczeniu bez `ANTHROPIC_API_KEY`, ten sam wzorzec co `KontoSekcja`/Supabase w
+  rozdz. 18). Testy: `lib/ai/__tests__/types.test.ts`, `lib/ai/tools/__tests__/kalkulatory-pomocnicze-tool.test.ts`,
+  `lib/adapters/ai/__tests__/config.test.ts` (9+4+4 = razem 13 nowych testów). Zweryfikowane:
+  `pnpm typecheck`/`lint`/`test` (722/722) czyste, `pnpm build` bez błędów, `pnpm start` + realny
+  request na `/kalkulatory/pomocnicze` bez `ANTHROPIC_API_KEY` — strona renderuje się poprawnie,
+  sekcja asystenta bezpiecznie nie pojawia się (brak wyjątku, brak martwego UI). Świadomie poza
+  zakresem (nie przeoczenie): więcej narzędzi/modułów AI, `AiMode` (OFFLINE/HYBRID/CLOUD_ASSISTED,
+  9.6) nie podłączony do trwałego stanu — dziś tylko `CLOUD_ASSISTED` ma sens (brak modelu
+  lokalnego), pamięć rozmowy czatu (9.7 — świadome uproszczenie pierwszego kroku), budżet/limity
+  zapytań (9.8), pełna obrona przed prompt injection z treści zewnętrznych (9.4 — dziś niskie
+  ryzyko: brak zdjęć/OCR/importu dokumentów do apki, jedyny wektor to tekst pytania usera, już
+  traktowany jako dane w `tool_result`, nigdy jako `system`). Szczegóły i uzasadnienia
+  architektoniczne: `docs/memory.md`.

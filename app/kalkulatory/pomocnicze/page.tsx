@@ -7,6 +7,7 @@ import { WerdyktPanel, type WerdyktPoziom } from "@/components/werdykt"
 import { NawigacjaEkranu } from "@/components/nawigacja-ekranu"
 import { Pole, PoleSelect } from "@/components/ui/pole"
 import { NaglowekEkranu } from "@/components/wzorce/naglowek-ekranu"
+import { AsystentAi } from "@/components/asystent-ai"
 import { useTranslate } from "@/lib/i18n/language-context"
 
 type Mode = KalkulatoryPomocniczeInput["mode"]
@@ -124,6 +125,8 @@ export default function KalkulatoryPomocniczePage() {
 
         <p className="mt-3 font-mono text-caption opacity-70">{result.formula}</p>
       </WerdyktPanel>
+
+      <AsystentAi />
     </main>
   )
 }
