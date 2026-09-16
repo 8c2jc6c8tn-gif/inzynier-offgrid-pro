@@ -3581,3 +3581,80 @@ przebiegu). **Decyzja: szkielet kodu teraz, bez kluczy — flip na "żywe" logow
 blokowana na zewnętrznym zasobie (konto Supabase), nie na decyzji projektowej czy nakładzie pracy
 — i18n/AI-kontrakt/freemium da się zaplanować i częściowo wdrożyć bez niczyjej zewnętrznej akcji,
 logowanie nie. Warto to rozpoznawać wcześniej (przed pisaniem kodu), nie w trakcie.
+
+## Mechanizm strażniczy i18n — `scripts/check-i18n-guard.mjs` (16.09.2026)
+
+**Kontekst:** audyt zgodności rozdz. 17 (i18n) z żądania właściciela projektu ("czy nie mamy
+odstępstw?") wykrył realną, nieodnotowaną dotąd niezgodność — 17.9 wymaga wprost "mechanizmu
+strażniczego (lint/hook wykrywający nowy twardy string)", który nie istniał. Reszta rozdziału
+sprawdzona punkt-po-punkcie i **zgodna**: 17.1 (klucze PL w `dictionaryPl` to zastosowanie
+wyjątku 0.7 dla już ugruntowanej w projekcie polskiej konwencji `Warning.code` — nie odstępstwo,
+patrz decyzja niżej), 17.2 + PATCH 03.2/04 (kontrakt `{kod, params?}`/`i18nKey` 1:1 z tekstem
+standardu), 17.9 rollout (moduł-po-module, udokumentowany backlog). 17.3/17.4/17.7/17.8/17.10 nie
+mają jeszcze zastosowania — nie istnieje drugi język, to nie jest odstępstwo, tylko punkt, który
+zacznie obowiązywać przy dodaniu języka nr 2.
+
+**Zbudowane:** `scripts/check-i18n-guard.mjs` — parsuje AST (`typescript`, nie regex, żeby nie
+łapać fałszywych trafień w `technicalMessage`/`formula`, które świadomie NIE podlegają i18n) pliki
+`warnings.ts`/`calculator.ts` modułów z listy `MIGRATED_MODULES` (dziś: tylko
+`kalkulatory-pomocnicze`) i blokuje: (1) `message` z literałem stringu, (2) element `assumptions`
+będący gołym stringiem — także wtedy, gdy tablica jest za `? :`/`??` (realny wzorzec w tym
+projekcie, `input.efficiency === undefined ? [...] : []`; pierwsza wersja skryptu sprawdzała tylko
+bezpośrednie przypisanie i **nie wykrywała** tego wzorca — złapane i naprawione przed wdrożeniem,
+zweryfikowane wstrzyknięciem i usunięciem testowej regresji na obu polach, na prawdziwym pliku, nie
+tylko na syntetycznym przykładzie). Nowy skrypt `pnpm check:i18n-guard`, dodany jako krok w
+`.github/workflows/ci.yml` (job `quality`, po `typecheck`, przed `test`) — od teraz blokuje merge
+PR, nie tylko lokalne uruchomienie.
+**Świadomie NIE zrobione:** git hook (pre-commit) — repo nie ma `husky`/innego mechanizmu hooków,
+dodanie go byłoby nową zależnością/konwencją poza zakresem tego zadania; bramka w CI wystarcza do
+"zapobiega cofaniu się" (17.9), bo blokuje merge, nie tylko ostrzega lokalnie.
+**Do pamiętania na przyszłość:** dopisz ścieżkę modułu do `MIGRATED_MODULES` w TEJ SAMEJ sesji, w
+której go migrujesz — inaczej guard nie chroni nowo zmigrowanego modułu (guard jest allowlistą,
+nie wykrywa automatycznie, które moduły są zmigrowane).
+
+**Decyzja: klucze i18n zostają po polsku, NIE zmieniamy na angielski.** Właściciel projektu
+zapytał wprost, czy warto zmienić. Rozpatrzone i odrzucone — uzasadnienie:
+- 17.1 samo przewiduje wyjątek "jeśli projekt już go używa gdzie indziej" — a używa: **90 plików
+  `warnings.ts`, setki wartości `Warning.code`** po polsku od pierwszego dnia projektu
+  (`BEZPIECZNIK-DOBRANY`, `BRAK-CZUJNIKA-CO`, `AIC-WYSTARCZAJACE`...). Zmiana samych kluczy i18n
+  na angielski przy pozostawieniu `code` po polsku rozbiłaby jedną konwencję na dwie równoległe
+  (klucz i18n ≠ kod ostrzeżenia dla tego samego zjawiska) — dokładnie odwrotny skutek od tego, co
+  0.7/15.15 chce osiągnąć ("stosowana wtedy konsekwentnie w całym module").
+  Dziś `i18nKey ?? code` w warstwie prezentacji polega właśnie na tej wspólnej konwencji.
+- Koszt zmiany na angielski: nie jest to zmiana "tylko 5 kluczy w słowniku" — żeby była
+  konsekwentna (a niekonsekwentna nie miałaby sensu), wymagałaby przemianowania `Warning.code` w
+  **całym** kodzie (90 plików, setki wystąpień), plus każde miejsce, które go odczytuje: testy
+  asercji na dosłowny `code`, `docs/rejestr-twardych-stopow.md`, wszelkie `key={w.code}` w JSX.
+  Ryzyko czysto mechaniczne, ale duże i rozsiane, dla zmiany, która **nie zmienia zachowania
+  runtime** — `code` nie jest dziś nigdzie parsowany/porównywany po treści semantycznej poza
+  równością stringów, tylko wyświetlany (po przetłumaczeniu) i używany jako identyfikator.
+- Realna korzyść zmiany na angielski istniałaby tylko przy pracy z **zewnętrznym, nie-polskim
+  współpracownikiem/AI bez kontekstu projektu** czytającym kod źle znającym polski — w tym
+  projekcie (jedna osoba, PL jako język pracy, GOD BOOK/CLAUDE.md wymagają polskiego wprost) ta
+  korzyść nie ma dziś zastosowania.
+**Wniosek:** zero zmian kodu z tej decyzji — pozostaje jak jest, z wyjątkiem odnotowanym tutaj
+jako świadomy, rozpatrzony i odrzucony, nie przeoczony.
+
+## Błąd procesowy: bezpośrednia edycja `new-app-standards` z tej sesji (16.09.2026)
+
+Po prośbie właściciela o promocję CI referencyjnego/guardu i18n jako przykładu dla innych apek —
+zamiast ograniczyć się do kanału ustalonego w `docs/wklad-do-standardu.md` (zgłoszenie w tym
+pliku, konsolidacja wyłącznie w osobnej sesji nad `new-app-standards`), ta sesja dołączyła repo
+`new-app-standards` do siebie i **bezpośrednio** dodała tam pliki (`docs/przyklady/ci/`,
+`docs/przyklady/i18n/`, podsekcje 11.6/17.11) na osobnym branchu + otworzyła PR #9. **Błędne
+rozumowanie:** "sesja nad `new-app-standards`" (Część Y.8 GOD BOOK) odczytane jako "ta sesja, bo
+ma repo dołączone", nie jako "osobna, dedykowana sesja". Właściciel repo poprawił wprost — to
+nie jest sposób, w jaki ten mechanizm ma działać, niezależnie od technicznej możliwości dołączenia
+repo.
+
+**Naprawione:** PR #9 zamknięty bez mergowania (żadna treść nie trafiła na `main` tamtego repo,
+zero wpływu na inne projekty rodziny), branch pozostaje bez referencji (usunięcie zdalne odmówione
+przez proxy sesji, HTTP 403 — niekrytyczne, martwy branch bez PR nie ma żadnego mechanizmu wejścia
+do `main`). `docs/wklad-do-standardu.md` skorygowany — status wrócił do `🔎 nowe`, zgłoszenie
+czeka na właściwy kanał.
+
+**Lekcja procesowa:** techniczna możliwość dołączenia repo (`add_repo`) nie jest tym samym co
+autoryzacja do promocji treści do niego. "Sesja nad `new-app-standards`" w sensie Y.8 znaczy
+osobna, celowo otwarta sesja poświęcona konsolidacji wkładu — nie dowolną sesję, która akurat ma
+to repo w zasięgu z innego powodu. Dla tego projektu jedyny legalny wyjście stąd jest zawsze plik
+`docs/wklad-do-standardu.md`, bez wyjątków, niezależnie od tego, co technicznie jest możliwe.

@@ -11,7 +11,8 @@
     "test": "vitest run",
     "test:watch": "vitest",
     "lint": "eslint .",
-    "typecheck": "tsc --noEmit"
+    "typecheck": "tsc --noEmit",
+    "check:i18n-guard": "node scripts/check-i18n-guard.mjs"
   },
   "dependencies": {
     "@base-ui/react": "^1.8.0",
