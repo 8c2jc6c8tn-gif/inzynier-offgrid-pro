@@ -34,4 +34,17 @@ describe("calculateKalibracjaSoc", () => {
     const result = calculateKalibracjaSoc({ dniOdOstatniegoPelnegoNaladowania: null })
     expect(result.status).toBe("INCOMPLETE")
   })
+
+  it("i18n (17.2): ostrzeżenia zwracają i18nKey/params, nie message", () => {
+    const niepotrzebna = calculateKalibracjaSoc({ dniOdOstatniegoPelnegoNaladowania: 13 })
+    expect(niepotrzebna.warnings[0].i18nKey).toBe("KALIBRACJA-NIEPOTRZEBNA")
+    expect(niepotrzebna.warnings[0].params).toEqual({ dni: 13, prog: 14 })
+    expect(niepotrzebna.warnings[0].message).toBeUndefined()
+
+    const rekomendowana = calculateKalibracjaSoc({ dniOdOstatniegoPelnegoNaladowania: 14 })
+    expect(rekomendowana.warnings[0].i18nKey).toBe("REKOMENDOWANA-KALIBRACJA-SOC")
+
+    const ujemne = calculateKalibracjaSoc({ dniOdOstatniegoPelnegoNaladowania: -1 })
+    expect(ujemne.warnings[0].i18nKey).toBe("DNI-UJEMNE")
+  })
 })

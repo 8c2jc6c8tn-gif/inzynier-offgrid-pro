@@ -13,6 +13,7 @@ import { WerdyktPanel, type WerdyktPoziom } from "@/components/werdykt"
 import { NawigacjaEkranu } from "@/components/nawigacja-ekranu"
 import { NaglowekEkranu } from "@/components/wzorce/naglowek-ekranu"
 import { WynikSzczegoly } from "@/components/wzorce/wynik-szczegoly"
+import { useTranslate } from "@/lib/i18n/language-context"
 
 const ETYKIETY_ZRODLA: Record<string, string> = {
   "brak-potrzeby": "Grzanie niepotrzebne",
@@ -22,6 +23,7 @@ const ETYKIETY_ZRODLA: Record<string, string> = {
 }
 
 export default function GrzalkiBmsMrozPage() {
+  const t = useTranslate()
   const [temperaturaMinC, setTemperaturaMinC] = useState("")
   const [socPct, setSocPct] = useState("")
   const [produkcjaPv, setProdukcjaPv] = useState<ProdukcjaPv>("")
@@ -122,7 +124,7 @@ export default function GrzalkiBmsMrozPage() {
         <WerdyktPanel poziom={werdyktPoziom[werdykt]} etykieta={werdyktEtykieta[werdykt]}>
           {result.warnings.map((w) => (
             <p key={w.code} className="mt-1 text-small">
-              {w.message}
+              {w.message ?? t(w.i18nKey ?? w.code, w.params)}
             </p>
           ))}
           <WynikSzczegoly assumptions={result.assumptions} warnings={[]} />

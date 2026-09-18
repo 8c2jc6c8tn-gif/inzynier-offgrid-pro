@@ -1,4 +1,4 @@
-import type { CalcResult, Warning } from "@/lib/core/calc-result"
+import type { Assumption, CalcResult, Warning } from "@/lib/core/calc-result"
 import type { DoborBezpiecznikaInput } from "./input"
 import { validateInput } from "./validation"
 import { aicPonizejPraduZwarciowego, aicPonizejZalecanegoMinimum } from "./warnings"
@@ -65,10 +65,7 @@ export function calculateDoborBezpiecznika(
     status: warnings.length > 0 ? "VALID_WITH_WARNINGS" : "VALID",
     formula: FORMULA,
     inputs,
-    assumptions: [
-      "Model prostego zwarcia pełnego (rezystancja przewodów i połączeń pominięta) — " +
-        "rzeczywisty prąd zwarciowy w instalacji może być nieco niższy.",
-    ],
+    assumptions: [{ kod: "MODEL-ZWARCIA-PROSTEGO-NIZSZY" }] satisfies Assumption[],
     warnings,
     calculatorVersion: CALCULATOR_VERSION,
   }

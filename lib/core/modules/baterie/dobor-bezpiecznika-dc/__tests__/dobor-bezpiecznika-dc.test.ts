@@ -62,4 +62,30 @@ describe("calculateDoborBezpiecznika", () => {
     })
     expect(result.status).toBe("INVALID_INPUT")
   })
+
+  it("i18n (17.2): ostrzeżenia i assumption zwracają i18nKey/kod, nie gotowy tekst", () => {
+    const ponizej = calculateDoborBezpiecznika({
+      napiecieBateriiV: 48,
+      rezystancjaWewnetrznaOhm: 0.01,
+      aicBezpiecznikaA: 2000,
+    })
+    expect(ponizej.warnings[0].i18nKey).toBe("AIC-PONIZEJ-PRADU-ZWARCIOWEGO")
+    expect(ponizej.warnings[0].message).toBeUndefined()
+    expect(ponizej.assumptions).toEqual([{ kod: "MODEL-ZWARCIA-PROSTEGO-NIZSZY" }])
+
+    const min = calculateDoborBezpiecznika({
+      napiecieBateriiV: 48,
+      rezystancjaWewnetrznaOhm: 0.02,
+      aicBezpiecznikaA: 5000,
+    })
+    expect(min.warnings[0].i18nKey).toBe("AIC-PONIZEJ-ZALECANEGO-MINIMUM")
+    expect(min.warnings[0].params).toEqual({ min: 10000 })
+
+    const niedodatnia = calculateDoborBezpiecznika({
+      napiecieBateriiV: 48,
+      rezystancjaWewnetrznaOhm: 0,
+      aicBezpiecznikaA: 20000,
+    })
+    expect(niedodatnia.warnings[0].i18nKey).toBe("WARTOSC-NIEDODATNIA")
+  })
 })

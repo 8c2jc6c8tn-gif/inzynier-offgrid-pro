@@ -80,4 +80,43 @@ export const dictionaryEn = {
     "Simple full short-circuit model (wiring and connection resistance ignored) — the same model as " +
     "Screen 24 (DC Fuse Sizing).",
   "BRAK-LIMITU-PRADU-POWYZEJ-10C": "Above 10°C the source doesn't limit current from the cell temperature side.",
+  "AIC-PONIZEJ-PRADU-ZWARCIOWEGO":
+    "This fuse's interrupt rating (AIC) is lower than the pack's short-circuit current — the fuse " +
+    "will rupture, forming a plasma arc, instead of safely interrupting the circuit.",
+  "AIC-PONIZEJ-ZALECANEGO-MINIMUM":
+    "For LiFePO4 systems a minimum AIC of {min} A is recommended — this fuse is below that value, " +
+    "even though it will withstand this pack's calculated short-circuit current.",
+  "MODEL-ZWARCIA-PROSTEGO-NIZSZY":
+    "Simple full short-circuit model (wiring and connection resistance ignored) — the actual " +
+    "short-circuit current in the installation may be somewhat lower.",
+  "ZAPOTRZEBOWANIE-NIEDODATNIE": "Daily demand must be greater than zero.",
+  "DNI-AUTONOMII-NIEDODATNIE": "Days of autonomy must be greater than zero.",
+  "SPRAWNOSC-PROCENT-DODATNIA-POZA-ZAKRESEM": "Inverter efficiency must be within the range 0–100% (>0).",
+  "DOD-DODATNI-POZA-ZAKRESEM": "DoD (depth of discharge) must be within the range 0–100% (>0).",
+  "BUFOR-STARZENIOWY-NIE-DOLICZONY": "Without an aging buffer (Screen 5, Module 4) — this screen doesn't exist in the code yet.",
+  "SOC-POZA-ZAKRESEM": "SoC must be within the range 0–100%.",
+  "BRAK-POTRZEBY-GRZANIA":
+    "Temperature ({temp}°C) is high enough that the BMS doesn't turn on the heaters before charging (threshold: {prog}°C).",
+  "GRZANIE-Z-PV": "There is PV production — the BMS heaters are powered directly from the panels, zero load on the battery.",
+  "GRZANIE-Z-BATERII":
+    "No PV production, but SoC ({soc}%) is above {prog}% — heating from the battery, only until the " +
+    "minimum charging temperature is reached.",
+  "GRZANIE-WSTRZYMANE":
+    "No PV production and SoC ({soc}%) below {prog}% — heating suspended, sleep mode. The BMS will " +
+    "block charging at this temperature until PV appears or SoC rises.",
+  "REKOMENDOWANA-KALIBRACJA-SOC":
+    "{dni} days without a full charge (threshold: {prog}) — do a full charge so the BMS can catch its " +
+    "reference points. Current counting in the BMS is a continuous estimate, and error accumulates " +
+    "without a periodic reset.",
+  "KALIBRACJA-NIEPOTRZEBNA":
+    "{dni} days since the last full charge — below the {prog}-day threshold, calibration isn't needed yet.",
+  "DNI-UJEMNE": "The number of days since the last full charge cannot be negative.",
+  "WARTOSC-POLA-UJEMNA": 'The value of "{label}" cannot be negative.',
+  "FAZA-CC": "Voltage hasn't reached the absorption threshold yet ({prog} V) — CC (constant current) phase in progress.",
+  "FAZA-CV-KONCOWKA":
+    "Absorption voltage reached, but current ({aktualny} A) is still above the tail threshold " +
+    "({prog} A) — don't disconnect charging, CV (constant voltage) phase in progress.",
+  "LADOWANIE-ZAKONCZONE": "Current dropped below the tail threshold ({prog} A) — battery fully charged.",
+  "TEMPERATURA-FIZYCZNIE-NIEMOZLIWA": "The given temperature is physically impossible.",
+  "PROG-KONCOWY-POZA-ZAKRESEM": "The tail current threshold (as a fraction of C) must be within the range 0–1.",
 } satisfies Record<KluczTlumaczenia, string>

@@ -419,3 +419,28 @@ Tu trafia bieżący stan pracy: co w trakcie, co zablokowane, co następne — a
   — zero `⚠ [...]`, zero błędów konsoli i18n. `pnpm typecheck`/`lint`/`check:i18n-guard`/`test`
   (746/746)/`build` czyste. **Pozostało ~76 plików**, `czystosc-i-snieg`/`porownanie-technologii`
   nadal odłożone bez zmian.
+- ✅ (2026-09-18) **Rollout i18n — czwarta partia: 5 modułów `baterie/` + rozszerzenie strażnika
+  o `validation.ts`.** Zmigrowane: `dobor-bezpiecznika-dc`, `dobor-pojemnosci`, `grzalki-bms-mroz`,
+  `kalibracja-soc`, `koniec-ladowania`. 22 nowe klucze (w tym 2 retroaktywne poprawki dla już
+  zmigrowanych modułów, patrz niżej). `komunikacja-bms` (kolejny kandydat w kolejce) **odłożony,
+  dołączony do zbioru "dane katalogowe"** obok `porownanie-technologii` — jego ostrzeżenia
+  wstawiają etykiety protokołów z `PROTOKOLY` (`constants.ts`), z których 2 z 5 zawierają polski
+  tekst ("Pylontech (protokół producenta)", "Inny / nieznany") — migracja samego `Warning` bez
+  migracji katalogu dałaby pół-przetłumaczony komunikat, ten sam problem architektoniczny co
+  katalog technologii bateryjnych.
+  **Znaleziona luka w strażniku i18n:** `scripts/check-i18n-guard.mjs` sprawdzał tylko
+  `warnings.ts`/`calculator.ts`, nigdy `validation.ts` — a dwa moduły (jeden już zmigrowany w
+  partii 3: `chlodzenie-latem`, jeden w tej partii: `koniec-ladowania`) miały twardy tekst PL
+  wpisany bezpośrednio jako inline `Warning` w `validation.ts`, poza `warnings.ts`. Naprawione:
+  `FILES_TO_CHECK` rozszerzone o `validation.ts`; oba znalezione przypadki zmigrowane
+  (`TEMPERATURA-FIZYCZNIE-NIEMOZLIWA`, `PROG-KONCOWY-POZA-ZAKRESEM`), z testem dopisanym do
+  `chlodzenie-latem.test.ts` retroaktywnie. **Zasada do zapamiętania:** przy każdym module od tej
+  partii sprawdzać `grep -n message: validation.ts` obok `warnings.ts`/`calculator.ts` — twardy
+  tekst potrafi być wpisany inline w walidacji, nie tylko przez funkcje z `warnings.ts`.
+  3 strony UI naprawione (ten sam wzorzec `{w.message}` bez fallbacku, jak w partiach 1-3).
+  `scripts/check-i18n-guard.mjs` → `MIGRATED_MODULES` rozszerzone z 12 do 17.
+  7 nowych testów domenowych + rozszerzony blok w `t.test.ts`. Zweryfikowane end-to-end w
+  przeglądarce (Playwright, świeży `pnpm build && pnpm start`, z potwierdzeniem że proces
+  faktycznie zszedł przed startem — pułapka z poprzedniej partii) w PL/EN/RU — zero `⚠ [...]`.
+  `pnpm typecheck`/`lint`/`check:i18n-guard`/`test` (753/753)/`build` czyste.
+  **Pozostało ~71 plików** (+1 nowo odłożony: `komunikacja-bms`).

@@ -73,4 +73,31 @@ describe("calculateDoborPojemnosci", () => {
     })
     expect(result.status).toBe("INCOMPLETE")
   })
+
+  it("i18n (17.2): błąd walidacji i assumption zwracają i18nKey/kod, nie gotowy tekst", () => {
+    const zapotrzebowanie = calculateDoborPojemnosci({
+      zapotrzebowanieDoboweKwh: -1,
+      dniAutonomii: 3,
+      sprawnoscFalownikaPct: 95,
+      dodPct: 80,
+    })
+    expect(zapotrzebowanie.warnings[0].i18nKey).toBe("ZAPOTRZEBOWANIE-NIEDODATNIE")
+    expect(zapotrzebowanie.warnings[0].message).toBeUndefined()
+
+    const dod = calculateDoborPojemnosci({
+      zapotrzebowanieDoboweKwh: 12,
+      dniAutonomii: 3,
+      sprawnoscFalownikaPct: 95,
+      dodPct: 150,
+    })
+    expect(dod.warnings[0].i18nKey).toBe("DOD-DODATNI-POZA-ZAKRESEM")
+
+    const valid = calculateDoborPojemnosci({
+      zapotrzebowanieDoboweKwh: 12,
+      dniAutonomii: 3,
+      sprawnoscFalownikaPct: 100,
+      dodPct: 80,
+    })
+    expect(valid.assumptions).toEqual([{ kod: "BUFOR-STARZENIOWY-NIE-DOLICZONY" }])
+  })
 })
