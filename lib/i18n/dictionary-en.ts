@@ -286,4 +286,55 @@ export const dictionaryEn = {
     "The installation-method correction is applied by selecting the correct standard table column " +
     "(reference method C/B2/D), not via a separate k3 multiplier described in the product source — the " +
     "standard doesn't define such a combined factor.",
+  "GSW-UZYWANA-JAKO-PRZYLACZE":
+    "The Main Equipotential Bonding Bar (GSW) is only for potential equalization, not a current bus — " +
+    "don't connect loads to it.",
+  "KOROZJA-GALWANICZNA-CU-AL":
+    "A direct copper-aluminum connection without a barrier corrodes and heats up — use a bimetallic " +
+    "connector and anti-corrosion paste.",
+  "PARA-METALI-OK": "{etykieta} — connection safe under these conditions.",
+  "WYMAGA-PODKLADKI-I-SMARU":
+    "Galvanized steel + copper without a washer and grease — add both to limit corrosion.",
+  "KONTROLUJ-OKRESOWO":
+    "Stainless steel + aluminum in a salty environment — inspect the connection periodically for corrosion.",
+  "PARA-POZA-ZAKRESEM":
+    'The source doesn\'t evaluate the pair "{etykieta}" in this environment — check compatibility with ' +
+    "the connector manufacturer, we don't guess.",
+  "BRAK-OCHRONY":
+    "No protection against reverse polarity on a circuit where plus and minus are easy to mix up.",
+  "OCHRONA-ZASTOSOWANA": "Reverse-polarity protection applied.",
+  "REKOMENDACJA-TYPU-OCHRONY-NIE-PODANA":
+    "A recommendation for the protection type per location (battery/panels/inverter) is NOT given in " +
+    "the source — the circuit location here is informational only; the user decides on the type.",
+  "BRAK-TYPU-1-PRZY-ODGROMOWEJ":
+    "The building has a lightning protection system — a Type 1 SPD (10/350 µs surge current) is " +
+    "mandatory at the building entry, not just Type 2.",
+  "ZA-BLISKO-ZWODU":
+    "Panels {odleglosc} m from the lightning air terminal (below {min} m) — risk of spark gap flashover. " +
+    "Increase the clearance to at least 1 m or apply insulating separation.",
+  "UC-PONIZEJ-MINIMUM":
+    "The SPD's continuous operating voltage ({uc} V) is below the required minimum ({ucMin} V = Voc × " +
+    "1.25) — the SPD may be damaged during normal operation.",
+  "SPD-UZIEMIONY-OSOBNO":
+    "The SPD must be grounded through the shared Main Equipotential Bonding Bar (GSW), never separately.",
+  "SPD-DOBRANY-POPRAWNIE": "SPD {typ}, Uc sufficient, grounded through GSW — all conditions met.",
+  "VOC-STRINGU-WARTOSC-ZIMOWA":
+    "The string's Voc should be the winter value (Screen 5, Module 3 — Winter MPPT Stress Test), not " +
+    "STC conditions — otherwise a surge arrester sized for summer won't cope in winter.",
+  "TRASA-NIE-SPELNIA-WYMAGAN-PRZEKROJU": "Route {oznaczenie} doesn't meet cross-section requirements — see details below.",
+  "POROWNANIE-KOSZTOW-TRAS":
+    "After {lata} years, route {tansza} is cheaper by {roznica} PLN (purchase cost + energy losses combined).",
+  "WYNIK-ZALEZY-OD-ECHA-TRASY":
+    "The result depends on the calculateDoborPrzekrojuKabla echo for both routes — one of the routes " +
+    "returned a status that prevents further calculation (see warnings).",
+  "STRATY-ROCZNE-LICZONE-PRZEZ-ECHO":
+    "Annual losses are calculated via the calculateDoborPrzekrojuKabla echo (M5/Screen 1, 'check my " +
+    "cross-section' mode) — normative (PN-HD 60364-5-52), not reinvented.",
+  "KOSZT-ZAKUPU-JEDNA-SUMA-NA-TRASE":
+    "Purchase cost (cable + protection + labor) is entered as a single sum per route, as in the " +
+    "source's example.",
+  "TCO-NIE-POKAZANE-NIESPELNIONE-WYMAGANIA":
+    "Cost comparison (TCO) NOT shown — at least one route doesn't meet the cross-section requirements " +
+    "(the echo returns a 0 loss for a non-compliant cross-section, which would falsely understate its " +
+    "cost). Fix the cross-section of the route flagged as not meeting requirements.",
 } satisfies Record<KluczTlumaczenia, string>

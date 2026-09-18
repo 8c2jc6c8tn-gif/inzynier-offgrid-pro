@@ -57,6 +57,11 @@ const MIGRATED_MODULES = [
   "lib/core/modules/okablowanie/dobor-izolacji-kabla",
   "lib/core/modules/okablowanie/dobor-mocy-falownika",
   "lib/core/modules/okablowanie/dobor-przekroju-kabla",
+  "lib/core/modules/okablowanie/glowna-szyna-wyrownawcza",
+  "lib/core/modules/okablowanie/laczenie-cu-al",
+  "lib/core/modules/okablowanie/ochrona-odwrotna-polaryzacja",
+  "lib/core/modules/okablowanie/ochrona-przepieciowa-spd",
+  "lib/core/modules/okablowanie/optymalizacja-trasy-kabla",
 ]
 
 const FILES_TO_CHECK = ["warnings.ts", "calculator.ts", "validation.ts"]

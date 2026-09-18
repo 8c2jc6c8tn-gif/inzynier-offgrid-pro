@@ -1,4 +1,4 @@
-import type { CalcResult, Status, Warning } from "@/lib/core/calc-result"
+import type { Assumption, CalcResult, Status, Warning } from "@/lib/core/calc-result"
 import { isComputed } from "@/lib/core/calc-result"
 import type { OptymalizacjaTrasyKablaInput, TrasaInput } from "./input"
 import { validateInput } from "./validation"
@@ -123,9 +123,7 @@ export function calculateOptymalizacjaTrasyKabla(
       status: wspolnyStatus,
       formula: FORMULA,
       inputs,
-      assumptions: [
-        "Wynik zależy od echa `calculateDoborPrzekrojuKabla` dla obu tras — jedna z tras zwróciła status, który uniemożliwia dalsze wyliczenie (patrz ostrzeżenia).",
-      ],
+      assumptions: [{ kod: "WYNIK-ZALEZY-OD-ECHA-TRASY" }] satisfies Assumption[],
       warnings: [...echoA.warnings, ...echoB.warnings],
       calculatorVersion: CALCULATOR_VERSION,
     }
@@ -137,10 +135,18 @@ export function calculateOptymalizacjaTrasyKabla(
   const warnings: Warning[] = []
   const echoAKrytyczne = echoA.warnings.filter((w) => w.level === "critical")
   const echoBKrytyczne = echoB.warnings.filter((w) => w.level === "critical")
-  // `dobor-przekroju-kabla` (echo) nie jest jeszcze zmigrowany do i18n (17.9) — `.message` jest
-  // dziś zawsze ustawione w praktyce; fallback tylko na wypadek przyszłej migracji tamtego modułu.
-  for (const w of echoAKrytyczne) warnings.push(trasaNieSpelniaWymagan("A", w.message ?? w.code))
-  for (const w of echoBKrytyczne) warnings.push(trasaNieSpelniaWymagan("B", w.message ?? w.code))
+  // `dobor-przekroju-kabla` (echo) jest zmigrowany do i18n (17.9) — ostrzeżenia mają `i18nKey`/
+  // `params`, nie gotowy tekst. Zamiast spłaszczać treść w jeden string (co złamałoby tłumaczenie),
+  // przekazujemy oryginalne ostrzeżenie dalej (z `i18nKey`/`params` bez zmian), tylko oznaczone
+  // polem `field`, obok osobnego, ogólnego ostrzeżenia-etykiety per trasa.
+  if (echoAKrytyczne.length > 0) {
+    warnings.push(trasaNieSpelniaWymagan("A"))
+    for (const w of echoAKrytyczne) warnings.push({ ...w, field: "trasaA" })
+  }
+  if (echoBKrytyczne.length > 0) {
+    warnings.push(trasaNieSpelniaWymagan("B"))
+    for (const w of echoBKrytyczne) warnings.push({ ...w, field: "trasaB" })
+  }
 
   // Jeśli którakolwiek trasa nie spełnia normy (za mały przekrój), echo M5/E1 celowo zwraca
   // strataRocznaKwh=0 dla tej trasy (nie liczy straty dla niezgodnego przekroju) — porównanie
@@ -167,14 +173,10 @@ export function calculateOptymalizacjaTrasyKabla(
     formula: FORMULA,
     inputs,
     assumptions: [
-      "Straty roczne liczone przez echo `calculateDoborPrzekrojuKabla` (M5/Ekran 1, tryb 'sprawdź mój przekrój') — normatywne (PN-HD 60364-5-52), nie wymyślone od nowa.",
-      "Koszt zakupu (kabel + osłony + robocizna) wpisywany jako jedna suma na trasę, tak jak w przykładzie źródła.",
-      ...(obieTrasySpelniajaWymagania
-        ? []
-        : [
-            "Porównanie kosztów (TCO) NIE pokazane — co najmniej jedna trasa nie spełnia wymagań przekroju (echo zwraca stratę 0 dla niezgodnego przekroju, co fałszywie zaniżałoby jej koszt). Popraw przekrój trasy oznaczonej jako niespełniającą wymagań.",
-          ]),
-    ],
+      { kod: "STRATY-ROCZNE-LICZONE-PRZEZ-ECHO" },
+      { kod: "KOSZT-ZAKUPU-JEDNA-SUMA-NA-TRASE" },
+      ...(obieTrasySpelniajaWymagania ? [] : [{ kod: "TCO-NIE-POKAZANE-NIESPELNIONE-WYMAGANIA" }]),
+    ] satisfies Assumption[],
     warnings,
     calculatorVersion: CALCULATOR_VERSION,
   }

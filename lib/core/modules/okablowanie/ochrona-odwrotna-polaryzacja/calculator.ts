@@ -1,4 +1,4 @@
-import type { CalcResult } from "@/lib/core/calc-result"
+import type { Assumption, CalcResult } from "@/lib/core/calc-result"
 import type { OchronaOdwrotnaPolaryzacjaInput } from "./input"
 import { brakOchrony, ochronaZastosowana } from "./warnings"
 
@@ -40,9 +40,7 @@ export function calculateOchronaOdwrotnaPolaryzacja(
     status: maKrytyczne ? "VALID_WITH_WARNINGS" : "VALID",
     formula: "",
     inputs,
-    assumptions: [
-      "Rekomendacja typu ochrony per miejsce (bateria/panele/falownik) NIE podana w źródle — `miejsceObwodu` jest tu informacyjny, decyzję o typie podejmuje użytkownik.",
-    ],
+    assumptions: [{ kod: "REKOMENDACJA-TYPU-OCHRONY-NIE-PODANA" }] satisfies Assumption[],
     warnings,
     calculatorVersion: CALCULATOR_VERSION,
   }

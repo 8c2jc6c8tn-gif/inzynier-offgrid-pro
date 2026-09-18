@@ -90,4 +90,31 @@ describe("calculateOchronaPrzepieciowaSpd", () => {
     })
     expect(result.status).toBe("INVALID_INPUT")
   })
+
+  it("i18n (17.2): SPD-DOBRANY-POPRAWNIE i ZA-BLISKO-ZWODU mają i18nKey+params, nie message", () => {
+    const ok = calculateOchronaPrzepieciowaSpd({
+      vocMaxStringuV: 320,
+      maInstalacjeOdgromowa: false,
+      odlegloscOdZwoduM: null,
+      maZainstalowanySpdTyp1: false,
+      ucSpdV: 400,
+      uziemienieViaGsw: true,
+    })
+    expect(ok.warnings[0].i18nKey).toBe("SPD-DOBRANY-POPRAWNIE")
+    expect(ok.warnings[0].params).toEqual({ typ: "Typ 2" })
+    expect(ok.warnings[0].message).toBeUndefined()
+
+    const zaBlisko = calculateOchronaPrzepieciowaSpd({
+      vocMaxStringuV: 320,
+      maInstalacjeOdgromowa: true,
+      odlegloscOdZwoduM: 0.3,
+      maZainstalowanySpdTyp1: true,
+      ucSpdV: 400,
+      uziemienieViaGsw: true,
+    })
+    const w = zaBlisko.warnings.find((x) => x.code === "ZA-BLISKO-ZWODU")
+    expect(w?.i18nKey).toBe("ZA-BLISKO-ZWODU")
+    expect(w?.params).toEqual({ odleglosc: 0.3, min: 0.5 })
+    expect(w?.message).toBeUndefined()
+  })
 })

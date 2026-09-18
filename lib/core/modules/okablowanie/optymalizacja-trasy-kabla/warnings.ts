@@ -4,17 +4,18 @@ export function wartoscUjemna(field: string, value: number): Warning {
   return {
     code: "WARTOSC-UJEMNA",
     level: "critical",
-    message: "Wartość nie może być ujemna.",
+    i18nKey: "WARTOSC-NIE-MOZE-BYC-UJEMNA",
     technicalMessage: `${field} = ${value}, oczekiwano >= 0`,
     field,
   }
 }
 
-export function trasaNieSpelniaWymagan(oznaczenie: "A" | "B", komunikat: string): Warning {
+export function trasaNieSpelniaWymagan(oznaczenie: "A" | "B"): Warning {
   return {
     code: `TRASA-${oznaczenie}-NIE-SPELNIA-WYMAGAN`,
     level: "critical",
-    message: `Trasa ${oznaczenie}: ${komunikat}`,
+    i18nKey: "TRASA-NIE-SPELNIA-WYMAGAN-PRZEKROJU",
+    params: { oznaczenie },
     technicalMessage: `echo z dobor-przekroju-kabla dla trasy ${oznaczenie}`,
   }
 }
@@ -23,7 +24,8 @@ export function porownanieKosztow(tanszaTrasa: "A" | "B", roznicaZl: number, lic
   return {
     code: "POROWNANIE-KOSZTOW",
     level: "info",
-    message: `Po ${liczbaLat} latach trasa ${tanszaTrasa} jest tańsza o ${roznicaZl.toFixed(0)} zł (koszt zakupu + straty energii razem).`,
+    i18nKey: "POROWNANIE-KOSZTOW-TRAS",
+    params: { tansza: tanszaTrasa, roznica: roznicaZl.toFixed(0), lata: liczbaLat },
     technicalMessage: `tanszaTrasa=${tanszaTrasa}, roznicaZl=${roznicaZl}`,
   }
 }

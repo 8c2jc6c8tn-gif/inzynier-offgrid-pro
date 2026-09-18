@@ -296,6 +296,56 @@ export const dictionaryPl = {
     "Korekta sposobu ułożenia zrealizowana przez wybór właściwej kolumny tabeli normy (metoda " +
     "referencyjna C/B2/D), nie przez osobny mnożnik k3 opisany w źródle produktowym — norma nie " +
     "definiuje takiego wspólnego współczynnika.",
+  "GSW-UZYWANA-JAKO-PRZYLACZE":
+    "GSW to tylko wyrównanie potencjałów, nie szyna prądowa — nie podłączaj do niej odbiorników.",
+  "KOROZJA-GALWANICZNA-CU-AL":
+    "Bezpośrednie połączenie miedź-aluminium bez bariery koroduje i grzeje się — użyj złączki " +
+    "bimetalicznej i pasty antykorozyjnej.",
+  "PARA-METALI-OK": "{etykieta} — połączenie bezpieczne w tych warunkach.",
+  "WYMAGA-PODKLADKI-I-SMARU":
+    "Stal ocynkowana + miedź bez podkładki i smaru — dodaj oba, żeby ograniczyć korozję.",
+  "KONTROLUJ-OKRESOWO":
+    "Stal nierdzewna + aluminium w środowisku słonym — kontroluj połączenie okresowo pod kątem korozji.",
+  "PARA-POZA-ZAKRESEM":
+    'Źródło nie ocenia pary "{etykieta}" w tym środowisku — sprawdź kompatybilność u producenta ' +
+    "złączki, nie zgadujemy.",
+  "BRAK-OCHRONY":
+    "Brak jakiejkolwiek ochrony przed odwrotną polaryzacją na obwodzie, gdzie łatwo pomylić plus i minus.",
+  "OCHRONA-ZASTOSOWANA": "Ochrona przed odwrotną polaryzacją zastosowana.",
+  "REKOMENDACJA-TYPU-OCHRONY-NIE-PODANA":
+    "Rekomendacja typu ochrony per miejsce (bateria/panele/falownik) NIE podana w źródle — miejsce " +
+    "obwodu jest tu informacyjne, decyzję o typie podejmuje użytkownik.",
+  "BRAK-TYPU-1-PRZY-ODGROMOWEJ":
+    "Budynek ma instalację odgromową — na wejściu do budynku obowiązkowy jest SPD Typ 1 (prąd " +
+    "udarowy 10/350 µs), nie tylko Typ 2.",
+  "ZA-BLISKO-ZWODU":
+    "Panele {odleglosc} m od zwodu piorunochronu (poniżej {min} m) — ryzyko przeskoku iskry. " +
+    "Zwiększ odstęp do min. 1 m lub zastosuj separację izolacyjną.",
+  "UC-PONIZEJ-MINIMUM":
+    "Napięcie trwałej pracy SPD ({uc} V) jest poniżej wymaganego minimum ({ucMin} V = Voc × 1,25) " +
+    "— SPD może ulec uszkodzeniu w normalnej pracy.",
+  "SPD-UZIEMIONY-OSOBNO":
+    "SPD musi być uziemiony przez wspólną Główną Szynę Wyrównawczą (GSW), nigdy osobno.",
+  "SPD-DOBRANY-POPRAWNIE": "SPD {typ}, Uc wystarczające, uziemienie przez GSW — wszystkie warunki spełnione.",
+  "VOC-STRINGU-WARTOSC-ZIMOWA":
+    "Voc stringu powinien być wartością zimową (Ekran 5, Moduł 3 — Zimowy stress-test MPPT), nie " +
+    "warunkami STC — inaczej ochronnik dobrany latem nie da rady zimą.",
+  "TRASA-NIE-SPELNIA-WYMAGAN-PRZEKROJU": "Trasa {oznaczenie} nie spełnia wymagań przekroju — zobacz szczegóły poniżej.",
+  "POROWNANIE-KOSZTOW-TRAS":
+    "Po {lata} latach trasa {tansza} jest tańsza o {roznica} zł (koszt zakupu + straty energii razem).",
+  "WYNIK-ZALEZY-OD-ECHA-TRASY":
+    "Wynik zależy od echa calculateDoborPrzekrojuKabla dla obu tras — jedna z tras zwróciła status, " +
+    "który uniemożliwia dalsze wyliczenie (patrz ostrzeżenia).",
+  "STRATY-ROCZNE-LICZONE-PRZEZ-ECHO":
+    "Straty roczne liczone przez echo calculateDoborPrzekrojuKabla (M5/Ekran 1, tryb 'sprawdź mój " +
+    "przekrój') — normatywne (PN-HD 60364-5-52), nie wymyślone od nowa.",
+  "KOSZT-ZAKUPU-JEDNA-SUMA-NA-TRASE":
+    "Koszt zakupu (kabel + osłony + robocizna) wpisywany jako jedna suma na trasę, tak jak w " +
+    "przykładzie źródła.",
+  "TCO-NIE-POKAZANE-NIESPELNIONE-WYMAGANIA":
+    "Porównanie kosztów (TCO) NIE pokazane — co najmniej jedna trasa nie spełnia wymagań przekroju " +
+    "(echo zwraca stratę 0 dla niezgodnego przekroju, co fałszywie zaniżałoby jej koszt). Popraw " +
+    "przekrój trasy oznaczonej jako niespełniającą wymagań.",
 } as const
 
 export type KluczTlumaczenia = keyof typeof dictionaryPl

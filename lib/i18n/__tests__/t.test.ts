@@ -452,6 +452,62 @@ describe("t — klucze zmigrowane 18.09.2026, partia 8 (okablowanie: analiza-zwa
   })
 })
 
+describe("t — klucze zmigrowane 18.09.2026, partia 9 (okablowanie: glowna-szyna-wyrownawcza, laczenie-cu-al, ochrona-odwrotna-polaryzacja, ochrona-przepieciowa-spd, optymalizacja-trasy-kabla)", () => {
+  const kluczeZParametrami: Record<string, Record<string, string | number>> = {
+    "PARA-METALI-OK": { etykieta: "Miedź (Cu) + Aluminium (Al)" },
+    "PARA-POZA-ZAKRESEM": { etykieta: "Mosiądz + Aluminium (Al)" },
+    "ZA-BLISKO-ZWODU": { odleglosc: 0.3, min: 0.5 },
+    "UC-PONIZEJ-MINIMUM": { uc: 350, ucMin: "400" },
+    "SPD-DOBRANY-POPRAWNIE": { typ: "Typ 2" },
+    "TRASA-NIE-SPELNIA-WYMAGAN-PRZEKROJU": { oznaczenie: "B" },
+    "POROWNANIE-KOSZTOW-TRAS": { tansza: "A", roznica: "1816", lata: 10 },
+  }
+  const kluczeBezParametrow = [
+    "GSW-UZYWANA-JAKO-PRZYLACZE",
+    "KOROZJA-GALWANICZNA-CU-AL",
+    "WYMAGA-PODKLADKI-I-SMARU",
+    "KONTROLUJ-OKRESOWO",
+    "BRAK-OCHRONY",
+    "OCHRONA-ZASTOSOWANA",
+    "REKOMENDACJA-TYPU-OCHRONY-NIE-PODANA",
+    "BRAK-TYPU-1-PRZY-ODGROMOWEJ",
+    "SPD-UZIEMIONY-OSOBNO",
+    "VOC-STRINGU-WARTOSC-ZIMOWA",
+    "WYNIK-ZALEZY-OD-ECHA-TRASY",
+    "STRATY-ROCZNE-LICZONE-PRZEZ-ECHO",
+    "KOSZT-ZAKUPU-JEDNA-SUMA-NA-TRASE",
+    "TCO-NIE-POKAZANE-NIESPELNIONE-WYMAGANIA",
+  ]
+
+  it("klucze z parametrami: podstawiają wartości i różnią się między językami w każdym", () => {
+    for (const [kod, params] of Object.entries(kluczeZParametrami)) {
+      const pl = t("pl", kod, params)
+      const en = t("en", kod, params)
+      const ru = t("ru", kod, params)
+      for (const wartosc of Object.values(params)) {
+        expect(pl).toContain(String(wartosc))
+        expect(en).toContain(String(wartosc))
+        expect(ru).toContain(String(wartosc))
+      }
+      expect(pl).not.toBe(en)
+      expect(pl).not.toBe(ru)
+      expect(en).not.toBe(ru)
+    }
+  })
+
+  it("klucze bez parametrów: tekst istnieje i różni się między językami", () => {
+    for (const kod of kluczeBezParametrow) {
+      const pl = t("pl", kod)
+      const en = t("en", kod)
+      const ru = t("ru", kod)
+      expect(pl.length).toBeGreaterThan(0)
+      expect(pl).not.toBe(en)
+      expect(pl).not.toBe(ru)
+      expect(en).not.toBe(ru)
+    }
+  })
+})
+
 describe("dictionaries — parytet kluczy", () => {
   it("każdy język ma dokładnie ten sam zestaw kluczy co polski", () => {
     const kluczePl = Object.keys(dictionaries.pl).sort()

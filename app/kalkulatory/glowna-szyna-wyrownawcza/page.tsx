@@ -9,8 +9,10 @@ import { NawigacjaEkranu } from "@/components/nawigacja-ekranu"
 import { NaglowekEkranu } from "@/components/wzorce/naglowek-ekranu"
 import { ListaChecklist } from "@/components/wzorce/lista-checklist"
 import { StanPusty } from "@/components/ui/stany"
+import { useTranslate } from "@/lib/i18n/language-context"
 
 export default function GlownaSzynaWyrownawczaPage() {
+  const t = useTranslate()
   const [potwierdzoneIds, setPotwierdzoneIds] = useState<string[]>([])
   const [uzywanaJakoPrzylaczeOdbiornikow, setUzywanaJakoPrzylaczeOdbiornikow] = useState(false)
 
@@ -58,7 +60,7 @@ export default function GlownaSzynaWyrownawczaPage() {
         <WerdyktPanel poziom={poziom} etykieta={poziom === "ok" ? "GSW skompletowana poprawnie" : undefined}>
           {result.warnings.map((w) => (
             <p key={w.code} className="mt-1 text-small">
-              {w.message}
+              {w.message ?? t(w.i18nKey ?? w.code, w.params)}
             </p>
           ))}
         </WerdyktPanel>
