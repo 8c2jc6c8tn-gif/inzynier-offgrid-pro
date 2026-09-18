@@ -4,7 +4,8 @@ export function notPositive(field: string, label: string, value: number): Warnin
   return {
     code: `${field.toUpperCase()}-NIEDODATNI`,
     level: "critical",
-    message: `Wartość pola "${label}" musi być większa od zera.`,
+    i18nKey: "WARTOSC-NIEDODATNIA",
+    params: { label },
     technicalMessage: `${field} = ${value}, oczekiwano > 0`,
     field,
   }
@@ -14,7 +15,8 @@ export function commonPortNiewystarczajacy(bmsA: number, falownikA: number): War
   return {
     code: "COMMON-PORT-NIEWYSTARCZAJACY",
     level: "critical",
-    message: `Common Port BMS (${bmsA} A) jest poniżej szczytowego prądu rozruchu falownika (${falownikA} A) — wybierz wersję Separate Port.`,
+    i18nKey: "COMMON-PORT-NIEWYSTARCZAJACY",
+    params: { bms: bmsA, falownik: falownikA },
     technicalMessage: `bmsCommonPortA = ${bmsA} < falownikPradRozruchuA = ${falownikA}`,
   }
 }
@@ -23,7 +25,8 @@ export function commonPortWystarczajacy(bmsA: number, falownikA: number): Warnin
   return {
     code: "COMMON-PORT-WYSTARCZAJACY",
     level: "info",
-    message: `Common Port BMS (${bmsA} A) wytrzymuje szczytowy prąd rozruchu falownika (${falownikA} A).`,
+    i18nKey: "COMMON-PORT-WYSTARCZAJACY",
+    params: { bms: bmsA, falownik: falownikA },
     technicalMessage: `bmsCommonPortA = ${bmsA} >= falownikPradRozruchuA = ${falownikA}`,
   }
 }

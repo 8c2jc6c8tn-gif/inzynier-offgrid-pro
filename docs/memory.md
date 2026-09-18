@@ -4444,3 +4444,21 @@ partii 4 było warte zrobienia, nie tylko teoretyczną poprawką.
 czyste. Zweryfikowane w przeglądarce PL/EN/RU (z potwierdzeniem braku rezydualnego procesu
 `next-server` przed startem — lekcja z partii 3 stosowana konsekwentnie od tamtej pory, bez
 kolejnych wpadek). Pozostało ~61 plików.
+
+## Rollout i18n — siódma partia: zamknięcie katalogu `baterie/` (poza odłożonymi) (18.09.2026)
+
+Zmigrowane: `soh-per-ogniwo`, `starzenie-degradacja`, `szyny-zbiorcze-miedzypakietowe`,
+`topologia-bms`, `vehicle-to-home`. 16 nowych kluczy. Bez nowych typów pułapek (żadnych inline
+`Warning` w `validation.ts`, żadnych katalogowych parametrów) — czysta, mechaniczna migracja wg
+ustalonego wzorca. 2 strony UI naprawione (`soh-per-ogniwo`, `topologia-bms`), pozostałe 3 już
+poprawnie używały `WynikSzczegoly`.
+
+`MIGRATED_MODULES`: 27→32. `pnpm typecheck`/`lint`/`check:i18n-guard`/`test` (775/775)/`build`
+czyste. Zweryfikowane w przeglądarce PL/EN/RU (15 kombinacji, zero `⚠ [...]`), z potwierdzeniem
+braku rezydualnego `next-server` przed i po.
+
+**To zamyka wszystkie "normalne" moduły `baterie/`** — w katalogu pozostają tylko świadomie
+odłożone: `napiecie-systemowe` (rozmiar, 377 linii), `porownanie-technologii`, `komunikacja-bms`
+(oba: katalog danych, wymagają osobnej decyzji architektonicznej o i18n dla treści katalogowej,
+razem z już odłożonym `czystosc-i-snieg` z `pv/`). Kolejna partia (8.) zaczyna nowy katalog:
+`okablowanie/` (~15 plików). Pozostało łącznie ~56 plików poza `baterie/`.

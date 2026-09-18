@@ -4,7 +4,7 @@ export function wartoscUjemna(field: string, value: number): Warning {
   return {
     code: "WARTOSC-UJEMNA",
     level: "critical",
-    message: "Wartość nie może być ujemna.",
+    i18nKey: "WARTOSC-NIE-MOZE-BYC-UJEMNA",
     technicalMessage: `${field} = ${value}, oczekiwano >= 0`,
     field,
   }
@@ -19,7 +19,8 @@ export function rozkladInfo(maxOdchylenieOdSredniejPct: number): Warning {
   return {
     code: "ROZKLAD-PRADU",
     level: "info",
-    message: `Największa gałąź odbiega od równego podziału o ${maxOdchylenieOdSredniejPct.toFixed(1)} pkt proc. Źródło nie podaje progu "bezpiecznego" odchylenia — jeśli rozpływ wygląda nierówno, rozważ szynę zbiorczą (gwiazda) z kablami o równej długości zamiast łączenia kaskadowego.`,
+    i18nKey: "ROZKLAD-PRADU",
+    params: { odchylenie: maxOdchylenieOdSredniejPct.toFixed(1) },
     technicalMessage: `maxOdchylenieOdSredniejPct=${maxOdchylenieOdSredniejPct.toFixed(2)}`,
   }
 }

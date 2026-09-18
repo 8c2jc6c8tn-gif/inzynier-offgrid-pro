@@ -1,4 +1,4 @@
-import type { CalcResult } from "@/lib/core/calc-result"
+import type { Assumption, CalcResult } from "@/lib/core/calc-result"
 import { obliczKosztZaKwh } from "@/lib/core/modules/baterie/oplacalnosc-magazynu/calculator"
 import type { VehicleToHomeInput } from "./input"
 import { validateInput } from "./validation"
@@ -81,9 +81,7 @@ export function calculateVehicleToHome(input: VehicleToHomeInput): CalcResult<Ve
     status: warnings.length > 0 ? "VALID_WITH_WARNINGS" : "VALID",
     formula: FORMULA,
     inputs,
-    assumptions: [
-      "„Rezerwa na dojazd, degradacja, straty” ze źródła modelowane jako rezerwa (wprost odejmowana) + jeden łączny współczynnik sprawności efektywnej — źródło nie rozbija tego na osobne wzory.",
-    ],
+    assumptions: [{ kod: "REZERWA-DEGRADACJA-MODEL-UPROSZCZONY" }] satisfies Assumption[],
     warnings,
     calculatorVersion: CALCULATOR_VERSION,
   }

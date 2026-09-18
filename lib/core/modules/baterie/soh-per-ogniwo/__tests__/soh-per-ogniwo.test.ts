@@ -33,4 +33,18 @@ describe("calculateSohPerOgniwo", () => {
     const result = calculateSohPerOgniwo({ rezystancjaFabrycznaMOhm: -0.3, rezystancjaAktualnaMOhm: 0.45 })
     expect(result.status).toBe("INVALID_INPUT")
   })
+
+  it("i18n (17.2): ostrzeżenia zwracają i18nKey/params, nie message", () => {
+    const doWymiany = calculateSohPerOgniwo({ rezystancjaFabrycznaMOhm: 0.3, rezystancjaAktualnaMOhm: 0.45 })
+    const w = doWymiany.warnings.find((w) => w.code === "OGNIWO-DO-WYMIANY")
+    expect(w?.i18nKey).toBe("OGNIWO-DO-WYMIANY")
+    expect(w?.params).toEqual({ wzrost: "50", prog: 50 })
+    expect(w?.message).toBeUndefined()
+
+    const ok = calculateSohPerOgniwo({ rezystancjaFabrycznaMOhm: 0.3, rezystancjaAktualnaMOhm: 0.36 })
+    expect(ok.warnings.find((w) => w.code === "OGNIWO-OK")?.i18nKey).toBe("OGNIWO-OK")
+
+    const ujemna = calculateSohPerOgniwo({ rezystancjaFabrycznaMOhm: -0.3, rezystancjaAktualnaMOhm: 0.45 })
+    expect(ujemna.warnings[0].i18nKey).toBe("WARTOSC-NIEDODATNIA")
+  })
 })

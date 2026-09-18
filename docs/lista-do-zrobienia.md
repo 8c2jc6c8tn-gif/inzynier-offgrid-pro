@@ -488,3 +488,19 @@ Tu trafia bieżący stan pracy: co w trakcie, co zablokowane, co następne — a
   `pnpm typecheck`/`lint`/`check:i18n-guard`/`test` (768/768)/`build` czyste.
   **Pozostało ~61 plików.** `napiecie-systemowe`, `czystosc-i-snieg`, `porownanie-technologii`,
   `komunikacja-bms` nadal odłożone.
+- ✅ (2026-09-18) **Rollout i18n — siódma partia: 5 modułów `baterie/`, zamyka "normalne" moduły
+  tego katalogu.** Zmigrowane: `soh-per-ogniwo`, `starzenie-degradacja`,
+  `szyny-zbiorcze-miedzypakietowe`, `topologia-bms`, `vehicle-to-home`. 16 nowych kluczy.
+  2 strony UI naprawione (ten sam wzorzec `{w.message}` bez fallbacku: `soh-per-ogniwo`,
+  `topologia-bms`) — pozostałe 3 strony modułów tej partii już poprawnie korzystały z
+  `WynikSzczegoly`. `scripts/check-i18n-guard.mjs` → `MIGRATED_MODULES` rozszerzone z 27 do 32.
+  5 nowych bloków testowych domenowych (`it("i18n (17.2): ...")` per moduł) + nowy blok w
+  `t.test.ts` (6 kluczy z parametrami/10 bez). `pnpm typecheck`/`lint`/`check:i18n-guard`/`test`
+  (775/775)/`build` czyste. Zweryfikowane end-to-end w świeżej przeglądarce (Playwright,
+  `pnpm build && pnpm start`, z potwierdzeniem `ps aux | grep next-server` = puste przed startem
+  i po zatrzymaniu) w PL/EN/RU (5 modułów × 3 języki = 15 sprawdzeń) — zero `⚠ [...]`.
+  **To zamyka wszystkie "normalne" moduły katalogu `baterie/`** — pozostają w nim tylko odłożone:
+  `napiecie-systemowe` (rozmiar), `porownanie-technologii`, `komunikacja-bms` (katalog danych).
+  **Pozostało ~56 plików** poza katalogiem `baterie/`: `okablowanie/` (~15), `pv/` (~10, bez
+  odłożonego `czystosc-i-snieg`), `zapotrzebowanie/` (~8), `ogrzewanie/` (~6),
+  `bezpieczenstwo/` (~2), `kalkulator-mobilny/` (~1) — kolejna partia zacznie od `okablowanie/`.

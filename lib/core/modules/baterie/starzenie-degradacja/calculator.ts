@@ -1,4 +1,4 @@
-import type { CalcResult } from "@/lib/core/calc-result"
+import type { Assumption, CalcResult } from "@/lib/core/calc-result"
 import type { StarzenieDegradacjaInput } from "./input"
 import { validateInput } from "./validation"
 
@@ -70,9 +70,9 @@ export function calculateStarzenieDegradacja(
     formula: FORMULA,
     inputs,
     assumptions: [
-      "Prosty model liniowy degradacji (nie kalendarzowo-cykliczny), zgodnie z Sekcją B źródła.",
-      "Wynik to dokładna wymagana pojemność początkowa — w praktyce zaokrągla się w górę do dostępnego rozmiaru komercyjnego (źródło nie podaje siatki rozmiarów).",
-    ],
+      { kod: "MODEL-LINIOWY-DEGRADACJI" },
+      { kod: "WYNIK-DOKLADNY-BEZ-ZAOKRAGLENIA" },
+    ] satisfies Assumption[],
     warnings: [],
     calculatorVersion: CALCULATOR_VERSION,
   }
