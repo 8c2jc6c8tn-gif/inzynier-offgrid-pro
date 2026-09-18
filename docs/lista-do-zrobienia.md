@@ -391,3 +391,31 @@ Tu trafia bieżący stan pracy: co w trakcie, co zablokowane, co następne — a
   `pnpm typecheck`/`lint`/`check:i18n-guard`/`test` (738/738)/`build` czyste.
   **Pozostało:** ~83 plików. Napotkane, odłożone przypadki jak w partii 1 (`czystosc-i-snieg`,
   `porownanie-technologii`) — bez zmian, nadal czekają na osobną decyzję architektoniczną.
+- ✅ (2026-09-18) **Rollout i18n — trzecia partia: 5 modułów `baterie/`, decyzja o kontynuacji do
+  końca (83 pliki).** Właściciel poprosił o kontynuację bez przerw aż do wyczerpania listy — od
+  tej partii PR-e obejmują większe partie modułów (nie po 3), żeby ograniczyć liczbę cykli
+  PR/CI/merge na tak dużą liczbę plików. Zmigrowane: `chlodzenie-latem`, `cold-c-rate`,
+  `cold-cranking-amps`, `detekcja-doziemienia`, `detekcja-zwarcia-efuse`. 18 nowych kluczy w
+  `dictionary-{pl,en,ru}.ts` (w tym `WARTOSC-UJEMNA` — nowy generyczny klucz `{label}` dla
+  wzorca "nie może być ujemna", odróżniony od istniejącego `WARTOSC-NIEDODATNIA`/`ZAPOTRZEBOWANIE-UJEMNE",
+  bo semantyka >=0 vs >0 jest różna). `WARTOSC-NIEDODATNIA` reużyty w `detekcja-zwarcia-efuse`
+  (identyczny tekst źródłowy). `scripts/check-i18n-guard.mjs` → `MIGRATED_MODULES` rozszerzone z 7 do 12.
+  **Trzeci raz ten sam wzorzec błędu w stronach UI:** `chlodzenie-latem`, `cold-c-rate`,
+  `detekcja-zwarcia-efuse`, `detekcja-doziemienia` renderowały `{w.message}` bez fallbacku (2 z
+  nich bez `useTranslate()` w ogóle). Naprawione. **Dodatkowo znaleziony i naprawiony osobny,
+  niezależny od i18n błąd:** `cold-cranking-amps/page.tsx` w gałęzi sukcesu w ogóle nie
+  przekazywało `warnings` do `WynikSzczegoly` — ostrzeżenie „Falownik się wyłączy”/„Falownik
+  utrzyma napięcie” nigdy się nie wyświetlało, niezależnie od i18n. Dopisano `warnings={result.warnings}`.
+  **Pułapka narzędziowa złapana podczas weryfikacji:** stary proces `next-server` z partii 2
+  (uruchomiony przez `pnpm start`, nie zabity poprawnie poprzednim `pkill -f "next start"` — nazwa
+  procesu to `next-server`, nie `next start`) wciąż nasłuchiwał na porcie 3000 i serwował
+  przestarzały build bez nowych kluczy słownika — dał fałszywy `⚠ [BRAK-ZABEZPIECZENIA-DOZIEMIENIA]`
+  w pierwszym przebiegu Playwright. Naprawione: `pkill -9 -f "next-server"` (dokładna nazwa
+  procesu), rebuild + restart, powtórna weryfikacja czysta. Zapamiętane dla kolejnych partii:
+  zawsze zabijać serwer po dokładnej nazwie procesu (`ps aux | grep next-server`), nie zgadywać
+  nazwy komendy startowej.
+  8 nowych testów domenowych + rozszerzony blok w `t.test.ts` (12 kluczy z parametrami/6 bez).
+  Zweryfikowane end-to-end w przeglądarce (Playwright, świeży `pnpm build && pnpm start`) w PL/EN/RU
+  — zero `⚠ [...]`, zero błędów konsoli i18n. `pnpm typecheck`/`lint`/`check:i18n-guard`/`test`
+  (746/746)/`build` czyste. **Pozostało ~76 plików**, `czystosc-i-snieg`/`porownanie-technologii`
+  nadal odłożone bez zmian.

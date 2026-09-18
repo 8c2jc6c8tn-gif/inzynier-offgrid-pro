@@ -8,6 +8,7 @@ import { NawigacjaEkranu } from "@/components/nawigacja-ekranu"
 import { NaglowekEkranu } from "@/components/wzorce/naglowek-ekranu"
 import { WynikGlowny } from "@/components/wzorce/wynik-glowny"
 import { WynikSzczegoly } from "@/components/wzorce/wynik-szczegoly"
+import { useTranslate } from "@/lib/i18n/language-context"
 
 const POZIOM_ZE_STREFY: Record<string, WerdyktPoziom> = {
   blokada: "blad",
@@ -26,6 +27,7 @@ const ETYKIETA_ZE_STREFY: Record<string, string> = {
 }
 
 export default function ColdCRatePage() {
+  const t = useTranslate()
   const [temperaturaOgniwaC, setTemperaturaOgniwaC] = useState("")
   const [pojemnoscAh, setPojemnoscAh] = useState("")
 
@@ -85,7 +87,7 @@ export default function ColdCRatePage() {
           )}
           {result.warnings.map((w) => (
             <p key={w.code} className="mt-1 text-small">
-              {w.message}
+              {w.message ?? t(w.i18nKey ?? w.code, w.params)}
             </p>
           ))}
           <WynikSzczegoly assumptions={result.assumptions} formula={result.formula} />

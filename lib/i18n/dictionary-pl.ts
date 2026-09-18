@@ -46,6 +46,46 @@ export const dictionaryPl = {
     "Waty na tabliczce znamionowej to nie cała historia — to {va} VA, nie {w} W, realnie obciąża falownik.",
   "SZACUNEK-MAGAZYNU-WYMAGA-DANYCH":
     "Szacunek wpływu na wielkość magazynu wymaga wpisania zapotrzebowania dobowego, sprawności falownika i DoD.",
+  "TEMPERATURA-POWYZEJ-ZAKRESU":
+    "Temperatura ogniw ({temp}°C) przekracza dopuszczalne {max}°C — ryzyko trwale przyspieszonej " +
+    "degradacji. Bateria to nie piec — wysoka temperatura nie tylko chwilowo obniża wydajność, ale " +
+    "trwale przyspiesza starzenie ogniw.",
+  "TEMPERATURA-PONIZEJ-ZAKRESU":
+    "Temperatura ogniw ({temp}°C) jest poniżej dopuszczalnego zakresu pracy ({min}°C) — to nie jest " +
+    "ryzyko przegrzania (temat tego ekranu), sprawdź ograniczenie prądu ładowania w mrozie na " +
+    "osobnych ekranach (Cold C-Rate, Cold Cranking Amps).",
+  "TEMPERATURA-W-ZAKRESIE": "Temperatura ogniw ({temp}°C) mieści się w dopuszczalnym zakresie pracy {min}–{max}°C.",
+  "BLOKADA-LADOWANIA-MROZ":
+    "Temperatura ogniwa {temp}°C — poniżej -10°C ładowanie jest całkowicie zablokowane. Ładowanie w " +
+    "tych warunkach trwale uszkadza ogniwa (osadzanie litu metalicznego).",
+  "LIMIT-PRADU-ZIMNO": "Temperatura ogniwa {temp}°C — maksymalny prąd ładowania ograniczony do 0,1C ({maxPrad} A).",
+  "LIMIT-PRADU-CHLODNO": "Temperatura ogniwa {temp}°C — maksymalny prąd ładowania ograniczony do 0,2C ({maxPrad} A).",
+  "LUKA-TABELI-ZRODLA":
+    "Temperatura ogniwa {temp}°C — źródło nie podaje limitu C-rate dla zakresu 5–10°C (luka w tabeli " +
+    "oryginalnej). Sprawdź specyfikację producenta ogniw dla tego zakresu — nie zgadujemy wartości pośredniej.",
+  "POJEMNOSC-NIEDODATNIA": "Pojemność pakietu musi być większa od zera.",
+  "FALOWNIK-SIE-WYLACZY":
+    "Napięcie pod obciążeniem rozruchowym spadnie do {vSag} V — poniżej minimalnego napięcia pracy " +
+    "falownika ({minNap} V). Falownik się wyłączy.",
+  "FALOWNIK-UTRZYMA-NAPIECIE":
+    "Napięcie pod obciążeniem rozruchowym spadnie do {vSag} V — powyżej minimalnego napięcia pracy falownika ({minNap} V).",
+  "WARTOSC-UJEMNA": "{label} nie może być ujemna.",
+  "REZYSTANCJA-ZMIERZONA-W-TEMPERATURZE":
+    "Rezystancja wewnętrzna podana przez użytkownika jest już zmierzona w bieżącej temperaturze ogniw.",
+  "BRAK-ZABEZPIECZENIA-DOZIEMIENIA":
+    "Brak monitora izolacji (IMD) i różnicówki DC — przebicie w panelu spowoduje pojawienie się " +
+    "niebezpiecznego potencjału na ramie bez wykrycia. Prąd stały trzyma ofiarę porażenia mocniej " +
+    "niż zmienny — zainstaluj IMD lub różnicówkę DC.",
+  "ZABEZPIECZENIE-OBECNE": "Zabezpieczenie przed doziemieniem jest obecne (IMD lub różnicówka DC).",
+  "WYMAGANY-E-FUSE":
+    "Prąd zwarciowy pakietu ({pradA} A) przekracza zdolność łączeniową tranzystorów BMS ({zdolnoscA} A) — " +
+    "zwykły bezpiecznik (~10ms) jest za wolny, BMS musi mieć funkcję e-Fuse (wyłączenie natychmiastowe, <100µs).",
+  "E-FUSE-NIEPOTRZEBNY":
+    "Prąd zwarciowy pakietu ({pradA} A) mieści się w zdolności łączeniowej tranzystorów BMS ({zdolnoscA} A).",
+  "MODEL-ZWARCIA-PROSTEGO":
+    "Model prostego zwarcia pełnego (rezystancja przewodów i połączeń pominięta) — ten sam model co " +
+    "Ekran 24 (Dobór bezpiecznika DC).",
+  "BRAK-LIMITU-PRADU-POWYZEJ-10C": "Powyżej 10°C źródło nie ogranicza prądu od strony temperatury ogniw.",
 } as const
 
 export type KluczTlumaczenia = keyof typeof dictionaryPl

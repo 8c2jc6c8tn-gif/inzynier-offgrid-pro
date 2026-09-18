@@ -1,4 +1,4 @@
-import type { CalcResult } from "@/lib/core/calc-result"
+import type { Assumption, CalcResult } from "@/lib/core/calc-result"
 import type { ColdCRateInput } from "./input"
 import { validateInput } from "./validation"
 import { blokadaCalkowita, limitChlodno, limitZimno, lukaZrodla } from "./warnings"
@@ -124,7 +124,7 @@ export function calculateColdCRate(input: ColdCRateInput): CalcResult<ColdCRateR
     status: "VALID",
     formula: "I_{max} = Pojemność \\times C_{rate}(T)",
     inputs,
-    assumptions: ["Powyżej 10°C źródło nie ogranicza prądu od strony temperatury ogniw."],
+    assumptions: [{ kod: "BRAK-LIMITU-PRADU-POWYZEJ-10C" }] satisfies Assumption[],
     warnings: [],
     calculatorVersion: CALCULATOR_VERSION,
   }

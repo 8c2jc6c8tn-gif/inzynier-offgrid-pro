@@ -66,4 +66,20 @@ describe("calculateColdCRate", () => {
     const result = calculateColdCRate({ temperaturaOgniwaC: -5, pojemnoscAh: 0 })
     expect(result.status).toBe("INCOMPLETE")
   })
+
+  it("i18n (17.2): ostrzeżenia i assumption zwracają i18nKey/kod, nie gotowy tekst", () => {
+    const blokada = calculateColdCRate({ temperaturaOgniwaC: -15, pojemnoscAh: 280 })
+    expect(blokada.warnings[0].i18nKey).toBe("BLOKADA-LADOWANIA-MROZ")
+    expect(blokada.warnings[0].message).toBeUndefined()
+
+    const limitZimno = calculateColdCRate({ temperaturaOgniwaC: -5, pojemnoscAh: 280 })
+    expect(limitZimno.warnings[0].i18nKey).toBe("LIMIT-PRADU-ZIMNO")
+    expect(limitZimno.warnings[0].params).toEqual({ temp: "-5.0", maxPrad: "28.0" })
+
+    const luka = calculateColdCRate({ temperaturaOgniwaC: 5, pojemnoscAh: 100 })
+    expect(luka.warnings[0].i18nKey).toBe("LUKA-TABELI-ZRODLA")
+
+    const pelnyPrad = calculateColdCRate({ temperaturaOgniwaC: 10.1, pojemnoscAh: 100 })
+    expect(pelnyPrad.assumptions).toEqual([{ kod: "BRAK-LIMITU-PRADU-POWYZEJ-10C" }])
+  })
 })

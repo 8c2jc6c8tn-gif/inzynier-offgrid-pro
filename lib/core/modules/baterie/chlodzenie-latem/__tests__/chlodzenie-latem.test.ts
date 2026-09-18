@@ -48,4 +48,19 @@ describe("calculateChlodzenieLatem", () => {
     const result = calculateChlodzenieLatem({ temperaturaOgniwC: -300 })
     expect(result.status).toBe("INVALID_INPUT")
   })
+
+  it("i18n (17.2): ostrzeżenia zwracają i18nKey/params, nie message", () => {
+    const powyzej = calculateChlodzenieLatem({ temperaturaOgniwC: 48 })
+    expect(powyzej.warnings[0].i18nKey).toBe("TEMPERATURA-POWYZEJ-ZAKRESU")
+    expect(powyzej.warnings[0].params).toEqual({ temp: "48.0", max: 35 })
+    expect(powyzej.warnings[0].message).toBeUndefined()
+
+    const ponizej = calculateChlodzenieLatem({ temperaturaOgniwC: 5 })
+    expect(ponizej.warnings[0].i18nKey).toBe("TEMPERATURA-PONIZEJ-ZAKRESU")
+    expect(ponizej.warnings[0].message).toBeUndefined()
+
+    const wZakresie = calculateChlodzenieLatem({ temperaturaOgniwC: 25 })
+    expect(wZakresie.warnings[0].i18nKey).toBe("TEMPERATURA-W-ZAKRESIE")
+    expect(wZakresie.warnings[0].message).toBeUndefined()
+  })
 })

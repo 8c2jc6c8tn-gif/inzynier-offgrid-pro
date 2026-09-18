@@ -56,4 +56,17 @@ describe("calculateColdCrankingAmps", () => {
     })
     expect(result.status).toBe("INCOMPLETE")
   })
+
+  it("i18n (17.2): ostrzeżenie i assumption zwracają i18nKey/kod, nie gotowy tekst", () => {
+    const result = calculateColdCrankingAmps({
+      napiecieOtwartegoObwoduV: 51.2,
+      pradRozruchowyA: 800,
+      rezystancjaWewnetrznaMOhm: 13,
+      minimalneNapiecieFalownikaV: 44,
+    })
+    expect(result.warnings[0].i18nKey).toBe("FALOWNIK-SIE-WYLACZY")
+    expect(result.warnings[0].params).toEqual({ vSag: "40.8", minNap: "44.0" })
+    expect(result.warnings[0].message).toBeUndefined()
+    expect(result.assumptions).toEqual([{ kod: "REZYSTANCJA-ZMIERZONA-W-TEMPERATURZE" }])
+  })
 })

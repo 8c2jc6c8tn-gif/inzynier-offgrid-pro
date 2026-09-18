@@ -116,6 +116,59 @@ describe("t — klucze zmigrowane 18.09.2026 (liczba-domownikow, dni-autonomii, 
   })
 })
 
+describe("t — klucze zmigrowane 18.09.2026, partia 3 (baterie: chlodzenie-latem, cold-c-rate, cold-cranking-amps, detekcja-doziemienia, detekcja-zwarcia-efuse)", () => {
+  const kluczeZParametrami: Record<string, Record<string, string | number>> = {
+    "TEMPERATURA-POWYZEJ-ZAKRESU": { temp: "48.0", max: 35 },
+    "TEMPERATURA-PONIZEJ-ZAKRESU": { temp: "5.0", min: 15 },
+    "TEMPERATURA-W-ZAKRESIE": { temp: "25.0", min: 15, max: 35 },
+    "BLOKADA-LADOWANIA-MROZ": { temp: "-15.0" },
+    "LIMIT-PRADU-ZIMNO": { temp: "-5.0", maxPrad: "28.0" },
+    "LIMIT-PRADU-CHLODNO": { temp: "2.0", maxPrad: "20.0" },
+    "LUKA-TABELI-ZRODLA": { temp: "7.0" },
+    "FALOWNIK-SIE-WYLACZY": { vSag: "40.8", minNap: "44.0" },
+    "FALOWNIK-UTRZYMA-NAPIECIE": { vSag: "50.55", minNap: "44.0" },
+    "WARTOSC-UJEMNA": { label: "Prąd rozruchowy" },
+    "WYMAGANY-E-FUSE": { pradA: "5000", zdolnoscA: "500" },
+    "E-FUSE-NIEPOTRZEBNY": { pradA: "5000", zdolnoscA: "6000" },
+  }
+  const kluczeBezParametrow = [
+    "POJEMNOSC-NIEDODATNIA",
+    "REZYSTANCJA-ZMIERZONA-W-TEMPERATURZE",
+    "BRAK-ZABEZPIECZENIA-DOZIEMIENIA",
+    "ZABEZPIECZENIE-OBECNE",
+    "MODEL-ZWARCIA-PROSTEGO",
+    "BRAK-LIMITU-PRADU-POWYZEJ-10C",
+  ]
+
+  it("klucze z parametrami: podstawiają wartości i różnią się między językami w każdym", () => {
+    for (const [kod, params] of Object.entries(kluczeZParametrami)) {
+      const pl = t("pl", kod, params)
+      const en = t("en", kod, params)
+      const ru = t("ru", kod, params)
+      for (const wartosc of Object.values(params)) {
+        expect(pl).toContain(String(wartosc))
+        expect(en).toContain(String(wartosc))
+        expect(ru).toContain(String(wartosc))
+      }
+      expect(pl).not.toBe(en)
+      expect(pl).not.toBe(ru)
+      expect(en).not.toBe(ru)
+    }
+  })
+
+  it("klucze bez parametrów: tekst istnieje i różni się między językami", () => {
+    for (const kod of kluczeBezParametrow) {
+      const pl = t("pl", kod)
+      const en = t("en", kod)
+      const ru = t("ru", kod)
+      expect(pl.length).toBeGreaterThan(0)
+      expect(pl).not.toBe(en)
+      expect(pl).not.toBe(ru)
+      expect(en).not.toBe(ru)
+    }
+  })
+})
+
 describe("dictionaries — parytet kluczy", () => {
   it("każdy język ma dokładnie ten sam zestaw kluczy co polski", () => {
     const kluczePl = Object.keys(dictionaries.pl).sort()

@@ -4,7 +4,8 @@ export function falownikSieWylaczy(vSagV: number, minimalneNapiecieV: number): W
   return {
     code: "FALOWNIK-SIE-WYLACZY",
     level: "warning",
-    message: `Napięcie pod obciążeniem rozruchowym spadnie do ${vSagV.toFixed(1)} V — poniżej minimalnego napięcia pracy falownika (${minimalneNapiecieV.toFixed(1)} V). Falownik się wyłączy.`,
+    i18nKey: "FALOWNIK-SIE-WYLACZY",
+    params: { vSag: vSagV.toFixed(1), minNap: minimalneNapiecieV.toFixed(1) },
     technicalMessage: `vSagV=${vSagV} < minimalneNapiecieFalownikaV=${minimalneNapiecieV}`,
     field: "pradRozruchowyA",
   }
@@ -14,7 +15,8 @@ export function falownikUtrzymaNapiecie(vSagV: number, minimalneNapiecieV: numbe
   return {
     code: "FALOWNIK-UTRZYMA-NAPIECIE",
     level: "info",
-    message: `Napięcie pod obciążeniem rozruchowym spadnie do ${vSagV.toFixed(1)} V — powyżej minimalnego napięcia pracy falownika (${minimalneNapiecieV.toFixed(1)} V).`,
+    i18nKey: "FALOWNIK-UTRZYMA-NAPIECIE",
+    params: { vSag: vSagV.toFixed(1), minNap: minimalneNapiecieV.toFixed(1) },
     technicalMessage: `vSagV=${vSagV} >= minimalneNapiecieFalownikaV=${minimalneNapiecieV}`,
     field: "pradRozruchowyA",
   }
@@ -24,7 +26,8 @@ export function wartoscUjemna(pole: string, etykieta: string, value: number): Wa
   return {
     code: "WARTOSC-UJEMNA",
     level: "critical",
-    message: `${etykieta} nie może być ujemna.`,
+    i18nKey: "WARTOSC-UJEMNA",
+    params: { label: etykieta },
     technicalMessage: `${pole} = ${value}, oczekiwano >= 0`,
     field: pole,
   }

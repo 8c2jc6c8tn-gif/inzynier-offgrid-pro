@@ -4333,3 +4333,33 @@ Zweryfikowane end-to-end w realnej przeglądarce (Playwright, `pnpm build && pnp
 błędów konsoli i18n. 8 nowych testów (ten sam wzorzec co partia 1, `t.test.ts` + asercje per
 moduł, ta sama tura co treść). `pnpm typecheck`/`lint`/`check:i18n-guard`/`test` (738/738)/`build`
 czyste. Pozostało ~83 pliki; `czystosc-i-snieg`/`porownanie-technologii` nadal odłożone bez zmian.
+
+## Rollout i18n — trzecia partia i decyzja o kontynuacji do końca (18.09.2026)
+
+Właściciel: "Kontynuuj dopóki nie zakończysz tych 83 plików" — od tej partii, żeby nie mnożyć
+cykli PR/CI/merge na 80+ plikach, partie rosną (5+ modułów naraz zamiast 3), proces per moduł
+zostaje identyczny (dictionary keys → warnings.ts/calculator.ts → MIGRATED_MODULES → sprawdzenie
+renderowania na stronie → testy w tej samej turze → pełna weryfikacja → Playwright → docs).
+
+Zmigrowane: `baterie/{chlodzenie-latem,cold-c-rate,cold-cranking-amps,detekcja-doziemienia,
+detekcja-zwarcia-efuse}`. 18 nowych kluczy. Nowy generyczny klucz `WARTOSC-UJEMNA` (`{label} nie
+może być ujemna.`) — celowo osobny od `WARTOSC-NIEDODATNIA` (>0 wymagane) i od
+`ZAPOTRZEBOWANIE-UJEMNE` (specyficzny dla jednego pola) — semantyka ">=0 wymagane" różni się od
+obu, więc dostał własny reużywalny klucz zamiast doraźnego per-modułowego.
+
+**Znaleziony trzeci raz ten sam wzorzec: strony renderujące `{w.message}` bez `?? t(...)`.**
+Naprawione w 4 stronach. Osobno, niezależnie od i18n: `cold-cranking-amps/page.tsx` w ogóle nie
+przekazywało `warnings` do `WynikSzczegoly` w gałęzi sukcesu — ostrzeżenie bezpieczeństwa
+("Falownik się wyłączy") nigdy się nie wyświetlało. Naprawione jednym propsem.
+
+**Pułapka narzędziowa (proces, nie kod):** poprzedni `pkill -f "next start"` po partii 2 nie
+trafił w rzeczywisty proces — Next.js produkcyjny serwer nazywa się `next-server` w `ps aux`, nie
+`next start` (to nazwa skryptu npm, nie procesu). Stary serwer został żywy na porcie 3000 i
+serwował przestarzały build bez nowych kluczy — pierwszy przebieg Playwright dał fałszywy
+`⚠ [BRAK-ZABEZPIECZENIA-DOZIEMIENIA]`, mimo że kod i testy jednostkowe były poprawne. Naprawa:
+`pkill -9 -f "next-server"` + świeży `pnpm build && pnpm start` + powtórna weryfikacja (czysta).
+**Zasada do zapamiętania:** po każdej partii sprawdzać `ps aux | grep next-server` przed
+Playwright, nie ufać, że poprzedni `pkill` faktycznie coś zabił bez weryfikacji.
+
+`pnpm typecheck`/`lint`/`check:i18n-guard`/`test` (746/746)/`build` czyste. Zweryfikowane w
+przeglądarce PL/EN/RU, zero `⚠ [...]` po naprawie procesu. Pozostało ~76 plików.

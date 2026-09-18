@@ -27,6 +27,11 @@ const MIGRATED_MODULES = [
   "lib/core/modules/zapotrzebowanie/liczba-domownikow",
   "lib/core/modules/zapotrzebowanie/dni-autonomii",
   "lib/core/modules/zapotrzebowanie/moc-pozorna-cosfi",
+  "lib/core/modules/baterie/chlodzenie-latem",
+  "lib/core/modules/baterie/cold-c-rate",
+  "lib/core/modules/baterie/cold-cranking-amps",
+  "lib/core/modules/baterie/detekcja-doziemienia",
+  "lib/core/modules/baterie/detekcja-zwarcia-efuse",
 ]
 
 const FILES_TO_CHECK = ["warnings.ts", "calculator.ts"]

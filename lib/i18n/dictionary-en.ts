@@ -38,4 +38,46 @@ export const dictionaryEn = {
     "Watts on the nameplate aren't the whole story — the inverter actually sees {va} VA, not {w} W, of real load.",
   "SZACUNEK-MAGAZYNU-WYMAGA-DANYCH":
     "Estimating the impact on storage size requires entering the daily demand, inverter efficiency, and DoD.",
+  "TEMPERATURA-POWYZEJ-ZAKRESU":
+    "Cell temperature ({temp}°C) exceeds the allowed {max}°C — risk of permanently accelerated " +
+    "degradation. A battery isn't an oven — high temperature doesn't just temporarily reduce " +
+    "performance, it permanently accelerates cell aging.",
+  "TEMPERATURA-PONIZEJ-ZAKRESU":
+    "Cell temperature ({temp}°C) is below the allowed operating range ({min}°C) — this isn't an " +
+    "overheating risk (this screen's topic); check the cold-weather charge current limit on the " +
+    "separate screens (Cold C-Rate, Cold Cranking Amps).",
+  "TEMPERATURA-W-ZAKRESIE": "Cell temperature ({temp}°C) is within the allowed operating range of {min}–{max}°C.",
+  "BLOKADA-LADOWANIA-MROZ":
+    "Cell temperature {temp}°C — below -10°C charging is completely blocked. Charging under these " +
+    "conditions permanently damages the cells (lithium metal plating).",
+  "LIMIT-PRADU-ZIMNO": "Cell temperature {temp}°C — maximum charge current limited to 0.1C ({maxPrad} A).",
+  "LIMIT-PRADU-CHLODNO": "Cell temperature {temp}°C — maximum charge current limited to 0.2C ({maxPrad} A).",
+  "LUKA-TABELI-ZRODLA":
+    "Cell temperature {temp}°C — the source doesn't provide a C-rate limit for the 5–10°C range (gap " +
+    "in the original table). Check the cell manufacturer's specification for this range — we don't " +
+    "guess an intermediate value.",
+  "POJEMNOSC-NIEDODATNIA": "Pack capacity must be greater than zero.",
+  "FALOWNIK-SIE-WYLACZY":
+    "Voltage under starting load will sag to {vSag} V — below the inverter's minimum operating " +
+    "voltage ({minNap} V). The inverter will shut down.",
+  "FALOWNIK-UTRZYMA-NAPIECIE":
+    "Voltage under starting load will sag to {vSag} V — above the inverter's minimum operating voltage ({minNap} V).",
+  "WARTOSC-UJEMNA": "{label} cannot be negative.",
+  "REZYSTANCJA-ZMIERZONA-W-TEMPERATURZE":
+    "The internal resistance entered by the user is already measured at the current cell temperature.",
+  "BRAK-ZABEZPIECZENIA-DOZIEMIENIA":
+    "No insulation monitor (IMD) or DC residual current device — a fault in the panel will put a " +
+    "dangerous potential on the frame without detection. DC current holds a shock victim more " +
+    "strongly than AC — install an IMD or a DC RCD.",
+  "ZABEZPIECZENIE-OBECNE": "Ground fault protection is present (IMD or DC RCD).",
+  "WYMAGANY-E-FUSE":
+    "The pack's short-circuit current ({pradA} A) exceeds the BMS transistors' switching capability " +
+    "({zdolnoscA} A) — an ordinary fuse (~10ms) is too slow, the BMS needs an e-Fuse function " +
+    "(instant shutdown, <100µs).",
+  "E-FUSE-NIEPOTRZEBNY":
+    "The pack's short-circuit current ({pradA} A) is within the BMS transistors' switching capability ({zdolnoscA} A).",
+  "MODEL-ZWARCIA-PROSTEGO":
+    "Simple full short-circuit model (wiring and connection resistance ignored) — the same model as " +
+    "Screen 24 (DC Fuse Sizing).",
+  "BRAK-LIMITU-PRADU-POWYZEJ-10C": "Above 10°C the source doesn't limit current from the cell temperature side.",
 } satisfies Record<KluczTlumaczenia, string>
