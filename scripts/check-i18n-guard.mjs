@@ -52,6 +52,11 @@ const MIGRATED_MODULES = [
   "lib/core/modules/baterie/szyny-zbiorcze-miedzypakietowe",
   "lib/core/modules/baterie/topologia-bms",
   "lib/core/modules/baterie/vehicle-to-home",
+  "lib/core/modules/okablowanie/analiza-zwarciowa",
+  "lib/core/modules/okablowanie/dobor-bezpiecznika-rozlacznika",
+  "lib/core/modules/okablowanie/dobor-izolacji-kabla",
+  "lib/core/modules/okablowanie/dobor-mocy-falownika",
+  "lib/core/modules/okablowanie/dobor-przekroju-kabla",
 ]
 
 const FILES_TO_CHECK = ["warnings.ts", "calculator.ts", "validation.ts"]

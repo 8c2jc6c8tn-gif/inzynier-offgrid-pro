@@ -4,7 +4,7 @@ export function wartoscNiedodatnia(field: string, value: number): Warning {
   return {
     code: "WARTOSC-NIEDODATNIA",
     level: "critical",
-    message: "Wartość musi być większa od zera.",
+    i18nKey: "WARTOSC-MUSI-BYC-WIEKSZA-OD-ZERA",
     technicalMessage: `${field} = ${value}, oczekiwano > 0`,
     field,
   }
@@ -17,7 +17,8 @@ export function przekrojPonizejWyliczonego(
   return {
     code: "PRZEKROJ-PONIZEJ-WYLICZONEGO",
     level: "critical",
-    message: `Wybrany przekrój ${sprawdzanyMm2} mm² jest mniejszy niż wyliczone minimum (${wymaganyMm2} mm²) — realne ryzyko przegrzania izolacji i pożaru. Użyj co najmniej ${wymaganyMm2} mm².`,
+    i18nKey: "PRZEKROJ-PONIZEJ-WYLICZONEGO-MINIMUM",
+    params: { sprawdzany: sprawdzanyMm2, wymagany: wymaganyMm2 },
     technicalMessage: `sprawdzanyMm2=${sprawdzanyMm2} < wymaganyMm2=${wymaganyMm2}`,
   }
 }
@@ -26,7 +27,7 @@ export function zalecanyZMarginesem(marginesObciazalnosciPct: number, marginesSp
   return {
     code: "PRZEKROJ-ZALECANY",
     level: "info",
-    message: "Wybrany przekrój ma bezpieczny margines (≥15%) zarówno na obciążalność, jak i spadek napięcia.",
+    i18nKey: "PRZEKROJ-MA-BEZPIECZNY-MARGINES",
     technicalMessage: `marginesObciazalnosciPct=${marginesObciazalnosciPct.toFixed(1)}, marginesSpadkuPct=${marginesSpadkuPct.toFixed(1)}`,
   }
 }
@@ -35,7 +36,7 @@ export function dopuszczalnyNaGranicy(marginesObciazalnosciPct: number, margines
   return {
     code: "PRZEKROJ-NA-GRANICY",
     level: "warning",
-    message: "Wybrany przekrój spełnia oba kryteria, ale margines jest mały (poniżej 15%) — rozważ większy przekrój.",
+    i18nKey: "PRZEKROJ-MARGINES-MALY",
     technicalMessage: `marginesObciazalnosciPct=${marginesObciazalnosciPct.toFixed(1)}, marginesSpadkuPct=${marginesSpadkuPct.toFixed(1)}`,
   }
 }
@@ -44,7 +45,8 @@ export function brakPasujacegoPrzekroju(maksymalnyMm2: number): Warning {
   return {
     code: "BRAK-PASUJACEGO-PRZEKROJU",
     level: "critical",
-    message: `Żaden standardowy przekrój do ${maksymalnyMm2} mm² nie spełnia obu kryteriów przy tych danych — potrzebny większy przekrój, inne napięcie systemowe albo krótsza trasa. Skonsultuj projektanta.`,
+    i18nKey: "BRAK-PRZEKROJU-SPELNIAJACEGO-KRYTERIA",
+    params: { maksymalny: maksymalnyMm2 },
     technicalMessage: `brak przekroju w zakresie do ${maksymalnyMm2} mm2 spełniającego obciążalność i spadek napięcia`,
   }
 }
@@ -53,7 +55,8 @@ export function temperaturaPozaZakresem(temperaturaC: number): Warning {
   return {
     code: "TEMPERATURA-POZA-ZAKRESEM",
     level: "critical",
-    message: `Temperatura otoczenia ${temperaturaC}°C jest poza zakresem tabel normy dla izolacji PVC (10-60°C) — nie da się bezpiecznie policzyć.`,
+    i18nKey: "TEMPERATURA-OTOCZENIA-POZA-TABELAMI",
+    params: { temp: temperaturaC },
     technicalMessage: `temperaturaOtoczeniaC=${temperaturaC}, oczekiwano 10-60`,
     field: "temperaturaOtoczeniaC",
   }
@@ -63,7 +66,8 @@ export function liczbaKabliPozaZakresem(liczbaKabli: number): Warning {
   return {
     code: "LICZBA-KABLI-POZA-ZAKRESEM",
     level: "critical",
-    message: `Norma nie podaje współczynnika zmniejszającego dla wiązki tej wielkości (${liczbaKabli} kabli) przy wybranym sposobie ułożenia.`,
+    i18nKey: "WSPOLCZYNNIK-WIAZKI-POZA-ZAKRESEM",
+    params: { liczba: liczbaKabli },
     technicalMessage: `liczbaKabliWWiazce=${liczbaKabli} poza zakresem tabeli`,
     field: "liczbaKabliWWiazce",
   }

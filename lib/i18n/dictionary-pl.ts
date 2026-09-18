@@ -229,6 +229,73 @@ export const dictionaryPl = {
   "REZERWA-DEGRADACJA-MODEL-UPROSZCZONY":
     "„Rezerwa na dojazd, degradacja, straty” ze źródła modelowane jako rezerwa (wprost odejmowana) " +
     "+ jeden łączny współczynnik sprawności efektywnej — źródło nie rozbija tego na osobne wzory.",
+  "AIC-PONIZEJ-MAX-PRADU-ZWARCIOWEGO":
+    "Zdolność wyłączania zabezpieczenia ({aic} A) jest poniżej obliczonego maksymalnego prądu " +
+    "zwarciowego ({pradZwarciowy} A) — zabezpieczenie samo stanie się źródłem łuku elektrycznego.",
+  "AIC-WYSTARCZAJACE-NA-PRAD-ZWARCIOWY": "Zdolność wyłączania {aic} A wystarcza na obliczony prąd zwarciowy.",
+  "AIC-NIE-SPRAWDZONA-PORUWNAJ": "Zdolność łączeniowa (AIC) nie sprawdzona — wpisz ją, żeby porównać z prądem zwarciowym.",
+  "AIC-BEZPIECZNIKA-PONIZEJ-PRADU-ZWARCIOWEGO":
+    "Zdolność łączeniowa bezpiecznika ({aic} A) jest niższa niż prąd zwarciowy w tym punkcie " +
+    "({pradZwarciowy} A) — zbyt niska zdolność łączeniowa, ryzyko łuku elektrycznego zamiast " +
+    "bezpiecznego przepalenia.",
+  "PRAD-ZNAMIONOWY-NIEDODATNI": "Prąd znamionowy obwodu musi być większy od zera.",
+  "PRAD-ZWARCIOWY-UJEMNY": "Prąd zwarciowy nie może być ujemny.",
+  "AIC-UJEMNE": "Zdolność łączeniowa (AIC) nie może być ujemna.",
+  "SELEKTYWNOSC-NIE-SPRAWDZONA":
+    "Koordynacja selektywności z Ekranem 13 (Selektywność zabezpieczeń) nie sprawdzona — ten ekran " +
+    "jeszcze nie istnieje.",
+  "AIC-NIE-SPRAWDZONA-WOBEC-ZWARCIA":
+    "Zdolność łączeniowa (AIC) nie sprawdzona wobec prądu zwarciowego — wpisz oba pola, docelowo " +
+    "prąd zwarciowy z Ekranu 12 (Analiza zwarciowa).",
+  "IZOLACJA-PONIZEJ-TEMPERATURY":
+    "Izolacja {izolacja} wytrzymuje do {max}°C, a spodziewana temperatura to {temp}°C — pęknie i " +
+    "puści wilgoć. Użyj izolacji o wyższej odporności termicznej.",
+  "IZOLACJA-WYSTARCZA-NA-TEMPERATURE": "Izolacja {izolacja} (do {max}°C) wytrzyma spodziewaną temperaturę w tym miejscu.",
+  "FALOWNIK-MOCY-ZA-SLABY":
+    "Wybrany falownik ({wybrana} W) jest słabszy niż zalecana moc ({zalecana} W) — ryzyko częstych " +
+    "wyłączeń przy rozruchach silników.",
+  "FALOWNIK-MOCY-WYSTARCZAJACY":
+    "Wybrany falownik ({wybrana} W) pokrywa zalecaną moc ({zalecana} W) z zapasem na rozruchy.",
+  "REKOMENDACJA-MOCY-FALOWNIKA":
+    "Zalecana moc ciągła falownika: {zalecana} W (z zapasem na rozruchy silników, 5 s, do 200% " +
+    "przeciążalności).",
+  "WSPOLCZYNNIK-JEDNOCZESNOSCI-MARGINES":
+    "Współczynnik jednoczesności działa tu jako odwrotny margines na rozruchy (P_falownika = " +
+    "P_szczytowa / w), nie jako redukcja sumy odbiorników.",
+  "PRADY-ROZRUCHOWE-NIE-LICZONE-LICZBOWO":
+    "Prądy rozruchowe silników NIE liczone liczbowo — źródło nie podaje wzoru/mnożnika, tylko " +
+    "przykład ilustracyjny.",
+  "WARTOSC-MUSI-BYC-WIEKSZA-OD-ZERA": "Wartość musi być większa od zera.",
+  "PRZEKROJ-PONIZEJ-WYLICZONEGO-MINIMUM":
+    "Wybrany przekrój {sprawdzany} mm² jest mniejszy niż wyliczone minimum ({wymagany} mm²) — " +
+    "realne ryzyko przegrzania izolacji i pożaru. Użyj co najmniej {wymagany} mm².",
+  "PRZEKROJ-MA-BEZPIECZNY-MARGINES":
+    "Wybrany przekrój ma bezpieczny margines (≥15%) zarówno na obciążalność, jak i spadek napięcia.",
+  "PRZEKROJ-MARGINES-MALY":
+    "Wybrany przekrój spełnia oba kryteria, ale margines jest mały (poniżej 15%) — rozważ większy przekrój.",
+  "BRAK-PRZEKROJU-SPELNIAJACEGO-KRYTERIA":
+    "Żaden standardowy przekrój do {maksymalny} mm² nie spełnia obu kryteriów przy tych danych — " +
+    "potrzebny większy przekrój, inne napięcie systemowe albo krótsza trasa. Skonsultuj projektanta.",
+  "TEMPERATURA-OTOCZENIA-POZA-TABELAMI":
+    "Temperatura otoczenia {temp}°C jest poza zakresem tabel normy dla izolacji PVC (10-60°C) — " +
+    "nie da się bezpiecznie policzyć.",
+  "WSPOLCZYNNIK-WIAZKI-POZA-ZAKRESEM":
+    "Norma nie podaje współczynnika zmniejszającego dla wiązki tej wielkości ({liczba} kabli) przy " +
+    "wybranym sposobie ułożenia.",
+  "IZOLACJA-ZALOZONA-PVC-DOMYSLNIE":
+    "Izolacja żył założona jako PVC (70°C) — dane wejściowe nie proszą o typ izolacji; PVC ma niższą " +
+    "obciążalność niż XLPE/EPR, więc jest zachowawczym (bezpieczniejszym) wyborem domyślnym.",
+  "LICZBA-ZYL-DWIE-TABLICA-B52":
+    "Liczba żył obciążonych w obwodzie = 2 (obwód DC lub jednofazowy AC) — użyto Tablicy B.52.2 " +
+    "normy PN-HD 60364-5-52.",
+  "REZYSTANCJA-PETLI-WZOR-2L-S":
+    "Rezystancja pętli liczona jako ρ×2×L/S (prąd wraca drugim przewodem) — tak jak w już " +
+    "zweryfikowanym kalkulatorze M3/E8 (straty-okablowanie-dc); uproszczony wzór ze źródła tego " +
+    "ekranu (bez ×2) zaniżałby spadek napięcia o połowę.",
+  "KOREKTA-ULOZENIA-KOLUMNA-TABELI":
+    "Korekta sposobu ułożenia zrealizowana przez wybór właściwej kolumny tabeli normy (metoda " +
+    "referencyjna C/B2/D), nie przez osobny mnożnik k3 opisany w źródle produktowym — norma nie " +
+    "definiuje takiego wspólnego współczynnika.",
 } as const
 
 export type KluczTlumaczenia = keyof typeof dictionaryPl

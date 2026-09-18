@@ -390,6 +390,68 @@ describe("t — klucze zmigrowane 18.09.2026, partia 7 (baterie: soh-per-ogniwo,
   })
 })
 
+describe("t — klucze zmigrowane 18.09.2026, partia 8 (okablowanie: analiza-zwarciowa, dobor-bezpiecznika-rozlacznika, dobor-izolacji-kabla, dobor-mocy-falownika, dobor-przekroju-kabla)", () => {
+  const kluczeZParametrami: Record<string, Record<string, string | number>> = {
+    "AIC-PONIZEJ-MAX-PRADU-ZWARCIOWEGO": { aic: 2000, pradZwarciowy: "4800" },
+    "AIC-WYSTARCZAJACE-NA-PRAD-ZWARCIOWY": { aic: 20000 },
+    "AIC-BEZPIECZNIKA-PONIZEJ-PRADU-ZWARCIOWEGO": { aic: 10000, pradZwarciowy: 12000 },
+    "IZOLACJA-PONIZEJ-TEMPERATURY": { izolacja: "PVC", temp: 75, max: 70 },
+    "IZOLACJA-WYSTARCZA-NA-TEMPERATURE": { izolacja: "PVC", max: 70 },
+    "FALOWNIK-MOCY-ZA-SLABY": { wybrana: 4000, zalecana: 6000 },
+    "FALOWNIK-MOCY-WYSTARCZAJACY": { wybrana: 6000, zalecana: 6000 },
+    "REKOMENDACJA-MOCY-FALOWNIKA": { zalecana: 6000 },
+    "PRZEKROJ-PONIZEJ-WYLICZONEGO-MINIMUM": { sprawdzany: 2.5, wymagany: 4 },
+    "BRAK-PRZEKROJU-SPELNIAJACEGO-KRYTERIA": { maksymalny: 35 },
+    "TEMPERATURA-OTOCZENIA-POZA-TABELAMI": { temp: 65 },
+    "WSPOLCZYNNIK-WIAZKI-POZA-ZAKRESEM": { liczba: 25 },
+  }
+  const kluczeBezParametrow = [
+    "AIC-NIE-SPRAWDZONA-PORUWNAJ",
+    "PRAD-ZNAMIONOWY-NIEDODATNI",
+    "PRAD-ZWARCIOWY-UJEMNY",
+    "AIC-UJEMNE",
+    "SELEKTYWNOSC-NIE-SPRAWDZONA",
+    "AIC-NIE-SPRAWDZONA-WOBEC-ZWARCIA",
+    "WSPOLCZYNNIK-JEDNOCZESNOSCI-MARGINES",
+    "PRADY-ROZRUCHOWE-NIE-LICZONE-LICZBOWO",
+    "WARTOSC-MUSI-BYC-WIEKSZA-OD-ZERA",
+    "PRZEKROJ-MA-BEZPIECZNY-MARGINES",
+    "PRZEKROJ-MARGINES-MALY",
+    "IZOLACJA-ZALOZONA-PVC-DOMYSLNIE",
+    "LICZBA-ZYL-DWIE-TABLICA-B52",
+    "REZYSTANCJA-PETLI-WZOR-2L-S",
+    "KOREKTA-ULOZENIA-KOLUMNA-TABELI",
+  ]
+
+  it("klucze z parametrami: podstawiają wartości i różnią się między językami w każdym", () => {
+    for (const [kod, params] of Object.entries(kluczeZParametrami)) {
+      const pl = t("pl", kod, params)
+      const en = t("en", kod, params)
+      const ru = t("ru", kod, params)
+      for (const wartosc of Object.values(params)) {
+        expect(pl).toContain(String(wartosc))
+        expect(en).toContain(String(wartosc))
+        expect(ru).toContain(String(wartosc))
+      }
+      expect(pl).not.toBe(en)
+      expect(pl).not.toBe(ru)
+      expect(en).not.toBe(ru)
+    }
+  })
+
+  it("klucze bez parametrów: tekst istnieje i różni się między językami", () => {
+    for (const kod of kluczeBezParametrow) {
+      const pl = t("pl", kod)
+      const en = t("en", kod)
+      const ru = t("ru", kod)
+      expect(pl.length).toBeGreaterThan(0)
+      expect(pl).not.toBe(en)
+      expect(pl).not.toBe(ru)
+      expect(en).not.toBe(ru)
+    }
+  })
+})
+
 describe("dictionaries — parytet kluczy", () => {
   it("każdy język ma dokładnie ten sam zestaw kluczy co polski", () => {
     const kluczePl = Object.keys(dictionaries.pl).sort()

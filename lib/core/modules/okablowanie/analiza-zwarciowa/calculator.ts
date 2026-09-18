@@ -1,4 +1,4 @@
-import type { CalcResult, Warning } from "@/lib/core/calc-result"
+import type { Assumption, CalcResult, Warning } from "@/lib/core/calc-result"
 import type { AnalizaZwarciowaInput } from "./input"
 import { validateInput } from "./validation"
 import { aicPonizejPraduZwarciowego, aicWystarczajace } from "./warnings"
@@ -99,12 +99,9 @@ export function calculateAnalizaZwarciowa(input: AnalizaZwarciowaInput): CalcRes
     )
   }
 
-  const assumptions = [
-    "Model prostego zwarcia pełnego (rezystancja przewodów i połączeń pominięta) — " +
-      "rzeczywisty prąd zwarciowy w instalacji może być nieco niższy.",
-  ]
+  const assumptions: Assumption[] = [{ kod: "MODEL-ZWARCIA-PROSTEGO-NIZSZY" }]
   if (!sprawdzanoAic) {
-    assumptions.push("Zdolność łączeniowa (AIC) nie sprawdzona — wpisz ją, żeby porównać z prądem zwarciowym.")
+    assumptions.push({ kod: "AIC-NIE-SPRAWDZONA-PORUWNAJ" })
   }
 
   const maNieinformacyjneOstrzezenia = warnings.some((w) => w.level !== "info")

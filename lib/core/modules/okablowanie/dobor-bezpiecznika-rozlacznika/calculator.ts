@@ -1,4 +1,4 @@
-import type { CalcResult, Warning } from "@/lib/core/calc-result"
+import type { Assumption, CalcResult, Warning } from "@/lib/core/calc-result"
 import type { DoborBezpiecznikaRozlacznikaInput } from "./input"
 import { validateInput } from "./validation"
 import { aicPonizejPraduZwarciowego } from "./warnings"
@@ -84,13 +84,9 @@ export function calculateDoborBezpiecznikaRozlacznika(
     warnings.push(aicPonizejPraduZwarciowego(input.aicBezpiecznikaA, input.pradZwarciowyA))
   }
 
-  const assumptions = [
-    "Koordynacja selektywności z Ekranem 13 (Selektywność zabezpieczeń) nie sprawdzona — ten ekran jeszcze nie istnieje.",
-  ]
+  const assumptions: Assumption[] = [{ kod: "SELEKTYWNOSC-NIE-SPRAWDZONA" }]
   if (!sprawdzanoAic) {
-    assumptions.push(
-      "Zdolność łączeniowa (AIC) nie sprawdzona wobec prądu zwarciowego — wpisz oba pola, docelowo prąd zwarciowy z Ekranu 12 (Analiza zwarciowa).",
-    )
+    assumptions.push({ kod: "AIC-NIE-SPRAWDZONA-WOBEC-ZWARCIA" })
   }
 
   const value: DoborBezpiecznikaRozlacznikaResult = { pradBezpiecznikaZalecanyA, aicWystarczajace }

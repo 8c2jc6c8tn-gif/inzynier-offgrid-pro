@@ -59,4 +59,30 @@ describe("calculateDoborIzolacjiKabla", () => {
     })
     expect(result.status).toBe("INVALID_INPUT")
   })
+
+  it("i18n (17.2): ostrzeżenia zwracają i18nKey/params, nie message", () => {
+    const wystarcza = calculateDoborIzolacjiKabla({
+      miejsceTrasy: "ziemia",
+      izolacjaWybrana: "PVC",
+      temperaturaMaksymalnaC: 70,
+    })
+    expect(wystarcza.warnings[0].i18nKey).toBe("IZOLACJA-WYSTARCZA-NA-TEMPERATURE")
+    expect(wystarcza.warnings[0].params).toEqual({ izolacja: "PVC", max: 70 })
+    expect(wystarcza.warnings[0].message).toBeUndefined()
+
+    const ponizej = calculateDoborIzolacjiKabla({
+      miejsceTrasy: "zewnetrznie-blisko-paneli",
+      izolacjaWybrana: "PVC",
+      temperaturaMaksymalnaC: 75,
+    })
+    expect(ponizej.warnings[0].i18nKey).toBe("IZOLACJA-PONIZEJ-TEMPERATURY")
+    expect(ponizej.warnings[0].params).toEqual({ izolacja: "PVC", temp: 75, max: 70 })
+
+    const ujemna = calculateDoborIzolacjiKabla({
+      miejsceTrasy: "ziemia",
+      izolacjaWybrana: "PVC",
+      temperaturaMaksymalnaC: -5,
+    })
+    expect(ujemna.warnings[0].i18nKey).toBe("WARTOSC-NIE-MOZE-BYC-UJEMNA")
+  })
 })
