@@ -142,4 +142,49 @@ export const dictionaryEn = {
   "POJEMNOSC-FALOWNIKA-NIEDODATNIA": "The inverter's DC input capacitance must be greater than zero.",
   "REZYSTANCJA-PRECHARGE-NIEDODATNIA": "The pre-charge resistor must be greater than zero.",
   "POBOR-UJEMNY": "{label} cannot be negative.",
+  "WILGOTNOSC-POZA-ZAKRESEM": "Relative humidity must be within the range 0–100%.",
+  "RYZYKO-KONDENSACJI":
+    "The enclosure temperature ({temp}°C) is below the dew point ({rosa}°C) — high risk of water " +
+    "condensing inside. A wet BMS and copper busbars are a recipe for a short circuit.",
+  "BEZPIECZNY-MARGINES":
+    "The enclosure temperature ({temp}°C) is above the dew point ({rosa}°C) — no condensation risk under these conditions.",
+  "IP-PONIZEJ-WYMAGANEGO":
+    "The IP{ip} enclosure is below the required minimum IP{min} for an environment exposed to moisture.",
+  "PUNKT-ROSY-WZOR-MAGNUSA":
+    "Dew point calculated with the standard Magnus-Tetens formula (constants for liquid water), not " +
+    "given directly in the source — independently verified against the source's example (-5°C/85% → -7°C).",
+  "SPRAWNOSC-OGOLNA-POZA-ZAKRESEM": "Efficiency must be within the range 0–100%.",
+  "TANSZE-NIZ-ALTERNATYWA":
+    "The cost of energy from storage ({koszt} PLN/kWh) is lower than the alternative's cost ({alt} PLN/kWh) — storage pays off.",
+  "DROZSZE-NIZ-ALTERNATYWA":
+    "The cost of energy from storage ({koszt} PLN/kWh) is higher than the alternative's cost ({alt} PLN/kWh) — " +
+    "at these parameters, storage doesn't pay for itself.",
+  "LICZBA-CYKLI-SPRAWNOSC-OD-UZYTKOWNIKA":
+    "Number of cycles and efficiency entered by the user (e.g. from a datasheet or Screen 30) — not recalculated on this screen.",
+  "DOCISK-ZA-MALY":
+    "Clamping force ({docisk} kgf) is below the recommended range of {min}-{max} kgf — risk of losing " +
+    "internal contact and accelerated degradation.",
+  "DOCISK-ZA-DUZY":
+    "Clamping force ({docisk} kgf) is above the recommended range of {min}-{max} kgf — risk of mechanical damage to the cells.",
+  "BRAK-LUZU-NA-PECZNIENIE":
+    "Cells grow by 1-2% while charging — without a slack margin, the fixed clamping force will exceed the recommended range.",
+  "DOCISK-OK":
+    "Clamping force ({docisk} kgf) is within the recommended range of {min}-{max} kgf, with slack left for expansion.",
+  "DOCISK-UJEMNY": "Clamping force cannot be negative.",
+  "TANSZA-NIZ-NOWA":
+    "The cost of 1 usable kWh from this battery ({koszt} PLN/kWh) is lower than a new LiFePO4's " +
+    "({nowa} PLN/kWh) — but the new one has 100% SoH and a longer lifespan.",
+  "DROZSZA-NIZ-NOWA":
+    "The cost of 1 usable kWh from this battery ({koszt} PLN/kWh) is higher than a new LiFePO4's " +
+    "({nowa} PLN/kWh) — at this purchase price, a new battery pays off better.",
+  "SOH-ZEROWY":
+    "Estimated SoH dropped to 0% under this degradation model — the battery is practically useless, don't buy it.",
+  "SOH-SZACUNEK-Z-WIEKU": "SoH estimated linearly from age, the lower bound of the source's range ({rate}%/year out of a 2-3%/year range).",
+  "SOH-SZACUNEK-Z-PRZEBIEGU": "SoH estimated linearly from mileage ({rate}%/10,000 km per the source).",
+  "TOLERANCJA-POZA-ZAKRESEM": "Factory tolerance must be within the range 0–100%.",
+  "POJEMNOSC-OGRANICZONA-NAJSLABSZYM":
+    "It's like pulling the brake on the whole train because one car broke down — the weakest cell " +
+    "limits the entire pack by {utrata}%.",
+  "NAJGORSZY-PRZYPADEK-TOLERANCJA":
+    "Worst case: at least one cell in the factory tolerance band has a capacity right at the lower tolerance limit.",
 } satisfies Record<KluczTlumaczenia, string>

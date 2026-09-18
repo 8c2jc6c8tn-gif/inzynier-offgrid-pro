@@ -4,7 +4,8 @@ export function notPositive(field: string, label: string, value: number): Warnin
   return {
     code: `${field.toUpperCase()}-NIEDODATNI`,
     level: "critical",
-    message: `Wartość pola "${label}" musi być większa od zera.`,
+    i18nKey: "WARTOSC-NIEDODATNIA",
+    params: { label },
     technicalMessage: `${field} = ${value}, oczekiwano > 0`,
     field,
   }
@@ -14,7 +15,8 @@ export function tanszaNizNowa(kosztZaKwh: number, cenaNowejZaKwh: number): Warni
   return {
     code: "TANSZA-NIZ-NOWA",
     level: "info",
-    message: `Koszt 1 kWh użytecznej z tej baterii (${kosztZaKwh.toFixed(0)} zł/kWh) jest niższy niż nowej LiFePO4 (${cenaNowejZaKwh.toFixed(0)} zł/kWh) — ale nowa ma 100% SoH i dłuższą żywotność.`,
+    i18nKey: "TANSZA-NIZ-NOWA",
+    params: { koszt: kosztZaKwh.toFixed(0), nowa: cenaNowejZaKwh.toFixed(0) },
     technicalMessage: `kosztZaKwh = ${kosztZaKwh} < cenaNowejLiFePO4ZlZaKwh = ${cenaNowejZaKwh}`,
   }
 }
@@ -23,7 +25,8 @@ export function drozszaNizNowa(kosztZaKwh: number, cenaNowejZaKwh: number): Warn
   return {
     code: "DROZSZA-NIZ-NOWA",
     level: "warning",
-    message: `Koszt 1 kWh użytecznej z tej baterii (${kosztZaKwh.toFixed(0)} zł/kWh) jest wyższy niż nowej LiFePO4 (${cenaNowejZaKwh.toFixed(0)} zł/kWh) — przy tej cenie zakupu nowa bateria się bardziej opłaca.`,
+    i18nKey: "DROZSZA-NIZ-NOWA",
+    params: { koszt: kosztZaKwh.toFixed(0), nowa: cenaNowejZaKwh.toFixed(0) },
     technicalMessage: `kosztZaKwh = ${kosztZaKwh} >= cenaNowejLiFePO4ZlZaKwh = ${cenaNowejZaKwh}`,
   }
 }

@@ -1,4 +1,4 @@
-import type { CalcResult, Warning } from "@/lib/core/calc-result"
+import type { Assumption, CalcResult, Warning } from "@/lib/core/calc-result"
 import type { OchronaWilgocInput } from "./input"
 import { validateInput } from "./validation"
 import { bezpiecznyMargines, ipPonizejWymaganego, ryzykoKondensacji } from "./warnings"
@@ -97,10 +97,7 @@ export function calculateOchronaWilgoc(input: OchronaWilgocInput): CalcResult<Oc
     status: hasCritical || kondensacja ? "VALID_WITH_WARNINGS" : "VALID",
     formula: FORMULA,
     inputs,
-    assumptions: [
-      "Punkt rosy liczony standardowym wzorem Magnusa-Tetensa (stałe dla wody ciekłej), nie podanym " +
-        "wprost w źródle — zweryfikowany niezależnie względem przykładu źródła (-5°C/85% → -7°C).",
-    ],
+    assumptions: [{ kod: "PUNKT-ROSY-WZOR-MAGNUSA" }] satisfies Assumption[],
     warnings,
     calculatorVersion: CALCULATOR_VERSION,
   }

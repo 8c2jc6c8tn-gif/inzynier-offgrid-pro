@@ -28,4 +28,18 @@ describe("calculateSlabeOgniwo", () => {
     const result = calculateSlabeOgniwo({ pojemnoscZnamionowaAh: 280, tolerancjaPct: 150 })
     expect(result.status).toBe("INVALID_INPUT")
   })
+
+  it("i18n (17.2): ostrzeżenie i assumption zwracają i18nKey/params, nie gotowy tekst", () => {
+    const result = calculateSlabeOgniwo({ pojemnoscZnamionowaAh: 280, tolerancjaPct: 3 })
+    expect(result.warnings[0].i18nKey).toBe("POJEMNOSC-OGRANICZONA-NAJSLABSZYM")
+    expect(result.warnings[0].params).toEqual({ utrata: "3.0" })
+    expect(result.warnings[0].message).toBeUndefined()
+    expect(result.assumptions).toEqual([{ kod: "NAJGORSZY-PRZYPADEK-TOLERANCJA" }])
+
+    const zlaTolerancja = calculateSlabeOgniwo({ pojemnoscZnamionowaAh: 280, tolerancjaPct: 150 })
+    expect(zlaTolerancja.warnings[0].i18nKey).toBe("TOLERANCJA-POZA-ZAKRESEM")
+
+    const zlaPojemnosc = calculateSlabeOgniwo({ pojemnoscZnamionowaAh: -50, tolerancjaPct: 3 })
+    expect(zlaPojemnosc.warnings[0].i18nKey).toBe("WARTOSC-NIEDODATNIA")
+  })
 })

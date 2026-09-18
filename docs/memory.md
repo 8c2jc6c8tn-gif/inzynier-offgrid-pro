@@ -4425,3 +4425,22 @@ czyste. Zweryfikowane w przeglądarce PL/EN/RU, spot-check `modul-ev`/EN potwier
 "Summer:"/"Winter:" w tłumaczonym zdaniu (nie "Latem:"/"Zimą:"). Pozostało ~66 plików.
 `napiecie-systemowe` (377 linii — moduł istotnie rozbudowany w tej sesji, Etapy A-H) świadomie
 odłożony do osobnej, dedykowanej partii ze względu na rozmiar, nie łączony z resztą `baterie/`.
+
+## Rollout i18n — szósta partia: strażnik `validation.ts` udowodnił swoją wartość (18.09.2026)
+
+Zmigrowane: `ochrona-wilgoc`, `oplacalnosc-magazynu`, `pozycjonowanie-ogniw`, `second-life`,
+`slabe-ogniwo`. 22 nowe klucze.
+
+Rozszerzenie strażnika z partii 4 (`FILES_TO_CHECK` → `validation.ts`) po raz pierwszy realnie
+zadziałało w tej partii, zanim cokolwiek trafiło do PR: `pozycjonowanie-ogniw/validation.ts` miał
+inline `Warning` z gotowym tekstem PL (`DOCISK-UJEMNY`), a `second-life/calculator.ts` — osobny
+przypadek, inline `Warning` w gałęzi `sohSzacowanyPct === 0` (`SOH-ZEROWY`), nie wywołanie funkcji
+z `warnings.ts` jak reszta. Oba znalezione i naprawione w tej samej turze migracji, przed
+uruchomieniem `check:i18n-guard` — potwierdza, że rozszerzenie strażnika o `validation.ts` z
+partii 4 było warte zrobienia, nie tylko teoretyczną poprawką.
+
+5 stron UI naprawionych (ten sam, czwarty z rzędu, wzorzec `{w.message}` bez fallbacku).
+`MIGRATED_MODULES`: 22→27. `pnpm typecheck`/`lint`/`check:i18n-guard`/`test` (768/768)/`build`
+czyste. Zweryfikowane w przeglądarce PL/EN/RU (z potwierdzeniem braku rezydualnego procesu
+`next-server` przed startem — lekcja z partii 3 stosowana konsekwentnie od tamtej pory, bez
+kolejnych wpadek). Pozostało ~61 plików.

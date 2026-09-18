@@ -11,7 +11,7 @@ export function validateInput(input: PozycjonowanieOgniwInput): ValidationResult
     errors.push({
       code: "DOCISK-UJEMNY",
       level: "critical",
-      message: "Docisk nie może być ujemny.",
+      i18nKey: "DOCISK-UJEMNY",
       technicalMessage: `dociskKgf = ${input.dociskKgf}, oczekiwano >= 0`,
       field: "dociskKgf",
     })

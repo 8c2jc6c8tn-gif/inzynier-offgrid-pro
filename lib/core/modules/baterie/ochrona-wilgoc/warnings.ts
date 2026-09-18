@@ -5,7 +5,7 @@ export function wilgotnoscPozaZakresem(value: number): Warning {
   return {
     code: "WILGOTNOSC-POZA-ZAKRESEM",
     level: "critical",
-    message: "Wilgotność względna musi być z przedziału 0–100%.",
+    i18nKey: "WILGOTNOSC-POZA-ZAKRESEM",
     technicalMessage: `wilgotnoscPct = ${value}, oczekiwano (0, 100]`,
     field: "wilgotnoscPct",
   }
@@ -15,7 +15,8 @@ export function ryzykoKondensacji(temperaturaObudowyC: number, punktRosyC: numbe
   return {
     code: "RYZYKO-KONDENSACJI",
     level: "warning",
-    message: `Temperatura obudowy (${temperaturaObudowyC.toFixed(1)}°C) jest poniżej punktu rosy (${punktRosyC.toFixed(1)}°C) — wysokie ryzyko wykroplenia wody w środku. Mokry BMS i miedziane szyny to gotowy przepis na zwarcie.`,
+    i18nKey: "RYZYKO-KONDENSACJI",
+    params: { temp: temperaturaObudowyC.toFixed(1), rosa: punktRosyC.toFixed(1) },
     technicalMessage: `temperaturaObudowyC = ${temperaturaObudowyC} <= punktRosyC = ${punktRosyC}`,
   }
 }
@@ -24,7 +25,8 @@ export function bezpiecznyMargines(temperaturaObudowyC: number, punktRosyC: numb
   return {
     code: "BEZPIECZNY-MARGINES",
     level: "info",
-    message: `Temperatura obudowy (${temperaturaObudowyC.toFixed(1)}°C) jest powyżej punktu rosy (${punktRosyC.toFixed(1)}°C) — brak ryzyka kondensacji przy tych warunkach.`,
+    i18nKey: "BEZPIECZNY-MARGINES",
+    params: { temp: temperaturaObudowyC.toFixed(1), rosa: punktRosyC.toFixed(1) },
     technicalMessage: `temperaturaObudowyC = ${temperaturaObudowyC} > punktRosyC = ${punktRosyC}`,
   }
 }
@@ -33,7 +35,8 @@ export function ipPonizejWymaganego(ipKod: number): Warning {
   return {
     code: "IP-PONIZEJ-WYMAGANEGO",
     level: "critical",
-    message: `Obudowa IP${ipKod} jest poniżej wymaganego minimum IP${MIN_IP_KOD_WILGOTNE} dla środowiska narażonego na wilgoć.`,
+    i18nKey: "IP-PONIZEJ-WYMAGANEGO",
+    params: { ip: ipKod, min: MIN_IP_KOD_WILGOTNE },
     technicalMessage: `ipKod = ${ipKod} < MIN_IP_KOD_WILGOTNE = ${MIN_IP_KOD_WILGOTNE}, srodowiskoWilgotne = true`,
     field: "ipKod",
   }
