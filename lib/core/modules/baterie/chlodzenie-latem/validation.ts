@@ -13,7 +13,7 @@ export function validateInput(input: ChlodzenieLatemInput): ValidationResult {
     errors.push({
       code: "TEMPERATURA-PONIZEJ-ZERA-BEZWZGLEDNEGO",
       level: "critical",
-      message: "Podana temperatura jest fizycznie niemożliwa.",
+      i18nKey: "TEMPERATURA-FIZYCZNIE-NIEMOZLIWA",
       technicalMessage: `temperaturaOgniwC = ${input.temperaturaOgniwC} < ${ZERO_BEZWZGLEDNE_C}`,
       field: "temperaturaOgniwC",
     })

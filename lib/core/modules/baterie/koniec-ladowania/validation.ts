@@ -18,7 +18,7 @@ export function validateInput(input: KoniecLadowaniaInput): ValidationResult {
     errors.push({
       code: "PROG-KONCOWY-POZA-ZAKRESEM",
       level: "critical",
-      message: "Próg prądu końcowego (jako ułamek C) musi być z przedziału 0–1.",
+      i18nKey: "PROG-KONCOWY-POZA-ZAKRESEM",
       technicalMessage: `progKoncowyC = ${input.progKoncowyC}, oczekiwano [0, 1]`,
       field: "progKoncowyC",
     })

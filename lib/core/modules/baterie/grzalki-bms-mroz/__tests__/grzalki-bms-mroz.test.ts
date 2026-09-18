@@ -53,4 +53,23 @@ describe("calculateGrzalkiBmsMroz", () => {
     const result = calculateGrzalkiBmsMroz({ temperaturaMinC: -3, socPct: 150, produkcjaPv: "nie" })
     expect(result.status).toBe("INVALID_INPUT")
   })
+
+  it("i18n (17.2): ostrzeżenia zwracają i18nKey/params, nie message", () => {
+    const brakPotrzeby = calculateGrzalkiBmsMroz({ temperaturaMinC: 10, socPct: 10, produkcjaPv: "nie" })
+    expect(brakPotrzeby.warnings[0].i18nKey).toBe("BRAK-POTRZEBY-GRZANIA")
+    expect(brakPotrzeby.warnings[0].message).toBeUndefined()
+
+    const zPv = calculateGrzalkiBmsMroz({ temperaturaMinC: -3, socPct: 10, produkcjaPv: "tak" })
+    expect(zPv.warnings[0].i18nKey).toBe("GRZANIE-Z-PV")
+
+    const zBaterii = calculateGrzalkiBmsMroz({ temperaturaMinC: -3, socPct: 31, produkcjaPv: "nie" })
+    expect(zBaterii.warnings[0].i18nKey).toBe("GRZANIE-Z-BATERII")
+    expect(zBaterii.warnings[0].params).toEqual({ soc: 31, prog: 30 })
+
+    const wstrzymane = calculateGrzalkiBmsMroz({ temperaturaMinC: -3, socPct: 29, produkcjaPv: "nie" })
+    expect(wstrzymane.warnings[0].i18nKey).toBe("GRZANIE-WSTRZYMANE")
+
+    const invalid = calculateGrzalkiBmsMroz({ temperaturaMinC: -3, socPct: 150, produkcjaPv: "nie" })
+    expect(invalid.warnings[0].i18nKey).toBe("SOC-POZA-ZAKRESEM")
+  })
 })

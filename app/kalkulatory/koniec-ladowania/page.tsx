@@ -9,6 +9,7 @@ import { NawigacjaEkranu } from "@/components/nawigacja-ekranu"
 import { NaglowekEkranu } from "@/components/wzorce/naglowek-ekranu"
 import { WynikGlowny } from "@/components/wzorce/wynik-glowny"
 import { WynikSzczegoly } from "@/components/wzorce/wynik-szczegoly"
+import { useTranslate } from "@/lib/i18n/language-context"
 
 const ETYKIETY_FAZY: Record<string, string> = {
   CC: "Faza CC (stały prąd)",
@@ -17,6 +18,7 @@ const ETYKIETY_FAZY: Record<string, string> = {
 }
 
 export default function KoniecLadowaniaPage() {
+  const t = useTranslate()
   const [pojemnoscAh, setPojemnoscAh] = useState("")
   const [napiecieAbsorpcjiV, setNapiecieAbsorpcjiV] = useState("")
   const [progKoncowyC, setProgKoncowyC] = useState(String(PRZYKLADOWY_PROG_KONCOWY_C))
@@ -108,7 +110,7 @@ export default function KoniecLadowaniaPage() {
             </WynikGlowny>
             {result.warnings.map((w) => (
               <p key={w.code} className="mt-2 text-small">
-                {w.message}
+                {w.message ?? t(w.i18nKey ?? w.code, w.params)}
               </p>
             ))}
             <WynikSzczegoly assumptions={result.assumptions} formula={result.formula} />

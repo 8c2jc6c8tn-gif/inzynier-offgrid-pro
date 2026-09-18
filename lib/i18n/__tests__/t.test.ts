@@ -169,6 +169,63 @@ describe("t — klucze zmigrowane 18.09.2026, partia 3 (baterie: chlodzenie-late
   })
 })
 
+describe("t — klucze zmigrowane 18.09.2026, partia 4 (baterie: dobor-bezpiecznika-dc, dobor-pojemnosci, grzalki-bms-mroz, kalibracja-soc, koniec-ladowania + poprawki validation.ts w chlodzenie-latem)", () => {
+  const kluczeZParametrami: Record<string, Record<string, string | number>> = {
+    "AIC-PONIZEJ-ZALECANEGO-MINIMUM": { min: 10000 },
+    "BRAK-POTRZEBY-GRZANIA": { temp: "10.0", prog: 5 },
+    "GRZANIE-Z-BATERII": { soc: 31, prog: 30 },
+    "GRZANIE-WSTRZYMANE": { soc: 29, prog: 30 },
+    "REKOMENDOWANA-KALIBRACJA-SOC": { dni: 14, prog: 14 },
+    "KALIBRACJA-NIEPOTRZEBNA": { dni: 13, prog: 14 },
+    "WARTOSC-POLA-UJEMNA": { label: "aktualny prąd" },
+    "FAZA-CC": { prog: 3.55 },
+    "FAZA-CV-KONCOWKA": { aktualny: "20.0", prog: "14.0" },
+    "LADOWANIE-ZAKONCZONE": { prog: "14.0" },
+  }
+  const kluczeBezParametrow = [
+    "AIC-PONIZEJ-PRADU-ZWARCIOWEGO",
+    "MODEL-ZWARCIA-PROSTEGO-NIZSZY",
+    "ZAPOTRZEBOWANIE-NIEDODATNIE",
+    "DNI-AUTONOMII-NIEDODATNIE",
+    "SPRAWNOSC-PROCENT-DODATNIA-POZA-ZAKRESEM",
+    "DOD-DODATNI-POZA-ZAKRESEM",
+    "BUFOR-STARZENIOWY-NIE-DOLICZONY",
+    "SOC-POZA-ZAKRESEM",
+    "GRZANIE-Z-PV",
+    "DNI-UJEMNE",
+    "TEMPERATURA-FIZYCZNIE-NIEMOZLIWA",
+    "PROG-KONCOWY-POZA-ZAKRESEM",
+  ]
+
+  it("klucze z parametrami: podstawiają wartości i różnią się między językami w każdym", () => {
+    for (const [kod, params] of Object.entries(kluczeZParametrami)) {
+      const pl = t("pl", kod, params)
+      const en = t("en", kod, params)
+      const ru = t("ru", kod, params)
+      for (const wartosc of Object.values(params)) {
+        expect(pl).toContain(String(wartosc))
+        expect(en).toContain(String(wartosc))
+        expect(ru).toContain(String(wartosc))
+      }
+      expect(pl).not.toBe(en)
+      expect(pl).not.toBe(ru)
+      expect(en).not.toBe(ru)
+    }
+  })
+
+  it("klucze bez parametrów: tekst istnieje i różni się między językami", () => {
+    for (const kod of kluczeBezParametrow) {
+      const pl = t("pl", kod)
+      const en = t("en", kod)
+      const ru = t("ru", kod)
+      expect(pl.length).toBeGreaterThan(0)
+      expect(pl).not.toBe(en)
+      expect(pl).not.toBe(ru)
+      expect(en).not.toBe(ru)
+    }
+  })
+})
+
 describe("dictionaries — parytet kluczy", () => {
   it("każdy język ma dokładnie ten sam zestaw kluczy co polski", () => {
     const kluczePl = Object.keys(dictionaries.pl).sort()

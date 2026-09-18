@@ -4363,3 +4363,35 @@ Playwright, nie ufać, że poprzedni `pkill` faktycznie coś zabił bez weryfika
 
 `pnpm typecheck`/`lint`/`check:i18n-guard`/`test` (746/746)/`build` czyste. Zweryfikowane w
 przeglądarce PL/EN/RU, zero `⚠ [...]` po naprawie procesu. Pozostało ~76 plików.
+
+## Rollout i18n — czwarta partia: luka w strażniku + pierwszy przypadek "dane katalogowe" poza planem (18.09.2026)
+
+Zmigrowane: `dobor-bezpiecznika-dc`, `dobor-pojemnosci`, `grzalki-bms-mroz`, `kalibracja-soc`,
+`koniec-ladowania`. **Dwie realne luki znalezione tym razem, nie tylko powtórka znanego wzorca:**
+
+1. **Strażnik i18n nie sprawdzał `validation.ts`.** `scripts/check-i18n-guard.mjs` miał
+   `FILES_TO_CHECK = ["warnings.ts", "calculator.ts"]` — inline `Warning` literały wpisane
+   bezpośrednio w `validateInput()` (poza funkcjami z `warnings.ts`) nigdy nie były sprawdzane.
+   Znaleziono dwa realne przypadki: `chlodzenie-latem/validation.ts` (już "zmigrowany" moduł z
+   partii 3 — przeoczony wtedy) i `koniec-ladowania/validation.ts` (ten sam problem w bieżącej
+   partii). Naprawa: `FILES_TO_CHECK` rozszerzone o `validation.ts`, oba przypadki zmigrowane,
+   test retroaktywnie dopisany do `chlodzenie-latem.test.ts`. **Zasada na przyszłość: przy każdym
+   kolejnym module sprawdzić `grep message: validation.ts`, nie tylko `warnings.ts`/`calculator.ts`
+   — silnik strażnika teraz to egzekwuje automatycznie, ale ręczne przeszukanie przed edycją nadal
+   oszczędza cykl.**
+
+2. **Pierwszy nowy przypadek "dane katalogowe" poza `czystosc-i-snieg`/`porownanie-technologii`:**
+   `komunikacja-bms` odłożony. Jego ostrzeżenia wstawiają `etykieta(id)` z `PROTOKOLY` w
+   `constants.ts` — katalog 5 protokołów, gdzie 3 to czyste akronimy techniczne (CAN, RS485,
+   Modbus, niewymagające tłumaczenia), ale 2 zawierają polski tekst opisowy ("Pylontech (protokół
+   producenta)", "Inny / nieznany"). Zmigrowanie samego `Warning` bez migracji katalogu dałoby
+   pół-przetłumaczony komunikat w EN/RU (angielski/rosyjski tekst z wtrąconym polskim fragmentem)
+   — ten sam problem architektoniczny, co already-deferred `porownanie-technologii`. Dodany do tej
+   samej kolejki "wymaga osobnej decyzji o mechanizmie i18n dla danych katalogowych", nie do
+   głównego rollout'u.
+
+3 strony naprawione (ten sam wzorzec `{w.message}` bez fallbacku). `MIGRATED_MODULES`: 12→17.
+`pnpm typecheck`/`lint`/`check:i18n-guard`/`test` (753/753)/`build` czyste. Zweryfikowane w
+przeglądarce PL/EN/RU (z jawnym potwierdzeniem `ps aux | grep next-server` przed testem — lekcja z
+poprzedniej partii zastosowana). Pozostało ~71 plików + `komunikacja-bms` w kolejce "danych
+katalogowych" obok `czystosc-i-snieg`/`porownanie-technologii`.

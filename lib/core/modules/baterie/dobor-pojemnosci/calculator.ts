@@ -1,4 +1,4 @@
-import type { CalcResult } from "@/lib/core/calc-result"
+import type { Assumption, CalcResult } from "@/lib/core/calc-result"
 import type { DoborPojemnosciInput } from "./input"
 import { validateInput } from "./validation"
 
@@ -91,9 +91,7 @@ export function calculateDoborPojemnosci(input: DoborPojemnosciInput): CalcResul
     status: "VALID",
     formula: FORMULA,
     inputs,
-    assumptions: [
-      "Bez bufora starzeniowego (Ekran 5, Moduł 4) — ten ekran jeszcze nie istnieje w kodzie.",
-    ],
+    assumptions: [{ kod: "BUFOR-STARZENIOWY-NIE-DOLICZONY" }] satisfies Assumption[],
     warnings: [],
     calculatorVersion: CALCULATOR_VERSION,
   }

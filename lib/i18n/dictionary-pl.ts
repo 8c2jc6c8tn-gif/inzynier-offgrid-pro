@@ -86,6 +86,44 @@ export const dictionaryPl = {
     "Model prostego zwarcia pełnego (rezystancja przewodów i połączeń pominięta) — ten sam model co " +
     "Ekran 24 (Dobór bezpiecznika DC).",
   "BRAK-LIMITU-PRADU-POWYZEJ-10C": "Powyżej 10°C źródło nie ogranicza prądu od strony temperatury ogniw.",
+  "AIC-PONIZEJ-PRADU-ZWARCIOWEGO":
+    "Zdolność wyłączania (AIC) tego bezpiecznika jest niższa niż prąd zwarciowy pakietu — bezpiecznik " +
+    "rozerwie się, tworząc łuk plazmowy, zamiast bezpiecznie przerwać obwód.",
+  "AIC-PONIZEJ-ZALECANEGO-MINIMUM":
+    "Dla systemów LiFePO4 zalecane jest AIC min. {min} A — ten bezpiecznik jest poniżej tej wartości, " +
+    "mimo że wytrzyma obliczony prąd zwarciowy tego pakietu.",
+  "MODEL-ZWARCIA-PROSTEGO-NIZSZY":
+    "Model prostego zwarcia pełnego (rezystancja przewodów i połączeń pominięta) — rzeczywisty prąd " +
+    "zwarciowy w instalacji może być nieco niższy.",
+  "ZAPOTRZEBOWANIE-NIEDODATNIE": "Zapotrzebowanie dobowe musi być większe od zera.",
+  "DNI-AUTONOMII-NIEDODATNIE": "Dni autonomii muszą być większe od zera.",
+  "SPRAWNOSC-PROCENT-DODATNIA-POZA-ZAKRESEM": "Sprawność falownika musi być z przedziału 0–100% (>0).",
+  "DOD-DODATNI-POZA-ZAKRESEM": "DoD (głębokość rozładowania) musi być z przedziału 0–100% (>0).",
+  "BUFOR-STARZENIOWY-NIE-DOLICZONY": "Bez bufora starzeniowego (Ekran 5, Moduł 4) — ten ekran jeszcze nie istnieje w kodzie.",
+  "SOC-POZA-ZAKRESEM": "SoC musi być z przedziału 0–100%.",
+  "BRAK-POTRZEBY-GRZANIA":
+    "Temperatura ({temp}°C) jest na tyle wysoka, że BMS nie włącza grzałek przed ładowaniem (próg: {prog}°C).",
+  "GRZANIE-Z-PV": "Jest produkcja PV — grzałki BMS zasilane bezpośrednio z paneli, zero obciążenia baterii.",
+  "GRZANIE-Z-BATERII":
+    "Brak produkcji PV, ale SoC ({soc}%) jest powyżej {prog}% — grzanie z baterii, tylko do osiągnięcia " +
+    "minimalnej temperatury ładowania.",
+  "GRZANIE-WSTRZYMANE":
+    "Brak produkcji PV i SoC ({soc}%) poniżej {prog}% — grzanie wstrzymane, tryb uśpienia. BMS " +
+    "zablokuje ładowanie przy tej temperaturze, dopóki nie pojawi się PV lub SoC nie wzrośnie.",
+  "REKOMENDOWANA-KALIBRACJA-SOC":
+    "{dni} dni bez pełnego naładowania (próg: {prog}) — zrób pełne ładowanie, żeby BMS złapał punkty " +
+    "odniesienia. Liczenie prądu w BMS to ciągły szacunek, błąd kumuluje się bez okresowego resetu.",
+  "KALIBRACJA-NIEPOTRZEBNA":
+    "{dni} dni od ostatniego pełnego naładowania — poniżej progu {prog} dni, kalibracja jeszcze niepotrzebna.",
+  "DNI-UJEMNE": "Liczba dni od ostatniego pełnego naładowania nie może być ujemna.",
+  "WARTOSC-POLA-UJEMNA": 'Wartość pola "{label}" nie może być ujemna.',
+  "FAZA-CC": "Napięcie jeszcze nie osiągnęło progu absorpcji ({prog} V) — trwa faza CC (stały prąd).",
+  "FAZA-CV-KONCOWKA":
+    "Napięcie absorpcji osiągnięte, ale prąd ({aktualny} A) wciąż jest powyżej progu końcowego " +
+    "({prog} A) — nie odłączaj ładowania, trwa faza CV (stałe napięcie).",
+  "LADOWANIE-ZAKONCZONE": "Prąd spadł poniżej progu końcowego ({prog} A) — bateria w pełni naładowana.",
+  "TEMPERATURA-FIZYCZNIE-NIEMOZLIWA": "Podana temperatura jest fizycznie niemożliwa.",
+  "PROG-KONCOWY-POZA-ZAKRESEM": "Próg prądu końcowego (jako ułamek C) musi być z przedziału 0–1.",
 } as const
 
 export type KluczTlumaczenia = keyof typeof dictionaryPl

@@ -72,4 +72,54 @@ describe("calculateKoniecLadowania", () => {
     })
     expect(result.status).toBe("INVALID_INPUT")
   })
+
+  it("i18n (17.2): ostrzeżenia zwracają i18nKey/params, nie message", () => {
+    const cc = calculateKoniecLadowania({
+      pojemnoscAh: 280,
+      napiecieAbsorpcjiV: 3.55,
+      progKoncowyC: 0.05,
+      aktualnyPradA: 50,
+      aktualneNapiecieV: 3.2,
+    })
+    expect(cc.warnings[0].i18nKey).toBe("FAZA-CC")
+    expect(cc.warnings[0].params).toEqual({ prog: 3.55 })
+    expect(cc.warnings[0].message).toBeUndefined()
+
+    const cv = calculateKoniecLadowania({
+      pojemnoscAh: 280,
+      napiecieAbsorpcjiV: 3.55,
+      progKoncowyC: 0.05,
+      aktualnyPradA: 20,
+      aktualneNapiecieV: 3.55,
+    })
+    expect(cv.warnings[0].i18nKey).toBe("FAZA-CV-KONCOWKA")
+    expect(cv.warnings[0].params).toEqual({ aktualny: "20.0", prog: "14.0" })
+
+    const zakonczone = calculateKoniecLadowania({
+      pojemnoscAh: 280,
+      napiecieAbsorpcjiV: 3.55,
+      progKoncowyC: 0.05,
+      aktualnyPradA: 14,
+      aktualneNapiecieV: 3.55,
+    })
+    expect(zakonczone.warnings[0].i18nKey).toBe("LADOWANIE-ZAKONCZONE")
+
+    const progZly = calculateKoniecLadowania({
+      pojemnoscAh: 280,
+      napiecieAbsorpcjiV: 3.55,
+      progKoncowyC: 1.5,
+      aktualnyPradA: 20,
+      aktualneNapiecieV: 3.55,
+    })
+    expect(progZly.warnings[0].i18nKey).toBe("PROG-KONCOWY-POZA-ZAKRESEM")
+
+    const ujemnaWartosc = calculateKoniecLadowania({
+      pojemnoscAh: 280,
+      napiecieAbsorpcjiV: 3.55,
+      progKoncowyC: 0.05,
+      aktualnyPradA: -5,
+      aktualneNapiecieV: 3.55,
+    })
+    expect(ujemnaWartosc.warnings[0].i18nKey).toBe("WARTOSC-POLA-UJEMNA")
+  })
 })

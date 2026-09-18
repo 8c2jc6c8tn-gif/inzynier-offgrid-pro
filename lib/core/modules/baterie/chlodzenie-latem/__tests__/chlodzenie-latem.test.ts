@@ -62,5 +62,9 @@ describe("calculateChlodzenieLatem", () => {
     const wZakresie = calculateChlodzenieLatem({ temperaturaOgniwC: 25 })
     expect(wZakresie.warnings[0].i18nKey).toBe("TEMPERATURA-W-ZAKRESIE")
     expect(wZakresie.warnings[0].message).toBeUndefined()
+
+    const fizycznieNiemozliwa = calculateChlodzenieLatem({ temperaturaOgniwC: -300 })
+    expect(fizycznieNiemozliwa.warnings[0].i18nKey).toBe("TEMPERATURA-FIZYCZNIE-NIEMOZLIWA")
+    expect(fizycznieNiemozliwa.warnings[0].message).toBeUndefined()
   })
 })

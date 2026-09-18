@@ -4,7 +4,8 @@ export function notPositive(field: string, label: string, value: number): Warnin
   return {
     code: `${field.toUpperCase()}-NIEDODATNI`,
     level: "critical",
-    message: `Wartość pola "${label}" musi być większa od zera.`,
+    i18nKey: "WARTOSC-NIEDODATNIA",
+    params: { label },
     technicalMessage: `${field} = ${value}, oczekiwano > 0`,
     field,
   }
@@ -14,7 +15,8 @@ export function ujemnaWartosc(field: string, label: string, value: number): Warn
   return {
     code: `${field.toUpperCase()}-UJEMNA`,
     level: "critical",
-    message: `Wartość pola "${label}" nie może być ujemna.`,
+    i18nKey: "WARTOSC-POLA-UJEMNA",
+    params: { label },
     technicalMessage: `${field} = ${value}, oczekiwano >= 0`,
     field,
   }
@@ -24,7 +26,8 @@ export function fazaCc(napiecieAbsorpcjiV: number): Warning {
   return {
     code: "FAZA-CC",
     level: "info",
-    message: `Napięcie jeszcze nie osiągnęło progu absorpcji (${napiecieAbsorpcjiV} V) — trwa faza CC (stały prąd).`,
+    i18nKey: "FAZA-CC",
+    params: { prog: napiecieAbsorpcjiV },
     technicalMessage: `aktualneNapiecieV < napiecieAbsorpcjiV`,
   }
 }
@@ -33,7 +36,8 @@ export function fazaCvKoncowka(pradKoncowyA: number, aktualnyPradA: number): War
   return {
     code: "FAZA-CV-KONCOWKA",
     level: "warning",
-    message: `Napięcie absorpcji osiągnięte, ale prąd (${aktualnyPradA.toFixed(1)} A) wciąż jest powyżej progu końcowego (${pradKoncowyA.toFixed(1)} A) — nie odłączaj ładowania, trwa faza CV (stałe napięcie).`,
+    i18nKey: "FAZA-CV-KONCOWKA",
+    params: { aktualny: aktualnyPradA.toFixed(1), prog: pradKoncowyA.toFixed(1) },
     technicalMessage: `aktualnyPradA = ${aktualnyPradA} > pradKoncowyA = ${pradKoncowyA}`,
   }
 }
@@ -42,7 +46,8 @@ export function ladowanieZakonczone(pradKoncowyA: number): Warning {
   return {
     code: "LADOWANIE-ZAKONCZONE",
     level: "info",
-    message: `Prąd spadł poniżej progu końcowego (${pradKoncowyA.toFixed(1)} A) — bateria w pełni naładowana.`,
+    i18nKey: "LADOWANIE-ZAKONCZONE",
+    params: { prog: pradKoncowyA.toFixed(1) },
     technicalMessage: `aktualnyPradA <= pradKoncowyA = ${pradKoncowyA}`,
   }
 }

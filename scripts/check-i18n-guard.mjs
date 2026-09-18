@@ -32,9 +32,14 @@ const MIGRATED_MODULES = [
   "lib/core/modules/baterie/cold-cranking-amps",
   "lib/core/modules/baterie/detekcja-doziemienia",
   "lib/core/modules/baterie/detekcja-zwarcia-efuse",
+  "lib/core/modules/baterie/dobor-bezpiecznika-dc",
+  "lib/core/modules/baterie/dobor-pojemnosci",
+  "lib/core/modules/baterie/grzalki-bms-mroz",
+  "lib/core/modules/baterie/kalibracja-soc",
+  "lib/core/modules/baterie/koniec-ladowania",
 ]
 
-const FILES_TO_CHECK = ["warnings.ts", "calculator.ts"]
+const FILES_TO_CHECK = ["warnings.ts", "calculator.ts", "validation.ts"]
 
 /** @type {{filePath: string, line: number, message: string}[]} */
 const violations = []
