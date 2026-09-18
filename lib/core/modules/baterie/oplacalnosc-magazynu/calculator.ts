@@ -1,4 +1,4 @@
-import type { CalcResult, Warning } from "@/lib/core/calc-result"
+import type { Assumption, CalcResult, Warning } from "@/lib/core/calc-result"
 import type { OplacalnoscMagazynuInput } from "./input"
 import { validateInput } from "./validation"
 import { drozszeNizAlternatywa, tanszeNizAlternatywa } from "./warnings"
@@ -103,10 +103,7 @@ export function calculateOplacalnoscMagazynu(
     status: maNieinformacyjneOstrzezenia ? "VALID_WITH_WARNINGS" : "VALID",
     formula: FORMULA,
     inputs,
-    assumptions: [
-      "Liczba cykli i sprawność wpisane przez użytkownika (np. z karty katalogowej lub Ekranu 30) — " +
-        "nie liczone od nowa w tym ekranie.",
-    ],
+    assumptions: [{ kod: "LICZBA-CYKLI-SPRAWNOSC-OD-UZYTKOWNIKA" }] satisfies Assumption[],
     warnings,
     calculatorVersion: CALCULATOR_VERSION,
   }

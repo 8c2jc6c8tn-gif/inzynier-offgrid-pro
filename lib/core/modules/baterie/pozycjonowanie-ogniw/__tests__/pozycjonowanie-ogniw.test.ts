@@ -45,4 +45,24 @@ describe("calculatePozycjonowanieOgniw", () => {
     const result = calculatePozycjonowanieOgniw({ dociskKgf: -50, luzNaPeczenie: true })
     expect(result.status).toBe("INVALID_INPUT")
   })
+
+  it("i18n (17.2): ostrzeżenia zwracają i18nKey/params, nie message", () => {
+    const ok = calculatePozycjonowanieOgniw({ dociskKgf: 350, luzNaPeczenie: true })
+    const okWarning = ok.warnings.find((w) => w.code === "DOCISK-OK")
+    expect(okWarning?.i18nKey).toBe("DOCISK-OK")
+    expect(okWarning?.params).toEqual({ docisk: 350, min: 300, max: 400 })
+    expect(okWarning?.message).toBeUndefined()
+
+    const zaMaly = calculatePozycjonowanieOgniw({ dociskKgf: 200, luzNaPeczenie: true })
+    expect(zaMaly.warnings.find((w) => w.code === "DOCISK-ZA-MALY")?.i18nKey).toBe("DOCISK-ZA-MALY")
+
+    const zaDuzy = calculatePozycjonowanieOgniw({ dociskKgf: 500, luzNaPeczenie: true })
+    expect(zaDuzy.warnings.find((w) => w.code === "DOCISK-ZA-DUZY")?.i18nKey).toBe("DOCISK-ZA-DUZY")
+
+    const brakLuzu = calculatePozycjonowanieOgniw({ dociskKgf: 350, luzNaPeczenie: false })
+    expect(brakLuzu.warnings.find((w) => w.code === "BRAK-LUZU-NA-PECZNIENIE")?.i18nKey).toBe("BRAK-LUZU-NA-PECZNIENIE")
+
+    const ujemny = calculatePozycjonowanieOgniw({ dociskKgf: -50, luzNaPeczenie: true })
+    expect(ujemny.warnings[0].i18nKey).toBe("DOCISK-UJEMNY")
+  })
 })

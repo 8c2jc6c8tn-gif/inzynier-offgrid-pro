@@ -282,6 +282,63 @@ describe("t — klucze zmigrowane 18.09.2026, partia 5 (baterie: long-term-stora
   })
 })
 
+describe("t — klucze zmigrowane 18.09.2026, partia 6 (baterie: ochrona-wilgoc, oplacalnosc-magazynu, pozycjonowanie-ogniw, second-life, slabe-ogniwo)", () => {
+  const kluczeZParametrami: Record<string, Record<string, string | number>> = {
+    "RYZYKO-KONDENSACJI": { temp: "-15.0", rosa: "-11.5" },
+    "BEZPIECZNY-MARGINES": { temp: "15.0", rosa: "6.0" },
+    "IP-PONIZEJ-WYMAGANEGO": { ip: 54, min: 55 },
+    "TANSZE-NIZ-ALTERNATYWA": { koszt: "0.34", alt: "3.40" },
+    "DROZSZE-NIZ-ALTERNATYWA": { koszt: "0.34", alt: "0.10" },
+    "DOCISK-ZA-MALY": { docisk: 200, min: 300, max: 400 },
+    "DOCISK-ZA-DUZY": { docisk: 500, min: 300, max: 400 },
+    "DOCISK-OK": { docisk: 350, min: 300, max: 400 },
+    "TANSZA-NIZ-NOWA": { koszt: "833", nowa: "1200" },
+    "DROZSZA-NIZ-NOWA": { koszt: "2778", nowa: "1200" },
+    "SOH-SZACUNEK-Z-WIEKU": { rate: 2 },
+    "SOH-SZACUNEK-Z-PRZEBIEGU": { rate: 1 },
+    "POJEMNOSC-OGRANICZONA-NAJSLABSZYM": { utrata: "3.0" },
+  }
+  const kluczeBezParametrow = [
+    "WILGOTNOSC-POZA-ZAKRESEM",
+    "PUNKT-ROSY-WZOR-MAGNUSA",
+    "SPRAWNOSC-OGOLNA-POZA-ZAKRESEM",
+    "LICZBA-CYKLI-SPRAWNOSC-OD-UZYTKOWNIKA",
+    "BRAK-LUZU-NA-PECZNIENIE",
+    "DOCISK-UJEMNY",
+    "SOH-ZEROWY",
+    "TOLERANCJA-POZA-ZAKRESEM",
+    "NAJGORSZY-PRZYPADEK-TOLERANCJA",
+  ]
+
+  it("klucze z parametrami: podstawiają wartości i różnią się między językami w każdym", () => {
+    for (const [kod, params] of Object.entries(kluczeZParametrami)) {
+      const pl = t("pl", kod, params)
+      const en = t("en", kod, params)
+      const ru = t("ru", kod, params)
+      for (const wartosc of Object.values(params)) {
+        expect(pl).toContain(String(wartosc))
+        expect(en).toContain(String(wartosc))
+        expect(ru).toContain(String(wartosc))
+      }
+      expect(pl).not.toBe(en)
+      expect(pl).not.toBe(ru)
+      expect(en).not.toBe(ru)
+    }
+  })
+
+  it("klucze bez parametrów: tekst istnieje i różni się między językami", () => {
+    for (const kod of kluczeBezParametrow) {
+      const pl = t("pl", kod)
+      const en = t("en", kod)
+      const ru = t("ru", kod)
+      expect(pl.length).toBeGreaterThan(0)
+      expect(pl).not.toBe(en)
+      expect(pl).not.toBe(ru)
+      expect(en).not.toBe(ru)
+    }
+  })
+})
+
 describe("dictionaries — parytet kluczy", () => {
   it("każdy język ma dokładnie ten sam zestaw kluczy co polski", () => {
     const kluczePl = Object.keys(dictionaries.pl).sort()

@@ -9,8 +9,10 @@ import { NawigacjaEkranu } from "@/components/nawigacja-ekranu"
 import { NaglowekEkranu } from "@/components/wzorce/naglowek-ekranu"
 import { WynikGlowny } from "@/components/wzorce/wynik-glowny"
 import { WynikSzczegoly } from "@/components/wzorce/wynik-szczegoly"
+import { useTranslate } from "@/lib/i18n/language-context"
 
 export default function SecondLifePage() {
+  const t = useTranslate()
   const [pojemnoscDeklarowanaKwh, setPojemnoscDeklarowanaKwh] = useState("")
   const [cenaZakupuZl, setCenaZakupuZl] = useState("")
   const [metodaSzacunku, setMetodaSzacunku] = useState<MetodaSzacunkuSoh>("")
@@ -129,7 +131,7 @@ export default function SecondLifePage() {
             </p>
             {result.warnings.map((w) => (
               <p key={w.code} className="mt-2 text-small">
-                {w.message}
+                {w.message ?? t(w.i18nKey ?? w.code, w.params)}
               </p>
             ))}
             <WynikSzczegoly assumptions={result.assumptions} formula={result.formula} />

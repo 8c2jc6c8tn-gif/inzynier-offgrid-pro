@@ -1,4 +1,4 @@
-import type { CalcResult } from "@/lib/core/calc-result"
+import type { Assumption, CalcResult } from "@/lib/core/calc-result"
 import type { SlabeOgniwoInput } from "./input"
 import { validateInput } from "./validation"
 import { pojemnoscOgraniczonaNajslabszym } from "./warnings"
@@ -61,10 +61,7 @@ export function calculateSlabeOgniwo(input: SlabeOgniwoInput): CalcResult<SlabeO
     status: "VALID_WITH_WARNINGS",
     formula: FORMULA,
     inputs,
-    assumptions: [
-      "Najgorszy przypadek: przynajmniej jedno ogniwo w paśmie tolerancji fabrycznej ma pojemność " +
-        "dokładnie na dolnej granicy tolerancji.",
-    ],
+    assumptions: [{ kod: "NAJGORSZY-PRZYPADEK-TOLERANCJA" }] satisfies Assumption[],
     warnings: [pojemnoscOgraniczonaNajslabszym(utrataPct)],
     calculatorVersion: CALCULATOR_VERSION,
   }

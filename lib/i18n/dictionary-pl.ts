@@ -148,6 +148,53 @@ export const dictionaryPl = {
   "POJEMNOSC-FALOWNIKA-NIEDODATNIA": "Pojemność wejściowa DC falownika musi być większa od zera.",
   "REZYSTANCJA-PRECHARGE-NIEDODATNIA": "Rezystor wstępny (pre-charge) musi być większy od zera.",
   "POBOR-UJEMNY": "{label} nie może być ujemny.",
+  "WILGOTNOSC-POZA-ZAKRESEM": "Wilgotność względna musi być z przedziału 0–100%.",
+  "RYZYKO-KONDENSACJI":
+    "Temperatura obudowy ({temp}°C) jest poniżej punktu rosy ({rosa}°C) — wysokie ryzyko wykroplenia " +
+    "wody w środku. Mokry BMS i miedziane szyny to gotowy przepis na zwarcie.",
+  "BEZPIECZNY-MARGINES":
+    "Temperatura obudowy ({temp}°C) jest powyżej punktu rosy ({rosa}°C) — brak ryzyka kondensacji przy tych warunkach.",
+  "IP-PONIZEJ-WYMAGANEGO":
+    "Obudowa IP{ip} jest poniżej wymaganego minimum IP{min} dla środowiska narażonego na wilgoć.",
+  "PUNKT-ROSY-WZOR-MAGNUSA":
+    "Punkt rosy liczony standardowym wzorem Magnusa-Tetensa (stałe dla wody ciekłej), nie podanym " +
+    "wprost w źródle — zweryfikowany niezależnie względem przykładu źródła (-5°C/85% → -7°C).",
+  "SPRAWNOSC-OGOLNA-POZA-ZAKRESEM": "Sprawność musi być z przedziału 0–100%.",
+  "TANSZE-NIZ-ALTERNATYWA":
+    "Koszt energii z magazynu ({koszt} zł/kWh) jest niższy niż koszt alternatywy ({alt} zł/kWh) — magazyn się opłaca.",
+  "DROZSZE-NIZ-ALTERNATYWA":
+    "Koszt energii z magazynu ({koszt} zł/kWh) jest wyższy niż koszt alternatywy ({alt} zł/kWh) — " +
+    "przy tych parametrach magazyn się nie zwraca.",
+  "LICZBA-CYKLI-SPRAWNOSC-OD-UZYTKOWNIKA":
+    "Liczba cykli i sprawność wpisane przez użytkownika (np. z karty katalogowej lub Ekranu 30) — " +
+    "nie liczone od nowa w tym ekranie.",
+  "DOCISK-ZA-MALY":
+    "Docisk ({docisk} kgf) jest poniżej zalecanego zakresu {min}-{max} kgf — ryzyko utraty kontaktu " +
+    "wewnętrznego i przyspieszonej degradacji.",
+  "DOCISK-ZA-DUZY":
+    "Docisk ({docisk} kgf) jest powyżej zalecanego zakresu {min}-{max} kgf — ryzyko uszkodzenia mechanicznego ogniw.",
+  "BRAK-LUZU-NA-PECZNIENIE":
+    "Ogniwa rosną o 1-2% podczas ładowania — bez marginesu luzu docisk stały wzrośnie ponad zalecany zakres.",
+  "DOCISK-OK":
+    "Docisk ({docisk} kgf) mieści się w zalecanym zakresie {min}-{max} kgf, z zostawionym luzem na dylatację.",
+  "DOCISK-UJEMNY": "Docisk nie może być ujemny.",
+  "TANSZA-NIZ-NOWA":
+    "Koszt 1 kWh użytecznej z tej baterii ({koszt} zł/kWh) jest niższy niż nowej LiFePO4 ({nowa} zł/kWh) " +
+    "— ale nowa ma 100% SoH i dłuższą żywotność.",
+  "DROZSZA-NIZ-NOWA":
+    "Koszt 1 kWh użytecznej z tej baterii ({koszt} zł/kWh) jest wyższy niż nowej LiFePO4 ({nowa} zł/kWh) " +
+    "— przy tej cenie zakupu nowa bateria się bardziej opłaca.",
+  "SOH-ZEROWY":
+    "Szacowany SoH spadł do 0% przy tym modelu degradacji — bateria praktycznie bezużyteczna, nie kupuj.",
+  "SOH-SZACUNEK-Z-WIEKU": "SoH szacowany liniowo z wieku, dolna granica zakresu źródła ({rate}%/rok z zakresu 2-3%/rok).",
+  "SOH-SZACUNEK-Z-PRZEBIEGU": "SoH szacowany liniowo z przebiegu ({rate}%/10 000 km wg źródła).",
+  "TOLERANCJA-POZA-ZAKRESEM": "Tolerancja fabryczna musi być z przedziału 0–100%.",
+  "POJEMNOSC-OGRANICZONA-NAJSLABSZYM":
+    "To jak pociągnięcie za hamulec w całym pociągu, bo jeden wagon się zepsuł — najsłabsze ogniwo " +
+    "ogranicza cały pakiet o {utrata}%.",
+  "NAJGORSZY-PRZYPADEK-TOLERANCJA":
+    "Najgorszy przypadek: przynajmniej jedno ogniwo w paśmie tolerancji fabrycznej ma pojemność " +
+    "dokładnie na dolnej granicy tolerancji.",
 } as const
 
 export type KluczTlumaczenia = keyof typeof dictionaryPl

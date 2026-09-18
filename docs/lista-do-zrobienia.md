@@ -473,3 +473,18 @@ Tu trafia bieżący stan pracy: co w trakcie, co zablokowane, co następne — a
   "Latem:"/"Zimą:" w przetłumaczonym zdaniu. `pnpm typecheck`/`lint`/`check:i18n-guard`/`test`
   (761/761)/`build` czyste. **Pozostało ~66 plików.** `napiecie-systemowe` (377 linii) świadomie
   odłożony do osobnej partii ze względu na rozmiar.
+- ✅ (2026-09-18) **Rollout i18n — szósta partia: 5 modułów `baterie/`, dwie kolejne przeoczone
+  wiadomości inline w `validation.ts` znalezione i naprawione.** Zmigrowane: `ochrona-wilgoc`,
+  `oplacalnosc-magazynu`, `pozycjonowanie-ogniw`, `second-life`, `slabe-ogniwo`. 22 nowe klucze.
+  Strażnik i18n (rozszerzony w partii 4 o `validation.ts`) złapał — jeszcze przed shipem, nie po —
+  inline `Warning` z gotowym tekstem PL w `pozycjonowanie-ogniw/validation.ts`
+  (`DOCISK-UJEMNY`) oraz w `second-life/calculator.ts` (`SOH-ZEROWY`, inline literal, nie funkcja
+  z `warnings.ts`) — oba naprawione w tej samej turze.
+  5 stron UI naprawionych (ten sam wzorzec `{w.message}` bez fallbacku, jak w partiach 1-5).
+  `scripts/check-i18n-guard.mjs` → `MIGRATED_MODULES` rozszerzone z 22 do 27.
+  9 nowych testów domenowych + rozszerzony blok w `t.test.ts` (13 kluczy z parametrami/9 bez).
+  Zweryfikowane end-to-end w świeżej przeglądarce (Playwright, `pnpm build && pnpm start`, z
+  potwierdzeniem `ps aux | grep next-server` = puste przed startem) w PL/EN/RU — zero `⚠ [...]`.
+  `pnpm typecheck`/`lint`/`check:i18n-guard`/`test` (768/768)/`build` czyste.
+  **Pozostało ~61 plików.** `napiecie-systemowe`, `czystosc-i-snieg`, `porownanie-technologii`,
+  `komunikacja-bms` nadal odłożone.

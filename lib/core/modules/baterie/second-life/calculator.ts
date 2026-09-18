@@ -1,4 +1,4 @@
-import type { CalcResult, Warning } from "@/lib/core/calc-result"
+import type { Assumption, CalcResult, Warning } from "@/lib/core/calc-result"
 import type { SecondLifeInput } from "./input"
 import { validateInput } from "./validation"
 import { drozszaNizNowa, tanszaNizNowa } from "./warnings"
@@ -71,10 +71,10 @@ export function calculateSecondLife(input: SecondLifeInput): CalcResult<SecondLi
   const sohSzacowanyPct = Math.max(0, 100 - degradacjaPct)
   const pojemnoscUzytecznaKwh = input.pojemnoscDeklarowanaKwh * (sohSzacowanyPct / 100)
 
-  const assumptions = [
+  const assumptions: Assumption[] = [
     input.metodaSzacunku === "wiek"
-      ? `SoH szacowany liniowo z wieku, dolna granica zakresu źródła (${DEGRADACJA_ROCZNA_PCT}%/rok z zakresu 2-3%/rok).`
-      : `SoH szacowany liniowo z przebiegu (${DEGRADACJA_NA_10000KM_PCT}%/10 000 km wg źródła).`,
+      ? { kod: "SOH-SZACUNEK-Z-WIEKU", params: { rate: DEGRADACJA_ROCZNA_PCT } }
+      : { kod: "SOH-SZACUNEK-Z-PRZEBIEGU", params: { rate: DEGRADACJA_NA_10000KM_PCT } },
   ]
 
   if (sohSzacowanyPct === 0) {
@@ -89,7 +89,7 @@ export function calculateSecondLife(input: SecondLifeInput): CalcResult<SecondLi
         {
           code: "SOH-ZEROWY",
           level: "critical",
-          message: "Szacowany SoH spadł do 0% przy tym modelu degradacji — bateria praktycznie bezużyteczna, nie kupuj.",
+          i18nKey: "SOH-ZEROWY",
           technicalMessage: `sohSzacowanyPct = 0`,
         },
       ],

@@ -42,6 +42,11 @@ const MIGRATED_MODULES = [
   "lib/core/modules/baterie/modul-ev",
   "lib/core/modules/baterie/obwod-precharge",
   "lib/core/modules/baterie/pobor-wlasny-bms",
+  "lib/core/modules/baterie/ochrona-wilgoc",
+  "lib/core/modules/baterie/oplacalnosc-magazynu",
+  "lib/core/modules/baterie/pozycjonowanie-ogniw",
+  "lib/core/modules/baterie/second-life",
+  "lib/core/modules/baterie/slabe-ogniwo",
 ]
 
 const FILES_TO_CHECK = ["warnings.ts", "calculator.ts", "validation.ts"]

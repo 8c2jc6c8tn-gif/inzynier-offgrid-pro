@@ -92,4 +92,59 @@ describe("calculateSecondLife", () => {
     })
     expect(result.status).toBe("INVALID_INPUT")
   })
+
+  it("i18n (17.2): ostrzeżenia i assumption zwracają i18nKey/params, nie gotowy tekst", () => {
+    const wiek = calculateSecondLife({
+      pojemnoscDeklarowanaKwh: 10,
+      cenaZakupuZl: 6000,
+      metodaSzacunku: "wiek",
+      wiekLata: 14,
+      przebiegKm: 0,
+      cenaNowejLiFePO4ZlZaKwh: 1200,
+    })
+    expect(wiek.assumptions[0]).toEqual({ kod: "SOH-SZACUNEK-Z-WIEKU", params: { rate: 2 } })
+    const tansza = wiek.warnings.find((w) => w.code === "TANSZA-NIZ-NOWA")
+    expect(tansza?.i18nKey).toBe("TANSZA-NIZ-NOWA")
+    expect(tansza?.message).toBeUndefined()
+
+    const przebieg = calculateSecondLife({
+      pojemnoscDeklarowanaKwh: 10,
+      cenaZakupuZl: 6000,
+      metodaSzacunku: "przebieg",
+      wiekLata: 0,
+      przebiegKm: 280000,
+      cenaNowejLiFePO4ZlZaKwh: null,
+    })
+    expect(przebieg.assumptions[0]).toEqual({ kod: "SOH-SZACUNEK-Z-PRZEBIEGU", params: { rate: 1 } })
+
+    const drozsza = calculateSecondLife({
+      pojemnoscDeklarowanaKwh: 10,
+      cenaZakupuZl: 20000,
+      metodaSzacunku: "wiek",
+      wiekLata: 14,
+      przebiegKm: 0,
+      cenaNowejLiFePO4ZlZaKwh: 1200,
+    })
+    expect(drozsza.warnings.find((w) => w.code === "DROZSZA-NIZ-NOWA")?.i18nKey).toBe("DROZSZA-NIZ-NOWA")
+
+    const zerowy = calculateSecondLife({
+      pojemnoscDeklarowanaKwh: 10,
+      cenaZakupuZl: 6000,
+      metodaSzacunku: "wiek",
+      wiekLata: 60,
+      przebiegKm: 0,
+      cenaNowejLiFePO4ZlZaKwh: null,
+    })
+    expect(zerowy.warnings.find((w) => w.code === "SOH-ZEROWY")?.i18nKey).toBe("SOH-ZEROWY")
+
+    const zlaCena = calculateSecondLife({
+      pojemnoscDeklarowanaKwh: 10,
+      cenaZakupuZl: -100,
+      metodaSzacunku: "wiek",
+      wiekLata: 14,
+      przebiegKm: 0,
+      cenaNowejLiFePO4ZlZaKwh: null,
+    })
+    expect(zlaCena.warnings[0].i18nKey).toBe("WARTOSC-NIEDODATNIA")
+  })
 })

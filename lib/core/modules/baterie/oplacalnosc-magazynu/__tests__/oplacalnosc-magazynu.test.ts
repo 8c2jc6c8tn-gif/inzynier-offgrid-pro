@@ -74,4 +74,45 @@ describe("calculateOplacalnoscMagazynu", () => {
     })
     expect(result.status).toBe("INVALID_INPUT")
   })
+
+  it("i18n (17.2): ostrzeżenia i assumption zwracają i18nKey/params, nie gotowy tekst", () => {
+    const tansze = calculateOplacalnoscMagazynu({
+      cenaBateriiZl: 25000,
+      pojemnoscUzytecznaKwh: 15,
+      liczbaCykli: 5000,
+      sprawnoscPct: 98,
+      kosztAlternatywyZlZaKwh: 3.4,
+    })
+    const tanszeWarning = tansze.warnings.find((w) => w.code === "TANSZE-NIZ-ALTERNATYWA")
+    expect(tanszeWarning?.i18nKey).toBe("TANSZE-NIZ-ALTERNATYWA")
+    expect(tanszeWarning?.message).toBeUndefined()
+    expect(tansze.assumptions).toEqual([{ kod: "LICZBA-CYKLI-SPRAWNOSC-OD-UZYTKOWNIKA" }])
+
+    const drozsze = calculateOplacalnoscMagazynu({
+      cenaBateriiZl: 25000,
+      pojemnoscUzytecznaKwh: 15,
+      liczbaCykli: 5000,
+      sprawnoscPct: 98,
+      kosztAlternatywyZlZaKwh: 0.1,
+    })
+    expect(drozsze.warnings.find((w) => w.code === "DROZSZE-NIZ-ALTERNATYWA")?.i18nKey).toBe("DROZSZE-NIZ-ALTERNATYWA")
+
+    const zla = calculateOplacalnoscMagazynu({
+      cenaBateriiZl: -100,
+      pojemnoscUzytecznaKwh: 15,
+      liczbaCykli: 5000,
+      sprawnoscPct: 98,
+      kosztAlternatywyZlZaKwh: null,
+    })
+    expect(zla.warnings[0].i18nKey).toBe("WARTOSC-NIEDODATNIA")
+
+    const zlaSprawnosc = calculateOplacalnoscMagazynu({
+      cenaBateriiZl: 25000,
+      pojemnoscUzytecznaKwh: 15,
+      liczbaCykli: 5000,
+      sprawnoscPct: 150,
+      kosztAlternatywyZlZaKwh: null,
+    })
+    expect(zlaSprawnosc.warnings[0].i18nKey).toBe("SPRAWNOSC-OGOLNA-POZA-ZAKRESEM")
+  })
 })

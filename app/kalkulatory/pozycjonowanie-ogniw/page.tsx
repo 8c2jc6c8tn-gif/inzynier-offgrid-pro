@@ -7,8 +7,10 @@ import { Pole, PoleCheckbox } from "@/components/ui/pole"
 import { WerdyktPanel, type WerdyktPoziom } from "@/components/werdykt"
 import { NawigacjaEkranu } from "@/components/nawigacja-ekranu"
 import { NaglowekEkranu } from "@/components/wzorce/naglowek-ekranu"
+import { useTranslate } from "@/lib/i18n/language-context"
 
 export default function PozycjonowanieOgniwPage() {
+  const t = useTranslate()
   const [dociskKgf, setDociskKgf] = useState("")
   const [luzNaPeczenie, setLuzNaPeczenie] = useState(false)
 
@@ -80,7 +82,7 @@ export default function PozycjonowanieOgniwPage() {
           >
             {result.warnings.map((w) => (
               <p key={w.code} className="mt-1 text-small">
-                {w.message}
+                {w.message ?? t(w.i18nKey ?? w.code, w.params)}
               </p>
             ))}
           </WerdyktPanel>

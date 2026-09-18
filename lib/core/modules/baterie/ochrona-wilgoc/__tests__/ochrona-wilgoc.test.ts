@@ -86,4 +86,47 @@ describe("calculateOchronaWilgoc", () => {
     })
     expect(result.status).toBe("INVALID_INPUT")
   })
+
+  it("i18n (17.2): ostrzeżenia i assumption zwracają i18nKey/params, nie gotowy tekst", () => {
+    const kondensacja = calculateOchronaWilgoc({
+      temperaturaOtoczeniaC: -10,
+      wilgotnoscPct: 90,
+      temperaturaObudowyC: -15,
+      srodowiskoWilgotne: false,
+      ipKod: 20,
+    })
+    const kw = kondensacja.warnings.find((w) => w.code === "RYZYKO-KONDENSACJI")
+    expect(kw?.i18nKey).toBe("RYZYKO-KONDENSACJI")
+    expect(kw?.message).toBeUndefined()
+    expect(kondensacja.assumptions).toEqual([{ kod: "PUNKT-ROSY-WZOR-MAGNUSA" }])
+
+    const bezpieczne = calculateOchronaWilgoc({
+      temperaturaOtoczeniaC: 20,
+      wilgotnoscPct: 40,
+      temperaturaObudowyC: 15,
+      srodowiskoWilgotne: false,
+      ipKod: 20,
+    })
+    expect(bezpieczne.warnings[0].i18nKey).toBe("BEZPIECZNY-MARGINES")
+
+    const ipZly = calculateOchronaWilgoc({
+      temperaturaOtoczeniaC: 20,
+      wilgotnoscPct: 40,
+      temperaturaObudowyC: 15,
+      srodowiskoWilgotne: true,
+      ipKod: 54,
+    })
+    const ipWarning = ipZly.warnings.find((w) => w.code === "IP-PONIZEJ-WYMAGANEGO")
+    expect(ipWarning?.i18nKey).toBe("IP-PONIZEJ-WYMAGANEGO")
+    expect(ipWarning?.params).toEqual({ ip: 54, min: 55 })
+
+    const zlaWilgotnosc = calculateOchronaWilgoc({
+      temperaturaOtoczeniaC: 20,
+      wilgotnoscPct: 150,
+      temperaturaObudowyC: 15,
+      srodowiskoWilgotne: false,
+      ipKod: 20,
+    })
+    expect(zlaWilgotnosc.warnings[0].i18nKey).toBe("WILGOTNOSC-POZA-ZAKRESEM")
+  })
 })
