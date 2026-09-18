@@ -504,3 +504,26 @@ Tu trafia bieżący stan pracy: co w trakcie, co zablokowane, co następne — a
   **Pozostało ~56 plików** poza katalogiem `baterie/`: `okablowanie/` (~15), `pv/` (~10, bez
   odłożonego `czystosc-i-snieg`), `zapotrzebowanie/` (~8), `ogrzewanie/` (~6),
   `bezpieczenstwo/` (~2), `kalkulator-mobilny/` (~1) — kolejna partia zacznie od `okablowanie/`.
+- ✅ (2026-09-18) **Rollout i18n — ósma partia: pierwsze 5 modułów `okablowanie/`.** Zmigrowane:
+  `analiza-zwarciowa`, `dobor-bezpiecznika-rozlacznika`, `dobor-izolacji-kabla`,
+  `dobor-mocy-falownika`, `dobor-przekroju-kabla`. 27 nowych kluczy (moduł
+  `dobor-przekroju-kabla` sam wniósł 11 — największy, najbardziej rozbudowany moduł tej partii:
+  1 błąd walidacji + 6 funkcji ostrzeżeń + 4 assumptions). 3 klucze reużyte z istniejącego
+  słownika po weryfikacji identyczności tekstu 1:1 (`WARTOSC-NIE-MOZE-BYC-UJEMNA` — 3×,
+  `MODEL-ZWARCIA-PROSTEGO-NIZSZY` z Modułu 4 — trafne dopasowanie treści między modułami,
+  nie tylko nazwy). Strażnik złapał kolejne 3 inline `Warning` z gotowym tekstem PL wpisane
+  wprost w `dobor-bezpiecznika-rozlacznika/validation.ts` (`PRAD-ZNAMIONOWY-NIEDODATNI`,
+  `PRAD-ZWARCIOWY-UJEMNY`, `AIC-UJEMNE`) — czwarty raz z rzędu, gdy rozszerzenie strażnika o
+  `validation.ts` (partia 4) faktycznie wykrywa realną regresję przed shipem.
+  1 strona UI naprawiona (`dobor-przekroju-kabla` — ten sam wzorzec `{w.message}` bez
+  fallbacku ORAZ brak przekazania `warnings` do `WynikSzczegoly`, jak w `cold-cranking-amps`
+  partii 3) — pozostałe 4 strony tej partii już poprawnie korzystały z `WynikSzczegoly`.
+  `scripts/check-i18n-guard.mjs` → `MIGRATED_MODULES` rozszerzone z 32 do 37.
+  5 nowych bloków testowych domenowych + nowy blok w `t.test.ts` (12 kluczy z parametrami/15
+  bez). `pnpm typecheck`/`lint`/`check:i18n-guard`/`test` (782/782)/`build` czyste.
+  Zweryfikowane end-to-end w świeżej przeglądarce (Playwright, z potwierdzeniem braku
+  rezydualnego `next-server` przed i po) w PL/EN/RU (5 modułów × 3 języki = 15 sprawdzeń) —
+  zero `⚠ [...]`.
+  **Pozostało ~51 plików**: `okablowanie/` (~10 pozostałych z 23 istniejących modułów), `pv/`
+  (~10), `zapotrzebowanie/` (~8), `ogrzewanie/` (~6), `bezpieczenstwo/` (~2),
+  `kalkulator-mobilny/` (~1) — kolejna partia kontynuuje `okablowanie/`.

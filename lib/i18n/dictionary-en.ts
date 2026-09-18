@@ -220,4 +220,70 @@ export const dictionaryEn = {
   "REZERWA-DEGRADACJA-MODEL-UPROSZCZONY":
     "The source's \"trip reserve, degradation, losses\" are modeled as a reserve (directly subtracted) " +
     "+ one combined effective efficiency factor — the source doesn't break this down into separate formulas.",
+  "AIC-PONIZEJ-MAX-PRADU-ZWARCIOWEGO":
+    "The breaking capacity of the protection device ({aic} A) is below the calculated maximum short-circuit " +
+    "current ({pradZwarciowy} A) — the protection device would itself become a source of an electric arc.",
+  "AIC-WYSTARCZAJACE-NA-PRAD-ZWARCIOWY": "Breaking capacity of {aic} A is sufficient for the calculated short-circuit current.",
+  "AIC-NIE-SPRAWDZONA-PORUWNAJ": "Breaking capacity (AIC) not checked — enter it to compare against the short-circuit current.",
+  "AIC-BEZPIECZNIKA-PONIZEJ-PRADU-ZWARCIOWEGO":
+    "The fuse's breaking capacity ({aic} A) is lower than the short-circuit current at this point " +
+    "({pradZwarciowy} A) — insufficient breaking capacity, risk of an electric arc instead of a safe blow.",
+  "PRAD-ZNAMIONOWY-NIEDODATNI": "The circuit's rated current must be greater than zero.",
+  "PRAD-ZWARCIOWY-UJEMNY": "The short-circuit current cannot be negative.",
+  "AIC-UJEMNE": "Breaking capacity (AIC) cannot be negative.",
+  "SELEKTYWNOSC-NIE-SPRAWDZONA":
+    "Selectivity coordination with Screen 13 (Protection selectivity) not checked — that screen " +
+    "doesn't exist yet.",
+  "AIC-NIE-SPRAWDZONA-WOBEC-ZWARCIA":
+    "Breaking capacity (AIC) not checked against the short-circuit current — enter both fields; the " +
+    "short-circuit current will eventually come from Screen 12 (Short-circuit analysis).",
+  "IZOLACJA-PONIZEJ-TEMPERATURY":
+    "{izolacja} insulation withstands up to {max}°C, but the expected temperature is {temp}°C — it will " +
+    "crack and let moisture in. Use insulation with higher thermal resistance.",
+  "IZOLACJA-WYSTARCZA-NA-TEMPERATURE": "{izolacja} insulation (up to {max}°C) will withstand the expected temperature at this location.",
+  "FALOWNIK-MOCY-ZA-SLABY":
+    "The selected inverter ({wybrana} W) is weaker than the recommended power ({zalecana} W) — risk of " +
+    "frequent shutdowns during motor startups.",
+  "FALOWNIK-MOCY-WYSTARCZAJACY":
+    "The selected inverter ({wybrana} W) covers the recommended power ({zalecana} W) with margin for startups.",
+  "REKOMENDACJA-MOCY-FALOWNIKA":
+    "Recommended continuous inverter power: {zalecana} W (with margin for motor startups, 5 s, up to 200% " +
+    "overload capacity).",
+  "WSPOLCZYNNIK-JEDNOCZESNOSCI-MARGINES":
+    "The simultaneity factor here acts as an inverse margin for startups (P_inverter = P_peak / w), not " +
+    "as a reduction of the sum of loads.",
+  "PRADY-ROZRUCHOWE-NIE-LICZONE-LICZBOWO":
+    "Motor startup currents are NOT calculated numerically — the source doesn't give a formula/multiplier, " +
+    "only an illustrative example.",
+  "WARTOSC-MUSI-BYC-WIEKSZA-OD-ZERA": "The value must be greater than zero.",
+  "PRZEKROJ-PONIZEJ-WYLICZONEGO-MINIMUM":
+    "The selected cross-section {sprawdzany} mm² is smaller than the calculated minimum ({wymagany} mm²) — " +
+    "real risk of insulation overheating and fire. Use at least {wymagany} mm².",
+  "PRZEKROJ-MA-BEZPIECZNY-MARGINES":
+    "The selected cross-section has a safe margin (≥15%) for both ampacity and voltage drop.",
+  "PRZEKROJ-MARGINES-MALY":
+    "The selected cross-section meets both criteria, but the margin is small (below 15%) — consider a larger cross-section.",
+  "BRAK-PRZEKROJU-SPELNIAJACEGO-KRYTERIA":
+    "No standard cross-section up to {maksymalny} mm² meets both criteria for this data — a larger " +
+    "cross-section, a different system voltage, or a shorter route is needed. Consult a designer.",
+  "TEMPERATURA-OTOCZENIA-POZA-TABELAMI":
+    "Ambient temperature {temp}°C is outside the range of the standard's tables for PVC insulation " +
+    "(10-60°C) — cannot be safely calculated.",
+  "WSPOLCZYNNIK-WIAZKI-POZA-ZAKRESEM":
+    "The standard doesn't provide a derating factor for a bundle of this size ({liczba} cables) for the " +
+    "selected installation method.",
+  "IZOLACJA-ZALOZONA-PVC-DOMYSLNIE":
+    "Conductor insulation assumed to be PVC (70°C) — the inputs don't ask for insulation type; PVC has " +
+    "lower ampacity than XLPE/EPR, so it's a conservative (safer) default choice.",
+  "LICZBA-ZYL-DWIE-TABLICA-B52":
+    "Number of loaded conductors in the circuit = 2 (DC circuit or single-phase AC) — Table B.52.2 of " +
+    "standard PN-HD 60364-5-52 was used.",
+  "REZYSTANCJA-PETLI-WZOR-2L-S":
+    "Loop resistance calculated as ρ×2×L/S (current returns via the second conductor) — the same as in " +
+    "the already-verified calculator M3/E8 (straty-okablowanie-dc); the simplified formula from this " +
+    "screen's source (without ×2) would understate the voltage drop by half.",
+  "KOREKTA-ULOZENIA-KOLUMNA-TABELI":
+    "The installation-method correction is applied by selecting the correct standard table column " +
+    "(reference method C/B2/D), not via a separate k3 multiplier described in the product source — the " +
+    "standard doesn't define such a combined factor.",
 } satisfies Record<KluczTlumaczenia, string>

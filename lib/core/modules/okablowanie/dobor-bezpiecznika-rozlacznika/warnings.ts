@@ -9,7 +9,8 @@ export function aicPonizejPraduZwarciowego(aicA: number, pradZwarciowyA: number)
   return {
     code: "AIC-PONIZEJ-PRADU-ZWARCIOWEGO",
     level: "critical",
-    message: `Zdolność łączeniowa bezpiecznika (${aicA} A) jest niższa niż prąd zwarciowy w tym punkcie (${pradZwarciowyA} A) — zbyt niska zdolność łączeniowa, ryzyko łuku elektrycznego zamiast bezpiecznego przepalenia.`,
+    i18nKey: "AIC-BEZPIECZNIKA-PONIZEJ-PRADU-ZWARCIOWEGO",
+    params: { aic: aicA, pradZwarciowy: pradZwarciowyA },
     technicalMessage: `aicBezpiecznikaA=${aicA} < pradZwarciowyA=${pradZwarciowyA}`,
     field: "aicBezpiecznikaA",
   }

@@ -212,12 +212,7 @@ export default function DoborPrzekrojuKablaPage() {
               )}
             </>
           )}
-          {result.warnings.map((w) => (
-            <p key={w.code} className="mt-2 text-small">
-              {w.message}
-            </p>
-          ))}
-          <WynikSzczegoly assumptions={result.assumptions} formula={result.formula} />
+          <WynikSzczegoly assumptions={result.assumptions} warnings={result.warnings} formula={result.formula} />
         </WerdyktPanel>
       )}
     </main>

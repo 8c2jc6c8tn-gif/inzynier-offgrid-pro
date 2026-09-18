@@ -114,4 +114,38 @@ describe("calculateDoborPrzekrojuKabla", () => {
     )
     expect(zWiazka.value.obciazalnoscEfektywnaA).toBeLessThan(bezWiazki.value.obciazalnoscEfektywnaA)
   })
+
+  it("i18n (17.2): błędy, ostrzeżenia i assumptions zwracają i18nKey/kod, nie gotowy tekst", () => {
+    const naGranicy = calculateDoborPrzekrojuKabla(baseInput())
+    expect(naGranicy.warnings[0].i18nKey).toBe("PRZEKROJ-MARGINES-MALY")
+    expect(naGranicy.warnings[0].message).toBeUndefined()
+    expect(naGranicy.assumptions).toEqual([
+      { kod: "IZOLACJA-ZALOZONA-PVC-DOMYSLNIE" },
+      { kod: "LICZBA-ZYL-DWIE-TABLICA-B52" },
+      { kod: "REZYSTANCJA-PETLI-WZOR-2L-S" },
+      { kod: "KOREKTA-ULOZENIA-KOLUMNA-TABELI" },
+    ])
+
+    const zalecany = calculateDoborPrzekrojuKabla(baseInput({ sprawdzanyPrzekrojMm2: 10 }))
+    expect(zalecany.warnings[0].i18nKey).toBe("PRZEKROJ-MA-BEZPIECZNY-MARGINES")
+
+    const poniZej = calculateDoborPrzekrojuKabla(baseInput({ sprawdzanyPrzekrojMm2: 2.5 }))
+    expect(poniZej.warnings[0].i18nKey).toBe("PRZEKROJ-PONIZEJ-WYLICZONEGO-MINIMUM")
+    expect(poniZej.warnings[0].params).toEqual({ sprawdzany: 2.5, wymagany: 4 })
+
+    const tempPozaZakresem = calculateDoborPrzekrojuKabla(baseInput({ temperaturaOtoczeniaC: 65 }))
+    expect(tempPozaZakresem.warnings[0].i18nKey).toBe("TEMPERATURA-OTOCZENIA-POZA-TABELAMI")
+    expect(tempPozaZakresem.warnings[0].params).toEqual({ temp: 65 })
+
+    const kabliPozaZakresem = calculateDoborPrzekrojuKabla(baseInput({ liczbaKabliWWiazce: 25 }))
+    expect(kabliPozaZakresem.warnings[0].i18nKey).toBe("WSPOLCZYNNIK-WIAZKI-POZA-ZAKRESEM")
+    expect(kabliPozaZakresem.warnings[0].params).toEqual({ liczba: 25 })
+
+    const bezPasujacego = calculateDoborPrzekrojuKabla(baseInput({ pradA: 500 }))
+    expect(bezPasujacego.warnings[0].i18nKey).toBe("BRAK-PRZEKROJU-SPELNIAJACEGO-KRYTERIA")
+    expect(bezPasujacego.warnings[0].params).toEqual({ maksymalny: 35 })
+
+    const ujemny = calculateDoborPrzekrojuKabla(baseInput({ pradA: -5 }))
+    expect(ujemny.warnings[0].i18nKey).toBe("WARTOSC-MUSI-BYC-WIEKSZA-OD-ZERA")
+  })
 })

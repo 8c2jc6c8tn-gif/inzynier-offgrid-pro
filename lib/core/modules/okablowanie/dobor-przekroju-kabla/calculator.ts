@@ -1,4 +1,4 @@
-import type { CalcResult } from "@/lib/core/calc-result"
+import type { Assumption, CalcResult } from "@/lib/core/calc-result"
 import type { DoborPrzekrojuKablaInput } from "./input"
 import { validateInput } from "./validation"
 import {
@@ -132,11 +132,11 @@ export function calculateDoborPrzekrojuKabla(
     dopuszczalnySpadekNapieciaPct: input.dopuszczalnySpadekNapieciaPct,
     sprawdzanyPrzekrojMm2: input.sprawdzanyPrzekrojMm2 ?? 0,
   }
-  const assumptions = [
-    "Izolacja żył założona jako PVC (70°C) — dane wejściowe nie proszą o typ izolacji; PVC ma niższą obciążalność niż XLPE/EPR, więc jest zachowawczym (bezpieczniejszym) wyborem domyślnym.",
-    "Liczba żył obciążonych w obwodzie = 2 (obwód DC lub jednofazowy AC) — użyto Tablicy B.52.2 normy PN-HD 60364-5-52.",
-    "Rezystancja pętli liczona jako ρ×2×L/S (prąd wraca drugim przewodem) — tak jak w już zweryfikowanym kalkulatorze M3/E8 (straty-okablowanie-dc); uproszczony wzór ze źródła tego ekranu (bez ×2) zaniżałby spadek napięcia o połowę.",
-    "Korekta sposobu ułożenia zrealizowana przez wybór właściwej kolumny tabeli normy (metoda referencyjna C/B2/D), nie przez osobny mnożnik k3 opisany w źródle produktowym — norma nie definiuje takiego wspólnego współczynnika.",
+  const assumptions: Assumption[] = [
+    { kod: "IZOLACJA-ZALOZONA-PVC-DOMYSLNIE" },
+    { kod: "LICZBA-ZYL-DWIE-TABLICA-B52" },
+    { kod: "REZYSTANCJA-PETLI-WZOR-2L-S" },
+    { kod: "KOREKTA-ULOZENIA-KOLUMNA-TABELI" },
   ]
 
   if (errors.length > 0) {

@@ -4462,3 +4462,34 @@ odłożone: `napiecie-systemowe` (rozmiar, 377 linii), `porownanie-technologii`,
 (oba: katalog danych, wymagają osobnej decyzji architektonicznej o i18n dla treści katalogowej,
 razem z już odłożonym `czystosc-i-snieg` z `pv/`). Kolejna partia (8.) zaczyna nowy katalog:
 `okablowanie/` (~15 plików). Pozostało łącznie ~56 plików poza `baterie/`.
+
+## Rollout i18n — ósma partia: start katalogu `okablowanie/` (18.09.2026)
+
+Zmigrowane: `analiza-zwarciowa`, `dobor-bezpiecznika-rozlacznika`, `dobor-izolacji-kabla`,
+`dobor-mocy-falownika`, `dobor-przekroju-kabla`. 27 nowych kluczy — `dobor-przekroju-kabla`
+sam wniósł 11 (najbardziej rozbudowany moduł jak dotąd w tym katalogu: 6 funkcji ostrzeżeń +
+4 assumptions + 1 błąd walidacji).
+
+**Reużycie kluczy między modułami/katalogami zadziałało dwukrotnie w tej partii** —
+`WARTOSC-NIE-MOZE-BYC-UJEMNA` (istniejący z `baterie/`) trafił do 3 nowych modułów po
+weryfikacji identyczności tekstu, a `MODEL-ZWARCIA-PROSTEGO-NIZSZY` (istniejący klucz z Modułu
+4, `dobor-bezpiecznika-dc`) okazał się być dosłownie tym samym zdaniem co assumption w nowym
+module `analiza-zwarciowa` — potwierdza wcześniejszą dyscyplinę grepowania pełnego tekstu przed
+tworzeniem nowego klucza, nie tylko po nazwie funkcji/modułu.
+
+Strażnik (`validation.ts` z partii 4) złapał kolejne 3 inline `Warning` z gotowym tekstem PL w
+`dobor-bezpiecznika-rozlacznika/validation.ts` (`PRAD-ZNAMIONOWY-NIEDODATNI`,
+`PRAD-ZWARCIOWY-UJEMNY`, `AIC-UJEMNE`) — czwarty raz z rzędu to samo źródło regresji, ten sam
+wzorzec co w partiach 4 i 6.
+
+1 strona UI naprawiona — `dobor-przekroju-kabla/page.tsx` miał ten sam podwójny błąd co
+`cold-cranking-amps` w partii 3: `{w.message}` bez fallbacku RENDEROWANE RĘCZNIE, a `warnings`
+nie było wcale przekazane do `WynikSzczegoly` obok. Naprawione jednym uproszczeniem (usunięcie
+manualnego `.map`, dodanie `warnings={result.warnings}` do istniejącego wywołania).
+
+`MIGRATED_MODULES`: 32→37. `pnpm typecheck`/`lint`/`check:i18n-guard`/`test` (782/782)/`build`
+czyste. Zweryfikowane w przeglądarce PL/EN/RU (15 kombinacji, zero `⚠ [...]`), z potwierdzeniem
+braku rezydualnego `next-server` przed i po.
+
+Pozostało ~51 plików: `okablowanie/` (~10 z 23 istniejących modułów), `pv/` (~10),
+`zapotrzebowanie/` (~8), `ogrzewanie/` (~6), `bezpieczenstwo/` (~2), `kalkulator-mobilny/` (~1).

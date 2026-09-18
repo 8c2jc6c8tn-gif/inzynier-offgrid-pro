@@ -1,4 +1,4 @@
-import type { CalcResult, Warning } from "@/lib/core/calc-result"
+import type { Assumption, CalcResult, Warning } from "@/lib/core/calc-result"
 import type { DoborMocyFalownikaInput } from "./input"
 import { validateInput } from "./validation"
 import { falownikWystarczajacy, falownikZaSlaby, rekomendacjaBezSprawdzenia } from "./warnings"
@@ -84,9 +84,9 @@ export function calculateDoborMocyFalownika(
     formula: FORMULA,
     inputs,
     assumptions: [
-      "Współczynnik jednoczesności działa tu jako odwrotny margines na rozruchy (P_falownika = P_szczytowa / w), nie jako redukcja sumy odbiorników.",
-      "Prądy rozruchowe silników NIE liczone liczbowo — źródło nie podaje wzoru/mnożnika, tylko przykład ilustracyjny.",
-    ],
+      { kod: "WSPOLCZYNNIK-JEDNOCZESNOSCI-MARGINES" },
+      { kod: "PRADY-ROZRUCHOWE-NIE-LICZONE-LICZBOWO" },
+    ] satisfies Assumption[],
     warnings,
     calculatorVersion: CALCULATOR_VERSION,
   }

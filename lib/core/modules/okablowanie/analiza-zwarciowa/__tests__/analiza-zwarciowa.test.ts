@@ -80,4 +80,48 @@ describe("calculateAnalizaZwarciowa", () => {
     })
     expect(result.status).toBe("INVALID_INPUT")
   })
+
+  it("i18n (17.2): ostrzeżenia i assumptions zwracają i18nKey/kod, nie gotowy tekst", () => {
+    const zaMalo = calculateAnalizaZwarciowa({
+      napiecieBateriiV: 48,
+      rezystancjaWewnetrznaBateriiOhm: 0.01,
+      iscPanelaA: 10,
+      liczbaStringowRownoleglych: 3,
+      aicZabezpieczeniaA: 2000,
+    })
+    expect(zaMalo.warnings[0].i18nKey).toBe("AIC-PONIZEJ-MAX-PRADU-ZWARCIOWEGO")
+    expect(zaMalo.warnings[0].params).toEqual({ aic: 2000, pradZwarciowy: "4800" })
+    expect(zaMalo.warnings[0].message).toBeUndefined()
+    expect(zaMalo.assumptions).toEqual([{ kod: "MODEL-ZWARCIA-PROSTEGO-NIZSZY" }])
+
+    const wystarcza = calculateAnalizaZwarciowa({
+      napiecieBateriiV: 48,
+      rezystancjaWewnetrznaBateriiOhm: 0.01,
+      iscPanelaA: 10,
+      liczbaStringowRownoleglych: 3,
+      aicZabezpieczeniaA: 20_000,
+    })
+    expect(wystarcza.warnings[0].i18nKey).toBe("AIC-WYSTARCZAJACE-NA-PRAD-ZWARCIOWY")
+
+    const bezAic = calculateAnalizaZwarciowa({
+      napiecieBateriiV: 48,
+      rezystancjaWewnetrznaBateriiOhm: 0.01,
+      iscPanelaA: 10,
+      liczbaStringowRownoleglych: 3,
+      aicZabezpieczeniaA: 0,
+    })
+    expect(bezAic.assumptions).toEqual([
+      { kod: "MODEL-ZWARCIA-PROSTEGO-NIZSZY" },
+      { kod: "AIC-NIE-SPRAWDZONA-PORUWNAJ" },
+    ])
+
+    const ujemna = calculateAnalizaZwarciowa({
+      napiecieBateriiV: 48,
+      rezystancjaWewnetrznaBateriiOhm: -0.01,
+      iscPanelaA: 10,
+      liczbaStringowRownoleglych: 3,
+      aicZabezpieczeniaA: 0,
+    })
+    expect(ujemna.warnings[0].i18nKey).toBe("WARTOSC-NIE-MOZE-BYC-UJEMNA")
+  })
 })

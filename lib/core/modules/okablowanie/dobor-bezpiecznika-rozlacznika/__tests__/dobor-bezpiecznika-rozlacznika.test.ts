@@ -72,4 +72,46 @@ describe("calculateDoborBezpiecznikaRozlacznika (Ekran 6, Moduł 5)", () => {
     expect(result.value.aicWystarczajace).toBeNull()
     expect(result.assumptions.length).toBeGreaterThan(0)
   })
+
+  it("i18n (17.2): ostrzeżenia, błędy walidacji i assumptions zwracają i18nKey/kod, nie gotowy tekst", () => {
+    const aicZaMalo = calculateDoborBezpiecznikaRozlacznika({
+      pradZnamionowyA: 100,
+      pradZwarciowyA: 12_000,
+      aicBezpiecznikaA: 10_000,
+    })
+    expect(aicZaMalo.warnings[0].i18nKey).toBe("AIC-BEZPIECZNIKA-PONIZEJ-PRADU-ZWARCIOWEGO")
+    expect(aicZaMalo.warnings[0].params).toEqual({ aic: 10_000, pradZwarciowy: 12_000 })
+    expect(aicZaMalo.warnings[0].message).toBeUndefined()
+
+    const bezSprawdzenia = calculateDoborBezpiecznikaRozlacznika({
+      pradZnamionowyA: 100,
+      pradZwarciowyA: 0,
+      aicBezpiecznikaA: 0,
+    })
+    expect(bezSprawdzenia.assumptions).toEqual([
+      { kod: "SELEKTYWNOSC-NIE-SPRAWDZONA" },
+      { kod: "AIC-NIE-SPRAWDZONA-WOBEC-ZWARCIA" },
+    ])
+
+    const pradUjemny = calculateDoborBezpiecznikaRozlacznika({
+      pradZnamionowyA: -5,
+      pradZwarciowyA: 0,
+      aicBezpiecznikaA: 0,
+    })
+    expect(pradUjemny.warnings[0].i18nKey).toBe("PRAD-ZNAMIONOWY-NIEDODATNI")
+
+    const zwarciowyUjemny = calculateDoborBezpiecznikaRozlacznika({
+      pradZnamionowyA: 100,
+      pradZwarciowyA: -1,
+      aicBezpiecznikaA: 0,
+    })
+    expect(zwarciowyUjemny.warnings[0].i18nKey).toBe("PRAD-ZWARCIOWY-UJEMNY")
+
+    const aicUjemne = calculateDoborBezpiecznikaRozlacznika({
+      pradZnamionowyA: 100,
+      pradZwarciowyA: 0,
+      aicBezpiecznikaA: -1,
+    })
+    expect(aicUjemne.warnings[0].i18nKey).toBe("AIC-UJEMNE")
+  })
 })

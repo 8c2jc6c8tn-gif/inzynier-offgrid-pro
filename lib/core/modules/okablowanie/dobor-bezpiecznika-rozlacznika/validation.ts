@@ -16,7 +16,7 @@ export function validateInput(input: DoborBezpiecznikaRozlacznikaInput): Validat
     errors.push({
       code: "PRAD-ZNAMIONOWY-NIEDODATNI",
       level: "critical",
-      message: "Prąd znamionowy obwodu musi być większy od zera.",
+      i18nKey: "PRAD-ZNAMIONOWY-NIEDODATNI",
       technicalMessage: `pradZnamionowyA = ${input.pradZnamionowyA}, oczekiwano > 0`,
       field: "pradZnamionowyA",
     })
@@ -25,7 +25,7 @@ export function validateInput(input: DoborBezpiecznikaRozlacznikaInput): Validat
     errors.push({
       code: "PRAD-ZWARCIOWY-UJEMNY",
       level: "critical",
-      message: "Prąd zwarciowy nie może być ujemny.",
+      i18nKey: "PRAD-ZWARCIOWY-UJEMNY",
       technicalMessage: `pradZwarciowyA = ${input.pradZwarciowyA}, oczekiwano >= 0`,
       field: "pradZwarciowyA",
     })
@@ -34,7 +34,7 @@ export function validateInput(input: DoborBezpiecznikaRozlacznikaInput): Validat
     errors.push({
       code: "AIC-UJEMNE",
       level: "critical",
-      message: "Zdolność łączeniowa (AIC) nie może być ujemna.",
+      i18nKey: "AIC-UJEMNE",
       technicalMessage: `aicBezpiecznikaA = ${input.aicBezpiecznikaA}, oczekiwano >= 0`,
       field: "aicBezpiecznikaA",
     })
