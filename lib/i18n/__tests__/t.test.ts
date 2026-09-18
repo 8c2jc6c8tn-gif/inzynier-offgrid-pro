@@ -226,6 +226,62 @@ describe("t — klucze zmigrowane 18.09.2026, partia 4 (baterie: dobor-bezpieczn
   })
 })
 
+describe("t — klucze zmigrowane 18.09.2026, partia 5 (baterie: long-term-storage, mixing-rownolegle, modul-ev, obwod-precharge, pobor-wlasny-bms)", () => {
+  const kluczeZParametrami: Record<string, Record<string, string | number>> = {
+    "SOC-POZA-ZALECANYM-ZAKRESEM": { soc: 100, min: 50, max: 60 },
+    "TEMPERATURA-PONIZEJ-MINIMUM-BEZPIECZNEGO": { temp: "-20.1", min: -20 },
+    "ROZNICA-NAPIEC-ZA-DUZA": { roznica: "0.50", prog: 0.2 },
+    "BRAKUJE-ENERGII-LATO": { brak: "3.5" },
+    "BRAKUJE-ENERGII-ZIMA": { brak: "7.0" },
+    "POBOR-UJEMNY": { label: "Pobór w trybie pracy ciągłej" },
+  }
+  const kluczeBezParametrow = [
+    "SOC-DOCELOWY-POZA-ZAKRESEM",
+    "INNA-CHEMIA-BEZ-IZOLACJI",
+    "PRAD-WYROWNAWCZY-CHWILA-POLACZENIA",
+    "WARTOSC-NIE-MOZE-BYC-UJEMNA",
+    "POKRYTE-W-CALOSCI-LATO",
+    "POKRYTE-W-CALOSCI-ZIMA",
+    "POJEMNOSC-FALOWNIKA-NIEDODATNIA",
+    "REZYSTANCJA-PRECHARGE-NIEDODATNIA",
+  ]
+
+  it("klucze z parametrami: podstawiają wartości i różnią się między językami w każdym", () => {
+    for (const [kod, params] of Object.entries(kluczeZParametrami)) {
+      const pl = t("pl", kod, params)
+      const en = t("en", kod, params)
+      const ru = t("ru", kod, params)
+      for (const wartosc of Object.values(params)) {
+        expect(pl).toContain(String(wartosc))
+        expect(en).toContain(String(wartosc))
+        expect(ru).toContain(String(wartosc))
+      }
+      expect(pl).not.toBe(en)
+      expect(pl).not.toBe(ru)
+      expect(en).not.toBe(ru)
+    }
+  })
+
+  it("klucze bez parametrów: tekst istnieje i różni się między językami", () => {
+    for (const kod of kluczeBezParametrow) {
+      const pl = t("pl", kod)
+      const en = t("en", kod)
+      const ru = t("ru", kod)
+      expect(pl.length).toBeGreaterThan(0)
+      expect(pl).not.toBe(en)
+      expect(pl).not.toBe(ru)
+      expect(en).not.toBe(ru)
+    }
+  })
+
+  it("POKRYTE/BRAKUJE-ENERGII mają osobne klucze per sezon (lato/zima), nie surowy tekst PL jako param", () => {
+    for (const jezyk of ["pl", "en", "ru"] as const) {
+      expect(t(jezyk, "POKRYTE-W-CALOSCI-LATO")).not.toBe(t(jezyk, "POKRYTE-W-CALOSCI-ZIMA"))
+      expect(t(jezyk, "BRAKUJE-ENERGII-LATO", { brak: "1" })).not.toBe(t(jezyk, "BRAKUJE-ENERGII-ZIMA", { brak: "1" }))
+    }
+  })
+})
+
 describe("dictionaries — parytet kluczy", () => {
   it("każdy język ma dokładnie ten sam zestaw kluczy co polski", () => {
     const kluczePl = Object.keys(dictionaries.pl).sort()

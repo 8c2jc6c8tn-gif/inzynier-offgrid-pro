@@ -4395,3 +4395,33 @@ Zmigrowane: `dobor-bezpiecznika-dc`, `dobor-pojemnosci`, `grzalki-bms-mroz`, `ka
 przeglądarce PL/EN/RU (z jawnym potwierdzeniem `ps aux | grep next-server` przed testem — lekcja z
 poprzedniej partii zastosowana). Pozostało ~71 plików + `komunikacja-bms` w kolejce "danych
 katalogowych" obok `czystosc-i-snieg`/`porownanie-technologii`.
+
+## Rollout i18n — piąta partia: wzorzec "słowo-parametr jako identyfikator wariantu" (18.09.2026)
+
+Zmigrowane: `long-term-storage`, `mixing-rownolegle`, `modul-ev`, `obwod-precharge`,
+`pobor-wlasny-bms`. 15 nowych kluczy.
+
+**Trzeci odrębny typ pułapki znaleziony w tej sesji rolloutu (po: brak fallbacku w UI; luka w
+strażniku dot. `validation.ts`):** `modul-ev`'s `pokryteWCalosci`/`brakujeEnergii` przyjmowały
+dosłowny polski tekst `"Latem"`/`"Zimą"` jako parametr, wstawiany wprost do treści komunikatu.
+Naiwna migracja (`i18nKey` + `params: {sezon}`) wstawiłaby polskie słowo w środku przetłumaczonego
+zdania EN/RU — ten sam rodzaj problemu co katalog `komunikacja-bms`, ale tu naprawialny bez
+przebudowy architektury, bo zbiór wariantów jest zamknięty i mały (2 sezony). Rozwiązanie:
+`Sezon = "lato" | "zima"` jako identyfikator (nie tekst), i18nKey wybierany warunkowo per wariant
+(`POKRYTE-W-CALOSCI-LATO`/`-ZIMA` itd.), sezon zaszyty w przetłumaczonym tekście klucza zamiast
+przekazywany jako `{param}`. Dodany test wprost weryfikujący, że oba klucze dają różny tekst w
+każdym języku (regresja tego wzorca — np. przypadkowe scalenie z powrotem w jeden klucz z
+parametrem — byłaby niewidoczna bez takiego testu).
+
+**Zasada ogólna do stosowania w kolejnych partiach:** gdy funkcja `warnings.ts` przyjmuje string,
+który jest jednocześnie (a) czymś widocznym dla użytkownika w oryginalnym tekście PL i (b)
+parametrem sterującym doborem treści (nie czystą liczbą/etykietą pola przepisywaną 1:1) — sprawdzić
+najpierw, czy to zamknięty, mały zbiór wariantów (→ osobne i18nKey per wariant, jak tu) czy
+otwarty katalog (→ odłożyć do kolejki "danych katalogowych", jak `komunikacja-bms`/
+`porownanie-technologii`/`czystosc-i-snieg`).
+
+`MIGRATED_MODULES`: 17→22. `pnpm typecheck`/`lint`/`check:i18n-guard`/`test` (761/761)/`build`
+czyste. Zweryfikowane w przeglądarce PL/EN/RU, spot-check `modul-ev`/EN potwierdził poprawne
+"Summer:"/"Winter:" w tłumaczonym zdaniu (nie "Latem:"/"Zimą:"). Pozostało ~66 plików.
+`napiecie-systemowe` (377 linii — moduł istotnie rozbudowany w tej sesji, Etapy A-H) świadomie
+odłożony do osobnej, dedykowanej partii ze względu na rozmiar, nie łączony z resztą `baterie/`.

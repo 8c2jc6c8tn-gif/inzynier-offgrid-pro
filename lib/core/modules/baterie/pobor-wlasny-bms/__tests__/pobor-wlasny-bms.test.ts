@@ -29,4 +29,11 @@ describe("calculatePoborWlasnyBms", () => {
     const result = calculatePoborWlasnyBms({ poborCiagleW: 0, poborUspienieW: 0 })
     expect(result.status).toBe("INCOMPLETE")
   })
+
+  it("i18n (17.2): błąd walidacji zwraca i18nKey/params, nie message", () => {
+    const result = calculatePoborWlasnyBms({ poborCiagleW: -1, poborUspienieW: 1 })
+    expect(result.warnings[0].i18nKey).toBe("POBOR-UJEMNY")
+    expect(result.warnings[0].params).toEqual({ label: "Pobór w trybie pracy ciągłej" })
+    expect(result.warnings[0].message).toBeUndefined()
+  })
 })

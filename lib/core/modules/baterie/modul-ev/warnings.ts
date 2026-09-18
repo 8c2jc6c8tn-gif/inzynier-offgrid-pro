@@ -1,29 +1,32 @@
 import type { Warning } from "@/lib/core/calc-result"
 
+export type Sezon = "lato" | "zima"
+
 export function wartoscUjemna(field: string, value: number): Warning {
   return {
     code: "WARTOSC-UJEMNA",
     level: "critical",
-    message: "Wartość nie może być ujemna.",
+    i18nKey: "WARTOSC-NIE-MOZE-BYC-UJEMNA",
     technicalMessage: `${field} = ${value}, oczekiwano >= 0`,
     field,
   }
 }
 
-export function pokryteWCalosci(sezon: string): Warning {
+export function pokryteWCalosci(sezon: Sezon): Warning {
   return {
     code: "POKRYTE-W-CALOSCI",
     level: "info",
-    message: `${sezon}: nadwyżka PV w pełni pokrywa ładowanie EV.`,
+    i18nKey: sezon === "lato" ? "POKRYTE-W-CALOSCI-LATO" : "POKRYTE-W-CALOSCI-ZIMA",
     technicalMessage: `sezon=${sezon}, brakKwh=0`,
   }
 }
 
-export function brakujeEnergii(sezon: string, brakKwh: number): Warning {
+export function brakujeEnergii(sezon: Sezon, brakKwh: number): Warning {
   return {
     code: "BRAKUJE-ENERGII",
     level: "warning",
-    message: `${sezon}: brakuje ${brakKwh.toFixed(1)} kWh/dobę — trzeba sięgnąć po baterię domową, agregat, sieć lub zwiększyć PV.`,
+    i18nKey: sezon === "lato" ? "BRAKUJE-ENERGII-LATO" : "BRAKUJE-ENERGII-ZIMA",
+    params: { brak: brakKwh.toFixed(1) },
     technicalMessage: `sezon=${sezon}, brakKwh=${brakKwh}`,
   }
 }

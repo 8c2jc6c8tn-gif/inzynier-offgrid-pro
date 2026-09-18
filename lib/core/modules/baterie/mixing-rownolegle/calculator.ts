@@ -1,4 +1,4 @@
-import type { CalcResult, Warning } from "@/lib/core/calc-result"
+import type { Assumption, CalcResult, Warning } from "@/lib/core/calc-result"
 import type { MixingRownoleglInput } from "./input"
 import { validateInput } from "./validation"
 import { innaChemiaBezIzolacji, roznicaNapiecZaDuza } from "./warnings"
@@ -103,10 +103,7 @@ export function calculateMixingRownolegle(input: MixingRownoleglInput): CalcResu
     status: warnings.length > 0 ? "VALID_WITH_WARNINGS" : "VALID",
     formula: FORMULA,
     inputs,
-    assumptions: [
-      "Prąd wyrównawczy liczony w chwili połączenia (napięcia spoczynkowe) — nie uwzględnia " +
-        "dalszej dynamiki ładowania/rozładowania pod obciążeniem.",
-    ],
+    assumptions: [{ kod: "PRAD-WYROWNAWCZY-CHWILA-POLACZENIA" }] satisfies Assumption[],
     warnings,
     calculatorVersion: CALCULATOR_VERSION,
   }

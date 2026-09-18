@@ -4,7 +4,7 @@ export function pojemnoscNiedodatnia(value: number): Warning {
   return {
     code: "POJEMNOSC-FALOWNIKA-NIEDODATNIA",
     level: "critical",
-    message: "Pojemność wejściowa DC falownika musi być większa od zera.",
+    i18nKey: "POJEMNOSC-FALOWNIKA-NIEDODATNIA",
     technicalMessage: `pojemnoscFalownikaUf = ${value}, oczekiwano > 0`,
     field: "pojemnoscFalownikaUf",
   }
@@ -14,7 +14,7 @@ export function rezystancjaNiedodatnia(value: number): Warning {
   return {
     code: "REZYSTANCJA-PRECHARGE-NIEDODATNIA",
     level: "critical",
-    message: "Rezystor wstępny (pre-charge) musi być większy od zera.",
+    i18nKey: "REZYSTANCJA-PRECHARGE-NIEDODATNIA",
     technicalMessage: `rezystancjaPreChargeOhm = ${value}, oczekiwano > 0`,
     field: "rezystancjaPreChargeOhm",
   }

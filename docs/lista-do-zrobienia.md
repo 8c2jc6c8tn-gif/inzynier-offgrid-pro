@@ -444,3 +444,32 @@ Tu trafia bieżący stan pracy: co w trakcie, co zablokowane, co następne — a
   faktycznie zszedł przed startem — pułapka z poprzedniej partii) w PL/EN/RU — zero `⚠ [...]`.
   `pnpm typecheck`/`lint`/`check:i18n-guard`/`test` (753/753)/`build` czyste.
   **Pozostało ~71 plików** (+1 nowo odłożony: `komunikacja-bms`).
+- ✅ (2026-09-18) **Rollout i18n — piąta partia: 5 modułów `baterie/`, wzorzec sezonowy.**
+  Zmigrowane: `long-term-storage`, `mixing-rownolegle`, `modul-ev`, `obwod-precharge`,
+  `pobor-wlasny-bms`. 15 nowych kluczy.
+  **Nowy wzorzec pułapki znaleziony i naprawiony przed shipem (nie po):** `modul-ev`'s
+  `pokryteWCalosci(sezon)`/`brakujeEnergii(sezon, brakKwh)` przyjmowały dosłowny polski tekst
+  `"Latem"`/`"Zimą"` jako parametr `sezon`, wstawiany bezpośrednio do treści ostrzeżenia. Gdyby
+  zmigrowano to naiwnie (`i18nKey` + `params: {sezon}`), słowo "Latem"/"Zimą" zostałoby wstawione
+  dosłownie w środku przetłumaczonego zdania angielskiego/rosyjskiego — pół-przetłumaczony
+  komunikat, dokładnie ten sam problem co katalog `komunikacja-bms`/`porownanie-technologii`, ale
+  tym razem możliwy do naprawienia bez architektonicznej przebudowy (tylko 2 stałe warianty, nie
+  otwarty katalog). Rozwiązanie: `warnings.ts` przyjmuje teraz identyfikator `Sezon = "lato" |
+  "zima"` (nie wyświetlany tekst), a i18nKey jest wybierany warunkowo (`POKRYTE-W-CALOSCI-LATO`/
+  `-ZIMA`, `BRAKUJE-ENERGII-LATO`/`-ZIMA`) — sezon zaszyty w przetłumaczonym tekście klucza, nie
+  przekazywany jako `{param}`. `calculator.ts` zmieniony, żeby wołać `pokryteWCalosci("lato")`
+  zamiast `pokryteWCalosci("Latem")`. **Zasada do zapamiętania dla kolejnych partii:** jeśli
+  funkcja `warnings.ts` przyjmuje string, który jest jednocześnie (a) wyświetlanym tekstem PL i
+  (b) parametrem sterującym wyborem treści (a nie czystą liczbą/etykietą pola) — sprawdzić, czy to
+  nie jest zamknięty, mały zbiór wariantów (→ osobne klucze per wariant, jak tutaj) czy otwarty
+  katalog (→ odłożyć, jak `komunikacja-bms`).
+  3 strony naprawione (ten sam wzorzec `{w.message}` bez fallbacku).
+  `scripts/check-i18n-guard.mjs` → `MIGRATED_MODULES` rozszerzone z 17 do 22.
+  8 nowych testów domenowych (w tym test wprost sprawdzający, że `POKRYTE-W-CALOSCI-LATO` ≠
+  `-ZIMA` w każdym języku — regresja tego wzorca byłaby niewidoczna bez takiego testu) +
+  rozszerzony blok w `t.test.ts`. Zweryfikowane end-to-end w przeglądarce (Playwright, świeży
+  `pnpm build && pnpm start`, z potwierdzeniem `ps aux | grep next-server` przed i po) w PL/EN/RU
+  — zero `⚠ [...]`, spot-check `modul-ev`/EN potwierdził "Summer:"/"Winter:" zamiast
+  "Latem:"/"Zimą:" w przetłumaczonym zdaniu. `pnpm typecheck`/`lint`/`check:i18n-guard`/`test`
+  (761/761)/`build` czyste. **Pozostało ~66 plików.** `napiecie-systemowe` (377 linii) świadomie
+  odłożony do osobnej partii ze względu na rozmiar.

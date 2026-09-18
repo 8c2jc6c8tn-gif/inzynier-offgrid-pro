@@ -37,6 +37,11 @@ const MIGRATED_MODULES = [
   "lib/core/modules/baterie/grzalki-bms-mroz",
   "lib/core/modules/baterie/kalibracja-soc",
   "lib/core/modules/baterie/koniec-ladowania",
+  "lib/core/modules/baterie/long-term-storage",
+  "lib/core/modules/baterie/mixing-rownolegle",
+  "lib/core/modules/baterie/modul-ev",
+  "lib/core/modules/baterie/obwod-precharge",
+  "lib/core/modules/baterie/pobor-wlasny-bms",
 ]
 
 const FILES_TO_CHECK = ["warnings.ts", "calculator.ts", "validation.ts"]
