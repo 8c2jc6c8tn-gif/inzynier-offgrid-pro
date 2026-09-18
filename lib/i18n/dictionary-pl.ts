@@ -124,6 +124,30 @@ export const dictionaryPl = {
   "LADOWANIE-ZAKONCZONE": "Prąd spadł poniżej progu końcowego ({prog} A) — bateria w pełni naładowana.",
   "TEMPERATURA-FIZYCZNIE-NIEMOZLIWA": "Podana temperatura jest fizycznie niemożliwa.",
   "PROG-KONCOWY-POZA-ZAKRESEM": "Próg prądu końcowego (jako ułamek C) musi być z przedziału 0–1.",
+  "SOC-POZA-ZALECANYM-ZAKRESEM":
+    "Docelowy SoC ({soc}%) jest poza zalecanym zakresem {min}–{max}%. Bateria nie lubi być ani " +
+    "przesuszona (0% SoC), ani przelana (100% SoC) przez długi czas bezczynności.",
+  "TEMPERATURA-PONIZEJ-MINIMUM-BEZPIECZNEGO":
+    "Spodziewana temperatura ({temp}°C) jest poniżej bezpiecznego minimum {min}°C — zabezpiecz " +
+    "przed mrozem lub zmień miejsce przechowywania.",
+  "SOC-DOCELOWY-POZA-ZAKRESEM": "Docelowy SoC musi być z przedziału 0–100%.",
+  "ROZNICA-NAPIEC-ZA-DUZA":
+    "Różnica napięć między bateriami ({roznica} V) przekracza {prog} V — ryzyko iskrzenia w chwili połączenia.",
+  "INNA-CHEMIA-BEZ-IZOLACJI":
+    "Baterie mają różną chemię ogniw — mieszanie różnych chemii bez izolacji galwanicznej między nimi jest niebezpieczne.",
+  "PRAD-WYROWNAWCZY-CHWILA-POLACZENIA":
+    "Prąd wyrównawczy liczony w chwili połączenia (napięcia spoczynkowe) — nie uwzględnia dalszej " +
+    "dynamiki ładowania/rozładowania pod obciążeniem.",
+  "WARTOSC-NIE-MOZE-BYC-UJEMNA": "Wartość nie może być ujemna.",
+  "POKRYTE-W-CALOSCI-LATO": "Latem: nadwyżka PV w pełni pokrywa ładowanie EV.",
+  "POKRYTE-W-CALOSCI-ZIMA": "Zimą: nadwyżka PV w pełni pokrywa ładowanie EV.",
+  "BRAKUJE-ENERGII-LATO":
+    "Latem: brakuje {brak} kWh/dobę — trzeba sięgnąć po baterię domową, agregat, sieć lub zwiększyć PV.",
+  "BRAKUJE-ENERGII-ZIMA":
+    "Zimą: brakuje {brak} kWh/dobę — trzeba sięgnąć po baterię domową, agregat, sieć lub zwiększyć PV.",
+  "POJEMNOSC-FALOWNIKA-NIEDODATNIA": "Pojemność wejściowa DC falownika musi być większa od zera.",
+  "REZYSTANCJA-PRECHARGE-NIEDODATNIA": "Rezystor wstępny (pre-charge) musi być większy od zera.",
+  "POBOR-UJEMNY": "{label} nie może być ujemny.",
 } as const
 
 export type KluczTlumaczenia = keyof typeof dictionaryPl

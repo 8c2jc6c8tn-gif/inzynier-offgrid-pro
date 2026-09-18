@@ -102,4 +102,28 @@ describe("calculateLongTermStorage", () => {
     expect(result.status).toBe("INVALID_INPUT")
     expect(result.warnings.some((w) => w.code === "SOC-UJEMNY")).toBe(true)
   })
+
+  it("i18n (17.2): ostrzeżenia zwracają i18nKey/params, nie message", () => {
+    const socPoza = calculateLongTermStorage({
+      socDocelowyPct: 100,
+      temperaturaMinC: 0,
+      potwierdzoneIds: ["odlaczenie", "uspienie-bms"],
+    })
+    const socWarning = socPoza.warnings.find((w) => w.code === "SOC-POZA-ZALECANYM-ZAKRESEM")
+    expect(socWarning?.i18nKey).toBe("SOC-POZA-ZALECANYM-ZAKRESEM")
+    expect(socWarning?.params).toEqual({ soc: 100, min: 50, max: 60 })
+    expect(socWarning?.message).toBeUndefined()
+
+    const tempPoza = calculateLongTermStorage({
+      socDocelowyPct: 55,
+      temperaturaMinC: -20.1,
+      potwierdzoneIds: ["odlaczenie", "uspienie-bms"],
+    })
+    const tempWarning = tempPoza.warnings.find((w) => w.code === "TEMPERATURA-PONIZEJ-MINIMUM")
+    expect(tempWarning?.i18nKey).toBe("TEMPERATURA-PONIZEJ-MINIMUM-BEZPIECZNEGO")
+    expect(tempWarning?.params).toEqual({ temp: "-20.1", min: -20 })
+
+    const invalid = calculateLongTermStorage({ socDocelowyPct: 150, temperaturaMinC: 5, potwierdzoneIds: [] })
+    expect(invalid.warnings[0].i18nKey).toBe("SOC-DOCELOWY-POZA-ZAKRESEM")
+  })
 })

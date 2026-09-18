@@ -98,4 +98,41 @@ describe("calculateMixingRownolegle", () => {
     expect(result.status).toBe("INVALID_INPUT")
     expect(result.warnings.some((w) => w.code === "REZYSTANCJAWEWNETRZNAMOHM1-UJEMNA")).toBe(true)
   })
+
+  it("i18n (17.2): ostrzeżenia i assumption zwracają i18nKey/kod, nie gotowy tekst", () => {
+    const roznica = calculateMixingRownolegle({
+      chemia1: "lifepo4",
+      chemia2: "lifepo4",
+      napiecieNominalneV1: 12.0,
+      napiecieNominalneV2: 11.5,
+      rezystancjaWewnetrznaMOhm1: 10,
+      rezystancjaWewnetrznaMOhm2: 10,
+    })
+    const roznicaWarning = roznica.warnings.find((w) => w.code === "ROZNICA-NAPIEC-ZA-DUZA")
+    expect(roznicaWarning?.i18nKey).toBe("ROZNICA-NAPIEC-ZA-DUZA")
+    expect(roznicaWarning?.params).toEqual({ roznica: "0.50", prog: 0.2 })
+    expect(roznicaWarning?.message).toBeUndefined()
+    expect(roznica.assumptions).toEqual([{ kod: "PRAD-WYROWNAWCZY-CHWILA-POLACZENIA" }])
+
+    const chemia = calculateMixingRownolegle({
+      chemia1: "lifepo4",
+      chemia2: "agm",
+      napiecieNominalneV1: 12.8,
+      napiecieNominalneV2: 12.7,
+      rezystancjaWewnetrznaMOhm1: 10,
+      rezystancjaWewnetrznaMOhm2: 30,
+    })
+    expect(chemia.warnings.find((w) => w.code === "INNA-CHEMIA-BEZ-IZOLACJI")?.i18nKey).toBe("INNA-CHEMIA-BEZ-IZOLACJI")
+
+    const ujemna = calculateMixingRownolegle({
+      chemia1: "lifepo4",
+      chemia2: "lifepo4",
+      napiecieNominalneV1: 13.3,
+      napiecieNominalneV2: 13.2,
+      rezystancjaWewnetrznaMOhm1: -5,
+      rezystancjaWewnetrznaMOhm2: 15,
+    })
+    expect(ujemna.warnings[0].i18nKey).toBe("WARTOSC-POLA-UJEMNA")
+    expect(ujemna.warnings[0].params).toEqual({ label: "Rezystancja wewnętrzna — bateria 1" })
+  })
 })

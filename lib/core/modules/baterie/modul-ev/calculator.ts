@@ -74,8 +74,8 @@ export function calculateModulEv(input: ModulEvInput): CalcResult<ModulEvResult>
     inputs,
     assumptions: [],
     warnings: [
-      pokryteLatem ? pokryteWCalosci("Latem") : brakujeEnergii("Latem", brakLatemKwh),
-      pokryteZima ? pokryteWCalosci("Zimą") : brakujeEnergii("Zimą", brakZimaKwh),
+      pokryteLatem ? pokryteWCalosci("lato") : brakujeEnergii("lato", brakLatemKwh),
+      pokryteZima ? pokryteWCalosci("zima") : brakujeEnergii("zima", brakZimaKwh),
     ],
     calculatorVersion: CALCULATOR_VERSION,
   }

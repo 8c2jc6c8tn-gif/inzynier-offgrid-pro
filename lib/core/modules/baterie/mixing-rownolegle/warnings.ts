@@ -5,7 +5,8 @@ export function wartoscUjemna(field: string, label: string, value: number): Warn
   return {
     code: `${field.toUpperCase()}-UJEMNA`,
     level: "critical",
-    message: `Wartość pola "${label}" nie może być ujemna.`,
+    i18nKey: "WARTOSC-POLA-UJEMNA",
+    params: { label },
     technicalMessage: `${field} = ${value}, oczekiwano >= 0`,
     field,
   }
@@ -15,7 +16,8 @@ export function roznicaNapiecZaDuza(roznicaV: number): Warning {
   return {
     code: "ROZNICA-NAPIEC-ZA-DUZA",
     level: "critical",
-    message: `Różnica napięć między bateriami (${roznicaV.toFixed(2)} V) przekracza ${PROG_ROZNICY_NAPIEC_V} V — ryzyko iskrzenia w chwili połączenia.`,
+    i18nKey: "ROZNICA-NAPIEC-ZA-DUZA",
+    params: { roznica: roznicaV.toFixed(2), prog: PROG_ROZNICY_NAPIEC_V },
     technicalMessage: `roznicaNapiecV = ${roznicaV} > PROG_ROZNICY_NAPIEC_V = ${PROG_ROZNICY_NAPIEC_V}`,
   }
 }
@@ -24,7 +26,7 @@ export function innaChemiaBezIzolacji(chemia1: string, chemia2: string): Warning
   return {
     code: "INNA-CHEMIA-BEZ-IZOLACJI",
     level: "critical",
-    message: "Baterie mają różną chemię ogniw — mieszanie różnych chemii bez izolacji galwanicznej między nimi jest niebezpieczne.",
+    i18nKey: "INNA-CHEMIA-BEZ-IZOLACJI",
     technicalMessage: `chemia1 = "${chemia1}" !== chemia2 = "${chemia2}"`,
   }
 }

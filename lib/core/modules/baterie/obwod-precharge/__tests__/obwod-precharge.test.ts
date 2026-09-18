@@ -41,4 +41,13 @@ describe("calculateObwodPrecharge", () => {
     const result = calculateObwodPrecharge({ pojemnoscFalownikaUf: 0, rezystancjaPreChargeOhm: 0 })
     expect(result.status).toBe("INCOMPLETE")
   })
+
+  it("i18n (17.2): błędy walidacji zwracają i18nKey, nie message", () => {
+    const pojemnosc = calculateObwodPrecharge({ pojemnoscFalownikaUf: -1, rezystancjaPreChargeOhm: 50 })
+    expect(pojemnosc.warnings[0].i18nKey).toBe("POJEMNOSC-FALOWNIKA-NIEDODATNIA")
+    expect(pojemnosc.warnings[0].message).toBeUndefined()
+
+    const rezystancja = calculateObwodPrecharge({ pojemnoscFalownikaUf: 2200, rezystancjaPreChargeOhm: -5 })
+    expect(rezystancja.warnings[0].i18nKey).toBe("REZYSTANCJA-PRECHARGE-NIEDODATNIA")
+  })
 })

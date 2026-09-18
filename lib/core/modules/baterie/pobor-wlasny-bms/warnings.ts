@@ -4,7 +4,8 @@ export function poborUjemny(pole: string, etykieta: string, value: number): Warn
   return {
     code: "POBOR-UJEMNY",
     level: "critical",
-    message: `${etykieta} nie może być ujemny.`,
+    i18nKey: "POBOR-UJEMNY",
+    params: { label: etykieta },
     technicalMessage: `${pole} = ${value}, oczekiwano >= 0`,
     field: pole,
   }

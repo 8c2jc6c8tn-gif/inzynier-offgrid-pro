@@ -53,4 +53,19 @@ describe("calculateModulEv", () => {
     })
     expect(result.status).toBe("INVALID_INPUT")
   })
+
+  it("i18n (17.2): ostrzeżenia zwracają i18nKey osobny per sezon, nie surowy tekst polskiego słowa jako param", () => {
+    const result = calculateModulEv({
+      energiaDobowaEvKwh: 10,
+      nadwyzkaPvLatemKwh: 12,
+      nadwyzkaPvZimaKwh: 3,
+    })
+    expect(result.warnings[0].i18nKey).toBe("POKRYTE-W-CALOSCI-LATO")
+    expect(result.warnings[0].message).toBeUndefined()
+    expect(result.warnings[1].i18nKey).toBe("BRAKUJE-ENERGII-ZIMA")
+    expect(result.warnings[1].params).toEqual({ brak: "7.0" })
+
+    const invalid = calculateModulEv({ energiaDobowaEvKwh: -1, nadwyzkaPvLatemKwh: 12, nadwyzkaPvZimaKwh: 3 })
+    expect(invalid.warnings[0].i18nKey).toBe("WARTOSC-NIE-MOZE-BYC-UJEMNA")
+  })
 })

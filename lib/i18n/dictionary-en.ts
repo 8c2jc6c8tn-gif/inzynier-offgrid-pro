@@ -119,4 +119,27 @@ export const dictionaryEn = {
   "LADOWANIE-ZAKONCZONE": "Current dropped below the tail threshold ({prog} A) — battery fully charged.",
   "TEMPERATURA-FIZYCZNIE-NIEMOZLIWA": "The given temperature is physically impossible.",
   "PROG-KONCOWY-POZA-ZAKRESEM": "The tail current threshold (as a fraction of C) must be within the range 0–1.",
+  "SOC-POZA-ZALECANYM-ZAKRESEM":
+    "Target SoC ({soc}%) is outside the recommended range of {min}–{max}%. A battery doesn't like " +
+    "being either drained (0% SoC) or fully charged (100% SoC) for long periods of inactivity.",
+  "TEMPERATURA-PONIZEJ-MINIMUM-BEZPIECZNEGO":
+    "The expected temperature ({temp}°C) is below the safe minimum of {min}°C — protect against frost or change the storage location.",
+  "SOC-DOCELOWY-POZA-ZAKRESEM": "Target SoC must be within the range 0–100%.",
+  "ROZNICA-NAPIEC-ZA-DUZA":
+    "The voltage difference between the batteries ({roznica} V) exceeds {prog} V — risk of sparking at the moment of connection.",
+  "INNA-CHEMIA-BEZ-IZOLACJI":
+    "The batteries have different cell chemistries — mixing different chemistries without galvanic isolation between them is dangerous.",
+  "PRAD-WYROWNAWCZY-CHWILA-POLACZENIA":
+    "Equalizing current calculated at the moment of connection (rest voltages) — doesn't account " +
+    "for further charge/discharge dynamics under load.",
+  "WARTOSC-NIE-MOZE-BYC-UJEMNA": "The value cannot be negative.",
+  "POKRYTE-W-CALOSCI-LATO": "Summer: PV surplus fully covers EV charging.",
+  "POKRYTE-W-CALOSCI-ZIMA": "Winter: PV surplus fully covers EV charging.",
+  "BRAKUJE-ENERGII-LATO":
+    "Summer: short by {brak} kWh/day — you'll need to draw on the home battery, a generator, the grid, or increase PV.",
+  "BRAKUJE-ENERGII-ZIMA":
+    "Winter: short by {brak} kWh/day — you'll need to draw on the home battery, a generator, the grid, or increase PV.",
+  "POJEMNOSC-FALOWNIKA-NIEDODATNIA": "The inverter's DC input capacitance must be greater than zero.",
+  "REZYSTANCJA-PRECHARGE-NIEDODATNIA": "The pre-charge resistor must be greater than zero.",
+  "POBOR-UJEMNY": "{label} cannot be negative.",
 } satisfies Record<KluczTlumaczenia, string>
