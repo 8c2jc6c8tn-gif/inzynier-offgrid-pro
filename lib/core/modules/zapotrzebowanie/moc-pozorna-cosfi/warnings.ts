@@ -4,7 +4,8 @@ export function notPositive(field: string, label: string, value: number): Warnin
   return {
     code: `${field.toUpperCase()}-NIEDODATNI`,
     level: "critical",
-    message: `Wartość pola "${label}" musi być większa od zera.`,
+    i18nKey: "WARTOSC-NIEDODATNIA",
+    params: { label },
     technicalMessage: `${field} = ${value}, oczekiwano > 0`,
     field,
   }
@@ -14,7 +15,7 @@ export function cosFiPozaZakresem(value: number): Warning {
   return {
     code: "COS-FI-POZA-ZAKRESEM",
     level: "critical",
-    message: "Współczynnik mocy (cos φ) musi być z przedziału 0–1.",
+    i18nKey: "COS-FI-POZA-ZAKRESEM",
     technicalMessage: `cosFi = ${value}, oczekiwano (0, 1]`,
     field: "cosFi",
   }
@@ -24,7 +25,8 @@ export function mocPozornaInfo(mocPozornaVA: number, mocCzynnaW: number): Warnin
   return {
     code: "MOC-POZORNA-INFO",
     level: "info",
-    message: `Waty na tabliczce znamionowej to nie cała historia — to ${mocPozornaVA.toFixed(0)} VA, nie ${mocCzynnaW.toFixed(0)} W, realnie obciąża falownik.`,
+    i18nKey: "MOC-POZORNA-INFO",
+    params: { va: mocPozornaVA.toFixed(0), w: mocCzynnaW.toFixed(0) },
     technicalMessage: `mocPozornaVA = ${mocPozornaVA}, mocCzynnaW = ${mocCzynnaW}`,
   }
 }

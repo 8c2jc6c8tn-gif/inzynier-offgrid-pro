@@ -4304,3 +4304,32 @@ to repo w zasięgu z innego powodu. Dla tego projektu jedyny legalny wyjście st
   modułów asercja, że `warnings`/`assumptions` mają `i18nKey`/`kod`+`params` i `message ===
   undefined` (17.9: test treściowy w tej samej turze co treść, nie później).
   `pnpm typecheck`/`lint`/`check:i18n-guard`/`test` (730/730)/`build` czyste.
+
+## Rollout i18n — druga partia (18.09.2026)
+
+Kontynuacja partii 1 (wpis wyżej), ten sam wzorzec plikowy. Zmigrowane: `liczba-domownikow`,
+`dni-autonomii`, `moc-pozorna-cosfi` (Moduł 2). 8 nowych kluczy w `dictionary-{pl,en,ru}.ts`,
+`WARTOSC-NIEDODATNIA` reużyty dla `moc-pozorna-cosfi`'s `notPositive` (identyczny tekst źródłowy).
+
+**Pułapka złapana przed commitem, nie po:** istniejący klucz `SPRAWNOSC-POZA-ZAKRESEM` (z pilota
+`kalkulatory-pomocnicze`) znaczy "sprawność jako ułamek z przedziału (0, 1]". Funkcja
+`dni-autonomii/warnings.ts`'s `sprawnoscPozaZakresem` waliduje **inny** zakres — procentowy
+0–100% (`sprawnoscFalownikaPct`). Nazwa funkcji sugerowałaby reużycie tego samego klucza, ale
+treść żródłowa jest inna — nowy klucz `SPRAWNOSC-PROCENT-POZA-ZAKRESEM` zamiast kolizji dwóch
+różnych znaczeń pod jednym kodem. Zasada do zapamiętania: nazwa funkcji/`Warning.code` w module A
+nigdy nie jest wystarczającym dowodem, że pasujący z nazwy klucz w słowniku (dodany przy innym
+module) niesie tę samą treść — zawsze porównać oryginalny tekst PL słowo w słowo.
+
+**Ten sam wzorzec błędu z partii 1, znaleziony ponownie (2 z 3 stron):** `dni-autonomii/page.tsx`
+i `moc-pozorna-cosfi/page.tsx` w ogóle nie importowały `useTranslate()` i renderowały `{w.message}`
+bez żadnego fallbacku — nie tylko brak `?? t(...)`, ale zero mechanizmu i18n na stronie mimo że
+moduł domenowy już był migrowany. `liczba-domownikow/page.tsx` był już poprawny (korzysta z
+współdzielonego `components/wzorce/wynik-szczegoly.tsx`). Potwierdza regułę z partii 1: sprawdzić
+rendering `warnings`/`assumptions` na KAŻDEJ stronie osobno, przed usunięciem `message` z
+domeny — "moduł ma i18nKey" nie znaczy "strona to pokaże poprawnie".
+
+Zweryfikowane end-to-end w realnej przeglądarce (Playwright, `pnpm build && pnpm start`, wszystkie
+3 moduły × PL/EN/RU, formularze faktycznie wypełnione): poprawny tekst, zero `⚠ [...]`, zero
+błędów konsoli i18n. 8 nowych testów (ten sam wzorzec co partia 1, `t.test.ts` + asercje per
+moduł, ta sama tura co treść). `pnpm typecheck`/`lint`/`check:i18n-guard`/`test` (738/738)/`build`
+czyste. Pozostało ~83 pliki; `czystosc-i-snieg`/`porownanie-technologii` nadal odłożone bez zmian.

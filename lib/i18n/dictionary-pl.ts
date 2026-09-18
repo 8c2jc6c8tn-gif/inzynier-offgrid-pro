@@ -32,6 +32,20 @@ export const dictionaryPl = {
   "DANE-KLIMATYCZNE-TRYB-OFFLINE":
     "Dane nasłonecznienia/strefy klimatycznej wymagają docelowo integracji z PVGIS/PVWatts (online) — " +
     "w tym kroku dostępny jest tylko tryb offline z ręcznym wpisaniem temperatury minimalnej.",
+  "LICZBA-DOMOWNIKOW-POZA-ZAKRESEM": "Liczba domowników musi być z zakresu {min}–{max}.",
+  "CWU-ZAKRES-ORIENTACYJNY":
+    "Zakres {min}–{max} l C.W.U. na osobę na dobę — wartość orientacyjna ze źródła, nie zmierzona.",
+  "ZAPOTRZEBOWANIE-UJEMNE": "Zapotrzebowanie dobowe nie może być ujemne.",
+  "SPRAWNOSC-PROCENT-POZA-ZAKRESEM": "Sprawność falownika musi być z przedziału 0–100%.",
+  "DOD-POZA-ZAKRESEM": "DoD (głębokość rozładowania) musi być z przedziału 0–100%.",
+  "WPLYW-NA-MAGAZYN":
+    "Przy {dni} dniach autonomii i wpisanych parametrach magazyn potrzebuje ok. {pojemnosc} kWh " +
+    "pojemności użytecznej (szacunek — pełne wyliczenie: Moduł 4, Ekran 1).",
+  "COS-FI-POZA-ZAKRESEM": "Współczynnik mocy (cos φ) musi być z przedziału 0–1.",
+  "MOC-POZORNA-INFO":
+    "Waty na tabliczce znamionowej to nie cała historia — to {va} VA, nie {w} W, realnie obciąża falownik.",
+  "SZACUNEK-MAGAZYNU-WYMAGA-DANYCH":
+    "Szacunek wpływu na wielkość magazynu wymaga wpisania zapotrzebowania dobowego, sprawności falownika i DoD.",
 } as const
 
 export type KluczTlumaczenia = keyof typeof dictionaryPl

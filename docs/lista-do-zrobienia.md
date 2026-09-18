@@ -367,3 +367,27 @@ Tu trafia bieżący stan pracy: co w trakcie, co zablokowane, co następne — a
   `value` wyniku, np. `opis`/`powod` — wymaga zmiany kształtu typu wyniku, nie tylko
   `warnings`/`assumptions`), `porownanie-technologii` (nazwy/opisy technologii bateryjnych w
   `constants.ts` — osobna kategoria danych, nie komunikat). Szczegóły: `docs/memory.md`.
+- ✅ (2026-09-18) **Rollout i18n — druga partia: kolejne 3 moduły.** Zmigrowane do `i18nKey`/
+  `params`: `liczba-domownikow`, `dni-autonomii`, `moc-pozorna-cosfi` (wszystkie z Modułu 2
+  "Zapotrzebowanie energetyczne", jak partia 1). 8 nowych kluczy w `dictionary-{pl,en,ru}.ts`
+  (w tym reużycie istniejącego `WARTOSC-NIEDODATNIA` dla `moc-pozorna-cosfi`'s `notPositive` —
+  identyczny tekst źródłowy, brak duplikatu). Uwaga: nowy klucz `SPRAWNOSC-PROCENT-POZA-ZAKRESEM`
+  (nie `SPRAWNOSC-POZA-ZAKRESEM`, mimo że `dni-autonomii/warnings.ts` ma funkcję o tej nazwie) —
+  bo istniejący klucz `SPRAWNOSC-POZA-ZAKRESEM` już oznacza co innego (zakres ułamkowy (0,1],
+  z pilota `kalkulatory-pomocnicze`), a `dni-autonomii` waliduje zakres procentowy 0–100% —
+  różna semantyka, nie wolno nadpisać/reużyć tego samego klucza. `scripts/check-i18n-guard.mjs`
+  → `MIGRATED_MODULES` rozszerzone z 4 do 7 pozycji.
+  **Ten sam wzorzec błędu co w partii 1, powtórzony w 2 z 3 stron:** `dni-autonomii/page.tsx` i
+  `moc-pozorna-cosfi/page.tsx` renderowały `{w.message}` bez importu `useTranslate()` w ogóle
+  (nie tylko brak fallbacku — brak w ogóle mechanizmu tłumaczenia na stronie). Naprawione
+  (dodany `useTranslate()` + `?? t(w.i18nKey ?? w.code, w.params)`). `liczba-domownikow/page.tsx`
+  był już poprawny — korzysta ze współdzielonego `components/wzorce/wynik-szczegoly.tsx`.
+  Potwierdza wniosek z partii 1: sprawdzić rendering `warnings`/`assumptions` na KAŻDEJ stronie
+  osobno, "moduł ma i18nKey" nie znaczy "strona go pokaże".
+  Zweryfikowane end-to-end w realnej przeglądarce (Playwright, `pnpm build && pnpm start`,
+  wszystkie 3 moduły × PL/EN/RU): poprawny przetłumaczony tekst, zero `⚠ [...]`, zero błędów
+  konsoli i18n. 8 nowych testów (parytet/podstawianie w `t.test.ts` + asercje `i18nKey`/`params`/
+  `message === undefined` w każdym module, ta sama tura co treść, 17.9).
+  `pnpm typecheck`/`lint`/`check:i18n-guard`/`test` (738/738)/`build` czyste.
+  **Pozostało:** ~83 plików. Napotkane, odłożone przypadki jak w partii 1 (`czystosc-i-snieg`,
+  `porownanie-technologii`) — bez zmian, nadal czekają na osobną decyzję architektoniczną.

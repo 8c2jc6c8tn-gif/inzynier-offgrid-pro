@@ -9,8 +9,10 @@ import { WerdyktPanel } from "@/components/werdykt"
 import { NawigacjaEkranu } from "@/components/nawigacja-ekranu"
 import { NaglowekEkranu } from "@/components/wzorce/naglowek-ekranu"
 import { WynikGlowny } from "@/components/wzorce/wynik-glowny"
+import { useTranslate } from "@/lib/i18n/language-context"
 
 export default function DniAutonomiiPage() {
+  const t = useTranslate()
   const [dniAutonomii, setDniAutonomii] = useState<DniAutonomiiInput["dniAutonomii"]>(0)
   const [zapotrzebowanieDoboweKwh, setZapotrzebowanieDoboweKwh] = useState("")
   const [sprawnoscFalownikaPct, setSprawnoscFalownikaPct] = useState("")
@@ -96,7 +98,7 @@ export default function DniAutonomiiPage() {
           </WynikGlowny>
           {result.warnings.map((w) => (
             <p key={w.code} className="mt-2 text-small">
-              {w.message}
+              {w.message ?? t(w.i18nKey ?? w.code, w.params)}
             </p>
           ))}
         </WerdyktPanel>

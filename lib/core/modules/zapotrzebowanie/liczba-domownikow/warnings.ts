@@ -5,7 +5,8 @@ export function liczbaDomownikowPozaZakresem(value: number): Warning {
   return {
     code: "LICZBA-DOMOWNIKOW-POZA-ZAKRESEM",
     level: "critical",
-    message: `Liczba domowników musi być z zakresu ${MIN_DOMOWNIKOW}–${MAX_DOMOWNIKOW}.`,
+    i18nKey: "LICZBA-DOMOWNIKOW-POZA-ZAKRESEM",
+    params: { min: MIN_DOMOWNIKOW, max: MAX_DOMOWNIKOW },
     technicalMessage: `liczbaDomownikow = ${value}, oczekiwano ${MIN_DOMOWNIKOW}-${MAX_DOMOWNIKOW}`,
     field: "liczbaDomownikow",
   }

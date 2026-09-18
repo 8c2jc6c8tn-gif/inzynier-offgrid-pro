@@ -4,7 +4,7 @@ export function zapotrzebowanieUjemne(value: number): Warning {
   return {
     code: "ZAPOTRZEBOWANIE-UJEMNE",
     level: "critical",
-    message: "Zapotrzebowanie dobowe nie może być ujemne.",
+    i18nKey: "ZAPOTRZEBOWANIE-UJEMNE",
     technicalMessage: `zapotrzebowanieDoboweKwh = ${value}, oczekiwano >= 0`,
     field: "zapotrzebowanieDoboweKwh",
   }
@@ -14,7 +14,7 @@ export function sprawnoscPozaZakresem(value: number): Warning {
   return {
     code: "SPRAWNOSC-POZA-ZAKRESEM",
     level: "critical",
-    message: "Sprawność falownika musi być z przedziału 0–100%.",
+    i18nKey: "SPRAWNOSC-PROCENT-POZA-ZAKRESEM",
     technicalMessage: `sprawnoscFalownikaPct = ${value}, oczekiwano [0, 100]`,
     field: "sprawnoscFalownikaPct",
   }
@@ -24,7 +24,7 @@ export function dodPozaZakresem(value: number): Warning {
   return {
     code: "DOD-POZA-ZAKRESEM",
     level: "critical",
-    message: "DoD (głębokość rozładowania) musi być z przedziału 0–100%.",
+    i18nKey: "DOD-POZA-ZAKRESEM",
     technicalMessage: `dodPct = ${value}, oczekiwano [0, 100]`,
     field: "dodPct",
   }
@@ -34,7 +34,8 @@ export function wplywNaMagazyn(dniAutonomii: number, pojemnoscKwh: number): Warn
   return {
     code: "WPLYW-NA-MAGAZYN",
     level: "info",
-    message: `Przy ${dniAutonomii} dniach autonomii i wpisanych parametrach magazyn potrzebuje ok. ${pojemnoscKwh.toFixed(1)} kWh pojemności użytecznej (szacunek — pełne wyliczenie: Moduł 4, Ekran 1).`,
+    i18nKey: "WPLYW-NA-MAGAZYN",
+    params: { dni: dniAutonomii, pojemnosc: pojemnoscKwh.toFixed(1) },
     technicalMessage: `dniAutonomii=${dniAutonomii}, pojemnoscUzytecznaSzacowanaKwh=${pojemnoscKwh}`,
   }
 }

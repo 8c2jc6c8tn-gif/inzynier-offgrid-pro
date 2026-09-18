@@ -27,4 +27,18 @@ describe("calculateMocPozornaCosfi", () => {
     const result = calculateMocPozornaCosfi({ mocCzynnaW: -2000, cosFi: 0.7 })
     expect(result.status).toBe("INVALID_INPUT")
   })
+
+  it("i18n (17.2): błąd ujemnej mocy reużywa wspólnego klucza WARTOSC-NIEDODATNIA", () => {
+    const result = calculateMocPozornaCosfi({ mocCzynnaW: -2000, cosFi: 0.7 })
+    expect(result.warnings[0].i18nKey).toBe("WARTOSC-NIEDODATNIA")
+    expect(result.warnings[0].params).toEqual({ label: "moc czynna" })
+    expect(result.warnings[0].message).toBeUndefined()
+  })
+
+  it("i18n (17.2): warning informacyjny zwraca i18nKey/params, nie message", () => {
+    const result = calculateMocPozornaCosfi({ mocCzynnaW: 2000, cosFi: 0.7 })
+    expect(result.warnings[0].i18nKey).toBe("MOC-POZORNA-INFO")
+    expect(result.warnings[0].params).toEqual({ va: "2857", w: "2000" })
+    expect(result.warnings[0].message).toBeUndefined()
+  })
 })

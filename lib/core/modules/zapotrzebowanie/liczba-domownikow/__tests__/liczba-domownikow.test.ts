@@ -30,4 +30,16 @@ describe("calculateLiczbaDomownikow", () => {
     const result = calculateLiczbaDomownikow({ liczbaDomownikow: 0 })
     expect(result.status).toBe("INCOMPLETE")
   })
+
+  it("i18n (17.2): błąd walidacji zwraca i18nKey/params, nie message", () => {
+    const result = calculateLiczbaDomownikow({ liczbaDomownikow: 7 })
+    expect(result.warnings[0].i18nKey).toBe("LICZBA-DOMOWNIKOW-POZA-ZAKRESEM")
+    expect(result.warnings[0].params).toEqual({ min: 1, max: 6 })
+    expect(result.warnings[0].message).toBeUndefined()
+  })
+
+  it("i18n (17.2): assumptions to {kod, params}, nie gotowy tekst", () => {
+    const result = calculateLiczbaDomownikow({ liczbaDomownikow: 4 })
+    expect(result.assumptions).toEqual([{ kod: "CWU-ZAKRES-ORIENTACYJNY", params: { min: 50, max: 70 } }])
+  })
 })
