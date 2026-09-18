@@ -4,7 +4,7 @@ export function brakOchrony(): Warning {
   return {
     code: "BRAK-OCHRONY",
     level: "critical",
-    message: "Brak jakiejkolwiek ochrony przed odwrotną polaryzacją na obwodzie, gdzie łatwo pomylić plus i minus.",
+    i18nKey: "BRAK-OCHRONY",
     technicalMessage: "typOchrony=brak",
   }
 }
@@ -13,7 +13,7 @@ export function ochronaZastosowana(): Warning {
   return {
     code: "OCHRONA-ZASTOSOWANA",
     level: "info",
-    message: "Ochrona przed odwrotną polaryzacją zastosowana.",
+    i18nKey: "OCHRONA-ZASTOSOWANA",
     technicalMessage: "typOchrony != brak",
   }
 }

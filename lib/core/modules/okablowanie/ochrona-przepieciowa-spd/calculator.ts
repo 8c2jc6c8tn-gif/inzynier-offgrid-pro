@@ -1,4 +1,4 @@
-import type { CalcResult, Warning } from "@/lib/core/calc-result"
+import type { Assumption, CalcResult, Warning } from "@/lib/core/calc-result"
 import type { OchronaPrzepieciowaSpdInput } from "./input"
 import { validateInput } from "./validation"
 import {
@@ -100,10 +100,7 @@ export function calculateOchronaPrzepieciowaSpd(
     status: maNieinformacyjneOstrzezenia ? "VALID_WITH_WARNINGS" : "VALID",
     formula: FORMULA,
     inputs,
-    assumptions: [
-      "Voc stringu powinien być wartością zimową (Ekran 5, Moduł 3 — Zimowy stress-test MPPT), " +
-        "nie warunkami STC — inaczej ochronnik dobrany latem nie da rady zimą.",
-    ],
+    assumptions: [{ kod: "VOC-STRINGU-WARTOSC-ZIMOWA" }] satisfies Assumption[],
     warnings,
     calculatorVersion: CALCULATOR_VERSION,
   }

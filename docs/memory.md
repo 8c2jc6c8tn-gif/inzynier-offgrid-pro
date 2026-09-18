@@ -4493,3 +4493,51 @@ braku rezydualnego `next-server` przed i po.
 
 Pozostało ~51 plików: `okablowanie/` (~10 z 23 istniejących modułów), `pv/` (~10),
 `zapotrzebowanie/` (~8), `ogrzewanie/` (~6), `bezpieczenstwo/` (~2), `kalkulator-mobilny/` (~1).
+
+## Rollout i18n — dziewiąta partia: kolejne 5 modułów `okablowanie/` + realny bug echa (18.09.2026)
+
+Zmigrowane: `glowna-szyna-wyrownawcza`, `laczenie-cu-al`, `ochrona-odwrotna-polaryzacja`,
+`ochrona-przepieciowa-spd`, `optymalizacja-trasy-kabla`. 27 nowych kluczy, 1 reużyty
+(`WARTOSC-NIE-MOZE-BYC-UJEMNA`, 2×). 3 stringowe `assumptions` skonwertowane na `{kod}`
+(w `ochrona-odwrotna-polaryzacja`, `ochrona-przepieciowa-spd`, i 4 w `optymalizacja-trasy-kabla`).
+
+**🔴 Ważne znalezisko — migracja modułu A może cicho złamać moduł B, który go echuje.**
+`optymalizacja-trasy-kabla/calculator.ts` woła `calculateDoborPrzekrojuKabla` (echo, M5/E1) i
+budował z jego ostrzeżeń jeden spłaszczony string: `trasaNieSpelniaWymagan(oznaczenie, w.message
+?? w.code)`. Ten kod miał już świadomy komentarz-TODO z partii 8 ("fallback na wypadek przyszłej
+migracji tamtego modułu") — i przyszłość faktycznie nadeszła: `dobor-przekroju-kabla` został
+zmigrowany W TEJ SAMEJ partii 8, więc `w.message` jego ostrzeżeń jest teraz `undefined`, a
+fallback pokazywałby surowy kod (`w.code`, np. "PRZEKROJ-PONIZEJ-WYLICZONEGO") użytkownikowi
+zamiast tłumaczonego tekstu — cicha regresja, którą żaden dotychczasowy strażnik (ograniczony do
+`FILES_TO_CHECK` per moduł) by nie złapał, bo problem jest MIĘDZY modułami, nie wewnątrz jednego.
+Znalezione przez czytanie kodu przed migracją (nie przez test/build — oba by przeszły, bo
+`.message` bycie `undefined` nie jest błędem typu, `?? w.code` po prostu zwraca string).
+**Napraw architektoniczna, nie kosmetyczna:** `trasaNieSpelniaWymagan` już nie przyjmuje
+`komunikat: string` — zwraca tylko generyczną etykietę per trasa (nowy klucz
+`TRASA-NIE-SPELNIA-WYMAGAN-PRZEKROJU`, param `{oznaczenie}`), a oryginalne ostrzeżenia echa są
+przekazywane dalej z ich `i18nKey`/`params` bez zmian (`{...w, field: "trasaA"/"trasaB"}`) —
+`WynikSzczegoly` renderuje obie warstwy (etykieta + szczegół) poprawnie, bo już umie tłumaczyć
+każde ostrzeżenie niezależnie od tego, skąd przyszło. **Lekcja procesowa (kandydat do
+`docs/wklad-do-standardu.md`):** przy migracji modułu, który jest ECHOWANY przez inny moduł
+(`grep -rn "calculate<Nazwa>" lib/core/modules/` przed migracją), sprawdź WSZYSTKICH wołających
+pod kątem tego samego wzorca `w.message ?? ...` — migracja bazowego modułu i migracja
+wołającego nie muszą wejść w tej samej partii, ale komentarz-TODO zostawiony "na przyszłość"
+trzeba faktycznie sprawdzić w kolejnej partii, nie zakładać, że nikt nie zauważy.
+
+1 strona UI naprawiona — `glowna-szyna-wyrownawcza/page.tsx` renderowała `{w.message}` bez
+fallbacku, ale w innym miejscu niż zwykle: wewnątrz `WerdyktPanel` bez użycia
+`WynikSzczegoly` wcale (własny `.map`) — naprawione wprost przez `useTranslate()` +
+`w.message ?? t(w.i18nKey ?? w.code, w.params)` w samej stronie, bez migracji do
+`WynikSzczegoly` (zakres poza tym zadaniem).
+
+`MIGRATED_MODULES`: 37→42. Strażnik przeszedł czysto — żadnych inline literałów w
+`validation.ts` tej partii. `pnpm typecheck`/`lint`/`check:i18n-guard`/`test` (790/790)/`build`
+czyste. Zweryfikowane w przeglądarce PL/EN/RU (15 kombinacji, zero `⚠ [...]`), z dodatkowym
+pełnym wydrukiem `innerText` scenariusza obu tras nie spełniających wymagań — potwierdzone, że
+etykieta i szczegół renderują się osobno i poprawnie przetłumaczone. Potwierdzone też
+`ps aux | grep next-server` puste przed i po.
+
+Pozostało ~46 plików: `okablowanie/` (5 pozostałych — `pomiary-powykonawcze`, `string-box`,
+`uziemienie-funkcjonalne-ochronne`, `wylaczniki-nadpradowe-dc`, `wylaczniki-rcd`, zamyka
+katalog), `pv/` (~10), `zapotrzebowanie/` (~8), `ogrzewanie/` (~6), `bezpieczenstwo/` (~2),
+`kalkulator-mobilny/` (~1).

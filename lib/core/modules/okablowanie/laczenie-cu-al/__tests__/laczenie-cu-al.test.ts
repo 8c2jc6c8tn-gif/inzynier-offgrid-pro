@@ -128,4 +128,43 @@ describe("calculateLaczenieCuAl", () => {
     })
     expect(result.status).toBe("INVALID_INPUT")
   })
+
+  it("i18n (17.2): PARA-METALI-OK ma i18nKey+params z etykietą, nie message", () => {
+    const result = calculateLaczenieCuAl({
+      material1: "Al",
+      material2: "Cu",
+      srodowisko: "suche",
+      maZlaczkeBimetaliczna: true,
+      maPodkladkeISmar: false,
+      przekrojCuMm2: 0,
+    })
+    expect(result.warnings[0].i18nKey).toBe("PARA-METALI-OK")
+    expect(result.warnings[0].params).toEqual({ etykieta: "Aluminium (Al) + Miedź (Cu)" })
+    expect(result.warnings[0].message).toBeUndefined()
+  })
+
+  it("i18n (17.2): KOROZJA-GALWANICZNA-CU-AL, PARA-POZA-ZAKRESEM mają i18nKey, nie message", () => {
+    const korozja = calculateLaczenieCuAl({
+      material1: "Cu",
+      material2: "Al",
+      srodowisko: "suche",
+      maZlaczkeBimetaliczna: false,
+      maPodkladkeISmar: false,
+      przekrojCuMm2: 0,
+    })
+    expect(korozja.warnings[0].i18nKey).toBe("KOROZJA-GALWANICZNA-CU-AL")
+    expect(korozja.warnings[0].message).toBeUndefined()
+
+    const pozaZakresem = calculateLaczenieCuAl({
+      material1: "Cu",
+      material2: "Cu",
+      srodowisko: "suche",
+      maZlaczkeBimetaliczna: false,
+      maPodkladkeISmar: false,
+      przekrojCuMm2: 0,
+    })
+    expect(pozaZakresem.warnings[0].i18nKey).toBe("PARA-POZA-ZAKRESEM")
+    expect(pozaZakresem.warnings[0].params).toEqual({ etykieta: "Miedź (Cu) + Miedź (Cu)" })
+    expect(pozaZakresem.warnings[0].message).toBeUndefined()
+  })
 })

@@ -527,3 +527,36 @@ Tu trafia bieżący stan pracy: co w trakcie, co zablokowane, co następne — a
   **Pozostało ~51 plików**: `okablowanie/` (~10 pozostałych z 23 istniejących modułów), `pv/`
   (~10), `zapotrzebowanie/` (~8), `ogrzewanie/` (~6), `bezpieczenstwo/` (~2),
   `kalkulator-mobilny/` (~1) — kolejna partia kontynuuje `okablowanie/`.
+- ✅ (2026-09-18) **Rollout i18n — dziewiąta partia: kolejne 5 modułów `okablowanie/`.**
+  Zmigrowane: `glowna-szyna-wyrownawcza`, `laczenie-cu-al`, `ochrona-odwrotna-polaryzacja`,
+  `ochrona-przepieciowa-spd`, `optymalizacja-trasy-kabla`. 27 nowych kluczy, 1 klucz reużyty
+  1:1 (`WARTOSC-NIE-MOZE-BYC-UJEMNA` — 2×). 1 strona UI naprawiona (`glowna-szyna-wyrownawcza` —
+  ten sam wzorzec `{w.message}` bez fallbacku i18n, tym razem wewnątrz `WerdyktPanel` bez
+  `WynikSzczegoly`, naprawione wprost przez `useTranslate()` w stronie) — pozostałe 4 strony tej
+  partii już poprawnie korzystały z `WynikSzczegoly`.
+  🔴 **Znaleziony i naprawiony realny bug regresyjny (nie tylko literał tekstu):**
+  `optymalizacja-trasy-kabla/calculator.ts` echuje krytyczne ostrzeżenia z
+  `dobor-przekroju-kabla` (zmigrowany w partii 8) przez `trasaNieSpelniaWymagan(oznaczenie,
+  w.message ?? w.code)` — od partii 8 `w.message` tego echa jest `undefined` (moduł zmigrowany
+  nie ustawia już `message`), więc fallback pokazywałby surowy `w.code` (np.
+  "PRZEKROJ-PONIZEJ-WYLICZONEGO") zamiast przetłumaczonego tekstu. Naprawione architektonicznie,
+  nie kosmetycznie: `trasaNieSpelniaWymagan(oznaczenie)` teraz zwraca tylko ogólną etykietę
+  ("Trasa X nie spełnia wymagań przekroju — zobacz szczegóły poniżej", nowy klucz
+  `TRASA-NIE-SPELNIA-WYMAGAN-PRZEKROJU`), a oryginalne ostrzeżenia echa (z ich `i18nKey`/`params`
+  nienaruszone) są dociągane do wyniku obok, oznaczone `field: "trasaA"/"trasaB"` — żadny
+  tekst nie jest spłaszczany do stringa w warstwie domenowej. Zweryfikowane end-to-end w
+  przeglądarce (pełny wydruk `innerText` dla scenariusza z partii testowej, PL) — oba poziomy
+  komunikatu (etykieta + szczegół) wyświetlają się poprawnie przetłumaczone.
+  3 stringowe `assumptions` (w `ochrona-odwrotna-polaryzacja`, `ochrona-przepieciowa-spd`,
+  `optymalizacja-trasy-kabla` ×4) skonwertowane na `{kod}`.
+  `scripts/check-i18n-guard.mjs` → `MIGRATED_MODULES` rozszerzone z 37 do 42 (żadnych inline
+  literałów w `validation.ts` tej partii — strażnik przeszedł czysto bez nowych wykryć).
+  5 nowych bloków testowych domenowych + nowy blok w `t.test.ts` (7 kluczy z parametrami/14
+  bez). `pnpm typecheck`/`lint`/`check:i18n-guard`/`test` (790/790)/`build` czyste.
+  Zweryfikowane end-to-end w świeżej przeglądarce (Playwright, z potwierdzeniem braku
+  rezydualnego `next-server` przed i po) w PL/EN/RU (5 modułów × 3 języki = 15 sprawdzeń) —
+  zero `⚠ [...]`.
+  **Pozostało ~46 plików**: `okablowanie/` (5 pozostałych: `pomiary-powykonawcze`,
+  `string-box`, `uziemienie-funkcjonalne-ochronne`, `wylaczniki-nadpradowe-dc`,
+  `wylaczniki-rcd` — zamyka katalog), `pv/` (~10), `zapotrzebowanie/` (~8), `ogrzewanie/` (~6),
+  `bezpieczenstwo/` (~2), `kalkulator-mobilny/` (~1) — partia 10 kończy `okablowanie/`.

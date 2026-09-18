@@ -33,4 +33,13 @@ describe("calculateGlownaSzynaWyrownawcza", () => {
     })
     expect(result.value.potwierdzone).toBe(1)
   })
+
+  it("i18n (17.2): GSW-UZYWANA-JAKO-PRZYLACZE ma i18nKey, nie message", () => {
+    const result = calculateGlownaSzynaWyrownawcza({
+      potwierdzoneIds: [],
+      uzywanaJakoPrzylaczeOdbiornikow: true,
+    })
+    expect(result.warnings[0].i18nKey).toBe("GSW-UZYWANA-JAKO-PRZYLACZE")
+    expect(result.warnings[0].message).toBeUndefined()
+  })
 })

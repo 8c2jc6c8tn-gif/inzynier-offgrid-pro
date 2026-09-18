@@ -4,7 +4,7 @@ export function gswUzywanaJakoPrzylacze(): Warning {
   return {
     code: "GSW-UZYWANA-JAKO-PRZYLACZE",
     level: "critical",
-    message: "GSW to tylko wyrównanie potencjałów, nie szyna prądowa — nie podłączaj do niej odbiorników.",
+    i18nKey: "GSW-UZYWANA-JAKO-PRZYLACZE",
     technicalMessage: "uzywanaJakoPrzylaczeOdbiornikow=true",
   }
 }
