@@ -1,4 +1,4 @@
-import type { CalcResult } from "@/lib/core/calc-result"
+import type { Assumption, CalcResult } from "@/lib/core/calc-result"
 import type { LiczbaDomownikowInput } from "./input"
 import { validateInput } from "./validation"
 import { CWU_MAX_L_NA_OSOBE, CWU_MIN_L_NA_OSOBE } from "./constants"
@@ -63,8 +63,8 @@ export function calculateLiczbaDomownikow(
     formula: FORMULA,
     inputs,
     assumptions: [
-      "Zakres 50–70 l C.W.U. na osobę na dobę — wartość orientacyjna ze źródła, nie zmierzona.",
-    ],
+      { kod: "CWU-ZAKRES-ORIENTACYJNY", params: { min: CWU_MIN_L_NA_OSOBE, max: CWU_MAX_L_NA_OSOBE } },
+    ] satisfies Assumption[],
     warnings: [],
     calculatorVersion: CALCULATOR_VERSION,
   }

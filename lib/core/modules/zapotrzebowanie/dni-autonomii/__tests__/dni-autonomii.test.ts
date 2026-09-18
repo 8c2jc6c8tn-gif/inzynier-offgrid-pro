@@ -57,4 +57,26 @@ describe("calculateDniAutonomii", () => {
     })
     expect(result.status).toBe("INVALID_INPUT")
   })
+
+  it("i18n (17.2): assumptions to {kod}, gdy brak danych pod magazyn", () => {
+    const result = calculateDniAutonomii({
+      dniAutonomii: 3,
+      zapotrzebowanieDoboweKwh: 0,
+      sprawnoscFalownikaPct: 0,
+      dodPct: 0,
+    })
+    expect(result.assumptions).toEqual([{ kod: "SZACUNEK-MAGAZYNU-WYMAGA-DANYCH" }])
+  })
+
+  it("i18n (17.2): warning informacyjny zwraca i18nKey/params, nie message", () => {
+    const result = calculateDniAutonomii({
+      dniAutonomii: 3,
+      zapotrzebowanieDoboweKwh: 12,
+      sprawnoscFalownikaPct: 95,
+      dodPct: 80,
+    })
+    expect(result.warnings[0].i18nKey).toBe("WPLYW-NA-MAGAZYN")
+    expect(result.warnings[0].params).toEqual({ dni: 3, pojemnosc: "47.4" })
+    expect(result.warnings[0].message).toBeUndefined()
+  })
 })

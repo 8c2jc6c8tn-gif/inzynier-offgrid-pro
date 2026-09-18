@@ -8,8 +8,10 @@ import { WerdyktPanel } from "@/components/werdykt"
 import { NawigacjaEkranu } from "@/components/nawigacja-ekranu"
 import { NaglowekEkranu } from "@/components/wzorce/naglowek-ekranu"
 import { WynikGlowny } from "@/components/wzorce/wynik-glowny"
+import { useTranslate } from "@/lib/i18n/language-context"
 
 export default function MocPozornaCosfiPage() {
+  const t = useTranslate()
   const [mocCzynnaW, setMocCzynnaW] = useState("")
   const [cosFi, setCosFi] = useState(String(DOMYSLNY_COS_FI))
 
@@ -65,7 +67,7 @@ export default function MocPozornaCosfiPage() {
           </WynikGlowny>
           {result.warnings.map((w) => (
             <p key={w.code} className="mt-2 text-small">
-              {w.message}
+              {w.message ?? t(w.i18nKey ?? w.code, w.params)}
             </p>
           ))}
         </WerdyktPanel>

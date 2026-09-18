@@ -1,4 +1,4 @@
-import type { CalcResult } from "@/lib/core/calc-result"
+import type { Assumption, CalcResult } from "@/lib/core/calc-result"
 import { obliczPojemnoscUzytecznaKwh } from "@/lib/core/modules/baterie/dobor-pojemnosci/calculator"
 import type { DniAutonomiiInput } from "./input"
 import { validateInput } from "./validation"
@@ -75,9 +75,9 @@ export function calculateDniAutonomii(input: DniAutonomiiInput): CalcResult<DniA
     status: "VALID",
     formula: FORMULA,
     inputs,
-    assumptions: maDanePodMagazyn
+    assumptions: (maDanePodMagazyn
       ? []
-      : ["Szacunek wpływu na wielkość magazynu wymaga wpisania zapotrzebowania dobowego, sprawności falownika i DoD."],
+      : [{ kod: "SZACUNEK-MAGAZYNU-WYMAGA-DANYCH" }]) satisfies Assumption[],
     warnings:
       pojemnoscUzytecznaSzacowanaKwh !== null
         ? [wplywNaMagazyn(input.dniAutonomii, pojemnoscUzytecznaSzacowanaKwh)]

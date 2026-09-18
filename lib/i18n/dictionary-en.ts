@@ -24,4 +24,18 @@ export const dictionaryEn = {
   "DANE-KLIMATYCZNE-TRYB-OFFLINE":
     "Solar irradiance/climate zone data will eventually require integration with PVGIS/PVWatts (online) — " +
     "at this stage, only offline mode with manual entry of the minimum temperature is available.",
+  "LICZBA-DOMOWNIKOW-POZA-ZAKRESEM": "The number of household members must be within the range {min}–{max}.",
+  "CWU-ZAKRES-ORIENTACYJNY":
+    "A range of {min}–{max} l of domestic hot water per person per day — an indicative source value, not measured.",
+  "ZAPOTRZEBOWANIE-UJEMNE": "Daily demand cannot be negative.",
+  "SPRAWNOSC-PROCENT-POZA-ZAKRESEM": "Inverter efficiency must be within the range 0–100%.",
+  "DOD-POZA-ZAKRESEM": "DoD (depth of discharge) must be within the range 0–100%.",
+  "WPLYW-NA-MAGAZYN":
+    "With {dni} days of autonomy and the entered parameters, the storage needs approx. {pojemnosc} kWh " +
+    "of usable capacity (estimate — full calculation: Module 4, Screen 1).",
+  "COS-FI-POZA-ZAKRESEM": "Power factor (cos φ) must be within the range 0–1.",
+  "MOC-POZORNA-INFO":
+    "Watts on the nameplate aren't the whole story — the inverter actually sees {va} VA, not {w} W, of real load.",
+  "SZACUNEK-MAGAZYNU-WYMAGA-DANYCH":
+    "Estimating the impact on storage size requires entering the daily demand, inverter efficiency, and DoD.",
 } satisfies Record<KluczTlumaczenia, string>

@@ -72,6 +72,50 @@ describe("t — klucze zmigrowane 16.09.2026 (systemy-podtrzymania-zycia, cop-po
   })
 })
 
+describe("t — klucze zmigrowane 18.09.2026 (liczba-domownikow, dni-autonomii, moc-pozorna-cosfi)", () => {
+  const kluczeZParametrami: Record<string, Record<string, string | number>> = {
+    "LICZBA-DOMOWNIKOW-POZA-ZAKRESEM": { min: 1, max: 6 },
+    "CWU-ZAKRES-ORIENTACYJNY": { min: 50, max: 70 },
+    "WPLYW-NA-MAGAZYN": { dni: 3, pojemnosc: "12.5" },
+    "MOC-POZORNA-INFO": { va: "1200", w: "960" },
+  }
+  const kluczeBezParametrow = [
+    "ZAPOTRZEBOWANIE-UJEMNE",
+    "SPRAWNOSC-PROCENT-POZA-ZAKRESEM",
+    "DOD-POZA-ZAKRESEM",
+    "COS-FI-POZA-ZAKRESEM",
+    "SZACUNEK-MAGAZYNU-WYMAGA-DANYCH",
+  ]
+
+  it("klucze z parametrami: podstawiają wartości i różnią się między językami w każdym", () => {
+    for (const [kod, params] of Object.entries(kluczeZParametrami)) {
+      const pl = t("pl", kod, params)
+      const en = t("en", kod, params)
+      const ru = t("ru", kod, params)
+      for (const wartosc of Object.values(params)) {
+        expect(pl).toContain(String(wartosc))
+        expect(en).toContain(String(wartosc))
+        expect(ru).toContain(String(wartosc))
+      }
+      expect(pl).not.toBe(en)
+      expect(pl).not.toBe(ru)
+      expect(en).not.toBe(ru)
+    }
+  })
+
+  it("klucze bez parametrów: tekst istnieje i różni się między językami", () => {
+    for (const kod of kluczeBezParametrow) {
+      const pl = t("pl", kod)
+      const en = t("en", kod)
+      const ru = t("ru", kod)
+      expect(pl.length).toBeGreaterThan(0)
+      expect(pl).not.toBe(en)
+      expect(pl).not.toBe(ru)
+      expect(en).not.toBe(ru)
+    }
+  })
+})
+
 describe("dictionaries — parytet kluczy", () => {
   it("każdy język ma dokładnie ten sam zestaw kluczy co polski", () => {
     const kluczePl = Object.keys(dictionaries.pl).sort()
