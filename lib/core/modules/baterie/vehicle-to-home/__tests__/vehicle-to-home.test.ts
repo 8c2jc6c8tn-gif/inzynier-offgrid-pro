@@ -77,4 +77,38 @@ describe("calculateVehicleToHome", () => {
     })
     expect(result.status).toBe("INVALID_INPUT")
   })
+
+  it("i18n (17.2): ostrzeżenia i assumption zwracają i18nKey/kod, nie gotowy tekst", () => {
+    const tylkoV2l = calculateVehicleToHome({
+      wspieraV2h: false,
+      pojemnoscBaterEvKwh: 80,
+      rezerwaNaDojazdKwh: 10,
+      sprawnoscEfektywnaPct: 60,
+      kosztWymianyBateriiZl: 20000,
+      liczbaCykli: 1000,
+    })
+    expect(tylkoV2l.warnings[0].i18nKey).toBe("TYLKO-V2L")
+    expect(tylkoV2l.warnings[0].message).toBeUndefined()
+    expect(tylkoV2l.assumptions).toEqual([{ kod: "REZERWA-DEGRADACJA-MODEL-UPROSZCZONY" }])
+
+    const rezerwa = calculateVehicleToHome({
+      wspieraV2h: true,
+      pojemnoscBaterEvKwh: 80,
+      rezerwaNaDojazdKwh: 100,
+      sprawnoscEfektywnaPct: 60,
+      kosztWymianyBateriiZl: 20000,
+      liczbaCykli: 1000,
+    })
+    expect(rezerwa.warnings[0].i18nKey).toBe("REZERWA-WIEKSZA-NIZ-POJEMNOSC")
+
+    const zlaSprawnosc = calculateVehicleToHome({
+      wspieraV2h: true,
+      pojemnoscBaterEvKwh: 80,
+      rezerwaNaDojazdKwh: 10,
+      sprawnoscEfektywnaPct: 150,
+      kosztWymianyBateriiZl: 20000,
+      liczbaCykli: 1000,
+    })
+    expect(zlaSprawnosc.warnings[0].i18nKey).toBe("SPRAWNOSC-EFEKTYWNA-POZA-ZAKRESEM")
+  })
 })

@@ -47,6 +47,11 @@ const MIGRATED_MODULES = [
   "lib/core/modules/baterie/pozycjonowanie-ogniw",
   "lib/core/modules/baterie/second-life",
   "lib/core/modules/baterie/slabe-ogniwo",
+  "lib/core/modules/baterie/soh-per-ogniwo",
+  "lib/core/modules/baterie/starzenie-degradacja",
+  "lib/core/modules/baterie/szyny-zbiorcze-miedzypakietowe",
+  "lib/core/modules/baterie/topologia-bms",
+  "lib/core/modules/baterie/vehicle-to-home",
 ]
 
 const FILES_TO_CHECK = ["warnings.ts", "calculator.ts", "validation.ts"]

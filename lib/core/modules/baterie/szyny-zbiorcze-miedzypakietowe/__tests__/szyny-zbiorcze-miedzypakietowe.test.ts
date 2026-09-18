@@ -74,4 +74,32 @@ describe("calculateSzynyZbiorczeMiedzypakietowe", () => {
     })
     expect(result.status).toBe("INVALID_INPUT")
   })
+
+  it("i18n (17.2): ostrzeżenie i assumptions zwracają i18nKey/kod, nie gotowy tekst", () => {
+    const result = calculateSzynyZbiorczeMiedzypakietowe({
+      pradCalkowityA: 100,
+      material: "Cu",
+      galezie: [
+        { id: "A", dlugoscM: 1, przekrojMm2: 25 },
+        { id: "B", dlugoscM: 3, przekrojMm2: 25 },
+      ],
+    })
+    expect(result.warnings[0].i18nKey).toBe("ROZKLAD-PRADU")
+    expect(result.warnings[0].params).toEqual({ odchylenie: "25.0" })
+    expect(result.warnings[0].message).toBeUndefined()
+    expect(result.assumptions).toEqual([
+      { kod: "MODEL-TOPOLOGIA-GWIAZDA" },
+      { kod: "REZYSTANCJA-WZOR-M5E1" },
+    ])
+
+    const ujemna = calculateSzynyZbiorczeMiedzypakietowe({
+      pradCalkowityA: 100,
+      material: "Cu",
+      galezie: [
+        { id: "A", dlugoscM: -1, przekrojMm2: 25 },
+        { id: "B", dlugoscM: 3, przekrojMm2: 25 },
+      ],
+    })
+    expect(ujemna.warnings[0].i18nKey).toBe("WARTOSC-NIE-MOZE-BYC-UJEMNA")
+  })
 })

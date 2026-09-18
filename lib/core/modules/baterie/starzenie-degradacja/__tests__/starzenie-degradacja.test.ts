@@ -57,4 +57,33 @@ describe("calculateStarzenieDegradacja", () => {
     })
     expect(result.status).toBe("INCOMPLETE")
   })
+
+  it("i18n (17.2): assumptions i błędy walidacji zwracają i18nKey/kod, nie gotowy tekst", () => {
+    const result = calculateStarzenieDegradacja({
+      pojemnoscUzytecznaDzisKwh: 45,
+      horyzontLata: 10,
+      degradacjaRocznaPct: 2,
+    })
+    expect(result.assumptions).toEqual([
+      { kod: "MODEL-LINIOWY-DEGRADACJI" },
+      { kod: "WYNIK-DOKLADNY-BEZ-ZAOKRAGLENIA" },
+    ])
+
+    const przekroczona = calculateStarzenieDegradacja({
+      pojemnoscUzytecznaDzisKwh: 45,
+      horyzontLata: 15,
+      degradacjaRocznaPct: 7,
+    })
+    const w = przekroczona.warnings.find((w) => w.code === "CALKOWITA-DEGRADACJA-W-HORYZONCIE")
+    expect(w?.i18nKey).toBe("CALKOWITA-DEGRADACJA-W-HORYZONCIE")
+    expect(w?.params).toEqual({ rate: 7, lata: 15 })
+    expect(w?.message).toBeUndefined()
+
+    const ujemna = calculateStarzenieDegradacja({
+      pojemnoscUzytecznaDzisKwh: -1,
+      horyzontLata: 10,
+      degradacjaRocznaPct: 2,
+    })
+    expect(ujemna.warnings[0].i18nKey).toBe("POJEMNOSC-DZIS-NIEDODATNIA")
+  })
 })

@@ -31,4 +31,17 @@ describe("calculateTopologiaBms", () => {
     const result = calculateTopologiaBms({ bmsCommonPortA: -50, falownikPradRozruchuA: 150 })
     expect(result.status).toBe("INVALID_INPUT")
   })
+
+  it("i18n (17.2): ostrzeżenia zwracają i18nKey/params, nie message", () => {
+    const niewystarczajacy = calculateTopologiaBms({ bmsCommonPortA: 100, falownikPradRozruchuA: 150 })
+    expect(niewystarczajacy.warnings[0].i18nKey).toBe("COMMON-PORT-NIEWYSTARCZAJACY")
+    expect(niewystarczajacy.warnings[0].params).toEqual({ bms: 100, falownik: 150 })
+    expect(niewystarczajacy.warnings[0].message).toBeUndefined()
+
+    const wystarczajacy = calculateTopologiaBms({ bmsCommonPortA: 200, falownikPradRozruchuA: 150 })
+    expect(wystarczajacy.warnings[0].i18nKey).toBe("COMMON-PORT-WYSTARCZAJACY")
+
+    const ujemny = calculateTopologiaBms({ bmsCommonPortA: -50, falownikPradRozruchuA: 150 })
+    expect(ujemny.warnings[0].i18nKey).toBe("WARTOSC-NIEDODATNIA")
+  })
 })

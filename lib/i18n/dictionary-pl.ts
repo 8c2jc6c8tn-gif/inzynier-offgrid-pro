@@ -195,6 +195,40 @@ export const dictionaryPl = {
   "NAJGORSZY-PRZYPADEK-TOLERANCJA":
     "Najgorszy przypadek: przynajmniej jedno ogniwo w paśmie tolerancji fabrycznej ma pojemność " +
     "dokładnie na dolnej granicy tolerancji.",
+  "OGNIWO-DO-WYMIANY":
+    "Rezystancja wewnętrzna wzrosła o {wzrost}% względem wartości fabrycznej (próg krytyczny: " +
+    "{prog}%) — to ogniwo straciło znaczącą część pojemności, wymień je.",
+  "OGNIWO-OK":
+    "Rezystancja wewnętrzna wzrosła o {wzrost}% względem wartości fabrycznej — poniżej progu krytycznego ({prog}%).",
+  "POJEMNOSC-DZIS-NIEDODATNIA": "Pojemność użyteczna potrzebna dziś musi być większa od zera.",
+  "DEGRADACJA-POZA-ZAKRESEM": "Roczny spadek pojemności musi być z przedziału 0–100% (>0).",
+  "CALKOWITA-DEGRADACJA-W-HORYZONCIE":
+    "Przy {rate}%/rok przez {lata} lat prosty model liniowy degradacji sięga zera lub poniżej — " +
+    "wynik nie ma sensu fizycznego. Sprawdź wpisane wartości.",
+  "MODEL-LINIOWY-DEGRADACJI": "Prosty model liniowy degradacji (nie kalendarzowo-cykliczny), zgodnie z Sekcją B źródła.",
+  "WYNIK-DOKLADNY-BEZ-ZAOKRAGLENIA":
+    "Wynik to dokładna wymagana pojemność początkowa — w praktyce zaokrągla się w górę do " +
+    "dostępnego rozmiaru komercyjnego (źródło nie podaje siatki rozmiarów).",
+  "ROZKLAD-PRADU":
+    "Największa gałąź odbiega od równego podziału o {odchylenie} pkt proc. Źródło nie podaje progu " +
+    "\"bezpiecznego\" odchylenia — jeśli rozpływ wygląda nierówno, rozważ szynę zbiorczą (gwiazda) " +
+    "z kablami o równej długości zamiast łączenia kaskadowego.",
+  "MODEL-TOPOLOGIA-GWIAZDA":
+    "Model zakłada topologię gwiazda (każda gałąź niezależnym odcinkiem do wspólnego węzła) — NIE " +
+    "modeluje kaskady ani asymetrii punktu zasilania wzdłuż jednej szyny.",
+  "REZYSTANCJA-WZOR-M5E1": "Rezystancja gałęzi liczona jak w M5/Ekran 1: R=ρ×2L/A (droga tam i z powrotem).",
+  "COMMON-PORT-NIEWYSTARCZAJACY":
+    "Common Port BMS ({bms} A) jest poniżej szczytowego prądu rozruchu falownika ({falownik} A) — " +
+    "wybierz wersję Separate Port.",
+  "COMMON-PORT-WYSTARCZAJACY": "Common Port BMS ({bms} A) wytrzymuje szczytowy prąd rozruchu falownika ({falownik} A).",
+  "SPRAWNOSC-EFEKTYWNA-POZA-ZAKRESEM": "Sprawność efektywna musi być z przedziału 0–100%.",
+  "REZERWA-WIEKSZA-NIZ-POJEMNOSC": "Rezerwa na dojazd nie może być większa niż cała pojemność baterii.",
+  "TYLKO-V2L":
+    "Auto/falownik wspierają tylko V2L (niższa moc, przykładowo do ok. 3,6 kW) — nie zasilisz nim " +
+    "całego domu, tylko pojedyncze urządzenia.",
+  "REZERWA-DEGRADACJA-MODEL-UPROSZCZONY":
+    "„Rezerwa na dojazd, degradacja, straty” ze źródła modelowane jako rezerwa (wprost odejmowana) " +
+    "+ jeden łączny współczynnik sprawności efektywnej — źródło nie rozbija tego na osobne wzory.",
 } as const
 
 export type KluczTlumaczenia = keyof typeof dictionaryPl

@@ -187,4 +187,37 @@ export const dictionaryEn = {
     "limits the entire pack by {utrata}%.",
   "NAJGORSZY-PRZYPADEK-TOLERANCJA":
     "Worst case: at least one cell in the factory tolerance band has a capacity right at the lower tolerance limit.",
+  "OGNIWO-DO-WYMIANY":
+    "Internal resistance rose by {wzrost}% relative to the factory value (critical threshold: {prog}%) " +
+    "— this cell has lost a significant portion of its capacity, replace it.",
+  "OGNIWO-OK":
+    "Internal resistance rose by {wzrost}% relative to the factory value — below the critical threshold ({prog}%).",
+  "POJEMNOSC-DZIS-NIEDODATNIA": "The usable capacity needed today must be greater than zero.",
+  "DEGRADACJA-POZA-ZAKRESEM": "Annual capacity loss must be within the range 0–100% (>0).",
+  "CALKOWITA-DEGRADACJA-W-HORYZONCIE":
+    "At {rate}%/year over {lata} years, the simple linear degradation model reaches zero or below — " +
+    "the result doesn't make physical sense. Check the entered values.",
+  "MODEL-LINIOWY-DEGRADACJI": "Simple linear degradation model (not calendar-cyclic), per the source's Section B.",
+  "WYNIK-DOKLADNY-BEZ-ZAOKRAGLENIA":
+    "The result is the exact required initial capacity — in practice it's rounded up to the nearest " +
+    "available commercial size (the source doesn't provide a size grid).",
+  "ROZKLAD-PRADU":
+    "The largest branch deviates from an even split by {odchylenie} percentage points. The source " +
+    "doesn't give a \"safe\" deviation threshold — if the current distribution looks uneven, consider " +
+    "a busbar (star topology) with equal-length cables instead of cascading connections.",
+  "MODEL-TOPOLOGIA-GWIAZDA":
+    "The model assumes a star topology (each branch as an independent run to a common node) — it does " +
+    "NOT model cascading or feed-point asymmetry along a single busbar.",
+  "REZYSTANCJA-WZOR-M5E1": "Branch resistance calculated as in M5/Screen 1: R=ρ×2L/A (round-trip path).",
+  "COMMON-PORT-NIEWYSTARCZAJACY":
+    "The BMS Common Port ({bms} A) is below the inverter's peak inrush current ({falownik} A) — choose a Separate Port version.",
+  "COMMON-PORT-WYSTARCZAJACY": "The BMS Common Port ({bms} A) can handle the inverter's peak inrush current ({falownik} A).",
+  "SPRAWNOSC-EFEKTYWNA-POZA-ZAKRESEM": "Effective efficiency must be within the range 0–100%.",
+  "REZERWA-WIEKSZA-NIZ-POJEMNOSC": "The trip reserve cannot be greater than the entire battery capacity.",
+  "TYLKO-V2L":
+    "The car/inverter only support V2L (lower power, e.g. up to about 3.6 kW) — you can't power the " +
+    "whole house with it, only individual devices.",
+  "REZERWA-DEGRADACJA-MODEL-UPROSZCZONY":
+    "The source's \"trip reserve, degradation, losses\" are modeled as a reserve (directly subtracted) " +
+    "+ one combined effective efficiency factor — the source doesn't break this down into separate formulas.",
 } satisfies Record<KluczTlumaczenia, string>

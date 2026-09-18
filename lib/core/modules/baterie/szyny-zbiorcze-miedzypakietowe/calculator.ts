@@ -1,4 +1,4 @@
-import type { CalcResult } from "@/lib/core/calc-result"
+import type { Assumption, CalcResult } from "@/lib/core/calc-result"
 import type { SzynyZbiorczeMiedzypakietoweInput } from "./input"
 import { validateInput } from "./validation"
 import { rozkladInfo } from "./warnings"
@@ -113,9 +113,9 @@ export function calculateSzynyZbiorczeMiedzypakietowe(
     formula: FORMULA,
     inputs,
     assumptions: [
-      "Model zakłada topologię gwiazda (każda gałąź niezależnym odcinkiem do wspólnego węzła) — NIE modeluje kaskady ani asymetrii punktu zasilania wzdłuż jednej szyny (patrz komentarz w input.ts).",
-      "Rezystancja gałęzi liczona jak w M5/Ekran 1: R=ρ×2L/A (droga tam i z powrotem).",
-    ],
+      { kod: "MODEL-TOPOLOGIA-GWIAZDA" },
+      { kod: "REZYSTANCJA-WZOR-M5E1" },
+    ] satisfies Assumption[],
     warnings: [rozkladInfo(maxOdchylenieOdSredniejPct)],
     calculatorVersion: CALCULATOR_VERSION,
   }

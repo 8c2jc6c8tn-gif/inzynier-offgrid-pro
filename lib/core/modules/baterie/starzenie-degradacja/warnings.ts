@@ -4,7 +4,7 @@ export function pojemnoscNiedodatnia(value: number): Warning {
   return {
     code: "POJEMNOSC-NIEDODATNIA",
     level: "critical",
-    message: "Pojemność użyteczna potrzebna dziś musi być większa od zera.",
+    i18nKey: "POJEMNOSC-DZIS-NIEDODATNIA",
     technicalMessage: `pojemnoscUzytecznaDzisKwh = ${value}, oczekiwano > 0`,
     field: "pojemnoscUzytecznaDzisKwh",
   }
@@ -14,7 +14,7 @@ export function degradacjaPozaZakresem(value: number): Warning {
   return {
     code: "DEGRADACJA-POZA-ZAKRESEM",
     level: "critical",
-    message: "Roczny spadek pojemności musi być z przedziału 0–100% (>0).",
+    i18nKey: "DEGRADACJA-POZA-ZAKRESEM",
     technicalMessage: `degradacjaRocznaPct = ${value}, oczekiwano (0, 100]`,
     field: "degradacjaRocznaPct",
   }
@@ -24,7 +24,8 @@ export function calkowitaDegradacja(degradacjaRocznaPct: number, horyzontLata: n
   return {
     code: "CALKOWITA-DEGRADACJA-W-HORYZONCIE",
     level: "critical",
-    message: `Przy ${degradacjaRocznaPct}%/rok przez ${horyzontLata} lat prosty model liniowy degradacji sięga zera lub poniżej — wynik nie ma sensu fizycznego. Sprawdź wpisane wartości.`,
+    i18nKey: "CALKOWITA-DEGRADACJA-W-HORYZONCIE",
+    params: { rate: degradacjaRocznaPct, lata: horyzontLata },
     technicalMessage: `degradacjaRocznaPct(${degradacjaRocznaPct}) × horyzontLata(${horyzontLata}) >= 100`,
     field: "degradacjaRocznaPct",
   }

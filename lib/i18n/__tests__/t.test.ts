@@ -339,6 +339,57 @@ describe("t — klucze zmigrowane 18.09.2026, partia 6 (baterie: ochrona-wilgoc,
   })
 })
 
+describe("t — klucze zmigrowane 18.09.2026, partia 7 (baterie: soh-per-ogniwo, starzenie-degradacja, szyny-zbiorcze-miedzypakietowe, topologia-bms, vehicle-to-home)", () => {
+  const kluczeZParametrami: Record<string, Record<string, string | number>> = {
+    "OGNIWO-DO-WYMIANY": { wzrost: "50", prog: 50 },
+    "OGNIWO-OK": { wzrost: "20", prog: 50 },
+    "CALKOWITA-DEGRADACJA-W-HORYZONCIE": { rate: 7, lata: 15 },
+    "ROZKLAD-PRADU": { odchylenie: "25.0" },
+    "COMMON-PORT-NIEWYSTARCZAJACY": { bms: 100, falownik: 150 },
+    "COMMON-PORT-WYSTARCZAJACY": { bms: 200, falownik: 150 },
+  }
+  const kluczeBezParametrow = [
+    "POJEMNOSC-DZIS-NIEDODATNIA",
+    "DEGRADACJA-POZA-ZAKRESEM",
+    "MODEL-LINIOWY-DEGRADACJI",
+    "WYNIK-DOKLADNY-BEZ-ZAOKRAGLENIA",
+    "MODEL-TOPOLOGIA-GWIAZDA",
+    "REZYSTANCJA-WZOR-M5E1",
+    "SPRAWNOSC-EFEKTYWNA-POZA-ZAKRESEM",
+    "REZERWA-WIEKSZA-NIZ-POJEMNOSC",
+    "TYLKO-V2L",
+    "REZERWA-DEGRADACJA-MODEL-UPROSZCZONY",
+  ]
+
+  it("klucze z parametrami: podstawiają wartości i różnią się między językami w każdym", () => {
+    for (const [kod, params] of Object.entries(kluczeZParametrami)) {
+      const pl = t("pl", kod, params)
+      const en = t("en", kod, params)
+      const ru = t("ru", kod, params)
+      for (const wartosc of Object.values(params)) {
+        expect(pl).toContain(String(wartosc))
+        expect(en).toContain(String(wartosc))
+        expect(ru).toContain(String(wartosc))
+      }
+      expect(pl).not.toBe(en)
+      expect(pl).not.toBe(ru)
+      expect(en).not.toBe(ru)
+    }
+  })
+
+  it("klucze bez parametrów: tekst istnieje i różni się między językami", () => {
+    for (const kod of kluczeBezParametrow) {
+      const pl = t("pl", kod)
+      const en = t("en", kod)
+      const ru = t("ru", kod)
+      expect(pl.length).toBeGreaterThan(0)
+      expect(pl).not.toBe(en)
+      expect(pl).not.toBe(ru)
+      expect(en).not.toBe(ru)
+    }
+  })
+})
+
 describe("dictionaries — parytet kluczy", () => {
   it("każdy język ma dokładnie ten sam zestaw kluczy co polski", () => {
     const kluczePl = Object.keys(dictionaries.pl).sort()
