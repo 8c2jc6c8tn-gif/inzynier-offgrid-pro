@@ -51,4 +51,33 @@ describe("calculateDetekcjaZwarciaEFuse", () => {
     })
     expect(result.status).toBe("INVALID_INPUT")
   })
+
+  it("i18n (17.2): ostrzeżenie i assumption zwracają i18nKey/kod, nie gotowy tekst", () => {
+    const wymagany = calculateDetekcjaZwarciaEFuse({
+      napiecieBateriiV: 48,
+      rezystancjaWewnetrznaOhm: 0.0096,
+      zdolnoscLaczeniowaTranzystorowA: 500,
+    })
+    expect(wymagany.warnings[0].i18nKey).toBe("WYMAGANY-E-FUSE")
+    expect(wymagany.warnings[0].params).toEqual({ pradA: "5000", zdolnoscA: "500" })
+    expect(wymagany.warnings[0].message).toBeUndefined()
+    expect(wymagany.assumptions).toEqual([{ kod: "MODEL-ZWARCIA-PROSTEGO" }])
+
+    const niepotrzebny = calculateDetekcjaZwarciaEFuse({
+      napiecieBateriiV: 48,
+      rezystancjaWewnetrznaOhm: 0.0096,
+      zdolnoscLaczeniowaTranzystorowA: 6000,
+    })
+    expect(niepotrzebny.warnings[0].i18nKey).toBe("E-FUSE-NIEPOTRZEBNY")
+  })
+
+  it("i18n (17.2): błąd walidacji reużywa wspólnego klucza WARTOSC-NIEDODATNIA", () => {
+    const result = calculateDetekcjaZwarciaEFuse({
+      napiecieBateriiV: 48,
+      rezystancjaWewnetrznaOhm: -1,
+      zdolnoscLaczeniowaTranzystorowA: 500,
+    })
+    expect(result.warnings[0].i18nKey).toBe("WARTOSC-NIEDODATNIA")
+    expect(result.warnings[0].message).toBeUndefined()
+  })
 })

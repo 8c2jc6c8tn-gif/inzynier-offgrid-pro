@@ -1,4 +1,4 @@
-import type { CalcResult } from "@/lib/core/calc-result"
+import type { Assumption, CalcResult } from "@/lib/core/calc-result"
 import type { ColdCrankingAmpsInput } from "./input"
 import { validateInput } from "./validation"
 import { falownikSieWylaczy, falownikUtrzymaNapiecie } from "./warnings"
@@ -74,9 +74,7 @@ export function calculateColdCrankingAmps(input: ColdCrankingAmpsInput): CalcRes
     status: "VALID_WITH_WARNINGS",
     formula: FORMULA,
     inputs,
-    assumptions: [
-      "Rezystancja wewnętrzna podana przez użytkownika jest już zmierzona w bieżącej temperaturze ogniw.",
-    ],
+    assumptions: [{ kod: "REZYSTANCJA-ZMIERZONA-W-TEMPERATURZE" }] satisfies Assumption[],
     warnings,
     calculatorVersion: CALCULATOR_VERSION,
   }

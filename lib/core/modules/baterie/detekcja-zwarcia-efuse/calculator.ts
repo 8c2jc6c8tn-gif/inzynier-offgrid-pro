@@ -1,4 +1,4 @@
-import type { CalcResult } from "@/lib/core/calc-result"
+import type { Assumption, CalcResult } from "@/lib/core/calc-result"
 import type { DetekcjaZwarciaEFuseInput } from "./input"
 import { validateInput } from "./validation"
 import { eFuseNiepotrzebny, wymaganyEFuse } from "./warnings"
@@ -69,10 +69,7 @@ export function calculateDetekcjaZwarciaEFuse(
     status: wymagany ? "VALID_WITH_WARNINGS" : "VALID",
     formula: FORMULA,
     inputs,
-    assumptions: [
-      "Model prostego zwarcia pełnego (rezystancja przewodów i połączeń pominięta) — ten sam " +
-        "model co Ekran 24 (Dobór bezpiecznika DC).",
-    ],
+    assumptions: [{ kod: "MODEL-ZWARCIA-PROSTEGO" }] satisfies Assumption[],
     warnings: [
       wymagany
         ? wymaganyEFuse(pradZwarciowyA, input.zdolnoscLaczeniowaTranzystorowA)

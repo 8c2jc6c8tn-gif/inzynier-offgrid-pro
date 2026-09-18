@@ -97,7 +97,7 @@ export default function ColdCrankingAmpsPage() {
           etykieta={poziom === "ok" ? "Falownik utrzyma napięcie pracy" : "Falownik się wyłączy"}
         >
           <WynikGlowny>{result.value.vSagV.toFixed(1)} V</WynikGlowny>
-          <WynikSzczegoly assumptions={result.assumptions} formula={result.formula} />
+          <WynikSzczegoly assumptions={result.assumptions} warnings={result.warnings} formula={result.formula} />
         </WerdyktPanel>
       )}
     </main>

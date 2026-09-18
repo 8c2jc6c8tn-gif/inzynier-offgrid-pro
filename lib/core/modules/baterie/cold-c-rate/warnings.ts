@@ -5,7 +5,8 @@ export function blokadaCalkowita(temperaturaC: number): Warning {
   return {
     code: "BLOKADA-LADOWANIA-MROZ",
     level: "critical",
-    message: `Temperatura ogniwa ${temperaturaC.toFixed(1)}°C — poniżej -10°C ładowanie jest całkowicie zablokowane. Ładowanie w tych warunkach trwale uszkadza ogniwa (osadzanie litu metalicznego).`,
+    i18nKey: "BLOKADA-LADOWANIA-MROZ",
+    params: { temp: temperaturaC.toFixed(1) },
     technicalMessage: `temperaturaOgniwaC = ${temperaturaC} < -10`,
     field: "temperaturaOgniwaC",
   }
@@ -15,7 +16,8 @@ export function limitZimno(temperaturaC: number, maxPradA: number): Warning {
   return {
     code: "LIMIT-PRADU-ZIMNO",
     level: "warning",
-    message: `Temperatura ogniwa ${temperaturaC.toFixed(1)}°C — maksymalny prąd ładowania ograniczony do 0,1C (${maxPradA.toFixed(1)} A).`,
+    i18nKey: "LIMIT-PRADU-ZIMNO",
+    params: { temp: temperaturaC.toFixed(1), maxPrad: maxPradA.toFixed(1) },
     technicalMessage: `-10 <= temperaturaOgniwaC = ${temperaturaC} < 0`,
     field: "temperaturaOgniwaC",
   }
@@ -25,7 +27,8 @@ export function limitChlodno(temperaturaC: number, maxPradA: number): Warning {
   return {
     code: "LIMIT-PRADU-CHLODNO",
     level: "warning",
-    message: `Temperatura ogniwa ${temperaturaC.toFixed(1)}°C — maksymalny prąd ładowania ograniczony do 0,2C (${maxPradA.toFixed(1)} A).`,
+    i18nKey: "LIMIT-PRADU-CHLODNO",
+    params: { temp: temperaturaC.toFixed(1), maxPrad: maxPradA.toFixed(1) },
     technicalMessage: `0 <= temperaturaOgniwaC = ${temperaturaC} < 5`,
     field: "temperaturaOgniwaC",
   }
@@ -35,7 +38,8 @@ export function lukaZrodla(temperaturaC: number): Warning {
   return {
     code: "LUKA-TABELI-ZRODLA",
     level: "info",
-    message: `Temperatura ogniwa ${temperaturaC.toFixed(1)}°C — źródło nie podaje limitu C-rate dla zakresu 5–10°C (luka w tabeli oryginalnej). Sprawdź specyfikację producenta ogniw dla tego zakresu — nie zgadujemy wartości pośredniej.`,
+    i18nKey: "LUKA-TABELI-ZRODLA",
+    params: { temp: temperaturaC.toFixed(1) },
     technicalMessage: `5 <= temperaturaOgniwaC = ${temperaturaC} <= 10 — poza zdefiniowanymi progami źródła`,
     field: "temperaturaOgniwaC",
   }
@@ -45,7 +49,7 @@ export function pojemnoscNiedodatnia(value: number): Warning {
   return {
     code: "POJEMNOSC-NIEDODATNIA",
     level: "critical",
-    message: "Pojemność pakietu musi być większa od zera.",
+    i18nKey: "POJEMNOSC-NIEDODATNIA",
     technicalMessage: `pojemnoscAh = ${value}, oczekiwano > 0`,
     field: "pojemnoscAh",
   }

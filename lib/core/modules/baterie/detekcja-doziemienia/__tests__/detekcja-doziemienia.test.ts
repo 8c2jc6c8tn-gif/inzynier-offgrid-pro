@@ -27,4 +27,14 @@ describe("calculateDetekcjaDoziemienia", () => {
     expect(result.status).toBe("VALID")
     expect(result.warnings[0].code).toBe("ZABEZPIECZENIE-OBECNE")
   })
+
+  it("i18n (17.2): ostrzeżenia zwracają i18nKey, nie message", () => {
+    const brak = calculateDetekcjaDoziemienia({ maMonitorIzolacji: false, maRoznicowkeDc: false })
+    expect(brak.warnings[0].i18nKey).toBe("BRAK-ZABEZPIECZENIA-DOZIEMIENIA")
+    expect(brak.warnings[0].message).toBeUndefined()
+
+    const obecne = calculateDetekcjaDoziemienia({ maMonitorIzolacji: true, maRoznicowkeDc: true })
+    expect(obecne.warnings[0].i18nKey).toBe("ZABEZPIECZENIE-OBECNE")
+    expect(obecne.warnings[0].message).toBeUndefined()
+  })
 })
