@@ -560,3 +560,30 @@ Tu trafia bieżący stan pracy: co w trakcie, co zablokowane, co następne — a
   `string-box`, `uziemienie-funkcjonalne-ochronne`, `wylaczniki-nadpradowe-dc`,
   `wylaczniki-rcd` — zamyka katalog), `pv/` (~10), `zapotrzebowanie/` (~8), `ogrzewanie/` (~6),
   `bezpieczenstwo/` (~2), `kalkulator-mobilny/` (~1) — partia 10 kończy `okablowanie/`.
+- ✅ (2026-09-19) **Rollout i18n — dziesiąta partia: ostatnie 5 modułów `okablowanie/`,
+  zamyka cały katalog.** Zmigrowane: `pomiary-powykonawcze`, `string-box`,
+  `uziemienie-funkcjonalne-ochronne`, `wylaczniki-nadpradowe-dc`, `wylaczniki-rcd`. 32 nowe
+  klucze, 3 klucze reużyte 1:1 (`WARTOSC-NIE-MOZE-BYC-UJEMNA` — 3×). 6 stringowych
+  `assumptions` skonwertowanych na `{kod}`. Wszystkie 5 stron UI już poprawnie korzystały z
+  `WynikSzczegoly` — brak napraw stron w tej partii (pierwszy raz od partii 6).
+  Znalezione i naprawione proaktywnie (przed uruchomieniem strażnika, czytaniem kodu) 3
+  inline `Warning` z gotowym tekstem PL wpisane wprost w `string-box/validation.ts`
+  (`LICZBA-STRINGOW-UJEMNA`, `LICZBA-WEJSC-UJEMNA`, `BEZPIECZNIK-STRINGOWY-UJEMNY`) — piąty
+  raz z rzędu to samo źródło regresji, ten sam wzorzec co w partiach 4, 6, 8.
+  Dwa bliskie kolizje nazw kluczy rozstrzygnięte przez porównanie treści (nie tylko nazwy
+  kodu): `wylaczniki-nadpradowe-dc`'s `AIC-PONIZEJ-PRADU-ZWARCIOWEGO` (kod) i `assumptions`
+  tekst o AIC vs prąd zwarciowy miały bliskie, ale NIE identyczne odpowiedniki w istniejącym
+  słowniku (`AIC-PONIZEJ-PRADU-ZWARCIOWEGO` z Modułu 4 — inny tekst; `AIC-NIE-SPRAWDZONA-WOBEC-ZWARCIA`
+  z partii 8 — różni się słowem "łączeniowa" vs "wyłączania") — oba dostały odrębne, nowe
+  klucze (`AIC-WYLACZNIKA-PONIZEJ-PRADU-ZWARCIOWEGO`, `AIC-WYLACZANIA-NIE-SPRAWDZONA-WOBEC-ZWARCIA`)
+  zamiast błędnego reużycia.
+  `scripts/check-i18n-guard.mjs` → `MIGRATED_MODULES` rozszerzone z 42 do 47.
+  5 nowych bloków testowych domenowych + nowy blok w `t.test.ts` (9 kluczy z parametrami/24
+  bez). `pnpm typecheck`/`lint`/`check:i18n-guard`/`test` (797/797)/`build` czyste.
+  Zweryfikowane end-to-end w świeżej przeglądarce (Playwright, z potwierdzeniem braku
+  rezydualnego `next-server` przed i po) w PL/EN/RU (5 modułów × 3 języki = 15 sprawdzeń) —
+  zero `⚠ [...]`.
+  **To zamyka cały katalog `okablowanie/`** (23 moduły — 18 zmigrowanych w partiach 8-10,
+  5 wcześniej bez `message:` do migracji).
+  **Pozostało ~41 plików**: `pv/` (~10), `zapotrzebowanie/` (~8), `ogrzewanie/` (~6),
+  `bezpieczenstwo/` (~2), `kalkulator-mobilny/` (~1) — kolejna partia zaczyna `pv/`.

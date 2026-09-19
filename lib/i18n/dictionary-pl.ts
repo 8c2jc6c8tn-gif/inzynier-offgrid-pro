@@ -346,6 +346,62 @@ export const dictionaryPl = {
     "Porównanie kosztów (TCO) NIE pokazane — co najmniej jedna trasa nie spełnia wymagań przekroju " +
     "(echo zwraca stratę 0 dla niezgodnego przekroju, co fałszywie zaniżałoby jej koszt). Popraw " +
     "przekrój trasy oznaczonej jako niespełniającą wymagań.",
+  "CIAGLOSC-NIEPOTWIERDZONA":
+    "Ciągłość przewodów ochronnych nie potwierdzona — wszystkie muszą być połączone z GSW.",
+  "REZYSTANCJA-IZOLACJI-ZA-NISKA":
+    "Rezystancja izolacji {wartosc} MΩ jest poniżej wymaganego minimum {min} MΩ.",
+  "REZYSTANCJA-UZIEMIENIA-NIEZMIERZONA": "Rezystancja uziemienia jeszcze nie zmierzona.",
+  "REZYSTANCJA-UZIEMIENIA-ZA-WYSOKA": "Rezystancja uziemienia {wartosc} Ω przekracza wymagany próg {prog} Ω.",
+  "CZAS-RCD-NIEZMIERZONY": "Czas zadziałania RCD jeszcze nie zmierzony.",
+  "CZAS-RCD-ZA-DLUGI": "RCD zadziałał po {czas} s — wymagane poniżej {max} s.",
+  "TEST-ZWARCIOWY-NIEPOTWIERDZONY":
+    "Test zwarciowy pętli nie potwierdzony — zabezpieczenie musi zadziałać przy symulowanym zwarciu.",
+  "TERMOWIZJA-NIEPOTWIERDZONA":
+    "Termowizja połączeń nie potwierdzona — sprawdź brak gorących punktów pod obciążeniem.",
+  "WSZYSTKO-OK": "Wszystkie pomiary i testy powykonawcze w normie — formalny odbiór instalacji możliwy.",
+  "BRAK-SKRZYNKI-IP66": "Łączenie stringów bezpośrednio na wolnym powietrzu bez skrzynki IP66 jest zabronione.",
+  "ZA-MALO-WEJSC-SKRZYNKI":
+    "Skrzynka ma {wejscia} wejść, a stringów jest {stringi} — dobierz skrzynkę z odpowiednią liczbą wejść.",
+  "BEZPIECZNIK-STRINGOWY-POZA-ZAKRESEM":
+    "Bezpiecznik stringowy ({bezpiecznik} A) jest poza zalecanym zakresem {min}-{max} A/string.",
+  "LICZBA-STRINGOW-UJEMNA": "Liczba stringów nie może być ujemna.",
+  "LICZBA-WEJSC-UJEMNA": "Liczba wejść skrzynki nie może być ujemna.",
+  "BEZPIECZNIK-STRINGOWY-UJEMNY": "Prąd bezpiecznika stringowego nie może być ujemny.",
+  "SPD-ROZLACZNIK-NIE-SPRAWDZONE":
+    "SPD Typ 2 (cross-ref Ekran 2) i rozłącznik izolacyjny DC nie sprawdzone — brak podanych parametrów w źródle.",
+  "LICZBA-WEJSC-NIEPODANA-POMINIETO": "Liczba wejść skrzynki niepodana — sprawdzenie pominięte.",
+  "BEZPIECZNIK-STRINGOWY-NIEWYBRANY-POMINIETO":
+    "Bezpiecznik stringowy niewybrany — sprawdzenie zakresu pominięte.",
+  "BIEGUN-UZIEMIONY-WBREW-IT":
+    "Falownik wymaga układu izolowanego (IT), a biegun DC jest uziemiony — ryzyko uszkodzenia MPPT.",
+  "WYMAGANY-MONITOR-IZOLACJI":
+    "Falownik pracuje w układzie IT — zastosuj monitor izolacji (IMD), zobacz Ekran 18.",
+  "OBUDOWA-NIEPOLACZONA-Z-GSW":
+    "Uziemienie obudowy falownika nie jest połączone z Główną Szyną Wyrównawczą (GSW).",
+  "UZIEMIENIE-OK": "Uziemienie funkcjonalne i ochronne zgodne z wymaganiami producenta falownika.",
+  "UKLAD-SIECI-INFORMACYJNY":
+    "Układ sieci (TN-S/TN-C-S/TT/IT) jest tu informacyjny — źródło nie wiąże go bezpośrednio z werdyktem " +
+    "tego ekranu, tylko z ogólnym kontekstem instalacji.",
+  "WYLACZNIK-NIECERTYFIKOWANY-DO-DC":
+    "Wyłącznik AC zastosowany w obwodzie DC nie zgasi łuku stałoprądowego — ryzyko pożaru.",
+  "AIC-WYLACZNIKA-PONIZEJ-PRADU-ZWARCIOWEGO":
+    "Zdolność wyłączania wyłącznika ({aic} A) jest niższa niż prąd zwarciowy w tym punkcie ({pradZwarciowy} A).",
+  "WYLACZNIK-DC-DOBRANY-POPRAWNIE": "Wyłącznik certyfikowany do DC, zdolność wyłączania wystarczająca.",
+  "AIC-WYLACZANIA-NIE-SPRAWDZONA-WOBEC-ZWARCIA":
+    "Zdolność wyłączania (AIC) nie sprawdzona wobec prądu zwarciowego — wpisz oba pola, docelowo prąd " +
+    "zwarciowy z Ekranu 12 (Analiza zwarciowa).",
+  "WYMAGANY-TYP-B":
+    "Falownik hybrydowy wymaga RCD typu B — zainstalowany typ {typ} nie wykryje prądu uszkodzeniowego DC " +
+    "(realne ryzyko porażenia).",
+  "WYMAGANY-TYP-A-MINIMUM":
+    "Odbiorniki z silnikami wymagają RCD co najmniej typu A — zainstalowany typ AC nie wystarcza.",
+  "PROG-POWYZEJ-OCHRONY-OSOB": "Próg różnicowy {prog} mA jest za wysoki dla ochrony osób — wymagane 30 mA.",
+  "PROG-POWYZEJ-OCHRONY-POZAROWEJ":
+    "Próg różnicowy {prog} mA jest za wysoki dla ochrony przeciwpożarowej — wymagane 300 mA.",
+  "RCD-DOBRANY-POPRAWNIE": "Typ RCD i próg różnicowy spełniają wszystkie sprawdzone wymagania.",
+  "TYP-RCD-MINIMALNY-NIE-PODANY":
+    "Bez falownika hybrydowego i bez silników w obwodzie źródło nie podaje minimalnego typu RCD — nie " +
+    "zgadywany.",
 } as const
 
 export type KluczTlumaczenia = keyof typeof dictionaryPl

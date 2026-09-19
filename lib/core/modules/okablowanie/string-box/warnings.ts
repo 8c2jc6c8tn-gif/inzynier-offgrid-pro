@@ -10,7 +10,7 @@ export function brakSkrzynkiIp66(): Warning {
   return {
     code: "BRAK-SKRZYNKI-IP66",
     level: "critical",
-    message: "Łączenie stringów bezpośrednio na wolnym powietrzu bez skrzynki IP66 jest zabronione.",
+    i18nKey: "BRAK-SKRZYNKI-IP66",
     technicalMessage: "maSkrzynkeIp66 = false",
     field: "maSkrzynkeIp66",
   }
@@ -20,7 +20,8 @@ export function zaMaloWejsc(liczbaWejsc: number, liczbaStringow: number): Warnin
   return {
     code: "ZA-MALO-WEJSC-SKRZYNKI",
     level: "warning",
-    message: `Skrzynka ma ${liczbaWejsc} wejść, a stringów jest ${liczbaStringow} — dobierz skrzynkę z odpowiednią liczbą wejść.`,
+    i18nKey: "ZA-MALO-WEJSC-SKRZYNKI",
+    params: { wejscia: liczbaWejsc, stringi: liczbaStringow },
     technicalMessage: `liczbaWejscSkrzynki=${liczbaWejsc} < liczbaStringow=${liczbaStringow}`,
     field: "liczbaWejscSkrzynki",
   }
@@ -30,8 +31,39 @@ export function bezpiecznikPozaZakresem(bezpiecznikA: number): Warning {
   return {
     code: "BEZPIECZNIK-STRINGOWY-POZA-ZAKRESEM",
     level: "warning",
-    message: `Bezpiecznik stringowy (${bezpiecznikA} A) jest poza zalecanym zakresem ${BEZPIECZNIK_STRINGOWY_MIN_A}-${BEZPIECZNIK_STRINGOWY_MAX_A} A/string.`,
+    i18nKey: "BEZPIECZNIK-STRINGOWY-POZA-ZAKRESEM",
+    params: { bezpiecznik: bezpiecznikA, min: BEZPIECZNIK_STRINGOWY_MIN_A, max: BEZPIECZNIK_STRINGOWY_MAX_A },
     technicalMessage: `bezpiecznikStringowyA=${bezpiecznikA}, zakres=[${BEZPIECZNIK_STRINGOWY_MIN_A}, ${BEZPIECZNIK_STRINGOWY_MAX_A}]`,
+    field: "bezpiecznikStringowyA",
+  }
+}
+
+export function liczbaStringowUjemna(value: number): Warning {
+  return {
+    code: "LICZBA-STRINGOW-UJEMNA",
+    level: "critical",
+    i18nKey: "LICZBA-STRINGOW-UJEMNA",
+    technicalMessage: `liczbaStringow = ${value}, oczekiwano >= 0`,
+    field: "liczbaStringow",
+  }
+}
+
+export function liczbaWejscUjemna(value: number): Warning {
+  return {
+    code: "LICZBA-WEJSC-UJEMNA",
+    level: "critical",
+    i18nKey: "LICZBA-WEJSC-UJEMNA",
+    technicalMessage: `liczbaWejscSkrzynki = ${value}, oczekiwano >= 0`,
+    field: "liczbaWejscSkrzynki",
+  }
+}
+
+export function bezpiecznikStringowyUjemny(value: number): Warning {
+  return {
+    code: "BEZPIECZNIK-STRINGOWY-UJEMNY",
+    level: "critical",
+    i18nKey: "BEZPIECZNIK-STRINGOWY-UJEMNY",
+    technicalMessage: `bezpiecznikStringowyA = ${value}, oczekiwano >= 0`,
     field: "bezpiecznikStringowyA",
   }
 }

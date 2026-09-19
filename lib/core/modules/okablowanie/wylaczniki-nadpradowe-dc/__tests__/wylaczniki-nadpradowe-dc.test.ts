@@ -75,4 +75,31 @@ describe("calculateWylacznikiNadpradoweDc", () => {
     })
     expect(result.status).toBe("INVALID_INPUT")
   })
+
+  it("i18n (17.2): DOBRANY-POPRAWNIE/AIC-PONIZEJ-PRADU-ZWARCIOWEGO mają i18nKey, założenie to {kod}", () => {
+    const ok = calculateWylacznikiNadpradoweDc({
+      pradA: 16,
+      napiecieV: 48,
+      liczbaBiegunow: 2,
+      certyfikowanyDoDc: true,
+      aicA: 0,
+      pradZwarciowyA: 0,
+    })
+    expect(ok.warnings[0].i18nKey).toBe("WYLACZNIK-DC-DOBRANY-POPRAWNIE")
+    expect(ok.warnings[0].message).toBeUndefined()
+    expect(ok.assumptions).toEqual([{ kod: "AIC-WYLACZANIA-NIE-SPRAWDZONA-WOBEC-ZWARCIA" }])
+
+    const aicPoniewaz = calculateWylacznikiNadpradoweDc({
+      pradA: 125,
+      napiecieV: 48,
+      liczbaBiegunow: 2,
+      certyfikowanyDoDc: true,
+      aicA: 2000,
+      pradZwarciowyA: 4800,
+    })
+    const w = aicPoniewaz.warnings.find((x) => x.code === "AIC-PONIZEJ-PRADU-ZWARCIOWEGO")
+    expect(w?.i18nKey).toBe("AIC-WYLACZNIKA-PONIZEJ-PRADU-ZWARCIOWEGO")
+    expect(w?.params).toEqual({ aic: 2000, pradZwarciowy: 4800 })
+    expect(w?.message).toBeUndefined()
+  })
 })

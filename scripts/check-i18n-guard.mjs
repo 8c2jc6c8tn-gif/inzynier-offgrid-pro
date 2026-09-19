@@ -62,6 +62,11 @@ const MIGRATED_MODULES = [
   "lib/core/modules/okablowanie/ochrona-odwrotna-polaryzacja",
   "lib/core/modules/okablowanie/ochrona-przepieciowa-spd",
   "lib/core/modules/okablowanie/optymalizacja-trasy-kabla",
+  "lib/core/modules/okablowanie/pomiary-powykonawcze",
+  "lib/core/modules/okablowanie/string-box",
+  "lib/core/modules/okablowanie/uziemienie-funkcjonalne-ochronne",
+  "lib/core/modules/okablowanie/wylaczniki-nadpradowe-dc",
+  "lib/core/modules/okablowanie/wylaczniki-rcd",
 ]
 
 const FILES_TO_CHECK = ["warnings.ts", "calculator.ts", "validation.ts"]

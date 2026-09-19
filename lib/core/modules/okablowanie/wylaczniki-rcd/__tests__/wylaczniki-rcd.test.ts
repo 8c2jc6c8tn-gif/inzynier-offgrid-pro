@@ -91,4 +91,19 @@ describe("calculateWylaczniki", () => {
     })
     expect(result.status).toBe("INVALID_INPUT")
   })
+
+  it("i18n (17.2): WYMAGANY-TYP-B ma i18nKey+params, założenie to {kod}, nie string", () => {
+    const result = calculateWylaczniki({
+      falownikHybrydowy: true,
+      odbiornikiZSilnikami: false,
+      zainstalowanyTyp: "A",
+      celOchrony: "pozarowa",
+      progMa: 300,
+    })
+    const w = result.warnings.find((x) => x.code === "WYMAGANY-TYP-B")
+    expect(w?.i18nKey).toBe("WYMAGANY-TYP-B")
+    expect(w?.params).toEqual({ typ: "A" })
+    expect(w?.message).toBeUndefined()
+    expect(result.assumptions).toEqual([{ kod: "TYP-RCD-MINIMALNY-NIE-PODANY" }])
+  })
 })

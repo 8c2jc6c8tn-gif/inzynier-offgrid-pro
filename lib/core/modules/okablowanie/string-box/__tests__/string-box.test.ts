@@ -94,4 +94,37 @@ describe("calculateStringBox (Ekran 22, Moduł 5)", () => {
     expect(result.status).toBe("VALID")
     expect(result.assumptions.length).toBeGreaterThanOrEqual(3)
   })
+
+  it("i18n (17.2): ZA-MALO-WEJSC-SKRZYNKI ma i18nKey+params, assumptions to {kod}, walidacja ma i18nKey", () => {
+    const zaMalo = calculateStringBox({
+      liczbaStringow: 6,
+      liczbaWejscSkrzynki: 4,
+      bezpiecznikStringowyA: 16,
+      maSkrzynkeIp66: true,
+    })
+    expect(zaMalo.warnings[0].i18nKey).toBe("ZA-MALO-WEJSC-SKRZYNKI")
+    expect(zaMalo.warnings[0].params).toEqual({ wejscia: 4, stringi: 6 })
+    expect(zaMalo.warnings[0].message).toBeUndefined()
+
+    const niepodane = calculateStringBox({
+      liczbaStringow: 4,
+      liczbaWejscSkrzynki: 0,
+      bezpiecznikStringowyA: 0,
+      maSkrzynkeIp66: true,
+    })
+    expect(niepodane.assumptions).toEqual([
+      { kod: "SPD-ROZLACZNIK-NIE-SPRAWDZONE" },
+      { kod: "LICZBA-WEJSC-NIEPODANA-POMINIETO" },
+      { kod: "BEZPIECZNIK-STRINGOWY-NIEWYBRANY-POMINIETO" },
+    ])
+
+    const invalid = calculateStringBox({
+      liczbaStringow: -1,
+      liczbaWejscSkrzynki: 0,
+      bezpiecznikStringowyA: 0,
+      maSkrzynkeIp66: false,
+    })
+    expect(invalid.warnings[0].i18nKey).toBe("LICZBA-STRINGOW-UJEMNA")
+    expect(invalid.warnings[0].message).toBeUndefined()
+  })
 })

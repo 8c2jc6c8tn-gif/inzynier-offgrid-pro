@@ -337,4 +337,60 @@ export const dictionaryEn = {
     "Cost comparison (TCO) NOT shown — at least one route doesn't meet the cross-section requirements " +
     "(the echo returns a 0 loss for a non-compliant cross-section, which would falsely understate its " +
     "cost). Fix the cross-section of the route flagged as not meeting requirements.",
+  "CIAGLOSC-NIEPOTWIERDZONA":
+    "Continuity of protective conductors not confirmed — all must be connected to the GSW.",
+  "REZYSTANCJA-IZOLACJI-ZA-NISKA":
+    "Insulation resistance {wartosc} MΩ is below the required minimum {min} MΩ.",
+  "REZYSTANCJA-UZIEMIENIA-NIEZMIERZONA": "Ground resistance not yet measured.",
+  "REZYSTANCJA-UZIEMIENIA-ZA-WYSOKA": "Ground resistance {wartosc} Ω exceeds the required threshold {prog} Ω.",
+  "CZAS-RCD-NIEZMIERZONY": "RCD trip time not yet measured.",
+  "CZAS-RCD-ZA-DLUGI": "The RCD tripped after {czas} s — required below {max} s.",
+  "TEST-ZWARCIOWY-NIEPOTWIERDZONY":
+    "Loop short-circuit test not confirmed — the protection must trip under a simulated short circuit.",
+  "TERMOWIZJA-NIEPOTWIERDZONA":
+    "Thermal imaging of connections not confirmed — check for the absence of hot spots under load.",
+  "WSZYSTKO-OK": "All post-installation measurements and tests are within norm — formal commissioning is possible.",
+  "BRAK-SKRZYNKI-IP66": "Connecting strings directly outdoors without an IP66 box is prohibited.",
+  "ZA-MALO-WEJSC-SKRZYNKI":
+    "The box has {wejscia} inputs, and there are {stringi} strings — choose a box with a matching number of inputs.",
+  "BEZPIECZNIK-STRINGOWY-POZA-ZAKRESEM":
+    "The string fuse ({bezpiecznik} A) is outside the recommended range of {min}-{max} A/string.",
+  "LICZBA-STRINGOW-UJEMNA": "The number of strings cannot be negative.",
+  "LICZBA-WEJSC-UJEMNA": "The number of box inputs cannot be negative.",
+  "BEZPIECZNIK-STRINGOWY-UJEMNY": "The string fuse current cannot be negative.",
+  "SPD-ROZLACZNIK-NIE-SPRAWDZONE":
+    "Type 2 SPD (cross-ref Screen 2) and the DC isolating switch aren't checked — no parameters given in the source.",
+  "LICZBA-WEJSC-NIEPODANA-POMINIETO": "Number of box inputs not given — check skipped.",
+  "BEZPIECZNIK-STRINGOWY-NIEWYBRANY-POMINIETO":
+    "String fuse not selected — range check skipped.",
+  "BIEGUN-UZIEMIONY-WBREW-IT":
+    "The inverter requires an isolated (IT) system, and the DC pole is grounded — risk of MPPT damage.",
+  "WYMAGANY-MONITOR-IZOLACJI":
+    "The inverter operates in an IT system — use an insulation monitoring device (IMD), see Screen 18.",
+  "OBUDOWA-NIEPOLACZONA-Z-GSW":
+    "The inverter enclosure grounding is not connected to the Main Equipotential Bonding Bar (GSW).",
+  "UZIEMIENIE-OK": "Functional and protective grounding comply with the inverter manufacturer's requirements.",
+  "UKLAD-SIECI-INFORMACYJNY":
+    "The network system (TN-S/TN-C-S/TT/IT) is informational here — the source doesn't tie it directly " +
+    "to this screen's verdict, only to the installation's general context.",
+  "WYLACZNIK-NIECERTYFIKOWANY-DO-DC":
+    "An AC breaker used in a DC circuit won't extinguish the DC arc — fire risk.",
+  "AIC-WYLACZNIKA-PONIZEJ-PRADU-ZWARCIOWEGO":
+    "The breaker's interrupting capacity ({aic} A) is lower than the short-circuit current at this point ({pradZwarciowy} A).",
+  "WYLACZNIK-DC-DOBRANY-POPRAWNIE": "The breaker is DC-certified, interrupting capacity is sufficient.",
+  "AIC-WYLACZANIA-NIE-SPRAWDZONA-WOBEC-ZWARCIA":
+    "Interrupting capacity (AIC) not checked against the short-circuit current — enter both fields, " +
+    "ideally the short-circuit current from Screen 12 (Short-Circuit Analysis).",
+  "WYMAGANY-TYP-B":
+    "A hybrid inverter requires a Type B RCD — the installed type {typ} won't detect a DC fault current " +
+    "(real risk of electric shock).",
+  "WYMAGANY-TYP-A-MINIMUM":
+    "Loads with motors require at least a Type A RCD — the installed AC type isn't sufficient.",
+  "PROG-POWYZEJ-OCHRONY-OSOB": "The residual current threshold {prog} mA is too high for personal protection — 30 mA required.",
+  "PROG-POWYZEJ-OCHRONY-POZAROWEJ":
+    "The residual current threshold {prog} mA is too high for fire protection — 300 mA required.",
+  "RCD-DOBRANY-POPRAWNIE": "The RCD type and residual current threshold meet all checked requirements.",
+  "TYP-RCD-MINIMALNY-NIE-PODANY":
+    "Without a hybrid inverter and without motors in the circuit, the source doesn't give a minimum " +
+    "RCD type — not guessed.",
 } satisfies Record<KluczTlumaczenia, string>

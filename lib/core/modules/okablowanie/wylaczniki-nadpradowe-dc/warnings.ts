@@ -4,7 +4,7 @@ export function wartoscUjemna(field: string, value: number): Warning {
   return {
     code: "WARTOSC-UJEMNA",
     level: "critical",
-    message: "Wartość nie może być ujemna.",
+    i18nKey: "WARTOSC-NIE-MOZE-BYC-UJEMNA",
     technicalMessage: `${field} = ${value}, oczekiwano >= 0`,
     field,
   }
@@ -14,7 +14,7 @@ export function wylacznikNieCertyfikowanyDoDc(): Warning {
   return {
     code: "WYLACZNIK-NIECERTYFIKOWANY-DO-DC",
     level: "critical",
-    message: "Wyłącznik AC zastosowany w obwodzie DC nie zgasi łuku stałoprądowego — ryzyko pożaru.",
+    i18nKey: "WYLACZNIK-NIECERTYFIKOWANY-DO-DC",
     technicalMessage: "certyfikowanyDoDc=false",
   }
 }
@@ -23,7 +23,8 @@ export function aicPonizejPraduZwarciowego(aicA: number, pradZwarciowyA: number)
   return {
     code: "AIC-PONIZEJ-PRADU-ZWARCIOWEGO",
     level: "critical",
-    message: `Zdolność wyłączania wyłącznika (${aicA} A) jest niższa niż prąd zwarciowy w tym punkcie (${pradZwarciowyA} A).`,
+    i18nKey: "AIC-WYLACZNIKA-PONIZEJ-PRADU-ZWARCIOWEGO",
+    params: { aic: aicA, pradZwarciowy: pradZwarciowyA },
     technicalMessage: `aicA=${aicA} < pradZwarciowyA=${pradZwarciowyA}`,
   }
 }
@@ -32,7 +33,7 @@ export function dobranyPoprawnie(): Warning {
   return {
     code: "DOBRANY-POPRAWNIE",
     level: "info",
-    message: "Wyłącznik certyfikowany do DC, zdolność wyłączania wystarczająca.",
+    i18nKey: "WYLACZNIK-DC-DOBRANY-POPRAWNIE",
     technicalMessage: "certyfikowanyDoDc=true, AIC>=pradZwarciowyA (lub nie sprawdzano)",
   }
 }

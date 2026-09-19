@@ -4541,3 +4541,42 @@ Pozostało ~46 plików: `okablowanie/` (5 pozostałych — `pomiary-powykonawcze
 `uziemienie-funkcjonalne-ochronne`, `wylaczniki-nadpradowe-dc`, `wylaczniki-rcd`, zamyka
 katalog), `pv/` (~10), `zapotrzebowanie/` (~8), `ogrzewanie/` (~6), `bezpieczenstwo/` (~2),
 `kalkulator-mobilny/` (~1).
+
+## Rollout i18n — dziesiąta partia: zamknięcie katalogu `okablowanie/` (19.09.2026)
+
+Zmigrowane: `pomiary-powykonawcze`, `string-box`, `uziemienie-funkcjonalne-ochronne`,
+`wylaczniki-nadpradowe-dc`, `wylaczniki-rcd`. 32 nowe klucze, 3 reużyte (`WARTOSC-NIE-MOZE-BYC-UJEMNA`,
+3×). 6 stringowych `assumptions` skonwertowanych na `{kod}`.
+
+**Pierwsza partia od nr 6, w której żadna strona UI nie wymagała naprawy** — wszystkie 5
+stron już poprawnie korzystało z `WynikSzczegoly` z `warnings`/`assumptions` przekazanymi.
+Nie oznacza to końca tego wzorca błędu — kolejne katalogi (`pv/`, `zapotrzebowanie/`,
+`ogrzewanie/`) wciąż trzeba sprawdzać osobno, nie zakładać z góry.
+
+Strażnik złapałby kolejny inline `Warning` (`string-box/validation.ts` — `LICZBA-STRINGOW-UJEMNA`,
+`LICZBA-WEJSC-UJEMNA`, `BEZPIECZNIK-STRINGOWY-UJEMNY`), ale tym razem znaleziony i naprawiony
+proaktywnie przez czytanie kodu przed uruchomieniem strażnika — piąty raz z rzędu ten sam
+wzorzec regresji (partie 4, 6, 8, teraz 10), co potwierdza: to nie przypadek, tylko systematyczny
+nawyk pisania walidacji inline w `validation.ts` bez przechodzenia przez `warnings.ts` — wart
+rozważenia jako promocja do `docs/wklad-do-standardu.md` (reguła lintera/testu strukturalnego
+zamiast powtarzanej manualnej korekty).
+
+**Dwie bliskie kolizje nazw kluczy, obie rozstrzygnięte przez porównanie treści, nie nazwy:**
+`wylaczniki-nadpradowe-dc`'s `aicPonizejPraduZwarciowego` ma ten sam `code`
+(`AIC-PONIZEJ-PRADU-ZWARCIOWEGO`) jak istniejący klucz z Modułu 4, ale inny tekst — dostał
+odrębny `i18nKey` (`AIC-WYLACZNIKA-PONIZEJ-PRADU-ZWARCIOWEGO`). Jego `assumptions` string był
+o jedno słowo różny od istniejącego `AIC-NIE-SPRAWDZONA-WOBEC-ZWARCIA` z partii 8 ("łączeniowa"
+vs "wyłączania") — też dostał odrębny klucz (`AIC-WYLACZANIA-NIE-SPRAWDZONA-WOBEC-ZWARCIA`).
+Trzeci przypadek tej samej dyscypliny w tym katalogu (po partii 8's `AIC-PONIZEJ-PRADU-ZWARCIOWEGO`
+i `MODEL-ZWARCIA-PROSTEGO-NIZSZY`) — potwierdza, że "podobny kod = podobny tekst" jest fałszywym
+skrótem, trzeba zawsze grepować pełny tekst.
+
+`MIGRATED_MODULES`: 42→47. `pnpm typecheck`/`lint`/`check:i18n-guard`/`test` (797/797)/`build`
+czyste. Zweryfikowane w przeglądarce PL/EN/RU (15 kombinacji, zero `⚠ [...]`), z potwierdzeniem
+`ps aux | grep next-server` puste przed i po.
+
+**To zamyka cały katalog `okablowanie/`** (23 moduły łącznie — 18 zmigrowanych w partiach
+8-10, 5 wcześniej nie miało `message:` do migracji).
+
+Pozostało ~41 plików: `pv/` (~10), `zapotrzebowanie/` (~8), `ogrzewanie/` (~6),
+`bezpieczenstwo/` (~2), `kalkulator-mobilny/` (~1). Kolejna partia zaczyna `pv/`.
