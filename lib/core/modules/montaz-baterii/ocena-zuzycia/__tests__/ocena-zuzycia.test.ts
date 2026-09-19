@@ -32,4 +32,11 @@ describe("calculateOcenaZuzycia", () => {
     expect(result.status).toBe("INCOMPLETE")
     expect(result.value.potwierdzone).toBe(1)
   })
+
+  it("i18n (17.2): widoczne wybrzuszenie zwraca i18nKey bez params, nie message", () => {
+    const result = calculateOcenaZuzycia({ widocznePuchniecie: true, potwierdzoneIds: [] })
+    expect(result.warnings[0].i18nKey).toBe("WIDOCZNE-WYBRZUSZENIE")
+    expect(result.warnings[0].params).toBeUndefined()
+    expect(result.warnings[0].message).toBeUndefined()
+  })
 })

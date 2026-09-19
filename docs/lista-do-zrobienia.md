@@ -769,3 +769,28 @@ Tu trafia bieżący stan pracy: co w trakcie, co zablokowane, co następne — a
   `ratowanie-ogniwa`, `sekwencja-montazu`, `weryfikacja-ogniw`, `ocena-zuzycia`. Pełne
   uzasadnienie: `docs/memory.md`, wpis "szesnasta partia". Kolejna partia (17.): dokończenie
   `montaz-baterii/` (zamknie cały katalog).
+
+- ✅ (2026-09-19) **Rollout i18n — siedemnasta partia: zamyka cały katalog `montaz-baterii/`
+  (6 modułów).** Zmigrowane: `pierwsze-uruchomienie`, `podlaczenie-bms`, `ratowanie-ogniwa`,
+  `sekwencja-montazu`, `weryfikacja-ogniw`, `ocena-zuzycia`. 18 nowych kluczy, 3 reużyte po
+  weryfikacji treści.
+  Piąty przypadek anty-wzorca "etykieta jako parametr" (`podlaczenie-bms`), naprawiony tym samym
+  wzorcem.
+  **Kolizja `code` między dwoma modułami** (`pierwsze-uruchomienie`/`ratowanie-ogniwa`, oba
+  `NAPIECIE-OGNIWA-UJEMNE`, różny tekst) wykryta rutynową kontrolą i rozstrzygnięta odrębnymi
+  `i18nKey` bez utraty informacji.
+  Skonwertowane stringowe `assumptions` w `sekwencja-montazu` na `{kod, params}` — złapało 2
+  przedistniejące asercje testowe (`toContain` na starym stringu), naprawione, drugi bieg
+  testów czysty.
+  🔴 **2 kolejne strony UI naprawione** (trzynasty-czternasty przypadek w rundzie):
+  `podlaczenie-bms` (manualny render na głównej ścieżce mimo `WynikSzczegoly` używanego gdzie
+  indziej na tej samej stronie) i `ocena-zuzycia` (brak importu wcale). Zweryfikowane pełnym
+  wydrukiem `innerText`.
+  `scripts/check-i18n-guard.mjs` → `MIGRATED_MODULES` rozszerzone z 77 do 83.
+  6 nowych bloków testowych domenowych + nowy blok w `t.test.ts` (11 kluczy z parametrami/7
+  bez). `pnpm typecheck`/`lint`/`check:i18n-guard`/`test` (894/894)/`build` czyste.
+  Zweryfikowane end-to-end w świeżej przeglądarce (Playwright, potwierdzenie braku rezydualnego
+  `next-server` przed i po) w PL/EN/RU (6 modułów × 3 języki = 18 sprawdzeń) — zero `⚠ [...]`.
+  **Pozostały zakres z realnym tekstem do migracji**: `bezpieczenstwo/` (2), `kalkulator-
+  mobilny/` (1) = **3 moduły**. Pełne uzasadnienie: `docs/memory.md`, wpis "siedemnasta
+  partia". Kolejna partia (18.): `bezpieczenstwo/` + `kalkulator-mobilny/` razem.

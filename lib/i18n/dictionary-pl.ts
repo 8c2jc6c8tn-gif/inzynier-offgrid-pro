@@ -682,6 +682,42 @@ export const dictionaryPl = {
   "OBJAWY-ZASIARCZENIA-JEDEN": 'Zaobserwowano 1 objaw zasiarczenia — patrz Ekran B11 „Ratowanie zasiarczonego akumulatora".',
   "OBJAWY-ZASIARCZENIA-WIELE":
     'Zaobserwowano {liczba} objawy zasiarczenia — patrz Ekran B11 „Ratowanie zasiarczonego akumulatora".',
+  "NAPIECIE-OGNIWA-UJEMNE": "Napięcie ogniwa nie może być ujemne.",
+  "TOP-BALANCING-NIEOSIAGNIETY":
+    "Napięcie najwyższego ogniwa ({napiecie} V) jeszcze nie osiągnęło progu Top Balancing ({prog} V) — " +
+    "kontynuuj ładowanie małym prądem.",
+  "POJEMNOSCFALOWNIKAUF-NIEDODATNI": 'Wartość pola "pojemność DC falownika" musi być większa od zera.',
+  "REZYSTANCJAPRECHARGEOHM-NIEDODATNI": 'Wartość pola "rezystancja wstępna" musi być większa od zera.',
+  "OGNIWO-ZERO-WOLTOWE":
+    "Ogniwo ma 0 V. Prawdopodobnie doszło do przebicia separatora. Próba ładowania grozi pożarem. " +
+    "Zalecana utylizacja, nie ratunek.",
+  "RATUNEK-OPCJONALNY-NIEZALECANY":
+    "Napięcie ogniwa ({napiecie} V) jest niskie, ale niezerowe — ratunek jest opcjonalny i nie zalecany. " +
+    "Jeśli się zdecydujesz: zasilacz {zasilacz} V, limit prądu {prad} A, obserwuj temperaturę przez cały " +
+    "czas ładowania.",
+  "PROCEDURA-STANDARDOWEGO-RATUNKU":
+    "Napięcie ogniwa ({napiecie} V) pozwala na powolne ładowanie prądem 0,05C pod ścisłą obserwacją.",
+  "NAPIECIE-OGNIWA-POLE-UJEMNE": 'Wartość pola "napięcie ogniwa" nie może być ujemna.',
+  "NIEPARZYSTA-LICZBA-OGNIW":
+    "{liczba} ogniw nie da się ułożyć w dwóch równych rzędach — układ opisany w źródle wymaga parzystej " +
+    "liczby ogniw.",
+  "ZA-MALO-OGNIW": "Minimum {min} ogniwa — poniżej tego układ dwurzędowy nie ma sensu.",
+  "ZA-DUZO-OGNIW":
+    "Powyżej {max} ogniw źródło nie opisuje już tego układu — sprawdź specyfikę swojego BMS/obudowy " +
+    "ręcznie.",
+  "SEKWENCJA-UKLAD-PRESET": "Układ 2 rzędów po {n} ogniw (serpentyna) — 1:1 ze źródła dla tej liczby ogniw.",
+  "SEKWENCJA-UKLAD-NIESTANDARDOWY":
+    "Układ 2 rzędów po {n} ogniw (serpentyna) — źródło opisuje wprost tylko 4S/8S/16S; dla {liczba}S ten " +
+    "sam wzorzec geometryczny zastosowany logicznie (nie 1:1 ze źródła).",
+  "NAPIECIE-OGNIWA-NIEDODATNIE": "Napięcie ogniwa nr {numer} musi być większe od zera.",
+  "BRAK-BMS-Z-BALANSEREM": "Nie masz BMS z balanserem — bez tego montaż jest niebezpieczny.",
+  "ROZNICA-NAPIEC-OGNIW-ZA-DUZA":
+    "Różnica napięć między ogniwami ({roznica} V) przekracza {prog} V — wymaga wstępnego zbalansowania " +
+    "przed połączeniem w pakiet.",
+  "LICZBA-OGNIW-NIEZGODNA":
+    "Dla systemu {system} V oczekiwana liczba ogniw w szeregu to {oczekiwana}S — wprowadzono {podana}.",
+  "WIDOCZNE-WYBRZUSZENIE":
+    "Widoczne puchnięcie obudowy — ogniwo do wycofania z eksploatacji, nie do ponownego montażu.",
 } as const
 
 export type KluczTlumaczenia = keyof typeof dictionaryPl

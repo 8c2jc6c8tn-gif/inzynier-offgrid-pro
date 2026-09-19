@@ -73,4 +73,26 @@ describe("calculatePierwszeUruchomienie (Ekran A5, Moduł 11)", () => {
     expect(result.value.potwierdzone).toBe(1)
     expect(result.value.razem).toBe(2)
   })
+
+  it("i18n (17.2): błąd walidacji zwraca i18nKey bez params, nie message", () => {
+    const result = calculatePierwszeUruchomienie({
+      pojemnoscAh: -10,
+      napiecieNajwyzszegoOgniwaV: 3.55,
+      potwierdzoneIds: [],
+    })
+    expect(result.warnings[0].i18nKey).toBe("POJEMNOSC-NIEDODATNIA")
+    expect(result.warnings[0].params).toBeUndefined()
+    expect(result.warnings[0].message).toBeUndefined()
+  })
+
+  it("i18n (17.2): Top Balancing nieosiągnięty zwraca i18nKey/params, nie message", () => {
+    const result = calculatePierwszeUruchomienie({
+      pojemnoscAh: 100,
+      napiecieNajwyzszegoOgniwaV: 3.4,
+      potwierdzoneIds: [],
+    })
+    expect(result.warnings[0].i18nKey).toBe("TOP-BALANCING-NIEOSIAGNIETY")
+    expect(result.warnings[0].params).toEqual({ napiecie: "3.40", prog: 3.55 })
+    expect(result.warnings[0].message).toBeUndefined()
+  })
 })

@@ -672,4 +672,40 @@ export const dictionaryEn = {
   "OBJAWY-ZASIARCZENIA-JEDEN": "1 symptom of sulfation observed — see Screen B11 \"Rescuing a Sulfated Battery\".",
   "OBJAWY-ZASIARCZENIA-WIELE":
     "{liczba} symptoms of sulfation observed — see Screen B11 \"Rescuing a Sulfated Battery\".",
+  "NAPIECIE-OGNIWA-UJEMNE": "The cell voltage cannot be negative.",
+  "TOP-BALANCING-NIEOSIAGNIETY":
+    "The highest cell's voltage ({napiecie} V) hasn't reached the Top Balancing threshold ({prog} V) " +
+    "yet — keep charging at a low current.",
+  "POJEMNOSCFALOWNIKAUF-NIEDODATNI": 'The "inverter DC capacitance" field must be greater than zero.',
+  "REZYSTANCJAPRECHARGEOHM-NIEDODATNI": 'The "pre-charge resistance" field must be greater than zero.',
+  "OGNIWO-ZERO-WOLTOWE":
+    "The cell is at 0 V. The separator likely failed. Attempting to charge risks fire. Disposal is " +
+    "recommended, not rescue.",
+  "RATUNEK-OPCJONALNY-NIEZALECANY":
+    "The cell voltage ({napiecie} V) is low but nonzero — rescue is optional and not recommended. If " +
+    "you decide to: {zasilacz} V power supply, {prad} A current limit, watch the temperature the whole " +
+    "time it's charging.",
+  "PROCEDURA-STANDARDOWEGO-RATUNKU":
+    "The cell voltage ({napiecie} V) allows slow charging at 0.05C under close observation.",
+  "NAPIECIE-OGNIWA-POLE-UJEMNE": 'The "cell voltage" field cannot be negative.',
+  "NIEPARZYSTA-LICZBA-OGNIW":
+    "{liczba} cells can't be arranged into two equal rows — the layout described in the source needs an " +
+    "even number of cells.",
+  "ZA-MALO-OGNIW": "Minimum {min} cells — below that a two-row layout doesn't make sense.",
+  "ZA-DUZO-OGNIW":
+    "Above {max} cells the source no longer describes this layout — check your BMS/enclosure specifics " +
+    "manually.",
+  "SEKWENCJA-UKLAD-PRESET": "A 2-row layout of {n} cells each (serpentine) — 1:1 from the source for this cell count.",
+  "SEKWENCJA-UKLAD-NIESTANDARDOWY":
+    "A 2-row layout of {n} cells each (serpentine) — the source only describes 4S/8S/16S directly; for " +
+    "{liczba}S the same geometric pattern is applied logically (not 1:1 from the source).",
+  "NAPIECIE-OGNIWA-NIEDODATNIE": "Cell #{numer}'s voltage must be greater than zero.",
+  "BRAK-BMS-Z-BALANSEREM": "You don't have a BMS with a balancer — without one, assembly is unsafe.",
+  "ROZNICA-NAPIEC-OGNIW-ZA-DUZA":
+    "The voltage difference between cells ({roznica} V) exceeds {prog} V — needs pre-balancing before " +
+    "assembling into a pack.",
+  "LICZBA-OGNIW-NIEZGODNA":
+    "For a {system} V system the expected number of cells in series is {oczekiwana}S — {podana} entered.",
+  "WIDOCZNE-WYBRZUSZENIE":
+    "Visible case swelling — the cell should be retired from service, not reassembled.",
 } satisfies Record<KluczTlumaczenia, string>

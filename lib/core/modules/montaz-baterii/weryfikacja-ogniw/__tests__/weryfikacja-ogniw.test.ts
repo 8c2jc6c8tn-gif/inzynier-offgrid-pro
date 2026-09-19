@@ -108,4 +108,52 @@ describe("calculateWeryfikacjaOgniw", () => {
     expect(result.status).toBe("INCOMPLETE")
     expect(result.warnings).toHaveLength(0)
   })
+
+  it("i18n (17.2): błąd walidacji zwraca i18nKey/params, nie message", () => {
+    const result = calculateWeryfikacjaOgniw({
+      napiecieSystemu: 48,
+      napieciaOgniwV: [3.3, -1, 3.3],
+      bmsMaBalancer: true,
+      potwierdzoneIds: [],
+    })
+    expect(result.warnings[0].i18nKey).toBe("NAPIECIE-OGNIWA-NIEDODATNIE")
+    expect(result.warnings[0].params).toEqual({ numer: 2 })
+    expect(result.warnings[0].message).toBeUndefined()
+  })
+
+  it("i18n (17.2): brak BMS z balancerem zwraca i18nKey bez params, nie message", () => {
+    const result = calculateWeryfikacjaOgniw({
+      napiecieSystemu: 24,
+      napieciaOgniwV: Array(8).fill(3.3),
+      bmsMaBalancer: false,
+      potwierdzoneIds: [],
+    })
+    expect(result.warnings[0].i18nKey).toBe("BRAK-BMS-Z-BALANSEREM")
+    expect(result.warnings[0].params).toBeUndefined()
+    expect(result.warnings[0].message).toBeUndefined()
+  })
+
+  it("i18n (17.2): różnica napięć za duża zwraca i18nKey/params, nie message", () => {
+    const result = calculateWeryfikacjaOgniw({
+      napiecieSystemu: 12,
+      napieciaOgniwV: [3.3, 3.3, 3.3, 3.249],
+      bmsMaBalancer: true,
+      potwierdzoneIds: WSZYSTKIE_POTWIERDZONE,
+    })
+    expect(result.warnings[0].i18nKey).toBe("ROZNICA-NAPIEC-OGNIW-ZA-DUZA")
+    expect(result.warnings[0].params).toEqual({ roznica: "0.051", prog: 0.05 })
+    expect(result.warnings[0].message).toBeUndefined()
+  })
+
+  it("i18n (17.2): liczba ogniw niezgodna zwraca i18nKey/params, nie message", () => {
+    const result = calculateWeryfikacjaOgniw({
+      napiecieSystemu: 12,
+      napieciaOgniwV: [3.3, 3.3, 3.3],
+      bmsMaBalancer: true,
+      potwierdzoneIds: WSZYSTKIE_POTWIERDZONE,
+    })
+    expect(result.warnings[0].i18nKey).toBe("LICZBA-OGNIW-NIEZGODNA")
+    expect(result.warnings[0].params).toEqual({ system: 12, oczekiwana: 4, podana: 3 })
+    expect(result.warnings[0].message).toBeUndefined()
+  })
 })

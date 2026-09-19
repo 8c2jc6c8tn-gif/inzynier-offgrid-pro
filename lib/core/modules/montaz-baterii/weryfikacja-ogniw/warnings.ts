@@ -10,7 +10,8 @@ export function napiecieOgniwaNiedodatnie(index: number, value: number): Warning
   return {
     code: "NAPIECIE-OGNIWA-NIEDODATNIE",
     level: "critical",
-    message: `Napięcie ogniwa nr ${index + 1} musi być większe od zera.`,
+    i18nKey: "NAPIECIE-OGNIWA-NIEDODATNIE",
+    params: { numer: index + 1 },
     technicalMessage: `napieciaOgniwV[${index}] = ${value}, oczekiwano > 0`,
     field: "napieciaOgniwV",
   }
@@ -20,7 +21,7 @@ export function brakBmsZBalancerem(): Warning {
   return {
     code: "BRAK-BMS-Z-BALANSEREM",
     level: "critical",
-    message: "Nie masz BMS z balanserem — bez tego montaż jest niebezpieczny.",
+    i18nKey: "BRAK-BMS-Z-BALANSEREM",
     technicalMessage: "bmsMaBalancer = false",
   }
 }
@@ -29,7 +30,8 @@ export function roznicaNapiecOgniwZaDuza(minV: number, maxV: number, roznicaV: n
   return {
     code: "ROZNICA-NAPIEC-OGNIW-ZA-DUZA",
     level: "critical",
-    message: `Różnica napięć między ogniwami (${roznicaV.toFixed(3)} V) przekracza ${MAX_ROZNICA_NAPIEC_V} V — wymaga wstępnego zbalansowania przed połączeniem w pakiet.`,
+    i18nKey: "ROZNICA-NAPIEC-OGNIW-ZA-DUZA",
+    params: { roznica: roznicaV.toFixed(3), prog: MAX_ROZNICA_NAPIEC_V },
     technicalMessage: `min=${minV}V, max=${maxV}V, różnica=${roznicaV}V, próg=${MAX_ROZNICA_NAPIEC_V}V`,
     field: "napieciaOgniwV",
   }
@@ -44,7 +46,8 @@ export function liczbaOgniwNiezgodna(
   return {
     code: "LICZBA-OGNIW-NIEZGODNA",
     level: "warning",
-    message: `Dla systemu ${napiecieSystemu} V oczekiwana liczba ogniw w szeregu to ${oczekiwana}S — wprowadzono ${podana}.`,
+    i18nKey: "LICZBA-OGNIW-NIEZGODNA",
+    params: { system: napiecieSystemu, oczekiwana, podana },
     technicalMessage: `napiecieSystemu=${napiecieSystemu}, oczekiwana=${oczekiwana}, podana=${podana}`,
     field: "napieciaOgniwV",
   }

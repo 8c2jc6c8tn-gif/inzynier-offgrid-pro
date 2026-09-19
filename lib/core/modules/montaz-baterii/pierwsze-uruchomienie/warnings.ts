@@ -9,7 +9,7 @@ export function pojemnoscNiedodatnia(value: number): Warning {
   return {
     code: "POJEMNOSC-NIEDODATNIA",
     level: "critical",
-    message: "Pojemność pakietu musi być większa od zera.",
+    i18nKey: "POJEMNOSC-NIEDODATNIA",
     technicalMessage: `pojemnoscAh = ${value}, oczekiwano > 0`,
     field: "pojemnoscAh",
   }
@@ -19,7 +19,7 @@ export function napiecieOgniwaUjemne(value: number): Warning {
   return {
     code: "NAPIECIE-OGNIWA-UJEMNE",
     level: "critical",
-    message: "Napięcie ogniwa nie może być ujemne.",
+    i18nKey: "NAPIECIE-OGNIWA-UJEMNE",
     technicalMessage: `napiecieNajwyzszegoOgniwaV = ${value}, oczekiwano >= 0`,
     field: "napiecieNajwyzszegoOgniwaV",
   }
@@ -30,7 +30,8 @@ export function topBalancingNieosiagniety(napiecieV: number): Warning {
   return {
     code: "TOP-BALANCING-NIEOSIAGNIETY",
     level: "info",
-    message: `Napięcie najwyższego ogniwa (${napiecieV.toFixed(2)} V) jeszcze nie osiągnęło progu Top Balancing (${PROG_TOP_BALANCING_V} V) — kontynuuj ładowanie małym prądem.`,
+    i18nKey: "TOP-BALANCING-NIEOSIAGNIETY",
+    params: { napiecie: napiecieV.toFixed(2), prog: PROG_TOP_BALANCING_V },
     technicalMessage: `napiecieNajwyzszegoOgniwaV=${napiecieV} < PROG_TOP_BALANCING_V=${PROG_TOP_BALANCING_V}`,
     field: "napiecieNajwyzszegoOgniwaV",
   }

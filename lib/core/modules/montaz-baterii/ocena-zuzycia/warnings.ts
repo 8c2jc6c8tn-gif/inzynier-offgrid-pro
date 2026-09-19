@@ -5,7 +5,7 @@ export function widoczneWybrzuszenie(): Warning {
   return {
     code: "WIDOCZNE-WYBRZUSZENIE",
     level: "critical",
-    message: "Widoczne puchnięcie obudowy — ogniwo do wycofania z eksploatacji, nie do ponownego montażu.",
+    i18nKey: "WIDOCZNE-WYBRZUSZENIE",
     technicalMessage: "widocznePuchniecie = true",
   }
 }

@@ -97,6 +97,12 @@ const MIGRATED_MODULES = [
   "lib/core/modules/montaz-baterii/gestosc-elektrolitu",
   "lib/core/modules/montaz-baterii/montaz-mechaniczny",
   "lib/core/modules/montaz-baterii/ocena-zasiarczenia",
+  "lib/core/modules/montaz-baterii/pierwsze-uruchomienie",
+  "lib/core/modules/montaz-baterii/podlaczenie-bms",
+  "lib/core/modules/montaz-baterii/ratowanie-ogniwa",
+  "lib/core/modules/montaz-baterii/sekwencja-montazu",
+  "lib/core/modules/montaz-baterii/weryfikacja-ogniw",
+  "lib/core/modules/montaz-baterii/ocena-zuzycia",
 ]
 
 const FILES_TO_CHECK = ["warnings.ts", "calculator.ts", "validation.ts"]

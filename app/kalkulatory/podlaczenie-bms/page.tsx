@@ -195,11 +195,7 @@ export default function PodlaczenieBmsPage() {
         </WerdyktPanel>
       ) : poziom !== null && poziom !== "blad" ? (
         <WerdyktPanel poziom={poziom} etykieta={poziom === "ok" ? "BMS podłączony poprawnie" : undefined}>
-          {result.warnings.map((w) => (
-            <p key={w.code} className="mt-1 text-small">
-              {w.message}
-            </p>
-          ))}
+          <WynikSzczegoly assumptions={result.assumptions} warnings={result.warnings} />
         </WerdyktPanel>
       ) : (
         <p className="text-small text-muted-foreground">
