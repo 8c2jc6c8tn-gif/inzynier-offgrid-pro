@@ -393,4 +393,93 @@ export const dictionaryEn = {
   "TYP-RCD-MINIMALNY-NIE-PODANY":
     "Without a hybrid inverter and without motors in the circuit, the source doesn't give a minimum " +
     "RCD type — not guessed.",
+  "OKNO-MPPT-ODWROCONE": "The lower bound of the MPPT window cannot be greater than the upper bound.",
+  "NAPIECIE-ZIMOWE-ZA-WYSOKIE":
+    "The string voltage under the coldest conditions ({vStringCold} V) exceeds the inverter's " +
+    "maximum allowed DC voltage ({vMax} V) — a real risk of permanent inverter damage on a frosty, " +
+    "sunny morning. Reduce the number of panels in the string.",
+  "NAPIECIE-ZIMOWE-OK":
+    "The string voltage under the coldest conditions ({vStringCold} V) is within the inverter's " +
+    "limit ({vMax} V).",
+  "PONIZEJ-OKNA-MPPT":
+    "The string's operating voltage ({vStringStc} V) is below the lower bound of the inverter's " +
+    "MPPT window ({mpptMin} V) — the inverter may fail to find the maximum power point or not " +
+    "start at all. Add panels to the string.",
+  "POWYZEJ-OKNA-MPPT":
+    "The string's operating voltage ({vStringStc} V) exceeds the upper bound of the inverter's " +
+    "MPPT window ({mpptMax} V) — the inverter may clip the available power. Remove a panel from " +
+    "the string or split it into two shorter strings.",
+  "W-OKNIE-MPPT":
+    "The string's operating voltage ({vStringStc} V) is within the inverter's MPPT window " +
+    "({mpptMin}-{mpptMax} V).",
+  "PRAD-PRZEKROCZONY":
+    "The string's operating current ({iString} A) exceeds the inverter's maximum MPPT input " +
+    "current ({iMax} A) — risk of MPPT input damage. Split the panels across separate MPPTs or " +
+    "choose a panel with a lower Imp.",
+  "PRAD-OK": "The string's operating current ({iString} A) is within the inverter's MPPT limit ({iMax} A).",
+  "DC-AC-ZA-MALE":
+    "The PV-to-AC power ratio ({ratio}) is below the recommended range ({min}-1.3 for off-grid) — " +
+    "the inverter won't reach its potential, especially in weaker light.",
+  "DC-AC-ZA-DUZE":
+    "The PV-to-AC power ratio ({ratio}) exceeds the recommended range (1.1-{max} for off-grid) — " +
+    "risk of power clipping on sunny days, overheating, and shortened inverter lifespan.",
+  "DC-AC-OK": "The PV-to-AC power ratio ({ratio}) is within the recommended range of 1.1-1.3 for off-grid.",
+  "ZAKLADA-JEDEN-STRING": "Assumes ONE string (no parallel strings) — per the source's Section A parameters.",
+  "MOC-PV-WZOR-VMP-IMP":
+    "PV power (for the DC/AC ratio) is calculated as Vmp × Imp × number of panels (P=V×I under " +
+    "STC), not entered separately.",
+  "KRYTERIUM-4-NIE-SPRAWDZANE":
+    "Source criterion 4 (inverter start-up voltage in hot weather) is NOT checked here — it " +
+    "requires a Vmp temperature coefficient the source doesn't give as a formula on this screen " +
+    "(see the comment in the calculator's code).",
+  "VMPV-NIEDODATNI": 'The value of "panel Vmp voltage" must be greater than zero.',
+  "IMPA-NIEDODATNI": 'The value of "panel Imp current" must be greater than zero.',
+  "PANELWGRUPIE-NIEDODATNI": 'The value of "number of panels per group" must be greater than zero.',
+  "LICZBAGRUP-NIEDODATNI": 'The value of "number of parallel groups" must be greater than zero.',
+  "LICZBAPANELI-NIEDODATNI": 'The value of "number of panels" must be greater than zero.',
+  "PANELWGRUPIE-NIE-CALKOWITA":
+    'The value of "number of panels per group" must be a whole number — you can\'t connect a fraction of a panel.',
+  "LICZBAGRUP-NIE-CALKOWITA":
+    'The value of "number of parallel groups" must be a whole number — you can\'t connect a fraction of a panel.',
+  "LICZBAPANELI-NIE-CALKOWITA":
+    'The value of "number of panels" must be a whole number — you can\'t connect a fraction of a panel.',
+  "LICZBA-PANELI-NIETYPOWO-WYSOKA":
+    "This is an unusually high number of panels in a single string — check that it's intentional.",
+  "WYNIK-DLA-WARUNKOW-STC":
+    "Result calculated under STC conditions (25°C) — no temperature correction for cold weather " +
+    "(see Module 3, Screen 5: winter MPPT voltage stress test).",
+  "RAZEM-PANELI-MIESZANY": "Total {razem} panels ({wGrupie} per group × {grup} groups).",
+  "SILA-NAPORU":
+    "A panel acts a bit like a sail — at this wind speed, a force of about {sila} N acts on one " +
+    "panel. Plan the mounting/ballast to match this force.",
+  "TYLKO-SILA-NAPORU-NIE-SSANIE":
+    "Only the frontal wind-thrust force — suction from below, the overturning moment, and the " +
+    "required ballast are NOT calculated (they require mounting geometry the source doesn't give as numbers).",
+  "DUZA-ROZNICA-MOCY":
+    "The power difference between panels ({roznica}%) exceeds 15% — split them across separate " +
+    "MPPTs or connect them in parallel if their Vmp is close.",
+  "UMIARKOWANA-ROZNICA-MOCY":
+    "The power difference between panels ({roznica}%) is noticeable (10-15%) — consider separate MPPTs.",
+  "MALA-ROZNICA-MOCY":
+    "The power difference between panels ({roznica}%) is small (below 10%) — safe in a single string.",
+  "NAPIECIE-WSPOLNE-RECZNIE":
+    "The shared operating voltage (Vmp) is entered manually for both panels — the source uses a " +
+    "single, averaged value in its example rather than deriving it from each panel's power/current.",
+  "OCHRONA-OBOWIAZKOWA-BRAK":
+    "Standard HD 60364-7-712 requires overcurrent protection for each of the {ns} parallel strings " +
+    "— its absence risks fire from reverse current from the other strings when one short-circuits.",
+  "ZAKRES-BEZPIECZNIKA-NIEPOPRAWNY":
+    "No fuse satisfies the standard's requirements for this configuration (the lower bound {inMin} " +
+    "A exceeds the upper bound {inMax} A from the panel's datasheet) — reduce the number of " +
+    "parallel strings per protection device or choose a panel with a higher I_MOD_MAX_OCPR.",
+  "WYBRANY-BEZPIECZNIK-POZA-ZAKRESEM":
+    "The selected fuse {wybrany} A is outside the required range [{inMin}, {inMax}] A.",
+  "ALTERNATYWA-KABLOWA-NIESPRAWDZONA":
+    "Overcurrent protection isn't required here by the standard's formula, but with {ns} parallel " +
+    "strings the string cable must withstand a reverse current of {wymaganeIz} A — check this " +
+    "separately in the cable cross-section module.",
+  "BEZPIECZNIK-DOBRANY": "Choose a gPV fuse in the range {inMin}–{inMax} A per string.",
+  "K1-MINIMUM-NORMOWE":
+    "K1=1.25 (the standard's minimum, Annex B.2) — under increased reflection/irradiance the " +
+    "standard allows a higher K1 but doesn't give a specific value; not guessed.",
 } satisfies Record<KluczTlumaczenia, string>

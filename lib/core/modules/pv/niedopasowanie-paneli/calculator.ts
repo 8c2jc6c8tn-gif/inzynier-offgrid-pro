@@ -1,4 +1,4 @@
-import type { CalcResult } from "@/lib/core/calc-result"
+import type { Assumption, CalcResult } from "@/lib/core/calc-result"
 import type { NiedopasowaniePaneliInput } from "./input"
 import { validateInput } from "./validation"
 import { duzaRoznicaMocy, malaRoznicaMocy, umiarkowanaRoznicaMocy } from "./warnings"
@@ -101,9 +101,7 @@ export function calculateNiedopasowaniePaneli(
     status: maNieinformacyjneOstrzezenia ? "VALID_WITH_WARNINGS" : "VALID",
     formula: FORMULA,
     inputs,
-    assumptions: [
-      "Wspólne napięcie robocze (Vmp) wpisane ręcznie dla obu paneli — źródło używa jednej, uśrednionej wartości w swoim przykładzie, nie wyprowadza jej z mocy/prądu każdego panelu osobno.",
-    ],
+    assumptions: [{ kod: "NAPIECIE-WSPOLNE-RECZNIE" }] satisfies Assumption[],
     warnings,
     calculatorVersion: CALCULATOR_VERSION,
   }

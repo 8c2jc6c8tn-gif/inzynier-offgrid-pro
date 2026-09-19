@@ -4580,3 +4580,47 @@ czyste. Zweryfikowane w przeglądarce PL/EN/RU (15 kombinacji, zero `⚠ [...]`)
 
 Pozostało ~41 plików: `pv/` (~10), `zapotrzebowanie/` (~8), `ogrzewanie/` (~6),
 `bezpieczenstwo/` (~2), `kalkulator-mobilny/` (~1). Kolejna partia zaczyna `pv/`.
+
+## Rollout i18n — jedenasta partia: start katalogu `pv/` (19.09.2026)
+
+Zmigrowane: `dopasowanie-tablicy-falownika`, `konfigurator-stringow`, `napor-wiatru`,
+`niedopasowanie-paneli`, `ochrona-stringow`. `czystosc-i-snieg` pominięty — wcześniej świadomie
+odłożony (dane katalogowe, decyzja przed partią 8). 41 nowych kluczy, 3 reużyte
+(`WARTOSC-NIE-MOZE-BYC-UJEMNA`).
+
+**Zastosowana lekcja z partii 9 (echo między modułami przed migracją) — zapobiegawczo, nie po
+fakcie tym razem.** `dopasowanie-tablicy-falownika` importuje `obliczNapiecieStringuZimowego` z
+`stress-test-mppt/calculator` — sprawdzone PRZED migracją: to czysta funkcja liczbowa (nie
+zwraca `Warning[]`), więc migracja `dopasowanie-tablicy-falownika` jej nie dotyka. Dodatkowo
+sprawdzono grepem (nie z komentarza w kodzie) domniemaną odwrotną zależność
+`napiecie-systemowe`→`dopasowanie-tablicy-falownika` (dawny "Etap G") — potwierdzone, że kod tej
+zależności został usunięty 14.09.2026 (`docs/memory.md`, wpis z tamtej daty), został tylko
+komentarz historyczny. Żadna z tych dwóch relacji nie wymagała naprawy tego typu, co
+`optymalizacja-trasy-kabla` w partii 9 — ale sprawdzenie było obowiązkowe, nie założone.
+
+**Nowy podtyp problemu "etykieta pola jako nietłumaczalny parametr runtime"** —
+`konfigurator-stringow/warnings.ts` (`notPositive`/`notWholeNumber`) przyjmowały `label: string`
+(np. "napięcie Vmp panelu", "liczba paneli w grupie") wpisywany po polsku wprost w wywołaniu w
+`validation.ts` i wstawiany w treść komunikatu. To NIE jest bezpieczny techniczny parametr (jak
+"PVC"/"XLPE" z partii 8) — to pełnoprawny tekst domenowy wymagający tłumaczenia, ale różny per
+wywołanie tej samej funkcji (5 różnych etykiet dla `notPositive`, 3 dla `notWholeNumber`).
+Rozwiązanie: usunięto parametr `label` całkowicie, `i18nKey` = `code` (już unikalny per pole
+dzięki `field.toUpperCase()+"-NIEDODATNI"/"-NIE-CALKOWITA"`) — każde pole ma własny klucz
+słownika z etykietą już przetłumaczoną w treści, tak jak dotychczasowe pojedyncze klucze robiły
+to dla stałych komunikatów. 8 kluczy (5+3) zamiast jednego parametryzowanego. **Kandydat do
+`docs/wklad-do-standardu.md`:** rozpoznawanie "czy param jest bezpieczny technicznie czy wymaga
+tłumaczenia" — reguła: jeśli param bywa różnym słowem/frazą w języku źródłowym (nie liczbą, nie
+jednostką, nie stałym symbolem technicznym), potrzebuje własnego klucza per wariant, nigdy
+wolnego tekstu jako param.
+
+`MIGRATED_MODULES`: 47→52. Żadna strona UI nie wymagała naprawy (wszystkie już `WynikSzczegoly`).
+`pnpm typecheck`/`lint`/`check:i18n-guard`/`test` (804/804)/`build` czyste. Zweryfikowane w
+przeglądarce PL/EN/RU (15 kombinacji, zero `⚠ [...]`), z potwierdzeniem `ps aux | grep
+next-server` puste przed i po.
+
+Pozostało ~36 plików: `pv/` (6 pozostałych — `panele-bifacjalne`, `straty-okablowanie-dc`,
+`straty-zlaczki-mc4`, `stress-test-mppt`, `wplyw-temperatury`, `zacienienie-diody-bocznikujace`),
+`zapotrzebowanie/` (~8), `ogrzewanie/` (~6), `bezpieczenstwo/` (~2), `kalkulator-mobilny/` (~1).
+Partia 12: dokończenie `pv/` — sprawdzić ponownie przy migracji `stress-test-mppt`, czy coś je
+echuje (na dziś potwierdzone: `dopasowanie-tablicy-falownika` woła z niego tylko czystą funkcję
+liczbową, bez `Warning[]`).

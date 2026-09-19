@@ -132,4 +132,18 @@ describe("calculateOchronaStringow", () => {
     })
     expect(result.status).toBe("INVALID_INPUT")
   })
+
+  it("i18n (17.2): OCHRONA-OBOWIAZKOWA-BRAK ma i18nKey+params, assumption to {kod}", () => {
+    const result = calculateOchronaStringow({
+      iscStcA: 10,
+      iModMaxOcprA: 20,
+      liczbaStringowRownoleglych: 4,
+      maZabezpieczeniaPerString: false,
+      wybranyBezpiecznikA: null,
+    })
+    expect(result.warnings[0].i18nKey).toBe("OCHRONA-OBOWIAZKOWA-BRAK")
+    expect(result.warnings[0].params).toEqual({ ns: 4 })
+    expect(result.warnings[0].message).toBeUndefined()
+    expect(result.assumptions).toEqual([{ kod: "K1-MINIMUM-NORMOWE" }])
+  })
 })
