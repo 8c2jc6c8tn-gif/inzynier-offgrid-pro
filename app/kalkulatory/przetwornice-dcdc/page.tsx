@@ -77,12 +77,7 @@ export default function PrzetworniceDcdcPage() {
           <WynikGlowny>
             {result.value.zapotrzebowanieRealneW.toLocaleString("pl-PL", { maximumFractionDigits: 1 })} W
           </WynikGlowny>
-          {result.warnings.map((w) => (
-            <p key={w.code} className="mt-2 text-small">
-              {w.message}
-            </p>
-          ))}
-          <WynikSzczegoly assumptions={result.assumptions} formula={result.formula} />
+          <WynikSzczegoly assumptions={result.assumptions} warnings={result.warnings} formula={result.formula} />
         </WerdyktPanel>
       )}
     </main>

@@ -578,4 +578,29 @@ export const dictionaryEn = {
   "ODBIORNIK-ODLACZONY": "A priority {priorytet} load would now be disconnected by the load shedding system.",
   "ODBIORNIK-AKTYWNY-PRIORYTET-1": "Priority 1 (critical) — never disconnected by the load shedding system.",
   "ODBIORNIK-AKTYWNY": "A priority {priorytet} load stays active at this SoC.",
+  "POBOR-JALOWY-UJEMNY": "The idle draw cannot be negative.",
+  "STALY-KOSZT-BILANSU":
+    "The inverter itself consumes something just to be ready to work — {strata} kWh/day is added " +
+    "to the balance at priority 1, before you turn anything on.",
+  "SZEROKOSC-POZA-ZAKRESEM": "Latitude must be within the range -90–90°.",
+  "DZIEN-ROKU-POZA-ZAKRESEM": "The day of the year must be within the range 1–365.",
+  "MOC-ODBIORNIKA-UJEMNA": "The load's power cannot be negative.",
+  "NOC-POLARNA": "At this latitude on this day, the sun doesn't rise at all (polar night).",
+  "DZIEN-POLARNY": "At this latitude on this day, the sun doesn't set (polar day).",
+  "ENERGIA-NOCNA":
+    "A {moc} W load running all night ({dlugoscNocy} h) uses {energia} kWh that day.",
+  "DEKLINACJA-METODA-COOPERA":
+    "Cooper's (1969) approximation of the sun's declination — a standard solar engineering " +
+    "formula, accuracy ±1° of declination.",
+  "ZAPOTRZEBOWANIEURZADZENIAW-NIEDODATNI": 'The value of "device demand" must be greater than zero.',
+  "SPRAWNOSC-PRZETWORNICY-POZA-ZAKRESEM": "The converter's efficiency must be within the range 0–100%.",
+  "STRATA-NA-KONWERSJI":
+    "Every voltage change costs some energy — the converter loses {strata}% ({strataW} W) on the conversion alone.",
+  "ZASILANIE-BEZPOSREDNIE": "The device is powered directly from the bus — no voltage-conversion losses.",
+  "ZAPOTRZEBOWANIE-URZADZENIA-UJEMNE": "The device's demand cannot be negative.",
+  "MIESIAC-POZA-ZAKRESEM": "The month must be within the range 1–12.",
+  "URZADZENIE-AKTYWNE": "The device is active in this period — {zapotrzebowanie} kWh/day counts toward the balance.",
+  "URZADZENIE-NIEAKTYWNE": "The device is outside its active period — it doesn't count toward the daily balance.",
+  "POBORCIAGLEW-UJEMNY": "The continuous-operation draw cannot be negative.",
+  "POBORUSPIENIEW-UJEMNY": "The sleep-mode draw cannot be negative.",
 } satisfies Record<KluczTlumaczenia, string>

@@ -1,4 +1,4 @@
-import type { CalcResult } from "@/lib/core/calc-result"
+import type { Assumption, CalcResult } from "@/lib/core/calc-result"
 import type { ProfilAstronomicznyInput } from "./input"
 import { validateInput } from "./validation"
 import { energiaNocna, nocPolarnaLubDzienPolarny } from "./warnings"
@@ -94,9 +94,7 @@ export function calculateProfilAstronomiczny(
     status: "VALID",
     formula: FORMULA,
     inputs,
-    assumptions: [
-      "Przybliżenie deklinacji Słońca metodą Coopera (1969) — standardowa formuła inżynierii słonecznej, dokładność ±1° deklinacji.",
-    ],
+    assumptions: [{ kod: "DEKLINACJA-METODA-COOPERA" }] satisfies Assumption[],
     warnings,
     calculatorVersion: CALCULATOR_VERSION,
   }

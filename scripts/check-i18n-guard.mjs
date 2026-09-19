@@ -82,6 +82,10 @@ const MIGRATED_MODULES = [
   "lib/core/modules/zapotrzebowanie/bojler-cwu",
   "lib/core/modules/zapotrzebowanie/bufor-rozbudowe",
   "lib/core/modules/zapotrzebowanie/load-shedding",
+  "lib/core/modules/zapotrzebowanie/pobor-wlasny-falownika",
+  "lib/core/modules/zapotrzebowanie/profil-astronomiczny",
+  "lib/core/modules/zapotrzebowanie/przetwornice-dcdc",
+  "lib/core/modules/zapotrzebowanie/sezonowosc",
 ]
 
 const FILES_TO_CHECK = ["warnings.ts", "calculator.ts", "validation.ts"]

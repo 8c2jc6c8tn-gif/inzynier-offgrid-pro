@@ -681,3 +681,36 @@ Tu trafia bieżący stan pracy: co w trakcie, co zablokowane, co następne — a
   `profil-astronomiczny`, `przetwornice-dcdc`, `sezonowosc`), `ogrzewanie/` (~6),
   `bezpieczenstwo/` (~2), `kalkulator-mobilny/` (~1). Zweryfikować dokładną listę grepem na
   starcie partii 14, nie z tej metryczki.
+
+- ✅ (2026-09-19) **Rollout i18n — czternasta partia: zamyka katalog `zapotrzebowanie/`.**
+  Zmigrowane: `pobor-wlasny-falownika`, `profil-astronomiczny`, `przetwornice-dcdc`, `sezonowosc`
+  (ostatnie 4 pliki katalogu). 19 nowych kluczy (przeliczone programistycznie, nie 22 jak
+  wstępnie liczone), zero kolizji.
+  Czwarty przypadek "etykieta pola jako nietłumaczalny parametr runtime" — `przetwornice-dcdc`'s
+  `notPositive`, naprawiony tym samym wzorcem. Drugi przypadek "różny tekst zależnie od warunku,
+  nie tylko różne parametry" — `profil-astronomiczny`'s `nocPolarnaLubDzienPolarny`, rozbite na
+  `NOC-POLARNA`/`DZIEN-POLARNY`.
+  🔴 **Dryf znaleziony w module z wcześniejszej, już zamkniętej partii** (`baterie/pobor-wlasny-bms`,
+  nie część listy plików tej partii) — ten sam anty-wzorzec "etykieta jako parametr" w kluczu
+  `POBOR-UJEMNY`, naprawiony od razu zgodnie z wyjątkiem CLAUDE.md dla dryfu bez świadomej decyzji
+  (nie zgłaszany jako konflikt — to błąd, nie decyzja do zatwierdzenia).
+  🔴 **4 kolejne strony UI naprawione (siódmy-dziesiąty przypadek w tej rundzie)**:
+  `pobor-wlasny-falownika`/`sezonowosc` (czysto manualny render, brak importu `WynikSzczegoly`),
+  `profil-astronomiczny`/`przetwornice-dcdc` (podwójny bug — manualny render ORAZ brak `warnings`
+  w sąsiednim `WynikSzczegoly`, jak `agregat-pradotworczy` p.13). Wszystkie 4 naprawione tym samym
+  wzorcem, zweryfikowane pełnym wydrukiem `innerText` przed/po dla obu stron z podwójnym bugiem.
+  `scripts/check-i18n-guard.mjs` → `MIGRATED_MODULES` rozszerzone z 62 do 66.
+  4 nowe bloki testowe domenowe + nowy blok w `t.test.ts` (4 klucze z parametrami/15 bez).
+  `pnpm typecheck`/`lint`/`check:i18n-guard`/`test` (833/833)/`build` czyste.
+  Zweryfikowane end-to-end w świeżej przeglądarce (Playwright, potwierdzenie braku rezydualnego
+  `next-server` przed i po) w PL/EN/RU (4 moduły × 3 języki = 12 sprawdzeń) — zero `⚠ [...]`.
+  **To zamyka cały katalog `zapotrzebowanie/`** (8 modułów zmigrowanych w partiach 13-14).
+  🔴 **Korekta szacunku pozostałych plików — poprzednie "~27" nie uwzględniało katalogu
+  `montaz-baterii/` w ogóle.** Programistyczna weryfikacja (`find` + grep `message:` w każdym
+  pozostałym `warnings.ts`) ujawniła realny pozostały zakres: **21 modułów** — `ogrzewanie/` (6,
+  zgodne z szacunkiem), `montaz-baterii/` (12, **nowo odkryty katalog**), `bezpieczenstwo/` (2,
+  zgodne), `kalkulator-mobilny/` (1, zgodne). Świadomie odłożone bez zmian: `pv/czystosc-i-snieg`,
+  `baterie/komunikacja-bms`, `baterie/porownanie-technologii` (dane katalogowe). Do potwierdzenia
+  na starcie partii 15: status `baterie/napiecie-systemowe` (7× `message:` — możliwe, że już
+  objęty inną decyzją z wcześniejszej sesji, nie zakładać z góry). Pełne uzasadnienie i lista
+  modułów: `docs/memory.md`, wpis "czternasta partia". Kolejna partia (15.): start `ogrzewanie/`.
