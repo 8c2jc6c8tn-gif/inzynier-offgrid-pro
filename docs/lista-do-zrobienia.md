@@ -43,6 +43,14 @@ Tu trafia bieżący stan pracy: co w trakcie, co zablokowane, co następne — a
 - ✅ (2026-09-04) Ekran 12, Moduł 4 (Baterie) — "Ograniczenie prądu ładowania w mrozie (Cold C-Rate)" zaimplementowany. Twardy stop <-10°C (całkowita blokada) dopisany do rejestru. **Znaleziona i udokumentowana luka w źródle**: tabela limitów nie definiuje zakresu 5–10°C — kalkulator zwraca `OUT_OF_SCOPE` zamiast zgadywać wartość pośrednią. Przykład źródła (-5°C, 280Ah → 28A) zweryfikowany niezależnie przed implementacją.
 - ✅ (2026-09-04) Ekran 15, Moduł 4 (Baterie) — "Cold Cranking Amps" zaimplementowany. Wzór `V_sag = V_oc − I×R_wewn` — znaleziona i udokumentowana rozbieżność: Sekcja A źródła nie wymienia V_oc jako pola wejściowego, mimo że wzór go wymaga (dodane transparentnie, nie ukryte).
 - ⚠️ (2026-09-04) Ekran 2, Moduł 4 (Sugestia napięcia systemowego) sprawdzony — **częściowo zablokowany**, nie w całości. Rekomendacja napięcia (>3000W→48V, <1000W→12V) jest obliczalna wprost z podanych progów, bez potrzeby tabeli normatywnej. Ale zakres 1000–3000W nie jest zdefiniowany (kolejna luka w tabeli źródła, jak w Ekranie 12), a porównanie przekrojów kabli w Sekcji B/C wymaga tej samej brakującej tabeli PN-IEC 60364-5-52 co M5/E1 i B5. Nie budowany teraz — wymaga decyzji, czy budować okrojoną wersję (sama rekomendacja napięcia, bez porównania kabli) czy czekać na pełne dane.
+  ✅ **(19.09.2026) OBIE CZĘŚCI JUŻ ROZSTRZYGNIĘTE — dryf dokumentacji, nie realna luka.** Zakres
+  1000–3000W: rekomendacja 24V "dopowiedziana logicznie" (`PROG_12V_MAX_W`/`PROG_48V_MIN_W`,
+  `constants.ts`), jawnie oznaczona osobną assumption `NAPIECIE-SYSTEMOWE-PASMO-24V-DOPOWIEDZIANE`
+  — zdecydowane już 2026-09-04, patrz wpis tego dnia niżej ("Ekran 2, Moduł 4 — Sugestia napięcia
+  systemowego zaimplementowany"). Porównanie kabli: norma PN-HD 60364-5-52 pozyskana 05-06.09.2026,
+  Etap C dobudowany 13-14.09.2026 (echo `dobor-przekroju-kabla`). Ten wpis po prostu nigdy nie
+  dostał domykającego dopisku — znalezione przy próbie realizacji tego punktu z listy sześciu
+  pytań (19.09.2026), bez zmian w kodzie.
 - ✅ (2026-09-04) Ekran 6, Moduł 4 (Baterie) — "Starzenie i degradacja ogniw" zaimplementowany. Model liniowy 1:1 ze źródła, przykład (45 kWh → 56 kWh po 10 latach) odtworzony dokładnie przy 2%/rok. Świadomie nie zaokrąglono wyniku do "rozmiaru komercyjnego" (60 kWh w źródle) — brak siatki rozmiarów w danych źródłowych.
 - ⚠️ (2026-09-04) Ekran 1 i Ekran 6 (Moduł 4) liczą pokrewne wielkości (pojemność użyteczna dziś / bufor starzeniowy), ale **nie są ze sobą spięte** — każdy ma dziś niezależne pole ręcznego wpisu. Integracja (auto-przekazanie wyniku Ekranu 1 do Ekranu 6, potem powrót z buforem do finalnej rekomendacji) to osobny krok, wymaga wspólnego stanu wejściowego między ekranami (`docs/standards/01-architektura.md`, koncepcja "Mój sprzęt"/profil wejściowy) — nie rozstrzygnięte teraz.
   ✅ **(19.09.2026) ROZSTRZYGNIĘTE i ZREALIZOWANE** — `lib/profil-sprzetu/` (zakres: bateria).
@@ -842,3 +850,10 @@ Tu trafia bieżący stan pracy: co w trakcie, co zablokowane, co następne — a
   5. Logowanie/Supabase (wpis 2026-09-15 wyżej) → właściciel podłącza klucze w niedzielę po
      20:00 — bez zmian teraz.
   6. Model freemium (rozdz. 12) → decyzja biznesowa w niedzielę — bez zmian teraz.
+- ✅ (2026-09-19) **Punkt 7a z prośby "5,6,7,8,9 proszę zrób"** — cztery luki z
+  `docs/rejestr-pokrycia.md` oznaczone jako "gotowe do budowy" (audyt GOD BOOK Część N,
+  05.09.2026): 2.15 (Ryzyko PID, Moduł 3), 8.8 (Dobór regulatora PWM vs MPPT, Moduł 12) —
+  zbudowane jako kalkulatory. 5.46 (ryzyko zamarznięcia dolnego źródła) i 5.31 (hałas i
+  wibracje), oba Moduł 6 — **korekta oceny źródła przy realizacji**: brak computable wzoru,
+  zbudowane jako Wzorzec C (treść informacyjna). Szczegóły i wyjaśnienie rozbieżności:
+  `docs/memory.md`.

@@ -149,6 +149,14 @@ nie do audytu poprawności formularza webowego.
   (M6/dawne 5.63 — `lib/core/modules/ogrzewanie/ryzyko-niskiego-napiecia/warnings.ts`,
   `pompaSieWylaczy`, kod `POMPA-SIE-WYLACZY`)
 
+- **Temperatura czynnika roboczego (solanki) dolnego źródła zbliżająca się do punktu
+  zamarzania** — dłuższa praca ciągła pompy schładza grunt wokół kolektora bez przerwy na
+  regenerację; zamarznięcie dolnego źródła to koniec pracy pompy i ryzyko uszkodzenia
+  wymiennika. Treść informacyjna (Wzorzec C, bez kalkulatora — źródło nie podaje wzoru
+  wiążącego temperaturę gruntu/głębokość kolektora/stężenie glikolu/czas pracy z temperaturą
+  solanki, tylko jeden ilustracyjny przykład), nie automatycznie wykrywany warunek.
+  (M6/dawne 5.46 — `app/kalkulatory/ryzyko-zamarzniecia-dolnego-zrodla/page.tsx`)
+
 ## Bezpieczeństwo życia / montaż
 
 - **Rozpoczęcie montażu baterii LiFePO4 bez pełnego kompletu: mata izolacyjna, klucz

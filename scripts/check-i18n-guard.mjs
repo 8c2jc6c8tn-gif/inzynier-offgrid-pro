@@ -107,6 +107,8 @@ const MIGRATED_MODULES = [
   "lib/core/modules/bezpieczenstwo/dogrzewanie-paliwem-stalym",
   "lib/core/modules/bezpieczenstwo/ups-krytyczny",
   "lib/core/modules/kalkulator-mobilny/tryb-uproszczony",
+  "lib/core/modules/pv/ryzyko-pid",
+  "lib/core/modules/kalkulator-mobilny/dobor-regulatora-pwm-mppt",
 ]
 
 const FILES_TO_CHECK = ["warnings.ts", "calculator.ts", "validation.ts"]

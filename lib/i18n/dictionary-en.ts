@@ -762,4 +762,12 @@ export const dictionaryEn = {
     "Stage E: cost estimates for the SAME target energy capacity across all three voltages (a fair " +
     "comparison per the source, not a naive comparison with the same cell count). BMS cost counted " +
     "as one unit regardless of the number of parallel strings — per the source's literal tables.",
+  "RYZYKO-PID": "DC system voltage ({napiecie} V) exceeds the {prog} V threshold under high humidity — PID risk.",
+  "BRAK-RYZYKA-PID": "DC system voltage ({napiecie} V) — no PID risk under current conditions.",
+  "NIEZGODNOSC-NAPIEC-PWM":
+    "{panel} V panel to a {akumulator} V battery — PWM cannot step the panel voltage down, MPPT required.",
+  "MPPT-OPLACALNY-PRZY-MOCY": "Panel power {moc} W ({prog} W or more) — MPPT pays off.",
+  "PWM-WYSTARCZY": "Panel power {moc} W, voltages match — PWM is enough.",
+  "PID-PROG-NAPIECIA-ZE-ZRODLA": "The 400V voltage threshold and the high-humidity condition for PID risk are taken directly from the source — no model of power-loss rate.",
+  "PROG-MOC-MPPT-OPLACALNOSC-DOPOWIEDZIANY": "The 250W threshold (midpoint of the source's 200-300W range) is inferred, not stated as a single number.",
 } satisfies Record<KluczTlumaczenia, string>
