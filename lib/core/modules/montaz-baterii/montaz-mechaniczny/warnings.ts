@@ -10,7 +10,7 @@ export function dociskNiedodatni(value: number): Warning {
   return {
     code: "DOCISK-NIEDODATNI",
     level: "critical",
-    message: "Docisk musi być większy od zera.",
+    i18nKey: "DOCISK-NIEDODATNI",
     technicalMessage: `dociskKgf = ${value}, oczekiwano > 0`,
     field: "dociskKgf",
   }

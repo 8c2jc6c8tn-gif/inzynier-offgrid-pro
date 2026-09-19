@@ -4820,3 +4820,64 @@ korekta z partii 14): `montaz-baterii/` (12 modułów), `bezpieczenstwo/` (2: `d
 stalym`, `ups-krytyczny`), `kalkulator-mobilny/` (1: `tryb-uproszczony`) = **15 modułów**.
 Kolejna partia (16.): start `montaz-baterii/` (największy pozostały katalog, nowo odkryty w
 partii 14 — sprawdzić grepem na starcie, czy lista 12 modułów z partii 14 jest wciąż aktualna).
+
+## Rollout i18n — szesnasta partia: start katalogu `montaz-baterii/` (19.09.2026)
+
+**🔴 Korekta liczby modułów `montaz-baterii/` z partii 14: 11, nie 12.** Ponowne przeliczenie
+grepem na starcie tej partii (jak zalecono) pokazało dokładnie 11 modułów z realnym `message:`
+w `warnings.ts`, nie 12 — drobny błąd liczenia w poprzednim wpisie, skorygowany tu programistycznie,
+zgodnie z zasadą "zweryfikowane programistycznie, nie z metryczki" (rozdz. 03/14 standardu).
+Lista niezmieniona co do treści: `balansery-zewnetrzne-olow`, `demontaz-pakietu`,
+`gestosc-elektrolitu`, `montaz-mechaniczny`, `ocena-zasiarczenia`, `pierwsze-uruchomienie`,
+`podlaczenie-bms`, `ratowanie-ogniwa`, `sekwencja-montazu`, `weryfikacja-ogniw` — to 10 nazw
+policzonych ręcznie z poprzedniego wpisu; grep potwierdza 11 (ten zestaw + `ocena-zuzycia`,
+przeoczony przy ręcznym przepisywaniu listy w partii 14 — dowód dlaczego programistyczna
+weryfikacja > przepisywanie z pamięci).
+
+Zmigrowane w tej partii (pierwsze 5 z 11, rozmiar partii zgodny z resztą rundy): `balansery-
+zewnetrzne-olow`, `demontaz-pakietu`, `gestosc-elektrolitu`, `montaz-mechaniczny`,
+`ocena-zasiarczenia`. 12 nowych kluczy PL/EN/RU, zero kolizji (sprawdzone grepem przed
+finalizacją).
+
+**Echo-zależności zweryfikowane przed migracją** (dyscyplina z partii 9+): `demontaz-pakietu`
+echowany przez `sekwencja-montazu`/`procedura-black-start` tylko przez stałą liczbową
+(`MAX_ZALECANE_NAPIECIE_OGNIWA_V`) lub wzmiankę w komentarzu — bezpieczne, brak zależności od
+`Warning[]`. `montaz-mechaniczny` **faktycznie echuje `Warning[]`** z `baterie/pozycjonowanie-
+ogniw` (`dociskZaDuzy`/`dociskZaMaly`) — potwierdzone, że `pozycjonowanie-ogniw` jest już
+zmigrowany (obecny w `MIGRATED_MODULES` od wcześniejszej partii), więc echowane ostrzeżenia mają
+już `i18nKey`/`params` — nie regresja, tylko potwierdzenie stanu.
+
+**Nowy podtyp wzorca "różny tekst zależnie od warunku": zgodność liczby/rodzaju (singular/plural),
+nie tylko wybór między dwiema niezależnymi treściami.** `ocena-zasiarczenia`'s
+`objawyZasiarczeniaObecne(liczbaObjawow)` miał ternary wewnątrz szablonu (`{liczbaObjawow === 1 ?
+"objaw" : "objawy"}`) — inny niż poprzednie przypadki (`buforInfo`, `nocPolarnaLubDzienPolarny`),
+bo to nie dwie różne sytuacje domenowe, tylko gramatyczna odmiana tej samej informacji. Ponieważ
+katalog objawów ma tylko 4 pozycje (nigdy nie sięga polskiego trzeciego wariantu "objawów" dla
+5+), rozwiązanie: dwa klucze `OBJAWY-ZASIARCZENIA-JEDEN` (bez param, zawsze "1")/`OBJAWY-
+ZASIARCZENIA-WIELE` (param `{liczba}`, zawsze 2-4), wybór w `warnings.ts` — ten sam mechanizm
+"wybór klucza w logice domenowej", zastosowany do nowego powodu (gramatyka, nie różna treść).
+**Ograniczenie świadomie przyjęte, nie przeoczone:** to rozwiązanie nie skalowałoby się do
+pełnej polskiej odmiany liczebników (1/2-4/5+) — gdyby przyszły moduł miał katalog z 5+ pozycjami,
+wymagałby trzeciego klucza; nie zakładać z góry przy podobnych przypadkach w kolejnych partiach.
+
+**🔴 2 kolejne strony UI naprawione** (jedenasty-dwunasty przypadek w całej rundzie).
+`demontaz-pakietu` importował `WynikSzczegoly` (używany w ścieżce INVALID_INPUT), ale ścieżka
+główna renderowała ostrzeżenia manualnie (`.map` + `{w.message}`) — analogiczny "częściowy" bug
+jak we wcześniejszych partiach. `ocena-zasiarczenia` nie importował `WynikSzczegoly` wcale —
+czysto manualny render. Oba naprawione tym samym wzorcem. Zweryfikowane pełnym wydrukiem
+`innerText` (nie tylko brakiem markera) — treść ostrzeżeń („Zabronione — pakiet wciąż
+naładowany" / „Zaobserwowano 1 objaw zasiarczenia...") faktycznie widoczna i przetłumaczona.
+
+`MIGRATED_MODULES`: 72→77. 5 nowych bloków testowych domenowych + nowy blok w `t.test.ts` (6
+kluczy z parametrami/6 bez). `pnpm typecheck`/`lint`/`check:i18n-guard`/`test` (872/872)/`build`
+czyste — testy przeszły od razu przy pierwszym uruchomieniu. Zweryfikowane w przeglądarce PL/EN/RU
+(15 kombinacji — 5 modułów × 3 języki, zero `⚠ [...]`), z potwierdzeniem `ps aux | grep
+next-server` puste przed i po.
+
+**Pozostało w `montaz-baterii/`: 6 modułów** — `pierwsze-uruchomienie`, `podlaczenie-bms`,
+`ratowanie-ogniwa`, `sekwencja-montazu`, `weryfikacja-ogniw`, `ocena-zuzycia` (ten ostatni
+przeoczony w partii 14, patrz korekta wyżej). Kolejna partia (17.): dokończenie
+`montaz-baterii/` (6 modułów, zamknie cały katalog) — **sprawdzić grepem, że `sekwencja-montazu`
+i inne moduły tej listy nie mają nowych echo-zależności między sobą, skoro migrowane w innej
+partii niż `demontaz-pakietu`** (którego stałą liczbową echują — bezpieczne, ale zweryfikować
+ponownie przy kolejnej partii, nie zakładać).

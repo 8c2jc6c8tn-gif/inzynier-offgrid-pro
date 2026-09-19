@@ -188,11 +188,7 @@ export default function DemontazPakietuPage() {
                 : undefined
           }
         >
-          {result.warnings.map((w) => (
-            <p key={w.code} className="mt-1 text-small">
-              {w.message}
-            </p>
-          ))}
+          <WynikSzczegoly assumptions={result.assumptions} warnings={result.warnings} formula={result.formula} />
         </WerdyktPanel>
       )}
     </main>

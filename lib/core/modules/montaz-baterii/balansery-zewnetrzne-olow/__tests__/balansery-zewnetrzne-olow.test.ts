@@ -46,4 +46,24 @@ describe("calculateBalanseryZewnetrzneOlow", () => {
     })
     expect(result.status).toBe("INCOMPLETE")
   })
+
+  it("i18n (17.2): brak balansera zwraca i18nKey/params, nie message", () => {
+    const result = calculateBalanseryZewnetrzneOlow({
+      iloscAkumulatorowWSzeregu: 4,
+      posiadaBalanserZewnetrzny: false,
+    })
+    expect(result.warnings[0].i18nKey).toBe("BRAK-BALANSERA-ZEWNETRZNEGO")
+    expect(result.warnings[0].params).toEqual({ ilosc: 4 })
+    expect(result.warnings[0].message).toBeUndefined()
+  })
+
+  it("i18n (17.2): błąd walidacji zwraca i18nKey bez params, nie message", () => {
+    const result = calculateBalanseryZewnetrzneOlow({
+      iloscAkumulatorowWSzeregu: -1,
+      posiadaBalanserZewnetrzny: false,
+    })
+    expect(result.warnings[0].i18nKey).toBe("ILOSC-AKUMULATOROW-NIEDODATNIA")
+    expect(result.warnings[0].params).toBeUndefined()
+    expect(result.warnings[0].message).toBeUndefined()
+  })
 })

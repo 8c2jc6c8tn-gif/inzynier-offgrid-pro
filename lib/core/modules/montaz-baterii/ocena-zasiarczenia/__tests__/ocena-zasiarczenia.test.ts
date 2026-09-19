@@ -32,4 +32,20 @@ describe("calculateOcenaZasiarczenia", () => {
     expect(result.value.liczbaObjawow).toBe(0)
     expect(result.status).toBe("VALID")
   })
+
+  it("i18n (17.2): jeden objaw zwraca i18nKey bez params, nie message", () => {
+    const result = calculateOcenaZasiarczenia({ obserwowaneObjawyIds: ["bialy-nalot"] })
+    expect(result.warnings[0].i18nKey).toBe("OBJAWY-ZASIARCZENIA-JEDEN")
+    expect(result.warnings[0].params).toBeUndefined()
+    expect(result.warnings[0].message).toBeUndefined()
+  })
+
+  it("i18n (17.2): wiele objawów zwraca i18nKey/params, nie message", () => {
+    const result = calculateOcenaZasiarczenia({
+      obserwowaneObjawyIds: ["dlugi-czas-ladowania", "szybkie-rozladowanie"],
+    })
+    expect(result.warnings[0].i18nKey).toBe("OBJAWY-ZASIARCZENIA-WIELE")
+    expect(result.warnings[0].params).toEqual({ liczba: 2 })
+    expect(result.warnings[0].message).toBeUndefined()
+  })
 })

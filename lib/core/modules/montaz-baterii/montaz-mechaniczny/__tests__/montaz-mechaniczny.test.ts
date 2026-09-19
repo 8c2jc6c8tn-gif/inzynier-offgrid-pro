@@ -47,4 +47,18 @@ describe("calculateMontazMechaniczny (Ekran A2, Moduł 11)", () => {
     expect(result.value.potwierdzone).toBe(1)
     expect(result.value.razem).toBe(3)
   })
+
+  it("i18n (17.2): błąd walidacji zwraca i18nKey bez params, nie message", () => {
+    const result = calculateMontazMechaniczny({ dociskKgf: -10, potwierdzoneIds: [] })
+    expect(result.warnings[0].i18nKey).toBe("DOCISK-NIEDODATNI")
+    expect(result.warnings[0].params).toBeUndefined()
+    expect(result.warnings[0].message).toBeUndefined()
+  })
+
+  it("i18n (17.2): ostrzeżenie echo (docisk za mały) ma już i18nKey/params z pozycjonowanie-ogniw, nie message", () => {
+    const result = calculateMontazMechaniczny({ dociskKgf: 250, potwierdzoneIds: WSZYSTKIE_ID })
+    expect(result.warnings[0].i18nKey).toBe("DOCISK-ZA-MALY")
+    expect(result.warnings[0].params).toEqual({ docisk: 250, min: 300, max: 400 })
+    expect(result.warnings[0].message).toBeUndefined()
+  })
 })

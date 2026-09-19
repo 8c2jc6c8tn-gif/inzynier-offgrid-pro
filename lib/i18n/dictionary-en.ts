@@ -650,4 +650,26 @@ export const dictionaryEn = {
   "PROJEKT-STRUMIENI-BYPASS-NIE-LICZONE":
     "Per-room airflow design and the summer bypass logic (formerly 5.23, 5.24) are NOT calculated here " +
     "— they require data/rules absent from the source as a formula.",
+  "BRAK-BALANSERA-ZEWNETRZNEGO":
+    "{ilosc} lead-acid batteries in series without an external balancer — they will drift apart in " +
+    "voltage over time (unlike LiFePO4 with an active BMS). A balancer wired in parallel to each " +
+    "battery is required.",
+  "ILOSC-AKUMULATOROW-NIEDODATNIA": "The number of batteries in series must be greater than zero.",
+  "NAPIECIE-PAKIETU-NIEDODATNIE": 'The "pack voltage" field must be greater than zero.',
+  "PAKIET-WCIAZ-NALADOWANY":
+    "The cell voltage ({napiecie} V) exceeds the recommended {max} V before disassembly — don't " +
+    "disconnect cells while fully charged, risk of arcing and terminal damage.",
+  "KROK-POZA-KOLEJNOSCIA":
+    "A step was checked out of order — confirm the earlier steps first, order matters.",
+  "STAN-PELNY": "Electrolyte density {gestosc} g/cm³ — battery full (≥{pelny} g/cm³).",
+  "STAN-CZESCIOWO-NALADOWANY":
+    "Electrolyte density {gestosc} g/cm³ — battery partially charged (about half, reference {polowa} " +
+    "g/cm³). Recharging recommended.",
+  "STAN-ROZLADOWANY":
+    "Electrolyte density {gestosc} g/cm³ — battery discharged. Recharging required before further use.",
+  "GESTOSC-NIEDODATNIA": "Electrolyte density must be greater than zero.",
+  "DOCISK-NIEDODATNI": "Clamping pressure must be greater than zero.",
+  "OBJAWY-ZASIARCZENIA-JEDEN": "1 symptom of sulfation observed — see Screen B11 \"Rescuing a Sulfated Battery\".",
+  "OBJAWY-ZASIARCZENIA-WIELE":
+    "{liczba} symptoms of sulfation observed — see Screen B11 \"Rescuing a Sulfated Battery\".",
 } satisfies Record<KluczTlumaczenia, string>
