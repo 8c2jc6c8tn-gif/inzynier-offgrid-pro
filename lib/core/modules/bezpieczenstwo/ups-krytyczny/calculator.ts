@@ -1,4 +1,4 @@
-import type { CalcResult } from "@/lib/core/calc-result"
+import type { Assumption, CalcResult } from "@/lib/core/calc-result"
 import type { UpsKrytycznyInput } from "./input"
 import { validateInput } from "./validation"
 import { czasPodtrzymaniaInfo } from "./warnings"
@@ -68,10 +68,8 @@ export function calculateUpsKrytyczny(input: UpsKrytycznyInput): CalcResult<UpsK
   const efficiency = input.efficiency ?? EFFICIENCY_DEFAULT
   const czasPodtrzymaniaH = (input.pojemnoscAh * input.napiecieV * efficiency) / laczonyPoborW
 
-  const assumptions =
-    input.efficiency === undefined
-      ? [`Sprawność układu przyjęta jako ${efficiency} (wartość domyślna, nie zmierzona).`]
-      : []
+  const assumptions: Assumption[] =
+    input.efficiency === undefined ? [{ kod: "SPRAWNOSC-DOMYSLNA", params: { efficiency } }] : []
 
   const warnings = [...walidacyjneOstrzezenia, czasPodtrzymaniaInfo(czasPodtrzymaniaH)]
 

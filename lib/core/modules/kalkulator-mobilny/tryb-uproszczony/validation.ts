@@ -11,13 +11,13 @@ export function validateInput(input: TrybUproszczonyInput): ValidationResult {
   const errors: Warning[] = []
 
   if (input.pojemnoscAh <= 0) {
-    errors.push(notPositive("pojemnoscAh", "pojemność akumulatora", input.pojemnoscAh))
+    errors.push(notPositive("pojemnoscAh", input.pojemnoscAh))
   }
   if (input.napiecieV <= 0) {
-    errors.push(notPositive("napiecieV", "napięcie", input.napiecieV))
+    errors.push(notPositive("napiecieV", input.napiecieV))
   }
   if (input.mocOdbiornikaW <= 0) {
-    errors.push(notPositive("mocOdbiornikaW", "moc odbiornika", input.mocOdbiornikaW))
+    errors.push(notPositive("mocOdbiornikaW", input.mocOdbiornikaW))
   }
 
   return { errors, warnings: [] }

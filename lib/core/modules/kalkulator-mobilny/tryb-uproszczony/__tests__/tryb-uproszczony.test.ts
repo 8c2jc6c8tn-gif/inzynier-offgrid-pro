@@ -22,4 +22,16 @@ describe("calculateTrybUproszczony", () => {
     const result = calculateTrybUproszczony({ pojemnoscAh: 100, napiecieV: 12, mocOdbiornikaW: 0 })
     expect(result.status).toBe("INVALID_INPUT")
   })
+
+  it("i18n (17.2): błąd walidacji zwraca i18nKey bez params, nie message", () => {
+    const result = calculateTrybUproszczony({ pojemnoscAh: -10, napiecieV: 12, mocOdbiornikaW: 50 })
+    expect(result.warnings[0].i18nKey).toBe("POJEMNOSCAH-NIEDODATNI")
+    expect(result.warnings[0].params).toBeUndefined()
+    expect(result.warnings[0].message).toBeUndefined()
+  })
+
+  it("i18n (17.2): założenie o czasie teoretycznym zwraca {kod}, nie string", () => {
+    const result = calculateTrybUproszczony({ pojemnoscAh: 100, napiecieV: 12, mocOdbiornikaW: 50 })
+    expect(result.assumptions).toEqual([{ kod: "TRYB-UPROSZCZONY-CZAS-TEORETYCZNY" }])
+  })
 })

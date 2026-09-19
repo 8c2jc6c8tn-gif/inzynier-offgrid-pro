@@ -718,6 +718,24 @@ export const dictionaryPl = {
     "Dla systemu {system} V oczekiwana liczba ogniw w szeregu to {oczekiwana}S — wprowadzono {podana}.",
   "WIDOCZNE-WYBRZUSZENIE":
     "Widoczne puchnięcie obudowy — ogniwo do wycofania z eksploatacji, nie do ponownego montażu.",
+  "ZA-MALA-ODLEGLOSC":
+    "Odległość od materiałów palnych ({odleglosc} cm) jest mniejsza od minimum {min} cm — realne " +
+    "ryzyko pożaru.",
+  "ODLEGLOSC-OK": "Odległość od materiałów palnych ({odleglosc} cm) spełnia minimum {min} cm.",
+  "BRAK-NAWIEWU":
+    "Brak osobnego nawiewu powietrza do spalania — ryzyko niedotlenienia pomieszczenia i cofki spalin.",
+  "NAWIEW-OBECNY": "Osobny nawiew powietrza do spalania jest zapewniony.",
+  "BRAK-CZUJNIKA-CO":
+    "Brak czujnika czadu (CO) w pomieszczeniu z otwartym źródłem spalania — to zagrożenie życia, nie " +
+    "tylko mienia. Czad nie ma zapachu i zabija we śnie.",
+  "CZUJNIK-CO-OBECNY": "Czujnik czadu (CO) jest zamontowany w pomieszczeniu.",
+  "BRAK-ZAZNACZONYCH-URZADZEN": "Nie zaznaczono żadnego urządzenia krytycznego do podtrzymania.",
+  "CZAS-PODTRZYMANIA": "Czas podtrzymania: {czas} h.",
+  "POJEMNOSCAH-NIEDODATNI": 'Wartość pola "pojemność akumulatora" musi być większa od zera.',
+  "NAPIECIEV-NIEDODATNI": 'Wartość pola "napięcie" musi być większa od zera.',
+  "MOCODBIORNIKAW-NIEDODATNI": 'Wartość pola "moc odbiornika" musi być większa od zera.',
+  "TRYB-UPROSZCZONY-CZAS-TEORETYCZNY":
+    "Bez uwzględnienia sprawności układu i głębokości rozładowania (DoD) — czas teoretyczny.",
 } as const
 
 export type KluczTlumaczenia = keyof typeof dictionaryPl

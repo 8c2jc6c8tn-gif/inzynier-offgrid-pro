@@ -1,4 +1,4 @@
-import type { CalcResult } from "@/lib/core/calc-result"
+import type { Assumption, CalcResult } from "@/lib/core/calc-result"
 import type { TrybUproszczonyInput } from "./input"
 import { validateInput } from "./validation"
 
@@ -39,7 +39,7 @@ export function calculateTrybUproszczony(input: TrybUproszczonyInput): CalcResul
     status: "VALID",
     formula: FORMULA,
     inputs,
-    assumptions: ["Bez uwzględnienia sprawności układu i głębokości rozładowania (DoD) — czas teoretyczny."],
+    assumptions: [{ kod: "TRYB-UPROSZCZONY-CZAS-TEORETYCZNY" }] satisfies Assumption[],
     warnings: [],
     calculatorVersion: CALCULATOR_VERSION,
   }

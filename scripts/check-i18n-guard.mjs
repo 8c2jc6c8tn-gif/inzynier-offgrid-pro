@@ -103,6 +103,9 @@ const MIGRATED_MODULES = [
   "lib/core/modules/montaz-baterii/sekwencja-montazu",
   "lib/core/modules/montaz-baterii/weryfikacja-ogniw",
   "lib/core/modules/montaz-baterii/ocena-zuzycia",
+  "lib/core/modules/bezpieczenstwo/dogrzewanie-paliwem-stalym",
+  "lib/core/modules/bezpieczenstwo/ups-krytyczny",
+  "lib/core/modules/kalkulator-mobilny/tryb-uproszczony",
 ]
 
 const FILES_TO_CHECK = ["warnings.ts", "calculator.ts", "validation.ts"]
