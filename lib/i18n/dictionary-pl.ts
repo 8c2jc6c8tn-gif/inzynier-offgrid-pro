@@ -493,6 +493,49 @@ export const dictionaryPl = {
   "K1-MINIMUM-NORMOWE":
     "K1=1,25 (minimum normowe, Załącznik B.2) — w warunkach zwiększonego odbicia/naświetlenia " +
     "norma dopuszcza wyższe K1, ale nie podaje konkretnej wartości; nie zgadujemy.",
+  "TRAWA-NISKI-ZYSK":
+    "Bez jasnego podłoża zysk z bifacjalności jest niewielki — nie przepłacaj za tę technologię, " +
+    "jeśli montujesz na trawie.",
+  "DOBRA-POWIERZCHNIA": "Dodatkowy roczny uzysk z tylnej strony: {dodatkowyUzysk} kWh.",
+  "PROCENT-UZYSKU-RECZNIE":
+    "Procent dodatkowego uzysku wpisany ręcznie w zakresie podanym przez źródło dla wybranej " +
+    "powierzchni — nie wyliczany ze współczynnika bifacjalności panelu (brak wzoru łączącego w źródle).",
+  "STRATA-PONIZEJ-CELU": "Strata {strata}% mieści się w celu źródła (poniżej {cel}%).",
+  "STRATA-POWYZEJ-CELU":
+    "Strata {strata}% przekracza cel źródła (poniżej {cel}%) — rozważ grubszy przekrój kabla.",
+  "REZYSTANCJA-PETLI-DWA-PRZEWODY":
+    "Rezystancja pętli liczona dla dwóch przewodów (plus i minus) — 2×długość kabla, standardowa " +
+    "praktyka DC.",
+  "DOBRY-STYK":
+    "Rezystancja złączki ({rezystancja} mΩ) mieści się w zakresie dobrego stanu (0,5-2 mΩ) — " +
+    "strata całkowita {strata} W.",
+  "PODWYZSZONA-REZYSTANCJA":
+    "Rezystancja złączki ({rezystancja} mΩ) przekracza zakres dobrego stanu (0,5-2 mΩ) — strata " +
+    "całkowita {strata} W. Sprawdź złączkę pod kątem luzu/korozji.",
+  "ZLY-STYK":
+    "Rezystancja złączki ({rezystancja} mΩ) odpowiada luźnej/zaśniedziałej złączce (nawet 10× " +
+    "więcej niż dobry stan) — strata całkowita {strata} W i realne ryzyko przegrzania/pożaru. " +
+    "Wymień lub oczyść złączkę natychmiast.",
+  "REZYSTANCJA-ZLACZKI-RECZNIE":
+    "Rezystancja złączki wpisana ręcznie — źródło podaje zakres (0,5-2 mΩ dobry stan, nawet 10× " +
+    "więcej przy luźnej/zaśniedziałej), nie pojedynczą liczbę.",
+  "PRAD-SZEREGOWY-PRZEZ-WSZYSTKIE-ZLACZKI":
+    "Zakłada, że ten sam prąd płynie szeregowo przez wszystkie złączki (typowy przypadek stringu) " +
+    "— straty się sumują.",
+  "PRZEKROCZONY-LIMIT-MPPT":
+    "Napięcie stringu w mrozie ({vString} V) przekracza limit MPPT falownika ({limit} V) — realne " +
+    "ryzyko trwałego uszkodzenia wejścia DC. Zmień konfigurację stringów.",
+  "BLISKO-LIMITU-MPPT":
+    "Napięcie stringu w mrozie ({vString} V) przekracza 95% limitu MPPT ({prog} V z {limit} V) — " +
+    "mały margines bezpieczeństwa.",
+  "BEZPIECZNY-MARGINES-MPPT":
+    "Napięcie stringu w mrozie ({vString} V) mieści się bezpiecznie poniżej limitu MPPT ({limit} V).",
+  "UTRATA-MOCY":
+    "Panel przy {temperatura}°C traci ok. {strata}% mocy względem wartości katalogowej " +
+    "(mierzonej w 25°C).",
+  "PRZYROST-TEMP-I-GAMMA-RECZNIE":
+    "Przyrost temperatury panelu ponad otoczenie i współczynnik γ wpisane ręcznie — źródło podaje " +
+    "tylko typowe zakresy (25-30°C, -0,3 do -0,45%/°C), nie pojedyncze wartości.",
 } as const
 
 export type KluczTlumaczenia = keyof typeof dictionaryPl

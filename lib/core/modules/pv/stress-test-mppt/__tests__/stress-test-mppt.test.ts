@@ -72,4 +72,17 @@ describe("calculateStressTestMppt", () => {
     })
     expect(result.status).toBe("INVALID_INPUT")
   })
+
+  it("i18n (17.2): PRZEKROCZONY-LIMIT-MPPT ma i18nKey+params, nie message", () => {
+    const result = calculateStressTestMppt({
+      vocStcV: 56.5,
+      betaPctNaC: -0.3,
+      tminC: -25,
+      liczbaPaneliWStringu: 8,
+      limitMpptV: 450,
+    })
+    expect(result.warnings[0].i18nKey).toBe("PRZEKROCZONY-LIMIT-MPPT")
+    expect(result.warnings[0].params).toEqual({ vString: "520", limit: "450" })
+    expect(result.warnings[0].message).toBeUndefined()
+  })
 })

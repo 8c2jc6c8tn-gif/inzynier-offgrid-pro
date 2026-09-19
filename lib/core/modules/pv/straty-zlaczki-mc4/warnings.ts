@@ -4,7 +4,7 @@ export function wartoscUjemna(field: string, value: number): Warning {
   return {
     code: "WARTOSC-UJEMNA",
     level: "critical",
-    message: "Wartość nie może być ujemna.",
+    i18nKey: "WARTOSC-NIE-MOZE-BYC-UJEMNA",
     technicalMessage: `${field} = ${value}, oczekiwano >= 0`,
     field,
   }
@@ -14,7 +14,8 @@ export function dobryStyk(rezystancjaMOhm: number, strataCalkowitaW: number): Wa
   return {
     code: "DOBRY-STYK",
     level: "info",
-    message: `Rezystancja złączki (${rezystancjaMOhm.toFixed(2)} mΩ) mieści się w zakresie dobrego stanu (0,5-2 mΩ) — strata całkowita ${strataCalkowitaW.toFixed(1)} W.`,
+    i18nKey: "DOBRY-STYK",
+    params: { rezystancja: rezystancjaMOhm.toFixed(2), strata: strataCalkowitaW.toFixed(1) },
     technicalMessage: `rezystancjaMOhm=${rezystancjaMOhm} <= 2`,
   }
 }
@@ -23,7 +24,8 @@ export function podwyzszonaRezystancja(rezystancjaMOhm: number, strataCalkowitaW
   return {
     code: "PODWYZSZONA-REZYSTANCJA",
     level: "warning",
-    message: `Rezystancja złączki (${rezystancjaMOhm.toFixed(2)} mΩ) przekracza zakres dobrego stanu (0,5-2 mΩ) — strata całkowita ${strataCalkowitaW.toFixed(1)} W. Sprawdź złączkę pod kątem luzu/korozji.`,
+    i18nKey: "PODWYZSZONA-REZYSTANCJA",
+    params: { rezystancja: rezystancjaMOhm.toFixed(2), strata: strataCalkowitaW.toFixed(1) },
     technicalMessage: `2 < rezystancjaMOhm=${rezystancjaMOhm} <= 20`,
   }
 }
@@ -32,7 +34,8 @@ export function zlyStyk(rezystancjaMOhm: number, strataCalkowitaW: number): Warn
   return {
     code: "ZLY-STYK",
     level: "critical",
-    message: `Rezystancja złączki (${rezystancjaMOhm.toFixed(2)} mΩ) odpowiada luźnej/zaśniedziałej złączce (nawet 10× więcej niż dobry stan) — strata całkowita ${strataCalkowitaW.toFixed(1)} W i realne ryzyko przegrzania/pożaru. Wymień lub oczyść złączkę natychmiast.`,
+    i18nKey: "ZLY-STYK",
+    params: { rezystancja: rezystancjaMOhm.toFixed(2), strata: strataCalkowitaW.toFixed(1) },
     technicalMessage: `rezystancjaMOhm=${rezystancjaMOhm} > 20`,
   }
 }

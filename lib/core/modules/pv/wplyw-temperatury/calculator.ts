@@ -1,4 +1,4 @@
-import type { CalcResult } from "@/lib/core/calc-result"
+import type { Assumption, CalcResult } from "@/lib/core/calc-result"
 import type { WplywTemperaturyInput } from "./input"
 import { validateInput } from "./validation"
 import { utrataMocy } from "./warnings"
@@ -75,9 +75,7 @@ export function calculateWplywTemperatury(input: WplywTemperaturyInput): CalcRes
     status: "VALID",
     formula: FORMULA,
     inputs,
-    assumptions: [
-      "Przyrost temperatury panelu ponad otoczenie i współczynnik γ wpisane ręcznie — źródło podaje tylko typowe zakresy (25-30°C, -0,3 do -0,45%/°C), nie pojedyncze wartości.",
-    ],
+    assumptions: [{ kod: "PRZYROST-TEMP-I-GAMMA-RECZNIE" }] satisfies Assumption[],
     warnings: [utrataMocy(temperaturaPanelaC, strataPct)],
     calculatorVersion: CALCULATOR_VERSION,
   }

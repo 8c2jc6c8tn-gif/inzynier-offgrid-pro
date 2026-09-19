@@ -482,4 +482,47 @@ export const dictionaryEn = {
   "K1-MINIMUM-NORMOWE":
     "K1=1.25 (the standard's minimum, Annex B.2) — under increased reflection/irradiance the " +
     "standard allows a higher K1 but doesn't give a specific value; not guessed.",
+  "TRAWA-NISKI-ZYSK":
+    "Without a light-colored surface, the bifacial gain is small — don't overpay for this " +
+    "technology if you're mounting on grass.",
+  "DOBRA-POWIERZCHNIA": "Additional annual yield from the rear side: {dodatkowyUzysk} kWh.",
+  "PROCENT-UZYSKU-RECZNIE":
+    "The additional yield percentage is entered manually within the source's range for the " +
+    "selected surface — not calculated from the panel's bifaciality coefficient (the source gives " +
+    "no linking formula).",
+  "STRATA-PONIZEJ-CELU": "The {strata}% loss is within the source's target (below {cel}%).",
+  "STRATA-POWYZEJ-CELU":
+    "The {strata}% loss exceeds the source's target (below {cel}%) — consider a thicker cable cross-section.",
+  "REZYSTANCJA-PETLI-DWA-PRZEWODY":
+    "Loop resistance is calculated for two conductors (plus and minus) — 2×cable length, standard DC practice.",
+  "DOBRY-STYK":
+    "The connector's resistance ({rezystancja} mΩ) is within the good-condition range (0.5-2 mΩ) " +
+    "— total loss {strata} W.",
+  "PODWYZSZONA-REZYSTANCJA":
+    "The connector's resistance ({rezystancja} mΩ) exceeds the good-condition range (0.5-2 mΩ) — " +
+    "total loss {strata} W. Check the connector for looseness/corrosion.",
+  "ZLY-STYK":
+    "The connector's resistance ({rezystancja} mΩ) corresponds to a loose/corroded connector (up " +
+    "to 10× more than good condition) — total loss {strata} W and a real risk of overheating/fire. " +
+    "Replace or clean the connector immediately.",
+  "REZYSTANCJA-ZLACZKI-RECZNIE":
+    "The connector's resistance is entered manually — the source gives a range (0.5-2 mΩ good " +
+    "condition, up to 10× more when loose/corroded), not a single value.",
+  "PRAD-SZEREGOWY-PRZEZ-WSZYSTKIE-ZLACZKI":
+    "Assumes the same current flows in series through all connectors (the typical string case) — " +
+    "the losses add up.",
+  "PRZEKROCZONY-LIMIT-MPPT":
+    "The string voltage in frost ({vString} V) exceeds the inverter's MPPT limit ({limit} V) — a " +
+    "real risk of permanent DC input damage. Change the string configuration.",
+  "BLISKO-LIMITU-MPPT":
+    "The string voltage in frost ({vString} V) exceeds 95% of the MPPT limit ({prog} V of {limit} " +
+    "V) — a small safety margin.",
+  "BEZPIECZNY-MARGINES-MPPT":
+    "The string voltage in frost ({vString} V) stays safely below the MPPT limit ({limit} V).",
+  "UTRATA-MOCY":
+    "At {temperatura}°C, the panel loses about {strata}% of its power relative to the datasheet " +
+    "value (measured at 25°C).",
+  "PRZYROST-TEMP-I-GAMMA-RECZNIE":
+    "The panel's temperature rise above ambient and the γ coefficient are entered manually — the " +
+    "source only gives typical ranges (25-30°C, -0.3 to -0.45%/°C), not single values.",
 } satisfies Record<KluczTlumaczenia, string>

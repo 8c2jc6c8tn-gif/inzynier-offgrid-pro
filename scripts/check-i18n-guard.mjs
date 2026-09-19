@@ -72,6 +72,11 @@ const MIGRATED_MODULES = [
   "lib/core/modules/pv/napor-wiatru",
   "lib/core/modules/pv/niedopasowanie-paneli",
   "lib/core/modules/pv/ochrona-stringow",
+  "lib/core/modules/pv/panele-bifacjalne",
+  "lib/core/modules/pv/straty-okablowanie-dc",
+  "lib/core/modules/pv/straty-zlaczki-mc4",
+  "lib/core/modules/pv/stress-test-mppt",
+  "lib/core/modules/pv/wplyw-temperatury",
 ]
 
 const FILES_TO_CHECK = ["warnings.ts", "calculator.ts", "validation.ts"]

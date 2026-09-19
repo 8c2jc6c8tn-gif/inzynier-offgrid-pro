@@ -65,4 +65,19 @@ describe("calculateStratyZlaczkiMc4", () => {
     })
     expect(result.status).toBe("INVALID_INPUT")
   })
+
+  it("i18n (17.2): ZLY-STYK ma i18nKey+params, assumptions to {kod}", () => {
+    const result = calculateStratyZlaczkiMc4({
+      rezystancjaZlaczkiMOhm: 25,
+      liczbaZlaczek: 20,
+      pradA: 10,
+    })
+    expect(result.warnings[0].i18nKey).toBe("ZLY-STYK")
+    expect(result.warnings[0].params).toEqual({ rezystancja: "25.00", strata: "50.0" })
+    expect(result.warnings[0].message).toBeUndefined()
+    expect(result.assumptions).toEqual([
+      { kod: "REZYSTANCJA-ZLACZKI-RECZNIE" },
+      { kod: "PRAD-SZEREGOWY-PRZEZ-WSZYSTKIE-ZLACZKI" },
+    ])
+  })
 })

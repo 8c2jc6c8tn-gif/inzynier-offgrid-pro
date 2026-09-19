@@ -1,4 +1,4 @@
-import type { CalcResult } from "@/lib/core/calc-result"
+import type { Assumption, CalcResult } from "@/lib/core/calc-result"
 import type { PaneleBifacjalneInput } from "./input"
 import { validateInput } from "./validation"
 import { trawaNiskiZysk, dobraPowierzchnia } from "./warnings"
@@ -79,9 +79,7 @@ export function calculatePaneleBifacjalne(input: PaneleBifacjalneInput): CalcRes
     status: maNieinformacyjneOstrzezenia ? "VALID_WITH_WARNINGS" : "VALID",
     formula: FORMULA,
     inputs,
-    assumptions: [
-      "Procent dodatkowego uzysku wpisany ręcznie w zakresie podanym przez źródło dla wybranej powierzchni — nie wyliczany ze współczynnika bifacjalności panelu (brak wzoru łączącego w źródle).",
-    ],
+    assumptions: [{ kod: "PROCENT-UZYSKU-RECZNIE" }] satisfies Assumption[],
     warnings,
     calculatorVersion: CALCULATOR_VERSION,
   }

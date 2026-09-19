@@ -92,7 +92,7 @@ export default function WplywTemperaturyPage() {
             Temperatura panelu: {result.value.temperaturaPanelaC.toFixed(0)}°C · strata mocy:{" "}
             {result.value.strataPct.toFixed(1)}%.
           </p>
-          <WynikSzczegoly assumptions={result.assumptions} formula={result.formula} />
+          <WynikSzczegoly assumptions={result.assumptions} warnings={result.warnings} formula={result.formula} />
         </WerdyktPanel>
       )}
     </main>

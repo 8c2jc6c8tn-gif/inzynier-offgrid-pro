@@ -65,4 +65,17 @@ describe("calculateStratyOkablowanieDc", () => {
     })
     expect(result.status).toBe("INVALID_INPUT")
   })
+
+  it("i18n (17.2): STRATA-POWYZEJ-CELU ma i18nKey+params, assumption to {kod}", () => {
+    const result = calculateStratyOkablowanieDc({
+      dlugoscKablaM: 30,
+      pradA: 15,
+      napiecieV: 65.625,
+      przekrojMm2: 4,
+    })
+    expect(result.warnings[0].i18nKey).toBe("STRATA-POWYZEJ-CELU")
+    expect(result.warnings[0].params).toEqual({ strata: "6.0", cel: 3 })
+    expect(result.warnings[0].message).toBeUndefined()
+    expect(result.assumptions).toEqual([{ kod: "REZYSTANCJA-PETLI-DWA-PRZEWODY" }])
+  })
 })
