@@ -4989,3 +4989,46 @@ katalogowej) — **ale warto na starcie partii 19 ponownie przelecieć CAŁE `li
 grepem** (`find ... | while read d; do grep -c message: $d/warnings.ts; done`), tak jak przy
 odkryciu `montaz-baterii/` w partii 14 i `ocena-zuzycia` w partii 17 — ta dyscyplina już dwa razy
 złapała realne braki, które ręczne szacunki przeoczyły.
+
+## Rollout i18n — dziewiętnasta (ostatnia realna) partia: `baterie/napiecie-systemowe` (19.09.2026)
+
+Pełny re-scan `lib/core/modules/` na starcie partii (grepem, nie z metryczki) potwierdził: to
+faktycznie JEDYNY pozostały niezmigrowany moduł z realnym tekstem w całym kodzie, poza trzema
+świadomie odłożonymi modułami katalogowymi (patrz niżej). 7 funkcji w `warnings.ts` skonwertowane
+— w tym `konfliktJednoczesnosci` (Etap B.2) z wewnętrznym rozgałęzieniem na `KONFLIKT-JEDNOCZESNOSCI`
+vs `KONFLIKT-JEDNOCZESNOSCI-Z-PROPOZYCJA` (ten drugi wariant dokleja listę urządzeń do wyłączenia,
+połączoną `" + "` — nazwy urządzeń pozostają nieprzetłumaczone, wstrzyknięte jako `params.urzadzenia`,
+zgodnie z ustalonym wzorcem "dynamicznie łączona lista nazw" z analizy tego modułu). 12 nowych
+kluczy PL/EN/RU, 1 klucz reużyty (`WARTOSC-NIE-MOZE-BYC-UJEMNA`, treść bajtowo identyczna).
+5 stringowych `assumptions` skonwertowane na `{kod}` (bez params) — brak przedistniejącej asercji
+testowej na ich treść w tym module (sprawdzone proaktywnie przed uruchomieniem testów).
+
+**Bug UI znaleziony i naprawiony — nowy podtyp wzorca "manual render bez fallbacku i18n":**
+`app/kalkulatory/napiecie-systemowe/page.tsx`, Etap C (porównanie kabli ×3 napięcia), renderował
+`{w.message}` bezpośrednio z `result.value.kable![k].warnings` (echo z już zmigrowanego
+`dobor-przekroju-kabla`) — dane były translation-ready od dawna (mają `i18nKey`/`params`,
+`message` niezdefiniowane), ale UI nigdy z tego nie korzystał, więc po tej partii wyświetlałyby
+się jako pusty tekst. To pierwszy przypadek w całej rundzie, gdzie bug dotyczy ECHOWANYCH danych
+z innego, dawno zmigrowanego modułu, nie własnych danych bieżącego modułu. Naprawione:
+`t(w.i18nKey ?? w.code, w.params)` (import `useTranslate` z `@/lib/i18n/language-context`,
+wzorzec z `tryb-uproszczony/page.tsx`), z zachowaniem prefiksu `{k.replace("v","")}V: `.
+Zweryfikowane wprost porównaniem treści PL/EN/RU (nie tylko brakiem markera `⚠ [`) — tekst
+faktycznie się różni między językami, nie "undefined".
+
+`MIGRATED_MODULES`: 86→87. Nowy blok testowy domenowy (9 asercji, w tym pokrycie obu wariantów
+`konfliktJednoczesnosci` — druga wersja testu dla warunku "bez propozycji" wymagała realnego
+przypadku, gdzie WSZYSTKIE odbiorniki w konflikcie są "bazowe" — algorytm zachłanny nigdy nie
+zwraca pustej propozycji, jeśli istnieje choć jeden odbiornik przełączalny w konflikcie) + nowy
+blok w `t.test.ts` (5 kluczy z parametrami/7 bez). `pnpm typecheck`/`lint`/`check:i18n-guard`/
+`test` (916/916)/`build` czyste. Zweryfikowane w przeglądarce PL/EN/RU realnym before/after
+porównaniem treści sekcji Etap C (nie tylko markerem) — tekst tłumaczony poprawnie w każdym
+języku, `ps aux | grep next-server` puste przed i po.
+
+**To zamyka cały rollout `Warning.message`/string `Assumption` → `i18nKey`/`{kod,params}` dla
+kodu domenowego z realnym tekstem.** Jedyny pozostały, świadomie odłożony zakres: `pv/czystosc-i-snieg`,
+`baterie/komunikacja-bms`, `baterie/porownanie-technologii` — dane katalogowe (nazwy/opisy
+produktów, technologii), wymagające osobnej decyzji architektonicznej o modelu i18n dla treści
+katalogowej (nie prostego `Warning`/`Assumption`), poza pierwotnym zakresem instrukcji "83 pliki".
+Rekomendacja na następną sesję: albo świadomie zamknąć temat jako "zrobione w zakresie
+Warning/Assumption", albo otworzyć nowy, odrębny wątek dla i18n danych katalogowych — to wymaga
+decyzji właściciela projektu, nie do rozstrzygnięcia samodzielnie (rozdział 15.4).

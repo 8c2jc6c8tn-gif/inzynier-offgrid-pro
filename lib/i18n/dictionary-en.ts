@@ -726,4 +726,40 @@ export const dictionaryEn = {
   "MOCODBIORNIKAW-NIEDODATNI": 'The "load power" field must be greater than zero.',
   "TRYB-UPROSZCZONY-CZAS-TEORETYCZNY":
     "Doesn't account for system efficiency or depth of discharge (DoD) — a theoretical runtime.",
+  "MOC-UJEMNA": "Peak load cannot be negative.",
+  "REKOMENDACJA-NAPIECIA":
+    "Higher system voltage = lower current at the same power = thinner, cheaper cables. " +
+    "Recommended: {napiecie}V.",
+  "KONFLIKT-JEDNOCZESNOSCI":
+    "The selected loads running together draw {suma} W — that exceeds the planned continuous " +
+    "inverter power ({limit} W).",
+  "KONFLIKT-JEDNOCZESNOSCI-Z-PROPOZYCJA":
+    "The selected loads running together draw {suma} W — that exceeds the planned continuous " +
+    "inverter power ({limit} W). Don't run these together: {urzadzenia}.",
+  "OGRZEWANIE-WYMAGA-48V":
+    "The selected electric heating ({moc} W) usually requires a 48V system — the current " +
+    "recommendation is {napiecie}V, check whether that's really enough for sustained heating.",
+  "PRAD-WYSOKI-PRZY-12V":
+    "At 12V this system would draw {prad} A — that's welder-grade current. Any loose connection at " +
+    "that current is a potential hotspot and fire risk. 12V systems above 100A aren't recommended.",
+  "PULAPKA-KONWERSJI-24-DO-48":
+    "Don't wire two ready-made 24V packs in series to get 48V — the BMSes don't talk to each other, " +
+    "the cells will drift apart. Build a 48V pack from scratch (16 cells, one 16S BMS) — estimated " +
+    "conversion cost below.",
+  "NAPIECIE-SYSTEMOWE-PASMO-24V-DOPOWIEDZIANE":
+    "The 1000-3000W band → 24V is inferred logically from the 12/24/48V structure (the source only " +
+    "states the <1000W and >3000W thresholds directly).",
+  "NAPIECIE-SYSTEMOWE-MOC-SZCZYTOWA-DEFINICJA":
+    "Peak power = sum of selected loads (Stage B) + heating power (Stage A), unless the manual 'Peak " +
+    "load' field is filled in — then it overrides the wizard's sum.",
+  "NAPIECIE-SYSTEMOWE-KONFLIKT-JEDNOCZESNOSCI-WARUNEK":
+    "Stage B.2 (simultaneity conflict) is only checked when a planned continuous inverter power was " +
+    "given — without it there's nothing to compare the 'worst case' sum against.",
+  "NAPIECIE-SYSTEMOWE-KABEL-ECHO":
+    "Stage C: cross-section/voltage drop/annual losses are calculated via the M5/Screen1 echo " +
+    "(PN-HD 60364-5-52 standard), not the source material's simplified P=I²R formula.",
+  "NAPIECIE-SYSTEMOWE-KOSZTORYS-METODA":
+    "Stage E: cost estimates for the SAME target energy capacity across all three voltages (a fair " +
+    "comparison per the source, not a naive comparison with the same cell count). BMS cost counted " +
+    "as one unit regardless of the number of parallel strings — per the source's literal tables.",
 } satisfies Record<KluczTlumaczenia, string>

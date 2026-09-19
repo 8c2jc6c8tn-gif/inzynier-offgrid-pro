@@ -235,3 +235,93 @@ describe("calculateNapiecieSystemowe — Etap A/C.1 (ogrzewanie wymaga 48V)", ()
     expect(result.warnings.some((w) => w.code === "OGRZEWANIE-WYMAGA-48V")).toBe(false)
   })
 })
+
+describe("calculateNapiecieSystemowe — i18n (partia 19, 19.09.2026)", () => {
+  it("INVALID_INPUT — ujemna moc szczytowa ma i18nKey MOC-UJEMNA, bez message", () => {
+    const result = calculateNapiecieSystemowe(pustyInput({ mocSzczytowaW: -100 }))
+    const w = result.warnings.find((w) => w.code === "MOC-UJEMNA")
+    expect(w?.i18nKey).toBe("MOC-UJEMNA")
+    expect(w?.params).toBeUndefined()
+    expect(w?.message).toBeUndefined()
+  })
+
+  it("wartość ujemna innego pola -> i18nKey WARTOSC-NIE-MOZE-BYC-UJEMNA", () => {
+    const result = calculateNapiecieSystemowe(pustyInput({ mocSzczytowaW: 2000, ogrzewanieMocW: -50 }))
+    const w = result.warnings.find((w) => w.code === "WARTOSC-UJEMNA")
+    expect(w?.i18nKey).toBe("WARTOSC-NIE-MOZE-BYC-UJEMNA")
+    expect(w?.message).toBeUndefined()
+  })
+
+  it("rekomendacja napięcia — i18nKey REKOMENDACJA-NAPIECIA z params.napiecie", () => {
+    const result = calculateNapiecieSystemowe(pustyInput({ mocSzczytowaW: 800 }))
+    const w = result.warnings.find((w) => w.code === "REKOMENDACJA-NAPIECIA")
+    expect(w?.i18nKey).toBe("REKOMENDACJA-NAPIECIA")
+    expect(w?.params).toEqual({ napiecie: 12 })
+    expect(w?.message).toBeUndefined()
+  })
+
+  it("konflikt jednoczesności — wszystkie odbiorniki bazowe -> KONFLIKT-JEDNOCZESNOSCI (bez propozycji)", () => {
+    // lodówka-230v + zamrażarka + router są wszystkie "bazowe" (§B.2: sumowane bezwarunkowo,
+    // nigdy nie proponowane do wyłączenia) — jedyny sposób na sugerowaneWylaczenie=[].
+    const result = calculateNapiecieSystemowe(
+      pustyInput({
+        odbiorniki: [odbiornik("lodowka-230v", 100), odbiornik("zamrazarka", 125), odbiornik("router", 15)],
+        mocCiaglaFalownikaPlanowanaW: 100,
+      }),
+    )
+    const w = result.warnings.find((w) => w.code === "KONFLIKT-JEDNOCZESNOSCI")
+    expect(w?.i18nKey).toBe("KONFLIKT-JEDNOCZESNOSCI")
+    expect(w?.params).toEqual({ suma: "240", limit: "100" })
+    expect(w?.message).toBeUndefined()
+  })
+
+  it("konflikt jednoczesności z sugerowanym wyłączeniem -> KONFLIKT-JEDNOCZESNOSCI-Z-PROPOZYCJA", () => {
+    const result = calculateNapiecieSystemowe(
+      pustyInput({
+        odbiorniki: [odbiornik("czajnik", 2000, { czasPracyMin: 5 }), odbiornik("piekarnik", 3000, { czasPracyMin: 60 })],
+        mocCiaglaFalownikaPlanowanaW: 4000,
+      }),
+    )
+    const w = result.warnings.find((w) => w.code === "KONFLIKT-JEDNOCZESNOSCI")
+    expect(w?.i18nKey).toBe("KONFLIKT-JEDNOCZESNOSCI-Z-PROPOZYCJA")
+    expect(w?.params).toEqual({ suma: "5000", limit: "4000", urzadzenia: "Piekarnik elektryczny" })
+    expect(w?.message).toBeUndefined()
+  })
+
+  it("ogrzewanie wymaga 48V — i18nKey OGRZEWANIE-WYMAGA-48V z params.napiecie/moc", () => {
+    const result = calculateNapiecieSystemowe(pustyInput({ mocSzczytowaW: 2000, ogrzewanieMocW: 2000 }))
+    const w = result.warnings.find((w) => w.code === "OGRZEWANIE-WYMAGA-48V")
+    expect(w?.i18nKey).toBe("OGRZEWANIE-WYMAGA-48V")
+    expect(w?.params).toEqual({ napiecie: 24, moc: "2000" })
+    expect(w?.message).toBeUndefined()
+  })
+
+  it("prąd wysoki przy 12V — i18nKey PRAD-WYSOKI-PRZY-12V z params.prad", () => {
+    const result = calculateNapiecieSystemowe(pustyInput({ mocSzczytowaW: 4800 }))
+    const w = result.warnings.find((w) => w.code === "PRAD-WYSOKI-PRZY-12V")
+    expect(w?.i18nKey).toBe("PRAD-WYSOKI-PRZY-12V")
+    expect(w?.params).toEqual({ prad: "400" })
+    expect(w?.message).toBeUndefined()
+  })
+
+  it("pułapka konwersji 24->48V — i18nKey PULAPKA-KONWERSJI-24-DO-48, bez params", () => {
+    const result = calculateNapiecieSystemowe(
+      pustyInput({ mocSzczytowaW: 2000, planowanaKonwersja24Do48: true }),
+    )
+    const w = result.warnings.find((w) => w.code === "PULAPKA-KONWERSJI-24-DO-48")
+    expect(w?.i18nKey).toBe("PULAPKA-KONWERSJI-24-DO-48")
+    expect(w?.params).toBeUndefined()
+    expect(w?.message).toBeUndefined()
+  })
+
+  it("assumptions — 5 kodów bez params, bez message", () => {
+    const result = calculateNapiecieSystemowe(pustyInput({ mocSzczytowaW: 2000 }))
+    expect(result.assumptions).toEqual([
+      { kod: "NAPIECIE-SYSTEMOWE-PASMO-24V-DOPOWIEDZIANE" },
+      { kod: "NAPIECIE-SYSTEMOWE-MOC-SZCZYTOWA-DEFINICJA" },
+      { kod: "NAPIECIE-SYSTEMOWE-KONFLIKT-JEDNOCZESNOSCI-WARUNEK" },
+      { kod: "NAPIECIE-SYSTEMOWE-KABEL-ECHO" },
+      { kod: "NAPIECIE-SYSTEMOWE-KOSZTORYS-METODA" },
+    ])
+  })
+})

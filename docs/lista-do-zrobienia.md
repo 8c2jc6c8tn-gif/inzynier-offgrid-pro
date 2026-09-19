@@ -142,15 +142,18 @@ Tu trafia bieżący stan pracy: co w trakcie, co zablokowane, co następne — a
   (zgłoszenie użytkownika: strona sama się przeładowywała, dane się gubiły). Pozostałe ~115 ekranów
   kalkulatorów jeszcze nie korzystają z autozapisu — rollout ekran po ekranie, `usePersistedDraft`
   gotowy do skopiowania 1:1. Szczegóły: `docs/memory.md`.
-- 🔲 (2026-09-15) **Rollout rozdz. 17 (i18n) na resztę modułów.** Kontrakt (`Warning.i18nKey`/`params`,
-  `CalcResult.Assumption` jako `string | {kod, params}`) i wzorzec migracji ustalone i sprawdzone na
-  module pilotażowym `kalkulatory-pomocnicze` (M2/E16) — `lib/i18n/dictionary-pl.ts` + `lib/i18n/t.ts`.
-  Pozostaje: ~89 plików `warnings.ts` (326 miejsc z gotowym tekstem PL w `message`) + ~109 miejsc z
-  `assumptions` jako `string[]` w innych modułach. Świadomie NIE zrobione teraz w całości — standard
-  sam (17.9) wymaga migracji moduł po module, nie big bang; jednorazowa migracja ~115 modułów
-  naraz byłaby wysokim ryzykiem bez proporcjonalnej korzyści (dziś jest tylko jeden język — PL —
-  więc brak zmigrowanego modułu nie psuje niczego użytkownikowi, tylko odkłada techniczny porządek).
-  Szczegóły procesu i decyzji: `docs/memory.md`.
+- ✅ (2026-09-15, zamknięte 2026-09-19) **Rollout rozdz. 17 (i18n) na resztę modułów.** Kontrakt
+  (`Warning.i18nKey`/`params`, `CalcResult.Assumption` jako `string | {kod, params}`) i wzorzec
+  migracji ustalone i sprawdzone na module pilotażowym `kalkulatory-pomocnicze` (M2/E16) —
+  `lib/i18n/dictionary-pl.ts` + `lib/i18n/t.ts`. Wykonane moduł po module (zgodnie z 17.9, nie big
+  bang), 19 partii, każda z własnym PR — pełna historia procesu i decyzji w `docs/memory.md`.
+  **Partia 19. (19.09.2026) zamknęła ostatni moduł z realnym tekstem — `baterie/napiecie-systemowe`
+  (87. i ostatni wpis w `MIGRATED_MODULES`).** Rollout `Warning.message`/string `Assumption` →
+  `i18nKey`/`{kod,params}` dla kodu domenowego jest kompletny. Jedyny pozostały, świadomie odłożony
+  zakres: `pv/czystosc-i-snieg`, `baterie/komunikacja-bms`, `baterie/porownanie-technologii` — dane
+  katalogowe (nazwy/opisy produktów/technologii), wymagające osobnej decyzji architektonicznej o
+  modelu i18n dla treści katalogowej (nie prostego `Warning`/`Assumption`), poza zakresem tego
+  wątku — do rozstrzygnięcia z właścicielem projektu, nie samodzielnie.
 - ⚠️ (2026-09-15) **Niezgodność #2 (logowanie, rozdz. 18) — szkielet gotowy, czeka na działanie
   właściciela projektu.** Kod (Supabase Auth, magic link/Google/Apple, middleware, RLS jako
   `.sql`) napisany i zweryfikowany (`tsc`/`lint`/`test`/`build`), ale wyłączony do czasu realnych

@@ -4,7 +4,7 @@ export function mocUjemna(value: number): Warning {
   return {
     code: "MOC-UJEMNA",
     level: "critical",
-    message: "Obciążenie szczytowe nie może być ujemne.",
+    i18nKey: "MOC-UJEMNA",
     technicalMessage: `mocSzczytowaW = ${value}, oczekiwano >= 0`,
     field: "mocSzczytowaW",
   }
@@ -14,7 +14,7 @@ export function wartoscUjemna(field: string, value: number): Warning {
   return {
     code: "WARTOSC-UJEMNA",
     level: "critical",
-    message: "Wartość nie może być ujemna.",
+    i18nKey: "WARTOSC-NIE-MOZE-BYC-UJEMNA",
     technicalMessage: `${field} = ${value}, oczekiwano >= 0`,
     field,
   }
@@ -24,7 +24,8 @@ export function rekomendacjaNapiecia(napiecieV: number): Warning {
   return {
     code: "REKOMENDACJA-NAPIECIA",
     level: "info",
-    message: `Wyższe napięcie systemowe = mniejszy prąd przy tej samej mocy = cieńsze, tańsze kable. Rekomendowane: ${napiecieV}V.`,
+    i18nKey: "REKOMENDACJA-NAPIECIA",
+    params: { napiecie: napiecieV },
     technicalMessage: `napiecieRekomendowaneV=${napiecieV}`,
   }
 }
@@ -36,14 +37,14 @@ export function konfliktJednoczesnosci(
   wagaOstrzezenia: "warning" | "critical",
   sugerowaneWylaczenie: string[],
 ): Warning {
-  const propozycja =
-    sugerowaneWylaczenie.length > 0
-      ? ` Nie uruchamiaj razem: ${sugerowaneWylaczenie.join(" + ")}.`
-      : ""
+  const maPropozycje = sugerowaneWylaczenie.length > 0
   return {
     code: "KONFLIKT-JEDNOCZESNOSCI",
     level: wagaOstrzezenia,
-    message: `Zaznaczone odbiorniki w połączeniu pobierają ${sumaWorstCaseW.toFixed(0)} W — to przekracza planowaną moc ciągłą falownika (${limitW.toFixed(0)} W).${propozycja}`,
+    i18nKey: maPropozycje ? "KONFLIKT-JEDNOCZESNOSCI-Z-PROPOZYCJA" : "KONFLIKT-JEDNOCZESNOSCI",
+    params: maPropozycje
+      ? { suma: sumaWorstCaseW.toFixed(0), limit: limitW.toFixed(0), urzadzenia: sugerowaneWylaczenie.join(" + ") }
+      : { suma: sumaWorstCaseW.toFixed(0), limit: limitW.toFixed(0) },
     technicalMessage: `sumaWorstCaseW=${sumaWorstCaseW} > mocCiaglaFalownikaPlanowanaW=${limitW}`,
   }
 }
@@ -53,7 +54,8 @@ export function ogrzewanieWymaga48V(napiecieRekomendowaneV: number, ogrzewanieMo
   return {
     code: "OGRZEWANIE-WYMAGA-48V",
     level: "warning",
-    message: `Zaznaczone ogrzewanie elektryczne (${ogrzewanieMocW.toFixed(0)} W) zwykle wymaga systemu 48V — obecna rekomendacja to ${napiecieRekomendowaneV}V, sprawdź czy to na pewno wystarczy przy długotrwałej pracy grzania.`,
+    i18nKey: "OGRZEWANIE-WYMAGA-48V",
+    params: { napiecie: napiecieRekomendowaneV, moc: ogrzewanieMocW.toFixed(0) },
     technicalMessage: `ogrzewanieMocW=${ogrzewanieMocW}, napiecieRekomendowaneV=${napiecieRekomendowaneV} < 48`,
   }
 }
@@ -63,7 +65,8 @@ export function pradWysokiPrzy12V(pradPrzy12VA: number): Warning {
   return {
     code: "PRAD-WYSOKI-PRZY-12V",
     level: "critical",
-    message: `Przy 12V ten system pociągnąłby ${pradPrzy12VA.toFixed(0)} A — to prąd rzędu spawarki. Każde poluzowane złącze przy takim prądzie to potencjalny hotspot i ryzyko pożaru. Systemy 12V o prądach powyżej 100A są niezalecane.`,
+    i18nKey: "PRAD-WYSOKI-PRZY-12V",
+    params: { prad: pradPrzy12VA.toFixed(0) },
     technicalMessage: `pradPrzy12VA=${pradPrzy12VA} > 100`,
   }
 }
@@ -73,8 +76,7 @@ export function pulapkaKonwersji24Do48(): Warning {
   return {
     code: "PULAPKA-KONWERSJI-24-DO-48",
     level: "warning",
-    message:
-      "Nie łącz dwóch gotowych pakietów 24V szeregowo, żeby uzyskać 48V — BMS-y nie komunikują się ze sobą, ogniwa się rozjadą. Zbuduj pakiet 48V od podstaw (16 ogniw, jeden BMS 16S) — poniżej szacowany koszt przejścia.",
+    i18nKey: "PULAPKA-KONWERSJI-24-DO-48",
     technicalMessage: "planowanaKonwersja24Do48=true",
   }
 }

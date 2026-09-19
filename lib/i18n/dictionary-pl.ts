@@ -736,6 +736,44 @@ export const dictionaryPl = {
   "MOCODBIORNIKAW-NIEDODATNI": 'Wartość pola "moc odbiornika" musi być większa od zera.',
   "TRYB-UPROSZCZONY-CZAS-TEORETYCZNY":
     "Bez uwzględnienia sprawności układu i głębokości rozładowania (DoD) — czas teoretyczny.",
+  "MOC-UJEMNA": "Obciążenie szczytowe nie może być ujemne.",
+  "REKOMENDACJA-NAPIECIA":
+    "Wyższe napięcie systemowe = mniejszy prąd przy tej samej mocy = cieńsze, tańsze kable. " +
+    "Rekomendowane: {napiecie}V.",
+  "KONFLIKT-JEDNOCZESNOSCI":
+    "Zaznaczone odbiorniki w połączeniu pobierają {suma} W — to przekracza planowaną moc ciągłą " +
+    "falownika ({limit} W).",
+  "KONFLIKT-JEDNOCZESNOSCI-Z-PROPOZYCJA":
+    "Zaznaczone odbiorniki w połączeniu pobierają {suma} W — to przekracza planowaną moc ciągłą " +
+    "falownika ({limit} W). Nie uruchamiaj razem: {urzadzenia}.",
+  "OGRZEWANIE-WYMAGA-48V":
+    "Zaznaczone ogrzewanie elektryczne ({moc} W) zwykle wymaga systemu 48V — obecna rekomendacja to " +
+    "{napiecie}V, sprawdź czy to na pewno wystarczy przy długotrwałej pracy grzania.",
+  "PRAD-WYSOKI-PRZY-12V":
+    "Przy 12V ten system pociągnąłby {prad} A — to prąd rzędu spawarki. Każde poluzowane złącze przy " +
+    "takim prądzie to potencjalny hotspot i ryzyko pożaru. Systemy 12V o prądach powyżej 100A są " +
+    "niezalecane.",
+  "PULAPKA-KONWERSJI-24-DO-48":
+    "Nie łącz dwóch gotowych pakietów 24V szeregowo, żeby uzyskać 48V — BMS-y nie komunikują się ze " +
+    "sobą, ogniwa się rozjadą. Zbuduj pakiet 48V od podstaw (16 ogniw, jeden BMS 16S) — poniżej " +
+    "szacowany koszt przejścia.",
+  "NAPIECIE-SYSTEMOWE-PASMO-24V-DOPOWIEDZIANE":
+    "Pasmo 1000-3000W → 24V dopowiedziane logicznie ze struktury 12/24/48V (źródło podaje wprost " +
+    "tylko progi <1000W i >3000W).",
+  "NAPIECIE-SYSTEMOWE-MOC-SZCZYTOWA-DEFINICJA":
+    "Moc szczytowa = suma zaznaczonych odbiorników (Etap B) + moc ogrzewania (Etap A), chyba że " +
+    "wpisano ręczne pole 'Obciążenie szczytowe' — wtedy ono nadpisuje sumę z kreatora.",
+  "NAPIECIE-SYSTEMOWE-KONFLIKT-JEDNOCZESNOSCI-WARUNEK":
+    "Etap B.2 (konflikt jednoczesności) sprawdzany tylko gdy podano planowaną moc ciągłą falownika — " +
+    "bez niej nie ma z czym porównać sumy 'worst case'.",
+  "NAPIECIE-SYSTEMOWE-KABEL-ECHO":
+    "Etap C: przekrój/spadek napięcia/straty roczne liczone przez echo M5/Ekran1 (norma PN-HD " +
+    "60364-5-52), nie przez uproszczony wzór P=I²R z materiału źródłowego.",
+  "NAPIECIE-SYSTEMOWE-KOSZTORYS-METODA":
+    "Etap E: kosztorysy dla TEJ SAMEJ docelowej pojemności energetycznej u wszystkich trzech napięć " +
+    "(poprawne porównanie wg źródła, nie naiwne porównanie tą samą liczbą ogniw). Koszt BMS liczony " +
+    "jako jedna sztuka niezależnie od liczby równoległych stringów — zgodnie z literalnymi tabelami " +
+    "źródła.",
 } as const
 
 export type KluczTlumaczenia = keyof typeof dictionaryPl

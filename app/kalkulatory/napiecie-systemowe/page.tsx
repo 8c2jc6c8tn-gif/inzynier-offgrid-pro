@@ -20,6 +20,7 @@ import { NawigacjaEkranu } from "@/components/nawigacja-ekranu"
 import { NaglowekEkranu } from "@/components/wzorce/naglowek-ekranu"
 import { WynikGlowny } from "@/components/wzorce/wynik-glowny"
 import { WynikSzczegoly } from "@/components/wzorce/wynik-szczegoly"
+import { useTranslate } from "@/lib/i18n/language-context"
 
 const num = (s: string) => (s === "" ? 0 : Number(s))
 
@@ -118,6 +119,7 @@ const SEKCJA_KLASY = "flex flex-col gap-4 rounded-lg border p-4"
 const SEKCJA_TYTUL_KLASY = "text-small font-semibold uppercase tracking-wide text-muted-foreground"
 
 export default function NapiecieSystemowePage() {
+  const t = useTranslate()
   // Seed całego formularza — persystowany (IndexedDB) pod jednym kluczem, żeby przeładowanie
   // strony nie gubiło wpisanych danych (zgłoszenie użytkownika, 15.09.2026).
   const [stan, setStan] = usePersistedDraft<FormularzStan>("napiecie-systemowe", STAN_POCZATKOWY)
@@ -548,7 +550,7 @@ export default function NapiecieSystemowePage() {
                   .filter((w) => w.level !== "info")
                   .map((w) => (
                     <p key={`${k}-${w.code}`} className="mt-2 text-caption">
-                      {k.replace("v", "")}V: {w.message}
+                      {k.replace("v", "")}V: {w.message ?? t(w.i18nKey ?? w.code, w.params)}
                     </p>
                   )),
               )}

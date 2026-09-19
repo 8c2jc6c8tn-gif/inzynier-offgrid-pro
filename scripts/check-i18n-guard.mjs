@@ -40,6 +40,7 @@ const MIGRATED_MODULES = [
   "lib/core/modules/baterie/long-term-storage",
   "lib/core/modules/baterie/mixing-rownolegle",
   "lib/core/modules/baterie/modul-ev",
+  "lib/core/modules/baterie/napiecie-systemowe",
   "lib/core/modules/baterie/obwod-precharge",
   "lib/core/modules/baterie/pobor-wlasny-bms",
   "lib/core/modules/baterie/ochrona-wilgoc",
