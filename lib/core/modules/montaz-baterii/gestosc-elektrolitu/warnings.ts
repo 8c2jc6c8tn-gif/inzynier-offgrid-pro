@@ -5,7 +5,8 @@ export function stanPelny(gestoscGCm3: number): Warning {
   return {
     code: "STAN-PELNY",
     level: "info",
-    message: `Gęstość elektrolitu ${gestoscGCm3.toFixed(2)} g/cm³ — akumulator pełny (≥${GESTOSC_PELNY_G_CM3} g/cm³).`,
+    i18nKey: "STAN-PELNY",
+    params: { gestosc: gestoscGCm3.toFixed(2), pelny: GESTOSC_PELNY_G_CM3 },
     technicalMessage: `gestoscGCm3=${gestoscGCm3} >= ${GESTOSC_PELNY_G_CM3}`,
     field: "gestoscGCm3",
   }
@@ -15,7 +16,8 @@ export function stanCzesciowoNaladowany(gestoscGCm3: number): Warning {
   return {
     code: "STAN-CZESCIOWO-NALADOWANY",
     level: "warning",
-    message: `Gęstość elektrolitu ${gestoscGCm3.toFixed(2)} g/cm³ — akumulator naładowany częściowo (ok. połowy, referencja ${GESTOSC_POLOWA_G_CM3} g/cm³). Zalecane doładowanie.`,
+    i18nKey: "STAN-CZESCIOWO-NALADOWANY",
+    params: { gestosc: gestoscGCm3.toFixed(2), polowa: GESTOSC_POLOWA_G_CM3 },
     technicalMessage: `${GESTOSC_POLOWA_G_CM3} <= gestoscGCm3=${gestoscGCm3} < ${GESTOSC_PELNY_G_CM3}`,
     field: "gestoscGCm3",
   }
@@ -25,7 +27,8 @@ export function stanRozladowany(gestoscGCm3: number): Warning {
   return {
     code: "STAN-ROZLADOWANY",
     level: "warning",
-    message: `Gęstość elektrolitu ${gestoscGCm3.toFixed(2)} g/cm³ — akumulator rozładowany. Wymagane doładowanie przed dalszym użytkowaniem.`,
+    i18nKey: "STAN-ROZLADOWANY",
+    params: { gestosc: gestoscGCm3.toFixed(2) },
     technicalMessage: `gestoscGCm3=${gestoscGCm3} < ${GESTOSC_POLOWA_G_CM3}`,
     field: "gestoscGCm3",
   }
@@ -35,7 +38,7 @@ export function gestoscNiedodatnia(value: number): Warning {
   return {
     code: "GESTOSC-NIEDODATNIA",
     level: "critical",
-    message: "Gęstość elektrolitu musi być większa od zera.",
+    i18nKey: "GESTOSC-NIEDODATNIA",
     technicalMessage: `gestoscGCm3 = ${value}, oczekiwano > 0`,
     field: "gestoscGCm3",
   }

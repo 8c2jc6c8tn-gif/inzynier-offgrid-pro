@@ -7,6 +7,7 @@ import { PoleCheckbox } from "@/components/ui/pole"
 import { WerdyktPanel } from "@/components/werdykt"
 import { NawigacjaEkranu } from "@/components/nawigacja-ekranu"
 import { NaglowekEkranu } from "@/components/wzorce/naglowek-ekranu"
+import { WynikSzczegoly } from "@/components/wzorce/wynik-szczegoly"
 
 export default function OcenaZasiarczeniaPage() {
   const [obserwowaneObjawyIds, setObserwowaneObjawyIds] = useState<string[]>([])
@@ -42,11 +43,7 @@ export default function OcenaZasiarczeniaPage() {
 
       {result.value.liczbaObjawow > 0 ? (
         <WerdyktPanel poziom="uwaga" etykieta="Możliwe zasiarczenie">
-          {result.warnings.map((w) => (
-            <p key={w.code} className="mt-1 text-small">
-              {w.message}
-            </p>
-          ))}
+          <WynikSzczegoly assumptions={result.assumptions} warnings={result.warnings} />
         </WerdyktPanel>
       ) : (
         <WerdyktPanel poziom="ok" etykieta="Brak zaobserwowanych objawów zasiarczenia" />

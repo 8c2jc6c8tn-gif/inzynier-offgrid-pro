@@ -6,9 +6,8 @@ export function brakBalanseraZewnetrznego(iloscAkumulatorowWSzeregu: number): Wa
   return {
     code: "BRAK-BALANSERA-ZEWNETRZNEGO",
     level: "critical",
-    message:
-      `${iloscAkumulatorowWSzeregu} akumulatory kwasowe w szeregu bez balansera zewnętrznego — z czasem rozjadą się ` +
-      "napięciowo (w przeciwieństwie do LiFePO4 z aktywnym BMS). Wymagany balanser podłączony równolegle do każdego akumulatora.",
+    i18nKey: "BRAK-BALANSERA-ZEWNETRZNEGO",
+    params: { ilosc: iloscAkumulatorowWSzeregu },
     technicalMessage: `iloscAkumulatorowWSzeregu=${iloscAkumulatorowWSzeregu} >= ${MIN_AKUMULATOROW_WYMAGAJACYCH_BALANSERA}, posiadaBalanserZewnetrzny=false`,
     field: "posiadaBalanserZewnetrzny",
   }
@@ -18,7 +17,7 @@ export function iloscAkumulatorowNiedodatnia(value: number): Warning {
   return {
     code: "ILOSC-AKUMULATOROW-NIEDODATNIA",
     level: "critical",
-    message: "Liczba akumulatorów w szeregu musi być większa od zera.",
+    i18nKey: "ILOSC-AKUMULATOROW-NIEDODATNIA",
     technicalMessage: `iloscAkumulatorowWSzeregu = ${value}, oczekiwano > 0`,
     field: "iloscAkumulatorowWSzeregu",
   }

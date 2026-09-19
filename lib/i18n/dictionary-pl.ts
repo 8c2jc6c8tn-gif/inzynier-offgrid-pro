@@ -659,6 +659,29 @@ export const dictionaryPl = {
   "PROJEKT-STRUMIENI-BYPASS-NIE-LICZONE":
     "Projekt strumieni per pomieszczenie i logika bypassu letniego (dawne 5.23, 5.24) NIE są tu liczone " +
     "— wymagają danych/reguł nieobecnych w źródle jako wzór.",
+  "BRAK-BALANSERA-ZEWNETRZNEGO":
+    "{ilosc} akumulatory kwasowe w szeregu bez balansera zewnętrznego — z czasem rozjadą się napięciowo " +
+    "(w przeciwieństwie do LiFePO4 z aktywnym BMS). Wymagany balanser podłączony równolegle do każdego " +
+    "akumulatora.",
+  "ILOSC-AKUMULATOROW-NIEDODATNIA": "Liczba akumulatorów w szeregu musi być większa od zera.",
+  "NAPIECIE-PAKIETU-NIEDODATNIE": 'Wartość pola "napięcie pakietu" musi być większa od zera.',
+  "PAKIET-WCIAZ-NALADOWANY":
+    "Napięcie ogniwa ({napiecie} V) przekracza zalecane {max} V przed demontażem — nie odłączaj ogniw " +
+    "przy pełnym naładowaniu, ryzyko iskrzenia i uszkodzenia terminali.",
+  "KROK-POZA-KOLEJNOSCIA":
+    "Zaznaczono krok poza kolejnością — potwierdź wcześniejsze kroki najpierw, kolejność ma znaczenie.",
+  "STAN-PELNY": "Gęstość elektrolitu {gestosc} g/cm³ — akumulator pełny (≥{pelny} g/cm³).",
+  "STAN-CZESCIOWO-NALADOWANY":
+    "Gęstość elektrolitu {gestosc} g/cm³ — akumulator naładowany częściowo (ok. połowy, referencja " +
+    "{polowa} g/cm³). Zalecane doładowanie.",
+  "STAN-ROZLADOWANY":
+    "Gęstość elektrolitu {gestosc} g/cm³ — akumulator rozładowany. Wymagane doładowanie przed dalszym " +
+    "użytkowaniem.",
+  "GESTOSC-NIEDODATNIA": "Gęstość elektrolitu musi być większa od zera.",
+  "DOCISK-NIEDODATNI": "Docisk musi być większy od zera.",
+  "OBJAWY-ZASIARCZENIA-JEDEN": 'Zaobserwowano 1 objaw zasiarczenia — patrz Ekran B11 „Ratowanie zasiarczonego akumulatora".',
+  "OBJAWY-ZASIARCZENIA-WIELE":
+    'Zaobserwowano {liczba} objawy zasiarczenia — patrz Ekran B11 „Ratowanie zasiarczonego akumulatora".',
 } as const
 
 export type KluczTlumaczenia = keyof typeof dictionaryPl

@@ -738,3 +738,34 @@ Tu trafia bieżący stan pracy: co w trakcie, co zablokowane, co następne — a
   w partii 14), `bezpieczenstwo/` (2), `kalkulator-mobilny/` (1) = **15 modułów**. Pełne
   uzasadnienie: `docs/memory.md`, wpis "piętnasta partia". Kolejna partia (16.): start
   `montaz-baterii/` (zweryfikować grepem, czy lista 12 modułów z partii 14 jest wciąż aktualna).
+
+- ✅ (2026-09-19) **Rollout i18n — szesnasta partia: start katalogu `montaz-baterii/`.**
+  🔴 Korekta: ponowne przeliczenie grepem pokazało **11 modułów** z realnym tekstem, nie 12 —
+  drobny błąd liczenia w partii 14 (moduł `ocena-zuzycia` przeoczony przy ręcznym przepisywaniu
+  listy), skorygowany programistycznie.
+  Zmigrowane (pierwsze 5 z 11): `balansery-zewnetrzne-olow`, `demontaz-pakietu`,
+  `gestosc-elektrolitu`, `montaz-mechaniczny`, `ocena-zasiarczenia`. 12 nowych kluczy, zero
+  kolizji.
+  Echo-zależności zweryfikowane: `montaz-mechaniczny` faktycznie echuje `Warning[]` z
+  `baterie/pozycjonowanie-ogniw` (`dociskZaDuzy`/`dociskZaMaly`) — potwierdzone już zmigrowany,
+  bezpieczne.
+  **Nowy podtyp wzorca "różny tekst zależnie od warunku": zgodność liczby/rodzaju
+  (singular/plural)** — `ocena-zasiarczenia`'s ternary `objaw`/`objawy` wewnątrz szablonu (nie
+  dwie różne sytuacje domenowe, tylko odmiana gramatyczna). Rozwiązanie: dwa klucze
+  (`OBJAWY-ZASIARCZENIA-JEDEN`/`OBJAWY-ZASIARCZENIA-WIELE`), wybór w `warnings.ts`. Świadome
+  ograniczenie: nie skaluje się do pełnej polskiej odmiany 1/2-4/5+ (katalog ma tylko 4 pozycje,
+  nigdy nie sięga trzeciego wariantu) — nie zakładać z góry w kolejnych partiach.
+  🔴 **2 kolejne strony UI naprawione** (jedenasty-dwunasty przypadek w rundzie): `demontaz-
+  pakietu` (manualny render na ścieżce głównej, mimo że `WynikSzczegoly` był już importowany dla
+  ścieżki błędu) i `ocena-zasiarczenia` (brak importu `WynikSzczegoly` wcale). Zweryfikowane
+  pełnym wydrukiem `innerText`.
+  `scripts/check-i18n-guard.mjs` → `MIGRATED_MODULES` rozszerzone z 72 do 77.
+  5 nowych bloków testowych domenowych + nowy blok w `t.test.ts` (6 kluczy z parametrami/6 bez).
+  `pnpm typecheck`/`lint`/`check:i18n-guard`/`test` (872/872)/`build` czyste — testy przeszły od
+  razu.
+  Zweryfikowane end-to-end w świeżej przeglądarce (Playwright, potwierdzenie braku rezydualnego
+  `next-server` przed i po) w PL/EN/RU (5 modułów × 3 języki = 15 sprawdzeń) — zero `⚠ [...]`.
+  **Pozostało w `montaz-baterii/`: 6 modułów** — `pierwsze-uruchomienie`, `podlaczenie-bms`,
+  `ratowanie-ogniwa`, `sekwencja-montazu`, `weryfikacja-ogniw`, `ocena-zuzycia`. Pełne
+  uzasadnienie: `docs/memory.md`, wpis "szesnasta partia". Kolejna partia (17.): dokończenie
+  `montaz-baterii/` (zamknie cały katalog).

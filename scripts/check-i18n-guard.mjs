@@ -92,6 +92,11 @@ const MIGRATED_MODULES = [
   "lib/core/modules/ogrzewanie/pompy-cyrkulacyjne",
   "lib/core/modules/ogrzewanie/ryzyko-niskiego-napiecia",
   "lib/core/modules/ogrzewanie/wentylacja-odzysk-ciepla",
+  "lib/core/modules/montaz-baterii/balansery-zewnetrzne-olow",
+  "lib/core/modules/montaz-baterii/demontaz-pakietu",
+  "lib/core/modules/montaz-baterii/gestosc-elektrolitu",
+  "lib/core/modules/montaz-baterii/montaz-mechaniczny",
+  "lib/core/modules/montaz-baterii/ocena-zasiarczenia",
 ]
 
 const FILES_TO_CHECK = ["warnings.ts", "calculator.ts", "validation.ts"]

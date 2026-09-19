@@ -34,4 +34,32 @@ describe("calculateGestoscElektrolitu", () => {
     const result = calculateGestoscElektrolitu({ gestoscGCm3: null })
     expect(result.status).toBe("INCOMPLETE")
   })
+
+  it("i18n (17.2): błąd walidacji zwraca i18nKey bez params, nie message", () => {
+    const result = calculateGestoscElektrolitu({ gestoscGCm3: 0 })
+    expect(result.warnings[0].i18nKey).toBe("GESTOSC-NIEDODATNIA")
+    expect(result.warnings[0].params).toBeUndefined()
+    expect(result.warnings[0].message).toBeUndefined()
+  })
+
+  it("i18n (17.2): stan pełny zwraca i18nKey/params, nie message", () => {
+    const result = calculateGestoscElektrolitu({ gestoscGCm3: 1.28 })
+    expect(result.warnings[0].i18nKey).toBe("STAN-PELNY")
+    expect(result.warnings[0].params).toEqual({ gestosc: "1.28", pelny: 1.28 })
+    expect(result.warnings[0].message).toBeUndefined()
+  })
+
+  it("i18n (17.2): stan częściowo naładowany zwraca i18nKey/params, nie message", () => {
+    const result = calculateGestoscElektrolitu({ gestoscGCm3: 1.2 })
+    expect(result.warnings[0].i18nKey).toBe("STAN-CZESCIOWO-NALADOWANY")
+    expect(result.warnings[0].params).toEqual({ gestosc: "1.20", polowa: 1.2 })
+    expect(result.warnings[0].message).toBeUndefined()
+  })
+
+  it("i18n (17.2): stan rozładowany zwraca i18nKey/params, nie message", () => {
+    const result = calculateGestoscElektrolitu({ gestoscGCm3: 1.15 })
+    expect(result.warnings[0].i18nKey).toBe("STAN-ROZLADOWANY")
+    expect(result.warnings[0].params).toEqual({ gestosc: "1.15" })
+    expect(result.warnings[0].message).toBeUndefined()
+  })
 })

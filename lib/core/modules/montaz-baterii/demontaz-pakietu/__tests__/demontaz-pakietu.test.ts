@@ -73,4 +73,38 @@ describe("calculateDemontazPakietu", () => {
     expect(result.status).toBe("INCOMPLETE")
     expect(result.warnings).toHaveLength(0)
   })
+
+  it("i18n (17.2): błąd walidacji zwraca i18nKey bez params, nie message", () => {
+    const result = calculateDemontazPakietu({
+      napiecieSystemu: 24,
+      napieciePakietuV: 0,
+      potwierdzoneIds: [],
+    })
+    expect(result.warnings[0].i18nKey).toBe("NAPIECIE-PAKIETU-NIEDODATNIE")
+    expect(result.warnings[0].params).toBeUndefined()
+    expect(result.warnings[0].message).toBeUndefined()
+  })
+
+  it("i18n (17.2): pakiet wciąż naładowany zwraca i18nKey/params, nie message", () => {
+    const result = calculateDemontazPakietu({
+      napiecieSystemu: 48,
+      napieciePakietuV: 56,
+      potwierdzoneIds: [],
+    })
+    expect(result.warnings[0].i18nKey).toBe("PAKIET-WCIAZ-NALADOWANY")
+    expect(result.warnings[0].params).toEqual({ napiecie: "3.50", max: 3.2 })
+    expect(result.warnings[0].message).toBeUndefined()
+  })
+
+  it("i18n (17.2): krok poza kolejnością zwraca i18nKey bez params, nie message", () => {
+    const result = calculateDemontazPakietu({
+      napiecieSystemu: 24,
+      napieciePakietuV: 24.8,
+      potwierdzoneIds: ["zatrzymaj-obciazenia", "demontaz-ogniw"],
+    })
+    const w = result.warnings.find((x) => x.code === "KROK-POZA-KOLEJNOSCIA")
+    expect(w?.i18nKey).toBe("KROK-POZA-KOLEJNOSCIA")
+    expect(w?.params).toBeUndefined()
+    expect(w?.message).toBeUndefined()
+  })
 })

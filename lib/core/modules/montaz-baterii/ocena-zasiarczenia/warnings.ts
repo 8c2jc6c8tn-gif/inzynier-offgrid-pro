@@ -4,7 +4,8 @@ export function objawyZasiarczeniaObecne(liczbaObjawow: number): Warning {
   return {
     code: "OBJAWY-ZASIARCZENIA-OBECNE",
     level: "warning",
-    message: `Zaobserwowano ${liczbaObjawow} ${liczbaObjawow === 1 ? "objaw" : "objawy"} zasiarczenia — patrz Ekran B11 "Ratowanie zasiarczonego akumulatora".`,
+    i18nKey: liczbaObjawow === 1 ? "OBJAWY-ZASIARCZENIA-JEDEN" : "OBJAWY-ZASIARCZENIA-WIELE",
+    params: liczbaObjawow === 1 ? undefined : { liczba: liczbaObjawow },
     technicalMessage: `liczbaObjawow=${liczbaObjawow} >= 1`,
   }
 }

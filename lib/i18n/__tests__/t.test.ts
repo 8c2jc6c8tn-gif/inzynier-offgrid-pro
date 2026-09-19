@@ -871,6 +871,53 @@ describe("t — klucze zmigrowane 19.09.2026, partia 15 (start katalogu ogrzewan
   })
 })
 
+describe("t — klucze zmigrowane 19.09.2026, partia 16 (montaz-baterii: balansery-zewnetrzne-olow, demontaz-pakietu, gestosc-elektrolitu, montaz-mechaniczny, ocena-zasiarczenia)", () => {
+  const kluczeZParametrami: Record<string, Record<string, string | number>> = {
+    "BRAK-BALANSERA-ZEWNETRZNEGO": { ilosc: 4 },
+    "PAKIET-WCIAZ-NALADOWANY": { napiecie: "3.50", max: 3.2 },
+    "STAN-PELNY": { gestosc: "1.28", pelny: 1.28 },
+    "STAN-CZESCIOWO-NALADOWANY": { gestosc: "1.20", polowa: 1.2 },
+    "STAN-ROZLADOWANY": { gestosc: "1.15" },
+    "OBJAWY-ZASIARCZENIA-WIELE": { liczba: 2 },
+  }
+  const kluczeBezParametrow = [
+    "ILOSC-AKUMULATOROW-NIEDODATNIA",
+    "NAPIECIE-PAKIETU-NIEDODATNIE",
+    "KROK-POZA-KOLEJNOSCIA",
+    "GESTOSC-NIEDODATNIA",
+    "DOCISK-NIEDODATNI",
+    "OBJAWY-ZASIARCZENIA-JEDEN",
+  ]
+
+  it("klucze z parametrami: podstawiają wartości i różnią się między językami w każdym", () => {
+    for (const [kod, params] of Object.entries(kluczeZParametrami)) {
+      const pl = t("pl", kod, params)
+      const en = t("en", kod, params)
+      const ru = t("ru", kod, params)
+      for (const wartosc of Object.values(params)) {
+        expect(pl).toContain(String(wartosc))
+        expect(en).toContain(String(wartosc))
+        expect(ru).toContain(String(wartosc))
+      }
+      expect(pl).not.toBe(en)
+      expect(pl).not.toBe(ru)
+      expect(en).not.toBe(ru)
+    }
+  })
+
+  it("klucze bez parametrów: tekst istnieje i różni się między językami", () => {
+    for (const kod of kluczeBezParametrow) {
+      const pl = t("pl", kod)
+      const en = t("en", kod)
+      const ru = t("ru", kod)
+      expect(pl.length).toBeGreaterThan(0)
+      expect(pl).not.toBe(en)
+      expect(pl).not.toBe(ru)
+      expect(en).not.toBe(ru)
+    }
+  })
+})
+
 describe("dictionaries — parytet kluczy", () => {
   it("każdy język ma dokładnie ten sam zestaw kluczy co polski", () => {
     const kluczePl = Object.keys(dictionaries.pl).sort()
