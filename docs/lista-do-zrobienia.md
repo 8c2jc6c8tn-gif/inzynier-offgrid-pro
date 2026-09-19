@@ -714,3 +714,27 @@ Tu trafia bieżący stan pracy: co w trakcie, co zablokowane, co następne — a
   na starcie partii 15: status `baterie/napiecie-systemowe` (7× `message:` — możliwe, że już
   objęty inną decyzją z wcześniejszej sesji, nie zakładać z góry). Pełne uzasadnienie i lista
   modułów: `docs/memory.md`, wpis "czternasta partia". Kolejna partia (15.): start `ogrzewanie/`.
+
+- ✅ (2026-09-19) **Rollout i18n — piętnasta partia: zamyka cały katalog `ogrzewanie/` (6
+  modułów, jedna partia).** Zmigrowane: `bufor-ciepla`, `infiltracja-powietrza`,
+  `kociol-elektryczny`, `pompy-cyrkulacyjne`, `ryzyko-niskiego-napiecia`,
+  `wentylacja-odzysk-ciepla`. 21 nowych kluczy, 2 reużyte po weryfikacji treści
+  (`WARTOSC-NIE-MOZE-BYC-UJEMNA`, `COP-POZA-ZAKRESEM`).
+  **Pierwsza partia w całej rundzie bez żadnego znalezionego bugu UI** — wszystkie 6 stron już
+  poprawnie przekazywały `warnings` do `WynikSzczegoly` na obu ścieżkach. Zero nowych wystąpień
+  anty-wzorca "etykieta jako parametr" i wzorca "różny tekst zależnie od warunku" — obie funkcje
+  generyczne (`wartoscUjemna`) i warunkowe (`buforZaMaly`/`buforWystarczajacy` itp.) już były
+  napisane poprawnie od początku. Jedna bliska kolizja: `SPRAWNOSC-POZA-ZAKRESEM` (istniejący,
+  zakres ułamkowy) vs tekst procentowy `wentylacja-odzysk-ciepla` → nowy klucz
+  `SPRAWNOSC-REKUPERATORA-POZA-ZAKRESEM`. Naprawiony jeden inline literał `Warning` w
+  `pompy-cyrkulacyjne/validation.ts` (poza `warnings.ts`).
+  `scripts/check-i18n-guard.mjs` → `MIGRATED_MODULES` rozszerzone z 66 do 72.
+  6 nowych bloków testowych domenowych + nowy blok w `t.test.ts` (10 kluczy z parametrami/11
+  bez). `pnpm typecheck`/`lint`/`check:i18n-guard`/`test` (857/857)/`build` czyste — testy
+  przeszły od razu, bez korekty wartości po pierwszym biegu.
+  Zweryfikowane end-to-end w świeżej przeglądarce (Playwright, potwierdzenie braku rezydualnego
+  `next-server` przed i po) w PL/EN/RU (6 modułów × 3 języki = 18 sprawdzeń) — zero `⚠ [...]`.
+  **Pozostały zakres z realnym tekstem do migracji**: `montaz-baterii/` (12 modułów, nowo odkryty
+  w partii 14), `bezpieczenstwo/` (2), `kalkulator-mobilny/` (1) = **15 modułów**. Pełne
+  uzasadnienie: `docs/memory.md`, wpis "piętnasta partia". Kolejna partia (16.): start
+  `montaz-baterii/` (zweryfikować grepem, czy lista 12 modułów z partii 14 jest wciąż aktualna).

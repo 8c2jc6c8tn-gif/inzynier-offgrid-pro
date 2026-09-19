@@ -86,6 +86,12 @@ const MIGRATED_MODULES = [
   "lib/core/modules/zapotrzebowanie/profil-astronomiczny",
   "lib/core/modules/zapotrzebowanie/przetwornice-dcdc",
   "lib/core/modules/zapotrzebowanie/sezonowosc",
+  "lib/core/modules/ogrzewanie/bufor-ciepla",
+  "lib/core/modules/ogrzewanie/infiltracja-powietrza",
+  "lib/core/modules/ogrzewanie/kociol-elektryczny",
+  "lib/core/modules/ogrzewanie/pompy-cyrkulacyjne",
+  "lib/core/modules/ogrzewanie/ryzyko-niskiego-napiecia",
+  "lib/core/modules/ogrzewanie/wentylacja-odzysk-ciepla",
 ]
 
 const FILES_TO_CHECK = ["warnings.ts", "calculator.ts", "validation.ts"]

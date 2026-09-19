@@ -1,4 +1,4 @@
-import type { CalcResult } from "@/lib/core/calc-result"
+import type { Assumption, CalcResult } from "@/lib/core/calc-result"
 import type { WentylacjaOdzyskCieplaInput } from "./input"
 import { validateInput } from "./validation"
 import { odzyskInfo } from "./warnings"
@@ -86,10 +86,10 @@ export function calculateWentylacjaOdzyskCiepla(
     formula: FORMULA,
     inputs,
     assumptions: [
-      "Gęstość i ciepło właściwe powietrza jako stałe fizyczne (1,2 kg/m³, 1005 J/(kg·K)).",
-      "Stały pobór wentylatorów raportowany osobno (bilans elektryczny) — nie odejmowany od odzyskanego ciepła (inna domena: elektryczna vs cieplna).",
-      "Projekt strumieni per pomieszczenie i logika bypassu letniego (dawne 5.23, 5.24) NIE są tu liczone — wymagają danych/reguł nieobecnych w źródle jako wzór.",
-    ],
+      { kod: "STALE-FIZYCZNE-POWIETRZA-WENTYLACJA" },
+      { kod: "POBOR-WENTYLATOROW-OSOBNO-BILANS" },
+      { kod: "PROJEKT-STRUMIENI-BYPASS-NIE-LICZONE" },
+    ] satisfies Assumption[],
     warnings,
     calculatorVersion: CALCULATOR_VERSION,
   }

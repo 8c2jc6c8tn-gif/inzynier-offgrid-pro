@@ -63,4 +63,46 @@ describe("calculatePompyCyrkulacyjne", () => {
     })
     expect(result.status).toBe("INVALID_INPUT")
   })
+
+  it("i18n (17.2): błąd walidacji (godziny poza zakresem) zwraca i18nKey/params, nie message", () => {
+    const result = calculatePompyCyrkulacyjne({
+      mocObecnejPompyW: 45,
+      mocNowejPompyW: 8,
+      godzinyPracyDobowoH: 30,
+    })
+    expect(result.warnings[0].i18nKey).toBe("GODZINY-POZA-ZAKRESEM")
+    expect(result.warnings[0].params).toBeUndefined()
+    expect(result.warnings[0].message).toBeUndefined()
+  })
+
+  it("i18n (17.2): oszczędność zwraca i18nKey/params, nie message", () => {
+    const result = calculatePompyCyrkulacyjne({
+      mocObecnejPompyW: 45,
+      mocNowejPompyW: 8,
+      godzinyPracyDobowoH: 24,
+    })
+    expect(result.warnings[0].i18nKey).toBe("OSZCZEDNOSC-POMPA-CYRKULACYJNA")
+    expect(result.warnings[0].params).toEqual({ oszczednoscKwh: "0.89", oszczednoscPct: "82" })
+    expect(result.warnings[0].message).toBeUndefined()
+  })
+
+  it("i18n (17.2): nowa pompa nie oszczędza zwraca i18nKey bez params, nie message", () => {
+    const result = calculatePompyCyrkulacyjne({
+      mocObecnejPompyW: 45,
+      mocNowejPompyW: 45,
+      godzinyPracyDobowoH: 24,
+    })
+    expect(result.warnings[0].i18nKey).toBe("NOWA-POMPA-NIE-OSZCZEDZA")
+    expect(result.warnings[0].params).toBeUndefined()
+    expect(result.warnings[0].message).toBeUndefined()
+  })
+
+  it("i18n (17.2): założenie o godzinach pracy zwraca {kod}, nie string", () => {
+    const result = calculatePompyCyrkulacyjne({
+      mocObecnejPompyW: 45,
+      mocNowejPompyW: 8,
+      godzinyPracyDobowoH: 24,
+    })
+    expect(result.assumptions).toEqual([{ kod: "GODZINY-PRACY-WPISANE-RECZNIE" }])
+  })
 })

@@ -63,4 +63,48 @@ describe("calculateInfiltracjaPowietrza", () => {
     })
     expect(result.status).toBe("INVALID_INPUT")
   })
+
+  it("i18n (17.2): błąd walidacji zwraca i18nKey/params, nie message", () => {
+    const result = calculateInfiltracjaPowietrza({
+      wymianyPowietrzaNaH: 0.8,
+      kubaturaBudynkuM3: -300,
+      deltaTK: 20,
+    })
+    expect(result.warnings[0].i18nKey).toBe("WARTOSC-NIE-MOZE-BYC-UJEMNA")
+    expect(result.warnings[0].params).toBeUndefined()
+    expect(result.warnings[0].message).toBeUndefined()
+  })
+
+  it("i18n (17.2): sanity check wymian zwraca i18nKey/params, nie message", () => {
+    const result = calculateInfiltracjaPowietrza({
+      wymianyPowietrzaNaH: 15,
+      kubaturaBudynkuM3: 300,
+      deltaTK: 20,
+    })
+    const w = result.warnings.find((x) => x.code === "WYMIANY-POZA-SANITY-CHECK")
+    expect(w?.i18nKey).toBe("WYMIANY-POZA-SANITY-CHECK")
+    expect(w?.params).toEqual({ max: 10 })
+    expect(w?.message).toBeUndefined()
+  })
+
+  it("i18n (17.2): strata info zwraca i18nKey/params, nie message", () => {
+    const result = calculateInfiltracjaPowietrza({
+      wymianyPowietrzaNaH: 0.8,
+      kubaturaBudynkuM3: 300,
+      deltaTK: 30,
+    })
+    const w = result.warnings.find((x) => x.code === "STRATA-INFILTRACJI")
+    expect(w?.i18nKey).toBe("STRATA-INFILTRACJI")
+    expect(w?.params).toEqual({ strata: "2.41" })
+    expect(w?.message).toBeUndefined()
+  })
+
+  it("i18n (17.2): założenie o stałych fizycznych zwraca {kod}, nie string", () => {
+    const result = calculateInfiltracjaPowietrza({
+      wymianyPowietrzaNaH: 0.8,
+      kubaturaBudynkuM3: 300,
+      deltaTK: 30,
+    })
+    expect(result.assumptions).toEqual([{ kod: "STALE-FIZYCZNE-POWIETRZA-INFILTRACJA" }])
+  })
 })

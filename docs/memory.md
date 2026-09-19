@@ -4776,3 +4776,47 @@ rzeczywistym tekstem do migracji (potwierdzone grepem, nie zgadywane):
 Realny pozostały zakres z tekstem do migracji: **21 modułów** (6+12+2+1), nie ~27 — ale to
 WIĘKSZY, nie mniejszy zakres niż poprzedni szacunek sugerował, bo `montaz-baterii/` był całkowicie
 nieujęty. Kolejna partia (15.): start `ogrzewanie/`.
+
+## Rollout i18n — piętnasta partia: start katalogu `ogrzewanie/` (19.09.2026)
+
+Zmigrowane: `bufor-ciepla`, `infiltracja-powietrza`, `kociol-elektryczny`, `pompy-cyrkulacyjne`,
+`ryzyko-niskiego-napiecia`, `wentylacja-odzysk-ciepla` (wszystkie 6 modułów `ogrzewanie/` z
+hardkodowanym tekstem — zamyka cały katalog w jednej partii, po weryfikacji grepem że to
+faktycznie wszystkie). 21 nowych kluczy PL/EN/RU (13 ostrzeżeń + 8 założeń), 2 klucze reużyte 1:1
+po weryfikacji treści: `WARTOSC-NIE-MOZE-BYC-UJEMNA` (identyczny generyczny komunikat
+`wartoscUjemna(field, value)` duplikowany w każdym z 6 modułów) i `COP-POZA-ZAKRESEM` (z
+`cop-pompy-ciepla`, ten sam wzorzec `{min}–{max}`).
+
+**Zero nowych wystąpień znanych anty-wzorców w tej partii** — pierwsza partia bez wzorca
+"etykieta jako parametr" (generyczna `wartoscUjemna` używa `field` tylko w `technicalMessage`/
+`field`, nie w treści komunikatu — bezpieczny wzorzec od początku) i bez wzorca "różny tekst
+zależnie od warunku" (2-wariantowe ostrzeżenia jak `buforZaMaly`/`buforWystarczajacy` już były
+osobnymi funkcjami z osobnymi kluczami, zgodnie z ustalonym wzorcem). Jedna bliska kolizja
+rozstrzygnięta przez porównanie treści: `SPRAWNOSC-POZA-ZAKRESEM` (istniejący klucz, zakres
+ułamkowy (0,1]) różni się od `wentylacja-odzysk-ciepla`'s tekstu zakresu procentowego 0–100% —
+nowy klucz `SPRAWNOSC-REKUPERATORA-POZA-ZAKRESEM`, analogicznie do
+`SPRAWNOSC-PRZETWORNICY-POZA-ZAKRESEM` z partii 14. Druga bliska kolizja: kod `"OSZCZEDNOSC"` jest
+identyczny w `kociol-elektryczny` i `pompy-cyrkulacyjne`, ale treść komunikatów różni się całkowicie
+(kocioł vs pompa) — `code` (identyfikator testowy) zostawiony bez zmian w obu, ale każdy dostał
+odrębny `i18nKey` (`OSZCZEDNOSC-KOCIOL-VS-POMPA`/`OSZCZEDNOSC-POMPA-CYRKULACYJNA`). Znaleziony i
+naprawiony jeden inline literał `Warning` w `pompy-cyrkulacyjne/validation.ts` (poza `warnings.ts`
+— strażnik sprawdza też `validation.ts`, zgodnie z rozszerzeniem z partii 6).
+
+**Zero bugów UI w tej partii** — wszystkie 6 stron już poprawnie używały
+`<WynikSzczegoly assumptions warnings formula />` z pełnym propem `warnings` na obu ścieżkach
+(błąd i wynik), bez żadnego manualnego renderu `{w.message}`. Pierwsza partia w całej rundzie bez
+ani jednego znalezionego bugu UI.
+
+`MIGRATED_MODULES`: 66→72. 6 nowych bloków testowych domenowych (w tym jeden dodatkowy test dla
+`NAPIECIE-POZA-SANITY-CHECK`, dopisany po zauważeniu braku pokrycia) + nowy blok w `t.test.ts` (10
+kluczy z parametrami/11 bez — tylko 21 NOWYCH kluczy tej partii, bez dwóch reużytych).
+`pnpm typecheck`/`lint`/`check:i18n-guard`/`test` (857/857)/`build` czyste — testy przeszły od
+razu przy pierwszym uruchomieniu (żadnej korekty wartości parametrów po biegu, w przeciwieństwie
+do partii 9 i 12). Zweryfikowane w przeglądarce PL/EN/RU (18 kombinacji — 6 modułów × 3 języki,
+zero `⚠ [...]`), z potwierdzeniem `ps aux | grep next-server` puste przed i po.
+
+**To zamyka cały katalog `ogrzewanie/`.** Pozostały zakres z realnym tekstem do migracji (per
+korekta z partii 14): `montaz-baterii/` (12 modułów), `bezpieczenstwo/` (2: `dogrzewanie-paliwem-
+stalym`, `ups-krytyczny`), `kalkulator-mobilny/` (1: `tryb-uproszczony`) = **15 modułów**.
+Kolejna partia (16.): start `montaz-baterii/` (największy pozostały katalog, nowo odkryty w
+partii 14 — sprawdzić grepem na starcie, czy lista 12 modułów z partii 14 jest wciąż aktualna).

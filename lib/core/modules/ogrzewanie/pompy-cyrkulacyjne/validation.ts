@@ -15,7 +15,7 @@ export function validateInput(input: PompyCyrkulacyjneInput): ValidationResult {
     errors.push({
       code: "GODZINY-POZA-ZAKRESEM",
       level: "critical",
-      message: "Doba ma maksymalnie 24 godziny.",
+      i18nKey: "GODZINY-POZA-ZAKRESEM",
       technicalMessage: `godzinyPracyDobowoH=${input.godzinyPracyDobowoH} > 24`,
       field: "godzinyPracyDobowoH",
     })

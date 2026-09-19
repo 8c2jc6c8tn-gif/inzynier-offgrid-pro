@@ -4,7 +4,7 @@ export function wartoscUjemna(field: string, value: number): Warning {
   return {
     code: "WARTOSC-UJEMNA",
     level: "critical",
-    message: "Wartość nie może być ujemna.",
+    i18nKey: "WARTOSC-NIE-MOZE-BYC-UJEMNA",
     technicalMessage: `${field} = ${value}, oczekiwano >= 0`,
     field,
   }
@@ -14,7 +14,8 @@ export function oszczednoscInfo(oszczednoscKwh: number, oszczednoscPct: number):
   return {
     code: "OSZCZEDNOSC",
     level: "info",
-    message: `Wymiana na pompę elektroniczną zaoszczędzi ${oszczednoscKwh.toFixed(2)} kWh/dobę (${oszczednoscPct.toFixed(0)}%).`,
+    i18nKey: "OSZCZEDNOSC-POMPA-CYRKULACYJNA",
+    params: { oszczednoscKwh: oszczednoscKwh.toFixed(2), oszczednoscPct: oszczednoscPct.toFixed(0) },
     technicalMessage: `oszczednoscKwh=${oszczednoscKwh}, oszczednoscPct=${oszczednoscPct}`,
   }
 }
@@ -23,7 +24,7 @@ export function nowaPompaNieOszczedza(): Warning {
   return {
     code: "NOWA-POMPA-NIE-OSZCZEDZA",
     level: "warning",
-    message: "Wpisana moc nowej pompy nie jest niższa od obecnej — sprawdź dane, bo taka wymiana nie przyniesie oszczędności.",
+    i18nKey: "NOWA-POMPA-NIE-OSZCZEDZA",
     technicalMessage: "mocNowejPompyW >= mocObecnejPompyW",
   }
 }

@@ -612,6 +612,53 @@ export const dictionaryPl = {
   "URZADZENIE-NIEAKTYWNE": "Urządzenie poza swoim okresem aktywności — nie liczy się do bilansu dobowego.",
   "POBORCIAGLEW-UJEMNY": "Pobór w trybie pracy ciągłej nie może być ujemny.",
   "POBORUSPIENIEW-UJEMNY": "Pobór w trybie uśpienia nie może być ujemny.",
+  "BUFOR-ZA-MALY":
+    "Posiadany bufor ({pojemnosc} l) jest mniejszy od zalecanej pojemności ({zalecana} l) — za mały " +
+    "bufor to częste starty pompy i większe zużycie prądu.",
+  "BUFOR-WYSTARCZAJACY": "Posiadany bufor ({pojemnosc} l) mieści zalecaną pojemność ({zalecana} l).",
+  "WYMIANY-POZA-SANITY-CHECK":
+    "To nietypowo wysoka liczba wymian powietrza na godzinę (>{max}) — sprawdź dane z testu szczelności.",
+  "STRATA-INFILTRACJI": "Strata ciepła przez infiltrację: {strata} kW.",
+  "OSZCZEDNOSC-KOCIOL-VS-POMPA":
+    "Pompa ciepła jest tańsza o {oszczednosc} zł — kocioł elektryczny zużyje {mnoznik}× więcej prądu na " +
+    "to samo ciepło.",
+  "OSZCZEDNOSC-POMPA-CYRKULACYJNA":
+    "Wymiana na pompę elektroniczną zaoszczędzi {oszczednoscKwh} kWh/dobę ({oszczednoscPct}%).",
+  "NOWA-POMPA-NIE-OSZCZEDZA":
+    "Wpisana moc nowej pompy nie jest niższa od obecnej — sprawdź dane, bo taka wymiana nie przyniesie " +
+    "oszczędności.",
+  "GODZINY-POZA-ZAKRESEM": "Doba ma maksymalnie 24 godziny.",
+  "NAPIECIE-POZA-SANITY-CHECK":
+    "To nietypowo wysoka wartość napięcia (>{max}V) — sprawdź, czy nie pomyliłeś jednostek.",
+  "POMPA-SIE-WYLACZY":
+    "Aktualne napięcie systemu ({aktualne} V) jest poniżej minimalnego napięcia pracy pompy ({min} V) — " +
+    "pompa się wyłączy. Niskie napięcie to cichy zabójca pomp: nie zepsuje się od razu, po prostu " +
+    "przestanie działać dokładnie wtedy, gdy jest najbardziej potrzebna.",
+  "MARGINES-BEZPIECZNY": "Margines do progu wyłączenia pompy: {margines} V.",
+  "SPRAWNOSC-REKUPERATORA-POZA-ZAKRESEM": "Sprawność rekuperatora musi być z przedziału 0–100%.",
+  "ODZYSK-INFO":
+    "Odzyskane ciepło: {odzysk} kW. Stały pobór wentylatorów: {pobor} W dolicza się do bilansu " +
+    "elektrycznego.",
+  "STALE-FIZYCZNE-POWIETRZA-INFILTRACJA":
+    "Gęstość i ciepło właściwe powietrza jako stałe fizyczne (1,2 kg/m³, 1005 J/(kg·K)) — nie dane " +
+    "specyficzne dla źródła.",
+  "KOCIOL-SPRAWNOSC-COP1": "Kocioł elektryczny: sprawność 99%, zaokrąglona do COP=1 (1:1 ze źródła).",
+  "TA-SAMA-CENA-ENERGII-OBA-ZRODLA":
+    "Zakłada tę samą cenę energii elektrycznej dla obu źródeł ciepła (off-grid, ta sama instalacja " +
+    "PV/magazyn).",
+  "GODZINY-PRACY-WPISANE-RECZNIE":
+    "Godziny pracy dobowo wpisane ręcznie — źródło opisuje profil ciągły/sterowany bez wzoru na " +
+    "konkretną liczbę godzin dla trybu sterowanego.",
+  "NAPIECIE-SYSTEMU-RECZNIE":
+    "Aktualne napięcie systemu wpisane ręcznie — docelowo auto z Modułu 4 (live), gdy tryb Live będzie " +
+    "miał dane na żywo do pokazania.",
+  "STALE-FIZYCZNE-POWIETRZA-WENTYLACJA": "Gęstość i ciepło właściwe powietrza jako stałe fizyczne (1,2 kg/m³, 1005 J/(kg·K)).",
+  "POBOR-WENTYLATOROW-OSOBNO-BILANS":
+    "Stały pobór wentylatorów raportowany osobno (bilans elektryczny) — nie odejmowany od odzyskanego " +
+    "ciepła (inna domena: elektryczna vs cieplna).",
+  "PROJEKT-STRUMIENI-BYPASS-NIE-LICZONE":
+    "Projekt strumieni per pomieszczenie i logika bypassu letniego (dawne 5.23, 5.24) NIE są tu liczone " +
+    "— wymagają danych/reguł nieobecnych w źródle jako wzór.",
 } as const
 
 export type KluczTlumaczenia = keyof typeof dictionaryPl
