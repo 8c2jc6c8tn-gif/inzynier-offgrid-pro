@@ -5097,7 +5097,34 @@ odpowiedzi, różny status realizacji:
    błędów konsoli poza pre-existing 404 `_vercel/insights` (niezwiązane z tą zmianą, obecne też
    na `main` przed nią).
 3. **Własne logo/ikony PWA** — **decyzja: zaprojektować własne logo teraz** (opcja A), kilka
-   propozycji do wyboru właściciela.
+   propozycji do wyboru właściciela. **Wybór dokonany i wdrożony (19.09.2026): koncepcja D
+   "Monogram OG"** — litery O i G (Off Grid) zlane w jeden znak, kolory 1:1 z istniejącymi
+   tokenami aplikacji (`--primary` na tło, akcent "G" pożyczony z `--werdykt-uwaga`, bez
+   dodawania trzeciego koloru do palety). Zastąpiony domyślny znak v0.app: `public/icon.svg`
+   (źródło wektorowe) + `icon-192.png`/`icon-512.png`/`apple-icon.png`/`icon-light-32x32.png`/
+   `icon-dark-32x32.png` (rasteryzowane z niego Playwrightem — brak `sharp`/`rsvg-convert` w
+   środowisku, headless Chromium jako zamiennik). Light/dark warianty faviconu celowo identyczne
+   — to pełnokolorowa plakietka, nie inwertowany mono-znak jak stary placeholder, więc rozróżnienie
+   motywu przestało być potrzebne (kod `app/layout.tsx` niezmieniony, dwa pliki zostają z tych
+   samych powodów co poprzednio: łatwe zróżnicowanie w przyszłości, gdyby było potrzebne).
+
+   **Bug znaleziony przez realną weryfikację w przeglądarce, nie przez samo `pnpm build`:**
+   pierwsza wersja `icon.svg` miała komentarz XML z dwoma dosłownymi wystąpieniami `--` (nazwy
+   tokenów CSS `--primary`/`--werdykt-uwaga` wklejone wprost do treści komentarza) — nielegalne
+   w XML (komentarz nie może zawierać `--`). `pnpm build`/`typecheck`/`lint` tego nie złapały
+   (to statyczny plik, nie kod), a `curl` na `/icon.svg` też pokazywał 200 (serwer i tak zwraca
+   bajty pliku). Dopiero nawigacja Playwrightem wprost na `/icon.svg` pokazała natywny błąd
+   parsera XML Chromium ("Comment must not contain '--'") zamiast obrazka — to samo spotkałoby
+   każdą przeglądarkę ładującą `<link rel="icon" type="image/svg+xml">` z `app/layout.tsx`.
+   Naprawione (komentarz przepisany bez `--`), zweryfikowane ponownie — poprawny render ikony.
+   **Zasada do zapamiętania:** przy edycji `public/*.svg` zawsze nawigować bezpośrednio na plik w
+   przeglądarce (nie tylko sprawdzać kod HTTP), nie tylko oglądać go jako `<img>`/tło w innym
+   kontekście, który bywa bardziej tolerancyjny na błędy XML niż nawigacja na sam dokument.
+
+   Zweryfikowane: `pnpm typecheck`/`lint`/`build` czyste (bez zmian w kodzie TS — tylko zasoby
+   statyczne), Playwright (`pnpm build && pnpm start`, `next-server` sprzątnięty przed i po):
+   wszystkie pliki ikon 200, `/icon.svg` renderuje się poprawnie jako obraz, zero nowych błędów
+   konsoli (pre-existing 404 `_vercel/insights` niezwiązany).
 4. **Żywy edytor kolorów w Ustawieniach** — **decyzja: pełny edytor** (opcja B), cała paleta
    tokenów motywu, nie tylko kilka kluczowych. **Korekta tego samego dnia:** przed napisaniem
    kodu sprawdzono stan repo — okazało się, że to pytanie było już nieaktualne (dryf dokumentacji,
