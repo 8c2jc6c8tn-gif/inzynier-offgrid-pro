@@ -1,4 +1,4 @@
-import type { CalcResult, Warning } from "@/lib/core/calc-result"
+import type { Assumption, CalcResult, Warning } from "@/lib/core/calc-result"
 import type { StringBoxInput } from "./input"
 import { validateInput } from "./validation"
 import { bezpiecznikPozaZakresem, brakSkrzynkiIp66, zaMaloWejsc } from "./warnings"
@@ -73,11 +73,9 @@ export function calculateStringBox(input: StringBoxInput): CalcResult<StringBoxR
     warnings.push(bezpiecznikPozaZakresem(input.bezpiecznikStringowyA))
   }
 
-  const assumptions = [
-    "SPD Typ 2 (cross-ref Ekran 2) i rozłącznik izolacyjny DC nie sprawdzone — brak podanych parametrów w źródle.",
-  ]
-  if (!wejscSprawdzono) assumptions.push("Liczba wejść skrzynki niepodana — sprawdzenie pominięte.")
-  if (!bezpiecznikSprawdzono) assumptions.push("Bezpiecznik stringowy niewybrany — sprawdzenie zakresu pominięte.")
+  const assumptions: Assumption[] = [{ kod: "SPD-ROZLACZNIK-NIE-SPRAWDZONE" }]
+  if (!wejscSprawdzono) assumptions.push({ kod: "LICZBA-WEJSC-NIEPODANA-POMINIETO" })
+  if (!bezpiecznikSprawdzono) assumptions.push({ kod: "BEZPIECZNIK-STRINGOWY-NIEWYBRANY-POMINIETO" })
 
   const value: StringBoxResult = {
     wejscWystarczajaco,

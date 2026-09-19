@@ -4,7 +4,7 @@ export function biegunUziemionyWbrewIt(): Warning {
   return {
     code: "BIEGUN-UZIEMIONY-WBREW-IT",
     level: "critical",
-    message: "Falownik wymaga układu izolowanego (IT), a biegun DC jest uziemiony — ryzyko uszkodzenia MPPT.",
+    i18nKey: "BIEGUN-UZIEMIONY-WBREW-IT",
     technicalMessage: "falownikWymagaUkladuIt=true, biegunDcUziemiony=true",
   }
 }
@@ -13,7 +13,7 @@ export function wymaganyMonitorIzolacji(): Warning {
   return {
     code: "WYMAGANY-MONITOR-IZOLACJI",
     level: "warning",
-    message: "Falownik pracuje w układzie IT — zastosuj monitor izolacji (IMD), zobacz Ekran 18.",
+    i18nKey: "WYMAGANY-MONITOR-IZOLACJI",
     technicalMessage: "falownikWymagaUkladuIt=true, biegunDcUziemiony=false",
   }
 }
@@ -22,7 +22,7 @@ export function obudowaNiepolaczonaZGsw(): Warning {
   return {
     code: "OBUDOWA-NIEPOLACZONA-Z-GSW",
     level: "critical",
-    message: "Uziemienie obudowy falownika nie jest połączone z Główną Szyną Wyrównawczą (GSW).",
+    i18nKey: "OBUDOWA-NIEPOLACZONA-Z-GSW",
     technicalMessage: "obudowaPolaczonaZGsw=false",
   }
 }
@@ -31,7 +31,7 @@ export function uziemienieOk(): Warning {
   return {
     code: "UZIEMIENIE-OK",
     level: "info",
-    message: "Uziemienie funkcjonalne i ochronne zgodne z wymaganiami producenta falownika.",
+    i18nKey: "UZIEMIENIE-OK",
     technicalMessage: "brak sprzecznych ustawień",
   }
 }

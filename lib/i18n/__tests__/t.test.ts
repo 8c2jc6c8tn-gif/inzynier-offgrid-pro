@@ -508,6 +508,74 @@ describe("t — klucze zmigrowane 18.09.2026, partia 9 (okablowanie: glowna-szyn
   })
 })
 
+describe("t — klucze zmigrowane 19.09.2026, partia 10 (okablowanie: pomiary-powykonawcze, string-box, uziemienie-funkcjonalne-ochronne, wylaczniki-nadpradowe-dc, wylaczniki-rcd — zamyka katalog)", () => {
+  const kluczeZParametrami: Record<string, Record<string, string | number>> = {
+    "REZYSTANCJA-IZOLACJI-ZA-NISKA": { wartosc: 0.5, min: 1 },
+    "REZYSTANCJA-UZIEMIENIA-ZA-WYSOKA": { wartosc: 35, prog: 30 },
+    "CZAS-RCD-ZA-DLUGI": { czas: 0.5, max: 0.4 },
+    "ZA-MALO-WEJSC-SKRZYNKI": { wejscia: 4, stringi: 6 },
+    "BEZPIECZNIK-STRINGOWY-POZA-ZAKRESEM": { bezpiecznik: 25, min: 15, max: 20 },
+    "AIC-WYLACZNIKA-PONIZEJ-PRADU-ZWARCIOWEGO": { aic: 2000, pradZwarciowy: 4800 },
+    "WYMAGANY-TYP-B": { typ: "A" },
+    "PROG-POWYZEJ-OCHRONY-OSOB": { prog: 100 },
+    "PROG-POWYZEJ-OCHRONY-POZAROWEJ": { prog: 500 },
+  }
+  const kluczeBezParametrow = [
+    "CIAGLOSC-NIEPOTWIERDZONA",
+    "REZYSTANCJA-UZIEMIENIA-NIEZMIERZONA",
+    "CZAS-RCD-NIEZMIERZONY",
+    "TEST-ZWARCIOWY-NIEPOTWIERDZONY",
+    "TERMOWIZJA-NIEPOTWIERDZONA",
+    "WSZYSTKO-OK",
+    "BRAK-SKRZYNKI-IP66",
+    "LICZBA-STRINGOW-UJEMNA",
+    "LICZBA-WEJSC-UJEMNA",
+    "BEZPIECZNIK-STRINGOWY-UJEMNY",
+    "SPD-ROZLACZNIK-NIE-SPRAWDZONE",
+    "LICZBA-WEJSC-NIEPODANA-POMINIETO",
+    "BEZPIECZNIK-STRINGOWY-NIEWYBRANY-POMINIETO",
+    "BIEGUN-UZIEMIONY-WBREW-IT",
+    "WYMAGANY-MONITOR-IZOLACJI",
+    "OBUDOWA-NIEPOLACZONA-Z-GSW",
+    "UZIEMIENIE-OK",
+    "UKLAD-SIECI-INFORMACYJNY",
+    "WYLACZNIK-NIECERTYFIKOWANY-DO-DC",
+    "WYLACZNIK-DC-DOBRANY-POPRAWNIE",
+    "AIC-WYLACZANIA-NIE-SPRAWDZONA-WOBEC-ZWARCIA",
+    "WYMAGANY-TYP-A-MINIMUM",
+    "RCD-DOBRANY-POPRAWNIE",
+    "TYP-RCD-MINIMALNY-NIE-PODANY",
+  ]
+
+  it("klucze z parametrami: podstawiają wartości i różnią się między językami w każdym", () => {
+    for (const [kod, params] of Object.entries(kluczeZParametrami)) {
+      const pl = t("pl", kod, params)
+      const en = t("en", kod, params)
+      const ru = t("ru", kod, params)
+      for (const wartosc of Object.values(params)) {
+        expect(pl).toContain(String(wartosc))
+        expect(en).toContain(String(wartosc))
+        expect(ru).toContain(String(wartosc))
+      }
+      expect(pl).not.toBe(en)
+      expect(pl).not.toBe(ru)
+      expect(en).not.toBe(ru)
+    }
+  })
+
+  it("klucze bez parametrów: tekst istnieje i różni się między językami", () => {
+    for (const kod of kluczeBezParametrow) {
+      const pl = t("pl", kod)
+      const en = t("en", kod)
+      const ru = t("ru", kod)
+      expect(pl.length).toBeGreaterThan(0)
+      expect(pl).not.toBe(en)
+      expect(pl).not.toBe(ru)
+      expect(en).not.toBe(ru)
+    }
+  })
+})
+
 describe("dictionaries — parytet kluczy", () => {
   it("każdy język ma dokładnie ten sam zestaw kluczy co polski", () => {
     const kluczePl = Object.keys(dictionaries.pl).sort()

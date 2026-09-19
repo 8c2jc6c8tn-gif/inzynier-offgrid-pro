@@ -1,4 +1,4 @@
-import type { CalcResult, Warning } from "@/lib/core/calc-result"
+import type { Assumption, CalcResult, Warning } from "@/lib/core/calc-result"
 import type { WylacznikiRcdInput } from "./input"
 import { validateInput } from "./validation"
 import {
@@ -87,9 +87,7 @@ export function calculateWylaczniki(input: WylacznikiRcdInput): CalcResult<Wylac
     status: maNieinformacyjneOstrzezenia ? "VALID_WITH_WARNINGS" : "VALID",
     formula: "",
     inputs,
-    assumptions: [
-      "Bez falownika hybrydowego i bez silników w obwodzie źródło nie podaje minimalnego typu RCD — nie zgadywany.",
-    ],
+    assumptions: [{ kod: "TYP-RCD-MINIMALNY-NIE-PODANY" }] satisfies Assumption[],
     warnings,
     calculatorVersion: CALCULATOR_VERSION,
   }

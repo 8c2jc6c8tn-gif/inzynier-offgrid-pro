@@ -1,4 +1,4 @@
-import type { CalcResult, Warning } from "@/lib/core/calc-result"
+import type { Assumption, CalcResult, Warning } from "@/lib/core/calc-result"
 import type { WylacznikiNadpradoweDcInput } from "./input"
 import { validateInput } from "./validation"
 import { aicPonizejPraduZwarciowego, dobranyPoprawnie, wylacznikNieCertyfikowanyDoDc } from "./warnings"
@@ -67,11 +67,9 @@ export function calculateWylacznikiNadpradoweDc(
     warnings.push(dobranyPoprawnie())
   }
 
-  const assumptions: string[] = []
+  const assumptions: Assumption[] = []
   if (!sprawdzanoAic) {
-    assumptions.push(
-      "Zdolność wyłączania (AIC) nie sprawdzona wobec prądu zwarciowego — wpisz oba pola, docelowo prąd zwarciowy z Ekranu 12 (Analiza zwarciowa).",
-    )
+    assumptions.push({ kod: "AIC-WYLACZANIA-NIE-SPRAWDZONA-WOBEC-ZWARCIA" })
   }
 
   const maKrytyczne = warnings.some((w) => w.level === "critical")

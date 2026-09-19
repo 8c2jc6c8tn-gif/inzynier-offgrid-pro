@@ -44,4 +44,16 @@ describe("calculateUziemienieFunkcjonalneOchronne", () => {
     })
     expect(result.warnings.some((w) => w.code === "OBUDOWA-NIEPOLACZONA-Z-GSW")).toBe(true)
   })
+
+  it("i18n (17.2): UZIEMIENIE-OK ma i18nKey, założenie to {kod}, nie string", () => {
+    const result = calculateUziemienieFunkcjonalneOchronne({
+      ukladSieci: "TN-S",
+      falownikWymagaUkladuIt: false,
+      biegunDcUziemiony: true,
+      obudowaPolaczonaZGsw: true,
+    })
+    expect(result.warnings[0].i18nKey).toBe("UZIEMIENIE-OK")
+    expect(result.warnings[0].message).toBeUndefined()
+    expect(result.assumptions).toEqual([{ kod: "UKLAD-SIECI-INFORMACYJNY" }])
+  })
 })

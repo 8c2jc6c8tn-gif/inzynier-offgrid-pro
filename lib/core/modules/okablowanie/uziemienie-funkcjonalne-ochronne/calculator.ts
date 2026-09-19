@@ -1,4 +1,4 @@
-import type { CalcResult, Warning } from "@/lib/core/calc-result"
+import type { Assumption, CalcResult, Warning } from "@/lib/core/calc-result"
 import type { UziemienieFunkcjonalneOchronneInput } from "./input"
 import {
   biegunUziemionyWbrewIt,
@@ -49,9 +49,7 @@ export function calculateUziemienieFunkcjonalneOchronne(
     status: maKrytyczne ? "VALID_WITH_WARNINGS" : "VALID",
     formula: FORMULA,
     inputs,
-    assumptions: [
-      "Układ sieci (TN-S/TN-C-S/TT/IT) jest tu informacyjny — źródło nie wiąże go bezpośrednio z werdyktem tego ekranu, tylko z ogólnym kontekstem instalacji.",
-    ],
+    assumptions: [{ kod: "UKLAD-SIECI-INFORMACYJNY" }] satisfies Assumption[],
     warnings,
     calculatorVersion: CALCULATOR_VERSION,
   }

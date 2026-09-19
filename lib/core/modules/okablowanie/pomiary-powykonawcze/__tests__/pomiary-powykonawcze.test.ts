@@ -87,4 +87,16 @@ describe("calculatePomiaryPowykonawcze", () => {
     const result = calculatePomiaryPowykonawcze({ ...WSZYSTKO_OK, rezystancjaIzolacjiMohm: -1 })
     expect(result.status).toBe("INVALID_INPUT")
   })
+
+  it("i18n (17.2): WSZYSTKO-OK i REZYSTANCJA-IZOLACJI-ZA-NISKA mają i18nKey+params, nie message", () => {
+    const ok = calculatePomiaryPowykonawcze(WSZYSTKO_OK)
+    expect(ok.warnings[0].i18nKey).toBe("WSZYSTKO-OK")
+    expect(ok.warnings[0].message).toBeUndefined()
+
+    const izolacja = calculatePomiaryPowykonawcze({ ...WSZYSTKO_OK, rezystancjaIzolacjiMohm: 1 })
+    const w = izolacja.warnings.find((x) => x.code === "REZYSTANCJA-IZOLACJI-ZA-NISKA")
+    expect(w?.i18nKey).toBe("REZYSTANCJA-IZOLACJI-ZA-NISKA")
+    expect(w?.params).toEqual({ wartosc: 1, min: 1 })
+    expect(w?.message).toBeUndefined()
+  })
 })
