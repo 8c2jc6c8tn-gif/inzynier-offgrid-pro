@@ -1,12 +1,14 @@
 "use client"
 
-import { useMemo, useState } from "react"
+import { useEffect, useMemo, useState } from "react"
+import Link from "next/link"
 import { calculateStarzenieDegradacja } from "@/lib/core/modules/baterie/starzenie-degradacja/calculator"
 import type { HoryzontLata } from "@/lib/core/modules/baterie/starzenie-degradacja/input"
 import {
   DEGRADACJA_TYPOWA_MAX_PCT,
   DEGRADACJA_TYPOWA_MIN_PCT,
 } from "@/lib/core/modules/baterie/starzenie-degradacja/constants"
+import { useProfilSprzetu } from "@/lib/profil-sprzetu/use-profil-sprzetu"
 import { Pole, PoleSelect } from "@/components/ui/pole"
 import { WerdyktPanel } from "@/components/werdykt"
 import { NawigacjaEkranu } from "@/components/nawigacja-ekranu"
@@ -19,6 +21,21 @@ export default function StarzenieDegradacjaPage() {
   const [horyzontLata, setHoryzontLata] = useState<HoryzontLata>(10)
   const [degradacjaRocznaPct, setDegradacjaRocznaPct] = useState("")
 
+  // Profil sprzętu (docs/zrodla/Zasady_UX_Doradca_v2_1.md, §10) — jednorazowe auto-wypełnienie
+  // z wyniku Ekranu 1 (dobor-pojemnosci), gdy dostępny. Ustawienie stanu bezpośrednio w renderze
+  // (nie w useEffect — wzorzec "Adjusting state when a prop changes" z react.dev, bez refów —
+  // niedozwolone podczas renderu w tym projekcie), bo `profil` ładuje się asynchronicznie z
+  // IndexedDB tylko raz po zamontowaniu: React odrzuca ten render i renderuje ponownie z już
+  // wypełnionym polem, bez migotania. `autoWypelnione` pilnuje, żeby to zdarzyło się tylko raz —
+  // dalsze ręczne edycje pola nie są nadpisywane wsteczną zmianą profilu.
+  const { profil, zapiszBaterie } = useProfilSprzetu()
+  const [autoWypelnione, setAutoWypelnione] = useState(false)
+  const zEkranu1 = profil.bateria?.pojemnoscUzytecznaDzisKwh
+  if (!autoWypelnione && zEkranu1 !== undefined) {
+    setAutoWypelnione(true)
+    setPojemnoscUzytecznaDzisKwh(String(zEkranu1))
+  }
+
   const result = useMemo(
     () =>
       calculateStarzenieDegradacja({
@@ -28,6 +45,15 @@ export default function StarzenieDegradacjaPage() {
       }),
     [pojemnoscUzytecznaDzisKwh, horyzontLata, degradacjaRocznaPct],
   )
+
+  useEffect(() => {
+    if (result.status !== "VALID") return
+    zapiszBaterie({
+      pojemnoscPoczatkowaZBuforemKwh: result.value.pojemnoscPoczatkowaKwh,
+      buforHoryzontLata: horyzontLata,
+      pojemnoscZBuforemZaktualizowanoIso: new Date().toISOString(),
+    })
+  }, [result, horyzontLata, zapiszBaterie])
 
   return (
     <main className="mx-auto flex max-w-md flex-col gap-6 p-6">
@@ -46,7 +72,11 @@ export default function StarzenieDegradacjaPage() {
           min={0}
           value={pojemnoscUzytecznaDzisKwh}
           onChange={(e) => setPojemnoscUzytecznaDzisKwh(e.target.value)}
-          hint="Docelowo automatycznie z Ekranu 1 (Dobór pojemności baterii) — na razie wpisz ręcznie."
+          hint={
+            autoWypelnione
+              ? "Auto z Ekranu 1 (Dobór pojemności baterii) — możesz nadpisać, nie zapisze się to na stałe w Ekranie 1."
+              : "Wpisz ręcznie albo policz najpierw Ekran 1 (Dobór pojemności baterii) — wynik zostanie tu podstawiony automatycznie."
+          }
         />
 
         <PoleSelect
@@ -84,6 +114,13 @@ export default function StarzenieDegradacjaPage() {
           <p className="mt-1 text-small">
             Po {horyzontLata} latach zostanie ok.{" "}
             {(result.value.ulamekPozostalyPoHoryzoncie * 100).toFixed(0)}% pojemności początkowej.
+          </p>
+          <p className="mt-1 text-small text-muted-foreground">
+            Ten wynik jest teraz widoczny też na{" "}
+            <Link href="/kalkulatory/dobor-pojemnosci-baterii" className="underline">
+              Ekranie 1, Dobór pojemności baterii
+            </Link>
+            .
           </p>
           <WynikSzczegoly assumptions={result.assumptions} formula={result.formula} />
         </WerdyktPanel>
