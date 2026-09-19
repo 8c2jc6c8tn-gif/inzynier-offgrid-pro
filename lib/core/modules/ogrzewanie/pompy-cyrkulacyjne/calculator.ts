@@ -1,4 +1,4 @@
-import type { CalcResult } from "@/lib/core/calc-result"
+import type { Assumption, CalcResult } from "@/lib/core/calc-result"
 import type { PompyCyrkulacyjneInput } from "./input"
 import { validateInput } from "./validation"
 import { oszczednoscInfo, nowaPompaNieOszczedza } from "./warnings"
@@ -88,9 +88,7 @@ export function calculatePompyCyrkulacyjne(
     status: maNieinformacyjneOstrzezenia ? "VALID_WITH_WARNINGS" : "VALID",
     formula: FORMULA,
     inputs,
-    assumptions: [
-      "Godziny pracy dobowo wpisane ręcznie — źródło opisuje profil ciągły/sterowany bez wzoru na konkretną liczbę godzin dla trybu sterowanego.",
-    ],
+    assumptions: [{ kod: "GODZINY-PRACY-WPISANE-RECZNIE" }] satisfies Assumption[],
     warnings,
     calculatorVersion: CALCULATOR_VERSION,
   }

@@ -33,4 +33,25 @@ describe("calculateBuforCiepla", () => {
     const result = calculateBuforCiepla({ mocPompyKw: -8, pojemnoscBuforaL: 400 })
     expect(result.status).toBe("INVALID_INPUT")
   })
+
+  it("i18n (17.2): błąd walidacji zwraca i18nKey/params, nie message", () => {
+    const result = calculateBuforCiepla({ mocPompyKw: -8, pojemnoscBuforaL: 400 })
+    expect(result.warnings[0].i18nKey).toBe("WARTOSC-NIE-MOZE-BYC-UJEMNA")
+    expect(result.warnings[0].params).toBeUndefined()
+    expect(result.warnings[0].message).toBeUndefined()
+  })
+
+  it("i18n (17.2): bufor wystarczający zwraca i18nKey/params, nie message", () => {
+    const result = calculateBuforCiepla({ mocPompyKw: 8, pojemnoscBuforaL: 400 })
+    expect(result.warnings[0].i18nKey).toBe("BUFOR-WYSTARCZAJACY")
+    expect(result.warnings[0].params).toEqual({ pojemnosc: "400", zalecana: "400" })
+    expect(result.warnings[0].message).toBeUndefined()
+  })
+
+  it("i18n (17.2): bufor za mały zwraca i18nKey/params, nie message", () => {
+    const result = calculateBuforCiepla({ mocPompyKw: 8, pojemnoscBuforaL: 200 })
+    expect(result.warnings[0].i18nKey).toBe("BUFOR-ZA-MALY")
+    expect(result.warnings[0].params).toEqual({ pojemnosc: "200", zalecana: "400" })
+    expect(result.warnings[0].message).toBeUndefined()
+  })
 })

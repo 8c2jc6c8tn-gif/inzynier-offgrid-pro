@@ -1,4 +1,4 @@
-import type { CalcResult } from "@/lib/core/calc-result"
+import type { Assumption, CalcResult } from "@/lib/core/calc-result"
 import type { InfiltracjaPowietrzaInput } from "./input"
 import { validateInput } from "./validation"
 import { strataInfo } from "./warnings"
@@ -85,9 +85,7 @@ export function calculateInfiltracjaPowietrza(
     status: maNieinformacyjneOstrzezenia ? "VALID_WITH_WARNINGS" : "VALID",
     formula: FORMULA,
     inputs,
-    assumptions: [
-      "Gęstość i ciepło właściwe powietrza jako stałe fizyczne (1,2 kg/m³, 1005 J/(kg·K)) — nie dane specyficzne dla źródła.",
-    ],
+    assumptions: [{ kod: "STALE-FIZYCZNE-POWIETRZA-INFILTRACJA" }] satisfies Assumption[],
     warnings,
     calculatorVersion: CALCULATOR_VERSION,
   }

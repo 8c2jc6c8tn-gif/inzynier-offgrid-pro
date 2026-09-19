@@ -4,7 +4,7 @@ export function wartoscUjemna(field: string, value: number): Warning {
   return {
     code: "WARTOSC-UJEMNA",
     level: "critical",
-    message: "Wartość nie może być ujemna.",
+    i18nKey: "WARTOSC-NIE-MOZE-BYC-UJEMNA",
     technicalMessage: `${field} = ${value}, oczekiwano >= 0`,
     field,
   }
@@ -14,7 +14,8 @@ export function buforZaMaly(pojemnoscBuforaL: number, zalecanaPojemnoscL: number
   return {
     code: "BUFOR-ZA-MALY",
     level: "warning",
-    message: `Posiadany bufor (${pojemnoscBuforaL.toFixed(0)} l) jest mniejszy od zalecanej pojemności (${zalecanaPojemnoscL.toFixed(0)} l) — za mały bufor to częste starty pompy i większe zużycie prądu.`,
+    i18nKey: "BUFOR-ZA-MALY",
+    params: { pojemnosc: pojemnoscBuforaL.toFixed(0), zalecana: zalecanaPojemnoscL.toFixed(0) },
     technicalMessage: `pojemnoscBuforaL=${pojemnoscBuforaL} < zalecanaPojemnoscL=${zalecanaPojemnoscL}`,
   }
 }
@@ -23,7 +24,8 @@ export function buforWystarczajacy(pojemnoscBuforaL: number, zalecanaPojemnoscL:
   return {
     code: "BUFOR-WYSTARCZAJACY",
     level: "info",
-    message: `Posiadany bufor (${pojemnoscBuforaL.toFixed(0)} l) mieści zalecaną pojemność (${zalecanaPojemnoscL.toFixed(0)} l).`,
+    i18nKey: "BUFOR-WYSTARCZAJACY",
+    params: { pojemnosc: pojemnoscBuforaL.toFixed(0), zalecana: zalecanaPojemnoscL.toFixed(0) },
     technicalMessage: `pojemnoscBuforaL=${pojemnoscBuforaL} >= zalecanaPojemnoscL=${zalecanaPojemnoscL}`,
   }
 }

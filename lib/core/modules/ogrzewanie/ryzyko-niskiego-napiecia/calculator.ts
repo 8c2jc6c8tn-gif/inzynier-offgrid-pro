@@ -1,4 +1,4 @@
-import type { CalcResult } from "@/lib/core/calc-result"
+import type { Assumption, CalcResult } from "@/lib/core/calc-result"
 import type { RyzykoNiskiegoNapieciaInput } from "./input"
 import { validateInput } from "./validation"
 import { pompaSieWylaczy, marginesBezpieczny } from "./warnings"
@@ -75,9 +75,7 @@ export function calculateRyzykoNiskiegoNapiecia(
     status: maNieinformacyjneOstrzezenia ? "VALID_WITH_WARNINGS" : "VALID",
     formula: FORMULA,
     inputs,
-    assumptions: [
-      "Aktualne napięcie systemu wpisane ręcznie — docelowo auto z Modułu 4 (live), gdy tryb Live będzie miał dane na żywo do pokazania.",
-    ],
+    assumptions: [{ kod: "NAPIECIE-SYSTEMU-RECZNIE" }] satisfies Assumption[],
     warnings,
     calculatorVersion: CALCULATOR_VERSION,
   }

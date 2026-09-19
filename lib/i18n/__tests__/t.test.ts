@@ -815,6 +815,62 @@ describe("t — klucze zmigrowane 19.09.2026, partia 14 (zapotrzebowanie: pobor-
   })
 })
 
+describe("t — klucze zmigrowane 19.09.2026, partia 15 (start katalogu ogrzewanie/: bufor-ciepla, infiltracja-powietrza, kociol-elektryczny, pompy-cyrkulacyjne, ryzyko-niskiego-napiecia, wentylacja-odzysk-ciepla)", () => {
+  const kluczeZParametrami: Record<string, Record<string, string | number>> = {
+    "BUFOR-ZA-MALY": { pojemnosc: "200", zalecana: "400" },
+    "BUFOR-WYSTARCZAJACY": { pojemnosc: "400", zalecana: "400" },
+    "WYMIANY-POZA-SANITY-CHECK": { max: 10 },
+    "STRATA-INFILTRACJI": { strata: "2.41" },
+    "OSZCZEDNOSC-KOCIOL-VS-POMPA": { oszczednosc: "26.67", mnoznik: "3.0" },
+    "OSZCZEDNOSC-POMPA-CYRKULACYJNA": { oszczednoscKwh: "0.89", oszczednoscPct: "82" },
+    "NAPIECIE-POZA-SANITY-CHECK": { max: 60 },
+    "POMPA-SIE-WYLACZY": { aktualne: "44.0", min: "46.0" },
+    "MARGINES-BEZPIECZNY": { margines: "5.0" },
+    "ODZYSK-INFO": { odzysk: "2.14", pobor: "70" },
+  }
+  const kluczeBezParametrow = [
+    "NOWA-POMPA-NIE-OSZCZEDZA",
+    "GODZINY-POZA-ZAKRESEM",
+    "SPRAWNOSC-REKUPERATORA-POZA-ZAKRESEM",
+    "STALE-FIZYCZNE-POWIETRZA-INFILTRACJA",
+    "KOCIOL-SPRAWNOSC-COP1",
+    "TA-SAMA-CENA-ENERGII-OBA-ZRODLA",
+    "GODZINY-PRACY-WPISANE-RECZNIE",
+    "NAPIECIE-SYSTEMU-RECZNIE",
+    "STALE-FIZYCZNE-POWIETRZA-WENTYLACJA",
+    "POBOR-WENTYLATOROW-OSOBNO-BILANS",
+    "PROJEKT-STRUMIENI-BYPASS-NIE-LICZONE",
+  ]
+
+  it("klucze z parametrami: podstawiają wartości i różnią się między językami w każdym", () => {
+    for (const [kod, params] of Object.entries(kluczeZParametrami)) {
+      const pl = t("pl", kod, params)
+      const en = t("en", kod, params)
+      const ru = t("ru", kod, params)
+      for (const wartosc of Object.values(params)) {
+        expect(pl).toContain(String(wartosc))
+        expect(en).toContain(String(wartosc))
+        expect(ru).toContain(String(wartosc))
+      }
+      expect(pl).not.toBe(en)
+      expect(pl).not.toBe(ru)
+      expect(en).not.toBe(ru)
+    }
+  })
+
+  it("klucze bez parametrów: tekst istnieje i różni się między językami", () => {
+    for (const kod of kluczeBezParametrow) {
+      const pl = t("pl", kod)
+      const en = t("en", kod)
+      const ru = t("ru", kod)
+      expect(pl.length).toBeGreaterThan(0)
+      expect(pl).not.toBe(en)
+      expect(pl).not.toBe(ru)
+      expect(en).not.toBe(ru)
+    }
+  })
+})
+
 describe("dictionaries — parytet kluczy", () => {
   it("każdy język ma dokładnie ten sam zestaw kluczy co polski", () => {
     const kluczePl = Object.keys(dictionaries.pl).sort()

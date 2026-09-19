@@ -1,4 +1,4 @@
-import type { CalcResult } from "@/lib/core/calc-result"
+import type { Assumption, CalcResult } from "@/lib/core/calc-result"
 import type { KociolElektrycznyInput } from "./input"
 import { validateInput } from "./validation"
 import { oszczednoscInfo } from "./warnings"
@@ -89,9 +89,9 @@ export function calculateKociolElektryczny(input: KociolElektrycznyInput): CalcR
     formula: FORMULA,
     inputs,
     assumptions: [
-      "Kocioł elektryczny: sprawność 99%, zaokrąglona do COP=1 (1:1 ze źródła).",
-      "Zakłada tę samą cenę energii elektrycznej dla obu źródeł ciepła (off-grid, ta sama instalacja PV/magazyn).",
-    ],
+      { kod: "KOCIOL-SPRAWNOSC-COP1" },
+      { kod: "TA-SAMA-CENA-ENERGII-OBA-ZRODLA" },
+    ] satisfies Assumption[],
     warnings,
     calculatorVersion: CALCULATOR_VERSION,
   }

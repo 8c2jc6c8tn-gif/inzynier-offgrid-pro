@@ -5,7 +5,7 @@ export function wartoscUjemna(field: string, value: number): Warning {
   return {
     code: "WARTOSC-UJEMNA",
     level: "critical",
-    message: "Wartość nie może być ujemna.",
+    i18nKey: "WARTOSC-NIE-MOZE-BYC-UJEMNA",
     technicalMessage: `${field} = ${value}, oczekiwano >= 0`,
     field,
   }
@@ -15,7 +15,8 @@ export function napieciePozaSanityCheck(value: number): Warning {
   return {
     code: "NAPIECIE-POZA-SANITY-CHECK",
     level: "info",
-    message: `To nietypowo wysoka wartość napięcia (>${NAPIECIE_SANITY_MAX_V}V) — sprawdź, czy nie pomyliłeś jednostek.`,
+    i18nKey: "NAPIECIE-POZA-SANITY-CHECK",
+    params: { max: NAPIECIE_SANITY_MAX_V },
     technicalMessage: `value = ${value} > ${NAPIECIE_SANITY_MAX_V}`,
   }
 }
@@ -24,7 +25,8 @@ export function pompaSieWylaczy(aktualneNapiecieSystemuV: number, minNapiecieRob
   return {
     code: "POMPA-SIE-WYLACZY",
     level: "critical",
-    message: `Aktualne napięcie systemu (${aktualneNapiecieSystemuV.toFixed(1)} V) jest poniżej minimalnego napięcia pracy pompy (${minNapiecieRoboczeV.toFixed(1)} V) — pompa się wyłączy. Niskie napięcie to cichy zabójca pomp: nie zepsuje się od razu, po prostu przestanie działać dokładnie wtedy, gdy jest najbardziej potrzebna.`,
+    i18nKey: "POMPA-SIE-WYLACZY",
+    params: { aktualne: aktualneNapiecieSystemuV.toFixed(1), min: minNapiecieRoboczeV.toFixed(1) },
     technicalMessage: `aktualneNapiecieSystemuV=${aktualneNapiecieSystemuV} < minNapiecieRoboczeV=${minNapiecieRoboczeV}`,
   }
 }
@@ -33,7 +35,8 @@ export function marginesBezpieczny(marginesV: number): Warning {
   return {
     code: "MARGINES-BEZPIECZNY",
     level: "info",
-    message: `Margines do progu wyłączenia pompy: ${marginesV.toFixed(1)} V.`,
+    i18nKey: "MARGINES-BEZPIECZNY",
+    params: { margines: marginesV.toFixed(1) },
     technicalMessage: `marginesV=${marginesV}`,
   }
 }

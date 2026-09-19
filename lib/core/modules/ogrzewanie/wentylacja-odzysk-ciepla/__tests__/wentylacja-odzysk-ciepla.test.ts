@@ -68,4 +68,42 @@ describe("calculateWentylacjaOdzyskCiepla", () => {
     })
     expect(result.status).toBe("INVALID_INPUT")
   })
+
+  it("i18n (17.2): błąd walidacji (sprawność poza zakresem) zwraca i18nKey/params, nie message", () => {
+    const result = calculateWentylacjaOdzyskCiepla({
+      wydajnoscCentraliM3H: 250,
+      sprawnoscRekuperatoraPct: 120,
+      deltaTK: 30,
+      poborWentylatorowW: 70,
+    })
+    expect(result.warnings[0].i18nKey).toBe("SPRAWNOSC-REKUPERATORA-POZA-ZAKRESEM")
+    expect(result.warnings[0].params).toBeUndefined()
+    expect(result.warnings[0].message).toBeUndefined()
+  })
+
+  it("i18n (17.2): odzysk info zwraca i18nKey/params, nie message", () => {
+    const result = calculateWentylacjaOdzyskCiepla({
+      wydajnoscCentraliM3H: 250,
+      sprawnoscRekuperatoraPct: 85,
+      deltaTK: 30,
+      poborWentylatorowW: 70,
+    })
+    expect(result.warnings[0].i18nKey).toBe("ODZYSK-INFO")
+    expect(result.warnings[0].params).toEqual({ odzysk: "2.14", pobor: "70" })
+    expect(result.warnings[0].message).toBeUndefined()
+  })
+
+  it("i18n (17.2): założenia zwracają {kod}, nie stringi", () => {
+    const result = calculateWentylacjaOdzyskCiepla({
+      wydajnoscCentraliM3H: 250,
+      sprawnoscRekuperatoraPct: 85,
+      deltaTK: 30,
+      poborWentylatorowW: 70,
+    })
+    expect(result.assumptions).toEqual([
+      { kod: "STALE-FIZYCZNE-POWIETRZA-WENTYLACJA" },
+      { kod: "POBOR-WENTYLATOROW-OSOBNO-BILANS" },
+      { kod: "PROJEKT-STRUMIENI-BYPASS-NIE-LICZONE" },
+    ])
+  })
 })

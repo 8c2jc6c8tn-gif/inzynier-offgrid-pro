@@ -603,4 +603,51 @@ export const dictionaryEn = {
   "URZADZENIE-NIEAKTYWNE": "The device is outside its active period — it doesn't count toward the daily balance.",
   "POBORCIAGLEW-UJEMNY": "The continuous-operation draw cannot be negative.",
   "POBORUSPIENIEW-UJEMNY": "The sleep-mode draw cannot be negative.",
+  "BUFOR-ZA-MALY":
+    "The buffer you have ({pojemnosc} l) is smaller than the recommended capacity ({zalecana} l) — an " +
+    "undersized buffer means frequent pump cycling and higher power consumption.",
+  "BUFOR-WYSTARCZAJACY": "The buffer you have ({pojemnosc} l) meets the recommended capacity ({zalecana} l).",
+  "WYMIANY-POZA-SANITY-CHECK":
+    "That's an unusually high number of air changes per hour (>{max}) — check the airtightness test data.",
+  "STRATA-INFILTRACJI": "Heat loss through infiltration: {strata} kW.",
+  "OSZCZEDNOSC-KOCIOL-VS-POMPA":
+    "The heat pump is cheaper by {oszczednosc} zł — the electric boiler will use {mnoznik}× more power " +
+    "for the same heat.",
+  "OSZCZEDNOSC-POMPA-CYRKULACYJNA":
+    "Switching to an electronic pump will save {oszczednoscKwh} kWh/day ({oszczednoscPct}%).",
+  "NOWA-POMPA-NIE-OSZCZEDZA":
+    "The new pump's power isn't lower than the current one — check the data, since this swap won't " +
+    "save anything.",
+  "GODZINY-POZA-ZAKRESEM": "A day has at most 24 hours.",
+  "NAPIECIE-POZA-SANITY-CHECK":
+    "That's an unusually high voltage value (>{max}V) — check whether you mixed up the units.",
+  "POMPA-SIE-WYLACZY":
+    "The system's current voltage ({aktualne} V) is below the pump's minimum operating voltage ({min} V) " +
+    "— the pump will shut off. Low voltage is a silent pump killer: it won't fail outright, it'll just " +
+    "stop working exactly when it's needed most.",
+  "MARGINES-BEZPIECZNY": "Margin to the pump shutoff threshold: {margines} V.",
+  "SPRAWNOSC-REKUPERATORA-POZA-ZAKRESEM": "The heat recovery unit's efficiency must be within the range 0–100%.",
+  "ODZYSK-INFO":
+    "Heat recovered: {odzysk} kW. The fans' constant draw of {pobor} W counts toward the electrical " +
+    "balance.",
+  "STALE-FIZYCZNE-POWIETRZA-INFILTRACJA":
+    "Air density and specific heat as physical constants (1.2 kg/m³, 1005 J/(kg·K)) — not source-specific " +
+    "data.",
+  "KOCIOL-SPRAWNOSC-COP1": "Electric boiler: 99% efficiency, rounded to COP=1 (1:1 from the source).",
+  "TA-SAMA-CENA-ENERGII-OBA-ZRODLA":
+    "Assumes the same electricity price for both heat sources (off-grid, the same PV/storage " +
+    "installation).",
+  "GODZINY-PRACY-WPISANE-RECZNIE":
+    "Daily operating hours entered manually — the source describes a continuous/controlled profile " +
+    "without a formula for a specific number of hours in controlled mode.",
+  "NAPIECIE-SYSTEMU-RECZNIE":
+    "Current system voltage entered manually — eventually automatic from Module 4 (live), once Live " +
+    "mode has live data to show.",
+  "STALE-FIZYCZNE-POWIETRZA-WENTYLACJA": "Air density and specific heat as physical constants (1.2 kg/m³, 1005 J/(kg·K)).",
+  "POBOR-WENTYLATOROW-OSOBNO-BILANS":
+    "The fans' constant draw is reported separately (electrical balance) — not subtracted from the " +
+    "recovered heat (a different domain: electrical vs. thermal).",
+  "PROJEKT-STRUMIENI-BYPASS-NIE-LICZONE":
+    "Per-room airflow design and the summer bypass logic (formerly 5.23, 5.24) are NOT calculated here " +
+    "— they require data/rules absent from the source as a formula.",
 } satisfies Record<KluczTlumaczenia, string>

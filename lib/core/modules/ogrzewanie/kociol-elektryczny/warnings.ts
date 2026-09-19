@@ -5,7 +5,7 @@ export function wartoscUjemna(field: string, value: number): Warning {
   return {
     code: "WARTOSC-UJEMNA",
     level: "critical",
-    message: "Wartość nie może być ujemna.",
+    i18nKey: "WARTOSC-NIE-MOZE-BYC-UJEMNA",
     technicalMessage: `${field} = ${value}, oczekiwano >= 0`,
     field,
   }
@@ -15,7 +15,8 @@ export function copPozaZakresem(value: number): Warning {
   return {
     code: "COP-POZA-ZAKRESEM",
     level: "critical",
-    message: `COP musi być z przedziału ${COP_POMPY_MIN}-${COP_POMPY_MAX} dla typowej pompy ciepła.`,
+    i18nKey: "COP-POZA-ZAKRESEM",
+    params: { min: COP_POMPY_MIN, max: COP_POMPY_MAX },
     technicalMessage: `copPompy = ${value}, oczekiwano [${COP_POMPY_MIN}, ${COP_POMPY_MAX}]`,
     field: "copPompy",
   }
@@ -25,7 +26,8 @@ export function oszczednoscInfo(oszczednoscZl: number, mnoznikZuzycia: number): 
   return {
     code: "OSZCZEDNOSC",
     level: "info",
-    message: `Pompa ciepła jest tańsza o ${oszczednoscZl.toFixed(2)} zł — kocioł elektryczny zużyje ${mnoznikZuzycia.toFixed(1)}× więcej prądu na to samo ciepło.`,
+    i18nKey: "OSZCZEDNOSC-KOCIOL-VS-POMPA",
+    params: { oszczednosc: oszczednoscZl.toFixed(2), mnoznik: mnoznikZuzycia.toFixed(1) },
     technicalMessage: `oszczednoscZl=${oszczednoscZl}, mnoznikZuzycia=${mnoznikZuzycia}`,
   }
 }

@@ -5,7 +5,7 @@ export function wartoscUjemna(field: string, value: number): Warning {
   return {
     code: "WARTOSC-UJEMNA",
     level: "critical",
-    message: "Wartość nie może być ujemna.",
+    i18nKey: "WARTOSC-NIE-MOZE-BYC-UJEMNA",
     technicalMessage: `${field} = ${value}, oczekiwano >= 0`,
     field,
   }
@@ -15,7 +15,8 @@ export function wymianyPozaSanityCheck(value: number): Warning {
   return {
     code: "WYMIANY-POZA-SANITY-CHECK",
     level: "info",
-    message: `To nietypowo wysoka liczba wymian powietrza na godzinę (>${WYMIANY_SANITY_MAX}) — sprawdź dane z testu szczelności.`,
+    i18nKey: "WYMIANY-POZA-SANITY-CHECK",
+    params: { max: WYMIANY_SANITY_MAX },
     technicalMessage: `value = ${value} > ${WYMIANY_SANITY_MAX}`,
   }
 }
@@ -24,7 +25,8 @@ export function strataInfo(strataCieplnaKw: number): Warning {
   return {
     code: "STRATA-INFILTRACJI",
     level: "info",
-    message: `Strata ciepła przez infiltrację: ${strataCieplnaKw.toFixed(2)} kW.`,
+    i18nKey: "STRATA-INFILTRACJI",
+    params: { strata: strataCieplnaKw.toFixed(2) },
     technicalMessage: `strataCieplnaKw=${strataCieplnaKw}`,
   }
 }
