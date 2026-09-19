@@ -857,3 +857,8 @@ Tu trafia bieżący stan pracy: co w trakcie, co zablokowane, co następne — a
   wibracje), oba Moduł 6 — **korekta oceny źródła przy realizacji**: brak computable wzoru,
   zbudowane jako Wzorzec C (treść informacyjna). Szczegóły i wyjaśnienie rozbieżności:
   `docs/memory.md`.
+- ✅ (2026-09-19) **Punkt 7b z tej samej prośby — Wind Chill (Moduł 7).** Wzór NWS/Environment
+  Canada (2001), zweryfikowany niezależnie w Node. Zamyka punkt 7 w zakresie realizowalnym bez
+  wymyślania fizyki — pozostały klaster stress-test zimowy jest w większości architektonicznie
+  zależny od jeszcze niezbudowanych modułów, nie kolejnymi "gotowymi do budowy" lukami.
+  Szczegóły: `docs/memory.md`.

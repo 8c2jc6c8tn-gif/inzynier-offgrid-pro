@@ -782,6 +782,9 @@ export const dictionaryPl = {
   "PWM-WYSTARCZY": "Moc paneli {moc} W, napięcia zgodne — regulator PWM wystarczy.",
   "PID-PROG-NAPIECIA-ZE-ZRODLA": "Próg napięcia (400V) i wysoka wilgotność jako warunek ryzyka PID wzięte wprost ze źródła — bez modelu tempa utraty mocy.",
   "PROG-MOC-MPPT-OPLACALNOSC-DOPOWIEDZIANY": "Próg mocy 250W (środek zakresu 200-300W ze źródła) — dopowiedziany, nie podany wprost jako jedna liczba.",
+  "POZA-ZAKRESEM-WZORU-WIND-CHILL":
+    "Wzór wind chill jest zdefiniowany tylko dla temperatury ≤{maxTemp}°C i wiatru >{minWiatr} km/h — poza tym zakresem wynik nie ma sensu fizycznego.",
+  "WIND-CHILL-WZOR-NWS": "Standardowy wzór meteorologiczny NWS/Environment Canada (2001) — nie podany wprost w materiale źródłowym tego projektu, ale publicznie znana fizyka.",
 } as const
 
 export type KluczTlumaczenia = keyof typeof dictionaryPl

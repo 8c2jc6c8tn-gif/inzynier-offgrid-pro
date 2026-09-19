@@ -163,7 +163,10 @@ export const KAFLE: KafelEntry[] = [
     nazwa: "Stress-test zimowy",
     opis: "Sprawdza cały system w najgorszych warunkach — spina moduły 1–6.",
     ikona: "🧊",
-    ekrany: [{ href: "/kalkulatory/procedura-black-start", label: "Procedura Black Start" }],
+    ekrany: [
+      { href: "/kalkulatory/procedura-black-start", label: "Procedura Black Start" },
+      { href: "/kalkulatory/wind-chill", label: "Wind Chill — temperatura odczuwalna" },
+    ],
   },
   {
     id: 8,

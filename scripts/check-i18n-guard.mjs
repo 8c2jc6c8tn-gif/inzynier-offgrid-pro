@@ -109,6 +109,7 @@ const MIGRATED_MODULES = [
   "lib/core/modules/kalkulator-mobilny/tryb-uproszczony",
   "lib/core/modules/pv/ryzyko-pid",
   "lib/core/modules/kalkulator-mobilny/dobor-regulatora-pwm-mppt",
+  "lib/core/modules/stress-test/wind-chill",
 ]
 
 const FILES_TO_CHECK = ["warnings.ts", "calculator.ts", "validation.ts"]

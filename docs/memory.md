@@ -5182,3 +5182,28 @@ od razu z `i18nKey`, bez `.message`, zgodnie z konwencją "nowy kod domenowy = i
 `pnpm build && pnpm start`, potwierdzenie braku rezydualnego `next-server` przed i po) w
 PL/EN/RU dla obu kalkulatorów + render obu ekranów informacyjnych — zero `⚠ [...]`, zero
 błędów konsoli po poprawce.
+
+**Punkt 7b — Wind Chill (Moduł 7, stress-test zimowy), "najsilniejszy niezależny kandydat"
+klastra zimowego wg rejestru pokrycia:** `lib/core/modules/stress-test/wind-chill/`. Wzór
+NWS/Environment Canada (2001), metryczny — ten sam wzorzec co Magnus-Tetens (`ochrona-wilgoc`)
+i deklinacja Coopera (`profil-astronomiczny`): uniwersalna, publicznie znana fizyka/meteorologia
+niepodana wprost w źródle projektu, nie wymyślona. Zweryfikowane niezależnie w Node przed
+implementacją: przykład źródła (-10°C, 40km/h → "-20°C") odtwarza się z dokładnością 0,8°C
+(wzór daje -20,77°C) — silne potwierdzenie, że to właściwy wzór. Świadomie NIE liczony drugi
+człon przykładu źródła ("+35% strat ciepła, +2 kWh/dobę") — wymagałby modelu termicznego
+budynku (Moduł 6) wiążącego deltę wind chill z procentowym wzrostem strat, którego źródło nie
+podaje (tylko jeden ilustracyjny przykład). Ekran liczy wyłącznie temperaturę odczuwalną.
+`OUT_OF_SCOPE` poza zakresem ważności wzoru (T>10°C lub wiatr≤4,8km/h, granice wzoru NWS, nie
+luka źródła).
+
+`MIGRATED_MODULES`: 89→90. 10 nowych testów domenowych (w tym 3 z wartościami referencyjnymi
+zweryfikowanymi niezależnie w Node) + nowy blok w `t.test.ts` (6 kluczy z parametrami, 3 bez).
+`pnpm typecheck`/`lint`/`check:i18n-guard`/`test` (943/943)/`build` czyste. Zweryfikowane w
+przeglądarce (Playwright, świeży `pnpm build && pnpm start`) w PL/EN/RU: przypadek VALID
+(-20,8°C) i OUT_OF_SCOPE poprawnie przetłumaczone, zero `⚠ [...]`, zero nowych błędów konsoli.
+
+To zamyka punkt 7 z listy zaległości (5,6,7,8,9) w zakresie, jaki dawał się zrealizować bez
+wymyślania fizyki/wzorów. Pozostały klaster stress-test zimowy (~25 pozostałych `todo` w
+`docs/rejestr-pokrycia.md`) jest w większości jawnie oznaczony jako "zależny" od modułów
+jeszcze niezbudowanych (M1 geostruktura bez treści źródłowej, model termiczny M6, baza
+komponentów) — nie kolejne "gotowe do budowy" luki, tylko architektoniczna kolejność.
