@@ -58,4 +58,17 @@ describe("calculateWplywTemperatury", () => {
     })
     expect(result.status).toBe("INVALID_INPUT")
   })
+
+  it("i18n (17.2): UTRATA-MOCY ma i18nKey+params, assumption to {kod}", () => {
+    const result = calculateWplywTemperatury({
+      temperaturaOtoczeniaC: 35,
+      przyrostTemperaturyC: 25,
+      gammaPctNaC: -0.43,
+      mocNominalnaW: 450,
+    })
+    expect(result.warnings[0].i18nKey).toBe("UTRATA-MOCY")
+    expect(result.warnings[0].params).toEqual({ temperatura: "60", strata: "15.0" })
+    expect(result.warnings[0].message).toBeUndefined()
+    expect(result.assumptions).toEqual([{ kod: "PRZYROST-TEMP-I-GAMMA-RECZNIE" }])
+  })
 })

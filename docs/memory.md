@@ -4624,3 +4624,35 @@ Pozostało ~36 plików: `pv/` (6 pozostałych — `panele-bifacjalne`, `straty-o
 Partia 12: dokończenie `pv/` — sprawdzić ponownie przy migracji `stress-test-mppt`, czy coś je
 echuje (na dziś potwierdzone: `dopasowanie-tablicy-falownika` woła z niego tylko czystą funkcję
 liczbową, bez `Warning[]`).
+
+## Rollout i18n — dwunasta partia: kolejne 5 modułów `pv/` + drugi realny bug UI w tej rundzie (19.09.2026)
+
+Zmigrowane: `panele-bifacjalne`, `straty-okablowanie-dc`, `straty-zlaczki-mc4`,
+`stress-test-mppt`, `wplyw-temperatury`. Zweryfikowana ponownie (nie założona z partii 11) —
+zależność echa na `stress-test-mppt`: potwierdzone grepem, że `dopasowanie-tablicy-falownika`
+importuje z niego tylko `obliczNapiecieStringuZimowego` (czysta funkcja liczbowa), żaden inny
+plik nie woła jego `calculateStressTestMppt`/`Warning[]` poza własną stroną UI modułu. 38 nowych
+kluczy, 5 reużytych (`WARTOSC-NIE-MOZE-BYC-UJEMNA`). 6 stringowych `assumptions` skonwertowanych
+na `{kod}`.
+
+**🔴 Drugi realny bug funkcjonalny znaleziony podczas rollout-u (pierwszy: echo bug partii 9;
+ten: pominięty prop, nie literał tekstu).** `wplyw-temperatury/page.tsx` — ścieżka `VALID`
+(główny, powodzeniowy wynik) renderowała `<WynikSzczegoly assumptions={result.assumptions}
+formula={result.formula} />` BEZ `warnings={result.warnings}`. Jedyne ostrzeżenie tego
+kalkulatora (`utrataMocy`, poziom `info` — to nie dodatkowe ostrzeżenie, to GŁÓWNA treść
+informacyjna ekranu: "Panel przy X°C traci Y% mocy...") było całkowicie niewidoczne w normalnym
+przebiegu, nie tylko nieprzetłumaczone jak w dotychczasowych naprawach tego wzorca. Naprawione
+jednym dopisaniem propsa; zweryfikowane PRZED i PO pełnym wydrukiem `innerText`, nie tylko
+brakiem markera `⚠ [` (bo brak ostrzeżenia w ogóle nie generuje markera — trzeba osobno
+sprawdzić, że treść faktycznie się pojawiła). **Lekcja procesowa:** przy przeglądzie stron przed
+migracją nie wystarczy sprawdzić "czy `WynikSzczegoly` jest wywoływane" — trzeba sprawdzić, że
+KAŻDE wywołanie (nie tylko któreś) przekazuje `warnings`, bo strony z wieloma ścieżkami
+(INVALID/INCOMPLETE/VALID) czasem mają `WynikSzczegoly` wywołane 2-3×, i błąd może siedzieć w
+tej, która akurat nie jest pierwsza sprawdzona.
+
+`MIGRATED_MODULES`: 52→57. `pnpm typecheck`/`lint`/`check:i18n-guard`/`test` (811/811)/`build`
+czyste. Zweryfikowane w przeglądarce PL/EN/RU (15 kombinacji, zero `⚠ [...]`), z potwierdzeniem
+`ps aux | grep next-server` puste przed i po.
+
+Pozostał 1 plik w `pv/`: `zacienienie-diody-bocznikujace`. Pozostało ~31 plików poza `pv/`:
+`zapotrzebowanie/` (~8), `ogrzewanie/` (~6), `bezpieczenstwo/` (~2), `kalkulator-mobilny/` (~1).

@@ -4,17 +4,18 @@ export function wartoscUjemna(field: string, value: number): Warning {
   return {
     code: "WARTOSC-UJEMNA",
     level: "critical",
-    message: "Wartość nie może być ujemna.",
+    i18nKey: "WARTOSC-NIE-MOZE-BYC-UJEMNA",
     technicalMessage: `${field} = ${value}, oczekiwano >= 0`,
     field,
   }
 }
 
-export function utrataMocy(temperaturaPanelaC: number, strataPct: number) {
+export function utrataMocy(temperaturaPanelaC: number, strataPct: number): Warning {
   return {
     code: "UTRATA-MOCY",
-    level: "info" as const,
-    message: `Panel przy ${temperaturaPanelaC.toFixed(0)}°C traci ok. ${strataPct.toFixed(1)}% mocy względem wartości katalogowej (mierzonej w 25°C).`,
+    level: "info",
+    i18nKey: "UTRATA-MOCY",
+    params: { temperatura: temperaturaPanelaC.toFixed(0), strata: strataPct.toFixed(1) },
     technicalMessage: `temperaturaPanelaC=${temperaturaPanelaC}, strataPct=${strataPct}`,
-  } satisfies Warning
+  }
 }

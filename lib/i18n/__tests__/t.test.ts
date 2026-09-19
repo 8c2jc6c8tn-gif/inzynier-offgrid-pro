@@ -648,6 +648,57 @@ describe("t — klucze zmigrowane 19.09.2026, partia 11 (pv: dopasowanie-tablicy
   })
 })
 
+describe("t — klucze zmigrowane 19.09.2026, partia 12 (pv: panele-bifacjalne, straty-okablowanie-dc, straty-zlaczki-mc4, stress-test-mppt, wplyw-temperatury)", () => {
+  const kluczeZParametrami: Record<string, Record<string, string | number>> = {
+    "DOBRA-POWIERZCHNIA": { dodatkowyUzysk: "600" },
+    "STRATA-PONIZEJ-CELU": { strata: "2.4", cel: 3 },
+    "STRATA-POWYZEJ-CELU": { strata: "6.0", cel: 3 },
+    "DOBRY-STYK": { rezystancja: "1.00", strata: "2.0" },
+    "PODWYZSZONA-REZYSTANCJA": { rezystancja: "5.00", strata: "10.0" },
+    "ZLY-STYK": { rezystancja: "25.00", strata: "50.0" },
+    "PRZEKROCZONY-LIMIT-MPPT": { vString: "520", limit: "450" },
+    "BLISKO-LIMITU-MPPT": { vString: "430", limit: "450", prog: "428" },
+    "BEZPIECZNY-MARGINES-MPPT": { vString: "260", limit: "450" },
+    "UTRATA-MOCY": { temperatura: "60", strata: "15.0" },
+  }
+  const kluczeBezParametrow = [
+    "TRAWA-NISKI-ZYSK",
+    "PROCENT-UZYSKU-RECZNIE",
+    "REZYSTANCJA-PETLI-DWA-PRZEWODY",
+    "REZYSTANCJA-ZLACZKI-RECZNIE",
+    "PRAD-SZEREGOWY-PRZEZ-WSZYSTKIE-ZLACZKI",
+    "PRZYROST-TEMP-I-GAMMA-RECZNIE",
+  ]
+
+  it("klucze z parametrami: podstawiają wartości i różnią się między językami w każdym", () => {
+    for (const [kod, params] of Object.entries(kluczeZParametrami)) {
+      const pl = t("pl", kod, params)
+      const en = t("en", kod, params)
+      const ru = t("ru", kod, params)
+      for (const wartosc of Object.values(params)) {
+        expect(pl).toContain(String(wartosc))
+        expect(en).toContain(String(wartosc))
+        expect(ru).toContain(String(wartosc))
+      }
+      expect(pl).not.toBe(en)
+      expect(pl).not.toBe(ru)
+      expect(en).not.toBe(ru)
+    }
+  })
+
+  it("klucze bez parametrów: tekst istnieje i różni się między językami", () => {
+    for (const kod of kluczeBezParametrow) {
+      const pl = t("pl", kod)
+      const en = t("en", kod)
+      const ru = t("ru", kod)
+      expect(pl.length).toBeGreaterThan(0)
+      expect(pl).not.toBe(en)
+      expect(pl).not.toBe(ru)
+      expect(en).not.toBe(ru)
+    }
+  })
+})
+
 describe("dictionaries — parytet kluczy", () => {
   it("każdy język ma dokładnie ten sam zestaw kluczy co polski", () => {
     const kluczePl = Object.keys(dictionaries.pl).sort()

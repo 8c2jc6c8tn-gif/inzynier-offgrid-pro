@@ -55,4 +55,16 @@ describe("calculatePaneleBifacjalne", () => {
     })
     expect(result.status).toBe("INVALID_INPUT")
   })
+
+  it("i18n (17.2): DOBRA-POWIERZCHNIA ma i18nKey+params, assumption to {kod}", () => {
+    const result = calculatePaneleBifacjalne({
+      mocRocznaBazowaKwh: 5000,
+      typPowierzchni: "jasny_beton",
+      dodatkowyUzyskPct: 12,
+    })
+    expect(result.warnings[0].i18nKey).toBe("DOBRA-POWIERZCHNIA")
+    expect(result.warnings[0].params).toEqual({ dodatkowyUzysk: "600" })
+    expect(result.warnings[0].message).toBeUndefined()
+    expect(result.assumptions).toEqual([{ kod: "PROCENT-UZYSKU-RECZNIE" }])
+  })
 })

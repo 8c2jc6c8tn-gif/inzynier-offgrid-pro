@@ -618,3 +618,29 @@ Tu trafia bieżący stan pracy: co w trakcie, co zablokowane, co następne — a
   ⚠ Uwaga do partii 12: `stress-test-mppt` jest ECHOWANY przez `dopasowanie-tablicy-falownika`
   (funkcja czysta `obliczNapiecieStringuZimowego`, bez `Warning[]`) — bezpieczne wobec migracji,
   ale sprawdzić ponownie przy właściwej migracji `stress-test-mppt`, nie zakładać z góry.
+- ✅ (2026-09-19) **Rollout i18n — dwunasta partia: kolejne 5 modułów `pv/`.** Zmigrowane:
+  `panele-bifacjalne`, `straty-okablowanie-dc`, `straty-zlaczki-mc4`, `stress-test-mppt`,
+  `wplyw-temperatury`. Zweryfikowane przed migracją (grepem): brak żadnego żywego importu
+  `Warning[]` z `stress-test-mppt` spoza jego własnej strony — echo z `dopasowanie-tablicy-falownika`
+  (partia 11) woła tylko czystą funkcję liczbową, potwierdzone ponownie, nie założone.
+  38 nowych kluczy, 5 kluczy reużytych 1:1 (`WARTOSC-NIE-MOZE-BYC-UJEMNA` — 5×). 6 stringowych
+  `assumptions` skonwertowanych na `{kod}`.
+  🔴 **Znaleziony i naprawiony realny bug funkcjonalny (nie tylko i18n)** —
+  `wplyw-temperatury/page.tsx`, ścieżka VALID (główny, sukcesowy wynik obliczenia) w ogóle nie
+  przekazywała `warnings={result.warnings}` do `WynikSzczegoly` — jedyne ostrzeżenie tego
+  kalkulatora (`utrataMocy`, poziom `info`, główna treść informacyjna ekranu: "Panel przy X°C
+  traci Y% mocy...") było całkowicie niewidoczne dla użytkownika w normalnym, powodzeniowym
+  przebiegu, nie tylko nieprzetłumaczone. Naprawione jednym dopisaniem propsa; zweryfikowane
+  pełnym wydrukiem `innerText` przed i po (ostrzeżenie teraz widoczne). Pozostałe 4 strony tej
+  partii już poprawnie korzystały z `WynikSzczegoly`.
+  `scripts/check-i18n-guard.mjs` → `MIGRATED_MODULES` rozszerzone z 52 do 57.
+  5 nowych bloków testowych domenowych + nowy blok w `t.test.ts` (10 kluczy z parametrami/6
+  bez). `pnpm typecheck`/`lint`/`check:i18n-guard`/`test` (811/811)/`build` czyste.
+  Zweryfikowane end-to-end w świeżej przeglądarce (Playwright, z potwierdzeniem braku
+  rezydualnego `next-server` przed i po) w PL/EN/RU (5 modułów × 3 języki = 15 sprawdzeń) —
+  zero `⚠ [...]`.
+  **Pozostał 1 plik w `pv/`:** `zacienienie-diody-bocznikujace` — partia 13 połączy go z
+  początkiem kolejnego katalogu (`zapotrzebowanie/`, ~8 plików) albo zamknie samodzielnie,
+  zależnie od rozmiaru po odczytaniu.
+  **Pozostało ~31 plików** poza `pv/`: `zapotrzebowanie/` (~8), `ogrzewanie/` (~6),
+  `bezpieczenstwo/` (~2), `kalkulator-mobilny/` (~1), plus 1 z `pv/` wyżej.

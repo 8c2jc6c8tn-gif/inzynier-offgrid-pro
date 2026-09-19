@@ -1,4 +1,4 @@
-import type { CalcResult } from "@/lib/core/calc-result"
+import type { Assumption, CalcResult } from "@/lib/core/calc-result"
 import type { StratyOkablowanieDcInput } from "./input"
 import { validateInput } from "./validation"
 import { strataPonizejCelu, strataPowyzejCelu } from "./warnings"
@@ -113,9 +113,7 @@ export function calculateStratyOkablowanieDc(
     status: maNieinformacyjneOstrzezenia ? "VALID_WITH_WARNINGS" : "VALID",
     formula: FORMULA,
     inputs,
-    assumptions: [
-      "Rezystancja pętli liczona dla dwóch przewodów (plus i minus) — 2×długość kabla, standardowa praktyka DC.",
-    ],
+    assumptions: [{ kod: "REZYSTANCJA-PETLI-DWA-PRZEWODY" }] satisfies Assumption[],
     warnings,
     calculatorVersion: CALCULATOR_VERSION,
   }

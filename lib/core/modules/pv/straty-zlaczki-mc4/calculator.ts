@@ -1,4 +1,4 @@
-import type { CalcResult } from "@/lib/core/calc-result"
+import type { Assumption, CalcResult } from "@/lib/core/calc-result"
 import type { StratyZlaczkiMc4Input } from "./input"
 import { validateInput } from "./validation"
 import { dobryStyk, podwyzszonaRezystancja, zlyStyk } from "./warnings"
@@ -88,9 +88,9 @@ export function calculateStratyZlaczkiMc4(input: StratyZlaczkiMc4Input): CalcRes
     formula: FORMULA,
     inputs,
     assumptions: [
-      "Rezystancja złączki wpisana ręcznie — źródło podaje zakres (0,5-2 mΩ dobry stan, nawet 10× więcej przy luźnej/zaśniedziałej), nie pojedynczą liczbę.",
-      "Zakłada, że ten sam prąd płynie szeregowo przez wszystkie złączki (typowy przypadek stringu) — straty się sumują.",
-    ],
+      { kod: "REZYSTANCJA-ZLACZKI-RECZNIE" },
+      { kod: "PRAD-SZEREGOWY-PRZEZ-WSZYSTKIE-ZLACZKI" },
+    ] satisfies Assumption[],
     warnings,
     calculatorVersion: CALCULATOR_VERSION,
   }

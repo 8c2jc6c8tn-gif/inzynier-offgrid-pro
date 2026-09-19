@@ -4,7 +4,7 @@ export function wartoscUjemna(field: string, value: number): Warning {
   return {
     code: "WARTOSC-UJEMNA",
     level: "critical",
-    message: "Wartość nie może być ujemna.",
+    i18nKey: "WARTOSC-NIE-MOZE-BYC-UJEMNA",
     technicalMessage: `${field} = ${value}, oczekiwano >= 0`,
     field,
   }
@@ -14,7 +14,8 @@ export function przekroczonyLimitMppt(vStringV: number, limitMpptV: number): War
   return {
     code: "PRZEKROCZONY-LIMIT-MPPT",
     level: "critical",
-    message: `Napięcie stringu w mrozie (${vStringV.toFixed(0)} V) przekracza limit MPPT falownika (${limitMpptV.toFixed(0)} V) — realne ryzyko trwałego uszkodzenia wejścia DC. Zmień konfigurację stringów.`,
+    i18nKey: "PRZEKROCZONY-LIMIT-MPPT",
+    params: { vString: vStringV.toFixed(0), limit: limitMpptV.toFixed(0) },
     technicalMessage: `vStringV=${vStringV} > limitMpptV=${limitMpptV}`,
   }
 }
@@ -23,7 +24,8 @@ export function bliskoLimituMppt(vStringV: number, limitMpptV: number, progV: nu
   return {
     code: "BLISKO-LIMITU-MPPT",
     level: "warning",
-    message: `Napięcie stringu w mrozie (${vStringV.toFixed(0)} V) przekracza 95% limitu MPPT (${progV.toFixed(0)} V z ${limitMpptV.toFixed(0)} V) — mały margines bezpieczeństwa.`,
+    i18nKey: "BLISKO-LIMITU-MPPT",
+    params: { vString: vStringV.toFixed(0), limit: limitMpptV.toFixed(0), prog: progV.toFixed(0) },
     technicalMessage: `vStringV=${vStringV} > 0.95×limitMpptV=${progV}`,
   }
 }
@@ -32,7 +34,8 @@ export function bezpiecznyMargines(vStringV: number, limitMpptV: number): Warnin
   return {
     code: "BEZPIECZNY-MARGINES-MPPT",
     level: "info",
-    message: `Napięcie stringu w mrozie (${vStringV.toFixed(0)} V) mieści się bezpiecznie poniżej limitu MPPT (${limitMpptV.toFixed(0)} V).`,
+    i18nKey: "BEZPIECZNY-MARGINES-MPPT",
+    params: { vString: vStringV.toFixed(0), limit: limitMpptV.toFixed(0) },
     technicalMessage: `vStringV=${vStringV} <= 0.95×limitMpptV`,
   }
 }
