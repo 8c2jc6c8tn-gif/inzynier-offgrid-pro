@@ -536,6 +536,56 @@ export const dictionaryPl = {
   "PRZYROST-TEMP-I-GAMMA-RECZNIE":
     "Przyrost temperatury panelu ponad otoczenie i współczynnik γ wpisane ręcznie — źródło podaje " +
     "tylko typowe zakresy (25-30°C, -0,3 do -0,45%/°C), nie pojedyncze wartości.",
+  "LICZBA-SEKCJI-POZA-ZAKRESEM": "Liczba zacienionych sekcji musi być liczbą całkowitą od 0 do 3.",
+  "BRAK-ZACIENIENIA": "Panel nie jest zacieniony — brak strat mocy z tego tytułu.",
+  "ZACIENIENIE-1-SEKCJA":
+    "Zacienienie 1 sekcji obniża moc tego panelu o ok. {strata}%. W stringu połączonym szeregowo " +
+    "strata całego stringu może być znacznie większa niż strata samego panelu (zależnie od " +
+    "konfiguracji) — przy regularnym/częściowym zacienieniu rozważ mikroinwertery lub " +
+    "optymalizatory mocy (Ekran 18).",
+  "ZACIENIENIE-2-SEKCJE":
+    "Zacienienie 2 sekcji obniża moc tego panelu o ok. {strata}%. To poważna strata — jeden " +
+    'zacieniony panel potrafi "położyć" produkcję całego szeregowego stringu, nie tylko siebie. ' +
+    "Rozważ mikroinwertery lub optymalizatory mocy (Ekran 18).",
+  "ZACIENIENIE-PELNY-PANEL":
+    "Panel jest zacieniony we wszystkich 3 sekcjach — diody bocznikujące pomijają go niemal " +
+    "całkowicie (strata ok. {strata}%). Praktycznie nie wnosi mocy do stringu; rozważ " +
+    "mikroinwertery lub optymalizatory mocy (Ekran 18).",
+  "STRATA-PANELU-3-SEKCJE-FAKT":
+    "Strata panelu liczona z konstrukcyjnego faktu: standardowy panel PV ma 3 sekcje ogniw, każda " +
+    "z osobną diodą bocznikującą — zacienienie sekcji obniża napięcie panelu o 1/3 przy zbliżonym prądzie.",
+  "STRATA-STRINGU-NIE-LICZONA":
+    "Strata CAŁEGO STRINGU ({liczbaPaneli} paneli szeregowo) NIE jest tu liczona liczbowo — źródło " +
+    "opisuje ją jako zależną od konfiguracji (topologia MPPT, okablowanie), bez podanego wzoru. " +
+    "Przykład źródła: zacienienie 1 panelu w stringu 6 paneli → strata stringu ok. 55%, ale to " +
+    "zależy od konfiguracji, nie jest to stała wartość do wyliczenia tutaj.",
+  "DEFICYTKWH-NIEDODATNI": 'Wartość pola "deficyt energetyczny" musi być większa od zera.',
+  "MOCAGREGATUKW-NIEDODATNI": 'Wartość pola "moc agregatu" musi być większa od zera.',
+  "SREDNIZUZYCIELH-NIEDODATNI": 'Wartość pola "średnie zużycie paliwa" musi być większa od zera.',
+  "CENAZALITRZL-NIEDODATNI": 'Wartość pola "cena paliwa" musi być większa od zera.',
+  "BRAK-WYJSCIA-STERUJACEGO":
+    "Agregat musi być uruchamiany ręcznie lub przez autostart — upewnij się, że BMS ma wyjście sterujące.",
+  "MA-WYJSCIE-STERUJACE": "BMS ma wyjście sterujące — agregat może załączać się automatycznie.",
+  "OPTYMALNE-OBCIAZENIE-AGREGATU":
+    "Optymalne obciążenie agregatu przyjęte na {procent}% mocy znamionowej — górna granica zakresu 70-80% ze źródła.",
+  "WOLUMEN-UJEMNY": "Dobowe zapotrzebowanie na C.W.U. nie może być ujemne.",
+  "DELTA-T-UJEMNA": "Wzrost temperatury wody nie może być ujemny.",
+  "MOC-GRZALKI-UJEMNA": "Moc grzałki nie może być ujemna.",
+  "POJEMNOSC-BOJLERA-UJEMNA": "Pojemność bojlera nie może być ujemna.",
+  "BOJLER-ZA-MALY":
+    "Pojemność bojlera ({pojemnosc} l) jest mniejsza niż dobowe zapotrzebowanie ({wolumen} l) — " +
+    "jednego ładowania na dobę może nie wystarczyć.",
+  "DELTA-T-RECZNIE":
+    "ΔT wpisane ręcznie przez użytkownika — źródło nie podaje wartości domyślnej wzrostu temperatury wody.",
+  "ZAPOTRZEBOWANIE-CALKOWITE-NIEDODATNIE":
+    'Wartość pola "całkowite zapotrzebowanie dobowe" musi być większa od zera.',
+  "BUFOR-BRAK": "Bez bufora — system dobierany dokładnie pod dzisiejsze potrzeby, bez zapasu na przyszłość.",
+  "BUFOR-DOLICZONY":
+    "Bufor {procent}% dolicza {dodatek} kWh/dobę zapasu na przyszłą rozbudowę (nowe urządzenia, " +
+    "powiększenie rodziny).",
+  "ODBIORNIK-ODLACZONY": "Odbiornik priorytetu {priorytet} zostałby teraz odłączony przez system load sheddingu.",
+  "ODBIORNIK-AKTYWNY-PRIORYTET-1": "Priorytet 1 (krytyczny) — nigdy nie odłączany przez system load sheddingu.",
+  "ODBIORNIK-AKTYWNY": "Odbiornik priorytetu {priorytet} pozostaje aktywny przy tym SoC.",
 } as const
 
 export type KluczTlumaczenia = keyof typeof dictionaryPl

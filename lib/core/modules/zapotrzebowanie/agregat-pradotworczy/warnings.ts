@@ -1,10 +1,16 @@
 import type { Warning } from "@/lib/core/calc-result"
 
-export function notPositive(field: string, label: string, value: number): Warning {
+/**
+ * `notPositive` nie przyjmuje już etykiety pola po polsku jako parametru runtime (17.2) —
+ * `i18nKey` = `code`, jednoznaczny per pole dzięki `field.toUpperCase()`, z etykietą już
+ * przetłumaczoną w treści klucza (ten sam wzorzec co `konfigurator-stringow`, partia 11).
+ */
+export function notPositive(field: string, value: number): Warning {
+  const code = `${field.toUpperCase()}-NIEDODATNI`
   return {
-    code: `${field.toUpperCase()}-NIEDODATNI`,
+    code,
     level: "critical",
-    message: `Wartość pola "${label}" musi być większa od zera.`,
+    i18nKey: code,
     technicalMessage: `${field} = ${value}, oczekiwano > 0`,
     field,
   }
@@ -14,7 +20,7 @@ export function brakWyjsciaSterujacego(): Warning {
   return {
     code: "BRAK-WYJSCIA-STERUJACEGO",
     level: "warning",
-    message: "Agregat musi być uruchamiany ręcznie lub przez autostart — upewnij się, że BMS ma wyjście sterujące.",
+    i18nKey: "BRAK-WYJSCIA-STERUJACEGO",
     technicalMessage: "maWyjscieSterujaceBms === false",
   }
 }
@@ -23,7 +29,7 @@ export function maWyjscieSterujace(): Warning {
   return {
     code: "MA-WYJSCIE-STERUJACE",
     level: "info",
-    message: "BMS ma wyjście sterujące — agregat może załączać się automatycznie.",
+    i18nKey: "MA-WYJSCIE-STERUJACE",
     technicalMessage: "maWyjscieSterujaceBms === true",
   }
 }

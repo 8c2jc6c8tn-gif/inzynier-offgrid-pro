@@ -78,4 +78,19 @@ describe("calculateZacienienieDiodyBocznikujace", () => {
     })
     expect(result.status).toBe("INVALID_INPUT")
   })
+
+  it("i18n (17.2): ZACIENIENIE-1-SEKCJA ma i18nKey+params, assumptions to {kod}", () => {
+    const result = calculateZacienienieDiodyBocznikujace({
+      mocPaneluNominalnaW: 400,
+      liczbaZacienionychSekcji: 1,
+      liczbaPaneliWStringu: 6,
+    })
+    expect(result.warnings[0].i18nKey).toBe("ZACIENIENIE-1-SEKCJA")
+    expect(result.warnings[0].params).toEqual({ strata: "33" })
+    expect(result.warnings[0].message).toBeUndefined()
+    expect(result.assumptions).toEqual([
+      { kod: "STRATA-PANELU-3-SEKCJE-FAKT" },
+      { kod: "STRATA-STRINGU-NIE-LICZONA", params: { liczbaPaneli: 6 } },
+    ])
+  })
 })

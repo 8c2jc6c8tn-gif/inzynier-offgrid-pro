@@ -525,4 +525,57 @@ export const dictionaryEn = {
   "PRZYROST-TEMP-I-GAMMA-RECZNIE":
     "The panel's temperature rise above ambient and the γ coefficient are entered manually — the " +
     "source only gives typical ranges (25-30°C, -0.3 to -0.45%/°C), not single values.",
+  "LICZBA-SEKCJI-POZA-ZAKRESEM": "The number of shaded sections must be a whole number from 0 to 3.",
+  "BRAK-ZACIENIENIA": "The panel is not shaded — no power loss from this cause.",
+  "ZACIENIENIE-1-SEKCJA":
+    "Shading of 1 section reduces this panel's power by about {strata}%. In a series-connected " +
+    "string, the loss for the whole string can be much greater than the panel's own loss " +
+    "(depending on configuration) — for regular/partial shading, consider microinverters or power " +
+    "optimizers (Screen 18).",
+  "ZACIENIENIE-2-SEKCJE":
+    "Shading of 2 sections reduces this panel's power by about {strata}%. This is a serious loss " +
+    "— one shaded panel can bring down the output of the entire series string, not just itself. " +
+    "Consider microinverters or power optimizers (Screen 18).",
+  "ZACIENIENIE-PELNY-PANEL":
+    "The panel is shaded in all 3 sections — the bypass diodes skip it almost entirely (loss " +
+    "about {strata}%). It contributes almost no power to the string; consider microinverters or " +
+    "power optimizers (Screen 18).",
+  "STRATA-PANELU-3-SEKCJE-FAKT":
+    "The panel loss is calculated from a construction fact: a standard PV panel has 3 cell " +
+    "sections, each with its own bypass diode — shading a section reduces the panel's voltage by " +
+    "1/3 at a similar current.",
+  "STRATA-STRINGU-NIE-LICZONA":
+    "The loss for the ENTIRE STRING ({liczbaPaneli} panels in series) is NOT calculated " +
+    "numerically here — the source describes it as depending on the configuration (MPPT topology, " +
+    "wiring), without a given formula. Source example: shading 1 panel in a 6-panel string → " +
+    "string loss of about 55%, but this depends on the configuration and isn't a fixed value to " +
+    "calculate here.",
+  "DEFICYTKWH-NIEDODATNI": 'The value of "energy deficit" must be greater than zero.',
+  "MOCAGREGATUKW-NIEDODATNI": 'The value of "generator power" must be greater than zero.',
+  "SREDNIZUZYCIELH-NIEDODATNI": 'The value of "average fuel consumption" must be greater than zero.',
+  "CENAZALITRZL-NIEDODATNI": 'The value of "fuel price" must be greater than zero.',
+  "BRAK-WYJSCIA-STERUJACEGO":
+    "The generator must be started manually or via autostart — make sure the BMS has a control output.",
+  "MA-WYJSCIE-STERUJACE": "The BMS has a control output — the generator can start automatically.",
+  "OPTYMALNE-OBCIAZENIE-AGREGATU":
+    "Optimal generator load assumed at {procent}% of rated power — the upper bound of the " +
+    "source's 70-80% range.",
+  "WOLUMEN-UJEMNY": "Daily domestic hot water demand cannot be negative.",
+  "DELTA-T-UJEMNA": "The water temperature rise cannot be negative.",
+  "MOC-GRZALKI-UJEMNA": "The heater power cannot be negative.",
+  "POJEMNOSC-BOJLERA-UJEMNA": "The boiler capacity cannot be negative.",
+  "BOJLER-ZA-MALY":
+    "The boiler capacity ({pojemnosc} l) is smaller than the daily demand ({wolumen} l) — one " +
+    "charge per day may not be enough.",
+  "DELTA-T-RECZNIE":
+    "ΔT entered manually by the user — the source gives no default value for the water " +
+    "temperature rise.",
+  "ZAPOTRZEBOWANIE-CALKOWITE-NIEDODATNIE":
+    'The value of "total daily demand" must be greater than zero.',
+  "BUFOR-BRAK": "No buffer — the system is sized exactly for today's needs, with no margin for the future.",
+  "BUFOR-DOLICZONY":
+    "The {procent}% buffer adds {dodatek} kWh/day of margin for future expansion (new devices, a growing family).",
+  "ODBIORNIK-ODLACZONY": "A priority {priorytet} load would now be disconnected by the load shedding system.",
+  "ODBIORNIK-AKTYWNY-PRIORYTET-1": "Priority 1 (critical) — never disconnected by the load shedding system.",
+  "ODBIORNIK-AKTYWNY": "A priority {priorytet} load stays active at this SoC.",
 } satisfies Record<KluczTlumaczenia, string>

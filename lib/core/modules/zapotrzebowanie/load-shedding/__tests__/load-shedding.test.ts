@@ -48,4 +48,15 @@ describe("calculateLoadShedding", () => {
     const result = calculateLoadShedding({ priorytet: 2, socPct: 120, maNadwyzkePv: false })
     expect(result.status).toBe("INVALID_INPUT")
   })
+
+  it("i18n (17.2): ODBIORNIK-ODLACZONY/ODBIORNIK-AKTYWNY-PRIORYTET-1 mają i18nKey, nie message", () => {
+    const odlaczony = calculateLoadShedding({ priorytet: 3, socPct: 18, maNadwyzkePv: false })
+    expect(odlaczony.warnings[0].i18nKey).toBe("ODBIORNIK-ODLACZONY")
+    expect(odlaczony.warnings[0].params).toEqual({ priorytet: 3 })
+    expect(odlaczony.warnings[0].message).toBeUndefined()
+
+    const p1 = calculateLoadShedding({ priorytet: 1, socPct: 18, maNadwyzkePv: false })
+    expect(p1.warnings[0].i18nKey).toBe("ODBIORNIK-AKTYWNY-PRIORYTET-1")
+    expect(p1.warnings[0].message).toBeUndefined()
+  })
 })

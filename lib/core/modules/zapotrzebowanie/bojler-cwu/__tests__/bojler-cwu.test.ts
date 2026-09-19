@@ -56,4 +56,17 @@ describe("calculateBojlerCwu", () => {
     })
     expect(result.status).toBe("INVALID_INPUT")
   })
+
+  it("i18n (17.2): BOJLER-ZA-MALY ma i18nKey+params, assumption to {kod}", () => {
+    const result = calculateBojlerCwu({
+      wolumenCwuLDoba: 280,
+      deltaTK: 35,
+      mocGrzalkiKw: 2,
+      pojemnoscBojleraL: 150,
+    })
+    expect(result.warnings[0].i18nKey).toBe("BOJLER-ZA-MALY")
+    expect(result.warnings[0].params).toEqual({ pojemnosc: 150, wolumen: 280 })
+    expect(result.warnings[0].message).toBeUndefined()
+    expect(result.assumptions).toEqual([{ kod: "DELTA-T-RECZNIE" }])
+  })
 })

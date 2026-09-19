@@ -1,4 +1,4 @@
-import type { CalcResult } from "@/lib/core/calc-result"
+import type { Assumption, CalcResult } from "@/lib/core/calc-result"
 import type { ZacienienieDiodyBocznikujaceInput } from "./input"
 import { validateInput } from "./validation"
 import {
@@ -94,9 +94,9 @@ export function calculateZacienienieDiodyBocznikujace(
     formula: FORMULA,
     inputs,
     assumptions: [
-      "Strata panelu liczona z konstrukcyjnego faktu: standardowy panel PV ma 3 sekcje ogniw, każda z osobną diodą bocznikującą — zacienienie sekcji obniża napięcie panelu o 1/3 przy zbliżonym prądzie.",
-      `Strata CAŁEGO STRINGU (${input.liczbaPaneliWStringu} paneli szeregowo) NIE jest tu liczona liczbowo — źródło opisuje ją jako zależną od konfiguracji (topologia MPPT, okablowanie), bez podanego wzoru. Przykład źródła: zacienienie 1 panelu w stringu 6 paneli → strata stringu ok. 55%, ale to zależy od konfiguracji, nie jest to stała wartość do wyliczenia tutaj.`,
-    ],
+      { kod: "STRATA-PANELU-3-SEKCJE-FAKT" },
+      { kod: "STRATA-STRINGU-NIE-LICZONA", params: { liczbaPaneli: input.liczbaPaneliWStringu } },
+    ] satisfies Assumption[],
     warnings,
     calculatorVersion: CALCULATOR_VERSION,
   }
