@@ -46,6 +46,10 @@ export const KAFLE: KafelEntry[] = [
       { href: "/kalkulatory/moc-pozorna-cosfi", label: "Moc pozorna (cos φ)" },
       { href: "/kalkulatory/load-shedding", label: "Macierz priorytetów odłączania (Smart Load Shedding)" },
       { href: "/kalkulatory/bufor-rozbudowe", label: "Bufor na rozbudowę" },
+      { href: "/kalkulatory/urzadzenia-zmienne", label: "Urządzenia zmienne i klasa energetyczna" },
+      { href: "/kalkulatory/sprawnosc-inwertera-niskie-obciazenie", label: "Sprawność inwertera przy niskim obciążeniu" },
+      { href: "/kalkulatory/architektura-fazowa", label: "Architektura 1-fazowa / 3-fazowa" },
+      { href: "/kalkulatory/kategorie-specjalne", label: "Kategorie specjalne" },
     ],
   },
   {

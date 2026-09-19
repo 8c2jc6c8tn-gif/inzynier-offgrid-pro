@@ -862,3 +862,12 @@ Tu trafia bieżący stan pracy: co w trakcie, co zablokowane, co następne — a
   wymyślania fizyki — pozostały klaster stress-test zimowy jest w większości architektonicznie
   zależny od jeszcze niezbudowanych modułów, nie kolejnymi "gotowymi do budowy" lukami.
   Szczegóły: `docs/memory.md`.
+- ✅ (2026-09-19) **Punkt 5 z tej samej prośby — kontynuacja Modułu 2, Ekrany 3/10/14/15.**
+  Ostatnie cztery pozostałe `todo` z numerowanej sekwencji Modułu 2. Ekran 3 wprowadza nowy
+  wariant wzorca "echo" (reużycie samych mocy urządzeń z katalogu innego modułu, bez czasu
+  pracy — inny sens semantyczny). Ekran 10 ma udokumentowaną niespójność przykładu źródła
+  (75%→+25% jest matematycznie błędne). Ekran 14 świadomie bez automatycznego werdyktu —
+  źródło nie podaje liczbowego progu asymetrii faz. Ekran 15 bez domyślnych mocy urządzeń —
+  źródło podaje tylko nazwy. **Świadomie odłożony:** moduł zbiorczy "Wampiry energetyczne"
+  (24 dawne funkcje, 5 podzakładek) — osobny, znacznie większy krok, wymaga własnej sesji.
+  Szczegóły: `docs/memory.md`.

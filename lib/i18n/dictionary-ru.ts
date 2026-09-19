@@ -782,4 +782,7 @@ export const dictionaryRu = {
   "POZA-ZAKRESEM-WZORU-WIND-CHILL":
     "Формула ветрового охлаждения определена только для температуры ≤{maxTemp}°C и ветра >{minWiatr} км/ч — за пределами этого диапазона результат физически бессмыслен.",
   "WIND-CHILL-WZOR-NWS": "Стандартная метеорологическая формула NWS/Environment Canada (2001) — не указана прямо в исходном материале проекта, но является общеизвестной физикой.",
+  "SUGEROWANA-WYMIANA-STARYCH-URZADZEN": "Приборы класса \"старые\" (реально потребляют больше номинальной мощности): {urzadzenia}. Рассмотрите замену — может окупиться экономией батареи.",
+  "NISKIE-OBCIAZENIE-FALOWNIKA": "Нагрузка инвертора составляет всего {obciazenie}% от номинальной мощности — КПД в этом диапазоне обычно падает.",
+  "OBCIAZENIE-FALOWNIKA-OPTYMALNE": "Нагрузка инвертора ({obciazenie}%) находится в диапазоне типично самого высокого КПД.",
 } satisfies Record<KluczTlumaczenia, string>
