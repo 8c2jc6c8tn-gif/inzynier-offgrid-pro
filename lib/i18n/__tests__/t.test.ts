@@ -576,6 +576,78 @@ describe("t — klucze zmigrowane 19.09.2026, partia 10 (okablowanie: pomiary-po
   })
 })
 
+describe("t — klucze zmigrowane 19.09.2026, partia 11 (pv: dopasowanie-tablicy-falownika, konfigurator-stringow, napor-wiatru, niedopasowanie-paneli, ochrona-stringow)", () => {
+  const kluczeZParametrami: Record<string, Record<string, string | number>> = {
+    "NAPIECIE-ZIMOWE-ZA-WYSOKIE": { vStringCold: "621.0", vMax: "500.0" },
+    "NAPIECIE-ZIMOWE-OK": { vStringCold: "403.2", vMax: "500.0" },
+    "PONIZEJ-OKNA-MPPT": { vStringStc: "296.0", mpptMin: "300.0" },
+    "POWYZEJ-OKNA-MPPT": { vStringStc: "444.0", mpptMax: "400.0" },
+    "W-OKNIE-MPPT": { vStringStc: "296.0", mpptMin: "150.0", mpptMax: "450.0" },
+    "PRAD-PRZEKROCZONY": { iString: "9.0", iMax: "8.0" },
+    "PRAD-OK": { iString: "9.0", iMax: "15.0" },
+    "DC-AC-ZA-MALE": { ratio: "1.02", min: "1.1" },
+    "DC-AC-ZA-DUZE": { ratio: "2.00", max: "1.3" },
+    "DC-AC-OK": { ratio: "1.21" },
+    "RAZEM-PANELI-MIESZANY": { razem: 8, wGrupie: 4, grup: 2 },
+    "SILA-NAPORU": { sila: "1769" },
+    "DUZA-ROZNICA-MOCY": { roznica: "17.5" },
+    "UMIARKOWANA-ROZNICA-MOCY": { roznica: "12.5" },
+    "MALA-ROZNICA-MOCY": { roznica: "2.5" },
+    "OCHRONA-OBOWIAZKOWA-BRAK": { ns: 4 },
+    "ZAKRES-BEZPIECZNIKA-NIEPOPRAWNY": { inMin: "27.50", inMax: "20.00" },
+    "WYBRANY-BEZPIECZNIK-POZA-ZAKRESEM": { wybrany: "10.0", inMin: "13.75", inMax: "20.00" },
+    "ALTERNATYWA-KABLOWA-NIESPRAWDZONA": { ns: 4, wymaganeIz: "37.50" },
+    "BEZPIECZNIK-DOBRANY": { inMin: "13.75", inMax: "20.00" },
+  }
+  const kluczeBezParametrow = [
+    "OKNO-MPPT-ODWROCONE",
+    "ZAKLADA-JEDEN-STRING",
+    "MOC-PV-WZOR-VMP-IMP",
+    "KRYTERIUM-4-NIE-SPRAWDZANE",
+    "VMPV-NIEDODATNI",
+    "IMPA-NIEDODATNI",
+    "PANELWGRUPIE-NIEDODATNI",
+    "LICZBAGRUP-NIEDODATNI",
+    "LICZBAPANELI-NIEDODATNI",
+    "PANELWGRUPIE-NIE-CALKOWITA",
+    "LICZBAGRUP-NIE-CALKOWITA",
+    "LICZBAPANELI-NIE-CALKOWITA",
+    "LICZBA-PANELI-NIETYPOWO-WYSOKA",
+    "WYNIK-DLA-WARUNKOW-STC",
+    "TYLKO-SILA-NAPORU-NIE-SSANIE",
+    "NAPIECIE-WSPOLNE-RECZNIE",
+    "K1-MINIMUM-NORMOWE",
+  ]
+
+  it("klucze z parametrami: podstawiają wartości i różnią się między językami w każdym", () => {
+    for (const [kod, params] of Object.entries(kluczeZParametrami)) {
+      const pl = t("pl", kod, params)
+      const en = t("en", kod, params)
+      const ru = t("ru", kod, params)
+      for (const wartosc of Object.values(params)) {
+        expect(pl).toContain(String(wartosc))
+        expect(en).toContain(String(wartosc))
+        expect(ru).toContain(String(wartosc))
+      }
+      expect(pl).not.toBe(en)
+      expect(pl).not.toBe(ru)
+      expect(en).not.toBe(ru)
+    }
+  })
+
+  it("klucze bez parametrów: tekst istnieje i różni się między językami", () => {
+    for (const kod of kluczeBezParametrow) {
+      const pl = t("pl", kod)
+      const en = t("en", kod)
+      const ru = t("ru", kod)
+      expect(pl.length).toBeGreaterThan(0)
+      expect(pl).not.toBe(en)
+      expect(pl).not.toBe(ru)
+      expect(en).not.toBe(ru)
+    }
+  })
+})
+
 describe("dictionaries — parytet kluczy", () => {
   it("każdy język ma dokładnie ten sam zestaw kluczy co polski", () => {
     const kluczePl = Object.keys(dictionaries.pl).sort()

@@ -1,4 +1,4 @@
-import type { CalcResult, Warning } from "@/lib/core/calc-result"
+import type { Assumption, CalcResult, Warning } from "@/lib/core/calc-result"
 import type { OchronaStringowInput } from "./input"
 import { validateInput } from "./validation"
 import {
@@ -166,10 +166,7 @@ export function calculateOchronaStringow(input: OchronaStringowInput): CalcResul
     wybranyBezpiecznikOk,
   }
 
-  const assumptions = [
-    "K1=1,25 (minimum normowe, Załącznik B.2) — w warunkach zwiększonego odbicia/naświetlenia " +
-      "norma dopuszcza wyższe K1, ale nie podaje konkretnej wartości; nie zgadujemy.",
-  ]
+  const assumptions: Assumption[] = [{ kod: "K1-MINIMUM-NORMOWE" }]
 
   return {
     value,

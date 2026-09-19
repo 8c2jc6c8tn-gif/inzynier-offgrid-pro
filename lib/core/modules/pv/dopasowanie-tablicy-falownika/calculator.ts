@@ -1,4 +1,4 @@
-import type { CalcResult } from "@/lib/core/calc-result"
+import type { Assumption, CalcResult } from "@/lib/core/calc-result"
 import type { DopasowanieTablicyFalownikaInput } from "./input"
 import { validateInput } from "./validation"
 import { obliczNapiecieStringuZimowego } from "../stress-test-mppt/calculator"
@@ -154,10 +154,10 @@ export function calculateDopasowanieTablicyFalownika(
     formula: FORMULA,
     inputs,
     assumptions: [
-      "Zakłada JEDEN string (bez wielu stringów równoległych) — zgodnie z parametrami Sekcji A źródła.",
-      "Moc PV (do współczynnika DC/AC) liczona jako Vmp × Imp × liczba paneli (P=V×I w warunkach STC), nie wpisywana osobno.",
-      "Kryterium 4 źródła (napięcie startowe falownika w upale) NIE jest tu sprawdzane — wymaga współczynnika temperaturowego Vmp, którego źródło nie podaje jako wzoru w tym ekranie (patrz komentarz w kodzie kalkulatora).",
-    ],
+      { kod: "ZAKLADA-JEDEN-STRING" },
+      { kod: "MOC-PV-WZOR-VMP-IMP" },
+      { kod: "KRYTERIUM-4-NIE-SPRAWDZANE" },
+    ] satisfies Assumption[],
     warnings,
     calculatorVersion: CALCULATOR_VERSION,
   }

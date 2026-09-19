@@ -10,11 +10,11 @@ export type ValidationResult = {
   warnings: Warning[]
 }
 
-function checkCount(field: string, label: string, value: number, errors: Warning[], warnings: Warning[]) {
+function checkCount(field: string, value: number, errors: Warning[], warnings: Warning[]) {
   if (value <= 0) {
-    errors.push(notPositive(field, label, value))
+    errors.push(notPositive(field, value))
   } else if (!Number.isInteger(value)) {
-    errors.push(notWholeNumber(field, label, value))
+    errors.push(notWholeNumber(field, value))
   } else if (value > LICZBA_PANELI_SANITY_MAX) {
     warnings.push(liczbaPaneliUnusuallyHigh(value))
   }
@@ -25,17 +25,17 @@ export function validateInput(input: KonfiguratorStringowInput): ValidationResul
   const warnings: Warning[] = []
 
   if (input.vmpV <= 0) {
-    errors.push(notPositive("vmpV", "napięcie Vmp panelu", input.vmpV))
+    errors.push(notPositive("vmpV", input.vmpV))
   }
   if (input.impA <= 0) {
-    errors.push(notPositive("impA", "prąd Imp panelu", input.impA))
+    errors.push(notPositive("impA", input.impA))
   }
 
   if (input.mode === "mieszany") {
-    checkCount("panelWGrupie", "liczba paneli w grupie", input.panelWGrupie, errors, warnings)
-    checkCount("liczbaGrup", "liczba grup równoległych", input.liczbaGrup, errors, warnings)
+    checkCount("panelWGrupie", input.panelWGrupie, errors, warnings)
+    checkCount("liczbaGrup", input.liczbaGrup, errors, warnings)
   } else {
-    checkCount("liczbaPaneli", "liczba paneli", input.liczbaPaneli, errors, warnings)
+    checkCount("liczbaPaneli", input.liczbaPaneli, errors, warnings)
   }
 
   return { errors, warnings }

@@ -66,4 +66,18 @@ describe("calculateNiedopasowaniePaneli", () => {
     })
     expect(result.status).toBe("INVALID_INPUT")
   })
+
+  it("i18n (17.2): DUZA-ROZNICA-MOCY ma i18nKey+params, assumption to {kod}", () => {
+    const result = calculateNiedopasowaniePaneli({
+      mocPanel1W: 400,
+      impPanel1A: 11,
+      mocPanel2W: 330,
+      impPanel2A: 9,
+      napiecieWspolneV: 40,
+    })
+    expect(result.warnings[0].i18nKey).toBe("DUZA-ROZNICA-MOCY")
+    expect(result.warnings[0].params).toEqual({ roznica: "17.5" })
+    expect(result.warnings[0].message).toBeUndefined()
+    expect(result.assumptions).toEqual([{ kod: "NAPIECIE-WSPOLNE-RECZNIE" }])
+  })
 })

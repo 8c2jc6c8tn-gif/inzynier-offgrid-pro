@@ -4,23 +4,29 @@ import { LICZBA_PANELI_SANITY_MAX } from "./constants"
 /**
  * Katalog ostrzeżeń tego kalkulatora — jedno miejsce prawdy dla treści komunikatów
  * (docs/standards/04-walidacja-i-twarde-stopy.md, 4.1). `validation.ts` decyduje, które zwrócić.
+ *
+ * `notPositive`/`notWholeNumber` nie przyjmują już etykiety pola po polsku (17.2) — treść z
+ * etykietą jest zapisana raz na pole w słowniku (klucz = `code`, jednoznaczny per pole dzięki
+ * `field.toUpperCase()`), nie składana z tłumaczonego parametru w runtime.
  */
 
-export function notPositive(field: string, label: string, value: number): Warning {
+export function notPositive(field: string, value: number): Warning {
+  const code = `${field.toUpperCase()}-NIEDODATNI`
   return {
-    code: `${field.toUpperCase()}-NIEDODATNI`,
+    code,
     level: "critical",
-    message: `Wartość pola "${label}" musi być większa od zera.`,
+    i18nKey: code,
     technicalMessage: `${field} = ${value}, oczekiwano > 0`,
     field,
   }
 }
 
-export function notWholeNumber(field: string, label: string, value: number): Warning {
+export function notWholeNumber(field: string, value: number): Warning {
+  const code = `${field.toUpperCase()}-NIE-CALKOWITA`
   return {
-    code: `${field.toUpperCase()}-NIE-CALKOWITA`,
+    code,
     level: "critical",
-    message: `Wartość pola "${label}" musi być liczbą całkowitą — nie da się podłączyć ułamka panelu.`,
+    i18nKey: code,
     technicalMessage: `${field} = ${value}, oczekiwano liczby całkowitej`,
     field,
   }
@@ -30,7 +36,7 @@ export function liczbaPaneliUnusuallyHigh(value: number): Warning {
   return {
     code: "LICZBA-PANELI-NIETYPOWO-WYSOKA",
     level: "info",
-    message: "To nietypowo duża liczba paneli w jednym stringu — sprawdź, czy to zamierzone.",
+    i18nKey: "LICZBA-PANELI-NIETYPOWO-WYSOKA",
     technicalMessage: `liczba paneli = ${value} > próg ${LICZBA_PANELI_SANITY_MAX}`,
     field: "liczbaPaneli",
   }

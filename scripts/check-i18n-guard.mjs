@@ -67,6 +67,11 @@ const MIGRATED_MODULES = [
   "lib/core/modules/okablowanie/uziemienie-funkcjonalne-ochronne",
   "lib/core/modules/okablowanie/wylaczniki-nadpradowe-dc",
   "lib/core/modules/okablowanie/wylaczniki-rcd",
+  "lib/core/modules/pv/dopasowanie-tablicy-falownika",
+  "lib/core/modules/pv/konfigurator-stringow",
+  "lib/core/modules/pv/napor-wiatru",
+  "lib/core/modules/pv/niedopasowanie-paneli",
+  "lib/core/modules/pv/ochrona-stringow",
 ]
 
 const FILES_TO_CHECK = ["warnings.ts", "calculator.ts", "validation.ts"]

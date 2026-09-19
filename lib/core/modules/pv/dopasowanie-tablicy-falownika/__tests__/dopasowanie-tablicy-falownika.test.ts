@@ -165,4 +165,29 @@ describe("calculateDopasowanieTablicyFalownika", () => {
     })
     expect(result.status).toBe("INVALID_INPUT")
   })
+
+  it("i18n (17.2): NAPIECIE-ZIMOWE-ZA-WYSOKIE ma i18nKey+params, assumptions to {kod}", () => {
+    const result = calculateDopasowanieTablicyFalownika({
+      vocStcV: 45,
+      vmpStcV: 37,
+      impA: 9,
+      betaPctNaC: -0.3,
+      tminC: -25,
+      liczbaPaneliWStringu: 12,
+      vMaxFalownikaV: 500,
+      mpptMinV: 150,
+      mpptMaxV: 450,
+      iMaxMpptA: 15,
+      mocFalownikaAcW: 3500,
+    })
+    const w = result.warnings.find((x) => x.code === "NAPIECIE-ZIMOWE-ZA-WYSOKIE")
+    expect(w?.i18nKey).toBe("NAPIECIE-ZIMOWE-ZA-WYSOKIE")
+    expect(w?.params).toEqual({ vStringCold: "621.0", vMax: "500.0" })
+    expect(w?.message).toBeUndefined()
+    expect(result.assumptions).toEqual([
+      { kod: "ZAKLADA-JEDEN-STRING" },
+      { kod: "MOC-PV-WZOR-VMP-IMP" },
+      { kod: "KRYTERIUM-4-NIE-SPRAWDZANE" },
+    ])
+  })
 })

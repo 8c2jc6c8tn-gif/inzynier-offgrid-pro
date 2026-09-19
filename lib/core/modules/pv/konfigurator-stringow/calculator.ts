@@ -1,4 +1,4 @@
-import type { CalcResult, Warning } from "@/lib/core/calc-result"
+import type { Assumption, CalcResult, Warning } from "@/lib/core/calc-result"
 import type { KonfiguratorStringowInput } from "./input"
 import { validateInput } from "./validation"
 
@@ -9,9 +9,7 @@ export type StringResult = {
   currentA: number
 }
 
-const ASSUMPTION_STC =
-  "Wynik liczony dla warunków STC (25°C) — bez korekty temperaturowej na mróz " +
-  "(patrz Moduł 3, Ekran 5: zimowy stress-test napięciowy MPPT)."
+const ASSUMPTION_STC: Assumption = { kod: "WYNIK-DLA-WARUNKOW-STC" }
 
 function buildInvalid(
   inputs: Record<string, number>,
@@ -98,8 +96,15 @@ export function calculateKonfiguratorStringow(
         inputs,
         assumptions: [
           ASSUMPTION_STC,
-          `Razem ${input.panelWGrupie * input.liczbaGrup} paneli (${input.panelWGrupie} w grupie × ${input.liczbaGrup} grup).`,
-        ],
+          {
+            kod: "RAZEM-PANELI-MIESZANY",
+            params: {
+              razem: input.panelWGrupie * input.liczbaGrup,
+              wGrupie: input.panelWGrupie,
+              grup: input.liczbaGrup,
+            },
+          },
+        ] satisfies Assumption[],
         warnings,
         calculatorVersion: CALCULATOR_VERSION,
       }

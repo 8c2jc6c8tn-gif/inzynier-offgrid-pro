@@ -1,4 +1,4 @@
-import type { CalcResult } from "@/lib/core/calc-result"
+import type { Assumption, CalcResult } from "@/lib/core/calc-result"
 import type { NaporWiatruInput } from "./input"
 import { validateInput } from "./validation"
 import { silaNaporu } from "./warnings"
@@ -65,9 +65,7 @@ export function calculateNaporWiatru(input: NaporWiatruInput): CalcResult<NaporW
     status: "VALID",
     formula: FORMULA,
     inputs,
-    assumptions: [
-      "Tylko siła naporu (parcie na przód panelu) — siła ssania od spodu, moment wywracający i wymagany balast NIE liczone (wymagają geometrii montażu, której źródło nie podaje jako liczb).",
-    ],
+    assumptions: [{ kod: "TYLKO-SILA-NAPORU-NIE-SSANIE" }] satisfies Assumption[],
     warnings: [silaNaporu(silaNaporuN)],
     calculatorVersion: CALCULATOR_VERSION,
   }

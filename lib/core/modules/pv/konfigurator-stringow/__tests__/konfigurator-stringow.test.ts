@@ -34,7 +34,11 @@ describe("calculateKonfiguratorStringow", () => {
     })
     expect(result.status).toBe("VALID")
     expect(result.value).toEqual({ voltageV: 160, currentA: 22 })
-    expect(result.assumptions.some((a) => typeof a === "string" && a.includes("Razem 8 paneli"))).toBe(true)
+    expect(
+      result.assumptions.some(
+        (a) => typeof a !== "string" && a.kod === "RAZEM-PANELI-MIESZANY" && a.params?.razem === 8,
+      ),
+    ).toBe(true)
   })
 
   it("przypadek graniczny: 1 panel w szeregu to po prostu ten panel", () => {
@@ -90,5 +94,18 @@ describe("calculateKonfiguratorStringow", () => {
     })
     expect(result.status).toBe("VALID_WITH_WARNINGS")
     expect(result.value).toEqual({ voltageV: 40, currentA: 550 })
+  })
+
+  it("i18n (17.2): NIEDODATNI/NIE-CALKOWITA mają i18nKey per pole, assumptions to {kod}", () => {
+    const vmp = calculateKonfiguratorStringow({ mode: "szereg", vmpV: -5, impA: 11, liczbaPaneli: 8 })
+    expect(vmp.warnings[0].i18nKey).toBe("VMPV-NIEDODATNI")
+    expect(vmp.warnings[0].message).toBeUndefined()
+
+    const niecalkowita = calculateKonfiguratorStringow({ mode: "szereg", vmpV: 40, impA: 11, liczbaPaneli: 3.5 })
+    expect(niecalkowita.warnings[0].i18nKey).toBe("LICZBAPANELI-NIE-CALKOWITA")
+    expect(niecalkowita.warnings[0].message).toBeUndefined()
+
+    const szereg = calculateKonfiguratorStringow({ mode: "szereg", vmpV: 40, impA: 11, liczbaPaneli: 8 })
+    expect(szereg.assumptions).toEqual([{ kod: "WYNIK-DLA-WARUNKOW-STC" }])
   })
 })

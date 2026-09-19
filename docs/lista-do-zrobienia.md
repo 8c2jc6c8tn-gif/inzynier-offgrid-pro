@@ -587,3 +587,34 @@ Tu trafia bieżący stan pracy: co w trakcie, co zablokowane, co następne — a
   5 wcześniej bez `message:` do migracji).
   **Pozostało ~41 plików**: `pv/` (~10), `zapotrzebowanie/` (~8), `ogrzewanie/` (~6),
   `bezpieczenstwo/` (~2), `kalkulator-mobilny/` (~1) — kolejna partia zaczyna `pv/`.
+- ✅ (2026-09-19) **Rollout i18n — jedenasta partia: pierwsze 5 modułów `pv/`.** Zmigrowane:
+  `dopasowanie-tablicy-falownika`, `konfigurator-stringow`, `napor-wiatru`,
+  `niedopasowanie-paneli`, `ochrona-stringow`. `czystosc-i-snieg` (katalog `pv/`) pominięty —
+  świadomie odłożony wcześniej (dane katalogowe). 41 nowych kluczy, 3 klucze reużyte 1:1
+  (`WARTOSC-NIE-MOZE-BYC-UJEMNA` — 3×).
+  Zweryfikowany brak zależności echo na `Warning[]` tego modułu z innych kalkulatorów przed
+  migracją (lekcja z partii 9) — `dopasowanie-tablicy-falownika` importuje tylko czystą funkcję
+  liczbową `obliczNapiecieStringuZimowego` z `stress-test-mppt` (nie odwrotnie, nie echo
+  ostrzeżeń), a domniemana zależność `napiecie-systemowe` → `dopasowanie-tablicy-falownika`
+  (Etap G) została usunięta z kodu 14.09.2026 — potwierdzone grepem, nie z komentarza.
+  `konfigurator-stringow/warnings.ts`: `notPositive`/`notWholeNumber` przestały przyjmować
+  polską etykietę pola jako parametr runtime (nietłumaczalny string wpisany na miejscu wywołania)
+  — zamiast tego każde pole ma własny klucz słownika (np. `VMPV-NIEDODATNI`,
+  `LICZBAPANELI-NIE-CALKOWITA`), z etykietą już przetłumaczoną w treści klucza, tak jak
+  `Warning.code` (`field.toUpperCase()+"-NIEDODATNI"`) już to robił — `i18nKey` = `code`.
+  8 stringowych `assumptions` (w tym jeden z interpolacją liczb) skonwertowanych na `{kod}`/`{kod,params}`.
+  Wszystkie 5 stron UI już poprawnie korzystało z `WynikSzczegoly` — brak napraw stron.
+  `scripts/check-i18n-guard.mjs` → `MIGRATED_MODULES` rozszerzone z 47 do 52.
+  5 nowych bloków testowych domenowych (w tym poprawka istniejącej asercji na string assumption
+  w `konfigurator-stringow`, która musiała się zmienić na `{kod}`) + nowy blok w `t.test.ts`
+  (20 kluczy z parametrami/17 bez). `pnpm typecheck`/`lint`/`check:i18n-guard`/`test`
+  (804/804)/`build` czyste. Zweryfikowane end-to-end w świeżej przeglądarce (Playwright, z
+  potwierdzeniem braku rezydualnego `next-server` przed i po) w PL/EN/RU (5 modułów × 3 języki =
+  15 sprawdzeń) — zero `⚠ [...]`.
+  **Pozostało ~36 plików**: `pv/` (5 pozostałych: `panele-bifacjalne`, `straty-okablowanie-dc`,
+  `straty-zlaczki-mc4`, `stress-test-mppt`, `wplyw-temperatury`, plus `zacienienie-diody-bocznikujace`
+  — czyli 6, nie 5, patrz uwaga niżej), `zapotrzebowanie/` (~8), `ogrzewanie/` (~6),
+  `bezpieczenstwo/` (~2), `kalkulator-mobilny/` (~1).
+  ⚠ Uwaga do partii 12: `stress-test-mppt` jest ECHOWANY przez `dopasowanie-tablicy-falownika`
+  (funkcja czysta `obliczNapiecieStringuZimowego`, bez `Warning[]`) — bezpieczne wobec migracji,
+  ale sprawdzić ponownie przy właściwej migracji `stress-test-mppt`, nie zakładać z góry.

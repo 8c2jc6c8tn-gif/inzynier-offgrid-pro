@@ -402,6 +402,97 @@ export const dictionaryPl = {
   "TYP-RCD-MINIMALNY-NIE-PODANY":
     "Bez falownika hybrydowego i bez silników w obwodzie źródło nie podaje minimalnego typu RCD — nie " +
     "zgadywany.",
+  "OKNO-MPPT-ODWROCONE": "Dolna granica okna MPPT nie może być większa od górnej.",
+  "NAPIECIE-ZIMOWE-ZA-WYSOKIE":
+    "Napięcie stringu w najzimniejszych warunkach ({vStringCold} V) przekracza maksymalne " +
+    "dopuszczalne napięcie DC falownika ({vMax} V) — realne ryzyko trwałego uszkodzenia falownika " +
+    "w mroźny, słoneczny poranek. Zmniejsz liczbę paneli w stringu.",
+  "NAPIECIE-ZIMOWE-OK":
+    "Napięcie stringu w najzimniejszych warunkach ({vStringCold} V) mieści się w limicie " +
+    "falownika ({vMax} V).",
+  "PONIZEJ-OKNA-MPPT":
+    "Napięcie robocze stringu ({vStringStc} V) jest poniżej dolnej granicy okna MPPT falownika " +
+    "({mpptMin} V) — falownik może nie odnaleźć punktu mocy maksymalnej albo w ogóle nie " +
+    "wystartować. Dodaj panele do stringu.",
+  "POWYZEJ-OKNA-MPPT":
+    "Napięcie robocze stringu ({vStringStc} V) przekracza górną granicę okna MPPT falownika " +
+    "({mpptMax} V) — falownik może obcinać dostępną moc. Usuń panel ze stringu albo rozdziel na " +
+    "dwa krótsze stringi.",
+  "W-OKNIE-MPPT":
+    "Napięcie robocze stringu ({vStringStc} V) mieści się w oknie MPPT falownika ({mpptMin}-{mpptMax} V).",
+  "PRAD-PRZEKROCZONY":
+    "Prąd roboczy stringu ({iString} A) przekracza maksymalny prąd wejściowy MPPT falownika " +
+    "({iMax} A) — ryzyko uszkodzenia wejścia MPPT. Rozdziel panele na osobne MPPT albo wybierz " +
+    "panel o niższym Imp.",
+  "PRAD-OK": "Prąd roboczy stringu ({iString} A) mieści się w limicie MPPT falownika ({iMax} A).",
+  "DC-AC-ZA-MALE":
+    "Stosunek mocy PV do mocy AC falownika ({ratio}) jest poniżej zalecanego zakresu " +
+    "({min}-1,3 dla off-gridu) — falownik nie wykorzysta swojego potencjału, zwłaszcza przy " +
+    "słabszym świetle.",
+  "DC-AC-ZA-DUZE":
+    "Stosunek mocy PV do mocy AC falownika ({ratio}) przekracza zalecany zakres (1,1-{max} dla " +
+    "off-gridu) — ryzyko obcinania mocy w słoneczne dni, przegrzewania i skróconej żywotności falownika.",
+  "DC-AC-OK":
+    "Stosunek mocy PV do mocy AC falownika ({ratio}) mieści się w zalecanym zakresie 1,1-1,3 dla off-gridu.",
+  "ZAKLADA-JEDEN-STRING":
+    "Zakłada JEDEN string (bez wielu stringów równoległych) — zgodnie z parametrami Sekcji A źródła.",
+  "MOC-PV-WZOR-VMP-IMP":
+    "Moc PV (do współczynnika DC/AC) liczona jako Vmp × Imp × liczba paneli (P=V×I w warunkach " +
+    "STC), nie wpisywana osobno.",
+  "KRYTERIUM-4-NIE-SPRAWDZANE":
+    "Kryterium 4 źródła (napięcie startowe falownika w upale) NIE jest tu sprawdzane — wymaga " +
+    "współczynnika temperaturowego Vmp, którego źródło nie podaje jako wzoru w tym ekranie (patrz " +
+    "komentarz w kodzie kalkulatora).",
+  "VMPV-NIEDODATNI": 'Wartość pola "napięcie Vmp panelu" musi być większa od zera.',
+  "IMPA-NIEDODATNI": 'Wartość pola "prąd Imp panelu" musi być większa od zera.',
+  "PANELWGRUPIE-NIEDODATNI": 'Wartość pola "liczba paneli w grupie" musi być większa od zera.',
+  "LICZBAGRUP-NIEDODATNI": 'Wartość pola "liczba grup równoległych" musi być większa od zera.',
+  "LICZBAPANELI-NIEDODATNI": 'Wartość pola "liczba paneli" musi być większa od zera.',
+  "PANELWGRUPIE-NIE-CALKOWITA":
+    'Wartość pola "liczba paneli w grupie" musi być liczbą całkowitą — nie da się podłączyć ułamka panelu.',
+  "LICZBAGRUP-NIE-CALKOWITA":
+    'Wartość pola "liczba grup równoległych" musi być liczbą całkowitą — nie da się podłączyć ułamka panelu.',
+  "LICZBAPANELI-NIE-CALKOWITA":
+    'Wartość pola "liczba paneli" musi być liczbą całkowitą — nie da się podłączyć ułamka panelu.',
+  "LICZBA-PANELI-NIETYPOWO-WYSOKA":
+    "To nietypowo duża liczba paneli w jednym stringu — sprawdź, czy to zamierzone.",
+  "WYNIK-DLA-WARUNKOW-STC":
+    "Wynik liczony dla warunków STC (25°C) — bez korekty temperaturowej na mróz (patrz Moduł 3, " +
+    "Ekran 5: zimowy stress-test napięciowy MPPT).",
+  "RAZEM-PANELI-MIESZANY": "Razem {razem} paneli ({wGrupie} w grupie × {grup} grup).",
+  "SILA-NAPORU":
+    "Panel działa trochę jak żagiel — przy tym wietrze na jeden panel działa siła ok. {sila} N. " +
+    "Zaplanuj mocowanie/balast odpowiedni do tej siły.",
+  "TYLKO-SILA-NAPORU-NIE-SSANIE":
+    "Tylko siła naporu (parcie na przód panelu) — siła ssania od spodu, moment wywracający i " +
+    "wymagany balast NIE liczone (wymagają geometrii montażu, której źródło nie podaje jako liczb).",
+  "DUZA-ROZNICA-MOCY":
+    "Różnica mocy paneli ({roznica}%) przekracza 15% — rozdziel je na osobne MPPT albo połącz " +
+    "równolegle, jeśli mają zbliżone Vmp.",
+  "UMIARKOWANA-ROZNICA-MOCY":
+    "Różnica mocy paneli ({roznica}%) jest zauważalna (10-15%) — rozważ osobne MPPT.",
+  "MALA-ROZNICA-MOCY":
+    "Różnica mocy paneli ({roznica}%) jest niewielka (poniżej 10%) — bezpiecznie w jednym stringu.",
+  "NAPIECIE-WSPOLNE-RECZNIE":
+    "Wspólne napięcie robocze (Vmp) wpisane ręcznie dla obu paneli — źródło używa jednej, " +
+    "uśrednionej wartości w swoim przykładzie, nie wyprowadza jej z mocy/prądu każdego panelu osobno.",
+  "OCHRONA-OBOWIAZKOWA-BRAK":
+    "Norma HD 60364-7-712 wymaga zabezpieczenia nadprądowego każdego z {ns} równoległych stringów " +
+    "— brak grozi pożarem od prądu wstecznego z pozostałych stringów przy zwarciu jednego.",
+  "ZAKRES-BEZPIECZNIKA-NIEPOPRAWNY":
+    "Nie istnieje bezpiecznik spełniający wymagania normy dla tej konfiguracji (dolna granica " +
+    "{inMin} A przekracza górną granicę {inMax} A z karty katalogowej panelu) — zmniejsz liczbę " +
+    "stringów równoległych na jedno zabezpieczenie lub wybierz panel o wyższym I_MOD_MAX_OCPR.",
+  "WYBRANY-BEZPIECZNIK-POZA-ZAKRESEM":
+    "Wybrany bezpiecznik {wybrany} A jest poza wymaganym zakresem [{inMin}, {inMax}] A.",
+  "ALTERNATYWA-KABLOWA-NIESPRAWDZONA":
+    "Zabezpieczenie nadprądowe nie jest tu wymagane wzorem normy, ale przy {ns} stringach " +
+    "równoległych kabel string musi wytrzymać prąd wsteczny {wymaganeIz} A — sprawdź to osobno w " +
+    "doborze przekroju kabla.",
+  "BEZPIECZNIK-DOBRANY": "Dobierz bezpiecznik gPV w zakresie {inMin}–{inMax} A per string.",
+  "K1-MINIMUM-NORMOWE":
+    "K1=1,25 (minimum normowe, Załącznik B.2) — w warunkach zwiększonego odbicia/naświetlenia " +
+    "norma dopuszcza wyższe K1, ale nie podaje konkretnej wartości; nie zgadujemy.",
 } as const
 
 export type KluczTlumaczenia = keyof typeof dictionaryPl

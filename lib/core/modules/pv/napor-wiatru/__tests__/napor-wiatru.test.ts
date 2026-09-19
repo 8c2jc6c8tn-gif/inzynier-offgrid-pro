@@ -27,4 +27,12 @@ describe("calculateNaporWiatru", () => {
     const result = calculateNaporWiatru({ predkoscWiatruMS: 30, powierzchniaM2: -2, cd: 1.3 })
     expect(result.status).toBe("INVALID_INPUT")
   })
+
+  it("i18n (17.2): SILA-NAPORU ma i18nKey+params, assumption to {kod}", () => {
+    const result = calculateNaporWiatru({ predkoscWiatruMS: 33.333333333333336, powierzchniaM2: 2.0, cd: 1.3 })
+    expect(result.warnings[0].i18nKey).toBe("SILA-NAPORU")
+    expect(result.warnings[0].params).toEqual({ sila: "1769" })
+    expect(result.warnings[0].message).toBeUndefined()
+    expect(result.assumptions).toEqual([{ kod: "TYLKO-SILA-NAPORU-NIE-SSANIE" }])
+  })
 })
