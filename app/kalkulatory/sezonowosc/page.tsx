@@ -8,6 +8,7 @@ import { WerdyktPanel } from "@/components/werdykt"
 import { NawigacjaEkranu } from "@/components/nawigacja-ekranu"
 import { NaglowekEkranu } from "@/components/wzorce/naglowek-ekranu"
 import { WynikGlowny } from "@/components/wzorce/wynik-glowny"
+import { WynikSzczegoly } from "@/components/wzorce/wynik-szczegoly"
 
 const ETYKIETY_TYPU: Record<TypSezonowosci, string> = {
   caloroczny: "Całoroczny",
@@ -116,11 +117,7 @@ export default function SezonowoscPage() {
       ) : (
         <WerdyktPanel poziom="ok" etykieta={result.value.aktywne ? "Aktywne w tym okresie" : "Nieaktywne w tym okresie"}>
           <WynikGlowny>{result.value.zapotrzebowanieWliczoneKwhDoba.toFixed(2)} kWh/dobę</WynikGlowny>
-          {result.warnings.map((w) => (
-            <p key={w.code} className="mt-2 text-small">
-              {w.message}
-            </p>
-          ))}
+          <WynikSzczegoly assumptions={result.assumptions} warnings={result.warnings} formula={result.formula} />
         </WerdyktPanel>
       )}
     </main>

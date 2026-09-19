@@ -87,4 +87,58 @@ describe("calculateProfilAstronomiczny", () => {
     })
     expect(result.status).toBe("INVALID_INPUT")
   })
+
+  it("i18n (17.2): błąd walidacji (szerokość poza zakresem) zwraca i18nKey/params, nie message", () => {
+    const result = calculateProfilAstronomiczny({
+      szerokoscGeograficzna: 95,
+      dzienRoku: 355,
+      mocOdbiornikaNocnegoW: 0,
+    })
+    expect(result.warnings[0].i18nKey).toBe("SZEROKOSC-POZA-ZAKRESEM")
+    expect(result.warnings[0].params).toBeUndefined()
+    expect(result.warnings[0].message).toBeUndefined()
+  })
+
+  it("i18n (17.2): noc polarna zwraca i18nKey NOC-POLARNA (wariant tekstowy zależny od warunku)", () => {
+    const result = calculateProfilAstronomiczny({
+      szerokoscGeograficzna: 70,
+      dzienRoku: 355,
+      mocOdbiornikaNocnegoW: 0,
+    })
+    const w = result.warnings.find((x) => x.code === "NOC-DZIEN-POLARNY")
+    expect(w?.i18nKey).toBe("NOC-POLARNA")
+    expect(w?.message).toBeUndefined()
+  })
+
+  it("i18n (17.2): dzień polarny zwraca i18nKey DZIEN-POLARNY (wariant tekstowy zależny od warunku)", () => {
+    const result = calculateProfilAstronomiczny({
+      szerokoscGeograficzna: 70,
+      dzienRoku: 172,
+      mocOdbiornikaNocnegoW: 0,
+    })
+    const w = result.warnings.find((x) => x.code === "NOC-DZIEN-POLARNY")
+    expect(w?.i18nKey).toBe("DZIEN-POLARNY")
+    expect(w?.message).toBeUndefined()
+  })
+
+  it("i18n (17.2): energia nocna zwraca i18nKey/params, nie message", () => {
+    const result = calculateProfilAstronomiczny({
+      szerokoscGeograficzna: 52.2,
+      dzienRoku: 355,
+      mocOdbiornikaNocnegoW: 50,
+    })
+    const w = result.warnings.find((x) => x.code === "ENERGIA-NOCNA")
+    expect(w?.i18nKey).toBe("ENERGIA-NOCNA")
+    expect(w?.params).toEqual({ moc: 50, dlugoscNocy: "16.5", energia: "0.83" })
+    expect(w?.message).toBeUndefined()
+  })
+
+  it("i18n (17.2): założenie o metodzie Coopera zwraca {kod}, nie string", () => {
+    const result = calculateProfilAstronomiczny({
+      szerokoscGeograficzna: 52.2,
+      dzienRoku: 355,
+      mocOdbiornikaNocnegoW: 0,
+    })
+    expect(result.assumptions).toEqual([{ kod: "DEKLINACJA-METODA-COOPERA" }])
+  })
 })

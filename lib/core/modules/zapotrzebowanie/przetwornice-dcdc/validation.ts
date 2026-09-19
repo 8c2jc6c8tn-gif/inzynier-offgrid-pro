@@ -9,7 +9,7 @@ export type ValidationResult = {
 export function validateInput(input: PrzetworniceDcdcInput): ValidationResult {
   const errors: Warning[] = []
   if (input.zapotrzebowanieUrzadzeniaW < 0) {
-    errors.push(notPositive("zapotrzebowanieUrzadzeniaW", "zapotrzebowanie urządzenia", input.zapotrzebowanieUrzadzeniaW))
+    errors.push(notPositive("zapotrzebowanieUrzadzeniaW", input.zapotrzebowanieUrzadzeniaW))
   }
   if (input.sprawnoscPrzetwornicyPct < 0 || input.sprawnoscPrzetwornicyPct > 100) {
     errors.push(sprawnoscPozaZakresem(input.sprawnoscPrzetwornicyPct))

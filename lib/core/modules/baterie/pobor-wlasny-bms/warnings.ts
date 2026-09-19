@@ -1,11 +1,11 @@
 import type { Warning } from "@/lib/core/calc-result"
 
-export function poborUjemny(pole: string, etykieta: string, value: number): Warning {
+export function poborUjemny(pole: string, value: number): Warning {
+  const code = `${pole.toUpperCase()}-UJEMNY`
   return {
-    code: "POBOR-UJEMNY",
+    code,
     level: "critical",
-    i18nKey: "POBOR-UJEMNY",
-    params: { label: etykieta },
+    i18nKey: code,
     technicalMessage: `${pole} = ${value}, oczekiwano >= 0`,
     field: pole,
   }

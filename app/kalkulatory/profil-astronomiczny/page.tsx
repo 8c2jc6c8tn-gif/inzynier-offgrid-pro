@@ -79,12 +79,7 @@ export default function ProfilAstronomicznyPage() {
           <WynikGlowny>
             {result.value.dlugoscDniaH.toFixed(1)} h dnia / {result.value.dlugoscNocyH.toFixed(1)} h nocy
           </WynikGlowny>
-          {result.warnings.map((w) => (
-            <p key={w.code} className="mt-2 text-small">
-              {w.message}
-            </p>
-          ))}
-          <WynikSzczegoly assumptions={result.assumptions} formula={result.formula} />
+          <WynikSzczegoly assumptions={result.assumptions} warnings={result.warnings} formula={result.formula} />
         </WerdyktPanel>
       )}
     </main>

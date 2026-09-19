@@ -4701,3 +4701,78 @@ czyste. Zweryfikowane w przeglądarce PL/EN/RU (15 kombinacji, zero `⚠ [...]`)
 Pozostało ~27 plików: `zapotrzebowanie/` (4 pozostałe — `pobor-wlasny-falownika`,
 `profil-astronomiczny`, `przetwornice-dcdc`, `sezonowosc`), `ogrzewanie/` (~6),
 `bezpieczenstwo/` (~2), `kalkulator-mobilny/` (~1). Zweryfikować grepem na starcie partii 14.
+
+## Rollout i18n — czternasta partia: zamknięcie katalogu `zapotrzebowanie/` (19.09.2026)
+
+Zmigrowane: `pobor-wlasny-falownika`, `profil-astronomiczny`, `przetwornice-dcdc`, `sezonowosc`
+(ostatnie 4 pliki `zapotrzebowanie/`). 19 nowych kluczy (nie 22 — literówka w liczeniu na
+poprzednim etapie tej sesji, skorygowana po przeliczeniu programistycznym słownika przed
+weryfikacją; **"zweryfikowane programistycznie, nie z metryczki" — rozdział 14/03 standardu —
+zastosowane tu wprost do własnej, wcześniejszej liczby, nie tylko do materiału źródłowego**).
+Zero kolizji kluczy w tej partii (żaden z 19 nie pokrywał się z istniejącymi — sprawdzone
+grepem przed finalizacją, jak w każdej wcześniejszej partii).
+
+**Czwarty przypadek wzorca "etykieta pola jako nietłumaczalny parametr runtime"** (po
+`konfigurator-stringow` p.11, `agregat-pradotworczy` p.13) — `przetwornice-dcdc`'s
+`notPositive(field, label, value)`. Naprawiony identycznie: `label` usunięty, `i18nKey = code`.
+
+**Drugi podtyp "różny tekst, nie tylko różne parametry, zależnie od warunku"** (po
+`buforInfo`/`odbiornikAktywny`, p.13) — `profil-astronomiczny`'s `nocPolarnaLubDzienPolarny`
+(noc polarna vs dzień polarny to dwa różne zdania, nie jeden szablon z inną wartością). Rozbite
+na `NOC-POLARNA`/`DZIEN-POLARNY`, wybór klucza w `warnings.ts`, jak w p.13.
+
+**🔴 Dryf znaleziony w module z WCZEŚNIEJSZEJ, już zamkniętej partii (`baterie/pobor-wlasny-bms`,
+nie część listy plików tej partii) — naprawiony od razu, zgodnie z wyjątkiem CLAUDE.md dla dryfu
+bez świadomej decyzji.** Znaleziony przy sprawdzaniu kolizji nazw kluczy z nowym
+`POBOR-JALOWY-UJEMNY`: `pobor-wlasny-bms`'s `poborUjemny(pole, etykieta, value)` miał identyczny
+wzorzec "etykieta jako parametr" (`i18nKey: "POBOR-UJEMNY"`, `params: {label: etykieta}`) — sam
+klucz `POBOR-UJEMNY` ucieleśniał anty-wzorzec, mimo że module był zmigrowany wcześniej, przed
+ustaleniem tej dyscypliny. Naprawiony tym samym wzorem (usunięcie `etykieta`, `i18nKey` =
+`${pole.toUpperCase()}-UJEMNY`, np. `POBORCIAGLEW-UJEMNY`), test zaktualizowany.
+
+**🔴 4 kolejne strony UI naprawione** (siódmy–dziesiąty przypadek w całej rundzie).
+`pobor-wlasny-falownika` i `sezonowosc` nie importowały `WynikSzczegoly` wcale — czysto manualny
+render `{w.message}` (marker `⚠ [` by się pojawił). `profil-astronomiczny` i `przetwornice-dcdc`
+miały podwójny bug (manualny render ORAZ sąsiedni `WynikSzczegoly` bez propa `warnings`) — jak
+`agregat-pradotworczy` w p.13. Wszystkie 4 naprawione tym samym wzorcem
+(`<WynikSzczegoly assumptions warnings formula />`). Dla dwóch stron z podwójnym bugiem
+(`profil-astronomiczny`, `przetwornice-dcdc`) zweryfikowano pełnym wydrukiem `innerText` przed/po
+— treść ostrzeżenia (info-level, funkcjonalnie ważna: noc polarna / strata na konwersji) faktycznie
+się pojawia, nie tylko brak markera.
+
+`MIGRATED_MODULES`: 62→66. `pnpm typecheck`/`lint`/`check:i18n-guard`/`test` (833/833)/`build`
+czyste. Zweryfikowane w przeglądarce PL/EN/RU (12 kombinacji — 4 moduły × 3 języki, zero
+`⚠ [...]`), z potwierdzeniem `ps aux | grep next-server` puste przed i po.
+
+**To zamyka cały katalog `zapotrzebowanie/`** (8 modułów zmigrowanych w partiach 13-14, licząc
+tylko moduły z hardkodowanym polskim tekstem w `Warning`/`Assumption` — cały katalog `zapotrzebowanie/`
+per `find` nie miał więcej takich plików).
+
+**🔴 KOREKTA SZACUNKU POZOSTAŁYCH PLIKÓW — poprzednie "~27" było oparte na niepełnej mapie
+katalogów, nie na przeliczeniu.** Programistyczna weryfikacja (`find lib/core/modules -maxdepth 2
+-mindepth 2 -type d`, porównanie z `MIGRATED_MODULES`, potem grep `message:` w każdym
+`warnings.ts` pozostałych katalogów) ujawniła katalog **`montaz-baterii/` (23 moduły, z czego
+12 mają realny hardkodowany tekst do migracji)** — w ogóle nieuwzględniony w poprzednich
+szacunkach tej sesji, nie tylko niedoszacowany. Poprawiony pełny obraz pozostałych plików z
+rzeczywistym tekstem do migracji (potwierdzone grepem, nie zgadywane):
+- `ogrzewanie/`: 6 modułów (`bufor-ciepla`, `infiltracja-powietrza`, `kociol-elektryczny`,
+  `pompy-cyrkulacyjne`, `ryzyko-niskiego-napiecia`, `wentylacja-odzysk-ciepla`) — zgodne z
+  wcześniejszym szacunkiem "~6".
+- `montaz-baterii/`: 12 modułów (`balansery-zewnetrzne-olow`, `demontaz-pakietu`,
+  `gestosc-elektrolitu`, `montaz-mechaniczny`, `ocena-zasiarczenia`, `ocena-zuzycia`,
+  `pierwsze-uruchomienie`, `podlaczenie-bms`, `ratowanie-ogniwa`, `sekwencja-montazu`,
+  `weryfikacja-ogniw` + reszta katalogu bez `warnings.ts`/bez `message:` — nie wymaga migracji).
+  **Nowo odkryty katalog, nieujęty w żadnym wcześniejszym szacunku tej sesji.**
+- `bezpieczenstwo/`: 2 moduły (`dogrzewanie-paliwem-stalym`, `ups-krytyczny`) — zgodne z "~2"
+  (`audyt-pozarowy` już zmigrowany wcześniej, nie ma `warnings.ts` z tekstem).
+- `kalkulator-mobilny/`: 1 moduł (`tryb-uproszczony`) — zgodne z "~1".
+- Świadomie odłożone (dane katalogowe, nie zwykłe `Warning[]`, wymagają decyzji architektonicznej
+  o i18n dla treści katalogowej — bez zmian względem wcześniejszych partii):
+  `pv/czystosc-i-snieg`, `baterie/komunikacja-bms`, `baterie/porownanie-technologii`.
+  **`baterie/napiecie-systemowe` (7× `message:`) wymaga sprawdzenia statusu** — plan wykonania
+  wspomina go jako możliwe do zbudowania z i18n od początku (v2, inna sesja); do potwierdzenia na
+  starcie partii, nie zakładać z góry.
+
+Realny pozostały zakres z tekstem do migracji: **21 modułów** (6+12+2+1), nie ~27 — ale to
+WIĘKSZY, nie mniejszy zakres niż poprzedni szacunek sugerował, bo `montaz-baterii/` był całkowicie
+nieujęty. Kolejna partia (15.): start `ogrzewanie/`.

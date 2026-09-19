@@ -8,7 +8,7 @@ export type ValidationResult = {
 
 export function validateInput(input: PoborWlasnyBmsInput): ValidationResult {
   const errors: Warning[] = []
-  if (input.poborCiagleW < 0) errors.push(poborUjemny("poborCiagleW", "Pobór w trybie pracy ciągłej", input.poborCiagleW))
-  if (input.poborUspienieW < 0) errors.push(poborUjemny("poborUspienieW", "Pobór w trybie uśpienia", input.poborUspienieW))
+  if (input.poborCiagleW < 0) errors.push(poborUjemny("poborCiagleW", input.poborCiagleW))
+  if (input.poborUspienieW < 0) errors.push(poborUjemny("poborUspienieW", input.poborUspienieW))
   return { errors }
 }

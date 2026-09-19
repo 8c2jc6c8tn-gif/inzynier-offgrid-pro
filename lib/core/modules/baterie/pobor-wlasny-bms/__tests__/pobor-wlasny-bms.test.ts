@@ -32,8 +32,8 @@ describe("calculatePoborWlasnyBms", () => {
 
   it("i18n (17.2): błąd walidacji zwraca i18nKey/params, nie message", () => {
     const result = calculatePoborWlasnyBms({ poborCiagleW: -1, poborUspienieW: 1 })
-    expect(result.warnings[0].i18nKey).toBe("POBOR-UJEMNY")
-    expect(result.warnings[0].params).toEqual({ label: "Pobór w trybie pracy ciągłej" })
+    expect(result.warnings[0].i18nKey).toBe("POBORCIAGLEW-UJEMNY")
+    expect(result.warnings[0].params).toBeUndefined()
     expect(result.warnings[0].message).toBeUndefined()
   })
 })

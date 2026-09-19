@@ -115,4 +115,46 @@ describe("calculateSezonowosc", () => {
     })
     expect(result.status).toBe("INVALID_INPUT")
   })
+
+  it("i18n (17.2): błąd walidacji (miesiąc poza zakresem) zwraca i18nKey/params, nie message", () => {
+    const result = calculateSezonowosc({
+      zapotrzebowanieKwhDoba: 3,
+      typ: "sezonowy",
+      miesiacOd: 13,
+      miesiacDo: 9,
+      aktualnyMiesiac: 7,
+      czyWeekend: false,
+    })
+    expect(result.warnings[0].i18nKey).toBe("MIESIAC-POZA-ZAKRESEM")
+    expect(result.warnings[0].params).toBeUndefined()
+    expect(result.warnings[0].message).toBeUndefined()
+  })
+
+  it("i18n (17.2): urządzenie aktywne zwraca i18nKey/params, nie message", () => {
+    const result = calculateSezonowosc({
+      zapotrzebowanieKwhDoba: 2,
+      typ: "caloroczny",
+      miesiacOd: 0,
+      miesiacDo: 0,
+      aktualnyMiesiac: 0,
+      czyWeekend: false,
+    })
+    expect(result.warnings[0].i18nKey).toBe("URZADZENIE-AKTYWNE")
+    expect(result.warnings[0].params).toEqual({ zapotrzebowanie: "2.00" })
+    expect(result.warnings[0].message).toBeUndefined()
+  })
+
+  it("i18n (17.2): urządzenie nieaktywne zwraca i18nKey bez params, nie message", () => {
+    const result = calculateSezonowosc({
+      zapotrzebowanieKwhDoba: 1.5,
+      typ: "weekendowy",
+      miesiacOd: 0,
+      miesiacDo: 0,
+      aktualnyMiesiac: 0,
+      czyWeekend: false,
+    })
+    expect(result.warnings[0].i18nKey).toBe("URZADZENIE-NIEAKTYWNE")
+    expect(result.warnings[0].params).toBeUndefined()
+    expect(result.warnings[0].message).toBeUndefined()
+  })
 })

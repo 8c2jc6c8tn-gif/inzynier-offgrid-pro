@@ -586,6 +586,32 @@ export const dictionaryPl = {
   "ODBIORNIK-ODLACZONY": "Odbiornik priorytetu {priorytet} zostałby teraz odłączony przez system load sheddingu.",
   "ODBIORNIK-AKTYWNY-PRIORYTET-1": "Priorytet 1 (krytyczny) — nigdy nie odłączany przez system load sheddingu.",
   "ODBIORNIK-AKTYWNY": "Odbiornik priorytetu {priorytet} pozostaje aktywny przy tym SoC.",
+  "POBOR-JALOWY-UJEMNY": "Pobór jałowy nie może być ujemny.",
+  "STALY-KOSZT-BILANSU":
+    "Falownik sam w sobie coś zużywa, tylko żeby być gotowym do pracy — {strata} kWh/dobę " +
+    "doliczane do bilansu z priorytetem 1, zanim cokolwiek włączysz.",
+  "SZEROKOSC-POZA-ZAKRESEM": "Szerokość geograficzna musi być z przedziału -90–90°.",
+  "DZIEN-ROKU-POZA-ZAKRESEM": "Dzień roku musi być z przedziału 1–365.",
+  "MOC-ODBIORNIKA-UJEMNA": "Moc odbiornika nie może być ujemna.",
+  "NOC-POLARNA": "Na tej szerokości geograficznej w tym dniu Słońce w ogóle nie wschodzi (noc polarna).",
+  "DZIEN-POLARNY": "Na tej szerokości geograficznej w tym dniu Słońce nie zachodzi (dzień polarny).",
+  "ENERGIA-NOCNA":
+    "Odbiornik {moc} W pracujący przez całą noc ({dlugoscNocy} h) zużywa {energia} kWh tej doby.",
+  "DEKLINACJA-METODA-COOPERA":
+    "Przybliżenie deklinacji Słońca metodą Coopera (1969) — standardowa formuła inżynierii " +
+    "słonecznej, dokładność ±1° deklinacji.",
+  "ZAPOTRZEBOWANIEURZADZENIAW-NIEDODATNI": 'Wartość pola "zapotrzebowanie urządzenia" musi być większa od zera.',
+  "SPRAWNOSC-PRZETWORNICY-POZA-ZAKRESEM": "Sprawność przetwornicy musi być z przedziału 0–100%.",
+  "STRATA-NA-KONWERSJI":
+    "Każda zmiana napięcia kosztuje trochę energii — przetwornica traci {strata}% ({strataW} W) " +
+    "na samej konwersji.",
+  "ZASILANIE-BEZPOSREDNIE": "Urządzenie zasilane bezpośrednio z magistrali — brak strat na konwersji napięcia.",
+  "ZAPOTRZEBOWANIE-URZADZENIA-UJEMNE": "Zapotrzebowanie urządzenia nie może być ujemne.",
+  "MIESIAC-POZA-ZAKRESEM": "Miesiąc musi być z przedziału 1–12.",
+  "URZADZENIE-AKTYWNE": "Urządzenie aktywne w tym okresie — {zapotrzebowanie} kWh/dobę liczy się do bilansu.",
+  "URZADZENIE-NIEAKTYWNE": "Urządzenie poza swoim okresem aktywności — nie liczy się do bilansu dobowego.",
+  "POBORCIAGLEW-UJEMNY": "Pobór w trybie pracy ciągłej nie może być ujemny.",
+  "POBORUSPIENIEW-UJEMNY": "Pobór w trybie uśpienia nie może być ujemny.",
 } as const
 
 export type KluczTlumaczenia = keyof typeof dictionaryPl

@@ -43,4 +43,37 @@ describe("calculatePrzetworniceDcdc", () => {
     })
     expect(result.status).toBe("INVALID_INPUT")
   })
+
+  it("i18n (17.2): błąd walidacji (sprawność poza zakresem) zwraca i18nKey/params, nie message", () => {
+    const result = calculatePrzetworniceDcdc({
+      zapotrzebowanieUrzadzeniaW: 100,
+      zasilanieBezposrednie: false,
+      sprawnoscPrzetwornicyPct: 150,
+    })
+    expect(result.warnings[0].i18nKey).toBe("SPRAWNOSC-PRZETWORNICY-POZA-ZAKRESEM")
+    expect(result.warnings[0].params).toBeUndefined()
+    expect(result.warnings[0].message).toBeUndefined()
+  })
+
+  it("i18n (17.2): strata na konwersji zwraca i18nKey/params, nie message", () => {
+    const result = calculatePrzetworniceDcdc({
+      zapotrzebowanieUrzadzeniaW: 100,
+      zasilanieBezposrednie: false,
+      sprawnoscPrzetwornicyPct: 92,
+    })
+    expect(result.warnings[0].i18nKey).toBe("STRATA-NA-KONWERSJI")
+    expect(result.warnings[0].params).toEqual({ strata: "8", strataW: "8.7" })
+    expect(result.warnings[0].message).toBeUndefined()
+  })
+
+  it("i18n (17.2): zasilanie bezpośrednie zwraca i18nKey bez params, nie message", () => {
+    const result = calculatePrzetworniceDcdc({
+      zapotrzebowanieUrzadzeniaW: 100,
+      zasilanieBezposrednie: true,
+      sprawnoscPrzetwornicyPct: 0,
+    })
+    expect(result.warnings[0].i18nKey).toBe("ZASILANIE-BEZPOSREDNIE")
+    expect(result.warnings[0].params).toBeUndefined()
+    expect(result.warnings[0].message).toBeUndefined()
+  })
 })

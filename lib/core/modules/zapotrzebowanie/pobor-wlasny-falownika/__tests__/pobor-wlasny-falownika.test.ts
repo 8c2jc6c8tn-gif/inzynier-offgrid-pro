@@ -22,4 +22,18 @@ describe("calculatePoborWlasnyFalownika", () => {
     const result = calculatePoborWlasnyFalownika({ poborJalowyW: -10 })
     expect(result.status).toBe("INVALID_INPUT")
   })
+
+  it("i18n (17.2): błąd walidacji zwraca i18nKey/params, nie message", () => {
+    const result = calculatePoborWlasnyFalownika({ poborJalowyW: -10 })
+    expect(result.warnings[0].i18nKey).toBe("POBOR-JALOWY-UJEMNY")
+    expect(result.warnings[0].params).toBeUndefined()
+    expect(result.warnings[0].message).toBeUndefined()
+  })
+
+  it("i18n (17.2): ostrzeżenie info o koszcie bilansu zwraca i18nKey/params, nie message", () => {
+    const result = calculatePoborWlasnyFalownika({ poborJalowyW: 45 })
+    expect(result.warnings[0].i18nKey).toBe("STALY-KOSZT-BILANSU")
+    expect(result.warnings[0].params).toEqual({ strata: "1.08" })
+    expect(result.warnings[0].message).toBeUndefined()
+  })
 })
