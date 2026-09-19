@@ -1018,6 +1018,53 @@ describe("t — klucze zmigrowane 19.09.2026, partia 18 (bezpieczenstwo: dogrzew
   })
 })
 
+describe("t — klucze zmigrowane 19.09.2026, partia 19 (baterie: napiecie-systemowe)", () => {
+  const kluczeZParametrami: Record<string, Record<string, string | number>> = {
+    "REKOMENDACJA-NAPIECIA": { napiecie: 12 },
+    "KONFLIKT-JEDNOCZESNOSCI": { suma: "4615", limit: "3000" },
+    "KONFLIKT-JEDNOCZESNOSCI-Z-PROPOZYCJA": { suma: "5000", limit: "4000", urzadzenia: "Piekarnik elektryczny" },
+    "OGRZEWANIE-WYMAGA-48V": { napiecie: 24, moc: "2000" },
+    "PRAD-WYSOKI-PRZY-12V": { prad: "400" },
+  }
+  const kluczeBezParametrow = [
+    "MOC-UJEMNA",
+    "PULAPKA-KONWERSJI-24-DO-48",
+    "NAPIECIE-SYSTEMOWE-PASMO-24V-DOPOWIEDZIANE",
+    "NAPIECIE-SYSTEMOWE-MOC-SZCZYTOWA-DEFINICJA",
+    "NAPIECIE-SYSTEMOWE-KONFLIKT-JEDNOCZESNOSCI-WARUNEK",
+    "NAPIECIE-SYSTEMOWE-KABEL-ECHO",
+    "NAPIECIE-SYSTEMOWE-KOSZTORYS-METODA",
+  ]
+
+  it("klucze z parametrami: podstawiają wartości i różnią się między językami w każdym", () => {
+    for (const [kod, params] of Object.entries(kluczeZParametrami)) {
+      const pl = t("pl", kod, params)
+      const en = t("en", kod, params)
+      const ru = t("ru", kod, params)
+      for (const wartosc of Object.values(params)) {
+        expect(pl).toContain(String(wartosc))
+        expect(en).toContain(String(wartosc))
+        expect(ru).toContain(String(wartosc))
+      }
+      expect(pl).not.toBe(en)
+      expect(pl).not.toBe(ru)
+      expect(en).not.toBe(ru)
+    }
+  })
+
+  it("klucze bez parametrów: tekst istnieje i różni się między językami", () => {
+    for (const kod of kluczeBezParametrow) {
+      const pl = t("pl", kod)
+      const en = t("en", kod)
+      const ru = t("ru", kod)
+      expect(pl.length).toBeGreaterThan(0)
+      expect(pl).not.toBe(en)
+      expect(pl).not.toBe(ru)
+      expect(en).not.toBe(ru)
+    }
+  })
+})
+
 describe("dictionaries — parytet kluczy", () => {
   it("każdy język ma dokładnie ten sam zestaw kluczy co polski", () => {
     const kluczePl = Object.keys(dictionaries.pl).sort()
