@@ -1,12 +1,14 @@
 "use client"
 
-import { useMemo, useState } from "react"
+import { useEffect, useMemo, useState } from "react"
+import Link from "next/link"
 import { calculateDoborPojemnosci } from "@/lib/core/modules/baterie/dobor-pojemnosci/calculator"
 import {
   DOD_LIFEPO4_TYPOWY_MAX_PCT,
   DOD_LIFEPO4_TYPOWY_MIN_PCT,
   SPRAWNOSC_FALOWNIKA_SUGEROWANA_PCT,
 } from "@/lib/core/modules/baterie/dobor-pojemnosci/constants"
+import { useProfilSprzetu } from "@/lib/profil-sprzetu/use-profil-sprzetu"
 import { Pole } from "@/components/ui/pole"
 import { WerdyktPanel } from "@/components/werdykt"
 import { NawigacjaEkranu } from "@/components/nawigacja-ekranu"
@@ -32,6 +34,19 @@ export default function DoborPojemnosciBateriiPage() {
       }),
     [zapotrzebowanieDoboweKwh, dniAutonomii, sprawnoscFalownikaPct, dodPct],
   )
+
+  // Profil sprzętu (docs/zrodla/Zasady_UX_Doradca_v2_1.md, §10) — wynik tego ekranu zasila
+  // domyślne wypełnienie Ekranu 6 (starzenie-degradacja), a jego bufor starzeniowy wraca tutaj
+  // jako uzupełnienie rekomendacji (assumption BUFOR-STARZENIOWY-NIE-DOLICZONY poniżej).
+  const { profil, zapiszBaterie } = useProfilSprzetu()
+  useEffect(() => {
+    if (result.status !== "VALID") return
+    zapiszBaterie({
+      pojemnoscUzytecznaDzisKwh: result.value.pojemnoscUzytecznaKwh,
+      pojemnoscUzytecznaDzisZaktualizowanoIso: new Date().toISOString(),
+    })
+  }, [result, zapiszBaterie])
+  const bufor = profil.bateria
 
   return (
     <main className="mx-auto flex max-w-md flex-col gap-6 p-6">
@@ -95,6 +110,22 @@ export default function DoborPojemnosciBateriiPage() {
       ) : (
         <WerdyktPanel poziom="ok" etykieta="Wymagana pojemność użyteczna">
           <WynikGlowny>{result.value.pojemnoscUzytecznaKwh.toFixed(1)} kWh</WynikGlowny>
+          {bufor?.pojemnoscPoczatkowaZBuforemKwh !== undefined &&
+          bufor.pojemnoscUzytecznaDzisKwh === result.value.pojemnoscUzytecznaKwh ? (
+            <p className="mt-1 text-small">
+              Z uwzględnieniem starzenia ogniw na {bufor.buforHoryzontLata} lat (Ekran 6):{" "}
+              <strong>{bufor.pojemnoscPoczatkowaZBuforemKwh.toFixed(1)} kWh</strong> pojemności
+              początkowej do zamówienia.
+            </p>
+          ) : (
+            <p className="mt-1 text-small text-muted-foreground">
+              To pojemność potrzebna dziś, bez bufora na starzenie ogniw — patrz{" "}
+              <Link href="/kalkulatory/starzenie-degradacja" className="underline">
+                Ekran 6, Starzenie i degradacja
+              </Link>
+              .
+            </p>
+          )}
           <WynikSzczegoly assumptions={result.assumptions} formula={result.formula} />
         </WerdyktPanel>
       )}

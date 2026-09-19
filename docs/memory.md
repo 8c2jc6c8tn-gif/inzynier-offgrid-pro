@@ -603,10 +603,19 @@ konkretnych potrzebnych tabel + kod kalkulatora, po kolei małymi partiami zgodn
   znacznika (oczekiwane, nie błąd). Zweryfikowane w przeglądarce (Playwright): przełączanie działa,
   wybór przetrwa odświeżenie, zero błędów konsoli po dodaniu `suppressHydrationWarning`.
 
-  **Nie zrobione, czeka na decyzję autora:** żywy edytor kolorów w Ustawieniach (paleta + pole na
+  ~~**Nie zrobione, czeka na decyzję autora:** żywy edytor kolorów w Ustawieniach (paleta + pole na
   HEX dla kilku kluczowych tokenów) — rekomendacja jest w `docs/brief-dla-v0.md`, sekcja "Edytor
   kolorów w Ustawieniach — opinia", ale zakres (które tokeny, kiedy budować) nie jest jeszcze
-  potwierdzony.
+  potwierdzony.~~ — **KOREKTA (19.09.2026), dryf dokumentacji, nie świadoma decyzja (Część Y.2):**
+  ten akapit był nieaktualny od samego dnia powstania. Edytor został zbudowany tego samego dnia,
+  kilka godzin później — patrz `docs/brief-dla-v0.md`, sekcja "Edytor kolorów i czcionki — zrobione
+  (2026-08-30)": `components/kolor-grupa-edytor.tsx`, 7 grup (tło/karty/tekst/akcent/3×werdykt),
+  edycja pojedyncza i grupowa, wpięty w `/ustawienia` i `/wzornik`. Świadomie ograniczony do tych 7
+  grup, nie wszystkich ~20 tokenów CSS — zapisane wprost w tym samym akapicie briefu jako decyzja,
+  nie przeoczenie ("żeby nie było łatwo przypadkiem zepsuć kontrast"). Ten akapit `docs/memory.md`
+  po prostu nigdy nie został poprawiony po zamknięciu zadania — znalezione przy próbie realizacji
+  punktu 4 z sekcji "Sześć otwartych pytań" (19.09.2026, niżej) — zanim napisano nowy kod,
+  sprawdzono istniejący stan i okazało się, że nie trzeba niczego budować.
 
 ## Decyzje i uzasadnienie (c.d. 12)
 
@@ -5032,3 +5041,70 @@ katalogowej (nie prostego `Warning`/`Assumption`), poza pierwotnym zakresem inst
 Rekomendacja na następną sesję: albo świadomie zamknąć temat jako "zrobione w zakresie
 Warning/Assumption", albo otworzyć nowy, odrębny wątek dla i18n danych katalogowych — to wymaga
 decyzji właściciela projektu, nie do rozstrzygnięcia samodzielnie (rozdział 15.4).
+
+## Sześć otwartych pytań zebranych i rozstrzygniętych przez właściciela projektu (19.09.2026)
+
+Na prośbę właściciela ("zrób oddzielny wątek i dawaj zdecydujemy") zebrano wszystkie pytania z
+`docs/lista-do-zrobienia.md`/`docs/memory.md`, które AI zgłosiło jako wymagające decyzji
+właściciela (15.4) i nie rozstrzygnęło samodzielnie, z opcjami rozwiązania per pytanie. Sześć
+odpowiedzi, różny status realizacji:
+
+1. **Model i18n dla treści katalogowej** (`pv/czystosc-i-snieg`, `baterie/komunikacja-bms`,
+   `baterie/porownanie-technologii`) — **decyzja: otworzyć nowy, odrębny wątek** (opcja B).
+   Nie realizowane w tej sesji — czeka na osobne zadanie.
+2. **Integracja Ekran 1 ↔ Ekran 6, Moduł 4 (baterie)** — **decyzja: zbudować pełny profil
+   wejściowy "Mój sprzęt"** (opcja B), nie tylko wąskie spięcie tych dwóch ekranów. **Zrealizowane
+   (19.09.2026) w zakresie świadomie zawężonym do baterii** — pełna wizja źródła
+   (`docs/zrodla/Zasady_UX_Doradca_v2_1.md`, §10: panel/falownik/BMS/generator, wiele zapisanych
+   profili/wariantów, ostrzeżenie o niezapisanych zmianach) jest dużo większa niż to, co realnie
+   blokowało te dwa ekrany — zbudowano ją teraz w kształcie gotowym do rozszerzenia, nie w pełnej
+   docelowej skali, żeby nie projektować pod hipotetyczne, jeszcze niepotrzebne pola (CLAUDE.md,
+   "nie projektuj pod przyszłe wymagania").
+
+   **Kod:** `lib/profil-sprzetu/types.ts` (`ProfilSprzetu { bateria?: ProfilSprzetuBaterii }` —
+   kształt otwarty na przyszłe sekcje `panel`/`falownik`/`generator`, żadna z nich jeszcze nie
+   istnieje) + `lib/profil-sprzetu/use-profil-sprzetu.ts` (ten sam wzorzec co
+   `use-persisted-draft.ts` — `IndexedDbStorageAdapter`, Seed nie Wynik — ale z JEDNYM ustalonym
+   kluczem `offgrid.profil-sprzetu.v1`, współdzielonym między ekranami, nie `kluczEkranu` per
+   wywołanie jak w drafcie formularza). Ekran 1 (`dobor-pojemnosci-baterii/page.tsx`) zapisuje
+   `pojemnoscUzytecznaDzisKwh` do profilu po każdym poprawnym przeliczeniu; Ekran 6
+   (`starzenie-degradacja/page.tsx`) auto-wypełnia z niego swoje pierwsze pole (edytowalne, nie
+   zablokowane — nadpisanie nie zapisuje się trwale do profilu, zgodnie z wymogiem źródła), i po
+   swoim przeliczeniu zapisuje `pojemnoscPoczatkowaZBuforemKwh`/`buforHoryzontLata` z powrotem —
+   Ekran 1 to wykrywa i dodaje drugą linię wyniku ("Z uwzględnieniem starzenia ogniw na N lat:
+   X kWh"), z linkiem w obie strony (nawigacja, §9 Zasad UX — "brak ślepych zaułków").
+
+   **Pułapka ESLint znaleziona i naprawiona przed shipem:** pierwsza wersja auto-wypełnienia w
+   Ekranie 6 użyła `useEffect` + `setState` synchronicznie w ciele efektu —
+   `react-hooks/set-state-in-effect` (kaskadowe re-rendery). Poprawiona wersja ustawia stan
+   bezpośrednio w renderze (wzorzec "Adjusting state when a prop changes" z react.dev), z
+   flagą-stanem `autoWypelnione` (nie `useRef` — kolejny błąd lintera, `react-hooks/refs`:
+   odczyt/zapis refa w renderze jest w tym projekcie zablokowany, nie tylko w efekcie). `zapiszBaterie`
+   w hooku owinięte w `useCallback([])`, inaczej nowa tożsamość funkcji przy każdym renderze
+   wywołanym przez własny zapis dałaby nieskończoną pętlę efektu w komponencie wołającym.
+
+   **Świadomie odłożone, nie przeoczone:** wiele zapisanych profili/wariantów (dziś jeden,
+   niejawny profil na przeglądarkę — ten sam poziom co `lib/wyglad/`), ostrzeżenie o
+   niezapisanych zmianach przy wyjściu z ekranu, sekcje `panel`/`falownik`/`generator`, UI w
+   Ustawieniach do przeglądu/resetu profilu wprost (dziś tylko niejawny efekt boczny dwóch
+   ekranów, bez własnego widoku). Do rozważenia w kolejnym kroku, jeśli więcej ekranów zacznie
+   korzystać z tego samego profilu.
+
+   Zweryfikowane: `pnpm typecheck`/`lint`/`test` (916/916)/`build` czyste. Playwright
+   (`pnpm build && pnpm start`, potwierdzenie braku rezydualnego `next-server` przed i po):
+   Ekran 1 → Ekran 6 (auto-wypełnienie 47,37 kWh z wejścia 12 kWh/3 dni/95%/80%) → powrót na
+   Ekran 1 (bufor z Ekranu 6 poprawnie widoczny: "59,2 kWh" przy degradacji 2%/10 lat), zero
+   błędów konsoli poza pre-existing 404 `_vercel/insights` (niezwiązane z tą zmianą, obecne też
+   na `main` przed nią).
+3. **Własne logo/ikony PWA** — **decyzja: zaprojektować własne logo teraz** (opcja A), kilka
+   propozycji do wyboru właściciela.
+4. **Żywy edytor kolorów w Ustawieniach** — **decyzja: pełny edytor** (opcja B), cała paleta
+   tokenów motywu, nie tylko kilka kluczowych. **Korekta tego samego dnia:** przed napisaniem
+   kodu sprawdzono stan repo — okazało się, że to pytanie było już nieaktualne (dryf dokumentacji,
+   patrz akapit korekty wyżej, wpis 2026-08-30) — edytor już istnieje i już pokrywa dokładnie ten
+   zakres. Nic do zrobienia.
+5. **Logowanie/konta — konfiguracja Supabase** — właściciel podłączy klucze w niedzielę po
+   20:00. Bez zmian w kodzie do tego czasu — szkielet czeka jak dotychczas (`docs/lista-do-
+   zrobienia.md`, wpis 2026-09-15).
+6. **Model freemium (rozdz. 12 standardu)** — właściciel zajmie się decyzją biznesową
+   (co płatne, cena) w niedzielę. Bez zmian w tej sesji.

@@ -45,6 +45,8 @@ Tu trafia bieżący stan pracy: co w trakcie, co zablokowane, co następne — a
 - ⚠️ (2026-09-04) Ekran 2, Moduł 4 (Sugestia napięcia systemowego) sprawdzony — **częściowo zablokowany**, nie w całości. Rekomendacja napięcia (>3000W→48V, <1000W→12V) jest obliczalna wprost z podanych progów, bez potrzeby tabeli normatywnej. Ale zakres 1000–3000W nie jest zdefiniowany (kolejna luka w tabeli źródła, jak w Ekranie 12), a porównanie przekrojów kabli w Sekcji B/C wymaga tej samej brakującej tabeli PN-IEC 60364-5-52 co M5/E1 i B5. Nie budowany teraz — wymaga decyzji, czy budować okrojoną wersję (sama rekomendacja napięcia, bez porównania kabli) czy czekać na pełne dane.
 - ✅ (2026-09-04) Ekran 6, Moduł 4 (Baterie) — "Starzenie i degradacja ogniw" zaimplementowany. Model liniowy 1:1 ze źródła, przykład (45 kWh → 56 kWh po 10 latach) odtworzony dokładnie przy 2%/rok. Świadomie nie zaokrąglono wyniku do "rozmiaru komercyjnego" (60 kWh w źródle) — brak siatki rozmiarów w danych źródłowych.
 - ⚠️ (2026-09-04) Ekran 1 i Ekran 6 (Moduł 4) liczą pokrewne wielkości (pojemność użyteczna dziś / bufor starzeniowy), ale **nie są ze sobą spięte** — każdy ma dziś niezależne pole ręcznego wpisu. Integracja (auto-przekazanie wyniku Ekranu 1 do Ekranu 6, potem powrót z buforem do finalnej rekomendacji) to osobny krok, wymaga wspólnego stanu wejściowego między ekranami (`docs/standards/01-architektura.md`, koncepcja "Mój sprzęt"/profil wejściowy) — nie rozstrzygnięte teraz.
+  ✅ **(19.09.2026) ROZSTRZYGNIĘTE i ZREALIZOWANE** — `lib/profil-sprzetu/` (zakres: bateria).
+  Szczegóły: `docs/memory.md`, `docs/rejestr-pokrycia.md` (wiersze Ekran 1/Ekran 6, Moduł 4).
 - ✅ (2026-09-04) Ekran 22, Moduł 4 (Baterie) — "Pobór własny BMS i tryb uśpienia" zaimplementowany. Wzór `E_roczna = P×24×365/1000`, przykład źródła (7W → 61 kWh/rok, deep sleep → 0,024 kWh/dobę) odtworzony dokładnie, zweryfikowany niezależnie w Pythonie przed implementacją.
 - ✅ (2026-09-04) Ekran 28, Moduł 4 (Baterie) — "Kalibracja i dokładność SoC" zaimplementowany. Jeden próg czasowy ze źródła (14 dni), bez wymyślonego wzoru na wielkość błędu SoC.
 - ✅ (2026-09-04) Ekran 16, Moduł 4 (Baterie) — "Tryb Long Term Storage (odstawienie na zimę)" zaimplementowany. Wzorzec D z elementem E: SoC docelowy vs zalecany zakres 50–60%, temperatura vs bezpieczne minimum -20°C, checklist 2-punktowy. Sprawdzona wcześniejsza flaga z rejestru pokrycia ("możliwy duplikat M11 A10/B12") — rozstrzygnięta jako NIE duplikat: A10/B12 to czysta treść (Wzorzec C, bez kalkulatora) o przechowywaniu/recyklingu, ten ekran to realny kalkulator dwóch progów liczbowych.
@@ -821,3 +823,20 @@ Tu trafia bieżący stan pracy: co w trakcie, co zablokowane, co następne — a
   katalogowe). Pełne uzasadnienie: `docs/memory.md`, wpis "osiemnasta partia". Kolejna partia
   (19.): `baterie/napiecie-systemowe` (własna partia — zacząć od pełnego odczytania plików i
   ponownego przelecenia CAŁEGO `lib/core/modules/` grepem, nie ufać samej metryczce).
+- ✅ (2026-09-19) **Sześć otwartych pytań (zebranych z tego pliku i `docs/memory.md`)
+  rozstrzygnięte przez właściciela projektu jedną odpowiedzią.** Pełna treść pytań/opcji i
+  decyzji: `docs/memory.md`, sekcja "Sześć otwartych pytań...". Status per pytanie:
+  1. i18n danych katalogowych (wpis 2026-09-15/19 wyżej) → **nowy, odrębny wątek** — nie
+     realizowane teraz.
+  2. Integracja Ekran 1↔6 M4 (wpis 2026-09-04 wyżej) → **pełny profil "Mój sprzęt"** —
+     ✅ zrealizowane (`lib/profil-sprzetu/`), zakres świadomie zawężony do baterii — szczegóły
+     `docs/memory.md`.
+  3. Logo/ikony PWA (wpis 2026-09-16 wyżej) → **własne logo teraz** — 🔄 w trakcie.
+  4. Edytor kolorów (`docs/memory.md`, 2026-08-30) → **pełny edytor palety** — ✅ **już istnieje,
+     nic do zrobienia.** Znaleziony dryf dokumentacji: pytanie było nieaktualne od 2026-08-30,
+     edytor zbudowany tego samego dnia (`components/kolor-grupa-edytor.tsx`, wpięty w
+     `/ustawienia` i `/wzornik`), tylko wpis w `docs/memory.md` nigdy nie oznaczony jako
+     zamknięty. Skorygowane, nie usunięte — szczegóły: `docs/memory.md`.
+  5. Logowanie/Supabase (wpis 2026-09-15 wyżej) → właściciel podłącza klucze w niedzielę po
+     20:00 — bez zmian teraz.
+  6. Model freemium (rozdz. 12) → decyzja biznesowa w niedzielę — bez zmian teraz.
