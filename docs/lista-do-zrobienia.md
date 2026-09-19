@@ -831,7 +831,9 @@ Tu trafia bieżący stan pracy: co w trakcie, co zablokowane, co następne — a
   2. Integracja Ekran 1↔6 M4 (wpis 2026-09-04 wyżej) → **pełny profil "Mój sprzęt"** —
      ✅ zrealizowane (`lib/profil-sprzetu/`), zakres świadomie zawężony do baterii — szczegóły
      `docs/memory.md`.
-  3. Logo/ikony PWA (wpis 2026-09-16 wyżej) → **własne logo teraz** — 🔄 w trakcie.
+  3. Logo/ikony PWA (wpis 2026-09-16 wyżej) → **własne logo teraz** — ✅ zrealizowane, koncepcja D
+     "Monogram OG" wybrana i wdrożona (`public/icon.svg` + rasteryzacje). Szczegóły:
+     `docs/memory.md`.
   4. Edytor kolorów (`docs/memory.md`, 2026-08-30) → **pełny edytor palety** — ✅ **już istnieje,
      nic do zrobienia.** Znaleziony dryf dokumentacji: pytanie było nieaktualne od 2026-08-30,
      edytor zbudowany tego samego dnia (`components/kolor-grupa-edytor.tsx`, wpięty w
