@@ -4,7 +4,7 @@ export function socPozaZakresem(value: number): Warning {
   return {
     code: "SOC-POZA-ZAKRESEM",
     level: "critical",
-    message: "SoC musi być z przedziału 0–100%.",
+    i18nKey: "SOC-POZA-ZAKRESEM",
     technicalMessage: `socPct = ${value}, oczekiwano [0, 100]`,
     field: "socPct",
   }
@@ -14,19 +14,26 @@ export function odbiornikOdlaczony(priorytet: number): Warning {
   return {
     code: "ODBIORNIK-ODLACZONY",
     level: "warning",
-    message: `Odbiornik priorytetu ${priorytet} zostałby teraz odłączony przez system load sheddingu.`,
+    i18nKey: "ODBIORNIK-ODLACZONY",
+    params: { priorytet },
     technicalMessage: `priorytet=${priorytet}, odlaczone=true`,
   }
 }
 
 export function odbiornikAktywny(priorytet: number): Warning {
+  if (priorytet === 1) {
+    return {
+      code: "ODBIORNIK-AKTYWNY",
+      level: "info",
+      i18nKey: "ODBIORNIK-AKTYWNY-PRIORYTET-1",
+      technicalMessage: `priorytet=${priorytet}, odlaczone=false`,
+    }
+  }
   return {
     code: "ODBIORNIK-AKTYWNY",
     level: "info",
-    message:
-      priorytet === 1
-        ? "Priorytet 1 (krytyczny) — nigdy nie odłączany przez system load sheddingu."
-        : `Odbiornik priorytetu ${priorytet} pozostaje aktywny przy tym SoC.`,
+    i18nKey: "ODBIORNIK-AKTYWNY",
+    params: { priorytet },
     technicalMessage: `priorytet=${priorytet}, odlaczone=false`,
   }
 }

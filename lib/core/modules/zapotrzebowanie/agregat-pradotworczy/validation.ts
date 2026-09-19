@@ -9,16 +9,16 @@ export type ValidationResult = {
 export function validateInput(input: AgregatPradotworczyInput): ValidationResult {
   const errors: Warning[] = []
   if (input.deficytKwh < 0) {
-    errors.push(notPositive("deficytKwh", "deficyt energetyczny", input.deficytKwh))
+    errors.push(notPositive("deficytKwh", input.deficytKwh))
   }
   if (input.mocAgregatuKw < 0) {
-    errors.push(notPositive("mocAgregatuKw", "moc agregatu", input.mocAgregatuKw))
+    errors.push(notPositive("mocAgregatuKw", input.mocAgregatuKw))
   }
   if (input.sredniZuzycieLH < 0) {
-    errors.push(notPositive("sredniZuzycieLH", "średnie zużycie paliwa", input.sredniZuzycieLH))
+    errors.push(notPositive("sredniZuzycieLH", input.sredniZuzycieLH))
   }
   if (input.cenaZaLitrZl < 0) {
-    errors.push(notPositive("cenaZaLitrZl", "cena paliwa", input.cenaZaLitrZl))
+    errors.push(notPositive("cenaZaLitrZl", input.cenaZaLitrZl))
   }
   return { errors }
 }

@@ -9,6 +9,7 @@ import { WerdyktPanel } from "@/components/werdykt"
 import { NawigacjaEkranu } from "@/components/nawigacja-ekranu"
 import { NaglowekEkranu } from "@/components/wzorce/naglowek-ekranu"
 import { WynikGlowny } from "@/components/wzorce/wynik-glowny"
+import { WynikSzczegoly } from "@/components/wzorce/wynik-szczegoly"
 
 export default function BuforRozbudowyPage() {
   const [zapotrzebowanieCalkowiteKwh, setZapotrzebowanieCalkowiteKwh] = useState("")
@@ -65,11 +66,7 @@ export default function BuforRozbudowyPage() {
           <WynikGlowny>
             {result.value.zapotrzebowanieZBuforemKwh.toLocaleString("pl-PL", { maximumFractionDigits: 1 })} kWh/dobę
           </WynikGlowny>
-          {result.warnings.map((w) => (
-            <p key={w.code} className="mt-2 text-small">
-              {w.message}
-            </p>
-          ))}
+          <WynikSzczegoly assumptions={result.assumptions} warnings={result.warnings} formula={result.formula} />
         </WerdyktPanel>
       )}
     </main>

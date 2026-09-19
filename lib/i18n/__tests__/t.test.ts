@@ -699,6 +699,68 @@ describe("t — klucze zmigrowane 19.09.2026, partia 12 (pv: panele-bifacjalne, 
   })
 })
 
+describe("t — klucze zmigrowane 19.09.2026, partia 13 (pv: zacienienie-diody-bocznikujace [zamyka pv/]; zapotrzebowanie: agregat-pradotworczy, bojler-cwu, bufor-rozbudowe, load-shedding)", () => {
+  const kluczeZParametrami: Record<string, Record<string, string | number>> = {
+    "ZACIENIENIE-1-SEKCJA": { strata: "33" },
+    "ZACIENIENIE-2-SEKCJE": { strata: "67" },
+    "ZACIENIENIE-PELNY-PANEL": { strata: "100" },
+    "STRATA-STRINGU-NIE-LICZONA": { liczbaPaneli: 6 },
+    "OPTYMALNE-OBCIAZENIE-AGREGATU": { procent: 80 },
+    "BOJLER-ZA-MALY": { pojemnosc: 150, wolumen: 280 },
+    "BUFOR-DOLICZONY": { procent: 20, dodatek: "2.5" },
+    "ODBIORNIK-ODLACZONY": { priorytet: 3 },
+    "ODBIORNIK-AKTYWNY": { priorytet: 2 },
+  }
+  const kluczeBezParametrow = [
+    "LICZBA-SEKCJI-POZA-ZAKRESEM",
+    "BRAK-ZACIENIENIA",
+    "STRATA-PANELU-3-SEKCJE-FAKT",
+    "DEFICYTKWH-NIEDODATNI",
+    "MOCAGREGATUKW-NIEDODATNI",
+    "SREDNIZUZYCIELH-NIEDODATNI",
+    "CENAZALITRZL-NIEDODATNI",
+    "BRAK-WYJSCIA-STERUJACEGO",
+    "MA-WYJSCIE-STERUJACE",
+    "WOLUMEN-UJEMNY",
+    "DELTA-T-UJEMNA",
+    "MOC-GRZALKI-UJEMNA",
+    "POJEMNOSC-BOJLERA-UJEMNA",
+    "DELTA-T-RECZNIE",
+    "ZAPOTRZEBOWANIE-CALKOWITE-NIEDODATNIE",
+    "BUFOR-BRAK",
+    "SOC-POZA-ZAKRESEM",
+    "ODBIORNIK-AKTYWNY-PRIORYTET-1",
+  ]
+
+  it("klucze z parametrami: podstawiają wartości i różnią się między językami w każdym", () => {
+    for (const [kod, params] of Object.entries(kluczeZParametrami)) {
+      const pl = t("pl", kod, params)
+      const en = t("en", kod, params)
+      const ru = t("ru", kod, params)
+      for (const wartosc of Object.values(params)) {
+        expect(pl).toContain(String(wartosc))
+        expect(en).toContain(String(wartosc))
+        expect(ru).toContain(String(wartosc))
+      }
+      expect(pl).not.toBe(en)
+      expect(pl).not.toBe(ru)
+      expect(en).not.toBe(ru)
+    }
+  })
+
+  it("klucze bez parametrów: tekst istnieje i różni się między językami", () => {
+    for (const kod of kluczeBezParametrow) {
+      const pl = t("pl", kod)
+      const en = t("en", kod)
+      const ru = t("ru", kod)
+      expect(pl.length).toBeGreaterThan(0)
+      expect(pl).not.toBe(en)
+      expect(pl).not.toBe(ru)
+      expect(en).not.toBe(ru)
+    }
+  })
+})
+
 describe("dictionaries — parytet kluczy", () => {
   it("każdy język ma dokładnie ten sam zestaw kluczy co polski", () => {
     const kluczePl = Object.keys(dictionaries.pl).sort()

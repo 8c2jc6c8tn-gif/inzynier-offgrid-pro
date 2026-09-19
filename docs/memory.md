@@ -4656,3 +4656,48 @@ czyste. Zweryfikowane w przeglądarce PL/EN/RU (15 kombinacji, zero `⚠ [...]`)
 
 Pozostał 1 plik w `pv/`: `zacienienie-diody-bocznikujace`. Pozostało ~31 plików poza `pv/`:
 `zapotrzebowanie/` (~8), `ogrzewanie/` (~6), `bezpieczenstwo/` (~2), `kalkulator-mobilny/` (~1).
+
+## Rollout i18n — trzynasta partia: zamknięcie katalogu `pv/`, start `zapotrzebowanie/` (19.09.2026)
+
+Zmigrowane: `zacienienie-diody-bocznikujace` (pv/, ostatni plik katalogu), `agregat-pradotworczy`,
+`bojler-cwu`, `bufor-rozbudowe`, `load-shedding` (pierwsze 4 z `zapotrzebowanie/`). 30 nowych
+kluczy, 2 reużyte (`WARTOSC-NIE-MOZE-BYC-UJEMNA`, i `SOC-POZA-ZAKRESEM` — ten drugi znaleziony w
+`load-shedding` jako byte-identyczny z istniejącym kluczem z innego modułu po weryfikacji treści).
+
+**Trzeci wystąpienie problemu "etykieta pola jako nietłumaczalny parametr runtime"** (po
+`konfigurator-stringow`, partia 11) — `agregat-pradotworczy`'s `notPositive(field, label, value)`
+miał identyczny wzorzec (4 różne polskie etykiety wpisywane wprost w `validation.ts`). Naprawiony
+identycznie: `i18nKey` = `code` (już unikalny per pole), `label` usunięty z sygnatury, etykieta
+przeniesiona do treści klucza w słowniku. **To już trzeci raz — wart promocji do
+`docs/wklad-do-standardu.md` jako rozpoznawalny wzorzec kodu do wychwycenia przy każdej migracji
+kolejnego modułu z generyczną funkcją walidacji `notPositive`/podobną.**
+
+**Nowy podtyp: funkcja ostrzeżenia zwracająca RÓŻNY TEKST (nie tylko różne parametry) zależnie
+od warunku.** `bufor-rozbudowe`'s `buforInfo(buforPct, dodatekKwh)` i `load-shedding`'s
+`odbiornikAktywny(priorytet)` obie miały rozgałęzienie `if/ternary` na POZIOMIE TEKSTU wiadomości
+(nie tylko wartości parametru wewnątrz jednego szablonu) — np. "Bez bufora..." vs "Bufor X%
+dolicza Y kWh...". Rozwiązanie: rozbite na 2 odrębne klucze każda, wybór klucza (nie tylko
+parametrów) przeniesiony do logiki `warnings.ts` (funkcja zwraca różny `i18nKey` w zależności od
+warunku, opcjonalnie z `params`). Odróżnić od zwykłego parametryzowania: tu różnica jest w
+STRUKTURZE zdania, nie tylko w liczbie/słowie wstawianym w szablon.
+
+**🔴 3 kolejne strony UI naprawione (wzorzec `{w.message}` bez fallbacku — czwarty, piąty, szósty
+przypadek w całej rundzie).** `agregat-pradotworczy` miał podwójny bug jak `cold-cranking-amps`/
+`dobor-przekroju-kabla` (manualny render ORAZ brak `warnings` w sąsiednim `WynikSzczegoly`).
+`bufor-rozbudowe` i `load-shedding` nie importowały `WynikSzczegoly` WCALE — czysto manualny
+render bez żadnego fallbacku i18n, jak `wplyw-temperatury` w partii 12, ale tu manualny render
+BYŁ obecny (markery `⚠ [` by się pojawiły), różni się od partii 12 gdzie ostrzeżenie było
+całkowicie pominięte (bez markera). Wszystkie 3 naprawione tym samym wzorcem. Zweryfikowane
+pełnym wydrukiem `innerText` dla wszystkich trzech (nie tylko brakiem markera) — treść widoczna
+i poprawnie przetłumaczona we wszystkich.
+
+`MIGRATED_MODULES`: 57→62. `pnpm typecheck`/`lint`/`check:i18n-guard`/`test` (818/818)/`build`
+czyste. Zweryfikowane w przeglądarce PL/EN/RU (15 kombinacji, zero `⚠ [...]`), z potwierdzeniem
+`ps aux | grep next-server` puste przed i po.
+
+**To zamyka cały katalog `pv/`** (12 modułów zmigrowanych w partiach 11-13, plus
+`czystosc-i-snieg` świadomie odłożony jako dane katalogowe).
+
+Pozostało ~27 plików: `zapotrzebowanie/` (4 pozostałe — `pobor-wlasny-falownika`,
+`profil-astronomiczny`, `przetwornice-dcdc`, `sezonowosc`), `ogrzewanie/` (~6),
+`bezpieczenstwo/` (~2), `kalkulator-mobilny/` (~1). Zweryfikować grepem na starcie partii 14.

@@ -644,3 +644,40 @@ Tu trafia bieżący stan pracy: co w trakcie, co zablokowane, co następne — a
   zależnie od rozmiaru po odczytaniu.
   **Pozostało ~31 plików** poza `pv/`: `zapotrzebowanie/` (~8), `ogrzewanie/` (~6),
   `bezpieczenstwo/` (~2), `kalkulator-mobilny/` (~1), plus 1 z `pv/` wyżej.
+- ✅ (2026-09-19) **Rollout i18n — trzynasta partia: zamyka katalog `pv/` + pierwsze 4 moduły
+  `zapotrzebowanie/`.** Zmigrowane: `zacienienie-diody-bocznikujace` (pv/, ostatni plik),
+  `agregat-pradotworczy`, `bojler-cwu`, `bufor-rozbudowe`, `load-shedding` (zapotrzebowanie/).
+  Zweryfikowane grepem przed startem: brak echo-zależności `Warning[]` dla żadnego z 5 modułów.
+  30 nowych kluczy, 2 klucze reużyte 1:1 (`WARTOSC-NIE-MOZE-BYC-UJEMNA`, `SOC-POZA-ZAKRESEM` —
+  ten drugi znaleziony byte-identycznie w istniejącym słowniku po weryfikacji treści, nie tylko
+  nazwy). Jedna bliska kolizja rozstrzygnięta przez porównanie treści: `bufor-rozbudowe`'s
+  `notPositive` miał tekst różny od istniejącego `ZAPOTRZEBOWANIE-NIEDODATNIE` — dostał odrębny
+  klucz `ZAPOTRZEBOWANIE-CALKOWITE-NIEDODATNIE`.
+  Drugi przypadek "etykieta pola jako nietłumaczalny parametr runtime" (pierwszy: partia 11,
+  `konfigurator-stringow`) — `agregat-pradotworczy`'s `notPositive(field, label, value)` miał
+  ten sam problem, naprawiony tym samym wzorcem (`i18nKey` = `code`, etykieta wpisana per pole w
+  słowniku, parametr `label` usunięty z sygnatury).
+  2 warunkowe funkcje ostrzeżeń (`buforInfo`, `odbiornikAktywny`) zwracały różny TEKST zależnie
+  od warunku (nie tylko różne parametry tego samego szablonu) — rozbite na 2 odrębne klucze
+  każda (`BUFOR-BRAK`/`BUFOR-DOLICZONY`, `ODBIORNIK-AKTYWNY-PRIORYTET-1`/`ODBIORNIK-AKTYWNY`),
+  wybór klucza przeniesiony do logiki `warnings.ts`.
+  🔴 **3 kolejne strony UI naprawione (ten sam wzorzec manualnego `{w.message}` bez fallbacku,
+  czwarty-szósty przypadek w tej rundzie)**: `agregat-pradotworczy` (podwójny bug — manualny
+  render ORAZ brak `warnings` w sąsiednim `WynikSzczegoly`, jak `cold-cranking-amps`/
+  `dobor-przekroju-kabla`), `bufor-rozbudowe` i `load-shedding` (obie strony nie importowały
+  nawet `WynikSzczegoly` — czysto manualny render bez żadnego fallbacku i18n). Wszystkie 3
+  naprawione tym samym wzorcem (usunięcie manualnego `.map`, import + wywołanie
+  `WynikSzczegoly` z `warnings`/`assumptions`). Zweryfikowane pełnym wydrukiem `innerText` dla
+  wszystkich trzech — treść ostrzeżeń teraz widoczna i poprawnie przetłumaczona.
+  `scripts/check-i18n-guard.mjs` → `MIGRATED_MODULES` rozszerzone z 57 do 62.
+  5 nowych bloków testowych domenowych + nowy blok w `t.test.ts` (9 kluczy z parametrami/18
+  bez). `pnpm typecheck`/`lint`/`check:i18n-guard`/`test` (818/818)/`build` czyste.
+  Zweryfikowane end-to-end w świeżej przeglądarce (Playwright, z potwierdzeniem braku
+  rezydualnego `next-server` przed i po) w PL/EN/RU (5 modułów × 3 języki = 15 sprawdzeń) —
+  zero `⚠ [...]`.
+  **To zamyka cały katalog `pv/`** (12 modułów zmigrowanych w partiach 11-13, plus
+  `czystosc-i-snieg` świadomie odłożony).
+  **Pozostało ~27 plików**: `zapotrzebowanie/` (4 pozostałe: `pobor-wlasny-falownika`,
+  `profil-astronomiczny`, `przetwornice-dcdc`, `sezonowosc`), `ogrzewanie/` (~6),
+  `bezpieczenstwo/` (~2), `kalkulator-mobilny/` (~1). Zweryfikować dokładną listę grepem na
+  starcie partii 14, nie z tej metryczki.

@@ -1,4 +1,4 @@
-import type { CalcResult } from "@/lib/core/calc-result"
+import type { Assumption, CalcResult } from "@/lib/core/calc-result"
 import type { AgregatPradotworczyInput } from "./input"
 import { validateInput } from "./validation"
 import { brakWyjsciaSterujacego, maWyjscieSterujace } from "./warnings"
@@ -77,8 +77,8 @@ export function calculateAgregatPradotworczy(
     formula: FORMULA,
     inputs,
     assumptions: [
-      `Optymalne obciążenie agregatu przyjęte na ${OPTYMALNE_OBCIAZENIE_PCT}% mocy znamionowej — górna granica zakresu 70-80% ze źródła.`,
-    ],
+      { kod: "OPTYMALNE-OBCIAZENIE-AGREGATU", params: { procent: OPTYMALNE_OBCIAZENIE_PCT } },
+    ] satisfies Assumption[],
     warnings: [input.maWyjscieSterujaceBms ? maWyjscieSterujace() : brakWyjsciaSterujacego()],
     calculatorVersion: CALCULATOR_VERSION,
   }

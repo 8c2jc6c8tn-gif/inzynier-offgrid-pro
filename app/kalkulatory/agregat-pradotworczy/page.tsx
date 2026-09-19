@@ -108,12 +108,7 @@ export default function AgregatPradotworczyPage() {
               Zużycie paliwa: {result.value.zuzyciePaliwaLitry.toLocaleString("pl-PL", { maximumFractionDigits: 1 })} l.
               Koszt: ok. {result.value.kosztZl.toLocaleString("pl-PL", { maximumFractionDigits: 0 })} zł.
             </p>
-            {result.warnings.map((w) => (
-              <p key={w.code} className="mt-2 text-small">
-                {w.message}
-              </p>
-            ))}
-            <WynikSzczegoly assumptions={result.assumptions} formula={result.formula} />
+            <WynikSzczegoly assumptions={result.assumptions} warnings={result.warnings} formula={result.formula} />
           </WerdyktPanel>
         )
       )}

@@ -1,4 +1,4 @@
-import type { CalcResult } from "@/lib/core/calc-result"
+import type { Assumption, CalcResult } from "@/lib/core/calc-result"
 import type { BojlerCwuInput } from "./input"
 import { validateInput } from "./validation"
 import { bojlerZaMaly } from "./warnings"
@@ -80,9 +80,7 @@ export function calculateBojlerCwu(input: BojlerCwuInput): CalcResult<BojlerCwuR
     status: warnings.length > 0 ? "VALID_WITH_WARNINGS" : "VALID",
     formula: FORMULA,
     inputs,
-    assumptions: [
-      "ΔT wpisane ręcznie przez użytkownika — źródło nie podaje wartości domyślnej wzrostu temperatury wody.",
-    ],
+    assumptions: [{ kod: "DELTA-T-RECZNIE" }] satisfies Assumption[],
     warnings,
     calculatorVersion: CALCULATOR_VERSION,
   }

@@ -77,6 +77,11 @@ const MIGRATED_MODULES = [
   "lib/core/modules/pv/straty-zlaczki-mc4",
   "lib/core/modules/pv/stress-test-mppt",
   "lib/core/modules/pv/wplyw-temperatury",
+  "lib/core/modules/pv/zacienienie-diody-bocznikujace",
+  "lib/core/modules/zapotrzebowanie/agregat-pradotworczy",
+  "lib/core/modules/zapotrzebowanie/bojler-cwu",
+  "lib/core/modules/zapotrzebowanie/bufor-rozbudowe",
+  "lib/core/modules/zapotrzebowanie/load-shedding",
 ]
 
 const FILES_TO_CHECK = ["warnings.ts", "calculator.ts", "validation.ts"]

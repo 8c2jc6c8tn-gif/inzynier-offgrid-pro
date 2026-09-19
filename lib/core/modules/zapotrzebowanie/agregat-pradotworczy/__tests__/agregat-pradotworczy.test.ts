@@ -60,4 +60,27 @@ describe("calculateAgregatPradotworczy", () => {
     })
     expect(result.status).toBe("INVALID_INPUT")
   })
+
+  it("i18n (17.2): BRAK-WYJSCIA-STERUJACEGO/MOCAGREGATUKW-NIEDODATNI mają i18nKey, assumption to {kod}", () => {
+    const brak = calculateAgregatPradotworczy({
+      deficytKwh: 80,
+      mocAgregatuKw: 5,
+      sredniZuzycieLH: 1.25,
+      cenaZaLitrZl: 8,
+      maWyjscieSterujaceBms: false,
+    })
+    expect(brak.warnings[0].i18nKey).toBe("BRAK-WYJSCIA-STERUJACEGO")
+    expect(brak.warnings[0].message).toBeUndefined()
+    expect(brak.assumptions).toEqual([{ kod: "OPTYMALNE-OBCIAZENIE-AGREGATU", params: { procent: 80 } }])
+
+    const invalid = calculateAgregatPradotworczy({
+      deficytKwh: 80,
+      mocAgregatuKw: -5,
+      sredniZuzycieLH: 1.25,
+      cenaZaLitrZl: 8,
+      maWyjscieSterujaceBms: true,
+    })
+    expect(invalid.warnings[0].i18nKey).toBe("MOCAGREGATUKW-NIEDODATNI")
+    expect(invalid.warnings[0].message).toBeUndefined()
+  })
 })

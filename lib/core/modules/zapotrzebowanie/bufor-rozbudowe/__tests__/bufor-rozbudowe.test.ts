@@ -29,4 +29,16 @@ describe("calculateBuforRozbudowy", () => {
     const result = calculateBuforRozbudowy({ zapotrzebowanieCalkowiteKwh: -5, buforPct: 20 })
     expect(result.status).toBe("INVALID_INPUT")
   })
+
+  it("i18n (17.2): BUFOR-BRAK (0%) i BUFOR-DOLICZONY (>0%) mają i18nKey odpowiednio bez/z params", () => {
+    const brak = calculateBuforRozbudowy({ zapotrzebowanieCalkowiteKwh: 12.4, buforPct: 0 })
+    expect(brak.warnings[0].i18nKey).toBe("BUFOR-BRAK")
+    expect(brak.warnings[0].params).toBeUndefined()
+    expect(brak.warnings[0].message).toBeUndefined()
+
+    const zBuforem = calculateBuforRozbudowy({ zapotrzebowanieCalkowiteKwh: 12.4, buforPct: 20 })
+    expect(zBuforem.warnings[0].i18nKey).toBe("BUFOR-DOLICZONY")
+    expect(zBuforem.warnings[0].params).toEqual({ procent: 20, dodatek: "2.5" })
+    expect(zBuforem.warnings[0].message).toBeUndefined()
+  })
 })
