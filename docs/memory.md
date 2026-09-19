@@ -4932,3 +4932,60 @@ prawdopodobnie zamknie oba katalogi) — zweryfikować grepem na starcie, w tym 
 `baterie/napiecie-systemowe` (7× `message:`, wzmiankowane jako niepewne od partii 14, wciąż nie
 sprawdzone) i świadomie odłożone `pv/czystosc-i-snieg`, `baterie/komunikacja-bms`,
 `baterie/porownanie-technologii`.
+
+## Rollout i18n — osiemnasta partia: zamyka `bezpieczenstwo/` + `kalkulator-mobilny/` (19.09.2026)
+
+Zmigrowane: `dogrzewanie-paliwem-stalym`, `ups-krytyczny` (`bezpieczenstwo/`), `tryb-uproszczony`
+(`kalkulator-mobilny/`) — potwierdzone grepem jako kompletna lista realnego tekstu w obu
+katalogach (`audyt-pozarowy` już zmigrowany wcześniej, bez `warnings.ts` z tekstem). 12 nowych
+kluczy PL/EN/RU, 2 klucze reużyte po weryfikacji treści: `WARTOSC-NIE-MOZE-BYC-UJEMNA` (×2, oba
+moduły `bezpieczenstwo/`) i **`SPRAWNOSC-DOMYSLNA`** — pierwszy przypadek w tej rundzie reużycia
+klucza wraz z jego dokładną nazwą parametru (`{efficiency}`) między dwoma modułami z różnych
+katalogów (`kalkulatory-pomocnicze` i `ups-krytyczny`), potwierdzający że wspólne "sprawność
+domyślna, nie zmierzona" to faktycznie ten sam fakt domenowy, nie przypadkowa zbieżność tekstu.
+
+Jedna bliska kolizja: `BRAK-ZAZNACZONYCH` (istniejący klucz, "Nie zaznaczono żadnego odbiornika
+krytycznego") różni się od `ups-krytyczny`'s własnego tekstu ("...urządzenia krytycznego do
+podtrzymania") — nowy klucz `BRAK-ZAZNACZONYCH-URZADZEN`.
+
+**Szósty przypadek anty-wzorca "etykieta jako parametr"** (po `konfigurator-stringow` p.11,
+`agregat-pradotworczy` p.13, `przetwornice-dcdc` p.14, `pobor-wlasny-bms` drift-fix p.14,
+`podlaczenie-bms` p.17) — `tryb-uproszczony`'s `notPositive(field, label, value)`, naprawiony
+tym samym wzorcem.
+
+Skonwertowane 2 stringowe `assumptions` (`ups-krytyczny`, `tryb-uproszczony`) na `{kod, params}`
+— **złapało kolejną przedistniejącą asercję testową** (`ups-krytyczny`'s `toContain("0.92")`),
+naprawiona identycznie jak w partii 17 (`toEqual({kod, params})`).
+
+**Zero bugów UI w tej partii** — trzecia partia w całej rundzie bez znalezionego bugu (po p.15).
+`dogrzewanie-paliwem-stalym` i `ups-krytyczny` już poprawnie przekazywały `warnings` do
+`WynikSzczegoly`. `tryb-uproszczony` nie renderuje `warnings` wcale (świadomy wzorzec UX tego
+ekranu — błąd walidacji pokazuje jeden generyczny komunikat zamiast per-pole, niezmienione od
+przed migracją, nie regresja) i już poprawnie tłumaczył `assumptions` przez `t(a.kod, a.params)`
+— zweryfikowane wprost porównaniem treści PL/EN.
+
+`MIGRATED_MODULES`: 83→86. 3 nowe bloki testowe domenowe (w tym poprawka 1 przedistniejącej
+asercji) + nowy blok w `t.test.ts` (3 klucze z parametrami/9 bez). `pnpm typecheck`/`lint`/
+`check:i18n-guard`/`test` (905/905)/`build` czyste — testy przeszły od razu przy pierwszym
+uruchomieniu (poza przedistniejącą asercją naprawioną proaktywnie przed pierwszym biegiem, po
+lekcji z partii 17). Zweryfikowane w przeglądarce PL/EN/RU (9 kombinacji — 3 moduły × 3 języki,
+zero `⚠ [...]`), z potwierdzeniem `ps aux | grep next-server` puste przed i po.
+
+**To zamyka oba katalogi `bezpieczenstwo/` i `kalkulator-mobilny/`.**
+
+🔴 **Pozostały zakres z realnym tekstem do migracji, potwierdzony grepem na starcie tej partii
+(nie zakładany z metryczki):** `baterie/napiecie-systemowe` — **1 moduł, 7× `message:`, NIE w
+`MIGRATED_MODULES`**. To duży, wieloetapowy moduł (Etapy B/C/E/F/G/H tej samej sesji, patrz
+historia zadań) — prawdopodobnie wymaga własnej, dedykowanej partii (echo-zależności do
+sprawdzenia dokładnie, może mieć więcej niż 7 unikalnych ostrzeżeń jeśli część `message:` to
+duplikaty w różnych gałęziach kodu). Kolejna partia (19.): `baterie/napiecie-systemowe` — zacząć
+od pełnego odczytania `warnings.ts`/`validation.ts`/`calculator.ts` (może być większy niż typowa
+partia 5-modułowa, mimo że to jeden moduł) i sprawdzenia grepem WSZYSTKICH miejsc, które go
+echują (`sekwencja-montazu` już potwierdzone bezpieczne w partii 16 — reużywa tylko stałą
+liczbową). Po zamknięciu tego modułu: świadomie odłożone `pv/czystosc-i-snieg`,
+`baterie/komunikacja-bms`, `baterie/porownanie-technologii` pozostają jedynym znanym pozostałym
+zakresem (dane katalogowe, wymagają osobnej decyzji architektonicznej o i18n dla treści
+katalogowej) — **ale warto na starcie partii 19 ponownie przelecieć CAŁE `lib/core/modules/`
+grepem** (`find ... | while read d; do grep -c message: $d/warnings.ts; done`), tak jak przy
+odkryciu `montaz-baterii/` w partii 14 i `ocena-zuzycia` w partii 17 — ta dyscyplina już dwa razy
+złapała realne braki, które ręczne szacunki przeoczyły.

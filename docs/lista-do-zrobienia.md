@@ -794,3 +794,27 @@ Tu trafia bieżący stan pracy: co w trakcie, co zablokowane, co następne — a
   **Pozostały zakres z realnym tekstem do migracji**: `bezpieczenstwo/` (2), `kalkulator-
   mobilny/` (1) = **3 moduły**. Pełne uzasadnienie: `docs/memory.md`, wpis "siedemnasta
   partia". Kolejna partia (18.): `bezpieczenstwo/` + `kalkulator-mobilny/` razem.
+
+- ✅ (2026-09-19) **Rollout i18n — osiemnasta partia: zamyka `bezpieczenstwo/` +
+  `kalkulator-mobilny/` (3 moduły).** Zmigrowane: `dogrzewanie-paliwem-stalym`, `ups-krytyczny`,
+  `tryb-uproszczony`. 12 nowych kluczy, 2 reużyte po weryfikacji treści (w tym `SPRAWNOSC-
+  DOMYSLNA` — reużycie między dwoma różnymi katalogami, `kalkulatory-pomocnicze`/`ups-
+  krytyczny`).
+  Szósty przypadek anty-wzorca "etykieta jako parametr" (`tryb-uproszczony`), naprawiony tym
+  samym wzorcem.
+  Konwersja 2 stringowych `assumptions` na `{kod, params}` złapała kolejną przedistniejącą
+  asercję testową (`ups-krytyczny`), naprawiona proaktywnie przed pierwszym biegiem testów.
+  **Zero bugów UI** (trzecia taka partia w rundzie) — wszystkie strony już poprawnie
+  obsługiwały i18n (w tym `tryb-uproszczony`, zweryfikowane wprost treścią PL/EN).
+  `scripts/check-i18n-guard.mjs` → `MIGRATED_MODULES` rozszerzone z 83 do 86.
+  3 nowe bloki testowe domenowe + nowy blok w `t.test.ts` (3 klucze z parametrami/9 bez).
+  `pnpm typecheck`/`lint`/`check:i18n-guard`/`test` (905/905)/`build` czyste.
+  Zweryfikowane end-to-end w świeżej przeglądarce (Playwright, potwierdzenie braku rezydualnego
+  `next-server` przed i po) w PL/EN/RU (3 moduły × 3 języki = 9 sprawdzeń) — zero `⚠ [...]`.
+  **To zamyka oba katalogi `bezpieczenstwo/` i `kalkulator-mobilny/`.**
+  🔴 **Pozostały zakres potwierdzony grepem**: `baterie/napiecie-systemowe` — 1 moduł, 7×
+  `message:`, duży wieloetapowy kalkulator, NIE w `MIGRATED_MODULES`. Po nim: `pv/czystosc-i-
+  snieg`, `baterie/komunikacja-bms`, `baterie/porownanie-technologii` (świadomie odłożone, dane
+  katalogowe). Pełne uzasadnienie: `docs/memory.md`, wpis "osiemnasta partia". Kolejna partia
+  (19.): `baterie/napiecie-systemowe` (własna partia — zacząć od pełnego odczytania plików i
+  ponownego przelecenia CAŁEGO `lib/core/modules/` grepem, nie ufać samej metryczce).

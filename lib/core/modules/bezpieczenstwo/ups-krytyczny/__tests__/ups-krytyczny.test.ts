@@ -22,7 +22,7 @@ describe("calculateUpsKrytyczny", () => {
     expect(result.status).toBe("VALID")
     expect(result.value.laczonyPoborW).toBe(50)
     expect(result.value.czasPodtrzymaniaH).toBeCloseTo(4.416, 6)
-    expect(result.assumptions[0]).toContain("0.92")
+    expect(result.assumptions[0]).toEqual({ kod: "SPRAWNOSC-DOMYSLNA", params: { efficiency: 0.92 } })
   })
 
   it("wpisana ręcznie sprawność zastępuje domyślną", () => {
@@ -74,5 +74,32 @@ describe("calculateUpsKrytyczny", () => {
       napiecieV: 12,
     })
     expect(result.status).toBe("INVALID_INPUT")
+  })
+
+  it("i18n (17.2): błąd walidacji zwraca i18nKey bez params, nie message", () => {
+    const result = calculateUpsKrytyczny({
+      urzadzenia: urzadzenia({ esp32: -5 }),
+      pojemnoscAh: 20,
+      napiecieV: 12,
+    })
+    expect(result.warnings[0].i18nKey).toBe("WARTOSC-NIE-MOZE-BYC-UJEMNA")
+    expect(result.warnings[0].params).toBeUndefined()
+    expect(result.warnings[0].message).toBeUndefined()
+  })
+
+  it("i18n (17.2): brak zaznaczonych zwraca i18nKey bez params, nie message", () => {
+    const items = urzadzenia().map((u) => ({ ...u, selected: false }))
+    const result = calculateUpsKrytyczny({ urzadzenia: items, pojemnoscAh: 20, napiecieV: 12 })
+    expect(result.warnings[0].i18nKey).toBe("BRAK-ZAZNACZONYCH-URZADZEN")
+    expect(result.warnings[0].params).toBeUndefined()
+    expect(result.warnings[0].message).toBeUndefined()
+  })
+
+  it("i18n (17.2): czas podtrzymania zwraca i18nKey/params, nie message", () => {
+    const result = calculateUpsKrytyczny({ urzadzenia: urzadzenia(), pojemnoscAh: 20, napiecieV: 12 })
+    const w = result.warnings.find((x) => x.code === "CZAS-PODTRZYMANIA")
+    expect(w?.i18nKey).toBe("CZAS-PODTRZYMANIA")
+    expect(w?.params).toEqual({ czas: "4.42" })
+    expect(w?.message).toBeUndefined()
   })
 })

@@ -708,4 +708,22 @@ export const dictionaryEn = {
     "For a {system} V system the expected number of cells in series is {oczekiwana}S — {podana} entered.",
   "WIDOCZNE-WYBRZUSZENIE":
     "Visible case swelling — the cell should be retired from service, not reassembled.",
+  "ZA-MALA-ODLEGLOSC":
+    "The distance from combustible materials ({odleglosc} cm) is below the minimum {min} cm — a real " +
+    "fire risk.",
+  "ODLEGLOSC-OK": "The distance from combustible materials ({odleglosc} cm) meets the minimum {min} cm.",
+  "BRAK-NAWIEWU":
+    "No dedicated combustion air intake — risk of room oxygen depletion and flue gas backdraft.",
+  "NAWIEW-OBECNY": "A dedicated combustion air intake is provided.",
+  "BRAK-CZUJNIKA-CO":
+    "No carbon monoxide (CO) detector in a room with an open combustion source — this is a life " +
+    "hazard, not just a property one. CO is odorless and kills in your sleep.",
+  "CZUJNIK-CO-OBECNY": "A carbon monoxide (CO) detector is installed in the room.",
+  "BRAK-ZAZNACZONYCH-URZADZEN": "No critical backup device is selected.",
+  "CZAS-PODTRZYMANIA": "Backup time: {czas} h.",
+  "POJEMNOSCAH-NIEDODATNI": 'The "battery capacity" field must be greater than zero.',
+  "NAPIECIEV-NIEDODATNI": 'The "voltage" field must be greater than zero.',
+  "MOCODBIORNIKAW-NIEDODATNI": 'The "load power" field must be greater than zero.',
+  "TRYB-UPROSZCZONY-CZAS-TEORETYCZNY":
+    "Doesn't account for system efficiency or depth of discharge (DoD) — a theoretical runtime.",
 } satisfies Record<KluczTlumaczenia, string>

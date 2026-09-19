@@ -4,7 +4,7 @@ export function wartoscUjemna(field: string, value: number): Warning {
   return {
     code: "WARTOSC-UJEMNA",
     level: "critical",
-    message: "Wartość nie może być ujemna.",
+    i18nKey: "WARTOSC-NIE-MOZE-BYC-UJEMNA",
     technicalMessage: `${field} = ${value}, oczekiwano >= 0`,
     field,
   }
@@ -14,7 +14,7 @@ export function brakZaznaczonych(): Warning {
   return {
     code: "BRAK-ZAZNACZONYCH",
     level: "warning",
-    message: "Nie zaznaczono żadnego urządzenia krytycznego do podtrzymania.",
+    i18nKey: "BRAK-ZAZNACZONYCH-URZADZEN",
     technicalMessage: "selected.length === 0",
   }
 }
@@ -23,7 +23,8 @@ export function czasPodtrzymaniaInfo(czasPodtrzymaniaH: number): Warning {
   return {
     code: "CZAS-PODTRZYMANIA",
     level: "info",
-    message: `Czas podtrzymania: ${czasPodtrzymaniaH.toFixed(2)} h.`,
+    i18nKey: "CZAS-PODTRZYMANIA",
+    params: { czas: czasPodtrzymaniaH.toFixed(2) },
     technicalMessage: `czasPodtrzymaniaH=${czasPodtrzymaniaH}`,
   }
 }
