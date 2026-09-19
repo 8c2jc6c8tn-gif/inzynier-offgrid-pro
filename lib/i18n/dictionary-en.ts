@@ -773,4 +773,7 @@ export const dictionaryEn = {
   "POZA-ZAKRESEM-WZORU-WIND-CHILL":
     "The wind chill formula is only defined for temperature ≤{maxTemp}°C and wind >{minWiatr} km/h — outside that range the result has no physical meaning.",
   "WIND-CHILL-WZOR-NWS": "Standard NWS/Environment Canada (2001) meteorological formula — not stated directly in this project's source material, but publicly known physics.",
+  "SUGEROWANA-WYMIANA-STARYCH-URZADZEN": "\"Old\" class appliances (real consumption exceeds the nominal power): {urzadzenia}. Consider replacing them — it can pay off in battery savings.",
+  "NISKIE-OBCIAZENIE-FALOWNIKA": "The inverter load is only {obciazenie}% of rated power — efficiency in this range usually drops.",
+  "OBCIAZENIE-FALOWNIKA-OPTYMALNE": "The inverter load ({obciazenie}%) is in the typically highest-efficiency range.",
 } satisfies Record<KluczTlumaczenia, string>

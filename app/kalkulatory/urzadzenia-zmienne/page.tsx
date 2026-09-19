@@ -1,0 +1,175 @@
+"use client"
+
+import { useMemo, useState } from "react"
+import { calculateUrzadzeniaZmienne } from "@/lib/core/modules/zapotrzebowanie/urzadzenia-zmienne/calculator"
+import {
+  KATALOG_URZADZEN_ZMIENNYCH,
+  PLYTA_INDUKCYJNA_MOC_SUGEROWANA_W,
+} from "@/lib/core/modules/zapotrzebowanie/urzadzenia-zmienne/constants"
+import type { KlasaEnergetyczna, PozycjaUrzadzenia } from "@/lib/core/modules/zapotrzebowanie/urzadzenia-zmienne/input"
+import { PoleSelect } from "@/components/ui/pole"
+import { WerdyktPanel } from "@/components/werdykt"
+import { NawigacjaEkranu } from "@/components/nawigacja-ekranu"
+import { NaglowekEkranu } from "@/components/wzorce/naglowek-ekranu"
+import { WynikGlowny } from "@/components/wzorce/wynik-glowny"
+import { WynikSzczegoly } from "@/components/wzorce/wynik-szczegoly"
+import { useTranslate } from "@/lib/i18n/language-context"
+
+const INLINE_INPUT_KLASY =
+  "w-20 min-h-10 rounded-md border border-input bg-background px-2 text-small outline-none transition-colors " +
+  "hover:not-disabled:border-foreground/30 focus-visible:border-ring focus-visible:ring-2 focus-visible:ring-ring/50 " +
+  "disabled:cursor-not-allowed disabled:opacity-50 disabled:hover:border-input"
+
+const initialItems: PozycjaUrzadzenia[] = KATALOG_URZADZEN_ZMIENNYCH.map((def) => ({
+  id: def.id,
+  wybrane: false,
+  mocW: def.mocDomyslnaW,
+  czasMin: 0,
+  klasa: "standardowe",
+}))
+
+export default function UrzadzeniaZmiennePage() {
+  const t = useTranslate()
+  const [urzadzenia, setUrzadzenia] = useState<PozycjaUrzadzenia[]>(initialItems)
+  const [plytaIndukcyjnaWybrana, setPlytaIndukcyjnaWybrana] = useState(false)
+  const [plytaIndukcyjnaMocW, setPlytaIndukcyjnaMocW] = useState(String(PLYTA_INDUKCYJNA_MOC_SUGEROWANA_W))
+  const [plytaIndukcyjnaCzasMin, setPlytaIndukcyjnaCzasMin] = useState("")
+
+  const result = useMemo(
+    () =>
+      calculateUrzadzeniaZmienne({
+        urzadzenia,
+        plytaIndukcyjnaWybrana,
+        plytaIndukcyjnaMocW: plytaIndukcyjnaMocW === "" ? 0 : Number(plytaIndukcyjnaMocW),
+        plytaIndukcyjnaCzasMin: plytaIndukcyjnaCzasMin === "" ? 0 : Number(plytaIndukcyjnaCzasMin),
+      }),
+    [urzadzenia, plytaIndukcyjnaWybrana, plytaIndukcyjnaMocW, plytaIndukcyjnaCzasMin],
+  )
+
+  function aktualizuj(id: string, patch: Partial<PozycjaUrzadzenia>) {
+    setUrzadzenia((prev) => prev.map((u) => (u.id === id ? { ...u, ...patch } : u)))
+  }
+
+  const energiaLacznaWh = result.value.energiaWh + result.value.plytaIndukcyjnaEnergiaWh
+
+  return (
+    <main className="mx-auto flex max-w-md flex-col gap-6 p-6">
+      <NawigacjaEkranu href="/kalkulatory/urzadzenia-zmienne" />
+      <NaglowekEkranu tytul="Urządzenia zmienne i klasa energetyczna">
+        Stare urządzenia to nie tylko wyższy rachunek za prąd w sieci — w off-gridzie to też
+        większa, droższa bateria, żeby je udźwignąć. Moduł 2, Ekran 3.
+      </NaglowekEkranu>
+
+      <ul className="flex flex-col gap-3">
+        {urzadzenia.map((u) => {
+          const def = KATALOG_URZADZEN_ZMIENNYCH.find((d) => d.id === u.id)
+          return (
+            <li key={u.id} className="flex flex-col gap-2 rounded-md border p-3">
+              <div className="flex items-center gap-3">
+                <input
+                  type="checkbox"
+                  className="h-5 w-5 shrink-0 cursor-pointer accent-primary outline-none"
+                  checked={u.wybrane}
+                  onChange={() => aktualizuj(u.id, { wybrane: !u.wybrane })}
+                  id={`urz-${u.id}`}
+                />
+                <label htmlFor={`urz-${u.id}`} className="flex-1 text-small font-medium">
+                  {def?.label ?? u.id}
+                </label>
+              </div>
+              <div className="flex flex-wrap items-center gap-2 pl-8 text-caption">
+                <input
+                  type="number"
+                  inputMode="decimal"
+                  className={INLINE_INPUT_KLASY}
+                  value={u.mocW}
+                  disabled={!u.wybrane}
+                  onChange={(e) => aktualizuj(u.id, { mocW: Number(e.target.value) })}
+                  aria-label={`Moc — ${def?.label ?? u.id}`}
+                />
+                <span>W ×</span>
+                <input
+                  type="number"
+                  inputMode="decimal"
+                  className={INLINE_INPUT_KLASY}
+                  value={u.czasMin || ""}
+                  placeholder="min"
+                  disabled={!u.wybrane}
+                  onChange={(e) => aktualizuj(u.id, { czasMin: Number(e.target.value) })}
+                  aria-label={`Czas pracy dziennie — ${def?.label ?? u.id}`}
+                />
+                <span>min/dobę</span>
+                <select
+                  className="min-h-10 rounded-md border border-input bg-background px-2 text-small disabled:opacity-50"
+                  value={u.klasa}
+                  disabled={!u.wybrane}
+                  onChange={(e) => aktualizuj(u.id, { klasa: e.target.value as KlasaEnergetyczna })}
+                  aria-label={`Klasa energetyczna — ${def?.label ?? u.id}`}
+                >
+                  <option value="nowoczesne">Nowoczesne (A+++)</option>
+                  <option value="standardowe">Standardowe (5-10 lat)</option>
+                  <option value="stare">Stare (&gt;10 lat)</option>
+                </select>
+              </div>
+            </li>
+          )
+        })}
+      </ul>
+
+      <div className="rounded-md border p-3">
+        <label className="flex items-center gap-3">
+          <input
+            type="checkbox"
+            className="h-5 w-5 shrink-0 cursor-pointer accent-primary outline-none"
+            checked={plytaIndukcyjnaWybrana}
+            onChange={(e) => setPlytaIndukcyjnaWybrana(e.target.checked)}
+          />
+          <span className="text-small font-medium">Płyta indukcyjna (wysoki priorytet)</span>
+        </label>
+        {plytaIndukcyjnaWybrana && (
+          <div className="mt-2 flex flex-col gap-2 pl-8">
+            <PoleSelect
+              label="Moc palników"
+              value={plytaIndukcyjnaMocW}
+              onChange={(e) => setPlytaIndukcyjnaMocW(e.target.value)}
+            >
+              <option value="3000">3000 W</option>
+              <option value="5000">5000 W</option>
+              <option value="7000">7000 W (typowo)</option>
+              <option value="9000">9000 W</option>
+            </PoleSelect>
+            <input
+              type="number"
+              inputMode="decimal"
+              className={INLINE_INPUT_KLASY}
+              placeholder="min/dobę"
+              value={plytaIndukcyjnaCzasMin}
+              onChange={(e) => setPlytaIndukcyjnaCzasMin(e.target.value)}
+              aria-label="Czas gotowania dziennie"
+            />
+          </div>
+        )}
+      </div>
+
+      {result.status === "INVALID_INPUT" ? (
+        <WerdyktPanel poziom="blad" etykieta="Nie da się policzyć — sprawdź wpisane dane">
+          <WynikSzczegoly assumptions={[]} warnings={result.warnings} />
+        </WerdyktPanel>
+      ) : result.status === "INCOMPLETE" ? (
+        <p className="text-small text-muted-foreground">
+          Zaznacz przynajmniej jedno urządzenie albo płytę indukcyjną.
+        </p>
+      ) : (
+        <WerdyktPanel poziom={result.status === "VALID_WITH_WARNINGS" ? "uwaga" : "ok"} etykieta="Zapotrzebowanie dobowe">
+          <WynikGlowny>{(energiaLacznaWh / 1000).toFixed(2)} kWh</WynikGlowny>
+          {result.warnings.map((w) => (
+            <p key={w.code} className="mt-1 text-small">
+              {w.message ?? t(w.i18nKey ?? w.code, w.params)}
+            </p>
+          ))}
+          <WynikSzczegoly assumptions={result.assumptions} formula={result.formula} />
+        </WerdyktPanel>
+      )}
+    </main>
+  )
+}

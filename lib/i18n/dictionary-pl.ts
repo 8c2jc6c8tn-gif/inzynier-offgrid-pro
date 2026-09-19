@@ -785,6 +785,9 @@ export const dictionaryPl = {
   "POZA-ZAKRESEM-WZORU-WIND-CHILL":
     "Wzór wind chill jest zdefiniowany tylko dla temperatury ≤{maxTemp}°C i wiatru >{minWiatr} km/h — poza tym zakresem wynik nie ma sensu fizycznego.",
   "WIND-CHILL-WZOR-NWS": "Standardowy wzór meteorologiczny NWS/Environment Canada (2001) — nie podany wprost w materiale źródłowym tego projektu, ale publicznie znana fizyka.",
+  "SUGEROWANA-WYMIANA-STARYCH-URZADZEN": "Urządzenia klasy \"stare\" (realnie zużywają więcej niż nominalna moc sugeruje): {urzadzenia}. Rozważ wymianę — może się zwrócić w oszczędności baterii.",
+  "NISKIE-OBCIAZENIE-FALOWNIKA": "Obciążenie falownika to tylko {obciazenie}% mocy znamionowej — sprawność w tym zakresie zwykle spada.",
+  "OBCIAZENIE-FALOWNIKA-OPTYMALNE": "Obciążenie falownika ({obciazenie}%) jest w zakresie typowo najwyższej sprawności.",
 } as const
 
 export type KluczTlumaczenia = keyof typeof dictionaryPl

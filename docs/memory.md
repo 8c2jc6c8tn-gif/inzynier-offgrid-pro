@@ -5207,3 +5207,55 @@ wymyślania fizyki/wzorów. Pozostały klaster stress-test zimowy (~25 pozostał
 `docs/rejestr-pokrycia.md`) jest w większości jawnie oznaczony jako "zależny" od modułów
 jeszcze niezbudowanych (M1 geostruktura bez treści źródłowej, model termiczny M6, baza
 komponentów) — nie kolejne "gotowe do budowy" luki, tylko architektoniczna kolejność.
+
+## Punkt 5 — kontynuacja Modułu 2 "Zapotrzebowanie", 4 pozostałe ekrany numerowane (19.09.2026)
+
+Ekrany 3, 10, 14, 15 — ostatnie cztery pozostałe `todo` z sekwencji numerowanej Modułu 2
+(poza modułem zbiorczym "Wampiry energetyczne", 24 funkcje, świadomie odłożony jako osobny,
+duży krok — patrz niżej).
+
+- **Ekran 3 (1.3/1.4/1.5) — Urządzenia zmienne + płyta indukcyjna + klasa energetyczna:**
+  `lib/core/modules/zapotrzebowanie/urzadzenia-zmienne/`. Mnożnik klasy energetycznej 1:1 ze
+  źródła. **Nowy wariant wzorca "echo"**: domyślne moce urządzeń (pralka/zmywarka/lodówka/
+  czajnik/mikrofalówka/laptop/TV/oświetlenie) reużyte z `baterie/napiecie-systemowe/
+  constants.ts` (`KATALOG_ODBIORNIKOW`) zamiast wymyślać nowe liczby — ale świadomie TYLKO moc,
+  nie czas pracy (tamten katalog koduje `czasPracyDomyslnyMin: 0` jako "ciągłe/bazowe", inny
+  sens niż "ile dziś używasz tego urządzenia" — echo dosłowne dałoby zero energii, więc pole
+  czasu zostaje puste, do ręcznego wpisania).
+- **Ekran 10 (1.13) — Sprawność inwertera przy niskim obciążeniu:**
+  `lib/core/modules/zapotrzebowanie/sprawnosc-inwertera-niskie-obciazenie/`. Sprawność WPISYWANA
+  ręcznie (źródło daje tylko dwa punkty narracyjne krzywej, nie pełny wzór interpolacji).
+  **Znaleziona i udokumentowana niespójność przykładu źródła**: "sprawność 75% → +25% zużycia"
+  jest matematycznie błędne (75% daje +33,3%, nie +25%; +25% odpowiada sprawności 80%) — wzór
+  wdrożony poprawnie fizycznie, przykład źródła NIE wymuszony do zgodności.
+- **Ekran 14 (1.26) — Architektura 1-fazowa/3-fazowa:**
+  `lib/core/modules/zapotrzebowanie/architektura-fazowa/`. Liczy rozkład obciążenia i asymetrię
+  % między fazami (przykład źródła L1=4200W/L2=L3=2000W → 52,4%, odtworzony dokładnie).
+  **Świadomie bez automatycznego werdyktu ok/zabroniona** — źródło opisuje "znaczną asymetrię"
+  🔴 jakościowo, bez liczbowego progu; wymyślenie progu (np. z branżowych norm PN-EN 50160/IEC
+  dla niezrównoważenia napięcia) byłoby złamaniem dyscypliny "nie wymyślaj norm" — inny rodzaj
+  wielkości (napięcie vs moc) i inny kontekst (jakość sieci vs projekt off-grid), nie
+  bezpośrednio przenośne. Kalkulator pokazuje liczby, użytkownik ocenia sam.
+- **Ekran 15 (1.27) — Kategorie specjalne:** `lib/core/modules/zapotrzebowanie/kategorie-specjalne/`.
+  Przełącznik 3 kategorii (Warsztat/Gospodarstwo/Oświetlenie terenowe) + ręczna lista urządzeń.
+  Źródło podaje TYLKO nazwy przykładowych urządzeń dla "Warsztat" (szlifierka/wiertarka/
+  spawarka), zero liczb dla żadnej kategorii — świadomie bez "gotowego profilu" z domyślnymi
+  mocami wspomnianego w opisie źródła (Sekcja A: "przełącznik kategorii z gotowym profilem"),
+  bo wymyślenie mocy urządzeń warsztatowych/gospodarczych/terenowych złamałoby dyscyplinę
+  "nie wymyślaj danych" — przyciski szybkiego dodania nazwy (bez mocy) to maksimum uczciwie
+  możliwe z tego źródła.
+
+`MIGRATED_MODULES`: 90→94 (wszystkie 4 nowe moduły od startu z `i18nKey`, zero `.message`).
+22 nowe testy domenowe + nowy blok w `t.test.ts` (9 kluczy z parametrami). `pnpm typecheck`/
+`lint`/`check:i18n-guard`/`test` (965/965)/`build` czyste. Zweryfikowane w przeglądarce
+(Playwright, świeży `pnpm build && pnpm start`) w PL/EN/RU dla wszystkich 4 ekranów — treść
+tłumaczona poprawnie (sprawdzone wprost porównaniem tekstu ostrzeżeń między językami, nie
+tylko brakiem markera `⚠ [`), zero nowych błędów konsoli.
+
+**Świadomie odłożone, nie przeoczenie:** moduł zbiorczy "Wampiry energetyczne" (1.24, 1.28–1.50,
+24 dawne funkcje w jednym ekranie z podzakładkami: Katalog urządzeń/Pomiar/Symulacje-Raporty/
+Rekomendacje sprzętowe/Automatyzacja, pełna treść w `Biblia_Offgrid_v2_0_Architektura_Modulowa.md`
+linie 607-680+) — to osobny, znacznie większy krok niż pojedynczy ekran D, wymaga własnej sesji
+projektowej (5 podzakładek, nie jeden prosty kalkulator). Zamyka punkt 5 z listy zaległości w
+zakresie czterech numerowanych ekranów; moduł wampirów pozostaje `todo` w rejestrze, do
+zaplanowania jako osobne zadanie.
