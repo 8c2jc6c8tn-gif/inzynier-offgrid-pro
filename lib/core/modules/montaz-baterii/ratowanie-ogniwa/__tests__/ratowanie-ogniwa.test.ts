@@ -38,4 +38,32 @@ describe("calculateRatowanieOgniwa", () => {
     const result = calculateRatowanieOgniwa({ napiecieOgniwaV: null })
     expect(result.status).toBe("INCOMPLETE")
   })
+
+  it("i18n (17.2): błąd walidacji zwraca i18nKey bez params, nie message", () => {
+    const result = calculateRatowanieOgniwa({ napiecieOgniwaV: -0.5 })
+    expect(result.warnings[0].i18nKey).toBe("NAPIECIE-OGNIWA-POLE-UJEMNE")
+    expect(result.warnings[0].params).toBeUndefined()
+    expect(result.warnings[0].message).toBeUndefined()
+  })
+
+  it("i18n (17.2): ogniwo zerowoltowe zwraca i18nKey bez params, nie message", () => {
+    const result = calculateRatowanieOgniwa({ napiecieOgniwaV: 0 })
+    expect(result.warnings[0].i18nKey).toBe("OGNIWO-ZERO-WOLTOWE")
+    expect(result.warnings[0].params).toBeUndefined()
+    expect(result.warnings[0].message).toBeUndefined()
+  })
+
+  it("i18n (17.2): ratunek opcjonalny zwraca i18nKey/params, nie message", () => {
+    const result = calculateRatowanieOgniwa({ napiecieOgniwaV: 0.8 })
+    expect(result.warnings[0].i18nKey).toBe("RATUNEK-OPCJONALNY-NIEZALECANY")
+    expect(result.warnings[0].params).toEqual({ napiecie: "0.80", zasilacz: 3.0, prad: 0.5 })
+    expect(result.warnings[0].message).toBeUndefined()
+  })
+
+  it("i18n (17.2): procedura standardowa zwraca i18nKey/params, nie message", () => {
+    const result = calculateRatowanieOgniwa({ napiecieOgniwaV: 1.51 })
+    expect(result.warnings[0].i18nKey).toBe("PROCEDURA-STANDARDOWEGO-RATUNKU")
+    expect(result.warnings[0].params).toEqual({ napiecie: "1.51" })
+    expect(result.warnings[0].message).toBeUndefined()
+  })
 })

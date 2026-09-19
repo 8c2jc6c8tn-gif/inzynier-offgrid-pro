@@ -1,10 +1,11 @@
 import type { Warning } from "@/lib/core/calc-result"
 
-export function notPositive(field: string, label: string, value: number): Warning {
+export function notPositive(field: string, value: number): Warning {
+  const code = `${field.toUpperCase()}-NIEDODATNI`
   return {
-    code: `${field.toUpperCase()}-NIEDODATNI`,
+    code,
     level: "critical",
-    message: `Wartość pola "${label}" musi być większa od zera.`,
+    i18nKey: code,
     technicalMessage: `${field} = ${value}, oczekiwano > 0`,
     field,
   }
@@ -14,7 +15,7 @@ export function krokPozaKolejnoscia(): Warning {
   return {
     code: "KROK-POZA-KOLEJNOSCIA",
     level: "warning",
-    message: "Zaznaczono krok poza kolejnością — potwierdź wcześniejsze kroki najpierw, kolejność ma znaczenie.",
+    i18nKey: "KROK-POZA-KOLEJNOSCIA",
     technicalMessage: "krok potwierdzony przed wcześniejszym niepotwierdzonym krokiem",
   }
 }

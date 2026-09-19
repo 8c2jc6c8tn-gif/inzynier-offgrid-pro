@@ -50,7 +50,7 @@ describe("calculateSekwencjaMontazu", () => {
     expect(result.status).toBe("VALID")
     expect(result.value.napiecieCalkowiteNominalneV).toBeCloseTo(12.8, 9)
     expect(result.value.ogniwWRzedzie).toBe(2)
-    expect(result.assumptions[0]).not.toContain("nie 1:1")
+    expect(result.assumptions[0]).toEqual({ kod: "SEKWENCJA-UKLAD-PRESET", params: { n: 2 } })
   })
 
   it("8S -> VALID, napięcie całkowite 25,6V", () => {
@@ -70,7 +70,10 @@ describe("calculateSekwencjaMontazu", () => {
   it("6S (nie-preset, ale parzysta) -> VALID, założenie oznaczone jako niedosłowne ze źródła", () => {
     const result = calculateSekwencjaMontazu({ liczbaOgniw: 6 })
     expect(result.status).toBe("VALID")
-    expect(result.assumptions[0]).toContain("nie 1:1")
+    expect(result.assumptions[0]).toEqual({
+      kod: "SEKWENCJA-UKLAD-NIESTANDARDOWY",
+      params: { n: 3, liczba: 6 },
+    })
   })
 
   it("OUT_OF_SCOPE — nieparzysta liczba ogniw", () => {
@@ -99,5 +102,45 @@ describe("calculateSekwencjaMontazu", () => {
   it("INVALID_INPUT — ujemna liczba ogniw", () => {
     const result = calculateSekwencjaMontazu({ liczbaOgniw: -4 })
     expect(result.status).toBe("INVALID_INPUT")
+  })
+
+  it("i18n (17.2): błąd walidacji zwraca i18nKey bez params, nie message", () => {
+    const result = calculateSekwencjaMontazu({ liczbaOgniw: -4 })
+    expect(result.warnings[0].i18nKey).toBe("WARTOSC-NIE-MOZE-BYC-UJEMNA")
+    expect(result.warnings[0].params).toBeUndefined()
+    expect(result.warnings[0].message).toBeUndefined()
+  })
+
+  it("i18n (17.2): nieparzysta liczba ogniw zwraca i18nKey/params, nie message", () => {
+    const result = calculateSekwencjaMontazu({ liczbaOgniw: 7 })
+    expect(result.warnings[0].i18nKey).toBe("NIEPARZYSTA-LICZBA-OGNIW")
+    expect(result.warnings[0].params).toEqual({ liczba: 7 })
+    expect(result.warnings[0].message).toBeUndefined()
+  })
+
+  it("i18n (17.2): za mało ogniw zwraca i18nKey/params, nie message", () => {
+    const result = calculateSekwencjaMontazu({ liczbaOgniw: 2 })
+    expect(result.warnings[0].i18nKey).toBe("ZA-MALO-OGNIW")
+    expect(result.warnings[0].params).toEqual({ min: 4 })
+    expect(result.warnings[0].message).toBeUndefined()
+  })
+
+  it("i18n (17.2): za dużo ogniw zwraca i18nKey/params, nie message", () => {
+    const result = calculateSekwencjaMontazu({ liczbaOgniw: 34 })
+    expect(result.warnings[0].i18nKey).toBe("ZA-DUZO-OGNIW")
+    expect(result.warnings[0].params).toEqual({ max: 32 })
+    expect(result.warnings[0].message).toBeUndefined()
+  })
+
+  it("i18n (17.2): założenie preset zwraca {kod,params}, nie string", () => {
+    const result = calculateSekwencjaMontazu({ liczbaOgniw: 4 })
+    expect(result.assumptions).toEqual([{ kod: "SEKWENCJA-UKLAD-PRESET", params: { n: 2 } }])
+  })
+
+  it("i18n (17.2): założenie niestandardowe zwraca {kod,params}, nie string", () => {
+    const result = calculateSekwencjaMontazu({ liczbaOgniw: 6 })
+    expect(result.assumptions).toEqual([
+      { kod: "SEKWENCJA-UKLAD-NIESTANDARDOWY", params: { n: 3, liczba: 6 } },
+    ])
   })
 })

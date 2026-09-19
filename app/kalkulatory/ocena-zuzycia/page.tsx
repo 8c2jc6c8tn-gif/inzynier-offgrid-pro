@@ -8,6 +8,7 @@ import { NawigacjaEkranu } from "@/components/nawigacja-ekranu"
 import { NaglowekEkranu } from "@/components/wzorce/naglowek-ekranu"
 import { ListaChecklist } from "@/components/wzorce/lista-checklist"
 import { StanPusty } from "@/components/ui/stany"
+import { WynikSzczegoly } from "@/components/wzorce/wynik-szczegoly"
 
 export default function OcenaZuzyciaPage() {
   const [widocznePuchniecie, setWidocznePuchniecie] = useState<boolean | null>(null)
@@ -69,11 +70,7 @@ export default function OcenaZuzyciaPage() {
           poziom={poziom}
           etykieta={poziom === "blad" ? "Wycofaj ogniwo z eksploatacji" : "Ogniwo do ponownego montażu"}
         >
-          {result.warnings.map((w) => (
-            <p key={w.code} className="mt-1 text-small">
-              {w.message}
-            </p>
-          ))}
+          <WynikSzczegoly assumptions={result.assumptions} warnings={result.warnings} />
           {poziom === "ok" && (
             <p className="mt-1 text-small">
               Potwierdzono {result.value.potwierdzone} / {result.value.razem} pomiarów.

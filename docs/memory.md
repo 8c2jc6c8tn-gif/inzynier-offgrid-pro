@@ -4881,3 +4881,54 @@ przeoczony w partii 14, patrz korekta wyżej). Kolejna partia (17.): dokończeni
 i inne moduły tej listy nie mają nowych echo-zależności między sobą, skoro migrowane w innej
 partii niż `demontaz-pakietu`** (którego stałą liczbową echują — bezpieczne, ale zweryfikować
 ponownie przy kolejnej partii, nie zakładać).
+
+## Rollout i18n — siedemnasta partia: zamyka cały katalog `montaz-baterii/` (19.09.2026)
+
+Zmigrowane: `pierwsze-uruchomienie`, `podlaczenie-bms`, `ratowanie-ogniwa`, `sekwencja-montazu`,
+`weryfikacja-ogniw`, `ocena-zuzycia` — ostatnie 6 modułów katalogu, potwierdzone grepem jako
+kompletna lista przed startem. 18 nowych kluczy PL/EN/RU, 3 klucze reużyte po weryfikacji treści
+(`WARTOSC-NIE-MOZE-BYC-UJEMNA`, `POJEMNOSC-NIEDODATNIA` — byte-identyczny z istniejącym kluczem z
+innego modułu, `KROK-POZA-KOLEJNOSCIA` — byte-identyczny z `demontaz-pakietu` partii 16).
+
+**Piąty przypadek wzorca "etykieta jako nietłumaczalny parametr runtime"** (po
+`konfigurator-stringow` p.11, `agregat-pradotworczy` p.13, `przetwornice-dcdc` p.14,
+`pobor-wlasny-bms` drift-fix p.14) — `podlaczenie-bms`'s `notPositive(field, label, value)`,
+naprawiony identycznie (`label` usunięty, `i18nKey = code` wywodzony z pola).
+
+**Kolizja `code` między dwoma modułami wykryta i poprawnie rozstrzygnięta bez utraty informacji:**
+`pierwsze-uruchomienie`'s `napiecieOgniwaUjemne` i `ratowanie-ogniwa`'s `napiecieUjemne` mają
+identyczny `code: "NAPIECIE-OGNIWA-UJEMNE"`, ale RÓŻNY tekst źródłowy ("Napięcie ogniwa nie może
+być ujemne." vs 'Wartość pola "napięcie ogniwa" nie może być ujemna.'). `code` (identyfikator
+testowy/pole) zostawiony bez zmian w obu — nie musi być globalnie unikalny — ale każdy dostał
+odrębny `i18nKey` (`NAPIECIE-OGNIWA-UJEMNE` / `NAPIECIE-OGNIWA-POLE-UJEMNE`), żeby nie nadpisać
+jednego tekstu drugim. Znalezione przez rutynową kontrolę kolizji kluczy przed finalizacją —
+gdyby nie ta kontrola, oba moduły pokazywałyby ten sam (błędny dla jednego z nich) tekst.
+
+Skonwertowane stringowe `assumptions` na `{kod, params}` w `sekwencja-montazu` (2 warianty:
+preset/niestandardowy, każdy z parametrami `{n}`/`{n, liczba}`) — **złapało i naprawiło 2
+PRZEDISTNIEJĄCE asercje testowe** (`toContain("nie 1:1")` na starym stringu), które inaczej
+zostałyby ciche regresje po migracji; poprawione na `toEqual({kod, params})`, zweryfikowane
+pełnym przebiegiem testów po naprawie (pierwszy nie-zerowy wynik testów w całej rundzie — 1
+failed przy pierwszym uruchomieniu tej partii, naprawione od razu, drugi bieg czysty).
+
+**🔴 2 kolejne strony UI naprawione** (trzynasty-czternasty przypadek w całej rundzie).
+`podlaczenie-bms` miał manualny render na głównej ścieżce (VALID/VALID_WITH_WARNINGS), mimo że
+`WynikSzczegoly` był już importowany i używany gdzie indziej na tej samej stronie (dla wyniku
+czasu pre-charge i ścieżki INVALID_INPUT) — ten sam "częściowy" wzorzec bugu co w kilku
+wcześniejszych partiach. `ocena-zuzycia` nie importował `WynikSzczegoly` wcale. Oba naprawione
+tym samym wzorcem. Zweryfikowane pełnym wydrukiem `innerText` (nie tylko brakiem markera).
+
+`MIGRATED_MODULES`: 77→83. 6 nowych bloków testowych domenowych + nowy blok w `t.test.ts` (11
+kluczy z parametrami/7 bez). `pnpm typecheck`/`lint`/`check:i18n-guard`/`test` (894/894, po
+naprawie 2 przedistniejących asercji)/`build` czyste. Zweryfikowane w przeglądarce PL/EN/RU (18
+kombinacji — 6 modułów × 3 języki, zero `⚠ [...]`), z potwierdzeniem `ps aux | grep next-server`
+puste przed i po.
+
+**To zamyka cały katalog `montaz-baterii/`** (11 modułów zmigrowanych w partiach 16-17).
+Pozostały zakres z realnym tekstem do migracji: `bezpieczenstwo/` (2: `dogrzewanie-paliwem-
+stalym`, `ups-krytyczny`), `kalkulator-mobilny/` (1: `tryb-uproszczony`) = **3 moduły**. Kolejna
+partia (18.): `bezpieczenstwo/` + `kalkulator-mobilny/` razem (mały zakres, jedna partia
+prawdopodobnie zamknie oba katalogi) — zweryfikować grepem na starcie, w tym status
+`baterie/napiecie-systemowe` (7× `message:`, wzmiankowane jako niepewne od partii 14, wciąż nie
+sprawdzone) i świadomie odłożone `pv/czystosc-i-snieg`, `baterie/komunikacja-bms`,
+`baterie/porownanie-technologii`.

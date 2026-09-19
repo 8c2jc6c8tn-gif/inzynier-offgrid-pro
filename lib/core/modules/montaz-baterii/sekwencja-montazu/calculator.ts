@@ -1,4 +1,4 @@
-import type { CalcResult } from "@/lib/core/calc-result"
+import type { Assumption, CalcResult } from "@/lib/core/calc-result"
 import type { SekwencjaMontazuInput } from "./input"
 import { validateInput } from "./validation"
 import { nieparzystaLiczbaOgniw, zaDuzoOgniw, zaMaloOgniw } from "./warnings"
@@ -166,14 +166,9 @@ export function calculateSekwencjaMontazu(input: SekwencjaMontazuInput): CalcRes
     Math.round(MAX_ZALECANE_NAPIECIE_OGNIWA_V * input.liczbaOgniw * 100) / 100
 
   const isPreset = (PRESETY_LICZBY_OGNIW as readonly number[]).includes(input.liczbaOgniw)
-  const assumptions = isPreset
-    ? [
-        `Układ 2 rzędów po ${input.liczbaOgniw / 2} ogniw (serpentyna) — 1:1 ze źródła dla tej liczby ogniw.`,
-      ]
-    : [
-        `Układ 2 rzędów po ${input.liczbaOgniw / 2} ogniw (serpentyna) — źródło opisuje wprost tylko 4S/8S/16S; ` +
-          `dla ${input.liczbaOgniw}S ten sam wzorzec geometryczny zastosowany logicznie (nie 1:1 ze źródła).`,
-      ]
+  const assumptions: Assumption[] = isPreset
+    ? [{ kod: "SEKWENCJA-UKLAD-PRESET", params: { n: input.liczbaOgniw / 2 } }]
+    : [{ kod: "SEKWENCJA-UKLAD-NIESTANDARDOWY", params: { n: input.liczbaOgniw / 2, liczba: input.liczbaOgniw } }]
 
   return {
     value: {

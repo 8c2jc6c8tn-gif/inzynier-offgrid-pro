@@ -59,4 +59,37 @@ describe("calculatePodlaczenieBms", () => {
     expect(result.value.potwierdzoneWKolejnosci).toBe(1)
     expect(result.warnings[0].code).toBe("KROK-POZA-KOLEJNOSCIA")
   })
+
+  it("i18n (17.2): błąd walidacji (pojemność) zwraca i18nKey bez params, nie message", () => {
+    const result = calculatePodlaczenieBms({
+      pojemnoscFalownikaUf: 0,
+      rezystancjaPreChargeOhm: 50,
+      potwierdzoneIds: [],
+    })
+    expect(result.warnings[0].i18nKey).toBe("POJEMNOSCFALOWNIKAUF-NIEDODATNI")
+    expect(result.warnings[0].params).toBeUndefined()
+    expect(result.warnings[0].message).toBeUndefined()
+  })
+
+  it("i18n (17.2): błąd walidacji (rezystancja) zwraca i18nKey bez params, nie message", () => {
+    const result = calculatePodlaczenieBms({
+      pojemnoscFalownikaUf: 2200,
+      rezystancjaPreChargeOhm: -5,
+      potwierdzoneIds: [],
+    })
+    expect(result.warnings[0].i18nKey).toBe("REZYSTANCJAPRECHARGEOHM-NIEDODATNI")
+    expect(result.warnings[0].params).toBeUndefined()
+    expect(result.warnings[0].message).toBeUndefined()
+  })
+
+  it("i18n (17.2): krok poza kolejnością zwraca i18nKey bez params, nie message", () => {
+    const result = calculatePodlaczenieBms({
+      pojemnoscFalownikaUf: 2200,
+      rezystancjaPreChargeOhm: 50,
+      potwierdzoneIds: ["wtyczka-balansujaca", "komunikacja-bms"],
+    })
+    expect(result.warnings[0].i18nKey).toBe("KROK-POZA-KOLEJNOSCIA")
+    expect(result.warnings[0].params).toBeUndefined()
+    expect(result.warnings[0].message).toBeUndefined()
+  })
 })
