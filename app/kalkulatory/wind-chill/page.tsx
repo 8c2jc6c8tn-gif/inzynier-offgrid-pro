@@ -1,0 +1,78 @@
+"use client"
+
+import { useMemo, useState } from "react"
+import { calculateWindChill } from "@/lib/core/modules/stress-test/wind-chill/calculator"
+import { Pole } from "@/components/ui/pole"
+import { WerdyktPanel } from "@/components/werdykt"
+import { NawigacjaEkranu } from "@/components/nawigacja-ekranu"
+import { NaglowekEkranu } from "@/components/wzorce/naglowek-ekranu"
+import { WynikGlowny } from "@/components/wzorce/wynik-glowny"
+import { WynikSzczegoly } from "@/components/wzorce/wynik-szczegoly"
+import { useTranslate } from "@/lib/i18n/language-context"
+
+export default function WindChillPage() {
+  const t = useTranslate()
+  const [temperaturaC, setTemperaturaC] = useState("")
+  const [predkoscWiatruKmh, setPredkoscWiatruKmh] = useState("")
+
+  const result = useMemo(
+    () =>
+      calculateWindChill({
+        temperaturaC: temperaturaC === "" ? null : Number(temperaturaC),
+        predkoscWiatruKmh: predkoscWiatruKmh === "" ? 0 : Number(predkoscWiatruKmh),
+      }),
+    [temperaturaC, predkoscWiatruKmh],
+  )
+
+  return (
+    <main className="mx-auto flex max-w-md flex-col gap-6 p-6">
+      <NawigacjaEkranu href="/kalkulatory/wind-chill" />
+      <NaglowekEkranu tytul="Wind Chill — temperatura odczuwalna">
+        Wiatr wywiewa ciepło z domu nawet wtedy, gdy termometr nie pokazuje wcale tak niskiej
+        temperatury — liczy się nie tylko stopień, ale i to, jak mocno wieje. Moduł 7.
+      </NaglowekEkranu>
+
+      <div className="flex flex-col gap-4">
+        <Pole
+          label="Temperatura powietrza"
+          unit="°C"
+          type="number"
+          inputMode="decimal"
+          value={temperaturaC}
+          onChange={(e) => setTemperaturaC(e.target.value)}
+        />
+        <Pole
+          label="Prędkość wiatru"
+          unit="km/h"
+          type="number"
+          inputMode="decimal"
+          min={0}
+          value={predkoscWiatruKmh}
+          onChange={(e) => setPredkoscWiatruKmh(e.target.value)}
+          hint="Na wysokości ok. 10m — dane z prognozy pogody lub stacji lokalnej."
+        />
+      </div>
+
+      {result.status === "INVALID_INPUT" ? (
+        <WerdyktPanel poziom="blad" etykieta="Nie da się policzyć — sprawdź wpisane dane">
+          <WynikSzczegoly assumptions={[]} warnings={result.warnings} />
+        </WerdyktPanel>
+      ) : result.status === "INCOMPLETE" ? (
+        <p className="text-small text-muted-foreground">Wypełnij oba pola, żeby zobaczyć wynik.</p>
+      ) : result.status === "OUT_OF_SCOPE" ? (
+        <WerdyktPanel poziom="uwaga" etykieta="Poza zakresem wzoru">
+          {result.warnings.map((w) => (
+            <p key={w.code} className="mt-1 text-small">
+              {w.message ?? t(w.i18nKey ?? w.code, w.params)}
+            </p>
+          ))}
+        </WerdyktPanel>
+      ) : (
+        <WerdyktPanel poziom="ok" etykieta="Temperatura odczuwalna">
+          <WynikGlowny>{result.value.temperaturaOdczuwalnaC.toFixed(1)} °C</WynikGlowny>
+          <WynikSzczegoly assumptions={result.assumptions} formula={result.formula} />
+        </WerdyktPanel>
+      )}
+    </main>
+  )
+}

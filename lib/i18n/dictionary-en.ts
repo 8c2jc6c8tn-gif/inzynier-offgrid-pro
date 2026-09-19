@@ -770,4 +770,7 @@ export const dictionaryEn = {
   "PWM-WYSTARCZY": "Panel power {moc} W, voltages match — PWM is enough.",
   "PID-PROG-NAPIECIA-ZE-ZRODLA": "The 400V voltage threshold and the high-humidity condition for PID risk are taken directly from the source — no model of power-loss rate.",
   "PROG-MOC-MPPT-OPLACALNOSC-DOPOWIEDZIANY": "The 250W threshold (midpoint of the source's 200-300W range) is inferred, not stated as a single number.",
+  "POZA-ZAKRESEM-WZORU-WIND-CHILL":
+    "The wind chill formula is only defined for temperature ≤{maxTemp}°C and wind >{minWiatr} km/h — outside that range the result has no physical meaning.",
+  "WIND-CHILL-WZOR-NWS": "Standard NWS/Environment Canada (2001) meteorological formula — not stated directly in this project's source material, but publicly known physics.",
 } satisfies Record<KluczTlumaczenia, string>

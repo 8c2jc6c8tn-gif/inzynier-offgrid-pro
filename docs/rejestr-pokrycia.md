@@ -274,7 +274,7 @@ ma samodzielny wzór fizyczny i nie musi czekać.
 | 14 | 6.18→7.18 | Wieczna mgła/szadź | todo | zależny (M1, M3) |
 | 15 | 6.22→7.21 | Krótkie okno słoneczne | todo | zależny (M3 produkcja, M2 zapotrzebowanie) |
 | 16 | 6.24→7.23 | Turbina wiatrowa zimą | todo | zależny (dane wiatrowe M1) |
-| 17 | 6.26→7.24 | **Wind Chill** | todo | **najsilniejszy niezależny kandydat** — wzór to uniwersalna fizyka (analogicznie do Magnusa-Tetensa w `ochrona-wilgoc`/M4, deklinacji Coopera w `profil-astronomiczny`/M2), tylko 2 pola ręczne (wiatr, temperatura), nie wymaga danych z M1-M6 |
+| 17 | 6.26→7.24 | **Wind Chill** | **done** | **[19.09.2026]** `lib/core/modules/stress-test/wind-chill/`, UI: `app/kalkulatory/wind-chill/page.tsx`, 10 testów. Wzór NWS/Environment Canada (2001), metryczny — zweryfikowany niezależnie w Node przed implementacją, przykład źródła (-10°C/40km/h→"-20°C") odtworzony z dokładnością 0,8°C (wzór daje -20,77°C). Świadomie NIE liczony wpływ na zapotrzebowanie ciepła (+35%/+2kWh/dobę z przykładu źródła) — źródło nie podaje wzoru wiążącego deltę wind chill z modelem termicznym budynku (Moduł 6), tylko jeden ilustracyjny przykład; ten ekran liczy wyłącznie temperaturę odczuwalną. OUT_OF_SCOPE poza zakresem ważności wzoru (T>10°C lub wiatr≤4,8km/h). |
 | 18 | 6.28→7.26 | Pre-Heat Thermal Storage | todo | zależny (M6 pojemność cieplna) |
 | 19 | 6.29→7.27 | Elektronika w mrozie | todo | **niezależny kandydat** — analogiczne do już zbudowanego `cold-cranking-amps`/`komunikacja-bms` |
 | 20 | 6.30→7.28 | Bez wentylacji (frozen recuperation) | todo | zależny (M6 wentylacja) |

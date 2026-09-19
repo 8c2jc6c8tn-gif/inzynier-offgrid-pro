@@ -1065,13 +1065,14 @@ describe("t — klucze zmigrowane 19.09.2026, partia 19 (baterie: napiecie-syste
   })
 })
 
-describe("t — klucze nowych modułów 19.09.2026 (ryzyko-pid, dobor-regulatora-pwm-mppt)", () => {
+describe("t — klucze nowych modułów 19.09.2026 (ryzyko-pid, dobor-regulatora-pwm-mppt, wind-chill)", () => {
   const kluczeZParametrami: Record<string, Record<string, string | number>> = {
     "RYZYKO-PID": { napiecie: "600", prog: "400" },
     "BRAK-RYZYKA-PID": { napiecie: "350" },
     "NIEZGODNOSC-NAPIEC-PWM": { panel: "24", akumulator: "12" },
     "MPPT-OPLACALNY-PRZY-MOCY": { moc: "400", prog: "250" },
     "PWM-WYSTARCZY": { moc: "100" },
+    "POZA-ZAKRESEM-WZORU-WIND-CHILL": { maxTemp: "10", minWiatr: "4.8" },
   }
 
   it("klucze z parametrami: podstawiają wartości i różnią się między językami w każdym", () => {
@@ -1091,7 +1092,7 @@ describe("t — klucze nowych modułów 19.09.2026 (ryzyko-pid, dobor-regulatora
   })
 
   it("klucze assumptions bez parametrów: tekst istnieje i różni się między językami", () => {
-    for (const kod of ["PID-PROG-NAPIECIA-ZE-ZRODLA", "PROG-MOC-MPPT-OPLACALNOSC-DOPOWIEDZIANY"]) {
+    for (const kod of ["PID-PROG-NAPIECIA-ZE-ZRODLA", "PROG-MOC-MPPT-OPLACALNOSC-DOPOWIEDZIANY", "WIND-CHILL-WZOR-NWS"]) {
       const pl = t("pl", kod)
       const en = t("en", kod)
       const ru = t("ru", kod)
