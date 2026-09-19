@@ -5135,3 +5135,50 @@ odpowiedzi, różny status realizacji:
    zrobienia.md`, wpis 2026-09-15).
 6. **Model freemium (rozdz. 12 standardu)** — właściciel zajmie się decyzją biznesową
    (co płatne, cena) w niedzielę. Bez zmian w tej sesji.
+
+## Kontynuacja: punkty 5/6/7/8/9 z listy zaległości (19.09.2026)
+
+Właściciel poprosił o realizację pięciu zaległych punktów z audytu "co jeszcze zostało do
+zrobienia" (patrz odpowiedź w tej samej sesji): kontynuacja Modułu 2, animowane ikony kafli
+08-14, luki z gotową treścią źródłową (`docs/rejestr-pokrycia.md`), rollout autozapisu
+(`usePersistedDraft`) na resztę ekranów, i domknięcie luki 1000-3000W (M4/napięcie-systemowe).
+
+**Punkt 9 — kolejny dryf dokumentacji, nie realna praca:** kod już ma rekomendację 24V dla pasma
+1000–3000W (`PROG_12V_MAX_W`/`PROG_48V_MIN_W`, `constants.ts`), z jawną assumption
+`NAPIECIE-SYSTEMOWE-PASMO-24V-DOPOWIEDZIANE` — zrobione 2026-09-04, wpis w `docs/lista-do-
+zrobienia.md` po prostu nigdy nie dostał domykającego dopisku. Skorygowane bez zmian w kodzie.
+**Trzeci taki przypadek w tej sesji** (po edytorze kolorów i teraz tym) — wzorzec do zapamiętania:
+zawsze sprawdzić realny stan kodu przed rozpoczęciem "zaległej" pracy, nie ufać samej liście zadań.
+
+**Punkt 7a — cztery luki z rejestru pokrycia, "gotowe do budowy" wg audytu 05.09.2026:**
+zbudowane 2.15 (Ryzyko PID, Moduł 3) i 8.8 (Dobór regulatora PWM vs MPPT, Moduł 12) jako
+prawdziwe kalkulatory — obie miały realny, computable próg w źródle. **5.46 (ryzyko
+zamarznięcia dolnego źródła) i 5.31 (hałas i wibracje), oba Moduł 6, okazały się PRZY
+REALIZACJI nie mieć wzoru** — wcześniejszy audyt określił je jako "gotowe do budowy, pełna
+treść Doradcy z formułą", ale źródło (`Tresc_Modul_6_Ogrzewanie_Ekrany.md:306-326`) daje tylko
+narrację + jeden ilustracyjny przykład liczbowy, bez wzoru wiążącego wejścia z wynikiem
+("pełny szablon Doradcy A/B/C/D" ≠ "ma computable formułę" — ważne rozróżnienie na przyszłość:
+etykieta "kompletny szablon" w źródle nie gwarantuje obliczalności). Zbudowane jako Wzorzec C
+(treść informacyjna: czynniki ryzyka z odniesieniem do źródła danych, przykład jawnie oznaczony
+"ilustracyjny, nie liczony dla Twojej instalacji", zalecenia, bez kalkulatora) — zgodnie z
+dyscypliną "nie wymyślaj wzoru fizycznego" (CLAUDE.md, rdzeń operacyjny). 5.46 dopisane do
+`docs/rejestr-twardych-stopow.md` (🔴), 5.31 świadomie nie (🟡, rejestr indeksuje tylko 🔴).
+
+**Bug znaleziony przez Playwright, nie przez typecheck/lint/test:** pierwsza wersja dodała
+`i18nKey` dla `Warning` w obu kalkulatorach (PID, PWM/MPPT), ale zapomniała, że `assumptions`
+(`{kod, params}`) też przechodzą przez `t()` w `WynikSzczegoly` — brakujące klucze
+`PID-PROG-NAPIECIA-ZE-ZRODLA`/`PROG-MOC-MPPT-OPLACALNOSC-DOPOWIEDZIANY` dały realny błąd
+konsoli "Brak tłumaczenia dla części komunikatu" (fail-loud po `lib/i18n/t.ts` — nigdy cichy
+fallback), niewidoczny w markerze `⚠ [` bo dotyczy `assumptions`, nie `warnings`. Naprawione,
+dopisane do `t.test.ts`. **Zasada do zapamiętania przy każdym nowym module z i18n od zera:**
+sprawdzić klucze zarówno dla `Warning.i18nKey` JAK I dla każdego `{kod}` w `assumptions` —
+oba idą przez ten sam `t()`, oba wymagają wpisu w słowniku.
+
+`scripts/check-i18n-guard.mjs` → `MIGRATED_MODULES`: 87→89 (oba nowe moduły budowane
+od razu z `i18nKey`, bez `.message`, zgodnie z konwencją "nowy kod domenowy = i18n od startu").
+7 nowych testów domenowych (`ryzyko-pid`, 7; `dobor-regulatora-pwm-mppt`, 8) + nowy blok w
+`t.test.ts` (5 kluczy z parametrami, 2 bez). `pnpm typecheck`/`lint`/`check:i18n-guard`/`test`
+(933/933)/`build` czyste. Zweryfikowane end-to-end w przeglądarce (Playwright, świeży
+`pnpm build && pnpm start`, potwierdzenie braku rezydualnego `next-server` przed i po) w
+PL/EN/RU dla obu kalkulatorów + render obu ekranów informacyjnych — zero `⚠ [...]`, zero
+błędów konsoli po poprawce.

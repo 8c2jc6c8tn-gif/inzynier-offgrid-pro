@@ -69,6 +69,7 @@ export const KAFLE: KafelEntry[] = [
       { href: "/kalkulatory/dopasowanie-tablicy-falownika", label: "Dopasowanie tablicy PV do falownika" },
       { href: "/kalkulatory/straty-zlaczki-mc4", label: "Straty na złączkach MC4 w praktyce" },
       { href: "/kalkulatory/panele-bifacjalne", label: "Panele bifacjalne" },
+      { href: "/kalkulatory/ryzyko-pid", label: "Ryzyko PID (degradacja indukowana napięciem)" },
     ],
   },
   {
@@ -153,6 +154,8 @@ export const KAFLE: KafelEntry[] = [
       { href: "/kalkulatory/kociol-elektryczny", label: "Kocioł elektryczny vs pompa ciepła" },
       { href: "/kalkulatory/infiltracja-powietrza", label: "Infiltracja powietrza (test szczelności)" },
       { href: "/kalkulatory/wentylacja-odzysk-ciepla", label: "System wentylacji z odzyskiem ciepła" },
+      { href: "/kalkulatory/ryzyko-zamarzniecia-dolnego-zrodla", label: "Ryzyko zamarznięcia dolnego źródła" },
+      { href: "/kalkulatory/halas-i-wibracje", label: "Hałas i wibracje pompy ciepła" },
     ],
   },
   {
@@ -226,7 +229,10 @@ export const KAFLE: KafelEntry[] = [
     nazwa: "Szybki kalkulator / tryb mobilny",
     opis: "Proste przeliczniki bez pełnego procesu projektowego.",
     ikona: "📱",
-    ekrany: [{ href: "/kalkulatory/tryb-uproszczony", label: "Tryb uproszczony — dobór akumulatora" }],
+    ekrany: [
+      { href: "/kalkulatory/tryb-uproszczony", label: "Tryb uproszczony — dobór akumulatora" },
+      { href: "/kalkulatory/dobor-regulatora-pwm-mppt", label: "Dobór regulatora PWM vs MPPT" },
+    ],
   },
   {
     id: 13,

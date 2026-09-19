@@ -1065,6 +1065,44 @@ describe("t — klucze zmigrowane 19.09.2026, partia 19 (baterie: napiecie-syste
   })
 })
 
+describe("t — klucze nowych modułów 19.09.2026 (ryzyko-pid, dobor-regulatora-pwm-mppt)", () => {
+  const kluczeZParametrami: Record<string, Record<string, string | number>> = {
+    "RYZYKO-PID": { napiecie: "600", prog: "400" },
+    "BRAK-RYZYKA-PID": { napiecie: "350" },
+    "NIEZGODNOSC-NAPIEC-PWM": { panel: "24", akumulator: "12" },
+    "MPPT-OPLACALNY-PRZY-MOCY": { moc: "400", prog: "250" },
+    "PWM-WYSTARCZY": { moc: "100" },
+  }
+
+  it("klucze z parametrami: podstawiają wartości i różnią się między językami w każdym", () => {
+    for (const [kod, params] of Object.entries(kluczeZParametrami)) {
+      const pl = t("pl", kod, params)
+      const en = t("en", kod, params)
+      const ru = t("ru", kod, params)
+      for (const wartosc of Object.values(params)) {
+        expect(pl).toContain(String(wartosc))
+        expect(en).toContain(String(wartosc))
+        expect(ru).toContain(String(wartosc))
+      }
+      expect(pl).not.toBe(en)
+      expect(pl).not.toBe(ru)
+      expect(en).not.toBe(ru)
+    }
+  })
+
+  it("klucze assumptions bez parametrów: tekst istnieje i różni się między językami", () => {
+    for (const kod of ["PID-PROG-NAPIECIA-ZE-ZRODLA", "PROG-MOC-MPPT-OPLACALNOSC-DOPOWIEDZIANY"]) {
+      const pl = t("pl", kod)
+      const en = t("en", kod)
+      const ru = t("ru", kod)
+      expect(pl.length).toBeGreaterThan(0)
+      expect(pl).not.toBe(en)
+      expect(pl).not.toBe(ru)
+      expect(en).not.toBe(ru)
+    }
+  })
+})
+
 describe("dictionaries — parytet kluczy", () => {
   it("każdy język ma dokładnie ten sam zestaw kluczy co polski", () => {
     const kluczePl = Object.keys(dictionaries.pl).sort()

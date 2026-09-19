@@ -774,6 +774,14 @@ export const dictionaryPl = {
     "(poprawne porównanie wg źródła, nie naiwne porównanie tą samą liczbą ogniw). Koszt BMS liczony " +
     "jako jedna sztuka niezależnie od liczby równoległych stringów — zgodnie z literalnymi tabelami " +
     "źródła.",
+  "RYZYKO-PID": "Napięcie systemu DC ({napiecie} V) przekracza próg {prog} V przy wysokiej wilgotności — ryzyko PID.",
+  "BRAK-RYZYKA-PID": "Napięcie systemu DC ({napiecie} V) — brak ryzyka PID w obecnych warunkach.",
+  "NIEZGODNOSC-NAPIEC-PWM":
+    "Panel {panel} V do akumulatora {akumulator} V — PWM nie obniży napięcia panelu, wymagany MPPT.",
+  "MPPT-OPLACALNY-PRZY-MOCY": "Moc paneli {moc} W ({prog} W lub więcej) — MPPT jest opłacalny.",
+  "PWM-WYSTARCZY": "Moc paneli {moc} W, napięcia zgodne — regulator PWM wystarczy.",
+  "PID-PROG-NAPIECIA-ZE-ZRODLA": "Próg napięcia (400V) i wysoka wilgotność jako warunek ryzyka PID wzięte wprost ze źródła — bez modelu tempa utraty mocy.",
+  "PROG-MOC-MPPT-OPLACALNOSC-DOPOWIEDZIANY": "Próg mocy 250W (środek zakresu 200-300W ze źródła) — dopowiedziany, nie podany wprost jako jedna liczba.",
 } as const
 
 export type KluczTlumaczenia = keyof typeof dictionaryPl
