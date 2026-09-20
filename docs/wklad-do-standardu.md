@@ -50,13 +50,86 @@ ad-hoc w trakcie sesji, z kilkoma realnymi wpadkami po drodze zanim ustaliła si
   dla treści, która w oryginale była diagramem/SmartArt (te wychodzą jako puste komórki) — czyli
   która metoda jest "lepsza" zależy od tego, czym dana treść była w oryginale, nie od samego
   formatu pliku.
-Pełny, samodzielny opis kroków i komend: `docs/propozycje-do-new-app-standards/przetwarzanie-materialow-zrodlowych.md`
-w tym repo — surowy szkic, **nie jest częścią standardu**, czeka na konsolidację przez sesję
-pracującą bezpośrednio nad repo `new-app-standards` (Część Y.8 GOD BOOK). Ten plik zawiera na
-samej górze osobną sekcję **"PROMPT — gotowy do skopiowania i przekazania dowolnej innej sesji/
-projektowi"** — skrócony, samodzielny blok bez uzasadnień/przykładów, do wzięcia 1:1 i przekazania
-dalej innym projektom rodziny (albo poza nią) bez czekania na formalną promocję do reguły
-standardu — sesja `new-app-standards` może go od razu ściągnąć i redystrybuować.
+Pełna procedura (skrócony, samodzielny blok — gotowy do wzięcia 1:1 i przekazania dowolnej innej
+sesji/projektowi, w tym poza tą rodziną aplikacji; uzasadnienia, przykłady z Offgrid Pro i pełna
+wersja robocza z komentarzem do każdego kroku zostają dodatkowo, nieusunięte, w
+`docs/propozycje-do-new-app-standards/przetwarzanie-materialow-zrodlowych.md` w tym repo — plik
+nie jest częścią standardu i nie trzeba go czytać, poniższy blok jest kompletny sam w sobie):
+
+```
+PROMPT: Przetwarzanie dostarczonych materiałów źródłowych (normy, PDF, skany, .doc/.docx)
+
+Dostaję od użytkownika dokumenty źródłowe (normy PN/IEC/EN/HD, materiały branżowe/szkoleniowe) w
+różnych formatach. Cel: wyciągnąć treść bezbłędnie, nic nie zgubić, nic nie zmyślić, i zapisać w
+docs/zrodla/ w ustandaryzowanej strukturze.
+
+Krok 0 — rozpoznanie formatu
+- PDF: sprawdź pypdfium2 → page.get_textpage().get_text_range() na kilku stronach. Setki/tysiące
+  znaków = natywny tekst (czytaj bezpośrednio narzędziem Read albo ekstrakcją tekstu). Zero znaków =
+  skan → OCR.
+- Stary binarny .doc (Word 95/97): LibreOffice/soffice --convert-to nie otworzy tego pliku ("source
+  file could not be loaded") — nie trać na to czasu, od razu użyj antiword/wv.
+- .docx: python-docx (pip install python-docx).
+
+Krok 1 — ekstrakcja per format
+- Skan PDF: pypdfium2 renderuje strony do PNG przy 300 DPI (page.render(scale=300/72)), potem
+  tesseract -l pol --psm 6 dla tekstu OCR. Zasada krytyczna: nigdy nie ufaj tekstowi OCR dla liczb
+  bezpieczeństwa-krytycznych — zawsze zweryfikuj wizualnie względem wyrenderowanego obrazu strony
+  (użyj narzędzia Read na obrazie, nie tylko na tekście OCR).
+- Krótki skan (kilkanaście stron): nie buduj całego pipeline'u OCR — czytaj bezpośrednio narzędziem
+  Read z parametrem stron (wymaga poppler-utils/pdftoppm zainstalowanego).
+- Stary .doc: antiword -m 8859-2.txt plik.doc | iconv -f ISO-8859-2 -t UTF-8 dla czystego tekstu (bez
+  jawnej mapy znaków antiword daje mojibake na polskich znakach — sprawdź faktyczny kodepage przez
+  file, czasem to cp1250.txt). Do struktury tabel i osadzonych obrazów: wvHtml plik.doc out.html
+  (daje prawdziwe <table>, nie ASCII-art). Osadzone obrazy WMF (małe wzory): wmf2gd (pakiet
+  libwmf-bin) → PNG do odczytu wizualnego. wvHtml zgłaszający StrangeNoGraphicData = nieodzyskiwalny
+  obiekt OLE — sprawdź najpierw, czy potrzebna treść (np. cała tabela) po prostu nie występuje w tym
+  konkretnym pliku (np. bo to "Wyciąg"/skrót), zanim uznasz to za porażkę odzyskiwania.
+- .docx: docx.Document(path), iteruj .tables (prawdziwe tabele Worda/PPT → czysty ustrukturyzowany
+  tekst, bardziej wiarygodny niż wizualne czytanie złożonych tabel) i .paragraphs. Uwaga: diagramy/
+  kształty/SmartArt (częste w dokumentach z PowerPointa) konwertują się do tabel z pustymi komórkami
+  — nie myl pustej tabeli z brakiem treści, sprawdź otaczający tekst akapitów.
+
+Krok 2 — dyscyplina weryfikacji: pełne przejście, nie spot-check
+Pojedyncze sprawdzenie jednej strony daje fałszywe poczucie bezpieczeństwa — najgorsze błędy (całe
+brakujące kolumny/wiersze) są niewidoczne przy losowej próbce, bo nie wyglądają jak błąd, po prostu
+jest mniej liczb niż powinno. Dla dużych załączników: podziel weryfikację na równoległe subagenty
+(Agent tool, w tle) po ~5 stron każdy, każdy ma czytać obrazy stron bezpośrednio (nie ufać
+dostarczonemu tekstowi OCR) i zgłosić każdą rozbieżność z dokładną lokalizacją, jawnie potwierdzając
+"strona NN: brak rozbieżności" dla czystych stron.
+
+Krok 3 — struktura folderów w docs/zrodla/
+- norma-<OZNACZENIE>/ dla formalnych norm PN/IEC/EN/HD (np. norma-PN-HD-60364-5-52/).
+- materialy-branzowe-<TEMAT>-<ROK>/ dla materiałów nieformalnych/branżowych/szkoleniowych — celowo
+  inna nazwa, żeby nikt nie pomylił statusu prawnego.
+- W każdym folderze: oryginalny plik(i) źródłowy bez zmian, 00-INDEKS.md (metoda ekstrakcji,
+  zastrzeżenia co do jakości źródła, status użycia), pliki z treścią (01-...md, zalacznik-X-...md)
+  zorganizowane wg struktury oryginału.
+
+Krok 4 — obsługa brakujących/sprzecznych danych
+- Jeśli tabela/wartość naprawdę nie istnieje w dostarczonym dokumencie — powiedz to wprost, nigdy nie
+  wymyślaj wartości nawet jeśli "powszechnie znana" w branży.
+- Jeśli dwie wersje normy podają różne wartości I źródło samo jednoznacznie wskazuje, która jest
+  aktualna/zastąpiona (z datami) — to nie jest sprzeczność wymagająca pytania użytkownika: rozstrzygnij
+  sam (użyj aktualnej, zachowaj starą jako kontekst historyczny), zapisz uzasadnienie w docs/memory.md.
+- Jeśli nie ma takiego jasnego wskazania, albo to realna merytoryczna rozbieżność (nie tylko
+  stara-vs-nowa) — nie rozstrzygaj sam, pokaż A vs B i zapytaj użytkownika.
+
+Krok 5 — uczciwość wobec niekompletnych dostaw
+Jeśli dokument dostarczony jako "kluczowy brakujący element" okazuje się być tylko spisem treści +
+bibliografią bez merytorycznej treści — powiedz to wprost, nie sugeruj że luka jest zamknięta tylko
+dlatego, że plik istnieje teraz w repo.
+
+Ściąga narzędzi:
+pip install pypdfium2 python-docx
+apt-get install -y poppler-utils tesseract-ocr tesseract-ocr-pol antiword wv libwmf-bin
+
+- pdftoppm (poppler-utils) — wymagane przez narzędzie Read do czytania stron PDF jako obrazów.
+- tesseract -l pol --psm 6 obraz.png out — OCR po polsku.
+- antiword -m 8859-2.txt plik.doc — tekst ze starego .doc.
+- wvHtml plik.doc out.html — struktura HTML + odzyskanie obrazów ze starego .doc.
+- wmf2gd wzor.wmf wzor.png — konwersja osadzonego WMF do PNG.
+```
 
 Dlaczego warto zgłosić do new-app-standards: każda aplikacja tej rodziny prędzej czy później
 dostanie od właściciela dokument źródłowy (normę, specyfikację, materiał branżowy) w jednym z tych
@@ -83,9 +156,38 @@ kopiach tej samej normy.
 
 Pełny manifest — dokładnie co jest, gdzie leży, w jakim jest stanie (jaka część zweryfikowana w
 pełni vs spot-check vs bezużyteczny wyciąg) i czy nadaje się do skopiowania 1:1 do współdzielonej
-biblioteki: `docs/propozycje-do-new-app-standards/biblioteka-norm-zrodlowych.md` w tym repo —
-surowy szkic, czeka na konsolidację przez sesję pracującą bezpośrednio nad `new-app-standards`
-(albo osobnym repo pod nim, np. `biblioteka-norm`, do decyzji tamtej sesji).
+biblioteki (wersja rozszerzona, z pełnym kontekstem, zostaje dodatkowo, nieusunięta, w
+`docs/propozycje-do-new-app-standards/biblioteka-norm-zrodlowych.md` w tym repo):
+
+Konwencja przechowywania w tym repo (do skopiowania razem z treścią): jeden folder na jeden dokument
+źródłowy — `docs/zrodla/norma-<OZNACZENIE>/` (formalne normy PN/IEC/EN/HD) albo
+`docs/zrodla/materialy-branzowe-<TEMAT>-<ROK>/` (literatura branżowa/szkoleniowa, nie norma — nazwa
+folderu celowo różna, żeby nie pomylić statusu prawnego). Oryginał zachowany bez zmian wewnątrz tego
+samego folderu; treść przetworzona jako pliki `.md` w tym samym folderze, zawsze zaczynając od
+`00-INDEKS.md` (metoda ekstrakcji, zastrzeżenia o jakości źródła, mapa pozostałych plików, status
+weryfikacji i wykorzystania).
+
+| Norma / materiał | Folder w tym repo | Oryginał | Status weryfikacji | Zasięg | Rekomendacja |
+|---|---|---|---|---|---|
+| **PN-HD 60364-5-52:2011** (obciążalność prądowa kabli, dobór przekroju) | `docs/zrodla/norma-PN-HD-60364-5-52/` | Skan, 96 str., zakupiona oficjalnie PKN | **Załącznik B (tabele obciążalności, str. 33-58) w pełni zweryfikowany strona po stronie** (~35 poprawionych błędów OCR). Reszta (Załączniki A, C, E-I, ZA-ZC) tylko wstępny spot-check. | Uniwersalny — każda aplikacja z instalacją elektryczną NN | Kopiować całość + jawnie przenieść status weryfikacji (Załącznik B ufny, reszta nie) |
+| **PN-HD 60364-5-54:2010** (uziemienia, przewody ochronne PE) | `docs/zrodla/norma-PN-HD-60364-5-54/` | Natywny tekst PDF, 38 str., zakupiona oficjalnie | Kompletny, zweryfikowany wizualnie (wzory/tabele przeciw renderowi strony) | Uniwersalny | Kopiować całość. Uwaga: Załącznik ZC (krajowy PL) ma odnotowaną, nierozstrzygniętą rozbieżność 10mm²/16mm² dla Al chronionego mechanicznie — kopiować razem z tą flagą |
+| **PN-IEC 60364-4-41:2000** (ochrona przeciwporażeniowa) | `docs/zrodla/norma-PN-IEC-60364-4-41/` | `.doc`, prywatny wyciąg z 2002, nie oficjalny skan PKN | Kompletny poza Tablicami 41A/41B (brakujące w tym konkretnym wyciągu — rozwiązane materiałem branżowym niżej) | Uniwersalny | Kopiować **razem z** `materialy-branzowe-ochrona-przeciwporazeniowa-2010/` (komplementarne) |
+| **PN-IEC 60364-4-43:1999** (ochrona przed przetężeniem) | `docs/zrodla/norma-PN-IEC-60364-4-43/` | `.doc`, prywatny wyciąg | Kompletny, zweryfikowany krzyżowo dwiema metodami ekstrakcji | Uniwersalny | Kopiować całość |
+| **PN-EN 60445:2010** (identyfikacja zacisków urządzeń) | `docs/zrodla/norma-PN-EN-60445/` | Skan PKN, 16 str. | Kompletny, przeczytany w całości wizualnie | Uniwersalny | Kopiować całość |
+| **IEC 62109-2:2011** (bezpieczeństwo przetwornic PV — falowniki, część 2) | `docs/zrodla/norma-IEC-62109-2/` | Natywny tekst, angielski (FDIS), 30 str. | Kompletny, od tytułu po bibliografię | Uniwersalny dla PV/inwerterów, nie tylko off-grid | Kopiować całość. **Uwaga: brak Części 1** (wymagania ogólne) — patrz `docs/normy-brakujace.md` tego repo |
+| **UNE-HD 60364-7-712:2017** (instalacje PV) | `docs/zrodla/norma-HD-60364-7-712/` | Skan, 6 str. | 🔴 **Tylko spis treści + bibliografia — praktycznie bezużyteczny**, brak całej treści technicznej (klauzule 712.41-712.6, Załącznik B U_OC MAX/I_SC MAX) | Uniwersalny temat, ale materiał bez wartości w obecnej postaci | Kopiować z **jawnym ostrzeżeniem "bezużyteczne"** albo pominąć do czasu zakupu pełnego tekstu |
+| **materiały branżowe "Bezpieczeństwo instalacji fotowoltaicznych" (2019)** | `docs/zrodla/materialy-branzowe-PV-2019/` | PDF + `.docx` (ten sam dokument, dwa formaty) | Przeanalizowany, nie jest normą — indeks 34/43 norm PV z dokładnymi numerami, tabele promieni gięcia/odległości/konserwacji | Uniwersalny dla tematyki PV | Kopiować całość — szczególnie wartościowy jako gotowy indeks norm PV |
+| **materiał branżowy "Aktualne przepisy ochrony przeciwporażeniowej" (2010)** | `docs/zrodla/materialy-branzowe-ochrona-przeciwporazeniowa-2010/` | PDF + `.docx` | Przeanalizowany, nie jest normą — rozwiązuje krytyczny brak Tablic 41A/41B z normy 4-41 wyżej, zawiera aktualną Tablicę 41.1 | Uniwersalny | Kopiować **razem z** `norma-PN-IEC-60364-4-41/` (jeden bez drugiego jest niepełny) |
+| **PN-EN 1991-1-3:2005** (Eurokod 1, obciążenie śniegiem) | `docs/zrodla/norma-PN-EN-1991-1-3/` | Skan, 54 str. | Kompletny, przeczytany w całości wizualnie strona po stronie | Uniwersalny — każda aplikacja z konstrukcją dachową/budowlaną | Kopiować całość. Uwaga: Załącznik krajowy NB (mapa 5 stref) jest specyficzny dla Polski — dla projektu poza Polską potrzebny odpowiedni załącznik krajowy tego samego Eurokodu |
+
+Co NIE jest tu uwzględnione (specyficzne dla Offgrid Pro, nie do kopiowania):
+`docs/zrodla/Tresc_Modul_*.md`, `Tresc_WSZYSTKIE_MODULY_scalone.md`, `Zasady_UX_Doradca_v2_1.md`,
+`Biblia_Offgrid_v2_0_Architektura_Modulowa.md` — specyfikacja produktowa tej konkretnej aplikacji.
+
+Wciąż brakujące normy (pełna, aktualna lista: `docs/normy-brakujace.md` w tym repo): IEC 62109-1,
+IEC 61215, IEC 62619, EN 61439, HD 60364-4-443, HD 60364-5-551, EN 62305, EN 62852, EN 61427-1,
+PN-EN 50565-1, pełny tekst UNE-HD 60364-7-712 (jedyna oznaczona jako krytyczna, reszta zidentyfikowana
+z nazwy, bez treści).
 
 Dlaczego warto zgłosić do new-app-standards: to naturalne rozszerzenie pomysłu zgłoszonego wyżej
 (procedura przetwarzania materiałów) — ta reguluje JAK przetwarzać nowy dokument, ta tutaj reguluje
@@ -112,10 +214,58 @@ taksonomię Wzorców A-H dla ekranów, zero dla AI), i nie porusza budżetu/kosz
 istniejącej warstwy freemium (rozdział 12). Każdy projekt rodziny, który zacznie faktycznie budować
 funkcję AI, wymyśli te trzy rzeczy od nowa, niespójnie z resztą rodziny.
 
-Pełna propozycja (konkretny typ `AiToolDefinition`, dwa wzorce UX — asystent inline vs czat, reguła
-budżetu z łagodną degradacją, pole `zaproponowaneBy: "ai"` w procesie wersjonowania):
-`docs/propozycje-do-new-app-standards/ai-w-produkcie-rozbudowa.md` w tym repo — gotowy do
-konsolidacji, nie zależy od żadnego innego repo rodziny.
+Pełna propozycja (wersja z pełnym uzasadnieniem/kontekstem zostaje dodatkowo, nieusunięta, w
+`docs/propozycje-do-new-app-standards/ai-w-produkcie-rozbudowa.md` w tym repo):
+
+**1. Konkretny kontrakt narzędzia (uzupełnienie 9.3)** — ten sam duch co `CalcResult` z rozdziału 03,
+jeden nazwany typ, żeby narzędzia były wzajemnie kompatybilne między projektami rodziny:
+
+```ts
+type AiToolDefinition<TInput, TOutput> = {
+  name: string                       // np. "run_calculator.dobor_przekroju_kabla"
+  description: string                // po ludzku, do czego służy — model to czyta
+  inputSchema: ZodSchema<TInput>     // Zod, zgodnie z rozdziałem 02 (dane nie kod)
+  outputSchema: ZodSchema<TOutput>   // typowo = CalcResult<T> albo jego podzbiór
+  operationType: "read" | "write"
+  requiresConfirmation: boolean      // obowiązkowe true dla "write" (9.3)
+  scope: string[]                    // np. ["project:current"], nigdy "*"
+  handler: (input: TInput) => Promise<TOutput>
+}
+```
+
+Reguła: `handler` dla narzędzi typu "wywołaj kalkulator" zawsze deleguje do już istniejącej,
+niezależnie przetestowanej funkcji domenowej (rozdział 03) — nigdy nie zawiera logiki obliczeniowej
+samodzielnie. To czyni regułę 9.1 ("obliczenia nigdy nie zależą od AI") sprawdzalną maszynowo, nie
+tylko deklaratywną.
+
+**2. Budżet i koszt** — rozdział 9.6 opisuje tryby OFFLINE/HYBRID/CLOUD_ASSISTED wg dostępności
+sieci, nie wg kosztu. Każde wywołanie modelu w trybie CLOUD_ASSISTED ma koszt per token — potrzebny
+jawny budżet per użytkownik/projekt (limit miesięczny w warstwie freemium), egzekwowany server-side.
+Degradacja przy wyczerpanym budżecie musi być łagodna i jawna (echo zasady z rozdziału 06): AI
+przechodzi do trybu HYBRID/OFFLINE i mówi o tym wprost ("Wyczerpano miesięczny limit asystenta AI —
+nadal możesz korzystać ze wszystkich kalkulatorów ręcznie"), nigdy nie ukrywa degradacji.
+
+**3. Wzorce UX dla AI w produkcie (uzupełnienie rozdziału 08)** — dwa nazwane, rozróżnialne tryby
+(decyzja per projekt, który wdrożyć):
+- **Asystent wbudowany w ekran (inline)** — AI sugeruje wypełnienie konkretnych pól na już
+  istniejącym ekranie Wzorca D, nigdy nie zastępuje samego ekranu; widoczne jako odznaczalna sugestia
+  przy polu ("AI proponuje: 25% — użyj/odrzuć"), zgodnie z 9.2.
+- **Czat/asystent rozmowny (osobny panel)** — dla pytań nieprzypisanych do jednego ekranu; zawsze
+  kończy odpowiedź dotyczącą wyniku liczbowego linkiem do właściwego ekranu Doradcy, nie samą liczbą
+  wygenerowaną przez model.
+- W obu przypadkach: każda sugestia AI pokazuje źródło (`traceId`/`calculatorVersion`, rozdz. 03) —
+  użytkownik zawsze może zweryfikować, skąd wzięła się liczba.
+
+**4. Miejsce w procesie wersjonowania Biblii (uzupełnienie rozdziału 14)** — każda decyzja projektowa
+zaakceptowana przez użytkownika na podstawie sugestii AI w produkcie zapisuje się w stanie projektu z
+polem `zaproponowaneBy: "ai"` obok zwykłych zapisów — czysto informacyjne, nie zmienia procesu
+zatwierdzania (wciąż wymaga zgody użytkownika, 9.2), pozwala odróżnić "user wpisał sam" od "user
+zaakceptował sugestię AI" przy audycie/debugowaniu.
+
+**5. Otwarte pytania dla sesji `new-app-standards`:** czy `AiToolDefinition` (punkt 1) żyje w
+`03-jadro-obliczeniowe.md` (obok `CalcResult`) czy w `09-ai-w-produkcie.md`; czy budżet/koszt (punkt
+2) to osobna sekcja w 09 czy dopisek do 12 (freemium) z odnośnikiem zwrotnym; ten dokument celowo nie
+rozstrzyga "jakiego dostawcy modelu/architektury hostingu użyć" — decyzja produktowa per projekt.
 
 Dlaczego warto zgłosić do new-app-standards: AI-w-produkcie to nie specyfika Offgrid — każda apka
 rodziny prędzej czy później dostanie funkcję asystenta, a bez wspólnego kontraktu narzędzia i
@@ -141,13 +291,30 @@ Właściciel projektu wskazał apkę `zero-waste` (siostrzany projekt rodziny) j
 mają bazować rekomendacje — ta sesja nie miała dostępu do tamtego repo, więc zgłoszenie jest
 świadomie niedokończone (szkielet + pytania, nie gotowa specyfikacja).
 
-Co już ustalone bez zero-waste (echo istniejących zasad: offline-first musi przetrwać brak konta,
-prywatność lokalna-domyślna = logowanie jako moment zgody na chmurę, freemium egzekwowane
-server-side, `StorageAdapter` jako miejsce na dane sesji) oraz pełna lista pytań czekających na
-odpowiedź z realnego kodu zero-waste (dostawca auth, model konta, co dokładnie wymaga logowania,
-spięcie offline↔online, role, zakres bezpieczeństwa):
-`docs/propozycje-do-new-app-standards/logowanie-i-konta.md` w tym repo — **celowo niedokończony**,
-czeka na dołączenie repo `zero-waste` do przyszłej sesji.
+Co już ustalone bez zero-waste — echo istniejących zasad standardu (wersja z pełnym uzasadnieniem
+zostaje dodatkowo, nieusunięta, w `docs/propozycje-do-new-app-standards/logowanie-i-konta.md` w tym
+repo, oznaczona tam jako **celowo niedokończona**, bo miała bazować na kodzie `zero-waste`, do
+którego ta sesja nie miała dostępu):
+1. Offline-first (rozdział 05) musi przetrwać brak konta — logowanie nie może być bramką blokującą
+   dostęp do rdzenia aplikacji, najwyżej do funkcji wymagających synchronizacji/chmury. Konto =
+   opcjonalne rozszerzenie, nie warunek wejścia.
+2. Prywatność lokalna-domyślna (rozdział 07) — logowanie/konto to dokładnie moment zgody na chmurę,
+   nowy rozdział powinien się do 07 odwoływać, nie duplikować.
+3. Egzekwowanie freemium wyłącznie server-side (rozdział 12) — jeśli konto odblokowuje płatne
+   funkcje, sprawdzanie uprawnień nigdy nie może żyć tylko w kliencie.
+4. `StorageAdapter` (rozdział 05) — naturalne miejsce na dane sesji/tokenu, nie nowy równoległy
+   mechanizm przechowywania.
+5. Droga web→mobile (rozdział 13) — mechanizm auth powinien żyć za tym samym punktem wymiany
+   (adapters), nie być wpleciony bezpośrednio w kod web.
+
+Pytania wciąż czekające na odpowiedź z realnego kodu zero-waste (nierozstrzygnięte, nie zgadywane):
+dostawca/mechanizm auth (własna implementacja vs Supabase/Clerk/NextAuth/Firebase); model konta
+(jedno konto per apka, czy jedno konto rodziny na wszystkie apki); co dokładnie wymaga logowania
+(cała apka, czy tylko synchronizacja/chmura/płatności zgodnie z punktem 1); spięcie offline↔online
+(scenariusz "user pracował offline bez konta, potem się zalogował" — merge, nadpisanie, ręczny
+wybór — dotyka rozdziału 05, Seed vs Wynik); role/uprawnienia (poza pojedynczym typem użytkownika,
+np. instalator + klient); zakres bezpieczeństwa faktycznie wdrożony (reset hasła/weryfikacja
+email/2FA, do rozdziału 07).
 
 Dlaczego warto zgłosić do new-app-standards: logowanie to jeden z tych tematów, które "zawsze są
 zakładane, nigdy nie są nigdzie zapisane" — dokładnie to odkryła ta sesja, sprawdzając wprost zamiast
@@ -173,11 +340,47 @@ Najważniejsze znalezisko możliwe bez zero-waste: realna kolizja z regułą z r
 wpisanym wprost w logice domenowej, co narusza "i18n jako czysta funkcja w warstwie domenowej" —
 brak decyzji, czy jądro obliczeniowe ma zwracać klucze tłumaczeń czy gotowy tekst w wybranym języku,
 to fundamentalna zmiana dotycząca KAŻDEGO istniejącego kalkulatora w KAŻDYM projekcie rodziny, nie
-kosmetyka. Pełna analiza + lista pytań czekających na odpowiedź z zero-waste (zakres języków,
-biblioteka, wykrywanie języka, fallback, oraz osobne ryzyko: tłumaczenie treści normatywnych/
-bezpieczeństwa-krytycznych, specyficzne dla projektów inżynierskich typu Offgrid):
-`docs/propozycje-do-new-app-standards/wielojezycznosc.md` w tym repo — **celowo niedokończony**,
-czeka na dołączenie repo `zero-waste`.
+kosmetyka (wersja z pełnym uzasadnieniem zostaje dodatkowo, nieusunięta, w
+`docs/propozycje-do-new-app-standards/wielojezycznosc.md` w tym repo).
+
+Dodatkowe echo istniejących zasad (rozdział B pliku propozycji): model danych/profile regionalne
+(rozdz. 02) — **język interfejsu i profil regionalny to dwie NIEZALEŻNE osie**, łatwe do pomylenia
+(user może chcieć polski interfejs z profilem regionalnym USA/jednostkami imperialnymi, albo
+odwrotnie) — nowy rozdział powinien to jawnie rozróżnić, nie zakładać "1 język = 1 profil". Styl
+komunikatów (rozdz. 08.8) — reguła "proste, konkretne, bez straszenia" musi przetrwać tłumaczenie na
+każdy obsługiwany język, nie tylko polski.
+
+Rozstrzygnięcia z realnej implementacji w tym projekcie (16.09.2026, nie z zero-waste — na wyraźne
+polecenie właściciela repo, patrz aktualizacja niżej):
+1. Zakres języków — 3: `pl` (bazowy), `en`, `ru` (`lib/i18n/language.ts`, `SUPPORTED_LANGUAGES`);
+   dodanie kolejnego = nowy plik słownika + jedna pozycja w tablicy, reszta generyczna.
+2. Mechanizm — własne, proste rozwiązanie, zero zależności zewnętrznych: słownik to zwykły obiekt TS
+   per język, `t(język, klucz, params?)` podstawia `{nazwa}` przez `String.replace`. Parytet kluczy
+   wymuszony typem (`satisfies Record<KluczTlumaczenia, string>`) — brakujący/dodatkowy klucz to błąd
+   kompilacji, nie runtime. Żadna biblioteka i18n nie była potrzebna przy tej skali — świadomie
+   odłożone jako "gdy słownik urośnie", nie zbudowane z góry pod hipotetyczną skalę.
+3. B.3 rozstrzygnięte — klucz + params, nigdy gotowy tekst z jądra. `Warning.i18nKey`/`params` i
+   `CalcResult.Assumption` jako `string | {kod, params?}` — `lib/core` nigdy nie generuje tekstu dla
+   użytkownika, tylko klucz; wyłącznie warstwa prezentacji (`t()`) rozwiązuje klucz → tekst. Jądro
+   zostaje czyste i bezstanowe względem języka, bez przekazywania języka jako parametru do każdej
+   funkcji domenowej.
+4. Wykrywanie/wybór języka (to samo pytanie co 17.4a standardu) — automatyczne wykrycie tylko przy
+   PIERWSZEJ wizycie (middleware czyta `Accept-Language`, ustawia cookie); każda kolejna wizyta czyta
+   zapisaną cookie i nigdy jej nie nadpisuje automatycznym wykryciem. Jawny wybór usera w Ustawieniach
+   zawsze wygrywa i jest trwały (cookie, 365 dni). Per-urządzenie, nie per-konto — ten projekt nie ma
+   dziś aktywnych kont, więc pytanie "cookie vs konto między urządzeniami" nie było testowane w
+   praktyce; wart ponownego sprawdzenia przy pierwszym projekcie rodziny z aktywnymi kontami i i18n
+   jednocześnie.
+5. Fallback przy brakującym tłumaczeniu — widoczny klucz (`⚠ [KLUCZ]`) w miejscu tekstu + zgłoszenie
+   przez `Reporter` (rozdz. 03/15) z pełnym kontekstem technicznym, nigdy cichy fallback do języka
+   bazowego (cichy fallback wygląda na "działające" tłumaczenie i ukrywa lukę przed osobą testującą
+   inny język).
+6. **Świadomie NIEROZSTRZYGNIĘTE, wciąż otwarte:** treści normatywne/bezpieczeństwa-krytyczne (progi
+   z norm PN/IEC, ostrzeżenia 🔴) — ten projekt nie przetłumaczył dotąd żadnej takiej treści (5
+   zmigrowanych kluczy to generyczna walidacja formularzy, nie fakty inżynierskie). Ryzyko utraty
+   precyzji prawnej/technicznej przy tłumaczeniu normy nadal realne i nierozwiązane w praktyce — do
+   jawnego oznaczenia jako otwarte w treści nowego rozdziału standardu (rozdz. 14, "Znane luki"), nie
+   do rozstrzygnięcia na siłę bez realnego przypadku testowego.
 
 Dlaczego warto zgłosić do new-app-standards: kolizja z rozdziałem 01 (punkt B.3 w pliku) to nie
 drobiazg — to pytanie architektoniczne o kształt `CalcResult`/`Warning`, współdzielony przez każdy
@@ -220,9 +423,251 @@ realny, działający kod (nie szkic):
   wstrzyknięciu prawdziwej regresji do prawdziwego pliku przed wdrożeniem, nie przez samo
   przeczytanie kodu skryptu.
 
-Pełny opis (kształt decyzji transferowalny między stackami + konkretny YAML/skrypt do adaptacji +
-"PROMPT" gotowy do wklejenia w innej sesji, bez czekania na formalną promocję):
-`docs/propozycje-do-new-app-standards/ci-referencyjny-i-mechanizm-strazniczy-i18n.md` w tym repo.
+Pełna treść (kształt decyzji transferowalny między stackami + dosłowny, działający YAML/skrypt do
+adaptacji; wersja z rozszerzonymi uzasadnieniami zostaje dodatkowo, nieusunięta, w
+`docs/propozycje-do-new-app-standards/ci-referencyjny-i-mechanizm-strazniczy-i18n.md` w tym repo):
+
+**Kształt (transferowalny do każdego stacku):** dwa niezależne joby, nie jeden (`quality` —
+lint/typecheck/test/build — i `dependency-audit` — skaner podatności; podatność w transitive
+dependency dev-only nie ma blokować mergowania niezwiązanego fixa lintera, i odwrotnie). Bramka na
+`high`/`critical`, nie na wszystko (`moderate`/`low` nie blokują — inaczej CI byłoby czerwone
+praktycznie zawsze, co uczy zespół ignorować czerwony status). Zanim włączysz bramkę, sprawdź ręcznie
+czy przechodzi — nie włączaj "na wiarę" (w tym projekcie pierwsze uruchomienie nie przechodziło: 22
+podatności `high`). Napraw, nie obniżaj progu (rozwiązane tu bez wyjątków/allowlisty: `pnpm update`
+w granicach już zadeklarowanych zakresów `^` podciągnął wszystko do wersji bez podatności — 0
+pozycji na wszystkich poziomach po naprawie, nie tylko `high`). Po każdej zmianie zależności: pełny
+lint→typecheck→test→build musi przejść, nie tylko sam audyt.
+
+Plik referencyjny — dosłowna, pełna zawartość `.github/workflows/ci.yml` tego repo:
+
+```yaml
+name: CI
+
+# docs/standards/11-ci-deployment.md, 11.2 + 11.5 — sygnał o awarii ma być jawny w repo (PR),
+# nie tylko pośrednio przez build hostingu. Dwa niezależne joby: jakość kodu (11.2) i audyt
+# podatności zależności (11.5) — rozdzielone, żeby znana, nienaprawialna od razu podatność
+# nie blokowała np. mergowania czystego fixa lintera, i odwrotnie.
+
+on:
+  pull_request:
+  push:
+    branches: [main]
+
+concurrency:
+  group: ci-${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  quality:
+    name: Lint, typecheck, test, build
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: pnpm/action-setup@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: pnpm
+
+      - run: pnpm install --frozen-lockfile
+
+      - run: pnpm lint
+      - run: pnpm typecheck
+      - run: pnpm check:i18n-guard
+      - run: pnpm test
+      - run: pnpm build
+
+  dependency-audit:
+    name: Dependency vulnerability audit (11.5)
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: pnpm/action-setup@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: pnpm
+
+      - run: pnpm install --frozen-lockfile
+
+      # Poziom "high" — krytyczne/wysokie w zależności bezpośredniej blokują merge (11.5).
+      # Świadomie zaakceptowane wyjątki: odnotować w docs/memory.md z powodem, nie wyciszać
+      # tutaj bez śladu.
+      - run: pnpm audit --audit-level=high
+```
+
+Odpowiedniki dla innych stacków rodziny: `npm audit --audit-level=high` / `pip-audit` (Python) —
+komenda `run:` się zmienia, cała struktura (dwa joby, kroki, `pnpm check:i18n-guard` w środku
+`quality` jeśli projekt ma i18n) zostaje identyczna.
+
+**Mechanizm strażniczy i18n (17.9) — problem, który przykład rozwiązuje:** 17.9 mówi "mechanizm
+strażniczy zapobiega cofaniu się", ale nie mówi jak go zbudować. Naiwne podejście (regex na
+"czy plik zawiera polskie znaki") ma dwa problemy: łapie fałszywe trafienia w polach świadomie
+niepodlegających i18n (`technicalMessage`, `formula` symboliczna, `field`/`code`), i migracja jest
+stopniowa — reguła musi sprawdzać TYLKO moduły już zmigrowane, nie blokować pracy nad resztą.
+Rozwiązanie: AST (nie regex) plus explicit allowlist zmigrowanych modułów. Dosłowna, pełna
+zawartość `scripts/check-i18n-guard.mjs` tego repo:
+
+```js
+#!/usr/bin/env node
+/**
+ * Mechanizm strażniczy i18n — docs/standards/17-i18n.md, 17.9: "Mechanizm strażniczy (lint/hook
+ * wykrywający nowy twardy string) zapobiega cofaniu się w trakcie dalszej pracy."
+ *
+ * Sprawdza WYŁĄCZNIE moduły z listy MIGRATED_MODULES niżej — nie blokuje pozostałych,
+ * jeszcze niezmigrowanych modułów (17.9: migracja stopniowa, nigdy big bang; reszta
+ * świadomie zwraca gotowy tekst PL, to nie jest regresja, to jeszcze niewykonana praca).
+ *
+ * Reguła (04.1/17.2 PATCH): domenowa funkcja w zmigrowanym module nigdy nie zwraca gotowego
+ * tekstu dla użytkownika — ani jako `Warning.message` (string literal), ani jako element
+ * `assumptions` będący gołym stringiem (zamiast `{kod, params?}`). `technicalMessage`/`formula`
+ * (symboliczny wzór) i `field`/`code` nie podlegają tej regule — nie są tekstem dla użytkownika.
+ *
+ * WAŻNE: dopisz ścieżkę modułu do MIGRATED_MODULES w TEJ SAMEJ sesji, w której go migrujesz —
+ * inaczej ten skrypt nie chroni nowo zmigrowanego modułu przed regresją.
+ */
+import ts from "typescript"
+import { readFileSync, existsSync } from "node:fs"
+import path from "node:path"
+
+const MIGRATED_MODULES = [
+  "lib/core/modules/zapotrzebowanie/kalkulatory-pomocnicze",
+]
+
+const FILES_TO_CHECK = ["warnings.ts", "calculator.ts"]
+
+/** @type {{filePath: string, line: number, message: string}[]} */
+const violations = []
+
+function isAssumptionsName(name) {
+  return name === "assumptions"
+}
+
+/**
+ * Przeszukuje wyrażenie (np. całą stronę `? :`/`??`) w poszukiwaniu tablic literałów i
+ * zgłasza każdy element będący gołym stringiem — nie schodzi w głąb obiektów zagnieżdżonych
+ * (`{ kod: "X" }` jest poprawne, "X" jako wartość `kod` to nie jest tekst dla użytkownika).
+ */
+function findRawStringArrayElements(expr, report) {
+  function visit(node) {
+    if (ts.isArrayLiteralExpression(node)) {
+      for (const element of node.elements) {
+        if (ts.isStringLiteralLike(element)) {
+          report(element, `element "assumptions" jest gołym stringiem PL — użyj "{kod, params?}" (17.2).`)
+        }
+      }
+      return // nie wchodzimy w elementy tej tablicy głębiej (obsłużone wyżej)
+    }
+    // Schodzimy tylko przez "przezroczyste" wyrażenia (warunkowe/nawiasy/??), nie w ogóle
+    // w głąb dowolnego kodu — żeby nie złapać niezwiązanej tablicy w innym wyrażeniu.
+    if (ts.isConditionalExpression(node)) {
+      visit(node.whenTrue)
+      visit(node.whenFalse)
+    } else if (ts.isParenthesizedExpression(node)) {
+      visit(node.expression)
+    } else if (ts.isBinaryExpression(node) && node.operatorToken.kind === ts.SyntaxKind.QuestionQuestionToken) {
+      visit(node.left)
+      visit(node.right)
+    }
+  }
+  visit(expr)
+}
+
+function checkFile(filePath, source) {
+  const sf = ts.createSourceFile(filePath, source, ts.ScriptTarget.Latest, true)
+
+  function report(node, message) {
+    const { line } = sf.getLineAndCharacterOfPosition(node.getStart())
+    violations.push({ filePath, line: line + 1, message })
+  }
+
+  function visit(node) {
+    // `message: "gotowy tekst"` — pole opcjonalne/@deprecated po migracji, nie ustawiać na nowo.
+    if (
+      ts.isPropertyAssignment(node) &&
+      ts.isIdentifier(node.name) &&
+      node.name.text === "message" &&
+      ts.isStringLiteralLike(node.initializer)
+    ) {
+      report(node, `"message" z gotowym tekstem PL — użyj "i18nKey"/"params" i słownika (17.2).`)
+    }
+
+    // `const assumptions = [...]` / `assumptions: [...]` — wartość bindowana pod nazwą
+    // "assumptions", zawierająca gdziekolwiek w swoim wyrażeniu (także za `? :`/`??`, np.
+    // `input.x === undefined ? [...] : []`) tablicę z gołym stringiem.
+    const isAssumptionsBinding =
+      (ts.isVariableDeclaration(node) && ts.isIdentifier(node.name) && isAssumptionsName(node.name.text)) ||
+      (ts.isPropertyAssignment(node) && ts.isIdentifier(node.name) && isAssumptionsName(node.name.text))
+
+    if (isAssumptionsBinding && node.initializer) {
+      findRawStringArrayElements(node.initializer, report)
+    }
+
+    ts.forEachChild(node, visit)
+  }
+
+  visit(sf)
+}
+
+for (const moduleDir of MIGRATED_MODULES) {
+  for (const file of FILES_TO_CHECK) {
+    const filePath = path.join(moduleDir, file)
+    if (!existsSync(filePath)) continue // np. moduł bez calculator.ts — pomiń, nie błąd
+    checkFile(filePath, readFileSync(filePath, "utf8"))
+  }
+}
+
+if (violations.length > 0) {
+  console.error("Mechanizm strażniczy i18n (17.9) — znaleziono regresję w module już zmigrowanym:\n")
+  for (const v of violations) {
+    console.error(`  ${v.filePath}:${v.line} — ${v.message}`)
+  }
+  console.error(
+    "\nTo są moduły z MIGRATED_MODULES w scripts/check-i18n-guard.mjs — jeśli to naprawdę nowy,\n" +
+      "jeszcze niezmigrowany moduł, usuń go z tej listy, nie ignoruj tego ostrzeżenia.",
+  )
+  process.exit(1)
+}
+
+console.log(`Mechanizm strażniczy i18n (17.9): OK — ${MIGRATED_MODULES.length} zmigrowany(ch) modułów bez regresji.`)
+```
+
+**Pułapka złapana przy budowie:** pierwsza wersja sprawdzała tylko bezpośrednie przypisanie
+`const assumptions = [...]` — nie wykrywała `const assumptions = warunek ? [...] : []` (wzorzec
+faktycznie występujący w kodzie). Złapane przez ręczny test przed wdrożeniem (wstrzyknięcie
+prawdziwej regresji do prawdziwego, już zmigrowanego pliku, sprawdzenie że guard ją złapał,
+przywrócenie oryginału) — nie przez samo napisanie kodu. Integracja z CI: krok w jobie `quality`,
+po `typecheck`, przed `test`.
+
+Skrócony PROMPT gotowy do wklejenia w innej sesji budującej to od zera:
+
+```
+PROMPT: CI (lint/typecheck/test/build + audyt podatności) i mechanizm strażniczy i18n
+
+Buduję CI dla tego projektu. Wymagania:
+
+1. Dwa niezależne joby w CI: "quality" (lint, typecheck, testy, build) i "dependency-audit"
+   (skaner podatności zależności twojego menedżera pakietów: `npm audit`/`pnpm audit`/`pip-audit`/
+   itd., z progiem odcięcia na high/critical, --audit-level=high albo odpowiednik).
+2. PRZED włączeniem bramki audytu: uruchom go ręcznie. Jeśli nie przechodzi, NIE obniżaj progu i
+   NIE dodawaj wyjątku od razu — sprawdź każdą pozycję, napraw to, co się da w granicach już
+   zadeklarowanych zakresów wersji (bump w ramach ^/~, nie zmiana major), włącz bramkę tylko na
+   czystym stanie. Po każdej zmianie zależności: pełny lint/typecheck/test/build musi przejść.
+3. Jeśli projekt ma już migrację i18n w toku (klucze tłumaczeń zamiast gotowego tekstu w warstwie
+   domenowej, migrowane moduł-po-module, nie big bang): zbuduj skrypt weryfikujący AST (nie regex)
+   plików domenowych modułów JUŻ zmigrowanych (explicit allowlist, nie automatyczna detekcja),
+   który blokuje nowy hardcodowany tekst w polach user-facing (typowo: "message"/"assumptions" czy
+   ich odpowiedniki w tym stacku) — ale NIE w polach technicznych (komunikat deweloperski, wzór
+   symboliczny, kod/identyfikator). Zanim uznasz skrypt za gotowy: wstrzyknij prawdziwą regresję do
+   prawdziwego, już zmigrowanego pliku (nie do wymyślonego przykładu) i sprawdź, że skrypt ją
+   złapie — szczególnie dla wzorców warunkowych (`warunek ? tekst1 : tekst2`), nie tylko
+   bezpośredniego przypisania.
+4. Wpnij oba (audyt + guard i18n, jeśli dotyczy) jako kroki w CI, gating merge PR.
+```
 
 Dlaczego warto zgłosić do new-app-standards: bez konkretnego przykładu każdy projekt rodziny
 odkrywa te same pułapki od zera (włączenie bramki audytu bez sprawdzenia najpierw, regex zamiast
@@ -554,9 +999,32 @@ prawidłowości, nie przypadku.
 
 Gotowa, pełna treść proponowanej reguły (wzorowana 1:1 na strukturze 17.1a/5.7, z jednym świadomie
 nazwanym odstępstwem — inną kolejnością pisania wewnątrz pojedynczego ekranu niż przy i18n, bo opis
-narzędzia AI wymaga ustabilizowanego kontraktu I/O, więc musi powstać na końcu, nie na początku):
-`docs/propozycje-do-new-app-standards/ai-w-produkcie-rozbudowa.md`, nowa sekcja 6 w tym repo —
-gotowa do konsolidacji jako proponowany podpunkt **9.0a**.
+narzędzia AI wymaga ustabilizowanego kontraktu I/O, więc musi powstać na końcu, nie na początku;
+wersja z pełnym uzasadnieniem zostaje dodatkowo, nieusunięta, w
+`docs/propozycje-do-new-app-standards/ai-w-produkcie-rozbudowa.md`, sekcja 6, w tym repo) — proponowany
+podpunkt **9.0a**, obok 9.0 "Obowiązkowość AI w produkcie":
+
+> Każdy nowy projekt rodziny zakłada od **Etapu 1** (szkielet architektury, zanim powstanie pierwszy
+> ekran kalkulatora), że każdy kalkulator dostanie zarejestrowane narzędzie AI (`AiToolDefinition`,
+> patrz zgłoszenie 14.09.2026 wyżej) — nigdy "AI dodamy do interfejsu później, jako osobny projekt
+> nad już gotowymi ekranami". Konkretnie, od pierwszego dnia:
+>
+> - Szkielet ma gotowy, generyczny rejestr narzędzi (`NARZEDZIA`/`AiToolDefinition[]`) i adapter do
+>   wybranego dostawcy modelu (most JSON Schema, patrz zgłoszenie 20.09.2026 wyżej) — zbudowane razem
+>   z Kernelem, nie po fakcie.
+> - **Kolejność wewnątrz jednego ekranu pozostaje świadomie inna niż dla i18n**: kalkulator →
+>   struktura i18n → dopiero na końcu opis narzędzia AI, bo dokładny opis (`.describe()` na polach
+>   Zod, treść `description`) wymaga znajomości OSTATECZNEGO, przetestowanego kształtu
+>   wejścia/wyjścia — w odróżnieniu od i18n (gdzie struktura kluczy powstaje pierwsza, bo kalkulator
+>   i tak musi zwracać klucze, nie gotowy tekst), tutaj struktura rejestru powstaje pierwsza (na
+>   poziomie szkieletu), ale WPIS per-kalkulator powstaje ostatni (na poziomie pojedynczego ekranu).
+> - `handler` każdego nowego narzędzia deleguje 1:1 do już istniejącej funkcji domenowej (9.2) —
+>   nigdy nowa logika pisana specjalnie pod AI.
+
+Dowód z tego projektu: w chwili zgłoszenia 116 ze 117 zbudowanych kalkulatorów
+(`lib/core/modules/*/calculator.ts`) nie miało żadnego zarejestrowanego narzędzia AI — dokładnie ten
+sam kształt zaległości, co ~90 ekranów bez autosave przed 5.7 i dziesiątki ekranów z twardo wpisanym
+polskim tekstem przed 17.1a.
 
 Dlaczego warto zgłosić do new-app-standards: dokładnie ten sam argument, co przy konsolidacji
 17.1a/5.7 — trzy niezależne projekty/warstwy odkryły ten sam koszt osobno, w różnym czasie, co było
