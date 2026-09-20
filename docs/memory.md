@@ -466,6 +466,20 @@ konkretnych potrzebnych tabel + kod kalkulatora, po kolei małymi partiami zgodn
   jeszcze do `main` — kolejne sprawdzenie za ≤3h ponownie zweryfikuje `origin/main` niezależnie od
   stanu tego PR-a.
 
+**⚠️ (2026-09-20 23:0x UTC) Znany blocker CI, zgłoszony wprost przez właściciela projektu: GitHub
+Actions dla tego repo nie działa do 1 października 2026 (limit minut/uruchomień konta wyczerpany).**
+Potwierdzone technicznie na PR #136: `get_check_runs` → 0, `list_workflow_runs` dla gałęzi → 0 —
+workflow `.github/workflows/ci.yml` w ogóle się nie kolejkuje (nie "czerwone", nie flaky — po prostu
+nie startuje). **Nie jest to usterka do naprawienia w kodzie ani w YAML-u** — to limit na poziomie
+konta/organizacji GitHub, poza kontrolą tego repo. Usunięty wcześniej zaplanowany check-in
+(`trig_01FtWAXrja2sNSUAqoA2igRs`, próbowałby błędnie "diagnozować i naprawiać" brak CI jako
+problem repo) — subskrypcja `subscribe_pr_activity` na PR #136 pozostaje aktywna i wystarczy
+(webhook, nie polling) do wyłapania realnych zdarzeń (push, review, ewentualny powrót CI). **Dla
+przyszłych sesji: przed 1 października nie oczekuj zielonego CI na żadnym PR w tym repo — brak
+check runs nie oznacza błędu w zmianie.** Merge PR-ów w tym oknie wymaga świadomej decyzji
+właściciela projektu (merge bez CI albo poczekać do 1.10) — nie do rozstrzygnięcia samodzielnie
+przez AI.
+
 ## Pełny audyt na polecenie właściciela projektu (20.09.2026) — Y.6/Y.9 + Część N
 
 Na wyraźne polecenie ("Zrób pełny audyt a potem podaj listę do zrobienia według god book").
