@@ -1,8 +1,9 @@
 "use client"
 
-import { useMemo, useState } from "react"
+import { useMemo } from "react"
 import { calculateSekwencjaMontazu } from "@/lib/core/modules/montaz-baterii/sekwencja-montazu/calculator"
 import { PRESETY_LICZBY_OGNIW } from "@/lib/core/modules/montaz-baterii/sekwencja-montazu/constants"
+import { usePersistedDraft } from "@/lib/adapters/use-persisted-draft"
 import { Pole, PoleSelect } from "@/components/ui/pole"
 import { WerdyktPanel, type WerdyktPoziom } from "@/components/werdykt"
 import { NawigacjaEkranu } from "@/components/nawigacja-ekranu"
@@ -11,10 +12,34 @@ import { WynikSzczegoly } from "@/components/wzorce/wynik-szczegoly"
 import { KrokZMedia } from "@/components/wzorce/krok-z-media"
 import { StanPusty } from "@/components/ui/stany"
 
+type FormularzStan = {
+  preset: number
+  wlasna: boolean
+  liczbaOgniwWlasna: string
+}
+
+const STAN_POCZATKOWY: FormularzStan = {
+  preset: 16,
+  wlasna: false,
+  liczbaOgniwWlasna: "",
+}
+
 export default function SekwencjaMontazuPage() {
-  const [preset, setPreset] = useState<number>(16)
-  const [wlasna, setWlasna] = useState(false)
-  const [liczbaOgniwWlasna, setLiczbaOgniwWlasna] = useState("")
+  const [stan, setStan] = usePersistedDraft<FormularzStan>("sekwencja-montazu", STAN_POCZATKOWY)
+  const { preset, wlasna, liczbaOgniwWlasna } = stan
+
+  function setPole<K extends keyof FormularzStan>(
+    pole: K,
+    akcja: FormularzStan[K] | ((prev: FormularzStan[K]) => FormularzStan[K]),
+  ) {
+    setStan((prev) => ({
+      ...prev,
+      [pole]: typeof akcja === "function" ? (akcja as (p: FormularzStan[K]) => FormularzStan[K])(prev[pole]) : akcja,
+    }))
+  }
+  const setPreset = (a: number | ((p: number) => number)) => setPole("preset", a)
+  const setWlasna = (a: boolean | ((p: boolean) => boolean)) => setPole("wlasna", a)
+  const setLiczbaOgniwWlasna = (a: string | ((p: string) => string)) => setPole("liczbaOgniwWlasna", a)
 
   const liczbaOgniw = wlasna ? (liczbaOgniwWlasna === "" ? 0 : Number(liczbaOgniwWlasna)) : preset
 

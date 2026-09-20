@@ -1,7 +1,8 @@
 "use client"
 
-import { useMemo, useState } from "react"
+import { useMemo } from "react"
 import { calculatePompyCyrkulacyjne } from "@/lib/core/modules/ogrzewanie/pompy-cyrkulacyjne/calculator"
+import { usePersistedDraft } from "@/lib/adapters/use-persisted-draft"
 import { Pole } from "@/components/ui/pole"
 import { WerdyktPanel } from "@/components/werdykt"
 import { NawigacjaEkranu } from "@/components/nawigacja-ekranu"
@@ -9,10 +10,34 @@ import { NaglowekEkranu } from "@/components/wzorce/naglowek-ekranu"
 import { WynikGlowny } from "@/components/wzorce/wynik-glowny"
 import { WynikSzczegoly } from "@/components/wzorce/wynik-szczegoly"
 
+type FormularzStan = {
+  mocObecnejPompyW: string
+  mocNowejPompyW: string
+  godzinyPracyDobowoH: string
+}
+
+const STAN_POCZATKOWY: FormularzStan = {
+  mocObecnejPompyW: "",
+  mocNowejPompyW: "",
+  godzinyPracyDobowoH: "",
+}
+
 export default function PompyCyrkulacyjnePage() {
-  const [mocObecnejPompyW, setMocObecnejPompyW] = useState("")
-  const [mocNowejPompyW, setMocNowejPompyW] = useState("")
-  const [godzinyPracyDobowoH, setGodzinyPracyDobowoH] = useState("")
+  const [stan, setStan] = usePersistedDraft<FormularzStan>("pompy-cyrkulacyjne", STAN_POCZATKOWY)
+  const { mocObecnejPompyW, mocNowejPompyW, godzinyPracyDobowoH } = stan
+
+  function setPole<K extends keyof FormularzStan>(
+    pole: K,
+    akcja: FormularzStan[K] | ((prev: FormularzStan[K]) => FormularzStan[K]),
+  ) {
+    setStan((prev) => ({
+      ...prev,
+      [pole]: typeof akcja === "function" ? (akcja as (p: FormularzStan[K]) => FormularzStan[K])(prev[pole]) : akcja,
+    }))
+  }
+  const setMocObecnejPompyW = (a: string | ((p: string) => string)) => setPole("mocObecnejPompyW", a)
+  const setMocNowejPompyW = (a: string | ((p: string) => string)) => setPole("mocNowejPompyW", a)
+  const setGodzinyPracyDobowoH = (a: string | ((p: string) => string)) => setPole("godzinyPracyDobowoH", a)
 
   const result = useMemo(
     () =>

@@ -1,8 +1,9 @@
 "use client"
 
-import { useMemo, useState } from "react"
+import { useMemo } from "react"
 import { calculateOcenaZuzycia } from "@/lib/core/modules/montaz-baterii/ocena-zuzycia/calculator"
 import { CHECKLIST_ITEMS } from "@/lib/core/modules/montaz-baterii/ocena-zuzycia/constants"
+import { usePersistedDraft } from "@/lib/adapters/use-persisted-draft"
 import { WerdyktPanel, type WerdyktPoziom } from "@/components/werdykt"
 import { NawigacjaEkranu } from "@/components/nawigacja-ekranu"
 import { NaglowekEkranu } from "@/components/wzorce/naglowek-ekranu"
@@ -10,9 +11,28 @@ import { ListaChecklist } from "@/components/wzorce/lista-checklist"
 import { StanPusty } from "@/components/ui/stany"
 import { WynikSzczegoly } from "@/components/wzorce/wynik-szczegoly"
 
+type FormularzStan = {
+  widocznePuchniecie: boolean | null
+  potwierdzoneIds: string[]
+}
+
+const STAN_POCZATKOWY: FormularzStan = {
+  widocznePuchniecie: null,
+  potwierdzoneIds: [],
+}
+
 export default function OcenaZuzyciaPage() {
-  const [widocznePuchniecie, setWidocznePuchniecie] = useState<boolean | null>(null)
-  const [potwierdzoneIds, setPotwierdzoneIds] = useState<string[]>([])
+  const [stan, setStan] = usePersistedDraft<FormularzStan>("ocena-zuzycia", STAN_POCZATKOWY)
+  const { widocznePuchniecie, potwierdzoneIds } = stan
+
+  function setPole<K extends keyof FormularzStan>(pole: K, akcja: FormularzStan[K] | ((prev: FormularzStan[K]) => FormularzStan[K])) {
+    setStan((prev) => ({
+      ...prev,
+      [pole]: typeof akcja === "function" ? (akcja as (p: FormularzStan[K]) => FormularzStan[K])(prev[pole]) : akcja,
+    }))
+  }
+  const setWidocznePuchniecie = (a: boolean | null | ((p: boolean | null) => boolean | null)) => setPole("widocznePuchniecie", a)
+  const setPotwierdzoneIds = (a: string[] | ((p: string[]) => string[])) => setPole("potwierdzoneIds", a)
 
   const result = useMemo(
     () => calculateOcenaZuzycia({ widocznePuchniecie, potwierdzoneIds }),

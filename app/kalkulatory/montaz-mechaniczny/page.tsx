@@ -1,8 +1,9 @@
 "use client"
 
-import { useMemo, useState } from "react"
+import { useMemo } from "react"
 import { calculateMontazMechaniczny } from "@/lib/core/modules/montaz-baterii/montaz-mechaniczny/calculator"
 import { CHECKLIST_ITEMS } from "@/lib/core/modules/montaz-baterii/montaz-mechaniczny/constants"
+import { usePersistedDraft } from "@/lib/adapters/use-persisted-draft"
 import { Pole } from "@/components/ui/pole"
 import { ListaChecklist } from "@/components/wzorce/lista-checklist"
 import { WerdyktPanel, type WerdyktPoziom } from "@/components/werdykt"
@@ -10,9 +11,28 @@ import { NawigacjaEkranu } from "@/components/nawigacja-ekranu"
 import { NaglowekEkranu } from "@/components/wzorce/naglowek-ekranu"
 import { WynikSzczegoly } from "@/components/wzorce/wynik-szczegoly"
 
+type FormularzStan = {
+  dociskKgf: number
+  potwierdzoneIds: string[]
+}
+
+const STAN_POCZATKOWY: FormularzStan = {
+  dociskKgf: 0,
+  potwierdzoneIds: [],
+}
+
 export default function MontazMechanicznyPage() {
-  const [dociskKgf, setDociskKgf] = useState(0)
-  const [potwierdzoneIds, setPotwierdzoneIds] = useState<string[]>([])
+  const [stan, setStan] = usePersistedDraft<FormularzStan>("montaz-mechaniczny", STAN_POCZATKOWY)
+  const { dociskKgf, potwierdzoneIds } = stan
+
+  function setPole<K extends keyof FormularzStan>(pole: K, akcja: FormularzStan[K] | ((prev: FormularzStan[K]) => FormularzStan[K])) {
+    setStan((prev) => ({
+      ...prev,
+      [pole]: typeof akcja === "function" ? (akcja as (p: FormularzStan[K]) => FormularzStan[K])(prev[pole]) : akcja,
+    }))
+  }
+  const setDociskKgf = (a: number | ((p: number) => number)) => setPole("dociskKgf", a)
+  const setPotwierdzoneIds = (a: string[] | ((p: string[]) => string[])) => setPole("potwierdzoneIds", a)
 
   const result = useMemo(
     () => calculateMontazMechaniczny({ dociskKgf, potwierdzoneIds }),

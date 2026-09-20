@@ -1,8 +1,9 @@
 "use client"
 
-import { useMemo, useState } from "react"
+import { useMemo } from "react"
 import { calculatePolaczeniaCzyszczenieOlow } from "@/lib/core/modules/montaz-baterii/polaczenia-czyszczenie-olow/calculator"
 import { CHECKLIST_ITEMS } from "@/lib/core/modules/montaz-baterii/polaczenia-czyszczenie-olow/constants"
+import { usePersistedDraft } from "@/lib/adapters/use-persisted-draft"
 import { WerdyktPanel } from "@/components/werdykt"
 import { NawigacjaEkranu } from "@/components/nawigacja-ekranu"
 import { NaglowekEkranu } from "@/components/wzorce/naglowek-ekranu"
@@ -72,8 +73,17 @@ function SchematPolaczenIlustracja() {
   )
 }
 
+type FormularzStan = { potwierdzoneIds: string[] }
+const STAN_POCZATKOWY: FormularzStan = { potwierdzoneIds: [] }
+
 export default function PolaczeniaCzyszczenieOlowPage() {
-  const [potwierdzoneIds, setPotwierdzoneIds] = useState<string[]>([])
+  const [stan, setStan] = usePersistedDraft<FormularzStan>("polaczenia-czyszczenie-olow", STAN_POCZATKOWY)
+  const { potwierdzoneIds } = stan
+  const setPotwierdzoneIds = (a: string[] | ((p: string[]) => string[])) =>
+    setStan((prev) => ({
+      ...prev,
+      potwierdzoneIds: typeof a === "function" ? (a as (p: string[]) => string[])(prev.potwierdzoneIds) : a,
+    }))
 
   const result = useMemo(
     () => calculatePolaczeniaCzyszczenieOlow({ potwierdzoneIds }),

@@ -1,8 +1,9 @@
 "use client"
 
-import { useMemo, useState } from "react"
+import { useMemo } from "react"
 import { calculatePierwszeUruchomienie } from "@/lib/core/modules/montaz-baterii/pierwsze-uruchomienie/calculator"
 import { CHECKLIST_ITEMS, PROG_TOP_BALANCING_V } from "@/lib/core/modules/montaz-baterii/pierwsze-uruchomienie/constants"
+import { usePersistedDraft } from "@/lib/adapters/use-persisted-draft"
 import { Pole } from "@/components/ui/pole"
 import { ListaChecklist } from "@/components/wzorce/lista-checklist"
 import { WerdyktPanel, type WerdyktPoziom } from "@/components/werdykt"
@@ -10,10 +11,31 @@ import { NawigacjaEkranu } from "@/components/nawigacja-ekranu"
 import { NaglowekEkranu } from "@/components/wzorce/naglowek-ekranu"
 import { WynikSzczegoly } from "@/components/wzorce/wynik-szczegoly"
 
+type FormularzStan = {
+  pojemnoscAh: number
+  napiecieNajwyzszegoOgniwaV: number
+  potwierdzoneIds: string[]
+}
+
+const STAN_POCZATKOWY: FormularzStan = {
+  pojemnoscAh: 0,
+  napiecieNajwyzszegoOgniwaV: 0,
+  potwierdzoneIds: [],
+}
+
 export default function PierwszeUruchomieniePage() {
-  const [pojemnoscAh, setPojemnoscAh] = useState(0)
-  const [napiecieNajwyzszegoOgniwaV, setNapiecieNajwyzszegoOgniwaV] = useState(0)
-  const [potwierdzoneIds, setPotwierdzoneIds] = useState<string[]>([])
+  const [stan, setStan] = usePersistedDraft<FormularzStan>("pierwsze-uruchomienie", STAN_POCZATKOWY)
+  const { pojemnoscAh, napiecieNajwyzszegoOgniwaV, potwierdzoneIds } = stan
+
+  function setPole<K extends keyof FormularzStan>(pole: K, akcja: FormularzStan[K] | ((prev: FormularzStan[K]) => FormularzStan[K])) {
+    setStan((prev) => ({
+      ...prev,
+      [pole]: typeof akcja === "function" ? (akcja as (p: FormularzStan[K]) => FormularzStan[K])(prev[pole]) : akcja,
+    }))
+  }
+  const setPojemnoscAh = (a: number | ((p: number) => number)) => setPole("pojemnoscAh", a)
+  const setNapiecieNajwyzszegoOgniwaV = (a: number | ((p: number) => number)) => setPole("napiecieNajwyzszegoOgniwaV", a)
+  const setPotwierdzoneIds = (a: string[] | ((p: string[]) => string[])) => setPole("potwierdzoneIds", a)
 
   const result = useMemo(
     () => calculatePierwszeUruchomienie({ pojemnoscAh, napiecieNajwyzszegoOgniwaV, potwierdzoneIds }),

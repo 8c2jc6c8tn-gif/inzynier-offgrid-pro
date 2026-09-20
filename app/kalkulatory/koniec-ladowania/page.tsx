@@ -1,8 +1,9 @@
 "use client"
 
-import { useMemo, useState } from "react"
+import { useMemo } from "react"
 import { calculateKoniecLadowania } from "@/lib/core/modules/baterie/koniec-ladowania/calculator"
 import { PRZYKLADOWY_PROG_KONCOWY_C } from "@/lib/core/modules/baterie/koniec-ladowania/constants"
+import { usePersistedDraft } from "@/lib/adapters/use-persisted-draft"
 import { Pole } from "@/components/ui/pole"
 import { WerdyktPanel, type WerdyktPoziom } from "@/components/werdykt"
 import { NawigacjaEkranu } from "@/components/nawigacja-ekranu"
@@ -17,13 +18,41 @@ const ETYKIETY_FAZY: Record<string, string> = {
   zakonczone: "Ładowanie zakończone",
 }
 
+type FormularzStan = {
+  pojemnoscAh: string
+  napiecieAbsorpcjiV: string
+  progKoncowyC: string
+  aktualnyPradA: string
+  aktualneNapiecieV: string
+}
+
+const STAN_POCZATKOWY: FormularzStan = {
+  pojemnoscAh: "",
+  napiecieAbsorpcjiV: "",
+  progKoncowyC: String(PRZYKLADOWY_PROG_KONCOWY_C),
+  aktualnyPradA: "",
+  aktualneNapiecieV: "",
+}
+
 export default function KoniecLadowaniaPage() {
   const t = useTranslate()
-  const [pojemnoscAh, setPojemnoscAh] = useState("")
-  const [napiecieAbsorpcjiV, setNapiecieAbsorpcjiV] = useState("")
-  const [progKoncowyC, setProgKoncowyC] = useState(String(PRZYKLADOWY_PROG_KONCOWY_C))
-  const [aktualnyPradA, setAktualnyPradA] = useState("")
-  const [aktualneNapiecieV, setAktualneNapiecieV] = useState("")
+  const [stan, setStan] = usePersistedDraft<FormularzStan>("koniec-ladowania", STAN_POCZATKOWY)
+  const { pojemnoscAh, napiecieAbsorpcjiV, progKoncowyC, aktualnyPradA, aktualneNapiecieV } = stan
+
+  function setPole<K extends keyof FormularzStan>(
+    pole: K,
+    akcja: FormularzStan[K] | ((prev: FormularzStan[K]) => FormularzStan[K]),
+  ) {
+    setStan((prev) => ({
+      ...prev,
+      [pole]: typeof akcja === "function" ? (akcja as (p: FormularzStan[K]) => FormularzStan[K])(prev[pole]) : akcja,
+    }))
+  }
+  const setPojemnoscAh = (a: string | ((p: string) => string)) => setPole("pojemnoscAh", a)
+  const setNapiecieAbsorpcjiV = (a: string | ((p: string) => string)) => setPole("napiecieAbsorpcjiV", a)
+  const setProgKoncowyC = (a: string | ((p: string) => string)) => setPole("progKoncowyC", a)
+  const setAktualnyPradA = (a: string | ((p: string) => string)) => setPole("aktualnyPradA", a)
+  const setAktualneNapiecieV = (a: string | ((p: string) => string)) => setPole("aktualneNapiecieV", a)
 
   const result = useMemo(
     () =>

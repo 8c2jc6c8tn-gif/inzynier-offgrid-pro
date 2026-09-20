@@ -1,7 +1,8 @@
 "use client"
 
-import { useMemo, useState } from "react"
+import { useMemo } from "react"
 import { calculateLokalizacja } from "@/lib/core/modules/lokalizacja/lokalizacja-i-klimat/calculator"
+import { usePersistedDraft } from "@/lib/adapters/use-persisted-draft"
 import { WerdyktPanel } from "@/components/werdykt"
 import { NawigacjaEkranu } from "@/components/nawigacja-ekranu"
 import { Pole } from "@/components/ui/pole"
@@ -9,12 +10,38 @@ import { StanPusty } from "@/components/ui/stany"
 import { NaglowekEkranu } from "@/components/wzorce/naglowek-ekranu"
 import { useTranslate } from "@/lib/i18n/language-context"
 
+type FormularzStan = {
+  adres: string
+  szerokosc: string
+  dlugosc: string
+  temperaturaMin: string
+}
+
+const STAN_POCZATKOWY: FormularzStan = {
+  adres: "",
+  szerokosc: "",
+  dlugosc: "",
+  temperaturaMin: "",
+}
+
 export default function LokalizacjaIKlimatPage() {
   const t = useTranslate()
-  const [adres, setAdres] = useState("")
-  const [szerokosc, setSzerokosc] = useState("")
-  const [dlugosc, setDlugosc] = useState("")
-  const [temperaturaMin, setTemperaturaMin] = useState("")
+  const [stan, setStan] = usePersistedDraft<FormularzStan>("lokalizacja-i-klimat", STAN_POCZATKOWY)
+  const { adres, szerokosc, dlugosc, temperaturaMin } = stan
+
+  function setPole<K extends keyof FormularzStan>(
+    pole: K,
+    akcja: FormularzStan[K] | ((prev: FormularzStan[K]) => FormularzStan[K]),
+  ) {
+    setStan((prev) => ({
+      ...prev,
+      [pole]: typeof akcja === "function" ? (akcja as (p: FormularzStan[K]) => FormularzStan[K])(prev[pole]) : akcja,
+    }))
+  }
+  const setAdres = (a: string | ((p: string) => string)) => setPole("adres", a)
+  const setSzerokosc = (a: string | ((p: string) => string)) => setPole("szerokosc", a)
+  const setDlugosc = (a: string | ((p: string) => string)) => setPole("dlugosc", a)
+  const setTemperaturaMin = (a: string | ((p: string) => string)) => setPole("temperaturaMin", a)
 
   const result = useMemo(
     () =>

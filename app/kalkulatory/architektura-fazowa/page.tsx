@@ -1,17 +1,42 @@
 "use client"
 
-import { useMemo, useState } from "react"
+import { useMemo } from "react"
 import { calculateArchitekturaFazowa } from "@/lib/core/modules/zapotrzebowanie/architektura-fazowa/calculator"
+import { usePersistedDraft } from "@/lib/adapters/use-persisted-draft"
 import { Pole } from "@/components/ui/pole"
 import { WerdyktPanel } from "@/components/werdykt"
 import { NawigacjaEkranu } from "@/components/nawigacja-ekranu"
 import { NaglowekEkranu } from "@/components/wzorce/naglowek-ekranu"
 import { WynikSzczegoly } from "@/components/wzorce/wynik-szczegoly"
 
+type FormularzStan = {
+  mocL1W: string
+  mocL2W: string
+  mocL3W: string
+}
+
+const STAN_POCZATKOWY: FormularzStan = {
+  mocL1W: "",
+  mocL2W: "",
+  mocL3W: "",
+}
+
 export default function ArchitekturaFazowaPage() {
-  const [mocL1W, setMocL1W] = useState("")
-  const [mocL2W, setMocL2W] = useState("")
-  const [mocL3W, setMocL3W] = useState("")
+  const [stan, setStan] = usePersistedDraft<FormularzStan>("architektura-fazowa", STAN_POCZATKOWY)
+  const { mocL1W, mocL2W, mocL3W } = stan
+
+  function setPole<K extends keyof FormularzStan>(
+    pole: K,
+    akcja: FormularzStan[K] | ((prev: FormularzStan[K]) => FormularzStan[K]),
+  ) {
+    setStan((prev) => ({
+      ...prev,
+      [pole]: typeof akcja === "function" ? (akcja as (p: FormularzStan[K]) => FormularzStan[K])(prev[pole]) : akcja,
+    }))
+  }
+  const setMocL1W = (a: string | ((p: string) => string)) => setPole("mocL1W", a)
+  const setMocL2W = (a: string | ((p: string) => string)) => setPole("mocL2W", a)
+  const setMocL3W = (a: string | ((p: string) => string)) => setPole("mocL3W", a)
 
   const result = useMemo(
     () =>

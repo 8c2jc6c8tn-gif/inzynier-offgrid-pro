@@ -1,7 +1,8 @@
 "use client"
 
-import { useMemo, useState } from "react"
+import { useMemo } from "react"
 import { calculateOplacalnoscMagazynu } from "@/lib/core/modules/baterie/oplacalnosc-magazynu/calculator"
+import { usePersistedDraft } from "@/lib/adapters/use-persisted-draft"
 import { Pole } from "@/components/ui/pole"
 import { WerdyktPanel, type WerdyktPoziom } from "@/components/werdykt"
 import { NawigacjaEkranu } from "@/components/nawigacja-ekranu"
@@ -10,13 +11,38 @@ import { WynikGlowny } from "@/components/wzorce/wynik-glowny"
 import { WynikSzczegoly } from "@/components/wzorce/wynik-szczegoly"
 import { useTranslate } from "@/lib/i18n/language-context"
 
+type FormularzStan = {
+  cenaBateriiZl: string
+  pojemnoscUzytecznaKwh: string
+  liczbaCykli: string
+  sprawnoscPct: string
+  kosztAlternatywyZlZaKwh: string
+}
+
+const STAN_POCZATKOWY: FormularzStan = {
+  cenaBateriiZl: "",
+  pojemnoscUzytecznaKwh: "",
+  liczbaCykli: "",
+  sprawnoscPct: "",
+  kosztAlternatywyZlZaKwh: "",
+}
+
 export default function OplacalnoscMagazynuPage() {
   const t = useTranslate()
-  const [cenaBateriiZl, setCenaBateriiZl] = useState("")
-  const [pojemnoscUzytecznaKwh, setPojemnoscUzytecznaKwh] = useState("")
-  const [liczbaCykli, setLiczbaCykli] = useState("")
-  const [sprawnoscPct, setSprawnoscPct] = useState("")
-  const [kosztAlternatywyZlZaKwh, setKosztAlternatywyZlZaKwh] = useState("")
+  const [stan, setStan] = usePersistedDraft<FormularzStan>("oplacalnosc-magazynu", STAN_POCZATKOWY)
+  const { cenaBateriiZl, pojemnoscUzytecznaKwh, liczbaCykli, sprawnoscPct, kosztAlternatywyZlZaKwh } = stan
+
+  function setPole<K extends keyof FormularzStan>(pole: K, akcja: FormularzStan[K] | ((prev: FormularzStan[K]) => FormularzStan[K])) {
+    setStan((prev) => ({
+      ...prev,
+      [pole]: typeof akcja === "function" ? (akcja as (p: FormularzStan[K]) => FormularzStan[K])(prev[pole]) : akcja,
+    }))
+  }
+  const setCenaBateriiZl = (a: string | ((p: string) => string)) => setPole("cenaBateriiZl", a)
+  const setPojemnoscUzytecznaKwh = (a: string | ((p: string) => string)) => setPole("pojemnoscUzytecznaKwh", a)
+  const setLiczbaCykli = (a: string | ((p: string) => string)) => setPole("liczbaCykli", a)
+  const setSprawnoscPct = (a: string | ((p: string) => string)) => setPole("sprawnoscPct", a)
+  const setKosztAlternatywyZlZaKwh = (a: string | ((p: string) => string)) => setPole("kosztAlternatywyZlZaKwh", a)
 
   const result = useMemo(
     () =>

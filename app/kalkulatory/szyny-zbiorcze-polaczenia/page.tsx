@@ -1,16 +1,26 @@
 "use client"
 
-import { useMemo, useState } from "react"
+import { useMemo } from "react"
 import { calculateSzynyZbiorczePolaczenia } from "@/lib/core/modules/okablowanie/szyny-zbiorcze-polaczenia/calculator"
 import { CHECKLIST_ITEMS } from "@/lib/core/modules/okablowanie/szyny-zbiorcze-polaczenia/constants"
+import { usePersistedDraft } from "@/lib/adapters/use-persisted-draft"
 import { WerdyktPanel, type WerdyktPoziom } from "@/components/werdykt"
 import { NawigacjaEkranu } from "@/components/nawigacja-ekranu"
 import { NaglowekEkranu } from "@/components/wzorce/naglowek-ekranu"
 import { ListaChecklist } from "@/components/wzorce/lista-checklist"
 import { StanPusty } from "@/components/ui/stany"
 
+type FormularzStan = { potwierdzoneIds: string[] }
+const STAN_POCZATKOWY: FormularzStan = { potwierdzoneIds: [] }
+
 export default function SzynyZbiorczePolaczeniaPage() {
-  const [potwierdzoneIds, setPotwierdzoneIds] = useState<string[]>([])
+  const [stan, setStan] = usePersistedDraft<FormularzStan>("szyny-zbiorcze-polaczenia", STAN_POCZATKOWY)
+  const { potwierdzoneIds } = stan
+  const setPotwierdzoneIds = (a: string[] | ((p: string[]) => string[])) =>
+    setStan((prev) => ({
+      ...prev,
+      potwierdzoneIds: typeof a === "function" ? (a as (p: string[]) => string[])(prev.potwierdzoneIds) : a,
+    }))
 
   const result = useMemo(() => calculateSzynyZbiorczePolaczenia({ potwierdzoneIds }), [potwierdzoneIds])
 

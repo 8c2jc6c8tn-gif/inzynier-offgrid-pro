@@ -1,8 +1,9 @@
 "use client"
 
-import { useMemo, useState } from "react"
+import { useMemo } from "react"
 import { calculatePolaczeniaElektryczne } from "@/lib/core/modules/montaz-baterii/polaczenia-elektryczne/calculator"
 import { CHECKLIST_ITEMS, OSTRZEZENIA_STALE } from "@/lib/core/modules/montaz-baterii/polaczenia-elektryczne/constants"
+import { usePersistedDraft } from "@/lib/adapters/use-persisted-draft"
 import { WerdyktPanel, type WerdyktPoziom } from "@/components/werdykt"
 import { NawigacjaEkranu } from "@/components/nawigacja-ekranu"
 import { NaglowekEkranu } from "@/components/wzorce/naglowek-ekranu"
@@ -88,8 +89,17 @@ function PolaczeniaSzeregoweIlustracja() {
   )
 }
 
+type FormularzStan = { potwierdzoneIds: string[] }
+const STAN_POCZATKOWY: FormularzStan = { potwierdzoneIds: [] }
+
 export default function PolaczeniaElektrycznePage() {
-  const [potwierdzoneIds, setPotwierdzoneIds] = useState<string[]>([])
+  const [stan, setStan] = usePersistedDraft<FormularzStan>("polaczenia-elektryczne", STAN_POCZATKOWY)
+  const { potwierdzoneIds } = stan
+  const setPotwierdzoneIds = (a: string[] | ((p: string[]) => string[])) =>
+    setStan((prev) => ({
+      ...prev,
+      potwierdzoneIds: typeof a === "function" ? (a as (p: string[]) => string[])(prev.potwierdzoneIds) : a,
+    }))
 
   const result = useMemo(
     () => calculatePolaczeniaElektryczne({ potwierdzoneIds }),

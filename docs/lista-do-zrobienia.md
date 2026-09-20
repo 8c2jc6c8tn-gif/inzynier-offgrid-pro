@@ -871,3 +871,11 @@ Tu trafia bieżący stan pracy: co w trakcie, co zablokowane, co następne — a
   źródło podaje tylko nazwy. **Świadomie odłożony:** moduł zbiorczy "Wampiry energetyczne"
   (24 dawne funkcje, 5 podzakładek) — osobny, znacznie większy krok, wymaga własnej sesji.
   Szczegóły: `docs/memory.md`.
+- ✅ (2026-09-20) **Punkt 8 z tej samej prośby — rollout `usePersistedDraft` na wszystkie
+  pozostałe 114 ekranów kalkulatorów** (wcześniej autosave miał tylko `napiecie-systemowe`).
+  Mechaniczna transformacja `useState` → jeden Seed obiekt + `usePersistedDraft`, bez zmiany
+  logiki domenowej — zachowane nazwy/sygnatury `setX`. Pierwsze podejście (8 równoległych
+  agentów w tle) padło na limit sesji API w połowie pracy — dokończone bezpośrednio, bez
+  kolejnych subagentów. Zweryfikowane: 115/115 unikalnych kluczy, `pnpm typecheck`/`lint`/`test`
+  (965/965)/`build` czyste, Playwright na próbce 5 ekranów potwierdza przetrwanie danych po
+  przeładowaniu strony. Szczegóły i lekcja o limicie równoległych agentów: `docs/memory.md`.

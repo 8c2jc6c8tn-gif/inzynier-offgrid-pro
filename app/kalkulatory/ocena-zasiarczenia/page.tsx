@@ -1,16 +1,34 @@
 "use client"
 
-import { useMemo, useState } from "react"
+import { useMemo } from "react"
 import { calculateOcenaZasiarczenia } from "@/lib/core/modules/montaz-baterii/ocena-zasiarczenia/calculator"
 import { OBJAWY } from "@/lib/core/modules/montaz-baterii/ocena-zasiarczenia/constants"
+import { usePersistedDraft } from "@/lib/adapters/use-persisted-draft"
 import { PoleCheckbox } from "@/components/ui/pole"
 import { WerdyktPanel } from "@/components/werdykt"
 import { NawigacjaEkranu } from "@/components/nawigacja-ekranu"
 import { NaglowekEkranu } from "@/components/wzorce/naglowek-ekranu"
 import { WynikSzczegoly } from "@/components/wzorce/wynik-szczegoly"
 
+type FormularzStan = {
+  obserwowaneObjawyIds: string[]
+}
+
+const STAN_POCZATKOWY: FormularzStan = {
+  obserwowaneObjawyIds: [],
+}
+
 export default function OcenaZasiarczeniaPage() {
-  const [obserwowaneObjawyIds, setObserwowaneObjawyIds] = useState<string[]>([])
+  const [stan, setStan] = usePersistedDraft<FormularzStan>("ocena-zasiarczenia", STAN_POCZATKOWY)
+  const { obserwowaneObjawyIds } = stan
+
+  function setPole<K extends keyof FormularzStan>(pole: K, akcja: FormularzStan[K] | ((prev: FormularzStan[K]) => FormularzStan[K])) {
+    setStan((prev) => ({
+      ...prev,
+      [pole]: typeof akcja === "function" ? (akcja as (p: FormularzStan[K]) => FormularzStan[K])(prev[pole]) : akcja,
+    }))
+  }
+  const setObserwowaneObjawyIds = (a: string[] | ((p: string[]) => string[])) => setPole("obserwowaneObjawyIds", a)
 
   const result = useMemo(
     () => calculateOcenaZasiarczenia({ obserwowaneObjawyIds }),

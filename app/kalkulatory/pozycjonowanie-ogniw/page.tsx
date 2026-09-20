@@ -1,18 +1,38 @@
 "use client"
 
-import { useMemo, useState } from "react"
+import { useMemo } from "react"
 import { calculatePozycjonowanieOgniw } from "@/lib/core/modules/baterie/pozycjonowanie-ogniw/calculator"
 import { DOCISK_MAX_KGF, DOCISK_MIN_KGF } from "@/lib/core/modules/baterie/pozycjonowanie-ogniw/constants"
+import { usePersistedDraft } from "@/lib/adapters/use-persisted-draft"
 import { Pole, PoleCheckbox } from "@/components/ui/pole"
 import { WerdyktPanel, type WerdyktPoziom } from "@/components/werdykt"
 import { NawigacjaEkranu } from "@/components/nawigacja-ekranu"
 import { NaglowekEkranu } from "@/components/wzorce/naglowek-ekranu"
 import { useTranslate } from "@/lib/i18n/language-context"
 
+type FormularzStan = {
+  dociskKgf: string
+  luzNaPeczenie: boolean
+}
+
+const STAN_POCZATKOWY: FormularzStan = {
+  dociskKgf: "",
+  luzNaPeczenie: false,
+}
+
 export default function PozycjonowanieOgniwPage() {
   const t = useTranslate()
-  const [dociskKgf, setDociskKgf] = useState("")
-  const [luzNaPeczenie, setLuzNaPeczenie] = useState(false)
+  const [stan, setStan] = usePersistedDraft<FormularzStan>("pozycjonowanie-ogniw", STAN_POCZATKOWY)
+  const { dociskKgf, luzNaPeczenie } = stan
+
+  function setPole<K extends keyof FormularzStan>(pole: K, akcja: FormularzStan[K] | ((prev: FormularzStan[K]) => FormularzStan[K])) {
+    setStan((prev) => ({
+      ...prev,
+      [pole]: typeof akcja === "function" ? (akcja as (p: FormularzStan[K]) => FormularzStan[K])(prev[pole]) : akcja,
+    }))
+  }
+  const setDociskKgf = (a: string | ((p: string) => string)) => setPole("dociskKgf", a)
+  const setLuzNaPeczenie = (a: boolean | ((p: boolean) => boolean)) => setPole("luzNaPeczenie", a)
 
   const result = useMemo(
     () =>

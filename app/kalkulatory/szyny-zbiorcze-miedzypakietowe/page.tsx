@@ -1,9 +1,10 @@
 "use client"
 
-import { useMemo, useState } from "react"
+import { useMemo } from "react"
 import { calculateSzynyZbiorczeMiedzypakietowe } from "@/lib/core/modules/baterie/szyny-zbiorcze-miedzypakietowe/calculator"
 import type { GalazInput } from "@/lib/core/modules/baterie/szyny-zbiorcze-miedzypakietowe/input"
 import type { Material } from "@/lib/core/modules/okablowanie/dobor-przekroju-kabla/constants"
+import { usePersistedDraft } from "@/lib/adapters/use-persisted-draft"
 import { Pole, PoleSelect } from "@/components/ui/pole"
 import { WerdyktPanel, type WerdyktPoziom } from "@/components/werdykt"
 import { NawigacjaEkranu } from "@/components/nawigacja-ekranu"
@@ -16,10 +17,34 @@ function nowaGalaz(id: string): GalazForm {
   return { id, dlugoscM: "", przekrojMm2: "" }
 }
 
+type FormularzStan = {
+  pradCalkowityA: string
+  material: Material
+  galezie: GalazForm[]
+}
+
+const STAN_POCZATKOWY: FormularzStan = {
+  pradCalkowityA: "",
+  material: "Cu",
+  galezie: [nowaGalaz("galaz-1"), nowaGalaz("galaz-2")],
+}
+
 export default function SzynyZbiorczeMiedzypakietowePage() {
-  const [pradCalkowityA, setPradCalkowityA] = useState("")
-  const [material, setMaterial] = useState<Material>("Cu")
-  const [galezie, setGalezie] = useState<GalazForm[]>([nowaGalaz("galaz-1"), nowaGalaz("galaz-2")])
+  const [stan, setStan] = usePersistedDraft<FormularzStan>("szyny-zbiorcze-miedzypakietowe", STAN_POCZATKOWY)
+  const { pradCalkowityA, material, galezie } = stan
+
+  function setPole<K extends keyof FormularzStan>(
+    pole: K,
+    akcja: FormularzStan[K] | ((prev: FormularzStan[K]) => FormularzStan[K]),
+  ) {
+    setStan((prev) => ({
+      ...prev,
+      [pole]: typeof akcja === "function" ? (akcja as (p: FormularzStan[K]) => FormularzStan[K])(prev[pole]) : akcja,
+    }))
+  }
+  const setPradCalkowityA = (a: string | ((p: string) => string)) => setPole("pradCalkowityA", a)
+  const setMaterial = (a: Material | ((p: Material) => Material)) => setPole("material", a)
+  const setGalezie = (a: GalazForm[] | ((p: GalazForm[]) => GalazForm[])) => setPole("galezie", a)
 
   function dodajGalaz() {
     setGalezie((prev) => [...prev, nowaGalaz(`galaz-${prev.length + 1}-${Date.now()}`)])

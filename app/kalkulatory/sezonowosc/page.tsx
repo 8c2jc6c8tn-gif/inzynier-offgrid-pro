@@ -1,8 +1,9 @@
 "use client"
 
-import { useMemo, useState } from "react"
+import { useMemo } from "react"
 import { calculateSezonowosc } from "@/lib/core/modules/zapotrzebowanie/sezonowosc/calculator"
 import type { TypSezonowosci } from "@/lib/core/modules/zapotrzebowanie/sezonowosc/input"
+import { usePersistedDraft } from "@/lib/adapters/use-persisted-draft"
 import { Pole, PoleCheckbox, PoleSelect } from "@/components/ui/pole"
 import { WerdyktPanel } from "@/components/werdykt"
 import { NawigacjaEkranu } from "@/components/nawigacja-ekranu"
@@ -16,13 +17,43 @@ const ETYKIETY_TYPU: Record<TypSezonowosci, string> = {
   weekendowy: "Weekendowy",
 }
 
+type FormularzStan = {
+  zapotrzebowanieKwhDoba: string
+  typ: TypSezonowosci
+  miesiacOd: string
+  miesiacDo: string
+  aktualnyMiesiac: string
+  czyWeekend: boolean
+}
+
+const STAN_POCZATKOWY: FormularzStan = {
+  zapotrzebowanieKwhDoba: "",
+  typ: "caloroczny",
+  miesiacOd: "",
+  miesiacDo: "",
+  aktualnyMiesiac: "",
+  czyWeekend: false,
+}
+
 export default function SezonowoscPage() {
-  const [zapotrzebowanieKwhDoba, setZapotrzebowanieKwhDoba] = useState("")
-  const [typ, setTyp] = useState<TypSezonowosci>("caloroczny")
-  const [miesiacOd, setMiesiacOd] = useState("")
-  const [miesiacDo, setMiesiacDo] = useState("")
-  const [aktualnyMiesiac, setAktualnyMiesiac] = useState("")
-  const [czyWeekend, setCzyWeekend] = useState(false)
+  const [stan, setStan] = usePersistedDraft<FormularzStan>("sezonowosc", STAN_POCZATKOWY)
+  const { zapotrzebowanieKwhDoba, typ, miesiacOd, miesiacDo, aktualnyMiesiac, czyWeekend } = stan
+
+  function setPole<K extends keyof FormularzStan>(
+    pole: K,
+    akcja: FormularzStan[K] | ((prev: FormularzStan[K]) => FormularzStan[K]),
+  ) {
+    setStan((prev) => ({
+      ...prev,
+      [pole]: typeof akcja === "function" ? (akcja as (p: FormularzStan[K]) => FormularzStan[K])(prev[pole]) : akcja,
+    }))
+  }
+  const setZapotrzebowanieKwhDoba = (a: string | ((p: string) => string)) => setPole("zapotrzebowanieKwhDoba", a)
+  const setTyp = (a: TypSezonowosci | ((p: TypSezonowosci) => TypSezonowosci)) => setPole("typ", a)
+  const setMiesiacOd = (a: string | ((p: string) => string)) => setPole("miesiacOd", a)
+  const setMiesiacDo = (a: string | ((p: string) => string)) => setPole("miesiacDo", a)
+  const setAktualnyMiesiac = (a: string | ((p: string) => string)) => setPole("aktualnyMiesiac", a)
+  const setCzyWeekend = (a: boolean | ((p: boolean) => boolean)) => setPole("czyWeekend", a)
 
   const result = useMemo(
     () =>

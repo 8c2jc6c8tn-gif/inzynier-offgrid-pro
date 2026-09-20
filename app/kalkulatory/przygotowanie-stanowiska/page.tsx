@@ -1,16 +1,28 @@
 "use client"
 
-import { useMemo, useState } from "react"
+import { useMemo } from "react"
 import { calculatePrzygotowanieStanowiska } from "@/lib/core/modules/montaz-baterii/przygotowanie-stanowiska/calculator"
 import { CHECKLIST_ITEMS } from "@/lib/core/modules/montaz-baterii/przygotowanie-stanowiska/constants"
+import { usePersistedDraft } from "@/lib/adapters/use-persisted-draft"
 import { WerdyktPanel } from "@/components/werdykt"
 import { NawigacjaEkranu } from "@/components/nawigacja-ekranu"
 import { NaglowekEkranu } from "@/components/wzorce/naglowek-ekranu"
 import { ListaChecklist } from "@/components/wzorce/lista-checklist"
 import { StanPusty } from "@/components/ui/stany"
 
+type FormularzStan = {
+  potwierdzoneIds: string[]
+}
+
+const STAN_POCZATKOWY: FormularzStan = {
+  potwierdzoneIds: [],
+}
+
 export default function PrzygotowanieStanowiskaPage() {
-  const [potwierdzoneIds, setPotwierdzoneIds] = useState<string[]>([])
+  const [stan, setStan] = usePersistedDraft<FormularzStan>("przygotowanie-stanowiska", STAN_POCZATKOWY)
+  const { potwierdzoneIds } = stan
+  const setPotwierdzoneIds = (a: string[] | ((p: string[]) => string[])) =>
+    setStan((prev) => ({ ...prev, potwierdzoneIds: typeof a === "function" ? a(prev.potwierdzoneIds) : a }))
 
   const result = useMemo(
     () => calculatePrzygotowanieStanowiska({ potwierdzoneIds }),

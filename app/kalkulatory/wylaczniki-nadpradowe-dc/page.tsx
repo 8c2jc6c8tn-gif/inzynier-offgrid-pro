@@ -1,20 +1,51 @@
 "use client"
 
-import { useMemo, useState } from "react"
+import { useMemo } from "react"
 import { calculateWylacznikiNadpradoweDc } from "@/lib/core/modules/okablowanie/wylaczniki-nadpradowe-dc/calculator"
+import { usePersistedDraft } from "@/lib/adapters/use-persisted-draft"
 import { Pole, PoleCheckbox } from "@/components/ui/pole"
 import { WerdyktPanel, type WerdyktPoziom } from "@/components/werdykt"
 import { NawigacjaEkranu } from "@/components/nawigacja-ekranu"
 import { NaglowekEkranu } from "@/components/wzorce/naglowek-ekranu"
 import { WynikSzczegoly } from "@/components/wzorce/wynik-szczegoly"
 
+type FormularzStan = {
+  pradA: string
+  napiecieV: string
+  liczbaBiegunow: string
+  certyfikowanyDoDc: boolean
+  aicA: string
+  pradZwarciowyA: string
+}
+
+const STAN_POCZATKOWY: FormularzStan = {
+  pradA: "",
+  napiecieV: "",
+  liczbaBiegunow: "",
+  certyfikowanyDoDc: false,
+  aicA: "",
+  pradZwarciowyA: "",
+}
+
 export default function WylacznikiNadpradoweDcPage() {
-  const [pradA, setPradA] = useState("")
-  const [napiecieV, setNapiecieV] = useState("")
-  const [liczbaBiegunow, setLiczbaBiegunow] = useState("")
-  const [certyfikowanyDoDc, setCertyfikowanyDoDc] = useState(false)
-  const [aicA, setAicA] = useState("")
-  const [pradZwarciowyA, setPradZwarciowyA] = useState("")
+  const [stan, setStan] = usePersistedDraft<FormularzStan>("wylaczniki-nadpradowe-dc", STAN_POCZATKOWY)
+  const { pradA, napiecieV, liczbaBiegunow, certyfikowanyDoDc, aicA, pradZwarciowyA } = stan
+
+  function setPole<K extends keyof FormularzStan>(
+    pole: K,
+    akcja: FormularzStan[K] | ((prev: FormularzStan[K]) => FormularzStan[K]),
+  ) {
+    setStan((prev) => ({
+      ...prev,
+      [pole]: typeof akcja === "function" ? (akcja as (p: FormularzStan[K]) => FormularzStan[K])(prev[pole]) : akcja,
+    }))
+  }
+  const setPradA = (a: string | ((p: string) => string)) => setPole("pradA", a)
+  const setNapiecieV = (a: string | ((p: string) => string)) => setPole("napiecieV", a)
+  const setLiczbaBiegunow = (a: string | ((p: string) => string)) => setPole("liczbaBiegunow", a)
+  const setCertyfikowanyDoDc = (a: boolean | ((p: boolean) => boolean)) => setPole("certyfikowanyDoDc", a)
+  const setAicA = (a: string | ((p: string) => string)) => setPole("aicA", a)
+  const setPradZwarciowyA = (a: string | ((p: string) => string)) => setPole("pradZwarciowyA", a)
 
   const result = useMemo(
     () =>

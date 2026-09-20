@@ -1,16 +1,34 @@
 "use client"
 
-import { useMemo, useState } from "react"
+import { useMemo } from "react"
 import { calculateOznakowanieObwodow } from "@/lib/core/modules/okablowanie/oznakowanie-obwodow/calculator"
 import { CHECKLIST_ITEMS } from "@/lib/core/modules/okablowanie/oznakowanie-obwodow/constants"
+import { usePersistedDraft } from "@/lib/adapters/use-persisted-draft"
 import { WerdyktPanel, type WerdyktPoziom } from "@/components/werdykt"
 import { NawigacjaEkranu } from "@/components/nawigacja-ekranu"
 import { NaglowekEkranu } from "@/components/wzorce/naglowek-ekranu"
 import { ListaChecklist } from "@/components/wzorce/lista-checklist"
 import { StanPusty } from "@/components/ui/stany"
 
+type FormularzStan = {
+  oznaczoneIds: string[]
+}
+
+const STAN_POCZATKOWY: FormularzStan = {
+  oznaczoneIds: [],
+}
+
 export default function OznakowanieObwodowPage() {
-  const [oznaczoneIds, setOznaczoneIds] = useState<string[]>([])
+  const [stan, setStan] = usePersistedDraft<FormularzStan>("oznakowanie-obwodow", STAN_POCZATKOWY)
+  const { oznaczoneIds } = stan
+
+  function setPole<K extends keyof FormularzStan>(pole: K, akcja: FormularzStan[K] | ((prev: FormularzStan[K]) => FormularzStan[K])) {
+    setStan((prev) => ({
+      ...prev,
+      [pole]: typeof akcja === "function" ? (akcja as (p: FormularzStan[K]) => FormularzStan[K])(prev[pole]) : akcja,
+    }))
+  }
+  const setOznaczoneIds = (a: string[] | ((p: string[]) => string[])) => setPole("oznaczoneIds", a)
 
   const result = useMemo(() => calculateOznakowanieObwodow({ oznaczoneIds }), [oznaczoneIds])
 

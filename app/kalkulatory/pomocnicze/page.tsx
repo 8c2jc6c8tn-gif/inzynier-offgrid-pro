@@ -1,8 +1,9 @@
 "use client"
 
-import { useMemo, useState } from "react"
+import { useMemo } from "react"
 import { calculateKalkulatoryPomocnicze } from "@/lib/core/modules/zapotrzebowanie/kalkulatory-pomocnicze/calculator"
 import type { KalkulatoryPomocniczeInput } from "@/lib/core/modules/zapotrzebowanie/kalkulatory-pomocnicze/input"
+import { usePersistedDraft } from "@/lib/adapters/use-persisted-draft"
 import { WerdyktPanel, type WerdyktPoziom } from "@/components/werdykt"
 import { NawigacjaEkranu } from "@/components/nawigacja-ekranu"
 import { Pole, PoleSelect } from "@/components/ui/pole"
@@ -19,14 +20,44 @@ const MODE_LABELS: Record<Mode, string> = {
   runtime: "Szacowany czas pracy z baterii",
 }
 
+type FormularzStan = {
+  mode: Mode
+  powerW: string
+  voltageV: string
+  efficiency: string
+  capacityAh: string
+  energyWh: string
+}
+
+const STAN_POCZATKOWY: FormularzStan = {
+  mode: "watt-to-amp",
+  powerW: "100",
+  voltageV: "12",
+  efficiency: "",
+  capacityAh: "100",
+  energyWh: "1200",
+}
+
 export default function KalkulatoryPomocniczePage() {
   const t = useTranslate()
-  const [mode, setMode] = useState<Mode>("watt-to-amp")
-  const [powerW, setPowerW] = useState("100")
-  const [voltageV, setVoltageV] = useState("12")
-  const [efficiency, setEfficiency] = useState("")
-  const [capacityAh, setCapacityAh] = useState("100")
-  const [energyWh, setEnergyWh] = useState("1200")
+  const [stan, setStan] = usePersistedDraft<FormularzStan>("pomocnicze", STAN_POCZATKOWY)
+  const { mode, powerW, voltageV, efficiency, capacityAh, energyWh } = stan
+
+  function setPole<K extends keyof FormularzStan>(
+    pole: K,
+    akcja: FormularzStan[K] | ((prev: FormularzStan[K]) => FormularzStan[K]),
+  ) {
+    setStan((prev) => ({
+      ...prev,
+      [pole]: typeof akcja === "function" ? (akcja as (p: FormularzStan[K]) => FormularzStan[K])(prev[pole]) : akcja,
+    }))
+  }
+  const setMode = (a: Mode | ((p: Mode) => Mode)) => setPole("mode", a)
+  const setPowerW = (a: string | ((p: string) => string)) => setPole("powerW", a)
+  const setVoltageV = (a: string | ((p: string) => string)) => setPole("voltageV", a)
+  const setEfficiency = (a: string | ((p: string) => string)) => setPole("efficiency", a)
+  const setCapacityAh = (a: string | ((p: string) => string)) => setPole("capacityAh", a)
+  const setEnergyWh = (a: string | ((p: string) => string)) => setPole("energyWh", a)
 
   const input: KalkulatoryPomocniczeInput = useMemo(() => {
     const eff = efficiency === "" ? undefined : Number(efficiency)

@@ -1,19 +1,46 @@
 "use client"
 
-import { useMemo, useState } from "react"
+import { useMemo } from "react"
 import { calculateStringBox } from "@/lib/core/modules/okablowanie/string-box/calculator"
 import { BEZPIECZNIK_STRINGOWY_MAX_A, BEZPIECZNIK_STRINGOWY_MIN_A } from "@/lib/core/modules/okablowanie/string-box/constants"
+import { usePersistedDraft } from "@/lib/adapters/use-persisted-draft"
 import { Pole, PoleCheckbox } from "@/components/ui/pole"
 import { WerdyktPanel, type WerdyktPoziom } from "@/components/werdykt"
 import { NawigacjaEkranu } from "@/components/nawigacja-ekranu"
 import { NaglowekEkranu } from "@/components/wzorce/naglowek-ekranu"
 import { WynikSzczegoly } from "@/components/wzorce/wynik-szczegoly"
 
+type FormularzStan = {
+  liczbaStringow: number
+  liczbaWejscSkrzynki: number
+  bezpiecznikStringowyA: number
+  maSkrzynkeIp66: boolean
+}
+
+const STAN_POCZATKOWY: FormularzStan = {
+  liczbaStringow: 0,
+  liczbaWejscSkrzynki: 0,
+  bezpiecznikStringowyA: 0,
+  maSkrzynkeIp66: false,
+}
+
 export default function StringBoxPage() {
-  const [liczbaStringow, setLiczbaStringow] = useState(0)
-  const [liczbaWejscSkrzynki, setLiczbaWejscSkrzynki] = useState(0)
-  const [bezpiecznikStringowyA, setBezpiecznikStringowyA] = useState(0)
-  const [maSkrzynkeIp66, setMaSkrzynkeIp66] = useState(false)
+  const [stan, setStan] = usePersistedDraft<FormularzStan>("string-box", STAN_POCZATKOWY)
+  const { liczbaStringow, liczbaWejscSkrzynki, bezpiecznikStringowyA, maSkrzynkeIp66 } = stan
+
+  function setPole<K extends keyof FormularzStan>(
+    pole: K,
+    akcja: FormularzStan[K] | ((prev: FormularzStan[K]) => FormularzStan[K]),
+  ) {
+    setStan((prev) => ({
+      ...prev,
+      [pole]: typeof akcja === "function" ? (akcja as (p: FormularzStan[K]) => FormularzStan[K])(prev[pole]) : akcja,
+    }))
+  }
+  const setLiczbaStringow = (a: number | ((p: number) => number)) => setPole("liczbaStringow", a)
+  const setLiczbaWejscSkrzynki = (a: number | ((p: number) => number)) => setPole("liczbaWejscSkrzynki", a)
+  const setBezpiecznikStringowyA = (a: number | ((p: number) => number)) => setPole("bezpiecznikStringowyA", a)
+  const setMaSkrzynkeIp66 = (a: boolean | ((p: boolean) => boolean)) => setPole("maSkrzynkeIp66", a)
 
   const result = useMemo(
     () =>

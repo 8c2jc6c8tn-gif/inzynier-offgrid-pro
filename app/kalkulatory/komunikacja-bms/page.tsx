@@ -1,16 +1,39 @@
 "use client"
 
-import { useMemo, useState } from "react"
+import { useMemo } from "react"
 import { calculateKomunikacjaBms } from "@/lib/core/modules/baterie/komunikacja-bms/calculator"
 import { PROTOKOLY } from "@/lib/core/modules/baterie/komunikacja-bms/constants"
+import { usePersistedDraft } from "@/lib/adapters/use-persisted-draft"
 import { PoleSelect } from "@/components/ui/pole"
 import { WerdyktPanel, type WerdyktPoziom } from "@/components/werdykt"
 import { NawigacjaEkranu } from "@/components/nawigacja-ekranu"
 import { NaglowekEkranu } from "@/components/wzorce/naglowek-ekranu"
 
+type FormularzStan = {
+  protokolBms: string
+  protokolFalownika: string
+}
+
+const STAN_POCZATKOWY: FormularzStan = {
+  protokolBms: "",
+  protokolFalownika: "",
+}
+
 export default function KomunikacjaBmsPage() {
-  const [protokolBms, setProtokolBms] = useState("")
-  const [protokolFalownika, setProtokolFalownika] = useState("")
+  const [stan, setStan] = usePersistedDraft<FormularzStan>("komunikacja-bms", STAN_POCZATKOWY)
+  const { protokolBms, protokolFalownika } = stan
+
+  function setPole<K extends keyof FormularzStan>(
+    pole: K,
+    akcja: FormularzStan[K] | ((prev: FormularzStan[K]) => FormularzStan[K]),
+  ) {
+    setStan((prev) => ({
+      ...prev,
+      [pole]: typeof akcja === "function" ? (akcja as (p: FormularzStan[K]) => FormularzStan[K])(prev[pole]) : akcja,
+    }))
+  }
+  const setProtokolBms = (a: string | ((p: string) => string)) => setPole("protokolBms", a)
+  const setProtokolFalownika = (a: string | ((p: string) => string)) => setPole("protokolFalownika", a)
 
   const result = useMemo(
     () => calculateKomunikacjaBms({ protokolBms, protokolFalownika }),

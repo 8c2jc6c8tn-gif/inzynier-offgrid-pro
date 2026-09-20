@@ -1,6 +1,6 @@
 "use client"
 
-import { useMemo, useState } from "react"
+import { useMemo } from "react"
 import { calculateWindChill } from "@/lib/core/modules/stress-test/wind-chill/calculator"
 import { Pole } from "@/components/ui/pole"
 import { WerdyktPanel } from "@/components/werdykt"
@@ -9,11 +9,34 @@ import { NaglowekEkranu } from "@/components/wzorce/naglowek-ekranu"
 import { WynikGlowny } from "@/components/wzorce/wynik-glowny"
 import { WynikSzczegoly } from "@/components/wzorce/wynik-szczegoly"
 import { useTranslate } from "@/lib/i18n/language-context"
+import { usePersistedDraft } from "@/lib/adapters/use-persisted-draft"
+
+type FormularzStan = {
+  temperaturaC: string
+  predkoscWiatruKmh: string
+}
+
+const STAN_POCZATKOWY: FormularzStan = {
+  temperaturaC: "",
+  predkoscWiatruKmh: "",
+}
 
 export default function WindChillPage() {
   const t = useTranslate()
-  const [temperaturaC, setTemperaturaC] = useState("")
-  const [predkoscWiatruKmh, setPredkoscWiatruKmh] = useState("")
+  const [stan, setStan] = usePersistedDraft<FormularzStan>("wind-chill", STAN_POCZATKOWY)
+  const { temperaturaC, predkoscWiatruKmh } = stan
+
+  function setPole<K extends keyof FormularzStan>(
+    pole: K,
+    akcja: FormularzStan[K] | ((prev: FormularzStan[K]) => FormularzStan[K]),
+  ) {
+    setStan((prev) => ({
+      ...prev,
+      [pole]: typeof akcja === "function" ? (akcja as (p: FormularzStan[K]) => FormularzStan[K])(prev[pole]) : akcja,
+    }))
+  }
+  const setTemperaturaC = (a: string | ((p: string) => string)) => setPole("temperaturaC", a)
+  const setPredkoscWiatruKmh = (a: string | ((p: string) => string)) => setPole("predkoscWiatruKmh", a)
 
   const result = useMemo(
     () =>

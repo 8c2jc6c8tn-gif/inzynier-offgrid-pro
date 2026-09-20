@@ -1,9 +1,10 @@
 "use client"
 
-import { useMemo, useState } from "react"
+import { useMemo } from "react"
 import { calculateLaczenieCuAl } from "@/lib/core/modules/okablowanie/laczenie-cu-al/calculator"
 import { ETYKIETY_MATERIALOW, ETYKIETY_SRODOWISK, kluczPary } from "@/lib/core/modules/okablowanie/laczenie-cu-al/constants"
 import type { Material, Srodowisko } from "@/lib/core/modules/okablowanie/laczenie-cu-al/input"
+import { usePersistedDraft } from "@/lib/adapters/use-persisted-draft"
 import { Pole, PoleCheckbox, PoleSelect } from "@/components/ui/pole"
 import { WerdyktPanel, type WerdyktPoziom } from "@/components/werdykt"
 import { NawigacjaEkranu } from "@/components/nawigacja-ekranu"
@@ -13,13 +14,43 @@ import { WynikSzczegoly } from "@/components/wzorce/wynik-szczegoly"
 const MATERIALY = Object.keys(ETYKIETY_MATERIALOW) as Material[]
 const SRODOWISKA = Object.keys(ETYKIETY_SRODOWISK) as Srodowisko[]
 
+type FormularzStan = {
+  material1: Material | ""
+  material2: Material | ""
+  srodowisko: Srodowisko
+  maZlaczkeBimetaliczna: boolean
+  maPodkladkeISmar: boolean
+  przekrojCuMm2: string
+}
+
+const STAN_POCZATKOWY: FormularzStan = {
+  material1: "",
+  material2: "",
+  srodowisko: "suche",
+  maZlaczkeBimetaliczna: false,
+  maPodkladkeISmar: false,
+  przekrojCuMm2: "",
+}
+
 export default function LaczenieCuAlPage() {
-  const [material1, setMaterial1] = useState<Material | "">("")
-  const [material2, setMaterial2] = useState<Material | "">("")
-  const [srodowisko, setSrodowisko] = useState<Srodowisko>("suche")
-  const [maZlaczkeBimetaliczna, setMaZlaczkeBimetaliczna] = useState(false)
-  const [maPodkladkeISmar, setMaPodkladkeISmar] = useState(false)
-  const [przekrojCuMm2, setPrzekrojCuMm2] = useState("")
+  const [stan, setStan] = usePersistedDraft<FormularzStan>("laczenie-cu-al", STAN_POCZATKOWY)
+  const { material1, material2, srodowisko, maZlaczkeBimetaliczna, maPodkladkeISmar, przekrojCuMm2 } = stan
+
+  function setPole<K extends keyof FormularzStan>(
+    pole: K,
+    akcja: FormularzStan[K] | ((prev: FormularzStan[K]) => FormularzStan[K]),
+  ) {
+    setStan((prev) => ({
+      ...prev,
+      [pole]: typeof akcja === "function" ? (akcja as (p: FormularzStan[K]) => FormularzStan[K])(prev[pole]) : akcja,
+    }))
+  }
+  const setMaterial1 = (a: (Material | "") | ((p: Material | "") => Material | "")) => setPole("material1", a)
+  const setMaterial2 = (a: (Material | "") | ((p: Material | "") => Material | "")) => setPole("material2", a)
+  const setSrodowisko = (a: Srodowisko | ((p: Srodowisko) => Srodowisko)) => setPole("srodowisko", a)
+  const setMaZlaczkeBimetaliczna = (a: boolean | ((p: boolean) => boolean)) => setPole("maZlaczkeBimetaliczna", a)
+  const setMaPodkladkeISmar = (a: boolean | ((p: boolean) => boolean)) => setPole("maPodkladkeISmar", a)
+  const setPrzekrojCuMm2 = (a: string | ((p: string) => string)) => setPole("przekrojCuMm2", a)
 
   const result = useMemo(
     () =>

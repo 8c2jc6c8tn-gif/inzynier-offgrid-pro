@@ -1,17 +1,37 @@
 "use client"
 
-import { useMemo, useState } from "react"
+import { useMemo } from "react"
 import { calculateDetekcjaDoziemienia } from "@/lib/core/modules/baterie/detekcja-doziemienia/calculator"
+import { usePersistedDraft } from "@/lib/adapters/use-persisted-draft"
 import { PoleCheckbox } from "@/components/ui/pole"
 import { WerdyktPanel, type WerdyktPoziom } from "@/components/werdykt"
 import { NawigacjaEkranu } from "@/components/nawigacja-ekranu"
 import { NaglowekEkranu } from "@/components/wzorce/naglowek-ekranu"
 import { useTranslate } from "@/lib/i18n/language-context"
 
+type FormularzStan = {
+  maMonitorIzolacji: boolean
+  maRoznicowkeDc: boolean
+}
+
+const STAN_POCZATKOWY: FormularzStan = {
+  maMonitorIzolacji: false,
+  maRoznicowkeDc: false,
+}
+
 export default function DetekcjaDoziemieniaPage() {
   const t = useTranslate()
-  const [maMonitorIzolacji, setMaMonitorIzolacji] = useState(false)
-  const [maRoznicowkeDc, setMaRoznicowkeDc] = useState(false)
+  const [stan, setStan] = usePersistedDraft<FormularzStan>("detekcja-doziemienia", STAN_POCZATKOWY)
+  const { maMonitorIzolacji, maRoznicowkeDc } = stan
+
+  function setPole<K extends keyof FormularzStan>(pole: K, akcja: FormularzStan[K] | ((prev: FormularzStan[K]) => FormularzStan[K])) {
+    setStan((prev) => ({
+      ...prev,
+      [pole]: typeof akcja === "function" ? (akcja as (p: FormularzStan[K]) => FormularzStan[K])(prev[pole]) : akcja,
+    }))
+  }
+  const setMaMonitorIzolacji = (a: boolean | ((p: boolean) => boolean)) => setPole("maMonitorIzolacji", a)
+  const setMaRoznicowkeDc = (a: boolean | ((p: boolean) => boolean)) => setPole("maRoznicowkeDc", a)
 
   const result = useMemo(
     () => calculateDetekcjaDoziemienia({ maMonitorIzolacji, maRoznicowkeDc }),

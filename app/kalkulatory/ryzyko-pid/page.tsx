@@ -1,7 +1,8 @@
 "use client"
 
-import { useMemo, useState } from "react"
+import { useMemo } from "react"
 import { calculateRyzykoPid } from "@/lib/core/modules/pv/ryzyko-pid/calculator"
+import { usePersistedDraft } from "@/lib/adapters/use-persisted-draft"
 import { Pole, PoleCheckbox } from "@/components/ui/pole"
 import { WerdyktPanel, type WerdyktPoziom } from "@/components/werdykt"
 import { NawigacjaEkranu } from "@/components/nawigacja-ekranu"
@@ -9,10 +10,29 @@ import { NaglowekEkranu } from "@/components/wzorce/naglowek-ekranu"
 import { WynikSzczegoly } from "@/components/wzorce/wynik-szczegoly"
 import { useTranslate } from "@/lib/i18n/language-context"
 
+type FormularzStan = {
+  napiecieDcV: string
+  wilgotnoscWysoka: boolean
+}
+
+const STAN_POCZATKOWY: FormularzStan = {
+  napiecieDcV: "",
+  wilgotnoscWysoka: false,
+}
+
 export default function RyzykoPidPage() {
   const t = useTranslate()
-  const [napiecieDcV, setNapiecieDcV] = useState("")
-  const [wilgotnoscWysoka, setWilgotnoscWysoka] = useState(false)
+  const [stan, setStan] = usePersistedDraft<FormularzStan>("ryzyko-pid", STAN_POCZATKOWY)
+  const { napiecieDcV, wilgotnoscWysoka } = stan
+
+  function setPole<K extends keyof FormularzStan>(pole: K, akcja: FormularzStan[K] | ((prev: FormularzStan[K]) => FormularzStan[K])) {
+    setStan((prev) => ({
+      ...prev,
+      [pole]: typeof akcja === "function" ? (akcja as (p: FormularzStan[K]) => FormularzStan[K])(prev[pole]) : akcja,
+    }))
+  }
+  const setNapiecieDcV = (a: string | ((p: string) => string)) => setPole("napiecieDcV", a)
+  const setWilgotnoscWysoka = (a: boolean | ((p: boolean) => boolean)) => setPole("wilgotnoscWysoka", a)
 
   const result = useMemo(
     () =>

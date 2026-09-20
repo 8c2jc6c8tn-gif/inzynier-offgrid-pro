@@ -1,8 +1,9 @@
 "use client"
 
-import { useMemo, useState } from "react"
+import { useMemo } from "react"
 import { calculateNaporWiatru } from "@/lib/core/modules/pv/napor-wiatru/calculator"
 import { CD_TYPOWY_MAX, CD_TYPOWY_MIN } from "@/lib/core/modules/pv/napor-wiatru/constants"
+import { usePersistedDraft } from "@/lib/adapters/use-persisted-draft"
 import { Pole } from "@/components/ui/pole"
 import { WerdyktPanel } from "@/components/werdykt"
 import { NawigacjaEkranu } from "@/components/nawigacja-ekranu"
@@ -10,10 +11,31 @@ import { NaglowekEkranu } from "@/components/wzorce/naglowek-ekranu"
 import { WynikGlowny } from "@/components/wzorce/wynik-glowny"
 import { WynikSzczegoly } from "@/components/wzorce/wynik-szczegoly"
 
+type FormularzStan = {
+  predkoscWiatruMS: string
+  powierzchniaM2: string
+  cd: string
+}
+
+const STAN_POCZATKOWY: FormularzStan = {
+  predkoscWiatruMS: "",
+  powierzchniaM2: "",
+  cd: "",
+}
+
 export default function NaporWiatruPage() {
-  const [predkoscWiatruMS, setPredkoscWiatruMS] = useState("")
-  const [powierzchniaM2, setPowierzchniaM2] = useState("")
-  const [cd, setCd] = useState("")
+  const [stan, setStan] = usePersistedDraft<FormularzStan>("napor-wiatru", STAN_POCZATKOWY)
+  const { predkoscWiatruMS, powierzchniaM2, cd } = stan
+
+  function setPole<K extends keyof FormularzStan>(pole: K, akcja: FormularzStan[K] | ((prev: FormularzStan[K]) => FormularzStan[K])) {
+    setStan((prev) => ({
+      ...prev,
+      [pole]: typeof akcja === "function" ? (akcja as (p: FormularzStan[K]) => FormularzStan[K])(prev[pole]) : akcja,
+    }))
+  }
+  const setPredkoscWiatruMS = (a: string | ((p: string) => string)) => setPole("predkoscWiatruMS", a)
+  const setPowierzchniaM2 = (a: string | ((p: string) => string)) => setPole("powierzchniaM2", a)
+  const setCd = (a: string | ((p: string) => string)) => setPole("cd", a)
 
   const result = useMemo(
     () =>

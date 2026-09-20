@@ -1,8 +1,9 @@
 "use client"
 
-import { useMemo, useState } from "react"
+import { useMemo } from "react"
 import { calculateSohPerOgniwo } from "@/lib/core/modules/baterie/soh-per-ogniwo/calculator"
 import { PROG_KRYTYCZNY_WZROSTU_PCT } from "@/lib/core/modules/baterie/soh-per-ogniwo/constants"
+import { usePersistedDraft } from "@/lib/adapters/use-persisted-draft"
 import { Pole } from "@/components/ui/pole"
 import { WerdyktPanel, type WerdyktPoziom } from "@/components/werdykt"
 import { NawigacjaEkranu } from "@/components/nawigacja-ekranu"
@@ -11,10 +12,32 @@ import { WynikGlowny } from "@/components/wzorce/wynik-glowny"
 import { WynikSzczegoly } from "@/components/wzorce/wynik-szczegoly"
 import { useTranslate } from "@/lib/i18n/language-context"
 
+type FormularzStan = {
+  rezystancjaFabrycznaMOhm: string
+  rezystancjaAktualnaMOhm: string
+}
+
+const STAN_POCZATKOWY: FormularzStan = {
+  rezystancjaFabrycznaMOhm: "",
+  rezystancjaAktualnaMOhm: "",
+}
+
 export default function SohPerOgniwoPage() {
   const t = useTranslate()
-  const [rezystancjaFabrycznaMOhm, setRezystancjaFabrycznaMOhm] = useState("")
-  const [rezystancjaAktualnaMOhm, setRezystancjaAktualnaMOhm] = useState("")
+  const [stan, setStan] = usePersistedDraft<FormularzStan>("soh-per-ogniwo", STAN_POCZATKOWY)
+  const { rezystancjaFabrycznaMOhm, rezystancjaAktualnaMOhm } = stan
+
+  function setPole<K extends keyof FormularzStan>(
+    pole: K,
+    akcja: FormularzStan[K] | ((prev: FormularzStan[K]) => FormularzStan[K]),
+  ) {
+    setStan((prev) => ({
+      ...prev,
+      [pole]: typeof akcja === "function" ? (akcja as (p: FormularzStan[K]) => FormularzStan[K])(prev[pole]) : akcja,
+    }))
+  }
+  const setRezystancjaFabrycznaMOhm = (a: string | ((p: string) => string)) => setPole("rezystancjaFabrycznaMOhm", a)
+  const setRezystancjaAktualnaMOhm = (a: string | ((p: string) => string)) => setPole("rezystancjaAktualnaMOhm", a)
 
   const result = useMemo(
     () =>

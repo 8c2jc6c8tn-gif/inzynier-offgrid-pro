@@ -1,9 +1,10 @@
 "use client"
 
-import { useMemo, useState } from "react"
+import { useMemo } from "react"
 import { calculateBuforRozbudowy } from "@/lib/core/modules/zapotrzebowanie/bufor-rozbudowe/calculator"
 import { OPCJE_BUFORA_PCT } from "@/lib/core/modules/zapotrzebowanie/bufor-rozbudowe/constants"
 import type { BuforRozbudowyInput } from "@/lib/core/modules/zapotrzebowanie/bufor-rozbudowe/input"
+import { usePersistedDraft } from "@/lib/adapters/use-persisted-draft"
 import { Pole, PoleSelect } from "@/components/ui/pole"
 import { WerdyktPanel } from "@/components/werdykt"
 import { NawigacjaEkranu } from "@/components/nawigacja-ekranu"
@@ -11,9 +12,30 @@ import { NaglowekEkranu } from "@/components/wzorce/naglowek-ekranu"
 import { WynikGlowny } from "@/components/wzorce/wynik-glowny"
 import { WynikSzczegoly } from "@/components/wzorce/wynik-szczegoly"
 
+type FormularzStan = {
+  zapotrzebowanieCalkowiteKwh: string
+  buforPct: BuforRozbudowyInput["buforPct"]
+}
+
+const STAN_POCZATKOWY: FormularzStan = {
+  zapotrzebowanieCalkowiteKwh: "",
+  buforPct: 0,
+}
+
 export default function BuforRozbudowyPage() {
-  const [zapotrzebowanieCalkowiteKwh, setZapotrzebowanieCalkowiteKwh] = useState("")
-  const [buforPct, setBuforPct] = useState<BuforRozbudowyInput["buforPct"]>(0)
+  const [stan, setStan] = usePersistedDraft<FormularzStan>("bufor-rozbudowe", STAN_POCZATKOWY)
+  const { zapotrzebowanieCalkowiteKwh, buforPct } = stan
+
+  function setPole<K extends keyof FormularzStan>(pole: K, akcja: FormularzStan[K] | ((prev: FormularzStan[K]) => FormularzStan[K])) {
+    setStan((prev) => ({
+      ...prev,
+      [pole]: typeof akcja === "function" ? (akcja as (p: FormularzStan[K]) => FormularzStan[K])(prev[pole]) : akcja,
+    }))
+  }
+  const setZapotrzebowanieCalkowiteKwh = (a: string | ((p: string) => string)) => setPole("zapotrzebowanieCalkowiteKwh", a)
+  const setBuforPct = (
+    a: BuforRozbudowyInput["buforPct"] | ((p: BuforRozbudowyInput["buforPct"]) => BuforRozbudowyInput["buforPct"]),
+  ) => setPole("buforPct", a)
 
   const result = useMemo(
     () =>

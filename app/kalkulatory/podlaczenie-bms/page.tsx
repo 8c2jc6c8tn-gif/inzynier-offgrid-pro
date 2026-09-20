@@ -1,8 +1,9 @@
 "use client"
 
-import { useMemo, useState } from "react"
+import { useMemo } from "react"
 import { calculatePodlaczenieBms } from "@/lib/core/modules/montaz-baterii/podlaczenie-bms/calculator"
 import { CHECKLIST_ITEMS, OSTRZEZENIA_STALE, PRZYKLADOWA_REZYSTANCJA_OHM } from "@/lib/core/modules/montaz-baterii/podlaczenie-bms/constants"
+import { usePersistedDraft } from "@/lib/adapters/use-persisted-draft"
 import { Pole } from "@/components/ui/pole"
 import { ListaChecklist } from "@/components/wzorce/lista-checklist"
 import { WerdyktPanel, type WerdyktPoziom } from "@/components/werdykt"
@@ -101,10 +102,34 @@ function PodlaczenieBmsIlustracja() {
   )
 }
 
+type FormularzStan = {
+  pojemnoscFalownikaUf: string
+  rezystancjaPreChargeOhm: string
+  potwierdzoneIds: string[]
+}
+
+const STAN_POCZATKOWY: FormularzStan = {
+  pojemnoscFalownikaUf: "2200",
+  rezystancjaPreChargeOhm: String(PRZYKLADOWA_REZYSTANCJA_OHM),
+  potwierdzoneIds: [],
+}
+
 export default function PodlaczenieBmsPage() {
-  const [pojemnoscFalownikaUf, setPojemnoscFalownikaUf] = useState("2200")
-  const [rezystancjaPreChargeOhm, setRezystancjaPreChargeOhm] = useState(String(PRZYKLADOWA_REZYSTANCJA_OHM))
-  const [potwierdzoneIds, setPotwierdzoneIds] = useState<string[]>([])
+  const [stan, setStan] = usePersistedDraft<FormularzStan>("podlaczenie-bms", STAN_POCZATKOWY)
+  const { pojemnoscFalownikaUf, rezystancjaPreChargeOhm, potwierdzoneIds } = stan
+
+  function setPole<K extends keyof FormularzStan>(
+    pole: K,
+    akcja: FormularzStan[K] | ((prev: FormularzStan[K]) => FormularzStan[K]),
+  ) {
+    setStan((prev) => ({
+      ...prev,
+      [pole]: typeof akcja === "function" ? (akcja as (p: FormularzStan[K]) => FormularzStan[K])(prev[pole]) : akcja,
+    }))
+  }
+  const setPojemnoscFalownikaUf = (a: string | ((p: string) => string)) => setPole("pojemnoscFalownikaUf", a)
+  const setRezystancjaPreChargeOhm = (a: string | ((p: string) => string)) => setPole("rezystancjaPreChargeOhm", a)
+  const setPotwierdzoneIds = (a: string[] | ((p: string[]) => string[])) => setPole("potwierdzoneIds", a)
 
   const result = useMemo(
     () =>

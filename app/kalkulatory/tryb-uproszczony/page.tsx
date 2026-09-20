@@ -1,18 +1,43 @@
 "use client"
 
-import { useMemo, useState } from "react"
+import { useMemo } from "react"
 import { calculateTrybUproszczony } from "@/lib/core/modules/kalkulator-mobilny/tryb-uproszczony/calculator"
+import { usePersistedDraft } from "@/lib/adapters/use-persisted-draft"
 import { WerdyktPanel } from "@/components/werdykt"
 import { Pole } from "@/components/ui/pole"
 import { NaglowekEkranu } from "@/components/wzorce/naglowek-ekranu"
 import { NawigacjaEkranu } from "@/components/nawigacja-ekranu"
 import { useTranslate } from "@/lib/i18n/language-context"
 
+type FormularzStan = {
+  pojemnoscAh: string
+  napiecieV: string
+  mocOdbiornikaW: string
+}
+
+const STAN_POCZATKOWY: FormularzStan = {
+  pojemnoscAh: "100",
+  napiecieV: "12",
+  mocOdbiornikaW: "50",
+}
+
 export default function TrybUproszczonyPage() {
   const t = useTranslate()
-  const [pojemnoscAh, setPojemnoscAh] = useState("100")
-  const [napiecieV, setNapiecieV] = useState("12")
-  const [mocOdbiornikaW, setMocOdbiornikaW] = useState("50")
+  const [stan, setStan] = usePersistedDraft<FormularzStan>("tryb-uproszczony", STAN_POCZATKOWY)
+  const { pojemnoscAh, napiecieV, mocOdbiornikaW } = stan
+
+  function setPole<K extends keyof FormularzStan>(
+    pole: K,
+    akcja: FormularzStan[K] | ((prev: FormularzStan[K]) => FormularzStan[K]),
+  ) {
+    setStan((prev) => ({
+      ...prev,
+      [pole]: typeof akcja === "function" ? (akcja as (p: FormularzStan[K]) => FormularzStan[K])(prev[pole]) : akcja,
+    }))
+  }
+  const setPojemnoscAh = (a: string | ((p: string) => string)) => setPole("pojemnoscAh", a)
+  const setNapiecieV = (a: string | ((p: string) => string)) => setPole("napiecieV", a)
+  const setMocOdbiornikaW = (a: string | ((p: string) => string)) => setPole("mocOdbiornikaW", a)
 
   const result = useMemo(
     () =>

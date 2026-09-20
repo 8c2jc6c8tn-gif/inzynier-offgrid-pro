@@ -1,6 +1,6 @@
 "use client"
 
-import { useMemo, useState } from "react"
+import { useMemo } from "react"
 import { calculateGrzalkiBmsMroz } from "@/lib/core/modules/baterie/grzalki-bms-mroz/calculator"
 import {
   PROG_SOC_WSTRZYMANIA_PCT,
@@ -8,6 +8,7 @@ import {
   PRZYKLADY_BILANSU_GRZANIA,
 } from "@/lib/core/modules/baterie/grzalki-bms-mroz/constants"
 import type { ProdukcjaPv } from "@/lib/core/modules/baterie/grzalki-bms-mroz/input"
+import { usePersistedDraft } from "@/lib/adapters/use-persisted-draft"
 import { Pole, PoleSelect } from "@/components/ui/pole"
 import { WerdyktPanel, type WerdyktPoziom } from "@/components/werdykt"
 import { NawigacjaEkranu } from "@/components/nawigacja-ekranu"
@@ -22,11 +23,35 @@ const ETYKIETY_ZRODLA: Record<string, string> = {
   wstrzymane: "Grzanie wstrzymane",
 }
 
+type FormularzStan = {
+  temperaturaMinC: string
+  socPct: string
+  produkcjaPv: ProdukcjaPv
+}
+
+const STAN_POCZATKOWY: FormularzStan = {
+  temperaturaMinC: "",
+  socPct: "",
+  produkcjaPv: "",
+}
+
 export default function GrzalkiBmsMrozPage() {
   const t = useTranslate()
-  const [temperaturaMinC, setTemperaturaMinC] = useState("")
-  const [socPct, setSocPct] = useState("")
-  const [produkcjaPv, setProdukcjaPv] = useState<ProdukcjaPv>("")
+  const [stan, setStan] = usePersistedDraft<FormularzStan>("grzalki-bms-mroz", STAN_POCZATKOWY)
+  const { temperaturaMinC, socPct, produkcjaPv } = stan
+
+  function setPole<K extends keyof FormularzStan>(
+    pole: K,
+    akcja: FormularzStan[K] | ((prev: FormularzStan[K]) => FormularzStan[K]),
+  ) {
+    setStan((prev) => ({
+      ...prev,
+      [pole]: typeof akcja === "function" ? (akcja as (p: FormularzStan[K]) => FormularzStan[K])(prev[pole]) : akcja,
+    }))
+  }
+  const setTemperaturaMinC = (a: string | ((p: string) => string)) => setPole("temperaturaMinC", a)
+  const setSocPct = (a: string | ((p: string) => string)) => setPole("socPct", a)
+  const setProdukcjaPv = (a: ProdukcjaPv | ((p: ProdukcjaPv) => ProdukcjaPv)) => setPole("produkcjaPv", a)
 
   const result = useMemo(
     () =>

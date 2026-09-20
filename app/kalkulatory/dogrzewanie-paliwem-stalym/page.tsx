@@ -1,8 +1,9 @@
 "use client"
 
-import { useMemo, useState } from "react"
+import { useMemo } from "react"
 import { calculateDogrzewaniePaliwemStalym } from "@/lib/core/modules/bezpieczenstwo/dogrzewanie-paliwem-stalym/calculator"
 import type { PaliwoStale } from "@/lib/core/modules/bezpieczenstwo/dogrzewanie-paliwem-stalym/input"
+import { usePersistedDraft } from "@/lib/adapters/use-persisted-draft"
 import { Pole, PoleSelect, PoleCheckbox } from "@/components/ui/pole"
 import { WerdyktPanel } from "@/components/werdykt"
 import { NawigacjaEkranu } from "@/components/nawigacja-ekranu"
@@ -10,11 +11,34 @@ import { NaglowekEkranu } from "@/components/wzorce/naglowek-ekranu"
 import { WynikGlowny } from "@/components/wzorce/wynik-glowny"
 import { WynikSzczegoly } from "@/components/wzorce/wynik-szczegoly"
 
+type FormularzStan = {
+  typPaliwa: PaliwoStale | ""
+  odlegloscOdMaterialowPalnychCm: string
+  maNawiewPowietrzaDoSpalania: boolean
+  maCzujnikCo: boolean
+}
+
+const STAN_POCZATKOWY: FormularzStan = {
+  typPaliwa: "",
+  odlegloscOdMaterialowPalnychCm: "",
+  maNawiewPowietrzaDoSpalania: false,
+  maCzujnikCo: false,
+}
+
 export default function DogrzewaniePaliwemStalymPage() {
-  const [typPaliwa, setTypPaliwa] = useState<PaliwoStale | "">("")
-  const [odlegloscOdMaterialowPalnychCm, setOdlegloscOdMaterialowPalnychCm] = useState("")
-  const [maNawiewPowietrzaDoSpalania, setMaNawiewPowietrzaDoSpalania] = useState(false)
-  const [maCzujnikCo, setMaCzujnikCo] = useState(false)
+  const [stan, setStan] = usePersistedDraft<FormularzStan>("dogrzewanie-paliwem-stalym", STAN_POCZATKOWY)
+  const { typPaliwa, odlegloscOdMaterialowPalnychCm, maNawiewPowietrzaDoSpalania, maCzujnikCo } = stan
+
+  function setPole<K extends keyof FormularzStan>(pole: K, akcja: FormularzStan[K] | ((prev: FormularzStan[K]) => FormularzStan[K])) {
+    setStan((prev) => ({
+      ...prev,
+      [pole]: typeof akcja === "function" ? (akcja as (p: FormularzStan[K]) => FormularzStan[K])(prev[pole]) : akcja,
+    }))
+  }
+  const setTypPaliwa = (a: (PaliwoStale | "") | ((p: PaliwoStale | "") => PaliwoStale | "")) => setPole("typPaliwa", a)
+  const setOdlegloscOdMaterialowPalnychCm = (a: string | ((p: string) => string)) => setPole("odlegloscOdMaterialowPalnychCm", a)
+  const setMaNawiewPowietrzaDoSpalania = (a: boolean | ((p: boolean) => boolean)) => setPole("maNawiewPowietrzaDoSpalania", a)
+  const setMaCzujnikCo = (a: boolean | ((p: boolean) => boolean)) => setPole("maCzujnikCo", a)
 
   const result = useMemo(
     () =>

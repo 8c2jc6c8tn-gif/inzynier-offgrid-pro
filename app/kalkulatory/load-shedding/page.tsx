@@ -1,8 +1,9 @@
 "use client"
 
-import { useMemo, useState } from "react"
+import { useMemo } from "react"
 import { calculateLoadShedding } from "@/lib/core/modules/zapotrzebowanie/load-shedding/calculator"
 import type { LoadSheddingInput } from "@/lib/core/modules/zapotrzebowanie/load-shedding/input"
+import { usePersistedDraft } from "@/lib/adapters/use-persisted-draft"
 import { Pole, PoleCheckbox, PoleSelect } from "@/components/ui/pole"
 import { WerdyktPanel } from "@/components/werdykt"
 import { NawigacjaEkranu } from "@/components/nawigacja-ekranu"
@@ -10,10 +11,35 @@ import { NaglowekEkranu } from "@/components/wzorce/naglowek-ekranu"
 import { WynikGlowny } from "@/components/wzorce/wynik-glowny"
 import { WynikSzczegoly } from "@/components/wzorce/wynik-szczegoly"
 
+type FormularzStan = {
+  priorytet: LoadSheddingInput["priorytet"]
+  socPct: string
+  maNadwyzkePv: boolean
+}
+
+const STAN_POCZATKOWY: FormularzStan = {
+  priorytet: 0,
+  socPct: "",
+  maNadwyzkePv: false,
+}
+
 export default function LoadSheddingPage() {
-  const [priorytet, setPriorytet] = useState<LoadSheddingInput["priorytet"]>(0)
-  const [socPct, setSocPct] = useState("")
-  const [maNadwyzkePv, setMaNadwyzkePv] = useState(false)
+  const [stan, setStan] = usePersistedDraft<FormularzStan>("load-shedding", STAN_POCZATKOWY)
+  const { priorytet, socPct, maNadwyzkePv } = stan
+
+  function setPole<K extends keyof FormularzStan>(
+    pole: K,
+    akcja: FormularzStan[K] | ((prev: FormularzStan[K]) => FormularzStan[K]),
+  ) {
+    setStan((prev) => ({
+      ...prev,
+      [pole]: typeof akcja === "function" ? (akcja as (p: FormularzStan[K]) => FormularzStan[K])(prev[pole]) : akcja,
+    }))
+  }
+  const setPriorytet = (a: LoadSheddingInput["priorytet"] | ((p: LoadSheddingInput["priorytet"]) => LoadSheddingInput["priorytet"])) =>
+    setPole("priorytet", a)
+  const setSocPct = (a: string | ((p: string) => string)) => setPole("socPct", a)
+  const setMaNadwyzkePv = (a: boolean | ((p: boolean) => boolean)) => setPole("maNadwyzkePv", a)
 
   const result = useMemo(
     () =>

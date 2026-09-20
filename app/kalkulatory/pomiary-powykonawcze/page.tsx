@@ -1,8 +1,9 @@
 "use client"
 
-import { useMemo, useState } from "react"
+import { useMemo } from "react"
 import { calculatePomiaryPowykonawcze } from "@/lib/core/modules/okablowanie/pomiary-powykonawcze/calculator"
 import type { CelUziemienia } from "@/lib/core/modules/okablowanie/pomiary-powykonawcze/input"
+import { usePersistedDraft } from "@/lib/adapters/use-persisted-draft"
 import { Pole, PoleCheckbox, PoleSelect } from "@/components/ui/pole"
 import { WerdyktPanel, type WerdyktPoziom } from "@/components/werdykt"
 import { NawigacjaEkranu } from "@/components/nawigacja-ekranu"
@@ -10,14 +11,54 @@ import { NaglowekEkranu } from "@/components/wzorce/naglowek-ekranu"
 import { WynikGlowny } from "@/components/wzorce/wynik-glowny"
 import { WynikSzczegoly } from "@/components/wzorce/wynik-szczegoly"
 
+type FormularzStan = {
+  ciagloscPotwierdzona: boolean
+  rezystancjaIzolacjiMohm: string
+  celUziemienia: CelUziemienia
+  rezystancjaUziemieniaOhm: string
+  czasZadzialaniaRcdS: string
+  testZwarciowyPotwierdzony: boolean
+  termowizjaPotwierdzona: boolean
+}
+
+const STAN_POCZATKOWY: FormularzStan = {
+  ciagloscPotwierdzona: false,
+  rezystancjaIzolacjiMohm: "",
+  celUziemienia: "ochronna",
+  rezystancjaUziemieniaOhm: "",
+  czasZadzialaniaRcdS: "",
+  testZwarciowyPotwierdzony: false,
+  termowizjaPotwierdzona: false,
+}
+
 export default function PomiaryPowykonawczePage() {
-  const [ciagloscPotwierdzona, setCiagloscPotwierdzona] = useState(false)
-  const [rezystancjaIzolacjiMohm, setRezystancjaIzolacjiMohm] = useState("")
-  const [celUziemienia, setCelUziemienia] = useState<CelUziemienia>("ochronna")
-  const [rezystancjaUziemieniaOhm, setRezystancjaUziemieniaOhm] = useState("")
-  const [czasZadzialaniaRcdS, setCzasZadzialaniaRcdS] = useState("")
-  const [testZwarciowyPotwierdzony, setTestZwarciowyPotwierdzony] = useState(false)
-  const [termowizjaPotwierdzona, setTermowizjaPotwierdzona] = useState(false)
+  const [stan, setStan] = usePersistedDraft<FormularzStan>("pomiary-powykonawcze", STAN_POCZATKOWY)
+  const {
+    ciagloscPotwierdzona,
+    rezystancjaIzolacjiMohm,
+    celUziemienia,
+    rezystancjaUziemieniaOhm,
+    czasZadzialaniaRcdS,
+    testZwarciowyPotwierdzony,
+    termowizjaPotwierdzona,
+  } = stan
+
+  function setPole<K extends keyof FormularzStan>(
+    pole: K,
+    akcja: FormularzStan[K] | ((prev: FormularzStan[K]) => FormularzStan[K]),
+  ) {
+    setStan((prev) => ({
+      ...prev,
+      [pole]: typeof akcja === "function" ? (akcja as (p: FormularzStan[K]) => FormularzStan[K])(prev[pole]) : akcja,
+    }))
+  }
+  const setCiagloscPotwierdzona = (a: boolean | ((p: boolean) => boolean)) => setPole("ciagloscPotwierdzona", a)
+  const setRezystancjaIzolacjiMohm = (a: string | ((p: string) => string)) => setPole("rezystancjaIzolacjiMohm", a)
+  const setCelUziemienia = (a: CelUziemienia | ((p: CelUziemienia) => CelUziemienia)) => setPole("celUziemienia", a)
+  const setRezystancjaUziemieniaOhm = (a: string | ((p: string) => string)) => setPole("rezystancjaUziemieniaOhm", a)
+  const setCzasZadzialaniaRcdS = (a: string | ((p: string) => string)) => setPole("czasZadzialaniaRcdS", a)
+  const setTestZwarciowyPotwierdzony = (a: boolean | ((p: boolean) => boolean)) => setPole("testZwarciowyPotwierdzony", a)
+  const setTermowizjaPotwierdzona = (a: boolean | ((p: boolean) => boolean)) => setPole("termowizjaPotwierdzona", a)
 
   const result = useMemo(
     () =>

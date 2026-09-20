@@ -1,8 +1,9 @@
 "use client"
 
-import { useMemo, useState } from "react"
+import { useMemo } from "react"
 import { calculateDoborPrzekrojuKabla } from "@/lib/core/modules/okablowanie/dobor-przekroju-kabla/calculator"
 import type { Material, SposobUlozenia } from "@/lib/core/modules/okablowanie/dobor-przekroju-kabla/constants"
+import { usePersistedDraft } from "@/lib/adapters/use-persisted-draft"
 import { Pole, PoleCheckbox, PoleSelect } from "@/components/ui/pole"
 import { WerdyktPanel, type WerdyktPoziom } from "@/components/werdykt"
 import { NawigacjaEkranu } from "@/components/nawigacja-ekranu"
@@ -12,17 +13,63 @@ import { WynikSzczegoly } from "@/components/wzorce/wynik-szczegoly"
 
 const LICZBA = (v: number) => v.toLocaleString("pl-PL", { maximumFractionDigits: 2 })
 
+type FormularzStan = {
+  pradA: string
+  napiecieV: string
+  dlugoscTrasyM: string
+  material: Material
+  sposobUlozenia: SposobUlozenia
+  temperaturaOtoczeniaC: string
+  liczbaKabliWWiazce: string
+  dopuszczalnySpadekNapieciaPct: string
+  sprawdzamWlasny: boolean
+  sprawdzanyPrzekrojMm2: string
+}
+
+const STAN_POCZATKOWY: FormularzStan = {
+  pradA: "",
+  napiecieV: "",
+  dlugoscTrasyM: "",
+  material: "Cu",
+  sposobUlozenia: "swobodnie",
+  temperaturaOtoczeniaC: "",
+  liczbaKabliWWiazce: "",
+  dopuszczalnySpadekNapieciaPct: "",
+  sprawdzamWlasny: false,
+  sprawdzanyPrzekrojMm2: "",
+}
+
 export default function DoborPrzekrojuKablaPage() {
-  const [pradA, setPradA] = useState("")
-  const [napiecieV, setNapiecieV] = useState("")
-  const [dlugoscTrasyM, setDlugoscTrasyM] = useState("")
-  const [material, setMaterial] = useState<Material>("Cu")
-  const [sposobUlozenia, setSposobUlozenia] = useState<SposobUlozenia>("swobodnie")
-  const [temperaturaOtoczeniaC, setTemperaturaOtoczeniaC] = useState("")
-  const [liczbaKabliWWiazce, setLiczbaKabliWWiazce] = useState("")
-  const [dopuszczalnySpadekNapieciaPct, setDopuszczalnySpadekNapieciaPct] = useState("")
-  const [sprawdzamWlasny, setSprawdzamWlasny] = useState(false)
-  const [sprawdzanyPrzekrojMm2, setSprawdzanyPrzekrojMm2] = useState("")
+  const [stan, setStan] = usePersistedDraft<FormularzStan>("dobor-przekroju-kabla", STAN_POCZATKOWY)
+  const {
+    pradA,
+    napiecieV,
+    dlugoscTrasyM,
+    material,
+    sposobUlozenia,
+    temperaturaOtoczeniaC,
+    liczbaKabliWWiazce,
+    dopuszczalnySpadekNapieciaPct,
+    sprawdzamWlasny,
+    sprawdzanyPrzekrojMm2,
+  } = stan
+
+  function setPole<K extends keyof FormularzStan>(pole: K, akcja: FormularzStan[K] | ((prev: FormularzStan[K]) => FormularzStan[K])) {
+    setStan((prev) => ({
+      ...prev,
+      [pole]: typeof akcja === "function" ? (akcja as (p: FormularzStan[K]) => FormularzStan[K])(prev[pole]) : akcja,
+    }))
+  }
+  const setPradA = (a: string | ((p: string) => string)) => setPole("pradA", a)
+  const setNapiecieV = (a: string | ((p: string) => string)) => setPole("napiecieV", a)
+  const setDlugoscTrasyM = (a: string | ((p: string) => string)) => setPole("dlugoscTrasyM", a)
+  const setMaterial = (a: Material | ((p: Material) => Material)) => setPole("material", a)
+  const setSposobUlozenia = (a: SposobUlozenia | ((p: SposobUlozenia) => SposobUlozenia)) => setPole("sposobUlozenia", a)
+  const setTemperaturaOtoczeniaC = (a: string | ((p: string) => string)) => setPole("temperaturaOtoczeniaC", a)
+  const setLiczbaKabliWWiazce = (a: string | ((p: string) => string)) => setPole("liczbaKabliWWiazce", a)
+  const setDopuszczalnySpadekNapieciaPct = (a: string | ((p: string) => string)) => setPole("dopuszczalnySpadekNapieciaPct", a)
+  const setSprawdzamWlasny = (a: boolean | ((p: boolean) => boolean)) => setPole("sprawdzamWlasny", a)
+  const setSprawdzanyPrzekrojMm2 = (a: string | ((p: string) => string)) => setPole("sprawdzanyPrzekrojMm2", a)
 
   const result = useMemo(
     () =>

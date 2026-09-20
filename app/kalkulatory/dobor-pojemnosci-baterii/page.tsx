@@ -1,6 +1,6 @@
 "use client"
 
-import { useEffect, useMemo, useState } from "react"
+import { useEffect, useMemo } from "react"
 import Link from "next/link"
 import { calculateDoborPojemnosci } from "@/lib/core/modules/baterie/dobor-pojemnosci/calculator"
 import {
@@ -9,6 +9,7 @@ import {
   SPRAWNOSC_FALOWNIKA_SUGEROWANA_PCT,
 } from "@/lib/core/modules/baterie/dobor-pojemnosci/constants"
 import { useProfilSprzetu } from "@/lib/profil-sprzetu/use-profil-sprzetu"
+import { usePersistedDraft } from "@/lib/adapters/use-persisted-draft"
 import { Pole } from "@/components/ui/pole"
 import { WerdyktPanel } from "@/components/werdykt"
 import { NawigacjaEkranu } from "@/components/nawigacja-ekranu"
@@ -16,13 +17,34 @@ import { NaglowekEkranu } from "@/components/wzorce/naglowek-ekranu"
 import { WynikGlowny } from "@/components/wzorce/wynik-glowny"
 import { WynikSzczegoly } from "@/components/wzorce/wynik-szczegoly"
 
+type FormularzStan = {
+  zapotrzebowanieDoboweKwh: string
+  dniAutonomii: string
+  sprawnoscFalownikaPct: string
+  dodPct: string
+}
+
+const STAN_POCZATKOWY: FormularzStan = {
+  zapotrzebowanieDoboweKwh: "",
+  dniAutonomii: "",
+  sprawnoscFalownikaPct: String(SPRAWNOSC_FALOWNIKA_SUGEROWANA_PCT),
+  dodPct: "",
+}
+
 export default function DoborPojemnosciBateriiPage() {
-  const [zapotrzebowanieDoboweKwh, setZapotrzebowanieDoboweKwh] = useState("")
-  const [dniAutonomii, setDniAutonomii] = useState("")
-  const [sprawnoscFalownikaPct, setSprawnoscFalownikaPct] = useState(
-    String(SPRAWNOSC_FALOWNIKA_SUGEROWANA_PCT),
-  )
-  const [dodPct, setDodPct] = useState("")
+  const [stan, setStan] = usePersistedDraft<FormularzStan>("dobor-pojemnosci-baterii", STAN_POCZATKOWY)
+  const { zapotrzebowanieDoboweKwh, dniAutonomii, sprawnoscFalownikaPct, dodPct } = stan
+
+  function setPole<K extends keyof FormularzStan>(pole: K, akcja: FormularzStan[K] | ((prev: FormularzStan[K]) => FormularzStan[K])) {
+    setStan((prev) => ({
+      ...prev,
+      [pole]: typeof akcja === "function" ? (akcja as (p: FormularzStan[K]) => FormularzStan[K])(prev[pole]) : akcja,
+    }))
+  }
+  const setZapotrzebowanieDoboweKwh = (a: string | ((p: string) => string)) => setPole("zapotrzebowanieDoboweKwh", a)
+  const setDniAutonomii = (a: string | ((p: string) => string)) => setPole("dniAutonomii", a)
+  const setSprawnoscFalownikaPct = (a: string | ((p: string) => string)) => setPole("sprawnoscFalownikaPct", a)
+  const setDodPct = (a: string | ((p: string) => string)) => setPole("dodPct", a)
 
   const result = useMemo(
     () =>

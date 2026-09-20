@@ -9,6 +9,7 @@ import {
   DEGRADACJA_TYPOWA_MIN_PCT,
 } from "@/lib/core/modules/baterie/starzenie-degradacja/constants"
 import { useProfilSprzetu } from "@/lib/profil-sprzetu/use-profil-sprzetu"
+import { usePersistedDraft } from "@/lib/adapters/use-persisted-draft"
 import { Pole, PoleSelect } from "@/components/ui/pole"
 import { WerdyktPanel } from "@/components/werdykt"
 import { NawigacjaEkranu } from "@/components/nawigacja-ekranu"
@@ -16,10 +17,31 @@ import { NaglowekEkranu } from "@/components/wzorce/naglowek-ekranu"
 import { WynikGlowny } from "@/components/wzorce/wynik-glowny"
 import { WynikSzczegoly } from "@/components/wzorce/wynik-szczegoly"
 
+type FormularzStan = {
+  pojemnoscUzytecznaDzisKwh: string
+  horyzontLata: HoryzontLata
+  degradacjaRocznaPct: string
+}
+
+const STAN_POCZATKOWY: FormularzStan = {
+  pojemnoscUzytecznaDzisKwh: "",
+  horyzontLata: 10,
+  degradacjaRocznaPct: "",
+}
+
 export default function StarzenieDegradacjaPage() {
-  const [pojemnoscUzytecznaDzisKwh, setPojemnoscUzytecznaDzisKwh] = useState("")
-  const [horyzontLata, setHoryzontLata] = useState<HoryzontLata>(10)
-  const [degradacjaRocznaPct, setDegradacjaRocznaPct] = useState("")
+  const [stan, setStan] = usePersistedDraft<FormularzStan>("starzenie-degradacja", STAN_POCZATKOWY)
+  const { pojemnoscUzytecznaDzisKwh, horyzontLata, degradacjaRocznaPct } = stan
+
+  function setPole<K extends keyof FormularzStan>(pole: K, akcja: FormularzStan[K] | ((prev: FormularzStan[K]) => FormularzStan[K])) {
+    setStan((prev) => ({
+      ...prev,
+      [pole]: typeof akcja === "function" ? (akcja as (p: FormularzStan[K]) => FormularzStan[K])(prev[pole]) : akcja,
+    }))
+  }
+  const setPojemnoscUzytecznaDzisKwh = (a: string | ((p: string) => string)) => setPole("pojemnoscUzytecznaDzisKwh", a)
+  const setHoryzontLata = (a: HoryzontLata | ((p: HoryzontLata) => HoryzontLata)) => setPole("horyzontLata", a)
+  const setDegradacjaRocznaPct = (a: string | ((p: string) => string)) => setPole("degradacjaRocznaPct", a)
 
   // Profil sprzętu (docs/zrodla/Zasady_UX_Doradca_v2_1.md, §10) — jednorazowe auto-wypełnienie
   // z wyniku Ekranu 1 (dobor-pojemnosci), gdy dostępny. Ustawienie stanu bezpośrednio w renderze

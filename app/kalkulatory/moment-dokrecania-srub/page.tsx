@@ -1,6 +1,6 @@
 "use client"
 
-import { useMemo, useState } from "react"
+import { useMemo } from "react"
 import { calculateMomentDokrecania } from "@/lib/core/modules/baterie/moment-dokrecania-srub/calculator"
 import {
   CHECKLIST_ITEMS,
@@ -10,6 +10,7 @@ import {
   TYPY_OGNIW,
   znajdzTypOgniwa,
 } from "@/lib/core/modules/baterie/moment-dokrecania-srub/constants"
+import { usePersistedDraft } from "@/lib/adapters/use-persisted-draft"
 import { PoleSelect } from "@/components/ui/pole"
 import { WerdyktPanel } from "@/components/werdykt"
 import { NawigacjaEkranu } from "@/components/nawigacja-ekranu"
@@ -17,9 +18,28 @@ import { NaglowekEkranu } from "@/components/wzorce/naglowek-ekranu"
 import { ListaChecklist } from "@/components/wzorce/lista-checklist"
 import { StanPusty } from "@/components/ui/stany"
 
+type FormularzStan = {
+  potwierdzoneIds: string[]
+  typOgniwaId: string
+}
+
+const STAN_POCZATKOWY: FormularzStan = {
+  potwierdzoneIds: [],
+  typOgniwaId: TYPY_OGNIW[0].id,
+}
+
 export default function MomentDokrecaniaSrubPage() {
-  const [potwierdzoneIds, setPotwierdzoneIds] = useState<string[]>([])
-  const [typOgniwaId, setTypOgniwaId] = useState(TYPY_OGNIW[0].id)
+  const [stan, setStan] = usePersistedDraft<FormularzStan>("moment-dokrecania-srub", STAN_POCZATKOWY)
+  const { potwierdzoneIds, typOgniwaId } = stan
+
+  function setPole<K extends keyof FormularzStan>(pole: K, akcja: FormularzStan[K] | ((prev: FormularzStan[K]) => FormularzStan[K])) {
+    setStan((prev) => ({
+      ...prev,
+      [pole]: typeof akcja === "function" ? (akcja as (p: FormularzStan[K]) => FormularzStan[K])(prev[pole]) : akcja,
+    }))
+  }
+  const setPotwierdzoneIds = (a: string[] | ((p: string[]) => string[])) => setPole("potwierdzoneIds", a)
+  const setTypOgniwaId = (a: string | ((p: string) => string)) => setPole("typOgniwaId", a)
 
   const result = useMemo(
     () => calculateMomentDokrecania({ potwierdzoneIds }),

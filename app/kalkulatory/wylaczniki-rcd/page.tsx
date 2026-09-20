@@ -1,8 +1,9 @@
 "use client"
 
-import { useMemo, useState } from "react"
+import { useMemo } from "react"
 import { calculateWylaczniki } from "@/lib/core/modules/okablowanie/wylaczniki-rcd/calculator"
 import type { CelOchrony, TypRcd } from "@/lib/core/modules/okablowanie/wylaczniki-rcd/input"
+import { usePersistedDraft } from "@/lib/adapters/use-persisted-draft"
 import { Pole, PoleCheckbox, PoleSelect } from "@/components/ui/pole"
 import { WerdyktPanel, type WerdyktPoziom } from "@/components/werdykt"
 import { NawigacjaEkranu } from "@/components/nawigacja-ekranu"
@@ -10,12 +11,40 @@ import { NaglowekEkranu } from "@/components/wzorce/naglowek-ekranu"
 import { WynikGlowny } from "@/components/wzorce/wynik-glowny"
 import { WynikSzczegoly } from "@/components/wzorce/wynik-szczegoly"
 
+type FormularzStan = {
+  falownikHybrydowy: boolean
+  odbiornikiZSilnikami: boolean
+  zainstalowanyTyp: TypRcd | ""
+  celOchrony: CelOchrony
+  progMa: string
+}
+
+const STAN_POCZATKOWY: FormularzStan = {
+  falownikHybrydowy: false,
+  odbiornikiZSilnikami: false,
+  zainstalowanyTyp: "",
+  celOchrony: "osob",
+  progMa: "",
+}
+
 export default function WylacznikiRcdPage() {
-  const [falownikHybrydowy, setFalownikHybrydowy] = useState(false)
-  const [odbiornikiZSilnikami, setOdbiornikiZSilnikami] = useState(false)
-  const [zainstalowanyTyp, setZainstalowanyTyp] = useState<TypRcd | "">("")
-  const [celOchrony, setCelOchrony] = useState<CelOchrony>("osob")
-  const [progMa, setProgMa] = useState("")
+  const [stan, setStan] = usePersistedDraft<FormularzStan>("wylaczniki-rcd", STAN_POCZATKOWY)
+  const { falownikHybrydowy, odbiornikiZSilnikami, zainstalowanyTyp, celOchrony, progMa } = stan
+
+  function setPole<K extends keyof FormularzStan>(
+    pole: K,
+    akcja: FormularzStan[K] | ((prev: FormularzStan[K]) => FormularzStan[K]),
+  ) {
+    setStan((prev) => ({
+      ...prev,
+      [pole]: typeof akcja === "function" ? (akcja as (p: FormularzStan[K]) => FormularzStan[K])(prev[pole]) : akcja,
+    }))
+  }
+  const setFalownikHybrydowy = (a: boolean | ((p: boolean) => boolean)) => setPole("falownikHybrydowy", a)
+  const setOdbiornikiZSilnikami = (a: boolean | ((p: boolean) => boolean)) => setPole("odbiornikiZSilnikami", a)
+  const setZainstalowanyTyp = (a: (TypRcd | "") | ((p: TypRcd | "") => TypRcd | "")) => setPole("zainstalowanyTyp", a)
+  const setCelOchrony = (a: CelOchrony | ((p: CelOchrony) => CelOchrony)) => setPole("celOchrony", a)
+  const setProgMa = (a: string | ((p: string) => string)) => setPole("progMa", a)
 
   const result = useMemo(
     () =>

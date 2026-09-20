@@ -1,19 +1,46 @@
 "use client"
 
-import { useMemo, useState } from "react"
+import { useMemo } from "react"
 import { calculateUziemienieFunkcjonalneOchronne } from "@/lib/core/modules/okablowanie/uziemienie-funkcjonalne-ochronne/calculator"
 import type { UkladSieci } from "@/lib/core/modules/okablowanie/uziemienie-funkcjonalne-ochronne/input"
+import { usePersistedDraft } from "@/lib/adapters/use-persisted-draft"
 import { PoleCheckbox, PoleSelect } from "@/components/ui/pole"
 import { WerdyktPanel, type WerdyktPoziom } from "@/components/werdykt"
 import { NawigacjaEkranu } from "@/components/nawigacja-ekranu"
 import { NaglowekEkranu } from "@/components/wzorce/naglowek-ekranu"
 import { WynikSzczegoly } from "@/components/wzorce/wynik-szczegoly"
 
+type FormularzStan = {
+  ukladSieci: UkladSieci | ""
+  falownikWymagaUkladuIt: boolean
+  biegunDcUziemiony: boolean
+  obudowaPolaczonaZGsw: boolean
+}
+
+const STAN_POCZATKOWY: FormularzStan = {
+  ukladSieci: "",
+  falownikWymagaUkladuIt: false,
+  biegunDcUziemiony: false,
+  obudowaPolaczonaZGsw: false,
+}
+
 export default function UziemienieFunkcjonalneOchronnePage() {
-  const [ukladSieci, setUkladSieci] = useState<UkladSieci | "">("")
-  const [falownikWymagaUkladuIt, setFalownikWymagaUkladuIt] = useState(false)
-  const [biegunDcUziemiony, setBiegunDcUziemiony] = useState(false)
-  const [obudowaPolaczonaZGsw, setObudowaPolaczonaZGsw] = useState(false)
+  const [stan, setStan] = usePersistedDraft<FormularzStan>("uziemienie-funkcjonalne-ochronne", STAN_POCZATKOWY)
+  const { ukladSieci, falownikWymagaUkladuIt, biegunDcUziemiony, obudowaPolaczonaZGsw } = stan
+
+  function setPole<K extends keyof FormularzStan>(
+    pole: K,
+    akcja: FormularzStan[K] | ((prev: FormularzStan[K]) => FormularzStan[K]),
+  ) {
+    setStan((prev) => ({
+      ...prev,
+      [pole]: typeof akcja === "function" ? (akcja as (p: FormularzStan[K]) => FormularzStan[K])(prev[pole]) : akcja,
+    }))
+  }
+  const setUkladSieci = (a: (UkladSieci | "") | ((p: UkladSieci | "") => UkladSieci | "")) => setPole("ukladSieci", a)
+  const setFalownikWymagaUkladuIt = (a: boolean | ((p: boolean) => boolean)) => setPole("falownikWymagaUkladuIt", a)
+  const setBiegunDcUziemiony = (a: boolean | ((p: boolean) => boolean)) => setPole("biegunDcUziemiony", a)
+  const setObudowaPolaczonaZGsw = (a: boolean | ((p: boolean) => boolean)) => setPole("obudowaPolaczonaZGsw", a)
 
   const result = useMemo(
     () =>

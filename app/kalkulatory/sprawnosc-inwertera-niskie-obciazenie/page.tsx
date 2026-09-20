@@ -1,7 +1,8 @@
 "use client"
 
-import { useMemo, useState } from "react"
+import { useMemo } from "react"
 import { calculateSprawnoscInwertera } from "@/lib/core/modules/zapotrzebowanie/sprawnosc-inwertera-niskie-obciazenie/calculator"
+import { usePersistedDraft } from "@/lib/adapters/use-persisted-draft"
 import { Pole } from "@/components/ui/pole"
 import { WerdyktPanel } from "@/components/werdykt"
 import { NawigacjaEkranu } from "@/components/nawigacja-ekranu"
@@ -10,11 +11,32 @@ import { WynikGlowny } from "@/components/wzorce/wynik-glowny"
 import { WynikSzczegoly } from "@/components/wzorce/wynik-szczegoly"
 import { useTranslate } from "@/lib/i18n/language-context"
 
+type FormularzStan = {
+  zapotrzebowanieW: string
+  mocFalownikaW: string
+  sprawnoscPct: string
+}
+
+const STAN_POCZATKOWY: FormularzStan = {
+  zapotrzebowanieW: "",
+  mocFalownikaW: "",
+  sprawnoscPct: "",
+}
+
 export default function SprawnoscInwerteraPage() {
   const t = useTranslate()
-  const [zapotrzebowanieW, setZapotrzebowanieW] = useState("")
-  const [mocFalownikaW, setMocFalownikaW] = useState("")
-  const [sprawnoscPct, setSprawnoscPct] = useState("")
+  const [stan, setStan] = usePersistedDraft<FormularzStan>("sprawnosc-inwertera-niskie-obciazenie", STAN_POCZATKOWY)
+  const { zapotrzebowanieW, mocFalownikaW, sprawnoscPct } = stan
+
+  function setPole<K extends keyof FormularzStan>(pole: K, akcja: FormularzStan[K] | ((prev: FormularzStan[K]) => FormularzStan[K])) {
+    setStan((prev) => ({
+      ...prev,
+      [pole]: typeof akcja === "function" ? (akcja as (p: FormularzStan[K]) => FormularzStan[K])(prev[pole]) : akcja,
+    }))
+  }
+  const setZapotrzebowanieW = (a: string | ((p: string) => string)) => setPole("zapotrzebowanieW", a)
+  const setMocFalownikaW = (a: string | ((p: string) => string)) => setPole("mocFalownikaW", a)
+  const setSprawnoscPct = (a: string | ((p: string) => string)) => setPole("sprawnoscPct", a)
 
   const result = useMemo(
     () =>

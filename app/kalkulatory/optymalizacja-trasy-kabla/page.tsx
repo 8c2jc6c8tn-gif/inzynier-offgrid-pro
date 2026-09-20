@@ -1,8 +1,9 @@
 "use client"
 
-import { useMemo, useState } from "react"
+import { useMemo } from "react"
 import { calculateOptymalizacjaTrasyKabla } from "@/lib/core/modules/okablowanie/optymalizacja-trasy-kabla/calculator"
 import type { Material, SposobUlozenia } from "@/lib/core/modules/okablowanie/dobor-przekroju-kabla/constants"
+import { usePersistedDraft } from "@/lib/adapters/use-persisted-draft"
 import { Pole, PoleSelect } from "@/components/ui/pole"
 import { WerdyktPanel, type WerdyktPoziom } from "@/components/werdykt"
 import { NawigacjaEkranu } from "@/components/nawigacja-ekranu"
@@ -10,24 +11,83 @@ import { NaglowekEkranu } from "@/components/wzorce/naglowek-ekranu"
 import { WynikGlowny } from "@/components/wzorce/wynik-glowny"
 import { WynikSzczegoly } from "@/components/wzorce/wynik-szczegoly"
 
+type FormularzStan = {
+  pradA: string
+  napiecieV: string
+  material: Material
+  sposobUlozenia: SposobUlozenia
+  temperaturaOtoczeniaC: string
+  liczbaKabliWWiazce: string
+  dopuszczalnySpadekNapieciaPct: string
+  cenaEnergiiZlZaKwh: string
+  liczbaLat: string
+  dlugoscA: string
+  przekrojA: string
+  kosztA: string
+  dlugoscB: string
+  przekrojB: string
+  kosztB: string
+}
+
+const STAN_POCZATKOWY: FormularzStan = {
+  pradA: "",
+  napiecieV: "",
+  material: "Cu",
+  sposobUlozenia: "swobodnie",
+  temperaturaOtoczeniaC: "",
+  liczbaKabliWWiazce: "1",
+  dopuszczalnySpadekNapieciaPct: "3",
+  cenaEnergiiZlZaKwh: "",
+  liczbaLat: "10",
+  dlugoscA: "",
+  przekrojA: "",
+  kosztA: "",
+  dlugoscB: "",
+  przekrojB: "",
+  kosztB: "",
+}
+
 export default function OptymalizacjaTrasyKablaPage() {
-  const [pradA, setPradA] = useState("")
-  const [napiecieV, setNapiecieV] = useState("")
-  const [material, setMaterial] = useState<Material>("Cu")
-  const [sposobUlozenia, setSposobUlozenia] = useState<SposobUlozenia>("swobodnie")
-  const [temperaturaOtoczeniaC, setTemperaturaOtoczeniaC] = useState("")
-  const [liczbaKabliWWiazce, setLiczbaKabliWWiazce] = useState("1")
-  const [dopuszczalnySpadekNapieciaPct, setDopuszczalnySpadekNapieciaPct] = useState("3")
-  const [cenaEnergiiZlZaKwh, setCenaEnergiiZlZaKwh] = useState("")
-  const [liczbaLat, setLiczbaLat] = useState("10")
+  const [stan, setStan] = usePersistedDraft<FormularzStan>("optymalizacja-trasy-kabla", STAN_POCZATKOWY)
+  const {
+    pradA,
+    napiecieV,
+    material,
+    sposobUlozenia,
+    temperaturaOtoczeniaC,
+    liczbaKabliWWiazce,
+    dopuszczalnySpadekNapieciaPct,
+    cenaEnergiiZlZaKwh,
+    liczbaLat,
+    dlugoscA,
+    przekrojA,
+    kosztA,
+    dlugoscB,
+    przekrojB,
+    kosztB,
+  } = stan
 
-  const [dlugoscA, setDlugoscA] = useState("")
-  const [przekrojA, setPrzekrojA] = useState("")
-  const [kosztA, setKosztA] = useState("")
-
-  const [dlugoscB, setDlugoscB] = useState("")
-  const [przekrojB, setPrzekrojB] = useState("")
-  const [kosztB, setKosztB] = useState("")
+  function setPole<K extends keyof FormularzStan>(pole: K, akcja: FormularzStan[K] | ((prev: FormularzStan[K]) => FormularzStan[K])) {
+    setStan((prev) => ({
+      ...prev,
+      [pole]: typeof akcja === "function" ? (akcja as (p: FormularzStan[K]) => FormularzStan[K])(prev[pole]) : akcja,
+    }))
+  }
+  const setPradA = (a: string | ((p: string) => string)) => setPole("pradA", a)
+  const setNapiecieV = (a: string | ((p: string) => string)) => setPole("napiecieV", a)
+  const setMaterial = (a: Material | ((p: Material) => Material)) => setPole("material", a)
+  const setSposobUlozenia = (a: SposobUlozenia | ((p: SposobUlozenia) => SposobUlozenia)) => setPole("sposobUlozenia", a)
+  const setTemperaturaOtoczeniaC = (a: string | ((p: string) => string)) => setPole("temperaturaOtoczeniaC", a)
+  const setLiczbaKabliWWiazce = (a: string | ((p: string) => string)) => setPole("liczbaKabliWWiazce", a)
+  const setDopuszczalnySpadekNapieciaPct = (a: string | ((p: string) => string)) => setPole("dopuszczalnySpadekNapieciaPct", a)
+  const setCenaEnergiiZlZaKwh = (a: string | ((p: string) => string)) => setPole("cenaEnergiiZlZaKwh", a)
+  const setLiczbaLat = (a: string | ((p: string) => string)) => setPole("liczbaLat", a)
+  const setDlugoscA = (a: string | ((p: string) => string)) => setPole("dlugoscA", a)
+  const setPrzekrojA = (a: string | ((p: string) => string)) => setPole("przekrojA", a)
+  const setKosztA = (a: string | ((p: string) => string)) => setPole("kosztA", a)
+  const setDlugoscB = (a: string | ((p: string) => string)) => setPole("dlugoscB", a)
+  const setPrzekrojB = (a: string | ((p: string) => string)) => setPole("przekrojB", a)
+  const setKosztB = (a: string | ((p: string) => string)) => setPole("kosztB", a)
 
   const result = useMemo(
     () =>

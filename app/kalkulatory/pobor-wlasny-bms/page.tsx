@@ -1,6 +1,6 @@
 "use client"
 
-import { useMemo, useState } from "react"
+import { useMemo } from "react"
 import { calculatePoborWlasnyBms } from "@/lib/core/modules/baterie/pobor-wlasny-bms/calculator"
 import {
   POBOR_CIAGLE_TYPOWY_MAX_W,
@@ -8,6 +8,7 @@ import {
   POBOR_USPIENIE_TYPOWY_MAX_W,
   POBOR_USPIENIE_TYPOWY_MIN_W,
 } from "@/lib/core/modules/baterie/pobor-wlasny-bms/constants"
+import { usePersistedDraft } from "@/lib/adapters/use-persisted-draft"
 import { Pole } from "@/components/ui/pole"
 import { WerdyktPanel } from "@/components/werdykt"
 import { NawigacjaEkranu } from "@/components/nawigacja-ekranu"
@@ -15,9 +16,28 @@ import { NaglowekEkranu } from "@/components/wzorce/naglowek-ekranu"
 import { WynikGlowny } from "@/components/wzorce/wynik-glowny"
 import { WynikSzczegoly } from "@/components/wzorce/wynik-szczegoly"
 
+type FormularzStan = {
+  poborCiagleW: string
+  poborUspienieW: string
+}
+
+const STAN_POCZATKOWY: FormularzStan = {
+  poborCiagleW: "",
+  poborUspienieW: "",
+}
+
 export default function PoborWlasnyBmsPage() {
-  const [poborCiagleW, setPoborCiagleW] = useState("")
-  const [poborUspienieW, setPoborUspienieW] = useState("")
+  const [stan, setStan] = usePersistedDraft<FormularzStan>("pobor-wlasny-bms", STAN_POCZATKOWY)
+  const { poborCiagleW, poborUspienieW } = stan
+
+  function setPole<K extends keyof FormularzStan>(pole: K, akcja: FormularzStan[K] | ((prev: FormularzStan[K]) => FormularzStan[K])) {
+    setStan((prev) => ({
+      ...prev,
+      [pole]: typeof akcja === "function" ? (akcja as (p: FormularzStan[K]) => FormularzStan[K])(prev[pole]) : akcja,
+    }))
+  }
+  const setPoborCiagleW = (a: string | ((p: string) => string)) => setPole("poborCiagleW", a)
+  const setPoborUspienieW = (a: string | ((p: string) => string)) => setPole("poborUspienieW", a)
 
   const result = useMemo(
     () =>
