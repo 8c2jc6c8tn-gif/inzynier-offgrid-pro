@@ -1,7 +1,7 @@
 # Indeks — PN-HD 60364-5-54:2010 (Instalacje elektryczne niskiego napięcia — Dobór i montaż
 wyposażenia elektrycznego — Uziemienia, przewody ochronne i przewody połączeń ochronnych)
 
-Źródło: `docs/zrodla/PN-HD-60364-5-54-2010-Instalacje-elektryczne-niskiego-napiecia-Uziemienia-przewody-ochronne-i-polaczen-ochronnych.pdf`
+Źródło: `docs/zrodla/norma-PN-HD-60364-5-54/PN-HD-60364-5-54-2010-Instalacje-elektryczne-niskiego-napiecia-Uziemienia-przewody-ochronne-i-polaczen-ochronnych.pdf`
 (zakupiona, oficjalna norma PKN, 38 stron). W odróżnieniu od PN-HD 60364-5-52 (Załącznik B tego
 projektu, `docs/zrodla/norma-PN-HD-60364-5-52/`), **ten dokument to natywny tekst PDF, nie skan**
 — 0 stron wymagało OCR, cała treść wydobyta bezpośrednio z warstwy tekstowej PDF.

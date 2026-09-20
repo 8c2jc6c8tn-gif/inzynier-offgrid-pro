@@ -92,7 +92,12 @@ Dlaczego warto zgłosić do new-app-standards: to naturalne rozszerzenie pomysł
 GDZIE trzymać wynik, żeby nie przetwarzać tego samego dokumentu dwa razy w dwóch różnych projektach
 rodziny. Dotyczy każdej aplikacji inżynierskiej tej rodziny, nie tylko Offgrid.
 
-Status: 🔎 nowe
+Status: 🔎 nowe. **Porządek (20.09.2026):** jedyna niedoskonałość, jaką manifest sam u siebie
+flagował (dwa oryginały PDF, 5-52/5-54, leżące poza swoim folderem `norma-*/`), naprawiona w tym
+repo — przeniesione do właściwych podfolderów, wszystkie odwołania w treści zaktualizowane. Manifest
+w `docs/propozycje-do-new-app-standards/biblioteka-norm-zrodlowych.md` jest teraz w pełni spójny
+ze stanem `docs/zrodla/`, bez żadnej znanej niedoskonałości do naprawienia przed konsolidacją —
+nadal czeka wyłącznie na sesję nad `new-app-standards`, nie na kolejną pracę tutaj.
 
 ---
 

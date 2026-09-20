@@ -35,19 +35,18 @@ Pełny opis metodologii ekstrakcji: `docs/propozycje-do-new-app-standards/przetw
 - Treść przetworzona jako pliki `.md` w tym samym folderze, zawsze zaczynając od `00-INDEKS.md`
   (metoda ekstrakcji, zastrzeżenia o jakości źródła, mapa pozostałych plików, status weryfikacji
   i wykorzystania).
-- **Znany drobny dryf, jeszcze nie naprawiony:** dwa najwcześniej dodane oryginały (5-52, 5-54)
-  leżą w `docs/zrodla/` bezpośrednio (poziom wyżej niż ich własny folder `norma-*/`), zamiast
-  wewnątrz `docs/zrodla/norma-PN-HD-60364-5-52/` i `docs/zrodla/norma-PN-HD-60364-5-54/` jak
-  wszystkie kolejne — konwencja "oryginał w tym samym folderze" ustaliła się dopiero przy trzecim
-  dodanym źródle. Nieszkodliwe (linki tekstowe w plikach `.md` cytują pełną ścieżkę), ale kopiując
-  do wspólnej biblioteki, warto ujednolicić od razu — przenieść oba pliki do właściwych podfolderów.
+- Konwencja "oryginał w tym samym folderze" stosowana **konsekwentnie dla wszystkich 8 pozycji**
+  (poprawione 20.09.2026 — dwa najwcześniej dodane oryginały, 5-52 i 5-54, leżały wcześniej
+  bezpośrednio w `docs/zrodla/`, poziom wyżej niż ich własny folder; przeniesione do
+  `docs/zrodla/norma-PN-HD-60364-5-52/` i `docs/zrodla/norma-PN-HD-60364-5-54/`, wszystkie
+  odwołania w treści `.md` zaktualizowane).
 
 ## Manifest — co jest, w jakim stanie, dla kogo uniwersalne
 
 | Norma / materiał | Folder w tym repo | Oryginał | Status weryfikacji | Zasięg | Rekomendacja |
 |---|---|---|---|---|---|
-| **PN-HD 60364-5-52:2011** (obciążalność prądowa kabli, dobór przekroju) | `docs/zrodla/norma-PN-HD-60364-5-52/` (oryginał dziś w `docs/zrodla/` — patrz dryf wyżej) | Skan, 96 str., zakupiona oficjalnie PKN | **Załącznik B (tabele obciążalności, str. 33-58) w pełni zweryfikowany strona po stronie** (~35 poprawionych błędów OCR). Reszta (Załączniki A, C, E-I, ZA-ZC) tylko wstępny spot-check. | Uniwersalny — każda aplikacja z instalacją elektryczną NN | Kopiować całość + jawnie przenieść status weryfikacji (Załącznik B ufny, reszta nie) |
-| **PN-HD 60364-5-54:2010** (uziemienia, przewody ochronne PE) | `docs/zrodla/norma-PN-HD-60364-5-54/` (oryginał dziś w `docs/zrodla/`) | Natywny tekst PDF, 38 str., zakupiona oficjalnie | Kompletny, zweryfikowany wizualnie (wzory/tabele przeciw renderowi strony) | Uniwersalny | Kopiować całość. Uwaga: Załącznik ZC (krajowy PL) ma odnotowaną, nierozstrzygniętą rozbieżność 10mm²/16mm² dla Al chronionego mechanicznie — kopiować razem z tą flagą |
+| **PN-HD 60364-5-52:2011** (obciążalność prądowa kabli, dobór przekroju) | `docs/zrodla/norma-PN-HD-60364-5-52/` (oryginał w tym samym folderze) | Skan, 96 str., zakupiona oficjalnie PKN | **Załącznik B (tabele obciążalności, str. 33-58) w pełni zweryfikowany strona po stronie** (~35 poprawionych błędów OCR). Reszta (Załączniki A, C, E-I, ZA-ZC) tylko wstępny spot-check. | Uniwersalny — każda aplikacja z instalacją elektryczną NN | Kopiować całość + jawnie przenieść status weryfikacji (Załącznik B ufny, reszta nie) |
+| **PN-HD 60364-5-54:2010** (uziemienia, przewody ochronne PE) | `docs/zrodla/norma-PN-HD-60364-5-54/` (oryginał w tym samym folderze) | Natywny tekst PDF, 38 str., zakupiona oficjalnie | Kompletny, zweryfikowany wizualnie (wzory/tabele przeciw renderowi strony) | Uniwersalny | Kopiować całość. Uwaga: Załącznik ZC (krajowy PL) ma odnotowaną, nierozstrzygniętą rozbieżność 10mm²/16mm² dla Al chronionego mechanicznie — kopiować razem z tą flagą |
 | **PN-IEC 60364-4-41:2000** (ochrona przeciwporażeniowa) | `docs/zrodla/norma-PN-IEC-60364-4-41/` | `.doc`, prywatny wyciąg z 2002, nie oficjalny skan PKN | Kompletny poza Tablicami 41A/41B (brakujące w tym konkretnym wyciągu — rozwiązane materiałem branżowym niżej) | Uniwersalny | Kopiować **razem z** `materialy-branzowe-ochrona-przeciwporazeniowa-2010/` (komplementarne — patrz niżej) |
 | **PN-IEC 60364-4-43:1999** (ochrona przed przetężeniem) | `docs/zrodla/norma-PN-IEC-60364-4-43/` | `.doc`, prywatny wyciąg | Kompletny, zweryfikowany krzyżowo dwiema metodami ekstrakcji | Uniwersalny | Kopiować całość |
 | **PN-EN 60445:2010** (identyfikacja zacisków urządzeń) | `docs/zrodla/norma-PN-EN-60445/` | Skan PKN, 16 str. | Kompletny, przeczytany w całości wizualnie | Uniwersalny | Kopiować całość |

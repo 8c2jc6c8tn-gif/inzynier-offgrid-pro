@@ -1,7 +1,7 @@
 # Przedmowa krajowa i spis treści
 
 **Zakres:** strony 0-8 pliku PDF (numeracja od 0)
-**Źródło:** `docs/zrodla/PN-HD-60364-5-52-2011-Instalacje-elektryczne-niskiego-napiecia-Oprzewodowanie.pdf`
+**Źródło:** `docs/zrodla/norma-PN-HD-60364-5-52/PN-HD-60364-5-52-2011-Instalacje-elektryczne-niskiego-napiecia-Oprzewodowanie.pdf`
 **Metoda ekstrakcji:** OCR (tesseract, jęz. polski, 300 DPI) — patrz zastrzeżenie o jakości w `00-INDEKS.md`
 
 ---

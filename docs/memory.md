@@ -5582,3 +5582,22 @@ sprawdzone, faktycznie jeszcze nieskonsolidowane. Ta sama lekcja co przy `docs/r
 tego samego dnia: **nie ufaj metryczce/statusowi zapisanemu wcześniej — sprawdź programistycznie
 względem aktualnego źródła**, zwłaszcza gdy okazja (tu: świeży `cp` ze źródła) pozwala to zrobić
 tanio, przy okazji innego zadania.
+
+## Doprecyzowanie zasady: konsolidacja do new-app-standards nigdy z tej sesji (20.09.2026, trzecia dziś)
+
+Właściciel repo poprosił o dokończenie dwóch ostatnich otwartych zgłoszeń (materiały źródłowe,
+biblioteka norm) — jednoznacznie odpowiedział, gdy zapytany o zakres: **"Ty nic nie robisz w cudzych
+repo, działasz tylko w swoim... Ty nic nie robisz, robi to repo new app standards."** Potwierdza to
+wprost zasadę z korekty 16.09.2026 (PR #9) — dostęp do `new-app-standards` w tej sesji (do
+`git fetch`/odczytu przy "Aktualizacja") nie jest i nigdy nie będzie upoważnieniem do pisania tam,
+niezależnie jak wyraźna wydaje się prośba w danym momencie. Jedyny kanał stąd: ten plik.
+
+Zakres wykonany w granicach własnego repo: sprawdzono oba pliki propozycji
+(`docs/propozycje-do-new-app-standards/przetwarzanie-materialow-zrodlowych.md`,
+`biblioteka-norm-zrodlowych.md`) — pierwszy już w pełni gotowy, bez zmian. Drugi miał jedną
+sam-u-siebie-flagowaną niedoskonałość (dwa oryginały PDF norm 5-52/5-54 poza swoim folderem
+`norma-*/`) — naprawione lokalnie: `git mv` obu plików do właściwych podfolderów, zaktualizowane
+wszystkie odwołania w ~20 plikach `.md` (`docs/zrodla/norma-PN-HD-60364-5-52/*`, `.../5-54/00-INDEKS.md`,
+`docs/zrodla/README.md`), manifest w propozycji zaktualizowany, żeby nie cytować już nieaktualnego
+dryfu. Oba pliki propozycji są teraz w pełni gotowe do podjęcia — nic więcej do zrobienia w tym repo,
+czekają wyłącznie na sesję nad `new-app-standards`.

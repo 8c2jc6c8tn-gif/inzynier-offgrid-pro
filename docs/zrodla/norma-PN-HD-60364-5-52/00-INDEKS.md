@@ -1,6 +1,6 @@
 # Indeks — PN-HD 60364-5-52:2011 (Instalacje elektryczne niskiego napięcia — Oprzewodowanie)
 
-Źródło: `docs/zrodla/PN-HD-60364-5-52-2011-Instalacje-elektryczne-niskiego-napiecia-Oprzewodowanie.pdf` (zakupiona, oficjalna norma PKN, 96 stron, dokument skanowany — treść poniżej to wynik OCR, patrz zastrzeżenie niżej).
+Źródło: `docs/zrodla/norma-PN-HD-60364-5-52/PN-HD-60364-5-52-2011-Instalacje-elektryczne-niskiego-napiecia-Oprzewodowanie.pdf` (zakupiona, oficjalna norma PKN, 96 stron, dokument skanowany — treść poniżej to wynik OCR, patrz zastrzeżenie niżej).
 
 ## ⚠️ Zastrzeżenie o jakości OCR — WAŻNE, przeczytaj przed użyciem jakiejkolwiek liczby
 

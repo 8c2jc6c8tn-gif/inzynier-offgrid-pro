@@ -46,7 +46,7 @@ które mapują 1:1 na ID Biblii, nie na numer ekranu w pliku treści.
 
 [05.09.2026] ✅ DODANO — źródło: właściciel projektu, zakupiona oficjalnie. Brakująca norma
 blokująca M5/Ekran 1, M11/B5, M4/Ekran 25 (`docs/rejestr-pokrycia.md`) — tabele obciążalności
-prądowej kabli. Plik: `PN-HD-60364-5-52-2011-Instalacje-elektryczne-niskiego-napiecia-Oprzewodowanie.pdf`
+prądowej kabli. Plik: `docs/zrodla/norma-PN-HD-60364-5-52/PN-HD-60364-5-52-2011-Instalacje-elektryczne-niskiego-napiecia-Oprzewodowanie.pdf`
 (96 stron, **skan**, nie tekst). Przeanalizowany i podzielony na rozdziały:
 **`docs/zrodla/norma-PN-HD-60364-5-52/00-INDEKS.md`** — zacznij tutaj, ma mapę rozdziałów i
 **obowiązkowe zastrzeżenie o jakości OCR**. [05.09.2026, aktualizacja] Załącznik B (tabele
@@ -123,7 +123,7 @@ jawnie w `01-tresc.md`.
 [05.09.2026] ✅ DODANO — źródło: właściciel projektu, zakupiona oficjalnie. Dotyczy uziemień,
 przewodów ochronnych (PE) i przewodów połączeń ochronnych — temat oddzielny od 5-52 (tam:
 obciążalność prądowa/dobór przekroju fazowego). Plik:
-`PN-HD-60364-5-54-2010-Instalacje-elektryczne-niskiego-napiecia-Uziemienia-przewody-ochronne-i-polaczen-ochronnych.pdf`
+`docs/zrodla/norma-PN-HD-60364-5-54/PN-HD-60364-5-54-2010-Instalacje-elektryczne-niskiego-napiecia-Uziemienia-przewody-ochronne-i-polaczen-ochronnych.pdf`
 (38 stron, **natywny tekst PDF, nie skan** — bez ryzyka błędów OCR, w odróżnieniu od 5-52).
 Przeanalizowany i podzielony na rozdziały: **`docs/zrodla/norma-PN-HD-60364-5-54/00-INDEKS.md`** —
 zacznij tutaj. Wszystkie tabele/wzory dodatkowo zweryfikowane wizualnie względem renderu strony
