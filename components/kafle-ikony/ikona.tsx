@@ -11,21 +11,36 @@ const SYMBOL_PO_ID_KAFLA: Record<number, string> = {
   5: "tile-cabling-symbol",
   6: "tile-heatpump-symbol",
   7: "tile-winter-symbol",
+  8: "tile-safety-symbol",
+  9: "tile-electronics-symbol",
+  10: "tile-ai-forecast-symbol",
+  11: "tile-battery-mount-symbol",
+  12: "tile-quick-calc-symbol",
+  13: "tile-live-symbol",
+  14: "tile-settings-symbol",
 }
 
 /** Kafle, dla których jest już zbudowana animowana ikona — app/page.tsx używa tego do wyboru
  * między <KafelIkonaSvg> a emoji z rejestru. */
 export const KAFLE_ZE_ZBUDOWANA_IKONA = Object.keys(SYMBOL_PO_ID_KAFLA).map(Number)
 
-export function KafelIkonaSvg({ kafelId, className }: { kafelId: number; className?: string }) {
+export function KafelIkonaSvg({
+  kafelId,
+  className,
+  size = 44,
+}: {
+  kafelId: number
+  className?: string
+  size?: number
+}) {
   const symbolId = SYMBOL_PO_ID_KAFLA[kafelId]
   if (!symbolId) return null
 
   return (
     <svg
       className={["kafel-ikona-svg", className].filter(Boolean).join(" ")}
-      width={44}
-      height={44}
+      width={size}
+      height={size}
       viewBox="0 0 256 256"
       role="img"
       aria-hidden="true"

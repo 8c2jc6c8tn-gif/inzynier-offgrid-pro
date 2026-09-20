@@ -879,3 +879,12 @@ Tu trafia bieżący stan pracy: co w trakcie, co zablokowane, co następne — a
   kolejnych subagentów. Zweryfikowane: 115/115 unikalnych kluczy, `pnpm typecheck`/`lint`/`test`
   (965/965)/`build` czyste, Playwright na próbce 5 ekranów potwierdza przetrwanie danych po
   przeładowaniu strony. Szczegóły i lekcja o limicie równoległych agentów: `docs/memory.md`.
+- ✅ (2026-09-20) **Punkt 6, ostatni z prośby "5,6,7,8,9 proszę zrób" — kafle 08–14 wdrożone
+  po akceptacji.** Artefakt "Off-Grid Tile Set 08–14" zaakceptowany bez uwag per-kafel, wdrożony
+  1:1 (nazwy klas/gradientów dostosowane do konwencji `ki-`/`tile-*-symbol` repo). Znaleziska
+  przy weryfikacji (nie błędy): kafel 14 "Ustawienia" nie ma slotu w gridzie pulpitu (tylko mały
+  link tekstowy w nagłówku, konsekwentnie emoji jak sąsiednie skróty) — ikona zarejestrowana,
+  czeka na naturalne miejsce; kafle 09/11 mają już maskotkę "Bob" z wyższym priorytetem niż SVG
+  (pre-istniejące zachowanie, dotyczy też kafli 3/6/7). Zweryfikowane: typecheck/lint/build
+  czyste, Playwright + zrzut ekranu pulpitu potwierdzają poprawny render 4 z 7 nowych ikon w
+  gridzie. **To zamyka całą prośbę "5,6,7,8,9 proszę zrób".** Szczegóły: `docs/memory.md`.

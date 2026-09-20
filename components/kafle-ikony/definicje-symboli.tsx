@@ -1,14 +1,16 @@
 import "./kafle-ikony.css"
 
 /**
- * Definicje <symbol> dla animowanych ikon kafli pulpitu (kafle 1–7 na razie). Renderowane raz
+ * Definicje <symbol> dla animowanych ikon kafli pulpitu (kafle 1–14). Renderowane raz
  * (KafleIkonySymbole w app/page.tsx), instancjonowane wielokrotnie przez <use href="#tile-x..."/>
  * w ikona.tsx — ten sam wzorzec co w artefakcie roboczym "Off-Grid Tile Set", z którego pochodzi
  * ten markup 1:1 (kafel 01 zablokowany tam jako finalny; 02/04/06/07 po ostatniej rundzie poprawek;
- * 03/05 bez zmian). Wstrzyknięte przez dangerouslySetInnerHTML: to statyczna, ręcznie
- * autoryzowana treść SVG, nie dane użytkownika — ręczna konwersja tej ilości atrybutów na JSX
- * (stroke-width→strokeWidth, itd.) byłaby wyższym ryzykiem literówki niż wklejenie ze źródła.
- * Kolejny zablokowany kafel (08+) dopisać tu jako kolejny <symbol> + wpis w ikona.tsx.
+ * 03/05 bez zmian; 08–14 z artefaktu "Off-Grid Tile Set 08–14", zaakceptowane 20.09.2026 — nazwy
+ * klas/gradientów zmienione z roboczych `k8-`/`g-x` na konwencję tego pliku, reszta 1:1).
+ * Wstrzyknięte przez dangerouslySetInnerHTML: to statyczna, ręcznie autoryzowana treść SVG, nie
+ * dane użytkownika — ręczna konwersja tej ilości atrybutów na JSX (stroke-width→strokeWidth, itd.)
+ * byłaby wyższym ryzykiem literówki niż wklejenie ze źródła.
+ * Kolejny zablokowany kafel dopisać tu jako kolejny <symbol> + wpis w ikona.tsx.
  */
 const DEFS_MARKUP = `
 <svg width="0" height="0" style="position:absolute;overflow:hidden" aria-hidden="true">
@@ -28,6 +30,15 @@ const DEFS_MARKUP = `
     </linearGradient>
     <linearGradient id="ki-sky-grad-winter" x1="0" y1="0" x2="0" y2="1">
       <stop offset="0%" stop-color="#C7D9E8"/><stop offset="100%" stop-color="#EDF3F5"/>
+    </linearGradient>
+    <linearGradient id="ki-pcb-grad" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#1B2E33"/><stop offset="100%" stop-color="#2A4A44"/>
+    </linearGradient>
+    <linearGradient id="ki-ai-grad" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#4C3B78"/><stop offset="100%" stop-color="#7B5FD9"/>
+    </linearGradient>
+    <linearGradient id="ki-settings-grad" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#DDE4EC"/><stop offset="100%" stop-color="#EFF3F7"/>
     </linearGradient>
 
     <!-- shared day/night backdrop: sky layers + sun + moon/stars, one 20s clock -->
@@ -355,6 +366,143 @@ const DEFS_MARKUP = `
         <text class="itemp-a" x="0" y="2" text-anchor="middle" font-family="IBM Plex Mono, monospace" font-size="12" font-weight="500" fill="#B7EFC9">15°C</text>
         <text class="itemp-b" x="0" y="2" text-anchor="middle" font-family="IBM Plex Mono, monospace" font-size="12" font-weight="500" fill="#B7EFC9">17°C</text>
         <text class="itemp-c" x="0" y="2" text-anchor="middle" font-family="IBM Plex Mono, monospace" font-size="12" font-weight="500" fill="#B7EFC9">20°C</text>
+      </g>
+    </symbol>
+
+    <!-- ================= KAFEL 08 — bezpieczeństwo i sytuacje awaryjne ================= -->
+    <symbol id="tile-safety-symbol" viewBox="0 0 256 256">
+      <rect width="256" height="256" fill="url(#ki-sky-grad)"/>
+      <path d="M40 180 L40 120 L128 62 L216 120 L216 180 Z" fill="#F4EFE3" stroke="#D8CFB8" stroke-width="3"/>
+      <rect x="70" y="130" width="40" height="50" fill="#C9BE9E"/>
+      <g class="alarm-ring" transform="translate(128,110)">
+        <circle r="34" fill="none" stroke="#E2574C" stroke-width="3" opacity=".55"/>
+      </g>
+      <g transform="translate(128,110)">
+        <path d="M-22 -6 C-22 -22, -10 -30, 0 -30 C10 -30, 22 -22, 22 -6 L22 6 L28 14 L-28 14 L-22 6 Z" fill="#E2574C"/>
+        <path d="M-6 14 C-6 20, 6 20, 6 14" fill="none" stroke="#F4EFE3" stroke-width="2.5"/>
+      </g>
+      <g class="alarm-bell" transform="translate(128,66)" stroke="#B14337" stroke-width="3" stroke-linecap="round">
+        <line x1="0" y1="0" x2="0" y2="-16"/>
+      </g>
+      <path class="alarm-check" d="M110 116 L122 130 L148 100" fill="none" stroke="#FFFFFF" stroke-width="7" stroke-linecap="round" stroke-linejoin="round"/>
+    </symbol>
+
+    <!-- ================= KAFEL 09 — elektronika / ESP32 / sensoryka ================= -->
+    <symbol id="tile-electronics-symbol" viewBox="0 0 256 256">
+      <rect width="256" height="256" fill="url(#ki-pcb-grad)"/>
+      <g stroke="#3FBF9B" stroke-width="2.5" fill="none" opacity=".8">
+        <path d="M30 60 H90 V100"/>
+        <path d="M226 70 H180 V110"/>
+        <path d="M30 200 H80 V150"/>
+        <path d="M226 190 H190 V150"/>
+        <circle cx="90" cy="100" r="3" fill="#3FBF9B"/>
+        <circle cx="180" cy="110" r="3" fill="#3FBF9B"/>
+        <circle cx="80" cy="150" r="3" fill="#3FBF9B"/>
+        <circle cx="190" cy="150" r="3" fill="#3FBF9B"/>
+      </g>
+      <rect x="86" y="96" width="84" height="64" rx="6" fill="#101B1E" stroke="#3FBF9B" stroke-width="2"/>
+      <text x="128" y="133" text-anchor="middle" font-family="monospace" font-size="13" fill="#3FBF9B" font-weight="700">ESP32</text>
+      <g class="led-a" fill="#5FE0C6"><circle cx="100" cy="112" r="3.4"/></g>
+      <g class="led-b" fill="#F2C464"><circle cx="112" cy="112" r="3.4"/></g>
+      <g class="led-c" fill="#E2574C"><circle cx="124" cy="112" r="3.4"/></g>
+      <path d="M170 128 C 190 128, 190 128, 208 128" fill="none" stroke="#5FE0C6" stroke-width="2.5" stroke-linecap="round" stroke-dasharray="1 7" class="signal"/>
+      <circle r="3" fill="#5FE0C6" class="packet" style="offset-path:path('M170 128 C 190 128, 190 128, 208 128');animation-delay:0s"/>
+      <path d="M212 118 A 18 18 0 0 1 212 138" fill="none" stroke="#5FE0C6" stroke-width="2.5" stroke-linecap="round" opacity=".6" class="esp-wave"/>
+      <path d="M218 112 A 26 26 0 0 1 218 144" fill="none" stroke="#5FE0C6" stroke-width="2.5" stroke-linecap="round" opacity=".35" class="esp-wave" style="animation-delay:.5s"/>
+    </symbol>
+
+    <!-- ================= KAFEL 10 — AI i prognozy ================= -->
+    <symbol id="tile-ai-forecast-symbol" viewBox="0 0 256 256">
+      <rect width="256" height="256" fill="url(#ki-ai-grad)"/>
+      <g stroke="#C9BCFF" stroke-width="1.6" opacity=".55">
+        <line x1="70" y1="76" x2="118" y2="100"/>
+        <line x1="118" y1="100" x2="176" y2="70"/>
+        <line x1="118" y1="100" x2="150" y2="150"/>
+      </g>
+      <g fill="#EDE7FF">
+        <circle class="ai-node" cx="70" cy="76" r="5"/>
+        <circle class="ai-node" cx="176" cy="70" r="5" style="animation-delay:.6s"/>
+        <circle class="ai-node ai-node-main" cx="118" cy="100" r="7"/>
+        <circle class="ai-node" cx="150" cy="150" r="5" style="animation-delay:1.2s"/>
+      </g>
+      <g transform="translate(60,164)">
+        <rect class="bar" x="0" y="20" width="16" height="40" rx="2" fill="#EDE7FF" opacity=".9" style="animation-delay:0s"/>
+        <rect class="bar" x="24" y="10" width="16" height="50" rx="2" fill="#EDE7FF" opacity=".9" style="animation-delay:-.6s"/>
+        <rect class="bar" x="48" y="0" width="16" height="60" rx="2" fill="#FFD873" style="animation-delay:-1.2s"/>
+        <rect class="bar" x="72" y="16" width="16" height="44" rx="2" fill="#EDE7FF" opacity=".9" style="animation-delay:-.3s"/>
+        <rect class="bar" x="96" y="26" width="16" height="34" rx="2" fill="#EDE7FF" opacity=".7" style="animation-delay:-.9s"/>
+        <line x1="0" y1="61" x2="112" y2="61" stroke="#EDE7FF" stroke-width="1.4" opacity=".4"/>
+      </g>
+    </symbol>
+
+    <!-- ================= KAFEL 11 — montaż baterii ================= -->
+    <symbol id="tile-battery-mount-symbol" viewBox="0 0 256 256">
+      <rect width="256" height="256" fill="url(#ki-sky-grad)"/>
+      <rect x="70" y="80" width="116" height="96" rx="8" fill="none" stroke="#3B6E8F" stroke-width="3"/>
+      <rect x="118" y="70" width="20" height="12" rx="2" fill="#3B6E8F"/>
+      <rect class="cell-level" x="82" y="88" width="28" height="80" rx="3" fill="#5FA6D1"/>
+      <rect class="cell-level" x="114" y="88" width="28" height="80" rx="3" fill="#5FA6D1" style="animation-delay:-2.6s"/>
+      <rect class="cell-level" x="146" y="88" width="28" height="80" rx="3" fill="#5FA6D1" style="animation-delay:-5.2s"/>
+      <g class="wrench-tighten" transform="translate(196,150)">
+        <path d="M-10 -22 L10 -2 M4 -16 L-2 -10" stroke="#5B4636" stroke-width="7" stroke-linecap="round"/>
+        <circle cx="-14" cy="-26" r="9" fill="none" stroke="#5B4636" stroke-width="6"/>
+        <circle cx="12" cy="0" r="7" fill="#5B4636"/>
+      </g>
+    </symbol>
+
+    <!-- ================= KAFEL 12 — szybki kalkulator / tryb mobilny ================= -->
+    <symbol id="tile-quick-calc-symbol" viewBox="0 0 256 256">
+      <rect width="256" height="256" fill="url(#ki-sky-grad)"/>
+      <rect x="94" y="52" width="68" height="132" rx="14" fill="#233240" stroke="#0F1720" stroke-width="3"/>
+      <rect x="102" y="66" width="52" height="90" rx="3" fill="#EAF3FA"/>
+      <circle cx="128" cy="170" r="4" fill="#0F1720"/>
+      <g class="bolt" transform="translate(128,108)">
+        <path d="M-6 -22 L8 -22 L-2 -2 L10 -2 L-8 24 L-2 2 L-12 2 Z" fill="#F5B942"/>
+      </g>
+      <g class="tap-ripple" transform="translate(128,204)">
+        <circle r="6" fill="none" stroke="#4B8CF5" stroke-width="3"/>
+      </g>
+      <g class="tap-ripple" transform="translate(128,204)" style="animation-delay:.9s">
+        <circle r="6" fill="none" stroke="#4B8CF5" stroke-width="3"/>
+      </g>
+    </symbol>
+
+    <!-- ================= KAFEL 13 — tryb Live ================= -->
+    <symbol id="tile-live-symbol" viewBox="0 0 256 256">
+      <rect width="256" height="256" fill="url(#ki-sky-grad-night)"/>
+      <g class="star" fill="#E9EEF7"><circle cx="40" cy="40" r="1.4" style="animation-delay:0s"/></g>
+      <g class="star" fill="#E9EEF7"><circle cx="210" cy="50" r="1.2" style="animation-delay:.8s"/></g>
+      <g class="star" fill="#E9EEF7"><circle cx="200" cy="150" r="1.5" style="animation-delay:1.6s"/></g>
+      <g transform="translate(120,150)">
+        <path d="M-40 30 L0 -10 L40 30 Z" fill="#3A4A63" stroke="#5A6E8C" stroke-width="2.5"/>
+        <line x1="0" y1="-10" x2="0" y2="-52" stroke="#5A6E8C" stroke-width="4" stroke-linecap="round"/>
+        <circle cx="0" cy="-56" r="5" fill="#E2574C" class="live-dot"/>
+      </g>
+      <path d="M120 96 A 36 36 0 0 1 156 132" fill="none" stroke="#5FA0E0" stroke-width="3" stroke-linecap="round" opacity=".7" class="signal"/>
+      <path d="M120 78 A 54 54 0 0 1 174 132" fill="none" stroke="#5FA0E0" stroke-width="3" stroke-linecap="round" opacity=".4" class="signal" style="animation-delay:.5s"/>
+      <circle r="3.4" fill="#8BC4FF" class="packet" style="offset-path:path('M120 96 A 36 36 0 0 1 156 132');animation-delay:.2s"/>
+    </symbol>
+
+    <!-- ================= KAFEL 14 — ustawienia ================= -->
+    <symbol id="tile-settings-symbol" viewBox="0 0 256 256">
+      <rect width="256" height="256" fill="url(#ki-settings-grad)"/>
+      <g class="gear-spin" transform="translate(112,120)" fill="#6B7A8C">
+        <circle r="30" fill="none" stroke="#6B7A8C" stroke-width="10"/>
+        <g>
+          <rect x="-4" y="-42" width="8" height="16" rx="2"/>
+          <rect x="-4" y="26" width="8" height="16" rx="2"/>
+          <rect x="-42" y="-4" width="16" height="8" rx="2"/>
+          <rect x="26" y="-4" width="16" height="8" rx="2"/>
+          <rect x="-34" y="-34" width="8" height="16" rx="2" transform="rotate(45 -30 -26)"/>
+          <rect x="22" y="-34" width="8" height="16" rx="2" transform="rotate(-45 26 -26)"/>
+          <rect x="-34" y="18" width="8" height="16" rx="2" transform="rotate(-45 -30 26)"/>
+          <rect x="22" y="18" width="8" height="16" rx="2" transform="rotate(45 26 26)"/>
+        </g>
+        <circle r="11" fill="#F5F7F9"/>
+      </g>
+      <g transform="translate(178,168)">
+        <rect x="-26" y="-11" width="52" height="22" rx="11" fill="#B9C4CF"/>
+        <circle class="toggle-slide" cx="-9" cy="0" r="9" fill="#F5F7F9"/>
       </g>
     </symbol>
 
