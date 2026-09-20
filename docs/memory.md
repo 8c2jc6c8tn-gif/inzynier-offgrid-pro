@@ -5362,3 +5362,45 @@ pnpm start`, `next-server` sprzątnięty przed i po) na pulpicie głównym — 4
 potwierdzone bezpośrednio w gridzie (08/10/12/13; 09/11 przesłonięte maskotką, opisane wyżej;
 14 nie ma slotu w gridzie), zrzut ekranu całej strony sprawdzony wizualnie — bez nakładających
 się elementów, bez złamanych ikon. Zamyka punkt 6 i całą prośbę "5,6,7,8,9 proszę zrób".
+
+## Limit minut GitHub Actions wyczerpany + `paths-ignore` w CI — 20.09.2026
+
+**Znalezisko.** PR #129 i #130 failowały na obu wymaganych checkach z komunikatem, który
+początkowo wyglądał na błąd infrastrukturalny (0ms billable, brak logów, identyczna awaria na
+dwóch niezależnych PR-ach). Rzeczywista przyczyna, potwierdzona przez właściciela repo ze
+zrzutu ekranu GitHub Actions: adnotacja *"The job was not started because recent account
+payments have failed or your spending limit needs to be increased"* — **darmowy limit 2000
+minut Actions/miesiąc (GitHub Free, repo prywatne) został w całości wyczerpany** (2000/2000,
+reset za 11 dni), nie awaria konta ani treść PR-ów. Potwierdzone przez `github.com/settings/
+billing/summary`: $12.00 zużycia w 100% pokryte darmowym limitem — zero realnej płatności,
+tylko blokada dalszego zużycia (budżety kontowe ustawione na $0 ze "Stop usage: Yes").
+
+**Przyczyna zużycia.** Tempo tej sesji (dziesiątki pełnych przebiegów CI dziennie, każdy commit
+= osobne uruchomienie 2 jobów) zjadło 2000 minut w ~19 dni. Zmierzone realnie na udanym
+przebiegu (run #83, 20.09.2026): job `Lint, typecheck, test, build` = 3m33s → liczony jako
+**4 minuty** (Actions zaokrągla w górę do pełnej minuty), job `Dependency vulnerability audit`
+= 25s → liczony jako **1 minuta** (minimum, nawet za parę sekund pracy — sam narzut
+checkout+setup-node+pnpm install to ~17 z tych 25s). Razem **5 minut/przebieg**, niezależnie
+od tego, czy diff dotyczył kodu czy samej dokumentacji.
+
+**Rozważone i odrzucone: scalenie dwóch jobów w jeden.** Oszczędziłoby tylko ~1 minutę/przebieg
+(job audytu i tak jest liczony jako minimum 1 minuta, bez względu na scalenie) kosztem
+zgaszenia celowego rozdzielenia sygnałów awarii z `docs/standards/11-ci-deployment.md` (11.2 +
+11.5) — "żeby znana, nienaprawialna od razu podatność nie blokowała np. mergowania czystego
+fixa lintera, i odwrotnie". Zysk nie uzasadniał utraty tej własności — **dwa joby zostają
+rozdzielone**.
+
+**Wdrożone: `paths-ignore` w `.github/workflows/ci.yml`** (osobny PR, branch
+`claude/ci-paths-ignore`) — `docs/**`, `**/*.md`, `.claude/**` pomijają CI całkowicie zarówno
+na `pull_request`, jak i na `push` do `main`. Ta sesja miała sporo commitów czysto
+dokumentacyjnych (wpisy do `docs/memory.md`/`docs/wklad-do-standardu.md`, synchronizacje
+`docs/standards/`) — PR #129 w całości był tego typu (5 plików, same `docs/`) i przy tym
+filtrze w ogóle nie zużyłby minut. Zweryfikowano: `yaml.safe_load` parsuje plik bez błędów,
+struktura `on:` dokładnie taka jak zamierzona (`paths-ignore` na obu triggerach). Zmiana w
+samym `ci.yml` nie jest objęta wzorcami — commit do workflow zawsze uruchamia CI.
+
+**Otwarte, poza zakresem tej sesji:** trwały sposób na uniknięcie ponownego wyczerpania limitu
+(repo publiczne — nielimitowane minuty, kosztem widoczności kodu; GitHub Pro — +1000 minut/mies.
+za $4, prawdopodobnie niewystarczające przy tym tempie pracy) — decyzja biznesowa właściciela,
+nie techniczna, czeka na wybór. Do tego czasu: PR #129 i #130 czekają na reset limitu (11 dni od
+20.09.2026) albo decyzję właściciela o jednej z płatnych/publicznych opcji.

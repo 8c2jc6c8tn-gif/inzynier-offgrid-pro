@@ -5,10 +5,22 @@ name: CI
 # podatności zależności (11.5) — rozdzielone, żeby znana, nienaprawialna od razu podatność
 # nie blokowała np. mergowania czystego fixa lintera, i odwrotnie.
 
+# paths-ignore: commity czysto dokumentacyjne (docs/, *.md, .claude/) nie zmieniają niczego,
+# co lint/typecheck/test/build/audit mogłyby wykryć — pomijanie ich oszczędza minuty Actions
+# (limit konta, nie tylko koszt), patrz docs/memory.md. Ścieżka tego pliku (.github/workflows/)
+# nie jest objęta wzorcami niżej, więc zmiana samego ci.yml nadal zawsze uruchamia CI.
 on:
   pull_request:
+    paths-ignore:
+      - "docs/**"
+      - "**/*.md"
+      - ".claude/**"
   push:
     branches: [main]
+    paths-ignore:
+      - "docs/**"
+      - "**/*.md"
+      - ".claude/**"
 
 concurrency:
   group: ci-${{ github.workflow }}-${{ github.ref }}
