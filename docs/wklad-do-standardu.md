@@ -415,6 +415,55 @@ Status: 🔎 nowe
 
 ---
 
+[20.09.2026] KATEGORIA: DOBRA PRAKTYKA — kontrakt `AiToolDefinition` z 9.3 ma teraz działającą
+implementację referencyjną (nie tylko typ na papierze), plus jedna reguła kolejności warta
+dopisania obok niej
+
+Szczegóły: Wpis z 14.09.2026 (wyżej w tym pliku) zgłosił brak konkretnego kształtu narzędzia AI —
+skonsolidowany 15.09.2026 jako 9.3 (`docs/standards/09-ai-w-produkcie.md`). Od tego czasu w tym
+projekcie powstała pierwsza realna, przetestowana implementacja tego kontraktu (nie szkic):
+`lib/ai/types.ts` (typ + `validateAiToolDefinition()`), `lib/ai/tools/kalkulatory-pomocnicze-tool.ts`
+(pierwsze narzędzie), `lib/ai/to-anthropic-tool.ts` (adapter), `lib/ai/pytaj-asystenta.ts` (pętla
+agentowa). Dwa elementy tej implementacji są transferowalne i dziś nigdzie w standardzie nieopisane:
+
+1. **Most JSON Schema jako punkt przenośności między dostawcami AI.** `z.toJSONSchema()` (Zod v4,
+   natywne, bez dodatkowej biblioteki) generuje z `inputSchema` obiekt JSON Schema, który Anthropic
+   przyjmuje wprost jako `Tool.input_schema` — ale to DOKŁADNIE ten sam artefakt, którego zażąda
+   `function.parameters` OpenAI i `FunctionDeclaration.parameters` Gemini. Konsekwencja dla każdego
+   projektu rodziny planującego BYOK (podłączenie własnego klucza usera do wybranego dostawcy —
+   temat poruszony wprost przez właściciela tego projektu, jeszcze nie zbudowany): rejestr narzędzi
+   (9.3) pisany raz, w jednym miejscu, nie wymaga przepisania per dostawca — tylko cienkiego
+   adaptera per dostawca (~15-20 linii, sama zmiana koperty wokół tego samego JSON Schema), nie
+   powielenia opisów. Wart dopisania jako konkretna wskazówka architektoniczna obok samego typu
+   `AiToolDefinition` w 9.3 — dziś typ jest tam, ale nic nie mówi, że to, co w niego wpiszesz, jest
+   już z natury gotowe pod wielu dostawców, jeśli tylko trzyma się na Zod/schemacie generującym
+   standardowy JSON Schema.
+2. **Kolejność pisania: opis narzędzia AI na końcu, nie na początku.** Przy planowaniu, jak
+   efektywnie dobudować opisy AI do pozostałych kalkulatorów tego projektu (116 z 117 nie ma dziś
+   żadnego), ustalona rekomendacja: kalkulator (input/calculator/validation/warnings + testy) →
+   i18n (klucze tłumaczeń) → dopiero na końcu `AiToolDefinition`. Powód: dokładny opis narzędzia
+   (pola `.describe()` w Zod, treść `description` narzędzia) wymaga znajomości OSTATECZNEGO,
+   przetestowanego kształtu wejścia/wyjścia — pisanie go przed ustabilizowaniem kalkulatora ryzykuje,
+   że opis skłamie o kształcie danych po pierwszej zmianie w trakcie testowania. To osobna,
+   dodatkowa reguła obok już istniejącej 17.1a (i18n jako założenie architektoniczne od Etapu 1) —
+   ta ostatnia mówi "buduj razem od początku", ta tutaj doprecyzowuje wewnętrzną kolejność KROKÓW
+   w ramach tego samego, jednosesyjnego podejścia, żeby nie była to dowolna kolejność trzech
+   rzeczy naraz.
+
+Kod referencyjny (pierwsze narzędzie end-to-end, gotowe do skopiowania jako wzorzec): pliki
+wymienione wyżej, `lib/ai/` w tym repo.
+
+Dlaczego warto zgłosić do new-app-standards: AI w produkcie jest już dziś obowiązkowym elementem
+każdej apki rodziny (9.0) — każdy kolejny projekt, który zacznie budować rejestr narzędzi, odkryje
+te same dwie rzeczy (przenośność JSON Schema, kolejność pisania opisu) samodzielnie, chyba że
+zostaną nazwane raz, tutaj. To dokładnie ten sam wzorzec zgłoszenia, co CI referencyjny/i18n guard
+(wpis 16.09.2026 wyżej) — reguła bez przykładu kodu jest dużo łatwiejsza do błędnego wdrożenia niż
+reguła z gotowym, zweryfikowanym wzorcem obok.
+
+Status: 🔎 nowe
+
+---
+
 [20.09.2026] KATEGORIA: BŁĄD — równoległe uruchomienie wielu subagentów wyczerpało limit sesji API szybciej niż praca sekwencyjna
 
 Szczegóły: Duży mechaniczny rollout (114 plików, ta sama transformacja `useState` →
