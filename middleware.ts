@@ -27,22 +27,11 @@ import {
   supabaseAnonKey,
   supabaseUrl,
 } from "@/lib/adapters/supabase/config"
-import { LANGUAGE_COOKIE, LANGUAGE_COOKIE_MAX_AGE_SECONDS, negocjujJezyk } from "@/lib/i18n/language"
 
 const PUBLIC_PATH_PREFIXES = ["/auth/"]
 
 function isPublicPath(pathname: string): boolean {
   return PUBLIC_PATH_PREFIXES.some((prefix) => pathname.startsWith(prefix))
-}
-
-// Pierwsza wizyta, zanim cookie `jezyk` w ogóle istnieje — docs/standards/17-i18n.md, 17.4a:
-// middleware (serwer) czyta `Accept-Language` i ustawia cookie od razu, żeby pierwsza odpowiedź
-// HTML poszła w dopasowanym języku. Nigdy nie nadpisuje już istniejącej cookie — świadomy wybór
-// usera w Ustawieniach ma pierwszeństwo nad nagłówkiem przeglądarki na każdej kolejnej wizycie.
-function ustawJezykJesliBrak(request: NextRequest, response: NextResponse): void {
-  if (request.cookies.has(LANGUAGE_COOKIE)) return
-  const jezyk = negocjujJezyk(request.headers.get("accept-language"))
-  response.cookies.set(LANGUAGE_COOKIE, jezyk, { path: "/", maxAge: LANGUAGE_COOKIE_MAX_AGE_SECONDS })
 }
 
 const IS_DEV = process.env.NODE_ENV !== "production"
@@ -86,7 +75,6 @@ export async function middleware(request: NextRequest) {
 
   if (!isSupabaseConfigured()) {
     const response = NextResponse.next({ request: { headers: requestHeaders } })
-    ustawJezykJesliBrak(request, response)
     return zastosujCsp(request, response, nonce)
   }
 
@@ -114,11 +102,9 @@ export async function middleware(request: NextRequest) {
     const redirectUrl = new URL("/auth/login", request.url)
     redirectUrl.searchParams.set("next", request.nextUrl.pathname)
     const redirectResponse = NextResponse.redirect(redirectUrl)
-    ustawJezykJesliBrak(request, redirectResponse)
     return zastosujCsp(request, redirectResponse, nonce)
   }
 
-  ustawJezykJesliBrak(request, response)
   return zastosujCsp(request, response, nonce)
 }
 

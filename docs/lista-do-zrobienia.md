@@ -888,29 +888,34 @@ Tu trafia bieżący stan pracy: co w trakcie, co zablokowane, co następne — a
   (pre-istniejące zachowanie, dotyczy też kafli 3/6/7). Zweryfikowane: typecheck/lint/build
   czyste, Playwright + zrzut ekranu pulpitu potwierdzają poprawny render 4 z 7 nowych ikon w
   gridzie. **To zamyka całą prośbę "5,6,7,8,9 proszę zrób".** Szczegóły: `docs/memory.md`.
+- ✅ (2026-09-20) **Migracja i18n na client-side bundled (offline-first, `docs/standards/17-i18n.md`
+  17.4)** — osobny branch/PR (`claude/i18n-offline-first`), na wyraźną prośbę właściciela projektu
+  po pełnym audycie (znalezisko: mechanizm cookie+middleware łamał offline-first). Preferencja
+  języka przeniesiona z cookie na `localStorage` (`lib/i18n/storage.ts`, wzorzec
+  `useSyncExternalStore` jak `lib/theme/storage.ts`) + `navigator.languages` na pierwszą wizytę;
+  `<html lang>` korygowany blokującym skryptem pre-paint (jak dla motywu). Jedyny Server Component
+  renderujący tłumaczenia wprost (`prognozy/page.tsx`) wydzielony do Client Component. **Znana,
+  jawnie ujawniona luka:** widoczna treść UI (nie sam atrybut) może się skorygować po hydratacji
+  przy twardym przeładowaniu z językiem ≠ polski — pełne wyeliminowanie wymaga architektury
+  CSS-multi-language-DOM (~130 ekranów), poza zakresem tego kroku, czeka na decyzję właściciela.
+  Zweryfikowane: typecheck/lint/i18n-guard/test(965/965)/build czyste, Playwright (4 scenariusze:
+  świeże wejście, przełączenie, twarde przeładowanie z zapisaną preferencją, ekran Prognozy) —
+  zero nowych błędów konsoli. Szczegóły: `docs/memory.md`.
 
 ## Pełny audyt (20.09.2026, GOD BOOK Y.6/Y.9 + Część N) — lista priorytetowa
 
 Pełne wyniki audytu: `docs/memory.md`, sekcja "Pełny audyt na polecenie właściciela projektu
 (20.09.2026)". Poniżej wyłącznie akcje wynikające z audytu, priorytetyzowane.
 
-- 🔴 **[PILNE, architektura] Migracja i18n z cookie+server-side na client-side bundled —
-  projekt jest offline-first (5.3), obecny mechanizm (`middleware.ts`, `lib/i18n/language.ts`,
-  cookie `jezyk`) łamie tę zasadę.** Standard skorygował się 16.09.2026 (wiersz 76
-  `AKTUALIZACJE.md`): dla projektów z twardym wymogiem offline (ten projekt, jawnie zadeklarowany
-  w `CLAUDE.md` linia 3 jako "Web/PWA offline-first") język UI ma być: `localStorage` +
-  `navigator.language` na pierwszą wizytę, blokujący skrypt pre-paint z treścią WSZYSTKICH
-  języków w bundlu klienckim (cache SW), **zero cookie, zero zależności od serwera**. Dziś apka
-  wymaga rundy serwera (middleware czyta/ustawia cookie, `Accept-Language`) przy każdym twardym
-  przeładowaniu — dokładnie zależność od sieci, której offline-first ma unikać. Zakres migracji:
-  `middleware.ts` (usunięcie `ustawJezykJesliBrak`/logiki cookie języka — CSP nonce zostaje,
-  niezwiązane), `lib/i18n/language.ts` (cookie → `localStorage`), `lib/i18n/language-context.tsx`
-  (wartość początkowa z propa serwerowego → z blokującego skryptu pre-paint, wzorem
-  `WYGLAD_INIT_SCRIPT` w `app/layout.tsx`), nowy skrypt inicjalizacyjny z bundlowaną treścią
-  wszystkich 3 języków (pl/en/ru) do wstawienia przed pierwszym malowaniem. **Nie wdrożone w
-  sesji audytu — to zmiana architektury runtime, nie dokumentacyjny PATCH, czeka na jawną zgodę
-  właściciela projektu przed startem** (koszt: większy payload bundla — zaakceptowany koszt tej
-  kategorii projektów wg standardu, nie błąd do "optymalizacji").
+- ✅ **[PILNE, architektura] Migracja i18n z cookie+server-side na client-side bundled —
+  ZREALIZOWANE** (patrz wpis ✅ wyżej w tej samej sekcji, branch/PR `claude/i18n-offline-first`,
+  merge 2026-09-20). Oryginalny opis zadania z audytu, zachowany jako zapis kontekstu, nie
+  aktualny stan: projekt jest offline-first (5.3), ówczesny mechanizm (`middleware.ts`,
+  `lib/i18n/language.ts`, cookie `jezyk`) łamał tę zasadę. Standard skorygował się 16.09.2026
+  (wiersz 76 `AKTUALIZACJE.md`): dla projektów z twardym wymogiem offline (ten projekt, jawnie
+  zadeklarowany w `CLAUDE.md` linia 3 jako "Web/PWA offline-first") język UI ma być:
+  `localStorage` + `navigator.language` na pierwszą wizytę, blokujący skrypt pre-paint z treścią
+  WSZYSTKICH języków w bundlu klienckim (cache SW), zero cookie, zero zależności od serwera.
 - 🟢 Wiersz 74 `AKTUALIZACJE.md` (CSP nonce-per-request) — już zaimplementowane w tym repo,
   tylko formalnie zamknięte w logu tym audytem. Bez akcji.
 - 🟢 3 pliki `docs/standards/` (`17-i18n.md`, `00-INDEKS.md`, `05-baza-danych-offline.md`) —

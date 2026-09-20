@@ -45,6 +45,14 @@ Cztery sekcje, w tej kolejności:
 
 Każdy parametr liczbowy na dowolnym ekranie (nie tylko Doradcy) ma mały znak `?` obok etykiety — popover z pełną nazwą, jednym zdaniem "do czego służy", gdzie to znaleźć, typowym zakresem wartości. To jest **inny** poziom wyjaśnienia niż Migawka (Migawka tłumaczy całą funkcję/zjawisko, `?` tłumaczy pojedyncze oznaczenie/pole) — oba mogą występować na tym samym ekranie i się uzupełniają.
 
+## 8.4a. Kryterium audytu pokrycia: "sekcja wypełniona" ≠ "ma wzór"
+
+[20.09.2026] ✅ DODANO — źródło: inzynier-offgrid-pro (U.4). Audyt pokrycia funkcji oznaczył dwie funkcje jako "gotowe do budowy — pełna treść Doradcy z formułą" na podstawie tego, że źródło miało wypełniony pełny szablon sekcji A/B/C/D. Przy faktycznej implementacji okazało się, że Sekcja B (Silnik) miała tylko narrację słowną + jeden przykład liczbowy, bez ogólnego wzoru wiążącego wejścia z wynikiem — obie funkcje błędnie zaklasyfikowane jako gotowe do Wzorca D, zamiast do Wzorca C (8.2).
+
+**Reguła.** Przy audycie pokrycia (GOD BOOK Część N) klasyfikującym funkcję jako "gotową do budowy jako Doradca (Wzorzec D)", nie wystarczy sprawdzić, że Sekcja B źródła jest wypełniona tekstem — trzeba jawnie potwierdzić, że zawiera **odtwarzalny wzór matematyczny/logiczny** (nie tylko opis słowny mechanizmu i pojedynczy przykład liczbowy, z którego wzoru nie da się jednoznacznie wyprowadzić). Sam przykład liczbowy bez ogólnego wzoru klasyfikuje funkcję z automatu jako kandydata do Wzorca C (informacyjny) — nie D (kalkulator) — dopóki ktoś nie dostarczy albo nie wyprowadzi brakującego wzoru.
+
+**Uzasadnienie.** "Sekcja ma treść" i "sekcja ma wzór" to dwa różne stany, łatwe do pomylenia przy pobieżnym audycie opartym o samą strukturę szablonu — dotyczy każdego projektu rodziny opartego o szablon Doradcy A/B/C/D, nie specyfiki jednego projektu.
+
 ## 8.5. Tryb prosty vs Tryb zaawansowany
 
 **Reguła.** Globalny przełącznik, stan trwały w preferencjach użytkownika. Domyślnie tryb prosty (suwaki, kafle, mniej pól). Tryb zaawansowany odsłania parametry dodatkowe (dla projektu technicznego: protokoły komunikacji, momenty dokręcania; dla innej domeny: pełne dane źródłowe, zaawansowane filtry — dobór wg projektu). **Menu pozostaje zawsze dostępne, również w trybie prowadzonym/prostym** — nigdy nie zamyka użytkownika w liniowej ścieżce bez wyjścia.

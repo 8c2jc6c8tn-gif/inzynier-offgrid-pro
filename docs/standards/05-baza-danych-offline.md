@@ -43,3 +43,13 @@ Powiązane: [01 Architektura](01-architektura.md) · [02 Model danych](02-model-
 **Uzasadnienie.** Ten sam kod (kompresja w Workerze → zapis `Blob` do IndexedDB) działa bez zarzutu na Chrome/Desktop, ale na Safari/iOS rzuca `UnknownError: Error preparing Blob/File data to be stored in object store` przy każdej próbie zapisu — Blob, który przeszedł przez granicę Workera, bywa tam niezapisywalny. Błąd nie ujawnia się w typowym CI: silniki testowe (jsdom/happy-dom) nie mają prawdziwej implementacji IndexedDB Safari, a e2e uruchamiany na Chromium tego wariantu nie widzi — realnie wykrywalny dopiero na fizycznym urządzeniu Apple.
 
 **Konsekwencja.** Koszt odtworzenia Bloba jest znikomy — stosuj go zawsze przy tej ścieżce (Worker → IndexedDB), nie tylko po wykryciu problemu na Safari.
+
+## 5.7. Autosave draftu formularza jako architektoniczny domyślny od Etapu 1, nie dobudowywany reaktywnie
+
+[20.09.2026] ✅ DODANO — źródło: inzynier-offgrid-pro (U.4). Hook autosave draftu formularza (zapis do IndexedDB przy każdej zmianie pola, z debounce) powstał dopiero po tym, jak użytkownik zgłosił realną utratę danych (przeglądarka mobilna odświeżyła kartę w tle, formularz wrócił pusty) — do tego dnia zbudowano już ~90 ekranów kalkulatorów zwykłym `useState`, bez żadnej persystencji, co wymagało później osobnej, kosztownej konwersji (114 plików w jednej sesji).
+
+**Reguła.** Każdy nowy projekt rodziny z formularzami wielopolowymi (czyli praktycznie każdy — profil całej rodziny, patrz 5.1 "Seed nie Wynik") ma gotowy, generyczny wzorzec autosave draftu formularza (Seed → `StorageAdapter`, zapis debounce'owany przy zmianie pola, async odczyt przy montowaniu ekranu) zbudowany **razem ze szkieletem architektury (Etap 1), zanim powstanie pierwszy ekran kalkulatora** — nie jako osobne zadanie dobudowywane reaktywnie po zgłoszeniu utraty danych. Ten sam wzorzec używany od pierwszego dnia przez **każdy** nowy ekran z polami formularza, bez wyjątków.
+
+**Uzasadnienie.** Utrata wpisanych, jeszcze niezapisanych danych przy odświeżeniu/zamknięciu karty jest przewidywalnym z góry ryzykiem dla każdej aplikacji offline-first z formularzami — nie czymś, co trzeba było odkryć w praktyce przez zgłoszenie użytkownika. Budowanie dziesiątek ekranów bez tego wzorca, a potem osobna konwersja wszystkich naraz, kosztuje więcej niż wbudowanie go raz, na starcie.
+
+**Konsekwencja procesowa (pomost do czasu wdrożenia powyższego w projekcie, który go jeszcze nie ma).** Patrz 15.19 — przed napisaniem nowego ekranu wg istniejącego wzorca, AI musi sprawdzić `docs/memory.md`/`docs/standards/` pod kątem najnowszej, aktualnej wersji tego wzorca, nie kopiować z pamięci/z najbliższego przykładu w kodzie bez tej weryfikacji.
