@@ -104,6 +104,26 @@ export const dictionaryEn = {
   "SYMULACJA-SREDNIA-MOC-NIE-PROFIL-GODZINOWY":
     "The simulation uses the average charging/discharging power over the whole window, not a full hourly " +
     "profile — the actual course of the day/night may differ.",
+  "NAPIECIE-ODCIECIA-NIEDODATNIE": "Cutoff voltage must be greater than zero.",
+  "LICZBA-OGNIW-NIEPOPRAWNA": "The number of series-connected cells must be an integer of at least 1.",
+  "EKSTRAPOLACJA-POZA-KALIBRACJA":
+    "This per-cell voltage is outside the 2.625–2.750V range the model is calibrated on (two data points " +
+    "from the source) — the result is an extrapolation, not a verified calibration.",
+  "MODEL-LIFEPO4-DWA-PUNKTY-KALIBRACJI":
+    "Linear model calibrated on two LiFePO4 data points from the source (42.0V/16S→100% DoD→2000 cycles; " +
+    "44.0V/16S→80% DoD→5000 cycles) — not the full manufacturer curve.",
+  "OCZEKIWANIE-NA-SLONCE":
+    "SoC is below the critical threshold, but the forecast predicts sun tomorrow — the system " +
+    "deliberately does NOT start the generator, it waits for free PV energy.",
+  "BRAK-DOSTEPNEGO-ZRODLA-LADOWANIA":
+    "SoC is below the critical threshold and no charging source is available (no PV, no generator or " +
+    "sun forecast, no cheap grid tariff) — a real risk of SoC dropping further.",
+  "PRODUKCJA-NOMINALNA-NIEDODATNIA": "Nominal daily PV production must be greater than zero.",
+  "POZIOM-ZACHMURZENIA-POZA-ZAKRESEM": "The cloud-cover level must be within the range 0–100%.",
+  "LICZBA-DNI-SCENARIUSZA-NIEDODATNIA": "The scenario length in days must be greater than zero.",
+  "SYSTEM-NIE-PRZETRWA-SCENARIUSZA":
+    "With these parameters the system will not survive the full cloud-cover scenario — a blackout will " +
+    "occur before the given number of days runs out.",
   "BRAK-POTRZEBY-GRZANIA":
     "Temperature ({temp}°C) is high enough that the BMS doesn't turn on the heaters before charging (threshold: {prog}°C).",
   "GRZANIE-Z-PV": "There is PV production — the BMS heaters are powered directly from the panels, zero load on the battery.",
