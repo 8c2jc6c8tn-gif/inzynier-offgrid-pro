@@ -365,6 +365,84 @@ konkretnych potrzebnych tabel + kod kalkulatora, po kolei małymi partiami zgodn
   8. `.claude/skills/standards/SKILL.md` — ✅ istnieje, bez zmian wymaganych tą partią.
   9. `01_Zasady_Pracy_i_Konwencje.md` + `02_Dyrektywy_AI_Projektu.md` — ✅ oba istnieją.
 
+## Pełny audyt na polecenie właściciela projektu (20.09.2026) — Y.6/Y.9 + Część N
+
+Na wyraźne polecenie ("Zrób pełny audyt a potem podaj listę do zrobienia według god book").
+Wykonane oba tryby audytu z GOD BOOK: **Y.6/Y.9** (sprawdzenie aktualizacji + checklist
+kompletności struktury) i **Część N** (audyt kompletności — spot-check bezpośrednio w źródłach,
+nie z pamięci).
+
+**Y.6 — sprawdzono `AKTUALIZACJE.md`** (lokalny klon `new-app-standards`, `git fetch`+`git merge
+--ff-only`, `0cff79a..0c56884`, zgodnie z 1a — bez tego kroku poprzedni checkout raportowałby
+fałszywie "brak nowości"). Ostatni sync: 16.09.2026 (wiersze 67–73). **3 nowe wiersze (74–76),
+wszystkie tego samego dnia, nieskonsolidowane:**
+
+1. **Wiersz 74 — KOREKTA (BŁĄD KRYTYCZNY): hash-based CSP niekompatybilny z Next.js App Router.**
+   Źródło: **ten projekt**, własne zgłoszenie z sesji 16.09 (patrz `docs/wklad-do-standardu.md`
+   wcześniejszy wpis o tym samym dniu). Standard potwierdził: błąd produkcyjny aktywny (hydracja
+   Reacta psuje się na każdej stronie), nakazana migracja na nonce-per-request. **Stan w tym
+   repo: ✅ już naprawione** (ten sam dzień, `middleware.ts` generuje nonce per-request, przekazuje
+   przez nagłówek `x-nonce`, `app/layout.tsx` odczytuje i wstawia do `WYGLAD_INIT_SCRIPT`,
+   `next.config.mjs` ma komentarz wyjaśniający dlaczego CSP tam nie jest ustawiana). `docs/standards/07-bezpieczenstwo.md`
+   już identyczny ze źródłem (`diff` — zero różnic). Nic do zrobienia poza formalnym zamknięciem
+   tego wiersza w logu (ten wpis).
+2. **Wiersz 75 — doprecyzowanie 17.4: atrybut `lang` (tani) vs widoczna treść (pełna 17.4),
+   obowiązkowy jawny ślad w 14.4 jeśli wdrożono tylko atrybut.** Nie dotyczy wprost — projekt
+   wdrożył już PEŁNY mechanizm (cookie+treść), nie tylko atrybut — ale sam ten mechanizm okazuje
+   się nieaktualny, patrz wiersz 76.
+3. **Wiersz 76 — KOREKTA ARCHITEKTONICZNA: 17.4 wraca do offline-first (5.3) jako osi decyzyjnej,
+   nie "czy projekt ma dostępny serwer".** 🔴 **Realny, nienaprawiony gap w tym repo.**
+   `CLAUDE.md` (linia 3) jawnie deklaruje ten projekt jako "Web/PWA offline-first" — dokładnie
+   kategoria, dla której poprawiona reguła nakazuje **zero cookie, zero zależności od serwera**
+   dla języka UI. Dzisiejszy kod (`lib/i18n/language.ts`, `middleware.ts` `ustawJezykJesliBrak`)
+   implementuje dokładnie odrzucony wzorzec: cookie `jezyk` + odczyt `Accept-Language` w
+   middleware + serwerowy render per-request. To nie jest hipotetyczne ryzyko — to aktywna
+   zależność od serwera przy KAŻDYM twardym przeładowaniu, w aplikacji, której sens istnienia to
+   praca bez sieci. Poprawny wzorzec dla tej kategorii: `localStorage` + `navigator.language` na
+   pierwszą wizytę, blokujący skrypt pre-paint z treścią WSZYSTKICH języków w bundlu klienckim
+   (cache'owany przez service worker), zero cookie/middleware dla języka. **Nie naprawione w tej
+   sesji** — to migracja architektury runtime (middleware.ts, lib/i18n/*, layout.tsx), nie
+   dokumentacyjny PATCH, i dotyka mechanizmu, z którego korzysta dziś cała apka — zgłoszone do
+   listy zadań (patrz `docs/lista-do-zrobienia.md`), czeka na jawną zgodę przed startem.
+
+**Zsynchronizowane (kategoria NIETYKALNE, pełny nadpis, zero negocjacji):**
+`docs/standards/17-i18n.md`, `docs/standards/00-INDEKS.md`, `docs/standards/05-baza-danych-offline.md`.
+Zweryfikowano po synchronizacji: `diff -rq` całego `docs/standards/` między tym repo a źródłem —
+**zero różnic** (wcześniej: 3 pliki). GOD BOOK i `PROMPT_STARTOWY.md` — już identyczne ze źródłem,
+bez zmian. `pnpm check:i18n-guard` — czyste (94 moduły, bez regresji po zmianie treści standardu,
+zgodnie z oczekiwaniem — guard sprawdza AST kodu, nie treść dokumentacji).
+
+**Y.9 — pełna checklista struktury (19 pozycji: 9 z tabeli + 10 z Części S), sprawdzona
+bezpośrednio (`ls`/`test -e`), nie domniemana:** wszystkie ✅ istnieją — `docs/standards/00-INDEKS.md`,
+GOD BOOK v2.19, `CLAUDE.md`, `docs/memory.md`, `docs/lista-do-zrobienia.md`,
+`docs/wklad-do-standardu.md`, `docs/zrodla/`, `.claude/skills/standards/SKILL.md`,
+`01_Zasady_Pracy_i_Konwencje.md`, `02_Dyrektywy_AI_Projektu.md`, `00_Biblia.md`,
+`rejestr-decyzji.md`, `zlote-zasady.md`, `mapa-wdrozenia.md`, `backlog-poza-v1.md`,
+`dlug-techniczny.md`, `slownik-pojec.md`, `wiedza-surowa.md`, `kontrakty-rdzenia.md`. Zero
+brakujących pozycji.
+
+**Część N — audyt kompletności, spot-check bezpośrednio w źródłach:**
+1. **Markery długu technicznego `🔎 TD#`** (X.4) — `grep` w obie strony: `dlug-techniczny.md`
+   ma TD1–TD13, kod (`lib/`+`app/`) ma dokładnie te same TD1–TD13, zero rozbieżności (brak
+   długu nieudokumentowanego, brak wpisów-widm).
+2. **`docs/rejestr-twardych-stopow.md`** — 41 pozycji, struktura (sekcje tematyczne + odsyłacze
+   moduł/plik) spójna, brak oznak zaniedbania.
+3. **CI na `main`** — ostatni bieg (run #83, PR #128) zielony, bez znanych regresji.
+4. **`docs/rejestr-pokrycia.md`** — brak nowych, nieznanych wcześniej luk ponad to, co już
+   udokumentowane; największe pozostałe otwarte obszary (niezmienione od poprzednich audytów,
+   potwierdzone nadal aktualne): Moduł 5 (Okablowanie) 27/29 ekranów `todo` (niezależne od
+   normy blokującej Ekran 1, budowalne równolegle), Moduł 11 (Montaż baterii) w większości
+   `todo` poza już zbudowanymi ekranami referencyjnymi, klaster stress-test zimowy (Moduł 7,
+   architektonicznie zależny od jeszcze niezbudowanego Modułu 1/modelu termicznego Modułu 6),
+   moduł zbiorczy "Wampiry energetyczne" (Moduł 2, 24 funkcje, świadomie odłożony jako osobna
+   sesja).
+
+**Wynik ogólny:** projekt w dobrym stanie strukturalnym (Y.9 100%, GOD BOOK/standard w pełni
+zsynchronizowane po tej sesji, TD markers czyste, CI zielone) — jeden realny, aktywny gap
+architektoniczny (i18n cookie-based w projekcie offline-first, wiersz 76) i duży, znany,
+nieprzeoczony backlog funkcjonalny (M5/M11/M7/moduł wampirów). Pełna, priorytetyzowana lista:
+`docs/lista-do-zrobienia.md`, wpis z tego dnia.
+
 ## Decyzje i uzasadnienie
 
 - **2026-08-29 — Standard `docs/standards/` (16 rozdziałów) i ten plik utworzone.** Scalenie: `ZASADY_APLIKACJI.md`/`USTALENIA.md` (istniejące w repo) + audyt architektury "Kontrakty Kernela" (apka "Inżynier szkieletowy Pro") + pełna metodologia treści i wzorców UI Offgrid (Zasady UX Doradcy, plik scalony wszystkich modułów) + komplet dokumentów AI z projektu "Kalkulator Inżyniera Pro" (ARCHITECTURE/CODING_STANDARD/CALCULATORS/AI_MASTER/AI_CAMERA/LOCAL_AI/UI_GUIDE/praca_ai_z_teoria). Format: Markdown w `docs/standards/` jako źródło prawdy (przenośne między AI), `.claude/skills/standards/SKILL.md` jako cienki wrapper dla Claude Code.
