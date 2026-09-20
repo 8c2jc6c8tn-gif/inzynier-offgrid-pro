@@ -5362,3 +5362,71 @@ pnpm start`, `next-server` sprzątnięty przed i po) na pulpicie głównym — 4
 potwierdzone bezpośrednio w gridzie (08/10/12/13; 09/11 przesłonięte maskotką, opisane wyżej;
 14 nie ma slotu w gridzie), zrzut ekranu całej strony sprawdzony wizualnie — bez nakładających
 się elementów, bez złamanych ikon. Zamyka punkt 6 i całą prośbę "5,6,7,8,9 proszę zrób".
+
+## Migracja i18n na client-side bundled (offline-first, 17.4) — 20.09.2026
+
+Znalezisko z pełnego audytu GOD BOOK Y.6/Y.9 (sesja równoległa, branch `claude/app-rules-r4guty`,
+PR #129 — zablokowany na CI infrastrukturalnie, 0ms billable na obu jobach, nie treścią diffu):
+obecny mechanizm i18n (cookie+middleware) łamie deklarowany offline-first tego projektu. Na
+wyraźną prośbę właściciela: zrealizowane od razu w osobnym branchu/PR (`claude/i18n-offline-first`,
+z `main`, nie z zablokowanego branchu audytu, żeby nie czekać na jego CI), częściami z
+weryfikacją po każdej.
+
+**Kontekst decyzji.** `docs/standards/17-i18n.md`, 17.4 (korekta 16.09.2026, źródło: właściciel
+repo): mandat "cookie+server-side domyślnie dla każdego projektu z dostępnym serwerem" łamał 5.3
+(offline-first jako wymóg) — wymagał renderu per-request na serwerze przy KAŻDYM twardym
+przeładowaniu, sprzeczne z sensem istnienia projektu "off-grid". Poprawiona oś decyzyjna: nie
+"czy projekt ma serwer", tylko "czy projekt ma twardy wymóg offline (5.3)" — **jawna deklaracja
+tego projektu (ten wpis)**: inzynier-offgrid-pro ma twardy wymóg offline, kategoria "zero cookie,
+zero zależności od serwera dla języka", nie "głównie online" (ta druga — zero-waste, nazwany
+wyjątek, 17.4a).
+
+**Odkrycie procesowe przy starcie tego kroku.** Branch `claude/i18n-offline-first` utworzony z
+`main` nie miał jeszcze zsynchronizowanego `docs/standards/17-i18n.md` z korektą 17.4 — bo ta
+korekta była dotąd wdrożona tylko w osobnym, wciąż nieukończonym PR #129 (audyt, zablokowany na
+CI infrastrukturalnie — 0ms billable na obu jobach, nie treścią diffu). Zsynchronizowano 5 plików
+NIETYKALNE (00-INDEKS, 05, 08, 17 + 15-wspolpraca-z-ai — źródło miało już nowszy commit niż
+audyt, w tym nową 17.1a) przed implementacją kodu, żeby branch był samospójny z regułą, którą
+implementuje — osobny commit, `git diff -rq` zero różnic ze źródłem po synchronizacji.
+
+**Co zmieniono (kod):**
+- `lib/i18n/storage.ts` (nowy) — `useSyncExternalStore` + `localStorage` (`offgrid.jezyk.v1`),
+  ten sam wzorzec co `lib/theme/storage.ts`/`lib/wyglad/storage.ts`/`lib/pulpit/storage.ts`.
+  Pierwsza wizyta: `navigator.languages` (nie `Accept-Language` — niewidoczny bez serwera).
+- `app/layout.tsx` — usunięty `getServerLanguage()`/cookie; `<html lang>` statyczne na
+  `DEFAULT_LANGUAGE`, korygowane blokującym skryptem pre-paint (`JEZYK_INIT_SCRIPT`, ten sam
+  wzorzec co `WYGLAD_INIT_SCRIPT` dla motywu) — zero błysku ATRYBUTU.
+- `middleware.ts` — usunięta cała logika `ustawJezykJesliBrak`/cookie (CSP nonce i bramka
+  Supabase nietknięte).
+- `components/jezyk-wybor.tsx` — zapis do `localStorage` przez `zapiszJezyk()`, bez
+  `router.refresh()` (zmiana natychmiastowa, czysto kliencka — realna poprawa UX, nie tylko
+  neutralna zamiana mechanizmu).
+- `app/kalkulatory/prognozy/page.tsx` + nowy `components/zalozenia-lista.tsx` — jedyny Server
+  Component renderujący tłumaczony tekst wprost (`getServerLanguage()`+`t()`) wydzielony do
+  Client Component (`useTranslate()` wymaga kontekstu Reacta, nie ma już cookie do odczytania
+  server-side). Jedyny taki przypadek w projekcie — reszta ekranów już renderowała tłumaczenia
+  przez `useTranslate()` w Client Components.
+- Usunięte jako martwy kod: `lib/i18n/server-language.ts`, `lib/i18n/client-language.ts`.
+
+**🟡 Znana, jawnie ujawniona luka do domknięcia (14.4) — flash widocznej treści.** Sam atrybut
+`lang` nie migocze (skrypt pre-paint, jak wyżej). Widoczna TREŚĆ UI (tłumaczenia w komponentach)
+może się skorygować krótko po hydratacji przy twardym przeładowaniu, jeśli zapisany/wykryty język
+różni się od `DEFAULT_LANGUAGE` (polski) renderowanego server-side — SSR fizycznie nie może znać
+`localStorage`. `useSyncExternalStore` (`getServerSnapshot()`→`getSnapshot()`) minimalizuje okno
+i **nie generuje ostrzeżeń hydration mismatch** (potwierdzone Playwrightem na scenariuszu
+en-US/pl/ru) — ale nie eliminuje flashu treści całkowicie, tylko skraca go do czasu hydracji.
+Pełne wyeliminowanie wymagałoby architektury CSS-multi-language-DOM (wszystkie języki naraz w
+SSR HTML, przełączane atrybutem/CSS — dosłowne odczytanie 17.4: "skrypt wstawia poprawną treść
+PRZED pierwszym malowaniem") — świadomie NIE wdrożone teraz: duży refaktor dotykający ~130
+ekranów używających `t()`, poza zakresem tego kroku ("częściami, żeby nic nie namieszać"), czeka
+na wyraźną decyzję właściciela, jeśli flash treści okaże się realnym problemem w praktyce (dziś:
+tylko przy twardym przeładowaniu z językiem ≠ polski — mniejszość ruchu, biorąc pod uwagę że
+polski jest bazowy i domyślny).
+
+**Weryfikacja**: `pnpm typecheck`/`lint`/`check:i18n-guard`/`test` (965/965)/`build` czyste.
+Playwright (świeży `pnpm dev`): świeże wejście bez zapisanej preferencji → fallback
+`navigator.languages` (en, locale przeglądarki testowej — nie zawsze pl, zgodnie ze specyfikacją
+17.4, nie błąd); przełączenie w Ustawieniach na Polski → natychmiastowa zmiana `<html lang>` +
+zapis `localStorage`, bez przeładowania strony; twarde przeładowanie z zapisanym `ru` → `<html
+lang="ru">` od razu (skrypt pre-paint, przed hydracją); ekran Prognozy (skonwertowany) renderuje
+poprawnie. Zero nowych błędów konsoli w żadnym z 4 scenariuszy.

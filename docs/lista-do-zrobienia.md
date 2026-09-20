@@ -888,3 +888,16 @@ Tu trafia bieżący stan pracy: co w trakcie, co zablokowane, co następne — a
   (pre-istniejące zachowanie, dotyczy też kafli 3/6/7). Zweryfikowane: typecheck/lint/build
   czyste, Playwright + zrzut ekranu pulpitu potwierdzają poprawny render 4 z 7 nowych ikon w
   gridzie. **To zamyka całą prośbę "5,6,7,8,9 proszę zrób".** Szczegóły: `docs/memory.md`.
+- ✅ (2026-09-20) **Migracja i18n na client-side bundled (offline-first, `docs/standards/17-i18n.md`
+  17.4)** — osobny branch/PR (`claude/i18n-offline-first`), na wyraźną prośbę właściciela projektu
+  po pełnym audycie (znalezisko: mechanizm cookie+middleware łamał offline-first). Preferencja
+  języka przeniesiona z cookie na `localStorage` (`lib/i18n/storage.ts`, wzorzec
+  `useSyncExternalStore` jak `lib/theme/storage.ts`) + `navigator.languages` na pierwszą wizytę;
+  `<html lang>` korygowany blokującym skryptem pre-paint (jak dla motywu). Jedyny Server Component
+  renderujący tłumaczenia wprost (`prognozy/page.tsx`) wydzielony do Client Component. **Znana,
+  jawnie ujawniona luka:** widoczna treść UI (nie sam atrybut) może się skorygować po hydratacji
+  przy twardym przeładowaniu z językiem ≠ polski — pełne wyeliminowanie wymaga architektury
+  CSS-multi-language-DOM (~130 ekranów), poza zakresem tego kroku, czeka na decyzję właściciela.
+  Zweryfikowane: typecheck/lint/i18n-guard/test(965/965)/build czyste, Playwright (4 scenariusze:
+  świeże wejście, przełączenie, twarde przeładowanie z zapisaną preferencją, ekran Prognozy) —
+  zero nowych błędów konsoli. Szczegóły: `docs/memory.md`.
