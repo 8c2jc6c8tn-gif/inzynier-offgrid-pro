@@ -5836,3 +5836,39 @@ przedistniejące warningi img niezwiązane), `pnpm check:i18n-guard`, `pnpm buil
 czyste. **Item 3 (Moduł 4, 4 ekrany) w całości zamknięty.** Item 5 (moduł "Wampiry energetyczne",
 24 dawne funkcje) czeka jako następny — celowo nierozpoczęty w tym samym przejściu, wymaga
 własnego skanu zakresu przed implementacją.
+
+## Zamknięcie Item 3 (PR #135) + skan zakresu przed Item 5 "Wampiry energetyczne" (20.09.2026)
+
+**Weryfikacja przed mergem (na wyraźne pytanie właściciela projektu):** żadny z dwóch commitów
+Item 3 (`5ccff3e` Ekran 3, `aae3715` Ekrany 31/32/33) nie dotykał `docs/wklad-do-standardu.md` —
+`git show <sha> --stat -- docs/wklad-do-standardu.md` puste dla obu. `main` był 2 commity za
+branchem (`origin/main` na `1ee624f`, standard-sync PR #134) — utworzono i zmergowano PR #135.
+
+**Skan zakresu/architektury dla Item 5, wykonany PRZED jakimkolwiek kodem (na wyraźną prośbę
+"zanim zaczniemy 5 moduł"):**
+- Treść źródłowa: `docs/zrodla/Biblia_Offgrid_v2_0_Architektura_Modulowa.md`, linie 607–1167
+  (24 funkcje 2.24.1–2.24.24, dawne 1.24 + 1.28–1.50), pełna, kompletna narracyjnie (Skąd/Gdzie/
+  Jak/Efekt/Migawka/Powiązania dla każdej). Deklarowany podział na 5 podzakładek (linia 609):
+  Katalog urządzeń, Pomiar, Symulacje/Raporty, Rekomendacje sprzętowe, Automatyzacja — **bez**
+  jawnego mapowania która funkcja do której podzakładki (do zaprojektowania, nie do wymyślenia
+  danych — to decyzja organizacyjna UI, nie inżynierska).
+- `Zasady_UX_Doradca_v2_1.md` (§20, linie 644-681): moduł wampirów liczony jako **1 już scalony
+  ekran** w wyniku Modułu 2 (18 ekranów łącznie z indywidualnymi) — nie rozbija dalej na
+  osobne wzorce A-H, potwierdza podejście "jeden moduł zbiorczy z podzakładkami", nie 24 ekrany.
+- **Zerowe pokrycie w kodzie** — `grep -rli "standby\|wampir" lib/core/modules/` → brak wyników.
+  Żaden istniejący ekran (w tym `pobor-wlasny-falownika` 1.12, `dni-autonomii` 1.9, `load-shedding`
+  1.20 — wszystkie wymienione w "Powiązania" źródła jako cross-referencje) nie duplikuje logiki
+  standby/wampirów — to relacje "zasila"/"odwołuje się do", nie pokrycie. Brak ryzyka duplikacji.
+- **Korekta notatki w `docs/rejestr-pokrycia.md`** (wiersz "Wampiry energetyczne"): poprzednia
+  wersja mówiła "treść w Biblii poza tym repo" — nieaktualne, treść JEST w tym repo (patrz wyżej).
+  Dryf notatki bez świadomej decyzji (nie konflikt merytoryczny) — poprawione wprost, zgodnie z
+  wyjątkiem Części Y.2 GOD BOOK.
+- **Cross-referencje do modułów jeszcze niezbudowanych** (informacyjnie, nie blokujące): wiele
+  funkcji odwołuje się do Modułu 7 (stress-test, w większości `todo`), Modułu 8 (bezpieczeństwo,
+  częściowo zbudowany), Modułu 3 (`3.1`, zbudowany jako reprezentant wzorca). Zgodnie z ustalonym
+  wzorcem (Ekrany 31-33 Modułu 4) — pola takich zależności zostają polami ręcznego wpisu, nie
+  blokują implementacji.
+- **Wniosek:** moduł gotowy do zaprojektowania i implementacji jako osobna sesja projektowa —
+  brak blokerów danych/norm (to głównie katalogi urządzeń z zakresami W podanymi w źródle, nie
+  jedną kanoniczną wartością — wzorzec identyczny do już zbudowanych katalogów, np.
+  `systemy-podtrzymania-zycia`), brak ryzyka duplikacji z istniejącym kodem.
