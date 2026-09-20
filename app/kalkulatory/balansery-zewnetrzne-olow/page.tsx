@@ -1,7 +1,8 @@
 "use client"
 
-import { useMemo, useState } from "react"
+import { useMemo } from "react"
 import { calculateBalanseryZewnetrzneOlow } from "@/lib/core/modules/montaz-baterii/balansery-zewnetrzne-olow/calculator"
+import { usePersistedDraft } from "@/lib/adapters/use-persisted-draft"
 import { Pole, PoleCheckbox } from "@/components/ui/pole"
 import { WerdyktPanel, type WerdyktPoziom } from "@/components/werdykt"
 import { NawigacjaEkranu } from "@/components/nawigacja-ekranu"
@@ -54,9 +55,28 @@ function BalanseryIlustracja() {
   )
 }
 
+type FormularzStan = {
+  iloscAkumulatorow: string
+  posiadaBalanserZewnetrzny: boolean
+}
+
+const STAN_POCZATKOWY: FormularzStan = {
+  iloscAkumulatorow: "",
+  posiadaBalanserZewnetrzny: false,
+}
+
 export default function BalanseryZewnetrzneOlowPage() {
-  const [iloscAkumulatorow, setIloscAkumulatorow] = useState("")
-  const [posiadaBalanserZewnetrzny, setPosiadaBalanserZewnetrzny] = useState(false)
+  const [stan, setStan] = usePersistedDraft<FormularzStan>("balansery-zewnetrzne-olow", STAN_POCZATKOWY)
+  const { iloscAkumulatorow, posiadaBalanserZewnetrzny } = stan
+
+  function setPole<K extends keyof FormularzStan>(pole: K, akcja: FormularzStan[K] | ((prev: FormularzStan[K]) => FormularzStan[K])) {
+    setStan((prev) => ({
+      ...prev,
+      [pole]: typeof akcja === "function" ? (akcja as (p: FormularzStan[K]) => FormularzStan[K])(prev[pole]) : akcja,
+    }))
+  }
+  const setIloscAkumulatorow = (a: string | ((p: string) => string)) => setPole("iloscAkumulatorow", a)
+  const setPosiadaBalanserZewnetrzny = (a: boolean | ((p: boolean) => boolean)) => setPole("posiadaBalanserZewnetrzny", a)
 
   const result = useMemo(
     () =>

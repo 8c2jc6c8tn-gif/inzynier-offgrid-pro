@@ -1,6 +1,6 @@
 "use client"
 
-import { useMemo, useState } from "react"
+import { useMemo } from "react"
 import { calculateWeryfikacjaOgniw } from "@/lib/core/modules/montaz-baterii/weryfikacja-ogniw/calculator"
 import { CHECKLIST_ITEMS, OCZEKIWANA_LICZBA_OGNIW } from "@/lib/core/modules/montaz-baterii/weryfikacja-ogniw/constants"
 import type { NapiecieSystemu } from "@/lib/core/modules/montaz-baterii/weryfikacja-ogniw/input"
@@ -10,14 +10,39 @@ import { WerdyktPanel, type WerdyktPoziom } from "@/components/werdykt"
 import { NawigacjaEkranu } from "@/components/nawigacja-ekranu"
 import { NaglowekEkranu } from "@/components/wzorce/naglowek-ekranu"
 import { WynikSzczegoly } from "@/components/wzorce/wynik-szczegoly"
+import { usePersistedDraft } from "@/lib/adapters/use-persisted-draft"
+
+type FormularzStan = {
+  napiecieSystemu: NapiecieSystemu
+  napieciaOgniwV: number[]
+  bmsMaBalancer: boolean
+  potwierdzoneIds: string[]
+}
+
+const STAN_POCZATKOWY: FormularzStan = {
+  napiecieSystemu: 48,
+  napieciaOgniwV: Array(OCZEKIWANA_LICZBA_OGNIW[48]).fill(0),
+  bmsMaBalancer: false,
+  potwierdzoneIds: [],
+}
 
 export default function WeryfikacjaOgniwPage() {
-  const [napiecieSystemu, setNapiecieSystemu] = useState<NapiecieSystemu>(48)
-  const [napieciaOgniwV, setNapieciaOgniwV] = useState<number[]>(
-    Array(OCZEKIWANA_LICZBA_OGNIW[48]).fill(0),
-  )
-  const [bmsMaBalancer, setBmsMaBalancer] = useState(false)
-  const [potwierdzoneIds, setPotwierdzoneIds] = useState<string[]>([])
+  const [stan, setStan] = usePersistedDraft<FormularzStan>("weryfikacja-ogniw", STAN_POCZATKOWY)
+  const { napiecieSystemu, napieciaOgniwV, bmsMaBalancer, potwierdzoneIds } = stan
+
+  function setPole<K extends keyof FormularzStan>(
+    pole: K,
+    akcja: FormularzStan[K] | ((prev: FormularzStan[K]) => FormularzStan[K]),
+  ) {
+    setStan((prev) => ({
+      ...prev,
+      [pole]: typeof akcja === "function" ? (akcja as (p: FormularzStan[K]) => FormularzStan[K])(prev[pole]) : akcja,
+    }))
+  }
+  const setNapiecieSystemu = (a: NapiecieSystemu | ((p: NapiecieSystemu) => NapiecieSystemu)) => setPole("napiecieSystemu", a)
+  const setNapieciaOgniwV = (a: number[] | ((p: number[]) => number[])) => setPole("napieciaOgniwV", a)
+  const setBmsMaBalancer = (a: boolean | ((p: boolean) => boolean)) => setPole("bmsMaBalancer", a)
+  const setPotwierdzoneIds = (a: string[] | ((p: string[]) => string[])) => setPole("potwierdzoneIds", a)
 
   const result = useMemo(
     () => calculateWeryfikacjaOgniw({ napiecieSystemu, napieciaOgniwV, bmsMaBalancer, potwierdzoneIds }),

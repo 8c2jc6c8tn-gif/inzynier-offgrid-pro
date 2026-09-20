@@ -1,7 +1,8 @@
 "use client"
 
-import { useMemo, useState } from "react"
+import { useMemo } from "react"
 import { calculateDopasowanieTablicyFalownika } from "@/lib/core/modules/pv/dopasowanie-tablicy-falownika/calculator"
+import { usePersistedDraft } from "@/lib/adapters/use-persisted-draft"
 import { Pole } from "@/components/ui/pole"
 import { WerdyktPanel } from "@/components/werdykt"
 import { NawigacjaEkranu } from "@/components/nawigacja-ekranu"
@@ -9,18 +10,70 @@ import { NaglowekEkranu } from "@/components/wzorce/naglowek-ekranu"
 import { WynikGlowny } from "@/components/wzorce/wynik-glowny"
 import { WynikSzczegoly } from "@/components/wzorce/wynik-szczegoly"
 
+type FormularzStan = {
+  vocStcV: string
+  vmpStcV: string
+  impA: string
+  betaPctNaC: string
+  tminC: string
+  liczbaPaneliWStringu: string
+  vMaxFalownikaV: string
+  mpptMinV: string
+  mpptMaxV: string
+  iMaxMpptA: string
+  mocFalownikaAcW: string
+}
+
+const STAN_POCZATKOWY: FormularzStan = {
+  vocStcV: "",
+  vmpStcV: "",
+  impA: "",
+  betaPctNaC: "",
+  tminC: "",
+  liczbaPaneliWStringu: "",
+  vMaxFalownikaV: "",
+  mpptMinV: "",
+  mpptMaxV: "",
+  iMaxMpptA: "",
+  mocFalownikaAcW: "",
+}
+
 export default function DopasowanieTablicyFalownikaPage() {
-  const [vocStcV, setVocStcV] = useState("")
-  const [vmpStcV, setVmpStcV] = useState("")
-  const [impA, setImpA] = useState("")
-  const [betaPctNaC, setBetaPctNaC] = useState("")
-  const [tminC, setTminC] = useState("")
-  const [liczbaPaneliWStringu, setLiczbaPaneliWStringu] = useState("")
-  const [vMaxFalownikaV, setVMaxFalownikaV] = useState("")
-  const [mpptMinV, setMpptMinV] = useState("")
-  const [mpptMaxV, setMpptMaxV] = useState("")
-  const [iMaxMpptA, setIMaxMpptA] = useState("")
-  const [mocFalownikaAcW, setMocFalownikaAcW] = useState("")
+  const [stan, setStan] = usePersistedDraft<FormularzStan>("dopasowanie-tablicy-falownika", STAN_POCZATKOWY)
+  const {
+    vocStcV,
+    vmpStcV,
+    impA,
+    betaPctNaC,
+    tminC,
+    liczbaPaneliWStringu,
+    vMaxFalownikaV,
+    mpptMinV,
+    mpptMaxV,
+    iMaxMpptA,
+    mocFalownikaAcW,
+  } = stan
+
+  function setPole<K extends keyof FormularzStan>(
+    pole: K,
+    akcja: FormularzStan[K] | ((prev: FormularzStan[K]) => FormularzStan[K]),
+  ) {
+    setStan((prev) => ({
+      ...prev,
+      [pole]: typeof akcja === "function" ? (akcja as (p: FormularzStan[K]) => FormularzStan[K])(prev[pole]) : akcja,
+    }))
+  }
+  const setVocStcV = (a: string | ((p: string) => string)) => setPole("vocStcV", a)
+  const setVmpStcV = (a: string | ((p: string) => string)) => setPole("vmpStcV", a)
+  const setImpA = (a: string | ((p: string) => string)) => setPole("impA", a)
+  const setBetaPctNaC = (a: string | ((p: string) => string)) => setPole("betaPctNaC", a)
+  const setTminC = (a: string | ((p: string) => string)) => setPole("tminC", a)
+  const setLiczbaPaneliWStringu = (a: string | ((p: string) => string)) => setPole("liczbaPaneliWStringu", a)
+  const setVMaxFalownikaV = (a: string | ((p: string) => string)) => setPole("vMaxFalownikaV", a)
+  const setMpptMinV = (a: string | ((p: string) => string)) => setPole("mpptMinV", a)
+  const setMpptMaxV = (a: string | ((p: string) => string)) => setPole("mpptMaxV", a)
+  const setIMaxMpptA = (a: string | ((p: string) => string)) => setPole("iMaxMpptA", a)
+  const setMocFalownikaAcW = (a: string | ((p: string) => string)) => setPole("mocFalownikaAcW", a)
 
   const result = useMemo(
     () =>

@@ -1,7 +1,8 @@
 "use client"
 
-import { useMemo, useState } from "react"
+import { useMemo } from "react"
 import { calculateAnalizaZwarciowa } from "@/lib/core/modules/okablowanie/analiza-zwarciowa/calculator"
+import { usePersistedDraft } from "@/lib/adapters/use-persisted-draft"
 import { Pole } from "@/components/ui/pole"
 import { WerdyktPanel, type WerdyktPoziom } from "@/components/werdykt"
 import { NawigacjaEkranu } from "@/components/nawigacja-ekranu"
@@ -9,12 +10,37 @@ import { NaglowekEkranu } from "@/components/wzorce/naglowek-ekranu"
 import { WynikGlowny } from "@/components/wzorce/wynik-glowny"
 import { WynikSzczegoly } from "@/components/wzorce/wynik-szczegoly"
 
+type FormularzStan = {
+  napiecieBateriiV: string
+  rezystancjaWewnetrznaBateriiOhm: string
+  iscPanelaA: string
+  liczbaStringowRownoleglych: string
+  aicZabezpieczeniaA: string
+}
+
+const STAN_POCZATKOWY: FormularzStan = {
+  napiecieBateriiV: "",
+  rezystancjaWewnetrznaBateriiOhm: "",
+  iscPanelaA: "",
+  liczbaStringowRownoleglych: "",
+  aicZabezpieczeniaA: "",
+}
+
 export default function AnalizaZwarciowaPage() {
-  const [napiecieBateriiV, setNapiecieBateriiV] = useState("")
-  const [rezystancjaWewnetrznaBateriiOhm, setRezystancjaWewnetrznaBateriiOhm] = useState("")
-  const [iscPanelaA, setIscPanelaA] = useState("")
-  const [liczbaStringowRownoleglych, setLiczbaStringowRownoleglych] = useState("")
-  const [aicZabezpieczeniaA, setAicZabezpieczeniaA] = useState("")
+  const [stan, setStan] = usePersistedDraft<FormularzStan>("analiza-zwarciowa", STAN_POCZATKOWY)
+  const { napiecieBateriiV, rezystancjaWewnetrznaBateriiOhm, iscPanelaA, liczbaStringowRownoleglych, aicZabezpieczeniaA } = stan
+
+  function setPole<K extends keyof FormularzStan>(pole: K, akcja: FormularzStan[K] | ((prev: FormularzStan[K]) => FormularzStan[K])) {
+    setStan((prev) => ({
+      ...prev,
+      [pole]: typeof akcja === "function" ? (akcja as (p: FormularzStan[K]) => FormularzStan[K])(prev[pole]) : akcja,
+    }))
+  }
+  const setNapiecieBateriiV = (a: string | ((p: string) => string)) => setPole("napiecieBateriiV", a)
+  const setRezystancjaWewnetrznaBateriiOhm = (a: string | ((p: string) => string)) => setPole("rezystancjaWewnetrznaBateriiOhm", a)
+  const setIscPanelaA = (a: string | ((p: string) => string)) => setPole("iscPanelaA", a)
+  const setLiczbaStringowRownoleglych = (a: string | ((p: string) => string)) => setPole("liczbaStringowRownoleglych", a)
+  const setAicZabezpieczeniaA = (a: string | ((p: string) => string)) => setPole("aicZabezpieczeniaA", a)
 
   const result = useMemo(
     () =>

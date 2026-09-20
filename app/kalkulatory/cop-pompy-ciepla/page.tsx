@@ -1,17 +1,37 @@
 "use client"
 
-import { useMemo, useState } from "react"
+import { useMemo } from "react"
 import { calculateCopPompyCiepla } from "@/lib/core/modules/ogrzewanie/cop-pompy-ciepla/calculator"
+import { usePersistedDraft } from "@/lib/adapters/use-persisted-draft"
 import { WerdyktPanel, type WerdyktPoziom } from "@/components/werdykt"
 import { NawigacjaEkranu } from "@/components/nawigacja-ekranu"
 import { Pole } from "@/components/ui/pole"
 import { NaglowekEkranu } from "@/components/wzorce/naglowek-ekranu"
 import { useTranslate } from "@/lib/i18n/language-context"
 
+type FormularzStan = {
+  mocCieplnaKw: string
+  cop: string
+}
+
+const STAN_POCZATKOWY: FormularzStan = {
+  mocCieplnaKw: "40",
+  cop: "2.8",
+}
+
 export default function CopPompyCieplaPage() {
   const t = useTranslate()
-  const [mocCieplnaKw, setMocCieplnaKw] = useState("40")
-  const [cop, setCop] = useState("2.8")
+  const [stan, setStan] = usePersistedDraft<FormularzStan>("cop-pompy-ciepla", STAN_POCZATKOWY)
+  const { mocCieplnaKw, cop } = stan
+
+  function setPole<K extends keyof FormularzStan>(pole: K, akcja: FormularzStan[K] | ((prev: FormularzStan[K]) => FormularzStan[K])) {
+    setStan((prev) => ({
+      ...prev,
+      [pole]: typeof akcja === "function" ? (akcja as (p: FormularzStan[K]) => FormularzStan[K])(prev[pole]) : akcja,
+    }))
+  }
+  const setMocCieplnaKw = (a: string | ((p: string) => string)) => setPole("mocCieplnaKw", a)
+  const setCop = (a: string | ((p: string) => string)) => setPole("cop", a)
 
   const result = useMemo(
     () => calculateCopPompyCiepla({ mocCieplnaKw: Number(mocCieplnaKw), cop: Number(cop) }),

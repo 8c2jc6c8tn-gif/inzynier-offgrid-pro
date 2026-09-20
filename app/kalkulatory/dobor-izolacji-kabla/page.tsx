@@ -1,8 +1,9 @@
 "use client"
 
-import { useMemo, useState } from "react"
+import { useMemo } from "react"
 import { calculateDoborIzolacjiKabla } from "@/lib/core/modules/okablowanie/dobor-izolacji-kabla/calculator"
 import type { Izolacja, MiejsceTrasy } from "@/lib/core/modules/okablowanie/dobor-izolacji-kabla/input"
+import { usePersistedDraft } from "@/lib/adapters/use-persisted-draft"
 import { Pole, PoleSelect } from "@/components/ui/pole"
 import { WerdyktPanel, type WerdyktPoziom } from "@/components/werdykt"
 import { NawigacjaEkranu } from "@/components/nawigacja-ekranu"
@@ -17,10 +18,31 @@ const ETYKIETY_MIEJSC: Record<MiejsceTrasy, string> = {
   napowietrznie: "Napowietrznie",
 }
 
+type FormularzStan = {
+  miejsceTrasy: MiejsceTrasy | ""
+  izolacjaWybrana: Izolacja | ""
+  temperaturaMaksymalnaC: string
+}
+
+const STAN_POCZATKOWY: FormularzStan = {
+  miejsceTrasy: "",
+  izolacjaWybrana: "",
+  temperaturaMaksymalnaC: "",
+}
+
 export default function DoborIzolacjiKablaPage() {
-  const [miejsceTrasy, setMiejsceTrasy] = useState<MiejsceTrasy | "">("")
-  const [izolacjaWybrana, setIzolacjaWybrana] = useState<Izolacja | "">("")
-  const [temperaturaMaksymalnaC, setTemperaturaMaksymalnaC] = useState("")
+  const [stan, setStan] = usePersistedDraft<FormularzStan>("dobor-izolacji-kabla", STAN_POCZATKOWY)
+  const { miejsceTrasy, izolacjaWybrana, temperaturaMaksymalnaC } = stan
+
+  function setPole<K extends keyof FormularzStan>(pole: K, akcja: FormularzStan[K] | ((prev: FormularzStan[K]) => FormularzStan[K])) {
+    setStan((prev) => ({
+      ...prev,
+      [pole]: typeof akcja === "function" ? (akcja as (p: FormularzStan[K]) => FormularzStan[K])(prev[pole]) : akcja,
+    }))
+  }
+  const setMiejsceTrasy = (a: (MiejsceTrasy | "") | ((p: MiejsceTrasy | "") => MiejsceTrasy | "")) => setPole("miejsceTrasy", a)
+  const setIzolacjaWybrana = (a: (Izolacja | "") | ((p: Izolacja | "") => Izolacja | "")) => setPole("izolacjaWybrana", a)
+  const setTemperaturaMaksymalnaC = (a: string | ((p: string) => string)) => setPole("temperaturaMaksymalnaC", a)
 
   const result = useMemo(
     () =>

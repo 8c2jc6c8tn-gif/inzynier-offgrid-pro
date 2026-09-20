@@ -1,9 +1,10 @@
 "use client"
 
-import { useMemo, useState } from "react"
+import { useMemo } from "react"
 import { calculatePuszkiPolaczeniowe } from "@/lib/core/modules/okablowanie/puszki-polaczeniowe/calculator"
 import { ETYKIETY_MIEJSC } from "@/lib/core/modules/okablowanie/puszki-polaczeniowe/constants"
 import type { MiejsceMontazu } from "@/lib/core/modules/okablowanie/puszki-polaczeniowe/input"
+import { usePersistedDraft } from "@/lib/adapters/use-persisted-draft"
 import { PoleSelect } from "@/components/ui/pole"
 import { WerdyktPanel } from "@/components/werdykt"
 import { NawigacjaEkranu } from "@/components/nawigacja-ekranu"
@@ -11,8 +12,19 @@ import { NaglowekEkranu } from "@/components/wzorce/naglowek-ekranu"
 import { WynikGlowny } from "@/components/wzorce/wynik-glowny"
 import { WynikSzczegoly } from "@/components/wzorce/wynik-szczegoly"
 
+type FormularzStan = {
+  miejsceMontazu: MiejsceMontazu | ""
+}
+
+const STAN_POCZATKOWY: FormularzStan = {
+  miejsceMontazu: "",
+}
+
 export default function PuszkiPolaczenioweePage() {
-  const [miejsceMontazu, setMiejsceMontazu] = useState<MiejsceMontazu | "">("")
+  const [stan, setStan] = usePersistedDraft<FormularzStan>("puszki-polaczeniowe", STAN_POCZATKOWY)
+  const { miejsceMontazu } = stan
+  const setMiejsceMontazu = (a: (MiejsceMontazu | "") | ((p: MiejsceMontazu | "") => MiejsceMontazu | "")) =>
+    setStan((prev) => ({ ...prev, miejsceMontazu: typeof a === "function" ? a(prev.miejsceMontazu) : a }))
 
   const result = useMemo(
     () => calculatePuszkiPolaczeniowe({ miejsceMontazu: miejsceMontazu === "" ? null : miejsceMontazu }),

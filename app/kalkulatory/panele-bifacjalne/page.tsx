@@ -1,9 +1,10 @@
 "use client"
 
-import { useMemo, useState } from "react"
+import { useMemo } from "react"
 import { calculatePaneleBifacjalne } from "@/lib/core/modules/pv/panele-bifacjalne/calculator"
 import { ZAKRESY_UZYSKU_PCT } from "@/lib/core/modules/pv/panele-bifacjalne/constants"
 import type { TypPowierzchniPodSpodem } from "@/lib/core/modules/pv/panele-bifacjalne/input"
+import { usePersistedDraft } from "@/lib/adapters/use-persisted-draft"
 import { Pole, PoleSelect } from "@/components/ui/pole"
 import { WerdyktPanel } from "@/components/werdykt"
 import { NawigacjaEkranu } from "@/components/nawigacja-ekranu"
@@ -11,10 +12,32 @@ import { NaglowekEkranu } from "@/components/wzorce/naglowek-ekranu"
 import { WynikGlowny } from "@/components/wzorce/wynik-glowny"
 import { WynikSzczegoly } from "@/components/wzorce/wynik-szczegoly"
 
+type FormularzStan = {
+  mocRocznaBazowaKwh: string
+  typPowierzchni: TypPowierzchniPodSpodem | ""
+  dodatkowyUzyskPct: string
+}
+
+const STAN_POCZATKOWY: FormularzStan = {
+  mocRocznaBazowaKwh: "",
+  typPowierzchni: "",
+  dodatkowyUzyskPct: "",
+}
+
 export default function PaneleBifacjalnePage() {
-  const [mocRocznaBazowaKwh, setMocRocznaBazowaKwh] = useState("")
-  const [typPowierzchni, setTypPowierzchni] = useState<TypPowierzchniPodSpodem | "">("")
-  const [dodatkowyUzyskPct, setDodatkowyUzyskPct] = useState("")
+  const [stan, setStan] = usePersistedDraft<FormularzStan>("panele-bifacjalne", STAN_POCZATKOWY)
+  const { mocRocznaBazowaKwh, typPowierzchni, dodatkowyUzyskPct } = stan
+
+  function setPole<K extends keyof FormularzStan>(pole: K, akcja: FormularzStan[K] | ((prev: FormularzStan[K]) => FormularzStan[K])) {
+    setStan((prev) => ({
+      ...prev,
+      [pole]: typeof akcja === "function" ? (akcja as (p: FormularzStan[K]) => FormularzStan[K])(prev[pole]) : akcja,
+    }))
+  }
+  const setMocRocznaBazowaKwh = (a: string | ((p: string) => string)) => setPole("mocRocznaBazowaKwh", a)
+  const setTypPowierzchni = (a: (TypPowierzchniPodSpodem | "") | ((p: TypPowierzchniPodSpodem | "") => TypPowierzchniPodSpodem | "")) =>
+    setPole("typPowierzchni", a)
+  const setDodatkowyUzyskPct = (a: string | ((p: string) => string)) => setPole("dodatkowyUzyskPct", a)
 
   const result = useMemo(
     () =>

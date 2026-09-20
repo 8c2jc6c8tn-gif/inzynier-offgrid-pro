@@ -1,8 +1,9 @@
 "use client"
 
-import { useMemo, useState } from "react"
+import { useMemo } from "react"
 import { calculateDoborKabliBezpiecznikowOlow } from "@/lib/core/modules/montaz-baterii/dobor-kabli-bezpiecznikow-olow/calculator"
 import type { Material, SposobUlozenia } from "@/lib/core/modules/okablowanie/dobor-przekroju-kabla/constants"
+import { usePersistedDraft } from "@/lib/adapters/use-persisted-draft"
 import { Pole, PoleSelect } from "@/components/ui/pole"
 import { WerdyktPanel, type WerdyktPoziom } from "@/components/werdykt"
 import { NawigacjaEkranu } from "@/components/nawigacja-ekranu"
@@ -10,17 +11,63 @@ import { NaglowekEkranu } from "@/components/wzorce/naglowek-ekranu"
 import { WynikGlowny } from "@/components/wzorce/wynik-glowny"
 import { WynikSzczegoly } from "@/components/wzorce/wynik-szczegoly"
 
+type FormularzStan = {
+  pradA: string
+  napiecieV: string
+  dlugoscTrasyM: string
+  material: Material
+  sposobUlozenia: SposobUlozenia
+  temperaturaOtoczeniaC: string
+  liczbaKabliWWiazce: string
+  dopuszczalnySpadekNapieciaPct: string
+  pradZwarciowyA: string
+  aicBezpiecznikaA: string
+}
+
+const STAN_POCZATKOWY: FormularzStan = {
+  pradA: "",
+  napiecieV: "",
+  dlugoscTrasyM: "",
+  material: "Cu",
+  sposobUlozenia: "swobodnie",
+  temperaturaOtoczeniaC: "",
+  liczbaKabliWWiazce: "1",
+  dopuszczalnySpadekNapieciaPct: "3",
+  pradZwarciowyA: "",
+  aicBezpiecznikaA: "",
+}
+
 export default function DoborKabliBezpiecznikowOlowPage() {
-  const [pradA, setPradA] = useState("")
-  const [napiecieV, setNapiecieV] = useState("")
-  const [dlugoscTrasyM, setDlugoscTrasyM] = useState("")
-  const [material, setMaterial] = useState<Material>("Cu")
-  const [sposobUlozenia, setSposobUlozenia] = useState<SposobUlozenia>("swobodnie")
-  const [temperaturaOtoczeniaC, setTemperaturaOtoczeniaC] = useState("")
-  const [liczbaKabliWWiazce, setLiczbaKabliWWiazce] = useState("1")
-  const [dopuszczalnySpadekNapieciaPct, setDopuszczalnySpadekNapieciaPct] = useState("3")
-  const [pradZwarciowyA, setPradZwarciowyA] = useState("")
-  const [aicBezpiecznikaA, setAicBezpiecznikaA] = useState("")
+  const [stan, setStan] = usePersistedDraft<FormularzStan>("dobor-kabli-bezpiecznikow-olow", STAN_POCZATKOWY)
+  const {
+    pradA,
+    napiecieV,
+    dlugoscTrasyM,
+    material,
+    sposobUlozenia,
+    temperaturaOtoczeniaC,
+    liczbaKabliWWiazce,
+    dopuszczalnySpadekNapieciaPct,
+    pradZwarciowyA,
+    aicBezpiecznikaA,
+  } = stan
+
+  function setPole<K extends keyof FormularzStan>(pole: K, akcja: FormularzStan[K] | ((prev: FormularzStan[K]) => FormularzStan[K])) {
+    setStan((prev) => ({
+      ...prev,
+      [pole]: typeof akcja === "function" ? (akcja as (p: FormularzStan[K]) => FormularzStan[K])(prev[pole]) : akcja,
+    }))
+  }
+  const setPradA = (a: string | ((p: string) => string)) => setPole("pradA", a)
+  const setNapiecieV = (a: string | ((p: string) => string)) => setPole("napiecieV", a)
+  const setDlugoscTrasyM = (a: string | ((p: string) => string)) => setPole("dlugoscTrasyM", a)
+  const setMaterial = (a: Material | ((p: Material) => Material)) => setPole("material", a)
+  const setSposobUlozenia = (a: SposobUlozenia | ((p: SposobUlozenia) => SposobUlozenia)) => setPole("sposobUlozenia", a)
+  const setTemperaturaOtoczeniaC = (a: string | ((p: string) => string)) => setPole("temperaturaOtoczeniaC", a)
+  const setLiczbaKabliWWiazce = (a: string | ((p: string) => string)) => setPole("liczbaKabliWWiazce", a)
+  const setDopuszczalnySpadekNapieciaPct = (a: string | ((p: string) => string)) => setPole("dopuszczalnySpadekNapieciaPct", a)
+  const setPradZwarciowyA = (a: string | ((p: string) => string)) => setPole("pradZwarciowyA", a)
+  const setAicBezpiecznikaA = (a: string | ((p: string) => string)) => setPole("aicBezpiecznikaA", a)
 
   const result = useMemo(
     () =>

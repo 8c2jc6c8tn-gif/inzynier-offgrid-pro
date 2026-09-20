@@ -1,7 +1,8 @@
 "use client"
 
-import { useMemo, useState } from "react"
+import { useMemo } from "react"
 import { calculateProfilAstronomiczny } from "@/lib/core/modules/zapotrzebowanie/profil-astronomiczny/calculator"
+import { usePersistedDraft } from "@/lib/adapters/use-persisted-draft"
 import { Pole } from "@/components/ui/pole"
 import { WerdyktPanel } from "@/components/werdykt"
 import { NawigacjaEkranu } from "@/components/nawigacja-ekranu"
@@ -9,10 +10,31 @@ import { NaglowekEkranu } from "@/components/wzorce/naglowek-ekranu"
 import { WynikGlowny } from "@/components/wzorce/wynik-glowny"
 import { WynikSzczegoly } from "@/components/wzorce/wynik-szczegoly"
 
+type FormularzStan = {
+  szerokoscGeograficzna: string
+  dzienRoku: string
+  mocOdbiornikaNocnegoW: string
+}
+
+const STAN_POCZATKOWY: FormularzStan = {
+  szerokoscGeograficzna: "",
+  dzienRoku: "",
+  mocOdbiornikaNocnegoW: "",
+}
+
 export default function ProfilAstronomicznyPage() {
-  const [szerokoscGeograficzna, setSzerokoscGeograficzna] = useState("")
-  const [dzienRoku, setDzienRoku] = useState("")
-  const [mocOdbiornikaNocnegoW, setMocOdbiornikaNocnegoW] = useState("")
+  const [stan, setStan] = usePersistedDraft<FormularzStan>("profil-astronomiczny", STAN_POCZATKOWY)
+  const { szerokoscGeograficzna, dzienRoku, mocOdbiornikaNocnegoW } = stan
+
+  function setPole<K extends keyof FormularzStan>(pole: K, akcja: FormularzStan[K] | ((prev: FormularzStan[K]) => FormularzStan[K])) {
+    setStan((prev) => ({
+      ...prev,
+      [pole]: typeof akcja === "function" ? (akcja as (p: FormularzStan[K]) => FormularzStan[K])(prev[pole]) : akcja,
+    }))
+  }
+  const setSzerokoscGeograficzna = (a: string | ((p: string) => string)) => setPole("szerokoscGeograficzna", a)
+  const setDzienRoku = (a: string | ((p: string) => string)) => setPole("dzienRoku", a)
+  const setMocOdbiornikaNocnegoW = (a: string | ((p: string) => string)) => setPole("mocOdbiornikaNocnegoW", a)
 
   const result = useMemo(
     () =>

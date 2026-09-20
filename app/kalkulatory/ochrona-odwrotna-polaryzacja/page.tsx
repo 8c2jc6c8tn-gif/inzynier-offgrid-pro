@@ -1,18 +1,38 @@
 "use client"
 
-import { useMemo, useState } from "react"
+import { useMemo } from "react"
 import { calculateOchronaOdwrotnaPolaryzacja } from "@/lib/core/modules/okablowanie/ochrona-odwrotna-polaryzacja/calculator"
 import { OPISY_OCHRONY } from "@/lib/core/modules/okablowanie/ochrona-odwrotna-polaryzacja/constants"
 import type { MiejsceObwodu, TypOchrony } from "@/lib/core/modules/okablowanie/ochrona-odwrotna-polaryzacja/input"
+import { usePersistedDraft } from "@/lib/adapters/use-persisted-draft"
 import { PoleSelect } from "@/components/ui/pole"
 import { WerdyktPanel, type WerdyktPoziom } from "@/components/werdykt"
 import { NawigacjaEkranu } from "@/components/nawigacja-ekranu"
 import { NaglowekEkranu } from "@/components/wzorce/naglowek-ekranu"
 import { WynikSzczegoly } from "@/components/wzorce/wynik-szczegoly"
 
+type FormularzStan = {
+  miejsceObwodu: MiejsceObwodu | ""
+  typOchrony: TypOchrony | ""
+}
+
+const STAN_POCZATKOWY: FormularzStan = {
+  miejsceObwodu: "",
+  typOchrony: "",
+}
+
 export default function OchronaOdwrotnaPolaryzacjaPage() {
-  const [miejsceObwodu, setMiejsceObwodu] = useState<MiejsceObwodu | "">("")
-  const [typOchrony, setTypOchrony] = useState<TypOchrony | "">("")
+  const [stan, setStan] = usePersistedDraft<FormularzStan>("ochrona-odwrotna-polaryzacja", STAN_POCZATKOWY)
+  const { miejsceObwodu, typOchrony } = stan
+
+  function setPole<K extends keyof FormularzStan>(pole: K, akcja: FormularzStan[K] | ((prev: FormularzStan[K]) => FormularzStan[K])) {
+    setStan((prev) => ({
+      ...prev,
+      [pole]: typeof akcja === "function" ? (akcja as (p: FormularzStan[K]) => FormularzStan[K])(prev[pole]) : akcja,
+    }))
+  }
+  const setMiejsceObwodu = (a: (MiejsceObwodu | "") | ((p: MiejsceObwodu | "") => MiejsceObwodu | "")) => setPole("miejsceObwodu", a)
+  const setTypOchrony = (a: (TypOchrony | "") | ((p: TypOchrony | "") => TypOchrony | "")) => setPole("typOchrony", a)
 
   const result = useMemo(
     () =>

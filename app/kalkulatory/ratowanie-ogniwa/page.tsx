@@ -1,15 +1,27 @@
 "use client"
 
-import { useMemo, useState } from "react"
+import { useMemo } from "react"
 import { calculateRatowanieOgniwa } from "@/lib/core/modules/montaz-baterii/ratowanie-ogniwa/calculator"
+import { usePersistedDraft } from "@/lib/adapters/use-persisted-draft"
 import { Pole } from "@/components/ui/pole"
 import { WerdyktPanel, type WerdyktPoziom } from "@/components/werdykt"
 import { NawigacjaEkranu } from "@/components/nawigacja-ekranu"
 import { NaglowekEkranu } from "@/components/wzorce/naglowek-ekranu"
 import { WynikSzczegoly } from "@/components/wzorce/wynik-szczegoly"
 
+type FormularzStan = {
+  napiecieOgniwaV: string
+}
+
+const STAN_POCZATKOWY: FormularzStan = {
+  napiecieOgniwaV: "",
+}
+
 export default function RatowanieOgniwaPage() {
-  const [napiecieOgniwaV, setNapiecieOgniwaV] = useState("")
+  const [stan, setStan] = usePersistedDraft<FormularzStan>("ratowanie-ogniwa", STAN_POCZATKOWY)
+  const { napiecieOgniwaV } = stan
+  const setNapiecieOgniwaV = (a: string | ((p: string) => string)) =>
+    setStan((prev) => ({ ...prev, napiecieOgniwaV: typeof a === "function" ? a(prev.napiecieOgniwaV) : a }))
 
   const result = useMemo(
     () => calculateRatowanieOgniwa({ napiecieOgniwaV: napiecieOgniwaV === "" ? null : Number(napiecieOgniwaV) }),

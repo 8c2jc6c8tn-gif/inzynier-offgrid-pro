@@ -1,7 +1,8 @@
 "use client"
 
-import { useMemo, useState } from "react"
+import { useMemo } from "react"
 import { calculateColdCrankingAmps } from "@/lib/core/modules/baterie/cold-cranking-amps/calculator"
+import { usePersistedDraft } from "@/lib/adapters/use-persisted-draft"
 import { Pole } from "@/components/ui/pole"
 import { WerdyktPanel, type WerdyktPoziom } from "@/components/werdykt"
 import { NawigacjaEkranu } from "@/components/nawigacja-ekranu"
@@ -9,11 +10,34 @@ import { NaglowekEkranu } from "@/components/wzorce/naglowek-ekranu"
 import { WynikGlowny } from "@/components/wzorce/wynik-glowny"
 import { WynikSzczegoly } from "@/components/wzorce/wynik-szczegoly"
 
+type FormularzStan = {
+  napiecieOtwartegoObwoduV: string
+  pradRozruchowyA: string
+  rezystancjaWewnetrznaMOhm: string
+  minimalneNapiecieFalownikaV: string
+}
+
+const STAN_POCZATKOWY: FormularzStan = {
+  napiecieOtwartegoObwoduV: "",
+  pradRozruchowyA: "",
+  rezystancjaWewnetrznaMOhm: "",
+  minimalneNapiecieFalownikaV: "",
+}
+
 export default function ColdCrankingAmpsPage() {
-  const [napiecieOtwartegoObwoduV, setNapiecieOtwartegoObwoduV] = useState("")
-  const [pradRozruchowyA, setPradRozruchowyA] = useState("")
-  const [rezystancjaWewnetrznaMOhm, setRezystancjaWewnetrznaMOhm] = useState("")
-  const [minimalneNapiecieFalownikaV, setMinimalneNapiecieFalownikaV] = useState("")
+  const [stan, setStan] = usePersistedDraft<FormularzStan>("cold-cranking-amps", STAN_POCZATKOWY)
+  const { napiecieOtwartegoObwoduV, pradRozruchowyA, rezystancjaWewnetrznaMOhm, minimalneNapiecieFalownikaV } = stan
+
+  function setPole<K extends keyof FormularzStan>(pole: K, akcja: FormularzStan[K] | ((prev: FormularzStan[K]) => FormularzStan[K])) {
+    setStan((prev) => ({
+      ...prev,
+      [pole]: typeof akcja === "function" ? (akcja as (p: FormularzStan[K]) => FormularzStan[K])(prev[pole]) : akcja,
+    }))
+  }
+  const setNapiecieOtwartegoObwoduV = (a: string | ((p: string) => string)) => setPole("napiecieOtwartegoObwoduV", a)
+  const setPradRozruchowyA = (a: string | ((p: string) => string)) => setPole("pradRozruchowyA", a)
+  const setRezystancjaWewnetrznaMOhm = (a: string | ((p: string) => string)) => setPole("rezystancjaWewnetrznaMOhm", a)
+  const setMinimalneNapiecieFalownikaV = (a: string | ((p: string) => string)) => setPole("minimalneNapiecieFalownikaV", a)
 
   const result = useMemo(
     () =>

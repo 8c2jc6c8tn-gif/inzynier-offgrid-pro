@@ -1,7 +1,8 @@
 "use client"
 
-import { useMemo, useState } from "react"
+import { useMemo } from "react"
 import { calculateOchronaStringow } from "@/lib/core/modules/pv/ochrona-stringow/calculator"
+import { usePersistedDraft } from "@/lib/adapters/use-persisted-draft"
 import { Pole, PoleCheckbox } from "@/components/ui/pole"
 import { WerdyktPanel, type WerdyktPoziom } from "@/components/werdykt"
 import { NawigacjaEkranu } from "@/components/nawigacja-ekranu"
@@ -9,13 +10,50 @@ import { NaglowekEkranu } from "@/components/wzorce/naglowek-ekranu"
 import { WynikGlowny } from "@/components/wzorce/wynik-glowny"
 import { WynikSzczegoly } from "@/components/wzorce/wynik-szczegoly"
 
+type FormularzStan = {
+  iscStcA: string
+  iModMaxOcprA: string
+  liczbaStringowRownoleglych: string
+  maZabezpieczeniaPerString: boolean
+  sprawdzamWybrany: boolean
+  wybranyBezpiecznikA: string
+}
+
+const STAN_POCZATKOWY: FormularzStan = {
+  iscStcA: "",
+  iModMaxOcprA: "",
+  liczbaStringowRownoleglych: "",
+  maZabezpieczeniaPerString: false,
+  sprawdzamWybrany: false,
+  wybranyBezpiecznikA: "",
+}
+
 export default function OchronaStringowPage() {
-  const [iscStcA, setIscStcA] = useState("")
-  const [iModMaxOcprA, setIModMaxOcprA] = useState("")
-  const [liczbaStringowRownoleglych, setLiczbaStringowRownoleglych] = useState("")
-  const [maZabezpieczeniaPerString, setMaZabezpieczeniaPerString] = useState(false)
-  const [sprawdzamWybrany, setSprawdzamWybrany] = useState(false)
-  const [wybranyBezpiecznikA, setWybranyBezpiecznikA] = useState("")
+  const [stan, setStan] = usePersistedDraft<FormularzStan>("ochrona-stringow", STAN_POCZATKOWY)
+  const {
+    iscStcA,
+    iModMaxOcprA,
+    liczbaStringowRownoleglych,
+    maZabezpieczeniaPerString,
+    sprawdzamWybrany,
+    wybranyBezpiecznikA,
+  } = stan
+
+  function setPole<K extends keyof FormularzStan>(
+    pole: K,
+    akcja: FormularzStan[K] | ((prev: FormularzStan[K]) => FormularzStan[K]),
+  ) {
+    setStan((prev) => ({
+      ...prev,
+      [pole]: typeof akcja === "function" ? (akcja as (p: FormularzStan[K]) => FormularzStan[K])(prev[pole]) : akcja,
+    }))
+  }
+  const setIscStcA = (a: string | ((p: string) => string)) => setPole("iscStcA", a)
+  const setIModMaxOcprA = (a: string | ((p: string) => string)) => setPole("iModMaxOcprA", a)
+  const setLiczbaStringowRownoleglych = (a: string | ((p: string) => string)) => setPole("liczbaStringowRownoleglych", a)
+  const setMaZabezpieczeniaPerString = (a: boolean | ((p: boolean) => boolean)) => setPole("maZabezpieczeniaPerString", a)
+  const setSprawdzamWybrany = (a: boolean | ((p: boolean) => boolean)) => setPole("sprawdzamWybrany", a)
+  const setWybranyBezpiecznikA = (a: string | ((p: string) => string)) => setPole("wybranyBezpiecznikA", a)
 
   const result = useMemo(
     () =>

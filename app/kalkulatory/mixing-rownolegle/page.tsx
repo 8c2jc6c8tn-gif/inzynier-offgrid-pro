@@ -1,9 +1,10 @@
 "use client"
 
-import { useMemo, useState } from "react"
+import { useMemo } from "react"
 import { calculateMixingRownolegle } from "@/lib/core/modules/baterie/mixing-rownolegle/calculator"
 import { PROG_ROZNICY_NAPIEC_V } from "@/lib/core/modules/baterie/mixing-rownolegle/constants"
 import { BATTERY_TECHNOLOGIES } from "@/lib/core/modules/baterie/porownanie-technologii/constants"
+import { usePersistedDraft } from "@/lib/adapters/use-persisted-draft"
 import { Pole, PoleSelect } from "@/components/ui/pole"
 import { WerdyktPanel, type WerdyktPoziom } from "@/components/werdykt"
 import { NawigacjaEkranu } from "@/components/nawigacja-ekranu"
@@ -12,14 +13,51 @@ import { WynikGlowny } from "@/components/wzorce/wynik-glowny"
 import { WynikSzczegoly } from "@/components/wzorce/wynik-szczegoly"
 import { useTranslate } from "@/lib/i18n/language-context"
 
+type FormularzStan = {
+  chemia1: string
+  chemia2: string
+  napiecieNominalneV1: string
+  napiecieNominalneV2: string
+  rezystancjaWewnetrznaMOhm1: string
+  rezystancjaWewnetrznaMOhm2: string
+}
+
+const STAN_POCZATKOWY: FormularzStan = {
+  chemia1: "",
+  chemia2: "",
+  napiecieNominalneV1: "",
+  napiecieNominalneV2: "",
+  rezystancjaWewnetrznaMOhm1: "",
+  rezystancjaWewnetrznaMOhm2: "",
+}
+
 export default function MixingRownoleglePage() {
   const t = useTranslate()
-  const [chemia1, setChemia1] = useState("")
-  const [chemia2, setChemia2] = useState("")
-  const [napiecieNominalneV1, setNapiecieNominalneV1] = useState("")
-  const [napiecieNominalneV2, setNapiecieNominalneV2] = useState("")
-  const [rezystancjaWewnetrznaMOhm1, setRezystancjaWewnetrznaMOhm1] = useState("")
-  const [rezystancjaWewnetrznaMOhm2, setRezystancjaWewnetrznaMOhm2] = useState("")
+  const [stan, setStan] = usePersistedDraft<FormularzStan>("mixing-rownolegle", STAN_POCZATKOWY)
+  const {
+    chemia1,
+    chemia2,
+    napiecieNominalneV1,
+    napiecieNominalneV2,
+    rezystancjaWewnetrznaMOhm1,
+    rezystancjaWewnetrznaMOhm2,
+  } = stan
+
+  function setPole<K extends keyof FormularzStan>(
+    pole: K,
+    akcja: FormularzStan[K] | ((prev: FormularzStan[K]) => FormularzStan[K]),
+  ) {
+    setStan((prev) => ({
+      ...prev,
+      [pole]: typeof akcja === "function" ? (akcja as (p: FormularzStan[K]) => FormularzStan[K])(prev[pole]) : akcja,
+    }))
+  }
+  const setChemia1 = (a: string | ((p: string) => string)) => setPole("chemia1", a)
+  const setChemia2 = (a: string | ((p: string) => string)) => setPole("chemia2", a)
+  const setNapiecieNominalneV1 = (a: string | ((p: string) => string)) => setPole("napiecieNominalneV1", a)
+  const setNapiecieNominalneV2 = (a: string | ((p: string) => string)) => setPole("napiecieNominalneV2", a)
+  const setRezystancjaWewnetrznaMOhm1 = (a: string | ((p: string) => string)) => setPole("rezystancjaWewnetrznaMOhm1", a)
+  const setRezystancjaWewnetrznaMOhm2 = (a: string | ((p: string) => string)) => setPole("rezystancjaWewnetrznaMOhm2", a)
 
   const result = useMemo(
     () =>

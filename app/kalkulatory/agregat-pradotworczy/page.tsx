@@ -1,7 +1,8 @@
 "use client"
 
-import { useMemo, useState } from "react"
+import { useMemo } from "react"
 import { calculateAgregatPradotworczy } from "@/lib/core/modules/zapotrzebowanie/agregat-pradotworczy/calculator"
+import { usePersistedDraft } from "@/lib/adapters/use-persisted-draft"
 import { Pole, PoleCheckbox } from "@/components/ui/pole"
 import { WerdyktPanel, type WerdyktPoziom } from "@/components/werdykt"
 import { NawigacjaEkranu } from "@/components/nawigacja-ekranu"
@@ -9,12 +10,37 @@ import { NaglowekEkranu } from "@/components/wzorce/naglowek-ekranu"
 import { WynikGlowny } from "@/components/wzorce/wynik-glowny"
 import { WynikSzczegoly } from "@/components/wzorce/wynik-szczegoly"
 
+type FormularzStan = {
+  deficytKwh: string
+  mocAgregatuKw: string
+  sredniZuzycieLH: string
+  cenaZaLitrZl: string
+  maWyjscieSterujaceBms: boolean
+}
+
+const STAN_POCZATKOWY: FormularzStan = {
+  deficytKwh: "",
+  mocAgregatuKw: "",
+  sredniZuzycieLH: "",
+  cenaZaLitrZl: "",
+  maWyjscieSterujaceBms: false,
+}
+
 export default function AgregatPradotworczyPage() {
-  const [deficytKwh, setDeficytKwh] = useState("")
-  const [mocAgregatuKw, setMocAgregatuKw] = useState("")
-  const [sredniZuzycieLH, setSredniZuzycieLH] = useState("")
-  const [cenaZaLitrZl, setCenaZaLitrZl] = useState("")
-  const [maWyjscieSterujaceBms, setMaWyjscieSterujaceBms] = useState(false)
+  const [stan, setStan] = usePersistedDraft<FormularzStan>("agregat-pradotworczy", STAN_POCZATKOWY)
+  const { deficytKwh, mocAgregatuKw, sredniZuzycieLH, cenaZaLitrZl, maWyjscieSterujaceBms } = stan
+
+  function setPole<K extends keyof FormularzStan>(pole: K, akcja: FormularzStan[K] | ((prev: FormularzStan[K]) => FormularzStan[K])) {
+    setStan((prev) => ({
+      ...prev,
+      [pole]: typeof akcja === "function" ? (akcja as (p: FormularzStan[K]) => FormularzStan[K])(prev[pole]) : akcja,
+    }))
+  }
+  const setDeficytKwh = (a: string | ((p: string) => string)) => setPole("deficytKwh", a)
+  const setMocAgregatuKw = (a: string | ((p: string) => string)) => setPole("mocAgregatuKw", a)
+  const setSredniZuzycieLH = (a: string | ((p: string) => string)) => setPole("sredniZuzycieLH", a)
+  const setCenaZaLitrZl = (a: string | ((p: string) => string)) => setPole("cenaZaLitrZl", a)
+  const setMaWyjscieSterujaceBms = (a: boolean | ((p: boolean) => boolean)) => setPole("maWyjscieSterujaceBms", a)
 
   const result = useMemo(
     () =>

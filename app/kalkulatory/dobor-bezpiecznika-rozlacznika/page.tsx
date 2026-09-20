@@ -1,7 +1,8 @@
 "use client"
 
-import { useMemo, useState } from "react"
+import { useMemo } from "react"
 import { calculateDoborBezpiecznikaRozlacznika } from "@/lib/core/modules/okablowanie/dobor-bezpiecznika-rozlacznika/calculator"
+import { usePersistedDraft } from "@/lib/adapters/use-persisted-draft"
 import { Pole } from "@/components/ui/pole"
 import { WerdyktPanel, type WerdyktPoziom } from "@/components/werdykt"
 import { NawigacjaEkranu } from "@/components/nawigacja-ekranu"
@@ -9,10 +10,31 @@ import { NaglowekEkranu } from "@/components/wzorce/naglowek-ekranu"
 import { WynikGlowny } from "@/components/wzorce/wynik-glowny"
 import { WynikSzczegoly } from "@/components/wzorce/wynik-szczegoly"
 
+type FormularzStan = {
+  pradZnamionowyA: number
+  pradZwarciowyA: number
+  aicBezpiecznikaA: number
+}
+
+const STAN_POCZATKOWY: FormularzStan = {
+  pradZnamionowyA: 0,
+  pradZwarciowyA: 0,
+  aicBezpiecznikaA: 0,
+}
+
 export default function DoborBezpiecznikaRozlacznikaPage() {
-  const [pradZnamionowyA, setPradZnamionowyA] = useState(0)
-  const [pradZwarciowyA, setPradZwarciowyA] = useState(0)
-  const [aicBezpiecznikaA, setAicBezpiecznikaA] = useState(0)
+  const [stan, setStan] = usePersistedDraft<FormularzStan>("dobor-bezpiecznika-rozlacznika", STAN_POCZATKOWY)
+  const { pradZnamionowyA, pradZwarciowyA, aicBezpiecznikaA } = stan
+
+  function setPole<K extends keyof FormularzStan>(pole: K, akcja: FormularzStan[K] | ((prev: FormularzStan[K]) => FormularzStan[K])) {
+    setStan((prev) => ({
+      ...prev,
+      [pole]: typeof akcja === "function" ? (akcja as (p: FormularzStan[K]) => FormularzStan[K])(prev[pole]) : akcja,
+    }))
+  }
+  const setPradZnamionowyA = (a: number | ((p: number) => number)) => setPole("pradZnamionowyA", a)
+  const setPradZwarciowyA = (a: number | ((p: number) => number)) => setPole("pradZwarciowyA", a)
+  const setAicBezpiecznikaA = (a: number | ((p: number) => number)) => setPole("aicBezpiecznikaA", a)
 
   const result = useMemo(
     () => calculateDoborBezpiecznikaRozlacznika({ pradZnamionowyA, pradZwarciowyA, aicBezpiecznikaA }),

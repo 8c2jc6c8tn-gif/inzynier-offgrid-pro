@@ -1,9 +1,10 @@
 "use client"
 
-import { useMemo, useState } from "react"
+import { useMemo } from "react"
 import { calculateKategorieSpecjalne } from "@/lib/core/modules/zapotrzebowanie/kategorie-specjalne/calculator"
 import { KATEGORIE, PRZYKLADOWE_URZADZENIA_WARSZTAT } from "@/lib/core/modules/zapotrzebowanie/kategorie-specjalne/constants"
 import type { Kategoria, PozycjaKategorii } from "@/lib/core/modules/zapotrzebowanie/kategorie-specjalne/input"
+import { usePersistedDraft } from "@/lib/adapters/use-persisted-draft"
 import { PoleSelect } from "@/components/ui/pole"
 import { WerdyktPanel } from "@/components/werdykt"
 import { NawigacjaEkranu } from "@/components/nawigacja-ekranu"
@@ -12,10 +13,32 @@ import { WynikGlowny } from "@/components/wzorce/wynik-glowny"
 import { WynikSzczegoly } from "@/components/wzorce/wynik-szczegoly"
 import { useTranslate } from "@/lib/i18n/language-context"
 
+type FormularzStan = {
+  kategoria: Kategoria
+  pozycje: PozycjaKategorii[]
+}
+
+const STAN_POCZATKOWY: FormularzStan = {
+  kategoria: "warsztat",
+  pozycje: [],
+}
+
 export default function KategorieSpecjalnePage() {
   const t = useTranslate()
-  const [kategoria, setKategoria] = useState<Kategoria>("warsztat")
-  const [pozycje, setPozycje] = useState<PozycjaKategorii[]>([])
+  const [stan, setStan] = usePersistedDraft<FormularzStan>("kategorie-specjalne", STAN_POCZATKOWY)
+  const { kategoria, pozycje } = stan
+
+  function setPole<K extends keyof FormularzStan>(
+    pole: K,
+    akcja: FormularzStan[K] | ((prev: FormularzStan[K]) => FormularzStan[K]),
+  ) {
+    setStan((prev) => ({
+      ...prev,
+      [pole]: typeof akcja === "function" ? (akcja as (p: FormularzStan[K]) => FormularzStan[K])(prev[pole]) : akcja,
+    }))
+  }
+  const setKategoria = (a: Kategoria | ((p: Kategoria) => Kategoria)) => setPole("kategoria", a)
+  const setPozycje = (a: PozycjaKategorii[] | ((p: PozycjaKategorii[]) => PozycjaKategorii[])) => setPole("pozycje", a)
 
   const result = useMemo(() => calculateKategorieSpecjalne({ kategoria, pozycje }), [kategoria, pozycje])
 

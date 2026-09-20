@@ -1,8 +1,9 @@
 "use client"
 
-import { useMemo, useState } from "react"
+import { useMemo } from "react"
 import { calculateKonfiguratorStringow } from "@/lib/core/modules/pv/konfigurator-stringow/calculator"
 import type { KonfiguratorStringowInput } from "@/lib/core/modules/pv/konfigurator-stringow/input"
+import { usePersistedDraft } from "@/lib/adapters/use-persisted-draft"
 import { Pole, PoleSelect } from "@/components/ui/pole"
 import { WerdyktPanel, type WerdyktPoziom } from "@/components/werdykt"
 import { NawigacjaEkranu } from "@/components/nawigacja-ekranu"
@@ -18,13 +19,43 @@ const MODE_LABELS: Record<Mode, string> = {
   mieszany: "Mieszany (grupy szeregowe równolegle)",
 }
 
+type FormularzStan = {
+  mode: Mode
+  vmpV: string
+  impA: string
+  liczbaPaneli: string
+  panelWGrupie: string
+  liczbaGrup: string
+}
+
+const STAN_POCZATKOWY: FormularzStan = {
+  mode: "szereg",
+  vmpV: "40",
+  impA: "11",
+  liczbaPaneli: "8",
+  panelWGrupie: "4",
+  liczbaGrup: "2",
+}
+
 export default function KonfiguratorStringowPage() {
-  const [mode, setMode] = useState<Mode>("szereg")
-  const [vmpV, setVmpV] = useState("40")
-  const [impA, setImpA] = useState("11")
-  const [liczbaPaneli, setLiczbaPaneli] = useState("8")
-  const [panelWGrupie, setPanelWGrupie] = useState("4")
-  const [liczbaGrup, setLiczbaGrup] = useState("2")
+  const [stan, setStan] = usePersistedDraft<FormularzStan>("konfigurator-stringow", STAN_POCZATKOWY)
+  const { mode, vmpV, impA, liczbaPaneli, panelWGrupie, liczbaGrup } = stan
+
+  function setPole<K extends keyof FormularzStan>(
+    pole: K,
+    akcja: FormularzStan[K] | ((prev: FormularzStan[K]) => FormularzStan[K]),
+  ) {
+    setStan((prev) => ({
+      ...prev,
+      [pole]: typeof akcja === "function" ? (akcja as (p: FormularzStan[K]) => FormularzStan[K])(prev[pole]) : akcja,
+    }))
+  }
+  const setMode = (a: Mode | ((p: Mode) => Mode)) => setPole("mode", a)
+  const setVmpV = (a: string | ((p: string) => string)) => setPole("vmpV", a)
+  const setImpA = (a: string | ((p: string) => string)) => setPole("impA", a)
+  const setLiczbaPaneli = (a: string | ((p: string) => string)) => setPole("liczbaPaneli", a)
+  const setPanelWGrupie = (a: string | ((p: string) => string)) => setPole("panelWGrupie", a)
+  const setLiczbaGrup = (a: string | ((p: string) => string)) => setPole("liczbaGrup", a)
 
   const input: KonfiguratorStringowInput = useMemo(() => {
     if (mode === "mieszany") {

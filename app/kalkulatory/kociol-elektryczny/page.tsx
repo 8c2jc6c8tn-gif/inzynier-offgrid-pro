@@ -1,7 +1,8 @@
 "use client"
 
-import { useMemo, useState } from "react"
+import { useMemo } from "react"
 import { calculateKociolElektryczny } from "@/lib/core/modules/ogrzewanie/kociol-elektryczny/calculator"
+import { usePersistedDraft } from "@/lib/adapters/use-persisted-draft"
 import { Pole } from "@/components/ui/pole"
 import { WerdyktPanel } from "@/components/werdykt"
 import { NawigacjaEkranu } from "@/components/nawigacja-ekranu"
@@ -9,10 +10,34 @@ import { NaglowekEkranu } from "@/components/wzorce/naglowek-ekranu"
 import { WynikGlowny } from "@/components/wzorce/wynik-glowny"
 import { WynikSzczegoly } from "@/components/wzorce/wynik-szczegoly"
 
+type FormularzStan = {
+  zapotrzebowanieCieplneKwh: string
+  copPompy: string
+  cenaZaKwhZl: string
+}
+
+const STAN_POCZATKOWY: FormularzStan = {
+  zapotrzebowanieCieplneKwh: "",
+  copPompy: "",
+  cenaZaKwhZl: "",
+}
+
 export default function KociolElektrycznyPage() {
-  const [zapotrzebowanieCieplneKwh, setZapotrzebowanieCieplneKwh] = useState("")
-  const [copPompy, setCopPompy] = useState("")
-  const [cenaZaKwhZl, setCenaZaKwhZl] = useState("")
+  const [stan, setStan] = usePersistedDraft<FormularzStan>("kociol-elektryczny", STAN_POCZATKOWY)
+  const { zapotrzebowanieCieplneKwh, copPompy, cenaZaKwhZl } = stan
+
+  function setPole<K extends keyof FormularzStan>(
+    pole: K,
+    akcja: FormularzStan[K] | ((prev: FormularzStan[K]) => FormularzStan[K]),
+  ) {
+    setStan((prev) => ({
+      ...prev,
+      [pole]: typeof akcja === "function" ? (akcja as (p: FormularzStan[K]) => FormularzStan[K])(prev[pole]) : akcja,
+    }))
+  }
+  const setZapotrzebowanieCieplneKwh = (a: string | ((p: string) => string)) => setPole("zapotrzebowanieCieplneKwh", a)
+  const setCopPompy = (a: string | ((p: string) => string)) => setPole("copPompy", a)
+  const setCenaZaKwhZl = (a: string | ((p: string) => string)) => setPole("cenaZaKwhZl", a)
 
   const result = useMemo(
     () =>

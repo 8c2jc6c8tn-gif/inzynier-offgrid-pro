@@ -1,6 +1,6 @@
 "use client"
 
-import { useMemo, useState } from "react"
+import { useMemo } from "react"
 import { calculateWplywTemperatury } from "@/lib/core/modules/pv/wplyw-temperatury/calculator"
 import {
   GAMMA_TYPOWA_MAX_PCT_NA_C,
@@ -8,6 +8,7 @@ import {
   PRZYROST_TEMPERATURY_TYPOWY_MAX_C,
   PRZYROST_TEMPERATURY_TYPOWY_MIN_C,
 } from "@/lib/core/modules/pv/wplyw-temperatury/constants"
+import { usePersistedDraft } from "@/lib/adapters/use-persisted-draft"
 import { Pole } from "@/components/ui/pole"
 import { WerdyktPanel } from "@/components/werdykt"
 import { NawigacjaEkranu } from "@/components/nawigacja-ekranu"
@@ -15,11 +16,37 @@ import { NaglowekEkranu } from "@/components/wzorce/naglowek-ekranu"
 import { WynikGlowny } from "@/components/wzorce/wynik-glowny"
 import { WynikSzczegoly } from "@/components/wzorce/wynik-szczegoly"
 
+type FormularzStan = {
+  temperaturaOtoczeniaC: string
+  przyrostTemperaturyC: string
+  gammaPctNaC: string
+  mocNominalnaW: string
+}
+
+const STAN_POCZATKOWY: FormularzStan = {
+  temperaturaOtoczeniaC: "",
+  przyrostTemperaturyC: "",
+  gammaPctNaC: "",
+  mocNominalnaW: "",
+}
+
 export default function WplywTemperaturyPage() {
-  const [temperaturaOtoczeniaC, setTemperaturaOtoczeniaC] = useState("")
-  const [przyrostTemperaturyC, setPrzyrostTemperaturyC] = useState("")
-  const [gammaPctNaC, setGammaPctNaC] = useState("")
-  const [mocNominalnaW, setMocNominalnaW] = useState("")
+  const [stan, setStan] = usePersistedDraft<FormularzStan>("wplyw-temperatury", STAN_POCZATKOWY)
+  const { temperaturaOtoczeniaC, przyrostTemperaturyC, gammaPctNaC, mocNominalnaW } = stan
+
+  function setPole<K extends keyof FormularzStan>(
+    pole: K,
+    akcja: FormularzStan[K] | ((prev: FormularzStan[K]) => FormularzStan[K]),
+  ) {
+    setStan((prev) => ({
+      ...prev,
+      [pole]: typeof akcja === "function" ? (akcja as (p: FormularzStan[K]) => FormularzStan[K])(prev[pole]) : akcja,
+    }))
+  }
+  const setTemperaturaOtoczeniaC = (a: string | ((p: string) => string)) => setPole("temperaturaOtoczeniaC", a)
+  const setPrzyrostTemperaturyC = (a: string | ((p: string) => string)) => setPole("przyrostTemperaturyC", a)
+  const setGammaPctNaC = (a: string | ((p: string) => string)) => setPole("gammaPctNaC", a)
+  const setMocNominalnaW = (a: string | ((p: string) => string)) => setPole("mocNominalnaW", a)
 
   const result = useMemo(
     () =>

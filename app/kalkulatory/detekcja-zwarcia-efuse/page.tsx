@@ -1,7 +1,8 @@
 "use client"
 
-import { useMemo, useState } from "react"
+import { useMemo } from "react"
 import { calculateDetekcjaZwarciaEFuse } from "@/lib/core/modules/baterie/detekcja-zwarcia-efuse/calculator"
+import { usePersistedDraft } from "@/lib/adapters/use-persisted-draft"
 import { Pole } from "@/components/ui/pole"
 import { WerdyktPanel, type WerdyktPoziom } from "@/components/werdykt"
 import { NawigacjaEkranu } from "@/components/nawigacja-ekranu"
@@ -10,11 +11,32 @@ import { WynikGlowny } from "@/components/wzorce/wynik-glowny"
 import { WynikSzczegoly } from "@/components/wzorce/wynik-szczegoly"
 import { useTranslate } from "@/lib/i18n/language-context"
 
+type FormularzStan = {
+  napiecieBateriiV: string
+  rezystancjaWewnetrznaOhm: string
+  zdolnoscLaczeniowaTranzystorowA: string
+}
+
+const STAN_POCZATKOWY: FormularzStan = {
+  napiecieBateriiV: "",
+  rezystancjaWewnetrznaOhm: "",
+  zdolnoscLaczeniowaTranzystorowA: "",
+}
+
 export default function DetekcjaZwarciaEFusePage() {
   const t = useTranslate()
-  const [napiecieBateriiV, setNapiecieBateriiV] = useState("")
-  const [rezystancjaWewnetrznaOhm, setRezystancjaWewnetrznaOhm] = useState("")
-  const [zdolnoscLaczeniowaTranzystorowA, setZdolnoscLaczeniowaTranzystorowA] = useState("")
+  const [stan, setStan] = usePersistedDraft<FormularzStan>("detekcja-zwarcia-efuse", STAN_POCZATKOWY)
+  const { napiecieBateriiV, rezystancjaWewnetrznaOhm, zdolnoscLaczeniowaTranzystorowA } = stan
+
+  function setPole<K extends keyof FormularzStan>(pole: K, akcja: FormularzStan[K] | ((prev: FormularzStan[K]) => FormularzStan[K])) {
+    setStan((prev) => ({
+      ...prev,
+      [pole]: typeof akcja === "function" ? (akcja as (p: FormularzStan[K]) => FormularzStan[K])(prev[pole]) : akcja,
+    }))
+  }
+  const setNapiecieBateriiV = (a: string | ((p: string) => string)) => setPole("napiecieBateriiV", a)
+  const setRezystancjaWewnetrznaOhm = (a: string | ((p: string) => string)) => setPole("rezystancjaWewnetrznaOhm", a)
+  const setZdolnoscLaczeniowaTranzystorowA = (a: string | ((p: string) => string)) => setPole("zdolnoscLaczeniowaTranzystorowA", a)
 
   const result = useMemo(
     () =>

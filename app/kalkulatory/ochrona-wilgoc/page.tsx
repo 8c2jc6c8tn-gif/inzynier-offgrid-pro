@@ -1,8 +1,9 @@
 "use client"
 
-import { useMemo, useState } from "react"
+import { useMemo } from "react"
 import { calculateOchronaWilgoc } from "@/lib/core/modules/baterie/ochrona-wilgoc/calculator"
 import { OPCJE_IP } from "@/lib/core/modules/baterie/ochrona-wilgoc/constants"
+import { usePersistedDraft } from "@/lib/adapters/use-persisted-draft"
 import { Pole, PoleCheckbox, PoleSelect } from "@/components/ui/pole"
 import { WerdyktPanel, type WerdyktPoziom } from "@/components/werdykt"
 import { NawigacjaEkranu } from "@/components/nawigacja-ekranu"
@@ -11,13 +12,38 @@ import { WynikGlowny } from "@/components/wzorce/wynik-glowny"
 import { WynikSzczegoly } from "@/components/wzorce/wynik-szczegoly"
 import { useTranslate } from "@/lib/i18n/language-context"
 
+type FormularzStan = {
+  temperaturaOtoczeniaC: string
+  wilgotnoscPct: string
+  temperaturaObudowyC: string
+  srodowiskoWilgotne: boolean
+  ipKod: string
+}
+
+const STAN_POCZATKOWY: FormularzStan = {
+  temperaturaOtoczeniaC: "",
+  wilgotnoscPct: "",
+  temperaturaObudowyC: "",
+  srodowiskoWilgotne: false,
+  ipKod: "",
+}
+
 export default function OchronaWilgocPage() {
   const t = useTranslate()
-  const [temperaturaOtoczeniaC, setTemperaturaOtoczeniaC] = useState("")
-  const [wilgotnoscPct, setWilgotnoscPct] = useState("")
-  const [temperaturaObudowyC, setTemperaturaObudowyC] = useState("")
-  const [srodowiskoWilgotne, setSrodowiskoWilgotne] = useState(false)
-  const [ipKod, setIpKod] = useState("")
+  const [stan, setStan] = usePersistedDraft<FormularzStan>("ochrona-wilgoc", STAN_POCZATKOWY)
+  const { temperaturaOtoczeniaC, wilgotnoscPct, temperaturaObudowyC, srodowiskoWilgotne, ipKod } = stan
+
+  function setPole<K extends keyof FormularzStan>(pole: K, akcja: FormularzStan[K] | ((prev: FormularzStan[K]) => FormularzStan[K])) {
+    setStan((prev) => ({
+      ...prev,
+      [pole]: typeof akcja === "function" ? (akcja as (p: FormularzStan[K]) => FormularzStan[K])(prev[pole]) : akcja,
+    }))
+  }
+  const setTemperaturaOtoczeniaC = (a: string | ((p: string) => string)) => setPole("temperaturaOtoczeniaC", a)
+  const setWilgotnoscPct = (a: string | ((p: string) => string)) => setPole("wilgotnoscPct", a)
+  const setTemperaturaObudowyC = (a: string | ((p: string) => string)) => setPole("temperaturaObudowyC", a)
+  const setSrodowiskoWilgotne = (a: boolean | ((p: boolean) => boolean)) => setPole("srodowiskoWilgotne", a)
+  const setIpKod = (a: string | ((p: string) => string)) => setPole("ipKod", a)
 
   const result = useMemo(
     () =>

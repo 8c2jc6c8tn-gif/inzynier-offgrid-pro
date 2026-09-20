@@ -1,9 +1,10 @@
 "use client"
 
-import { useMemo, useState } from "react"
+import { useMemo } from "react"
 import { calculateSurvivalCore } from "@/lib/core/modules/zapotrzebowanie/systemy-podtrzymania-zycia/calculator"
 import { DEFAULT_CRITICAL_LOADS } from "@/lib/core/modules/zapotrzebowanie/systemy-podtrzymania-zycia/constants"
 import type { CriticalLoadItem } from "@/lib/core/modules/zapotrzebowanie/systemy-podtrzymania-zycia/input"
+import { usePersistedDraft } from "@/lib/adapters/use-persisted-draft"
 import { WerdyktPanel, type WerdyktPoziom } from "@/components/werdykt"
 import { NawigacjaEkranu } from "@/components/nawigacja-ekranu"
 import { NaglowekEkranu } from "@/components/wzorce/naglowek-ekranu"
@@ -24,9 +25,18 @@ const INLINE_INPUT_KLASY =
   "hover:not-disabled:border-foreground/30 focus-visible:border-ring focus-visible:ring-2 focus-visible:ring-ring/50 " +
   "disabled:cursor-not-allowed disabled:opacity-50 disabled:hover:border-input"
 
+type FormularzStan = { items: CriticalLoadItem[] }
+const STAN_POCZATKOWY: FormularzStan = { items: initialItems }
+
 export default function SystemyPodtrzymaniaZyciaPage() {
   const t = useTranslate()
-  const [items, setItems] = useState<CriticalLoadItem[]>(initialItems)
+  const [stan, setStan] = usePersistedDraft<FormularzStan>("systemy-podtrzymania-zycia", STAN_POCZATKOWY)
+  const { items } = stan
+  const setItems = (a: CriticalLoadItem[] | ((p: CriticalLoadItem[]) => CriticalLoadItem[])) =>
+    setStan((prev) => ({
+      ...prev,
+      items: typeof a === "function" ? (a as (p: CriticalLoadItem[]) => CriticalLoadItem[])(prev.items) : a,
+    }))
 
   const result = useMemo(() => calculateSurvivalCore({ items }), [items])
 

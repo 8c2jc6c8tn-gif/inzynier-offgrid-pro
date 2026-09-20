@@ -1,7 +1,8 @@
 "use client"
 
-import { useMemo, useState } from "react"
+import { useMemo } from "react"
 import { calculateInfiltracjaPowietrza } from "@/lib/core/modules/ogrzewanie/infiltracja-powietrza/calculator"
+import { usePersistedDraft } from "@/lib/adapters/use-persisted-draft"
 import { Pole } from "@/components/ui/pole"
 import { WerdyktPanel } from "@/components/werdykt"
 import { NawigacjaEkranu } from "@/components/nawigacja-ekranu"
@@ -9,10 +10,34 @@ import { NaglowekEkranu } from "@/components/wzorce/naglowek-ekranu"
 import { WynikGlowny } from "@/components/wzorce/wynik-glowny"
 import { WynikSzczegoly } from "@/components/wzorce/wynik-szczegoly"
 
+type FormularzStan = {
+  wymianyPowietrzaNaH: string
+  kubaturaBudynkuM3: string
+  deltaTK: string
+}
+
+const STAN_POCZATKOWY: FormularzStan = {
+  wymianyPowietrzaNaH: "",
+  kubaturaBudynkuM3: "",
+  deltaTK: "",
+}
+
 export default function InfiltracjaPowietrzaPage() {
-  const [wymianyPowietrzaNaH, setWymianyPowietrzaNaH] = useState("")
-  const [kubaturaBudynkuM3, setKubaturaBudynkuM3] = useState("")
-  const [deltaTK, setDeltaTK] = useState("")
+  const [stan, setStan] = usePersistedDraft<FormularzStan>("infiltracja-powietrza", STAN_POCZATKOWY)
+  const { wymianyPowietrzaNaH, kubaturaBudynkuM3, deltaTK } = stan
+
+  function setPole<K extends keyof FormularzStan>(
+    pole: K,
+    akcja: FormularzStan[K] | ((prev: FormularzStan[K]) => FormularzStan[K]),
+  ) {
+    setStan((prev) => ({
+      ...prev,
+      [pole]: typeof akcja === "function" ? (akcja as (p: FormularzStan[K]) => FormularzStan[K])(prev[pole]) : akcja,
+    }))
+  }
+  const setWymianyPowietrzaNaH = (a: string | ((p: string) => string)) => setPole("wymianyPowietrzaNaH", a)
+  const setKubaturaBudynkuM3 = (a: string | ((p: string) => string)) => setPole("kubaturaBudynkuM3", a)
+  const setDeltaTK = (a: string | ((p: string) => string)) => setPole("deltaTK", a)
 
   const result = useMemo(
     () =>

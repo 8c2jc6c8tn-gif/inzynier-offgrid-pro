@@ -1,6 +1,6 @@
 "use client"
 
-import { useMemo, useState } from "react"
+import { useMemo } from "react"
 import { calculateVehicleToHome } from "@/lib/core/modules/baterie/vehicle-to-home/calculator"
 import { Pole, PoleCheckbox } from "@/components/ui/pole"
 import { WerdyktPanel } from "@/components/werdykt"
@@ -8,14 +8,45 @@ import { NawigacjaEkranu } from "@/components/nawigacja-ekranu"
 import { NaglowekEkranu } from "@/components/wzorce/naglowek-ekranu"
 import { WynikGlowny } from "@/components/wzorce/wynik-glowny"
 import { WynikSzczegoly } from "@/components/wzorce/wynik-szczegoly"
+import { usePersistedDraft } from "@/lib/adapters/use-persisted-draft"
+
+type FormularzStan = {
+  wspieraV2h: boolean
+  pojemnoscBaterEvKwh: string
+  rezerwaNaDojazdKwh: string
+  sprawnoscEfektywnaPct: string
+  kosztWymianyBateriiZl: string
+  liczbaCykli: string
+}
+
+const STAN_POCZATKOWY: FormularzStan = {
+  wspieraV2h: false,
+  pojemnoscBaterEvKwh: "",
+  rezerwaNaDojazdKwh: "",
+  sprawnoscEfektywnaPct: "",
+  kosztWymianyBateriiZl: "",
+  liczbaCykli: "",
+}
 
 export default function VehicleToHomePage() {
-  const [wspieraV2h, setWspieraV2h] = useState(false)
-  const [pojemnoscBaterEvKwh, setPojemnoscBaterEvKwh] = useState("")
-  const [rezerwaNaDojazdKwh, setRezerwaNaDojazdKwh] = useState("")
-  const [sprawnoscEfektywnaPct, setSprawnoscEfektywnaPct] = useState("")
-  const [kosztWymianyBateriiZl, setKosztWymianyBateriiZl] = useState("")
-  const [liczbaCykli, setLiczbaCykli] = useState("")
+  const [stan, setStan] = usePersistedDraft<FormularzStan>("vehicle-to-home", STAN_POCZATKOWY)
+  const { wspieraV2h, pojemnoscBaterEvKwh, rezerwaNaDojazdKwh, sprawnoscEfektywnaPct, kosztWymianyBateriiZl, liczbaCykli } = stan
+
+  function setPole<K extends keyof FormularzStan>(
+    pole: K,
+    akcja: FormularzStan[K] | ((prev: FormularzStan[K]) => FormularzStan[K]),
+  ) {
+    setStan((prev) => ({
+      ...prev,
+      [pole]: typeof akcja === "function" ? (akcja as (p: FormularzStan[K]) => FormularzStan[K])(prev[pole]) : akcja,
+    }))
+  }
+  const setWspieraV2h = (a: boolean | ((p: boolean) => boolean)) => setPole("wspieraV2h", a)
+  const setPojemnoscBaterEvKwh = (a: string | ((p: string) => string)) => setPole("pojemnoscBaterEvKwh", a)
+  const setRezerwaNaDojazdKwh = (a: string | ((p: string) => string)) => setPole("rezerwaNaDojazdKwh", a)
+  const setSprawnoscEfektywnaPct = (a: string | ((p: string) => string)) => setPole("sprawnoscEfektywnaPct", a)
+  const setKosztWymianyBateriiZl = (a: string | ((p: string) => string)) => setPole("kosztWymianyBateriiZl", a)
+  const setLiczbaCykli = (a: string | ((p: string) => string)) => setPole("liczbaCykli", a)
 
   const result = useMemo(
     () =>

@@ -1,8 +1,9 @@
 "use client"
 
-import { useMemo, useState } from "react"
+import { useMemo } from "react"
 import { calculateGlownaSzynaWyrownawcza } from "@/lib/core/modules/okablowanie/glowna-szyna-wyrownawcza/calculator"
 import { CHECKLIST_ITEMS } from "@/lib/core/modules/okablowanie/glowna-szyna-wyrownawcza/constants"
+import { usePersistedDraft } from "@/lib/adapters/use-persisted-draft"
 import { PoleCheckbox } from "@/components/ui/pole"
 import { WerdyktPanel, type WerdyktPoziom } from "@/components/werdykt"
 import { NawigacjaEkranu } from "@/components/nawigacja-ekranu"
@@ -11,10 +12,33 @@ import { ListaChecklist } from "@/components/wzorce/lista-checklist"
 import { StanPusty } from "@/components/ui/stany"
 import { useTranslate } from "@/lib/i18n/language-context"
 
+type FormularzStan = {
+  potwierdzoneIds: string[]
+  uzywanaJakoPrzylaczeOdbiornikow: boolean
+}
+
+const STAN_POCZATKOWY: FormularzStan = {
+  potwierdzoneIds: [],
+  uzywanaJakoPrzylaczeOdbiornikow: false,
+}
+
 export default function GlownaSzynaWyrownawczaPage() {
   const t = useTranslate()
-  const [potwierdzoneIds, setPotwierdzoneIds] = useState<string[]>([])
-  const [uzywanaJakoPrzylaczeOdbiornikow, setUzywanaJakoPrzylaczeOdbiornikow] = useState(false)
+  const [stan, setStan] = usePersistedDraft<FormularzStan>("glowna-szyna-wyrownawcza", STAN_POCZATKOWY)
+  const { potwierdzoneIds, uzywanaJakoPrzylaczeOdbiornikow } = stan
+
+  function setPole<K extends keyof FormularzStan>(
+    pole: K,
+    akcja: FormularzStan[K] | ((prev: FormularzStan[K]) => FormularzStan[K]),
+  ) {
+    setStan((prev) => ({
+      ...prev,
+      [pole]: typeof akcja === "function" ? (akcja as (p: FormularzStan[K]) => FormularzStan[K])(prev[pole]) : akcja,
+    }))
+  }
+  const setPotwierdzoneIds = (a: string[] | ((p: string[]) => string[])) => setPole("potwierdzoneIds", a)
+  const setUzywanaJakoPrzylaczeOdbiornikow = (a: boolean | ((p: boolean) => boolean)) =>
+    setPole("uzywanaJakoPrzylaczeOdbiornikow", a)
 
   const result = useMemo(
     () => calculateGlownaSzynaWyrownawcza({ potwierdzoneIds, uzywanaJakoPrzylaczeOdbiornikow }),

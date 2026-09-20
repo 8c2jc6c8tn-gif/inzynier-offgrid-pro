@@ -1,8 +1,9 @@
 "use client"
 
-import { useMemo, useState } from "react"
+import { useMemo } from "react"
 import { calculateChlodzenieLatem } from "@/lib/core/modules/baterie/chlodzenie-latem/calculator"
 import { ZAKRES_PRACY_MAX_C, ZAKRES_PRACY_MIN_C } from "@/lib/core/modules/baterie/chlodzenie-latem/constants"
+import { usePersistedDraft } from "@/lib/adapters/use-persisted-draft"
 import { Pole } from "@/components/ui/pole"
 import { WerdyktPanel, type WerdyktPoziom } from "@/components/werdykt"
 import { NawigacjaEkranu } from "@/components/nawigacja-ekranu"
@@ -10,9 +11,23 @@ import { NaglowekEkranu } from "@/components/wzorce/naglowek-ekranu"
 import { WynikSzczegoly } from "@/components/wzorce/wynik-szczegoly"
 import { useTranslate } from "@/lib/i18n/language-context"
 
+type FormularzStan = {
+  temperaturaOgniwC: string
+}
+
+const STAN_POCZATKOWY: FormularzStan = {
+  temperaturaOgniwC: "",
+}
+
 export default function ChlodzenieLatemPage() {
   const t = useTranslate()
-  const [temperaturaOgniwC, setTemperaturaOgniwC] = useState("")
+  const [stan, setStan] = usePersistedDraft<FormularzStan>("chlodzenie-latem", STAN_POCZATKOWY)
+  const { temperaturaOgniwC } = stan
+  const setTemperaturaOgniwC = (a: string | ((p: string) => string)) =>
+    setStan((prev) => ({
+      ...prev,
+      temperaturaOgniwC: typeof a === "function" ? (a as (p: string) => string)(prev.temperaturaOgniwC) : a,
+    }))
 
   const result = useMemo(
     () =>

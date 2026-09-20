@@ -1,12 +1,13 @@
 "use client"
 
-import { useMemo, useState } from "react"
+import { useMemo } from "react"
 import { calculateUrzadzeniaZmienne } from "@/lib/core/modules/zapotrzebowanie/urzadzenia-zmienne/calculator"
 import {
   KATALOG_URZADZEN_ZMIENNYCH,
   PLYTA_INDUKCYJNA_MOC_SUGEROWANA_W,
 } from "@/lib/core/modules/zapotrzebowanie/urzadzenia-zmienne/constants"
 import type { KlasaEnergetyczna, PozycjaUrzadzenia } from "@/lib/core/modules/zapotrzebowanie/urzadzenia-zmienne/input"
+import { usePersistedDraft } from "@/lib/adapters/use-persisted-draft"
 import { PoleSelect } from "@/components/ui/pole"
 import { WerdyktPanel } from "@/components/werdykt"
 import { NawigacjaEkranu } from "@/components/nawigacja-ekranu"
@@ -28,12 +29,38 @@ const initialItems: PozycjaUrzadzenia[] = KATALOG_URZADZEN_ZMIENNYCH.map((def) =
   klasa: "standardowe",
 }))
 
+type FormularzStan = {
+  urzadzenia: PozycjaUrzadzenia[]
+  plytaIndukcyjnaWybrana: boolean
+  plytaIndukcyjnaMocW: string
+  plytaIndukcyjnaCzasMin: string
+}
+
+const STAN_POCZATKOWY: FormularzStan = {
+  urzadzenia: initialItems,
+  plytaIndukcyjnaWybrana: false,
+  plytaIndukcyjnaMocW: String(PLYTA_INDUKCYJNA_MOC_SUGEROWANA_W),
+  plytaIndukcyjnaCzasMin: "",
+}
+
 export default function UrzadzeniaZmiennePage() {
   const t = useTranslate()
-  const [urzadzenia, setUrzadzenia] = useState<PozycjaUrzadzenia[]>(initialItems)
-  const [plytaIndukcyjnaWybrana, setPlytaIndukcyjnaWybrana] = useState(false)
-  const [plytaIndukcyjnaMocW, setPlytaIndukcyjnaMocW] = useState(String(PLYTA_INDUKCYJNA_MOC_SUGEROWANA_W))
-  const [plytaIndukcyjnaCzasMin, setPlytaIndukcyjnaCzasMin] = useState("")
+  const [stan, setStan] = usePersistedDraft<FormularzStan>("urzadzenia-zmienne", STAN_POCZATKOWY)
+  const { urzadzenia, plytaIndukcyjnaWybrana, plytaIndukcyjnaMocW, plytaIndukcyjnaCzasMin } = stan
+
+  function setPole<K extends keyof FormularzStan>(
+    pole: K,
+    akcja: FormularzStan[K] | ((prev: FormularzStan[K]) => FormularzStan[K]),
+  ) {
+    setStan((prev) => ({
+      ...prev,
+      [pole]: typeof akcja === "function" ? (akcja as (p: FormularzStan[K]) => FormularzStan[K])(prev[pole]) : akcja,
+    }))
+  }
+  const setUrzadzenia = (a: PozycjaUrzadzenia[] | ((p: PozycjaUrzadzenia[]) => PozycjaUrzadzenia[])) => setPole("urzadzenia", a)
+  const setPlytaIndukcyjnaWybrana = (a: boolean | ((p: boolean) => boolean)) => setPole("plytaIndukcyjnaWybrana", a)
+  const setPlytaIndukcyjnaMocW = (a: string | ((p: string) => string)) => setPole("plytaIndukcyjnaMocW", a)
+  const setPlytaIndukcyjnaCzasMin = (a: string | ((p: string) => string)) => setPole("plytaIndukcyjnaCzasMin", a)
 
   const result = useMemo(
     () =>

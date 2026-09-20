@@ -1,16 +1,33 @@
 "use client"
 
-import { useMemo, useState } from "react"
+import { useMemo } from "react"
 import { calculateBezpieczenstwoKwas } from "@/lib/core/modules/montaz-baterii/bezpieczenstwo-kwas/calculator"
 import { CHECKLIST_ITEMS, OSTRZEZENIA_STALE } from "@/lib/core/modules/montaz-baterii/bezpieczenstwo-kwas/constants"
+import { usePersistedDraft } from "@/lib/adapters/use-persisted-draft"
 import { WerdyktPanel } from "@/components/werdykt"
 import { NawigacjaEkranu } from "@/components/nawigacja-ekranu"
 import { NaglowekEkranu } from "@/components/wzorce/naglowek-ekranu"
 import { ListaChecklist } from "@/components/wzorce/lista-checklist"
 import { StanPusty } from "@/components/ui/stany"
 
+type FormularzStan = {
+  potwierdzoneIds: string[]
+}
+
+const STAN_POCZATKOWY: FormularzStan = {
+  potwierdzoneIds: [],
+}
+
 export default function BezpieczenstwoKwasPage() {
-  const [potwierdzoneIds, setPotwierdzoneIds] = useState<string[]>([])
+  const [stan, setStan] = usePersistedDraft<FormularzStan>("bezpieczenstwo-kwas", STAN_POCZATKOWY)
+  const { potwierdzoneIds } = stan
+
+  function setPotwierdzoneIds(akcja: string[] | ((prev: string[]) => string[])) {
+    setStan((prev) => ({
+      ...prev,
+      potwierdzoneIds: typeof akcja === "function" ? (akcja as (p: string[]) => string[])(prev.potwierdzoneIds) : akcja,
+    }))
+  }
 
   const result = useMemo(() => calculateBezpieczenstwoKwas({ potwierdzoneIds }), [potwierdzoneIds])
 

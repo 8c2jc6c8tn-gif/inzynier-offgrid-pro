@@ -1,7 +1,8 @@
 "use client"
 
-import { useMemo, useState } from "react"
+import { useMemo } from "react"
 import { calculateReguRatorPwmMppt } from "@/lib/core/modules/kalkulator-mobilny/dobor-regulatora-pwm-mppt/calculator"
+import { usePersistedDraft } from "@/lib/adapters/use-persisted-draft"
 import { Pole } from "@/components/ui/pole"
 import { WerdyktPanel, type WerdyktPoziom } from "@/components/werdykt"
 import { NawigacjaEkranu } from "@/components/nawigacja-ekranu"
@@ -10,11 +11,32 @@ import { WynikGlowny } from "@/components/wzorce/wynik-glowny"
 import { WynikSzczegoly } from "@/components/wzorce/wynik-szczegoly"
 import { useTranslate } from "@/lib/i18n/language-context"
 
+type FormularzStan = {
+  mocPaneliW: string
+  napiecieNominalnePaneluV: string
+  napiecieAkumulatoraV: string
+}
+
+const STAN_POCZATKOWY: FormularzStan = {
+  mocPaneliW: "",
+  napiecieNominalnePaneluV: "",
+  napiecieAkumulatoraV: "",
+}
+
 export default function DoborRegulatoraPwmMpptPage() {
   const t = useTranslate()
-  const [mocPaneliW, setMocPaneliW] = useState("")
-  const [napiecieNominalnePaneluV, setNapiecieNominalnePaneluV] = useState("")
-  const [napiecieAkumulatoraV, setNapiecieAkumulatoraV] = useState("")
+  const [stan, setStan] = usePersistedDraft<FormularzStan>("dobor-regulatora-pwm-mppt", STAN_POCZATKOWY)
+  const { mocPaneliW, napiecieNominalnePaneluV, napiecieAkumulatoraV } = stan
+
+  function setPole<K extends keyof FormularzStan>(pole: K, akcja: FormularzStan[K] | ((prev: FormularzStan[K]) => FormularzStan[K])) {
+    setStan((prev) => ({
+      ...prev,
+      [pole]: typeof akcja === "function" ? (akcja as (p: FormularzStan[K]) => FormularzStan[K])(prev[pole]) : akcja,
+    }))
+  }
+  const setMocPaneliW = (a: string | ((p: string) => string)) => setPole("mocPaneliW", a)
+  const setNapiecieNominalnePaneluV = (a: string | ((p: string) => string)) => setPole("napiecieNominalnePaneluV", a)
+  const setNapiecieAkumulatoraV = (a: string | ((p: string) => string)) => setPole("napiecieAkumulatoraV", a)
 
   const result = useMemo(
     () =>

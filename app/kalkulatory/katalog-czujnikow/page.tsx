@@ -1,9 +1,10 @@
 "use client"
 
-import { useMemo, useState } from "react"
+import { useMemo } from "react"
 import { calculateKatalogCzujnikow } from "@/lib/core/modules/esp32/katalog-czujnikow/calculator"
 import { MIGAWKA_KATALOGU, SENSOR_TYPES } from "@/lib/core/modules/esp32/katalog-czujnikow/constants"
 import type { SensorInstance } from "@/lib/core/modules/esp32/katalog-czujnikow/input"
+import { usePersistedDraft } from "@/lib/adapters/use-persisted-draft"
 import { NawigacjaEkranu } from "@/components/nawigacja-ekranu"
 import { Button } from "@/components/ui/button"
 import { Pole, PoleSelect } from "@/components/ui/pole"
@@ -12,11 +13,37 @@ import { BudowniczyListy, PrzyciskUsun } from "@/components/wzorce/budowniczy-li
 
 let nextId = 1
 
+type FormularzStan = {
+  instances: SensorInstance[]
+  typeId: string
+  etykieta: string
+  lokalizacja: string
+}
+
+const STAN_POCZATKOWY: FormularzStan = {
+  instances: [],
+  typeId: SENSOR_TYPES[0].id,
+  etykieta: "",
+  lokalizacja: "",
+}
+
 export default function KatalogCzujnikowPage() {
-  const [instances, setInstances] = useState<SensorInstance[]>([])
-  const [typeId, setTypeId] = useState(SENSOR_TYPES[0].id)
-  const [etykieta, setEtykieta] = useState("")
-  const [lokalizacja, setLokalizacja] = useState("")
+  const [stan, setStan] = usePersistedDraft<FormularzStan>("katalog-czujnikow", STAN_POCZATKOWY)
+  const { instances, typeId, etykieta, lokalizacja } = stan
+
+  function setPole<K extends keyof FormularzStan>(
+    pole: K,
+    akcja: FormularzStan[K] | ((prev: FormularzStan[K]) => FormularzStan[K]),
+  ) {
+    setStan((prev) => ({
+      ...prev,
+      [pole]: typeof akcja === "function" ? (akcja as (p: FormularzStan[K]) => FormularzStan[K])(prev[pole]) : akcja,
+    }))
+  }
+  const setInstances = (a: SensorInstance[] | ((p: SensorInstance[]) => SensorInstance[])) => setPole("instances", a)
+  const setTypeId = (a: string | ((p: string) => string)) => setPole("typeId", a)
+  const setEtykieta = (a: string | ((p: string) => string)) => setPole("etykieta", a)
+  const setLokalizacja = (a: string | ((p: string) => string)) => setPole("lokalizacja", a)
 
   const result = useMemo(() => calculateKatalogCzujnikow({ instances }), [instances])
   const selectedType = SENSOR_TYPES.find((t) => t.id === typeId)!

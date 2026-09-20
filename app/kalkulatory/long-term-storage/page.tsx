@@ -1,6 +1,6 @@
 "use client"
 
-import { useMemo, useState } from "react"
+import { useMemo } from "react"
 import { calculateLongTermStorage } from "@/lib/core/modules/baterie/long-term-storage/calculator"
 import {
   CHECKLIST_ITEMS,
@@ -8,6 +8,7 @@ import {
   SOC_ZALECANY_MIN_PCT,
   TEMPERATURA_MIN_BEZPIECZNA_C,
 } from "@/lib/core/modules/baterie/long-term-storage/constants"
+import { usePersistedDraft } from "@/lib/adapters/use-persisted-draft"
 import { Pole } from "@/components/ui/pole"
 import { ListaChecklist } from "@/components/wzorce/lista-checklist"
 import { WerdyktPanel, type WerdyktPoziom } from "@/components/werdykt"
@@ -16,11 +17,35 @@ import { NaglowekEkranu } from "@/components/wzorce/naglowek-ekranu"
 import { WynikSzczegoly } from "@/components/wzorce/wynik-szczegoly"
 import { useTranslate } from "@/lib/i18n/language-context"
 
+type FormularzStan = {
+  socDocelowyPct: string
+  temperaturaMinC: string
+  potwierdzoneIds: string[]
+}
+
+const STAN_POCZATKOWY: FormularzStan = {
+  socDocelowyPct: "",
+  temperaturaMinC: "",
+  potwierdzoneIds: [],
+}
+
 export default function LongTermStoragePage() {
   const t = useTranslate()
-  const [socDocelowyPct, setSocDocelowyPct] = useState("")
-  const [temperaturaMinC, setTemperaturaMinC] = useState("")
-  const [potwierdzoneIds, setPotwierdzoneIds] = useState<string[]>([])
+  const [stan, setStan] = usePersistedDraft<FormularzStan>("long-term-storage", STAN_POCZATKOWY)
+  const { socDocelowyPct, temperaturaMinC, potwierdzoneIds } = stan
+
+  function setPole<K extends keyof FormularzStan>(
+    pole: K,
+    akcja: FormularzStan[K] | ((prev: FormularzStan[K]) => FormularzStan[K]),
+  ) {
+    setStan((prev) => ({
+      ...prev,
+      [pole]: typeof akcja === "function" ? (akcja as (p: FormularzStan[K]) => FormularzStan[K])(prev[pole]) : akcja,
+    }))
+  }
+  const setSocDocelowyPct = (a: string | ((p: string) => string)) => setPole("socDocelowyPct", a)
+  const setTemperaturaMinC = (a: string | ((p: string) => string)) => setPole("temperaturaMinC", a)
+  const setPotwierdzoneIds = (a: string[] | ((p: string[]) => string[])) => setPole("potwierdzoneIds", a)
 
   const result = useMemo(
     () =>

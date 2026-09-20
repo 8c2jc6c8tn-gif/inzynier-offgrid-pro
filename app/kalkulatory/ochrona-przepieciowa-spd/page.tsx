@@ -1,7 +1,8 @@
 "use client"
 
-import { useMemo, useState } from "react"
+import { useMemo } from "react"
 import { calculateOchronaPrzepieciowaSpd } from "@/lib/core/modules/okablowanie/ochrona-przepieciowa-spd/calculator"
+import { usePersistedDraft } from "@/lib/adapters/use-persisted-draft"
 import { Pole, PoleCheckbox } from "@/components/ui/pole"
 import { WerdyktPanel, type WerdyktPoziom } from "@/components/werdykt"
 import { NawigacjaEkranu } from "@/components/nawigacja-ekranu"
@@ -9,13 +10,43 @@ import { NaglowekEkranu } from "@/components/wzorce/naglowek-ekranu"
 import { WynikGlowny } from "@/components/wzorce/wynik-glowny"
 import { WynikSzczegoly } from "@/components/wzorce/wynik-szczegoly"
 
+type FormularzStan = {
+  vocMaxStringuV: string
+  maInstalacjeOdgromowa: boolean
+  odlegloscOdZwoduM: string
+  maZainstalowanySpdTyp1: boolean
+  ucSpdV: string
+  uziemienieViaGsw: boolean
+}
+
+const STAN_POCZATKOWY: FormularzStan = {
+  vocMaxStringuV: "",
+  maInstalacjeOdgromowa: false,
+  odlegloscOdZwoduM: "",
+  maZainstalowanySpdTyp1: false,
+  ucSpdV: "",
+  uziemienieViaGsw: false,
+}
+
 export default function OchronaPrzepieciowaSpdPage() {
-  const [vocMaxStringuV, setVocMaxStringuV] = useState("")
-  const [maInstalacjeOdgromowa, setMaInstalacjeOdgromowa] = useState(false)
-  const [odlegloscOdZwoduM, setOdlegloscOdZwoduM] = useState("")
-  const [maZainstalowanySpdTyp1, setMaZainstalowanySpdTyp1] = useState(false)
-  const [ucSpdV, setUcSpdV] = useState("")
-  const [uziemienieViaGsw, setUziemienieViaGsw] = useState(false)
+  const [stan, setStan] = usePersistedDraft<FormularzStan>("ochrona-przepieciowa-spd", STAN_POCZATKOWY)
+  const { vocMaxStringuV, maInstalacjeOdgromowa, odlegloscOdZwoduM, maZainstalowanySpdTyp1, ucSpdV, uziemienieViaGsw } = stan
+
+  function setPole<K extends keyof FormularzStan>(
+    pole: K,
+    akcja: FormularzStan[K] | ((prev: FormularzStan[K]) => FormularzStan[K]),
+  ) {
+    setStan((prev) => ({
+      ...prev,
+      [pole]: typeof akcja === "function" ? (akcja as (p: FormularzStan[K]) => FormularzStan[K])(prev[pole]) : akcja,
+    }))
+  }
+  const setVocMaxStringuV = (a: string | ((p: string) => string)) => setPole("vocMaxStringuV", a)
+  const setMaInstalacjeOdgromowa = (a: boolean | ((p: boolean) => boolean)) => setPole("maInstalacjeOdgromowa", a)
+  const setOdlegloscOdZwoduM = (a: string | ((p: string) => string)) => setPole("odlegloscOdZwoduM", a)
+  const setMaZainstalowanySpdTyp1 = (a: boolean | ((p: boolean) => boolean)) => setPole("maZainstalowanySpdTyp1", a)
+  const setUcSpdV = (a: string | ((p: string) => string)) => setPole("ucSpdV", a)
+  const setUziemienieViaGsw = (a: boolean | ((p: boolean) => boolean)) => setPole("uziemienieViaGsw", a)
 
   const result = useMemo(
     () =>

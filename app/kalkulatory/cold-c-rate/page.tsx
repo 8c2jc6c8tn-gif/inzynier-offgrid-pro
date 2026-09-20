@@ -1,7 +1,8 @@
 "use client"
 
-import { useMemo, useState } from "react"
+import { useMemo } from "react"
 import { calculateColdCRate } from "@/lib/core/modules/baterie/cold-c-rate/calculator"
+import { usePersistedDraft } from "@/lib/adapters/use-persisted-draft"
 import { Pole } from "@/components/ui/pole"
 import { WerdyktPanel, type WerdyktPoziom } from "@/components/werdykt"
 import { NawigacjaEkranu } from "@/components/nawigacja-ekranu"
@@ -26,10 +27,29 @@ const ETYKIETA_ZE_STREFY: Record<string, string> = {
   "pelny-prad": "Brak ograniczenia od strony temperatury",
 }
 
+type FormularzStan = {
+  temperaturaOgniwaC: string
+  pojemnoscAh: string
+}
+
+const STAN_POCZATKOWY: FormularzStan = {
+  temperaturaOgniwaC: "",
+  pojemnoscAh: "",
+}
+
 export default function ColdCRatePage() {
   const t = useTranslate()
-  const [temperaturaOgniwaC, setTemperaturaOgniwaC] = useState("")
-  const [pojemnoscAh, setPojemnoscAh] = useState("")
+  const [stan, setStan] = usePersistedDraft<FormularzStan>("cold-c-rate", STAN_POCZATKOWY)
+  const { temperaturaOgniwaC, pojemnoscAh } = stan
+
+  function setPole<K extends keyof FormularzStan>(pole: K, akcja: FormularzStan[K] | ((prev: FormularzStan[K]) => FormularzStan[K])) {
+    setStan((prev) => ({
+      ...prev,
+      [pole]: typeof akcja === "function" ? (akcja as (p: FormularzStan[K]) => FormularzStan[K])(prev[pole]) : akcja,
+    }))
+  }
+  const setTemperaturaOgniwaC = (a: string | ((p: string) => string)) => setPole("temperaturaOgniwaC", a)
+  const setPojemnoscAh = (a: string | ((p: string) => string)) => setPole("pojemnoscAh", a)
 
   const result = useMemo(
     () =>

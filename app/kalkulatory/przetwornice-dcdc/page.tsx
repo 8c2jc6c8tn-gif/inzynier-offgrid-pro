@@ -1,8 +1,9 @@
 "use client"
 
-import { useMemo, useState } from "react"
+import { useMemo } from "react"
 import { calculatePrzetworniceDcdc } from "@/lib/core/modules/zapotrzebowanie/przetwornice-dcdc/calculator"
 import { SPRAWNOSC_TYPOWA_MAX_PCT, SPRAWNOSC_TYPOWA_MIN_PCT } from "@/lib/core/modules/zapotrzebowanie/przetwornice-dcdc/constants"
+import { usePersistedDraft } from "@/lib/adapters/use-persisted-draft"
 import { Pole, PoleCheckbox } from "@/components/ui/pole"
 import { WerdyktPanel } from "@/components/werdykt"
 import { NawigacjaEkranu } from "@/components/nawigacja-ekranu"
@@ -10,10 +11,31 @@ import { NaglowekEkranu } from "@/components/wzorce/naglowek-ekranu"
 import { WynikGlowny } from "@/components/wzorce/wynik-glowny"
 import { WynikSzczegoly } from "@/components/wzorce/wynik-szczegoly"
 
+type FormularzStan = {
+  zapotrzebowanieUrzadzeniaW: string
+  zasilanieBezposrednie: boolean
+  sprawnoscPrzetwornicyPct: string
+}
+
+const STAN_POCZATKOWY: FormularzStan = {
+  zapotrzebowanieUrzadzeniaW: "",
+  zasilanieBezposrednie: false,
+  sprawnoscPrzetwornicyPct: "",
+}
+
 export default function PrzetworniceDcdcPage() {
-  const [zapotrzebowanieUrzadzeniaW, setZapotrzebowanieUrzadzeniaW] = useState("")
-  const [zasilanieBezposrednie, setZasilanieBezposrednie] = useState(false)
-  const [sprawnoscPrzetwornicyPct, setSprawnoscPrzetwornicyPct] = useState("")
+  const [stan, setStan] = usePersistedDraft<FormularzStan>("przetwornice-dcdc", STAN_POCZATKOWY)
+  const { zapotrzebowanieUrzadzeniaW, zasilanieBezposrednie, sprawnoscPrzetwornicyPct } = stan
+
+  function setPole<K extends keyof FormularzStan>(pole: K, akcja: FormularzStan[K] | ((prev: FormularzStan[K]) => FormularzStan[K])) {
+    setStan((prev) => ({
+      ...prev,
+      [pole]: typeof akcja === "function" ? (akcja as (p: FormularzStan[K]) => FormularzStan[K])(prev[pole]) : akcja,
+    }))
+  }
+  const setZapotrzebowanieUrzadzeniaW = (a: string | ((p: string) => string)) => setPole("zapotrzebowanieUrzadzeniaW", a)
+  const setZasilanieBezposrednie = (a: boolean | ((p: boolean) => boolean)) => setPole("zasilanieBezposrednie", a)
+  const setSprawnoscPrzetwornicyPct = (a: string | ((p: string) => string)) => setPole("sprawnoscPrzetwornicyPct", a)
 
   const result = useMemo(
     () =>

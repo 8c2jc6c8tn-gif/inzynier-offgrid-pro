@@ -1,7 +1,8 @@
 "use client"
 
-import { useMemo, useState } from "react"
+import { useMemo } from "react"
 import { calculateNiedopasowaniePaneli } from "@/lib/core/modules/pv/niedopasowanie-paneli/calculator"
+import { usePersistedDraft } from "@/lib/adapters/use-persisted-draft"
 import { Pole } from "@/components/ui/pole"
 import { WerdyktPanel } from "@/components/werdykt"
 import { NawigacjaEkranu } from "@/components/nawigacja-ekranu"
@@ -9,12 +10,37 @@ import { NaglowekEkranu } from "@/components/wzorce/naglowek-ekranu"
 import { WynikGlowny } from "@/components/wzorce/wynik-glowny"
 import { WynikSzczegoly } from "@/components/wzorce/wynik-szczegoly"
 
+type FormularzStan = {
+  mocPanel1W: string
+  impPanel1A: string
+  mocPanel2W: string
+  impPanel2A: string
+  napiecieWspolneV: string
+}
+
+const STAN_POCZATKOWY: FormularzStan = {
+  mocPanel1W: "",
+  impPanel1A: "",
+  mocPanel2W: "",
+  impPanel2A: "",
+  napiecieWspolneV: "",
+}
+
 export default function NiedopasowaniePaneliPage() {
-  const [mocPanel1W, setMocPanel1W] = useState("")
-  const [impPanel1A, setImpPanel1A] = useState("")
-  const [mocPanel2W, setMocPanel2W] = useState("")
-  const [impPanel2A, setImpPanel2A] = useState("")
-  const [napiecieWspolneV, setNapiecieWspolneV] = useState("")
+  const [stan, setStan] = usePersistedDraft<FormularzStan>("niedopasowanie-paneli", STAN_POCZATKOWY)
+  const { mocPanel1W, impPanel1A, mocPanel2W, impPanel2A, napiecieWspolneV } = stan
+
+  function setPole<K extends keyof FormularzStan>(pole: K, akcja: FormularzStan[K] | ((prev: FormularzStan[K]) => FormularzStan[K])) {
+    setStan((prev) => ({
+      ...prev,
+      [pole]: typeof akcja === "function" ? (akcja as (p: FormularzStan[K]) => FormularzStan[K])(prev[pole]) : akcja,
+    }))
+  }
+  const setMocPanel1W = (a: string | ((p: string) => string)) => setPole("mocPanel1W", a)
+  const setImpPanel1A = (a: string | ((p: string) => string)) => setPole("impPanel1A", a)
+  const setMocPanel2W = (a: string | ((p: string) => string)) => setPole("mocPanel2W", a)
+  const setImpPanel2A = (a: string | ((p: string) => string)) => setPole("impPanel2A", a)
+  const setNapiecieWspolneV = (a: string | ((p: string) => string)) => setPole("napiecieWspolneV", a)
 
   const result = useMemo(
     () =>

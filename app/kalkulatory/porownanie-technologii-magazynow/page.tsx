@@ -1,8 +1,9 @@
 "use client"
 
-import { useMemo, useState } from "react"
+import { useMemo } from "react"
 import { calculatePorownanieTechnologii } from "@/lib/core/modules/baterie/porownanie-technologii/calculator"
 import { CENA_STARTOWA_LABELS } from "@/lib/core/modules/baterie/porownanie-technologii/constants"
+import { usePersistedDraft } from "@/lib/adapters/use-persisted-draft"
 import { Pole } from "@/components/ui/pole"
 import { WerdyktPanel } from "@/components/werdykt"
 import { NawigacjaEkranu } from "@/components/nawigacja-ekranu"
@@ -26,9 +27,20 @@ const KOLUMNY: Kolumna<Tech>[] = [
   },
 ]
 
+type FormularzStan = {
+  pojemnoscKwh: string
+}
+
+const STAN_POCZATKOWY: FormularzStan = {
+  pojemnoscKwh: "",
+}
+
 export default function PorownanieTechnologiiMagazynowPage() {
   const t = useTranslate()
-  const [pojemnoscKwh, setPojemnoscKwh] = useState("")
+  const [stan, setStan] = usePersistedDraft<FormularzStan>("porownanie-technologii-magazynow", STAN_POCZATKOWY)
+  const { pojemnoscKwh } = stan
+  const setPojemnoscKwh = (a: string | ((p: string) => string)) =>
+    setStan((prev) => ({ ...prev, pojemnoscKwh: typeof a === "function" ? a(prev.pojemnoscKwh) : a }))
 
   const result = useMemo(
     () =>

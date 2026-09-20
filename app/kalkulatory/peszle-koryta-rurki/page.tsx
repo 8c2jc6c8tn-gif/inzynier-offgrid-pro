@@ -1,17 +1,35 @@
 "use client"
 
-import { useMemo, useState } from "react"
+import { useMemo } from "react"
 import { calculatePeszleKorytaRurki } from "@/lib/core/modules/okablowanie/peszle-koryta-rurki/calculator"
 import { ETYKIETY_MIEJSC, OSLONY } from "@/lib/core/modules/okablowanie/peszle-koryta-rurki/constants"
 import type { MiejsceMontazu } from "@/lib/core/modules/okablowanie/peszle-koryta-rurki/input"
+import { usePersistedDraft } from "@/lib/adapters/use-persisted-draft"
 import { PoleSelect } from "@/components/ui/pole"
 import { WerdyktPanel } from "@/components/werdykt"
 import { NawigacjaEkranu } from "@/components/nawigacja-ekranu"
 import { NaglowekEkranu } from "@/components/wzorce/naglowek-ekranu"
 import { WynikGlowny } from "@/components/wzorce/wynik-glowny"
 
+type FormularzStan = {
+  miejsceMontazu: MiejsceMontazu | ""
+}
+
+const STAN_POCZATKOWY: FormularzStan = {
+  miejsceMontazu: "",
+}
+
 export default function PeszleKorytaRurkiPage() {
-  const [miejsceMontazu, setMiejsceMontazu] = useState<MiejsceMontazu | "">("")
+  const [stan, setStan] = usePersistedDraft<FormularzStan>("peszle-koryta-rurki", STAN_POCZATKOWY)
+  const { miejsceMontazu } = stan
+
+  function setPole<K extends keyof FormularzStan>(pole: K, akcja: FormularzStan[K] | ((prev: FormularzStan[K]) => FormularzStan[K])) {
+    setStan((prev) => ({
+      ...prev,
+      [pole]: typeof akcja === "function" ? (akcja as (p: FormularzStan[K]) => FormularzStan[K])(prev[pole]) : akcja,
+    }))
+  }
+  const setMiejsceMontazu = (a: (MiejsceMontazu | "") | ((p: MiejsceMontazu | "") => MiejsceMontazu | "")) => setPole("miejsceMontazu", a)
 
   const result = useMemo(
     () => calculatePeszleKorytaRurki({ miejsceMontazu: miejsceMontazu === "" ? null : miejsceMontazu }),

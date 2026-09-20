@@ -1,7 +1,8 @@
 "use client"
 
-import { useMemo, useState } from "react"
+import { useMemo } from "react"
 import { calculateGestoscElektrolitu } from "@/lib/core/modules/montaz-baterii/gestosc-elektrolitu/calculator"
+import { usePersistedDraft } from "@/lib/adapters/use-persisted-draft"
 import { Pole } from "@/components/ui/pole"
 import { WerdyktPanel, type WerdyktPoziom } from "@/components/werdykt"
 import { NawigacjaEkranu } from "@/components/nawigacja-ekranu"
@@ -14,8 +15,14 @@ const ETYKIETY: Record<string, string> = {
   rozladowany: "Rozładowany — wymagane doładowanie",
 }
 
+type FormularzStan = { gestosc: string }
+const STAN_POCZATKOWY: FormularzStan = { gestosc: "" }
+
 export default function GestoscElektrolituPage() {
-  const [gestosc, setGestosc] = useState("")
+  const [stan, setStan] = usePersistedDraft<FormularzStan>("gestosc-elektrolitu", STAN_POCZATKOWY)
+  const { gestosc } = stan
+  const setGestosc = (a: string | ((p: string) => string)) =>
+    setStan((prev) => ({ ...prev, gestosc: typeof a === "function" ? (a as (p: string) => string)(prev.gestosc) : a }))
 
   const result = useMemo(
     () => calculateGestoscElektrolitu({ gestoscGCm3: gestosc === "" ? null : Number(gestosc) }),

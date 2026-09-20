@@ -1,10 +1,11 @@
 "use client"
 
-import { useMemo, useState } from "react"
+import { useMemo } from "react"
 import { calculateDemontazPakietu } from "@/lib/core/modules/montaz-baterii/demontaz-pakietu/calculator"
 import { CHECKLIST_ITEMS, OSTRZEZENIA_STALE, WYMAGANE_WYPOSAZENIE } from "@/lib/core/modules/montaz-baterii/demontaz-pakietu/constants"
 import { OCZEKIWANA_LICZBA_OGNIW } from "@/lib/core/modules/montaz-baterii/weryfikacja-ogniw/constants"
 import type { NapiecieSystemu } from "@/lib/core/modules/montaz-baterii/weryfikacja-ogniw/input"
+import { usePersistedDraft } from "@/lib/adapters/use-persisted-draft"
 import { Pole, PoleSelect } from "@/components/ui/pole"
 import { ListaChecklist } from "@/components/wzorce/lista-checklist"
 import { WerdyktPanel, type WerdyktPoziom } from "@/components/werdykt"
@@ -83,10 +84,31 @@ function DemontazIlustracja() {
   )
 }
 
+type FormularzStan = {
+  napiecieSystemu: NapiecieSystemu
+  napieciePakietuV: string
+  potwierdzoneIds: string[]
+}
+
+const STAN_POCZATKOWY: FormularzStan = {
+  napiecieSystemu: 48,
+  napieciePakietuV: "49.6",
+  potwierdzoneIds: [],
+}
+
 export default function DemontazPakietuPage() {
-  const [napiecieSystemu, setNapiecieSystemu] = useState<NapiecieSystemu>(48)
-  const [napieciePakietuV, setNapieciePakietuV] = useState("49.6")
-  const [potwierdzoneIds, setPotwierdzoneIds] = useState<string[]>([])
+  const [stan, setStan] = usePersistedDraft<FormularzStan>("demontaz-pakietu", STAN_POCZATKOWY)
+  const { napiecieSystemu, napieciePakietuV, potwierdzoneIds } = stan
+
+  function setPole<K extends keyof FormularzStan>(pole: K, akcja: FormularzStan[K] | ((prev: FormularzStan[K]) => FormularzStan[K])) {
+    setStan((prev) => ({
+      ...prev,
+      [pole]: typeof akcja === "function" ? (akcja as (p: FormularzStan[K]) => FormularzStan[K])(prev[pole]) : akcja,
+    }))
+  }
+  const setNapiecieSystemu = (a: NapiecieSystemu | ((p: NapiecieSystemu) => NapiecieSystemu)) => setPole("napiecieSystemu", a)
+  const setNapieciePakietuV = (a: string | ((p: string) => string)) => setPole("napieciePakietuV", a)
+  const setPotwierdzoneIds = (a: string[] | ((p: string[]) => string[])) => setPole("potwierdzoneIds", a)
 
   const result = useMemo(
     () =>

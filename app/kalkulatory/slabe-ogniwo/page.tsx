@@ -1,8 +1,9 @@
 "use client"
 
-import { useMemo, useState } from "react"
+import { useMemo } from "react"
 import { calculateSlabeOgniwo } from "@/lib/core/modules/baterie/slabe-ogniwo/calculator"
 import { DOMYSLNA_TOLERANCJA_PCT } from "@/lib/core/modules/baterie/slabe-ogniwo/constants"
+import { usePersistedDraft } from "@/lib/adapters/use-persisted-draft"
 import { Pole } from "@/components/ui/pole"
 import { WerdyktPanel } from "@/components/werdykt"
 import { NawigacjaEkranu } from "@/components/nawigacja-ekranu"
@@ -11,10 +12,32 @@ import { WynikGlowny } from "@/components/wzorce/wynik-glowny"
 import { WynikSzczegoly } from "@/components/wzorce/wynik-szczegoly"
 import { useTranslate } from "@/lib/i18n/language-context"
 
+type FormularzStan = {
+  pojemnoscZnamionowaAh: string
+  tolerancjaPct: string
+}
+
+const STAN_POCZATKOWY: FormularzStan = {
+  pojemnoscZnamionowaAh: "",
+  tolerancjaPct: String(DOMYSLNA_TOLERANCJA_PCT),
+}
+
 export default function SlabeOgniwoPage() {
   const t = useTranslate()
-  const [pojemnoscZnamionowaAh, setPojemnoscZnamionowaAh] = useState("")
-  const [tolerancjaPct, setTolerancjaPct] = useState(String(DOMYSLNA_TOLERANCJA_PCT))
+  const [stan, setStan] = usePersistedDraft<FormularzStan>("slabe-ogniwo", STAN_POCZATKOWY)
+  const { pojemnoscZnamionowaAh, tolerancjaPct } = stan
+
+  function setPole<K extends keyof FormularzStan>(
+    pole: K,
+    akcja: FormularzStan[K] | ((prev: FormularzStan[K]) => FormularzStan[K]),
+  ) {
+    setStan((prev) => ({
+      ...prev,
+      [pole]: typeof akcja === "function" ? (akcja as (p: FormularzStan[K]) => FormularzStan[K])(prev[pole]) : akcja,
+    }))
+  }
+  const setPojemnoscZnamionowaAh = (a: string | ((p: string) => string)) => setPole("pojemnoscZnamionowaAh", a)
+  const setTolerancjaPct = (a: string | ((p: string) => string)) => setPole("tolerancjaPct", a)
 
   const result = useMemo(
     () =>

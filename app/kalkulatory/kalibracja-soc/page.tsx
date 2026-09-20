@@ -1,17 +1,38 @@
 "use client"
 
-import { useMemo, useState } from "react"
+import { useMemo } from "react"
 import { calculateKalibracjaSoc } from "@/lib/core/modules/baterie/kalibracja-soc/calculator"
 import { PROG_KALIBRACJI_DNI } from "@/lib/core/modules/baterie/kalibracja-soc/constants"
+import { usePersistedDraft } from "@/lib/adapters/use-persisted-draft"
 import { Pole } from "@/components/ui/pole"
 import { WerdyktPanel } from "@/components/werdykt"
 import { NawigacjaEkranu } from "@/components/nawigacja-ekranu"
 import { NaglowekEkranu } from "@/components/wzorce/naglowek-ekranu"
 import { useTranslate } from "@/lib/i18n/language-context"
 
+type FormularzStan = {
+  dni: string
+}
+
+const STAN_POCZATKOWY: FormularzStan = {
+  dni: "",
+}
+
 export default function KalibracjaSocPage() {
   const t = useTranslate()
-  const [dni, setDni] = useState("")
+  const [stan, setStan] = usePersistedDraft<FormularzStan>("kalibracja-soc", STAN_POCZATKOWY)
+  const { dni } = stan
+
+  function setPole<K extends keyof FormularzStan>(
+    pole: K,
+    akcja: FormularzStan[K] | ((prev: FormularzStan[K]) => FormularzStan[K]),
+  ) {
+    setStan((prev) => ({
+      ...prev,
+      [pole]: typeof akcja === "function" ? (akcja as (p: FormularzStan[K]) => FormularzStan[K])(prev[pole]) : akcja,
+    }))
+  }
+  const setDni = (a: string | ((p: string) => string)) => setPole("dni", a)
 
   const result = useMemo(
     () => calculateKalibracjaSoc({ dniOdOstatniegoPelnegoNaladowania: dni === "" ? null : Number(dni) }),

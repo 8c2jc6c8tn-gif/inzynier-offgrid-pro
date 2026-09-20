@@ -1,8 +1,9 @@
 "use client"
 
-import { useMemo, useState } from "react"
+import { useMemo } from "react"
 import { calculatePoborWlasnyFalownika } from "@/lib/core/modules/zapotrzebowanie/pobor-wlasny-falownika/calculator"
 import { DOMYSLNY_POBOR_JALOWY_W } from "@/lib/core/modules/zapotrzebowanie/pobor-wlasny-falownika/constants"
+import { usePersistedDraft } from "@/lib/adapters/use-persisted-draft"
 import { Pole } from "@/components/ui/pole"
 import { WerdyktPanel } from "@/components/werdykt"
 import { NawigacjaEkranu } from "@/components/nawigacja-ekranu"
@@ -10,8 +11,17 @@ import { NaglowekEkranu } from "@/components/wzorce/naglowek-ekranu"
 import { WynikGlowny } from "@/components/wzorce/wynik-glowny"
 import { WynikSzczegoly } from "@/components/wzorce/wynik-szczegoly"
 
+type FormularzStan = { poborJalowyW: string }
+const STAN_POCZATKOWY: FormularzStan = { poborJalowyW: "" }
+
 export default function PoborWlasnyFalownikaPage() {
-  const [poborJalowyW, setPoborJalowyW] = useState("")
+  const [stan, setStan] = usePersistedDraft<FormularzStan>("pobor-wlasny-falownika", STAN_POCZATKOWY)
+  const { poborJalowyW } = stan
+  const setPoborJalowyW = (a: string | ((p: string) => string)) =>
+    setStan((prev) => ({
+      ...prev,
+      poborJalowyW: typeof a === "function" ? (a as (p: string) => string)(prev.poborJalowyW) : a,
+    }))
 
   const result = useMemo(
     () => calculatePoborWlasnyFalownika({ poborJalowyW: poborJalowyW === "" ? 0 : Number(poborJalowyW) }),

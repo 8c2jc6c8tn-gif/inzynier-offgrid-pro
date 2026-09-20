@@ -1,10 +1,11 @@
 "use client"
 
-import { useMemo, useState } from "react"
+import { useMemo } from "react"
 import {
   classifyKatSamooczyszczania,
   ocenHarmonogramCzyszczenia,
 } from "@/lib/core/modules/pv/czystosc-i-snieg/calculator"
+import { usePersistedDraft } from "@/lib/adapters/use-persisted-draft"
 import { Pole, PoleCheckbox } from "@/components/ui/pole"
 import { WerdyktPanel } from "@/components/werdykt"
 import { NaglowekEkranu } from "@/components/wzorce/naglowek-ekranu"
@@ -13,16 +14,38 @@ import { SekcjaAkordeon } from "@/components/wzorce/sekcja-akordeon"
 import { cn } from "@/lib/utils"
 import { NawigacjaEkranu } from "@/components/nawigacja-ekranu"
 
+type FormularzStan = {
+  katStopni: string
+  spadekProdukcjiPct: string
+  deszczWCiaguKilkuDni: boolean
+}
+
+const STAN_POCZATKOWY: FormularzStan = {
+  katStopni: "20",
+  spadekProdukcjiPct: "3",
+  deszczWCiaguKilkuDni: false,
+}
+
 export default function CzystoscISniegPage() {
   const t = useTranslate()
-  const [katStopni, setKatStopni] = useState("20")
+  const [stan, setStan] = usePersistedDraft<FormularzStan>("czystosc-i-snieg", STAN_POCZATKOWY)
+  const { katStopni, spadekProdukcjiPct, deszczWCiaguKilkuDni } = stan
+
+  function setPole<K extends keyof FormularzStan>(pole: K, akcja: FormularzStan[K] | ((prev: FormularzStan[K]) => FormularzStan[K])) {
+    setStan((prev) => ({
+      ...prev,
+      [pole]: typeof akcja === "function" ? (akcja as (p: FormularzStan[K]) => FormularzStan[K])(prev[pole]) : akcja,
+    }))
+  }
+  const setKatStopni = (a: string | ((p: string) => string)) => setPole("katStopni", a)
+  const setSpadekProdukcjiPct = (a: string | ((p: string) => string)) => setPole("spadekProdukcjiPct", a)
+  const setDeszczWCiaguKilkuDni = (a: boolean | ((p: boolean) => boolean)) => setPole("deszczWCiaguKilkuDni", a)
+
   const katResult = useMemo(
     () => classifyKatSamooczyszczania({ katStopni: Number(katStopni) }),
     [katStopni],
   )
 
-  const [spadekProdukcjiPct, setSpadekProdukcjiPct] = useState("3")
-  const [deszczWCiaguKilkuDni, setDeszczWCiaguKilkuDni] = useState(false)
   const harmonogramResult = useMemo(
     () =>
       ocenHarmonogramCzyszczenia({

@@ -1,11 +1,12 @@
 "use client"
 
-import { useMemo, useState } from "react"
+import { useMemo } from "react"
 import { calculateStressTestMppt } from "@/lib/core/modules/pv/stress-test-mppt/calculator"
 import {
   BETA_TYPOWA_MAX_PCT_NA_C,
   BETA_TYPOWA_MIN_PCT_NA_C,
 } from "@/lib/core/modules/pv/stress-test-mppt/constants"
+import { usePersistedDraft } from "@/lib/adapters/use-persisted-draft"
 import { Pole } from "@/components/ui/pole"
 import { WerdyktPanel, type WerdyktPoziom } from "@/components/werdykt"
 import { NawigacjaEkranu } from "@/components/nawigacja-ekranu"
@@ -13,12 +14,40 @@ import { NaglowekEkranu } from "@/components/wzorce/naglowek-ekranu"
 import { WynikGlowny } from "@/components/wzorce/wynik-glowny"
 import { WynikSzczegoly } from "@/components/wzorce/wynik-szczegoly"
 
+type FormularzStan = {
+  vocStcV: string
+  betaPctNaC: string
+  tminC: string
+  liczbaPaneliWStringu: string
+  limitMpptV: string
+}
+
+const STAN_POCZATKOWY: FormularzStan = {
+  vocStcV: "",
+  betaPctNaC: "",
+  tminC: "",
+  liczbaPaneliWStringu: "",
+  limitMpptV: "",
+}
+
 export default function StressTestMpptPage() {
-  const [vocStcV, setVocStcV] = useState("")
-  const [betaPctNaC, setBetaPctNaC] = useState("")
-  const [tminC, setTminC] = useState("")
-  const [liczbaPaneliWStringu, setLiczbaPaneliWStringu] = useState("")
-  const [limitMpptV, setLimitMpptV] = useState("")
+  const [stan, setStan] = usePersistedDraft<FormularzStan>("stress-test-mppt", STAN_POCZATKOWY)
+  const { vocStcV, betaPctNaC, tminC, liczbaPaneliWStringu, limitMpptV } = stan
+
+  function setPole<K extends keyof FormularzStan>(
+    pole: K,
+    akcja: FormularzStan[K] | ((prev: FormularzStan[K]) => FormularzStan[K]),
+  ) {
+    setStan((prev) => ({
+      ...prev,
+      [pole]: typeof akcja === "function" ? (akcja as (p: FormularzStan[K]) => FormularzStan[K])(prev[pole]) : akcja,
+    }))
+  }
+  const setVocStcV = (a: string | ((p: string) => string)) => setPole("vocStcV", a)
+  const setBetaPctNaC = (a: string | ((p: string) => string)) => setPole("betaPctNaC", a)
+  const setTminC = (a: string | ((p: string) => string)) => setPole("tminC", a)
+  const setLiczbaPaneliWStringu = (a: string | ((p: string) => string)) => setPole("liczbaPaneliWStringu", a)
+  const setLimitMpptV = (a: string | ((p: string) => string)) => setPole("limitMpptV", a)
 
   const result = useMemo(
     () =>

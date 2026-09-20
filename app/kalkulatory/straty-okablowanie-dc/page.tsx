@@ -1,7 +1,8 @@
 "use client"
 
-import { useMemo, useState } from "react"
+import { useMemo } from "react"
 import { calculateStratyOkablowanieDc } from "@/lib/core/modules/pv/straty-okablowanie-dc/calculator"
+import { usePersistedDraft } from "@/lib/adapters/use-persisted-draft"
 import { Pole } from "@/components/ui/pole"
 import { WerdyktPanel } from "@/components/werdykt"
 import { NawigacjaEkranu } from "@/components/nawigacja-ekranu"
@@ -9,11 +10,37 @@ import { NaglowekEkranu } from "@/components/wzorce/naglowek-ekranu"
 import { WynikGlowny } from "@/components/wzorce/wynik-glowny"
 import { WynikSzczegoly } from "@/components/wzorce/wynik-szczegoly"
 
+type FormularzStan = {
+  dlugoscKablaM: string
+  pradA: string
+  napiecieV: string
+  przekrojMm2: string
+}
+
+const STAN_POCZATKOWY: FormularzStan = {
+  dlugoscKablaM: "",
+  pradA: "",
+  napiecieV: "",
+  przekrojMm2: "",
+}
+
 export default function StratyOkablowanieDcPage() {
-  const [dlugoscKablaM, setDlugoscKablaM] = useState("")
-  const [pradA, setPradA] = useState("")
-  const [napiecieV, setNapiecieV] = useState("")
-  const [przekrojMm2, setPrzekrojMm2] = useState("")
+  const [stan, setStan] = usePersistedDraft<FormularzStan>("straty-okablowanie-dc", STAN_POCZATKOWY)
+  const { dlugoscKablaM, pradA, napiecieV, przekrojMm2 } = stan
+
+  function setPole<K extends keyof FormularzStan>(
+    pole: K,
+    akcja: FormularzStan[K] | ((prev: FormularzStan[K]) => FormularzStan[K]),
+  ) {
+    setStan((prev) => ({
+      ...prev,
+      [pole]: typeof akcja === "function" ? (akcja as (p: FormularzStan[K]) => FormularzStan[K])(prev[pole]) : akcja,
+    }))
+  }
+  const setDlugoscKablaM = (a: string | ((p: string) => string)) => setPole("dlugoscKablaM", a)
+  const setPradA = (a: string | ((p: string) => string)) => setPole("pradA", a)
+  const setNapiecieV = (a: string | ((p: string) => string)) => setPole("napiecieV", a)
+  const setPrzekrojMm2 = (a: string | ((p: string) => string)) => setPole("przekrojMm2", a)
 
   const result = useMemo(
     () =>

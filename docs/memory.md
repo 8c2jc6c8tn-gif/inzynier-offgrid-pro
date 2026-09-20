@@ -5259,3 +5259,51 @@ linie 607-680+) — to osobny, znacznie większy krok niż pojedynczy ekran D, w
 projektowej (5 podzakładek, nie jeden prosty kalkulator). Zamyka punkt 5 z listy zaległości w
 zakresie czterech numerowanych ekranów; moduł wampirów pozostaje `todo` w rejestrze, do
 zaplanowania jako osobne zadanie.
+
+## Punkt 8 — rollout `usePersistedDraft` na wszystkie pozostałe ekrany kalkulatorów (20.09.2026)
+
+Ostatni z pięciu punktów z prośby "5,6,7,8,9 proszę zrób" wymagający kodu (punkt 6 — kafle
+08–14 — czeka osobno na przegląd użytkownika w artefakcie, patrz sekcja niżej). Przed tym
+zadaniem tylko `napiecie-systemowe` miało autosave (zgłoszenie użytkownika 15.09.2026,
+przeładowanie karty w tle gubiło wpisane dane) — pozostałe 114 z 115 ekranów kalkulatorów
+używało zwykłego `useState`, tracąc draft formularza przy każdym odświeżeniu.
+
+**Wzorzec transformacji** (mechaniczny, bez zmiany logiki domenowej): każde pojedyncze
+`useState` per pole skonsolidowane w jeden `type FormularzStan` + `const STAN_POCZATKOWY`,
+podłączone pod `const [stan, setStan] = usePersistedDraft<FormularzStan>("<klucz-ekranu>",
+STAN_POCZATKOWY)` (klucz = nazwa katalogu pod `app/kalkulatory/`). Generyczny helper `setPole`
++ per-pole `setX` zachowujące dokładnie tę samą nazwę i sygnaturę wywołania (wartość albo
+funkcja aktualizująca) co oryginalny `useState` — dzięki temu JSX/`useMemo`/handlery w reszcie
+pliku nie wymagały żadnej zmiany. Objęte wszystkie kształty stanu napotkane w repo: skalarne
+stringi, boolean, unie typu `X | ""`, tablice `string[]` (checklisty), tablice obiektów z
+dynamicznym dodawaniem/usuwaniem wierszy (`szyny-zbiorcze-miedzypakietowe`), liczby (`number`,
+nie tylko `string` z inputów kontrolowanych ręcznie konwertowanych).
+
+**Realizacja: dwuetapowa, po awarii pierwszego podejścia.** Pierwsze podejście — 8 równoległych
+agentów w tle (batch po ~15 plików), każdy z identycznym, w pełni samodzielnym promptem
+(dosłowny przykład transformacji `architektura-fazowa` przed/po + 10 reguł, w tym zakaz
+`pnpm build`/`git commit` w agencie, i ostrzeżenie że równoległe batche mogą chwilowo psuć
+globalny `pnpm typecheck`/`lint` innymi plikami). **Wszystkie 8 agentów padło na limit sesji
+API (429, "session limit resets 11:10pm UTC")** w trakcie pracy, każdy zostawiając część swoich
+plików nieprzekonwertowanych (75 z 114 zmienionych łącznie, resztę dokończono ręcznie w drugim
+etapie następnego dnia, po resecie limitu). **Zweryfikowane przed kontynuacją**: `pnpm
+typecheck`/`lint` czyste na 75 już zmienionych plikach — agenci nie zostawili żadnego pliku w
+połowie edycji (błąd był czysto na poziomie orkiestracji/rate-limitu, nie na poziomie
+poszczególnych edycji). Pozostałe 39 plików dokończone bezpośrednio (bez kolejnych subagentów,
+żeby nie powtórzyć tego samego rate-limitu), tym samym wzorcem.
+
+**Lekcja do zapamiętania**: równoległe uruchomienie 8 subagentów naraz (każdy robiący dziesiątki
+wywołań API) może wyczerpać limit sesji konta szybciej niż praca sekwencyjna — dla dużych
+mechanicznych rolloutów bezpieczniej dzielić na mniej równoległych batchy (2-4) albo pracować
+sekwencyjnie/bezpośrednio, zwłaszcza gdy zadanie jest w pełni mechaniczne i nie wymaga
+kreatywnej oceny per plik.
+
+**Weryfikacja końcowa (wszystkie 115 kluczy `usePersistedDraft` — 114 nowych + istniejący
+`napiecie-systemowe` — sprawdzone jako unikalne, brak kolizji):** `pnpm typecheck`/`lint`/`test`
+(965/965)/`build` czyste. Playwright (świeży `pnpm build && pnpm start`, `next-server`
+sprzątnięty przed i po) na próbce 5 ekranów o różnych kształtach stanu (proste pole liczbowe,
+checkbox-lista, dynamiczna tablica z dodawaniem wierszy) — wpisana wartość przetrwała pełne
+przeładowanie strony (`page.reload()`) we wszystkich 5 przypadkach, zero nowych błędów konsoli
+(jedyny zaobserwowany błąd — nieudane wczytanie `@vercel/analytics/next` insights script —
+pre-istniejący, niezwiązany z tą zmianą, wynika z braku dostępu do sieci Vercel w tym
+środowisku sandboxowym, występuje na każdej stronie niezależnie od rollout'u).

@@ -1,7 +1,8 @@
 "use client"
 
-import { useMemo, useState } from "react"
+import { useMemo } from "react"
 import { calculateBojlerCwu } from "@/lib/core/modules/zapotrzebowanie/bojler-cwu/calculator"
+import { usePersistedDraft } from "@/lib/adapters/use-persisted-draft"
 import { Pole } from "@/components/ui/pole"
 import { WerdyktPanel } from "@/components/werdykt"
 import { NawigacjaEkranu } from "@/components/nawigacja-ekranu"
@@ -9,11 +10,34 @@ import { NaglowekEkranu } from "@/components/wzorce/naglowek-ekranu"
 import { WynikGlowny } from "@/components/wzorce/wynik-glowny"
 import { WynikSzczegoly } from "@/components/wzorce/wynik-szczegoly"
 
+type FormularzStan = {
+  wolumenCwuLDoba: string
+  deltaTK: string
+  mocGrzalkiKw: string
+  pojemnoscBojleraL: string
+}
+
+const STAN_POCZATKOWY: FormularzStan = {
+  wolumenCwuLDoba: "",
+  deltaTK: "",
+  mocGrzalkiKw: "",
+  pojemnoscBojleraL: "",
+}
+
 export default function BojlerCwuPage() {
-  const [wolumenCwuLDoba, setWolumenCwuLDoba] = useState("")
-  const [deltaTK, setDeltaTK] = useState("")
-  const [mocGrzalkiKw, setMocGrzalkiKw] = useState("")
-  const [pojemnoscBojleraL, setPojemnoscBojleraL] = useState("")
+  const [stan, setStan] = usePersistedDraft<FormularzStan>("bojler-cwu", STAN_POCZATKOWY)
+  const { wolumenCwuLDoba, deltaTK, mocGrzalkiKw, pojemnoscBojleraL } = stan
+
+  function setPole<K extends keyof FormularzStan>(pole: K, akcja: FormularzStan[K] | ((prev: FormularzStan[K]) => FormularzStan[K])) {
+    setStan((prev) => ({
+      ...prev,
+      [pole]: typeof akcja === "function" ? (akcja as (p: FormularzStan[K]) => FormularzStan[K])(prev[pole]) : akcja,
+    }))
+  }
+  const setWolumenCwuLDoba = (a: string | ((p: string) => string)) => setPole("wolumenCwuLDoba", a)
+  const setDeltaTK = (a: string | ((p: string) => string)) => setPole("deltaTK", a)
+  const setMocGrzalkiKw = (a: string | ((p: string) => string)) => setPole("mocGrzalkiKw", a)
+  const setPojemnoscBojleraL = (a: string | ((p: string) => string)) => setPole("pojemnoscBojleraL", a)
 
   const result = useMemo(
     () =>

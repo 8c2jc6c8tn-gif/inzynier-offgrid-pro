@@ -1,9 +1,10 @@
 "use client"
 
-import { useMemo, useState } from "react"
+import { useMemo } from "react"
 import { calculateUpsKrytyczny } from "@/lib/core/modules/bezpieczenstwo/ups-krytyczny/calculator"
 import { DOMYSLNE_URZADZENIA_KRYTYCZNE } from "@/lib/core/modules/bezpieczenstwo/ups-krytyczny/constants"
 import type { UrzadzenieKrytyczne } from "@/lib/core/modules/bezpieczenstwo/ups-krytyczny/input"
+import { usePersistedDraft } from "@/lib/adapters/use-persisted-draft"
 import { Pole } from "@/components/ui/pole"
 import { WerdyktPanel } from "@/components/werdykt"
 import { NawigacjaEkranu } from "@/components/nawigacja-ekranu"
@@ -23,10 +24,34 @@ const INLINE_INPUT_KLASY =
   "hover:not-disabled:border-foreground/30 focus-visible:border-ring focus-visible:ring-2 focus-visible:ring-ring/50 " +
   "disabled:cursor-not-allowed disabled:opacity-50 disabled:hover:border-input"
 
+type FormularzStan = {
+  urzadzenia: UrzadzenieKrytyczne[]
+  pojemnoscAh: string
+  napiecieV: string
+}
+
+const STAN_POCZATKOWY: FormularzStan = {
+  urzadzenia: initialItems,
+  pojemnoscAh: "",
+  napiecieV: "",
+}
+
 export default function UpsKrytycznyPage() {
-  const [urzadzenia, setUrzadzenia] = useState<UrzadzenieKrytyczne[]>(initialItems)
-  const [pojemnoscAh, setPojemnoscAh] = useState("")
-  const [napiecieV, setNapiecieV] = useState("")
+  const [stan, setStan] = usePersistedDraft<FormularzStan>("ups-krytyczny", STAN_POCZATKOWY)
+  const { urzadzenia, pojemnoscAh, napiecieV } = stan
+
+  function setPole<K extends keyof FormularzStan>(
+    pole: K,
+    akcja: FormularzStan[K] | ((prev: FormularzStan[K]) => FormularzStan[K]),
+  ) {
+    setStan((prev) => ({
+      ...prev,
+      [pole]: typeof akcja === "function" ? (akcja as (p: FormularzStan[K]) => FormularzStan[K])(prev[pole]) : akcja,
+    }))
+  }
+  const setUrzadzenia = (a: UrzadzenieKrytyczne[] | ((p: UrzadzenieKrytyczne[]) => UrzadzenieKrytyczne[])) => setPole("urzadzenia", a)
+  const setPojemnoscAh = (a: string | ((p: string) => string)) => setPole("pojemnoscAh", a)
+  const setNapiecieV = (a: string | ((p: string) => string)) => setPole("napiecieV", a)
 
   const result = useMemo(
     () =>

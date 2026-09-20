@@ -1,8 +1,9 @@
 "use client"
 
-import { useMemo, useState } from "react"
+import { useMemo } from "react"
 import { calculateSecondLife } from "@/lib/core/modules/baterie/second-life/calculator"
 import type { MetodaSzacunkuSoh } from "@/lib/core/modules/baterie/second-life/input"
+import { usePersistedDraft } from "@/lib/adapters/use-persisted-draft"
 import { Pole, PoleSelect } from "@/components/ui/pole"
 import { WerdyktPanel, type WerdyktPoziom } from "@/components/werdykt"
 import { NawigacjaEkranu } from "@/components/nawigacja-ekranu"
@@ -11,14 +12,44 @@ import { WynikGlowny } from "@/components/wzorce/wynik-glowny"
 import { WynikSzczegoly } from "@/components/wzorce/wynik-szczegoly"
 import { useTranslate } from "@/lib/i18n/language-context"
 
+type FormularzStan = {
+  pojemnoscDeklarowanaKwh: string
+  cenaZakupuZl: string
+  metodaSzacunku: MetodaSzacunkuSoh
+  wiekLata: string
+  przebiegKm: string
+  cenaNowejLiFePO4ZlZaKwh: string
+}
+
+const STAN_POCZATKOWY: FormularzStan = {
+  pojemnoscDeklarowanaKwh: "",
+  cenaZakupuZl: "",
+  metodaSzacunku: "",
+  wiekLata: "",
+  przebiegKm: "",
+  cenaNowejLiFePO4ZlZaKwh: "",
+}
+
 export default function SecondLifePage() {
   const t = useTranslate()
-  const [pojemnoscDeklarowanaKwh, setPojemnoscDeklarowanaKwh] = useState("")
-  const [cenaZakupuZl, setCenaZakupuZl] = useState("")
-  const [metodaSzacunku, setMetodaSzacunku] = useState<MetodaSzacunkuSoh>("")
-  const [wiekLata, setWiekLata] = useState("")
-  const [przebiegKm, setPrzebiegKm] = useState("")
-  const [cenaNowejLiFePO4ZlZaKwh, setCenaNowejLiFePO4ZlZaKwh] = useState("")
+  const [stan, setStan] = usePersistedDraft<FormularzStan>("second-life", STAN_POCZATKOWY)
+  const { pojemnoscDeklarowanaKwh, cenaZakupuZl, metodaSzacunku, wiekLata, przebiegKm, cenaNowejLiFePO4ZlZaKwh } = stan
+
+  function setPole<K extends keyof FormularzStan>(
+    pole: K,
+    akcja: FormularzStan[K] | ((prev: FormularzStan[K]) => FormularzStan[K]),
+  ) {
+    setStan((prev) => ({
+      ...prev,
+      [pole]: typeof akcja === "function" ? (akcja as (p: FormularzStan[K]) => FormularzStan[K])(prev[pole]) : akcja,
+    }))
+  }
+  const setPojemnoscDeklarowanaKwh = (a: string | ((p: string) => string)) => setPole("pojemnoscDeklarowanaKwh", a)
+  const setCenaZakupuZl = (a: string | ((p: string) => string)) => setPole("cenaZakupuZl", a)
+  const setMetodaSzacunku = (a: MetodaSzacunkuSoh | ((p: MetodaSzacunkuSoh) => MetodaSzacunkuSoh)) => setPole("metodaSzacunku", a)
+  const setWiekLata = (a: string | ((p: string) => string)) => setPole("wiekLata", a)
+  const setPrzebiegKm = (a: string | ((p: string) => string)) => setPole("przebiegKm", a)
+  const setCenaNowejLiFePO4ZlZaKwh = (a: string | ((p: string) => string)) => setPole("cenaNowejLiFePO4ZlZaKwh", a)
 
   const result = useMemo(
     () =>
