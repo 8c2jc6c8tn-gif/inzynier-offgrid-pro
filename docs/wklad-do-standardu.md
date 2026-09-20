@@ -357,3 +357,83 @@ src>`, nie komponent kliencki) — działa mimo błędu, ale to obejście jedneg
 naprawa przyczyny; reszta interaktywności aplikacji zależnej od hydracji pozostaje dotknięta.
 
 Status: 🔎 nowe
+
+---
+
+[20.09.2026] KATEGORIA: POMYSŁ NA REGUŁĘ — "kompletny szablon sekcji" w audycie pokrycia funkcji ≠ "ma computable wzór"
+
+Szczegóły: Wcześniejszy audyt (05.09.2026) oznaczył dwie funkcje (5.46 "ryzyko zamarznięcia
+dolnego źródła", 5.31 "hałas i wibracje", oba Moduł 6) jako "gotowe do budowy — pełna treść
+Doradcy z formułą", na podstawie tego, że źródło miało wypełniony pełny szablon sekcji A/B/C/D
+(Wejście/Silnik/Wynik/Migawka). Przy faktycznej implementacji (20.09.2026) okazało się, że
+źródło ma w Sekcji B (Silnik) tylko narrację słowną + jeden ilustracyjny przykład liczbowy —
+BEZ wzoru wiążącego wejścia z wynikiem. Etykieta "kompletny szablon" w audycie źle przewidziała
+budowalność — audyt sprawdzał obecność struktury (czy sekcje A/B/C/D są wypełnione tekstem),
+nie obecność faktycznie odtwarzalnego wzoru wewnątrz Sekcji B. Skutek: dwie funkcje błędnie
+zaklasyfikowane jako "todo, gotowe" zamiast "todo, wymaga Wzorca C (informacyjny, bez
+kalkulatora)" — poprawione dopiero przy realizacji, nie przy audycie.
+
+Dlaczego warto zgłosić do new-app-standards: to ogólny błąd metodologiczny audytu pokrycia
+funkcji w KAŻDYM projekcie rodziny opartym o szablon Doradcy A/B/C/D — łatwo pomylić "sekcja
+ma treść" z "sekcja ma wzór". Rekomendacja: standard (rozdział o Procesie/Audycie, albo
+09-AI/03-jądro-obliczeniowe) powinien doprecyzować kryterium klasyfikacji "gotowe do budowy"
+przy audycie pokrycia — wymagać jawnego potwierdzenia, że Sekcja B zawiera odtwarzalny wzór
+matematyczny (nie tylko opis słowny + przykład), zanim funkcja dostanie status "gotowe do
+budowy, pełna treść z formułą". Sam przykład liczbowy w źródle, bez ogólnego wzoru, powinien
+z automatu klasyfikować funkcję jako kandydata do Wzorca C (informacyjny), nie D (kalkulator).
+
+Status: 🔎 nowe
+
+---
+
+[20.09.2026] KATEGORIA: BŁĄD — nowy wzorzec ustalony w połowie projektu nie był retroaktywnie stosowany do kolejnych nowych modułów
+
+Szczegóły: Hook `usePersistedDraft` (autosave draftu formularza do IndexedDB) powstał
+15.09.2026 dla jednego ekranu (`napiecie-systemowe`), po zgłoszeniu użytkownika o utracie
+wpisanych danych. Od tego dnia to był lepszy, ustalony wzorzec dla KAŻDEGO nowego ekranu
+formularza w tym repo. Mimo to w tej samej sesji, już PO 15.09, zbudowano kolejnych 8 nowych
+modułów (`ryzyko-pid`, `dobor-regulatora-pwm-mppt`, `wind-chill`, `urzadzenia-zmienne`,
+`sprawnosc-inwertera-niskie-obciazenie`, `architektura-fazowa`, `kategorie-specjalne`,
+`systemy-podtrzymania-zycia`) zwykłym `useState`, bez autosave — bo AI kopiowało stary
+szablon plikowy (z czasów sprzed hooka) z przyzwyczajenia, zamiast za każdym razem sprawdzić,
+czy wzorzec, który powiela, jest wciąż aktualny. Błąd wykryty dopiero przy osobnym zadaniu
+rolloutu (punkt 8 z listy zaległości), które i tak musiało objąć te "świeże" moduły razem ze
+starymi — koszt: 8 modułów zbudowanych od razu źle, do poprawki później, zamiast raz dobrze.
+
+Dlaczego warto zgłosić do new-app-standards: to nie specyfika tego projektu — to ogólny problem
+procesowy przy pracy AI nad długim, wielosesyjnym projektem: gdy w trakcie projektu powstaje
+nowy, lepszy wzorzec dla klasy plików (nie tylko autosave — dowolny: nowy hook, nowa konwencja
+walidacji, nowy komponent bazowy), nic nie wymusza sprawdzenia "czy szablon, który zaraz
+skopiuję, jest nadal aktualny" przy KAŻDYM kolejnym pliku tej klasy, nawet w tej samej sesji.
+Rekomendacja dla standardu: gdy AI ustala nowy wzorzec dla całej klasy plików (nie
+jednorazowa decyzja), powinno od razu dopisać jedno zdanie w `docs/memory.md` w formie
+jawnej, przeszukiwalnej reguły ("od DD.MM: każdy nowy ekran typu X używa Y, nie starego Z") —
+i AI powinno mieć nawyk, żeby przed kopiowaniem istniejącego pliku jako szablonu dla nowego,
+sprawdzić `docs/memory.md` pod kątem takich reguł nowszych niż plik-źródło szablonu.
+
+Status: 🔎 nowe
+
+---
+
+[20.09.2026] KATEGORIA: BŁĄD — równoległe uruchomienie wielu subagentów wyczerpało limit sesji API szybciej niż praca sekwencyjna
+
+Szczegóły: Duży mechaniczny rollout (114 plików, ta sama transformacja `useState` →
+`usePersistedDraft` w każdym) podzielony na 8 batchy po ~15 plików, uruchomionych jako 8
+niezależnych agentów w tle RÓWNOCZEŚNIE (jedno wywołanie narzędzia z 8 blokami). Wszystkie 8
+padło w trakcie pracy na błąd 429 "session limit" — konto wyczerpało limit zanim którykolwiek
+agent skończył, zostawiając 75 ze 114 plików przekonwertowanych, resztę trzeba było dokończyć
+bezpośrednio (bez kolejnych subagentów, żeby nie powtórzyć błędu). Koszt: przerwana praca,
+dodatkowa runda diagnozy (`pnpm typecheck`/`lint` na częściowym stanie, żeby upewnić się, że
+żaden agent nie zostawił pliku w połowie edycji) zanim dokończenie było możliwe.
+
+Dlaczego warto zgłosić do new-app-standards: 8 subagentów naraz, każdy robiący dziesiątki
+wywołań API w krótkim czasie, może wyczerpać limit sesji konta znacznie szybciej niż ta sama
+praca rozłożona sekwencyjnie/mniejszymi turami — to nieoczywiste, bo intuicyjnie
+"równoległe = szybsze i bezpieczniejsze". Dla zadań w pełni mechanicznych (bez potrzeby
+kreatywnej oceny per plik, jak w tym przypadku) sekwencyjna praca bezpośrednia bywa
+bezpieczniejsza niż orkiestracja wielu subagentów. Rekomendacja: standard powinien zawierać
+wytyczną o rozsądnym limicie równoległych subagentów (np. 2-4 na raz) dla dużych mechanicznych
+rolloutów, z sugestią sprawdzenia typecheck/lint na częściowym stanie przed kontynuacją, gdyby
+któryś padł w trakcie.
+
+Status: 🔎 nowe
