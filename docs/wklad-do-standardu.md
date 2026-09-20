@@ -117,7 +117,12 @@ rodziny prędzej czy później dostanie funkcję asystenta, a bez wspólnego kon
 wzorca UX każdy projekt zbuduje niekompatybilną, jednorazową implementację, tak jak dziś dzieje się
 z i18n i logowaniem (patrz dwa zgłoszenia niżej).
 
-Status: 🔎 nowe
+Status: ✅ skonsolidowane (15.09.2026, `docs/standards/09-ai-w-produkcie.md` 9.3/9.6/9.9/9.10 —
+kontrakt `AiToolDefinition`, budżet/koszt, dwa wzorce UX inline/czat, pole `zaproponowaneBy`;
+zweryfikowane 20.09.2026 przy okazji kolejnej aktualizacji — wszystkie cztery punkty propozycji
+faktycznie obecne w źródle, nie tylko zadeklarowane). Wpis wcześniej nieoznaczony mimo konsolidacji
+tego samego dnia następnego sync-u — poprawione teraz, zgodnie z zasadą "zweryfikowane
+programistycznie, nie z metryczki".
 
 ---
 
@@ -143,7 +148,9 @@ Dlaczego warto zgłosić do new-app-standards: logowanie to jeden z tych temató
 zakładane, nigdy nie są nigdzie zapisane" — dokładnie to odkryła ta sesja, sprawdzając wprost zamiast
 zakładać. Dotyczy każdej apki rodziny, która kiedykolwiek doda konta użytkownika.
 
-Status: 🔎 nowe
+Status: ✅ skonsolidowane (15.09.2026, `docs/standards/18-logowanie.md` — pełny nowy rozdział 18
+powstał, nie tylko szkielet; ten projekt zbudował własną implementację Supabase Auth na jego
+podstawie, patrz zadanie "Rozdz. 18: audyt i zamknięcie realnych luk"). Zweryfikowane 20.09.2026.
 
 ---
 
@@ -182,6 +189,10 @@ plik ma teraz status "gotowa do konsolidacji", poza jednym świadomie wciąż ot
 tłumaczenie treści bezpieczeństwa-krytycznych — ten projekt tego jeszcze nie zrobił, nie tylko nie
 zgłosił). Punkt B.3 (kolizja z rozdz. 01) **rozstrzygnięty**: jądro zwraca klucz+params, nigdy gotowy
 tekst — patrz plik propozycji, sekcja C.3.
+
+**Finalna konsolidacja (20.09.2026):** ✅ `docs/standards/17-i18n.md` 17.1a — wielojęzyczność jako
+założenie architektoniczne od Etapu 1 dla każdego NOWEGO projektu rodziny (minimalny zestaw
+pl+en+ru). Zweryfikowane wprost w treści rozdziału, nie tylko w `AKTUALIZACJE.md`.
 
 ---
 
@@ -356,7 +367,14 @@ NIE zależeć od hydracji Reacta (zewnętrzny plik `public/register-sw.js` przez
 src>`, nie komponent kliencki) — działa mimo błędu, ale to obejście jednego symptomu, nie
 naprawa przyczyny; reszta interaktywności aplikacji zależnej od hydracji pozostaje dotknięta.
 
-Status: 🔎 nowe
+Status: ✅ skonsolidowane i naprawione (20.09.2026). `docs/standards/07-bezpieczenstwo.md` 7.3 ma
+teraz oba reżimy CSP jawnie rozróżnione (hash-based tylko dla projektów bez App Routera/w pełni
+statycznych; nonce-per-request wymagany dla Next.js App Router z dowolną stroną dynamiczną).
+**Ten projekt też naprawiony** — zweryfikowane wprost w `middleware.ts`: nonce generowany per
+żądanie (`crypto.randomUUID()`), przekazywany przez nagłówek `x-nonce` do Server Componentów i
+przez `Content-Security-Policy` do przeglądarki, `app/layout.tsx` odczytuje go i wstawia do
+`WYGLAD_INIT_SCRIPT`. Obejście serwis-workera opisane wyżej nie jest już potrzebne jako jedyna
+ochrona — pozostaje jako dodatkowa odporność, nie jako jedyny mechanizm.
 
 ---
 
@@ -382,7 +400,9 @@ matematyczny (nie tylko opis słowny + przykład), zanim funkcja dostanie status
 budowy, pełna treść z formułą". Sam przykład liczbowy w źródle, bez ogólnego wzoru, powinien
 z automatu klasyfikować funkcję jako kandydata do Wzorca C (informacyjny), nie D (kalkulator).
 
-Status: 🔎 nowe
+Status: ✅ skonsolidowane (20.09.2026, `docs/standards/08-ui-ux.md` — doprecyzowanie 8.2: audyt
+pokrycia musi potwierdzić odtwarzalny wzór w Sekcji B, nie tylko wypełnioną treść, zanim funkcja
+dostanie status "gotowe do budowy, Wzorzec D"). Zweryfikowane wprost w treści rozdziału.
 
 ---
 
@@ -411,7 +431,9 @@ jawnej, przeszukiwalnej reguły ("od DD.MM: każdy nowy ekran typu X używa Y, n
 i AI powinno mieć nawyk, żeby przed kopiowaniem istniejącego pliku jako szablonu dla nowego,
 sprawdzić `docs/memory.md` pod kątem takich reguł nowszych niż plik-źródło szablonu.
 
-Status: 🔎 nowe
+Status: ✅ skonsolidowane (20.09.2026, `docs/standards/15-wspolpraca-z-ai.md` 15.19 — nowy wzorzec
+ustalony w trakcie sesji musi trafić do `docs/memory.md` od razu, sprawdzane przed kopiowaniem
+szablonu). Zweryfikowane wprost w treści rozdziału.
 
 ---
 
@@ -460,7 +482,9 @@ zostaną nazwane raz, tutaj. To dokładnie ten sam wzorzec zgłoszenia, co CI re
 (wpis 16.09.2026 wyżej) — reguła bez przykładu kodu jest dużo łatwiejsza do błędnego wdrożenia niż
 reguła z gotowym, zweryfikowanym wzorcem obok.
 
-Status: 🔎 nowe
+Status: ✅ skonsolidowane (20.09.2026, `docs/standards/09-ai-w-produkcie.md` — doprecyzowanie 9.3:
+Zod/JSON Schema jako most przenośności między dostawcami AI, reguła kolejności "opis na końcu").
+Zweryfikowane wprost w treści rozdziału.
 
 ---
 
@@ -502,7 +526,9 @@ treningowa modelu. Bez jawnie nazwanej reguły z konkretnym przykładem, kolejny
 (albo ta samo, po aktualizacji zależności) ryzykuje napisanie kodu na nieistniejące/przestarzałe
 API biblioteki, wykryte dopiero przy `pnpm build`/`pnpm typecheck`, a nie przed napisaniem kodu.
 
-Status: 🔎 nowe
+Status: ✅ skonsolidowane (20.09.2026, `docs/standards/15-wspolpraca-z-ai.md` 15.7a — nie zgaduj
+API biblioteki zewnętrznej z pamięci treningowej, zweryfikuj zainstalowaną wersję wprost).
+Zweryfikowane wprost w treści rozdziału.
 
 ---
 
@@ -533,7 +559,9 @@ wystarczającym sygnałem, żeby podnieść autosave i i18n do rangi reguły. AI
 dziś obowiązkowa dla każdej apki rodziny (9.0) — bez tej reguły każdy kolejny projekt powtórzy
 dokładnie ten sam błąd sekwencji po raz czwarty.
 
-Status: 🔎 nowe
+Status: ✅ skonsolidowane (20.09.2026, `docs/standards/09-ai-w-produkcie.md` 9.0a — rejestr
+narzędzi AI jako architektoniczny domyślny od Etapu 1, z zastrzeżeniem o kolejności "opis na
+końcu" przeniesionym 1:1 z propozycji). Zweryfikowane wprost w treści rozdziału.
 
 ---
 
@@ -558,7 +586,8 @@ wytyczną o rozsądnym limicie równoległych subagentów (np. 2-4 na raz) dla d
 rolloutów, z sugestią sprawdzenia typecheck/lint na częściowym stanie przed kontynuacją, gdyby
 któryś padł w trakcie.
 
-Status: 🔎 nowe
+Status: ✅ skonsolidowane (20.09.2026, `docs/standards/15-wspolpraca-z-ai.md` 15.20 — limit 2-4
+równoległych subagentów dla dużych mechanicznych rolloutów). Zweryfikowane wprost w treści rozdziału.
 
 ---
 
@@ -595,4 +624,6 @@ z góry, nie coś, co trzeba było odkryć w praktyce. Rekomendacja dwuczęścio
    że "AI pamięta niedawno ustalony wzorzec" nie jest wystarczającym zabezpieczeniem — potrzebna
    jest jawna, wymuszona checklista, nie poleganie na pamięci kontekstu.
 
-Status: 🔎 nowe
+Status: ✅ skonsolidowane (20.09.2026, `docs/standards/05-baza-danych-offline.md` 5.7 — autosave
+draftu formularza jako architektoniczny domyślny od Etapu 1, ten sam wzorzec co 17.1a).
+Zweryfikowane wprost w treści rozdziału.

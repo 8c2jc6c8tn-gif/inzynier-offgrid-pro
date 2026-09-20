@@ -47,6 +47,14 @@ Rozróżniaj i oznaczaj, gdy to istotne: **FAKT** (potwierdzone), **ZAŁOŻENIE*
 
 Jeśli AI nie ma wystarczających informacji, mówi to wprost: *"Brakuje mi danych X."* Nie uzupełnia braków zgadywaniem przedstawianym jako fakt. Każde dokonane założenie jest jawnie oznaczone jako ZAŁOŻENIE.
 
+### 15.7a. Nie zgaduj API biblioteki zewnętrznej z pamięci treningowej — zweryfikuj zainstalowaną wersję wprost
+
+[20.09.2026] ✅ DODANO — źródło: inzynier-offgrid-pro (U.4), przykład: budowa integracji AI (PR #98) wymagała decyzji "pętla agentowa ręczna, nie beta Tool Runner SDK (`client.beta.messages.toolRunner`/`betaZodTool`)" — decyzja nie była domysłem, tylko wynikiem sprawdzenia wprost w `node_modules`, że zainstalowana wersja `@anthropic-ai/sdk` jeszcze nie miała tej bety. Zapisane w `docs/memory.md` z jawną notatką: "jeśli SDK zostanie zaktualizowane, warto rozważyć migrację — nie zrobione teraz świadomie, nie przeoczenie".
+
+**Reguła.** 15.7 mówi ogólnie "nie zgaduj brakujących DANYCH" — ta sama zasada w konkretnej odmianie dla kodu integrującego bibliotekę zewnętrzną: nie zgaduj API/metod/kształtu wywołania biblioteki z pamięci treningowej modelu, zweryfikuj wprost w zainstalowanej wersji (`node_modules`/`vendor`/odpowiednik stosu, np. `find`/`grep` po sygnaturze metody) **przed** napisaniem kodu na jej podstawie — zwłaszcza dla bibliotek o szybkim cyklu wydań (SDK dostawców AI, frameworki webowe).
+
+**Uzasadnienie.** SDK-i i biblioteki zewnętrzne driftują między wersjami szybciej, niż aktualizuje się wiedza treningowa modelu — to samo ryzyko dotyczy każdej kolejnej biblioteki, którą projekt rodziny kiedykolwiek zaktualizuje, nie tylko SDK dostawców AI. Bez tej weryfikacji, kod pisany na nieistniejące/przestarzałe API biblioteki wykrywany jest dopiero przy `pnpm build`/`pnpm typecheck`, nie przed napisaniem kodu.
+
 ## 15.8. Procedura zadania
 
 **Przed kodowaniem:** zidentyfikuj moduł, którego dotyczy zadanie · przeczytaj `CLAUDE.md`, ten rozdział, GOD BOOK (`docs/god-book/instrukcja-uniwersalna-biblii-projektu-*.md`, w zakresie wg jego C.8) i `docs/memory.md`, dokument domenowy związany z zadaniem — nie tylko przy pierwszej sesji, ale przed każdym kolejnym większym zadaniem (GOD BOOK Y.4, wzmocnione w wersji 2.12), bez czekania na przypomnienie · znajdź istniejące implementacje podobnych funkcji (nie duplikuj) · zapisz krótki plan zmian · wskaż ryzyka i brakujące dane.

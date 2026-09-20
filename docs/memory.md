@@ -5550,3 +5550,35 @@ samym `ci.yml` nie jest objęta wzorcami — commit do workflow zawsze uruchamia
 za $4, prawdopodobnie niewystarczające przy tym tempie pracy) — decyzja biznesowa właściciela,
 nie techniczna, czeka na wybór. Do tego czasu: PR #129 i #130 czekają na reset limitu (11 dni od
 20.09.2026) albo decyzję właściciela o jednej z płatnych/publicznych opcji.
+
+## Aktualizacja ze standardu (20.09.2026, druga tego dnia) — 9.0a, 15.7a, doprecyzowanie 9.3
+
+Na polecenie "Aktualizacja" (Y.6). `git fetch`+`git merge --ff-only` w lokalnym klonie
+`new-app-standards`, `8793045..a2f1580` — bez odświeżenia klonu poprzedni odczyt raportowałby
+fałszywie "brak nowości" (ta sama pułapka co 15.09/16.09). Znaleziono i wprowadzono:
+
+- **`docs/standards/09-ai-w-produkcie.md`** — nowa 9.0a (rejestr narzędzi AI jako architektoniczny
+  domyślny od Etapu 1) + doprecyzowanie 9.3 (most JSON Schema, kolejność "opis na końcu").
+- **`docs/standards/15-wspolpraca-z-ai.md`** — nowa 15.7a (nie zgaduj API biblioteki zewnętrznej,
+  zweryfikuj `node_modules`).
+- **`docs/standards/00-INDEKS.md`** — opisy rozdz. 9 i 15 zaktualizowane pod nową treść.
+
+Wszystkie trzy pliki skopiowane **pełnym nadpisaniem** ze źródła (NIETYKALNE — `cp`, nie ręczny
+merge), zweryfikowane `diff -q` = identyczne po skopiowaniu. Zero zmian w kodzie tego projektu
+wymaganych — obie nowe reguły (9.0a, 15.7a) **pochodzą z tego samego projektu** (zgłoszone do
+`docs/wklad-do-standardu.md` chwilę wcześniej tego samego dnia) — projekt już dziś robi dokładnie
+to, co nowa reguła nakazuje, nie ma tu żadnej luki do domknięcia.
+
+**Dodatkowo: korekta bookkeepingu `docs/wklad-do-standardu.md`.** Przy okazji tego sync-u sprawdzono
+programistycznie (grep po `inzynier-offgrid-pro` w całym świeżo zsynchronizowanym `docs/standards/`),
+które z dotychczasowych wpisów `Status: 🔎 nowe` są w rzeczywistości już od dawna skonsolidowane, a
+status po prostu nigdy nie został zaktualizowany. Znaleziono i poprawiono **9 stale statusów**
+(wpisy o: kontrakcie AI z 14.09, rozdziale logowania z 14.09, wielojęzyczności z 14.09, błędzie CSP
+hash/nonce z 16.09 — **w tym przy okazji potwierdzone, że `middleware.ts` tego projektu też ma już
+naprawę nonce-per-request**, nie tylko standard — audyt szablonu D vs C z 20.09, wzorca
+nieretroaktywnego z 20.09, limitu subagentów z 20.09, oraz dwóch własnych wpisów z tego samego dnia
+o AI). Dwa wpisy z 06.09 (procedura materiałów źródłowych, biblioteka norm) pozostają `🔎 nowe` —
+sprawdzone, faktycznie jeszcze nieskonsolidowane. Ta sama lekcja co przy `docs/rejestr-pokrycia.md`
+tego samego dnia: **nie ufaj metryczce/statusowi zapisanemu wcześniej — sprawdź programistycznie
+względem aktualnego źródła**, zwłaszcza gdy okazja (tu: świeży `cp` ze źródła) pozwala to zrobić
+tanio, przy okazji innego zadania.

@@ -12,6 +12,18 @@ Powiązane: [03 Jądro logiki domenowej](03-jadro-obliczeniowe.md) · [07 Bezpie
 
 Zawsze jednak jako **dodatkowa, wyłącznie-online warstwa nad rdzeniem** — nigdy jako wymóg rdzenia. Rdzeń (logika domenowa, dane, podstawowe operacje) działa w pełni bez AI, zgodnie z 9.1 i offline-first (rozdział 05). Wzorzec: warstwa AI sprawdza swoją dostępność (`isAiAvailable()` lub równoważnik) i degraduje się w milczeniu do zwykłego UI bez AI, gdy sieć/model niedostępne — nigdy nie blokuje żadnej podstawowej operacji. To rozstrzyga wprost napięcie AI↔offline-first, zgłoszone niezależnie przez zero-waste (14.09.2026): integracja AI nie jest wyjątkiem od Złotej Zasady offline-first, jest zawsze jej podporządkowana.
 
+### 9.0a. Rejestr narzędzi AI jako architektoniczny domyślny od Etapu 1, nie dobudowywany reaktywnie
+
+[20.09.2026] ✅ DODANO — źródło: inzynier-offgrid-pro (U.4), na wyraźną prośbę właściciela repo ("róbmy to od razu, nie tylko dla wielojęzyczności, ale i dla AI"). Trzeci niezależny przypadek tego samego wzorca kosztu w tym samym projekcie, obok już skonsolidowanych 17.1a (i18n) i 5.7 (autosave draftu): w chwili zgłoszenia 116 ze 117 zbudowanych kalkulatorów nie miało żadnego zarejestrowanego narzędzia AI (9.3) — dokładnie ten sam kształt zaległości retrofitowanej osobno, kosztowną kampanią, zamiast budowanej razem od początku.
+
+**Reguła.** Każdy nowy projekt rodziny zakłada od **Etapu 1** (szkielet architektury, zanim powstanie pierwszy ekran kalkulatora), że każdy kalkulator dostanie zarejestrowane narzędzie AI (`AiToolDefinition`, 9.3) — nigdy "AI dodamy do interfejsu później, jako osobny projekt nad już gotowymi ekranami". Konkretnie, od pierwszego dnia:
+
+- Szkielet ma gotowy, generyczny rejestr narzędzi (`AiToolDefinition[]`) i adapter do wybranego dostawcy modelu, zbudowany razem z Kernelem, nie po fakcie.
+- **Kolejność wewnątrz jednego ekranu jest świadomie inna niż dla i18n (17.1a).** Kalkulator (input/silnik/walidacja/warnings + testy) → struktura i18n (klucze tłumaczeń) → dopiero na końcu opis narzędzia AI (`.describe()` na polach schematu, treść `description` narzędzia). Powód: dokładny opis narzędzia wymaga znajomości OSTATECZNEGO, przetestowanego kształtu wejścia/wyjścia — pisanie go przed ustabilizowaniem kalkulatora ryzykuje, że opis skłamie o kształcie danych po pierwszej zmianie w trakcie testowania. To różni się od i18n, gdzie struktura kluczy powstaje pierwsza (kalkulator i tak musi zwracać klucze, nie gotowy tekst, 17.2) — tutaj struktura rejestru powstaje pierwsza (poziom szkieletu), ale wpis per-kalkulator powstaje ostatni (poziom pojedynczego ekranu).
+- `handler` każdego nowego narzędzia deleguje 1:1 do już istniejącej funkcji domenowej (9.2) — nigdy nowa logika pisana specjalnie pod AI.
+
+**Uzasadnienie.** Ta sama logika co 17.1a i 5.7 — koszt skumulowany w jednej dużej, późniejszej kampanii retrofitu jest wyższy niż koszt rozłożony na każdy pojedynczy ekran budowany od razu poprawnie. Trzy niezależne warstwy w jednym projekcie (i18n, autosave, teraz rejestr AI) odkryły ten sam koszt osobno, w różnym czasie — silny sygnał ogólnej prawidłowości dla każdej "poprzecznej" warstwy dobudowywanej do już istniejącego kalkulatora, nie przypadku jednej warstwy.
+
 ## 9.1. Zasada nadrzędna
 
 AI w produkcie nie zastępuje silników obliczeniowych/decyzyjnych. AI wywołuje logikę domenową, interpretuje wyniki, sprawdza kompletność danych i prowadzi użytkownika. Podstawowe obliczenia/decyzje aplikacji **nigdy** nie zależą od dostępności modelu AI.
@@ -52,6 +64,10 @@ type AiToolDefinition<TInput, TOutput> = {
 ```
 
 `requiresConfirmation: false` przy `operationType: 'write'` jest błędem konfiguracji, nie ważną kombinacją — narzędzie rejestrujące taki zapis nie przechodzi testu (10).
+
+[20.09.2026] ✅ DODANO — źródło: inzynier-offgrid-pro (U.4), pierwsza realna, przetestowana implementacja tego kontraktu (nie szkic). **`inputSchema`/`outputSchema` jako Zod (albo równoważnik generujący standardowy JSON Schema) to most przenośności między dostawcami AI, nie tylko walidacja.** `z.toJSONSchema()` (Zod v4, natywne) generuje z `inputSchema` obiekt JSON Schema, który Anthropic przyjmuje wprost jako `Tool.input_schema` — dokładnie ten sam artefakt, którego zażąda `function.parameters` OpenAI i `FunctionDeclaration.parameters` Gemini. Konsekwencja dla projektu planującego BYOK (własny klucz usera do wybranego dostawcy): rejestr narzędzi (9.3) pisany raz, w jednym miejscu, wymaga tylko cienkiego adaptera per dostawca (~15-20 linii, sama zmiana koperty wokół tego samego JSON Schema), nie powielenia opisów.
+
+**Kolejność pisania: opis narzędzia AI na końcu, nie na początku.** Patrz 9.0a — dokładny opis narzędzia (`.describe()` na polach schematu, treść `description`) wymaga znajomości ostatecznego, przetestowanego kształtu wejścia/wyjścia; pisanie go przed ustabilizowaniem kalkulatora ryzykuje, że opis skłamie o kształcie danych po pierwszej zmianie w trakcie testowania.
 
 ### 9.3a. Przykłady narzędzi per projekt (ilustracyjne, nie wiążące)
 
