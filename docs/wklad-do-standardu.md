@@ -464,6 +464,48 @@ Status: 🔎 nowe
 
 ---
 
+[20.09.2026] KATEGORIA: DOBRA PRAKTYKA — weryfikacja zainstalowanej wersji SDK wprost w
+`node_modules` (nie z pamięci treningowej modelu) przed wyborem konkretnego wzorca integracji,
+z konkretnym, udokumentowanym przykładem decyzji
+
+Szczegóły: Przy budowie `lib/ai/pytaj-asystenta.ts` (16.09.2026, PR #98 — pierwsza realna
+integracja rozdziału 09) padła konkretna decyzja techniczna: "pętla agentowa ręczna (manual
+agentic loop), nie beta Tool Runner SDK (`client.beta.messages.toolRunner`/`betaZodTool`)".
+Powód nie był domysłem — sprawdzone wprost `find`/`grep` w `node_modules`, że zainstalowana
+wersja `@anthropic-ai/sdk` (0.126.0) jeszcze nie ma tej bety. Zapisane w `docs/memory.md`
+(wpis z 16.09.2026) z jawną notatką na przyszłość: "jeśli SDK zostanie zaktualizowane, warto
+rozważyć migrację na Tool Runner — nie zrobione teraz świadomie, nie przeoczenie".
+
+To zastosowanie reguły "Never guess SDK usage" ze skilla `claude-api` (bundlowany skill Claude
+Code, nie część `new-app-standards`) — ale sam mechanizm, który tę regułę wymusił (sprawdzenie
+`node_modules` PRZED napisaniem kodu, zamiast polegania na tym, co model "pamięta" z treningu
+o danym SDK), jest ogólniejszy niż jeden konkretny skill i dotyczy **każdej** biblioteki
+zewnętrznej w **każdym** projekcie rodziny, nie tylko integracji AI. SDK-i i biblioteki
+zewnętrzne driftują między wersjami szybciej, niż aktualizuje się wiedza treningowa modelu —
+to samo ryzyko dotyczy Next.js (patrz już istniejący blok w `CLAUDE.md`/`generate-agent-files.js`:
+"This is NOT the Next.js you know"), Supabase, Zod, i każdej kolejnej biblioteki, którą projekt
+rodziny kiedykolwiek zaktualizuje.
+
+Rozdział 15 ma dziś **generyczną** wersję tej zasady (15.7, "nie wiem zamiast wymyślania" — nie
+zgaduj brakujących DANYCH), ale nie ma jej **konkretnej odmiany dla kodu integrującego bibliotekę
+zewnętrzną**: "nie zgaduj API/metod/kształtu wywołania biblioteki z pamięci treningowej — zweryfikuj
+wprost w zainstalowanej wersji (`node_modules`/`vendor`/odpowiednik stosu) przed napisaniem kodu,
+zwłaszcza gdy bibliotieka ma szybki cykl wydań (SDK dostawców AI, frameworki webowe)". Propozycja:
+dopisać to jako **15.7a**, z tym konkretnym przykładem (Anthropic SDK 0.126.0 vs beta Tool Runner)
+jako gotowa ilustracja "jak to wygląda w praktyce", analogicznie do już zgłoszonego wzorca
+(wpis 16.09.2026 wyżej — "reguła bez przykładu kodu jest łatwiejsza do błędnego wdrożenia niż
+reguła z gotowym wzorcem obok").
+
+Dlaczego warto zgłosić do new-app-standards: to nie jest specyfika AI czy jednego SDK — to ogólny
+problem każdej sesji AI piszącej kod na bibliotece, która aktualizuje się częściej niż wiedza
+treningowa modelu. Bez jawnie nazwanej reguły z konkretnym przykładem, kolejny projekt rodziny
+(albo ta samo, po aktualizacji zależności) ryzykuje napisanie kodu na nieistniejące/przestarzałe
+API biblioteki, wykryte dopiero przy `pnpm build`/`pnpm typecheck`, a nie przed napisaniem kodu.
+
+Status: 🔎 nowe
+
+---
+
 [20.09.2026] KATEGORIA: POMYSŁ NA REGUŁĘ — rejestr narzędzi AI powinien być architektonicznym
 domyślnym od Etapu 1 (jak 17.1a i18n oraz 5.7 autosave), nie dobudowywany reaktywnie
 
