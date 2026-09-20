@@ -1,10 +1,11 @@
 /**
- * Animacje ikon kafli pulpitu (kafle 1–7). Wszystkie selektory zaczepione o `.kafel-ikona-svg`
+ * Animacje ikon kafli pulpitu (kafle 1–14). Wszystkie selektory zaczepione o `.kafel-ikona-svg`
  * (nadawana każdej instancji <svg><use></svg> w ikona.tsx) i wszystkie nazwy @keyframes z
  * prefiksem `ki-` — to plik globalny (import w definicje-symboli.tsx), a nazwy typu `.bar`
  * czy `.flow` byłyby zbyt ogólne, żeby wypuszczać je bez przestrzeni nazw do reszty aplikacji.
- * Źródło treści/timing: artefakt roboczy "Off-Grid Tile Set" — przy kolejnym zablokowanym
- * kaflu (08+) dopisać tu jego animacje i symbol w definicje-symboli.tsx.
+ * Źródło treści/timing: artefakty robocze "Off-Grid Tile Set" (01–07) i "Off-Grid Tile Set
+ * 08–14" (kafle 08–14, zaakceptowane 20.09.2026) — przy kolejnym zablokowanym kaflu dopisać
+ * tu jego animacje i symbol w definicje-symboli.tsx.
  */
 
 @media (prefers-reduced-motion: reduce) {
@@ -151,3 +152,45 @@
 @keyframes ki-itemp-a-cyc { 0% { opacity: 1; } 30% { opacity: 1; } 35% { opacity: 0; } 100% { opacity: 0; } }
 @keyframes ki-itemp-b-cyc { 0% { opacity: 0; } 33% { opacity: 0; } 38% { opacity: 1; } 63% { opacity: 1; } 68% { opacity: 0; } 100% { opacity: 0; } }
 @keyframes ki-itemp-c-cyc { 0% { opacity: 0; } 66% { opacity: 0; } 71% { opacity: 1; } 97% { opacity: 1; } 100% { opacity: 0; } }
+
+/* ============ Kafel 08 — bezpieczeństwo i sytuacje awaryjne ============ */
+.kafel-ikona-svg .alarm-ring { transform-box: fill-box; transform-origin: center; animation: ki-alarm-pulse 2.2s ease-out infinite; }
+@keyframes ki-alarm-pulse { 0% { transform: scale(.7); opacity: .8; } 70% { opacity: 0; } 100% { transform: scale(1.5); opacity: 0; } }
+.kafel-ikona-svg .alarm-bell { transform-box: fill-box; transform-origin: 0px -16px; animation: ki-bell-swing 1.4s ease-in-out infinite; }
+@keyframes ki-bell-swing { 0%, 100% { transform: rotate(0deg); } 25% { transform: rotate(18deg); } 75% { transform: rotate(-18deg); } }
+.kafel-ikona-svg .alarm-check { stroke-dasharray: 60; stroke-dashoffset: 60; animation: ki-check-draw 3s ease-in-out infinite; }
+@keyframes ki-check-draw { 0%, 15% { stroke-dashoffset: 60; } 45%, 85% { stroke-dashoffset: 0; } 100% { stroke-dashoffset: -60; } }
+
+/* ============ Kafel 09 — elektronika / ESP32 / sensoryka ============ */
+.kafel-ikona-svg .led-a, .kafel-ikona-svg .led-b, .kafel-ikona-svg .led-c { transform-box: fill-box; transform-origin: center; opacity: .2; }
+.kafel-ikona-svg .led-a { animation: ki-led-a-cyc 3s infinite; }
+.kafel-ikona-svg .led-b { animation: ki-led-b-cyc 3s infinite; }
+.kafel-ikona-svg .led-c { animation: ki-led-c-cyc 3s infinite; }
+@keyframes ki-led-a-cyc { 0%, 10% { opacity: 1; } 20%, 100% { opacity: .2; } }
+@keyframes ki-led-b-cyc { 0%, 30% { opacity: .2; } 40%, 50% { opacity: 1; } 60%, 100% { opacity: .2; } }
+@keyframes ki-led-c-cyc { 0%, 60% { opacity: .2; } 70%, 80% { opacity: 1; } 90%, 100% { opacity: .2; } }
+.kafel-ikona-svg .esp-wave { animation: ki-esp-wave-op 2s ease-in-out infinite; }
+@keyframes ki-esp-wave-op { 0%, 100% { opacity: .15; } 50% { opacity: .7; } }
+
+/* ============ Kafel 10 — AI i prognozy ============ */
+.kafel-ikona-svg .ai-node { transform-box: fill-box; transform-origin: center; animation: ki-ai-node-pulse 2.4s ease-in-out infinite; }
+@keyframes ki-ai-node-pulse { 0%, 100% { opacity: .55; transform: scale(1); } 50% { opacity: 1; transform: scale(1.25); } }
+.kafel-ikona-svg .ai-node-main { animation-duration: 1.8s; }
+
+/* ============ Kafel 11 — montaż baterii ============ */
+.kafel-ikona-svg .wrench-tighten { transform-box: fill-box; transform-origin: -14px -26px; animation: ki-wrench-tighten 3.4s ease-in-out infinite; }
+@keyframes ki-wrench-tighten { 0%, 100% { transform: rotate(0deg); } 30% { transform: rotate(-24deg); } 55% { transform: rotate(6deg); } 80% { transform: rotate(-24deg); } }
+
+/* ============ Kafel 12 — szybki kalkulator / tryb mobilny ============ */
+.kafel-ikona-svg .tap-ripple { transform-box: fill-box; transform-origin: center; animation: ki-tap-ripple 1.8s ease-out infinite; opacity: 0; }
+@keyframes ki-tap-ripple { 0% { transform: scale(.4); opacity: .8; } 100% { transform: scale(2.6); opacity: 0; } }
+
+/* ============ Kafel 13 — tryb Live ============ */
+.kafel-ikona-svg .live-dot { animation: ki-live-blink 1.2s ease-in-out infinite; }
+@keyframes ki-live-blink { 0%, 100% { opacity: 1; } 50% { opacity: .35; } }
+
+/* ============ Kafel 14 — ustawienia ============ */
+.kafel-ikona-svg .gear-spin { transform-box: fill-box; transform-origin: center; animation: ki-gear-spin 8s linear infinite; }
+@keyframes ki-gear-spin { to { transform: rotate(360deg); } }
+.kafel-ikona-svg .toggle-slide { animation: ki-toggle-slide 3.2s ease-in-out infinite; }
+@keyframes ki-toggle-slide { 0%, 45% { transform: translateX(0); fill: #F5F7F9; } 55%, 100% { transform: translateX(18px); fill: #7FD68A; } }

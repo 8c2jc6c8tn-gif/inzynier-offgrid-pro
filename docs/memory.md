@@ -5307,3 +5307,58 @@ przeładowanie strony (`page.reload()`) we wszystkich 5 przypadkach, zero nowych
 (jedyny zaobserwowany błąd — nieudane wczytanie `@vercel/analytics/next` insights script —
 pre-istniejący, niezwiązany z tą zmianą, wynika z braku dostępu do sieci Vercel w tym
 środowisku sandboxowym, występuje na każdej stronie niezależnie od rollout'u).
+
+## Punkt 6 — kafle 08–14, wdrożenie po akceptacji (20.09.2026)
+
+Ostatni punkt z prośby "5,6,7,8,9 proszę zrób". Artefakt "Off-Grid Tile Set 08–14"
+(https://claude.ai/artifact/BzWE2Tgz2amFhRxDCMSFQi) zaakceptowany przez właściciela projektu
+("kafle możesz dodawać") bez uwag per-kafel — wdrożone 1:1 wizualnie, z nazwami klas/gradientów
+zmienionymi z roboczych (`k8-`, `g-sky`) na konwencję repo (`ki-` prefiks dla keyframes,
+`ki-<nazwa>-grad` dla gradientów, `tile-<nazwa>-symbol` dla id symboli — analogicznie do
+kafli 01–07).
+
+- **Nowe gradienty** (`components/kafle-ikony/definicje-symboli.tsx`): `ki-pcb-grad` (09),
+  `ki-ai-grad` (10), `ki-settings-grad` (14). Kafle 08/11/12 reużywają istniejący `ki-sky-grad`,
+  kafel 13 reużywa `ki-sky-grad-night` — bez duplikowania.
+- **7 nowych `<symbol>`**: `tile-safety-symbol` (08), `tile-electronics-symbol` (09),
+  `tile-ai-forecast-symbol` (10), `tile-battery-mount-symbol` (11), `tile-quick-calc-symbol` (12),
+  `tile-live-symbol` (13), `tile-settings-symbol` (14).
+- **Reużyte generyczne klasy animacji** (bez duplikowania CSS): `.signal`/`.packet` (09, 13),
+  `.bar` (10), `.cell-level` (11), `.bolt` (12), `.star` (13) — dokładnie tak, jak artefakt
+  deklarował w swoim opisie. **Świadoma korekta względem artefaktu**: kafel 12 w wersji roboczej
+  miał na tym samym elemencie DWIE klasy (`k12-bolt bolt`) z dwiema różnymi, konkurującymi
+  animacjami na `animation` (shorthand — nie sumują się, wygrywa tylko later-in-cascade) — to
+  nadmiarowość/błąd artefaktu, nie zamierzony efekt. Naprawione przy porcie: zostawiona tylko
+  istniejąca `.bolt` (ten sam puls opacity+scale, którego już używają kafle 02/03/04), usunięta
+  nadmiarowa `k12-bolt-flash`.
+- **Nowe klasy per-kafel** (`kafle-ikony.css`): `.alarm-ring`/`.alarm-bell`/`.alarm-check` (08),
+  `.led-a/b/c` + `.esp-wave` (09), `.ai-node` + `.ai-node-main` (10), `.wrench-tighten` (11),
+  `.tap-ripple` (12), `.live-dot` (13), `.gear-spin` + `.toggle-slide` (14).
+- **`ikona.tsx`**: `SYMBOL_PO_ID_KAFLA` rozszerzone o 8–14 (wszystkie), `KafelIkonaSvg` dostał
+  opcjonalny prop `size` (domyślnie 44, jak wcześniej) — żeby ta sama ikona dała się użyć w
+  innym rozmiarze niż kafel gridu, gdyby zaszła taka potrzeba.
+
+**Znalezisko przy weryfikacji, nie błąd — kafel 14 "Ustawienia" nie ma miejsca w gridzie.**
+`lib/pulpit/registry.ts`'s `KAFLE` (tablica renderowana w gridzie pulpitu) ma tylko id 1–13;
+`USTAWIENIA_KAFEL` (id 14) to osobna stała, renderowana wyłącznie jako mały link tekstowy w
+nagłówku (`⚙️ Ustawienia`), razem z dwoma innymi skrótami (`📍 Lokalizacja i teren`,
+`📡 Tryb Live`) — **wszystkie trzy konsekwentnie używają samego emoji**, nawet mimo że kafle 1
+i 13 MAJĄ już zbudowane animowane ikony widoczne w głównym gridzie. Rozważona i odrzucona opcja:
+podmienić tylko emoji "Ustawień" na animowane SVG w tym pasku — zepsułoby to spójność stylu
+całego paska (3 linki, 3 różne traktowania). Zamiast tego: symbol/CSS dla kafla 14 zarejestrowane
+i gotowe do użycia (tak jak 08–13), ale nieużyte na razie nigdzie w UI — czeka na naturalne
+miejsce (np. gdyby `/ustawienia` dostało kiedyś nagłówek z ikoną modułu, tak jak inne strony
+`/moduly/[id]`).
+
+**Znalezisko przy weryfikacji, nie błąd — kafle 09 i 11 nie pokazują nowych ikon SVG w gridzie.**
+`lib/pulpit/maskotki.ts` (`MASKOTKA_PO_ID_KAFLA`) ma zdjęcia maskotki "Bob" dla kafli 3/5/6/7/9/11
+— w `app/page.tsx` maskotka ma pierwszeństwo przed animowanym SVG (ten sam priorytet już
+dotyczył kafli 3/6/7, które MAJĄ zbudowane ikony od dawna, a mimo to pokazują maskotkę na
+gridzie) — świadome, pre-istniejące zachowanie, nie regresja tej zmiany. Nowe ikony 09/11 są
+poprawnie zarejestrowane i renderują się, gdyby maskotka kiedyś zniknęła z mapy.
+
+**Weryfikacja**: `pnpm typecheck`/`lint`/`build` czyste. Playwright (świeży `pnpm build &&
+pnpm start`, `next-server` sprzątnięty przed i po) na pulpicie głównym — 4 z 7 nowych `<use>`
+potwierdzone bezpośrednio w gridzie (08/10/12/13; 09/11 przesłonięte maskotką, opisane wyżej;
+14 nie ma slotu w gridzie), zrzut ekranu całej strony sprawdzony wizualnie — bez nakładających
+się elementów, bez złamanych ikon. Zamyka punkt 6 i całą prośbę "5,6,7,8,9 proszę zrób".
