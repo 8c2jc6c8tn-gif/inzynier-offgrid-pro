@@ -437,3 +437,40 @@ rolloutów, z sugestią sprawdzenia typecheck/lint na częściowym stanie przed 
 któryś padł w trakcie.
 
 Status: 🔎 nowe
+
+---
+
+[20.09.2026] KATEGORIA: POMYSŁ NA REGUŁĘ — autosave draftu formularza powinien być architektonicznym domyślnym od pierwszego ekranu, nie dobudowywanym reaktywnie po zgłoszeniu
+
+Szczegóły: W tym projekcie autosave (`usePersistedDraft`, zapis draftu formularza do
+IndexedDB przy każdej zmianie) powstał 15.09.2026 — dopiero po tym, jak użytkownik zgłosił
+realną utratę danych (przeglądarka mobilna odświeżyła kartę w tle, formularz wrócił pusty).
+Do tego dnia zbudowano już ~90 ekranów kalkulatorów zwykłym `useState`, bez żadnej persystencji
+— wszystkie wymagały późniejszego, osobnego zadania konwersji (114 plików, jedna sesja, viz.
+powiązany wpis BŁĄD wyżej o nowym wzorcu nie stosowanym retroaktywnie — to jest jego pierwotna
+przyczyna: gdyby autosave był domyślny od Ekranu 1, tamten błąd w ogóle nie mógłby powstać).
+Koszt: dziesiątki ekranów budowanych dwa razy (raz bez autosave, raz z konwersją), zamiast raz
+z automatycznym mechanizmem od początku.
+
+Dlaczego warto zgłosić do new-app-standards: to nie specyfika tego projektu — **każda** aplikacja
+offline-first z formularzami wielopolowymi (dokładnie profil całej rodziny "Inżynier Pro", patrz
+`docs/standards/05-baza-danych-offline.md`, "Seed nie Wynik") ma ten sam ryzyko: użytkownik traci
+wpisane dane przy odświeżeniu/zamknięciu karty, zanim ktoś to zgłosi jako bug. To przewidywalne
+z góry, nie coś, co trzeba było odkryć w praktyce. Rekomendacja dwuczęściowa:
+1. **Architektoniczna:** standard (rozdział 05 lub 03-jądro-obliczeniowe) powinien wymagać, żeby
+   każdy nowy projekt rodziny miał gotowy, generyczny hook/wzorzec autosave draftu formularza
+   (Seed → `StorageAdapter`, debounce'owany zapis, async odczyt przy montowaniu) **zbudowany
+   razem ze szkieletem architektury (Etap 1), zanim powstanie pierwszy ekran kalkulatora** — nie
+   jako osobne zadanie dobudowywane później per zgłoszenie. Ten sam hook/wzorzec używany od
+   pierwszego dnia przez KAŻDY nowy ekran z polami formularza, bez wyjątków.
+2. **Procesowa (uzupełnienie wcześniejszego wpisu o kopiowaniu nieaktualnych szablonów):** dopóki
+   punkt 1 nie jest jeszcze zaimplementowany w danym projekcie, standard/`CLAUDE.md` powinien
+   jawnie nakazywać: przed napisaniem nowego ekranu/pliku wg istniejącego wzorca, AI **musi**
+   sprawdzić `docs/memory.md`/`docs/standards/` pod kątem najnowszej, aktualnej wersji tego
+   wzorca — nigdy nie kopiować z pamięci/z najbliższego przykładu w kodzie bez tej weryfikacji,
+   nawet w obrębie tej samej sesji. Powtarzalny koszt tego zaniedbania (ten projekt: 8 nowych
+   modułów zbudowanych bez autosave w tej samej sesji, w której autosave już istniał) pokazuje,
+   że "AI pamięta niedawno ustalony wzorzec" nie jest wystarczającym zabezpieczeniem — potrzebna
+   jest jawna, wymuszona checklista, nie poleganie na pamięci kontekstu.
+
+Status: 🔎 nowe
