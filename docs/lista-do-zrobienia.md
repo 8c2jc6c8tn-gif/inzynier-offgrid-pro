@@ -925,9 +925,14 @@ Pełne wyniki audytu: `docs/memory.md`, sekcja "Pełny audyt na polecenie właś
   `docs/rejestr-pokrycia.md`) — sprostowane w rozmowie z właścicielem projektu, teraz też tutaj,
   żeby nie kłamały kolejnej sesji. Pełna metodologia przeliczenia: `docs/memory.md`, wpis
   "Pełny audyt na polecenie właściciela projektu (20.09.2026)" + kolejne korekty tego dnia.
-  1. **Moduł 5 (Okablowanie) — 23/29 gotowe, tylko 6 `todo`** (Złącza MC4, Przepust powietrza pod
+  1. ~~**Moduł 5 (Okablowanie) — 23/29 gotowe, tylko 6 `todo`** (Złącza MC4, Przepust powietrza pod
      panelami, Projekt uziemienia, Selektywność zabezpieczeń, IMD, Normy i certyfikaty). Żaden nie
-     jest blokowany brakiem normy — budowalne od razu.
+     jest blokowany brakiem normy — budowalne od razu.~~ ✅ **(20.09.2026) ZREALIZOWANE — 29/29,
+     w pełni skończony.** Wszystkich 6 pozostałych ekranów dobudowane w jednej sesji ("Ruszajmy"),
+     w tym Ekran 9 (uziemienie, wzór Dwighta zweryfikowany niezależnie w Pythonie) i dwa świadomie
+     zbudowane jako Wzorzec C/informacyjny zamiast D (Selektywność, Normy) — źródło nie dawało
+     wzoru/bazy komponentów do prawdziwego kalkulatora. Szczegóły: `docs/memory.md`,
+     `docs/rejestr-pokrycia.md`.
   2. **Moduł 11 (Montaż baterii) — 23/23 gotowe, 0 `todo`. W pełni skończony**, nie "w większości
      todo" jak twierdziła poprzednia wersja tego wpisu (Ścieżka A LiFePO4 10 ekranów + A3b, Ścieżka
      B kwasowo-ołowiowa 12 ekranów, w tym B5 dobudowany 14.09.2026).
@@ -943,6 +948,10 @@ Pełne wyniki audytu: `docs/memory.md`, sekcja "Pełny audyt na polecenie właś
   6. **Moduł 4 (Baterie) — 27/31 gotowe, 4 `todo`** (Symulacja czasu ładowania/rozładowania,
      Napięcie odcięcia vs żywotność, Hierarchia ładowania, Symulacja miesiąca zachmurzenia — część
      cross-modułowa, wymaga danych z Modułów 2/3/7).
-  7. **116 z 117 kalkulatorów bez opisu narzędzia AI** (rozdział 9.3/9.0a) — osobny, poprzeczny
-     backlog niezależny od powyższych, patrz `docs/wklad-do-standardu.md` (wpis 20.09.2026) i
-     ustalona kolejność rolloutu (moduł po module, od stabilnych: 11→3→5→4→2→reszta).
+  7. **116 z 122 kalkulatorów bez opisu narzędzia AI** (rozdział 9.3/9.0a; stan 20.09.2026 — 117→122
+     kalkulatorów łącznie po dobudowaniu Modułu 5, ale te 5 nowych dostało opis AI od razu, w tej
+     samej sesji, zgodnie z ustaloną kolejnością — więc backlog "bez opisu" liczebnie się NIE
+     zmniejszył, tylko przestał rosnąć wraz z nowymi kalkulatorami) — osobny, poprzeczny backlog
+     niezależny od powyższych, patrz `docs/wklad-do-standardu.md` (wpis 20.09.2026). Kolejność
+     rolloutu dla już istniejących kalkulatorów bez opisu: 11→3→4→2→reszta (Moduł 5 już ma AI-opisy
+     dla wszystkich swoich kalkulatorów, nie wchodzi do tego rolloutu).

@@ -143,6 +143,12 @@ export const KAFLE: KafelEntry[] = [
       { href: "/kalkulatory/optymalizacja-trasy-kabla", label: "Optymalizacja trasy i kosztu kabla" },
       { href: "/kalkulatory/puszki-polaczeniowe", label: "Puszki połączeniowe" },
       { href: "/kalkulatory/pomiary-powykonawcze", label: "Pomiary i testy powykonawcze" },
+      { href: "/kalkulatory/zlacza-mc4", label: "Złącza MC4" },
+      { href: "/kalkulatory/przepust-powietrza", label: "Przepust powietrza pod panelami" },
+      { href: "/kalkulatory/projekt-uziemienia", label: "Projekt uziemienia" },
+      { href: "/kalkulatory/selektywnosc-zabezpieczen", label: "Selektywność zabezpieczeń" },
+      { href: "/kalkulatory/monitorowanie-izolacji-imd", label: "Monitorowanie izolacji (IMD)" },
+      { href: "/kalkulatory/normy-i-certyfikaty", label: "Normy i certyfikaty" },
     ],
   },
   {

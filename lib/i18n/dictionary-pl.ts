@@ -788,6 +788,29 @@ export const dictionaryPl = {
   "SUGEROWANA-WYMIANA-STARYCH-URZADZEN": "Urządzenia klasy \"stare\" (realnie zużywają więcej niż nominalna moc sugeruje): {urzadzenia}. Rozważ wymianę — może się zwrócić w oszczędności baterii.",
   "NISKIE-OBCIAZENIE-FALOWNIKA": "Obciążenie falownika to tylko {obciazenie}% mocy znamionowej — sprawność w tym zakresie zwykle spada.",
   "OBCIAZENIE-FALOWNIKA-OPTYMALNE": "Obciążenie falownika ({obciazenie}%) jest w zakresie typowo najwyższej sprawności.",
+  "MIESZANI-PRODUCENCI-MC4":
+    "Złączki żeńska i męska są od różnych producentów — styki różnych rodzin nie zawsze pasują idealnie, luźny styk pod prądem robi łuk elektryczny i to realne ryzyko pożaru.",
+  "PRODUCENT-MC4-NIEZNANY": "Producenta złączki oznaczono jako nieznany — zgodności styków nie da się potwierdzić bez identyfikacji.",
+  "ZLACZA-MC4-ZGODNE": "Złączki {producent} po obu stronach — komplet od jednego producenta, zgodne.",
+  "SZCZELINA-KRYTYCZNA":
+    "Szczelina {szczelina} cm jest poniżej progu krytycznego (5 cm) — temperatura panelu może sięgnąć nawet 70°C, szacowana strata mocy ok. {strata}%.",
+  "SZCZELINA-POSREDNIA-BRAK-DANYCH":
+    "Szczelina {szczelina} cm jest w zakresie pośrednim (5–15 cm), dla którego źródło nie podaje dokładnej straty mocy — dla pewności zalecana szczelina min. 15 cm.",
+  "SZCZELINA-BEZPIECZNA": "Szczelina wentylacyjna wystarczająca (≥15 cm) — bez istotnej straty mocy z przegrzania.",
+  "GEOMETRIA-PRETA-NIEFIZYCZNA": "Ta kombinacja długości i średnicy pręta jest poza zakresem wzoru — sprawdź jednostki (m dla długości, mm dla średnicy).",
+  "ZA-DUZO-PRETOW-DO-PROSTEGO-LICZENIA":
+    "Szacowana liczba prętów ({liczba}) przekracza {max} — przy tak trudnym gruncie potrzebny jest realny projekt uziemienia, nie tylko proste liczenie.",
+  "UZIOM-ZAPROJEKTOWANY": "Szacowana liczba prętów: {liczba} (rezystancja pojedynczego pręta ≈ {rezystancja} Ω).",
+  "UZIOM-MODEL-N-PRETOW-UPROSZCZONY":
+    "Liczba prętów liczona uproszczonym modelem równoległym (1/n), bez korekty na wzajemne oddziaływanie prętów — realna wartość po instalacji może wymagać jednego pręta więcej. Zmierz rezystancję po wykonaniu uziomu.",
+  "UZIOM-MATERIAL-PATRZ-LACZENIE-CU-AL":
+    "Dobór materiału pręta (miedź vs stal ocynkowana) i unikanie korozji galwanicznej przy łączeniu różnych metali — patrz ekran „Łączenie Cu-Al i ochrona przed korozją” (Moduł 5, Ekran 4).",
+  "UKLAD-IT-BEZ-IMD": "Układ sieci jest typu IT, ale brak zamontowanego IMD — pierwsze doziemienie nie wyłączy bezpiecznika i pozostanie niewykryte.",
+  "IMD-ZAINSTALOWANY-POPRAWNIE": "IMD zainstalowany, próg alarmu {prog} kΩ.",
+  "UKLAD-NIE-IT-IMD-NIEPOTRZEBNY": "Układ nie jest typu IT — doziemienie wyłącza bezpiecznik automatycznie, IMD nie jest wymagany.",
+  "IMD-PROG-ALARMU-PRZYKLADOWA-WARTOSC-ZRODLA":
+    "Wpisany próg alarmu to wartość ustawiona przez Ciebie — źródło podaje 50 kΩ tylko jako przykład, nie jako uniwersalny wymóg. Realny próg zależy od napięcia systemu i zaleceń producenta IMD.",
+  "BRAK-CERTYFIKATU": "{komponent} — certyfikat jeszcze niepotwierdzony.",
 } as const
 
 export type KluczTlumaczenia = keyof typeof dictionaryPl

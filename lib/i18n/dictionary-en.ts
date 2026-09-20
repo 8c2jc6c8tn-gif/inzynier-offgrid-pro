@@ -776,4 +776,27 @@ export const dictionaryEn = {
   "SUGEROWANA-WYMIANA-STARYCH-URZADZEN": "\"Old\" class appliances (real consumption exceeds the nominal power): {urzadzenia}. Consider replacing them — it can pay off in battery savings.",
   "NISKIE-OBCIAZENIE-FALOWNIKA": "The inverter load is only {obciazenie}% of rated power — efficiency in this range usually drops.",
   "OBCIAZENIE-FALOWNIKA-OPTYMALNE": "The inverter load ({obciazenie}%) is in the typically highest-efficiency range.",
+  "MIESZANI-PRODUCENCI-MC4":
+    "The female and male connectors are from different manufacturers — contacts from different families don't always fit perfectly; a loose contact under load arcs, and that's a real fire risk.",
+  "PRODUCENT-MC4-NIEZNANY": "One connector's manufacturer is marked as unknown — contact compatibility can't be confirmed without identification.",
+  "ZLACZA-MC4-ZGODNE": "{producent} connectors on both sides — a matched set from one manufacturer, compatible.",
+  "SZCZELINA-KRYTYCZNA":
+    "The {szczelina} cm gap is below the critical threshold (5 cm) — panel temperature can reach up to 70°C, estimated power loss about {strata}%.",
+  "SZCZELINA-POSREDNIA-BRAK-DANYCH":
+    "The {szczelina} cm gap is in the intermediate range (5–15 cm), for which the source gives no exact power-loss figure — a gap of at least 15 cm is recommended for certainty.",
+  "SZCZELINA-BEZPIECZNA": "Ventilation gap sufficient (≥15 cm) — no significant power loss from overheating.",
+  "GEOMETRIA-PRETA-NIEFIZYCZNA": "This combination of rod length and diameter is outside the formula's range — check the units (m for length, mm for diameter).",
+  "ZA-DUZO-PRETOW-DO-PROSTEGO-LICZENIA":
+    "The estimated number of rods ({liczba}) exceeds {max} — such difficult soil needs a real grounding design, not just a simple calculation.",
+  "UZIOM-ZAPROJEKTOWANY": "Estimated number of rods: {liczba} (single-rod resistance ≈ {rezystancja} Ω).",
+  "UZIOM-MODEL-N-PRETOW-UPROSZCZONY":
+    "The rod count uses a simplified parallel model (1/n), without correcting for mutual interaction between rods — the real value after installation may need one more rod. Measure the resistance once the grounding is built.",
+  "UZIOM-MATERIAL-PATRZ-LACZENIE-CU-AL":
+    "Choosing rod material (copper vs. galvanized steel) and avoiding galvanic corrosion when joining different metals — see the \"Cu-Al bonding and corrosion protection\" screen (Module 5, Screen 4).",
+  "UKLAD-IT-BEZ-IMD": "The network is an IT system, but no IMD is installed — a first earth fault won't trip a breaker and will go undetected.",
+  "IMD-ZAINSTALOWANY-POPRAWNIE": "IMD installed, alarm threshold {prog} kΩ.",
+  "UKLAD-NIE-IT-IMD-NIEPOTRZEBNY": "The network is not an IT system — an earth fault trips the breaker automatically, IMD is not required.",
+  "IMD-PROG-ALARMU-PRZYKLADOWA-WARTOSC-ZRODLA":
+    "The entered alarm threshold is the value you set — the source gives 50 kΩ only as an example, not a universal requirement. The real threshold depends on system voltage and the IMD manufacturer's guidance.",
+  "BRAK-CERTYFIKATU": "{komponent} — certificate not yet confirmed.",
 } satisfies Record<KluczTlumaczenia, string>

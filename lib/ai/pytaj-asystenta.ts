@@ -19,6 +19,11 @@ import { createAnthropicClient } from "@/lib/adapters/ai/client"
 import { isAiConfigured } from "@/lib/adapters/ai/config"
 import { consoleReporter } from "@/lib/core/reporter"
 import { kalkulatoryPomocniczeTool } from "./tools/kalkulatory-pomocnicze-tool"
+import { zlaczaMc4Tool } from "./tools/zlacza-mc4-tool"
+import { przepustPowietrzaTool } from "./tools/przepust-powietrza-tool"
+import { projektUziemieniaTool } from "./tools/projekt-uziemienia-tool"
+import { monitorowanieIzolacjiImdTool } from "./tools/monitorowanie-izolacji-imd-tool"
+import { normyICertyfikatyTool } from "./tools/normy-i-certyfikaty-tool"
 import { toAnthropicTool } from "./to-anthropic-tool"
 import { validateAiToolDefinition, type AiToolDefinition } from "./types"
 
@@ -26,7 +31,14 @@ import { validateAiToolDefinition, type AiToolDefinition } from "./types"
 // jest wymazaniem typu na granicy rejestru, nie utratą bezpieczeństwa w definicji pojedynczego
 // narzędzia (ta zostaje w pełni typowana).
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
-const NARZEDZIA: Array<AiToolDefinition<any, any>> = [kalkulatoryPomocniczeTool]
+const NARZEDZIA: Array<AiToolDefinition<any, any>> = [
+  kalkulatoryPomocniczeTool,
+  zlaczaMc4Tool,
+  przepustPowietrzaTool,
+  projektUziemieniaTool,
+  monitorowanieIzolacjiImdTool,
+  normyICertyfikatyTool,
+]
 for (const narzedzie of NARZEDZIA) validateAiToolDefinition(narzedzie)
 
 const SYSTEM_PROMPT = `Jesteś asystentem w aplikacji inżynierskiej do projektowania systemów off-grid PV.

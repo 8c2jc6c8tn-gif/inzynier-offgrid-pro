@@ -5601,3 +5601,55 @@ wszystkie odwołania w ~20 plikach `.md` (`docs/zrodla/norma-PN-HD-60364-5-52/*`
 `docs/zrodla/README.md`), manifest w propozycji zaktualizowany, żeby nie cytować już nieaktualnego
 dryfu. Oba pliki propozycji są teraz w pełni gotowe do podjęcia — nic więcej do zrobienia w tym repo,
 czekają wyłącznie na sesję nad `new-app-standards`.
+
+## Moduł 5 (Okablowanie) domknięty — 29/29, ostatnie 6 ekranów (20.09.2026)
+
+Na wyraźne polecenie ("Ruszajmy") po ustaleniu z właścicielem repo priorytetu (Moduł 1 pominięty na
+razie — wymaga infrastruktury mapowej/GPS, osobna decyzja architektoniczna, patrz niżej; Moduł 5
+zrobiony w całości). Zbudowano Ekrany 5, 8, 9, 13, 18, 21 — dokładnie w ustalonej kolejności
+(kalkulator → i18n → opis narzędzia AI, w jednej sesji per ekran, patrz decyzja z tej samej rozmowy
+o 9.0a).
+
+**Decyzje warte zapamiętania:**
+
+- **Ekran 5 (Złącza MC4):** bez bazy komponentów (§15.2 jeszcze nie istnieje) porównanie producentów
+  po nazwie z listy zamkniętej (`PoleSelect`, `PRODUCENCI_MC4`), nie po numerze katalogowym — jawnie
+  udokumentowane ograniczenie.
+- **Ekran 8 (Przepust powietrza):** źródło daje tylko dwa punkty odniesienia (szczelina <5cm→~70°C,
+  ≥15cm→bezpieczna) bez ciągłej zależności dla zakresu pośredniego — **świadomie NIE
+  interpolowane** (nie wymyślamy zależności, której źródło nie podaje), zakres 5–15cm oznaczony jako
+  "brak danych", osobny poziom `warning` (nie `critical`, nie `info`).
+- **Ekran 9 (Projekt uziemienia), bezpieczeństwo-krytyczny:** źródło opisuje silnik słownie
+  ("dobiera liczbę/rozstaw prętów"), bez samego wzoru — użyto **wzoru Dwighta** dla pojedynczego
+  pręta pionowego (standardowy wzór inżynierski, IEEE Std 142 "Green Book", nie norma domenowa
+  wymagająca zakupu — ten sam status co Magnus-Tetens czy deklinacja Coopera 1969 gdzie indziej w
+  projekcie). **Podwójna weryfikacja przed implementacją** (03.4): policzone niezależnie w Pythonie
+  dla przykładu źródła (ρ=100Ω·m glina, pręt 3m×16mm) — R pojedynczego pręta ≈29,82Ω, 3 pręty
+  (uproszczone łączenie równoległe 1/n) ≈9,94Ω, zgodne z przykładem źródła "3 pręty → <10Ω" z
+  dokładnością <1%. Uproszczenie (brak korekty na wzajemne oddziaływanie prętów) jawnie oznaczone w
+  `assumptions`, z rekomendacją realnego pomiaru po instalacji. Materiał pręta (korozja galwaniczna)
+  świadomie NIE duplikowany — cross-ref do Ekranu 4 (Łączenie Cu-Al).
+- **Ekran 13 (Selektywność zabezpieczeń) i Ekran 21 (Normy i certyfikaty) — świadomie zbudowane
+  jako Wzorzec C/informacyjny, nie D/kalkulator.** Ten sam wzorzec decyzyjny co M6/Ekrany 5.46 i
+  5.31 (już skonsolidowany do standardu jako doprecyzowanie 8.2, 20.09.2026): źródło opisuje
+  koncepcję, ale nie daje wzoru (Ekran 13 — krzywe czasowo-prądowe konkretnych zabezpieczeń, wymaga
+  bazy komponentów) ani zamkniętej listy norm (Ekran 21 — źródło samo mówi "IEC 61730, 62109, 62619
+  **itd.**", lista jawnie otwarta). Zamiast budować kalkulator udający precyzję, której źródło nie
+  daje — Ekran 13 to przewodnik, Ekran 21 to checklist tylko trzech norm nazwanych wprost + jeden
+  zbiorczy wpis dla reszty, bez dopisywania własnych numerów norm dla złączy/kabli/SPD (byłoby to
+  zgadywanie).
+- **Rejestr narzędzi AI (`lib/ai/pytaj-asystenta.ts`, `NARZEDZIA`) rozszerzony z 1 do 6 narzędzi** —
+  wszystkie 5 nowych zbudowane od razu z opisem (9.0a), Ekran 13 pominięty (brak kalkulatora, nic do
+  opisania jako narzędzie AI).
+- **`scripts/check-i18n-guard.mjs` (`MIGRATED_MODULES`) rozszerzony o 5 nowych modułów** (bez
+  Ekranu 13/selektywności — pure content, brak i18nKey/Warning do pilnowania).
+
+**Weryfikacja:** `pnpm typecheck`/`lint`/`test` (991 testów, w tym 26 nowych)/`build` — wszystkie
+czyste. Dodatkowo `pnpm dev` + `curl` na wszystkich 6 nowych tras (HTTP 200, treść realna w HTML,
+zero błędów w logu serwera) — "kompiluje się" ≠ "działa" (10-testy.md), nie tylko typecheck.
+
+**Poza zakresem tej sesji, świadomie:** Moduł 1 (Ekrany 2-4, Skaner działki/Zacienienie/Bryła
+budynku) — wymaga realnej infrastruktury mapowej (biblioteka mapowa, GPS, model 3D terenu, algorytm
+zacienienia godzina-po-godzinie), nie rozszerzenia istniejącego wzorca kalkulatora. Właściciel repo
+zdecydował pominąć na razie, zamiast budować uproszczoną wersję bez mapy — czeka na osobną decyzję
+architektoniczną (jaka biblioteka mapowa/GPS), nie na kolejne "Ruszajmy" tej samej formy.
