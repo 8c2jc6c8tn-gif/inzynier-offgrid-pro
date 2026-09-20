@@ -920,14 +920,29 @@ Pełne wyniki audytu: `docs/memory.md`, sekcja "Pełny audyt na polecenie właś
   tylko formalnie zamknięte w logu tym audytem. Bez akcji.
 - 🟢 3 pliki `docs/standards/` (`17-i18n.md`, `00-INDEKS.md`, `05-baza-danych-offline.md`) —
   zsynchronizowane w tym audycie. Bez dalszej akcji.
-- 🟡 **Backlog funkcjonalny, znany i nieprzeoczony (bez zmian od poprzednich audytów, tylko
-  potwierdzony nadal aktualny):**
-  1. Moduł 5 (Okablowanie) — 27 z 29 ekranów `todo`, niezależne od normy blokującej Ekran 1,
-     budowalne równolegle bez czekania.
-  2. Moduł 11 (Montaż baterii) — w większości `todo` poza ekranami referencyjnymi już
-     zbudowanymi.
-  3. Klaster stress-test zimowy (Moduł 7) — w większości architektonicznie zależny od jeszcze
-     niezbudowanego Modułu 1 (geostruktura, brak treści źródłowej) i modelu termicznego
-     Modułu 6.
+- 🟡 **Backlog funkcjonalny — SKORYGOWANY (20.09.2026, druga korekta tego dnia).** Punkty 1-2
+  poniżej były błędne od poprzednich audytów (cytowane z nieaktualnej metryczki, nie z żywego
+  `docs/rejestr-pokrycia.md`) — sprostowane w rozmowie z właścicielem projektu, teraz też tutaj,
+  żeby nie kłamały kolejnej sesji. Pełna metodologia przeliczenia: `docs/memory.md`, wpis
+  "Pełny audyt na polecenie właściciela projektu (20.09.2026)" + kolejne korekty tego dnia.
+  1. **Moduł 5 (Okablowanie) — 23/29 gotowe, tylko 6 `todo`** (Złącza MC4, Przepust powietrza pod
+     panelami, Projekt uziemienia, Selektywność zabezpieczeń, IMD, Normy i certyfikaty). Żaden nie
+     jest blokowany brakiem normy — budowalne od razu.
+  2. **Moduł 11 (Montaż baterii) — 23/23 gotowe, 0 `todo`. W pełni skończony**, nie "w większości
+     todo" jak twierdziła poprzednia wersja tego wpisu (Ścieżka A LiFePO4 10 ekranów + A3b, Ścieżka
+     B kwasowo-ołowiowa 12 ekranów, w tym B5 dobudowany 14.09.2026).
+  3. Klaster stress-test zimowy (Moduł 7) — 2/26 gotowe, 24 `todo`, w większości architektonicznie
+     zależny od jeszcze niezbudowanego Modułu 1 (geostruktura, brak treści źródłowej) i modelu
+     termicznego Modułu 6.
   4. Moduł zbiorczy "Wampiry energetyczne" (Moduł 2, 24 dawne funkcje, 5 podzakładek) —
      świadomie odłożony jako osobna, większa sesja projektowa.
+  5. **Moduł 1 (Lokalizacja) — 1/4 gotowe, 3 `todo`** (Skaner działki, Analiza zacienienia, Bryła
+     budynku) — nieblokowane, treść źródłowa kompletna od 29.08.2026, po prostu jeszcze nie
+     zbudowane. Nie był wcześniej w tej liście priorytetowej mimo że kwalifikuje się identycznie
+     jak punkt 1 (niezależne, budowalne od razu).
+  6. **Moduł 4 (Baterie) — 27/31 gotowe, 4 `todo`** (Symulacja czasu ładowania/rozładowania,
+     Napięcie odcięcia vs żywotność, Hierarchia ładowania, Symulacja miesiąca zachmurzenia — część
+     cross-modułowa, wymaga danych z Modułów 2/3/7).
+  7. **116 z 117 kalkulatorów bez opisu narzędzia AI** (rozdział 9.3/9.0a) — osobny, poprzeczny
+     backlog niezależny od powyższych, patrz `docs/wklad-do-standardu.md` (wpis 20.09.2026) i
+     ustalona kolejność rolloutu (moduł po module, od stabilnych: 11→3→5→4→2→reszta).
