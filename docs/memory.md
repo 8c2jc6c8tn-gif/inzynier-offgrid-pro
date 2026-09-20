@@ -5683,3 +5683,27 @@ weryfikacji, brak realnego klucza API w repo/env.
 **Znany dług, nie tej sesji:** treść komponentu (`"Zapytaj asystenta"`, etykiety, komunikaty) wciąż
 hardkodowana po polsku, bez kluczy i18n — istniało tak już przed tą zmianą (nie nowy dług, tylko
 przeniesiony). Do ujęcia przy rollout'cie i18n na komponenty wspólne, nie kalkulatory.
+
+## Anulowany job CI przy PR #132 (20.09.2026) — zbadane, przyczyna NIE jest limitem minut
+
+**Pierwotna, błędna diagnoza (skorygowana tego samego dnia):** job CI „Lint, typecheck, test,
+build" na PR #132 został anulowany w połowie `pnpm test` (lint/typecheck/i18n-guard przeszły
+wcześniej). Właściciel repo pokazał zrzut GitHub Settings → Billing → Usage z paskiem „Actions
+minutes: 2000/2000 used" i wywnioskowałem stąd, że to wyczerpanie darmowego limitu blokuje CI.
+**To wnioskowanie było błędne** — nie zweryfikowałem wprost, zanim zapisałem to jako fakt w tym
+pliku (naruszenie własnej zasady "nie przedstawiaj hipotez jako faktów"; poprawka poniżej, ślad
+oryginalnego wpisu zachowany zgodnie z 15-wspolpraca-z-ai.md, nie ciche nadpisanie).
+
+**Ustalone przez API (nie z pamięci):** `inzynier-offgrid-pro` to **repo publiczne**
+(`GET /repos/.../` → `"private": false, "visibility": "public"`, zweryfikowane bezpośrednio przez
+`curl` do GitHub API). GitHub Actions na standardowych hostowanych runnerach (`ubuntu-latest` —
+dokładnie to, czego używa `ci.yml`) jest dla repo publicznych **darmowe i nielimitowane** —
+limit 2000 min/miesiąc dotyczy wyłącznie repo prywatnych na koncie (stąd zużycie widoczne na
+koncie: prawdopodobnie inne repo właściciela, np. `zero-waste`, są prywatne i to one konsumują
+limit — `inzynier-offgrid-pro` nie powinno być tym ograniczone).
+
+**Wniosek operacyjny:** CI dla tego repo NIE jest ograniczane limitem minut — nie ma powodu
+zakładać z góry, że kolejne joby będą się urywać z tego powodu. Rzeczywista przyczyna anulowania
+w PR #132 pozostaje niewyjaśniona (prawdopodobnie pojedynczy, nieskorelowany glitch
+infrastruktury GitHuba — runner reclaimed/lost) — jeśli powtórzy się w kolejnych PR-ach, badać
+od nowa, nie zakładać automatycznie tej samej (błędnej) przyczyny.
