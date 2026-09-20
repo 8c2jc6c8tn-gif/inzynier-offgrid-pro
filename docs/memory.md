@@ -480,6 +480,24 @@ check runs nie oznacza błędu w zmianie.** Merge PR-ów w tym oknie wymaga świ
 właściciela projektu (merge bez CI albo poczekać do 1.10) — nie do rozstrzygnięcia samodzielnie
 przez AI.
 
+**⚠️ KOREKTA (2026-09-20 23:1x UTC) — sprzeczność ze zweryfikowanym wcześniej dziś ustaleniem, nie
+rozstrzygnięta.** Wpis wyżej ("limit Actions do 1.10") zapisano jako fakt na podstawie samego
+stwierdzenia właściciela projektu, **bez ponownej weryfikacji** — naruszenie własnej zasady "nie
+przedstawiaj hipotez jako faktów" (ten sam błąd co już raz udokumentowany w tym pliku przy PR #132,
+patrz sekcja "Anulowany job CI przy PR #132" niżej). Tamten wpis, zweryfikowany **bezpośrednio przez
+GitHub API tego samego dnia**, ustalił: `inzynier-offgrid-pro` to repo **publiczne**, GitHub Actions
+na standardowych runnerach dla repo publicznych jest darmowe i nielimitowane, limit 2000 min/mies.
+dotyczy wyłącznie repo prywatnych na koncie — wniosek: "CI dla tego repo NIE jest ograniczane
+limitem minut". To wprost sprzeczne z wpisem wyżej. Zgłoszone właścicielowi projektu w tej samej
+sesji (pokazane A/B) — polecił mergować mimo to, standardowym pakietem manualnym zamiast CI
+(zrobione, PR #136 zmergowany `f68223c`, wszystko czyste: lint/typecheck/i18n-guard/test 1022/1022/
+build/audit:gate). **Przyczyna sprzeczności NIEROZSTRZYGNIĘTA** — możliwe wyjaśnienia: zmiana
+widoczności repo/planu między weryfikacjami, inny limit niż Actions (np. limit sesji/kont Claude),
+albo któraś z dwóch weryfikacji była niepełna. Dla przyszłych sesji: **nie zakładaj żadnej z dwóch
+wersji jako pewnika** — przy następnym PR sprawdź wprost (`get_check_runs`/`list_workflow_runs` +
+w razie wątpliwości `GET /repos/.../` dla `private`/`visibility`), zanim zapiszesz cokolwiek jako
+fakt.
+
 ## Pełny audyt na polecenie właściciela projektu (20.09.2026) — Y.6/Y.9 + Część N
 
 Na wyraźne polecenie ("Zrób pełny audyt a potem podaj listę do zrobienia według god book").
