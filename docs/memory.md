@@ -5872,3 +5872,65 @@ branchem (`origin/main` na `1ee624f`, standard-sync PR #134) — utworzono i zme
   brak blokerów danych/norm (to głównie katalogi urządzeń z zakresami W podanymi w źródle, nie
   jedną kanoniczną wartością — wzorzec identyczny do już zbudowanych katalogów, np.
   `systemy-podtrzymania-zycia`), brak ryzyka duplikacji z istniejącym kodem.
+
+## Zamknięcie Item 5 — moduł zbiorczy "Wampiry energetyczne" (20.09.2026)
+
+Zbudowany w całości w jednej sesji (decyzja właściciela projektu: "Całość w jednej sesji", po
+skanie zakresu udokumentowanym wyżej). 24 dawne funkcje (1.24, 1.28–1.50) scalone w **5 realnych
+kalkulatorów** `lib/core/modules/zapotrzebowanie/wampiry-energetyczne/`, po jednym na podzakładkę
+zadeklarowaną w źródle — nie 24 osobne ekrany, zgodnie z ustaloną praktyką konsolidacji
+duplikatów (patrz Ekran 32 "Hierarchia ładowania" i Ekrany 31-33 Modułu 4):
+
+- **`katalog-urzadzen`** (1.24 suma + katalog 1.29/1.41/1.48): 7 urządzeń standby, moc domyślna =
+  środek zakresu źródła (dopowiedziany, udokumentowany jako nieliteralny), edytowalna. Wzór
+  `E_doba/E_rok` zweryfikowany dokładnie (45W→1,08 kWh/dobę→394 kWh/rok, przykład 1.24).
+- **`pomiar-mocy-jalowej`** (1.30+1.38): ręczna lista pomiarów, bez domyślnych mocy (z definicji
+  specyficzne dla sprzętu użytkownika). Ten sam wzór — echo `GODZIN_W_DOBIE`/`DNI_W_ROKU` z
+  `katalog-urzadzen/constants.ts`, nie duplikat stałych. Zweryfikowany: 8W→70 kWh/rok (1.38).
+- **`symulacje-i-raporty`** (rdzeń modułu): trzy niezależne funkcje — autonomia baterii przy
+  standby (1.28+1.31+1.42, zweryfikowana 45W→26h/15W→78h), roczny koszt standby (1.43,
+  zweryfikowana 50W→438 kWh/rok/15% udziału przy 2920 kWh), wpływ eliminacji standby na dobór
+  pojemności (1.45 — **świadomie NIE odtwarza** własnego przykładu liczbowego źródła, bo źródło
+  pomija napięcie/dni autonomii/sprawność/DoD potrzebne do przeliczenia na Ah; echo formuły
+  `obliczPojemnoscUzytecznaKwh` z `baterie/dobor-pojemnosci`, zwraca kWh zamiast Ah dla spójności
+  jednostek). Cena energii i koszt sprzętu **zawsze wpisywane ręcznie, zero wartości domyślnych**
+  — źródło daje je tylko jako ilustrację przykładu, nie normę cenową.
+- **`rekomendacje-sprzetowe`** (1.32+1.39+1.44 porównanie metod, 1.33+1.46 dobór per kategoria):
+  okres zwrotu kosztu zweryfikowany dokładnie (40zł/120zł→4 mies., 150zł/200zł→9 mies., 1.39).
+  Drzewo decyzyjne 1.33 (ten sam wzorzec co Ekran 32 M4) ma **własny zestaw etykiet metod**,
+  tylko częściowo pokrywający się z 4 metodami porównywanymi w 1.44 ("gniazdo z timerem" i
+  "obwód w rozdzielni ze stycznikiem" to inne kategorie) — **błąd złapany i naprawiony przed
+  testami**: pierwsza wersja błędnie zmapowała "ładowarki" na "gniazdo Wi-Fi" (kopiując 4 metody
+  1.44) i dodała niewspieraną przez źródło warunkowość dla routera; poprawione na osobny typ
+  `EtykietaRekomendacji`, klasyfikator 1:1 ze źródłem (ładowarki→gniazdo z timerem, router→
+  gniazdo Wi-Fi bezwarunkowo).
+- **`automatyzacja`** (1.34+1.40+1.48-scenariusze): jeden generyczny silnik "standby referencyjny
+  vs standby w scenariuszu" zamiast 4 kopii tego samego liczenia dla różnych nazw scenariuszy
+  (nocny tryb/nieobecność/praca z domu/weekend/urlop). Zweryfikowany: 45W→15W→0,72 kWh/dobę
+  (1.34). 1.47 (redukcja poboru falownika nocą) to czyste echo/link do już istniejącego ekranu
+  `pobor-wlasny-falownika` — bez własnej logiki. 1.35+1.36+1.49 (detekcja always-on, integracja
+  smart-plug API, harmonogram wg obecności) to treść informacyjna w UI, bez kalkulatora — wymagają
+  realnej integracji sprzętowej, poza zakresem offline-first. 1.50 (audyt zbiorczy) to widok
+  podsumowujący nad wynikami innych podzakładek, bez własnej logiki.
+
+**Odrzucone podczas projektowania (dyscyplina "nie wymyślaj progu"):** draft funkcji
+`drenazSzybki(godziny)` w `symulacje-i-raporty/warnings.ts` z niejawnym progiem "szybkiego
+rozładowania" — usunięty przed użyciem, źródło nie podaje żadnej liczby granicznej.
+
+**UI:** `app/kalkulatory/wampiry-energetyczne/page.tsx` — 5 podzakładek jako `PoleSelect` +
+renderowanie warunkowe (ten sam wzorzec co `kategorie-specjalne`, w kodzie nie istnieje
+komponent Tabs), jeden `usePersistedDraft` na cały ekran (nie 5 osobnych kluczy) z jedną
+zagnieżdżoną strukturą stanu — suma standby wyliczona w Katalogu+Pomiarze dostępna do wpisania
+jednym kliknięciem ("Wpisz sumę…") w polach Symulacji i Automatyzacji, bez ręcznego przepisywania.
+Komponenty podzakładek w `_components/` (Next.js private folder, bez nowych route'ów).
+
+**i18n:** wszystkie 15 nowych kodów `WAMPIR-*` (błędy walidacji + 2 założenia/info) dodane
+identycznie do `lib/i18n/dictionary-{pl,en,ru}.ts` — moduł od razu zmigrowany (17.9), zero
+gotowego tekstu PL w `Warning.message`.
+
+**Weryfikacja:** 38 nowych testów (5 plików) + pełny `pnpm test` (1060/1060), `pnpm typecheck`,
+`pnpm lint` (0 nowych błędów/ostrzeżeń), `pnpm check:i18n-guard`, `pnpm build` — wszystko czyste.
+Ręczny smoke test Playwright (kliknięcie checkboxów katalogu, przełączanie 5 podzakładek,
+weryfikacja klasyfikatora rekomendacji) — bez błędów konsoli poza nieistotnym 404 Vercel Insights
+(brak w środowisku lokalnym, niezwiązane z tym modułem). Rejestracja: `lib/pulpit/registry.ts`
+(Moduł 2, na końcu listy ekranów) + `docs/rejestr-pokrycia.md` wiersz 18 (Moduł 2) → **done**.

@@ -840,6 +840,21 @@ export const dictionaryPl = {
   "IMD-PROG-ALARMU-PRZYKLADOWA-WARTOSC-ZRODLA":
     "Wpisany próg alarmu to wartość ustawiona przez Ciebie — źródło podaje 50 kΩ tylko jako przykład, nie jako uniwersalny wymóg. Realny próg zależy od napięcia systemu i zaleceń producenta IMD.",
   "BRAK-CERTYFIKATU": "{komponent} — certyfikat jeszcze niepotwierdzony.",
+  "WAMPIR-POZYCJA-NIEDODATNIA": 'Zaznaczone urządzenie "{label}" musi mieć moc większą od zera.',
+  "WAMPIR-BRAK-ZAZNACZONYCH": "Nie zaznaczono żadnego urządzenia z katalogu standby.",
+  "WAMPIR-POZYCJA-WARTOSC-DOMYSLNA": '"{label}" przyjęte z domyślną mocą {value} W (nie edytowane).',
+  "WAMPIR-POMIAR-NIEDODATNI": 'Zmierzona pozycja "{label}" musi mieć moc większą od zera.',
+  "WAMPIR-BRAK-POMIAROW": "Nie wpisano żadnego pomiaru mocy jałowej.",
+  "WAMPIR-STANDBY-NIEDODATNI": "Pobór standby musi być liczbą większą od zera.",
+  "WAMPIR-DOD-POZA-ZAKRESEM": "DoD (głębokość rozładowania) musi być z przedziału (0, 100].",
+  "WAMPIR-POJEMNOSC-NIEDODATNIA": "Pojemność użyteczna musi być liczbą większą od zera.",
+  "WAMPIR-CENA-ENERGII-NIEDODATNIA": "Cena energii musi być liczbą większą od zera.",
+  "WAMPIR-ELIMINACJA-POZA-ZAKRESEM": "Procent eliminacji standby musi być z przedziału (0, 100].",
+  "WAMPIR-KOSZT-UJEMNY": 'Koszt zakupu/montażu metody "{label}" nie może być ujemny.',
+  "WAMPIR-OSZCZEDNOSC-NIGDY-NIE-ZWROCI": 'Metoda "{label}" — przy tak niskiej rocznej oszczędności koszt zakupu nigdy się nie zwróci.',
+  "WAMPIR-STANDBY-REFERENCYJNY-NIEDODATNI": "Standby referencyjny (tryb normalny) musi być liczbą większą od zera.",
+  "WAMPIR-STANDBY-SCENARIUSZ-NIEDODATNI": "Standby w scenariuszu nie może być liczbą ujemną.",
+  "WAMPIR-REDUKCJA-NIEPOZYTYWNA": "Ten scenariusz nie daje redukcji poboru standby względem trybu referencyjnego.",
 } as const
 
 export type KluczTlumaczenia = keyof typeof dictionaryPl

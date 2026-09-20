@@ -50,6 +50,7 @@ export const KAFLE: KafelEntry[] = [
       { href: "/kalkulatory/sprawnosc-inwertera-niskie-obciazenie", label: "Sprawność inwertera przy niskim obciążeniu" },
       { href: "/kalkulatory/architektura-fazowa", label: "Architektura 1-fazowa / 3-fazowa" },
       { href: "/kalkulatory/kategorie-specjalne", label: "Kategorie specjalne" },
+      { href: "/kalkulatory/wampiry-energetyczne", label: "Wampiry energetyczne" },
     ],
   },
   {
