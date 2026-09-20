@@ -3,7 +3,8 @@ import type { Metadata, Viewport } from 'next'
 import { headers } from 'next/headers'
 import { Inter, Lato, Roboto, Source_Sans_3 } from 'next/font/google'
 import { LanguageProvider } from '@/lib/i18n/language-context'
-import { getServerLanguage } from '@/lib/i18n/server-language'
+import { DEFAULT_LANGUAGE, SUPPORTED_LANGUAGES } from '@/lib/i18n/language'
+import { STORAGE_KEY } from '@/lib/i18n/storage'
 import './globals.css'
 
 // latin-ext = polskie znaki diakrytyczne (ą ć ę ł ń ó ś ź ż) — bez tego subsetu nie renderują się
@@ -99,16 +100,37 @@ const WYGLAD_INIT_SCRIPT = `
 })();
 `
 
+// Atrybut <html lang> — docs/standards/17-i18n.md, 17.4 (korekta offline-first, "Rozróżnienie
+// atrybut vs treść"): tani wariant, sam wzorzec jak WYGLAD_INIT_SCRIPT wyżej (czysty JS przed
+// hydracją, żaden import z lib/i18n — ten skrypt biegnie zanim React się załaduje). Widoczna
+// treść UI (tłumaczenia w komponentach) nie jest tu rozwiązywana — koryguje się dopiero po
+// hydracji przez lib/i18n/storage.ts (useSyncExternalStore), patrz docs/memory.md, "Znane luki
+// do domknięcia" — jawnie ujawniona, zaakceptowana konsekwencja zerowej zależności od serwera.
+const JEZYK_INIT_SCRIPT = `
+(function () {
+  try {
+    var OBSLUGIWANE = ${JSON.stringify(SUPPORTED_LANGUAGES)};
+    var zapisany = window.localStorage.getItem('${STORAGE_KEY}');
+    var jezyk = null;
+    if (zapisany && OBSLUGIWANE.indexOf(zapisany) !== -1) {
+      jezyk = zapisany;
+    } else {
+      var listy = (navigator.languages && navigator.languages.length) ? navigator.languages : [navigator.language || ''];
+      for (var i = 0; i < listy.length; i++) {
+        var kod = String(listy[i]).toLowerCase().split('-')[0];
+        if (OBSLUGIWANE.indexOf(kod) !== -1) { jezyk = kod; break; }
+      }
+    }
+    if (jezyk) document.documentElement.lang = jezyk;
+  } catch (e) {}
+})();
+`
+
 export default async function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode
 }>) {
-  // Czytane z cookie `jezyk` (middleware.ts ustawia ją na pierwszej wizycie z Accept-Language,
-  // docs/standards/17-i18n.md 17.4/17.4a) — server-rendered <html lang> i wartość początkowa
-  // LanguageProvider są zgodne od pierwszego bajtu HTML, bez migotania złego języka.
-  const language = await getServerLanguage()
-
   // Nonce wygenerowany per żądanie w middleware.ts (docs/standards/07-bezpieczenstwo.md, 7.3) —
   // dokładany do WŁASNYCH inline-skryptów tego layoutu; Next.js dokłada go automatycznie do
   // swoich własnych (RSC streaming), bo wykrywa go w nagłówku Content-Security-Policy.
@@ -116,19 +138,20 @@ export default async function RootLayout({
 
   return (
     <html
-      lang={language}
+      lang={DEFAULT_LANGUAGE}
       suppressHydrationWarning
       className={`${inter.variable} ${sourceSans.variable} ${roboto.variable} ${lato.variable}`}
     >
       <head>
         <script nonce={nonce} dangerouslySetInnerHTML={{ __html: WYGLAD_INIT_SCRIPT }} />
+        <script nonce={nonce} dangerouslySetInnerHTML={{ __html: JEZYK_INIT_SCRIPT }} />
         {/* Zewnętrzny plik (nie inline) — rejestracja nie zależy od hydracji Reacta
             (docs/standards/05-baza-danych-offline.md, 5.3). Wymaga nonce mimo bycia zewnętrznym:
             'self' w script-src wystarczyłby, ale nonce trzymamy spójnie na obu własnych <script>. */}
         {process.env.NODE_ENV === 'production' && <script nonce={nonce} src="/register-sw.js" defer />}
       </head>
       <body className="antialiased">
-        <LanguageProvider language={language}>
+        <LanguageProvider>
           {children}
           {process.env.NODE_ENV === 'production' && <Analytics />}
         </LanguageProvider>

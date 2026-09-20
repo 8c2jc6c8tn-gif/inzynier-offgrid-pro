@@ -1,7 +1,8 @@
 /**
- * Obsługiwane języki UI — docs/standards/17-i18n.md, 17.4/17.4a. Plik bez zależności od
- * `next/headers`/DOM, żeby był bezpieczny do importu zarówno z Server, jak i Client Components,
- * oraz z middleware (Edge runtime).
+ * Obsługiwane języki UI — docs/standards/17-i18n.md, 17.4 (korekta offline-first: zero cookie,
+ * zero zależności od serwera — ten projekt ma twardy wymóg offline, "off-grid" w nazwie). Plik
+ * bez zależności od DOM/`localStorage`, żeby był bezpieczny do importu z Client Components i
+ * z czystego JS skryptu pre-paint w app/layout.tsx (patrz lib/i18n/storage.ts).
  */
 
 export const SUPPORTED_LANGUAGES = ["pl", "en", "ru"] as const
@@ -15,17 +16,6 @@ export const LANGUAGE_LABELS: Record<Language, string> = {
   en: "English",
   ru: "Русский",
 }
-
-/**
- * Cookie, nie `localStorage` — 17.4 (poprawka 16.09.2026): apka ma SSR (Next.js App Router),
- * `localStorage` jest niewidoczny przy pierwszym renderze serwera, więc serwer wysyłałby HTML
- * w złym języku przy każdym twardym przeładowaniu. Zwykłe cookie (nie `HttpOnly` — inny
- * przypadek niż token sesji 18.5, JS przełącznika języka musi je czytać/zapisywać).
- */
-export const LANGUAGE_COOKIE = "jezyk"
-
-/** 365 dni — ta sama preferencja co inne "drobne ustawienia UI" (theme/wyglad), nie sesja. */
-export const LANGUAGE_COOKIE_MAX_AGE_SECONDS = 60 * 60 * 24 * 365
 
 export function isLanguage(value: string | null | undefined): value is Language {
   return !!value && (SUPPORTED_LANGUAGES as readonly string[]).includes(value)
