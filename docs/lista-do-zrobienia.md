@@ -901,3 +901,33 @@ Tu trafia bieżący stan pracy: co w trakcie, co zablokowane, co następne — a
   Zweryfikowane: typecheck/lint/i18n-guard/test(965/965)/build czyste, Playwright (4 scenariusze:
   świeże wejście, przełączenie, twarde przeładowanie z zapisaną preferencją, ekran Prognozy) —
   zero nowych błędów konsoli. Szczegóły: `docs/memory.md`.
+
+## Pełny audyt (20.09.2026, GOD BOOK Y.6/Y.9 + Część N) — lista priorytetowa
+
+Pełne wyniki audytu: `docs/memory.md`, sekcja "Pełny audyt na polecenie właściciela projektu
+(20.09.2026)". Poniżej wyłącznie akcje wynikające z audytu, priorytetyzowane.
+
+- ✅ **[PILNE, architektura] Migracja i18n z cookie+server-side na client-side bundled —
+  ZREALIZOWANE** (patrz wpis ✅ wyżej w tej samej sekcji, branch/PR `claude/i18n-offline-first`,
+  merge 2026-09-20). Oryginalny opis zadania z audytu, zachowany jako zapis kontekstu, nie
+  aktualny stan: projekt jest offline-first (5.3), ówczesny mechanizm (`middleware.ts`,
+  `lib/i18n/language.ts`, cookie `jezyk`) łamał tę zasadę. Standard skorygował się 16.09.2026
+  (wiersz 76 `AKTUALIZACJE.md`): dla projektów z twardym wymogiem offline (ten projekt, jawnie
+  zadeklarowany w `CLAUDE.md` linia 3 jako "Web/PWA offline-first") język UI ma być:
+  `localStorage` + `navigator.language` na pierwszą wizytę, blokujący skrypt pre-paint z treścią
+  WSZYSTKICH języków w bundlu klienckim (cache SW), zero cookie, zero zależności od serwera.
+- 🟢 Wiersz 74 `AKTUALIZACJE.md` (CSP nonce-per-request) — już zaimplementowane w tym repo,
+  tylko formalnie zamknięte w logu tym audytem. Bez akcji.
+- 🟢 3 pliki `docs/standards/` (`17-i18n.md`, `00-INDEKS.md`, `05-baza-danych-offline.md`) —
+  zsynchronizowane w tym audycie. Bez dalszej akcji.
+- 🟡 **Backlog funkcjonalny, znany i nieprzeoczony (bez zmian od poprzednich audytów, tylko
+  potwierdzony nadal aktualny):**
+  1. Moduł 5 (Okablowanie) — 27 z 29 ekranów `todo`, niezależne od normy blokującej Ekran 1,
+     budowalne równolegle bez czekania.
+  2. Moduł 11 (Montaż baterii) — w większości `todo` poza ekranami referencyjnymi już
+     zbudowanymi.
+  3. Klaster stress-test zimowy (Moduł 7) — w większości architektonicznie zależny od jeszcze
+     niezbudowanego Modułu 1 (geostruktura, brak treści źródłowej) i modelu termicznego
+     Modułu 6.
+  4. Moduł zbiorczy "Wampiry energetyczne" (Moduł 2, 24 dawne funkcje, 5 podzakładek) —
+     świadomie odłożony jako osobna, większa sesja projektowa.
