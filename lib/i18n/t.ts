@@ -4,10 +4,12 @@
  * nie generuje gotowego tekstu, tylko klucz + parametry (Warning.i18nKey/params,
  * CalcResult.Assumption jako `{kod, params}`).
  *
- * Język jako jawny parametr (nie ukryty moduł-globalny) — apka ma SSR, moduł-globalna zmienna
- * "aktualny język" na serwerze przeciekałaby między równoległymi żądaniami różnych użytkowników.
- * Komponenty kliencie: `useTranslate()` z `./language-context` (wiąże język z kontekstu).
- * Komponenty serwerowe: `getServerLanguage()` z `./server-language` + wywołanie `t()` wprost.
+ * Język jako jawny parametr (nie ukryty moduł-globalny) — moduł-globalna zmienna "aktualny
+ * język" przeciekałaby między niezależnymi wywołaniami. Komponenty kliencie: `useTranslate()`
+ * z `./language-context` (wiąże język z kontekstu, docs/standards/17-i18n.md 17.4 — korekta
+ * offline-first: kontekst czyta `localStorage` przez `./storage`, zero cookie/serwera). Server
+ * Components nie renderują dziś tłumaczonego tekstu wprost (jedyny taki przypadek,
+ * app/kalkulatory/prognozy/page.tsx, został wydzielony do Client Component, docs/memory.md).
  */
 import { dictionaries } from "./dictionaries"
 import { consoleReporter } from "@/lib/core/reporter"

@@ -365,6 +365,84 @@ konkretnych potrzebnych tabel + kod kalkulatora, po kolei małymi partiami zgodn
   8. `.claude/skills/standards/SKILL.md` — ✅ istnieje, bez zmian wymaganych tą partią.
   9. `01_Zasady_Pracy_i_Konwencje.md` + `02_Dyrektywy_AI_Projektu.md` — ✅ oba istnieją.
 
+## Pełny audyt na polecenie właściciela projektu (20.09.2026) — Y.6/Y.9 + Część N
+
+Na wyraźne polecenie ("Zrób pełny audyt a potem podaj listę do zrobienia według god book").
+Wykonane oba tryby audytu z GOD BOOK: **Y.6/Y.9** (sprawdzenie aktualizacji + checklist
+kompletności struktury) i **Część N** (audyt kompletności — spot-check bezpośrednio w źródłach,
+nie z pamięci).
+
+**Y.6 — sprawdzono `AKTUALIZACJE.md`** (lokalny klon `new-app-standards`, `git fetch`+`git merge
+--ff-only`, `0cff79a..0c56884`, zgodnie z 1a — bez tego kroku poprzedni checkout raportowałby
+fałszywie "brak nowości"). Ostatni sync: 16.09.2026 (wiersze 67–73). **3 nowe wiersze (74–76),
+wszystkie tego samego dnia, nieskonsolidowane:**
+
+1. **Wiersz 74 — KOREKTA (BŁĄD KRYTYCZNY): hash-based CSP niekompatybilny z Next.js App Router.**
+   Źródło: **ten projekt**, własne zgłoszenie z sesji 16.09 (patrz `docs/wklad-do-standardu.md`
+   wcześniejszy wpis o tym samym dniu). Standard potwierdził: błąd produkcyjny aktywny (hydracja
+   Reacta psuje się na każdej stronie), nakazana migracja na nonce-per-request. **Stan w tym
+   repo: ✅ już naprawione** (ten sam dzień, `middleware.ts` generuje nonce per-request, przekazuje
+   przez nagłówek `x-nonce`, `app/layout.tsx` odczytuje i wstawia do `WYGLAD_INIT_SCRIPT`,
+   `next.config.mjs` ma komentarz wyjaśniający dlaczego CSP tam nie jest ustawiana). `docs/standards/07-bezpieczenstwo.md`
+   już identyczny ze źródłem (`diff` — zero różnic). Nic do zrobienia poza formalnym zamknięciem
+   tego wiersza w logu (ten wpis).
+2. **Wiersz 75 — doprecyzowanie 17.4: atrybut `lang` (tani) vs widoczna treść (pełna 17.4),
+   obowiązkowy jawny ślad w 14.4 jeśli wdrożono tylko atrybut.** Nie dotyczy wprost — projekt
+   wdrożył już PEŁNY mechanizm (cookie+treść), nie tylko atrybut — ale sam ten mechanizm okazuje
+   się nieaktualny, patrz wiersz 76.
+3. **Wiersz 76 — KOREKTA ARCHITEKTONICZNA: 17.4 wraca do offline-first (5.3) jako osi decyzyjnej,
+   nie "czy projekt ma dostępny serwer".** 🔴 **Realny, nienaprawiony gap w tym repo.**
+   `CLAUDE.md` (linia 3) jawnie deklaruje ten projekt jako "Web/PWA offline-first" — dokładnie
+   kategoria, dla której poprawiona reguła nakazuje **zero cookie, zero zależności od serwera**
+   dla języka UI. Dzisiejszy kod (`lib/i18n/language.ts`, `middleware.ts` `ustawJezykJesliBrak`)
+   implementuje dokładnie odrzucony wzorzec: cookie `jezyk` + odczyt `Accept-Language` w
+   middleware + serwerowy render per-request. To nie jest hipotetyczne ryzyko — to aktywna
+   zależność od serwera przy KAŻDYM twardym przeładowaniu, w aplikacji, której sens istnienia to
+   praca bez sieci. Poprawny wzorzec dla tej kategorii: `localStorage` + `navigator.language` na
+   pierwszą wizytę, blokujący skrypt pre-paint z treścią WSZYSTKICH języków w bundlu klienckim
+   (cache'owany przez service worker), zero cookie/middleware dla języka. **Nie naprawione w tej
+   sesji** — to migracja architektury runtime (middleware.ts, lib/i18n/*, layout.tsx), nie
+   dokumentacyjny PATCH, i dotyka mechanizmu, z którego korzysta dziś cała apka — zgłoszone do
+   listy zadań (patrz `docs/lista-do-zrobienia.md`), czeka na jawną zgodę przed startem.
+
+**Zsynchronizowane (kategoria NIETYKALNE, pełny nadpis, zero negocjacji):**
+`docs/standards/17-i18n.md`, `docs/standards/00-INDEKS.md`, `docs/standards/05-baza-danych-offline.md`.
+Zweryfikowano po synchronizacji: `diff -rq` całego `docs/standards/` między tym repo a źródłem —
+**zero różnic** (wcześniej: 3 pliki). GOD BOOK i `PROMPT_STARTOWY.md` — już identyczne ze źródłem,
+bez zmian. `pnpm check:i18n-guard` — czyste (94 moduły, bez regresji po zmianie treści standardu,
+zgodnie z oczekiwaniem — guard sprawdza AST kodu, nie treść dokumentacji).
+
+**Y.9 — pełna checklista struktury (19 pozycji: 9 z tabeli + 10 z Części S), sprawdzona
+bezpośrednio (`ls`/`test -e`), nie domniemana:** wszystkie ✅ istnieją — `docs/standards/00-INDEKS.md`,
+GOD BOOK v2.19, `CLAUDE.md`, `docs/memory.md`, `docs/lista-do-zrobienia.md`,
+`docs/wklad-do-standardu.md`, `docs/zrodla/`, `.claude/skills/standards/SKILL.md`,
+`01_Zasady_Pracy_i_Konwencje.md`, `02_Dyrektywy_AI_Projektu.md`, `00_Biblia.md`,
+`rejestr-decyzji.md`, `zlote-zasady.md`, `mapa-wdrozenia.md`, `backlog-poza-v1.md`,
+`dlug-techniczny.md`, `slownik-pojec.md`, `wiedza-surowa.md`, `kontrakty-rdzenia.md`. Zero
+brakujących pozycji.
+
+**Część N — audyt kompletności, spot-check bezpośrednio w źródłach:**
+1. **Markery długu technicznego `🔎 TD#`** (X.4) — `grep` w obie strony: `dlug-techniczny.md`
+   ma TD1–TD13, kod (`lib/`+`app/`) ma dokładnie te same TD1–TD13, zero rozbieżności (brak
+   długu nieudokumentowanego, brak wpisów-widm).
+2. **`docs/rejestr-twardych-stopow.md`** — 41 pozycji, struktura (sekcje tematyczne + odsyłacze
+   moduł/plik) spójna, brak oznak zaniedbania.
+3. **CI na `main`** — ostatni bieg (run #83, PR #128) zielony, bez znanych regresji.
+4. **`docs/rejestr-pokrycia.md`** — brak nowych, nieznanych wcześniej luk ponad to, co już
+   udokumentowane; największe pozostałe otwarte obszary (niezmienione od poprzednich audytów,
+   potwierdzone nadal aktualne): Moduł 5 (Okablowanie) 27/29 ekranów `todo` (niezależne od
+   normy blokującej Ekran 1, budowalne równolegle), Moduł 11 (Montaż baterii) w większości
+   `todo` poza już zbudowanymi ekranami referencyjnymi, klaster stress-test zimowy (Moduł 7,
+   architektonicznie zależny od jeszcze niezbudowanego Modułu 1/modelu termicznego Modułu 6),
+   moduł zbiorczy "Wampiry energetyczne" (Moduł 2, 24 funkcje, świadomie odłożony jako osobna
+   sesja).
+
+**Wynik ogólny:** projekt w dobrym stanie strukturalnym (Y.9 100%, GOD BOOK/standard w pełni
+zsynchronizowane po tej sesji, TD markers czyste, CI zielone) — jeden realny, aktywny gap
+architektoniczny (i18n cookie-based w projekcie offline-first, wiersz 76) i duży, znany,
+nieprzeoczony backlog funkcjonalny (M5/M11/M7/moduł wampirów). Pełna, priorytetyzowana lista:
+`docs/lista-do-zrobienia.md`, wpis z tego dnia.
+
 ## Decyzje i uzasadnienie
 
 - **2026-08-29 — Standard `docs/standards/` (16 rozdziałów) i ten plik utworzone.** Scalenie: `ZASADY_APLIKACJI.md`/`USTALENIA.md` (istniejące w repo) + audyt architektury "Kontrakty Kernela" (apka "Inżynier szkieletowy Pro") + pełna metodologia treści i wzorców UI Offgrid (Zasady UX Doradcy, plik scalony wszystkich modułów) + komplet dokumentów AI z projektu "Kalkulator Inżyniera Pro" (ARCHITECTURE/CODING_STANDARD/CALCULATORS/AI_MASTER/AI_CAMERA/LOCAL_AI/UI_GUIDE/praca_ai_z_teoria). Format: Markdown w `docs/standards/` jako źródło prawdy (przenośne między AI), `.claude/skills/standards/SKILL.md` jako cienki wrapper dla Claude Code.
@@ -5362,6 +5440,74 @@ pnpm start`, `next-server` sprzątnięty przed i po) na pulpicie głównym — 4
 potwierdzone bezpośrednio w gridzie (08/10/12/13; 09/11 przesłonięte maskotką, opisane wyżej;
 14 nie ma slotu w gridzie), zrzut ekranu całej strony sprawdzony wizualnie — bez nakładających
 się elementów, bez złamanych ikon. Zamyka punkt 6 i całą prośbę "5,6,7,8,9 proszę zrób".
+
+## Migracja i18n na client-side bundled (offline-first, 17.4) — 20.09.2026
+
+Znalezisko z pełnego audytu GOD BOOK Y.6/Y.9 (sesja równoległa, branch `claude/app-rules-r4guty`,
+PR #129 — zablokowany na CI infrastrukturalnie, 0ms billable na obu jobach, nie treścią diffu):
+obecny mechanizm i18n (cookie+middleware) łamie deklarowany offline-first tego projektu. Na
+wyraźną prośbę właściciela: zrealizowane od razu w osobnym branchu/PR (`claude/i18n-offline-first`,
+z `main`, nie z zablokowanego branchu audytu, żeby nie czekać na jego CI), częściami z
+weryfikacją po każdej.
+
+**Kontekst decyzji.** `docs/standards/17-i18n.md`, 17.4 (korekta 16.09.2026, źródło: właściciel
+repo): mandat "cookie+server-side domyślnie dla każdego projektu z dostępnym serwerem" łamał 5.3
+(offline-first jako wymóg) — wymagał renderu per-request na serwerze przy KAŻDYM twardym
+przeładowaniu, sprzeczne z sensem istnienia projektu "off-grid". Poprawiona oś decyzyjna: nie
+"czy projekt ma serwer", tylko "czy projekt ma twardy wymóg offline (5.3)" — **jawna deklaracja
+tego projektu (ten wpis)**: inzynier-offgrid-pro ma twardy wymóg offline, kategoria "zero cookie,
+zero zależności od serwera dla języka", nie "głównie online" (ta druga — zero-waste, nazwany
+wyjątek, 17.4a).
+
+**Odkrycie procesowe przy starcie tego kroku.** Branch `claude/i18n-offline-first` utworzony z
+`main` nie miał jeszcze zsynchronizowanego `docs/standards/17-i18n.md` z korektą 17.4 — bo ta
+korekta była dotąd wdrożona tylko w osobnym, wciąż nieukończonym PR #129 (audyt, zablokowany na
+CI infrastrukturalnie — 0ms billable na obu jobach, nie treścią diffu). Zsynchronizowano 5 plików
+NIETYKALNE (00-INDEKS, 05, 08, 17 + 15-wspolpraca-z-ai — źródło miało już nowszy commit niż
+audyt, w tym nową 17.1a) przed implementacją kodu, żeby branch był samospójny z regułą, którą
+implementuje — osobny commit, `git diff -rq` zero różnic ze źródłem po synchronizacji.
+
+**Co zmieniono (kod):**
+- `lib/i18n/storage.ts` (nowy) — `useSyncExternalStore` + `localStorage` (`offgrid.jezyk.v1`),
+  ten sam wzorzec co `lib/theme/storage.ts`/`lib/wyglad/storage.ts`/`lib/pulpit/storage.ts`.
+  Pierwsza wizyta: `navigator.languages` (nie `Accept-Language` — niewidoczny bez serwera).
+- `app/layout.tsx` — usunięty `getServerLanguage()`/cookie; `<html lang>` statyczne na
+  `DEFAULT_LANGUAGE`, korygowane blokującym skryptem pre-paint (`JEZYK_INIT_SCRIPT`, ten sam
+  wzorzec co `WYGLAD_INIT_SCRIPT` dla motywu) — zero błysku ATRYBUTU.
+- `middleware.ts` — usunięta cała logika `ustawJezykJesliBrak`/cookie (CSP nonce i bramka
+  Supabase nietknięte).
+- `components/jezyk-wybor.tsx` — zapis do `localStorage` przez `zapiszJezyk()`, bez
+  `router.refresh()` (zmiana natychmiastowa, czysto kliencka — realna poprawa UX, nie tylko
+  neutralna zamiana mechanizmu).
+- `app/kalkulatory/prognozy/page.tsx` + nowy `components/zalozenia-lista.tsx` — jedyny Server
+  Component renderujący tłumaczony tekst wprost (`getServerLanguage()`+`t()`) wydzielony do
+  Client Component (`useTranslate()` wymaga kontekstu Reacta, nie ma już cookie do odczytania
+  server-side). Jedyny taki przypadek w projekcie — reszta ekranów już renderowała tłumaczenia
+  przez `useTranslate()` w Client Components.
+- Usunięte jako martwy kod: `lib/i18n/server-language.ts`, `lib/i18n/client-language.ts`.
+
+**🟡 Znana, jawnie ujawniona luka do domknięcia (14.4) — flash widocznej treści.** Sam atrybut
+`lang` nie migocze (skrypt pre-paint, jak wyżej). Widoczna TREŚĆ UI (tłumaczenia w komponentach)
+może się skorygować krótko po hydratacji przy twardym przeładowaniu, jeśli zapisany/wykryty język
+różni się od `DEFAULT_LANGUAGE` (polski) renderowanego server-side — SSR fizycznie nie może znać
+`localStorage`. `useSyncExternalStore` (`getServerSnapshot()`→`getSnapshot()`) minimalizuje okno
+i **nie generuje ostrzeżeń hydration mismatch** (potwierdzone Playwrightem na scenariuszu
+en-US/pl/ru) — ale nie eliminuje flashu treści całkowicie, tylko skraca go do czasu hydracji.
+Pełne wyeliminowanie wymagałoby architektury CSS-multi-language-DOM (wszystkie języki naraz w
+SSR HTML, przełączane atrybutem/CSS — dosłowne odczytanie 17.4: "skrypt wstawia poprawną treść
+PRZED pierwszym malowaniem") — świadomie NIE wdrożone teraz: duży refaktor dotykający ~130
+ekranów używających `t()`, poza zakresem tego kroku ("częściami, żeby nic nie namieszać"), czeka
+na wyraźną decyzję właściciela, jeśli flash treści okaże się realnym problemem w praktyce (dziś:
+tylko przy twardym przeładowaniu z językiem ≠ polski — mniejszość ruchu, biorąc pod uwagę że
+polski jest bazowy i domyślny).
+
+**Weryfikacja**: `pnpm typecheck`/`lint`/`check:i18n-guard`/`test` (965/965)/`build` czyste.
+Playwright (świeży `pnpm dev`): świeże wejście bez zapisanej preferencji → fallback
+`navigator.languages` (en, locale przeglądarki testowej — nie zawsze pl, zgodnie ze specyfikacją
+17.4, nie błąd); przełączenie w Ustawieniach na Polski → natychmiastowa zmiana `<html lang>` +
+zapis `localStorage`, bez przeładowania strony; twarde przeładowanie z zapisanym `ru` → `<html
+lang="ru">` od razu (skrypt pre-paint, przed hydracją); ekran Prognozy (skonwertowany) renderuje
+poprawnie. Zero nowych błędów konsoli w żadnym z 4 scenariuszy.
 
 ## Limit minut GitHub Actions wyczerpany + `paths-ignore` w CI — 20.09.2026
 

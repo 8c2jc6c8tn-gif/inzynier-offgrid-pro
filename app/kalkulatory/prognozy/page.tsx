@@ -3,13 +3,11 @@ import { SAMPLE_PROGNOZA_24H } from "@/lib/core/modules/ai/prognozy/constants"
 import { WerdyktPanel } from "@/components/werdykt"
 import { NawigacjaEkranu } from "@/components/nawigacja-ekranu"
 import { NaglowekEkranu } from "@/components/wzorce/naglowek-ekranu"
-import { t } from "@/lib/i18n/t"
-import { getServerLanguage } from "@/lib/i18n/server-language"
+import { ZalozeniaLista } from "@/components/zalozenia-lista"
 
-// Server Component (nie Client) — język czytany bezpośrednio z cookie, nie przez
-// useTranslate()/LanguageProvider (kontekst Reacta działa tylko w Client Components).
-export default async function PrognozyPage() {
-  const language = await getServerLanguage()
+// Server Component — jedyne tłumaczenie na tym ekranie (lista założeń) jest wydzielone do
+// ZalozeniaLista (Client Component), docs/standards/17-i18n.md 17.4 (korekta offline-first).
+export default function PrognozyPage() {
   const result = calculatePrognozy(SAMPLE_PROGNOZA_24H)
 
   return (
@@ -52,11 +50,7 @@ export default async function PrognozyPage() {
         </table>
       </div>
 
-      <ul className="text-caption text-muted-foreground">
-        {result.assumptions.map((a, i) => (
-          <li key={typeof a === "string" ? a : a.kod + i}>Założenie: {typeof a === "string" ? a : t(language, a.kod, a.params)}</li>
-        ))}
-      </ul>
+      <ZalozeniaLista assumptions={result.assumptions} />
     </main>
   )
 }

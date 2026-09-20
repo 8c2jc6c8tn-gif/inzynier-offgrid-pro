@@ -1,17 +1,21 @@
 "use client"
 
 /**
- * Kontekst języka dla Client Components — wartość początkowa przychodzi z `app/layout.tsx`
- * (Server Component, czyta cookie `jezyk` przez `getServerLanguage()`), więc pierwszy render
- * po stronie klienta jest już w poprawnym języku, bez migotania (docs/standards/17-i18n.md, 17.4).
+ * Kontekst języka dla Client Components — docs/standards/17-i18n.md, 17.4 (korekta offline-first:
+ * zero cookie, zero zależności od serwera). Źródłem prawdy jest lib/i18n/storage.ts
+ * (`useSyncExternalStore` + `localStorage`, ten sam wzorzec co lib/theme/storage.ts) — ten
+ * kontekst tylko udostępnia rozwiązaną wartość przez Reacta, żeby `useTranslate()`/`useLanguage()`
+ * nie musiały wywoływać `useSyncExternalStore` w każdym z ~130 miejsc użycia.
  */
-import { createContext, useCallback, useContext, type ReactNode } from "react"
+import { createContext, useCallback, useContext, useSyncExternalStore, type ReactNode } from "react"
 import { DEFAULT_LANGUAGE, type Language } from "./language"
+import { getServerSnapshot, getSnapshot, subscribe } from "./storage"
 import { t } from "./t"
 
 const LanguageContext = createContext<Language>(DEFAULT_LANGUAGE)
 
-export function LanguageProvider({ language, children }: { language: Language; children: ReactNode }) {
+export function LanguageProvider({ children }: { children: ReactNode }) {
+  const language = useSyncExternalStore(subscribe, getSnapshot, getServerSnapshot)
   return <LanguageContext.Provider value={language}>{children}</LanguageContext.Provider>
 }
 
