@@ -95,6 +95,15 @@ export const dictionaryEn = {
   "DOD-DODATNI-POZA-ZAKRESEM": "DoD (depth of discharge) must be within the range 0–100% (>0).",
   "BUFOR-STARZENIOWY-NIE-DOLICZONY": "Without an aging buffer (Screen 5, Module 4) — this screen doesn't exist in the code yet.",
   "SOC-POZA-ZAKRESEM": "SoC must be within the range 0–100%.",
+  "MOC-LADOWANIA-UJEMNA": "PV charging power cannot be negative.",
+  "MOC-ROZLADOWANIA-NIEDODATNIA": "Nighttime discharge power must be greater than zero.",
+  "DLUGOSC-DNIA-POZA-ZAKRESEM": "The charging window length must be within the range 0–24 hours.",
+  "NIE-PRZETRWA-NOCY":
+    "With these parameters the battery will reach the SoC warning threshold before the end of the night — " +
+    "check whether the discharge power or capacity are realistic.",
+  "SYMULACJA-SREDNIA-MOC-NIE-PROFIL-GODZINOWY":
+    "The simulation uses the average charging/discharging power over the whole window, not a full hourly " +
+    "profile — the actual course of the day/night may differ.",
   "BRAK-POTRZEBY-GRZANIA":
     "Temperature ({temp}°C) is high enough that the BMS doesn't turn on the heaters before charging (threshold: {prog}°C).",
   "GRZANIE-Z-PV": "There is PV production — the BMS heaters are powered directly from the panels, zero load on the battery.",

@@ -5755,3 +5755,43 @@ zakładać z góry, że kolejne joby będą się urywać z tego powodu. Rzeczywi
 w PR #132 pozostaje niewyjaśniona (prawdopodobnie pojedynczy, nieskorelowany glitch
 infrastruktury GitHuba — runner reclaimed/lost) — jeśli powtórzy się w kolejnych PR-ach, badać
 od nowa, nie zakładać automatycznie tej samej (błędnej) przyczyny.
+
+## Synchronizacja ze standardem przed sesją "3 i 5" (20.09.2026)
+
+[20.09.2026] Właściciel projektu: "Dawaj 3 i 5 ogarniemy. Tylko zrób przed tym aktualizacje" —
+wykonana pełna synchronizacja Y.6/Y.9 z `new-app-standards` przed startem (PR #134, zmergowany
+jako `1ee624f`): GOD BOOK zaktualizowany do v2.20 (pełne nadpisanie NIETYKALNE), `docs/wklad-do-standardu.md`
+skrócony z 1102→572 linii (12 zamkniętych wpisów przeniesionych do nowego `docs/wklad-do-standardu-archiwum.md`,
+zgodnie z nową zasadą Y.8 — nie było jej wcześniej w tym pliku, dopisana tu jako decyzja
+architektoniczna: wpisy w `wklad-do-standardu.md` ze statusem `✅ skonsolidowane`/`✅ przekazane`
+bez otwartego follow-upu przenosimy do archiwum z pointerem w pliku żywym, żeby plik roboczy nie
+rósł bez ograniczeń). 4 wpisy zostały otwarte (procedura materiałów źródłowych, biblioteka norm,
+wielojęzyczność C6, CI referencyjny/i18n-guard). Zero blokerów dla pracy nad Modułem 4/Baterie
+ani modułem Wampirów energetycznych.
+
+**Pułapka napotkana przy mergu PR #134:** "405 Pull Request has merge conflicts" mimo identycznej
+treści — przyczyna: gałąź zawierała stare, presquash commity już zmergowane do `main` w PR #133.
+Naprawione przez `git merge origin/main` + `git checkout --ours` na jedynym realnym konflikcie
+(`docs/wklad-do-standardu.md`, HEAD był nadzbiorem treści origin/main). Wzorzec do zapamiętania:
+jeśli PR raportuje konflikt mimo braku merytorycznej rozbieżności, sprawdzić `git diff <stary-sha>:<plik> origin/main:<plik>` pod kątem identyczności treści przed ręcznym rozwiązywaniem.
+
+## Ekran 3, Moduł 4 — Symulacja czasu ładowania/rozładowania (20.09.2026)
+
+[20.09.2026] ✅ DODANO — pierwszy z 4 ekranów zleconych w ramach "Item 3" (dawne 3.3, 3.35, 3.36,
+3.37). `lib/core/modules/baterie/symulacja-ladowania-rozladowania/` + UI
+`app/kalkulatory/symulacja-ladowania-rozladowania/page.tsx`, 7 testów, zarejestrowany w
+`lib/pulpit/registry.ts` (Moduł 4) i `docs/rejestr-pokrycia.md`.
+
+**Decyzja projektowa (jawna, nie zmyślona dana):** źródło (`docs/zrodla/Tresc_Modul_4_Baterie_Ekrany.md`,
+Ekran 3) opisuje tylko narrację ("system liczy, o której godzinie bateria osiągnie 100% i kiedy
+zacznie się rozładowywać w nocy"), bez jawnego wzoru ani przykładu liczbowego do odtworzenia.
+Wzór (bilans energii: moc × czas = energia, osobno dla fazy ładowania i rozładowania) wyprowadzony
+wprost z tej narracji i fizyki, udokumentowany w komentarzu `calculator.ts` jako decyzja projektowa
+— odróżnione od zakazu zmyślania norm/współczynników bezpieczeństwa (ten zakaz dotyczy danych, nie
+kształtu wzoru wynikającego z podstawowej fizyki bilansu energii, gdy źródło nie podaje własnego).
+Moc ładowania/rozładowania i długość dnia to na razie ręczne pola z `hint` o docelowym auto-fill
+z Modułu 3 (produkcja PV) i Modułu 1 (wschód/zachód słońca) — te moduły jeszcze nie istnieją,
+zgodnie z ustalonym wzorcem obsługi zależności międzymodułowych (patrz Ekran 1 dobor-pojemnosci).
+
+Weryfikacja: `pnpm test` (998/998), `pnpm typecheck`, `pnpm lint` (0 błędów, 2 przedistniejące
+warningi img niezwiązane), `pnpm check:i18n-guard`, `pnpm build` — wszystko czyste.

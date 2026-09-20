@@ -83,6 +83,7 @@ export const KAFLE: KafelEntry[] = [
     ikona: "🔋",
     ekrany: [
       { href: "/kalkulatory/dobor-pojemnosci-baterii", label: "Dobór pojemności baterii" },
+      { href: "/kalkulatory/symulacja-ladowania-rozladowania", label: "Symulacja czasu ładowania/rozładowania" },
       { href: "/kalkulatory/napiecie-systemowe", label: "Doradca doboru napięcia systemowego (12/24/48V)" },
       { href: "/kalkulatory/modul-ev", label: "Moduł EV — ładowanie samochodu elektrycznego" },
       { href: "/kalkulatory/grzalki-bms-mroz", label: "Grzałki BMS i ochrona przed mrozem" },
