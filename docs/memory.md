@@ -5684,20 +5684,26 @@ weryfikacji, brak realnego klucza API w repo/env.
 hardkodowana po polsku, bez kluczy i18n — istniało tak już przed tą zmianą (nie nowy dług, tylko
 przeniesiony). Do ujęcia przy rollout'cie i18n na komponenty wspólne, nie kalkulatory.
 
-## Pułapka: limit darmowych minut GitHub Actions wyczerpany (20.09.2026)
+## Anulowany job CI przy PR #132 (20.09.2026) — zbadane, przyczyna NIE jest limitem minut
 
-**Odkryte przy PR #132:** job CI „Lint, typecheck, test, build" został anulowany w połowie
-`pnpm test`, mimo że lint/typecheck/i18n-guard przeszły wcześniej. Zdiagnozowane przez właściciela
-repo (zrzuty z GitHub Settings → Billing and licensing → Usage): **2000/2000 minut Actions
-wykorzystane** na koncie (limit współdzielony między wszystkimi repo właściciela, nie per-repo —
-`zero-waste` zużyło najwięcej, $9.05 z $12.19 łącznie). Reset limitu za 11 dni od 20.09.2026
-(ok. 1-2.10.2026).
+**Pierwotna, błędna diagnoza (skorygowana tego samego dnia):** job CI „Lint, typecheck, test,
+build" na PR #132 został anulowany w połowie `pnpm test` (lint/typecheck/i18n-guard przeszły
+wcześniej). Właściciel repo pokazał zrzut GitHub Settings → Billing → Usage z paskiem „Actions
+minutes: 2000/2000 used" i wywnioskowałem stąd, że to wyczerpanie darmowego limitu blokuje CI.
+**To wnioskowanie było błędne** — nie zweryfikowałem wprost, zanim zapisałem to jako fakt w tym
+pliku (naruszenie własnej zasady "nie przedstawiaj hipotez jako faktów"; poprawka poniżej, ślad
+oryginalnego wpisu zachowany zgodnie z 15-wspolpraca-z-ai.md, nie ciche nadpisanie).
 
-**Wniosek operacyjny — dotyczy każdej sesji do czasu resetu:** nie oczekuj, że CI faktycznie
-dokończy się dla nowych PR-ów w tym oknie czasowym — może się urywać w dowolnym miejscu albo w
-ogóle nie wystartować (kolejka). Nie trać czasu na wielokrotne ponawianie joba w tym oknie — to
-nie jest błąd w kodzie do naprawienia. Zamiast czekać na zielone checki GitHuba jako bramkę do
-mergowania: polegaj na pełnej lokalnej weryfikacji przed pushem (`pnpm typecheck`/`lint`/`test`/
-`build`, tak jak zawsze) jako głównym sygnale jakości, i merguj na tej podstawie z jawnym
-wyjaśnieniem właścicielowi repo dlaczego CI nie jest wiarygodnym blokerem w tym okresie. Po
-resecie (ok. 1-2.10.2026) wrócić do normalnego trybu (czekanie na CI przed mergem).
+**Ustalone przez API (nie z pamięci):** `inzynier-offgrid-pro` to **repo publiczne**
+(`GET /repos/.../` → `"private": false, "visibility": "public"`, zweryfikowane bezpośrednio przez
+`curl` do GitHub API). GitHub Actions na standardowych hostowanych runnerach (`ubuntu-latest` —
+dokładnie to, czego używa `ci.yml`) jest dla repo publicznych **darmowe i nielimitowane** —
+limit 2000 min/miesiąc dotyczy wyłącznie repo prywatnych na koncie (stąd zużycie widoczne na
+koncie: prawdopodobnie inne repo właściciela, np. `zero-waste`, są prywatne i to one konsumują
+limit — `inzynier-offgrid-pro` nie powinno być tym ograniczone).
+
+**Wniosek operacyjny:** CI dla tego repo NIE jest ograniczane limitem minut — nie ma powodu
+zakładać z góry, że kolejne joby będą się urywać z tego powodu. Rzeczywista przyczyna anulowania
+w PR #132 pozostaje niewyjaśniona (prawdopodobnie pojedynczy, nieskorelowany glitch
+infrastruktury GitHuba — runner reclaimed/lost) — jeśli powtórzy się w kolejnych PR-ach, badać
+od nowa, nie zakładać automatycznie tej samej (błędnej) przyczyny.
