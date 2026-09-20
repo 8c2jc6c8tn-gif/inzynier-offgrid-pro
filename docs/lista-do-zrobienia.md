@@ -888,3 +888,41 @@ Tu trafia bieżący stan pracy: co w trakcie, co zablokowane, co następne — a
   (pre-istniejące zachowanie, dotyczy też kafli 3/6/7). Zweryfikowane: typecheck/lint/build
   czyste, Playwright + zrzut ekranu pulpitu potwierdzają poprawny render 4 z 7 nowych ikon w
   gridzie. **To zamyka całą prośbę "5,6,7,8,9 proszę zrób".** Szczegóły: `docs/memory.md`.
+
+## Pełny audyt (20.09.2026, GOD BOOK Y.6/Y.9 + Część N) — lista priorytetowa
+
+Pełne wyniki audytu: `docs/memory.md`, sekcja "Pełny audyt na polecenie właściciela projektu
+(20.09.2026)". Poniżej wyłącznie akcje wynikające z audytu, priorytetyzowane.
+
+- 🔴 **[PILNE, architektura] Migracja i18n z cookie+server-side na client-side bundled —
+  projekt jest offline-first (5.3), obecny mechanizm (`middleware.ts`, `lib/i18n/language.ts`,
+  cookie `jezyk`) łamie tę zasadę.** Standard skorygował się 16.09.2026 (wiersz 76
+  `AKTUALIZACJE.md`): dla projektów z twardym wymogiem offline (ten projekt, jawnie zadeklarowany
+  w `CLAUDE.md` linia 3 jako "Web/PWA offline-first") język UI ma być: `localStorage` +
+  `navigator.language` na pierwszą wizytę, blokujący skrypt pre-paint z treścią WSZYSTKICH
+  języków w bundlu klienckim (cache SW), **zero cookie, zero zależności od serwera**. Dziś apka
+  wymaga rundy serwera (middleware czyta/ustawia cookie, `Accept-Language`) przy każdym twardym
+  przeładowaniu — dokładnie zależność od sieci, której offline-first ma unikać. Zakres migracji:
+  `middleware.ts` (usunięcie `ustawJezykJesliBrak`/logiki cookie języka — CSP nonce zostaje,
+  niezwiązane), `lib/i18n/language.ts` (cookie → `localStorage`), `lib/i18n/language-context.tsx`
+  (wartość początkowa z propa serwerowego → z blokującego skryptu pre-paint, wzorem
+  `WYGLAD_INIT_SCRIPT` w `app/layout.tsx`), nowy skrypt inicjalizacyjny z bundlowaną treścią
+  wszystkich 3 języków (pl/en/ru) do wstawienia przed pierwszym malowaniem. **Nie wdrożone w
+  sesji audytu — to zmiana architektury runtime, nie dokumentacyjny PATCH, czeka na jawną zgodę
+  właściciela projektu przed startem** (koszt: większy payload bundla — zaakceptowany koszt tej
+  kategorii projektów wg standardu, nie błąd do "optymalizacji").
+- 🟢 Wiersz 74 `AKTUALIZACJE.md` (CSP nonce-per-request) — już zaimplementowane w tym repo,
+  tylko formalnie zamknięte w logu tym audytem. Bez akcji.
+- 🟢 3 pliki `docs/standards/` (`17-i18n.md`, `00-INDEKS.md`, `05-baza-danych-offline.md`) —
+  zsynchronizowane w tym audycie. Bez dalszej akcji.
+- 🟡 **Backlog funkcjonalny, znany i nieprzeoczony (bez zmian od poprzednich audytów, tylko
+  potwierdzony nadal aktualny):**
+  1. Moduł 5 (Okablowanie) — 27 z 29 ekranów `todo`, niezależne od normy blokującej Ekran 1,
+     budowalne równolegle bez czekania.
+  2. Moduł 11 (Montaż baterii) — w większości `todo` poza ekranami referencyjnymi już
+     zbudowanymi.
+  3. Klaster stress-test zimowy (Moduł 7) — w większości architektonicznie zależny od jeszcze
+     niezbudowanego Modułu 1 (geostruktura, brak treści źródłowej) i modelu termicznego
+     Modułu 6.
+  4. Moduł zbiorczy "Wampiry energetyczne" (Moduł 2, 24 dawne funkcje, 5 podzakładek) —
+     świadomie odłożony jako osobna, większa sesja projektowa.
