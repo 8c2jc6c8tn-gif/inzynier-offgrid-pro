@@ -137,7 +137,13 @@ formatów — bez tej procedury każda kolejna sesja/projekt odkrywa te same pu�
 otwiera starych .doc, OCR bez pełnej weryfikacji daje fałszywe poczucie bezpieczeństwa, mojibake bez
 jawnej mapy znaków) od nowa, tracąc czas i ryzykując ciche błędy w danych bezpieczeństwa-krytycznych.
 
-Status: 🔎 nowe
+Status: 🔎 nowe. **✅ Potwierdzone skonsolidowane (Routine Y.6, 20.09.2026)** — porównanie treści
+(nie domysł) z `new-app-standards`: `docs/playbooki-opcjonalne/przetwarzanie-materialow-zrodlowych.md`
+istnieje, opisany jako moduł opcjonalny (GOD BOOK Y.10), jawnie oznaczony "Źródło: projekt
+inzynier-offgrid-pro, zebrane przez GOD BOOK U.4, 06.09.2026", z tym samym gotowym PROMPT-em
+(rozpoznanie formatu/ekstrakcja per format/dyscyplina pełnej weryfikacji nie spot-check) 1:1
+odpowiadającym treści zgłoszonej tutaj. To stwierdzenie faktu (wpis już skonsolidowany), nie nowa
+decyzja o promocji — ta zapadła wcześniej, w sesji nad `new-app-standards`.
 
 ---
 
@@ -200,6 +206,13 @@ repo — przeniesione do właściwych podfolderów, wszystkie odwołania w treś
 w `docs/propozycje-do-new-app-standards/biblioteka-norm-zrodlowych.md` jest teraz w pełni spójny
 ze stanem `docs/zrodla/`, bez żadnej znanej niedoskonałości do naprawienia przed konsolidacją —
 nadal czeka wyłącznie na sesję nad `new-app-standards`, nie na kolejną pracę tutaj.
+
+**✅ Potwierdzone skonsolidowane (Routine Y.6, 20.09.2026)** — porównanie treści z `new-app-standards`:
+`docs/biblioteka-norm/` istnieje z pełnym manifestem 10 pozycji identycznym co do treści z tabelą
+wyżej, i (od 15.09.2026, `README.md` tamtego repo, commit źródłowy `d7c81d1`) **fizyczne pliki
+skopiowane w całości** (oryginał + wyciąg Markdown) dla wszystkich 10 pozycji — pierwotnie otwarta
+kwestia licencji PKN rozstrzygnięta przez właściciela repo, nie jest już blokerem. To stwierdzenie
+faktu, nie nowa decyzja o promocji.
 
 ---
 
@@ -287,6 +300,11 @@ tekst — patrz plik propozycji, sekcja C.3.
 **Finalna konsolidacja (20.09.2026):** ✅ `docs/standards/17-i18n.md` 17.1a — wielojęzyczność jako
 założenie architektoniczne od Etapu 1 dla każdego NOWEGO projektu rodziny (minimalny zestaw
 pl+en+ru). Zweryfikowane wprost w treści rozdziału, nie tylko w `AKTUALIZACJE.md`.
+
+**Status zaktualizowany (Routine Y.6, 20.09.2026):** ✅ dla punktów 1–5 i B.3 (17.1a potwierdzone
+powyżej). **Punkt 6 (C6, tłumaczenie treści normatywnych/bezpieczeństwa-krytycznych) pozostaje 🔎
+nowe** — brak odpowiednika w aktualnym `docs/standards/17-i18n.md` ani GOD BOOK, ten projekt sam
+jeszcze nie przetłumaczył żadnej takiej treści. Zostawione bez zmian, zgodnie z Y.6 pkt 6.
 
 ---
 
@@ -567,6 +585,11 @@ plików w `new-app-standards`". Właściciel repo poprawił: samo dołączenie t
 czyni jej "sesją nad `new-app-standards`" uprawnioną do konsolidacji — jedyny dopuszczalny kanał
 stąd to ten plik, konsolidacja zapada wyłącznie w osobnej, dedykowanej sesji. Wpis wyżej pozostaje
 aktualnym zgłoszeniem, czeka na tamtą sesję, nie na nic z tego repo.
+
+**✅ Potwierdzone skonsolidowane (Routine Y.6, 20.09.2026)** — porównanie treści z `new-app-standards`:
+`docs/przyklady/ci/ci.yml` + `docs/przyklady/ci/audit-gate.mjs` + `docs/przyklady/i18n/check-i18n-guard.mjs`
+istnieją, treścią odpowiadają dosłownemu YAML/skryptowi wklejonemu wyżej. To stwierdzenie faktu
+(wpis już skonsolidowany), nie nowa decyzja o promocji.
 
 ---
 

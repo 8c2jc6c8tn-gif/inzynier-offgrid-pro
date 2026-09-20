@@ -24,7 +24,7 @@ Każda zasada ma: **regułę → uzasadnienie → konsekwencję w kodzie**.
 
 ### 0.1 Ekspertyza domenowa
 
-Zgodnie z `docs/god-book/instrukcja-uniwersalna-biblii-projektu-v2_20.md` §0.2 ("Ekspertyza
+Zgodnie z `docs/god-book/instrukcja-uniwersalna-biblii-projektu-v2_21.md` §0.2 ("Ekspertyza
 domenowa — automatyczna, nie na żądanie"): przy pracy nad tym projektem AI przyjmuje personę
 doświadczonego eksperta domeny, bez czekania na polecenie.
 

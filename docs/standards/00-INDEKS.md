@@ -2,7 +2,7 @@
 
 Pakiet referencyjny wspólny dla wszystkich naszych aplikacji (obecnych i przyszłych, niezależnie od domeny). Jeden plik = jeden rozdział, każdy samodzielnie czytelny. Powiązany z `docs/memory.md` (specyfika tego konkretnego projektu) i `CLAUDE.md` (krótki punkt wejścia dla AI).
 
-**Relacja do GOD BOOK.** Ten standard opisuje *czym budujemy* (stała architektura, wspólna dla całej rodziny aplikacji). Osobny dokument, `docs/god-book/instrukcja-uniwersalna-biblii-projektu-v2_20.md`, opisuje *jak prowadzić proces* budowy Biblii tego konkretnego projektu — od burzy mózgów do wdrożenia. Pełna relacja i kolejność czytania obu naraz: Część Y tamtego dokumentu.
+**Relacja do GOD BOOK.** Ten standard opisuje *czym budujemy* (stała architektura, wspólna dla całej rodziny aplikacji). Osobny dokument, `docs/god-book/instrukcja-uniwersalna-biblii-projektu-v2_21.md`, opisuje *jak prowadzić proces* budowy Biblii tego konkretnego projektu — od burzy mózgów do wdrożenia. Pełna relacja i kolejność czytania obu naraz: Część Y tamtego dokumentu.
 
 ## Zalecana kolejność czytania
 
