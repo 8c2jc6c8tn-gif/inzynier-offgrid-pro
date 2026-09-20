@@ -2,6 +2,7 @@ import { Analytics } from '@vercel/analytics/next'
 import type { Metadata, Viewport } from 'next'
 import { headers } from 'next/headers'
 import { Inter, Lato, Roboto, Source_Sans_3 } from 'next/font/google'
+import { AsystentAi } from '@/components/asystent-ai'
 import { LanguageProvider } from '@/lib/i18n/language-context'
 import { DEFAULT_LANGUAGE, SUPPORTED_LANGUAGES } from '@/lib/i18n/language'
 import { STORAGE_KEY } from '@/lib/i18n/storage'
@@ -153,6 +154,7 @@ export default async function RootLayout({
       <body className="antialiased">
         <LanguageProvider>
           {children}
+          <AsystentAi />
           {process.env.NODE_ENV === 'production' && <Analytics />}
         </LanguageProvider>
       </body>

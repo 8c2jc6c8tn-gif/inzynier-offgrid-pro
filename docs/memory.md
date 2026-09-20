@@ -5653,3 +5653,33 @@ budynku) — wymaga realnej infrastruktury mapowej (biblioteka mapowa, GPS, mode
 zacienienia godzina-po-godzinie), nie rozszerzenia istniejącego wzorca kalkulatora. Właściciel repo
 zdecydował pominąć na razie, zamiast budować uproszczoną wersję bez mapy — czeka na osobną decyzję
 architektoniczną (jaka biblioteka mapowa/GPS), nie na kolejne "Ruszajmy" tej samej formy.
+
+## Asystent AI: scentralizowane okno zamiast integracji per-ekran (20.09.2026)
+
+**Decyzja (potwierdzona przez właściciela repo):** `<AsystentAi />` przeniesiony z osadzenia
+inline tylko na `/kalkulatory/pomocnicze` do jednego, globalnego montowania w `app/layout.tsx` —
+pływający panel (przycisk "AI" fixed bottom-right, otwiera kartę nad przyciskiem), dostępny na
+każdym ekranie aplikacji.
+
+**Uzasadnienie (9.9 "czat swobodny" vs "asystent inline"):** rejestr narzędzi
+(`NARZEDZIA` w `lib/ai/pytaj-asystenta.ts`) rośnie z każdym nowym kalkulatorem (obecnie 6) bez
+dotykania UI żadnego ekranu — dodanie AI do kolejnego kalkulatora to tylko nowy plik `*-tool.ts` +
+wpis w rejestrze, nie zmiana w 116+ plikach `page.tsx`. Integracja per-ekran wymagałaby N kopii tej
+samej logiki UI i sztucznie zamykałaby pytania w silosie jednego kalkulatora, mimo że pytania
+inżynierskie realnie mieszają moduły (np. przekrój kabla + uziom w jednej rozmowie).
+
+**Implementacja:** komponent (`components/asystent-ai.tsx`) przepisany z sekcji inline na widget
+`fixed bottom-4 right-4 z-50` z toggle otwarty/zamknięty (`useState`), ta sama logika
+`isAiAvailable()`/`pytajAsystenta()` co wcześniej (bez zmian w `lib/ai/`), wciąż renderuje `null`
+w milczeniu, gdy AI nieskonfigurowane (9.0). Import/użycie usunięte z
+`app/kalkulatory/pomocnicze/page.tsx`, dodane do `app/layout.tsx` wewnątrz `LanguageProvider`.
+
+**Weryfikacja:** `pnpm typecheck`/`lint`/`test` (991/991)/`build` — czyste. Wizualnie: `next start`
+z tymczasowym (nierealnym) `ANTHROPIC_API_KEY` tylko na czas testu + Playwright — przycisk widoczny
+i otwiera panel zarówno na `/` (pulpit) jak i na zupełnie niepowiązanym ekranie
+(`/kalkulatory/przepust-powietrza`), potwierdzając globalność. Serwer testowy zatrzymany po
+weryfikacji, brak realnego klucza API w repo/env.
+
+**Znany dług, nie tej sesji:** treść komponentu (`"Zapytaj asystenta"`, etykiety, komunikaty) wciąż
+hardkodowana po polsku, bez kluczy i18n — istniało tak już przed tą zmianą (nie nowy dług, tylko
+przeniesiony). Do ujęcia przy rollout'cie i18n na komponenty wspólne, nie kalkulatory.
