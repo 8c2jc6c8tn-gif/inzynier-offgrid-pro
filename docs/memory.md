@@ -5755,3 +5755,120 @@ zakładać z góry, że kolejne joby będą się urywać z tego powodu. Rzeczywi
 w PR #132 pozostaje niewyjaśniona (prawdopodobnie pojedynczy, nieskorelowany glitch
 infrastruktury GitHuba — runner reclaimed/lost) — jeśli powtórzy się w kolejnych PR-ach, badać
 od nowa, nie zakładać automatycznie tej samej (błędnej) przyczyny.
+
+## Synchronizacja ze standardem przed sesją "3 i 5" (20.09.2026)
+
+[20.09.2026] Właściciel projektu: "Dawaj 3 i 5 ogarniemy. Tylko zrób przed tym aktualizacje" —
+wykonana pełna synchronizacja Y.6/Y.9 z `new-app-standards` przed startem (PR #134, zmergowany
+jako `1ee624f`): GOD BOOK zaktualizowany do v2.20 (pełne nadpisanie NIETYKALNE), `docs/wklad-do-standardu.md`
+skrócony z 1102→572 linii (12 zamkniętych wpisów przeniesionych do nowego `docs/wklad-do-standardu-archiwum.md`,
+zgodnie z nową zasadą Y.8 — nie było jej wcześniej w tym pliku, dopisana tu jako decyzja
+architektoniczna: wpisy w `wklad-do-standardu.md` ze statusem `✅ skonsolidowane`/`✅ przekazane`
+bez otwartego follow-upu przenosimy do archiwum z pointerem w pliku żywym, żeby plik roboczy nie
+rósł bez ograniczeń). 4 wpisy zostały otwarte (procedura materiałów źródłowych, biblioteka norm,
+wielojęzyczność C6, CI referencyjny/i18n-guard). Zero blokerów dla pracy nad Modułem 4/Baterie
+ani modułem Wampirów energetycznych.
+
+**Pułapka napotkana przy mergu PR #134:** "405 Pull Request has merge conflicts" mimo identycznej
+treści — przyczyna: gałąź zawierała stare, presquash commity już zmergowane do `main` w PR #133.
+Naprawione przez `git merge origin/main` + `git checkout --ours` na jedynym realnym konflikcie
+(`docs/wklad-do-standardu.md`, HEAD był nadzbiorem treści origin/main). Wzorzec do zapamiętania:
+jeśli PR raportuje konflikt mimo braku merytorycznej rozbieżności, sprawdzić `git diff <stary-sha>:<plik> origin/main:<plik>` pod kątem identyczności treści przed ręcznym rozwiązywaniem.
+
+## Ekran 3, Moduł 4 — Symulacja czasu ładowania/rozładowania (20.09.2026)
+
+[20.09.2026] ✅ DODANO — pierwszy z 4 ekranów zleconych w ramach "Item 3" (dawne 3.3, 3.35, 3.36,
+3.37). `lib/core/modules/baterie/symulacja-ladowania-rozladowania/` + UI
+`app/kalkulatory/symulacja-ladowania-rozladowania/page.tsx`, 7 testów, zarejestrowany w
+`lib/pulpit/registry.ts` (Moduł 4) i `docs/rejestr-pokrycia.md`.
+
+**Decyzja projektowa (jawna, nie zmyślona dana):** źródło (`docs/zrodla/Tresc_Modul_4_Baterie_Ekrany.md`,
+Ekran 3) opisuje tylko narrację ("system liczy, o której godzinie bateria osiągnie 100% i kiedy
+zacznie się rozładowywać w nocy"), bez jawnego wzoru ani przykładu liczbowego do odtworzenia.
+Wzór (bilans energii: moc × czas = energia, osobno dla fazy ładowania i rozładowania) wyprowadzony
+wprost z tej narracji i fizyki, udokumentowany w komentarzu `calculator.ts` jako decyzja projektowa
+— odróżnione od zakazu zmyślania norm/współczynników bezpieczeństwa (ten zakaz dotyczy danych, nie
+kształtu wzoru wynikającego z podstawowej fizyki bilansu energii, gdy źródło nie podaje własnego).
+Moc ładowania/rozładowania i długość dnia to na razie ręczne pola z `hint` o docelowym auto-fill
+z Modułu 3 (produkcja PV) i Modułu 1 (wschód/zachód słońca) — te moduły jeszcze nie istnieją,
+zgodnie z ustalonym wzorcem obsługi zależności międzymodułowych (patrz Ekran 1 dobor-pojemnosci).
+
+Weryfikacja: `pnpm test` (998/998), `pnpm typecheck`, `pnpm lint` (0 błędów, 2 przedistniejące
+warningi img niezwiązane), `pnpm check:i18n-guard`, `pnpm build` — wszystko czyste.
+
+## Ekrany 31/32/33, Moduł 4 — dopełnienie "Item 3" (20.09.2026)
+
+[20.09.2026] ✅ DODANO — pozostałe 3 z 4 ekranów zleconych "Item 3" (Ekran 3 zrobiony i
+zmergowany wcześniej, patrz wpis wyżej).
+
+**Ekran 31 "Napięcie odcięcia vs żywotność" (dawne 3.35):** `lib/core/modules/baterie/napiecie-odciecia-a-zywotnosc/`,
+UI `app/kalkulatory/napiecie-odciecia-a-zywotnosc/page.tsx`, 8 testów. Model: interpolacja
+liniowa między dwoma punktami danych podanymi wprost w źródle (42,0V/16S→100% DoD→2000 cykli;
+44,0V/16S→80% DoD→5000 cykli), zgeneralizowana na napięcie per ogniwo, żeby działać dla
+dowolnej liczby ogniw szeregowo (nie tylko 16S/48V). Poza zakresem kalibracji (2,625–2,750V/
+ogniwo) — ostrzeżenie ekstrapolacji (`EKSTRAPOLACJA-POZA-KALIBRACJA`), nie błąd — model tylko
+traci pewność, napięcie odcięcia poza tym zakresem jest fizycznie możliwe.
+
+**Ekran 32 "Hierarchia ładowania (PV > Agregat > Sieć)" (dawne 3.36):** `lib/core/modules/baterie/hierarchia-ladowania/`,
+UI `app/kalkulatory/hierarchia-ladowania/page.tsx`, 9 testów. Źródło opisuje logikę jako
+dyskretne drzewo decyzyjne (Sekcja B), nie wzór liczbowy — zaimplementowane 1:1 jako klasyfikator
+priorytetów, bez wymuszania sztucznego wzoru matematycznego (ten sam pryncyp co macierz
+load-shedding, Ekran 12 Modułu 2). **Sprawdzone grep-em: w całym projekcie nie istnieje jedna
+kanoniczna wartość "SoC krytyczny"** — pole `socProguKrytycznegoPct` jest więc czysto ręczne,
+bez ukrytego domyślnego wypełnienia (8.6). Rozróżnione dwa stany "BRAK aktywnego źródła":
+benigne (SoC w normie, po prostu nikt teraz nie ładuje) vs realnie krytyczne (SoC pod progiem,
+zero opcji ładowania) — tylko drugie generuje ostrzeżenie (`OCZEKIWANIE-NA-SLONCE` gdy system
+świadomie czeka na prognozę słońca, jak w przykładzie źródła Sekcji C; `BRAK-DOSTEPNEGO-ZRODLA-LADOWANIA`
+level `critical` gdy naprawdę nie ma wyjścia).
+
+**Ekran 33 "Symulacja miesiąca zachmurzenia (No-Sun Scenario)" (dawne 3.37):** `lib/core/modules/baterie/symulacja-miesiaca-zachmurzenia/`,
+UI `app/kalkulatory/symulacja-miesiaca-zachmurzenia/page.tsx`, 7 testów. Wzór (bilans energii
+dzień po dniu, z wyliczeniem dnia i godziny blackoutu przy założeniu stałej średniej mocy
+deficytu w ciągu doby — ten sam wzorzec uproszczenia co Ekran 3) wyprowadzony z narracji źródła,
+udokumentowany jako decyzja projektowa. `liczbaDniScenariusza=10` to jedyna wartość domyślna
+jawnie podana w źródle (Sekcja A) — zachowana jako sugerowana. `poziomZachmurzeniaPct` NIE ma
+jednej kanonicznej wartości (źródło podaje tylko zakres 5-10%) — pole ręczne bez defaultu, z
+podpowiedzią o sugerowanym zakresie (8.6).
+
+Wszystkie 3 ekrany zarejestrowane w `lib/pulpit/registry.ts` (Moduł 4) i `docs/rejestr-pokrycia.md`.
+Weryfikacja łączna: `pnpm test` (1022/1022), `pnpm typecheck`, `pnpm lint` (0 błędów, tylko 2
+przedistniejące warningi img niezwiązane), `pnpm check:i18n-guard`, `pnpm build` — wszystko
+czyste. **Item 3 (Moduł 4, 4 ekrany) w całości zamknięty.** Item 5 (moduł "Wampiry energetyczne",
+24 dawne funkcje) czeka jako następny — celowo nierozpoczęty w tym samym przejściu, wymaga
+własnego skanu zakresu przed implementacją.
+
+## Zamknięcie Item 3 (PR #135) + skan zakresu przed Item 5 "Wampiry energetyczne" (20.09.2026)
+
+**Weryfikacja przed mergem (na wyraźne pytanie właściciela projektu):** żadny z dwóch commitów
+Item 3 (`5ccff3e` Ekran 3, `aae3715` Ekrany 31/32/33) nie dotykał `docs/wklad-do-standardu.md` —
+`git show <sha> --stat -- docs/wklad-do-standardu.md` puste dla obu. `main` był 2 commity za
+branchem (`origin/main` na `1ee624f`, standard-sync PR #134) — utworzono i zmergowano PR #135.
+
+**Skan zakresu/architektury dla Item 5, wykonany PRZED jakimkolwiek kodem (na wyraźną prośbę
+"zanim zaczniemy 5 moduł"):**
+- Treść źródłowa: `docs/zrodla/Biblia_Offgrid_v2_0_Architektura_Modulowa.md`, linie 607–1167
+  (24 funkcje 2.24.1–2.24.24, dawne 1.24 + 1.28–1.50), pełna, kompletna narracyjnie (Skąd/Gdzie/
+  Jak/Efekt/Migawka/Powiązania dla każdej). Deklarowany podział na 5 podzakładek (linia 609):
+  Katalog urządzeń, Pomiar, Symulacje/Raporty, Rekomendacje sprzętowe, Automatyzacja — **bez**
+  jawnego mapowania która funkcja do której podzakładki (do zaprojektowania, nie do wymyślenia
+  danych — to decyzja organizacyjna UI, nie inżynierska).
+- `Zasady_UX_Doradca_v2_1.md` (§20, linie 644-681): moduł wampirów liczony jako **1 już scalony
+  ekran** w wyniku Modułu 2 (18 ekranów łącznie z indywidualnymi) — nie rozbija dalej na
+  osobne wzorce A-H, potwierdza podejście "jeden moduł zbiorczy z podzakładkami", nie 24 ekrany.
+- **Zerowe pokrycie w kodzie** — `grep -rli "standby\|wampir" lib/core/modules/` → brak wyników.
+  Żaden istniejący ekran (w tym `pobor-wlasny-falownika` 1.12, `dni-autonomii` 1.9, `load-shedding`
+  1.20 — wszystkie wymienione w "Powiązania" źródła jako cross-referencje) nie duplikuje logiki
+  standby/wampirów — to relacje "zasila"/"odwołuje się do", nie pokrycie. Brak ryzyka duplikacji.
+- **Korekta notatki w `docs/rejestr-pokrycia.md`** (wiersz "Wampiry energetyczne"): poprzednia
+  wersja mówiła "treść w Biblii poza tym repo" — nieaktualne, treść JEST w tym repo (patrz wyżej).
+  Dryf notatki bez świadomej decyzji (nie konflikt merytoryczny) — poprawione wprost, zgodnie z
+  wyjątkiem Części Y.2 GOD BOOK.
+- **Cross-referencje do modułów jeszcze niezbudowanych** (informacyjnie, nie blokujące): wiele
+  funkcji odwołuje się do Modułu 7 (stress-test, w większości `todo`), Modułu 8 (bezpieczeństwo,
+  częściowo zbudowany), Modułu 3 (`3.1`, zbudowany jako reprezentant wzorca). Zgodnie z ustalonym
+  wzorcem (Ekrany 31-33 Modułu 4) — pola takich zależności zostają polami ręcznego wpisu, nie
+  blokują implementacji.
+- **Wniosek:** moduł gotowy do zaprojektowania i implementacji jako osobna sesja projektowa —
+  brak blokerów danych/norm (to głównie katalogi urządzeń z zakresami W podanymi w źródle, nie
+  jedną kanoniczną wartością — wzorzec identyczny do już zbudowanych katalogów, np.
+  `systemy-podtrzymania-zycia`), brak ryzyka duplikacji z istniejącym kodem.

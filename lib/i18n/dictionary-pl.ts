@@ -101,6 +101,35 @@ export const dictionaryPl = {
   "DOD-DODATNI-POZA-ZAKRESEM": "DoD (głębokość rozładowania) musi być z przedziału 0–100% (>0).",
   "BUFOR-STARZENIOWY-NIE-DOLICZONY": "Bez bufora starzeniowego (Ekran 5, Moduł 4) — ten ekran jeszcze nie istnieje w kodzie.",
   "SOC-POZA-ZAKRESEM": "SoC musi być z przedziału 0–100%.",
+  "MOC-LADOWANIA-UJEMNA": "Moc ładowania z PV nie może być ujemna.",
+  "MOC-ROZLADOWANIA-NIEDODATNIA": "Moc rozładowania w nocy musi być większa od zera.",
+  "DLUGOSC-DNIA-POZA-ZAKRESEM": "Długość okna ładowania musi być z przedziału 0–24 godzin.",
+  "NIE-PRZETRWA-NOCY":
+    "Przy tych parametrach bateria osiągnie próg ostrzegawczy SoC przed końcem nocy — sprawdź, czy moc " +
+    "rozładowania lub pojemność są realistyczne.",
+  "SYMULACJA-SREDNIA-MOC-NIE-PROFIL-GODZINOWY":
+    "Symulacja liczy na średniej mocy ładowania/rozładowania przez całe okno, nie na pełnym profilu " +
+    "godzinowym — rzeczywisty przebieg w ciągu dnia/nocy może się różnić.",
+  "NAPIECIE-ODCIECIA-NIEDODATNIE": "Napięcie odcięcia musi być większe od zera.",
+  "LICZBA-OGNIW-NIEPOPRAWNA": "Liczba ogniw połączonych szeregowo musi być liczbą całkowitą co najmniej 1.",
+  "EKSTRAPOLACJA-POZA-KALIBRACJA":
+    "To napięcie na ogniwo wykracza poza zakres 2,625–2,750V, na którym skalibrowany jest model (dwa " +
+    "punkty danych ze źródła) — wynik jest ekstrapolacją, nie zweryfikowaną kalibracją.",
+  "MODEL-LIFEPO4-DWA-PUNKTY-KALIBRACJI":
+    "Model liniowy skalibrowany na dwóch punktach danych LiFePO4 ze źródła (42,0V/16S→100% DoD→2000 " +
+    "cykli; 44,0V/16S→80% DoD→5000 cykli) — nie na pełnej krzywej producenta.",
+  "OCZEKIWANIE-NA-SLONCE":
+    "SoC jest poniżej progu krytycznego, ale prognoza przewiduje słońce jutro — system celowo NIE " +
+    "włącza agregatu, czeka na darmową energię z PV.",
+  "BRAK-DOSTEPNEGO-ZRODLA-LADOWANIA":
+    "SoC jest poniżej progu krytycznego i żadne źródło ładowania nie jest dostępne (brak PV, brak " +
+    "agregatu lub prognozy słońca, brak taniej taryfy sieciowej) — realne ryzyko dalszego spadku SoC.",
+  "PRODUKCJA-NOMINALNA-NIEDODATNIA": "Nominalna produkcja dobowa PV musi być większa od zera.",
+  "POZIOM-ZACHMURZENIA-POZA-ZAKRESEM": "Poziom zachmurzenia musi być z przedziału 0–100%.",
+  "LICZBA-DNI-SCENARIUSZA-NIEDODATNIA": "Liczba dni scenariusza musi być większa od zera.",
+  "SYSTEM-NIE-PRZETRWA-SCENARIUSZA":
+    "Przy tych parametrach system nie przetrwa całego scenariusza zachmurzenia — nastąpi blackout, " +
+    "zanim skończy się zadana liczba dni.",
   "BRAK-POTRZEBY-GRZANIA":
     "Temperatura ({temp}°C) jest na tyle wysoka, że BMS nie włącza grzałek przed ładowaniem (próg: {prog}°C).",
   "GRZANIE-Z-PV": "Jest produkcja PV — grzałki BMS zasilane bezpośrednio z paneli, zero obciążenia baterii.",

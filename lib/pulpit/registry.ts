@@ -83,6 +83,10 @@ export const KAFLE: KafelEntry[] = [
     ikona: "🔋",
     ekrany: [
       { href: "/kalkulatory/dobor-pojemnosci-baterii", label: "Dobór pojemności baterii" },
+      { href: "/kalkulatory/symulacja-ladowania-rozladowania", label: "Symulacja czasu ładowania/rozładowania" },
+      { href: "/kalkulatory/napiecie-odciecia-a-zywotnosc", label: "Napięcie odcięcia vs żywotność" },
+      { href: "/kalkulatory/hierarchia-ladowania", label: "Hierarchia ładowania (PV > Agregat > Sieć)" },
+      { href: "/kalkulatory/symulacja-miesiaca-zachmurzenia", label: "Symulacja miesiąca zachmurzenia (No-Sun Scenario)" },
       { href: "/kalkulatory/napiecie-systemowe", label: "Doradca doboru napięcia systemowego (12/24/48V)" },
       { href: "/kalkulatory/modul-ev", label: "Moduł EV — ładowanie samochodu elektrycznego" },
       { href: "/kalkulatory/grzalki-bms-mroz", label: "Grzałki BMS i ochrona przed mrozem" },
