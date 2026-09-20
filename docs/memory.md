@@ -413,6 +413,50 @@ konkretnych potrzebnych tabel + kod kalkulatora, po kolei małymi partiami zgodn
   Zweryfikowano: `grep -rln "v2_19"` po synchronizacji — zero trafień w całym repo poza historycznymi
   wzmiankami w tym logu (Część D GOD BOOK, append-only, celowo nietknięte).
 
+- **2026-09-20 (kolejne sprawdzenie tego dnia, Routine Y.6 cykliczny co ≤3h) — sprawdzono
+  `AKTUALIZACJE.md`, znaleziono 1 nowy wpis od poprzedniej synchronizacji (wiersz wyżej, PR #134,
+  v2.20): rename GOD BOOK v2.20→v2.21 (commit `74d21fc` w `new-app-standards`, nowa GOD BOOK C.5 —
+  bezpieczny zakres wyszukaj-zamień przy zmianie nazwy pliku wersjonowanego, zebrana po korekcie
+  błędnego nadpisania historycznego wiersza z 16.09 przy poprzednim renamie). Zero zmian
+  merytorycznych w `docs/standards/00–16` tą partią — 8.4a/5.7/15.19/15.20/15.7a/17.1a/9.0a
+  (wpisy `AKTUALIZACJE.md` z 20.09 sprzed tego sprawdzenia) były już zsynchronizowane poprzednią
+  partią (PR #134/#135), zweryfikowane `diff` plik-po-pliku — brak rozbieżności poza wskaźnikiem
+  wersji.
+  Wykonane: GOD BOOK podmieniony w całości (`...v2_20.md` → `...v2_21.md`, `git rm`+nowy plik,
+  NIETYKALNE); odsyłacze do wersji poprawione we wszystkich bieżących wskazaniach (`CLAUDE.md`,
+  `.claude/skills/standards/SKILL.md` — PATCH, zachowana lokalna adaptacja; `docs/standards/00-INDEKS.md`,
+  `docs/standards/00-filozofia.md`, `PROMPT_STARTOWY.md` — pełne nadpisanie NIETYKALNE; `00_Biblia.md`,
+  `01_Zasady_Pracy_i_Konwencje.md`, `USTALENIA.md`, `ZASADY_APLIKACJI.md` — punktowa poprawka
+  wskaźnika) — historyczne wzmianki starszych wersji w `docs/memory.md`/`docs/lista-do-zrobienia.md`
+  celowo nietknięte (GOD BOOK C.5).
+  **Krok 6 Routine (przegląd `docs/wklad-do-standardu.md` pod kątem wpisów 🔎):** wszystkie 4 otwarte
+  wpisy sprawdzone przez realne porównanie treści z aktualnym `new-app-standards` (nie domysł) —
+  3 w pełni skonsolidowane, oznaczone ✅ z odnośnikiem: procedura przetwarzania materiałów źródłowych
+  (`docs/playbooki-opcjonalne/przetwarzanie-materialow-zrodlowych.md`), biblioteka norm (`docs/biblioteka-norm/`,
+  pliki fizycznie skopiowane od 15.09.2026, kwestia licencji PKN rozstrzygnięta), CI referencyjny +
+  i18n-guard (`docs/przyklady/ci/`, `docs/przyklady/i18n/`). Wielojęzyczność (wpis 14.09) oznaczona
+  ✅ częściowo — punkty 1–5 i B.3 skonsolidowane (17.1a), punkt C6 (tłumaczenie treści
+  bezpieczeństwa-krytycznych) pozostaje otwarty, brak odpowiednika w standardzie, świadomie
+  zostawiony. Żadna edycja `new-app-standards` — repo dołączone wyłącznie do odczytu.
+  **Krok 5a (moduły opcjonalne Y.10):** sprawdzony rejestr w GOD BOOK — nadal tylko 2 pozycje
+  (playbook + biblioteka norm), obie już obecne w tym projekcie. Brak nowych modułów do
+  zaproponowania.
+  **Wynik checklisty Y.9:**
+  1. `docs/standards/` — ✅ bez zmian merytorycznych tą partią (tylko odsyłacze do wersji GOD BOOK).
+  2. GOD BOOK — ✅ podmienione na v2.21.
+  3. `CLAUDE.md` — ✅ istnieje, odsyłacz zaktualizowany.
+  4. `docs/memory.md` — ✅ (ten wpis).
+  5. `docs/lista-do-zrobienia.md` — ✅ istnieje, treść nietknięta (LOKALNE).
+  6. `docs/wklad-do-standardu.md` — ✅ istnieje, 3 wpisy potwierdzone skonsolidowane, 1 częściowo
+     (patrz wyżej), reszta bez zmian.
+  7. `docs/zrodla/` — ✅ istnieje.
+  8. `.claude/skills/standards/SKILL.md` — ✅ istnieje, odsyłacz zaktualizowany.
+  9. `01_Zasady_Pracy_i_Konwencje.md` + `02_Dyrektywy_AI_Projektu.md` — ✅ oba istnieją, odsyłacz w
+     pierwszym zaktualizowany, drugi bez odsyłacza do wersji (bez zmian).
+  Zweryfikowano: `grep -rln "v2_20"` po synchronizacji — zero trafień w całym repo poza historycznymi
+  wzmiankami w `docs/memory.md`/`docs/lista-do-zrobienia.md` (Część D GOD BOOK, append-only, celowo
+  nietknięte) i `README.md` (nigdy nie kopiowany, projekt-specyficzny).
+
 ## Pełny audyt na polecenie właściciela projektu (20.09.2026) — Y.6/Y.9 + Część N
 
 Na wyraźne polecenie ("Zrób pełny audyt a potem podaj listę do zrobienia według god book").

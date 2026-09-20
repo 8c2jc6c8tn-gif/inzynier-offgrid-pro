@@ -955,3 +955,10 @@ Pełne wyniki audytu: `docs/memory.md`, sekcja "Pełny audyt na polecenie właś
      niezależny od powyższych, patrz `docs/wklad-do-standardu.md` (wpis 20.09.2026). Kolejność
      rolloutu dla już istniejących kalkulatorów bez opisu: 11→3→4→2→reszta (Moduł 5 już ma AI-opisy
      dla wszystkich swoich kalkulatorów, nie wchodzi do tego rolloutu).
+- ✅ (2026-09-20, Routine Y.6 cykliczny) **Kolejne sprawdzenie `AKTUALIZACJE.md` — 1 nowy wpis od
+  poprzedniej synchronizacji (rename GOD BOOK v2.20→v2.21, nowa GOD BOOK C.5).** Zero zmian
+  merytorycznych w `docs/standards/`. Przy okazji: 4 otwarte wpisy `docs/wklad-do-standardu.md`
+  sprawdzone przez porównanie treści z `new-app-standards` — 3 w pełni skonsolidowane (procedura
+  materiałów źródłowych, biblioteka norm z fizycznymi plikami, CI referencyjny/i18n-guard), 1
+  częściowo (wielojęzyczność — punkty 1–5/B.3 tak, C6 wciąż otwarty). Szczegóły pełnej checklisty
+  Y.9: `docs/memory.md`, sekcja "Synchronizacja ze standardem".
