@@ -464,6 +464,37 @@ Status: 🔎 nowe
 
 ---
 
+[20.09.2026] KATEGORIA: POMYSŁ NA REGUŁĘ — rejestr narzędzi AI powinien być architektonicznym
+domyślnym od Etapu 1 (jak 17.1a i18n oraz 5.7 autosave), nie dobudowywany reaktywnie
+
+Szczegóły: Na wyraźną prośbę właściciela projektu ("róbmy to od razu, nie tylko dla
+wielojęzyczności, ale i dla AI") — rozszerzenie wpisu bezpośrednio wyżej (referencyjna
+implementacja `AiToolDefinition`) o formalną propozycję reguły w tym samym kształcie, co dwie już
+skonsolidowane reguły tego standardu: [17.1a](../standards/17-i18n.md) (wielojęzyczność od Etapu 1)
+i [5.7](../standards/05-baza-danych-offline.md) (autosave od Etapu 1). Ten projekt ma dziś **trzeci
+niezależny przypadek tego samego wzorca kosztu**: warstwa dobudowana reaktywnie do już istniejących
+ekranów (i18n — dziesiątki ekranów z twardym polskim tekstem; autosave — ~90 ekranów bez
+persystencji; teraz AI — 116 ze 117 kalkulatorów bez zarejestrowanego narzędzia) zawsze kończy się
+osobną, kosztowną kampanią retrofitu zamiast kosztem rozłożonym na każdy ekran budowany od razu
+poprawnie. Trzecie wystąpienie tego samego kształtu w jednym projekcie to silny sygnał ogólnej
+prawidłowości, nie przypadku.
+
+Gotowa, pełna treść proponowanej reguły (wzorowana 1:1 na strukturze 17.1a/5.7, z jednym świadomie
+nazwanym odstępstwem — inną kolejnością pisania wewnątrz pojedynczego ekranu niż przy i18n, bo opis
+narzędzia AI wymaga ustabilizowanego kontraktu I/O, więc musi powstać na końcu, nie na początku):
+`docs/propozycje-do-new-app-standards/ai-w-produkcie-rozbudowa.md`, nowa sekcja 6 w tym repo —
+gotowa do konsolidacji jako proponowany podpunkt **9.0a**.
+
+Dlaczego warto zgłosić do new-app-standards: dokładnie ten sam argument, co przy konsolidacji
+17.1a/5.7 — trzy niezależne projekty/warstwy odkryły ten sam koszt osobno, w różnym czasie, co było
+wystarczającym sygnałem, żeby podnieść autosave i i18n do rangi reguły. AI w produkcie jest już
+dziś obowiązkowa dla każdej apki rodziny (9.0) — bez tej reguły każdy kolejny projekt powtórzy
+dokładnie ten sam błąd sekwencji po raz czwarty.
+
+Status: 🔎 nowe
+
+---
+
 [20.09.2026] KATEGORIA: BŁĄD — równoległe uruchomienie wielu subagentów wyczerpało limit sesji API szybciej niż praca sekwencyjna
 
 Szczegóły: Duży mechaniczny rollout (114 plików, ta sama transformacja `useState` →
