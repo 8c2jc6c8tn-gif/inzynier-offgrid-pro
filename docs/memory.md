@@ -364,6 +364,54 @@ konkretnych potrzebnych tabel + kod kalkulatora, po kolei małymi partiami zgodn
   7. `docs/zrodla/` — ✅ istnieje.
   8. `.claude/skills/standards/SKILL.md` — ✅ istnieje, bez zmian wymaganych tą partią.
   9. `01_Zasady_Pracy_i_Konwencje.md` + `02_Dyrektywy_AI_Projektu.md` — ✅ oba istnieją.
+- **2026-09-20 (piąta synchronizacja tego dnia, na wyraźne polecenie właściciela projektu —
+  "zrób aktualizacje" przed rozpoczęciem Modułu 4/Modułu 2 wampirów) — `AKTUALIZACJE.md` sprawdzone
+  do końca (wiersz 84, GOD BOOK v2.19→v2.20), plus mechaniczna re-weryfikacja wierszy 61-76
+  (16.09.2026) przeciw obecnemu stanowi kodu, nie tylko przeciw deklaracji tego logu.**
+  **Nowa treść (wiersz 84): GOD BOOK Y.8 — archiwizacja `docs/wklad-do-standardu.md`.** Plik jest
+  append-only i rośnie bez końca; nowa reguła: cyklicznie przenosić wpisy w pełni zamknięte (status
+  `✅ skonsolidowane`/`✅ przekazane`, bez otwartej dalszej akcji) do nowego,
+  `docs/wklad-do-standardu-archiwum.md`, zostawiając w żywym pliku wskaźnik. **Wykonane od razu, w
+  tej samej sesji** (nazwana wprost jako "Akcja dla inzynier-offgrid-pro" w tym wierszu): 12 z 16
+  wpisów przeniesionych do nowego `docs/wklad-do-standardu-archiwum.md` (9.3/9.0a AI w produkcie,
+  rozdz. 18 logowanie, 18.5 Supabase + CSRF Server Actions, 7.3 CSP nonce, 8.4a audyt pokrycia,
+  15.19/15.20/15.7a wzorce procesowe, 5.7 autosave) — żywy plik spadł z 1102 do 572 linii. Przy
+  okazji naprawiona drobna nieścisłość we własnym wpisie (cytowany numer sekcji "8.2" zamiast
+  faktycznego "8.4a", `docs/standards/08-ui-ux.md` — pomyłka w cytowaniu, nie w treści merytorycznej,
+  poprawiona dopiskiem w archiwum, Y.2.1 dryf bez świadomej decyzji). 4 wpisy zostają w żywym pliku
+  jako wciąż otwarte (procedura materiałów źródłowych i biblioteka norm — czekają na sesję nad
+  `new-app-standards`; wielojęzyczność — punkt C6 tłumaczenia treści bezpieczeństwa-krytycznych
+  świadomie nierozstrzygnięty; CI referencyjny/i18n-guard — status cofnięty do "nowe" 16.09.2026 po
+  incydencie PR #9, wciąż czeka).
+  GOD BOOK podmieniony w całości (`...v2_19.md` → `...v2_20.md`, `git rm`+nowy plik, NIETYKALNE);
+  odsyłacze do wersji poprawione we wszystkich bieżących wskazaniach (`CLAUDE.md`, `USTALENIA.md`,
+  `00_Biblia.md`, `README.md`, `ZASADY_APLIKACJI.md`, `01_Zasady_Pracy_i_Konwencje.md`,
+  `.claude/skills/standards/SKILL.md`, `docs/standards/00-filozofia.md`, `docs/standards/00-INDEKS.md`,
+  `PROMPT_STARTOWY.md`, nagłówek `docs/lista-do-zrobienia.md`) — historyczne wzmianki starszych
+  wersji nietknięte.
+  **Re-weryfikacja wierszy 61-76 (16.09.2026) — zweryfikowane programistycznie, nie z metryczki:**
+  spot-checki kodu potwierdzają, że wszystkie punkty z jawnie nazwaną "Akcja dla inzynier-offgrid-pro"
+  są już zaimplementowane: `middleware.ts` generuje nonce per-request (`crypto.randomUUID()`,
+  nagłówki `x-nonce`/`Content-Security-Policy`) zgodnie z korektą 7.3 (wiersz 74); `lib/i18n/language.ts`
+  i `lib/i18n/storage.ts` używają wyłącznie `localStorage`/`navigator.languages`, zero cookie/serwera,
+  zgodnie z korektą architektoniczną 17.4/5.3 offline-first (wiersz 76, zastępuje wcześniejszą
+  "Akcja: migracja cookie+middleware jak zero-waste" z tego samego dnia — świadomie NIE wykonana,
+  poprawnie). Pozostałe wiersze 61-73/75 nie miały nazwanej akcji dla tego projektu albo dotyczą
+  wyłącznie innych projektów rodziny (zero-waste/szkieletowy-pro) — bez działania tutaj.
+  **Wynik checklisty Y.9:**
+  1. `docs/standards/` — ✅ bez zmian merytorycznych tą partią (tylko odsyłacze do wersji GOD BOOK).
+  2. GOD BOOK — ✅ podmienione na v2.20.
+  3. `CLAUDE.md` — ✅ istnieje, odsyłacz zaktualizowany.
+  4. `docs/memory.md` — ✅ (ten wpis).
+  5. `docs/lista-do-zrobienia.md` — ✅ istnieje, odsyłacz zaktualizowany.
+  6. `docs/wklad-do-standardu.md` — ✅ istnieje, przycięty do wpisów wciąż otwartych (Y.8).
+  6a. `docs/wklad-do-standardu-archiwum.md` — ✅➕ **nowy plik**, pierwsza archiwizacja (Y.8).
+  7. `docs/zrodla/` — ✅ istnieje.
+  8. `.claude/skills/standards/SKILL.md` — ✅ istnieje, odsyłacz zaktualizowany.
+  9. `01_Zasady_Pracy_i_Konwencje.md` + `02_Dyrektywy_AI_Projektu.md` — ✅ oba istnieją, odsyłacz w
+     pierwszym zaktualizowany.
+  Zweryfikowano: `grep -rln "v2_19"` po synchronizacji — zero trafień w całym repo poza historycznymi
+  wzmiankami w tym logu (Część D GOD BOOK, append-only, celowo nietknięte).
 
 ## Pełny audyt na polecenie właściciela projektu (20.09.2026) — Y.6/Y.9 + Część N
 
