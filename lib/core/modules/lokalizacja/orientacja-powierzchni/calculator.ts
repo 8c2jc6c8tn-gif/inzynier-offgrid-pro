@@ -1,5 +1,6 @@
-// 🔎 TD15 (dlug-techniczny.md): konwencja czasu rekordów PVGIS (początek/środek godziny) niezweryfikowana;
-// wskaźnik nie uwzględnia zacienienia z Ekranu 3.
+// 🔎 TD15 (dlug-techniczny.md): wskaźnik nie uwzględnia zacienienia z Ekranu 3 (punkt 1 — czas
+// PVGIS — rozwiązany w lib/adapters/pvgis/tmy.ts).
+// 🔎 TD16 (dlug-techniczny.md): model izotropowy — wobec PVGIS PVcalc optimum 33° vs 39°, −10% kWh/m².
 import type { Assumption, CalcResult } from "@/lib/core/calc-result"
 import { pozycjaSlonca } from "@/lib/core/modules/lokalizacja/geometria-slonca/pozycja-slonca"
 import {

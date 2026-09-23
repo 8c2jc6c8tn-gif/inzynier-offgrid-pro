@@ -6146,3 +6146,46 @@ lint 0 błędów (2 stare ostrzeżenia `<img>` bez związku), `check:i18n-guard`
 origin), ekran Skanera z MapLibre GL + spacer GPS, widok 3D (R3F) z mapą cieplną zacienienia,
 lista powierzchni E4, i18n + opisy narzędzi AI dla nowych kalkulatorów (kolejność z 20.09:
 kalkulator → i18n → opis AI w tej samej sesji — dla tych 3 ekranów opisy AI czekają na UI).
+
+## Proxy PVGIS TMY (23.09.2026) — D22, dane dla Ekranu 4 Modułu 1
+
+Na polecenie właściciela ("potem proxy PVGIS"), zaraz po merge'u jądra Modułu 1 (PR #141).
+- `lib/adapters/pvgis/tmy.ts` — czysty parser (zod, kształt sprawdzany na pełnym roku 8760 h,
+  promieniowanie ≥ 0) + `pobierzTmy` (stały adres `re.jrc.ec.europa.eu/api/v5_3/tmy`, timeout 30 s,
+  kody błędów `PVGIS-*`, nigdy dane zastępcze — 06-api-i-siec.md 6.1). 13 testów.
+- `app/api/pvgis/tmy/route.ts` — GET `?lat&lon`, 400/422/502/504 z kodem powodu, sukces z
+  `Cache-Control: private, max-age=86400`. CSP `connect-src 'self'` nietknięte (przeglądarka
+  woła tylko własny origin).
+- **Offset czasu PVGIS (TD15 punkt 1 — rozwiązany):** znacznik HH:00 jest umowny, wartości
+  odpowiadają HH:00 + `inputs.location.irradiance_time_offset` (JRC, strona narzędzia TMY;
+  SARAH — zależnie od szerokości, Warszawa 0,1832 h; ERA5 — 0,5 h). Adapter dodaje offset.
+- **Pułapka zod 4:** `z.coerce.number()` zamienia `null` (brak parametru URL) na 0 — przepuściłoby
+  zapytanie bez `lat` jako 0°. Rozwiązanie: `z.string().trim().min(1).pipe(z.coerce.number<string>()...)`
+  (jawny typ wejścia `<string>` wymagany przez typy zod 4 w `pipe`). Ten błąd typów przeszedł przez
+  `pnpm build`, bo `next.config.mjs` ma `typescript.ignoreBuildErrors: true` — **build nie
+  zastępuje `pnpm typecheck`**, zawsze uruchamiaj oba.
+- **Weryfikacja na realnych danych (Warszawa, TMY 2005–2023, SARAH3):** GHI 1054 kWh/m²·rok;
+  silnik E4: optimum 176°/33°, 1182 kWh/m²; PVGIS PVcalc (`optimalangles=1`) dla tego samego punktu:
+  177°/**39°**, **1314 kWh/m²**. Azymut zgodny, nachylenie i wartość bezwzględna nie — nowy **TD16**
+  (model izotropowy; hipotezy przyczyny niezweryfikowane) — decyzja o modelu anizotropowym należy do
+  właściciela przed UI E4. Route sprawdzony na żywo przez `pnpm dev`: Warszawa 200 (8760 rekordów,
+  482 kB), morze 422 ("Location over the sea"), brak/błędny `lat` 400.
+
+**CI — zawężenie nierozstrzygniętej sprawy z 20.09.2026 (sekcja "Synchronizacja ze standardem"):**
+zweryfikowane wprost przez API 23.09.2026 ~23:55 CEST: repo `public`, `actions/permissions`
+`enabled: true, allowed_actions: all`, workflow `CI` (`.github/workflows/ci.yml`) `active` — a
+`GET /actions/runs` zwraca **`total_count: 0` dla całego repo** (nie tylko dla PR #141, który
+zmienia `lib/**` i powinien wyzwolić CI mimo `paths-ignore`). Czyli: nie konfiguracja repo ani
+workflow, tylko coś na poziomie konta (blokada/limit konta GitHub). PR #141 zmergowany na wyraźne
+polecenie właściciela z pełnym pakietem lokalnym zamiast CI (ten sam tryb co PR #136). Przy
+okazji: tokenowi `gh` kończy się limit REST (60/h) i GraphQL przy intensywnej pracy — przy
+limicie GraphQL `gh pr create` nie działa, `gh api` (REST) tak.
+
+**[24.09.2026] ROZSTRZYGNIĘTE przez właściciela projektu — CI nie działa do końca września 2026,
+bo wyczerpały się limity GitHub na koncie** ("CI nie robimy do końca miesiąca, bo nam limity na
+git się skończyły — żeby nie próbować znowu i nie tracić czasu"). Zamyka sprzeczność z 20.09.2026
+(wersja A "limit Actions do 1.10" vs wersja B "repo publiczne = bez limitu") na korzyść A, zgodnie
+z pomiarem z 23.09 (0 uruchomień w całym repo przy włączonych Actions). **Do 30.09.2026 włącznie:**
+nie sprawdzać check-runów/workflow runs, nie diagnozować braku CI — merge na pełnym pakiecie
+lokalnym (typecheck, lint, check:i18n-guard, test, build, audit:gate). Nota operacyjna także w
+`CLAUDE.md` (sekcja "Stan repo") — usunąć ją od 1.10.2026, gdy CI wróci.

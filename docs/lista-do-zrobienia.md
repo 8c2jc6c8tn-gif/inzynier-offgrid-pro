@@ -965,8 +965,9 @@ Pełne wyniki audytu: `docs/memory.md`, sekcja "Pełny audyt na polecenie właś
 - 🔄 (2026-09-23) **Moduł 1 (Lokalizacja), Ekrany 2–4 — jądro gotowe, UI w kolejce.** Decyzja
   architektoniczna D22 (`rejestr-decyzji.md`). Zbudowane i przetestowane: `geometria-slonca/`,
   `skaner-dzialki/`, `analiza-zacienienia/`, `orientacja-powierzchni/` (55 testów). Dalej, w tej
-  kolejności: 🔲 proxy PVGIS (TMY) + ULDK jako Route Handler, z weryfikacją konwencji czasu PVGIS
-  (TD15) · 🔲 Ekran 2 UI (MapLibre GL, spacer GPS offline, tryb Geoportal/ULDK online, zapis
+  kolejności: ✅ (23.09) proxy PVGIS TMY (`app/api/pvgis/tmy/route.ts`, TD15 (1) rozwiązany) ·
+  ⚠️ TD16 — model izotropowy vs PVGIS PVcalc (39° vs 33°), decyzja właściciela przed UI E4 ·
+  🔲 proxy ULDK · 🔲 Ekran 2 UI (MapLibre GL, spacer GPS offline, tryb Geoportal/ULDK online, zapis
   lokalny) · 🔲 Ekran 3 UI (R3F, mapa cieplna, profil horyzontu; obliczenia w Web Workerze) ·
   🔲 Ekran 4 UI (lista powierzchni ze wskaźnikiem, korekta ręczna azymutu/kąta) · 🔲 opisy narzędzi
   AI dla 3 nowych kalkulatorów · 🔲 TD14 (rozproszone + zachmurzenie z PVGIS w E3). Szczegóły:
