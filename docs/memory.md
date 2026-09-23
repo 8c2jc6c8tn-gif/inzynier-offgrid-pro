@@ -6180,3 +6180,12 @@ workflow, tylko coś na poziomie konta (blokada/limit konta GitHub). PR #141 zme
 polecenie właściciela z pełnym pakietem lokalnym zamiast CI (ten sam tryb co PR #136). Przy
 okazji: tokenowi `gh` kończy się limit REST (60/h) i GraphQL przy intensywnej pracy — przy
 limicie GraphQL `gh pr create` nie działa, `gh api` (REST) tak.
+
+**[24.09.2026] ROZSTRZYGNIĘTE przez właściciela projektu — CI nie działa do końca września 2026,
+bo wyczerpały się limity GitHub na koncie** ("CI nie robimy do końca miesiąca, bo nam limity na
+git się skończyły — żeby nie próbować znowu i nie tracić czasu"). Zamyka sprzeczność z 20.09.2026
+(wersja A "limit Actions do 1.10" vs wersja B "repo publiczne = bez limitu") na korzyść A, zgodnie
+z pomiarem z 23.09 (0 uruchomień w całym repo przy włączonych Actions). **Do 30.09.2026 włącznie:**
+nie sprawdzać check-runów/workflow runs, nie diagnozować braku CI — merge na pełnym pakiecie
+lokalnym (typecheck, lint, check:i18n-guard, test, build, audit:gate). Nota operacyjna także w
+`CLAUDE.md` (sekcja "Stan repo") — usunąć ją od 1.10.2026, gdy CI wróci.
