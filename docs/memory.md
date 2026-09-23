@@ -6226,3 +6226,49 @@ proxy (**D23**).
   ULDK 200, bezpośredni PVGIS i example.org zablokowane z komunikatem naruszenia CSP.
 - `GetParcelByIdOrNr` z nazwą obrębu ("Mokotów 1") zwracał pusto — wyszukiwanie po nazwie
   obrębu+numerze nie zbudowane; UI oferuje TERYT albo punkt na mapie/GPS.
+
+## Moduł 1 — UI Ekranów 2–4 (24.09.2026) — D22
+
+Na polecenie właściciela ("UI interfejs ekranów 2–4 (mapa, widok 3D, lista powierzchni)").
+Nowe zależności (D22): `maplibre-gl` 6.11, `three` 0.186, `@react-three/fiber` 9.8, `@types/three`.
+
+**Architektura danych między ekranami:** model działki = Seed Ekranu 2 (`usePersistedDraft`, klucz
+`skaner-dzialki`); Ekrany 3 i 4 czytają go przez nowy `useOdczytDraftu` (tylko odczyt — jeden
+właściciel zapisu) i mają własne drafty (E3: prognoza wzrostu drzew, dach płaski; E4: korekty,
+powierzchnie ręczne, albedo). Przeliczenia Seed → wejścia kalkulatorów: `lib/lokalizacja/model-dzialki.ts`
+(czyste funkcje, testy). Wyniki nigdy nie są zapisywane (05, 5.1) — tylko Seed i dane PVGIS TMY
+(`offgrid.pvgis-tmy.v1`, dane wejściowe, nie wynik).
+
+**Pułapki znalezione i naprawione:**
+- `next.config.mjs` miał `Permissions-Policy: geolocation=()` — wyłączało GPS w całej apce (spacer
+  GPS nie mógłby działać). Zmienione na `geolocation=(self)`.
+- MapLibre GL 6 ładuje worker z pliku OBOK własnego modułu (`new URL("./maplibre-gl-worker.mjs",
+  import.meta.url)`) — po zbundlowaniu przez Next plik nie istnieje ("Worker failed to load").
+  Rozwiązanie: `scripts/kopiuj-maplibre-worker.mjs` (predev/prebuild) kopiuje worker + moduł
+  wspólny do `public/maplibre/` (w .gitignore), mapa wskazuje go `setWorkerUrl`. CSP: `worker-src 'self' blob:`.
+- Strona Ekranu 3 nie może statycznie importować nic z `widok-3d.tsx` (ładowanego `next/dynamic`),
+  bo three.js wpadłby do bundla strony — wspólne helpery w `components/lokalizacja/mapa-cieplna.ts`.
+- Reguła lint `react-hooks/refs`: nie przypisywać `ref.current = props` w renderze — w efekcie.
+
+**Fakty sprawdzone na żywo (24.09.2026):**
+- WMS ortofotomapy Geoportalu (`PZGIK/ORTO/WMS/HighResolution`) zwraca poprawne kafle w EPSG:3857,
+  choć GetCapabilities deklaruje tylko 2180/4326 — nieudokumentowane; jeśli zniknie, mapa działa dalej
+  bez podkładu. CORS odbija origin. Adres `.../StandardResolution` zwraca 404.
+- ULDK `GetBuildingByXY` działa (Kraków, Sukiennice: 70 wierzchołków, 2876 m²), ale Warszawa: brak
+  wyników — pokrycie budynków niepełne, UI mówi to wprost i kieruje na spacer GPS.
+- WMS granic działek KIEG (`integracja.gugik.gov.pl`) przekierowuje (302) — nie użyty.
+
+**Decyzje prezentacji (nie fizyka):** ściany budynku łączone w elewacje przy różnicy azymutu
+< 15° (`TOLERANCJA_ELEWACJI_DEG` — obrys z ULDK ma dziesiątki odcinków); zapis PVGIS pasuje do
+lokalizacji w promieniu 0,01° (~1 km, piksel SARAH ma kilka km); mapa cieplna E3 = siatka 4×4
+punktów na powierzchnię, strata powierzchni = średnia punktów; numerowane znaczniki na mapie tylko
+dla zbiorów ≤ 20 punktów.
+
+**Zweryfikowane w przeglądarce (`pnpm dev`):** E2 online — działka po TERYT z ULDK (Kraków, 3828 m²)
+i budynek kliknięciem w mapę; E3 — model testowy (dom 10×8 m, dąb 9 m 12 m na południe): połać S
+3,8% rocznie, grudzień 31%, prognoza 15 m za 10 lat → 9,1%; E4 — realne dane PVGIS (Warszawa):
+optimum 37°/180°, połać S 27° 99%, elewacja S 70%, E/W 53–54%, N 26%. Szerokość telefonu (375 px) bez
+poziomego przewijania na wszystkich trzech ekranach.
+
+**Otwarte:** opisy narzędzi AI dla 3 kalkulatorów (E4: handler musiałby sam pobierać PVGIS po stronie
+serwera), TD14, TD15 (2), TD17 (nowy — przeszkody tylko jako walce).

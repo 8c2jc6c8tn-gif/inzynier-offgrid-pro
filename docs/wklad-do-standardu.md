@@ -621,3 +621,27 @@ Status: 🔎 nowe.
 
 ---
 
+
+---
+
+[24.09.2026] KATEGORIA: DOBRA PRAKTYKA — biblioteki z własnym Web Workerem (MapLibre GL 6 i podobne)
+po zbundlowaniu przez Next.js: kopia workera w `public/` robiona w `predev`/`prebuild`, nie w repo
+
+Szczegóły: MapLibre GL 6 tworzy worker z pliku leżącego obok własnego modułu (`new URL("./maplibre-gl-worker.mjs",
+import.meta.url)`). Po zbundlowaniu (Turbopack) ten plik nie istnieje pod wyliczoną ścieżką — mapa
+rysowała tło, ale nic więcej, a w konsoli było tylko "Worker failed to load". Rozwiązanie, które
+zadziałało: skrypt `scripts/kopiuj-maplibre-worker.mjs` uruchamiany jako `predev` i `prebuild` kopiuje
+worker (i moduł, który worker importuje względnie) z `node_modules` do `public/maplibre/`, katalog jest
+w `.gitignore`, a kod wskazuje kopię przez `setWorkerUrl`. Kopia zawsze pasuje do wersji z lockfile'a,
+w repo nie ma skopiowanego kodu biblioteki. Do tego CSP potrzebuje `worker-src 'self' blob:`. Przy tej
+samej pracy: szablonowy nagłówek `Permissions-Policy: geolocation=()` po cichu wyłączał GPS w całej
+aplikacji — nowa funkcja korzystająca z API przeglądarki (GPS, kamera, mikrofon) musi zacząć od
+sprawdzenia nagłówków bezpieczeństwa, bo przeglądarka odmawia bez czytelnego błędu w UI.
+
+Dlaczego warto zgłosić do new-app-standards: każdy projekt rodziny z mapą, PDF.js, edytorem kodu albo
+inną biblioteką z workerem trafi na ten sam problem, a "Worker failed to load" nie wskazuje przyczyny.
+Rozdział 11 (CI/deployment) albo 07 (bezpieczeństwo — CSP `worker-src`, Permissions-Policy) mógłby mieć
+krótką notę: "biblioteka z workerem → kopia w prebuild do public/ + `worker-src`; nowe API przeglądarki →
+najpierw Permissions-Policy".
+
+Status: 🔎 nowe.

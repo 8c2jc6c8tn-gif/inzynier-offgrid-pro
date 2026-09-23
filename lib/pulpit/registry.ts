@@ -25,7 +25,12 @@ export const KAFLE: KafelEntry[] = [
     nazwa: "Lokalizacja i teren",
     opis: "Fundament: klimat, nasłonecznienie, strefy. Zasila prawie wszystkie pozostałe moduły.",
     ikona: "📍",
-    ekrany: [{ href: "/kalkulatory/lokalizacja-i-klimat", label: "Lokalizacja i dane klimatyczne" }],
+    ekrany: [
+      { href: "/kalkulatory/lokalizacja-i-klimat", label: "Lokalizacja i dane klimatyczne" },
+      { href: "/kalkulatory/skaner-dzialki", label: "Skaner działki" },
+      { href: "/kalkulatory/analiza-zacienienia", label: "Analiza zacienienia" },
+      { href: "/kalkulatory/orientacja-powierzchni", label: "Bryła budynku i orientacja ścian" },
+    ],
   },
   {
     id: 2,

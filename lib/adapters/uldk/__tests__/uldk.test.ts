@@ -2,10 +2,19 @@ import { readFileSync } from "node:fs"
 import { join } from "node:path"
 import { describe, expect, it, vi } from "vitest"
 import { calculateSkanerDzialki } from "@/lib/core/modules/lokalizacja/skaner-dzialki/calculator"
-import { dzialkaPoIdentyfikatorze, dzialkaWPunkcie, parsujOdpowiedzUldk, ULDK_URL } from "../uldk"
+import {
+  budynekWPunkcie,
+  dzialkaPoIdentyfikatorze,
+  dzialkaWPunkcie,
+  parsujOdpowiedzBudynkuUldk,
+  parsujOdpowiedzUldk,
+  ULDK_URL,
+} from "../uldk"
 
 /** Realna odpowiedź ULDK (GetParcelByXY 21.01, 52.23), pobrana 24.09.2026 — 84 wierzchołki z punktem zamykającym. */
 const REALNA = readFileSync(join(__dirname, "fixtures", "dzialka-146510_8.0309.23-3.txt"), "utf8")
+/** Realna odpowiedź GetBuildingByXY (Kraków, Sukiennice 19.9373, 50.0617), pobrana 24.09.2026. */
+const BUDYNEK = readFileSync(join(__dirname, "fixtures", "budynek-126105_9.0001.311.1_BUD.txt"), "utf8")
 /** Realna odpowiedź "nie znaleziono" (ten sam dzień). */
 const BRAK = "-1 brak wyników\nbłędny format odpowiedzi XML, usługa zwróciła odpowiedźZbiorcza baza danych obsłużyła zapytanie.\n"
 
@@ -67,7 +76,21 @@ describe("parsujOdpowiedzUldk", () => {
   })
 })
 
-describe("dzialkaWPunkcie / dzialkaPoIdentyfikatorze", () => {
+describe("parsujOdpowiedzBudynkuUldk", () => {
+  it("realna odpowiedź → identyfikator budynku i obrys (70 punktów, bez zamykającego)", () => {
+    const w = parsujOdpowiedzBudynkuUldk(BUDYNEK)
+    expect(w).toMatchObject({ ok: true, budynek: { id: "126105_9.0001.311.1_BUD", maOtwory: false } })
+    if (!w.ok) return
+    expect(w.budynek.punkty).toHaveLength(70)
+    expect(w.budynek.punkty[0]).toEqual({ szerokosc: 50.0613285526919, dlugosc: 19.9368436944146 })
+  })
+
+  it("odpowiedź w formacie działki (7 pól) nie przechodzi jako budynek", () => {
+    expect(parsujOdpowiedzBudynkuUldk(REALNA)).toMatchObject({ ok: false, kod: "ULDK-NIEOCZEKIWANY-FORMAT" })
+  })
+})
+
+describe("dzialkaWPunkcie / dzialkaPoIdentyfikatorze / budynekWPunkcie", () => {
   it("GetParcelByXY: xy = lon,lat,4326, stały adres ULDK, pola wyniku w ustalonej kolejności", async () => {
     const f = vi.fn(tekst(REALNA))
     await dzialkaWPunkcie(52.23, 21.01, f as unknown as typeof fetch)
@@ -76,6 +99,17 @@ describe("dzialkaWPunkcie / dzialkaPoIdentyfikatorze", () => {
     expect(url.searchParams.get("request")).toBe("GetParcelByXY")
     expect(url.searchParams.get("xy")).toBe("21.01,52.23,4326")
     expect(url.searchParams.get("result")).toBe("teryt,geom_wkt,voivodeship,county,commune,region,parcel")
+  })
+
+  it("GetBuildingByXY: xy = lon,lat,4326, pola id,geom_wkt", async () => {
+    const f = vi.fn(tekst(BUDYNEK))
+    const w = await budynekWPunkcie(50.0617, 19.9373, f as unknown as typeof fetch)
+    expect(w.ok).toBe(true)
+    const url = (f.mock.calls[0] as unknown as [URL])[0]
+    expect(url.searchParams.get("request")).toBe("GetBuildingByXY")
+    expect(url.searchParams.get("xy")).toBe("19.9373,50.0617,4326")
+    expect(url.searchParams.get("result")).toBe("id,geom_wkt")
+    expect(await budynekWPunkcie(52, 21, tekst(BRAK))).toMatchObject({ kod: "ULDK-NIE-ZNALEZIONO" })
   })
 
   it("GetParcelById z poprawnym TERYT", async () => {
