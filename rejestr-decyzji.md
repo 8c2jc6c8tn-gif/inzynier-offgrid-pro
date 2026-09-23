@@ -1,6 +1,6 @@
 # Rejestr decyzji — Inżynier Offgrid Pro
 
-**Wersja:** 1.3 | **Filar:** C | **Data utworzenia:** 04.09.2026 | **Ostatnia aktualizacja:** 23.09.2026 | **Status:** Stabilny (rosnący)
+**Wersja:** 1.4 | **Filar:** C | **Data utworzenia:** 04.09.2026 | **Ostatnia aktualizacja:** 24.09.2026 | **Status:** Stabilny (rosnący)
 **Powiązane dokumenty:** `00_Biblia.md`, `docs/memory.md`, `USTALENIA.md` (historyczny, Część II)
 
 TL;DR: D1, D2, D3… — decyzje **strategiczne/fundamentalne** (blokujące wiele innych rzeczy naraz, Krok 4 GOD BOOK), ponumerowane, nigdy nie kasowane, tylko unieważniane jawnie (F.5). **Nie duplikuje `docs/memory.md`**: tam żyje pełna, szczegółowa historia każdej sesji (setki drobnych decyzji implementacyjnych per ekran) — tu tylko decyzje, które zmieniły kierunek/regułę obowiązującą cały projekt. Gdy wpis niżej odsyła do `docs/memory.md`, tam jest pełne uzasadnienie i przykłady.
@@ -55,6 +55,8 @@ TL;DR: D1, D2, D3… — decyzje **strategiczne/fundamentalne** (blokujące wiel
 
 **D22 (23.09.2026) — Architektura Modułu 1, Ekrany 2–4 (Skaner działki, Analiza zacienienia, Bryła budynku): MapLibre GL + three.js/React Three Fiber + dane online ULDK (GUGiK) i PVGIS przez własny Route Handler (proxy), kolejność: najpierw czyste jądro obliczeniowe z testami, potem UI.** Koszt cofnięcia: średni (biblioteki UI ładowane leniwie tylko na tych ekranach; jądro niezależne od wyboru bibliotek). Decyzja właściciela projektu, zamyka sprawę otwartą 20.09.2026 ("Moduł 1 pominięty — czeka na osobną decyzję architektoniczną: jaka biblioteka mapowa/GPS", `docs/memory.md`). Wybrane z opcji przedstawionych przez AI: mapa MapLibre GL (zamiast Leaflet / własnego planu SVG), 3D three.js/R3F (zamiast samego MapLibre 3D / rzutu 2D), dane online ULDK+PVGIS (zamiast tylko PVGIS / nic online). Offline-first (standard 5.3) bez zmian: tryb "spacer GPS" i ręczne wprowadzanie działają bez sieci, dane online są dodatkiem i zapisywane lokalnie po pobraniu. Wzory: wyłącznie uznane, cytowalne modele (pozycja słońca NOAA/Meeus, model izotropowy Liu–Jordana, geometria analityczna) — przykładowe liczby ze źródła ("94%", "12%") nie są przepisywane jako fakty, tylko liczone modelem.
 
+**D23 (24.09.2026) — ULDK (GUGiK) wołany bezpośrednio z przeglądarki, BEZ proxy — zmienia część D22 ("ULDK + PVGIS przez proxy"); PVGIS zostaje przez proxy.** Koszt cofnięcia: tani (adapter jest czystą funkcją z wstrzykiwanym `fetch` — przeniesienie za Route Handler to jeden plik). Decyzja właściciela projektu po przedstawieniu przez AI faktów sprawdzonych na żywo 24.09.2026: ULDK wysyła `Access-Control-Allow-Origin: *` (PVGIS nie — jego dokumentacja wprost zakazuje wywołań "via AJAX", więc tam proxy jest konieczne). Za: zero kosztu i pracy serwera, brak zależności od naszego hostingu. Przeciw (zaakceptowane): adres IP użytkownika trafia do GUGiK; wymagało poszerzenia CSP `connect-src` o `https://uldk.gugik.gov.pl` (jedyny zewnętrzny origin danych dopuszczony z nazwy, `middleware.ts`) — zweryfikowane w przeglądarce: ULDK przechodzi, bezpośredni PVGIS i inne originy nadal blokowane przez CSP.
+
 ---
 
 ## Założenia robocze (F.7 GOD BOOK)
@@ -71,3 +73,4 @@ TL;DR: D1, D2, D3… — decyzje **strategiczne/fundamentalne** (blokujące wiel
 | 07.09.2026 | Dodano D20 (echo wymaga wspólnego uzasadnienia, nie tylko wspólnej wartości) — na wyraźną prośbę właściciela projektu, po audycie GOD BOOK Część N. Wersja 1.0→1.1. |
 | 23.09.2026 | Dodano D21 (cykl Y.6 obniżony lokalnie do ≤12h, GOD BOOK/PROMPT_STARTOWY.md bez zmian) — na wyraźne polecenie właściciela projektu. Wersja 1.1→1.2. |
 | 23.09.2026 | Dodano D22 (architektura Modułu 1, Ekrany 2–4: MapLibre GL + three.js/R3F + ULDK/PVGIS przez proxy, najpierw jądro) — decyzja właściciela projektu. Wersja 1.2→1.3. |
+| 24.09.2026 | Dodano D23 (ULDK bezpośrednio z przeglądarki, bez proxy — zmienia część D22; CSP `connect-src` + `https://uldk.gugik.gov.pl`) — decyzja właściciela projektu. Wersja 1.3→1.4. |

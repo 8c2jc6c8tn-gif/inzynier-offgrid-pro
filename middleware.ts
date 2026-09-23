@@ -41,6 +41,15 @@ const IS_DEV = process.env.NODE_ENV !== "production"
 // starczy do reszty apki, nic w kodzie nie łamie CSP samym faktem braku tego wpisu.
 const SUPABASE_CONNECT_SRC = process.env.NEXT_PUBLIC_SUPABASE_URL ?? ""
 
+// rejestr-decyzji.md D23 — ULDK (GUGiK) wołany bezpośrednio z przeglądarki (ma CORS `*`), bez
+// proxy: jedyny zewnętrzny origin danych dopuszczony tu z nazwy. PVGIS NIE — zakazuje wywołań
+// z przeglądarki, idzie przez /api/pvgis/tmy (D22).
+const ULDK_CONNECT_SRC = "https://uldk.gugik.gov.pl"
+
+// D22/D23 — podkład mapy Skanera działki: ortofotomapa WMS Geoportalu (GUGiK). MapLibre pobiera
+// kafle przez fetch (connect-src) i rysuje je jako obrazy (img-src). Tylko w trybie online.
+const GEOPORTAL_SRC = "https://mapy.geoportal.gov.pl"
+
 function buildCsp(nonce: string): string {
   // Next.js dev mode (React Refresh/HMR) wstrzykuje własne inline skrypty i wymaga
   // 'unsafe-eval' — osłabienie CSP tylko w dev, produkcja zostaje ściśle ograniczona do
@@ -50,9 +59,11 @@ function buildCsp(nonce: string): string {
     `default-src 'self'`,
     `script-src ${scriptSrc}`,
     `style-src 'self' 'unsafe-inline'`,
-    `img-src 'self' data: blob:`,
+    `img-src 'self' data: blob: ${GEOPORTAL_SRC}`,
     `font-src 'self'`,
-    `connect-src 'self'${SUPABASE_CONNECT_SRC ? ` ${SUPABASE_CONNECT_SRC}` : ""}`,
+    `connect-src 'self' ${ULDK_CONNECT_SRC} ${GEOPORTAL_SRC}${SUPABASE_CONNECT_SRC ? ` ${SUPABASE_CONNECT_SRC}` : ""}`,
+    // MapLibre GL uruchamia swój worker z blob: URL; Web Worker obliczeń Modułu 1 — z 'self'.
+    `worker-src 'self' blob:`,
     `frame-ancestors 'none'`,
     `base-uri 'self'`,
     `form-action 'self'`,

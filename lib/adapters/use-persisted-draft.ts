@@ -71,3 +71,36 @@ export function usePersistedDraft<T>(kluczEkranu: string, poczatkowy: T): [T, (a
 
   return [stan, setStan]
 }
+
+/**
+ * Odczyt (tylko odczyt) draftu INNEGO ekranu — Moduł 1: Ekrany 3 i 4 czytają model działki
+ * zapisany przez Ekran 2, nigdy go nie nadpisują (jeden właściciel zapisu). `null` — ekran
+ * źródłowy jeszcze nic nie zapisał; `wczytano` odróżnia to od "jeszcze nie odczytano".
+ */
+export function useOdczytDraftu<T>(kluczEkranu: string): { dane: T | null; wczytano: boolean } {
+  const key = PREFIX + kluczEkranu
+  const [stan, setStan] = useState<{ dane: T | null; wczytano: boolean }>({ dane: null, wczytano: false })
+
+  useEffect(() => {
+    let aktywny = true
+    indexedDbStorageAdapter
+      .getItem<T>(key)
+      .then((dane) => {
+        if (aktywny) setStan({ dane, wczytano: true })
+      })
+      .catch((err) => {
+        consoleReporter.reportError({
+          userMessage: "Nie udało się wczytać danych z poprzedniego ekranu.",
+          technicalDetails: `IndexedDbStorageAdapter.getItem(${key}) nie powiódł się`,
+          source: "lib/adapters/use-persisted-draft",
+          cause: err,
+        })
+        if (aktywny) setStan({ dane: null, wczytano: true })
+      })
+    return () => {
+      aktywny = false
+    }
+  }, [key])
+
+  return stan
+}
