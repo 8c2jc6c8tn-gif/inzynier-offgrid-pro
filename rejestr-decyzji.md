@@ -1,6 +1,6 @@
 # Rejestr decyzji — Inżynier Offgrid Pro
 
-**Wersja:** 1.2 | **Filar:** C | **Data utworzenia:** 04.09.2026 | **Ostatnia aktualizacja:** 23.09.2026 | **Status:** Stabilny (rosnący)
+**Wersja:** 1.3 | **Filar:** C | **Data utworzenia:** 04.09.2026 | **Ostatnia aktualizacja:** 23.09.2026 | **Status:** Stabilny (rosnący)
 **Powiązane dokumenty:** `00_Biblia.md`, `docs/memory.md`, `USTALENIA.md` (historyczny, Część II)
 
 TL;DR: D1, D2, D3… — decyzje **strategiczne/fundamentalne** (blokujące wiele innych rzeczy naraz, Krok 4 GOD BOOK), ponumerowane, nigdy nie kasowane, tylko unieważniane jawnie (F.5). **Nie duplikuje `docs/memory.md`**: tam żyje pełna, szczegółowa historia każdej sesji (setki drobnych decyzji implementacyjnych per ekran) — tu tylko decyzje, które zmieniły kierunek/regułę obowiązującą cały projekt. Gdy wpis niżej odsyła do `docs/memory.md`, tam jest pełne uzasadnienie i przykłady.
@@ -53,6 +53,8 @@ TL;DR: D1, D2, D3… — decyzje **strategiczne/fundamentalne** (blokujące wiel
 
 **D21 (23.09.2026) — Cykl sprawdzania Y.6 (`AKTUALIZACJE.md` w `new-app-standards`) w tym projekcie obniżony do ≤12h, świadome lokalne odstępstwo od domyślnego GOD BOOK Y.6 (≤3h od wersji 2.18).** Koszt cofnięcia: tani (jedna linia w `CLAUDE.md`, bez wpływu na kod). Na wyraźne polecenie właściciela projektu. **Nie jest to zmiana samego standardu** — `docs/god-book/instrukcja-uniwersalna-biblii-projektu-v2_21.md` i `PROMPT_STARTOWY.md` (kategoria NIETYKALNE, mirror `new-app-standards`) nadal poprawnie mówią ≤3h i celowo nie zostały lokalnie zmienione (kolejna synchronizacja Y.6 i tak by je nadpisała z powrotem — lokalna edycja byłaby myląca, nie trwała). Realny powód praktyczny zaobserwowany kilka dni wcześniej: dwa kolejne sprawdzenia Y.6 w odstępie ~2 minut (20.09.2026) obie nie znalazły niczego nowego — cykl 3h przy wolno zmieniającym się `new-app-standards` generuje dużo zerowych sprawdzeń. Pełne: `docs/memory.md`.
 
+**D22 (23.09.2026) — Architektura Modułu 1, Ekrany 2–4 (Skaner działki, Analiza zacienienia, Bryła budynku): MapLibre GL + three.js/React Three Fiber + dane online ULDK (GUGiK) i PVGIS przez własny Route Handler (proxy), kolejność: najpierw czyste jądro obliczeniowe z testami, potem UI.** Koszt cofnięcia: średni (biblioteki UI ładowane leniwie tylko na tych ekranach; jądro niezależne od wyboru bibliotek). Decyzja właściciela projektu, zamyka sprawę otwartą 20.09.2026 ("Moduł 1 pominięty — czeka na osobną decyzję architektoniczną: jaka biblioteka mapowa/GPS", `docs/memory.md`). Wybrane z opcji przedstawionych przez AI: mapa MapLibre GL (zamiast Leaflet / własnego planu SVG), 3D three.js/R3F (zamiast samego MapLibre 3D / rzutu 2D), dane online ULDK+PVGIS (zamiast tylko PVGIS / nic online). Offline-first (standard 5.3) bez zmian: tryb "spacer GPS" i ręczne wprowadzanie działają bez sieci, dane online są dodatkiem i zapisywane lokalnie po pobraniu. Wzory: wyłącznie uznane, cytowalne modele (pozycja słońca NOAA/Meeus, model izotropowy Liu–Jordana, geometria analityczna) — przykładowe liczby ze źródła ("94%", "12%") nie są przepisywane jako fakty, tylko liczone modelem.
+
 ---
 
 ## Założenia robocze (F.7 GOD BOOK)
@@ -68,3 +70,4 @@ TL;DR: D1, D2, D3… — decyzje **strategiczne/fundamentalne** (blokujące wiel
 | 04.09.2026 | Utworzono — D1–D19 zrekonstruowane z `USTALENIA.md` Część II, dziennika zmian `ZASADY_APLIKACJI.md`, oraz decyzji strategicznych z `docs/memory.md`. Z1 dodane. Wersja 1.0. |
 | 07.09.2026 | Dodano D20 (echo wymaga wspólnego uzasadnienia, nie tylko wspólnej wartości) — na wyraźną prośbę właściciela projektu, po audycie GOD BOOK Część N. Wersja 1.0→1.1. |
 | 23.09.2026 | Dodano D21 (cykl Y.6 obniżony lokalnie do ≤12h, GOD BOOK/PROMPT_STARTOWY.md bez zmian) — na wyraźne polecenie właściciela projektu. Wersja 1.1→1.2. |
+| 23.09.2026 | Dodano D22 (architektura Modułu 1, Ekrany 2–4: MapLibre GL + three.js/R3F + ULDK/PVGIS przez proxy, najpierw jądro) — decyzja właściciela projektu. Wersja 1.2→1.3. |

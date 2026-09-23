@@ -1,0 +1,35 @@
+/**
+ * Ekran 4, Moduł 1 "Lokalizacja i teren" — "Bryła budynku i orientacja ścian" (dawne 0.4,
+ * Wzorzec D, docs/zrodla/Tresc_Modul_1_Lokalizacja_Ekrany.md). Architektura: rejestr-decyzji.md D22.
+ */
+
+/**
+ * Jeden rekord godzinowy danych nasłonecznienia (format PVGIS TMY: G(h), Gb(n), Gd(h)) [W/m²].
+ * Dane pobierane online z PVGIS (przez proxy, D22) i zapisywane lokalnie — offline używane z zapisu.
+ */
+export type RekordGodzinowy = {
+  czasUtcMs: number
+  /** Promieniowanie całkowite na płaszczyznę poziomą. */
+  ghi: number
+  /** Promieniowanie bezpośrednie na płaszczyznę prostopadłą do promieni. */
+  dni: number
+  /** Promieniowanie rozproszone na płaszczyznę poziomą. */
+  dhi: number
+}
+
+export type Powierzchnia = {
+  nazwa: string
+  /** Nachylenie od poziomu [°]: 0 — płaski dach, 90 — ściana. */
+  nachylenieDeg: number
+  /** Kierunek, w który powierzchnia "patrzy" (N=0, E=90, S=180, W=270) [°]. */
+  azymutDeg: number
+}
+
+export type OrientacjaPowierzchniInput = {
+  szerokoscGeograficzna?: number
+  dlugoscGeograficzna?: number
+  daneGodzinowe?: RekordGodzinowy[]
+  /** Współczynnik odbicia gruntu (albedo) [-]; brak → wartość domyślna z constants.ts. */
+  albedo?: number
+  powierzchnie?: Powierzchnia[]
+}

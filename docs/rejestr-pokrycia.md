@@ -55,9 +55,9 @@ gdzie prowadzić), pozostałe 3 nadal `todo`.
 | Ekran | ID Biblii | Nazwa | Status | Notatka |
 |---|---|---|---|---|
 | 1 | 0.1 | GPS i pobranie lokalizacji/klimatu | **done** | `lib/core/modules/lokalizacja/lokalizacja-i-klimat/`, UI: `app/kalkulatory/lokalizacja-i-klimat/page.tsx`, 6 testów. Tylko tryb offline (ręczne wpisanie) — integracja PVGIS/PVWatts poza zakresem, jawnie oznaczona jako `assumption`. |
-| 2 | 0.2 | Skaner działki (online/offline) | todo | |
-| 3 | 0.3 | Analiza zacienienia (horyzont cieni) | todo | |
-| 4 | 0.4 | Bryła budynku i orientacja ścian | todo | |
+| 2 | 0.2 | Skaner działki (online/offline) | todo | **Silnik gotowy (23.09.2026), UI todo** — `lib/core/modules/lokalizacja/skaner-dzialki/` (GPS→układ lokalny WGS84, kalibracja znanym wymiarem, azymuty ścian, połacie metodą Newella, kalenica), 15 testów. UI (MapLibre GL, spacer GPS, ULDK online) — kolejny krok, D22. |
+| 3 | 0.3 | Analiza zacienienia (horyzont cieni) | todo | **Silnik gotowy (23.09.2026), UI todo** — `lib/core/modules/lokalizacja/analiza-zacienienia/` (+ wspólne `geometria-slonca/`, NOAA/Meeus, 14 testów), 16 testów. Strata tylko promieniowania bezpośredniego clear-sky — TD14. UI (three.js/R3F, mapa cieplna) — kolejny krok, D22. |
+| 4 | 0.4 | Bryła budynku i orientacja ścian | todo | **Silnik gotowy (23.09.2026), UI todo** — `lib/core/modules/lokalizacja/orientacja-powierzchni/` (model izotropowy Liu–Jordana na PVGIS TMY, optimum wyznaczane z danych), 10 testów. Konwencja czasu PVGIS niezweryfikowana — TD15. UI + proxy PVGIS — kolejny krok, D22. |
 
 ## Moduł 11 — Montaż baterii
 
