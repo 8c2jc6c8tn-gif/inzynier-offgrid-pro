@@ -498,6 +498,55 @@ wersji jako pewnika** — przy następnym PR sprawdź wprost (`get_check_runs`/`
 w razie wątpliwości `GET /repos/.../` dla `private`/`visibility`), zanim zapiszesz cokolwiek jako
 fakt.
 
+- **2026-09-23 — synchronizacja na polecenie właściciela projektu ("zaktualizuj stan repo na
+  komputerze, sprawdź rozjazd i przeprowadź aktualizację zgodnie z procedurą").** Lokalny checkout
+  `inzynier-offgrid-pro` był 84 commity za `origin/main` (fast-forward, bez konfliktów; lokalna,
+  niecommitowana zmiana `pnpm-workspace.yaml` — `allowBuilds: unrs-resolver: false` — zostawiona
+  nietknięta, poza zakresem). Klon `new-app-standards`: `git fetch` (Y.6 1a), `HEAD` = `origin/main`
+  = `6fc7140`. Od ostatniej synchronizacji (`80fc1c3`, 20.09) **7 nowych wierszy `AKTUALIZACJE.md`**
+  (v2.21→v2.28): Y.11 (audyt zgodności KODU, na żądanie/koniec Fazy — nie cyklicznie), Y.11 poz. 6
+  (reguła 9.0), korekta zakresu 17.1a/5.7/18.1 (obowiązkowe też w istniejących projektach), 17.7b
+  (selektor języka tylko dla języków kompletnych), rozdz. 13 (Capacitor na stałe, 13.4–13.6,
+  macOS/iPad/Linux/Huawei/Xiaomi).
+  Przed nadpisaniem zweryfikowane: każdy z 7 lokalnych plików NIETYKALNE był identyczny z wersją
+  źródła w `80fc1c3` — czysty dryf, zero lokalnych modyfikacji do stracenia.
+  Wykonane: nadpisane w całości (NIETYKALNE) `docs/standards/00-INDEKS.md`, `00-filozofia.md`,
+  `05-baza-danych-offline.md`, `13-droga-mobile.md`, `17-i18n.md`, `18-logowanie.md`,
+  `PROMPT_STARTOWY.md`; GOD BOOK `...v2_21.md` → `...v2_28.md` (`git rm` + nowy plik); wskaźnik
+  wersji poprawiony punktowo (C.5) w `CLAUDE.md`, `.claude/skills/standards/SKILL.md`,
+  `00_Biblia.md`, `01_Zasady_Pracy_i_Konwencje.md`, `USTALENIA.md`, `ZASADY_APLIKACJI.md`. Po
+  synchronizacji `diff` całego `docs/standards/` + `PROMPT_STARTOWY.md` ze źródłem — zero różnic;
+  `grep "v2_21"` — trafia wyłącznie w historię tego logu i CHANGELOG samego GOD BOOK (celowo).
+  **Krok 5a (Y.10):** rejestr modułów opcjonalnych bez nowych pozycji; oba istniejące moduły
+  (playbook, biblioteka norm) projekt ma od dawna w `docs/propozycje-do-new-app-standards/` — bez
+  akcji.
+  **Krok 6 (`docs/wklad-do-standardu.md`):** bez nowych wpisów od 20.09; jedyny otwarty punkt
+  (C6 — tłumaczenie treści bezpieczeństwa-krytycznych) nadal bez odpowiednika w standardzie.
+  **Znaleziska wymagające decyzji właściciela (NIE naprawiane — Y.11 nigdy nie poprawia kodu
+  samodzielnie):**
+  1. ⚠️ **17.7b** — `components/jezyk-wybor.tsx` renderuje wszystkie `SUPPORTED_LANGUAGES`
+     (pl/en/ru) bez filtra kompletności, a migracja i18n trwa (17.9; `check-i18n-guard.mjs`
+     obejmuje tylko `MIGRATED_MODULES`, a jego własny komentarz mówi, że reszta modułów "świadomie
+     zwraca gotowy tekst PL"). Wybór en/ru daje więc dziś UI mieszane PL+EN/RU — wprost nazwane
+     naruszenie 17.7b. (Stopień niekompletności nie zmierzony dokładnie w tej sesji.)
+  2. ✅ **18 (Huawei/magic link)** — `app/auth/login/actions.ts` ma magic link jako pełnoprawnego
+     dostawcę obok Google/Apple — wymóg spełniony.
+  3. ℹ️ **Y.11** — `docs/audyt-zgodnosci-kodu.md` nie istnieje; pierwsze uruchomienie Y.11
+     (na żądanie albo na koniec Fazy/Etapu) do rozważenia przez właściciela.
+  4. ℹ️ **Rozdz. 13 (Capacitor)** — tylko świadomość; projekt nie jest jeszcze na etapie buildu
+     natywnego.
+  **Wynik checklisty Y.9:**
+  1. `docs/standards/` — ✅ zsynchronizowane (6 plików nadpisanych, 20 plików = komplet źródła).
+  2. GOD BOOK — ✅ podmienione na v2.28.
+  3. `CLAUDE.md` — ✅ istnieje, odsyłacz zaktualizowany.
+  4. `docs/memory.md`/pełna Biblia — ✅ (ten wpis; `00_Biblia.md` z odsyłaczem zaktualizowanym).
+  5. `docs/lista-do-zrobienia.md` — ✅ istnieje, treść nietknięta (LOKALNE).
+  6. `docs/wklad-do-standardu.md` — ✅ istnieje, bez zmian.
+  7. `docs/zrodla/` — ✅ istnieje.
+  8. `.claude/skills/standards/SKILL.md` — ✅ istnieje, odsyłacz zaktualizowany.
+  9. `01_Zasady_Pracy_i_Konwencje.md` + `02_Dyrektywy_AI_Projektu.md` — ✅ oba istnieją, odsyłacz
+     w pierwszym zaktualizowany.
+
 ## Pełny audyt na polecenie właściciela projektu (20.09.2026) — Y.6/Y.9 + Część N
 
 Na wyraźne polecenie ("Zrób pełny audyt a potem podaj listę do zrobienia według god book").

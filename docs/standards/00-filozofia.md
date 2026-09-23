@@ -11,7 +11,7 @@ To jest **standard architektoniczny i procesowy**, nie specyfikacja funkcjonalna
 
 Ten standard jest **nadrzędny wobec kodu**. Jeśli kod i standard się nie zgadzają — standard wygrywa, albo standard zostaje świadomie zmieniony z wpisem w dzienniku zmian (rozdział 14). Nigdy cicha rozbieżność.
 
-**Doprecyzowanie (2026-09-03, przy integracji z GOD BOOK — `docs/god-book/instrukcja-uniwersalna-biblii-projektu-v2_21.md`, Część Y.2):** "standard wygrywa" dotyczy dryfu bez świadomej decyzji — kod, który odjechał od już ustalonej reguły, a nikt świadomie nie zdecydował, że tak ma być. To naprawiasz od razu, bez pytania. Gdy natomiast Biblia projektu (Złota Zasada, decyzja) świadomie i jawnie chce czegoś innego niż ten standard — to nie jest "kod kontra standard", to prawdziwy konflikt dwóch źródeł zamiaru, i obowiązuje rozdział 15.4 (nigdy nie rozstrzygaj sam) — nie automatyczne pierwszeństwo standardu.
+**Doprecyzowanie (2026-09-03, przy integracji z GOD BOOK — `docs/god-book/instrukcja-uniwersalna-biblii-projektu-v2_28.md`, Część Y.2):** "standard wygrywa" dotyczy dryfu bez świadomej decyzji — kod, który odjechał od już ustalonej reguły, a nikt świadomie nie zdecydował, że tak ma być. To naprawiasz od razu, bez pytania. Gdy natomiast Biblia projektu (Złota Zasada, decyzja) świadomie i jawnie chce czegoś innego niż ten standard — to nie jest "kod kontra standard", to prawdziwy konflikt dwóch źródeł zamiaru, i obowiązuje rozdział 15.4 (nigdy nie rozstrzygaj sam) — nie automatyczne pierwszeństwo standardu.
 
 Każda zasada w tych rozdziałach ma, tam gdzie to możliwe, kształt: **reguła → uzasadnienie → konsekwencja w kodzie**. To nie jest lista życzeń — to lista rzeczy do faktycznego wymuszenia (lintem, testem, code review, hookiem).
 
@@ -21,7 +21,7 @@ Każda zasada w tych rozdziałach ma, tam gdzie to możliwe, kształt: **reguła
 - `docs/standards/00`–`15` — poszczególne rozdziały, każdy samodzielnie czytelny.
 - `docs/memory.md` (w każdym projekcie osobno) — żywy log decyzji, pułapek i kontekstu specyficznego dla tego konkretnego projektu. Ten standard mówi *jak* budować dowolną naszą aplikację; `docs/memory.md` mówi, co już wiemy o *tej konkretnej* aplikacji.
 - `CLAUDE.md` (w każdym projekcie, root) — krótki punkt wejścia dla asystentów AI, odsyła tutaj i do `docs/memory.md`, nie duplikuje treści.
-- `docs/god-book/instrukcja-uniwersalna-biblii-projektu-v2_21.md` (w każdym projekcie osobno, kopia z tego repo) — osobny dokument procesowy: jak prowadzić burzę mózgów i budować Biblię *tego* projektu (Złote Zasady, rejestr decyzji, moduły) od zera do wdrożenia. Ten standard jest dla niego fundamentem poprzedzającym, nie częścią — pełna relacja w Części Y tamtego dokumentu.
+- `docs/god-book/instrukcja-uniwersalna-biblii-projektu-v2_28.md` (w każdym projekcie osobno, kopia z tego repo) — osobny dokument procesowy: jak prowadzić burzę mózgów i budować Biblię *tego* projektu (Złote Zasady, rejestr decyzji, moduły) od zera do wdrożenia. Ten standard jest dla niego fundamentem poprzedzającym, nie częścią — pełna relacja w Części Y tamtego dokumentu.
 
 **Zasada.** Nowy rozdział = nowy plik. Nie dopisujemy nowych tematów do istniejących rozdziałów, jeśli temat zasługuje na własny — jeden plik ma zostać czytelny w jednym posiedzeniu i ładowalny selektywnie do kontekstu AI bez ciągnięcia całości.
 
