@@ -8,6 +8,7 @@
  * Dane pobierane online z PVGIS (przez proxy, D22) i zapisywane lokalnie — offline używane z zapisu.
  */
 export type RekordGodzinowy = {
+  /** Rzeczywista chwila wartości (dla PVGIS: znacznik HH:00 + irradiance_time_offset — dodaje adapter). */
   czasUtcMs: number
   /** Promieniowanie całkowite na płaszczyznę poziomą. */
   ghi: number
