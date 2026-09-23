@@ -6019,3 +6019,26 @@ Ręczny smoke test Playwright (kliknięcie checkboxów katalogu, przełączanie 
 weryfikacja klasyfikatora rekomendacji) — bez błędów konsoli poza nieistotnym 404 Vercel Insights
 (brak w środowisku lokalnym, niezwiązane z tym modułem). Rejestracja: `lib/pulpit/registry.ts`
 (Moduł 2, na końcu listy ekranów) + `docs/rejestr-pokrycia.md` wiersz 18 (Moduł 2) → **done**.
+
+## D21 — cykl Y.6 obniżony lokalnie do ≤12h (23.09.2026)
+
+Na wyraźne polecenie właściciela projektu: `CLAUDE.md` (sekcja "Zanim zaczniesz", punkt 4) zmieniony
+z "sprawdzaj `AKTUALIZACJE.md` co ≤3 godziny" na "co ≤12 godzin". Pełny zapis decyzji:
+`rejestr-decyzji.md` D21. **Kluczowe rozróżnienie, żeby nie pomylić z aktualizacją Y.6 vs. lokalną
+decyzją:** to NIE jest zmiana samego standardu GOD BOOK Y.6 (wciąż ≤3h dla całej rodziny projektów) —
+`docs/god-book/instrukcja-uniwersalna-biblii-projektu-v2_21.md` i `PROMPT_STARTOWY.md` (NIETYKALNE,
+mirror `new-app-standards`) celowo NIE zostały zmienione i nadal poprawnie mówią ≤3h. Zmieniony
+został wyłącznie ten jeden cytat w `CLAUDE.md` (ADAPTOWALNE) — świadome, udokumentowane lokalne
+odstępstwo tego projektu od domyślnej polityki standardu, nie błąd/dryf.
+
+Powód praktyczny (zaobserwowany 20.09.2026, ta sama sesja co pierwsza wersja tego wpisu): dwa
+kolejne cykliczne sprawdzenia Y.6 w odstępie ~2 minut oba nie znalazły niczego nowego w
+`AKTUALIZACJE.md` — przy tempie zmian tego pliku (rzędu godzin/dni, nie minut) cykl 3h generuje dużo
+zerowych sprawdzeń. Dopisano też odpowiadający wpis do `docs/wklad-do-standardu.md` (POMYSŁ NA
+REGUŁĘ — cykl Y.6/U.4 mógłby być konfigurowalny per projekt zamiast sztywnego ≤3h) — to zgłoszenie
+kanałem zwrotnym, nie samodzielna zmiana standardu; decyzję podejmie wyłącznie sesja nad
+`new-app-standards`.
+
+**Dla przyszłych sesji tego projektu:** przy Kroku "Zanim zaczniesz" i przy Routine Y.6 stosuj ≤12h
+z `CLAUDE.md`, nie ≤3h z GOD BOOK — ten drugi zapis wciąż tam jest (poprawnie, jako mirror), ale nie
+obowiązuje operacyjnie w tym repo od D21.
