@@ -11,7 +11,7 @@ Kalkulator/doradca inżynierski dla systemów off-grid PV (panele, magazyn energ
 ## Zanim zaczniesz — przeczytaj w tej kolejności
 
 1. `docs/standards/00-INDEKS.md` — pełny standard architektoniczny (19 rozdziałów), wspólny dla całej rodziny aplikacji — fundament, niezależny od tego zadania. Rozdział dotyczący Twojego zadania — nie ładuj wszystkich naraz.
-2. `docs/god-book/instrukcja-uniwersalna-biblii-projektu-v2_21.md` — metodologia procesowa (GOD BOOK); Część Y opisuje relację z powyższym standardem (fundament poprzedzający, nie kolejny poziom hierarchii).
+2. `docs/god-book/instrukcja-uniwersalna-biblii-projektu-v2_28.md` — metodologia procesowa (GOD BOOK); Część Y opisuje relację z powyższym standardem (fundament poprzedzający, nie kolejny poziom hierarchii).
 3. `docs/lista-do-zrobienia.md` — bieżące zadania, żeby nie eksplorować całego projektu od nowa.
 4. `docs/memory.md` — decyzje, pułapki i stan tego konkretnego projektu, w tym data/godzina ostatniej synchronizacji ze standardem (sprawdzaj `AKTUALIZACJE.md` w `new-app-standards` co ≤12 godzin — **świadome lokalne odstępstwo od domyślnego GOD BOOK Y.6 (≤3h)**, decyzja D21 `rejestr-decyzji.md`; sam GOD BOOK i `PROMPT_STARTOWY.md` nadal poprawnie mirrorują standardowe ≤3h, nie są lokalnie zmienione).
 5. `00_Biblia.md` — indeks kanonicznej Biblii projektu (format GOD BOOK, od 04.09.2026), nadrzędnej wobec kodu. Zaczynaj tu, nie zgaduj kolejności — sekcja "Jak zacząć pracę" tam wskazuje dalej (`01_Zasady_Pracy_i_Konwencje.md`, `02_Dyrektywy_AI_Projektu.md`, `rejestr-decyzji.md`, `zlote-zasady.md`...). `ZASADY_APLIKACJI.md`/`USTALENIA.md` są historyczne (zastąpione, treść zmapowana 1:1, nie usunięta) — nie czytaj ich jako aktualne źródło, chyba że szukasz oryginalnego brzmienia starej decyzji.
