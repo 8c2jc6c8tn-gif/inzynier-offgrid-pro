@@ -529,6 +529,10 @@ fakt.
      obejmuje tylko `MIGRATED_MODULES`, a jego własny komentarz mówi, że reszta modułów "świadomie
      zwraca gotowy tekst PL"). Wybór en/ru daje więc dziś UI mieszane PL+EN/RU — wprost nazwane
      naruszenie 17.7b. (Stopień niekompletności nie zmierzony dokładnie w tej sesji.)
+     **Decyzja właściciela (23.09.2026): "nic na razie nie ukrywaj, dopóki tłumaczenie nie będzie
+     skończone"** — świadome, tymczasowe odstępstwo od 17.7b (Y.2: świadoma decyzja, nie dryf).
+     Przełącznik zostaje bez zmian do zakończenia migracji i18n; nie "naprawiać" samodzielnie.
+     Po skończeniu tłumaczenia en/ru odstępstwo wygasa samo.
   2. ✅ **18 (Huawei/magic link)** — `app/auth/login/actions.ts` ma magic link jako pełnoprawnego
      dostawcę obok Google/Apple — wymóg spełniony.
   3. ℹ️ **Y.11** — `docs/audyt-zgodnosci-kodu.md` nie istnieje; pierwsze uruchomienie Y.11
