@@ -1,6 +1,6 @@
 # Rejestr decyzji — Inżynier Offgrid Pro
 
-**Wersja:** 1.1 | **Filar:** C | **Data utworzenia:** 04.09.2026 | **Ostatnia aktualizacja:** 07.09.2026 | **Status:** Stabilny (rosnący)
+**Wersja:** 1.2 | **Filar:** C | **Data utworzenia:** 04.09.2026 | **Ostatnia aktualizacja:** 23.09.2026 | **Status:** Stabilny (rosnący)
 **Powiązane dokumenty:** `00_Biblia.md`, `docs/memory.md`, `USTALENIA.md` (historyczny, Część II)
 
 TL;DR: D1, D2, D3… — decyzje **strategiczne/fundamentalne** (blokujące wiele innych rzeczy naraz, Krok 4 GOD BOOK), ponumerowane, nigdy nie kasowane, tylko unieważniane jawnie (F.5). **Nie duplikuje `docs/memory.md`**: tam żyje pełna, szczegółowa historia każdej sesji (setki drobnych decyzji implementacyjnych per ekran) — tu tylko decyzje, które zmieniły kierunek/regułę obowiązującą cały projekt. Gdy wpis niżej odsyła do `docs/memory.md`, tam jest pełne uzasadnienie i przykłady.
@@ -51,6 +51,8 @@ TL;DR: D1, D2, D3… — decyzje **strategiczne/fundamentalne** (blokujące wiel
 
 **D20 (07.09.2026) — Wzorzec "echo" (D12) wymaga wspólnego uzasadnienia fizycznego/normatywnego, nie tylko wspólnej wartości liczbowej — doprecyzowanie, nie unieważnienie D12.** Koszt cofnięcia: tani, ale wysoka wartość zapobiegawcza (dotyczy każdego przyszłego echo w projekcie). Znalezione przy audycie GOD BOOK Część N: `ochrona-stringow` (M3/E22) i `dobor-bezpiecznika-rozlacznika` (M5/E6) dzieliły funkcję `obliczPradBezpiecznikaA` przez ~2 dni, bo obie mnożyły przez współczynnik 1,25 — ale to były dwa niezależne prawa (margines Isc_STC→Isc_max wg Załącznika B.2 normy HD 60364-7-712 vs. ogólny margines doboru bezpiecznika obwodu), które tylko przypadkiem miały tę samą wartość. Gdy norma poprawiła pierwszy wzór (przedział `[1,1×I_SC_MAX, I_MOD_MAX_OCPR]` zamiast stałej `1,25×Isc`), echo trzeba było rozdzielić — M5/E6 dostał lokalną kopię formuły. Decyzja właściciela projektu, na wyraźną prośbę. Pełne: `docs/memory.md` (2026-09-07), `dlug-techniczny.md` TD13, `kontrakty-rdzenia.md` §4.
 
+**D21 (23.09.2026) — Cykl sprawdzania Y.6 (`AKTUALIZACJE.md` w `new-app-standards`) w tym projekcie obniżony do ≤12h, świadome lokalne odstępstwo od domyślnego GOD BOOK Y.6 (≤3h od wersji 2.18).** Koszt cofnięcia: tani (jedna linia w `CLAUDE.md`, bez wpływu na kod). Na wyraźne polecenie właściciela projektu. **Nie jest to zmiana samego standardu** — `docs/god-book/instrukcja-uniwersalna-biblii-projektu-v2_21.md` i `PROMPT_STARTOWY.md` (kategoria NIETYKALNE, mirror `new-app-standards`) nadal poprawnie mówią ≤3h i celowo nie zostały lokalnie zmienione (kolejna synchronizacja Y.6 i tak by je nadpisała z powrotem — lokalna edycja byłaby myląca, nie trwała). Realny powód praktyczny zaobserwowany kilka dni wcześniej: dwa kolejne sprawdzenia Y.6 w odstępie ~2 minut (20.09.2026) obie nie znalazły niczego nowego — cykl 3h przy wolno zmieniającym się `new-app-standards` generuje dużo zerowych sprawdzeń. Pełne: `docs/memory.md`.
+
 ---
 
 ## Założenia robocze (F.7 GOD BOOK)
@@ -65,3 +67,4 @@ TL;DR: D1, D2, D3… — decyzje **strategiczne/fundamentalne** (blokujące wiel
 |---|---|
 | 04.09.2026 | Utworzono — D1–D19 zrekonstruowane z `USTALENIA.md` Część II, dziennika zmian `ZASADY_APLIKACJI.md`, oraz decyzji strategicznych z `docs/memory.md`. Z1 dodane. Wersja 1.0. |
 | 07.09.2026 | Dodano D20 (echo wymaga wspólnego uzasadnienia, nie tylko wspólnej wartości) — na wyraźną prośbę właściciela projektu, po audycie GOD BOOK Część N. Wersja 1.0→1.1. |
+| 23.09.2026 | Dodano D21 (cykl Y.6 obniżony lokalnie do ≤12h, GOD BOOK/PROMPT_STARTOWY.md bez zmian) — na wyraźne polecenie właściciela projektu. Wersja 1.1→1.2. |

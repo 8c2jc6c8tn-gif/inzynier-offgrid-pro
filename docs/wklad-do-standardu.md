@@ -593,3 +593,31 @@ istnieją, treścią odpowiadają dosłownemu YAML/skryptowi wklejonemu wyżej. 
 
 ---
 
+[23.09.2026] KATEGORIA: POMYSŁ NA REGUŁĘ — sztywny cykl Y.6/U.4 (≤3h, od wersji 2.18) generuje dużo
+zerowych sprawdzeń przy wolno zmieniającym się `new-app-standards`
+
+Szczegóły: 20.09.2026, w jednej sesji, dwa kolejne cykliczne sprawdzenia Y.6 wykonane w odstępie
+~2 minut (jedno po zakończeniu poprzedniego zadania, drugie zaraz po) oba wylądowały na identycznym
+`HEAD` klonu `new-app-standards` i nie znalazły żadnych nowych wpisów w `AKTUALIZACJE.md` — drugie
+sprawdzenie było całkowicie zbędne, poza samym zapisaniem znacznika czasu. Ten projekt sam obniżył
+lokalnie cykl do ≤12h (`rejestr-decyzji.md` D21, na wyraźne polecenie właściciela projektu) —
+**świadomie NIE zmieniając** samego GOD BOOK/`PROMPT_STARTOWY.md` (NIETYKALNE), tylko cytat w
+lokalnym `CLAUDE.md`. To rozwiązuje problem dla tego jednego projektu, ale nie dla reguły samej w
+sobie — każdy kolejny projekt rodziny, który dosłownie zastosuje GOD BOOK Y.6 (≤3h), natrafi na to
+samo marnotrawstwo, jeśli tempo zmian `AKTUALIZACJE.md` pozostanie rzędu godzin/dni, nie minut.
+
+Dlaczego warto zgłosić do new-app-standards: sam cykl ≤3h (wersja 2.18) był reakcją na odwrotny
+problem — rozjazdy trwające tygodniami przy cyklu 7-dniowym. Możliwe kierunki do rozważenia w
+sesji nad `new-app-standards`: (a) cykl konfigurowalny per projekt zamiast jednej sztywnej wartości
+dla całej rodziny, z ≤3h jako zalecanym domyślnym; (b) adaptacyjny cykl — wydłużaj automatycznie po
+N kolejnych zerowych sprawdzeniach, skracaj z powrotem po wykryciu realnej zmiany; (c) zostawić
+≤3h jako jest i pozwolić projektom downstream świadomie odstępować lokalnie (tak jak D21 tutaj) —
+w takim wypadku ta reguła sama w sobie mogłaby zostać jawnie dopisana do Y.6 (dziś D21 jest
+"cichym" lokalnym odstępstwem bez wyraźnego przyzwolenia w GOD BOOK na taką decyzję, tylko ogólną
+zasadą Y.2 o świadomych konfliktach). Nie rozstrzygam, który kierunek — to pytanie projektowe dla
+sesji nad standardem.
+
+Status: 🔎 nowe.
+
+---
+
