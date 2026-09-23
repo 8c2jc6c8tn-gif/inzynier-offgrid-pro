@@ -6205,3 +6205,24 @@ dane (TMY vs seria 2005–2023), nie model.
 asymetrię rano/popołudnie (optimum ~184°), którą człon okołosłoneczny Muneera wzmacnia — izotropowy
 ją maskował. Naprawione próbkowaniem HH:30, nie poluzowaniem tolerancji; realne dane dają 177°
 zgodnie z PVGIS. Wydajność: E4 z Muneerem ~2,5 s na wywołanie (optimum) — w UI koniecznie Web Worker.
+
+## ULDK bezpośrednio z przeglądarki — D23 (24.09.2026)
+
+Przed budową właściciel zapytał o koszt proxy. Ustalone i przedstawione na faktach (sprawdzone na
+żywo): PVGIS nie ma CORS i dokumentacja JRC zakazuje wywołań z przeglądarki ("access to PVGIS APIs
+via AJAX is not allowed"), limit 30 zapytań/s na IP — proxy konieczne; koszt proxy zmierzony:
+~60 ms CPU i ~64 KB (gzip) na pobranie → darmowy plan Vercel Hobby (4 h Active CPU, 100 GB) starcza
+na ~200 tys. pobrań/mies. (Hobby tylko niekomercyjnie — przy sprzedaży aplikacji Pro $20/mies.
+niezależnie od proxy). ULDK ma `Access-Control-Allow-Origin: *` → właściciel wybrał wariant bez
+proxy (**D23**).
+- `lib/adapters/uldk/uldk.ts` — `dzialkaWPunkcie` (GetParcelByXY) i `dzialkaPoIdentyfikatorze`
+  (GetParcelById), timeout 15 s, kody `ULDK-*`, czysty parser text/plain. Format sprawdzony na
+  żywo: "0" + linia pól "|" w kolejności `result`; "-1 brak wyników" przy HTTP 200 (nie traktować
+  statusu HTTP jako sygnału sukcesu); WKT "lon lat". MULTIPOLYGON i wiele wyników odrzucane jawnie
+  (nie ucinamy/nie wybieramy po cichu); otwory → obrys zewnętrzny + `maOtwory`.
+- Fixture: realna odpowiedź dla działki 146510_8.0309.23/3 (publiczne dane katastralne). Test
+  spina ścieżkę online z jądrem: obrys ULDK → `calculateSkanerDzialki` → VALID.
+- CSP: `connect-src 'self' https://uldk.gugik.gov.pl` — zweryfikowane w przeglądarce (dev):
+  ULDK 200, bezpośredni PVGIS i example.org zablokowane z komunikatem naruszenia CSP.
+- `GetParcelByIdOrNr` z nazwą obrębu ("Mokotów 1") zwracał pusto — wyszukiwanie po nazwie
+  obrębu+numerze nie zbudowane; UI oferuje TERYT albo punkt na mapie/GPS.
