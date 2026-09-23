@@ -866,7 +866,7 @@ export const dictionaryPl = {
   "ORIENTACJA-DANE-NIEPELNY-ROK": "Dane godzinowe muszą obejmować pełny rok (8760 lub 8784 godzin), otrzymano {liczba}.",
   "ORIENTACJA-DANE-UJEMNE": "Rekord danych nr {indeks} zawiera ujemne lub niepoprawne promieniowanie.",
   "ORIENTACJA-POWIERZCHNIA-NIEPOPRAWNA": "Powierzchnia \"{nazwa}\": nachylenie musi być z przedziału 0–90°, a azymut 0–360°.",
-  "ORIENTACJA-ZALOZENIE-MODEL-IZOTROPOWY": "Napromieniowanie płaszczyzny z modelu izotropowego nieba (Liu–Jordan) na godzinowych danych PVGIS TMY; optimum wyznaczone z tych samych danych.",
+  "ORIENTACJA-ZALOZENIE-MODEL-MUNEER": "Napromieniowanie płaszczyzny z modelu anizotropowego nieba Muneera (1990) — tego samego, którego używa PVGIS — na godzinowych danych PVGIS TMY; optimum wyznaczone z tych samych danych.",
   "ORIENTACJA-ZALOZENIE-NAPROMIENIOWANIE-NIE-UZYSK": "Wskaźnik porównuje napromieniowanie powierzchni, nie uzysk energii — pomija temperaturę ogniw, straty odbicia i zacienienie. Szczegółowy uzysk liczy Moduł 3.",
   "ORIENTACJA-ZALOZENIE-ALBEDO": "Albedo gruntu = {albedo} (domyślnie 0,2 — typowy grunt bez śniegu; zmień, jeśli teren jest inny).",
   "SKANER-PUNKT-POZA-ZAKRESEM": "Punkt nr {indeks} w zbiorze {zbior} ma współrzędne poza zakresem (szerokość −90…90°, długość −180…180°).",

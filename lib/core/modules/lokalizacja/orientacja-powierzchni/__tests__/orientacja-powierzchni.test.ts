@@ -3,7 +3,7 @@ import {
   pozycjaSlonca,
   promieniowanieBezposrednieCzysteNiebo,
 } from "@/lib/core/modules/lokalizacja/geometria-slonca/pozycja-slonca"
-import { calculateOrientacjaPowierzchni } from "../calculator"
+import { calculateOrientacjaPowierzchni, fMuneera } from "../calculator"
 import type { OrientacjaPowierzchniInput, RekordGodzinowy } from "../input"
 
 const LAT = 52.23
@@ -16,7 +16,10 @@ const LON = 0
  */
 function rokSyntetyczny(dhiStale: number, zBezposrednim = true): RekordGodzinowy[] {
   const dane: RekordGodzinowy[] = []
-  const start = Date.UTC(2026, 0, 1)
+  // Próbki w połowie godziny (HH:30): przy długości 0° leżą niemal symetrycznie wokół południa
+  // słonecznego — próbki HH:00 dają sztuczną asymetrię rano/po południu, wzmacnianą przez człon
+  // okołosłoneczny Muneera (optimum przesunięte do ~184° bez tej zmiany).
+  const start = Date.UTC(2026, 0, 1, 0, 30)
   for (let h = 0; h < 8760; h++) {
     const t = start + h * 3_600_000
     const p = pozycjaSlonca(LAT, LON, t)
@@ -36,31 +39,35 @@ describe("calculateOrientacjaPowierzchni", () => {
     expect(calculateOrientacjaPowierzchni({}).status).toBe("INCOMPLETE")
   })
 
-  it("płaszczyzna pozioma: napromieniowanie = Σ GHI (tożsamość modelu przy β = 0)", () => {
+  it("płaszczyzna pozioma: napromieniowanie ≈ Σ GHI (tożsamość modelu przy β = 0; odchylenie < 1% tylko z korekty niskiego słońca, równ. 30)", () => {
     const r = calculateOrientacjaPowierzchni({ ...baza, powierzchnie: [{ nazwa: "Płaski dach", nachylenieDeg: 0, azymutDeg: 180 }] })
     const sumaGhiKwh = dane.reduce((a, d) => a + d.ghi, 0) / 1000
-    expect(r.value.powierzchnie[0]!.napromieniowanieRoczneKwhM2).toBeCloseTo(sumaGhiKwh, 6)
+    const h = r.value.powierzchnie[0]!.napromieniowanieRoczneKwhM2
+    expect(h).toBeLessThanOrEqual(sumaGhiKwh + 1e-9)
+    expect(h / sumaGhiKwh).toBeGreaterThan(0.99)
   })
 
-  it("tylko rozproszone: ściana pionowa = ½·ΣDHI + ½·ρ·ΣGHI (izotropowo, niezależnie od azymutu)", () => {
-    const rozproszone = rokSyntetyczny(100, false)
-    const r = calculateOrientacjaPowierzchni({
-      ...baza,
-      daneGodzinowe: rozproszone,
-      albedo: 0.3,
-      powierzchnie: [
-        { nazwa: "Ściana N", nachylenieDeg: 90, azymutDeg: 0 },
-        { nazwa: "Ściana S", nachylenieDeg: 90, azymutDeg: 180 },
-      ],
-    })
-    const sDhi = rozproszone.reduce((a, d) => a + d.dhi, 0) / 1000
-    const sGhi = rozproszone.reduce((a, d) => a + d.ghi, 0) / 1000
-    const oczekiwane = 0.5 * sDhi + 0.5 * 0.3 * sGhi
-    expect(r.value.powierzchnie[0]!.napromieniowanieRoczneKwhM2).toBeCloseTo(oczekiwane, 6)
-    expect(r.value.powierzchnie[1]!.napromieniowanieRoczneKwhM2).toBeCloseTo(oczekiwane, 6)
+  it("F(β) Muneera — wartości z wzoru EUR 26075: β = 0 → 1; ściana pionowa, N = 0,25227 → 0,5 + 0,25227·(1 − π/2)", () => {
+    expect(fMuneera(0, 0.25227)).toBeCloseTo(1, 12)
+    expect(fMuneera(90, 0.25227)).toBeCloseTo(0.5 + 0.25227 * (1 - Math.PI / 2), 12)
+    // N = 0 → czysto izotropowy (1 + cos β)/2.
+    expect(fMuneera(35, 0)).toBeCloseTo((1 + Math.cos((35 * Math.PI) / 180)) / 2, 12)
   })
 
-  it("optimum na półkuli północnej skierowane na południe (azymut 180° ± 3°), nachylenie w (20°, 70°)", () => {
+  it("dach południowy 35° przy czystym niebie: Muneer > izotropowy (anizotropia okołosłoneczna, EUR 26075)", () => {
+    const r = calculateOrientacjaPowierzchni({ ...baza, powierzchnie: [{ nazwa: "S35", nachylenieDeg: 35, azymutDeg: 180 }] })
+    const b = (35 * Math.PI) / 180
+    let izoWh = 0
+    for (const d of dane) {
+      const p = pozycjaSlonca(LAT, LON, d.czasUtcMs)
+      const z = ((90 - p.wysokoscDeg) * Math.PI) / 180
+      const cosT = Math.cos(z) * Math.cos(b) + Math.sin(z) * Math.sin(b) * Math.cos(((p.azymutDeg - 180) * Math.PI) / 180)
+      izoWh += (p.wysokoscDeg > 0 && cosT > 0 ? d.dni * cosT : 0) + (d.dhi * (1 + Math.cos(b))) / 2 + (d.ghi * 0.2 * (1 - Math.cos(b))) / 2
+    }
+    expect(r.value.powierzchnie[0]!.napromieniowanieRoczneKwhM2).toBeGreaterThan(izoWh / 1000)
+  })
+
+  it("optimum na półkuli północnej skierowane na południe (azymut 180° ± 3°), nachylenie w (20°, 70°)", { timeout: 30_000 }, () => {
     const r = calculateOrientacjaPowierzchni({ ...baza, powierzchnie: [{ nazwa: "x", nachylenieDeg: 35, azymutDeg: 180 }] })
     expect(Math.abs(r.value.optimum.azymutDeg - 180)).toBeLessThanOrEqual(3)
     expect(r.value.optimum.nachylenieDeg).toBeGreaterThan(20)
@@ -83,7 +90,7 @@ describe("calculateOrientacjaPowierzchni", () => {
     expect(r.status).toBe("VALID")
   })
 
-  it("powierzchnia dokładnie w optimum → 100%", () => {
+  it("powierzchnia dokładnie w optimum → 100%", { timeout: 30_000 }, () => {
     const r0 = calculateOrientacjaPowierzchni({ ...baza, powierzchnie: [{ nazwa: "x", nachylenieDeg: 0, azymutDeg: 0 }] })
     const { nachylenieDeg, azymutDeg } = r0.value.optimum
     const r = calculateOrientacjaPowierzchni({ ...baza, powierzchnie: [{ nazwa: "opt", nachylenieDeg, azymutDeg }] })

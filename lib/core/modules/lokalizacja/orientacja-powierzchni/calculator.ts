@@ -1,25 +1,39 @@
 // 🔎 TD15 (dlug-techniczny.md): wskaźnik nie uwzględnia zacienienia z Ekranu 3 (punkt 1 — czas
 // PVGIS — rozwiązany w lib/adapters/pvgis/tmy.ts).
-// 🔎 TD16 (dlug-techniczny.md): model izotropowy — wobec PVGIS PVcalc optimum 33° vs 39°, −10% kWh/m².
 import type { Assumption, CalcResult } from "@/lib/core/calc-result"
-import { pozycjaSlonca } from "@/lib/core/modules/lokalizacja/geometria-slonca/pozycja-slonca"
+import { masaPowietrza, pozycjaSlonca } from "@/lib/core/modules/lokalizacja/geometria-slonca/pozycja-slonca"
 import {
   ALBEDO_DOMYSLNE,
   AZYMUT_MAX_DEG,
   KROK_DOKLADNY_DEG,
   KROK_GODZIN,
   KROK_ZGRUBNY_DEG,
+  DNI_ROKU,
+  MIMOSROD_AMPL,
+  MUNEER_N_A,
+  MUNEER_N_B,
+  MUNEER_N_C,
+  MUNEER_N_ZACIENIONA,
+  MUNEER_NISKIE_SLONCE_B,
+  MUNEER_PROG_NISKIE_SLONCE_RAD,
   NACHYLENIE_MAX_DEG,
   NACHYLENIE_MIN_DEG,
+  PEREZ_KT_A,
+  PEREZ_KT_B,
+  PEREZ_KT_C,
+  PEREZ_KT_D,
+  PEREZ_KT_E,
+  PROG_ZACHMURZENIA_KT,
+  STALA_SLONECZNA_W_M2,
   W_NA_KW,
 } from "./constants"
 import type { OrientacjaPowierzchniInput, RekordGodzinowy } from "./input"
 import { validateInput } from "./validation"
 
-export const CALCULATOR_VERSION = "1.0.0"
+export const CALCULATOR_VERSION = "2.0.0"
 
 const FORMULA =
-  "H = \\sum_t \\Big[ G_{b,n}\\max(\\cos\\theta,0) + G_d\\,\\tfrac{1+\\cos\\beta}{2} + G_h\\,\\rho\\,\\tfrac{1-\\cos\\beta}{2} \\Big]\\Delta t,\\quad W = \\dfrac{H}{H_{opt}}"
+  "H = \\sum_t \\Big[ G_{b,n}\\max(\\cos\\theta,0) + G_{dT}^{Muneer} + G_h\\,\\rho\\,\\tfrac{1-\\cos\\beta}{2} \\Big]\\Delta t,\\; G_{dT} = G_d\\big[F(\\beta)(1-K_b) + K_b\\tfrac{\\cos\\theta}{\\sin h}\\big],\\; W = \\dfrac{H}{H_{opt}}"
 
 const RAD = Math.PI / 180
 
@@ -45,21 +59,48 @@ type Godzina = {
   cosAz: number
   sinAz: number
   sloncePonadHoryzontem: boolean
+  /** Wysokość słońca [rad] — dla korekty niskiego słońca (równ. 30). */
+  wysokoscRad: number
+  /** Wskaźnik anizotropii Kb = G_b,h / G_0,h (promieniowanie bezpośrednie poziome / pozaziemskie poziome). */
+  kb: number
+  /** Niebo zachmurzone wg kt' < 0,3 (równ. 31) — wtedy równ. 28 niezależnie od nasłonecznienia. */
+  zachmurzone: boolean
   dni: number
   dhi: number
   ghi: number
+}
+
+/** Dzień roku 1…365/366 (UTC). */
+function dzienRoku(czasUtcMs: number): number {
+  const d = new Date(czasUtcMs)
+  return Math.floor((czasUtcMs - Date.UTC(d.getUTCFullYear(), 0, 1)) / 86_400_000) + 1
 }
 
 function przygotuj(lat: number, lon: number, dane: RekordGodzinowy[]): Godzina[] {
   return dane.map((r) => {
     const p = pozycjaSlonca(lat, lon, r.czasUtcMs)
     const z = (90 - p.wysokoscDeg) * RAD
+    const nad = p.wysokoscDeg > 0
+    const sinH = Math.sin(p.wysokoscDeg * RAD)
+    // Promieniowanie pozaziemskie na płaszczyznę poziomą (Duffie–Beckman 1.4.1a × sin h).
+    const g0h = nad
+      ? STALA_SLONECZNA_W_M2 * (1 + MIMOSROD_AMPL * Math.cos((2 * Math.PI * dzienRoku(r.czasUtcMs)) / DNI_ROKU)) * sinH
+      : 0
+    const kb = g0h > 0 ? Math.min(1, (r.dni * sinH) / g0h) : 0
+    const kt = g0h > 0 ? r.ghi / g0h : 0
+    const am = masaPowietrza(p.wysokoscDeg)
+    const ktPrim = Number.isFinite(am)
+      ? kt / (PEREZ_KT_A + PEREZ_KT_B * Math.exp(-PEREZ_KT_C / (PEREZ_KT_D + PEREZ_KT_E / am)))
+      : 0
     return {
       cosZ: Math.cos(z),
       sinZ: Math.sin(z),
       cosAz: Math.cos(p.azymutDeg * RAD),
       sinAz: Math.sin(p.azymutDeg * RAD),
-      sloncePonadHoryzontem: p.wysokoscDeg > 0,
+      sloncePonadHoryzontem: nad,
+      wysokoscRad: p.wysokoscDeg * RAD,
+      kb,
+      zachmurzone: ktPrim < PROG_ZACHMURZENIA_KT,
       dni: r.dni,
       dhi: r.dhi,
       ghi: r.ghi,
@@ -67,27 +108,52 @@ function przygotuj(lat: number, lon: number, dane: RekordGodzinowy[]): Godzina[]
   })
 }
 
+/** F(β) = (1 + cos β)/2 + N·(sin β − β·cos β − π·sin²(β/2)) — Muneer, EUR 26075 równ. 28–29. */
+export function fMuneera(nachylenieDeg: number, n: number): number {
+  const beta = nachylenieDeg * RAD
+  return (1 + Math.cos(beta)) / 2 + n * (Math.sin(beta) - beta * Math.cos(beta) - Math.PI * Math.sin(beta / 2) ** 2)
+}
+
 /**
- * Roczne napromieniowanie płaszczyzny [kWh/m²] — model izotropowy nieba: B. Y. H. Liu, R. C.
- * Jordan, "The long-term average performance of flat-plate solar-energy collectors", Solar Energy
- * 7(2), 1963; postać godzinowa jak w Duffie–Beckman, równ. 2.15.1 (z Gb,n·cos θ zamiast Gb·Rb).
+ * Roczne napromieniowanie płaszczyzny [kWh/m²]: bezpośrednie G_b,n·cos θ + rozproszone wg modelu
+ * anizotropowego T. Muneera (1990) w postaci PVGIS (EUR 26075, równ. 28–31; stałe w constants.ts)
+ * + odbite od gruntu ρ·G_h·(1 − cos β)/2.
+ *
+ * F(β) = (1 + cos β)/2 + N·(sin β − β·cos β − π·sin²(β/2)):
+ * - zacieniona (cos θ ≤ 0) albo niebo zachmurzone: G_dT = G_d·F(β) z N = 0,25227 (równ. 28),
+ * - nasłoneczniona: G_dT = G_d·[F(β)·(1 − Kb) + Kb·cos θ / sin h], N = 0,00263 − 0,712·Kb − 0,6883·Kb²
+ *   (równ. 29); przy h < 0,1 rad człon Kb·sin β·cos(γs − γ) / (0,1 − 0,008·h) (równ. 30).
+ * Zastąpił model izotropowy Liu–Jordana (v1.0.0) — decyzja właściciela 24.09.2026 (TD16, wariant a).
  */
 function napromieniowanie(godziny: Godzina[], nachylenieDeg: number, azymutDeg: number, albedo: number): number {
   const cosB = Math.cos(nachylenieDeg * RAD)
   const sinB = Math.sin(nachylenieDeg * RAD)
   const cosG = Math.cos(azymutDeg * RAD)
   const sinG = Math.sin(azymutDeg * RAD)
-  const wspRozpr = (1 + cosB) / 2
+  const fZacieniona = fMuneera(nachylenieDeg, MUNEER_N_ZACIENIONA)
   const wspOdbic = (albedo * (1 - cosB)) / 2
   let sumaWh = 0
   for (const g of godziny) {
     let bezp = 0
+    let rozpr = g.dhi * fZacieniona
     if (g.sloncePonadHoryzontem) {
-      // cos θ = cos z·cos β + sin z·sin β·cos(γs − γ), cos(γs − γ) rozpisane na iloczyny.
-      const cosTheta = g.cosZ * cosB + g.sinZ * sinB * (g.cosAz * cosG + g.sinAz * sinG)
-      if (cosTheta > 0) bezp = g.dni * cosTheta
+      // cos(γs − γ) rozpisane na iloczyny; cos θ = cos z·cos β + sin z·sin β·cos(γs − γ).
+      const cosRoznicyAz = g.cosAz * cosG + g.sinAz * sinG
+      const cosTheta = g.cosZ * cosB + g.sinZ * sinB * cosRoznicyAz
+      if (cosTheta > 0) {
+        bezp = g.dni * cosTheta
+        if (!g.zachmurzone) {
+          const n = MUNEER_N_A + MUNEER_N_B * g.kb + MUNEER_N_C * g.kb * g.kb
+          const f = fMuneera(nachylenieDeg, n)
+          const okoloSloneczny =
+            g.wysokoscRad >= MUNEER_PROG_NISKIE_SLONCE_RAD
+              ? cosTheta / g.cosZ
+              : (sinB * cosRoznicyAz) / (MUNEER_PROG_NISKIE_SLONCE_RAD - MUNEER_NISKIE_SLONCE_B * g.wysokoscRad)
+          rozpr = g.dhi * (f * (1 - g.kb) + g.kb * okoloSloneczny)
+        }
+      }
     }
-    sumaWh += (bezp + g.dhi * wspRozpr + g.ghi * wspOdbic) * KROK_GODZIN
+    sumaWh += (bezp + rozpr + g.ghi * wspOdbic) * KROK_GODZIN
   }
   return sumaWh / W_NA_KW
 }
@@ -117,7 +183,7 @@ function szukajOptimum(godziny: Godzina[], albedo: number) {
  *
  * Źródło (B): "system ocenia opłacalność PV dla każdej powierzchni na podstawie azymutu i kąta
  * nachylenia względem optimum (południe, ~35°)". Realizacja: roczne napromieniowanie każdej
- * powierzchni z godzinowych danych PVGIS TMY (model izotropowy Liu–Jordana), podzielone przez
+ * powierzchni z godzinowych danych PVGIS TMY (model anizotropowy Muneera, jak w PVGIS), podzielone przez
  * napromieniowanie optymalnej orientacji WYZNACZONEJ z tych samych danych — nie przyjętej z góry
  * jako "południe ~35°" (to przybliżenie ze źródła, zależne od lokalizacji). Przykłady "94%"/"62%"
  * ze źródła to ilustracje, nie wartości do odtworzenia.
@@ -185,7 +251,7 @@ export function calculateOrientacjaPowierzchni(
   }))
 
   const assumptions: Assumption[] = [
-    { kod: "ORIENTACJA-ZALOZENIE-MODEL-IZOTROPOWY" },
+    { kod: "ORIENTACJA-ZALOZENIE-MODEL-MUNEER" },
     { kod: "ORIENTACJA-ZALOZENIE-NAPROMIENIOWANIE-NIE-UZYSK" },
     { kod: "ORIENTACJA-ZALOZENIE-ALBEDO", params: { albedo } },
   ]

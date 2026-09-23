@@ -854,7 +854,7 @@ export const dictionaryEn = {
   "ORIENTACJA-DANE-NIEPELNY-ROK": "Hourly data must cover a full year (8760 or 8784 hours); received {liczba}.",
   "ORIENTACJA-DANE-UJEMNE": "Data record no. {indeks} contains negative or invalid irradiance.",
   "ORIENTACJA-POWIERZCHNIA-NIEPOPRAWNA": "Surface \"{nazwa}\": tilt must be within 0–90° and azimuth within 0–360°.",
-  "ORIENTACJA-ZALOZENIE-MODEL-IZOTROPOWY": "Plane irradiation from the isotropic sky model (Liu–Jordan) on hourly PVGIS TMY data; the optimum is determined from the same data.",
+  "ORIENTACJA-ZALOZENIE-MODEL-MUNEER": "Plane irradiation from Muneer's anisotropic sky model (1990) — the same model PVGIS uses — on hourly PVGIS TMY data; the optimum is determined from the same data.",
   "ORIENTACJA-ZALOZENIE-NAPROMIENIOWANIE-NIE-UZYSK": "The index compares surface irradiation, not energy yield — it ignores cell temperature, reflection losses and shading. Detailed yield is calculated in Module 3.",
   "ORIENTACJA-ZALOZENIE-ALBEDO": "Ground albedo = {albedo} (default 0.2 — typical snow-free ground; change it if the terrain differs).",
   "SKANER-PUNKT-POZA-ZAKRESEM": "Point no. {indeks} in set {zbior} has coordinates out of range (latitude −90…90°, longitude −180…180°).",
