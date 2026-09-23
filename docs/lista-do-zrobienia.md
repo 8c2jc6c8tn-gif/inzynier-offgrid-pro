@@ -966,7 +966,7 @@ Pełne wyniki audytu: `docs/memory.md`, sekcja "Pełny audyt na polecenie właś
   architektoniczna D22 (`rejestr-decyzji.md`). Zbudowane i przetestowane: `geometria-slonca/`,
   `skaner-dzialki/`, `analiza-zacienienia/`, `orientacja-powierzchni/` (55 testów). Dalej, w tej
   kolejności: ✅ (23.09) proxy PVGIS TMY (`app/api/pvgis/tmy/route.ts`, TD15 (1) rozwiązany) ·
-  ⚠️ TD16 — model izotropowy vs PVGIS PVcalc (39° vs 33°), decyzja właściciela przed UI E4 ·
+  ✅ (24.09) TD16 — model Muneera (jak PVGIS) zamiast izotropowego, optimum 38° vs PVGIS 39° ·
   🔲 proxy ULDK · 🔲 Ekran 2 UI (MapLibre GL, spacer GPS offline, tryb Geoportal/ULDK online, zapis
   lokalny) · 🔲 Ekran 3 UI (R3F, mapa cieplna, profil horyzontu; obliczenia w Web Workerze) ·
   🔲 Ekran 4 UI (lista powierzchni ze wskaźnikiem, korekta ręczna azymutu/kąta) · 🔲 opisy narzędzi

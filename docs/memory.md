@@ -6189,3 +6189,19 @@ z pomiarem z 23.09 (0 uruchomień w całym repo przy włączonych Actions). **Do
 nie sprawdzać check-runów/workflow runs, nie diagnozować braku CI — merge na pełnym pakiecie
 lokalnym (typecheck, lint, check:i18n-guard, test, build, audit:gate). Nota operacyjna także w
 `CLAUDE.md` (sekcja "Stan repo") — usunąć ją od 1.10.2026, gdy CI wróci.
+
+## TD16 naprawiony — model Muneera w Ekranie 4 Modułu 1 (24.09.2026)
+
+Decyzja właściciela: wariant (a). Źródło równań: raport JRC EUR 26075 EN (Gracia Amillo, Huld,
+2013) — pobrany PDF, równ. 28–31 (zacieniona/zachmurzone: N = 0,25227; nasłoneczniona:
+N = 0,00263 − 0,712·Kb − 0,6883·Kb²; korekta h < 0,1 rad; zachmurzenie kt' < 0,3 wg Pereza/Ineichena),
+Gsc = 1367 W/m² z tego raportu, mimośród z Duffie–Beckman 1.4.1a. Ten sam raport potwierdza, że
+PVGIS stosuje Muneera i że modele izotropowe dają niższe wartości — hipoteza z TD16 potwierdzona.
+Wynik na realnych danych (Warszawa): optimum 177°/38° vs PVGIS 177°/39°; wskaźniki powierzchni
+±2 p.p. względem PVGIS. Stała różnica −6% wartości bezwzględnej także dla płaszczyzny poziomej →
+dane (TMY vs seria 2005–2023), nie model.
+
+**Pułapka testowa:** syntetyczne dane godzinowe próbkowane w HH:00 przy długości 0° dają sztuczną
+asymetrię rano/popołudnie (optimum ~184°), którą człon okołosłoneczny Muneera wzmacnia — izotropowy
+ją maskował. Naprawione próbkowaniem HH:30, nie poluzowaniem tolerancji; realne dane dają 177°
+zgodnie z PVGIS. Wydajność: E4 z Muneerem ~2,5 s na wywołanie (optimum) — w UI koniecznie Web Worker.
