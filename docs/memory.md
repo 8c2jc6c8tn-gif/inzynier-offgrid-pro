@@ -6095,3 +6095,54 @@ kanałem zwrotnym, nie samodzielna zmiana standardu; decyzję podejmie wyłączn
 **Dla przyszłych sesji tego projektu:** przy Kroku "Zanim zaczniesz" i przy Routine Y.6 stosuj ≤12h
 z `CLAUDE.md`, nie ≤3h z GOD BOOK — ten drugi zapis wciąż tam jest (poprawnie, jako mirror), ale nie
 obowiązuje operacyjnie w tym repo od D21.
+
+## Moduł 1 (Lokalizacja), Ekrany 2–4 — jądro obliczeniowe (23.09.2026)
+
+Na polecenie właściciela projektu ("zgoda na punkt 1" — Moduł 1 jako następny krok). Wcześniej
+(20.09.2026) Moduł 1 świadomie pominięty do czasu decyzji architektonicznej — teraz podjęta:
+**D22** w `rejestr-decyzji.md` (MapLibre GL + three.js/R3F + ULDK/PVGIS przez własny Route Handler,
+najpierw jądro, potem UI). Wybory właściciela z 4 pytań z opcjami przedstawionymi przez AI.
+
+**Zbudowane (tylko `lib/core`, zero UI, zero nowych zależności npm):**
+- `lokalizacja/geometria-slonca/` — wspólny prymityw: pozycja słońca (NOAA Solar Calculator =
+  Meeus rozdz. 22/25/28, z refrakcją), cos kąta padania (Duffie–Beckman 1.6.3), masa powietrza
+  (Kasten–Young 1989), promieniowanie bezpośrednie clear-sky (Meinel 1976, tylko jako waga
+  względna). Testy na przykładach liczbowych Meeusa 25.a (deklinacja −7,78507°) i 28.b (równanie
+  czasu 13 min 42,7 s) + kontrole analityczne (przesilenia, równonoc, półkula południowa).
+- `lokalizacja/skaner-dzialki/` (E2) — wspólne jądro obu trybów źródła (spacer GPS / Geoportal):
+  GPS→płaszczyzna styczna WGS84 (promienie M, N; test: długość stopnia na równiku 110 574 /
+  111 320 m), kalibracja znanym wymiarem (tylko poziomo — jawne założenie), azymuty ścian
+  (normalna zewnętrzna niezależnie od kierunku obchodzenia), połacie metodą Newella (nachylenie,
+  azymut, pole rzeczywiste, odchylenie od płaszczyzny), wysokość kalenicy, przeszkody → układ
+  lokalny jako wejście E3.
+- `lokalizacja/analiza-zacienienia/` (E3) — przeszkody: drzewo (walec korony) / bryła
+  (graniastosłup), kąt = atan((H−z)/d) do najbliższej krawędzi (przecięcie analityczne), próbkowanie
+  słońca co 10 min przez cały rok, strata ważona Meinel·cos θ, podział na miesiące i przeszkody,
+  scenariusz prognozy z ręcznie podaną wysokością drzew (źródło: "wprowadzana ręcznie" — aplikacja
+  nie wymyśla krzywej wzrostu), profil horyzontu 360° do wykresu.
+- `lokalizacja/orientacja-powierzchni/` (E4) — model izotropowy Liu–Jordana na godzinowych danych
+  PVGIS TMY, optimum wyszukiwane w danych (siatka 5°, potem 1°), wskaźnik = H/H_opt; albedo 0,2
+  domyślne i zawsze raportowane.
+
+**Decyzje warte zapamiętania:**
+- Liczby przykładowe ze źródła ("94%", "62%", "12%", "południe ~35°") NIE są celem testów ani
+  wartościami stałymi — to ilustracje. Testy sprawdzają tożsamości modelu (np. β=0 → H = ΣGHI) i
+  wartości z publikacji, nie odtwarzanie przykładów.
+- Uczciwy zakres E3: strata promieniowania **bezpośredniego clear-sky**, nie całkowitej energii —
+  TD14. E4: konwencja czasu rekordów PVGIS niezweryfikowana — TD15 (sprawdzić przy budowie proxy,
+  zanim ktokolwiek użyje realnych danych).
+- Wydajność: E4 liczy ~1 s (przeszukiwanie ~1500 orientacji × 8760 h), E3 ~0,15 s — w UI oba
+  do Web Workera, żeby nie blokować wątku głównego.
+- Po pull 84 commitów `node_modules` było nieaktualne (brak `@anthropic-ai/sdk`, `@supabase/ssr`) —
+  `tsc` zgłaszał błędy w nietkniętym kodzie. Naprawione `CI=true pnpm install --frozen-lockfile`
+  (bez `CI=true` pnpm przerywa bez TTY: `ERR_PNPM_ABORTED_REMOVE_MODULES_DIR_NO_TTY`). Lockfile
+  bez zmian.
+
+**Zweryfikowane:** 55 nowych testów (14+15+16+10), cały zestaw 1115/1115, `tsc --noEmit` czysty,
+lint 0 błędów (2 stare ostrzeżenia `<img>` bez związku), `check:i18n-guard` OK (103 moduły,
+4 nowe dopisane), `audit:gate` OK, `pnpm build` OK. i18n PL/EN/RU — 23 nowe klucze.
+
+**Następny krok (UI, D22):** proxy PVGIS/ULDK (Route Handler, CSP `connect-src` tylko do własnego
+origin), ekran Skanera z MapLibre GL + spacer GPS, widok 3D (R3F) z mapą cieplną zacienienia,
+lista powierzchni E4, i18n + opisy narzędzi AI dla nowych kalkulatorów (kolejność z 20.09:
+kalkulator → i18n → opis AI w tej samej sesji — dla tych 3 ekranów opisy AI czekają na UI).
