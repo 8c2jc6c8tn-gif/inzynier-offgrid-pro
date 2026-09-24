@@ -6179,8 +6179,10 @@ mechanizmu cyklu, który i tak już obowiązuje jako nowy domyślny GOD BOOK Y.6
 niżej i H.3 GOD BOOK):** `CLAUDE.md` punkt 4 zaktualizowany na formułę adaptacyjną (start 12h,
 ×1,5 do pułapu 48h po zero-wyniku, reset do 12h po realnej zmianie). **Dzisiejsze sprawdzenie
 znalazło realną zmianę → `interwał_h` resetuje się do 12 (nie rośnie), `licznik_zero_z_rzedu = 0`.**
-Założona samo-przeplanowująca się Routine (self-bind), `run_once_at` = 25.09.2026 10:12 UTC
-(+12h od tego sprawdzenia).
+Założona samo-przeplanowująca się Routine (self-bind, `trig_01La5dGeB9ycdVpPf2dmYgrk`),
+`run_once_at` = 2026-09-25T10:20:00Z (+12h od tego sprawdzenia) — pierwsze uruchomienie po
+zakończeniu prac naprawiających kolizję D# (merge z Modułem 1), stąd 8 minut różnicy względem
+zapowiedzianego wcześniej 10:12.
 
 **Kolizja numeracji D# przy scalaniu (przypadek H.3, GOD BOOK v2.37):** ten wpis pierwotnie
 zapisywał decyzję jako "D22", ale przy scaleniu z `main` okazało się, że równoległa sesja (patrz
