@@ -9,14 +9,13 @@ import {
 import {
   DNI_W_ROKU_REFERENCYJNYM,
   KROK_MIN,
-  KROK_PROFILU_HORYZONTU_DEG,
   MIESIECY,
   MS_NA_DOBE,
   MS_NA_MINUTE,
   ROK_REFERENCYJNY,
 } from "./constants"
 import type { AnalizaZacienieniaInput, Punkt3D, Przeszkoda } from "./input"
-import { katPrzeszkodyDeg } from "./przeszkody"
+import { katPrzeszkodyDeg, profilHoryzontuDeg } from "./przeszkody"
 import { validateInput } from "./validation"
 import { powierzchniaNieoswietlona } from "./warnings"
 
@@ -97,18 +96,12 @@ function scenariusz(
 
   const procent = (czesc: number, calosc: number) => (calosc > 0 ? (100 * czesc) / calosc : 0)
   const zablokowane = zablokMies.reduce((a, b) => a + b, 0)
-  const profilHoryzontuDeg: number[] = []
-  for (let az = 0; az < 360; az += KROK_PROFILU_HORYZONTU_DEG) {
-    let max = 0
-    for (let i = 0; i < przeszkody.length; i++) max = Math.max(max, katPrzeszkodyDeg(punkt, az, przeszkody[i]!, wysokosci[i]!))
-    profilHoryzontuDeg.push(max)
-  }
 
   return {
     strataRocznaProcent: procent(zablokowane, suma),
     strataMiesiecznaProcent: sumaMies.map((s, m) => procent(zablokMies[m]!, s)),
     udzialPrzeszkod: przeszkody.map((p, i) => ({ nazwa: p.nazwa, procent: procent(zablokPrzeszkod[i]!, suma) })),
-    profilHoryzontuDeg,
+    profilHoryzontuDeg: profilHoryzontuDeg(punkt, przeszkody, wysokosci),
   }
 }
 

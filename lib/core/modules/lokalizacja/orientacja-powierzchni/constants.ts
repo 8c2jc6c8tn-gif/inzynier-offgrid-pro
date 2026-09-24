@@ -25,6 +25,9 @@ export const NACHYLENIE_MIN_DEG = 0
 export const NACHYLENIE_MAX_DEG = 90
 export const AZYMUT_MIN_DEG = 0
 export const AZYMUT_MAX_DEG = 360
+/** Zakres kąta wzniesienia horyzontu przeszkód [°]. */
+export const HORYZONT_MIN_DEG = 0
+export const HORYZONT_MAX_DEG = 90
 
 export const SZEROKOSC_MIN = -90
 export const SZEROKOSC_MAX = 90

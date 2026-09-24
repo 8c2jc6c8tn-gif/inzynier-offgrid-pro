@@ -4,6 +4,7 @@ import type { PunktGps } from "@/lib/core/modules/lokalizacja/skaner-dzialki/inp
 import {
   dachWedlugObrysu,
   elewacje,
+  horyzontyPolaci,
   kierunek,
   liczba,
   MODEL_PUSTY,
@@ -179,5 +180,33 @@ describe("powierzchnieDoOceny", () => {
       { nazwa: "Wiata", nachylenieDeg: "", azymutDeg: "90" },
     ])
     expect(pw).toEqual([{ id: "reczna-0", nazwa: "Powierzchnia 1", zrodlo: "reczna", nachylenieDeg: 35, azymutDeg: 180, wymiar: 0, skorygowana: false }])
+  })
+})
+
+describe("horyzontyPolaci (zacienienie Ekranu 4)", () => {
+  const w = calculateSkanerDzialki(wejscieSkanera(MODEL)).value
+
+  it("profil 360° z każdego punktu siatki połaci, klucze = id powierzchni E4; elewacje bez profilu", () => {
+    const h = horyzontyPolaci(MODEL, w)
+    const idPolaci = powierzchnieZModelu(w).filter((x) => x.zrodlo === "polac").map((x) => x.id)
+    expect(Object.keys(h).sort()).toEqual([...idPolaci].sort())
+    const s = h[idPolaci[0]!]!
+    expect(s.length).toBeGreaterThan(1)
+    for (const profil of s) expect(profil).toHaveLength(360)
+    // Brzoza 12 m na południu (środek x = 5 m, promień 3 m), połać 3–5 m nad gruntem: punkty siatki
+    // w pasie x ∈ (2, 8) widzą ją dokładnie w azymucie 180°; od północy pusto.
+    expect(Math.max(...s.map((profil) => profil[180]!))).toBeGreaterThan(0)
+    for (const profil of s) expect(profil[0]).toBe(0)
+  })
+
+  it("bez przeszkód → profile zerowe (zacienienie sprawdzone, brak straty)", () => {
+    const m = { ...MODEL, przeszkody: [] }
+    const h = horyzontyPolaci(m, calculateSkanerDzialki(wejscieSkanera(m)).value)
+    for (const profile of Object.values(h)) for (const profil of profile) expect(Math.max(...profil)).toBe(0)
+  })
+
+  it("punkty wewnątrz korony drzewa pominięte; połać w całości pod koroną → bez profilu", () => {
+    const m: ModelDzialki = { ...MODEL, przeszkody: [{ nazwa: "Dąb", punkt: p(5, 4), wysokoscM: "15", promienM: "20" }] }
+    expect(horyzontyPolaci(m, calculateSkanerDzialki(wejscieSkanera(m)).value)).toEqual({})
   })
 })

@@ -8,13 +8,15 @@ import {
   DLUGOSC_MIN,
   GODZIN_W_ROKU,
   GODZIN_W_ROKU_PRZESTEPNYM,
+  HORYZONT_MAX_DEG,
+  HORYZONT_MIN_DEG,
   NACHYLENIE_MAX_DEG,
   NACHYLENIE_MIN_DEG,
   SZEROKOSC_MAX,
   SZEROKOSC_MIN,
 } from "./constants"
 import type { OrientacjaPowierzchniInput } from "./input"
-import { daneNiepelnyRok, daneUjemne, outOfRange, powierzchniaNiepoprawna } from "./warnings"
+import { daneNiepelnyRok, daneUjemne, horyzontNiepoprawny, outOfRange, powierzchniaNiepoprawna } from "./warnings"
 
 export type ValidationResult = {
   errors: Warning[]
@@ -50,6 +52,9 @@ export function validateInput(input: OrientacjaPowierzchniInput): ValidationResu
   for (const p of input.powierzchnie ?? []) {
     if (!wZakresie(p.nachylenieDeg, NACHYLENIE_MIN_DEG, NACHYLENIE_MAX_DEG) || !wZakresie(p.azymutDeg, AZYMUT_MIN_DEG, AZYMUT_MAX_DEG)) {
       errors.push(powierzchniaNiepoprawna(p.nazwa))
+    }
+    if (p.horyzontyDeg?.some((h) => h.length === 0 || h.some((k) => !wZakresie(k, HORYZONT_MIN_DEG, HORYZONT_MAX_DEG)))) {
+      errors.push(horyzontNiepoprawny(p.nazwa))
     }
   }
 

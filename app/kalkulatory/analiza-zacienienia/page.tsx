@@ -25,6 +25,7 @@ import {
   polacieLokalne,
   przeszkodyZacienienia,
   punktyProbkowania,
+  SIATKA_PROBKOWANIA,
   wejscieSkanera,
   wejscieZacienienia,
   type ModelDzialki,
@@ -51,7 +52,7 @@ const STAN_POCZATKOWY: StanE3 = {
 }
 
 /** Siatka punktów mapy cieplnej na powierzchnię: n × n (każdy punkt ~0,15 s obliczeń w tle). */
-const SIATKA = 4
+const SIATKA = SIATKA_PROBKOWANIA
 
 type Powierzchnia = { polac: PolacLokalna; punkty: Punkt3D[] }
 type WynikE3 = {

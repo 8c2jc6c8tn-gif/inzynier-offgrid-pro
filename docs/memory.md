@@ -6298,3 +6298,22 @@ skonfliktuje. Test: `kalkulatory-pomocnicze-tool.test.ts` sprawdza tekst PL zał
 **Nowe narzędzie AI = zawsze przez ten helper, nigdy `technicalMessage`/`JSON.stringify` do modelu.**
 Otwarte (nie ruszane, poza zakresem): `monitorowanie-izolacji-imd` i `przepust-powietrza` w ogóle nie
 wystawiają `zalozenia`, choć kalkulatory je mają (np. próg alarmu IMD = przykładowa wartość źródła).
+
+## TD15 (2) naprawiony — zacienienie we wskaźniku Ekranu 4 Modułu 1 (24.09.2026)
+
+Kolejność właściciela: TD15 (2) → TD14 → TD17 (dokończenie Modułu 1, odblokowuje Moduł 7).
+- **Model:** bez nowej fizyki — godzina ze słońcem niżej niż przeszkoda w jego azymucie = powierzchnia
+  zacieniona w sensie Muneera (EUR 26075 równ. 28), dokładnie ta sama gałąź co przy cos θ ≤ 0.
+  Profil horyzontu: wspólna funkcja `profilHoryzontuDeg` (`analiza-zacienienia/przeszkody.ts`) —
+  E3 z niej rysuje wykres, E4 z niej liczy zacienienie (jedna geometria, dwa ekrany).
+- **Dane między ekranami:** wynik E3 nie jest zapisywany (05, 5.1), więc E4 liczy profile sam z Seedu
+  E2 (`horyzontyPolaci` w `lib/lokalizacja/model-dzialki.ts`) na tej samej siatce 4×4
+  (`SIATKA_PROBKOWANIA`, teraz wspólna stała E3/E4) — średnia napromieniowania po punktach.
+- **Decyzje:** optimum lokalizacji zawsze bez przeszkód (wskaźnik zacienionej połaci spada, a nie
+  "optimum się przesuwa"); przeszkody w obecnej wysokości; elewacje i powierzchnie ręczne jawnie "bez
+  zacienienia" w założeniach (wysokości punktu na ścianie nie znamy — nie zgadujemy). Założenie
+  `NAPROMIENIOWANIE-NIE-UZYSK` skorygowane (PL/EN/RU): nie mówi już, że wskaźnik "pomija zacienienie".
+- **Weryfikacja:** +10 testów (w tym tożsamość: horyzont 90° dookoła → tylko Gd·F(β, 0,25227) + odbite;
+  horyzont 0° → wynik identyczny jak bez profilu); pełny pakiet lokalny czysty (typecheck, lint,
+  i18n-guard, 1186/1186, build, audit:gate). Kontrola na realnych danych PVGIS z tego kontenera
+  niemożliwa (`PVGIS-ODRZUCIL-ZAPYTANIE` — sieć kontenera), do zrobienia w przeglądarce przy okazji.

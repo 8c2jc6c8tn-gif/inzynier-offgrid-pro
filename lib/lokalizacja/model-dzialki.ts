@@ -11,10 +11,17 @@ import type { SkanerDzialkiResult } from "@/lib/core/modules/lokalizacja/skaner-
 import { normalnaNewella, rzutujNaUkladLokalny } from "@/lib/core/modules/lokalizacja/skaner-dzialki/geometria"
 import type { Kalibracja, PolacGps, PunktGps, SkanerDzialkiInput } from "@/lib/core/modules/lokalizacja/skaner-dzialki/input"
 import type { AnalizaZacienieniaInput, Punkt3D, PrzeszkodaDrzewo } from "@/lib/core/modules/lokalizacja/analiza-zacienienia/input"
+import { profilHoryzontuDeg, punktWewnatrzPrzeszkody } from "@/lib/core/modules/lokalizacja/analiza-zacienienia/przeszkody"
 import type { Powierzchnia } from "@/lib/core/modules/lokalizacja/orientacja-powierzchni/input"
 
 /** Klucz draftu Ekranu 2 (`usePersistedDraft`) — ten sam czytają Ekrany 3 i 4. */
 export const KLUCZ_MODELU_DZIALKI = "skaner-dzialki"
+
+/**
+ * Siatka punktów na powierzchnię: n × n — mapa cieplna Ekranu 3 i profile horyzontu Ekranu 4
+ * (ta sama siatka, żeby oba ekrany uśredniały te same punkty). Wybór rozdzielczości, nie fizyka.
+ */
+export const SIATKA_PROBKOWANIA = 4
 
 export type OpisDzialki = {
   teryt: string
@@ -322,10 +329,37 @@ export function elewacje(wynik: SkanerDzialkiResult): PowierzchniaZModelu[] {
     }))
 }
 
+function idPolaci(indeks: number, nazwa: string): string {
+  return `polac-${indeks}-${nazwa}`
+}
+
+/**
+ * Profile horyzontu przeszkód (obecna wysokość) z punktów siatki każdej połaci — wejście
+ * zacienienia Ekranu 4 (TD15 punkt 2), klucz = id powierzchni z `powierzchnieZModelu`. Tylko
+ * połacie: mają wysokość punktów z pomiaru; elewacje i powierzchnie ręczne jej nie mają, więc
+ * nie dostają profilu (kalkulator raportuje je jako bez zacienienia). Punkty wewnątrz przeszkody
+ * pominięte (jak walidacja Ekranu 3); połać bez żadnego punktu — bez profilu.
+ */
+export function horyzontyPolaci(m: ModelDzialki, wynik: SkanerDzialkiResult): Record<string, number[][]> {
+  const przeszkody = przeszkodyZacienienia(wynik, { wysokosci: {}, lat: "" })
+  const uzyte = new Set<number>()
+  const wyniki: Record<string, number[][]> = {}
+  for (const polac of polacieLokalne(m, wynik)) {
+    const i = wynik.polacie.findIndex((p, j) => !uzyte.has(j) && p.nazwa === polac.nazwa)
+    if (i < 0) continue
+    uzyte.add(i)
+    const profile = punktyProbkowania(polac, SIATKA_PROBKOWANIA)
+      .filter((pt) => !przeszkody.some((o) => punktWewnatrzPrzeszkody(pt, o)))
+      .map((pt) => profilHoryzontuDeg(pt, przeszkody))
+    if (profile.length > 0) wyniki[idPolaci(i, polac.nazwa)] = profile
+  }
+  return wyniki
+}
+
 /** Powierzchnie do oceny na Ekranie 4: połacie (z płaskimi jako azymut 180°) + elewacje. */
 export function powierzchnieZModelu(wynik: SkanerDzialkiResult): PowierzchniaZModelu[] {
   const polacie = wynik.polacie.map((p, i) => ({
-    id: `polac-${i}-${p.nazwa}`,
+    id: idPolaci(i, p.nazwa),
     nazwa: p.nazwa,
     zrodlo: "polac" as const,
     nachylenieDeg: Math.round(p.nachylenieDeg),

@@ -45,3 +45,14 @@ export function powierzchniaNiepoprawna(nazwa: string): Warning {
     field: "powierzchnie",
   }
 }
+
+export function horyzontNiepoprawny(nazwa: string): Warning {
+  return {
+    code: "ORIENTACJA-HORYZONT-NIEPOPRAWNY",
+    level: "critical",
+    i18nKey: "ORIENTACJA-HORYZONT-NIEPOPRAWNY",
+    params: { nazwa },
+    technicalMessage: `powierzchnia "${nazwa}": profil horyzontu pusty albo kąt poza [0, 90]`,
+    field: "powierzchnie",
+  }
+}
