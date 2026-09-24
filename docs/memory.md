@@ -6317,3 +6317,28 @@ Kolejność właściciela: TD15 (2) → TD14 → TD17 (dokończenie Modułu 1, o
   horyzont 0° → wynik identyczny jak bez profilu); pełny pakiet lokalny czysty (typecheck, lint,
   i18n-guard, 1186/1186, build, audit:gate). Kontrola na realnych danych PVGIS z tego kontenera
   niemożliwa (`PVGIS-ODRZUCIL-ZAPYTANIE` — sieć kontenera), do zrobienia w przeglądarce przy okazji.
+
+## TD14 naprawiony — Ekran 3 liczy stratę całkowitej energii na danych TMY (24.09.2026)
+
+Decyzje właściciela: 1(b) — przesłonięcie nieboskłonu nie modelowane, jawnie w założeniach (→ **TD18**);
+wariant zapasowy clear-sky zostaje dla braku danych; drzewa liściaste zimą — "poszukaj źródła".
+- **Jedna fizyka:** model Muneera wydzielony z kalkulatora E4 do `orientacja-powierzchni/muneer.ts`
+  (`przygotujGodziny`, `plaszczyzna`, `natezenieGodziny(g, pl, zaPrzeszkoda)`, `napromieniowanie`) — E4
+  bez zmiany wyniku (te same 18 testów), E3 liczy nim stratę godzina po godzinie. Walidacja danych
+  godzinowych też wspólna (`bledyDanychGodzinowych`). Test zgodności E3↔E4 < 0,2 p.p.
+- **UI E3:** ten sam zapis TMY co E4 (`useDaneTmy`, `zapisPasuje`) — pobrane raz na którymkolwiek ekranie
+  działa na obu. Klucz aktualności wyniku bez 8760 rekordów (`JSON.stringify` per punkt siatki byłby
+  kosztowny) — dane identyfikuje data pobrania. Do workera ta sama tablica rekordów we wszystkich
+  wejściach — structured clone kopiuje ją raz.
+- **Narzędzie AI** `policz_zacienienie`: fabryka z `fetchImpl` jak E4, PVGIS po stronie serwera; błąd →
+  wariant zapasowy + komunikat (inaczej niż E4, który bez danych nie ma żadnego wyniku). Pole
+  `zrodloPromieniowania` mówi modelowi, który wariant policzono.
+- **Pułapka:** `pnpm prettier --write` przeformatował cały plik na styl ze średnikami — repo NIE używa
+  Prettiera (brak konfiguracji, styl bez średników). Nie uruchamiać prettiera na plikach repo.
+- **Pułapka:** heredoc bez cudzysłowu (`<<EOF`) w bashu wykonuje `` `...` `` z komentarzy JSDoc — przy
+  generowaniu kodu przez skrypt używać `<<'EOF'`.
+- **TD19 (drzewa liściaste zimą) — źródło znalezione, decyzja otwarta:** Konarska i in. 2014 (Theor. Appl.
+  Climatol. 117:363–376): przepuszczalność bezpośredniego przez koronę bezlistną 40,2–51,9% (Göteborg,
+  4 gatunki liściaste). Zweryfikowane tylko streszczenie — wydawcy zablokowani przez sieć kontenera.
+- **Weryfikacja:** pełny pakiet lokalny czysty (typecheck, lint 0 błędów, i18n-guard, 1193/1193, build,
+  audit:gate). Kontrola na realnych danych PVGIS i w przeglądarce — niemożliwa z tego kontenera, do zrobienia.

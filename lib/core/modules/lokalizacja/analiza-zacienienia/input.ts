@@ -7,6 +7,8 @@
  * `punkt.z` (np. poziom gruntu przy budynku).
  */
 
+import type { RekordGodzinowy } from "@/lib/core/modules/lokalizacja/orientacja-powierzchni/input"
+
 export type Punkt3D = { x: number; y: number; z: number }
 export type Punkt2D = { x: number; y: number }
 
@@ -48,4 +50,10 @@ export type AnalizaZacienieniaInput = {
   przeszkody?: Przeszkoda[]
   /** Horyzont prognozy wzrostu drzew [lata] — tylko etykieta scenariusza, nie parametr modelu. */
   latPrognozy?: number
+  /**
+   * Godzinowe dane PVGIS TMY (te same co Ekran 4). Podane → strata CAŁKOWITEGO napromieniowania
+   * (model Muneera, rzeczywiste zachmurzenie); brak → wariant zapasowy offline: strata promieniowania
+   * bezpośredniego przy bezchmurnym niebie (TD14, decyzja właściciela 24.09.2026).
+   */
+  daneGodzinowe?: RekordGodzinowy[]
 }

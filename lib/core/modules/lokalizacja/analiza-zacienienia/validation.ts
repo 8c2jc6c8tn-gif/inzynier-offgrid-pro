@@ -10,6 +10,7 @@ import {
   SZEROKOSC_MAX,
   SZEROKOSC_MIN,
 } from "./constants"
+import { bledyDanychGodzinowych } from "@/lib/core/modules/lokalizacja/orientacja-powierzchni/validation"
 import type { AnalizaZacienieniaInput } from "./input"
 import { punktWewnatrzPrzeszkody as punktWPrzeszkodzieGeom } from "./przeszkody"
 import {
@@ -44,6 +45,8 @@ export function validateInput(input: AnalizaZacienieniaInput): ValidationResult 
   zakres(errors, "dlugoscGeograficzna", "długość geograficzna", input.dlugoscGeograficzna, DLUGOSC_MIN, DLUGOSC_MAX)
   zakres(errors, "nachyleniePowierzchniDeg", "nachylenie powierzchni", input.nachyleniePowierzchniDeg, NACHYLENIE_MIN_DEG, NACHYLENIE_MAX_DEG)
   zakres(errors, "azymutPowierzchniDeg", "azymut powierzchni", input.azymutPowierzchniDeg, AZYMUT_MIN_DEG, AZYMUT_MAX_DEG)
+
+  errors.push(...bledyDanychGodzinowych(input.daneGodzinowe))
 
   for (const p of input.przeszkody ?? []) {
     if (!(p.wysokoscM >= 0) || !Number.isFinite(p.wysokoscM)) {

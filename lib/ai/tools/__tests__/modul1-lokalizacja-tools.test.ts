@@ -5,7 +5,7 @@ import { calculateOrientacjaPowierzchni, CALCULATOR_VERSION as WERSJA_E4 } from 
 import { calculateSkanerDzialki } from "@/lib/core/modules/lokalizacja/skaner-dzialki/calculator"
 import { KOMUNIKAT_PVGIS } from "@/lib/lokalizacja/dane-tmy"
 import { validateAiToolDefinition } from "../../types"
-import { analizaZacienieniaTool, przeszkodaLokalna } from "../analiza-zacienienia-tool"
+import { analizaZacienieniaTool, przeszkodaLokalna, utworzAnalizaZacienieniaTool } from "../analiza-zacienienia-tool"
 import { orientacjaPowierzchniTool, utworzOrientacjaPowierzchniTool } from "../orientacja-powierzchni-tool"
 import { skanerDzialkiTool } from "../skaner-dzialki-tool"
 
@@ -67,8 +67,9 @@ describe("analizaZacienieniaTool", () => {
     expect(Math.max(...ys)).toBeCloseTo(3, 9)
   })
 
-  it("deleguje do calculateAnalizaZacienienia — ta sama strata co wejście w układzie lokalnym", async () => {
-    const w = await analizaZacienieniaTool.handler({
+  it("PVGIS niedostępny → wariant zapasowy kalkulatora (ta sama strata co wejście w układzie lokalnym) + komunikat", async () => {
+    const fetchImpl = (async () => new Response("location over the sea", { status: 400 })) as unknown as typeof fetch
+    const w = await utworzAnalizaZacienieniaTool(fetchImpl).handler({
       szerokoscGeograficzna: 52.23,
       dlugoscGeograficzna: 21.01,
       nachyleniePowierzchniDeg: 35,
@@ -91,6 +92,37 @@ describe("analizaZacienieniaTool", () => {
     expect(w.obecnie.strataRocznaProcent).toBeCloseTo(r.value.obecnie.strataRocznaProcent, 9)
     expect(w.prognoza!.strataRocznaProcent).toBeCloseTo(r.value.prognoza!.strataRocznaProcent, 9)
     expect(w.obecnie.strataMiesiecznaProcent).toHaveLength(12)
+    expect(w.zrodloPromieniowania).toBe("czyste-niebo")
+    expect(w.ostrzezenia[0]).toBe(KOMUNIKAT_PVGIS["PVGIS-ODRZUCIL-ZAPYTANIE"])
+    w.zalozenia.forEach(tekstBezBrakujacegoKlucza)
+  })
+
+  it("z danymi PVGIS → strata całkowita (ta sama co kalkulator na tych danych)", async () => {
+    const json = odpowiedzPvgis()
+    const fetchImpl = (async () => new Response(JSON.stringify(json))) as unknown as typeof fetch
+    const przeszkoda = { typ: "drzewo" as const, nazwa: "dąb", odlegloscM: 12, kierunekDeg: 180, wysokoscM: 9, promienKoronyM: 3 }
+    const w = await utworzAnalizaZacienieniaTool(fetchImpl).handler({
+      szerokoscGeograficzna: 52.23,
+      dlugoscGeograficzna: 21.01,
+      nachyleniePowierzchniDeg: 35,
+      azymutPowierzchniDeg: 180,
+      wysokoscPaneliM: 5,
+      przeszkody: [przeszkoda],
+    })
+    const dane = parsujOdpowiedzTmy(json)
+    if (!dane.ok) throw new Error("oczekiwano poprawnych danych")
+    const r = calculateAnalizaZacienienia({
+      szerokoscGeograficzna: 52.23,
+      dlugoscGeograficzna: 21.01,
+      nachyleniePowierzchniDeg: 35,
+      azymutPowierzchniDeg: 180,
+      punkt: { x: 0, y: 0, z: 5 },
+      przeszkody: [przeszkodaLokalna(przeszkoda)],
+      daneGodzinowe: dane.dane.rekordy,
+    })
+    expect(w.zrodloPromieniowania).toBe("pvgis-tmy")
+    expect(w.obecnie.strataRocznaProcent).toBeCloseTo(r.value.obecnie.strataRocznaProcent, 9)
+    expect(w.ostrzezenia).toEqual([])
     w.zalozenia.forEach(tekstBezBrakujacegoKlucza)
   })
 })

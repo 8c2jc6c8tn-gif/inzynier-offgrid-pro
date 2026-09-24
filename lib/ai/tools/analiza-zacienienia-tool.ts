@@ -6,10 +6,16 @@
  * lokalny kalkulatora (x — wschód, y — północ, początek w punkcie analizy). To zamiana
  * współrzędnych, nie model fizyczny — model zacienienia jest w całości w kalkulatorze.
  * Budynek: prostokąt, którego bliższa ściana jest prostopadła do kierunku od paneli.
+ *
+ * Dane PVGIS TMY (TD14) handler pobiera sam po stronie serwera, jak narzędzie Ekranu 4 — 8760
+ * rekordów nie przechodzi przez model. Błąd PVGIS → wariant zapasowy kalkulatora (strata
+ * bezpośredniego clear-sky, jawnie w założeniach) + komunikat w ostrzeżeniach — jak w UI offline.
  */
 import { z } from "zod"
+import { pobierzTmy } from "@/lib/adapters/pvgis/tmy"
 import { calculateAnalizaZacienienia } from "@/lib/core/modules/lokalizacja/analiza-zacienienia/calculator"
 import type { Przeszkoda, Punkt2D } from "@/lib/core/modules/lokalizacja/analiza-zacienienia/input"
+import { KOMUNIKAT_PVGIS } from "@/lib/lokalizacja/dane-tmy"
 import type { AiToolDefinition } from "../types"
 import { tekstyOstrzezen, tekstyZalozen } from "./teksty-wyniku"
 
@@ -61,6 +67,9 @@ const Scenariusz = z.object({
 
 export const AnalizaZacienieniaToolOutput = z.object({
   status: z.enum(["VALID", "VALID_WITH_WARNINGS", "INCOMPLETE", "OUT_OF_SCOPE", "INVALID_INPUT"]),
+  zrodloPromieniowania: z
+    .enum(["pvgis-tmy", "czyste-niebo"])
+    .describe("pvgis-tmy — strata całkowitej energii; czyste-niebo — zapasowo, tylko bezpośrednie przy bezchmurnym niebie"),
   obecnie: Scenariusz,
   prognoza: Scenariusz.nullable(),
   ostrzezenia: z.array(z.string()),
@@ -98,35 +107,45 @@ const scenariusz = (s: { strataRocznaProcent: number; strataMiesiecznaProcent: n
   udzialPrzeszkod: s.udzialPrzeszkod,
 })
 
-export const analizaZacienieniaTool: AiToolDefinition<AnalizaZacienieniaToolInputT, AnalizaZacienieniaToolOutputT> = {
-  name: "policz_zacienienie",
-  description:
-    "Liczy roczną i miesięczną stratę promieniowania bezpośredniego na panelach od drzew i budynków w " +
-    "okolicy (przy bezchmurnym niebie), udział każdej przeszkody w stracie oraz — jeśli user poda " +
-    "przyszłą wysokość drzew — prognozę. Użyj, gdy user pyta, ile zabierze cień drzewa/budynku, czy " +
-    "przeszkoda zacienia panele zimą, albo jak zmieni się zacienienie, gdy drzewo urośnie.",
-  inputSchema: AnalizaZacienieniaToolInput,
-  outputSchema: AnalizaZacienieniaToolOutput,
-  operationType: "read",
-  requiresConfirmation: false,
-  scope: "lokalizacja/analiza-zacienienia",
-  handler: async (input) => {
-    const wynik = calculateAnalizaZacienienia({
-      szerokoscGeograficzna: input.szerokoscGeograficzna,
-      dlugoscGeograficzna: input.dlugoscGeograficzna,
-      nachyleniePowierzchniDeg: input.nachyleniePowierzchniDeg,
-      azymutPowierzchniDeg: input.azymutPowierzchniDeg,
-      punkt: { x: 0, y: 0, z: input.wysokoscPaneliM },
-      przeszkody: input.przeszkody.map(przeszkodaLokalna),
-      latPrognozy: input.latPrognozy,
-    })
-    return {
-      status: wynik.status,
-      obecnie: scenariusz(wynik.value.obecnie),
-      prognoza: wynik.value.prognoza && scenariusz(wynik.value.prognoza),
-      ostrzezenia: tekstyOstrzezen(wynik.warnings),
-      zalozenia: tekstyZalozen(wynik.assumptions),
-      wersjaKalkulatora: wynik.calculatorVersion,
-    }
-  },
+/** Fabryka — `fetchImpl` wstrzykiwany w testach (jak w narzędziu Ekranu 4). */
+export function utworzAnalizaZacienieniaTool(
+  fetchImpl: typeof fetch = fetch,
+): AiToolDefinition<AnalizaZacienieniaToolInputT, AnalizaZacienieniaToolOutputT> {
+  return {
+    name: "policz_zacienienie",
+    description:
+      "Pobiera dane nasłonecznienia PVGIS (typowy rok) i liczy roczną i miesięczną stratę energii na " +
+      "panelach od drzew i budynków w okolicy, udział każdej przeszkody w stracie oraz — jeśli user poda " +
+      "przyszłą wysokość drzew — prognozę. Użyj, gdy user pyta, ile zabierze cień drzewa/budynku, czy " +
+      "przeszkoda zacienia panele zimą, albo jak zmieni się zacienienie, gdy drzewo urośnie.",
+    inputSchema: AnalizaZacienieniaToolInput,
+    outputSchema: AnalizaZacienieniaToolOutput,
+    operationType: "read",
+    requiresConfirmation: false,
+    scope: "lokalizacja/analiza-zacienienia",
+    handler: async (input) => {
+      const tmy = await pobierzTmy(input.szerokoscGeograficzna, input.dlugoscGeograficzna, fetchImpl)
+      const wynik = calculateAnalizaZacienienia({
+        szerokoscGeograficzna: input.szerokoscGeograficzna,
+        dlugoscGeograficzna: input.dlugoscGeograficzna,
+        nachyleniePowierzchniDeg: input.nachyleniePowierzchniDeg,
+        azymutPowierzchniDeg: input.azymutPowierzchniDeg,
+        punkt: { x: 0, y: 0, z: input.wysokoscPaneliM },
+        przeszkody: input.przeszkody.map(przeszkodaLokalna),
+        latPrognozy: input.latPrognozy,
+        daneGodzinowe: tmy.ok ? tmy.dane.rekordy : undefined,
+      })
+      return {
+        status: wynik.status,
+        zrodloPromieniowania: wynik.value.zrodloPromieniowania,
+        obecnie: scenariusz(wynik.value.obecnie),
+        prognoza: wynik.value.prognoza && scenariusz(wynik.value.prognoza),
+        ostrzezenia: [...(tmy.ok ? [] : [KOMUNIKAT_PVGIS[tmy.kod]]), ...tekstyOstrzezen(wynik.warnings)],
+        zalozenia: tekstyZalozen(wynik.assumptions),
+        wersjaKalkulatora: wynik.calculatorVersion,
+      }
+    },
+  }
 }
+
+export const analizaZacienieniaTool = utworzAnalizaZacienieniaTool()

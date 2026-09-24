@@ -1,11 +1,14 @@
-// 🔎 TD14 (dlug-techniczny.md): strata tylko promieniowania bezpośredniego przy bezchmurnym niebie;
-// rozproszone, zachmurzenie (PVGIS TMY) i przezierność drzew liściastych zimą nie są modelowane.
+// 🔎 TD18 (dlug-techniczny.md): przesłonięcie części nieboskłonu przez przeszkody nie jest modelowane.
+// 🔎 TD19 (dlug-techniczny.md): drzewa nieprzezroczyste cały rok (także liściaste zimą).
 import type { Assumption, CalcResult } from "@/lib/core/calc-result"
 import {
   cosKataPadania,
   pozycjaSlonca,
   promieniowanieBezposrednieCzysteNiebo,
 } from "@/lib/core/modules/lokalizacja/geometria-slonca/pozycja-slonca"
+import { ALBEDO_DOMYSLNE } from "@/lib/core/modules/lokalizacja/orientacja-powierzchni/constants"
+import type { RekordGodzinowy } from "@/lib/core/modules/lokalizacja/orientacja-powierzchni/input"
+import { natezenieGodziny, plaszczyzna, przygotujGodziny } from "@/lib/core/modules/lokalizacja/orientacja-powierzchni/muneer"
 import {
   DNI_W_ROKU_REFERENCYJNYM,
   KROK_MIN,
@@ -19,15 +22,15 @@ import { katPrzeszkodyDeg, profilHoryzontuDeg } from "./przeszkody"
 import { validateInput } from "./validation"
 import { powierzchniaNieoswietlona } from "./warnings"
 
-export const CALCULATOR_VERSION = "1.0.0"
+export const CALCULATOR_VERSION = "1.1.0"
 
 const FORMULA =
-  "S = \\dfrac{\\sum_t I_b(t)\\,\\cos\\theta(t)\\,[h_s(t) < h_p(\\gamma_s(t))]}{\\sum_t I_b(t)\\,\\cos\\theta(t)},\\quad h_p = \\arctan\\dfrac{H - z}{d}"
+  "S = \\dfrac{\\sum_t \\big(G_T(t) - G_T^{cień}(t)\\big)\\,[h_s(t) < h_p(\\gamma_s(t))]}{\\sum_t G_T(t)},\\quad h_p = \\arctan\\dfrac{H - z}{d}"
 
 export type UdzialPrzeszkody = { nazwa: string; procent: number }
 
 export type ScenariuszZacienienia = {
-  /** Roczna strata promieniowania bezpośredniego na płaszczyźnie [%]. */
+  /** Roczna strata napromieniowania płaszczyzny [%] — całkowitego (dane TMY) albo bezpośredniego clear-sky (zapasowo). */
   strataRocznaProcent: number
   /** Strata w poszczególnych miesiącach (indeks 0 = styczeń) [%]. */
   strataMiesiecznaProcent: number[]
@@ -38,12 +41,18 @@ export type ScenariuszZacienienia = {
 }
 
 export type AnalizaZacienieniaResult = {
+  /** "pvgis-tmy" — strata całkowitego napromieniowania; "czyste-niebo" — wariant zapasowy (tylko bezpośrednie). */
+  zrodloPromieniowania: "pvgis-tmy" | "czyste-niebo"
   obecnie: ScenariuszZacienienia
   /** Tylko gdy któreś drzewo ma `wysokoscPrognozowanaM`. */
   prognoza: ScenariuszZacienienia | null
 }
 
-type Probka = { miesiac: number; azymutDeg: number; wysokoscDeg: number; waga: number }
+/**
+ * Chwila roku: `waga` — natężenie na płaszczyźnie bez przeszkód, `wagaZacieniona` — gdy słońce jest
+ * za przeszkodą (clear-sky: 0; TMY: rozproszone jak dla powierzchni zacienionej + odbite).
+ */
+type Probka = { miesiac: number; azymutDeg: number; wysokoscDeg: number; waga: number; wagaZacieniona: number }
 
 /** Pozycje słońca z niezerową wagą promieniowania bezpośredniego na płaszczyźnie, dla całego roku. */
 function probkiRoku(lat: number, lon: number, nachylenie: number, azymutPow: number): Probka[] {
@@ -59,10 +68,25 @@ function probkiRoku(lat: number, lon: number, nachylenie: number, azymutPow: num
       const cosTheta = cosKataPadania(p.wysokoscDeg, p.azymutDeg, nachylenie, azymutPow)
       if (cosTheta <= 0) continue
       const waga = promieniowanieBezposrednieCzysteNiebo(p.wysokoscDeg) * cosTheta
-      if (waga > 0) probki.push({ miesiac, azymutDeg: p.azymutDeg, wysokoscDeg: p.wysokoscDeg, waga })
+      if (waga > 0) probki.push({ miesiac, azymutDeg: p.azymutDeg, wysokoscDeg: p.wysokoscDeg, waga, wagaZacieniona: 0 })
     }
   }
   return probki
+}
+
+/**
+ * Godziny danych TMY (TD14): natężenie całkowite na płaszczyźnie z modelu Muneera — tego samego co
+ * Ekran 4 — bez przeszkód i dla słońca za przeszkodą. Albedo domyślne: odbite nie zależy od
+ * przeszkód, wpływa tylko na mianownik (raportowane w założeniach).
+ */
+function probkiTmy(lat: number, lon: number, nachylenie: number, azymutPow: number, dane: RekordGodzinowy[]): Probka[] {
+  const pl = plaszczyzna(nachylenie, azymutPow, ALBEDO_DOMYSLNE)
+  return przygotujGodziny(lat, lon, dane).flatMap((g) => {
+    const waga = natezenieGodziny(g, pl, false)
+    if (!(waga > 0)) return []
+    const miesiac = new Date(g.czasUtcMs).getUTCMonth()
+    return [{ miesiac, azymutDeg: g.azymutDeg, wysokoscDeg: g.wysokoscDeg, waga, wagaZacieniona: natezenieGodziny(g, pl, true) }]
+  })
 }
 
 function scenariusz(
@@ -88,9 +112,10 @@ function scenariusz(
         najwyzszy = i
       }
     }
-    if (najwyzszy >= 0 && s.wysokoscDeg < najwyzszyKat) {
-      zablokMies[s.miesiac]! += s.waga
-      zablokPrzeszkod[najwyzszy]! += s.waga
+    if (najwyzszy >= 0 && s.wysokoscDeg > 0 && s.wysokoscDeg < najwyzszyKat) {
+      const strata = s.waga - s.wagaZacieniona
+      zablokMies[s.miesiac]! += strata
+      zablokPrzeszkod[najwyzszy]! += strata
     }
   }
 
@@ -110,14 +135,14 @@ function scenariusz(
  *
  * Źródło (B): "algorytm dla każdej godziny dnia, w każdym miesiącu, sprawdza czy promień słońca
  * jest zasłaniany przez przeszkodę; uwzględnia wzrost drzew w perspektywie lat; sumuje roczną
- * stratę energii". Realizacja: pozycja słońca co KROK_MIN minut przez cały rok (NOAA/Meeus),
- * promień zasłonięty, gdy wysokość słońca < kąt wzniesienia przeszkody w jego azymucie; strata
- * ważona promieniowaniem bezpośrednim padającym na płaszczyznę (Meinel·cos θ).
- *
- * Uczciwy zakres wyniku (patrz założenia): to strata promieniowania BEZPOŚREDNIEGO przy
- * bezchmurnym niebie — nie całkowitej energii. Rozproszone i zachmurzenie wymagają danych
- * godzinowych (PVGIS TMY, D22) — dług TD w dlug-techniczny.md. Przykład "12%" ze źródła jest
- * ilustracją, nie wartością do odtworzenia.
+ * stratę energii". Promień zasłonięty, gdy wysokość słońca < kąt wzniesienia przeszkody w jego
+ * azymucie. Dwa warianty (TD14, decyzja właściciela 24.09.2026):
+ * - z danymi PVGIS TMY: każda godzina roku, strata = natężenie całkowite bez przeszkody − natężenie
+ *   dla powierzchni zacienionej (Muneer, ten sam model co Ekran 4) — rzeczywiste zachmurzenie i
+ *   rozproszone; przesłonięcie części nieboskłonu przez przeszkody NIE jest modelowane (strata zaniżona),
+ * - bez danych (offline, nic nie pobrano): pozycja słońca co KROK_MIN minut, strata promieniowania
+ *   BEZPOŚREDNIEGO przy bezchmurnym niebie (Meinel·cos θ) — nie całkowitej energii.
+ * Przykład "12%" ze źródła jest ilustracją, nie wartością do odtworzenia.
  */
 export function calculateAnalizaZacienienia(
   input: AnalizaZacienieniaInput,
@@ -132,7 +157,9 @@ export function calculateAnalizaZacienienia(
     wysokoscPunktuM: input.punkt?.z ?? 0,
     liczbaPrzeszkod: przeszkody.length,
   }
+  const zrodloPromieniowania = input.daneGodzinowe?.length ? "pvgis-tmy" : "czyste-niebo"
   const pusty: AnalizaZacienieniaResult = {
+    zrodloPromieniowania,
     obecnie: { strataRocznaProcent: 0, strataMiesiecznaProcent: [], udzialPrzeszkod: [], profilHoryzontuDeg: [] },
     prognoza: null,
   }
@@ -161,7 +188,9 @@ export function calculateAnalizaZacienienia(
     return wynik("INCOMPLETE", pusty, warnings)
   }
 
-  const probki = probkiRoku(lat, lon, nachylenie, azymutPow)
+  const probki = input.daneGodzinowe?.length
+    ? probkiTmy(lat, lon, nachylenie, azymutPow, input.daneGodzinowe)
+    : probkiRoku(lat, lon, nachylenie, azymutPow)
   if (probki.length === 0) {
     return wynik("VALID_WITH_WARNINGS", pusty, [...warnings, powierzchniaNieoswietlona()])
   }
@@ -182,12 +211,16 @@ export function calculateAnalizaZacienienia(
       )
     : null
 
-  const assumptions: Assumption[] = [
-    { kod: "ZACIENIENIE-ZALOZENIE-BEZPOSREDNIE-CZYSTE-NIEBO" },
-    { kod: "ZACIENIENIE-ZALOZENIE-JEDEN-PUNKT" },
-  ]
+  const assumptions: Assumption[] =
+    zrodloPromieniowania === "pvgis-tmy"
+      ? [
+          { kod: "ZACIENIENIE-ZALOZENIE-TMY-MUNEER", params: { albedo: ALBEDO_DOMYSLNE } },
+          { kod: "ZACIENIENIE-ZALOZENIE-NIEBOSKLON" },
+        ]
+      : [{ kod: "ZACIENIENIE-ZALOZENIE-BEZPOSREDNIE-CZYSTE-NIEBO" }]
+  assumptions.push({ kod: "ZACIENIENIE-ZALOZENIE-JEDEN-PUNKT" })
   if (przeszkody.some((p) => p.typ === "drzewo")) assumptions.push({ kod: "ZACIENIENIE-ZALOZENIE-DRZEWA-NIEPRZEZROCZYSTE" })
   if (prognoza) assumptions.push({ kod: "ZACIENIENIE-ZALOZENIE-PROGNOZA", params: { lata: input.latPrognozy ?? "?" } })
 
-  return wynik(warnings.length > 0 ? "VALID_WITH_WARNINGS" : "VALID", { obecnie, prognoza }, warnings, assumptions)
+  return wynik(warnings.length > 0 ? "VALID_WITH_WARNINGS" : "VALID", { zrodloPromieniowania, obecnie, prognoza }, warnings, assumptions)
 }

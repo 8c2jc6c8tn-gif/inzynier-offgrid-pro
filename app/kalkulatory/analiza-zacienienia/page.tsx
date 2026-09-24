@@ -32,8 +32,11 @@ import {
   type PolacLokalna,
   type PrognozaSeed,
 } from "@/lib/lokalizacja/model-dzialki"
+import { zapisPasuje } from "@/lib/lokalizacja/dane-tmy"
 import { podsumujPowierzchnie, type PodsumowaniePowierzchni } from "@/lib/lokalizacja/podsumowanie-zacienienia"
+import { useDaneTmy } from "@/lib/lokalizacja/use-dane-tmy"
 import { useObliczeniaWTle } from "@/lib/lokalizacja/use-obliczenia-w-tle"
+import { useOnline } from "@/lib/lokalizacja/use-online"
 
 const Widok3d = dynamic(() => import("@/components/lokalizacja/widok-3d"), {
   ssr: false,
@@ -57,6 +60,8 @@ const SIATKA = SIATKA_PROBKOWANIA
 type Powierzchnia = { polac: PolacLokalna; punkty: Punkt3D[] }
 type WynikE3 = {
   klucz: string
+  /** Wariant obliczenia: strata całkowita (PVGIS TMY) albo zapasowa — bezpośrednie clear-sky. */
+  zrodlo: "pvgis-tmy" | "czyste-niebo"
   podsumowania: (PodsumowaniePowierzchni | null)[]
   assumptions: Assumption[]
   /** Ostrzeżenia kalkulatora, bez powtórzeń (każdy punkt siatki zwraca te same). */
@@ -71,6 +76,8 @@ export default function AnalizaZacienieniaPage() {
   const model = zapisanyModel ?? MODEL_PUSTY
   const [stan, setStan] = usePersistedDraft<StanE3>("analiza-zacienienia", STAN_POCZATKOWY)
   const { uruchom, stan: obliczenia } = useObliczeniaWTle()
+  const tmy = useDaneTmy()
+  const online = useOnline()
   const [wynikE3, setWynikE3] = useState<WynikE3 | null>(null)
   const [wybrana, setWybrana] = useState(0)
 
@@ -91,11 +98,16 @@ export default function AnalizaZacienieniaPage() {
     () => powierzchnie.map((p) => p.punkty.map((pt) => wejscieZacienienia(w, stan.prognoza, p.polac, pt))),
     [powierzchnie, w, stan.prognoza],
   )
-  const klucz = useMemo(() => JSON.stringify(wejscia), [wejscia])
+  // Dane TMY (te same co Ekran 4) — brak → wariant zapasowy clear-sky (TD14, decyzja właściciela).
+  const odn = w.odniesienie
+  const dane = odn && zapisPasuje(tmy.zapis, odn.szerokosc, odn.dlugosc) ? tmy.zapis : null
+  // Klucz bez 8760 rekordów (stringify per punkt byłby kosztowny) — dane identyfikuje data pobrania.
+  const klucz = useMemo(() => JSON.stringify([wejscia, dane?.pobrano]), [wejscia, dane?.pobrano])
   const aktualny = wynikE3 !== null && wynikE3.klucz === klucz
 
   async function policz() {
-    const plaskie = wejscia.flat()
+    const rekordy = dane?.dane.rekordy
+    const plaskie = wejscia.flat().map((x) => (rekordy ? { ...x, daneGodzinowe: rekordy } : x))
     const r = await uruchom({ typ: "zacienienie", wejscia: plaskie })
     if (!r) return
     let k = 0
@@ -106,7 +118,13 @@ export default function AnalizaZacienieniaPage() {
     })
     const pierwszy = r.wyniki.find((x) => x.status === "VALID" || x.status === "VALID_WITH_WARNINGS")
     const warnings = [...new Map(r.wyniki.flatMap((x) => x.warnings).map((x) => [x.code + JSON.stringify(x.params ?? {}), x])).values()]
-    setWynikE3({ klucz, podsumowania, assumptions: pierwszy?.assumptions ?? [], warnings })
+    setWynikE3({
+      klucz,
+      zrodlo: rekordy ? "pvgis-tmy" : "czyste-niebo",
+      podsumowania,
+      assumptions: pierwszy?.assumptions ?? [],
+      warnings,
+    })
   }
 
   const ustawPrognoze = (z: Partial<PrognozaSeed>) => setStan((s) => ({ ...s, prognoza: { ...s.prognoza, ...z } }))
@@ -133,14 +151,13 @@ export default function AnalizaZacienieniaPage() {
     .filter((x) => x.pod)
     .sort((a, b) => a.pod!.obecnie.strataRocznaProcent - b.pod!.obecnie.strataRocznaProcent)[0]
 
-  if (!wczytano) return <StanLadowania linie={6} />
+  if (!wczytano || !tmy.wczytano) return <StanLadowania linie={6} />
 
   return (
     <main className="mx-auto flex max-w-2xl flex-col gap-6 p-6">
       <NawigacjaEkranu href="/kalkulatory/analiza-zacienienia" />
       <NaglowekEkranu tytul="Analiza zacienienia">
-        Dla każdej pozycji słońca w roku (co 10 minut) sprawdza, czy przeszkoda zasłania promień, i sumuje roczną
-        stratę. Cień to niewidoczny złodziej energii — jedno drzewo, które dziś ledwo sięga dachu, za 10 lat może
+        Dla każdej godziny roku sprawdza, czy przeszkoda zasłania słońce, i sumuje roczną stratę energii. Cień to niewidoczny złodziej energii — jedno drzewo, które dziś ledwo sięga dachu, za 10 lat może
         zasłaniać połowę instalacji, jeśli się z tym nie policzy od razu. Moduł 1, Ekran 3.
       </NaglowekEkranu>
 
@@ -217,6 +234,33 @@ export default function AnalizaZacienieniaPage() {
             )}
           </section>
 
+          <section className="flex flex-col gap-2 rounded-lg border p-4">
+            <h2 className="font-semibold">Dane nasłonecznienia</h2>
+            {dane ? (
+              <p className="text-small text-muted-foreground">
+                Typowy rok meteorologiczny PVGIS ({dane.dane.meta.bazaPromieniowania}, lata {dane.dane.meta.rokOd}–{dane.dane.meta.rokDo}),
+                zapisany na urządzeniu — strata całkowitej energii, z rzeczywistym zachmurzeniem. Działa offline.
+              </p>
+            ) : (
+              <p className="text-small text-muted-foreground">
+                Bez danych PVGIS liczę wariant zapasowy: stratę samego promieniowania bezpośredniego przy bezchmurnym
+                niebie. Pobierz dane (raz, potem działają offline), żeby policzyć stratę całkowitej energii.
+              </p>
+            )}
+            {odn && (
+              <Button
+                variant={dane ? "outline" : "default"}
+                className="min-h-11"
+                disabled={tmy.pobiera || !online}
+                onClick={() => tmy.pobierz(odn.szerokosc, odn.dlugosc)}
+              >
+                {tmy.pobiera ? "Pobieram z PVGIS…" : dane ? "Pobierz ponownie" : "Pobierz dane nasłonecznienia (PVGIS)"}
+              </Button>
+            )}
+            {!online && !dane && <p className="text-small">Brak połączenia — pobierz dane, gdy będziesz online.</p>}
+            {tmy.blad && <p className="text-small text-werdykt-blad-foreground">{tmy.blad}</p>}
+          </section>
+
           <Button className="min-h-11" disabled={obliczenia.liczy || powierzchnie.length === 0} onClick={policz}>
             {obliczenia.liczy
               ? `Liczę… ${obliczenia.wszystkie > 0 ? `${obliczenia.gotowe}/${obliczenia.wszystkie} punktów` : ""}`
@@ -277,10 +321,11 @@ export default function AnalizaZacienieniaPage() {
                     {pod.pominiete > 0 && <p>{pod.pominiete} punkt(y) siatki leżą w obrysie przeszkody — pominięte.</p>}
                     <WykresMiesiecy obecnie={pod.obecnie.strataMiesiecznaProcent} prognoza={pod.prognoza?.strataMiesiecznaProcent ?? null} />
                     <WykresHoryzontu profilDeg={pod.profilHoryzontuDeg} />
-                    {/* 🔎 TD14 — tylko promieniowanie bezpośrednie clear-sky (dlug-techniczny.md) */}
                     <p className="text-muted-foreground">
-                      Zakres: strata promieniowania bezpośredniego przy bezchmurnym niebie — nie całkowitej
-                      energii. Mapa cieplna: średnia z siatki {SIATKA}×{SIATKA} punktów na powierzchnię.
+                      {wynikE3.zrodlo === "pvgis-tmy"
+                        ? "Zakres: strata całkowitego napromieniowania (dane PVGIS, rzeczywiste zachmurzenie)."
+                        : "Zakres (wariant zapasowy, bez danych PVGIS): strata promieniowania bezpośredniego przy bezchmurnym niebie — nie całkowitej energii."}{" "}
+                      Mapa cieplna: średnia z siatki {SIATKA}×{SIATKA} punktów na powierzchnię.
                     </p>
                     {wynikE3.warnings.length > 0 && (
                       <ul className="flex flex-col gap-1">
