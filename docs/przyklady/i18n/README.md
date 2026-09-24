@@ -32,6 +32,26 @@ napisanie kodu**.
 prawdziwym wzorcem kodu tego projektu, nie na wymyślonym przykładzie — syntetyczny przykład może
 przypadkowo trafić akurat w kod ścieżki, którą łatwo napisać poprawnie.
 
+## Druga, głębsza martwa strefa (znane ograniczenie, nienaprawione w tym przykładzie)
+
+[23.09.2026] Źródło: inzynier-szkieletowy-pro (D108). Wizytator odwiedza `ts.isJsxText` — poprawne
+dla `<p>tekst</p>`, ale **ślepe na tekst wewnątrz template-literału osadzonego w wyrażeniu JSX**
+(`<p>{`${wartosc} dni`}</p>` — cały `{...}` to jeden węzeł `JsxExpression`/`TemplateExpression`,
+nigdy `JsxText`). W przeciwieństwie do pułapki `warunek ? [...] : []` wyżej (luka w zasięgu tego,
+co skrypt sprawdza), to luka w SAMYM mechanizmie detekcji — żadne rozszerzenie `MIGRATED_MODULES`
+jej nie naprawia. Znalezione dodatkowym, osobnym skanem grep, nie samym strażnikiem: 4 prawdziwe,
+nieprzetłumaczone miejsca (słowo zaszyte w `` `${x.toFixed(1)} dni` ``), które ten wzorzec strażnika
+nigdy by nie złapał, niezależnie od tego, jak kompletna jest lista modułów.
+
+**Status:** udokumentowane jako znane ograniczenie (patrz komentarz w
+[`check-i18n-guard.mjs`](check-i18n-guard.mjs)), nie naprawione tutaj. Rozszerzenie o odwiedzanie
+`ts.isTemplateExpression`/`ts.isNoSubstitutionTemplateLiteral` wewnątrz `JsxExpression` jest
+możliwe, ale wymaga dodatkowego filtra kontekstu rodzica węzła (inaczej fałszywe trafienia na
+atrybuty typu `className`/`aria-label` budowane też template-literałami) — projekt adaptujący ten
+przykład, który faktycznie pisze tekst UI jako `` `${x} <słowo>` `` w wyrażeniach JSX, powinien albo
+rozszerzyć wizytator o ten przypadek, albo polegać na ręcznej czujności przy review dokładnie tego
+wzorca.
+
 ## Integracja z CI
 
 Krok w jobie `quality`, po `typecheck`, przed `test` — patrz [`../ci/ci.yml`](../ci/ci.yml),

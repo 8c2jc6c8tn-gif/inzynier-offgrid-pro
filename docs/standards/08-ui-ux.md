@@ -82,3 +82,15 @@ Przykład: *"Brakuje informacji o dacie otwarcia opakowania. Wynik został polic
 ## 8.10. Dostępność
 
 Nie polegaj wyłącznie na kolorze do przekazania informacji (werdykty 🟢🟡🔴 mają też kształt/ikonę, nie tylko barwę). Zachowaj odpowiedni kontrast. Etykiety dla czytników ekranu. Nie blokuj powiększenia. Obsługa klawiaturą. Unikaj migających elementów.
+
+## 8.11. Wskaźnik stanu offline
+
+[24.09.2026] ✅ DODANO — źródło: inzynier-szkieletowy-pro (U.4), Grupa B bloku PWA/SW (5.8-5.10).
+
+**Reguła.** Wskaźnik stanu połączenia (online/offline) czytany przez `useSyncExternalStore` (albo odpowiednik frameworka), z **serwerowym snapshotem zawsze `true`** (online) — zapobiega błędowi hydracji, który wystąpiłby, gdyby serwer (bez dostępu do `navigator.onLine`) i klient renderowały różny stan początkowy. Wskaźnik zajmuje **stały region** oznaczony `role="status"` (nie pojawia się/znika, zmienia tylko treść wewnątrz) — czytnik ekranu ogłasza zmianę bez utraty orientacji, gdzie w drzewie DOM ten komunikat żyje. Wyjaśnienie stanu (np. "dane mogą być nieaktualne") idzie w popoverze/tooltipie dotykowym, **nigdy w atrybucie `title`** — `title` nie jest dostępny na dotyk (mobile-first, 8.9), więc jedyne wyjaśnienie byłoby niewidoczne dla większości użytkowników rodziny projektów.
+
+**Ponawianie po powrocie online.** Nasłuch zdarzenia `online` ponawia żądania odłożone offline — z pamięcią **trwałej odmowy uprawnień** (np. użytkownik raz odrzucił prośbę o dostęp do czegoś wymaganego do ponowienia) tak, żeby nie ponawiać w nieskończoność próby skazanej na tę samą odmowę.
+
+**Wzorzec implementacji.** [24.09.2026, uzupełnienie po odczytaniu dosłownego źródła] `useOnline() = useSyncExternalStore(subskrybujOnline, () => navigator.onLine, () => true)` — subskrypcja zdarzeń `online`/`offline` na `window` wydzielona jako czysta funkcja (nie zagnieżdżona w hooku), testowalna w środowisku `node` bez `jsdom` (`vi.stubGlobal`). `navigator.onLine === true` nie gwarantuje działającego internetu (słabe łącze, portal Wi-Fi) — `false` jest za to wiarygodne, więc wskaźnik "offline" nie kłamie, co najwyżej czasem się nie pokaże mimo realnego braku sieci. Weryfikacja e2e: Playwright (biblioteka, nie `@playwright/test`), `context.setOffline(true)` poprawnie odpala zdarzenia `online`/`offline` w Chromium.
+
+Przykład (dosłowny kod): `docs/przyklady/pwa/use-online.ts`.

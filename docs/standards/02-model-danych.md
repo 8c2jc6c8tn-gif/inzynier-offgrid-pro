@@ -12,6 +12,10 @@ Powiązane: [01 Architektura](01-architektura.md) · [05 Baza danych i offline-f
 
 **Konsekwencja.** Start: jeden profil (np. `PL`). Dodanie drugiego nie wymaga refaktoringu jądra — jeśli wymaga, oznacza to, że reguła została złamana wcześniej i trzeba to naprawić, zanim dojdzie drugi profil.
 
+[24.09.2026] ✅ DODANO — źródło: farmer360.io (U.4). **Wartości regulowane prawem jako dane z metadanymi weryfikacji, nie gołe liczby.** Wartość referencyjna regulowana prawem (stawka, próg, termin, limit, norma) w pliku danych z reguły wyżej nigdy nie jest zapisana jako goła liczba — niesie obowiązkowo: `validFrom`/`validTo` (data obowiązywania), `legalBasis` (podstawa prawna/normatywna — przepis, paragraf, norma), `verifiedBy` (kto/co zweryfikowało wartość — osoba, partner prawny/podatkowy, źródło oficjalne), `confidence` (✅ zweryfikowane / 🔎 do weryfikacji). Wartość pochodząca z materiału generowanego przez AI (burza mózgów, research) ma `confidence: 🔎` do czasu jawnej weryfikacji eksperckiej — obliczenie może jej używać, żeby nie blokować budowy, ale UI/audyt (rozdział 15, Y.11) musi umieć odróżnić wartości zweryfikowane od czekających na weryfikację. Obliczenie zawsze używa wartości ważnej na dzień zdarzenia (`validFrom`/`validTo`), nigdy "aktualnie wpisanej".
+
+**Uzasadnienie pola strukturalnego, nie zapisu procesowego w `docs/memory.md`.** To dane (2.1), nie jednorazowa decyzja polityczna jak w 4.4 ("które twarde stopy bez wyjątku") — skala (dziesiątki/setki wartości referencyjnych, rosnąca w czasie) i możliwość automatycznej kontroli (build/audyt Y.11 może failować przy braku `verifiedBy`/`validFrom` przy nowej wartości) przeważają nad zapisem procesowym, którego nic nie wymusi przy dodaniu kolejnej wartości za pół roku. Źródło decyzji: właściciel repo, 24.09.2026.
+
 ## 2.2. Nazewnictwo encji 1:1 ze źródłem domenowym
 
 **Reguła.** Nazwy encji i modułów przyjmuje się wprost ze specyfikacji źródłowej projektu (np. z dokumentu domenowego/"konstytucji" danego produktu), nie tłumaczy się ich swobodnie. Jedna funkcja specyfikacji → jeden nazwany moduł o tym samym identyfikatorze.

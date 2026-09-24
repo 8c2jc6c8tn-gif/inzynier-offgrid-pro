@@ -18,6 +18,16 @@
  * Źródło: inzynier-offgrid-pro, zgłoszenie 16.09.2026 (docs/wklad-do-standardu.md).
  * Przykład do adaptacji per stack — MIGRATED_MODULES/FILES_TO_CHECK/nazwy pól poniżej są
  * specyficzne dla projektu źródłowego.
+ *
+ * ZNANE OGRANICZENIE [23.09.2026, źródło: inzynier-szkieletowy-pro, docs/standards/17-i18n.md
+ * 17.11]: ten wizytator odwiedza węzły `ts.isJsxText` — ślepy na tekst naturalny wewnątrz
+ * template-literału osadzonego w wyrażeniu JSX, np. `<p>{`${wartosc} dni`}</p>` (cały `{...}`
+ * to jeden węzeł JsxExpression/TemplateExpression, nigdy JsxText). Wzorzec "wartość obliczona +
+ * sufiks słowny" pisany jako jeden template-literal w `{}` NIE jest wykrywany — wymaga ręcznej
+ * czujności przy review. Rozszerzenie o `ts.isTemplateExpression`/`ts.isNoSubstitutionTemplateLiteral`
+ * wewnątrz `JsxExpression` jest możliwe, ale wymaga dodatkowego filtra kontekstu rodzica (inaczej
+ * fałszywe trafienia na `className`/`aria-label` budowane też template-literałami) — nie zrobione
+ * w tej wersji przykładu.
  */
 import ts from "typescript"
 import { readFileSync, existsSync } from "node:fs"
