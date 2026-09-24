@@ -6042,3 +6042,88 @@ kanałem zwrotnym, nie samodzielna zmiana standardu; decyzję podejmie wyłączn
 **Dla przyszłych sesji tego projektu:** przy Kroku "Zanim zaczniesz" i przy Routine Y.6 stosuj ≤12h
 z `CLAUDE.md`, nie ≤3h z GOD BOOK — ten drugi zapis wciąż tam jest (poprawnie, jako mirror), ale nie
 obowiązuje operacyjnie w tym repo od D21.
+
+## Konfiguracja Y.6 adaptacyjnego + sprawdzenie 24.09.2026 — GOD BOOK v2.21→v2.37 (16 wersji, NIE zastosowane, propozycja czeka na decyzję właściciela)
+
+[24.09.2026] Pierwsze uruchomienie mechanizmu Y.6 opisanego jako "cykl adaptacyjny 12h→48h"
+(zadanie właściciela projektu). `interwał_h = 12` (start), `licznik_zero_z_rzedu = 0`.
+
+**Krok 1 (fetch+porównanie):** lokalny klon `new-app-standards` był 273 commity za `origin/main`
+(ostatni fetch dawno, przed D21) — doprowadzony do zgodności (`git merge --ff-only`). GOD BOOK
+źródła: `instrukcja-uniwersalna-biblii-projektu-v2_37.md` (rename z `...v2_21.md`, które miał ten
+projekt jako ostatnio zsynchronizowane — patrz wpis PR #136 wyżej). Różnica: **16 kolejnych wersji
+GOD BOOK (v2.22–v2.37)**, dziesiątki wierszy `AKTUALIZACJE.md` z datami 20–24.09.2026.
+
+**Wynik: DUŻO nowej treści — to NIE jest "zero nowości".** Zgodnie z nową procedurą tego zadania
+(Krok 2: "NIE podmieniaj plików samodzielnie, zaproponuj i zakończ turę pytaniem") — **nic z
+poniższego NIE zostało jeszcze zastosowane do plików `docs/standards/`/GOD BOOK tego projektu.**
+Pełna treść źródłowa: `AKTUALIZACJE.md` w `new-app-standards`, wiersze z datami 2026-09-20 do
+2026-09-24 (ostatnie ~25 wierszy loga). Skrót wg kategorii Y.8, do decyzji właściciela:
+
+**NIETYKALNE (pełny nadpis, czeka na zgodę):**
+- GOD BOOK: rename `v2_21.md`→`v2_37.md`. Nowe/zmienione części: C.5 (bezpieczny zakres
+  find&replace przy renamie pliku wersjonowanego — już zaaplikowane u nas ręcznie 20.09, zgodne),
+  Y.11 (nowy, opcjonalny audyt zgodności KODU ze standardem — osobny od Y.6, na żądanie/koniec
+  Fazy), Y.12 (kolizja reguły "na stałe dla rodziny" ze starszą decyzją stacku — test Spike),
+  Y.6/U.4 (**cykl adaptacyjny 12h→48h — dokładnie to, co ten projekt wdraża dziś, patrz D22**;
+  formuła jest teraz identyczna z domyślną GOD BOOK, D21/D22 zamknięte jako w pełni zgodne, zero
+  akcji), Część D punkt 7 (weryfikacja merytoryczna materiału źródłowego przy przenoszeniu do
+  Biblii, adnotacja ✏️, źródło samo nietknięte), 15.1a/15.1b (nie bać się zgłosić rozjazdu z
+  rzeczywistością — przez całą pracę, nie tylko liczby), Część H.3 (kolizja numeracji M#/D# przy
+  równoległych sesjach — sprawdź najwyższy numer na `origin/main` przed nadaniem nowego), U.3
+  (inwentaryzacja downstream przed akceptacją reguły "na stałe").
+- `docs/standards/`: **02** (2.1 — `validFrom`/`validTo`/`legalBasis`/`verifiedBy`/`confidence`
+  jako pola strukturalne dla wartości regulowanych prawem — **potencjalnie dotyczy naszych danych
+  norm/współczynników bezpieczeństwa**, do sprawdzenia przy Y.11), **03** (3.3 — `INCOMPLETE` jako
+  osobny trzeci stan dla modułów obowiązku/ryzyka/zgodności, nigdy dwuwartościowa logika + flaga —
+  **do sprawdzenia, czy dotyczy któregoś modułu bezpieczeństwa/doboru u nas**), **05** (5.8–5.11 —
+  wzorzec własnego Service Workera bez wtyczki bundlera, aktualizacja przez toast nie cichy
+  `skipWaiting`, `navigator.storage.persist()`, kolizja wersji IndexedDB między kartami —
+  **projekt nie ma jeszcze PWA/SW w kodzie, więc na razie informacyjne**), **07** (CSP hash-based
+  nie `'unsafe-inline'`, `worker-src 'self' blob:`, checklist `Permissions-Policy` przed nową
+  funkcją API przeglądarki, `'wasm-unsafe-eval'` nie `'unsafe-eval'`), **08** (8.11 — wzorzec
+  wskaźnika offline), **10** (10.8 — E2E offline dla własnego SW), **11** (11.7 — plik zależny od
+  `node_modules` kopiowany skryptem `predev`/`prebuild`, nigdy commitowany — **potencjalnie
+  dotyczy nas, jeśli mamy podobny wzorzec z jakąś biblioteką**; 11.8 — ryzyko migracji majora:
+  wtyczka sprzężona z bundlerem, klasyfikacja zmian wg oficjalnego przewodnika nie z pamięci),
+  **13** (przepisany niemal od zera — Capacitor jako technologia mobile/desktop rodziny NA STAŁE,
+  nie generyczne "natywne/React Native"; tabela platform macOS=Mac App Store przez Capacitor
+  Electron Platform, iPad+Universal Purchase, Linux=PWA, Android poza Google Play; nowe 13.4–13.6
+  — **nie dotyczy nas dziś, projekt nie jest na etapie mobile**), **15** (15.1a/15.1b jak wyżej,
+  15.21 — deklaracja stanu commit/push/PR/merge zawsze jako OSTATNIE zdanie odpowiedzi, 15.22 —
+  `docs/lista-do-zrobienia.md` każdy otwarty wpis niesie priorytet/odblokowuje/plusy-minusy/
+  kolizje/kolejność), **17** (17.6 — encje HTML w słowniku i18n muszą być znakami Unicode nie
+  encjami; 17.7b/17.7c — selektor języka pokazuje tylko kompletne języki, wyjątek faza
+  przedpremierowa bez realnych użytkowników — **dziś dotyczy nas, jesteśmy przedpremierowo**;
+  17.9 — generator treści współdzielony między ekranami to jedno zadanie migracji i18n, nie per
+  moduł; 17.11 — znane ograniczenie strażnika AST na template-literały w JSX), **18** (18.1
+  retroaktywnie obowiązkowe w każdym projekcie, nie tylko nowych).
+- Nowy katalog `docs/przyklady/pwa/` (10 plików + README, gotowy wzorzec SW) — do skopiowania
+  tylko jeśli/gdy projekt faktycznie zacznie budować PWA/Service Worker (dziś nie ma).
+- `PROMPT_STARTOWY.md`, `README.md`, `CLAUDE.template.md`, `.claude/skills/standards/SKILL.md`,
+  `docs/standards/00-INDEKS.md`, `00-filozofia.md`, `docs/lista-do-zrobienia.template.md`,
+  `docs/memory.template.md`, `docs/przyklady/i18n/*` — wskaźnik wersji GOD BOOK + drobne patche.
+
+**ADAPTOWALNE (patch, czeka na zgodę):** `CLAUDE.md` (wskaźnik wersji GOD BOOK 14→v2_37 gdy owner
+zaakceptuje pełny sync; punkt 15.21/15.22 jeśli properyjmiemy — dopisać do "Definicja ukończenia
+zadania"/`docs/lista-do-zrobienia.md`), `.claude/skills/standards/SKILL.md` (wskaźnik wersji).
+
+**LOKALNE — znaleziona rozbieżność, NIE naprawiona samodzielnie (zgłoszona właścicielowi, nie
+rozstrzygnięta na własną rękę zgodnie z zasadą sprzeczności 15.4):** `AKTUALIZACJE.md` (wiersz
+2026-09-24, plik 11-ci-deployment.md/07-bezpieczenstwo.md) przypisuje temu projektowi
+("inzynier-offgrid-pro") zgłoszenie DOBRA PRAKTYKA o Web Workerze biblioteki MapLibre GL i pułapce
+`Permissions-Policy: geolocation=()` z prośbą "oznaczcie ten wpis jako przekazany w
+`docs/wklad-do-standardu.md`". **Nie znaleziono w tym repo:** brak "MapLibre" w historii gita
+(`git log --all --grep`), brak wzmianki w `docs/wklad-do-standardu.md` tego repo, brak kodu
+Service Workera/PWA w `app`/`lib`. Możliwe wyjaśnienia (nierozstrzygnięte): (a) zgłoszenie
+pochodzi z innej, równoległej sesji nad tym samym repo na niezmergowanej gałęzi, (b) błędne
+przypisanie źródła po stronie `new-app-standards`. Nic nie oznaczono jako ✅ w
+`docs/wklad-do-standardu.md` — nie ma czego oznaczać bez odnalezienia oryginalnego wpisu.
+
+**Co ZASTOSOWANO dziś, bez czekania na zgodę (nie jest to zmiana treści standardu, tylko przyjęcie
+mechanizmu cyklu, który i tak już obowiązuje jako nowy domyślny GOD BOOK Y.6/U.4 — patrz D22
+`rejestr-decyzji.md`):** `CLAUDE.md` punkt 4 zaktualizowany na formułę adaptacyjną (start 12h,
+×1,5 do pułapu 48h po zero-wyniku, reset do 12h po realnej zmianie). **Dzisiejsze sprawdzenie
+znalazło realną zmianę → `interwał_h` resetuje się do 12 (nie rośnie), `licznik_zero_z_rzedu = 0`.**
+Założona samo-przeplanowująca się Routine (self-bind), `run_once_at` = 25.09.2026 10:12 UTC
+(+12h od tego sprawdzenia).
