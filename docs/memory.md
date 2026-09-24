@@ -6272,3 +6272,17 @@ poziomego przewijania na wszystkich trzech ekranach.
 
 **Otwarte:** opisy narzędzi AI dla 3 kalkulatorów (E4: handler musiałby sam pobierać PVGIS po stronie
 serwera), TD14, TD15 (2), TD17 (nowy — przeszkody tylko jako walce).
+
+## Narzędzia AI modułów zmigrowanych do i18n — tekst PL zamiast kodu (24.09.2026)
+
+Błąd: 6 starszych narzędzi w `lib/ai/tools/` (`kalkulatory-pomocnicze`, `projekt-uziemienia`,
+`monitorowanie-izolacji-imd`, `normy-i-certyfikaty`, `przepust-powietrza`, `zlacza-mc4`) — wszystkie
+na kalkulatorach już zmigrowanych do i18n — wysyłały modelowi założenia jako `JSON.stringify({kod})`,
+a ostrzeżenia jako `technicalMessage` (surowe, np. `voltageV = -12, oczekiwano > 0`). Naprawione:
+wszystkie przez `lib/ai/tools/teksty-wyniku.ts` (`tekstyOstrzezen`/`tekstyZalozen`, `t("pl", …)`;
+dla niezmigrowanych zwraca `message`/string bez zmian). Helper przeniesiony w identycznej treści z
+niewypchniętej gałęzi `claude/modul1-opisy-ai` (commit `62d786b`) — przy merge obu gałęzi plik się nie
+skonfliktuje. Test: `kalkulatory-pomocnicze-tool.test.ts` sprawdza tekst PL założenia i ostrzeżenia.
+**Nowe narzędzie AI = zawsze przez ten helper, nigdy `technicalMessage`/`JSON.stringify` do modelu.**
+Otwarte (nie ruszane, poza zakresem): `monitorowanie-izolacji-imd` i `przepust-powietrza` w ogóle nie
+wystawiają `zalozenia`, choć kalkulatory je mają (np. próg alarmu IMD = przykładowa wartość źródła).

@@ -1,6 +1,7 @@
 import { describe, expect, it } from "vitest"
 import { kalkulatoryPomocniczeTool } from "../kalkulatory-pomocnicze-tool"
 import { CALCULATOR_VERSION } from "@/lib/core/modules/zapotrzebowanie/kalkulatory-pomocnicze/calculator"
+import { t } from "@/lib/i18n/t"
 
 describe("kalkulatoryPomocniczeTool", () => {
   it("9.3: handler deleguje do prawdziwego kalkulatora (watt-to-amp)", async () => {
@@ -10,6 +11,17 @@ describe("kalkulatoryPomocniczeTool", () => {
     expect(wynik.jednostka).toBe("A")
     expect(wynik.wersjaKalkulatora).toBe(CALCULATOR_VERSION)
     expect(wynik.zalozenia.length).toBeGreaterThan(0)
+  })
+
+  it("założenia i ostrzeżenia modułu zmigrowanego do i18n trafiają do modelu jako tekst PL, nie kod/JSON", async () => {
+    const domyslna = await kalkulatoryPomocniczeTool.handler({ tryb: "watt-to-amp", mocW: 100, napiecieV: 12 })
+    expect(domyslna.zalozenia).toEqual([t("pl", "SPRAWNOSC-DOMYSLNA", { efficiency: 0.92 })])
+    expect(domyslna.zalozenia[0]).toMatch(/^Sprawność układu przyjęta jako 0\.92/)
+
+    const ujemne = await kalkulatoryPomocniczeTool.handler({ tryb: "watt-to-amp", mocW: 100, napiecieV: -12 })
+    expect(ujemne.status).toBe("INVALID_INPUT")
+    expect(ujemne.ostrzezenia).toContain(t("pl", "WARTOSC-NIEDODATNIA", { label: "napięcie systemu" }))
+    expect(ujemne.ostrzezenia.join(" ")).not.toMatch(/NIEDODATNI|⚠ \[/)
   })
 
   it("deleguje do prawdziwego kalkulatora (ah-to-wh)", async () => {

@@ -16,6 +16,7 @@ import {
 } from "@/lib/core/modules/zapotrzebowanie/kalkulatory-pomocnicze/calculator"
 import type { KalkulatoryPomocniczeInput } from "@/lib/core/modules/zapotrzebowanie/kalkulatory-pomocnicze/input"
 import type { AiToolDefinition } from "../types"
+import { tekstyOstrzezen, tekstyZalozen } from "./teksty-wyniku"
 
 export const KalkulatoryPomocniczeToolInput = z.object({
   tryb: z
@@ -108,8 +109,8 @@ export const kalkulatoryPomocniczeTool: AiToolDefinition<
       jednostka: wynik.unit,
       status: wynik.status,
       wzor: wynik.formula,
-      zalozenia: wynik.assumptions.map((a) => (typeof a === "string" ? a : JSON.stringify(a))),
-      ostrzezenia: wynik.warnings.map((w) => w.technicalMessage),
+      zalozenia: tekstyZalozen(wynik.assumptions),
+      ostrzezenia: tekstyOstrzezen(wynik.warnings),
       wersjaKalkulatora: wynik.calculatorVersion,
     }
   },
