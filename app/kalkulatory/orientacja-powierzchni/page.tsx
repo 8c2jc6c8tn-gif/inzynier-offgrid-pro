@@ -16,6 +16,7 @@ import { calculateSkanerDzialki } from "@/lib/core/modules/lokalizacja/skaner-dz
 import { useTranslate } from "@/lib/i18n/language-context"
 import { zapisPasuje } from "@/lib/lokalizacja/dane-tmy"
 import {
+  horyzontyPolaci,
   KLUCZ_MODELU_DZIALKI,
   kierunek,
   liczba,
@@ -69,9 +70,11 @@ export default function OrientacjaPowierzchniPage() {
 
   const zModelu = useMemo(() => powierzchnieZModelu(skaner.value), [skaner.value])
   const powierzchnie = useMemo(() => powierzchnieDoOceny(zModelu, stan.korekty, stan.reczne), [zModelu, stan.korekty, stan.reczne])
+  // Zacienienie przez przeszkody ze Skanera (TD15 punkt 2) — ten sam model geometrii co Ekran 3.
+  const horyzonty = useMemo(() => horyzontyPolaci(model.dane ?? MODEL_PUSTY, skaner.value), [model.dane, skaner.value])
   const dane = lokalizacja && zapisPasuje(tmy.zapis, lokalizacja.szerokosc, lokalizacja.dlugosc) ? tmy.zapis : null
 
-  const klucz = JSON.stringify([lokalizacja?.szerokosc, lokalizacja?.dlugosc, dane?.pobrano, powierzchnie, stan.albedo])
+  const klucz = JSON.stringify([lokalizacja?.szerokosc, lokalizacja?.dlugosc, dane?.pobrano, powierzchnie, stan.albedo, model.dane])
   const aktualny = wynik !== null && wynik.klucz === klucz
 
   async function ocen() {
@@ -83,7 +86,12 @@ export default function OrientacjaPowierzchniPage() {
         dlugoscGeograficzna: lokalizacja.dlugosc,
         daneGodzinowe: dane.dane.rekordy,
         albedo: liczba(stan.albedo),
-        powierzchnie: powierzchnie.map(({ nazwa, nachylenieDeg, azymutDeg }) => ({ nazwa, nachylenieDeg, azymutDeg })),
+        powierzchnie: powierzchnie.map(({ id, nazwa, nachylenieDeg, azymutDeg }) => ({
+          nazwa,
+          nachylenieDeg,
+          azymutDeg,
+          ...(horyzonty[id] ? { horyzontyDeg: horyzonty[id] } : {}),
+        })),
       },
     })
     if (r) setWynik({ klucz, r: r.wynik })
@@ -251,6 +259,9 @@ export default function OrientacjaPowierzchniPage() {
                   </div>
                   <span className="text-muted-foreground">
                     {p.nachylenieDeg}°, azymut {p.azymutDeg}° ({kierunek(p.azymutDeg)}) · {f0(p.napromieniowanieRoczneKwhM2)} kWh/m² rocznie
+                    {p.strataZacienieniaProcent === null
+                      ? " · bez zacienienia"
+                      : ` · zacienienie −${f1(p.strataZacienieniaProcent)}% (bez przeszkód ${f0((100 * p.napromieniowanieBezZacienieniaKwhM2) / r.value.optimum.napromieniowanieRoczneKwhM2)}%)`}
                   </span>
                 </li>
               ))}
@@ -262,9 +273,9 @@ export default function OrientacjaPowierzchniPage() {
                 ))}
               </ul>
             )}
-            {/* 🔎 TD15 (2) — wskaźnik E4 bez zacienienia z E3 (dlug-techniczny.md) */}
             <p className="text-muted-foreground">
-              Wskaźnik liczy tylko orientację — zacienienie przez drzewa i sąsiednie budynki pokazuje Ekran 3.
+              Połacie uwzględniają przeszkody ze Skanera (drzewa, sąsiednie budynki) — szczegóły miesiąc po miesiącu
+              pokazuje Ekran 3. Elewacje i powierzchnie dopisane ręcznie — bez zacienienia (brak wysokości punktu).
             </p>
             <ZalozeniaLista assumptions={r.assumptions} />
           </div>

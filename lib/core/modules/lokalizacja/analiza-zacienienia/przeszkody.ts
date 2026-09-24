@@ -6,7 +6,7 @@
  * Dla graniastosłupa/walca o płaskim wierzchu najbliższa krawędź daje największy kąt (ta sama
  * wysokość, najmniejsza odległość), więc wystarcza pierwsze przecięcie.
  */
-import { EPS_GEOMETRII } from "./constants"
+import { EPS_GEOMETRII, KROK_PROFILU_HORYZONTU_DEG } from "./constants"
 import type { Punkt2D, Punkt3D, Przeszkoda } from "./input"
 
 const RAD = Math.PI / 180
@@ -85,4 +85,23 @@ export function katPrzeszkodyDeg(
       : przeciecieZWielokatem(punkt, dx, dy, przeszkoda.obrys)
   if (odleglosc === null) return 0
   return Math.atan2(roznicaWysokosci, odleglosc) * DEG
+}
+
+/**
+ * Profil horyzontu przeszkód widziany z `punkt`: kąt wzniesienia co KROK_PROFILU_HORYZONTU_DEG,
+ * od azymutu 0° [°] — maksimum po przeszkodach. Wspólny dla Ekranu 3 (wykres) i Ekranu 4
+ * (zacienienie powierzchni, TD15 punkt 2).
+ */
+export function profilHoryzontuDeg(
+  punkt: Punkt3D,
+  przeszkody: Przeszkoda[],
+  wysokosci: number[] = przeszkody.map((p) => p.wysokoscM),
+): number[] {
+  const profil: number[] = []
+  for (let az = 0; az < 360; az += KROK_PROFILU_HORYZONTU_DEG) {
+    let max = 0
+    for (let i = 0; i < przeszkody.length; i++) max = Math.max(max, katPrzeszkodyDeg(punkt, az, przeszkody[i]!, wysokosci[i]!))
+    profil.push(max)
+  }
+  return profil
 }

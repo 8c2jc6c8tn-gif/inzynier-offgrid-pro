@@ -7,12 +7,14 @@
  * `punkt.z` (np. poziom gruntu przy budynku).
  */
 
+import type { RekordGodzinowy } from "@/lib/core/modules/lokalizacja/orientacja-powierzchni/input"
+
 export type Punkt3D = { x: number; y: number; z: number }
 export type Punkt2D = { x: number; y: number }
 
 /**
- * Drzewo — model: walec o promieniu korony, nieprzezroczysty przez cały rok (założenie
- * konserwatywne, patrz calculator.ts). Źródło: "prognozowana przyszła wysokość rosnących drzew
+ * Drzewo — model: walec o promieniu korony, nieprzezroczysty; drzewo liściaste w miesiącach bez
+ * liści (`miesiaceBezlisci`) przepuszcza część promieniowania bezpośredniego (TD19, constants.ts). Źródło: "prognozowana przyszła wysokość rosnących drzew
  * (wprowadzana ręcznie przez użytkownika)" — dlatego prognoza to jedna, ręcznie podana wysokość,
  * nie krzywa wzrostu wymyślona przez aplikację.
  */
@@ -24,6 +26,8 @@ export type PrzeszkodaDrzewo = {
   wysokoscM: number
   /** Wysokość prognozowana przez użytkownika za `latPrognozy` lat (opcjonalna). */
   wysokoscPrognozowanaM?: number
+  /** Drzewo liściaste — w `miesiaceBezlisci` korona przepuszcza PRZEPUSZCZALNOSC_KORONY_BEZLISTNEJ. */
+  lisciaste?: boolean
 }
 
 /** Bryła (sąsiedni budynek, ściana, skarpa) — graniastosłup o obrysie wielokąta i stałej wysokości. */
@@ -46,6 +50,17 @@ export type AnalizaZacienieniaInput = {
   /** Płaszczyzna paneli: azymut, w który "patrzy" (N=0, E=90, S=180, W=270) [°]. */
   azymutPowierzchniDeg?: number
   przeszkody?: Przeszkoda[]
+  /**
+   * Miesiące bez liści drzew liściastych (0 = styczeń) — wpisywane przez użytkownika dla swojej
+   * okolicy; aplikacja nie zakłada fenologii (TD19). Brak → drzewa nieprzezroczyste cały rok.
+   */
+  miesiaceBezlisci?: number[]
   /** Horyzont prognozy wzrostu drzew [lata] — tylko etykieta scenariusza, nie parametr modelu. */
   latPrognozy?: number
+  /**
+   * Godzinowe dane PVGIS TMY (te same co Ekran 4). Podane → strata CAŁKOWITEGO napromieniowania
+   * (model Muneera, rzeczywiste zachmurzenie); brak → wariant zapasowy offline: strata promieniowania
+   * bezpośredniego przy bezchmurnym niebie (TD14, decyzja właściciela 24.09.2026).
+   */
+  daneGodzinowe?: RekordGodzinowy[]
 }

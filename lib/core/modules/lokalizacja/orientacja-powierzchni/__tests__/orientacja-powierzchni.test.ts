@@ -3,7 +3,7 @@ import {
   pozycjaSlonca,
   promieniowanieBezposrednieCzysteNiebo,
 } from "@/lib/core/modules/lokalizacja/geometria-slonca/pozycja-slonca"
-import { calculateOrientacjaPowierzchni, fMuneera } from "../calculator"
+import { calculateOrientacjaPowierzchni, fMuneera, katHoryzontuDeg } from "../calculator"
 import type { OrientacjaPowierzchniInput, RekordGodzinowy } from "../input"
 
 const LAT = 52.23
@@ -117,5 +117,73 @@ describe("calculateOrientacjaPowierzchni", () => {
   it("albedo raportowane jako założenie (domyślne 0,2)", () => {
     const r = calculateOrientacjaPowierzchni({ ...baza, powierzchnie: [{ nazwa: "x", nachylenieDeg: 30, azymutDeg: 180 }] })
     expect(r.assumptions).toContainEqual({ kod: "ORIENTACJA-ZALOZENIE-ALBEDO", params: { albedo: 0.2 } })
+  })
+})
+
+describe("zacienienie z profilu horyzontu (TD15 punkt 2)", () => {
+  const S35 = { nazwa: "S35", nachylenieDeg: 35, azymutDeg: 180 }
+  const plaski = (kat: number) => new Array<number>(360).fill(kat)
+  /** Przeszkoda tylko w sektorze południowym (150°–210°) o zadanym kącie. */
+  const poludnie = (kat: number) => plaski(0).map((_, az) => (az >= 150 && az <= 210 ? kat : 0))
+
+  it("interpolacja profilu: liniowo między próbkami, zawinięcie przez 360°", () => {
+    const profil = [0, 10, 20, 30]
+    expect(katHoryzontuDeg(profil, 45)).toBeCloseTo(5, 12)
+    expect(katHoryzontuDeg(profil, 315)).toBeCloseTo(15, 12)
+    expect(katHoryzontuDeg(profil, 360)).toBeCloseTo(0, 12)
+  })
+
+  it("horyzont zerowy → wynik identyczny jak bez profilu, strata 0%", () => {
+    const r = calculateOrientacjaPowierzchni({ ...baza, powierzchnie: [S35, { ...S35, nazwa: "z0", horyzontyDeg: [plaski(0)] }] })
+    const [bez, z0] = r.value.powierzchnie
+    expect(z0!.napromieniowanieRoczneKwhM2).toBeCloseTo(bez!.napromieniowanieRoczneKwhM2, 9)
+    expect(z0!.strataZacienieniaProcent).toBe(0)
+    expect(bez!.strataZacienieniaProcent).toBeNull()
+  })
+
+  it("horyzont 90° dookoła → tożsamość: tylko rozproszone jak dla powierzchni zacienionej (równ. 28) + odbite", () => {
+    const r = calculateOrientacjaPowierzchni({ ...baza, powierzchnie: [{ ...S35, horyzontyDeg: [plaski(90)] }] })
+    const b = (35 * Math.PI) / 180
+    const f = fMuneera(35, 0.25227)
+    const oczekiwaneWh = dane.reduce((a, d) => a + d.dhi * f + (d.ghi * 0.2 * (1 - Math.cos(b))) / 2, 0)
+    expect(r.value.powierzchnie[0]!.napromieniowanieRoczneKwhM2).toBeCloseTo(oczekiwaneWh / 1000, 6)
+  })
+
+  it("przeszkoda od południa: strata > 0, wskaźnik niższy niż bez przeszkód; optimum lokalizacji bez zmian", () => {
+    const r0 = calculateOrientacjaPowierzchni({ ...baza, powierzchnie: [S35] })
+    const r = calculateOrientacjaPowierzchni({ ...baza, powierzchnie: [{ ...S35, horyzontyDeg: [poludnie(20)] }] })
+    const o = r.value.powierzchnie[0]!
+    expect(o.strataZacienieniaProcent!).toBeGreaterThan(0)
+    expect(o.napromieniowanieBezZacienieniaKwhM2).toBeCloseTo(r0.value.powierzchnie[0]!.napromieniowanieRoczneKwhM2, 9)
+    expect(o.wskaznikProcent).toBeLessThan(r0.value.powierzchnie[0]!.wskaznikProcent)
+    expect(r.value.optimum).toEqual(r0.value.optimum)
+    // Wyższa przeszkoda → większa strata.
+    const wyzsza = calculateOrientacjaPowierzchni({ ...baza, powierzchnie: [{ ...S35, horyzontyDeg: [poludnie(40)] }] })
+    expect(wyzsza.value.powierzchnie[0]!.strataZacienieniaProcent!).toBeGreaterThan(o.strataZacienieniaProcent!)
+  })
+
+  it("kilka punktów powierzchni → średnia napromieniowania punktów", () => {
+    const jeden = (h: number[]) =>
+      calculateOrientacjaPowierzchni({ ...baza, powierzchnie: [{ ...S35, horyzontyDeg: [h] }] }).value.powierzchnie[0]!
+        .napromieniowanieRoczneKwhM2
+    const r = calculateOrientacjaPowierzchni({ ...baza, powierzchnie: [{ ...S35, horyzontyDeg: [plaski(0), poludnie(30)] }] })
+    expect(r.value.powierzchnie[0]!.napromieniowanieRoczneKwhM2).toBeCloseTo((jeden(plaski(0)) + jeden(poludnie(30))) / 2, 9)
+  })
+
+  it("założenia: model horyzontu dla powierzchni z profilem, lista powierzchni bez profilu", () => {
+    const r = calculateOrientacjaPowierzchni({
+      ...baza,
+      powierzchnie: [{ ...S35, horyzontyDeg: [poludnie(10)] }, { nazwa: "Elewacja S", nachylenieDeg: 90, azymutDeg: 180 }],
+    })
+    expect(r.assumptions).toContainEqual({ kod: "ORIENTACJA-ZALOZENIE-ZACIENIENIE-HORYZONT" })
+    expect(r.assumptions).toContainEqual({ kod: "ORIENTACJA-ZALOZENIE-ZACIENIENIE-BRAK", params: { nazwy: "Elewacja S" } })
+  })
+
+  it("profil pusty albo kąt poza [0, 90] → INVALID_INPUT", () => {
+    for (const h of [[], plaski(95), [Number.NaN]]) {
+      const r = calculateOrientacjaPowierzchni({ ...baza, powierzchnie: [{ ...S35, horyzontyDeg: [h] }] })
+      expect(r.status).toBe("INVALID_INPUT")
+      expect(r.warnings[0]!.code).toBe("ORIENTACJA-HORYZONT-NIEPOPRAWNY")
+    }
   })
 })

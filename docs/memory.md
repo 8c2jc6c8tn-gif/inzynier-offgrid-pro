@@ -6299,10 +6299,64 @@ skonfliktuje. Test: `kalkulatory-pomocnicze-tool.test.ts` sprawdza tekst PL zał
 Otwarte (nie ruszane, poza zakresem): `monitorowanie-izolacji-imd` i `przepust-powietrza` w ogóle nie
 wystawiają `zalozenia`, choć kalkulatory je mają (np. próg alarmu IMD = przykładowa wartość źródła).
 
+## TD15 (2) naprawiony — zacienienie we wskaźniku Ekranu 4 Modułu 1 (24.09.2026)
+
+Kolejność właściciela: TD15 (2) → TD14 → TD17 (dokończenie Modułu 1, odblokowuje Moduł 7).
+- **Model:** bez nowej fizyki — godzina ze słońcem niżej niż przeszkoda w jego azymucie = powierzchnia
+  zacieniona w sensie Muneera (EUR 26075 równ. 28), dokładnie ta sama gałąź co przy cos θ ≤ 0.
+  Profil horyzontu: wspólna funkcja `profilHoryzontuDeg` (`analiza-zacienienia/przeszkody.ts`) —
+  E3 z niej rysuje wykres, E4 z niej liczy zacienienie (jedna geometria, dwa ekrany).
+- **Dane między ekranami:** wynik E3 nie jest zapisywany (05, 5.1), więc E4 liczy profile sam z Seedu
+  E2 (`horyzontyPolaci` w `lib/lokalizacja/model-dzialki.ts`) na tej samej siatce 4×4
+  (`SIATKA_PROBKOWANIA`, teraz wspólna stała E3/E4) — średnia napromieniowania po punktach.
+- **Decyzje:** optimum lokalizacji zawsze bez przeszkód (wskaźnik zacienionej połaci spada, a nie
+  "optimum się przesuwa"); przeszkody w obecnej wysokości; elewacje i powierzchnie ręczne jawnie "bez
+  zacienienia" w założeniach (wysokości punktu na ścianie nie znamy — nie zgadujemy). Założenie
+  `NAPROMIENIOWANIE-NIE-UZYSK` skorygowane (PL/EN/RU): nie mówi już, że wskaźnik "pomija zacienienie".
+- **Weryfikacja:** +10 testów (w tym tożsamość: horyzont 90° dookoła → tylko Gd·F(β, 0,25227) + odbite;
+  horyzont 0° → wynik identyczny jak bez profilu); pełny pakiet lokalny czysty (typecheck, lint,
+  i18n-guard, 1186/1186, build, audit:gate). Kontrola na realnych danych PVGIS z tego kontenera
+  niemożliwa (`PVGIS-ODRZUCIL-ZAPYTANIE` — sieć kontenera), do zrobienia w przeglądarce przy okazji.
+
+## TD14 naprawiony — Ekran 3 liczy stratę całkowitej energii na danych TMY (24.09.2026)
+
+Decyzje właściciela: 1(b) — przesłonięcie nieboskłonu nie modelowane, jawnie w założeniach (→ **TD18**);
+wariant zapasowy clear-sky zostaje dla braku danych; drzewa liściaste zimą — "poszukaj źródła".
+- **Jedna fizyka:** model Muneera wydzielony z kalkulatora E4 do `orientacja-powierzchni/muneer.ts`
+  (`przygotujGodziny`, `plaszczyzna`, `natezenieGodziny(g, pl, zaPrzeszkoda)`, `napromieniowanie`) — E4
+  bez zmiany wyniku (te same 18 testów), E3 liczy nim stratę godzina po godzinie. Walidacja danych
+  godzinowych też wspólna (`bledyDanychGodzinowych`). Test zgodności E3↔E4 < 0,2 p.p.
+- **UI E3:** ten sam zapis TMY co E4 (`useDaneTmy`, `zapisPasuje`) — pobrane raz na którymkolwiek ekranie
+  działa na obu. Klucz aktualności wyniku bez 8760 rekordów (`JSON.stringify` per punkt siatki byłby
+  kosztowny) — dane identyfikuje data pobrania. Do workera ta sama tablica rekordów we wszystkich
+  wejściach — structured clone kopiuje ją raz.
+- **Narzędzie AI** `policz_zacienienie`: fabryka z `fetchImpl` jak E4, PVGIS po stronie serwera; błąd →
+  wariant zapasowy + komunikat (inaczej niż E4, który bez danych nie ma żadnego wyniku). Pole
+  `zrodloPromieniowania` mówi modelowi, który wariant policzono.
+- **Pułapka:** `pnpm prettier --write` przeformatował cały plik na styl ze średnikami — repo NIE używa
+  Prettiera (brak konfiguracji, styl bez średników). Nie uruchamiać prettiera na plikach repo.
+- **Pułapka:** heredoc bez cudzysłowu (`<<EOF`) w bashu wykonuje `` `...` `` z komentarzy JSDoc — przy
+  generowaniu kodu przez skrypt używać `<<'EOF'`.
+- **TD19 (drzewa liściaste zimą) — źródło znalezione, decyzja otwarta:** Konarska i in. 2014 (Theor. Appl.
+  Climatol. 117:363–376): przepuszczalność bezpośredniego przez koronę bezlistną 40,2–51,9% (Göteborg,
+  4 gatunki liściaste). Zweryfikowane tylko streszczenie — wydawcy zablokowani przez sieć kontenera.
+- **TD19 — wdrożone częściowo (24.09.2026, decyzja właściciela: "wdrażamy na bazie tych danych"):**
+  E3 v1.2.0. `PrzeszkodaDrzewo.lisciaste` + `miesiaceBezlisci` (wejście globalne, nie per drzewo —
+  fenologia jest regionalna; wpisywane ręcznie, bez domyślnych miesięcy, bo nie mamy źródła). τ = 0,40
+  (dolna granica 40,2% w dół). Kilka przeszkód na linii słońca → iloczyn τ; strata przypisana przeszkodzie
+  najmniej przepuszczalnej (przy remisie najwyższej kątowo) — przy samych bryłach/drzewach z liśćmi wynik
+  identyczny jak w v1.1.0. E4 świadomie bez zmian (profil horyzontu nie rozróżnia drzew) — ostrożnie.
+  Seed E3 (`PrognozaSeed`) dostał pola opcjonalne — stare zapisy działają. Pełny tekst do znalezienia
+  przez właściciela (lista zadań), potem dopracowanie.
+- **Weryfikacja:** pełny pakiet lokalny czysty (typecheck, lint 0 błędów, i18n-guard, 1193/1193, build,
+  audit:gate). Kontrola na realnych danych PVGIS i w przeglądarce — niemożliwa z tego kontenera, do zrobienia.
+
 ## TD17 — przeszkody o obrysie wielokąta w Skanerze (24.09.2026)
 
 Na polecenie właściciela ("Robimy TD17"). Kierunek naprawy wprost z wpisu TD17 w `dlug-techniczny.md`,
-bez nowych decyzji projektowych.
+bez nowych decyzji projektowych. Budowane równolegle z TD15 (2)/TD14/TD19 (gałąź
+`claude/dazzling-archimedes-5x6iwl`, wpisy wyżej) — scalone razem: bryła z E2 przechodzi też do
+horyzontów E4 (`horyzontyPolaci`) i do obliczeń TMY E3; pole "drzewo liściaste" pokazywane tylko dla walców.
 - Jądro Skanera: `PrzeszkodaGps` = unia `walec` | `obrys` (narożniki + wysokość); obrys rzutowany do
   układu lokalnego i skalowany tą samą kalibracją poziomą co działka/budynek. Nowy kod walidacji
   `SKANER-PRZESZKODA-OBRYS-NIEPOPRAWNA` (PL/EN/RU); < 3 narożniki → istniejący `SKANER-ZA-MALO-PUNKTOW`.
@@ -6320,4 +6374,3 @@ bez nowych decyzji projektowych.
   czyste; Playwright na buildzie produkcyjnym, 390 px: spacer GPS → budynek + przeszkoda-obrys (4 narożniki)
   + drzewo → E3 dach płaski 4 m: główna przyczyna straty = bryła sąsiada (18,7 p.p.), 1 pole prognozy (tylko
   drzewo), bez poziomego przewijania.
-
