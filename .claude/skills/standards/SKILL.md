@@ -7,7 +7,7 @@ description: Standard architektoniczny i procesowy rodziny aplikacji "Inżynier 
 
 Ten skill **nie zawiera** treści standardu — wskazuje na nią, żeby nie duplikować i nie rozjeżdżać dwóch kopii tych samych zasad.
 
-0. Ten projekt korzysta też z GOD BOOK (`docs/god-book/instrukcja-uniwersalna-biblii-projektu-v2_28.md`) — metodologii prowadzenia Biblii projektu. Ten standard jest wobec niej fundamentem poprzedzającym, nie jego częścią — patrz Część Y tamtego dokumentu, zanim zaczniesz jakąkolwiek pracę nad Biblią/`ZASADY_APLIKACJI.md`/`USTALENIA.md`.
+0. Ten projekt korzysta też z GOD BOOK (`docs/god-book/instrukcja-uniwersalna-biblii-projektu-v2_38.md`) — metodologii prowadzenia Biblii projektu. Ten standard jest wobec niej fundamentem poprzedzającym, nie jego częścią — patrz Część Y tamtego dokumentu, zanim zaczniesz jakąkolwiek pracę nad Biblią/`ZASADY_APLIKACJI.md`/`USTALENIA.md`.
 1. Zacznij od `docs/standards/00-INDEKS.md` — spis 17 rozdziałów z opisem, czego dotyczy każdy.
 2. Sprawdź `docs/memory.md` (albo `00_Biblia.md` + `rejestr-decyzji.md`, jeśli projekt korzysta z pełnej Biblii GOD BOOK) w bieżącym repo — decyzje i pułapki specyficzne dla *tego* projektu, mogą doprecyzowywać albo świadomie odstępować od ogólnego standardu (zawsze z uzasadnieniem, patrz rozdział 14 i Część Y.2 GOD BOOK).
 3. Wczytaj z `docs/standards/` tylko rozdział(y) faktycznie potrzebne do bieżącego zadania — nie ładuj całego pakietu naraz.

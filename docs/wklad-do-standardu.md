@@ -617,7 +617,13 @@ w takim wypadku ta reguła sama w sobie mogłaby zostać jawnie dopisana do Y.6 
 zasadą Y.2 o świadomych konfliktach). Nie rozstrzygam, który kierunek — to pytanie projektowe dla
 sesji nad standardem.
 
-Status: 🔎 nowe.
+Status: 🔎 nowe. **✅ Skonsolidowane w standardzie (GOD BOOK v2.32, potwierdzone przy
+synchronizacji Y.6 24.09.2026)** — wariant (b) z propozycji wybrany: **Y.6/U.4 cykl adaptacyjny
+12h→48h** (start 12h, ×1,5 do pułapu 48h po zerowym sprawdzeniu, reset do 12h po realnej zmianie)
+jako nowy domyślny mechanizm, zamiast sztywnego ≤3h. Źródło potwierdzenia: `AKTUALIZACJE.md` w
+`new-app-standards`, wiersz 2026-09-24, cytat wprost: "zamyka retroaktywnie D21
+inzynier-offgrid-pro". Ten projekt przyjął formułę: `rejestr-decyzji.md` D24 (zastępuje D21,
+`CLAUDE.md` punkt 4).
 
 ---
 

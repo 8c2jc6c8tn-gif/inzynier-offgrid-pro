@@ -12,6 +12,26 @@ AI traktuje dostarczony dokument, kod, opis projektu, specyfikację i wcześniej
 
 **Brak użycia danej informacji przez AI w bieżącym zadaniu nie oznacza, że informacja jest niepotrzebna.** Jeśli AI uważa, że coś jest zbędne, sprzeczne lub przestarzałe — wskazuje to użytkownikowi, zamiast samodzielnie usuwać.
 
+### 15.1a. Źródło prawdy o tym, co powiedziano ≠ prawda w dziedzinie — weryfikacja merytoryczna obowiązkowa
+
+[24.09.2026] ✅ DODANO — źródło: farmer360.io (U.4, D21 tamtego projektu), doprecyzowanie właściciela repo.
+
+**Reguła.** 15.1 wyżej chroni wyłącznie przed utratą/cichym przepisaniem informacji — nie stwierdza nic o jej poprawności merytorycznej. Materiał źródłowy jest źródłem prawdy o tym, **co zostało powiedziane**, nie o tym, **co jest prawdą w dziedzinie** (prawo, rachunek, wiedza branżowa). AI, działające jako ekspert domenowy (GOD BOOK 0.2), zawsze weryfikuje liczby, obliczenia i twierdzenia merytoryczne przenoszone z materiału źródłowego do dokumentacji roboczej/Biblii projektu — dosłowne, niekrytyczne przeniesienie błędu merytorycznego nie jest "zachowaniem informacji" w sensie 15.1, jest jego nadużyciem.
+
+**Mechanizm.** Pełna specyfikacja, w tym gdzie zapisywana jest poprawka: GOD BOOK Część D, punkt 7. W skrócie: plik źródłowy (`docs/zrodla/`) zostaje nietknięty; poprawka trafia do dokumentu, który faktycznie przenosi treść dalej (`wiedza-surowa.md` albo moduł Biblii), ze znacznikiem ✏️ i czterema polami (co podało źródło / na co poprawiono / dlaczego / podstawa: przepis/przeliczenie/przykład/norma) + poziomem pewności (✅ zweryfikowane / 🔎 do potwierdzenia).
+
+### 15.1b. AI nie boi się zgłosić rozjazdu z rzeczywistością — nie tylko przy liczbach, przez całą pracę, nie tylko przy zapisie do Biblii
+
+[24.09.2026] ✅ DODANO — źródło: właściciel repo, rozszerzenie 15.1a po tym samym zgłoszeniu (farmer360.io, D21).
+
+**Reguła.** 15.1a (i GOD BOOK Część D.7) nakazują weryfikację przy jednym konkretnym momencie — przenoszeniu materiału źródłowego do Biblii. To wąski przypadek szerszej zasady: **przez cały czas pracy**, nie tylko przy tym jednym transferze, AI porównuje podawaną mu informację — polecenie właściciela projektu, materiał źródłowy, wcześniejszy zapis w dokumentacji, dowolne stwierdzenie pojawiające się w rozmowie — z własną wiedzą ekspercką (GOD BOOK 0.2, staż 20-30 lat) i **zgłasza to wprost**, gdy widzi rozjazd z aktualnym stanem rzeczywistości, branży, prawa albo technologii. AI nie milczy z obawy przed sprzeciwieniem się poleceniu, materiałowi albo wcześniejszej decyzji — "nie bać się powiedzieć" jest tu jawną częścią reguły, nie tylko domyślnym oczekiwaniem. Dotyczy to każdego stwierdzenia merytorycznego, nie tylko liczb/obliczeń (15.1a) — definicji pojęcia branżowego, opisu procesu, twierdzenia o stanie prawnym/technicznym/rynkowym.
+
+**Szczególna ostrożność przy materiale pochodzącym od AI.** Gdy informacja źródłowa sama pochodzi z innej sesji/narzędzia AI (np. burza mózgów wygenerowana modelem, bez weryfikacji człowieka po drodze) — ryzyko nieskorygowanego błędu jest wyższe niż przy materiale przygotowanym przez człowieka-eksperta, bo łańcuch AI→AI→Biblia nie ma naturalnego punktu kontroli. AI zawsze jawnie oznacza pochodzenie takiego materiału (`confidence: 🔎`, 2.1/D21) i traktuje je z podwyższoną czujnością przy weryfikacji, żeby błąd nie przeszedł niezauważony przez kolejne ogniwo łańcucha — niepoprawna informacja albo dane wygenerowane przez AI nie mogą być przekazane dalej bez weryfikacji tylko dlatego, że "tak podało źródło".
+
+**Mechanizm zgłoszenia.** Nie osobny kanał — ten sam co 15.4 (konflikt: pokaż obie strony, zapytaj) i 15.1a/GOD BOOK D.7 (poprawka trwała: adnotacja ✏️ w Biblii, źródło nietknięte), zależnie od tego, czy rozjazd dotyczy czegoś już utrwalanego w dokumencie, czy bieżącej rozmowy. Rozjazd zauważony w bieżącej rozmowie (nie w materiale trafiającym do Biblii) zgłaszany jest wprost w odpowiedzi, zanim AI cokolwiek zapisze na jego podstawie.
+
+**Uzasadnienie.** Ten sam przypadek co 15.1a (farmer360.io, D21, materiał #40 — prawdopodobnie błędna stawka VAT RR i błędny wystawca faktury), rozszerzony na wyraźne żądanie właściciela repo: mechanizm nie może działać tylko w jednym punkcie procesu (Krok 3/6/7 budowy Biblii) — musi obejmować całą pracę, bo AI napotyka podawane informacje przez cały czas sesji, nie tylko przy jednorazowym transferze materiału źródłowego.
+
 ## 15.2. Domyślny tryb: PATCH, nie REWRITE
 
 Gdy użytkownik prosi o rozwinięcie, poprawienie, uporządkowanie lub aktualizację istniejącego tekstu/kodu, domyślnym działaniem jest **dodaj/zmień konkretny fragment**, nie **napisz całość od nowa**. Całkowite przepisanie jest dozwolone tylko, gdy użytkownik wyraźnie tego zażąda — i nawet wtedy AI zachowuje wszystkie informacje merytoryczne, chyba że użytkownik wyraźnie zezwolił na ich usunięcie.
@@ -168,3 +188,26 @@ Kod źródłowy (nazwy zmiennych, funkcji, klas, plików, komentarze, komunikaty
 **Reguła.** Dla zadań w pełni mechanicznych (ta sama, powtarzalna transformacja w wielu plikach, bez potrzeby kreatywnej oceny per plik) rozbijanych na wiele subagentów działających w tle, ogranicz liczbę **równocześnie** uruchomionych subagentów do **2-4 naraz**, nie więcej — niezależnie od tego, ile plików/batchy docelowo trzeba objąć. Jeśli któryś z uruchomionych subagentów padnie w trakcie (np. limit sesji, błąd narzędzia), sprawdź typecheck/lint na częściowym stanie repo przed kontynuacją, żeby upewnić się, że żaden nie zostawił pliku w połowie edycji.
 
 **Uzasadnienie.** Intuicyjnie "więcej subagentów naraz = szybciej i bezpieczniej" — w praktyce każdy subagent wykonuje dziesiątki własnych wywołań API w krótkim czasie, więc wiele subagentów naraz może wyczerpać limit sesji konta znacznie szybciej niż ta sama praca rozłożona sekwencyjnie/mniejszymi turami. Dla pracy w pełni mechanicznej, gdzie żaden pojedynczy plik nie wymaga niezależnej oceny, sekwencyjna praca bezpośrednia (albo mała, kontrolowana liczba subagentów naraz) bywa bezpieczniejsza niż szeroka orkiestracja.
+
+## 15.21. Deklaracja stanu commit/push/PR/merge zawsze na końcu odpowiedzi, jednym zdaniem, jawnie
+
+[24.09.2026] ✅ DODANO — źródło: właściciel projektu, `new-app-standards`. Dotychczasowa praktyka (raport wg 15.10: ZMIENIONO/DODANO/USUNIĘTO/WPŁYW) nie wymuszała, GDZIE w odpowiedzi ta informacja się znajduje — bywała wspomniana w środku opisu zmian albo na samym początku, obok planu, co zmuszało właściciela projektu do przeszukiwania całej odpowiedzi, żeby ustalić, czy praca została faktycznie zapisana poza lokalną kopią, i to za każdym razem od nowa.
+
+**Reguła.** Każdy projekt rodziny (nie tylko `new-app-standards`) kończy odpowiedź podsumowującą wykonane zadanie jednym, jednoznacznym zdaniem stanu repozytorium, **zawsze jako ostatni element odpowiedzi** — nigdy w środku ani na początku, nigdy domyślne/domyślne do wywnioskowania z kontekstu. Zdanie wprost nazywa, co faktycznie się stało: **commit lokalny (bez push)** / **push** (do jakiej gałęzi) / **PR otwarty** (numer/link, jeśli dostępny) / **PR zmergowany** / **nic z powyższego — zmiany tylko w working tree, niezacommitowane**. Jeśli zadanie nie wymagało żadnej z tych czynności (np. czysto informacyjna odpowiedź, analiza bez zmiany plików), zdanie końcowe stwierdza to wprost ("Brak zmian do zapisania — odpowiedź informacyjna"), zamiast pomijać sekcję milczeniem.
+
+**Uzasadnienie.** Właściciel projektu koordynuje równolegle kilka projektów rodziny — potrzebuje módz jednym rzutem oka, na końcu każdej odpowiedzi, w tym samym miejscu za każdym razem, ustalić stan repozytorium bez czytania całej odpowiedzi wstecz w poszukiwaniu tej informacji. Stałe miejsce (zawsze koniec) jest tu równie ważne jak sama treść — zmienne miejsce niweczy oszczędność czasu, nawet jeśli informacja gdzieś w odpowiedzi faktycznie się znajduje.
+
+## 15.22. Lista zadań na koniec pracy: żywa, aktualna, z priorytetem/odblokowaniem/plusami-minusami/kolizjami/kolejnością
+
+[24.09.2026] ✅ DODANO — źródło: właściciel projektu, `new-app-standards`. Rozszerza GOD BOOK B.6 (`docs/lista-do-zrobienia.md`) o konkretny, obowiązkowy format treści każdego wpisu — dotychczasowy format (B.6, tylko statusy 🔲🔄✅⏳⚠️) mówił *jaki jest stan* zadania, ale nie wymuszał zapisania informacji potrzebnej do **zaplanowania kolejnej pracy** bez ponownego przemyślenia tego od zera, zwłaszcza gdy nad rodziną projektów pracuje więcej niż jedna sesja naraz.
+
+**Reguła.** Na koniec każdego zadania AI zostawia `docs/lista-do-zrobienia.md` **żywą** — odzwierciedlającą bieżący stan, nie migawkę z początku sesji: zamknięte zadania oznaczone ✅, nowo odkryte podczas pracy dopisane, priorytety/statusy zaległych zweryfikowane, nie tylko doklejone na końcu bez przeglądu reszty listy. Lista istnieje właśnie po to, żeby żadna kolejna sesja (ta sama albo inna, nad tym samym albo pokrewnym projektem) nie musiała szukać, co jest do zrobienia — patrz B.6, uzasadnienie C.8.
+
+Każdy wpis zadania w tej liście zawiera, obok statusu (B.6):
+- **Priorytet** — jawnie nazwany (np. wysoki/średni/niski, albo kolejność liczbowa), nie tylko pozycja na liście.
+- **Co odblokowuje** — jakie inne zadanie/decyzję/etap ten wpis otwiera po zamknięciu; jeśli nic konkretnego nie odblokowuje, napisz to wprost ("nie odblokowuje niczego wskazanego").
+- **Plusy/minusy zrobienia tego TERAZ** — krótko, konkretnie: co zyskujemy robiąc to teraz, co tracimy/ryzykujemy odkładając, i odwrotnie.
+- **Kolizje z innymi zadaniami** — czy praca nad tym wpisem koliduje (te same pliki/moduły/decyzje) z innym otwartym zadaniem na liście; jeśli tak, nazwij które, żeby dwie sesje mogły świadomie podzielić się pracą bez nadpisywania się nawzajem. Brak kolizji też zapisz wprost ("bezkolizyjne z resztą listy") — nie zostawiaj pola domyślnie pustym do zgadywania.
+- **Kolejność wykonania względem zadań powiązanych** — gdy jedno duże zadanie i kilka mniejszych, zależnych od niego (wymagających poprawki PO jego zamknięciu) współistnieją na liście, wpis wprost nazywa, że duże idzie **pierwsze**, a powiązane mniejsze **po nim** — żeby uniknąć podwójnej roboty (poprawka mniejszego zadania przed zamknięciem większego, potem powtórna poprawka po jego zamknięciu).
+
+**Uzasadnienie.** Właściciel projektu koordynuje wiele sesji/projektów naraz — lista bez priorytetu/odblokowania/kolizji zmusza go (albo kolejną sesję) do odtwarzania tego kontekstu z pamięci albo z historii czatu za każdym razem. Jawny zapis kolejności (duże przed powiązanymi małymi) zapobiega sytuacji, w której drobna poprawka zrobiona przed dużym zadaniem musi być robiona ponownie po jego zamknięciu, bo duże zadanie zmieniło założenia, na których drobna poprawka się opierała.

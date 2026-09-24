@@ -6475,3 +6475,84 @@ horyzontów E4 (`horyzontyPolaci`) i do obliczeń TMY E3; pole "drzewo liściast
   czyste; Playwright na buildzie produkcyjnym, 390 px: spacer GPS → budynek + przeszkoda-obrys (4 narożniki)
   + drzewo → E3 dach płaski 4 m: główna przyczyna straty = bryła sąsiada (18,7 p.p.), 1 pole prognozy (tylko
   drzewo), bez poziomego przewijania.
+
+## Synchronizacja ze standardem — Y.6, pełny nadpis NIETYKALNE/ADAPTOWALNE (24.09.2026)
+
+Nowa wersja Routine Y.6 (zastąpiła poprzednią, usuniętą — patrz niżej "Kolejne odpalenia"): Krok 2
+zmieniony na "zastosuj wg kategorii Y.8, NIE pytając z góry o każdą pozycję" (poprzednia wersja
+kazała proponować i czekać na zgodę nawet dla NIETYKALNE — to był regres względem Y.8, naprawiony
+w źródle jako GOD BOOK v2.38, dopisek "[24.09.2026] ✅ KOREKTA" w Y.6: *Y.8 ma pierwszeństwo nad
+literalnym brzmieniem "Konsekwencja" w Y.6*).
+
+**Krok 1 (fetch+porównanie):** lokalny klon `new-app-standards` był 4 commity za `origin/main`
+(od poprzedniego sprawdzenia dziś) — doprowadzony do zgodności (`git merge --ff-only`). GOD BOOK
+źródła: rename `v2_37.md`→`v2_38.md`. Poprzednie sprawdzenie (ten sam dzień, wpis wyżej "Konfiguracja
+Y.6 adaptacyjnego...") skatalogowało już pełny zakres v2.21→v2.37 jako propozycję czekającą na
+decyzję właściciela — dziś właściciel polecił zastosować to bezpośrednio (nowe zadanie, Krok 2
+"stosuj bez pytania z góry"), plus doszedł jeden nowy wiersz `AKTUALIZACJE.md` (2026-09-24, KOREKTA
+v2.38 opisana wyżej).
+
+**Krok 2 — zastosowano jako fakt dokonany (checklista Y.9):**
+
+*NIETYKALNE (pełny nadpis, wykonane):*
+- GOD BOOK: `docs/god-book/instrukcja-uniwersalna-biblii-projektu-v2_21.md`→`...v2_38.md` (plik
+  usunięty przez `git rm`, nowy dodany pełną treścią źródła).
+- `docs/standards/`: 11 plików nadpisanych pełną treścią źródła — `00-INDEKS.md`, `00-filozofia.md`,
+  `02-model-danych.md`, `03-jadro-obliczeniowe.md`, `05-baza-danych-offline.md`,
+  `07-bezpieczenstwo.md`, `08-ui-ux.md`, `10-testy.md`, `11-ci-deployment.md`, `15-wspolpraca-z-ai.md`,
+  `17-i18n.md`. Pozostałe 8 plików (`01,04,06,09,12,13,14,16,18`) były już bajt-w-bajt identyczne ze
+  źródłem — zero akcji (m.in. `13-droga-mobile.md`, mimo że katalog wcześniej wspominał przepisanie
+  Capacitor — okazało się już zsynchronizowane wcześniej).
+- `PROMPT_STARTOWY.md` — pełny nadpis (wskaźnik wersji GOD BOOK, próg checklisty Y.9 z ≥3h na ≥12h).
+- `docs/przyklady/i18n/README.md`, `docs/przyklady/i18n/check-i18n-guard.mjs` — pełny nadpis.
+- `docs/przyklady/pwa/` (nowy katalog źródła, 10 plików + README) — **świadomie NIE skopiowany.**
+  Projekt nie ma jeszcze kodu PWA/Service Workera — pozycja informacyjna do czasu faktycznej budowy
+  (Y.8: pełny nadpis dotyczy plików, które projekt już ma jako mirror; nowy katalog bez lokalnego
+  odpowiednika kopiuje się dopiero, gdy jest faktycznie potrzebny, żeby nie wnosić martwego kodu).
+- `README.md`, `CLAUDE.template.md`, `docs/lista-do-zrobienia.template.md`, `docs/memory.template.md`
+  (wymienione w poprzednim katalogu jako "wskaźnik wersji + drobne patche") — **nie dotyczą tego
+  repo**: to szablony dla NOWYCH projektów rodziny / README samego `new-app-standards`, ten projekt
+  ich nie mirroruje (ma własny `README.md` projektowy, nie szablon).
+
+*ADAPTOWALNE (patch, wykonane):*
+- `CLAUDE.md` — wskaźnik wersji GOD BOOK w punkcie 2 (`v2_28`→`v2_38`); punkt 4 poprawiony: usunięto
+  nieaktualne zdanie "mirror GOD BOOK wciąż wskazuje starszą wersję", dodano fakt wykonanej
+  synchronizacji Y.9; poprawiono też literówkę odziedziczoną z poprzedniej sesji (D22→**D24**, ten
+  punkt cytował nieaktualny numer decyzji sprzed przenumerowania H.3 — drift bez świadomej decyzji,
+  naprawiony od razu per Y.2).
+- `.claude/skills/standards/SKILL.md` — wskaźnik wersji GOD BOOK (`v2_28`→`v2_38`).
+
+*LOKALNE — bez zmian treści (Y.8):* `docs/lista-do-zrobienia.md`, `docs/wklad-do-standardu.md`
+(oprócz oznaczenia ✅ dwóch już-skonsolidowanych wpisów, patrz niżej — to nie zmiana treści
+zgłoszenia, tylko aktualizacja statusu, zgodnie z instrukcją Routine "sprawdź, czy któryś wpis
+🔎 nowe został już realnie skonsolidowany"), `docs/zrodla/` — bez zmian.
+
+**`docs/wklad-do-standardu.md` — status zaktualizowany (nie treść):**
+- Wpis [23.09.2026] "sztywny cykl Y.6/U.4 generuje dużo zerowych sprawdzeń" → oznaczony ✅
+  skonsolidowane: GOD BOOK v2.32 przyjął dokładnie wariant (b) z propozycji (cykl adaptacyjny),
+  `AKTUALIZACJE.md` cytuje wprost "zamyka retroaktywnie D21 inzynier-offgrid-pro".
+- Pozostałe wpisy `🔎 nowe` (biblioteka norm źródłowych, i18n rozdział 01, itd.) sprawdzone
+  pobieżnie — bez nowych dowodów konsolidacji w dzisiejszym `AKTUALIZACJE.md`, status bez zmian.
+
+**Kategorie NIETYKALNE ze skopiowanej treści, które mogą dotyczyć kodu tego projektu (poza zakresem
+samego Y.6 — to jest Y.11, osobny audyt zgodności kodu, na żądanie/koniec Fazy, nie część tej
+synchronizacji dokumentów):** 02.1 (`validFrom`/`validTo`/`legalBasis`/`verifiedBy`/`confidence` dla
+wartości regulowanych prawem — normy/współczynniki bezpieczeństwa), 03.3 (`INCOMPLETE` jako trzeci
+stan zamiast dwuwartościowej logiki+flagi w modułach obowiązku/ryzyka/zgodności), 07 (CSP hash-based
+zamiast `'unsafe-inline'`, checklist `Permissions-Policy` przed nową funkcją API przeglądarki — już
+zastosowane praktycznie w PR #144, patrz "Moduł 1 — UI Ekranów 2–4" wyżej), 17.7b/17.7c (selektor
+języka tylko kompletne języki — dotyczy, projekt jest przedpremierowo), 18.1 (retroaktywnie
+obowiązkowe). Nie sprawdzane teraz — to osobne zadanie.
+
+**Krok 3 (cykl adaptacyjny):** poprzednie sprawdzenie (ten sam dzień) już zresetowało
+`interwał_h = 12`, `licznik_zero_z_rzedu = 0` po znalezieniu nowości. Dzisiejsze sprawdzenie
+**również** znalazło i zastosowało nowość (KOREKTA v2.38 + dokończenie zaległego pełnego sync) →
+`interwał_h` **zostaje na 12** (reset, nie rośnie), `licznik_zero_z_rzedu = 0`.
+
+**Krok 4 — Routine.** Stara Routine (`trig_01La5dGeB9ycdVpPf2dmYgrk`, pytała o KAŻDĄ podmianę
+łącznie z NIETYKALNE — regres względem Y.8) **usunięta** na polecenie właściciela projektu.
+Założona nowa, poprawiona: self-bind, `trig_01892Z45ThAi2T56PJRjQQAh`, `run_once_at` =
+2026-09-25T10:57:00Z (+12h). Pełny prompt — patrz wywołanie `create_trigger` w tej sesji; kluczowa
+różnica względem poprzedniej wersji: Krok 2 stosuje NIETYKALNE/ADAPTOWALNE automatycznie, pytanie
+właściciela zostaje wyłącznie dla (a) pliku poza trzema kategoriami, (b) prawdziwego konfliktu
+Y.2.2, (c) treści LOKALNE wymagającej wiedzy specyficznej dla projektu.
