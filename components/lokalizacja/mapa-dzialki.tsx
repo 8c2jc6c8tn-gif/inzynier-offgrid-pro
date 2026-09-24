@@ -41,7 +41,8 @@ const START: [number, number] = [19.4, 52.0]
 const ZOOM_START = 5
 const ZOOM_DZIALKI = 19
 
-export type PrzeszkodaNaMapie = { punkt: PunktGps; promienM: number | null }
+/** Walec (drzewo) — okrąg o promieniu, albo obrys wielokąta (sąsiedni budynek). */
+export type PrzeszkodaNaMapie = { punkt: PunktGps; promienM: number | null } | { obrys: PunktGps[] }
 
 export type MapaDzialkiProps = {
   online: boolean
@@ -95,7 +96,12 @@ function geojson(p: MapaDzialkiProps): Kolekcja {
   wielokat("budynek", p.budynek)
   p.polacie.forEach((pl) => wielokat("polac", pl))
   for (const o of p.przeszkody) {
-    if (o.promienM && o.promienM > 0) {
+    if ("obrys" in o) {
+      if (o.obrys.length >= 2) wielokat("przeszkoda", o.obrys)
+      else if (o.obrys.length === 1) {
+        f.push({ type: "Feature", properties: { rodzaj: "przeszkoda-punkt" }, geometry: { type: "Point", coordinates: lonLat(o.obrys[0]!) } })
+      }
+    } else if (o.promienM && o.promienM > 0) {
       f.push({ type: "Feature", properties: { rodzaj: "przeszkoda" }, geometry: { type: "Polygon", coordinates: [okrag(o.punkt, o.promienM)] } })
     } else {
       f.push({ type: "Feature", properties: { rodzaj: "przeszkoda-punkt" }, geometry: { type: "Point", coordinates: lonLat(o.punkt) } })
@@ -111,7 +117,7 @@ function geojson(p: MapaDzialkiProps): Kolekcja {
 }
 
 function wszystkiePunkty(p: MapaDzialkiProps): PunktGps[] {
-  return [...p.dzialka, ...p.budynek, ...p.polacie.flat(), ...p.przeszkody.map((o) => o.punkt)]
+  return [...p.dzialka, ...p.budynek, ...p.polacie.flat(), ...p.przeszkody.flatMap((o) => ("obrys" in o ? o.obrys : [o.punkt]))]
 }
 
 const STYL_BAZOWY: StylMapy = {
@@ -130,6 +136,7 @@ function dodajWarstwyModelu(map: MapaGl) {
   map.addLayer({ id: "polac-wyp", type: "fill", source: "model", filter: rodzaj("polac"), paint: { "fill-color": "#dc2626", "fill-opacity": 0.3 } })
   map.addLayer({ id: "polac-linia", type: "line", source: "model", filter: rodzaj("polac"), paint: { "line-color": "#b91c1c", "line-width": 1.5, "line-dasharray": [2, 1] } })
   map.addLayer({ id: "przeszkoda-wyp", type: "fill", source: "model", filter: rodzaj("przeszkoda"), paint: { "fill-color": "#15803d", "fill-opacity": 0.4 } })
+  map.addLayer({ id: "przeszkoda-linia", type: "line", source: "model", filter: rodzaj("przeszkoda"), paint: { "line-color": "#15803d", "line-width": 2 } })
   map.addLayer({ id: "przeszkoda-punkt", type: "circle", source: "model", filter: rodzaj("przeszkoda-punkt"), paint: { "circle-color": "#15803d", "circle-radius": 6 } })
   map.addLayer({ id: "dokladnosc", type: "fill", source: "model", filter: rodzaj("dokladnosc"), paint: { "fill-color": "#0ea5e9", "fill-opacity": 0.15 } })
   map.addLayer({ id: "pozycja", type: "circle", source: "model", filter: rodzaj("pozycja"), paint: { "circle-color": "#0284c7", "circle-radius": 7, "circle-stroke-color": "#fff", "circle-stroke-width": 2 } })

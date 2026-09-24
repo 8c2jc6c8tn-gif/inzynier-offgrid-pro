@@ -6298,3 +6298,26 @@ skonfliktuje. Test: `kalkulatory-pomocnicze-tool.test.ts` sprawdza tekst PL zał
 **Nowe narzędzie AI = zawsze przez ten helper, nigdy `technicalMessage`/`JSON.stringify` do modelu.**
 Otwarte (nie ruszane, poza zakresem): `monitorowanie-izolacji-imd` i `przepust-powietrza` w ogóle nie
 wystawiają `zalozenia`, choć kalkulatory je mają (np. próg alarmu IMD = przykładowa wartość źródła).
+
+## TD17 — przeszkody o obrysie wielokąta w Skanerze (24.09.2026)
+
+Na polecenie właściciela ("Robimy TD17"). Kierunek naprawy wprost z wpisu TD17 w `dlug-techniczny.md`,
+bez nowych decyzji projektowych.
+- Jądro Skanera: `PrzeszkodaGps` = unia `walec` | `obrys` (narożniki + wysokość); obrys rzutowany do
+  układu lokalnego i skalowany tą samą kalibracją poziomą co działka/budynek. Nowy kod walidacji
+  `SKANER-PRZESZKODA-OBRYS-NIEPOPRAWNA` (PL/EN/RU); < 3 narożniki → istniejący `SKANER-ZA-MALO-PUNKTOW`.
+- Seed (`lib/lokalizacja/model-dzialki.ts`): walec ma `typ?` opcjonalny — **drafty sprzed zmiany
+  (IndexedDB) nie mają pola `typ` i czytają się jako walec**, bez migracji. Nie zmieniać na wymagane.
+- E2 UI: przycisk "+ Dodaj przeszkodę-obrys" (jak połać — punkty GPS/mapy trafiają do aktywnej
+  przeszkody); "Pobierz budynek w tym miejscu" przy aktywnej przeszkodzie-obrysie wczytuje obrys
+  budynku sąsiada z ULDK do przeszkody (wysokość wpisuje użytkownik — ULDK jej nie ma).
+- E3: obrys → `PrzeszkodaBryla` (bez prognozy), widok 3D rysuje bryłę; pola prognozy tylko dla drzew.
+- **Pułapka znaleziona przy teście w przeglądarce:** `Pole` bez `id` generuje je z etykiety →
+  w listach (kilka przeszkód/połaci) powtarzające się `id` i `label for` trafiające zawsze w pierwsze
+  pole (dostępność, czytniki ekranu). Naprawione na Ekranie 2 jawnymi `id` per element. Ten sam wzorzec
+  (`<Pole>` w `.map()` bez `id`) występuje jeszcze w kilku innych ekranach — do osobnego przejścia.
+- Weryfikacja: `pnpm typecheck`/`lint` (0 nowych)/`check:i18n-guard`/`test` (149 plików)/`build`/`audit:gate`
+  czyste; Playwright na buildzie produkcyjnym, 390 px: spacer GPS → budynek + przeszkoda-obrys (4 narożniki)
+  + drzewo → E3 dach płaski 4 m: główna przyczyna straty = bryła sąsiada (18,7 p.p.), 1 pole prognozy (tylko
+  drzewo), bez poziomego przewijania.
+

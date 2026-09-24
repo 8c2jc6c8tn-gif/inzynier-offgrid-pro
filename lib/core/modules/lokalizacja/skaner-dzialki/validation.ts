@@ -12,6 +12,7 @@ import {
   kalibracjaNiepoprawna,
   polacBezWysokosci,
   przeszkodaNiepoprawna,
+  przeszkodaObrysNiepoprawna,
   punktGpsPozaZakresem,
   zaMaloPunktow,
 } from "./warnings"
@@ -55,6 +56,12 @@ export function validateInput(input: SkanerDzialkiInput): ValidationResult {
   }
 
   for (const p of input.przeszkody ?? []) {
+    if (p.typ === "obrys") {
+      sprawdzZbior(errors, `przeszkody:${p.nazwa}`, p.obrys, MIN_PUNKTOW_WIELOKATA)
+      if (p.obrys.length === 0) errors.push(zaMaloPunktow(`przeszkody:${p.nazwa}`, MIN_PUNKTOW_WIELOKATA))
+      if (!(p.wysokoscM >= 0)) errors.push(przeszkodaObrysNiepoprawna(p.nazwa))
+      continue
+    }
     if (!poprawny(p.punkt)) errors.push(punktGpsPozaZakresem(`przeszkody:${p.nazwa}`, 0))
     if (!(p.wysokoscM >= 0) || !(p.promienM > 0)) errors.push(przeszkodaNiepoprawna(p.nazwa))
   }

@@ -874,6 +874,7 @@ export const dictionaryPl = {
   "SKANER-POLAC-BEZ-WYSOKOSCI": "Połać \"{nazwa}\": każdy punkt musi mieć wysokość z GPS — bez niej nie da się wyznaczyć nachylenia.",
   "SKANER-KALIBRACJA-NIEPOPRAWNA": "Kalibracja jest niepoprawna: wybierz dwa różne punkty z tego samego zbioru i podaj dodatnią znaną długość.",
   "SKANER-PRZESZKODA-NIEPOPRAWNA": "Przeszkoda \"{nazwa}\": wysokość nie może być ujemna, a promień musi być większy od zera.",
+  "SKANER-PRZESZKODA-OBRYS-NIEPOPRAWNA": "Przeszkoda \"{nazwa}\": wysokość nie może być ujemna.",
   "SKANER-BRAK-WYSOKOSCI-GRUNTU": "Narożniki budynku nie mają wysokości z GPS — wysokość kalenicy nie może być wyznaczona.",
   "SKANER-ZALOZENIE-UKLAD-LOKALNY": "Współrzędne GPS przeliczone na lokalny układ metryczny (płaszczyzna styczna do elipsoidy WGS84 w pierwszym punkcie) — dokładne dla obszaru działki.",
   "SKANER-ZALOZENIE-KALIBRACJA-POZIOMA": "Kalibracja znanym wymiarem koryguje tylko wymiary poziome — błąd wysokości z GPS pozostaje.",

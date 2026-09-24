@@ -973,5 +973,5 @@ Pełne wyniki audytu: `docs/memory.md`, sekcja "Pełny audyt na polecenie właś
   AI dla 3 nowych kalkulatorów (`lib/ai/tools/skaner-dzialki-tool.ts`, `analiza-zacienienia-tool.ts`,
   `orientacja-powierzchni-tool.ts` — E4 pobiera PVGIS w handlerze po stronie serwera, 8760 rekordów
   nie przechodzi przez model) · 🔲 TD14 (rozproszone + zachmurzenie z PVGIS w E3) · 🔲 TD15 (2) (zacienienie
-  z E3 we wskaźniku E4) · 🔲 TD17 (przeszkody-bryły w Skanerze). Szczegóły:
+  z E3 we wskaźniku E4) · ✅ (24.09) TD17 (przeszkody-bryły w Skanerze) · 🔲 przejście po ekranach z `<Pole>` w `.map()` bez jawnego `id` (powtarzające się `id` z etykiety — dostępność; Ekran 2 naprawiony, patrz `docs/memory.md` "TD17"). Szczegóły:
   `docs/memory.md`, sekcja "Moduł 1 (Lokalizacja), Ekrany 2–4 — jądro obliczeniowe (23.09.2026)".

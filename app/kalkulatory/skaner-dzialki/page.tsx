@@ -35,7 +35,7 @@ const MapaDzialki = dynamic(() => import("@/components/lokalizacja/mapa-dzialki"
 })
 
 /** Zbiór, do którego trafia następny punkt (GPS albo wskazany na mapie). */
-type Zbior = "dzialka" | "budynek" | "przeszkoda" | `polac:${number}`
+type Zbior = "dzialka" | "budynek" | "przeszkoda" | `polac:${number}` | `przeszkoda:${number}`
 
 const KOMUNIKAT_ULDK: Record<KodBleduUldk, string> = {
   "ULDK-PARAMETRY-NIEPOPRAWNE": "Niepoprawny identyfikator działki albo współrzędne.",
@@ -64,6 +64,10 @@ export default function SkanerDzialkiPage() {
   const trybOnline = model.tryb === "online"
   const sieciBrak = trybOnline && !online
   const zmien = (z: Partial<ModelDzialki>) => setModel((m) => ({ ...m, ...z }))
+  /** Indeks przeszkody-obrysu, do której trafiają punkty, albo null. */
+  const przeszkodaObrysu = zbior.startsWith("przeszkoda:") ? Number(zbior.slice("przeszkoda:".length)) : null
+  const ustawObrysPrzeszkody = (i: number, obrys: PunktGps[]) =>
+    setModel((m) => ({ ...m, przeszkody: m.przeszkody.map((q, j) => (j === i && q.typ === "obrys" ? { ...q, obrys } : q)) }))
 
   const wynik = useMemo(() => calculateSkanerDzialki(wejscieSkanera(model)), [model])
 
@@ -73,7 +77,11 @@ export default function SkanerDzialkiPage() {
       if (zbior === "budynek") return { ...m, budynek: [...m.budynek, p], idBudynku: null }
       if (zbior === "przeszkoda") {
         const nazwa = `Przeszkoda ${m.przeszkody.length + 1}`
-        return { ...m, przeszkody: [...m.przeszkody, { nazwa, punkt: p, wysokoscM: "", promienM: "" }] }
+        return { ...m, przeszkody: [...m.przeszkody, { typ: "walec", nazwa, punkt: p, wysokoscM: "", promienM: "" }] }
+      }
+      if (zbior.startsWith("przeszkoda:")) {
+        const i = Number(zbior.slice("przeszkoda:".length))
+        return { ...m, przeszkody: m.przeszkody.map((q, j) => (j === i && q.typ === "obrys" ? { ...q, obrys: [...q.obrys, p] } : q)) }
       }
       const i = Number(zbior.slice("polac:".length))
       return { ...m, polacie: m.polacie.map((pl, j) => (j === i ? { ...pl, punkty: [...pl.punkty, p] } : pl)) }
@@ -99,6 +107,11 @@ export default function SkanerDzialkiPage() {
     setUldk({ czeka: true, komunikat: null })
     const w = await budynekWPunkcie(p.szerokosc, p.dlugosc)
     if (!w.ok) return setUldk({ czeka: false, komunikat: KOMUNIKAT_ULDK[w.kod] })
+    if (przeszkodaObrysu !== null) {
+      ustawObrysPrzeszkody(przeszkodaObrysu, w.budynek.punkty)
+      setUldk({ czeka: false, komunikat: `Obrys przeszkody z bazy (budynek ${w.budynek.id}) — baza nie ma wysokości, wpisz ją w sekcji Przeszkody.` })
+      return setDopasuj((n) => n + 1)
+    }
     zmien({ budynek: w.budynek.punkty, idBudynku: w.budynek.id })
     setUldk({ czeka: false, komunikat: "Obrys budynku z bazy nie ma wysokości — do połaci i kalenicy obejdź narożniki z GPS albo wpisz wysokości ręcznie." })
     setDopasuj((n) => n + 1)
@@ -111,7 +124,12 @@ export default function SkanerDzialkiPage() {
         ? model.budynek
         : zbior === "przeszkoda"
           ? []
-          : (model.polacie[Number(zbior.slice("polac:".length))]?.punkty ?? [])
+          : przeszkodaObrysu !== null
+            ? (() => {
+                const q = model.przeszkody[przeszkodaObrysu]
+                return q?.typ === "obrys" ? q.obrys : []
+              })()
+            : (model.polacie[Number(zbior.slice("polac:".length))]?.punkty ?? [])
 
   const w = wynik.value
   const elew = useMemo(() => elewacje(w), [w])
@@ -152,7 +170,7 @@ export default function SkanerDzialkiPage() {
           dzialka={model.dzialka}
           budynek={model.budynek}
           polacie={model.polacie.map((p) => p.punkty)}
-          przeszkody={model.przeszkody.map((p) => ({ punkt: p.punkt, promienM: liczba(p.promienM) ?? null }))}
+          przeszkody={model.przeszkody.map((p) => (p.typ === "obrys" ? { obrys: p.obrys } : { punkt: p.punkt, promienM: liczba(p.promienM) ?? null }))}
           aktywne={aktywne}
           pozycja={gps.odczyt}
           wskazany={trybOnline ? wskazany : null}
@@ -175,7 +193,14 @@ export default function SkanerDzialkiPage() {
               Dach: {p.nazwa}
             </option>
           ))}
-          <option value="przeszkoda">Nowa przeszkoda (drzewo, sąsiedni budynek)</option>
+          <option value="przeszkoda">Nowa przeszkoda-walec (drzewo)</option>
+          {model.przeszkody.map((p, i) =>
+            p.typ === "obrys" ? (
+              <option key={i} value={`przeszkoda:${i}`}>
+                Przeszkoda-obrys: {p.nazwa}
+              </option>
+            ) : null,
+          )}
         </PoleSelect>
         <Button onClick={zapiszPunktGps} disabled={gps.czeka} className="min-h-11">
           {gps.czeka ? "Czekam na sygnał GPS…" : "📍 Zapisz punkt (GPS)"}
@@ -203,7 +228,7 @@ export default function SkanerDzialkiPage() {
                 Pobierz działkę w tym miejscu
               </Button>
               <Button variant="outline" disabled={!wskazany || uldk.czeka || !online} onClick={() => wskazany && pobierzBudynek(wskazany)}>
-                Pobierz budynek w tym miejscu
+                {przeszkodaObrysu !== null ? "Pobierz obrys przeszkody w tym miejscu" : "Pobierz budynek w tym miejscu"}
               </Button>
               <Button
                 variant="outline"
@@ -271,6 +296,7 @@ export default function SkanerDzialkiPage() {
             <div key={i} className="flex flex-col gap-2 rounded-md border p-3">
               <div className="flex items-end gap-2">
                 <Pole
+                  id={`polac-${i}-nazwa`}
                   label="Nazwa połaci"
                   value={pl.nazwa}
                   onChange={(e) => zmien({ polacie: model.polacie.map((q, j) => (j === i ? { ...q, nazwa: e.target.value } : q)) })}
@@ -296,24 +322,63 @@ export default function SkanerDzialkiPage() {
         </div>
 
         <div className="flex flex-col gap-2">
-          <h2 className="font-semibold">Przeszkody</h2>
+          <div className="flex items-center justify-between gap-2">
+            <h2 className="font-semibold">Przeszkody</h2>
+            <Button
+              variant="outline"
+              size="sm"
+              onClick={() => {
+                const i = model.przeszkody.length
+                zmien({ przeszkody: [...model.przeszkody, { typ: "obrys", nazwa: `Przeszkoda ${i + 1}`, obrys: [], wysokoscM: "" }] })
+                setZbior(`przeszkoda:${i}`)
+              }}
+            >
+              + Dodaj przeszkodę-obrys
+            </Button>
+          </div>
           <p className="text-small text-muted-foreground">
-            Drzewo albo sąsiedni budynek jako walec: środek, wysokość, promień. Prognozę wzrostu drzew podajesz na
+            Drzewo jako walec: środek, wysokość, promień korony. Sąsiedni budynek, ściana albo skarpa jako obrys: narożniki
+            przy gruncie (GPS, punkt na mapie albo obrys z bazy budynków) i wysokość. Prognozę wzrostu drzew podajesz na
             Ekranie 3.
           </p>
           {model.przeszkody.length === 0 && <p className="text-small text-muted-foreground">Brak przeszkód.</p>}
           {model.przeszkody.map((p, i) => {
-            const ustaw = (z: Partial<typeof p>) => zmien({ przeszkody: model.przeszkody.map((q, j) => (j === i ? { ...q, ...z } : q)) })
+            const ustaw = (z: { nazwa?: string; wysokoscM?: string; promienM?: string }) =>
+              zmien({ przeszkody: model.przeszkody.map((q, j) => (j === i ? { ...q, ...z } : q)) })
+            const usun = () => {
+              zmien({ przeszkody: model.przeszkody.filter((_, j) => j !== i) })
+              if (zbior.startsWith("przeszkoda:")) setZbior("dzialka")
+            }
             return (
               <div key={i} className="grid grid-cols-2 gap-2 rounded-md border p-3 sm:grid-cols-4">
-                <Pole label="Nazwa" value={p.nazwa} onChange={(e) => ustaw({ nazwa: e.target.value })} />
-                <Pole label="Wysokość" unit="m" inputMode="decimal" value={p.wysokoscM} onChange={(e) => ustaw({ wysokoscM: e.target.value })} />
-                <Pole label="Promień" unit="m" inputMode="decimal" value={p.promienM} onChange={(e) => ustaw({ promienM: e.target.value })} />
-                <Button variant="ghost" className="mt-auto min-h-11" onClick={() => zmien({ przeszkody: model.przeszkody.filter((_, j) => j !== i) })}>
+                <Pole id={`przeszkoda-${i}-nazwa`} label="Nazwa" value={p.nazwa} onChange={(e) => ustaw({ nazwa: e.target.value })} />
+                <Pole
+                  id={`przeszkoda-${i}-wysokosc`}
+                  label="Wysokość"
+                  unit="m"
+                  inputMode="decimal"
+                  value={p.wysokoscM}
+                  onChange={(e) => ustaw({ wysokoscM: e.target.value })}
+                />
+                {p.typ === "obrys" ? (
+                  <p className="mt-auto text-small text-muted-foreground">Narożniki obrysu: {p.obrys.length}</p>
+                ) : (
+                  <Pole id={`przeszkoda-${i}-promien`} label="Promień" unit="m" inputMode="decimal" value={p.promienM} onChange={(e) => ustaw({ promienM: e.target.value })} />
+                )}
+                <Button variant="ghost" className="mt-auto min-h-11" onClick={usun}>
                   Usuń
                 </Button>
+                {p.typ === "obrys" && (
+                  <div className="col-span-full">
+                    <ListaPunktow punkty={p.obrys} pokazWysokosc={false} onZmien={(obrys) => ustawObrysPrzeszkody(i, obrys)} />
+                  </div>
+                )}
                 {przeszkodaNiekompletna(p) && (
-                  <p className="col-span-full text-small text-muted-foreground">Uzupełnij wysokość i promień — do tego czasu przeszkoda nie jest liczona.</p>
+                  <p className="col-span-full text-small text-muted-foreground">
+                    {p.typ === "obrys"
+                      ? "Uzupełnij wysokość i co najmniej 3 narożniki obrysu — do tego czasu przeszkoda nie jest liczona."
+                      : "Uzupełnij wysokość i promień — do tego czasu przeszkoda nie jest liczona."}
+                  </p>
                 )}
               </div>
             )

@@ -76,6 +76,8 @@ export default function AnalizaZacienieniaPage() {
   const skaner = useMemo(() => calculateSkanerDzialki(wejscieSkanera(model)), [model])
   const w = skaner.value
   const przeszkody = useMemo(() => przeszkodyZacienienia(w, stan.prognoza), [w, stan.prognoza])
+  /** Prognoza wzrostu tylko dla drzew (walców) — bryły budynków nie rosną. */
+  const drzewa = useMemo(() => w.przeszkody.filter((p) => p.typ === "walec"), [w])
 
   const powierzchnie: Powierzchnia[] = useMemo(() => {
     const polacie = polacieLokalne(model, w)
@@ -192,6 +194,10 @@ export default function AnalizaZacienieniaPage() {
               <p className="text-small text-muted-foreground">
                 Model nie ma przeszkód — dodaj drzewa i sąsiednie budynki na Ekranie 2.
               </p>
+            ) : drzewa.length === 0 ? (
+              <p className="text-small text-muted-foreground">
+                Przeszkody w modelu to bryły o stałej wysokości (budynki, ściany) — prognoza wzrostu dotyczy tylko drzew.
+              </p>
             ) : (
               <>
                 <Pole
@@ -202,7 +208,7 @@ export default function AnalizaZacienieniaPage() {
                   onChange={(e) => ustawPrognoze({ lat: e.target.value })}
                   placeholder="np. 10"
                 />
-                {w.przeszkody.map((p) => (
+                {drzewa.map((p) => (
                   <Pole
                     key={p.nazwa}
                     label={`${p.nazwa} — wysokość za ${stan.prognoza.lat || "…"} lat (dziś ${f1(p.wysokoscM)} m)`}

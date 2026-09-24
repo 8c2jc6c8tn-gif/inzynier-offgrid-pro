@@ -862,6 +862,7 @@ export const dictionaryEn = {
   "SKANER-POLAC-BEZ-WYSOKOSCI": "Roof plane \"{nazwa}\": every point needs a GPS altitude — without it the tilt cannot be determined.",
   "SKANER-KALIBRACJA-NIEPOPRAWNA": "Calibration is invalid: choose two different points from the same set and enter a positive known length.",
   "SKANER-PRZESZKODA-NIEPOPRAWNA": "Obstacle \"{nazwa}\": height cannot be negative and radius must be greater than zero.",
+  "SKANER-PRZESZKODA-OBRYS-NIEPOPRAWNA": "Obstacle \"{nazwa}\": height cannot be negative.",
   "SKANER-BRAK-WYSOKOSCI-GRUNTU": "Building corners have no GPS altitude — the ridge height cannot be determined.",
   "SKANER-ZALOZENIE-UKLAD-LOKALNY": "GPS coordinates converted to a local metric system (plane tangent to the WGS84 ellipsoid at the first point) — accurate for a plot-sized area.",
   "SKANER-ZALOZENIE-KALIBRACJA-POZIOMA": "Calibration with a known dimension corrects horizontal dimensions only — the GPS altitude error remains.",

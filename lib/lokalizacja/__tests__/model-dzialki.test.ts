@@ -1,4 +1,5 @@
 import { describe, expect, it } from "vitest"
+import { calculateAnalizaZacienienia } from "@/lib/core/modules/lokalizacja/analiza-zacienienia/calculator"
 import { calculateSkanerDzialki } from "@/lib/core/modules/lokalizacja/skaner-dzialki/calculator"
 import type { PunktGps } from "@/lib/core/modules/lokalizacja/skaner-dzialki/input"
 import {
@@ -10,6 +11,7 @@ import {
   polacieLokalne,
   powierzchnieDoOceny,
   powierzchnieZModelu,
+  przeszkodaNiekompletna,
   przeszkodyZacienienia,
   punktyProbkowania,
   wejscieSkanera,
@@ -54,7 +56,22 @@ describe("liczba", () => {
 describe("wejscieSkanera", () => {
   it("przeszkoda z niepełnymi polami nie trafia do obliczeń (nie jako 0 m)", () => {
     const w = wejscieSkanera(MODEL)
-    expect(w.przeszkody).toEqual([{ nazwa: "Brzoza", punkt: MODEL.przeszkody[0]!.punkt, wysokoscM: 12, promienM: 3 }])
+    expect(w.przeszkody).toEqual([{ typ: "walec", nazwa: "Brzoza", punkt: p(5, -15), wysokoscM: 12, promienM: 3 }])
+  })
+
+  it("przeszkoda-obrys: kompletna (≥ 3 narożniki + wysokość) → obrys; w trakcie obchodzenia → pominięta", () => {
+    const obrys = [p(-10, -12), p(20, -12), p(20, -8), p(-10, -8)]
+    const sasiad = { typ: "obrys" as const, nazwa: "Sąsiad", obrys, wysokoscM: "7" }
+    expect(przeszkodaNiekompletna(sasiad)).toBe(false)
+    expect(przeszkodaNiekompletna({ ...sasiad, obrys: obrys.slice(0, 2) })).toBe(true)
+    expect(przeszkodaNiekompletna({ ...sasiad, wysokoscM: "" })).toBe(true)
+    const w = wejscieSkanera({ ...MODEL, przeszkody: [sasiad, { ...sasiad, nazwa: "Niedokończony", obrys: obrys.slice(0, 1) }] })
+    expect(w.przeszkody).toEqual([{ typ: "obrys", nazwa: "Sąsiad", obrys, wysokoscM: 7 }])
+  })
+
+  it("draft sprzed TD17 (przeszkoda bez pola typ) czyta się jako walec", () => {
+    const stary = { nazwa: "Brzoza", punkt: p(5, -15), wysokoscM: "12", promienM: "3" }
+    expect(wejscieSkanera({ ...MODEL, przeszkody: [stary] }).przeszkody?.[0]).toMatchObject({ typ: "walec", promienM: 3 })
   })
 
   it("kalibracja: numery punktów od 1 → indeksy od 0; niepełna → brak kalibracji", () => {
@@ -121,7 +138,28 @@ describe("przeszkodyZacienienia / wejscieZacienienia", () => {
     const d = przeszkodyZacienienia(wynik, PROGNOZA)
     expect(d).toHaveLength(1)
     expect(d[0]).toMatchObject({ typ: "drzewo", nazwa: "Brzoza", promienKoronyM: 3, wysokoscM: 12, wysokoscPrognozowanaM: 18 })
-    expect(d[0]!.srodek.y).toBeCloseTo(-15, 1)
+    const drzewo = d[0]!
+    if (drzewo.typ !== "drzewo") throw new Error("oczekiwano drzewa")
+    expect(drzewo.srodek.y).toBeCloseTo(-15, 1)
+  })
+
+  it("przeszkoda-obrys → bryła E3 bez prognozy; horyzont na południu = atan(Δh / d) (TD17)", () => {
+    // Długi, niski budynek sąsiada: 30 m wzdłuż osi wschód–zachód, 4 m głębokości, 10 m wysokości,
+    // bliższa ściana 10 m na południe od punktu analizy (y = 2 → y = −8), punkt 4 m nad gruntem.
+    const sasiad = { typ: "obrys" as const, nazwa: "Sąsiad", obrys: [p(-10, -12), p(20, -12), p(20, -8), p(-10, -8)], wysokoscM: "10" }
+    const w = calculateSkanerDzialki(wejscieSkanera({ ...MODEL, przeszkody: [sasiad] })).value
+    const przeszkody = przeszkodyZacienienia(w, PROGNOZA)
+    expect(przeszkody).toHaveLength(1)
+    expect(przeszkody[0]).toMatchObject({ typ: "bryla", nazwa: "Sąsiad", wysokoscM: 10 })
+    expect(przeszkody[0]).not.toHaveProperty("wysokoscPrognozowanaM")
+    const polac = polacieLokalne(MODEL, w)[0]!
+    const r = calculateAnalizaZacienienia(wejscieZacienienia(w, PROGNOZA, polac, { x: 5, y: 2, z: 4 }))
+    expect(r.status).toMatch(/^VALID/)
+    const profil = r.value.obecnie.profilHoryzontuDeg
+    // atan(6 / 10) = 30,964° (wartość referencyjna liczona niezależnie).
+    expect(profil[180]).toBeCloseTo(30.964, 0)
+    expect(profil[90]).toBe(0)
+    expect(r.value.obecnie.strataRocznaProcent).toBeGreaterThan(0)
   })
 
   it("wejście E3: współrzędne z punktu odniesienia Skanera, orientacja połaci, horyzont prognozy", () => {

@@ -9,8 +9,8 @@
 import { MIN_PUNKTOW_WIELOKATA } from "@/lib/core/modules/lokalizacja/skaner-dzialki/constants"
 import type { SkanerDzialkiResult } from "@/lib/core/modules/lokalizacja/skaner-dzialki/calculator"
 import { normalnaNewella, rzutujNaUkladLokalny } from "@/lib/core/modules/lokalizacja/skaner-dzialki/geometria"
-import type { Kalibracja, PolacGps, PunktGps, SkanerDzialkiInput } from "@/lib/core/modules/lokalizacja/skaner-dzialki/input"
-import type { AnalizaZacienieniaInput, Punkt3D, PrzeszkodaDrzewo } from "@/lib/core/modules/lokalizacja/analiza-zacienienia/input"
+import type { Kalibracja, PolacGps, PrzeszkodaGps, PunktGps, SkanerDzialkiInput } from "@/lib/core/modules/lokalizacja/skaner-dzialki/input"
+import type { AnalizaZacienieniaInput, Przeszkoda, Punkt3D } from "@/lib/core/modules/lokalizacja/analiza-zacienienia/input"
 import type { Powierzchnia } from "@/lib/core/modules/lokalizacja/orientacja-powierzchni/input"
 
 /** Klucz draftu Ekranu 2 (`usePersistedDraft`) — ten sam czytają Ekrany 3 i 4. */
@@ -25,13 +25,27 @@ export type OpisDzialki = {
   wojewodztwo: string
 }
 
-/** Przeszkoda w formularzu — liczby jako tekst pola (jak w każdym formularzu kalkulatora). */
-export type PrzeszkodaSeed = {
+/**
+ * Przeszkoda w formularzu — liczby jako tekst pola (jak w każdym formularzu kalkulatora).
+ * Walec (drzewo): brak `typ` = walec — drafty zapisane przed dodaniem obrysów (TD17) czytają się bez migracji.
+ */
+export type PrzeszkodaWalecSeed = {
+  typ?: "walec"
   nazwa: string
   punkt: PunktGps
   wysokoscM: string
   promienM: string
 }
+
+/** Przeszkoda o obrysie wielokąta (sąsiedni budynek): narożniki przy gruncie + wysokość. */
+export type PrzeszkodaObrysSeed = {
+  typ: "obrys"
+  nazwa: string
+  obrys: PunktGps[]
+  wysokoscM: string
+}
+
+export type PrzeszkodaSeed = PrzeszkodaWalecSeed | PrzeszkodaObrysSeed
 
 export type KalibracjaSeed = {
   zbior: "dzialka" | "budynek"
@@ -93,13 +107,15 @@ function kalibracja(k: KalibracjaSeed): Kalibracja | undefined {
 
 /**
  * Seed → wejście Skanera działki. Przeszkody z niepełnymi polami (np. jeszcze niewpisana
- * wysokość) nie idą do obliczeń — formularz pokazuje je jako niekompletne, a nie jako 0 m.
+ * wysokość, obrys w trakcie obchodzenia) nie idą do obliczeń — formularz pokazuje je jako
+ * niekompletne, a nie jako 0 m.
  */
 export function wejscieSkanera(m: ModelDzialki): SkanerDzialkiInput {
-  const przeszkody = m.przeszkody.flatMap((p) => {
-    const wysokoscM = liczba(p.wysokoscM)
-    const promienM = liczba(p.promienM)
-    return wysokoscM === undefined || promienM === undefined ? [] : [{ nazwa: p.nazwa, punkt: p.punkt, wysokoscM, promienM }]
+  const przeszkody = m.przeszkody.flatMap((p): PrzeszkodaGps[] => {
+    if (przeszkodaNiekompletna(p)) return []
+    const wysokoscM = liczba(p.wysokoscM)!
+    if (p.typ === "obrys") return [{ typ: "obrys", nazwa: p.nazwa, obrys: p.obrys, wysokoscM }]
+    return [{ typ: "walec", nazwa: p.nazwa, punkt: p.punkt, wysokoscM, promienM: liczba(p.promienM)! }]
   })
   return {
     punktyDzialki: m.dzialka.length > 0 ? m.dzialka : undefined,
@@ -110,9 +126,10 @@ export function wejscieSkanera(m: ModelDzialki): SkanerDzialkiInput {
   }
 }
 
-/** Przeszkoda bez kompletnych danych liczbowych (pominięta w obliczeniach). */
+/** Przeszkoda bez kompletnych danych (pominięta w obliczeniach): brak liczby albo obrys < 3 narożniki. */
 export function przeszkodaNiekompletna(p: PrzeszkodaSeed): boolean {
-  return liczba(p.wysokoscM) === undefined || liczba(p.promienM) === undefined
+  if (liczba(p.wysokoscM) === undefined) return true
+  return p.typ === "obrys" ? p.obrys.length < MIN_PUNKTOW_WIELOKATA : liczba(p.promienM) === undefined
 }
 
 export type PolacLokalna = {
@@ -218,12 +235,12 @@ export function punktyProbkowania(polac: PolacLokalna, n: number): Punkt3D[] {
 }
 
 /**
- * Przeszkody Skanera (walec: środek, promień, wysokość) → drzewa Ekranu 3, z prognozą z Ekranu 3.
- * 🔎 TD17 — sąsiedni budynek też trafia tu jako walec; kalkulator E3 obsługuje bryłę o obrysie
- * wielokąta (`PrzeszkodaBryla`), ale Skaner (E2) nie zbiera jeszcze obrysów przeszkód.
+ * Przeszkody Skanera → przeszkody Ekranu 3: walec → drzewo (z prognozą wzrostu z Ekranu 3),
+ * obrys → bryła (graniastosłup; budynek nie rośnie, więc bez prognozy).
  */
-export function przeszkodyZacienienia(wynik: SkanerDzialkiResult, prognoza: PrognozaSeed): PrzeszkodaDrzewo[] {
-  return wynik.przeszkody.map((p) => {
+export function przeszkodyZacienienia(wynik: SkanerDzialkiResult, prognoza: PrognozaSeed): Przeszkoda[] {
+  return wynik.przeszkody.map((p): Przeszkoda => {
+    if (p.typ === "obrys") return { typ: "bryla", nazwa: p.nazwa, obrys: p.obrys, wysokoscM: p.wysokoscM }
     const wysokoscPrognozowanaM = liczba(prognoza.wysokosci[p.nazwa] ?? "")
     return {
       typ: "drzewo",

@@ -122,10 +122,44 @@ describe("calculateSkanerDzialki", () => {
   it("przeszkoda przeniesiona do układu lokalnego (wejście Ekranu 3)", () => {
     const r = calculateSkanerDzialki({
       punktyDzialki: prostokat(30, 20),
-      przeszkody: [{ nazwa: "Dąb", punkt: gps(5, -12), wysokoscM: 15, promienM: 3 }],
+      przeszkody: [{ typ: "walec", nazwa: "Dąb", punkt: gps(5, -12), wysokoscM: 15, promienM: 3 }],
     })
-    expect(r.value.przeszkody[0]!.x).toBeCloseTo(5, 6)
-    expect(r.value.przeszkody[0]!.y).toBeCloseTo(-12, 6)
+    const p = r.value.przeszkody[0]!
+    expect(p.typ).toBe("walec")
+    if (p.typ !== "walec") return
+    expect(p.x).toBeCloseTo(5, 6)
+    expect(p.y).toBeCloseTo(-12, 6)
+  })
+
+  it("przeszkoda-obrys (sąsiedni budynek) → wielokąt w układzie lokalnym, z kalibracją poziomą (TD17)", () => {
+    const r = calculateSkanerDzialki({
+      punktyBudynku: prostokat(10, 8),
+      przeszkody: [{ typ: "obrys", nazwa: "Sąsiad", obrys: [gps(-10, -12), gps(20, -12), gps(20, -8), gps(-10, -8)], wysokoscM: 7 }],
+      // Taśma: ściana 10 m GPS zmierzona jako 11 m → skala 1,1 także dla obrysu przeszkody.
+      kalibracja: { zbior: "budynek", indeksA: 0, indeksB: 1, znanaDlugoscM: 11 },
+    })
+    expect(r.status).toBe("VALID")
+    const p = r.value.przeszkody[0]!
+    expect(p).toMatchObject({ typ: "obrys", nazwa: "Sąsiad", wysokoscM: 7 })
+    if (p.typ !== "obrys") return
+    expect(p.obrys).toHaveLength(4)
+    expect(p.obrys[1]!.x).toBeCloseTo(22, 4)
+    expect(p.obrys[1]!.y).toBeCloseTo(-13.2, 4)
+  })
+
+  it("przeszkoda-obrys: < 3 narożniki albo ujemna wysokość → INVALID_INPUT", () => {
+    const zaMalo = calculateSkanerDzialki({
+      punktyDzialki: prostokat(30, 20),
+      przeszkody: [{ typ: "obrys", nazwa: "Sąsiad", obrys: [gps(0, -10), gps(10, -10)], wysokoscM: 7 }],
+    })
+    expect(zaMalo.status).toBe("INVALID_INPUT")
+    expect(zaMalo.warnings.map((w) => w.code)).toContain("SKANER-ZA-MALO-PUNKTOW")
+    const ujemna = calculateSkanerDzialki({
+      punktyDzialki: prostokat(30, 20),
+      przeszkody: [{ typ: "obrys", nazwa: "Sąsiad", obrys: [gps(0, -10), gps(10, -10), gps(10, -14)], wysokoscM: -1 }],
+    })
+    expect(ujemna.status).toBe("INVALID_INPUT")
+    expect(ujemna.warnings.map((w) => w.code)).toContain("SKANER-PRZESZKODA-OBRYS-NIEPOPRAWNA")
   })
 
   it("za mało punktów działki → INVALID_INPUT", () => {
