@@ -6270,5 +6270,17 @@ i budynek kliknięciem w mapę; E3 — model testowy (dom 10×8 m, dąb 9 m 12 m
 optimum 37°/180°, połać S 27° 99%, elewacja S 70%, E/W 53–54%, N 26%. Szerokość telefonu (375 px) bez
 poziomego przewijania na wszystkich trzech ekranach.
 
-**Otwarte:** opisy narzędzi AI dla 3 kalkulatorów (E4: handler musiałby sam pobierać PVGIS po stronie
-serwera), TD14, TD15 (2), TD17 (nowy — przeszkody tylko jako walce).
+**Otwarte:** TD14, TD15 (2), TD17 (nowy — przeszkody tylko jako walce). Opisy narzędzi AI — ✅ niżej.
+
+**Opisy narzędzi AI (24.09.2026, 9.3):** `policz_skaner_dzialki`, `policz_zacienienie`,
+`ocen_orientacje_powierzchni` (`lib/ai/tools/`, zarejestrowane w `pytaj-asystenta.ts`, wszystkie `read`).
+- E2: wejście = współrzędne narożników, NIE numer działki — ULDK wołany tylko z przeglądarki (D23),
+  więc narzędzie serwerowe go nie pobiera. Wynik bez punktów lokalnych (dane dla rysunku).
+- E3: przeszkody jako odległość + kierunek od paneli (tak user opisuje je w rozmowie); handler
+  przelicza na układ lokalny — zamiana współrzędnych, nie model. Budynek = prostokąt z bliższą ścianą
+  prostopadłą do kierunku. Profil horyzontu (360 wartości) pominięty w wyniku.
+- E4: handler sam pobiera PVGIS TMY (`pobierzTmy`, ten sam adapter co proxy D22) — 8760 rekordów nie
+  przechodzi przez model; błąd PVGIS → `INCOMPLETE` + komunikat, bez wyniku. Fabryka z `fetchImpl` dla testów.
+- Moduł 1 jest zmigrowany do i18n (ostrzeżenia/założenia jako kody) — nowy helper
+  `lib/ai/tools/teksty-wyniku.ts` rozwiązuje je na tekst PL (`t("pl", …)`), bo surowy kod nic modelowi
+  nie mówi. Starsze narzędzia (np. `projekt-uziemienia`) wysyłają `JSON.stringify` kodu — nie zmieniane.

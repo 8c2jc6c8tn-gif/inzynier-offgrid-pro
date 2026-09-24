@@ -24,6 +24,9 @@ import { przepustPowietrzaTool } from "./tools/przepust-powietrza-tool"
 import { projektUziemieniaTool } from "./tools/projekt-uziemienia-tool"
 import { monitorowanieIzolacjiImdTool } from "./tools/monitorowanie-izolacji-imd-tool"
 import { normyICertyfikatyTool } from "./tools/normy-i-certyfikaty-tool"
+import { skanerDzialkiTool } from "./tools/skaner-dzialki-tool"
+import { analizaZacienieniaTool } from "./tools/analiza-zacienienia-tool"
+import { orientacjaPowierzchniTool } from "./tools/orientacja-powierzchni-tool"
 import { toAnthropicTool } from "./to-anthropic-tool"
 import { validateAiToolDefinition, type AiToolDefinition } from "./types"
 
@@ -38,6 +41,9 @@ const NARZEDZIA: Array<AiToolDefinition<any, any>> = [
   projektUziemieniaTool,
   monitorowanieIzolacjiImdTool,
   normyICertyfikatyTool,
+  skanerDzialkiTool,
+  analizaZacienieniaTool,
+  orientacjaPowierzchniTool,
 ]
 for (const narzedzie of NARZEDZIA) validateAiToolDefinition(narzedzie)
 
