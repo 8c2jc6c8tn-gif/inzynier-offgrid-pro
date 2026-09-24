@@ -26,5 +26,15 @@ export const AZYMUT_MIN_DEG = 0
 export const AZYMUT_MAX_DEG = 360
 export const MIN_WIERZCHOLKOW_OBRYSU = 3
 
+/**
+ * Przepuszczalność korony drzewa liściastego bez liści dla promieniowania bezpośredniego [-].
+ * Źródło: J. Konarska, F. Lindberg, A. Larsson i in., "Transmissivity of solar radiation through
+ * crowns of single urban trees", Theor. Appl. Climatol. 117 (2014) 363–376, DOI
+ * 10.1007/s00704-013-1000-3 — pomiary koron bezlistnych: 40,2–51,9%; przyjęta dolna granica
+ * zaokrąglona w dół (ostrożnie dla uzysku PV). 🔎 TD19: liczby ze streszczenia, pełny tekst
+ * niezweryfikowany (wartości per gatunek).
+ */
+export const PRZEPUSZCZALNOSC_KORONY_BEZLISTNEJ = 0.4
+
 /** Tolerancja numeryczna przecięć geometrycznych [m]. */
 export const EPS_GEOMETRII = 1e-9

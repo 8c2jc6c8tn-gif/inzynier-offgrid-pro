@@ -56,6 +56,17 @@ export function przeszkodaNiepoprawna(nazwa: string): Warning {
   }
 }
 
+export function przeszkodaObrysNiepoprawna(nazwa: string): Warning {
+  return {
+    code: "SKANER-PRZESZKODA-OBRYS-NIEPOPRAWNA",
+    level: "critical",
+    i18nKey: "SKANER-PRZESZKODA-OBRYS-NIEPOPRAWNA",
+    params: { nazwa },
+    technicalMessage: `przeszkoda-obrys "${nazwa}": wysokoscM < 0 albo nie jest liczbą`,
+    field: "przeszkody",
+  }
+}
+
 export function brakWysokosciGruntu(): Warning {
   return {
     code: "SKANER-BRAK-WYSOKOSCI-GRUNTU",

@@ -24,13 +24,26 @@ export type Kalibracja = {
 
 export type PolacGps = { nazwa: string; punkty: PunktGps[] }
 
-export type PrzeszkodaGps = {
+/** Przeszkoda jako walec (drzewo): środek, wysokość, promień. */
+export type PrzeszkodaWalecGps = {
+  typ: "walec"
   nazwa: string
   punkt: PunktGps
   wysokoscM: number
   /** Promień korony/rzutu przeszkody [m]. */
   promienM: number
 }
+
+/** Przeszkoda o obrysie wielokąta (sąsiedni budynek, ściana): narożniki przy gruncie + wysokość. */
+export type PrzeszkodaObrysGps = {
+  typ: "obrys"
+  nazwa: string
+  /** Narożniki w kolejności obchodzenia. */
+  obrys: PunktGps[]
+  wysokoscM: number
+}
+
+export type PrzeszkodaGps = PrzeszkodaWalecGps | PrzeszkodaObrysGps
 
 export type SkanerDzialkiInput = {
   /** Narożniki działki w kolejności obchodzenia. */

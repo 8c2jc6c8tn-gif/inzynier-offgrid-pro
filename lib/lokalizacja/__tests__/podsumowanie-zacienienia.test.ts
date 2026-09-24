@@ -15,7 +15,7 @@ const wynik = (
   prognoza: ScenariuszZacienienia | null = null,
   status: CalcResult<AnalizaZacienieniaResult>["status"] = "VALID",
 ): CalcResult<AnalizaZacienieniaResult> => ({
-  value: { obecnie, prognoza },
+  value: { zrodloPromieniowania: "czyste-niebo", obecnie, prognoza },
   unit: "%",
   status,
   formula: "",

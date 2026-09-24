@@ -40,7 +40,9 @@ export type WynikPolaci = {
   odchylenieOdPlaszczyznyM: number
 }
 
-export type PrzeszkodaLokalna = { nazwa: string; x: number; y: number; wysokoscM: number; promienM: number }
+export type PrzeszkodaLokalna =
+  | { typ: "walec"; nazwa: string; x: number; y: number; wysokoscM: number; promienM: number }
+  | { typ: "obrys"; nazwa: string; obrys: { x: number; y: number }[]; wysokoscM: number }
 
 export type SkanerDzialkiResult = {
   /** Punkt odniesienia układu lokalnego (x = 0, y = 0). */
@@ -96,8 +98,9 @@ function polac(nazwa: string, punkty: { x: number; y: number; z: number }[]): Wy
  * "wyznacza azymut każdej ściany, kąt nachylenia połaci dachowych, wysokość kalenicy" + kalibracja
  * znanym wymiarem ("wpisanie znanego wymiaru (np. długość ściany 12 m), żeby skorygować błąd GPS").
  * Kalibracja skaluje wyłącznie wymiary poziome — błąd wysokości GPS nie jest nią korygowany
- * (założenie jawne). Wykrywanie przeszkód: przeszkody wskazane przez użytkownika na spacerze są
- * przenoszone do układu lokalnego jako wejście Ekranu 3 (Analiza zacienienia).
+ * (założenie jawne). Wykrywanie przeszkód: przeszkody wskazane przez użytkownika na spacerze
+ * (walec — drzewo; obrys wielokąta — sąsiedni budynek) są przenoszone do układu lokalnego, z tą samą
+ * kalibracją poziomą, jako wejście Ekranu 3 (Analiza zacienienia).
  */
 export function calculateSkanerDzialki(input: SkanerDzialkiInput): CalcResult<SkanerDzialkiResult> {
   const { errors } = validateInput(input)
@@ -179,9 +182,13 @@ export function calculateSkanerDzialki(input: SkanerDzialkiInput): CalcResult<Sk
     }
   }
 
-  const przeszkody = (input.przeszkody ?? []).map((p) => {
+  const przeszkody = (input.przeszkody ?? []).map((p): PrzeszkodaLokalna => {
+    if (p.typ === "obrys") {
+      const obrys = rzut(p.obrys).map((l) => ({ x: l.x * s, y: l.y * s }))
+      return { typ: "obrys", nazwa: p.nazwa, obrys, wysokoscM: p.wysokoscM }
+    }
     const l = rzutujNaUkladLokalny(p.punkt, odniesienie)
-    return { nazwa: p.nazwa, x: l.x * s, y: l.y * s, wysokoscM: p.wysokoscM, promienM: p.promienM }
+    return { typ: "walec", nazwa: p.nazwa, x: l.x * s, y: l.y * s, wysokoscM: p.wysokoscM, promienM: p.promienM }
   })
 
   const assumptions: Assumption[] = [{ kod: "SKANER-ZALOZENIE-UKLAD-LOKALNY" }]

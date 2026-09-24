@@ -9,12 +9,19 @@
 import { MIN_PUNKTOW_WIELOKATA } from "@/lib/core/modules/lokalizacja/skaner-dzialki/constants"
 import type { SkanerDzialkiResult } from "@/lib/core/modules/lokalizacja/skaner-dzialki/calculator"
 import { normalnaNewella, rzutujNaUkladLokalny } from "@/lib/core/modules/lokalizacja/skaner-dzialki/geometria"
-import type { Kalibracja, PolacGps, PunktGps, SkanerDzialkiInput } from "@/lib/core/modules/lokalizacja/skaner-dzialki/input"
-import type { AnalizaZacienieniaInput, Punkt3D, PrzeszkodaDrzewo } from "@/lib/core/modules/lokalizacja/analiza-zacienienia/input"
+import type { Kalibracja, PolacGps, PrzeszkodaGps, PunktGps, SkanerDzialkiInput } from "@/lib/core/modules/lokalizacja/skaner-dzialki/input"
+import type { AnalizaZacienieniaInput, Przeszkoda, Punkt3D } from "@/lib/core/modules/lokalizacja/analiza-zacienienia/input"
+import { profilHoryzontuDeg, punktWewnatrzPrzeszkody } from "@/lib/core/modules/lokalizacja/analiza-zacienienia/przeszkody"
 import type { Powierzchnia } from "@/lib/core/modules/lokalizacja/orientacja-powierzchni/input"
 
 /** Klucz draftu Ekranu 2 (`usePersistedDraft`) — ten sam czytają Ekrany 3 i 4. */
 export const KLUCZ_MODELU_DZIALKI = "skaner-dzialki"
+
+/**
+ * Siatka punktów na powierzchnię: n × n — mapa cieplna Ekranu 3 i profile horyzontu Ekranu 4
+ * (ta sama siatka, żeby oba ekrany uśredniały te same punkty). Wybór rozdzielczości, nie fizyka.
+ */
+export const SIATKA_PROBKOWANIA = 4
 
 export type OpisDzialki = {
   teryt: string
@@ -25,13 +32,27 @@ export type OpisDzialki = {
   wojewodztwo: string
 }
 
-/** Przeszkoda w formularzu — liczby jako tekst pola (jak w każdym formularzu kalkulatora). */
-export type PrzeszkodaSeed = {
+/**
+ * Przeszkoda w formularzu — liczby jako tekst pola (jak w każdym formularzu kalkulatora).
+ * Walec (drzewo): brak `typ` = walec — drafty zapisane przed dodaniem obrysów (TD17) czytają się bez migracji.
+ */
+export type PrzeszkodaWalecSeed = {
+  typ?: "walec"
   nazwa: string
   punkt: PunktGps
   wysokoscM: string
   promienM: string
 }
+
+/** Przeszkoda o obrysie wielokąta (sąsiedni budynek): narożniki przy gruncie + wysokość. */
+export type PrzeszkodaObrysSeed = {
+  typ: "obrys"
+  nazwa: string
+  obrys: PunktGps[]
+  wysokoscM: string
+}
+
+export type PrzeszkodaSeed = PrzeszkodaWalecSeed | PrzeszkodaObrysSeed
 
 export type KalibracjaSeed = {
   zbior: "dzialka" | "budynek"
@@ -74,6 +95,10 @@ export type PrognozaSeed = {
   wysokosci: Record<string, string>
   /** Horyzont prognozy [lata] — etykieta scenariusza, nie parametr modelu. */
   lat: string
+  /** Nazwa przeszkody → drzewo liściaste (TD19). Opcjonalne — zapisy sprzed 24.09.2026 go nie mają. */
+  lisciaste?: Record<string, boolean>
+  /** Miesiące bez liści (0 = styczeń), wpisane przez użytkownika dla jego okolicy. */
+  miesiaceBezlisci?: number[]
 }
 
 /** Pole liczbowe formularza → liczba albo `undefined` (puste/niepoprawne). */
@@ -93,13 +118,15 @@ function kalibracja(k: KalibracjaSeed): Kalibracja | undefined {
 
 /**
  * Seed → wejście Skanera działki. Przeszkody z niepełnymi polami (np. jeszcze niewpisana
- * wysokość) nie idą do obliczeń — formularz pokazuje je jako niekompletne, a nie jako 0 m.
+ * wysokość, obrys w trakcie obchodzenia) nie idą do obliczeń — formularz pokazuje je jako
+ * niekompletne, a nie jako 0 m.
  */
 export function wejscieSkanera(m: ModelDzialki): SkanerDzialkiInput {
-  const przeszkody = m.przeszkody.flatMap((p) => {
-    const wysokoscM = liczba(p.wysokoscM)
-    const promienM = liczba(p.promienM)
-    return wysokoscM === undefined || promienM === undefined ? [] : [{ nazwa: p.nazwa, punkt: p.punkt, wysokoscM, promienM }]
+  const przeszkody = m.przeszkody.flatMap((p): PrzeszkodaGps[] => {
+    if (przeszkodaNiekompletna(p)) return []
+    const wysokoscM = liczba(p.wysokoscM)!
+    if (p.typ === "obrys") return [{ typ: "obrys", nazwa: p.nazwa, obrys: p.obrys, wysokoscM }]
+    return [{ typ: "walec", nazwa: p.nazwa, punkt: p.punkt, wysokoscM, promienM: liczba(p.promienM)! }]
   })
   return {
     punktyDzialki: m.dzialka.length > 0 ? m.dzialka : undefined,
@@ -110,9 +137,10 @@ export function wejscieSkanera(m: ModelDzialki): SkanerDzialkiInput {
   }
 }
 
-/** Przeszkoda bez kompletnych danych liczbowych (pominięta w obliczeniach). */
+/** Przeszkoda bez kompletnych danych (pominięta w obliczeniach): brak liczby albo obrys < 3 narożniki. */
 export function przeszkodaNiekompletna(p: PrzeszkodaSeed): boolean {
-  return liczba(p.wysokoscM) === undefined || liczba(p.promienM) === undefined
+  if (liczba(p.wysokoscM) === undefined) return true
+  return p.typ === "obrys" ? p.obrys.length < MIN_PUNKTOW_WIELOKATA : liczba(p.promienM) === undefined
 }
 
 export type PolacLokalna = {
@@ -218,12 +246,12 @@ export function punktyProbkowania(polac: PolacLokalna, n: number): Punkt3D[] {
 }
 
 /**
- * Przeszkody Skanera (walec: środek, promień, wysokość) → drzewa Ekranu 3, z prognozą z Ekranu 3.
- * 🔎 TD17 — sąsiedni budynek też trafia tu jako walec; kalkulator E3 obsługuje bryłę o obrysie
- * wielokąta (`PrzeszkodaBryla`), ale Skaner (E2) nie zbiera jeszcze obrysów przeszkód.
+ * Przeszkody Skanera → przeszkody Ekranu 3: walec → drzewo (z prognozą wzrostu z Ekranu 3),
+ * obrys → bryła (graniastosłup; budynek nie rośnie, więc bez prognozy).
  */
-export function przeszkodyZacienienia(wynik: SkanerDzialkiResult, prognoza: PrognozaSeed): PrzeszkodaDrzewo[] {
-  return wynik.przeszkody.map((p) => {
+export function przeszkodyZacienienia(wynik: SkanerDzialkiResult, prognoza: PrognozaSeed): Przeszkoda[] {
+  return wynik.przeszkody.map((p): Przeszkoda => {
+    if (p.typ === "obrys") return { typ: "bryla", nazwa: p.nazwa, obrys: p.obrys, wysokoscM: p.wysokoscM }
     const wysokoscPrognozowanaM = liczba(prognoza.wysokosci[p.nazwa] ?? "")
     return {
       typ: "drzewo",
@@ -232,6 +260,7 @@ export function przeszkodyZacienienia(wynik: SkanerDzialkiResult, prognoza: Prog
       promienKoronyM: p.promienM,
       wysokoscM: p.wysokoscM,
       ...(wysokoscPrognozowanaM !== undefined ? { wysokoscPrognozowanaM } : {}),
+      ...(prognoza.lisciaste?.[p.nazwa] ? { lisciaste: true } : {}),
     }
   })
 }
@@ -251,6 +280,7 @@ export function wejscieZacienienia(
     azymutPowierzchniDeg: polac.azymutDeg ?? 180,
     przeszkody: przeszkodyZacienienia(wynik, prognoza),
     latPrognozy: liczba(prognoza.lat),
+    ...(prognoza.miesiaceBezlisci?.length ? { miesiaceBezlisci: prognoza.miesiaceBezlisci } : {}),
   }
 }
 
@@ -322,10 +352,38 @@ export function elewacje(wynik: SkanerDzialkiResult): PowierzchniaZModelu[] {
     }))
 }
 
+function idPolaci(indeks: number, nazwa: string): string {
+  return `polac-${indeks}-${nazwa}`
+}
+
+/**
+ * Profile horyzontu przeszkód (obecna wysokość) z punktów siatki każdej połaci — wejście
+ * zacienienia Ekranu 4 (TD15 punkt 2), klucz = id powierzchni z `powierzchnieZModelu`. Tylko
+ * połacie: mają wysokość punktów z pomiaru; elewacje i powierzchnie ręczne jej nie mają, więc
+ * nie dostają profilu (kalkulator raportuje je jako bez zacienienia). Punkty wewnątrz przeszkody
+ * pominięte (jak walidacja Ekranu 3); połać bez żadnego punktu — bez profilu.
+ * 🔎 TD19 — profil nie rozróżnia drzew liściastych: Ekran 4 liczy je nieprzezroczyste cały rok (ostrożnie).
+ */
+export function horyzontyPolaci(m: ModelDzialki, wynik: SkanerDzialkiResult): Record<string, number[][]> {
+  const przeszkody = przeszkodyZacienienia(wynik, { wysokosci: {}, lat: "" })
+  const uzyte = new Set<number>()
+  const wyniki: Record<string, number[][]> = {}
+  for (const polac of polacieLokalne(m, wynik)) {
+    const i = wynik.polacie.findIndex((p, j) => !uzyte.has(j) && p.nazwa === polac.nazwa)
+    if (i < 0) continue
+    uzyte.add(i)
+    const profile = punktyProbkowania(polac, SIATKA_PROBKOWANIA)
+      .filter((pt) => !przeszkody.some((o) => punktWewnatrzPrzeszkody(pt, o)))
+      .map((pt) => profilHoryzontuDeg(pt, przeszkody))
+    if (profile.length > 0) wyniki[idPolaci(i, polac.nazwa)] = profile
+  }
+  return wyniki
+}
+
 /** Powierzchnie do oceny na Ekranie 4: połacie (z płaskimi jako azymut 180°) + elewacje. */
 export function powierzchnieZModelu(wynik: SkanerDzialkiResult): PowierzchniaZModelu[] {
   const polacie = wynik.polacie.map((p, i) => ({
-    id: `polac-${i}-${p.nazwa}`,
+    id: idPolaci(i, p.nazwa),
     nazwa: p.nazwa,
     zrodlo: "polac" as const,
     nachylenieDeg: Math.round(p.nachylenieDeg),

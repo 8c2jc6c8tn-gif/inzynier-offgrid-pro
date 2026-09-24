@@ -11,7 +11,7 @@ import { Canvas, useThree } from "@react-three/fiber"
 import { useEffect, useMemo } from "react"
 import * as THREE from "three"
 import { OrbitControls } from "three/examples/jsm/controls/OrbitControls.js"
-import type { Punkt2D, Punkt3D, PrzeszkodaDrzewo } from "@/lib/core/modules/lokalizacja/analiza-zacienienia/input"
+import type { Przeszkoda, Punkt2D, Punkt3D, PrzeszkodaDrzewo } from "@/lib/core/modules/lokalizacja/analiza-zacienienia/input"
 import { kolorStraty, type ProbkaMapy } from "./mapa-cieplna"
 
 export type Widok3dProps = {
@@ -20,7 +20,7 @@ export type Widok3dProps = {
   /** Wysokość bryły budynku (do okapu) [m]; null — tylko obrys na gruncie. */
   wysokoscBudynkuM: number | null
   polacie: Punkt3D[][]
-  przeszkody: PrzeszkodaDrzewo[]
+  przeszkody: Przeszkoda[]
   probki: ProbkaMapy[]
   /** Górna granica skali kolorów [%]. */
   skalaMaxProcent: number
@@ -51,7 +51,7 @@ function Obrys({ punkty, kolor }: { punkty: Punkt2D[]; kolor: string }) {
   return <primitive object={linia} />
 }
 
-function Bryla({ punkty, wysokosc }: { punkty: Punkt2D[]; wysokosc: number }) {
+function Bryla({ punkty, wysokosc, kolor = "#d6d3d1" }: { punkty: Punkt2D[]; wysokosc: number; kolor?: string }) {
   const geom = useMemo(() => {
     const ksztalt = new THREE.Shape(punkty.map((p) => new THREE.Vector2(p.x, p.y)))
     return new THREE.ExtrudeGeometry(ksztalt, { depth: wysokosc, bevelEnabled: false })
@@ -60,7 +60,7 @@ function Bryla({ punkty, wysokosc }: { punkty: Punkt2D[]; wysokosc: number }) {
   // Kształt w płaszczyźnie (wschód, północ), wyciągnięty wzdłuż +Z → obrót −90° wokół X: (x, y, z) → (x, z, −y).
   return (
     <mesh geometry={geom} rotation={[-Math.PI / 2, 0, 0]}>
-      <meshStandardMaterial color="#d6d3d1" />
+      <meshStandardMaterial color={kolor} />
     </mesh>
   )
 }
@@ -120,7 +120,7 @@ function Probka({ p, skalaMax }: { p: ProbkaMapy; skalaMax: number }) {
 
 export default function Widok3d(props: Widok3dProps) {
   const { cel, odleglosc } = useMemo(() => {
-    const pk: Punkt2D[] = [...props.budynek, ...props.polacie.flat(), ...props.przeszkody.map((d) => d.srodek)]
+    const pk: Punkt2D[] = [...props.budynek, ...props.polacie.flat(), ...props.przeszkody.flatMap((d) => (d.typ === "bryla" ? d.obrys : [d.srodek]))]
     const zrodlo = pk.length > 0 ? pk : props.dzialka
     if (zrodlo.length === 0) return { cel: new THREE.Vector3(), odleglosc: 30 }
     const xs = zrodlo.map((p) => p.x)
@@ -145,9 +145,13 @@ export default function Widok3d(props: Widok3dProps) {
           <Bryla punkty={props.budynek} wysokosc={props.wysokoscBudynkuM} />
         )}
         {props.polacie.map((pl, i) => (pl.length >= 3 ? <Polac key={i} punkty={pl} /> : null))}
-        {props.przeszkody.map((d, i) => (
-          <Drzewo key={i} d={d} />
-        ))}
+        {props.przeszkody.map((d, i) =>
+          d.typ === "bryla" ? (
+            d.obrys.length >= 3 && d.wysokoscM > 0 ? <Bryla key={i} punkty={d.obrys} wysokosc={d.wysokoscM} kolor="#a3a3a3" /> : null
+          ) : (
+            <Drzewo key={i} d={d} />
+          ),
+        )}
         {props.probki.map((p, i) => (
           <Probka key={i} p={p} skalaMax={props.skalaMaxProcent} />
         ))}

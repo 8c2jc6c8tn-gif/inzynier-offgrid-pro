@@ -24,6 +24,12 @@ export type Powierzchnia = {
   nachylenieDeg: number
   /** Kierunek, w który powierzchnia "patrzy" (N=0, E=90, S=180, W=270) [°]. */
   azymutDeg: number
+  /**
+   * Profile horyzontu przeszkód z punktów tej powierzchni (np. siatka jak na mapie cieplnej
+   * Ekranu 3): kąt wzniesienia [°] w równych krokach azymutu od 0° (360 wartości = co 1°).
+   * Napromieniowanie = średnia po punktach. Brak → powierzchnia oceniana bez zacienienia.
+   */
+  horyzontyDeg?: number[][]
 }
 
 export type OrientacjaPowierzchniInput = {
