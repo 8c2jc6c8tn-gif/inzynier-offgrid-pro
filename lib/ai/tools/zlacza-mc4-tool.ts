@@ -5,6 +5,7 @@ import { z } from "zod"
 import { calculateZlaczaMc4 } from "@/lib/core/modules/okablowanie/zlacza-mc4/calculator"
 import { PRODUCENCI_MC4 } from "@/lib/core/modules/okablowanie/zlacza-mc4/constants"
 import type { AiToolDefinition } from "../types"
+import { tekstyOstrzezen } from "./teksty-wyniku"
 
 export const ZlaczaMc4ToolInput = z.object({
   producentZenski: z
@@ -42,7 +43,7 @@ export const zlaczaMc4Tool: AiToolDefinition<ZlaczaMc4ToolInputT, ZlaczaMc4ToolO
     return {
       zgodne: wynik.value.zgodne,
       status: wynik.status,
-      ostrzezenia: wynik.warnings.map((w) => w.technicalMessage),
+      ostrzezenia: tekstyOstrzezen(wynik.warnings),
       wersjaKalkulatora: wynik.calculatorVersion,
     }
   },

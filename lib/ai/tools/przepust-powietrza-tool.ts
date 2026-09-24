@@ -4,6 +4,7 @@
 import { z } from "zod"
 import { calculatePrzepustPowietrza } from "@/lib/core/modules/okablowanie/przepust-powietrza/calculator"
 import type { AiToolDefinition } from "../types"
+import { tekstyOstrzezen } from "./teksty-wyniku"
 
 export const PrzepustPowietrzaToolInput = z.object({
   szczelinaCm: z.number().describe("Planowana szczelina wentylacyjna pod panelami PV, w centymetrach"),
@@ -38,7 +39,7 @@ export const przepustPowietrzaTool: AiToolDefinition<PrzepustPowietrzaToolInputT
       klasyfikacja: wynik.value.klasyfikacja,
       strataOrientacyjnaPct: wynik.value.strataOrientacyjnaPct,
       status: wynik.status,
-      ostrzezenia: wynik.warnings.map((w) => w.technicalMessage),
+      ostrzezenia: tekstyOstrzezen(wynik.warnings),
       wersjaKalkulatora: wynik.calculatorVersion,
     }
   },
