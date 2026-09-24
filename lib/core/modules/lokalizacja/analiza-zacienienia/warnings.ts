@@ -55,3 +55,14 @@ export function powierzchniaNieoswietlona(): Warning {
     field: "azymutPowierzchniDeg",
   }
 }
+
+export function brakOkresuBezlisci(nazwy: string): Warning {
+  return {
+    code: "ZACIENIENIE-BRAK-OKRESU-BEZLISCI",
+    level: "warning",
+    i18nKey: "ZACIENIENIE-BRAK-OKRESU-BEZLISCI",
+    params: { nazwy },
+    technicalMessage: `drzewa liściaste (${nazwy}) bez miesiecyBezlisci — liczone jako nieprzezroczyste cały rok`,
+    field: "miesiaceBezlisci",
+  }
+}

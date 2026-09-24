@@ -130,6 +130,15 @@ describe("przeszkodyZacienienia / wejscieZacienienia", () => {
     const w = wejscieZacienienia(wynik, PROGNOZA, s, { x: 5, y: 2, z: 4 })
     expect(w).toMatchObject({ szerokoscGeograficzna: LAT0, dlugoscGeograficzna: LON0, punkt: { x: 5, y: 2, z: 4 }, latPrognozy: 10 })
     expect(w.azymutPowierzchniDeg).toBeCloseTo(180, 0)
+    expect(w).not.toHaveProperty("miesiaceBezlisci")
+  })
+
+  it("drzewo liściaste i miesiące bez liści z formularza → wejście E3 (TD19); zapis bez tych pól nadal działa", () => {
+    const seed = { ...PROGNOZA, lisciaste: { Brzoza: true }, miesiaceBezlisci: [0, 1, 11] }
+    expect(przeszkodyZacienienia(wynik, seed)[0]).toMatchObject({ lisciaste: true })
+    expect(przeszkodyZacienienia(wynik, PROGNOZA)[0]).not.toHaveProperty("lisciaste")
+    const s = polacieLokalne(MODEL, wynik)[0]!
+    expect(wejscieZacienienia(wynik, seed, s, { x: 5, y: 2, z: 4 }).miesiaceBezlisci).toEqual([0, 1, 11])
   })
 })
 

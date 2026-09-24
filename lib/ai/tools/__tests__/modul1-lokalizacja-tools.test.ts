@@ -56,6 +56,11 @@ describe("analizaZacienieniaTool", () => {
     expect(p.srodek.y).toBeCloseTo(-12, 9)
   })
 
+  it("przeszkodaLokalna: drzewo liściaste przekazuje flagę do kalkulatora (TD19)", () => {
+    const p = przeszkodaLokalna({ typ: "drzewo", nazwa: "lipa", odlegloscM: 8, kierunekDeg: 180, wysokoscM: 9, promienKoronyM: 3, lisciaste: true })
+    expect(p).toMatchObject({ typ: "drzewo", lisciaste: true })
+  })
+
   it("przeszkodaLokalna: budynek na wschodzie, ściana 6 m w odległości 10 m, głębokość 4 m → x ∈ [10, 14], y ∈ [−3, 3]", () => {
     const p = przeszkodaLokalna({ typ: "budynek", nazwa: "sąsiad", odlegloscM: 10, kierunekDeg: 90, szerokoscM: 6, glebokoscM: 4, wysokoscM: 7 })
     if (p.typ !== "bryla") throw new Error("oczekiwano bryły")

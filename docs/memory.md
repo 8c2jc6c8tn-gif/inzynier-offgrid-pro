@@ -6340,5 +6340,13 @@ wariant zapasowy clear-sky zostaje dla braku danych; drzewa liściaste zimą —
 - **TD19 (drzewa liściaste zimą) — źródło znalezione, decyzja otwarta:** Konarska i in. 2014 (Theor. Appl.
   Climatol. 117:363–376): przepuszczalność bezpośredniego przez koronę bezlistną 40,2–51,9% (Göteborg,
   4 gatunki liściaste). Zweryfikowane tylko streszczenie — wydawcy zablokowani przez sieć kontenera.
+- **TD19 — wdrożone częściowo (24.09.2026, decyzja właściciela: "wdrażamy na bazie tych danych"):**
+  E3 v1.2.0. `PrzeszkodaDrzewo.lisciaste` + `miesiaceBezlisci` (wejście globalne, nie per drzewo —
+  fenologia jest regionalna; wpisywane ręcznie, bez domyślnych miesięcy, bo nie mamy źródła). τ = 0,40
+  (dolna granica 40,2% w dół). Kilka przeszkód na linii słońca → iloczyn τ; strata przypisana przeszkodzie
+  najmniej przepuszczalnej (przy remisie najwyższej kątowo) — przy samych bryłach/drzewach z liśćmi wynik
+  identyczny jak w v1.1.0. E4 świadomie bez zmian (profil horyzontu nie rozróżnia drzew) — ostrożnie.
+  Seed E3 (`PrognozaSeed`) dostał pola opcjonalne — stare zapisy działają. Pełny tekst do znalezienia
+  przez właściciela (lista zadań), potem dopracowanie.
 - **Weryfikacja:** pełny pakiet lokalny czysty (typecheck, lint 0 błędów, i18n-guard, 1193/1193, build,
   audit:gate). Kontrola na realnych danych PVGIS i w przeglądarce — niemożliwa z tego kontenera, do zrobienia.

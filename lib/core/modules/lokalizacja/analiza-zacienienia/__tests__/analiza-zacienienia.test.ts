@@ -235,3 +235,59 @@ describe("strata całkowitego napromieniowania na danych TMY (TD14)", () => {
     expect(r.warnings[0]!.code).toBe("ORIENTACJA-DANE-NIEPELNY-ROK")
   })
 })
+
+describe("drzewa liściaste w miesiącach bez liści (TD19)", () => {
+  const ZIMA = [0, 1, 11]
+  const lisciaste: PrzeszkodaDrzewo = { ...drzewoPoludnie, lisciaste: true }
+  const dane = rokSyntetyczny(baza.szerokoscGeograficzna!, baza.dlugoscGeograficzna!, 80)
+
+  for (const [wariant, wejscie] of [
+    ["czyste niebo", baza],
+    ["TMY", { ...baza, daneGodzinowe: dane }],
+  ] as const) {
+    it(`${wariant}: w miesiącach bez liści strata = (1 − 0,4) × strata drzewa nieprzezroczystego, w pozostałych bez zmian`, () => {
+      const nieprzezr = calculateAnalizaZacienienia({ ...wejscie, przeszkody: [drzewoPoludnie] }).value.obecnie.strataMiesiecznaProcent
+      const r = calculateAnalizaZacienienia({ ...wejscie, przeszkody: [lisciaste], miesiaceBezlisci: ZIMA })
+      const m = r.value.obecnie.strataMiesiecznaProcent
+      expect(nieprzezr[0]!).toBeGreaterThan(0)
+      for (let i = 0; i < 12; i++) expect(m[i]!).toBeCloseTo(ZIMA.includes(i) ? 0.6 * nieprzezr[i]! : nieprzezr[i]!, 9)
+    })
+  }
+
+  it("założenie z nazwami, miesiącami (od 1) i przepuszczalnością; bez założenia o nieprzezroczystych, gdy wszystkie liściaste", () => {
+    const r = calculateAnalizaZacienienia({ ...baza, przeszkody: [lisciaste], miesiaceBezlisci: [11, 0, 1] })
+    expect(r.assumptions).toContainEqual({
+      kod: "ZACIENIENIE-ZALOZENIE-DRZEWA-LISCIASTE",
+      params: { nazwy: "Brzoza", miesiace: "1, 2, 12", procent: 40 },
+    })
+    expect(r.assumptions).not.toContainEqual({ kod: "ZACIENIENIE-ZALOZENIE-DRZEWA-NIEPRZEZROCZYSTE" })
+  })
+
+  it("liściaste bez podanych miesięcy → jak nieprzezroczyste + ostrzeżenie", () => {
+    const nieprzezr = calculateAnalizaZacienienia({ ...baza, przeszkody: [drzewoPoludnie] })
+    const r = calculateAnalizaZacienienia({ ...baza, przeszkody: [lisciaste] })
+    expect(r.status).toBe("VALID_WITH_WARNINGS")
+    expect(r.warnings.map((w) => w.code)).toContain("ZACIENIENIE-BRAK-OKRESU-BEZLISCI")
+    expect(r.value.obecnie.strataRocznaProcent).toBe(nieprzezr.value.obecnie.strataRocznaProcent)
+    expect(r.assumptions).toContainEqual({ kod: "ZACIENIENIE-ZALOZENIE-DRZEWA-NIEPRZEZROCZYSTE" })
+  })
+
+  it("mur za drzewem bezlistnym zasłania całkowicie — strata jak od samego muru, przypisana murowi", () => {
+    const r = calculateAnalizaZacienienia({
+      ...baza,
+      punkt: { x: 0, y: 5, z: 0 },
+      przeszkody: [{ ...lisciaste, srodek: { x: 0, y: 1 }, wysokoscM: 20 }, scianaPoludniowa],
+      miesiaceBezlisci: ZIMA,
+    }).value.obecnie
+    const samMurDalej = calculateAnalizaZacienienia({ ...baza, punkt: { x: 0, y: 5, z: 0 }, przeszkody: [scianaPoludniowa] }).value.obecnie
+    expect(samMurDalej.strataMiesiecznaProcent[0]!).toBeGreaterThan(0)
+    for (const m of ZIMA) expect(r.strataMiesiecznaProcent[m]!).toBeCloseTo(samMurDalej.strataMiesiecznaProcent[m]!, 9)
+    expect(r.udzialPrzeszkod.reduce((a, u) => a + u.procent, 0)).toBeCloseTo(r.strataRocznaProcent, 9)
+  })
+
+  it("miesiąc spoza 0–11 → INVALID_INPUT", () => {
+    const r = calculateAnalizaZacienienia({ ...baza, przeszkody: [lisciaste], miesiaceBezlisci: [12] })
+    expect(r.status).toBe("INVALID_INPUT")
+    expect(r.warnings[0]!.field).toBe("miesiaceBezlisci")
+  })
+})

@@ -5,7 +5,7 @@ import Link from "next/link"
 import { useMemo, useState } from "react"
 import { NawigacjaEkranu } from "@/components/nawigacja-ekranu"
 import { kolorStraty, normalnaPolaci, type ProbkaMapy } from "@/components/lokalizacja/mapa-cieplna"
-import { WykresMiesiecy, WykresHoryzontu } from "@/components/lokalizacja/wykresy-zacienienia"
+import { MIESIACE, WykresMiesiecy, WykresHoryzontu } from "@/components/lokalizacja/wykresy-zacienienia"
 import { Button } from "@/components/ui/button"
 import { Pole } from "@/components/ui/pole"
 import { StanLadowania, StanPusty } from "@/components/ui/stany"
@@ -128,6 +128,11 @@ export default function AnalizaZacienieniaPage() {
   }
 
   const ustawPrognoze = (z: Partial<PrognozaSeed>) => setStan((s) => ({ ...s, prognoza: { ...s.prognoza, ...z } }))
+  const przelaczMiesiac = (m: number, wlaczony: boolean) =>
+    setStan((s) => {
+      const bez = (s.prognoza.miesiaceBezlisci ?? []).filter((x) => x !== m)
+      return { ...s, prognoza: { ...s.prognoza, miesiaceBezlisci: wlaczony ? [...bez, m].sort((a, b) => a - b) : bez } }
+    })
   const ustawDach = (z: Partial<StanE3["dach"]>) => setStan((s) => ({ ...s, dach: { ...s.dach, ...z } }))
 
   const podsumowania = aktualny ? wynikE3.podsumowania : []
@@ -221,15 +226,47 @@ export default function AnalizaZacienieniaPage() {
                   placeholder="np. 10"
                 />
                 {w.przeszkody.map((p) => (
-                  <Pole
-                    key={p.nazwa}
-                    label={`${p.nazwa} — wysokość za ${stan.prognoza.lat || "…"} lat (dziś ${f1(p.wysokoscM)} m)`}
-                    unit="m"
-                    inputMode="decimal"
-                    value={stan.prognoza.wysokosci[p.nazwa] ?? ""}
-                    onChange={(e) => ustawPrognoze({ wysokosci: { ...stan.prognoza.wysokosci, [p.nazwa]: e.target.value } })}
-                  />
+                  <div key={p.nazwa} className="flex flex-col gap-1">
+                    <Pole
+                      label={`${p.nazwa} — wysokość za ${stan.prognoza.lat || "…"} lat (dziś ${f1(p.wysokoscM)} m)`}
+                      unit="m"
+                      inputMode="decimal"
+                      value={stan.prognoza.wysokosci[p.nazwa] ?? ""}
+                      onChange={(e) => ustawPrognoze({ wysokosci: { ...stan.prognoza.wysokosci, [p.nazwa]: e.target.value } })}
+                    />
+                    <label className="flex items-center gap-3">
+                      <input
+                        type="checkbox"
+                        className="h-5 w-5 shrink-0 cursor-pointer accent-primary outline-none"
+                        checked={stan.prognoza.lisciaste?.[p.nazwa] ?? false}
+                        onChange={(e) => ustawPrognoze({ lisciaste: { ...stan.prognoza.lisciaste, [p.nazwa]: e.target.checked } })}
+                      />
+                      <span className="text-small">Drzewo liściaste (zimą bez liści)</span>
+                    </label>
+                  </div>
                 ))}
+                {Object.values(stan.prognoza.lisciaste ?? {}).some(Boolean) && (
+                  <fieldset className="flex flex-col gap-1">
+                    <legend className="text-small font-medium">Miesiące bez liści w Twojej okolicy</legend>
+                    <div className="flex flex-wrap gap-x-4 gap-y-1">
+                      {MIESIACE.map((nazwa, m) => (
+                        <label key={nazwa} className="flex items-center gap-2">
+                          <input
+                            type="checkbox"
+                            className="h-5 w-5 shrink-0 cursor-pointer accent-primary outline-none"
+                            checked={stan.prognoza.miesiaceBezlisci?.includes(m) ?? false}
+                            onChange={(e) => przelaczMiesiac(m, e.target.checked)}
+                          />
+                          <span className="text-small">{nazwa}</span>
+                        </label>
+                      ))}
+                    </div>
+                    <p className="text-small text-muted-foreground">
+                      W zaznaczonych miesiącach korona drzewa liściastego przepuszcza 40% promieniowania bezpośredniego
+                      (dolna granica pomiarów, Konarska i in. 2014). Okres bez liści zależy od gatunku i okolicy — aplikacja go nie zakłada.
+                    </p>
+                  </fieldset>
+                )}
               </>
             )}
           </section>

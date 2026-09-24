@@ -36,6 +36,7 @@ const Drzewo = z.object({
     .number()
     .optional()
     .describe("Wysokość drzewa za latPrognozy lat [m] — tylko jeśli podał ją user; nie szacuj tempa wzrostu"),
+  lisciaste: z.boolean().optional().describe("Drzewo liściaste (zimą bez liści) — działa tylko z miesiaceBezlisci"),
 })
 
 const Budynek = z.object({
@@ -55,6 +56,10 @@ export const AnalizaZacienieniaToolInput = z.object({
   wysokoscPaneliM: z.number().describe("Wysokość środka pola paneli nad gruntem [m] (ten sam poziom co wysokości przeszkód)"),
   przeszkody: z.array(z.discriminatedUnion("typ", [Drzewo, Budynek])),
   latPrognozy: z.number().optional().describe("Za ile lat jest wysokoscPrognozowanaM drzew"),
+  miesiaceBezlisci: z
+    .array(z.number())
+    .optional()
+    .describe("Miesiące bez liści drzew liściastych, 0 = styczeń — tylko jeśli podał je user; nie zgaduj fenologii"),
 })
 
 export type AnalizaZacienieniaToolInputT = z.infer<typeof AnalizaZacienieniaToolInput>
@@ -93,6 +98,7 @@ export function przeszkodaLokalna(p: PrzeszkodaWejscia): Przeszkoda {
       promienKoronyM: p.promienKoronyM,
       wysokoscM: p.wysokoscM,
       wysokoscPrognozowanaM: p.wysokoscPrognozowanaM,
+      lisciaste: p.lisciaste,
     }
   }
   const d0 = p.odlegloscM
@@ -133,6 +139,7 @@ export function utworzAnalizaZacienieniaTool(
         punkt: { x: 0, y: 0, z: input.wysokoscPaneliM },
         przeszkody: input.przeszkody.map(przeszkodaLokalna),
         latPrognozy: input.latPrognozy,
+        miesiaceBezlisci: input.miesiaceBezlisci,
         daneGodzinowe: tmy.ok ? tmy.dane.rekordy : undefined,
       })
       return {

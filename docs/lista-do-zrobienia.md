@@ -972,6 +972,6 @@ Pełne wyniki audytu: `docs/memory.md`, sekcja "Pełny audyt na polecenie właś
   ✅ (24.09) Ekran 4 UI (lista powierzchni ze wskaźnikiem, korekta ręczna azymutu/kąta) · ✅ (24.09) opisy narzędzi
   AI dla 3 nowych kalkulatorów (`lib/ai/tools/skaner-dzialki-tool.ts`, `analiza-zacienienia-tool.ts`,
   `orientacja-powierzchni-tool.ts` — E4 pobiera PVGIS w handlerze po stronie serwera, 8760 rekordów
-  nie przechodzi przez model) · ✅ (24.09) TD14 (rozproszone + zachmurzenie z PVGIS w E3; wydzielone TD18 nieboskłon, TD19 drzewa liściaste zimą — ⚠️ TD19 czeka na decyzję właściciela, źródło znalezione) · ✅ (24.09) TD15 (2) (zacienienie
+  nie przechodzi przez model) · ✅ (24.09) TD14 (rozproszone + zachmurzenie z PVGIS w E3; wydzielone TD18 nieboskłon, TD19 drzewa liściaste zimą — TD19 — ✅ (24.09) częściowo wdrożony w E3: drzewo liściaste przepuszcza 40% bezpośredniego w miesiącach bez liści wpisanych przez użytkownika) · 🔲 **TD19 — znaleźć pełny tekst** Konarska i in. 2014, *Theor. Appl. Climatol.* 117:363–376, DOI 10.1007/s00704-013-1000-3 (właściciel projektu; z kontenera wydawca zablokowany) — potem dopracować moduł: weryfikacja 40,2–51,9% i wartości per gatunek, drzewa liściaste w E4, fenologia dla Polski · ✅ (24.09) TD15 (2) (zacienienie
   z E3 we wskaźniku E4 — horyzont przeszkód dla połaci, Muneer "zacieniona") · 🔲 TD17 (przeszkody-bryły w Skanerze). Szczegóły:
   `docs/memory.md`, sekcja "Moduł 1 (Lokalizacja), Ekrany 2–4 — jądro obliczeniowe (23.09.2026)".

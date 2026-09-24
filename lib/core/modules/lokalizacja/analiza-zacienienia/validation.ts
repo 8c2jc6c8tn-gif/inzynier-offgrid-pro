@@ -4,6 +4,7 @@ import {
   AZYMUT_MIN_DEG,
   DLUGOSC_MAX,
   DLUGOSC_MIN,
+  MIESIECY,
   MIN_WIERZCHOLKOW_OBRYSU,
   NACHYLENIE_MAX_DEG,
   NACHYLENIE_MIN_DEG,
@@ -14,6 +15,7 @@ import { bledyDanychGodzinowych } from "@/lib/core/modules/lokalizacja/orientacj
 import type { AnalizaZacienieniaInput } from "./input"
 import { punktWewnatrzPrzeszkody as punktWPrzeszkodzieGeom } from "./przeszkody"
 import {
+  brakOkresuBezlisci,
   outOfRange,
   prognozaNizszaNizObecna,
   przeszkodaNiepoprawna,
@@ -47,6 +49,16 @@ export function validateInput(input: AnalizaZacienieniaInput): ValidationResult 
   zakres(errors, "azymutPowierzchniDeg", "azymut powierzchni", input.azymutPowierzchniDeg, AZYMUT_MIN_DEG, AZYMUT_MAX_DEG)
 
   errors.push(...bledyDanychGodzinowych(input.daneGodzinowe))
+
+  for (const m of input.miesiaceBezlisci ?? []) {
+    if (!Number.isInteger(m) || m < 0 || m >= MIESIECY) {
+      errors.push(outOfRange("miesiaceBezlisci", "miesiąc bez liści", m, 0, MIESIECY - 1))
+    }
+  }
+  const lisciasteBezOkresu = (input.przeszkody ?? []).filter((p) => p.typ === "drzewo" && p.lisciaste)
+  if (lisciasteBezOkresu.length > 0 && !input.miesiaceBezlisci?.length) {
+    warnings.push(brakOkresuBezlisci(lisciasteBezOkresu.map((p) => p.nazwa).join(", ")))
+  }
 
   for (const p of input.przeszkody ?? []) {
     if (!(p.wysokoscM >= 0) || !Number.isFinite(p.wysokoscM)) {

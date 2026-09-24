@@ -3,7 +3,7 @@
  * ciemnym motywie (`currentColor`). Tylko rysowanie wyników kalkulatora.
  */
 
-const MIESIACE = ["I", "II", "III", "IV", "V", "VI", "VII", "VIII", "IX", "X", "XI", "XII"]
+export const MIESIACE = ["I", "II", "III", "IV", "V", "VI", "VII", "VIII", "IX", "X", "XI", "XII"]
 const f1 = (x: number) => x.toLocaleString("pl-PL", { maximumFractionDigits: 1 })
 
 export function WykresMiesiecy({ obecnie, prognoza }: { obecnie: number[]; prognoza: number[] | null }) {

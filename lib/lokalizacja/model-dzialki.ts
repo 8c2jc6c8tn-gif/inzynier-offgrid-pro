@@ -81,6 +81,10 @@ export type PrognozaSeed = {
   wysokosci: Record<string, string>
   /** Horyzont prognozy [lata] — etykieta scenariusza, nie parametr modelu. */
   lat: string
+  /** Nazwa przeszkody → drzewo liściaste (TD19). Opcjonalne — zapisy sprzed 24.09.2026 go nie mają. */
+  lisciaste?: Record<string, boolean>
+  /** Miesiące bez liści (0 = styczeń), wpisane przez użytkownika dla jego okolicy. */
+  miesiaceBezlisci?: number[]
 }
 
 /** Pole liczbowe formularza → liczba albo `undefined` (puste/niepoprawne). */
@@ -239,6 +243,7 @@ export function przeszkodyZacienienia(wynik: SkanerDzialkiResult, prognoza: Prog
       promienKoronyM: p.promienM,
       wysokoscM: p.wysokoscM,
       ...(wysokoscPrognozowanaM !== undefined ? { wysokoscPrognozowanaM } : {}),
+      ...(prognoza.lisciaste?.[p.nazwa] ? { lisciaste: true } : {}),
     }
   })
 }
@@ -258,6 +263,7 @@ export function wejscieZacienienia(
     azymutPowierzchniDeg: polac.azymutDeg ?? 180,
     przeszkody: przeszkodyZacienienia(wynik, prognoza),
     latPrognozy: liczba(prognoza.lat),
+    ...(prognoza.miesiaceBezlisci?.length ? { miesiaceBezlisci: prognoza.miesiaceBezlisci } : {}),
   }
 }
 
@@ -339,6 +345,7 @@ function idPolaci(indeks: number, nazwa: string): string {
  * połacie: mają wysokość punktów z pomiaru; elewacje i powierzchnie ręczne jej nie mają, więc
  * nie dostają profilu (kalkulator raportuje je jako bez zacienienia). Punkty wewnątrz przeszkody
  * pominięte (jak walidacja Ekranu 3); połać bez żadnego punktu — bez profilu.
+ * 🔎 TD19 — profil nie rozróżnia drzew liściastych: Ekran 4 liczy je nieprzezroczyste cały rok (ostrożnie).
  */
 export function horyzontyPolaci(m: ModelDzialki, wynik: SkanerDzialkiResult): Record<string, number[][]> {
   const przeszkody = przeszkodyZacienienia(wynik, { wysokosci: {}, lat: "" })
