@@ -1,6 +1,6 @@
 # docs/lista-do-zrobienia.md — Inżynier Offgrid Pro
 
-Bieżąca, operacyjna lista zadań tego projektu. Format i zasada aktualizacji: `docs/god-book/instrukcja-uniwersalna-biblii-projektu-v2_20.md`, Część B.6. Czytana **zaraz po `00_Biblia.md`**, na starcie każdej sesji (Część P.2) — żeby AI nie musiało eksplorować całego projektu od nowa, żeby wiedzieć, od czego zacząć.
+Bieżąca, operacyjna lista zadań tego projektu. Format i zasada aktualizacji: `docs/god-book/instrukcja-uniwersalna-biblii-projektu-v2_28.md`, Część B.6. Czytana **zaraz po `00_Biblia.md`**, na starcie każdej sesji (Część P.2) — żeby AI nie musiało eksplorować całego projektu od nowa, żeby wiedzieć, od czego zacząć.
 
 **To nie to samo, co:**
 - `backlog-poza-v1.md` — rzeczy świadomie odłożone poza zakres (decyzje o skali/fazowaniu produktu, zbierane przy audycie).
@@ -962,3 +962,16 @@ Pełne wyniki audytu: `docs/memory.md`, sekcja "Pełny audyt na polecenie właś
   materiałów źródłowych, biblioteka norm z fizycznymi plikami, CI referencyjny/i18n-guard), 1
   częściowo (wielojęzyczność — punkty 1–5/B.3 tak, C6 wciąż otwarty). Szczegóły pełnej checklisty
   Y.9: `docs/memory.md`, sekcja "Synchronizacja ze standardem".
+- 🔄 (2026-09-23) **Moduł 1 (Lokalizacja), Ekrany 2–4 — jądro, UI i opisy AI gotowe (24.09), zostały długi TD.** Decyzja
+  architektoniczna D22 (`rejestr-decyzji.md`). Zbudowane i przetestowane: `geometria-slonca/`,
+  `skaner-dzialki/`, `analiza-zacienienia/`, `orientacja-powierzchni/` (55 testów). Dalej, w tej
+  kolejności: ✅ (23.09) proxy PVGIS TMY (`app/api/pvgis/tmy/route.ts`, TD15 (1) rozwiązany) ·
+  ✅ (24.09) TD16 — model Muneera (jak PVGIS) zamiast izotropowego, optimum 38° vs PVGIS 39° ·
+  ✅ (24.09) ULDK — bez proxy, bezpośrednio z przeglądarki (D23, `lib/adapters/uldk/uldk.ts`) · ✅ (24.09) Ekran 2 UI (MapLibre GL, spacer GPS offline, tryb Geoportal/ULDK online — działka i budynek, zapis
+  lokalny) · ✅ (24.09) Ekran 3 UI (R3F, mapa cieplna, profil horyzontu; obliczenia w Web Workerze) ·
+  ✅ (24.09) Ekran 4 UI (lista powierzchni ze wskaźnikiem, korekta ręczna azymutu/kąta) · ✅ (24.09) opisy narzędzi
+  AI dla 3 nowych kalkulatorów (`lib/ai/tools/skaner-dzialki-tool.ts`, `analiza-zacienienia-tool.ts`,
+  `orientacja-powierzchni-tool.ts` — E4 pobiera PVGIS w handlerze po stronie serwera, 8760 rekordów
+  nie przechodzi przez model) · ✅ (24.09) TD14 (rozproszone + zachmurzenie z PVGIS w E3; wydzielone TD18 nieboskłon, TD19 drzewa liściaste zimą — TD19 — ✅ (24.09) częściowo wdrożony w E3: drzewo liściaste przepuszcza 40% bezpośredniego w miesiącach bez liści wpisanych przez użytkownika) · 🔲 **TD19 — znaleźć pełny tekst** Konarska i in. 2014, *Theor. Appl. Climatol.* 117:363–376, DOI 10.1007/s00704-013-1000-3 (właściciel projektu; z kontenera wydawca zablokowany) — potem dopracować moduł: weryfikacja 40,2–51,9% i wartości per gatunek, drzewa liściaste w E4, fenologia dla Polski · ✅ (24.09) TD15 (2) (zacienienie
+  z E3 we wskaźniku E4 — horyzont przeszkód dla połaci, Muneer "zacieniona") · ✅ (24.09) TD17 (przeszkody-bryły w Skanerze) · 🔲 przejście po ekranach z `<Pole>` w `.map()` bez jawnego `id` (powtarzające się `id` z etykiety — dostępność; Ekran 2 naprawiony, patrz `docs/memory.md` "TD17"). Szczegóły:
+  `docs/memory.md`, sekcja "Moduł 1 (Lokalizacja), Ekrany 2–4 — jądro obliczeniowe (23.09.2026)".

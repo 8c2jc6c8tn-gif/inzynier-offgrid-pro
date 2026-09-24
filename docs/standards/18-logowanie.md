@@ -17,6 +17,8 @@ Konto jest wymagane od pierwszego uruchomienia aplikacji, bez wyjątku. To rozsz
 2. **Weryfikacja tier'u** — model subskrypcyjny (12.5) wymaga jednoznacznej tożsamości do odwołania/odnowienia/przeniesienia zakupu między urządzeniami.
 3. **Ograniczenie botów i nadużyć** — w pełni anonimowy dostęp uniemożliwia skuteczny rate limiting (18.11); konto daje jednostkę, wobec której limity i blokady faktycznie działają.
 
+[21.09.2026] ✅ DOPRECYZOWANO — źródło: właściciel repo. 18.1 ("bez wyjątku") jest już dziś tym samym rodzajem bezwarunkowej obowiązkowości co 9.0 (rozdz. 09) — dotyczy KAŻDEGO projektu rodziny, również już istniejących, nie tylko nowych budowanych od zera. Nazwane tu wprost dla spójności z równoległym doprecyzowaniem 17.1a i 5.7 (ten sam wątek, ta sama decyzja).
+
 ## 18.2. Dostawcy logowania
 
 Trzy równorzędne metody logowania od startu: **magic link e-mail** (passwordless), **Google**, **Apple**. Magic link eliminuje temat "reset hasła" jako kategorię — nie ma hasła, nie ma czego resetować.

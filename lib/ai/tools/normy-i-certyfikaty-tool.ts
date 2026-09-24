@@ -5,6 +5,7 @@ import { z } from "zod"
 import { calculateNormyICertyfikaty } from "@/lib/core/modules/okablowanie/normy-i-certyfikaty/calculator"
 import { CHECKLIST_ITEMS } from "@/lib/core/modules/okablowanie/normy-i-certyfikaty/constants"
 import type { AiToolDefinition } from "../types"
+import { tekstyOstrzezen } from "./teksty-wyniku"
 
 const ID_KOMPONENTU = CHECKLIST_ITEMS.map((item) => item.id) as [string, ...string[]]
 
@@ -43,7 +44,7 @@ export const normyICertyfikatyTool: AiToolDefinition<NormyICertyfikatyToolInputT
       potwierdzone: wynik.value.potwierdzone,
       razem: wynik.value.razem,
       status: wynik.status,
-      brakujaceKomponenty: wynik.warnings.map((w) => w.technicalMessage),
+      brakujaceKomponenty: tekstyOstrzezen(wynik.warnings),
       wersjaKalkulatora: wynik.calculatorVersion,
     }
   },

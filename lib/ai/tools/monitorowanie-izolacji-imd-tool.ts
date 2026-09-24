@@ -4,6 +4,7 @@
 import { z } from "zod"
 import { calculateMonitorowanieIzolacjiImd } from "@/lib/core/modules/okablowanie/monitorowanie-izolacji-imd/calculator"
 import type { AiToolDefinition } from "../types"
+import { tekstyOstrzezen } from "./teksty-wyniku"
 
 export const MonitorowanieIzolacjiImdToolInput = z.object({
   ukladIt: z.boolean().describe("Czy układ sieci jest typu IT (bez bezpośredniego uziemienia punktu neutralnego)"),
@@ -43,7 +44,7 @@ export const monitorowanieIzolacjiImdTool: AiToolDefinition<
     return {
       wymagany: wynik.value.wymagany,
       status: wynik.status,
-      ostrzezenia: wynik.warnings.map((w) => w.technicalMessage),
+      ostrzezenia: tekstyOstrzezen(wynik.warnings),
       wersjaKalkulatora: wynik.calculatorVersion,
     }
   },

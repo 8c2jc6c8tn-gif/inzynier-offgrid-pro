@@ -4,6 +4,7 @@
 import { z } from "zod"
 import { calculateProjektUziemienia } from "@/lib/core/modules/okablowanie/projekt-uziemienia/calculator"
 import type { AiToolDefinition } from "../types"
+import { tekstyOstrzezen, tekstyZalozen } from "./teksty-wyniku"
 
 export const ProjektUziemieniaToolInput = z.object({
   rezystywnoscGruntuOmM: z.number().describe("Rezystywność gruntu w Ω·m (pomiar albo wartość orientacyjna dla typu gruntu)"),
@@ -50,8 +51,8 @@ export const projektUziemieniaTool: AiToolDefinition<ProjektUziemieniaToolInputT
       liczbaPretowSzacowana: wynik.value.liczbaPretowSzacowana,
       docelowaRezystancjaOm: wynik.value.docelowaRezystancjaOm,
       status: wynik.status,
-      zalozenia: wynik.assumptions.map((a) => (typeof a === "string" ? a : JSON.stringify(a))),
-      ostrzezenia: wynik.warnings.map((w) => w.technicalMessage),
+      zalozenia: tekstyZalozen(wynik.assumptions),
+      ostrzezenia: tekstyOstrzezen(wynik.warnings),
       wersjaKalkulatora: wynik.calculatorVersion,
     }
   },
