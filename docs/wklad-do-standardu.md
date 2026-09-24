@@ -644,4 +644,11 @@ Rozdział 11 (CI/deployment) albo 07 (bezpieczeństwo — CSP `worker-src`, Perm
 krótką notę: "biblioteka z workerem → kopia w prebuild do public/ + `worker-src`; nowe API przeglądarki →
 najpierw Permissions-Policy".
 
-Status: 🔎 nowe.
+Status: ✅ skonsolidowane w standardzie (24.09.2026) — `docs/standards/11-ci-deployment.md` nowa
+**11.7** (kopiowanie pliku zależnego od `node_modules` do `public/` skryptem `predev`/`prebuild`,
+nigdy commitowane) + `docs/standards/07-bezpieczenstwo.md` dopisek do **7.3** (`worker-src 'self'
+blob:`) i nowy punkt checklisty **7.4** (nowa funkcja API przeglądarki zaczyna od sprawdzenia
+`Permissions-Policy`). Źródło potwierdzenia: `AKTUALIZACJE.md` w `new-app-standards`, wiersz
+2026-09-24, GOD BOOK bez zmiany numeru wersji dla tego wiersza. Sprawdzone przy Y.6 24.09.2026
+(sesja `claude/y6-adaptive-20260924`) — do zastosowania w tym projekcie przy pełnej synchronizacji
+NIETYKALNE (`docs/standards/11`, `07`), jeszcze nie zaaplikowane lokalnie, patrz `docs/memory.md`.
