@@ -6718,3 +6718,15 @@ grzewczym” potwierdzone przez właściciela; miesiące grzewcze — wybór uż
 werdykt „zależy”: gdy przy 30% wygrywa stały stelaż, a przy 40% tracker. Pułapka: `Math.floor(0.3/0.1)` = 2
 (float) — dzielenie z `+1e-9`, test K na to. Napór trackera nieliczony (brak wzoru w źródle) — `info`, nie
 `warning` (fakt ze źródła, nie ryzyko wynikające z danych użytkownika; D13).
+
+**[25.09.2026] M3/E2 „Typ montażu” — done (6 trybów: 5 ze źródła + stelaż regulowany D26).** Każdy tryb —
+osobny kalkulator w `lib/core/modules/pv/typ-montazu/` i osobny szkic UI (przełączanie nie gubi danych).
+Decyzje: (1) pion porównany z najlepszym kątem stałym przy tym samym azymucie, miesiące zysku z danych — bez
+sztywnej granicy „lato/zima”, której źródło nie definiuje; (2) próg „trawa/zaspa > 30 cm” zastąpiony geometrią
+(przeszkoda wyżej niż dolna krawędź) — dosłowny próg przeczyłby fizyce przy panelach zawieszonych wysoko; (3)
+tryby skośny/wielopołaciowy nie liczą napromieniowania od nowa — to samo zadanie workera co M1/E4, a draft M1/E4
+czytany tylko do odczytu (`useOdczytDraftu`, jeden właściciel zapisu); (4) wiata: układy dwublokowe
+(gilotynowe) — przyzwoite, ale nie dowiedzione optimum → jawne założenie; kierunek podziału zwraca domena
+(`podzial`), UI go nie zgaduje; (5) stelaż na dachu płaskim liczony jak wiata — ostrzeżenie `warning` o
+strefach krawędziowych i nośności dachu (poza modelem). Pułapka: `ulozPanele` — pętla cięcia musi dojść do
+`i <= floor(L/a)` (reszta krótsza niż bok w orientacji 1 może zmieścić panel obrócony).

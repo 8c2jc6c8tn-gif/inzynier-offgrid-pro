@@ -15,6 +15,7 @@ import { utworzWschodZachodTool, wschodZachodTool } from "../wschod-zachod-tool"
 import { utworzZlotySrodekTool, zlotySrodekTool } from "../zloty-srodek-tool"
 import { liczbaPaneliTool, utworzLiczbaPaneliTool } from "../liczba-paneli-tool"
 import { trackerVsStalyTool } from "../tracker-vs-staly-tool"
+import { typMontazuTool, utworzTypMontazuTool } from "../typ-montazu-tool"
 
 const bezBrakujacegoKlucza = (teksty: string[]) => {
   for (const tekst of teksty) expect(tekst.startsWith("⚠")).toBe(false)
@@ -22,7 +23,7 @@ const bezBrakujacegoKlucza = (teksty: string[]) => {
 
 describe("narzędzia AI Modułu 3 — kontrakt 9.3", () => {
   it("wszystkie: 'read', bez potwierdzenia, przechodzą validateAiToolDefinition", () => {
-    for (const n of [mikropeknieciaTermiczneTool, powlokiAntyrefleksyjneTool, technologiePaneliTool, mikroinwerteryVsCentralnyTool, warunkiNadmorskiePylisteTool, katIAzymutTool, wschodZachodTool, zlotySrodekTool, liczbaPaneliTool, trackerVsStalyTool]) {
+    for (const n of [mikropeknieciaTermiczneTool, powlokiAntyrefleksyjneTool, technologiePaneliTool, mikroinwerteryVsCentralnyTool, warunkiNadmorskiePylisteTool, katIAzymutTool, wschodZachodTool, zlotySrodekTool, liczbaPaneliTool, trackerVsStalyTool, typMontazuTool]) {
       expect(n.operationType).toBe("read")
       expect(n.requiresConfirmation).toBe(false)
       expect(() => validateAiToolDefinition(n)).not.toThrow()
@@ -302,5 +303,45 @@ describe("trackerVsStalyTool (M3/E3)", () => {
   it("brak danych → INCOMPLETE", async () => {
     const w = await trackerVsStalyTool.handler({ liczbaPaneliTracker: 0, kosztTrackeraZl: 6000, kosztPaneluZl: 1000, uzyskPaneluKwh: 450 })
     expect(w.status).toBe("INCOMPLETE")
+  })
+})
+
+describe("typMontazuTool (M3/E2)", () => {
+  const pvgis = (async () => new Response(JSON.stringify(odpowiedzPvgis()))) as unknown as typeof fetch
+
+  it("wiata bez sieci: przykład źródła 6×4 m → 8 paneli, 3,2 kWp, założenia jako tekst PL", async () => {
+    const w = await typMontazuTool.handler({ tryb: "wiata", dlugoscWiatyM: 6, szerokoscWiatyM: 4, dlugoscPaneluM: 2, szerokoscPaneluM: 1.5, mocPaneluW: 400, nachylenieDeg: 12 })
+    expect(w.status).toBe("VALID")
+    expect(w.wiata!.liczbaPaneli).toBe(8)
+    expect(w.wiata!.mocKwp).toBeCloseTo(3.2, 12)
+    expect(w.zalozenia).toContain(t("pl", "TM-ZALOZENIE-BEZ-SZCZELIN"))
+    bezBrakujacegoKlucza([...w.ostrzezenia, ...w.zalozenia])
+  })
+
+  it("dach płaski: brak danych wiatru → INCOMPLETE, bez zgadywania; komplet → balast z ostrzeżeniem PN-EN 1990", async () => {
+    const geometria = { tryb: "dach_plaski_grunt" as const, miejsce: "grunt" as const, nachylenieDeg: 30, dlugoscWzdluzSpaduM: 2, szerokoscStelazaM: 5, wysokoscDolnejKrawedziM: 0.5 }
+    expect((await typMontazuTool.handler(geometria)).status).toBe("INCOMPLETE")
+    const w = await typMontazuTool.handler({ ...geometria, strefaWiatrowa: 1, kategoriaTerenu: "III", wysokoscNpmM: 100, wspolczynnikPhi: 0 })
+    expect(w.dachPlaski!.podniesienieM).toBeCloseTo(1, 12)
+    expect(w.dachPlaski!.balastKg).toBeGreaterThan(0)
+    expect(w.ostrzezenia).toContain(t("pl", "ZS-BALAST-BEZ-WSPOLCZYNNIKOW"))
+  })
+
+  it("pionowy i regulowany pobierają PVGIS po stronie serwera; błąd PVGIS → INCOMPLETE z komunikatem", async () => {
+    const lok = { szerokoscGeograficzna: 52.23, dlugoscGeograficzna: 21.01, azymutDeg: 180 }
+    const p = await utworzTypMontazuTool(pvgis).handler({ tryb: "pionowy", ...lok })
+    expect(p.status).toBe("VALID")
+    expect(p.pionowy!.roznicaMiesiecznaPct).toHaveLength(12)
+    const r = await utworzTypMontazuTool(pvgis).handler({
+      tryb: "regulowany", ...lok, katMinDeg: 0, katMaxDeg: 30, dlugoscWzdluzSpaduM: 2, szerokoscStelazaM: 5, wysokoscDolnejKrawedziM: 0.5,
+      strefaWiatrowa: 1, kategoriaTerenu: "III", wspolczynnikPhi: 0,
+    })
+    expect(r.regulowany!.katyMiesieczneDeg).toHaveLength(12)
+    expect(r.zalozenia[0]).toMatch(/^Wysokość n\.p\.m\. z PVGIS/)
+    bezBrakujacegoKlucza([...r.ostrzezenia, ...r.zalozenia])
+    const zly = (async () => new Response("location over the sea", { status: 400 })) as unknown as typeof fetch
+    const b = await utworzTypMontazuTool(zly).handler({ tryb: "pionowy", ...lok })
+    expect(b.status).toBe("INCOMPLETE")
+    expect(b.ostrzezenia).toEqual([KOMUNIKAT_PVGIS["PVGIS-ODRZUCIL-ZAPYTANIE"]])
   })
 })

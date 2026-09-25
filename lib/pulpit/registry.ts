@@ -65,6 +65,7 @@ export const KAFLE: KafelEntry[] = [
     ikona: "☀️",
     ekrany: [
       { href: "/kalkulatory/kat-i-azymut", label: "Kąt pochylenia i azymut" },
+      { href: "/kalkulatory/typ-montazu", label: "Typ montażu" },
       { href: "/kalkulatory/wschod-zachod", label: "Orientacja wschód-zachód" },
       { href: "/kalkulatory/liczba-paneli", label: "Ile paneli potrzebujesz" },
       { href: "/kalkulatory/zloty-srodek", label: "Złoty środek — kąt, wiatr i balast" },

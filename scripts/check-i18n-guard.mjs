@@ -127,6 +127,7 @@ const MIGRATED_MODULES = [
   "lib/core/modules/pv/zloty-srodek",
   "lib/core/modules/pv/liczba-paneli",
   "lib/core/modules/pv/tracker-vs-staly",
+  "lib/core/modules/pv/typ-montazu",
   "lib/core/modules/kalkulator-mobilny/dobor-regulatora-pwm-mppt",
   "lib/core/modules/stress-test/wind-chill",
   "lib/core/modules/zapotrzebowanie/urzadzenia-zmienne",
