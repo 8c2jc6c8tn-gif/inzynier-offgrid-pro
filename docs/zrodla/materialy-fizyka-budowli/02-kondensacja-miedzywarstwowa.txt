@@ -1,0 +1,191 @@
+Fizyka budowli - kondensacja międzywarstwowa
+Fizyka Budowli (Zachodniopomorski Uniwersytet Technologiczny w Szczecinie)
+Scan to open on Studocu
+Studocu is not sponsored or endorsed by any college or university
+Fizyka budowli - kondensacja międzywarstwowa
+Fizyka Budowli (Zachodniopomorski Uniwersytet Technologiczny w Szczecinie)
+Scan to open on Studocu
+Studocu is not sponsored or endorsed by any college or university
+Downloaded by Dmitrij Szulga (tn67ktrggr@privaterelay.appleid.com)
+lOMoARcPSD|71595795
+
+
+Obliczenia kondensacji międzywarstwowej ściany zewnętrznej  
+https://youtu.be/t8BFP9LbhG0 
+Podstawa 
+obliczeniowa 
+- 
+PN-EN 
+ISO 
+13788:2013. 
+Cieplno-wilgotnościowe 
+właściwości 
+komponentów budowlanych i elementów budynku. Temperatura powierzchni wewnętrznej 
+umożliwiająca uniknięcie krytycznej wilgotności powierzchni i wewnętrznej kondensacji. Metody 
+obliczania. 
+ 
+Obliczenia wykresów ciśnień będziemy wykonywać tylko dla jednego skrajnego wariantu, przyjmując 
+obliczeniową temperaturę zewnętrzną na podstawie normy PN-82/B-02403 lub PN-EN 12831 
+zał. krajowy NB.  
+W przypadku kiedy w takim wariancie nie dochodzi do kondensacji, to kondensacji między 
+warstwowej nie będzie również przy łagodniejszych warunkach zewnętrznych. Jeżeli natomiast 
+kondensacja międzywarstwowa będzie występować, to należy zastosować metody podane w normie 
+PN-EN ISO 13788:2013, która przewiduje obliczenia dla 12 miesięcy. Obliczenia te wykonujemy 
+w odniesieniu do średnich temperatur i wilgotności względnych w danym miesiącu w rozpatrywanej 
+lokalizacji. W każdym miesiącu należy obliczyć ilość nagromadzonego kondensatu i ustalić czy 
+w ciągu roku ilość kondensatu będzie przyrastać. 
+Do takich obliczeń polecam darmowy kalkulator cieplno-wilgotnościowy:  
+https://leca.pl/kalkulatory/kalkulator-cieplno-wilgotnosciowy/ 
+Można także zastosować metody numeryczne np. oprogramowanie WUFI. 
+Algorytm obliczeń wykresów ciśnień pary wodnej: 
+Potrzebne są następujące dane przegrody: dj, Rj, Rsi, Rse, Rtot, U. 
+Potrzebne będą dane na temat temperatury θi oraz θe i wilgotności względnej powietrza po obu 
+stronach przegrody φi oraz φe. Temperatury do obliczeń proszę przyjąć tak samo jak do wykresów 
+temperatury, a wilgotności znajdziecie Państwo w indywidualnych wytycznych. 
+ 
+Potrzebujemy dodatkowego parametru materiałów – równoważnej dyfuzyjnie grubości warstwy 
+powietrza sd: 
+ 𝑆𝑑= 𝑑𝑛· 𝜇𝑛, [𝑚], 
+dn - grubość warstwy materiału, 
+μn - współczynnik oporu dyfuzyjnego materiału. 
+ 
+𝜇= 𝛿𝑜
+𝛿, [−], 
+δ0 - współczynnik dyfuzji pary wodnej w powietrzu, 
+δ - współczynnik paroprzepuszczalności materiału. 
+Wartości μ przyjmować na podstawie PN-EN ISO 12524:2003 lub danych producenta. 
+Downloaded by Dmitrij Szulga (tn67ktrggr@privaterelay.appleid.com)
+lOMoARcPSD|71595795
+
+
+ 
+Będziemy wyznaczać dwa wykresy ciśnień: wykres rzeczywistego ciśnienia pary wodnej 
+w przegrodzie (1) oraz wykres ciśnienia pary w stanie nasyconym (2). 
+ 
+Wykres (1) rzeczywistego ciśnienia pary wodnej w przegrodzie: 
+ 
+Rzeczywiste ciśnienie cząsteczkowe pary wodnej powietrza zewnętrznego: 
+𝑝𝑒= 𝜑𝑒· 𝑝𝑠𝑎𝑡(𝜃𝑒), [Pa lub hPa] 
+φe - wilgotność względna powietrza zewnętrznego, 
+psat - ciśnienie cząstkowe pary wodnej zawartej w powietrzu w stanie nasycenia, 
+odczytywane z zał. E PN-EN ISO 13788 lub zał. NA PN-EN ISO 6946:1999. 
+ 
+Rzeczywiste ciśnienie cząsteczkowe pary wodnej powietrza wewnętrznego: 
+𝑝𝑖= 𝜑𝑖· 𝑝𝑠𝑎𝑡(𝜃𝑖), [Pa lub hPa] 
+φi - wilgotność względna powietrza wewnętrznego, 
+psat - ciśnienie cząstkowe pary wodnej zawartej w powietrzu w stanie nasycenia, 
+odczytywane z zał. E PN-EN ISO 13788 lub zał. NA PN-EN ISO 6946:1999. 
+ 
+Wykres (2) ciśnienia pary wodnej w stanie nasyconym w przegrodzie: 
+ 
+Potrzebny jest wykres temperatury w przegrodzie. Na podstawie temperatur na stykach warstw 
+przegrody wyznaczamy ciśnienie pary wodnej w tych punktach korzystając z tabeli rozkładu ciśnienia 
+pary wodnej w zależności od temperatury lub wzorów z zał. E normy PN-EN ISO 13788: 
+𝑝𝑗,𝑠𝑎𝑡= 𝑝𝑠𝑎𝑡(𝜈𝑗), [Pa] 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+Downloaded by Dmitrij Szulga (tn67ktrggr@privaterelay.appleid.com)
+lOMoARcPSD|71595795
+
+
+Przykład obliczeniowy: 
+Temat: Obliczenia kondensacji międzywarstwowej przegrody z nieprawidłowo usytuowaną warstwą 
+izolacji termicznej: 
+ 
+ 
+Dane:  
+Nr 
+warstwy 
+Opis warstwy 
+λ [W/(mK)] 
+dj [m] Rj = d / λ [(m2K)/W] μ [-] sd [m] 
+1 
+Tynk wapienno-piaskowy 
+0,8 
+0,01 
+0,0125 
+8 
+0,08 
+2 
+Wełna mineralna  
+0,035 
+0,18 
+5,1429 
+1 
+0,18 
+3 
+Beton komórkowy  
+0,190 
+0,24 
+1,2631 
+10 
+2,40 
+4 
+Tynk zewnętrzy cementowy 
+1,200 
+0,01 
+0,0083 
+10 
+0,10 
+ 
+Rsi = 0,13 [(m2K)/W] 
+Rse = 0,04 [(m2K)/W] 
+Rtot  = 6,5968 [(m2K)/W] 
+U = 0,1516 [W/(m2K)] 
+ 
+θi = 20,0 °C, φi = 60% 
+θe = -16,0 °C, φe = 89% 
+ 
+q = U · Δθ = 5,4572 [W/m2] 
+ 
+ 
+ 
+Downloaded by Dmitrij Szulga (tn67ktrggr@privaterelay.appleid.com)
+lOMoARcPSD|71595795
+
+
+ 
+Dane dotyczące temperatury: 
+θi = 20,000 ˚C 
+νi = 19,291 ˚C 
+ν1-2 = 19,222 ˚C 
+ν2-3 = -8,843 ˚C 
+ν3-4 = -15,736 ˚C 
+νe = -15,782 °C 
+θe = -16,000 °C 
+ 
+Wyznaczenie rzeczywistego ciśnienia pary wodnej w przegrodzie: 
+pi = 0,60 ∙ psat(20°C) = 0,60 ∙ 2340 = 1404,0 Pa,   
+pe = 0,89 ∙ psat(-16°C) = 0,85 ∙ 150 = 133,5 Pa.    
+ 
+Obliczenie pary wodnej nasyconej na stykach poszczególnych warstw: 
+pi,sat = psat(19,291 °C) = 2234.02 Pa,   
+p1-2,sat = psat(19,222 °C) = 2224.56 Pa,  
+p2-3,sat = psat(-8,843 °C) = 287.32 Pa,  
+p3-4,sat = psat(-15,736 °C) = 153.86 Pa,  
+pe,sat = psat(-15,782 °C) = 153.21 Pa.  
+ 
+Wykresy przecinają się, wystąpi międzywarstwowa kondensacja pary wodnej. Na wykresie 
+zakreskowano obszar kondensacji międzywarstwowej w przegrodzie. 
+ 
+ 
+ 
+ 
+Downloaded by Dmitrij Szulga (tn67ktrggr@privaterelay.appleid.com)
+lOMoARcPSD|71595795
+
+
+ 
+Downloaded by Dmitrij Szulga (tn67ktrggr@privaterelay.appleid.com)
+lOMoARcPSD|71595795
