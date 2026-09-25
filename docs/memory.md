@@ -6556,3 +6556,28 @@ Założona nowa, poprawiona: self-bind, `trig_01892Z45ThAi2T56PJRjQQAh`, `run_on
 różnica względem poprzedniej wersji: Krok 2 stosuje NIETYKALNE/ADAPTOWALNE automatycznie, pytanie
 właściciela zostaje wyłącznie dla (a) pliku poza trzema kategoriami, (b) prawdziwego konfliktu
 Y.2.2, (c) treści LOKALNE wymagającej wiedzy specyficznej dla projektu.
+
+## Synchronizacja ze standardem — Y.6, automatyczne odpalenie Routine (25.09.2026, 10:57 UTC)
+
+Pierwsze automatyczne odpalenie nowej Routine (`trig_01892Z45ThAi2T56PJRjQQAh`), zgodnie z
+zaplanowanym `run_once_at`. Działanie samodzielne, bez udziału właściciela projektu.
+
+**Krok 1:** przed dotknięciem lokalnego `main` wykonano `git fetch origin main` +
+`git checkout -B main origin/main` — main był już aktualny (`fd684d9`, PR #150 z poprzedniego
+sprawdzenia), żadna równoległa sesja nie scaliła nic w międzyczasie. `new-app-standards`:
+`git fetch` + `git merge --ff-only` — 2 nowe commity, ale dotyczyły wyłącznie
+`docs/projekty-downstream.md` (wewnętrzny plik roboczy sesji U.4 nad `new-app-standards`, nie
+mirror żadnego pliku tego projektu) — commit źródła wprost potwierdza: *"inzynier-offgrid-pro
+(Y.6 odświeżona do v2_38, wszystko już skonsolidowane)"*. GOD BOOK źródła bez zmiany nazwy pliku
+(nadal `v2_38.md`), `AKTUALIZACJE.md` bez nowych wierszy od wczorajszego pełnego sync.
+
+**Krok 2 — wynik: ZERO nowej treści.** Zweryfikowano wprost (`diff -rq`): `docs/standards/*`,
+`docs/god-book/instrukcja-uniwersalna-biblii-projektu-v2_38.md`, `PROMPT_STARTOWY.md`,
+`docs/przyklady/i18n/*` — wszystkie identyczne ze źródłem, zero różnic. Nic do zastosowania.
+
+**Krok 3 (cykl adaptacyjny):** wczorajsze sprawdzenie zresetowało `interwał_h = 12`,
+`licznik_zero_z_rzedu = 0` po pełnej synchronizacji. Dzisiejsze sprawdzenie nie znalazło nic nowego
+→ `interwał_h = min(48, 12 × 1,5) = 18`, `licznik_zero_z_rzedu = 1`.
+
+**Krok 4:** `update_trigger` na `trig_01892Z45ThAi2T56PJRjQQAh`, nowy `run_once_at` =
+2026-09-26T04:58:00Z (+18h).
