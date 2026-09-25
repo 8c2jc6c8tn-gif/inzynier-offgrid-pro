@@ -6582,6 +6582,166 @@ mirror żadnego pliku tego projektu) — commit źródła wprost potwierdza: *"i
 **Krok 4:** `update_trigger` na `trig_01892Z45ThAi2T56PJRjQQAh`, nowy `run_once_at` =
 2026-09-26T04:58:00Z (+18h).
 
+## Moduł 3 — pełne wyliczenie + start sesji budowy (25.09.2026)
+
+**Znalezisko (Dyrektywa #14, ta sama klasa co luka 1.19):** 17 z 30 pozycji `Tresc_Modul_3_PV_Ekrany.md`
+nie miało wiersza w `docs/rejestr-pokrycia.md` — sekcja "Moduł 3 — ekrany dodatkowe" z 04.09.2026
+zapowiadała pełne wyliczenie jako "osobny, nie rozpoczęty krok", audyt N (05.09) złapał tylko PID.
+Naprawione: nowa sekcja rejestru "Moduł 3 — pełne wyliczenie pozostałych pozycji źródła". Przy okazji
+`mapa-wdrozenia.md` M3/M5 skorygowane (M5 29/29 od 20.09, mapa stała na 4/29) — reszta mapy nadal
+z 07.09, pełna resynchronizacja dopisana do listy zadań. **Lekcja:** zapowiedź "pełne wyliczenie
+później" w rejestrze to dokładnie ten stan, którego #14 zakazuje — przy starcie pracy nad modułem
+najpierw grep nazw ekranów źródła w rejestrze, dopiero potem budowa.
+
+**Decyzje właściciela projektu (25.09.2026):**
+- **M3/E19 (degradacja paneli) — `⚠️ blocked`.** Źródło nie podaje modelu LID/LETID/PID; odrzucony
+  też model gwarancyjny z karty katalogowej.
+- **M3/E4 (liczba paneli) — zamiast 3 wariantów źródła drabinka okresów pokrycia** (propozycja:
+  cze–sie / kwi–wrz / mar–paź / lut–lis / cały rok; `N = max_m(E_zapotrz,m / E_panel,m)`, miesiąc
+  decydujący z danych lokalizacji). Szczegóły czekają na potwierdzenie — wtedy wpis D#.
+- **M3/E9 (Złoty środek) — czeka.** Ustalone w rozmowie: z 3 krzywych tylko produkcja (silnik M1) i
+  śnieg (PN-EN 1991-1-3 Tablica 5.2, `μ1 = 0,8` dla 0–30°, `0,8(60−α)/30` dla 30–60°, `0` od 60°) mają
+  wzór; wiatr(kąt) wymaga PN-EN 1991-1-4 (brak w repo — wzór E6 nie zawiera kąta); brak wag
+  łączenia. Przykład źródła "22° → −55% wiatru" niewyprowadzalny (rzut sin α: ok. −35%).
+
+**Pułapka merytoryczna do zapamiętania (M3/E15, dane 2.30):** "TOPCon +5–8%, HJT +8–12% uzysku vs
+PERC" — sprawność ogniwa to kWp z m², nie kWh z kWp. Różnica kWh/kWp wynika z γ, bifacjalności,
+słabego światła, degradacji. Pokazywać jako dane źródła z 🔎, nigdy jako mnożnik w obliczeniu
+(dotyczy też przyszłego Ekranu 27).
+
+**Przejście nasłonecznienie → produkcja (M3/E1, E4, E20, E27):** silnik M1/E4 zwraca kWh/m²; kWh
+wymaga PR instalacji — źródło go nie podaje → pole ręczne z podpowiedzią zakresu, bez domyślnego.
+
+**[25.09.2026, po partii 1] Moduł 3 — 6 ekranów dobudowanych (E7, E12, E15, E21, E23, E25), 18/27 `done`.**
+- **Echo z E13:** `obliczStrataPaneluPct` wyekstrahowane z `zacienienie-diody-bocznikujace` —
+  E12 (wpływ diod bocznikujących) to ten sam fakt konstrukcyjny, nie nowa reguła; E12 nie ma
+  własnego modułu domenowego ani narzędzia AI.
+- **E15:** jedyne obliczenie to powierzchnia modułów z definicji STC; dane uzysku 2.30 z 🔎 (patrz
+  wyżej). Nowe pliki narzędzi AI M3 testowane zbiorczo w `lib/ai/tools/__tests__/modul3-pv-tools.test.ts`
+  — kolejne narzędzia M3 dopisuj tam, nie w osobnych plikach.
+- **✏️ E21 — uzupełnienie eksperckie do potwierdzenia przez właściciela:** ostrzeżenie, że typowy
+  mikroinwerter (falownik sieciowy) w off-gridzie wymaga sprzężenia AC z falownikiem wyspowym —
+  źródło tego nie mówi, a rekomendacja "mikroinwertery przy cieniu" bez tego prowadzi do
+  niedziałającej instalacji. Pełne 4 pola ✏️: `docs/rejestr-pokrycia.md`, wiersz Ekran 21.
+- **Weryfikacja:** typecheck / lint (0 błędów, 2 ostrzeżenia `<img>` sprzed sesji) / i18n-guard (108
+  modułów) / test 1248/1248 (+42) / build / audit:gate — czyste. `next start` + Playwright (390 px):
+  6 nowych tras HTTP 200, interakcja na każdej, brak `⚠ [klucz]`; błędy konsoli tylko z
+  `/_vercel/insights` (lokalnie nieobecny, niezwiązane). Poprawka po oględzinach: tabela E21 minWidth 480→320
+  (na telefonie ukrywała kolumnę "Inwerter centralny").
+
+## Licencje norm w publicznym repozytorium (25.09.2026)
+
+**Problem (zgłoszony przez AI, do decyzji właściciela projektu):** repozytorium
+`inzynier-offgrid-pro` jest **publiczne** (sprawdzone 25.09.2026), a `docs/zrodla/` zawiera PDF-y norm
+chronionych prawem autorskim (np. PN-HD 60364-5-54 z nadrukiem "© Copyright by PKN") oraz pliki `.md`
+z przepisaną treścią rozdziałów (np. `norma-PN-EN-1991-1-3/01…05-*.md`). Norma PN-EN 1991-1-4
+dostarczona 25.09.2026 miała dodatkowo nadruk licencji jednostanowiskowej PKN ("kopiowanie i
+umieszczanie w sieci zabronione") i znak wodny serwisu z danymi osobowymi pobierającego — **ten PDF
+świadomie NIE trafił do repo**, w repo tylko notatka robocza z liczbami
+(`docs/zrodla/norma-PN-EN-1991-1-4/00-INDEKS.md`).
+
+**Stanowisko AI (nie porada prawna):** przepisanie całej normy do `.md` nie rozwiązuje problemu —
+prawo autorskie chroni treść, nie format pliku. Bezpieczne w publicznym repo: krótkie notatki
+własne — numer punktu/tablicy + liczby i wzory faktycznie używane w kodzie. Właściciel projektu:
+jeśli przepisanie nie jest dopuszczalne, istniejące pliki zostają w repo do pierwszych
+użytkowników/publikacji, potem oryginały na własny dysk. **Uwaga:** repo publiczne = już
+opublikowane — najprostsze zabezpieczenie teraz to zmiana widoczności repo na prywatne
+(Ustawienia GitHub). Zadanie z terminem "przed publikacją": `docs/lista-do-zrobienia.md`.
+**Zasada od 25.09.2026:** nowa norma z nadrukiem licencji/danymi osobowymi → oryginał poza repo,
+w `docs/zrodla/norma-*/00-INDEKS.md` tylko notatka robocza (punkty, tablice, liczby używane w kodzie).
+
+## Stelaż regulowany i norma wiatrowa — ustalenia (25.09.2026)
+
+- **Stelaż PV jako wiata jednospadowa (PN-EN 1991-1-4, Tablica 7.6)** — zaakceptowane przez
+  właściciela projektu; w aplikacji oznaczane jako założenie (praktyka inżynierska, nie zapis normy).
+- **Tablica 7.6 obejmuje tylko 0–30°**, 7.4.3 daje `cf = 1,80` dla płyty pionowej (90°). Przedział
+  30–90° niepokryty normą — nie interpolować (Dyrektywa #1).
+- **Śnieg w zakresie 0–30° nie różnicuje kątów:** `μ1 = 0,8` stałe (PN-EN 1991-1-3, Tablica 5.2) — w
+  tym przedziale "złoty środek" (M3/E9) to w praktyce wybór energia vs wiatr.
+- **Nowe wymaganie właściciela:** naziemny stelaż z ręcznie regulowanym kątem (zmiana kąta w ciągu
+  roku, zimą większy) — D26 w `rejestr-decyzji.md`.
+- **[25.09.2026] Właściciel projektu wybrał plan B:** istniejące PDF-y/`.md` norm zostają w repo do
+  pierwszych użytkowników/publikacji, potem oryginały na jego dysk. Nowe normy: dalej notatki robocze
+  (`docs/zrodla/norma-*/00-INDEKS.md` — punkty, tablice, wzory i liczby używane w kodzie), żeby
+  kolejne sesje nie czytały 100+ stron od nowa. PDF PN-EN 1991-1-4 (dane osobowe w znaku wodnym)
+  nadal poza repo.
+- **[25.09.2026] M3/E9 — D27:** tor siły wiatru z PN-EN 1991-1-4 kompletny (notatka robocza, sekcja
+  "Tor obliczeń siły wiatru"); balast tylko jako `m = Fw/g` do czasu PN-EN 1990 (`docs/normy-brakujace.md`).
+
+**[25.09.2026] M3/E1 „Kąt pochylenia i azymut” — done.** Nowe wzorce do reużycia (15.19):
+- **Od 25.09: każdy ekran potrzebujący lokalizacji + PVGIS TMY używa `useLokalizacjaProjektu()`
+  (`lib/lokalizacja/use-lokalizacja-projektu.ts`) i `<SekcjaDanychNaslonecznienia>` — nie kopiuje logiki
+  z M1/E4** (E4 M1 przepięty na nie w tej samej zmianie).
+- **Tabela napromieniowania kąt×miesiąc** (`obliczTabeleNapromieniowania`, zadanie workera
+  `tabela-napromieniowania`) — wejście dla M3/E4 (liczba paneli, D25), E9 (krzywa produkcji, D27), E20.
+- `napromieniowanieMiesieczne` w `muneer.ts`; miesiąc liczony raz w `przygotujGodziny` (pole `miesiac`) —
+  pierwsza wersja (`new Date()` w pętli) spowolniła testy M1 ponad limit 5 s — pułapka wydajności.
+- **PVGIS niedostępny z kontenera** (polityka sieci: `re.jrc.ec.europa.eu` odrzucony przez proxy) —
+  test w przeglądarce przez wstrzyknięcie syntetycznego roku do IndexedDB (`offgrid-storage`/`kv`,
+  klucze `offgrid.pvgis-tmy.v1`, `offgrid.draft.lokalizacja-i-klimat`). Weryfikacja: tabela 169 ms,
+  optimum grudzień 77° / czerwiec 19° (dane syntetyczne bezchmurne — wartości kWh zawyżone, tylko
+  kontrola mechaniki). Pełny pakiet: 1261/1261 testów, build, audit, i18n-guard (109) — czyste.
+
+**[25.09.2026] M3/E20 „Orientacja wschód-zachód” — done.** Pułapka znaleziona przy oględzinach w
+przeglądarce (nie przez testy): rozkład dobowy przypisywał rekord godzinowy PVGIS w całości do godziny
+zegarowej jego chwili — rekord z 11:50 czasu słonecznego (reprezentujący 11:20–12:20) szedł cały "przed
+południe", co dawało 56% poranka dla paneli na południe zamiast ~50%. Naprawione w
+`napromieniowanieDobowe` (podział proporcjonalny), test regresji potwierdzony w obie strony (bez
+poprawki 55,6%, z poprawką < 1,5 p.p. od 50%). Lekcja: przy agregacji danych godzinowych do przedziałów
+czasu zawsze sprawdzić, czy rekord to chwila czy przedział. Pełny pakiet: 1273/1273 testów, build, audit — czyste.
+
+
+**[25.09.2026] M3/E9 „Złoty środek” — done (D27).** Właściciel potwierdził: PN-EN 1990 nie ma w repo ani
+w paczce 25.09 (obie części Eurokodu 1 tylko się do niej odwołują — sprawdzone grepem w tekście norm).
+- **Nowy wspólny moduł `lib/core/modules/pv/eurokod-1/`** (`wiatr.ts`, `snieg.ts`) — czyste funkcje
+  norm, bez CalcResult. M3/E6 i M3/E2 (balast) mają liczyć wiatr STĄD, nie od nowa (echo D12).
+- **Uzupełnienie notatki normy:** Tablica NA.1 ma pełny wzór dla strefy 3 przy A > 300 m
+  (`0,30·[1+0,0006(A−300)]²·(20000−A)/(20000+A)`) i dla strefy 1 (`0,30·[1+0,0006(A−300)]²`) —
+  wcześniejsza notatka odsyłała do oryginału; teraz wpisane w `00-INDEKS.md`.
+- **Interpretacja zachowawcza:** 7.3 (3) pozwala interpolować liniowo „wartości pośrednie” — w kontekście
+  φ; dla kąta α między węzłami (co 5°) bierzemy bardziej niekorzystny węzeł (jawne założenie).
+- 90°: cf = 1,80 to siła POZIOMA — balast kg nie liczony (tarcie/wywracanie poza normą).
+- Wysokość n.p.m. z metadanych PVGIS, gdy user nie wpisał (dane lokalizacji, nie zgadywanie).
+- Na danych syntetycznych (Warszawa, strefa 1, teren III, 2 m, 12 m²): qp = 476 Pa, 30° → 10,3 kN →
+  1048 kg. Przy wycenie energii 1 zł/kWh × 10 lat wygrywa 30° (energia przeważa koszt balastu 1 zł/kg).
+
+**[25.09.2026] M3/E4 „Ile paneli potrzebujesz” — done (D25).** Pole „dodatkowe zużycie w sezonie
+grzewczym” potwierdzone przez właściciela; miesiące grzewcze — wybór użytkownika (brak źródła na sezon).
+- Moduł 2 NIE ma zapisanej sumy dobowego zużycia (brak draftu z bilansem) — E4 ma pole ręczne. Gdy powstanie
+  ekran bilansu M2, podpiąć jako podpowiedź.
+- `Math.ceil(x − 1e-9)` przy N — iloraz 12,000000001 z arytmetyki zmiennoprzecinkowej nie może dać 13.
+- Deficyt: przy N rekomendacji; gdy nawet lato przekracza limit — przy pełnym limicie (ostrzeżenie).
+- Status: `LP-DEFICYT-POZA-OKRESEM` to `info` (D13 — nie podnosi statusu).
+
+**[25.09.2026] M3/E3 „Tracker czy stały stelaż” — done.** Zysk trackera 30–40% nie jako pole ręczne
+(tak zapowiadał wiersz rejestru), tylko wynik dla obu granic zakresu — jak E23 (Dyrektywa #1). Stąd trzeci
+werdykt „zależy”: gdy przy 30% wygrywa stały stelaż, a przy 40% tracker. Pułapka: `Math.floor(0.3/0.1)` = 2
+(float) — dzielenie z `+1e-9`, test K na to. Napór trackera nieliczony (brak wzoru w źródle) — `info`, nie
+`warning` (fakt ze źródła, nie ryzyko wynikające z danych użytkownika; D13).
+
+**[25.09.2026] M3/E2 „Typ montażu” — done (6 trybów: 5 ze źródła + stelaż regulowany D26).** Każdy tryb —
+osobny kalkulator w `lib/core/modules/pv/typ-montazu/` i osobny szkic UI (przełączanie nie gubi danych).
+Decyzje: (1) pion porównany z najlepszym kątem stałym przy tym samym azymucie, miesiące zysku z danych — bez
+sztywnej granicy „lato/zima”, której źródło nie definiuje; (2) próg „trawa/zaspa > 30 cm” zastąpiony geometrią
+(przeszkoda wyżej niż dolna krawędź) — dosłowny próg przeczyłby fizyce przy panelach zawieszonych wysoko; (3)
+tryby skośny/wielopołaciowy nie liczą napromieniowania od nowa — to samo zadanie workera co M1/E4, a draft M1/E4
+czytany tylko do odczytu (`useOdczytDraftu`, jeden właściciel zapisu); (4) wiata: układy dwublokowe
+(gilotynowe) — przyzwoite, ale nie dowiedzione optimum → jawne założenie; kierunek podziału zwraca domena
+(`podzial`), UI go nie zgaduje; (5) stelaż na dachu płaskim liczony jak wiata — ostrzeżenie `warning` o
+strefach krawędziowych i nośności dachu (poza modelem). Pułapka: `ulozPanele` — pętla cięcia musi dojść do
+`i <= floor(L/a)` (reszta krótsza niż bok w orientacji 1 może zmieścić panel obrócony).
+
+**[25.09.2026] M6 „Porównanie kosztów ogrzewania” (dawne 5.39 + D28) — done; potwierdzenia E15 🔎 i E21 ✏️.**
+Pomysł właściciela „webasto + paliwa stałe” okazał się mieć oparcie w źródle: funkcja 5.39 (Biblia §6.27.13),
+dotąd nieobecna w rejestrze (Część 2C `Tresc_Modul_6` ją tylko wymienia). Źródło nie podaje wartości
+opałowych ani sprawności — wszystko wpis użytkownika; okres 10 lat jest ze źródła, więc wolno go wstawić jako
+start pola (inaczej niż np. PR). Źródło z brakami nie blokuje porównania pozostałych (info zamiast INCOMPLETE
+całości) — przy liście budowanej stopniowo to jedyny użyteczny tryb, i nadal bez wartości domyślnych.
+**Pułapka (znaleziona i naprawiona):** `Pole`/`PoleSelect` budują `id` z etykiety — w powtarzanych kartach
+(ta sama etykieta N razy) powstają zduplikowane `id`, etykiety wiążą się tylko z pierwszym polem (dostępność,
+testy Playwright `getByLabel`). Naprawione tu, w M3/E2 (moc powierzchni) i w M1/E4 (korekty i powierzchnie
+ręczne); przy każdym `.map()` z `Pole` podawać jawne `id`. Inne ekrany z listami `Pole` — do przejrzenia.
+
 ## Pull 25.09.2026 — dwa naprawione dryfy po PR #147–#151
 
 Po `git pull` (14 commitów) pełny lokalny pakiet wykrył dwa dryfy (Y.2, naprawione od razu):

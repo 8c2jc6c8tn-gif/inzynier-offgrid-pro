@@ -26,6 +26,20 @@ plik pełnej normy trafił do repo bezpośrednio na `main` 06.09.2026 i został 
 samego dnia, ale ten wpis oraz odpowiedni `00-INDEKS.md`/`docs/zrodla/README.md` nie zostały
 wtedy zaktualizowane — naprawione teraz, przy okazji.)*
 
+[25.09.2026] ✅ DODANO — źródło: pełne wyliczenie Modułu 3 (sesja 25.09.2026).
+
+- ✅ **[25.09.2026] POZYSKANA — patrz "Pozyskane (historia)".** ~~PN-EN 1991-1-4 (Eurokod 1 — oddziaływania wiatru)~~ — współczynniki siły/ciśnienia dla dachów
+  wiat i paneli w zależności od kąta nachylenia. **Blokuje:** M3/E9 „Złoty środek” (krzywa naporu
+  wiatru w funkcji kąta — wzór E6 nie zawiera kąta), M3/E6 (siła ssania i wymagany balast — dziś
+  tylko `F=0,5ρv²ACd`), M3/E2 tryb „dach płaski/grunt” (balast). Ta sama rodzina co już
+  dostarczona PN-EN 1991-1-3 (śnieg).
+
+- **PN-EN 1990 (Eurokod — podstawy projektowania konstrukcji)** [25.09.2026] — częściowe
+  współczynniki bezpieczeństwa (obciążenie zmienne — wiatr, oddziaływanie stałe stabilizujące —
+  ciężar balastu). **Blokuje:** balast PROJEKTOWY w M3/E9 (D27), M3/E6, M3/E2 — bez niej aplikacja
+  pokazuje tylko masę równoważącą samą siłę wiatru. Potrzebny fragment: Załącznik A1 (tablice
+  wartości obliczeniowych oddziaływań) + Załącznik krajowy.
+
 ## 🔵 Spodziewane — zapowiedziane przez właściciela projektu
 
 *(pusta na razie)*
@@ -42,6 +56,12 @@ wtedy zaktualizowane — naprawione teraz, przy okazji.)*
 - **EN 61439** (pełna seria — rozdzielnice i sterownice niskonapięciowe, zestawy aparatury
   łączeniowej) — jw., wyjaśniona koncepcyjnie (w tym: czy wystarczy wersja angielska), treść
   nigdy nie pozyskana.
+
+- **PN-EN 12831-1 (obciążenie cieplne budynków — metoda obliczania)** [25.09.2026] — silnik
+  „zapotrzebowanie na ciepło z metrażu/przegród” (M6, Część 2D — luka jawnie oznaczona w samym
+  źródle); potrzebna, żeby ekran liczby paneli (M3/E4, D25) i dobór dogrzewania (pomysł
+  „ogrzewanie paliwowe typu webasto”, 25.09.2026) mogły powiązać metraż budynku z zimowym
+  zapotrzebowaniem, zamiast wpisu ręcznego.
 
 ## ⚪ Zidentyfikowane tylko z nazwy (z bibliografii/indeksów innych źródeł)
 
@@ -86,3 +106,8 @@ dostęp do oryginalnej prezentacji (nie konwersji), warto sprawdzić te konkretn
   przeniesiony do `docs/zrodla/norma-HD-60364-7-712/UNE-HD-60364-7-712-2017-pelny-tekst.pdf` przy
   audycie 07.09.2026 (wcześniej leżał luzem w `docs/zrodla/` pod nieopisową nazwą). Pełny opis:
   `docs/zrodla/norma-HD-60364-7-712/00-INDEKS.md` i `docs/zrodla/README.md`.
+- **[25.09.2026] PN-EN 1991-1-4:2008 + AC:2009 — Eurokod 1, oddziaływanie wiatru**, dostarczona przez
+  właściciela projektu (161 stron, z Załącznikiem krajowym NA). Oryginał poza repo (licencja PKN,
+  dane osobowe w znaku wodnym — `docs/memory.md` "Licencje norm w publicznym repozytorium").
+  Notatka robocza: `docs/zrodla/norma-PN-EN-1991-1-4/00-INDEKS.md`. Odblokowuje M3/E9 częściowo
+  (wiatr 0–30° i 90°), M3/E6 i E2 (balast) — do opracowania.

@@ -22,6 +22,15 @@ const FORMULA =
   "strata_{panelu} = \\frac{sekcje_{zacienione}}{3} \\times 100\\% \\;\\; ; \\;\\; P_{rzeczywista} = P_{nominalna} \\times \\left(1 - \\frac{sekcje_{zacienione}}{3}\\right)"
 
 /**
+ * Strata mocy pojedynczego panelu [%] przy `liczbaZacienionychSekcji` zacienionych sekcjach —
+ * wydzielona (wzorzec echo, D12) dla Ekranu 12 (wpływ diod bocznikujących), który ilustruje ten
+ * sam fakt konstrukcyjny ("3 sekcje / 3 diody"), nie inną regułę.
+ */
+export function obliczStrataPaneluPct(liczbaZacienionychSekcji: number): number {
+  return (liczbaZacienionychSekcji / LICZBA_SEKCJI_DIOD_BOCZNIKUJACYCH) * 100
+}
+
+/**
  * Ekran 13, Moduł 3 "Instalacja PV" — "Symulacja zacienienia i wpływu na diody bocznikujące"
  * (scala dawne 2.23, 2.49, docs/zrodla/Tresc_Modul_3_PV_Ekrany.md, Sekcja A-D). Liczy TYLKO
  * stratę mocy zacienionego panelu (poziom panelu) — poprawność wzoru zweryfikowana niezależnie
@@ -72,9 +81,8 @@ export function calculateZacienienieDiodyBocznikujace(
     }
   }
 
-  const strataUlamkowa = input.liczbaZacienionychSekcji / LICZBA_SEKCJI_DIOD_BOCZNIKUJACYCH
-  const strataPaneluPct = strataUlamkowa * 100
-  const mocPaneluRzeczywistaW = input.mocPaneluNominalnaW * (1 - strataUlamkowa)
+  const strataPaneluPct = obliczStrataPaneluPct(input.liczbaZacienionychSekcji)
+  const mocPaneluRzeczywistaW = input.mocPaneluNominalnaW * (1 - strataPaneluPct / 100)
 
   const warnings =
     input.liczbaZacienionychSekcji === 0

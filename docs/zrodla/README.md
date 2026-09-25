@@ -247,3 +247,13 @@ zostają tu — mają bezpośredni lub prawdopodobny związek z modułami tego p
 spot-check) — przed użyciem jakiejkolwiek liczby w kodzie patrz zastrzeżenie w odpowiednim
 `00-INDEKS.md`. Status wykorzystania wszystkich siedmiu pozycji: przeanalizowane, niewykorzystane
 jeszcze w kodzie.
+
+## Norma PN-EN 1991-1-4:2008 + AC:2009 — Eurokod 1, oddziaływanie wiatru (25.09.2026)
+
+Dostarczona przez właściciela projektu (6 plików PDF, 161 stron, z Załącznikiem krajowym NA).
+**Oryginał NIE jest w repozytorium** — nadruk licencji PKN z zakazem umieszczania w sieci oraz
+znak wodny z danymi osobowymi pobierającego, a repozytorium jest publiczne. Oryginał przechowuje
+właściciel projektu; w repo tylko notatka robocza z liczbami używanymi w kodzie:
+**`docs/zrodla/norma-PN-EN-1991-1-4/00-INDEKS.md`**. Odstępstwo od zasady B.5 (oryginał w
+`docs/zrodla/`) — świadome, powód i otwarta decyzja o pozostałych normach: `docs/memory.md`,
+"Licencje norm w publicznym repozytorium (25.09.2026)".
