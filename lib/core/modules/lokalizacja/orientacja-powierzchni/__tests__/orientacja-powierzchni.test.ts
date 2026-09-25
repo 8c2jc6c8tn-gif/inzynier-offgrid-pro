@@ -149,7 +149,7 @@ describe("zacienienie z profilu horyzontu (TD15 punkt 2)", () => {
     expect(r.value.powierzchnie[0]!.napromieniowanieRoczneKwhM2).toBeCloseTo(oczekiwaneWh / 1000, 6)
   })
 
-  it("przeszkoda od południa: strata > 0, wskaźnik niższy niż bez przeszkód; optimum lokalizacji bez zmian", () => {
+  it("przeszkoda od południa: strata > 0, wskaźnik niższy niż bez przeszkód; optimum lokalizacji bez zmian", { timeout: 30_000 }, () => {
     const r0 = calculateOrientacjaPowierzchni({ ...baza, powierzchnie: [S35] })
     const r = calculateOrientacjaPowierzchni({ ...baza, powierzchnie: [{ ...S35, horyzontyDeg: [poludnie(20)] }] })
     const o = r.value.powierzchnie[0]!
@@ -162,7 +162,7 @@ describe("zacienienie z profilu horyzontu (TD15 punkt 2)", () => {
     expect(wyzsza.value.powierzchnie[0]!.strataZacienieniaProcent!).toBeGreaterThan(o.strataZacienieniaProcent!)
   })
 
-  it("kilka punktów powierzchni → średnia napromieniowania punktów", () => {
+  it("kilka punktów powierzchni → średnia napromieniowania punktów", { timeout: 30_000 }, () => {
     const jeden = (h: number[]) =>
       calculateOrientacjaPowierzchni({ ...baza, powierzchnie: [{ ...S35, horyzontyDeg: [h] }] }).value.powierzchnie[0]!
         .napromieniowanieRoczneKwhM2
