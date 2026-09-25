@@ -34,7 +34,7 @@ wtedy zaktualizowane — naprawione teraz, przy okazji.)*
   tylko `F=0,5ρv²ACd`), M3/E2 tryb „dach płaski/grunt” (balast). Ta sama rodzina co już
   dostarczona PN-EN 1991-1-3 (śnieg).
 
-- **PN-EN 1990 (Eurokod — podstawy projektowania konstrukcji)** [25.09.2026] — częściowe
+- ✅ **[25.09.2026] POZYSKANA — patrz "Pozyskane (historia)".** ~~PN-EN 1990 (Eurokod — podstawy projektowania konstrukcji)~~ [25.09.2026] — częściowe
   współczynniki bezpieczeństwa (obciążenie zmienne — wiatr, oddziaływanie stałe stabilizujące —
   ciężar balastu). **Blokuje:** balast PROJEKTOWY w M3/E9 (D27), M3/E6, M3/E2 — bez niej aplikacja
   pokazuje tylko masę równoważącą samą siłę wiatru. Potrzebny fragment: Załącznik A1 (tablice
@@ -57,7 +57,7 @@ wtedy zaktualizowane — naprawione teraz, przy okazji.)*
   łączeniowej) — jw., wyjaśniona koncepcyjnie (w tym: czy wystarczy wersja angielska), treść
   nigdy nie pozyskana.
 
-- **PN-EN 12831-1 (obciążenie cieplne budynków — metoda obliczania)** [25.09.2026] — silnik
+- 🟡 **[25.09.2026] częściowo: dostarczony poradnik (nie norma) do wydania PN-EN 12831:2006** — `docs/zrodla/materialy-Purmo-PN-EN-12831-ogrzewanie/` (wzory zweryfikowane) + temperatury zewnętrzne PN-82/B-02403 (`docs/zrodla/norma-PN-82-B-02403/`). Tekst normy PN-EN 12831-1:2017 nadal brak — rozbieżność wersji do oznaczenia jako założenie. **PN-EN 12831-1 (obciążenie cieplne budynków — metoda obliczania)** [25.09.2026] — silnik
   „zapotrzebowanie na ciepło z metrażu/przegród” (M6, Część 2D — luka jawnie oznaczona w samym
   źródle); potrzebna, żeby ekran liczby paneli (M3/E4, D25) i dobór dogrzewania (pomysł
   „ogrzewanie paliwowe typu webasto”, 25.09.2026) mogły powiązać metraż budynku z zimowym
@@ -72,7 +72,7 @@ z nazwy:
 - **HD 60364-5-551** (zespoły prądotwórcze/agregaty) — **bezpośrednio istotna dla funkcji 1.19
   "Agregat prądotwórczy — definicja i logika"** (Moduł 2), dziś zbudowanej bez formalnego źródła
   normatywnego dla tej części.
-- **Pełna seria EN 62305** (ochrona odgromowa) — mamy tylko wzmiankę z indeksu norm w materiale
+- 🟡 **[25.09.2026] częściowo: dostarczony poradnik producenta „A Guide to BS EN 62305” (Furse)** — `docs/zrodla/norma-IEC-62305/` (tablice zweryfikowane); tekstu normy nadal brak. **Pełna seria EN 62305** (ochrona odgromowa) — mamy tylko wzmiankę z indeksu norm w materiale
   branżowym PV-2019 (`docs/zrodla/materialy-branzowe-PV-2019/`), nie treść.
 
 Odkryte przy analizie indeksu norm w materiale branżowym PV-2019 (05–06.09.2026), lista 34 z 43
@@ -111,3 +111,8 @@ dostęp do oryginalnej prezentacji (nie konwersji), warto sprawdzić te konkretn
   dane osobowe w znaku wodnym — `docs/memory.md` "Licencje norm w publicznym repozytorium").
   Notatka robocza: `docs/zrodla/norma-PN-EN-1991-1-4/00-INDEKS.md`. Odblokowuje M3/E9 częściowo
   (wiatr 0–30° i 90°), M3/E6 i E2 (balast) — do opracowania.
+- **[25.09.2026] PN-EN 1990:2004 (+ A1:2008, Ap1, Ap2, AC:2010) — Eurokod 0**, dostarczona przez właściciela
+  projektu w paczce New-info (skan 120 stron). Zweryfikowane wizualnie: 6.4 (EQU/STR/GEO, kombinacje),
+  Załącznik A1 (Tablice A1.1–A1.4), Załącznik krajowy NB („bez zmian krajowych” → wartości zalecane),
+  poprawka Ap1 (ψ2 śniegu = 0). **Odblokowuje balast projektowy M3/E9, E2, E6 (D27):** γG,inf = 0,90,
+  γQ = 1,50 (EQU). Opis: `docs/zrodla/norma-PN-EN-1990-eurokod-0/00-INDEKS.md`.

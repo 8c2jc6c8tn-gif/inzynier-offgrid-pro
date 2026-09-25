@@ -177,34 +177,34 @@ meteorologicznej);
 średnią miesięczną wartość ciśnienia pary wodnej lub 
 wilgotności objętościowej można obliczyć ze średniej 
 temperatury i wilgotności względnej, stosując równania: 
-
-
+(
+)
 e
 sat
 e
 e
 p
 p
-
-
-
+Θ
+·
+=φ
   
  
  
  
 (1) 
-
-
+(
+)
 e
 sat
 e
 e
-
-
-
-
-
-
+Θ
+·
+=
+ν
+φ
+ν
   
  
  
@@ -229,10 +229,10 @@ Na podstawie klasy wilgotności wewnętrznej
 (Δp); 
 1,1
 ,
-
-
-
-
+·
+Δ
++
+=
 p
 p
 p
@@ -247,10 +247,10 @@ i
 (3) 
 b. Na podstawie wilgotności względnej w 
 pomieszczeniu (φi); 
-
-
-
-
+(
+)
+(
+)
 i
 sat
 i
@@ -258,14 +258,14 @@ PN
 i
 p
 p
-
-
-
-
+Θ
+·
++
+=
 05
 ,0
 ,
-
+φ
   
  
  
@@ -280,8 +280,8 @@ Przyjmuje
 się 
 maksymalną dopuszczalną wilgotność względną na 
 powierzchni φsi=0,8. 
-
-
+(
+)
 8,0
 ,PN
 i
@@ -289,8 +289,8 @@ si
 sat
 p
 p
-
-
+=
+Θ
  
  
  
@@ -316,13 +316,13 @@ e
 si
 Rsi
 f
-
-
-
-
-
-
-
+Θ
+−
+Θ
+Θ
+−
+Θ
+=
 min
 ,
 min
@@ -357,14 +357,14 @@ U
 R
 U
 f
-
-
-
-
-
-
-
-
+−
+=
+−
+=
+−
+=
+−
+−
 1
 1
 1
@@ -400,11 +400,11 @@ R
 R
 R
 f
-
-
-
-
-
+−
+=
+→
+−
+=
  
 (9) 
 lub maksymalną wartość współczynnika przenikania ciepła: 
@@ -429,11 +429,11 @@ max
 1
 1
 1
-
-
-
-
-
+−
+=
+→
+−
+=
   
 (10) 
 2.2. 
@@ -477,13 +477,13 @@ e
 si
 Rsi
 f
-
-
-
-
-
-
-
+Θ
+−
+Θ
+Θ
+−
+Θ
+=
   
  
  
@@ -534,7 +534,7 @@ kon
 i
 p
 p
-
+=
  
  
  
@@ -566,25 +566,25 @@ i
 p
 p
 p
-
-
-
+·
+−
+=
 05
 ,0
 ,
 max
 ,
-
+φ
    
  
  
 (17) 
 podstawiając za pi,PN  równanie (15) można otrzymać: 
-
-
-
-
-
+[]
+−
+−
+·
+=
 05
 ,0
 8,0
@@ -597,14 +597,14 @@ i
 i
 p
 p
-
+φ
   
  
  
  
 (18) 
 lub 
-
+[]
 %
 %
 100
@@ -614,22 +614,22 @@ lub
 ,
 max
 ,
-
-
-
-
-
-
-
-
-
+·⎟⎟
+⎠
+⎞
+⎜⎜
+⎝
+⎛
+−
+·
+=
 ni
 kon
 i
 i
 p
 p
-
+φ
    
 (18a) 
 Natomiast dopuszczalną wilgotność względną powietrza w 
@@ -650,11 +650,11 @@ max
 ,
 max
 ,
-
-
-
-
-
+Δ
++
+=
+=
+φ
    
  
  
@@ -682,10 +682,10 @@ i
 p
 p
 p
-
-
-
-
+−
+·
+=
+Δ
   
  
  
@@ -712,14 +712,14 @@ p
 p
 p
 p
-
-
-
-
-
-
-
-
+·
+·
++
+·
+=
+Δ
++
+=
 1,1
 1,0
 8,0
@@ -727,13 +727,13 @@ p
 max
 max
 ,
-
+φ
   
  
  
 (23) 
 lub 
-
+[]
 %
 %
 100
@@ -743,17 +743,17 @@ lub
 ,
 max
 ,
-
-
-
-
-
-
-
-
-
-
-
+·⎟⎟
+⎠
+⎞
+⎜⎜
+⎝
+⎛
+·
+·
++
+·
+=
 ni
 e
 kon
@@ -762,7 +762,7 @@ i
 p
 p
 p
-
+φ
    
 (23a) 
 3. WYNIKI OBLICZEŃ KONDENSACJI 
@@ -781,7 +781,7 @@ przyrost zawilgocenia w pomieszczeniu dla pięciu klas
 wilgotności wewnętrznej: ΔpI = 2,7 hPa;  ΔpII = 5,4 hPa; 
 ΔpIII = 8,1 hPa;  ΔpIV = 10,8 hPa;  ΔpV = 12,0 hPa, 
 współczynnik przenikania ciepła przegrody zewnętrznej U 
-w przedziale od 0,10 - 1,40 W/(m2K) co 0,05 i co 0,2; opór 
+w przedziale od 0,10 - 1,40 W/(m2.K) co 0,05 i co 0,2; opór 
 przejmowania 
 ciepła 
 na 
@@ -823,10 +823,10 @@ Starakiewicz A., Lichołai L., Miąsik P., Metoda określania dopuszczalnej wilg
  
 Rys. 1. Roczny przebieg wilgotności względnej powietrza 
 w pomieszczeniu: φi,kon, φi,max i φi przy braku kondensacji 
-powierzchniowej dla ∆p=10,8 hPa, U=0,25 W/(m2K) i Ti=20 ºC. 
+powierzchniowej dla ∆p=10,8 hPa, U=0,25 W/(m2.K) i Ti=20 ºC. 
 Fig. 1. The annual course of relative humidity in the room; φi,con, 
 φi max and φi in the absence of surface condensation for ∆p=10,8 
-hPa, U=0,25 W/(m2K) and Ti=20°C. 
+hPa, U=0,25 W/(m2.K) and Ti=20°C. 
  
 Rys. 
 2. 
@@ -841,10 +841,10 @@ fRsi,min
 przy 
 braku 
 kondensacji 
-powierzchniowej dla ∆p=10,8 hPa, U=0,25 W/(m2K) i Ti=20 ºC. 
+powierzchniowej dla ∆p=10,8 hPa, U=0,25 W/(m2.K) i Ti=20 ºC. 
 Fig. 2. The annual course of temperature factors in the room: fRsi 
 and fRsi,min in the absence of surface condensation for ∆p=10,8 
-hPa, U=0.25 W/(m2K) and Ti=20°C. 
+hPa, U=0.25 W/(m2.K) and Ti=20°C. 
 Downloaded by Dmitrij Szulga (tn67ktrggr@privaterelay.appleid.com)
 lOMoARcPSD|71595795
 
@@ -854,11 +854,11 @@ lOMoARcPSD|71595795
  
 Rys. 3. Roczny przebieg wilgotności względnej powietrza 
 w pomieszczeniu: φi,kon, φi,max i φi z kondensacją powierzchniową 
-w lutym, listopadzie i grudniu dla ∆p=12,0 hPa, U=0,20 W/(m2K) 
+w lutym, listopadzie i grudniu dla ∆p=12,0 hPa, U=0,20 W/(m2.K) 
 i Ti=20 ºC. 
 Fig. 3. The annual course of relative humidity in the room: φi,con, 
 φi,max and φi with surface condensation in February, November 
-and December for ∆p=12,0 hPa, U=0,20 W/(m2K) and Ti=20°C. 
+and December for ∆p=12,0 hPa, U=0,20 W/(m2.K) and Ti=20°C. 
  
 Rys. 
 4. 
@@ -867,11 +867,11 @@ przebieg
 czynników 
 temperaturowych 
 w pomieszczeniu: fRsi i fRsi,min z kondensacją powierzchniową 
-w lutym, listopadzie i grudniu dla ∆p=12,0 hPa, U=0,20 W/(m2K) 
+w lutym, listopadzie i grudniu dla ∆p=12,0 hPa, U=0,20 W/(m2.K) 
 i Ti=20 ºC. 
 Fig. 4. The annual course of temperature factors in the room: fRsi 
 and fRsi,min with surface condensation in February, November and 
-December for ∆p=12,0 hPa, U=0,20 W/(m2K) and Ti=20 °C. 
+December for ∆p=12,0 hPa, U=0,20 W/(m2.K) and Ti=20 °C. 
 Downloaded by Dmitrij Szulga (tn67ktrggr@privaterelay.appleid.com)
 lOMoARcPSD|71595795
 

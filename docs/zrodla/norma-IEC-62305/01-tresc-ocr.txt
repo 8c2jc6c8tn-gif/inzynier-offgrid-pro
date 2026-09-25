@@ -7,7 +7,7 @@ A Guide to BS EN 62305
 Protection Against Lightning
 3rd edition
 
-ThomaseBelts
+Thomas&Betts
 
 A Member of the ABB Group
 
@@ -522,7 +522,7 @@ Guidance on the protection of electronic systems is
 provided in Part 4 of the BS EN 62305 standard.
 This includes:
 
-e Anexplanation of how lightning causes transient
+e An explanation of how lightning causes transient
 overvoltages (surges) and the effects they can have
 on electronic equipment
 
@@ -623,7 +623,7 @@ communications lines.
 
 Mains power supplies should be protected
 
-e Atthe main incomer or main low voltage power
+e At the main incomer or main low voltage power
 distribution board
 
 e On outgoing power supplies
@@ -829,7 +829,7 @@ detailed in the other parts.
 Within Part 1, the initial focus is on the damage that
 can be caused by lightning. This is sub-divided into:
 
-e Damage to astructure (including all incoming
+e Damage to a structure (including all incoming
 electrical overhead and buried lines connected to
 the structure)
 
@@ -874,7 +874,7 @@ Electromagnetic Impulse (LEMP)
 Furse, Wilford Road, Nottingham, NG2 1EB * Tel: +44 (0)115 964 3700 * Email: enquiry@furse.com * Web: www.furse.com | urse .
 
 
-===== iec62305/page-016.txt =====
+===== iec62305/page-016.txt ===== [TABELE ZWERYFIKOWANE WIZUALNIE 25.09.2026; tekst ciągły — OCR]
 
 BS EN 62305-1 General principles
 
@@ -927,10 +927,10 @@ summarized in Table 2.1.
 
 Point of strike Source of Type of Type of
 damage damage loss
-Structure S1 D1 L1,ik4**
+Structure S1 D1 L1, L4**
 D2 L1, L2, L3, L4
 D3 L1*, L2, L4
-Near a S2 D3 LA, |-2, L4.
+Near a S2 D3 L1*, L2, L4
 structure
 Lines S3 D1 L1, L4**
 connected to D2 L1, L2, L3, L4
@@ -959,7 +959,22 @@ Furse, Wilford Road, Nottingham, NG2 1EB * Tel: +44 (0)115 964 3700 * Email: enq
 
 15
 
+[TABELE/WZORY ZWERYFIKOWANE WIZUALNIE ze skanem 25.09.2026 — obowiązują zamiast rozsypanego OCR powyżej]
+Table 2.1: Damage and loss in a structure according to different points of lightning strike (BS EN 62305-1 Table 2)
 
+| Point of strike | Source of damage | Type of damage | Type of loss |
+|---|---|---|---|
+| Structure | S1 | D1 | L1, L4** |
+| | | D2 | L1, L2, L3, L4 |
+| | | D3 | L1*, L2, L4 |
+| Near a structure | S2 | D3 | L1*, L2, L4 |
+| Lines connected to the structure | S3 | D1 | L1, L4** |
+| | | D2 | L1, L2, L3, L4 |
+| | | D3 | L1*, L2, L4 |
+| Near a line | S4 | D3 | L1*, L2, L4 |
+
+* Only for structures with risk of explosion and for hospitals or other structures where failures of internal systems immediately endangers human life.
+** Only for properties where animals may be lost.
 
 ===== iec62305/page-017.txt =====
 
@@ -1160,7 +1175,7 @@ Furse, Wilford Road, Nottingham, NG2 1EB * Tel: +44 (0)115 964 3700 * Email: enq
 
 
 
-===== iec62305/page-019.txt =====
+===== iec62305/page-019.txt ===== [TABELE ZWERYFIKOWANE WIZUALNIE 25.09.2026; tekst ciągły — OCR]
 
 18
 
@@ -1230,13 +1245,13 @@ a relationship between the minimum peak current and
 the striking distance (or in other words the rolling
 sphere radius) that can be expressed as:
 
-izddwl (2.1)
+r = 10 × I^0.65 (2.1)
 
 Where: r= radius of rolling sphere (m)
 I = minimum peak current (kA)
 For example, for LPL I:
 
-r=10x3755
+r = 10 × 3^0.65
 
 r=20.42 m
 
@@ -1265,25 +1280,25 @@ protection level.
 
 So we can state that:
 
-e LPLIcan see a range of peak current from
+e LPL I can see a range of peak current from
 3 kA to 200 kA with a probability that:
 
 99% of strikes will be lower than 200 kA
 99% of strikes will be higher than 3 kA
 
-e LPLII can see a range of peak current from
+e LPL II can see a range of peak current from
 5 kA to 150 kA with a probability that:
 
 98% of strikes will be lower than 150 kA
 97% of strikes will be higher than 5 kA
 
-e LPLIII can see a range of peak current from
+e LPL III can see a range of peak current from
 10 kA to 100 kA with a probability that:
 
 97% of strikes will be lower than 100 kA
 91% of strikes will be higher than 10 kA
 
-e LPLIV can see a range of peak current from
+e LPL IV can see a range of peak current from
 16 kA to 100 kA with a probability that:
 
 97% of strikes will be lower than 100 kA
@@ -1291,6 +1306,28 @@ e LPLIV can see a range of peak current from
 
 Furse, Wilford Road, Nottingham, NG2 1EB Tel: +44 (0)115 964 3700 * Email: enquiry@furse.com * Web: www.furse.com | urse =
 
+[TABELE/WZORY ZWERYFIKOWANE WIZUALNIE ze skanem 25.09.2026 — obowiązują zamiast rozsypanego OCR powyżej]
+Table 2.2: Lightning current for each LPL based on 10/350 µs waveform
+
+| LPL | I | II | III | IV |
+|---|---|---|---|---|
+| Maximum current (kA) | 200 | 150 | 100 | 100 |
+
+Table 2.3: Current capability of lightning current SPDs based on 10/350 µs waveform (three-phase supply, 4 lines, 50% of current into the service lines)
+
+| LPL | I | II | III | IV |
+|---|---|---|---|---|
+| Current per mode (kA) | 25 | 18.75 | 12.5 | 12.5 |
+
+r = 10 × I^0.65 (2.1), r — radius of rolling sphere (m), I — minimum peak current (kA). Example LPL I: r = 10 × 3^0.65 = 20.42 m.
+
+Table 2.4: Radius of rolling sphere for each LPL
+
+| LPL | I | II | III | IV |
+|---|---|---|---|---|
+| Minimum current (kA) | 3 | 5 | 10 | 16 |
+| Calculated radius of rolling sphere (m) | 20.42 | 28.46 | 44.67 | 60.63 |
+| Adopted radius of rolling sphere (m) | 20 | 30 | 45 | 60 |
 
 ===== iec62305/page-020.txt =====
 
@@ -1665,7 +1702,7 @@ can be caused to a structure by a lightning discharge.
 Furse, Wilford Road, Nottingham, NG2 1EB Tel: +44 (0)115 964 3700 * Email: enquiry@furse.com * Web: www.furse.com | urse =
 
 
-===== iec62305/page-026.txt =====
+===== iec62305/page-026.txt ===== [TABELE ZWERYFIKOWANE WIZUALNIE 25.09.2026; tekst ciągły — OCR]
 
 BS EN 62305-2 Risk management
 
@@ -1788,9 +1825,9 @@ be noted that there is no tolerable risk for Ry the loss
 of economic value.
 
 Types of loss Rz lannum
-Loss of human life or permanent injuries 1x 10°>
-Loss of service to the public 1x 104
-Loss of cultural heritage 1x 104
+Loss of human life or permanent injuries 1 x 10^-5
+Loss of service to the public 1 x 10^-4
+Loss of cultural heritage 1 x 10^-4
 
 Table 3.1: Values of tolerable risk Ry
 (BS EN 62305-2 Table NF.1)
@@ -1808,9 +1845,18 @@ Furse, Wilford Road, Nottingham, NG2 1EB * Tel: +44 (0)115 964 3700 * Email: enq
 
 25
 
+[TABELE/WZORY ZWERYFIKOWANE WIZUALNIE ze skanem 25.09.2026 — obowiązują zamiast rozsypanego OCR powyżej]
+Table 3.1: Values of tolerable risk RT (BS EN 62305-2 Table NF.1)
 
+| Types of loss | RT /annum |
+|---|---|
+| Loss of human life or permanent injuries | 1 x 10^-5 |
+| Loss of service to the public | 1 x 10^-4 |
+| Loss of cultural heritage | 1 x 10^-4 |
 
-===== iec62305/page-027.txt =====
+(Figure 3.1: procedure — Rn = ΣRx; if Rn ≤ RT the structure is adequately protected, otherwise install protection measures and recalculate.)
+
+===== iec62305/page-027.txt ===== [TABELE ZWERYFIKOWANE WIZUALNIE 25.09.2026; tekst ciągły — OCR]
 
 26
 
@@ -1914,15 +1960,37 @@ the structure (S2, $3 and S4).
 
 Furse, Wilford Road, Nottingham, NG2 1EB Tel: +44 (0)115 964 3700 * Email: enquiry@furse.com * Web: www.furse.com urse =
 
+[TABELE/WZORY ZWERYFIKOWANE WIZUALNIE ze skanem 25.09.2026 — obowiązują zamiast rozsypanego OCR powyżej]
+R1 = RA1 + RB1 + RC1(1) + RM1(1) + RU1 + RV1 + RW1(1) + RZ1(1) (3.1)
+R2 = RB2 + RC2 + RM2 + RV2 + RW2 + RZ2 (3.2)
+R3 = RB3 + RV3 (3.3)
+R4 = RA4(2) + RB4 + RC4 + RM4 + RU4(2) + RV4 + RW4 + RZ4 (3.4)
+(1) Only for structures with risk of explosion and for hospitals with life-saving electrical equipment or other structures when failure of internal systems immediately endangers human life.
+(2) Only for properties where animals may be lost.
 
-===== iec62305/page-028.txt =====
+Table 3.2: Risk components RX
+
+| RX | Source of damage | Type of damage |
+|---|---|---|
+| RA | Flashes to the structure (S1) | Injury to living beings by electric shock (D1) |
+| RB | Flashes to the structure (S1) | Physical damage caused by dangerous sparking inside the structure (D2) |
+| RC | Flashes to the structure (S1) | Failure of internal systems caused by LEMP (D3) |
+| RM | Flashes near the structure (S2) | Failure of internal systems caused by LEMP (D3) |
+| RU | Flashes to a service line connected to the structure (S3) | Injury to living beings by electric shock (D1) |
+| RV | Flashes to a service line connected to the structure (S3) | Physical damage caused by dangerous sparking inside the structure (D2) |
+| RW | Flashes to a service line connected to the structure (S3) | Failure of internal systems caused by LEMP (D3) |
+| RZ | Flashes near a service line connected to the structure (S4) | Failure of internal systems caused by LEMP (D3) |
+
+Rn = RD + RI (3.5)
+
+===== iec62305/page-028.txt ===== [TABELE ZWERYFIKOWANE WIZUALNIE 25.09.2026; tekst ciągły — OCR]
 
 BS EN 62305-2 Risk management
 
 These direct and indirect risk components can be Annex NB provides the necessary detail to assess the
 further expressed by their own individual risk probability of damage to a structure (Py).
 
-componentsiviz. Annex NC helps to assess the amount of loss to a
+components (viz. Annex NC helps to assess the amount of loss to a
 
 structure (Ly).
 
@@ -1960,7 +2028,7 @@ RĄ=NpxPĄxLĄ (3.9)
 Rg=NyxPp x Lg (3.10)
 Ro=NpxPexle (3.11)
 Fi 3.3: Definiti f collecti
-Ry=NyxPyxLy (3.12) igure efinition of collection area
+Ry=NyxPyxLy (3.12) Figure Definition of collection area
 R =(N +N )x E xi, (3.13) The collection area in BS 6651 was based on a 1:1 ratio
 4 moe NTT so there is a significant increase in area taken into
 R (N N ) P xk (3.14) account in the BS EN 62305 assessment procedure.
@@ -1981,8 +2049,27 @@ H_ is the height of structure in metres
 
 Furse, Wilford Road, Nottingham, NG2 1EB * Tel: +44 (0)115 964 3700 * Email: enquiry@furse.com * Web: www.furse.com | urse =
 
+[TABELE/WZORY ZWERYFIKOWANE WIZUALNIE ze skanem 25.09.2026 — obowiązują zamiast rozsypanego OCR powyżej]
+RD = RA(2) + RB + RC(1) (3.6)
+RI = RM(1) + RU + RV + RW(1) + RZ(1) (3.7)
+(1) Only for structures with risk of explosion and for hospitals with life-saving electrical equipment or other structures when failure of internal systems immediately endangers human life. (2) Only for properties where animals may be lost.
 
-===== iec62305/page-029.txt =====
+RX = NX × PX × LX (3.8) — NX annual number of dangerous events, PX probability of damage, LX amount of loss.
+RA = ND × PA × LA (3.9)
+RB = ND × PB × LB (3.10)
+RC = ND × PC × LC (3.11)
+RM = NM × PM × LM (3.12)
+RU = (NL + NDJ) × PU × LU (3.13)
+RV = (NL + NDJ) × PV × LV (3.14)
+RW = (NL + NDJ) × PW × LW (3.15)
+RZ = NI × PZ × LZ (3.16)
+
+Collection area — ratio 1:3 (height of structure : horizontal collection distance), Figure 3.3.
+Ad = (L + W) + (6 × H(L + W)) + (9 × π × H²) (3.17) — tak w druku poradnika.
+⚠️ Uwaga opracowania: pierwszy człon wydrukowany jako „(L + W)” to literówka poradnika — sam poradnik w przykładzie 6.2 (strona 96, wzór E A.2) liczy AD = L × W + 6H(L + W) + π(3H)² = 15×20 + 6×6(15+20) + π(3×6)² = 2 578 m², zgodnie z geometrią Rysunku 3.3. Poprawna postać: Ad = L × W + 6 × H × (L + W) + 9 × π × H².
+Ad — collection area of an isolated structure [m²]; L, W, H — length, width, height of structure [m].
+
+===== iec62305/page-029.txt ===== [TABELE ZWERYFIKOWANE WIZUALNIE 25.09.2026; tekst ciągły — OCR]
 
 BS EN 62305-2 Risk management
 
@@ -2016,7 +2103,7 @@ square metres
 A, is the collection area for flashes striking near a line
 in square metres
 
-Li.  isthe length of line section in metres
+Li.  is the length of line section in metres
 
 All of the relevant collection areas are illustrated in
 Figure 3.4.
@@ -2029,8 +2116,13 @@ Figure 3.4: Collection areas
 
 Furse, Wilford Road, Nottingham, NG2 1EB * Tel: +44 (0)115 964 3700 * Email: enquiry@furse.com * Web: www.furse.com furse =
 
+[TABELE/WZORY ZWERYFIKOWANE WIZUALNIE ze skanem 25.09.2026 — obowiązują zamiast rozsypanego OCR powyżej]
+AL = 40 × LL (3.18)
+AI = 4,000 × LL (3.19)
+AL — collection area for flashes striking a line [m²]; AI — collection area for flashes striking near a line [m²]; LL — length of line section [m].
+(Figure 3.4: collection areas AD, AM (500 m around the structure), AL, AI, ADJ of the secondary structure.)
 
-===== iec62305/page-030.txt =====
+===== iec62305/page-030.txt ===== [TABELE ZWERYFIKOWANE WIZUALNIE 25.09.2026; tekst ciągły — OCR]
 
 BS EN 62305-2 Risk management
 
@@ -2115,7 +2207,7 @@ are: kilometre square per year
 a) The location factor (the structure's relative location CE is the environmental factor
 with respect to other surrounding or isolated » : . .
 » sthe | n factor of an isolate cen
-objects - see BS EN 62305-2 Table A.1) Coy  isthe locatio or of an isolated adjacent
+objects - see BS EN 62305-2 Table A.1) Coy  is the locatio or of an isolated adjacent
 structure
 b) The „a jaseniniierę r oiu Cr is the correction factor for a HV/LV transformer
 location - see BS EN 62305-2 Table A.4) f
@@ -2136,7 +2228,21 @@ Furse, Wilford Road, Nottingham, NG2 1EB * Tel: +44 (0)115 964 3700 * Email: enq
 
 29
 
+[TABELE/WZORY ZWERYFIKOWANE WIZUALNIE ze skanem 25.09.2026 — obowiązują zamiast rozsypanego OCR powyżej]
+NG ≈ 0.04 × TD^1.25 (3.20)
+NG — flash density in strikes to ground per km² per year; TD — number of thunderstorm days per year.
+BS EN 62305-2 Annex A approximates this relationship, for temperate regions, to:
+NG ≈ 0.1 × TD (3.21)
 
+NL = NG × AL × CI × CE × CT × 10^-6 (3.22)
+NDJ = NG × ADJ × CDJ × CT × 10^-6 (3.23)
+(NL — dangerous events due to flashes to a line; NDJ — due to flashes to a structure connected to the far end of the line; CE — environmental factor; CDJ — location factor of an isolated adjacent structure; CT — correction factor for a HV/LV transformer on the line; ADJ — collection area of the adjacent structure [m²]; AL — collection area for flashes striking a line [m²].)
+
+Table 3.3: Relationship between thunderstorm days per year and lightning flashes per square kilometre per year
+
+| TD | 5 | 10 | 15 | 20 | 25 | 30 | 35 | 40 | 45 | 50 | 55 | 60 | 65 | 70 | 75 | 80 | 85 | 90 | 95 | 100 |
+|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|
+| NG | 0.30 | 0.71 | 1.18 | 1.69 | 2.24 | 2.81 | 3.41 | 4.02 | 4.66 | 5.32 | 5.99 | 6.68 | 7.38 | 8.10 | 8.83 | 9.57 | 10.32 | 11.09 | 11.86 | 12.65 |
 
 ===== iec62305/page-031.txt =====
 
@@ -2157,7 +2263,7 @@ Figure 3.6: World Thunderstorm days map (BS EN 62305-2 Figure NF.2)
 Furse, Wilford Road, Nottingham, NG2 1EB * Tel: +44 (0)115 964 3700 * Email: enquiry@furse.com * Web: www.furse.com furse =
 
 
-===== iec62305/page-033.txt =====
+===== iec62305/page-033.txt ===== [TABELE ZWERYFIKOWANE WIZUALNIE 25.09.2026; tekst ciągły — OCR]
 
 32
 
@@ -2278,8 +2384,35 @@ for which SPDs are designed (BS EN 62305-2 Table NB.3)
 
 Furse, Wilford Road, Nottingham, NG2 1EB Tel: +44 (0)115 964 3700 * Email: enquiry@furse.com * Web: www.furse.com | urse =
 
+[TABELE/WZORY ZWERYFIKOWANE WIZUALNIE ze skanem 25.09.2026 — obowiązują zamiast rozsypanego OCR powyżej]
+Table 3.4: Probability of damage PX
 
-===== iec62305/page-034.txt =====
+| PX | Source of damage | Type of damage | Reduction of probability |
+|---|---|---|---|
+| PA | S1 | D1 | By protection measures against electric shock. BS EN 62305-2 Table NB.1 |
+| PB | S1 | D2 | By Class of lightning protection system (LPS) installed. BS EN 62305-2 Table NB.2 |
+| PC | S1 | D3 | By coordinated SPD protection. BS EN 62305-2 Table NB.3 |
+| PM | S2 | D3 | By adopted Surge Protection Measures (SPM), according to a factor PMS. BS EN 62305-2 Table NB.5 |
+| PU | S3 | D1 | By characteristics of the service shield, the impulse withstand voltage of internal systems connected to the service and the presence or otherwise of service entrance SPDs. BS EN 62305-2 Table NB.6, NB.7 & NB.8 (wspólne dla PU i PV) |
+| PV | S3 | D2 | (jw.) |
+| PW | S3 | D3 | By characteristics of the service shield, the impulse withstand voltage of internal systems connected to the service and the presence or otherwise of coordinated SPDs. BS EN 62305-2 Table NB.8 & NB.9 (wspólne dla PW i PZ) |
+| PZ | S4 | D3 | (jw.) |
+
+Table 3.5: Value of the probability PSPD as a function of LPL for which SPDs are designed (BS EN 62305-2 Table NB.3)
+
+| LPL | SPD | PSPD |
+|---|---|---|
+| No coordinated SPD protection | — | 1 |
+| III-IV | III-IV | 0.05 |
+| III-IV | III-IV* (note 2) | 0.005 |
+| II | II | 0.02 |
+| II | II* (note 2) | 0.002 |
+| I | I | 0.01 |
+| I | I* (note 2) | 0.001 |
+
+Przykład z tekstu (sprawdzony): SPD na wejściu zasilania 230 V — poziom ochrony nie wyższy niż 1600 V ((4 kV × 0.8)/2 = 1600 V); SPD dalej w strefie — nie wyższy niż 600 V ((1.5 kV × 0.8)/2).
+
+===== iec62305/page-034.txt ===== [TABELE ZWERYFIKOWANE WIZUALNIE 25.09.2026; tekst ciągły — OCR]
 
 BS EN 62305-2 Risk management
 
@@ -2395,9 +2528,30 @@ Furse, Wilford Road, Nottingham, NG2 1EB * Tel: +44 (0)115 964 3700 * Email: enq
 
 33
 
+[TABELE/WZORY ZWERYFIKOWANE WIZUALNIE ze skanem 25.09.2026 — obowiązują zamiast rozsypanego OCR powyżej]
+PM = PSPD × PMS (3.24)
+PMS = (KS1 × KS2 × KS3 × KS4)² (3.25)
+KS1 — screening effectiveness of the structure; KS2 — screening effectiveness of internal shielding; KS3 — characteristics of internal wiring; KS4 — impulse withstand of the system to be protected.
 
+Table 3.6: Typical values of KS1 or KS2
 
-===== iec62305/page-035.txt =====
+| Description of the shielding arrangement | KS1 or KS2 |
+|---|---|
+| Non conducting - timber, masonry structure and cladding | 1 |
+| Non conducting with LPS Class IV, III, II or I | 1 |
+| Non conducting cladding with conductive frame | 0.6 |
+| Conducting cladding with conductive frame - typical opening - non conducting door | 0.25 |
+| Conducting cladding with conductive frame - typical opening - windows | 0.12 |
+| Conducting cladding with conductive frame - typical opening - small windows | 0.06 |
+| Conducting cladding with conductive frame - 100 mm max opening | 0.01 |
+| Conducting cladding with conductive frame - 10 mm max opening | 0.001 |
+| Structure fully clad with metal - no openings | 0.0001 |
+
+KS1 = 0.12 × wm1 (3.26)
+KS2 = 0.12 × wm2 (3.27)
+wm1, wm2 — mesh width of the spatial shield [m].
+
+===== iec62305/page-035.txt ===== [TABELE ZWERYFIKOWANE WIZUALNIE 25.09.2026; tekst ciągły — OCR]
 
 34
 
@@ -2514,8 +2668,24 @@ term ‘electric shock’.
 
 Furse, Wilford Road, Nottingham, NG2 1EB Tel: +44 (0)115 964 3700 * Email: enquiry@furse.com * Web: www.furse.com | urse =
 
+[TABELE/WZORY ZWERYFIKOWANE WIZUALNIE ze skanem 25.09.2026 — obowiązują zamiast rozsypanego OCR powyżej]
+Table 3.7: Typical values of KS4
 
-===== iec62305/page-036.txt =====
+| Impulse withstand voltage UW (kV) | KS4 |
+|---|---|
+| 6 | 0.167 |
+| 4 | 0.25 |
+| 2.5 | 0.4 |
+| 1.5 | 0.67 |
+| 1 | 1 |
+
+If there is equipment with different impulse withstand levels in the internal system of the structure, KS4 shall correspond with the lowest withstand level.
+
+LA = rt × LT × tz/8760 (3.28)
+LB = rp × rf × hz × LF × tz/8760 (3.29)
+rt — factor reducing loss of human life depending on type of soil (Table NC.3); rp — factor reducing loss due to physical damage depending on provisions to reduce consequences of fire (NC.4); rf — factor depending on risk of fire (NC.5); hz — factor increasing loss when a special hazard is present (NC.6); LT — loss due to injury by electric shock; LF — loss due to physical damage; LO — loss related to failure of internal systems.
+
+===== iec62305/page-036.txt ===== [TABELE ZWERYFIKOWANE WIZUALNIE 25.09.2026; tekst ciągły — OCR]
 
 BS EN 62305-2 Risk management
 
@@ -2585,6 +2755,81 @@ Table 3.8: Typical mean values of Ly, Lę and Lo Table 3.10: Typical mean value 
 
 Furse, Wilford Road, Nottingham, NG2 1EB * Tel: +44 (0)115 964 3700 * Email: enquiry@furse.com * Web: www.furse.com | urse =
 
+[TABELE/WZORY ZWERYFIKOWANE WIZUALNIE ze skanem 25.09.2026 — obowiązują zamiast rozsypanego OCR powyżej]
+Table 3.8: Typical mean values of LT, LF and LO (BS EN 62305-2 Table NC.2)
+
+| Type of structure | LT |
+|---|---|
+| All types | 0.01 |
+
+| Type of structure | LF |
+|---|---|
+| Airport Building | 0.75 |
+| Base Station | 0.04 |
+| Block of Flats | 1.00 |
+| Cathedral | 0.50 |
+| Church | 0.08 |
+| Civic Building | 0.33 |
+| Commercial Building/Office Block | 0.42 |
+| Commercial Centre | 0.33 |
+| Departmental Store | 0.42 |
+| Factory | 0.75 |
+| Farm Building | 1.00 |
+| Fuel/Service Station | 0.67 |
+| Gas Compound | 0.33 |
+| Halls of Residence | 1.00 |
+| Hospital | 1.00 |
+| Hotel | 1.00 |
+| Industrial Warehouse | 0.42 |
+| Large House | 1.00 |
+| Leisure Centre | 0.67 |
+| Medical Centre | 0.33 |
+| Museum | 0.42 |
+| Nursing/Children's Home | 1.00 |
+| Oil Refinery/Chemical Plant | 1.00 |
+| Police/Fire/Ambulance Station | 1.00 |
+| Power Station | 0.33 |
+| Prison | 1.00 |
+| Railway Station | 0.75 |
+| Ruin | 0.04 |
+| School | 0.33 |
+| Shops/Shopping Centre | 0.50 |
+| Sports Stadium | 0.04 |
+| Substation | 0.33 |
+| Telephone Exchange | 0.33 |
+| Theatre | 0.21 |
+| University | 0.42 |
+| Water Treatment Works | 0.33 |
+| Wind Farm | 0.04 |
+| Others | 0.33 |
+
+| Type of structure | LO |
+|---|---|
+| Intensive care unit and operation block of hospital | 0.001 |
+| Other parts of hospital | 0.33 |
+| Risk of explosion | 0.1 |
+
+L = (nz/nt) × (tz/8760) (3.30); example: L = (200/200) × (3650/8760) = 0.42 (tz = 10 h × 365 days = 3 650 h).
+
+Table 3.9: Values of reduction factor rf depending on risk of fire of structure (BS EN 62305-2 Table NC.5)
+
+| Risk | Amount of risk | rf | Type of structure (a) |
+|---|---|---|---|
+| Explosion | Zones 0, 20 and solid explosive | 1 | Petrochemical plant, ammunition store, gas compound, paper mill |
+| Explosion | Zones 1, 21 | 10^-1 | (jw.) |
+| Explosion | Zones 2, 22 | 10^-3 | (jw.) |
+| Fire | High | 10^-1 | Paper mill, industrial warehouse with flammable stock |
+| Fire | Ordinary | 10^-2 | Office, school, theatre, hotel, museum, shop |
+| Fire | Low | 10^-3 | Sports stadium, railway station, telephone exchange |
+| Explosion or fire | None | 0 | |
+
+(a) List of structures and Risk suggested are merely typical and not exhaustive.
+
+Table 3.10: Typical mean value of LF and LO (BS EN 62305-2 Table NC.8)
+
+| Service provider | LF | LO |
+|---|---|---|
+| Gas, water, power, communications, government, health, financial, manufacturing, retail, residential, leisure | 0.1 | 0.01 |
 
 ===== iec62305/page-037.txt =====
 
@@ -2752,7 +2997,7 @@ Sur:
 Al
 
 
-===== iec62305/page-039.txt =====
+===== iec62305/page-039.txt ===== [TABELE ZWERYFIKOWANE WIZUALNIE 25.09.2026; tekst ciągły — OCR]
 
 38
 
@@ -2808,7 +3053,15 @@ ensure a technical and economic solution is achieved.
 
 Furse, Wilford Road, Nottingham, NG2 1EB * Tel: +44 (0)115 964 3700 * Email: enquiry@furse.com * Web: www.furse.com | urse -
 
+[TABELE/WZORY ZWERYFIKOWANE WIZUALNIE ze skanem 25.09.2026 — obowiązują zamiast rozsypanego OCR powyżej]
+Table 4.1: Relation between Lightning Protection Level (LPL) and Class of LPS (BS EN 62305-3 Table 1)
 
+| LPL | Class of LPS |
+|---|---|
+| I | I |
+| II | II |
+| III | III |
+| IV | IV |
 
 ===== iec62305/page-040.txt =====
 
@@ -2843,7 +3096,7 @@ of explosion. Conversely a non-isolated system may be
 fitted where no such danger exists.
 
 An external LPS consists of:
-e Airtermination system
+e Air termination system
 
 e Down conductor system
 e Earth termination system
@@ -2993,7 +3246,7 @@ Figure 4.3: Striking distance (last step)
 Furse, Wilford Road, Nottingham, NG2 1EB * Tel: +44 (0)115 964 3700 * Email: enquiry@furse.com * Web: www.furse.com | urse =
 
 
-===== iec62305/page-042.txt =====
+===== iec62305/page-042.txt ===== [TABELE ZWERYFIKOWANE WIZUALNIE 25.09.2026; tekst ciągły — OCR]
 
 BS EN 62305-3 Physical damage to
 
@@ -3055,6 +3308,15 @@ application is shown in Figure 4.5.
 
 Furse, Wilford Road, Nottingham, NG2 1EB * Tel: +44 (0)115 964 3700 * Email: enquiry@furse.com * Web: www.furse.com | urse >
 
+[TABELE/WZORY ZWERYFIKOWANE WIZUALNIE ze skanem 25.09.2026 — obowiązują zamiast rozsypanego OCR powyżej]
+Table 4.2: Maximum values of rolling sphere radius corresponding to the Class of LPS
+
+| Class of LPS | Rolling sphere radius r (m) |
+|---|---|
+| I | 20 |
+| II | 30 |
+| III | 45 |
+| IV | 60 |
 
 ===== iec62305/page-043.txt =====
 
@@ -3170,7 +3432,7 @@ equipment from a direct strike. See Figure 4.10.
 Furse, Wilford Road, Nottingham, NG2 1EB * Tel: +44 (0)115 964 3700 * Email: enquiry@furse.com * Web: www.furse.com | urse =
 
 
-===== iec62305/page-045.txt =====
+===== iec62305/page-045.txt ===== [TABELE ZWERYFIKOWANE WIZUALNIE 25.09.2026; tekst ciągły — OCR]
 
 BS EN 62305-3 Physical damage to
 
@@ -3222,8 +3484,11 @@ Figure 4.9: Application of the rolling sphere to elevated meshed conductors form
 
 Furse, Wilford Road, Nottingham, NG2 1EB * Tel: +44 (0)115 964 3700 * Email: enquiry@furse.com * Web: www.furse.com | urse =
 
+[TABELE/WZORY ZWERYFIKOWANE WIZUALNIE ze skanem 25.09.2026 — obowiązują zamiast rozsypanego OCR powyżej]
+p = r – √(r² – (d/2)²) (4.1)
+p — penetration distance (m); r — rolling sphere radius (m); d — distance between two points on an air termination network (m).
 
-===== iec62305/page-046.txt =====
+===== iec62305/page-046.txt ===== [TABELE ZWERYFIKOWANE WIZUALNIE 25.09.2026; tekst ciągły — OCR]
 
 BS EN 62305-3 Physical damage to
 
@@ -3262,6 +3527,11 @@ p=0.02 m
 
 Furse, Wilford Road, Nottingham, NG2 1EB * Tel: +44 (0)115 964 3700 * Email: enquiry@furse.com * Web: www.furse.com | urse >
 
+[TABELE/WZORY ZWERYFIKOWANE WIZUALNIE ze skanem 25.09.2026 — obowiązują zamiast rozsypanego OCR powyżej]
+Example (Figure 4.10, two parallel catenary conductors): LPS Level II (r = 30 m), d = 2 m, height 1 m:
+p = r – √(r² – (d/2)²) = 30 – √(30² – (2/2)²) = 30 – √(900 – 1) = 30 – √899 = 30 – 29.98 = 0.02 m
+(W druku nawias (d/2) bez kwadratu na obu stronach — przy d/2 = 1 wynik liczbowy się nie zmienia; poprawna postać z kwadratem, jak w (4.1) na stronie 45 tego opracowania.)
+Height to the rolling sphere 0.98 m (1 m – 0.02 m); rooftop plant 0.7 m → adequately protected.
 
 ===== iec62305/page-047.txt =====
 
@@ -3347,7 +3617,7 @@ Figure 4.11: Determination of the protective angle (BS EN 62305-3 Table 2)
 Furse, Wilford Road, Nottingham, NG2 1EB Tel: +44 (0)115 964 3700 * Email: enquiry@furse.com * Web: www.furse.com urse =
 
 
-===== iec62305/page-048.txt =====
+===== iec62305/page-048.txt ===== [TABELE ZWERYFIKOWANE WIZUALNIE 25.09.2026; tekst ciągły — OCR]
 
 BS EN 62305-3 Physical damage to
 
@@ -3464,7 +3734,74 @@ Table 4.3: Simple determination of the protective angle
 
 Furse, Wilford Road, Nottingham, NG2 1EB * Tel: +44 (0)115 964 3700 * Email: enquiry@furse.com * Web: www.furse.com
 
+[TABELE/WZORY ZWERYFIKOWANE WIZUALNIE ze skanem 25.09.2026 — obowiązują zamiast rozsypanego OCR powyżej]
+Table 4.3: Simple determination of the protective angle (angle α and protected radius vs height of air rod above reference plane)
 
+| Height (m) | IV angle (deg) | IV radius (m) | III angle | III radius | II angle | II radius | I angle | I radius |
+|---|---|---|---|---|---|---|---|---|
+| 1 | 78.7 | 5.0 | 76.3 | 4.1 | 73.2 | 3.3 | 70.0 | 2.7 |
+| 2 | 78.7 | 10.0 | 76.3 | 8.2 | 73.2 | 6.6 | 70.0 | 5.5 |
+| 3 | 76.7 | 12.7 | 74.1 | 10.5 | 70.1 | 8.3 | 66.3 | 6.8 |
+| 4 | 74.7 | 14.6 | 72.0 | 12.3 | 67.1 | 9.5 | 62.6 | 7.7 |
+| 5 | 72.8 | 16.1 | 69.9 | 13.6 | 64.4 | 10.4 | 59.1 | 8.4 |
+| 6 | 71.0 | 17.4 | 67.9 | 14.8 | 62.0 | 11.3 | 55.9 | 8.9 |
+| 7 | 69.3 | 18.5 | 66.0 | 15.7 | 59.7 | 12.0 | 53.0 | 9.3 |
+| 8 | 67.7 | 19.5 | 64.3 | 16.6 | 57.6 | 12.6 | 50.2 | 9.6 |
+| 9 | 66.2 | 20.4 | 62.6 | 17.4 | 55.6 | 13.2 | 47.7 | 9.9 |
+| 10 | 64.7 | 21.2 | 61.1 | 18.1 | 53.8 | 13.6 | 45.2 | 10.1 |
+| 11 | 63.4 | 21.9 | 59.6 | 18.7 | 52.0 | 14.1 | 42.8 | 10.2 |
+| 12 | 62.1 | 22.6 | 58.2 | 19.3 | 50.3 | 14.4 | 40.4 | 10.2 |
+| 13 | 60.8 | 23.3 | 56.8 | 19.8 | 48.6 | 14.8 | 38.1 | 10.2 |
+| 14 | 59.6 | 23.9 | 55.4 | 20.3 | 47.0 | 15.0 | 35.8 | 10.1 |
+| 15 | 58.4 | 24.4 | 54.1 | 20.7 | 45.4 | 15.2 | 33.6 | 10.0 |
+| 16 | 57.3 | 24.9 | 52.8 | 21.1 | 43.8 | 15.3 | 31.4 | 9.8 |
+| 17 | 56.2 | 25.4 | 51.5 | 21.4 | 42.3 | 15.4 | 29.2 | 9.5 |
+| 18 | 55.2 | 25.9 | 50.3 | 21.7 | 40.6 | 15.4 | 27.1 | 9.2 |
+| 19 | 54.2 | 26.3 | 49.1 | 21.9 | 39.2 | 15.5 | 24.9 | 8.8 |
+| 20 | 53.2 | 26.7 | 47.9 | 22.1 | 37.7 | 15.5 | 22.8 | 8.4 |
+| 21 | 52.3 | 27.1 | 46.6 | 22.2 | 36.3 | 15.4 | — | — |
+| 22 | 51.3 | 27.5 | 45.5 | 22.4 | 34.8 | 15.3 | — | — |
+| 23 | 50.5 | 27.9 | 44.3 | 22.4 | 33.4 | 15.1 | — | — |
+| 24 | 49.6 | 28.2 | 43.1 | 22.5 | 31.9 | 15.0 | — | — |
+| 25 | 48.8 | 28.5 | 42.0 | 22.5 | 30.5 | 14.7 | — | — |
+| 26 | 48.0 | 28.8 | 40.9 | 22.5 | 29.0 | 14.4 | — | — |
+| 27 | 47.2 | 29.1 | 39.8 | 22.5 | 27.5 | 14.0 | — | — |
+| 28 | 46.4 | 29.4 | 38.7 | 22.5 | 25.9 | 13.6 | — | — |
+| 29 | 45.6 | 29.6 | 37.7 | 22.4 | 24.4 | 13.1 | — | — |
+| 30 | 44.8 | 29.8 | 36.7 | 22.3 | 22.8 | 12.6 | — | — |
+| 31 | 44.1 | 30.0 | 35.7 | 22.3 | — | — | — | — |
+| 32 | 43.3 | 30.2 | 34.7 | 22.1 | — | — | — | — |
+| 33 | 42.6 | 30.3 | 33.7 | 22.0 | — | — | — | — |
+| 34 | 41.8 | 30.4 | 32.8 | 21.9 | — | — | — | — |
+| 35 | 41.1 | 30.5 | 31.8 | 21.7 | — | — | — | — |
+| 36 | 40.3 | 30.6 | 30.9 | 21.5 | — | — | — | — |
+| 37 | 39.6 | 30.6 | 29.9 | 21.3 | — | — | — | — |
+| 38 | 38.8 | 30.6 | 29.0 | 21.1 | — | — | — | — |
+| 39 | 38.1 | 30.6 | 28.1 | 20.8 | — | — | — | — |
+| 40 | 37.3 | 30.5 | 27.2 | 20.5 | — | — | — | — |
+| 41 | 36.6 | 30.4 | 26.2 | 20.2 | — | — | — | — |
+| 42 | 35.9 | 30.3 | 25.3 | 19.9 | — | — | — | — |
+| 43 | 35.1 | 30.2 | 24.4 | 19.5 | — | — | — | — |
+| 44 | 34.4 | 30.1 | 23.5 | 19.2 | — | — | — | — |
+| 45 | 33.6 | 29.9 | 23.5 | 19.6 | — | — | — | — |
+| 46 | 32.9 | 29.8 | — | — | — | — | — | — |
+| 47 | 32.2 | 29.6 | — | — | — | — | — | — |
+| 48 | 31.5 | 29.4 | — | — | — | — | — | — |
+| 49 | 30.7 | 29.1 | — | — | — | — | — | — |
+| 50 | 30.0 | 28.9 | — | — | — | — | — | — |
+| 51 | 29.3 | 28.6 | — | — | — | — | — | — |
+| 52 | 28.5 | 28.3 | — | — | — | — | — | — |
+| 53 | 27.8 | 28.0 | — | — | — | — | — | — |
+| 54 | 27.1 | 27.6 | — | — | — | — | — | — |
+| 55 | 26.4 | 27.3 | — | — | — | — | — | — |
+| 56 | 25.7 | 26.9 | — | — | — | — | — | — |
+| 57 | 24.9 | 26.5 | — | — | — | — | — | — |
+| 58 | 24.2 | 26.1 | — | — | — | — | — | — |
+| 59 | 23.5 | 25.7 | — | — | — | — | — | — |
+| 60 | 22.8 | 25.2 | — | — | — | — | — | — |
+
+(„—” = poza zakresem stosowania dla danej klasy LPS; komórka pusta w oryginale.)
+Kontrola spójności wykonana przy weryfikacji: dla każdej komórki promień = wysokość × tan(kąt) (różnica ≤ 0,15 m) — wszystkie 150 par zgodne.
 
 ===== iec62305/page-049.txt =====
 
@@ -3687,7 +4024,7 @@ Figure 4.20c: View on arrow B
 Furse, Wilford Road, Nottingham, NG2 1EB * Tel: +44 (0)115 964 3700 Email: enquiry@furse.com * Web: www.furse.com furse >
 
 
-===== iec62305/page-053.txt =====
+===== iec62305/page-053.txt ===== [TABELE ZWERYFIKOWANE WIZUALNIE 25.09.2026; tekst ciągły — OCR]
 
 BS EN 62305-3 Physical damage to
 
@@ -3717,9 +4054,9 @@ the Class of LPS
 This method is suitable where plain surfaces require
 protection if the following conditions are met:
 
-e  Airtermination conductors must be positioned at
+e  Air termination conductors must be positioned at
 roof edges, on roof overhangs and on the ridges of
-roofs with a pitch in excess of 1 in 10 (5.79)
+roofs with a pitch in excess of 1 in 10 (5.7°)
 
 © No metal installation protrudes above the air
 termination system
@@ -3800,8 +4137,19 @@ Figure 4.22: Concealed air termination network
 
 Furse, Wilford Road, Nottingham, NG2 1EB Tel: +44 (0)115 964 3700 * Email: enquiry@furse.com * Web: www.furse.com | urse =
 
+[TABELE/WZORY ZWERYFIKOWANE WIZUALNIE ze skanem 25.09.2026 — obowiązują zamiast rozsypanego OCR powyżej]
+Table 4.4: Maximum values of mesh size corresponding to the Class of LPS
 
-===== iec62305/page-054.txt =====
+| Class of LPS | Mesh size W (m) |
+|---|---|
+| I | 5 x 5 |
+| II | 10 x 10 |
+| III | 15 x 15 |
+| IV | 20 x 20 |
+
+Warunki metody oczkowej (z tekstu): przewody zwodów na krawędziach dachu, okapach i kalenicach dachów o spadku ponad 1 na 10 (5.7°); żadna metalowa instalacja nie wystaje ponad zwody. Zwody pionowe co najwyżej co 10 m, płytki zwodowe co najwyżej co 5 m.
+
+===== iec62305/page-054.txt ===== [TABELE ZWERYFIKOWANE WIZUALNIE 25.09.2026; tekst ciągły — OCR]
 
 BS EN 62305-3 Physical damage to
 
@@ -3890,9 +4238,22 @@ Figure 4.23: Petronas Towers, Malaysia
 
 53
 
+[TABELE/WZORY ZWERYFIKOWANE WIZUALNIE ze skanem 25.09.2026 — obowiązują zamiast rozsypanego OCR powyżej]
+Table 4.5: Minimum thickness of metal sheets or metal pipes in air termination systems (BS EN 62305-3 Table 3) — Class of LPS I to IV
 
+| Material | Thickness (1) t (mm) | Thickness (2) t' (mm) |
+|---|---|---|
+| Lead | - | 2.0 |
+| Steel (stainless, galvanized) | 4 | 0.5 |
+| Titanium | 4 | 0.5 |
+| Copper | 5 | 0.5 |
+| Aluminium | 7 | 0.65 |
+| Zinc | - | 0.7 |
 
-===== iec62305/page-055.txt =====
+(1) Thickness t prevents puncture, hot spot or ignition.
+(2) Thickness t' only for metal sheets if it is not important to prevent puncture, hot spot or ignition problems.
+
+===== iec62305/page-055.txt ===== [TABELE ZWERYFIKOWANE WIZUALNIE 25.09.2026; tekst ciągły — OCR]
 
 BS EN 62305-3 Physical damage to
 
@@ -4005,8 +4366,26 @@ BS EN 62305-3).
 
 Furse, Wilford Road, Nottingham, NG2 1EB Tel: +44 (0)115 964 3700 * Email: enquiry@furse.com * Web: www.furse.com | urse =
 
+[TABELE/WZORY ZWERYFIKOWANE WIZUALNIE ze skanem 25.09.2026 — obowiązują zamiast rozsypanego OCR powyżej]
+Table 4.6: Typical values of the distance between down conductors according to the Class of LPS (BS EN 62305-3 Table 4)
 
-===== iec62305/page-056.txt =====
+| Class of LPS | Typical distances (m) |
+|---|---|
+| I | 10 |
+| II | 10 |
+| III | 15 |
+| IV | 20 |
+
+Table 4.7: Suggested conductor fixing centres (BS EN 62305-3 Table E.1)
+
+| Arrangement | Tape and stranded conductors (mm) | Round solid conductors (mm) |
+|---|---|---|
+| Horizontal conductors on horizontal surfaces | 1,000 | 1,000 |
+| Horizontal conductors on vertical surfaces | 500 | 1,000 |
+| Vertical conductors from the ground to 20 m | 1,000 | 1,000 |
+| Vertical conductors from 20 m and thereafter | 500 | 1,000 |
+
+===== iec62305/page-056.txt ===== [TABELE ZWERYFIKOWANE WIZUALNIE 25.09.2026; tekst ciągły — OCR]
 
 BS EN 62305-3 Physical damage to
 
@@ -4099,7 +4478,22 @@ separation distance would still need to be satisfied.
 
 Furse, Wilford Road, Nottingham, NG2 1EB * Tel: +44 (0)115 964 3700 * Email: enquiry@furse.com * Web: www.furse.com | urse =
 
+[TABELE/WZORY ZWERYFIKOWANE WIZUALNIE ze skanem 25.09.2026 — obowiązują zamiast rozsypanego OCR powyżej]
+h > 2.5 + s (4.2) — h: height of the overhang (m); s: required separation distance (BS EN 62305-3, 6.3).
+s = (ki/km) × kc × l (4.3) — ki = 0.08 for LPS Class I (Table 4.13); km = 1 for air (Table 4.14); kc = 0.66 for 2 down conductors (Table 4.15); l = w + h.
+h - 2.5 = (0.08/1) × 0.66 × (w + h); h - 2.5 = 0.0528 × (w + h); w = 18.94 × (0.9472 × h - 2.5); w ≈ 19 × (h - 2.5).
 
+Table 4.8: Maximum allowable cantilever for LPL I
+
+| Height of overhang h (m) | Width of overhang w (m) |
+|---|---|
+| 3 | 9.5 |
+| 3.5 | 19 |
+| 4.0 | 28.5 |
+| 4.5 | 38 |
+| 5 | 47.5 |
+
+(Based on 2 external, equally spaced down conductors and a Type A earthing arrangement.)
 
 ===== iec62305/page-057.txt =====
 
@@ -4308,10 +4702,10 @@ a LPS Class III - IV
 0 500 1,000 1,500 2,000 2,500 3,000
 p (Qm)
 
-Note 1 For LPSClass Ill and IV /4 is independent of soil resistivity
+Note 1 For LPS Class Ill and IV /4 is independent of soil resistivity
 
-Note 2 For LPSClass II /4 is fixed for soil resistivities below 800 2m
-Note 3 For LPSClass I /4 is fixed for soil resistivities below 500 2m
+Note 2 For LPS Class II /4 is fixed for soil resistivities below 800 2m
+Note 3 For LPS Class I /4 is fixed for soil resistivities below 500 2m
 
 Figure 4.26: Minimum length of
 earth electrode
@@ -4322,7 +4716,7 @@ Furse, Wilford Road, Nottingham, NG2 1EB * Tel: +44 (0)115 964 3700 * Email: enq
 
 
 
-===== iec62305/page-059.txt =====
+===== iec62305/page-059.txt ===== [TABELE ZWERYFIKOWANE WIZUALNIE 25.09.2026; tekst ciągły — OCR]
 
 58
 
@@ -4454,8 +4848,21 @@ to minimize any potential electrochemical corrosion.
 
 Furse, Wilford Road, Nottingham, NG2 1EB Tel: +44 (0)115 964 3700 * Email: enquiry@furse.com * Web: www.furse.com | urse =
 
+[TABELE/WZORY ZWERYFIKOWANE WIZUALNIE ze skanem 25.09.2026 — obowiązują zamiast rozsypanego OCR powyżej]
+Table 4.9: Earth rods required to achieve 10 ohms (rods 2.4 m long)
 
-===== iec62305/page-060.txt =====
+| Resistivity (ohm m) | Number of earth rods | Length of earth rod (m) |
+|---|---|---|
+| 500 | 50 | 2.4 |
+| 400 | 38 | 2.4 |
+| 300 | 28 | 2.4 |
+| 200 | 18 | 2.4 |
+| 100 | 8 | 2.4 |
+| 50 | 3 | 2.4 |
+
+From text: top of each earth rod at least 0.5 m below finished ground level (waiver in 62305-3:2011 when rod in an inspection housing in high resistance paving); in extreme weather add 0.5 m to each vertical electrode length; Type B ring electrode: min. 80% length in contact with soil, min. length 5 m for soil resistivity ≤ 500 ohm m, buried min. 0.5 m deep and about 1 m from external walls.
+
+===== iec62305/page-060.txt ===== [TABELE ZWERYFIKOWANE WIZUALNIE 25.09.2026; tekst ciągły — OCR]
 
 Earthing - General
 A good earth connection should possess the following
@@ -4464,7 +4871,7 @@ characteristics:
 
 BS EN 62305-3 Physical damage to
 
-© Lowelectrical resistance between the electrode
+© Low electrical resistance between the electrode
 and the earth. The lower the earth electrode
 
 resistance the more likely the lightning current will
@@ -4588,7 +4995,45 @@ Furse, Wilford Road, Nottingham, NG2 1EB * Tel: +44 (0)115 964 3700 * Email: enq
 
 59
 
+[TABELE/WZORY ZWERYFIKOWANE WIZUALNIE ze skanem 25.09.2026 — obowiązują zamiast rozsypanego OCR powyżej]
+Table 4.10: Effect of moisture on resistivity
 
+| Moisture content % by weight | Top soil (Ωm) | Sandy loam (Ωm) |
+|---|---|---|
+| 0 | 10 x 10^6 | 10 x 10^6 |
+| 2.5 | 2,500 | 1,500 |
+| 5 | 1,650 | 430 |
+| 10 | 530 | 185 |
+| 15 | 310 | 105 |
+| 20 | 120 | 63 |
+| 30 | 64 | 42 |
+
+Table 4.11: Effect of salt on resistivity (based on sandy loam, 15.2% moisture)
+
+| Added salt (% by weight of moisture) | Resistivity (Ωm) |
+|---|---|
+| 0 | 107 |
+| 0.1 | 18 |
+| 1 | 4.6 |
+| 5 | 1.9 |
+| 10 | 1.3 |
+| 20 | 1.0 |
+
+Table 4.12: Effect of temperature on resistivity (based on sandy loam, 15.2% moisture)
+
+| °C | °F | Resistivity (Ωm) |
+|---|---|---|
+| 20 | 68 | 72 |
+| 10 | 50 | 99 |
+| 0 | 32 (water) | 138 |
+| 0 | 32 (ice) | 300 |
+| -5 | 23 | 790 |
+| -15 | 14 | 3,300 |
+
+Resistance to earth:
+horizontal strip electrode: R = ρ/(2πL) × [loge(2L²/(w·h)) + Q] (4.4)
+vertical rods: R = ρ/(2πL) × [loge(8L/d) - 1] (4.5)
+R — resistance (Ω); ρ — soil resistivity (Ωm); L — length of electrode (m); w — width of strip or diameter of circular electrode (m); d — diameter of rod electrode (m); h — depth of electrode (m); Q — coefficient: rectangular section Q = -1, circular section Q = -1.3.
 
 ===== iec62305/page-061.txt =====
 
@@ -4872,7 +5317,7 @@ shown in Figure 4.28.
 
 There are several scenarios that can occur:
 
-a) Ifthe roof mounted equipment is not protected by
+a) If the roof mounted equipment is not protected by
 the air termination system but can withstand a
 direct lightning strike without being punctured,
 then the casing of the equipment should be
@@ -5034,7 +5479,7 @@ Furse, Wilford Road, Nottingham, NG2 1EB * Tel: +44 (0)115 964 3700 * Email: enq
 63
 
 
-===== iec62305/page-065.txt =====
+===== iec62305/page-065.txt ===== [TABELE ZWERYFIKOWANE WIZUALNIE 25.09.2026; tekst ciągły — OCR]
 
 BS EN 62305-3 Physical damage to
 
@@ -5156,8 +5601,39 @@ Table 4.15: Values of coefficient k, (BS EN 62305-3 Table 12)
 
 Furse, Wilford Road, Nottingham, NG2 1EB * Tel: +44 (0)115 964 3700 * Email: enquiry@furse.com * Web: www.furse.com | urse =
 
+[TABELE/WZORY ZWERYFIKOWANE WIZUALNIE ze skanem 25.09.2026 — obowiązują zamiast rozsypanego OCR powyżej]
+s = (ki/km) × kc × l (4.6a) — simplified calculation of separation distance
+s = (ki/km) × (kc1 × l1 + kc2 × l2 + ... + kcn × ln) (4.6b) — detailed calculation
+ki — Class of LPS (Table 4.13); km — partitioning coefficient of the separation medium (Table 4.14); kc — partitioning coefficient of the lightning current in the down conductors (Table 4.15); l — length (m) along the air termination or down conductor, from the point considered to the nearest equipotential bonding point.
 
-===== iec62305/page-066.txt =====
+Table 4.13: Values of coefficient ki (BS EN 62305-3 Table 10)
+
+| Class of LPS | ki |
+|---|---|
+| I | 0.08 |
+| II | 0.06 |
+| III and IV | 0.04 |
+
+Table 4.14: Values of coefficient km (BS EN 62305-3 Table 11)
+
+| Material | km |
+|---|---|
+| Air | 1 |
+| Concrete, bricks | 0.5 |
+
+When there are several insulating materials in series, it is good practice to use the lower value for km. NOTE 2 In using other insulating materials, construction guidance and the value of km should be provided by the manufacturer.
+
+Table 4.15: Values of coefficient kc (BS EN 62305-3 Table 12)
+
+| Number of down conductors n | kc |
+|---|---|
+| 1 (only in the case of an isolated LPS) | 1 |
+| 2 | 0.66 |
+| 3 and more | 0.44 |
+
+NOTE Values of Table 12 apply for all type B earthing arrangements and for type A earthing arrangements, provided that the earth resistance of neighbouring earth electrodes do not differ by more than a factor of 2. If the earth resistances of single earth electrodes differ by more than a factor of 2, kc = 1 is to be assumed.
+
+===== iec62305/page-066.txt ===== [TABELE ZWERYFIKOWANE WIZUALNIE 25.09.2026; tekst ciągły — OCR]
 
 BS EN 62305-3 Physical damage to
 
@@ -5261,7 +5737,7 @@ inspection
 
 © After the LPS installation has been completed
 
-e Onaregular basis as per the guidance given in
+e On a regular basis as per the guidance given in
 Table 4.16
 
 Table 4.16 defines differing periods between visual and
@@ -5275,7 +5751,17 @@ Furse, Wilford Road, Nottingham, NG2 1EB * Tel: +44 (0)115 964 3700 * Email: enq
 
 65
 
+[TABELE/WZORY ZWERYFIKOWANE WIZUALNIE ze skanem 25.09.2026 — obowiązują zamiast rozsypanego OCR powyżej]
+Example: s = (ki/km) × kc × l (4.7); ki = 0.06 (LPS Class II), km = 1 (air), kc = 0.44 (4 down conductors), l = 25 m → s = (0.06/1) × 0.44 × 25 = 0.66 m.
 
+Table 4.16: Maximum period between inspections of an LPS (BS EN 62305-3 Table E.2)
+
+| Protection level | Visual inspection (years) | Complete inspection (years) | Critical situations complete inspection (years) |
+|---|---|---|---|
+| I and II | 1 | 2 | 1 |
+| III and IV | 2 | 4 | 1 |
+
+LPS in structures with a risk of explosion — visual inspection every 6 months, electrical testing once a year (acceptable 14 to 15 month cycle).
 
 ===== iec62305/page-067.txt =====
 
@@ -5823,7 +6309,7 @@ Furse, Wilford Road, Nottingham, NG2 1EB * Tel: +44 (0)115 964 3700 * Email: enq
 
 
 
-===== iec62305/page-073.txt =====
+===== iec62305/page-073.txt ===== [TABELE ZWERYFIKOWANE WIZUALNIE 25.09.2026; tekst ciągły — OCR]
 
 72
 
@@ -5968,6 +6454,16 @@ Table 5.1: Current handling requirement of SPDs
 
 Furse, Wilford Road, Nottingham, NG2 1EB Tel: +44 (0)115 964 3700 * Email: enquiry@furse.com * Web: www.furse.com | urse -
 
+[TABELE/WZORY ZWERYFIKOWANE WIZUALNIE ze skanem 25.09.2026 — obowiązują zamiast rozsypanego OCR powyżej]
+Table 5.1: Current handling requirement of SPDs
+
+| LPL | Maximum current kA (10/350 µs) | Class of LPS | Maximum Type 1 SPD current kA per mode* (10/350 µs) |
+|---|---|---|---|
+| I | 200 | I | 25 |
+| II | 150 | II | 18.75 |
+| III/IV | 100 | III/IV | 12.5 |
+
+* Based on 3 phase TN-S or TN-C-S system: 4 conductors (L1, L2, L3, N) plus Earth - 4 modes to Earth
 
 ===== iec62305/page-074.txt =====
 
@@ -6106,7 +6602,7 @@ Furse, Wilford Road, Nottingham, NG2 1EB * Tel: +44 (0)115 964 3700 * Email: enq
 
 
 
-===== iec62305/page-075.txt =====
+===== iec62305/page-075.txt ===== [TABELE ZWERYFIKOWANE WIZUALNIE 25.09.2026; tekst ciągły — OCR]
 
 BS EN 62305-4 Electrical and electronic
 
@@ -6283,8 +6779,24 @@ Figure 5.4: Current division concept for multiple service lines
 
 Furse, Wilford Road, Nottingham, NG2 1EB Tel: +44 (0)115 964 3700 * Email: enquiry@furse.com * Web: www.furse.com urse =
 
+[TABELE/WZORY ZWERYFIKOWANE WIZUALNIE ze skanem 25.09.2026 — obowiązują zamiast rozsypanego OCR powyżej]
+Table 5.2: Expected surge currents due to lightning flashes (BS EN 62305-1 Tables E2 & E3)
 
-===== iec62305/page-076.txt =====
+| System | Source of damage | Current waveform (µs) | LPL III-IV (kA) | LPL II (kA) | LPL I (kA) |
+|---|---|---|---|---|---|
+| Low voltage lines | S3 | 10/350 | 5 | 7.5 | 10 |
+| Low voltage lines | S4 | 8/20 | 2.5 | 3.75 | 5 |
+| Low voltage lines | S2 | 8/20 | 0.1 | 0.15 | 0.2 |
+| Low voltage lines | S1 | 8/20 | 5 | 7.5 | 10 |
+| Telecoms lines | S3 | 10/350 | 1 | 1.5 | 2 |
+| Telecoms lines | S4 | 8/20 | 0.035 | 0.085 | 0.160 |
+| Telecoms lines | S2 | 8/20 | 0.1 | 0.15 | 0.2 |
+| Telecoms lines | S1 | 8/20 | 5 | 7.5 | 10 |
+
+Structural LPS not required but RI > RT, overhead service line: mains Type 1 SPD 12.5 kA 10/350 µs per mode; signal/telecom 2.5 kA 10/350 µs per mode. Underground lines without structural LPS: overvoltage (Type 2 / Category C, 8/20 µs) SPDs sufficient.
+(Figure 5.4: 100% of strike to building LPS — 50% to earth, 50% shared among service lines; example 12.5% per service, 3.125% per conductor.)
+
+===== iec62305/page-076.txt ===== [TABELE ZWERYFIKOWANE WIZUALNIE 25.09.2026; tekst ciągły — OCR]
 
 SPDs - types, testing, location and application
 
@@ -6424,7 +6936,31 @@ Furse, Wilford Road, Nottingham, NG2 1EB * Tel: +44 (0)115 964 3700 * Email: enq
 
 75
 
+[TABELE/WZORY ZWERYFIKOWANE WIZUALNIE ze skanem 25.09.2026 — obowiązują zamiast rozsypanego OCR powyżej]
+Table 5.3: Test criteria and application of SPDs
 
+| SPD location/LPZ boundary | LPZ 0/1 | LPZ 1/2 | LPZ 2/3 |
+|---|---|---|---|
+| Typical SPD installation point | Service Entrance (eg Main distribution board or telecom NTP) | Sub-distribution board or telecom PBX frame | Terminal Equipment (eg socket outlet) |
+| Mains Test Class/SPD Type (1) | I/1 | II/2 | III/3 |
+| Surge test waveform | 10/350 current | 8/20 current | Combination 8/20 current and 1.2/50 voltage |
+| Typical peak test current (per mode) | 25 kA (2) | 40 kA | 3 kA (with 6 kV) |
+| Signal/Telecom Test Category (1) | D1 (3) | C2 (3) | C1 |
+| Surge test waveform | 10/350 current | Combination 8/20 current and 1.2/50 voltage | Combination 8/20 current and 1.2/50 voltage |
+| Typical peak test current (per mode) | 2.5 kA | 2 kA (with 4 kV) | 0.5 kA (with 1 kV) |
+
+(1) Tests to BS EN 61643 series. (2) Peak current (per mode) for a 3 phase SPD to protect a TN-S mains system. (3) Test category B2 10/700 voltage waveform (also within ITU-T standards) up to 4 kV peak also permissible.
+
+Table 5.4: Minimum cross-sections for bonding components (BS EN 62305-4 Table 1)
+
+| Bonding component | Material | Cross-section (mm²) |
+|---|---|---|
+| Bonding bars (copper, copper coated or galvanized steel) | Cu, Fe | 50 |
+| Connecting conductors from bonding bars to the earthing system or to other bonding bars | Cu / Al / Fe | 16 / 25 / 50 |
+| Connecting conductors from internal metal installations to bonding bars | Cu / Al / Fe | 6 / 10 / 16 |
+| Earthing conductors for SPD — Class I / Class II / Class III / Other SPDs | Cu | 16 / 6 / 1 / 1 |
+
+Other material used instead of copper should have cross-section ensuring equivalent resistance.
 
 ===== iec62305/page-077.txt =====
 
@@ -6471,8 +7007,8 @@ cover:
 
 @ The complete structure
 
-e Asection of the structure
-e Asingle room
+e A section of the structure
+e A single room
 ©
 
 A piece of equipment by a suitable housing or
@@ -6869,7 +7405,7 @@ Furse, Wilford Road, Nottingham, NG2 1EB * Tel: +44 (0)115 964 3700 * Email: enq
 
 
 
-===== iec62305/page-081.txt =====
+===== iec62305/page-081.txt ===== [TABELE ZWERYFIKOWANE WIZUALNIE 25.09.2026; tekst ciągły — OCR]
 
 BS EN 62305-4 Electrical and electronic
 
@@ -6981,6 +7517,17 @@ the same installation.
 
 furse 5
 
+[TABELE/WZORY ZWERYFIKOWANE WIZUALNIE ze skanem 25.09.2026 — obowiązują zamiast rozsypanego OCR powyżej]
+Table 5.5: Required minimum impulse withstand voltage for a 230/240 V system
+
+| Category | Required minimum impulse withstand voltage (kV) | Typical location/equipment |
+|---|---|---|
+| IV (equipment with very high overvoltage impulse) | 6 kV | Electricity meter |
+| III (equipment with high overvoltage impulse) | 4 kV | Distribution board |
+| II (equipment with normal overvoltage impulse) | 2.5 kV | Sub-distribution board/Electrical equipment |
+| I (equipment with reduced overvoltage impulse) | 1.5 kV | Socket outlet/Electronic equipment |
+
+Overvoltage mains Type 3 SPD — Class III test to BS EN 61643: combination/hybrid waveform 6 kV (1.2/50 µs voltage) and 3 kA (8/20 µs current).
 
 ===== iec62305/page-082.txt =====
 
@@ -7381,7 +7928,7 @@ instructions.
 
 Main switch/ Main supply
 Isolator OCPD
-Iternative
+Alternative
 
 SPD with dedicated OCPD
 
@@ -8381,7 +8928,7 @@ guidance on how to implement these measures.
 
 
 
-===== iec62305/page-095.txt =====
+===== iec62305/page-095.txt ===== [TABELE ZWERYFIKOWANE WIZUALNIE 25.09.2026; tekst ciągły — OCR]
 
 94
 
@@ -8495,8 +9042,45 @@ connected internal equipment
 
 Furse, Wilford Road, Nottingham, NG2 1EB * Tel: +44 (0)115 964 3700 * Email: enquiry@furse.com * Web: www.furse.com furse =
 
+[TABELE/WZORY ZWERYFIKOWANE WIZUALNIE ze skanem 25.09.2026 — obowiązują zamiast rozsypanego OCR powyżej]
+Example 1: Country house near King's Lynn, Norfolk — L = 15 m, W = 20 m, H = 6 m; risk R1 considered.
 
-===== iec62305/page-096.txt =====
+Table 6.1: Characteristics of the structure and its environment
+
+| Parameter | Comment | Symbol | Value |
+|---|---|---|---|
+| Dimensions (m) | - | LB, WB, HB | 15, 20, 6 |
+| Location factor | Isolated | CD | 1 |
+| Line environment factor | Rural | CE | 1 |
+| LPS | None | PB | 1 |
+| Shield at structure boundary | None | KS1 | 1 |
+| Lightning flash density | 1/km²/year | NG | 0.7 |
+
+Table 6.2: Characteristics of incoming LV power line and connected internal equipment
+
+| Parameter | Comment | Symbol | Value |
+|---|---|---|---|
+| Length (m) | - | LL | 1,000 |
+| Installation type | Buried | - | - |
+| Line type | LV power | CT | 1 |
+| Line shielding | None | PLD | 1 |
+| Internal wiring precaution | None | KS3 | 1 |
+| Withstand of internal system (kV) | None | UW | 2.5 |
+| SPD Protection | None | PEB | 1 |
+
+Table 6.3: Characteristics of incoming telecom line and connected internal equipment
+
+| Parameter | Comment | Symbol | Value |
+|---|---|---|---|
+| Length (m) | - | LL | 1,000 |
+| Installation type | Aerial | - | - |
+| Line type | Telecoms | CT | 1 |
+| Line shielding | None | PLD | 1 |
+| Internal wiring precaution | None | KS3 | 1 |
+| Withstand of internal system (kV) | None | UW | 1.5 |
+| SPD Protection | None | PEB | 1 |
+
+===== iec62305/page-096.txt ===== [TABELE ZWERYFIKOWANE WIZUALNIE 25.09.2026; tekst ciągły — OCR]
 
 Definition of zones
 
@@ -8616,9 +9200,29 @@ furse ©
 
 95
 
+[TABELE/WZORY ZWERYFIKOWANE WIZUALNIE ze skanem 25.09.2026 — obowiązują zamiast rozsypanego OCR powyżej]
+Table 6.4: Characteristics of Zone Z2 (inside the building)
 
+| Parameter | Comment | Symbol | Value |
+|---|---|---|---|
+| Floor surface type | Wood | rt | 1 x 10^-5 |
+| Protection measures against step and touch voltage | None | PTA, PTU | 1, 1 |
+| Risk of fire | Ordinary | rf | 1 x 10^-2 |
+| Special hazard | None | hz | 1 |
+| Fire protection | None | rp | 1 |
+| Shield internal to structure | None | KS2 | 1 |
+| Internal power systems | Yes | Connected to LV power line | - |
+| Internal telephone systems | Yes | Connected to telecom line | - |
+| Loss by touch and step voltages | Yes | LT | 1 x 10^-2 |
+| Loss by physical damage | Yes | LF | 1 |
 
-===== iec62305/page-097.txt =====
+Collection areas:
+AD = L × W + 6H(L + W) + π(3H)² (E A.2); AD = 15 × 20 + 6 × 6(15 + 20) + π(3 × 6)² = 300 + 1,260 + 1,018 = 2,578 m²
+AL(P) = 40 × LL (E A.9) = 40 × 1,000 = 40,000 m² (LL unknown → assume 1000 m)
+AI(P) = 4,000 × LL (E A.11) = 4,000,000 m²
+AL(T) = 40 × LL (E A.9) = 40,000 m²
+
+===== iec62305/page-097.txt ===== [TABELE ZWERYFIKOWANE WIZUALNIE 25.09.2026; tekst ciągły — OCR]
 
 96
 
@@ -8755,8 +9359,18 @@ Py=1_ for both lines
 
 Furse, Wilford Road, Nottingham, NG2 1EB * Tel: +44 (0)115 964 3700 * Email: enquiry@furse.com * Web: www.furse.com | urse =
 
+[TABELE/WZORY ZWERYFIKOWANE WIZUALNIE ze skanem 25.09.2026 — obowiązują zamiast rozsypanego OCR powyżej]
+AI(T) = 4,000 × LL (E A.11) = 4,000,000 m²
+ND = NG × AD × CD × 10^-6 (E A.4) = 0.7 × 2,578 × 1 × 10^-6 = 0.0018
+NL(P) = NG × AL(P) × CI(P) × CE(P) × CT(P) × 10^-6 (E A.8) = 0.7 × 40,000 × 0.5 × 1 × 1 × 10^-6 = 0.014
+NI(P) = NG × AI(P) × CI(P) × CE(P) × CT(P) × 10^-6 (E A.10) = 0.7 × 4,000,000 × 0.5 × 1 × 1 × 10^-6 = 1.4
+NL(T) = 0.7 × 40,000 × 1 × 1 × 1 × 10^-6 = 0.028 (E A.8)
+NI(T) = 0.7 × 4,000,000 × 1 × 1 × 1 × 10^-6 = 2.8 (E A.10)
+NDJ(P) = NG × ADJ × CDJ × CT × 10^-6 (E A.5) = 0.7 × 0 × 1 × 1 × 10^-6 = 0; NDJ(T) = 0
+PA = PTA × PB (E NB.1) = 1 × 1 = 1; PB = 1 (no LPS, Table NB.2)
+PU = PTU × PEB × PLD × CLD (E NB.8) = 1 × 1 × 1 × 1 = 1 for both lines (PTU — NB.6; PEB — NB.7; PLD — NB.8; CLD — NB.4)
 
-===== iec62305/page-098.txt =====
+===== iec62305/page-098.txt ===== [TABELE ZWERYFIKOWANE WIZUALNIE 25.09.2026; tekst ciągły — OCR]
 
 Design examples
 
@@ -8844,8 +9458,19 @@ Lj=1x107
 
 Furse, Wilford Road, Nottingham, NG2 1EB * Tel: +44 (0)115 964 3700 * Email: enquiry@furse.com * Web: www.furse.com | urse >
 
+[TABELE/WZORY ZWERYFIKOWANE WIZUALNIE ze skanem 25.09.2026 — obowiązują zamiast rozsypanego OCR powyżej]
+PV = PEB × PLD × CLD (E NB.9) = 1 × 1 × 1 = 1 for both lines
+LT = 1 × 10^-2 (Table NC.2, all types); LF = 1 (Table NC.2, large house); nz/nt = 1, tz/8760 = 1 when unknown
+LA = rt × LT × nz/nt × tz/8760 (E NC.1) = 0.00001 × 0.01 × 1 × 1 = 1 × 10^-7
+LB = rp × rf × hz × LF × nz/nt × tz/8760 (E NC.3) = 1 × 1 × 0.01 × 1 × 1 × 1 = 1 × 10^-2 [sic — kolejność czynników w druku; rf = 0.01]
+LU = rt × LT × nz/nt × tz/8760 (E NC.2) = 1 × 10^-7
+LV (E NC.3) = 1 × 10^-2
+R1 = RA + RB + RC* + RM* + RU + RV + RW* + RZ* (E 1); in this case R1 = RA + RB + RU(P) + RV(P) + RU(T) + RV(T)
+RA = ND × PA × LA (E 6) = 0.0018 × 1 × 1 × 10^-7 = 1.8 × 10^-10, say RA = 0
+RB = ND × PB × LB (E 7) = 0.0018 × 1 × 1 × 10^-2 = 1.805 × 10^-5 [w druku 1.805 — z ND = 0.0018046 niezaokrąglonego]
+RU(P) = (NL(P) + NDJ(P)) PU × LU (E 10) = (0.014 + 0) × 1 × 1 × 10^-7 = 1.4 × 10^-9, say 0
 
-===== iec62305/page-099.txt =====
+===== iec62305/page-099.txt ===== [TABELE ZWERYFIKOWANE WIZUALNIE 25.09.2026; tekst ciągły — OCR]
 
 98
 
@@ -8966,8 +9591,16 @@ can assign Pp = 0.2
 
 Furse, Wilford Road, Nottingham, NG2 1EB * Tel: +44 (0)115 964 3700 * Email: enquiry@furse.com * Web: www.furse.com | urse =
 
+[TABELE/WZORY ZWERYFIKOWANE WIZUALNIE ze skanem 25.09.2026 — obowiązują zamiast rozsypanego OCR powyżej]
+RV(P) = (NL(P) + NDJ(P)) PV × LV (E 11) = (0.014 + 0) × 1 × 1 × 10^-2 = 1.4 × 10^-4 or 14 × 10^-5
+RU(T) = (0.028 + 0) × 1 × 1 × 10^-7 = 2.8 × 10^-9, say 0 (E 10)
+RV(T) = (0.028 + 0) × 1 × 1 × 10^-2 = 2.8 × 10^-4 or 28 × 10^-5 (E 11)
+R1 = 0 + 1.805 + 0 + 14 + 0 + 28 = 43.805 × 10^-5 > RT = 1 × 10^-5 → protection needed
+RD = RA + RB = 1.805 × 10^-5 > RT; RI = RU(P) + RV(P) + RU(T) + RV(T) = 42 × 10^-5 > RT
+RV(T) = 28/43.805 = 63.9% of R1; RV(P) = 14/43.805 = 31.9%; together 95.8%
+Solution A: structural LPS; LPS Class IV → PB = 0.2
 
-===== iec62305/page-100.txt =====
+===== iec62305/page-100.txt ===== [TABELE ZWERYFIKOWANE WIZUALNIE 25.09.2026; tekst ciągły — OCR]
 
 Design examples
 
@@ -9086,9 +9719,40 @@ telecom SPDs).
 
 Furse, Wilford Road, Nottingham, NG2 1EB * Tel: +44 (0)115 964 3700 * Email: enquiry@furse.com * Web: www.furse.com | urse =
 
+[TABELE/WZORY ZWERYFIKOWANE WIZUALNIE ze skanem 25.09.2026 — obowiązują zamiast rozsypanego OCR powyżej]
+First attempt (LPS III-IV): RB = ND × PB × LB (E 22) = 0.0018 × 0.2 × 1 × 10^-2 = 3.6 × 10^-6 or 0.36 × 10^-5; PEB = 0.05;
+RV(P) = (0.014 + 0) × 0.05 × 1 × 10^-2 = 7 × 10^-6 or 0.7 × 10^-5; RV(T) = (0.028 + 0) × 0.05 × 1 × 10^-2 = 1.4 × 10^-5
 
+Table 6.5: Summary of individual risks after first attempt at protection solution A
 
-===== iec62305/page-101.txt =====
+| Risk | Value x 10^-5 |
+|---|---|
+| RA | ≈0 |
+| RB | 0.36 |
+| RU(P) | ≈0 |
+| RV(P) | 0.7 |
+| RU(T) | ≈0 |
+| RV(T) | 1.4 |
+| Total | 2.46 |
+
+R1 = 2.46 × 10^-5 > RT → higher Class of LPS. Class II: PB = 0.05, PEB = 0.02:
+RB = 0.0018 × 0.05 × 1 × 10^-2 = 9.02 × 10^-7 or 0.09 × 10^-5 (E 7); RV(P) = (0.014 + 0) × 0.02 × 1 × 10^-2 = 2.8 × 10^-6 or 0.28 × 10^-5; RV(T) = (0.028 + 0) × 0.02 × 1 × 10^-2 = 5.6 × 10^-6 or 0.56 × 10^-5
+
+Table 6.6: Summary of individual risks after second attempt at protection solution A
+
+| Risk | Value x 10^-5 |
+|---|---|
+| RA | ≈0 |
+| RB | 0.09 |
+| RU(P) | ≈0 |
+| RV(P) | 0.28 |
+| RU(T) | ≈0 |
+| RV(T) | 0.56 |
+| Total | 0.93 |
+
+R1 = 0.93 × 10^-5 < RT = 1 × 10^-5 → protection achieved. Solution: structural LPS Class II + service entrance SPDs to LPL II on power and telecom lines (25 kA 10/350 µs per mode for mains Type 1 SPDs, 2.5 kA 10/350 µs per mode for telecom SPDs).
+
+===== iec62305/page-101.txt ===== [TABELE ZWERYFIKOWANE WIZUALNIE 25.09.2026; tekst ciągły — OCR]
 
 100
 
@@ -9199,8 +9863,42 @@ solution C
 
 Furse, Wilford Road, Nottingham, NG2 1EB Tel: +44 (0)115 964 3700 * Email: enquiry@furse.com * Web: www.furse.com | urse =
 
+[TABELE/WZORY ZWERYFIKOWANE WIZUALNIE ze skanem 25.09.2026 — obowiązują zamiast rozsypanego OCR powyżej]
+Solution B: LPS Class IV + SPDs to LPL III-IV* → PEB = 0.005 (Table NB.7)
+RV(P) = (0.014 + 0) × 0.005 × 1 × 10^-2 = 0.7 × 10^-6 or 0.07 × 10^-5 (E 11); RV(T) = (0.028 + 0) × 0.005 × 1 × 10^-2 = 0.14 × 10^-5
 
-===== iec62305/page-102.txt =====
+Table 6.7: Summary of individual risks for protection solution B
+
+| Risk | Value x 10^-5 |
+|---|---|
+| RA | ≈0 |
+| RB | 0.36 |
+| RU(P) | ≈0 |
+| RV(P) | 0.07 |
+| RU(T) | ≈0 |
+| RV(T) | 0.14 |
+| Total | 0.57 |
+
+R1 = 0.57 × 10^-5 < RT → Solution B: LPS Class IV + service entrance SPDs to LPL III-IV* (12.5 kA 10/350 µs per mode mains Type 1; 2.5 kA 10/350 µs per mode telecom).
+
+Solution C: SPDs to LPL III-IV* + automatic fire alarm/extinguishing → rp = 0.2, no structural LPS:
+LB = LV = rp × rf × hz × LF (E NC.3) = 0.2 × 0.01 × 1 × 1 = 2 × 10^-3
+RB = ND × PB × LB (E 7) = 0.0018 × 1 × 2 × 10^-3 = 3.6 × 10^-6 or 0.36 × 10^-5
+RV(P) = (0.014 + 0) × 0.005 × 0.002 = 1.4 × 10^-7 or 0.014 × 10^-5; RV(T) = (0.028 + 0) × 0.005 × 0.002 = 2.8 × 10^-7 or 0.028 × 10^-5
+
+Table 6.8: Summary of individual risks for protection solution C
+
+| Risk | Value x 10^-5 |
+|---|---|
+| RA | ≈0 |
+| RB | 0.36 |
+| RU(P) | ≈0 |
+| RV(P) | 0.014 |
+| RU(T) | ≈0 |
+| RV(T) | 0.028 |
+| Total | 0.402 |
+
+===== iec62305/page-102.txt ===== [TABELE ZWERYFIKOWANE WIZUALNIE 25.09.2026; tekst ciągły — OCR]
 
 Thus:
 R, =0.402x 10° < Rzy =1x 107
@@ -9279,9 +9977,11 @@ Furse, Wilford Road, Nottingham, NG2 1EB * Tel: +44 (0)115 964 3700 * Email: enq
 
 101
 
+[TABELE/WZORY ZWERYFIKOWANE WIZUALNIE ze skanem 25.09.2026 — obowiązują zamiast rozsypanego OCR powyżej]
+R1 = 0.402 × 10^-5 < RT = 1 × 10^-5 → protection achieved (Solution C).
+Decision: Solution B (LPS Class IV + service entrance lightning current SPDs to LPL III-IV*) — the most economic. SPD* = voltage protection level ≤ 1000 V (consumer unit withstand 2.5 kV).
 
-
-===== iec62305/page-103.txt =====
+===== iec62305/page-103.txt ===== [TABELE ZWERYFIKOWANE WIZUALNIE 25.09.2026; tekst ciągły — OCR]
 
 102
 
@@ -9398,8 +10098,44 @@ connected internal equipment
 
 Furse, Wilford Road, Nottingham, NG2 1EB Tel: +44 (0)115 964 3700 * Email: enquiry@furse.com * Web: www.furse.com urse =
 
+[TABELE/WZORY ZWERYFIKOWANE WIZUALNIE ze skanem 25.09.2026 — obowiązują zamiast rozsypanego OCR powyżej]
+Example 2: Office block (insurance company, five storey) — L = 40 m, W = 20 m, H = 15 m; underground power line 650 m, underground telecom line unknown length; R1 and R2 considered.
 
-===== iec62305/page-104.txt =====
+Table 6.9: Characteristics of the structure and its environment
+
+| Parameter | Comment | Symbol | Value |
+|---|---|---|---|
+| Dimensions (m) | - | LB, WB, HB | 40, 20, 15 |
+| Location factor | Surrounded by objects same height or smaller | CD | 0.5 |
+| Line environment factor | Urban (buildings between 10 and 20 m) | CE | 0.1 |
+| LPS | None | PB | 1 |
+| Shield at structure boundary | None | KS1 | 1 |
+| People present inside/outside the structure | Yes | nt | 200 |
+| Lightning flash density | 1/km²/year | NG | 0.7 |
+
+Table 6.10: Characteristics of incoming LV power line and connected internal equipment
+
+| Parameter | Comment | Symbol | Value |
+|---|---|---|---|
+| Length (m) | - | LL | 650 |
+| Line type | LV power | CT | 1 |
+| Line shielding | None | PLD | 1 |
+| Internal wiring precaution | None | KS3 | 1 |
+| Withstand of internal system (kV) | None | UW | 2.5 |
+| SPD Protection | None | PEB | 1 |
+
+Table 6.11: Characteristics of incoming telecom line and connected internal equipment
+
+| Parameter | Comment | Symbol | Value |
+|---|---|---|---|
+| Length (m) | - | LL | 1,000 |
+| Line type | Telecoms | CT | 1 |
+| Line shielding | None | PLD | 1 |
+| Internal wiring precaution | None | KS3 | 1 |
+| Withstand of internal system (kV) | None | UW | 1.5 |
+| SPD Protection | None | PEB | 1 |
+
+===== iec62305/page-104.txt ===== [TABELE ZWERYFIKOWANE WIZUALNIE 25.09.2026; tekst ciągły — OCR]
 
 Design examples
 
@@ -9411,7 +10147,7 @@ entrance area, in the garden and inside the protection
 structure Risk of fire High R 0.5
 e = The structure is a unique fireproof compartment Special hazard | Low panic h, 2
 e aa pine within the structure is a unique Fire protection | Automatic fy 02
-ireproof compartment Spatial shield None Kes ;
+fireproof compartment Spatial shield None Kes ;
 @ No spatial shields exist within the structure
 Internal power Yes Connected to -
 @ Both electrical systems are common throughout systems LV power line
@@ -9435,7 +10171,7 @@ see Table 6.16 Table 6.14: Characteristics of Zone Z3 (Archive)
 
 Parameter Comment Symbol Value Raramięti ZHiiawE symbol Value
 Soil surf. -3
-— surtace Marble i 1%10 Floor surface Linoleum R 1x 105
+— surface Marble i 1%10 Floor surface Linoleum R 1x 105
 pe
 type
 Shock None PTA 1
@@ -9452,13 +10188,13 @@ Table 6.12: Characteristics of Zone Z, (Entrance area)
 Internal Yes Connected to »
 telephone telecom line
 Parameter Comment Symbol Value systems
-Sall'surtace Gtass R 1x 102 Loss by touch Yes Ly See Expected
+Sall'surface Glass R 1x 102 Loss by touch Yes Ly See Expected
 type and step amount of loss
 voltages pages 104-105
 Shock Fen P. 0
 protection ence A Loss by Yes Le See Expected
 physical amount of loss
-Loss by touch Yes Ly See Expected Bemage pages 104-105
+Loss by touch Yes Ly See Expected Damage pages 104-105
 and step amount of loss
 Peopl -
 voltages pages 104-105 oai "p 160 persons
@@ -9471,8 +10207,62 @@ Table 6.13: Characteristics of Zone Z» (Garden) 103
 
 Furse, Wilford Road, Nottingham, NG2 1EB * Tel: +44 (0)115 964 3700 * Email: enquiry@furse.com * Web: www.furse.com | urse =
 
+[TABELE/WZORY ZWERYFIKOWANE WIZUALNIE ze skanem 25.09.2026 — obowiązują zamiast rozsypanego OCR powyżej]
+Zones: Z1 entrance area, Z2 garden, Z3 archive, Z4 offices, Z5 computer centre.
 
-===== iec62305/page-105.txt =====
+Table 6.12: Characteristics of Zone Z1 (Entrance area)
+
+| Parameter | Comment | Symbol | Value |
+|---|---|---|---|
+| Soil surface type | Marble | rt | 1 x 10^-3 |
+| Shock protection | None | PTA | 1 |
+| Loss by touch and step voltages | Yes | LT | See pages 104-105 |
+| People potentially in danger in the zone | - | np | 4 |
+
+Table 6.13: Characteristics of Zone Z2 (Garden)
+
+| Parameter | Comment | Symbol | Value |
+|---|---|---|---|
+| Soil surface type | Grass | rt | 1 x 10^-2 |
+| Shock protection | Fence | PTA | 0 |
+| Loss by touch and step voltages | Yes | LT | See pages 104-105 |
+| People potentially in danger in the zone | - | np | 2 |
+
+Table 6.14: Characteristics of Zone Z3 (Archive)
+
+| Parameter | Comment | Symbol | Value |
+|---|---|---|---|
+| Floor surface type | Linoleum | rt | 1 x 10^-5 |
+| Shock protection | None | PTU | 1 |
+| Risk of fire | High | rf | 0.5 |
+| Special hazard | Low panic | hz | 2 |
+| Fire protection | Automatic | rp | 0.2 |
+| Spatial shield | None | KS2 | 1 |
+| Internal power systems | Yes | Connected to LV power line | - |
+| Internal telephone systems | Yes | Connected to telecom line | - |
+| Loss by touch and step voltages | Yes | LT | See pages 104-105 |
+| Loss by physical damage | Yes | LF | See pages 104-105 |
+| People potentially in danger in the zone | - | np | 20 persons |
+
+Table 6.15: Characteristics of Zone Z4 (Offices)
+
+| Parameter | Comment | Symbol | Value |
+|---|---|---|---|
+| Floor surface type | Linoleum | rt | 1 x 10^-5 |
+| Shock protection | None | PTU | 1 |
+| Risk of fire | Ordinary | rf | 0.01 |
+| Special hazard | Low panic | hz | 2 |
+| Fire protection | Manual | rp | 0.5 |
+| Spatial shield | None | KS2 | 1 |
+| Internal power systems | Yes | Connected to LV power line | - |
+| Internal telephone systems | Yes | Connected to telecom line | - |
+| Loss by touch and step voltages | Yes | LT | See pages 104-105 |
+| Loss by physical damage | Yes | LF | See pages 104-105 |
+| People potentially in danger in the zone | - | np | 160 persons |
+
+[⚠️ Uwaga opracowania: w Tablicy 6.9 rf „High” = 0.5 dla archiwum, podczas gdy Tablica 3.9 (NC.5) daje dla „High” 10^-1 — wartość z przykładu poradnika, nie rozstrzygane.]
+
+===== iec62305/page-105.txt ===== [TABELE ZWERYFIKOWANE WIZUALNIE 25.09.2026; tekst ciągły — OCR]
 
 Design examples
 
@@ -9597,8 +10387,59 @@ Le, = 0.42 For an office block
 
 Furse, Wilford Road, Nottingham, NG2 1EB * Tel: +44 (0)115 964 3700 * Email: enquiry@furse.com * Web: www.furse.com | urse =
 
+[TABELE/WZORY ZWERYFIKOWANE WIZUALNIE ze skanem 25.09.2026 — obowiązują zamiast rozsypanego OCR powyżej]
+Table 6.16: Characteristics of Zone Z5 (Computer centre)
 
-===== iec62305/page-106.txt =====
+| Parameter | Comment | Symbol | Value |
+|---|---|---|---|
+| Floor surface type | Linoleum | rt | 1 x 10^-5 |
+| Shock protection | None | PTU | 1 |
+| Risk of fire | Ordinary | rf | 0.01 |
+| Special hazard | Low panic | hz | 2 |
+| Fire protection | Manual | rp | 0.5 |
+| Spatial shield | None | KS2 | 1 |
+| Internal power systems | Yes | Connected to LV power line | - |
+| Internal telephone systems | Yes | Connected to telecom line | - |
+| Loss by touch and step voltages | Yes | LT | See pages 104-105 |
+| Loss by physical damages | Yes | LF | See pages 104-105 |
+| People potentially in danger in the zone | - | np | 14 persons |
+
+Table 6.17: Example 2 - Summary of collection areas
+
+| Symbol | Area (m²) |
+|---|---|
+| AD | 12,561.73 |
+| AM | 845,398.2 |
+| AL(P) | 26,000 |
+| AL(T) | 40,000 |
+| AI(P) | 2,600,000 |
+| AI(T) | 4,000,000 |
+
+Table 6.18: Example 2 - Summary of dangerous events
+
+| Symbol | Value |
+|---|---|
+| ND | 0.0044 |
+| NM | 0.5918 |
+| NL(P) | 0.0009 |
+| NL(T) | 0.0014 |
+| NI(P) | 0.091 |
+| NI(T) | 0.14 |
+
+Table 6.19: Example 2 - Summary of probabilities of damage (Z3–Z5 jedna wartość dla trzech stref, poza PA)
+
+| Probability | Z1 | Z2 | Z3 | Z4 | Z5 |
+|---|---|---|---|---|---|
+| PA | 1 | 0 | 1 | 1 | 1 |
+| PB | N/A | N/A | 1 | 1 | 1 |
+| PU(P) | N/A | N/A | 1 | 1 | 1 |
+| PV(P) | N/A | N/A | 1 | 1 | 1 |
+| PU(T) | N/A | N/A | 1 | 1 | 1 |
+| PV(T) | N/A | N/A | 1 | 1 | 1 |
+
+LT1 = 1 x 10^-2 (external zones Z1, Z2); LT1 = 1 x 10^-2 (internal zones Z3, Z4, Z5); LF1 = 0.42 (office block) — Table NC.2.
+
+===== iec62305/page-106.txt ===== [TABELE ZWERYFIKOWANE WIZUALNIE 25.09.2026; tekst ciągły — OCR]
 
 These values relate to the structure as a whole.
 Therefore these losses must be apportioned between
@@ -9731,9 +10572,41 @@ Furse, Wilford Road, Nottingham, NG2 1EB * Tel: +44 (0)115 964 3700 * Email: enq
 
 105
 
+[TABELE/WZORY ZWERYFIKOWANE WIZUALNIE ze skanem 25.09.2026 — obowiązują zamiast rozsypanego OCR powyżej]
+LA = rt × LT × nz/nt × tz/8760 (NC.1); example zone 3: LA1 = 0.00001 × 0.01 × 20/200 = 1 × 10^-8
 
+Table 6.20: Example 2 - Summary of R1 component losses
 
-===== iec62305/page-107.txt =====
+| Probability | Z1 | Z2 | Z3 | Z4 | Z5 |
+|---|---|---|---|---|---|
+| LA1 | 2.000 x 10^-7 | 1.000 x 10^-6 | 1.000 x 10^-8 | 8.000 x 10^-8 | 7.000 x 10^-9 |
+| LB1 | N/A | N/A | 1.680 x 10^-3 | 3.360 x 10^-3 | 2.940 x 10^-4 |
+| LU1 | N/A | N/A | 1.000 x 10^-8 | 8.000 x 10^-8 | 7.000 x 10^-9 |
+| LV1 | N/A | N/A | 1.680 x 10^-3 | 3.360 x 10^-3 | 2.940 x 10^-4 |
+
+LF2 = 0.1, LO2 = 0.01 for a financial service provider (Table NC.8)
+
+Table 6.21: Example 2 - Summary of annual losses
+
+| Zone | LF2 | LO2 |
+|---|---|---|
+| 1 & 2 | N/A | N/A |
+| 3 to 5 | 3.33 x 10^-2 | 3.33 x 10^-3 |
+
+LB2 = rp × rf × LF2 (E NC.4) = 0.2 × 0.1 × 0.033 = 6.667 × 10^-4 [sic — w druku rf = 0.1, w Tablicy 6.14 rf = 0.5]
+
+Table 6.22: Example 2 - Summary of R2 component losses
+
+| Probability | Z1 | Z2 | Z3 | Z4 | Z5 |
+|---|---|---|---|---|---|
+| LB2 | N/A | N/A | 6.667 x 10^-4 | 1.667 x 10^-4 | 1.667 x 10^-4 |
+| LC2 | N/A | N/A | 3.333 x 10^-3 | 3.333 x 10^-3 | 3.333 x 10^-3 |
+| LM2 | N/A | N/A | 3.333 x 10^-3 | 3.333 x 10^-3 | 3.333 x 10^-3 |
+| LV2 | N/A | N/A | 6.667 x 10^-4 | 1.667 x 10^-4 | 1.667 x 10^-4 |
+| LW2 | N/A | N/A | 3.333 x 10^-3 | 3.333 x 10^-3 | 3.333 x 10^-3 |
+| LZ2 | N/A | N/A | 3.333 x 10^-3 | 3.333 x 10^-3 | 3.333 x 10^-3 |
+
+===== iec62305/page-107.txt ===== [TABELE ZWERYFIKOWANE WIZUALNIE 25.09.2026; tekst ciągły — OCR]
 
 106
 
@@ -9843,8 +10716,46 @@ Therefore protection measures need to be instigated.
 
 Furse, Wilford Road, Nottingham, NG2 1EB * Tel: +44 (0)115 964 3700 * Email: enquiry@furse.com * Web: www.furse.com | urse =
 
+[TABELE/WZORY ZWERYFIKOWANE WIZUALNIE ze skanem 25.09.2026 — obowiązują zamiast rozsypanego OCR powyżej]
+R1 = RA + RB + RC* + RM* + RU + RV + RW* + RZ* (1); here R1 = RA1 + RB1 + RU1(P) + RV1(P) + RU1(T) + RV1(T)
+RB1 = ND × PB × LB1 (E 7) = 0.0044 × 1 × 1.680 × 10^-3 = 7.392 × 10^-6
 
-===== iec62305/page-108.txt =====
+Table 6.23: Example 2 - Summary of R1 component risks
+
+| Risk | Z1 | Z2 | Z3 | Z4 | Z5 | Total |
+|---|---|---|---|---|---|---|
+| RA1 | 8.793 x 10^-10 | 0 | 4.397 x 10^-11 | 3.517 x 10^-10 | 3.708 x 10^-11 | 1.306 x 10^-9 |
+| RB1 | N/A | N/A | 7.386 x 10^-6 | 1.477 x 10^-5 | 1.293 x 10^-6 | 2.345 x 10^-5 |
+| RU1(P) | N/A | N/A | 9.100 x 10^-12 | 7.208 x 10^-11 | 6.370 x 10^-12 | 8.827 x 10^-11 |
+| RU1(T) | N/A | N/A | 1.400 x 10^-11 | 1.120 x 10^-10 | 9.800 x 10^-12 | 1.358 x 10^-10 |
+| RV1(P) | N/A | N/A | 1.529 x 10^-6 | 3.058 x 10^-6 | 2.675 x 10^-7 | 4.854 x 10^-6 |
+| RV1(T) | N/A | N/A | 2.352 x 10^-6 | 4.704 x 10^-6 | 4.116 x 10^-7 | 7.468 x 10^-6 |
+| Total | 8.793 x 10^-10 | 0 | 1.127 x 10^-5 | 2.253 x 10^-5 | 1.972 x 10^-6 | 3.577 x 10^-5 |
+
+R1 = 3.577 × 10^-5 > RT = 1 × 10^-5
+
+R2 = RB + RC + RM + RV + RW + RZ (2); here R2 = RB2 + RC2 + RM2 + RV2(P) + RV2(T) + RW2(P) + RW2(T) + RZ2(P) + RZ2(T)
+RB2 = ND × PB × LB2 (E 7) [w druku „ND + PB + LB2” — literówka znaków] = 0.0044 × 1 × 6.667 × 10^-4 = 2.933 × 10^-6
+
+Table 6.24: Example 2 - Summary of R2 component risks
+
+| Risk | Z1 | Z2 | Z3 | Z4 | Z5 | Total |
+|---|---|---|---|---|---|---|
+| RB2 | N/A | N/A | 2.931 x 10^-6 | 7.328 x 10^-7 | 7.328 x 10^-7 | 4.397 x 10^-6 |
+| RC2 | N/A | N/A | 1.466 x 10^-5 | 1.466 x 10^-5 | 1.466 x 10^-5 | 4.397 x 10^-6 [sic — suma trzech 1.466 x 10^-5 daje 4.397 x 10^-5] |
+| RM2 | N/A | N/A | 1.052 x 10^-3 | 1.052 x 10^-3 | 1.052 x 10^-3 | 3.156 x 10^-3 |
+| RV2(P) | N/A | N/A | 6.067 x 10^-6 | 1.517 x 10^-7 | 1.517 x 10^-7 | 9.100 x 10^-7 [sic] |
+| RV2(T) | N/A | N/A | 9.333 x 10^-7 | 2.333 x 10^-7 | 2.333 x 10^-7 | 1.400 x 10^-6 |
+| RW2(P) | N/A | N/A | 3.033 x 10^-6 | 3.033 x 10^-6 | 3.033 x 10^-6 | 9.100 x 10^-6 |
+| RW2(T) | N/A | N/A | 4.667 x 10^-6 | 4.667 x 10^-6 | 4.667 x 10^-6 | 1.400 x 10^-5 |
+| RZ2(P) | N/A | N/A | 9.009 x 10^-5 | 9.009 x 10^-5 | 9.009 x 10^-5 | 2.703 x 10^-4 |
+| RZ2(T) | N/A | N/A | 2.310 x 10^-4 | 2.310 x 10^-4 | 2.310 x 10^-4 | 6.930 x 10^-4 |
+| Total | N/A | N/A | 1.400 x 10^-3 | 1.397 x 10^-3 | 1.397 x 10^-3 | 41.932 x 10^-4 |
+
+R2 = 41.932 × 10^-4 > RT = 1 × 10^-4
+[⚠️ Niespójności arytmetyczne w druku przykładu (nie rozstrzygane): RC2 Total, RV2(P) Z3 (6.067 x 10^-6 przy Total 9.100 x 10^-7) — oznaczone [sic].]
+
+===== iec62305/page-108.txt ===== [TABELE ZWERYFIKOWANE WIZUALNIE 25.09.2026; tekst ciągły — OCR]
 
 Protection Measures
 
@@ -9987,8 +10898,39 @@ risk of loss of human life (including permanent injury).
 
 107
 
+[TABELE/WZORY ZWERYFIKOWANE WIZUALNIE ze skanem 25.09.2026 — obowiązują zamiast rozsypanego OCR powyżej]
+Solution A — LPS Class IV + service entrance lightning current SPDs.
 
-===== iec62305/page-109.txt =====
+Table 6.25: Example 2 - Summary of R1 component risks for protection solution A
+
+| Risk | Z1 | Z2 | Z3 | Z4 | Z5 | Total |
+|---|---|---|---|---|---|---|
+| RA1 | 1.759 x 10^-10 | 0 | 8.793 x 10^-12 | 7.035 x 10^-11 | 6.155 x 10^-12 | 2.612 x 10^-10 |
+| RB1 | N/A | N/A | 1.477 x 10^-6 | 2.955 x 10^-6 | 2.585 x 10^-7 | 4.690 x 10^-6 |
+| RU1(P) | N/A | N/A | 4.550 x 10^-13 | 3.640 x 10^-12 | 3.185 x 10^-13 | 4.414 x 10^-12 |
+| RU1(T) | N/A | N/A | 7.000 x 10^-13 | 5.600 x 10^-12 | 4.900 x 10^-13 | 6.790 x 10^-12 |
+| RV1(P) | N/A | N/A | 7.644 x 10^-8 | 1.529 x 10^-7 | 1.338 x 10^-8 | 2.427 x 10^-7 |
+| RV1(T) | N/A | N/A | 1.176 x 10^-7 | 2.352 x 10^-7 | 2.058 x 10^-8 | 3.734 x 10^-7 |
+| Total | 1.759 x 10^-10 | 0 | 1.671 x 10^-6 | 3.343 x 10^-6 | 2.925 x 10^-7 | 5.307 x 10^-6 |
+
+R1 = 0.531 × 10^-5 < RT = 1 × 10^-5
+
+Table 6.26: Example 2 - Summary of R2 component risks for protection solution A
+
+| Risk | Z1 | Z2 | Z3 | Z4 | Z5 | Total |
+|---|---|---|---|---|---|---|
+| RB2 | N/A | N/A | 5.862 x 10^-7 | 1.466 x 10^-7 | 1.466 x 10^-7 | 8.793 x 10^-7 |
+| RC2 | N/A | N/A | 1.466 x 10^-5 | 1.466 x 10^-5 | 1.466 x 10^-5 | 4.397 x 10^-5 |
+| RM2 | N/A | N/A | 1.052 x 10^-3 | 1.052 x 10^-3 | 1.052 x 10^-3 | 3.156 x 10^-3 |
+| RV2(P) | N/A | N/A | 3.033 x 10^-8 | 7.583 x 10^-9 | 7.583 x 10^-9 | 4.550 x 10^-8 |
+| RV2(T) | N/A | N/A | 4.667 x 10^-8 | 1.167 x 10^-8 | 1.167 x 10^-8 | 7.000 x 10^-8 |
+| RW2(P) | N/A | N/A | 3.033 x 10^-6 | 3.033 x 10^-6 | 3.033 x 10^-6 | 9.100 x 10^-6 |
+| RW2(T) | N/A | N/A | 4.667 x 10^-6 | 4.667 x 10^-6 | 4.667 x 10^-6 | 1.400 x 10^-5 |
+| RZ2(P) | N/A | N/A | 9.009 x 10^-5 | 9.009 x 10^-5 | 9.009 x 10^-5 | 2.703 x 10^-4 |
+| RZ2(T) | N/A | N/A | 2.310 x 10^-4 | 2.310 x 10^-4 | 2.310 x 10^-4 | 6.930 x 10^-4 |
+| Total | N/A | N/A | 1.396 x 10^-3 | 1.396 x 10^-3 | 1.396 x 10^-3 | 41.875 x 10^-4 |
+
+===== iec62305/page-109.txt ===== [TABELE ZWERYFIKOWANE WIZUALNIE 25.09.2026; tekst ciągły — OCR]
 
 108
 
@@ -10105,8 +11047,27 @@ Figure 6.4 Example 2 - Air termination mesh
 
 Furse, Wilford Road, Nottingham, NG2 1EB * Tel: +44 (0)115 964 3700 * Email: enquiry@furse.com * Web: www.furse.com | urse =
 
+[TABELE/WZORY ZWERYFIKOWANE WIZUALNIE ze skanem 25.09.2026 — obowiązują zamiast rozsypanego OCR powyżej]
+Table 6.27: Example 2 - Summary of R2 component risks for protection solution B
 
-===== iec62305/page-110.txt =====
+| Risk | Z1 | Z2 | Z3 | Z4 | Z5 | Total |
+|---|---|---|---|---|---|---|
+| RB2 | N/A | N/A | 5.862 x 10^-7 | 1.466 x 10^-7 | 1.466 x 10^-7 | 8.793 x 10^-7 |
+| RC2 | N/A | N/A | 8.024 x 10^-7 | 8.024 x 10^-7 | 8.024 x 10^-7 | 2.407 x 10^-6 |
+| RM2 | N/A | N/A | 2.013 x 10^-5 | 2.013 x 10^-5 | 2.013 x 10^-5 | 6.039 x 10^-5 |
+| RV2(P) | N/A | N/A | 3.033 x 10^-8 | 7.583 x 10^-9 | 7.583 x 10^-9 | 4.550 x 10^-8 |
+| RV2(T) | N/A | N/A | 4.667 x 10^-9 | 1.167 x 10^-9 | 1.167 x 10^-9 | 7.000 x 10^-9 |
+| RW2(P) | N/A | N/A | 1.517 x 10^-7 | 1.517 x 10^-7 | 1.517 x 10^-7 | 4.550 x 10^-7 |
+| RW2(T) | N/A | N/A | 2.333 x 10^-8 | 2.333 x 10^-8 | 2.333 x 10^-8 | 7.000 x 10^-8 |
+| RZ2(P) | N/A | N/A | 4.505 x 10^-6 | 4.505 x 10^-6 | 4.505 x 10^-6 | 1.351 x 10^-6 [sic — suma daje 1.351 x 10^-5] |
+| RZ2(T) | N/A | N/A | 1.155 x 10^-6 | 1.155 x 10^-6 | 1.155 x 10^-6 | 3.465 x 10^-6 |
+| Total | N/A | N/A | 2.739 x 10^-5 | 2.692 x 10^-5 | 2.692 x 10^-5 | 8.123 x 10^-5 |
+
+R2 = 0.812 × 10^-4 < RT = 1 × 10^-4 → protection achieved.
+Decision: structural LPS Class IV + service entrance lightning current SPDs to LPL III-IV (power) and LPL III-IV* (telecom) + coordinated set of SPDs to internal systems.
+LPS design: office block 40 m × 20 m, +15 m roof level; LPS Class IV → air termination mesh max 20 m × 20 m (BS EN 62305-3 Table 2).
+
+===== iec62305/page-110.txt ===== [TABELE ZWERYFIKOWANE WIZUALNIE 25.09.2026; tekst ciągły — OCR]
 
 The mesh method is suitable for the protection of
 plane surfaces only. The thickness of the metallic casing
@@ -10229,7 +11190,11 @@ Furse, Wilford Road, Nottingham, NG2 1EB * Tel: +44 (0)115 964 3700 * Email: enq
 
 109
 
-
+[TABELE/WZORY ZWERYFIKOWANE WIZUALNIE ze skanem 25.09.2026 — obowiązują zamiast rozsypanego OCR powyżej]
+s = (ki/km) × kc × l (4.5)
+Separation distance A: ki = 0.04 (LPS Class IV); kc = 1 (6 down conductors, Type A earthing, earth rods differing by more than factor of 2); km = 0.5 (building materials); l = 15 m → s = 1.2 m
+Separation distance B: ki = 0.04; kc = 1; km = 0.5; l = 3 m + 0.75 m = 3.75 m → s = 0.3 m
+Total 1.5 m (1.2 m + 0.3 m) between air rod and AC unit. AC units 1,000 mm × 400 mm × 750 mm; 2 m air rod ≥ 1.5 m away → protective angle 78.7° (Table 4.3, LPS Class IV) → radius of protection (at roof level) 10 m.
 
 ===== iec62305/page-111.txt =====
 
@@ -10540,7 +11505,7 @@ advice on protecting these lines.
 furse €
 
 
-===== iec62305/page-116.txt =====
+===== iec62305/page-116.txt ===== [TABELE ZWERYFIKOWANE WIZUALNIE 25.09.2026; tekst ciągły — OCR]
 
 Transient overvoltage protection to BS 7671
 
@@ -10681,7 +11646,22 @@ Furse, Wilford Road, Nottingham, NG2 1EB * Tel: +44 (0)115 964 3700 * Email: enq
 
 115
 
+[TABELE/WZORY ZWERYFIKOWANE WIZUALNIE ze skanem 25.09.2026 — obowiązują zamiast rozsypanego OCR powyżej]
+Table 7.1: Minimum impulse withstand voltage to BS 7671 (Section 443, Table 44.3 - 230/240 V shown only)
 
+| Nominal voltage of the installation | Category IV (very high impulse voltage) | Category III (high impulse voltage) | Category II (normal impulse voltage) | Category I (reduced impulse voltage) |
+|---|---|---|---|---|
+| 230/240 V | 6 kV | 4 kV | 2.5 kV | 1.5 kV |
+(Impulse withstand voltage applied between live conductors and PE.)
+
+Table 7.2: Examples of various impulse category equipment (Section 443, Table 44.4)
+
+| Category | Example |
+|---|---|
+| I | Equipment intended to be connected to the fixed electrical installation where protection is external to the equipment, either in the fixed installation or between the fixed installation and the equipment. Examples of equipment are household appliances, portable tools and similar loads intended to be connected to circuits in which measures have been taken to limit transient overvoltages. |
+| II | Equipment intended to be connected to the fixed electrical installation, e.g. household appliances, portable tools and similar loads, the protective means being either within or external to the equipment. |
+| III | Equipment which is part of the fixed electrical installation and other equipment where a high degree of availability is expected, eg distribution boards, circuit-breakers, wiring systems and equipment for industrial uses, stationary motors with permanent connection to the fixed installation. |
+| IV | Equipment to be used at or in the proximity of the origin of the electrical installation upstream of the main distribution board, eg electricity meter, primary overcurrent device, ripple control unit. |
 
 ===== iec62305/page-117.txt =====
 
@@ -11095,7 +12075,7 @@ well as improving operating lifetime
 Furse, Wilford Road, Nottingham, NG2 1EB * Tel: +44 (0)115 964 3700 * Email: enquiry@furse.com * Web: www.furse.com | urse =
 
 
-===== iec62305/page-120.txt =====
+===== iec62305/page-120.txt ===== [TABELE ZWERYFIKOWANE WIZUALNIE 25.09.2026; tekst ciągły — OCR]
 
 Transient overvoltage protection to BS 7671
 
@@ -11116,7 +12096,7 @@ considered in selection of SPDs are covered in Table
 7.3, below. This information is generally available from
 
 manufacturers’ product datasheets. , ,
-e Attheservice entrance/as close as possible to the
+e At the service entrance/as close as possible to the
 
 origin of the installation (usually in the main
 distribution board after the electricity meter)
@@ -11184,7 +12164,17 @@ pi
 
 Furse, Wilford Road, Nottingham, NG2 1EB * Tel: +44 (0)115 964 3700 * Email: enquiry@furse.com * Web: www.furse.com furse 4
 
+[TABELE/WZORY ZWERYFIKOWANE WIZUALNIE ze skanem 25.09.2026 — obowiązują zamiast rozsypanego OCR powyżej]
+Table 7.3: Requirements for SPD selection (for TN & TT installations; for IT — refer to BS 7671)
 
+| Selection criteria | Requirement |
+|---|---|
+| Continuous operating voltage UC | For TN-C-S, TN-S or TT installations the maximum continuous operating voltage of the SPD shall be equal or greater than: 1.1 x the nominal a.c rms line voltage of the low voltage system (L-N and L-PE connections); 1 x the nominal a.c rms line voltage of the low voltage system (N-PE connection). |
+| Temporary overvoltages UTOV | The SPD shall be selected and installed according to manufacturer's instructions. |
+| Nominal discharge current Inspd | According to withstand capability per BS EN 61643-11 or BS EN 61643-21, with Inspd not lower than 5 kA (8/20 µs). For SPDs with a 3+1 configuration for TT installations (Connection Type 2 to BS 7671), Inspd on the N-PE connection not lower than 20 kA 8/20 µs (3-phase) or 10 kA 8/20 µs (single phase). |
+| Impulse current Iimp | Only where a Type 1 SPD is installed as part of a structural LPS, or against direct lightning strokes to an overhead line; Iimp per BS EN 62305-4. If Iimp cannot be calculated, the SPD's withstand shall not be less than 12.5 kA 10/350 µs per mode. For 3+1 configuration for TT (Connection Type 2), Iimp on the N-PE connection not less than 50 kA 10/350 µs (3-phase) or 25 kA 10/350 µs (single phase). |
+| Prospective fault current | The short circuit withstand of the SPD combined with the OCPD shall be equal to or higher than the maximum prospective fault current expected at the point of installation. |
+| Follow current interrupt rating | Only where the SPD includes a voltage switching device (e.g. gas discharge tube). For L-N: equal or higher than the fault current expected at the point of installation. For N-PE in TN & TT installations: equal to or greater than 100 A. |
 
 ===== iec62305/page-121.txt =====
 
@@ -11257,7 +12247,7 @@ installation.
 Their installation is required where:
 e A structural LPS is installed, or
 
-@ Anoverhead metallic service line at risk from a
+@ An overhead metallic service line at risk from a
 direct lightning strike is connected to a building
 
 Type 1 SPDs are designed to protect life in the event
@@ -11299,13 +12289,13 @@ type of supply and system earthing.
 Two Connection Types are defined (Figures 53.1 and
 53.2 of Section 534):
 
-© AnSPD configuration based on Connection Type 1
+© An SPD configuration based on Connection Type 1
 (CT 1) (see Figure 7.3) is typically used for TN-S,
 TN-C-S systems as well as TT earth arrangements
 where the SPD is fitted on the load side of the
 Residual Current Device (RCD)
 
-© AnSPD configuration based on Connection Type 2
+© An SPD configuration based on Connection Type 2
 (CT 2) (see Figure 7.4) is required for TT systems,
 where the SPD is installed on the supply side of the
 RCD (often referred to as a '3+1' arrangement)
@@ -11622,7 +12612,7 @@ Figure 7.7: OCPD positioning and coordination with the SPD
 Furse, Wilford Road, Nottingham, NG2 1EB * Tel: +44 (0)115 964 3700 * Email: enquiry@furse.com * Web: www.furse.com furse =
 
 
-===== iec62305/page-125.txt =====
+===== iec62305/page-125.txt ===== [TABELE ZWERYFIKOWANE WIZUALNIE 25.09.2026; tekst ciągły — OCR]
 
 124
 
@@ -11719,6 +12709,11 @@ supply OCPD.
 
 furse 5
 
+[TABELE/WZORY ZWERYFIKOWANE WIZUALNIE ze skanem 25.09.2026 — obowiązują zamiast rozsypanego OCR powyżej]
+I²t ≤ k²S² (7.1)
+I²t — OCPD total I²t rating (manufacturer data); k²S² — thermal capacity of the cable (k from BS 7671 or cable manufacturer; S — cross-sectional area).
+Example: Type 2 SPD 40 kA 8/20 µs, max OCPD 125 A, 10 mm² cable; 125 A HRC fuse total I²t ≈ 85,000 A²s; 70 °C PVC cable k = 115:
+k²S² = (115 × 115) × (10 × 10) = 1,322,500 ≫ 85,000 A²s → cable protected. Minimum cross-section for a Type 2 SPD per BS 7671: 4 mm². Rule of thumb: OCPD for the SPD ≈ half the upstream supply OCPD.
 
 ===== iec62305/page-126.txt =====
 
@@ -12406,7 +13401,7 @@ Loss (L,)
 
 Mean amount of loss (humans and goods) consequent
 to a specified type of damage due to a dangerous
-event, relative to the value (numans and goods) of the
+event, relative to the value (humans and goods) of the
 object to be protected.
 
 Metal installations
@@ -12803,7 +13798,7 @@ Our extensive engineering, supply chain management and technical sales support t
 to understanding everything that impacts your ability to accomplish your business objectives by reducing
 your total cost of ownership.
 
-ThomaseBetts MM Thomas&Betts Thomas&Betts
+Thomas&Betts MM Thomas&Betts Thomas&Betts
 
 ThomaséBetts
 
@@ -12859,7 +13854,7 @@ Fax +44 (0)115 986 0538
 Sales tel +44 (0)115 964 3800
 Sales fax +44 (0)115 986 0071
 
-Email: enquiryQfurse.com
+Email: enquiry@furse.com
 
 www.furse.com
 

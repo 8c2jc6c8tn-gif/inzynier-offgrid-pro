@@ -14,6 +14,13 @@
   z numerem punktu normy i wyłącznie liczbami potrzebnymi do obliczeń. Przy wątpliwości co do
   wartości — sprawdzić w oryginale u właściciela projektu.
 
+> **[25.09.2026] Pełny tekst tej samej normy (PDF + OCR) jest w `docs/zrodla/norma-PN-EN-1991-1-4-wiatr/`**
+> — dodany przez właściciela projektu w paczce New-info (inny egzemplarz, 146 stron, skan z Załącznikiem
+> krajowym NA, bez poprawki AC:2009). Zakres używany w kodzie zweryfikowany tam wizualnie ze skanem —
+> wszystkie liczby tej notatki (Tablica 7.6 cf, 7.4.3, NA.1, NA.3) zgodne. Zdanie wyżej „Oryginalny PDF
+> NIE jest w repozytorium” dotyczy egzemplarza z 25.09 (rano); decyzja o licencji/obecności PDF w publicznym
+> repo — `docs/memory.md` „Licencje norm w publicznym repozytorium”.
+
 ## Co z normy jest używane w projekcie
 
 ### Tablica 7.6 — wiaty jednospadowe: globalny współczynnik siły `cf` (punkt 7.3)
