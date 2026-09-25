@@ -217,3 +217,37 @@ export function napromieniowanie(
   for (const g of godziny) sumaWh += natezenieGodziny(g, pl, zaHoryzontem(g, horyzont)) * KROK_GODZIN
   return sumaWh / W_NA_KW
 }
+
+/** Liczba godzin doby — indeks wyniku `napromieniowanieDobowe`. */
+export const GODZIN_DOBY = 24
+
+/**
+ * Napromieniowanie płaszczyzny zsumowane po godzinach doby w SŁONECZNYM czasie lokalnym (UTC +
+ * długość/15) [kWh/m² za rok w danej godzinie] — rozkład dobowy dla Modułu 3, Ekran 20
+ * (wschód-zachód: "produkcja rozłożona bardziej równomiernie w ciągu dnia"). Godzina rekordu z
+ * arytmetyki na `czasUtcMs` (bez `Date` w pętli). Założenie: natężenie stałe w obrębie godziny rekordu.
+ */
+export function napromieniowanieDobowe(
+  godziny: Godzina[],
+  dlugoscDeg: number,
+  nachylenieDeg: number,
+  azymutDeg: number,
+  albedo: number,
+): number[] {
+  const pl = plaszczyzna(nachylenieDeg, azymutDeg, albedo)
+  const sumyWh = new Array<number>(GODZIN_DOBY).fill(0)
+  const przesuniecieH = dlugoscDeg / 15
+  for (const g of godziny) {
+    // Rekord reprezentuje godzinę [s − ½, s + ½] wokół chwili s (czas słoneczny) — energia dzielona
+    // między dwie godziny zegarowe proporcjonalnie do nakładania się (inaczej rekord z 11:50 trafiałby
+    // w całości "przed południe", zawyżając udział poranka o kilka punktów procentowych).
+    const poczatek = g.czasUtcMs / 3_600_000 + przesuniecieH - KROK_GODZIN / 2
+    const pelna = Math.floor(poczatek)
+    const udzialPierwszej = 1 - (poczatek - pelna)
+    const i = ((pelna % GODZIN_DOBY) + GODZIN_DOBY) % GODZIN_DOBY
+    const wh = natezenieGodziny(g, pl, false) * KROK_GODZIN
+    sumyWh[i]! += wh * udzialPierwszej
+    sumyWh[(i + 1) % GODZIN_DOBY]! += wh * (1 - udzialPierwszej)
+  }
+  return sumyWh.map((wh) => wh / W_NA_KW)
+}

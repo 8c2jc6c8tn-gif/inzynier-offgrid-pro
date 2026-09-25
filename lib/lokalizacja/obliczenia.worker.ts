@@ -6,6 +6,7 @@
 import { calculateAnalizaZacienienia } from "@/lib/core/modules/lokalizacja/analiza-zacienienia/calculator"
 import { calculateOrientacjaPowierzchni } from "@/lib/core/modules/lokalizacja/orientacja-powierzchni/calculator"
 import { obliczTabeleNapromieniowania } from "@/lib/core/modules/pv/kat-i-azymut/calculator"
+import { obliczDaneWschodZachod } from "@/lib/core/modules/pv/wschod-zachod/calculator"
 import type { ZadanieWorkera, WiadomoscWorkera } from "./obliczenia-typy"
 
 // tsconfig ma typy DOM (window.postMessage wymaga targetOrigin), nie WebWorker — jawny typ zakresu workera.
@@ -23,7 +24,9 @@ addEventListener("message", (e: MessageEvent<ZadanieWorkera>) => {
     wyslij({ id: z.id, typ: "zacienienie", wyniki })
   } else if (z.typ === "orientacja") {
     wyslij({ id: z.id, typ: "orientacja", wynik: calculateOrientacjaPowierzchni(z.wejscie) })
-  } else {
+  } else if (z.typ === "tabela-napromieniowania") {
     wyslij({ id: z.id, typ: "tabela-napromieniowania", wynik: obliczTabeleNapromieniowania(z.wejscie) })
+  } else {
+    wyslij({ id: z.id, typ: "wschod-zachod", wynik: obliczDaneWschodZachod(z.wejscie) })
   }
 })

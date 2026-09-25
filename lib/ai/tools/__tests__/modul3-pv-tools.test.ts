@@ -11,6 +11,7 @@ import { technologiePaneliTool } from "../technologie-paneli-tool"
 import { mikroinwerteryVsCentralnyTool } from "../mikroinwertery-vs-centralny-tool"
 import { warunkiNadmorskiePylisteTool } from "../warunki-nadmorskie-pyliste-tool"
 import { katIAzymutTool, utworzKatIAzymutTool } from "../kat-i-azymut-tool"
+import { utworzWschodZachodTool, wschodZachodTool } from "../wschod-zachod-tool"
 
 const bezBrakujacegoKlucza = (teksty: string[]) => {
   for (const tekst of teksty) expect(tekst.startsWith("⚠")).toBe(false)
@@ -18,7 +19,7 @@ const bezBrakujacegoKlucza = (teksty: string[]) => {
 
 describe("narzędzia AI Modułu 3 — kontrakt 9.3", () => {
   it("wszystkie: 'read', bez potwierdzenia, przechodzą validateAiToolDefinition", () => {
-    for (const n of [mikropeknieciaTermiczneTool, powlokiAntyrefleksyjneTool, technologiePaneliTool, mikroinwerteryVsCentralnyTool, warunkiNadmorskiePylisteTool, katIAzymutTool]) {
+    for (const n of [mikropeknieciaTermiczneTool, powlokiAntyrefleksyjneTool, technologiePaneliTool, mikroinwerteryVsCentralnyTool, warunkiNadmorskiePylisteTool, katIAzymutTool, wschodZachodTool]) {
       expect(n.operationType).toBe("read")
       expect(n.requiresConfirmation).toBe(false)
       expect(() => validateAiToolDefinition(n)).not.toThrow()
@@ -175,5 +176,32 @@ describe("katIAzymutTool (M3/E1)", () => {
     const w2 = await utworzKatIAzymutTool(zly).handler({ szerokoscGeograficzna: 55, dlugoscGeograficzna: 18, azymutDeg: 180, nachylenieDeg: 35 })
     expect(w2.status).toBe("INCOMPLETE")
     expect(w2.ostrzezenia).toEqual([KOMUNIKAT_PVGIS["PVGIS-ODRZUCIL-ZAPYTANIE"]])
+  })
+})
+
+describe("wschodZachodTool (M3/E20)", () => {
+  const wejscie = {
+    szerokoscGeograficzna: 52.23,
+    dlugoscGeograficzna: 21.01,
+    wschod: { nachylenieDeg: 30, azymutDeg: 90 },
+    zachod: { nachylenieDeg: 30, azymutDeg: 270 },
+    udzialWschodPct: 50,
+  }
+
+  it("pobiera PVGIS po stronie serwera, zwraca stosunek do południa i założenia jako tekst PL", async () => {
+    const json = odpowiedzPvgis()
+    const w = await utworzWschodZachodTool((async () => new Response(JSON.stringify(json))) as unknown as typeof fetch).handler(wejscie)
+    expect(["VALID", "VALID_WITH_WARNINGS"]).toContain(w.status)
+    expect(w.stosunekDoPoludniaPct).toBeGreaterThan(0)
+    expect(w.stosunekMiesiecznyPct).toHaveLength(12)
+    expect(w.zalozenia).toContain(t("pl", "WZ-ZALOZENIE-UDZIAL-MOCY", { wschod: 50, zachod: 50 }))
+    bezBrakujacegoKlucza([...w.ostrzezenia, ...w.zalozenia])
+  })
+
+  it("PVGIS odrzuca → INCOMPLETE z komunikatem", async () => {
+    const zly = (async () => new Response("location over the sea", { status: 400 })) as unknown as typeof fetch
+    const w = await utworzWschodZachodTool(zly).handler(wejscie)
+    expect(w.status).toBe("INCOMPLETE")
+    expect(w.ostrzezenia).toEqual([KOMUNIKAT_PVGIS["PVGIS-ODRZUCIL-ZAPYTANIE"]])
   })
 })

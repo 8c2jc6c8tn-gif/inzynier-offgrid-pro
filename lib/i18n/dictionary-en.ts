@@ -896,4 +896,7 @@ export const dictionaryEn = {
   "KAT-ZALOZENIE-TABELA-PVGIS": "Irradiation for azimuth {azymut}° and albedo {albedo}, computed for every tilt 0–90° in 1° steps from hourly PVGIS data (Muneer model, as in Module 1).",
   "KAT-ZALOZENIE-ZAOKRAGLENIE": "Tilt rounded to the nearest whole degree: {kat}°.",
   "KAT-ZALOZENIE-PR-UZYTKOWNIKA": "Production = power × irradiation / 1 kW/m² × PR, with PR = {pr} entered by you — the source does not give a PR value.",
+  "WZ-POZA-TYPOWYM-ZAKRESEM": "For your location and tilts, east-west gives {stosunek}% of the south energy — outside the typical {min}–{max}% range given by the source. This is not an error: the result is computed from your site's data.",
+  "WZ-ZALOZENIE-ODNIESIENIE": "Reference: panels facing south (180°) at the best fixed tilt for this location — {kat}°.",
+  "WZ-ZALOZENIE-UDZIAL-MOCY": "Panel power: {wschod}% east, {zachod}% west — the same panel technology on both roof planes (irradiation weighted by power).",
 } satisfies Record<KluczTlumaczenia, string>

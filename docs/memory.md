@@ -6682,3 +6682,11 @@ w `docs/zrodla/norma-*/00-INDEKS.md` tylko notatka robocza (punkty, tablice, lic
   optimum grudzień 77° / czerwiec 19° (dane syntetyczne bezchmurne — wartości kWh zawyżone, tylko
   kontrola mechaniki). Pełny pakiet: 1261/1261 testów, build, audit, i18n-guard (109) — czyste.
 
+**[25.09.2026] M3/E20 „Orientacja wschód-zachód” — done.** Pułapka znaleziona przy oględzinach w
+przeglądarce (nie przez testy): rozkład dobowy przypisywał rekord godzinowy PVGIS w całości do godziny
+zegarowej jego chwili — rekord z 11:50 czasu słonecznego (reprezentujący 11:20–12:20) szedł cały "przed
+południe", co dawało 56% poranka dla paneli na południe zamiast ~50%. Naprawione w
+`napromieniowanieDobowe` (podział proporcjonalny), test regresji potwierdzony w obie strony (bez
+poprawki 55,6%, z poprawką < 1,5 p.p. od 50%). Lekcja: przy agregacji danych godzinowych do przedziałów
+czasu zawsze sprawdzić, czy rekord to chwila czy przedział. Pełny pakiet: 1273/1273 testów, build, audit — czyste.
+

@@ -908,6 +908,9 @@ export const dictionaryPl = {
   "KAT-ZALOZENIE-TABELA-PVGIS": "Nasłonecznienie dla azymutu {azymut}° i albedo {albedo}, policzone dla każdego kąta 0–90° co 1° z godzinowych danych PVGIS (model Muneera, jak w Module 1).",
   "KAT-ZALOZENIE-ZAOKRAGLENIE": "Kąt zaokrąglony do najbliższego pełnego stopnia: {kat}°.",
   "KAT-ZALOZENIE-PR-UZYTKOWNIKA": "Produkcja = moc × nasłonecznienie / 1 kW/m² × PR, przy PR = {pr} wpisanym przez Ciebie — źródło nie podaje wartości PR.",
+  "WZ-POZA-TYPOWYM-ZAKRESEM": "Dla Twojej lokalizacji i kątów wschód-zachód daje {stosunek}% energii południa — poza typowym zakresem {min}–{max}% podawanym w źródle. To nie błąd: wynik jest policzony z danych Twojej działki.",
+  "WZ-ZALOZENIE-ODNIESIENIE": "Odniesienie: panele skierowane na południe (180°) pod najlepszym kątem stałym dla tej lokalizacji — {kat}°.",
+  "WZ-ZALOZENIE-UDZIAL-MOCY": "Moc paneli: {wschod}% na wschodzie, {zachod}% na zachodzie — ta sama technologia paneli na obu połaciach (nasłonecznienie ważone mocą).",
 } as const
 
 export type KluczTlumaczenia = keyof typeof dictionaryPl

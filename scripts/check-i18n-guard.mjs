@@ -123,6 +123,7 @@ const MIGRATED_MODULES = [
   "lib/core/modules/pv/mikroinwertery-vs-centralny",
   "lib/core/modules/pv/warunki-nadmorskie-pyliste",
   "lib/core/modules/pv/kat-i-azymut",
+  "lib/core/modules/pv/wschod-zachod",
   "lib/core/modules/kalkulator-mobilny/dobor-regulatora-pwm-mppt",
   "lib/core/modules/stress-test/wind-chill",
   "lib/core/modules/zapotrzebowanie/urzadzenia-zmienne",
