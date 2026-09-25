@@ -6690,3 +6690,17 @@ południe", co dawało 56% poranka dla paneli na południe zamiast ~50%. Naprawi
 poprawki 55,6%, z poprawką < 1,5 p.p. od 50%). Lekcja: przy agregacji danych godzinowych do przedziałów
 czasu zawsze sprawdzić, czy rekord to chwila czy przedział. Pełny pakiet: 1273/1273 testów, build, audit — czyste.
 
+
+**[25.09.2026] M3/E9 „Złoty środek” — done (D27).** Właściciel potwierdził: PN-EN 1990 nie ma w repo ani
+w paczce 25.09 (obie części Eurokodu 1 tylko się do niej odwołują — sprawdzone grepem w tekście norm).
+- **Nowy wspólny moduł `lib/core/modules/pv/eurokod-1/`** (`wiatr.ts`, `snieg.ts`) — czyste funkcje
+  norm, bez CalcResult. M3/E6 i M3/E2 (balast) mają liczyć wiatr STĄD, nie od nowa (echo D12).
+- **Uzupełnienie notatki normy:** Tablica NA.1 ma pełny wzór dla strefy 3 przy A > 300 m
+  (`0,30·[1+0,0006(A−300)]²·(20000−A)/(20000+A)`) i dla strefy 1 (`0,30·[1+0,0006(A−300)]²`) —
+  wcześniejsza notatka odsyłała do oryginału; teraz wpisane w `00-INDEKS.md`.
+- **Interpretacja zachowawcza:** 7.3 (3) pozwala interpolować liniowo „wartości pośrednie” — w kontekście
+  φ; dla kąta α między węzłami (co 5°) bierzemy bardziej niekorzystny węzeł (jawne założenie).
+- 90°: cf = 1,80 to siła POZIOMA — balast kg nie liczony (tarcie/wywracanie poza normą).
+- Wysokość n.p.m. z metadanych PVGIS, gdy user nie wpisał (dane lokalizacji, nie zgadywanie).
+- Na danych syntetycznych (Warszawa, strefa 1, teren III, 2 m, 12 m²): qp = 476 Pa, 30° → 10,3 kN →
+  1048 kg. Przy wycenie energii 1 zł/kWh × 10 lat wygrywa 30° (energia przeważa koszt balastu 1 zł/kg).

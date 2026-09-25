@@ -71,7 +71,7 @@ Pełne wyliczenie per-funkcja nierozpoczęte (rozpoczęto pojedyncze buildowalne
 ### Moduł 3 — Instalacja PV (pełne wyliczenie pozostałych pozycji, 25.09.2026)
 
 [25.09.2026] ✅ DODANO — źródło: pełne wyliczenie M3 (`docs/rejestr-pokrycia.md`, sekcja "Moduł 3 — pełne wyliczenie pozostałych pozycji źródła").
-- **Ekran 9 — Optymalizator „Złotego Środka”** (2.17) — ⚠️ blocked częściowo: krzywa naporu wiatru w funkcji kąta wymaga PN-EN 1991-1-4 (brak w repo), źródło nie podaje wag łączenia trzech kryteriów. Krzywe produkcji (silnik M1) i śniegu (PN-EN 1991-1-3, `μ1(α)`) są liczalne. Czeka na decyzję właściciela projektu.
+- **Ekran 9 — Optymalizator „Złotego Środka”** (2.17) — ⚠️ blocked częściowo: krzywa naporu wiatru w funkcji kąta wymaga PN-EN 1991-1-4 (brak w repo), źródło nie podaje wag łączenia trzech kryteriów. Krzywe produkcji (silnik M1) i śniegu (PN-EN 1991-1-3, `μ1(α)`) są liczalne. Czeka na decyzję właściciela projektu. **[25.09.2026] ✅ ODBLOKOWANE → done** (D27 + PN-EN 1991-1-4); w backlogu zostaje tylko balast projektowy — czeka na PN-EN 1990 (`docs/normy-brakujace.md`).
 - **Ekran 10 — Konstrukcja wsporcza (BOM)** (2.18) — ⚠️ blocked: wymaga mechanizmu BOM (§13.1) i bazy komponentów; źródło nie daje wzoru długości/liczby elementów konstrukcji.
 - **Ekran 19 — Degradacja paneli w czasie** (2.34) — ⚠️ blocked (decyzja właściciela projektu 25.09.2026): brak modelu łączonej degradacji LID/LETID/PID i tempa degradacji w źródle.
 

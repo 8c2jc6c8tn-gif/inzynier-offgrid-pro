@@ -51,7 +51,12 @@ proporcje) — punkt 7.4.3 (2)–(3) w oryginale.
 |---|---|---|---|
 | 1 | 22 | 22·[1 + 0,0006(A − 300)] | 0,30 |
 | 2 | 26 | 26 | 0,42 |
-| 3 | 22 | 22·[1 + 0,0006(A − 300)] | 0,30 (dla A > 300 m wzór z dodatkowym czynnikiem, patrz oryginał) |
+| 3 | 22 | 22·[1 + 0,0006(A − 300)] | 0,30 |
+
+qb,0 dla A > 300 m [kN/m²] (uzupełnione 25.09.2026 przy M3/E9): strefa 1 — `0,30·[1 + 0,0006(A − 300)]²`;
+strefa 2 — `0,42` (bez zmian); strefa 3 — `0,30·[1 + 0,0006(A − 300)]²·(20000 − A)/(20000 + A)`.
+Zgodne z `qb = ½·ρ·vb²` przy ρ = 1,25 kg/m³ (wartość zalecana, 4.5 (1) UWAGA 2) — kod używa wprost
+wartości tablicowych, nie gęstości powietrza.
 
 A — wysokość nad poziomem morza [m]. Mapa stref: Rysunek NA.1 (w oryginale). Współczynnik
 kierunkowy — Tablica NA.2, sezonowy — NA.4 (w oryginale).

@@ -911,6 +911,19 @@ export const dictionaryPl = {
   "WZ-POZA-TYPOWYM-ZAKRESEM": "Dla Twojej lokalizacji i kątów wschód-zachód daje {stosunek}% energii południa — poza typowym zakresem {min}–{max}% podawanym w źródle. To nie błąd: wynik jest policzony z danych Twojej działki.",
   "WZ-ZALOZENIE-ODNIESIENIE": "Odniesienie: panele skierowane na południe (180°) pod najlepszym kątem stałym dla tej lokalizacji — {kat}°.",
   "WZ-ZALOZENIE-UDZIAL-MOCY": "Moc paneli: {wschod}% na wschodzie, {zachod}% na zachodzie — ta sama technologia paneli na obu połaciach (nasłonecznienie ważone mocą).",
+  "ZS-WYSOKOSC-POZA-WZOREM-STREFY-3": "Wzór strefy 3 (PN-EN 1991-1-4, Tablica NA.1) działa tylko dla wysokości poniżej 20 000 m n.p.m. — sprawdź wpisaną wysokość.",
+  "ZS-BALAST-BEZ-WSPOLCZYNNIKOW": "Balast to masa, która tylko równoważy siłę wiatru (m = F/g). Nie ma w niej współczynników bezpieczeństwa z normy PN-EN 1990 (brak tej normy w aplikacji) ani sprawdzenia przesunięcia i przewrócenia stelaża. To orientacyjna wartość minimalna, nie balast projektowy — ostateczną masę potwierdź u konstruktora.",
+  "ZS-KAT-BEZ-DANYCH-WIATRU": "Dla kąta {kat}° norma PN-EN 1991-1-4 nie podaje współczynnika siły dla wiaty (Tablica 7.6 kończy się na 30°, dla pionu jest tylko 90°). Aplikacja nie zgaduje tej wartości — siła wiatru i balast nie są policzone.",
+  "ZS-PION-SILA-POZIOMA": "Przy 90° wiatr pcha panel poziomo (współczynnik 1,80, PN-EN 1991-1-4, p. 7.4.3). Masa balastu zależy wtedy od tarcia o podłoże i od przewracania — norma tego nie podaje, więc aplikacja nie liczy kg balastu dla pionu. Przy pionie praktyczniejsze są słupki kotwiczące w gruncie.",
+  "ZS-REKOMENDACJA-WYMAGA-WYCENY": "Żeby wskazać najlepszy kąt, wpisz moc paneli, współczynnik PR, cenę 1 kWh i liczbę lat. Aplikacja porównuje wtedy wartość energii z kosztem balastu dla każdego kąta. Bez tych danych widzisz wykresy i możesz sprawdzić dowolny kąt.",
+  "ZS-OPTIMUM-ENERGII-POZA-ZAKRESEM-WIATRU": "Najwięcej energii daje kąt {kat}°, ale dla kątów powyżej 30° norma nie podaje siły wiatru na wiatę. Dlatego rekomendacja jest wybierana tylko spośród kątów 0–30°.",
+  "ZS-ZALOZENIE-STELAZ-WIATA": "Stelaż traktowany jak wiata jednospadowa (PN-EN 1991-1-4, Tablica 7.6) — przyjęte w decyzji D26, to praktyka inżynierska, nie zapis normy.",
+  "ZS-ZALOZENIE-CSCD": "Współczynnik konstrukcyjny cscd = {cscd} — norma dopuszcza go dla niskich, sztywnych konstrukcji (p. 6.2); dla stelaża to założenie.",
+  "ZS-ZALOZENIE-CDIR-CSEASON": "Współczynnik kierunkowy i sezonowy = 1,0 (najbardziej niekorzystne; Tablica NA.2, NA.4) — bez znajomości kierunku wiatru względem stelaża.",
+  "ZS-ZALOZENIE-KAT-POSREDNI": "Dla kąta między wierszami Tablicy 7.6 (co 5°) brana jest bardziej niekorzystna z dwóch sąsiednich wartości; zabudowa pod stelażem φ — interpolacja liniowa (p. 7.3 (3)).",
+  "ZS-ZALOZENIE-BALAST-PIONOWO": "Cała siła wiatru traktowana jako odrywająca pionowo (zachowawczo), m = F/g przy g = {g} m/s².",
+  "ZS-ZALOZENIE-CENA-BALASTU": "Cena balastu {cena} zł/kg — podpowiedź 1 zł/kg to wartość właściciela projektu dla bloczków odlewanych samodzielnie (nie ze źródła ani normy); możesz wpisać swoją.",
+  "ZS-ZALOZENIE-SNIEG-MU1": "Śnieg: współczynnik kształtu μ1 z PN-EN 1991-1-3, Tablica 5.2 — obowiązuje, gdy nic nie blokuje zsuwania się śniegu z dolnej krawędzi paneli.",
 } as const
 
 export type KluczTlumaczenia = keyof typeof dictionaryPl

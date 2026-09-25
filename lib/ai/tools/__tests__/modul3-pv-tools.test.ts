@@ -12,6 +12,7 @@ import { mikroinwerteryVsCentralnyTool } from "../mikroinwertery-vs-centralny-to
 import { warunkiNadmorskiePylisteTool } from "../warunki-nadmorskie-pyliste-tool"
 import { katIAzymutTool, utworzKatIAzymutTool } from "../kat-i-azymut-tool"
 import { utworzWschodZachodTool, wschodZachodTool } from "../wschod-zachod-tool"
+import { utworzZlotySrodekTool, zlotySrodekTool } from "../zloty-srodek-tool"
 
 const bezBrakujacegoKlucza = (teksty: string[]) => {
   for (const tekst of teksty) expect(tekst.startsWith("⚠")).toBe(false)
@@ -19,7 +20,7 @@ const bezBrakujacegoKlucza = (teksty: string[]) => {
 
 describe("narzędzia AI Modułu 3 — kontrakt 9.3", () => {
   it("wszystkie: 'read', bez potwierdzenia, przechodzą validateAiToolDefinition", () => {
-    for (const n of [mikropeknieciaTermiczneTool, powlokiAntyrefleksyjneTool, technologiePaneliTool, mikroinwerteryVsCentralnyTool, warunkiNadmorskiePylisteTool, katIAzymutTool, wschodZachodTool]) {
+    for (const n of [mikropeknieciaTermiczneTool, powlokiAntyrefleksyjneTool, technologiePaneliTool, mikroinwerteryVsCentralnyTool, warunkiNadmorskiePylisteTool, katIAzymutTool, wschodZachodTool, zlotySrodekTool]) {
       expect(n.operationType).toBe("read")
       expect(n.requiresConfirmation).toBe(false)
       expect(() => validateAiToolDefinition(n)).not.toThrow()
@@ -201,6 +202,52 @@ describe("wschodZachodTool (M3/E20)", () => {
   it("PVGIS odrzuca → INCOMPLETE z komunikatem", async () => {
     const zly = (async () => new Response("location over the sea", { status: 400 })) as unknown as typeof fetch
     const w = await utworzWschodZachodTool(zly).handler(wejscie)
+    expect(w.status).toBe("INCOMPLETE")
+    expect(w.ostrzezenia).toEqual([KOMUNIKAT_PVGIS["PVGIS-ODRZUCIL-ZAPYTANIE"]])
+  })
+})
+
+describe("zlotySrodekTool (M3/E9)", () => {
+  const wejscie = {
+    szerokoscGeograficzna: 52.23,
+    dlugoscGeograficzna: 21.01,
+    azymutDeg: 180,
+    strefaWiatrowa: 1 as const,
+    kategoriaTerenu: "III",
+    wysokoscKonstrukcjiM: 2,
+    powierzchniaPaneliM2: 10,
+    wspolczynnikPhi: 0,
+  }
+
+  it("wysokość n.p.m. i cena balastu z podpowiedzi → założenia jawne; zawsze ostrzeżenie o PN-EN 1990", async () => {
+    const json = odpowiedzPvgis()
+    const w = await utworzZlotySrodekTool((async () => new Response(JSON.stringify(json))) as unknown as typeof fetch).handler(wejscie)
+    expect(w.status).toBe("VALID_WITH_WARNINGS")
+    expect(w.rekomendacjaDeg).toBeNull()
+    expect(w.punkty.map((p) => p.nachylenieDeg)).toContain(90)
+    expect(w.punkty.find((p) => p.nachylenieDeg === 90)!.balastKg).toBeNull()
+    expect(w.ostrzezenia).toContain(t("pl", "ZS-BALAST-BEZ-WSPOLCZYNNIKOW"))
+    expect(w.zalozenia).toContain(t("pl", "ZS-ZALOZENIE-CENA-BALASTU", { cena: 1 }))
+    expect(w.zalozenia[0]).toMatch(/^Wysokość n\.p\.m\. z PVGIS/)
+    bezBrakujacegoKlucza([...w.ostrzezenia, ...w.zalozenia])
+  })
+
+  it("z wyceną energii wskazuje kąt 0–30°", async () => {
+    const json = odpowiedzPvgis()
+    const w = await utworzZlotySrodekTool((async () => new Response(JSON.stringify(json))) as unknown as typeof fetch).handler({
+      ...wejscie,
+      mocInstalacjiKwp: 2,
+      wspolczynnikPr: 0.8,
+      cenaEnergiiZlKwh: 1,
+      liczbaLat: 10,
+    })
+    expect(w.rekomendacjaDeg).not.toBeNull()
+    expect(w.rekomendacjaDeg!).toBeLessThanOrEqual(30)
+  })
+
+  it("PVGIS odrzuca → INCOMPLETE z komunikatem", async () => {
+    const zly = (async () => new Response("location over the sea", { status: 400 })) as unknown as typeof fetch
+    const w = await utworzZlotySrodekTool(zly).handler(wejscie)
     expect(w.status).toBe("INCOMPLETE")
     expect(w.ostrzezenia).toEqual([KOMUNIKAT_PVGIS["PVGIS-ODRZUCIL-ZAPYTANIE"]])
   })

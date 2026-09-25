@@ -34,6 +34,7 @@ import { mikroinwerteryVsCentralnyTool } from "./tools/mikroinwertery-vs-central
 import { warunkiNadmorskiePylisteTool } from "./tools/warunki-nadmorskie-pyliste-tool"
 import { katIAzymutTool } from "./tools/kat-i-azymut-tool"
 import { wschodZachodTool } from "./tools/wschod-zachod-tool"
+import { zlotySrodekTool } from "./tools/zloty-srodek-tool"
 import { toAnthropicTool } from "./to-anthropic-tool"
 import { validateAiToolDefinition, type AiToolDefinition } from "./types"
 
@@ -58,6 +59,7 @@ const NARZEDZIA: Array<AiToolDefinition<any, any>> = [
   warunkiNadmorskiePylisteTool,
   katIAzymutTool,
   wschodZachodTool,
+  zlotySrodekTool,
 ]
 for (const narzedzie of NARZEDZIA) validateAiToolDefinition(narzedzie)
 
