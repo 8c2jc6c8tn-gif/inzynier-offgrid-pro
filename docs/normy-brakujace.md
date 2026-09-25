@@ -26,6 +26,14 @@ plik pełnej normy trafił do repo bezpośrednio na `main` 06.09.2026 i został 
 samego dnia, ale ten wpis oraz odpowiedni `00-INDEKS.md`/`docs/zrodla/README.md` nie zostały
 wtedy zaktualizowane — naprawione teraz, przy okazji.)*
 
+[25.09.2026] ✅ DODANO — źródło: pełne wyliczenie Modułu 3 (sesja 25.09.2026).
+
+- **PN-EN 1991-1-4 (Eurokod 1 — oddziaływania wiatru)** — współczynniki siły/ciśnienia dla dachów
+  wiat i paneli w zależności od kąta nachylenia. **Blokuje:** M3/E9 „Złoty środek” (krzywa naporu
+  wiatru w funkcji kąta — wzór E6 nie zawiera kąta), M3/E6 (siła ssania i wymagany balast — dziś
+  tylko `F=0,5ρv²ACd`), M3/E2 tryb „dach płaski/grunt” (balast). Ta sama rodzina co już
+  dostarczona PN-EN 1991-1-3 (śnieg).
+
 ## 🔵 Spodziewane — zapowiedziane przez właściciela projektu
 
 *(pusta na razie)*
@@ -42,6 +50,12 @@ wtedy zaktualizowane — naprawione teraz, przy okazji.)*
 - **EN 61439** (pełna seria — rozdzielnice i sterownice niskonapięciowe, zestawy aparatury
   łączeniowej) — jw., wyjaśniona koncepcyjnie (w tym: czy wystarczy wersja angielska), treść
   nigdy nie pozyskana.
+
+- **PN-EN 12831-1 (obciążenie cieplne budynków — metoda obliczania)** [25.09.2026] — silnik
+  „zapotrzebowanie na ciepło z metrażu/przegród” (M6, Część 2D — luka jawnie oznaczona w samym
+  źródle); potrzebna, żeby ekran liczby paneli (M3/E4, D25) i dobór dogrzewania (pomysł
+  „ogrzewanie paliwowe typu webasto”, 25.09.2026) mogły powiązać metraż budynku z zimowym
+  zapotrzebowaniem, zamiast wpisu ręcznego.
 
 ## ⚪ Zidentyfikowane tylko z nazwy (z bibliografii/indeksów innych źródeł)
 
