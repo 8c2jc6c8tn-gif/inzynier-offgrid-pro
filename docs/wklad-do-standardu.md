@@ -658,3 +658,56 @@ blob:`) i nowy punkt checklisty **7.4** (nowa funkcja API przeglądarki zaczyna 
 2026-09-24, GOD BOOK bez zmiany numeru wersji dla tego wiersza. Sprawdzone przy Y.6 24.09.2026
 (sesja `claude/y6-adaptive-20260924`) — do zastosowania w tym projekcie przy pełnej synchronizacji
 NIETYKALNE (`docs/standards/11`, `07`), jeszcze nie zaaplikowane lokalnie, patrz `docs/memory.md`.
+
+[25.09.2026] KATEGORIA: POMYSŁ NA REGUŁĘ — zapowiedź "pełne wyliczenie później" w rejestrze pokrycia jako sposób, w jaki Dyrektywa #14 (rejestruj natychmiast) jest omijana po cichu
+
+Szczegóły: sekcja rejestru pokrycia Modułu 3 (04.09.2026) zawierała zdanie "pełne wyliczenie
+per-funkcja całego modułu — nadal osobny, nie rozpoczęty krok". Zdanie było uczciwe, ale przez 3
+tygodnie nikt go nie wykonał, a audyt kompletności (GOD BOOK Część N, 05.09.2026) je przepuścił —
+sprawdzał, czy istniejące wiersze zgadzają się ze źródłem, a nie czy KAŻDA pozycja źródła ma wiersz.
+Skutek: 17 z 30 pozycji źródła bez wiersza (niewidoczne, niepoliczalne), odkryte dopiero na starcie
+sesji budowy tego modułu, prostym grepem nazw ekranów źródła w rejestrze.
+
+Dlaczego warto zgłosić do new-app-standards: każdy projekt z rejestrem pokrycia (14.1) i dużą
+specyfikacją źródłową może mieć tę samą lukę — zapowiedź odroczonego wyliczenia wygląda jak
+świadome, udokumentowane "todo", a działa jak brak wiersza. Propozycja: (a) w GOD BOOK N.1 dodać
+krok "dla każdego modułu: liczba pozycji źródła = liczba wierszy rejestru (grep nazw/ID), a nie
+tylko zgodność istniejących wierszy"; (b) zdanie typu "pełne wyliczenie później" w rejestrze
+traktować jako otwartą pozycję listy zadań z terminem (B.6/15.22), nie jako stan akceptowalny.
+
+Status: 🔎 nowe
+
+[25.09.2026] KATEGORIA: POMYSŁ NA REGUŁĘ — materiały źródłowe chronione prawem autorskim (normy PKN/IEC) a publiczne repozytorium
+
+Szczegóły: GOD BOOK B.5 każe trzymać każdy oryginalny materiał źródłowy w `docs/zrodla/` w
+niezmienionej formie. W tym projekcie repozytorium jest publiczne, a `docs/zrodla/` zawiera PDF-y norm
+PKN/IEC oraz `.md` z przepisaną treścią rozdziałów — dosłowne wykonanie B.5 publikuje materiały
+licencjonowane. Nowa norma (25.09.2026) miała dodatkowo nadruk licencji jednostanowiskowej z zakazem
+umieszczania w sieci i znak wodny z danymi osobowymi pobierającego. AI zatrzymało zapis i zapytało
+właściciela; oryginał został poza repo, w repo tylko notatka robocza z liczbami używanymi w kodzie.
+
+Dlaczego warto zgłosić do new-app-standards: każdy projekt rodziny liczący wg norm trafi na to samo.
+Propozycja do B.5: przed zapisem materiału do `docs/zrodla/` sprawdzić (1) widoczność repozytorium,
+(2) nadruki licencji/praw autorskich, (3) dane osobowe w znakach wodnych; dla materiału chronionego w
+repo publicznym — oryginał poza repo, w repo notatka robocza (numer punktu/tablicy + liczby używane w
+kodzie), z odnotowaniem, gdzie przechowywany jest oryginał. Przepisanie całości do `.md` nie jest
+obejściem — chroniona jest treść, nie format.
+
+Status: 🔎 nowe
+
+[25.09.2026] KATEGORIA: POMYSŁ NA REGUŁĘ — komponent pola formularza nie może budować `id` wyłącznie z etykiety
+
+Szczegóły: wspólny komponent `Pole`/`PoleSelect` generuje `id` z tekstu etykiety. Gdy ten sam formularz
+powtarza się w liście (karty źródeł ciepła, powierzchnie, pozycje), N pól dostaje to samo `id` — `<label
+for>` wiąże się tylko z pierwszym, czytnik ekranu i kliknięcie w etykietę trafiają w złe pole, a testy
+Playwright `getByLabel` znajdują jeden element. Błąd niewidoczny w typecheck, lint i testach jednostkowych;
+wyszedł dopiero w teście przeglądarkowym nowego ekranu. Wstępny skan statyczny wskazał kilkadziesiąt
+ekranów z polami w `.map()` bez jawnego `id` (do weryfikacji w przeglądarce).
+
+Dlaczego warto zgłosić do new-app-standards: każdy projekt rodziny ma ten sam wzorzec komponentu pola
+(standard, rozdział UI). Propozycja: (a) komponent pola generuje `id` przez `useId()` (React 18+),
+etykieta tylko jako czytelny prefiks; (b) albo reguła: pole w liście zawsze z jawnym `id`; (c) w
+checkliście testów przeglądarkowych — sprawdzenie zduplikowanych `id` na stronie
+(`document.querySelectorAll('[id]')` → duplikaty = błąd).
+
+Status: 🔎 nowe

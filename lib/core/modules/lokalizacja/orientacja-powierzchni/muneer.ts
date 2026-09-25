@@ -46,6 +46,8 @@ export type Godzina = {
   zachmurzone: boolean
   /** Rzeczywista chwila rekordu (miesiąc wyniku Ekranu 3). */
   czasUtcMs: number
+  /** Miesiąc UTC chwili rekordu (0 = styczeń) — liczony raz tutaj, nie w pętlach po orientacjach. */
+  miesiac: number
   dni: number
   dhi: number
   ghi: number
@@ -85,6 +87,7 @@ export function przygotujGodziny(lat: number, lon: number, dane: RekordGodzinowy
       kb,
       zachmurzone: ktPrim < PROG_ZACHMURZENIA_KT,
       czasUtcMs: r.czasUtcMs,
+      miesiac: new Date(r.czasUtcMs).getUTCMonth(),
       dni: r.dni,
       dhi: r.dhi,
       ghi: r.ghi,
@@ -177,6 +180,30 @@ export function zaHoryzontem(g: Godzina, horyzont?: number[]): boolean {
   return horyzont !== undefined && g.sloncePonadHoryzontem && g.wysokoscDeg < katHoryzontuDeg(horyzont, g.azymutDeg)
 }
 
+/** Liczba miesięcy — indeks wyniku `napromieniowanieMiesieczne` = miesiąc UTC rekordu (0 = styczeń). */
+export const LICZBA_MIESIECY = 12
+
+/**
+ * Napromieniowanie płaszczyzny w każdym miesiącu [kWh/m²], opcjonalnie z profilem horyzontu
+ * przeszkód. Miesiąc = miesiąc UTC chwili rekordu (dla Polski różnica względem czasu lokalnego to
+ * godziny wokół północy, bez słońca — bez wpływu na sumy). Moduł 3 (Ekran 1 — rozkład
+ * miesięczny, optymalny kąt per miesiąc, D26). Ta sama funkcja natężenia co `napromieniowanie`
+ * niżej (suma roczna = suma miesięcy — test w Module 3); osobna pętla roczna zostaje, bo jest
+ * wywoływana tysiące razy przy przeszukiwaniu orientacji w Ekranie 4 M1.
+ */
+export function napromieniowanieMiesieczne(
+  godziny: Godzina[],
+  nachylenieDeg: number,
+  azymutDeg: number,
+  albedo: number,
+  horyzont?: number[],
+): number[] {
+  const pl = plaszczyzna(nachylenieDeg, azymutDeg, albedo)
+  const sumyWh = new Array<number>(LICZBA_MIESIECY).fill(0)
+  for (const g of godziny) sumyWh[g.miesiac]! += natezenieGodziny(g, pl, zaHoryzontem(g, horyzont)) * KROK_GODZIN
+  return sumyWh.map((wh) => wh / W_NA_KW)
+}
+
 /** Roczne napromieniowanie płaszczyzny [kWh/m²], opcjonalnie z profilem horyzontu przeszkód. */
 export function napromieniowanie(
   godziny: Godzina[],
@@ -189,4 +216,38 @@ export function napromieniowanie(
   let sumaWh = 0
   for (const g of godziny) sumaWh += natezenieGodziny(g, pl, zaHoryzontem(g, horyzont)) * KROK_GODZIN
   return sumaWh / W_NA_KW
+}
+
+/** Liczba godzin doby — indeks wyniku `napromieniowanieDobowe`. */
+export const GODZIN_DOBY = 24
+
+/**
+ * Napromieniowanie płaszczyzny zsumowane po godzinach doby w SŁONECZNYM czasie lokalnym (UTC +
+ * długość/15) [kWh/m² za rok w danej godzinie] — rozkład dobowy dla Modułu 3, Ekran 20
+ * (wschód-zachód: "produkcja rozłożona bardziej równomiernie w ciągu dnia"). Godzina rekordu z
+ * arytmetyki na `czasUtcMs` (bez `Date` w pętli). Założenie: natężenie stałe w obrębie godziny rekordu.
+ */
+export function napromieniowanieDobowe(
+  godziny: Godzina[],
+  dlugoscDeg: number,
+  nachylenieDeg: number,
+  azymutDeg: number,
+  albedo: number,
+): number[] {
+  const pl = plaszczyzna(nachylenieDeg, azymutDeg, albedo)
+  const sumyWh = new Array<number>(GODZIN_DOBY).fill(0)
+  const przesuniecieH = dlugoscDeg / 15
+  for (const g of godziny) {
+    // Rekord reprezentuje godzinę [s − ½, s + ½] wokół chwili s (czas słoneczny) — energia dzielona
+    // między dwie godziny zegarowe proporcjonalnie do nakładania się (inaczej rekord z 11:50 trafiałby
+    // w całości "przed południe", zawyżając udział poranka o kilka punktów procentowych).
+    const poczatek = g.czasUtcMs / 3_600_000 + przesuniecieH - KROK_GODZIN / 2
+    const pelna = Math.floor(poczatek)
+    const udzialPierwszej = 1 - (poczatek - pelna)
+    const i = ((pelna % GODZIN_DOBY) + GODZIN_DOBY) % GODZIN_DOBY
+    const wh = natezenieGodziny(g, pl, false) * KROK_GODZIN
+    sumyWh[i]! += wh * udzialPierwszej
+    sumyWh[(i + 1) % GODZIN_DOBY]! += wh * (1 - udzialPierwszej)
+  }
+  return sumyWh.map((wh) => wh / W_NA_KW)
 }

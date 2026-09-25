@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest"
-import { calculateZacienienieDiodyBocznikujace } from "../calculator"
+import { calculateZacienienieDiodyBocznikujace, obliczStrataPaneluPct } from "../calculator"
 
 describe("calculateZacienienieDiodyBocznikujace", () => {
   it("brak zacienienia -> 0% straty, VALID, info", () => {
@@ -92,5 +92,20 @@ describe("calculateZacienienieDiodyBocznikujace", () => {
       { kod: "STRATA-PANELU-3-SEKCJE-FAKT" },
       { kod: "STRATA-STRINGU-NIE-LICZONA", params: { liczbaPaneli: 6 } },
     ])
+  })
+})
+
+describe("obliczStrataPaneluPct (echo dla M3/E12)", () => {
+  it("K5: 0/1/2/3 sekcje → 0 / 33,3 / 66,7 / 100% — ta sama wartość co w wyniku Ekranu 13", () => {
+    expect(obliczStrataPaneluPct(0)).toBe(0)
+    expect(obliczStrataPaneluPct(1)).toBeCloseTo(33.333, 3)
+    expect(obliczStrataPaneluPct(2)).toBeCloseTo(66.667, 3)
+    expect(obliczStrataPaneluPct(3)).toBe(100)
+    const e13 = calculateZacienienieDiodyBocznikujace({
+      mocPaneluNominalnaW: 400,
+      liczbaZacienionychSekcji: 1,
+      liczbaPaneliWStringu: 6,
+    })
+    expect(e13.value.strataPaneluPct).toBe(obliczStrataPaneluPct(1))
   })
 })
