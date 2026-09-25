@@ -120,6 +120,7 @@ export default function OrientacjaPowierzchniPage() {
                   </p>
                 </div>
                 <Pole
+                  id={`korekta-${p.id}-nachylenie`}
                   label="Nachylenie"
                   unit="°"
                   inputMode="decimal"
@@ -128,6 +129,7 @@ export default function OrientacjaPowierzchniPage() {
                   onChange={(e) => ustawKorekte(p.id, { nachylenieDeg: e.target.value })}
                 />
                 <Pole
+                  id={`korekta-${p.id}-azymut`}
                   label="Azymut"
                   unit="°"
                   inputMode="decimal"
@@ -140,9 +142,9 @@ export default function OrientacjaPowierzchniPage() {
           })}
         {stan.reczne.map((r, i) => (
           <div key={i} className="grid grid-cols-2 gap-2 rounded-md border p-3 sm:grid-cols-[1fr_8rem_8rem_auto]">
-            <Pole className="col-span-2 sm:col-span-1" label="Nazwa" value={r.nazwa} onChange={(e) => ustawReczna(i, { nazwa: e.target.value })} placeholder={`Powierzchnia ${i + 1}`} />
-            <Pole label="Nachylenie" unit="°" inputMode="decimal" value={r.nachylenieDeg} onChange={(e) => ustawReczna(i, { nachylenieDeg: e.target.value })} />
-            <Pole label="Azymut" unit="°" inputMode="decimal" hint="S = 180" value={r.azymutDeg} onChange={(e) => ustawReczna(i, { azymutDeg: e.target.value })} />
+            <Pole id={`reczna-${i}-nazwa`} className="col-span-2 sm:col-span-1" label="Nazwa" value={r.nazwa} onChange={(e) => ustawReczna(i, { nazwa: e.target.value })} placeholder={`Powierzchnia ${i + 1}`} />
+            <Pole id={`reczna-${i}-nachylenie`} label="Nachylenie" unit="°" inputMode="decimal" value={r.nachylenieDeg} onChange={(e) => ustawReczna(i, { nachylenieDeg: e.target.value })} />
+            <Pole id={`reczna-${i}-azymut`} label="Azymut" unit="°" inputMode="decimal" hint="S = 180" value={r.azymutDeg} onChange={(e) => ustawReczna(i, { azymutDeg: e.target.value })} />
             <Button variant="ghost" className="mt-auto min-h-11" onClick={() => setStan((s) => ({ ...s, reczne: s.reczne.filter((_, j) => j !== i) }))}>
               Usuń
             </Button>

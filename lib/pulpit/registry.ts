@@ -184,6 +184,7 @@ export const KAFLE: KafelEntry[] = [
       { href: "/kalkulatory/bufor-ciepla", label: "Bufor ciepła — dobór pojemności" },
       { href: "/kalkulatory/ryzyko-niskiego-napiecia", label: "Ryzyko wyłączenia pompy przy niskim napięciu" },
       { href: "/kalkulatory/kociol-elektryczny", label: "Kocioł elektryczny vs pompa ciepła" },
+      { href: "/kalkulatory/koszty-ogrzewania", label: "Porównanie kosztów ogrzewania (paliwa, prąd, nagrzewnica)" },
       { href: "/kalkulatory/infiltracja-powietrza", label: "Infiltracja powietrza (test szczelności)" },
       { href: "/kalkulatory/wentylacja-odzysk-ciepla", label: "System wentylacji z odzyskiem ciepła" },
       { href: "/kalkulatory/ryzyko-zamarzniecia-dolnego-zrodla", label: "Ryzyko zamarznięcia dolnego źródła" },

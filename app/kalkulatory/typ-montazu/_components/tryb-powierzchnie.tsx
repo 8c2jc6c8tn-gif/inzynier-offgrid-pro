@@ -132,7 +132,7 @@ export function TrybPowierzchnie({ tylkoJednaPolac }: { tylkoJednaPolac: boolean
       {oceny && (
         <fieldset className="flex flex-col gap-2">
           <legend className="mb-1 font-semibold">{tylkoJednaPolac ? "Połać" : "Powierzchnie"}</legend>
-          {oceny.map((o) => {
+          {oceny.map((o, idx) => {
             const zaznaczona = wybrane.includes(o.nazwa)
             return (
               <div key={o.nazwa} className="flex flex-col gap-2 rounded-md border p-3">
@@ -155,6 +155,7 @@ export function TrybPowierzchnie({ tylkoJednaPolac }: { tylkoJednaPolac: boolean
                 </label>
                 {zaznaczona && (
                   <Pole
+                    id={`moc-powierzchni-${idx}`}
                     label="Moc paneli na tej powierzchni"
                     unit="kWp"
                     type="number"

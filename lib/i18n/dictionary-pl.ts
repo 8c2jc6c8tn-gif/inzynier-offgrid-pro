@@ -958,6 +958,20 @@ export const dictionaryPl = {
   "TM-ZALOZENIE-BEZ-SZCZELIN": "Panele ułożone bez odstępów. Jeśli klemy lub profile wymagają szczelin albo marginesu od krawędzi, odejmij je od wymiarów wiaty.",
   "TM-ZALOZENIE-REGULACJA-CO-MIESIAC": "Kąt przestawiany raz w miesiącu na najlepszy dla tego miesiąca, w zakresie regulacji stelaża {min}–{max}°.",
   "TM-ZALOZENIE-OS-NA-DOLNEJ-KRAWEDZI": "Stelaż obraca się na dolnej krawędzi — jej wysokość nad terenem nie zmienia się, a górna krawędź podnosi się o h = L × sin(kąt). Przy innej osi obrotu wysokości będą inne.",
+  "KO-INWESTYCJA-I-PALIWO": "Koszt inwestycji to jedno, koszt paliwa to drugie. Sprawdź oba — ranking liczy je razem w całym okresie analizy.",
+  "KO-ZRODLO-NIEKOMPLETNE": "„{nazwa}” — brakuje danych, więc to źródło nie jest w rankingu. Uzupełnij puste pola w jego karcie.",
+  "KO-PALIWO-STALE-BEZPIECZENSTWO": "„{nazwa}” — paliwo stałe: czujnik CO, odległość od materiałów palnych i nawiew powietrza do spalania sprawdź na ekranie „Bezpieczeństwo pożarowe — dogrzewanie paliwem stałym”.",
+  "KO-DREWNO-PRACA": "„{nazwa}” — koszt drewna nie obejmuje Twojej pracy: rąbania, suszenia, noszenia i palenia.",
+  "KO-NAGRZEWNICA-SPALINY": "„{nazwa}” — nagrzewnica paliwowa wytwarza spaliny z tlenkiem węgla. Wydech musi szczelnie wychodzić na zewnątrz, w pomieszczeniu potrzebny jest czujnik CO. Urządzenia tego typu są projektowane głównie do pojazdów — montaż w budynku mieszkalnym skonsultuj z kominiarzem.",
+  "KO-OLEJ-GESTNIEJE": "„{nazwa}” — olej napędowy gęstnieje na mrozie (źródło: przy {temperatura}°C może uniemożliwić rozruch). Zimą stosuj paliwo arktyczne i trzymaj zbiornik w cieple.",
+  "KO-PRAD-OFFGRID": "„{nazwa}” — grzejesz prądem. W off-gridzie zimą panele dają najmniej energii, więc ten prąd pochodzi głównie z baterii albo agregatu. Ile brakuje zimą, pokazuje ekran „Ile paneli potrzebujesz”.",
+  "KO-SPRAWNOSC-POWYZEJ-100": "„{nazwa}” — sprawność {sprawnosc}% jest możliwa tylko względem wartości opałowej, w kotle kondensacyjnym. Sprawdź, do jakiej wartości opałowej odnosi się sprawność z karty.",
+  "KO-ZALOZENIE-WPIS-UZYTKOWNIKA": "Wartości opałowe, sprawności, ceny, COP i dane z kart katalogowych — wpisane przez Ciebie. Źródło aplikacji ich nie podaje.",
+  "KO-ZALOZENIE-OKRES": "Okres analizy: {lata} lat (źródło proponuje ranking w skali {zrodlo} lat).",
+  "KO-ZALOZENIE-CENY-STALE": "Ceny paliw i prądu stałe przez cały okres — bez inflacji i zmian taryf.",
+  "KO-ZALOZENIE-ZWROT": "Zwrot liczony względem źródła najtańszego w zakupie: „{nazwa}”.",
+  "KO-ZALOZENIE-COP-OPOROWE": "Grzałka, kocioł elektryczny i promienniki podczerwieni: COP = 1 — cały prąd zamienia się w ciepło (źródło: kocioł elektryczny „COP=1”).",
+  "KO-ZALOZENIE-GODZINY-NOMINALNE": "Godziny pracy i prąd urządzeń paliwowych policzone przy mocy nominalnej (ciepło ÷ moc). Przy pracy na niższej mocy godzin i prądu pomocniczego będzie więcej.",
 } as const
 
 export type KluczTlumaczenia = keyof typeof dictionaryPl

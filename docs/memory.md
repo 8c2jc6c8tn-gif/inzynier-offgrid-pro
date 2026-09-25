@@ -6730,3 +6730,14 @@ czytany tylko do odczytu (`useOdczytDraftu`, jeden właściciel zapisu); (4) wia
 (`podzial`), UI go nie zgaduje; (5) stelaż na dachu płaskim liczony jak wiata — ostrzeżenie `warning` o
 strefach krawędziowych i nośności dachu (poza modelem). Pułapka: `ulozPanele` — pętla cięcia musi dojść do
 `i <= floor(L/a)` (reszta krótsza niż bok w orientacji 1 może zmieścić panel obrócony).
+
+**[25.09.2026] M6 „Porównanie kosztów ogrzewania” (dawne 5.39 + D28) — done; potwierdzenia E15 🔎 i E21 ✏️.**
+Pomysł właściciela „webasto + paliwa stałe” okazał się mieć oparcie w źródle: funkcja 5.39 (Biblia §6.27.13),
+dotąd nieobecna w rejestrze (Część 2C `Tresc_Modul_6` ją tylko wymienia). Źródło nie podaje wartości
+opałowych ani sprawności — wszystko wpis użytkownika; okres 10 lat jest ze źródła, więc wolno go wstawić jako
+start pola (inaczej niż np. PR). Źródło z brakami nie blokuje porównania pozostałych (info zamiast INCOMPLETE
+całości) — przy liście budowanej stopniowo to jedyny użyteczny tryb, i nadal bez wartości domyślnych.
+**Pułapka (znaleziona i naprawiona):** `Pole`/`PoleSelect` budują `id` z etykiety — w powtarzanych kartach
+(ta sama etykieta N razy) powstają zduplikowane `id`, etykiety wiążą się tylko z pierwszym polem (dostępność,
+testy Playwright `getByLabel`). Naprawione tu, w M3/E2 (moc powierzchni) i w M1/E4 (korekty i powierzchnie
+ręczne); przy każdym `.map()` z `Pole` podawać jawne `id`. Inne ekrany z listami `Pole` — do przejrzenia.

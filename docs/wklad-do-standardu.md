@@ -694,3 +694,20 @@ kodzie), z odnotowaniem, gdzie przechowywany jest oryginał. Przepisanie całoś
 obejściem — chroniona jest treść, nie format.
 
 Status: 🔎 nowe
+
+[25.09.2026] KATEGORIA: POMYSŁ NA REGUŁĘ — komponent pola formularza nie może budować `id` wyłącznie z etykiety
+
+Szczegóły: wspólny komponent `Pole`/`PoleSelect` generuje `id` z tekstu etykiety. Gdy ten sam formularz
+powtarza się w liście (karty źródeł ciepła, powierzchnie, pozycje), N pól dostaje to samo `id` — `<label
+for>` wiąże się tylko z pierwszym, czytnik ekranu i kliknięcie w etykietę trafiają w złe pole, a testy
+Playwright `getByLabel` znajdują jeden element. Błąd niewidoczny w typecheck, lint i testach jednostkowych;
+wyszedł dopiero w teście przeglądarkowym nowego ekranu. Wstępny skan statyczny wskazał kilkadziesiąt
+ekranów z polami w `.map()` bez jawnego `id` (do weryfikacji w przeglądarce).
+
+Dlaczego warto zgłosić do new-app-standards: każdy projekt rodziny ma ten sam wzorzec komponentu pola
+(standard, rozdział UI). Propozycja: (a) komponent pola generuje `id` przez `useId()` (React 18+),
+etykieta tylko jako czytelny prefiks; (b) albo reguła: pole w liście zawsze z jawnym `id`; (c) w
+checkliście testów przeglądarkowych — sprawdzenie zduplikowanych `id` na stronie
+(`document.querySelectorAll('[id]')` → duplikaty = błąd).
+
+Status: 🔎 nowe
