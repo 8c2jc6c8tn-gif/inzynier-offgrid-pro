@@ -6704,3 +6704,11 @@ w paczce 25.09 (obie części Eurokodu 1 tylko się do niej odwołują — spraw
 - Wysokość n.p.m. z metadanych PVGIS, gdy user nie wpisał (dane lokalizacji, nie zgadywanie).
 - Na danych syntetycznych (Warszawa, strefa 1, teren III, 2 m, 12 m²): qp = 476 Pa, 30° → 10,3 kN →
   1048 kg. Przy wycenie energii 1 zł/kWh × 10 lat wygrywa 30° (energia przeważa koszt balastu 1 zł/kg).
+
+**[25.09.2026] M3/E4 „Ile paneli potrzebujesz” — done (D25).** Pole „dodatkowe zużycie w sezonie
+grzewczym” potwierdzone przez właściciela; miesiące grzewcze — wybór użytkownika (brak źródła na sezon).
+- Moduł 2 NIE ma zapisanej sumy dobowego zużycia (brak draftu z bilansem) — E4 ma pole ręczne. Gdy powstanie
+  ekran bilansu M2, podpiąć jako podpowiedź.
+- `Math.ceil(x − 1e-9)` przy N — iloraz 12,000000001 z arytmetyki zmiennoprzecinkowej nie może dać 13.
+- Deficyt: przy N rekomendacji; gdy nawet lato przekracza limit — przy pełnym limicie (ostrzeżenie).
+- Status: `LP-DEFICYT-POZA-OKRESEM` to `info` (D13 — nie podnosi statusu).

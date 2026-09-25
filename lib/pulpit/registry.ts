@@ -66,6 +66,7 @@ export const KAFLE: KafelEntry[] = [
     ekrany: [
       { href: "/kalkulatory/kat-i-azymut", label: "Kąt pochylenia i azymut" },
       { href: "/kalkulatory/wschod-zachod", label: "Orientacja wschód-zachód" },
+      { href: "/kalkulatory/liczba-paneli", label: "Ile paneli potrzebujesz" },
       { href: "/kalkulatory/zloty-srodek", label: "Złoty środek — kąt, wiatr i balast" },
       { href: "/kalkulatory/konfigurator-stringow", label: "Konfigurator stringów" },
       { href: "/kalkulatory/czystosc-i-snieg", label: "Czystość i śnieg na panelach" },

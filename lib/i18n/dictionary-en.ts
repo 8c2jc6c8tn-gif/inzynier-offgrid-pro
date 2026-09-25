@@ -912,4 +912,12 @@ export const dictionaryEn = {
   "ZS-ZALOZENIE-BALAST-PIONOWO": "The whole wind force is treated as lifting vertically (conservative), m = F/g with g = {g} m/s².",
   "ZS-ZALOZENIE-CENA-BALASTU": "Ballast price {cena} PLN/kg — the 1 PLN/kg hint is the project owner's value for self-cast blocks (not from a source or standard); you can enter your own.",
   "ZS-ZALOZENIE-SNIEG-MU1": "Snow: shape coefficient μ1 from PN-EN 1991-1-3, Table 5.2 — valid when nothing stops snow sliding off the lower panel edge.",
+  "LP-SEZON-BEZ-MIESIECY": "You entered extra winter demand — also tick the months when you heat, so the app knows when to add it.",
+  "LP-LIMIT-ZA-MALY-NAWET-LATO": "Even summer alone (June–August) needs {n} panels, and you can mount {limit}. Reduce consumption, find more space for panels or plan a permanent second energy source.",
+  "LP-DEFICYT-POZA-OKRESEM": "With {n} panels the colder months will be short by about {kwh} kWh per year in total. This energy must come from another source: a generator, a boiler or fuel-fired heating (a diesel air heater draws little electricity) — or reduce winter consumption.",
+  "LP-OKRES-BEZ-PRODUKCJI": "In one of the months of the period (months {od}–{do}) the panels produce nothing at this setting — no number of panels can cover this period.",
+  "LP-ZALOZENIE-DNI-KALENDARZ": "Monthly demand = daily × number of days in the month of a non-leap year (the PVGIS typical year has 365 days).",
+  "LP-ZALOZENIE-KAT-STALY": "Panels at a fixed tilt of {kat}° all year.",
+  "LP-ZALOZENIE-STELAZ-REGULOWANY": "Adjustable rack: every month the panels are set to that month's best tilt (decision D26) — requires manual adjustment.",
+  "LP-ZALOZENIE-LIMIT": "Mounting limit {limit} pcs — the 30 pcs hint is a practical ceiling given by the project owner, not a standard value; enter how many panels you can really fit.",
 } satisfies Record<KluczTlumaczenia, string>

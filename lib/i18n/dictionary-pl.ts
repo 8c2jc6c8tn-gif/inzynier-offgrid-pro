@@ -924,6 +924,14 @@ export const dictionaryPl = {
   "ZS-ZALOZENIE-BALAST-PIONOWO": "Cała siła wiatru traktowana jako odrywająca pionowo (zachowawczo), m = F/g przy g = {g} m/s².",
   "ZS-ZALOZENIE-CENA-BALASTU": "Cena balastu {cena} zł/kg — podpowiedź 1 zł/kg to wartość właściciela projektu dla bloczków odlewanych samodzielnie (nie ze źródła ani normy); możesz wpisać swoją.",
   "ZS-ZALOZENIE-SNIEG-MU1": "Śnieg: współczynnik kształtu μ1 z PN-EN 1991-1-3, Tablica 5.2 — obowiązuje, gdy nic nie blokuje zsuwania się śniegu z dolnej krawędzi paneli.",
+  "LP-SEZON-BEZ-MIESIECY": "Wpisałeś dodatkowe zapotrzebowanie zimą — zaznacz też, w których miesiącach grzejesz, żeby aplikacja wiedziała, kiedy je doliczyć.",
+  "LP-LIMIT-ZA-MALY-NAWET-LATO": "Nawet samo lato (czerwiec–sierpień) wymaga {n} paneli, a możesz zamontować {limit}. Zmniejsz zużycie, zwiększ miejsce na panele albo zaplanuj stałe drugie źródło energii.",
+  "LP-DEFICYT-POZA-OKRESEM": "Przy {n} panelach w chłodnych miesiącach zabraknie łącznie ok. {kwh} kWh w roku. Tę energię trzeba pokryć innym źródłem: agregatem, kotłem albo ogrzewaniem paliwowym (grzejnik powietrzny na olej napędowy pobiera mało prądu) — albo ograniczyć zużycie zimą.",
+  "LP-OKRES-BEZ-PRODUKCJI": "W jednym z miesięcy okresu (miesiące {od}–{do}) panele przy tym ustawieniu nic nie wyprodukują — tego okresu nie da się pokryć żadną liczbą paneli.",
+  "LP-ZALOZENIE-DNI-KALENDARZ": "Zapotrzebowanie miesięczne = dobowe × liczba dni miesiąca w roku nieprzestępnym (typowy rok PVGIS ma 365 dni).",
+  "LP-ZALOZENIE-KAT-STALY": "Panele na stałym kącie {kat}° przez cały rok.",
+  "LP-ZALOZENIE-STELAZ-REGULOWANY": "Stelaż regulowany: w każdym miesiącu panele ustawione na najlepszy kąt tego miesiąca (decyzja D26) — wymaga ręcznego przestawiania.",
+  "LP-ZALOZENIE-LIMIT": "Limit montażowy {limit} szt. — podpowiedź 30 szt. to praktyczny pułap wskazany przez właściciela projektu, nie wartość z normy; wpisz, ile paneli realnie zmieścisz.",
 } as const
 
 export type KluczTlumaczenia = keyof typeof dictionaryPl

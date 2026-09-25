@@ -35,6 +35,7 @@ import { warunkiNadmorskiePylisteTool } from "./tools/warunki-nadmorskie-pyliste
 import { katIAzymutTool } from "./tools/kat-i-azymut-tool"
 import { wschodZachodTool } from "./tools/wschod-zachod-tool"
 import { zlotySrodekTool } from "./tools/zloty-srodek-tool"
+import { liczbaPaneliTool } from "./tools/liczba-paneli-tool"
 import { toAnthropicTool } from "./to-anthropic-tool"
 import { validateAiToolDefinition, type AiToolDefinition } from "./types"
 
@@ -60,6 +61,7 @@ const NARZEDZIA: Array<AiToolDefinition<any, any>> = [
   katIAzymutTool,
   wschodZachodTool,
   zlotySrodekTool,
+  liczbaPaneliTool,
 ]
 for (const narzedzie of NARZEDZIA) validateAiToolDefinition(narzedzie)
 

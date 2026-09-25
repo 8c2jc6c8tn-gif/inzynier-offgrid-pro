@@ -13,6 +13,7 @@ import { warunkiNadmorskiePylisteTool } from "../warunki-nadmorskie-pyliste-tool
 import { katIAzymutTool, utworzKatIAzymutTool } from "../kat-i-azymut-tool"
 import { utworzWschodZachodTool, wschodZachodTool } from "../wschod-zachod-tool"
 import { utworzZlotySrodekTool, zlotySrodekTool } from "../zloty-srodek-tool"
+import { liczbaPaneliTool, utworzLiczbaPaneliTool } from "../liczba-paneli-tool"
 
 const bezBrakujacegoKlucza = (teksty: string[]) => {
   for (const tekst of teksty) expect(tekst.startsWith("⚠")).toBe(false)
@@ -20,7 +21,7 @@ const bezBrakujacegoKlucza = (teksty: string[]) => {
 
 describe("narzędzia AI Modułu 3 — kontrakt 9.3", () => {
   it("wszystkie: 'read', bez potwierdzenia, przechodzą validateAiToolDefinition", () => {
-    for (const n of [mikropeknieciaTermiczneTool, powlokiAntyrefleksyjneTool, technologiePaneliTool, mikroinwerteryVsCentralnyTool, warunkiNadmorskiePylisteTool, katIAzymutTool, wschodZachodTool, zlotySrodekTool]) {
+    for (const n of [mikropeknieciaTermiczneTool, powlokiAntyrefleksyjneTool, technologiePaneliTool, mikroinwerteryVsCentralnyTool, warunkiNadmorskiePylisteTool, katIAzymutTool, wschodZachodTool, zlotySrodekTool, liczbaPaneliTool]) {
       expect(n.operationType).toBe("read")
       expect(n.requiresConfirmation).toBe(false)
       expect(() => validateAiToolDefinition(n)).not.toThrow()
@@ -248,6 +249,39 @@ describe("zlotySrodekTool (M3/E9)", () => {
   it("PVGIS odrzuca → INCOMPLETE z komunikatem", async () => {
     const zly = (async () => new Response("location over the sea", { status: 400 })) as unknown as typeof fetch
     const w = await utworzZlotySrodekTool(zly).handler(wejscie)
+    expect(w.status).toBe("INCOMPLETE")
+    expect(w.ostrzezenia).toEqual([KOMUNIKAT_PVGIS["PVGIS-ODRZUCIL-ZAPYTANIE"]])
+  })
+})
+
+describe("liczbaPaneliTool (M3/E4)", () => {
+  const wejscie = {
+    szerokoscGeograficzna: 52.23,
+    dlugoscGeograficzna: 21.01,
+    azymutDeg: 180,
+    nachylenieDeg: 35,
+    stelazRegulowany: false,
+    mocPaneluWp: 450,
+    wspolczynnikPr: 0.8,
+    zapotrzebowanieDoboweKwh: 5,
+    dodatkoweZimaKwhDzien: 0,
+    miesiaceGrzewcze: [],
+    limitMontazowy: 30,
+  }
+
+  it("zwraca 4 okresy, rekomendację w limicie i założenia jako tekst PL", async () => {
+    const json = odpowiedzPvgis()
+    const w = await utworzLiczbaPaneliTool((async () => new Response(JSON.stringify(json))) as unknown as typeof fetch).handler(wejscie)
+    expect(["VALID", "VALID_WITH_WARNINGS"]).toContain(w.status)
+    expect(w.warianty.map((x) => x.okres)).toEqual(["lato", "marPaz", "lutLis", "rok"])
+    expect(w.deficytMiesiecznyKwh).toHaveLength(12)
+    expect(w.zalozenia).toContain(t("pl", "LP-ZALOZENIE-LIMIT", { limit: 30 }))
+    bezBrakujacegoKlucza([...w.ostrzezenia, ...w.zalozenia])
+  })
+
+  it("PVGIS odrzuca → INCOMPLETE z komunikatem", async () => {
+    const zly = (async () => new Response("location over the sea", { status: 400 })) as unknown as typeof fetch
+    const w = await utworzLiczbaPaneliTool(zly).handler(wejscie)
     expect(w.status).toBe("INCOMPLETE")
     expect(w.ostrzezenia).toEqual([KOMUNIKAT_PVGIS["PVGIS-ODRZUCIL-ZAPYTANIE"]])
   })
