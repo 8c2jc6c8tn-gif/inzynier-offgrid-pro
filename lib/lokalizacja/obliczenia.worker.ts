@@ -1,10 +1,11 @@
 /**
- * Web Worker Modułu 1 — Ekran 3 (zacienienie: ~0,15 s na punkt, mapa cieplna to dziesiątki
+ * Web Worker Modułu 1 (i Modułu 3 — tabela napromieniowania kąt×miesiąc, Ekran 1) — Ekran 3 (zacienienie: ~0,15 s na punkt, mapa cieplna to dziesiątki
  * punktów) i Ekran 4 (przeszukiwanie orientacji na 8760 h: ~2,5 s) liczone poza wątkiem UI
  * (rejestr-decyzji.md D22). Worker tylko woła czyste kalkulatory z `lib/core` — zero własnej logiki.
  */
 import { calculateAnalizaZacienienia } from "@/lib/core/modules/lokalizacja/analiza-zacienienia/calculator"
 import { calculateOrientacjaPowierzchni } from "@/lib/core/modules/lokalizacja/orientacja-powierzchni/calculator"
+import { obliczTabeleNapromieniowania } from "@/lib/core/modules/pv/kat-i-azymut/calculator"
 import type { ZadanieWorkera, WiadomoscWorkera } from "./obliczenia-typy"
 
 // tsconfig ma typy DOM (window.postMessage wymaga targetOrigin), nie WebWorker — jawny typ zakresu workera.
@@ -20,7 +21,9 @@ addEventListener("message", (e: MessageEvent<ZadanieWorkera>) => {
       return w
     })
     wyslij({ id: z.id, typ: "zacienienie", wyniki })
-  } else {
+  } else if (z.typ === "orientacja") {
     wyslij({ id: z.id, typ: "orientacja", wynik: calculateOrientacjaPowierzchni(z.wejscie) })
+  } else {
+    wyslij({ id: z.id, typ: "tabela-napromieniowania", wynik: obliczTabeleNapromieniowania(z.wejscie) })
   }
 })

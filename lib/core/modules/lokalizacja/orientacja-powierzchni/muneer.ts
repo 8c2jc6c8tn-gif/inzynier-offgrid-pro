@@ -46,6 +46,8 @@ export type Godzina = {
   zachmurzone: boolean
   /** Rzeczywista chwila rekordu (miesiąc wyniku Ekranu 3). */
   czasUtcMs: number
+  /** Miesiąc UTC chwili rekordu (0 = styczeń) — liczony raz tutaj, nie w pętlach po orientacjach. */
+  miesiac: number
   dni: number
   dhi: number
   ghi: number
@@ -85,6 +87,7 @@ export function przygotujGodziny(lat: number, lon: number, dane: RekordGodzinowy
       kb,
       zachmurzone: ktPrim < PROG_ZACHMURZENIA_KT,
       czasUtcMs: r.czasUtcMs,
+      miesiac: new Date(r.czasUtcMs).getUTCMonth(),
       dni: r.dni,
       dhi: r.dhi,
       ghi: r.ghi,
@@ -175,6 +178,30 @@ export function natezenieGodziny(g: Godzina, pl: Plaszczyzna, zaPrzeszkoda: bool
 /** Czy słońce jest za przeszkodą wg profilu horyzontu (brak profilu → nie). */
 export function zaHoryzontem(g: Godzina, horyzont?: number[]): boolean {
   return horyzont !== undefined && g.sloncePonadHoryzontem && g.wysokoscDeg < katHoryzontuDeg(horyzont, g.azymutDeg)
+}
+
+/** Liczba miesięcy — indeks wyniku `napromieniowanieMiesieczne` = miesiąc UTC rekordu (0 = styczeń). */
+export const LICZBA_MIESIECY = 12
+
+/**
+ * Napromieniowanie płaszczyzny w każdym miesiącu [kWh/m²], opcjonalnie z profilem horyzontu
+ * przeszkód. Miesiąc = miesiąc UTC chwili rekordu (dla Polski różnica względem czasu lokalnego to
+ * godziny wokół północy, bez słońca — bez wpływu na sumy). Moduł 3 (Ekran 1 — rozkład
+ * miesięczny, optymalny kąt per miesiąc, D26). Ta sama funkcja natężenia co `napromieniowanie`
+ * niżej (suma roczna = suma miesięcy — test w Module 3); osobna pętla roczna zostaje, bo jest
+ * wywoływana tysiące razy przy przeszukiwaniu orientacji w Ekranie 4 M1.
+ */
+export function napromieniowanieMiesieczne(
+  godziny: Godzina[],
+  nachylenieDeg: number,
+  azymutDeg: number,
+  albedo: number,
+  horyzont?: number[],
+): number[] {
+  const pl = plaszczyzna(nachylenieDeg, azymutDeg, albedo)
+  const sumyWh = new Array<number>(LICZBA_MIESIECY).fill(0)
+  for (const g of godziny) sumyWh[g.miesiac]! += natezenieGodziny(g, pl, zaHoryzontem(g, horyzont)) * KROK_GODZIN
+  return sumyWh.map((wh) => wh / W_NA_KW)
 }
 
 /** Roczne napromieniowanie płaszczyzny [kWh/m²], opcjonalnie z profilem horyzontu przeszkód. */

@@ -64,6 +64,7 @@ export const KAFLE: KafelEntry[] = [
     opis: "Panele, stringi, konfiguracja instalacji fotowoltaicznej.",
     ikona: "☀️",
     ekrany: [
+      { href: "/kalkulatory/kat-i-azymut", label: "Kąt pochylenia i azymut" },
       { href: "/kalkulatory/konfigurator-stringow", label: "Konfigurator stringów" },
       { href: "/kalkulatory/czystosc-i-snieg", label: "Czystość i śnieg na panelach" },
       { href: "/kalkulatory/wplyw-temperatury", label: "Wpływ temperatury na wydajność" },

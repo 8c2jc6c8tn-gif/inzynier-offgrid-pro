@@ -1,4 +1,7 @@
-import { describe, expect, it } from "vitest"
+import { describe, expect, it, vi } from "vitest"
+import { parsujOdpowiedzTmy } from "@/lib/adapters/pvgis/tmy"
+import { calculateKatIAzymut, obliczTabeleNapromieniowania } from "@/lib/core/modules/pv/kat-i-azymut/calculator"
+import { KOMUNIKAT_PVGIS } from "@/lib/lokalizacja/dane-tmy"
 import { CALCULATOR_VERSION as WERSJA_E7 } from "@/lib/core/modules/pv/mikropekniecia-termiczne/calculator"
 import { t } from "@/lib/i18n/t"
 import { validateAiToolDefinition } from "../../types"
@@ -7,6 +10,7 @@ import { powlokiAntyrefleksyjneTool } from "../powloki-antyrefleksyjne-tool"
 import { technologiePaneliTool } from "../technologie-paneli-tool"
 import { mikroinwerteryVsCentralnyTool } from "../mikroinwertery-vs-centralny-tool"
 import { warunkiNadmorskiePylisteTool } from "../warunki-nadmorskie-pyliste-tool"
+import { katIAzymutTool, utworzKatIAzymutTool } from "../kat-i-azymut-tool"
 
 const bezBrakujacegoKlucza = (teksty: string[]) => {
   for (const tekst of teksty) expect(tekst.startsWith("⚠")).toBe(false)
@@ -14,7 +18,7 @@ const bezBrakujacegoKlucza = (teksty: string[]) => {
 
 describe("narzędzia AI Modułu 3 — kontrakt 9.3", () => {
   it("wszystkie: 'read', bez potwierdzenia, przechodzą validateAiToolDefinition", () => {
-    for (const n of [mikropeknieciaTermiczneTool, powlokiAntyrefleksyjneTool, technologiePaneliTool, mikroinwerteryVsCentralnyTool, warunkiNadmorskiePylisteTool]) {
+    for (const n of [mikropeknieciaTermiczneTool, powlokiAntyrefleksyjneTool, technologiePaneliTool, mikroinwerteryVsCentralnyTool, warunkiNadmorskiePylisteTool, katIAzymutTool]) {
       expect(n.operationType).toBe("read")
       expect(n.requiresConfirmation).toBe(false)
       expect(() => validateAiToolDefinition(n)).not.toThrow()
@@ -104,5 +108,72 @@ describe("warunkiNadmorskiePylisteTool (M3/E25)", () => {
     expect(wynik.niespelnioneReguly).toBe(4)
     expect(wynik.ostrzezenia).toContain(t("pl", "NADMORSKA-BRAK-IEC-61701"))
     bezBrakujacegoKlucza(wynik.ostrzezenia)
+  })
+})
+
+/** Syntetyczna odpowiedź PVGIS (jak w modul1-lokalizacja-tools.test.ts) — NIE dane klimatyczne. */
+function odpowiedzPvgis() {
+  const start = Date.UTC(2018, 0, 1)
+  const p = (n: number) => String(n).padStart(2, "0")
+  const tmy_hourly = Array.from({ length: 8760 }, (_, h) => {
+    const d = new Date(start + h * 3_600_000)
+    const poludnie = h % 24 === 11
+    return {
+      "time(UTC)": `${d.getUTCFullYear()}${p(d.getUTCMonth() + 1)}${p(d.getUTCDate())}:${p(d.getUTCHours())}00`,
+      "G(h)": poludnie ? 400 : 0,
+      "Gb(n)": poludnie ? 500 : 0,
+      "Gd(h)": poludnie ? 100 : 0,
+    }
+  })
+  return {
+    inputs: {
+      location: { latitude: 52.23, longitude: 21.01, elevation: 119, irradiance_time_offset: 0.18 },
+      meteo_data: { radiation_db: "PVGIS-SARAH3", meteo_db: "ERA5", year_min: 2005, year_max: 2023, use_horizon: true, horizon_db: "DEM-calculated" },
+    },
+    outputs: { months_selected: [], tmy_hourly },
+    meta: {},
+  }
+}
+
+describe("katIAzymutTool (M3/E1)", () => {
+  it("pobiera PVGIS po stronie serwera i deleguje do tabeli + kalkulatora; bez PR — bez kWh", async () => {
+    const json = odpowiedzPvgis()
+    const fetchImpl = vi.fn(async () => new Response(JSON.stringify(json))) as unknown as typeof fetch
+    const w = await utworzKatIAzymutTool(fetchImpl).handler({
+      szerokoscGeograficzna: 52.23,
+      dlugoscGeograficzna: 21.01,
+      azymutDeg: 180,
+      nachylenieDeg: 35,
+    })
+    const dane = parsujOdpowiedzTmy(json)
+    if (!dane.ok) throw new Error("oczekiwano poprawnych danych")
+    const tabela = obliczTabeleNapromieniowania({ szerokoscGeograficzna: 52.23, dlugoscGeograficzna: 21.01, daneGodzinowe: dane.dane.rekordy, azymutDeg: 180 })
+    const r = calculateKatIAzymut({ tabela: tabela.value, nachylenieDeg: 35, mocInstalacjiKwp: 0, wspolczynnikPr: null })
+    expect(w.status).toBe("VALID")
+    expect(w.napromieniowanieRoczneKwhM2).toBeCloseTo(r.value!.napromieniowanieRoczneKwhM2, 9)
+    expect(w.najlepszyKatWMiesiacu).toHaveLength(12)
+    expect(w.produkcjaRocznaKwh).toBeNull()
+    expect(w.ostrzezenia).toEqual([t("pl", "KAT-PRODUKCJA-WYMAGA-MOCY-I-PR")])
+    expect(w.zrodloDanych).toBe("PVGIS TMY (PVGIS-SARAH3, lata 2005–2023)")
+    bezBrakujacegoKlucza([...w.ostrzezenia, ...w.zalozenia])
+  })
+
+  it("z mocą i PR → produkcja kWh; PVGIS odrzuca → INCOMPLETE z komunikatem", async () => {
+    const json = odpowiedzPvgis()
+    const ok = (async () => new Response(JSON.stringify(json))) as unknown as typeof fetch
+    const w = await utworzKatIAzymutTool(ok).handler({
+      szerokoscGeograficzna: 52.23,
+      dlugoscGeograficzna: 21.01,
+      azymutDeg: 180,
+      nachylenieDeg: 35,
+      mocInstalacjiKwp: 4,
+      wspolczynnikPr: 0.8,
+    })
+    expect(w.produkcjaRocznaKwh).toBeCloseTo(4 * w.napromieniowanieRoczneKwhM2! * 0.8, 6)
+
+    const zly = (async () => new Response("location over the sea", { status: 400 })) as unknown as typeof fetch
+    const w2 = await utworzKatIAzymutTool(zly).handler({ szerokoscGeograficzna: 55, dlugoscGeograficzna: 18, azymutDeg: 180, nachylenieDeg: 35 })
+    expect(w2.status).toBe("INCOMPLETE")
+    expect(w2.ostrzezenia).toEqual([KOMUNIKAT_PVGIS["PVGIS-ODRZUCIL-ZAPYTANIE"]])
   })
 })

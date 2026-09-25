@@ -3,34 +3,29 @@
 import Link from "next/link"
 import { useMemo, useState } from "react"
 import { NawigacjaEkranu } from "@/components/nawigacja-ekranu"
+import { SekcjaDanychNaslonecznienia } from "@/components/lokalizacja/sekcja-dane-nasloniecznienia"
 import { Button } from "@/components/ui/button"
 import { Pole } from "@/components/ui/pole"
 import { StanLadowania, StanPusty } from "@/components/ui/stany"
 import { NaglowekEkranu } from "@/components/wzorce/naglowek-ekranu"
 import { WerdyktPanel, poziomZStatusu } from "@/components/werdykt"
 import { ZalozeniaLista } from "@/components/zalozenia-lista"
-import { useOdczytDraftu, usePersistedDraft } from "@/lib/adapters/use-persisted-draft"
+import { usePersistedDraft } from "@/lib/adapters/use-persisted-draft"
 import type { CalcResult } from "@/lib/core/calc-result"
 import type { OrientacjaPowierzchniResult } from "@/lib/core/modules/lokalizacja/orientacja-powierzchni/calculator"
-import { calculateSkanerDzialki } from "@/lib/core/modules/lokalizacja/skaner-dzialki/calculator"
 import { useTranslate } from "@/lib/i18n/language-context"
-import { zapisPasuje } from "@/lib/lokalizacja/dane-tmy"
 import {
   horyzontyPolaci,
-  KLUCZ_MODELU_DZIALKI,
   kierunek,
   liczba,
   MODEL_PUSTY,
   powierzchnieDoOceny,
   powierzchnieZModelu,
-  wejscieSkanera,
   type KorektaSeed,
-  type ModelDzialki,
   type PowierzchniaRecznaSeed,
 } from "@/lib/lokalizacja/model-dzialki"
-import { useDaneTmy } from "@/lib/lokalizacja/use-dane-tmy"
+import { useLokalizacjaProjektu } from "@/lib/lokalizacja/use-lokalizacja-projektu"
 import { useObliczeniaWTle } from "@/lib/lokalizacja/use-obliczenia-w-tle"
-import { useOnline } from "@/lib/lokalizacja/use-online"
 
 type StanE4 = {
   korekty: Record<string, KorektaSeed>
@@ -41,38 +36,20 @@ type StanE4 = {
 
 const STAN_POCZATKOWY: StanE4 = { korekty: {}, reczne: [], albedo: "" }
 
-/** Draft Ekranu 1 — źródło współrzędnych, gdy nie ma jeszcze modelu działki. */
-type DraftEkranu1 = { szerokosc: string; dlugosc: string }
-
 const f0 = (x: number) => x.toLocaleString("pl-PL", { maximumFractionDigits: 0 })
 const f1 = (x: number) => x.toLocaleString("pl-PL", { maximumFractionDigits: 1 })
-const f3 = (x: number) => x.toLocaleString("pl-PL", { maximumFractionDigits: 3 })
 
 export default function OrientacjaPowierzchniPage() {
   const t = useTranslate()
-  const online = useOnline()
-  const model = useOdczytDraftu<ModelDzialki>(KLUCZ_MODELU_DZIALKI)
-  const ekran1 = useOdczytDraftu<DraftEkranu1>("lokalizacja-i-klimat")
+  const { model, skaner, lokalizacja, dane, tmy, wczytano } = useLokalizacjaProjektu()
   const [stan, setStan] = usePersistedDraft<StanE4>("orientacja-powierzchni", STAN_POCZATKOWY)
-  const tmy = useDaneTmy()
   const { uruchom, stan: obliczenia } = useObliczeniaWTle()
   const [wynik, setWynik] = useState<{ klucz: string; r: CalcResult<OrientacjaPowierzchniResult> } | null>(null)
-
-  const skaner = useMemo(() => calculateSkanerDzialki(wejscieSkanera(model.dane ?? MODEL_PUSTY)), [model.dane])
-  const odn = skaner.value.odniesienie
-  const lat1 = liczba(ekran1.dane?.szerokosc ?? "")
-  const lon1 = liczba(ekran1.dane?.dlugosc ?? "")
-  const lokalizacja = odn
-    ? { szerokosc: odn.szerokosc, dlugosc: odn.dlugosc, zrodlo: "model działki (Ekran 2)" }
-    : lat1 !== undefined && lon1 !== undefined
-      ? { szerokosc: lat1, dlugosc: lon1, zrodlo: "Ekran 1 (Lokalizacja i dane klimatyczne)" }
-      : null
 
   const zModelu = useMemo(() => powierzchnieZModelu(skaner.value), [skaner.value])
   const powierzchnie = useMemo(() => powierzchnieDoOceny(zModelu, stan.korekty, stan.reczne), [zModelu, stan.korekty, stan.reczne])
   // Zacienienie przez przeszkody ze Skanera (TD15 punkt 2) — ten sam model geometrii co Ekran 3.
   const horyzonty = useMemo(() => horyzontyPolaci(model.dane ?? MODEL_PUSTY, skaner.value), [model.dane, skaner.value])
-  const dane = lokalizacja && zapisPasuje(tmy.zapis, lokalizacja.szerokosc, lokalizacja.dlugosc) ? tmy.zapis : null
 
   const klucz = JSON.stringify([lokalizacja?.szerokosc, lokalizacja?.dlugosc, dane?.pobrano, powierzchnie, stan.albedo, model.dane])
   const aktualny = wynik !== null && wynik.klucz === klucz
@@ -102,7 +79,7 @@ export default function OrientacjaPowierzchniPage() {
   const ustawReczna = (i: number, z: Partial<PowierzchniaRecznaSeed>) =>
     setStan((s) => ({ ...s, reczne: s.reczne.map((r, j) => (j === i ? { ...r, ...z } : r)) }))
 
-  if (!model.wczytano || !ekran1.wczytano || !tmy.wczytano) return <StanLadowania linie={6} />
+  if (!wczytano) return <StanLadowania linie={6} />
 
   const r = aktualny ? wynik.r : null
   const ranking = r ? [...r.value.powierzchnie].sort((a, b) => b.wskaznikProcent - a.wskaznikProcent) : []
@@ -116,48 +93,7 @@ export default function OrientacjaPowierzchniPage() {
         Ekran 4.
       </NaglowekEkranu>
 
-      <section className="flex flex-col gap-2 rounded-lg border p-4">
-        <h2 className="font-semibold">Dane nasłonecznienia</h2>
-        {!lokalizacja ? (
-          <StanPusty tytul="Brak lokalizacji — zbierz model działki (Ekran 2) albo wpisz współrzędne na Ekranie 1.">
-            <div className="flex gap-3">
-              <Link href="/kalkulatory/skaner-dzialki" className="underline">
-                → Ekran 2
-              </Link>
-              <Link href="/kalkulatory/lokalizacja-i-klimat" className="underline">
-                → Ekran 1
-              </Link>
-            </div>
-          </StanPusty>
-        ) : (
-          <>
-            <p className="text-small">
-              Lokalizacja: {f3(lokalizacja.szerokosc)}°, {f3(lokalizacja.dlugosc)}° — z: {lokalizacja.zrodlo}
-            </p>
-            {dane ? (
-              <p className="text-small text-muted-foreground">
-                Typowy rok meteorologiczny PVGIS ({dane.dane.meta.bazaPromieniowania}, lata {dane.dane.meta.rokOd}–{dane.dane.meta.rokDo}),
-                zapisany na urządzeniu {new Date(dane.pobrano).toLocaleDateString("pl-PL")} — działa offline.
-              </p>
-            ) : (
-              <p className="text-small text-muted-foreground">
-                Potrzebne godzinowe dane nasłonecznienia z PVGIS (Komisja Europejska) — pobierane raz, potem zapisane na
-                urządzeniu.
-              </p>
-            )}
-            <Button
-              variant={dane ? "outline" : "default"}
-              className="min-h-11"
-              disabled={tmy.pobiera || !online}
-              onClick={() => tmy.pobierz(lokalizacja.szerokosc, lokalizacja.dlugosc)}
-            >
-              {tmy.pobiera ? "Pobieram z PVGIS…" : dane ? "Pobierz ponownie" : "Pobierz dane nasłonecznienia (PVGIS)"}
-            </Button>
-            {!online && !dane && <p className="text-small">Brak połączenia — pobierz dane, gdy będziesz online.</p>}
-            {tmy.blad && <p className="text-small text-werdykt-blad-foreground">{tmy.blad}</p>}
-          </>
-        )}
-      </section>
+      <SekcjaDanychNaslonecznienia lokalizacja={lokalizacja} dane={dane} tmy={tmy} />
 
       <section className="flex flex-col gap-3">
         <h2 className="font-semibold">Powierzchnie</h2>

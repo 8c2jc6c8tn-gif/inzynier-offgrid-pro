@@ -6668,3 +6668,17 @@ w `docs/zrodla/norma-*/00-INDEKS.md` tylko notatka robocza (punkty, tablice, lic
 - **[25.09.2026] M3/E9 — D27:** tor siły wiatru z PN-EN 1991-1-4 kompletny (notatka robocza, sekcja
   "Tor obliczeń siły wiatru"); balast tylko jako `m = Fw/g` do czasu PN-EN 1990 (`docs/normy-brakujace.md`).
 
+**[25.09.2026] M3/E1 „Kąt pochylenia i azymut” — done.** Nowe wzorce do reużycia (15.19):
+- **Od 25.09: każdy ekran potrzebujący lokalizacji + PVGIS TMY używa `useLokalizacjaProjektu()`
+  (`lib/lokalizacja/use-lokalizacja-projektu.ts`) i `<SekcjaDanychNaslonecznienia>` — nie kopiuje logiki
+  z M1/E4** (E4 M1 przepięty na nie w tej samej zmianie).
+- **Tabela napromieniowania kąt×miesiąc** (`obliczTabeleNapromieniowania`, zadanie workera
+  `tabela-napromieniowania`) — wejście dla M3/E4 (liczba paneli, D25), E9 (krzywa produkcji, D27), E20.
+- `napromieniowanieMiesieczne` w `muneer.ts`; miesiąc liczony raz w `przygotujGodziny` (pole `miesiac`) —
+  pierwsza wersja (`new Date()` w pętli) spowolniła testy M1 ponad limit 5 s — pułapka wydajności.
+- **PVGIS niedostępny z kontenera** (polityka sieci: `re.jrc.ec.europa.eu` odrzucony przez proxy) —
+  test w przeglądarce przez wstrzyknięcie syntetycznego roku do IndexedDB (`offgrid-storage`/`kv`,
+  klucze `offgrid.pvgis-tmy.v1`, `offgrid.draft.lokalizacja-i-klimat`). Weryfikacja: tabela 169 ms,
+  optimum grudzień 77° / czerwiec 19° (dane syntetyczne bezchmurne — wartości kWh zawyżone, tylko
+  kontrola mechaniki). Pełny pakiet: 1261/1261 testów, build, audit, i18n-guard (109) — czyste.
+

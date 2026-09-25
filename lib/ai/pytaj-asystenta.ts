@@ -32,6 +32,7 @@ import { powlokiAntyrefleksyjneTool } from "./tools/powloki-antyrefleksyjne-tool
 import { technologiePaneliTool } from "./tools/technologie-paneli-tool"
 import { mikroinwerteryVsCentralnyTool } from "./tools/mikroinwertery-vs-centralny-tool"
 import { warunkiNadmorskiePylisteTool } from "./tools/warunki-nadmorskie-pyliste-tool"
+import { katIAzymutTool } from "./tools/kat-i-azymut-tool"
 import { toAnthropicTool } from "./to-anthropic-tool"
 import { validateAiToolDefinition, type AiToolDefinition } from "./types"
 
@@ -54,6 +55,7 @@ const NARZEDZIA: Array<AiToolDefinition<any, any>> = [
   technologiePaneliTool,
   mikroinwerteryVsCentralnyTool,
   warunkiNadmorskiePylisteTool,
+  katIAzymutTool,
 ]
 for (const narzedzie of NARZEDZIA) validateAiToolDefinition(narzedzie)
 

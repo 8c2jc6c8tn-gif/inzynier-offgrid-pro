@@ -891,4 +891,9 @@ export const dictionaryEn = {
   "WARUNKI-BRAK-ANTY-PID": "Proximity to the sea or high humidity increases the PID risk — choose panels with an anti-PID certificate.",
   "PYLISTA-RYSOWANIE-SZKLA": "Dusty location: dust and sand can scratch the panel glass — plan more frequent cleaning.",
   "WARUNKI-SRODOWISKOWE-SPELNIONE": "The panel selection meets the source rules for this location.",
+  "KAT-PR-POZA-ZAKRESEM": "The performance ratio PR must be greater than 0 and not greater than 1 (e.g. 0.8 = 80%).",
+  "KAT-PRODUKCJA-WYMAGA-MOCY-I-PR": "Showing the irradiation on the panels (kWh/m²). To see production in kWh, enter the system power and the performance ratio PR.",
+  "KAT-ZALOZENIE-TABELA-PVGIS": "Irradiation for azimuth {azymut}° and albedo {albedo}, computed for every tilt 0–90° in 1° steps from hourly PVGIS data (Muneer model, as in Module 1).",
+  "KAT-ZALOZENIE-ZAOKRAGLENIE": "Tilt rounded to the nearest whole degree: {kat}°.",
+  "KAT-ZALOZENIE-PR-UZYTKOWNIKA": "Production = power × irradiation / 1 kW/m² × PR, with PR = {pr} entered by you — the source does not give a PR value.",
 } satisfies Record<KluczTlumaczenia, string>

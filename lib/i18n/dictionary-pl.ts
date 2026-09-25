@@ -903,6 +903,11 @@ export const dictionaryPl = {
   "WARUNKI-BRAK-ANTY-PID": "Bliskość morza lub wysoka wilgotność podnosi ryzyko PID — wybierz panele z certyfikatem anty-PID.",
   "PYLISTA-RYSOWANIE-SZKLA": "Lokalizacja pylista: pył i piasek mogą rysować szkło paneli — zaplanuj częstsze czyszczenie.",
   "WARUNKI-SRODOWISKOWE-SPELNIONE": "Dobór paneli spełnia reguły źródła dla tej lokalizacji.",
+  "KAT-PR-POZA-ZAKRESEM": "Współczynnik wydajności PR musi być większy od 0 i nie większy niż 1 (np. 0,8 = 80%).",
+  "KAT-PRODUKCJA-WYMAGA-MOCY-I-PR": "Pokazuję nasłonecznienie paneli (kWh/m²). Żeby zobaczyć produkcję w kWh, wpisz moc instalacji i współczynnik wydajności PR.",
+  "KAT-ZALOZENIE-TABELA-PVGIS": "Nasłonecznienie dla azymutu {azymut}° i albedo {albedo}, policzone dla każdego kąta 0–90° co 1° z godzinowych danych PVGIS (model Muneera, jak w Module 1).",
+  "KAT-ZALOZENIE-ZAOKRAGLENIE": "Kąt zaokrąglony do najbliższego pełnego stopnia: {kat}°.",
+  "KAT-ZALOZENIE-PR-UZYTKOWNIKA": "Produkcja = moc × nasłonecznienie / 1 kW/m² × PR, przy PR = {pr} wpisanym przez Ciebie — źródło nie podaje wartości PR.",
 } as const
 
 export type KluczTlumaczenia = keyof typeof dictionaryPl
