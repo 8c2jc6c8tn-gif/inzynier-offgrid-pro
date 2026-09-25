@@ -59,8 +59,8 @@ Do 04.09.2026 rolę Biblii pełniły `ZASADY_APLIKACJI.md` (pełna) i `USTALENIA
 | — | `kontrakty-rdzenia.md` | A | 1.0 | Stabilny | `CalcResult<T>`, Status, Warning, warstwy, wzorzec echo — konkretne kontrakty tego projektu |
 | — | `docs/zrodla/` | C | — | Stabilny | Materiały źródłowe, niezmienione, tylko do odczytu (Filar C, B.5 GOD BOOK) — **już istniało** przed migracją |
 | — | `docs/rejestr-pokrycia.md` | B | — | Stabilny (rosnący) | Per-moduł/ekran: status, wzór, przykład, notatki — pełni rolę "osobnego pliku per moduł" (Część S poz. 9) — **już istniało** przed migracją, nie duplikowane w nowym formacie |
-| — | `mapa-wdrozenia.md` | C | 1.0 | Stabilny (rosnący) | M#, opisany/zaimplementowany/przetestowany, gotowość — zbudowana z `docs/rejestr-pokrycia.md` |
-| — | `backlog-poza-v1.md` | C | 1.0 | Stabilny (rosnący) | Świadomie odłożone/blocked — ekstrakcja z `docs/rejestr-pokrycia.md` i `docs/lista-do-zrobienia.md` |
+| — | `mapa-wdrozenia.md` | C | 1.3 | Stabilny (rosnący) | M#, opisany/zaimplementowany/przetestowany, gotowość — zbudowana z `docs/rejestr-pokrycia.md` |
+| — | `backlog-poza-v1.md` | C | 1.4 | Stabilny (rosnący) | Świadomie odłożone/blocked — ekstrakcja z `docs/rejestr-pokrycia.md` i `docs/lista-do-zrobienia.md` |
 | — | `dlug-techniczny.md` | C | 1.0 | Stabilny (rosnący) | Świadome uproszczenia kodu względem specyfikacji źródła |
 | — | `docs/lista-do-zrobienia.md` | C | — | Stabilny (rosnący) | Bieżąca lista zadań — **już istniało** przed migracją |
 | — | `docs/memory.md` | C | — | Stabilny (rosnący) | Żywy, szczegółowy log decyzji/pułapek — **już istniało**, zostaje główny dziennik roboczy (patrz rozróżnienie w `rejestr-decyzji.md`) |

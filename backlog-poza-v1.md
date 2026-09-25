@@ -1,6 +1,6 @@
 # Backlog poza v1 — Inżynier Offgrid Pro
 
-**Wersja:** 1.3 | **Filar:** C | **Data utworzenia:** 04.09.2026 | **Ostatnia aktualizacja:** 07.09.2026 | **Status:** Stabilny (rosnący)
+**Wersja:** 1.4 | **Filar:** C | **Data utworzenia:** 04.09.2026 | **Ostatnia aktualizacja:** 25.09.2026 | **Status:** Stabilny (rosnący)
 **Powiązane dokumenty:** `00_Biblia.md`, `docs/rejestr-pokrycia.md`, `docs/lista-do-zrobienia.md`, `mapa-wdrozenia.md`
 
 TL;DR: Rzeczy świadomie odłożone poza zakres pierwszej wersji — decyzje o skali/fazowaniu (N.2 GOD BOOK), zbierane tutaj przy audycie. **Nie to samo, co `docs/lista-do-zrobienia.md`** (bieżący stan pracy, inny rytm — patrz B.6 GOD BOOK). Dwie kategorie: (1) **⚠️ blocked** — ekran/funkcja sprawdzona i odrzucona jako niebuildowalna bez wymyślania danych, jawne uzasadnienie; (2) **⏳ poza zakresem v1** — świadomie odłożone całe obszary produktu (infrastruktura, płatności, i18n), nie kwestia brakujących danych.
@@ -68,6 +68,13 @@ Pełne wyliczenie per-funkcja nierozpoczęte (rozpoczęto pojedyncze buildowalne
 - **Wymóg RCD typu B po stronie AC** (§712.530.3.101) — brak ekranu.
 - **Etykieta ostrzegawcza PV na budynku** (§712.514, rysunek 712.514.101) — treść informacyjna/checklist, nie kalkulator; kandydat do ekranu montażowego (wzorzec E).
 
+### Moduł 3 — Instalacja PV (pełne wyliczenie pozostałych pozycji, 25.09.2026)
+
+[25.09.2026] ✅ DODANO — źródło: pełne wyliczenie M3 (`docs/rejestr-pokrycia.md`, sekcja "Moduł 3 — pełne wyliczenie pozostałych pozycji źródła").
+- **Ekran 9 — Optymalizator „Złotego Środka”** (2.17) — ⚠️ blocked częściowo: krzywa naporu wiatru w funkcji kąta wymaga PN-EN 1991-1-4 (brak w repo), źródło nie podaje wag łączenia trzech kryteriów. Krzywe produkcji (silnik M1) i śniegu (PN-EN 1991-1-3, `μ1(α)`) są liczalne. Czeka na decyzję właściciela projektu.
+- **Ekran 10 — Konstrukcja wsporcza (BOM)** (2.18) — ⚠️ blocked: wymaga mechanizmu BOM (§13.1) i bazy komponentów; źródło nie daje wzoru długości/liczby elementów konstrukcji.
+- **Ekran 19 — Degradacja paneli w czasie** (2.34) — ⚠️ blocked (decyzja właściciela projektu 25.09.2026): brak modelu łączonej degradacji LID/LETID/PID i tempa degradacji w źródle.
+
 ---
 
 ## Log zmian
@@ -78,3 +85,4 @@ Pełne wyliczenie per-funkcja nierozpoczęte (rozpoczęto pojedyncze buildowalne
 | 05.09.2026 | **Wynik audytu GOD BOOK Część N** (nie rutynowa integracja): skonsolidowano 4 pozycje z własnej sekcji "Znane luki do domknięcia" źródła (`Tresc_WSZYSTKIE_MODULY_scalone.md`), nigdzie dotąd nieodnotowane w tym pliku ani w `docs/rejestr-pokrycia.md`/`mapa-wdrozenia.md` — Moduł 6 Część 2A/2C/2D (alternatywne źródła ciepła, silnik czynników COP, silnik czynników zapotrzebowania) i Asystent głosowy (12.41, poza wzorcami A-H). Wersja 1.0→1.1. |
 | 05.09.2026 | **Wynik drugiego przejścia audytu Część N** (13 agentów równoległych, moduł po module): skorygowano błąd merytoryczny we wpisie Moduł 6/2C wyżej (COP błędnie przypisany do Części 2C); dodano wpis 5.42 (kolektor gruntowy, sprawdzone i odrzucone, dotąd tylko w `docs/memory.md`) do sekcji Blocked; doprecyzowano Moduł 5 — tylko Ekran 1 realnie zablokowany normą, 27/29 pozostałych ekranów niezależnych; dopisano warunek powrotu do A2/A5 (Moduł 11). Wersja 1.1→1.2. |
 | 07.09.2026 | **Wynik audytu GOD BOOK Część N (na żądanie właściciela projektu)**: plik nie był aktualizowany od 05.09.2026 mimo znaczącej pracy w międzyczasie. Poprawiono: wpis M5/Ekran 1 (zbudowany 06.09.2026, nie jest już blocked; skorygowana nazwa normy PN-IEC→PN-HD 60364-5-52), wpis M11/B5 (przeniesiony z `⚠️ Blocked` do zwykłego `todo` — odblokowany źródłowo tego samego dnia). Dodano nową sekcję M3 z pięcioma pozycjami świadomie poza zakresem dzisiejszej korekty `ochrona-stringow` wg HD 60364-7-712 (dioda blokująca, alternatywa kablowa, tabele SPD, RCD typu B, etykieta PV) — dotąd tylko w `docs/memory.md`/kodzie, nigdzie skonsolidowane. Wersja 1.2→1.3. |
+| 25.09.2026 | Dodano sekcję M3 (E9 częściowo, E10, E19 — blocked) z pełnego wyliczenia pozostałych pozycji M3. Wersja 1.3→1.4. |

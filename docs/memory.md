@@ -6581,3 +6581,33 @@ mirror żadnego pliku tego projektu) — commit źródła wprost potwierdza: *"i
 
 **Krok 4:** `update_trigger` na `trig_01892Z45ThAi2T56PJRjQQAh`, nowy `run_once_at` =
 2026-09-26T04:58:00Z (+18h).
+
+## Moduł 3 — pełne wyliczenie + start sesji budowy (25.09.2026)
+
+**Znalezisko (Dyrektywa #14, ta sama klasa co luka 1.19):** 17 z 30 pozycji `Tresc_Modul_3_PV_Ekrany.md`
+nie miało wiersza w `docs/rejestr-pokrycia.md` — sekcja "Moduł 3 — ekrany dodatkowe" z 04.09.2026
+zapowiadała pełne wyliczenie jako "osobny, nie rozpoczęty krok", audyt N (05.09) złapał tylko PID.
+Naprawione: nowa sekcja rejestru "Moduł 3 — pełne wyliczenie pozostałych pozycji źródła". Przy okazji
+`mapa-wdrozenia.md` M3/M5 skorygowane (M5 29/29 od 20.09, mapa stała na 4/29) — reszta mapy nadal
+z 07.09, pełna resynchronizacja dopisana do listy zadań. **Lekcja:** zapowiedź "pełne wyliczenie
+później" w rejestrze to dokładnie ten stan, którego #14 zakazuje — przy starcie pracy nad modułem
+najpierw grep nazw ekranów źródła w rejestrze, dopiero potem budowa.
+
+**Decyzje właściciela projektu (25.09.2026):**
+- **M3/E19 (degradacja paneli) — `⚠️ blocked`.** Źródło nie podaje modelu LID/LETID/PID; odrzucony
+  też model gwarancyjny z karty katalogowej.
+- **M3/E4 (liczba paneli) — zamiast 3 wariantów źródła drabinka okresów pokrycia** (propozycja:
+  cze–sie / kwi–wrz / mar–paź / lut–lis / cały rok; `N = max_m(E_zapotrz,m / E_panel,m)`, miesiąc
+  decydujący z danych lokalizacji). Szczegóły czekają na potwierdzenie — wtedy wpis D#.
+- **M3/E9 (Złoty środek) — czeka.** Ustalone w rozmowie: z 3 krzywych tylko produkcja (silnik M1) i
+  śnieg (PN-EN 1991-1-3 Tablica 5.2, `μ1 = 0,8` dla 0–30°, `0,8(60−α)/30` dla 30–60°, `0` od 60°) mają
+  wzór; wiatr(kąt) wymaga PN-EN 1991-1-4 (brak w repo — wzór E6 nie zawiera kąta); brak wag
+  łączenia. Przykład źródła "22° → −55% wiatru" niewyprowadzalny (rzut sin α: ok. −35%).
+
+**Pułapka merytoryczna do zapamiętania (M3/E15, dane 2.30):** "TOPCon +5–8%, HJT +8–12% uzysku vs
+PERC" — sprawność ogniwa to kWp z m², nie kWh z kWp. Różnica kWh/kWp wynika z γ, bifacjalności,
+słabego światła, degradacji. Pokazywać jako dane źródła z 🔎, nigdy jako mnożnik w obliczeniu
+(dotyczy też przyszłego Ekranu 27).
+
+**Przejście nasłonecznienie → produkcja (M3/E1, E4, E20, E27):** silnik M1/E4 zwraca kWh/m²; kWh
+wymaga PR instalacji — źródło go nie podaje → pole ręczne z podpowiedzią zakresu, bez domyślnego.
