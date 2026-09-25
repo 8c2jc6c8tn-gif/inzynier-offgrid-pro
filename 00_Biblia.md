@@ -53,7 +53,7 @@ Do 04.09.2026 rolę Biblii pełniły `ZASADY_APLIKACJI.md` (pełna) i `USTALENIA
 | 01 | `01_Zasady_Pracy_i_Konwencje.md` | C | 1.0 | Stabilny | Wyciąg operacyjny z GOD BOOK dla tego projektu |
 | 02 | `02_Dyrektywy_AI_Projektu.md` | C | 1.0 | Stabilny | Twarde reguły zachowania AI specyficzne dla domeny off-grid |
 | — | `zlote-zasady.md` | C | 1.0 | Stabilny | Kompas projektu — 4 filozofie + 14 zasad architektonicznych |
-| — | `rejestr-decyzji.md` | C | 1.7 | Stabilny | D1, D2, D3… decyzje strategiczne, ponumerowane, rosnące |
+| — | `rejestr-decyzji.md` | C | 1.8 | Stabilny | D1, D2, D3… decyzje strategiczne, ponumerowane, rosnące |
 | — | `slownik-pojec.md` | C | 1.0 | Stabilny | Terminy branżowe (SoC, DoD, MPPT, Voc, C-rate...) |
 | — | `wiedza-surowa.md` | C | 1.0 | Stabilny | Synteza materiałów źródłowych — wskaźnik do `docs/zrodla/`, nie duplikat |
 | — | `kontrakty-rdzenia.md` | A | 1.0 | Stabilny | `CalcResult<T>`, Status, Warning, warstwy, wzorzec echo — konkretne kontrakty tego projektu |

@@ -676,3 +676,21 @@ tylko zgodność istniejących wierszy"; (b) zdanie typu "pełne wyliczenie pó�
 traktować jako otwartą pozycję listy zadań z terminem (B.6/15.22), nie jako stan akceptowalny.
 
 Status: 🔎 nowe
+
+[25.09.2026] KATEGORIA: POMYSŁ NA REGUŁĘ — materiały źródłowe chronione prawem autorskim (normy PKN/IEC) a publiczne repozytorium
+
+Szczegóły: GOD BOOK B.5 każe trzymać każdy oryginalny materiał źródłowy w `docs/zrodla/` w
+niezmienionej formie. W tym projekcie repozytorium jest publiczne, a `docs/zrodla/` zawiera PDF-y norm
+PKN/IEC oraz `.md` z przepisaną treścią rozdziałów — dosłowne wykonanie B.5 publikuje materiały
+licencjonowane. Nowa norma (25.09.2026) miała dodatkowo nadruk licencji jednostanowiskowej z zakazem
+umieszczania w sieci i znak wodny z danymi osobowymi pobierającego. AI zatrzymało zapis i zapytało
+właściciela; oryginał został poza repo, w repo tylko notatka robocza z liczbami używanymi w kodzie.
+
+Dlaczego warto zgłosić do new-app-standards: każdy projekt rodziny liczący wg norm trafi na to samo.
+Propozycja do B.5: przed zapisem materiału do `docs/zrodla/` sprawdzić (1) widoczność repozytorium,
+(2) nadruki licencji/praw autorskich, (3) dane osobowe w znakach wodnych; dla materiału chronionego w
+repo publicznym — oryginał poza repo, w repo notatka robocza (numer punktu/tablicy + liczby używane w
+kodzie), z odnotowaniem, gdzie przechowywany jest oryginał. Przepisanie całości do `.md` nie jest
+obejściem — chroniona jest treść, nie format.
+
+Status: 🔎 nowe

@@ -6628,3 +6628,35 @@ wymaga PR instalacji — źródło go nie podaje → pole ręczne z podpowiedzi�
   6 nowych tras HTTP 200, interakcja na każdej, brak `⚠ [klucz]`; błędy konsoli tylko z
   `/_vercel/insights` (lokalnie nieobecny, niezwiązane). Poprawka po oględzinach: tabela E21 minWidth 480→320
   (na telefonie ukrywała kolumnę "Inwerter centralny").
+
+## Licencje norm w publicznym repozytorium (25.09.2026)
+
+**Problem (zgłoszony przez AI, do decyzji właściciela projektu):** repozytorium
+`inzynier-offgrid-pro` jest **publiczne** (sprawdzone 25.09.2026), a `docs/zrodla/` zawiera PDF-y norm
+chronionych prawem autorskim (np. PN-HD 60364-5-54 z nadrukiem "© Copyright by PKN") oraz pliki `.md`
+z przepisaną treścią rozdziałów (np. `norma-PN-EN-1991-1-3/01…05-*.md`). Norma PN-EN 1991-1-4
+dostarczona 25.09.2026 miała dodatkowo nadruk licencji jednostanowiskowej PKN ("kopiowanie i
+umieszczanie w sieci zabronione") i znak wodny serwisu z danymi osobowymi pobierającego — **ten PDF
+świadomie NIE trafił do repo**, w repo tylko notatka robocza z liczbami
+(`docs/zrodla/norma-PN-EN-1991-1-4/00-INDEKS.md`).
+
+**Stanowisko AI (nie porada prawna):** przepisanie całej normy do `.md` nie rozwiązuje problemu —
+prawo autorskie chroni treść, nie format pliku. Bezpieczne w publicznym repo: krótkie notatki
+własne — numer punktu/tablicy + liczby i wzory faktycznie używane w kodzie. Właściciel projektu:
+jeśli przepisanie nie jest dopuszczalne, istniejące pliki zostają w repo do pierwszych
+użytkowników/publikacji, potem oryginały na własny dysk. **Uwaga:** repo publiczne = już
+opublikowane — najprostsze zabezpieczenie teraz to zmiana widoczności repo na prywatne
+(Ustawienia GitHub). Zadanie z terminem "przed publikacją": `docs/lista-do-zrobienia.md`.
+**Zasada od 25.09.2026:** nowa norma z nadrukiem licencji/danymi osobowymi → oryginał poza repo,
+w `docs/zrodla/norma-*/00-INDEKS.md` tylko notatka robocza (punkty, tablice, liczby używane w kodzie).
+
+## Stelaż regulowany i norma wiatrowa — ustalenia (25.09.2026)
+
+- **Stelaż PV jako wiata jednospadowa (PN-EN 1991-1-4, Tablica 7.6)** — zaakceptowane przez
+  właściciela projektu; w aplikacji oznaczane jako założenie (praktyka inżynierska, nie zapis normy).
+- **Tablica 7.6 obejmuje tylko 0–30°**, 7.4.3 daje `cf = 1,80` dla płyty pionowej (90°). Przedział
+  30–90° niepokryty normą — nie interpolować (Dyrektywa #1).
+- **Śnieg w zakresie 0–30° nie różnicuje kątów:** `μ1 = 0,8` stałe (PN-EN 1991-1-3, Tablica 5.2) — w
+  tym przedziale "złoty środek" (M3/E9) to w praktyce wybór energia vs wiatr.
+- **Nowe wymaganie właściciela:** naziemny stelaż z ręcznie regulowanym kątem (zmiana kąta w ciągu
+  roku, zimą większy) — D26 w `rejestr-decyzji.md`.

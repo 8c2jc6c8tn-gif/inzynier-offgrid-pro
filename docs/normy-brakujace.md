@@ -28,7 +28,7 @@ wtedy zaktualizowane — naprawione teraz, przy okazji.)*
 
 [25.09.2026] ✅ DODANO — źródło: pełne wyliczenie Modułu 3 (sesja 25.09.2026).
 
-- **PN-EN 1991-1-4 (Eurokod 1 — oddziaływania wiatru)** — współczynniki siły/ciśnienia dla dachów
+- ✅ **[25.09.2026] POZYSKANA — patrz "Pozyskane (historia)".** ~~PN-EN 1991-1-4 (Eurokod 1 — oddziaływania wiatru)~~ — współczynniki siły/ciśnienia dla dachów
   wiat i paneli w zależności od kąta nachylenia. **Blokuje:** M3/E9 „Złoty środek” (krzywa naporu
   wiatru w funkcji kąta — wzór E6 nie zawiera kąta), M3/E6 (siła ssania i wymagany balast — dziś
   tylko `F=0,5ρv²ACd`), M3/E2 tryb „dach płaski/grunt” (balast). Ta sama rodzina co już
@@ -100,3 +100,8 @@ dostęp do oryginalnej prezentacji (nie konwersji), warto sprawdzić te konkretn
   przeniesiony do `docs/zrodla/norma-HD-60364-7-712/UNE-HD-60364-7-712-2017-pelny-tekst.pdf` przy
   audycie 07.09.2026 (wcześniej leżał luzem w `docs/zrodla/` pod nieopisową nazwą). Pełny opis:
   `docs/zrodla/norma-HD-60364-7-712/00-INDEKS.md` i `docs/zrodla/README.md`.
+- **[25.09.2026] PN-EN 1991-1-4:2008 + AC:2009 — Eurokod 1, oddziaływanie wiatru**, dostarczona przez
+  właściciela projektu (161 stron, z Załącznikiem krajowym NA). Oryginał poza repo (licencja PKN,
+  dane osobowe w znaku wodnym — `docs/memory.md` "Licencje norm w publicznym repozytorium").
+  Notatka robocza: `docs/zrodla/norma-PN-EN-1991-1-4/00-INDEKS.md`. Odblokowuje M3/E9 częściowo
+  (wiatr 0–30° i 90°), M3/E6 i E2 (balast) — do opracowania.
