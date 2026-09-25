@@ -34,6 +34,12 @@ wtedy zaktualizowane — naprawione teraz, przy okazji.)*
   tylko `F=0,5ρv²ACd`), M3/E2 tryb „dach płaski/grunt” (balast). Ta sama rodzina co już
   dostarczona PN-EN 1991-1-3 (śnieg).
 
+- **PN-EN 1990 (Eurokod — podstawy projektowania konstrukcji)** [25.09.2026] — częściowe
+  współczynniki bezpieczeństwa (obciążenie zmienne — wiatr, oddziaływanie stałe stabilizujące —
+  ciężar balastu). **Blokuje:** balast PROJEKTOWY w M3/E9 (D27), M3/E6, M3/E2 — bez niej aplikacja
+  pokazuje tylko masę równoważącą samą siłę wiatru. Potrzebny fragment: Załącznik A1 (tablice
+  wartości obliczeniowych oddziaływań) + Załącznik krajowy.
+
 ## 🔵 Spodziewane — zapowiedziane przez właściciela projektu
 
 *(pusta na razie)*

@@ -6660,3 +6660,11 @@ w `docs/zrodla/norma-*/00-INDEKS.md` tylko notatka robocza (punkty, tablice, lic
   tym przedziale "złoty środek" (M3/E9) to w praktyce wybór energia vs wiatr.
 - **Nowe wymaganie właściciela:** naziemny stelaż z ręcznie regulowanym kątem (zmiana kąta w ciągu
   roku, zimą większy) — D26 w `rejestr-decyzji.md`.
+- **[25.09.2026] Właściciel projektu wybrał plan B:** istniejące PDF-y/`.md` norm zostają w repo do
+  pierwszych użytkowników/publikacji, potem oryginały na jego dysk. Nowe normy: dalej notatki robocze
+  (`docs/zrodla/norma-*/00-INDEKS.md` — punkty, tablice, wzory i liczby używane w kodzie), żeby
+  kolejne sesje nie czytały 100+ stron od nowa. PDF PN-EN 1991-1-4 (dane osobowe w znaku wodnym)
+  nadal poza repo.
+- **[25.09.2026] M3/E9 — D27:** tor siły wiatru z PN-EN 1991-1-4 kompletny (notatka robocza, sekcja
+  "Tor obliczeń siły wiatru"); balast tylko jako `m = Fw/g` do czasu PN-EN 1990 (`docs/normy-brakujace.md`).
+

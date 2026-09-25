@@ -56,6 +56,37 @@ proporcje) — punkt 7.4.3 (2)–(3) w oryginale.
 A — wysokość nad poziomem morza [m]. Mapa stref: Rysunek NA.1 (w oryginale). Współczynnik
 kierunkowy — Tablica NA.2, sezonowy — NA.4 (w oryginale).
 
+### Tor obliczeń siły wiatru na stelaż (punkty 4.5, 5.3, 6.2 + NA)
+
+- **Siła:** `Fw = cscd · cf · qp(ze) · Aref` — wzór (5.3). `Aref` — powierzchnia odniesienia (dla
+  wiaty: powierzchnia dachu/paneli).
+- **Ciśnienie szczytowe:** `qp(z) = ce(z) · qb` — wzór (4.8); NA.8 dopuszcza `ce(z)` wg Tablicy NA.3.
+  `qb = qb,0` z Tablicy NA.1 (przy `cdir = 1,0` — wartość najbardziej niekorzystna z Tablicy NA.2 —
+  i `cseason = 1,0`, wartość zalecana w NA.4).
+- **Tablica NA.3 — współczynnik ekspozycji `ce(z)`** (z — wysokość nad terenem [m]; dla `z < zmin`
+  przyjmuje się `zmin` (4.3.2, wzór 4.4); dla `z > zmax` jak dla `zmax`):
+
+| Kategoria terenu | ce(z) | zmin [m] | zmax [m] |
+|---|---|---|---|
+| 0 (morze, brzeg otwarty na morze) | 3,0·(z/10)^0,17 | 1 | 200 |
+| I (jeziora, teren bez przeszkód) | 2,8·(z/10)^0,19 | 1 | 200 |
+| II (niska roślinność, pojedyncze przeszkody ≥ 20 wysokości od siebie) | 2,3·(z/10)^0,24 | 2 | 300 |
+| III (regularna zabudowa/roślinność, wsie, przedmieścia) | 1,9·(z/10)^0,26 | 5 | 400 |
+| IV (≥ 15% zabudowy o wysokości > 15 m) | 1,5·(z/10)^0,29 | 10 | 500 |
+
+  Opisy kategorii — skrót własny; pełne definicje: Tablica 4.1 i Załącznik A.1 (w oryginale).
+  Kategoria obowiązuje, gdy teren tej kategorii sięga pod wiatr na odległość ≥ 30 h (NA.7).
+- **Współczynnik konstrukcyjny:** `cscd = 1` dopuszczony dla budynków niższych niż 15 m (6.2 (1)a)
+  i elementów o częstotliwości drgań własnych > 5 Hz (6.2 (1)b). Stelaż PV nie jest budynkiem —
+  przyjęcie `cscd = 1` to założenie (niska, sztywna konstrukcja), jawnie oznaczane.
+- **Współczynnik kierunkowy `cdir`** (Tablica NA.2) — od 0,7 do 1,0 zależnie od sektora; bez
+  znajomości orientacji względem kierunków wiatru przyjmujemy 1,0 (najbardziej niekorzystne).
+
+**Czego ta norma NIE daje (potrzebne do kg balastu):** częściowych współczynników bezpieczeństwa
+(obciążenie wiatrem vs. stabilizujący ciężar balastu) — to **PN-EN 1990** (podstawy projektowania),
+brak w repo. Bez niej aplikacja może pokazać tylko masę równoważącą samą siłę (`m = Fw / g`), nie
+balast projektowy. Nie daje też współczynnika tarcia balastu o podłoże (przesuw).
+
 ## Znaczenie dla ekranów (stan 25.09.2026)
 
 - **M3/E9 „Złoty środek”** — krzywa wiatru w funkcji kąta tylko dla 0–30° (Tablica 7.6) + punkt
