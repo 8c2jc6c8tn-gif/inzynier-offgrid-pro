@@ -18,8 +18,10 @@ w przyszłości okaże się, że plik główny ma luki, można wrócić i zrobi�
 
 `803243456-Eurocod-0-Podstawy-Projektowania-Konstrukcji-PN-En-1990-2004-A.pdf` — 120 stron, w
 większości skan (strony 0-101 bez warstwy tekstowej), tylko strony ~102-119 (Załączniki) mają
-natywny tekst. **Pełny OCR (tesseract, pol+eng, 250 DPI) wykonany w tej sesji** — patrz
-[`01-tresc-ocr.txt`](01-tresc-ocr.txt). **Zastrzeżenie jakości identyczne jak przy innych skanach
+natywny tekst. **Pełny OCR (tesseract, pol+eng, 250 DPI) wykonany i dokończony w tej sesji** —
+[`01-tresc-ocr.txt`](01-tresc-ocr.txt) (~300 tys. znaków, tekst normy po polsku, spot-check
+spisu treści rozdziału 6.4 "Kombinacja oddziaływań" i współczynników częściowych potwierdza
+poprawne rozpoznanie struktury klauzul). **Zastrzeżenie jakości identyczne jak przy innych skanach
 w tym repo** (np. `norma-PN-HD-60364-5-52/00-INDEKS.md`): nagłówki klauzul czytelne, ale **żadna
 wartość liczbowa (współczynniki częściowe γ, kombinacje obciążeń, wartości ψ) nie została
 zweryfikowana wizualnie strona po stronie** — to tylko surowy wynik OCR, nie zweryfikowany. Przed
