@@ -1,0 +1,290 @@
+PN-82 B-02403 Temperatury obliczeniowe zewnętrzne
+Konstrukcje 2 (Politechnika Warszawska)
+Scan to open on Studocu
+Studocu is not sponsored or endorsed by any college or university
+PN-82 B-02403 Temperatury obliczeniowe zewnętrzne
+Konstrukcje 2 (Politechnika Warszawska)
+Scan to open on Studocu
+Studocu is not sponsored or endorsed by any college or university
+Downloaded by Dmitrij Szulga (tn67ktrggr@privaterelay.appleid.com)
+lOMoARcPSD|71595795
+
+
+UKD 697.132.2
+ 
+POLSKI KOMITET 
+NORMALIZACJI, 
+MIAR I JAKOŚCI
+P O L S K A    N O R M A
+PN-82
+B-02403
+Ogrzewnictwo
+Temperatury obliczeniowe 
+zewnętrzne
+Zamiast:
+PN-74/B-02403
+Grupa katalogowa
+0724
+Heating. Exteriors calculated 
+temperatures
+Chauffage. Températures 
+extérieurs de calcul
+Îňîďëĺíčĺ. Âíĺříőĺ ñŕń÷ĺňíőĺ ňĺěďĺñŕňóñő
+ 
+1. WSTĘP
+1.1. Przedmiot normy. Przedmiotem normy są temperatury obliczeniowe powietrza na zewnątrz budynków i w 
+przestrzeniach zamkniętych przylegających do pomieszczeń ogrzewanych, jakie naleŜy przyjmować przy obliczaniu 
+zapotrzebowania ciepła pomieszczeń ogrzewanych.
+1.2. Określenia. Przegroda zewnętrzna - przegroda, dla której temperatura powietrza po chłodniejszej stronie jest 
+równa temperaturze powietrza na zewnętrz budynku.
+2. TEMPERATURY OBLICZENIOWE ZEWNĘTRZNE
+2.1. Podział na strefy klimatyczne. Temperatury obliczeniowe zewnętrzne naleŜy przyjmować w zaleŜności od strefy 
+klimatycznej, w której połoŜony jest budynek. Podział Polski na strefy podany jest na mapie, umieszczonej w 
+załączniku. Miejscowości znajdujące się na pograniczu stref, których połoŜenie w jednej lub drugiej strefie nie jest 
+wyraźnie ustalone na mapie, naleŜy zaliczać do strefy bardziej niekorzystnej.
+2.2. Temperatury obliczeniowe powietrza na zewnątrz budynków naleŜy przyjmować wg tabl. 1.
+ 
+Tablica 1
+Strefa klimatyczna
+I
+II
+III
+IV
+V
+Temperatura obliczeniowa powietrza na zewnątrz 
+budynków, w °C
+-16
+-18
+-20
+-22
+-24
+ 
+Dla obiektów, które ze względu na technologię uŜytkowania nie podlegają wymaganiom wg PN-82/B-02020 dopuszcza 
+się przyjmowanie innych obliczeniowych temperatur powietrza na zewnątrz na podstawie odpowiedniego uzasadnienia.
+2.3. Temperatury obliczeniowe powietrza w przestrzeniach zamkniętych przylegających do pomieszczeń 
+ogrzewanych naleŜy przyjmować wg tabl. 2.
+ 
+Tablica 2
+Lp.
+Rodzaj przestrzeni zamkniętej
+Obliczeniowe temperatury przestrzeni 
+zamkniętych w strefie klimatycznej, °C
+I
+II
+III
+IV
+V
+PN-82/B-02403 Ogrzewnictwo Temperatury obliczeniowe zewnętrzne
+Powielanie dokumentu zabronione. Wszelkie prawa zastrzeŜone.
+INTEGRAM BUDOWNICTWO
+Strona 1
+Downloaded by Dmitrij Szulga (tn67ktrggr@privaterelay.appleid.com)
+lOMoARcPSD|71595795
+
+
+1
+2
+3
+4
+5
+6
+7
+1
+Poddasze nieogrzewane
+a) przy dachu krytym dachówką, płytami azbestowo-cementowymi 
+lub blachą, z nieszczelnym odeskowaniem, jeśli współczynnik 
+przenikania ciepła jest większy niŜ 5 W/m2K
+ 
+-14
+ 
+-16
+ 
+-18
+ 
+-20
+ 
+-22
+b) przy dachu krytym dachówką, płytami azbestowo-cementowymi, 
+papą lub blachą ze szczelnym odeskowaniem albo płytą 
+Ŝelbetową, jeśli współczynnik przenikania ciepła zawarty jest 
+między 2 i 5 W/m2K
+-11
+-13
+-15
+-17
+-19
+c) przy dachu ze szczelnym odeskowaniem lub płytą Ŝelbetową, 
+przy izolacji cieplnej, jeśli współczynnik przenikania ciepła jest 
+mniejszy od 2 W/m2K
+-6
+-8
+-10
+-12
+-14
+2
+Pomieszczenia nieogrzewane z oknami lub drzwiami zewnętrznymi
+ 
+a) z jedną przegrodą zewnętrzną
+-2
+-4
+-6
+-8
+-10
+b) z dwiema przegrodami zewnętrznymi
+-6
+-8
+-10
+-12
+-14
+c) z trzema przegrodami zewnętrznymi
+-10
+-12
+-14
+-16
+-18
+3
+Pomieszczenia nieogrzewane bez okien i drzwi zewnętrznych
+ 
+a) z jedną przegrodą zewnętrzną
++4
++2
+0
+-2
+-4
+b) z dwiema przegrodami zewnętrznymi
+-1
+-3
+-5
+-7
+-9
+c) z trzema przegrodami zewnętrznymi
+-6
+-8
+-10
+-12
+-14
+4
+Pomieszczenia ogrzewane w przylegającym (bez szczeliny 
+dylatacyjnej) budynku
+ 
+a) z centralnym ogrzewaniem
+temperatury obliczeniowe wg 
+PN-82/B-02402
+b) z indywidualnym ogrzewaniem np. z ogrzewaniem piecowym 
+lub akumulacyjnym elektrycznym
++12
++12
++12
++12
++12
+5
+Podziemia nieogrzewane przeznaczone na piwnice
+ 
+ 
+a) kotłownie i węzły cieplne
++20
++20
++20
++20
++20
+ 
+b) bez okien, lecz z przewodami c.o. w piwnicy
++12
++10
++8
++6
++4
+ 
+c) bez okien i bez przewodów c.o. w piwnicy
++8
++6
++4
++2
+0
+ 
+d) z oknami w ścianach zewnętrznych i przewodami c.o. w piwnicy
++4
++2
+0
+-1
+-2
+ 
+e) z oknami w ścianach zewnętrznych bez przewodów c.o. w 
+piwnicy
+0
+-2
+-4
+-5
+-6
+6
+Przejścia lub bramy przelotowe nieogrzewane, obustronnie 
+zamknięte
+-11
+-13
+-15
+-17
+-19
+7
+Przestrzenie podpodłogowe w budynkach niepodpiwniczonych
+0
+0
+0
+0
+0
+8
+Szczeliny dylatacyjne o szerokości do 5 cm, zamknięte i 
+wypełnione izolacją cieplną na głębokość co najmniej 20 cm
+o 5 °C ni Ŝsza niŜ w przylegających
+pomieszczeniach
+ 
+Temperatury nieogrzewanych przestrzeni zamkniętych nie objętych tablicą naleŜy ustalać na podstawie bilansu 
+cieplnego tych przestrzeni, obejmującego zyski i straty ciepła w wyniku przenikania przez przegrody z uwzględnieniem 
+wentylacji.
+PN-82/B-02403 Ogrzewnictwo Temperatury obliczeniowe zewnętrzne
+Powielanie dokumentu zabronione. Wszelkie prawa zastrzeŜone.
+INTEGRAM BUDOWNICTWO
+Strona 2
+Downloaded by Dmitrij Szulga (tn67ktrggr@privaterelay.appleid.com)
+lOMoARcPSD|71595795
+
+
+3. TEMPERATURY OBLICZENIOWE GRUNTU
+Temperaturę obliczeniową powierzchni gruntu, kontaktującej się z powietrzem na zewnątrz budynku naleŜy przyjmować 
+równą temperaturze tego powietrza.
+ 
+KONIEC
+ 
+ZAŁĄCZNIK
+ 
+PODZIAŁ POLSKI NA STREFY KLIMATYCZNE
+ 
+ 
+INFORMACJE DODATKOWE
+1. Instytucja opracowująca normę - Centralny Ośrodek Badawczo-Rozwojowy Techniki Instalacyjnej INSTAL.
+2. Istotne zmiany w stosunku do PN-74/B-02403
+a) podano wartości obliczeniowych temperatur powietrza na zewnątrz budynków w poszczególnych strefach 
+PN-82/B-02403 Ogrzewnictwo Temperatury obliczeniowe zewnętrzne
+Powielanie dokumentu zabronione. Wszelkie prawa zastrzeŜone.
+INTEGRAM BUDOWNICTWO
+Strona 3
+Downloaded by Dmitrij Szulga (tn67ktrggr@privaterelay.appleid.com)
+lOMoARcPSD|71595795
+
+
+klimatycznych oraz temperatur przestrzeni zamkniętych, zamiast mnoŜników do strefy podstawowej,
+b) skorygowano wartości temperatur obliczeniowych przestrzeni zamkniętych.
+3. Normy związane
+PN-82/B-02402 Ogrzewnictwo. Temperatury ogrzewanych pomieszczeń w budynkach
+PN-82/B-02020 Ochrona cieplna budynków. Wymagania i obliczenia
+4. Normy zagraniczne
+CSRS ČSN 06 0210 Vypocet tepelnych ztrat budov pri ustrednim vytapeni
+RFN DIN 4701 Heizungen. Regeln für die Berechnung des Wärmebedarfs von Gebäuden
+5. Wydanie 2 - stan aktualny: styczeń 1986; bez zmian.
+ 
+ 
+PN-82/B-02403 Ogrzewnictwo Temperatury obliczeniowe zewnętrzne
+Powielanie dokumentu zabronione. Wszelkie prawa zastrzeŜone.
+INTEGRAM BUDOWNICTWO
+Strona 4
+Downloaded by Dmitrij Szulga (tn67ktrggr@privaterelay.appleid.com)
+lOMoARcPSD|71595795

@@ -1,0 +1,2683 @@
+Dotyczy PN-EN 1990:2004 Eurokod Podstawy projektowania
+konstrukcj
+Budownictwo ogólne (Politechnika Warszawska)
+Scan to open on Studocu
+Studocu is not sponsored or endorsed by any college or university
+Dotyczy PN-EN 1990:2004 Eurokod Podstawy projektowania
+konstrukcj
+Budownictwo ogólne (Politechnika Warszawska)
+Scan to open on Studocu
+Studocu is not sponsored or endorsed by any college or university
+Downloaded by Dmitrij Szulga (tn67ktrggr@privaterelay.appleid.com)
+lOMoARcPSD|71595795
+
+
+Strona 1 z 13 
+ 
+EUROKODY 
+wprowadzanie do zbioru Polskich Norm – stan na 7 kwietnia 2021 r. 
+Lp. 
+EN 
+PN-EN 
+Uwagi 
+Odpowiedzialny 
+Komitet 
+Techniczny 
+numer EN 
+tytuł EN 
+uznanie – wersja angielska 
+tłumaczenie – wersja polska 
+NA1) 
+nr PN-EN 
+tytuł PN-EN 
+nr PN-EN 
+tytuł PN-EN 
+Eurokod: Podstawy projektowania konstrukcji 
+1 
+ 
+EN 1990:2002 
+ 
+EN1990:2002/ 
+A1:2005/AC:2008 
+ 
+EN1990:2002/ 
+A1:2005/AC:2010 
+Eurocode: Basis 
+of structural design 
+- 
+- 
+PN-EN 1990:2004 
+ 
+PN-EN 1990:2004/ 
+Ap1:2004 
+ 
+PN-EN 1990:2004/ 
+Ap2:2010 
+ 
+PN-EN 1990:2004/ 
+NA:2010 
+ 
+PN-EN 1990:2004/ 
+AC:2008 
+ 
+PN-EN 1990:2004/ 
+AC:2010 
+Eurokod: Podstawy 
+projektowania konstrukcji 
+tak 
+ 
+●2) 
+Ap1 – dotyczy korekty błędu  
+w Tablicy A.1.1 
+ 
+Ap2 – dotyczy norm 
+zastępowanych oraz innych 
+zmian formalnych 
+ 
+NA – bez postanowień krajowych 
+ 
+ 
+KT 102 
+ 
+EN 1990:2002/ 
+A1:2005  
+ 
+ 
+PN-EN 1990:2004/A1:2006  
+ 
+Eurokod: Podstawy 
+projektowania konstrukcji 
+(oryg.) 
+PN-EN 1990:2004/ 
+A1:2008 
+Eurokod: Podstawy 
+projektowania konstrukcji 
+tak 
+Zmiana A1 uzupełnia Eurokod 
+EN 1990:2002  
+o Załącznik A2 Zastosowanie 
+do mostów 
+ 
+ 
+ 
+ 
+KT 251 
+ 
+Eurokod 1: Oddziaływania na konstrukcje 
+2 
+EN 1991-1-1:2002 
+ 
+EN 1991-1-1:2002/ 
+AC:2009 
+Eurocode 1: Actions  
+on structures - Part 1-1: 
+General actions - 
+Densities, self-weight, 
+imposed loads for buildings 
+- 
+- 
+PN-EN 1991-1-1:2004 
+ 
+PN-EN 1991-1-1:2004/ 
+AC:2009  
+ 
+PN-EN 1991-1-1:2004/ 
+Ap1:2010 
+ 
+PN-EN 1991-1-1:2004/ 
+NA:2010 
+ 
+PN-EN 1991-1-1:2004/ 
+Ap2:2011 
+Eurokod 1: Oddziaływania  
+na konstrukcje - Część 1-1: 
+Oddziaływania ogólne -Ciężar 
+objętościowy, ciężar własny, 
+obciążenia użytkowe w 
+budynkach 
+tak 
+ 
+● 
+Ap1– dotyczy norm 
+zastępowanych oraz innych 
+zmian formalnych 
+ 
+Ap2– dotyczy korekty terminów w 
+Podrozdziałach: 1.1; 1.5; 5.1; 
+6.3.1.1; 6.3.1.2; 6.4; Załącznik A 
+oraz wartości liczbowych w 
+Załączniku A, Tablica A.8 
+ 
+ 
+ 
+KT 102 
+3 
+EN 1991-1-2:2002 
+ 
+EN 1991-1-2:2002/ 
+AC:2009 
+ 
+EN 1991-1-2:2002/ 
+AC:2012 
+ 
+EN 1991-1-2:2002/ 
+AC:2013 
+Eurocode 1: Actions  
+on structures - Part 1-2: 
+General actions - Actions 
+on structures exposed to 
+fire 
+PN-EN 1991-1-2:2005  
+ 
+ 
+Eurokod 1: Oddziaływania  
+na konstrukcje - Część 1-2: 
+Oddziaływania ogólne - 
+Oddziaływania na konstrukcje 
+w warunkach pożaru (oryg.) 
+PN-EN 1991-1-2:2006 
+ 
+PN-EN 1991-1-2:2006/ 
+AC:2009 
+ 
+PN-EN 1991-1-2:2006/ 
+Ap1:2010 
+ 
+PN-EN 1991-1-2:2006/ 
+NA:2010 
+ 
+Eurokod 1: Oddziaływania  
+na konstrukcje - Część 1-2: 
+Oddziaływania ogólne - 
+Oddziaływania na konstrukcje 
+w warunkach pożaru 
+tak 
+ 
+● 
+Ap1 – dotyczy zmian formalnych 
+ 
+Ap2 – koryguje zapisy w 
+Załączniku A - akapit (3), 
+objaśnienia pod Wzorem (A.2a) 
+ 
+wersja niemiecka EC  wycofana 
+KT 180 
+ 
+Downloaded by Dmitrij Szulga (tn67ktrggr@privaterelay.appleid.com)
+lOMoARcPSD|71595795
+
+
+Strona 2 z 13 
+ 
+PN-EN 1991-1-2:2006 
+/AC:2013-07 
+ 
+PN-EN 1991-1-2:2006/ 
+Ap2:2014-12 
+4 
+EN 1991-1-3:2003 
+ 
+EN 1991-1-3:2003/ 
+AC:2009 
+ 
+EN 1991-1-3:2003/ 
+A1:2015 
+Eurocode 1:  Actions  
+on structures - Part 1-3: 
+General actions - Snow 
+loads 
+PN-EN 1991-1-3:2005/ 
+A1:2015-10 
+- 
+PN-EN 1991-1-3:2005 
+ 
+PN-EN 1991-1-3:2005/ 
+AC:2009 
+ 
+PN-EN 1991-1-3:2005/ 
+Ap1:2010 
+ 
+PN-EN 1991-1-3:2005/ 
+NA:2010 
+Eurokod 1:  Oddziaływania na 
+konstrukcje - Część 1-3: 
+Oddziaływania ogólne - 
+Obciążenie śniegiem 
+tak 
+ 
+● 
+Ap1 – dotyczy norm 
+zastępowanych oraz innych 
+zmian formalnych 
+ 
+ 
+ 
+KT 102 
+ 
+5 
+EN 1991-1-4:2005 
+ 
+EN 1991-1-4:2005/ 
+A1:2010 
+ 
+EN 1991-1-4:2005/ 
+AC:2009 
+ 
+EN 1991-1-4:2005/ 
+AC:20103)  
+Eurocode 1: Actions  
+on structures - Part 1-4: 
+General actions - Wind 
+actions 
+PN-EN 1991-1-4:2005 
+ 
+PN-EN 1991-1-4:2008/ 
+A1:2010 
+ 
+ 
+Eurokod 1: Oddziaływania  
+na konstrukcje - Część 1-4: 
+Oddziaływania ogólne - 
+Oddziaływania wiatru (oryg.) 
+PN-EN 1991-1-4:2008 
+ 
+PN-EN 1991-1-4:2008/ 
+AC:2009 
+ 
+PN-EN 1991-1-4:2008/ 
+Ap1:2010 
+ 
+PN-EN 1991-1-4:2008/ 
+Ap2:2010 
+ 
+PN-EN 1991-1-4:2008/ 
+NA:2010 
+ 
+PN-EN 1991-1-4:2008/ 
+Ap3:2011-04 
+ 
+PN-EN 1991-1-4: 
+2008/A1:2010 
+Eurokod 1: Oddziaływania  
+na konstrukcje - Część 1-4: 
+Oddziaływania ogólne - 
+Oddziaływania wiatru 
+tak 
+ 
+● 
+Ap1 – dotyczy korekty wzorów w 
+załącznikach: A i E 
+ 
+Ap2– dotyczy norm 
+zastępowanych  
+ 
+Ap3– dotyczy korekty treści 
+akapitu (4) w Podrozdziale 5.3  
+ 
+wersja niemiecka EC  wycofana 
+ 
+KT 102 
+ 
+6 
+EN 1991-1-5:2003 
+ 
+EN 1991-1-5:2003/ 
+AC:2009 
+Eurocode 1: Actions  
+on structures - Part 1-5: 
+General actions - Thermal 
+actions 
+- 
+- 
+PN-EN 1991-1-5:2005 
+ 
+PN-EN 1991-1-5:2005/ 
+AC:2009 
+ 
+PN-EN 1991-1-5:2005/ 
+Ap1:2010 
+ 
+PN-EN 1991-1-5:2005/ 
+NA:2010 
+Eurokod 1: Oddziaływania  
+na konstrukcje - Część 1-5: 
+Oddziaływania ogólne - 
+Oddziaływania termiczne 
+tak 
+ 
+● 
+Ap1 – dotyczy norm 
+zastępowanych oraz innych 
+poprawek formalnych 
+ 
+ 
+ 
+KT 102 
+ 
+7 
+EN 1991-1-6:2005 
+ 
+EN 1991-1-6:2005/ 
+AC:2008 
+ 
+EN 1991-1-6:2005/ 
+AC:2012 
+ 
+EN 1991-1-6:2005/ 
+AC:2013 
+Eurocode 1: Actions  
+on structures Part 1-6: 
+General actions - Actions 
+during execution 
+PN-EN 1991-1-6:2005 
+ 
+ 
+Eurokod 1: Oddziaływania 
+na konstrukcje - Część 1-6: 
+Oddziaływania ogólne - 
+Oddziaływania podczas 
+wykonywania (oryg.) 
+PN-EN 1991-1-6:2007 
+ 
+PN-EN 1991-1-6:2007/ 
+AC:2008 
+ 
+PN-EN 1991-1-6:2007/ 
+Ap1:2010 
+ 
+PN-EN 1991-1-6:2007/ 
+NA:2010 
+ 
+PN-EN 1991-1-6:2007/ 
+AC:2013-07 
+Eurokod 1: Oddziaływania  
+na konstrukcje - Część 1-6: 
+Oddziaływania ogólne - 
+Oddziaływania w czasie 
+wykonywania konstrukcji 
+tak 
+ 
+● 
+Ap1 – dotyczy norm 
+zastępowanych 
+ 
+wersja niemiecka EC  wycofana 
+ 
+KT 102 
+ 
+Downloaded by Dmitrij Szulga (tn67ktrggr@privaterelay.appleid.com)
+lOMoARcPSD|71595795
+
+
+Strona 3 z 13 
+ 
+8 
+EN 1991-1-7:2006 
+ 
+EN 1991-1-7:2006/ 
+AC:2010 
+ 
+EN 1991-1-7:2006/ 
+A1:2014 
+Eurocode 1: Actions  
+on structures - Part 1-7: 
+General actions - 
+Accidental actions 
+PN-EN 1991-1-7:2006  
+ 
+PN-EN 1991-1-7:2008/ 
+A1:2014-07  
+ 
+ 
+Eurokod 1: Oddziaływania na 
+konstrukcje - Część 1-7: 
+Oddziaływania ogólne - 
+Oddziaływania wyjątkowe 
+(oryg.)    
+PN-EN 1991-1-7:2008 
+ 
+PN-EN 1991-1-7:2008/ 
+AC:2010 
+ 
+PN-EN 1991-1-7:2008/ 
+Ap1:2010 
+ 
+PN-EN 1991-1-7:2008/ 
+NA:2010 
+ 
+PN-EN 1991-1-7:2008/ 
+Ap2:2014-12 
+ 
+PN-EN 1991-1-7:2008/ 
+NA:2015-02 
+Eurokod 1: Oddziaływania na 
+konstrukcje - Część 1-7: 
+Oddziaływania ogólne - 
+Oddziaływania wyjątkowe 
+tak 
+ 
+● 
+Ap1 – dotyczy usunięcia 
+odsyłacza krajowego N6) jako 
+konsekwencji wprowadzenia 
+poprawki europejskiej  
+EN 1991-1-7:2006/AC:2010 
+ 
+Ap2 – zmieniono Załącznik 
+krajowy NA w zakresie NA.1 - 
+postanowienia dotyczące 3.4(1). 
+ 
+PN-EN 1991-1-7:2008/ 
+NA:2015-02 – opublikowany 
+oddzielnie, zmieniony Poprawką 
+Ap2 Załącznik NA 
+ 
+wersja niemiecka EC  wycofana 
+ 
+ 
+KT 102 
+ 
+9 
+EN 1991-2:2003 
+ 
+EN 1991-2:2003/ 
+AC:2010 
+Eurocode 1: Actions 
+ on structures - Part 2: 
+Traffic loads on bridges 
+PN-EN 1991-2:2005  
+ 
+Eurokod 1: Oddziaływania 
+na konstrukcje - Część 2: 
+Obciążenia ruchome mostów 
+(oryg.) 
+PN-EN 1991-2:2007 
+ 
+PN-EN 1991-2:2007/ 
+AC:2010 
+ 
+PN-EN 1991-2:2007/ 
+Ap1:2010 
+Eurokod 1: Oddziaływania  
+na konstrukcje - Część 2: 
+Obciążenia ruchome mostów 
+nie 
+Ap1 – dotyczy normy 
+zastępowanej 
+ 
+ 
+ 
+KT 251 
+10 
+EN 1991-3:2006 
+ 
+EN 1991-3:2006/ 
+AC:2012 
+Eurocode 1: Actions  
+on structures - Part 3: 
+Actions induced by cranes 
+and machinery 
+PN-EN 1991-3:2006  
+ 
+Eurokod 1:  Oddziaływania na 
+konstrukcje - Część 3: 
+Oddziaływania wywołane 
+przez pracę dźwigów 
+ i maszyn (oryg.) 
+PN-EN 1991-3:2009 
+ 
+PN-EN 1991-3:2009/ 
+Ap1:2010 
+ 
+PN-EN 1991-3:2009/ 
+NA:2010 
+ 
+PN-EN 1991-3:2009/ 
+AC:2014-11 
+Eurokod 1:  Oddziaływania na 
+konstrukcje - Część 3: 
+Oddziaływania wywołane 
+dźwignicami i maszynami 
+tak 
+ 
+● 
+Ap1 – dotyczy norm 
+zastępowanych 
+ 
+ 
+ 
+ 
+KT 102 
+ 
+11 
+EN 1991-4:2006 
+ 
+EN 1991-4:2006/ 
+AC:2012 
+Eurocode 1:  Actions 
+on structures - Part 4: Silos 
+and tanks 
+PN-EN 1991-4:2006  
+ 
+Eurokod 1: Oddziaływania 
+na konstrukcje - Część 4: 
+Silosy i zbiorniki (oryg.) 
+PN-EN 1991-4:2008 
+ 
+PN-EN 1991-4:2008/ 
+Ap1:2010 
+ 
+PN-EN 1991-4:2008/ 
+Ap2:2010 
+ 
+PN-EN 1991-4:2008/ 
+NA:2010 
+ 
+PN-EN 1991-4:2008/ 
+AC:2013-04 
+ 
+PN-EN 1991-4:2008/ 
+Ap3:2013-04 
+Eurokod 1:  Oddziaływania na 
+konstrukcje - Część 4: Silosy i 
+zbiorniki 
+tak 
+ 
+● 
+Ap1 – dotyczy korekty błędnie 
+wydrukowanego wzoru (5.6) 
+ 
+Ap2 – dotyczy norm 
+zastępowanych 
+ 
+Ap3 – dotyczy korekty zapisów i 
+wzorów w podrozdziałach: 5 i 6 
+oraz załącznikach: C i G. 
+ 
+ 
+ 
+ 
+KT 102 
+ 
+Eurokod 2: Projektowanie konstrukcji z betonu 
+12 
+EN 1992-1-1:2004 
+ 
+EN 1992-1-1:2004/ 
+AC:2008 
+ 
+Eurocode 2: Design  
+of concrete structures - 
+Part 1-1: General rules and 
+rules for buildings 
+PN-EN 1992-1-1:2005  
+ 
+ 
+ 
+ 
+Eurokod 2: Projektowanie 
+konstrukcji z betonu - Część 
+1-1: Reguły ogólne i reguły dla 
+budynków (oryg.) 
+PN-EN 1992-1-1:2008 
+z włączoną poprawką 
+EN 1992-1-1:2004/ 
+AC:2008 
+ 
+Eurokod 2: Projektowanie 
+konstrukcji z betonu - Część 
+1-1: Reguły ogólne i reguły dla 
+budynków 
+tak 
+ 
+● 
+Ap1 – dotyczy norm 
+zastępowanych 
+ 
+Ap2 – wprowadza zmiany 
+w Załączniku krajowym NA 
+ 
+Ap3 – wprowadza zmiany 
+w Załączniku krajowym NA 
+ 
+wersja niemiecka EC  wycofana 
+KT 213 
+Downloaded by Dmitrij Szulga (tn67ktrggr@privaterelay.appleid.com)
+lOMoARcPSD|71595795
+
+
+Strona 4 z 13 
+ 
+EN 1992-1-1:2004/ 
+AC:2010 
+ 
+EN 1992-1-1:2004/ 
+A1:2014 
+PN-EN 1992-1-1:2008/ 
+A1:2015-03 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+PN-EN 1992-1-1:2008/ 
+Ap1:2010 
+ 
+PN-EN 1992-1-1:2008/ 
+NA:2010 
+ 
+PN-EN 1992-1-1:2008/ 
+AC:2011 
+ 
+ 
+ 
+PN-EN 1992-1-1:2008/ 
+Ap2:2016-10 
+ 
+PN-EN 1992-1-1:2008/ 
+NA:2016-11 
+PN-EN 1992-1-1:2008/ 
+Ap3:2018-08 
+ 
+PN-EN 1992-1-1:2008/ 
+NA:2018-11 
+13 
+EN 1992-1-2:2004 
+ 
+EN 1992-1-2:2004/ 
+AC:2008 
+ 
+ 
+EN 1992-1-2:2004/ 
+A1:2019 
+ 
+ 
+ 
+Eurocode 2: Design 
+of concrete structures - 
+Part 1-2: General rules - 
+Structural fire design 
+PN-EN 1992-1-2:2005  
+ 
+PN-EN 1992-1-2:2008/ 
+A1:2019-07 
+ 
+ 
+Eurokod 2: Projektowanie 
+konstrukcji z betonu – 
+Część 1-2: Reguły ogólne - 
+Projektowanie na warunki 
+pożarowe (oryg.) 
+PN-EN 1992-1-2:2008 
+ 
+PN-EN 1992-1-2:2008/ 
+AC:2008 
+ 
+PN-EN 1992-1-2:2008/ 
+Ap1:2010  
+ 
+PN-EN 1992-1-2:2008/ 
+NA:2010  
+ 
+PN-EN 1992-1-2:2008/ 
+Ap2:2016-09 
+Eurokod 2: Projektowanie 
+konstrukcji z betonu – 
+Część 1-2: Reguły ogólne - 
+Projektowanie z uwagi na 
+warunki pożarowe 
+tak 
+ 
+● 
+Ap1 – dotyczy poprawek  
+w Tablicach:5.5; C.1; C.2; C.4 do 
+C.9 
+ 
+wersja niemiecka EC  wycofana 
+ 
+KT 213 
+14 
+EN 1992-2:2005 
+ 
+EN 1992-2:2005/ 
+AC:2008 
+Eurocode 2: Design  
+of concrete structures - 
+Concrete bridges - Design 
+and detailing rules 
+PN-EN 1992-2:2006  
+ 
+PN-EN 1992-2:2006/ 
+AC:2008 
+Eurokod 2: Projektowanie 
+konstrukcji z betonu – 
+Część 2: Mosty betonowe: 
+Projektowanie i szczegółowe 
+zasady (oryg.) 
+PN-EN 1992-2:2010 
+z włączoną poprawką 
+EN 1992-2:2005/ 
+AC:2008 
+ 
+PN-EN 1992-2:2010/ 
+Ap1:2010 
+Eurokod 2: Projektowanie 
+konstrukcji z betonu – 
+Część 2: Mosty z betonu - 
+Obliczanie i reguły 
+konstrukcyjne 
+tak 
+NA – bez postanowień krajowych 
+ 
+Ap1 – dotyczy norm 
+zastępowanych 
+ 
+Ap2 – wprowadza postanowienia 
+krajowe w Załączniku krajowym 
+NA 
+ 
+KT 251 
+PN-EN 1992-2:2010/ 
+Ap2:2016-10 
+ 
+PN-EN 1992-2:2010/ 
+NA:2016-11 
+15 
+EN 1992-3:2006 
+Eurocode 2: Design  
+of concrete structures - 
+Part 3: Liquid retaining and 
+containment structures 
+PN-EN 1992-3:2006 
+Eurokod 2:  Projektowanie 
+konstrukcji betonowych - 
+Część 3: Silosy i zbiorniki 
+(oryg.) 
+PN-EN 1992-3:2008 
+ 
+PN-EN 1992-3:2008/ 
+Ap1:2010 
+ 
+PN-EN 1992-3:2008/ 
+NA:2010 
+Eurokod 2:  Projektowanie 
+konstrukcji z betonu – 
+Część 3: Silosy i zbiorniki na 
+ciecze 
+tak 
+ 
+● 
+Ap1 – dotyczy norm 
+zastępowanych 
+ 
+wersja niemiecka EC  wycofana 
+ 
+ 
+KT 213 
+16 
+EN 1992-4:2018 
+ 
+ 
+Eurocode 2: Design of 
+concrete structures – 
+Part 4: Design of 
+fastenings for use in 
+concrete 
+PN-EN 1992-4:2018-11 
+ 
+ 
+Eurokod 2: Projektowanie 
+konstrukcji z betonu - 
+Część 4: Projektowanie 
+zamocowań do stosowania 
+w betonie 
+ 
+ 
+ 
+ 
+KT 213 
+ 
+Downloaded by Dmitrij Szulga (tn67ktrggr@privaterelay.appleid.com)
+lOMoARcPSD|71595795
+
+
+Strona 5 z 13 
+ 
+ 
+Eurokod 3: Projektowanie konstrukcji stalowych 
+17 
+EN 1993-1-1:2005 
+ 
+EN 1993-1-1:2005/ 
+AC:2005 
+ 
+EN 1993-1-1:2005/ 
+AC:2006 
+ 
+EN 1993-1-1:2005/ 
+AC:2009 
+ 
+EN 1993-1-1:2005/ 
+A1:2014 
+Eurocode 3: Design  
+of steel structures - Part 1-
+1: General rules and rules 
+for buildings 
+PN-EN 1993-1-1:2005  
+ 
+PN-EN 1993-1-1:2006/ 
+A1:2014-07 
+Eurokod 3: Projektowanie 
+konstrukcji stalowych - Część 
+1-1: Reguły ogólne i reguły 
+dotyczące budynków (oryg.) 
+PN-EN 1993-1-1:2006 
+z włączoną poprawką 
+EN 1993-1-1:2005/ 
+AC:2006 
+ 
+PN-EN 1993-1-1:2006/ 
+AC:2009 
+ 
+PN-EN 1993-1-1:2006/ 
+Ap1:2010 
+ 
+PN-EN 1993-1-1:2006/ 
+NA:2010 
+ 
+PN-EN 1993-1-1:2006/ 
+A1:2014-07 
+Eurokod 3: Projektowanie 
+konstrukcji stalowych - Część 
+1-1: Reguły ogólne i reguły dla 
+budynków 
+tak 
+ 
+● 
+Ap1 – dotyczy norm 
+zastępowanych 
+ 
+wersja niemiecka EC  wycofana 
+ 
+ 
+KT 128 
+18 
+EN 1993-1-2:2005 
+ 
+EN 1993-1-2:2005/ 
+AC:2005 
+ 
+EN 1993-1-2:2005/ 
+AC:2009 
+ 
+Eurocode 3: Design  
+of steel structures - Part 1-
+2: General rules - 
+Structural fire design 
+PN-EN 1993-1-2:2005  
+ 
+ 
+Eurokod 3: Projektowanie 
+konstrukcji stalowych - Część 
+1-2: Reguły ogólne - 
+Obliczanie konstrukcji  
+na wypadek pożaru (oryg.) 
+PN-EN 1993-1-2:2007 
+z włączoną poprawką 
+EN 1993-1-2:2005/ 
+AC:2005 
+ 
+PN-EN 1993-1-2:2007/ 
+Ap1:2009 
+ 
+PN-EN 1993-1-2:2007/ 
+AC:2009 
+ 
+PN-EN 1993-1-2:2007/ 
+NA:2010 
+Eurokod 3: Projektowanie 
+konstrukcji stalowych - Część 
+1-2: Reguły ogólne - 
+Obliczanie konstrukcji z uwagi 
+na warunki pożarowe 
+tak 
+ 
+● 
+Ap1 – dotyczy uzupełnienia 
+punktu 4.2.3.5 wzorami na  
+μLT  oraz ky 
+ 
+ 
+wersja niemiecka EC  wycofana 
+ 
+KT 128 
+19 
+EN 1993-1-3:2006 
+ 
+EN 1993-1-3:2006/ 
+AC:2009 
+ 
+EN 1993-1-3:2006/ 
+AC:2009 
+Eurocode 3: Design  
+of steel structures - Part 1-
+3: General rules - 
+Supplementary rules for 
+cold-formed members and 
+sheeting 
+PN-EN 1993-1-3:2006  
+ 
+ 
+ 
+Eurokod 3: Projektowanie 
+konstrukcji stalowych - Część 
+1-3: Reguły ogólne - Reguły 
+uzupełniające dla konstrukcji z 
+kształtowników i blach 
+profilowanych na zimno 
+(oryg.) 
+PN-EN 1993-1-3:2008 
+ 
+PN-EN 1993-1-3:2008/ 
+AC: 2009 
+ 
+PN-EN 1993-1-3:2008/ 
+AC:2009 
+ 
+PN-EN 1993-1-3:2008/ 
+Ap1:2010 
+ 
+PN-EN 1993-1-3:2008/ 
+NA:2010 
+Eurokod 3: Projektowanie 
+konstrukcji stalowych - Część 
+1-3: Reguły ogólne - Reguły 
+uzupełniające dla konstrukcji z 
+kształtowników i blach 
+profilowanych na zimno 
+tak 
+ 
+● 
+Ap1 – dotyczy norm 
+zastępowanych 
+ 
+wersja niemiecka EC  wycofana 
+ 
+KT 128 
+20 
+EN 1993-1-4:2006 
+ 
+EN 1993-1-4:2006/ 
+A1:2015 
+ 
+EN 1993-1-4:2006/ 
+A2:2020 
+Eurocode 3: Design 
+of steel structures - Part 1-
+4: General rules - 
+Supplementary rules for 
+stainless steels 
+PN-EN 1993-1-4:2006  
+ 
+PN-EN 1993-1-4:2007/ 
+A1:2015-08 
+ 
+prPN-EN 1993-1-4:2007/A2E 
+Eurokod 3: Projektowanie 
+konstrukcji stalowych - Część 
+1-4: Reguły ogólne - Reguły 
+uzupełniające dla konstrukcji 
+ze stali nierdzewnych (oryg.) 
+PN-EN 1993-1-4:2007 
+ 
+PN-EN 1993-1-4:2007/ 
+Ap1:2010 
+ 
+PN-EN 1993-1-4:2007/ 
+NA:2010 
+Eurokod 3 - Projektowanie 
+konstrukcji stalowych - Część 
+1-4: Reguły ogólne - Reguły 
+uzupełniające dla konstrukcji 
+ze stali nierdzewnych 
+tak 
+ 
+● 
+Ap1 – dotyczy norm 
+zastępowanych 
+ 
+ 
+KT 128 
+21 
+EN 1993-1-5:2006 
+ 
+EN 1993-1-5:2006/ 
+AC:2009 
+Eurocode 3: Design  
+of steel structures - Part 1-
+5: Plated structural 
+elements 
+PN-EN 1993-1-5:2006  
+ 
+PN-EN 1993-1-5:2008/ 
+A1:2017-07 
+Eurokod 3:  Projektowanie 
+konstrukcji stalowych - Część 
+1-5: Blachownice (oryg.) 
+PN-EN 1993-1-5:2008 
+ 
+PN-EN 1993-1-5:2008/ 
+AC:2009 
+Eurokod 3: Projektowanie 
+konstrukcji stalowych - Część 
+1-5: Blachownice 
+tak 
+ 
+● 
+Ap1 – dotyczy norm 
+zastępowanych 
+ 
+wersja niemiecka EC  wycofana 
+ 
+KT 128 
+Downloaded by Dmitrij Szulga (tn67ktrggr@privaterelay.appleid.com)
+lOMoARcPSD|71595795
+
+
+Strona 6 z 13 
+ 
+EN 1993-1-5:2006/ 
+A1:2017 
+ 
+EN 1993-1-5:2006/ 
+A2:2019 
+ 
+PN-EN 1993-1-5:2008/ 
+A2:2019-09 
+ 
+ 
+PN-EN 1993-1-5:2008/ 
+Ap1:2010 
+ 
+PN-EN 1993-1-5:2008/ 
+NA:2010 
+22 
+EN 1993-1-6:2007 
+ 
+ 
+EN 1993-1-6:2007/ 
+AC:2009 
+ 
+EN 1993-1-6:2007/ 
+A1:2017 
+Eurocode 3: Design  
+of steel structures - Part 1-
+6: Strength and Stability of 
+Shell Structures 
+PN-EN 1993-1-6:2007  
+ 
+PN-EN 1993-1-6:2009/ 
+A1:2017-07 
+ 
+Eurokod 3:  Projektowanie 
+konstrukcji stalowych - Część 
+1-6: Wytrzymałość  
+i stateczność konstrukcji 
+powłokowych (oryg.) 
+PN-EN 1993-1-6:2009 
+z włączoną poprawką 
+EN 1993-1-6:2007/ 
+AC:2009 
+ 
+PN-EN 1993-1-6:2009/ 
+Ap1:2010 
+ 
+PN-EN 1993-1-6:2009/ 
+NA:2010 
+Eurokod 3:  Projektowanie 
+konstrukcji stalowych - Część 
+1-6: Wytrzymałość 
+i stateczność konstrukcji 
+powłokowych 
+tak 
+ 
+● 
+Ap1 – dotyczy norm 
+zastępowanych 
+ 
+wersja niemiecka EC  wycofana 
+ 
+KT 128 
+23 
+EN 1993-1-7:2007 
+ 
+EN 1993-1-7:2007/ 
+AC:2009 
+Eurocode 3: Design  
+of steel structures - Part 1-
+7: Plated structures subject 
+to out of plane loading 
+PN-EN 1993-1-7:2007  
+ 
+ 
+Eurokod 3:  Projektowanie 
+konstrukcji stalowych - Część 
+1-7: Wytrzymałość  
+i stateczność blachownic 
+powierzchniowych przy 
+obciążeniach poprzecznych 
+(oryg.) 
+PN-EN 1993-1-7:2008 
+ 
+PN-EN 1993-1-7:2008/ 
+AC:2009 
+ 
+PN-EN 1993-1-7:2008/ 
+Ap1:2010 
+ 
+PN-EN 1993-1-7:2008/ 
+NA:2010 
+Eurokod 3: Projektowanie 
+konstrukcji stalowych - Część 
+1-7: Konstrukcje płytowe 
+tak 
+ 
+● 
+Ap1 – dotyczy norm 
+zastępowanych 
+ 
+wersja niemiecka EC  wycofana 
+ 
+KT 128 
+24 
+EN 1993-1-8:2005 
+ 
+EN 1993-1-8:2005/ 
+AC:2005 
+ 
+EN 1993-1-8:2005/ 
+AC:2009 
+Eurocode 3: Design  
+of steel structures - Part 1-
+8: Design of joints 
+PN-EN 1993-1-8:2005  
+Eurokod 3: Projektowanie 
+konstrukcji stalowych - Część 
+1-8: Projektowanie węzłów 
+(oryg.) 
+PN-EN 1993-1-8:2006 
+z włączoną poprawką 
+EN 1993-1-8:2005/ 
+AC:2005 
+ 
+PN-EN 1993-1-8:2006/ 
+AC:2009 
+ 
+PN-EN 1993-1-8:2006/ 
+Ap1:2010 
+ 
+PN-EN 1993-1-8:2006/ 
+NA:2010 
+ 
+PN-EN 1993-1-8:2006/ 
+Ap2:20114) 
+ 
+PN-EN 1993-1-8:2006/ 
+NA:2011 
+Eurokod 3: Projektowanie 
+konstrukcji stalowych - Część 
+1-8: Projektowanie węzłów 
+tak 
+ 
+● 
+Ap1 – dotyczy norm 
+zastępowanych 
+ 
+Ap2 – dotyczy również zmian w 
+Załączniku krajowym NA 
+(rozszerzono postanowienia 
+krajowe) 
+ 
+wersja niemiecka EC  wycofana 
+ 
+KT 128 
+25 
+EN 1993-1-9:2005 
+ 
+EN 1993-1-9:2005/ 
+AC:2005 
+ 
+EN 1993-1-9:2005/ 
+AC:2009 
+Eurocode 3: Design  
+of steel structures - Part 1-
+9: Fatigue 
+PN-EN 1993-1-9:2005 
+ 
+ 
+Eurokod 3: Projektowanie 
+konstrukcji stalowych - Część 
+1-9: Zmęczenie (oryg.) 
+PN-EN 1993-1-9:2007 
+z włączoną poprawką 
+EN 1993-1-9:2005/ 
+AC:2005 
+ 
+PN-EN 1993-1-9:2007/ 
+AC:2009 
+ 
+PN-EN 1993-1-9:2007/ 
+Ap1:2010 
+ 
+ 
+Eurokod 3: Projektowanie 
+konstrukcji stalowych - Część 
+1-9: Zmęczenie 
+tak 
+ 
+● 
+Ap1 – dotyczy norm 
+zastępowanych 
+ 
+wersja niemiecka EC  wycofana 
+ 
+KT 128 
+Downloaded by Dmitrij Szulga (tn67ktrggr@privaterelay.appleid.com)
+lOMoARcPSD|71595795
+
+
+Strona 7 z 13 
+ 
+PN-EN 1993-1-9:2007/ 
+NA:2010 
+26 
+EN 1993-1-10:2005 
+ 
+EN 1993-1-10:2005/ 
+AC:2005 
+ 
+EN 1993-1-10:2005/ 
+AC:2009 
+Eurocode 3: Design  
+of steel structures - Part 1-
+10: Material toughness and 
+through-thickness 
+properties 
+PN-EN 1993-1-10:2005  
+Eurokod 3: Projektowanie 
+konstrukcji stalowych - Część 
+1-10: Udarność i ciągliwość 
+międzywarstwowa materiału 
+(oryg.) 
+PN-EN 1993-1-10:2007 
+z włączoną poprawką 
+EN 1993-1-10:2005/ 
+AC:2005 
+ 
+PN-EN 1993-1-10:2007/ 
+AC:2009 
+ 
+PN-EN 1993-1-10:2007/ 
+Ap1:2010 
+ 
+PN-EN 1993-1-10:2007/ 
+NA:2010 
+Eurokod 3: Projektowanie 
+konstrukcji stalowych - Część 
+1-10: Dobór stali ze względu 
+na odporność na kruche 
+pękanie i ciągliwość 
+międzywarstwową 
+tak 
+ 
+● 
+Ap1 – dotyczy norm 
+zastępowanych 
+ 
+ 
+ 
+KT 128 
+27 
+EN 1993-1-11:2006 
+ 
+EN 1993-1-11:2006/ 
+AC:2009 
+Eurocode 3: Design  
+of steel structures – Part 1-
+11: Design of structures 
+with tension components 
+PN-EN 1993-1-11:2006  
+ 
+Eurokod 3:  Projektowanie 
+konstrukcji stalowych - Część 
+1-11: Konstrukcje cięgnowe 
+(oryg.) 
+PN-EN 1993-1-11:2008 
+ 
+ERRATA 
+ 
+PN-EN 1993-1-11:2008/ 
+AC:2009 
+ 
+PN-EN 1993-1-11:2008/ 
+Ap1:2010 
+ 
+PN-EN 1993-1-11:2008/ 
+NA:2010 
+Eurokod 3: Projektowanie 
+konstrukcji stalowych - Część 
+1-11: Konstrukcje cięgnowe 
+tak 
+ 
+● 
+ERRATA – dotyczy korekty 
+zapisów w nagłówku Tablicy 2.2 
+ 
+Ap1 – dotyczy norm 
+zastępowanych 
+ 
+ 
+KT 128 
+28 
+EN 1993-1-12:2007 
+ 
+EN 1993-1-12:2007/ 
+AC:2009 
+Eurocode 3: Design  
+of steel structures - Part 1-
+12: Additional rules for the 
+extension of EN 1993 up to 
+steel grades S 700 
+PN-EN 1993-1-12:2007  
+ 
+Eurokod 3: Projektowanie 
+konstrukcji stalowych - Część 
+1-12: Dodatkowe reguły 
+stosowania EN 1993 
+uwzględniające wyższe 
+gatunki stali z S700 włącznie 
+(oryg.) 
+PN-EN 1993-1-12:2008 
+ 
+PN-EN 1993-1-12:2008/ 
+AC:2009 
+ 
+PN-EN 1993-1-12:2008/ 
+Ap1:2010 
+ 
+PN-EN 1993-1-12:2008/ 
+NA:2010 
+Eurokod 3: Projektowanie 
+konstrukcji stalowych - Część 
+1-12: Reguły dodatkowe 
+rozszerzające zakres 
+stosowania EN 1993 o gatunki 
+stali wysokiej wytrzymałości 
+do S700 włącznie 
+tak 
+ 
+● 
+Ap1 – dotyczy norm 
+zastępowanych 
+ 
+ 
+ 
+KT 128 
+29 
+EN 1993-2:2006 
+ 
+EN 1993-2:2006/ 
+AC:2009 
+Eurocode 3: Design  
+of steel structures - Part 2: 
+Steel Bridges 
+PN-EN 1993-2:2006  
+ 
+Eurokod 3: Projektowanie 
+konstrukcji stalowych - Część 
+2: Mosty stalowe (oryg.) 
+PN-EN 1993-2:2010 
+z włączoną poprawką 
+EN 1993-2:2006/ 
+AC:2009 
+ 
+PN-EN 1993-2:2010/ 
+Ap1:2010 
+ 
+Eurokod 3: Projektowanie 
+konstrukcji stalowych - Część 
+2: Mosty stalowe 
+tak 
+ 
+NA – bez postanowień krajowych 
+ 
+Ap1 – dotyczy norm 
+zastępowanych 
+ 
+ 
+ 
+KT 251 
+30 
+EN 1993-3-1:2006 
+ 
+EN 1993-3-1:2006/ 
+AC:2009 
+Eurocode 3: Design  
+of steel structures - Part 3-
+1: Towers, masts and 
+chimneys - Towers and 
+masts 
+PN-EN 1993-3-1:2006  
+ 
+ 
+Eurokod 3: Projektowanie 
+konstrukcji stalowych - Część 
+3 -1: Wieże, maszty i kominy - 
+Wieże i maszty (oryg.) 
+PN-EN 1993-3-1:2008 
+ 
+PN-EN 1993-3-1:2008/ 
+Ap1:2009 
+ 
+PN-EN 1993-3-1:2008/ 
+AC:2009 
+ 
+PN-EN 1993-3-1:2008/ 
+Ap2:2010 
+ 
+Eurokod 3: Projektowanie 
+konstrukcji stalowych - Część 
+3-1: Wieże, maszty i kominy - 
+Wieże i maszty 
+tak 
+ 
+● 
+Ap1 – dotyczy korekty zapisów w 
+Tablicy G.2 (b) 
+ 
+Ap2 – dotyczy norm 
+zastępowanych 
+ 
+wersja niemiecka EC  wycofana 
+KT 128 
+Downloaded by Dmitrij Szulga (tn67ktrggr@privaterelay.appleid.com)
+lOMoARcPSD|71595795
+
+
+Strona 8 z 13 
+ 
+PN-EN 1993-3-1:2008/ 
+NA:2010 
+31 
+EN 1993-3-2:2006 
+Eurocode 3: Design  
+of steel structures - Part 3-
+2: Towers, masts and 
+chimneys - Chimneys 
+PN-EN 1993-3-2:2006  
+. 
+Eurokod 3: Projektowanie 
+konstrukcji stalowych - Część 
+3 -2: Wieże, maszty i kominy – 
+Kominy (oryg.) 
+PN-EN 1993-3-2:2008 
+ 
+PN-EN 1993-3-2:2008/ 
+Ap1:2010 
+ 
+PN-EN 1993-3-2:2008/ 
+NA:2010 
+Eurokod 3: Projektowanie 
+konstrukcji stalowych - Część 
+3-2: Wieże, maszty i kominy - 
+Kominy 
+tak 
+ 
+● 
+Ap1 – dotyczy norm 
+zastępowanych 
+ 
+ 
+ 
+KT 128 
+32 
+EN 1993-4-1:2007 
+ 
+EN 1993-4-1:2007/ 
+AC:2009 
+ 
+EN 1993-4-1:2007/ 
+A1:2017 
+Eurocode 3: Design  
+of steel structures - Part 4-
+1: Silos 
+PN-EN 1993-4-1:2007  
+ 
+PN-EN 1993-4-1:2009/ 
+A1:2017-08E 
+Eurokod 3: Projektowanie 
+konstrukcji stalowych - Część 
+4-1: Silosy (oryg.) 
+PN-EN 1993-4-1:2009 
+z włączoną poprawką 
+EN 1993-4-1:2007/ 
+AC:2009 
+ 
+PN-EN 1993-4-1:2009/ 
+Ap1:2010 
+ 
+PN-EN 1993-4-1:2009/ 
+NA:2010 
+Eurokod 3: Projektowanie 
+konstrukcji stalowych - Część 
+4-1: Silosy 
+tak 
+ 
+● 
+Ap1 – dotyczy norm 
+zastępowanych 
+ 
+wersja niemiecka EC  wycofana 
+ 
+KT 128 
+33 
+EN 1993-4-2:2007 
+ 
+EN 1993-4-2:2007/ 
+AC:2009 
+ 
+EN 1993-4-2:2007/ 
+A1:2017 
+Eurocode 3: Design  
+of steel structures - Part 4-
+2: Tanks 
+PN-EN 1993-4-2:2007  
+ 
+PN-EN 1993-4-2:2009/ 
+A1:2017-08E 
+ 
+Eurokod 3: Projektowanie 
+konstrukcji stalowych - Część 
+4-2: Zbiorniki (oryg.) 
+PN-EN 1993-4-2:2009 
+z włączoną poprawką 
+EN 1993-4-2:2007/ 
+AC:2009 
+ 
+PN-EN 1993-4-2:2009/ 
+Ap1:2010 
+ 
+PN-EN 1993-4-2:2009/ 
+NA:2010 
+Eurokod 3: Projektowanie 
+konstrukcji stalowych - Część 
+4-2: Zbiorniki 
+tak 
+ 
+● 
+Ap1 – dotyczy norm 
+zastępowanych 
+ 
+ 
+KT 128 
+34 
+EN 1993-4-3:2007 
+ 
+EN 1993-4-3:2007/ 
+AC:2009 
+Eurocode 3: Design  
+of steel structures - Part 4-
+3: Pipelines 
+PN-EN 1993-4-3:2007  
+ 
+Eurokod 3: Projektowanie 
+konstrukcji stalowych - Część 
+4-3: Rurociągi (oryg.) 
+PN-EN 1993-4-3:2008 
+ 
+PN-EN 1993-4-3:2008/ 
+AC:2009 
+ 
+PN-EN 1993-4-3:2008/ 
+NA:2010 
+Eurokod 3: Projektowanie 
+konstrukcji stalowych - Część 
+4-3: Rurociągi 
+tak 
+ 
+● 
+ 
+ 
+KT 128 
+35 
+EN 1993-5:2007 
+ 
+EN 1993-5:2007/ 
+AC:2009 
+Eurocode 3: Design  
+of steel structures - Part 5: 
+Piling 
+PN-EN 1993-5:2007 
+ 
+ 
+Eurokod 3: Projektowanie 
+konstrukcji stalowych - Część 
+5: Palowanie i grodze (oryg.) 
+PN-EN 1993-5:2009 
+z włączoną poprawką 
+EN 1993-5:2007/ 
+AC:2009 
+ 
+PN-EN 1993-5:2009/ 
+NA:2010 
+Eurokod 3: Projektowanie 
+konstrukcji stalowych - Część 
+5: Palowanie i ścianki 
+szczelne 
+tak 
+ 
+● 
+wersja niemiecka EC  wycofana 
+KT 128 
+36 
+EN 1993-6:2007 
+ 
+EN 1993-6:2007/ 
+AC:2009 
+Eurocode 3: Design  
+of steel structures - Part 6: 
+Crane supporting 
+structures 
+PN-EN 1993-6:2007  
+ 
+ 
+ 
+Eurokod 3: Projektowanie 
+konstrukcji stalowych - Część 
+6: Konstrukcje wsporcze 
+suwnic (oryg.) 
+PN-EN 1993-6:2009 
+ 
+PN-EN 1993-6:2009/ 
+AC:2009 
+ 
+PN-EN 1993-6:2009/ 
+Ap1:2010 
+ 
+PN-EN 1993-6:2009/ 
+NA:2010 
+ 
+ 
+Eurokod 3: Projektowanie 
+konstrukcji stalowych - Część 
+6: Konstrukcje wsporcze 
+dźwignic 
+tak 
+ 
+● 
+Ap1 – dotyczy norm 
+zastępowanych 
+ 
+wersja niemiecka EC  wycofana 
+ 
+KT 128 
+Downloaded by Dmitrij Szulga (tn67ktrggr@privaterelay.appleid.com)
+lOMoARcPSD|71595795
+
+
+Strona 9 z 13 
+ 
+PN-EN 1993-6:2009/ 
+Ap2:2019-11P 
+ 
+ 
+Eurokod 4: Projektowanie zespolonych konstrukcji stalowo-betonowych 
+37 
+EN 1994-1-1:2004 
+ 
+EN 1994-1-1:2004/ 
+AC:2009 
+Eurocode 4: Design  
+of composite steel  
+and concrete structures - 
+Part 1-1: General rules and 
+rules for buildings 
+PN-EN 1994-1-1:2005  
+ 
+Eurokod 4: Projektowanie 
+konstrukcji zespolonych 
+stalowo-betonowych – 
+Część 1-1: Reguły ogólne 
+i reguły dla budynków (oryg.) 
+PN-EN 1994-1-1:2008 
+ 
+PN-EN 1994-1-1:2008/ 
+AC:2009 
+ 
+PN-EN 1994-1-1:2008/ 
+Ap1:2010 
+ 
+PN-EN 1994-1-1:2008/ 
+NA:2010 
+Eurokod 4: Projektowanie 
+zespolonych konstrukcji 
+stalowo-betonowych – 
+Część 1-1: Reguły ogólne 
+i reguły dla budynków 
+tak 
+ 
+● 
+Ap1 – dotyczy norm 
+zastępowanych 
+ 
+ 
+ 
+KT 213 
+38 
+EN 1994-1-2:2005 
+ 
+EN 1994-1-2:2005/ 
+AC:2008 
+ 
+EN 1994-1-2:2005/ 
+A1:2014 
+Eurocode 4: Design  
+of composite steel  
+and concrete structures - 
+Part 1-2: General rules - 
+Structural fire design 
+PN-EN 1994-1-2:2005  
+ 
+PN-EN 1994-1-2:2008/ 
+A1:2014-06 
+Eurokod 4: Projektowanie 
+konstrukcji stalowo-
+betonowych - Część 1-2: 
+Reguły ogólne - Projektowanie 
+na warunki pożarowe (oryg.) 
+PN-EN 1994-1-2:2008 
+z włączoną poprawką 
+EN 1994-1-2:2005/ 
+AC:2008 
+ 
+PN-EN 1994-1-2:2008/ 
+NA:2010 
+Eurokod 4: Projektowanie 
+konstrukcji stalowo-
+betonowych - Część 1-2: 
+Reguły ogólne - Projektowanie 
+z uwagi na warunki pożarowe 
+tak 
+ 
+● 
+ 
+ 
+KT 213 
+39 
+EN 1994-2:2005 
+ 
+EN 1994-2:2005/ 
+AC:2008 
+Eurocode 4: Design  
+of composite steel  
+and concrete structures - 
+Part 2: General rules and 
+rules for bridges 
+PN-EN 1994-2:2006  
+ 
+PN-EN 1994-2:2006/ 
+AC:2008 
+Eurokod 4: Projektowanie 
+konstrukcji zespolonych 
+stalowo-betonowych – 
+Część 2: Reguły ogólne 
+i reguły dla mostów (oryg.) 
+PN-EN 1994-2:2010 
+z włączoną poprawką 
+EN 1994-2:2005/ 
+AC:2008 
+ 
+PN-EN 1994-2:2010/ 
+Ap1:2010 
+Eurokod 4: Projektowanie 
+konstrukcji zespolonych 
+stalowo-betonowych – 
+Część 2: Reguły ogólne 
+i reguły dla mostów 
+tak 
+NA – bez postanowień krajowych 
+ 
+Ap1 – dotyczy norm 
+zastępowanych oraz innych 
+zmian formalnych 
+ 
+ 
+ 
+KT 251 
+Eurokod 5: Projektowanie konstrukcji drewnianych 
+40 
+EN 1995-1-1:2004 
+ 
+EN 1995-1-1:2004/ 
+AC:2006 
+ 
+EN 1995-1-1:2004/ 
+A1:2008 
+ 
+EN 1995-1-1:2004/ 
+A2:2014 
+Eurocode 5: Design  
+of timber structures - Part 
+1-1: General - Common 
+rules and rules  
+for buildings 
+PN-EN 1995-1-1:2005  
+ 
+PN-EN 1995-1-1:2005/ 
+A1:2008 
+ 
+PN-EN 1995-1-1:2010/ 
+A2:2014-07 
+Eurokod 5: Projektowanie 
+konstrukcji drewnianych - 
+Część 1-1: Zasady ogólne  
+i zasady dla budynków (oryg.) 
+PN-EN 1995-1-1:2010 
+z włączoną poprawką  
+EN 1995-1-1:2004/ 
+AC:2006 
+oraz zmianą 
+EN 1995-1-1:2004/ 
+A1:2008 
+ 
+PN-EN 1995-1-1:2010/ 
+NA:2010 
+Eurokod 5 : Projektowanie 
+konstrukcji drewnianych - 
+Część 1-1: Postanowienia 
+ogólne - Reguły ogólne 
+i reguły dotyczące budynków 
+tak 
+ 
+● 
+ 
+KT 215 
+41 
+EN 1995-1-2:2004 
+ 
+EN 1995-1-2:2004/ 
+AC:2006 
+ 
+EN 1995-1-2:2004/ 
+AC:2009 
+Eurocode 5: Design  
+of timber structures - Part 
+1-2: General - Structural 
+fire design 
+PN-EN 1995-1-2:2005  
+ 
+Eurokod 5: Projektowanie 
+konstrukcji drewnianych - 
+Część 1-2: Odporność na 
+działanie ognia (oryg.) 
+PN-EN 1995-1-2:2008 
+ 
+PN-EN 1995-1-2:2008/ 
+AC:2009 
+ 
+PN-EN 1995-1-2:2008/ 
+NA:2010 
+Eurokod 5: Projektowanie 
+konstrukcji drewnianych - 
+Część 1-2: Postanowienia 
+ogólne - Projektowanie 
+konstrukcji z uwagi na warunki 
+pożarowe 
+tak 
+ 
+● 
+ 
+ 
+KT 215 
+42 
+EN 1995-2:2004 
+Eurocode 5: Design  
+of timber structures - Part 
+2: Bridges 
+PN-EN 1995-2:2005  
+ 
+Eurokod 5: Projektowanie 
+konstrukcji drewnianych - 
+Część 2: Mosty (oryg.) 
+PN-EN 1995-2:2007 
+ 
+PN-EN 1995-2:2007/ 
+Ap1:2010 
+Eurokod 5: Projektowanie 
+konstrukcji drewnianych - 
+Część 2: Mosty 
+nie 
+Ap1 – dotyczy norm 
+zastępowanych 
+ 
+ 
+ 
+KT 251 
+Downloaded by Dmitrij Szulga (tn67ktrggr@privaterelay.appleid.com)
+lOMoARcPSD|71595795
+
+
+Strona 10 z 13 
+ 
+ 
+Eurokod 6: Projektowanie konstrukcji murowych 
+43 
+EN 1996-1-1:2005 
+ 
+EN 1996-1-1:2005/ 
+AC:2009 
+ 
+EN 1996-1-1:2005 
++A1:2012 
+ 
+Eurocode 6: Design  
+of masonry structures - 
+Part 1-1: General rules  
+for reinforced  
+and unreinforced masonry 
+structures 
+PN-EN 1996-1-1:2006 
+ 
+PN-EN 1996-1-1 
++A1:2013-05 
+ 
+PN-EN 1996-1-1+A1: 
+2013-05/Ap1:2013-11 
+ 
+PN-EN 1996-1-1+A1: 
+2013-05/Ap2:2014-09 
+ 
+PN-EN 1996-1-1+A1:2013-
+05/NA:2014-10 
+Eurokod 6: Projektowanie 
+konstrukcji murowych - Część 
+1-1: Reguły ogólne dla 
+zbrojonych i niezbrojonych 
+konstrukcji murowych (oryg.) 
+PN-EN 1996-1-1:2010 
+z włączoną poprawką 
+EN 1996-1-1:2005/ 
+AC:2009 
+ 
+PN-EN 1996-1-1:2010/ 
+Ap1:2010 
+ 
+PN-EN 1996-1-1:2010/ 
+NA:2010 
+ 
+PN-EN 1996-1-1 
++A1:2013-05 
+ 
+PN-EN 1996-1-1+A1: 
+2013-05/NA:2014-03 
+ 
+PN-EN 1996-1-1+A1: 
+2013-05/Ap2:2014-09 
+ 
+ 
+PN-EN 1996-1-1+A1: 
+2013-05/Ap3:2016-04 
+Eurokod 6: Projektowanie 
+konstrukcji murowych - Część 
+1-1: Reguły ogólne dla 
+zbrojonych i niezbrojonych 
+konstrukcji murowych 
+ 
+ 
+tak 
+ 
+● 
+Ap1 – koryguje zapisy w 
+Przedmowie krajowej oraz podaje 
+treść zmienionego Załącznika 
+krajowego NA. 
+ 
+Ap2 – w Załączniku krajowym NA, 
+Tablica NA.5, zmienia się wartość 
+współczynnika K dla silikatów 
+Grupy 1i zaprawy do cienkich 
+spoin z 0,55 na 0,60. 
+ 
+Uwaga: w związku 
+z zastąpieniem normy EN 
+1996-1-1:2005 wersją 
+skonsolidowaną EN 1996-
+1-1:2005+A1:2012 został 
+również zmieniony 
+załącznik Krajowy NA w 
+wersji polskojęzycznej oraz 
+wydany oddzielnie 
+ 
+ 
+ 
+ 
+ 
+ 
+KT 252 
+ 
+44 
+EN 1996-1-2:2005 
+ 
+EN 1996-1-2:2005/ 
+AC:2010 
+Eurocode 6: Design  
+of masonry structures - 
+Part 1-2: General rules - 
+Structural fire design 
+PN-EN 1996-1-2:2005  
+ 
+Eurokod 6: Projektowanie 
+konstrukcji murowych - Część 
+1-2: Reguły ogólne - 
+Projektowanie konstrukcji  
+na wypadek pożaru (oryg.) 
+PN-EN 1996-1-2:2010 
+ 
+PN-EN 1996-1-2:2010/ 
+NA:2010 
+ 
+PN-EN 1996-1-2:2010/ 
+AC:2011 
+Eurokod 6: Projektowanie 
+konstrukcji murowych - Część 
+1-2: Reguły ogólne - 
+Projektowanie z uwagi  
+na warunki pożarowe 
+tak 
+ 
+● 
+ 
+ 
+KT 252 
+45 
+EN 1996-2:2006 
+ 
+EN 1996-2:2006/ 
+AC:2009 
+Eurocode 6: Design 
+ of masonry structures - 
+Part 2: Design 
+considerations, selection of 
+materials and execution of 
+masonry 
+PN-EN 1996-2:2006  
+ 
+Eurokod 6: Projektowanie 
+konstrukcji murowych - Część 
+2: Uwarunkowania 
+projektowe, dobór materiałów i 
+wykonawstwo konstrukcji 
+murowych (oryg.) 
+PN-EN 1996-2:2010 
+z włączoną poprawką 
+EN 1996-2:2006/ 
+AC:2009 
+ 
+PN-EN 1996-2:2010/ 
+Ap1:2010 
+ 
+PN-EN 1996-2:2010/ 
+NA:2010 
+Eurokod 6: Projektowanie 
+konstrukcji murowych - Część 
+2: Wymagania projektowe, 
+dobór materiałów i wykonanie 
+murów 
+tak 
+ 
+● 
+Ap1 – dotyczy norm 
+zastępowanych 
+ 
+ 
+ 
+KT 252 
+46 
+EN 1996-3:2006 
+ 
+EN 1996-3:2006/ 
+AC:2009 
+Eurocode 6: Design  
+of masonry structures - 
+Part 3: Simplified 
+calculation methods  
+for unreinforced masonry 
+structures 
+PN-EN 1996-3:2006  
+ 
+Eurokod 6: Projektowanie 
+konstrukcji murowych - Część 
+3: Uproszczone metody 
+obliczania niezbrojonych 
+konstrukcji murowych (oryg.) 
+PN-EN 1996-3:2010 
+z włączoną poprawką 
+EN 1996-3:2006/ 
+AC:2009 
+ 
+PN-EN 1996-3:2010/ 
+NA:2010 
+ 
+PN-EN 1996-3:2010/ 
+Ap1:2016-05 
+Eurokod 6: Projektowanie 
+konstrukcji murowych - Część 
+3: Uproszczone metody 
+obliczania murowych 
+konstrukcji niezbrojonych  
+tak 
+ 
+● 
+ 
+ 
+KT 252 
+PN-EN 1996-3:2010/ 
+NA:2016-06P 
+Downloaded by Dmitrij Szulga (tn67ktrggr@privaterelay.appleid.com)
+lOMoARcPSD|71595795
+
+
+Strona 11 z 13 
+ 
+Eurokod 7: Projektowanie geotechniczne 
+47 
+EN 1997-1:2004 
+ 
+EN 1997-1:2004/ 
+AC:2009 
+ 
+EN 1997-1:2004/ 
+A1:2013 
+ 
+Eurocode 7: Geotechnical 
+design - Part 1: General 
+rules 
+PN-EN 1997-1:2005  
+ 
+PN-EN 1997-1:2008/ 
+A1:2014-05  
+ 
+ 
+Eurokod 7: Projektowanie 
+geotechniczne - Część 1: 
+Zasady ogólne (oryg.) 
+PN-EN 1997-1:2008 
+ 
+PN-EN 1997-1:2008/ 
+AC:2009 
+ 
+PN-EN 1997-1:2008/ 
+Ap1:2010 
+ 
+PN-EN 1997-1:2008/ 
+Ap2:2010 
+ 
+PN-EN 1997-1:2008/ 
+NA:2011 
+ 
+PN-EN 1997-1:2008/ 
+A1:2014-05  
+Eurokod 7: Projektowanie 
+geotechniczne - Część 1: 
+Zasady ogólne 
+tak 
+ 
+● 
+Ap1 – dotyczy norm 
+zastępowanych 
+ 
+Ap2 dotyczy wprowadzenia 
+załącznika krajowego NA 
+ 
+wersja niemiecka EC  wycofana 
+ 
+KT 254 
+48 
+EN 1997-2:2007 
+ 
+EN 1997-2:2007/ 
+AC:2010 
+Eurocode 7: Geotechnical 
+design - Part 2: Ground 
+investigation and testing 
+PN-EN 1997-2:2007  
+ 
+ 
+Eurokod 7: Projektowanie 
+geotechniczne - Część 2: 
+Badania podłoża gruntowego 
+(oryg.) 
+PN-EN 1997-2:2009 
+ 
+PN-EN 1997-2:2009/ 
+Ap1:2010 
+ 
+ 
+PN-EN 1997-2:2009/ 
+AC:2010 
+Eurokod 7: Projektowanie 
+geotechniczne - Część 2: 
+Rozpoznanie i badanie 
+podłoża gruntowego 
+nie 
+Ap1 – dotyczy norm 
+zastępowanych 
+ 
+wersja niemiecka EC  wycofana 
+ 
+ 
+KT 254 
+Eurokod 8: Projektowanie konstrukcji poddanych oddziaływaniom sejsmicznym 
+49 
+EN 1998-1:2004 
+ 
+EN 1998-1:2004/ 
+AC:2009 
+ 
+EN 1998-1:2004/ 
+A1:2013 
+Eurocode 8: Design  
+of structures  
+for earthquake resistance - 
+Part 1: General rules, 
+seismic actions and rules 
+for buildings 
+PN-EN 1998-1:2005 
+ 
+PN-EN 1998-1:2005/ 
+AC:2009  
+  
+PN-EN 1998-1:2005/ 
+A1:2014-01 
+Eurokod 8: Projektowanie 
+konstrukcji poddanych 
+oddziaływaniom sejsmicznym 
+- Część 1: Reguły ogólne, 
+oddziaływania sejsmiczne 
+i reguły dla budynków (oryg.) 
+- 
+- 
+- 
+Ze względu na 
+asejsmiczne położenie 
+Polski nie przewiduje  
+się tłumaczenia tego 
+Eurokodu 
+ 
+ 
+ 
+KT 102 
+ 
+50 
+EN 1998-2:2005 
+ 
+EN 1998-2:2005/ 
+A1:2009 
+EN 1998-2:2005/ 
+AC:2010 
+ 
+EN 1998-2:2005/ 
+A2:2011 
+Eurocode 8: Design 
+ of structures  
+for earthquake resistance - 
+Part 2: Bridges 
+PN-EN 1998-2:2006  
+ 
+PN-EN 1998-2:2006/ 
+A1:2009  
+ 
+PN-EN 1998-2:2006/ 
+AC:2010 
+ 
+PN-EN 1998-2:2006/ 
+A2:2012 
+Eurokod 8: Projektowanie 
+konstrukcji poddanych 
+oddziaływaniom sejsmicznym 
+- Część 2: Mosty (oryg.) 
+- 
+- 
+- 
+jak wyżej 
+ 
+ 
+KT 251 
+51 
+EN 1998-3:2005 
+ 
+EN 1998-3:2005/ 
+AC:2010 
+ 
+EN 1998-3:2005/ 
+AC:2013 
+Eurocode 8: Design  
+of structures  
+for earthquake resistance - 
+Part 3: Assessment and 
+retrofitting of buildings 
+PN-EN 1998-3:2005 
+ 
+PN-EN 1998-3:2005/ 
+AC:2010 
+ 
+PN-EN 1998-3:2005/ 
+AC:2014-09 
+Eurokod 8: Projektowanie 
+konstrukcji poddanych 
+oddziaływaniom sejsmicznym 
+- Część 3: Ocena 
+i rewaloryzacja budynków 
+(oryg.) 
+- 
+- 
+- 
+jak wyżej 
+ 
+ 
+ 
+ 
+KT 102 
+Downloaded by Dmitrij Szulga (tn67ktrggr@privaterelay.appleid.com)
+lOMoARcPSD|71595795
+
+
+Strona 12 z 13 
+ 
+ 
+52 
+EN 1998-4:2006 
+Eurocode 8: Design 
+ of structures  
+for earthquake resistance - 
+Part 4: Silos, tanks  
+and pipelines 
+PN-EN 1998-4:2006  
+ 
+Eurokod 8: Projektowanie 
+konstrukcji poddanych 
+oddziaływaniom sejsmicznym 
+- Część 4: Silosy, zbiorniki 
+i rurociągi (oryg.) 
+- 
+- 
+- 
+jak wyżej 
+ 
+ 
+ 
+KT 102 
+53 
+EN 1998-5:2004 
+Eurocode 8: Design 
+ of structures  
+for earthquake resistance 
+Part 5: Foundations, 
+retaining structures  
+and geotechnical aspects 
+PN-EN 1998-5:2005  
+ 
+Eurokod 8: Projektowanie 
+konstrukcji poddanych 
+oddziaływaniom sejsmicznym 
+- Część 5: Fundamenty, 
+konstrukcje oporowe i inne 
+zagadnienia geotechniczne 
+(oryg.) 
+- 
+- 
+- 
+jak wyżej 
+ 
+ 
+ 
+KT 254 
+54 
+EN 1998-6:2005 
+Eurocode 8: Design  
+of structures 
+ for earthquake resistance - 
+Part 6: Towers, masts and 
+chimneys 
+PN-EN 1998-6:2005  
+ 
+Eurokod 8: Projektowanie 
+konstrukcji poddanych 
+oddziaływaniom sejsmicznym 
+- Część 6: Wieże, maszty 
+i kominy (oryg.) 
+- 
+- 
+- 
+jak wyżej 
+ 
+ 
+ 
+KT 102 
+ 
+Eurokod 9: Projektowanie konstrukcji aluminiowych 
+55 
+EN 1999-1-1:2007 
+ 
+EN 1999-1-1:2007/ 
+A1:2009 
+ 
+EN 1999-1-1:2007/ 
+A2:2013 
+Eurocode 9: Design  
+of aluminium structures - 
+Part 1-1: General structural 
+rules 
+PN-EN 1999-1-1:2007  
+ 
+PN-EN 1999-1-1:2007/ 
+A1:2009  
+ 
+PN-EN 1999-1-1:2011/ 
+A2:2014-05 
+ 
+Eurokod 9: Projektowanie 
+konstrukcji aluminiowych - 
+Część 1-1: Reguły ogólne 
+(oryg.) 
+PN-EN 1999-1-1:2011 
+z włączoną zmianą 
+ EN 1999-1-1:2007/ 
+A1:2009 
+ 
+PN-EN 1999-1-1:2011/ 
+A2:2014-05 
+ 
+PN-EN 1999-1-1:2011/ 
+Ap1:2014-12 
+Eurokod 9: Projektowanie 
+konstrukcji aluminiowych - 
+Część 1-1: Reguły ogólne 
+tak 
+ 
+Ap1 – dotyczy zmian: w 
+podrozdziale 6.2.3 - zmiana 
+akapitu (2), w podrozdziale 6.2.4 
+usuwa się Odsyłacz krajowy N9) i 
+w dalszej treści normy zmienia się 
+numerację kolejnych odsyłaczy, 
+w podrozdziale 6.3.3.3 zmienia 
+się akapit (4), w  podrozdziale 
+6.5.6 zmienia się akapit (4), 
+w Załączniku H zmienia się w 
+akapicie (6) i (8) „współczynnik 
+modyfikacji” na „współczynnik 
+poprawkowy”, oraz 
+Zmienia się Tablicę I.6. 
+ 
+ 
+ 
+KT 128 
+ 
+56 
+EN 1999-1-2:2007 
+ 
+EN 1999-1-2:2007/ 
+AC:2009 
+Eurocode 9: Design  
+of aluminium structures - 
+Part 1-2: Structural fire 
+design 
+PN-EN 1999-1-2:2007  
+ 
+PN-EN 1999-1-2:2007/ 
+AC:2009 
+Eurokod 9: Projektowanie 
+konstrukcji aluminiowych - 
+Część 1-2: Projektowanie 
+konstrukcji na wypadek 
+pożaru (oryg.) 
+PN-EN 1999-1-2:2007 
+ 
+PN-EN 1999-1-2:2007/ 
+AC:2009  
+ 
+Eurokod 9: Projektowanie 
+konstrukcji aluminiowych - 
+Część 1-2: Projektowanie 
+konstrukcji na wypadek 
+pożaru 
+nie 
+ 
+KT 128 
+ 
+57 
+EN 1999-1-3:2007 
+ 
+EN 1999-1-3:2007/ 
+A1:2011 
+Eurocode 9: Design  
+of aluminium structures - 
+Part 1-3: Structures 
+susceptible to fatigue 
+PN-EN 1999-1-3:2007  
+ 
+PN-EN 1999-1-3:2007/ 
+A1:2011 
+ 
+Eurokod 9: Projektowanie 
+konstrukcji aluminiowych - 
+Część 1-3: Konstrukcje 
+narażone na zmęczenie 
+(oryg.) 
+PN-EN 1999-1-3:2011 
+ 
+PN-EN 1999-1-3:2011/ 
+A1:2012 
+Eurokod 9: Projektowanie 
+konstrukcji aluminiowych - 
+Część 1-3: Konstrukcje 
+narażone na zmęczenie 
+tak 
+ 
+ 
+KT 128 
+58 
+EN 1999-1-4:2007 
+ 
+EN 1999-1-4:2007/ 
+AC:2009 
+EN 1999-1-4:2007/ 
+A1:2011 
+Eurocode 9: Design  
+of aluminium structures - 
+Part 1-4: Cold-formed 
+structural sheeting 
+PN-EN 1999-1-4:2007  
+ 
+PN-EN 1999-1-4:2007/ 
+AC:2010  
+ 
+PN-EN 1999-1-4:2007/ 
+A1:2011  
+Eurokod 9: Projektowanie 
+konstrukcji aluminiowych - 
+Część 1-4:Obudowa z blach 
+profilowanych na zimno 
+(oryg.) 
+PN-EN 1999-1-4:2012 
+z włączoną poprawką 
+ EN 1999-1-1:2007/ 
+AC:2009 oraz zmianą 
+EN 1999-1-4:2007/ 
+A1:2011 
+ 
+Eurokod 9: Projektowanie 
+konstrukcji aluminiowych - 
+Część 1-4: Obudowa z blach 
+profilowanych na zimno 
+tak 
+ 
+ 
+ 
+KT 128 
+59 
+EN 1999-1-5:2007 
+ 
+EN 1999-1-5:2007/ 
+AC:2009 
+Eurocode 9: Design  
+of aluminium structures - 
+Part 1-5: Shell structures 
+PN-EN 1999-1-5:2007 
+ 
+PN-EN 1999-1-5:2007/ 
+AC:2010  
+ 
+Eurokod 9: Projektowanie 
+konstrukcji aluminiowych - 
+Część 1-5: Konstrukcje 
+powłokowe (oryg.) 
+PN-EN 1999-1-5:2012 
+z włączoną poprawką 
+ EN 1999-1-5:2007/ 
+AC:2009 
+Eurokod 9: Projektowanie 
+konstrukcji aluminiowych - 
+Część 1-5: Konstrukcje 
+powłokowe 
+tak 
+ 
+ 
+ 
+ 
+ 
+KT 128 
+Downloaded by Dmitrij Szulga (tn67ktrggr@privaterelay.appleid.com)
+lOMoARcPSD|71595795
+
+
+Strona 13 z 13 
+ 
+Objaśnienia: 
+Norma opublikowana (w języku oryginału lub przetłumaczona na język polski) 
+Norma wycofana 
+Projekty dokumentów europejskich oraz odpowiednich polskich na etapie opracowania  
+Kolorem niebieskim zaznaczono wiersze, w których wprowadzono zmiany od czasu poprzedniej aktualizacji 
+1) NA (Załącznik Krajowy) – opracowany do polskojęzycznej wersji Eurokodu         
+●2) Załącznik Krajowy (NA) dostępny również w wydaniu oddzielnym (np. PN-EN 1990:2004/NA:2010) 
+3) Poprawka ta nie dotyczy Polski, ponieważ błąd poprawiono w Odsyłaczu krajowym przy wprowadzaniu polskojęzycznej wersji PN-EN 1991-1-4:2008. 
+4) Poprawka PN-EN 1993-1-8:2006/Ap2:2011  zmienia niektóre zapisy w PN-EN 1993-1-8:2006 oraz w Załączniku krajowym (NA) do tej normy. Wydany oddzielnie Załącznik krajowy PN-EN 1993-1-8:2006/NA:2011 jest 
+nową, aktualną (poprawioną) wersją tego dokumentu. 
+UWAGA: Wszystkie poprawki (AC i Ap) można bezpłatnie pobrać w sklepie internetowym na stronie Polskiego Komitetu Normalizacyjnego: www.pkn.pl. 
+Downloaded by Dmitrij Szulga (tn67ktrggr@privaterelay.appleid.com)
+lOMoARcPSD|71595795

@@ -211,6 +211,43 @@ parametry mechaniczne + warunki pracy. Status wykorzystania: przeanalizowany, wa
 wariantu -500/LB przeliczone kontrolnie względem istniejących kalkulatorów M3
 (`stress-test-mppt`/`dopasowanie-tablicy-falownika`) — patrz `docs/memory.md`.
 
+## Paczka `New-info` (13 plików) — rozłożona na foldery per norma/materiał (25.09.2026)
+
+[25.09.2026] ✅ DODANO — źródło: właściciel projektu, foldery/pliki na jego własnych kontach
+(Studocu i in.) — potwierdzone przez właściciela, nie kwestionowane dalej. Folder
+`docs/zrodla/New-info/` (13 plików PDF, część skany, część tekst natywny) rozłożony na dedykowane
+foldery wg dotychczasowego wzorca (`00-INDEKS.md` + treść, OCR tesseract pol+eng 250 DPI tam, gdzie
+brak warstwy tekstowej):
+
+| Nowy folder | Zawartość | Trafność w domenie off-grid PV |
+|---|---|---|
+| `norma-IEC-62305/` | "A Guide to BS EN 62305" (Furse/Thomas & Betts) — ochrona odgromowa, metoda toczącej się kuli, klasy LPL | **Bezpośrednia** — uzupełnia SPD/uziemienie (M5), kandydat na nowy ekran M8 (strefa ochronna zwodu) |
+| `materialy-Purmo-PN-EN-12831-ogrzewanie/` | Poradnik (nie sama norma) metody obliczania obciążenia cieplnego PN-EN 12831 | **Bezpośrednia** — M6/M7, dziś niewykorzystana w kodzie |
+| `norma-PN-EN-1991-1-4-wiatr/` | PN-EN 1991-1-4:2008 — obciążenie wiatrem | **Pośrednia, bez modułu-odbiorcy** — jak istniejąca `norma-PN-EN-1991-1-3` (śnieg), czeka na ewentualny przyszły moduł konstrukcji wsporczej PV |
+| `norma-PN-82-B-02403/` | Temperatury obliczeniowe zewnętrzne (norma z 1982, częściowo zastąpiona przez PN-EN 12831) | Pośrednia — M1/M6/M7, status aktualności do potwierdzenia przed użyciem |
+| `norma-PN-EN-1990-eurokod-0/` | Eurokod 0 — podstawy projektowania konstrukcji (4 pliki, w tym 2 słabej jakości duplikaty) | **Wątpliwa** — ogólna norma konstrukcyjna, nie elektryczna/energetyczna |
+| `norma-PN-EN-1995-1-1-eurokod-5-drewno/` | Eurokod 5 — konstrukcje drewniane | **Wątpliwa/poza rdzeniem** — inżynieria budowlana, nie off-grid PV |
+| `materialy-fizyka-budowli/` | 3 notatki: wilgotność dopuszczalna, kondensacja międzywarstwowa, czynnik f_Rsi | **Wątpliwa/poza rdzeniem** — fizyka budowli, nie instalacja PV/elektryka |
+
+**Duplikat znaleziony i usunięty bez pytania (Y.2 — nie świadoma decyzja, błąd/nadmiarowość):**
+plik `559094399-060364NHDD149-ES.pdf` (UNE-HD 60364-7-712:2017, hiszpańska wersja) był **bajt
+w bajt identyczny** (ten sam MD5) z już istniejącym, przeczytanym w całości i wykorzystanym w kodzie
+`docs/zrodla/norma-HD-60364-7-712/UNE-HD-60364-7-712-2017-pelny-tekst.pdf` — nie skopiowany ponownie.
+
+**Rekomendacja co do dalszego losu (do decyzji właściciela, przy najbliższej sesji nad
+`new-app-standards`):** trzy pozycje (`norma-PN-EN-1990-eurokod-0/`, `norma-PN-EN-1995-1-1-eurokod-5-drewno/`,
+`materialy-fizyka-budowli/`) to ogólne budownictwo/fizyka budowli, nie specyficzne dla off-grid PV
+ani nawet dla rodziny "Inżynier Pro" w wąskim sensie — kandydaci do przeniesienia jako generyczna
+biblioteka referencyjna do `new-app-standards` (dostępna dla całej rodziny aplikacji), zamiast
+zostawania w `docs/zrodla/` tego konkretnego projektu. Pozostałe cztery (`norma-IEC-62305/`,
+`materialy-Purmo-PN-EN-12831-ogrzewanie/`, `norma-PN-EN-1991-1-4-wiatr/`, `norma-PN-82-B-02403/`)
+zostają tu — mają bezpośredni lub prawdopodobny związek z modułami tego projektu.
+
+Żadna z 4 norm/OCR-ów w tej paczce nie została zweryfikowana wizualnie strona po stronie (tylko
+spot-check) — przed użyciem jakiejkolwiek liczby w kodzie patrz zastrzeżenie w odpowiednim
+`00-INDEKS.md`. Status wykorzystania wszystkich siedmiu pozycji: przeanalizowane, niewykorzystane
+jeszcze w kodzie.
+
 ## Norma PN-EN 1991-1-4:2008 + AC:2009 — Eurokod 1, oddziaływanie wiatru (25.09.2026)
 
 Dostarczona przez właściciela projektu (6 plików PDF, 161 stron, z Załącznikiem krajowym NA).
@@ -220,4 +257,3 @@ właściciel projektu; w repo tylko notatka robocza z liczbami używanymi w kodz
 **`docs/zrodla/norma-PN-EN-1991-1-4/00-INDEKS.md`**. Odstępstwo od zasady B.5 (oryginał w
 `docs/zrodla/`) — świadome, powód i otwarta decyzja o pozostałych normach: `docs/memory.md`,
 "Licencje norm w publicznym repozytorium (25.09.2026)".
-

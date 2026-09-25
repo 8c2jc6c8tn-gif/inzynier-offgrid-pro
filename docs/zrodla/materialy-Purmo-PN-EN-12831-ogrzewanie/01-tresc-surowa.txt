@@ -1,0 +1,6526 @@
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+Michał Strzeszewski 
+Piotr Wereszczyński 
+ 
+Norma PN–EN 12831 
+Nowa metoda 
+obliczania projektowego  
+obciążenia cieplnego  
+ 
+Poradnik
+
+
+Michał Strzeszewski 
+Piotr Wereszczyński 
+ 
+ 
+ 
+Norma PN–EN 12831 
+Nowa metoda 
+obliczania projektowego  
+obciążenia cieplnego 
+ 
+Poradnik 
+ 
+ 
+450
+40
+402,5
+15
+96,5
+96,5
+Pokój 
++20 C
+12,9 m
+2
+º
+380
+200
+120
+40
+332,5
+15
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+Warszawa 2009
+ 
+
+
+ 
+Norma PN–EN 12831. Nowa metoda obliczania projektowego obciążenia cieplnego. 
+Poradnik. Wersja 1.10.  
+ 
+ 
+ 
+W opracowaniu przedstawiono metodykę obliczania obciążenia cieplnego pomieszczeń i budynków wg normy PN–EN 
+12831. Zwrócono uwagę na główne różnice w stosunku do normy PN-B-03406:1994. Zasady obliczeń zilustrowano 
+przykładami. Omówiono również wspomagane komputerowo obliczanie obciążenia cieplnego budynków. 
+ 
+ 
+Niniejszy poradnik może być wykorzystywany wyłącznie do celów 
+informacyjno-dydaktycznych. Inne wykorzystanie jest zastrzeżone. W 
+szczególności poradnik nie zastępuje Polskiej Normy i nie może służyć 
+jako podstawa prowadzenia obliczeń projektowych.  
+Autorzy dołożyli należytych starań w trakcie opracowywania poradni-
+ka. Jednak autorzy ani wydawca nie gwarantują braku błędów i nie 
+ponoszą odpowiedzialności za żadne straty ani utracone zyski, powsta-
+łe w wyniku wykorzystania poradnika. 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+© Copyright by Michał Strzeszewski 2006-2009
+Wydawca
+Wydawca
+Wydawca
+Wydawca 
+ 
+Rettig Heating Sp. z o.o. 
+ul. Przemysłowa 
+44-203 Rybnik    
+ 
+Biuro Handlowe
+Biuro Handlowe
+Biuro Handlowe
+Biuro Handlowe 
+ 
+ul. Rotmistrza Pileckiego 91 
+02-781 Warszawa 
+fax: 022 643 99 95 
+tel. 022 643 25 20 
+ 
+(www.purmo.pl) 
+ 
+ 
+Opracowano we współpracy 
+Opracowano we współpracy 
+Opracowano we współpracy 
+Opracowano we współpracy  
+z ﬁrmą
+z ﬁrmą
+z ﬁrmą
+z ﬁrmą 
+ 
+Sankom Sp. z o.o.  
+(www.sankom.pl) 
+Wydawca
+Rettig Heating Sp. z o.o.
+ul. Przemysłowa
+44-203 Rybnik
+Biuro Handlowe
+ul. Ciszewskiego 15 
+02-777 Warszawa 
+budynek KEN Center
+tel. (22) 544 10 00
+fax (22) 544 10 01
+(www.purmo.pl)
+Opracowano we współpracy 
+z ﬁ rmą
+Sankom Sp. z o.o.
+(www.sankom.pl)
+
+
+ 
+iv
+ 
+Przedmowa 
+ 
+5 czerwca 2006 r. została zatwierdzona norma PN-EN 12831:2006, będąca tłuma-
+czeniem normy europejskiej EN 12831:2003. Nowa norma wprowadza wiele zmian 
+w stosunku do dotychczasowej metodyki obliczania zapotrzebowania na ciepło do 
+ogrzewania budynków. Jest ich tak dużo, że w zasadzie powinno się mówić raczej 
+o zupełnie nowej metodyce niż o modyfikacji obecnego sposobu prowadzenia ob-
+liczeń. 
+6 listopada 2008 r. Minister Infrastruktury podpisał Rozporządzenie zmieniające 
+rozporządzenie w sprawie warunków technicznych, jakim powinny odpowiadać bu-
+dynki i ich usytuowanie (Dz.U. 2008 nr 201) [23], wprowadzające m.in. obowiązek 
+stosowania normy PN-EN 12831:2006 od 1 stycznia 2009 r. 
+Wprowadzaniu nowej metodyki obliczeniowej powinna towarzyszyć szeroka akcja 
+popularyzatorsko-szkoleniowa. Niniejszy poradnik ma – w zamierzeniu autorów – 
+być elementem takiej akcji. 
+Otrzymujemy szereg sygnałów świadczących, że poradnik jest szeroko wykorzy-
+stywany, zarówno przez projektantów, jak i studentów kierunków technicznych. 
+Chcielibyśmy w tym miejscu jeszcze raz podziękować wszystkim osobom, które 
+podzieliły się z nami swoimi uwagami nt. poradnika i przyczyniły się do podniesie-
+nia jego poziomu merytorycznego. 
+Po początkowym okresie stosowania nowej metodyki planowane jest przygoto-
+wanie drugiego rozszerzonego wydania niniejszego poradnika, uwzględniającego 
+doświadczenia praktyczne, związane ze stosowaniem nowej normy.  
+ 
+ 
+Michał Strzeszewski 
+Piotr Wereszczyński 
+
+
+ 
+v
+Spis treści 
+1. Zasady ogólne ...................................................................................................................... 1 
+1.1 
+Wprowadzenie.................................................................................................................................1 
+1.2 Obowiązek stosowania normy ................................................................................................. 2 
+1.3 Założenia metody.......................................................................................................................... 2 
+1.4 Procedura obliczeniowa w odniesieniu do przestrzeni ogrzewanej........................... 3 
+1.5 Procedura obliczeniowa w odniesieniu do budynku lub jego części .......................... 3 
+1.6 Całkowita projektowa strata ciepła przestrzeni ogrzewanej – przypadki 
+podstawowe.................................................................................................................................... 3 
+1.7 Projektowe obciążenie cieplne przestrzeni ogrzewanej..................................................4 
+1.8 Projektowe obciążenie cieplne budynku lub jego części................................................. 5 
+2. Wartości temperatury ....................................................................................................... 6 
+2.1 Wprowadzenie................................................................................................................................6 
+2.2 Strefy klimatyczne.........................................................................................................................6 
+2.3 Projektowa temperatura zewnętrzna....................................................................................6 
+2.4 Średnia roczna temperatura zewnętrzna.............................................................................6 
+2.5 Projektowa temperatura wewnętrzna ..................................................................................6 
+3. Obliczanie projektowej straty ciepła przez przenikanie............................................ 9 
+3.1 Wprowadzenie................................................................................................................................9 
+3.2 Stosowane wymiary .....................................................................................................................9 
+3.3 Projektowa strata ciepła przez przenikanie ....................................................................... 10 
+3.4 Straty ciepła bezpośrednio na zewnątrz............................................................................. 10 
+3.5 Uproszczona metoda w odniesieniu do strat ciepła przez przenikanie.................... 11 
+3.6 Straty ciepła przez przestrzeń nieogrzewaną.....................................................................12 
+3.7 Straty ciepła do gruntu...............................................................................................................15 
+3.8 Straty ciepła między przestrzeniami ogrzewanymi do różnych wartości 
+temperatury....................................................................................................................................15 
+3.9 Podsumowanie..............................................................................................................................17 
+4. Przykłady obliczania projektowej straty ciepła przez przenikanie ........................18 
+4.1 Przykład 1......................................................................................................................................... 18 
+4.1.1 Obliczenia wg PN–EN 12831:2006 .....................................................................................18 
+4.1.2 Obliczenia wg PN-B-03406:1994...................................................................................... 19 
+4.1.3 Porównanie wyników........................................................................................................... 19 
+4.2 Przykład 2........................................................................................................................................ 19 
+4.2.1 Obliczenia wg PN–EN 12831:2006 ....................................................................................20 
+4.2.2 Obliczenia wg PN-B-03406:1994.......................................................................................21 
+4.2.3 Porównanie wyników............................................................................................................21 
+4.3 Przykład 3.........................................................................................................................................21 
+4.3.1 Obliczenia wg PN–EN 12831:2006 ....................................................................................22 
+4.3.2 Obliczenia wg PN–EN 12831:2006 z uwzględnieniem wymagań Rozporządzenia 
+w sprawie warunków technicznych ................................................................................23 
+4.3.3 Obliczenia wg PN-B-03406:1994......................................................................................23 
+4.3.4 Porównanie wyników...........................................................................................................23 
+4.4 Podsumowanie.............................................................................................................................24 
+
+
+ 
+vi
+5. Obliczanie projektowej straty ciepła do gruntu.........................................................25 
+5.1 Wprowadzenie..............................................................................................................................25 
+5.2 Współczynnik straty ciepła przez przenikanie do gruntu.............................................25 
+5.3 Wymiar charakterystyczny podłogi.......................................................................................26 
+5.4 Równoważny współczynnik przenikania ciepła ...............................................................26 
+6. Obliczanie projektowej wentylacyjnej straty ciepła w przypadku wentylacji 
+naturalnej............................................................................................................................ 31 
+6.1 Wprowadzenie...............................................................................................................................31 
+6.2 Projektowa wentylacyjna strata ciepła.................................................................................31 
+6.3 Współczynnik projektowej wentylacyjnej straty ciepła .................................................31 
+6.4 Strumień objętości powietrza wentylacyjnego................................................................32 
+6.5 Infiltracja przez obudowę budynku ......................................................................................32 
+6.6 Minimalny strumień objętości powietrza ze względów higienicznych...................34 
+6.7 Projektowe obciążenie cieplne budynku lub jego części...............................................34 
+6.8 Przykład...........................................................................................................................................34 
+6.8.1 Obliczenia wg PN–EN 12831:2006 .................................................................................... 35 
+6.8.2 Obliczenia wg PN-B-03406:1994......................................................................................36 
+6.8.3 Porównanie wyników...........................................................................................................36 
+7. Obliczanie projektowej wentylacyjnej straty ciepła w przypadku instalacji 
+wentylacyjnej .....................................................................................................................37 
+7.1 Wprowadzenie..............................................................................................................................37 
+7.2 Projektowa wentylacyjna strata ciepła................................................................................37 
+7.3 Współczynnik projektowej wentylacyjnej straty ciepła ................................................37 
+7.4 Strumień objętości powietrza wentylacyjnego................................................................38 
+7.5 Strumień powietrza doprowadzonego................................................................................38 
+7.6 Odzysk ciepła.................................................................................................................................39 
+7.7 Nadmiar strumienia powietrza usuwanego..................................................................... 40 
+7.8 Projektowe obciążenie cieplne budynku lub jego części............................................... 41 
+7.9 Przykład........................................................................................................................................... 41 
+7.9.1 Obliczenia wg PN–EN 12831:2006 ....................................................................................42 
+7.9.2 Obliczenia wg PN-B-03406:1994......................................................................................43 
+7.10 Podsumowanie.............................................................................................................................44 
+8. Nadwyżka mocy cieplnej wymagana do skompensowania skutków 
+osłabienia ogrzewania .................................................................................................... 45 
+8.1 Wprowadzenie..............................................................................................................................45 
+8.2 Założenia metody....................................................................................................................... 46 
+8.3 Współczynnik nagrzewania.................................................................................................... 46 
+8.4 Przykład...........................................................................................................................................48 
+8.5 Podsumowanie............................................................................................................................ 49 
+9. Obliczanie obciążenia cieplnego wysokich pomieszczeń........................................ 50 
+9.1 Wprowadzenie..............................................................................................................................50 
+9.2 Współczynnik poprawkowy.....................................................................................................50 
+9.3 Przykład...........................................................................................................................................50 
+
+
+ 
+vii
+10. Wspomagane komputerowo obliczanie obciążenia cieplnego budynków..........52 
+10.1 Wprowadzenie..............................................................................................................................52 
+10.2 Dane ogólne...................................................................................................................................52 
+10.2.1 Podstawowe dane................................................................................................................. 53 
+10.2.2 Straty ciepła do sąsiednich lokali......................................................................................54 
+10.2.3 Mostki cieplne.........................................................................................................................54 
+10.3 Współczynniki przenikania ciepła .........................................................................................56 
+10.4 Pomieszczenia............................................................................................................................... 57 
+10.5 Wentylacja .....................................................................................................................................59 
+10.6 Obliczenia.......................................................................................................................................59 
+10.7 Podsumowanie............................................................................................................................ 60 
+11. Przykład wspomaganego komputerowo obliczania obciążenia cieplnego 
+pomieszczenia....................................................................................................................61 
+11.1 Dane wyjściowe............................................................................................................................ 61 
+11.2 Wprowadzanie danych..............................................................................................................62 
+11.3 Porównanie wyników..................................................................................................................71 
+12. Literatura............................................................................................................................ 74 
+13. Załączniki.............................................................................................................................75 
+13.1 Terminy występujące w normie PN-EN 12831:2006........................................................ 75 
+13.2 Porównanie wybranych pojęć i symboli występujących w normach PN-EN 
+12831:2006 i PN-B-03406:1994 ...............................................................................................76 
+13.3 Wybrane indeksy występujące w normie PN-EN 12831:2006......................................78 
+13.4 Alfabet grecki ................................................................................................................................79 
+
+
+Norma PN–EN 12831. Nowa metoda obliczania projektowego obciążenia cieplnego 
+ 
+ 
+   
+1        
+I
+1. Zasady ogólne 
+1.1 
+Wprowadzenie 
+Norma PN-EN 12831:2006 [20] jest tłumaczeniem angielskiej wersji normy europejskiej 
+EN 12831:2003 [17]. 
+Niewątpliwą zaletą wprowadzenia norm europejskich będzie ułatwienie inżynierom 
+świadczenia usług projektowych w innych krajach Unii Europejskiej. Należy jednak pa-
+miętać, że szczegółowe wymagania w poszczególnych krajach członkowskich, podane 
+w załącznikach krajowych do normy, mogą się różnić. 
+Norma europejska EN 12831:2003 została przyjęta przez CEN (Europejski Komitet Nor-
+malizacyjny) 6 lipca 2002 r. Zgodnie z przepisami wewnętrznymi CEN/CENELEC człon-
+kowie CEN są zobowiązani do nadania normie europejskiej statusu normy krajowej bez 
+wprowadzania jakichkolwiek zmian. Członkami CEN są krajowe jednostki normalizacyj-
+ne państw Unii Europejskiej oraz Szwajcaria, Norwegia i Islandia (członkowie EFTA1). 
+Norma podaje nie tylko nową metodykę obliczeń, ale również wprowadza nowy system 
+pojęć. Terminy występujące w normie podano w załączniku 11.1. Natomiast porównanie 
+podstawowych pojęć i symboli występujących w normie PN-EN 12831:2006 oraz do-
+tychczasowej PN-B-03406:1994 [13] zestawiono załączniku 11.2. W celu sprawnego po-
+sługiwania się nową normą wskazane jest również zapoznanie się ze stosowanymi in-
+deksami (załącznik 11.3). Poza tym w nowej normie do oznaczeń wykorzystano szereg 
+liter greckich. W załączniku 11.4 zamieszczono alfabet grecki wraz z polskimi nazwami 
+liter.  
+Jedną ze zmian w nazewnictwie, jest użycie określenia „projektowy” zamiast dotych-
+czasowego słowa „obliczeniowy”. Zmiana ta jest najprawdopodobniej jedną z najła-
+twiejszych do przyswojenia, ponieważ dotyczy jedynie słownictwa i nie wpływa na tok 
+obliczeń. 
+Bardziej istotną zmianą jest rozróżnienie w nowej normie pojęć „całkowita projektowa 
+strata ciepła” i „projektowe obciążenie cieplne”, podczas gdy w dotychczasowej normie 
+analogiczne pojęcia były tożsame. 
+Różnica polega na tym, że w pojęciu „projektowe obciążenie cieplne” – obok całkowitej 
+projektowej straty ciepła – uwzględnia się dodatkowo nadwyżkę mocy cieplnej, wyma-
+ganą do skompensowania skutków osłabienia ogrzewania. W normie PN-B-03406:1994 
+zrezygnowano natomiast ze względów ekonomicznych z występującego wcześniej 
+„dodatku na przerwy w działaniu ogrzewania” (czyli odpowiednika wspomnianej nad-
+wyżki mocy cieplnej) [13].  
+Norma PN-EN 12831:2006 podaje sposób obliczania obciążenia cieplnego: 
+– dla poszczególnych pomieszczeń (przestrzeni ogrzewanych) w celu doboru 
+grzejników, 
+– dla całego budynku lub jego części w celu doboru źródła ciepła. 
+Metoda zawarta w normie może być stosowana w tzw. „podstawowych przypadkach”, 
+które obejmują budynki z wysokością pomieszczeń ograniczoną do 5 m, przy założeniu 
+że są one ogrzewane w warunkach projektowych do osiągnięcia stanu ustalonego. 
+                                                 
+1 EFTA – Europejskie Stowarzyszenie Wolnego Handlu (ang. European Free Trade Association) 
+
+
+Norma PN–EN 12831. Nowa metoda obliczania projektowego obciążenia cieplnego 
+ 
+ 
+   
+2    I    
+Natomiast w załączniku informacyjnym (nienormatywnym) zamieszczono instrukcje 
+obliczania projektowych strat ciepła w przypadkach szczególnych: 
+– pomieszczenia o dużej wysokości (powyżej 5 m), 
+– budynki o znacznej różnicy między temperaturą powietrza i średnią temperaturą 
+promieniowania. 
+Ponadto norma podaje metodę uproszczoną, która może być stosowana dla budynków 
+mieszkalnych, w których krotność wymiany powietrza, przy różnicy ciśnienia między 
+wnętrzem a otoczeniem budynku równej 50 Pa, n50 jest niższa od 3 h–1. 
+1.2 
+Obowiązek stosowania normy  
+W art. 4. ust. 3 . Ustawy z dnia 12 września 2002 r. o normalizacji czytamy: 
+ 
+3. Stosowanie Polskich Norm jest dobrowolne. 
+  
+Oznacza to, że obecnie normy „same z siebie” nie stanowią prawa i sam fakt przyjęcia 
+normy przez PKN nie powoduje obowiązku ich stosowania. Jest to sytuacja odmienna 
+niż w poprzednim okresie, kiedy stosowanie wszystkich Norm Polskich i branżowych 
+było obowiązkowe pod karą aresztu lub grzywny. 
+Jednak już następny ustęp tej samej ustawy mówi: 
+ 
+4. Polskie Normy mogą być powoływane w przepisach prawnych po ich opublikowaniu 
+w języku polskim.  
+    
+Oznacza to, że przepisy prawne (np. ustawy czy rozporządzenia ministrów) mogą 
+wprowadzać obowiązek stosowania pewnych norm (w całości lub części). 
+Jedynym ograniczeniem we wprowadzaniu obowiązku stosowania norm jest ich opu-
+blikowanie w języku polskim. W związku z tym Normy Europejskie przyjmowane jako 
+Normy Polskie w języku oryginału nie mogą być powołane w przepisach prawnych. 
+Rozporządzenie Ministra Infrastruktury z dnia 6 listopada 2008 r. zmieniające rozporzą-
+dzenie w sprawie warunków technicznych, jakim powinny odpowiadać budynki i ich usy-
+tuowanie (Dz.U. 2008 nr 201) [23], wprowadza m.in. obowiązek stosowania całości 
+normy PN-EN 12831:2006 od 1 stycznia 2009 r. w zakresie § 134 ust. 1: 
+ 
+§ 134. 1. Instalacje i urządzenia do ogrzewania budynku powinny mieć szczytową moc 
+cieplną określoną zgodnie z Polskimi Normami dotyczącymi obliczania zapotrzebowa-
+nia na ciepło pomieszczeń, a także obliczania oporu cieplnego i współczynnika przeni-
+kania ciepła przegród budowlanych.    
+           
+1.3 
+Założenia metody  
+Metoda obliczeniowa została opracowana przy następujących założeniach: 
+– równomierny rozkład temperatury powietrza i temperatury projektowej (wyso-
+kość pomieszczeń nie przekracza 5 m), 
+– wartości temperatury powietrza i temperatury operacyjnej są takie same (bu-
+dynki dobrze zaizolowane), 
+– warunki ustalone (stałe wartości temperatury), 
+– stałe właściwości elementów budynków w funkcji temperatury. 
+
+
+Norma PN–EN 12831. Nowa metoda obliczania projektowego obciążenia cieplnego 
+ 
+ 
+1.4 
+Procedura obliczeniowa w odniesieniu do przestrzeni ogrzewanej 
+Procedura obliczeniowa dla przestrzeni ogrzewanej jest następująca: 
+a) określenie wartości projektowej temperatury zewnętrznej i średniej rocznej 
+temperatury zewnętrznej; 
+b) określenie statusu każdej przestrzeni (czy jest ogrzewana, czy nie) oraz wartości 
+projektowej temperatury wewnętrznej dla każdej przestrzeni ogrzewanej; 
+c) określenie charakterystyk wymiarowych i cieplnych wszystkich elementów bu-
+dynku dla wszystkich przestrzeni ogrzewanych i nieogrzewanych; 
+d) obliczenie wartości współczynnika projektowej straty ciepła przez przenikanie i 
+następnie projektowej straty ciepła przez przenikanie przestrzeni ogrzewanej; 
+e) obliczenie wartości współczynnika projektowej wentylacyjnej straty ciepła i 
+wentylacyjnej straty ciepła przestrzeni ogrzewanej; 
+f) obliczenie całkowitej projektowej straty ciepła; 
+g) obliczenie nadwyżki mocy cieplnej przestrzeni ogrzewanej, czyli dodatkowej mo-
+cy cieplnej, potrzebnej do skompensowania skutków przerw w ogrzewaniu; 
+h) obliczenie całkowitego projektowego obciążenia cieplnego przestrzeni ogrzewa-
+nej. 
+1.5 
+Procedura obliczeniowa w odniesieniu do budynku lub jego części 
+Po przeprowadzeniu obliczeń dla wszystkich przestrzeni ogrzewanych można obliczyć 
+całkowite projektowe obciążenie cieplne budynku (części budynku) w celu dobrania 
+źródła ciepła. W tym przypadku procedura obliczeniowa jest następująca: 
+a) obliczenie sumy projektowych strat ciepła przez przenikanie we wszystkich prze-
+strzeniach ogrzewanych bez uwzględnienia ciepła wymienianego wewnątrz 
+określonych granic instalacji; 
+b) obliczenie sumy projektowych wentylacyjnych strat ciepła wszystkich przestrze-
+ni ogrzewanych bez uwzględniania ciepła wymienianego wewnątrz określonych 
+granic instalacji; 
+c) obliczenie całkowitej projektowej straty ciepła budynku; 
+d) obliczenie całkowitej nadwyżki ciepła budynku, wymaganej do skompensowania 
+skutków przerw w ogrzewaniu; 
+e) obliczenie obciążenia cieplnego budynku. 
+1.6 
+Całkowita projektowa strata ciepła przestrzeni ogrzewanej – przypadki podsta-
+wowe 
+Norma PN–EN 12831 podaje wzór do obliczania całkowitej projektowej straty ciepła 
+przestrzeni ogrzewanej w podstawowych przypadkach: 
+ 
+   W
+,
+,
+,
+i
+V
+i
+T
+i
+Φ
+Φ
+Φ
++
+=
+ 
+(1.1) 
+gdzie: 
+ΦT,i – projektowa strata ciepła ogrzewanej przestrzeni (i) przez przenikanie, W;  
+ΦV,i – projektowa wentylacyjna strata ciepła ogrzewanej przestrzeni (i), W.  
+   
+3    I    
+
+
+Norma PN–EN 12831. Nowa metoda obliczania projektowego obciążenia cieplnego 
+ 
+ 
+Wzór powyższy jest zbliżony do wzoru wg normy PN-B-03406:1994: 
+ 
+(
+)
+   W
+,
+1
+2
+1
+w
+p
+Q
+d
+d
+Q
+Q
++
++
++
+=
+ 
+(1.2) 
+gdzie: 
+Qp 
+– straty ciepła przez przenikanie, W;  
+d1 
+– dodatek do strat ciepła przez przenikanie dla wyrównania wpływu niskich 
+temperatur powierzchni przegród chłodzących pomieszczenia;  
+d2 
+– dodatek do strat ciepła przez przenikanie uwzględniający skutki nasło-
+necznienia przegród i pomieszczeń;  
+Qw 
+– zapotrzebowanie na ciepło do wentylacji, W. 
+Główna różnica polega na tym, że w nowym wzorze nie występują dodatki do strat cie-
+pła przez przenikanie. W nowej normie nie uwzględnia się wpływu przegród chłodzą-
+cych przy założeniu, że budynek jest dobrze zaizolowany. Natomiast jeśli tak nie jest, 
+należy zastosować metodę dla budynków o znacznej różnicy między temperaturą po-
+wietrza i średnią temperaturą promieniowania (przypadek szczególny).  
+1.7 
+Projektowe obciążenie cieplne przestrzeni ogrzewanej  
+Natomiast w projektowym obciążeniu cieplnym przestrzeni ogrzewanej, jak już wspo-
+mniano, uwzględnia się dodatkowo nadwyżkę mocy cieplnej, wymaganą do skompen-
+sowania skutków osłabienia ogrzewania: 
+ 
+   W
+,
+,
+,
+,
+,
+i
+RH
+i
+V
+i
+T
+i
+HL
+Φ
+Φ
+Φ
+Φ
++
++
+=
+ 
+(1.3) 
+gdzie: 
+ΦRH,i – nadwyżka mocy cieplnej wymagana do skompensowania skutków osła-
+bienia ogrzewania strefy ogrzewanej (i), W; 
+pozostałe oznaczenia j.w. 
+ 
+   
+4    I    
+
+
+Norma PN–EN 12831. Nowa metoda obliczania projektowego obciążenia cieplnego 
+ 
+ 
+1.8 
+Projektowe obciążenie cieplne budynku lub jego części  
+Projektowe obciążenie cieplne dla całego budynku (lub jego części) oblicza się analo-
+gicznie, w następujący sposób: 
+ 
+   W
+,
+,
+,
+,
+∑
+∑
+∑
++
++
+=
+i
+RH
+i
+V
+i
+T
+HL
+Φ
+Φ
+Φ
+Φ
+ 
+(1.4) 
+gdzie: 
+∑
+i
+T
+Φ , 
+– suma strat ciepła przez przenikanie wszystkich przestrzeni ogrzewa-
+nych budynku z wyłączeniem ciepła wymienianego wewnątrz budyn-
+ku, W; 
+∑
+i
+V
+Φ , 
+– wentylacyjne straty ciepła wszystkich przestrzeni ogrzewanych z wy-
+łączeniem ciepła wymienianego wewnątrz budynku, W;  
+ ∑
+i
+RH
+Φ
+, – suma nadwyżek mocy cieplnej wszystkich przestrzeni ogrzewanych 
+wymaganych do skompensowania skutków osłabienia ogrzewania, 
+W. 
+ 
+ 
+   
+5    I    
+
+
+Norma PN–EN 12831. Nowa metoda obliczania projektowego obciążenia cieplnego 
+ 
+ 
+   
+6    I    
+2. Wartości temperatury 
+2.1 
+Wprowadzenie 
+Jak już wspomniano, jedną ze zmian jest używanie określenia „projektowy” zamiast 
+dotychczasowego słowa „obliczeniowy”. 
+Poza tym, obecnie przyjmuje się, że temperatura wewnętrzna, stosowana do obliczania 
+strat ciepła przez przenikanie, to temperatura operacyjna, a nie temperatura powietrza. 
+Temperatura operacyjna oznacza średnią arytmetyczną z wartości temperatury powie-
+trza wewnętrznego i średniej temperatury promieniowania. 
+2.2 
+Strefy klimatyczne 
+Podział Polski na strefy klimatyczne pokazano na rys. 2.1. Podział wg PN–EN 12831 od-
+powiada dokładnie dotychczasowemu podziałowi wg normy PN-82/B-02403 [12]. 
+Zmiana dotyczy jedynie tego, że obecnie podział ten podany jest w załączniku krajo-
+wym do normy na obliczanie obciążenia cieplnego, a nie w oddzielnej normie. 
+2.3 
+Projektowa temperatura zewnętrzna  
+Wartości projektowej temperatury zewnętrznej zamieszczono w tabeli 2.1. Projektowa 
+temperatura zewnętrzna wg PN–EN 12831 odpowiada obliczeniowej temperaturze po-
+wietrza na zewnątrz budynku wg PN-82/B-02403. Zmiany dotyczą jedynie używanego 
+terminu oraz zamieszczenia wartości temperatury w załączniku krajowym do normy na 
+obliczanie obciążenia cieplnego, a nie w osobnej normie. 
+2.4 
+Średnia roczna temperatura zewnętrzna 
+Załącznik krajowym do normy PN–EN 12831 podaje również wartości średniej rocznej 
+temperatury zewnętrznej (tabela 2.1). Wartości te nie były podane w normie PN-82/B-
+02403, gdyż nie były potrzebne do obliczania zapotrzebowania na ciepło wg normy PN-
+B-03406:1994. Natomiast obecnie są one wykorzystywane do obliczania strat ciepła do 
+gruntu oraz strat ciepła przez przenikanie do przyległych pomieszczeń. 
+2.5 
+Projektowa temperatura wewnętrzna 
+Norma PN–EN 12831 podaje również wartości projektowej temperatury wewnętrznej 
+(tabela 2.2). Wcześniej wartości „temperatury obliczeniowej w pomieszczeniach” poda-
+ne były w normie PN-82/B-02402 [11], a następnie w Rozporządzeniu Ministra Infrastruk-
+tury z dnia 12 kwietnia 2002 r. w sprawie warunków technicznych, jakim powinny odpo-
+wiadać budynki i ich usytuowanie [22]. Norma PN–EN 12831 w zasadzie przytacza tabelę 
+z Rozporządzenia jedynie z drobnymi zmianami. Natomiast w stosunku do normy PN-
+82/B-02402 zmiana polega na obniżeniu temperatury w pomieszczeniach przeznaczo-
+nych do rozbierania oraz na pobyt ludzi bez odzieży (np. łazienki, gabinety lekarskie) z 25ºC 
+do 24ºC oraz rezygnacji z najwyższej temperatury 32ºC. 
+
+
+Norma PN–EN 12831. Nowa metoda obliczania projektowego obciążenia cieplnego 
+ 
+ 
+Warszawa
+Łomża
+Ełk
+Gołdap
+Suwałki
+Augustów
+Olszty n
+Szczy tno
+Ost rołęka
+Biały stok
+Węgrów
+Radzy ń
+Biała 
+Podlaska
+Siedlce
+Włodawa
+Słupsk
+Gdańsk
+Gdy nia
+Szczecin
+Kołobrzeg
+Koszalin
+Gorzów
+Piła
+St arogard
+Chojnice
+Złotów
+Grudziądz
+Toruń
+Inowrocław
+Poznań
+Koło
+Kalisz
+Sieradz
+Gost y ń
+Zielona Góra
+Les zno
+Legnica
+W rocław
+Zgorzelec
+Brzeg
+Włocławek
+Płock
+Sk ierniewice
+Łódź
+Piot rków Try b.
+Radomsko
+Radom
+Elbląg
+Lublin Chełm
+Zamość
+Kielce
+Tarnobrzeg
+Ży wiec
+Sanok
+Katowice
+Przem yś l
+Rzeszów
+Tarnów
+Nowy Sącz
+Kraków
+Bielsko Biała
+Gliwice
+Opole
+Jelenia Góra
+Wałbrzyc h
+Zakopane
+Częstochowa
+Ciechanów
+Bełchat ów
+I
+II
+III
+IV
+V
+IV
+V
+ 
+Rys. 2.1. 
+Podział terytorium Polski na strefy klimatyczne. Na podstawie [20] 
+Tabela 2.1. 
+Projektowa temperatura zewnętrzna i średnia roczna temperatura zewnętrzna [20] 
+Strefa 
+klimatyczna 
+Projektowa 
+temperatu-
+ra ze-
+wnętrzna, 
+ºC 
+Średnia rocz-
+na tempera-
+tura ze-
+wnętrzna, 
+ºC 
+I 
+–16 
+7,7 
+II 
+–18 
+7,9 
+III 
+–20 
+7,6 
+IV 
+–22 
+6,9 
+V 
+–24 
+5,5 
+ 
+   
+7    I    
+
+
+Norma PN–EN 12831. Nowa metoda obliczania projektowego obciążenia cieplnego 
+ 
+ 
+   
+8    I    
+Tabela 2.2. 
+Projektowa temperatura wewnętrzna [20] 
+Przeznaczenie lub sposób wykorzystania pomiesz-
+czeń 
+Przykłady pomieszczeń 
+θint, 
+ºC 
+– 
+nieprzeznaczone na pobyt ludzi, 
+– 
+przemysłowe – podczas działania ogrze-
+wania dyżurnego (jeśli pozwalają na to 
+względy technologiczne) 
+ 
+magazyny bez stałej obsługi, garaże indywi-
+dualne, hale postojowe (bez remontów), aku-
+mulatornie, maszynownie i szyby dźwigów 
+osobowych 
+ 
+5 
+ 
+– 
+w których nie występują zyski ciepła, a 
+jednorazowy pobyt ludzi znajdujących się 
+w ruchu i okryciach zewnętrznych nie 
+przekracza 1 h, 
+klatki schodowe w budynkach mieszkalnych, 
+– 
+w których występują zyski ciepła od urzą-
+dzeń technologicznych, oświetlenia itp., 
+przekraczające 25 W na 1 m3 kubatury po-
+mieszczenia 
+hale sprężarek, pompownie, kuźnie, hartow-
+nie, wydziały obróbki cieplnej 
+ 
+8 
+ 
+– 
+w których nie występują zyski ciepła, prze-
+znaczone do stałego pobytu ludzi, znajdu-
+jących się w okryciach zewnętrznych lub 
+wykonujących pracę fizyczną o wydatku 
+energetycznym powyżej 300 W, 
+magazyny i składy wymagające stałej obsługi, 
+hole wejściowe, poczekalnie przy salach wi-
+dowiskowych bez szatni, kościoły, 
+– 
+w których występują zyski ciepła od urzą-
+dzeń technologicznych, oświetlenia itp., 
+wynoszące od 10 do 25 W na 1 m3 kubatury 
+pomieszczenia 
+hale pracy fizycznej o wydatku energetycznym 
+powyżej 300 W, hale formierni, maszynownie 
+chłodni, ładownie akumulatorów, hale targo-
+we, sklepy rybne i mięsne 
+12 
+ 
+– 
+w których nie występują zyski ciepła, prze-
+znaczone na pobyt ludzi: 
+o w okryciach zewnętrznych w po-
+zycji siedzącej i stojącej, 
+o bez okryć zewnętrznych znajdują-
+cych się w ruchu lub wykonują-
+cych pracę fizyczną o wydatku 
+energetycznym do 300 W, 
+sale widowiskowe bez szatni, ustępy publicz-
+ne, szatnie okryć zewnętrznych, hale produk-
+cyjne, sale gimnastyczne, 
+– 
+w których występują zyski ciepła od urzą-
+dzeń technologicznych, oświetlenia itp., 
+nieprzekraczające 10 W na 1 m3 kubatury 
+pomieszczenia 
+kuchnie indywidualne wyposażone w paleni-
+ska węglowe 
+16 
+ 
+– 
+przeznaczone na stały pobyt ludzi bez 
+okryć zewnętrznych, niewykonywujących 
+w sposób ciągły pracy fizycznej 
+– 
+kotłownie i węzły cieplne 
+pokoje mieszkalne, przedpokoje, kuchnie in-
+dywidualne wyposażone w paleniska gazowe 
+lub elektryczne, pokoje biurowe, sale posie-
+dzeń, muzea i galerie sztuki z szatniami, audy-
+toria 
+20 
+ 
+– 
+przeznaczone do rozbierania, 
+ 
+łazienki, rozbieralnie-szatnie, umywalnie, 
+natryskownie, hale pływalni, 
+– 
+przeznaczone na pobyt ludzi bez odzieży 
+gabinety lekarskie z rozbieraniem pacjentów, 
+sale niemowląt i sale dziecięce w żłobkach, 
+sale operacyjne 
+24 
+ 
+
+
+Norma PN–EN 12831. Nowa metoda obliczania projektowego obciążenia cieplnego 
+ 
+ 
+3. Obliczanie projektowej straty ciepła przez przenikanie 
+3.1 
+Wprowadzenie 
+Norma PN-EN 12831:2006 [20] wprowadza szereg zasadniczych zmian w stosunku do 
+dotychczasowej normy PN-B-03406:1994 [13]. Najważniejsze zmiany w zakresie 
+określania strat ciepła przez przenikanie to: 
+– wprowadzenie współczynnika straty ciepła przez przenikanie, 
+– zmiana sposobu określania wymiarów elementów budynku, 
+– uwzględnianie mostków cieplnych, 
+– zmiana sposobu określania strat ciepła do gruntu, 
+– zmiana sposobu określania strat ciepła do pomieszczeń nieogrzewanych,  
+– uwzględnianie strat ciepła do pomieszczeń o takiej samej projektowej 
+temperaturze, jeśli należą do osobnej jednostki budynku (np. innego mieszkania) 
+lub do budynku przyległego. 
+3.2 
+Stosowane wymiary 
+Zgodnie z załącznikiem krajowym do normy PN-EN 12831:2006, przy obliczaniu strat 
+ciepła przez przenikanie przez przegrody zewnętrzne należy stosować wymiary ze-
+wnętrzne, czyli wymiary mierzone po zewnętrznej stronie budynku. W szczególności 
+wysokość ściany mierzy się pomiędzy powierzchniami podłóg. Przykłady wymiarów po-
+kazano na rys. 3.1 i 3.2. 
+Norma PN-EN 12831:2006 nie precyzuje jednak sposobu określania wymiarów przegród 
+wewnętrznych. Zdaniem autorów niniejszego poradnika, wymiary przegród wewnętrz-
+nych powinny być określane w oparciu o wymiary w osiach przegród ograniczających 
+(tak, jak było to określone w normie PN-B-03406:1994).  
+ 
+Rys. 3.1.  Przykład wymiarów poziomych 
+Rys. 3.2.  Przykład wymiarów pionowych
+   
+9    I    
+
+
+Norma PN–EN 12831. Nowa metoda obliczania projektowego obciążenia cieplnego 
+ 
+ 
+3.3 
+Projektowa strata ciepła przez przenikanie 
+Norma PN-EN 12831:2006 podaje następujący wzór do obliczania projektowej straty 
+ciepła przestrzeni ogrzewanej (i) przez przenikanie: 
+ 
+(
+) (
+)   W
+,
+,
+,
+,
+,
+,
+,
+e
+i
+int
+ij
+T
+ig
+T
+iue
+T
+ie
+T
+i
+T
+H
+H
+H
+H
+Φ
+θ
+θ
+−
+⋅
++
++
++
+=
+ 
+(3.1) 
+gdzie: 
+HT,ie – współczynnik straty ciepła przez przenikanie z przestrzeni ogrzewanej (i) 
+do otoczenia (e) przez obudowę budynku, W/K;  
+HT,iue – współczynnik straty ciepła przez przenikanie z przestrzeni ogrzewanej (i) 
+do otoczenia (e) przez przestrzeń nieogrzewaną (u), W/K;  
+HT,ig – współczynnik straty ciepła przez przenikanie z przestrzeni ogrzewanej (i) 
+do gruntu (g) w warunkach ustalonych, W/K;  
+HT,ij – współczynnik straty ciepła przez przenikanie z przestrzeni ogrzewanej (i) 
+do sąsiedniej przestrzeni (j) ogrzewanej do znacząco różnej temperatury, 
+tzn. przyległej przestrzeni ogrzewanej w tej samej części budynku lub w 
+przyległej części budynku, W/K;  
+θint,i – projektowa temperatura wewnętrzna przestrzeni ogrzewanej (i), ºC;  
+θe 
+– projektowa temperatura zewnętrzna, ºC.  
+Wg nowej metodyki najpierw oblicza się współczynniki projektowych strat ciepła, a do-
+piero później mnoży się ich sumę przez różnicę temperatury wewnętrznej i zewnętrz-
+nej. Natomiast wg normy PN-B-03406:1994 od razu obliczało się straty ciepła.  
+3.4 
+Straty ciepła bezpośrednio na zewnątrz 
+Wartość współczynnika straty ciepła przez przenikanie z przestrzeni ogrzewanej (i) na 
+zewnątrz (e) HT,ie zależy od wymiarów i cech charakterystycznych elementów budynku 
+oddzielających przestrzeń ogrzewaną od środowiska zewnętrznego, takich jak ściany, 
+podłogi, stropy, drzwi i okna. Wg normy PN-EN 12831:2006 uwzględnia się również li-
+niowe mostki cieplne: 
+ 
+   W/K
+,
+,
+∑
+∑
+⋅
+⋅
++
+⋅
+⋅
+=
+l
+l
+l
+l
+k
+k
+k
+k
+ie
+T
+e
+l
+e
+U
+A
+H
+ψ
+ 
+(3.2) 
+gdzie: 
+Ak 
+– powierzchnia elementu budynku (k), m2;  
+Uk 
+– współczynnik przenikania ciepła przegrody (k), W/m2K; 
+l
+ψ 
+– współczynnik przenikania ciepła liniowego mostka cieplnego (l), W/mK; 
+ll 
+– długość liniowego mostka cieplnego (l) między przestrzenią wewnętrzną 
+a zewnętrzną, m; 
+ek, el – współczynniki korekcyjne ze względu na orientację, z uwzględnieniem 
+wpływów klimatu; takich jak: różne izolacje, absorpcja wilgoci przez ele-
+menty budynku, prędkość wiatru i temperatura powietrza, w przypadku 
+gdy wpływy te nie zostały wcześniej uwzględnione przy określaniu warto-
+ści współczynnika Uk (EN ISO 6946 [19]). 
+ 
+   
+10    I    
+
+
+Norma PN–EN 12831. Nowa metoda obliczania projektowego obciążenia cieplnego 
+ 
+ 
+Współczynnik przenikania ciepła Uk należy obliczać według: 
+– normy EN ISO 6946 – dla elementów nieprzezroczystych; 
+– normy EN ISO 10077-1 [21] – dla drzwi i okien; 
+– lub na podstawie zaleceń podanych w europejskich aprobatach technicznych. 
+Współczynnik przenikania ciepła liniowego mostka cieplnego 
+l
+ψ powinien być określo-
+ny wg normy EN ISO 10211-2 [16] (obliczenia numeryczne) lub w sposób przybliżony z 
+wykorzystaniem wartości stabelaryzowanych podanych w normie EN ISO 14683 [15].  
+Oryginalnym zastosowaniem wartości stabelaryzowanych, podanych w normie EN ISO 
+14683, były obliczenia w odniesieniu do całego budynku. W przypadku obliczeń metodą 
+„pomieszczenie po pomieszczeniu”, konieczny jest podział wartości współczynnika 
+przenikania ciepła mostka pomiędzy pomieszczenia, jeśli mostek cieplny znajduje się na 
+granicy pomieszczeń (np. strop przecinający izolację ściany zewnętrznej). Podział ten 
+norma PN-EN 12831:2006 pozostawia do uznania projektanta. 
+W obliczeniach nie uwzględnia się nieliniowych mostków cieplnych. 
+Orientacyjne wartości współczynników korekcyjnych podane są w załączniku krajowym 
+do normy PN-EN 12831:2006: 
+ 
+ 
+(3.3) 
+0,1
+   
+;0,1
+=
+=
+l
+k
+e
+e
+W związku z tym równanie (3.2) w praktyce upraszcza się do następującej postaci: 
+ 
+   W/K
+,
+,
+∑
+∑
+⋅
++
+⋅
+=
+l
+l
+l
+k
+k
+k
+ie
+T
+l
+U
+A
+H
+ψ
+ 
+(3.4) 
+3.5 
+Uproszczona metoda w odniesieniu do strat ciepła przez przenikanie 
+W obliczeniach strat ciepła przez przenikanie, mostki cieplne można uwzględnić meto-
+dą uproszczoną. Polega ona na przyjęciu skorygowanej wartości współczynnika przeni-
+kania ciepła: 
+ 
+ 
+(3.5) 
+K
+   W/m
+,
+2
+tb
+k
+kc
+U
+U
+U
+Δ
++
+=
+gdzie: 
+Ukc – 
+skorygowany współczynnik przenikania ciepła elementu budynku (k), 
+z uwzględnieniem liniowych mostków cieplnych, W/m2K; 
+Uk 
+– 
+współczynnik przenikania ciepła elementu budynku (k), W/m2K; 
+tb
+U
+Δ
+– 
+współczynnik korekcyjny w zależności od typu elementu budynku, 
+W/m2K. 
+Orientacyjne wartości współczynnika 
+ podane są w tabelach 3.1 do 3.3. Pojęcie 
+elementu budynku „przecinającego” i „nieprzecinającego” izolację zostało zobrazowa-
+ne na rys. 3.3. 
+tb
+U
+Δ
+Zaletą uproszczonej metody uwzględniania mostków cieplnych jest bezsprzecznie ła-
+twość jej stosowania. Natomiast wadą wydaje się być tzw. „gruby ołówek”, ponieważ 
+obliczone straty ciepła mogą w niektórych przypadkach być znacznie zawyżone. 
+   
+11    I    
+
+
+Norma PN–EN 12831. Nowa metoda obliczania projektowego obciążenia cieplnego 
+ 
+ 
+izolacja
+„
+”
+przecinający 
+element budynku
+izolacja
+„nie
+”
+przecinający 
+element budynku
+ 
+Rys. 3.3. Element budynku „przecinający” i „nieprzecinający” izolację. Na podstawie [20]. 
+Tabela 3.1. 
+Współczynnik korekcyjny 
+ dla pionowych elementów budynku [
+tb
+U
+Δ
+20] 
+tb
+U
+Δ
+, W/m2K 
+Liczba stropów  
+przecinających izolację
+ 
+Liczba przecinanych 
+ścian 
+ 
+kubatura przestrzeni 
+≤100 m3
+kubatura przestrzeni 
+>100m3
+0 
+0,05
+0 
+1 
+0,10
+0 
+ 
+0 
+2 
+0,15
+0,05 
+0 
+0,20
+0,10 
+1 
+0,25
+0,15 
+ 
+1 
+2 
+0,30
+0,20 
+0 
+0,25
+0,15 
+1 
+0,30
+0,20 
+ 
+2 
+2 
+0,35
+0,25 
+Tabela 3.2. 
+Współczynnik korekcyjny 
+ dla poziomych elementów budynku [
+tb
+U
+Δ
+20] 
+Element budynku 
+tb
+U
+Δ
+, W/m2K 
+Lekka podłoga (drewno, metal itd.) 
+0
+1
+0,05
+2
+0,10
+3
+0,15
+Ciężka 
+podłoga 
+(beton, 
+itd.) 
+Liczba boków będą-
+cych w kontakcie ze 
+środowiskiem 
+ze-
+wnętrznym 
+4
+0,20
+ 
+Tabela 3.3. 
+Współczynnik korekcyjny 
+ dla otworów [
+tb
+U
+Δ
+20] 
+Powierzchnia elementu budynku 
+tb
+U
+Δ
+, W/m2K 
+0-2 m2
+0,50
+>2 - 4 m2
+0,40
+>4 - 9 m2
+0,30
+>9 - 20 m2
+0,20
+>20m2
+0,10
+  
+ 
+ 
+   
+12    I    
+
+
+Norma PN–EN 12831. Nowa metoda obliczania projektowego obciążenia cieplnego 
+ 
+ 
+3.6 
+Straty ciepła przez przestrzeń nieogrzewaną 
+Norma PN-EN 12831:2006 wprowadza zupełnie inny sposób określania strat ciepła w 
+przypadku przestrzeni nieogrzewanej, przyległej do przestrzeni ogrzewanej. Do tej pory 
+granica tych przestrzeni stanowiła granicę analizowanego systemu, a obliczenia wyko-
+nywało się analogicznie, jak w przypadku przenikania bezpośrednio na zewnątrz, 
+przyjmując obliczeniową temperaturę w przestrzeni przyległej wg normy PN-82/B-
+02403 [12]. Natomiast model przyjęty w nowej normie rozpatruje wymianę ciepła mię-
+dzy przestrzenią ogrzewaną (i) i otoczeniem (e) poprzez przestrzeń nieogrzewaną (u). 
+Współczynnik projektowej straty ciepła oblicza się w tym przypadku w sposób następu-
+jący: 
+ 
+   W/K
+,
+,
+∑
+∑
+⋅
+⋅
++
+⋅
+⋅
+=
+l
+u
+l
+l
+k
+u
+k
+k
+iue
+T
+b
+l
+b
+U
+A
+H
+ψ
+ 
+(3.6) 
+gdzie: 
+Ak 
+– powierzchnia elementu budynku (k) w metrach kwadratowych, m2;  
+Uk 
+– współczynnik przenikania ciepła przegrody (k), W/m2K; 
+bu 
+– współczynnik redukcji temperatury, uwzględniający różnicę między tem-
+peraturą przestrzeni nieogrzewanej i projektową temperaturą ze-
+wnętrzną; 
+l
+ψ 
+– współczynnik przenikania ciepła liniowego mostka cieplnego (l), W/mK; 
+ll 
+– długość liniowego mostka cieplnego (l) między przestrzenią wewnętrzną 
+a zewnętrzną, m. 
+Współczynnik bu może być określony w jeden z następujących sposobów: 
+ 
+ 
+1. Jeśli temperatura przestrzeni nieogrzewanej jest znana: 
+ 
+−
+−
+−
+=
+   
+,
+,
+,
+e
+i
+int
+u
+i
+int
+ub
+θ
+θ
+θ
+θ
+ 
+(3.7) 
+gdzie: 
+θint,i – projektowa temperatura wewnętrzna przestrzeni ogrzewanej (i), ºC;  
+θu 
+– projektowa temperatura przestrzeni nieogrzewanej, ºC; 
+θe 
+– projektowa temperatura zewnętrzna, ºC.  
+2. Jeśli temperatura przestrzeni nieogrzewanej nie jest znana: 
+ 
+−
++
+=
+   
+,
+ue
+iu
+ue
+u
+H
+H
+H
+b
+ 
+(3.8) 
+gdzie: 
+Hiu 
+– współczynnik strat ciepła z przestrzeni ogrzewanej (i) do przyległej prze-
+strzeni nieogrzewanej (u), z uwzględnieniem: 
+– strat ciepła przez przenikanie (z przestrzeni ogrzewanej do przestrzeni 
+nieogrzewanej); 
+   
+13    I    
+– wentylacyjnych strat ciepła (strumień powietrza między przestrzenią 
+ogrzewaną i nieogrzewaną); 
+
+
+Norma PN–EN 12831. Nowa metoda obliczania projektowego obciążenia cieplnego 
+ 
+ 
+   
+14    I    
+Hue – współczynnik strat ciepła z przestrzeni nieogrzewanej (u) do otoczenia (e), 
+z uwzględnieniem: 
+– strat ciepła przez przenikanie (do otoczenia i do gruntu); 
+– wentylacyjnych strat ciepła (między przestrzenią nieogrzewaną a oto-
+czeniem).  
+3. W uproszczeniu można przyjmować wartości orientacyjne wg tabeli 3.4. 
+Współczynnik redukcji temperatury bu uwzględnia fakt, że temperatura przestrzeni 
+nieogrzewanej w warunkach projektowych może być wyższa od temperatury ze-
+wnętrznej, a właśnie przez różnicę temperatury wewnętrznej i zewnętrznej mnoży się 
+później współczynnik projektowej straty ciepła – równanie (3.1). 
+W obliczeniach komputerowych najwłaściwsze wydaje się obliczanie temperatury prze-
+strzeni nieogrzewanej na drodze bilansu cieplnego i podstawienie otrzymanej wartości 
+do równania (3.7). Natomiast w przybliżonych obliczeniach ręcznych może być wygodne 
+posługiwanie się stabelaryzowanymi wartościami współczynnika redukcji temperatury. 
+Tabela 3.4. Współczynnik redukcji temperatury [20] 
+Przestrzeń nieogrzewana 
+bu
+Pomieszczenie 
+ 
+tylko z 1 ścianą zewnętrzną  
+0,4 
+z przynajmniej 2 ścianami zewnętrznymi bez drzwi zewnętrznych  
+0,5 
+z przynajmniej 2 ścianami zewnętrznymi z drzwiami zewnętrznymi (np. hale, 
+garaże)  
+0,6 
+ 
+z trzema ścianami zewnętrznymi (np. zewnętrzna klatka schodowa) 
+0,8 
+Podziemie1
+ 
+bez okien/drzwi zewnętrznych  
+0,5  
+z oknami/drzwiami zewnętrznymi 
+0,8 
+Poddasze 
+ 
+przestrzeń poddasza silnie wentylowana (np. pokrycie dachu z dachówek lub 
+innych materiałów tworzących pokrycie nieciągłe) bez deskowania pokrytego 
+papą lub płyt łączonych brzegami 
+1,0 
+ 
+ 
+inne nieizolowane dachy  
+0,9  
+izolowany dach 
+0,7 
+Wewnętrzne przestrzenie komunikacyjne 
+(bez zewnętrznych ścian, krotność wymiany powietrza mniejsza niż 0,5 h–1) 
+ 
+0 
+Swobodnie wentylowane przestrzenie komunikacyjne 
+(powierzchnia otworów/kubatura powierzchni > 0,005 m2/m3) 
+ 
+1,0 
+Przestrzeń podpodłogowa 
+(podłoga nad przestrzenią nieprzechodnią) 
+ 
+0,8 
+Przejścia lub bramy przelotowe nieogrzewane, obustronnie zamknięte 
+0,9 
+1 Pomieszczenie może być uważane za usytuowane w podziemiu, jeśli więcej niż 70% powierzchni ścian 
+zewnętrznych styka się z gruntem. 
+
+
+Norma PN–EN 12831. Nowa metoda obliczania projektowego obciążenia cieplnego 
+ 
+ 
+3.7 
+Straty ciepła do gruntu 
+Strumień strat ciepła do gruntu może być obliczony wg normy EN ISO 13370 [14]: 
+– w sposób szczegółowy 
+– lub w sposób uproszczony, zamieszczony w normie PN-EN 12831:2006. 
+Określanie strat ciepła do gruntu omówiono w rozdziale 5. 
+3.8 
+Straty ciepła między przestrzeniami ogrzewanymi do różnych wartości tempera-
+tury  
+Współczynnik HT,ij obejmuje ciepło przekazywane przez przenikanie z przestrzeni 
+ogrzewanej (i) do sąsiedniej przestrzeni (j) ogrzewanej do znacząco innej temperatury. 
+Przestrzenią sąsiednią może być przyległe pomieszczenie w tym samym mieszkaniu 
+(np. łazienka), pomieszczenie należące do innej części budynku (np. innego mieszkania) 
+lub pomieszczenie należące do przyległego budynku, które może być nieogrzewane. 
+Współczynnik HT,ij oblicza się w następujący sposób:  
+ 
+   W/K
+,
+,
+∑
+⋅
+⋅
+=
+k
+k
+k
+ij
+ij
+T
+U
+A
+f
+H
+ 
+(3.9) 
+gdzie: 
+fij 
+– współczynnik redukcyjny temperatury, uwzględniający różnicę tempera-
+tury przyległej przestrzeni i projektowej temperatury zewnętrznej; 
+Ak 
+– powierzchnia elementu budynku (k), m2;  
+Uk 
+– współczynnik przenikania ciepła przegrody (k), W/m2K. 
+ 
+W przypadku strat ciepła między przestrzeniami ogrzewanymi do różnych wartości 
+temperatury, nie uwzględnia się mostków cieplnych. 
+  
+ 
+Współczynnik redukcyjny temperatury określony jest następującym równaniem: 
+ 
+−
+−
+−
+=
+   
+,
+,
+,
+e
+i
+int
+zeni
+ej przestr
+przyleg
+i
+int
+ijf
+θ
+θ
+θ
+θ
+ł
+ 
+(3.10) 
+ 
+gdzie:  
+θint,i – projektowa temperatura wewnętrzna przestrzeni ogrzewanej (i), ºC;  
+θprzyległej przestrzeni – temperatura przestrzeni przyległej, ºC; 
+θe 
+– projektowa temperatura zewnętrzna, ºC. 
+Wartości orientacyjne temperatury przyległych przestrzeni ogrzewanych podano w ta-
+beli 3.5, przy czym: 
+θm,e – roczna średnia temperatura zewnętrzna, ºC. 
+   
+15    I    
+Nowa norma wprowadza daleko idące zmiany w zakresie przyjmowanej temperatury w 
+sąsiednich pomieszczeniach. Do tej pory, jeśli rozpatrywano ścianę pomiędzy dwoma 
+pokojami mieszkalnymi, to w obu pokojach przyjmowano tempera-
+
+
+Norma PN–EN 12831. Nowa metoda obliczania projektowego obciążenia cieplnego 
+ 
+ 
+turę +20ºC. W związku z tym różnica temperatury wynosiła 0 K, a straty ciepła 0 W. Ta-
+kie podejście było uzasadnione w czasie, kiedy w praktyce nie występowała możliwość 
+indywidualnej regulacji temperatury wewnętrznej. Jednak ten sposób obliczeń nie jest 
+już adekwatny, biorąc pod uwagę obecny stan prawny (obowiązek zapewnienia indy-
+widualnej regulacji) i faktyczny sposób użytkowania lokali.  
+Tabela 3.5. 
+Temperatura przyległych przestrzeni ogrzewanych [20] 
+Ciepło przekazywane z przestrzeni ogrzewanej (i) 
+do: 
+θprzyległej przestrzeni, 
+ºC 
+przyległego pomieszczenia w tej samej jednostce 
+budynku (np. w mieszkaniu) 
+powinna być określona na podstawie 
+przeznaczenia pomieszczenia 
+sąsiedniego pomieszczenia, należącego do innej 
+jednostki budynku (np. do innego mieszkania) 
+2
+,
+,
+e
+m
+i
+int
+θ
+θ
++
+ 
+sąsiedniego pomieszczenia, należącego do od-
+dzielnego budynku (ogrzewanego lub nieogrze-
+wanego) 
+θm,e
+ 
+Często zdarza się, że mieszkania przez krótsze lub dłuższe okresy są nie używane 
+(zwłaszcza na terenach atrakcyjnych wypoczynkowo). Wtedy, szczególnie w przypadku 
+indywidualnego rozliczania kosztów ogrzewania, temperatura w mieszkaniu jest obni-
+żona w stosunku do temperatury projektowej. Dlatego w praktyce często pojawia się 
+różnica temperatury po obu stronach przegrody budowlanej. W związku z tym, ponie-
+waż ściany wewnętrzne najczęściej nie są izolowane cieplnie, nawet przy stosunkowo 
+małej różnicy temperatury, mogą wystąpić znaczne straty ciepła. 
+Dlatego zdaniem autorów wskazane jest izolowanie cieplne również przegród we-
+wnętrznych, oddzielających pomieszczenia ogrzewane, jeśli pomieszczenia te należą do 
+oddzielnych jednostek budynku (np. mieszkań lub lokali użytkowych). Izolację taką war-
+to wykonywać z materiału, który oprócz izolacyjności cieplnej posiada właściwości izo-
+lacji akustycznej. 
+Według nowej normy temperaturę w sąsiednim pomieszczeniu należy przyjmować na 
+pod-stawie przeznaczenia tylko, jeśli pomieszczenie to należy do tej samej jednostki 
+budynku (np. do mieszkania). Natomiast jeśli pomieszczenie należy do innej jednostki i 
+istnieje możliwość indywidualnej regulacji temperatury, to do obliczania straty ciepła 
+przyjmuje się średnią arytmetyczną z projektowej temperatury wewnętrznej i rocznej 
+średniej temperatury zewnętrznej. Z kolei, jeżeli sąsiednie pomieszczenie należy do od-
+dzielnego budynku (budynku przyległego), przyjmuje się roczną średnią temperaturę 
+zewnętrzną. 
+Abstrahując w tym miejscu od oceny dokładności takiej metody obliczeń, nie można nie 
+przyznać, że metoda ta pozwala przy doborze grzejników – przynajmniej w sposób 
+przybliżony – uwzględniać ryzyko wystąpienia obniżonej temperatury wewnętrznej w 
+sąsiednich jednostkach budynku.  
+ 
+ 
+   
+16    I    
+ 
+
+
+Norma PN–EN 12831. Nowa metoda obliczania projektowego obciążenia cieplnego 
+ 
+ 
+   
+17    I    
+ 
+Należy również zwrócić uwagę, że opisane powyżej straty ciepła uwzględnia się w 
+obliczeniach obciążenia cieplnego poszczególnych pomieszczeń w celu doboru 
+grzejników, natomiast nie uwzględnia się ich przy określaniu obciążenia cieplnego 
+całego budynku w celu doboru źródła ciepła. 
+  
+ 
+W skali całego budynku, jeśli część pomieszczeń będzie ogrzewana w sposób osłabiony, 
+to uzyskana w ten sposób nadwyżka mocy pozwoli na pokrycie zwiększonego zapotrze-
+bowania na ciepło w pomieszczeniach sąsiednich. 
+3.9 
+Podsumowanie 
+Zarówno nowa jak i dotychczasowa metoda obliczania obciążenia cieplnego ma swoje 
+wady i zalety.  
+Podstawową wadą nowego podejścia jest mnożenie wszystkich współczynników pro-
+jektowych strat ciepła (również odnoszących się do strat ciepła przez przestrzenie nie-
+ogrzewane i grunt) przez projektową różnicę temperatury (różnicę między projektową 
+temperaturą wewnętrzną a projektową temperaturą zewnętrzną). W związku z tym 
+zachodzi konieczność stosowania współczynników redukcji temperatury, przez co pro-
+cedura obliczeniowa staje się matematycznie bardziej skomplikowana i mniej czytelna 
+z punktu widzenia fizyki budowli.  
+Z kolei zaletą nowej metody, zdaniem autorów, jest uwzględnianie potencjalnych strat 
+ciepła do sąsiednich jednostek budynku („straty ciepła do sąsiada”) w przypadku indy-
+widualnej regulacji. 
+Natomiast procedura obliczeniowa wg normy PN-B-03406:1994 wydaje się prostsza 
+(m.in. nie zachodzi potrzeba obliczania współczynników projektowych strat ciepła) i 
+bardziej czytelna z punktu widzenia fizyki budowli (straty ciepła obliczane są na pod-
+stawie różnic temperatury, które je wywołują). 
+
+
+Norma PN–EN 12831. Nowa metoda obliczania projektowego obciążenia cieplnego 
+ 
+ 
+4. Przykłady obliczania projektowej straty ciepła przez 
+przenikanie 
+Poniżej zamieszczono przykłady obliczeń straty ciepła przez przenikanie przez ściany wg 
+nowej normy oraz normy dotychczasowej PN-B-03406:1994 [13].  
+4.1 
+Przykład 1 
+Obliczyć wartość straty ciepła przez przenikanie z przestrzeni ogrzewanej (pokoju 
+mieszkalnego) do otoczenia (e) przez ścianę zewnętrzną bez okna wg rysunku 4.1. Li-
+niowe mostki cieplne uwzględnić metodą uproszczoną. Założenia: 
+– współczynnik przenikania ciepła: 0,29 W/m2K, 
+– wysokość zewnętrzna ściany: 3,20 m, 
+– grubość stropów: 35 cm, 
+– kubatura pomieszczenia ≤100 m3, 
+– liczba stropów przecinających izolację: 0, 
+– liczba przecinanych ścian: 0, 
+– lokalizacja: Kraków. 
+30
+460 (długość wewnętrzna)
+10
+480 (długość wg PN-B-03406:1994)
+495 (długość wg PN–EN 12831:2006)
+Pokój +20 C
+º
+ 
+Rys. 4.1. 
+Rysunek do przykładu 1 
+4.1.1 
+Obliczenia wg PN–EN 12831:2006 
+Współczynnik korekcyjny 
+ ustalamy na podstawie tabeli 3.1: 
+tb
+U
+Δ
+ 
+ 
+ 
+K
+ W/m
+05
+,0
+2
+=
+Δ
+tb
+U
+Skorygowany współczynnik przenikania ciepła elementu budynku (k) z uwzględnieniem 
+liniowych mostków cieplnych: 
+ 
+ 
+K
+ W/m
+0,34
+0,05
+0,29
+2
+=
++
+=
+Δ
++
+=
+tb
+k
+kc
+U
+U
+U
+ 
+   
+18    I    
+
+
+Norma PN–EN 12831. Nowa metoda obliczania projektowego obciążenia cieplnego 
+ 
+ 
+Długość ściany na podstawie wymiarów zewnętrznych wynosi 4,95 m, a wysokość 3,20 
+m. W związku z tym powierzchnia ściany wynosi: 
+ 
+ 
+2
+m
+ 
+84
+,
+15
+2,3
+95
+,4
+=
+⋅
+=
+k
+A
+Współczynnik straty ciepła przez przenikanie z przestrzeni ogrzewanej (i) do otoczenia 
+(e) przez analizowaną ścianę:  
+ 
+ 
+ W/K
+386
+,5
+34
+,0
+84
+,
+15
+,
+=
+⋅
+=
+⋅
+=
+kc
+k
+ie
+T
+U
+A
+H
+Projektowa strata ciepła przestrzeni ogrzewanej (i) przez przenikanie przez analizowa-
+ną ścianę: 
+ 
+(
+)
+(
+)
+[
+]
+ W
+215
+20
+20
+386
+,5
+,
+,
+,
+=
+−
+−
+⋅
+=
+−
+⋅
+=
+e
+i
+int
+ie
+T
+i
+T
+H
+Φ
+θ
+θ
+ 
+ 
+4.1.2 
+Obliczenia wg PN-B-03406:1994 
+Dla porównania poniżej przedstawiono obliczenie straty ciepła przez przenikanie wg 
+PN-B-03406:1994.  
+Długość ściany na podstawie wymiarów pomiędzy osiami ścian ograniczających wynosi 
+4,80 m, a wysokość 3,20 m. W związku z tym powierzchnia ściany wynosi: 
+ 
+ 
+2
+m
+ 
+36
+,
+15
+2,3
+80
+,4
+=
+⋅
+=
+A
+Strata ciepła przez przenikanie wynosi: 
+ 
+(
+)
+(
+)
+[
+]
+ W
+178
+36
+,
+15
+20
+20
+29
+,0
+=
+⋅
+−
+−
+⋅
+=
+⋅
+−
+⋅
+=
+A
+t
+t
+U
+Q
+e
+i
+o
+ 
+4.1.3 
+Porównanie wyników 
+Wartość obliczona wg normy PN–EN 12831:2006 jest o 21% wyższa w porównaniu z 
+normą PN-B-03406:1994. Różnica ta wynika z dwóch powodów: po pierwsze ze zmiany 
+sposobu ustalania powierzchni przegrody (wymiary zewnętrzne), a po drugie z dodatku 
+na uwzględnienie liniowych mostków cieplnych (metoda uproszczona). 
+4.2 
+Przykład 2 
+Obliczyć wartość straty ciepła przez przenikanie z przestrzeni ogrzewanej (i) do otocze-
+nia (e) przez przestrzeń nieogrzewaną (u), przez ścianę wg rysunku 4.2. Liniowe mostki 
+cieplne uwzględnić metodą uproszczoną. Założenia: 
+– współczynnik przenikania ciepła: 0,44 W/m2K, 
+– wysokość zewnętrzna ściany: 3,20 m, 
+– grubość stropów: 35 cm, 
+– kubatura pomieszczenia ≤100 m3, 
+– liczba stropów przecinających izolację: 0, 
+– liczba przecinanych ścian: 0, 
+– otwory zewnętrzne: okno i drzwi, 
+– ilość przegród zewnętrznych: 2, 
+– lokalizacja: Gdańsk. 
+   
+19    I    
+
+
+Norma PN–EN 12831. Nowa metoda obliczania projektowego obciążenia cieplnego 
+ 
+ 
+30
+460 (długość wewnętrzna)
+10
+480 (długość w osiach)
+Pokój +20 C
+º
+Warsztat (nieogrzewany)
+ 
+Rys. 4.2.  Rysunek do przykładu 2  
+4.2.1 
+Obliczenia wg PN–EN 12831:2006 
+Współczynnik korekcyjny 
+ ustalamy na podstawie tabeli 3.1: 
+tb
+U
+Δ
+ 
+ 
+ 
+K
+ W/m
+05
+,0
+2
+=
+Δ
+tb
+U
+Skorygowany współczynnik przenikania ciepła elementu budynku (k) z uwzględnieniem 
+liniowych mostków cieplnych: 
+ 
+ 
+K
+ W/m
+0,49
+0,05
+0,44
+2
+=
++
+=
+Δ
++
+=
+tb
+k
+kc
+U
+U
+U
+Długość ściany na podstawie wymiarów zewnętrznych wynosi 4,95 m, a wysokość 3,20 
+m. W związku z tym powierzchnia ściany wynosi: 
+ 
+ 
+2
+m
+ 
+36
+,
+15
+2,3
+8,4
+=
+⋅
+=
+k
+A
+Współczynnik redukcji temperatury, uwzględniający różnicę między temperaturą prze-
+strzeni nieogrzewanej i projektową temperaturą zewnętrzną ustalamy w sposób orien-
+tacyjny na podstawie tabeli 3.4 („pomieszczenie z przynajmniej 2 ścianami zewnętrz-
+nymi, z drzwiami zewnętrznymi”): 
+ 
+ 
+6,0
+=
+ub
+   
+20    I    
+
+
+Norma PN–EN 12831. Nowa metoda obliczania projektowego obciążenia cieplnego 
+ 
+ 
+Współczynnik straty ciepła przez przenikanie ciepła z przestrzeni ogrzewanej (i) do oto-
+czenia (e) poprzez przestrzeń nieogrzewaną (u), przez analizowaną ścianę:  
+ 
+ 
+ W/K
+516
+,4
+6,0
+49
+,0
+36
+,
+15
+,
+=
+⋅
+⋅
+=
+⋅
+⋅
+=
+u
+kc
+k
+iue
+T
+b
+U
+A
+H
+Projektowa strata ciepła z przestrzeni ogrzewanej (i) do otoczenia (e) poprzez prze-
+strzeń nieogrzewaną (u), przez analizowaną ścianę: 
+ 
+(
+)
+(
+)
+[
+]
+ W
+163
+16
+20
+516
+,4
+,
+,
+,
+=
+−
+−
+⋅
+=
+−
+⋅
+=
+e
+i
+int
+iue
+T
+i
+T
+H
+Φ
+θ
+θ
+ 
+ 
+4.2.2 Obliczenia wg PN-B-03406:1994 
+Dla porównania poniżej przedstawiono obliczenie straty ciepła przez przenikanie wg 
+PN-B-03406:1994.  
+Temperatura powietrza w przestrzeni przylegającej została ustalona na podstawie 
+normy PN-82/B-02403 [12] („pomieszczenia nieogrzewane z oknami lub drzwiami ze-
+wnętrznymi, z dwiema przegrodami zewnętrznymi”).  
+ 
+C
+6°
+−
+=
+et
+ 
+ 
+Strata ciepła przez przenikanie wynosi: 
+ 
+(
+)
+(
+)
+[
+]
+ W
+176
+36
+,
+15
+6
+20
+44
+,0
+=
+⋅
+−
+−
+⋅
+=
+⋅
+−
+⋅
+=
+A
+t
+t
+U
+Q
+e
+i
+o
+ 
+4.2.3 Porównanie wyników 
+Wartość obliczona wg normy PN–EN 12831:2006 jest o 5% niższa w porównaniu z nor-
+mą PN-B-03406:1994, przy czym w obu przypadkach temperatura w pomieszczeniu 
+nieogrzewanym, względnie współczynnik redukcji temperatury, zostały ustalone na 
+podstawie wartości orientacyjnych. 
+4.3 
+Przykład 3 
+Obliczyć wartość straty ciepła przez przenikanie z przestrzeni ogrzewanej (i) do sąsied-
+niej przestrzeni (j) ogrzewanej, znajdującej się w innym mieszkaniu, przez ścianę wg 
+rysunku 4.3. Liniowe mostki cieplne uwzględnić metodą uproszczoną.  
+Założenia: 
+– współczynnik przenikania ciepła: 2,10 W/m2K, 
+– wysokość ściany: 3,20 m, 
+– lokalizacja: Białystok. 
+ 
+   
+21    I    
+
+
+Norma PN–EN 12831. Nowa metoda obliczania projektowego obciążenia cieplnego 
+ 
+ 
+30
+460 (długość wewnętrzna)
+10
+480 (długość w osiach)
+Pokój +20 C
+(w sąsiednim mieszkaniu)
+(jeśli temperatura obniży się 
+w stosunku do wartości projektowej)
+º
+Pokój +20 C
+º
+ 
+Rys. 4.3.  Rysunek do przykładu 3  
+4.3.1 
+Obliczenia wg PN–EN 12831:2006 
+Długość ściany na podstawie wymiarów zewnętrznych wynosi 4,95 m, a wysokość 3,20 
+m. W związku z tym powierzchnia ściany wynosi: 
+ 
+ 
+2
+m
+ 
+36
+,
+15
+2,3
+8,4
+=
+⋅
+=
+k
+A
+Średnia roczna temperatura zewnętrzna dla IV strefy klimatycznej: 
+ 
+C
+9,6
+,
+°
+=
+e
+m
+θ
+ 
+Projektowa temperatura przyległej przestrzeni ogrzewanej na podstawie tabeli 3.5: 
+ 
+C
+45
+,
+13
+2
+9,6
+20
+2
+,
+,
+°
+=
++
+=
++
+=
+e
+m
+i
+int
+zeni
+ej przestr
+przyleg
+θ
+θ
+θ
+ł
+ 
+Współczynnik redukcyjny temperatury określony jest następującym równaniem: 
+ 
+(
+)
+156
+,0
+22
+20
+45
+,
+13
+20
+,
+,
+=
+−
+−
+−
+=
+−
+−
+=
+e
+i
+int
+zeni
+ej przestr
+przyleg
+i
+int
+ijf
+θ
+θ
+θ
+θ
+ł
+ 
+ 
+   
+22    I    
+
+
+Norma PN–EN 12831. Nowa metoda obliczania projektowego obciążenia cieplnego 
+ 
+ 
+Współczynnik straty ciepła przez przenikanie z przestrzeni ogrzewanej (i) do sąsiedniej 
+przestrzeni ogrzewanej (j) przez analizowaną ścianę:  
+ 
+ 
+ W/K
+030
+,5
+1,2
+36
+,
+15
+156
+,0
+,
+=
+⋅
+⋅
+=
+⋅
+⋅
+=
+k
+k
+ij
+ij
+T
+U
+A
+f
+H
+Projektowa strata ciepła z przestrzeni ogrzewanej (i) do sąsiedniej przestrzeni ogrzewa-
+nej (j) przez analizowaną ścianę: 
+ 
+(
+)
+(
+)
+[
+]
+ W
+211
+22
+20
+030
+,5
+,
+,
+,
+=
+−
+−
+⋅
+=
+−
+⋅
+=
+e
+i
+int
+ij
+T
+i
+T
+H
+Φ
+θ
+θ
+ 
+ 
+4.3.2 Obliczenia wg PN–EN 12831:2006 z uwzględnieniem wymagań Rozporządzenia 
+w sprawie warunków technicznych 
+Rozporządzenie Ministra Infrastruktury w sprawie warunków technicznych, jakim powin-
+ny odpowiadać budynki i ich usytuowanie, (par. 134, ust. 6) [22] mówi, że regulatory do-
+pływu ciepła do grzejników powinny umożliwiać użytkownikom uzyskanie w pomiesz-
+czeniach temperatury niższej od obliczeniowej, przy czym nie niższej niż 16°C w po-
+mieszczeniach o temperaturze obliczeniowej 20°C i wyższej. 
+Wobec powyższego, jeżeli jako temperaturę przestrzeni przyległej przyjmiemy 16ºC, to 
+współczynnik redukcyjny temperatury będzie wynosił: 
+ 
+(
+)
+095
+,0
+22
+20
+16
+20
+,
+,
+=
+−
+−
+−
+=
+−
+−
+=
+e
+i
+int
+zeni
+ej przestr
+przyleg
+i
+int
+ijf
+θ
+θ
+θ
+θ
+ł
+ 
+Współczynnik straty ciepła przez przenikanie z przestrzeni ogrzewanej (i) do sąsiedniej 
+przestrzeni ogrzewanej (j) przez analizowaną ścianę:  
+ 
+ 
+W/K
+ 
+072
+,3
+1,2
+36
+,
+15
+095
+,0
+,
+=
+⋅
+⋅
+=
+⋅
+⋅
+=
+k
+k
+ij
+ij
+T
+U
+A
+f
+H
+Projektowa strata ciepła z przestrzeni ogrzewanej (i) do sąsiedniej przestrzeni ogrzewa-
+nej (j) przez analizowaną ścianę: 
+ 
+(
+)
+(
+)
+[
+]
+W
+ 
+129
+22
+20
+072
+,3
+,
+,
+,
+=
+−
+−
+⋅
+=
+−
+⋅
+=
+e
+i
+int
+ij
+T
+i
+T
+H
+Φ
+θ
+θ
+ 
+ 
+4.3.3 Obliczenia wg PN-B-03406:1994 
+Natomiast zgodnie z normą PN-B-03406:1994 nie uwzględnia się strat ciepła pomiędzy 
+pomieszczeniami o tej samej temperaturze obliczeniowej lub jeśli różnica temperatury 
+jest mniejsza niż 4 K. W związku z tym, w analizowanym przypadku strata ciepła przez 
+przenikanie wynosi: 
+ 
+ 
+ W
+0
+=
+o
+Q
+4.3.4 Porównanie wyników 
+Wg normy PN-B-03406:1994, nie występują straty ciepła przez przenikanie przez anali-
+zowaną ścianę. Natomiast wg normy PN–EN 12831:2006 uzyskano niezerową wartość 
+strat ciepła przez przenikanie do pokoju w sąsiednim mieszkaniu. Wartość tę uwzględ-
+nia się przy doborze grzejnika. Dzięki temu moc grzejnika będzie zwiększona na wypa-
+dek obniżenia temperatury (osłabienia ogrzewania) w sąsiednim mieszkaniu. Nato-
+miast, jak już wspomniano, wartości tej straty ciepła nie należy uwzględniać przy dobo-
+rze źródła ciepła. 
+ 
+   
+23    I    
+
+
+Norma PN–EN 12831. Nowa metoda obliczania projektowego obciążenia cieplnego 
+ 
+ 
+   
+24    I    
+4.4 Podsumowanie 
+W przeprowadzonych przykładowych obliczeniach – wg nowej normy uzyskano wyniki 
+odbiegające od wyników uzyskanych na podstawie normy dotychczasowej. Różnice 
+wynikają z: 
+– uwzględnienia mostków cieplnych, 
+– zmiany sposobu określania powierzchni przegrody (wymiary zewnętrzne), 
+– innego sposobu określania temperatury (względnie współczynnika redukcji 
+temperatury) w pomieszczeniach nieogrzewanych,  
+– innym określeniu temperatury projektowej w pomieszczeniu ogrzewanym, nale-
+żącym do osobnej jednostki budynku (innego mieszkania). 
+Mimo, że przedstawione przykłady obliczeniowe mają charakter „wyrywkowy” i nie 
+obejmują całego zakresu możliwych przypadków, już na ich podstawie można powie-
+dzieć, że przyjęcie nowej normy ma duży wpływ nie tylko na sposób prowadzenia obli-
+czeń, ale również na uzyskiwane wyniki. W związku z tym, wielkości powierzchni grzej-
+nych i źródeł ciepła, określone na podstawie nowej normy, mogą się różnić nawet 
+znacznie (powyżej skoku w typoszeregach urządzeń) od wielkości, dobranych na pod-
+stawie normy dotychczasowej. 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+
+
+Norma PN–EN 12831. Nowa metoda obliczania projektowego obciążenia cieplnego 
+ 
+ 
+5. Obliczanie projektowej straty ciepła do gruntu 
+5.1 
+ Wprowadzenie 
+Na potrzeby normy PN-EN 12831:2006 straty ciepła mogą być obliczane wg normy EN 
+ISO 13370: 
+– w sposób szczegółowy 
+– lub w sposób uproszczony, podany w normie PN-EN 12831:2006. 
+Sposób uproszczony polega na wykorzystywaniu tabel i wykresów, sporządzonych dla 
+wybranych przypadków. W tym przypadku nie uwzględnia się mostków cieplnych. 
+Norma PN-EN 12831:2006 podaje również uproszczony sposób obliczeń dla podziemia 
+nieogrzewanego i podłogi podniesionej z wykorzystaniem współczynnika redukcji tem-
+peratury bu.  
+5.2 
+Współczynnik straty ciepła przez przenikanie do gruntu 
+Wg normy PN-EN 12831:2006 współczynnik straty ciepła przez przenikanie z przestrzeni 
+ogrzewanej (i) do gruntu (g) w warunkach ustalonych oblicza się w następujący sposób: 
+ 
+   W/K
+,
+,
+2
+1
+,
+w
+k
+k
+equiv
+k
+g
+g
+ig
+T
+G
+U
+A
+f
+f
+H
+⋅⎟
+⎠
+⎞
+⎜
+⎝
+⎛
+⋅
+⋅
+⋅
+=
+∑
+ 
+(5.1) 
+gdzie: 
+fg1 
+– współczynnik korekcyjny, uwzględniający wpływ rocznych wahań tempe-
+ratury zewnętrznej (zgodnie z załącznikiem krajowym do normy PN-EN 
+12831:2006 wartość orientacyjna wynosi 1,45);  
+fg2 
+– współczynnik redukcji temperatury, uwzględniający różnicę między śred-
+nią roczną temperaturą zewnętrzną i projektową temperaturą ze-
+wnętrzną; 
+Ak 
+– powierzchnia elementu budynku (k) stykająca się z gruntem, m2;  
+Uequiv,k – równoważny współczynnik przenikania ciepła elementu budynku (k); 
+W/m2K; 
+Gw 
+– współczynnik uwzględniający wpływ wody gruntowej. 
+Współczynnik redukcji temperatury wynosi: 
+ 
+−
+−
+−
+=
+   
+,
+,
+,
+,
+2
+e
+i
+int
+e
+m
+i
+int
+gf
+θ
+θ
+θ
+θ
+ 
+(5.2) 
+gdzie: 
+θint,i – projektowa temperatura wewnętrzna przestrzeni ogrzewanej (i), ºC;  
+θm,e – roczna średnia temperatura zewnętrzna, ºC; 
+θe 
+– projektowa temperatura zewnętrzna, ºC.  
+Woda gruntowa ma najczęściej pomijalny wpływ na wymianę ciepła w gruncie, chyba 
+że występuje na małej głębokości i jej strumień jest duży. Współczynnik uwzględniający 
+wpływ wody gruntowej Gw oblicza się w jeden z następujących sposobów: 
+   
+25    I    
+
+
+Norma PN–EN 12831. Nowa metoda obliczania projektowego obciążenia cieplnego 
+ 
+ 
+– w sposób szczegółowy wg załącznika H do normy PN-EN ISO 13370:2001 
+– lub na podstawie wartości orientacyjnych, podanych w załączniku krajowym do 
+normy PN-EN 12831:2006. 
+Załącznik krajowy do normy PN-EN 12831:2006 podaje dwie wartości orientacyjne 
+współczynnika Gw: 
+– Gw = 1,15 jeśli odległość między założonym poziomem wody gruntowej i płytą 
+podłogi jest mniejsza niż1 m, 
+– Gw = 1,00 w pozostałych przypadkach. 
+ 
+5.3 
+Wymiar charakterystyczny podłogi 
+Kluczowym pojęciem dla określania strat ciepła przez podłogę do gruntu jest wymiar 
+charakterystyczny podłogi B', określony równaniem: 
+ 
+m
+   
+,
+2
+1 P
+A
+B =
+′
+ 
+(5.3) 
+gdzie: 
+A 
+– pole powierzchni podłogi, m2;  
+P 
+– obwód podłogi (uwzględniający tylko ściany zewnętrzne), m.  
+Obwód podłogi P uwzględnia długość całkowitą ścian zewnętrznych, oddzielających 
+ogrzewany budynek od otoczenia zewnętrznego lub nieogrzewanej przestrzeni, leżącej 
+poza izolowaną obudową budynku (np. dobudowane garaże, pomieszczenia gospodar-
+cze itp.) 
+Wymiar charakterystyczny podłogi B' zdefiniowany jest w normie PN-EN ISO 13370:2001 
+w odniesieniu do całego budynku. Natomiast zgodnie z normą PN-EN 12831:2006 wy-
+miar ten dla poszczególnych pomieszczeń powinien być określany w jeden z następują-
+cych sposobów: 
+– dla pomieszczeń bez ścian zewnętrznych stosuje się wartość B' obliczoną dla ca-
+łego budynku; 
+– dla wszystkich pomieszczeń z dobrze izolowaną podłogą (Upodłogi < 0,5 W/m2K) 
+również stosuje się wartość B' obliczoną dla całego budynku; 
+– dla pozostałych pomieszczeń (pomieszczenia ze ścianami zewnętrznymi oraz 
+jednocześnie ze słabo izolowaną podłogą) wartość B' należy obliczać oddzielnie 
+dla każdego pomieszczenia. 
+Należy zwrócić uwagę, że wzoru (5.3) nie da się zastosować dla pomieszczeń bez ścian 
+zewnętrznych, gdyż obwód P wynosi wówczas zero (zgodnie z powyższym stosuje się 
+wtedy wartość obliczoną dla całego budynku). 
+5.4 
+Równoważny współczynnik przenikania ciepła 
+Wartości równoważnego współczynnika przenikania ciepła podłóg i ścian stykających 
+się z gruntem można odczytać z wykresów (rys. 5.1–5.4) lub tabel 5.1–5.4. Należy zwrócić 
+uwagę, że tabele i wykresy zostały opracowane tylko dla wybranych przypadków. 
+   
+26    I    
+
+
+Norma PN–EN 12831. Nowa metoda obliczania projektowego obciążenia cieplnego 
+ 
+ 
+z = 0 m
+B , m
+'
+a - podłoga betonowa (bez izolacji)
+Uequiv,k, W/m K
+2
+ 
+Rys. 5.1. Równoważny współczynnik przenikania ciepła podłogi na poziomie terenu. Na podstawie [20] 
+Tabela 5.1. 
+Równoważny współczynnik przenikania ciepła podłogi na poziomie terenu [20] 
+Równoważny współczynnik przenikania ciepła podłogi Uequiv,bf (dla z = 0 m) 
+W/m2K 
+Wartość B' 
+m 
+bez izolacji 
+Upodłogi = 
+2,0 W/m2K 
+Upodłogi = 
+1,0 W/m2K 
+Upodłogi = 
+0,5 W/m2K 
+Upodłogi = 
+0,25 W/m2K 
+2 
+1,30 
+0,77 
+0,55 
+0,33 
+0,17 
+4 
+0,88 
+0,59 
+0,45 
+0,30 
+0,17 
+6 
+0,68 
+0,48 
+0,38 
+0,27 
+0,17 
+8 
+0,55 
+0,41 
+0,33 
+0,25 
+0,16 
+10 
+0,47 
+0,36 
+0,30 
+0,23 
+0,15 
+12 
+0,41 
+0,32 
+0,27 
+0,21 
+0,14 
+14 
+0,37 
+0,29 
+0,24 
+0,19 
+0,14 
+16 
+0,33 
+0,26 
+0,22 
+0,18 
+0,13 
+18 
+0,31 
+0,24 
+0,21 
+0,17 
+0,12 
+20 
+0,28 
+0,22 
+0,19 
+0,16 
+0,12 
+ 
+ 
+   
+27    I    
+
+
+Norma PN–EN 12831. Nowa metoda obliczania projektowego obciążenia cieplnego 
+ 
+ 
+B , m
+'
+a - podłoga betonowa (bez izolacji)
+Uequiv,k, W/m K
+2
+z = 1,5 m
+ 
+Rys. 5.2. Równoważny współczynnik przenikania ciepła podłogi ogrzewanego podziemia z płytą podłogi 
+położoną 1,5 m poniżej poziomu terenu. Na podstawie [20] 
+ 
+ 
+Tabela 5.2. 
+Równoważny współczynnik przenikania ciepła podłogi ogrzewanego podziemia z płytą 
+podłogi położoną 1,5 m poniżej poziomu terenu [20] 
+Równoważny współczynnik przenikania ciepła podłogi Uequiv,bf (dla z = 1,5 m) 
+W/m2K 
+Wartość B' 
+m 
+bez izolacji 
+Upodłogi = 
+2,0 W/m2K 
+Upodłogi = 
+1,0 W/m2K 
+Upodłogi = 
+0,5 W/m2K 
+Upodłogi = 
+0,25 W/m2K 
+2 
+0,86 
+0,58 
+0,44 
+0,28 
+0,16 
+4 
+0,64 
+0,48 
+0,38 
+0,26 
+0,16 
+6 
+0,52 
+0,40 
+0,33 
+0,25 
+0,15 
+8 
+0,44 
+0,35 
+0,29 
+0,23 
+0,15 
+10 
+0,38 
+0,31 
+0,26 
+0,21 
+0,14 
+12 
+0,34 
+0,28 
+0,24 
+0,19 
+0,14 
+14 
+0,30 
+0,25 
+0,22 
+0,18 
+0,13 
+16 
+0,28 
+0,23 
+0,20 
+0,17 
+0,12 
+18 
+0,25 
+0,22 
+0,19 
+0,16 
+0,12 
+20 
+0,24 
+0,20 
+0,18 
+0,15 
+0,11 
+   
+28    I    
+
+
+Norma PN–EN 12831. Nowa metoda obliczania projektowego obciążenia cieplnego 
+ 
+ 
+B , m
+'
+a - podłoga betonowa (bez izolacji)
+Uequiv,k, W/m K
+2
+z = 3 m
+ 
+Rys. 5.3. Równoważny współczynnik przenikania ciepła podłogi ogrzewanego podziemia z płytą podłogi 
+położoną 3,0 m poniżej poziomu terenu. Na podstawie [20] 
+ 
+ 
+Tabela 5.3. 
+Równoważny współczynnik przenikania ciepła podłogi ogrzewanego podziemia z płytą 
+podłogi położoną 3,0 m poniżej poziomu terenu [20] 
+Równoważny współczynnik przenikania ciepła podłogi Uequiv,bf (dla z = 3,0 m) 
+W/m2K 
+Wartość B' 
+m 
+bez izolacji 
+Upodłogi = 
+2,0 W/m2K 
+Upodłogi = 
+1,0 W/m2K 
+Upodłogi = 
+0,5 W/m2K 
+Upodłogi = 
+0,25 W/m2K 
+2 
+0,63 
+0,46 
+0,35 
+0,24 
+0,14 
+4 
+0,51 
+0,40 
+0,33 
+0,24 
+0,14 
+6 
+0,43 
+0,35 
+0,29 
+0,22 
+0,14 
+8 
+0,37 
+0,31 
+0,26 
+0,21 
+0,14 
+10 
+0,32 
+0,27 
+0,24 
+0,19 
+0,13 
+12 
+0,29 
+0,25 
+0,22 
+0,18 
+0,13 
+14 
+0,26 
+0,23 
+0,20 
+0,17 
+0,12 
+16 
+0,24 
+0,21 
+0,19 
+0,16 
+0,12 
+18 
+0,22 
+0,20 
+0,18 
+0,15 
+0,11 
+20 
+0,21 
+0,18 
+0,16 
+0,14 
+0,11 
+ 
+   
+29    I    
+
+
+Norma PN–EN 12831. Nowa metoda obliczania projektowego obciążenia cieplnego 
+ 
+ 
+Uściany, W/m K
+2
+Uequiv,k, W/m K
+2
+z
+ 
+Rys. 5.4. Równoważny współczynnik przenikania ciepła ściany ogrzewanego podziemia. Na podstawie 
+[20] 
+ 
+ 
+Tabela 5.4. 
+Równoważny współczynnik przenikania ciepła ściany ogrzewanego podziemia [20] 
+Równoważny współczynnik przenikania ciepła ściany Uequiv,bw  
+W/m2K 
+Uściany 
+W/m2K 
+z = O m 
+z = 1 m 
+z = 2 m 
+z = 3 m 
+0,00 
+0,00 
+0,00 
+0,00 
+0,00 
+0,50 
+0,44 
+0,39 
+0,35 
+0,32 
+0,75 
+0,63 
+0,54 
+0,48 
+0,43 
+1,00 
+0,81 
+0,68 
+0,59 
+0,53 
+1,25 
+0,98 
+0,81 
+0,69 
+0,61 
+1,50 
+1,14 
+0,92 
+0,78 
+0,68 
+1,75 
+1,28 
+1,02 
+0,85 
+0,74 
+2,00 
+1,42 
+1,11 
+0,92 
+0,79 
+2,25 
+1,55 
+1,19 
+0,98 
+0,84 
+2,50 
+1,67 
+1,27 
+1,04 
+0,88 
+2,75 
+1,78 
+1,34 
+1,09 
+0,92 
+3,00 
+1,89 
+1,41 
+1,13 
+0,96 
+ 
+   
+30    I    
+
+
+Norma PN–EN 12831. Nowa metoda obliczania projektowego obciążenia cieplnego 
+ 
+ 
+6. Obliczanie projektowej wentylacyjnej straty ciepła 
+w przypadku wentylacji naturalnej 
+6.1 
+Wprowadzenie 
+W normie PN–EN 12831 [20] w miejsce dotychczasowego pojęcia „zapotrzebowanie na 
+ciepło do wentylacji” występuje „projektowa wentylacyjna strata ciepła”. 
+Dotychczasowa norma PN-B-03406:1994 określała zapotrzebowanie na ciepło do wen-
+tylacji na podstawie strumienia powietrza wymaganego ze względów higienicznych. 
+Natomiast wg normy PN–EN 12831 należy również określić strumień powietrza infiltru-
+jącego i przyjąć większą z tych dwóch wartości. 
+6.2 
+Projektowa wentylacyjna strata ciepła  
+Norma PN–EN 12831 podaje wzór do obliczania projektowej wentylacyjnej straty ciepła 
+przestrzeni ogrzewanej: 
+ 
+(
+)   W
+,
+,
+,
+,
+e
+i
+int
+i
+V
+i
+V
+H
+Φ
+θ
+θ
+−
+⋅
+=
+ 
+(6.1) 
+gdzie: 
+HV,i – współczynnik projektowej wentylacyjnej straty ciepła, W/K;  
+θint,i – projektowa temperatura wewnętrzna przestrzeni ogrzewanej (i), ºC;  
+θe 
+– projektowa temperatura zewnętrzna, ºC.  
+6.3 
+Współczynnik projektowej wentylacyjnej straty ciepła  
+Jak wynika z równania (6.1) współczynnik projektowej wentylacyjnej straty ciepła HV,i 
+odnosi stratę ciepła do różnicy temperatury wewnętrznej i zewnętrznej. Współczynnik 
+ten oblicza się w następujący sposób: 
+ 
+ 
+(6.2) 
+   W/K
+,
+,
+p
+i
+i
+V
+c
+V
+H
+⋅
+⋅
+=
+ρ
+&
+gdzie: 
+iV& 
+– strumień objętości powietrza wentylacyjnego przestrzeni ogrzewanej (i), 
+m3/s;  
+ρ 
+– gęstość powietrza w temperaturze θi,int, kg/m3;  
+cp 
+– ciepło właściwe powietrza w temperaturze θi,int, J/kg∙K.  
+Pomijając dla uproszczenia zmienność wartości gęstości i ciepła właściwego powietrza 
+w funkcji temperatury i odnosząc strumień powietrza do jednej godziny, równanie (6.2) 
+przyjmuje następującą postać: 
+ 
+ 
+(6.3) 
+   W/K
+,
+34
+,0
+,
+i
+i
+V
+V
+H
+&
+⋅
+=
+gdzie: 
+iV& 
+– strumień objętości powietrza wentylacyjnego przestrzeni ogrzewanej (i), 
+m3/h.  
+Sposób określania strumienia objętości powietrza wentylacyjnego zależy od tego, czy w 
+pomieszczeniu znajduje się instalacja wentylacyjna czy nie. 
+   
+31    I    
+
+
+Norma PN–EN 12831. Nowa metoda obliczania projektowego obciążenia cieplnego 
+ 
+ 
+6.4 Strumień objętości powietrza wentylacyjnego  
+W przypadku braku instalacji wentylacyjnej zakłada się, że powietrze dopływające do 
+pomieszczenia charakteryzuje się parametrami powietrza zewnętrznego. 
+Jako wartość strumienia objętości powietrza wentylacyjnego należy przyjąć większą z 
+dwóch wartości: 
+– wartość strumienia powietrza na drodze infiltracji 
+, 
+i
+inf
+V
+,
+&
+– minimalna wartość strumienia powietrza wentylacyjnego, wymagana ze wzglę-
+dów higienicznych 
+. 
+i
+min
+V
+,
+&
+ 
+ 
+(6.4) 
+(
+)
+/h
+m
+   
+,
+   
+,
+max
+3
+,i
+min
+inf,i
+i
+V
+V
+V
+&
+&
+& =
+Dokładną metodę określania strumienia objętości powietrza w budynku podano w PN-
+EN 13465 [18]. Natomiast norma PN–EN 12831 zawiera zależności uproszczone, które 
+przytoczono poniżej.  
+6.5 
+Infiltracja przez obudowę budynku 
+Norma PN–EN 12831 podaje wzór na obliczanie strumienia powietrza infiltrującego do 
+przestrzeni ogrzewanej (i):  
+ 
+ 
+(6.5) 
+/h
+m
+   
+,
+2
+3
+50
+,
+i
+i
+i
+i
+inf
+e
+n
+V
+V
+ε⋅
+⋅
+⋅
+⋅
+=
+&
+gdzie: 
+Vi 
+– kubatura przestrzeni ogrzewanej (i) (obliczona na podstawie wymiarów 
+wewnętrznych), m3;  
+n50 
+– krotność wymiany powietrza wewnętrznego, wynikająca z różnicy ciśnie-
+nia 50 Pa między wnętrzem a otoczeniem budynku, z uwzględnieniem 
+wpływu nawiewników powietrza (tabela 6.1), h–1;  
+ei 
+– współczynnik osłonięcia (tabela 6.2);  
+εi 
+– współczynnik poprawkowy uwzględniający wzrost prędkości wiatru w za-
+leżności od wysokości położenia przestrzeni ogrzewanej ponad poziomem 
+terenu (tabela 6.3).  
+Współczynnik 2 w równaniu (6.5) uwzględnia najbardziej niekorzystny przypadek, w 
+którym całe infiltrujące powietrze wpływa do budynku z jednej strony. 
+ 
+   
+32    I    
+
+
+Norma PN–EN 12831. Nowa metoda obliczania projektowego obciążenia cieplnego 
+ 
+ 
+   
+33    I    
+Tabela 6.1. 
+Krotność wymiany powietrza dotycząca całego budynku [20] 
+n50
+h–1
+Stopień szczelności obudowy budynku 
+(jakość uszczelek okiennych) 
+Konstrukcja 
+wysoki (wysoka ja-
+kość uszczelek w 
+oknach i drzwiach) 
+średni (okna z po-
+dwójnym oszkleniem, 
+uszczelki standardo-
+we) 
+niski (pojedynczo 
+oszklone okna, bez 
+uszczelek) 
+budynki jednorodzinne
+< 4 
+4–10 
+> 10 
+inne mieszkania 
+lub budynki 
+< 2 
+2–5 
+> 5 
+ 
+Tabela 6.2. Współczynnik osłonięcia. Na podstawie [20] 
+e 
+Ilość odsłoniętych otworów w przestrzeni ogrzewanej  
+(okna i drzwi) 
+Klasy osłonięcia 
+ 
+0 
+1 
+> 1 
+Brak osłonięcia 
+(budynek w wietrznej prze-
+strzeni, wysokie budynki w cen-
+trach miast) 
+ 
+0 
+ 
+ 
+0,03 
+ 
+ 
+0,05 
+ 
+Średnie osłonięcie 
+(budynki na prowincji z drze-
+wami lub innymi budynkami 
+wokół nich, przedmieścia) 
+ 
+0 
+ 
+ 
+0,02 
+ 
+ 
+0,03 
+ 
+Dobrze osłonięte 
+(budynki średnio wysokie 
+w centrach miast, budynki 
+w lasach) 
+ 
+0 
+ 
+ 
+0,01 
+ 
+ 
+0,02 
+ 
+ 
+Tabela 6.3. Współczynnik poprawkowy ze względu na wysokość [20] 
+Wysokość przestrzeni ogrzewanej ponad poziomem terenu 
+(wysokość środka pomieszczenia ponad poziomem terenu) 
+ε 
+ 
+0 – 10 m 
+1,0 
+>10 – 30 m 
+1,2 
+>30 m 
+1,5 
+ 
+ 
+ 
+
+
+Norma PN–EN 12831. Nowa metoda obliczania projektowego obciążenia cieplnego 
+ 
+ 
+6.6 Minimalny strumień objętości powietrza ze względów higienicznych 
+Minimalny strumień objętości powietrza, wymagany ze względów higienicznych, do-
+pływający do przestrzeni ogrzewanej (i) może być określony w sposób następujący: 
+ 
+ 
+(6.6) 
+/h
+m
+   
+,
+3
+,
+i
+min
+i
+min
+V
+n
+V
+⋅
+=
+&
+gdzie: 
+nmin – minimalna krotność wymiany powietrza na godzinę (tabela 6.4), h–1;  
+Vi 
+– kubatura przestrzeni ogrzewanej (i) (obliczona na podstawie wymiarów 
+wewnętrznych), m3.  
+Tabela 6.4. Minimalna krotność wymiany powietrza zewnętrznego [20] 
+Typ pomieszczenia 
+nmin
+h–1
+Pomieszczenie mieszkalne (orientacyjnie) 
+0,5 
+Kuchnia lub łazienka z oknem 
+0,5 
+Pokój biurowy 
+1,0 
+Sala konferencyjna, sala lekcyjna 
+2,0 
+ 
+Krotności wymiany powietrza podane w tabeli 6.4 odniesione są do wymiarów we-
+wnętrznych. Jeśli w obliczeniach stosowane są wymiary zewnętrzne, wartości krotności 
+wymiany powietrza podane w tabeli należy pomnożyć przez stosunek między kubaturą 
+wewnętrzną i zewnętrzną (w przybliżeniu można przyjąć 0,8). 
+W przypadku otwartych kominków należy przyjmować wyższe wartości strumienia 
+powietrza, wymagane ze względu na proces spalania. 
+6.7 
+Projektowe obciążenie cieplne budynku lub jego części 
+Przy obliczaniu strumienia powietrza infiltrującego do poszczególnych przestrzeni 
+ogrzewanych w równaniu (6.5) występuje współczynnik 2, uwzględniający najbardziej 
+niekorzystny przypadek, w którym całe infiltrujące powietrze wpływa do budynku z 
+jednej strony (patrz punkt 6.5). Natomiast w przypadku obliczania obciążenia cieplnego 
+całego budynku, taka konieczność nie zachodzi, ponieważ najgorszy przypadek nie wy-
+stąpi jednocześnie w pomieszczeniach z obu stron budynku. Dlatego sumę strumieni 
+powietrza infiltrującego do poszczególnych przestrzeni ogrzewanych należy pomnożyć 
+przez 0,5. W związku z tym strumień powietrza infiltrującego dla budynku określa się 
+w następujący sposób: 
+ 
+(
+/h
+m
+   
+,
+   
+,
+5,0
+max
+3
+, )
+∑
+∑
+∑
+⋅
+=
+i
+min
+inf,i
+i
+V
+V
+V
+&
+&
+&
+ 
+(6.7) 
+6.8 Przykład 
+Obliczyć wartość projektowej wentylacyjnej straty ciepła dla pokoju mieszkalnego, dla 
+następujących założeń: 
+– kubatura: 35 m3,  
+– rodzaj budynku: wielorodzinny, 
+   
+34    I    
+– stopień szczelności obudowy budynku: średni, 
+
+
+Norma PN–EN 12831. Nowa metoda obliczania projektowego obciążenia cieplnego 
+ 
+ 
+– klasa osłonięcia: średnie osłonięcie, 
+– ilość odsłoniętych otworów w przestrzeni ogrzewanej: 1, 
+– wysokość środka pomieszczenia ponad poziomem terenu: 14,5 m, 
+– lokalizacja: Poznań. 
+6.8.1 Obliczenia wg PN–EN 12831:2006 
+Kolejność obliczeń przedstawiono na rys. 6.1. 
+Strumień powietrza 
+infiltrującego
+max
+Strumień powietrza 
+wentylacyjnego
+Współczynnik projektowej 
+wentylacyjnej straty ciepła
+Projektowa wentylacyjna 
+strata ciepła
+Minimalny strumień 
+powietrza, wymagany ze 
+względów higienicznych
+ 
+Rys. 6.1.  Kolejność obliczeń projektowej wentylacyjnej straty ciepła wg PN–EN 12831. Opracowanie wła-
+sne. 
+Wartość n50 przyjęto 3,5 h–1 (na podstawie tabeli 6.1). 
+ 
+Strumień powietrza infiltrującego do przestrzeni ogrzewanej (i):  
+ 
+ 
+/h
+m
+ 
+88
+,5
+2,1
+02
+,0
+5,3
+35
+2
+2
+3
+50
+=
+⋅
+⋅
+⋅
+⋅
+=
+⋅
+⋅
+⋅
+⋅
+=
+ε
+e
+n
+V
+Vinf
+&
+Minimalny strumień objętości powietrza, wymagany ze względów higienicznych: 
+ 
+ 
+/h
+m
+ 
+50
+,
+17
+35
+5,0
+3
+=
+⋅
+=
+min
+V&
+Strumień objętości powietrza wentylacyjnego: 
+ 
+ 
+(
+)
+(
+)
+/h
+m
+ 
+17,50
+50
+,
+17
+ ;
+88
+,5
+max
+,
+max
+3
+=
+=
+=
+min
+inf V
+V
+V
+&
+&
+&
+ 
+   
+35    I    
+
+
+Norma PN–EN 12831. Nowa metoda obliczania projektowego obciążenia cieplnego 
+ 
+ 
+W omawianym przykładzie minimalny strumień objętości powietrza, wymagany ze 
+względów higienicznych, przewyższa strumień powietrza infiltrującego. Dzieje się tak w 
+przypadku większości typowych budynków do 10 m wysokości [2]. 
+Współczynnik projektowej wentylacyjnej straty ciepła: 
+ 
+ 
+ W/K
+95
+,5
+50
+,
+17
+34
+,0
+34
+,0
+=
+⋅
+=
+⋅
+=
+i
+V
+V
+H
+&
+Projektowa wentylacyjna strata ciepła: 
+ 
+(
+)
+(
+)
+[
+]
+ W
+226
+18
+20
+95
+,5
+=
+−
+−
+⋅
+=
+−
+⋅
+=
+e
+int
+V
+V
+H
+Φ
+θ
+θ
+ 
+6.8.2 Obliczenia wg PN-B-03406:1994 
+Dla porównania poniżej przedstawiono obliczenie „zapotrzebowania na ciepło do wen-
+tylacji” wg PN-B-03406:1994: 
+ 
+(
+)
+[
+]
+(
+)
+(
+)
+[
+]
+ W
+137
+35
+9
+18
+20
+34
+,0
+9
+34
+,0
+=
+−
+−
+−
+=
+−
+−
+=
+V
+t
+t
+Q
+e
+i
+w
+ 
+6.8.3 Porównanie wyników 
+W tym przypadku wartość obliczona wg PN–EN 12831 jest znacznie wyższa (o 65%) niż 
+otrzymana wg PN-B-03406:1994. Wynika to przede wszystkim z faktu, że zgodnie z 
+normą PN-B-03406:1994 w zapotrzebowaniu na ciepło do wentylacji uwzględniało się 
+(odejmowało się) wewnętrzne zyski ciepła (7 lub 9 W/m3).  
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+   
+36    I    
+
+
+Norma PN–EN 12831. Nowa metoda obliczania projektowego obciążenia cieplnego 
+ 
+ 
+7. Obliczanie projektowej wentylacyjnej straty ciepła 
+w przypadku instalacji wentylacyjnej 
+7.1 
+Wprowadzenie 
+Jeżeli instalacja wentylacyjna nie jest zidentyfikowana, wentylacyjne straty ciepła okre-
+śla się tak, jak w przypadku budynku bez instalacji wentylacyjnej (z wentylacją natural-
+ną). 
+Powietrze nawiewane do przestrzeni ogrzewanej przez instalację wentylacyjną może 
+mieć różną temperaturę. Norma PN–EN 12831 operuje wartością strumienia powietrza 
+wentylacyjnego przy założeniu, że jego temperatura jest równa projektowej tempera-
+turze zewnętrznej. Natomiast w przypadku wyższej temperatury powietrza wartość 
+strumienia jest odpowiednio redukowana obliczeniowo. 
+7.2 
+Projektowa wentylacyjna strata ciepła  
+Wzór na projektową wentylacyjną stratę ciepła jest taki sam, jak w przypadku wentyla-
+cji naturalnej: 
+ 
+(
+)   W
+,
+,
+,
+,
+e
+i
+int
+i
+V
+i
+V
+H
+Φ
+θ
+θ
+−
+⋅
+=
+ 
+(7.1) 
+gdzie: 
+HV,i – współczynnik projektowej wentylacyjnej straty ciepła, W/K;  
+θi,int – projektowa temperatura wewnętrzna przestrzeni ogrzewanej (i), ºC;  
+θe 
+– projektowa temperatura zewnętrzna, ºC.  
+7.3 
+Współczynnik projektowej wentylacyjnej straty ciepła  
+Również współczynnik projektowej wentylacyjnej straty ciepła oblicza się w sposób 
+analogiczny, jak w przypadku wentylacji naturalnej. Współczynnik ten odnosi stratę 
+ciepła do różnicy temperatury wewnętrznej i zewnętrznej.  
+ 
+ 
+(7.2) 
+   W/K
+,
+,
+p
+i
+i
+V
+c
+V
+H
+⋅
+⋅
+=
+ρ
+&
+gdzie: 
+iV& 
+– strumień objętości powietrza wentylacyjnego przestrzeni ogrzewanej (i), 
+m3/s;  
+ρ 
+– gęstość powietrza w temperaturze θi,int, kg/m3;  
+cp 
+– ciepło właściwe powietrza w temperaturze θi,int, J/kg∙K.  
+Pomijając dla uproszczenia zmienność wartości gęstości i ciepła właściwego powietrza 
+w funkcji temperatury i odnosząc strumień powietrza do jednej godziny, równanie (7.2) 
+przyjmuje następującą postać: 
+ 
+ 
+(7.3) 
+   W/K
+,
+34
+,0
+,
+i
+i
+V
+V
+H
+&
+⋅
+=
+gdzie: 
+iV& 
+– strumień objętości powietrza wentylacyjnego przestrzeni ogrzewanej (i), 
+m3/h.  
+   
+37    I    
+
+
+Norma PN–EN 12831. Nowa metoda obliczania projektowego obciążenia cieplnego 
+ 
+ 
+7.4 
+Strumień objętości powietrza wentylacyjnego  
+Norma PN–EN 12831 podaje następujący sposób obliczania strumienia powietrza wen-
+tylacyjnego strefy ogrzewanej (i) w przypadku występowania instalacji wentylacyjnej:  
+ 
+ 
+(7.4) 
+/h
+m
+   
+,
+3
+,
+,
+i
+mech,inf
+i
+V
+su,i
+inf,i
+i
+V
+f
+V
+V
+V
+&
+&
+&
+&
++
+⋅
++
+=
+gdzie: 
+inf,i
+V&
+ – strumień powietrza infiltrującego do przestrzeni ogrzewanej (i), m3/h;  
+su,i
+V&
+ – strumień objętości powietrza doprowadzonego do przestrzeni ogrzewa-
+nej (i), m3/h; 
+fV,i 
+– współczynnik redukcji temperatury; 
+i
+mech,inf
+V
+,
+&
+ – nadmiar strumienia objętości powietrza usuwanego z przestrzeni 
+ogrzewanej (i), m3/h. 
+Obliczony w ten sposób strumień powietrza można określić jako „cieplnie równoważ-
+ny” (w artykule [2] używane jest określenie „termicznie efektywny” – „thermisch wirk-
+sam”), tzn. taki, którego podgrzanie od temperatury zewnętrznej do temperatury po-
+wietrza wewnętrznego wymagałoby takiej samej ilości ciepła, co podgrzanie rzeczywi-
+stych strumieni przy ich rzeczywistych wartościach temperatury. Z punktu widzenia 
+zapotrzebowania na ciepło, strumień ten jest traktowany w dalszych obliczeniach, tak 
+jak byłby to strumień powietrza o temperaturze zewnętrznej. 
+Określanie strumienia powietrza infiltrującego oraz minimalnego strumienia powietrza 
+ze względów higienicznych, zostało omówione w rozdziale 6. 
+Wg normy PN–EN 12831 strumień powietrza wentylacyjnego 
+ nie powinien być 
+mniejszy od minimalnego strumienia powietrza ze względów higienicznych. Rozumie-
+jąc literalnie zapis w normie, można dojść do wniosku, że wymaganie to dotyczy stru-
+mienia, obliczonego wg równania (7.4). Jednak należy zwrócić uwagę, że wartość 
+ 
+uwzględnia współczynnik redukcji temperatury. Dlatego wydaje się wystarczającym, 
+aby niemniejszy niż strumień minimalny był rzeczywisty strumień powietrza zewnętrz-
+nego, a nie strumień termicznie równoważny (patrz przykład). Odnoszenie wymagań 
+higienicznych do strumienia zredukowanego obliczeniowo (cieplnie równoważnego), 
+który może być znacznie mniejszy od rzeczywistego, podważałoby natomiast m.in. ce-
+lowość stosowania odzysku ciepła z powietrza wentylacyjnego. 
+iV&
+iV&
+7.5 
+Strumień powietrza doprowadzonego 
+Jeśli instalacja wentylacyjna jest zidentyfikowana, strumień powietrza infiltrującego do 
+przestrzeni ogrzewanej (i) określa się na podstawie projektu instalacji.  
+Powietrze dostarczane do pomieszczenia ma zazwyczaj temperaturę wyższą od projek-
+towej temperatury zewnętrznej. W tym przypadku należy pomnożyć strumień powie-
+trza przez współczynnik redukcji temperatury: 
+ 
+e
+i
+int
+i
+su
+i
+int
+i
+Vf
+θ
+θ
+θ
+θ
+−
+−
+=
+,
+,
+,
+,
+ 
+(7.5) 
+ 
+   
+38    I    
+ 
+
+
+Norma PN–EN 12831. Nowa metoda obliczania projektowego obciążenia cieplnego 
+ 
+ 
+gdzie: 
+θint,i – projektowa temperatura wewnętrzna przestrzeni ogrzewanej (i), ºC;  
+θsu,i – temperatura powietrza dostarczanego do przestrzeni ogrzewanej (i), ºC; 
+θe 
+– projektowa temperatura zewnętrzna, ºC.  
+Współczynnik redukcji temperatury umożliwia przeliczenie strumienia objętości powie-
+trza dostarczanego o danej temperaturze na odpowiedni strumień powietrza o tempe-
+raturze zewnętrznej, którego podgrzanie do temperatury powietrza wewnętrznego 
+wymaga takiej samej ilości ciepła. 
+7.6 
+Odzysk ciepła 
+Jeśli stosowany jest system odzysku ciepła, temperatura θsu,i może być obliczona na 
+podstawie efektywności (sprawności) odzysku ciepła. Jeśli przy odzysku ciepła nie za-
+chodzi jednocześnie wymiana wilgoci (np. w wymienniku płytowym – rys. 7.1) oraz 
+strumień powietrza nawiewanego równy jest strumieniowi powietrza wywiewanego, 
+zachodzi następująca równość [6]:  
+ 
+(
+)
+e
+i
+int
+V
+e
+i
+su
+θ
+θ
+η
+θ
+θ
+−
++
+=
+,
+,
+ 
+(7.6) 
+gdzie: 
+V
+η 
+– efektywność (sprawność) odzysku ciepła;  
+pozostałe oznaczenia jw. 
+ 
+Układ temperatur pokazano na przykładzie wymiennika płytowego na rys. 7.1. 
+ 
+θe
+θsu,i
+θint,i
+ 
+Rys. 7.1.  Schemat wymiennika płytowego 
+Orientacyjne wartości efektywności odzysku ciepła dla różnych systemów podano w 
+tabeli 7.1 [1]. 
+ 
+   
+39    I    
+
+
+Norma PN–EN 12831. Nowa metoda obliczania projektowego obciążenia cieplnego 
+ 
+ 
+Tabela 7.1. 
+Porównanie systemów odzysku ciepła. Na podstawie [1] 
+System odzysku 
+ciepła 
+Efektywność 
+odzysku cie-
+pła (bez odzy-
+sku wilgoci) 
+Powietrze  
+nawiewane  
+i wywiewane  
+w jednej centrali
+Części rucho-
+me 
+Możliwość 
+wymiany 
+wilgoci 
+Wymiennik pły-
+towy  
+50-60% 
+tak 
+nie 
+nie 
+Rekuperacja po-
+średnia 
+40-50% 
+nie 
+tak 
+nie 
+Rurka cieplna 
+50-60% 
+tak 
+nie 
+nie 
+Wymiennik obro-
+towy bez odzysku 
+wilgoci 
+65-80% 
+tak 
+tak 
+w małym stop-
+niu 
+Wymiennik obro-
+towy z odzyskiem 
+wilgoci 
+65-80% 
+tak 
+ 
+tak 
+tak 
+ 
+W tym miejscu warto zauważyć, że po podstawieniu temperatury powietrza dostarcza-
+nego z równania (7.6) do równania (7.5) otrzymamy: 
+ 
+(
+)
+e
+i
+int
+e
+i
+int
+V
+e
+i
+int
+i
+Vf
+θ
+θ
+θ
+θ
+η
+θ
+θ
+−
+−
+−
+−
+=
+,
+,
+,
+,
+ 
+(7.7) 
+ 
+(
+)(
+)
+e
+i
+int
+e
+i
+int
+V
+i
+Vf
+θ
+θ
+θ
+θ
+η
+−
+−
+−
+=
+,
+,
+,
+1
+ 
+(7.8) 
+W związku z tym, współczynnik redukcji temperatury w przypadku odzysku ciepła z 
+powietrza usuwanego, przy podanych wyżej założeniach, można obliczyć z następują-
+cego równania: 
+ 
+V
+i
+Vf
+η
+−
+= 1
+,
+ 
+(7.9) 
+7.7 
+Nadmiar strumienia powietrza usuwanego 
+Norma zakłada, że jeżeli strumień powietrza usuwanego z pomieszczenia jest większy 
+od strumienia dostarczanego, to powstała różnica jest kompensowana przez strumień 
+powietrza zewnętrznego, dopływającego przez obudowę budynku. 
+Jeżeli nadmiar strumienia powietrza usuwanego nie jest inaczej określony, to jego war-
+tość w odniesieniu do całego budynku można obliczyć w następujący sposób: 
+ 
+ 
+(7.10) 
+(
+)
+/h
+m
+   
+,
+0
+   
+,
+max
+3
+su
+ex
+mech,inf
+V
+V
+V
+&
+&
+&
+−
+=
+gdzie: 
+ex
+V& – strumień objętości powietrza usuwanego w odniesieniu do całego bu-
+dynku, m3/h;  
+   
+40    I    
+su
+V& – strumień objętości powietrza doprowadzonego w odniesieniu do całego 
+budynku, m3/h. 
+
+
+Norma PN–EN 12831. Nowa metoda obliczania projektowego obciążenia cieplnego 
+ 
+ 
+W budynkach mieszkalnych, strumień objętości powietrza doprowadzanego w odnie-
+sieniu do całego budynku jest często przyjmowany jako równy zeru. 
+Wartość nadmiaru strumienia powietrza usuwanego dla całego budynku, otrzymaną 
+wg równania (7.10), rozdziela się następnie na poszczególne przestrzenie budynku na 
+podstawie ich przepuszczalności. Jeśli przepuszczalności nie zostały określone, rozdział 
+strumienia powietrza zewnętrznego może być przeprowadzony w sposób uproszczony, 
+proporcjonalnie do kubatury każdej przestrzeni:  
+ 
+/h
+m
+   
+,
+3
+,
+∑
+=
+i
+i
+mech,inf
+i
+mech,inf
+V
+V
+V
+V
+&
+&
+ 
+(7.11) 
+gdzie: 
+Vi 
+– kubatura przestrzeni (i), m3.  
+W analogiczny sposób można rozdzielać strumień powietrza dostarczonego do całego 
+budynku. 
+7.8 
+Projektowe obciążenie cieplne budynku lub jego części  
+Strumień powietrza infiltrującego dla całego budynku norma określa w następujący 
+sposób: 
+ 
+(
+)
+/h
+m
+   
+,
+1
+5,0
+3
+,i
+mech,inf
+su,i
+V
+inf,i
+i
+V
+V
+V
+V
+&
+&
+&
+&
++
+−
++
+⋅
+=
+∑
+∑
+∑
+η
+ 
+(7.12) 
+Podobnie jak w równaniu dla wentylacji naturalnej, przed sumą strumieni powietrza 
+infiltrującego występuje mnożnik 0,5. Wynika on z tego, że przy obliczaniu strumienia 
+powietrza infiltrującego do poszczególnych przestrzeni ogrzewanych stosuje się współ-
+czynnik 2, uwzględniający najbardziej niekorzystny przypadek, w którym całe infiltrują-
+ce powietrze wpływa do budynku z jednej strony. Natomiast w przypadku obliczania 
+obciążenia cieplnego całego budynku, nie zachodzi konieczność uwzględniania mnoż-
+nika 2, ponieważ wyżej opisana niekorzystna sytuacja nie wystąpi jednocześnie w po-
+mieszczeniach z obu stron budynku (patrz punkt 6.7). 
+Dodatkowo norma mówi, że jeśli dostarczane powietrze jest ogrzewane przez sąsiednią 
+instalację (instalację wentylacyjną), należy uwzględnić to w obliczeniach wymaganego 
+obciążenia cieplnego do zwymiarowania źródła ciepła.  
+7.9 
+Przykład 
+Obliczyć wartość projektowej wentylacyjnej straty ciepła dla pokoju mieszkalnego, dla 
+następujących założeń: 
+– kubatura: 35 m3,  
+– rodzaj budynku: wielorodzinny, 
+– stopień szczelności obudowy budynku: średni, 
+– klasa osłonięcia: średnie osłonięcie, 
+– ilość odsłoniętych otworów w przestrzeni ogrzewanej: 1, 
+– wysokość środka pomieszczenia ponad poziomem terenu: 14,5 m, 
+– strumień objętości pow. doprowadzonego do przestrzeni ogrzewanej: 25 m3/h,  
+– nadmiar strumienia objętości pow. usuwanego z przestrzeni ogrz.: 0 m3/h, 
+   
+41    I    
+
+
+Norma PN–EN 12831. Nowa metoda obliczania projektowego obciążenia cieplnego 
+ 
+ 
+– zastosowano wymiennik płytowy do odzysku ciepła z powietrza usuwanego o 
+efektywności 60% (strumień powietrza usuwanego jest równy strumieniowi 
+powietrza dostarczanego), brak recyrkulacji powietrza, 
+– lokalizacja: Poznań. 
+7.9.1 
+Obliczenia wg PN–EN 12831:2006 
+Kolejność obliczeń przedstawiono na rys. 7.2. 
+Strumień powietrza 
+wentylacyjnego
+Współczynnik projektowej 
+wentylacyjnej straty ciepła
+Projektowa wentylacyjna 
+strata ciepła
+Sprawdzenie warunku 
+minimalnego strumienia 
+objętości powietrza 
+ze względów higienicznych
+ 
+Rys. 7.2.  Kolejność obliczeń projektowej wentylacyjnej straty ciepła wg PN–EN 12831. Opracowanie wła-
+sne. 
+Wartość n50 przyjęto 3,5 h–1 (na podstawie tabeli 6.1), e = 0,02 (tabela 6.2), ε = 1,2 (tabela 
+6.3). 
+Strumień powietrza infiltrującego do przestrzeni ogrzewanej (i):  
+ 
+ 
+/h
+m
+ 
+88
+,5
+2,1
+02
+,0
+5,3
+35
+2
+2
+3
+50
+=
+⋅
+⋅
+⋅
+⋅
+=
+⋅
+⋅
+⋅
+⋅
+=
+ε
+e
+n
+V
+Vinf
+&
+Temperatura powietrza dostarczanego do przestrzeni ogrzewanej z uwzględnieniem 
+odzysku ciepła z powietrza usuwanego: 
+ 
+(
+)
+(
+)
+[
+]
+C
+8,4
+18
+20
+6,0
+18
+int,
+,
+°
+=
+−
+−
++
+−
+=
+−
++
+=
+e
+i
+V
+e
+i
+su
+θ
+θ
+η
+θ
+θ
+ 
+Współczynnik redukcji temperatury wg równania (7.5): 
+ 
+(
+)
+4,0
+18
+20
+8,4
+20
+,
+,
+,
+,
+=
+−
+−
+−
+=
+−
+−
+=
+e
+i
+int
+i
+su
+i
+int
+i
+Vf
+θ
+θ
+θ
+θ
+ 
+Współczynnik redukcji temperatury można również obliczyć wg równania (7.9): 
+ 
+4,0
+6,0
+1
+1
+,
+=
+−
+=
+−
+=
+V
+i
+Vf
+η
+ 
+ 
+   
+42    I    
+
+
+Norma PN–EN 12831. Nowa metoda obliczania projektowego obciążenia cieplnego 
+ 
+ 
+Strumień objętości powietrza wentylacyjnego:  
+ 
+ 
+/h
+m
+ 
+88
+,
+15
+0
+4,0
+25
+88
+,5
+3
+,
+,
+=
++
+⋅
++
+=
++
+⋅
++
+=
+i
+mech,inf
+i
+V
+su,i
+inf,i
+i
+V
+f
+V
+V
+V
+&
+&
+&
+&
+Minimalny strumień objętości powietrza, wymagany ze względów higienicznych: 
+ 
+ 
+/h
+m
+ 
+50
+,
+17
+35
+5,0
+3
+=
+⋅
+=
+min
+V&
+Obliczona wartość termicznie równoważnego strumienia objętości powietrza wentyla-
+cyjnego (15,88 m3/h) jest mniejsza od wartości minimalnej, wymaganej ze względów 
+higienicznych (17,50 m3/h). Jednak obliczona w sposób podany w normie moc ciepła 
+pozwoli na podgrzanie strumienia powietrza 30,88 m3/h, który jest prawie dwa razy 
+większy od strumienia minimalnego. Dlatego do dalszych obliczeń wydaje się celowe 
+przyjąć wartość zredukowaną 15,88 m3/h. Wartość strumienia jest redukowana, ponie-
+waż dalej, przy obliczaniu straty ciepła, zakłada się, że powietrze jest podgrzewane od 
+temperatury zewnętrznej.  
+Współczynnik projektowej wentylacyjnej straty ciepła: 
+ 
+ 
+ W/K
+40
+,5
+88
+,
+15
+34
+,0
+34
+,0
+=
+⋅
+=
+⋅
+=
+i
+V
+V
+H
+&
+Projektowa wentylacyjna strata ciepła: 
+ 
+(
+)
+(
+)
+[
+]
+ W
+205
+18
+20
+40
+,5
+=
+−
+−
+⋅
+=
+−
+⋅
+=
+e
+int
+V
+V
+H
+Φ
+θ
+θ
+ 
+Natomiast przyjmując zgodnie z zapisem w normie PN–EN 12831:2006 strumień obję-
+tości powietrza wentylacyjnego jako równy minimalnemu strumieniowi objętości po-
+wietrza wymaganemu ze względów higienicznych, współczynnik projektowej wentyla-
+cyjnej straty ciepła wynosi: 
+ 
+ 
+ W/K
+95
+,5
+5,
+17
+34
+,0
+34
+,0
+=
+⋅
+=
+⋅
+=
+i
+V
+V
+H
+&
+Natomiast projektowa wentylacyjna strata ciepła wynosi w tym przypadku: 
+ 
+(
+)
+(
+)
+[
+]
+ W
+226
+18
+20
+95
+,5
+=
+−
+−
+⋅
+=
+−
+⋅
+=
+e
+int
+V
+V
+H
+Φ
+θ
+θ
+ 
+Otrzymana w ten sposób wartość jest wyższa, ponieważ nie w pełni uwzględnia korzy-
+ści wynikające z zastosowania systemu odzysku ciepła z powietrza usuwanego. 
+7.9.2 Obliczenia wg PN-B-03406:1994 
+Dla porównania poniżej przedstawiono obliczenie „zapotrzebowania na ciepło do 
+wentylacji” wg PN-B-03406:1994. Norma ta nie przewidywała jasno możliwości 
+współpracy instalacji grzewczej i wentylacyjnej. Jednak po uwzględnieniu poprawki, 
+zaproponowanej przez Piotra Wereszczyńskiego [8], można zapisać: 
+ 
+ 
+(
+)
+(
+)
+ W
+186
+315
+155
+35
+9
+25
+8,4
+20
+34
+,0
+34
+,0
+−
+=
+−
+=
+⋅
+−
+−
+=
+⋅
+−
+−
+=
+V
+q
+V
+t
+t
+Q
+zc
+w
+n
+i
+w
+&
+Ponieważ obliczona wartość jest ujemna, należy zgodnie z normą przyjąć zero. Oznacza 
+to, że założone w normie zyski ciepła 9 W/m3 pokryją w całości zapotrzebowanie ciepła 
+do podgrzania powietrza wentylacyjnego.  
+   
+43    I    
+
+
+Norma PN–EN 12831. Nowa metoda obliczania projektowego obciążenia cieplnego 
+ 
+ 
+   
+44    I    
+7.10 Podsumowanie 
+Norma PN–EN 12831 przewiduje explicite możliwość współpracy instalacji centralnego 
+ogrzewania i instalacji wentylacyjnej, co jest jej zaletą w porównaniu z normą dotych-
+czasową. Jednak wydaje się celowym doprecyzowanie warunku minimalnego strumie-
+nia powietrza ze względów higienicznych. Zdaniem autorów niniejszy warunek powi-
+nien odnosić się do rzeczywistego strumienia powietrza zewnętrznego, a nie do stru-
+mienia cieplnie równoważnego (zredukowanego obliczeniowo z uwagi na inną tempe-
+raturę powietrza wentylacyjnego niż temperatura zewnętrzna). Taką interpretację po-
+twierdza drugie wydanie niemieckiego załącznika krajowego, chociaż nie wynika to 
+jednoznacznie z tekstu samej normy europejskiej. 
+
+
+Norma PN–EN 12831. Nowa metoda obliczania projektowego obciążenia cieplnego 
+ 
+ 
+8. Nadwyżka mocy cieplnej wymagana do skompenso-
+wania skutków osłabienia ogrzewania 
+8.1 
+Wprowadzenie 
+Istotną zmianą, wprowadzoną przez normę PN-EN 12831:2006, w stosunku do metodyki 
+dotychczasowej jest rozróżnienie pojęć „całkowita projektowa strata ciepła” i 
+„projektowe obciążenie cieplne”. 
+Różnica polega na tym, że „projektowe obciążenie cieplne” – obok całkowitej 
+projektowej straty ciepła – uwzględnia dodatkowo nadwyżkę mocy cieplnej, wymaganą 
+do skompensowania skutków osłabienia ogrzewania (rys. 8.1).  
+ 
+Projektowe 
+obciążenie cieplne
+Całkowita projektowa 
+strata ciepła
+Projektowa strata ciepła 
+przez przenikanie
+Wentylacyjna 
+strata ciepła
+Nadwyżka mocy cieplnej 
+(skompensowanie skutków 
+osłabienia ogrzewania)
+ 
+ 
+Rys. 8.1.  Porównanie pojęć „całkowita projektowa strata ciepła” i „projektowe obciążenie cieplne” 
+Projektowe obciążenie cieplne przestrzeni ogrzewanej określone jest równaniem: 
+ 
+   W
+,
+,
+,
+,
+,
+i
+RH
+i
+V
+i
+T
+i
+HL
+Φ
+Φ
+Φ
+Φ
++
++
+=
+ 
+(8.1) 
+gdzie: 
+ΦT,i – projektowa strata ciepła ogrzewanej przestrzeni (i) przez przenikanie, W;  
+ΦV,i – projektowa wentylacyjna strata ciepła ogrzewanej przestrzeni (i), W;  
+ΦRH,i – nadwyżka mocy cieplnej wymagana do skompensowania skutków osła-
+bienia ogrzewania strefy ogrzewanej (i), W. 
+Jak już wspomniano, w normie PN-B-03406:1994 [13] zrezygnowano z występującego 
+wcześniej „dodatku na przerwy w działaniu ogrzewania” (czyli odpowiednika 
+wprowadzonej obecnie „nadwyżki mocy cieplnej”). W momencie wprowadzenia normy 
+PN-B-03406:1994 wycofanie tego dodatku uzasadniono względami ekonomicznymi 
+[13]. Miało to zapobiegać znacznemu wzrostowi kosztów elementów instalacji (źródeł 
+ciepła, grzejników, przewodów). Dlatego założono ciągłość działania instalacji przy 
+temperaturze równej lub niższej niż –5ºC. 
+Natomiast w obecnej sytuacji ekonomicznej stosunek kosztów eksploatacyjnych do 
+kosztów inwestycyjnych instalacji grzewczych jest znacznie większy niż wcześniej i dla-
+tego ponowne umożliwienie stosowania osłabienia ogrzewania także przy niskich tem-
+peraturach zewnętrznych wydaje się uzasadnione. 
+ 
+   
+45    I    
+
+
+Norma PN–EN 12831. Nowa metoda obliczania projektowego obciążenia cieplnego 
+ 
+ 
+8.2 
+Założenia metody 
+Straty ciepła oblicza się, zakładając ustalony model wymiany ciepła. Natomiast ogrze-
+wanie z przerwami lub osłabieniem wymaga zapewnienia nadwyżki mocy ponad moc, 
+która pozwala pokrywać straty ciepła w warunkach ustalonej wymiany ciepła. Nadwyż-
+ka ta umożliwia osiągnięcie wymaganej temperatury wewnętrznej w określonym cza-
+sie po okresie osłabienia. 
+Ogólnie nadwyżka zależy od następujących czynników: 
+– pojemności cieplnej budynku, 
+– czasu, w którym ma być osiągnięta wymagana temperatura wewnętrzna, 
+– zakładanego obniżenia temperatury w okresie osłabienia ogrzewania, 
+– charakterystyk układu regulacji instalacji. 
+Nadwyżka mocy cieplnej czasami nie jest wymagana, np.: 
+– jeśli układ regulacji wyłącza program osłabienia w okresie niskich temperatur 
+zewnętrznych (podobnie, jak było to przyjęte w normie PN-B-03406:1994), 
+– straty ciepła mogą być ograniczone w okresie osłabienia ogrzewania, np. po-
+przez zmniejszenie intensywności wentylacji. 
+ 
+ 
+Zgodnie z normą PN-EN 12831:2006 nadwyżka mocy powinna być uzgodniona z 
+klientem (zleceniodawcą).  
+  
+ 
+Nadwyżka mocy może być określona metodą dokładną na podstawie obliczeń dyna-
+micznych. Natomiast norma PN-EN 12831:2006 podaje metodę uproszczoną. Metoda ta 
+może być stosowana w odniesieniu do: 
+– budynków mieszkalnych (okres osłabienia do 8 godzin, konstrukcja nie jest lek-
+ka), 
+– budynków niemieszkalnych (okres osłabienia weekendowego do 48 godzin, 
+okres użytkowania do 8 godzin dziennie, projektowa temperatura wewnętrzna 
+od 20ºC do 22ºC). 
+Efektywna masa budynku jest klasyfikowana w trzech kategoriach: 
+– duża masa budynku (betonowe podłogi i sufity połączone ze ścianami z cegły 
+lub betonu); 
+– średnia masa budynku (betonowe podłogi i sufity oraz lekkie ściany); 
+– lekka masa budynku (podwieszone sufity i podniesione podłogi oraz lekkie ścia-
+ny). 
+8.3 
+Współczynnik nagrzewania 
+Nadwyżka mocy cieplnej do skompensowania skutków osłabienia dla przestrzeni 
+ogrzewanej (i) może być określona w następujący sposób: 
+ 
+ 
+(8.2) 
+   W
+,
+,
+RH
+i
+i
+RH
+f
+A
+Φ
+⋅
+=
+ 
+   
+46    I    
+
+
+Norma PN–EN 12831. Nowa metoda obliczania projektowego obciążenia cieplnego 
+ 
+ 
+   
+47    I    
+gdzie: 
+Ai 
+– wewnętrzna powierzchnia podłogi przestrzeni ogrzewanej (i), m2;  
+fRH 
+– współczynnik nagrzewania.  
+Współczynnik nagrzewania fRH zależy od założonego obniżenia temperatury w okresie 
+osłabienia ogrzewania i czasu nagrzewania, w którym ma być osiągnięta wymagana 
+temperatura wewnętrzna. Wartości współczynnika nagrzewania są podane w załączni-
+ku krajowym do normy PN-EN 12831:2006 (tabela 8.1 i 8.2). Wartości podane w tabelach 
+odnoszą się do wewnętrznej powierzchni podłogi i mogą być stosowane dla pomiesz-
+czeń, których średnia wysokość nie przekracza 3,5 m. Wartości tych nie stosuje się w 
+przypadku elektrycznego ogrzewania akumulacyjnego. 
+ 
+Tabela 8.1. 
+Współczynnik nagrzewania w budynkach niemieszkalnych, osłabienie nocne maksimum 
+przez 12 h [20] 
+Współczynnik nagrzewania fRH , 
+W/m2
+Zakładane obniżenie temperatury podczas osłabieniaa
+2 K 
+3 K 
+4 K 
+masa budynku 
+masa budynku 
+masa budynku 
+Czas  
+nagrzewa-
+nia, 
+godz. 
+ 
+niska 
+średnia 
+duża 
+niska 
+średnia
+duża 
+niska 
+średnia 
+duża 
+1 
+18 
+23 
+25 
+27 
+30 
+27 
+36 
+27 
+31 
+2 
+9 
+16 
+22 
+18 
+20 
+23 
+22 
+24 
+25 
+3 
+6 
+13 
+18 
+11 
+16 
+18 
+18 
+18 
+18 
+4 
+4 
+11 
+16 
+6 
+13 
+16 
+11 
+16 
+16 
+a W dobrze izolowanych szczelnych budynkach wystąpienie spadku temperatury wewnętrznej podczas osłabienia o 
+więcej niż 2 do 3 K nie jest bardzo prawdopodobne. Zależy to od warunków klimatycznych i masy cieplnej budynku. 
+ 
+Tabela 8.2. Współczynnik nagrzewania w budynkach mieszkalnych, osłabienie nocne maksimum przez 
+8 h [20] 
+Współczynnik nagrzewania fRH ,W/m2
+Zakładane obniżenie temperatury podczas osłabieniaa
+1 K 
+2 K 
+3 K 
+Czas 
+nagrzewa-
+nia, 
+godz. 
+masa budynku duża 
+masa budynku duża 
+masa budynku duża 
+1 
+11 
+22 
+45 
+2 
+6 
+11 
+22 
+3 
+4 
+9 
+16 
+4 
+2 
+7 
+13 
+a W dobrze izolowanych szczelnych budynkach wystąpienie spadku temperatury wewnętrznej podczas osłabienia o 
+więcej niż 2 do 3 K nie jest bardzo prawdopodobne. Zależy to od warunków klimatycznych i masy cieplnej budynku. 
+
+
+Norma PN–EN 12831. Nowa metoda obliczania projektowego obciążenia cieplnego 
+ 
+ 
+8.4 Przykład 
+Obliczyć nadwyżkę mocy cieplnej do skompensowania skutków osłabienia dla pokoju 
+mieszkalnego z rys. 8.2, przy następujących założeniach: 
+– wysokość pomieszczenia: 2,8 m, 
+– masa budynku: duża, 
+– zakładane obniżenie temperatury podczas osłabienia nocnego: 2 K, 
+– czas nagrzewania: 
+a) 1 godz., 
+b) 2 godz. 
+ 
+450
+40
+402,5
+15
+96,5
+96,5
+Pokój 
++20 C
+12,9 m
+2
+º
+380
+200
+120
+40
+332,5
+15
+ 
+Rys. 8.2.  Rysunek do przykładu. Rzut pomieszczenia 
+ 
+ 
+ 
+   
+48    I    
+
+
+Norma PN–EN 12831. Nowa metoda obliczania projektowego obciążenia cieplnego 
+ 
+ 
+Rozwiązanie: 
+ad a) Współczynnik nagrzewania fRH odczytujemy z tabeli 8.2 (budynek mieszkalny):  
+  
+fRH = 22 W/m2. 
+ 
+ 
+ 
+ W
+285
+22
+9,
+12
+,
+=
+⋅
+=
+⋅
+=
+RH
+i
+i
+RH
+f
+A
+Φ
+ad b) Współczynnik nagrzewania fRH = 11 W/m2. 
+ 
+ 
+ 
+ W
+142
+11
+9,
+12
+,
+=
+⋅
+=
+⋅
+=
+RH
+i
+i
+RH
+f
+A
+Φ
+Wydłużenie czasu nagrzewania pomieszczenia po osłabieniu nocnym z 1 do 2 godzin 
+spowodowało dwukrotne zmniejszenie wymaganej nadwyżki mocy cieplnej. Natomiast 
+dalsze zwiększanie czasu przyniesie już znacznie mniejsze redukcje nadwyżki mocy. 
+ 
+8.5 
+Podsumowanie 
+Zakładanie dużego obniżenia temperatury w okresie osłabienia i krótkiego czasu na-
+grzewania po osłabieniu powoduje uzyskanie dużych wartości wymaganej nadwyżki 
+mocy cieplnej. Dlatego parametry te należy uzgodnić ze zleceniodawcą. 
+Metoda określania nadwyżki mocy cieplnej do skompensowania skutków osłabienia, 
+zawarta w normie PN-EN 12831:2006, jest uproszczona. Dokładniejsze wyniki można 
+uzyskać na drodze obliczeń dynamicznych, które mogą uwzględniać indywidualne ce-
+chy danego budynku. 
+   
+49    I    
+
+
+Norma PN–EN 12831. Nowa metoda obliczania projektowego obciążenia cieplnego 
+ 
+ 
+9. Obliczanie obciążenia cieplnego wysokich pomiesz-
+czeń  
+9.1 
+Wprowadzenie 
+Podstawowa metoda obliczeniowa podana w normie PN-EN 12831:2006 [20] opiera się 
+na założeniu jednakowej temperatury wewnętrznej w ogrzewanym pomieszczeniu. 
+Założenie takie jest spełnione z wystarczającą dokładnością w pomieszczeniach o wy-
+sokości do 5 m. Natomiast w pomieszczeniach wyższych występuje znaczny pionowy 
+gradient temperatury, który zwiększa straty ciepła.  
+Pionowy gradient temperatury zależy od następujących czynników: 
+– wysokości pomieszczenia, 
+– strat ciepła pomieszczenia (poziomu izolacji cieplnej i strefy klimatycznej), 
+– typu i lokalizacji grzejników. 
+Wpływ gradientu temperatury uwzględnia się w postaci dodatków do projektowych 
+strat ciepła. Dodatki te najlepiej byłoby określać na podstawie wyników dynamicznych 
+obliczeń symulacyjnych, gdyż można by wówczas uwzględniać indywidualne właściwo-
+ści poszczególnych budynków.  
+9.2 
+Współczynnik poprawkowy 
+Norma PN-EN 12831:2006 w załączniku B podaje orientacyjne wartości współczynnika 
+poprawkowego ze względu na wysokość pomieszczenia (tabela 9.1). Wartości te można 
+stosować dla budynków, w których projektowe straty ciepła nie przekraczają 60 W/m2 
+powierzchni podłogi. Skorygowaną całkowitą projektową stratę ciepła przestrzeni 
+ogrzewanej (i) oblicza się wówczas w następujący sposób: 
+ 
+(
+)
+   W
+,
+,
+,
+,
+i
+h
+i
+V
+i
+T
+i
+f
+Φ
+Φ
+Φ
+⋅
++
+=
+ 
+(9.1) 
+gdzie: 
+ΦT,i – projektowa strata ciepła przestrzeni ogrzewanej (i) przez przenikanie, W;  
+ΦV,i – projektowa wentylacyjna strata ciepła przestrzeni ogrzewanej (i), W;  
+fh,i 
+– współczynnik poprawkowy ze względu na wysokość pomieszczenia, okre-
+ślany wg tabeli 9.1. 
+9.3 Przykład 
+Obliczyć całkowitą projektową stratę ciepła przestrzeni ogrzewanej, dla następujących 
+założeń: 
+– projektowa strata ciepła przez przenikanie: 2 540 W,  
+– projektowa wentylacyjna strata ciepła: 450 W, 
+– wysokość pomieszczenia 7 m, 
+– grzejniki konwekcyjne. 
+ 
+ 
+ 
+   
+50    I    
+
+
+Norma PN–EN 12831. Nowa metoda obliczania projektowego obciążenia cieplnego 
+ 
+ 
+Rozwiązanie: 
+Współczynnik poprawkowy ze względu na wysokość pomieszczenia odczytujemy z ta-
+beli 9.1 fh,i = 1,15. 
+ 
+(
+)
+(
+)
+   W
+439
+ 3
+15
+,1
+450
+540
+ 2
+,
+,
+,
+=
+⋅
++
+=
+⋅
++
+=
+i
+h
+i
+V
+i
+T
+i
+f
+Φ
+Φ
+Φ
+ 
+ Tabela 9.1. Współczynnik poprawkowy ze względu na wysokość pomieszczenia [20] 
+Współczynnik fh,i
+Wysokość przestrzeni ogrzewanej 
+ 
+Sposób ogrzewania  
+oraz typ i lokalizacja grzejników 
+5 do 10 m 
+10 do 15 m 
+GŁÓWNIE PRZEZ PROMIENIOWANIE 
+ 
+ 
+Ogrzewanie podłogowe 
+1 
+1 
+Ogrzewanie sufitowe 
+(poziom temperatury < 40ºC) 
+1,15 
+niewłaściwe do takiego 
+zastosowania 
+Promienniki o średniej i wysokiej temperatu-
+rze umieszczone na dużej wysokości, skiero-
+wane ku dołowi 
+1 
+1,15 
+GŁÓWNIE PRZEZ KONWEKCJĘ 
+ 
+ 
+Ciepłe powietrze przy konwekcji naturalnej 
+1,15 
+niewłaściwe do takiego 
+zastosowania 
+OGRZEWANIE POWIETRZNE 
+ 
+ 
+Strumień poprzeczny na małej wysokości 
+1,30 
+1,60 
+Strumień opadający z dużej wysokości 
+1,21 
+1,45 
+Poprzeczny strumień powietrza o średniej lub 
+wysokiej temperaturze ze średniej wysokości 
+1,15 
+1,30 
+ 
+ 
+ 
+ 
+   
+51    I    
+
+
+Norma PN–EN 12831. Nowa metoda obliczania projektowego obciążenia cieplnego 
+ 
+ 
+10. Wspomagane komputerowo obliczanie obciążenia 
+cieplnego budynków 
+10.1 Wprowadzenie 
+W zasadzie możliwe jest przeprowadzanie obliczeń obciążenia cieplnego wg normy 
+PN–EN 12831:2006 bez wykorzystania komputera. Jednak, zwłaszcza w przypadku du-
+żych i skomplikowanych budynków, byłaby to czynność bardzo żmudna. Dlatego w 
+praktyce obliczenia te wykonywane są z wykorzystaniem specjalistycznego oprogra-
+mowania komputerowego. Wprowadzanie danych i wykonywanie obliczeń zostanie 
+omówione na przykładzie programu Purmo OZC 4.0 [9]. 
+Główne okno programu zostało przedstawione na rysunku 10.1. Bezpośrednio pod pa-
+skiem menu znajdują się przyciski pozwalające szybko przełączać program pomiędzy 
+poszczególnymi oknami.  
+ 
+Rys. 10.1. Główne okno programu Purmo OZC 4.0 
+10.2 Dane ogólne  
+   
+52    I    
+Wprowadzanie danych rozpoczyna się od danych ogólnych. Dane te dotyczą całego bu-
+dynku. Pomimo dużej ilość wyświetlanych pól edycyjnych, po uzyskaniu podstawowych 
+umiejętności obsługi programu, wprowadzanie danych ogólnych nie jest pracochłonne. 
+Po pierwsze część pól wypełnia się automatycznie. Np. po wybraniu strefy klimatycznej, 
+w której znajduje się budynek, program automatycznie wyświetli projektową tempera-
+turę zewnętrzną i średnią roczną temperaturę zewnętrzną dla tej strefy. Po drugie część 
+pól jest nieobowiązkowa. Pola te oznaczone są zielonym tłem (rys. 10.2). Nie jest np. 
+wymagane podanie domyślnej wysokości kondygnacji ani wysokości 
+
+
+Norma PN–EN 12831. Nowa metoda obliczania projektowego obciążenia cieplnego 
+ 
+ 
+pomieszczeń w świetle, chociaż akurat te pola warto wypełnić, gdyż zaoszczędzi to du-
+żo pracy na etapie wprowadzania pomieszczeń. 
+      
+Dziedziczenie wartości. W programie zastosowano technikę, polegającą na tym, że 
+można wprowadzić dane domyślne dla całego budynku (np. wysokość typowego po-
+mieszczenia w świetle). Następnie program będzie wykorzystywał te wartości automa-
+tycznie, chyba że na niższym poziomie struktury (na kondygnacji, w strefie lub w po-
+mieszczeniu) podana zostanie inna wartość. Technika ta pozwala na oszczędność czasu 
+w przypadku powtarzalnych danych, umożliwiając jednocześnie wprowadzenie niety-
+powych wartości tam, gdzie to jest konieczne. 
+     
+ 
+Rys. 10.2. Oznaczenie pól nieobowiązkowych (zielone tło) 
+Dane ogólne podzielone są na cztery zakładki: 
+Podstawowe dane – w tym miejscu wpisuje się najważniejsze dane dotyczące anali-
+zowanego budynku. 
+Sezonowe zużycie energii – wypełnienie tej zakładki wymagane jest jedynie w przy-
+padku wykonywania obliczeń sezonowego zużycia energii. 
+Wentylacja i wymagania higieniczne – zakładkę tę wypełnia się głównie dla skompli-
+kowanych budynków, w typowych przypadkach wystarczą dane domyślne. 
+Parametry obliczeń – w tym miejscu ustala się dokładny sposób, w jaki program wy-
+kona obliczenia, m.in. metodę uwzględniania mostków cieplnych. 
+10.2.1 Podstawowe dane 
+W zakładce Podstawowe dane istnieje możliwość wyboru normy, wg której program 
+przeprowadzi obliczenia obciążenia cieplnego (zapotrzebowania na moc cieplną) (rys. 
+10.3). W wersji 4.0 program umożliwia wykonanie obliczeń wg następujących norm: 
+− PN-B-03406:1994 [13], 
+− PN-EN 12831:2006 [20]. 
+ 
+Rys. 10.3. Wybór normy, wg której program przeprowadzi obliczenia obciążenia cieplnego 
+W tej samej zakładce podaje się również inne podstawowe informacje na temat bu-
+dynku, takie jak: jego typ, masywność konstrukcji, stopień szczelności, klasę osłonięcia 
+itd. 
+ 
+   
+53    I    
+
+
+Norma PN–EN 12831. Nowa metoda obliczania projektowego obciążenia cieplnego 
+ 
+ 
+10.2.2 Straty ciepła do sąsiednich lokali 
+Spośród parametrów obliczeń warto zwrócić uwagę zwłaszcza na sposób, w jaki pro-
+gram ma uwzględniać straty ciepła do sąsiednich lokali na wypadek osłabienia w nich 
+ogrzewania.  
+Jeśli istnieje możliwość indywidualnej regulacji temperatury, to według nowej normy 
+temperaturę w sąsiednim pomieszczeniu, należącym do innego lokalu, należy przyj-
+mować jako średnią arytmetyczną z projektowej temperatury wewnętrznej w analizo-
+wanym pomieszczeniu i średniej rocznej temperatury zewnętrznej. 
+Takie podejście ma uwzględniać możliwość obniżenia temperatury w sąsiednich loka-
+lach w stosunku do wartości projektowej. Jednak metoda podana w normie PN-EN 
+12831:2006 wydaje się zbyt „ostrożna”, ponieważ często zakłada temperaturę w sąsied-
+nim lokalu ok. 13ºC. W związku z tym w programie przewidziano dwa dodatkowe wa-
+rianty określania temperatury w sąsiednim lokalu (rys. 10.4): 
+− obliczanie wg normy (średniej arytmetycznej), ale z ograniczeniem (nie mniej niż 
+podana wartość, np. 16ºC), 
+− nie uwzględnianie ryzyka obniżenia temperatury (tzn. przyjmuje się temperaturę 
+projektową na podstawie funkcji danego pomieszczenia). 
+Rozporządzenie Ministra Infrastruktury w sprawie warunków technicznych, jakim powin-
+ny odpowiadać budynki i ich usytuowanie, (par. 134, ust. 6) [22] podaje 16ºC jako mini-
+malną wartość temperatury wewnętrznej w pomieszczeniach o temperaturze oblicze-
+niowej (projektowej) 20ºC lub wyższej i taką wartość ograniczenia można wprowadzić 
+w programie. 
+        
+Dostępne w programie dwa dodatkowe warianty obliczania strat ciepła do sąsiednich 
+lokali nie są przewidziane w normie PN-EN 12831:2006.  
+     
+ 
+Rys. 10.4. Wybór sposobu określania strat ciepła do sąsiednich lokali 
+10.2.3 Mostki cieplne 
+W zakładce Parametry obliczeń ustala się również sposób uwzględniania mostków 
+cieplnych. Program umożliwia zastosowanie zarówno metody uproszczonej (opcja Ob-
+liczaj metodą uproszczoną), jak i w oparciu o współczynniki przenikania i długości po-
+szczególnych mostków. 
+W przypadku metody uproszczonej należy zaznaczyć, w których miejscach izolacja 
+cieplna budynku jest przerwana (rys. 10.5). 
+   
+54    I    
+
+
+Norma PN–EN 12831. Nowa metoda obliczania projektowego obciążenia cieplnego 
+ 
+ 
+Natomiast dla metody podstawowej, należy z Katalogu mostków cieplnych, w oparciu 
+o rozwiązania konstrukcyjne budynku, wybrać odpowiedni przypadek dla poszczegól-
+nych miejsc potencjalnych mostków cieplnych (rys. 10.6). 
+ 
+Rys. 10.5. Wybór opcji uwzględniania mostków cieplnych metodą uproszczoną 
+ 
+Rys. 10.6. Wybór opcji uwzględniania mostków cieplnych metodą podstawową 
+ 
+   
+55    I    
+
+
+Norma PN–EN 12831. Nowa metoda obliczania projektowego obciążenia cieplnego 
+ 
+ 
+10.3 Współczynniki przenikania ciepła 
+Współczynniki przenikania ciepła określa się w oknie Przegrody (rys. 10.7). Okno to za-
+wiera dwie zakładki: 
+− Przegrody wielowarstwowe, 
+− Przegrody typowe. 
+W zakładce Przegrody wielowarstwowe wprowadza się informacje o warstwach prze-
+grody i na tej podstawie program oblicza współczynnik przenikania ciepła. Natomiast 
+dane o przegrodach o znanych współczynnikach przenikania ciepła (np. okna) wprowa-
+dza się w zakładce Przegrody typowe. 
+W tym miejscu można również zmodyfikować typy mostków cieplnych, jeśli są inne dla 
+danej przegrody niż te, które zostały określone w danych ogólnych. Jednak najczęściej 
+nie zachodzi taka konieczność. Wtedy program wyświetla w kolorze zielonym typy 
+mostków zaczerpnięte z danych ogólnych (rys. 10.7). 
+ 
+Program automatycznie przelicza wymiary w osiach na wymiary zewnętrzne. W związ-
+ku z tym musi znać grubości poszczególnych przegród. Dla „przegród wielowarstwo-
+wych”, program sam oblicza grubość przegrody, jako sumę grubości poszczególnych 
+warstw. Natomiast w przypadku „przegród typowych” konieczne może być ręczne 
+wprowadzenie grubości przegrody. 
+Program umożliwia również obliczenie rozkładu temperatury i ciśnienia cząstkowego 
+pary wodnej w przekroju przegrody budowlanej (rys. 10.8). 
+ 
+ 
+Rys. 10.7. Zakładka Przegrody wielowarstwowe (określanie współczynników 
+przenikania ciepła) 
+   
+56    I    
+
+
+Norma PN–EN 12831. Nowa metoda obliczania projektowego obciążenia cieplnego 
+ 
+ 
+ 
+Rys. 10.8. Rozkład temperatury i ciśnienia cząstkowego pary w przekroju ściany zewnętrznej 
+10.4 Pomieszczenia 
+Kolejnym krokiem jest wprowadzanie informacji nt. poszczególnych pomieszczeń (rys. 
+10.9). W przypadku gdy obliczenia przeprowadzane są w celu doboru źródła ciepła bez 
+doboru grzejników, można wprowadzić całą kubaturę budynku jedynie z podziałem na 
+strefy temperaturowe. Wtedy należy jako typ ogrzewania wybrać opcję Bez gradientu, 
+aby program nie traktował poszczególnych stref jako „pomieszczenia wysokie”. 
+ 
+Rys. 10.9. Informacje o pomieszczeniu 
+ 
+ 
+ 
+   
+57    I    
+
+
+Norma PN–EN 12831. Nowa metoda obliczania projektowego obciążenia cieplnego 
+ 
+ 
+Nową funkcją programu, wprowadzoną w wersji 4.0, jest możliwość definiowania 
+struktury budynku (podział na kondygnacje, strefy i grupy pomieszczeń). Struktura ta 
+pozwala na łatwiejszą orientację, zwłaszcza w przypadku dużego budynku, chociaż jej 
+definiowanie nie jest obowiązkowe i np. w budynku jednorodzinnym wystarczy jedynie 
+zdefiniować pomieszczenia (najlepiej jednak z podziałem na kondygnacje). 
+Jak pokazuje rys. 10.9 wiele danych wyświetlanych jest kolorem zielonym, oznacza to że 
+są to dane przyjęte automatycznie przez program (np. na podstawie danych ogólnych) i 
+najczęściej nie musimy ich na tym etapie korygować. 
+Przyjęto zasadę, że wymiary przegród, tak jak do tej pory, podawane są w osiach prze-
+gród ograniczających i program sam przelicza je na wymiary zewnętrzne, wymagane 
+przez normę PN–EN 12831:2006. 
+       
+Aby program prawidłowo przeliczał wymiary w osiach na wymiary zewnętrzne, po-
+szczególne przegrody pionowe należy wprowadzać po kolei, zgodnie z ruchem wskazó-
+wek zegara. 
+Wprowadzanie przegród pionowych należy rozpocząć od przegrody zewnętrznej, wy-
+stępującej jako pierwsza w ciągu przegród zewnętrznych (rys. 10.10). 
+     
+ 
+ 
+2
+5
+4
+3
+1
+ 
+Rys. 10.10. Przykład kolejności wprowadzania ścian 
+ 
+   
+58    I    
+
+
+Norma PN–EN 12831. Nowa metoda obliczania projektowego obciążenia cieplnego 
+ 
+ 
+10.5 Wentylacja 
+Program umożliwia analizę wielu różnych rozwiązań wentylacji (rys. 10.11). Istnieje moż-
+liwość wybrania m.in. następujących systemów: 
+− wentylacja naturalna (grawitacyjna), 
+− wentylacja mechaniczna wywiewna, 
+− wentylacja mechaniczna nawiewno-wywiewna, 
+− wentylacja mechaniczna nawiewno-wywiewna z rekuperacją, 
+− wentylacja mechaniczna nawiewno-wywiewna z recyrkulacją. 
+Rozwiązania zastosowane w programie pozwalają na analizę nawet bardzo skompli-
+kowanych systemów wentylacyjnych (w znacznie szerszym zakresie niż przewidują to 
+normy PN-B-03406:1994 i PN–EN 12831:2006).  
+ 
+Rys. 10.11. Wybór systemu wentylacji 
+10.6 Obliczenia 
+Program wykonuje: 
+− obliczenia współczynników przenikania ciepła U dla ścian, podłóg, dachów i 
+stropodachów, 
+− obliczenia rozkładu temperatury i ciśnienia cząstkowego pary wodnej w przekro-
+ju przegród budowlanych, 
+− obliczenia projektowego obciążenia cieplnego poszczególnych pomieszczeń, 
+− obliczenia projektowego obciążenia cieplnego całego budynku (uwaga: w przy-
+   
+59    I    
+
+
+Norma PN–EN 12831. Nowa metoda obliczania projektowego obciążenia cieplnego 
+ 
+ 
+   
+60    I    
+padku normy PN–EN 12831:2006 nie jest to suma obciążeń cieplnych poszcze-
+gólnych pomieszczeń), 
+− obliczenia sezonowego zapotrzebowania na ciepło do ogrzania budynków 
+mieszkalnych, 
+− obliczenia wskaźników sezonowego zapotrzebowania na energię cieplną EV i EA. 
+Wyniki obliczeń obciążenia cieplnego mogą następnie zostać przeniesione do programu 
+Purmo C.O. w celu zaprojektowania instalacji centralnego ogrzewania. 
+10.7 Podsumowanie 
+Zadaniem programu Purmo OZC 4.0 jest umożliwienie szybkiego i wygodnego wyko-
+nania obliczeń w oparciu o dość skomplikowaną metodykę, podaną w normie PN-EN 
+12831:2006. Program z jednej strony posiada rozbudowane narzędzia, umożliwiające 
+prowadzenie złożonych analiz np. bardzo skomplikowanych systemów wentylacyjnych, 
+z drugiej zaś strony w przypadku budynków typowych proces wprowadzania danych 
+jest bardzo szybki z uwagi na możliwość wykorzystania wielu danych domyślnych.  
+ 
+
+
+Norma PN–EN 12831. Nowa metoda obliczania projektowego obciążenia cieplnego 
+ 
+ 
+11. Przykład wspomaganego komputerowo obliczania 
+obciążenia cieplnego pomieszczenia 
+11.1 Dane wyjściowe 
+W tym rozdziale omówiony został przykład obliczeń wspomaganych komputerowo. 
+Obliczenia zostaną wykonane dla następujących danych: 
+– współczynnik przenikania ciepła ścian zewnętrznych Usz = 0,30 W/m2K;  
+– współczynnik przenikania ciepła stropu (przepływ ciepła do góry) Usg = 1,866 
+W/m2K;  
+– współczynnik przenikania ciepła stropu (przepływ ciepła do dołu) Usd = 1,479 
+W/m2K; 
+– współczynnik przenikania ciepła okna Uok  = 2,5 W/m2K; 
+– wysokość kondygnacji (pomiędzy powierzchniami podłóg) 3,2 m; 
+– grubość stropów: 0,3 m; 
+– sąsiednie pomieszczenia na tej samej kondygnacji charakteryzują się taką samą 
+projektową temperaturą wewnętrzną i należą do tego samego mieszkania; 
+– poniżej i powyżej analizowanego pomieszczenia znajdują się również pokoje 
+mieszkalne, przy czym należą one do innych mieszkań; 
+– osłabienie ogrzewania: brak; 
+– typ budynku: budynek mieszkalny wielorodzinny, 
+– typ konstrukcji: masywna,  
+– izolacja po stronie zewnętrznej, okno w osi ściany, 
+– lokalizacja: Radom. 
+Rzut pomieszczenia pokazano na rys. 11.1. 
+430
+20
+40
+402,5
+15
+100
+100
+Pokój 
++20°C
+12,92 m
+2
+200
+120
+360
+20
+40
+332,5
+15
+N
+ 
+Rys. 11.1. Rzut pomieszczenia  – rysunek do przykładu 
+   
+61    I    
+
+
+Norma PN–EN 12831. Nowa metoda obliczania projektowego obciążenia cieplnego 
+ 
+ 
+11.2 Wprowadzanie danych 
+Krok 1 – Podstawowe dane 
+Wprowadzanie danych zaczynamy od podstawowych danych, dotyczących całego bu-
+dynku. W tym celu klikamy przycisk Ogólne, a następnie wybieramy zakładkę Podsta-
+wowe dane (rys. 11.2). 
+ 
+Rys. 11.2. Program w trybie wprowadzania podstawowych danych dotyczących całego budynku 
+Teraz możemy wpisać nazwę projektu, miejscowość, dokładny adres i nazwisko projek-
+tanta. Pola do wprowadzania tych danych oznaczone są zielonym tłem. Jest to informa-
+cja, że wypełnienie tych pól nie jest obowiązkowe. Jednak w przypadku rzeczywistych 
+projektów warto je wypełnić, ponieważ informacje te znajdą się na wydrukach z wyni-
+kami obliczeń. 
+Następnie bardzo ważną czynnością jest wybranie normy, wg której program przepro-
+wadzi obliczenia obciążenia cieplnego (zapotrzebowania na moc cieplną). W wersji 4.0 
+Purmo OZC wykonuje obliczenia wg normy europejskiej PN-EN 12831:2006 [20] lub do-
+tychczasowej normy polskiej PN-B-03406:1994 [13] (rys. 11.3). 
+ 
+Rys. 11.3. Wybór normy, wg której program przeprowadzi obliczenia obciążenia cieplnego 
+   
+62    I    
+
+
+Norma PN–EN 12831. Nowa metoda obliczania projektowego obciążenia cieplnego 
+ 
+ 
+Poza tym w danych ogólnych musimy podać jeszcze kilka innych informacji, m.in. strefę 
+klimatyczną, w której znajduje się budynek, typ budynku i stopień szczelności. Spośród 
+pól nieobowiązkowych warto wypełnić: wysokość kondygnacji i wysokość pomieszczeń 
+(rys. 11.4).  
+Wysokość kondygnacji wg normy PN-EN 12831:2006 podajemy licząc od powierzchni 
+podłogi na jednej kondygnacji do powierzchni podłogi na kondygnacji sąsiedniej. W 
+większości przypadków będzie to ta sama lub zbliżona wartość, jak licząc pomiędzy 
+osiami stropów (wg PN-B-03406:1994). 
+Natomiast wysokość pomieszczeń należy podać w świetle. Dana ta będzie wykorzysty-
+wana do obliczania wentylacyjnej straty ciepła (zapotrzebowania na moc cieplną do 
+wentylacji).  
+Powyższe dane mają charakter „domyślny”, tzn. program będzie je wykorzystywał do-
+myślnie, chyba że w szczególnym przypadku podamy inaczej (np. parter lub piwnica 
+mogą mieć inną wysokość). 
+ 
+Rys. 11.4. Wprowadzenie domyślnych wysokości kondygnacji i pomieszczeń 
+Krok 2 – Sposób określania strat ciepła do sąsiednich lokali 
+Kolejnym krokiem jest wybór parametrów obliczeń, czyli dokładnego sposobu, w jaki 
+program będzie wykonywał obliczenia. W tym miejscu należy zwrócić uwagę zwłaszcza 
+na straty ciepła do sąsiednich grup (lokali) oraz mostki cieplne. 
+Metoda podana w normie PN-EN 12831:2006 wydaje się zbyt „ostrożna” i dlatego w 
+programie Purmo OZC 4.0 przewidziano dwa dodatkowe warianty określania tempera-
+tury w sąsiednim lokalu (rys. 11.5): 
+− obliczanie wg normy (średniej arytmetycznej), ale z ograniczeniem (nie mniej niż 
+podana wartość), 
+− nie uwzględnianie ryzyka obniżenia temperatury (tzn. przyjmuje się temperaturę 
+projektową na podstawie funkcji danego pomieszczenia). 
+      
+Dostępne w programie dwa dodatkowe warianty obliczania strat ciepła do sąsiednich 
+lokali nie są przewidziane w normie PN-EN 12831:2006.  
+     
+Wybieramy wariant obliczeń zgodnie z normą PN-EN 12831 (rys. 11.5). 
+ 
+Rys. 11.5. Wybór sposobu określania strat ciepła do sąsiednich lokali 
+   
+63    I    
+
+
+Norma PN–EN 12831. Nowa metoda obliczania projektowego obciążenia cieplnego 
+ 
+ 
+Krok 3 – Wybór metody uwzględniania mostków cieplnych 
+Zgodnie z normą PN-EN 12831:2006, w obliczeniach obciążenia cieplnego należy 
+uwzględniać liniowe mostki cieplne, w związku z tym w Parametrach obliczeń powin-
+na być zaznaczona opcja Uwzględniaj mostki cieplne (rys. 11.6). Warto również włą-
+czyć opcję Obliczaj automatycznie, ponieważ może to nam zaoszczędzić sporo czasu. 
+Następnie w zależności od decyzji projektanta można włączyć lub wyłączyć opcję Obli-
+czaj metodą uproszczoną. 
+Omawiany przykład przeliczymy w pierwszej kolejności uwzględniając współczynniki 
+przenikania ciepła mostków cieplnych. W związku z tym wyłączamy opcję Obliczaj me-
+todą uproszczoną (rys. 11.6). Wtedy program wyświetli obok tabelę pozwalającą na 
+podanie domyślnych mostków cieplnych dla określonych sytuacji (np. naroże ścian ze-
+wnętrznych). Wybór typu mostka cieplnego odbywa się z Katalogu mostków ciepl-
+nych w oparciu o rozwiązania konstrukcyjne budynku (rys. 11.7). 
+W naszym przykładzie dla naroża wybierzemy mostek typu C1, oznaczający izolację po 
+stronie zewnętrznej (rys 11.7). Taki mostek charakteryzuje się liniowym współczynni-
+kiem przenikania ciepła –0,05 W/mK. Ujemna wartość oznacza, że w tym przypadku 
+straty ciepła przez przenikanie, określone w oparciu o wymiary zewnętrzne są zawyżo-
+ne. W takiej sytuacji uwzględnienie mostka cieplnego de facto pełni funkcję korekty 
+zawyżonych strat ciepła. 
+W naszym przykładzie oprócz naroża, mostek cieplny wystąpi jeszcze na obwodzie 
+otworu okiennego. W związku z tym należy również wybrać typ mostka cieplnego dla 
+takiej sytuacji. W przykładzie wybierzemy mostek typu W7 (rys. 11.8). Jego współczynnik 
+przenikania ciepła wynosi 0,35 W/mK.  
+ 
+Rys. 11. 6. Wybór sposobu uwzględniania w obliczeniach mostków cieplnych  
+   
+64    I    
+
+
+Norma PN–EN 12831. Nowa metoda obliczania projektowego obciążenia cieplnego 
+ 
+ 
+ 
+Rys. 11.7. Wybór typu mostka cieplnego dla naroża 
+ 
+ 
+Rys. 11.8. Wybór typu mostka cieplnego dla okna 
+ 
+ 
+   
+65    I    
+
+
+Norma PN–EN 12831. Nowa metoda obliczania projektowego obciążenia cieplnego 
+ 
+ 
+Krok 4 – Współczynniki przenikania ciepła 
+Współczynniki przenikania ciepła określa się w oknie Przegrody. Jeśli znamy współ-
+czynniki (tak jak w naszym przykładzie), to możemy wprowadzić je w zakładce Przegro-
+dy typowe, nie wnikając w strukturę przegród (rys. 11.9).  
+Podczas definiowania przegród należy nadać im zrozumiałe symbole. W naszym przy-
+kładzie przyjmiemy następujące oznaczenia: 
+SZ 
+– ściana zewnętrzna, 
+STG – strop (przepływ ciepła do góry), 
+STD – strop (przepływ ciepła do dołu), 
+OK 
+– okno. 
+Ponieważ program automatycznie przelicza wymiary w osiach na wymiary zewnętrzne, 
+wymagane jest podanie grubości przegrody dla „przegród typowych”. Natomiast w 
+przypadku „przegród wielowarstwowych”, program sam oblicza grubość przegrody, 
+jako sumę grubości poszczególnych warstw. 
+Wprowadzając dane o poszczególnych przegrodach można zmodyfikować domyślne 
+typy mostków cieplnych, określone dla całego budynku. Jednak w większości przypad-
+ków nie jest to konieczne. Jeżeli nie wskażemy rozwiązań konstrukcyjnych dla danej 
+przegrody, to program przyjmie typy mostków, wprowadzone w Danych ogólnych. Ty-
+py te będą wtedy wyświetlone kolorem zielonym (rys. 11.9). 
+ 
+Rys. 11.9. Wprowadzenie znanych wartości współczynnika przenikania ciepła 
+Krok 5 – Dodanie pomieszczenia 
+Teraz możemy przystąpić do wprowadzania informacji nt. konkretnego pomieszczenia. 
+W tym celu przechodzimy do okna Pomieszczenia. Ponieważ ten przykład dotyczy tylko 
+jednego pomieszczenia, nie musimy korzystać z takich struktur jak grupa (lokal), strefa 
+czy kondygnacja. Możemy wstawić pomieszczenie bezpośrednio do projektu. W tym 
+celu rozwijamy przycisk Dodaj…, znajdujący na dole ekranu i wybieramy polecenie Do-
+daj pomieszczenie (rys. 11.10). 
+   
+66    I    
+
+
+Norma PN–EN 12831. Nowa metoda obliczania projektowego obciążenia cieplnego 
+ 
+ 
+ 
+Rys. 11.10. Dodanie nowego pomieszczenia 
+Krok 6 – Symbol i temperatura wewnętrzna 
+Po dodaniu nowego pomieszczenia możemy przystąpić do wprowadzania danych na 
+jego temat. Obowiązkową informacją jest symbol pomieszczenia i temperatura we-
+wnętrzna. W naszym przykładzie wprowadźmy symbol „1”. Następnie z rozwijanej listy 
+wybieramy typ pomieszczenia „pokój”. Program automatycznie przyjmie temperaturę 
+wewnętrzną 20ºC (rys. 11.11). 
+Krok 7 – Wentylacja 
+Kolejna część okna z informacjami o pomieszczeniu dotyczy wentylacji. Jak widać więk-
+szość informacji wyświetlanych jest kolorem zielonym. Oznacza to, że program przyjął 
+je na podstawie Danych ogólnych. W tej części musimy wprowadzić jedynie po-
+wierzchnię pomieszczenia.  
+ 
+Rys. 11.11. Informacje o pomieszczeniu  
+ 
+ 
+   
+67    I    
+
+
+Norma PN–EN 12831. Nowa metoda obliczania projektowego obciążenia cieplnego 
+ 
+ 
+   
+68    I    
+Krok 8 – Ściana zewnętrzna 
+Teraz możemy przystąpić do wprowadzania informacji na temat przegród budowla-
+nych, ograniczających nasze pomieszczenie. 
+       
+Aby program prawidłowo przeliczał wymiary w osiach na wymiary zewnętrzne, po-
+szczególne przegrody pionowe należy wprowadzać po kolei, zgodnie z ruchem wskazó-
+wek zegara. 
+Wprowadzanie przegród pionowych należy rozpocząć od przegrody zewnętrznej, wy-
+stępującej jako pierwsza w ciągu przegród zewnętrznych (rys. 10.10). 
+     
+ 
+Zaczniemy od ściany zachodniej. W pierwszej kolumnie zostawiamy zero.  
+Następnie w kolumnie Symbol wybieramy z rozwijanej listy lub wpisujemy ręcznie, 
+wprowadzony wcześniej symbol ściany zewnętrznej – SZ. 
+W kolumnie Orientacja wybieramy orientację zachodnią (W). 
+Dla ściany zewnętrznej program sam przyjmie temperaturę po drugiej stronie zgodną 
+ze strefą klimatyczną. 
+W kolumnie L lub A, w przypadku ściany, należy wprowadzić długość ściany wg wymia-
+rów w osiach ścian ograniczających, w tym przypadku 3,60 m. 
+W kolumnie H program sam wpisał wartość 3,20 m. Wartość ta wyświetlona jest kolo-
+rem zielonym. Oznacza to, że jest to wartość przyjęta automatycznie przez program na 
+podstawie wysokości kondygnacji. W większości przypadków wartości tej nie musimy 
+zmieniać. Jeśli jednak zaszłaby taka konieczność, to możemy wpisać ręcznie inną wyso-
+kość. Ręcznie prowadzona wartość będzie wyświetlana kolorem czarnym. Skasowanie 
+tej wartości spowoduje powrót do wysokości ustalonej automatycznie. 
+W kolumnie N nie zmieniamy domyślnej wartości jeden, która oznacza, że w danym 
+pomieszczeniu jest tylko jedna przegroda tego typu. Jedynie w przypadku powtarzają-
+cej się przegrody, np. kilku takich samych okien w jednym pomieszczeniu, należy w ko-
+lumnie N wpisać odpowiednią wartość. 
+    
+Ponieważ zgodnie z normą PN-EN 12831:2006 uwzględnia się mostki cieplne, nie należy 
+kilku okien (lub drzwi) wprowadzać jako jedno okno o odpowiednio zwiększonej po-
+wierzchni. W takiej sytuacji mostki cieplne nie zostałyby określone prawidłowo. Za-
+miast tego należy wprowadzić jedno okno i jego rzeczywistą powierzchnię, a ilość po-
+wtarzających się okien wpisać w kolumnie N. 
+      
+Kolumna ΔL/A zawiera korektę długości ściany w celu przeliczenia jej z wymiarów w 
+osiach na wymiary zewnętrzne. Na razie w polu tym wyświetla się 0,00, ale po wpro-
+wadzeniu następnej ściany program automatycznie rozpozna naroże i wpisze popraw-
+kę +0,20. W ten sposób program uwzględni w obliczeniach wg normy PN-EN 
+12831:2006 długość zewnętrzną ściany 3,80 m (3,60+0,20). 
+Ponieważ wysokości ściany określone wg wymiarów w osiach i wymiarów zewnętrz-
+nych są najczęściej równe bądź zbliżone, w kolumnie ΔH najczęściej pozostawia się ze-
+ro. 
+
+
+Norma PN–EN 12831. Nowa metoda obliczania projektowego obciążenia cieplnego 
+ 
+ 
+   
+69    I    
+W tym miejscu kończy się wprowadzanie danych o przegrodzie. W kolejnych kolum-
+nach znajdują się wartości obliczone przez program. 
+W kolumnie A wyświetlana jest obliczona powierzchnia przegrody. 
+Kolumna Ac zawiera skorygowaną powierzchnię przegrody – po odjęciu powierzchni 
+przegród wbudowanych. Na razie w kolumnie tej wyświetlana jest taka sama wartość 
+jak w kolumnie A. Dopiero po wprowadzeniu informacji o oknie program będzie mógł 
+odpowiednio skorygować powierzchnię ściany. 
+    
+W programie dla przegród wbudowanych (np. okien) wykorzystano metodę polegającą 
+na obliczaniu powierzchni netto przegrody, w której wbudowane są inne przegrody. Np. 
+od powierzchni ściany odejmuje się powierzchnię otworu okiennego. Metoda ta jest 
+matematycznie równoważna z metodą polegającą na odejmowaniu wartości współ-
+czynnika przenikania ciepła, ale wydaje się bardziej czytelna. 
+    
+W kolumnie Δθ znajdziemy różnicę temperatury po obu stronach przegrody. W naszym 
+przypadku wyświetli się 40 K. 
+    
+Kolumna Δθ zawiera rzeczywistą różnicę temperatury, określoną indywidualnie dla 
+każdej przegrody w zależności od temperatury po drugiej stronie. Nie jest to projekto-
+wa różnica temperatury w rozumieniu normy PN-EN 1231:2006, określana we wszyst-
+kich przypadkach jako różnica temperatury wewnętrznej i zewnętrznej.  
+    
+W kolumnie Uk wyświetli się współczynnik przenikania ciepła, który wprowadziliśmy 
+wcześniej dla ściany zewnętrznej w oknie Przegrody. 
+Z kolumny HT można (w razie potrzeby) odczytać wartość współczynnika straty ciepła. 
+    
+Wartości współczynnika straty ciepła podawane są w rozumieniu normy PN-EN 
+1231:2006, tzn. jest to strata ciepła podzielona przez projektową różnicę temperatury 
+(określaną we wszystkich przypadkach jako różnica temperatury wewnętrznej i ze-
+wnętrznej, niezależnie od temperatury po drugiej stronie przegrody).  
+     
+Kolumna ΦT zawiera całkowitą projektową stratę ciepła na drodze przenikania przez 
+daną przegrodę. 
+Krok 9 – Okno 
+Następnie wpiszemy dane o oknie, które znajduje się we wcześniej wprowadzonej ścia-
+nie zachodniej. Większość danych wprowadza się analogicznie jak w przypadku ściany 
+zewnętrznej. Dlatego w tym miejscu zostaną wskazane tylko istotne różnice 
+W pierwszej kolumnie wybieramy stopień wbudowania 1. Oznacza to, że to okno jest 
+wbudowane we wcześniej wpisaną ścianę. 
+ 
+     
+Przegrody wbudowane należy w tabeli wprowadzać bezpośrednio pod przegrodami, w 
+które są one wbudowane. 
+     
+Orientację okna program przyjmie taką samą jak orientację ściany, w którą jest ono 
+wbudowane. 
+
+
+Norma PN–EN 12831. Nowa metoda obliczania projektowego obciążenia cieplnego 
+ 
+ 
+W przypadku okna należy wpisać ręcznie jego wysokość, ponieważ program nie jest w 
+stanie określić jej automatycznie jak w przypadku ścian, chyba że wymiary okna zostały 
+podane w oknie dialogowym Przegrody (opcja Przegroda z podanymi wymiarami). 
+W związku z tym wpisujemy wymiary okna 2,00 m x 1,20 m. Program teraz obliczy po-
+wierzchnię otworu okiennego 2,40 m2 i wyświetli tę wartość w kolumnie A. Jednocze-
+śnie wartość powierzchni okna zostanie odjęta od powierzchni ściany brutto. Teraz w 
+kolumnie Ac w wierszu dotyczącym ściany pojawi się wartość 9,8 m2 (12,2 – 2,4). 
+W przypadku okien, kolumny ΔL/A i ΔH są niedostępne, ponieważ powierzchnia otworu 
+okiennego wg wymiarów zewnętrznych (norma PN-EN 12831:2006) jest tak sama, jak 
+powierzchnia określona w świetle wg dotychczasowej normy PN-B-03406:1994. 
+Po wpisaniu danych na temat okna wprowadzamy ścianę północą. 
+Krok 10 – Stropy 
+Następnie wpiszemy stropy. Mimo, że poniżej i powyżej analizowanego pomieszczenia 
+znajdują się również pokoje mieszkalne, to jednak należą do innych mieszkań i wykonu-
+jąc obliczenia zgodnie z normą PN-EN 12831:2006 należy uwzględnić potencjalne straty 
+ciepła w przypadku obniżenia temperatury wewnętrznej w sąsiednich lokalach. W 
+związku z tym należy również wpisać stropy. 
+Dane na temat stropów wpisujemy analogicznie jak w przypadku ścian i okien. Główną 
+różnicą jest podanie dodatkowej danej w kolumnie PDS. W tym miejscu wprowadza się 
+informację na temat pomieszczenia po drugiej stronie przegrody. Ponieważ poniżej i 
+powyżej znajdują się inne lokale, wybieramy opcję Inna grupa (rys. 11.12). Wprowadze-
+nie tej informacji jest niezbędne w naszym przykładzie, ponieważ wykonujemy oblicze-
+nia dla jednego pomieszczenia. W przypadku prowadzenia obliczeń dla całego budynku 
+i utworzenia odpowiedniej struktury uwzględniającej przypisanie pomieszczeń do po-
+szczególnych lokali, program może informację tę ustalić automatycznie. 
+ 
+Rys. 11.12. Informacje o pomieszczeniu 
+W Parametrach obliczeń została wybrana wcześniej opcja obliczania strat ciepła do 
+sąsiednich lokali zgodnie z normą PN-EN 12831. W związku z tym program przyjmie 
+temperaturę w sąsiednich lokalach jako średnią arytmetyczną z temperatury we-
+wnętrznej i średniej rocznej temperatury zewnętrznej: 
+ 
+C
+8,
+13
+2
+6,7
+20
+2
+,
+,
+°
+=
++
+=
++
+=
+e
+m
+i
+int
+u
+θ
+θ
+θ
+ 
+W tej sytuacji różnica temperatury dla stropów wyniesie 6,2 K, co spowoduje obliczenie 
+strumieni przenikającego ciepła: 173 W – do góry i 137 W – do dołu. Program wartości te 
+wyświetla również w dodatkowej kolumnie ΦTu. Zgodnie z normą PN-EN 12831:2006, 
+strumienie te należy uwzględnić przy doborze grzejnika, ale nie należy ich uwzględniać 
+przy doborze źródła ciepła dla całego budynku. 
+   
+70    I    
+
+
+Norma PN–EN 12831. Nowa metoda obliczania projektowego obciążenia cieplnego 
+ 
+ 
+Krok 11 – Mostki cieplne 
+W naszym przykładzie mostki cieplne są obliczane automatycznie, ponieważ w danych 
+ogólnych zaznaczyliśmy opcję Obliczaj automatycznie. Występują tu dwa niezerowe 
+strumienie związane z mostkami cieplnymi (dla okna i naroża). 
+Dodatkowy strumień ciepła związany z mostkiem cieplnym na obwodzie okna oblicza 
+się w następujący sposób: 
+ 
+W
+ 
+90
+40
+4,6
+35
+,0
+=
+⋅
+⋅
+=
+Δ
+⋅
+⋅
+=
+θ
+ψ
+l
+l
+Tl
+l
+Φ
+ 
+Natomiast dla naroża współczynnik przenikania ciepła przy nieprzerwanej izolacji po 
+stronie zewnętrznej wynosi –0,05 W/mK. W związku z tym strumień ciepła zostanie 
+obliczony w następujący sposób: 
+ 
+W
+ 6
+40
+2,3
+05
+,0
+−
+=
+⋅
+⋅
+−
+=
+Δ
+⋅
+⋅
+=
+θ
+ψ
+l
+l
+Tl
+l
+Φ
+ 
+Wartość ta – jak już wspomniano wcześniej – oznacza nieznaczną korektę zawyżonych 
+strat ciepła z uwagi na stosowanie wymiarów zewnętrznych. 
+Krok 12 – Wyniki obliczeń 
+Wyniki obliczeń dla jednego pomieszczenia można przeanalizować w dolnej części okna 
+Pomieszczenia. W tym miejscu wyświetlane jest obliczone obciążenie cieplne oraz jego 
+składowe.  
+11.3 Porównanie wyników 
+Dla porównania, obliczenia dla powyższego przykładu zostały powtórzone przy innych 
+parametrach obliczeń, dotyczących: 
+− normy określającej metodykę obliczeń, 
+− uwzględniania mostków cieplnych, 
+− uwzględniania strat ciepła do sąsiednich lokali. 
+Uzyskane wartości obciążenia cieplnego zostały zestawione w tabeli 11.1 i na rys. 11.13. 
+Jak widać, poszczególne wyniki różnią się od siebie w dość dużym przedziale. Najwyższa 
+wartość jest wyższa o ok. 75% od najniższej. 
+Mimo, że obliczenia te zostały przeprowadzone tylko dla jednego typu pomieszczenia, 
+to jednak wynika z nich, że przyjęte parametry obliczeń mogą mieć bardzo duży wpływ 
+na uzyskiwane wyniki. 
+Należy ponownie podkreślić, że nieuwzględnianie strat ciepła do sąsiednich lokali (na 
+wypadek osłabienia ogrzewania w tych lokalach) lub ich uwzględnianie z ogranicze-
+niem, nie jest przewidziane w normie PN-EN 12831:2006. Jednak metoda podana w 
+normie wydaje się zbyt ostrożna. Zakłada ona znaczne obniżenie temperatury we 
+wszystkich sąsiednich lokalach. Sytuacja taka może mieć miejsce np. w budynku apar-
+tamentowym nad morzem. Natomiast w większości budynków wielorodzinnych w 
+miastach, sytuacja taka, poza okresem zasiedlania budynku, jest mało prawdopodobna. 
+W związku z tym wydaje się, że uwzględniając straty ciepła do sąsiednich lokali z ogra-
+niczeniem obniżenia temperatury (np. do 16ºC)  można uzyskać bardziej miarodajne 
+wyniki niż postępując w pełni zgodnie z normą PN-EN 12831:2006. 
+W prezentowanym przykładzie założono dobrą izolację budynku i w konsekwencji nie 
+   
+71    I    
+
+
+Norma PN–EN 12831. Nowa metoda obliczania projektowego obciążenia cieplnego 
+ 
+ 
+   
+72    I    
+uzyskano znaczących różnic w zależności od sposobu uwzględnienia mostków ciepl-
+nych. Natomiast różnice te mogą być większe w przypadku występowania dużej ilości 
+niezaizolowanych mostków cieplnych w budynku. 
+Dla prezentowanego pomieszczenia wyniki uzyskane wg normy PN-EN 12831:2006 są 
+znacznie wyższe w porównaniu normą PN-B-03406:1994. Jest to spowodowane głów-
+nie następującymi czynnikami: 
+− nie uwzględnianie wewnętrznych zysków ciepła  
+− uwzględnianie strat ciepła do sąsiednich lokali na wypadek osłabienia ogrzewa-
+nia w tych lokalach, 
+− stosowanie wymiarów zewnętrznych. 
+ 
+Tabela 11.1. Porównanie wyników uzyskanych przy różnych parametrach obliczeń 
+Wariant obli-
+czeń 
+Parametry obliczeń 
+Obciążenie cieplne, W 
+I 
+Wg normy PN-EN 12831,  
+mostki cieplne metodą dokładną, 
+straty ciepła do sąsiednich lokali bez 
+ograniczenia temperatury u sąsiada. 
+1 179 
+II 
+Wg normy PN-EN 12831,  
+mostki cieplne metodą uproszczoną, 
+straty ciepła do sąsiednich lokali bez 
+ograniczenia temperatury u sąsiada. 
+1 182 
+III 
+Wg normy PN-EN 12831,  
+mostki cieplne metodą dokładną, 
+straty ciepła do sąsiednich lokali z ograni-
+czeniem do 16ºC 
+1 068 
+IV 
+Wg normy PN-EN 12831,  
+mostki cieplne metodą dokładną, 
+straty ciepła do sąsiednich lokali z ograni-
+czeniem do 18ºC 
+968 
+V 
+Wg normy PN-EN 12831,  
+mostki cieplne metodą dokładną, 
+straty ciepła do sąsiednich lokali nie 
+uwzględniane 
+868 
+VI 
+Wg normy PN-EN 3406, 
+mostki cieplne  
+uwzględniane 
+709 
+VII 
+Wg normy PN-EN 3406, 
+mostki cieplne  
+nie uwzględniane 
+691 
+ 
+
+
+Norma PN–EN 12831. Nowa metoda obliczania projektowego obciążenia cieplnego 
+ 
+ 
+ 
+0 
+200 
+400 
+600 
+800 
+1000 
+1200 
+1400 
+I 
+II 
+III
+IV
+V
+VI 
+VII
+O 
+b
+c  
+i  
+ą 
+ż 
+e
+n 
+i  
+e 
+o 
+c  
+i 
+e
+p 
+l 
+n
+e   
+  W  
+Wariant obliczeń
+ 
+Rys. 11.13. Porównanie wyników uzyskanych przy różnych parametrach obliczeń 
+   
+73    I    
+
+
+Norma PN–EN 12831. Nowa metoda obliczania projektowego obciążenia cieplnego 
+ 
+ 
+   
+74    I    
+12. Literatura 
+1. 
+Girdwoyń A.: Techniczne uwarunkowania zużycia energii cieplnej i chłodniczej w instalacjach 
+wentylacji i klimatyzacji w: Materiały konferencyjne XII Zjazdu Ogrzewników Polskich 
+„Oszczędność energii a zysk”, Warszawa 17 października 2002. 
+2. Markert H.: Europäische Norm DIN EN 12831. Verfahren zur Berechnung der Norm-Heizlast. Die 
+neue Norm ist gültig – Übergangsfrist für DIN 4701 bis Oktober 2004, BHKS-Almanach 2004. 
+3. Płuciennik M.: PN-EN 12831 zastąpi PN-B-03406:1994, Polski Instalator Nr Specjalny 7-8/2006. 
+4. Rubik M.: Nowe normy z dziedziny ogrzewnictwa w przededniu wdrożenia w Polsce Dyrektywy 
+Europejskiej 2002/1WE, COW 10/2005.  
+5. 
+Strzeszewski M.: Określanie zapotrzebowania na ciepło do wentylacji w przypadku stosowania 
+odzysku ciepła z powietrza wywiewanego, bez nagrzewnic powietrza w: „Problemy jakości 
+powietrza wewnętrznego w Polsce 2003”. Pod redakcją Teresy Jędrzejewskiej-Ścibak i Jerzego 
+Sowy. Wydawnictwa Instytutu Ogrzewnictwa i Wentylacji Politechniki Warszawskiej, Warszawa 
+2004. Str. 355-342. 
+(http://www.is.pw.edu.pl/~michal_strzeszewski/articles/pjpwwp2003_ciep_went.pdf) 
+6. Strzeszewski M.: Norma PN-EN 12831. Nowe podejście do obliczania zapotrzebowania na ciepło do 
+ogrzewania budynków, COW 10/2006. 
+7. 
+Strzeszewski M.: Kluczowe zmiany w metodyce obliczania zapotrzebowania na ciepło zawarte 
+w PN-EN 12831. Nowe obliczenia kontra stare, Polski Instalator 10/2006. 
+8. Wereszczyński P.: Niejednoznaczne ciepło. Jak obliczać zapotrzebowanie na moc cieplną 
+potrzebną do ogrzania powietrza wentylacyjnego w budynkach mieszkalnych, Polski Instalator 
+nr 2/2003. 
+9. Wereszczyński P. et al.: Purmo OZC 4.0. Program wspomagający obliczanie projektowego 
+obciążenia cieplnego budynku oraz sezonowego zapotrzebowania na ciepła. Podręcznik 
+użytkownika. SANKOM Sp. z o.o., Warszawa, 2008. (www.sankom.pl) 
+10. Wichowski R.: Zapotrzebowanie na moc cieplną. Nowa norma PN-EN 12831, Rynek Instalacyjny 1-
+2/2006 i 3/2006. 
+11. PN-82/B-02402. Ogrzewnictwo – Temperatury ogrzewanych pomieszczeń w budynkach. 
+12. PN-82/B-02403. Ogrzewnictwo – Temperatury obliczeniowe zewnętrzne. 
+13. PN-B-03406:1994. Obliczanie zapotrzebowania ciepła pomieszczeń o kubaturze do 600 m3. 
+14. PN-EN ISO 13370:2001. Właściwości cieplne budynków – Wymiana ciepła przez grunt – Metody 
+obliczania. 
+15. PN-EN ISO 14683:2001. Mostki cieplne w budynkach – Liniowy współczynnik przenikania ciepła – 
+Metody uproszczone i wartości orientacyjne. 
+16. PN-EN ISO 10211-2:2002. Mostki cieplne w budynkach – Obliczanie strumieni cieplnych 
+i temperatury powierzchni – Część 2: Liniowe mostki cieplne. 
+17. EN 12831:2003. Heating Systems in Buildings - Method for Calculation of the Design Heat Load. 
+18. PN-EN 13465:2006. Wentylacja budynków – Metody obliczeniowe do wyznaczania wartości 
+strumienia objętości powietrza w mieszkaniach. 
+19. PN-EN ISO 6946:2004. Komponenty budowlane i elementy budynku – Opór cieplny i współczynnik 
+przenikania ciepła – Metoda obliczania. 
+20. PN-EN 12831:2006. Instalacje ogrzewcze w budynkach – Metoda obliczania projektowego 
+obciążenia cieplnego. 
+21. PN-EN ISO 10077-1:2006. Cieplne właściwości użytkowe okien, drzwi i żaluzji – Obliczanie 
+współczynnika przenikania ciepła – Część 1: Metoda uproszczona 
+22. Rozporządzenie Ministra Infrastruktury z dnia 12 kwietnia 2002 r. w sprawie warunków 
+technicznych, jakim powinny odpowiadać budynki i ich usytuowanie. (Dz. U. 2002 nr 75 poz. 690 z 
+późniejszymi zmianami). 
+23. Rozporządzenie Ministra Infrastruktury z dnia 6 listopada 2008 r. zmieniające rozporządzenie 
+w sprawie warunków technicznych, jakim powinny odpowiadać budynki i ich usytuowanie (Dz. U. 
+2008 nr 201 poz. 1238). 
+
+
+Norma PN–EN 12831. Nowa metoda obliczania projektowego obciążenia cieplnego 
+ 
+ 
+   
+75    I    
+13. Załączniki 
+13.1 Terminy występujące w normie PN-EN 12831:2006  
+Termin 
+Definicja 
+podziemie 
+pomieszczenie jest klasyfikowane jako podziemie, jeżeli więcej niż 
+70% powierzchni jego ścian zewnętrznych styka się z gruntem 
+element budynku 
+część składowa budynku, taka jak ściana lub podłoga 
+część budynku 
+całkowita kubatura przestrzeni ogrzewana jedną wspólną instala-
+cją ogrzewczą (np. pojedyncze mieszkania), gdzie dostawa ciepła 
+do każdego mieszkania może być centralnie regulowana przez 
+mieszkańca 
+projektowa różnica tempera-
+tury 
+różnica między projektową temperaturą wewnętrzną a projektową 
+temperaturą zewnętrzną 
+projektowa strata ciepła 
+ilość ciepła przenikająca z budynku do środowiska zewnętrznego w 
+jednostce czasu, w określonych warunkach projektowych 
+współczynnik projektowej 
+straty ciepła 
+projektowa strata ciepła podzielona przez różnicę temperatury 
+projektowe przenikanie cie-
+pła 
+ciepło przenikające z wnętrza budynku lub jego części 
+projektowe obciążenie ciepl-
+ne 
+wymagany strumień ciepła umożliwiający osiągnięcie określonych 
+warunków projektowych 
+projektowa strata ciepła 
+rozpatrywanej przestrzeni 
+przez przenikanie 
+strata ciepła do otoczenia budynku, będąca wynikiem przewodze-
+nia ciepła przez obudowę budynku, a także wymiany ciepła między 
+ogrzewanymi przestrzeniami wewnątrz budynku 
+projektowa wentylacyjna 
+strata ciepła rozpatrywanej 
+przestrzeni 
+zapotrzebowanie na ciepło do podgrzania powietrza wentylacyjne-
+go i infiltrującego oraz przepływającego z jednej ogrzewanej prze-
+strzeni do drugiej 
+temperatura powietrza ze-
+wnętrznego 
+temperatura powietrza na zewnątrz budynku 
+projektowa temperatura 
+zewnętrzna 
+temperatura powietrza zewnętrznego, która jest stosowana w ob-
+liczeniach projektowych strat ciepła 
+przestrzeń ogrzewana 
+przestrzeń, która powinna być ogrzewana do określonej projekto-
+wej temperatury wewnętrznej 
+temperatura powietrza we-
+wnętrznego 
+temperatura powietrza wewnątrz budynku 
+projektowa temperatura 
+wewnętrzna 
+temperatura operacyjna w centralnym miejscu przestrzeni ogrze-
+wanej (na wysokości między 0,6 m a 1,6 m) stosowana do obliczeń 
+projektowych strat ciepła 
+średnia roczna temperatura 
+zewnętrzna 
+średnia roczna wartość temperatury zewnętrznej 
+temperatura operacyjna 
+średnia arytmetyczna z wartości temperatury powietrza we-
+wnętrznego i średniej temperatury promieniowania 
+strefa cieplna 
+część przestrzeni ogrzewanej z określoną zadaną wartością tempe-
+ratury przy nieznacznych zmianach temperatury wewnętrznej w tej 
+przestrzeni 
+przestrzeń nieogrzewana 
+przestrzeń nie będąca częścią przestrzeni ogrzewanej 
+instalacja wentylacyjna 
+instalacja służąca do doprowadzenia określonych strumieni powie-
+trza 
+strefa 
+grupa przestrzeni mających podobne charakterystyki cieplne 
+
+
+Norma PN–EN 12831. Nowa metoda obliczania projektowego obciążenia cieplnego 
+ 
+ 
+13.2 Porównanie wybranych pojęć i symboli występujących w normach PN-EN 
+12831:2006 i PN-B-03406:1994  
+PN-EN 12831:2006 
+PN-B-03406:1994 
+Pojęcie  
+Symbol Jednostka Pojęcie 
+Symbol Jednostka
+projektowe obciążenie 
+cieplne  
+ΦHL
+W 
+całkowita projektowa 
+strata ciepła  
+Φ 
+W 
+ 
+zapotrzebowanie na cie-
+pło 
+ 
+Q 
+ 
+W 
+projektowa strata ciepła 
+przez przenikanie 
+ΦT
+W 
+straty ciepła przez prze-
+nikanie 
+Qp
+W 
+projektowa wentylacyjna 
+strata ciepła 
+ΦV
+W 
+zapotrzebowanie na cie-
+pło do wentylacji 
+Qw
+W 
+nadwyżka mocy cieplnej 
+wymagana do skompen-
+sowania skutków osła-
+bienia ogrzewania 
+ΦRH
+W 
+– 
+– 
+– 
+współczynnik projekto-
+wej straty ciepła 
+H 
+W/K 
+– 
+– 
+– 
+projektowa temperatura 
+wewnętrzna2
+θint
+ºC 
+obliczeniowa temperatu-
+ra powietrza w pomiesz-
+czeniu 
+ti
+ºC 
+projektowa temperatura 
+zewnętrzna 
+θe
+ºC 
+obliczeniowa temperatu-
+ra powietrza zewnętrz-
+nego 
+te
+ºC 
+średnia roczna tempera-
+tura zewnętrzna 
+θm,e
+ºC 
+– 
+– 
+– 
+powierzchnia elementu 
+budynku (k) 
+Ak
+m2
+powierzchnia przegrody  
+A 
+m2
+współczynnik przenika-
+nia ciepła liniowego 
+mostka cieplnego (l) 
+l
+ψ 
+W/mK 
+– 
+– 
+– 
+długość liniowego most-
+ka cieplnego (l) 
+ll
+m 
+– 
+– 
+– 
+współczynnik redukcji 
+temperatury, uwzględ-
+niający różnicę między 
+temperaturą przestrzeni 
+nieogrzewanej i projek-
+tową temperaturą ze-
+wnętrzną 
+bu
+– 
+– 
+– 
+– 
+                                                 
+   
+76    I    
+2 temperatura operacyjna w centralnym miejscu przestrzeni ogrzewanej (na wysokości między 0,6 m a 1,6 m) 
+stosowana do obliczeń projektowych strat ciepła 
+
+
+Norma PN–EN 12831. Nowa metoda obliczania projektowego obciążenia cieplnego 
+ 
+ 
+PN-EN 12831:2006 
+PN-B-03406:1994 
+Pojęcie  
+Symbol Jednostka Pojęcie 
+Symbol Jednostka
+współczynnik redukcyjny 
+temperatury, uwzględ-
+niający różnicę tempera-
+tury przyległej przestrze-
+ni i projektowej tempe-
+ratury zewnętrznej 
+fij
+– 
+– 
+– 
+– 
+strumień objętości po-
+wietrza wentylacyjnego 
+V& 
+m3/s 
+m3/h 
+strumień objętości po-
+wietrza wentylacyjnego 
+V& 
+m3/s 
+m3/h 
+strumień powietrza infil-
+trującego 
+inf
+V&
+ 
+m3/s 
+m3/h 
+– 
+– 
+– 
+minimalny strumień 
+objętości powietrza, 
+wymagany ze względów 
+higienicznych 
+min
+V&
+ 
+m3/s 
+m3/h 
+(zakładano równy 1 kuba-
+turze pomieszczenia w 
+ciągu 1 godziny) 
+– 
+– 
+kubatura 
+V 
+m3
+kubatura  
+V 
+m3
+krotność wymiany po-
+wietrza wewnętrznego, 
+wynikająca z różnicy 
+ciśnienia 50 Pa między 
+wnętrzem a otoczeniem 
+budynku, z uwzględnie-
+niem wpływu nawiew-
+ników powietrza 
+n50
+h–1
+– 
+– 
+– 
+minimalna krotność 
+wymiany powietrza 
+zewnętrznego 
+nmin
+h–1
+(zakładano 1 h–1) 
+– 
+– 
+współczynnik osłonięcia  
+e 
+– 
+– 
+– 
+– 
+współczynnik popraw-
+kowy uwzględniający 
+wzrost prędkości wiatru 
+w zależności od wysoko-
+ści położenia przestrzeni 
+ogrzewanej ponad po-
+ziomem terenu  
+ε 
+– 
+– 
+– 
+– 
+ 
+   
+77    I    
+
+
+Norma PN–EN 12831. Nowa metoda obliczania projektowego obciążenia cieplnego 
+ 
+ 
+   
+78    I    
+13.3 Wybrane indeksy występujące w normie PN-EN 12831:2006 
+ 
+Indeks 
+Znaczenie 
+T 
+przenikanie ciepła 
+V 
+wentylacja 
+i 
+przestrzeń ogrzewana 
+j 
+przyległa przestrzeń, ogrzewana do znacząco różnej tempera-
+tury 
+u 
+przestrzeń nieogrzewana 
+e 
+otoczenie 
+g 
+grunt 
+k 
+element budynku 
+l 
+liniowy mostek cieplny 
+int 
+wewnętrzny 
+m 
+średnia roczna 
+ 
+ 
+
+
+Norma PN–EN 12831. Nowa metoda obliczania projektowego obciążenia cieplnego 
+ 
+ 
+13.4 Alfabet grecki 
+Litera 
+Nazwa polska 
+Przykłady zastosowania 
+Α α 
+alfa 
+ 
+Β β 
+beta 
+ 
+Γ γ 
+gamma 
+ 
+Δ δ 
+delta 
+ 
+Ε ε  
+epsilon 
+współczynnik poprawkowy ze względu na wysokość 
+Ζ ζ 
+dzeta 
+ 
+Η η 
+eta 
+sprawność odzysku ciepła z powietrza usuwanego 
+Θ θ  
+teta 
+temperatura 
+Ι ι 
+jota 
+ 
+Κ κ 
+kappa 
+ 
+Λ λ 
+lambda 
+współczynnik przewodzenia ciepła 
+Μ μ 
+mi 
+ 
+Ν ν 
+ni 
+ 
+Ξ ξ 
+ksi 
+ 
+Ο ο 
+omikron 
+ 
+Π π 
+pi 
+ 
+Ρ ρ 
+ro 
+gęstość 
+Σ σ ς 
+sigma 
+ 
+Τ τ 
+tau 
+ 
+Υ υ 
+ipsylon 
+ 
+Φ φ  
+fi 
+strata ciepła, moc cieplna 
+Χ χ 
+chi 
+ 
+Ψ ψ 
+psi 
+liniowy współczynnik przenikania ciepła 
+Ω ω 
+omega 
+ 
+ 
+   
+79    I    
+
+
+WWW.PURMO.PL
+Rettig Heating Sp. z o.o.
+02-777 Warszawa, ul. Ciszewskiego 15
+budynek KEN Center
+tel. (22) 544 10 00, fax (22) 544 10 01, e-mail: purmow@purmo.pl
+Poradnik_PN_EN12_12831_01_2012

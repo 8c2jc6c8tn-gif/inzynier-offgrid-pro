@@ -1,0 +1,106 @@
+Czynnik f Rsi - liczenie frsi
+Fizyka budowli I (Politechnika Lódzka)
+Scan to open on Studocu
+Studocu is not sponsored or endorsed by any college or university
+Czynnik f Rsi - liczenie frsi
+Fizyka budowli I (Politechnika Lódzka)
+Scan to open on Studocu
+Studocu is not sponsored or endorsed by any college or university
+Downloaded by Dmitrij Szulga (tn67ktrggr@privaterelay.appleid.com)
+lOMoARcPSD|71595795
+
+
+Obliczanie czynnika temperaturowego fRsi dla powierzchni wewnętrznej,
+koniecznego do uniknięcia krytycznej wilgotności powierzchni 
+wg normy PN EN ISO 13788:2001
+Metoda obliczeń z użyciem klas wilgotności wewnętrznej (Załącznik A  informacyjny, str.19)
+
+Zdefiniowane dla danej lokalizacji budynku:
+         Θe – średnia miesięczna temperatura zewnętrzna (kolumna 1),
+   φe – średnia miesięczna wilgotność względna na zewnątrz budynku (kolumna 2).
+         φe = pe / psat(Θe), a więc  pe = φe · psat(Θe)
+
+Nadwyżkę wewnętrznego ciśnienia pary wodnej Δp (kolumna 4) dla wybranej klasy 
+wilgotności budynku (klasa 3), odczytaną jako funkcję temperatury z linii granicznej 
+pomiędzy klasami 3 i 4 należy zwiększyć o 10% .  Otrzymuje się wówczas wartość 
+ciśnienia pary wodnej wewnątrz pomieszczenia pi (kolumna 5):
+pi = pe + Δp · 1,1
+
+Minimalne dopuszczalne ciśnienie pary nasyconej psat(Θsi) (kolumna 6) oblicza się 
+następująco:
+Ponieważ z uwagi na niebezpieczeństwo rozwoju pleśni przyjęto kryterium
+φsi  ≤ 0,80,
+a zatem  psat(Θsi) = pi / 0,80. Po obliczeniu psat(Θsi) określa się z tablic w normie PN EN
+ISO 6946 minimalną dopuszczalną temperaturę  powierzchni wewnętrznej Θsimin 
+(kolumna 7).
+
+Temperaturę wewnętrzną Θi przyjęto na poziomie 20°C (kolumna 8).
+Czynnik fRsi oblicza się następująco:
+fRsimin = (Θsimin – Θe)/ (Θi – Θe),
+gdzie Θsimin jest minimalną dopuszczalną temperaturą na powierzchni 
+wewnętrznej przegrody, poniżej której rozpoczyna się rozwój pleśni.
+Tabela zawiera
+dane wieloletnie
+dla Warszawy
+Θe
+[°C]
+ps
+φe 
+[-]
+pe
+[Pa]
+Δp · 1,1
+[Pa]
+pi
+[Pa]
+psat(Θsi)
+[Pa]
+Min.Θsi
+[°C]
+Θi
+[°C]
+fRsi
+[-]
+1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+Pażdziernik
+8,4
+968
+20
+Listopad
+3,3
+680
+20
+Grudzień
+-0,8
+541
+20
+Styczeń
+-3,4
+445
+20
+Luty
+-2,6
+402
+20
+Marzec
+1,4
+615
+20
+Kwiecień
+7,5
+699
+20
+Maksymalna wartość fRsi wynosi ..........  dla (wpisać nazwę miesiąca). Dla projektowanej 
+przegrody    fRsi = (R + Rse) / (Rsi +  R + Rse), gdzie Rsi należy przyjąć równe 0,25. Obliczone 
+fRsi powinno być większe od maksymalnej wartości obliczonej w tabeli.
+Downloaded by Dmitrij Szulga (tn67ktrggr@privaterelay.appleid.com)
+lOMoARcPSD|71595795

@@ -1,0 +1,956 @@
+Metoda określania dopuszczalnej wil
+Budownictwo ogólne (Politechnika Rzeszowska im. Ignacego Lukasiewicza)
+Scan to open on Studocu
+Studocu is not sponsored or endorsed by any college or university
+Metoda określania dopuszczalnej wil
+Budownictwo ogólne (Politechnika Rzeszowska im. Ignacego Lukasiewicza)
+Scan to open on Studocu
+Studocu is not sponsored or endorsed by any college or university
+Downloaded by Dmitrij Szulga (tn67ktrggr@privaterelay.appleid.com)
+lOMoARcPSD|71595795
+
+
+61 
+ 
+ 
+FIZYKA BUDOWLI W TEORII I PRAKTYCE 
+TOM VII, Nr 3 - 2015 
+ 
+Instytut 
+Fizyki 
+Budowli 
+METODA OKREŚLANIA DOPUSZCZALNEJ WILGOTNOŚCI 
+W POMIESZCZENIU JAKO OCHRONA PRZED KONDENSACJĄ 
+POWIERZCHNIOWĄ I MOŻLIWYM ROZWOJEM PLEŚNI 
+Aleksander STARAKIEWICZ, Lech LICHOŁAI, Przemysław MIĄSIK 
+ 
+Politechnika Rzeszowska, Zakład Budownictwa Ogólnego, ul. Poznańska 2, 35-959 Rzeszów,  
+e-mail: olekstar@prz.edu.pl, Lech.Licholai@prz.edu.pl, pmiasik@prz.edu.pl 
+ 
+ 
+ 
+Streszczenie:   
+W 
+pracy 
+przedstawiono 
+możliwości 
+występowania kondensacji na powierzchni przegród budowlanych 
+w zależności od parametrów mikroklimatu wewnętrznego 
+i zewnętrznego 
+oraz 
+izolacyjności 
+przegrody 
+budowlanej. 
+Wykonano obliczenia sprawdzania kondensacji powierzchniowej 
+i rozwoju pleśni wg procedury PN-EN ISO 13788 – metoda I. 
+Przedstawiono również metodę wyznaczania dopuszczalnej 
+wilgotności względnej powietrza wewnętrznego φi,max jako 
+ochronę przed kondensacją powierzchniową i rozwojem pleśni – 
+metoda 
+II. 
+Zaprezentowano 
+wyniki 
+obliczeń 
+kondensacji 
+powierzchniowej dwiema metodami, wskazując na identyczne 
+okresy występowania lub jej brak. Metoda II jest alternatywą dla 
+procedury normowej wg której, w przypadku wystąpienia 
+kondensacji powierzchniowej należy zwiększyć izolacyjność 
+cieplną przegrody. Metoda II pozwala obliczyć dopuszczalną 
+wilgotność względną w pomieszczeniu φi,max przy zachowaniu 
+założeń normowych. 
+Słowa kluczowe:  kondensacja powierzchniowa, rozwój pleśni, 
+wilgotność względna powietrza wewnętrznego. 
+1. WPROWADZENIE 
+ 
+Kondensacja pary wodnej na powierzchni przegród 
+budowlanych to jedno ze zjawisk fizycznych występujące 
+w budynkach, głownie na wewnętrznej ich powierzchni. 
+Przyczyną powstawania tego zjawiska jest wysoka 
+wilgotność 
+powietrza 
+wewnętrznego 
+(przekroczenie 
+temperatury powierzchni przegrody przez temperaturę 
+punktu 
+rosy 
+powietrza). 
+Zjawisko 
+to 
+występujące 
+w przeszłości bardzo sporadycznie, obecnie jest dość 
+powszechne zarówno w budownictwie jednorodzinnym jak 
+i 
+zamieszkania 
+zbiorowego. 
+W 
+dobie 
+wznoszenia 
+budynków o coraz wyższej izolacyjności cieplnej przegród 
+zewnętrznych a tym samym wysokiej temperaturze ich 
+wewnętrznych powierzchni, zjawisko to jest tym bardziej 
+niepokojące. 
+Przyczyny 
+występowania 
+kondensacji 
+powierzchniowej są wielorakie, począwszy od klimatu 
+zewnętrznego, 
+konstrukcji 
+i 
+geometrii 
+przegrody, 
+technologii wznoszenia, jakości wykonania, sposobu 
+użytkowania (zabudowy), na mikroklimacie wewnętrznym 
+kończąc. Środek ciężkości występowania tych przyczyn 
+przesunięty jest głównie na mikroklimat wewnętrzny, 
+technologię i jakość wykonania. 
+Zadaniem projektanta, jest zatem tak zaprojektować 
+przegrodę budowlaną, aby w określonych warunkach 
+klimatu zewnętrznego i mikroklimatu wewnętrznego oraz 
+przyjętym zapasie normowym przegroda funkcjonowała 
+poprawnie. 
+Na przestrzeni ostatnich dziesięcioleci zmieniało się 
+podejście do projektowania przegród budynku pod kątem 
+unikania 
+kondensacji 
+powierzchniowej 
+jak 
+i 
+same 
+wymagania określane w warunkach technicznych (WT). 
+Budynki natomiast cały czas funkcjonują pomimo braku 
+zaleceń 
+eksploatacyjnych 
+dla 
+pomieszczeń 
+i 
+ich 
+użytkowników 
+po 
+przeprowadzanych 
+modernizacjach 
+i termomodernizacjach przegród zewnętrznych. 
+W pracy podjęto próbę przedstawienia wpływu środowiska 
+wewnętrznego na funkcjonowanie przegród budowlanych 
+w określonych warunkach klimatu zewnętrznego w ciągu 
+roku. 
+Przedstawiono 
+warunek 
+normowy 
+uniknięcia 
+kondensacji powierzchniowej i rozwoju pleśni, określono 
+zmiany wilgotności wewnętrznej φi, wilgotność początku 
+kondensacji φi,kon oraz przedstawiono algorytm, jak 
+obliczyć dopuszczalną wilgotność w pomieszczeniu φi,max 
+przy 
+zachowaniu 
+warunku 
+normowego 
+uniknięcia 
+kondensacji powierzchniowej i rozwoju pleśni. 
+Downloaded by Dmitrij Szulga (tn67ktrggr@privaterelay.appleid.com)
+lOMoARcPSD|71595795
+
+
+Starakiewicz A., Lichołai L., Miąsik P., Metoda określania dopuszczalnej wilgotności w pomieszczeniu jako ochrona... 
+62 
+2. PROJEKTOWANIE POD KĄTEM ROZWOJU 
+PLEŚNI 
+ 
+Aby uniknąć rozwoju pleśni, wilgotność względna 
+powierzchni nie powinna przekraczać wartości 0,8 ciśnienia 
+rzeczywistego pary wodnej w pomieszczeniu przez kilka 
+dni. 
+2.1. 
+Procedura sprawdzania warunku uniknięcia 
+kondensacji i rozwoju pleśni wg PN-EN ISO 
+13788 [1] 
+ 
+Dla każdego miesiąca w roku należy: 
+1. Zdefiniować 
+temperaturę 
+powietrza 
+zewnętrznego 
+(średnia miesięczna wartość wg najbliższej stacji 
+meteorologicznej); 
+2. Zdefiniować wilgotność powietrza zewnętrznego – 
+średnią miesięczną wartość ciśnienia pary wodnej lub 
+wilgotności objętościowej można obliczyć ze średniej 
+temperatury i wilgotności względnej, stosując równania: 
+
+
+e
+sat
+e
+e
+p
+p
+
+
+
+  
+ 
+ 
+ 
+(1) 
+
+
+e
+sat
+e
+e
+
+
+
+
+
+
+  
+ 
+ 
+ 
+(2) 
+3. Zdefiniować temperaturę powietrza wewnętrznego, 
+zgodnie z przeznaczeniem budynku; 
+4. Obliczyć 
+ciśnienie 
+cząstkowe 
+pary 
+wodnej 
+w pomieszczeniu na podstawie Δν lub Δp lub przyjąć 
+wilgotność 
+względną 
+w 
+klimatyzowanym 
+pomieszczeniu jako stałą, uwzględniając poprawkę na 
+margines bezpieczeństwa: 
+a. 
+Na podstawie klasy wilgotności wewnętrznej 
+(Δp); 
+1,1
+,
+
+
+
+
+p
+p
+p
+e
+PN
+i
+  
+ 
+ 
+ 
+ 
+(3) 
+b. Na podstawie wilgotności względnej w 
+pomieszczeniu (φi); 
+
+
+
+
+i
+sat
+i
+PN
+i
+p
+p
+
+
+
+
+05
+,0
+,
+
+  
+ 
+ 
+(4) 
+ 
+5. Obliczyć minimalne dopuszczalne ciśnienie pary 
+nasyconej na powierzchni przegrody (odpowiadające 
+temperaturze 
+powierzchni, 
+Θsi). 
+Przyjmuje 
+się 
+maksymalną dopuszczalną wilgotność względną na 
+powierzchni φsi=0,8. 
+
+
+8,0
+,PN
+i
+si
+sat
+p
+p
+
+
+ 
+ 
+ 
+ 
+ 
+(5) 
+6. Określić 
+minimalną 
+dopuszczalną 
+temperaturę 
+powierzchni przegrody Θsi,min (na podstawie psat): 
+psat  
+→   (PN)   → Θsi,min 
+ 
+7. Obliczyć 
+minimalny 
+dopuszczalny 
+czynnik 
+temperaturowy fRsi,min : 
+e
+i
+e
+si
+Rsi
+f
+
+
+
+
+
+
+
+min
+,
+min
+,
+  
+ 
+ 
+(6) 
+8. Określić miesiąc krytyczny i fRsi,max.  
+(Największa wartość fRsi,min z 12 miesięcy jest fRsi,max). 
+ 
+9. Określić warunek projektowy: 
+fRsi  >  fRsi,max  
+ 
+ 
+ 
+ 
+(7) 
+T
+si
+T
+si
+si
+Rsi
+R
+R
+R
+U
+R
+U
+U
+R
+U
+f
+
+
+
+
+
+
+
+
+1
+1
+1
+1
+  
+ 
+(8) 
+ 
+10. Jeżeli warunek projektowy nie jest spełniony, należy 
+obliczyć minimalną izolacyjność cieplną przegrody 
+max
+,
+min
+,
+min
+,
+min
+,
+max
+,
+1
+Rsi
+si
+T
+T
+si
+T
+Rsi
+f
+R
+R
+R
+R
+R
+f
+
+
+
+
+
+ 
+(9) 
+lub maksymalną wartość współczynnika przenikania ciepła: 
+si
+Rsi
+si
+Rsi
+R
+f
+U
+U
+R
+U
+f
+max
+,
+max
+max
+max
+max
+,
+1
+1
+1
+
+
+
+
+
+  
+(10) 
+2.2. 
+Algorytm obliczania dopuszczalnej wilgotność 
+w pomieszczeniu φi,max 
+Procedura sprawdzania kondensacji powierzchniowej 
+sprowadza 
+się 
+do 
+porównania 
+dwóch 
+czynników 
+temperaturowych. Czynnika temperaturowego fRsi wynika-
+jącego z konstrukcji przegrody i czynnika fRsi,max wynika-
+jącego z warunków wilgotnościowych panujących w po-
+mieszczeniu. Jeżeli warunek projektowy nie jest spełniony 
+należy, dla spełnienia tego warunku, obliczyć minimalną 
+izolacyjność cieplną przegrody (równanie 9) lub maksy-
+malną wartość współczynnika przenikania ciepła (równanie 
+10). Jest to procedura jednostronna, gdyż sprowadza się do 
+zmiany (poprawienia) izolacyjności cieplnej przegrody. 
+W przypadku występowania kondensatcji powierzchniowej 
+istotna jest również odpowiedź na pytanie: Jaka może być 
+dopuszczalna wilgotność względna w pomieszczeniu φi,max 
+aby na powierzchni ściany nie dochodziło do kondensacji i 
+zachowany był warunek normowy ?  
+Rozważono sytuację gdy na powierzchni ściany 
+rozpoczyna się (lub kończy) kondensacja. Można to zapisać 
+następującym równaniem: 
+fRsi = fRsi,min = fRsi,kon   
+ 
+ 
+ 
+(11) 
+ 
+Czynnik temperaturowy fRsi przegrody określony jest 
+wzorem: 
+e
+i
+e
+si
+Rsi
+f
+
+
+
+
+
+
+
+  
+ 
+ 
+ 
+ 
+(12) 
+ 
+Downloaded by Dmitrij Szulga (tn67ktrggr@privaterelay.appleid.com)
+lOMoARcPSD|71595795
+
+
+ 
+63 
+Przekształcając równanie (12) i uwzględniając równanie 
+(11) można wyznaczyć temperaturę powierzchni przegrody, 
+przy której rozpoczyna się proces kondensacji: 
+Θsi = fRsi (Θi – Θe) + Θe = Θsi,kon = Θsi,min  
+ 
+(13) 
+Na podstawie obliczonej temperatury kondensacji (równej 
+temperaturze przegrody) określono ciśnienie kondensacji 
+pi,kon 
+(równe 
+ciśnieniu 
+pary 
+wodnej 
+nasyconej 
+odpowiadające temperaturze powierzchni przegrody) [2]: 
+Θsi,kon = Θsi    →   (PN)   →   pi,kon = psat(Θsi)  
+ 
+(14) 
+Aby nie występowała kondensacja powierzchniowa, 
+dopuszczalne ciśnienie w pomieszczeniu (pi,PN) może 
+stanowić 80% wartości ciśnienia określonego w formule 
+(14): 
+pi,PN = 0,8· pi,kon   
+ 
+ 
+ 
+(15) 
+lub 
+8,0
+,
+,
+PN
+i
+kon
+i
+p
+p
+
+ 
+ 
+ 
+ 
+ 
+(15a) 
+Zakładany przez PN zapas zawilgocenia ze względu na 
+niejednorodność wilgotności powietrza w pomieszczeniu 
+wynosi: 5% wilgotności względnej (φi) lub 10% przyrostu 
+zawilgocenia (Δp).  
+Dopuszczalną 
+wilgotność 
+względną 
+powietrza 
+w pomieszczeniu (φi,max), dla przypadku 5% zapasu 
+wilgoci, można określić z zależności analogicznej jak 
+w równaniu (4): 
+pi,PN = (φi,max + 0,05)·pni  
+ 
+ 
+ 
+(16) 
+po przekształceniu: 
+ni
+ni
+PN
+i
+i
+p
+p
+p
+
+
+
+05
+,0
+,
+max
+,
+
+   
+ 
+ 
+(17) 
+podstawiając za pi,PN  równanie (15) można otrzymać: 
+
+
+
+
+
+05
+,0
+8,0
+,
+max
+,
+ni
+kon
+i
+i
+p
+p
+
+  
+ 
+ 
+ 
+(18) 
+lub 
+
+%
+%
+100
+05
+,0
+8,0
+,
+max
+,
+
+
+
+
+
+
+
+
+
+ni
+kon
+i
+i
+p
+p
+
+   
+(18a) 
+Natomiast dopuszczalną wilgotność względną powietrza w 
+pomieszczeniu (φi,max), dla przypadku 10% zapasu 
+przyrostu zawilgocenia, można określić z równania: 
+ni
+e
+ni
+i
+i
+p
+p
+p
+p
+p
+max
+max
+,
+max
+,
+
+
+
+
+
+   
+ 
+ 
+(19) 
+Dopuszczalny przyrost zawilgocenia w pomieszczeniu 
+Δpmax wyznacza się z równania (3),  
+pi,PN = (pe + 1,1·Δpmax)   
+ 
+ 
+ 
+(20) 
+podstawiając za pi,PN  równanie (15) można otrzymać: 
+0,8· pi,kon = (pe + 1,1·Δpmax)   
+ 
+ 
+(21) 
+po przekształceniu: 
+1,1
+8,0
+,
+max
+e
+kon
+i
+p
+p
+p
+
+
+
+
+  
+ 
+ 
+ 
+ 
+(22) 
+Ostateczną 
+formułę 
+na 
+dopuszczalną 
+wilgotność 
+w pomieszczeniu (φi,max) można otrzymać po wstawieniu 
+Δpmax danego równaniem (22) do równania (19): 
+ni
+e
+kon
+i
+ni
+e
+i
+p
+p
+p
+p
+p
+p
+
+
+
+
+
+
+
+
+1,1
+1,0
+8,0
+,
+max
+max
+,
+
+  
+ 
+ 
+(23) 
+lub 
+
+%
+%
+100
+1,1
+1,0
+8,0
+,
+max
+,
+
+
+
+
+
+
+
+
+
+
+
+ni
+e
+kon
+i
+i
+p
+p
+p
+
+   
+(23a) 
+3. WYNIKI OBLICZEŃ KONDENSACJI 
+POWIERZCHNIOWEJ I ROZWOJU PLEŚNI 
+DLA PIĘCIU KLAS WILGOTNOŚCI 
+WEWNĘTRZNEJ 
+ 
+Do obliczeń przyjęto następujące założenia: dane 
+klimatyczne dla stacji meteorologicznej Rzeszów-Jasionka 
+[3], 
+temperaturę 
+powietrza 
+wewnętrznego 
+Ti-=20ºC, 
+przyrost zawilgocenia w pomieszczeniu dla pięciu klas 
+wilgotności wewnętrznej: ΔpI = 2,7 hPa;  ΔpII = 5,4 hPa; 
+ΔpIII = 8,1 hPa;  ΔpIV = 10,8 hPa;  ΔpV = 12,0 hPa, 
+współczynnik przenikania ciepła przegrody zewnętrznej U 
+w przedziale od 0,10 - 1,40 W/(m2K) co 0,05 i co 0,2; opór 
+przejmowania 
+ciepła 
+na 
+wewnętrznej 
+powierzchni 
+przegrody Rsi = 0,25 m2K/W. Obliczenia wykonano dla 
+dwunastu kolejnych miesięcy roku, dla każdego przypadku 
+izolacyjności przegrody zewnętrznej (U) i przyjętych 
+przyrostów zawilgocenia w pomieszczeniu (Δp). Obliczone 
+czynniki temperaturowe przegrody fRsi porównano z czyn-
+nikami temperaturowymi charakteryzującymi mikroklimat 
+wewnętrzny fRsi,min. Na tej podstawie dla każdego 
+przypadku sprawdzono normowy warunek uniknięcia 
+kondensacji powierzchniowej i rozwoju pleśni (wzór nr 7) 
+obliczając ∆fRsi = fRsi - fRsi,min. Dodatnia wartość ∆fRsi 
+oznacza spełnienie warunku projektowego (normowego) 
+i brak kondensacji, natomiast ujemna wartość ∆fRsi oznacza 
+zagrożenie kondensacją powierzchniową i rozwojem pleśni. 
+Wyniki obliczeń dla przyjętych założeń przedstawiono 
+w tabeli 1. Równoległe obliczenia przeprowadzono dla 
+zaprezentowanej 
+metody 
+określania 
+dopuszczalnej 
+wilgotność w pomieszczeniu φi,max. Sprawdzono warunek 
+uniknięcia kondensacji powierzchniowej obliczając ∆φi = 
+φi,max - φi, gdzie podobnie, dodatnia wartość ∆φi oznacza 
+spełnienie warunku normowego i brak kondensacji 
+a ujemna wartość ∆φi oznacza zagrożenie kondensacją. 
+Wybrane wyniki obliczeń wilgotności względnych powie-
+trza φi, φi,max i φi,kon oraz czynników temperaturowych fRsi 
+i fRsi,min dla przyjętych założeń przedstawiono na rys. 1-4. 
+Downloaded by Dmitrij Szulga (tn67ktrggr@privaterelay.appleid.com)
+lOMoARcPSD|71595795
+
+
+Starakiewicz A., Lichołai L., Miąsik P., Metoda określania dopuszczalnej wilgotności w pomieszczeniu jako ochrona... 
+64 
+ 
+Rys. 1. Roczny przebieg wilgotności względnej powietrza 
+w pomieszczeniu: φi,kon, φi,max i φi przy braku kondensacji 
+powierzchniowej dla ∆p=10,8 hPa, U=0,25 W/(m2K) i Ti=20 ºC. 
+Fig. 1. The annual course of relative humidity in the room; φi,con, 
+φi max and φi in the absence of surface condensation for ∆p=10,8 
+hPa, U=0,25 W/(m2K) and Ti=20°C. 
+ 
+Rys. 
+2. 
+Roczny 
+przebieg 
+czynników 
+temperaturowych 
+w pomieszczeniu: 
+fRsi 
+i 
+fRsi,min 
+przy 
+braku 
+kondensacji 
+powierzchniowej dla ∆p=10,8 hPa, U=0,25 W/(m2K) i Ti=20 ºC. 
+Fig. 2. The annual course of temperature factors in the room: fRsi 
+and fRsi,min in the absence of surface condensation for ∆p=10,8 
+hPa, U=0.25 W/(m2K) and Ti=20°C. 
+Downloaded by Dmitrij Szulga (tn67ktrggr@privaterelay.appleid.com)
+lOMoARcPSD|71595795
+
+
+ 
+65 
+ 
+Rys. 3. Roczny przebieg wilgotności względnej powietrza 
+w pomieszczeniu: φi,kon, φi,max i φi z kondensacją powierzchniową 
+w lutym, listopadzie i grudniu dla ∆p=12,0 hPa, U=0,20 W/(m2K) 
+i Ti=20 ºC. 
+Fig. 3. The annual course of relative humidity in the room: φi,con, 
+φi,max and φi with surface condensation in February, November 
+and December for ∆p=12,0 hPa, U=0,20 W/(m2K) and Ti=20°C. 
+ 
+Rys. 
+4. 
+Roczny 
+przebieg 
+czynników 
+temperaturowych 
+w pomieszczeniu: fRsi i fRsi,min z kondensacją powierzchniową 
+w lutym, listopadzie i grudniu dla ∆p=12,0 hPa, U=0,20 W/(m2K) 
+i Ti=20 ºC. 
+Fig. 4. The annual course of temperature factors in the room: fRsi 
+and fRsi,min with surface condensation in February, November and 
+December for ∆p=12,0 hPa, U=0,20 W/(m2K) and Ti=20 °C. 
+Downloaded by Dmitrij Szulga (tn67ktrggr@privaterelay.appleid.com)
+lOMoARcPSD|71595795
+
+
+Starakiewicz A., Lichołai L., Miąsik P., Metoda określania dopuszczalnej wilgotności w pomieszczeniu jako ochrona... 
+66 
+Tabela 1. Kondensacja powierzchniowa w zależności od 
+izolacyjności przegrody U oraz poziomów zawilgocenia ∆p 
+w pomieszczeniu. 
+Table 1. Surface condensation depending on the barrier insulation 
+U and moisture levels ∆p in the room. 
+ 
+ 
+4. PODSUMOWANIE 
+Przedstawione wyniki obliczeń występowania kondensacji 
+powierzchniowej, wykonane dwiema różnymi metodami, 
+prowadzą do tych samych efektów finalnych. Efekt finalny, 
+dotyczący występowania kondensacji powierzchniowej lub 
+jej braku, występuje dla każdego rozpatrywanego przy-
+padku w tym samym miesiącu. Można stwierdzić, że zapre-
+zentowana metoda określania dopuszczalnej wilgotności 
+względnej powietrza w pomieszczeniu (φi,max) powinna być 
+alternatywą 
+dla 
+obowiązującej 
+metody 
+normowej. 
+Zaprezentowana 
+metoda 
+daje 
+użyteczne 
+informacje 
+eksploatacyjne o pomieszczeniu: występujący poziom 
+wilgotności względnej (φi), wilgotność dopuszczalną 
+(φi,max) oraz faktyczną wilgotność wystąpienia kondensacji 
+powierzchniowej (φi,kon). 
+ 
+METHOD FOR DETERMINING THE PERMISSIBLE 
+MOISTURE IN ROOM AS PROTECTION AGAINST 
+SURFACE CONDENSATION AND DEVELOPMENT 
+MOULD 
+Summary:   The paper presents the possibility of the occurrence 
+of condensation on the surface of the building envelope, 
+depending on the microclimate parameters and the internal and 
+external insulation of building insulation. Calculations were 
+performed to check surface condensation and mold growth by 
+procedures PN EN-ISO 13788 also presents a method for 
+determining acceptable indoor air humidity φi,max as protection 
+against surface condensation and mold growth. The results of 
+calculations of surface condensation of two methods, indicating 
+the presence of identical periods or lack thereof. The method is an 
+alternative to standardized procedures according to which , in the 
+case of surface condensation should be enhanced thermal 
+insulation baffles. This method allows to calculate the allowable 
+humidity in φi,max while maintaining principles of code . 
+Literatura 
+ 
+[1] PN-EN ISO 13788:2003. Cieplno-wilgotnościowe 
+właściwości komponentów budowlanych i elementów 
+budynku. Temperatura powierzchni wewnętrznej konieczna 
+do uniknięcia krytycznej wilgotności powierzchni i konden-
+sacja międzywarstwowa. Metoda obliczania. 
+[2] 
+Starakiewicz 
+A., 
+Szalacha 
+A. 
+Występowanie 
+i zapobieganie grzybom pleśniowym na przegrodach 
+budowlanych 
+- 
+rozważania 
+na 
+przykładzie 
+lokalu 
+mieszkalnego. VIII Konferencja Fizyka Budowli w Teorii 
+i Praktyce, Łódź 2001.  
+[3] http://www.mir.gov.pl/ Dane klimatyczne dla stacji 
+meteorologicznej Rzeszów-Jasionka.  
+ 
+Downloaded by Dmitrij Szulga (tn67ktrggr@privaterelay.appleid.com)
+lOMoARcPSD|71595795

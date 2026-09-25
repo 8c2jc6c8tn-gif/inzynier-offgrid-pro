@@ -6757,3 +6757,43 @@ Po `git pull` (14 commitów) pełny lokalny pakiet wykrył dwa dryfy (Y.2, napra
    `SKILL.md`, `PROMPT_STARTOWY.md`, ale pominął `00_Biblia.md`, `01_Zasady_Pracy_i_Konwencje.md`,
    `README.md`, `docs/lista-do-zrobienia.md` — poprawione. Historyczne `USTALENIA.md`/
    `ZASADY_APLIKACJI.md` i wpisy historyczne w tym pliku celowo bez zmian.
+
+## Paczka `docs/zrodla/New-info/` przetworzona (25.09.2026)
+
+Właściciel projektu poprosił o zajęcie się folderem `docs/zrodla/New-info/` (13 plików PDF)
+wg standardowej procedury materiałów źródłowych (15.4). Rozłożone na 7 dedykowanych folderów
+(`norma-IEC-62305/`, `materialy-Purmo-PN-EN-12831-ogrzewanie/`, `norma-PN-EN-1991-1-4-wiatr/`,
+`norma-PN-82-B-02403/`, `norma-PN-EN-1990-eurokod-0/`, `norma-PN-EN-1995-1-1-eurokod-5-drewno/`,
+`materialy-fizyka-budowli/`) — pełny opis per plik i rekomendacja co do dalszego losu (część do
+`new-app-standards`, ogólnobudowlana, nie off-grid-specyficzna): `docs/zrodla/README.md`, sekcja
+"Paczka New-info".
+
+**Pytanie o pochodzenie zadane i rozstrzygnięte:** większość plików "document-download*" nosiła
+stopkę "Downloaded by Dmitrij Szulga (...)" (Studocu) — zapytano właściciela wprost, czy to
+problem z legalnością/prowieniencją źródła. **Odpowiedź: to własne konta/pobrania właściciela,
+źródło potwierdzone jako w porządku** — nie stawiać tego pytania ponownie przy tych plikach.
+
+**Duplikat znaleziony i usunięty (Y.2, nie decyzja — nadmiarowość):** `559094399-060364NHDD149-ES.pdf`
+(UNE-HD 60364-7-712:2017 ES) był bajt-w-bajt identyczny (MD5) z już istniejącym
+`docs/zrodla/norma-HD-60364-7-712/UNE-HD-60364-7-712-2017-pelny-tekst.pdf` (już przeczytany
+w całości, użyty w kodzie M3/E22 05-07.09.2026) — usunięty zamiast tworzenia martwej kopii.
+
+**OCR wykonany w tej sesji** (tesseract, pakiet pol+eng, 250 DPI) dla trzech dużych skanów bez
+warstwy tekstowej: PN-EN 1991-1-4 (wiatr, 146 str.), "A Guide to BS EN 62305" (140 str.), Eurokod 0
+PN-EN 1990 (120 str., częściowo natywny tekst w załącznikach). **Tylko wstępny spot-check jakości
+OCR, nie pełna weryfikacja strona-po-stronie** (w przeciwieństwie do w pełni zweryfikowanego
+Załącznika B normy PN-HD 60364-5-52) — przed użyciem którejkolwiek liczby w kodzie kalkulatora,
+obowiązkowa weryfikacja wizualna względem oryginalnego PDF, zgodnie z zastrzeżeniem w każdym
+`00-INDEKS.md`.
+
+**Najbardziej wartościowa pozycja: `norma-IEC-62305/`** (ochrona odgromowa, metoda toczącej się
+kuli, klasy LPL) — bezpośrednio uzupełnia istniejące `ochrona-przepieciowa-spd` i
+`projekt-uziemienia` (M5, `docs/rejestr-pokrycia.md` wiersze 2 i 9), kandydat na nowy ekran M8
+liczący strefę ochronną zwodu odgromowego. To poradnik producenta (Furse/Thomas & Betts), nie
+sama norma — jak poradnik Purmo dla PN-EN 12831 — nie traktować jako tekst normatywny wprost.
+
+**Nic z tej paczki jeszcze nie wykorzystane w kodzie.** Trzy pozycje (Eurokod 0, Eurokod 5 drewno,
+fizyka budowli) ocenione jako prawdopodobnie poza rdzeniem tego projektu (ogólne budownictwo, nie
+off-grid PV) — rekomendacja przeniesienia do `new-app-standards` jako generyczna biblioteka,
+decyzja czeka na najbliższą sesję nad tym repo (zgodnie z prośbą właściciela: "zaznacz jakie pliki
+są potrzebne").
