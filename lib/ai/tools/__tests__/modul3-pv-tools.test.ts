@@ -14,6 +14,7 @@ import { katIAzymutTool, utworzKatIAzymutTool } from "../kat-i-azymut-tool"
 import { utworzWschodZachodTool, wschodZachodTool } from "../wschod-zachod-tool"
 import { utworzZlotySrodekTool, zlotySrodekTool } from "../zloty-srodek-tool"
 import { liczbaPaneliTool, utworzLiczbaPaneliTool } from "../liczba-paneli-tool"
+import { trackerVsStalyTool } from "../tracker-vs-staly-tool"
 
 const bezBrakujacegoKlucza = (teksty: string[]) => {
   for (const tekst of teksty) expect(tekst.startsWith("⚠")).toBe(false)
@@ -21,7 +22,7 @@ const bezBrakujacegoKlucza = (teksty: string[]) => {
 
 describe("narzędzia AI Modułu 3 — kontrakt 9.3", () => {
   it("wszystkie: 'read', bez potwierdzenia, przechodzą validateAiToolDefinition", () => {
-    for (const n of [mikropeknieciaTermiczneTool, powlokiAntyrefleksyjneTool, technologiePaneliTool, mikroinwerteryVsCentralnyTool, warunkiNadmorskiePylisteTool, katIAzymutTool, wschodZachodTool, zlotySrodekTool, liczbaPaneliTool]) {
+    for (const n of [mikropeknieciaTermiczneTool, powlokiAntyrefleksyjneTool, technologiePaneliTool, mikroinwerteryVsCentralnyTool, warunkiNadmorskiePylisteTool, katIAzymutTool, wschodZachodTool, zlotySrodekTool, liczbaPaneliTool, trackerVsStalyTool]) {
       expect(n.operationType).toBe("read")
       expect(n.requiresConfirmation).toBe(false)
       expect(() => validateAiToolDefinition(n)).not.toThrow()
@@ -284,5 +285,22 @@ describe("liczbaPaneliTool (M3/E4)", () => {
     const w = await utworzLiczbaPaneliTool(zly).handler(wejscie)
     expect(w.status).toBe("INCOMPLETE")
     expect(w.ostrzezenia).toEqual([KOMUNIKAT_PVGIS["PVGIS-ODRZUCIL-ZAPYTANIE"]])
+  })
+})
+
+describe("trackerVsStalyTool (M3/E3)", () => {
+  it("scenariusz źródła: +6 paneli, werdykt 'staly', ostrzeżenia i założenia jako tekst PL", async () => {
+    const w = await trackerVsStalyTool.handler({ liczbaPaneliTracker: 9, kosztTrackeraZl: 6000, kosztPaneluZl: 1000, uzyskPaneluKwh: 450 })
+    expect(w.status).toBe("VALID")
+    expect(w.dodatkowePanele).toBe(6)
+    expect(w.werdykt).toBe("staly")
+    expect(w.ostrzezenia).toEqual([t("pl", "TVS-NAPOR-WIATRU-TRACKERA")])
+    expect(w.zalozenia).toContain(t("pl", "TVS-ZYSK-TRACKERA-ZAKRES", { min: 30, max: 40 }))
+    bezBrakujacegoKlucza([...w.ostrzezenia, ...w.zalozenia])
+  })
+
+  it("brak danych → INCOMPLETE", async () => {
+    const w = await trackerVsStalyTool.handler({ liczbaPaneliTracker: 0, kosztTrackeraZl: 6000, kosztPaneluZl: 1000, uzyskPaneluKwh: 450 })
+    expect(w.status).toBe("INCOMPLETE")
   })
 })

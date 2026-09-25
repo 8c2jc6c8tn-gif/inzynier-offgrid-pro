@@ -68,6 +68,7 @@ export const KAFLE: KafelEntry[] = [
       { href: "/kalkulatory/wschod-zachod", label: "Orientacja wschód-zachód" },
       { href: "/kalkulatory/liczba-paneli", label: "Ile paneli potrzebujesz" },
       { href: "/kalkulatory/zloty-srodek", label: "Złoty środek — kąt, wiatr i balast" },
+      { href: "/kalkulatory/tracker-vs-staly", label: "Tracker czy stały stelaż" },
       { href: "/kalkulatory/konfigurator-stringow", label: "Konfigurator stringów" },
       { href: "/kalkulatory/czystosc-i-snieg", label: "Czystość i śnieg na panelach" },
       { href: "/kalkulatory/wplyw-temperatury", label: "Wpływ temperatury na wydajność" },

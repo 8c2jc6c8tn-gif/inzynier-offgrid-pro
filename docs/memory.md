@@ -6712,3 +6712,9 @@ grzewczym” potwierdzone przez właściciela; miesiące grzewcze — wybór uż
 - `Math.ceil(x − 1e-9)` przy N — iloraz 12,000000001 z arytmetyki zmiennoprzecinkowej nie może dać 13.
 - Deficyt: przy N rekomendacji; gdy nawet lato przekracza limit — przy pełnym limicie (ostrzeżenie).
 - Status: `LP-DEFICYT-POZA-OKRESEM` to `info` (D13 — nie podnosi statusu).
+
+**[25.09.2026] M3/E3 „Tracker czy stały stelaż” — done.** Zysk trackera 30–40% nie jako pole ręczne
+(tak zapowiadał wiersz rejestru), tylko wynik dla obu granic zakresu — jak E23 (Dyrektywa #1). Stąd trzeci
+werdykt „zależy”: gdy przy 30% wygrywa stały stelaż, a przy 40% tracker. Pułapka: `Math.floor(0.3/0.1)` = 2
+(float) — dzielenie z `+1e-9`, test K na to. Napór trackera nieliczony (brak wzoru w źródle) — `info`, nie
+`warning` (fakt ze źródła, nie ryzyko wynikające z danych użytkownika; D13).

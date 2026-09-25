@@ -932,6 +932,12 @@ export const dictionaryPl = {
   "LP-ZALOZENIE-KAT-STALY": "Panele na stałym kącie {kat}° przez cały rok.",
   "LP-ZALOZENIE-STELAZ-REGULOWANY": "Stelaż regulowany: w każdym miesiącu panele ustawione na najlepszy kąt tego miesiąca (decyzja D26) — wymaga ręcznego przestawiania.",
   "LP-ZALOZENIE-LIMIT": "Limit montażowy {limit} szt. — podpowiedź 30 szt. to praktyczny pułap wskazany przez właściciela projektu, nie wartość z normy; wpisz, ile paneli realnie zmieścisz.",
+  "TVS-LICZBA-NIECALKOWITA": "{label} musi być liczbą całkowitą — nie da się zamontować części panelu.",
+  "TVS-NAPOR-WIATRU-TRACKERA": "Tracker łapie dużo większy napór wiatru niż stały stelaż i potrzebuje solidniejszego fundamentu. Źródło nie podaje wzoru na napór trackera, więc aplikacja go nie liczy — fundament trackera skonsultuj z konstruktorem. Napór i balast stałego stelaża policzysz na ekranie „Złoty środek”.",
+  "TVS-ZERO-DODATKOWYCH-PANELI": "Za cenę trackera nie dokupisz ani jednego panelu — przy tych cenach porównanie wypada na korzyść trackera tylko dlatego, że jest tańszy niż jeden panel. Sprawdź, czy koszt trackera obejmuje mechanizm i fundament.",
+  "TVS-ZYSK-TRACKERA-ZAKRES": "Tracker zwiększa uzysk o {min}–{max}% (zakres ze źródła). Rzeczywisty zysk zależy od typu trackera i lokalizacji, dlatego uzysk trackera jest pokazany dla obu granic.",
+  "TVS-DOKUPIENIE-W-DOL": "Liczba dodatkowych paneli zaokrąglona w dół — za resztę pieniędzy nie kupisz całego panelu.",
+  "TVS-UZYSK-PANELU-STALY": "Każdy panel na stałym stelażu daje ten sam roczny uzysk — dodatkowe panele stoją pod tym samym kątem i bez zacienienia.",
 } as const
 
 export type KluczTlumaczenia = keyof typeof dictionaryPl

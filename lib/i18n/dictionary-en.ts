@@ -920,4 +920,10 @@ export const dictionaryEn = {
   "LP-ZALOZENIE-KAT-STALY": "Panels at a fixed tilt of {kat}° all year.",
   "LP-ZALOZENIE-STELAZ-REGULOWANY": "Adjustable rack: every month the panels are set to that month's best tilt (decision D26) — requires manual adjustment.",
   "LP-ZALOZENIE-LIMIT": "Mounting limit {limit} pcs — the 30 pcs hint is a practical ceiling given by the project owner, not a standard value; enter how many panels you can really fit.",
+  "TVS-LICZBA-NIECALKOWITA": "{label} must be a whole number — you cannot mount part of a panel.",
+  "TVS-NAPOR-WIATRU-TRACKERA": "A tracker catches a much larger wind load than a fixed rack and needs a stronger foundation. The source gives no formula for tracker wind load, so the app does not calculate it — have a structural engineer check the tracker foundation. Wind load and ballast of a fixed rack are on the “Golden mean” screen.",
+  "TVS-ZERO-DODATKOWYCH-PANELI": "The tracker price does not buy even one extra panel — at these prices the tracker wins only because it costs less than one panel. Check that the tracker cost includes the mechanism and the foundation.",
+  "TVS-ZYSK-TRACKERA-ZAKRES": "A tracker increases yield by {min}–{max}% (range from the source). The real gain depends on the tracker type and location, so tracker yield is shown for both ends of the range.",
+  "TVS-DOKUPIENIE-W-DOL": "The number of extra panels is rounded down — the remaining money does not buy a whole panel.",
+  "TVS-UZYSK-PANELU-STALY": "Every panel on the fixed rack gives the same annual yield — extra panels are at the same angle and unshaded.",
 } satisfies Record<KluczTlumaczenia, string>
