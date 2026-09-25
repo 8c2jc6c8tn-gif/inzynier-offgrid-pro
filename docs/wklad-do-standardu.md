@@ -658,3 +658,21 @@ blob:`) i nowy punkt checklisty **7.4** (nowa funkcja API przeglądarki zaczyna 
 2026-09-24, GOD BOOK bez zmiany numeru wersji dla tego wiersza. Sprawdzone przy Y.6 24.09.2026
 (sesja `claude/y6-adaptive-20260924`) — do zastosowania w tym projekcie przy pełnej synchronizacji
 NIETYKALNE (`docs/standards/11`, `07`), jeszcze nie zaaplikowane lokalnie, patrz `docs/memory.md`.
+
+[25.09.2026] KATEGORIA: POMYSŁ NA REGUŁĘ — zapowiedź "pełne wyliczenie później" w rejestrze pokrycia jako sposób, w jaki Dyrektywa #14 (rejestruj natychmiast) jest omijana po cichu
+
+Szczegóły: sekcja rejestru pokrycia Modułu 3 (04.09.2026) zawierała zdanie "pełne wyliczenie
+per-funkcja całego modułu — nadal osobny, nie rozpoczęty krok". Zdanie było uczciwe, ale przez 3
+tygodnie nikt go nie wykonał, a audyt kompletności (GOD BOOK Część N, 05.09.2026) je przepuścił —
+sprawdzał, czy istniejące wiersze zgadzają się ze źródłem, a nie czy KAŻDA pozycja źródła ma wiersz.
+Skutek: 17 z 30 pozycji źródła bez wiersza (niewidoczne, niepoliczalne), odkryte dopiero na starcie
+sesji budowy tego modułu, prostym grepem nazw ekranów źródła w rejestrze.
+
+Dlaczego warto zgłosić do new-app-standards: każdy projekt z rejestrem pokrycia (14.1) i dużą
+specyfikacją źródłową może mieć tę samą lukę — zapowiedź odroczonego wyliczenia wygląda jak
+świadome, udokumentowane "todo", a działa jak brak wiersza. Propozycja: (a) w GOD BOOK N.1 dodać
+krok "dla każdego modułu: liczba pozycji źródła = liczba wierszy rejestru (grep nazw/ID), a nie
+tylko zgodność istniejących wierszy"; (b) zdanie typu "pełne wyliczenie później" w rejestrze
+traktować jako otwartą pozycję listy zadań z terminem (B.6/15.22), nie jako stan akceptowalny.
+
+Status: 🔎 nowe

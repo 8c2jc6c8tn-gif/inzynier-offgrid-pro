@@ -27,6 +27,11 @@ import { normyICertyfikatyTool } from "./tools/normy-i-certyfikaty-tool"
 import { skanerDzialkiTool } from "./tools/skaner-dzialki-tool"
 import { analizaZacienieniaTool } from "./tools/analiza-zacienienia-tool"
 import { orientacjaPowierzchniTool } from "./tools/orientacja-powierzchni-tool"
+import { mikropeknieciaTermiczneTool } from "./tools/mikropekniecia-termiczne-tool"
+import { powlokiAntyrefleksyjneTool } from "./tools/powloki-antyrefleksyjne-tool"
+import { technologiePaneliTool } from "./tools/technologie-paneli-tool"
+import { mikroinwerteryVsCentralnyTool } from "./tools/mikroinwertery-vs-centralny-tool"
+import { warunkiNadmorskiePylisteTool } from "./tools/warunki-nadmorskie-pyliste-tool"
 import { toAnthropicTool } from "./to-anthropic-tool"
 import { validateAiToolDefinition, type AiToolDefinition } from "./types"
 
@@ -44,6 +49,11 @@ const NARZEDZIA: Array<AiToolDefinition<any, any>> = [
   skanerDzialkiTool,
   analizaZacienieniaTool,
   orientacjaPowierzchniTool,
+  mikropeknieciaTermiczneTool,
+  powlokiAntyrefleksyjneTool,
+  technologiePaneliTool,
+  mikroinwerteryVsCentralnyTool,
+  warunkiNadmorskiePylisteTool,
 ]
 for (const narzedzie of NARZEDZIA) validateAiToolDefinition(narzedzie)
 

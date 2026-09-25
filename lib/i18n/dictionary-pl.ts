@@ -886,6 +886,23 @@ export const dictionaryPl = {
   "SKANER-ZALOZENIE-UKLAD-LOKALNY": "Współrzędne GPS przeliczone na lokalny układ metryczny (płaszczyzna styczna do elipsoidy WGS84 w pierwszym punkcie) — dokładne dla obszaru działki.",
   "SKANER-ZALOZENIE-KALIBRACJA-POZIOMA": "Kalibracja znanym wymiarem koryguje tylko wymiary poziome — błąd wysokości z GPS pozostaje.",
   "SKANER-ZALOZENIE-WYSOKOSC-GPS": "Nachylenie połaci i wysokość kalenicy wyznaczone z wysokości GPS, która jest zwykle mniej dokładna niż położenie poziome — traktuj je orientacyjnie albo skoryguj ręcznie.",
+  "MIKROPEKNIECIA-ODSTEP-ZA-MALY": "Odstęp dylatacyjny {odstep} mm jest mniejszy niż minimum {min} mm — sztywny montaż doprowadzi do mikropęknięć w ciągu ok. {lata} lat.",
+  "MIKROPEKNIECIA-BRAK-EPDM": "Brak podkładek EPDM — sztywne mocowanie nie daje panelom luzu na rozszerzalność cieplną; ryzyko mikropęknięć w ciągu ok. {lata} lat.",
+  "MIKROPEKNIECIA-MONTAZ-ELASTYCZNY": "Montaż elastyczny: podkładki EPDM i odstęp dylatacyjny {odstep} mm — spełnia zalecenie źródła.",
+  "MIKROPEKNIECIA-DANE-ZE-ZRODLA": "Minimum 5 mm, nagrzewanie do 65–70°C, schłodzenie o 30°C w kilka minut i czas ok. 2 lat wzięte wprost ze źródła — bez modelu naprężeń (reguła progowa, nie obliczenie).",
+  "POWLOKA-AR-CZYSZCZENIE": "Z czasem powłoka może się zabrudzić — myj panele delikatnie, unikaj ściernych środków czyszczących.",
+  "POWLOKA-AR-ZAKRES-ZE-ZRODLA": "Wzrost uzysku {min}–{max}% to typowy zakres ze źródła — rzeczywisty zysk zależy od konkretnego szkła i powłoki, dlatego wynik jest przedziałem, nie jedną liczbą.",
+  "TECHNOLOGIE-POWIERZCHNIA-MODULOW": "Powierzchnia samych modułów z definicji mocy znamionowej (1 kWp = 1000 W przy 1000 W/m², warunki STC) — bez odstępów montażowych i miejsca na serwis.",
+  "TECHNOLOGIE-SPRAWNOSC-TO-POWIERZCHNIA": "Wyższa sprawność oznacza mniej m² na tę samą moc (kWp), a nie automatycznie więcej kWh z każdego kWp. Różnice uzysku na kWp wynikają m.in. ze współczynnika temperaturowego, pracy przy słabym świetle i degradacji — dlatego procenty uzysku ze źródła są pokazane jako dane do weryfikacji, nie jako obliczenie.",
+  "REKOMENDACJA-MIKROINWERTERY": "Przy częściowym/regularnym zacienieniu wybierz mikroinwertery — każdy panel pracuje niezależnie od sąsiadów.",
+  "REKOMENDACJA-INWERTER-CENTRALNY": "Bez regularnego zacienienia główna przewaga mikroinwerterów nie ma zastosowania — inwerter centralny jest tańszy.",
+  "MIKROINWERTER-OFFGRID-SPRZEZENIE-AC": "Uwaga off-grid: typowy mikroinwerter to falownik sieciowy — nie wystartuje bez napięcia odniesienia. W instalacji wyspowej potrzebuje sprzężenia AC z falownikiem wyspowym, który tworzy sieć i ogranicza moc mikroinwerterów przy pełnym magazynie. Sprawdź u producenta, czy dany model obsługuje taką pracę.",
+  "NADMORSKA-BRAK-IEC-61701": "Lokalizacja nadmorska: wybierz panele z certyfikatem IEC 61701 (odporność na mgłę solną) — sól koroduje ramki i połączenia.",
+  "NADMORSKA-BRAK-RAMY-ANODOWANEJ": "Lokalizacja nadmorska: wybierz panele z ramą anodowaną.",
+  "NADMORSKA-ZLACZKI-MC4": "Sól niszczy standardowe złączki MC4 — stosuj złączki dedykowane do warunków morskich.",
+  "WARUNKI-BRAK-ANTY-PID": "Bliskość morza lub wysoka wilgotność podnosi ryzyko PID — wybierz panele z certyfikatem anty-PID.",
+  "PYLISTA-RYSOWANIE-SZKLA": "Lokalizacja pylista: pył i piasek mogą rysować szkło paneli — zaplanuj częstsze czyszczenie.",
+  "WARUNKI-SRODOWISKOWE-SPELNIONE": "Dobór paneli spełnia reguły źródła dla tej lokalizacji.",
 } as const
 
 export type KluczTlumaczenia = keyof typeof dictionaryPl

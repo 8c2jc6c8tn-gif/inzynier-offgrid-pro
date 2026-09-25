@@ -80,6 +80,12 @@ export const KAFLE: KafelEntry[] = [
       { href: "/kalkulatory/straty-zlaczki-mc4", label: "Straty na złączkach MC4 w praktyce" },
       { href: "/kalkulatory/panele-bifacjalne", label: "Panele bifacjalne" },
       { href: "/kalkulatory/ryzyko-pid", label: "Ryzyko PID (degradacja indukowana napięciem)" },
+      { href: "/kalkulatory/mikropekniecia-termiczne", label: "Mikropęknięcia termiczne" },
+      { href: "/kalkulatory/diody-bocznikujace", label: "Wpływ diod bocznikujących" },
+      { href: "/kalkulatory/powloki-antyrefleksyjne", label: "Powłoki antyrefleksyjne" },
+      { href: "/kalkulatory/technologie-paneli", label: "Technologie paneli" },
+      { href: "/kalkulatory/mikroinwertery-vs-centralny", label: "Mikroinwertery vs inwerter centralny" },
+      { href: "/kalkulatory/warunki-nadmorskie-pyliste", label: "Warunki nadmorskie i pyliste" },
     ],
   },
   {

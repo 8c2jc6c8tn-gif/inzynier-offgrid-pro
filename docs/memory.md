@@ -6611,3 +6611,20 @@ słabego światła, degradacji. Pokazywać jako dane źródła z 🔎, nigdy jak
 
 **Przejście nasłonecznienie → produkcja (M3/E1, E4, E20, E27):** silnik M1/E4 zwraca kWh/m²; kWh
 wymaga PR instalacji — źródło go nie podaje → pole ręczne z podpowiedzią zakresu, bez domyślnego.
+
+**[25.09.2026, po partii 1] Moduł 3 — 6 ekranów dobudowanych (E7, E12, E15, E21, E23, E25), 18/27 `done`.**
+- **Echo z E13:** `obliczStrataPaneluPct` wyekstrahowane z `zacienienie-diody-bocznikujace` —
+  E12 (wpływ diod bocznikujących) to ten sam fakt konstrukcyjny, nie nowa reguła; E12 nie ma
+  własnego modułu domenowego ani narzędzia AI.
+- **E15:** jedyne obliczenie to powierzchnia modułów z definicji STC; dane uzysku 2.30 z 🔎 (patrz
+  wyżej). Nowe pliki narzędzi AI M3 testowane zbiorczo w `lib/ai/tools/__tests__/modul3-pv-tools.test.ts`
+  — kolejne narzędzia M3 dopisuj tam, nie w osobnych plikach.
+- **✏️ E21 — uzupełnienie eksperckie do potwierdzenia przez właściciela:** ostrzeżenie, że typowy
+  mikroinwerter (falownik sieciowy) w off-gridzie wymaga sprzężenia AC z falownikiem wyspowym —
+  źródło tego nie mówi, a rekomendacja "mikroinwertery przy cieniu" bez tego prowadzi do
+  niedziałającej instalacji. Pełne 4 pola ✏️: `docs/rejestr-pokrycia.md`, wiersz Ekran 21.
+- **Weryfikacja:** typecheck / lint (0 błędów, 2 ostrzeżenia `<img>` sprzed sesji) / i18n-guard (108
+  modułów) / test 1248/1248 (+42) / build / audit:gate — czyste. `next start` + Playwright (390 px):
+  6 nowych tras HTTP 200, interakcja na każdej, brak `⚠ [klucz]`; błędy konsoli tylko z
+  `/_vercel/insights` (lokalnie nieobecny, niezwiązane). Poprawka po oględzinach: tabela E21 minWidth 480→320
+  (na telefonie ukrywała kolumnę "Inwerter centralny").
