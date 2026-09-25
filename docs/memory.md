@@ -6581,3 +6581,19 @@ mirror żadnego pliku tego projektu) — commit źródła wprost potwierdza: *"i
 
 **Krok 4:** `update_trigger` na `trig_01892Z45ThAi2T56PJRjQQAh`, nowy `run_once_at` =
 2026-09-26T04:58:00Z (+18h).
+
+## Pull 25.09.2026 — dwa naprawione dryfy po PR #147–#151
+
+Po `git pull` (14 commitów) pełny lokalny pakiet wykrył dwa dryfy (Y.2, naprawione od razu):
+
+1. **Testy z timeoutem w pełnym pakiecie.** `orientacja-powierzchni.test.ts` — dwa nowe testy TD15
+   pkt 2 ("przeszkoda od południa…", "kilka punktów powierzchni…") trwają ~3,7 s w izolacji, pod
+   równoległym obciążeniem całego pakietu (4 rdzenie) przekraczały domyślne 5 s Vitest. W izolacji
+   przechodziły, więc łatwo przeoczyć. Dodano `{ timeout: 30_000 }` — ten sam wzorzec, który już
+   mają inne ciężkie testy w tym pliku. **Pułapka:** każdy test uruchamiający pełny przebieg
+   godzinowy TMY (optimum/profil horyzontu) potrzebuje jawnego limitu — sprawdzaj pełnym `pnpm test`,
+   nie tylko plikiem.
+2. **Martwe linki do GOD BOOK.** Pełny sync Y.9 (24.09, v2_28→v2_38) zaktualizował `CLAUDE.md`,
+   `SKILL.md`, `PROMPT_STARTOWY.md`, ale pominął `00_Biblia.md`, `01_Zasady_Pracy_i_Konwencje.md`,
+   `README.md`, `docs/lista-do-zrobienia.md` — poprawione. Historyczne `USTALENIA.md`/
+   `ZASADY_APLIKACJI.md` i wpisy historyczne w tym pliku celowo bez zmian.

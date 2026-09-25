@@ -9,7 +9,7 @@ przygotowaną na przeniesienie na mobile. Część rodziny aplikacji "Inżynier 
 - [`CLAUDE.md`](./CLAUDE.md) — punkt wejścia (dla AI i dla człowieka): kolejność czytania, zasady pracy z tym repo.
 - [`docs/memory.md`](./docs/memory.md) — żywy log decyzji, pułapek i aktualnego stanu tego projektu.
 - [`docs/standards/00-INDEKS.md`](./docs/standards/00-INDEKS.md) — pełny standard architektoniczny wspólny dla całej rodziny aplikacji (17 rozdziałów).
-- [`docs/god-book/instrukcja-uniwersalna-biblii-projektu-v2_28.md`](./docs/god-book/instrukcja-uniwersalna-biblii-projektu-v2_28.md) — metodologia procesowa (GOD BOOK); relacja ze standardem opisana w jego Części Y.
+- [`docs/god-book/instrukcja-uniwersalna-biblii-projektu-v2_38.md`](./docs/god-book/instrukcja-uniwersalna-biblii-projektu-v2_38.md) — metodologia procesowa (GOD BOOK); relacja ze standardem opisana w jego Części Y.
 - [`docs/lista-do-zrobienia.md`](./docs/lista-do-zrobienia.md) — bieżące zadania między sesjami.
 - [`ZASADY_APLIKACJI.md`](./ZASADY_APLIKACJI.md) / [`USTALENIA.md`](./USTALENIA.md) — zasady i decyzje specyficzne dla Offgrid Pro (konstytucja tego projektu, nadrzędna wobec kodu).
 - [`docs/rejestr-pokrycia.md`](./docs/rejestr-pokrycia.md) — status implementacji per ekran/moduł.

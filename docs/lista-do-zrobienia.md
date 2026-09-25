@@ -1,6 +1,6 @@
 # docs/lista-do-zrobienia.md — Inżynier Offgrid Pro
 
-Bieżąca, operacyjna lista zadań tego projektu. Format i zasada aktualizacji: `docs/god-book/instrukcja-uniwersalna-biblii-projektu-v2_28.md`, Część B.6. Czytana **zaraz po `00_Biblia.md`**, na starcie każdej sesji (Część P.2) — żeby AI nie musiało eksplorować całego projektu od nowa, żeby wiedzieć, od czego zacząć.
+Bieżąca, operacyjna lista zadań tego projektu. Format i zasada aktualizacji: `docs/god-book/instrukcja-uniwersalna-biblii-projektu-v2_38.md`, Część B.6. Czytana **zaraz po `00_Biblia.md`**, na starcie każdej sesji (Część P.2) — żeby AI nie musiało eksplorować całego projektu od nowa, żeby wiedzieć, od czego zacząć.
 
 **To nie to samo, co:**
 - `backlog-poza-v1.md` — rzeczy świadomie odłożone poza zakres (decyzje o skali/fazowaniu produktu, zbierane przy audycie).
