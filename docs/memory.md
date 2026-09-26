@@ -6944,3 +6944,15 @@ Szczegóły per plik: sekcje „Weryfikacja OCR (25.09.2026)” w `00-INDEKS.md`
 - **Weryfikacja:** typecheck / lint (0 błędów) / i18n-guard (150) / test 1387/1387 / build / audit:gate / audit:n1;
   `next start` + Playwright 390 px `pl-PL`: Black Start, demontaż ołów, połączenia elektryczne (krok poza kolejnością),
   porównanie technologii (0 i puste pole), audyt, prognozy, komunikacja BMS („inny”) — teksty widoczne, bez surowych kluczy.
+
+## Resynchronizacja mapy wdrożenia + zduplikowane `id` (26.09.2026)
+
+- **Zduplikowane `id`:** zadanie z 25.09 było już rozwiązane u źródła (`useId()` w `Pole`/`PoleSelect`, commit `f475302`),
+  tylko wpis na liście nie dostał domknięcia. Potwierdzone skanem wszystkich 160 tras (stan domyślny + po dodaniu pozycji).
+- **Dryf kolumny statusu w rejestrze (pułapka):** 13 wierszy miało „→ done” tylko w notatce, a w kolumnie statusu nadal
+  `todo`/`blocked` (11× M3 z 25.09 i moje E2/E7 z 26.09). Każde liczenie po kolumnie zaniżało postęp. Zasada: przy zmianie
+  statusu poprawiać **kolumnę** (aktualny stan) i dopisywać datę w notatce (historia) — jak w wierszu M6/E1.
+- **Metryka mapy zmieniona z „wierszy done” na „ekrany docelowe”:** rejestr ma duplikaty między sekcjami (wzorce A–H,
+  „po jednym ekranie”), więc wiersze zawyżały wynik (163 wiersze = 153 ekrany + 3 dodatkowe + 7 duplikatów). Mianowniki
+  z podsumowań `Tresc_*`; M6 = 48 (20 + 2A 1 + 2C 26 + 2D 1), M12 = 43 (42 z `Tresc` + dawne 8.8 z samej Biblii), M13 = 2.
+  Surowe liczenie: `pnpm rejestr:licz [moduł]` (`scripts/policz-rejestr.mjs`) — duplikaty i mianowniki nadal ręcznie.

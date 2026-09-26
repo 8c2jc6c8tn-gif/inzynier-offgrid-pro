@@ -16,7 +16,8 @@
     "typecheck": "tsc --noEmit",
     "check:i18n-guard": "node scripts/check-i18n-guard.mjs",
     "audit:gate": "node scripts/audit-gate.mjs",
-    "audit:n1": "node scripts/audit-n1-rejestr.mjs"
+    "audit:n1": "node scripts/audit-n1-rejestr.mjs",
+    "rejestr:licz": "node scripts/policz-rejestr.mjs"
   },
   "dependencies": {
     "@anthropic-ai/sdk": "^0.126.0",
