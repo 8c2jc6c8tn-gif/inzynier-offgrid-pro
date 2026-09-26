@@ -6985,3 +6985,44 @@ Szczegóły per plik: sekcje „Weryfikacja OCR (25.09.2026)” w `00-INDEKS.md`
   nieodtwarzalny.
 - **E11 odłożony** decyzją właściciela (progi 🔴 poda później).
 
+## Synchronizacja ze standardem — Y.6, sprawdzenie automatyczne (26.09.2026, 16:40 UTC)
+
+**Krok 1:** `new-app-standards` zaktualizowany `b68e561`→`35c84bd` (ff-only) — GOD BOOK `v2_38`→`v2_39` już
+odebrany w porannej synchronizacji (04:00 UTC, patrz wyżej); nowe commity to wyłącznie ruch **U.4**
+(projekt→standard, `docs/god-book/memory.md`/`docs/projekty-downstream.md` samego `new-app-standards`) —
+standard nietknięty ("Standard nietknięty" wprost w treści commita `3958477`). `docs/wklad-do-standardu.md`
+tego repo ma 4 pozycje `🔎 nowe` (e2e locale, OCR norm, audyt N.1 skryptem, strażnik i18n kompletności listy)
+— zgodnie ze stanem po stronie `new-app-standards`, nic do zmiany statusu.
+
+**Krok 2 — `diff -rq` na wszystkich plikach NIETYKALNE:** `docs/standards/*`, GOD BOOK `v2_39`,
+`PROMPT_STARTOWY.md`, `docs/przyklady/i18n/*` — bez różnic. Zero nowej treści NIETYKALNE/ADAPTOWALNE do
+zastosowania.
+
+**Znalezisko wymagające zgłoszenia właścicielowi (nie rozstrzygnięte samodzielnie — Y.2.2/15.4):**
+wpis z 24.09.2026 wyżej ("LOKALNE — znaleziona rozbieżność...") i wpis z 25.09.2026 ("Uwaga:
+`docs/przyklady/pwa/`... świadomie NIE skopiowany. Projekt nie ma jeszcze kodu PWA/Service Workera")
+opierały się na sprawdzeniu ograniczonym do `app`/`lib`. **To sprawdzenie było niepełne — projekt ma
+działający, wcześniej zbudowany kod PWA/Service Workera, tylko poza `app`/`lib`:** `public/sw.js` (79
+linii, ręczny SW bez biblioteki), `public/register-sw.js` (rejestracja przez `<script src>`, niezależna
+od hydracji Reacta), `app/manifest.ts` — udokumentowane obszernie wcześniej w tym pliku (sekcja ok. l. 4384,
+5363: własne logo/ikony PWA, decyzja właściciela). Nie zgaduję rozstrzygnięcia — dwie osobne sprawy dla
+właściciela:
+1. Wpis `AKTUALIZACJE.md` 24.09.2026 przypisujący temu projektowi zgłoszenie o Web Workerze MapLibre GL/
+   `Permissions-Policy: geolocation=()` opierał częściowo swoje "nie znaleziono" na tej samej, niepełnej
+   przesłance — nadal nieznaleziony w historii gita ani w `docs/wklad-do-standardu.md` tego repo, ale
+   przesłanka "brak kodu SW/PWA" jako dowód na błędne przypisanie źródła jest teraz nieaktualna. Sama
+   rozbieżność (MapLibre) pozostaje niezamknięta.
+2. Standard ma od 24–25.09.2026 gotowy wzorzec Grupa B PWA/SW (`docs/przyklady/pwa/`, `docs/standards/05`
+   5.8–5.12, `07` dopisek 7.3, `08` 8.11, `10` 10.8/10.9) zbudowany na konwencji App Router
+   (`app/sw.js/route.ts`) — inny kształt niż istniejący tu ręczny `public/sw.js`. To nie jest NIETYKALNE
+   ani proste "brakujący plik" (kategoria (a) Y.8 — nie mieści się jednoznacznie, bo dotyka już działającego,
+   przetestowanego kodu, nie tylko dokumentacji) — **pytanie do właściciela, nie decyzja tej sesji:** czy
+   porównać istniejący `public/sw.js`/`register-sw.js` z wzorcem `docs/przyklady/pwa/` (audyt zgodności,
+   osobne zadanie, poza zakresem Y.6) i ewentualnie zmigrować, czy zostawić jak jest (świadome odstępstwo,
+   wymagałoby wpisu D# w `rejestr-decyzji.md` z uzasadnieniem). Nic nie skopiowano, nic nie zmieniono w
+   kodzie — to sprawdzenie tylko koryguje błędną przesłankę w dokumentacji.
+
+**Cykl adaptacyjny:** realne znalezisko (błędna przesłanka w dokumentacji + pytanie do właściciela) →
+`interwał_h` pozostaje `12` (już było 12 po porannej synchronizacji), `licznik_zero_z_rzedu = 0`. Routine
+przestawiona na +12 h od tego sprawdzenia.
+
