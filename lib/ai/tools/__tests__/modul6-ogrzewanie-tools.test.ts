@@ -6,6 +6,7 @@ import { obciazenieCieplneTool } from "../obciazenie-cieplne-tool"
 import { zapotrzebowanieCoCwuTool } from "../zapotrzebowanie-co-cwu-tool"
 import { mostkiTermiczneTool } from "../mostki-termiczne-tool"
 import { optymalizacjaIzolacjiTool } from "../optymalizacja-izolacji-tool"
+import { pojemnoscCieplnaTool } from "../pojemnosc-cieplna-tool"
 
 describe("kosztyOgrzewaniaTool (M6, dawne 5.39 + D28)", () => {
   it("kontrakt 9.3: 'read', bez potwierdzenia", () => {
@@ -133,6 +134,31 @@ describe("optymalizacjaIzolacjiTool (M6/E10, dawne 5.10)", () => {
     expect(w.najtanszy).toBe("Wełna 10 cm")
     expect(w.warianty[1]!.kosztKrancowyZaKwhZl).toBeCloseTo(0.21575342465753433, 12)
     expect(w.zalozenia).toContain(t("pl", "IZOL-ZALOZENIE-10-LAT", { lata: 10 }))
+    for (const tekst of [...w.ostrzezenia, ...w.zalozenia]) expect(tekst.startsWith("⚠")).toBe(false)
+  })
+})
+
+describe("pojemnoscCieplnaTool (M6/E8, dawne 5.8 + 6.11)", () => {
+  it("kontrakt 9.3: 'read', bez potwierdzenia", () => {
+    expect(pojemnoscCieplnaTool.operationType).toBe("read")
+    expect(pojemnoscCieplnaTool.requiresConfirmation).toBe(false)
+    expect(() => validateAiToolDefinition(pojemnoscCieplnaTool)).not.toThrow()
+  })
+
+  it("τ, czas do granicy i ostrzeżenie o zawyżeniu jako tekst PL", async () => {
+    const w = await pojemnoscCieplnaTool.handler({
+      warstwy: [{ nazwa: "Strop", powierzchniaM2: 100, gruboscCm: 20, gestoscKgM3: 2000, cieploWlasciweJKgK: 1000 }],
+      kubaturaM3: 300,
+      hZewnetrzneWK: 200,
+      stratyDoInnychStref: [{ hWK: 50, temperaturaC: 10 }],
+      temperaturaPoczatkowaC: 20,
+      temperaturaZewnetrznaC: -20,
+      temperaturaGranicznaC: 5,
+    })
+    expect(w.status).toBe("VALID_WITH_WARNINGS")
+    expect(w.stalaCzasowaH).toBeCloseTo(44.846444444444444, 9)
+    expect(w.czasDoGranicyH).toBeCloseTo(26.097112259036162, 9)
+    expect(w.ostrzezenia).toContain(t("pl", "POJC-CALA-MASA-ZAWYZA"))
     for (const tekst of [...w.ostrzezenia, ...w.zalozenia]) expect(tekst.startsWith("⚠")).toBe(false)
   })
 })

@@ -1011,6 +1011,13 @@ export const dictionaryPl = {
   "IZOL-ZALOZENIE-WARSTWA-SZEREGOWA": "U po dociepleniu = 1/(1/U + d/λ): nowa warstwa dokłada swój opór do obecnej przegrody (opory przejmowania ciepła są już w obecnym U). Bez łączników mechanicznych, szczelin i mostków na styku warstw — rzeczywiste U będzie nieco wyższe.",
   "IZOL-ZALOZENIE-10-LAT": "Opłacalność liczona na {lata} lat (horyzont ze źródła): koszt izolacji ÷ ciepło zaoszczędzone w tym czasie, bez zmiany cen i bez dyskontowania.",
   "IZOL-ZALOZENIE-CIEPLO-NIE-PRAD": "Oszczędność to ciepło (kWh ciepła), liczone z tych samych średnich miesięcznych co Ekran 1. Prąd zaoszczędzony przez pompę ciepła = ciepło ÷ COP.",
+  "POJC-CALA-MASA-ZAWYZA": "Pojemność liczona z całej masy przegród (tak każe źródło). Przy wychładzaniu w ciągu doby ciepło oddaje tylko wewnętrzna część ciężkich ścian i stropów, więc realna pojemność jest mniejsza — czas do spadku temperatury i do zamarznięcia może być KRÓTSZY niż wynik. Nie planuj ochrony przed mrozem na styk z tą liczbą.",
+  "POJC-GRANICA-NIEOSIAGALNA": "Bez ogrzewania dom ustali się na ok. {rownowaga} °C — w tym modelu nie spadnie do {granica} °C.",
+  "POJC-BRAK-WYCHLADZANIA": "Temperatura początkowa {start} °C nie jest wyższa niż temperatura, do której dąży dom bez ogrzewania (ok. {rownowaga} °C) — w tych warunkach dom się nie wychładza.",
+  "POJC-GRANICA-NIE-NIZSZA": "Temperatura graniczna {granica} °C musi być niższa niż temperatura początkowa {start} °C.",
+  "POJC-ZALOZENIE-JEDEN-WEZEL": "Cały dom jako jeden węzeł o jednej temperaturze: wychładzanie wykładnicze θ(t) = θ∞ + (θ0 − θ∞)·e^(−t/τ), τ = C/H. Pomieszczenia przy ścianach zewnętrznych wychłodzą się szybciej niż środek domu.",
+  "POJC-ZALOZENIE-BEZ-ZYSKOW": "Bez zysków od słońca, ludzi i urządzeń — w dzień realny spadek będzie wolniejszy, w nocy zbliżony do wyniku.",
+  "POJC-ZALOZENIE-STALA-TEMP-ZEWN": "Temperatura na zewnątrz i w strefach nieogrzewanych stała przez cały czas awarii; straty H z Ekranu 1 (przenikanie + wentylacja).",
 } as const
 
 export type KluczTlumaczenia = keyof typeof dictionaryPl

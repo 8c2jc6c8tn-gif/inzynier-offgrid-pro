@@ -999,4 +999,11 @@ export const dictionaryEn = {
   "IZOL-ZALOZENIE-WARSTWA-SZEREGOWA": "U after insulating = 1/(1/U + d/λ): the new layer adds its resistance to the existing element (surface resistances are already contained in the current U). Without mechanical fixings, gaps and bridges at layer joints — the real U will be somewhat higher.",
   "IZOL-ZALOZENIE-10-LAT": "Cost-effectiveness over {lata} years (horizon from the source): insulation cost ÷ heat saved in that time, with no price changes and no discounting.",
   "IZOL-ZALOZENIE-CIEPLO-NIE-PRAD": "The saving is heat (kWh of heat), calculated from the same monthly means as Screen 1. Electricity saved by a heat pump = heat ÷ COP.",
+  "POJC-CALA-MASA-ZAWYZA": "Capacity taken from the whole mass of the elements (as the source prescribes). During cooling within a day only the inner part of heavy walls and floors releases heat, so the real capacity is lower — the time until the temperature drops and until freezing may be SHORTER than shown. Do not plan frost protection with no margin on this number.",
+  "POJC-GRANICA-NIEOSIAGALNA": "Without heating the house settles at about {rownowaga} °C — in this model it does not drop to {granica} °C.",
+  "POJC-BRAK-WYCHLADZANIA": "The starting temperature {start} °C is not higher than the temperature the house tends to without heating (about {rownowaga} °C) — under these conditions the house does not cool down.",
+  "POJC-GRANICA-NIE-NIZSZA": "The limit temperature {granica} °C must be lower than the starting temperature {start} °C.",
+  "POJC-ZALOZENIE-JEDEN-WEZEL": "The whole house as one node at one temperature: exponential cooling θ(t) = θ∞ + (θ0 − θ∞)·e^(−t/τ), τ = C/H. Rooms by external walls will cool faster than the centre of the house.",
+  "POJC-ZALOZENIE-BEZ-ZYSKOW": "No gains from the sun, people or appliances — in daytime the real drop will be slower, at night close to the result.",
+  "POJC-ZALOZENIE-STALA-TEMP-ZEWN": "Outdoor and unheated-zone temperatures constant for the whole outage; losses H from Screen 1 (transmission + ventilation).",
 } satisfies Record<KluczTlumaczenia, string>

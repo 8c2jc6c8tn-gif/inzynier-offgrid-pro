@@ -1,0 +1,20 @@
+export { CIEPLO_WLASCIWE_POWIETRZA_J_KG_K, GESTOSC_POWIETRZA_KG_M3 } from "../infiltracja-powietrza/constants"
+
+/** Sanity bound for one layer [cm] — not a norm value (typical input error: millimetres). */
+export const GRUBOSC_SANITY_MAX_CM = 200
+
+/** Sanity bound for density [kg/m³] — not a norm value; steel is ~7850. Catches g/m³ or a misplaced digit. */
+export const GESTOSC_SANITY_MAX_KG_M3 = 10000
+
+/**
+ * Sanity range for specific heat [J/(kg·K)] — not a norm value; building materials and water lie inside it.
+ * The lower bound catches values typed in kJ/(kg·K) (e.g. 0,84 instead of 840).
+ */
+export const CIEPLO_WLASCIWE_SANITY_MIN = 100
+export const CIEPLO_WLASCIWE_SANITY_MAX = 5000
+
+/** Points of the cooling curve shown on screen [h]. */
+export const PUNKTY_PRZEBIEGU_H = [6, 12, 24, 48, 72] as const
+
+export const J_NA_WH = 3600
+export const WH_NA_KWH = 1000

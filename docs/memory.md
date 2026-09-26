@@ -6970,3 +6970,18 @@ Szczegóły per plik: sekcje „Weryfikacja OCR (25.09.2026)” w `00-INDEKS.md`
 - **Pułapka testu przeglądarkowego:** `page.fill` na `input[type=number]` nie przyjmuje „0,5” (Playwright), w teście kropka.
 - Następne w M6 wymagają decyzji: E8 (źródło: Σ m·c całego budynku; fizycznie pracuje warstwa wewnętrzna — PN-EN ISO 13786
   poza repo), E11 (🔴 „wysokie U i niskie g” bez progów liczbowych).
+
+## M6/E8 — Pojemność cieplna budynku (26.09.2026)
+
+- **Decyzja właściciela:** C = Σ ρ·A·d·c całych warstw (jak w źródle) + powietrze z kubatury E1, ze **stałym** ostrzeżeniem
+  🟡 `POJC-CALA-MASA-ZAWYZA` (status zawsze `VALID_WITH_WARNINGS`): w dobowym wychładzaniu pracuje tylko warstwa wewnętrzna,
+  więc τ i czas do zamarznięcia są zawyżone. PN-EN ISO 13786 właściciel dostarczy później — wtedy głębokość czynna
+  (wpis 🔲 na liście).
+- **Model:** jeden węzeł, C·dθ/dt = −H_zewn(θ − θe) − Σ H_j(θ − θj) → θ∞ = średnia ważona H, τ = C/H, wychładzanie
+  wykładnicze. H z E1: Σ U·A przegród zewnętrznych + H_V; przegrody do gruntu/stref nieogrzewanych z ich stałą temperaturą.
+- **Dane materiałowe** (ρ, c) tylko od użytkownika — źródło mówi „auto z Modułu 1”, ale M1 nie ma materiałów; brak tabeli
+  w repo (nie wymyślane). Zakres sanity c 100–5000 J/(kg·K) łapie wpis w kJ.
+- 🟡 źródła „podłogówka przy dużej bezwładności” bez progu — niewyzwalane; przykład C (18 kWh/K → 1 °C w 4 h) bez H i ΔT —
+  nieodtwarzalny.
+- **E11 odłożony** decyzją właściciela (progi 🔴 poda później).
+
