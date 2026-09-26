@@ -150,6 +150,9 @@ import { szynyZbiorczePolaczeniaTool } from "./tools/szyny-zbiorcze-polaczenia-t
 import { uziemienieFunkcjonalneOchronneTool } from "./tools/uziemienie-funkcjonalne-ochronne-tool"
 import { wylacznikiNadpradoweDcTool } from "./tools/wylaczniki-nadpradowe-dc-tool"
 import { wylacznikiRcdTool } from "./tools/wylaczniki-rcd-tool"
+import { upsKrytycznyTool } from "./tools/ups-krytyczny-tool"
+import { dogrzewaniePaliwemStalymTool } from "./tools/dogrzewanie-paliwem-stalym-tool"
+import { audytPozarowyTool } from "./tools/audyt-pozarowy-tool"
 import { toAnthropicTool } from "./to-anthropic-tool"
 import { validateAiToolDefinition, type AiToolDefinition } from "./types"
 
@@ -290,6 +293,9 @@ const NARZEDZIA: Array<AiToolDefinition<any, any>> = [
   uziemienieFunkcjonalneOchronneTool,
   wylacznikiNadpradoweDcTool,
   wylacznikiRcdTool,
+  upsKrytycznyTool,
+  dogrzewaniePaliwemStalymTool,
+  audytPozarowyTool,
 ]
 for (const narzedzie of NARZEDZIA) validateAiToolDefinition(narzedzie)
 

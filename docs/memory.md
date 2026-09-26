@@ -7254,3 +7254,34 @@ Weryfikacja: `pnpm typecheck` (czysto), `pnpm lint` (te same 2 istniejące ostrz
 `pnpm build` (OK), `pnpm audit:gate` (OK, brak podatności high/critical).
 
 **Następny w kolejności: Moduł 8 (Bezpieczeństwo).**
+
+## Rollout opisów narzędzi AI — Moduł 8 (Bezpieczeństwo), 26.09.2026
+
+Sprawdzono `lib/core/modules/bezpieczenstwo/*` — 3 podkatalogi, wszystkie z `calculator.ts`, żaden
+nie miał wcześniej narzędzia AI (zweryfikowane brakiem importu z `modules/bezpieczenstwo/` w
+`lib/ai/tools/*-tool.ts`). Zbudowane od zera i zarejestrowane w `NARZEDZIA`:
+`ups-krytyczny-tool` (Ekran 6 — dobór sprzętowy UPS krytycznego, `calculateUpsKrytyczny`),
+`dogrzewanie-paliwem-stalym-tool` (Ekran 2 — bezpieczeństwo pożarowe pieca/kotła na paliwo stałe,
+`calculateDogrzewaniePaliwemStalym`), `audyt-pozarowy-tool` (Ekran 11 — podsumowanie audytu
+pożarowego z listy pozycji, `calculateAuditPozarowy`).
+
+Uwagi merytoryczne (dane wysokiego ryzyka bezpieczeństwa — dla przyszłej rozbudowy):
+- `ups-krytyczny-tool` — moc każdego urządzenia krytycznego (`powerW`) oraz pojemność/napięcie
+  akumulatora UPS muszą pochodzić wyłącznie od usera; `constants.ts` źródła jawnie mówi, że
+  źródło NIE podaje mocy żadnego urządzenia z domyślnej listy — `.describe()` to podkreśla.
+- `dogrzewanie-paliwem-stalym-tool` — `maNawiewPowietrzaDoSpalania` i `maCzujnikCo` to `boolean`
+  bez wartości domyślnej „tak” w samym `input.ts` domeny; opis narzędzia dodatkowo zaznacza, że to
+  dane bezpieczeństwa życia i nigdy nie wolno ich domyślnie zakładać jako `true`. Brak czujnika CO
+  jest twardym stopem już w `warnings.ts` domeny — narzędzie tylko przekazuje ten wynik dalej.
+- `audyt-pozarowy-tool` — `calculateAuditPozarowy` (Wzorzec G, ekran raportowy bez pól do
+  wypełnienia) przyjmuje gotową listę pozycji ze statusem `ok`/`warning`/`critical`; opis narzędzia
+  jasno mówi, że status musi pochodzić z realnej kontroli/odczytu czujnika, nie z domysłu modelu —
+  narzędzie samo niczego nie "sprawdza", tylko liczy podsumowanie z dostarczonych danych.
+
+Pominiętych 0 — wszystkie 3 podkatalogi Modułu 8 mają `calculator.ts`.
+
+Weryfikacja: `pnpm typecheck` (czysto), `pnpm lint` (te same 2 istniejące ostrzeżenia
+`no-img-element`, niezwiązane), `pnpm check:i18n-guard` (OK, 152 moduły), `pnpm test` (170 plików,
+1408 testów, zero regresji), `pnpm build` (OK).
+
+**Następny w kolejności: Moduł 9.**
