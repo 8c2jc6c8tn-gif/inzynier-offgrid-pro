@@ -44,6 +44,13 @@ import { zapotrzebowanieCoCwuTool } from "./tools/zapotrzebowanie-co-cwu-tool"
 import { mostkiTermiczneTool } from "./tools/mostki-termiczne-tool"
 import { optymalizacjaIzolacjiTool } from "./tools/optymalizacja-izolacji-tool"
 import { pojemnoscCieplnaTool } from "./tools/pojemnosc-cieplna-tool"
+import { buforCieplaTool } from "./tools/bufor-ciepla-tool"
+import { copPompyCieplaTool } from "./tools/cop-pompy-ciepla-tool"
+import { infiltracjaPowietrzaTool } from "./tools/infiltracja-powietrza-tool"
+import { kociolElektrycznyTool } from "./tools/kociol-elektryczny-tool"
+import { pompyCyrkulacyjneTool } from "./tools/pompy-cyrkulacyjne-tool"
+import { ryzykoNiskiegoNapieciaTool } from "./tools/ryzyko-niskiego-napiecia-tool"
+import { wentylacjaOdzyskCieplaTool } from "./tools/wentylacja-odzysk-ciepla-tool"
 import { weryfikacjaOgniwTool } from "./tools/weryfikacja-ogniw-tool"
 import { montazMechanicznyTool } from "./tools/montaz-mechaniczny-tool"
 import { polaczeniaElektryczneTool } from "./tools/polaczenia-elektryczne-tool"
@@ -177,6 +184,13 @@ const NARZEDZIA: Array<AiToolDefinition<any, any>> = [
   mostkiTermiczneTool,
   optymalizacjaIzolacjiTool,
   pojemnoscCieplnaTool,
+  buforCieplaTool,
+  copPompyCieplaTool,
+  infiltracjaPowietrzaTool,
+  kociolElektrycznyTool,
+  pompyCyrkulacyjneTool,
+  ryzykoNiskiegoNapieciaTool,
+  wentylacjaOdzyskCieplaTool,
   weryfikacjaOgniwTool,
   montazMechanicznyTool,
   polaczeniaElektryczneTool,

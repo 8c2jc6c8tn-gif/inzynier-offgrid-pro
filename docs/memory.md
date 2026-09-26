@@ -7215,3 +7215,42 @@ Weryfikacja: `pnpm typecheck` (czysto), `pnpm lint` (te same 2 istniejące ostrz
 plików, 1408 testów, zero regresji), `pnpm build` (OK).
 
 **Następny w kolejności: Moduł 6 (Ogrzewanie).**
+
+## Rollout opisów narzędzi AI — Moduł 6 (Ogrzewanie), 26.09.2026
+
+Sprawdzono `lib/core/modules/ogrzewanie/*` (15 podkatalogów). 6 ekranów (`koszty-ogrzewania`,
+`obciazenie-cieplne`, `zapotrzebowanie-co-cwu`, `mostki-termiczne`, `optymalizacja-izolacji`,
+`pojemnosc-cieplna`) już miało narzędzie AI z sesji 26.09.2026, zweryfikowane realnym importem
+`calculateXxx` w `lib/ai/tools/*-tool.ts` i obecnością w `NARZEDZIA` (`lib/ai/pytaj-asystenta.ts`)
+— pominięte, nie duplikowane.
+
+**7 nowych plików `lib/ai/tools/*-tool.ts` zbudowanych od zera** (wzorzec 1:1 z
+`mostki-termiczne-tool.ts`/`pojemnosc-cieplna-tool.ts`), zarejestrowane w `NARZEDZIA`:
+`bufor-ciepla-tool`, `cop-pompy-ciepla-tool`, `infiltracja-powietrza-tool`,
+`kociol-elektryczny-tool`, `pompy-cyrkulacyjne-tool`, `ryzyko-niskiego-napiecia-tool`,
+`wentylacja-odzysk-ciepla-tool`.
+
+**Pominięte (2, brak `calculator.ts` — Wzorzec C, czysta treść):** `halas-i-wibracje` (tylko
+`constants.ts`), `ryzyko-zamarzniecia-dolnego-zrodla` (tylko `constants.ts`).
+
+Uwagi merytoryczne per narzędzie (żeby nie zgadywać przy przyszłej rozbudowie):
+- `infiltracja-powietrza-tool` — liczy tylko podstawową fizykę strat wentylacyjnych (Q =
+  n·V·ρ·cp·ΔT/3600); poprawa "8% po uszczelnieniu" z przykładu źródła świadomie NIE jest w
+  `calculator.ts`, więc narzędzie też jej nie liczy — zgodnie z zadaniem "buduj narzędzie dla
+  tego, co realnie liczy dzisiejszy calculator.ts".
+- `wentylacja-odzysk-ciepla-tool` — analogicznie: tylko podstawowy bilans cieplno-elektryczny
+  (E3), bez projektu strumieni per pomieszczenie (dawne 5.23) i bez logiki bypassu letniego
+  (dawne 5.24) — obie świadomie poza `calculator.ts` (brak wzoru w źródle).
+- `ryzyko-niskiego-napiecia-tool` — napięcie systemu off-grid jest polem ręcznego wpisu (nie
+  wyprowadzanym z SoC baterii), bo krzywa rozładowania jest specyficzna dla producenta ogniw i
+  nie ma jej w aplikacji — `.describe()` to podkreśla.
+- `bufor-ciepla-tool`, `cop-pompy-ciepla-tool`, `kociol-elektryczny-tool`,
+  `pompy-cyrkulacyjne-tool` — proste wzory jednorodne (mnożnik/dzielenie/różnica), bez pól
+  specjalnych do odnotowania.
+
+Weryfikacja: `pnpm typecheck` (czysto), `pnpm lint` (te same 2 istniejące ostrzeżenia
+`no-img-element`, niezwiązane), `pnpm check:i18n-guard` (OK, 152 moduły), `pnpm test` (170 plików,
+1408 testów, zero regresji — kalkulatory `lib/core/modules/ogrzewanie/**` nietknięte),
+`pnpm build` (OK), `pnpm audit:gate` (OK, brak podatności high/critical).
+
+**Następny w kolejności: Moduł 8 (Bezpieczeństwo).**

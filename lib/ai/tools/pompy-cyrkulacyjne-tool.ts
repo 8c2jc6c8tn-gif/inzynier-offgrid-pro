@@ -1,0 +1,59 @@
+/**
+ * Narzędzie AI (9.3) dla Modułu 6, Ekran 15 "Pompy cyrkulacyjne — dobór" (dawne 5.15).
+ * `operationType: 'read'`. Moc obecnej i rozważanej pompy oraz godziny pracy na dobę pochodzą
+ * WYŁĄCZNIE od usera — źródło nie podaje wzoru przeliczającego profil "sterowany" na godziny.
+ */
+import { z } from "zod"
+import { calculatePompyCyrkulacyjne } from "@/lib/core/modules/ogrzewanie/pompy-cyrkulacyjne/calculator"
+import type { AiToolDefinition } from "../types"
+import { tekstyOstrzezen, tekstyZalozen } from "./teksty-wyniku"
+
+export const PompyCyrkulacyjneToolInput = z.object({
+  mocObecnejPompyW: z.number().describe("Moc obecnej pompy obiegowej (typowo stałoobrotowa 100-150 W) [W] — od usera"),
+  mocNowejPompyW: z.number().describe("Moc rozważanej pompy elektronicznej PWM (typowo 5-50 W) [W] — od usera"),
+  godzinyPracyDobowoH: z.number().describe("Godziny pracy pompy na dobę [h] — od usera (24 dla pracy ciągłej 24/7)"),
+})
+export type PompyCyrkulacyjneToolInputT = z.infer<typeof PompyCyrkulacyjneToolInput>
+
+export const PompyCyrkulacyjneToolOutput = z.object({
+  status: z.enum(["VALID", "VALID_WITH_WARNINGS", "INCOMPLETE", "OUT_OF_SCOPE", "INVALID_INPUT"]),
+  energiaObecnaKwh: z.number(),
+  energiaNowaKwh: z.number(),
+  oszczednoscKwh: z.number(),
+  oszczednoscPct: z.number(),
+  ostrzezenia: z.array(z.string()),
+  zalozenia: z.array(z.string()),
+  wersjaKalkulatora: z.string(),
+})
+export type PompyCyrkulacyjneToolOutputT = z.infer<typeof PompyCyrkulacyjneToolOutput>
+
+export const pompyCyrkulacyjneTool: AiToolDefinition<PompyCyrkulacyjneToolInputT, PompyCyrkulacyjneToolOutputT> = {
+  name: "policz_oszczednosc_pompy_cyrkulacyjnej",
+  description:
+    "Porównanie zużycia energii pompy obiegowej stałoobrotowej vs elektronicznej (PWM): E = P×h/1000, oszczędność " +
+    "= E_obecna − E_nowa. Moce obu pomp i godziny pracy na dobę podaje user (24h dla pracy ciągłej). Użyj, gdy " +
+    "user pyta o wymianę pompy cyrkulacyjnej/obiegowej C.O. lub C.W.U. na energooszczędną.",
+  inputSchema: PompyCyrkulacyjneToolInput,
+  outputSchema: PompyCyrkulacyjneToolOutput,
+  operationType: "read",
+  requiresConfirmation: false,
+  scope: "ogrzewanie/pompy-cyrkulacyjne",
+  handler: async (input) => {
+    const wynik = calculatePompyCyrkulacyjne({
+      mocObecnejPompyW: input.mocObecnejPompyW,
+      mocNowejPompyW: input.mocNowejPompyW,
+      godzinyPracyDobowoH: input.godzinyPracyDobowoH,
+    })
+    const v = wynik.value
+    return {
+      status: wynik.status,
+      energiaObecnaKwh: v.energiaObecnaKwh,
+      energiaNowaKwh: v.energiaNowaKwh,
+      oszczednoscKwh: v.oszczednoscKwh,
+      oszczednoscPct: v.oszczednoscPct,
+      ostrzezenia: tekstyOstrzezen(wynik.warnings),
+      zalozenia: tekstyZalozen(wynik.assumptions),
+      wersjaKalkulatora: wynik.calculatorVersion,
+    }
+  },
+}
