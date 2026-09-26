@@ -16,7 +16,7 @@ describe("kalkulatoryPomocniczeTool", () => {
   it("założenia i ostrzeżenia modułu zmigrowanego do i18n trafiają do modelu jako tekst PL, nie kod/JSON", async () => {
     const domyslna = await kalkulatoryPomocniczeTool.handler({ tryb: "watt-to-amp", mocW: 100, napiecieV: 12 })
     expect(domyslna.zalozenia).toEqual([t("pl", "SPRAWNOSC-DOMYSLNA", { efficiency: 0.92 })])
-    expect(domyslna.zalozenia[0]).toMatch(/^Sprawność układu przyjęta jako 0\.92/)
+    expect(domyslna.zalozenia[0]).toMatch(/^Sprawność układu przyjęta jako 0,92/)
 
     const ujemne = await kalkulatoryPomocniczeTool.handler({ tryb: "watt-to-amp", mocW: 100, napiecieV: -12 })
     expect(ujemne.status).toBe("INVALID_INPUT")
