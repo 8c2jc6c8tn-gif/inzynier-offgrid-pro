@@ -7100,3 +7100,44 @@ Szczegóły per plik: sekcje „Weryfikacja OCR (25.09.2026)” w `00-INDEKS.md`
   `pnpm test` (170 plików, 1408 testów — wszystkie przeszły, zero regresji), `pnpm build` (OK).
 - **Następny w kolejności rolloutu:** Moduł 2. `napiecie-systemowe` (Ekran 2, Moduł 4) zostaje jako
   jawny dług do domknięcia osobno.
+
+## Moduł 2 (Zapotrzebowanie) — opisy narzędzi AI (26.09.2026)
+
+Kolejność rolloutu 11→3→4→2→reszta (wpisy 20–26.09.2026 wyżej): po Module 4 zrobiony Moduł 2
+(Zapotrzebowanie energetyczne). 16 z 17 podkatalogów `lib/core/modules/zapotrzebowanie/*` miało
+`calculator.ts` — dla wszystkich 16 zbudowano nowe narzędzie AI (`lib/ai/tools/*-tool.ts`), żaden
+ekran Modułu 2 nie miał wcześniej narzędzia (jedyny istniejący plik referencyjny modułu,
+`kalkulatory-pomocnicze-tool.ts`, powstał w sesji pilotażowej i18n, nie w tym rolloucie):
+`systemy-podtrzymania-zycia` (Ekran 1), `urzadzenia-zmienne` (Ekran 3), `liczba-domownikow`
+(Ekran 4), `profil-astronomiczny` (Ekran 5, tylko część astronomiczna — profil godzinowy
+świadomie nie zbudowany, patrz komentarz w `input.ts`), `sezonowosc` (Ekran 6), `dni-autonomii`
+(Ekran 7), `moc-pozorna-cosfi` (Ekran 8, podpunkt 1 — prądy rozruchowe/współczynnik jednoczesności
+poza zakresem), `pobor-wlasny-falownika` (Ekran 9), `sprawnosc-inwertera-niskie-obciazenie`
+(Ekran 10), `przetwornice-dcdc` (Ekran 11), `load-shedding` (Ekran 12), `bufor-rozbudowe`
+(Ekran 13), `architektura-fazowa` (Ekran 14 — bez werdyktu ok/uwaga, źródło nie podaje progu
+liczbowego, opisane w `.description`), `kategorie-specjalne` (Ekran 15), `agregat-pradotworczy`
+(Ekran 17), `bojler-cwu` (Ekran 2).
+
+**Świadomie pominięty: cały `wampiry-energetyczne/`** (5 podmodułów: `automatyzacja`,
+`katalog-urzadzen`, `pomiar-mocy-jalowej`, `rekomendacje-sprzetowe`, `symulacje-i-raporty` —
+wszystkie mają `calculator.ts`) — zgodnie z jawnym poleceniem zadania: to osobna, znacznie
+większa sesja (24 funkcje wg backlogu), nie rollout narzędzi AI dla prostego wzorca reszty
+Modułu 2. Sprawdzony wpis z 19.09.2026 potwierdza, że to świadomie odłożony moduł zbiorczy — nie
+odblokowany do dziś, więc pominięty w całości bez próby zmapowania.
+
+Wzorzec 1:1 z Modułów 11/3/4: `operationType: 'read'`, `requiresConfirmation: false`, handler
+zawsze deleguje do prawdziwego `calculateXxx` z `lib/core/modules/zapotrzebowanie/**`, ostrzeżenia/
+założenia przez `tekstyOstrzezen`/`tekstyZalozen`. Dane, które źródło świadomie nie podaje jako
+wartość domyślną (ΔT bojlera C.W.U., cos φ, sprawność przetwornicy/falownika/inwertera, granice
+sezonu, moc "ogrzewanie" w Survival Core) opisane w `.describe()` jako WYŁĄCZNIE od usera — model
+nigdy ich nie zgaduje. `dni-autonomii-tool.ts` i `profil-astronomiczny-tool.ts` mają pola opcjonalne
+(wzorzec "echo"/podgląd) mapowane na `0`/`false` w handlerze, zgodnie z konwencją "0 = pominięte"
+tych kalkulatorów.
+
+Weryfikacja: `pnpm typecheck` (czysto), `pnpm lint` (0 błędów, te same 2 istniejące wcześniej
+ostrzeżenia `no-img-element`, niezwiązane ze zmianą), `pnpm check:i18n-guard` (OK, 152 moduły),
+`pnpm test` (170 plików, 1408 testów — wszystkie przeszły, zero regresji), `pnpm build` (OK).
+
+**Następny w kolejności rolloutu:** reszta modułów spoza 11/3/4/2 wg backlogu. `napiecie-systemowe`
+(Ekran 2, Moduł 4) i cały `wampiry-energetyczne` (Moduł 2) zostają jako jawny dług do domknięcia
+osobno.

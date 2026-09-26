@@ -106,6 +106,22 @@ import { symulacjaMiesiacaZachmurzeniaTool } from "./tools/symulacja-miesiaca-za
 import { szynyZbiorczeMiedzypakietoweTool } from "./tools/szyny-zbiorcze-miedzypakietowe-tool"
 import { topologiaBmsTool } from "./tools/topologia-bms-tool"
 import { vehicleToHomeTool } from "./tools/vehicle-to-home-tool"
+import { systemyPodtrzymaniaZyciaTool } from "./tools/systemy-podtrzymania-zycia-tool"
+import { urzadzeniaZmienneTool } from "./tools/urzadzenia-zmienne-tool"
+import { liczbaDomownikowTool } from "./tools/liczba-domownikow-tool"
+import { profilAstronomicznyTool } from "./tools/profil-astronomiczny-tool"
+import { sezonowoscTool } from "./tools/sezonowosc-tool"
+import { dniAutonomiiTool } from "./tools/dni-autonomii-tool"
+import { mocPozornaCosfiTool } from "./tools/moc-pozorna-cosfi-tool"
+import { poborWlasnyFalownikaTool } from "./tools/pobor-wlasny-falownika-tool"
+import { sprawnoscInwerteraTool } from "./tools/sprawnosc-inwertera-niskie-obciazenie-tool"
+import { przetworniceDcdcTool } from "./tools/przetwornice-dcdc-tool"
+import { loadSheddingTool } from "./tools/load-shedding-tool"
+import { buforRozbudowyTool } from "./tools/bufor-rozbudowe-tool"
+import { architekturaFazowaTool } from "./tools/architektura-fazowa-tool"
+import { kategorieSpecjalneTool } from "./tools/kategorie-specjalne-tool"
+import { agregatPradotworczyTool } from "./tools/agregat-pradotworczy-tool"
+import { bojlerCwuTool } from "./tools/bojler-cwu-tool"
 import { toAnthropicTool } from "./to-anthropic-tool"
 import { validateAiToolDefinition, type AiToolDefinition } from "./types"
 
@@ -202,6 +218,22 @@ const NARZEDZIA: Array<AiToolDefinition<any, any>> = [
   szynyZbiorczeMiedzypakietoweTool,
   topologiaBmsTool,
   vehicleToHomeTool,
+  systemyPodtrzymaniaZyciaTool,
+  urzadzeniaZmienneTool,
+  liczbaDomownikowTool,
+  profilAstronomicznyTool,
+  sezonowoscTool,
+  dniAutonomiiTool,
+  mocPozornaCosfiTool,
+  poborWlasnyFalownikaTool,
+  sprawnoscInwerteraTool,
+  przetworniceDcdcTool,
+  loadSheddingTool,
+  buforRozbudowyTool,
+  architekturaFazowaTool,
+  kategorieSpecjalneTool,
+  agregatPradotworczyTool,
+  bojlerCwuTool,
 ]
 for (const narzedzie of NARZEDZIA) validateAiToolDefinition(narzedzie)
 
