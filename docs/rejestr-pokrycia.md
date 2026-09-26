@@ -230,6 +230,7 @@ przekazania razem z paczką dla v0, z wymogiem, żeby każdy z 13 kafli dało si
 realny ekran, nie stronę pustą/404. Moduły 3, 4, 5, 8, 9 miały to już z wzorców A–H wyżej — poniższe
 sześć dostało dodatkowo po jednym prostym, w pełni zweryfikowanym ekranie. Pozostałe ekrany tych
 modułów nadal `todo` — pełne wyliczenie per-funkcja do zrobienia w kolejnym przejściu.
+**[26.09.2026] → wykonane:** sekcja „Pełne wyliczenie pozostałych modułów — N.1 źródło → rejestr” na końcu pliku (kontrola: `pnpm audit:n1`).
 
 | Moduł | ID Biblii | Nazwa | Status | Notatka |
 |---|---|---|---|---|
@@ -368,3 +369,240 @@ Aktualny stan per moduł/ekran: patrz wiersze wyżej w tym pliku (kolumna status
 **[25.09.2026, po E3] Stan M3:** 23/27 `done` + PID; `todo`: 2, 27; `⚠️ blocked`: 10, 19.
 
 **[25.09.2026, po E2] Stan M3:** 24/27 `done` + PID; `todo`: 27 (raport — zależny od zablokowanego E19); `⚠️ blocked`: 10, 19.
+## Pełne wyliczenie pozostałych modułów — N.1 źródło → rejestr (26.09.2026)
+
+[26.09.2026] ✅ DODANO — źródło: audyt GOD BOOK v2.39 Część N.1 (kompletność w kierunku źródło → rejestr), zadanie z `docs/lista-do-zrobienia.md` (26.09). **Metoda (mechaniczna, nie z pamięci):** skrypt zebrał wszystkie identyfikatory `(dawne X.Y)` z sekcji modułu w `Biblia_Offgrid_v2_0_Architektura_Modulowa.md`, porównał je z identyfikatorami w `Tresc_Modul_N_*.md` (z rozwinięciem zakresów typu „8.23-28” i list „8.17,18,19”), a następnie każdą pozycję źródła z tym rejestrem. **Wynik przed tym wpisem:** M1, M2, M3, M7, M11 — komplet; M4 i M5 — po 1 funkcji przeniesionej bez wiersza (3.10, 4.25); **bez wiersza:** M6 Część 2 — 69 z 74 funkcji (5.27–5.100), M8 — 8 z 11 ekranów, M9 — 5 ekranów + 3 katalogi (37 funkcji), M10 — 11 z 12 ekranów + 4 funkcje nieekranowe, M12 — 40 z 42 ekranów, M13 — 32 z 33 pozycji biblioteki widżetów. Wszystkie wiersze niżej mają status `todo`, chyba że zaznaczono inaczej — **ocena budowalności (wzór w źródle / Dyrektywa #1 / ⚠️ blocked) nie jest tu zgadywana**, robi się ją przy starcie budowy danego ekranu, jak w M3 (25.09). Notatki przenoszą tylko relacje zapisane w samym źródle (echo innego ekranu, scalenia, przeniesienia).
+
+**Dwie luki pliku `Tresc_*` względem Biblii (znalezione tym samym skryptem):** (1) M12 — **dawne 8.8** (Biblia §12.8 „Dobór regulatora ładowania PWM vs MPPT do małej instalacji”) nie występuje w `Tresc_Modul_12_Kalkulator_Ekrany.md` mimo deklaracji „70 pierwotnych funkcji” — ekran i tak jest zbudowany (`done`, wiersz w sekcji „po jednym ekranie” wyżej, źródłem była Biblia); (2) M13 — dawne 7.7, już opisane audytem z 05.09.2026 (wiersz wyżej). Pozostałe dwie takie luki są znane i mają wiersze od dawna: M2 dawne 1.19 (sekcja „Luka wykryta i udokumentowana”) i M3 dawne 2.15 (PID, audyt 05.09). Plików `docs/zrodla/` nie poprawiamy (GOD BOOK Część D pkt 7) — adnotacja tu wystarcza. **Kontrola jest teraz jednym poleceniem:** `pnpm audit:n1` (`scripts/audit-n1-rejestr.mjs`, kod wyjścia 1 przy brakującym wierszu). M9: 37 funkcji katalogów (dawne 11.6–11.28, 11.31, 11.36–11.48) nie ma w `Tresc_Modul_9` numerów — przypisanie niżej zrobione po nazwie/modelu z nagłówków Biblii §9.6–§9.48 (1:1, bez interpretacji).
+
+### Moduł 6 — Część 2 (dawne 5.27–5.100, `Tresc_Modul_6_Ogrzewanie_Ekrany.md` 2A–2D)
+
+Już z wierszem wcześniej: 5.31 (hałas, `done`), 5.33 (kocioł elektryczny, `done`), 5.39 (koszty ogrzewania, `done`), 5.46 (zamarzanie dolnego źródła, `done`), 5.63 (niskie napięcie, `done`). Biblia §6.27.1–§6.27.74.
+
+| ID Biblii | Nazwa (Biblia §6.27.x) | Grupa źródła | Status | Notatka |
+|---|---|---|---|---|
+| 5.27 | Pompa ciepła – dobór mocy do budynku | 2B — dokłada się do Części 1 | todo | Wzbogaca Ekran 5 (COP/SCOP) (dodatkowe pola/akapity), nie osobny ekran. |
+| 5.28 | Pompa ciepła – współpraca z buforem | 2B — dokłada się do Części 1 | todo | Wzbogaca Ekran 14 (bufor) (dodatkowe pola/akapity), nie osobny ekran. |
+| 5.29 | Pompa ciepła – chłodzenie latem | 2C — osobny ekran Doradcy | todo | Temat zidentyfikowany w źródle, pełna treść tylko w Biblii („do napisania w kolejnym przejściu”). |
+| 5.30 | Pompa ciepła – praca w układzie grzania wody | 2B — dokłada się do Części 1 | todo | Wzbogaca Ekran 18 (grzałki CWU) / Ekran 2 (dodatkowe pola/akapity), nie osobny ekran. |
+| 5.32 | Kominek z płaszczem wodnym – integracja | 2A — ekran porównawczy „Alternatywne i uzupełniające źródła ciepła” (Wzorzec B) | todo | Źródło: integruje się z buforem (E14). Treść pełna tylko w Biblii (źródło: „wymaga przepisania do formatu Doradcy”). 5.33 z tej grupy już `done` osobno. |
+| 5.34 | Grzejniki podczerwieni (IR) – analiza | 2A — ekran porównawczy „Alternatywne i uzupełniające źródła ciepła” (Wzorzec B) | todo | Treść pełna tylko w Biblii (źródło: „wymaga przepisania do formatu Doradcy”). 5.33 z tej grupy już `done` osobno. |
+| 5.35 | Maty kapilarne i grzejniki płaszczyznowe | 2A — ekran porównawczy „Alternatywne i uzupełniające źródła ciepła” (Wzorzec B) | todo | Źródło: niska temp. zasilania 25–35 °C (dane źródła). Treść pełna tylko w Biblii (źródło: „wymaga przepisania do formatu Doradcy”). 5.33 z tej grupy już `done` osobno. |
+| 5.36 | Magazynowanie ciepła w materiałach zmiennofazowych (PCM) | 2A — ekran porównawczy „Alternatywne i uzupełniające źródła ciepła” (Wzorzec B) | todo | Źródło: alternatywa/uzupełnienie bufora wodnego (E14). Treść pełna tylko w Biblii (źródło: „wymaga przepisania do formatu Doradcy”). 5.33 z tej grupy już `done` osobno. |
+| 5.37 | Sterowanie pogodowe ogrzewaniem | 2C — osobny ekran Doradcy | todo | „sterowanie pogodowe/krzywa grzewcza zaawansowana”. |
+| 5.38 | Optymalizacja temperatury w pomieszczeniach (eco mode) | 2C — osobny ekran Doradcy | todo | Temat zidentyfikowany w źródle, pełna treść tylko w Biblii („do napisania w kolejnym przejściu”). |
+| 5.40 | Raport efektywności cieplnej budynku | 2B — dokłada się do Części 1 | todo | Wzbogaca Ekran 1 (raport charakterystyki budynku) (dodatkowe pola/akapity), nie osobny ekran. |
+| 5.41 | Pompa ciepła – odzysk ciepła ze ścieków (Drain Water Heat Recovery) | 2C — osobny ekran Doradcy | todo | Temat zidentyfikowany w źródle, pełna treść tylko w Biblii („do napisania w kolejnym przejściu”). |
+| 5.42 | Pompa ciepła – wymiarowanie kolektora gruntowego (poziomy / pionowy / spiralny) | 2C — osobny ekran Doradcy | todo | Rozpisane w pełni w źródle (Wzorzec A: poziomy/pionowy/spiralny; 60–120 m²/10 kW, 1,2–1,8 m; pionowy 50–70 W/m; 🔴 zbyt płytki kolektor poziomy). |
+| 5.43 | Pompa ciepła – współczynnik COP/SCOP w off-gridzie (analiza rzeczywista) | 2B — dokłada się do Części 1 | todo | Wzbogaca Ekran 5 (dodatkowe pola/akapity), nie osobny ekran. |
+| 5.44 | Pompa ciepła – tryb cichy nocny i ograniczenie mocy w off-gridzie | 2C — osobny ekran Doradcy | todo | Temat zidentyfikowany w źródle, pełna treść tylko w Biblii („do napisania w kolejnym przejściu”). |
+| 5.45 | Pompa ciepła – priorytety w systemie off-grid (ciepło vs. prąd) | 2C — osobny ekran Doradcy | todo | Temat zidentyfikowany w źródle, pełna treść tylko w Biblii („do napisania w kolejnym przejściu”). |
+| 5.47 | Pompa ciepła – chłodzenie z dolnego źródła (free cooling) | 2C — osobny ekran Doradcy | todo | Temat zidentyfikowany w źródle, pełna treść tylko w Biblii („do napisania w kolejnym przejściu”). |
+| 5.48 | Pompa ciepła – tryb ogrzewania basenu | 2C — osobny ekran Doradcy | todo | Temat zidentyfikowany w źródle, pełna treść tylko w Biblii („do napisania w kolejnym przejściu”). |
+| 5.49 | Pompa ciepła – analiza pracy w trybie grzania i chłodzenia jednoczesnego | 2C — osobny ekran Doradcy | todo | Temat zidentyfikowany w źródle, pełna treść tylko w Biblii („do napisania w kolejnym przejściu”). |
+| 5.50 | Pompa ciepła – serwis i diagnostyka w off-gridzie | 2C — osobny ekran Doradcy | todo | Temat zidentyfikowany w źródle, pełna treść tylko w Biblii („do napisania w kolejnym przejściu”). |
+| 5.51 | Pompa ciepła – porównanie z klimatyzatorem (chłodzenie i grzanie) | 2C — osobny ekran Doradcy | todo | Temat zidentyfikowany w źródle, pełna treść tylko w Biblii („do napisania w kolejnym przejściu”). |
+| 5.52 | Pompa ciepła – praca w trybie off-grid z ograniczoną mocą | 2C — osobny ekran Doradcy | todo | Temat zidentyfikowany w źródle, pełna treść tylko w Biblii („do napisania w kolejnym przejściu”). |
+| 5.53 | Pompa ciepła – analiza przegrzania latem i chłodzenia nocą | 2C — osobny ekran Doradcy | todo | Temat zidentyfikowany w źródle, pełna treść tylko w Biblii („do napisania w kolejnym przejściu”). |
+| 5.54 | Pompa ciepła – integracja z gruntowym wymiennikiem ciepła (GWC) | 2B — dokłada się do Części 1 | todo | Wzbogaca Ekran 4 (GWC) (dodatkowe pola/akapity), nie osobny ekran. |
+| 5.55 | Pompa ciepła – analiza pracy przy wysokiej wilgotności powietrza | 2C — osobny ekran Doradcy | todo | Temat zidentyfikowany w źródle, pełna treść tylko w Biblii („do napisania w kolejnym przejściu”). |
+| 5.56 | Pompa ciepła – strategia defrostu (odszranianie) w zależności od pogody | 2B — dokłada się do Części 1 | todo | Wzbogaca Ekran 6 (defrost) (dodatkowe pola/akapity), nie osobny ekran. |
+| 5.57 | Pompa ciepła – porównanie grzania podłogowego i grzejnikowego dla SCOP | 2B — dokłada się do Części 1 | todo | Wzbogaca Ekran 13 (dystrybucja) (dodatkowe pola/akapity), nie osobny ekran. |
+| 5.58 | Pompa ciepła – analiza zysków z ogrzewania ciepłej wody przy nadwyżkach PV | 2B — dokłada się do Części 1 | todo | Wzbogaca Ekran 18 (dodatkowe pola/akapity), nie osobny ekran. |
+| 5.59 | Pompa ciepła – praca w trybie off-grid z wykorzystaniem taryfy nocnej | 2C — osobny ekran Doradcy | todo | Temat zidentyfikowany w źródle, pełna treść tylko w Biblii („do napisania w kolejnym przejściu”). |
+| 5.60 | Pompa ciepła – ocena ryzyka hałasu sąsiedzkiego | 2C — osobny ekran Doradcy | todo | Źródło: scala się z 5.31 (hałas i wibracje, `done`) — do dołożenia tam, nie osobny ekran. |
+| 5.61 | Pompa ciepła – dobór urządzenia do pracy z falownikiem hybrydowym | 2C — osobny ekran Doradcy | todo | Temat zidentyfikowany w źródle, pełna treść tylko w Biblii („do napisania w kolejnym przejściu”). |
+| 5.62 | Pompa ciepła – integracja z systemem fotowoltaicznym (PV-ready) | 2C — osobny ekran Doradcy | todo | Temat zidentyfikowany w źródle, pełna treść tylko w Biblii („do napisania w kolejnym przejściu”). |
+| 5.64 | Pompa ciepła – modelowanie zużycia energii w sezonie | 2C — osobny ekran Doradcy | todo | Temat zidentyfikowany w źródle, pełna treść tylko w Biblii („do napisania w kolejnym przejściu”). |
+| 5.65 | Pompa ciepła – dobór przepływów i pomp obiegowych | 2B — dokłada się do Części 1 | todo | Wzbogaca Ekran 15 (pompy cyrkulacyjne) (dodatkowe pola/akapity), nie osobny ekran. |
+| 5.66 | Pompa ciepła – analiza pracy w trybie off-grid z agregatem | 2C — osobny ekran Doradcy | todo | Temat zidentyfikowany w źródle, pełna treść tylko w Biblii („do napisania w kolejnym przejściu”). |
+| 5.67 | Pompa ciepła – bilans cieplny i energetyczny budynku | 2B — dokłada się do Części 1 | todo | Wzbogaca Ekran 1/2 (dodatkowe pola/akapity), nie osobny ekran. |
+| 5.68 | Pompa ciepła – rekomendacje poprawy efektywności | 2C — osobny ekran Doradcy | todo | Wzorzec G (rekomendacje). |
+| 5.69 | Pompa ciepła – analiza wpływu temperatury zasilania na zużycie energii | 2D — scalony silnik „wpływ czynnika X” (Wzorzec D) | todo | Pozycja listy silnika; treść (Skąd/Jak/Efekt/Migawka) tylko w Biblii. Z 2B (źródło: „dokłada się do klastra 2D”). |
+| 5.70 | Pompa ciepła – analiza pracy w trybie ogrzewania z buforem i bez bufora | 2B — dokłada się do Części 1 | todo | Wzbogaca Ekran 14 (dodatkowe pola/akapity), nie osobny ekran. |
+| 5.71 | Pompa ciepła – optymalizacja ustawień krzywej grzewczej | 2B — dokłada się do Części 1 | todo | Wzbogaca Ekran 5 (dodatkowe pola/akapity), nie osobny ekran. |
+| 5.72 | Pompa ciepła – analiza zużycia energii przez pompę cyrkulacyjną w sezonie | 2B — dokłada się do Części 1 | todo | Wzbogaca Ekran 15 (dodatkowe pola/akapity), nie osobny ekran. |
+| 5.73 | Pompa ciepła – analiza wpływu izolacji rur na straty dystrybucji | 2D — scalony silnik „wpływ czynnika X” (Wzorzec D) | todo | Pozycja listy silnika; treść (Skąd/Jak/Efekt/Migawka) tylko w Biblii. |
+| 5.74 | Pompa ciepła – analiza wpływu bezwładności budynku na pracę pompy | 2D — scalony silnik „wpływ czynnika X” (Wzorzec D) | todo | Pozycja listy silnika; treść (Skąd/Jak/Efekt/Migawka) tylko w Biblii. |
+| 5.75 | Pompa ciepła – analiza wpływu mostków termicznych na dobór mocy | 2D — scalony silnik „wpływ czynnika X” (Wzorzec D) | todo | Przykład 3 źródła (auto z E7 — mostki; E7 zależny od norm, patrz wiersz E7). |
+| 5.76 | Pompa ciepła – analiza wpływu wentylacji na zapotrzebowanie na ciepło | 2D — scalony silnik „wpływ czynnika X” (Wzorzec D) | todo | Pozycja listy silnika; treść (Skąd/Jak/Efekt/Migawka) tylko w Biblii. |
+| 5.77 | Pompa ciepła – analiza wpływu okien na dobór mocy | 2D — scalony silnik „wpływ czynnika X” (Wzorzec D) | todo | Pozycja listy silnika; treść (Skąd/Jak/Efekt/Migawka) tylko w Biblii. |
+| 5.78 | Pompa ciepła – analiza wpływu izolacji dachu na dobór mocy | 2D — scalony silnik „wpływ czynnika X” (Wzorzec D) | todo | Pozycja listy silnika; treść (Skąd/Jak/Efekt/Migawka) tylko w Biblii. |
+| 5.79 | Pompa ciepła – analiza wpływu izolacji podłogi na dobór mocy | 2D — scalony silnik „wpływ czynnika X” (Wzorzec D) | todo | Pozycja listy silnika; treść (Skąd/Jak/Efekt/Migawka) tylko w Biblii. |
+| 5.80 | Pompa ciepła – analiza wpływu szczelności budynku na dobór mocy | 2D — scalony silnik „wpływ czynnika X” (Wzorzec D) | todo | Przykład 1 źródła (auto z E12 — szczelność). |
+| 5.81 | Pompa ciepła – analiza zysków słonecznych i ich wpływ na dobór mocy | 2D — scalony silnik „wpływ czynnika X” (Wzorzec D) | todo | Pozycja listy silnika; treść (Skąd/Jak/Efekt/Migawka) tylko w Biblii. |
+| 5.82 | Pompa ciepła – analiza zysków bytowych i ich wpływ na dobór mocy | 2D — scalony silnik „wpływ czynnika X” (Wzorzec D) | todo | Pozycja listy silnika; treść (Skąd/Jak/Efekt/Migawka) tylko w Biblii. |
+| 5.83 | Pompa ciepła – analiza wpływu wysokości pomieszczeń na dobór mocy | 2D — scalony silnik „wpływ czynnika X” (Wzorzec D) | todo | Pozycja listy silnika; treść (Skąd/Jak/Efekt/Migawka) tylko w Biblii. |
+| 5.84 | Pompa ciepła – analiza wpływu orientacji budynku na dobór mocy | 2D — scalony silnik „wpływ czynnika X” (Wzorzec D) | todo | Pozycja listy silnika; treść (Skąd/Jak/Efekt/Migawka) tylko w Biblii. |
+| 5.85 | Pompa ciepła – analiza wpływu wiatru na dobór mocy | 2D — scalony silnik „wpływ czynnika X” (Wzorzec D) | todo | Przykład 5 źródła (wiatr na jednostkę zewn., auto z M1). |
+| 5.86 | Pompa ciepła – analiza wpływu cieniowania na dobór mocy | 2D — scalony silnik „wpływ czynnika X” (Wzorzec D) | todo | Pozycja listy silnika; treść (Skąd/Jak/Efekt/Migawka) tylko w Biblii. |
+| 5.87 | Pompa ciepła – analiza wpływu rodzaju gruntu na dobór mocy | 2D — scalony silnik „wpływ czynnika X” (Wzorzec D) | todo | Pozycja listy silnika; treść (Skąd/Jak/Efekt/Migawka) tylko w Biblii. |
+| 5.88 | Pompa ciepła – analiza wpływu wysokości nad poziomem morza na dobór mocy | 2D — scalony silnik „wpływ czynnika X” (Wzorzec D) | todo | Pozycja listy silnika; treść (Skąd/Jak/Efekt/Migawka) tylko w Biblii. |
+| 5.89 | Pompa ciepła – analiza wpływu wilgotności gruntu na dolne źródło | 2D — scalony silnik „wpływ czynnika X” (Wzorzec D) | todo | Pozycja listy silnika; treść (Skąd/Jak/Efekt/Migawka) tylko w Biblii. |
+| 5.90 | Pompa ciepła – analiza wpływu głębokości odwiertów na koszt i wydajność | 2D — scalony silnik „wpływ czynnika X” (Wzorzec D) | todo | Przykład 2 źródła (głębokość odwiertu, koszt vs COP). |
+| 5.91 | Pompa ciepła – analiza wpływu liczby odwiertów na koszt i wydajność | 2D — scalony silnik „wpływ czynnika X” (Wzorzec D) | todo | Pozycja listy silnika; treść (Skąd/Jak/Efekt/Migawka) tylko w Biblii. |
+| 5.92 | Pompa ciepła – analiza wpływu rodzaju kolektora na koszt i wydajność | 2D — scalony silnik „wpływ czynnika X” (Wzorzec D) | todo | Pozycja listy silnika; treść (Skąd/Jak/Efekt/Migawka) tylko w Biblii. |
+| 5.93 | Pompa ciepła – analiza wpływu temperatury dolnego źródła na COP | 2D — scalony silnik „wpływ czynnika X” (Wzorzec D) | todo | Pozycja listy silnika; treść (Skąd/Jak/Efekt/Migawka) tylko w Biblii. |
+| 5.94 | Pompa ciepła – analiza wpływu prędkości przepływu na wymianę ciepła | 2D — scalony silnik „wpływ czynnika X” (Wzorzec D) | todo | Pozycja listy silnika; treść (Skąd/Jak/Efekt/Migawka) tylko w Biblii. |
+| 5.95 | Pompa ciepła – analiza wpływu temperatury powrotu na COP | 2D — scalony silnik „wpływ czynnika X” (Wzorzec D) | todo | Pozycja listy silnika; treść (Skąd/Jak/Efekt/Migawka) tylko w Biblii. |
+| 5.96 | Pompa ciepła – analiza wpływu defrostu na sezonowe zużycie energii | 2D — scalony silnik „wpływ czynnika X” (Wzorzec D) | todo | Pozycja listy silnika; treść (Skąd/Jak/Efekt/Migawka) tylko w Biblii. |
+| 5.97 | Pompa ciepła – analiza wpływu trybu cichego na zużycie energii | 2D — scalony silnik „wpływ czynnika X” (Wzorzec D) | todo | Pozycja listy silnika; treść (Skąd/Jak/Efekt/Migawka) tylko w Biblii. |
+| 5.98 | Pompa ciepła – analiza wpływu ograniczenia mocy na zużycie energii | 2D — scalony silnik „wpływ czynnika X” (Wzorzec D) | todo | Pozycja listy silnika; treść (Skąd/Jak/Efekt/Migawka) tylko w Biblii. |
+| 5.99 | Pompa ciepła – analiza wpływu bufora na stabilność temperatury | 2D — scalony silnik „wpływ czynnika X” (Wzorzec D) | todo | Pozycja listy silnika; treść (Skąd/Jak/Efekt/Migawka) tylko w Biblii. |
+| 5.100 | Pompa ciepła – analiza wpływu bufora na liczbę startów | 2D — scalony silnik „wpływ czynnika X” (Wzorzec D) | todo | Przykład 4 źródła (bufor vs starty sprężarki). |
+
+### Moduł 8 — Bezpieczeństwo (`Tresc_Modul_8_Bezpieczenstwo_Ekrany.md`, 11 ekranów)
+
+Już z wierszem wcześniej (sekcja wzorców): E2 (6.25, `done`), E6 (11.54 `done` / 12.54 część AI — patrz wiersz), E11 (12.57, `done`).
+
+| Ekran | ID (dawne) | Nazwa | Status | Notatka |
+|---|---|---|---|---|
+| 1 | 6.19 | Awaryjne źródło ciepła (kominek, koza, piec na drewno) | todo | Wzorzec D. Przeniesione z M7 (`Tresc_Modul_7` „Funkcje przeniesione”). |
+| 3 | 11.51 | Siłowniki drzwi i zamki elektromagnetyczne | todo | Wzorzec D. |
+| 4 | 11.52, 12.51 | Moduł gaśniczy / elektrozawór gazu — sprzęt i logika AI | todo | Wzorzec D, scalenie sprzęt (11.x) + AI (12.x). |
+| 5 | 11.53 | Wejścia dla centrali sygnalizacji pożaru | todo | Wzorzec D. |
+| 6 (AI) | 12.54 | UPS krytyczny — zarządzanie AI | todo | Część AI ekranu 6; część sprzętowa 11.54 `done` (wiersz w sekcji wzorców). |
+| 7 | 11.55, 12.52 | Oświetlenie awaryjne — sprzęt i adaptacyjna ewakuacja AI | todo | Wzorzec D. |
+| 8 | 11.56, 12.56 | Klapy pożarowe i wentylacja — sprzęt i kontrola AI | todo | Wzorzec D. |
+| 9 | 12.53 (+12.23) | Predykcja ryzyka pożaru i zwarcia łukowego | todo | Wzorzec D; wchłania duplikat 12.23 z M10. Dane live z widżetów M13 — zależny od telemetrii. |
+| 10 | 12.55 | Integracja z syreną, monitoringiem i służbami | todo | Wzorzec D. |
+
+### Moduł 9 — ESP32 (`Tresc_Modul_9_ESP32_Ekrany.md`, 6 ekranów + 4 katalogi)
+
+Już z wierszem wcześniej: Katalog 1 (czujniki) — `done` (częściowo), wiersz w sekcji wzorców (bez numerów ID — uzupełnione niżej).
+
+| Ekran | ID (dawne) | Nazwa | Status | Notatka |
+|---|---|---|---|---|
+| 1 | 11.1 | Wybór płytki ESP32 | todo | Wzorzec D. |
+| 2 | 11.2 | Zasilanie ESP32 z magistrali systemowej | todo | Wzorzec D; 🔴 ESP32 bezpośrednio na napięciu magistrali bez przetwornicy (lista twardych stopów źródła). |
+| 3 | 11.3 | Montaż i obudowa w rozdzielni | todo | Wzorzec F. |
+| 4 | 11.4 | Architektura komunikacji | todo | Wzorzec D, koncentrator Katalogu 3; 🔴 GPIO 3,3 V bezpośrednio na RS485 bez transceivera. |
+| 5 | 11.5 | Konfiguracja GPIO/ADC/I2C/SPI/UART | todo | Wzorzec D; 🔴 konflikt dwóch funkcji na jednym pinie. |
+| 6 | 11.29, 11.30, 11.32, 11.33, 11.34, 11.35, 11.49, 11.50 | Konfiguracja niezawodności systemu | todo | Wzorzec D, przełączniki; 🔴 OTA bez weryfikacji podpisu. |
+| Katalog 1 | 11.6–11.20, 11.40–11.45 | Czujniki (21 pozycji) | **done** (częściowo) | Uzupełnienie ID do istniejącego wiersza (sekcja wzorców). Przypisanie po nazwie z Biblii §9.6–§9.20, §9.40–§9.45. ✏️ Biblia 11.8 wymienia też ZMPT101B (pomiar napięcia AC), `Tresc` tylko SCT-013 — do sprawdzenia przy dopracowaniu katalogu. |
+| Katalog 2 | 11.21–11.26 | Aktuatory / wyjścia sterujące (6 pozycji) | todo | Wzorzec H. |
+| Katalog 3 | 11.27, 11.28, 11.31, 11.46, 11.47, 11.48 | Protokoły komunikacji (6 pozycji) | todo | Wzorzec H; LoRa — punkt wyjścia pod Meshtastic (§15.4 Zasad UX). |
+| Katalog 4 | 11.36–11.39 | Interfejs lokalny (4 pozycje) | todo | Wzorzec H. |
+
+### Moduł 10 — AI i prognozy (`Tresc_Modul_10_AI_Ekrany.md`, 12 ekranów, 50 funkcji)
+
+Już z wierszem wcześniej: E1 Prognozy (12.1, 12.2, 12.5 — `done` częściowo; 12.3, 12.4, 12.43 z tego samego ekranu — w tamtym wierszu).
+
+| Ekran | ID (dawne) | Nazwa | Status | Notatka |
+|---|---|---|---|---|
+| 2 | 12.6, 12.19, 12.24, 12.39, 12.40, 12.44, 12.45, 12.49, 12.50 | Jak AI się uczy — transparentność | todo | Wzorzec C (własność działania AI, nie osobne akcje). |
+| 3 | 12.37 | Priorytet misji — ciepło, woda, powietrze | todo | Wzorzec D. |
+| 4 | 12.7, 12.8, 12.9 | Automatyczny dobór i optymalizacja źródeł zasilania | todo | Wzorzec D. |
+| 5 | 12.10 | Dynamiczne przesuwanie zadań domowych | todo | Wzorzec D; zależny od prognoz (E1). |
+| 6 | 12.11, 12.42 | Rekomendacje i raporty z komentarzem AI | todo | Wzorzec G. |
+| 7 | 12.13–12.18 | Wykrywanie anomalii | todo | Wzorzec D, selektor podsystemu. |
+| 8 | 12.20, 12.21, 12.22 | AI ogrzewania, wody i wentylacji | todo | Wzorzec D. |
+| 9 | 12.25–12.30, 12.46, 12.47, 12.48 | AI wody | todo | Wzorzec D, zakładki. |
+| 10 | 12.31, 12.32, 12.33 | AI zimowego ryzyka | todo | Wzorzec D. |
+| 11 | 12.34, 12.35 | AI zarządzania generatorem | todo | Wzorzec D. |
+| 12 | 12.36 | Generalny audyt zimowy — raport | todo | Wzorzec G. |
+| — | 12.12 | Ocena opłacalności magazynowania (AI) | — | → duplikat 3.25 (M4/E23 „True Cost of Storage”, `done`) — bez osobnego ekranu (źródło). |
+| — | 12.23 | Wykrywanie zagrożeń pożarowych i zwarciowych | — | → duplikat 12.53 (M8/E9, wiersz wyżej) — bez osobnego ekranu (źródło). |
+| — | 12.38 | Interaktywne symulacje „co by było gdyby” | — | → §14.1 Zasad UX (Symulator awarii) — nie duplikować (źródło). |
+| — | 12.41 | Asystent głosowy | ⚠️ blocked | Wymaga osobnej specyfikacji interakcji (drzewo intencji) przed implementacją — źródło. Nie mylić z istniejącym asystentem AI tekstowym (`lib/ai/`). |
+
+### Moduł 12 — Szybki kalkulator / tryb mobilny (`Tresc_Modul_12_Kalkulator_Ekrany.md`, 42 ekrany, 70 funkcji)
+
+Już z wierszem wcześniej: E1 (8.1, `done`) i dawne 8.8 (PWM vs MPPT, `done` — pozycja Biblii nieobecna w `Tresc`, patrz wyżej).
+
+| Ekran | ID (dawne) | Nazwa | Status | Notatka |
+|---|---|---|---|---|
+| 2 | 8.2, 8.10 | Zabezpieczenia dla małych instalacji | todo | Wzorzec D. |
+| 3 | 8.3, 8.16 | Gotowe szablony zestawów | todo | Wzorzec A. |
+| 4 | 8.4 | "Mam akumulator — co mogę podłączyć?" | todo | Wzorzec D. |
+| 5 | 8.5 | Kalkulator "na weekend" | todo | Wzorzec D. |
+| 6 | 8.6 | Szybki dobór paneli PV dla pojedynczego urządzenia | todo | Wzorzec D. |
+| 7 | 8.7 | Powerbank solarny vs mały akumulator | todo | Wzorzec B. |
+| 8 | 8.9, 8.41, 8.42 | Przetwornice — mode-switch po typie konwersji | todo | Wzorzec A. |
+| 9 | 8.11 | Ochrona przed rozładowaniem akumulatora | todo | Wzorzec D. |
+| 10 | 8.12 | Łączenie paneli przenośnych | todo | Wzorzec D. |
+| 11 | 8.15, 8.23–8.28 | Kalkulator zużycia energii per urządzenie — moduł zbiorczy | todo | Wzorzec D. |
+| 12 | 8.17, 8.18, 8.19, 8.21, 8.29–8.36, 8.48, 8.52, 8.53, 8.67 | Kreator zasilania małego odbiornika — moduł zbiorczy | todo | Wzorzec D. |
+| 13 | 8.20 | Blackout w domu — minimum do przeżycia | todo | Wzorzec D. |
+| 14 | 8.22 | Raport bezpieczeństwa małej instalacji — RAPORT | todo | Wzorzec G. |
+| 15 | 8.13, 8.49 | Kable/bezpieczniki do kampera + dobór złączek | todo | Wzorzec D. |
+| 16 | 8.14 | Czas pracy na akumulatorze samochodowym | todo | Wzorzec D. |
+| 17 | 8.37 | Dobór akumulatora do kampera (AGM vs LiFePO4) | todo | Wzorzec B. |
+| 18 | 8.38 | Dobór panelu do kampera (elastyczny vs sztywny) | todo | Wzorzec B. |
+| 19 | 8.39 | Ile paneli na dachu kampera | todo | Wzorzec D. |
+| 20 | 8.40, 8.43 | Ładowanie z alternatora vs paneli | todo | Wzorzec B. |
+| 21 | 8.44 | Monitoring małej instalacji | — | → przeniesione do M13 jako widżet Live (źródło) — wiersz w sekcji M13 niżej. |
+| 22 | 8.45 | Bezpieczeństwo w kamperze | todo | Wzorzec E. |
+| 23 | 8.46 | Zabezpieczenia przeciwwilgociowe dla małych instalacji | todo | Wzorzec D. |
+| 24 | 8.47 | Lista kontrolna na kemping | todo | Wzorzec E. |
+| 25 | 8.50 | Szybka diagnoza problemów | todo | Wzorzec D. |
+| 26 | 8.51 | Zasilanie urządzeń medycznych | todo | Wzorzec D. |
+| 27 | 8.54 | "Czy mogę podłączyć urządzenie 12V bezpośrednio?" | todo | Wzorzec D. |
+| 28 | 8.55 | Zabezpieczenie akumulatora przed zimnem — mała instalacja | todo | Wzorzec D. |
+| 29 | 8.56 | Koszt małego zestawu solarnego vs przedłużacz | todo | Wzorzec B. |
+| 30 | 8.57 | Gniazda zapalniczki samochodowej i adaptery | todo | Wzorzec C. |
+| 31 | 8.58 | Planowanie rozbudowy małej instalacji | todo | Wzorzec D. |
+| 32 | 8.59 | Ile dni pracy bez słońca — mały zestaw | todo | Wzorzec D. |
+| 33 | 8.60 | Test "czy mój akumulator jest jeszcze dobry?" | todo | Wzorzec D. |
+| 34 | 8.61 | Solarny generator (stacja) vs zestaw DIY | todo | Wzorzec B. |
+| 35 | 8.62 | Agregat przenośny — ile paliwa na dobę | todo | Wzorzec D. |
+| 36 | 8.63 | Bezpieczne ładowanie w garażu | todo | Wzorzec E. |
+| 37 | 8.64 | Urządzenia zabronione dla małych falowników | todo | Wzorzec C. |
+| 38 | 8.65 | Uziemienie małej instalacji | todo | Wzorzec D. |
+| 39 | 8.66 | Łączenie paneli z powerbankiem/stacją zasilania | todo | Wzorzec D. |
+| 40 | 8.68 | Blackout w bloku — zestaw balkonowy | todo | Wzorzec D. |
+| 41 | 8.69 | Czy mój przedłużacz wytrzyma? | todo | Wzorzec D. |
+| 42 | 8.70 | Ratowanie rozładowanego akumulatora — mała instalacja | todo | Wzorzec D. Źródło: ekran ma **odsyłać** do M11/A9 i B11 (`done`), nie duplikować logiki. |
+
+### Moduł 13 — Tryb Live, biblioteka widżetów Ekranu 2 (`Tresc_Modul_13_Live_Ekrany.md`, 33 funkcje)
+
+Już z wierszem wcześniej: 7.1 (wejście w tryb Live, `done`), 7.7 (powiadomienia, `todo`). Cała biblioteka zależy od telemetrii (Modbus/MQTT) — dziś brak; `app/kalkulatory/tryb-live/` jawnie to pokazuje. **Rozbieżność arytmetyki źródła (Dyrektywa #5, bez wpływu na kompletność):** podsumowanie `Tresc` mówi „26 widżetów własnych + 3 przeniesione + 4 duplikaty = 33”, a lista zawiera 23 widżety + 7.7 (pominięte) + 7.1 (wejście) + 3 przeniesione + **5** duplikatów = 33 — suma się zgadza, podział nie.
+
+| ID (dawne) | Widżet / funkcja | Grupa źródła | Status | Notatka |
+|---|---|---|---|---|
+| 7.4 | Widok "Teraz" | Podstawowy monitoring | todo | Widżet. |
+| 7.5 | Wykresy mocy na żywo | Podstawowy monitoring | todo | Widżet. |
+| 7.6 | Centrum powiadomień i alarmów | Podstawowy monitoring | todo | Widżet. |
+| 7.8 | Priorytety alarmów | Podstawowy monitoring | todo | Widżet. |
+| 7.43 | Historia zdarzeń i logi | Podstawowy monitoring | todo | Widżet. |
+| 7.34 | Tryb odtwarzania historycznego | Podstawowy monitoring | todo | Widżet. |
+| 7.28 | Jakość zasilania AC | Jakość i stan instalacji | todo | Widżet. |
+| 7.29 | Temperatura kluczowych komponentów | Jakość i stan instalacji | todo | Widżet. |
+| 7.38 | Rezystancja połączeń i stan okablowania | Jakość i stan instalacji | todo | Widżet. |
+| 7.39 | Analiza strat i sprawności systemu | Jakość i stan instalacji | todo | Widżet. |
+| 7.42 | Stan zabezpieczeń i bezpieczników | Jakość i stan instalacji | todo | Widżet. |
+| 7.45 | Wykrywanie zwarć i przeciążeń live | Jakość i stan instalacji | todo | Widżet. |
+| 7.33 | Analiza zużycia per obwód/gniazdo | Jakość i stan instalacji | todo | Widżet. |
+| 7.40 | Powiadomienia pogodowe i alerty burzowe | Pogoda i warunki zewnętrzne | todo | Widżet. |
+| 7.41 | Detekcja oblodzenia/śniegu na panelach — live | Pogoda i warunki zewnętrzne | todo | Widżet. |
+| 7.48 | Jakość powietrza i wilgotność wewnątrz | Pogoda i warunki zewnętrzne | todo | Widżet. |
+| 7.26 | Harmonogram automatycznych zadań | Automatyzacja i tryby pracy | todo | Widżet. |
+| 7.27 | Tryb wakacyjny/nieobecności | Automatyzacja i tryby pracy | todo | Widżet. |
+| 7.46 | Dynamiczne zarządzanie priorytetami | Automatyzacja i tryby pracy | todo | Widżet. |
+| 7.49 | Tryb nocny — minimalne zużycie i cisza | Automatyzacja i tryby pracy | todo | Widżet. |
+| 7.30 | Eksport danych CSV/PDF/API | Raporty i podsumowania | todo | Widżet. |
+| 7.50 | Interaktywne podsumowanie dnia/tygodnia | Raporty i podsumowania | todo | Widżet. |
+| 7.32 | Przypomnienia o przeglądach i serwisie | Raporty i podsumowania | todo | Widżet. |
+| 7.35 | Role i uprawnienia dostępu | Dostęp i administracja | — | → przeniesione do Modułu 14 (ustawienia), źródło: to ustawienie konta, nie widżet danych live. |
+| 7.36 | Kopia zapasowa konfiguracji | Dostęp i administracja | — | → przeniesione do Modułu 14 (ustawienia), źródło: to ustawienie aplikacji. |
+| 7.37 | Aktualizacje oprogramowania/firmware | Dostęp i administracja | — | → przeniesione do Modułu 14 (ustawienia), źródło: to ustawienie aplikacji, cross-ref Moduł 9 (OTA sprzętowe). |
+| 7.2 | Porównanie prognozy z rzeczywistością | Duplikaty systemów opisanych gdzie indziej | — | → M10/E2 (jeden widżet „Jak dobrze AI przewiduje”) — źródło. |
+| 7.3 | Machine Learning — korekta modeli | Duplikaty systemów opisanych gdzie indziej | — | → M10/E2 — źródło. |
+| 7.31 | Integracja z asystentem głosowym | Duplikaty systemów opisanych gdzie indziej | — | → M10 12.41 (⚠️ blocked, wyżej) — jedna integracja. |
+| 7.44 | Benchmarking — porównanie z innymi instalacjami | Duplikaty systemów opisanych gdzie indziej | — | → §15.4 Zasad UX (Społeczność Off-Grid). |
+| 7.47 | Symulacja „co by było gdyby” na żywo | Duplikaty systemów opisanych gdzie indziej | — | → §14.1 Zasad UX (Symulator awarii). |
+| M3 2.48 | Monitoring wydajności paneli — porównanie stringów | Widżety z innych modułów | todo | Widżet dochodzący (źródło: „znalezione podczas audytu treści”). |
+| M4 3.26 | Czarna Skrzynka (data logging i alarmy BMS) | Widżety z innych modułów | todo | Widżet dochodzący (źródło: „znalezione podczas audytu treści”). |
+| M7 6.33 | Survival Mode zimowy (preset Live) | Widżety z innych modułów | todo | Widżet dochodzący (źródło: „znalezione podczas audytu treści”). |
+| M12 8.44 | Monitoring małej instalacji (tryb mobilny) | Widżety z innych modułów | todo | Widżet dochodzący (źródło: „znalezione podczas audytu treści”). |
+
+### Moduły 4 i 5 — dwie pozycje przeniesione bez wiersza (wyłapane tym samym skryptem)
+
+Sekcje M4 i M5 mają komplet ekranów, ale dwie funkcje przeniesione „poza ekran” nie miały żadnego wiersza.
+
+| Moduł | ID (dawne) | Nazwa (Biblia) | Status | Notatka |
+|---|---|---|---|---|
+| 4 | 3.10 | Gaszenie i wentylacja komory baterii (pożar klasy B) | todo | Źródło (`Tresc_Modul_4` l. 449): treść należy do M8 — razem ze sterowaniem gaśniczym (M8/E4, dawne 11.52 + 12.51, wiersz wyżej). Budować przy M8/E4. |
+| 5 | 4.25 | Lista materiałów (BOM) dla instalacji elektrycznej | todo | Źródło (`Tresc_Modul_5` l. 401): nie osobny ekran — zasila mechanizm BOM z §13.1 Zasad UX. Ten sam brak co M3/E10 (⚠️ blocked — mechanizm BOM + baza komponentów). |
+
+**Kontrola po dopisaniu (ten sam skrypt):** każdy identyfikator `(dawne X.Y)` Biblii modułów 1–13 (579 pozycji — zgodnie z liczbą z nagłówka tego pliku) ma co najmniej jeden wiersz w tym pliku. Kolejne przebiegi N.1: `pnpm audit:n1`.
