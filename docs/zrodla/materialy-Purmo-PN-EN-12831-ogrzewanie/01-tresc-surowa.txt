@@ -462,6 +462,7 @@ i
 =
  
 (1.1) 
+[WZÓR (1.1) — odczyt zweryfikowany, fragmenty poniżej to rozsypana ekstrakcja: Φi = ΦT,i + ΦV,i  [W] — patrz 02-wzory-zweryfikowane.md]
 gdzie: 
 ΦT,i – projektowa strata ciepła ogrzewanej przestrzeni (i) przez przenikanie, W;  
 ΦV,i – projektowa wentylacyjna strata ciepła ogrzewanej przestrzeni (i), W.  
@@ -494,6 +495,7 @@ Q
 =
  
 (1.2) 
+[WZÓR (1.2) — odczyt zweryfikowany, fragmenty poniżej to rozsypana ekstrakcja: Q = Qp·(1 + d1 + d2) + Qw  [W] — wzór starej PN-B-03406:1994, dla porównania — patrz 02-wzory-zweryfikowane.md]
 gdzie: 
 Qp 
 – straty ciepła przez przenikanie, W;  
@@ -539,6 +541,7 @@ HL
 =
  
 (1.3) 
+[WZÓR (1.3) — odczyt zweryfikowany, fragmenty poniżej to rozsypana ekstrakcja: ΦHL,i = ΦT,i + ΦV,i + ΦRH,i  [W] — patrz 02-wzory-zweryfikowane.md]
 gdzie: 
 ΦRH,i – nadwyżka mocy cieplnej wymagana do skompensowania skutków osła-
 bienia ogrzewania strefy ogrzewanej (i), W; 
@@ -580,6 +583,7 @@ HL
 Φ
  
 (1.4) 
+[WZÓR (1.4) — odczyt zweryfikowany, fragmenty poniżej to rozsypana ekstrakcja: ΦHL = ΣΦT,i + ΣΦV,i + ΣΦRH,i  [W] — patrz 02-wzory-zweryfikowane.md]
 gdzie: 
 ∑
 i
@@ -962,6 +966,7 @@ H
 =
  
 (3.1) 
+[WZÓR (3.1) — odczyt zweryfikowany, fragmenty poniżej to rozsypana ekstrakcja: ΦT,i = (HT,ie + HT,iue + HT,ig + HT,ij)·(θint,i − θe)  [W] — patrz 02-wzory-zweryfikowane.md]
 gdzie: 
 HT,ie – współczynnik straty ciepła przez przenikanie z przestrzeni ogrzewanej (i) 
 do otoczenia (e) przez obudowę budynku, W/K;  
@@ -1017,6 +1022,7 @@ H
 ψ
  
 (3.2) 
+[WZÓR (3.2) — odczyt zweryfikowany, fragmenty poniżej to rozsypana ekstrakcja: HT,ie = Σk Ak·Uk·ek + Σl ψl·ll·el  [W/K] — patrz 02-wzory-zweryfikowane.md]
 gdzie: 
 Ak 
 – powierzchnia elementu budynku (k), m2;  
@@ -1062,6 +1068,7 @@ do normy PN-EN 12831:2006:
  
  
 (3.3) 
+[WZÓR (3.3) — odczyt zweryfikowany, fragmenty poniżej to rozsypana ekstrakcja: ek = 1,0;  el = 1,0  (wartości orientacyjne z Załącznika krajowego PN-EN 12831:2006) — patrz 02-wzory-zweryfikowane.md]
 0,1
    
 ;0,1
@@ -1097,6 +1104,7 @@ H
 ψ
  
 (3.4) 
+[WZÓR (3.4) — odczyt zweryfikowany, fragmenty poniżej to rozsypana ekstrakcja: HT,ie = Σk Ak·Uk + Σl ψl·ll  [W/K] — patrz 02-wzory-zweryfikowane.md]
 3.5 
 Uproszczona metoda w odniesieniu do strat ciepła przez przenikanie 
 W obliczeniach strat ciepła przez przenikanie, mostki cieplne można uwzględnić meto-
@@ -1105,6 +1113,7 @@ kania ciepła:
  
  
 (3.5) 
+[WZÓR (3.5) — odczyt zweryfikowany, fragmenty poniżej to rozsypana ekstrakcja: Ukc = Uk + ΔUtb  [W/(m²·K)] — patrz 02-wzory-zweryfikowane.md]
 K
    W/m
 ,
@@ -1320,6 +1329,7 @@ H
 ψ
  
 (3.6) 
+[WZÓR (3.6) — odczyt zweryfikowany, fragmenty poniżej to rozsypana ekstrakcja: HT,iue = Σk Ak·Uk·bu + Σl ψl·ll·bu  [W/K] — patrz 02-wzory-zweryfikowane.md]
 gdzie: 
 Ak 
 – powierzchnia elementu budynku (k) w metrach kwadratowych, m2;  
@@ -1361,6 +1371,7 @@ ub
 θ
  
 (3.7) 
+[WZÓR (3.7) — odczyt zweryfikowany, fragmenty poniżej to rozsypana ekstrakcja: bu = (θint,i − θu) / (θint,i − θe)  [−] — gdy temperatura przestrzeni nieogrzewanej jest znana — patrz 02-wzory-zweryfikowane.md]
 gdzie: 
 θint,i – projektowa temperatura wewnętrzna przestrzeni ogrzewanej (i), ºC;  
 θu 
@@ -1384,6 +1395,7 @@ H
 b
  
 (3.8) 
+[WZÓR (3.8) — odczyt zweryfikowany, fragmenty poniżej to rozsypana ekstrakcja: bu = Hue / (Hiu + Hue)  [−] — gdy nie jest znana — patrz 02-wzory-zweryfikowane.md]
 gdzie: 
 Hiu 
 – współczynnik strat ciepła z przestrzeni ogrzewanej (i) do przyległej prze-
@@ -1504,6 +1516,7 @@ f
 H
  
 (3.9) 
+[WZÓR (3.9) — odczyt zweryfikowany, fragmenty poniżej to rozsypana ekstrakcja: HT,ij = Σk fij·Ak·Uk  [W/K] — patrz 02-wzory-zweryfikowane.md]
 gdzie: 
 fij 
 – współczynnik redukcyjny temperatury, uwzględniający różnicę tempera-
@@ -1543,6 +1556,7 @@ ijf
 ł
  
 (3.10) 
+[WZÓR (3.10) — odczyt zweryfikowany, fragmenty poniżej to rozsypana ekstrakcja: fij = (θint,i − θprzyległej przestrzeni) / (θint,i − θe)  [−] — patrz 02-wzory-zweryfikowane.md]
  
 gdzie:  
 θint,i – projektowa temperatura wewnętrzna przestrzeni ogrzewanej (i), ºC;  
@@ -2554,6 +2568,7 @@ H
 ∑
  
 (5.1) 
+[WZÓR (5.1) — odczyt zweryfikowany, fragmenty poniżej to rozsypana ekstrakcja: HT,ig = fg1·fg2·(Σk Ak·Uequiv,k)·Gw  [W/K] — patrz 02-wzory-zweryfikowane.md]
 gdzie: 
 fg1 
 – współczynnik korekcyjny, uwzględniający wpływ rocznych wahań tempe-
@@ -2595,6 +2610,7 @@ gf
 θ
  
 (5.2) 
+[WZÓR (5.2) — odczyt zweryfikowany, fragmenty poniżej to rozsypana ekstrakcja: fg2 = (θint,i − θm,e) / (θint,i − θe)  [−] — patrz 02-wzory-zweryfikowane.md]
 gdzie: 
 θint,i – projektowa temperatura wewnętrzna przestrzeni ogrzewanej (i), ºC;  
 θm,e – roczna średnia temperatura zewnętrzna, ºC; 
@@ -2634,6 +2650,7 @@ B =
 ′
  
 (5.3) 
+[WZÓR (5.3) — odczyt zweryfikowany, fragmenty poniżej to rozsypana ekstrakcja: B′ = A / (½·P)  [m] — patrz 02-wzory-zweryfikowane.md]
 gdzie: 
 A 
 – pole powierzchni podłogi, m2;  
@@ -3075,6 +3092,7 @@ H
 =
  
 (6.1) 
+[WZÓR (6.1) — odczyt zweryfikowany, fragmenty poniżej to rozsypana ekstrakcja: ΦV,i = HV,i·(θint,i − θe)  [W] — patrz 02-wzory-zweryfikowane.md]
 gdzie: 
 HV,i – współczynnik projektowej wentylacyjnej straty ciepła, W/K;  
 θint,i – projektowa temperatura wewnętrzna przestrzeni ogrzewanej (i), ºC;  
@@ -3088,6 +3106,7 @@ ten oblicza się w następujący sposób:
  
  
 (6.2) 
+[WZÓR (6.2) — odczyt zweryfikowany, fragmenty poniżej to rozsypana ekstrakcja: HV,i = V̇i·ρ·cp  [W/K] — patrz 02-wzory-zweryfikowane.md]
    W/K
 ,
 ,
@@ -3117,6 +3136,7 @@ przyjmuje następującą postać:
  
  
 (6.3) 
+[WZÓR (6.3) — odczyt zweryfikowany, fragmenty poniżej to rozsypana ekstrakcja: HV,i = 0,34·V̇i  [W/K] — patrz 02-wzory-zweryfikowane.md]
    W/K
 ,
 34
@@ -3166,6 +3186,7 @@ V
  
  
 (6.4) 
+[WZÓR (6.4) — odczyt zweryfikowany, fragmenty poniżej to rozsypana ekstrakcja: V̇i = max(V̇inf,i, V̇min,i)  [m³/h] — patrz 02-wzory-zweryfikowane.md]
 (
 )
 /h
@@ -3196,6 +3217,7 @@ przestrzeni ogrzewanej (i):
  
  
 (6.5) 
+[WZÓR (6.5) — odczyt zweryfikowany, fragmenty poniżej to rozsypana ekstrakcja: V̇inf,i = 2·Vi·n50·ei·εi  [m³/h] — patrz 02-wzory-zweryfikowane.md]
 /h
 m
    
@@ -3346,6 +3368,7 @@ pływający do przestrzeni ogrzewanej (i) może być określony w sposób nastę
  
  
 (6.6) 
+[WZÓR (6.6) — odczyt zweryfikowany, fragmenty poniżej to rozsypana ekstrakcja: V̇min,i = nmin·Vi  [m³/h] — patrz 02-wzory-zweryfikowane.md]
 /h
 m
    
@@ -3426,6 +3449,7 @@ V
 &
  
 (6.7) 
+[WZÓR (6.7) — odczyt zweryfikowany, fragmenty poniżej to rozsypana ekstrakcja: ΣV̇i = max(0,5·ΣV̇inf,i, ΣV̇min,i)  [m³/h] — patrz 02-wzory-zweryfikowane.md]
 6.8 Przykład 
 Obliczyć wartość projektowej wentylacyjnej straty ciepła dla pokoju mieszkalnego, dla 
 następujących założeń: 
@@ -3710,6 +3734,7 @@ H
 =
  
 (7.1) 
+[WZÓR (7.1) — odczyt zweryfikowany, fragmenty poniżej to rozsypana ekstrakcja: ΦV,i = HV,i·(θint,i − θe)  [W] — patrz 02-wzory-zweryfikowane.md]
 gdzie: 
 HV,i – współczynnik projektowej wentylacyjnej straty ciepła, W/K;  
 θi,int – projektowa temperatura wewnętrzna przestrzeni ogrzewanej (i), ºC;  
@@ -3723,6 +3748,7 @@ ciepła do różnicy temperatury wewnętrznej i zewnętrznej.
  
  
 (7.2) 
+[WZÓR (7.2) — odczyt zweryfikowany, fragmenty poniżej to rozsypana ekstrakcja: HV,i = V̇i·ρ·cp  [W/K] — patrz 02-wzory-zweryfikowane.md]
    W/K
 ,
 ,
@@ -3752,6 +3778,7 @@ przyjmuje następującą postać:
  
  
 (7.3) 
+[WZÓR (7.3) — odczyt zweryfikowany, fragmenty poniżej to rozsypana ekstrakcja: HV,i = 0,34·V̇i  [W/K] — patrz 02-wzory-zweryfikowane.md]
    W/K
 ,
 34
@@ -3783,6 +3810,7 @@ tylacyjnego strefy ogrzewanej (i) w przypadku występowania instalacji wentylacy
  
  
 (7.4) 
+[WZÓR (7.4) — odczyt zweryfikowany, fragmenty poniżej to rozsypana ekstrakcja: V̇i = V̇inf,i + V̇su,i·fV,i + V̇mech,inf,i  [m³/h] — patrz 02-wzory-zweryfikowane.md]
 /h
 m
    
@@ -3880,6 +3908,7 @@ Vf
 ,
  
 (7.5) 
+[WZÓR (7.5) — odczyt zweryfikowany, fragmenty poniżej to rozsypana ekstrakcja: fV,i = (θint,i − θsu,i) / (θint,i − θe)  [−] — patrz 02-wzory-zweryfikowane.md]
  
    
 38    I    
@@ -3927,6 +3956,7 @@ su
 ,
  
 (7.6) 
+[WZÓR (7.6) — odczyt zweryfikowany, fragmenty poniżej to rozsypana ekstrakcja: θsu,i = θe + ηV·(θint,i − θe) — patrz 02-wzory-zweryfikowane.md]
 gdzie: 
 V
 η 
@@ -4036,6 +4066,7 @@ Vf
 ,
  
 (7.7) 
+[WZÓR (7.7) — odczyt zweryfikowany, fragmenty poniżej to rozsypana ekstrakcja: fV,i = [θint,i − θe − ηV·(θint,i − θe)] / (θint,i − θe) — patrz 02-wzory-zweryfikowane.md]
  
 (
 )(
@@ -4064,6 +4095,7 @@ Vf
 1
  
 (7.8) 
+[WZÓR (7.8) — odczyt zweryfikowany, fragmenty poniżej to rozsypana ekstrakcja: fV,i = (1 − ηV)·(θint,i − θe) / (θint,i − θe) — patrz 02-wzory-zweryfikowane.md]
 W związku z tym, współczynnik redukcji temperatury w przypadku odzysku ciepła z 
 powietrza usuwanego, przy podanych wyżej założeniach, można obliczyć z następują-
 cego równania: 
@@ -4077,6 +4109,7 @@ Vf
 ,
  
 (7.9) 
+[WZÓR (7.9) — odczyt zweryfikowany, fragmenty poniżej to rozsypana ekstrakcja: fV,i = 1 − ηV — patrz 02-wzory-zweryfikowane.md]
 7.7 
 Nadmiar strumienia powietrza usuwanego 
 Norma zakłada, że jeżeli strumień powietrza usuwanego z pomieszczenia jest większy 
@@ -4087,6 +4120,7 @@ tość w odniesieniu do całego budynku można obliczyć w następujący sposób
  
  
 (7.10) 
+[WZÓR (7.10) — odczyt zweryfikowany, fragmenty poniżej to rozsypana ekstrakcja: V̇mech,inf = max(V̇ex − V̇su, 0)  [m³/h] — patrz 02-wzory-zweryfikowane.md]
 (
 )
 /h
@@ -4152,6 +4186,7 @@ V
 &
  
 (7.11) 
+[WZÓR (7.11) — odczyt zweryfikowany, fragmenty poniżej to rozsypana ekstrakcja: V̇mech,inf,i = V̇mech,inf · Vi / ΣVi  [m³/h] — patrz 02-wzory-zweryfikowane.md]
 gdzie: 
 Vi 
 – kubatura przestrzeni (i), m3.  
@@ -4196,6 +4231,7 @@ V
 η
  
 (7.12) 
+[WZÓR (7.12) — odczyt zweryfikowany, fragmenty poniżej to rozsypana ekstrakcja: ΣV̇i = 0,5·ΣV̇inf,i + (1 − ηV)·ΣV̇su,i + V̇mech,inf,i  [m³/h] — patrz 02-wzory-zweryfikowane.md]
 Podobnie jak w równaniu dla wentylacji naturalnej, przed sumą strumieni powietrza 
 infiltrującego występuje mnożnik 0,5. Wynika on z tego, że przy obliczaniu strumienia 
 powietrza infiltrującego do poszczególnych przestrzeni ogrzewanych stosuje się współ-
@@ -4685,6 +4721,7 @@ HL
 =
  
 (8.1) 
+[WZÓR (8.1) — odczyt zweryfikowany, fragmenty poniżej to rozsypana ekstrakcja: ΦHL,i = ΦT,i + ΦV,i + ΦRH,i  [W] — patrz 02-wzory-zweryfikowane.md]
 gdzie: 
 ΦT,i – projektowa strata ciepła ogrzewanej przestrzeni (i) przez przenikanie, W;  
 ΦV,i – projektowa wentylacyjna strata ciepła ogrzewanej przestrzeni (i), W;  
@@ -4753,6 +4790,7 @@ ogrzewanej (i) może być określona w następujący sposób:
  
  
 (8.2) 
+[WZÓR (8.2) — odczyt zweryfikowany, fragmenty poniżej to rozsypana ekstrakcja: ΦRH,i = Ai·fRH  [W] — patrz 02-wzory-zweryfikowane.md]
    W
 ,
 ,
@@ -5048,6 +5086,7 @@ f
 =
  
 (9.1) 
+[WZÓR (9.1) — odczyt zweryfikowany, fragmenty poniżej to rozsypana ekstrakcja: Φi = (ΦT,i + ΦV,i)·fh,i  [W] — patrz 02-wzory-zweryfikowane.md]
 gdzie: 
 ΦT,i – projektowa strata ciepła przestrzeni ogrzewanej (i) przez przenikanie, W;  
 ΦV,i – projektowa wentylacyjna strata ciepła przestrzeni ogrzewanej (i), W;  

@@ -48,7 +48,7 @@ Normalizacyjnego
 
 
 
-===== page-001.txt =====
+===== page-001.txt ===== [ZWERYFIKOWANO WIZUALNIE ze skanem 25.09.2026]
 
 2 PN-EN 1991-1-4:2008
 
@@ -59,20 +59,20 @@ i zatwierdzona przez Prezesa PKN dnia 22 października 2008 r.
 
 Jest tłumaczeniem — bez jakichkolwiek zmian — angielskiej wersji Normy Europejskiej EN 1991-1-4:2005.
 
-W zakresie tekstu Normy Europejskiej wprowadzono odsyłacze krajowe oznaczone od N' do N9).
+W zakresie tekstu Normy Europejskiej wprowadzono odsyłacze krajowe oznaczone od N1) do N6).
 
 Norma zawiera informacyjny Załącznik krajowy NA, którego treścią są postanowienia krajowe dotyczące usta-
-lania oddziaływań wiatru w projektowaniu budynków i obiektów inzynierskich przeznaczonych do realizacji na
+lania oddziaływań wiatru w projektowaniu budynków i obiektów inżynierskich przeznaczonych do realizacji na
 terytorium Polski, dopuszczone w EN 1991-1-4 (Przedmowa — Załącznik krajowy do EN 1991-1-4).
 
 Niniejsza norma zastępuje PN-EN 1991-1-4:2005.
 
-Odpowiedniki krajowe norm i dokumentów powołanych w niniejszej normie moźna znaleźć w katalogu Pol-
+Odpowiedniki krajowe norm i dokumentów powołanych w niniejszej normie można znaleźć w katalogu Pol-
 skich Norm. Oryginały norm i dokumentów powołanych, są dostępne w Wydziale Informacji Normalizacyjnej
 
 i Szkoleń PKN.
 
-W sprawach merytorycznych dotyczących treści normy moźna zwracać się do właściwego Komitetu Technicz-
+W sprawach merytorycznych dotyczących treści normy można zwracać się do właściwego Komitetu Technicz-
 nego PKN, kontakt: www.pkn.pl
 
 Załącznik krajowy NA
@@ -93,27 +93,25 @@ NA.3 Postanowienia dotyczące 4.2 (1)P, UWAGA 2
 
 Wartości podstawowe bazowej prędkości wiatru podano w Tablicy NA.1.
 
-NA.4 Postanowienia dotyczące 4.2 (2)P, UWAGI 1, 2i3
+NA.4 Postanowienia dotyczące 4.2 (2)P, UWAGI 1, 2 i 3
 
 Wartości współczynnika kierunkowego podano w Tablicy NA.2. Wartością zalecaną współczynnika sezono-
 wego jest 1,0.
 
 
-===== page-002.txt =====
+===== page-002.txt ===== [ZWERYFIKOWANO WIZUALNIE ze skanem 25.09.2026]
+
+PN-EN 1991-1-4:2008 3
 
 Tablica NA.1 — Wartości podstawowe bazowej prędkości wiatru i ciśnienia prędkości wiatru w strefach
 
-Vp,o Vb,0 db,o db,o
-(m/s) (m/s) (kN/m? ) (kN/m?)
-< > < >
+| Strefa | vb,0 (m/s), A ≤ 300 m | vb,0 (m/s), A > 300 m | qb,0 (kN/m²), A ≤ 300 m | qb,0 (kN/m²), A > 300 m |
+|---|---|---|---|---|
+| 1 | 22 | 22·[1 + 0,0006 (A – 300)] | 0,30 | 0,30·[1 + 0,0006(A – 300)]² |
+| 2 | 26 | 26 | 0,42 | 0,42 |
+| 3 | 22 | 22·[1 + 0,0006 (A – 300)] | 0,30 | 0,30·[1 + 0,0006(A – 300)]²·[(20000 – A)/(20000 + A)] |
 
-22-[1 + 0,0006 (4 — 300)] 0,30 0,30: [1 + 0,0006(4 — 300)]?
-
-22-[1 + 0,0006 (A — 300 0,30 2 | 2000" -4
-. _ p+ a 2.
-[1+0, ( U , 0,30: [1 + 0,0006(4 — 300)] 200001 4
-
-UWAGA: 4 — wysokość nad poziomem morza (m)
+UWAGA: A – wysokość nad poziomem morza (m)
 
 NA.5 Postanowienia dotyczące 4.3.1 (1), UWAGA 2
 
@@ -121,52 +119,53 @@ Mapa podziału kraju na strefy wartości podstawowej bazowej prędkości wiatru 
 Na granicach stref 1 i 2, w pasach o szerokości 10 km po obu stronach granicy, można stosować wartość
 średnią z obu stref.
 
+[Rysunek NA.1 — mapa (obraz, nieprzepisywalna do tekstu). Odczyt wizualny: strefa 2 — pas wybrzeża
+Bałtyku (m.in. Koszalin, Słupsk, Gdańsk, Elbląg); strefa 3 — pas gór na południu (Sudety na południowy
+zachód od Wrocławia oraz Karpaty wzdłuż południowej granicy); strefa 1 — pozostała część kraju.
+Granice stref na mapie przebiegają po granicach powiatów — do konkretnej lokalizacji sprawdzić na mapie w PDF.]
+
 Rysunek NA.1 — Podział Polski na strefy obciążenia wiatrem
 
+===== page-003.txt ===== [ZWERYFIKOWANO WIZUALNIE ze skanem 25.09.2026]
 
-===== page-003.txt =====
-
-PN-EN 1991-1-4:2008
+4 PN-EN 1991-1-4:2008
 
 Tablica NA.2 — Wartości współczynnika kierunkowego
 
-Strefa Kierunek wiatru (sektor)
-0? 30° 60° 90° 120° | 150° | 180° | 210° | 240° | 270° | 300° | 330°
-1 2 3 4 5 6 7 8 9 10 11 12
-1 0,8 0,7 0,8 0,9 1,0 0,9
-2 1,0 0,9 0,8 0,7 0,8 0,9 1,0
-3 0,8 0,7 0,9 1,0
+Kierunek wiatru (sektor): 0° (1), 30° (2), 60° (3), 90° (4), 120° (5), 150° (6), 180° (7), 210° (8), 240° (9), 270° (10), 300° (11), 330° (12)
+
+| Strefa | 0° | 30° | 60° | 90° | 120° | 150° | 180° | 210° | 240° | 270° | 300° | 330° |
+|---|---|---|---|---|---|---|---|---|---|---|---|---|
+| 1 | 0,8 | 0,7 | 0,7 | 0,7 | 0,7 | 0,7 | 0,7 | 0,8 | 0,9 | 1,0 | 1,0 | 0,9 |
+| 2 | 1,0 | 0,9 | 0,8 | 0,7 | 0,7 | 0,7 | 0,7 | 0,8 | 0,9 | 1,0 | 1,0 | 1,0 |
+| 3 | 0,8 | 0,7 | 0,7 | 0,7 | 0,7 | 0,9 | 1,0 | 1,0 | 1,0 | 1,0 | 1,0 | 1,0 |
+
+(W oryginale komórki o tej samej wartości są scalone; powyżej rozpisane na sektory wg zakresu scalonej komórki.)
+
 UWAGA: Sektor 1 oznacza kierunek północny 0° (360°)
+
 NA.6 Postanowienia dotyczące 4.3.2 (1)
+
 Współczynnik chropowatości można obliczać ze wzorów podanych w Tablicy NA.3.
-Tablica NA.3 — Współczynnik chropowatości i współczynnik ekspozycji oraZ Zin i Zmax
-Kategoria C,(z) Ce(Z) Zmin, M Zmax, M
-ZD 2017
-— 3,0: —
-0 13 1 -) ( 1 -) 1 200
-0,13 19
-Zz z
-I 1,2:| — 2,8:| — 1 200
-10 10
-0,17 ,24
-z z
-II 1,0:| — 2,3:| — 2 300
-10 10
-_\019 > 0:26
-ill 0,8-| — 1,9-|— 5 400
-(5) z
-> 0,24 > 0,29
-IV 0,6:| — — 10 500
-10 10
-UWAGA: c,(z) i ce(z) dla wysokości Z > Zmax należy przyjmować jak dla Zmax.
+
+Tablica NA.3 — Współczynnik chropowatości i współczynnik ekspozycji oraz zmin i zmax
+
+| Kategoria terenu | cr(z) | ce(z) | zmin, m | zmax, m |
+|---|---|---|---|---|
+| 0 | 1,3·(z/10)^0,11 | 3,0·(z/10)^0,17 | 1 | 200 |
+| I | 1,2·(z/10)^0,13 | 2,8·(z/10)^0,19 | 1 | 200 |
+| II | 1,0·(z/10)^0,17 | 2,3·(z/10)^0,24 | 2 | 300 |
+| III | 0,8·(z/10)^0,19 | 1,9·(z/10)^0,26 | 5 | 400 |
+| IV | 0,6·(z/10)^0,24 | 1,5·(z/10)^0,29 | 10 | 500 |
+
+UWAGA: cr(z) i ce(z) dla wysokości z > zmax należy przyjmować jak dla zmax.
 
 NA.7 Postanowienia dotyczące 4.3.2 (2)
 
-Rozwartość sektora kierunku wiatru nie może być większa niż 30”, tzn. wszystkie kierunki powinny być podzie-
+Rozwartość sektora kierunku wiatru nie może być większa niż 30°, tzn. wszystkie kierunki powinny być podzie-
 lone na 12 sektorów. Warunkiem zakwalifikowania terenu do określonej kategorii jest minimalna odległość od
 rozpatrywanej budowli do granicy terenu przyjętej kategorii, mierzona pod wiatr. Powinna być ona nie mniejsza
-
-niż 30 h, gdzie h — wysokość budowli.
+niż 30 h, gdzie h – wysokość budowli.
 
 NA.8 Postanowienia dotyczące 4.5 (1), UWAGA 1
 
@@ -175,11 +174,9 @@ współczynnika ekspozycji według wzorów podanych w Tablicy NA.3.
 
 NA.9 Postanowienia dotyczące 6.1 (1)
 
-Dopuszcza się oddzielne wyznaczanie współczynników Cy i Cs.
+Dopuszcza się oddzielne wyznaczanie współczynników cd i cs.
 
-
-
-===== page-004.txt =====
+===== page-004.txt ===== [ZWERYFIKOWANO WIZUALNIE ze skanem 25.09.2026]
 
 PN-EN 1991-1-4:2008 5
 
@@ -194,7 +191,7 @@ nia konstrukcji, które mogą być narażone na oblodzenie.
 
 NA.12 Postanowienia dotyczące 7.2.2 (1)
 
-Jeżeli wysokość budynku h > 2b to ustalając wartości z, dzieli się obszar pośredni między częścią górną a dol-
+Jeżeli wysokość budynku h > 2b to ustalając wartości ze dzieli się obszar pośredni między częścią górną a dol-
 ną na jak najmniejszą liczbę części lecz o wymiarach w pionie nie większych niż b.
 
 NA.13 Postanowienia dotyczące 7.11 (1) UWAGA 2
@@ -210,7 +207,7 @@ NA.15 Postanowienia dotyczące 8.2 (1), UWAGA 1
 Należy rozpatrywać indywidualnie.
 
 NA.16 Postanowienia dotyczące A.2 (1)
-Jeżeli konstrukcja o wysokości h jest usytuowana bliżej niż 30-h od początku terenu kategorii niższej niż ta,
+Jeżeli konstrukcja o wysokości h jest usytuowana bliżej niż 30·h od początku terenu kategorii niższej niż ta,
 
 która ją bezpośrednio otacza, to należy przyjmować, że jest zlokalizowana na terenie kategorii niższej. Odle-
 głości te należy wyznaczyć dla każdego z rozpatrywanych kierunków wiatru.
@@ -239,7 +236,7 @@ nie wprowadza się zmian i przyjmuje się wartości i procedury podane w niniejs
 4.3.5 (1)
 
 
-===== page-005.txt =====
+===== page-005.txt ===== [ZWERYFIKOWANO WIZUALNIE ze skanem 25.09.2026]
 
 PN-EN 1991-1-4:2008
 
@@ -257,7 +254,7 @@ PN-EN 1991-1-4:2008
 
 7.2.9 (2)
 
-7.2.10 (3), Uwagi 1i2
+7.2.10 (3), Uwagi 1 i 2
 7.4.1 (1)
 
 7.4.3 (2)
@@ -286,7 +283,7 @@ PN-EN 1991-1-4:2008
 8.3.3 (1), Uwaga 1
 8.3.4 (1)
 
-8.4.2 (1), Uwagi 1i2
+8.4.2 (1), Uwagi 1 i 2
 
 E.1.3.3 (1)
 
@@ -361,7 +358,7 @@ Rozdział 1 Postanowienia ogólne ...................-..-.-e-e-eseees seen aaa a
 1.2 Powołania normatywne .. 2. 10
 1.3 Założenia.................2---:---us0ueaseaaanesee02 we 10
 
-1.4 Rozrdznienie zasad i reguł stosowania........................ 2. 10
+1.4 Rozróżnienie zasad i reguł stosowania........................ 2. 10
 
 1.5 Projektowanie wspomagane badaniami i pomiarami.
 
@@ -383,7 +380,7 @@ Rozdział 4 _ Prędkość i ciśnienie prędkości wiatru ........2-.:-ue:--e:ee
 4.3 Średnia prędkość wiatru
 4.3.1 Zależność od wysokości .....................:ee eee esse mean aaa aaa awa aaa aaa aaa oaza aaa oczna nawna 19
 4.3.2 Chropowatość terenu .... we 19
-4.3.3 Rzeżba terenu........esccesceseeeenseseeeeeseeeeeeesseeeseeeeneseeeeeaeesneeeneeees ... 21
+4.3.3 Rzeźba terenu........esccesceseeeenseseeeeeseeeeeeesseeeseeeeneseeeeeaeesneeeneeees ... 21
 4.3.4 Sąsiedztwo obiektów wyższych o dużych rozmiarach.... we 21
 4.3.5 Blisko stojące budynki i przeszkody........................-...-.... |... 22
 4.4 Turbulencja wiatru.............2.2:-20:s2nnsesnn01141112 |... 22
@@ -561,7 +558,7 @@ W ramach tego programu działań Komisja podjęła inicjatywę utworzenia zbioru
 nicznych dotyczących projektowania konstrukcji, które początkowo miałyby stanowić alternatywę dla reguł
 krajowych obowiązujących w państwach członkowskich, a ostatecznie miałyby te reguły zastąpić.
 
-Przez piętnaście lat Komisja, korzystając z pomocy Komitetu Wykonawczego złoźonego z przedstawicieli
+Przez piętnaście lat Komisja, korzystając z pomocy Komitetu Wykonawczego złożonego z przedstawicieli
 państw członkowskich, prowadziła prace nad realizacją programu Eurokodów, co doprowadziło do pierwszej
 generacji Norm Europejskich w latach 80.
 
@@ -680,7 +677,7 @@ dotyczącymi wyrobów
 
 Istnieje wymaganie dotyczące zachowania zgodności zharmonizowanych specyfikacji technicznych dla wyro-
 bów budowlanych i reguł technicznych dotyczących obiektów budowlanych. Wszystkie informacje związane
-z oznakowaniem wyrobów budowlanych znakiem CE, odnoszące się do Eurokodów, powinny wyrażnie precy-
+z oznakowaniem wyrobów budowlanych znakiem CE, odnoszące się do Eurokodów, powinny wyraźnie precy-
 zować, które parametry ustalone przez władze krajowe zostały uwzględnione.
 
 Wprowadzenie — Dodatkowe informacje dotyczące EN 1991-1-4
@@ -709,7 +706,7 @@ W EN 1991-1-4 postanowienia krajowe dopuszcza się w następujących punktach:
 
 4.2 (1)P, Uwaga 2
 4.2 (2)P, Uwagi 1, 2, 315
-4.3.1 (1), Uwagit i 2
+4.3.1 (1), Uwagi 1 i 2
 4.3.2 (1)
 
 4.3.2 (2)
@@ -828,12 +825,12 @@ i od dostępności oraz jakości danych meteorologicznych, rodzaju terenu itp. N
 krajowym oraz w Załączniku A, na podstawie wyboru krajowego, zgodnie z uwagami wskazanymi w tekście.
 Wartości i metody, które nie będą podane w Załączniku krajowym, należy przyjmować z głównego tekstu normy.
 
-(5) W ZałącznikuA podano ilustracje kategorii terenu jak również zasady uwzględniania wpływu rzeżby terenu,
+(5) W Załączniku A podano ilustracje kategorii terenu jak również zasady uwzględniania wpływu rzeźby terenu,
 w tym także wysokości przemieszczenia poziomu zerowego, zmiany chropowatości terenu i wpływu konstruk-
 cji sąsiadujących.
 
-(6) W Zatacznikach B i C podano alternatywne procedury obliczania współczynnika konstrukcyjnego czcg.
-(7) W Zataczniku D podano współczynniki cscg dla różnych rodzajów konstrukcji.
+(6) W Załącznikach B i C podano alternatywne procedury obliczania współczynnika konstrukcyjnego czcg.
+(7) W Załączniku D podano współczynniki cscg dla różnych rodzajów konstrukcji.
 
 (8) W Załączniku E podano zasady obliczania odpowiedzi konstrukcji na wzbudzanie wirowe, jak również
 pewne zalecenia dotyczące innych efektów aeroelastycznych.
@@ -841,7 +838,7 @@ pewne zalecenia dotyczące innych efektów aeroelastycznych.
 (9) W Załączniku F podano zasady określania charakterystyk dynamicznych konstrukcji w zakresie drgań
 liniowych.
 
-(10) Wniniejszej normie nie podano zaleceń dotyczących miejscowych wpływów termicznych na charaktery-
+(10) W niniejszej normie nie podano zaleceń dotyczących miejscowych wpływów termicznych na charaktery-
 styczną prędkość wiatru, np. silnej inwersji przyziemnej w regionach polarnych, efektów zwężki lub tornada.
 
 (11) W tej części normy nie ma wytycznych dotyczących następujących zagadnień:
@@ -888,7 +885,7 @@ EN 1991-2 Eurocode 1: Actions on structures: Part 2: Traffic loads on bridges
 
 EN 1993-3-1 Eurocode 3: Design of steel structures: Part 3-1: Masts and towers
 
-1.3 Zatozenia
+1.3 Założenia
 
 (1)P Założenia ogólne podane w EN 1990, 1.3 maja zastosowanie do niniejszej części.
 
@@ -902,10 +899,10 @@ EN 1993-3-1 Eurocode 3: Design of steel structures: Part 3-1: Masts and towers
 w tunelu aerodynamicznym oraz sprawdzonych i/lub odpowiednio uzasadnionych naukowo metod numerycz-
 nych, z zastosowaniem właściwych modeli konstrukcji i wiatru.
 
-(2) Obciążenie i odpowiedż konstrukcji, jak również parametry terenu można wyznaczyć za pomocą odpo-
+(2) Obciążenie i odpowiedź konstrukcji, jak również parametry terenu można wyznaczyć za pomocą odpo-
 wiednich badań w pełnej skali.
 
-UWAGA: WZałączniku krajowym mogą być podane wytyczne dotyczące projektowania wspomaganego bada-
+UWAGA: W Załączniku krajowym mogą być podane wytyczne dotyczące projektowania wspomaganego bada-
 niami i pomiarami.
 
 1.6 Terminy i definicje
@@ -929,7 +926,7 @@ podstawowa wartość bazowej prędkości wiatru z uwzględnieniem kierunku wiatr
 1.6.3
 
 średnia prędkość wiatru
-wartość bazowa prędkości wiatru z uwzględnieniem chropowatości i rzeżby terenu
+wartość bazowa prędkości wiatru z uwzględnieniem chropowatości i rzeźby terenu
 
 10
 
@@ -959,7 +956,7 @@ strukcji, elementu konstrukcyjnego lub jej części składowej \”).
 współczynnik siły
 
 współczynnik siły przedstawia sumaryczny efekt działania wiatru na konstrukcję, jej element lub część składo-
-wą jako całość, z uwzględnieniem obciążenia stycznego, jeżeli nie zostało wyrażnie wykluczone 9)
+wą jako całość, z uwzględnieniem obciążenia stycznego, jeżeli nie zostało wyraźnie wykluczone 9)
 
 1.6.6
 
@@ -975,7 +972,7 @@ współczynnik odpowiedzi rezonansowej uwzględnia efekt turbulentnego wzbudzani
 nego z postacią drgań konstrukcji
 
 1.7 Symbole
-(1) Wniniejszej Normie Europejskiej stosuje się następujące symbole.
+(1) W niniejszej Normie Europejskiej stosuje się następujące symbole.
 
 UWAGA: Stosowane oznaczenia oparte są na ISO 3898:1999. W niniejszej normie kropka we wzorach jest
 znakiem mnożenia. Ten zapis przyjęto aby uniknąć zamieszania w wyrażeniach funkcyjnych.
@@ -1219,7 +1216,7 @@ Voc prędkość wiatru rozpoczynająca galopowanie
 VCIG krytyczna prędkość wiatru rozpoczynająca galopowanie interferencyjne
 Verit krytyczna prędkość wiatru wirowego wzbudzania drgań
 
-Vaiv prędkość wiatru dywergencji skretnej
+Vaiv prędkość wiatru dywergencji skrętnej
 
 Vm średnia prędkość wiatru
 
@@ -1264,7 +1261,7 @@ ac parametr niestateczności typu galopowania
 AIG kombinowany parametr stateczności galopowania interferencyjnego
 Ó logarytmiczny dekrement tłumienia
 
-Oa logarytmiczny dekrement ttumienia aerodynamicznego
+Oa logarytmiczny dekrement tłumienia aerodynamicznego
 
 14
 
@@ -1340,7 +1337,7 @@ zewnętrzne(-y); ekspozycji
 
 tarcia
 
-wewnetrzne(-y); wskażnik postaci
+wewnętrzne(-y); wskaźnik postaci
 
 bieżący numer kolejnego pola lub punktu konstrukcji
 średni
@@ -1390,7 +1387,7 @@ UWAGA Liczbę cykli obciążenia można uzyskać, korzystając z Załączników 
 16
 
 
-===== page-022.txt =====
+===== page-022.txt ===== [ZWERYFIKOWANO WIZUALNIE ze skanem 25.09.2026]
 
 EN 1991-1-4:2005
 
@@ -1422,32 +1419,32 @@ EN 1990, 4.1.2). Wyznacza się je poczynając od bazowych wartości prędkości 
 Zgodnie z EN 1990 4.1.2 (7)P wartości bazowe są wartościami charakterystycznymi, których roczne prawdo-
 podobieństwo przekroczenia wynosi 0,02, co odpowiada średniemu okresowi powrotu 50 lat.
 
-UWAGA _ Wszystkie współczynniki lub modele pozwalające wyznaczyć oddziaływanie wiatru, wywodzące sie
+UWAGA _ Wszystkie współczynniki lub modele pozwalające wyznaczyć oddziaływanie wiatru, wywodzące się
 z wartości bazowych, są tak dobrane, aby prawdopodobieństwo obliczonego obciążenia wiatrem nie przekraczało
 prwadopodobieństwa tych wartości bazowych.
 
 3.5 Modele
 
-(1) Efekt oddziaływania watru na konstrukcję (tj. odpowiedż konstrukcji) zależy od jej rozmiarów, kształtu
+(1) Efekt oddziaływania watru na konstrukcję (tj. odpowiedź konstrukcji) zależy od jej rozmiarów, kształtu
 i właściwości dynamicznych. Niniejsza norma dotyczy odpowiedzi dynamicznej na wymuszenie turbulentne
 zgodnie z kierunkiem wiatru, będące w rezonansie z drganiami konstrukcji, o podstawowej postaci giętnej
 tego samego znaku, w tym samym kierunku.
 
 Odpowiedź konstrukcji oblicza się według Rozdziału 5, uwzględniając wartość szczytową ciśnienia prędkości,
 qp, na wysokości odniesienia w niezaburzonym przepływie powietrza, współczynniki sił i ciśnienia oraz współ-
-czynnik konstrukcyjny csca (patrz Rozdział 6). Wartość q, zależy od miejscowych warunków klimatycznych,
-chropowatości i rzeżby terenu, jak również od wysokości odniesienia. Wartość q, jest równa średniemu ciśnie-
+czynnik konstrukcyjny cscd (patrz Rozdział 6). Wartość qp zależy od miejscowych warunków klimatycznych,
+chropowatości i rzeźby terenu, jak również od wysokości odniesienia. Wartość qp jest równa średniemu ciśnie-
 niu prędkości wiatru, zwiększonemu o krótkotrwałe fluktuacje ciśnienia.
 
-(2) Odpowiedż aeroelastyczną należy wziąć pod uwagę w przypadku konstrukcji podatnych na oddziaływa-
+(2) Odpowiedź aeroelastyczną należy wziąć pod uwagę w przypadku konstrukcji podatnych na oddziaływa-
 nia dynamiczne, takich jak konstrukcje cięgnowe, maszty, kominy i mosty.
 
-UWAGA _ W Zataczniku E podano uproszczone zalecenia dotyczące odpowiedzi aeroelastycznej.
+UWAGA _ W Załączniku E podano uproszczone zalecenia dotyczące odpowiedzi aeroelastycznej.
 
 17
 
 
-===== page-023.txt =====
+===== page-023.txt ===== [ZWERYFIKOWANO WIZUALNIE ze skanem 25.09.2026]
 
 EN 1991-1-4:2005
 
@@ -1457,347 +1454,269 @@ Rozdział 4 Prędkość i ciśnienie prędkości wiatru
 
 (1) Prędkość wiatru i ciśnienie prędkości składają się z wartości średniej i składowej fluktuacyjnej.
 
-Średnią prędkość wiatru v„ należy wyznaczyć z wartości bazowej vp, która zależy od miejscowych warunków
+Średnią prędkość wiatru vm należy wyznaczyć z wartości bazowej vb, która zależy od miejscowych warunków
 klimatycznych, jak to przedstawiono w 4.2, oraz od zmienności wiatru z wysokością, zdeterminowanej chro-
 powatością terenu i orografią, jak to przedstawiono w 4.3. Wartość szczytową ciśnienia prędkości wyznacza
-
 się według 4.5.
 
 Składowa fluktuacyjna prędkości wiatru jest przedstawiona za pomocą intensywności turbulencji zdefiniowa-
 nej w 4.4.
 
-UWAGA ' WZałączniku krajowym mogą być podane informacje dotyczące klimatu kraju, z których będzie można
-bezpośrednio uzyskać wartości średniej prędkości wiatru vm, wartości szczytowej ciśnienia prędkości 4, i inne
+UWAGA W Załączniku krajowym mogą być podane informacje dotyczące klimatu kraju, z których będzie można
+bezpośrednio uzyskać wartości średniej prędkości wiatru vm, wartości szczytowej ciśnienia prędkości qp i inne
 dane w zależności od kategorii terenu.
 
 4.2 Wartości podstawowe
 
-(1)P Wartość podstawowa bazowej prędkości wiatru, vp g, jest wartością charakterystyczną, średnią 10. minu-
+(1)P Wartość podstawowa bazowej prędkości wiatru, vb,0, jest wartością charakterystyczną, średnią 10. minu-
 tową, niezależną od kierunku wiatru i pory roku, na wysokości 10 m nad poziomem gruntu, w otwartym terenie
 wiejskim o niskiej roślinności, jak trawa, i o pojedynczych przeszkodach oddalonych od siebie przynajmniej na
 odległość ich 20 wysokości.
 
 UWAGA 1 Ten teren odpowiada kategorii II w Tablicy 4.1.
 
-UWAGA 2 Wartości podstawowe bazowej prędkości wiatru, vy, mogą być podane w Załączniku krajowym.
+UWAGA 2 Wartości podstawowe bazowej prędkości wiatru, vb,0, mogą być podane w Załączniku krajowym.
 
 (2)P Bazową prędkość wiatru należy obliczać z wyrażenia (4.1):
 
-Vb = Cdir ' Cseason ' Vb,0 (4.1)
-w ktorym:
-Vp bazowa prędkość wiatru określona jako funkcja kierunku wiatru i pory roku na wysokości 10 m nad
+vb = cdir · cseason · vb,0 (4.1)
 
+w którym:
+vb bazowa prędkość wiatru określona jako funkcja kierunku wiatru i pory roku na wysokości 10 m nad
 poziomem gruntu w terenie kategorii II;
-Vb,0 wartość podstawowa bazowej prędkości wiatru, patrz (1)P;
-Coir współczynnik kierunkowy, patrz Uwaga 2;
-Cseason wWSpółczynnik sezonowy, patrz Uwaga 3.
+vb,0 wartość podstawowa bazowej prędkości wiatru, patrz (1)P;
+cdir współczynnik kierunkowy, patrz Uwaga 2;
+cseason współczynnik sezonowy, patrz Uwaga 3.
 
-UWAGA 1 Jeżeli wpływu wysokości nad poziomem morza na bazową prędkość wiatru vy, nie uwzględniono
-w wartości podstawowej vy g, to w Załączniku krajowym można podać jak to zrobić.
+UWAGA 1 Jeżeli wpływu wysokości nad poziomem morza na bazową prędkość wiatru vb nie uwzględniono
+w wartości podstawowej vb,0, to w Załączniku krajowym można podać jak to zrobić.
 
-UWAGA 2 Wartości współczynnika kierunkowego, cg,, dla różnych kierunków wiatru mogą się znajdować w Za-
+UWAGA 2 Wartości współczynnika kierunkowego, cdir, dla różnych kierunków wiatru mogą się znajdować w Za-
 łączniku krajowym. Wartością zalecaną jest 1,0.
 
-UWAGA 3 Wartości współczynnika sezonowego, Cseason, MOgą być podane w Załączniku krajowym. Wartością
+UWAGA 3 Wartości współczynnika sezonowego, cseason, mogą być podane w Załączniku krajowym. Wartością
 zalecaną jest 1,0.
 
 UWAGA 4 Wartość średnią 10. minutową, o rocznym prawdopodobieństwie przekroczenia p wyznacza się mnożąc
-
-bazową prędkość wiatru v, wg 4.2 (2)P przez współczynnik prawdopodobieństwa Cp,op, Według wyrażenia (4.2).
+bazową prędkość wiatru vb wg 4.2 (2)P przez współczynnik prawdopodobieństwa cprob, według wyrażenia (4.2).
 Patrz również EN 1991-1-6.
 
 18
 
-
-===== page-024.txt =====
+===== page-024.txt ===== [ZWERYFIKOWANO WIZUALNIE ze skanem 25.09.2026]
 
 EN 1991-1-4:2005
 
-_(4-K-In(-In (1—p))Y"
-Cprob = EE -
+cprob = ( [1 – K·ln(–ln(1 – p))] / [1 – K·ln(–ln(0,98))] )^n (4.2)
 
 gdzie:
 K parametr kształtu zależny od współczynnika zmienności rozkładu wartości skrajnych;
+n wykładnik.
 
-n _wykładnik.
-UWAGA 5 Wartości K in mogą być podane w Załączniku krajowym. Zaleca się K = 0,2 in =0,5.
+UWAGA 5 Wartości K i n mogą być podane w Załączniku krajowym. Zaleca się K = 0,2 i n = 0,5.
 
 (3) W obliczeniach konstrukcji tymczasowych, a także wszystkich konstrukcji w stadium budowy, można sto-
-sować współczynnik sezonowy Częgson. W przypadku konstrukcji przestawnych, których można używać w do-
-wolnej porze roku, należy przyjmować Czeason = 1,0.
+sować współczynnik sezonowy cseason. W przypadku konstrukcji przestawnych, których można używać w do-
+wolnej porze roku, należy przyjmować cseason = 1,0.
 
 UWAGA Patrz również EN 1991-1-6.
+
 4.3 Średnia prędkość wiatru
+
 4.3.1 Zależność od wysokości
 
-(1) Średnia prędkość wiatru v,,(z) na wysokości z nad poziomem terenu zależy od chropowatości i rzeżby
-terenu oraz od bazowej prędkości wiatru, vp, i jest wyznaczana z wyrażenia (4.3):
+(1) Średnia prędkość wiatru vm(z) na wysokości z nad poziomem terenu zależy od chropowatości i rzeźby
+terenu oraz od bazowej prędkości wiatru, vb, i jest wyznaczana z wyrażenia (4.3):
 
-Vn(z) = c(Z) * co(z) * vw (4.3)
+vm(z) = cr(z) · co(z) · vb (4.3)
+
 w którym:
-c,(z) współczynnik chropowatości, podany w 4.3.2;
-co(z) współczynnik rzeżby terenu (orografii), równy 1,0, chyba że podano inaczej w 4.3.3.
+cr(z) współczynnik chropowatości, podany w 4.3.2;
+co(z) współczynnik rzeźby terenu (orografii), równy 1,0, chyba że podano inaczej w 4.3.3.
 
-UWAGA 1 Informacja o współczynniku c, może być podana w Załączniku krajowym. Jeżeli wpływ rzeżby terenu
-jest uwzględniony w wartości bazowej prędkości wiatru, to zaleca się wartość c, = 1,0.
+UWAGA 1 Informacja o współczynniku co może być podana w Załączniku krajowym. Jeżeli wpływ rzeźby terenu
+jest uwzględniony w wartości bazowej prędkości wiatru, to zaleca się wartość co = 1,0.
 
-UWAGA 2 Mapy lub tablice wartości v„(z) mogą być podane w Załączniku krajowym.
+UWAGA 2 Mapy lub tablice wartości vm(z) mogą być podane w Załączniku krajowym.
+
 Należy rozważyć wpływ sąsiednich konstrukcji na prędkość wiatru (patrz 4.3.4).
+
 4.3.2 Chropowatość terenu
 
-(1) Współczynnik chropowatości, c,(z), uwzględnia zmienność prędkości wiatru w miejscu lokalizacji kon-
+(1) Współczynnik chropowatości, cr(z), uwzględnia zmienność prędkości wiatru w miejscu lokalizacji kon-
 strukcji w zależności od:
+– wysokości nad poziomem gruntu;
+– chropowatości terenu od strony rozpatrywanego kierunku wiatru.
 
-— - wysokości nad poziomem gruntu;
-—  chropowatosci terenu od strony rozpatrywanego kierunku wiatru.
-
-UWAGA Procedura wyznaczania wartości c,(z) może być podana w Załączniku krajowym. Zalecaną proce-
+UWAGA Procedura wyznaczania wartości cr(z) może być podana w Załączniku krajowym. Zalecaną proce-
 durę wyznaczania wartości wartości współczynnika chropowatości na wysokości z przedstawia wyrażenie (4.4)
 wynikające z logarytmicznego profilu prędkości wiatru
 
-¢,(z) =k, -In (2) dla 2min SZ S Zmax (4.4)
-0
-C.(Z) = C(Zmin) dla Z<Znin
+cr(z) = kr · ln(z / z0) dla zmin ≤ z ≤ zmax (4.4)
+cr(z) = cr(zmin) dla z ≤ zmin
+
 gdzie:
-Zo wymiar chropowatosci
+z0 wymiar chropowatości
 
 19
 
-
-===== page-025.txt =====
+===== page-025.txt ===== [ZWERYFIKOWANO WIZUALNIE ze skanem 25.09.2026]
 
 EN 1991-1-4:2005
 
-k, współczynnik terenu zależny od wysokości chropowatości Zp, obliczany ze wzoru:
-0,07
-k, -019.| 20 (4.5)
-Zo.
-w którym:
-Zo. = 0,05 m (kategoria terenu II, Tablica 4.1);
-Zmin wysokość minimalna, podana w Tablicy 4.1;
-Zmax należy przyjmować 200 m;
+kr współczynnik terenu zależny od wysokości chropowatości z0, obliczany ze wzoru:
 
-Zo, Zmin | Zależą od kategorii terenu. Wartości zalecane podano w Tablicy 4.1 dla pięciu reprezentatywnych kategorii
+kr = 0,19 · (z0 / z0,II)^0,07 (4.5)
+
+w którym:
+z0,II = 0,05 m (kategoria terenu II, Tablica 4.1);
+zmin wysokość minimalna, podana w Tablicy 4.1;
+zmax należy przyjmować 200 m;
+z0, zmin zależą od kategorii terenu. Wartości zalecane podano w Tablicy 4.1 dla pięciu reprezentatywnych kategorii
 terenu.
 
 Wyrażenie (4.4) obowiązuje, jeżeli teren o jednorodnej chropowatości rozciąga się na dostateczną odległość,
 liczoną pod wiatr, aby nastąpiła wystarczająca stabilizacja profilu, patrz (2).
 
-(2)
-
 Tablica 4.1 — Kategorie i parametry terenu
 
-z Zmi
-Kategoria terenu ° mo
-[m] [m]
-0 Obszary morskie i przybrzeżne wystawione na otwarte morze 0,003 1
-I Jeziora lub tereny płaskie, poziome, o nieznacznej roślinności i bez 0,01 1
-przeszkód terenowych
-ll Tereny o niskiej roślinności, takiej jak trawa, i o pojedynczych prze- 0,05 2
-szkodach (drzewa, budynki) oddalonych od siebie na odległość rów-
-ną co najmniej ich 20 wysokościom
-Ill Tereny regularnie pokryte roślinnością lub budynkami albo o poje- 0,3 5
-dynczych przeszkodach, oddalonych od siebie najwyżej na odle-
-głość równą ich 20 wysokościom (takie jak wsie, tereny podmiejskie,
-stałe lasy)
-IV Tereny, których przynajmniej 15 % powierzchni jest pokryte budyn- 1,0 10
-kami o średniej wysokości przekraczającej 15 m
+| Kategoria terenu | z0 [m] | zmin [m] |
+|---|---|---|
+| 0 Obszary morskie i przybrzeżne wystawione na otwarte morze | 0,003 | 1 |
+| I Jeziora lub tereny płaskie, poziome, o nieznacznej roślinności i bez przeszkód terenowych | 0,01 | 1 |
+| II Tereny o niskiej roślinności, takiej jak trawa, i o pojedynczych przeszkodach (drzewa, budynki) oddalonych od siebie na odległość równą co najmniej ich 20 wysokościom | 0,05 | 2 |
+| III Tereny regularnie pokryte roślinnością lub budynkami albo o pojedynczych przeszkodach, oddalonych od siebie najwyżej na odległość równą ich 20 wysokościom (takie jak wsie, tereny podmiejskie, stałe lasy) | 0,3 | 5 |
+| IV Tereny, których przynajmniej 15 % powierzchni jest pokryte budynkami o średniej wysokości przekraczającej 15 m | 1,0 | 10 |
+
 UWAGA Kategorie terenu pokazano w Załączniku A.1.
 
-Kategoria terenu, która będzie przyjęta dla danego kierunku wiatru, zależy od chropowatości terenu, z za-
-
+(2) Kategoria terenu, która będzie przyjęta dla danego kierunku wiatru, zależy od chropowatości terenu, z za-
 łożenia jednorodnej, w sektorze kątowym obejmującym rozpatrywany kierunek, i od promienia tego sektora
 liczonego pod wiatr. Małe obszary (mniejsze niż 10 % obszaru rozpatrywanego), o chropowatości innej niż
 przeważająca na danym obszarze, można pominąć. Patrz Rysunek 4.1.
 
 20
 
-
-===== page-026.txt =====
+===== page-026.txt ===== [ZWERYFIKOWANO WIZUALNIE ze skanem 25.09.2026]
 
 EN 1991-1-4:2005
 
-Paa *
-
-| Rozpatrywany i
-
-sektor
-kątowy
-
-i
-|
-Nominalny L 4. ow
-|
-
-© Obszar
-ź o odmiennej
-a chropowatości
+[Rysunek 4.1 — schemat: nominalny sektor kątowy ±45° od kierunku wiatru, rozpatrywany obszar ±15°, promień pod wiatr — według (2), obszar o odmiennej chropowatości]
 
 Rysunek 4.1 — Ocena chropowatości terenu
 
-UWAGA _ W Załaczniku krajowym można podać definicję sektorów kątowych i ich promień pod wiatr. Zaleca
-się sektory o rozwartości 30°, a zatem + 15° w stosunku do kierunku wiatru. Zalecane wartości promienia terenu
+UWAGA W Załączniku krajowym można podać definicję sektorów kątowych i ich promień pod wiatr. Zaleca
+się sektory o rozwartości 30°, a zatem ± 15° w stosunku do kierunku wiatru. Zalecane wartości promienia terenu
 liczonego pod wiatr można wziąć z A.2.
 
 (3) Jeżeli współczynnik ciśnienia lub siły podano dla nominalnego sektora kątowego, to należy przyjmować
-najmniejszy wymiar chropowatości spośród wszystkich 30” sektorów kątowych wiatru.
+najmniejszy wymiar chropowatości spośród wszystkich 30° sektorów kątowych wiatru.
 
 (4) Jeżeli na określonym obszarze istnieje wybór między dwiema lub więcej kategoriami terenu, to wówczas
 należy wybrać teren o najmniejszej chropowatości.
 
 4.3.3 Rzeźba terenu
 
-(1) Jeżeli rzeżba terenu (np. wzgórza, skarpy, itp) zwiększa prędkość wiatru o więcej niż 5 %, to efekty tego
-uwzględnia się za pomocą współczynnika rzeżby terenu Co.
+(1) Jeżeli rzeźba terenu (np. wzgórza, skarpy, itp) zwiększa prędkość wiatru o więcej niż 5 %, to efekty tego
+uwzględnia się za pomocą współczynnika rzeźby terenu co.
 
-UWAGA "Procedura wyznaczania wartości c. może być podana w Załaczniku krajowym. Procedurę zalecaną
+UWAGA Procedura wyznaczania wartości co może być podana w Załączniku krajowym. Procedurę zalecaną
 podano w A.3.
 
-(2) Wpływ rzeżby terenu można pominąć, jeżeli średnie nachylenie terenu pod wiatr (terenu nawietrznego)
-jest mniejsze niż 3”. Jako nawietrzny może być rozpatrywany teren rozciągajacy się na odległość równą
+(2) Wpływ rzeźby terenu można pominąć, jeżeli średnie nachylenie terenu pod wiatr (terenu nawietrznego)
+jest mniejsze niż 3°. Jako nawietrzny może być rozpatrywany teren rozciągający się na odległość równą
 10 wysokościom pojedynczego wzniesienia.
 
 4.3.4 Sąsiedztwo obiektów wyższych o dużych rozmiarach
 
 (1) Jeżeli konstrukcja ma być zlokalizowana w pobliżu innej konstrukcji, której wysokość jest co najmniej dwa
-razy taka jak średnia wysokość konstruckji sąsiednich, to moze ona być wystawiona (w zależności od cech
+razy taka jak średnia wysokość konstruckji [sic] sąsiednich, to może ona być wystawiona (w zależności od cech
 konstrukcji wyższej) na zwiększoną prędkość wiatru z niektórych jego kierunków. Takie przypadki należy brać
 pod uwagę.
 
-UWAGA _ WZałączniku krajowym można podać procedurę umozliwiającą rozpatrzenie tego efektu. Procedure
+UWAGA W Załączniku krajowym można podać procedurę umożliwiającą rozpatrzenie tego efektu. Procedurę
 zalecaną, jako ostrożne, pierwsze przybliżenie, podano w A.4.
 
 21
 
-
-===== page-027.txt =====
+===== page-027.txt ===== [ZWERYFIKOWANO WIZUALNIE ze skanem 25.09.2026]
 
 EN 1991-1-4:2005
 
 4.3.5 Blisko stojące budynki i przeszkody
 
-(1)
+(1) Wpływ blisko stojących budynków i innych przeszkód może być brany pod uwagę.
 
-Wpływ blisko stojących budynków i innych przeszkód może być brany pod uwagę.
-
-UWAGA _ WZałączniku krajowym można podać odpowiednią procedurę. Zalecane pierwsze przybliżenie podano
+UWAGA W Załączniku krajowym można podać odpowiednią procedurę. Zalecane pierwsze przybliżenie podano
 w A.5. Na terenie o dużej chropowatości, budynki blisko siebie stojące modyfikują średnią prędkość wiatru w po-
 bliżu gruntu, jak gdyby poziom gruntu został podniesiony na wysokość nazywaną wysokością przemieszczenia
-poziomu zerowego Hus.
+poziomu zerowego hdis.
 
 4.4 Turbulencja wiatru
 
-(1)
-
-Intensywność turbulencji /,(z) na wysokości z jest zdefiniowana jako odchylenie standardowe składowych
-
+(1) Intensywność turbulencji Iv(z) na wysokości z jest zdefiniowana jako odchylenie standardowe składowych
 fluktuacyjnych prędkości wiatru podzielone przez średnią prędkość wiatru.
 
-UWAGA ' Składowe fluktuacyjne prędkości wiatru mają wartość średnią 0 i odchylenie standardowe o,. Odchy-
-lenie standardowe o, można wyznaczyć z wyrażenia (4.6):
+UWAGA Składowe fluktuacyjne prędkości wiatru mają wartość średnią 0 i odchylenie standardowe σv. Odchy-
+lenie standardowe σv można wyznaczyć z wyrażenia (4.6):
 
-Oy =k Wy ky (4.6)
+σv = kr · vb · kI (4.6)
 
-Współczynnik terenu k, oblicza się z wyrażenia (4.5), bazową prędkość wiatru vp, z wyrażenia (4.1), a współczynnik
-turbulencji k, zgodnie z UWAGĄ 2.
+Współczynnik terenu kr oblicza się z wyrażenia (4.5), bazową prędkość wiatru vb, z wyrażenia (4.1), a współczynnik
+turbulencji kI zgodnie z UWAGĄ 2.
 
-UWAGA 2 Zalecane zasady wyznaczania /,(z) podano w wyrażeniu (4.7):
+UWAGA 2 Zalecane zasady wyznaczania Iv(z) podano w wyrażeniu (4.7):
 
-o. k
-1,(z)=——= dla z, <Z< Z, 47
-(2) Vmn(Z) c,(z)-In(z/zy) Źmin S 2S Źmin (4.7)
-1,(z)=1y (Znin) dla z< Zmin
+Iv(z) = σv / vm(z) = kI / [co(z) · ln(z/z0)] dla zmin ≤ z ≤ zmin [sic — w oryginale drugi raz „zmin”; sens: zmax] (4.7)
+Iv(z) = Iv(zmin) dla z < zmin
+
 w którym:
-k, — współczynnik turbulencji. Wartość k, może być podana w Załączniku krajowym. Zaleca się wartość ki = 1,0.
-
-Co — współczynnik rzeźby terenu, opisany w 4.3.3;
-
-zg — wymiar chropowatości, podany w Tablicy 4.1.
+kI – współczynnik turbulencji. Wartość kI może być podana w Załączniku krajowym. Zaleca się wartość kI = 1,0.
+co – współczynnik rzeźby terenu, opisany w 4.3.3;
+z0 – wymiar chropowatości, podany w Tablicy 4.1.
 
 4.5 Wartość szczytowa ciśnienia prędkości
 
-(1)
-
-Należy wyznaczyć szczytowe ciśnienie prędkości g,(z) na wysokości z, które łączy wartość średnią i chwi-
-
+(1) Należy wyznaczyć szczytowe ciśnienie prędkości qp(z) na wysokości z, które łączy wartość średnią i chwi-
 lowe fluktuacje prędkości.
+
+UWAGA 1 W Załączniku krajowym można podać zasady wyznaczania qp(z). Zasadę zalecaną przedstawia
+wyrażenie (4.8):
+
+qp(z) = [1 + 7 · Iv(z)] · ½ · ρ · vm²(z) = ce(z) · qb (4.8)
+
+w którym:
+ρ gęstość powietrza, zależna od wysokości nad poziomem morza, temperatury i ciśnienia atmosferycznego
+występująca w rozważanym regionie w czasie silnego wiatru;
+ce(z) współczynnik ekspozycji przedstawiony w wyrażeniu (4.9):
+
+ce(z) = qp(z) / qb (4.9)
 
 22
 
-UWAGA 1 W Załączniku krajowym można podać zasady wyznaczania q,(z). Zasadę zalecaną przedstawia
-wyrażenie (4.8):
-
-1
-qp(2)=[1+7-1,(2)]-5*P-Vn(2)= C02): Ip (4.8)
-w którym:
-p gęstość powietrza, zależna od wysokości nad poziomem morza, temperatury i ciśnienia atmosferycznego
-
-występująca w rozważanym regionie w czasie silnego wiatru;
-cę(z) _ współczynnik ekspozycji przedstawiony w wyrażeniu (4.9):
-
-c,(2) PR) (4.9)
-
-db
-
-
-===== page-028.txt =====
+===== page-028.txt ===== [ZWERYFIKOWANO WIZUALNIE ze skanem 25.09.2026]
 
 EN 1991-1-4:2005
 
-db wartość bazowa ciśnienia prędkości obliczana z wyrażenia (4.10):
-1
-qp=5'P'% (4.10)
+qb wartość bazowa ciśnienia prędkości obliczana z wyrażenia (4.10):
 
-UWAGA 2 Wartości p mogą być podane w Załączniku krajowym. Wartością zalecaną jest 1,25 kg/m?.
+qb = ½ · ρ · vb² (4.10)
+
+UWAGA 2 Wartości ρ mogą być podane w Załączniku krajowym. Wartością zalecaną jest 1,25 kg/m³.
 
 UWAGA 3 Wartość 7 w wyrażeniu (4.8) wynika ze współczynnika wartości szczytowej równego 3,5 i jest zgodna
 z wartościami współczynników ciśnienia i siły podanymi w Rozdziale 7.
 
-W przypadku terenu płaskiego, gdzie c,(z) = 1,0 (patrz 4.3.3), współczynnik ekspozycji c.(z) przedstawiono na
+W przypadku terenu płaskiego, gdzie co(z) = 1,0 (patrz 4.3.3), współczynnik ekspozycji ce(z) przedstawiono na
 Rysunku 4.2 w zależności od wysokości nad poziomem gruntu i kategorii terenu podanych w Tablicy 4.1.
 
-Zz
-[mj100 7
+[Rysunek 4.2 — wykres: oś pionowa z [m] 0–100, oś pozioma ce(z) 0,0–5,0; krzywe dla kategorii terenu 0, I, II, III, IV. Wykres — wartości odczytywać z PDF albo liczyć z Tablicy NA.3 (Załącznik krajowy).]
 
-90
-
-=
-~~
-—
-
-] 77 [1/14
-80 7 [AVI
-
-70 / f pi
-
-I
-
-60 Vi an
-
-50 / 7 7 7
-
-40 U
-
-30 /
-
-20 7
-
-10 — 4
-
-|
-
-=>
-
-0 q 4
-
-0,0 1,0 20 3,0 4,0 so 7)
-
-Rysunek 4.2 — Wykresy współczynnika ekspozycji cę(z) dla co = 1,0 i k, = 1,0
+Rysunek 4.2 — Wykresy współczynnika ekspozycji ce(z) dla co = 1,0 i kI = 1,0
 
 23
 
-
-===== page-029.txt =====
+===== page-029.txt ===== [ZWERYFIKOWANO WIZUALNIE ze skanem 25.09.2026]
 
 EN 1991-1-4:2005
 
@@ -1808,156 +1727,131 @@ Rozdział 5 Obciążenie wiatrem
 (1)P Obciążenie wiatrem konstrukcji i elementów konstrukcyjnych należy wyznaczać, biorąc pod uwagę za-
 równo ciśnienie zewnętrzne, jak i wewnętrzne wywierane przez wiatr.
 
-UWAGA _ W Tablicy 5.1 podano zestawienie procedur wyznaczania obciążenia wiatrem.
+UWAGA W Tablicy 5.1 podano zestawienie procedur wyznaczania obciążenia wiatrem.
 
 Tablica 5.1 — Procedury wyznaczania obciążenia wiatrem
 
-Parametr Punkt/Rozdział
-
-Wartość szczytowa ciśnienia prędkości q,
-
-bazowa prędkość wiatru v, 4.2 (2)P
-wysokość odniesienia ze Rozdział 7
-kategoria terenu Tablica 4.1
-wartość charakterystyczna szczytowego ciśnienia prędkości q, 4.5 (1)
-intensywność turbulencji 7, 4.4
-średnia prędkość wiatru Vm 4.3.1
-współczynnik rzeźby terenu c,(z) 4.3.3
-współczynnik chropowatości c,(z) 4.3.2
-Ciśnienie wiatru, np. na pokrycia, łączniki i elementy konstrukcyjne
-
-współczynnik ciśnienia zewnętrznego cy, Rozdział 7
-współczynnik ciśnienia wewnętrznego Cpe Rozdział 7
-współczynnik ciśnienia netto Rozdział 7
-zewnętrzne ciśnienie wiatru: we = qp Cpe 5.1 (1)
-wewnętrzne ciśnienie wiatru: w; = qp Cpi 5.1 (2)
-Obciążenie wiatrem konstrukcji, np. do wyznaczenia łącznych efektów wiatru
-
-współczynnik konstrukcyjny: cęcg 6
-obciążenie wiatrem F,, obliczane ze współczynników siły 5.2 (2)
-obciążenie wiatrem F,, obliczane ze współczynników ciśnienia 5.2 (3)
+| Parametr | Punkt/Rozdział |
+|---|---|
+| **Wartość szczytowa ciśnienia prędkości qp** | |
+| bazowa prędkość wiatru vb | 4.2 (2)P |
+| wysokość odniesienia ze | Rozdział 7 |
+| kategoria terenu | Tablica 4.1 |
+| wartość charakterystyczna szczytowego ciśnienia prędkości qp | 4.5 (1) |
+| intensywność turbulencji Iv | 4.4 |
+| średnia prędkość wiatru vm | 4.3.1 |
+| współczynnik rzeźby terenu co(z) | 4.3.3 |
+| współczynnik chropowatości cr(z) | 4.3.2 |
+| **Ciśnienie wiatru, np. na pokrycia, łączniki i elementy konstrukcyjne** | |
+| współczynnik ciśnienia zewnętrznego cpi [sic — w oryginale indeksy cpi/cpe zamienione miejscami] | Rozdział 7 |
+| współczynnik ciśnienia wewnętrznego cpe [sic] | Rozdział 7 |
+| współczynnik ciśnienia netto | Rozdział 7 |
+| zewnętrzne ciśnienie wiatru: we = qp cpe | 5.1 (1) |
+| wewnętrzne ciśnienie wiatru: wi = qp cpi | 5.1 (2) |
+| **Obciążenie wiatrem konstrukcji, np. do wyznaczenia łącznych efektów wiatru** | |
+| współczynnik konstrukcyjny: cscd | 6 |
+| obciążenie wiatrem Fw obliczane ze współczynników siły | 5.2 (2) |
+| obciążenie wiatrem Fw obliczane ze współczynników ciśnienia | 5.2 (3) |
 
 5.2 Ciśnienie wiatru na powierzchnie
 
-(1) Ciśnienie wiatru działające na powierzchnie zewnętrzne konstrukcji, wę, należy wyznaczać z wyrażenia (5.1):
-We = qp(Ze) * Cpe (5.1)
+(1) Ciśnienie wiatru działające na powierzchnie zewnętrzne konstrukcji, we, należy wyznaczać z wyrażenia (5.1):
+
+we = qp(ze) · cpe (5.1)
 
 w którym:
+qp(ze) wartość szczytowa ciśnienia prędkości;
+ze wysokość odniesienia dla ciśnienia zewnętrznego, według Rozdziału 7;
+cpe współczynnik ciśnienia zewnętrznego, według Rozdziału 7.
 
-qy(Ze) _ wartość szczytowa ciśnienia prędkości;
+UWAGA qp(z) zdefiniowano w 4.5.
 
-Ze wysokość odniesienia dla ciśnienia zewnętrznego, według Rozdziału 7;
+(2) Ciśnienie wiatru działające na powierzchnie wewnętrzne konstrukcji, wi, należy wyznaczać z wyrażenia (5.2):
 
-Cpe współczynnik ciśnienia zewnętrznego, według Rozdziału 7.
-UWAGA __ q,(z) zdefiniowano w 4.5.
-
-(2) Ciśnienie wiatru działające na powierzchnie wewnętrzne konstrukcji, w,, należy wyznaczać z wyrażenia (5.2):
-Wi = qplZi) * Cpi (5.2)
+wi = qp(zi) · cpi (5.2)
 
 w którym:
-
-qy(zi) _ wartość szczytowa ciśnienia prędkości;
+qp(zi) wartość szczytowa ciśnienia prędkości;
 
 24
 
-
-===== page-030.txt =====
+===== page-030.txt ===== [ZWERYFIKOWANO WIZUALNIE ze skanem 25.09.2026]
 
 EN 1991-1-4:2005
 
-zj wysokość odniesienia dla ciśnienia wewnętrznego, według Rozdziału 7;
-Cpi współczynnik ciśnienia wewnętrznego, według Rozdziału 7.
-UWAGA _ 4q,(z) zdefiniowano w 4.5.
-(3) Ciśnienie sumaryczne (netto), działające na ścianę, dach lub element, jest różnicą algebraiczną między
+zi wysokość odniesienia dla ciśnienia wewnętrznego, według Rozdziału 7;
+cpi współczynnik ciśnienia wewnętrznego, według Rozdziału 7.
 
+UWAGA qp(z) zdefiniowano w 4.5.
+
+(3) Ciśnienie sumaryczne (netto), działające na ścianę, dach lub element, jest różnicą algebraiczną między
 wartościami ciśnienia po obu stronach przegrody. Parcie, skierowane ku powierzchni, jest przyjmowane jako
 dodatnie, a ssanie, skierowane od powierzchni, jako ujemne. Przykłady podano na Rysunku 5.1.
 
-—
-——, pos _ Dodatnie (pos) neg ——_ pos Ujemne (neg) neg
-ciśnienie ciśnienie
-—_ |<— wewnętrzne —_ | _ | wewnetrzne — |->
-— | — | > — |—- <— | >
-(a) (b)
-pos neg
-— —
-We, Wy — — Wo
--_ > — —
-— —
-— —
-(c) (d)
+[Rysunek 5.1 — schematy: (a) dodatnie (pos) ciśnienie wewnętrzne, (b) ujemne (neg) ciśnienie wewnętrzne, (c) ściana z ciśnieniami we1, we2, (d) przegroda wewnętrzna z wi1, wi2]
 
 Rysunek 5.1 — Ciśnienie wywierane na powierzchnie
 
 5.3 Siły oddziaływania wiatru
 
 (1) Siły wywierane przez wiatr na całą konstrukcję lub element konstrukcyjny należy obliczać:
-— _ stosując współczynniki sił (patrz (2)) lub
+– stosując współczynniki sił (patrz (2)) lub
+– sumując siły z powierzchni obciążonych ciśnieniem (patrz (3))
 
-— _ sumując siły z powierzchni obciążonych ciśnieniem (patrz (3))
-
-(2) Siła F„ wywierana przez wiatr na konstrukcję lub element konstrukcyjny może być wyznaczana bezpo-
+(2) Siła Fw wywierana przez wiatr na konstrukcję lub element konstrukcyjny może być wyznaczana bezpo-
 średnio z wyrażenia (5.3):
 
-Fry = CsCa* Ch (Ze) * Aref (5.3)
+Fw = cscd · cf · qp(ze) · Aref (5.3)
 
 lub za pomocą dodawania wektorowego sił działających na poszczególne elementy (jak pokazano w 7.2.2)
 z wyrażenia (5.4):
 
-Fy = CsCq' x Cr “Ip (Ze) Are (5.4)
-elementy
+Fw = cscd · Σ(elementy) cf · qp(ze) · Aref (5.4)
+
 w którym:
-CsCa współczynnik konstrukcyjny zdefiniowany w Rozdziale 6;
-
-Ct współczynnik siły aerodynamicznej (oporu aerodynamicznego), konstrukcji lub elementu konstrukcyjne-
+cscd współczynnik konstrukcyjny zdefiniowany w Rozdziale 6;
+cf współczynnik siły aerodynamicznej (oporu aerodynamicznego), konstrukcji lub elementu konstrukcyjne-
 go, podany w Rozdziale 7 lub 8;
-
-qp(ze) + wartość szczytowa ciśnienia prędkości (określona w 4.5) na wysokości odniesienia z, (określonej w Roz-
+qp(ze) wartość szczytowa ciśnienia prędkości (określona w 4.5) na wysokości odniesienia ze (określonej w Roz-
 dziale 7 lub 8);
-
-Avet pole powierzchni odniesienia konstrukcji lub elementu konstrukcyjnego, wskazanej w Rozdziale 7 lub 8.
+Aref pole powierzchni odniesienia konstrukcji lub elementu konstrukcyjnego, wskazanej w Rozdziale 7 lub 8.
 
 25
 
-
-===== page-031.txt =====
+===== page-031.txt ===== [ZWERYFIKOWANO WIZUALNIE ze skanem 25.09.2026]
 
 EN 1991-1-4:2005
 
-UWAGA ' WRozdziale 7 podano wartości c; dla konstrukcji lub elementów konstrukcyjnych takich jak prostopa-
+UWAGA W Rozdziale 7 podano wartości cf dla konstrukcji lub elementów konstrukcyjnych takich jak prostopa-
 dłościany, walce, dachy, znaki drogowe, płyty, konstrukcje kratowe itd. W wartościach tych uwzględniono także
-obciążenia styczne. W Rozdziale 8 podano wartości c; dla mostów.
+obciążenia styczne. W Rozdziale 8 podano wartości cf dla mostów.
 
-(3) Sita Fy wywierana przez wiatr na konstrukcję lub element konstrukcyjny może być wyznaczana przez
-sumowanie wektorowe sił Fe, Fw, i Fę, obliczonych z ciśnienia zewnętrznego i wewnętrznego z wyrażeń (5.5)
+(3) Siła Fw wywierana przez wiatr na konstrukcję lub element konstrukcyjny może być wyznaczana przez
+sumowanie wektorowe sił Fw,e, Fw,i i Ffr, obliczonych z ciśnienia zewnętrznego i wewnętrznego z wyrażeń (5.5)
 i (5.6), oraz sił tarcia, powstających w przepływie równoległym do powierzchni zewnętrznych, obliczanych
 z wyrażenia (5.7).
 
 siły zewnętrzne:
+Fw,e = cscd · Σ(powierzchnie) we · Aref (5.5)
 
-Fe = sa: De W" Aut (5.5)
 siły wewnętrzne:
+Fw,i = Σ(powierzchnie) wi · Aref (5.6)
 
-F wi 7 DE Aves (5.6)
 siły tarcia:
+Ffr = cfr · qp(ze) · Afr (5.7)
 
-Fy= Ch” Up(Ze) * At (5.7)
 gdzie:
-
-CsCa współczynnik konstrukcyjny zdefiniowany w Rozdziale 6;
-
-We ciśnienie zewnętrzne na element powierzchni na wysokości zę, według wyrażenia (5.1);
-W ciśnienie wewnętrzne na element powierzchni na wysokości z,, według wyrażenia (5.2);
-Avet pole rozpatrywanego elementu powierzchni;
-
-Cr współczynnik obciążenia stycznego według 7.5;
-
-Ag pole zewnętrznej powierzchni równoległej do kierunku wiatru, według 7.5.
+cscd współczynnik konstrukcyjny zdefiniowany w Rozdziale 6;
+we ciśnienie zewnętrzne na element powierzchni na wysokości ze, według wyrażenia (5.1);
+wi ciśnienie wewnętrzne na element powierzchni na wysokości zi, według wyrażenia (5.2);
+Aref pole rozpatrywanego elementu powierzchni;
+cfr współczynnik obciążenia stycznego według 7.5;
+Afr pole zewnętrznej powierzchni równoległej do kierunku wiatru, według 7.5.
 
 UWAGA 1 Dla elementów (np. ścian, dachów) obciążenie wiatrem jest różnicą między wypadkowymi siłami
 zewnętrznymi i wewnętrznymi.
 
-UWAGA 2 Siły tarcia F;, działają w kierunku składowej prędkości wiatru równoległej do powierzchni zewnętrz-
+UWAGA 2 Siły tarcia Ffr działają w kierunku składowej prędkości wiatru równoległej do powierzchni zewnętrz-
 nych.
 
 (4) Sił tarcia na powierzchnie można nie brać pod uwagę, jeżeli całkowite pole wszystkich powierzchni rów-
@@ -1967,140 +1861,111 @@ sumie wszystkich powierzchni zewnętrznych prostopadłych do kierunku wiatru (na
 (5) Sumując obciążenie wiatrem działające na konstrukcję budynku, można uwzględniać brak korelacji mię-
 dzy obciążeniem ściany nawietrznej i zawietrznej.
 
-UWAGA _ W Zataczniku krajowym można zdecydować czy ten brak korelacji może być uwzględniany powszechnie
+UWAGA W Załączniku krajowym można zdecydować czy ten brak korelacji może być uwzględniany powszechnie
 czy będzie ograniczony tylko do ścian, jak zastosowano w 7.2.2 (3). Zaleca się, aby brak korelacji brać pod uwagę
 tylko w przypadku ścian (patrz 7.2.2 (3)).
 
 26
 
-
-===== page-032.txt =====
+===== page-032.txt ===== [ZWERYFIKOWANO WIZUALNIE ze skanem 25.09.2026]
 
 EN 1991-1-4:2005
 
-Rozdział 6 Współczynnik konstrukcyjny c,cg
+Rozdział 6 Współczynnik konstrukcyjny cscd
 
 6.1 Postanowienia ogólne
 
-(1) Współczynnik konstrukcyjny cscg uwzględnia efekt oddziaływania wiatru wynikający z niejednoczesnego
+(1) Współczynnik konstrukcyjny cscd uwzględnia efekt oddziaływania wiatru wynikający z niejednoczesnego
 wystąpienia wartości szczytowej ciśnienia na powierzchni konstrukcji (cs) wraz z efektem drgań konstrukcji,
-wywołanych turbulentnym oddziaływaniem wiatru (cy).
+wywołanych turbulentnym oddziaływaniem wiatru (cd).
 
-UWAGA ' Współczynnik konstrukcyjny c,cy może być rozdzielony na współczynnik rozmiarów c; i współczynnik
-
-dynamiczny cg, według 6.3. Informacja o tym, czy należy rozdzielić współczynnik konstrukcyjny czcg, czy nie roz-
+UWAGA Współczynnik konstrukcyjny cscd może być rozdzielony na współczynnik rozmiarów cs i współczynnik
+dynamiczny cd, według 6.3. Informacja o tym, czy należy rozdzielić współczynnik konstrukcyjny cscd, czy nie roz-
 dzielać, może być podana w Załączniku krajowym.
 
-6.2 Wyznaczanie wartości czcy
-(1) Wartości cscg można wyznaczać następująco:
-a) Dla budynków o wysokości mniejszej niż 15 m, można przyjmować wartość czcg = 1.
+6.2 Wyznaczanie wartości cscd
 
+(1) Wartości cscd można wyznaczać następująco:
+a) Dla budynków o wysokości mniejszej niż 15 m, można przyjmować wartość cscd = 1.
 b) Dla fragmentów ścian osłonowych i dachów o częstotliwości drgań własnych powyżej 5 Hz, można przyj-
-mować wartość c,Cq = 1.
-
-c)  Dlabudynków ramowych ze ścianami konstrukcyjnymi, o wysokości niższej niż 100 mi niższej niż 4-krotny
-wymiar budynku mierzony w kierunku działania wiatru, można przyjmować wartość c.cq = 1.
-
+mować wartość cscd = 1.
+c) Dla budynków ramowych ze ścianami konstrukcyjnymi, o wysokości niższej niż 100 m i niższej niż 4-krotny
+wymiar budynku mierzony w kierunku działania wiatru, można przyjmować wartość cscd = 1.
 d) Dla kominów o przekroju kołowym, o wysokości mniejszej niż 60 m i mniejszej niż 6,5 ich średnic, można
-przyjmować wartość czCg = 1.
-
-e) Alternatywnie, dla powyżej podanych przypadków a), b), c) i d) wartości czcj można wyznaczać wg 6.3.1.
+przyjmować wartość cscd = 1.
+e) Alternatywnie, dla powyżej podanych przypadków a), b), c) i d) wartości cscd można wyznaczać wg 6.3.1.
 f) Dla konstrukcji inżynierskich (innych niż mosty, które są tematem Rozdziału 8) oraz kominów i budynków,
-poza ograniczeniami podanymi powyżej w c) i d), wartości cscg należy wyznaczać zgodnie z 6.3 lub przyj-
+poza ograniczeniami podanymi powyżej w c) i d), wartości cscd należy wyznaczać zgodnie z 6.3 lub przyj-
 mować z Załącznika D.
+
 UWAGA 1 Częstotliwości drgań własnych elementów ścian osłonowych i dachów można obliczać ze wzorów
 podanych w Załączniku F (przeszklenia o rozpiętości mniejszej niż 3 m mają zwykle częstotliwości własne powyżej
+5 Hz).
 
-5 HZ).
-
-UWAGA 2 Nawykresach w Załączniku D podano wartości c,cg dla różnych typów konstrukcji. Wykresy przedsta-
+UWAGA 2 Na wykresach w Załączniku D podano wartości cscd dla różnych typów konstrukcji. Wykresy przedsta-
 wiają obwiednie wartości bezpiecznych, obliczonych według modeli spełniających wymagania podane w 6.3.1.
 
 6.3 Procedura szczegółowa
 
-6.3.1 Współczynnik konstrukcyjny cscg
+6.3.1 Współczynnik konstrukcyjny cscd
 
-(1) Szczegółową procedurę obliczania współczynnika konstrukcyjnego cscg przedstawiono wyrażeniem (6.1).
+(1) Szczegółową procedurę obliczania współczynnika konstrukcyjnego cscd przedstawiono wyrażeniem (6.1).
 Można ją stosować tylko wówczas, gdy mają zastosowanie warunki podane w 6.3.1 (2).
 
-1+2-k, Iy(zs)- VB? + R?
+cscd = [1 + 2 · kp · Iv(zs) · √(B² + R²)] / [1 + 7 · Iv(zs)] (6.1)
 
-1+7-1,(z;)
-
-CC (6.1)
 gdzie:
-
-Zs wysokość odniesienia do obliczania współczynnika konstrukcyjnego, patrz Rysunek 6.1. Dla konstrukcji,
-do których Rysunek 6.1 nie ma zastosowania, można przyjąć z. równe wysokości konstrukcji h;
-
-ko współczynnik wartości szczytowej określony jako stosunek maksymalnej wartości składowej fluktuacyjnej
+zs wysokość odniesienia do obliczania współczynnika konstrukcyjnego, patrz Rysunek 6.1. Dla konstrukcji,
+do których Rysunek 6.1 nie ma zastosowania, można przyjąć zs równe wysokości konstrukcji h;
+kp współczynnik wartości szczytowej określony jako stosunek maksymalnej wartości składowej fluktuacyjnej
 odpowiedzi konstrukcji do odchylenia standardowego tej składowej;
 
 27
 
-
-===== page-033.txt =====
+===== page-033.txt ===== [ZWERYFIKOWANO WIZUALNIE ze skanem 25.09.2026]
 
 EN 1991-1-4:2005
 
-l,
-
-B2
-
-R2
-
-intensywność turbulencji określona w 4.4;
-
-współczynnik odpowiedzi pozarezonansowej uwzględniający brak pełnej korelacji ciśnienia na powierzch-
+Iv intensywność turbulencji określona w 4.4;
+B² współczynnik odpowiedzi pozarezonansowej uwzględniający brak pełnej korelacji ciśnienia na powierzch-
 ni konstrukcji;
-
-współczynnik odpowiedzi rezonansowej uwzględniający oddziaływanie turbulentne wiatru w zakresie re-
+R² współczynnik odpowiedzi rezonansowej uwzględniający oddziaływanie turbulentne wiatru w zakresie re-
 zonansowym z drganiami konstrukcji.
 
-UWAGA 1 Współczynnik rozmiarów c; uwzględnia zmniejszenie oddziaływania wiatru w wyniku niejednoczesne-
+UWAGA 1 Współczynnik rozmiarów cs uwzględnia zmniejszenie oddziaływania wiatru w wyniku niejednoczesne-
 go występowania wartości szczytowych ciśnienia na powierzchni konstrukcji; można go wyznaczyć z wyrażenia
-
 (6.2):
-c. AT (25) NB?
 
-5 1+7-1,(z;) (8.2)
+cs = [1 + 7 · Iv(zs) · √B²] / [1 + 7 · Iv(zs)] (6.2)
 
-UWAGA 2 Współczynnik dynamiczny cy uwzględnia efekt wzmocnienia drgań konstrukcji wywołanych oddziały-
+UWAGA 2 Współczynnik dynamiczny cd uwzględnia efekt wzmocnienia drgań konstrukcji wywołanych oddziały-
 waniem turbulentnym w rezonansie z drganiami konstrukcji; można go wyznaczyć z wyrażenia (6.3):
 
-_A+2-k, -Ty(Z,) VB? + R?
-1+7-1,(z;)-NB2
+cd = [1 + 2 · kp · Iv(zs) · √(B² + R²)] / [1 + 7 · Iv(zs) · √B²] (6.3)
 
-[e
-
-(6.3)
-
-UWAGA 3 Procedury wyznaczania wartości k,, B i R mogą być podane w Załączniku krajowym. Procedure zale-
-cana podano w Załączniku B. Procedurę alternatywną podano w Załączniku C. Jako wskazówkę dla użytkowników
-można podać, że różnice wartości cc, obliczonych według Załączników C i B, nie przekraczają, w przybliżeniu,
-5%.
+UWAGA 3 Procedury wyznaczania wartości kp, B i R mogą być podane w Załączniku krajowym. Procedurę zale-
+caną podano w Załączniku B. Procedurę alternatywną podano w Załączniku C. Jako wskazówkę dla użytkowników
+można podać, że różnice wartości cscd, obliczonych według Załączników C i B, nie przekraczają, w przybliżeniu,
+5 %.
 
 (2)P Wyrażenie (6.1) należy stosować, jeżeli spełnione są wszystkie z następujących wymagań:
+– kształt konstrukcji odpowiada jednemu z kształtów pokazanych na Rysunku 6.1,
+– uwzględnia się tylko podstawową postać drgań w kierunku wiatru, i ta postać ma stały znak.
 
-kształt konstrukcji odpowiada jednemu z kształtów pokazanych na Rysunku 6.1,
-uwzględnia się tylko podstawową postać drgań w kierunku wiatru, i ta postać ma stały znak.
+UWAGA Udział drugiej i wyższych postaci drgań w kierunku wiatru w odpowiedzi konstrukcji jest pomijalny.
 
-UWAGA ' Udział drugiej i wyższych postaci drgań w kierunku wiatru w odpowiedzi konstrukcji jest pomijalny.
+[Rysunek 6.1 — a) konstrukcje pionowe jak budynki itp.: zs = 0,6 · h ≥ zmin;
+b) oscylator równoległy, tj. konstrukcje poziome jak belka itp.: zs = h1 + h/2 ≥ zmin;
+c) konstrukcje punktowe jak tablice itp.: zs = h1 + h/2 ≥ zmin]
 
-a) konstrukcje pionowe b) oscylator równoległy, tj. c) konstrukcje punktowe jak
-jak budynki itp. konstrukcje poziome jak tablice itp.
-belka itp.
-
-UWAGA ' Ograniczenia podano także w 1.1 (2).
-
-h h
-Zs = 0,6: h = Zmin 25 =I +2 Z Zmin 25 = My +52 Zmin
+UWAGA Ograniczenia podano także w 1.1 (2).
 
 Rysunek 6.1 — Ogólne kształty konstrukcji uwzględnione w metodzie obliczeń.
 Pokazano także wymiary konstrukcji i wysokość odniesienia
 
+28
 
-===== page-034.txt =====
+===== page-034.txt ===== [ZWERYFIKOWANO WIZUALNIE ze skanem 25.09.2026]
 
 EN 1991-1-4:2005
 
@@ -2111,29 +1976,28 @@ runku wiatru na wysokości z oraz odchyleniem standardowym wartości charakterys
 konstrukcji w kierunku wiatru, na tej samej wysokości z. Do obliczenia maksymalnej wartości przemieszczenia
 konstrukcji należy użyć zastępczego, statycznego obciążenia wiatrem, określonego w 5.2.
 
-UWAGA _ W Zataczniku krajowym może być podana metoda wyznaczania przemieszczenia konstrukcji w linii
+UWAGA W Załączniku krajowym może być podana metoda wyznaczania przemieszczenia konstrukcji w linii
 wiatru oraz odchylenia standardowego przyspieszenia konstrukcji w linii wiatru. Metodę zalecaną podano w Za-
 łączniku B. Metodę alternatywną podano w Załączniku C.
+
 6.3.3 Obciążenie w śladzie aerodynamicznym
+
 (1) W przypadku budynków smukłych (h/d > 4) oraz kominów (h/d > 6,5) ustawionych jeden za drugim lub
 grupowo, należy uwzględnić efekt zwiększonej turbulencji przepływu w śladzie aerodynamicznym pobliskiej
 konstrukcji.
 
 (2) Obciążenie w śladzie aerodynamicznym można pominąć, jeżeli ma zastosowanie przynajmniej jeden
 z następujących warunków:
-
-- _ Odległość między dwoma budynkami lub kominami jest większa niż 25-krotny wymiar budynku lub komina
+– Odległość między dwoma budynkami lub kominami jest większa niż 25-krotny wymiar budynku lub komina
 nawietrznego, mierzony poprzecznie w stosunku do kierunku wiatru.
+– Częstotliwość drgań własnych budynku lub komina zawietrznego jest wyższa niż 1 Hz.
 
-— Częstotliwość drgań własnych budynku lub komina zawietrznego jest wyższa niż 1 Hz.
-
-UWAGA _ Jeżeli żaden warunek wymieniony w 6.3.3 (2) nie jest spełniony, to zaleca się badania w tunelu aero-
+UWAGA Jeżeli żaden warunek wymieniony w 6.3.3 (2) nie jest spełniony, to zaleca się badania w tunelu aero-
 dynamicznym lub poradę u specjalisty z dziedziny oddziaływania wiatru na konstrukcje.
 
 29
 
-
-===== page-035.txt =====
+===== page-035.txt ===== [ZWERYFIKOWANO WIZUALNIE ze skanem 25.09.2026]
 
 EN 1991-1-4:2005
 
@@ -2141,72 +2005,54 @@ Rozdział 7 Współczynniki ciśnienia i siły
 
 7.1 Postanowienia ogólne
 
-(1)
-
-Rozdział ten stosuje się do wyznaczania współczyników aerodynamnicznych konstrukcji. W zależności
-
+(1) Rozdział ten stosuje się do wyznaczania współczyników aerodynamnicznych [sic] konstrukcji. W zależności
 od rozpatrywanej konstrukcji właściwe będą następujące współczynniki aerodynamiczne:
-
-współczynniki ciśnienia wewnętrznego i zewnętrznego, patrz 7.1.1 (1);
-współczynniki ciśnienia netto, patrz 7.1.1 (2);
-współczynniki tarcia, patrz 7.1.1 (3);
-
-współczynniki siły aerodynamicznej (oporu aerodynamicznego), patrz 7.1.1 (4).
+– współczynniki ciśnienia wewnętrznego i zewnętrznego, patrz 7.1.1 (1);
+– współczynniki ciśnienia netto, patrz 7.1.1 (2);
+– współczynniki tarcia, patrz 7.1.1 (3);
+– współczynniki siły aerodynamicznej (oporu aerodynamicznego), patrz 7.1.1 (4).
 
 7.1.1 Wybór współczynnika aerodynamicznego
 
-(1)
-
-(2)
-
-Współczynniki ciśnienia należy wyznaczać dla:
-budynków, stosując 7.2 zarówno w przypadku ciśnienia wewnętrznego, jak i zewnętrznego;
-walców kołowych, stosując 7.2.9 do ciśnienia wewnętrznego i 7.9.1 do ciśnienia zewnętrznego.
+(1) Współczynniki ciśnienia należy wyznaczać dla:
+– budynków, stosując 7.2 zarówno w przypadku ciśnienia wewnętrznego, jak i zewnętrznego;
+– walców kołowych, stosując 7.2.9 do ciśnienia wewnętrznego i 7.9.1 do ciśnienia zewnętrznego.
 
 UWAGA 1 Współczynniki ciśnienia zewnętrznego określają działanie wiatru na zewnętrzne powierzchnie budyn-
 ków; współczynniki ciśnienia wewnętrznego określają działanie wiatru na wewnętrzne powierzchnie budynków.
 
 UWAGA 2 Współczynniki ciśnienia zewnętrznego dzielą się na globalne i lokalne. Współczynniki lokalne są
-współczynnikami ciśnienia do obliczania obciążenia na powierzchni 1 m?. Mogą być stosowane w obliczeniach
+współczynnikami ciśnienia do obliczania obciążenia na powierzchni 1 m². Mogą być stosowane w obliczeniach
 małych elementów i łączników. Współczynniki globalne są współczynnikami ciśnienia do obliczania obciążenia
-na powierzchni 10 m?. Mogą być stosowane do obliczania obciążenia na powierzchniach większych niż 10 m?.
+na powierzchni 10 m². Mogą być stosowane do obliczania obciążenia na powierzchniach większych niż 10 m².
 
-Współczynniki ciśnienia netto należy stosować do:
+(2) Współczynniki ciśnienia netto należy stosować do:
+– wiat, według 7.3;
+– ścian wolno stojących, attyk i ogrodzeń, według 7.4.
 
-wiat, według 7.3;
-
-ścian wolno stojących, attyk i ogrodzeń, według 7.4.
-
-UWAGA ' Współczynniki ciśnienia netto określają wypadkowe działanie wiatru na jednostkę powierzchni kon-
+UWAGA Współczynniki ciśnienia netto określają wypadkowe działanie wiatru na jednostkę powierzchni kon-
 strukcji, elementu konstrukcji lub jej składnika.
 
-Współczynniki tarcia należy stosować do ścian i powierzchni określonych w 5.3 (3) i (4), wykorzystując 7.5.
-Współczynniki siły należy stosować do:
+(3) Współczynniki tarcia należy stosować do ścian i powierzchni określonych w 5.3 (3) i (4), wykorzystując 7.5.
 
-tablic, według 7.4.3;
-
-elementów konstrukcyjnych o prostokątnym przekroju poprzecznym, według 7.6;
-
-elementów konstrukcyjnych o przekrojach z ostrymi narożami, według 7.7;
-
-elementów konstrukcyjnych o przekroju poprzecznym w kształcie wielokąta foremnego, według 7.8;
-walców kołowych, według 7.9.2 i 7.9.3;
-
-kul, według 7.10;
-
-konstrukcji kratowych i rusztowań, według 7.11;
-
-flag, według 7.12.
+(4) Współczynniki siły należy stosować do:
+– tablic, według 7.4.3;
+– elementów konstrukcyjnych o prostokątnym przekroju poprzecznym, według 7.6;
+– elementów konstrukcyjnych o przekrojach z ostrymi narożami, według 7.7;
+– elementów konstrukcyjnych o przekroju poprzecznym w kształcie wielokąta foremnego, według 7.8;
+– walców kołowych, według 7.9.2 i 7.9.3;
+– kul, według 7.10;
+– konstrukcji kratowych i rusztowań, według 7.11;
+– flag, według 7.12.
 
 Można zastosować współczynnik redukcyjny, zależny od efektywnej smukłości konstrukcji, według 7.13.
 
-30
-
-UWAGA _ Współczynniki siły określają całkowity efekt działania wiatru na konstrukcję, element konstrukcyjny
+UWAGA Współczynniki siły określają całkowity efekt działania wiatru na konstrukcję, element konstrukcyjny
 lub jej składnik jako całość, wraz z siłami tarcia, jeżeli nie zostało to wykluczone.
 
+30
 
-===== page-036.txt =====
+===== page-036.txt ===== [ZWERYFIKOWANO WIZUALNIE ze skanem 25.09.2026]
 
 EN 1991-1-4:2005
 
@@ -2219,20 +2065,17 @@ to pod uwagę.
 
 (2) W przypadku wolno stojących wiat i tablic należy stosować 7.3 i 7.4.
 
-UWAGA _ WZałączniku krajowym można podać sposoby postępowania dotyczące innych konstrukcji. Sposoby
+UWAGA W Załączniku krajowym można podać sposoby postępowania dotyczące innych konstrukcji. Sposoby
 zalecane są następujące:
-
 a) W przypadku konstrukcji o przekroju prostokątnym, podatnych na efekty skręcania należy stosować rozkład
 ciśnienia pokazany na Rysunku 7.1. Reprezentuje on obciążenie skręcające wynikające z wiatru o kierunku skośnym
 w stosunku do budynku albo z braku korelacji między siłami aerodynamicznymi, działającymi w różnych miejscach
 konstrukcji.
 
-b
-
-Lf fff ff ff | — polek
+[Rysunek 7.1 — rzut prostokąta o szerokości b; wzdłuż jednego boku cpe – pole E (równomiernie), wzdłuż drugiego cpe – pole D (trójkątnie od zera), kierunek wiatru v skośny]
 
 Rysunek 7.1 — Rozkład ciśnienia pozwalający uwzględnić efekt skręcania.
-Pola i wartości c,, podano w Tablicy 7.1 i na Rysunku 7.5
+Pola i wartości cpe podano w Tablicy 7.1 i na Rysunku 7.5
 
 b) W innych przypadkach należy dopuścić asymetrię obciążenia, całkowicie pomijając obliczeniowe obciążenie
 wiatrem na tych częściach konstrukcji, na których jego działanie wywołuje korzystny skutek.
@@ -2242,236 +2085,143 @@ wiatrem na tych częściach konstrukcji, na których jego działanie wywołuje k
 (1) Jeżeli oblodzenie lub śnieg zmieniają geometrię konstrukcji tak, że zmienia się jej powierzchnia odniesie-
 nia lub kształt, to należy wziąć to pod uwagę.
 
-UWAGA ' Dodatkowe informacje mogą być podane w Załączniku krajowym.
+UWAGA Dodatkowe informacje mogą być podane w Załączniku krajowym.
+
 7.2 Współczynniki ciśnienia dla budynków
+
 7.2.1 Postanowienia ogólne
 
-(1) Współczynniki ciśnienia zewnętrznego ce budynków i ich części zależą od rozmiarów obciążonej po-
+(1) Współczynniki ciśnienia zewnętrznego cpe budynków i ich części zależą od rozmiarów obciążonej po-
 wierzchni o polu A, które jest obszarem konstrukcji zbierającym obciążenie wiatrem z obliczanej sekcji. Współ-
-czynniki ciśnienia zewnętrznego podano w tablicach dla 4 = 1 m” i 10 m”, stosownie do konfiguracji budyn-
-ków, odpowiednio jako współczynniki lokalne cpe 1 i globalne Cpe 10.
+czynniki ciśnienia zewnętrznego podano w tablicach dla A = 1 m² i 10 m², stosownie do konfiguracji budyn-
+ków, odpowiednio jako współczynniki lokalne cpe,1 i globalne cpe,10.
 
-UWAGA 1 Wartości cpe 1 są przeznaczone do obliczeń małych elementów i łączników o powierzchni elemetu 1 m?
-lub mniejszej, takich jak elementy ścian osłonowych i dachów. Wartości cpe 10 Moga być używane w obliczeniach
-
+UWAGA 1 Wartości cpe,1 są przeznaczone do obliczeń małych elementów i łączników o powierzchni elemetu 1 m²
+lub mniejszej, takich jak elementy ścian osłonowych i dachów. Wartości cpe,10 mogą być używane w obliczeniach
 konstrukcji nośnych budynków jako całości.
 
 31
 
-
-===== page-037.txt =====
+===== page-037.txt ===== [ZWERYFIKOWANO WIZUALNIE ze skanem 25.09.2026]
 
 EN 1991-1-4:2005
 
-UWAGA 2 W Zataczniku krajowym można podać sposób obliczania współczynników ciśnienia zewnętrznego dla
-powierzchni większych niż 1 m?, wykorzystując wartości Cpe,1 | Cpe,19. Sposób zalecany dla powierzchni obciążonej
-o polu do 10 m? podano na Rysunku 7.2.
+UWAGA 2 W Załączniku krajowym można podać sposób obliczania współczynników ciśnienia zewnętrznego dla
+powierzchni większych niż 1 m², wykorzystując wartości cpe,1 i cpe,10. Sposób zalecany dla powierzchni obciążonej
+o polu do 10 m² podano na Rysunku 7.2.
 
-Coe 4
-
-Cpe,1 4
-
-Cpe,10
-
-0,1 1 2 4 6 8 10 A [m]
+[Rysunek 7.2 — wykres cpe w funkcji A [m²] (skala logarytmiczna 0,1–10): cpe = cpe,1 dla A ≤ 1 m², liniowo w log A do cpe,10 przy A = 10 m², dalej cpe,10]
 
 Rysunek przedstawia następującą zależność:
+jeżeli 1 m² < A < 10 m², to cpe = cpe,1 – (cpe,1 – cpe,10) log10 A
 
-jeżeli 1 m? <A < 10 m?, to Cpe = Cpe4 — (Cpe1 — Cpe,1o) 10910 A
+Rysunek 7.2 — Zalecany spsób [sic] wyznaczania wartości współczynnika ciśnienia zewnętrznego cpe
+w przypadku budynków o polu obciążonej powierzchni między 1 m² a 10 m²
 
-Rysunek 7.2 — Zalecany spsób wyznaczania wartości współczynnika ciśnienia zewnętrznego Cpe
-w przypadku budynków o polu obciążonej powierzchni między 1 m? a 10 m?
-
-(2) Wartości cpe40 | Cpe1 podane w Tablicach od 7.1 do 7.5 należy stosować przy ortogonalnych kierunkach
-wiatru 0°, 90° i 180°. Są to najbardziej niekorzystne wartości w zakresie kierunków wiatru 0 = + 45°, z każdej
+(2) Wartości cpe,10 i cpe,1 podane w Tablicach od 7.1 do 7.5 należy stosować przy ortogonalnych kierunkach
+wiatru 0°, 90° i 180°. Są to najbardziej niekorzystne wartości w zakresie kierunków wiatru θ = ± 45°, z każdej
 strony rozważanych kierunków ortogonalnych.
 
-(3) W przypadku wystających części dachu, ciśnienie pod okapem, w jego narożnikch, jest równe ciśnieniu
+(3) W przypadku wystających części dachu, ciśnienie pod okapem, w jego narożnikch [sic], jest równe ciśnieniu
 na ścianie w bezpośrednim sąsiedztwie wystającego dachu; ciśnienie na górnej stronie okapu jest równe ciśnie-
 niu na dachu w tej strefie.
 
-ciśnienie na górnej powierzchni
-
-—L% jak na dachu
-
-ad
-
-okap
-
-ciśnienie na dolnej powierzchni
-okapu jak na ścianie
+[Rysunek 7.3 — okap: ciśnienie na górnej powierzchni okapu jak na dachu; ciśnienie na dolnej powierzchni okapu jak na ścianie]
 
 Rysunek 7.3 — Ilustracja rozkładu ciśnienia na okapie
+
 7.2.2 Ściany pionowe budynków na rzucie prostokąta
 
-(1) Wysokości odniesienia, zę, dla nawietrznych ścian budynków na rzucie prostokąta (pole D, patrz Rysu-
+(1) Wysokości odniesienia, ze, dla nawietrznych ścian budynków na rzucie prostokąta (pole D, patrz Rysu-
 nek 7.5) zależą od stosunku h/b i są zawsze przyjmowane jako górne wysokości różnych części (obszarów)
 ścian. Przedstawiono je na Rysunku 7.4 dla trzech następujących przypadków:
-
-— _ budynek, którego wysokość / jest mniejsza niż b, należy traktować jako jedną część,
-
-— _ budynek, którego wysokość h jest większa niż b, lecz mniejsza niż 2b, można traktować jako składający sie
+– budynek, którego wysokość h jest mniejsza niż b, należy traktować jako jedną część,
+– budynek, którego wysokość h jest większa niż b, lecz mniejsza niż 2b, można traktować jako składający się
 z dwóch części zawierających: część dolną, rozciągającą się w górę od poziomu podstawy do wysokości
 równej b, i pozostałą część górną,
-
-— _ budynek, którego wysokość h jest większa niż 2b, można traktować jako składający się z kilku części zawie-
+– budynek, którego wysokość h jest większa niż 2b, można traktować jako składający się z kilku części zawie-
 rających: część dolną, rozciągającą się w górę od poziomu podstawy do wysokości równej b, część górną,
 rozciągającą się w dół od górnej krawędzi budynku na długość b, i obszar pośredni, zawarty między częścią
-górną a dolną, który może być podzielony na poziome pasy o wysokości hsyip, jak pokazano na Rysunku 7.4.
+górną a dolną, który może być podzielony na poziome pasy o wysokości hstrip, jak pokazano na Rysunku 7.4.
 
 32
 
-
-===== page-038.txt =====
+===== page-038.txt ===== [ZWERYFIKOWANO WIZUALNIE ze skanem 25.09.2026]
 
 EN 1991-1-4:2005
 
-UWAGA _ Zasady ustalania rozkładu ciśnienia prędkości do obliczeń ściany zawietrznej i ścian bocznych (pola
-A, B, CiE, patrz Rysunek 7.5) mogą być podane w Załączniku krajowym lub w indywidualnym projekcie. Zaleca
-
+UWAGA Zasady ustalania rozkładu ciśnienia prędkości do obliczeń ściany zawietrznej i ścian bocznych (pola
+A, B, C i E, patrz Rysunek 7.5) mogą być podane w Załączniku krajowym lub w indywidualnym projekcie. Zaleca
 się, aby za wysokość odniesienia przyjąć wysokość budynku.
 
-nawietrzna wysokość profil ciśnienia
-ściana odniesienie prędkości
-budynku
-7 zh q,(z)=q,(2,)
-
--— >
-': N
-YTY
-
-gg(2)=a,(h)
-
-z,=b K
-b<h<2b 1% q,(Z)=q>(b) >
-
-z Ls
-
-b
-e
-z EJ z,=h q,(z)=qy(h) >
-h> 2b h é ; + 26S strip Fpl2)= (Zein)
-
-PF 2 giz}=qulb) >
-
-%
-
-YYY JI
-
-| +7
-¥. ¥
-
-"7 YYY ONY YN YYYY
+[Rysunek 7.4 — trzy przypadki nawietrznej ściany budynku o szerokości b:
+ h ≤ b: ze = h, qp(z) = qp(ze) na całej wysokości;
+ b < h ≤ 2b: górna część (h – b): ze = h, qp(z) = qp(h); dolna część b: ze = b, qp(z) = qp(b);
+ h > 2b: górna część b: ze = h, qp(z) = qp(h); pasy pośrednie hstrip: ze = zstrip, qp(z) = qp(zstrip); dolna część b: ze = b, qp(z) = qp(b)]
 
 UWAGA Przyjmuje się stałą wartość ciśnienia prędkości w każdym poziomym pasie.
 
-Rysunek 7.4 — Wysokości odniesienia, zę, zależne od h i b, oraz odpowiadające im rozkłady
+Rysunek 7.4 — Wysokości odniesienia, ze, zależne od h i b, oraz odpowiadające im rozkłady
 ciśnienia prędkości
 
-(2) Wartości współczynników ciśnienia Cpe,10 I Cpe,1 dla pól A, B, C, D i E podano na Rysunku 7.5.
+(2) Wartości współczynników ciśnienia cpe,10 i cpe,1 dla pól A, B, C, D i E podano na Rysunku 7.5.
 
 33
 
-
-===== page-039.txt =====
+===== page-039.txt ===== [ZWERYFIKOWANO WIZUALNIE ze skanem 25.09.2026]
 
 EN 1991-1-4:2005
 
-wiatr
-
-wiatr
-
-wiatr
-
-wiatr A |
-7
-
-Plan
-le d „|
-it >|
-D E
-4 _————— Elewacja -———— 4
-rzy e2
-A B
-77
-d
-8/5 u d-e/5
-A B
-zz 77 77
-
-mniejszy z dwóch
-e=b albo 2 h,
-
-b: wymiar poprzeczny
-do kierunku wiatru
-
-Elewacja przy e < d
-
-wiatr A B
-
-N
-
-e d-e
-e/5 4/5 e
-
-h
-5 Te |
-77
-
-77 77
-
-Elewacja przy e 2 5d
-
-p wj
-a
-xX
-
-wiatr
-—>
-
-A
-77 77 <<
+[Rysunek 7.5 — rzut: wymiar d wzdłuż wiatru, b poprzecznie; ściana nawietrzna D, zawietrzna E.
+e = mniejszy z dwóch: b albo 2h; b: wymiar poprzeczny do kierunku wiatru.
+Elewacja przy e < d: pola A (szer. e/5), B (4/5 e), C (d – e).
+Elewacja przy e ≥ d: pola A (e/5), B (d – e/5).
+Elewacja przy e ≥ 5d: całość pole A (d).]
 
 Rysunek 7.5 — Oznaczenia ścian pionowych
 
-UWAGA 1 Wartości Cpe10 I Cpe4 mogą być podane w Załączniku krajowym. Wartości zalecane podano w Tabli-
+UWAGA 1 Wartości cpe,10 i cpe,1 mogą być podane w Załączniku krajowym. Wartości zalecane podano w Tabli-
 cy 7.1, w zależności od stosunku h/d. Można zastosować interpolację liniową dla pośrednich wartości h/d. War-
-tości podane w Tablicy 7.1 stosuje się również do ścian budynków o dachach nachylonych, takich jak jedno — lub
-
+tości podane w Tablicy 7.1 stosuje się również do ścian budynków o dachach nachylonych, takich jak jedno – lub
 dwuspadowe.
 
 34
 
-
-===== page-040.txt =====
+===== page-040.txt ===== [ZWERYFIKOWANO WIZUALNIE ze skanem 25.09.2026]
 
 EN 1991-1-4:2005
 
 Tablica 7.1 — Zalecane wartości współczynnika ciśnienia zewnętrznego
 dla ścian pionowych budynków na rzucie prostokąta
 
-Pole A B c D E
-hd Cpe,10 Cpe,1 Cpe,10 Cpe,1 Cpe,10 Cpe,1 Cpe,10 Cpe,1 Cpe,10 Cpe,1
-5 -1,2 -1,4 -0,8 -1,1 -0,5 +0,8 +1,0 -0,7
-1 -1,2 -1,4 -0,8 -1,1 -0,5 +0,8 +1,0 -0,5
+| h/d | A cpe,10 | A cpe,1 | B cpe,10 | B cpe,1 | C cpe,10 = cpe,1 | D cpe,10 | D cpe,1 | E cpe,10 = cpe,1 |
+|---|---|---|---|---|---|---|---|---|
+| 5 | -1,2 | -1,4 | -0,8 | -1,1 | -0,5 | +0,8 | +1,0 | -0,7 |
+| 1 | -1,2 | -1,4 | -0,8 | -1,1 | -0,5 | +0,8 | +1,0 | -0,5 |
+| ≤ 0,25 | -1,2 | -1,4 | -0,8 | -1,1 | -0,5 | +0,7 | +1,0 | -0,3 |
 
-< 0,25 -1,2 -1,4 -0,8 -1,1 -0,5 +0,7 +1,0 -0,3
+(W oryginale dla pól C i E jedna wartość w scalonej komórce cpe,10/cpe,1.)
 
 UWAGA 2 W przypadku budynków o h/d > 5, całkowite obciążenie wiatrem można wyznaczyć na podstawie
 postanowień podanych w 7.6 do 7.8 oraz 7.9.2.
 
 (3) Jeżeli siłę aerodynamiczną, wywieraną na budynek oblicza się stosując jednocześnie współczynniki ciśnie-
-nia Cp. na nawietrznych i zawietrznych stronach budynku (pola D i E), brak korelacji między ciśnieniem wiatru
+nia cpe na nawietrznych i zawietrznych stronach budynku (pola D i E), brak korelacji między ciśnieniem wiatru
 po stronie nawietrznej i zawietrznej musi być wzięty pod uwagę.
-UWAGA _ Brak korelacji między ciśnieniem wiatru po stronie nawietrznej i zawietrznej można rozpatrzeć nastę-
-pująco. W przypadku budynków o h/d 2 5, siłę wypadkową mnoży się przez 1. W przypadku budynków o h/d< 1,
+
+UWAGA Brak korelacji między ciśnieniem wiatru po stronie nawietrznej i zawietrznej można rozpatrzeć nastę-
+pująco. W przypadku budynków o h/d ≥ 5, siłę wypadkową mnoży się przez 1. W przypadku budynków o h/d ≤ 1,
 siłę wypadkową mnoży się przez 0,85. Dla pośrednich wartości h/d można stosować interpolację liniową.
+
 7.2.3 Dachy płaskie
-(1) Za dachy płaskie uważa się dachy o nachyleniu (a) połaci w zakresie —5°< a < 5°.
+
+(1) Za dachy płaskie uważa się dachy o nachyleniu (α) połaci w zakresie –5° < α < 5°.
+
 (2) Dachy należy podzielić na pola, jak pokazano na Rysunku 7.6.
+
 (3) Wysokość odniesienia dla dachów płaskich o krawędziach zaokrąglonych albo dachów mansardowych
 należy przyjmować jako równą h. Wysokość odniesienia dla dachów płaskich z attykami należy przyjmować
-jako równą h + hy, patrz Rysunek 7.6.
+jako równą h + hp, patrz Rysunek 7.6.
 
 (4) Wartości współczynników ciśnienia dla każdego pola podano w Tablicy 7.2.
 
@@ -2479,395 +2229,252 @@ jako równą h + hy, patrz Rysunek 7.6.
 
 35
 
-
-===== page-041.txt =====
-
-36
+===== page-041.txt ===== [ZWERYFIKOWANO WIZUALNIE ze skanem 25.09.2026]
 
 EN 1991-1-4:2005
 
-Krawędź dachu NN
-hp EB r za
-
-r
-h |e Z.=
-4
-| J |
-Attyki Krawędzie zaokrąglone
-i mansardowe
-d | = .
-It >| mniejszy z dwóch:
-e = b albo 2h
-ww
-b: wymiar poprzeczny
-el4 F
-
-do kierunku wiatru
-
-AN
-
-elą F
+[Rysunek 7.6 — u góry: attyki (wysokość attyki hp, ze = h + hp) oraz krawędzie zaokrąglone (promień r) i mansardowe (kąt α), ze = h.
+Rzut dachu: d wzdłuż wiatru, b poprzecznie; e = mniejszy z dwóch: b albo 2h.
+Pola: F — narożne, szerokość e/10 wzdłuż wiatru, długość e/4 od każdej krawędzi bocznej; G — między polami F, szerokość e/10;
+H — pas od e/10 do e/2; I — pozostała część dachu.]
 
 Rysunek 7.6 — Oznaczenia dachów płaskich
 
+36
 
-===== page-042.txt =====
+===== page-042.txt ===== [ZWERYFIKOWANO WIZUALNIE ze skanem 25.09.2026]
 
 EN 1991-1-4:2005
 
 Tablica 7.2 — Współczynniki ciśnienia zewnętrznego dla dachów płaskich
 
-Pole
-Typ dachu F G H I
-Cpe,10 Cpe,1 Cpe,10 Cpe,1 Cpe,10 Cpe,1 Cpe,10 Cpe,1
-+0,2
-Ostre krawędzie brzegu -1,8 -2,5 -1,2 -2,0 -0,7 -1,2
--0,2
-+0,2
-hąlh = 0,025 -1,6 -2,2 -1,1 -1,8 -0,7 -1,2
--0,2
-+0,2
-Z attyką hęlh = 0,05 -1,4 -2,0 -0,9 -1,6 -0,7 -1,2
--0,2
-+0,2
-hęlh =0,10 -1,2 -1,8 -0,8 -1,4 -0,7 -1,2
--0,2
-+0,2
-rlh = 0,05 -1,0 -1,5 -1,2 -1,8 -0,4
--0,2
-. +0,2
-Krawędzie | 4h =0,10 -0,7 4,2 -0,8 AA -0,3
-zaokrąglone -0,2
-+0,2
-rlh = 0,20 -0,5 -0,8 -0,5 -0,8 -0,3
--0,2
-+0,2
-a = 30° -1,0 -1,5 -1,0 -1,5 -0,3
--0,2
-. +0,2
-Krawędzie | = 45° “1,2 1,8 -1,3 1,9 -0,4
-mansardowe -0,2
-+0,2
-a = 60? -1,3 -1,9 -1,3 -1,9 -0,5
--0,2
+| Typ dachu | | F cpe,10 | F cpe,1 | G cpe,10 | G cpe,1 | H cpe,10 | H cpe,1 | I cpe,10 = cpe,1 |
+|---|---|---|---|---|---|---|---|---|
+| Ostre krawędzie brzegu | | -1,8 | -2,5 | -1,2 | -2,0 | -0,7 | -1,2 | +0,2 / -0,2 |
+| Z attyką | hp/h = 0,025 | -1,6 | -2,2 | -1,1 | -1,8 | -0,7 | -1,2 | +0,2 / -0,2 |
+| Z attyką | hp/h = 0,05 | -1,4 | -2,0 | -0,9 | -1,6 | -0,7 | -1,2 | +0,2 / -0,2 |
+| Z attyką | hp/h = 0,10 | -1,2 | -1,8 | -0,8 | -1,4 | -0,7 | -1,2 | +0,2 / -0,2 |
+| Krawędzie zaokrąglone | r/h = 0,05 | -1,0 | -1,5 | -1,2 | -1,8 | -0,4 (jedna wartość) | | +0,2 / -0,2 |
+| Krawędzie zaokrąglone | r/h = 0,10 | -0,7 | -1,2 | -0,8 | -1,4 | -0,3 (jedna wartość) | | +0,2 / -0,2 |
+| Krawędzie zaokrąglone | r/h = 0,20 | -0,5 | -0,8 | -0,5 | -0,8 | -0,3 (jedna wartość) | | +0,2 / -0,2 |
+| Krawędzie mansardowe | α = 30° | -1,0 | -1,5 | -1,0 | -1,5 | -0,3 (jedna wartość) | | +0,2 / -0,2 |
+| Krawędzie mansardowe | α = 45° | -1,2 | -1,8 | -1,3 | -1,9 | -0,4 (jedna wartość) | | +0,2 / -0,2 |
+| Krawędzie mansardowe | α = 60° | -1,3 | -1,9 | -1,3 | -1,9 | -0,5 (jedna wartość) | | +0,2 / -0,2 |
+
 UWAGA 1 W przypadku dachów z attyką lub zaokrąglonymi krawędziami można stosować interpolację liniową dla
-wartości pośrednich h,/h i r/h.
-UWAGA 2 W przypadku dachów mansardowych można stosować interpolację liniową między a = 30°, 45°
-i a = 60”. Jeżeli a > 60°, to można stosować interpolację liniową między wartościami podanymi dla a = 60° i wartościami
+wartości pośrednich hp/h i r/h.
+
+UWAGA 2 W przypadku dachów mansardowych można stosować interpolację liniową między α = 30°, 45°
+i α = 60°. Jeżeli α > 60°, to można stosować interpolację liniową między wartościami podanymi dla α = 60° i wartościami
 podanymi dla płaskich dachów o ostrych krawędziach.
+
 UWAGA 3 W polu I, gdzie podano wartości dodatnie i ujemne, należy rozważyć obydwie wartości.
+
 UWAGA 4 Współczynniki ciśnienia zewnętrznego dla samych mansard podano w Tablicy 7.4a „Współczynniki
-ciśnienia zewnętrznego dla dachów dwuspadowych przy kierunku wiatru 0°”, pola F i Gw zależności od kąta nachylenia
+ciśnienia zewnętrznego dla dachów dwuspadowych przy kierunku wiatru 0°”, pola F i G w zależności od kąta nachylenia
 krawędzi mansardowej.
+
 UWAGA 5 Dla samych krawędzi zaokrąglonych współczynniki ciśnienia zewnętrznego oblicza się z interpolacji
 liniowej wzdłuż zaokrąglenia, między ich wartościami na ścianie i na dachu.
 
 7.2.4 Dachy jednospadowe
+
 (1) Dach należy podzielić, uwzględniając okapy, na pola pokazane na Rysunku 7.7.
-(2) Należy przyjmować wysokość odniesienia za równą h.
+
+(2) Należy przyjmować wysokość odniesienia ze równą h.
 
 (3) Współczynniki ciśnienia dla każdego pola podano w Tablicy 7.3.
 
 37
 
-
-===== page-043.txt =====
+===== page-043.txt ===== [ZWERYFIKOWANO WIZUALNIE ze skanem 25.09.2026]
 
 EN 1991-1-4:2005
 
-wiatr wiatr
-—> wysoka krawędź wysoka krawędź
-8=0 a 8=180 Z a
-niska krawędź niska krawędź
-h h
-
-(a) widok z boku
-
-e/4 F
-
-wiatr G H b
-
-e/4 F
-
-e/10 mniejszy z dwóch
-— e = b albo 2h
-
-(b) kierunek wiatru 6 = 0° i 180° b: wymiar poprzeczny
-do kierunku wiatru
-
-wysoka krawędź
-
-e/4 Fup
-
-wiatr G H
-
-el4 Fiow
-
-niska krawędź
-
-e/10
-|—
-
-e/2 |
-
-(c) kierunek wiatru 6 = 90°
+[Rysunek 7.7 — (a) widok z boku: dach jednospadowy o kącie α, wysokość h; θ = 0° — wiatr od niskiej krawędzi, θ = 180° — wiatr od wysokiej krawędzi.
+(b) kierunek wiatru θ = 0° i 180°: pola F (narożne, e/10 × e/4), G (między F, szer. e/10), H (reszta dachu).
+(c) kierunek wiatru θ = 90°: Fup (przy wysokiej krawędzi, e/10 × e/4), Flow (przy niskiej krawędzi, e/10 × e/4), G (między nimi, szer. e/10), H (od e/10 do e/2), I (reszta).
+e = mniejszy z dwóch: b albo 2h; b: wymiar poprzeczny do kierunku wiatru.]
 
 Rysunek 7.7 — Oznaczenia dachów jednospadowych
 
 38
 
-
-===== page-044.txt =====
+===== page-044.txt ===== [ZWERYFIKOWANO WIZUALNIE ze skanem 25.09.2026]
 
 EN 1991-1-4:2005
 
-Tablica 7.3a — Współczynniki ciśnienia zewnętrznego dla dachów płaskich
+Tablica 7.3a — Współczynniki ciśnienia zewnętrznego dla dachów płaskich [sic — w oryginale „płaskich”; tablica dotyczy dachów jednospadowych, patrz 7.2.4 (3)]
 
-Kąt Pole dla kierunku wiatru 0 = 0° Pole dla kierunku wiatru 0 = 180°
-spadku F G H F G H
-a
-Cpe,10 Cpe,1 Cpe,10 Cpe,1 Cpe,10 Cpe,1 Cpe,10 Cpe,1 Cpe,10 Cpe,1 Cpe,10 Cpe,1
--1,7 -2,5 -1,2 -2,0 -0,6 -1,2
-5° -2,3 -2,5 -1,3 -2,0 -0,8 -1,2
-+0,0 +0,0 +0,0
--0,9 -2,0 -0,8 -1,5 -0,3
-15° -2,5 -2,8 -1,3 -2,0 -0,9 -1,2
-+0,2 +0,2 + 0,2
--0,5 -1,5 -0,5 -1,5 -0,2
-30° -1,1 -2,3 -0,8 -1,5 -0,8
-+0,7 +0,7 +0,4
--0,0 -0,0 -0,0
-45° -0,6 -1,3 -0,5 -0,7
-+0,7 +0,7 +0,6
-60° +0,7 +0,7 +0,7 -0,5 -1,0 -0,5 -0,5
-75° +0,8 +0,8 +0,8 -0,5 -1,0 -0,5 -0,5
+Kierunek wiatru θ = 0° (dla 5°–45° dwa wiersze: wartość ujemna i dodatnia, patrz UWAGA 1):
+
+| Kąt spadku α | F cpe,10 | F cpe,1 | G cpe,10 | G cpe,1 | H cpe,10 | H cpe,1 |
+|---|---|---|---|---|---|---|
+| 5° (−) | -1,7 | -2,5 | -1,2 | -2,0 | -0,6 | -1,2 |
+| 5° (+) | +0,0 (jedna wartość) | | +0,0 (jedna wartość) | | +0,0 (jedna wartość) | |
+| 15° (−) | -0,9 | -2,0 | -0,8 | -1,5 | -0,3 (jedna wartość) | |
+| 15° (+) | +0,2 (jedna wartość) | | +0,2 (jedna wartość) | | +0,2 (jedna wartość) | |
+| 30° (−) | -0,5 | -1,5 | -0,5 | -1,5 | -0,2 (jedna wartość) | |
+| 30° (+) | +0,7 (jedna wartość) | | +0,7 (jedna wartość) | | +0,4 (jedna wartość) | |
+| 45° (−) | -0,0 (jedna wartość) | | -0,0 (jedna wartość) | | -0,0 (jedna wartość) | |
+| 45° (+) | +0,7 (jedna wartość) | | +0,7 (jedna wartość) | | +0,6 (jedna wartość) | |
+| 60° | +0,7 (jedna wartość) | | +0,7 (jedna wartość) | | +0,7 (jedna wartość) | |
+| 75° | +0,8 (jedna wartość) | | +0,8 (jedna wartość) | | +0,8 (jedna wartość) | |
+
+Kierunek wiatru θ = 180°:
+
+| Kąt spadku α | F cpe,10 | F cpe,1 | G cpe,10 | G cpe,1 | H cpe,10 | H cpe,1 |
+|---|---|---|---|---|---|---|
+| 5° | -2,3 | -2,5 | -1,3 | -2,0 | -0,8 | -1,2 |
+| 15° | -2,5 | -2,8 | -1,3 | -2,0 | -0,9 | -1,2 |
+| 30° | -1,1 | -2,3 | -0,8 | -1,5 | -0,8 (jedna wartość) | |
+| 45° | -0,6 | -1,3 | -0,5 (jedna wartość) | | -0,7 (jedna wartość) | |
+| 60° | -0,5 | -1,0 | -0,5 (jedna wartość) | | -0,5 (jedna wartość) | |
+| 75° | -0,5 | -1,0 | -0,5 (jedna wartość) | | -0,5 (jedna wartość) | |
+
+„(jedna wartość)” = w oryginale komórka scalona dla cpe,10 i cpe,1.
+
 Tablica 7.3b — Współczynniki ciśnienia zewnętrznego dla dachów jednospadowych
-Pole dla kierunku wiatru 0 = 90°
-Kąt spadku
-a Fup Fiow G H |
-Cpe,10 Cpe,1 Cpe,10 Cpe,1 Cpe,10 Cpe,1 Cpe,10 Cpe,1 Cpe,10 Cpe,1
-5° -2,1 -2,6 -2,1 -2,4 -1,8 -2,0 -0,6 -1,2 -0,5
-15° -2,4 -2,9 -1,6 -2,4 -1,9 -2,5 -0,8 -1,2 -0,7 -1,2
-30° -2,1 -2,9 -1,3 -2,0 -1,5 -2,0 -1,0 -1,3 -0,8 -1,2
-45° -1,5 -2,4 -1,3 -2,0 -1,4 -2,0 -1,0 -1,3 -0,9 -1,2
-60° -1,2 -2,0 -1,2 -2,0 -1,2 -2,0 -1,0 -1,3 -0,7 -1,2
-75° -1,2 -2,0 -1,2 -2,0 -1,2 -2,0 -1,0 -1,3 -0,5
-UWAGA 1 Przy @ = 0° (patrz Tablica a)), w zakresie kątów spadku między a = +5° aa = +45°, ciśnienie zmienia
+
+Kierunek wiatru θ = 90°:
+
+| Kąt spadku α | Fup cpe,10 | Fup cpe,1 | Flow cpe,10 | Flow cpe,1 | G cpe,10 | G cpe,1 | H cpe,10 | H cpe,1 | I cpe,10 | I cpe,1 |
+|---|---|---|---|---|---|---|---|---|---|---|
+| 5° | -2,1 | -2,6 | -2,1 | -2,4 | -1,8 | -2,0 | -0,6 | -1,2 | -0,5 (jedna wartość) | |
+| 15° | -2,4 | -2,9 | -1,6 | -2,4 | -1,9 | -2,5 | -0,8 | -1,2 | -0,7 | -1,2 |
+| 30° | -2,1 | -2,9 | -1,3 | -2,0 | -1,5 | -2,0 | -1,0 | -1,3 | -0,8 | -1,2 |
+| 45° | -1,5 | -2,4 | -1,3 | -2,0 | -1,4 | -2,0 | -1,0 | -1,3 | -0,9 | -1,2 |
+| 60° | -1,2 | -2,0 | -1,2 | -2,0 | -1,2 | -2,0 | -1,0 | -1,3 | -0,7 | -1,2 |
+| 75° | -1,2 | -2,0 | -1,2 | -2,0 | -1,2 | -2,0 | -1,0 | -1,3 | -0,5 (jedna wartość) | |
+
+UWAGA 1 Przy θ = 0° (patrz Tablica a)), w zakresie kątów spadku między α = +5° a α = +45°, ciśnienie zmienia
 się gwałtownie między wartościami dodatnimi a ujemnymi, dlatego podano wartości dodatnie i ujemne. Należy
 rozważyć dwa przypadki: w jednym należy przyjąć wszystkie wartości dodatnie, a w drugim wszystkie ujemne.
 Nie dopuszcza się jednoczesnego przyjmowania wartości dodatnich i ujemnych na tej samej połaci.
+
 UWAGA 2 Dla pośrednich kątów spadku można stosować interpolację liniową między wartościami tego samego
 znaku. Wartości równe 0,0 podano dla celów interpolacji.
 
 7.2.5 Dachy dwuspadowe
 
-(1)
-(2)
+(1) Dach należy podzielić, uwzględniając okapy, na pola pokazane na Rysunku 7.8.
 
-Należy przyjmować wysokość odniesienia zę równą h.
+(2) Należy przyjmować wysokość odniesienia ze równą h.
 
 (3) Współczynniki ciśnienia dla każdego pola podano w Tablicy 7.4.
 
-Dach należy podzielić, uwzględniając okapy, na pola pokazane na Rysunku 7.8.
-
 39
 
-
-===== page-045.txt =====
+===== page-045.txt ===== [ZWERYFIKOWANO WIZUALNIE ze skanem 25.09.2026]
 
 EN 1991-1-4:2005
 
-połać nawietrzna połać nawietrzna
-
-wiatr wiatr
-połać zawietrzna połać zawietrzna
-6 =0 6 =0
-a >0°
-
-Pliibibiiiiiiil h h
-
-Dach dwuspadowy Dach zagłębiony
-
-(a) widok z boku
-połać nawietrzna połać zawietrzna
-
-\ /
-
-\ 7 ww
-e/4 F
-
-wiatr
-[e
-
-[I
-o
-
-o
-
-Q
-
-z
-
-kalenica albo niecka
-
-C
-o
-
-e/4 | F
-4%
-
-t—le/10  |+—je/10 mniejszy z dwóch
-e = b albo 2h
-
-[<
-
-(b) kierunek wiatru 6 = 0° ,
-b: wymiar poprzeczny
-
-do kierunku wiatru
-
-zy
-el4 | F
-H I
-G
-wiatr kalenica b
-8 = 90° albo niecka
-G
-H I
-el4 | F
-l—e/10
-e/2
-
-(c) kierunek wiatru 6 = 90°
+[Rysunek 7.8 — (a) widok z boku: dach dwuspadowy (α > 0°) i dach zagłębiony (α < 0), połać nawietrzna i zawietrzna, wysokość h.
+(b) kierunek wiatru θ = 0°: połać nawietrzna — F (narożne, e/10 × e/4), G (między F, szer. e/10), H (reszta połaci nawietrznej do kalenicy albo niecki); połać zawietrzna — J (pas e/10 za kalenicą/niecką), I (reszta).
+(c) kierunek wiatru θ = 90°: F (e/10 × e/4 przy krawędziach), G (e/10, między F a kalenicą), H (od e/10 do e/2), I (reszta); kalenica albo niecka wzdłuż kierunku wiatru.
+e = mniejszy z dwóch: b albo 2h; b: wymiar poprzeczny do kierunku wiatru.]
 
 Rysunek 7.8 — Oznaczenia dachów dwuspadowych
 
 40
 
-
-===== page-046.txt =====
+===== page-046.txt ===== [ZWERYFIKOWANO WIZUALNIE ze skanem 25.09.2026]
 
 EN 1991-1-4:2005
 
 Tablica 7.4a — Współczynniki ciśnienia zewnętrznego dla dachów dwuspadowych
 
-Pole dla kierunku wiatru 0 = 0°
-Kąt
-spadku F G H I J
-a
-Cpe,10 Cpe,1 Cpe,10 Cpe,1 Cpe,10 Cpe,1 Cpe,10 Cpe,1 Cpe,10 Cpe,1
--45° -0,6 -0,6 -0,8 -0,7 -1,0 -1,5
--30° -1,1 -2,0 -0,8 -1,5 -0,8 -0,6 -0,8 -1,4
--15° -2,5 -2,8 -1,3 -2,0 -0,9 -1,2 -0,5 -0,7 -1,2
-+0,2 +0,2
--5° -2,3 -2,5 -1,2 -2,0 -0,8 -1,2
--0,6 -0,6
--1,7 -2,5 -1,2 -2,0 -0,6 -1,2 +0,2
-5° -0,6
-+0,0 +0,0 +0,0 -0,6
--0,9 -2,0 -0,8 -1,5 -0,3 -0,4 -1,0 -1,5
-15°
-+0,2 +0,2 +0,2 +0,0 +0,0 +0,0
--0,5 -1,5 -0,5 -1,5 -0,2 -0,4 -0,5
-30°
-+0,7 +0,7 +0,4 +0,0 +0,0
--0,0 -0,0 -0,0 -0,2 -0,3
-45°
-+0,7 +0,7 +0,6 +0,0 +0,0
-60° +0,7 +0,7 +0,7 -0,2 -0,3
-75° +0,8 +0,8 +0,8 -0,2 -0,3
-UWAGA 1  Przy0 = 0°, w zakresie kątów spadku między a = -5° a a = +45", ciśnienie na połaci nawietrznej zmienia
+Kierunek wiatru θ = 0°. „(jedna wartość)” = w oryginale komórka scalona dla cpe,10 i cpe,1; gdy dla kąta są dwa wiersze (−/+), patrz UWAGA 1.
+
+| Kąt spadku α | F cpe,10 | F cpe,1 | G cpe,10 | G cpe,1 | H cpe,10 | H cpe,1 | I cpe,10 | I cpe,1 | J cpe,10 | J cpe,1 |
+|---|---|---|---|---|---|---|---|---|---|---|
+| -45° | -0,6 (jedna wartość) | | -0,6 (jedna wartość) | | -0,8 (jedna wartość) | | -0,7 (jedna wartość) | | -1,0 | -1,5 |
+| -30° | -1,1 | -2,0 | -0,8 | -1,5 | -0,8 (jedna wartość) | | -0,6 (jedna wartość) | | -0,8 | -1,4 |
+| -15° | -2,5 | -2,8 | -1,3 | -2,0 | -0,9 | -1,2 | -0,5 (jedna wartość) | | -0,7 | -1,2 |
+| -5° (wiersz 1) | -2,3 | -2,5 | -1,2 | -2,0 | -0,8 | -1,2 | +0,2 (jedna wartość) | | +0,2 (jedna wartość) | |
+| -5° (wiersz 2) | (jak wyżej — F, G, H jedna wartość na oba wiersze) | | | | | | -0,6 (jedna wartość) | | -0,6 (jedna wartość) | |
+| 5° (−) | -1,7 | -2,5 | -1,2 | -2,0 | -0,6 | -1,2 | -0,6 (jedna wartość, na oba wiersze) | | +0,2 (jedna wartość) | |
+| 5° (+) | +0,0 (jedna wartość) | | +0,0 (jedna wartość) | | +0,0 (jedna wartość) | | | | -0,6 (jedna wartość) | |
+| 15° (−) | -0,9 | -2,0 | -0,8 | -1,5 | -0,3 (jedna wartość) | | -0,4 (jedna wartość) | | -1,0 | -1,5 |
+| 15° (+) | +0,2 (jedna wartość) | | +0,2 (jedna wartość) | | +0,2 (jedna wartość) | | +0,0 (jedna wartość) | | +0,0 | +0,0 |
+| 30° (−) | -0,5 | -1,5 | -0,5 | -1,5 | -0,2 (jedna wartość) | | -0,4 (jedna wartość) | | -0,5 (jedna wartość) | |
+| 30° (+) | +0,7 (jedna wartość) | | +0,7 (jedna wartość) | | +0,4 (jedna wartość) | | +0,0 (jedna wartość) | | +0,0 (jedna wartość) | |
+| 45° (−) | -0,0 (jedna wartość) | | -0,0 (jedna wartość) | | -0,0 (jedna wartość) | | -0,2 (jedna wartość) | | -0,3 (jedna wartość) | |
+| 45° (+) | +0,7 (jedna wartość) | | +0,7 (jedna wartość) | | +0,6 (jedna wartość) | | +0,0 (jedna wartość) | | +0,0 (jedna wartość) | |
+| 60° | +0,7 (jedna wartość) | | +0,7 (jedna wartość) | | +0,7 (jedna wartość) | | -0,2 (jedna wartość) | | -0,3 (jedna wartość) | |
+| 75° | +0,8 (jedna wartość) | | +0,8 (jedna wartość) | | +0,8 (jedna wartość) | | -0,2 (jedna wartość) | | -0,3 (jedna wartość) | |
+
+UWAGA 1 Przy θ = 0°, w zakresie kątów spadku między α = -5° a α = +45°, ciśnienie na połaci nawietrznej zmienia
 się gwałtownie między wartościami dodatnimi a ujemnymi, dlatego podano wartości dodatnie i ujemne. Należy
 rozważyć cztery przypadki, w których największe albo najmniejsze wartości we wszystkich polach F, G i H występują
 łącznie z największymi albo najmniejszymi wartościami w polach I i J. Nie dopuszcza się jednoczesnego przyjmowania
 wartości dodatnich i ujemnych na tej samej połaci.
+
 UWAGA 2 Dla pośrednich kątów spadku można stosować interpolację liniową między wartościami tego samego
-znaku. (Nie należy interpolować między a = +5” aa =-5°, lecz zastosować dane dla płaskiego dachu podane
+znaku. (Nie należy interpolować między α = +5° a α = -5°, lecz zastosować dane dla płaskiego dachu podane
 w 7.2.3). Wartości równe 0,0 podano dla celów interpolacji.
 
 41
 
-
-===== page-047.txt =====
+===== page-047.txt ===== [ZWERYFIKOWANO WIZUALNIE ze skanem 25.09.2026]
 
 EN 1991-1-4:2005
 
 Tablica 7.4b — Współczynniki ciśnienia zewnętrznego dla dachów dwuspadowych
 
-Pole dla kierunku wiatru 0 = 90°
-Kąt spadku G H 1
-a
-Cpe,10 Cpe,1 Cpe,10 Cpe,1 Cpe,10 Cpe,1 Cpe,10 Cpe,1
--45° -1,4 -2,0 -1,2 -2,0 -1,0 -1,3 -0,9 -1,2
--30° -1,5 -2,1 -1,2 -2,0 -1,0 -1,3 -0,9 -1,2
--15° -1,9 -2,5 -1,2 -2,0 -0,8 -1,2 -0,8 -1,2
--5° -1,8 -2,5 -1,2 -2,0 -0,7 -1,2 -0,6 -1,2
-5° -1,6 -2,2 -1,3 -2,0 -0,7 -1,2 -0,6
-15° -1,3 -2,0 -1,3 -2,0 -0,6 -1,2 -0,5
-30° -1,1 -1,5 -1,4 -2,0 -0,8 -1,2 -0,5
-45° -1,1 -1,5 -1,4 -2,0 -0,9 -1,2 -0,5
-60° -1,1 -1,5 -1,2 -2,0 -0,8 -1,0 -0,5
-75° -1,1 -1,5 -1,2 -2,0 -0,8 -1,0 -0,5
-7.2.6 Dachy czterospadowe
-(1) Dach należy podzielić, uwzględniając okapy, na pola pokazane na Rysunku 7.9.
-(2) Należy przyjmować wysokość odniesienia zę równą h.
-(3) Współczynniki ciśnienia, które należy stosować, podano w Tablicy 7.5.
-om go
-wiatr wiatr
-ee h
-0=0* h 0 = 90°
-mniejszy z dwóch
-e = b albo 2h
-e/10 b: wymiar poprzeczny
->| __ do kierunku wiatru
-z 110
-su | FN M Ę że
-se Je”
-: +
-N N feito
-wiatr wiatr a
-——% 0=0 |G; H ki | b „|
-/ N Ś-.|e/10
-X
-Fil -
-ou] © Telto
-k—|
+Kierunek wiatru θ = 90°:
 
-(a) kierunek wiatru 0 = 0° (b) kierunek wiatru 0 = 90°
+| Kąt spadku α | F cpe,10 | F cpe,1 | G cpe,10 | G cpe,1 | H cpe,10 | H cpe,1 | I cpe,10 | I cpe,1 |
+|---|---|---|---|---|---|---|---|---|
+| -45° | -1,4 | -2,0 | -1,2 | -2,0 | -1,0 | -1,3 | -0,9 | -1,2 |
+| -30° | -1,5 | -2,1 | -1,2 | -2,0 | -1,0 | -1,3 | -0,9 | -1,2 |
+| -15° | -1,9 | -2,5 | -1,2 | -2,0 | -0,8 | -1,2 | -0,8 | -1,2 |
+| -5° | -1,8 | -2,5 | -1,2 | -2,0 | -0,7 | -1,2 | -0,6 | -1,2 |
+| 5° | -1,6 | -2,2 | -1,3 | -2,0 | -0,7 | -1,2 | -0,6 (jedna wartość) | |
+| 15° | -1,3 | -2,0 | -1,3 | -2,0 | -0,6 | -1,2 | -0,5 (jedna wartość) | |
+| 30° | -1,1 | -1,5 | -1,4 | -2,0 | -0,8 | -1,2 | -0,5 (jedna wartość) | |
+| 45° | -1,1 | -1,5 | -1,4 | -2,0 | -0,9 | -1,2 | -0,5 (jedna wartość) | |
+| 60° | -1,1 | -1,5 | -1,2 | -2,0 | -0,8 | -1,0 | -0,5 (jedna wartość) | |
+| 75° | -1,1 | -1,5 | -1,2 | -2,0 | -0,8 | -1,0 | -0,5 (jedna wartość) | |
+
+7.2.6 Dachy czterospadowe
+
+(1) Dach należy podzielić, uwzględniając okapy, na pola pokazane na Rysunku 7.9.
+
+(2) Należy przyjmować wysokość odniesienia ze równą h.
+
+(3) Współczynniki ciśnienia, które należy stosować, podano w Tablicy 7.5.
+
+[Rysunek 7.9 — dach czterospadowy, kąty α0 (θ = 0°) i α90 (θ = 90°); e = mniejszy z dwóch: b albo 2h.
+(a) θ = 0°: pola F (e/10 × e/4 w narożach nawietrznych), G, H (połać nawietrzna), K, I (połać zawietrzna), L, M (połacie boczne przy narożach), J (pasy e/10 przy krawędziach zawietrznych).
+(b) θ = 90°: F, G, H, L, M w strefie e/10 i e/2 od krawędzi nawietrznej, N (połacie boczne), I, J (strona zawietrzna, pasy e/10).]
 
 Rysunek 7.9 — Oznaczenia dachów czterospadowych
 
 42
 
-
-===== page-048.txt =====
+===== page-048.txt ===== [ZWERYFIKOWANO WIZUALNIE ze skanem 25.09.2026]
 
 EN 1991-1-4:2005
 
 Tablica 7.5 — Współczynniki ciśnienia zewnętrznego dla dachów czterospadowych
 
-Kąt
-spadku Pole dla kierunku wiatru 6 = 0° i 6 = 90°
-a, dla
-8=0 F G H | J K L M N
-gp dla
-0 =90° | Cpe,1o | Cpe,1 | Cpe,10 | Cpe,1 | Cpe,10 | Cpe,1 | Cpe,10 | Cpe,1 | Cpe,10 | Cpe,1 | Cpe,10 | Cpe,1 | Cpe,10 | Cpe,1 | Cpe,10 | Cpe,1 | Cpe,10 | Cpe,1
--1,7 | -2,5 | -1,2 | -2,0 | -0,6 | -1,2
-5° -0,3 -0,6 -0,6 -1,2 | -2,0 | -0,6 | -1,2 -0,4
-+0,0 +0,0 +0,0
--0,9 | -2,0 | -0,8 | -1,5 -0,3
-15° -0,5 -1,0 | -1,5 | -1,2 | -2,0| -1,4 | -2,0 | -0,6 | -1,2 -0,3
-+0,2 +0,2 +0,2
--0,5 | -1,5 | -0,5 | -1,5 -0,2
-30° -0,4 -0,7 | -1,2 -0,5 -1,4 | -2,0 | -0,8 | -1,2 -0,2
-+0,5 +0,7 +0,4
--0,0 -0,0 -0,0
-45° -0,3 -0,6 -0,3 -1,3 | -2,0 | -0,8 | -1,2 -0,2
-+0,7 +0,7 +0,6
-60° +0,7 +0,7 +0,7 -0,3 -0,6 -0,3 -1,2 | -2,0 -0,4 -0,2
-75° +0,8 +0,8 +0,8 -0,3 -0,6 -0,3 -1,2 | -2,0 -0,4 -0,2
+Kierunek wiatru θ = 0° i θ = 90°; kąt spadku: α0 dla θ = 0°, α90 dla θ = 90°. Dla 5°–45° pola F, G, H mają dwa wiersze (−/+, patrz UWAGA 1); pola I–N mają jedną wartość wspólną dla obu wierszy. Zapis „a” = jedna wartość (komórka scalona cpe,10/cpe,1), „a / b” = cpe,10 / cpe,1.
 
-UWAGA 1 Przy @ = 0°, w zakresie kątów spadku między a = +5” aa = +45", ciśnienie na połaci nawietrznej zmienia się gwałtownie
+| α | F | G | H | I | J | K | L | M | N |
+|---|---|---|---|---|---|---|---|---|---|
+| 5° (−) | -1,7 / -2,5 | -1,2 / -2,0 | -0,6 / -1,2 | -0,3 | -0,6 | -0,6 | -1,2 / -2,0 | -0,6 / -1,2 | -0,4 |
+| 5° (+) | +0,0 | +0,0 | +0,0 | (jw.) | (jw.) | (jw.) | (jw.) | (jw.) | (jw.) |
+| 15° (−) | -0,9 / -2,0 | -0,8 / -1,5 | -0,3 | -0,5 | -1,0 / -1,5 | -1,2 / -2,0 | -1,4 / -2,0 | -0,6 / -1,2 | -0,3 |
+| 15° (+) | +0,2 | +0,2 | +0,2 | (jw.) | (jw.) | (jw.) | (jw.) | (jw.) | (jw.) |
+| 30° (−) | -0,5 / -1,5 | -0,5 / -1,5 | -0,2 | -0,4 | -0,7 / -1,2 | -0,5 | -1,4 / -2,0 | -0,8 / -1,2 | -0,2 |
+| 30° (+) | +0,5 | +0,7 | +0,4 | (jw.) | (jw.) | (jw.) | (jw.) | (jw.) | (jw.) |
+| 45° (−) | -0,0 | -0,0 | -0,0 | -0,3 | -0,6 | -0,3 | -1,3 / -2,0 | -0,8 / -1,2 | -0,2 |
+| 45° (+) | +0,7 | +0,7 | +0,6 | (jw.) | (jw.) | (jw.) | (jw.) | (jw.) | (jw.) |
+| 60° | +0,7 | +0,7 | +0,7 | -0,3 | -0,6 | -0,3 | -1,2 / -2,0 | -0,4 | -0,2 |
+| 75° | +0,8 | +0,8 | +0,8 | -0,3 | -0,6 | -0,3 | -1,2 / -2,0 | -0,4 | -0,2 |
+
+UWAGA 1 Przy θ = 0°, w zakresie kątów spadku między α = +5° a α = +45°, ciśnienie na połaci nawietrznej zmienia się gwałtownie
 między wartościami dodatnimi i ujemnymi, dlatego podano wartości dodatnie i ujemne. Należy rozważyć dwa przypadki: w jednym
 należy przyjąć wszystkie wartości dodatnie, a w drugim wszystkie ujemne. Nie dopuszcza się jednoczesnego przyjmowania wartości
 dodatnich i ujemnych na tej samej połaci.
@@ -2875,189 +2482,83 @@ dodatnich i ujemnych na tej samej połaci.
 UWAGA 2 Dla pośrednich kątów spadku tego samego znaku można stosować interpolację liniową między wartościami tego samego
 znaku. Wartości równe 0,0 podano dla celów interpolacji.
 
-UWAGA 3 O'wartościach współczynnika ciśnienia na różnych połaciach zawsze decyduje kąt spadku połaci nawietrznej.
+UWAGA 3 O wartościach współczynnika ciśnienia na różnych połaciach zawsze decyduje kąt spadku połaci nawietrznej.
 
 7.2.7 Dachy wielospadowe
 
-(1) Współczynniki ciśnienia dla kierunków wiatru 0”, 90” i 180” dla każdej połaci dachu wielospadowego
+(1) Współczynniki ciśnienia dla kierunków wiatru 0°, 90° i 180° dla każdej połaci dachu wielospadowego
 można ustalać na podstawie współczynnika ciśnienia każdej indywidualnej połaci.
 
-Należy ustalić współczynniki modyfikujące ciśnienie (lokalne i globalne) przy kierunkach wiatru 0” i 180° na
+Należy ustalić współczynniki modyfikujące ciśnienie (lokalne i globalne) przy kierunkach wiatru 0° i 180° na
 każdej połaci, korzystając:
-
-— zdanych zamieszczonych w 7.2.4 dla dachów jednospadowych, zmodyfikowanych ze względu na ich
+– z danych zamieszczonych w 7.2.4 dla dachów jednospadowych, zmodyfikowanych ze względu na ich
 położenie zgodnie z Rysunkiem 7.10 a i b.
-
-— zdanych zamieszczonych w 7.2.5 dla dachów dwupospadowych o a < 0, zmodyfikowanych ze względu
-na ich położenie zgodnie z Rysunkiem 7.10 cid.
+– z danych zamieszczonych w 7.2.5 dla dachów dwupospadowych [sic] o α < 0, zmodyfikowanych ze względu
+na ich położenie zgodnie z Rysunkiem 7.10 c i d.
 
 (2) Dane z pól F/G/J należy stosować tylko do połaci nawietrznej. Pola H i I należy rozpatrywać dla każdej
 połaci dachu wielospadowego.
 
 43
 
-
-===== page-049.txt =====
+===== page-049.txt ===== [ZWERYFIKOWANO WIZUALNIE ze skanem 25.09.2026]
 
 EN 1991-1-4:2005
 
-(3) Należy przyjmować wysokość odniesienia zę równą wysokości konstrukcji, h, patrz Rysunek 7.10.
+(3) Należy przyjmować wysokość odniesienia ze równą wysokości konstrukcji, h, patrz Rysunek 7.10.
 
-Cpe 0,8 Cpe 0,6 Cpe 0,6 Coe
-
-u
-
-a) SS -s7
-Cc
-8
-Ń [e
-0)
-Cpe > 0
-E
-b) —8|
-2
-Coe < 0
-E
-nne G
-B
-
-'
-t
-
-Sciana
-
-t
-t
-
-Cpe Cpe 0,6 Cpe 0,6 Cpe 0,6 Cpe
-"EB
-ONE:
-„O
-Cpe 0,8 Che 0,6 Coe 0,6 Cpe
-a TA
-d) |
+[Rysunek 7.10 — kolejne połacie dachu wielospadowego (od strony nawietrznej):
+a) dach piłokształtny, spadki od wiatru: cpe, 0,8 cpe, 0,6 cpe, 0,6 cpe;
+b) spadki do wiatru — dla cpe > 0: cpe, -0,4, -0,4, -0,4; dla cpe < 0: cpe, 0,8 cpe, 0,6 cpe, 0,6 cpe;
+c) połać jednospadowa na początku, dalej kosze dachu dwuspadowego: cpe, cpe, 0,6 cpe, 0,6 cpe, 0,6 cpe;
+d) dachy dwuspadowe o α < 0 (kosze): cpe, 0,8 cpe, 0,6 cpe, 0,6 cpe.]
 
 UWAGA 1 W konfiguracji b należy rozpatrzyć dwa przypadki, zależnie od znaku współczynnika ciśnienia cpe na
-
 pierwszym dachu.
 
-UWAGA 2 Wkonfiguragji c pierwszą wartością cpe jest ce dla dachu jednospadowego, druga i wszystkie następne
-
-Cpe Są wartościami c,ę w koszu dachu dwuspadowego.
+UWAGA 2 W konfiguracji c pierwszą wartością cpe jest cpe dla dachu jednospadowego, druga i wszystkie następne
+cpe są wartościami cpe w koszu dachu dwuspadowego.
 
 Rysunek 7.10 — Oznaczenia dachów wielospadowych
+
 44
 
-
-
-===== page-050.txt =====
+===== page-050.txt ===== [ZWERYFIKOWANO WIZUALNIE ze skanem 25.09.2026]
 
 EN 1991-1-4:2005
 
 7.2.8 Dachy łukowe i kopuły
+
 (1) Niniejszy rozdział stosuje się do dachów w kształcie walca kołowego i kopuł.
 
-UWAGA Wartości cpe,1o i Cpe,1 dla dachów w kształcie walca kołowego i kopuł mogą być podane w Załączniku
-krajowym. Zalecane wartości Cpe, 19 dla poszczególnych pól podano na Rysunkach 7.11 i 7.12. Przyjmuje się wyso-
-kość odniesienia równą zę = h +f
+UWAGA Wartości cpe,10 i cpe,1 dla dachów w kształcie walca kołowego i kopuł mogą być podane w Załączniku
+krajowym. Zalecane wartości cpe,10 dla poszczególnych pól podano na Rysunkach 7.11 i 7.12. Przyjmuje się wyso-
+kość odniesienia równą ze = h + f.
 
-Cpe,10 =
+[Rysunek 7.11 — wykres cpe,10 (od -1,2 do 0,8) w funkcji f/d (0–0,5) dla pól A (h = 0), A (h/d ≥ 0,5), B, C dachu łukowego (A — nawietrzna część łuku, B — środek, C — zawietrzna). Wartości — odczyt z wykresu w PDF.]
 
-0,8
-
-0,6
-
-0,4
-0,2
-
-0
-
-fid
-
--0,2
-
-I
-|
-I
--0,4 4
-, |
-I
--0,6 ra 1
-k-..1 8 A (hid20,5)
-
--0,8 = —=—J U
-MI
-IN
-I
-|
-
--1,0
-
--1,2
-A (hid20,5)
-
-|
-Jeżeli 0 < h/d < 0,5, to cpe 10 wyznacza się z interpolacji liniowej.
-
-Jeżeli 0,2 < f/d < 0,3 i h/d 2 0,5, to należy rozważyć dwie wartości Cpe.10.
+Jeżeli 0 < h/d < 0,5, to cpe,10 wyznacza się z interpolacji liniowej.
+Jeżeli 0,2 ≤ f/d ≤ 0,3 i h/d ≥ 0,5, to należy rozważyć dwie wartości cpe,10.
 Wykres nie ma zastosowania do dachów płaskich.
 
-Rysunek 7.11 — Zalecane wartości współczynnika ciśnienia zewnętrznego cpe,1o
+Rysunek 7.11 — Zalecane wartości współczynnika ciśnienia zewnętrznego cpe,10
 dla dachów łukowych na rzucie prostokąta
 
 45
 
-
-===== page-051.txt =====
+===== page-051.txt ===== [ZWERYFIKOWANO WIZUALNIE ze skanem 25.09.2026]
 
 EN 1991-1-4:2005
 
-+*Cpe104 |<
+[Rysunek 7.12 — wykres ±cpe,10 (od -1,6 do +0,8) w funkcji f/d (0–0,5) dla punktów A (h/d = 0, h/d = 0,25, h/d ≥ 1), B (h/d = 0, h/d ≥ 0,5), C (h/d = 0, h/d ≥ 0,5) kopuły; cpe,10 = const na każdej płaszczyźnie prostopadłej do wiatru. Wartości — odczyt z wykresu w PDF.]
 
-+0,8
-Cpe,10 = Const na każdej
-płaszczyżnie
-
-+0,6
-
-+0,4
-
-+0,2
-
-0,0 05 > C(h/d=0)
-
-fid
-C(h/d>0,5)
-
--0,2
-
--0,4
-
--0,6
-
--0,8
-
--1,0
-
-| —_B(h/d=0)
-| — B(h/d>0,5)
-
--1,2
-
--1,4
-
--1,6
-
-h
--Cpe,10
-
-Wartość Cpe,19 jest stała na każdym łuku powstałym z przecięcia czaszy kulistej płaszczyzną prostopadłą do kie-
+Wartość cpe,10 jest stała na każdym łuku powstałym z przecięcia czaszy kulistej płaszczyzną prostopadłą do kie-
 runku wiatru; w pierwszym przybliżeniu można ją wyznaczać za pomocą interpolacji liniowej między wartościami
-w punktach A, B iC wzdłuż łuku koła równoległego do kierunku wiatru. W ten sam sposób wartości cpe1o WA,
+w punktach A, B i C wzdłuż łuku koła równoległego do kierunku wiatru. W ten sam sposób wartości cpe,10 w A,
 jeżeli 0 < h/d < 1, oraz w B albo C, jeżeli 0 < h/d < 0,5, można wyznaczać za pomocą interpolacji liniowej między
 wartościami odczytanymi na rysunku powyżej.
 
-Rysunek 7.12 — Zalecane wartości współczynnika ciśnienia zewnętrznego cpe 1o dla
+Rysunek 7.12 — Zalecane wartości współczynnika ciśnienia zewnętrznego cpe,10 dla
 kopuł na rzucie kołowym
 
 (2) Wartości współczynnika ciśnienia dla ścian budynków na rzucie prostokąta z dachami łukowymi należy
@@ -3069,151 +2570,113 @@ przyjmować z 7.2.2.
 uwagę najbardziej niekorzystną kombinację ciśnienia zewnętrznego i wewnętrznego dla każdej kombinacji
 możliwych otworów i nieszczelności.
 
-(2) Współczynnik ciśnienia wewnętrznego, c,i, zależy od rozmiarów i rozmieszczenia otworów w ścianach
+(2) Współczynnik ciśnienia wewnętrznego, cpi, zależy od rozmiarów i rozmieszczenia otworów w ścianach
 osłonowych budynku. Jeżeli przynajmniej na dwóch stronach budynku (fasadach albo dachu), całkowite pole
 otworów wynosi ponad 30 % pola każdej z nich, to oddziaływania wiatru nie należy obliczać według zasad
 podanych w niniejszym rozdziale lecz zamiast nich należy stosować zasady podane w 7.3 i 7.4.
 
-UWAGA _ Za otwory w budynkach uważa się małe otwory takie jak: otwarte okna, wywietrzniki, kominy itp.,
+UWAGA Za otwory w budynkach uważa się małe otwory takie jak: otwarte okna, wywietrzniki, kominy itp.,
 jak również ogólną przepuszczalność przegród, jak szczeliny wokół drzwi, okien, urządzeń instalacyjnych oraz
 nieszczelności w obudowie budynku. Typowa przepuszczalność ogólna zawiera się w zakresie między 0,01 %
 a 0,1 % pola przegrody. Dodatkowe informacje mogą być podane w Załączniku krajowym.
 
 46
 
-
-===== page-052.txt =====
+===== page-052.txt ===== [ZWERYFIKOWANO WIZUALNIE ze skanem 25.09.2026]
 
 EN 1991-1-4:2005
 
 (3) Jeżeli otwór zewnętrzny, taki jak drzwi lub okno, byłby dominujący gdyby był otwarty, lecz w stanie gra-
 nicznym nośności, podczas silnego wiatru, jest uważany za zamknięty, to warunki, w których drzwi albo okno
-są otwarte należy rozpatrywać jako sytuację wyjatkową zgodnie z EN 1990.
+są otwarte należy rozpatrywać jako sytuację wyjątkową zgodnie z EN 1990.
 
-UWAGA ' Sprawdzenie konstrukcji w wyjątkowej sytuacji obliczeniowej jest ważne w przypadku wysokich ścian
-
-wewnętrzych (o wysokim poziomie ryzyka), gdy muszą one przenieść całkowite obciążenie ciśnieniem zewnętrz-
+UWAGA Sprawdzenie konstrukcji w wyjątkowej sytuacji obliczeniowej jest ważne w przypadku wysokich ścian
+wewnętrzych [sic] (o wysokim poziomie ryzyka), gdy muszą one przenieść całkowite obciążenie ciśnieniem zewnętrz-
 nym z powodu otworów w obudowie zewnętrznej.
 
 (4) Ścianę budynku należy uważać za dominującą, jeżeli pole otworów, które się w niej znajdują jest przy-
 najmniej równe dwukrotnej wielkości otworów i nieszczelności w pozostałych ścianach rozpatrywanego bu-
 dynku.
 
-UWAGA _ Tę zasadę można także stosować do oddzielnych pomieszczeń wewnątrz budynku.
+UWAGA Tę zasadę można także stosować do oddzielnych pomieszczeń wewnątrz budynku.
 
 (5) W przypadku budynku z dominującą ścianą ciśnienie wewnętrzne należy wyznaczać jako część ciśnie-
 nia zewnętrznego występującego w obszarze otworów na ścianie dominującej. Do wyznaczenia ich wartości
 należy stosować wyrażenia (7.1) i (7.2).
 
 Jeżeli pole otworów w ścianie dominującej jest równe dwukrotnemu polu otworów w pozostałych ścianach, to:
-Cpi = 0,75 * Cpe (7.1)
+
+cpi = 0,75 · cpe (7.1)
 
 Jeżeli pole otworów w ścianie dominującej jest przynajmniej równe trzykrotnemu polu otworów w pozostałych
 ścianach, to:
 
-Cpi = 0,90 * Cpe (7.2)
-gdzie
+cpi = 0,90 · cpe (7.2)
 
-Cpe _ wartość współczynnika ciśnienia zewnętrznego w obszarze otworów w ścianie dominującej. Jeżeli te otwo-
+gdzie
+cpe wartość współczynnika ciśnienia zewnętrznego w obszarze otworów w ścianie dominującej. Jeżeli te otwo-
 ry znajdują się w obszarach o różnych wartościach ciśnienia zewnętrznego, to należy przyjąć średnią
-ważoną wartość Cp. z rozpatrywanych obszarów.
+ważoną wartość cpe z rozpatrywanych obszarów.
 
 Jeżeli pole otworów w ścianie dominującej jest między 2 a 3 razy większe od pola otworów w pozostałych
-ścianach, to wówczas do wyznaczenia wartości cp; można zastosować interpolację liniową.
+ścianach, to wówczas do wyznaczenia wartości cpi można zastosować interpolację liniową.
 
-(6) W przypadku budynków bez ściany dominującej współczynnik ciśnienia wewnętrznego cp; należy wyzna-
+(6) W przypadku budynków bez ściany dominującej współczynnik ciśnienia wewnętrznego cpi należy wyzna-
 czać z Rysunku 7.13 w zależności od stosunku wysokości budynku do jego wymiaru w kierunku wiatru, h/d,
-i stosunku otworów u, który należy wyznaczyć z wyrażenia (7.3) dla każdego kierunku wiatru 0.
+i stosunku otworów μ, który należy wyznaczyć z wyrażenia (7.3) dla każdego kierunku wiatru θ.
 
-0,8
-0,7
-0,6
-0,5
-0,4
+[Rysunek 7.13 — wykres cpi w funkcji μ (0,33–1): dwie proste od cpi = 0,35 przy μ = 0,33; dla h/d ≤ 0,25 do -0,3 (osiągane przy μ ≈ 0,9, dalej stałe), dla h/d > 1,0 do -0,5 (osiągane przy μ ≈ 0,95, dalej stałe). Dokładne wartości — odczyt z wykresu w PDF.]
 
-0,35 ——
-0,3 5
-
-0,2
-c BRZ
-
-Po 0,1
-, NS
-
-/
-E
-z
-IA
-o
-ND
-LO |
-
-01 [nld>1,0 SSS
-02 | , NN
-
--0,3
--0,4 MN
-
--0,5
-
-/ /.
-
-0,33 0,4 0,5 0,6 0,7 0,8 0,9 1
-a
-
-UWAGA _ Dla wartości w zakresie od h/d = 0,25 do h/d = 1,0 można stosować interpolację liniową.
+UWAGA Dla wartości w zakresie od h/d = 0,25 do h/d = 1,0 można stosować interpolację liniową.
 
 Rysunek 7.13 — Wartości współczynnika ciśnienia wewnętrznego do stosowania w przypadku
 otworów równomiernie rozmieszczonych
 
 47
 
-
-===== page-053.txt =====
+===== page-053.txt ===== [ZWERYFIKOWANO WIZUALNIE ze skanem 25.09.2026]
 
 EN 1991-1-4:2005
 
-¥ pole otworów, gdzie Cy, <0
-
-pole wszystkich otworów (7.3)
+μ = Σ pole otworów, gdzie cpe ≤ 0 / Σ pole wszystkich otworów (7.3)
 
 UWAGA 1 Stosuje się do fasad i dachów budynków z przegrodami wewnętrznymi i bez nich.
 
-UWAGA 2 Jeżeli w poszczególnym przypadku oszacowanie u nie jest możliwe lub nie jest uważane za uzasad-
-nione, wówczas należy przyjąć bardziej niekorzystną wartość cy, z dwóch: +0,2 albo -0,3.
+UWAGA 2 Jeżeli w poszczególnym przypadku oszacowanie μ nie jest możliwe lub nie jest uważane za uzasad-
+nione, wówczas należy przyjąć bardziej niekorzystną wartość cpi z dwóch: +0,2 albo -0,3.
 
-(7) Wysokość odniesienia z, do obliczeń ciśnienia wewnętrznego powinna być równa wysokości odniesienia
-zę do obliczeń ciśnienia zewnętrznego (patrz 5.1 (1)P), które, poprzez otwory w ścianie wywołuje ciśnienie
-wewnętrzne. Jeżeli w ścianie jest kilka otworów, to do wyznaczenia z; należy przyjąć największą wartość zę.
+(7) Wysokość odniesienia zi do obliczeń ciśnienia wewnętrznego powinna być równa wysokości odniesienia
+ze do obliczeń ciśnienia zewnętrznego (patrz 5.1 (1)P), które, poprzez otwory w ścianie wywołuje ciśnienie
+wewnętrzne. Jeżeli w ścianie jest kilka otworów, to do wyznaczenia zi należy przyjąć największą wartość ze.
 
 (8) Współczynnik ciśnienia wewnętrznego w silosach otwartych i w kominach należy przyjąć według (7.4):
-Cpi = -0,60 (7.4)
+
+cpi = -0,60 (7.4)
 
 Współczynnik ciśnienia wewnętrznego w zbiornikach wentylowanych przez małe otwory należy przyjąć według
 (7.5):
 
-Cpi = -0,40 (7.5)
-Wysokość odniesienia z, jest równa wysokości konstrukcji.
+cpi = -0,40 (7.5)
+
+Wysokość odniesienia zi jest równa wysokości konstrukcji.
+
 7.2.10 Obciążenie ścian i dachów wielopowłokowych
+
 (1) Obciążenie wiatrem należy obliczać oddzielnie dla każdej powłoki.
 
-(2) Przepuszczalność u powłoki jest zdefiniowana jako stosunek całkowitego pola otworów do całkowitego
-pola powłoki. Powłoka jest uważana za nieprzepuszczalną, jeżeli u jest mniejsze niż 0,1 %.
+(2) Przepuszczalność μ powłoki jest zdefiniowana jako stosunek całkowitego pola otworów do całkowitego
+pola powłoki. Powłoka jest uważana za nieprzepuszczalną, jeżeli μ jest mniejsze niż 0,1 %.
 
 (3) Jeżeli tylko jedna powłoka jest przepuszczalna, to obciążenie wiatrem powłoki nieprzepuszczalnej należy
 wyznaczać z różnicy między ciśnieniem wewnętrznym i zewnętrznym, jak to podano w 5.2 (3). Jeżeli więcej
 niż jedna powłoka jest przepuszczalna, to obciążenie wiatrem każdej z nich zależy od:
+– względnej sztywności powłok,
+– ciśnienia zewnętrznego i wewnętrznego,
+– odległości między powłokami,
+– przepuszczalności powłok,
+– otworów na krańcach przestrzeni pomiędzy powłokami.
 
-— _ względnej sztywności powłok,
-
-— _ ciśnienia zewnętrznego i wewnętrznego,
-— _ odległości między powłokami,
-
-— _ przepuszczalności powłok,
-
-— _ otworów na krańcach przestrzeni pomiędzy powłokami.
-
-UWAGA 1 W Zataczniku krajowym można podać wartości obciążenia wiatrem działającego na ściany zewnętrzne
+UWAGA 1 W Załączniku krajowym można podać wartości obciążenia wiatrem działającego na ściany zewnętrzne
 i dachy złożone z więcej niż jednej powłoki. Jako pierwsze przybliżenie obciążenia wiatrem sztywniejszej powłoki
 zaleca się przyjmować różnicę między ciśnieniem wewnętrznym a zewnętrznym.
 
@@ -3221,351 +2684,242 @@ UWAGA 2 W Załączniku krajowym można podać zasady wyznaczania obciążenia wi
 strzeń pomiędzy powłokami jest szczelnie zamknięta na jej krańcach (Rysunek 7.14(a)) i gdy swobodna odległość
 między powłokami jest mniejsza niż 100 mm (materiał izolacyjny stanowi część jednej z powłok i nie ma w nim
 przepływu powietrza). Jako pierwsze przybliżenie mogą być zalecane następujące zasady postępowania:
-
-— dla ścian i dachów z wewnętrzną powłoką nieprzepuszczalną i przepuszczalną powłoką zewnętrzną o rów-
+– dla ścian i dachów z wewnętrzną powłoką nieprzepuszczalną i przepuszczalną powłoką zewnętrzną o rów-
 nomiernie, w przybliżeniu, rozmieszczonych otworach, obciążenie wiatrem zewnętrznej powłoki można obliczać
-PIZY Cpnet = 2/3 * Cpe dla nadciśnienia i Cpnet = 1/3 * Cpe dla podciśnienia. Obciążenie wiatrem powłoki wewnętrznej
-można obliczać z zależności Cp net = Cpe — Cpi.
-
-— dla ścian i dachów z wewnętrzną powłoką nieprzepuszczalną i nieprzepuszczalną, sztywniejszą powłoką
-zewnętrzną, obciążenie wiatrem zewnętrznej powłoki można obliczać z zależności Cp net = Cpe — Ci.
+przy cp,net = 2/3 · cpe dla nadciśnienia i cp,net = 1/3 · cpe dla podciśnienia. Obciążenie wiatrem powłoki wewnętrznej
+można obliczać z zależności cp,net = cpe – cpi.
+– dla ścian i dachów z wewnętrzną powłoką nieprzepuszczalną i nieprzepuszczalną, sztywniejszą powłoką
+zewnętrzną, obciążenie wiatrem zewnętrznej powłoki można obliczać z zależności cp,net = cpe – cpi.
 
 48
 
-
-===== page-054.txt =====
+===== page-054.txt ===== [ZWERYFIKOWANO WIZUALNIE ze skanem 25.09.2026]
 
 EN 1991-1-4:2005
 
-— dla ścian i dachów z wewnętrzną powłoką przepuszczalną, o równomiernie, w przybliżeniu, rozmieszczonych
+– dla ścian i dachów z wewnętrzną powłoką przepuszczalną, o równomiernie, w przybliżeniu, rozmieszczonych
 otworach i z nieprzepuszczalną powłoką zewnętrzną, obciążenie wiatrem powłoki zewnętrznej można obliczać
-z zależności Cp net = Cpe — Cpi, a Obciążenie wiatrem powłoki wewnętrznej z zależności Cppet = 1/3 * Cpi.
-
-— dla ścian i dachów z zewnętrzną powłoką nieprzepuszczalną i nieprzepuszczalną, sztywniejszą powłoką
-wewnętrzną, obciążenie wiatrem powłoki zewnętrznej można obliczać przy założeniu Cp net = Cpe, a obciążenie
-wiatrem powłoki wewnętrznej z zależności Cp net = Cpe — Cpi-
+z zależności cp,net = cpe – cpi, a obciążenie wiatrem powłoki wewnętrznej z zależności cp,net = 1/3 · cpi.
+– dla ścian i dachów z zewnętrzną powłoką nieprzepuszczalną i nieprzepuszczalną, sztywniejszą powłoką
+wewnętrzną, obciążenie wiatrem powłoki zewnętrznej można obliczać przy założeniu cp,net = cpe, a obciążenie
+wiatrem powłoki wewnętrznej z zależności cp,net = cpe – cpi.
 
 Jeżeli wloty powietrza umożliwiają jego przepływ z przestrzeni międzypowłokowej na jednej ścianie do przestrzeni
 międzypowłokowej na innej ścianie (Rysunek 7.14(b)), to powyższe zasady nie mają zastosowania.
 
-I
-I
-I
-I
-I
-I
-I
-I
-I
-I
-I
-
-(a) zamkniete krance przestrzeni miedzy powtokami
-
-(b) otwarte krańce przestrzeni między powłokami
+[Rysunek 7.14 — (a) zamknięte krańce przestrzeni między powłokami; (b) otwarte krańce przestrzeni między powłokami]
 
 Rysunek 7.14 — Szczegóły narożników ścian zewnętrznych o więcej niż jednej powłoce
 
 7.3 Wiaty
 
-(1) Zawiaty uważa się obiekty z dachami lecz bez stałych ścian, takie jak stacje paliwowe, otwarte stodoły itp.
+(1) Za wiaty uważa się obiekty z dachami lecz bez stałych ścian, takie jak stacje paliwowe, otwarte stodoły itp.
 
 (2) Stopień ograniczenia przepływu pod wiatą pokazano na Rysunku 7.15. Zależy on od współczynnika
-ograniczenia przepływu ¢, który jest stosunkiem pola możliwych do składowania rzeczywistych przeszkód
-pod dachem do pola przekroju poprzecznego przestrzeni pod wiatą; oba pola są wyznaczane w płaszczyżnie
+ograniczenia przepływu φ, który jest stosunkiem pola możliwych do składowania rzeczywistych przeszkód
+pod dachem do pola przekroju poprzecznego przestrzeni pod wiatą; oba pola są wyznaczane w płaszczyźnie
 prostopadłej do kierunku wiatru.
 
-UWAGA _ Wartość g = 0 wskazuje na brak czegokolwiek pod wiatą, a wartość p = 1 reprezentuje przestrzeń
+UWAGA Wartość φ = 0 wskazuje na brak czegokolwiek pod wiatą, a wartość φ = 1 reprezentuje przestrzeń
 pod wiatą całkowicie wypełnioną zawartością sięgającą nawietrznej krawędzi dachu (nie jest to budynek za-
 mknięty).
 
-(3) Globalne współczynniki siły, c,, i współczynniki ciśnienia netto, cp,ne podane w Tablicach 7.6 do 7.8 dla
-y =O0ig =1 uwzględniają łączny efekt działania wiatru na górną i dolną powierzchnię dachu przy wszystkich
+(3) Globalne współczynniki siły, cf, i współczynniki ciśnienia netto, cp,net, podane w Tablicach 7.6 do 7.8 dla
+φ = 0 i φ = 1 uwzględniają łączny efekt działania wiatru na górną i dolną powierzchnię dachu przy wszystkich
 kierunkach wiatru. Wartości pośrednie można wyznaczyć za pomocą interpolacji liniowej.
 
 (4) Po stronie zawietrznej maksymalnego wypełnienia przestrzeni pod wiatą należy przyjmować wartości
-Cp,net jak dla p = 0.
+cp,net jak dla φ = 0.
 
 (5) Globalny współczynnik siły reprezentuje siłę wypadkową. Współczynnik ciśnienia netto reprezentuje
-
 maksymalne ciśnienie lokalne wybrane ze wszystkich kierunków wiatru. Należy go stosować w obliczeniach
 elementów pokrycia i łączników.
 
 49
 
-
-===== page-055.txt =====
+===== page-055.txt ===== [ZWERYFIKOWANO WIZUALNIE ze skanem 25.09.2026]
 
 EN 1991-1-4:2005
 
 (6) Każda wiata powinna przenieść podane niżej przypadki obciążenia:
-
-— w przypadku wiaty jednospadowej (Tablica 7.6) należy przyjmować, że środek parcia leży w odległości
-dl4 od krawędzi nawietrznej dachu (d = wymiar w linii wiatru, Rysunek 7.16);
-
-— _wprzypadku wiaty dwuspadowej (Tablica 7.7) należy przyjmować, że środek parcia leży w środku każdej
+– w przypadku wiaty jednospadowej (Tablica 7.6) należy przyjmować, że środek parcia leży w odległości
+d/4 od krawędzi nawietrznej dachu (d = wymiar w linii wiatru, Rysunek 7.16);
+– w przypadku wiaty dwuspadowej (Tablica 7.7) należy przyjmować, że środek parcia leży w środku każdej
 połaci (Rysunek 7.17). Dodatkowo, jedna połać wiaty dwuspadowej powinna przenieść obciążenie mak-
-
 symalne oraz minimalne, podczas gdy druga połać pozostaje nieobciążona;
+– w przypadku wiaty wielospadowej, obciążenie każdego kosza można obliczać z zastosowaniu współczyn-
+nika redukcyjnego ψmc, podanego w Tablicy 7.8, dotyczącego wartości cp,net podanych w Tablicy 7.7.
 
-—  wprzypadku wiaty wielospadowej, obciążenie każdego kosza można obliczać z zastosowaniu współczyn-
-nika redukcyjnego Ymo, podanego w Tablicy 7.8, dotyczącego wartości Cp net podanych w Tablicy 7.7.
-
-W przypadku wiat dwupowłokowych, powłokę nieprzepuszczalną i jej łączniki należy obliczać, przyjmując Cp net
-a powłokę przepuszczalną i jej łączniki przyjmując 1/3 Cp net-
+W przypadku wiat dwupowłokowych, powłokę nieprzepuszczalną i jej łączniki należy obliczać, przyjmując cp,net
+a powłokę przepuszczalną i jej łączniki przyjmując 1/3 cp,net.
 
 (7) Należy uwzględnić obciążenie siłami tarcia (patrz 7.5).
 
-(8) Wysokość odniesienia zę należy przyjmować równą h, jak pokazano na Rysunkach 7.16 i 7.17.
+(8) Wysokość odniesienia ze należy przyjmować równą h, jak pokazano na Rysunkach 7.16 i 7.17.
 
-R
-
-MN, ————7— ©
-Ne
-M NL
-
-5 ZAS
-
-Wiata pusta (p = 0)
-
-Blokada wiaty od zawietrznej krawędzi dachu
-przez materiały składowane (o = 1)
+[Rysunek 7.15 — opływ powietrza: wiata pusta (φ = 0); blokada wiaty od zawietrznej krawędzi dachu przez materiały składowane (φ = 1)]
 
 Rysunek 7.15 — Przepływ powietrza wokół wiat
 
 50
 
-
-===== page-056.txt =====
-
-Tablica 7.6 — Wartości Cp net i cy dla wiat jednospadowych
+===== page-056.txt ===== [ZWERYFIKOWANO WIZUALNIE ze skanem 25.09.2026]
 
 EN 1991-1-4:2005
 
-Współczynniki ciśnienia netto Cp net
-Plan
-5 -
-bl10
-SOC A c b
+Tablica 7.6 — Wartości cp,net i cf dla wiat jednospadowych
 
-bro
+[Plan — pola współczynników ciśnienia netto cp,net: B — pasy szerokości b/10 wzdłuż krawędzi równoległych do wiatru; C — pasy szerokości d/10 wzdłuż krawędzi nawietrznej i zawietrznej; A — reszta. d — wymiar w linii wiatru, b — poprzeczny.]
 
-B
+| Kąt spadku α | Współczynnik blokowania φ | Globalny współczynnik siły cf | Pole A | Pole B | Pole C |
+|---|---|---|---|---|---|
+| 0° | Maksimum, wszystkie φ | +0,2 | +0,5 | +1,8 | +1,1 |
+| 0° | Minimum φ = 0 | -0,5 | -0,6 | -1,3 | -1,4 |
+| 0° | Minimum φ = 1 | -1,3 | -1,5 | -1,8 | -2,2 |
+| 5° | Maksimum, wszystkie φ | +0,4 | +0,8 | +2,1 | +1,3 |
+| 5° | Minimum φ = 0 | -0,7 | -1,1 | -1,7 | -1,8 |
+| 5° | Minimum φ = 1 | -1,4 | -1,6 | -2,2 | -2,5 |
+| 10° | Maksimum, wszystkie φ | +0,5 | +1,2 | +2,4 | +1,6 |
+| 10° | Minimum φ = 0 | -0,9 | -1,5 | -2,0 | -2,1 |
+| 10° | Minimum φ = 1 | -1,4 | -2,1 | -2,6 | -2,7 |
+| 15° | Maksimum, wszystkie φ | +0,7 | +1,4 | +2,7 | +1,8 |
+| 15° | Minimum φ = 0 | -1,1 | -1,8 | -2,4 | -2,5 |
+| 15° | Minimum φ = 1 | -1,4 | -1,6 | -2,9 | -3,0 |
+| 20° | Maksimum, wszystkie φ | +0,8 | +1,7 | +2,9 | +2,1 |
+| 20° | Minimum φ = 0 | -1,3 | -2,2 | -2,8 | -2,9 |
+| 20° | Minimum φ = 1 | -1,4 | -1,6 | -2,9 | -3,0 |
+| 25° | Maksimum, wszystkie φ | +1,0 | +2,0 | +3,1 | +2,3 |
+| 25° | Minimum φ = 0 | -1,6 | -2,6 | -3,2 | -3,2 |
+| 25° | Minimum φ = 1 | -1,4 | -1,5 | -2,5 | -2,8 |
+| 30° | Maksimum, wszystkie φ | +1,2 | +2,2 | +3,2 | +2,4 |
+| 30° | Minimum φ = 0 | -1,8 | -3,0 | -3,8 | -3,6 |
+| 30° | Minimum φ = 1 | -1,4 | -1,5 | -2,2 | -2,7 |
 
-ie di10 10 je
-d
-spadku blokowania współczynnik Pole A Pole B Pole C
-a siły cy
-Maksimum, wszystkie p + 0,2 + 0,5 + 1,8 + 1,1
-0? Minimum ¢ = 0 - 0,5 - 0,6 - 1,3 - 1,4
-Minimum ¢ = 1 - 1,3 - 1,5 - 1,8 - 2,2
-Maksimum, wszystkie p + 0,4 + 0,8 + 2,1 + 1,3
-5° Minimum pg = 0 - 0,7 -1,1 -1,7 - 1,8
-Minimum ¢ = 1 -1,4 - 1,6 - 2,2 - 2,5
-Maksimum, wszystkie p + 0,5 + 1,2 + 2,4 + 1,6
-10° Minimum ¢ = 0 - 0,9 - 1,5 - 2,0 - 2,1
-Minimum ¢ = 1 -1,4 -2,1 - 2,6 - 2,7
-Maksimum, wszystkie p + 0,7 + 1,4 + 2,7 + 1,8
-15° Minimum ¢ = 0 -1,1 - 1,8 - 2,4 - 2,5
-Minimum ¢ = 1 -1,4 - 1,6 - 2,9 - 3,0
-Maksimum, wszystkie + 0,8 + 1,7 + 2,9 + 2,1
-20° Minimum ¢ = 0 - 1,3 - 2,2 - 2,8 - 2,9
-Minimum ¢ = 1 - 1,4 - 1,6 -2,9 - 3,0
-Maksimum, wszystkie p + 1,0 + 2,0 +3,1 + 2,3
-25° Minimum ¢ = 0 - 1,6 - 2,6 - 3,2 - 3,2
-Minimum ¢ = 1 - 1,4 - 1,5 - 2,5 - 2,8
-Maksimum, wszystkie p + 1,2 + 2,2 + 3,2 + 2,4
-30° Minimum ¢ = 0 -1,8 - 3,0 - 3,8 - 3,6
-Minimum ¢ = 1 -1,4 -1,5 - 2,2 - 2,7
 UWAGA Znak + wskazuje obciążenie netto działające ku dołowi.
 Znak - reprezentuje obciążenie netto działające ku górze.
 
+[Uwaga opracowania: ten skan nie zawiera poprawki PN-EN 1991-1-4:2008/AC:2009, która zmienia wartość
+α = 10°, pole A, minimum φ = 1 z -2,1 na -1,6 (cp,net; cf bez zmian) — patrz notatka
+docs/zrodla/norma-PN-EN-1991-1-4/00-INDEKS.md.]
+
 51
 
-
-===== page-057.txt =====
+===== page-057.txt ===== [ZWERYFIKOWANO WIZUALNIE ze skanem 25.09.2026]
 
 EN 1991-1-4:2005
 
-dą
-cę>0 dą
-h
-——
-
-h
-cę > 0
-<=
-TITITTTITSTTIIITI ITT a ll ll a i a i a a a i i a a a
-AJ ce <0
-CZ
-h h 4
-Ve ie i ie i i i ha a i a a a a a ae hae ha ha ha ha a a fa a a a a a a
+[Rysunek 7.16 — cztery przypadki wiaty jednospadowej o kącie α, wysokości h, wymiarze d w linii wiatru; siła wypadkowa przyłożona w odległości d/4 od krawędzi nawietrznej: cf > 0 (docisk) przy wietrze od niskiej i od wysokiej krawędzi, cf < 0 (odrywanie) przy wietrze od niskiej i od wysokiej krawędzi.]
 
 Rysunek 7.16 — Położenie środka parcia wiatru na wiaty jednospadowe
 
 52
 
-
-===== page-058.txt =====
+===== page-058.txt ===== [ZWERYFIKOWANO WIZUALNIE ze skanem 25.09.2026]
 
 EN 1991-1-4:2005
 
-Tablica 7.7 — Wartości Cp net i cy dla wiat dwuspadowych
+Tablica 7.7 — Wartości cp,net i cf dla wiat dwuspadowych
 
-Współczynniki ciśnienia netto Cp net
+[Plan — pola cp,net: B — pasy b/10 wzdłuż krawędzi równoległych do wiatru; C — pasy d/10 przy krawędziach nawietrznej i zawietrznej; D — pas d/5 wzdłuż kalenicy/kosza; A — pozostałe części połaci.]
 
-Plan
-B EB 4
-b/10
-Cc D|A |c b
-b/10
-B EB
->| 10 ej 10 >
-d/5
-d
-Kat Współczynnik Globalny .
-spadku blokowania p współczynnik | Pole A Pole B Pole C Pole D
-a [1] siły cę
-Maksimum, wszystkie p + 0,7 + 0,8 + 1,6 + 0,6 + 1,7
-- 20 Minimum = 0 - 0,7 - 0,9 - 1,3 - 1,6 - 0,6
-Minimum g = 1 -1,3 - 1,5 - 2,4 - 2,4 - 0,6
-Maksimum, wszystkie p + 0,5 + 0,6 + 1,5 + 0,7 + 1,4
-- 15 Minimum p = 0 - 0,6 - 0,8 - 1,3 - 1,6 - 0,6
-Minimum pg = 1 - 1,4 - 1,6 -2,7 - 2,6 - 0,6
-Maksimum, wszystkie p + 0,4 + 0,6 + 1,4 + 0,8 + 1,1
-- 10 Minimum g = 0 - 0,6 - 0,8 - 1,3 - 1,5 - 0,6
-Minimum g = 1 - 1,4 - 1,6 - 2,7 - 2,6 - 0,6
-Maksimum, wszystkie p + 0,3 + 0,5 + 1,5 + 0,8 + 0,8
--5 Minimum g = 0 -0,5 - 0,7 - 1,3 - 1,6 - 0,6
-Minimum 9 = 1 -1,3 -1,5 -2,4 -2,4 - 0,6
-Maksimum, wszystkie p + 0,3 + 0,6 + 1,8 + 1,3 + 0,4
-+5 Minimum 9 = 0 - 0,6 - 0,6 - 1,4 - 1,4 -1,1
-Minimum gp = 1 - 1,3 - 1,3 - 2,0 - 1,8 - 1,5
-Maksimum, wszystkie p + 0,4 + 0,7 + 1,8 + 1,4 + 0,4
-+10 Minimum p = 0 - 0,7 - 0,7 - 1,5 - 1,4 - 1,4
-Minimum pg = 1 - 1,3 - 1,3 - 2,0 - 1,8 - 1,8
+| Kąt spadku α [°] | Współczynnik blokowania φ | Globalny współczynnik siły cf | Pole A | Pole B | Pole C | Pole D |
+|---|---|---|---|---|---|---|
+| -20 | Maksimum, wszystkie φ | +0,7 | +0,8 | +1,6 | +0,6 | +1,7 |
+| -20 | Minimum φ = 0 | -0,7 | -0,9 | -1,3 | -1,6 | -0,6 |
+| -20 | Minimum φ = 1 | -1,3 | -1,5 | -2,4 | -2,4 | -0,6 |
+| -15 | Maksimum, wszystkie φ | +0,5 | +0,6 | +1,5 | +0,7 | +1,4 |
+| -15 | Minimum φ = 0 | -0,6 | -0,8 | -1,3 | -1,6 | -0,6 |
+| -15 | Minimum φ = 1 | -1,4 | -1,6 | -2,7 | -2,6 | -0,6 |
+| -10 | Maksimum, wszystkie φ | +0,4 | +0,6 | +1,4 | +0,8 | +1,1 |
+| -10 | Minimum φ = 0 | -0,6 | -0,8 | -1,3 | -1,5 | -0,6 |
+| -10 | Minimum φ = 1 | -1,4 | -1,6 | -2,7 | -2,6 | -0,6 |
+| -5 | Maksimum, wszystkie φ | +0,3 | +0,5 | +1,5 | +0,8 | +0,8 |
+| -5 | Minimum φ = 0 | -0,5 | -0,7 | -1,3 | -1,6 | -0,6 |
+| -5 | Minimum φ = 1 | -1,3 | -1,5 | -2,4 | -2,4 | -0,6 |
+| +5 | Maksimum, wszystkie φ | +0,3 | +0,6 | +1,8 | +1,3 | +0,4 |
+| +5 | Minimum φ = 0 | -0,6 | -0,6 | -1,4 | -1,4 | -1,1 |
+| +5 | Minimum φ = 1 | -1,3 | -1,3 | -2,0 | -1,8 | -1,5 |
+| +10 | Maksimum, wszystkie φ | +0,4 | +0,7 | +1,8 | +1,4 | +0,4 |
+| +10 | Minimum φ = 0 | -0,7 | -0,7 | -1,5 | -1,4 | -1,4 |
+| +10 | Minimum φ = 1 | -1,3 | -1,3 | -2,0 | -1,8 | -1,8 |
 
 53
 
-
-===== page-059.txt =====
+===== page-059.txt ===== [ZWERYFIKOWANO WIZUALNIE ze skanem 25.09.2026]
 
 EN 1991-1-4:2005
 
 Tablica 7.7 — cd
 
-Współczynniki ciśnienia netto Cp net
+[Plan — pola cp,net: B — pasy b/10 wzdłuż krawędzi równoległych do wiatru; C — pasy d/10 przy krawędziach nawietrznej i zawietrznej; D — pas d/5 wzdłuż kalenicy/kosza; A — pozostałe części połaci.]
 
-Plan
-B +1
-b/10
-C| A D A [C b
-b/10
-B 4 |
->| 10 +] 10 fe
-d/5
-+ 7 >
-spadku Współczynnik współczynnik
-aL blokowania p siły cę Pole A Pole B Pole C Pole D
-Maksimum, wszystkie p + 0,4 + 0,9 + 1,9 + 1,4 + 0,4
-+ 15 Minimum p = 0 - 0,8 - 0,9 - 1,7 - 1,4 - 1,8
-Minimum g = 1 - 1,3 -1,3 - 2,2 - 1,6 -2,1
-Maksimum, wszystkie p + 0,6 + 1,1 + 1,9 + 1,5 + 0,4
-+20 Minimum ¢ = 0 - 0,9 - 1,2 - 1,8 - 1,4 - 2,0
-Minimum g = 1 - 1,3 - 1,4 - 2,2 - 1,6 -2,1
-Maksimum, wszystkie p + 0,7 + 1,2 + 1,9 + 1,6 + 0,5
-+25 Minimum 9 = 0 - 1,0 - 1,4 - 1,9 - 1,4 - 2,0
-Minimum g = 1 - 1,3 -1,4 - 2,0 -1,5 - 2,0
-Maksimum, wszystkie p + 0,9 + 1,3 + 1,9 + 1,6 + 0,7
-+ 30 Minimum ¢ = 0 - 1,0 - 1,4 - 1,9 - 1,4 - 2,0
-Minimum ¢ = 1 - 1,3 - 1,4 - 1,8 - 1,4 - 2,0
+| Kąt spadku α [°] | Współczynnik blokowania φ | Globalny współczynnik siły cf | Pole A | Pole B | Pole C | Pole D |
+|---|---|---|---|---|---|---|
+| +15 | Maksimum, wszystkie φ | +0,4 | +0,9 | +1,9 | +1,4 | +0,4 |
+| +15 | Minimum φ = 0 | -0,8 | -0,9 | -1,7 | -1,4 | -1,8 |
+| +15 | Minimum φ = 1 | -1,3 | -1,3 | -2,2 | -1,6 | -2,1 |
+| +20 | Maksimum, wszystkie φ | +0,6 | +1,1 | +1,9 | +1,5 | +0,4 |
+| +20 | Minimum φ = 0 | -0,9 | -1,2 | -1,8 | -1,4 | -2,0 |
+| +20 | Minimum φ = 1 | -1,3 | -1,4 | -2,2 | -1,6 | -2,1 |
+| +25 | Maksimum, wszystkie φ | +0,7 | +1,2 | +1,9 | +1,6 | +0,5 |
+| +25 | Minimum φ = 0 | -1,0 | -1,4 | -1,9 | -1,4 | -2,0 |
+| +25 | Minimum φ = 1 | -1,3 | -1,4 | -2,0 | -1,5 | -2,0 |
+| +30 | Maksimum, wszystkie φ | +0,9 | +1,3 | +1,9 | +1,6 | +0,7 |
+| +30 | Minimum φ = 0 | -1,0 | -1,4 | -1,9 | -1,4 | -2,0 |
+| +30 | Minimum φ = 1 | -1,3 | -1,4 | -1,8 | -1,4 | -2,0 |
 
 UWAGA Znak + wskazuje obciążenie netto działające ku dołowi.
-
 Znak - reprezentuje obciążenie netto działające ku górze.
 
 54
 
-
-
-===== page-060.txt =====
+===== page-060.txt ===== [ZWERYFIKOWANO WIZUALNIE ze skanem 25.09.2026]
 
 EN 1991-1-4:2005
 
-cę> 0 cę>0 cę>0 cę> 0
-wł |, EO, —L
-ga d/4
-h ©) h h
-+ d >
-
-0a Aa a la A a la i PP4 PIPPI A ft at 1444/7/74747777
-
-i
-
-cq<0 Of <0 cę < 0 cę <0
-f f h f h f
-
-PPP PYP A al me Aa A A a A A A A lt me a A A A A A a A A la A
-
-a Gq>0 q>0 Gę > 0 cę> 0
-
-Jar | 7 |—%
-
-p d >
-
-< >
-
-FIEFFELEELEL EISELE ZPAP PAPA 4114/44/4/474/4/744/777
-
-—— | E— es
-
-h cę<0 Ce <0 h cę<0 h o <0
-
-0 a lt a a a i A A i a a fe a a A A a a A A dt ame A a a a A i a A
+[Rysunek 7.17 — układy obciążenia siłami skupionymi dla wiat dwuspadowych (dach z kalenicą i dach z koszem), wysokość h, wymiar d: siły przyłożone w środku każdej połaci (d/4 od krawędzi); przypadki: obie połacie cf > 0, obie cf < 0, oraz tylko jedna połać obciążona cf > 0 albo cf < 0 (druga nieobciążona).]
 
 Rysunek 7.17 — Układy obciążenia siłami skupionymi (globalnymi) wyznaczonymi za pomocą
 współczynników sił. Wiaty dwuspadowe
 
 (9) Obciążenia każdej połaci wiaty wielospadowej, jak na Rysunku 7.18, wyznacza się z zastosowaniem
-współczynników redukcyjnych Ymc podanych w Tablicy 7.8 dotyczących sił globalnych, jak również współczyn-
+współczynników redukcyjnych ψmc podanych w Tablicy 7.8 dotyczących sił globalnych, jak również współczyn-
 ników ciśnienia netto dla wiat dwuspadowych.
 
-Tablica 7.8 — Współczynniki redukcyjne vmc dla wiat wielospadowych
+Tablica 7.8 — Współczynniki redukcyjne ψmc dla wiat wielospadowych
 
-Współczynniki mc dla wszystkich wartości p
-ma Dotyczące współczynników 2 "A
-Przęsło Położenie maksymalnych siły Dotyczące współczynni ków
-PARĘ minimalnych siły i ciśnienia
-I cionienia (skierowanych ku górze)
-(skierowanych ku dołowi)
-1 Przęsło skrajne 1,0 0,8
-2 Przęsło drugie 0,9 0,7
-3 Przęsło trzecie i przęsła następne 0,7 0,7
+| Przęsło | Położenie | ψmc dla wszystkich φ — dotyczące współczynników maksymalnych siły i ciśnienia (skierowanych ku dołowi) | ψmc — dotyczące współczynników minimalnych siły i ciśnienia (skierowanych ku górze) |
+|---|---|---|---|
+| 1 | Przęsło skrajne | 1,0 | 0,8 |
+| 2 | Przęsło drugie | 0,9 | 0,7 |
+| 3 | Przęsło trzecie i przęsła następne | 0,7 | 0,7 |
 
 55
 
-
-===== page-061.txt =====
+===== page-061.txt ===== [ZWERYFIKOWANO WIZUALNIE ze skanem 25.09.2026]
 
 EN 1991-1-4:2005
+
+[Rysunek 7.18 — wiata wielospadowa, numeracja przęseł od krawędzi: 1, 2, 3, 3, 3, 2, 1; wysokość h]
 
 Rysunek 7.18 — Wiaty wielospadowe
 
 7.4 Ściany wolno stojące, attyki, ogrodzenia i tablice
 
-(1) Wartości wypadkowego współczynnika ciśnienia Cp net do stosowania w obliczeniach ścian wolno stoją-
-cych i attyk zależą od współczynnika wypełnienia g "9. W przypadku ścian pełnych należy przyjmować war-
-tość współczynnika wypełnienia p równą 1, dla ścian, które są pełne w 80 % (tzn. otwory zajmują 20 % pola
-powierzchni) p = 0,8. Ściany i ażurowe ogrodzenia, o współczynniku wypełnienia p < 0,8, należy traktować jak
+(1) Wartości wypadkowego współczynnika ciśnienia cp,net do stosowania w obliczeniach ścian wolno stoją-
+cych i attyk zależą od współczynnika wypełnienia φ N4). W przypadku ścian pełnych należy przyjmować war-
+tość współczynnika wypełnienia φ równą 1, dla ścian, które są pełne w 80 % (tzn. otwory zajmują 20 % pola
+powierzchni) φ = 0,8. Ściany i ażurowe ogrodzenia, o współczynniku wypełnienia φ ≤ 0,8, należy traktować jak
 kratownice płaskie według 7.11.
 
-UWAGA _ Dane dla attyk i ekranów akustycznych na mostach podano w Rozdziale 8.
+UWAGA Dane dla attyk i ekranów akustycznych na mostach podano w Rozdziale 8.
+
 7.4.1 Ściany wolno stojące i attyki
 
-(1) Dla ścian wolno stojących i attyk wypadkowe współczynniki ciśnienia Cp net należy wyznaczać w polach A,
-B, C iD jak pokazano na Rysunku 7.19.
+(1) Dla ścian wolno stojących i attyk wypadkowe współczynniki ciśnienia cp,net należy wyznaczać w polach A,
+B, C i D jak pokazano na Rysunku 7.19.
 
-UWAGA Wartości wypadkowego współczynnika ciśnienia cp pet do stosowania w obliczeniach ścian wolno stoją-
+UWAGA Wartości wypadkowego współczynnika ciśnienia cp,net do stosowania w obliczeniach ścian wolno stoją-
 cych i attyk mogą być podane w Załączniku krajowym. Wartości zalecane podano w Tablicy 7.9 dla dwóch różnych
 wartości współczynnika wypełnienia, patrz 7.4 (1). Te zalecane wartości odpowiadają skośnemu kierunkowi wiatru
 w stosunku do ściany bez załamania w narożniku (patrz Rysunek 7.19) oraz, w przypadku ściany z załamaniem
@@ -3573,172 +2927,125 @@ w narożniku, dwóm przeciwnym kierunkom pokazanym na Rysunku 7.19. Powierzchni�
 przypadkach pole obrysu. W przypadku współczynnika wypełnienia między 0,8 a 1 można stosować interpolację
 liniową.
 
-Tablica 7.9 — Zalecane współczynniki ciśnienia Cp net dla ścian wolno stojących i attyk
+Tablica 7.9 — Zalecane współczynniki ciśnienia cp,net dla ścian wolno stojących i attyk
 
-Współczynnik Pole A B c D
-wypełnienia
-(/h<3 2,3 1,4 1,2 1,2
-bez załama-
-nia w naroż- (/h=5 2,9 1,8 1,4 1,2
-=1 niku
-” (lh 210 3,4 2,1 1,7 1,2
-z załamaniem w narożniku
-o długości = h* a 18 1,4 1,2
-p=0,8 1,2 1,2 1,2 1,2
-2 W przypadku narożników o długości między 0,0 a h można stosować interpolację liniową
+| Współczynnik wypełnienia | Pole | | A | B | C | D |
+|---|---|---|---|---|---|---|
+| φ = 1 | bez załamania w narożniku | ℓ/h ≤ 3 | 2,3 | 1,4 | 1,2 | 1,2 |
+| φ = 1 | bez załamania w narożniku | ℓ/h = 5 | 2,9 | 1,8 | 1,4 | 1,2 |
+| φ = 1 | bez załamania w narożniku | ℓ/h ≥ 10 | 3,4 | 2,1 | 1,7 | 1,2 |
+| φ = 1 | z załamaniem w narożniku o długości ≥ h a | | 2,1 | 1,8 | 1,4 | 1,2 |
+| φ = 0,8 | | | 1,2 | 1,2 | 1,2 | 1,2 |
 
-(2) Wprzypadku ścian wolno stojących należy przyjmować wysokość odniesienia zę = h, patrz Rysunek 7.19.
-Za wysokość odniesienia w obliczeniach attyk na budynkach należy przyjmować z, = (h + hy), patrz Rysu-
+a W przypadku narożników o długości między 0,0 a h można stosować interpolację liniową
+
+(2) W przypadku ścian wolno stojących należy przyjmować wysokość odniesienia ze = h, patrz Rysunek 7.19.
+Za wysokość odniesienia w obliczeniach attyk na budynkach należy przyjmować ze = (h + hp), patrz Rysu-
 nek 7.6.
 
-N4) Odsyłacz krajowy: Definicja współczynnika wypełnienia — patrz Rysunek 7.37.
+N4) Odsyłacz krajowy: Definicja współczynnika wypełnienia – patrz Rysunek 7.37.
 
 56
 
-
-===== page-062.txt =====
+===== page-062.txt ===== [ZWERYFIKOWANO WIZUALNIE ze skanem 25.09.2026]
 
 EN 1991-1-4:2005
 
-przy £>4h
-
-M4014 0,3 h 42h 44h
-
-NU ,
-
-przył<4h
-
-404 0,3 h 42h 44h
-
-przy/<2h
-
-404 0,3 h 42h
-
-bez narożnika z narożnikiem
+[Rysunek 7.19 — podział ściany wolno stojącej o wysokości h i długości ℓ na pola od swobodnego końca (0): A — od 0 do 0,3 h; B — od 0,3 h do 2 h; C — od 2 h do 4 h; D — powyżej 4 h. Przy ℓ > 4 h: pola A, B, C, D; przy ℓ ≤ 4 h: A, B, C; przy ℓ ≤ 2 h: A, B. Rzut: ściana bez narożnika i z narożnikiem (kierunki wiatru).]
 
 Rysunek 7.19 — Oznaczenia ścian wolno stojących i attyk
+
 7.4.2 Współczynniki osłonięcia dla ścian i ogrodzeń
 
 (1) Jeżeli inne ściany lub ogrodzenia znajdują się od strony nawietrznej i są co najmniej tej samej wysokości co
 rozpatrywana ściana lub ogrodzenie o wysokości h, to do współczynnika ciśnienia netto ścian i ogrodzeń skra-
-towanych można zastosować dodatkowy współczynnik osłonięcia. Wartość współczynnika osłonięcia y, za-
-leży od odległości x między ścianami lub ogrodzeniami oraz od współczynnika wypełnienia p nawietrznej
-(osłaniającej) ściany lub ogrodzenia. Wartości %; podano na Rysunku 7.20.
+towanych można zastosować dodatkowy współczynnik osłonięcia. Wartość współczynnika osłonięcia ψs za-
+leży od odległości x między ścianami lub ogrodzeniami oraz od współczynnika wypełnienia φ nawietrznej
+(osłaniającej) ściany lub ogrodzenia. Wartości ψs podano na Rysunku 7.20.
 
 57
 
-
-===== page-063.txt =====
+===== page-063.txt ===== [ZWERYFIKOWANO WIZUALNIE ze skanem 25.09.2026]
 
 EN 1991-1-4:2005
 
-Wypadkowy współczynnik ciśnienia (netto) dla ściany osłoniętej, Cpnets, POdano w postaci wyrażenia (7.6):
+Wypadkowy współczynnik ciśnienia (netto) dla ściany osłoniętej, cp,net,s, podano w postaci wyrażenia (7.6):
 
-Cp,net,s = Ws * Cp,net (7.6)
+cp,net,s = ψs · cp,net (7.6)
 
 (2) Nie należy stosować współczynnika osłonięcia w polach skrajnych ściany o długości h mierzonych od jej
 swobodnego końca.
 
-10 0,03:x/h+0,40 „7
-—_ fF
-7
-A
-a LZ
-0,04-x/h-0,25 7 7
-L 4
+[Rysunek 7.20 — wykres ψs (0,0–1,0) w funkcji odstępu x/h (0–20). Dla x/h ≤ 5: ψs = 0,3 (oba φ).
+φ = 1,0 (linia ciągła): 5–10 — etykieta „0,07·x/h-0,05”; 10–15 — etykieta „0,04·x/h-0,25”; 15–20 — etykieta „0,03·x/h+0,40”.
+φ = 0,8 (linia przerywana): 5–10 — etykieta „0,03·x/h+0,15”; 10–15 — etykieta „0,04·x/h-0,05”; 15–20 — etykieta „0,07·x/h-0,40”.
+Punkty węzłowe odczytane z osi: φ = 1,0 — 0,30 (x/h = 5), 0,65 (10), 0,85 (15), 1,0 (20); φ = 0,8 — 0,30 (5), 0,45 (10), 0,65 (15), 1,0 (20).
+⚠️ Rozbieżność w oryginale (nie rozstrzygnięta): etykiety „0,04·x/h-0,25” i „0,04·x/h-0,05” nie przechodzą przez narysowane
+punkty węzłowe (dają 0,15/0,35 i 0,35/0,55); przez punkty przechodzą 0,04·x/h+0,25 i 0,04·x/h+0,05. Przed użyciem — sprawdzić w innym źródle.]
 
-z 7 0,07:x/h-0,40
-8 a
-3 0,07:x/h-0,05 / Z
-Ś J pea 0,04-x/h-0,05
-Ę Ho] -4<
-a 1a —— 9=10-
-8 C> 70,03:x/h+0,15 ---- Q=0,8
-4 0,3 ta , ,
-wn
-=
-
-0,2
-
-0,1
-
-0,0
-
-0 5 10 15 20
-
-Odstep x/h
-
-Rysunek 7.20 — Współczynnik ostoniecia y, dla ścian i ogrodzeń o wartościach współczynnika
-wypełnienia p między 0,8 a 1,0
+Rysunek 7.20 — Współczynnik osłonięcia ψs dla ścian i ogrodzeń o wartościach współczynnika
+wypełnienia φ między 0,8 a 1,0
 
 7.4.3 Tablice wolno stojące
 
 (1) Współczynniki siły dla tablic oddalonych od poziomu terenu na wysokość zg większą niż h/4 (patrz Rysu-
 nek 7.21) podano za pomocą wyrażenia (7.7):
 
-c= 1,80 (7.7)
-Wyrażenie (7.7) stosuje się również wtedy, gdy zg jest mniejsze niż h/4 oraz b/h < 1.
+cf = 1,80 (7.7)
+
+Wyrażenie (7.7) stosuje się również wtedy, gdy zg jest mniejsze niż h/4 oraz b/h ≤ 1.
 
 (2) Należy przyjmować, że siła wypadkowa, prostopadła do tablicy, działa na wysokości środka tablicy na
 mimośrodzie poziomym e.
 
-UWAGA ' Wartość mimośrodu poziomego może być podana w Załączniku krajowym. Wartością zalecaną
+UWAGA Wartość mimośrodu poziomego może być podana w Załączniku krajowym. Wartością zalecaną
 jest:
 
-e=+0,25'b (7.8)
-(3) Tablice oddalone od poziomu terenu na wysokość zg mniejszą niż h/4, dla których stosunek b/h > 1, na-
+e = ± 0,25 · b (7.8)
 
+(3) Tablice oddalone od poziomu terenu na wysokość zg mniejszą niż h/4, dla których stosunek b/h > 1, na-
 leży traktować jak ściany wolno stojące (bez prześwitu), patrz 7.4.1.
 
 58
 
-
-===== page-064.txt =====
+===== page-064.txt ===== [ZWERYFIKOWANO WIZUALNIE ze skanem 25.09.2026]
 
 EN 1991-1-4:2005
 
-PELE
-|
-b
-k + z |+t+ h
-I ee
-—|—+——1———t- h
-je je
-¥
-Ze 2g Ze 2g
+[Rysunek 7.21 — tablica szerokości b i wysokości h na podporach, prześwit zg nad terenem, wysokość odniesienia ze, mimośród e poziomo od środka tablicy]
 
 UWAGA 1 Wysokość odniesienia: ze = zg + h/2.
-UWAGA 2 Powierzchnia odniesienia: Are; = b * h.
+
+UWAGA 2 Powierzchnia odniesienia: Aref = b · h.
+
 Rysunek 7.21 — Oznaczenia wymiarów tablic
 
 Należy sprawdzić podatność konstrukcji na dywergencję skrętną i flatter z oderwaniem.
+
 7.5 Współczynniki tarcia
+
 (1) Dla przypadków podanych w 5.3 (3) należy wziąć pod uwagę obciążenie siłami tarcia.
-(2) Do obliczania ścian i dachów należy przyjmować współczynniki tarcia cy, podane w Tablicy 7.10.
-(3) Powierzchnię odniesienia A+ podano na Rysunku 7.22. Siły tarcia należy przykładać do części powierzch-
+
+(2) Do obliczania ścian i dachów należy przyjmować współczynniki tarcia cfr, podane w Tablicy 7.10.
+
+(3) Powierzchnię odniesienia Afr podano na Rysunku 7.22. Siły tarcia należy przykładać do części powierzch-
 ni zewnętrznych, równoległych do kierunku wiatru, położonych poza obszarem rozciągającym się od nawietrz-
+nej krawędzi lub nawietrznego narożnika budynku na odległość mniejszą z dwóch: 2·b albo 4·h.
 
-nej krawędzi lub nawietrznego narożnika budynku na odległość mniejszą z dwóch: 2:b albo 4-h.
-
-(4) Wysokość odniesienia zę należy przyjmować równą wysokości h konstrukcji powyżej poziomu terenu albo
+(4) Wysokość odniesienia ze należy przyjmować równą wysokości h konstrukcji powyżej poziomu terenu albo
 wysokości budynku, patrz Rysunek 7.22.
 
-Tablica 7.10 — Współczynniki tarcia cę, powierzchni ścian, attyk i dachów
+Tablica 7.10 — Współczynniki tarcia cfr powierzchni ścian, attyk i dachów
 
-Powierzchnia Współczynnik tarcia cy
-Gładka
-0,01
-(tj. stal, beton gładki)
-Chropowata
-. . 0,02
-(tj. beton surowy, pokrycia smołowane)
-Bardzo chropowata
-0,04
+| Powierzchnia | Współczynnik tarcia cfr |
+|---|---|
+| Gładka (tj. stal, beton gładki) | 0,01 |
+| Chropowata (tj. beton surowy, pokrycia smołowane) | 0,02 |
+| Bardzo chropowata (tj. fale, żebra, fałdy) | 0,04 |
 
-(tj. fale, żebra, fałdy)
+[Uwaga opracowania: cfr dotyczy tarcia wiatru o powierzchnię (obciążenie styczne), nie tarcia balastu o podłoże.]
 
 59
-
 
 ===== page-065.txt =====
 
@@ -3829,7 +3136,7 @@ EN 1991-1-4:2005
 (2) Powierzchnię odniesienia A,er należy ustalać za pomocą wyrażenia (7.10):
 Apet = 0° b (7.10)
 gdzie:
-£ dtugoSé rozpatrywanego elementu konstrukcyjnego.
+ℓ długość rozpatrywanego elementu konstrukcyjnego.
 Wysokość odniesienia z, jest równa największej wysokości rozpatrywanego przekroju ponad poziomem gruntu.
 
 (3) W przypadku przekrojów podobnych do przekroju płytki (d/b < 0,2), przy pewnych kątach natarcia wiatru,
@@ -3849,7 +3156,7 @@ LETCE-HI"
 
 Rysunek 7.25 — Przekroje elementów o ostrych krawędziach
 
-UWAGA 1 WzZałączniku krajowym można podać wartości cęg. Dla wszystkich elementów bez swobodnego opływu
+UWAGA 1 W Załączniku krajowym można podać wartości cęg. Dla wszystkich elementów bez swobodnego opływu
 końców zaleca się wartość 2,0. Wartość ta wynika z pomiarów w warunkach małej turbulencji. Zakłada się, że jest
 to wartość bezpieczna.
 
@@ -3858,7 +3165,7 @@ UWAGA 2 Wyrażenie (7.11) i Rysunek 7.25 można również stosować do obliczeń
 (2) Powierzchnie odniesienia (patrz Rysunek 7.25) należy przyjmować następująco:
 
 w kierunku x: Avery = (b (7.12)
-w kierunkuy: Arey = ld
+w kierunku y: Arey = ld
 
 gdzie
 ( _ długość rozpatrywanego elementu konstrukcyjnego.
@@ -3874,13 +3181,13 @@ co najmniej o 5 bokach, należy wyznaczać z wyrażenia (7.13):
 62
 
 
-===== page-068.txt =====
+===== page-068.txt ===== [TABELE ZWERYFIKOWANE WIZUALNIE 25.09.2026; tekst ciągły — OCR]
 
 Cę = Cho Wa
 
 gdzie:
 
-w, współczynnik swobodnego końca dla elementów o swobodnym optywie końca, jak podano w 7.13;
+w, współczynnik swobodnego końca dla elementów o swobodnym opływie końca, jak podano w 7.13;
 
 Cfo współczynnik oporu aerodynamicznego elementów konstrukcyjnych bez opływu swobodnych końców.
 
@@ -3896,14 +3203,14 @@ Tablica 7.11 — Współczynniki oporu aerodynamicznego co przekrojów w kształ
 foremnego
 Liczba Przekrój Stan powierzchni Liczba Reynoldsa c
 boków I i narożników Re) £0
-5 Pieciokat Kazdy Wszystkie wartości 1,80
+5 Pięciokąt Każdy Wszystkie wartości 1,80
 6 Sześciokąt Każdy Wszystkie wartości 1,60
 Powierzchnia gładka Re < 2,4 - 10° 1,45
 rlb < 0,075 (2) Re23: 105 1,30
 8 Ośmiokąt 5
-Powierzchnia gtadka Re<2-10 1,30
+Powierzchnia gładka Re<2-10 1,30
 r/b 2 0,075 (2) Re2>7- 105 1,10
-10 Dziesieciokat Kazdy Wszystkie wartosci 1,30
+10 Dziesięciokąt Każdy Wszystkie wartości 1,30
 Powierzchnia gładka (3) 2-105< Re<1,2- 10° 0,90
 krawędzie zaokrąglone
 12 Dwunastokąt Re <4-105 1.30
@@ -3911,8 +3218,8 @@ Wszystkie inne
 Re>4-105 1,10
 Traktować jak
 ; , Re<2- 105 walec kołowy,
-: . Powierzchnia gtadka (3) ,
-16-18 Wielokat krawedzie zaokraglone patrz 7.9
+: . Powierzchnia gładka (3) ,
+16-18 Wielokąt krawędzie zaokrąglone patrz 7.9
 2-10°< Re<1,2- 10° 0,70
 Liczba Reynoldsa obliczona dla v = Vm; Vm zdefiniowano w 4.3, Re zdefiniowano w 7.9
 r = promień krzywizny naroża, b = średnica koła opisanego, patrz Rysunek 7.26
@@ -3926,6 +3233,27 @@ Rysunek 7.26 — Przekrój w postaci wielokąta foremnego
 
 63
 
+[TABELE/WZORY ZWERYFIKOWANE WIZUALNIE ze skanem 25.09.2026 — obowiązują zamiast rozsypanego OCR powyżej]
+cf = cf,0 · ψλ (7.13) — ψλ współczynnik swobodnego końca (7.13); cf,0 współczynnik oporu bez opływu swobodnych końców.
+
+Tablica 7.11 — Współczynniki oporu aerodynamicznego cf,0 przekrojów w kształcie wielokąta foremnego
+
+| Liczba boków | Przekrój | Stan powierzchni i narożników | Liczba Reynoldsa Re (1) | cf,0 |
+|---|---|---|---|---|
+| 5 | Pięciokąt | Każdy | Wszystkie wartości | 1,80 |
+| 6 | Sześciokąt | Każdy | Wszystkie wartości | 1,60 |
+| 8 | Ośmiokąt | Powierzchnia gładka r/b < 0,075 (2) | Re ≤ 2,4 · 10^5 | 1,45 |
+| 8 | Ośmiokąt | Powierzchnia gładka r/b < 0,075 (2) | Re ≥ 3 · 10^5 | 1,30 |
+| 8 | Ośmiokąt | Powierzchnia gładka r/b ≥ 0,075 (2) | Re ≤ 2 · 10^5 | 1,30 |
+| 8 | Ośmiokąt | Powierzchnia gładka r/b ≥ 0,075 (2) | Re ≥ 7 · 10^5 | 1,10 |
+| 10 | Dziesięciokąt | Każdy | Wszystkie wartości | 1,30 |
+| 12 | Dwunastokąt | Powierzchnia gładka (3) krawędzie zaokrąglone | 2 · 10^5 < Re < 1,2 · 10^6 | 0,90 |
+| 12 | Dwunastokąt | Wszystkie inne | Re < 4 · 10^5 | 1,30 |
+| 12 | Dwunastokąt | Wszystkie inne | Re > 4 · 10^5 | 1,10 |
+| 16-18 | Wielokąt | Powierzchnia gładka (3) krawędzie zaokrąglone | Re < 2 · 10^5 | Traktować jak walec kołowy, patrz 7.9 |
+| 16-18 | Wielokąt | Powierzchnia gładka (3) krawędzie zaokrąglone | 2 · 10^5 ≤ Re < 1,2 · 10^6 | 0,70 |
+
+(1) Re obliczona dla v = vm; (2) r = promień krzywizny naroża, b = średnica koła opisanego (Rysunek 7.26); (3) wartości z pomiarów w tunelu na modelach b = 0,3 m, r = 0,06 b.
 
 ===== page-069.txt =====
 
@@ -4394,7 +3722,7 @@ Flagi napięte (transparenty)
 
 —
 
-Sita jest prostopadia do ptaszczyny
+Sita jest prostopadła do płaszczyzny
 
 Flagi swobodne
 
@@ -4424,7 +3752,7 @@ EN 1991-1-4:2005
 
 7.13 Smukłość efektywna 4 i współczynnik wpływu swobodnego końca vy,
 
-(1) Wrazie potrzeby współczynnik wpływu swobodnego końca w, należy wyznaczać w funkcji smukłości 4.
+(1) W razie potrzeby współczynnik wpływu swobodnego końca w, należy wyznaczać w funkcji smukłości 4.
 
 UWAGA _— Współczynniki oporu aerodynamicznego, cęg, podane w 7.6 do 7.12, oparto na wynikach pomiarów
 konstrukcji bez opływu swobodnych końców (w przepływie płaskim) i oddalonych od ziemi. Współczynnik wpływu
@@ -4664,9 +3992,9 @@ szkicowo przedstawiono na Rysunku 8.1.
 
 8.3 Współczynniki sił
 
-(1) Wrazie potrzeby należy wyznaczać współczynniki sił dla balustrad i tablic sygnalizacyjnych na mostach.
+(1) W razie potrzeby należy wyznaczać współczynniki sił dla balustrad i tablic sygnalizacyjnych na mostach.
 
-UWAGA: WZałączniku krajowym można podać współczynniki sił dla balustrad i tablic sygnalizacyjnych na
+UWAGA: W Załączniku krajowym można podać współczynniki sił dla balustrad i tablic sygnalizacyjnych na
 mostach. Zaleca się korzystanie z Rozdziału 7.4.
 
 8.3.1 Współczynniki sił w kierunku x (metoda ogólna)
@@ -4678,7 +4006,7 @@ Cx, _ współczynnik oporu aerodynamicznego konstrukcji bez swobodnego opływu k
 UWAGA 1 W mostach zwykle nie występuje swobodny opływ końców, ponieważ przepływ powietrza rozdziela
 się tylko na dwie strony (powyżej i poniżej pomostu).
 
-UWAGA 2 Dlatypowych mostów można przyjmować cy, = 1,30. Alternatywnie można przyjmować co z Rysun-
+UWAGA 2 Dla typowych mostów można przyjmować cy, = 1,30. Alternatywnie można przyjmować co z Rysun-
 
 ku 8.3.
 Typ mostu
@@ -4732,7 +4060,7 @@ UWAGA 3 Jeżeli kąt napływu wiatru (kąt natarcia) przekracza 10°, współczy
 można wyznaczyć w wyniku specjalnych badań. Ten kąt napływu może być wynikiem nachylenia terenu od strony
 nawietrznej.
 
-UWAGA 4 Jeżeli dwa ogólnie podobne do siebie pomosty znajdują się natym samym poziomie i są oddzielone od
+UWAGA 4 Jeżeli dwa ogólnie podobne do siebie pomosty znajdują się na tym samym poziomie i są oddzielone od
 siebie w kierunku poprzecznym przerwą o szerokości nie przekraczającej 1 m, to obciążenie wiatrem konstrukcji
 nawietrznej można obliczać tak jakby była to pojedyncza konstrukcja. W innych przypadkach należy poświęcić
 specjalną uwagę wzajemnemu oddziaływaniu wiatru i konstrukcji.
@@ -4761,24 +4089,24 @@ b)
 
 c)
 
-w przypadku pomostów z dżwigarami pełnościennymi jako sumę (patrz Rysunek 8.5 i Tablica 8.1):
-1) powierzchni czołowej głównego dżwigara nawietrznego;
+w przypadku pomostów z dźwigarami pełnościennymi jako sumę (patrz Rysunek 8.5 i Tablica 8.1):
+1) powierzchni czołowej głównego dźwigara nawietrznego;
 
-2) powierzchni czołowej tych części innych dżwigarów głównych, które wystają poniżej dżwigara na-
+2) powierzchni czołowej tych części innych dźwigarów głównych, które wystają poniżej dźwigara na-
 wietrznego;
 
 3) powierzchni czołowej jednego gzymsu albo chodnika lub podkładu pasa ruchu, wystających powyżej
-dżwigara nawietrznego;
+dźwigara nawietrznego;
 
 4) powierzchni czołowej pełnych barier ochronnych lub osłon akustycznych, tam gdzie jest to istotne,
 powyżej powierzchni opisanej w 3) albo, jeżeli brak takiego wyposażenia, 0,3 m dla każdej otwartej
 balustrady lub bariery.
 
-dla pomostów z dżwigarami kratowymi jako sumę:
+dla pomostów z dźwigarami kratowymi jako sumę:
 
 1) powierzchni czołowej jednego gzymsu albo chodnika lub podkładu pasa ruchu;
 
-2) tych pełnych części wszystkich dżwigarów kratowych, rzutowanych na płaszczyznę pionową, usytu-
+2) tych pełnych części wszystkich dźwigarów kratowych, rzutowanych na płaszczyznę pionową, usytu-
 owanych powyżej lub poniżej powierzchni opisanej w 1);
 
 3) powierzchni czołowej pełnych barier ochronnych lub osłon akustycznych, tam gdzie jest to istotne,
@@ -4788,8 +4116,8 @@ balustrady lub bariery.
 Jednakże, całkowita powierzchnia odniesienia nie powinna być większa niż powierzchnia rzutu belki peł-
 nościennej o tej samej wysokości, obejmującej wszystkie rzutowane części.
 
-dla pomostów w stadium budowy, z kilkoma dżwigarami głównymi, przed położeniem nawierzchni na
-płycie, jako powierzchnię czołową dwóch dżwigarów głównych.
+dla pomostów w stadium budowy, z kilkoma dźwigarami głównymi, przed położeniem nawierzchni na
+płycie, jako powierzchnię czołową dwóch dźwigarów głównych.
 
 79
 
@@ -4814,7 +4142,7 @@ Tablica 8.1 — Wysokość (grubość) konstrukcji do wyznaczania Arr,
 System ochrony drogi Po jednej stronie Po dwóch stronach
 Balustrada lub barierka ażurowa d+0,3m d+0,6m
 Balustrada lub barierka pełnościenna d+d, d+2d,
-Balustrada i barierka azurowa d+0,6m d+1,2m
+Balustrada i barierka ażurowa d+0,6m d+1,2m
 
 (5) Powierzchnie odniesienia Arer x do kombinacji obciążeń z obciążeniami ruchomymi są takie jak wymienio-
 ne w (4), z następującymi zmianami. Zamiast powierzchni wyszczególnionych powyżej w a) 3) i 4) oraz b) 3) należy
@@ -4923,9 +4251,9 @@ Artz = 5° L (8.3)
 e =bl4.
 
 8.3.4 Obciążenie wiatrem pomostów w kierunku y
-(1) Wrazie konieczności należy brać pod uwagę obciążenie wiatrem działające wzdłuż pomostu, w kierunku y.
+(1) W razie konieczności należy brać pod uwagę obciążenie wiatrem działające wzdłuż pomostu, w kierunku y.
 
-UWAGA _ WZałączniku krajowym można podać wartości. Wartości zalecane są nastepujące:
+UWAGA _ W Załączniku krajowym można podać wartości. Wartości zalecane są następujące:
 — dla mostów pełnościennych, 25 % obciążenia wiatrem działającego w kierunku x,
 
 — dla mostów kratowych, 50 % obciążenia wiatrem działającego w kierunku x.
@@ -4962,7 +4290,7 @@ UWAGA 1 Zasady uproszczone mogą być podane w Załączniku krajowym.
 83
 
 
-===== page-089.txt =====
+===== page-089.txt ===== [ZWERYFIKOWANO WIZUALNIE ze skanem 25.09.2026]
 
 EN 1991-1-4:2005
 
@@ -4974,70 +4302,53 @@ Wpływ terenu
 A.1 Prezentacja największej wartości chropowatości każdej kategorii terenu
 
 Kategoria terenu 0
-
 Morze, obszar brzegowy otwarty na morze
 
 Kategoria terenu I
+Jeziora albo obszary z pomijalną niewielką roślinnością i bez przeszkód
 
-Jeziora albo obszary z pomijalną niewielką roślinnością
-i bez przeszkód
-
-Kategoria terenu Il
-
-Obszary z niską roślinnością, taką jak trawa, oraz
-pojedynczymi przeszkodami (drzewa, budynki) oddalonymi
+Kategoria terenu II
+Obszary z niską roślinnością, taką jak trawa, oraz pojedynczymi przeszkodami (drzewa, budynki) oddalonymi
 od siebie na odległość nie mniejszą niż 20 ich wysokości
 
-Kategoria terenu Ill
-
-Obszary regularnie pokryte roślinnością albo budynkami
-lub z pojedynczymi przeszkodami oddalonymi od siebie
-na odległość nie większą niż 20 ich wysokości (jak wsie,
-tereny podmiejskie, stałe lasy)
+Kategoria terenu III
+Obszary regularnie pokryte roślinnością albo budynkami lub z pojedynczymi przeszkodami oddalonymi od siebie
+na odległość nie większą niż 20 ich wysokości (jak wsie, tereny podmiejskie, stałe lasy)
 
 Kategoria terenu IV
-Obszary, na których przynajmniej 15% powierzchni
+Obszary, na których przynajmniej 15 % powierzchni pokrywają budynki o średniej wysokości przekraczającej
+15 m
 
-pokrywają budynki o średniej wysokości przekraczającej
-15m
+[Przy każdej kategorii — rysunek poglądowy terenu]
 
 84
 
-Fee VGN
-AQUA
-
-
-
-===== page-090.txt =====
+===== page-090.txt ===== [ZWERYFIKOWANO WIZUALNIE ze skanem 25.09.2026]
 
 EN 1991-1-4:2005
 
-A.2 Wybór kategorii chropowatości terenu O, I, Il, III i IV
-(1) Obliczając wartości gp i csca należy dokonać wyboru między różnymi kategoriami chropowatości terenu.
+A.2 Wybór kategorii chropowatości terenu 0, I, II, III i IV
 
-UWAGA _ W Zataczniku krajowym można podać stosowną procedurę. Dwie zalecane procedury, procedurę 1 i pro-
+(1) Obliczając wartości qp i cscd należy dokonać wyboru między różnymi kategoriami chropowatości terenu.
+
+UWAGA W Załączniku krajowym można podać stosowną procedurę. Dwie zalecane procedury, procedurę 1 i pro-
 cedurę 2, podano poniżej.
 
 Procedura 1
 Jeżeli konstrukcja jest usytuowana w pobliżu zmiany chropowatości terenu, w odległości:
-— _ mniejszej niż 2 km od terenu kategorii 0,
-— _ mniejszej niż 1 km od terenu mniej chropowatego, należącego do kategorii od | do III,
+– mniejszej niż 2 km od terenu kategorii 0,
+– mniejszej niż 1 km od terenu mniej chropowatego, należącego do kategorii od I do III,
 to od strony nawietrznej należy przyjąć niższą kategorię terenu.
-
 Można pominąć małe obszary (o powierzchni mniejszej mniej niż 10 % rozważanego obszaru) o innej chro-
 powatości.
 
 Procedura 2
-
-a)  Ustalić kategorie chropowatości w rozpatrywanych nawietrznych sektorach kątowych.
-
+a) Ustalić kategorie chropowatości w rozpatrywanych nawietrznych sektorach kątowych.
 b) W każdym sektorze kątowym ustalić odległość x od budynku do miejsca zmiany chropowatości.
-
 c) Jeżeli odległość x między budynkiem a terenem o niższej chropowatości jest mniejsza niż podana w Tabli-
 cy A.1, to w rozpatrywanym sektorze kątowym należy zastosować mniejszą wartość chropowatości. Jeżeli
 ta odległość x jest większa niż wartość w Tablicy A.1, to należy zastosować większą wartość chropowa-
 tości.
-
 Można pominąć małe obszary (o powierzchni mniejszej mniej niż 10 % rozważanego obszaru) o innej chro-
 powatości.
 
@@ -5049,59 +4360,65 @@ Dla pośrednich wartości wysokości z można stosować interpolację liniową.
 Budynek usytuowany na terenie ustalonej kategorii, może być obliczany tak, jakby był usytuowany na terenie
 kategorii niższej, jeżeli znajduje się w granicach odległości podanych w Tablicy A.1.
 
+[Uwaga opracowania: w Polsce obowiązuje NA.16 — patrz strona 4 (Załącznik krajowy).]
+
 85
 
-
-===== page-091.txt =====
+===== page-091.txt ===== [ZWERYFIKOWANO WIZUALNIE ze skanem 25.09.2026]
 
 EN 1991-1-4:2005
 
 Tablica A.1 — Odległość x
 
-Wysokość z I do Il I do lll
-5m 0,50 km 5,00 km
-7m 1,00 km 10,00 km
+| Wysokość z | I do II | I do III |
+|---|---|---|
+| 5 m | 0,50 km | 5,00 km |
+| 7 m | 1,00 km | 10,00 km |
+| 10 m | 2,00 km | 20,00 km |
+| 15 m | 5,00 km | — |
+| 20 m | 12,00 km | — |
+| 30 m | 20,00 km | — |
+| 50 m | 50,00 km | — |
 
-10m 2,00 km 20,00 km
-15m 5,00 km
-20m 12,00 km
-30m 20,00 km
-50 m 50,00 km
+| Wysokość z | II do III | II do IV |
+|---|---|---|
+| 5 m | 0,30 km | 2,00 km |
+| 7 m | 0,50 km | 3,50 km |
+| 10 m | 1,00 km | 7,00 km |
+| 15 m | 3,00 km | 20,00 km |
+| 20 m | 7,00 km | — |
+| 30 m | 10,00 km | — |
+| 50 m | 30,00 km | — |
 
-Wysokość z Il do III Il do IV
-5m 0,30 km 2,00 km
-7m 0,50 km 3,50 km
+| Wysokość z | III do IV |
+|---|---|
+| 5 m | 0,20 km |
+| 7 m | 0,35 km |
+| 10 m | 0,70 km |
+| 15 m | 2,00 km |
+| 20 m | 4,50 km |
+| 30 m | 7,00 km |
+| 50 m | 20,00 km |
 
-10m 1,00 km 7,00 km
-15m 3,00 km 20,00 km
-20m 7,00 km
-30m 10,00 km
-50m 30,00 km
-Wysokość z Ill do IV
-5m 0,20 km
-7m 0,35 km
-10m 0,70 km
-15m 2,00 km
-20m 4,50 km
-30m 7,00 km
-50 m 20,00 km
+(„—” = komórka pusta w oryginale)
 
 86
 
-
-===== page-092.txt =====
+===== page-092.txt ===== [ZWERYFIKOWANO WIZUALNIE ze skanem 25.09.2026]
 
 EN 1991-1-4:2005
 
 A.3 Obliczenia wartości współczynnika orografii
 
 (1) Różne prędkości wiatru występują nad pojedynczymi wzgórzami, łańcuchami wzgórz lub klifami i skar-
-pami, w zależności od nachylenia stoku nawietrznego © = H/L,; wysokość H i odległość L, zdefiniowano na
+pami, w zależności od nachylenia stoku nawietrznego Φ = H/Lu; wysokość H i odległość Lu zdefiniowano na
 Rysunku A.1.
 
-Vm: Średnia prędkość wiatru na wysokości z nad terenem
-Vm: Średnia prędkość wiatru nad terenem płaskim
-Co = Vm/Vmf
+vm: średnia prędkość wiatru na wysokości z nad terenem
+vmf: średnia prędkość wiatru nad terenem płaskim
+co = vm/vmf
+
+[Rysunek A.1 — profil prędkości vmf nad terenem płaskim i vm nad wierzchołkiem stoku o długości Lu i wysokości H]
 
 Rysunek A.1 — Ilustracja wzrostu prędkości wiatru nad wzniesieniem terenu
 
@@ -5112,265 +4429,153 @@ standardowe chwilowych prędkości wiatru określone w 4.4 (1).
 UWAGA Intensywność turbulencji będzie spadać ze wzrostem prędkości wiatru przy stałej wartości odchylenia
 standardowego.
 
-(3) Współczynnik orografii, co(Z) = Vm/Vmr Uwzględnia wzrost prędkości średniej wiatru ponad pojedynczymi
+(3) Współczynnik orografii, co(z) = vm/vmf uwzględnia wzrost prędkości średniej wiatru ponad pojedynczymi
 wzgórzami i skarpami (ale nie na obszarach pofalowanych i górzystych). Odnosi się on do prędkości wiatru
 u podnóża skarpy lub wzgórza. Wpływ orografii należy uwzględniać w nastepujących sytuacjach:
-
 a) w miejscach usytuowanych na nawietrznych stokach wzniesień i łańcuchów wzgórz:
-
-— - jeżeli 0,05 < © < 0,3 oraz |x| < L,/2;
-
+– jeżeli 0,05 < Φ ≤ 0,3 oraz |x| ≤ Lu/2;
 b) w miejscach usytuowanych na zawietrznych stokach wzniesień i łańcuchów wzgórz:
-
-jeżeli © < 0,3 oraz x < Ly/2;
-
-jeżeli > 0,3 oraz x < 1,6 H;
-
-c) wmiejscach usytuowanych na nawietrznych stokach klifów i skarp:
-
-jeżeli 0,05 < 6 < 0,3 oraz |x| < L,/2;
-
-d) wmiejscach usytuowanych na zawietrznych stokach klifów i skarp:
-
-jeżeli © < 0,3 oraz x < 1,5 Le;
-
-— jeżeli b2 0,3 oraz x <5H.
+– jeżeli Φ < 0,3 oraz x < Ld/2;
+– jeżeli Φ ≥ 0,3 oraz x < 1,6 H;
+c) w miejscach usytuowanych na nawietrznych stokach klifów i skarp:
+– jeżeli 0,05 < Φ ≤ 0,3 oraz |x| ≤ Lu/2;
+d) w miejscach usytuowanych na zawietrznych stokach klifów i skarp:
+– jeżeli Φ < 0,3 oraz x < 1,5 Le;
+– jeżeli Φ ≥ 0,3 oraz x < 5 H.
 
 87
 
-
-===== page-093.txt =====
+===== page-093.txt ===== [ZWERYFIKOWANO WIZUALNIE ze skanem 25.09.2026]
 
 EN 1991-1-4:2005
 
 Współczynnik orografii jest określony jako:
 
-c= 1 jeżeli © < 0,05 (A.1)
-Cc=1+2's-© jeżeli0,05< © <0,3 (A.2)
-Co31+0,6-s _ jeżeli ©>0,3 (A.3)
-gdzie:
-Ss współczynnik miejsca, wyznaczany z Rysunku A.2 albo z Rysunku A.3, zależny od efektywnej długości
+co = 1 jeżeli Φ < 0,05 (A.1)
+co = 1 + 2 · s · Φ jeżeli 0,05 < Φ ≤ 0,3 (A.2)
+co = 1 + 0,6 · s jeżeli Φ > 0,3 (A.3)
 
-stoku nawietrznego, L,;
-(Z nachylenie stoku nawietrznego H/L, (patrz Rysunek A.2 iA.3);
+gdzie:
+s współczynnik miejsca, wyznaczany z Rysunku A.2 albo z Rysunku A.3, zależny od efektywnej długości
+stoku nawietrznego, Le;
+Φ nachylenie stoku nawietrznego H/Lu (patrz Rysunek A.2 i A.3);
 Le efektywna długość stoku nawietrznego, podana w Tablicy A.2;
-Ly rzeczywista długość stoku nawietrznego w kierunku wiatru;
-La rzeczywista długość stoku zawietrznego w kierunku wiatru;
+Lu rzeczywista długość stoku nawietrznego w kierunku wiatru;
+Ld rzeczywista długość stoku zawietrznego w kierunku wiatru;
 H efektywna wysokość wzniesienia;
 x odległość pozioma rozpatrywanego miejsca od wierzchołka grzbietu;
 z wysokość nad rozpatrywanym miejscem.
 
-Tablica A.2 — Wartości długości efektywnej L,
+Tablica A.2 — Wartości długości efektywnej Le
 
-Typ stoku (© = HIL,)
+| Typ stoku (Φ = H/Lu): Łagodny (0,05 < Φ < 0,3) | Stromy (Φ > 0,3) |
+|---|---|
+| Le = Lu | Le = H/0,3 |
 
-Łagodny (0,05 < D< 0,3) Stromy (© > 0,3)
-Le=Ly L, = H/0,3
-
-UWAGA _ Wykresy na Rysunkach A.2i A.3 obejmują większy zakres niż podany powyżej. Rozpatrywanie wpływu
+UWAGA Wykresy na Rysunkach A.2 i A.3 obejmują większy zakres niż podany powyżej. Rozpatrywanie wpływu
 orografii poza tymi granicami nie jest obowiązkowe.
 
 (4) W dolinach, jeżeli nie przewiduje się zwiększenia prędkości z powodu efektu zwężki, można przyjąć
-Co(z) = 1,0. W przypadku konstrukcji usytuowanych w dolinach, albo mostów spinających strome brzegi dolin,
+co(z) = 1,0. W przypadku konstrukcji usytuowanych w dolinach, albo mostów spinających strome brzegi dolin,
 należy zachować ostrożność i wziąć pod uwagę ewentualne zwiększenie prędkości wiatru z powodu efektu
 zwężki.
 
 88
 
-
-===== page-094.txt =====
+===== page-094.txt ===== [ZWERYFIKOWANO WIZUALNIE ze skanem 25.09.2026]
 
 EN 1991-1-4:2005
 
-/
-
-wiatr xe | rozpatrywane
-
-X- + . > X+
-LĄ LL 2 EJ +—~L_|
-| | | Ay) Se EEE 0,05
-= 0,05" ——1] Cc |—-0.05 1
-s=0, bai ap < 1 MH oo ——0.075 i
-0,075 0,10, Z
-2 0,10 4
-VA 9.15 e FF 5:20. 7
-0,404 N
-/ /| 920 7 0.39 \ \
-| 4 Aośo dzo | oo | | | }
-LJ
-| 0,70| 60 y 7 /
-|>|
-i 0,1 Ą za
-15 13 -11 09 07 05 03 010 0 0.2 04 06 08 10 1,2 1,4 16 18 2.0 2.2 2,4 26 2.8 3.0 3.2 3.4 3,6 3,8 4,0 4,2 4,4 46 48 5.0
-
-XIL 4 > XIL
-
-u e
+[Rysunek A.2 — klif/skarpa: wiatr, wysokość H, długość stoku nawietrznego Lu, grzbiet, rozpatrywane miejsce (x, z), pochylenie stoku zawietrznego < 0,05; wykres izolinii współczynnika s (0,05; 0,075; 0,10; 0,15; 0,20; 0,30; 0,40; 0,50; 0,60; 0,70) w układzie X/Lu (od -1,5 do 0) oraz X/Le (0 do 5,0) na osi poziomej i z/Le (0,1 do 2) na osi pionowej. Wartości — odczyt z wykresu w PDF albo wyrażenia A.4–A.10.]
 
 Rysunek A.2 — Współczynnik s dla klifów i skarp
 
-„. grzbiet
-
-rozpatrywane
-miejsce
-
-wiatr > H
-
-pochylenie stoku zawietrznego < 0,05
-
-ą
-R R EEEE wees
-
-le Li Ly a!
-71
-X- X+
-| | LE ZEZEEE 2
-a Tee ior Fee ee HL
-s=9.05 | LT RDS 0,05 ,
-0,075 0,075
-Z1010 5151019
-+ 15
-ALA ois, . = NN N £
-0,40, 0,30 N
-/A_|/|920 |] NĄ
-0,50
-il oo fob \ \
-AX 0
-
-1,5 13 -11 09 07 -05 -03 01/01 03 05 07 09 11 13 15 17 19
-XIL, <$> XILG
+[Rysunek A.3 — pojedyncze wzgórze/łańcuch wzgórz: H, Lu, Ld, grzbiet; wykres izolinii s w układzie X/Lu (od -1,5 do 0) i X/Ld (0 do 1,9) oraz z/Le (0,1 do 2). Wartości — odczyt z wykresu albo wyrażenia A.4–A.6 i A.11–A.13.]
 
 Rysunek A.3 — Współczynnik s dla pojedynczych wzgórz i łańcuchów wzgórz
 
-(5) Wyrażenia od A.4 do A.7 iA.11 można stosować do obliczania wartości współczynnika miejsca s. Ponie-
+(5) Wyrażenia od A.4 do A.7 i A.11 można stosować do obliczania wartości współczynnika miejsca s. Ponie-
 waż są to wyrażenia uzyskane na drodze doświadczalnej, to jest szczególnie ważne aby wartości zastosowa-
-nych parametrów mieściły się sciśle w podanych granicach. W przeciwnym razie wartości te będą nieważne.
+nych parametrów mieściły się ściśle w podanych granicach. W przeciwnym razie wartości te będą nieważne.
 
 89
 
-
-===== page-095.txt =====
+===== page-095.txt ===== [ZWERYFIKOWANO WIZUALNIE ze skanem 25.09.2026]
 
 EN 1991-1-4:2005
 
 a) przekrój nawietrzny wszystkich rodzajów wzniesień (Rysunki A.2 i A.3):
 
 W przedziałach
-
-~1,5<* <0 i0<2<20
-L, Te
+-1,5 ≤ X/Lu ≤ 0 i 0 ≤ z/Le ≤ 2,0
 przyjąć:
-x
-veadot) (Aa)
+
+s = A · e^(B · X/Lu) (A.4)
+
 gdzie
-4 3 2
-A=0,1552-| — | -0,8575-| — | +18133-| = | -19115.| = |+1,0124 (A.5)
-l l l l
+A = 0,1552·(z/Le)⁴ – 0,8575·(z/Le)³ + 1,8133·(z/Le)² – 1,9115·(z/Le) + 1,0124 (A.5)
 oraz
-2
-B =0,3542.| — | -1,0577-| — |+2,6456 (A.6)
-Lę Lę
+B = 0,3542·(z/Le)² – 1,0577·(z/Le) + 2,6456 (A.6)
+
 jeżeli
-
-X 21,5 albo 2>2
-L, L
-
-e
+X/Lu < -1,5 albo z/Le > 2
 przyjąć
-s=0
+s = 0
+
 b) przekrój zawietrzny klifów i skarp (Rysunek A.2):
 
 W przedziałach
+0,1 ≤ X/Le ≤ 3,5 oraz 0,1 ≤ z/Le ≤ 2,0
+przyjąć
 
-0,1< x. 3,5 oraz 0,1<
-l Lę
-
-s ZCP +B [lod *||+c (a7)
+s = A·(log[X/Le])² + B·(log[X/Le]) + C (A.7)
 
 gdzie
-3 2
-A=1,3420-| log] || —0,8222-| log] -- || +0,4609-log| + |-0,0791 (A.8)
-Le lę l
-3 2
-B = 1,0196 -| log] |] —0,8910- | log) || +0,5343-log| -— |-0,1156 (A.9)
-Le lą lę
+A = 1,3420·(log[z/Le])³ – 0,8222·(log[z/Le])² + 0,4609·log[z/Le] – 0,0791 (A.8)
+B = 1,0196·(log[z/Le])³ – 0,8910·(log[z/Le])² + 0,5343·log[z/Le] – 0,1156 (A.9)
 
 90
 
+===== page-096.txt ===== [ZWERYFIKOWANO WIZUALNIE ze skanem 25.09.2026]
 
-===== page-096.txt =====
+EN 1991-1-4:2005
 
 oraz
-
-3 2
-018030. oe] | -042% (og | 40,578-1og| > |- 01606
-
-e e e
+C = 1,8030·(log[z/Le])³ – 0,4236·(log[z/Le])² + 0,5738·log[z/Le] – 0,1606 (A.10)
 
 W przedziale
-
-o<*<o1
-Lę
-
+0 ≤ X/Le ≤ 0,1
 interpolować między wartościami podanymi dla
+X/Le = 0 (s = A w wyrażeniu A.5) i X/Le = 0,1
 
-X
-—=0 (s=4Aw wyrażeniu A.5) i Te = 0,1
-e e
-
-jeżeli L<0,1, użyć wartości podanych dla L= 0,1;
-L, Le
-
-jezeli 7735 albo 7720, przyjąć wartość s = 0.
-d e
+jeżeli z/Le < 0,1, użyć wartości podanych dla z/Le = 0,1;
+jeżeli z/Ld > 3,5 albo z/Le > 2,0, przyjąć wartość s = 0.
 
 c) przekrój zawietrzny pojedynczych wzgórz i łańcuchów wzgórz (Rysunek A.3):
 
 W przedziałach
-
-0<-L<20oraz0<--<2,0
-Li Le
-
+0 ≤ X/Ld ≤ 2,0 oraz 0 ≤ z/Le ≤ 2,0
 przyjąć
 
-|=
+s = A · e^(B · X/Ld) (A.11)
 
-B
-S=4A: i
 gdzie
-
-4 3 2
-A=1,1552-| 2 | —0,8575-| |] +0,8133-| | —1,9115-| 2 |+1,0124
-L L L L
-
-e e e e
+A = 1,1552·(z/Le)⁴ – 0,8575·(z/Le)³ + 0,8133·(z/Le)² – 1,9115·(z/Le) + 1,0124 (A.12)
 oraz
+B = 0,3056·(z/Le)² – 0,0212·(z/Le) – 1,7637 (A.13)
 
-2
-B=0,3056-| | -0,0212-| = |- 117637
-lę L,
-jezeli
-
-A 59 0albo—>2,0
-Li Le
-
+jeżeli
+X/Ld > 2,0 albo z/Le > 2,0
 przyjąć
+s = 0
 
-s=0
-UWAGA _ Wyrażenia (A.5) i (A.12) są identyczne.
+UWAGA Wyrażenia (A.5) i (A.12) są identyczne.
 
-EN 1991-1-4:2005
-
-(A.10)
-
-(A.11)
-
-(A.12)
-
-(A.13)
+[⚠️ Rozbieżność w oryginale (nie rozstrzygnięta): UWAGA mówi, że (A.5) i (A.12) są identyczne, a w druku różnią się
+dwoma współczynnikami — (A.5): 0,1552 i 1,8133; (A.12): 1,1552 i 0,8133. Także „z/Ld > 3,5” w b) — w oryginale z/Ld,
+przy warunku zakresu 0,1 ≤ X/Le ≤ 3,5 (możliwa literówka X/Le). Przed użyciem — sprawdzić z inną wersją normy.]
 
 91
-
 
 ===== page-097.txt =====
 
@@ -5392,7 +4597,7 @@ x22r Zn = Mow
 
 W powyższych wzorach promień r wynosi:
 r = high jeżeli hnigh Ś Zdiarge
-r = 2drarge jezeli hnigh > Zdlarge
+r = 2drarge jeżeli hnigh > Zdlarge
 Wysokość konstrukcji 71», promień 7, odległość x oraz wymiary dsmau i diarge Pokazano na Rysunku A.4. Zwiek-
 
 szenie prędkości wiatru można pominąć, jeżeli wysokość h,„ jest większa niż połowa wysokości hpign budynku
@@ -5402,7 +4607,7 @@ Rysunek A.4 — Wpływ wysokiego budynku na dwie różne konstrukcje sąsiednie 
 
 A.5 Wysokość przemieszczenia
 
-(1) Wterenie kategorii IV budynki i inne przeszkody usytuowane blisko siebie powodują, że wiatr zachowuje
+(1) W terenie kategorii IV budynki i inne przeszkody usytuowane blisko siebie powodują, że wiatr zachowuje
 się tak, jak gdyby poziom terenu został podniesiony na wysokość hgs, zwaną wysokością przemieszczenia.
 Wysokość his można wyznaczyć z wyrażenia (A.15), patrz Rysunek A.5. Profil wartości szczytowej ciśnienia
 nad terenem (patrz Rysunek 4.2) można podnieść o wysokość hyis.
@@ -5451,7 +4656,7 @@ a
 L(z)= Li {2} jeżeli | Z2 Zmin
 ‘ (B.1)
 
-L(z) = L(Zmin) jezeli Z < Zmin
+L(z) = L(Zmin) jeżeli Z < Zmin
 
 przy wysokości odniesienia z, = 200 m, skali odniesienia Z, = 300 mi a = 0,67 + 0,05 In(zo), gdzie wymiar chro-
 powatości zy jest podany w m. Najniższą wysokość Zmin podano w Tablicy 4.1.
@@ -5783,7 +4988,7 @@ Postać drgań Równomierna Liniowa Paraboliczna Sinusoidalna
 G: 1/2 3/8 5/18 Ala?
 K: 1 3/2 5/3 Ala
 
-UWAGA 1 W przypadku budynków, wykonujących drgania o rownomiernych przemieszczeniach poziomych i liniowej
+UWAGA 1 W przypadku budynków, wykonujących drgania o równomiernych przemieszczeniach poziomych i liniowej
 
 UWAGA 2 W przypadku kominów wykonujących drgania o równomiernych przemieszczeniach poziomych i para-
 
@@ -5852,7 +5057,7 @@ wartość funkcji opisującej postać drgań w punkcie największej amplitudy.
 
 (3) Szczytowe wartości charakterystyczne przyspieszenia uzyskuje się, mnożąc odchylenie standardowe
 wymienione w (2) przez współczynnik wartości szczytowej podany w B.2 (3), przyjmując częstotliwość drgań
-własnych za częstotliwość przewyzszania, tj. v = 14.
+własnych za częstotliwość przewyższania, tj. v = 14.
 
 100
 
@@ -5919,11 +5124,11 @@ Wartości c,cy dla wielokondygnacyjnych budynków żelbetowych
 0,95 0,90
 Wysokość [m] 100 I
 
-Przyjeto: , fi p
+Przyjęto: , fi p
 
 90 . . ‘
 0s = 0,1 . /:
-teren kategorii II (linie ciagte) A J .
+teren kategorii II (linie ciągłe) A J .
 teren kategorii III (linie przerywane) 80 4 7 z
 Vp = 28 m/s u *
 ba =0 70 / [ 40.86
@@ -6050,7 +5255,7 @@ Wartości c,cg dla kominów stalowych z wykładziną
 
 Wysokość [m] 100 410
 
-Przyjeto: 1 °
+Przyjęto: 1 °
 
 90 p 1,101,05
 0, = w zależności od stosunku h/b ’ -
@@ -6099,13 +5304,13 @@ E.1 Wzbudzanie wirowe
 E.1.1 Postanowienia ogólne
 
 (1) Wzbudzanie wirowe występuje wówczas, gdy wiry odrywają się na przemian z przeciwległych stron kon-
-strukcji. Wywołuje to fluktuacje obciążenia w płaszczyżnie prostopadłej do kierunku wiatru. Drgania konstrukcji
+strukcji. Wywołuje to fluktuacje obciążenia w płaszczyźnie prostopadłej do kierunku wiatru. Drgania konstrukcji
 mogą wystąpić, jeżeli częstotliwość odrywania się wirów będzie taka sama jak częstotliwość drgań własnych
 konstrukcji. Warunek ten jest spełniony, gdy prędkość wiatru jest równa prędkości krytycznej wiatru, zdefinio-
 wanej w E.1.3.1. Zwykle krytyczna prędkość wiatru leży w zakresie prędkości często występujących, co wska-
 zuje na to, że ze względu na liczbę cykli obciążenia zmęczenie konstrukcji może mieć istotne znaczenie.
 
-(2) Odpowiedż konstrukcji na wirowe wzbudzanie drgań składa się z części szerokopasmowej, która wystę-
+(2) Odpowiedź konstrukcji na wirowe wzbudzanie drgań składa się z części szerokopasmowej, która wystę-
 
 puje niezależnie od tego czy konstrukcja drga czy nie drga, oraz z wąskopasmowej, wynikającej z obciążenia
 wiatrem wzbudzanego jej ruchem.
@@ -6119,7 +5324,7 @@ wych.
 E.1.2 Kryteria oceny wzbudzania wirowego
 
 (1) Wzbudzanie wirowe należy rozpatrywać, jeżeli stosunek największego do najmniejszego wymiaru kon-
-strukcji w płaszczyżnie prostopadłej do kierunku wiatru jest większy niż 6.
+strukcji w płaszczyźnie prostopadłej do kierunku wiatru jest większy niż 6.
 
 (2) Nie jest konieczne rozpatrywanie wzbudzania wirowego, jeżeli:
 
@@ -6168,13 +5373,13 @@ gdzie:
 b średnica zewnętrzna powłoki;
 St liczba Strouhala zdefiniowana w E.1.3.2;
 
-Nig  czestotliwosci i-tej owalizującej postaci drgań własnych powłoki;
+Nig  częstotliwości i-tej owalizującej postaci drgań własnych powłoki;
 UWAGA 1 Dla powłok bez pierścieni usztywniających no podano w F.2 (3).
 
 UWAGA 2 Procedur obliczania drgań owalizujących nie podano w Załączniku E.
 E.1.3.2 Liczba Strouhala St
 
-Wartości liczby Strouhala St róźnych przekrojów poprzecznych moźna przyjmować z Tablicy E.1.
+Wartości liczby Strouhala St różnych przekrojów poprzecznych można przyjmować z Tablicy E.1.
 
 107
 
@@ -6254,7 +5459,7 @@ UWAGA Gęstość powietrza p może być podana w Załączniku krajowym. Wartośc
 E.1.3.4 Liczba Reynoldsa Re
 
 (1) Oddziaływanie odrywania się wirów (wzbudzania wirowego) na walcu kołowym zależy od liczby Reynoldsa
-Re przy krytycznej prędkości wiatru veri.j. Liczbe Reynoldsa przedstawia wyrażenie (E.5):
+Re przy krytycznej prędkości wiatru veri.j. Liczbę Reynoldsa przedstawia wyrażenie (E.5):
 
 bev.
 Re(Vgiej) =—— (E.5)
@@ -6275,19 +5480,19 @@ EN 1991-1-4:2005
 E.1.4 Oddziaływanie wzbudzania wirowego
 
 (1) Efekt drgań wywołanych wzbudzaniem wirowym należy obliczać z sił bezwładności na jednostkę długości
-F,(s), działających w płaszczyżnie prostopadłej do kierunku wiatru w miejscu s konstrukcji, jak to przedstawia
+F,(s), działających w płaszczyźnie prostopadłej do kierunku wiatru w miejscu s konstrukcji, jak to przedstawia
 wyrażenie (E.6):
 
 F,(s) = m(s)-(2-2-7,) + ©,y(5): Ye max (E.6)
 gdzie:
-m(s)  drgajaca masa konstrukcji na jednostkę długości [kg/m];
+m(s)  drgająca masa konstrukcji na jednostkę długości [kg/m];
 Ny częstotliwość drgań własnych konstrukcji;
 %,y(s) postać drgań własnych konstrukcji unormowana do 1 w punkcie maksymalnego przemieszczenia;
 JEmsx _ Maksymalne przemieszczenie w czasie punktu, w którym @,,(s) jest równe 1, patrz E.1.5.
 E.1.5 Obliczanie amplitudy drgań w poprzek kierunku wiatru
-E.1.5.1 Postanowienia ogółne
+E.1.5.1 Postanowienia ogólne
 
-(1) WE.1.5.2 oraz E.1.5.3 podano dwa różne sposoby obliczania amplitud drgań w płaszczyżnie prostopa-
+(1) WE.1.5.2 oraz E.1.5.3 podano dwa różne sposoby obliczania amplitud drgań w płaszczyźnie prostopa-
 dłej do kierunku wiatru, wywołanych wzbudzaniem wirowym.
 
 UWAGA 1 Wybór sposobu obliczania lub metodę alternatywną można podać w Załączniku krajowym.
@@ -6296,7 +5501,7 @@ UWAGA 2 Bezpośrednie porównanie sposobów proponowanych w E.1.5.2 i E.1.5.3 ni
 niektóre parametry początkowe wybrano dla różnych warunków klimatycznych. W Załączniku krajowym można
 podać zakres stosowania każdego z proponowanych sposobów.
 
-UWAGA 3 Mieszanie sposobów E.1.5.2 i E.1.5.3 jest nie dozwolone, chyba że będzie to wyrażnie stwierdzone
+UWAGA 3 Mieszanie sposobów E.1.5.2 i E.1.5.3 jest nie dozwolone, chyba że będzie to wyraźnie stwierdzone
 w tekście (normy).
 
 (2) Sposób podany w E.1.5.2 można stosować do różnych rodzajów konstrukcji i postaci drgań. Uwzględnia
@@ -6311,7 +5516,7 @@ w E.1.5.3 można stosować w przypadku konstrukcji zlokalizowanych w regionach, 
 jest występowanie bardzo zimnych warunków klimatycznych i warunków przepływu stratyfikowanego (tj. na
 obszarach brzegowych północnej Europy).
 
-UWAGA _ W Załączniku krajowym można podać regiony, w których mogą wystapić bardzo zimne warunki
+UWAGA _ W Załączniku krajowym można podać regiony, w których mogą wystąpić bardzo zimne warunki
 klimatyczne i warunki przepływu stratyfikowanego. W tych regionach sposób 2 podany w E.1.5.3 jest bardziej
 odpowiedni. W Załączniku krajowym można podać parametry początkowe (jak Ka albo intensywność turbulencji),
 które stosuje się w obliczeniach tym sposobem.
@@ -6326,7 +5531,7 @@ EN 1991-1-4:2005
 E.1.5.2 Sposób 1 obliczania amplitudy drgań w płaszczyźnie prostopadłej do kierunku wiatru
 E.1.5.2.1 Obliczanie przemieszczeń
 
-Największe przemieszczenie y+max MmoŻNAa obliczyć z wyrażenia (E.7):
+Największe przemieszczenie y+max można obliczyć z wyrażenia (E.7):
 
 Pee z gy Ko Kw da (E.7)
 gdzie:
@@ -6596,7 +5801,7 @@ gdzie:
 
 m zdefiniowano w E.1.5.2.4 (1);
 
-©,y(s)  i-ta postać drgań w płaszczyżnie prostopadłej do kierunku wiatru (patrz F.3);
+©,y(s)  i-ta postać drgań w płaszczyźnie prostopadłej do kierunku wiatru (patrz F.3);
 
 l długość konstrukcji między dwoma węzłami (patrz Rysunek E.3).
 
@@ -6658,11 +5863,11 @@ w E.1.5.2, ze zmianami określonymi w wyrażeniach (E.11) i (E.12).
 
 W przypadku walców kołowych wolno stojących w rzędzie, nie połączonych:
 
-Cat = 1,5 * Ciat(singie) jeżeli 1 < 5 <10
+Cat = 1,5 * clat(single) jeżeli 1 < 5 <10
 Cjat = Clat(single) jeżeli 5 <15
 interpolacja liniowa jeżeli 10 < m <15 (E.11)
 St=0,1 + 0,085 log @ jeżeli 1 < m <9
-St = 0,18 jezeli 5 >9
+St = 0,18 jeżeli 5 >9
 gdzie:
 Clat(single) = Clat, jak podano w Tablicy E.3.
 W przypadku walców połączonych ze sobą
@@ -6723,7 +5928,7 @@ h,b wysokość i szerokość konstrukcji. W przypadku konstrukcji o zmiennej sze
 w punkcie największego przemieszczenia.
 
 UWAGA 1 Gęstość powietrza p może być podana w Załączniku krajowym. Zaleca się wartość 1,25 kg/m*.
-UWAGA 2 Stata aerodynamiczna C, zależy od siły bocznej działającej na nieruchomą konstrukcję.
+UWAGA 2 Stała aerodynamiczna C, zależy od siły bocznej działającej na nieruchomą konstrukcję.
 
 UWAGA 3 Obciążenie wiatrem wzbudzane ruchem konstrukcji jest uwzględniane za pomocą K, i a.
 
@@ -6741,7 +5946,7 @@ AL) 4_ . = „AL. e 2 .
 
 C=
 
-(4) Stata ttumienia aerodynamicznego K, maleje ze wzrostem intensywnosci turbulencji. W przypadku inten-
+(4) Stała tłumienia aerodynamicznego K, maleje ze wzrostem intensywności turbulencji. W przypadku inten-
 sywności turbulencji 0 %, można przyjąć, że stała tłumienia aerodynamicznego Kz = Ka max, której wartości
 podano w Tablicy E.6.
 
@@ -6798,7 +6003,7 @@ E.2 Galopowanie
 
 E.2.1 Postanowienia ogólne
 
-(1) Galopowanie jest zjawiskiem samowzbudnych drgań giętnych konstrukcji wiotkich w płaszczyżnie pro-
+(1) Galopowanie jest zjawiskiem samowzbudnych drgań giętnych konstrukcji wiotkich w płaszczyźnie pro-
 stopadłej do kierunku wiatru. Przekroje poprzeczne inne niż kołowy, zwłaszcza w kształcie L, I, Ui T, są podat-
 ne na galopowanie. Oblodzenie może zamienić przekrój stabilny w niestabilny.
 
@@ -6831,7 +6036,7 @@ Yoo =
 gdzie:
 Sc liczba Scrutona zdefiniowana w E.1.3.3 (1);
 
-my częstotliwość podstawowych drgań własnych konstrukcji w płaszczyżnie prostopadłej do kierunku wiatru;
+my częstotliwość podstawowych drgań własnych konstrukcji w płaszczyźnie prostopadłej do kierunku wiatru;
 przybliżone wzory do obliczania n+y podano w F.2;
 
 b szerokość konstrukcji podana w Tablicy E.7;
@@ -6852,7 +6057,7 @@ dziewane jest zjawisko galopowania, prawdopodobnie w punkcie największej amplit
 
 Verit
 
-to prawdopodobne jest wystapienie efektu interakcji miedzy wzbudzaniem wirowym a galopowaniem. W tym
+to prawdopodobne jest wystąpienie efektu interakcji miedzy wzbudzaniem wirowym a galopowaniem. W tym
 przypadku zaleca sie poradę specjalisty z dziedziny oddziaływania wiatru na konstrukcje.
 
 121
@@ -7002,14 +6207,14 @@ Sc liczba Scrutona zdefiniowana w E.1.3.3 (1);
 
 ag kombinowany parametr stateczności aja = 3,0;
 
-ny podstawowa częstotliwość drgań własnych w płaszczyżnie prostopadłej do kierunku wiatru. Przybliżone
+ny podstawowa częstotliwość drgań własnych w płaszczyźnie prostopadłej do kierunku wiatru. Przybliżone
 wzory podano w F.2;
 
 a odstęp;
 
 b średnica.
 
-UWAGA _ W Zataczniku krajowym można podać dodatkowe wskazówki dotyczące ajc.
+UWAGA _ W Załączniku krajowym można podać dodatkowe wskazówki dotyczące ajc.
 
 — a —
 | |
@@ -7045,7 +6250,7 @@ konstrukcje.
 
 E.4.2 Kryteria dotyczące konstrukcji płaskich
 
-(1) Abyuznać, że konstrukcja jest podatna na dywergencję skrętną albo flatter musi ona spełniać wszystkie
+(1) Aby uznać, że konstrukcja jest podatna na dywergencję skrętną albo flatter musi ona spełniać wszystkie
 z trzech podanych niżej warunków. Warunki te należy sprawdzać w podanej kolejności (pierwszy jest najłatwiej-
 szy). Jeżeli jeden z nich nie będzie spełniony, to konstrukcja nie będzie podatna na dywergencję skrętną albo
 flatter.
@@ -7091,7 +6296,7 @@ b grubość, jak pokazano na Rysunku E.6.
 (2) Wartości dcy/d© zmierzone względem geometrycznego środka różnych przekrojów prostokątnych poda-
 no na Rysunku E.6.
 
-N6) Odsylacz krajowy: Błąd w oryginale: zamiast b powinno być d.
+N6) Odsyłacz krajowy: Błąd w oryginale: zamiast b powinno być d.
 
 126
 
@@ -7252,7 +6457,7 @@ EN 1991-1-4:2005
 
 Podstawową częstotliwość pionowych drgań giętnych n4g mostu o dźwigarach pełnościennych albo
 
-skrzynkowych moźna w przybliźeniu obliczyć z wyraźenia (F.6):
+skrzynkowych można w przybliżeniu obliczyć z wyrażenia (F.6):
 
 K? EL,
 = . EX F6
@@ -7264,34 +6469,34 @@ E — moduł Younga, w N/m?;
 1, | moment bezwładności pola przekroju poprzecznego przy zginaniu pionowym, w połowie rozpiętości przę-
 sła, w m*;
 m _ masa na jednostkę długości pełnego przekroju poprzecznego w połowie rozpiętości przęsła (odpowiadają
-ca ciezarowi własnemu i obciążeniom zmiennym), w kg/m;
-K współczynnik bezwymiarowy zalezny od sposobu podparcia przęsła zdefiniowanego poniżej.
+ca ciężarowi własnemu i obciążeniom zmiennym), w kg/m;
+K współczynnik bezwymiarowy zależny od sposobu podparcia przęsła zdefiniowanego poniżej.
 a) Dla mostów jednoprzęsłowych:
 K=n jeżeli przęsło jest swobodnie podparte na końcach (spoczywa na podporach);
 K=3,9 _ jeżeli przęsło jest wspornikiem;
-K=4,7 jezeli jest utwierdzone na końcach.
+K=4,7 jeżeli jest utwierdzone na końcach.
 b) Dla mostów ciągłych o dwóch przęsłach:
 K otrzymuje się z Rysunku F.2, z krzywej dla mostów dwuprzęsłowych, gdzie:
 L, rozpiętość przęsła bocznego; przy czym L > Ly.
 c) Dla mostów ciągłych o trzech przęsłach:
 K otrzymuje się z Rysunku F.2, z krzywej dla mostów o trzech przęsłach, gdzie:
-L, rozpiętość dłuźszego przęsła bocznego;
+L, rozpiętość dłuższego przęsła bocznego;
 lą rozpiętość pozostałego przęsła bocznego, przy czym L > L, > Lo.
-Ten sposób obliczeń stosuje się równieź w przypadku mostów o trzech przęsłach ze wspornikowym albo
+Ten sposób obliczeń stosuje się również w przypadku mostów o trzech przęsłach ze wspornikowym albo
 wiszącym przęsłem głównym.
-Jeźeli L+ > L, to K moźna wyznaczyć z krzywej dla mostów dwuprzęsłowych, pomijając krótsze przęsło
-boczne i traktując dłuźsze przęsło boczne jako przęsło główne równowaźnego mostu dwuprzęsłowego.
+Jeżeli L+ > L, to K można wyznaczyć z krzywej dla mostów dwuprzęsłowych, pomijając krótsze przęsło
+boczne i traktując dłuższe przęsło boczne jako przęsło główne równoważnego mostu dwuprzęsłowego.
 d) Dla mostów ciągłych o czterech przęsłach symetrycznych (tj. mostów symetrycznych względem centralnej
 podpory):
-K moźna wyznaczyć z krzywej dla mostów dwuprzęsłowych na Rysunku F.2, traktując kaźdą połowę mostu
-jak równowaźny most dwuprzęsłowy.
+K można wyznaczyć z krzywej dla mostów dwuprzęsłowych na Rysunku F.2, traktując każdą połowę mostu
+jak równoważny most dwuprzęsłowy.
 e) Dla mostów ciągłych o czterech przęsłach niesymetrycznych i mostów ciągłych o więcej niź czterech
 
 130
 
 przęsłach:
 
-K moźna wyznaczyć z Rysunku F.2 z krzywej dla mostów o trzech przęsłach, wybierając przęsło główne
+K można wyznaczyć z Rysunku F.2 z krzywej dla mostów o trzech przęsłach, wybierając przęsło główne
 jako największe przęsło wewnętrzne.
 
 
@@ -7308,12 +6513,12 @@ przybliżone będą wystarczające.
 
 UWAGA 2 Używa się spójnego zbioru danych (wymiarowych), aby uzyskać n4 g w cyklach na sekundę.
 (6) Podstawowa częstotliwość skrętnych drgań własnych mostów o dźwiagarach pełnych jest równa podsta-
-wowej częstotliwości drgań giętnych obliczonej z wyraźenia (F.6), pod warunkiem ze średnia sztywność po-
+wowej częstotliwości drgań giętnych obliczonej z wyrażenia (F.6), pod warunkiem ze średnia sztywność po-
 
-dłuźna na zginanie na jednostkę szerokości nie będzie niźsza od średniej sztywności poprzecznej na zginanie
-na jednostkę długości pomnozonej przez 100.
+dłużna na zginanie na jednostkę szerokości nie będzie niższa od średniej sztywności poprzecznej na zginanie
+na jednostkę długości pomnożonej przez 100.
 
-(7) Podstawową częstotliwość skrętnych drgań własnych mostu o dźwigarach skrzynkowych mozna w przy-
+(7) Podstawową częstotliwość skrętnych drgań własnych mostu o dźwigarach skrzynkowych można w przy-
 blizeniu obliczyć z wyrażenia (F.7):
 
 Mr = Mg VF :(B3 + 83) (F.7)
@@ -7330,7 +6535,7 @@ P, = 92 j (F.10)
 2-K,-b°-I, (1+)
 gdzie:
 
-N13 podstawowa częstotliwość gietnych drgań własnych, w Hz;
+N13 podstawowa częstotliwość giętnych drgań własnych, w Hz;
 
 b całkowita szerokość mostu;
 
@@ -7338,7 +6543,7 @@ m _ masa na jednostkę długości zdefiniowana w F.2 (5);
 
 v współczynnik Poissona materiału dźwigarów;
 
-r odległość osi poszczegółnych dźwigarów skrzynkowych od osi mostu;
+r odległość osi poszczególnych dźwigarów skrzynkowych od osi mostu;
 
 I masowy moment bezwładności przekroju poszczególnego dźwigara skrzynkowego na jednostkę długości
 przy zginaniu pionowym w połowie przęsła, z uwzględnieniem efektywnych szerokości współpracują-
@@ -7346,7 +6551,7 @@ przy zginaniu pionowym w połowie przęsła, z uwzględnieniem efektywnych szero
 cych pomostu;
 
 l, masowy moment bezwładności przekroju poprzecznego w połowie rozpiętości na jednostkę długości.
-Jest on przedstawiony w postaci wyraźenia (F.11):
+Jest on przedstawiony w postaci wyrażenia (F.11):
 
 1 _ mg-b? 1 2
 p49 +) pi FE) (F.11)
@@ -7368,7 +6573,7 @@ mj masa na jednostkę długości poszczególnego dźwigara skrzynkowego w połow
 pracującej części pomostu;
 
 Jj stała skręcania pojedynczego dźwigara skrzynkowego w połowie rozpiętości, przedstawiona za pomocą
-wyrazenia (F.12):
+wyrażenia (F.12):
 
 ya
 WYJ
@@ -7380,7 +6585,7 @@ gdzie:
 
 Aj pole obrysu przekroju dźwigara skrzynkowego w połowie rozpiętości;
 
-ds całka wzdłuź obwodu przekroju dźwigara skrzynkowego, ze stosunku długości do grubości, dla kazdej
+ds całka wzdłuż obwodu przekroju dźwigara skrzynkowego, ze stosunku długości do grubości, dla każdej
 
 części ścianki, w połowie rozpiętości.
 
@@ -7425,10 +6630,10 @@ gdzie:
 
 EN 1991-1-4:2005
 
-6=1,0 dla budynków z centralnym trzonem usztywniajacym i zewnętrznymi słupami lub budynków o większych
+6=1,0 dla budynków z centralnym trzonem usztywniającym i zewnętrznymi słupami lub budynków o większych
 słupach i stężeniach na ścinanie;
 
-¢=1,5 dla smukłych budynków wspornikowych i budynków z centralnym żelbetowym trzonem usztywniajacym;
+¢=1,5 dla smukłych budynków wspornikowych i budynków z centralnym żelbetowym trzonem usztywniającym;
 €=2,0 dla wież i kominów;
 6=2,5 dla stalowych wież kratowych.
 
@@ -7559,7 +6764,7 @@ d4(y,z) postać drgań.
 Masa na jednostkę pola konstrukcji w punkcie o największej amplitudzie drgań jest zwykle dobrym przybliże-
 niem wartości ue.
 
-(4) Wwiększości przypadków odkształcenia modalne $(y,z) są stałe na każdej wysokości z i zamiast z wy-
+(4) W większości przypadków odkształcenia modalne $(y,z) są stałe na każdej wysokości z i zamiast z wy-
 rażenia (F.16), logarytmiczny dekrement tłumienia aerodynamicznego 0,, dla drgań w kierunku wiatru można
 oszacować z wyrażenia (F.18):
 
@@ -7573,7 +6778,7 @@ obliczać, stosując odpowiednie metody teoretyczne i doświadczalne.
 136
 
 
-===== page-142.txt =====
+===== page-142.txt ===== [TABELE ZWERYFIKOWANE WIZUALNIE 25.09.2026; tekst ciągły — OCR]
 
 EN 1991-1-4:2005
 
@@ -7627,6 +6832,40 @@ e __ Dopuszcza się interpolację liniową dla pośrednich wartości h/b.
 
 137
 
+[TABELE/WZORY ZWERYFIKOWANE WIZUALNIE ze skanem 25.09.2026 — obowiązują zamiast rozsypanego OCR powyżej]
+Tablica F.2 — Przybliżone wartości logarytmicznego dekrementu tłumienia konstrukcyjnego w podstawowej postaci drgań, δs
+
+| Rodzaj konstrukcji | | δs |
+|---|---|---|
+| budynki żelbetowe | | 0,10 |
+| budynki stalowe | | 0,05 |
+| konstrukcje mieszane beton + stal | | 0,08 |
+| żelbetowe wieże i kominy | | 0,03 |
+| stalowe kominy spawane bez wykładziny i bez zewnętrznej izolacji cieplnej | | 0,012 |
+| stalowe kominy spawane bez wykładziny, z zewnętrzną izolacją cieplną | | 0,020 |
+| komin stalowy z pojedynczą wykładziną i z zewnętrzną izolacją cieplną a | h/b < 18 | 0,020 |
+| (jw.) | 20 ≤ h/b < 24 | 0,040 |
+| (jw.) | h/b ≥ 26 | 0,014 |
+| komin stalowy z podwójną lub liczniejszą wykładziną i z zewnętrzną izolacją cieplną a | h/b < 18 | 0,020 |
+| (jw.) | 20 ≤ h/b < 24 | 0,040 |
+| (jw.) | h/b ≥ 26 | 0,025 |
+| komin stalowy z wewnętrzną wykładziną murowaną | | 0,070 |
+| komin stalowy z wewnętrzną wykładziną torkretową | | 0,030 |
+| kominy stalowe połączone ze sobą, bez wykładziny | | 0,015 |
+| komin stalowy z odciągami, bez wykładziny | | 0,04 |
+| mosty stalowe + stalowe wieże kratowe | spawane | 0,02 |
+| (jw.) | łączone na śruby o wysokiej wytrzymałości | 0,03 |
+| (jw.) | łączone na śruby zwykłe | 0,05 |
+| mosty zespolone | | 0,04 |
+| mosty żelbetowe | wstępnie sprężone bez rys | 0,04 |
+| (jw.) | z rysami | 0,10 |
+| mosty drewniane | | 0,06 – 0,12 |
+| mosty ze stopów aluminium | | 0,02 |
+| mosty z tworzywa sztucznego zbrojone włóknem szklanym | | 0,04 – 0,08 |
+| kable | o drutach równoległych | 0,006 |
+| (jw.) | o drutach zwijanych spiralnie | 0,020 |
+
+UWAGA 1 Wartości dla mostów drewnianych i z kompozytowych tworzyw sztucznych mają jedynie charakter orientacyjny. UWAGA 2 W przypadku mostów wantowych wartości z Tablicy F.2 należy pomnożyć przez 0,75. a Dopuszcza się interpolację liniową dla pośrednich wartości h/b.
 
 ===== page-143.txt =====
 
@@ -7672,7 +6911,7 @@ NY Y
 ISBN 978-83-251-6000-5
 
 Polski Komitet Normalizacyjny
-ul. Swietokrzyska 14, 00-050 Warszawa
+ul. Świętokrzyska 14, 00-050 Warszawa
 
 http://www.pkn.pl
 

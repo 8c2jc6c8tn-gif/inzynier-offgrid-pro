@@ -248,6 +248,20 @@ spot-check) — przed użyciem jakiejkolwiek liczby w kodzie patrz zastrzeżenie
 `00-INDEKS.md`. Status wykorzystania wszystkich siedmiu pozycji: przeanalizowane, niewykorzystane
 jeszcze w kodzie.
 
+**[25.09.2026, weryfikacja OCR — wieczór] Uzupełnienie i korekta powyższej sekcji** (nic nie usunięto):
+- Zdanie „Żadna z 4 norm/OCR-ów … nie została zweryfikowana wizualnie” — **nieaktualne**. Zakres używany
+  w projekcie zweryfikowany wizualnie ze skanem i przepisany: PN-EN 1991-1-4 (NA + rozdz. 3–7.5 + zał. A,
+  58 stron), PN-EN 1990 (6.4, Załącznik A1, NB, poprawka Ap1), IEC 62305 (wszystkie tablice i wzory,
+  47 stron), poradnik Purmo (39 wzorów → `02-wzory-zweryfikowane.md`). Szczegóły i lista błędów: sekcje
+  „Weryfikacja OCR (25.09.2026)” w każdym `00-INDEKS.md` paczki; zbiorczo `docs/memory.md`.
+- Ocena trafności w tabeli wyżej **skorygowana dla dwóch pozycji**: `norma-PN-EN-1991-1-4-wiatr/` — ma
+  odbiorców w kodzie (M3/E9, E2 — D27), to drugi egzemplarz normy z notatką `norma-PN-EN-1991-1-4/`;
+  `norma-PN-EN-1990-eurokod-0/` — bezpośrednio potrzebna (🔴 w `docs/normy-brakujace.md`, balast
+  projektowy). Rekomendacja przeniesienia Eurokodu 0 do `new-app-standards` — nieaktualna.
+- **[25.09.2026] Folder `norma-PN-EN-1991-1-4-wiatr/` scalony z `norma-PN-EN-1991-1-4/`** (decyzja
+  właściciela projektu, wariant A): PDF, `01-tresc-ocr.txt` i dawny indeks są teraz w
+  `norma-PN-EN-1991-1-4/`. Nazwa `…-wiatr/` w tabeli i akapitach wyżej to zapis historyczny.
+
 ## Norma PN-EN 1991-1-4:2008 + AC:2009 — Eurokod 1, oddziaływanie wiatru (25.09.2026)
 
 Dostarczona przez właściciela projektu (6 plików PDF, 161 stron, z Załącznikiem krajowym NA).

@@ -31,3 +31,19 @@ Przeanalizowany (ekstrakcja tekstu), **niewykorzystany jeszcze w kodzie**. Przed
 jakiegokolwiek współczynnika w kalkulatorze — zweryfikować względem oryginalnej normy PN-EN 12831
 (ten poradnik to interpretacja wydawcy, nie tekst normatywny), zgodnie z zasadą "nie zgaduj
 brakujących norm" z CLAUDE.md.
+
+## Weryfikacja ekstrakcji (25.09.2026)
+
+- **Tekst i tabele — poprawne** (warstwa tekstowa PDF, bez OCR; tabele sprawdzone wyrywkowo z renderem,
+  m.in. Tabela 2.1 temperatur projektowych −16/−18/−20/−22/−24 °C — zgodna z PN-82/B-02403 Tablica 1,
+  Tabela 6.4 nmin).
+- **Wszystkie 39 wzorów numerowanych rozsypały się** w `01-tresc-surowa.txt` na luźne znaki (wzory w PDF
+  złożone z pojedynczych znaków rozrzuconych po pozycjach). **Odczytane i zweryfikowane w
+  [`02-wzory-zweryfikowane.md`](02-wzory-zweryfikowane.md)** (dane PDF + kontrola wizualna); w
+  `01-tresc-surowa.txt` przy każdej etykiecie wzoru dopisano linię `[WZÓR (x.y) — odczyt zweryfikowany …]`.
+- **Pułapka:** font Symbol w tym PDF wyświetla „+” niekompletnie (wygląda jak „−”) — przy przepisywaniu
+  z podglądu wzory (3.1), (7.6), (9.1) wychodzą ze złym znakiem. Rozstrzygają dane PDF — opis w `02-…`.
+- **Rozbieżność wersji (nie rozstrzygnięta):** poradnik (2009) opisuje **PN-EN 12831:2006**;
+  `docs/normy-brakujace.md` wymienia aktualną **PN-EN 12831-1:2017**. Metoda obciążenia cieplnego
+  (ΦHL = ΦT + ΦV + ΦRH) ta sama co do zasady, szczegóły (współczynniki, tablice NA) mogą się różnić — przy
+  budowie kalkulatora oznaczyć jako założenie.

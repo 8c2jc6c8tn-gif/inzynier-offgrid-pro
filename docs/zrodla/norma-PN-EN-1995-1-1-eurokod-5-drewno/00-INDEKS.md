@@ -20,3 +20,11 @@ Przeanalizowany (ekstrakcja tekstu), **niewykorzystany w kodzie i najprawdopodob
 potrzebny w tym projekcie** — to ogólny standard konstrukcyjny, nie specyficzny dla off-grid PV.
 Patrz rekomendacja końcowa w `docs/zrodla/README.md` ("Materiały z folderu New-info — rekomendacja
 przekazania do new-app-standards").
+
+## Weryfikacja ekstrakcji (25.09.2026)
+
+Tekst natywny, poprawny. Symbole z fontów symbolicznych (216 znaków z prywatnego obszaru Unicode)
+zamienione na greckie litery wg tablicy fontu (σ, β, α, γ, ρ, τ, μ, π, η, ψ, ν). **50 wystąpień znaku
+U+F06C zostawiono jako `[λ|ℓ]`/`[ℓ?]`** — ten sam kod oznacza λ (font Symbol) albo ℓ (font MT-Extra),
+a pozycja w pliku tekstowym nie pozwala rozstrzygnąć bez PDF. Złożone wzory (ułamki, pierwiastki)
+rozsypane — przed użyciem sprawdzić w PDF. Poza rdzeniem projektu, pełna weryfikacja nie była celem.
