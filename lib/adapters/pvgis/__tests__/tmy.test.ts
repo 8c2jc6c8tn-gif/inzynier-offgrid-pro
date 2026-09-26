@@ -9,7 +9,8 @@ function odpowiedz(offset = 0.1832, liczbaRekordow = 8760) {
     const p = (n: number) => String(n).padStart(2, "0")
     return {
       "time(UTC)": `${d.getUTCFullYear()}${p(d.getUTCMonth() + 1)}${p(d.getUTCDate())}:${p(d.getUTCHours())}00`,
-      T2m: 3.48,
+      // Month number as temperature — makes each monthly mean exactly checkable.
+      T2m: d.getUTCMonth() + 1 + (h % 2 === 0 ? 0.5 : -0.5),
       RH: 86.2,
       "G(h)": h % 24 === 12 ? 72 : 0,
       "Gb(n)": h % 24 === 12 ? 9.51 : 0,
@@ -45,6 +46,19 @@ describe("parsujOdpowiedzTmy", () => {
     expect(w.dane.rekordy).toHaveLength(8760)
     expect(w.dane.rekordy[12]).toMatchObject({ ghi: 72, dni: 9.51, dhi: 70 })
     expect(w.dane.meta).toMatchObject({ bazaPromieniowania: "PVGIS-SARAH3", przesuniecieCzasuH: 0.1832, wysokoscNpmM: 119 })
+  })
+
+  it("średnie miesięczne T2m — 12 wartości, miesiąc ze znacznika PVGIS (M6/E1)", () => {
+    const w = parsujOdpowiedzTmy(odpowiedz(0.9))
+    if (!w.ok) throw new Error("oczekiwano ok")
+    expect(w.dane.temperaturyMiesieczneC).toHaveLength(12)
+    w.dane.temperaturyMiesieczneC!.forEach((t, i) => expect(t).toBeCloseTo(i + 1, 10))
+  })
+
+  it("brak T2m w rekordzie → PVGIS-NIEOCZEKIWANY-FORMAT", () => {
+    const o = odpowiedz()
+    delete (o.outputs.tmy_hourly[5] as { T2m?: number }).T2m
+    expect(parsujOdpowiedzTmy(o)).toMatchObject({ ok: false, kod: "PVGIS-NIEOCZEKIWANY-FORMAT" })
   })
 
   it("czas rekordu = znacznik HH:00 + irradiance_time_offset (TD15)", () => {

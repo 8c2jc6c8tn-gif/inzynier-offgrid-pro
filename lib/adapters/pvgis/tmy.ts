@@ -26,6 +26,8 @@ const rekordSchema = z.object({
   "G(h)": z.number().nonnegative(),
   "Gb(n)": z.number().nonnegative(),
   "Gd(h)": z.number().nonnegative(),
+  /** Air temperature 2 m above ground [°C] (PVGIS TMY output, ERA5). */
+  T2m: z.number(),
 })
 
 const odpowiedzSchema = z.object({
@@ -63,7 +65,15 @@ export type MetadaneTmy = {
   zrodloHoryzontu: string
 }
 
-export type DaneTmy = { rekordy: RekordGodzinowy[]; meta: MetadaneTmy }
+export type DaneTmy = {
+  rekordy: RekordGodzinowy[]
+  meta: MetadaneTmy
+  /**
+   * Mean `T2m` of each TMY month [°C], January first — for heat-loss screens (M6/E1). Optional:
+   * saves made before 26.09.2026 do not have it (then the screen asks to download the data again).
+   */
+  temperaturyMiesieczneC?: number[]
+}
 
 export type KodBleduPvgis =
   | "PVGIS-PARAMETRY-NIEPOPRAWNE"
@@ -92,6 +102,19 @@ export function parsujOdpowiedzTmy(json: unknown): WynikTmy {
   }
   const { inputs, outputs } = wynik.data
   const offsetMs = inputs.location.irradiance_time_offset * MS_NA_GODZINE
+  // Month from the PVGIS stamp, not from the shifted time: TMY months are picked whole from
+  // different years, the offset (< 1 h) must not move the last hour into the next month.
+  const suma = Array<number>(12).fill(0)
+  const liczba = Array<number>(12).fill(0)
+  for (const r of outputs.tmy_hourly) {
+    const m = Number(r["time(UTC)"].slice(4, 6)) - 1
+    if (!(m >= 0 && m < 12)) continue
+    suma[m] = suma[m]! + r.T2m
+    liczba[m] = liczba[m]! + 1
+  }
+  if (liczba.some((n) => n === 0)) {
+    return { ok: false, kod: "PVGIS-NIEOCZEKIWANY-FORMAT", szczegoly: "TMY bez godzin dla któregoś miesiąca" }
+  }
   return {
     ok: true,
     dane: {
@@ -113,6 +136,7 @@ export function parsujOdpowiedzTmy(json: unknown): WynikTmy {
         horyzontTerenu: inputs.meteo_data.use_horizon,
         zrodloHoryzontu: inputs.meteo_data.horizon_db,
       },
+      temperaturyMiesieczneC: suma.map((s, m) => s / liczba[m]!),
     },
   }
 }

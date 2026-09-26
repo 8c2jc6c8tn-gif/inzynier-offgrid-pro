@@ -2,6 +2,7 @@
 
 import Link from "next/link"
 import { useMemo } from "react"
+import { TemperaturyZPvgis } from "@/components/lokalizacja/temperatury-z-pvgis"
 import { NawigacjaEkranu } from "@/components/nawigacja-ekranu"
 import { Button } from "@/components/ui/button"
 import { Pole, PoleSelect } from "@/components/ui/pole"
@@ -224,9 +225,10 @@ export default function ObciazenieCieplnePage() {
       <section className="flex flex-col gap-3">
         <h2 className="font-semibold">3. Miesiące (opcjonalnie)</h2>
         <p className="text-small text-muted-foreground">
-          Wpisz średnią temperaturę miesięcy, dla których chcesz znać ilość ciepła — np. z danych klimatycznych Twojej okolicy.
-          Puste miesiące są pomijane.
+          Średnia temperatura miesięcy, dla których chcesz znać ilość ciepła — wstaw z danych PVGIS albo wpisz sam. Puste
+          miesiące są pomijane.
         </p>
+        <TemperaturyZPvgis onWstaw={(temperatury) => ustaw("miesiace", temperatury.map((t) => t.toFixed(1)))} />
         <div className="grid grid-cols-2 gap-3 sm:grid-cols-4">
           {MIESIACE.map((m, i) => (
             <Pole
