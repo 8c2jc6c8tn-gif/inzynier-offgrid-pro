@@ -7185,3 +7185,33 @@ ostrzeżenia `no-img-element`, niezwiązane ze zmianą), `pnpm check:i18n-guard`
 `pnpm audit:gate` (OK, brak podatności high/critical).
 
 **Następny w kolejności rolloutu:** Moduł 1 (Lokalizacja).
+
+## Rollout opisów narzędzi AI — Moduł 1 (Lokalizacja), 26.09.2026
+
+Sprawdzono `lib/core/modules/lokalizacja/*` (5 podkatalogów). Wynik: **0 nowych plików** —
+Moduł 1 jest już w pełni pokryty albo świadomie poza zakresem, bez potrzeby żadnej zmiany kodu.
+
+- `skaner-dzialki`, `analiza-zacienienia`, `orientacja-powierzchni` — narzędzia AI już istniały
+  z sesji 24.09.2026 (`lib/ai/tools/skaner-dzialki-tool.ts`, `analiza-zacienienia-tool.ts`,
+  `orientacja-powierzchni-tool.ts`), zweryfikowane treścią (realny import `calculateXxx` z
+  odpowiedniego `calculator.ts`) i już zarejestrowane w `NARZEDZIA` (`lib/ai/pytaj-asystenta.ts`).
+  Wzorzec 1:1 z resztą rolloutu, `analiza-zacienienia`/`orientacja-powierzchni` poprawnie
+  pobierają 8760 rekordów PVGIS TMY po stronie serwera (handler), model dostaje tylko
+  podsumowanie — nie zmieniano tego wzorca.
+- `lokalizacja-i-klimat` (Ekran 1, "GPS i dane klimatyczne") — ma `calculator.ts`, ale bez
+  jądra obliczeniowego: to ekran czysto infrastrukturalny (zapis współrzędnych/temperatury
+  minimalnej wpisanych ręcznie przez użytkownika, `status: zapisano: boolean`, sam plik mówi
+  wprost "Bez silnika obliczeniowego"). Świadomie pominięty — narzędzie AI nie miałoby nic do
+  policzenia (user i tak podaje gotowe liczby), a 9.1–9.3 dotyczy sytuacji, gdy model inaczej
+  policzyłby sam; tu nie ma nic do liczenia.
+- `geometria-slonca` (`pozycja-slonca.ts`) — potwierdzone `grep`: to wewnętrzna biblioteka
+  matematyczna (pozycja Słońca), reużywana przez `analiza-zacienienia`, `orientacja-powierzchni`
+  i Moduł 3 (`wschod-zachod`, `kat-i-azymut`) — bez własnego ekranu/UI z sensownym wejściem od
+  usera. Pominięta jako funkcja pomocnicza, nie osobny "ekran"; jej logika jest już pośrednio
+  dostępna przez narzędzia AI modułów, które z niej korzystają.
+
+Weryfikacja: `pnpm typecheck` (czysto), `pnpm lint` (te same 2 istniejące ostrzeżenia
+`no-img-element`, niezwiązane), `pnpm check:i18n-guard` (OK, 152 moduły), `pnpm test` (170
+plików, 1408 testów, zero regresji), `pnpm build` (OK).
+
+**Następny w kolejności: Moduł 6 (Ogrzewanie).**
