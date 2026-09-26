@@ -139,6 +139,7 @@ import { doborBezpiecznikaRozlacznikaTool } from "./tools/dobor-bezpiecznika-roz
 import { doborIzolacjiKablaTool } from "./tools/dobor-izolacji-kabla-tool"
 import { doborMocyFalownikaTool } from "./tools/dobor-mocy-falownika-tool"
 import { doborPrzekrojuKablaTool } from "./tools/dobor-przekroju-kabla-tool"
+import { napiecieSystemoweTool } from "./tools/napiecie-systemowe-tool"
 import { glownaSzynaWyrownawczaTool } from "./tools/glowna-szyna-wyrownawcza-tool"
 import { laczenieCuAlTool } from "./tools/laczenie-cu-al-tool"
 import { ochronaOdwrotnaPolaryzacjaTool } from "./tools/ochrona-odwrotna-polaryzacja-tool"
@@ -282,6 +283,7 @@ const NARZEDZIA: Array<AiToolDefinition<any, any>> = [
   doborIzolacjiKablaTool,
   doborMocyFalownikaTool,
   doborPrzekrojuKablaTool,
+  napiecieSystemoweTool,
   glownaSzynaWyrownawczaTool,
   laczenieCuAlTool,
   ochronaOdwrotnaPolaryzacjaTool,

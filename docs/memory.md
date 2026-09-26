@@ -7326,3 +7326,32 @@ Modułu 8 wyżej.
 Weryfikacja: `pnpm typecheck` (czysto), `pnpm lint` (te same 2 istniejące ostrzeżenia
 `no-img-element`, niezwiązane), `pnpm check:i18n-guard` (OK, 152 moduły), `pnpm test` (170 plików,
 1408 testów, zero regresji), `pnpm build` (OK).
+
+## `napiecie-systemowe` — dług z Modułu 4 domknięty (26.09.2026)
+
+Ekran 2, Moduł 4 (`lib/core/modules/baterie/napiecie-systemowe/`), świadomie pominięty przy
+rollcie Modułu 4 (wpis wyżej: "kalkulator wielo-etapowy A–H... zbyt złożony, żeby bezpiecznie
+zmapować 1:1"). Po ponownym, dokładnym przeczytaniu całego katalogu (`calculator.ts`, `input.ts`,
+`jednoczesnosc.ts`, `kosztorys.ts`, `warnings.ts`, `validation.ts`, `constants.ts`): funkcja
+`calculateNapiecieSystemowe()` jest zwykłą czystą funkcją (jeden argument `NapiecieSystemoweInput`
+→ jeden `CalcResult<NapiecieSystemoweResult>`), bez efektów ubocznych, bez stanu sesji, bez
+wielokrokowego kreatora wymagającego wielu wywołań — "kreator odbiorników" (Etap B) w jądrze to po
+prostu pole `odbiorniki: OdbiornikWybor[]` przekazywane w jednym wywołaniu. Dało się więc
+zmapować 1:1 pojedynczym `z.object` (z zagnieżdżonym `z.array` dla `odbiorniki` i zagnieżdżonymi
+obiektami dla `kable`/`kosztorysy`/`jednoczesnosc` w wyjściu) — bez zgadywania i bez upraszczania
+kształtu. Zbudowano `lib/ai/tools/napiecie-systemowe-tool.ts`:
+- Wejście 1:1 z `NapiecieSystemoweInput` (29 pól, w tym `odbiorniki[]`, 3×ceny per napięcie,
+  dane trasy kabla Etapu C — wszystkie opisane jako pochodzące wyłącznie od użytkownika/pomiaru/
+  cennika, nigdy nie zgadywane przez model). `zastosowanie`/`priorytet` (Etap A) zaznaczone w
+  `.describe()` jako informacyjne — jądro ich nie używa do liczenia, ale nadal muszą pochodzić od
+  usera, nie od modelu.
+- Wyjście 1:1 z `NapiecieSystemoweResult`: prądy przy 12/24/48V, `jednoczesnosc` (analiza z
+  `jednoczesnosc.ts`, nullable — pomijana gdy brak odbiorników), `kable` (echo ×3 z Modułu 5,
+  `dobor-przekroju-kabla-tool.ts` jako wzorzec, ostrzeżenia kabla przepuszczone przez
+  `tekstyOstrzezen`), `kosztorysy` (×3, `kosztorys.ts`), `kosztKonwersji24Do48Zl`.
+- Handler woła bezpośrednio `calculateNapiecieSystemowe()` — nie duplikuje algorytmu
+  jednoczesności ani kosztorysu.
+
+Zarejestrowano w `lib/ai/pytaj-asystenta.ts` (obok `doborPrzekrojuKablaTool`, koncepcyjnie
+powiązanego przez echo Etapu C). `pnpm typecheck`/`lint`/`check:i18n-guard` (152 moduły, bez
+regresji)/`test` (170 plików, 1408 testów)/`build` — czyste.
