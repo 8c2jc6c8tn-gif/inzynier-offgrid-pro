@@ -119,7 +119,7 @@ European Committee for Standardization
 Comité Européen de Normalisation
 Europaisches Komitee fur Normung
 
-Centrum Zarzadzania: rue de Stassart 36, B-1050 Brussels
+Centrum Zarządzania: rue de Stassart 36, B-1050 Brussels
 
 © 2002 CEN All rights of exploitation in any form and by any means reserved nrref. EN 1990:2002 E
 worldwide for CEN national Members.
@@ -131,7 +131,7 @@ EN 1990:2002
 
 Spis treści
 
-Przedimowa POOR
+Przedmowa POOR
 
 Geneza programu Eurokodów ............::cccesceceseeceeseeceeaeeeceeeeseaeeecaeecscaeeesaeeescaeessaeessaeeeseaeecsaaeeesneesneeeeeeeseaees
 Status i zakres stosowania Eurokodów .
@@ -144,11 +144,11 @@ Załącznik krajowy do EN 1990
 
 Rozdział 1 Postanowienia ogólne ...............--..------ss---ss-enasooen asa ee masowa anawa naaoezaa aaa zaawan aa aaa aa awe zaaawe anawa Ra aaa BE RA0A
 
-1.1 Zakresnormy ..............-..-ee eee eee aaa aaa aaa aaa aaa aaa aaa aaa aaa aaa aaa aazaaza aaa taaaezaewaae
+1.1 Zakres normy ..............-..-ee eee eee aaa aaa aaa aaa aaa aaa aaa aaa aaa aaa aaa aazaaza aaa taaaezaewaae
 1.2 Powołania normatywne ............::cccsccccssceesseecessseessneecssneecsueeesseeeeseeesaueessneeessaeeeesaeeesaeeeesneeeseeseeseeeessesess
 1.3. Założenia a
 1.4 Rozróżnienie zasad i reguł stosowania ..................-----eeae ea eau aaa aaa aaa aaa aaa aaa sza aezaainaae
-1.5 Terminy idefinicje 2.0... ee eceeceeseeeececeeeceneesecseeseeseeceeeseceeeseecaecaeseeeseeeaecsessesenesaeeeeseeseaseaecaeeeneeeseatensens
+1.5 Terminy i definicje 2.0... ee eceeceeseeeececeeeceneesecseeseeseeceeeseceeeseecaecaeseeeseeeaecsessesenesaeeeeseeseaseaecaeeeneeeseatensens
 1.5.1 Wspólne terminy stosowane w EN 1990 do EN 1999
 1.5.2 Szczególne terminy dotyczące ogólnie projektowania
 1.5.3 Terminy dotyczące oddziaływań ..................2...-:2:2--1211-21--
@@ -191,7 +191,7 @@ Rozdział 4 Zmienne podstawowe ..........-....24.2--seaansenaea owane awa ae waz
 Rozdział 5 Analiza konstrukcji i projektowanie wspomagane badaniami ..............-.2:2---12n----11n1s1113-
 
 5.1 Analiza konstrukcji... eeeescececeesceecsesscseeseessssesecsessessesecoessesecsecsasessesensaussssassavausansacsesanavaneaasansacsess
-5.1.1 Modelowanie konstrukCfi .............c.ccecsccssessesseseescsecscescseceesecsecsusssseusesssceucsesevscsaaesseasacearsaseaceaeaseaee
+5.1.1 Modelowanie konstrukcji .............c.ccecsccssessesseseescsecscescseceesecsecsusssseusesssceucsesevscsaaesseasacearsaseaceaeaseaee
 5.1.2 Oddziaływania statyczne .......
 5.1.3 Oddziaływania dynamiczne
 5.1.4 Obliczenia odporności pożarowej ............cscecccsssseescscsecseseseescescscscsesecsusecsusessvevsessvsceaversueaveeeeeaeaee
@@ -296,7 +296,7 @@ C6 Wartości docelowe B....................-..2111211212121111-2- we BA
 C7 Podejście do kalibracji wartości obliczeniowych ........ we 51
 C8 Sposoby sprawdzania niezawodności w Eurokodach ..............:cccccceeccesecseeeeseeceeecseeceaeeceeeeaeeseaeeseeeaneeees 53
 C9 Współczynniki częściowe w EN 1990 .................-----e- eee eeea ea ee enea aaa aaa eaazaaaananae 54
-C10 WSpolczynniki PA 55
+C10 Współczynniki PA 55
 Załącznik D (informacyjny) Projektowanie wspomagane badaniami ...............-.:--:n::-nessnesrazesezesanennanne 56
 D1 Zakres stosowania saa . 56
 D2 Symbole .................... we 56
@@ -312,7 +312,7 @@ nośności ULS .............-.-seusseea sean a aaa a aa aaa enaaozaaaaa asza nen
 D8 Statystyczne określenie modeli nośności .... .... 62
 D8.1 Postanowienia ogólne .....................-....1..... we 62
 D8.2 Procedura oceny normowej (metoda a) ...............-.- eee seeee ema a aaa aaa amen aaaaa ae aaaaaaeaaaenazeaaaeca 63
-D8.2.1 Postanowienia ogólne ...................-------e--see-ass een aaa aaa aaa aaa aaa aaa aaa waza aaa aaaazaaaaz rzecza 63
+D8.2.1 Postanowienia ogólne ...................-------e--see-ass een aaa aaa aaa aaa aaa aaa aaa waza aaa aaaazaaaaz rzeczą 63
 D8.2.2 Procedura normowa wn 63
 D8.3 Procedura oceny normowej (metoda b) ...............--.ee eee esse eee aaa aaa awanse een 66
 D8.4 Wykorzystanie dodatkowych informacji wcześniejszych ..................-..-.---s-eeeeea ea zn aaa nanannnaa 66
@@ -338,7 +338,7 @@ EN 1990:2002
 
 Przedmowa
 
-Niniejsza norma europejska (EN 1990:2002) zostata opracowana przez Komitet Techniczny CEN/TC 250 ,Euro-
+Niniejsza norma europejska (EN 1990:2002) została opracowana przez Komitet Techniczny CEN/TC 250 ,Euro-
 kody Konstrukcyjne” NV, którego sekretariat jest prowadzony przez BSI.
 
 Niniejsza norma europejska powinna uzyskać status normy krajowej, przez opublikowanie identycznego tekstu
@@ -502,7 +502,7 @@ EN 1990 zawiera również wskazówki dotyczące niezawodności konstrukcji w zak
 
 kowalności i trwałości:
 
-—  wprzypadkach projektowych, nie uwzględnionych w EN 1991 do EN 1999 (inne oddziaływania, nie uwzględ-
+—  w przypadkach projektowych, nie uwzględnionych w EN 1991 do EN 1999 (inne oddziaływania, nie uwzględ-
 nione rodzaje konstrukcji, inne materiały);
 
 — _ do wykorzystania przez inne TCN? CEN jako dokument odniesienia dotyczący zagadnień konstrukcyjnych.
@@ -554,7 +554,7 @@ W EN 1990 postanowienia krajowe dopuszcza się w następujących punktach:
 - A14.2(2).
 
 ® patrz Art. 3.3 i Art. 12 CPD, a także 4.2, 4.3.1, 4.3.2 i 5.2 ID1.
-N2) Qdsyłacz krajowy: Komitety Techniczne CEN.
+N2) Odsyłacz krajowy: Komitety Techniczne CEN.
 
 
 ===== eurokod0/page-009.txt =====
@@ -617,7 +617,7 @@ EN 1999  Eurocode 9: Design of aluminium structures
 (1) Projekt zgodny z zasadami i regułami stosowania uważa się za spełniający wymagania pod warunkiem, że
 zostały spełnione założenia podane w EN 1990 do EN 1999 (patrz rozdział 2).
 
-M8) Odsytacz krajowy: Patrz załącznik krajowy NA.
+M8) Odsyłacz krajowy: Patrz załącznik krajowy NA.
 
 8
 
@@ -1133,7 +1133,7 @@ mie europejskiej lub prenormie
 wartość charakterystyczna właściwości geometrycznej (ak)
 
 wartość odpowiadająca zwykle wymiarom określonym w projekcie. W przypadku gdy ma to znaczenie, wartości
-wielkości geometrycznych mogą odpowiadać pewnemu przyjetemu kwantylowi rozkładu statystycznego
+wielkości geometrycznych mogą odpowiadać pewnemu przyjętemu kwantylowi rozkładu statystycznego
 
 1.5.5.2
 
@@ -1278,7 +1278,7 @@ East wartość obliczeniowa efektu oddziaływań destabilizujących
 
 Ea stb wartość obliczeniowa efektu oddziaływań stabilizujących
 
-F oddziatywanie
+F oddziaływanie
 
 Fa wartość obliczeniowa oddziaływania
 
@@ -1304,7 +1304,7 @@ Gj, sup górna wartość charakterystyczna oddziaływania stałego j
 miarodajna wartość reprezentatywna oddziaływania sprężającego (patrz EN 1992 do EN 1996 i EN 1998
 do EN 1999)
 
-Py wartość obliczeniowa oddziaływania sprezajacego
+Py wartość obliczeniowa oddziaływania sprężającego
 
 Pk wartość charakterystyczna oddziaływania sprężającego
 
@@ -1620,7 +1620,7 @@ EN 1990:2002
 
 2.5 Zarządzanie jakością "9
 
-(1) Wcelu wykonania konstrukcji, odpowiadającej wymaganiom i założeniom przyjętym w projekcie, zaleca się
+(1) W celu wykonania konstrukcji, odpowiadającej wymaganiom i założeniom przyjętym w projekcie, zaleca się
 podjęcie odpowiednich środków zarządzania jakością. Środki te obejmują:
 
 — _ określenie wymagań niezawodności,
@@ -1723,7 +1723,7 @@ Zniszczenie na skutek nadmiernego odkształcenia jest zniszczeniem konstrukcji n
 
 są stanami granicznymi użytkowalności.
 
-UWAGA1  Wkontekście użytkowalności termin „wygląd” dotyczy raczej takich kryteriów jak duże ugięcia i intensywne
+UWAGA1  W kontekście użytkowalności termin „wygląd” dotyczy raczej takich kryteriów jak duże ugięcia i intensywne
 rysy niż estetyki.
 
 UWAGA2 ' Wymagania użytkowe ustala się zwykle dla każdego projektu indywidualnie.
@@ -1849,7 +1849,7 @@ EN 1990:2002
 — jeżeli zmienność G można uważać za małą, można posługiwać się jedną pojedynczą wartością G,;
 
 — jeżeli zmienności G nie można uważać za małą, należy posługiwać się dwiema wartościami: wartością
-wyŻsZĄ Gk,sup i wartością niższą Gy ing.
+wyższą Gk,sup i wartością niższą Gy ing.
 
 (3) Zmienność G można pomijać, jeżeli G nie zmienia się znacząco w czasie projektowego okresu użytkowania
 konstrukcji i jej współczynnik zmienności jest mały. Zaleca się, aby przyjmować w takim przypadku G, równą
@@ -1872,7 +1872,7 @@ UWAGA Odnośnie osiadań fundamentów — patrz EN 1997.
 kontrolowane odkształcenia wymuszone konstrukcji. Zaleca się odróżnianie tych rodzajów sprężenia od innych
 (np. sprężenie cięgnami, sprężenie wymuszonymi odkształceniami na podporach).
 
-UWAGA Wartości charakterystyczne sprezenia w zadanym czasie t, mogą dotyczyć wartości górnej Pk,sup(t) i dolnej
+UWAGA Wartości charakterystyczne sprężenia w zadanym czasie t, mogą dotyczyć wartości górnej Pk,sup(t) i dolnej
 
 Pkiinr(t). Dla stanów granicznych nośności przyjmować można wartość średnią P,,(t). Szczegółowe informacje zawierają
 EN 1992 do EN 1996 i EN 1999.
@@ -1992,7 +1992,7 @@ ich wartości charakterystycznych (patrz 1.5.4.1).
 (2) Jeżeli sprawdzenie stanów granicznych jest wrażliwe na zmienność właściwości materiałów, zaleca się
 uwzględnianie górnych i dolnych wartości charakterystycznych.
 
-(3) Jeżeliw EN 1991 do EN 1999 nie podano inaczej to:
+(3) Jeżeli w EN 1991 do EN 1999 nie podano inaczej to:
 
 — kiedy dolna wartość materiału lub wyrobu jest niekorzystna, wartość charakterystyczną zaleca się ustalać
 jako kwantyl 5 %;
@@ -2084,10 +2084,10 @@ UWAGA Metody uwzględniania efektów odkształceń podano w EN 1991 do EN 1999.
 
 (4)P Oddziaływania pośrednie uwzględniać należy w obliczeniach jak niżej:
 
-— wanalizie liniowo-sprężystej — bezpośrednio lub jako siły równorzędne (posługując się odpowiednimi zało-
+— w analizie liniowo-sprężystej — bezpośrednio lub jako siły równorzędne (posługując się odpowiednimi zało-
 żeniami dotyczącymi sztywności);
 
-— wanalizie nieliniowej — bezpośrednio jako wymuszone odkształcenia.
+— w analizie nieliniowej — bezpośrednio jako wymuszone odkształcenia.
 
 5.1.3 Oddziaływania dynamiczne
 
@@ -2171,7 +2171,7 @@ UWAGA Badania mogą być np. potrzebne w następujących okolicznościach:
 — jeżeli nie można posłużyć się odpowiednimi modelami obliczeniowymi;
 — jeżeli ma być zastosowana duża liczba tych samych elementów;
 
-—  wcelu potwierdzenia założeń przyjętych w obliczeniach.
+—  w celu potwierdzenia założeń przyjętych w obliczeniach.
 
 Patrz także załącznik D.
 
@@ -2280,7 +2280,7 @@ wany do efektu kombinacji oddziaływań, występujących z odpowiednimi współc
 (3)P Jeżeli rozróżnia się korzystne i niekorzystne efekty oddziaływań stałych, stosować należy dwa różne
 współczynniki częściowe (%,int i Yesup)-
 
-(4) W przypadku analizy nieliniowej (tj. kiedy związek między oddziatywaniami i ich efektami jest nieliniowy) moż-
+(4) W przypadku analizy nieliniowej (tj. kiedy związek między oddziaływaniami i ich efektami jest nieliniowy) moż-
 na, kiedy występuje jedno oddziaływanie dominujące, posługiwać się następującymi regułami uproszczonymi:
 
 a) kiedy efekt oddziaływania rośnie bardziej niż oddziaływanie, współczynnik częściowy % zaleca się stoso-
@@ -2385,85 +2385,74 @@ Xai — wartość obliczeniowa właściwości materiału i.
 31
 
 
-===== eurokod0/page-033.txt =====
+===== eurokod0/page-033.txt ===== [ZWERYFIKOWANO WIZUALNIE ze skanem 25.09.2026]
 
 EN 1990:2002
 
 (2) Wyrażenie (6.6) można uprościć następująco:
 
-X,,
-
-Ry, =R4q;—“3ag¢ i21 (6.6a)
-Yui
+Rd = R{ηi · Xk,i / γM,i ; ad} i ≥ 1 (6.6a)
 
 gdzie:
 
-Mi = Va * Vmi (6.6b)
+γM,i = γRd × γm,i (6.6b)
 
-UWAGA ni można włączyć do %w; patrz 6.3.3(2).
+UWAGA ηi można włączyć do γM,i; patrz 6.3.3(2).
 
 (3) Alternatywnie do (6.6a) nośność obliczeniową można otrzymać bezpośrednio z wartości charakterystycznej
 materiału lub nośności wyrobu, bez oddzielnego ustalania wartości obliczeniowych zmiennych podstawowych,
 jako:
 
-R, = Re (6.6c)
-Yu
+Rd = Rk / γM (6.6c)
 
 UWAGA Wyrażenie to można odnosić do wyrobów lub elementów konstrukcji wykonanych z jednego rodzaju materia-
 łów (np. ze stali) i stosuje się także w związku z załącznikiem D „Projektowanie wspomagane badaniami”.
 
-(4) Alternatywnie do wyrażeń (6.6a) i (6.60), nośność obliczeniową konstrukcji lub elementów konstrukcji, obli-
-
+(4) Alternatywnie do wyrażeń (6.6a) i (6.6c), nośność obliczeniową konstrukcji lub elementów konstrukcji, obli-
 czanych metodami nieliniowymi i zawierających więcej niż jeden materiał, współdziałający z pozostałymi, lub
 konstrukcji, których nośność obliczeniowa zależy od właściwości podłoża, wyrazić można jako:
 
-1 Ym,
-Ry = zen KD Xb i(i>1) taa (6.6d)
-
-M,1 m,i
+Rd = (1/γM,1) · R{η1·Xk,1 ; ηi·Xk,i(i>1) · γm,1/γm,i ; ad} (6.6d)
 
 UWAGA W niektórych przypadkach, nośność obliczeniową wyrazić można stosując bezpośrednio współczynniki czę-
-ściowe yy do poszczególnych nośności traktowanych jako funkcje właściwości materiału.
+ściowe γM do poszczególnych nośności traktowanych jako funkcje właściwości materiału.
 
 6.4 Stany graniczne nośności
+
 6.4.1 Postanowienia ogólne
 
 (1)P Jako miarodajne należy sprawdzić następujące stany graniczne nośności:
 a) EQU: Utrata równowagi statycznej konstrukcji lub jakiejkolwiek jej części, uważanej za ciało sztywne,
 kiedy:
-— małe zmiany wartości lub rozkładu w przestrzeni oddziaływań, wywołanych przez jedną przyczynę, są
+– małe zmiany wartości lub rozkładu w przestrzeni oddziaływań, wywołanych przez jedną przyczynę, są
 znaczące
-— wytrzymałość materiałów konstrukcji lub podłoża na ogół jest bez znaczenia;
-
+– wytrzymałość materiałów konstrukcji lub podłoża na ogół jest bez znaczenia;
 b) STR: Zniszczenie wewnętrzne lub nadmierne odkształcenia konstrukcji lub elementów konstrukcji, łącznie
 ze stopami fundamentowymi, palami, ścianami części podziemnej itp., w przypadku których decydujące
 znaczenie ma wytrzymałość materiałów konstrukcji;
-
 c) GEO: Zniszczenie lub nadmierne odkształcenie podłoża, kiedy istotne znaczenie dla nośności konstrukcji
 ma wytrzymałość podłoża lub skały;
-
 d) FAT: Zniszczenie zmęczeniowe konstrukcji lub elementu konstrukcji.
 
 UWAGA Kombinacje oddziaływań przyjmowane w obliczeniach zmęczeniowych, podane zostały w EN 1992 do EN 1999.
+
 (2)P Wartości obliczeniowe oddziaływań powinny być zgodne z załącznikiem A.
 
 6.4.2 Sprawdzenie równowagi statycznej i nośności
 
 (1)P Przy sprawdzaniu równowagi statycznej konstrukcji (EQU) należy wykazać, że:
 
-Eydsy Ś East (6.7)
+Ed,dst ≤ Ed,stb (6.7)
 
 32
 
-
-===== eurokod0/page-034.txt =====
+===== eurokod0/page-034.txt ===== [ZWERYFIKOWANO WIZUALNIE ze skanem 25.09.2026]
 
 EN 1990:2002
 
 gdzie:
-Eg,dst — Wartość obliczeniowa efektu oddziaływań destabilizujących;
-
-Ea stp — Wartość obliczeniowa efektu oddziaływań stabilizujących.
+Ed,dst – wartość obliczeniowa efektu oddziaływań destabilizujących;
+Ed,stb – wartość obliczeniowa efektu oddziaływań stabilizujących.
 
 (2) Jeżeli jest to celowe, wyrażenie określające stan graniczny równowagi statycznej konstrukcji może być
 uzupełniane dodatkowymi warunkami dotyczącymi np. współczynnika tarcia między ciałami sztywnymi.
@@ -2471,28 +2460,29 @@ uzupełniane dodatkowymi warunkami dotyczącymi np. współczynnika tarcia międ
 (3)P Przy sprawdzaniu stanu granicznego zniszczenia lub nadmiernego odkształcenia przekroju, elementu kon-
 strukcji lub połączenia (STR i/lub GEO) należy wykazać, że:
 
-E4śRa (6.8)
+Ed ≤ Rd (6.8)
+
 gdzie:
-
-Eg — wartość obliczeniowa efektu oddziaływań, takiego jak siła wewnętrzna, moment lub wektor, reprezentujący
+Ed – wartość obliczeniowa efektu oddziaływań, takiego jak siła wewnętrzna, moment lub wektor, reprezentujący
 kilka sił wewnętrznych lub momentów;
+Rd – wartość obliczeniowa odpowiedniej nośności.
 
-Rg — wartość obliczeniowa odpowiedniej nośności.
 UWAGA 1 Szczegóły metod STR i GEO podano w załączniku A.
-UWAGA2 - Wyrażenie (6.8) nie uwzględnia wszystkich przypadków sprawdzania wyboczenia, to jest zniszczenie na
 
+UWAGA 2 Wyrażenie (6.8) nie uwzględnia wszystkich przypadków sprawdzania wyboczenia, to jest zniszczenie na
 skutek tego, że efekty drugiego rzędu nie przekraczały akceptowalnego zachowania się konstrukcji. Patrz EN 1992 do
 EN 1999.
 
 6.4.3 Kombinacja oddziaływań (z wyłączeniem zmęczenia)
+
 6.4.3.1 Postanowienia ogólne
 
 (1)P W każdym krytycznym przypadku obciążenia wyznaczać należy wartości obliczeniowe efektów oddziały-
-wan (Ey) stosując kombinację oddziaływań, które mogą wystąpić jednocześnie.
+wań (Ed) stosując kombinację oddziaływań, które mogą wystąpić jednocześnie.
 
 (2) Zaleca się, aby w każdej kombinacji oddziaływań były określone:
-— _ wiodące oddziaływanie zmienne lub
-— oddziaływanie wyjątkowe.
+– wiodące oddziaływanie zmienne lub
+– oddziaływanie wyjątkowe.
 
 (3) Zaleca się, aby kombinacja oddziaływań była zgodna z 6.4.3.2 do 6.4.3.4.
 
@@ -2500,7 +2490,8 @@ wan (Ey) stosując kombinację oddziaływań, które mogą wystąpić jednocześ
 miejsca do miejsca w konstrukcji, należy uwzględniać oddzielnie części korzystne i części niekorzystne tego
 oddziaływania.
 
-UWAGA Dotyczy to szczególnie sprawdzania równowagi statycznej i podobnych stanów granicznych — patrz 6.4.2(2).
+UWAGA Dotyczy to szczególnie sprawdzania równowagi statycznej i podobnych stanów granicznych – patrz 6.4.2(2).
+
 (5) Jeżeli różne efekty jednego oddziaływania (np. moment zginający i siła normalna, wywołana przez ciężar
 własny) nie są w pełni wzajemnie skorelowane, można zredukować współczynnik częściowy stosowany do
 składnika korzystnego.
@@ -2516,92 +2507,85 @@ binacje podstawowe)
 
 (1) Zaleca się ogólną postać oddziaływań jak niżej:
 
-E, = Ysa Ele Gs „P. Paa Dra: Ta Vos | J21;i>1 (6.9a)
+Ed = γSd E{γg,j Gk,j ; γp P ; γq,1 Qk,1 ; γq,i ψ0,i Qk,i} j ≥ 1; i > 1 (6.9a)
+
 33
 
-
-===== eurokod0/page-035.txt =====
+===== eurokod0/page-035.txt ===== [ZWERYFIKOWANO WIZUALNIE ze skanem 25.09.2026]
 
 EN 1990:2002
 
 (2) Zaleca się, aby kombinacja efektów oddziaływań uwzględniała
-— wartości obliczeniowe wiodących oddziaływań zmiennych oraz
-— obliczeniową kombinację wartości towarzyszących oddziaływań zmiennych:
+– wartości obliczeniowe wiodących oddziaływań zmiennych oraz
+– obliczeniową kombinację wartości towarzyszących oddziaływań zmiennych:
 
 UWAGA Patrz także 6.4.3.2(4).
-Ey = Ely Gy, j3¥pP%o1Qb1sYo.oi2r, | jzti>l (6.9b)
 
-(3) Kombinację oddziaływań podanych w nawiasach £ ) w (6.9b) można wyrazić jako:
-)y Ya, Gi; "F"YP"H"Yga lk DRZE YZE (6.10)
-j2l Dl
+Ed = E{γG,j Gk,j ; γP P ; γQ,1 Qk,1 ; γQ,i ψ0,i Qk,i} j ≥ 1; i > 1 (6.9b)
+
+(3) Kombinację oddziaływań podanych w nawiasach { } w (6.9b) można wyrazić jako:
+
+Σ(j≥1) γG,j Gk,j "+" γP P "+" γQ,1 Qk,1 "+" Σ(i>1) γQ,i ψ0,i Qk,i (6.10)
 
 albo, alternatywnie, dla stanów granicznych STR i GEO, jako mniej korzystne wyrażenie z dwóch podanych
 niżej:
 
-»y Ya,jGkj"F"YPP"+"YguVonQk, > Yo,iM0iQki (6.10a)
-pl i>l
-> jła,j Gr; F'YPP"H"YgaQkn DA Yoi¥0iQki (6.10b)
-pi i>l
+Σ(j≥1) γG,j Gk,j "+" γP P "+" γQ,1 ψ0,1 Qk,1 "+" Σ(i>1) γQ,i ψ0,i Qk,i (6.10a)
+Σ(j≥1) ξj γG,j Gk,j "+" γP P "+" γQ,1 Qk,1 "+" Σ(i>1) γQ,i ψ0,i Qk,i (6.10b)
 
 gdzie:
-
-“+” — oznacza „należy uwzględnić w kombinacji z”
-
-x — oznacza „łączny efekt”
-
-6 — współczynnik redukcyjny dla niekorzystnych oddziaływań stałych G
+"+" – oznacza „należy uwzględnić w kombinacji z”
+Σ – oznacza „łączny efekt”
+ξ – współczynnik redukcyjny dla niekorzystnych oddziaływań stałych G
 
 UWAGA Dalsze informacje dotyczące tego wyboru podano w załączniku A.
 
 (4) Jeżeli związek między oddziaływaniami i ich efektami jest nieliniowy, zaleca się stosowanie bezpośrednio
-
 wyrażenia (6.9a) lub (6.9b), zależnie od względnego przyrostu efektów oddziaływań porównywanego ze wzro-
 stem wielkości oddziaływań (patrz także 6.3.2(4)).
 
 6.4.3.3 Kombinacje oddziaływań w przypadku wyjątkowych sytuacji obliczeniowych
 
 (1) Zaleca się, aby ogólna postać efektu oddziaływań była taka jak niżej:
-E,= E4G, ,;P; A luby, JQ4:V2;04.,) jzti>1 (6.11a)
 
-(2) Kombinację oddziaływań podanych w nawiasach £ ) można wyrazić w postaci:
+Ed = E{Gk,j ; P ; Ad ; (ψ1,1 lub ψ2,1) Qk,1 ; ψ2,i Qk,i} j ≥ 1; i > 1 (6.11a)
 
-ZG PH" AT" | luby 1 JO" +" DO V2 Oc, (6.11b)
+(2) Kombinację oddziaływań podanych w nawiasach { } można wyrazić w postaci:
 
-jal i>l
+Σ(j≥1) Gk,j "+" P "+" Ad "+" (ψ1,1 lub ψ2,1) Qk,1 "+" Σ(i>1) ψ2,i Qk,i (6.11b)
 
-(3) Zaleca się dokonywanie wyboru między y4,1 Qx1 1 Va1 Qx1 odpowiednio do miarodajnej sytuacji obliczenio-
+(3) Zaleca się dokonywanie wyboru między ψ1,1 Qk,1 i ψ2,1 Qk,1 odpowiednio do miarodajnej sytuacji obliczenio-
 wej (uderzenie, pożar, stan konstrukcji po wydarzeniu wyjątkowym).
 
 UWAGA Wskazówki podano w odpowiednich częściach EN 1991 do 1999.
 
 (4) Zaleca się, aby kombinacje oddziaływań dla wyjątkowych sytuacji obliczeniowych dotyczyły albo
-— wyłączenia oddziaływania wyjątkowego A (pożar lub uderzenie), albo
-
-— sytuacji zaistniałej po wydarzeniu wyjątkowym (A=0).
+– wyłączenia oddziaływania wyjątkowego A (pożar lub uderzenie), albo
+– sytuacji zaistniałej po wydarzeniu wyjątkowym (A=0).
 
 Zaleca się, aby w sytuacjach pożarowych, niezależnie od wpływu temperatury na właściwości materiału, war-
-tość Ay wyrażała wartość obliczeniową pośredniego oddziaływania wywołanego pożarem.
+tość Ad wyrażała wartość obliczeniową pośredniego oddziaływania wywołanego pożarem.
 
 34
 
-
-===== eurokod0/page-036.txt =====
+===== eurokod0/page-036.txt ===== [ZWERYFIKOWANO WIZUALNIE ze skanem 25.09.2026]
 
 EN 1990:2002
 
 6.4.3.4 Kombinacje oddziaływań w przypadku sejsmicznych sytuacji obliczeniowych
+
 (1) Zaleca się, aby ogólna postać efektu oddziaływań była taka jak niżej:
-E, = EG js; Aca;V21Q4, | JzĘi21 (6.12a)
 
-(2) Kombinację oddziaływań podanych w nawiasach £ ) można wyrazić w postaci:
+Ed = E{Gk,j ; P ; AEd ; ψ2,i Qk,i} j ≥ 1; i ≥ 1 (6.12a)
 
-2 Gi." +" P"+" Aga" +" VYzQę (6.12b)
+(2) Kombinację oddziaływań podanych w nawiasach { } można wyrazić w postaci:
 
-pl i21
+Σ(j≥1) Gk,j "+" P "+" AEd "+" Σ(i≥1) ψ2,i Qk,i (6.12b)
 
 6.4.4 Współczynniki częściowe dla oddziaływań i kombinacje oddziaływań
 
-(1) Zaleca się przyjmowanie wartości współczynników yi w zgodnie z EN 1991 i z załącznikiem A.
+(1) Zaleca się przyjmowanie wartości współczynników γ i ψ zgodnie z EN 1991 i z załącznikiem A.
+
 6.4.5 Współczynniki częściowe dla materiałów i wyrobów
 
 (1) Zaleca się przyjmowanie wartości współczynników częściowych dla właściwości materiałów i wyrobów zgodnie
@@ -2613,12 +2597,11 @@ z EN 1992 do EN 1999.
 
 (1)P Należy sprawdzić, czy:
 
-Eis Cy (6.13)
+Ed ≤ Cd (6.13)
+
 gdzie:
-
-Cy — graniczna wartość obliczeniowa, odpowiedniego kryterium uzytkowalnosci,
-
-E, — wartość obliczeniowa efektów oddziaływań w jednostkach kryterium użytkowalności, wyznaczona dla od-
+Cd – graniczna wartość obliczeniowa, odpowiedniego kryterium użytkowalności,
+Ed – wartość obliczeniowa efektów oddziaływań w jednostkach kryterium użytkowalności, wyznaczona dla od-
 powiedniej kombinacji oddziaływań.
 
 6.5.2 Kryteria użytkowalności
@@ -2639,54 +2622,50 @@ wiadały sprawdzanym wymaganiom użytkowalności i kryteriom zachowania się kon
 żenia (patrz także 6.5.4):
 
 UWAGA Przyjmuje się w tych wyrażeniach, że wszystkie współczynniki częściowe są równe 1. Patrz także załącznik A
-iEN 1991 do EN 1999.
+i EN 1991 do EN 1999.
 
 a) kombinacja charakterystyczna
 
-Eq = FAG, 3 P:Ox1;VorOea} J2Ęi21 (6.14a)
+Ed = E{Gk,j ; P ; Qk,1 ; ψ0,i Qk,i} j ≥ 1; i ≥ 1 (6.14a)
 
 35
 
-
-===== eurokod0/page-037.txt =====
+===== eurokod0/page-037.txt ===== [ZWERYFIKOWANO WIZUALNIE ze skanem 25.09.2026]
 
 EN 1990:2002
 
-w której kombinacja oddziaływań poddanych w nawiasach { ) (nazywana kombinacją charakterystyczną) moze
+w której kombinacja oddziaływań poddanych w nawiasach { } (nazywana kombinacją charakterystyczną) może
 być wyrażona jako:
 
-VG." H"P"H" Oza" +" Y Voie (6.14b)
-
-jal il
+Σ(j≥1) Gk,j "+" P "+" Qk,1 "+" Σ(i>1) ψ0,i Qk,i (6.14b)
 
 UWAGA Kombinacja charakterystyczna stosowana jest zwykle dla nieodwracalnych stanów granicznych.
+
 b) Kombinacja częsta:
 
-Ey = FXG, SPADŁY | J2i>1 (6.15a)
+Ed = E{Gk,j ; P ; ψ1,1 Qk,1 ; ψ2,i Qk,i} j ≥ 1; i > 1 (6.15a)
 
-w której kombinacja oddziaływań, podana w nawiasach { ) (zwana kombinacją częstą) moze być wyrażona
+w której kombinacja oddziaływań, podana w nawiasach { } (zwana kombinacją częstą) może być wyrażona
 jako:
 
-VG" PW Ok "eS W2 Qe (6.15b)
-
-j2l i>l
+Σ(j≥1) Gk,j "+" P "+" ψ1,1 Qk,1 "+" Σ(i>1) ψ2,i Qk,i (6.15b)
 
 UWAGA: Kombinacja częsta stosowana jest zwykle dla odwracalnych stanów granicznych.
 
 c) Kombinacja quasi-stała:
 
-Ey =EXG, „;P;y„Qx,| J25i21 (6.16a)
+Ed = E{Gk,j ; P ; ψ2,i Qk,i} j ≥ 1; i ≥ 1 (6.16a)
 
-w której kombinacja oddziaływań, podana w nawiasach { ) (zwana kombinacją quasi-stałą) może być wyrażona
+w której kombinacja oddziaływań, podana w nawiasach { } (zwana kombinacją quasi-stałą) może być wyrażona
 jako:
 
-DG" +" PH" NY Ok (6.16b)
-j2l ii
+Σ(j≥1) Gk,j "+" P "+" Σ(i≥1) ψ2,i Qk,i (6.16b)
+
 gdzie oznaczenia są takie jak podano w 1.6 i 6.4.3(1).
 
 UWAGA Kombinacja quasi-stała stosowana jest zwykle dla oceny efektów długotrwałych i wyglądu konstrukcji.
 
-(3) Zaleca się, aby wartości reprezentatywne oddziaływań sprężających (to jest P, lub P„) były przyjmowane
+(3) Zaleca się, aby wartości reprezentatywne oddziaływań sprężających (to jest Pk lub Pm) były przyjmowane
 zgodnie z ustaleniami Eurokodów, dotyczącymi zastosowanego rodzaju sprężenia.
 
 (4)P Efekty oddziaływań powstałych na skutek wymuszonych odkształceń uwzględniać należy w przypadkach,
@@ -2697,13 +2676,12 @@ w odnośnych częściach EN 1991 do EN 1999.
 
 6.5.4 Współczynniki częściowe dla materiałów
 
-(1) Dla stanów granicznych użytkowalności zaleca się przyjmowanie współczynników częściowych %, dla ma-
+(1) Dla stanów granicznych użytkowalności zaleca się przyjmowanie współczynników częściowych γM dla ma-
 teriałów równe 1,0, z wyjątkiem przypadków kiedy w EN 1992 do EN 1999 postanowiono inaczej.
 
 36
 
-
-===== eurokod0/page-038.txt =====
+===== eurokod0/page-038.txt ===== [ZWERYFIKOWANO WIZUALNIE ze skanem 25.09.2026]
 
 EN 1990:2002
 
@@ -2715,13 +2693,14 @@ Postanowienia dotyczące budynków
 A1.1 Zakres stosowania
 
 (1) Niniejszy załącznik A1 podaje reguły i metody ustalania kombinacji oddziaływań na budynki. Podaje także
-zalecane wartości obliczeniowe stałych, zmiennych i wyjątkowych oddziaływań oraz współczynników vy do sto-
+zalecane wartości obliczeniowe stałych, zmiennych i wyjątkowych oddziaływań oraz współczynników ψ do sto-
 sowania w obliczeniach budynków.
 
 UWAGA W załączniku krajowym mogą być podane wskazówki nawiązujące do tablicy 2.1 (projektowy okres użytkowa-
 nia).
 
 A1.2 Kombinacje oddziaływań
+
 A1.2.1 Postanowienia ogólne
 
 (1) Zaleca się, aby efekty oddziaływań, które ze względów fizycznych lub z uwagi na przewidywane użytkowa-
@@ -2730,7 +2709,7 @@ nie nie mogą wystąpić jednocześnie, nie były uwzględniane łącznie w jedn
 UWAGA 1 Odpowiednio do przewidywanego użytkowania i kształtu budynku kombinacja oddziaływań może uwzględ-
 niać nie więcej niż dwa oddziaływania zmienne.
 
-UWAGA 2 Jeżeli z uwagi na uwarunkowania geograficzne zachodzi konieczność zmian wA 1.2.1(2) iA 1.2.1(3), zmia-
+UWAGA 2 Jeżeli z uwagi na uwarunkowania geograficzne zachodzi konieczność zmian w A 1.2.1(2) i A 1.2.1(3), zmia-
 ny takie można podać w załączniku krajowym.
 
 (2) Zaleca się, aby kombinacje oddziaływań określone wyrażeniami (6.9a) do (6.12b) były stosowane przy spraw-
@@ -2742,49 +2721,44 @@ sprawdzaniu stanów granicznych użytkowalności.
 (4) Zaleca się, aby kombinacje oddziaływań zawierające siły sprężające były ustalane tak jak podano w EN 1992
 do EN 1999.
 
-A1.2.2 Wartości współczynników y
-(1) Zaleca się określanie wartości współczynników v.
+A 1.2.2 Wartości współczynników ψ
 
-UWAGA Zalecane wartości współczynników y dla powszechnie występujących oddziaływań można przyjmować z ta-
+(1) Zaleca się określanie wartości współczynników ψ.
+
+UWAGA Zalecane wartości współczynników ψ dla powszechnie występujących oddziaływań można przyjmować z ta-
 blicy A 1.1.
 
 37
 
-
-===== eurokod0/page-039.txt =====
+===== eurokod0/page-039.txt ===== [ZWERYFIKOWANO WIZUALNIE ze skanem 25.09.2026]
 
 EN 1990:2002
 
-Tablica A 1.1 — Zalecane wartości współczynników v dla budynków
+Tablica A 1.1 — Zalecane wartości współczynników ψ dla budynków
 
-Oddziaływania Wo W Yo
+| Oddziaływania | ψ0 | ψ1 | ψ2 |
+|---|---|---|---|
+| Obciążenie zmienne w budynkach, kategoria (patrz EN 1991-1-1) | | | |
+| Kategoria A: powierzchnie mieszkalne | 0,7 | 0,5 | 0,3 |
+| Kategoria B: powierzchnie biurowe | 0,7 | 0,5 | 0,3 |
+| Kategoria C: miejsca zebrań | 0,7 | 0,7 | 0,6 |
+| Kategoria D: powierzchnie handlowe | 0,7 | 0,7 | 0,6 |
+| Kategoria E: powierzchnie magazynowe | 1,0 | 0,9 | 0,8 |
+| Kategoria F: powierzchnie ruchu pojazdów, pojazdy ≤ 30 kN | 0,7 | 0,7 | 0,6 |
+| Kategoria G: powierzchnie ruchu pojazdów, 30 kN < ciężar pojazdu ≤ 160 kN | 0,7 | 0,5 | 0,3 |
+| Kategoria H: dachy | 0 | 0 | 0,0 |
+| Obciążenie budynków śniegiem (patrz EN 1991-1-3) *) | | | |
+| Finlandia, Islandia, Norwegia, Szwecja | 0,70 | 0,50 | 0,20 |
+| Pozostałe kraje CEN, miejscowości położone na wysokości H > 1000 m ponad poziom morza | 0,70 | 0,50 | 0,20 |
+| Pozostałe kraje CEN, miejscowości położone na wysokości H ≤ 1000 m ponad poziom morza | 0,50 | 0,20 | 0,20 [→ 0 wg poprawki Ap1, patrz strona 73] |
+| Obciążenie wiatrem (patrz EN 1991-1-4) | 0,6 | 0,2 | 0 |
+| Temperatura (nie pożarowa) w budynku (patrz EN 1991-1-5) | 0,6 | 0,5 | 0 |
 
-Obciążenie zmienne w budynkach, kategoria (patrz EN 1991-1-1)
-Kategoria A: powierzchnie mieszkalne 0,7 0,5 0,3
-Kategoria B: powierzchnie biurowe 0,7 0,5 0,3
-Kategoria C: miejsca zebrań 0,7 0,7 0,6
-Kategoria D: powierzchnie handlowe 0,7 0,7 0,6
-Kategoria E: powierzchnie magazynowe 1,0 0,9 0,8
-Kategoria F: powierzchnie ruchu pojazdów
-
-pojazdy < 30 kN 0,7 0,7 0,6
-Kategoria G: powierzchnie ruchu pojazdów
-
-30 kN < ciężar pojazdu < 160 kN 0,7 0,5 0,3
-Kategoria H: dachy 0 0 0,0
-Obciążenie budynków śniegiem (patrz EN 1991-1-3) *
-Finlandia, Islandia, Norwegia, Szwecja 0,70 0,50 0,20
-Pozostałe kraje CEN, miejscowości położone na wysokości H > 1000 m ponad
-poziom morza 0,70 0,50 0,20
-Pozostałe kraje CEN, miejscowości położone na wysokości H < 1000 m ponad
-poziom morza 0,50 0,20 0,20
-Obciążenie wiatrem (patrz EN 1991-1-4) 0,6 0,2 0
-Temperatura (nie pożarowa) w budynku (patrz EN 1991-1-5) 0,6 0,5 0
-
-UWAGA: Wartości y mogą być określone w załączniku krajowym
-» Dotyczy krajów nie wymienionych poniżej — patrz miarodajne warunki miejscowe.
+UWAGA: Wartości ψ mogą być określone w załączniku krajowym
+*) Dotyczy krajów nie wymienionych poniżej – patrz miarodajne warunki miejscowe.
 
 A1.3 Stany graniczne nośności
+
 A1.3.1 Wartości obliczeniowe oddziaływań w trwałych i przejściowych sytuacjach obliczeniowych
 
 (1) Zaleca się, aby wartości obliczeniowe oddziaływań dla stanów granicznych nośności w sytuacjach stałych
@@ -2794,7 +2768,6 @@ UWAGA Wartości podane w tablicach A1.2(A) do (C) mogą być zmienione w załąc
 poziomów niezawodności (patrz rozdz. 2 i załącznik B).
 
 (2) Przy korzystaniu z tablic A1.2(A) do A1.2(C), w przypadku, kiedy stan graniczny zależy w dużej mierze od
-
 wartości oddziaływań stałych, zaleca się przyjmowanie górnych i dolnych wartości charakterystycznych zgod-
 nie z 4.1.2(2)P.
 
@@ -2808,8 +2781,7 @@ leca się sprawdzać, posługując się wartościami obliczeniowymi oddziaływa�
 niające oddziaływania geotechniczne i nośność gruntu (GEO, patrz 6.4.1) zaleca się sprawdzać posługując się
 jednym z trzech następujących podejść, uzupełnionych w zakresie oddziaływań geotechnicznych i nośności,
 ustaleniami podanymi w EN 1997:
-
-— Podejście 1: Wartości obliczeniowe z tablicy A1.2(C) i wartości obliczeniowe z tablicy A1.2(B) stosuje sie
+– Podejście 1: Wartości obliczeniowe z tablicy A1.2(C) i wartości obliczeniowe z tablicy A1.2(B) stosuje się
 w oddzielnych obliczeniach, zarówno do oddziaływań geotechnicznych jak innych oddziaływań działają-
 cych na konstrukcję lub pochodzących od konstrukcji. Zwykle wymiarowanie fundamentów przeprowadza
 się na podstawie tablicy A1.2(C), a nośność konstrukcji na podstawie tablicy A1.2(B);
@@ -2818,185 +2790,146 @@ UWAGA W niektórych przypadkach stosowanie tych tablic jest bardziej złożone, 
 
 38
 
-
-
-===== eurokod0/page-040.txt =====
+===== eurokod0/page-040.txt ===== [ZWERYFIKOWANO WIZUALNIE ze skanem 25.09.2026]
 
 EN 1990:2002
 
-— Podejście 2: Wartości obliczeniowe z tablicy A1.2(B) stosuje się zarówno do oddziaływań geotechnicz-
+– Podejście 2: Wartości obliczeniowe z tablicy A1.2(B) stosuje się zarówno do oddziaływań geotechnicz-
 nych, jak również innych oddziaływań;
-
-— Podejście 3: Wartości obliczeniowe z tablicy A1.2(C ) stosuje się do oddziaływań geotechnicznych i jedno-
+– Podejście 3: Wartości obliczeniowe z tablicy A1.2(C) stosuje się do oddziaływań geotechnicznych i jedno-
 cześnie stosuje się częściowe współczynniki z tablicy A1.2(B) do innych oddziaływań działających na
 konstrukcje lub pochodzących od konstrukcji.
 
-UWAGA Zastosowanie podejścia 1.2 lub 3 określa się w załączniku krajowym N.
+UWAGA Zastosowanie podejścia 1.2 lub 3 określa się w załączniku krajowym N6).
 
 (6) Zaleca się, aby stateczność ogólna konstrukcji budynku (np. stateczność skarpy lub zbocza, na którym
 posadowiony jest budynek) była sprawdzana zgodnie z EN 1997.
 
 (7) Zaleca się, aby zniszczenie i wyparcie hydrauliczne (np. na dnie wykopu pod konstrukcję budynku) było
-sprawdzane zgodnie z EN 1997. i
+sprawdzane zgodnie z EN 1997.
 
 Tablica A1.2(A) — Wartości obliczeniowe oddziaływań (EQU) (zestaw A)
 
-Trwałe Oddziaływania stałe Wiodące Towarzyszące oddziaływania
-i przejściowe oddziaływanie zmienne
-sytuacje - zmienne (*) -
-obliczeniowe niekorzystne korzystne główne pozostałe
-(jeżeli takie
-występują)
-(Wzór 6.10) YGi,sup Gkj,sup Yalint Qxjsint Yor Qa i Yo,iQ,
+| Trwałe i przejściowe sytuacje obliczeniowe | Oddziaływania stałe niekorzystne | Oddziaływania stałe korzystne | Wiodące oddziaływanie zmienne (*) | Towarzyszące oddziaływania zmienne główne (jeżeli takie występują) | Towarzyszące oddziaływania zmienne pozostałe |
+|---|---|---|---|---|---|
+| (Wzór 6.10) | γGj,sup Gkj,sup | γGj,inf Gkj,inf | γQ,1 Qk,1 | | γQ,i ψ0,i Qk,i |
 
 (*) Oddziaływaniami zmiennymi są te, które uwzględniono w tablicy A1.1
 
-UWAGA 1 Wartości ymogą być podane w załączniku krajowym.
+UWAGA 1 Wartości γ mogą być podane w załączniku krajowym.
 Wartości zalecane podano poniżej:
-
-Tisup = 1,10
-
-Yeiint = 0,90
-
-%,1 = 1,50 jeżeli niekorzystne (0 jeżeli korzystne)
-
-%, = 1,50 jeżeli niekorzystne (0 jeżeli korzystne)
+γGj,sup = 1,10
+γGj,inf = 0,90
+γQ,1 = 1,50 jeżeli niekorzystne (0 jeżeli korzystne)
+γQ,i = 1,50 jeżeli niekorzystne (0 jeżeli korzystne)
 
 UWAGA 2 W przypadku, kiedy sprawdzenie równowagi statycznej uwzględnia także nośność elementów konstrukcji,
 można — jeżeli pozwala na to załącznik krajowy — zamiast dwukrotnego sprawdzenia korzystając z tablicy A1.2(A)
 i A1.2(B) — dokonać sprawdzenia jednokrotnego, posługując się tablicą A1.2(A) z podanym niżej zestawem wartości
 zalecanych.
-
-%i,sup = 1,35
-
-Yej,int = 1,15
-
-0,1 = 1,50 jeżeli niekorzystne (0 jeżeli korzystne)
-
-0, = 1,50 jeżeli niekorzystne (0 jeżeli korzystne)
-
-Wartości zalecane mogą być zmienione w załączniku krajowym pod warunkiem, że przyjmując YGjinr = 1,00 tak dla
+γGj,sup = 1,35
+γGj,inf = 1,15
+γQ,1 = 1,50 jeżeli niekorzystne (0 jeżeli korzystne)
+γQ,i = 1,50 jeżeli niekorzystne (0 jeżeli korzystne)
+Wartości zalecane mogą być zmienione w załączniku krajowym pod warunkiem, że przyjmując γGj,inf = 1,00 tak dla
 korzystnej jak i niekorzystnej części oddziaływań stałych, nie otrzymuje się mniej niekorzystnego efektu.
 
-N®) Odsyłacz krajowy: Dotyczy załącznika krajowego do EN 1997 „Projektowanie geotechniczne”.
+N6) Odsyłacz krajowy: Dotyczy załącznika krajowego do EN 1997 „Projektowanie geotechniczne”.
+
+[Uwaga opracowania: Załącznik krajowy NB (strona 70): „nie wprowadza się żadnych zmian krajowych” — w Polsce
+obowiązują wartości zalecane z UWAGI 1. Te same wartości potwierdza natywny tekst poprawki AC:2010 (strona 111).]
 
 39
 
-
-===== eurokod0/page-041.txt =====
+===== eurokod0/page-041.txt ===== [ZWERYFIKOWANO WIZUALNIE ze skanem 25.09.2026]
 
 EN 1990:2002
 
 Tablica A1.2(B) — Wartości obliczeniowe oddziaływań (STR/GEO) (zestaw B)
 
-Trwałe Oddziaływania stałe Wiodące Towarzyszące oddziaływania
-i przejściowe oddziaływanie zmienne (*)
-sytuacje zmienne
-obliczeniowe niekorzystne korzystne główne pozostałe
-(jeżeli takie
-występują)
-(Wzór 6.10) YGj.sup Gkjssup YGiint Gxj,int 71 Qi ii VosOki
-Trwałe Oddziaływania stałe Wiodące Towarzyszące oddziaływania
-i przejściowe oddziaływanie zmienne (*)
-sytuacje zmienne (*) - ——
-obliczeniowe niekorzystne korzystne główne (jeżeli pozostałe
-takie występują)
-(Wzór 6.10a) Yaj,sup Gkjssup Yej,int Gxj,int Yet Wo,1Qk1 Wi VO
-(Wzór 6.10b) ŚYGisup Gkjssup YGj.intGkjsint 011 70,1 YoiQ,i
+| Trwałe i przejściowe sytuacje obliczeniowe | Oddziaływania stałe niekorzystne | Oddziaływania stałe korzystne | Wiodące oddziaływanie zmienne | Towarzyszące zmienne (*) główne (jeżeli takie występują) | Towarzyszące zmienne (*) pozostałe |
+|---|---|---|---|---|---|
+| (Wzór 6.10) | γGj,sup Gkj,sup | γGj,inf Gkj,inf | γQ,1 Qk,1 | | γQ,i ψ0,i Qk,i |
+| (Wzór 6.10a) | γGj,sup Gkj,sup | γGj,inf Gkj,inf | | γQ,1 ψ0,1 Qk,1 | γQ,i ψ0,i Qk,i |
+| (Wzór 6.10b) | ξ γGj,sup Gkj,sup | γGj,inf Gkj,inf | γQ,1 Qk,1 | | γQ,i ψ0,i Qk,i |
+
+(W oryginale dwie oddzielne tabelki: jedna dla wzoru 6.10, druga dla 6.10a i 6.10b.)
 
 (*) Oddziaływaniami zmiennymi są te, które uwzględniono w tablicy A1.1.
 
 UWAGA 1 Wybór 6.10 lub 6.10a i 6.10b podany zostanie w załączniku krajowym. W przypadku 6.10a i 6.10b
 załącznik krajowy może zmienić dodatkowo 6,10a, wprowadzając tylko oddziaływania stałe.
 
-UWAGA 2 Wartości yi € mogą być podane w załączniku krajowym. Zalecane wartości yi € do zastosowania w wy-
+UWAGA 2 Wartości γ i ξ mogą być podane w załączniku krajowym. Zalecane wartości γ i ξ do zastosowania w wy-
 rażeniach 6.10 lub 6.10a i 6.10b podano niżej:
-
-YGisup = 1,35
-
-Yej,int = 1,00
-
-%.1 = 1,50 jeżeli niekorzystne (0 jeżeli korzystne)
-
-Yai = 1,50 jeżeli niekorzystne (0 jeżeli korzystne)
-
-6 = 0,85 (tak aby Ć 7Gjsup = 0,85 x 1,35 = 1,15).
-
-Patrz także EN 1991 do EN 1999 w sprawie wartości ydla odkształceń wymuszonych.
+γGj,sup = 1,35
+γGj,inf = 1,00
+γQ,1 = 1,50 jeżeli niekorzystne (0 jeżeli korzystne)
+γQ,i = 1,50 jeżeli niekorzystne (0 jeżeli korzystne)
+ξ = 0,85 (tak aby ξ γGj,sup = 0,85 × 1,35 ≈ 1,15).
+Patrz także EN 1991 do EN 1999 w sprawie wartości γ dla odkształceń wymuszonych.
 
 UWAGA 3 Wartości charakterystyczne wszystkich oddziaływań stałych, pochodzących z jednego źródła, mnoży się
-przez 7,sup jeżeli cały wynikający stąd efekt jest niekorzystny, przez JG,n kiedy efekt ten jest korzystny. Np. wszystkie
+przez γG,sup jeżeli cały wynikający stąd efekt jest niekorzystny, przez γG,inf, kiedy efekt ten jest korzystny. Np. wszystkie
 oddziaływania pochodzące od ciężaru własnego konstrukcji można uważać za pochodzące z jednego źródła; dotyczy
 to również przypadku, kiedy materiały są różne.
 
-UWAGA 4 W przypadku specyficznych sprawdzań wartości ye i można podzielić na % i % i współczynnik y%a
-uwzględniający niepewność modelu. Wartości sa mieszczą się najczęściej w przedziale od 1,05 do 1,15 i mogą być
+UWAGA 4 W przypadku specyficznych sprawdzań wartości γG i γQ można podzielić na γg i γq i współczynnik γSd
+uwzględniający niepewność modelu. Wartości γSd mieszczą się najczęściej w przedziale od 1,05 do 1,15 i mogą być
 różnicowane w załączniku krajowym.
+
+[Uwaga opracowania: Załącznik krajowy NB (strona 70) zaleca dla STR/GEO mniej korzystne z wyrażeń (6.10a) i (6.10b).]
 
 40
 
-
-
-===== eurokod0/page-042.txt =====
+===== eurokod0/page-042.txt ===== [ZWERYFIKOWANO WIZUALNIE ze skanem 25.09.2026]
 
 EN 1990:2002
 
 Tablica A1.2(C) — Wartości obliczeniowe oddziaływań (STR/GEO) (zestaw C)
 
-Trwałe Oddziaływania stałe - Wiodące Towarzyszące oddziaływania
-i przejściowe oddziaływanie Zmienne (*)
-sytuacje zmienne (*)
-obliczeniowe niekorzystne korzystne główne pozostałe
-(jeżeli takie
-występują)
-(Wzór 6.10) YGj,sup Gkjssup YGj,int Gj, int Yer An Yi Poi Oi
+| Trwałe i przejściowe sytuacje obliczeniowe | Oddziaływania stałe niekorzystne | Oddziaływania stałe korzystne | Wiodące oddziaływanie zmienne (*) | Towarzyszące zmienne (*) główne (jeżeli takie występują) | Towarzyszące zmienne (*) pozostałe |
+|---|---|---|---|---|---|
+| (Wzór 6.10) | γGj,sup Gkj,sup | γGj,inf Gkj,inf | γQ,1 Qk,1 | | γQ,i ψ0,i Qk,i |
 
 (*) Oddziaływaniami zmiennymi są te, które uwzględniono w tablicy A1.1.
 
-UWAGA Wartości ymogą być podane w załączniku krajowym. Wartości zalecane podano poniżej:
-YGj,sup = 1 „00
-
-YGiinf = 1,00
-
-%.1 = 1,30 jeżeli niekorzystne (0 jeżeli korzystne)
-
-Yai = 1,30 jeżeli niekorzystne (0 jeżeli korzystne)
+UWAGA Wartości γ mogą być podane w załączniku krajowym. Wartości zalecane podano poniżej:
+γGj,sup = 1,00
+γGj,inf = 1,00
+γQ,1 = 1,30 jeżeli niekorzystne (0 jeżeli korzystne)
+γQ,i = 1,30 jeżeli niekorzystne (0 jeżeli korzystne)
 
 A1.3.2 Wartości obliczeniowe oddziaływań w wyjątkowych i sejsmicznych sytuacjach obliczeniowych
+
 (1) Zaleca się, aby wartości współczynników częściowych dla oddziaływań w stanach granicznych nośności
 w wyjątkowych i sejsmicznych sytuacjach obliczeniowych (wyrażenia od 6.11a do 6.12b) były przyjmowane
-równe 1,0. Wartości y podano w tablicy A1.1.
+równe 1,0. Wartości ψ podano w tablicy A1.1.
 
 UWAGA Odnośnie do sejsmicznej sytuacji obliczeniowej patrz także EN 1998.
 
 Tabl. A1.3 — Wartości obliczeniowe oddziaływań przyjmowanych do wyjątkowych i sejsmicznych
-kombinacji oddziaływań —-
+kombinacji oddziaływań
 
-Sytuacja Oddziaływania stałe Wiodące Towarzyszące oddziaływania zmienne
-obliczeniowa oddziaływanie (**)
-wyjatkowe lub
-sejsmiczne
-niekorzystne korzystne główne (jeżeli pozostałe
-takie występują)
-Wyjątkowa (*) Gkissup Ghj,int Ag + lub Wei Ai
-(wzór 6.1 1a/b) Va Qu
-Sejsmiczna Gkjssup Gisint 1" AEk Vai Qi
+| Sytuacja obliczeniowa | Oddziaływania stałe niekorzystne | Oddziaływania stałe korzystne | Wiodące oddziaływanie wyjątkowe lub sejsmiczne | Towarzyszące zmienne (**) główne (jeżeli takie występują) | Towarzyszące zmienne (**) pozostałe |
+|---|---|---|---|---|---|
+| Wyjątkowa (*) (wzór 6.11a/b) | Gkj,sup | Gkj,inf | Ad | ψ11 lub ψ21 Qk1 | ψ2,i Qk,i |
+| Sejsmiczna (wzór 6.12a/b) | Gkj,sup | Gkj,inf | γI AEk lub AEd | ψ2,i Qk,i (jedna wartość dla obu kolumn) | |
 
-(wzór 6.12a/b) lub Aa
 (*) W przypadku wyjątkowych sytuacji obliczeniowych wartość głównego oddziaływania zmiennego można wyznaczać
-uważając je za oddziaływanie częste lub — jak w sejsmicznej kombinacji oddziaływań — za oddziaływanie quasi-stałe.
+uważając je za oddziaływanie częste lub – jak w sejsmicznej kombinacji oddziaływań – za oddziaływanie quasi-stałe.
 Wybór podany zostanie w załączniku krajowym, odpowiednio do rodzaju uwzględnianego oddziaływania wyjątkowego.
 Patrz także EN 1991-1-2.
 (**) Oddziaływaniami zmiennymi są te, które uwzględniono w tablicy A1.1.
 
 41
 
-
-===== eurokod0/page-043.txt =====
+===== eurokod0/page-043.txt ===== [ZWERYFIKOWANO WIZUALNIE ze skanem 25.09.2026]
 
 EN 1990:2002
 
 A1.4 Stany graniczne użytkowalności
+
 A1.4.1 Współczynniki częściowe dla oddziaływań
 
 (1) Dla stanów granicznych użytkowalności zaleca się przyjmowanie współczynników częściowych równych
@@ -3004,11 +2937,11 @@ A1.4.1 Współczynniki częściowe dla oddziaływań
 
 Tablica A1.4 — Wartości obliczeniowe w kombinacji oddziaływań
 
-Kombinacja Oddziaływania stałe Gu Oddziaływania zmienne Qi
-Niekorzystne Korzystne Wiodące Pozostałe
-Charakterystyczna Gkjssup Gig, int 1 Wo,i Qi
-Czesta Gkissup Gig int Wit Qi Wei Aci
-Quasi-stata Gkissup Gin Wo Q«1 Wai Qi
+| Kombinacja | Oddziaływania stałe Gd niekorzystne | Oddziaływania stałe Gd korzystne | Oddziaływania zmienne Qd wiodące | Oddziaływania zmienne Qd pozostałe |
+|---|---|---|---|---|
+| Charakterystyczna | Gkj,sup | Gkj,inf | Qk,1 | ψ0,i Qk,i |
+| Częsta | Gkj,sup | Gkj,inf | ψ1,1 Qk,1 | ψ2,i Qk,i |
+| Quasi-stała | Gkj,sup | Gkj,inf | ψ2,1 Qk,1 | ψ2,i Qk,i |
 
 A1.4.2 Kryteria użytkowalności
 
@@ -3018,13 +2951,12 @@ i sztywność stropu. Kryteriami sztywności mogą być granice ugięć pionowyc
 czeń poziomych mogą być granice przemieszczeń poziomych.
 
 (2) Zaleca się ustalanie kryteriów użytkowalności dla każdego projektu i uzgadnianie ich z inwestorem.
+
 UWAGA Kryteria użytkowalności mogą być podawane w załączniku krajowym.
 
 (3)P Kryteria użytkowalności dotyczące odkształceń i drgań należy określać:
-
-— odpowiednio do zamierzonego użytkowania zgodnie z 3.4;
-
-— niezależnie od materiałów, z których wykonano popierające elementy konstrukcji.
+– odpowiednio do zamierzonego użytkowania zgodnie z 3.4;
+– niezależnie od materiałów, z których wykonano popierające elementy konstrukcji.
 
 A1.4.3 Odkształcenia i przemieszczenia poziome
 
@@ -3035,31 +2967,23 @@ i nieodwracalnych stanów granicznych.
 
 (2) Pionowe ugięcia przedstawiono schematycznie na rysunku A1.1.
 
-we Ą
-4 c= a —
+[Rysunek A1.1 — schemat ugięć belki: wc, w1, w2, w3, wtot, wmax]
 
 Rysunek A1.1 — Objaśnienie oznaczeń ugięć pionowych
 
 Objaśnienie:
-
-w, — strzałka odwrotna nieobciążonego elementu konstrukcji
-
-w, — początkowa część ugięcia pod obciążeniem stałym, przy odnośnej kombinacji oddziaływań, zgodnie
+wc – strzałka odwrotna nieobciążonego elementu konstrukcji
+w1 – początkowa część ugięcia pod obciążeniem stałym, przy odnośnej kombinacji oddziaływań, zgodnie
 z wyrażeniami od (6.14a) do (6.16b)
-
-w, — długotrwała część ugięcia pod obciążeniem stałym
-
-w; — dodatkowa część ugięcia pod obciążeniem zmiennym przy odnośnej kombinacji oddziaływań, zgodnie
+w2 – długotrwała część ugięcia pod obciążeniem stałym
+w3 – dodatkowa część ugięcia pod obciążeniem zmiennym przy odnośnej kombinacji oddziaływań, zgodnie
 z wyrażeniami od (6.14a) do (6.16b)
-
-Wtot — Ugięcie całkowite traktowane jako suma w4, w» i W3
-
-Wmax — pozostałe ugięcie całkowite z uwzględnieniem strzałki odwrotnej.
+wtot – ugięcie całkowite traktowane jako suma w1, w2 i w3
+wmax – pozostałe ugięcie całkowite z uwzględnieniem strzałki odwrotnej.
 
 42
 
-
-===== eurokod0/page-044.txt =====
+===== eurokod0/page-044.txt ===== [ZWERYFIKOWANO WIZUALNIE ze skanem 25.09.2026]
 
 EN 1990:2002
 
@@ -3068,6 +2992,7 @@ tów niekonstrukcyjnych, zaleca się uwzględnienie przy sprawdzaniu ugięcia ty
 i zmiennych, które pojawiają się po wykonaniu rozważanych elementów lub ich wykończenia.
 
 UWAGA Wskazówki dotyczące zastosowania wyrażeń od (6.14a) do (6.16b) podano w 6.5.3 oraz w EN 1992 do EN 1999.
+
 (4) Jeżeli rozważa się wygląd konstrukcji, zaleca się zastosowanie kombinacji quasi-stałej (wyrażenie (6.16b)).
 
 (5) Jeżeli rozważa się komfort użytkowy lub sprawność działania maszyn, zaleca się uwzględnienie przy spraw-
@@ -3079,19 +3004,18 @@ nych.
 
 (7) Poziome przemieszczenia przedstawiono schematycznie na rysunku A1.2.
 
-+
-
-+——:
+[Rysunek A1.2 — schemat przemieszczeń poziomych ramy: u, ui, H, Hi, L]
 
 Rysunek A1.2 — Objaśnienie oznaczeń przemieszczeń poziomych
+
 Objaśnienie:
-u — całkowite przemieszczenie poziome budynku o wysokości H
-u; — przemieszczenie poziome kondygnacji o wysokości H,
+u – całkowite przemieszczenie poziome budynku o wysokości H
+ui – przemieszczenie poziome kondygnacji o wysokości Hi
+
 A1.4.4 Drgania
 
 (1) W celu osiągnięcia zadowalającego zachowania się w warunkach użytkowania budynków i elementów ich
 konstrukcji z uwagi na drgania, zaleca się, między innymi, uwzględnianie następujących aspektów:
-
 a) komfortu użytkownika;
 b) przydatności użytkowej konstrukcji lub elementów konstrukcji (np. rysy w ściankach działowych, uszko-
 dzenia okładzin, wrażliwość zawartości budynku na drgania).
@@ -3113,7 +3037,6 @@ ludzi, maszyny, przenoszone przez podłoże, drgania wywołane przez ruch kołow
 ca się, aby te oraz inne źródła określone były dla każdego projektu i uzgadniane z inwestorem.
 
 43
-
 
 ===== eurokod0/page-045.txt =====
 
@@ -3190,7 +3113,7 @@ cc2 Przeciętne zagrożenie życia ludzkiego lub budynki mieszkalne i biurowe or
 znaczne konsekwencje ekonomiczne, użyteczności publicznej których
 społeczne i środowiskowe konsekwencje zniszczenia są przeciętne
 
-CC1 Niskie zagrozenie zycia ludzkiego lub mate budynki rolnicze, w których ludzie zazwyczaj
+CC1 Niskie zagrożenie życia ludzkiego lub mate budynki rolnicze, w których ludzie zazwyczaj
 lub nieznaczne konsekwencje społeczne, nie przebywają oraz szklarnie
 ekonomiczne i środowiskowe
 
@@ -3377,9 +3300,9 @@ Duże litery łacińskie
 
 P; prawdopodobieństwo zniszczenia
 
-Prob(.) _prawdopodobienstwo
+Prob(.) _prawdopodobieństwo
 
-Ps prawdopodobienstwo przetrwania
+Ps prawdopodobieństwo przetrwania
 
 Małe litery łacińskie
 
@@ -3389,7 +3312,7 @@ g funkcja stanu granicznego
 
 Duże litery greckie
 
-@ funkcja rozkładu prawdopodobienstwa standaryzowanego rozkładu normalnego
+@ funkcja rozkładu prawdopodobieństwa standaryzowanego rozkładu normalnego
 
 Małe litery greckie
 
@@ -3430,7 +3353,7 @@ czynników v:
 
 a) na podstawie kalibracji z wykorzystaniem doświadczeń z przeszłości i tradycji budowlanej.
 
-UWAGA Dla większości współczynników częściowych i współczynnikówy podanych w Eurokodach jest to zasada prze-
+UWAGA Dla większości współczynników częściowych i współczynników ψ podanych w Eurokodach jest to zasada prze-
 wodnia.
 
 b) na podstawie statystycznej oceny danych doświadczalnych obserwacji zachowania się konstrukcji. (Zaleca
@@ -3457,7 +3380,7 @@ UWAGA 2 Metody poziomu II wykorzystują pewne dobrze zdefiniowane przybliżenia 
 które, w większości zastosowań konstrukcyjnych, mogą być uważane za wystarczająco dokładne.
 
 (3) Miarę niezawodności w obu metodach IIi Ill poziomu zaleca się identyfikować z prawdopodobieństwem prze-
-trwania P, = (1 - P;), gdzie P; jest prawdopodobienstwem zniszczenia dla rozważanej postaci zniszczenia
+trwania P, = (1 - P;), gdzie P; jest prawdopodobieństwem zniszczenia dla rozważanej postaci zniszczenia
 w obrębie odpowiedniego przedziału odniesienia. Jeśli obliczone prawdopodobieństwo zniszczenia jest większe
 niż ustalona wartość docelowa Py uważa sie, że konstrukcja jest niebezpieczna.
 
@@ -3658,7 +3581,7 @@ Wartości og i aę można przyjmować jako odpowiednio równe — 0,7 i 0,8, pod
 
 EN 1990:2002
 
-gdzie og i Op OzZnaczają odpowiednio odchylenia standardowe efektów oddziaływań i nośności w wyrażeniach
+gdzie og i Op oznaczają odpowiednio odchylenia standardowe efektów oddziaływań i nośności w wyrażeniach
 (C.6a) i (C.6b). Oznacza to, że:
 
 P(E> Eq) = ®(-0,7f) (C.8a)
@@ -3677,7 +3600,7 @@ UWAGA Dia 8 = 3,8, wartości określone z wyrażenia (C.9) odpowiadają w przybl
 (6) Wyrażenia podane w tablicy C3 zaleca się stosować do określenia wartości obliczeniowych zmiennych
 o zadanych rozkładach prawdopodobieństwa.
 
-Tablica C3 — Wartości obliczeniowe dla różnych funkcji rozkładu prawdopodobieristwa
+Tablica C3 — Wartości obliczeniowe dla różnych funkcji rozkładu prawdopodobieństwa
 
 Rozkład prawdopodobieństwa
 
@@ -3744,7 +3667,7 @@ mocą współczynników częściowych 7%gg i yzq Odnoszących się do całego mo
 E1= YsaEXYgjGys YP; Yqi Qua; Yai WoiQei aa...) (C.11)
 Ra = RENX Yoda}! Yea (C.12)
 
-(5) Współczynnik yuwzgledniajacy redukcję wartości obliczeniowych oddziaływań zmiennych, jest stosowany
+(5) Współczynnik ψ uwzględniający redukcję wartości obliczeniowych oddziaływań zmiennych, jest stosowany
 jako vo, V4, lub va do jednocześnie występujących, towarzyszących oddziaływań zmiennych.
 
 (6) Jeśli jest to wymagane, mogą być wprowadzone następujące uproszczenia wyrażeń (C.11) i (C.12).
@@ -3811,7 +3734,7 @@ w czasie niektórych okresów jest równa zeru.
 
 Tablica C4 — Wyrażenia współczynnika y, w przypadku dwóch oddziaływań zmiennych
 
-Rozkład Wo = Fowarzyszące / Fwiodące
+Rozkład Wo = Ftowarzyszące / Fwiodące
 
 Ogólnie 00048)
 F,'{@(0,78)"}
@@ -3827,9 +3750,9 @@ gdzie:
 
 B’ =-6'[0-0,7BIN;)
 
-Normalny (przyblizenie) 1+ (0,288 —0,7InN, V
+Normalny (przybliżenie) 1+ (0,288 —0,7InN, V
 1+0,7BV
-Gumbela (przyblizenie) 1—0,78V [0,58 + In(—In ©(0,288)) + In N, ]
+Gumbela (przybliżenie) 1—0,78V [0,58 + In(—In ©(0,288)) + In N, ]
 
 1—0,78V[0,58 + In(—In ®(0,78)]
 
@@ -3840,7 +3763,7 @@ sienia T;
 
 T  —okres odniesienia;
 
-T;  — większy z okresów podstawowych oddziaływań uwzglednianych w kombinacji;
+T;  — większy z okresów podstawowych oddziaływań uwzględnianych w kombinacji;
 
 Ni — stosunek T/T;, zaokrąglony do najbliższej wartości całkowitej;
 
@@ -3883,7 +3806,7 @@ x macierz j zmiennych losowych X1 ... X;
 Xin) _ wartość charakterystyczna, zawierająca statystyczną niepewność, na przykład liczebność próbki z wyłą-
 czeniem jakiegokolwiek współczynnika konwersji
 
-Xm macierz wartosci Srednich zmiennych podstawowych
+Xm macierz wartości Średnich zmiennych podstawowych
 
 Xn macierz wartości nominalnych zmiennych podstawowych
 Mate litery łacińskie
@@ -3960,12 +3883,12 @@ częściowym %y)
 
 Nk współczynnik redukcyjny stosowany w przypadku wykorzystania wcześniejszej informacji
 
-o odchylenie standardowe [o = Jwariancja ]
+o odchylenie standardowe [o = √wariancja ]
 
-On? wariancja wyrazenia A
+On? wariancja wyrażenia A
 
 D3 Rodzaje badan
-(1) Rozrdznia sie następujące rodzaje badań:
+(1) Rozróżnia sie następujące rodzaje badań:
 
 a) badania w celu bezpośredniego ustalenia nośności granicznej lub właściwości użytkowych konstrukcji lub
 elementów konstrukcyjnych poddanych określonym warunkom obciążenia. Badania takie mogą być prze-
@@ -4023,7 +3946,7 @@ EN 1990:2002
 
 — _ pomiary,
 
-—  ocenęi przedstawienie wyników badań.
+—  ocenę i przedstawienie wyników badań.
 
 Cel i zakres: Zaleca się, aby cel badań był jasno określony, np. wymagane właściwości, wpływ niektórych
 parametrów obliczeniowych różny w czasie badania oraz zakres prawdziwości. Należy ustalić ograniczenia
@@ -4245,8 +4168,8 @@ styk wartości obliczeniowych albo wartości współczynników częściowych.
 
 — nie ma informacji wcześniejszych dotyczących wartości średniej;
 
-— woprzypadku „Vx nieznane”, nie ma wcześniejszej wiedzy o wartości współczynnika zmienności;
-—  wprzypadku „VXx znane”, istnieje pełna wiedza o współczynniku zmienności.
+— w przypadku „Vx nieznane”, nie ma wcześniejszej wiedzy o wartości współczynnika zmienności;
+—  w przypadku „VXx znane”, istnieje pełna wiedza o współczynniku zmienności.
 
 60
 
@@ -4487,7 +4410,7 @@ są? (6-2) (0.12)
 
 i=l
 
-(5) Wyrazenie:
+(5) Wyrażenie:
 
 V5 = Jexp(sż)- 1 (D.13)
 
@@ -4734,7 +4657,7 @@ Basis for design of structures — Serviceability of buildings against vibration
 Quality management and quality assurance — Vocabulary
 
 
-===== eurokod0/page-070.txt =====
+===== eurokod0/page-070.txt ===== [ZWERYFIKOWANO WIZUALNIE ze skanem 25.09.2026]
 
 PN-EN 1990:2004 3
 
@@ -4760,44 +4683,49 @@ on :
 Bibi Lotaka Cicwsia’
 
 Polski Komitet Normalizacyjny
-ul. Swietokrzyska 14, 00-050 Warszawa
+ul. Świętokrzyska 14, 00-050 Warszawa
 http://www.pkn.pl
 
 
 
-===== eurokod0/page-072.txt =====
+===== eurokod0/page-072.txt ===== [ZWERYFIKOWANO WIZUALNIE ze skanem 25.09.2026]
 
-	
-
-
-	
- 	        	     
- 	           
-!
-%$$#&'##-(.%
-*+,'##-
-	
-74+
-+ 14 #! 4#74,1!
- 01!
-%$$#&'##-(.%&'##-
-
-&338F3@3
+POPRAWKA do POLSKIEJ NORMY
 
+Polski Komitet Normalizacyjny
 
-===== eurokod0/page-073.txt =====
+ICS 91.010.30; 91.080.01
 
-
- 		
-	/
-!#!1  4  5  , # 6#+3+ 14 #! 6#74,1!7+" #,0
-!  !+#  6+#! @ )7+#! 3
- 4 1!- # 44-.52+7 ."!,333
-234.	./
-( ."!,3!7G 54 1
-!1,<,!5:## 4<,!H# +
-! I!#!> #!14"7#! <># 3
+PN-EN 1990:2004/Ap1
+grudzień 2004
 
+Dotyczy
+PN-EN 1990:2004
+Eurokod
+Podstawy projektowania konstrukcji
+
+nr ref. PN-EN 1990:2004/Ap1:2004
+
+[Uwaga opracowania: strona ma w PDF uszkodzoną warstwę tekstową (poprzedni odczyt dał same znaki losowe) — przepisana ręcznie z obrazu strony.]
+
+===== eurokod0/page-073.txt ===== [ZWERYFIKOWANO WIZUALNIE ze skanem 25.09.2026]
+
+2 PN-EN 1990:2004/Ap1:2004
+
+Przedmowa
+
+Niniejsza poprawka została opracowana przez KT nr 102 ds. Podstaw Projektowania Konstrukcji Budowlanych
+i zatwierdzona przez Prezesa PKN dnia 8 grudnia 2004 r.
+
+Poprawka jest związana z korektą błędu w tablicy A.1.1.
+
+Treść poprawki
+
+W tablicy A1.1, w wierszu „Pozostałe kraje CEN, miejscowości położone na wysokości H ≤ 1000 m ponad
+poziom morza” zmienić w ostatniej kolumnie wartość Ψ2 z 0,20 na 0.
+
+[Uwaga opracowania: strona ma w PDF uszkodzoną warstwę tekstową — przepisana ręcznie z obrazu strony. Poprawka dotyczy
+współczynnika ψ2 dla obciążenia śniegiem (Tablica A1.1, strona 39 tego pliku) — w Polsce obowiązuje ψ2 = 0.]
 
 ===== eurokod0/page-074.txt =====
 
@@ -4909,7 +4837,7 @@ European Committee for Standardization
 Comité Européen de Normalisation
 Europaisches Komitee fir Normung
 
-Centrum Zarzadzania: rue de Stassart 36, B-1050 Brussels
+Centrum Zarządzania: rue de Stassart 36, B-1050 Brussels
 
 © 2005 CEN All rights of exploitation in any form and by any means nr ref. EN 1990:2002/A1:2005:E
 reserved worldwide for CEN national Members.
@@ -4944,7 +4872,7 @@ A2.3.2 Wartości obliczeniowe oddziaływań w wyjątkowych i sejsmicznych sytuac
 
 ODIICZENIOWY CN... eee eeceeeecceeneeeeneeeeneeeaeeteneeesaeeseneeeaaeeeaeeeeaeeesaeesseeesaneeeaaeseaeeeeaeeeeaeeesneeseaeeeneeees 18
 
-A2.4 Stany graniczne użytkowalności i inne szczególne stany QraniCZNe .................-..-------sussaeeaaasnaonaaena 19
+A2.4 Stany graniczne użytkowalności i inne szczególne stany graniczne .................-..-------sussaeeaaasnaonaaena 19
 A2.4.1 Informacje ogólne ..............-...--2-- eee eee eee eee aaa aaa aaa aaa aaa aazraezaaeace 19
 A2.4.2 Kryteria użytkowalności uwzględniające przemieszczenia i drgania mostów drogowych ......... 19
 A2.4.3 Sprawdzanie drgań kładek dla pieszych wywołanych ruchem pieszych ..............-...221121112111111-- 20
@@ -5144,7 +5072,7 @@ w odpowiednim rozdziale EN 1991-2.
 
 UWAGA 2 Symbole, oznaczenia i modele konstrukcyjne są takie jak zdefiniowano w EN 1991-1-6.
 
-UWAGA 3 Wkwestii zastosowania Tablicy 2.1, można podać odwołanie do załącznika krajowego (projektowana trwałość
+UWAGA 3 W kwestii zastosowania Tablicy 2.1, można podać odwołanie do załącznika krajowego (projektowana trwałość
 użytkowania).
 
 UWAGA 4 Większość reguł kombinacji określonych w punktach od A2.2.2 do A2.2.5 jest uproszczeniem mającym na
@@ -5176,7 +5104,7 @@ kx
 
 Fy Siła wiatru związana z ruchem drogowym
 Fr Siła wiatru związana z ruchem kolejowym
-Get Oddziatywanie state w wyniku nierownomiernego osiadania
+Get Oddziaływanie state w wyniku nierównomiernego osiadania
 
 Osn Obciążenie śniegiem
 
@@ -5300,7 +5228,7 @@ nia konstrukcji.
 
 UWAGA Metody oceny osiadań podano w EN 1997.
 
-(17) Wrazie braku możliwości wpływania na wielkość osiadań, oddziaływanie stałe wyrażające osiadania
+(17) W razie braku możliwości wpływania na wielkość osiadań, oddziaływanie stałe wyrażające osiadania
 
 należy wyznaczać następująco:
 
@@ -5313,7 +5241,7 @@ osiadań.
 
 A2.2.2 Reguły kombinacji w przypadku mostów drogowych
 
-(1) Wokreślonych stanach granicznych użytkowalności mogą być stosowane nieczęste wartości oddziały-
+(1) W określonych stanach granicznych użytkowalności mogą być stosowane nieczęste wartości oddziały-
 wań zmiennych.
 
 UWAGA Nieczęstą kombinację oddziaływań można znaleźć w załączniku krajowym. Wyrażenie tej kombinacji od-
@@ -5358,7 +5286,7 @@ w kombinacji oddziaływań z grupami obciążeń gr1a i grib.
 
 UWAGA Oddziaływania wiatru, patrz EN 1991-1-4.
 
-(6) Nie jest wymagane, aby oddziaływania wiatru i temperatury uwzgledniano łącznie, chyba że inaczej okre-
+(6) Nie jest wymagane, aby oddziaływania wiatru i temperatury uwzględniano łącznie, chyba że inaczej okre-
 ślono to dla lokalnych warunków klimatycznych.
 
 UWAGA W zależności od lokalnych warunków klimatycznych, albo w załączniku krajowym albo w indywidualnej
@@ -5366,7 +5294,7 @@ dokumentacji technicznej można zdefiniować różną regułę jednoczesności o
 
 A2.2.3 Reguły kombinacji w przypadku kładek dla pieszych
 
-(1) Nie jest wymagane, aby obciążenie skupione Q;,,rozpatrywano łącznie z innymi oddziatywaniami zmien-
+(1) Nie jest wymagane, aby obciążenie skupione Q;,,rozpatrywano łącznie z innymi oddziaływaniami zmien-
 nymi, które nie pochodzą od ruchu.
 
 (2) Nie jest wymagane, aby oddziaływania wiatru i temperatury uwzględniano łącznie, chyba że inaczej okre-
@@ -5492,7 +5420,7 @@ dla grup obciążeń ruchomych oraz najczęściej spotykanych innych oddziaływa
 Tablica A2.1 — Zalecane wartości współczynników y dla mostów drogowych
 
 Oddziaływanie Symbol Wo V1 Wo
-Obciazenia gria TS 0,75 0,75 0
+Obciążenia gria TS 0,75 0,75 0
 ruchome ;
 (LM1 + obciążenia UDL 0,40 0.40 0
 (patrz EN 1991-2, | pieszymi lub ścieżek - -
@@ -5555,7 +5483,7 @@ Tablica A2.2 — Wartości współczynników y dla kładek dla pieszych
 
 Oddziaływanie Symbol Wo Wy Wr
 gr1 0,40 0,40 0
-Obciazenia 0 0 0
+Obciążenia 0 0 0
 ruchome Opn
 gr2 0 0 0
 Sity wiatru Fi 0,3 0,2 0
@@ -5581,7 +5509,7 @@ Tablica A2.3 — Wartości współczynników w dla mostów kolejowych
 
 Oddziaływania Yo UZ Va)
 Poszczególne | LM 71 0,80 1) 0
-sktadowe Swi0 0,80 1 0
+składowe Swi0 0,80 1 0
 oddziaływań sw/2 0 1,00 0
 ruchu» Pociąg bez ładunku 1,00 - -
 HSLM 1,00 1,00 0
@@ -5601,8 +5529,8 @@ Pociągi rzeczywiste 1,00 1,00 0
 Parcie boczne gruntu wywołane obciążeniem ruchomym na 0,80 1) 0
 naziomie
 Efekty aerodynamiczne 0,80 0,50 0
-Gtowne gr11 (LM71+SW/0) max. pionowe
-oddziatywania 1 z max. podłużnym
+Główne gr11 (LM71+SW/0) max. pionowe
+oddziaływania 1 z max. podłużnym
 (Grupy gr12 (LM71+SW/0) max. pionowe
 obciążeń) 2 z max. poprzecznym
 gr13 (hamowanie/przyspieszanie) max. podłużne 0,80 0,80 0
@@ -5614,10 +5542,10 @@ gr17 (SW/2) SW/2 z max. poprzecznym
 gr21 (LM71+SW/0) max. pionowe 1 z max.
 podłużnym
 gr22 (LM71+SW/0) max.pionowe 2 z max.
-Popizecznym 0,80 0,70 0
+Poprzecznym 0,80 0,70 0
 gr23 (hamowanie/przyspieszanie) max. podłużne
 gr24 (odśrodkowe/uderzenia boczne) max. boczne
-gr26(SW/2) SW/2 z max. podtuznym
+gr26(SW/2) SW/2 z max. podłużnym
 gr27(SW/2) SW/2 z max. poprzecznym
 gr31 (LM71+SW/0) przypadki obciążenia
 dodatkowego 0,80 0,60 0
@@ -5627,7 +5555,7 @@ oddziaływania Obciążenie związane z utrzymaniem chodników służbowych 0,80
 Siły wiatru?) Fuk 0,75 0,50 0
 F,; 1,00 0 0
 
-Dalszy ciag na stronie nastepnej
+Dalszy ciag na stronie następnej
 
 13
 
@@ -5644,7 +5572,7 @@ Oddziaływania | 7;
 termiczne
 Obciążenia
 śniegiem Qs,x (podczas budowy) 0,8 - 0
-Obciazenia
+Obciążenia
 w czasie Q 1,0 - 1,0
 budowy
 
@@ -5652,7 +5580,7 @@ budowy
 0,7, jeśli 2 tory są jednocześnie obciążone,
 0,6 , jeśli co najmniej 3 tory są jednocześnie obciążone. .
 
-2) Jeżeli siły wiatru działają jednocześnie z oddziatywaniami ruchomymi, to siłę wiatru voF'm należy przyjąć za nie większą od Fy,
+2) Jeżeli siły wiatru działają jednocześnie z oddziaływaniami ruchomymi, to siłę wiatru voF'm należy przyjąć za nie większą od Fy,
 (patrz EN 1991-1-4). Patrz także A2.2.4(4).
 
 3) Patrz EN 1991-1-5.
@@ -5663,11 +5591,11 @@ oddziaływań ruchu kolejowego. W przypadku sejsmicznych sytuacji obliczeniowych
 5) Minimalne współdziałające korzystnie obciążenie pionowe ze składowymi oddziaływań ruchu kolejowego (tzn. siłami odśrodkowy-
 mi, przyspieszaniem lub hamowaniem) wynosi 0,5LM71 itd.
 
-UWAGA 5 Wrazie szczególnych sytuacji obliczeniowych (np. obliczania przeciwstrzałki mostu ze względu na estety-
+UWAGA 5 W razie szczególnych sytuacji obliczeniowych (np. obliczania przeciwstrzałki mostu ze względu na estety-
 kę i odwodnienie, obliczania skrajni itd.), wymagania dotyczące przyjętej kombinacji oddziaływań mogą być określone
 w indywidualnej dokumentacji projektowej.
 
-UWAGA 6 Nieczesta wartość oddziaływań zmiennych nie dotyczy mostów kolejowych.
+UWAGA 6 Nieczęsta wartość oddziaływań zmiennych nie dotyczy mostów kolejowych.
 
 (2) W przypadku oddziaływań ruchu należy stosować jedną wartość w do jednej grupy obciążeń, jak określo-
 no to w EN 1991-2, oraz przyjąć za równą wartości w stosowanej do głównej składowej grupy.
@@ -5908,7 +5836,7 @@ obliczeniowa (jeśli są)
 Równanie
 ( 6.10) YGj,supC'ki,sup Yj inf, int ypP Yo,1 Ok, Yoi Voi Oki
 
-(*) Oddziatywaniami zmiennymi są te, które uwzględniono w Tablicach od A2.1 do A2.3.
+(*) Oddziaływaniami zmiennymi są te, które uwzględniono w Tablicach od A2.1 do A2.3.
 
 UWAGA Wartości » mogą być ustalone w załączniku krajowym. Zalecany zbiór wartości y jest następujący:
 YG,sup = 1,00
@@ -5947,7 +5875,7 @@ i i sejsmicznych kombinacjach oddziaływań
 
 . . . Oddziaływanie Towarzyszące oddziaływania
 Oddziaływania stałe - Pm
-AA yw Sprezenie wyjatkowe lub zmienne (**)
+AA yw Sprężenie wyjątkowe lub zmienne (**)
 niekorzystne | korzystne sejsmiczne główne (jeśli są) inne
 W141 Ok,
 Wyjątkowa(*) ea
@@ -6000,7 +5928,7 @@ rakterystyczna odpowiedniej kombinacji grup Qa, Q:»» Oce Deas Ore i Dee)»
 A2.4 Stany graniczne użytkowalności i inne szczególne stany graniczne
 A2.4.1 Informacje ogólne
 
-(1) Wstanach granicznych użytkowalności wartości obliczeniowe oddziaływań powinny być przyjmowane
+(1) W stanach granicznych użytkowalności wartości obliczeniowe oddziaływań powinny być przyjmowane
 z Tablicy A2.6, o ile nie określono tego inaczej w EN 1991 do 1999.
 
 UWAGA 1 Współczynniki y ruchomych i innych oddziaływań w stanie granicznym użytkowalności mogą być określone
@@ -6016,7 +5944,7 @@ Charakterystyczna Gkjsup Gigint P Qk,! Vo;sOki
 Częsta Gigjint Gyj.int P Ok, VaiOki
 Prawie stała Gig,int Gynt P a Ok Wri Qi
 
-UWAGA 2 W zataczniku krajowym można także podać nieczęste kombinacje oddziaływań.
+UWAGA 2 W załączniku krajowym można także podać nieczęste kombinacje oddziaływań.
 
 (2) Kryteria użytkowalności powinny być określone w stosunku do wymagań użytkowalności zgodnie z 3.4
 oraz EN 1992 do 1999. Odkształcenia powinny być obliczane zgodnie z EN 1991 do 1999, przy zastosowaniu
@@ -6100,7 +6028,7 @@ Zalecane są następujące maksymalne wartości przyspieszeń (m/s?) dowolnej cz
 
 i)  0,7w przypadku drgań pionowych,
 ii) 0,2 w przypadku drgań poziomych przy normalnym użytkowaniu,
-iii) 0,4 w przypadku wyjątkowego zattoczenia.
+iii) 0,4 w przypadku wyjątkowego zatłoczenia.
 
 20
 
@@ -6393,7 +6321,7 @@ Dostateczny 2,0
 
 A2.4.4.3.2 Kryteria ugięcia w przypadku sprawdzania komfortu pasażerów
 
-(1) Wcelu ograniczenia przyspieszenia pionowego pojazdu do wartości podanych w A2.4.4.3.1(2), podane
+(1) W celu ograniczenia przyspieszenia pionowego pojazdu do wartości podanych w A2.4.4.3.1(2), podane
 w tym punkcie wartości dotyczące maksymalnie dopuszczalnego ugięcia pionowego 6 wzdłuż osi toru na mo-
 stach kolejowych są funkcją:
 
@@ -6408,7 +6336,7 @@ stach kolejowych są funkcją:
 Ewentualnie, przyspieszenie pionowe b, może być określone za pomocą analizy dynamicznej współdziałania
 pojazdu z mostem (patrz A2.4.4.3.3).
 
-(2) Ugiecia pionowe 6 powinny być określone na podstawie modelu obciążenia 71 mnozonego przez współ-
+(2) Ugięcia pionowe 6 powinny być określone na podstawie modelu obciążenia 71 mnożonego przez współ-
 czynnik © oraz z wartością a = 1, zgodnie z EN 1991-2, Rozdział 6.
 
 W przypadku mostów dwu- lub więcej torowych powinien być obciążany tylko jeden tor.

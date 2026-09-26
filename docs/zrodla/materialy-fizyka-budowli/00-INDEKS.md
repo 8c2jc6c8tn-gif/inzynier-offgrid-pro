@@ -21,3 +21,9 @@ zależą też od jakości przegród — ale to już warstwa dla poradnika PN-EN 
 
 Przeanalizowane, **niewykorzystane w kodzie**, prawdopodobnie nieprzydatne w tym projekcie —
 patrz rekomendacja końcowa w `docs/zrodla/README.md`.
+
+## Weryfikacja ekstrakcji (25.09.2026)
+
+Tekst natywny. W `01-…` 134 znaki fontu Symbol (Θ, φ, Δ, ·, =, +, −, nawiasy) i w `03-…` 4 punktory
+zamienione na właściwe znaki. Wzory w `01-…` nadal rozsypane na linie (układ pozycyjny) — przed użyciem
+sprawdzić w PDF. `02-…` bez problemów.

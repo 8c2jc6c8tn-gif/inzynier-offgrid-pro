@@ -6798,6 +6798,51 @@ off-grid PV) — rekomendacja przeniesienia do `new-app-standards` jako generycz
 decyzja czeka na najbliższą sesję nad tym repo (zgodnie z prośbą właściciela: "zaznacz jakie pliki
 są potrzebne").
 
+## Weryfikacja OCR paczki New-info (25.09.2026, wieczór)
+
+Na prośbę właściciela („sprawdź dokładnie, czy OCR był dobrze przeprowadzony”) — przed użyciem liczb
+w kodzie. Gałąź OCR (`claude/laughing-faraday-lp6ytt`) była już scalona do `main` (PR #153, squash —
+drzewa identyczne), więc poprawki na bieżącym `main`.
+
+**Wynik: OCR NIE był bezbłędny** — tekst ciągły dobry, ale tabele, wzory i Załączniki krajowe w wielu
+miejscach zniekształcone albo zgubione. Najgroźniejsze znaleziska (wszystkie poprawione):
+- PN-EN 1991-1-4: **Tablica NA.1 bez wiersza strefy 2** (26 m/s), NA.2/NA.3 rozsypane.
+- PN-EN 1990: **poprawka Ap1 (ψ2 śniegu 0,20 → 0) — w PDF zniszczona warstwa tekstu, OCR dał losowe znaki**;
+  „≤” czytane jako „<” (zmienia znaczenie warunków).
+- IEC 62305 (poradnik Furse): **Tablica 2.3 (prądy SPD) zgubiona całkowicie**, wzory nieczytelne.
+- Poradnik Purmo: **wszystkie 39 wzorów rozsypane** (tekst natywny, ale wzory składane z pojedynczych znaków).
+
+**Metoda (do reużycia):** (1) kompletność stron; (2) drugi niezależny OCR (tesseract 5, 300 DPI, `--psm 6`)
+i porównanie liczb strona po stronie — wskazuje strony do obejrzenia; (3) hunspell (pl/en) z poprawką tylko
+przy kandydacie jednoznacznym lub potwierdzonym drugim przebiegiem (pierwsza wersja bez tego ograniczenia
+„poprawiała” poprawne słowa: „nia→nią”, „cos→coś” — wycofana); (4) odczyt wizualny ze skanem dla całego
+zakresu używanego w projekcie; (5) tabele z geometrią sprawdzone arytmetycznie (Tablica 4.3 IEC:
+promień = wysokość · tg kąta, 150 par zgodnych).
+
+**Pułapki:**
+- Font `Symbol` w PDF Purmo wyświetla „+” jak „−” — przepisanie wzoru z podglądu daje zły znak w (3.1),
+  (7.6), (9.1). Rozstrzygają dane PDF (kod znaku), nie obraz.
+- W Eurokodzie 5 kod U+F06C to λ (font Symbol) albo ℓ (font MT-Extra) — nierozstrzygalne z samego tekstu,
+  zostawione jako `[λ|ℓ]`.
+- Błędy w samych oryginałach (nie OCR) oznaczone `[sic]`/`⚠️`, nie poprawiane: Rys. 7.20 i (A.5)/(A.12)
+  w PN-EN 1991-1-4, wzór (3.17) w poradniku Furse (literówka potwierdzona przykładem z tego samego poradnika).
+
+**Wartości gotowe do kodu:** PN-EN 1990 Tablica A1.2(A) EQU — γG,inf = 0,90, γG,sup = 1,10, γQ = 1,50;
+NB = bez zmian krajowych. PN-82/B-02403 Tablica 1 — strefy I–V: −16/−18/−20/−22/−24 °C.
+
+**Korekty opisów z sesji OCR (nie decyzje, błędy oceny):** PN-EN 1991-1-4 ma odbiorców w kodzie (D27);
+PN-EN 1990 jest 🔴 potrzebna, nie „wątpliwa”; PN-82/B-02403 nie ma listy miejscowości. Dwa foldery normy
+wiatrowej (`norma-PN-EN-1991-1-4/` notatka, `…-wiatr/` pełny tekst) — połączone odsyłaczami; scalenie
+(A) albo zostawienie (B) — pytanie do właściciela, bez odpowiedzi.
+**[25.09.2026, uzupełnienie] Rozstrzygnięte — wariant A (scalenie).** Folder `norma-PN-EN-1991-1-4-wiatr/`
+przeniesiony do `norma-PN-EN-1991-1-4/` (PDF, `01-tresc-ocr.txt`; dawny `00-INDEKS.md` dopisany bez
+skrótów jako sekcja „Pełny tekst normy”). Wybrano ten folder, bo wskazują go kod (`eurokod-1/wiatr.ts`)
+i D26/D27. Starsze wpisy z nazwą `…-wiatr/` zostawione jako historia (z dopiskiem w README źródeł).
+Uwaga: PDF normy jest teraz w publicznym repo — sprawa licencji rozstrzygnięta wcześniej przez
+właściciela (wpis „Licencje norm…”), nie wracać.
+
+Szczegóły per plik: sekcje „Weryfikacja OCR (25.09.2026)” w `00-INDEKS.md` każdego folderu paczki.
+
 ## Synchronizacja ze standardem — Y.6 na polecenie właściciela (26.09.2026, ok. 04:00 UTC)
 
 Świeży płytki klon `new-app-standards` (`aaabc19`, 25.09 23:16). `AKTUALIZACJE.md` — nowy wiersz 2026-09-25

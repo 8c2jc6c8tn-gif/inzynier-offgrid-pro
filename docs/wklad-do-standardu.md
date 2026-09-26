@@ -725,3 +725,21 @@ każdy kompletny język (17.7b) — zamiast polegać na domyślnym języku środ
 
 Status: 🔎 nowe
 
+[25.09.2026] KATEGORIA: POMYSŁ NA REGUŁĘ — OCR normy wymaga weryfikacji dwoma przebiegami i odczytu wizualnego zakresu używanego w kodzie
+
+Szczegóły: pierwszy OCR paczki norm (tesseract, spot-check kilku stron) uznano za „dobrej jakości”.
+Pełna weryfikacja wykazała zgubione wiersze tablic Załącznika krajowego (NA.1 bez strefy 2), zgubioną
+całą tablicę (IEC Tablica 2.3), stronę poprawki z zepsutą warstwą tekstu (losowe znaki zamiast ψ2 = 0),
+systematyczne „≤”→„<” i utracone wykładniki — spot-check tego nie wyłapał. Także PDF z natywnym tekstem
+nie jest bezpieczny: wzory składane z pojedynczych znaków rozsypują się, a font Symbol potrafi
+wyświetlać „+” jak „−”.
+
+Dlaczego warto zgłosić do new-app-standards: każdy projekt rodziny opiera liczby na normach, często
+skanach. Propozycja do procedury materiałów źródłowych: (1) kompletność stron; (2) drugi niezależny
+przebieg OCR i automatyczne porównanie liczb strona po stronie; (3) słownik z poprawką tylko przy
+kandydacie jednoznacznym/potwierdzonym; (4) obowiązkowy odczyt wizualny każdej tablicy/wzoru, zanim
+liczba trafi do kodu, z oznaczeniem strony „zweryfikowano”; (5) błędy samego oryginału oznaczać `[sic]`,
+nie poprawiać po cichu; (6) wzory z PDF — rozstrzygać znaki z kodów znaków, nie z podglądu.
+
+Status: 🔎 nowe
+
