@@ -40,6 +40,10 @@ import { trackerVsStalyTool } from "./tools/tracker-vs-staly-tool"
 import { typMontazuTool } from "./tools/typ-montazu-tool"
 import { kosztyOgrzewaniaTool } from "./tools/koszty-ogrzewania-tool"
 import { obciazenieCieplneTool } from "./tools/obciazenie-cieplne-tool"
+import { zapotrzebowanieCoCwuTool } from "./tools/zapotrzebowanie-co-cwu-tool"
+import { mostkiTermiczneTool } from "./tools/mostki-termiczne-tool"
+import { optymalizacjaIzolacjiTool } from "./tools/optymalizacja-izolacji-tool"
+import { pojemnoscCieplnaTool } from "./tools/pojemnosc-cieplna-tool"
 import { toAnthropicTool } from "./to-anthropic-tool"
 import { validateAiToolDefinition, type AiToolDefinition } from "./types"
 
@@ -70,6 +74,10 @@ const NARZEDZIA: Array<AiToolDefinition<any, any>> = [
   typMontazuTool,
   kosztyOgrzewaniaTool,
   obciazenieCieplneTool,
+  zapotrzebowanieCoCwuTool,
+  mostkiTermiczneTool,
+  optymalizacjaIzolacjiTool,
+  pojemnoscCieplnaTool,
 ]
 for (const narzedzie of NARZEDZIA) validateAiToolDefinition(narzedzie)
 

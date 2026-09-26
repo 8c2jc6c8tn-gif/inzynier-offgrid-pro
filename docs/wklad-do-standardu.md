@@ -743,3 +743,29 @@ nie poprawiać po cichu; (6) wzory z PDF — rozstrzygać znaki z kodów znaków
 
 Status: 🔎 nowe
 
+[26.09.2026] KATEGORIA: DOBRA PRAKTYKA — audyt N.1 (źródło → rejestr) jako skrypt z kodem wyjścia, nie ręczny grep
+
+Szczegóły: GOD BOOK v2.39 N.1 każe liczyć, czy każda pozycja źródła ma wiersz w rejestrze pokrycia. Ręczny przegląd modułów
+w tym projekcie dwa razy przeoczył pozycje (M3 — 17 z 30; teraz M4 3.10 i M5 4.25 w modułach uznanych za „kompletne”).
+Skrypt `scripts/audit-n1-rejestr.mjs` (`pnpm audit:n1`) zbiera identyfikatory z kanonicznej Biblii per moduł, rozwija zakresy
+i listy skrótowe, porównuje z rejestrem i z plikami treści ekranów, kończy się kodem 1 przy brakującym wierszu. Przy okazji
+wyłapuje luki pośrednich dokumentów (ID obecne w Biblii, pominięte w pliku treści modułu).
+
+Dlaczego warto zgłosić do new-app-standards: każdy projekt z rejestrem pokrycia i numerowaną Biblią ma ten sam problem;
+N.1 mogłoby wskazywać „kontrola mechaniczna (skrypt), nie przegląd” i opcjonalnie wpiąć ją do pakietu przed merge.
+Pułapka do zapisania razem z regułą: regex list skrótowych („8.17,18”) musi wykluczać początek następnego ID („8.2, 8.10”).
+
+Status: 🔎 nowe
+
+[26.09.2026] KATEGORIA: DOBRA PRAKTYKA — strażnik i18n sprawdza też kompletność własnej listy modułów
+
+Szczegóły: 17.9 opisuje strażnika z listą zmigrowanych modułów, a zasada „dopisz moduł w tej samej sesji” była w tym projekcie
+dwukrotnie pomijana (M6/E1 i 19 modułów w pełni zmigrowanych, ale bez ochrony). Teraz skrypt przechodzi po katalogach modułów
+i kończy się błędem, gdy katalog z plikiem silnika nie jest na liście. Przy okazji: reguła AST łapała tylko
+`assumptions: [...]` / `const assumptions = [...]`, a nie `assumptions.push("tekst")` — jeden moduł przemycał tak gotowy tekst.
+
+Dlaczego warto zgłosić do new-app-standards: lista „ręcznie dopisywana” rozjeżdża się w każdym projekcie; 17.9 mogłoby
+zalecać odwrócenie domyślności (po zakończeniu migracji: wszystkie moduły objęte, wyjątki jawne) oraz wymienić wzorzec
+`push` wśród konstrukcji, które strażnik musi rozpoznawać.
+
+Status: 🔎 nowe

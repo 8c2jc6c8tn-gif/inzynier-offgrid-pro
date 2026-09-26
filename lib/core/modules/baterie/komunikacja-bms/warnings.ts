@@ -27,7 +27,7 @@ export function protokolNieznany(): Warning {
   return {
     code: "PROTOKOL-NIEZNANY",
     level: "warning",
-    message: "Co najmniej jedno z urządzeń ma nieznany/niesklasyfikowany protokół — sprawdź dokumentację obu urządzeń, zgodności nie da się ocenić automatycznie.",
+    i18nKey: "PROTOKOL-NIEZNANY",
     technicalMessage: "protokolBms === 'inny' || protokolFalownika === 'inny'",
   }
 }

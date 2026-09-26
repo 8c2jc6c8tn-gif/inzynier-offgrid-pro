@@ -105,7 +105,7 @@ export function calculateDoborKabliBezpiecznikowOlow(
     formula: "",
     inputs,
     assumptions: [
-      "Dobór kabla i bezpiecznika liczony przez echo tych samych kalkulatorów co Moduł 5 (Ekran 1 i Ekran 6) — chemia baterii (kwasowa) nie wchodzi do wzoru, tylko wartości wejściowe.",
+      { kod: "KABLE-OLOW-ZALOZENIE-ECHO-M5" },
       ...echoKabel.assumptions,
       ...echoBezpiecznik.assumptions,
     ],

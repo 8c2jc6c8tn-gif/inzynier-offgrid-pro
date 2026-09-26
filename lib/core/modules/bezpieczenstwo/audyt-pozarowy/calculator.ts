@@ -45,7 +45,7 @@ export function calculateAuditPozarowy(items: AuditCheckItem[]): CalcResult<Audi
     formula: "gotowość = OK / razem",
     inputs: { razem, liczbaOk, liczbaOstrzezen, liczbaKrytycznych },
     assumptions: [
-      "Dane demonstracyjne (SAMPLE_AUDIT_ITEMS) — docelowo ekran czerpie na żywo z Modułów 8/9/13.",
+      { kod: "AUDYT-ZALOZENIE-DANE-DEMO" },
     ],
     warnings: items
       .filter((i) => i.status !== "ok")

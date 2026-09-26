@@ -3,6 +3,13 @@ import { t } from "../t"
 import { SUPPORTED_LANGUAGES } from "../language"
 import { dictionaries } from "../dictionaries"
 
+/** Oczekiwana postać parametru w tekście — PL/RU z przecinkiem dziesiętnym (t.ts, formatujParametr). */
+function jakWJezyku(jezyk: "pl" | "en" | "ru", wartosc: string | number): string {
+  const tekst = String(wartosc)
+  if (jezyk === "en") return tekst
+  return typeof wartosc === "number" || /^-?\d+\.\d+$/.test(tekst) ? tekst.replace(".", ",") : tekst
+}
+
 describe("t", () => {
   it("zwraca tekst dla znanego klucza w każdym obsługiwanym języku", () => {
     for (const jezyk of SUPPORTED_LANGUAGES) {
@@ -11,9 +18,23 @@ describe("t", () => {
   })
 
   it("podstawia parametry placeholderów {nazwa}", () => {
-    expect(t("pl", "SPRAWNOSC-DOMYSLNA", { efficiency: "0.9" })).toContain("0.9")
+    expect(t("pl", "SPRAWNOSC-DOMYSLNA", { efficiency: "0.9" })).toContain("0,9")
     expect(t("en", "SPRAWNOSC-DOMYSLNA", { efficiency: "0.9" })).toContain("0.9")
-    expect(t("ru", "SPRAWNOSC-DOMYSLNA", { efficiency: "0.9" })).toContain("0.9")
+    expect(t("ru", "SPRAWNOSC-DOMYSLNA", { efficiency: "0.9" })).toContain("0,9")
+  })
+
+  it("liczby w parametrach dostają separator dziesiętny języka (number i tekst z toFixed)", () => {
+    expect(t("pl", "SPRAWNOSC-DOMYSLNA", { efficiency: 0.92 })).toContain("0,92")
+    expect(t("ru", "SPRAWNOSC-DOMYSLNA", { efficiency: -1.5 })).toContain("-1,5")
+    expect(t("en", "SPRAWNOSC-DOMYSLNA", { efficiency: 0.92 })).toContain("0.92")
+    // Bez grupowania tysięcy i bez zaokrąglania — precyzję wybiera domena.
+    expect(t("pl", "SPRAWNOSC-DOMYSLNA", { efficiency: 2800 })).toContain("2800")
+    expect(t("pl", "SPRAWNOSC-DOMYSLNA", { efficiency: 0.123456 })).toContain("0,123456")
+  })
+
+  it("tekst, który nie jest w całości liczbą dziesiętną, zostaje bez zmian", () => {
+    expect(t("pl", "SPRAWNOSC-DOMYSLNA", { efficiency: "1, 2, 12" })).toContain("1, 2, 12")
+    expect(t("pl", "SPRAWNOSC-DOMYSLNA", { efficiency: "v2.39" })).toContain("v2.39")
   })
 
   it("różne języki dają różny tekst dla tego samego klucza", () => {
@@ -49,9 +70,9 @@ describe("t — klucze zmigrowane 16.09.2026 (systemy-podtrzymania-zycia, cop-po
       const en = t("en", kod, params)
       const ru = t("ru", kod, params)
       for (const wartosc of Object.values(params)) {
-        expect(pl).toContain(String(wartosc))
-        expect(en).toContain(String(wartosc))
-        expect(ru).toContain(String(wartosc))
+        expect(pl).toContain(jakWJezyku("pl", wartosc))
+        expect(en).toContain(jakWJezyku("en", wartosc))
+        expect(ru).toContain(jakWJezyku("ru", wartosc))
       }
       expect(pl).not.toBe(en)
       expect(pl).not.toBe(ru)
@@ -93,9 +114,9 @@ describe("t — klucze zmigrowane 18.09.2026 (liczba-domownikow, dni-autonomii, 
       const en = t("en", kod, params)
       const ru = t("ru", kod, params)
       for (const wartosc of Object.values(params)) {
-        expect(pl).toContain(String(wartosc))
-        expect(en).toContain(String(wartosc))
-        expect(ru).toContain(String(wartosc))
+        expect(pl).toContain(jakWJezyku("pl", wartosc))
+        expect(en).toContain(jakWJezyku("en", wartosc))
+        expect(ru).toContain(jakWJezyku("ru", wartosc))
       }
       expect(pl).not.toBe(en)
       expect(pl).not.toBe(ru)
@@ -146,9 +167,9 @@ describe("t — klucze zmigrowane 18.09.2026, partia 3 (baterie: chlodzenie-late
       const en = t("en", kod, params)
       const ru = t("ru", kod, params)
       for (const wartosc of Object.values(params)) {
-        expect(pl).toContain(String(wartosc))
-        expect(en).toContain(String(wartosc))
-        expect(ru).toContain(String(wartosc))
+        expect(pl).toContain(jakWJezyku("pl", wartosc))
+        expect(en).toContain(jakWJezyku("en", wartosc))
+        expect(ru).toContain(jakWJezyku("ru", wartosc))
       }
       expect(pl).not.toBe(en)
       expect(pl).not.toBe(ru)
@@ -203,9 +224,9 @@ describe("t — klucze zmigrowane 18.09.2026, partia 4 (baterie: dobor-bezpieczn
       const en = t("en", kod, params)
       const ru = t("ru", kod, params)
       for (const wartosc of Object.values(params)) {
-        expect(pl).toContain(String(wartosc))
-        expect(en).toContain(String(wartosc))
-        expect(ru).toContain(String(wartosc))
+        expect(pl).toContain(jakWJezyku("pl", wartosc))
+        expect(en).toContain(jakWJezyku("en", wartosc))
+        expect(ru).toContain(jakWJezyku("ru", wartosc))
       }
       expect(pl).not.toBe(en)
       expect(pl).not.toBe(ru)
@@ -252,9 +273,9 @@ describe("t — klucze zmigrowane 18.09.2026, partia 5 (baterie: long-term-stora
       const en = t("en", kod, params)
       const ru = t("ru", kod, params)
       for (const wartosc of Object.values(params)) {
-        expect(pl).toContain(String(wartosc))
-        expect(en).toContain(String(wartosc))
-        expect(ru).toContain(String(wartosc))
+        expect(pl).toContain(jakWJezyku("pl", wartosc))
+        expect(en).toContain(jakWJezyku("en", wartosc))
+        expect(ru).toContain(jakWJezyku("ru", wartosc))
       }
       expect(pl).not.toBe(en)
       expect(pl).not.toBe(ru)
@@ -316,9 +337,9 @@ describe("t — klucze zmigrowane 18.09.2026, partia 6 (baterie: ochrona-wilgoc,
       const en = t("en", kod, params)
       const ru = t("ru", kod, params)
       for (const wartosc of Object.values(params)) {
-        expect(pl).toContain(String(wartosc))
-        expect(en).toContain(String(wartosc))
-        expect(ru).toContain(String(wartosc))
+        expect(pl).toContain(jakWJezyku("pl", wartosc))
+        expect(en).toContain(jakWJezyku("en", wartosc))
+        expect(ru).toContain(jakWJezyku("ru", wartosc))
       }
       expect(pl).not.toBe(en)
       expect(pl).not.toBe(ru)
@@ -367,9 +388,9 @@ describe("t — klucze zmigrowane 18.09.2026, partia 7 (baterie: soh-per-ogniwo,
       const en = t("en", kod, params)
       const ru = t("ru", kod, params)
       for (const wartosc of Object.values(params)) {
-        expect(pl).toContain(String(wartosc))
-        expect(en).toContain(String(wartosc))
-        expect(ru).toContain(String(wartosc))
+        expect(pl).toContain(jakWJezyku("pl", wartosc))
+        expect(en).toContain(jakWJezyku("en", wartosc))
+        expect(ru).toContain(jakWJezyku("ru", wartosc))
       }
       expect(pl).not.toBe(en)
       expect(pl).not.toBe(ru)
@@ -429,9 +450,9 @@ describe("t — klucze zmigrowane 18.09.2026, partia 8 (okablowanie: analiza-zwa
       const en = t("en", kod, params)
       const ru = t("ru", kod, params)
       for (const wartosc of Object.values(params)) {
-        expect(pl).toContain(String(wartosc))
-        expect(en).toContain(String(wartosc))
-        expect(ru).toContain(String(wartosc))
+        expect(pl).toContain(jakWJezyku("pl", wartosc))
+        expect(en).toContain(jakWJezyku("en", wartosc))
+        expect(ru).toContain(jakWJezyku("ru", wartosc))
       }
       expect(pl).not.toBe(en)
       expect(pl).not.toBe(ru)
@@ -485,9 +506,9 @@ describe("t — klucze zmigrowane 18.09.2026, partia 9 (okablowanie: glowna-szyn
       const en = t("en", kod, params)
       const ru = t("ru", kod, params)
       for (const wartosc of Object.values(params)) {
-        expect(pl).toContain(String(wartosc))
-        expect(en).toContain(String(wartosc))
-        expect(ru).toContain(String(wartosc))
+        expect(pl).toContain(jakWJezyku("pl", wartosc))
+        expect(en).toContain(jakWJezyku("en", wartosc))
+        expect(ru).toContain(jakWJezyku("ru", wartosc))
       }
       expect(pl).not.toBe(en)
       expect(pl).not.toBe(ru)
@@ -553,9 +574,9 @@ describe("t — klucze zmigrowane 19.09.2026, partia 10 (okablowanie: pomiary-po
       const en = t("en", kod, params)
       const ru = t("ru", kod, params)
       for (const wartosc of Object.values(params)) {
-        expect(pl).toContain(String(wartosc))
-        expect(en).toContain(String(wartosc))
-        expect(ru).toContain(String(wartosc))
+        expect(pl).toContain(jakWJezyku("pl", wartosc))
+        expect(en).toContain(jakWJezyku("en", wartosc))
+        expect(ru).toContain(jakWJezyku("ru", wartosc))
       }
       expect(pl).not.toBe(en)
       expect(pl).not.toBe(ru)
@@ -625,9 +646,9 @@ describe("t — klucze zmigrowane 19.09.2026, partia 11 (pv: dopasowanie-tablicy
       const en = t("en", kod, params)
       const ru = t("ru", kod, params)
       for (const wartosc of Object.values(params)) {
-        expect(pl).toContain(String(wartosc))
-        expect(en).toContain(String(wartosc))
-        expect(ru).toContain(String(wartosc))
+        expect(pl).toContain(jakWJezyku("pl", wartosc))
+        expect(en).toContain(jakWJezyku("en", wartosc))
+        expect(ru).toContain(jakWJezyku("ru", wartosc))
       }
       expect(pl).not.toBe(en)
       expect(pl).not.toBe(ru)
@@ -676,9 +697,9 @@ describe("t — klucze zmigrowane 19.09.2026, partia 12 (pv: panele-bifacjalne, 
       const en = t("en", kod, params)
       const ru = t("ru", kod, params)
       for (const wartosc of Object.values(params)) {
-        expect(pl).toContain(String(wartosc))
-        expect(en).toContain(String(wartosc))
-        expect(ru).toContain(String(wartosc))
+        expect(pl).toContain(jakWJezyku("pl", wartosc))
+        expect(en).toContain(jakWJezyku("en", wartosc))
+        expect(ru).toContain(jakWJezyku("ru", wartosc))
       }
       expect(pl).not.toBe(en)
       expect(pl).not.toBe(ru)
@@ -738,9 +759,9 @@ describe("t — klucze zmigrowane 19.09.2026, partia 13 (pv: zacienienie-diody-b
       const en = t("en", kod, params)
       const ru = t("ru", kod, params)
       for (const wartosc of Object.values(params)) {
-        expect(pl).toContain(String(wartosc))
-        expect(en).toContain(String(wartosc))
-        expect(ru).toContain(String(wartosc))
+        expect(pl).toContain(jakWJezyku("pl", wartosc))
+        expect(en).toContain(jakWJezyku("en", wartosc))
+        expect(ru).toContain(jakWJezyku("ru", wartosc))
       }
       expect(pl).not.toBe(en)
       expect(pl).not.toBe(ru)
@@ -792,9 +813,9 @@ describe("t — klucze zmigrowane 19.09.2026, partia 14 (zapotrzebowanie: pobor-
       const en = t("en", kod, params)
       const ru = t("ru", kod, params)
       for (const wartosc of Object.values(params)) {
-        expect(pl).toContain(String(wartosc))
-        expect(en).toContain(String(wartosc))
-        expect(ru).toContain(String(wartosc))
+        expect(pl).toContain(jakWJezyku("pl", wartosc))
+        expect(en).toContain(jakWJezyku("en", wartosc))
+        expect(ru).toContain(jakWJezyku("ru", wartosc))
       }
       expect(pl).not.toBe(en)
       expect(pl).not.toBe(ru)
@@ -848,9 +869,9 @@ describe("t — klucze zmigrowane 19.09.2026, partia 15 (start katalogu ogrzewan
       const en = t("en", kod, params)
       const ru = t("ru", kod, params)
       for (const wartosc of Object.values(params)) {
-        expect(pl).toContain(String(wartosc))
-        expect(en).toContain(String(wartosc))
-        expect(ru).toContain(String(wartosc))
+        expect(pl).toContain(jakWJezyku("pl", wartosc))
+        expect(en).toContain(jakWJezyku("en", wartosc))
+        expect(ru).toContain(jakWJezyku("ru", wartosc))
       }
       expect(pl).not.toBe(en)
       expect(pl).not.toBe(ru)
@@ -895,9 +916,9 @@ describe("t — klucze zmigrowane 19.09.2026, partia 16 (montaz-baterii: balanse
       const en = t("en", kod, params)
       const ru = t("ru", kod, params)
       for (const wartosc of Object.values(params)) {
-        expect(pl).toContain(String(wartosc))
-        expect(en).toContain(String(wartosc))
-        expect(ru).toContain(String(wartosc))
+        expect(pl).toContain(jakWJezyku("pl", wartosc))
+        expect(en).toContain(jakWJezyku("en", wartosc))
+        expect(ru).toContain(jakWJezyku("ru", wartosc))
       }
       expect(pl).not.toBe(en)
       expect(pl).not.toBe(ru)
@@ -948,9 +969,9 @@ describe("t — klucze zmigrowane 19.09.2026, partia 17 (montaz-baterii: pierwsz
       const en = t("en", kod, params)
       const ru = t("ru", kod, params)
       for (const wartosc of Object.values(params)) {
-        expect(pl).toContain(String(wartosc))
-        expect(en).toContain(String(wartosc))
-        expect(ru).toContain(String(wartosc))
+        expect(pl).toContain(jakWJezyku("pl", wartosc))
+        expect(en).toContain(jakWJezyku("en", wartosc))
+        expect(ru).toContain(jakWJezyku("ru", wartosc))
       }
       expect(pl).not.toBe(en)
       expect(pl).not.toBe(ru)
@@ -995,9 +1016,9 @@ describe("t — klucze zmigrowane 19.09.2026, partia 18 (bezpieczenstwo: dogrzew
       const en = t("en", kod, params)
       const ru = t("ru", kod, params)
       for (const wartosc of Object.values(params)) {
-        expect(pl).toContain(String(wartosc))
-        expect(en).toContain(String(wartosc))
-        expect(ru).toContain(String(wartosc))
+        expect(pl).toContain(jakWJezyku("pl", wartosc))
+        expect(en).toContain(jakWJezyku("en", wartosc))
+        expect(ru).toContain(jakWJezyku("ru", wartosc))
       }
       expect(pl).not.toBe(en)
       expect(pl).not.toBe(ru)
@@ -1042,9 +1063,9 @@ describe("t — klucze zmigrowane 19.09.2026, partia 19 (baterie: napiecie-syste
       const en = t("en", kod, params)
       const ru = t("ru", kod, params)
       for (const wartosc of Object.values(params)) {
-        expect(pl).toContain(String(wartosc))
-        expect(en).toContain(String(wartosc))
-        expect(ru).toContain(String(wartosc))
+        expect(pl).toContain(jakWJezyku("pl", wartosc))
+        expect(en).toContain(jakWJezyku("en", wartosc))
+        expect(ru).toContain(jakWJezyku("ru", wartosc))
       }
       expect(pl).not.toBe(en)
       expect(pl).not.toBe(ru)
@@ -1084,9 +1105,9 @@ describe("t — klucze nowych modułów 19.09.2026 (ryzyko-pid, dobor-regulatora
       const en = t("en", kod, params)
       const ru = t("ru", kod, params)
       for (const wartosc of Object.values(params)) {
-        expect(pl).toContain(String(wartosc))
-        expect(en).toContain(String(wartosc))
-        expect(ru).toContain(String(wartosc))
+        expect(pl).toContain(jakWJezyku("pl", wartosc))
+        expect(en).toContain(jakWJezyku("en", wartosc))
+        expect(ru).toContain(jakWJezyku("ru", wartosc))
       }
       expect(pl).not.toBe(en)
       expect(pl).not.toBe(ru)

@@ -61,7 +61,7 @@ export function classifyKatSamooczyszczania(
           {
             code: "KAT-ZAKRES-PRZEJSCIOWY",
             level: "info",
-            message: "Dla tego zakresu kąta źródło nie podaje jednoznacznej klasyfikacji.",
+            i18nKey: "KAT-ZAKRES-PRZEJSCIOWY",
             technicalMessage: `katStopni = ${input.katStopni}, poza opisanymi pasmami <10 / 15-30 / >30`,
             field: "katStopni",
           },

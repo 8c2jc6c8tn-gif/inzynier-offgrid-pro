@@ -9,6 +9,7 @@ import { NawigacjaEkranu } from "@/components/nawigacja-ekranu"
 import { NaglowekEkranu } from "@/components/wzorce/naglowek-ekranu"
 import { ListaChecklist } from "@/components/wzorce/lista-checklist"
 import { StanPusty } from "@/components/ui/stany"
+import { useTranslate } from "@/lib/i18n/language-context"
 
 /** Schemat: kolejność demontażu — najpierw minus systemowy, potem plus, na końcu szereg wewnętrzny. */
 function DemontazOlowIlustracja() {
@@ -68,6 +69,7 @@ const STAN_POCZATKOWY: FormularzStan = {
 }
 
 export default function DemontazOlowPage() {
+  const t = useTranslate()
   const [stan, setStan] = usePersistedDraft<FormularzStan>("demontaz-olow", STAN_POCZATKOWY)
   const { potwierdzoneIds } = stan
 
@@ -120,7 +122,7 @@ export default function DemontazOlowPage() {
         <WerdyktPanel poziom={poziom} etykieta={poziom === "ok" ? "Demontaż zgodny z kolejnością" : undefined}>
           {result.warnings.map((w) => (
             <p key={w.code} className="mt-1 text-small">
-              {w.message}
+              {w.message ?? t(w.i18nKey ?? w.code, w.params)}
             </p>
           ))}
         </WerdyktPanel>

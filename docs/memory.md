@@ -6895,3 +6895,93 @@ Szczegóły per plik: sekcje „Weryfikacja OCR (25.09.2026)” w `00-INDEKS.md`
   Weryfikacja: typecheck / lint (0 błędów) / i18n-guard (115) / test 1362/1362 / build / audit:gate; `next start`
   + Playwright 390 px: 6 tras, brak `⚠ [klucz]`, brak zduplikowanych `id`, brak poziomego przewijania; 404 tylko
   `/_vercel/insights`. E1: 3 przegrody + wentylacja = 4,8 kW (ręcznie: 2800 + 2010 W ✓).
+
+## N.1 dla pozostałych modułów + M6/E2, E7 + temperatury PVGIS + separator dziesiętny (26.09.2026)
+
+- **N.1 mechanicznie:** `pnpm audit:n1` (`scripts/audit-n1-rejestr.mjs`) — zbiera `(dawne X.Y)` z sekcji modułu w Biblii,
+  rozwija zakresy („8.23-28”, „8.29–8.36”) i listy („8.17,18,19”), porównuje z rejestrem i z plikiem `Tresc_*`. Wynik: 579/579.
+  **Pułapka regexu (złapana):** lista po przecinku „8.2, 8.10” łapała „8” z następnego ID jako element listy — elementy listy
+  muszą mieć `(?![\d.])`. Plik `Tresc_Modul_12` nie ma dawnego 8.8 (PWM vs MPPT, ekran i tak `done` z Biblii).
+- **M6/E2:** C.O. z miesięcy E1 (średnia doba miesiąca), C.W.U. z `WSPOLCZYNNIK_KWH_NA_L_K` (`bojler-cwu`). Szkic E1 odczytywany
+  przez `lib/ogrzewanie/draft-obciazenia-cieplnego.ts` (wydzielone z `page.tsx` — Next nie pozwala eksportować z pliku strony
+  innych nazw). 50 l/osobę jako widoczna wartość startowa (źródło podaje liczbę, nie zakres).
+- **M6/E7 — decyzja do potwierdzenia przez właściciela (✅🤖):** lista zadań zakładała „wymaga PN-EN ISO 14683 / 12831-1”.
+  Zbudowane bez nich: Ψ wpisuje użytkownik (jak U w E1), wzór H = Σ Ψ·l z PN-EN 12831 (3.4) zweryfikowany w Purmo. Norma byłaby
+  potrzebna tylko do *podpowiadania* Ψ (tablice) lub metody uproszczonej ΔU_tb. Jeśli właściciel woli czekać na normę — ekran
+  zostaje, zmienia się tylko status. Ważne merytorycznie: Ψ zależy od konwencji wymiarów (zewnętrzne → narożniki ujemne) —
+  założenie `MT-ZALOZENIE-WYMIARY`.
+- **Temperatury PVGIS:** `T2m` było w odpowiedzi PVGIS od początku, adapter je pomijał. Teraz `temperaturyMiesieczneC` (miesiąc ze
+  znacznika PVGIS, nie z czasu po offsecie). **`T2m` opcjonalne** — pierwsza wersja z polem wymaganym wysypała 8 testów narzędzi
+  M1/M3 (atrapy PVGIS bez `T2m`); lepiej też produkcyjnie: brak temperatury nie może blokować nasłonecznienia. Średnie tylko przy
+  komplecie 8760 godzin. Klucz zapisu bez zmian (`v1`), bez migracji — pole opcjonalne, ekran prosi o ponowne pobranie.
+  Godzinowe temperatury NIE są zapisywane (tylko 12 średnich) — M7 (godziny poniżej progu) będzie wymagał rozszerzenia.
+- **Separator dziesiętny:** `t()` zamienia „.”→„,” (PL/RU) w parametrach `number` i w tekstach będących w całości liczbą
+  dziesiętną (`toFixed`); bez grupowania tysięcy i zaokrąglania. Teksty dla modelu AI (PL) też mają teraz przecinek.
+- **Y.2 (naprawione od razu):** `ogrzewanie/obciazenie-cieplne` (E1) nie był na liście `check-i18n-guard` od budowy — dopisany.
+- **Weryfikacja:** typecheck / lint (0 błędów, 2 ostrzeżenia `<img>` sprzed sesji) / i18n-guard (118) / test 1387/1387 / build /
+  audit:gate / audit:n1. `next start` + Playwright 390 px, `pl-PL`, odpowiedź `/api/pvgis/tmy` podstawiona w przeglądarce (JRC
+  zablokowane w kontenerze): E1 → wstaw temperatury → E2 (styczeń C.O. 70 kWh = 125,75 W/K × 23,2 K × 24 h ✓) → E7 (892 W =
+  22,3 W/K × 40 K ✓); brak zduplikowanych `id`, poziomego przewijania, `⚠ [klucz]`; 404 tylko `/_vercel/insights`.
+
+## Strażnik i18n — domknięcie migracji wszystkich modułów (26.09.2026)
+
+- **Stan przed:** 39 modułów `lib/core/modules/*/*` (+5 podmodułów `wampiry-energetyczne/*`, których pierwszy skan nie
+  widział) poza `MIGRATED_MODULES`. Z tego 9 było w pełni zmigrowanych (kody we wszystkich 3 słownikach), ale bez ochrony
+  (`baterie/hierarchia-ladowania`, `napiecie-odciecia-a-zywotnosc`, `symulacja-ladowania-rozladowania`,
+  `symulacja-miesiaca-zachmurzenia`, 5× wampiry), 10 to checklisty z pustymi `assumptions/warnings`, 13 zwracało gotowy tekst
+  PL (14 miejsc), reszta to katalogi z samymi stałymi albo `eurokod-0/1` bez pliku silnika (strażnik nie ma czego sprawdzać).
+- **Migracja 13:** 14 nowych kluczy PL/EN/RU, treść PL 1:1 z dotychczasowego tekstu. Tam, gdzie kod ostrzeżenia już
+  istniał z innym tekstem, osobny klucz (`PORTECH-POJEMNOSC-NIEDODATNIA` ≠ `POJEMNOSC-NIEDODATNIA`;
+  `KROK-POZA-KOLEJNOSCIA-ROZRUCH` — Black Start, `critical`, inny tekst niż `KROK-POZA-KOLEJNOSCIA`). Strony czytające
+  `w.message` wprost → `w.message ?? t(w.i18nKey ?? w.code, w.params)`. **Pułapka:** `audyt-pozarowy/page.tsx` to Server
+  Component — hook `useTranslate` tam nie działa; założenia przez kliencki `ZalozeniaLista` (ten sam wzorzec co `prognozy`).
+  Ostrzeżenia audytu (`message` z szablonu z danymi `SAMPLE_AUDIT_ITEMS`) zostają — to dane demonstracyjne, nie tekst silnika,
+  i strona ich nie wyświetla (pokazuje pozycje wprost z `SAMPLE_AUDIT_ITEMS`).
+- **Luka strażnika (naprawiona):** nie widział `assumptions.push("…")` do lokalnej tablicy `string[]` — tak
+  `porownanie-technologii` zwracał 2 polskie założenia. Dodana reguła AST dla `assumptions.push(literał|szablon)`.
+- **Kompletność listy mechanicznie:** strażnik kończy się błędem, gdy katalog w `lib/core/modules` ma plik silnika
+  (`calculator/warnings/validation.ts`), a nie ma go na liście — powtarzająca się luka (M6/E1 i 19 powyższych).
+- **Weryfikacja:** typecheck / lint (0 błędów) / i18n-guard (150) / test 1387/1387 / build / audit:gate / audit:n1;
+  `next start` + Playwright 390 px `pl-PL`: Black Start, demontaż ołów, połączenia elektryczne (krok poza kolejnością),
+  porównanie technologii (0 i puste pole), audyt, prognozy, komunikacja BMS („inny”) — teksty widoczne, bez surowych kluczy.
+
+## Resynchronizacja mapy wdrożenia + zduplikowane `id` (26.09.2026)
+
+- **Zduplikowane `id`:** zadanie z 25.09 było już rozwiązane u źródła (`useId()` w `Pole`/`PoleSelect`, commit `f475302`),
+  tylko wpis na liście nie dostał domknięcia. Potwierdzone skanem wszystkich 160 tras (stan domyślny + po dodaniu pozycji).
+- **Dryf kolumny statusu w rejestrze (pułapka):** 13 wierszy miało „→ done” tylko w notatce, a w kolumnie statusu nadal
+  `todo`/`blocked` (11× M3 z 25.09 i moje E2/E7 z 26.09). Każde liczenie po kolumnie zaniżało postęp. Zasada: przy zmianie
+  statusu poprawiać **kolumnę** (aktualny stan) i dopisywać datę w notatce (historia) — jak w wierszu M6/E1.
+- **Metryka mapy zmieniona z „wierszy done” na „ekrany docelowe”:** rejestr ma duplikaty między sekcjami (wzorce A–H,
+  „po jednym ekranie”), więc wiersze zawyżały wynik (163 wiersze = 153 ekrany + 3 dodatkowe + 7 duplikatów). Mianowniki
+  z podsumowań `Tresc_*`; M6 = 48 (20 + 2A 1 + 2C 26 + 2D 1), M12 = 43 (42 z `Tresc` + dawne 8.8 z samej Biblii), M13 = 2.
+  Surowe liczenie: `pnpm rejestr:licz [moduł]` (`scripts/policz-rejestr.mjs`) — duplikaty i mianowniki nadal ręcznie.
+
+## M6/E10 — Optymalizacja izolacji (26.09.2026)
+
+- **Bez normy:** Rsi/Rse (PN-EN ISO 6946) nie są w repo, ale nie są potrzebne — dokładana warstwa jest oporem szeregowym,
+  a 1/U obecnej przegrody już zawiera opory przejmowania: U' = 1/(1/U + d/λ). Pominięte łączniki mechaniczne i nieciągłości
+  (założenie `IZOL-ZALOZENIE-WARSTWA-SZEREGOWA` — rzeczywiste U wyższe).
+- **Oszczędność** z tego samego modelu miesięcznego co E1 (Σ max(0, θi − θm)·24·d); wymaga kompletu 12 miesięcy (część roku
+  cicho zaniżałaby wynik → `INCOMPLETE`). Wynik w kWh ciepła, nie prądu (÷ COP — założenie).
+- **🟡 „kolejny centymetr się nie zwraca”** — źródło nie daje progu; ocena tylko względem ceny ciepła wpisanej przez
+  użytkownika (koszt krańcowy wariantu względem cieńszego wariantu tego samego materiału, tj. ta sama nazwa i λ).
+- **Przykład źródła niespójny** (5000 zł / (300 kWh × 10 lat) = 1,67 zł/kWh, nie 0,20) — nieodtwarzany.
+- **Pułapka testu przeglądarkowego:** `page.fill` na `input[type=number]` nie przyjmuje „0,5” (Playwright), w teście kropka.
+- Następne w M6 wymagają decyzji: E8 (źródło: Σ m·c całego budynku; fizycznie pracuje warstwa wewnętrzna — PN-EN ISO 13786
+  poza repo), E11 (🔴 „wysokie U i niskie g” bez progów liczbowych).
+
+## M6/E8 — Pojemność cieplna budynku (26.09.2026)
+
+- **Decyzja właściciela:** C = Σ ρ·A·d·c całych warstw (jak w źródle) + powietrze z kubatury E1, ze **stałym** ostrzeżeniem
+  🟡 `POJC-CALA-MASA-ZAWYZA` (status zawsze `VALID_WITH_WARNINGS`): w dobowym wychładzaniu pracuje tylko warstwa wewnętrzna,
+  więc τ i czas do zamarznięcia są zawyżone. PN-EN ISO 13786 właściciel dostarczy później — wtedy głębokość czynna
+  (wpis 🔲 na liście).
+- **Model:** jeden węzeł, C·dθ/dt = −H_zewn(θ − θe) − Σ H_j(θ − θj) → θ∞ = średnia ważona H, τ = C/H, wychładzanie
+  wykładnicze. H z E1: Σ U·A przegród zewnętrznych + H_V; przegrody do gruntu/stref nieogrzewanych z ich stałą temperaturą.
+- **Dane materiałowe** (ρ, c) tylko od użytkownika — źródło mówi „auto z Modułu 1”, ale M1 nie ma materiałów; brak tabeli
+  w repo (nie wymyślane). Zakres sanity c 100–5000 J/(kg·K) łapie wpis w kJ.
+- 🟡 źródła „podłogówka przy dużej bezwładności” bez progu — niewyzwalane; przykład C (18 kWh/K → 1 °C w 4 h) bez H i ΔT —
+  nieodtwarzalny.
+- **E11 odłożony** decyzją właściciela (progi 🔴 poda później).
+

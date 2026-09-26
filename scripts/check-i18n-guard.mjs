@@ -6,6 +6,8 @@
  * Sprawdza WYŁĄCZNIE moduły z listy MIGRATED_MODULES niżej — nie blokuje pozostałych,
  * jeszcze niezmigrowanych modułów (17.9: migracja stopniowa, nigdy big bang; reszta
  * świadomie zwraca gotowy tekst PL, to nie jest regresja, to jeszcze niewykonana praca).
+ * [26.09.2026] Migracja domknięta — każdy moduł z plikiem silnika jest na liście, a skrypt
+ * zatrzymuje się także na module spoza niej (sprawdzenie kompletności na końcu pliku).
  *
  * Reguła (04.1/17.2 PATCH): domenowa funkcja w zmigrowanym module nigdy nie zwraca gotowego
  * tekstu dla użytkownika — ani jako `Warning.message` (string literal), ani jako element
@@ -16,7 +18,7 @@
  * inaczej ten skrypt nie chroni nowo zmigrowanego modułu przed regresją.
  */
 import ts from "typescript"
-import { readFileSync, existsSync } from "node:fs"
+import { readFileSync, existsSync, readdirSync } from "node:fs"
 import path from "node:path"
 
 const MIGRATED_MODULES = [
@@ -100,6 +102,11 @@ const MIGRATED_MODULES = [
   "lib/core/modules/ogrzewanie/infiltracja-powietrza",
   "lib/core/modules/ogrzewanie/kociol-elektryczny",
   "lib/core/modules/ogrzewanie/koszty-ogrzewania",
+  "lib/core/modules/ogrzewanie/obciazenie-cieplne",
+  "lib/core/modules/ogrzewanie/zapotrzebowanie-co-cwu",
+  "lib/core/modules/ogrzewanie/mostki-termiczne",
+  "lib/core/modules/ogrzewanie/optymalizacja-izolacji",
+  "lib/core/modules/ogrzewanie/pojemnosc-cieplna",
   "lib/core/modules/ogrzewanie/pompy-cyrkulacyjne",
   "lib/core/modules/ogrzewanie/ryzyko-niskiego-napiecia",
   "lib/core/modules/ogrzewanie/wentylacja-odzysk-ciepla",
@@ -135,6 +142,38 @@ const MIGRATED_MODULES = [
   "lib/core/modules/zapotrzebowanie/sprawnosc-inwertera-niskie-obciazenie",
   "lib/core/modules/zapotrzebowanie/architektura-fazowa",
   "lib/core/modules/zapotrzebowanie/kategorie-specjalne",
+  "lib/core/modules/baterie/hierarchia-ladowania",
+  "lib/core/modules/baterie/napiecie-odciecia-a-zywotnosc",
+  "lib/core/modules/baterie/symulacja-ladowania-rozladowania",
+  "lib/core/modules/baterie/symulacja-miesiaca-zachmurzenia",
+  "lib/core/modules/zapotrzebowanie/wampiry-energetyczne/automatyzacja",
+  "lib/core/modules/zapotrzebowanie/wampiry-energetyczne/katalog-urzadzen",
+  "lib/core/modules/zapotrzebowanie/wampiry-energetyczne/pomiar-mocy-jalowej",
+  "lib/core/modules/zapotrzebowanie/wampiry-energetyczne/rekomendacje-sprzetowe",
+  "lib/core/modules/zapotrzebowanie/wampiry-energetyczne/symulacje-i-raporty",
+  "lib/core/modules/baterie/moment-dokrecania-srub",
+  "lib/core/modules/esp32/katalog-czujnikow",
+  "lib/core/modules/montaz-baterii/bezpieczenstwo-kwas",
+  "lib/core/modules/montaz-baterii/montaz-mechaniczny-olow",
+  "lib/core/modules/montaz-baterii/polaczenia-czyszczenie-olow",
+  "lib/core/modules/montaz-baterii/przygotowanie-stanowiska",
+  "lib/core/modules/montaz-baterii/uruchomienie-testy-olow",
+  "lib/core/modules/montaz-baterii/weryfikacja-wstepna-olow",
+  "lib/core/modules/okablowanie/ochrona-przed-gryzoniami",
+  "lib/core/modules/okablowanie/peszle-koryta-rurki",
+  "lib/core/modules/ai/prognozy",
+  "lib/core/modules/baterie/komunikacja-bms",
+  "lib/core/modules/baterie/porownanie-technologii",
+  "lib/core/modules/bezpieczenstwo/audyt-pozarowy",
+  "lib/core/modules/montaz-baterii/demontaz-olow",
+  "lib/core/modules/montaz-baterii/dobor-kabli-bezpiecznikow-olow",
+  "lib/core/modules/montaz-baterii/polaczenia-elektryczne",
+  "lib/core/modules/okablowanie/ochrona-przed-dotykiem",
+  "lib/core/modules/okablowanie/oznakowanie-obwodow",
+  "lib/core/modules/okablowanie/puszki-polaczeniowe",
+  "lib/core/modules/okablowanie/szyny-zbiorcze-polaczenia",
+  "lib/core/modules/pv/czystosc-i-snieg",
+  "lib/core/modules/stress-test/procedura-black-start",
 ]
 
 const FILES_TO_CHECK = ["warnings.ts", "calculator.ts", "validation.ts"]
@@ -206,6 +245,22 @@ function checkFile(filePath, source) {
       findRawStringArrayElements(node.initializer, report)
     }
 
+    // `assumptions.push("gotowy tekst")` / `` assumptions.push(`… ${x} …`) `` — lokalna tablica
+    // budowana warunkowo (luka znaleziona 26.09.2026 w baterie/porownanie-technologii).
+    if (
+      ts.isCallExpression(node) &&
+      ts.isPropertyAccessExpression(node.expression) &&
+      node.expression.name.text === "push" &&
+      ts.isIdentifier(node.expression.expression) &&
+      isAssumptionsName(node.expression.expression.text)
+    ) {
+      for (const arg of node.arguments) {
+        if (ts.isStringLiteralLike(arg) || ts.isTemplateExpression(arg)) {
+          report(arg, `"assumptions.push" z gołym stringiem PL — użyj "{kod, params?}" (17.2).`)
+        }
+      }
+    }
+
     ts.forEachChild(node, visit)
   }
 
@@ -218,6 +273,25 @@ for (const moduleDir of MIGRATED_MODULES) {
     if (!existsSync(filePath)) continue // np. moduł bez calculator.ts — pomiń, nie błąd
     checkFile(filePath, readFileSync(filePath, "utf8"))
   }
+}
+
+// Every module with an engine file must be on the list (26.09.2026: after migrating the last 13,
+// all of them are). A new module missing here was the recurring gap — M6/E1 and 19 others were
+// fully migrated but unprotected because nobody added them (Y.2).
+const listed = new Set(MIGRATED_MODULES)
+const unlisted = []
+function findModules(dir) {
+  const entries = readdirSync(dir, { withFileTypes: true })
+  if (entries.some((e) => e.isFile() && FILES_TO_CHECK.includes(e.name)) && !listed.has(dir)) unlisted.push(dir)
+  for (const e of entries) if (e.isDirectory() && e.name !== "__tests__") findModules(path.posix.join(dir, e.name))
+}
+findModules("lib/core/modules")
+
+if (unlisted.length > 0) {
+  console.error("Mechanizm strażniczy i18n (17.9) — moduły spoza listy MIGRATED_MODULES:\n")
+  for (const m of unlisted) console.error(`  ${m}`)
+  console.error("\nDopisz je do MIGRATED_MODULES w scripts/check-i18n-guard.mjs (nowy moduł zwraca kody i18n, nie gotowy tekst).")
+  process.exit(1)
 }
 
 if (violations.length > 0) {

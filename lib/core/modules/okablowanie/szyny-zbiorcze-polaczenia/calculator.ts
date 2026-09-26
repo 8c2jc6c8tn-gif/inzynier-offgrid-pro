@@ -31,7 +31,7 @@ export function calculateSzynyZbiorczePolaczenia(
     formula: "",
     inputs: { potwierdzone, razem },
     assumptions: [
-      "Dobór przekroju szyny wg wytrzymałości zwarciowej (górna sekcja D źródła) NIE zbudowany — źródło nie podaje wzoru/tabeli.",
+      { kod: "SZYNY-ZALOZENIE-BRAK-DOBORU-PRZEKROJU" },
     ],
     warnings: [],
     calculatorVersion: CALCULATOR_VERSION,

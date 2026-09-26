@@ -93,6 +93,7 @@ export function KolorGrupaEdytor() {
         <input
           type="text"
           value={kolorGrupowy}
+          aria-label="Kod HEX koloru do zastosowania grupowo"
           onChange={(e) => {
             const v = e.target.value
             setKolorGrupowy(v)

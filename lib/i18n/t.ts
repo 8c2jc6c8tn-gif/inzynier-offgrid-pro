@@ -26,5 +26,24 @@ export function t(language: Language, kod: string, params?: Record<string, strin
     return `⚠ [${kod}]`
   }
   if (!params) return szablon
-  return szablon.replace(/\{(\w+)\}/g, (dopasowanie, nazwa: string) => (nazwa in params ? String(params[nazwa]) : dopasowanie))
+  return szablon.replace(/\{(\w+)\}/g, (dopasowanie, nazwa: string) =>
+    nazwa in params ? formatujParametr(language, params[nazwa]!) : dopasowanie,
+  )
+}
+
+/** Separator dziesiętny wg języka UI — PL i RU piszą „1,5”, EN „1.5”. */
+const SEPARATOR_DZIESIETNY: Record<Language, string> = { pl: ",", en: ".", ru: "," }
+
+/**
+ * Domena przekazuje liczby jako `number` albo gotowy tekst z `toFixed()` („1.50”) — obie formy
+ * dostają separator języka. Tylko sam separator: bez grupowania tysięcy i bez zaokrąglania
+ * (precyzję wybiera domena). Tekst, który nie jest w całości liczbą dziesiętną (nazwy, listy
+ * „1, 2, 12”), zostaje bez zmian.
+ */
+function formatujParametr(language: Language, wartosc: string | number): string {
+  const tekst = String(wartosc)
+  if (typeof wartosc === "number" || /^-?\d+\.\d+$/.test(tekst)) {
+    return tekst.replace(".", SEPARATOR_DZIESIETNY[language])
+  }
+  return tekst
 }

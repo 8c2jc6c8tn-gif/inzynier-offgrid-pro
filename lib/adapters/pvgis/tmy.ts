@@ -26,6 +26,11 @@ const rekordSchema = z.object({
   "G(h)": z.number().nonnegative(),
   "Gb(n)": z.number().nonnegative(),
   "Gd(h)": z.number().nonnegative(),
+  /**
+   * Air temperature 2 m above ground [°C] (PVGIS TMY output, ERA5). Optional: a missing temperature
+   * must never block the irradiance data — then the monthly temperatures are simply absent.
+   */
+  T2m: z.number().optional(),
 })
 
 const odpowiedzSchema = z.object({
@@ -63,7 +68,15 @@ export type MetadaneTmy = {
   zrodloHoryzontu: string
 }
 
-export type DaneTmy = { rekordy: RekordGodzinowy[]; meta: MetadaneTmy }
+export type DaneTmy = {
+  rekordy: RekordGodzinowy[]
+  meta: MetadaneTmy
+  /**
+   * Mean `T2m` of each TMY month [°C], January first — for heat-loss screens (M6/E1). Optional:
+   * saves made before 26.09.2026 do not have it (then the screen asks to download the data again).
+   */
+  temperaturyMiesieczneC?: number[]
+}
 
 export type KodBleduPvgis =
   | "PVGIS-PARAMETRY-NIEPOPRAWNE"
@@ -92,6 +105,18 @@ export function parsujOdpowiedzTmy(json: unknown): WynikTmy {
   }
   const { inputs, outputs } = wynik.data
   const offsetMs = inputs.location.irradiance_time_offset * MS_NA_GODZINE
+  // Month from the PVGIS stamp, not from the shifted time: TMY months are picked whole from
+  // different years, the offset (< 1 h) must not move the last hour into the next month.
+  const suma = Array<number>(12).fill(0)
+  const liczba = Array<number>(12).fill(0)
+  for (const r of outputs.tmy_hourly) {
+    const m = Number(r["time(UTC)"].slice(4, 6)) - 1
+    if (r.T2m === undefined || !(m >= 0 && m < 12)) continue
+    suma[m] = suma[m]! + r.T2m
+    liczba[m] = liczba[m]! + 1
+  }
+  // Only a complete year gives monthly means — a partial month would be a biased mean.
+  const temperaturyKompletne = liczba.reduce((a, n) => a + n, 0) === GODZIN_TMY && liczba.every((n) => n > 0)
   return {
     ok: true,
     dane: {
@@ -113,6 +138,7 @@ export function parsujOdpowiedzTmy(json: unknown): WynikTmy {
         horyzontTerenu: inputs.meteo_data.use_horizon,
         zrodloHoryzontu: inputs.meteo_data.horizon_db,
       },
+      ...(temperaturyKompletne ? { temperaturyMiesieczneC: suma.map((s, m) => s / liczba[m]!) } : {}),
     },
   }
 }

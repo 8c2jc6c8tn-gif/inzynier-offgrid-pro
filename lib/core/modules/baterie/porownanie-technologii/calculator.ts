@@ -1,4 +1,4 @@
-import type { CalcResult } from "@/lib/core/calc-result"
+import type { Assumption, CalcResult } from "@/lib/core/calc-result"
 import type { PorownanieTechnologiiInput } from "./input"
 import { BATTERY_TECHNOLOGIES, type BatteryTechnology, POJEMNOSC_BASELINE_KWH } from "./constants"
 import { validateInput } from "./validation"
@@ -38,15 +38,11 @@ export function calculatePorownanieTechnologii(
   }
 
   const pojemnoscKwh = input.pojemnoscKwh ?? POJEMNOSC_BASELINE_KWH
-  const assumptions: string[] = []
+  const assumptions: Assumption[] = []
   if (input.pojemnoscKwh === undefined) {
-    assumptions.push(
-      `Pojemność nie podana — porównanie liczone dla ${POJEMNOSC_BASELINE_KWH} kWh (baseline "na 1 kWh").`,
-    )
+    assumptions.push({ kod: "PORTECH-ZALOZENIE-BASELINE", params: { pojemnosc: POJEMNOSC_BASELINE_KWH } })
   }
-  assumptions.push(
-    "Dla technologii, gdzie źródło podaje przedział cykli, użyto środka przedziału jako wartości reprezentatywnej.",
-  )
+  assumptions.push({ kod: "PORTECH-ZALOZENIE-SRODEK-CYKLI" })
 
   const value: TechnologyComparisonRow[] = BATTERY_TECHNOLOGIES.map((tech) => ({
     ...tech,

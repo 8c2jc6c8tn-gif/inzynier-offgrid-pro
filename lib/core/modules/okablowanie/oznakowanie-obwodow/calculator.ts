@@ -30,7 +30,7 @@ export function calculateOznakowanieObwodow(
     formula: "",
     inputs: { oznaczone, razem },
     assumptions: [
-      "Kolorystyka żył (np. żółto-zielony PE, niebieski N) NIE jest tu podana — normuje ją IEC 60446, nie PN-EN 60445 (ta norma daje tylko kody alfanumeryczne/graficzne z Tabeli 1).",
+      { kod: "OZNAKOWANIE-ZALOZENIE-KOLORY-ZYL" },
     ],
     warnings: [],
     calculatorVersion: CALCULATOR_VERSION,
