@@ -36,6 +36,22 @@ którego **obecnie nie ma** w `docs/rejestr-pokrycia.md`. Nie jest normą elektr
 
 ## Status wykorzystania
 
-Przeanalizowany (OCR głównego pliku), **niewykorzystany w kodzie**. Patrz rekomendacja końcowa
+Przeanalizowany (OCR głównego pliku), **niewykorzystany w kodzie**. [26.09.2026] ⚠️ NIEAKTUALNE (zastąpione przez: sekcja „Weryfikacja wizualna i pierwsze użycie w kodzie” niżej) — powód: powstał balast projektowy M3. Patrz rekomendacja końcowa
 w `docs/zrodla/README.md` co do dalszego losu tego materiału (raczej `new-app-standards` niż ten
 projekt, chyba że powstanie moduł konstrukcji wsporczej).
+
+## [26.09.2026] Weryfikacja wizualna i pierwsze użycie w kodzie
+
+Na potrzeby balastu projektowego (M3/E9, E2, E6 — D29) strony oryginału wyrenderowane (PyMuPDF, 110 DPI) i
+przeczytane wzrokowo, nie tylko w OCR:
+
+| Miejsce | Strona PDF (od 1) | Zweryfikowana treść |
+|---|---|---|
+| 6.4.1 (1)P a) EQU, 6.4.2 (1)P wzór (6.7) `Ed,dst ≤ Ed,stb`, 6.4.2 (2) (tarcie — tylko możliwość dodania warunku, bez wartości) | 34 (wzór 6.7); 35 (6.4.2 (2) — tylko OCR) | ✅ (6.7); 6.4.2 (2) wg OCR |
+| Tablica A1.1 — ψ dla wiatru: ψ0 = 0,6, ψ1 = 0,2, ψ2 = 0; śnieg (H ≤ 1000 m): 0,50 / 0,20 / 0,20 | 40 | ✅ |
+| Tablica A1.2(A) (EQU, zestaw A), UWAGA 1 — wartości zalecane: **γG,j,sup = 1,10; γG,j,inf = 0,90; γQ,1 = 1,50** (0 gdy korzystne); UWAGA 2: 1,35 / 1,15 / 1,50 | 41 | ✅ |
+| Załącznik krajowy NB (budynki): „nie wprowadza się żadnych zmian krajowych” → obowiązują wartości zalecane | 71 | ✅ |
+
+**Użyte w kodzie:** `GAMMA_G_INF_EQU = 0.9`, `GAMMA_Q_EQU = 1.5` — `lib/core/modules/pv/eurokod-0/rownowaga.ts`.
+🔎 Ten egzemplarz to PN-EN 1990:2004 + A1:2008 — ewentualne późniejsze poprawki krajowe (np. Ap) nie są w
+repo; przy ich dostarczeniu sprawdzić, czy NB/NA dla A1.3.1 się zmienił.

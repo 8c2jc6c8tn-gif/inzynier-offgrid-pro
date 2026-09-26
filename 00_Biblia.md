@@ -3,7 +3,7 @@
 **Wersja:** 1.0 | **Filar:** — (indeks, poza podziałem na filary) | **Data utworzenia:** 04.09.2026 | **Ostatnia aktualizacja:** 04.09.2026 | **Status:** Stabilny
 **Powiązane dokumenty:** wszystkie poniżej (tabela dokumentów)
 
-TL;DR: Indeks kanonicznej Biblii projektu w formacie GOD BOOK (`docs/god-book/instrukcja-uniwersalna-biblii-projektu-v2_38.md`, Część S). Migracja z `ZASADY_APLIKACJI.md`/`USTALENIA.md`, które pełniły tę rolę wcześniej pod inną nazwą — treść tamtych plików **zachowana, nie usunięta** (oznaczone jako historyczne, patrz "Relacja ze starą konstytucją" niżej).
+TL;DR: Indeks kanonicznej Biblii projektu w formacie GOD BOOK (`docs/god-book/instrukcja-uniwersalna-biblii-projektu-v2_39.md`, Część S). Migracja z `ZASADY_APLIKACJI.md`/`USTALENIA.md`, które pełniły tę rolę wcześniej pod inną nazwą — treść tamtych plików **zachowana, nie usunięta** (oznaczone jako historyczne, patrz "Relacja ze starą konstytucją" niżej).
 
 ---
 
@@ -53,7 +53,7 @@ Do 04.09.2026 rolę Biblii pełniły `ZASADY_APLIKACJI.md` (pełna) i `USTALENIA
 | 01 | `01_Zasady_Pracy_i_Konwencje.md` | C | 1.0 | Stabilny | Wyciąg operacyjny z GOD BOOK dla tego projektu |
 | 02 | `02_Dyrektywy_AI_Projektu.md` | C | 1.0 | Stabilny | Twarde reguły zachowania AI specyficzne dla domeny off-grid |
 | — | `zlote-zasady.md` | C | 1.0 | Stabilny | Kompas projektu — 4 filozofie + 14 zasad architektonicznych |
-| — | `rejestr-decyzji.md` | C | 1.9 | Stabilny | D1, D2, D3… decyzje strategiczne, ponumerowane, rosnące |
+| — | `rejestr-decyzji.md` | C | 1.11 | Stabilny | D1, D2, D3… decyzje strategiczne, ponumerowane, rosnące |
 | — | `slownik-pojec.md` | C | 1.0 | Stabilny | Terminy branżowe (SoC, DoD, MPPT, Voc, C-rate...) |
 | — | `wiedza-surowa.md` | C | 1.0 | Stabilny | Synteza materiałów źródłowych — wskaźnik do `docs/zrodla/`, nie duplikat |
 | — | `kontrakty-rdzenia.md` | A | 1.0 | Stabilny | `CalcResult<T>`, Status, Warning, warstwy, wzorzec echo — konkretne kontrakty tego projektu |

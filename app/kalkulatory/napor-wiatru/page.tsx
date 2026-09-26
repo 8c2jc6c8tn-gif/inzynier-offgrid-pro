@@ -15,17 +15,21 @@ type FormularzStan = {
   predkoscWiatruMS: string
   powierzchniaM2: string
   cd: string
+  balastPlanowanyKg: string
 }
 
 const STAN_POCZATKOWY: FormularzStan = {
   predkoscWiatruMS: "",
   powierzchniaM2: "",
   cd: "",
+  balastPlanowanyKg: "",
 }
 
 export default function NaporWiatruPage() {
   const [stan, setStan] = usePersistedDraft<FormularzStan>("napor-wiatru", STAN_POCZATKOWY)
+  // Drafts saved before 26.09.2026 have no `balastPlanowanyKg` — treat as empty.
   const { predkoscWiatruMS, powierzchniaM2, cd } = stan
+  const balastPlanowanyKg = stan.balastPlanowanyKg ?? ""
 
   function setPole<K extends keyof FormularzStan>(pole: K, akcja: FormularzStan[K] | ((prev: FormularzStan[K]) => FormularzStan[K])) {
     setStan((prev) => ({
@@ -36,6 +40,7 @@ export default function NaporWiatruPage() {
   const setPredkoscWiatruMS = (a: string | ((p: string) => string)) => setPole("predkoscWiatruMS", a)
   const setPowierzchniaM2 = (a: string | ((p: string) => string)) => setPole("powierzchniaM2", a)
   const setCd = (a: string | ((p: string) => string)) => setPole("cd", a)
+  const setBalastPlanowanyKg = (a: string | ((p: string) => string)) => setPole("balastPlanowanyKg", a)
 
   const result = useMemo(
     () =>
@@ -43,9 +48,12 @@ export default function NaporWiatruPage() {
         predkoscWiatruMS: predkoscWiatruMS === "" ? 0 : Number(predkoscWiatruMS),
         powierzchniaM2: powierzchniaM2 === "" ? 0 : Number(powierzchniaM2),
         cd: cd === "" ? 0 : Number(cd),
+        balastPlanowanyKg: balastPlanowanyKg === "" ? null : Number(balastPlanowanyKg),
       }),
-    [predkoscWiatruMS, powierzchniaM2, cd],
+    [predkoscWiatruMS, powierzchniaM2, cd, balastPlanowanyKg],
   )
+  // Directive #4: the hard stop comes from warning levels, not from the Status enum.
+  const balastZaMaly = result.warnings.some((w) => w.level === "critical")
 
   return (
     <main className="mx-auto flex max-w-md flex-col gap-6 p-6">
@@ -84,6 +92,16 @@ export default function NaporWiatruPage() {
           onChange={(e) => setCd(e.target.value)}
           hint={`Typowo ${CD_TYPOWY_MIN}–${CD_TYPOWY_MAX} dla paneli PV.`}
         />
+        <Pole
+          label="Planowany balast (opcjonalnie)"
+          unit="kg"
+          type="number"
+          inputMode="decimal"
+          min={0}
+          value={balastPlanowanyKg}
+          onChange={(e) => setBalastPlanowanyKg(e.target.value)}
+          hint="Wpisz, ile balastu chcesz dać — aplikacja porówna to z balastem projektowym."
+        />
       </div>
 
       {result.status === "INVALID_INPUT" ? (
@@ -93,8 +111,15 @@ export default function NaporWiatruPage() {
       ) : result.status === "INCOMPLETE" ? (
         <p className="text-small text-muted-foreground">Wypełnij wszystkie pola, żeby zobaczyć wynik.</p>
       ) : (
-        <WerdyktPanel poziom="ok" etykieta="Siła naporu wiatru na panel">
+        <WerdyktPanel
+          poziom={balastZaMaly ? "blad" : "uwaga"}
+          etykieta={balastZaMaly ? "Za mały balast — stelaż może zostać oderwany" : "Siła naporu i balast projektowy"}
+        >
           <WynikGlowny>{result.value.silaNaporuN.toFixed(0)} N</WynikGlowny>
+          <p className="text-small">
+            Balast projektowy przeciw oderwaniu (PN-EN 1990): co najmniej{" "}
+            <strong>{Math.ceil(result.value.balastProjektowyKg).toLocaleString("pl-PL")} kg</strong>
+          </p>
           <WynikSzczegoly assumptions={result.assumptions} warnings={result.warnings} formula={result.formula} />
         </WerdyktPanel>
       )}

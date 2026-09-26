@@ -11,5 +11,8 @@ export function validateInput(input: NaporWiatruInput): ValidationResult {
   if (input.predkoscWiatruMS < 0) errors.push(wartoscUjemna("predkoscWiatruMS", input.predkoscWiatruMS))
   if (input.powierzchniaM2 < 0) errors.push(wartoscUjemna("powierzchniaM2", input.powierzchniaM2))
   if (input.cd < 0) errors.push(wartoscUjemna("cd", input.cd))
+  if (input.balastPlanowanyKg !== null && input.balastPlanowanyKg < 0) {
+    errors.push(wartoscUjemna("balastPlanowanyKg", input.balastPlanowanyKg))
+  }
   return { errors }
 }

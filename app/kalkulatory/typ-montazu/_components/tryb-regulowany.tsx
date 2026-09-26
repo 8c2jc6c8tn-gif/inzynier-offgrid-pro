@@ -111,7 +111,7 @@ export function TrybRegulowany() {
             <li className="font-medium">
               {v.balastWymaganyKg === null
                 ? "Balast: brak danych normowych dla żadnego z ustawień."
-                : `Balast minimalny (bez zapasu) dla najgorszego ustawienia${v.liczbaMiesiecyBezDanychWiatru > 0 ? " do 30°" : ""}: ${f0(v.balastWymaganyKg)} kg.`}
+                : `Balast projektowy (PN-EN 1990, przeciw oderwaniu) dla najgorszego ustawienia${v.liczbaMiesiecyBezDanychWiatru > 0 ? " do 30°" : ""}: ${f0(v.balastWymaganyKg)} kg.`}
             </li>
           </ul>
           <div className="mt-3">

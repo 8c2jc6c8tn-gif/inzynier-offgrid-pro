@@ -179,6 +179,7 @@ export const KAFLE: KafelEntry[] = [
     opis: "Termika budynku, pompa ciepła, wentylacja.",
     ikona: "🔥",
     ekrany: [
+      { href: "/kalkulatory/obciazenie-cieplne", label: "Straty ciepła budynku (przegrody, powietrze, miesiące)" },
       { href: "/kalkulatory/cop-pompy-ciepla", label: "COP pompy ciepła w funkcji temperatury" },
       { href: "/kalkulatory/pompy-cyrkulacyjne", label: "Pompy cyrkulacyjne — dobór" },
       { href: "/kalkulatory/bufor-ciepla", label: "Bufor ciepła — dobór pojemności" },

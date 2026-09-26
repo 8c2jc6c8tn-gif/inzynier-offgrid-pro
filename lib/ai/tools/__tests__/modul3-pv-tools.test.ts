@@ -222,14 +222,14 @@ describe("zlotySrodekTool (M3/E9)", () => {
     wspolczynnikPhi: 0,
   }
 
-  it("wysokość n.p.m. i cena balastu z podpowiedzi → założenia jawne; zawsze ostrzeżenie o PN-EN 1990", async () => {
+  it("wysokość n.p.m. i cena balastu z podpowiedzi → założenia jawne; zawsze ostrzeżenie o zakresie balastu EQU", async () => {
     const json = odpowiedzPvgis()
     const w = await utworzZlotySrodekTool((async () => new Response(JSON.stringify(json))) as unknown as typeof fetch).handler(wejscie)
     expect(w.status).toBe("VALID_WITH_WARNINGS")
     expect(w.rekomendacjaDeg).toBeNull()
     expect(w.punkty.map((p) => p.nachylenieDeg)).toContain(90)
     expect(w.punkty.find((p) => p.nachylenieDeg === 90)!.balastKg).toBeNull()
-    expect(w.ostrzezenia).toContain(t("pl", "ZS-BALAST-BEZ-WSPOLCZYNNIKOW"))
+    expect(w.ostrzezenia).toContain(t("pl", "ZS-BALAST-EQU-TYLKO-ODRYWANIE"))
     expect(w.zalozenia).toContain(t("pl", "ZS-ZALOZENIE-CENA-BALASTU", { cena: 1 }))
     expect(w.zalozenia[0]).toMatch(/^Wysokość n\.p\.m\. z PVGIS/)
     bezBrakujacegoKlucza([...w.ostrzezenia, ...w.zalozenia])
@@ -318,13 +318,13 @@ describe("typMontazuTool (M3/E2)", () => {
     bezBrakujacegoKlucza([...w.ostrzezenia, ...w.zalozenia])
   })
 
-  it("dach płaski: brak danych wiatru → INCOMPLETE, bez zgadywania; komplet → balast z ostrzeżeniem PN-EN 1990", async () => {
+  it("dach płaski: brak danych wiatru → INCOMPLETE, bez zgadywania; komplet → balast EQU z ostrzeżeniem o zakresie", async () => {
     const geometria = { tryb: "dach_plaski_grunt" as const, miejsce: "grunt" as const, nachylenieDeg: 30, dlugoscWzdluzSpaduM: 2, szerokoscStelazaM: 5, wysokoscDolnejKrawedziM: 0.5 }
     expect((await typMontazuTool.handler(geometria)).status).toBe("INCOMPLETE")
     const w = await typMontazuTool.handler({ ...geometria, strefaWiatrowa: 1, kategoriaTerenu: "III", wysokoscNpmM: 100, wspolczynnikPhi: 0 })
     expect(w.dachPlaski!.podniesienieM).toBeCloseTo(1, 12)
     expect(w.dachPlaski!.balastKg).toBeGreaterThan(0)
-    expect(w.ostrzezenia).toContain(t("pl", "ZS-BALAST-BEZ-WSPOLCZYNNIKOW"))
+    expect(w.ostrzezenia).toContain(t("pl", "ZS-BALAST-EQU-TYLKO-ODRYWANIE"))
   })
 
   it("pionowy i regulowany pobierają PVGIS po stronie serwera; błąd PVGIS → INCOMPLETE z komunikatem", async () => {

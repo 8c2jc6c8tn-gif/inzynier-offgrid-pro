@@ -366,7 +366,7 @@ export default function ZlotySrodekPage() {
               <WynikGlowny>{rek.nachylenieDeg}°</WynikGlowny>
               <p className="text-small">
                 Przy {rek.nachylenieDeg}° masz {f1((100 * rek.napromieniowanieRoczneKwhM2) / hMax)}% energii najlepszego
-                kąta ({r.optimumEnergiiDeg}°), siła wiatru to {f0(rek.silaWiatruN!)} N, a balast{" "}
+                kąta ({r.optimumEnergiiDeg}°), siła wiatru to {f0(rek.silaWiatruN!)} N, a balast projektowy (PN-EN 1990){" "}
                 <strong>{f0(rek.balastKg!)} kg</strong> ≈ {f0(rek.kosztBalastuZl!)} zł. Bilans w okresie analizy
                 (wartość energii minus balast): {f0(rek.bilansZl!)} zł — najwyższy spośród kątów 0–30°.
               </p>
@@ -441,7 +441,7 @@ export default function ZlotySrodekPage() {
                   <th className="p-2 font-medium">Kąt</th>
                   <th className="p-2 text-right font-medium">Energia</th>
                   <th className="p-2 text-right font-medium">Wiatr [N]</th>
-                  <th className="p-2 text-right font-medium">Balast [kg]</th>
+                  <th className="p-2 text-right font-medium">Balast proj. [kg]</th>
                   <th className="p-2 text-right font-medium">Koszt [zł]</th>
                 </tr>
               </thead>

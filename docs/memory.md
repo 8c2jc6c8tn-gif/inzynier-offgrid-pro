@@ -6797,3 +6797,56 @@ fizyka budowli) ocenione jako prawdopodobnie poza rdzeniem tego projektu (ogóln
 off-grid PV) — rekomendacja przeniesienia do `new-app-standards` jako generyczna biblioteka,
 decyzja czeka na najbliższą sesję nad tym repo (zgodnie z prośbą właściciela: "zaznacz jakie pliki
 są potrzebne").
+
+## Synchronizacja ze standardem — Y.6 na polecenie właściciela (26.09.2026, ok. 04:00 UTC)
+
+Świeży płytki klon `new-app-standards` (`aaabc19`, 25.09 23:16). `AKTUALIZACJE.md` — nowy wiersz 2026-09-25
+(blok U.4: zero-waste ×7, ten projekt ×3). **Zastosowane wg Y.8:**
+- *NIETYKALNE (pełny nadpis):* GOD BOOK `v2_38.md`→`v2_39.md` (B.5 — do startu aplikacji wszystkie oryginały
+  w `docs/zrodla/`, po starcie do `new-app-standards`; N.1 — kompletność źródło→rejestr liczona mechanicznie),
+  `docs/standards/` 00-INDEKS, 00-filozofia, 05, 08, 10, 11, 14, 16; `PROMPT_STARTOWY.md`. Pozostałe rozdziały
+  i `docs/przyklady/i18n/*` — identyczne (`diff -rq`).
+- *ADAPTOWALNE (patch odsyłaczy v2_38→v2_39):* `CLAUDE.md`, `.claude/skills/standards/SKILL.md`, `00_Biblia.md`,
+  `01_Zasady_Pracy_i_Konwencje.md`, `README.md`, nagłówek `docs/lista-do-zrobienia.md` (wpisy historyczne
+  i `rejestr-decyzji.md` bez zmian — C.5).
+- *LOKALNE:* `docs/wklad-do-standardu.md` — 3 wpisy z 25.09 oznaczone ✅ skonsolidowane (N.1/14.1, B.5, 8.10).
+- **Y.2 (dryf kodu od nowej reguły 8.10, naprawiony od razu):** `Pole`/`PoleSelect` budowały `id` z etykiety →
+  teraz `useId()`, jawne `id` nadal ma pierwszeństwo. Nikt nie odwoływał się do starych `id` `pole-*` (grep).
+- **Uwaga B.5:** reguła mówi „do startu aplikacji wszystkie oryginały w repo” — PDF PN-EN 1991-1-4 trzymany poza
+  repo (plan B z 25.09) *może* teraz trafić do `docs/zrodla/` (sformułowanie `AKTUALIZACJE.md`: „może”).
+  Decyzja właściciela — oryginału i tak nie ma w tej sesji.
+- **Nowe reguły do przeglądu przy okazji (nie w tym zadaniu):** 10.9 (e2e na buildzie produkcyjnym — oględziny
+  tej sesji już tak robione), 16.8 (rozruch aplikacji niezależny od języka).
+- Cykl adaptacyjny: znaleziono nowość → `interwał_h = 12`, `licznik_zero_z_rzedu = 0`; Routine przestawiona na +12 h.
+
+## Balast projektowy PN-EN 1990 (M3/E9, E2, E6) — D29 (26.09.2026)
+
+- Wspólny `lib/core/modules/pv/eurokod-0/rownowaga.ts`: EQU (6.7), Tablica A1.2(A) — `γG,inf = 0,90`, `γQ,1 = 1,50`,
+  NB „bez zmian krajowych”. **Wartości zweryfikowane wizualnie** (PyMuPDF → PNG, strony PDF 34, 40, 41, 71), nie
+  tylko z OCR. `poppler`/`pdftoppm` w kontenerze brak — `pip install pymupdf` działa (Read na PDF wymaga pdftoppm).
+- `m = γQ·Fw/(γG,inf·g)` = 1,667 × dawne `Fw/g`. Ciężar paneli/stelaża pominięty (po stronie bezpiecznej), cała
+  siła jako pionowa. Przesuw/wywracanie — nadal nie (brak μ i punktu przyłożenia) → `ZS-BALAST-EQU-TYLKO-ODRYWANIE`
+  (`warning`) zastąpił `ZS-BALAST-BEZ-WSPOLCZYNNIKOW` (klucz usunięty ze słowników).
+- E6: balast z `F = 0,5ρv²ACd` (info: tylko dla szczytowego porywu, tor normowy w E2/E9) + opcjonalny „planowany
+  balast” → twardy stop `NW-BALAST-NIEWYSTARCZAJACY` (źródło, lista twardych stopów M3) — dopisany do rejestru.
+  Stary draft E6 bez nowego pola: `stan.balastPlanowanyKg ?? ""` (`usePersistedDraft` nie scala z wartościami
+  początkowymi — pułapka przy dodawaniu pola do istniejącego szkicu).
+- **Pułapka (złapana przez test):** wartość referencyjną wpisałem z pamięci zamiast skopiować wynik Pythona
+  (169,947 vs 169,953) — test to wychwycił. Liczby referencyjne zawsze kopiować z wydruku skryptu.
+
+## M6/E1 „Straty ciepła budynku” (dawne 5.1) — 26.09.2026
+
+- Źródło opisuje silnik fizycznie („z różnicy temperatur i współczynników U, dla każdego miesiąca”) — zbudowane
+  bez PN-EN 12831-1 (jej w repo nie ma; Purmo to poradnik z zastrzeżeniem „nie zastępuje normy”). θe stref I–V
+  (−16…−24 °C) z **dwóch zgodnych źródeł**: PN-82/B-02403 Tablica 1 i Purmo Tabela 2.1 (zał. krajowy PN-EN 12831).
+- `wspolczynnikStratWentylacyjnychWK` wyekstrahowany z M6/E12 (echo). Przegroda „inna” (grunt, nieogrzewane)
+  wymaga temperatury — bez niej INCOMPLETE, nigdy ciche „powietrze zewnętrzne” (pierwsza wersja UI podsuwała
+  `NaN` — odrzucone, rozróżnienie `zewnetrzna` przeniesione do domeny).
+- Przykład źródła: 8 kW × 24 h = 192 kWh ✓; „COP 3 → 60 kWh” to 64 kWh — rozbieżność przykładu (Dyrektywa #5).
+- **Zapis PVGIS TMY nie przechowuje temperatur** (tylko promieniowanie) — miesiące E1 z temperatur wpisanych
+  ręcznie; automatyczne wypełnienie wymaga zmiany schematu zapisu (zadanie na liście).
+- Rejestr M6 Część 1: 15 brakujących wierszy dodanych (20/20) — N.1. Część 2 (74 funkcje) — zadanie na liście.
+- **Oględziny:** headless Chromium domyślnie `en-US` → teksty założeń po angielsku; z `locale: "pl-PL"` poprawnie.
+  Weryfikacja: typecheck / lint (0 błędów) / i18n-guard (115) / test 1362/1362 / build / audit:gate; `next start`
+  + Playwright 390 px: 6 tras, brak `⚠ [klucz]`, brak zduplikowanych `id`, brak poziomego przewijania; 404 tylko
+  `/_vercel/insights`. E1: 3 przegrody + wentylacja = 4,8 kW (ręcznie: 2800 + 2010 W ✓).

@@ -1,6 +1,6 @@
 import type { Assumption, CalcResult, Status, Warning } from "@/lib/core/calc-result"
 
-export const CALCULATOR_VERSION = "1.0.0"
+export const CALCULATOR_VERSION = "1.1.0"
 
 /** D13: status podnoszą tylko ostrzeżenia `warning`/`critical`, `info` zostawia VALID. */
 export function statusZOstrzezen(warnings: Warning[]): Status {

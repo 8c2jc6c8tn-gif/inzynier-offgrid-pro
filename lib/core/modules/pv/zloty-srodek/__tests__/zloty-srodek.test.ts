@@ -39,13 +39,13 @@ describe("calculateZlotySrodek (M3/E9, D27)", () => {
     expect(calculateZlotySrodek({ ...bazowe, cenaBalastuZlKg: null }).status).toBe("INCOMPLETE")
   })
 
-  it("tor wiatru: qp = ce·qb; przy 30° (φ = 0) Fw = 1,8·qp·A, balast = Fw/g, koszt = kg × cena", () => {
+  it("tor wiatru: qp = ce·qb; przy 30° (φ = 0) Fw = 1,8·qp·A, balast EQU = 1,5·Fw/(0,9·g), koszt = kg × cena", () => {
     const r = calculateZlotySrodek({ ...bazowe, cenaBalastuZlKg: 2 })
     expect(r.status).toBe("VALID_WITH_WARNINGS")
     expect(r.value!.qpPa).toBeCloseTo(qp, 6)
     const p30 = r.value!.punkty[30]!
     expect(p30.silaWiatruN).toBeCloseTo(1.8 * qp * 10, 6)
-    expect(p30.balastKg).toBeCloseTo((1.8 * qp * 10) / PRZYSPIESZENIE_ZIEMSKIE_M_S2, 6)
+    expect(p30.balastKg).toBeCloseTo((1.5 * 1.8 * qp * 10) / (0.9 * PRZYSPIESZENIE_ZIEMSKIE_M_S2), 6)
     expect(p30.kosztBalastuZl).toBeCloseTo(p30.balastKg! * 2, 6)
   })
 
@@ -64,12 +64,12 @@ describe("calculateZlotySrodek (M3/E9, D27)", () => {
     expect(r.punkty[45]!.mu1).toBeCloseTo(0.4, 9)
   })
 
-  it("bez wyceny energii: brak rekomendacji + info; ostrzeżenie o braku PN-EN 1990 zawsze", () => {
+  it("bez wyceny energii: brak rekomendacji + info; ostrzeżenie o zakresie balastu EQU zawsze", () => {
     const r = calculateZlotySrodek(bazowe)
     expect(r.value!.rekomendacjaDeg).toBeNull()
     expect(r.value!.optimumEnergiiDeg).toBe(38)
     expect(kody(r)).toEqual([
-      "ZS-BALAST-BEZ-WSPOLCZYNNIKOW",
+      "ZS-BALAST-EQU-TYLKO-ODRYWANIE",
       "ZS-REKOMENDACJA-WYMAGA-WYCENY",
       "ZS-OPTIMUM-ENERGII-POZA-ZAKRESEM-WIATRU",
     ])

@@ -83,6 +83,8 @@ Przykład: *"Brakuje informacji o dacie otwarcia opakowania. Wynik został polic
 
 Nie polegaj wyłącznie na kolorze do przekazania informacji (werdykty 🟢🟡🔴 mają też kształt/ikonę, nie tylko barwę). Zachowaj odpowiedni kontrast. Etykiety dla czytników ekranu. Nie blokuj powiększenia. Obsługa klawiaturą. Unikaj migających elementów.
 
+**`id` pola formularza generowany unikalnie, nigdy z tekstu etykiety.** [25.09.2026] ✅ DODANO — źródło: inzynier-offgrid-pro (U.4). Współdzielony komponent pola formularza budował `id` wyłącznie z tekstu etykiety — w liście (`.map()`) z powtarzającą się etykietą N pól dostało to samo `id`: `<label for>` wiąże się tylko z pierwszym, klik w etykietę i czytnik ekranu trafiają w złe pole, a `getByLabel` Playwrighta znajduje jeden element. Błąd niewidoczny dla typecheck, lint i testów jednostkowych. Reguła: `id` z generatora unikalnego identyfikatora frameworka (React: `useId()`) albo przekazany jawnie przez wywołującego — treść etykiety nigdy nie jest identyfikatorem.
+
 ## 8.11. Wskaźnik stanu offline
 
 [24.09.2026] ✅ DODANO — źródło: inzynier-szkieletowy-pro (U.4), Grupa B bloku PWA/SW (5.8-5.10).

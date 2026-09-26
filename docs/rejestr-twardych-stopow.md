@@ -177,6 +177,12 @@ nie do audytu poprawności formularza webowego.
   zakaz źródła.
   (M11/B12 — `lib/core/modules/montaz-baterii/przechowywanie-recykling-olow/constants.ts`,
   pozycja `zakaz-wylewania` w `RECYKLING_FAKTY`)
+- **[26.09.2026] Planowany balast stelaża PV mniejszy niż balast projektowy przeciw oderwaniu
+  (PN-EN 1990, EQU)** — przy silnym wietrze stelaż może zostać oderwany. Źródło: Moduł 3, lista
+  twardych stopów ("niewystarczający balast/kotwienie względem naporu wiatru (Ekran 6)").
+  (M3/E6 — `lib/core/modules/pv/napor-wiatru/warnings.ts`, `balastNiewystarczajacy`, kod
+  `NW-BALAST-NIEWYSTARCZAJACY`; sprawdzany tylko, gdy użytkownik wpisze planowany balast. Przesuw i
+  wywracanie niesprawdzane — brak współczynnika tarcia i punktu przyłożenia siły.)
 
 ## Znane luki (świadomie, nie przeoczenie)
 

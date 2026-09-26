@@ -1,4 +1,4 @@
-import type { InputHTMLAttributes, ReactNode, SelectHTMLAttributes } from "react"
+import { useId, type InputHTMLAttributes, type ReactNode, type SelectHTMLAttributes } from "react"
 import { PomocPole } from "@/components/ui/chmurka"
 import { cn } from "@/lib/utils"
 
@@ -58,7 +58,9 @@ type PoleProps = Omit<InputHTMLAttributes<HTMLInputElement>, "className" | "id">
 
 /** Pole tekstowe/liczbowe. Zastępuje duplikowany `Field`/`inputClass` z ekranów kalkulatorów. */
 export function Pole({ label, unit, hint, pomoc, error, className, id, ...props }: PoleProps) {
-  const inputId = id ?? `pole-${label.replace(/\s+/g, "-").toLowerCase()}`
+  // Standard 8.10: id from useId(), never from the label text (repeated labels in lists).
+  const autoId = useId()
+  const inputId = id ?? autoId
   return (
     <div className="flex flex-col gap-1 text-small">
       <Etykieta label={label} unit={unit} hint={hint} pomoc={pomoc} htmlFor={inputId} />
@@ -88,7 +90,8 @@ type PoleSelectProps = Omit<SelectHTMLAttributes<HTMLSelectElement>, "className"
 
 /** Pole wyboru (select) w tym samym stylu co `Pole` — ta sama skala stanów. */
 export function PoleSelect({ label, hint, pomoc, className, id, children, ...props }: PoleSelectProps) {
-  const selectId = id ?? `pole-select-${label.replace(/\s+/g, "-").toLowerCase()}`
+  const autoId = useId()
+  const selectId = id ?? autoId
   return (
     <div className="flex flex-col gap-1 text-small">
       <Etykieta label={label} hint={hint} pomoc={pomoc} htmlFor={selectId} />

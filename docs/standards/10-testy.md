@@ -92,3 +92,17 @@ Legenda statusu przy prowadzeniu audytu: ✅ sprawdzone i potwierdzone · ❌ sp
 **Dodatkowe szczegóły implementacji.** [24.09.2026, uzupełnienie po odczytaniu dosłownego źródła] Dowód, że odpowiedź faktycznie poszła przez SW (nie przez sieć mimo trybu offline): `response.fromServiceWorker()`. Liczenie przeładowań strony: `request.isNavigationRequest()` na głównej ramce (`page.on('request', ...)`), nie zdarzenie `framenavigated` — to drugie liczy podwójnie przy `history.replaceState()` używanym przez router frameworka. Serwer produkcyjny (`next start`/odpowiednik) uruchamiany z opcją odseparowania od procesu testowego (np. `{detached: true}` w Node.js) i ubijany przez zabicie **grupy procesów** (`process.kill(-pid)`), nie pojedynczego procesu — polecenia `pkill -f`/`pgrep -f` po nazwie ryzykują trafienie i ubicie własnej powłoki wywołującej test, jeśli nazwa procesu jest zbyt ogólna.
 
 Przykład (dosłowny kod core'u testowanego SW): `docs/przyklady/pwa/sw-rdzen.js`.
+
+## 10.9. E2E domyślnie na buildzie produkcyjnym — `dev` tylko jako szybka pętla robocza
+
+[25.09.2026] ✅ DODANO — źródło: zero-waste (U.4, `rejestr-decyzji.md` D143–D146), rozstrzygnięte przez właściciela repo: build produkcyjny jako domyślny. Trzy znaleziska tego samego bloku mają jedną przyczynę — e2e uruchamiane wyłącznie na serwerze deweloperskim (`next dev` lub odpowiednik).
+
+**Przypadek, który uzasadnił regułę.** Service Worker jest w trybie deweloperskim wyłączony (5.8 — SW w dev samo-wyrejestrowuje się), więc tryb offline aplikacji PWA **nie miał żadnego testu**. W produkcji SW w ogóle się nie instalował — jeden plik z listy precache zwracał 404 przez middleware i18n, a instalacja precache jest atomowa (5.8). Suite e2e był zielony przez cały ten czas.
+
+**Reguła.** Suite e2e uznawany za dowód działania (DoD 10.4, CI) biegnie na **buildzie produkcyjnym** (`next build` + `next start` lub odpowiednik). Serwer deweloperski wolno używać wyłącznie jako szybkiej pętli roboczej przy pisaniu testu — zielony wynik na `dev` nie jest dowodem niczego, co zależy od buildu (SW/offline, precache, nagłówki, optymalizacje, middleware w trybie produkcyjnym). Funkcje PWA/offline są testowalne **tylko** na buildzie produkcyjnym (10.8).
+
+**Gdy e2e świadomie biegnie na `dev` (pętla robocza) — dwa znane źródła niestabilności.**
+1. **Hydratacja nie kończy się przed pierwszą akcją testu** — kliknięcie trafia w element jeszcze bez podpiętych handlerów. Test czeka na **jawny sygnał gotowości wystawiony przez samą aplikację** (np. atrybut `data-hydrated` ustawiany na `<html>` w efekcie komponentu głównego), nigdy na `sleep`/stały timeout i nigdy na wewnętrzne pola frameworka (np. `__reactProps$…` — nie są API, mogą zniknąć w dowolnej wersji).
+2. **Pierwsza kompilacja trasy na zimnym `.next` przeładowuje stronę otwartą w innym teście.** `globalSetup` rozgrzewa **wszystkie** trasy przed startem workerów — lista tras wykryta automatycznie ze struktury `app/`, nie z ręcznej listy (ta sama zasada co lista stron w 10.8).
+
+Żaden z tych dwóch środków nie zastępuje przebiegu na buildzie produkcyjnym — usuwają niestabilność pętli roboczej, nie ślepą plamkę `dev`.
