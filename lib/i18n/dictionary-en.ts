@@ -481,9 +481,7 @@ export const dictionaryEn = {
   "SILA-NAPORU":
     "A panel acts a bit like a sail — at this wind speed, a force of about {sila} N acts on one " +
     "panel. Plan the mounting/ballast to match this force.",
-  "TYLKO-SILA-NAPORU-NIE-SSANIE":
-    "Only the frontal wind-thrust force — suction from below, the overturning moment, and the " +
-    "required ballast are NOT calculated (they require mounting geometry the source doesn't give as numbers).",
+  "TYLKO-SILA-NAPORU-NIE-SSANIE": "Frontal wind-thrust force and ballast against uplift — suction from below as a separate value and the overturning moment are NOT calculated (they require mounting geometry the source doesn't give as numbers).",
   "DUZA-ROZNICA-MOCY":
     "The power difference between panels ({roznica}%) exceeds 15% — split them across separate " +
     "MPPTs or connect them in parallel if their Vmp is close.",
@@ -900,7 +898,6 @@ export const dictionaryEn = {
   "WZ-ZALOZENIE-ODNIESIENIE": "Reference: panels facing south (180°) at the best fixed tilt for this location — {kat}°.",
   "WZ-ZALOZENIE-UDZIAL-MOCY": "Panel power: {wschod}% east, {zachod}% west — the same panel technology on both roof planes (irradiation weighted by power).",
   "ZS-WYSOKOSC-POZA-WZOREM-STREFY-3": "The zone 3 formula (PN-EN 1991-1-4, Table NA.1) applies only below 20,000 m above sea level — check the altitude you entered.",
-  "ZS-BALAST-BEZ-WSPOLCZYNNIKOW": "The ballast is only the mass that balances the wind force (m = F/g). It contains no safety factors from PN-EN 1990 (this standard is not in the app) and no sliding or overturning check. It is an indicative minimum, not a design ballast — confirm the final mass with a structural engineer.",
   "ZS-KAT-BEZ-DANYCH-WIATRU": "For a tilt of {kat}° PN-EN 1991-1-4 gives no force coefficient for a canopy (Table 7.6 stops at 30°; for vertical only 90° is given). The app does not guess this value — wind force and ballast are not calculated.",
   "ZS-PION-SILA-POZIOMA": "At 90° the wind pushes the panel horizontally (coefficient 1.80, PN-EN 1991-1-4, 7.4.3). Ballast mass then depends on friction with the ground and on overturning — the standard does not give these, so the app does not compute ballast kg for vertical. For vertical mounting, ground anchor posts are more practical.",
   "ZS-REKOMENDACJA-WYMAGA-WYCENY": "To point to the best tilt, enter the panel power, PR, the price of 1 kWh and the number of years. The app then compares the energy value with the ballast cost for every tilt. Without them you see the charts and can check any tilt.",
@@ -909,7 +906,18 @@ export const dictionaryEn = {
   "ZS-ZALOZENIE-CSCD": "Structural factor cscd = {cscd} — the standard allows it for low, stiff structures (6.2); for a rack it is an assumption.",
   "ZS-ZALOZENIE-CDIR-CSEASON": "Directional and season factors = 1.0 (most unfavourable; Table NA.2, NA.4) — the wind direction relative to the rack is unknown.",
   "ZS-ZALOZENIE-KAT-POSREDNI": "For a tilt between rows of Table 7.6 (5° steps) the more unfavourable of the two neighbouring values is used; blockage under the rack φ — linear interpolation (7.3 (3)).",
-  "ZS-ZALOZENIE-BALAST-PIONOWO": "The whole wind force is treated as lifting vertically (conservative), m = F/g with g = {g} m/s².",
+  "ZS-ZALOZENIE-BALAST-PIONOWO": "The whole wind force is treated as lifting vertically (conservative), g = {g} m/s².",
+  "NW-PREDKOSC-SZCZYTOWA": "The ballast on this screen is meaningful only if the speed you entered is the strongest wind gust for your location. A more accurate value per the wind standard PN-EN 1991-1-4 (zone, terrain, height, angle) is on the “Mounting type” and “Golden mean” screens.",
+  "NW-BALAST-NIEWYSTARCZAJACY": "Ballast too small: you plan {planowany} kg, but the design requires at least {wymagany} kg. In strong wind the frame may be lifted off — add ballast or anchor the frame in the ground.",
+  "ZS-ZALOZENIE-BALAST-EQU": "Design ballast: PN-EN 1990, expression (6.7), Table A1.2(A) — γQ = {gammaQ} for wind (unfavourable action), γG,inf = {gammaG} for ballast (favourable action); Polish National Annex NB makes no national changes. Weight of panels and frame ignored (on the safe side).",
+  "ZS-BALAST-EQU-TYLKO-ODRYWANIE": "The ballast is a design value per PN-EN 1990 (static equilibrium, EQU): wind force ×1.5, ballast weight counted at only 90%. This protects the frame against being lifted off. Sliding (needs the ground friction coefficient) and overturning (needs the point where the force acts) are not checked — confirm ballast layout and fixing with a structural engineer.",
+  "OC-TEMP-WEWN-NIE-WYZSZA": "The indoor temperature ({ti} °C) is not higher than the design outdoor temperature ({te} °C) — check your input.",
+  "OC-BEZ-PN-EN-12831": "These are heat losses through the building envelope and through air exchange — exactly as the source describes. They do not include thermal bridges, the detailed ground-loss method, solar and internal gains or the reheat capacity of the full PN-EN 12831-1 standard (not available in the app). Thermal bridges increase losses — keep a margin when sizing the heat source or ask a designer for the full calculation.",
+  "OC-MIESIACE-ZE-SREDNICH": "Monthly heat is computed from the monthly mean temperature. In transition months (warm and cold days mixed) the result is slightly too low, while ignoring solar and internal gains makes it too high.",
+  "OC-ZALOZENIE-TEMP-STREFY": "Design outdoor temperature for climate zone {strefa}: {te} °C (PN-82/B-02403, Table 1 — the national annex of PN-EN 12831 gives the same values).",
+  "OC-ZALOZENIE-DOBA-PRZY-TE": "Heat per day = heat loss × 24 h at the design temperature all day long (coldest design day).",
+  "OC-ZALOZENIE-STALA-TEMP-PRZYLEGLYCH": "The temperature on the other side of ground-contact partitions and unheated spaces is constant, as you entered it, all year.",
+  "OC-ZALOZENIE-COP": "Electric energy = heat ÷ COP, COP = {cop} (resistive heater, electric boiler: 1).",
   "ZS-ZALOZENIE-CENA-BALASTU": "Ballast price {cena} PLN/kg — the 1 PLN/kg hint is the project owner's value for self-cast blocks (not from a source or standard); you can enter your own.",
   "ZS-ZALOZENIE-SNIEG-MU1": "Snow: shape coefficient μ1 from PN-EN 1991-1-3, Table 5.2 — valid when nothing stops snow sliding off the lower panel edge.",
   "LP-SEZON-BEZ-MIESIECY": "You entered extra winter demand — also tick the months when you heat, so the app knows when to add it.",

@@ -44,13 +44,17 @@ export function wysokoscPozaWzoremStrefy3(value: number): Warning {
   }
 }
 
-/** D27: brak PN-EN 1990 — balast to masa równoważąca samą siłę wiatru, nie balast projektowy. */
-export function balastBezWspolczynnikow(): Warning {
+/**
+ * Design ballast per PN-EN 1990 (EQU, Table A1.2(A)) — only uplift is checked. Sliding and
+ * overturning need a friction coefficient and the point of application of the force — not in the
+ * norms available to the app (6.4.2 (2) only allows adding friction, it gives no value).
+ */
+export function balastProjektowyEqu(): Warning {
   return {
-    code: "ZS-BALAST-BEZ-WSPOLCZYNNIKOW",
+    code: "ZS-BALAST-EQU-TYLKO-ODRYWANIE",
     level: "warning",
-    i18nKey: "ZS-BALAST-BEZ-WSPOLCZYNNIKOW",
-    technicalMessage: "m = Fw/g bez częściowych współczynników PN-EN 1990 (γQ, γG,inf), bez przesuwu i wywracania",
+    i18nKey: "ZS-BALAST-EQU-TYLKO-ODRYWANIE",
+    technicalMessage: "m = γQ·Fw/(γG,inf·g), EQU (6.7) — sprawdzone oderwanie; przesuw i wywracanie niesprawdzone",
   }
 }
 

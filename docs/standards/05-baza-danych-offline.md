@@ -66,6 +66,8 @@ Powiązane: [01 Architektura](01-architektura.md) · [02 Model danych](02-model-
 
 **Precache i i18n — konsekwencja istniejącego wzorca 5.2.** Blokujący skrypt pre-paint dla języka (5.2, wariant "treść w bundlu klienckim") bywa wliczany w całości do precache SW, jeśli treść wszystkich języków cache'owana jest jako jeden monolityczny plik — realny pomiar: 33,9 MB → 2,7 MB po wydzieleniu treści per język do osobnych plików, cache'owanych/dociąganych niezależnie. Sam wzorzec 5.2 (treść wszystkich języków w bundlu klienckim) zostaje poprawny — to struktura plików tej treści, nie jej obecność, decyduje o rozmiarze precache.
 
+**Instalacja precache jest atomowa — jeden błędny plik blokuje cały SW.** [25.09.2026] ✅ DODANO — źródło: zero-waste (U.4). Jeśli choć jeden zasób z listy precache zwróci błąd (np. 404), instalacja Service Workera zawodzi w całości — SW nie jest aktywowany, aplikacja nie ma żadnego trybu offline, a build i strona działają bez widocznego błędu. Realny przypadek: jeden plik precache przekierowany przez middleware i18n na 404. Konsekwencja: każdy URL z listy precache musi omijać middleware przepisujące ścieżki (i18n, auth) albo być przez nie jawnie przepuszczony; wykrywalne wyłącznie testem na buildzie produkcyjnym (10.9), nigdy na `dev`.
+
 ## 5.9. Aktualizacja Service Workera — toast, nie cichy automatyczny reload
 
 [24.09.2026] ✅ DODANO — źródło: inzynier-szkieletowy-pro (U.4), Grupa B bloku PWA/SW.
@@ -95,3 +97,9 @@ Przykład (dosłowny kod): `docs/przyklady/pwa/aktualizacja-sw.ts` + `docs/przyk
 **Reguła.** Warstwa otwierająca połączenie do IndexedDB (poza React) nasłuchuje trzech zdarzeń na otwartym połączeniu/żądaniu: `onversionchange` (inna karta podbija wersję — ta karta zamyka swoje połączenie, żeby nie blokować upgrade'u, i zgłasza „wymagane odświeżenie”), `onblocked` (ta karta upgrade'uje i czeka, aż inne zamkną swoje połączenia — informacyjnie, żądanie samo kontynuuje po zwolnieniu) i `onerror` z `error.name === 'VersionError'` (baza jest już nowsza niż kod tej karty — też „wymagane odświeżenie”). Zdarzenie trafia do subskrybentów spoza React (moduł-level, nie hook — store często rehydruje się zanim UI zdąży się zamontować, więc zdarzenie bywa zapamiętane i odtworzone późnym subskrybentom). UI pokazuje trwały toast „odśwież” z akcją — **nie** automatyczny reload, żeby nie zgubić niezapisanych pól formularza (spójne z 5.9).
 
 Przykład (dosłowny kod): `docs/przyklady/pwa/indexeddb-baza.ts` + `docs/przyklady/pwa/baza-wersja-listener.tsx`.
+
+## 5.12. Seed danych — sprawdzenie i zapis w jednej transakcji, nigdy "sprawdź, potem zapisz"
+
+[25.09.2026] ✅ DODANO — źródło: zero-waste (U.4, `rejestr-decyzji.md` D143–D146, BŁĄD). Seed danych początkowych w postaci "sprawdź, czy baza pusta → jeśli tak, zapisz" wykonany jako dwa osobne kroki poza wspólną transakcją (TOCTOU — stan zmienia się między sprawdzeniem a zapisem) **dublował dane** przy dwóch równoległych startach aplikacji (dwie karty, Strict Mode, podwójny rozruch — patrz 16.8).
+
+**Reguła.** Seed (i każdy inny zapis warunkowy "tylko jeśli jeszcze nie istnieje") wykonuje sprawdzenie **wewnątrz tej samej transakcji zapisu** (IndexedDB: jedna transakcja `readwrite` obejmująca odczyt i zapis), nie przed nią. Poprawność nie może zależeć od tego, że rozruch wykona się tylko raz — 16.8 zmniejsza liczbę wywołań, ta reguła gwarantuje poprawny wynik, nawet gdy wywołań jest kilka naraz (np. kilka kart, 5.11).

@@ -26,6 +26,13 @@ const FORMULA = "\\dot{Q} = \\frac{n \\times V \\times \\rho \\times c_p \\times
  * niezależnie w Pythonie. Poprawa 8% po uszczelnieniu (Sekcja C źródła) NIE jest tu liczona —
  * to pojedynczy przykład, nie ogólny współczynnik.
  */
+/**
+ * Ventilation heat loss coefficient H_V = n·V·ρ·cp/3600 [W/K] — shared with M6/E1 (heat load, echo D12).
+ */
+export function wspolczynnikStratWentylacyjnychWK(wymianyPowietrzaNaH: number, kubaturaM3: number): number {
+  return (wymianyPowietrzaNaH * kubaturaM3 * GESTOSC_POWIETRZA_KG_M3 * CIEPLO_WLASCIWE_POWIETRZA_J_KG_K) / 3600
+}
+
 export function calculateInfiltracjaPowietrza(
   input: InfiltracjaPowietrzaInput,
 ): CalcResult<InfiltracjaPowietrzaResult> {
@@ -67,13 +74,7 @@ export function calculateInfiltracjaPowietrza(
   }
 
   const deltaTK: number = input.deltaTK ?? 0
-  const strataCieplnaW =
-    (input.wymianyPowietrzaNaH *
-      input.kubaturaBudynkuM3 *
-      GESTOSC_POWIETRZA_KG_M3 *
-      CIEPLO_WLASCIWE_POWIETRZA_J_KG_K *
-      deltaTK) /
-    3600
+  const strataCieplnaW = wspolczynnikStratWentylacyjnychWK(input.wymianyPowietrzaNaH, input.kubaturaBudynkuM3) * deltaTK
   const strataCieplnaKw = strataCieplnaW / 1000
 
   const warnings = [...walidacyjneOstrzezenia, strataInfo(strataCieplnaKw)]

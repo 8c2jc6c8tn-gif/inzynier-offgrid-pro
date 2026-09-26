@@ -58,3 +58,14 @@ Ten rozdział, w odróżnieniu od reszty pakietu, nie dotyczy jednej warstwy czy
 **Reguła.** Asynchroniczna operacja, która na końcu resetuje/nadpisuje powiązany stan lokalny, zapamiętuje wartość tego stanu **PRZED** `await` i po zakończeniu operacji nadpisuje warunkowo — funkcyjnym `setState` porównującym wartość bieżącą z zapamiętaną (`setPole((current) => current === zapamietana ? '' : current)`), nigdy bezwarunkowo. Jeśli użytkownik zmienił stan w międzyczasie, jego świeższa wartość zostaje nietknięta.
 
 **Znalezienie tego wzorca błędu jest metodologicznie powiązane z 10.7** — wykryty nie przez zgadywanie, tylko przez odmowę zamknięcia niestabilnego testu e2e etykietą "flaky" bez diagnozy.
+
+## 16.8. Rozruch aplikacji — idempotentny, raz na cykl życia, niezależny od preferencji UI
+
+[25.09.2026] ✅ DODANO — źródło: zero-waste (U.4, `rejestr-decyzji.md` D143–D146, BŁĄD). Rozruch aplikacji (seed danych, uruchomienie synchronizacji, rejestracja nasłuchów globalnych) umieszczony w `useEffect` z zależnością od języka interfejsu odpalał się wielokrotnie — podwójnie w Strict Mode w dev i ponownie przy każdej zmianie języka w produkcji. Nasłuchy zdarzenia `online` mnożyły się z każdym przebiegiem.
+
+**Reguła.** Kod rozruchu aplikacji:
+1. **nie zależy od preferencji UI** (język, motyw, kontrast) — zmiana preferencji zmienia prezentację, nie uruchamia aplikacji od nowa (17: zmiana języka to przełączenie treści, nie restart);
+2. jest **idempotentny** — drugie wywołanie nie dubluje efektu (strażnik "już uruchomione" na poziomie modułu, nie stanu komponentu; każdy nasłuch rejestrowany z odpowiadającym mu wyrejestrowaniem w cleanup);
+3. nie polega na idempotentności jako jedynej ochronie dla zapisów danych — zapis warunkowy (seed) jest dodatkowo atomowy (5.12).
+
+**Test.** Strict Mode w dev jest tu sprzymierzeńcem, nie przeszkodą — podwójne wywołanie efektu ujawnia brak idempotentności od razu; wyłączenie Strict Mode, żeby "problem zniknął", jest maskowaniem błędu.

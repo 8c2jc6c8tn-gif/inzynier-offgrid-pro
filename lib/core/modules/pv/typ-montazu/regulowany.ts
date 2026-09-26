@@ -1,7 +1,8 @@
 import type { Assumption, CalcResult, Warning } from "@/lib/core/calc-result"
+import { GAMMA_G_INF_EQU, GAMMA_Q_EQU } from "../eurokod-0/rownowaga"
 import { CF_WIATA_MAX_KAT_DEG, KAT_PIONOWY_DEG } from "../eurokod-1/wiatr"
 import { CSCD_STELAZ, PRZYSPIESZENIE_ZIEMSKIE_M_S2 } from "../zloty-srodek/constants"
-import { balastBezWspolczynnikow, pionSilaPozioma } from "../zloty-srodek/warnings"
+import { balastProjektowyEqu, pionSilaPozioma } from "../zloty-srodek/warnings"
 import { LICZBA_MIESIECY, PROG_SSANIA_OD_SPODU_DEG } from "./constants"
 import type { RegulowanyInput } from "./input"
 import { validateRegulowany } from "./validation"
@@ -95,7 +96,7 @@ export function calculateRegulowany(input: RegulowanyInput): CalcResult<Regulowa
   const katMaksUzyty = Math.max(...miesiace.map((x) => x.katDeg))
 
   const warnings: Warning[] = []
-  if (balasty.length > 0) warnings.push(balastBezWspolczynnikow())
+  if (balasty.length > 0) warnings.push(balastProjektowyEqu())
   if (bezDanych > 0) warnings.push(miesiaceBezDanychWiatru(bezDanych))
   if (miesiace.some((x) => x.katDeg === KAT_PIONOWY_DEG)) warnings.push(pionSilaPozioma())
   if (katMaksUzyty >= PROG_SSANIA_OD_SPODU_DEG) warnings.push(ssanieOdSpodu(katMaksUzyty, PROG_SSANIA_OD_SPODU_DEG))
@@ -109,7 +110,10 @@ export function calculateRegulowany(input: RegulowanyInput): CalcResult<Regulowa
     { kod: "ZS-ZALOZENIE-CDIR-CSEASON" },
   ]
   if (miesiace.some((x) => katPosredniTablicy(x.katDeg))) assumptions.push({ kod: "ZS-ZALOZENIE-KAT-POSREDNI" })
-  if (balasty.length > 0) assumptions.push({ kod: "ZS-ZALOZENIE-BALAST-PIONOWO", params: { g: PRZYSPIESZENIE_ZIEMSKIE_M_S2 } })
+  if (balasty.length > 0) {
+    assumptions.push({ kod: "ZS-ZALOZENIE-BALAST-PIONOWO", params: { g: PRZYSPIESZENIE_ZIEMSKIE_M_S2 } })
+    assumptions.push({ kod: "ZS-ZALOZENIE-BALAST-EQU", params: { gammaQ: GAMMA_Q_EQU, gammaG: GAMMA_G_INF_EQU } })
+  }
   if (katMaksUzyty >= PROG_SSANIA_OD_SPODU_DEG) assumptions.push({ kod: "TM-ZALOZENIE-PROG-SSANIA", params: { prog: PROG_SSANIA_OD_SPODU_DEG } })
 
   return wynik(

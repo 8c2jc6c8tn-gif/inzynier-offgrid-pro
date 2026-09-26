@@ -80,15 +80,15 @@ describe("calculateDachPlaski (M3/E2, dawne 2.5)", () => {
     expect(calculateDachPlaski(bazowe).value!.podniesienieM).toBeCloseTo(1, 12)
   })
 
-  it("30°, φ = 0: Fw = 1,8·qp·L·B, balast = Fw/g; ze = krawędź dolna + h", () => {
+  it("30°, φ = 0: Fw = 1,8·qp·L·B, balast EQU = 1,5·Fw/(0,9·g); ze = krawędź dolna + h", () => {
     const r = calculateDachPlaski(bazowe)
     expect(r.status).toBe("VALID_WITH_WARNINGS")
     const v = r.value!
     expect(v.zeM).toBeCloseTo(1.5, 12)
     expect(v.qpPa).toBeCloseTo(qp, 6)
     expect(v.silaWiatruN).toBeCloseTo(1.8 * qp * 10, 6)
-    expect(v.balastKg).toBeCloseTo((1.8 * qp * 10) / PRZYSPIESZENIE_ZIEMSKIE_M_S2, 6)
-    expect(kody(r)).toEqual(["ZS-BALAST-BEZ-WSPOLCZYNNIKOW"])
+    expect(v.balastKg).toBeCloseTo((1.5 * 1.8 * qp * 10) / (0.9 * PRZYSPIESZENIE_ZIEMSKIE_M_S2), 6)
+    expect(kody(r)).toEqual(["ZS-BALAST-EQU-TYLKO-ODRYWANIE"])
     expect(v.mu1).toBe(0.8)
   })
 
@@ -241,7 +241,7 @@ describe("calculateRegulowany (M3/E2, D26)", () => {
     const v = r.value!
     expect(v.liczbaMiesiecyBezDanychWiatru).toBe(0)
     expect(v.balastWymaganyKg).toBe(Math.max(...v.miesiace.map((m) => m.balastKg!)))
-    expect(kody(r)).toEqual(["ZS-BALAST-BEZ-WSPOLCZYNNIKOW"])
+    expect(kody(r)).toEqual(["ZS-BALAST-EQU-TYLKO-ODRYWANIE"])
   })
 
   it("zakres odwrócony → INVALID_INPUT; zakres bez węzła siatki albo brak tabeli → INCOMPLETE", () => {

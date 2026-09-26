@@ -199,7 +199,7 @@ export default function KosztyOgrzewaniaPage() {
             min={0}
             value={stan.zapotrzebowanieSezonKwh}
             onChange={(e) => setStan((s) => ({ ...s, zapotrzebowanieSezonKwh: e.target.value }))}
-            hint="Z zużycia w poprzednich sezonach albo od projektanta. Aplikacja nie liczy go jeszcze z metrażu (brak normy PN-EN 12831-1)."
+            hint="Z zużycia w poprzednich sezonach, od projektanta albo suma miesięcy z ekranu „Straty ciepła budynku”."
           />
           <Pole
             label="Okres analizy"

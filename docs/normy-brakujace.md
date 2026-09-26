@@ -38,7 +38,7 @@ wtedy zaktualizowane — naprawione teraz, przy okazji.)*
   współczynniki bezpieczeństwa (obciążenie zmienne — wiatr, oddziaływanie stałe stabilizujące —
   ciężar balastu). **Blokuje:** balast PROJEKTOWY w M3/E9 (D27), M3/E6, M3/E2 — bez niej aplikacja
   pokazuje tylko masę równoważącą samą siłę wiatru. Potrzebny fragment: Załącznik A1 (tablice
-  wartości obliczeniowych oddziaływań) + Załącznik krajowy.
+  wartości obliczeniowych oddziaływań) + Załącznik krajowy. **[26.09.2026] UŻYTA** w kodzie: `lib/core/modules/pv/eurokod-0/` (balast projektowy M3/E9, E2, E6 — D29).
 
 ## 🔵 Spodziewane — zapowiedziane przez właściciela projektu
 
@@ -62,6 +62,10 @@ wtedy zaktualizowane — naprawione teraz, przy okazji.)*
   źródle); potrzebna, żeby ekran liczby paneli (M3/E4, D25) i dobór dogrzewania (pomysł
   „ogrzewanie paliwowe typu webasto”, 25.09.2026) mogły powiązać metraż budynku z zimowym
   zapotrzebowaniem, zamiast wpisu ręcznego.
+  **[26.09.2026] Częściowo obejście (nie pozyskanie):** M6/E1 „Straty ciepła budynku” zbudowany z fizyki
+  opisanej wprost w źródle (Σ U·A·ΔT + wentylacja) i temperatur obliczeniowych stref (PN-82/B-02403 =
+  zał. krajowy PN-EN 12831 wg Purmo). Norma nadal potrzebna do: mostków cieplnych (Ψ, M6/E7),
+  współczynników strat do gruntu, zysków i nadwyżki mocy na nagrzewanie — ekran jawnie ostrzega o ich braku.
 
 ## ⚪ Zidentyfikowane tylko z nazwy (z bibliografii/indeksów innych źródeł)
 

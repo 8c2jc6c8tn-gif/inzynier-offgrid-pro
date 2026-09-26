@@ -122,7 +122,7 @@ export function utworzTypMontazuTool(fetchImpl: typeof fetch = fetch): AiToolDef
       "trawa/zaspy pod panelami), 'dach_plaski_grunt' (podniesienie krawędzi h = L·sin α, siła wiatru i balast wg " +
       "PN-EN 1991-1-4 tylko dla 0–30° i 90°, śnieg), 'wiata' (ile paneli zmieści się na wiacie/carporcie, kWp, kąt " +
       "samooczyszczania 5–10°), 'regulowany' (stelaż z ręczną zmianą kąta: kąt na każdy miesiąc w zakresie regulacji, " +
-      "zysk vs kąt stały, balast dla najgorszego ustawienia). Balast bez współczynników PN-EN 1990 — zawsze to przekaż. " +
+      "zysk vs kąt stały, balast dla najgorszego ustawienia). Balast projektowy wg PN-EN 1990 (EQU) tylko przeciw oderwaniu, bez przesuwu i wywracania — zawsze to przekaż. " +
       "Dla oceny połaci dachu z modelu budynku użyj 'ocen_orientacje_powierzchni'.",
     inputSchema: TypMontazuToolInput,
     outputSchema: TypMontazuToolOutput,

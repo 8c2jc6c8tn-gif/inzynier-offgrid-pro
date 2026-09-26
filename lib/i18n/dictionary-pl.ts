@@ -492,9 +492,7 @@ export const dictionaryPl = {
   "SILA-NAPORU":
     "Panel działa trochę jak żagiel — przy tym wietrze na jeden panel działa siła ok. {sila} N. " +
     "Zaplanuj mocowanie/balast odpowiedni do tej siły.",
-  "TYLKO-SILA-NAPORU-NIE-SSANIE":
-    "Tylko siła naporu (parcie na przód panelu) — siła ssania od spodu, moment wywracający i " +
-    "wymagany balast NIE liczone (wymagają geometrii montażu, której źródło nie podaje jako liczb).",
+  "TYLKO-SILA-NAPORU-NIE-SSANIE": "Siła naporu (parcie na przód panelu) i balast przeciw oderwaniu — siła ssania od spodu osobno i moment wywracający NIE liczone (wymagają geometrii montażu, której źródło nie podaje jako liczb).",
   "DUZA-ROZNICA-MOCY":
     "Różnica mocy paneli ({roznica}%) przekracza 15% — rozdziel je na osobne MPPT albo połącz " +
     "równolegle, jeśli mają zbliżone Vmp.",
@@ -912,7 +910,6 @@ export const dictionaryPl = {
   "WZ-ZALOZENIE-ODNIESIENIE": "Odniesienie: panele skierowane na południe (180°) pod najlepszym kątem stałym dla tej lokalizacji — {kat}°.",
   "WZ-ZALOZENIE-UDZIAL-MOCY": "Moc paneli: {wschod}% na wschodzie, {zachod}% na zachodzie — ta sama technologia paneli na obu połaciach (nasłonecznienie ważone mocą).",
   "ZS-WYSOKOSC-POZA-WZOREM-STREFY-3": "Wzór strefy 3 (PN-EN 1991-1-4, Tablica NA.1) działa tylko dla wysokości poniżej 20 000 m n.p.m. — sprawdź wpisaną wysokość.",
-  "ZS-BALAST-BEZ-WSPOLCZYNNIKOW": "Balast to masa, która tylko równoważy siłę wiatru (m = F/g). Nie ma w niej współczynników bezpieczeństwa z normy PN-EN 1990 (brak tej normy w aplikacji) ani sprawdzenia przesunięcia i przewrócenia stelaża. To orientacyjna wartość minimalna, nie balast projektowy — ostateczną masę potwierdź u konstruktora.",
   "ZS-KAT-BEZ-DANYCH-WIATRU": "Dla kąta {kat}° norma PN-EN 1991-1-4 nie podaje współczynnika siły dla wiaty (Tablica 7.6 kończy się na 30°, dla pionu jest tylko 90°). Aplikacja nie zgaduje tej wartości — siła wiatru i balast nie są policzone.",
   "ZS-PION-SILA-POZIOMA": "Przy 90° wiatr pcha panel poziomo (współczynnik 1,80, PN-EN 1991-1-4, p. 7.4.3). Masa balastu zależy wtedy od tarcia o podłoże i od przewracania — norma tego nie podaje, więc aplikacja nie liczy kg balastu dla pionu. Przy pionie praktyczniejsze są słupki kotwiczące w gruncie.",
   "ZS-REKOMENDACJA-WYMAGA-WYCENY": "Żeby wskazać najlepszy kąt, wpisz moc paneli, współczynnik PR, cenę 1 kWh i liczbę lat. Aplikacja porównuje wtedy wartość energii z kosztem balastu dla każdego kąta. Bez tych danych widzisz wykresy i możesz sprawdzić dowolny kąt.",
@@ -921,7 +918,18 @@ export const dictionaryPl = {
   "ZS-ZALOZENIE-CSCD": "Współczynnik konstrukcyjny cscd = {cscd} — norma dopuszcza go dla niskich, sztywnych konstrukcji (p. 6.2); dla stelaża to założenie.",
   "ZS-ZALOZENIE-CDIR-CSEASON": "Współczynnik kierunkowy i sezonowy = 1,0 (najbardziej niekorzystne; Tablica NA.2, NA.4) — bez znajomości kierunku wiatru względem stelaża.",
   "ZS-ZALOZENIE-KAT-POSREDNI": "Dla kąta między wierszami Tablicy 7.6 (co 5°) brana jest bardziej niekorzystna z dwóch sąsiednich wartości; zabudowa pod stelażem φ — interpolacja liniowa (p. 7.3 (3)).",
-  "ZS-ZALOZENIE-BALAST-PIONOWO": "Cała siła wiatru traktowana jako odrywająca pionowo (zachowawczo), m = F/g przy g = {g} m/s².",
+  "ZS-ZALOZENIE-BALAST-PIONOWO": "Cała siła wiatru traktowana jako odrywająca pionowo (zachowawczo), g = {g} m/s².",
+  "NW-PREDKOSC-SZCZYTOWA": "Balast z tego ekranu ma sens tylko wtedy, gdy wpisana prędkość to najsilniejszy poryw wiatru dla Twojej lokalizacji. Dokładniej, według normy wiatrowej PN-EN 1991-1-4 (strefa, teren, wysokość, kąt), policzysz go na ekranach „Typ montażu” i „Złoty środek”.",
+  "NW-BALAST-NIEWYSTARCZAJACY": "Za mały balast: planujesz {planowany} kg, a projektowo potrzeba co najmniej {wymagany} kg. Przy silnym wietrze stelaż może zostać oderwany — zwiększ balast albo zakotwicz stelaż w gruncie.",
+  "ZS-ZALOZENIE-BALAST-EQU": "Balast projektowy: PN-EN 1990, wzór (6.7), Tablica A1.2(A) — γQ = {gammaQ} dla wiatru (oddziaływanie niekorzystne), γG,inf = {gammaG} dla balastu (oddziaływanie korzystne); załącznik krajowy NB bez zmian krajowych. Ciężar paneli i stelaża pominięty (po stronie bezpiecznej).",
+  "ZS-BALAST-EQU-TYLKO-ODRYWANIE": "Balast policzony jako projektowy wg PN-EN 1990 (stan równowagi EQU): siła wiatru ×1,5, ciężar balastu liczony tylko w 90%. To zabezpiecza przed oderwaniem stelaża. Nie sprawdzono przesunięcia (wymaga współczynnika tarcia podłoża) ani przewrócenia (wymaga punktu przyłożenia siły) — rozmieszczenie balastu i mocowanie potwierdź u konstruktora.",
+  "OC-TEMP-WEWN-NIE-WYZSZA": "Temperatura wewnątrz ({ti} °C) nie jest wyższa od temperatury obliczeniowej na zewnątrz ({te} °C) — sprawdź wpisane dane.",
+  "OC-BEZ-PN-EN-12831": "To straty ciepła przez przegrody i przez wymianę powietrza — dokładnie tak, jak opisuje źródło. Nie ma w nich mostków cieplnych, dokładnego liczenia strat do gruntu, zysków od słońca i ludzi ani zapasu mocy na nagrzanie po przerwie z pełnej normy PN-EN 12831-1 (tej normy nie ma w aplikacji). Mostki cieplne zwiększają straty — przy doborze źródła ciepła zostaw zapas albo poproś projektanta o pełne obliczenie.",
+  "OC-MIESIACE-ZE-SREDNICH": "Ciepło w miesiącach liczone ze średniej temperatury miesiąca. W miesiącach przejściowych (dni ciepłe i zimne na zmianę) wynik jest nieco zaniżony, a pominięcie zysków od słońca i ludzi go zawyża.",
+  "OC-ZALOZENIE-TEMP-STREFY": "Temperatura obliczeniowa na zewnątrz dla strefy klimatycznej {strefa}: {te} °C (PN-82/B-02403, Tablica 1 — te same wartości podaje załącznik krajowy PN-EN 12831).",
+  "OC-ZALOZENIE-DOBA-PRZY-TE": "Ciepło na dobę = moc strat × 24 h przy temperaturze obliczeniowej przez całą dobę (najzimniejszy dzień projektowy).",
+  "OC-ZALOZENIE-STALA-TEMP-PRZYLEGLYCH": "Temperatura po drugiej stronie przegród przy gruncie i nieogrzewanych pomieszczeniach — stała, wpisana przez Ciebie, przez cały rok.",
+  "OC-ZALOZENIE-COP": "Energia elektryczna = ciepło ÷ COP, COP = {cop} (grzałka, kocioł elektryczny: 1).",
   "ZS-ZALOZENIE-CENA-BALASTU": "Cena balastu {cena} zł/kg — podpowiedź 1 zł/kg to wartość właściciela projektu dla bloczków odlewanych samodzielnie (nie ze źródła ani normy); możesz wpisać swoją.",
   "ZS-ZALOZENIE-SNIEG-MU1": "Śnieg: współczynnik kształtu μ1 z PN-EN 1991-1-3, Tablica 5.2 — obowiązuje, gdy nic nie blokuje zsuwania się śniegu z dolnej krawędzi paneli.",
   "LP-SEZON-BEZ-MIESIECY": "Wpisałeś dodatkowe zapotrzebowanie zimą — zaznacz też, w których miesiącach grzejesz, żeby aplikacja wiedziała, kiedy je doliczyć.",

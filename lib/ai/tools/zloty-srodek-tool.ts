@@ -66,7 +66,8 @@ export function utworzZlotySrodekTool(
       "Porównuje kąty pochylenia stelaża naziemnego 0–90°: energia roczna (PVGIS), siła wiatru odrywająca " +
       "stelaż wg PN-EN 1991-1-4 (tylko 0–30° i pion 90°), balast w kg i jego koszt, śnieg μ1. Wskazuje " +
       "najlepszy kąt (wartość energii minus koszt balastu), gdy user podał moc, PR, cenę kWh i liczbę lat. " +
-      "Balast bez współczynników bezpieczeństwa PN-EN 1990 — zawsze to przekaż. Użyj, gdy user pyta o kąt " +
+      "Balast projektowy wg PN-EN 1990 (EQU, γQ = 1,5, γG,inf = 0,9) — tylko przeciw oderwaniu; przesuwu i " +
+      "wywracania nie sprawdza — zawsze to przekaż. Użyj, gdy user pyta o kąt " +
       "a wiatr, balast, bloczki betonowe albo kompromis produkcja–bezpieczeństwo.",
     inputSchema: ZlotySrodekToolInput,
     outputSchema: ZlotySrodekToolOutput,

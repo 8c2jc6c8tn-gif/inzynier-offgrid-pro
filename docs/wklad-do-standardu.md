@@ -675,7 +675,7 @@ krok "dla każdego modułu: liczba pozycji źródła = liczba wierszy rejestru (
 tylko zgodność istniejących wierszy"; (b) zdanie typu "pełne wyliczenie później" w rejestrze
 traktować jako otwartą pozycję listy zadań z terminem (B.6/15.22), nie jako stan akceptowalny.
 
-Status: 🔎 nowe
+Status: ✅ skonsolidowane w standardzie (25.09.2026) — GOD BOOK v2.39 **N.1** (kompletność źródło → rejestr, liczbowo; placeholder "wyliczenie później" = brak wiersza) + dopisek w standardzie **14.1**. Źródło: `AKTUALIZACJE.md` `new-app-standards`, wiersz 2026-09-25.
 
 [25.09.2026] KATEGORIA: POMYSŁ NA REGUŁĘ — materiały źródłowe chronione prawem autorskim (normy PKN/IEC) a publiczne repozytorium
 
@@ -693,7 +693,7 @@ repo publicznym — oryginał poza repo, w repo notatka robocza (numer punktu/ta
 kodzie), z odnotowaniem, gdzie przechowywany jest oryginał. Przepisanie całości do `.md` nie jest
 obejściem — chroniona jest treść, nie format.
 
-Status: 🔎 nowe
+Status: ✅ skonsolidowane w standardzie (25.09.2026) — GOD BOOK v2.39 **B.5**, rozstrzygnięte inaczej niż propozycja: do startu aplikacji wszystkie oryginały w `docs/zrodla/` repo projektu (bez wyjątków ze względu na rodzaj materiału), po starcie przeniesione do `new-app-standards` (`docs/biblioteka-norm/` dla norm). Źródło: `AKTUALIZACJE.md`, wiersz 2026-09-25.
 
 [25.09.2026] KATEGORIA: POMYSŁ NA REGUŁĘ — komponent pola formularza nie może budować `id` wyłącznie z etykiety
 
@@ -709,6 +709,19 @@ Dlaczego warto zgłosić do new-app-standards: każdy projekt rodziny ma ten sam
 etykieta tylko jako czytelny prefiks; (b) albo reguła: pole w liście zawsze z jawnym `id`; (c) w
 checkliście testów przeglądarkowych — sprawdzenie zduplikowanych `id` na stronie
 (`document.querySelectorAll('[id]')` → duplikaty = błąd).
+
+Status: ✅ skonsolidowane w standardzie (25.09.2026) — `docs/standards/08-ui-ux.md` dopisek do **8.10** (`id` pola z `useId()`, nigdy z etykiety). Źródło: `AKTUALIZACJE.md`, wiersz 2026-09-25.
+
+[26.09.2026] KATEGORIA: DOBRA PRAKTYKA — oględziny przeglądarkowe (Playwright/headless) z jawnym `locale` języka UI
+
+Szczegóły: przy sprawdzaniu nowego ekranu na buildzie produkcyjnym teksty założeń/ostrzeżeń pojawiły się
+po angielsku. Przyczyną nie był błąd i18n, tylko domyślny `en-US` przeglądarki headless — aplikacja
+poprawnie wybrała język z przeglądarki. Pół kroku diagnozy zostałoby oszczędzone, gdyby skrypt od razu
+ustawiał `locale` (np. `newPage({ locale: "pl-PL" })`).
+
+Dlaczego warto zgłosić do new-app-standards: każdy projekt rodziny z i18n (17) i językiem z przeglądarki
+ma ten sam efekt. Propozycja do 10.8/10.9: skrypt oględzin/e2e ustawia `locale` jawnie i przechodzi
+każdy kompletny język (17.7b) — zamiast polegać na domyślnym języku środowiska testowego.
 
 Status: 🔎 nowe
 
@@ -729,3 +742,4 @@ liczba trafi do kodu, z oznaczeniem strony „zweryfikowano”; (5) błędy same
 nie poprawiać po cichu; (6) wzory z PDF — rozstrzygać znaki z kodów znaków, nie z podglądu.
 
 Status: 🔎 nowe
+

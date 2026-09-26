@@ -211,7 +211,7 @@ export default function LiczbaPaneliPage() {
           min={0}
           value={stan.zimaKwh}
           onChange={(e) => ustaw("zimaKwh", e.target.value)}
-          hint="Prąd na ogrzewanie (pompa, grzałki, dmuchawy, sterowanie kotła). 0 = nie grzejesz prądem. Zależy od metrażu i ocieplenia budynku."
+          hint="Prąd na ogrzewanie (pompa, grzałki, dmuchawy, sterowanie kotła). 0 = nie grzejesz prądem. Policzysz go na ekranie „Straty ciepła budynku” (Moduł 6) — prąd na dobę przy danym COP."
         />
         <fieldset className="flex flex-col gap-2">
           <legend className="text-small font-medium">Miesiące, w których grzejesz</legend>

@@ -90,7 +90,7 @@ export function TrybDachPlaski() {
                 ? "Siła wiatru: brak danych normowych dla tego kąta."
                 : `Siła wiatru: ${f0(v.silaWiatruN)} N (≈ ${f0(v.silaWiatruN / PRZYSPIESZENIE_ZIEMSKIE_M_S2)} kg)${v.balastKg === null ? " — pozioma, bez balastu w kg." : "."}`}
             </li>
-            {v.balastKg !== null && <li className="font-medium">Balast minimalny (bez zapasu): {f0(v.balastKg)} kg na stelaż.</li>}
+            {v.balastKg !== null && <li className="font-medium">Balast projektowy (PN-EN 1990, przeciw oderwaniu): {f0(v.balastKg)} kg na stelaż.</li>}
             <li>Śnieg: na panelach zostaje {f0(v.mu1 * 100)}% obciążenia śniegiem gruntu (μ1 = {f2(v.mu1)}).</li>
           </ul>
           <WynikSzczegoly assumptions={wynik.assumptions} warnings={wynik.warnings} />

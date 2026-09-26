@@ -10,6 +10,8 @@ Powiązane: [00 Filozofia](00-filozofia.md) · [15 Współpraca z AI](15-wspolpr
 
 [15.09.2026] ✅ DODANO — źródło: inzynier-offgrid-pro, integracja z rozdz. 09 (AI w produkcie). Pozycja rejestru może dodatkowo nieść opcjonalne pole `zaproponowaneBy: "ai" | "czlowiek"`, gdy pierwszy szkic zasugerował asystent AI działający w produkcie (rozdział 09.10, nie AI piszące kod — rozdział 15). Czysto informacyjne — nie zwalnia z decyzji człowieka o wdrożeniu.
 
+[25.09.2026] ✅ DODANO — źródło: inzynier-offgrid-pro (U.4). **Rejestr pokrycia jest kompletny tylko wtedy, gdy KAŻDA pozycja źródła ma wiersz** — sprawdzane liczbowo (identyfikatory źródła vs identyfikatory rejestru), nie tylko przez zgodność wierszy już istniejących. Zapowiedź "pełne wyliczenie później"/"reszta analogicznie" nie jest wierszem — liczy się jako pominięcie w rozumieniu reguły wyżej. Procedura audytu: GOD BOOK N.1 (kierunek źródło → rejestr).
+
 ## 14.2. Dziennik zmian — jawna korekta, nigdy ciche nadpisanie
 
 **Reguła.** Gdy wcześniejsza decyzja okazuje się błędna lub nieaktualna, **nie usuwa się jej z dokumentu**. Zamiast tego: stara decyzja zostaje, oznaczona jako zastąpiona, obok pojawia się nowa decyzja z datą i uzasadnieniem korekty.
