@@ -122,6 +122,27 @@ import { architekturaFazowaTool } from "./tools/architektura-fazowa-tool"
 import { kategorieSpecjalneTool } from "./tools/kategorie-specjalne-tool"
 import { agregatPradotworczyTool } from "./tools/agregat-pradotworczy-tool"
 import { bojlerCwuTool } from "./tools/bojler-cwu-tool"
+import { analizaZwarciowaTool } from "./tools/analiza-zwarciowa-tool"
+import { doborBezpiecznikaRozlacznikaTool } from "./tools/dobor-bezpiecznika-rozlacznika-tool"
+import { doborIzolacjiKablaTool } from "./tools/dobor-izolacji-kabla-tool"
+import { doborMocyFalownikaTool } from "./tools/dobor-mocy-falownika-tool"
+import { doborPrzekrojuKablaTool } from "./tools/dobor-przekroju-kabla-tool"
+import { glownaSzynaWyrownawczaTool } from "./tools/glowna-szyna-wyrownawcza-tool"
+import { laczenieCuAlTool } from "./tools/laczenie-cu-al-tool"
+import { ochronaOdwrotnaPolaryzacjaTool } from "./tools/ochrona-odwrotna-polaryzacja-tool"
+import { ochronaPrzedDotykiemTool } from "./tools/ochrona-przed-dotykiem-tool"
+import { ochronaPrzedGryzoniamiTool } from "./tools/ochrona-przed-gryzoniami-tool"
+import { ochronaPrzepieciowaSpdTool } from "./tools/ochrona-przepieciowa-spd-tool"
+import { optymalizacjaTrasyKablaTool } from "./tools/optymalizacja-trasy-kabla-tool"
+import { oznakowanieObwodowTool } from "./tools/oznakowanie-obwodow-tool"
+import { peszleKorytaRurkiTool } from "./tools/peszle-koryta-rurki-tool"
+import { pomiaryPowykonawczeTool } from "./tools/pomiary-powykonawcze-tool"
+import { puszkiPolaczenioweTool } from "./tools/puszki-polaczeniowe-tool"
+import { stringBoxTool } from "./tools/string-box-tool"
+import { szynyZbiorczePolaczeniaTool } from "./tools/szyny-zbiorcze-polaczenia-tool"
+import { uziemienieFunkcjonalneOchronneTool } from "./tools/uziemienie-funkcjonalne-ochronne-tool"
+import { wylacznikiNadpradoweDcTool } from "./tools/wylaczniki-nadpradowe-dc-tool"
+import { wylacznikiRcdTool } from "./tools/wylaczniki-rcd-tool"
 import { toAnthropicTool } from "./to-anthropic-tool"
 import { validateAiToolDefinition, type AiToolDefinition } from "./types"
 
@@ -234,6 +255,27 @@ const NARZEDZIA: Array<AiToolDefinition<any, any>> = [
   kategorieSpecjalneTool,
   agregatPradotworczyTool,
   bojlerCwuTool,
+  analizaZwarciowaTool,
+  doborBezpiecznikaRozlacznikaTool,
+  doborIzolacjiKablaTool,
+  doborMocyFalownikaTool,
+  doborPrzekrojuKablaTool,
+  glownaSzynaWyrownawczaTool,
+  laczenieCuAlTool,
+  ochronaOdwrotnaPolaryzacjaTool,
+  ochronaPrzedDotykiemTool,
+  ochronaPrzedGryzoniamiTool,
+  ochronaPrzepieciowaSpdTool,
+  optymalizacjaTrasyKablaTool,
+  oznakowanieObwodowTool,
+  peszleKorytaRurkiTool,
+  pomiaryPowykonawczeTool,
+  puszkiPolaczenioweTool,
+  stringBoxTool,
+  szynyZbiorczePolaczeniaTool,
+  uziemienieFunkcjonalneOchronneTool,
+  wylacznikiNadpradoweDcTool,
+  wylacznikiRcdTool,
 ]
 for (const narzedzie of NARZEDZIA) validateAiToolDefinition(narzedzie)
 

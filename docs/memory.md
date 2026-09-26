@@ -7141,3 +7141,47 @@ ostrzeżenia `no-img-element`, niezwiązane ze zmianą), `pnpm check:i18n-guard`
 **Następny w kolejności rolloutu:** reszta modułów spoza 11/3/4/2 wg backlogu. `napiecie-systemowe`
 (Ekran 2, Moduł 4) i cały `wampiry-energetyczne` (Moduł 2) zostają jako jawny dług do domknięcia
 osobno.
+
+## Moduł 5 (Okablowanie) — opisy narzędzi AI (26.09.2026)
+
+Pierwszy z "reszty" modułów po zakończeniu kolejki 11→3→4→2 (wpis wyżej). `lib/core/modules/okablowanie/`
+ma 25 podkatalogów z `calculator.ts` (0 podkatalogów Wzorca C/informacyjnych bez `calculator.ts` w
+tym module — inaczej niż sugerował ogólny backlog "reszty", tu wszystkie 25 ekranów mają jądro
+obliczeniowe). 5 z 25 już miało narzędzie AI z wcześniejszych sesji (`zlacza-mc4`,
+`przepust-powietrza`, `projekt-uziemienia`, `monitorowanie-izolacji-imd`, `normy-i-certyfikaty`) —
+sprawdzone przez faktyczny import `calculateXxx` w treści pliku narzędzia, nie tylko po nazwie
+(dwa inne pliki, `straty-zlaczki-mc4-tool.ts` i `sekwencja-montazu-tool.ts`, tylko wspominają
+"okablowanie" w komentarzu/nazwie pola — nie importują niczego z tego modułu, sprawdzone i
+odrzucone). Dla pozostałych 20 zbudowano nowe narzędzia (`lib/ai/tools/*-tool.ts`):
+`analiza-zwarciowa` (Ekran 12), `dobor-bezpiecznika-rozlacznika` (Ekran 6), `dobor-izolacji-kabla`
+(Ekran 28), `dobor-mocy-falownika` (Ekran 7), `dobor-przekroju-kabla` (Ekran 1, mega-Doradca z
+tabelami PN-HD 60364-5-52), `glowna-szyna-wyrownawcza` (Ekran 10), `laczenie-cu-al` (Ekran 4),
+`ochrona-odwrotna-polaryzacja` (Ekran 15), `ochrona-przed-dotykiem` (Ekran 17),
+`ochrona-przed-gryzoniami` (Ekran 25), `ochrona-przepieciowa-spd` (Ekran 2),
+`optymalizacja-trasy-kabla` (Ekran 26, wzorzec echo — TCO liczony realnymi stratami z
+`dobor-przekroju-kabla`, nie osobnym wzorem), `oznakowanie-obwodow` (Ekran 20),
+`peszle-koryta-rurki` (Ekran 24), `pomiary-powykonawcze` (Ekran 29), `puszki-polaczeniowe`
+(Ekran 27), `string-box` (Ekran 22), `szyny-zbiorcze-polaczenia` (Ekran 3, tylko dolna sekcja E —
+checklist momentów dokręcania, górna sekcja D dobór przekroju szyny świadomie niezbudowana w
+jądrze), `uziemienie-funkcjonalne-ochronne` (Ekran 11), `wylaczniki-nadpradowe-dc` (Ekran 14),
+`wylaczniki-rcd` (Ekran 16).
+
+Wzorzec 1:1 z Modułów 11/3/4/2: `operationType: 'read'`, `requiresConfirmation: false`, handler
+zawsze deleguje do prawdziwego `calculateXxx` z `lib/core/modules/okablowanie/**`, ostrzeżenia/
+założenia przez `tekstyOstrzezen`/`tekstyZalozen`. Dane wysokiego ryzyka elektrycznego (napięcie/
+rezystancja wewnętrzna baterii, Isc panelu, prąd zwarciowy, AIC zabezpieczeń, Voc zimowe stringu,
+rezystancje/czasy zmierzone przy odbiorze) opisane w `.describe()` jako pochodzące WYŁĄCZNIE z
+karty katalogowej/pomiaru/projektu instalacji — model nigdy ich nie zgaduje. Kalkulatory typu
+checklist (`glowna-szyna-wyrownawcza`, `ochrona-przed-dotykiem`, `oznakowanie-obwodow`,
+`szyny-zbiorcze-polaczenia`) i klasyfikatory bez wzoru liczbowego (`ochrona-odwrotna-polaryzacja`,
+`ochrona-przed-gryzoniami`, `ochrona-przepieciowa-spd`, `peszle-koryta-rurki`,
+`puszki-polaczeniowe`, `uziemienie-funkcjonalne-ochronne`, `wylaczniki-nadpradowe-dc`) mają
+uproszczony output (bez pól, których źródłowy `calculator.ts` też nie ma), zgodnie z kontraktem
+`AiToolDefinition` — nadal pełny status/ostrzeżenia gdzie kalkulator je zwraca.
+
+Weryfikacja: `pnpm typecheck` (czysto), `pnpm lint` (0 błędów, te same 2 istniejące wcześniej
+ostrzeżenia `no-img-element`, niezwiązane ze zmianą), `pnpm check:i18n-guard` (OK, 152 moduły),
+`pnpm test` (170 plików, 1408 testów — wszystkie przeszły, zero regresji), `pnpm build` (OK),
+`pnpm audit:gate` (OK, brak podatności high/critical).
+
+**Następny w kolejności rolloutu:** Moduł 1 (Lokalizacja).
