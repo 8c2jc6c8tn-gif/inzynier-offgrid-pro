@@ -7011,3 +7011,41 @@ Szczegóły per plik: sekcje „Weryfikacja OCR (25.09.2026)” w `00-INDEKS.md`
   ostrzeżenia `no-img-element` niezwiązane ze zmianą), `pnpm check:i18n-guard` (OK, 152 moduły),
   `pnpm test` (170 plików, 1408 testów — wszystkie przeszły, zero regresji), `pnpm build` (OK).
 - **Następny w kolejności rolloutu:** Moduł 3.
+
+## Moduł 3 (Instalacja PV) — opisy narzędzi AI, 12 nowych + 13 już istniejących (26.09.2026)
+
+- **Zakres.** Kolejny krok rolloutu 11→3→4→2→reszta. Z 24 podkatalogów `lib/core/modules/pv/*` z
+  realnym `calculator.ts`, 13 miało już narzędzie AI działające na prawdziwym `calculateXxx` tego
+  ekranu (`kat-i-azymut`, `liczba-paneli`, `mikroinwertery-vs-centralny`, `mikropekniecia-termiczne`,
+  `powloki-antyrefleksyjne`, `technologie-paneli`, `tracker-vs-staly`, `typ-montazu`,
+  `warunki-nadmorskie-pyliste`, `wschod-zachod`, `zloty-srodek` — kilka z nich zarejestrowanych pod
+  nazwą narzędzia z innego ekranu, np. `zloty-srodek-tool.ts` i `typ-montazu-tool.ts` importują też
+  `eurokod-1/wiatr`, ale wywołują właściwe `calculateZlotySrodek`/`calculateDachPlaski` itd. —
+  zweryfikowane treścią pliku, nie samą nazwą, jak w zadaniu). Dodano 12 nowych plików
+  `lib/ai/tools/*-tool.ts`: `dopasowanie-tablicy-falownika`, `konfigurator-stringow`,
+  `napor-wiatru`, `niedopasowanie-paneli`, `ochrona-stringow`, `panele-bifacjalne`, `ryzyko-pid`,
+  `straty-okablowanie-dc`, `straty-zlaczki-mc4`, `stress-test-mppt`, `wplyw-temperatury`,
+  `zacienienie-diody-bocznikujace` — zarejestrowane w `lib/ai/pytaj-asystenta.ts`.
+- **Świadomie pominięty: `czystosc-i-snieg`.** Dane katalogowe (i18n modelu tekstowego wprost w
+  polu, nie prosty `i18nKey`/`params`), tak samo jak `baterie/komunikacja-bms` i
+  `baterie/porownanie-technologii` — udokumentowane jako poza zakresem migracji i18n już we
+  wpisach z 19–26.09.2026 wyżej w tym pliku i w `docs/lista-do-zrobienia.md`; ten sam powód
+  wyklucza go z tego rolloutu narzędzi AI (opisy narzędzia i tak musiałyby wyciągać gotowy tekst PL
+  bez klucza i18n, co nie jest błędem tego ekranu, tylko jego świadomym stanem przejściowym).
+  `eurokod-0`, `eurokod-1`, `typ-montazu` (ten ostatni ma już narzędzie, patrz wyżej) nie mają
+  własnego `calculator.ts` — to funkcje pomocnicze/warianty wzorca reużywane przez inne ekrany, nie
+  osobne ekrany kwalifikujące się do tego rolloutu wg treści zadania.
+- **Wzorzec 1:1** z Modułu 11 (`montaz-mechaniczny-tool.ts` itd.): `operationType: 'read'`,
+  `requiresConfirmation: false`, handler zawsze deleguje do prawdziwego `calculateXxx` z
+  `lib/core/modules/pv/**`, ostrzeżenia/założenia przez `tekstyOstrzezen`/`tekstyZalozen`. Dane
+  bezpieczeństwa/katalogowe (Voc/Vmp/Imp, β, Tmin, Isc, I_MOD_MAX_OCPR, rezystancja złączki/kabla,
+  prędkość wiatru, procent uzysku bifacjalnego) opisane w `.describe()` jako dane usera, nie do
+  zgadywania. `konfigurator-stringow-tool.ts` używa `z.discriminatedUnion` (wejście kalkulatora to
+  unia trzech trybów: szereg/równolegle/mieszany). `straty-zlaczki-mc4-tool.ts` ma osobną nazwę
+  narzędzia (`policz_straty_na_zlaczkach_mc4`) niż istniejący `zlacza-mc4-tool.ts` — to dwa różne
+  kalkulatory w dwóch różnych modułach (`pv/straty-zlaczki-mc4` vs `okablowanie/zlacza-mc4`), nie
+  duplikat.
+- **Weryfikacja:** `pnpm typecheck` (czysto), `pnpm lint` (0 błędów, te same 2 istniejące wcześniej
+  ostrzeżenia `no-img-element`, niezwiązane ze zmianą), `pnpm check:i18n-guard` (OK, 152 moduły),
+  `pnpm test` (170 plików, 1408 testów — wszystkie przeszły, zero regresji), `pnpm build` (OK).
+- **Następny w kolejności rolloutu:** Moduł 4.

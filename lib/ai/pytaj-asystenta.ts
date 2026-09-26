@@ -64,6 +64,18 @@ import { demontazOlowTool } from "./tools/demontaz-olow-tool"
 import { bezpieczenstwoKwasTool } from "./tools/bezpieczenstwo-kwas-tool"
 import { gestoscElektrolituTool } from "./tools/gestosc-elektrolitu-tool"
 import { ocenaZasiarczeniaTool } from "./tools/ocena-zasiarczenia-tool"
+import { dopasowanieTablicyFalownikaTool } from "./tools/dopasowanie-tablicy-falownika-tool"
+import { konfiguratorStringowTool } from "./tools/konfigurator-stringow-tool"
+import { naporWiatruTool } from "./tools/napor-wiatru-tool"
+import { niedopasowaniePaneliTool } from "./tools/niedopasowanie-paneli-tool"
+import { ochronaStringowTool } from "./tools/ochrona-stringow-tool"
+import { paneleBifacjalneTool } from "./tools/panele-bifacjalne-tool"
+import { ryzykoPidTool } from "./tools/ryzyko-pid-tool"
+import { stratyOkablowanieDcTool } from "./tools/straty-okablowanie-dc-tool"
+import { stratyZlaczkiMc4Tool } from "./tools/straty-zlaczki-mc4-tool"
+import { stressTestMpptTool } from "./tools/stress-test-mppt-tool"
+import { wplywTemperaturyTool } from "./tools/wplyw-temperatury-tool"
+import { zacienienieDiodyBocznikujaceTool } from "./tools/zacienienie-diody-bocznikujace-tool"
 import { toAnthropicTool } from "./to-anthropic-tool"
 import { validateAiToolDefinition, type AiToolDefinition } from "./types"
 
@@ -118,6 +130,18 @@ const NARZEDZIA: Array<AiToolDefinition<any, any>> = [
   bezpieczenstwoKwasTool,
   gestoscElektrolituTool,
   ocenaZasiarczeniaTool,
+  dopasowanieTablicyFalownikaTool,
+  konfiguratorStringowTool,
+  naporWiatruTool,
+  niedopasowaniePaneliTool,
+  ochronaStringowTool,
+  paneleBifacjalneTool,
+  ryzykoPidTool,
+  stratyOkablowanieDcTool,
+  stratyZlaczkiMc4Tool,
+  stressTestMpptTool,
+  wplywTemperaturyTool,
+  zacienienieDiodyBocznikujaceTool,
 ]
 for (const narzedzie of NARZEDZIA) validateAiToolDefinition(narzedzie)
 
