@@ -994,4 +994,9 @@ export const dictionaryEn = {
   "PUSZKI-ZALOZENIE-BRAK-LISTY-Z-TRAS": "The automatic list of connection points from the routes (Screen 19) is NOT built — Screen 19 has no route data model, so the list cannot be generated without inventing a structure.",
   "SZYNY-ZALOZENIE-BRAK-DOBORU-PRZEKROJU": "Busbar cross-section sizing by short-circuit withstand (upper section D of the source) is NOT built — the source gives no formula/table.",
   "KAT-ZAKRES-PRZEJSCIOWY": "The source gives no unambiguous classification for this angle range.",
+  "IZOL-GRUBOSC-NIE-ZWRACA-SIE": "{nazwa} {grubosc} cm: the extra centimetres over the thinner variant cost {krancowy} zł per saved kWh — more than the heat price of {cena} zł/kWh. With too thick insulation the cost of each additional centimetre stops paying back.",
+  "IZOL-BRAK-SEZONU-GRZEWCZEGO": "No month is colder than the indoor temperature — this model has no heating season, so insulation saves nothing. Check the monthly temperatures on Screen 1.",
+  "IZOL-ZALOZENIE-WARSTWA-SZEREGOWA": "U after insulating = 1/(1/U + d/λ): the new layer adds its resistance to the existing element (surface resistances are already contained in the current U). Without mechanical fixings, gaps and bridges at layer joints — the real U will be somewhat higher.",
+  "IZOL-ZALOZENIE-10-LAT": "Cost-effectiveness over {lata} years (horizon from the source): insulation cost ÷ heat saved in that time, with no price changes and no discounting.",
+  "IZOL-ZALOZENIE-CIEPLO-NIE-PRAD": "The saving is heat (kWh of heat), calculated from the same monthly means as Screen 1. Electricity saved by a heat pump = heat ÷ COP.",
 } satisfies Record<KluczTlumaczenia, string>

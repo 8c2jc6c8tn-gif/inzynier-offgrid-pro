@@ -105,6 +105,7 @@ const MIGRATED_MODULES = [
   "lib/core/modules/ogrzewanie/obciazenie-cieplne",
   "lib/core/modules/ogrzewanie/zapotrzebowanie-co-cwu",
   "lib/core/modules/ogrzewanie/mostki-termiczne",
+  "lib/core/modules/ogrzewanie/optymalizacja-izolacji",
   "lib/core/modules/ogrzewanie/pompy-cyrkulacyjne",
   "lib/core/modules/ogrzewanie/ryzyko-niskiego-napiecia",
   "lib/core/modules/ogrzewanie/wentylacja-odzysk-ciepla",

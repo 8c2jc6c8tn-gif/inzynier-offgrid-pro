@@ -6956,3 +6956,17 @@ Szczegóły per plik: sekcje „Weryfikacja OCR (25.09.2026)” w `00-INDEKS.md`
   „po jednym ekranie”), więc wiersze zawyżały wynik (163 wiersze = 153 ekrany + 3 dodatkowe + 7 duplikatów). Mianowniki
   z podsumowań `Tresc_*`; M6 = 48 (20 + 2A 1 + 2C 26 + 2D 1), M12 = 43 (42 z `Tresc` + dawne 8.8 z samej Biblii), M13 = 2.
   Surowe liczenie: `pnpm rejestr:licz [moduł]` (`scripts/policz-rejestr.mjs`) — duplikaty i mianowniki nadal ręcznie.
+
+## M6/E10 — Optymalizacja izolacji (26.09.2026)
+
+- **Bez normy:** Rsi/Rse (PN-EN ISO 6946) nie są w repo, ale nie są potrzebne — dokładana warstwa jest oporem szeregowym,
+  a 1/U obecnej przegrody już zawiera opory przejmowania: U' = 1/(1/U + d/λ). Pominięte łączniki mechaniczne i nieciągłości
+  (założenie `IZOL-ZALOZENIE-WARSTWA-SZEREGOWA` — rzeczywiste U wyższe).
+- **Oszczędność** z tego samego modelu miesięcznego co E1 (Σ max(0, θi − θm)·24·d); wymaga kompletu 12 miesięcy (część roku
+  cicho zaniżałaby wynik → `INCOMPLETE`). Wynik w kWh ciepła, nie prądu (÷ COP — założenie).
+- **🟡 „kolejny centymetr się nie zwraca”** — źródło nie daje progu; ocena tylko względem ceny ciepła wpisanej przez
+  użytkownika (koszt krańcowy wariantu względem cieńszego wariantu tego samego materiału, tj. ta sama nazwa i λ).
+- **Przykład źródła niespójny** (5000 zł / (300 kWh × 10 lat) = 1,67 zł/kWh, nie 0,20) — nieodtwarzany.
+- **Pułapka testu przeglądarkowego:** `page.fill` na `input[type=number]` nie przyjmuje „0,5” (Playwright), w teście kropka.
+- Następne w M6 wymagają decyzji: E8 (źródło: Σ m·c całego budynku; fizycznie pracuje warstwa wewnętrzna — PN-EN ISO 13786
+  poza repo), E11 (🔴 „wysokie U i niskie g” bez progów liczbowych).

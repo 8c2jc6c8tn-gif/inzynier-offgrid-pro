@@ -64,3 +64,4 @@ TL;DR: Status opisany/zaimplementowany/przetestowany per moduł (M1–M13, Czę�
 | 25.09.2026 | M3: E1 (kąt i azymut + optimum miesięczne D26) → 19/27 `done`. |
 | 25.09.2026 | M3: E20 (wschód-zachód) → 20/27 `done`. |
 | 26.09.2026 | **Pełna resynchronizacja** (zadanie z `docs/lista-do-zrobienia.md`, 25.09): wszystkie wiersze M1–M13 i licznik przeliczone skryptem z `docs/rejestr-pokrycia.md` (kolumna statusu, przypisanie do modułu per sekcja, odjęte duplikaty), mianowniki z podsumowań `Tresc_*`. Przy okazji w rejestrze poprawiono kolumnę statusu 13 wierszy (11× M3 z 25.09, M6 E2/E7 z 26.09), gdzie notatka mówiła „→ done”, a kolumna nadal `todo`/`blocked`. Wersja 1.3→1.4. |
+| 26.09.2026 | M6: E10 (optymalizacja izolacji) → Część 1 9/20, M6 13/48; łącznie 154/314. |

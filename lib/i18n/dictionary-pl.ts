@@ -1006,6 +1006,11 @@ export const dictionaryPl = {
   "PUSZKI-ZALOZENIE-BRAK-LISTY-Z-TRAS": "Automatyczna lista punktów połączeniowych z tras (Ekran 19) NIE zbudowana — Ekran 19 nie ma modelu danych tras, nie ma skąd wygenerować listy bez wymyślania struktury.",
   "SZYNY-ZALOZENIE-BRAK-DOBORU-PRZEKROJU": "Dobór przekroju szyny wg wytrzymałości zwarciowej (górna sekcja D źródła) NIE zbudowany — źródło nie podaje wzoru/tabeli.",
   "KAT-ZAKRES-PRZEJSCIOWY": "Dla tego zakresu kąta źródło nie podaje jednoznacznej klasyfikacji.",
+  "IZOL-GRUBOSC-NIE-ZWRACA-SIE": "{nazwa} {grubosc} cm: dodatkowe centymetry względem cieńszego wariantu kosztują {krancowy} zł za zaoszczędzoną kWh — więcej niż cena ciepła {cena} zł/kWh. Przy zbyt grubej izolacji koszt dodatkowego centymetra przestaje się zwracać.",
+  "IZOL-BRAK-SEZONU-GRZEWCZEGO": "Żaden miesiąc nie jest chłodniejszy niż temperatura w domu — w tym modelu nie ma sezonu grzewczego, więc izolacja nic nie oszczędza. Sprawdź temperatury miesięcy na Ekranie 1.",
+  "IZOL-ZALOZENIE-WARSTWA-SZEREGOWA": "U po dociepleniu = 1/(1/U + d/λ): nowa warstwa dokłada swój opór do obecnej przegrody (opory przejmowania ciepła są już w obecnym U). Bez łączników mechanicznych, szczelin i mostków na styku warstw — rzeczywiste U będzie nieco wyższe.",
+  "IZOL-ZALOZENIE-10-LAT": "Opłacalność liczona na {lata} lat (horyzont ze źródła): koszt izolacji ÷ ciepło zaoszczędzone w tym czasie, bez zmiany cen i bez dyskontowania.",
+  "IZOL-ZALOZENIE-CIEPLO-NIE-PRAD": "Oszczędność to ciepło (kWh ciepła), liczone z tych samych średnich miesięcznych co Ekran 1. Prąd zaoszczędzony przez pompę ciepła = ciepło ÷ COP.",
 } as const
 
 export type KluczTlumaczenia = keyof typeof dictionaryPl
