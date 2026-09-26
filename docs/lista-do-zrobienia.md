@@ -955,6 +955,10 @@ Pełne wyniki audytu: `docs/memory.md`, sekcja "Pełny audyt na polecenie właś
      niezależny od powyższych, patrz `docs/wklad-do-standardu.md` (wpis 20.09.2026). Kolejność
      rolloutu dla już istniejących kalkulatorów bez opisu: 11→3→4→2→reszta (Moduł 5 już ma AI-opisy
      dla wszystkich swoich kalkulatorów, nie wchodzi do tego rolloutu).
+     **✅ (26.09.2026) Moduł 11 (Montaż baterii) ZAMKNIĘTY w tym rollout-cie — 20/20 kalkulatorów
+     (23 ekrany minus 3 Wzorzec C bez `calculator.ts`, patrz `docs/memory.md`) ma teraz opis
+     narzędzia AI (`lib/ai/tools/*-tool.ts` + rejestracja w `lib/ai/pytaj-asystenta.ts`). Backlog
+     "bez opisu" spada o te 20 pozycji. Następny w ustalonej kolejności: Moduł 3.**
 - ✅ (2026-09-20, Routine Y.6 cykliczny) **Kolejne sprawdzenie `AKTUALIZACJE.md` — 1 nowy wpis od
   poprzedniej synchronizacji (rename GOD BOOK v2.20→v2.21, nowa GOD BOOK C.5).** Zero zmian
   merytorycznych w `docs/standards/`. Przy okazji: 4 otwarte wpisy `docs/wklad-do-standardu.md`

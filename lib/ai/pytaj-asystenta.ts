@@ -44,6 +44,26 @@ import { zapotrzebowanieCoCwuTool } from "./tools/zapotrzebowanie-co-cwu-tool"
 import { mostkiTermiczneTool } from "./tools/mostki-termiczne-tool"
 import { optymalizacjaIzolacjiTool } from "./tools/optymalizacja-izolacji-tool"
 import { pojemnoscCieplnaTool } from "./tools/pojemnosc-cieplna-tool"
+import { weryfikacjaOgniwTool } from "./tools/weryfikacja-ogniw-tool"
+import { montazMechanicznyTool } from "./tools/montaz-mechaniczny-tool"
+import { polaczeniaElektryczneTool } from "./tools/polaczenia-elektryczne-tool"
+import { sekwencjaMontazuTool } from "./tools/sekwencja-montazu-tool"
+import { podlaczenieBmsTool } from "./tools/podlaczenie-bms-tool"
+import { pierwszeUruchomienieTool } from "./tools/pierwsze-uruchomienie-tool"
+import { demontazPakietuTool } from "./tools/demontaz-pakietu-tool"
+import { przygotowanieStanowiskaTool } from "./tools/przygotowanie-stanowiska-tool"
+import { ocenaZuzyciaTool } from "./tools/ocena-zuzycia-tool"
+import { ratowanieOgniwaTool } from "./tools/ratowanie-ogniwa-tool"
+import { weryfikacjaWstepnaOlowTool } from "./tools/weryfikacja-wstepna-olow-tool"
+import { montazMechanicznyOlowTool } from "./tools/montaz-mechaniczny-olow-tool"
+import { polaczeniaCzyszczenieOlowTool } from "./tools/polaczenia-czyszczenie-olow-tool"
+import { balanseryZewnetrzneOlowTool } from "./tools/balansery-zewnetrzne-olow-tool"
+import { doborKabliBezpiecznikowOlowTool } from "./tools/dobor-kabli-bezpiecznikow-olow-tool"
+import { uruchomienieTestyOlowTool } from "./tools/uruchomienie-testy-olow-tool"
+import { demontazOlowTool } from "./tools/demontaz-olow-tool"
+import { bezpieczenstwoKwasTool } from "./tools/bezpieczenstwo-kwas-tool"
+import { gestoscElektrolituTool } from "./tools/gestosc-elektrolitu-tool"
+import { ocenaZasiarczeniaTool } from "./tools/ocena-zasiarczenia-tool"
 import { toAnthropicTool } from "./to-anthropic-tool"
 import { validateAiToolDefinition, type AiToolDefinition } from "./types"
 
@@ -78,6 +98,26 @@ const NARZEDZIA: Array<AiToolDefinition<any, any>> = [
   mostkiTermiczneTool,
   optymalizacjaIzolacjiTool,
   pojemnoscCieplnaTool,
+  weryfikacjaOgniwTool,
+  montazMechanicznyTool,
+  polaczeniaElektryczneTool,
+  sekwencjaMontazuTool,
+  podlaczenieBmsTool,
+  pierwszeUruchomienieTool,
+  demontazPakietuTool,
+  przygotowanieStanowiskaTool,
+  ocenaZuzyciaTool,
+  ratowanieOgniwaTool,
+  weryfikacjaWstepnaOlowTool,
+  montazMechanicznyOlowTool,
+  polaczeniaCzyszczenieOlowTool,
+  balanseryZewnetrzneOlowTool,
+  doborKabliBezpiecznikowOlowTool,
+  uruchomienieTestyOlowTool,
+  demontazOlowTool,
+  bezpieczenstwoKwasTool,
+  gestoscElektrolituTool,
+  ocenaZasiarczeniaTool,
 ]
 for (const narzedzie of NARZEDZIA) validateAiToolDefinition(narzedzie)
 

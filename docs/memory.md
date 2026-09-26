@@ -6985,3 +6985,29 @@ Szczegóły per plik: sekcje „Weryfikacja OCR (25.09.2026)” w `00-INDEKS.md`
   nieodtwarzalny.
 - **E11 odłożony** decyzją właściciela (progi 🔴 poda później).
 
+
+## Moduł 11 (Montaż baterii) — opisy narzędzi AI, 20/20 kalkulatorów (26.09.2026)
+
+- **Zakres.** Backlog z wpisu 20.09.2026 ("116 z 122 kalkulatorów bez opisu narzędzia AI",
+  kolejność rolloutu 11→3→4→2→reszta) — Moduł 11 zamknięty jako pierwszy. Dodano 20 plików
+  `lib/ai/tools/*-tool.ts` (Ścieżka A LiFePO4: 10, Ścieżka B kwasowo-ołowiowa: 10) i
+  zarejestrowano w `lib/ai/pytaj-asystenta.ts` (import + tablica `NARZEDZIA`).
+- **Rozbieżność liczby ekranów vs kalkulatorów (wyjaśniona, nie błąd):** Moduł 11 ma 23 ekrany
+  (`docs/rejestr-pokrycia.md`), ale tylko 20 ma realny `calculator.ts` — trzy ekrany (A10
+  `przechowywanie-recykling`, B11 `ratowanie-zasiarczenia`, B12 `przechowywanie-recykling-olow`)
+  to Wzorzec C (czysta treść, bez funkcji liczącej, żadnego pola do zwalidowania) — świadomie
+  pominięte w tym rollout-cie: rozdział 9 dotyczy narzędzi zwracających policzony wynik, a tu nie
+  ma nic do policzenia (nie jest to luka wymagająca dopisania, tylko naturalna granica zakresu 9.3).
+  Ekran B5 (`dobor-kabli-bezpiecznikow-olow`) ma osobne narzędzie, mimo że jest wzorcem "echo"
+  Modułu 5 — wywołuje realną logikę domenową (`calculateDoborPrzekrojuKabla` +
+  `calculateDoborBezpiecznikaRozlacznika`), więc kwalifikuje się jak każdy inny kalkulator.
+- **Wzorzec 1:1 z istniejącymi narzędziami** (`pojemnosc-cieplna-tool.ts`, `mostki-termiczne-tool.ts`,
+  `zloty-srodek-tool.ts`): `operationType: 'read'`, `requiresConfirmation: false`, handler zawsze
+  deleguje do prawdziwego `calculateXxx` z `lib/core/modules/montaz-baterii/**`, ostrzeżenia/
+  założenia przez `tekstyOstrzezen`/`tekstyZalozen` (i18n → PL). Dane bezpieczeństwa (napięcia
+  ogniw, napięcie pakietu, gęstość elektrolitu, prąd zwarciowy, AIC bezpiecznika, docisk, rezystor
+  pre-charge) opisane w `.describe()` jako "tylko od usera, nie zgaduj" — zgodnie z 9.1/9.2.
+- **Weryfikacja:** `pnpm typecheck` (czysto), `pnpm lint` (0 błędów, 2 istniejące wcześniej
+  ostrzeżenia `no-img-element` niezwiązane ze zmianą), `pnpm check:i18n-guard` (OK, 152 moduły),
+  `pnpm test` (170 plików, 1408 testów — wszystkie przeszły, zero regresji), `pnpm build` (OK).
+- **Następny w kolejności rolloutu:** Moduł 3.
