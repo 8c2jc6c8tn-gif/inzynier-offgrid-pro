@@ -6895,3 +6895,30 @@ Szczegóły per plik: sekcje „Weryfikacja OCR (25.09.2026)” w `00-INDEKS.md`
   Weryfikacja: typecheck / lint (0 błędów) / i18n-guard (115) / test 1362/1362 / build / audit:gate; `next start`
   + Playwright 390 px: 6 tras, brak `⚠ [klucz]`, brak zduplikowanych `id`, brak poziomego przewijania; 404 tylko
   `/_vercel/insights`. E1: 3 przegrody + wentylacja = 4,8 kW (ręcznie: 2800 + 2010 W ✓).
+
+## N.1 dla pozostałych modułów + M6/E2, E7 + temperatury PVGIS + separator dziesiętny (26.09.2026)
+
+- **N.1 mechanicznie:** `pnpm audit:n1` (`scripts/audit-n1-rejestr.mjs`) — zbiera `(dawne X.Y)` z sekcji modułu w Biblii,
+  rozwija zakresy („8.23-28”, „8.29–8.36”) i listy („8.17,18,19”), porównuje z rejestrem i z plikiem `Tresc_*`. Wynik: 579/579.
+  **Pułapka regexu (złapana):** lista po przecinku „8.2, 8.10” łapała „8” z następnego ID jako element listy — elementy listy
+  muszą mieć `(?![\d.])`. Plik `Tresc_Modul_12` nie ma dawnego 8.8 (PWM vs MPPT, ekran i tak `done` z Biblii).
+- **M6/E2:** C.O. z miesięcy E1 (średnia doba miesiąca), C.W.U. z `WSPOLCZYNNIK_KWH_NA_L_K` (`bojler-cwu`). Szkic E1 odczytywany
+  przez `lib/ogrzewanie/draft-obciazenia-cieplnego.ts` (wydzielone z `page.tsx` — Next nie pozwala eksportować z pliku strony
+  innych nazw). 50 l/osobę jako widoczna wartość startowa (źródło podaje liczbę, nie zakres).
+- **M6/E7 — decyzja do potwierdzenia przez właściciela (✅🤖):** lista zadań zakładała „wymaga PN-EN ISO 14683 / 12831-1”.
+  Zbudowane bez nich: Ψ wpisuje użytkownik (jak U w E1), wzór H = Σ Ψ·l z PN-EN 12831 (3.4) zweryfikowany w Purmo. Norma byłaby
+  potrzebna tylko do *podpowiadania* Ψ (tablice) lub metody uproszczonej ΔU_tb. Jeśli właściciel woli czekać na normę — ekran
+  zostaje, zmienia się tylko status. Ważne merytorycznie: Ψ zależy od konwencji wymiarów (zewnętrzne → narożniki ujemne) —
+  założenie `MT-ZALOZENIE-WYMIARY`.
+- **Temperatury PVGIS:** `T2m` było w odpowiedzi PVGIS od początku, adapter je pomijał. Teraz `temperaturyMiesieczneC` (miesiąc ze
+  znacznika PVGIS, nie z czasu po offsecie). **`T2m` opcjonalne** — pierwsza wersja z polem wymaganym wysypała 8 testów narzędzi
+  M1/M3 (atrapy PVGIS bez `T2m`); lepiej też produkcyjnie: brak temperatury nie może blokować nasłonecznienia. Średnie tylko przy
+  komplecie 8760 godzin. Klucz zapisu bez zmian (`v1`), bez migracji — pole opcjonalne, ekran prosi o ponowne pobranie.
+  Godzinowe temperatury NIE są zapisywane (tylko 12 średnich) — M7 (godziny poniżej progu) będzie wymagał rozszerzenia.
+- **Separator dziesiętny:** `t()` zamienia „.”→„,” (PL/RU) w parametrach `number` i w tekstach będących w całości liczbą
+  dziesiętną (`toFixed`); bez grupowania tysięcy i zaokrąglania. Teksty dla modelu AI (PL) też mają teraz przecinek.
+- **Y.2 (naprawione od razu):** `ogrzewanie/obciazenie-cieplne` (E1) nie był na liście `check-i18n-guard` od budowy — dopisany.
+- **Weryfikacja:** typecheck / lint (0 błędów, 2 ostrzeżenia `<img>` sprzed sesji) / i18n-guard (118) / test 1387/1387 / build /
+  audit:gate / audit:n1. `next start` + Playwright 390 px, `pl-PL`, odpowiedź `/api/pvgis/tmy` podstawiona w przeglądarce (JRC
+  zablokowane w kontenerze): E1 → wstaw temperatury → E2 (styczeń C.O. 70 kWh = 125,75 W/K × 23,2 K × 24 h ✓) → E7 (892 W =
+  22,3 W/K × 40 K ✓); brak zduplikowanych `id`, poziomego przewijania, `⚠ [klucz]`; 404 tylko `/_vercel/insights`.

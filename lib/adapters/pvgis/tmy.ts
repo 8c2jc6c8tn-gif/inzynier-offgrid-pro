@@ -26,8 +26,11 @@ const rekordSchema = z.object({
   "G(h)": z.number().nonnegative(),
   "Gb(n)": z.number().nonnegative(),
   "Gd(h)": z.number().nonnegative(),
-  /** Air temperature 2 m above ground [°C] (PVGIS TMY output, ERA5). */
-  T2m: z.number(),
+  /**
+   * Air temperature 2 m above ground [°C] (PVGIS TMY output, ERA5). Optional: a missing temperature
+   * must never block the irradiance data — then the monthly temperatures are simply absent.
+   */
+  T2m: z.number().optional(),
 })
 
 const odpowiedzSchema = z.object({
@@ -108,13 +111,12 @@ export function parsujOdpowiedzTmy(json: unknown): WynikTmy {
   const liczba = Array<number>(12).fill(0)
   for (const r of outputs.tmy_hourly) {
     const m = Number(r["time(UTC)"].slice(4, 6)) - 1
-    if (!(m >= 0 && m < 12)) continue
+    if (r.T2m === undefined || !(m >= 0 && m < 12)) continue
     suma[m] = suma[m]! + r.T2m
     liczba[m] = liczba[m]! + 1
   }
-  if (liczba.some((n) => n === 0)) {
-    return { ok: false, kod: "PVGIS-NIEOCZEKIWANY-FORMAT", szczegoly: "TMY bez godzin dla któregoś miesiąca" }
-  }
+  // Only a complete year gives monthly means — a partial month would be a biased mean.
+  const temperaturyKompletne = liczba.reduce((a, n) => a + n, 0) === GODZIN_TMY && liczba.every((n) => n > 0)
   return {
     ok: true,
     dane: {
@@ -136,7 +138,7 @@ export function parsujOdpowiedzTmy(json: unknown): WynikTmy {
         horyzontTerenu: inputs.meteo_data.use_horizon,
         zrodloHoryzontu: inputs.meteo_data.horizon_db,
       },
-      temperaturyMiesieczneC: suma.map((s, m) => s / liczba[m]!),
+      ...(temperaturyKompletne ? { temperaturyMiesieczneC: suma.map((s, m) => s / liczba[m]!) } : {}),
     },
   }
 }

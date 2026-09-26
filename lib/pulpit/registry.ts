@@ -180,6 +180,8 @@ export const KAFLE: KafelEntry[] = [
     ikona: "🔥",
     ekrany: [
       { href: "/kalkulatory/obciazenie-cieplne", label: "Straty ciepła budynku (przegrody, powietrze, miesiące)" },
+      { href: "/kalkulatory/zapotrzebowanie-co-cwu", label: "Zapotrzebowanie na C.O. i C.W.U. (ciepło na dobę w miesiącach)" },
+      { href: "/kalkulatory/mostki-termiczne", label: "Mostki termiczne (Ψ · długość, udział w stratach)" },
       { href: "/kalkulatory/cop-pompy-ciepla", label: "COP pompy ciepła w funkcji temperatury" },
       { href: "/kalkulatory/pompy-cyrkulacyjne", label: "Pompy cyrkulacyjne — dobór" },
       { href: "/kalkulatory/bufor-ciepla", label: "Bufor ciepła — dobór pojemności" },

@@ -55,10 +55,13 @@ describe("parsujOdpowiedzTmy", () => {
     w.dane.temperaturyMiesieczneC!.forEach((t, i) => expect(t).toBeCloseTo(i + 1, 10))
   })
 
-  it("brak T2m w rekordzie → PVGIS-NIEOCZEKIWANY-FORMAT", () => {
+  it("brak T2m choćby w jednej godzinie → dane nasłonecznienia bez temperatur (nigdy średnia z niepełnego miesiąca)", () => {
     const o = odpowiedz()
     delete (o.outputs.tmy_hourly[5] as { T2m?: number }).T2m
-    expect(parsujOdpowiedzTmy(o)).toMatchObject({ ok: false, kod: "PVGIS-NIEOCZEKIWANY-FORMAT" })
+    const w = parsujOdpowiedzTmy(o)
+    if (!w.ok) throw new Error("oczekiwano ok")
+    expect(w.dane.rekordy).toHaveLength(8760)
+    expect(w.dane.temperaturyMiesieczneC).toBeUndefined()
   })
 
   it("czas rekordu = znacznik HH:00 + irradiance_time_offset (TD15)", () => {

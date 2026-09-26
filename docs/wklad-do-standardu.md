@@ -743,3 +743,16 @@ nie poprawiać po cichu; (6) wzory z PDF — rozstrzygać znaki z kodów znaków
 
 Status: 🔎 nowe
 
+[26.09.2026] KATEGORIA: DOBRA PRAKTYKA — audyt N.1 (źródło → rejestr) jako skrypt z kodem wyjścia, nie ręczny grep
+
+Szczegóły: GOD BOOK v2.39 N.1 każe liczyć, czy każda pozycja źródła ma wiersz w rejestrze pokrycia. Ręczny przegląd modułów
+w tym projekcie dwa razy przeoczył pozycje (M3 — 17 z 30; teraz M4 3.10 i M5 4.25 w modułach uznanych za „kompletne”).
+Skrypt `scripts/audit-n1-rejestr.mjs` (`pnpm audit:n1`) zbiera identyfikatory z kanonicznej Biblii per moduł, rozwija zakresy
+i listy skrótowe, porównuje z rejestrem i z plikami treści ekranów, kończy się kodem 1 przy brakującym wierszu. Przy okazji
+wyłapuje luki pośrednich dokumentów (ID obecne w Biblii, pominięte w pliku treści modułu).
+
+Dlaczego warto zgłosić do new-app-standards: każdy projekt z rejestrem pokrycia i numerowaną Biblią ma ten sam problem;
+N.1 mogłoby wskazywać „kontrola mechaniczna (skrypt), nie przegląd” i opcjonalnie wpiąć ją do pakietu przed merge.
+Pułapka do zapisania razem z regułą: regex list skrótowych („8.17,18”) musi wykluczać początek następnego ID („8.2, 8.10”).
+
+Status: 🔎 nowe

@@ -20,21 +20,10 @@ import {
   type StrefaKlimatyczna,
 } from "@/lib/core/modules/ogrzewanie/obciazenie-cieplne/constants"
 import { useTranslate } from "@/lib/i18n/language-context"
-import { liczba } from "@/lib/lokalizacja/model-dzialki"
+import { KLUCZ_DRAFTU_OBCIAZENIA, wejscieObciazenia, type PrzegrodaSeed, type SeedObciazenia as Seed } from "@/lib/ogrzewanie/draft-obciazenia-cieplnego"
 
 const RZYMSKIE: Record<StrefaKlimatyczna, string> = { 1: "I", 2: "II", 3: "III", 4: "IV", 5: "V" }
 const MIESIACE = ["Styczeń", "Luty", "Marzec", "Kwiecień", "Maj", "Czerwiec", "Lipiec", "Sierpień", "Wrzesień", "Październik", "Listopad", "Grudzień"]
-
-type PrzegrodaSeed = { nazwa: string; powierzchniaM2: string; uWM2K: string; zewnetrzna: boolean; temperaturaPoDrugiejStronieC: string }
-type Seed = {
-  przegrody: PrzegrodaSeed[]
-  temperaturaWewnetrznaC: string
-  strefa: string
-  kubaturaM3: string
-  wymianyPowietrzaNaH: string
-  cop: string
-  miesiace: string[]
-}
 
 const nowaPrzegroda = (nazwa: string): PrzegrodaSeed => ({ nazwa, powierzchniaM2: "", uWM2K: "", zewnetrzna: true, temperaturaPoDrugiejStronieC: "" })
 
@@ -48,7 +37,6 @@ const STAN_POCZATKOWY: Seed = {
   miesiace: Array(12).fill(""),
 }
 
-const n = (s: string) => liczba(s) ?? null
 const f0 = (x: number) => x.toLocaleString("pl-PL", { maximumFractionDigits: 0 })
 const f1 = (x: number) => x.toLocaleString("pl-PL", { maximumFractionDigits: 1 })
 
@@ -110,30 +98,11 @@ function KartaPrzegrody({ p, i, ustaw, usun }: { p: PrzegrodaSeed; i: number; us
 
 export default function ObciazenieCieplnePage() {
   const t = useTranslate()
-  const [stan, setStan] = usePersistedDraft<Seed>("obciazenie-cieplne", STAN_POCZATKOWY)
+  const [stan, setStan] = usePersistedDraft<Seed>(KLUCZ_DRAFTU_OBCIAZENIA, STAN_POCZATKOWY)
   const ustaw = <K extends keyof Seed>(k: K, v: Seed[K]) => setStan((s) => ({ ...s, [k]: v }))
   const ustawPrzegrode = (i: number, z: Partial<PrzegrodaSeed>) => setStan((s) => ({ ...s, przegrody: s.przegrody.map((p, j) => (j === i ? { ...p, ...z } : p)) }))
 
-  const strefa = STREFY_KLIMATYCZNE.find((s) => String(s) === stan.strefa) ?? null
-  const wynik = useMemo(
-    () =>
-      calculateObciazenieCieplne({
-        przegrody: stan.przegrody.map((p) => ({
-          nazwa: p.nazwa.trim(),
-          powierzchniaM2: n(p.powierzchniaM2),
-          uWM2K: n(p.uWM2K),
-          zewnetrzna: p.zewnetrzna,
-          temperaturaPoDrugiejStronieC: p.zewnetrzna ? null : n(p.temperaturaPoDrugiejStronieC),
-        })),
-        temperaturaWewnetrznaC: n(stan.temperaturaWewnetrznaC),
-        strefaKlimatyczna: strefa,
-        kubaturaM3: n(stan.kubaturaM3),
-        wymianyPowietrzaNaH: n(stan.wymianyPowietrzaNaH),
-        cop: n(stan.cop),
-        srednieTemperaturyMiesieczneC: stan.miesiace.map(n),
-      }),
-    [stan, strefa],
-  )
+  const wynik = useMemo(() => calculateObciazenieCieplne(wejscieObciazenia(stan)), [stan])
   const v = wynik.value
   const poziom: WerdyktPoziom = wynik.warnings.some((w) => w.level === "critical") ? "blad" : "uwaga"
 
@@ -285,6 +254,10 @@ export default function ObciazenieCieplnePage() {
           <WynikSzczegoly assumptions={wynik.assumptions} warnings={wynik.warnings} formula={wynik.formula} />
           <p className="mt-2 text-small">
             Dalej:{" "}
+            <Link href="/kalkulatory/zapotrzebowanie-co-cwu" className="underline">
+              ciepło na dobę z C.W.U.
+            </Link>
+            ,{" "}
             <Link href="/kalkulatory/koszty-ogrzewania" className="underline">
               czym najtaniej grzać
             </Link>
