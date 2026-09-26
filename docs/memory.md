@@ -7285,3 +7285,44 @@ Weryfikacja: `pnpm typecheck` (czysto), `pnpm lint` (te same 2 istniejące ostrz
 1408 testów, zero regresji), `pnpm build` (OK).
 
 **Następny w kolejności: Moduł 9.**
+
+## Rollout opisów narzędzi AI — Moduł 7 (stress-test)/9 (ESP32)/12 (mobilny), 26.09.2026 — ZAMYKA CAŁY ROLLOUT
+
+Ostatnia część rolloutu "opisy narzędzi AI dla kalkulatorów" (backlog 20.09.2026, punkt 7).
+Sprawdzone trzy pozostałe podkatalogi `lib/core/modules/*` bez wcześniejszego narzędzia
+(zweryfikowane brakiem importu z ich ścieżek w `lib/ai/tools/*-tool.ts`): `stress-test/`
+(`procedura-black-start`, `wind-chill`), `esp32/` (`katalog-czujnikow`), `kalkulator-mobilny/`
+(`dobor-regulatora-pwm-mppt`, `tryb-uproszczony`). Wszystkie 5 miało `calculator.ts` — 5 nowych
+plików `lib/ai/tools/*-tool.ts` zbudowanych od zera i zarejestrowanych w `NARZEDZIA`:
+
+- `procedura-black-start-tool` — Ekran 5, M7. **Uwaga krytyczna:** `KROK-POZA-KOLEJNOSCIA` to
+  twardy stop `level: "critical"` (decyzja właściciela 07.09.2026) — opis narzędzia i handler
+  zwracają go z tą samą wagą co UI, bez łagodzenia. Wejście to wyłącznie lista ID kroków
+  potwierdzonych przez usera.
+- `wind-chill-tool` — Ekran 17, M7. Wzór NWS ważny tylko dla T ≤ 10°C i V > 4,8 km/h — poza
+  zakresem `OUT_OF_SCOPE`, `.describe()` zaznacza, że temperatura/wiatr to dane z pomiaru
+  lokalizacji usera, nie zgadywane.
+- `katalog-czujnikow-tool` — M9/ESP32, Katalog 1. Wzorzec H (podsumowanie stanu katalogu, bez
+  wzoru fizycznego) — lista instancji czujników (typ/etykieta/lokalizacja) wyłącznie od usera.
+- `dobor-regulatora-pwm-mppt-tool` — M12. Reguła twarda: klasa napięciowa paneli > akumulatora →
+  MPPT wymagany (nie tylko zalecany), PWM fizycznie nie zadziała — opis to podkreśla.
+- `tryb-uproszczony-tool` — Ekran 1, M12. Czas teoretyczny (bez sprawności/DoD/temperatury) —
+  `.describe()` jasno mówi, że to szybka orientacyjna odpowiedź trybu mobilnego, nie pełny proces
+  projektowy.
+
+Pominiętych 0 — wszystkie 5 kalkulatorów tej ostatniej partii miało `calculator.ts`. Poza tymi
+trzema katalogami sprawdzono, że nie ma żadnych innych nietkniętych podkatalogów w
+`lib/core/modules/` (wszystkie pozostałe: `baterie`, `bezpieczenstwo`, `lokalizacja`,
+`montaz-baterii`, `ogrzewanie`, `okablowanie`, `pv`, `zapotrzebowanie` — zamknięte w poprzednich
+sesjach rolloutu).
+
+**Tym samym cały rollout "opisy narzędzi AI dla kalkulatorów" (backlog 20.09.2026, punkt 7) jest
+zamknięty dla wszystkich `lib/core/modules/*`** — z wyjątkiem świadomie pominiętych w
+poprzednich sesjach (Wzorzec C bez `calculator.ts`, dane katalogowe/nie-i18n, moduły
+wielo-etapowe zbyt złożone do bezpiecznego mapowania 1:1, `wampiry-energetyczne` jako osobna
+większa sesja) — pełna lista uzasadnień: wpisy tej sekcji `docs/memory.md` od Modułu 11 do
+Modułu 8 wyżej.
+
+Weryfikacja: `pnpm typecheck` (czysto), `pnpm lint` (te same 2 istniejące ostrzeżenia
+`no-img-element`, niezwiązane), `pnpm check:i18n-guard` (OK, 152 moduły), `pnpm test` (170 plików,
+1408 testów, zero regresji), `pnpm build` (OK).
