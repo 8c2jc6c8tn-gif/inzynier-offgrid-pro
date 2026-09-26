@@ -9,6 +9,7 @@ import { NawigacjaEkranu } from "@/components/nawigacja-ekranu"
 import { NaglowekEkranu } from "@/components/wzorce/naglowek-ekranu"
 import { ListaChecklist } from "@/components/wzorce/lista-checklist"
 import { StanPusty } from "@/components/ui/stany"
+import { useTranslate } from "@/lib/i18n/language-context"
 
 type FormularzStan = {
   potwierdzoneIds: string[]
@@ -19,6 +20,7 @@ const STAN_POCZATKOWY: FormularzStan = {
 }
 
 export default function ProceduraBlackStartPage() {
+  const t = useTranslate()
   const [stan, setStan] = usePersistedDraft<FormularzStan>("procedura-black-start", STAN_POCZATKOWY)
   const { potwierdzoneIds } = stan
   const setPotwierdzoneIds = (a: string[] | ((p: string[]) => string[])) =>
@@ -75,7 +77,7 @@ export default function ProceduraBlackStartPage() {
         <WerdyktPanel poziom={poziom} etykieta={poziom === "ok" ? "Procedura zakończona" : undefined}>
           {result.warnings.map((w) => (
             <p key={w.code} className="mt-1 text-small">
-              {w.message}
+              {w.message ?? t(w.i18nKey ?? w.code, w.params)}
             </p>
           ))}
         </WerdyktPanel>

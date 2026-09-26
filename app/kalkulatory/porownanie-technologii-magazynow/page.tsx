@@ -51,6 +51,7 @@ export default function PorownanieTechnologiiMagazynowPage() {
   )
 
   const isInvalid = result.status === "INVALID_INPUT"
+  const blad = result.warnings[0]
 
   return (
     <main className="mx-auto flex max-w-2xl flex-col gap-6 p-6">
@@ -72,7 +73,7 @@ export default function PorownanieTechnologiiMagazynowPage() {
       />
 
       {isInvalid ? (
-        <WerdyktPanel poziom="blad" etykieta={result.warnings[0]?.message} />
+        <WerdyktPanel poziom="blad" etykieta={blad && (blad.message ?? t(blad.i18nKey ?? blad.code, blad.params))} />
       ) : (
         <KartaPorownawcza kolumny={KOLUMNY} wiersze={result.value} minWidth={640} />
       )}

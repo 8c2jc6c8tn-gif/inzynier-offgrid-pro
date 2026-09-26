@@ -992,6 +992,20 @@ export const dictionaryPl = {
   "KO-ZALOZENIE-ZWROT": "Zwrot liczony względem źródła najtańszego w zakupie: „{nazwa}”.",
   "KO-ZALOZENIE-COP-OPOROWE": "Grzałka, kocioł elektryczny i promienniki podczerwieni: COP = 1 — cały prąd zamienia się w ciepło (źródło: kocioł elektryczny „COP=1”).",
   "KO-ZALOZENIE-GODZINY-NOMINALNE": "Godziny pracy i prąd urządzeń paliwowych policzone przy mocy nominalnej (ciepło ÷ moc). Przy pracy na niższej mocy godzin i prądu pomocniczego będzie więcej.",
+  "PROGNOZY-ZALOZENIE-DANE-DEMO": "Dane demonstracyjne — docelowo ekran czerpie z silnika symulacji rocznej i prognozy pogody live.",
+  "PROGNOZY-ZALOZENIE-PROBKOWANIE-3H": "Suma liczona po dostępnych punktach próbkowania (co 3h), nie pełnej krzywej godzinowej — orientacyjnie, nie jako projekt wykonawczy.",
+  "PROTOKOL-NIEZNANY": "Co najmniej jedno z urządzeń ma nieznany/niesklasyfikowany protokół — sprawdź dokumentację obu urządzeń, zgodności nie da się ocenić automatycznie.",
+  "PORTECH-POJEMNOSC-NIEDODATNIA": "Wartość pola \"planowana pojemność\" musi być większa od zera.",
+  "PORTECH-ZALOZENIE-BASELINE": "Pojemność nie podana — porównanie liczone dla {pojemnosc} kWh (baseline \"na 1 kWh\").",
+  "PORTECH-ZALOZENIE-SRODEK-CYKLI": "Dla technologii, gdzie źródło podaje przedział cykli, użyto środka przedziału jako wartości reprezentatywnej.",
+  "AUDYT-ZALOZENIE-DANE-DEMO": "Dane demonstracyjne (SAMPLE_AUDIT_ITEMS) — docelowo ekran czerpie na żywo z Modułów 8/9/13.",
+  "KROK-POZA-KOLEJNOSCIA-ROZRUCH": "Zaznaczono krok poza kolejnością — potwierdź wcześniejsze kroki najpierw, zła kolejność rozruchu może uszkodzić sprzęt.",
+  "KABLE-OLOW-ZALOZENIE-ECHO-M5": "Dobór kabla i bezpiecznika liczony przez echo tych samych kalkulatorów co Moduł 5 (Ekran 1 i Ekran 6) — chemia baterii (kwasowa) nie wchodzi do wzoru, tylko wartości wejściowe.",
+  "OPD-ZALOZENIE-BRAK-TABELI-IP": "Lista wymaganych stopni IP wg miejsca montażu (z treści źródłowej) NIE zbudowana — źródło nie podaje tabeli miejsce→IP dla tego ekranu.",
+  "OZNAKOWANIE-ZALOZENIE-KOLORY-ZYL": "Kolorystyka żył (np. żółto-zielony PE, niebieski N) NIE jest tu podana — normuje ją IEC 60446, nie PN-EN 60445 (ta norma daje tylko kody alfanumeryczne/graficzne z Tabeli 1).",
+  "PUSZKI-ZALOZENIE-BRAK-LISTY-Z-TRAS": "Automatyczna lista punktów połączeniowych z tras (Ekran 19) NIE zbudowana — Ekran 19 nie ma modelu danych tras, nie ma skąd wygenerować listy bez wymyślania struktury.",
+  "SZYNY-ZALOZENIE-BRAK-DOBORU-PRZEKROJU": "Dobór przekroju szyny wg wytrzymałości zwarciowej (górna sekcja D źródła) NIE zbudowany — źródło nie podaje wzoru/tabeli.",
+  "KAT-ZAKRES-PRZEJSCIOWY": "Dla tego zakresu kąta źródło nie podaje jednoznacznej klasyfikacji.",
 } as const
 
 export type KluczTlumaczenia = keyof typeof dictionaryPl

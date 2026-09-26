@@ -9,6 +9,7 @@ import { NawigacjaEkranu } from "@/components/nawigacja-ekranu"
 import { NaglowekEkranu } from "@/components/wzorce/naglowek-ekranu"
 import { ListaChecklist } from "@/components/wzorce/lista-checklist"
 import { StanPusty } from "@/components/ui/stany"
+import { useTranslate } from "@/lib/i18n/language-context"
 
 /** Schemat: kolejność łączenia ogniw w szereg (przykład 4S — minus jednego do plusa następnego). */
 function PolaczeniaSzeregoweIlustracja() {
@@ -93,6 +94,7 @@ type FormularzStan = { potwierdzoneIds: string[] }
 const STAN_POCZATKOWY: FormularzStan = { potwierdzoneIds: [] }
 
 export default function PolaczeniaElektrycznePage() {
+  const t = useTranslate()
   const [stan, setStan] = usePersistedDraft<FormularzStan>("polaczenia-elektryczne", STAN_POCZATKOWY)
   const { potwierdzoneIds } = stan
   const setPotwierdzoneIds = (a: string[] | ((p: string[]) => string[])) =>
@@ -146,7 +148,7 @@ export default function PolaczeniaElektrycznePage() {
         <WerdyktPanel poziom={poziom} etykieta={poziom === "ok" ? "Połączenia zgodne z kolejnością" : undefined}>
           {result.warnings.map((w) => (
             <p key={w.code} className="mt-1 text-small">
-              {w.message}
+              {w.message ?? t(w.i18nKey ?? w.code, w.params)}
             </p>
           ))}
         </WerdyktPanel>

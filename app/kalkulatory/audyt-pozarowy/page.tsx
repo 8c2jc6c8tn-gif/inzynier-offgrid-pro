@@ -4,6 +4,7 @@ import { WerdyktPanel, type WerdyktPoziom } from "@/components/werdykt"
 import { NawigacjaEkranu } from "@/components/nawigacja-ekranu"
 import { NaglowekEkranu } from "@/components/wzorce/naglowek-ekranu"
 import { ListaOdczytowa, type PozycjaOdczytowa } from "@/components/wzorce/panel-odczytowy"
+import { ZalozeniaLista } from "@/components/zalozenia-lista"
 
 const STATUS_NA_POZIOM: Record<(typeof SAMPLE_AUDIT_ITEMS)[number]["status"], WerdyktPoziom> = {
   ok: "ok",
@@ -46,8 +47,9 @@ export default function AudytPozarowyPage() {
 
       <ListaOdczytowa pozycje={pozycje} />
 
+      <ZalozeniaLista assumptions={result.assumptions} />
       <p className="text-caption text-muted-foreground">
-        {result.assumptions.join(" ")} To ekran wyłącznie do odczytu — nie ma tu pól do
+        To ekran wyłącznie do odczytu — nie ma tu pól do
         wypełnienia, tylko wyniki innych systemów.
       </p>
     </main>

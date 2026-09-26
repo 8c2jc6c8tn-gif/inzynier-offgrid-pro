@@ -756,3 +756,16 @@ N.1 mogłoby wskazywać „kontrola mechaniczna (skrypt), nie przegląd” i opc
 Pułapka do zapisania razem z regułą: regex list skrótowych („8.17,18”) musi wykluczać początek następnego ID („8.2, 8.10”).
 
 Status: 🔎 nowe
+
+[26.09.2026] KATEGORIA: DOBRA PRAKTYKA — strażnik i18n sprawdza też kompletność własnej listy modułów
+
+Szczegóły: 17.9 opisuje strażnika z listą zmigrowanych modułów, a zasada „dopisz moduł w tej samej sesji” była w tym projekcie
+dwukrotnie pomijana (M6/E1 i 19 modułów w pełni zmigrowanych, ale bez ochrony). Teraz skrypt przechodzi po katalogach modułów
+i kończy się błędem, gdy katalog z plikiem silnika nie jest na liście. Przy okazji: reguła AST łapała tylko
+`assumptions: [...]` / `const assumptions = [...]`, a nie `assumptions.push("tekst")` — jeden moduł przemycał tak gotowy tekst.
+
+Dlaczego warto zgłosić do new-app-standards: lista „ręcznie dopisywana” rozjeżdża się w każdym projekcie; 17.9 mogłoby
+zalecać odwrócenie domyślności (po zakończeniu migracji: wszystkie moduły objęte, wyjątki jawne) oraz wymienić wzorzec
+`push` wśród konstrukcji, które strażnik musi rozpoznawać.
+
+Status: 🔎 nowe

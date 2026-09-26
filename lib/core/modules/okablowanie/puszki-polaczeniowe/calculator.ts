@@ -36,7 +36,7 @@ export function calculatePuszkiPolaczeniowe(
     formula: "",
     inputs: {},
     assumptions: [
-      "Automatyczna lista punktów połączeniowych z tras (Ekran 19) NIE zbudowana — Ekran 19 nie ma modelu danych tras, nie ma skąd wygenerować listy bez wymyślania struktury.",
+      { kod: "PUSZKI-ZALOZENIE-BRAK-LISTY-Z-TRAS" },
     ],
     warnings: [],
     calculatorVersion: CALCULATOR_VERSION,

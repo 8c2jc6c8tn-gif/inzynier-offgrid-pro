@@ -6922,3 +6922,25 @@ Szczegóły per plik: sekcje „Weryfikacja OCR (25.09.2026)” w `00-INDEKS.md`
   audit:gate / audit:n1. `next start` + Playwright 390 px, `pl-PL`, odpowiedź `/api/pvgis/tmy` podstawiona w przeglądarce (JRC
   zablokowane w kontenerze): E1 → wstaw temperatury → E2 (styczeń C.O. 70 kWh = 125,75 W/K × 23,2 K × 24 h ✓) → E7 (892 W =
   22,3 W/K × 40 K ✓); brak zduplikowanych `id`, poziomego przewijania, `⚠ [klucz]`; 404 tylko `/_vercel/insights`.
+
+## Strażnik i18n — domknięcie migracji wszystkich modułów (26.09.2026)
+
+- **Stan przed:** 39 modułów `lib/core/modules/*/*` (+5 podmodułów `wampiry-energetyczne/*`, których pierwszy skan nie
+  widział) poza `MIGRATED_MODULES`. Z tego 9 było w pełni zmigrowanych (kody we wszystkich 3 słownikach), ale bez ochrony
+  (`baterie/hierarchia-ladowania`, `napiecie-odciecia-a-zywotnosc`, `symulacja-ladowania-rozladowania`,
+  `symulacja-miesiaca-zachmurzenia`, 5× wampiry), 10 to checklisty z pustymi `assumptions/warnings`, 13 zwracało gotowy tekst
+  PL (14 miejsc), reszta to katalogi z samymi stałymi albo `eurokod-0/1` bez pliku silnika (strażnik nie ma czego sprawdzać).
+- **Migracja 13:** 14 nowych kluczy PL/EN/RU, treść PL 1:1 z dotychczasowego tekstu. Tam, gdzie kod ostrzeżenia już
+  istniał z innym tekstem, osobny klucz (`PORTECH-POJEMNOSC-NIEDODATNIA` ≠ `POJEMNOSC-NIEDODATNIA`;
+  `KROK-POZA-KOLEJNOSCIA-ROZRUCH` — Black Start, `critical`, inny tekst niż `KROK-POZA-KOLEJNOSCIA`). Strony czytające
+  `w.message` wprost → `w.message ?? t(w.i18nKey ?? w.code, w.params)`. **Pułapka:** `audyt-pozarowy/page.tsx` to Server
+  Component — hook `useTranslate` tam nie działa; założenia przez kliencki `ZalozeniaLista` (ten sam wzorzec co `prognozy`).
+  Ostrzeżenia audytu (`message` z szablonu z danymi `SAMPLE_AUDIT_ITEMS`) zostają — to dane demonstracyjne, nie tekst silnika,
+  i strona ich nie wyświetla (pokazuje pozycje wprost z `SAMPLE_AUDIT_ITEMS`).
+- **Luka strażnika (naprawiona):** nie widział `assumptions.push("…")` do lokalnej tablicy `string[]` — tak
+  `porownanie-technologii` zwracał 2 polskie założenia. Dodana reguła AST dla `assumptions.push(literał|szablon)`.
+- **Kompletność listy mechanicznie:** strażnik kończy się błędem, gdy katalog w `lib/core/modules` ma plik silnika
+  (`calculator/warnings/validation.ts`), a nie ma go na liście — powtarzająca się luka (M6/E1 i 19 powyższych).
+- **Weryfikacja:** typecheck / lint (0 błędów) / i18n-guard (150) / test 1387/1387 / build / audit:gate / audit:n1;
+  `next start` + Playwright 390 px `pl-PL`: Black Start, demontaż ołów, połączenia elektryczne (krok poza kolejnością),
+  porównanie technologii (0 i puste pole), audyt, prognozy, komunikacja BMS („inny”) — teksty widoczne, bez surowych kluczy.

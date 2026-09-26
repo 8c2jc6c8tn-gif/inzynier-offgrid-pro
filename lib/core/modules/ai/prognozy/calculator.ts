@@ -48,8 +48,8 @@ export function calculatePrognozy(punkty: GodzinaPrognozy[]): CalcResult<Prognoz
     formula: "",
     inputs: { liczbaPunktow: punkty.length },
     assumptions: [
-      "Dane demonstracyjne — docelowo ekran czerpie z silnika symulacji rocznej i prognozy pogody live.",
-      "Suma liczona po dostępnych punktach próbkowania (co 3h), nie pełnej krzywej godzinowej — orientacyjnie, nie jako projekt wykonawczy.",
+      { kod: "PROGNOZY-ZALOZENIE-DANE-DEMO" },
+      { kod: "PROGNOZY-ZALOZENIE-PROBKOWANIE-3H" },
     ],
     warnings: [],
     calculatorVersion: CALCULATOR_VERSION,

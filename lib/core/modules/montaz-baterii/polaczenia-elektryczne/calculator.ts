@@ -35,7 +35,7 @@ export function calculatePolaczeniaElektryczne(
         {
           code: "KROK-POZA-KOLEJNOSCIA",
           level: "warning",
-          message: "Zaznaczono krok poza kolejnością — potwierdź wcześniejsze kroki najpierw, kolejność ma znaczenie.",
+          i18nKey: "KROK-POZA-KOLEJNOSCIA",
           technicalMessage: `pierwszy niepotwierdzony krok w sekwencji: index ${potwierdzoneWKolejnosci}`,
         },
       ]

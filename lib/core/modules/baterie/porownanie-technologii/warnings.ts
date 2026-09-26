@@ -8,7 +8,7 @@ export function pojemnoscNotPositive(value: number): Warning {
   return {
     code: "POJEMNOSC-NIEDODATNIA",
     level: "critical",
-    message: 'Wartość pola "planowana pojemność" musi być większa od zera.',
+    i18nKey: "PORTECH-POJEMNOSC-NIEDODATNIA",
     technicalMessage: `pojemnoscKwh = ${value}, oczekiwano > 0`,
     field: "pojemnoscKwh",
   }

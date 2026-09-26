@@ -46,7 +46,7 @@ export function calculateProceduraBlackStart(
         {
           code: "KROK-POZA-KOLEJNOSCIA",
           level: "critical",
-          message: "Zaznaczono krok poza kolejnością — potwierdź wcześniejsze kroki najpierw, zła kolejność rozruchu może uszkodzić sprzęt.",
+          i18nKey: "KROK-POZA-KOLEJNOSCIA-ROZRUCH",
           technicalMessage: `pierwszy niepotwierdzony krok w sekwencji: index ${potwierdzoneWKolejnosci}`,
         },
       ]

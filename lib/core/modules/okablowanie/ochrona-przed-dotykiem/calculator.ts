@@ -30,7 +30,7 @@ export function calculateOchronaPrzedDotykiem(
     formula: "",
     inputs: { potwierdzone, razem },
     assumptions: [
-      "Lista wymaganych stopni IP wg miejsca montażu (z treści źródłowej) NIE zbudowana — źródło nie podaje tabeli miejsce→IP dla tego ekranu.",
+      { kod: "OPD-ZALOZENIE-BRAK-TABELI-IP" },
     ],
     warnings: [],
     calculatorVersion: CALCULATOR_VERSION,
