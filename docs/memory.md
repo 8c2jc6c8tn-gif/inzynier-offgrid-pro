@@ -7049,3 +7049,54 @@ Szczegóły per plik: sekcje „Weryfikacja OCR (25.09.2026)” w `00-INDEKS.md`
   ostrzeżenia `no-img-element`, niezwiązane ze zmianą), `pnpm check:i18n-guard` (OK, 152 moduły),
   `pnpm test` (170 plików, 1408 testów — wszystkie przeszły, zero regresji), `pnpm build` (OK).
 - **Następny w kolejności rolloutu:** Moduł 4.
+
+## Moduł 4 (Magazyn energii / baterie) — opisy narzędzi AI (26.09.2026)
+
+- Kontekst: rollout opisów narzędzi AI wg kolejności 11→3→4→2→reszta (wpis 20.09.2026). Moduł 4
+  (`lib/core/modules/baterie/`) miał 0 istniejących narzędzi AI przed tą sesją (sprawdzone grep-em
+  po treści importu `calculateXxx` z `modules/baterie`, nie tylko po nazwie pliku) — cały rollout
+  tego modułu to nowe pliki.
+- **32 podkatalogi w `lib/core/modules/baterie/`, z czego 29 dostało nowe narzędzie AI**:
+  `chlodzenie-latem`, `cold-c-rate`, `cold-cranking-amps`, `detekcja-doziemienia`,
+  `detekcja-zwarcia-efuse`, `dobor-bezpiecznika-dc`, `dobor-pojemnosci`, `grzalki-bms-mroz`,
+  `hierarchia-ladowania`, `kalibracja-soc`, `koniec-ladowania`, `long-term-storage`,
+  `mixing-rownolegle`, `modul-ev`, `moment-dokrecania-srub`, `napiecie-odciecia-a-zywotnosc`,
+  `obwod-precharge`, `ochrona-wilgoc`, `oplacalnosc-magazynu`, `pobor-wlasny-bms`,
+  `pozycjonowanie-ogniw`, `second-life`, `slabe-ogniwo`, `soh-per-ogniwo`,
+  `starzenie-degradacja`, `symulacja-ladowania-rozladowania`, `symulacja-miesiaca-zachmurzenia`,
+  `szyny-zbiorcze-miedzypakietowe`, `topologia-bms`, `vehicle-to-home`.
+- **Pominięte (3):**
+  - `matryca-alarmow-bms` — brak `calculator.ts` (Wzorzec C, czysta treść) — poza zakresem zadania.
+  - `komunikacja-bms`, `porownanie-technologii` — dane katalogowe/nie-i18n, świadomie wyłączone z
+    tego samego powodu co analogiczne wyłączenia z i18n (wpisy 19–26.09.2026 wyżej w tym pliku).
+- **Zatrzymane na jednym pliku, do zrobienia osobno — `napiecie-systemowe` (Ekran 2):** kalkulator
+  wielo-etapowy (Etapy A–H materiału źródłowego "Dobór napięcia systemu Off-Grid v3.0") — kreator
+  odbiorników z analizą jednoczesności, echo doboru przekroju kabla z `okablowanie/dobor-przekroju-
+  kabla` (typy `Material`/`SposobUlozenia`), trzy równoległe kosztorysy 12/24/48V z kilkunastoma
+  cenami edytowalnymi, pułapka konwersji 24V→48V. Kształt wejścia/wyjścia jest znacznie bardziej
+  złożony i zależny od typów innych modułów niż reszta wzorca Modułu 4 — zmapowanie 1:1 bez ryzyka
+  pomyłki w danych elektrycznych/kosztorysowych wymaga osobnej, dedykowanej sesji, nie tego
+  rollout-u. Zgodnie z zasadą zadania („jeśli kształt jest niejasny — zatrzymaj się na tym jednym
+  pliku, opisz problem, idź dalej”) — reszta modułu zbudowana, ten jeden ekran czeka.
+- **4 ekrany wcześniej opisywane w zadaniu jako „blocked/todo, cross-modułowe” — okazały się mieć
+  już działający `calculator.ts`:** Symulacja czasu ładowania/rozładowania
+  (`symulacja-ladowania-rozladowania`), Napięcie odcięcia a żywotność
+  (`napiecie-odciecia-a-zywotnosc`), Hierarchia ładowania (`hierarchia-ladowania`), Symulacja
+  miesiąca zachmurzenia (`symulacja-miesiaca-zachmurzenia`) — wszystkie cztery mają pełny, działający
+  kalkulator (uproszczony wg deklaracji w komentarzach nagłówkowych, np. średnie moce zamiast
+  pełnego profilu godzinowego z niebudowanych jeszcze Modułu 2/3, ale w pełni obliczalny z danych
+  wejściowych usera). Zgodnie z dosłownym brzmieniem zadania („pomiń TYLKO jeśli nie mają jeszcze
+  `calculator.ts`”) — zbudowane razem z resztą modułu, nie pominięte.
+- **Wzorzec 1:1** z Modułów 11/3: `operationType: 'read'`, `requiresConfirmation: false`, handler
+  zawsze deleguje do prawdziwego `calculateXxx` z `lib/core/modules/baterie/**`, ostrzeżenia/
+  założenia przez `tekstyOstrzezen`/`tekstyZalozen`. Dane bezpieczeństwa (napięcia/prądy/rezystancje
+  zmierzone, temperatury ogniw, AIC bezpiecznika, zdolność łączeniowa tranzystorów BMS, obecność
+  zabezpieczeń przed doziemieniem) opisane w `.describe()` jako dane WYŁĄCZNIE od usera/pomiaru/BMS
+  — model nigdy ich nie zgaduje. `hierarchia-ladowania-tool.ts` i `moment-dokrecania-srub-tool.ts`
+  mają kalkulatory bez `unit`/liczbowego wzoru (klasyfikator dyskretny / checklista) — output nadal
+  pełny `CalcResult` (status, ew. ostrzeżenia/założenia), zgodnie z kontraktem.
+- **Weryfikacja:** `pnpm typecheck` (czysto), `pnpm lint` (0 błędów, te same 2 istniejące wcześniej
+  ostrzeżenia `no-img-element`, niezwiązane ze zmianą), `pnpm check:i18n-guard` (OK, 152 moduły),
+  `pnpm test` (170 plików, 1408 testów — wszystkie przeszły, zero regresji), `pnpm build` (OK).
+- **Następny w kolejności rolloutu:** Moduł 2. `napiecie-systemowe` (Ekran 2, Moduł 4) zostaje jako
+  jawny dług do domknięcia osobno.

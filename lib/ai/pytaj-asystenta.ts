@@ -76,6 +76,36 @@ import { stratyZlaczkiMc4Tool } from "./tools/straty-zlaczki-mc4-tool"
 import { stressTestMpptTool } from "./tools/stress-test-mppt-tool"
 import { wplywTemperaturyTool } from "./tools/wplyw-temperatury-tool"
 import { zacienienieDiodyBocznikujaceTool } from "./tools/zacienienie-diody-bocznikujace-tool"
+import { chlodzenieLatemTool } from "./tools/chlodzenie-latem-tool"
+import { coldCRateTool } from "./tools/cold-c-rate-tool"
+import { coldCrankingAmpsTool } from "./tools/cold-cranking-amps-tool"
+import { detekcjaDoziemieniaTool } from "./tools/detekcja-doziemienia-tool"
+import { detekcjaZwarciaEFuseTool } from "./tools/detekcja-zwarcia-efuse-tool"
+import { doborBezpiecznikaDcTool } from "./tools/dobor-bezpiecznika-dc-tool"
+import { doborPojemnosciTool } from "./tools/dobor-pojemnosci-tool"
+import { grzalkiBmsMrozTool } from "./tools/grzalki-bms-mroz-tool"
+import { hierarchiaLadowaniaTool } from "./tools/hierarchia-ladowania-tool"
+import { kalibracjaSocTool } from "./tools/kalibracja-soc-tool"
+import { koniecLadowaniaTool } from "./tools/koniec-ladowania-tool"
+import { longTermStorageTool } from "./tools/long-term-storage-tool"
+import { mixingRownoleglTool } from "./tools/mixing-rownolegle-tool"
+import { modulEvTool } from "./tools/modul-ev-tool"
+import { momentDokrecaniaSrubTool } from "./tools/moment-dokrecania-srub-tool"
+import { napiecieOdcieciaAZywotnoscTool } from "./tools/napiecie-odciecia-a-zywotnosc-tool"
+import { obwodPrechargeTool } from "./tools/obwod-precharge-tool"
+import { ochronaWilgocTool } from "./tools/ochrona-wilgoc-tool"
+import { oplacalnoscMagazynuTool } from "./tools/oplacalnosc-magazynu-tool"
+import { poborWlasnyBmsTool } from "./tools/pobor-wlasny-bms-tool"
+import { pozycjonowanieOgniwTool } from "./tools/pozycjonowanie-ogniw-tool"
+import { secondLifeTool } from "./tools/second-life-tool"
+import { slabeOgniwoTool } from "./tools/slabe-ogniwo-tool"
+import { sohPerOgniwoTool } from "./tools/soh-per-ogniwo-tool"
+import { starzenieDegradacjaTool } from "./tools/starzenie-degradacja-tool"
+import { symulacjaLadowaniaRozladowaniaTool } from "./tools/symulacja-ladowania-rozladowania-tool"
+import { symulacjaMiesiacaZachmurzeniaTool } from "./tools/symulacja-miesiaca-zachmurzenia-tool"
+import { szynyZbiorczeMiedzypakietoweTool } from "./tools/szyny-zbiorcze-miedzypakietowe-tool"
+import { topologiaBmsTool } from "./tools/topologia-bms-tool"
+import { vehicleToHomeTool } from "./tools/vehicle-to-home-tool"
 import { toAnthropicTool } from "./to-anthropic-tool"
 import { validateAiToolDefinition, type AiToolDefinition } from "./types"
 
@@ -142,6 +172,36 @@ const NARZEDZIA: Array<AiToolDefinition<any, any>> = [
   stressTestMpptTool,
   wplywTemperaturyTool,
   zacienienieDiodyBocznikujaceTool,
+  chlodzenieLatemTool,
+  coldCRateTool,
+  coldCrankingAmpsTool,
+  detekcjaDoziemieniaTool,
+  detekcjaZwarciaEFuseTool,
+  doborBezpiecznikaDcTool,
+  doborPojemnosciTool,
+  grzalkiBmsMrozTool,
+  hierarchiaLadowaniaTool,
+  kalibracjaSocTool,
+  koniecLadowaniaTool,
+  longTermStorageTool,
+  mixingRownoleglTool,
+  modulEvTool,
+  momentDokrecaniaSrubTool,
+  napiecieOdcieciaAZywotnoscTool,
+  obwodPrechargeTool,
+  ochronaWilgocTool,
+  oplacalnoscMagazynuTool,
+  poborWlasnyBmsTool,
+  pozycjonowanieOgniwTool,
+  secondLifeTool,
+  slabeOgniwoTool,
+  sohPerOgniwoTool,
+  starzenieDegradacjaTool,
+  symulacjaLadowaniaRozladowaniaTool,
+  symulacjaMiesiacaZachmurzeniaTool,
+  szynyZbiorczeMiedzypakietoweTool,
+  topologiaBmsTool,
+  vehicleToHomeTool,
 ]
 for (const narzedzie of NARZEDZIA) validateAiToolDefinition(narzedzie)
 
