@@ -258,6 +258,9 @@ jeszcze w kodzie.
   odbiorców w kodzie (M3/E9, E2 — D27), to drugi egzemplarz normy z notatką `norma-PN-EN-1991-1-4/`;
   `norma-PN-EN-1990-eurokod-0/` — bezpośrednio potrzebna (🔴 w `docs/normy-brakujace.md`, balast
   projektowy). Rekomendacja przeniesienia Eurokodu 0 do `new-app-standards` — nieaktualna.
+- **[25.09.2026] Folder `norma-PN-EN-1991-1-4-wiatr/` scalony z `norma-PN-EN-1991-1-4/`** (decyzja
+  właściciela projektu, wariant A): PDF, `01-tresc-ocr.txt` i dawny indeks są teraz w
+  `norma-PN-EN-1991-1-4/`. Nazwa `…-wiatr/` w tabeli i akapitach wyżej to zapis historyczny.
 
 ## Norma PN-EN 1991-1-4:2008 + AC:2009 — Eurokod 1, oddziaływanie wiatru (25.09.2026)
 

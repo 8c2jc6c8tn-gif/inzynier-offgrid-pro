@@ -6834,5 +6834,11 @@ NB = bez zmian krajowych. PN-82/B-02403 Tablica 1 — strefy I–V: −16/−18/
 PN-EN 1990 jest 🔴 potrzebna, nie „wątpliwa”; PN-82/B-02403 nie ma listy miejscowości. Dwa foldery normy
 wiatrowej (`norma-PN-EN-1991-1-4/` notatka, `…-wiatr/` pełny tekst) — połączone odsyłaczami; scalenie
 (A) albo zostawienie (B) — pytanie do właściciela, bez odpowiedzi.
+**[25.09.2026, uzupełnienie] Rozstrzygnięte — wariant A (scalenie).** Folder `norma-PN-EN-1991-1-4-wiatr/`
+przeniesiony do `norma-PN-EN-1991-1-4/` (PDF, `01-tresc-ocr.txt`; dawny `00-INDEKS.md` dopisany bez
+skrótów jako sekcja „Pełny tekst normy”). Wybrano ten folder, bo wskazują go kod (`eurokod-1/wiatr.ts`)
+i D26/D27. Starsze wpisy z nazwą `…-wiatr/` zostawione jako historia (z dopiskiem w README źródeł).
+Uwaga: PDF normy jest teraz w publicznym repo — sprawa licencji rozstrzygnięta wcześniej przez
+właściciela (wpis „Licencje norm…”), nie wracać.
 
 Szczegóły per plik: sekcje „Weryfikacja OCR (25.09.2026)” w `00-INDEKS.md` każdego folderu paczki.

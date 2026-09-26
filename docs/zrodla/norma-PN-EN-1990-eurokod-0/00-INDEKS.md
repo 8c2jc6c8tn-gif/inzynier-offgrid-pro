@@ -48,7 +48,7 @@ projekt, chyba że powstanie moduł konstrukcji wsporczej).
 
 ## Weryfikacja OCR (25.09.2026)
 
-Metoda jak w `norma-PN-EN-1991-1-4-wiatr/00-INDEKS.md` (kompletność 120/120, drugi niezależny OCR
+Metoda jak w `norma-PN-EN-1991-1-4/00-INDEKS.md` (sekcja „Pełny tekst normy”; dawniej `norma-PN-EN-1991-1-4-wiatr/`) (kompletność 120/120, drugi niezależny OCR
 300 DPI, hunspell pl — 48 poprawek + ~36 ręcznych, odczyt wizualny ze skanem).
 
 **Zweryfikowane wizualnie i przepisane w całości:** strony pliku **33–44** (6.3.5–6.5: EQU/STR/GEO,
