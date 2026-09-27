@@ -7583,3 +7583,16 @@ kod trzy normy (whitepaper IEC 62109-1 nadal nieprzeczytany, ELEKTRA = duplikat 
   ustawieniami (średniki, szerokość 80). Cofnięte; formatować ręcznie w stylu pliku (bez średników, linie do ~160).
 - Weryfikacja: typecheck / lint (0 błędów) / i18n-guard (153) / test 172 plików, 1429 / build / audit:gate / audit:n1;
   `next start` + Playwright 390 px `pl-PL`: E7 (C2 → Ψoi 0,10), E8, SPD (CRL 81,7) — bez poziomego przewijania.
+
+## Whitepaper IEC 62109-1 przeczytany + przegląd kompletności źródeł (27.09.2026)
+
+- **Dlaczego wisiał nieprzeczytany:** sesja dodająca 4 pliki (27.09) rozpoznała go tylko po
+  metadanych i odłożyła odczyt jako 🔲; sesja „ekrany odblokowane” wzięła na warsztat tylko normy
+  odblokowujące ekrany i whitepaper pominęła, choć odnotowała go jako nieprzeczytany. Pułapka:
+  wpis 🔲 „dokończyć odczyt” nie ma właściciela-ekranu, więc przegrywa z zadaniami kodowymi —
+  przy każdym „przerób nowe dokumenty” przejrzyj wszystkie 🔲 dotyczące `docs/zrodla/`.
+- **Wynik:** TI SLYY102 (2016), 11 stron (indeks podawał 14 — błąd z odczytu metadanych, poprawiony).
+  Izolacja wewnątrz falownika (projektant elektroniki), nie instalacja → nic do kodu, luka normy 🟡.
+- **Przegląd 22 folderów:** tylko ten plik był nieprzeczytany. 6 PDF `document-download 4–9`
+  miało treść w `.txt`, ale indeksy nie wymieniały nazw oryginałów — dopisano mapowanie. Skrypt
+  kontrolny (każdy plik folderu wymieniony z nazwy w `00-INDEKS.md`) — do powtarzania przy kolejnych paczkach.

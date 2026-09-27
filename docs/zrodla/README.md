@@ -355,3 +355,12 @@ tamtym materiale przy konwersji PPTX→DOCX. Zadanie porównawcze zapisane w
 - **[27.09.2026] Decyzja właściciela — wariant A:** folder `materialy-szkolenie-ZIAD-Bielsko-Biala/` **usunięty**
   (duplikat), a niekompletny `.docx` usunięty też z `materialy-branzowe-PV-2019/` — oryginałem zostaje tylko pełny
   PDF. Opisy wyżej, wskazujące na folder ZIAD / `.docx`, są historyczne (pliki w historii git).
+
+## Odczyt whitepaper IEC 62109-1 + przegląd kompletności `docs/zrodla/` (27.09.2026)
+
+- **Whitepaper IEC 62109-1** (`norma-IEC-62109-1/`) — przeczytany w całości: Texas Instruments
+  SLYY102, 2016, **11 stron** (wcześniejsze „14” było błędne). Dobór izolatorów wewnątrz
+  falownika; nie odblokowuje ekranów, bez liczb do kodu. Streszczenie w `00-INDEKS.md` folderu.
+- **Przegląd wszystkich folderów:** żaden inny plik nie pozostaje nieprzeczytany. Indeksy
+  `materialy-fizyka-budowli/` i `norma-PN-EN-1990-eurokod-0/` uzupełnione o nazwy oryginałów PDF
+  (`document-download 4–9.pdf`), z których wcześniej wyekstrahowano pliki `.txt`.

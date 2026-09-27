@@ -9,6 +9,12 @@ Cztery pliki, różna jakość i wartość:
 | `03-kopia-fragment-lodz.txt` | 73 | **niska wartość** — strony to głównie znak wodny Studocu ("Downloaded by...", stopki), rzeczywista treść normy jest obrazem, nieprzepisana | kopia Eurokodu 0 (Politechnika Łódzka) |
 | `04-kopia-fragment-poznan.txt` | 30 | **niska wartość**, jak wyżej | PN-EN 1990:2004/A1:2008 (Politechnika Poznańska) |
 
+**Oryginały PDF plików 02–04** (dopisane 27.09.2026 — wcześniej indeks nie wymieniał ich nazw):
+`document-download 7.pdf` (14 stron) → `02-lista-eurokodow-wprowadzonych-do-PN.txt`;
+`document-download 8.pdf` (73 strony) → `03-kopia-fragment-lodz.txt`;
+`document-download 9.pdf` (30 stron) → `04-kopia-fragment-poznan.txt` (zgodność liczby stron i
+tytułów z metadanych PDF sprawdzona 27.09.2026).
+
 **Pliki 03/04 nie zostały OCR-owane** — ich strony to skan z warstwą tekstową ograniczoną do
 stopki Studocu, bez treści normy w warstwie tekstowej. Uznane za zbędne duplikaty głównego pliku
 `803243456-...pdf` (ta sama norma, gorsza jakość, dodatkowej wartości nie wnoszą) — jeśli
