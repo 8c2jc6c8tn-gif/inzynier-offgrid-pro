@@ -148,6 +148,10 @@ nie do audytu poprawności formularza webowego.
   ładowania (do 14,5 V dla 12 V) przekracza górną granicę tolerancji urządzenia, ryzyko uszkodzenia.
   [27.09.2026] (M12/E27 — `lib/core/modules/kalkulator-mobilny/urzadzenie-12v-bezposrednio/warnings.ts`,
   `przepieciePrzyLadowaniu`, kod `U12-PRZEPIECIE-PRZY-LADOWANIU`)
+- **Voc paneli w mrozie powyżej max napięcia wejścia solarnego stacji zasilania/powerbanka** — stacje mają niższe
+  limity niż profesjonalne MPPT, przekroczenie uszkadza wejście.
+  [27.09.2026] (M12/E39 — `lib/core/modules/kalkulator-mobilny/panel-do-stacji-zasilania/warnings.ts`,
+  `przekroczoneNapiecieWejscia`, kod `PST-PRZEKROCZONE-NAPIECIE-WEJSCIA`)
 
 ## Cieplne / systemowe
 

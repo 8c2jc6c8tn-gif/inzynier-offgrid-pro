@@ -7613,3 +7613,5 @@ Polecenie właściciela: „co można jeszcze zrobić beze mnie, czy są większ
   ekranów = specyfikacja ekranu, Dyrektywa #13), stała w `urzadzenie-12v-bezposrednio/constants.ts`. Konsekwencja: urządzenie o
   max 14,55 V przejdzie bez 🔴, choć przy ładowarce 14,6 V (typowej dla LiFePO4) byłoby przekroczone. **Pułapka:** porównania granic
   zakresów liczonych z procentów wymagają tolerancji numerycznej (12,5 × 1,16 = 14,4999…) — tu `EPS_V = 1e-9`.
+- **[27.09.2026, pakiet 2] M12/E39 (panel → stacja zasilania)** — echo `obliczNapiecieStringuZimowego` + progi M3/E5. `WerdyktPoziom`
+  ma wartości `ok | uwaga | blad` (nie „ostrzezenie”). Prąd zwarciowy tylko 🟡 (źródło bez stopu, zachowanie stacji zależy od producenta).

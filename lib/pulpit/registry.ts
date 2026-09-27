@@ -276,6 +276,7 @@ export const KAFLE: KafelEntry[] = [
       { href: "/kalkulatory/dni-bez-slonca", label: "Ile dni pracy bez słońca — mały zestaw" },
       { href: "/kalkulatory/ochrona-przed-rozladowaniem", label: "Ochrona przed rozładowaniem (dozownik LVD)" },
       { href: "/kalkulatory/urzadzenie-12v-bezposrednio", label: "Czy mogę podłączyć urządzenie 12 V bezpośrednio?" },
+      { href: "/kalkulatory/panel-do-stacji-zasilania", label: "Łączenie paneli ze stacją zasilania / powerbankiem" },
     ],
   },
   {

@@ -4,6 +4,7 @@ import { validateAiToolDefinition } from "../../types"
 import { dniBezSloncaTool } from "../dni-bez-slonca-tool"
 import { ochronaPrzedRozladowaniemTool } from "../ochrona-przed-rozladowaniem-tool"
 import { urzadzenie12vBezposrednioTool } from "../urzadzenie-12v-bezposrednio-tool"
+import { panelDoStacjiZasilaniaTool } from "../panel-do-stacji-zasilania-tool"
 
 describe("dniBezSloncaTool (M12/E32, dawne 8.59)", () => {
   it("kontrakt 9.3: 'read', bez potwierdzenia", () => {
@@ -65,5 +66,26 @@ describe("urzadzenie12vBezposrednioTool (M12/E27, dawne 8.54)", () => {
     expect(w.status).toBe("VALID_WITH_WARNINGS")
     expect(w.zakresPokryty).toBe(false)
     expect(w.ostrzezenia[0]).toBe(t("pl", "U12-PRZEPIECIE-PRZY-LADOWANIU", { aku: "14.5", urzadzenie: "12.6" }))
+  })
+})
+
+describe("panelDoStacjiZasilaniaTool (M12/E39, dawne 8.66)", () => {
+  it("kontrakt 9.3: 'read', bez potwierdzenia", () => {
+    expect(panelDoStacjiZasilaniaTool.operationType).toBe("read")
+    expect(panelDoStacjiZasilaniaTool.requiresConfirmation).toBe(false)
+    expect(() => validateAiToolDefinition(panelDoStacjiZasilaniaTool)).not.toThrow()
+  })
+
+  it("pola opcjonalne pominięte; −20 °C, 2 × 22,5 V vs 50 V → twardy stop jako tekst PL", async () => {
+    const w = await panelDoStacjiZasilaniaTool.handler({
+      vocStcV: 22.5,
+      betaPctNaC: -0.3,
+      tminC: -20,
+      liczbaSzeregowo: 2,
+      maxNapiecieWejsciaV: 50,
+    })
+    expect(w.status).toBe("VALID_WITH_WARNINGS")
+    expect(w.pradZwarciowyA).toBeNull()
+    expect(w.ostrzezenia[0]).toBe(t("pl", "PST-PRZEKROCZONE-NAPIECIE-WEJSCIA", { voc: "51.1", limit: "50" }))
   })
 })
