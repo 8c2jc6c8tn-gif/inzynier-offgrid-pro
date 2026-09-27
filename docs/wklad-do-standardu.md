@@ -850,3 +850,16 @@ każdy projekt rodziny z twardymi stopami progowymi trafi na ten sam błąd. Kan
 z progiem — z nazwaną tolerancją; obowiązkowy test przypadku równości”.
 
 Status: 🔎 nowe
+
+[27.09.2026] KATEGORIA: BŁĄD — React `key={w.code}` przy liście ostrzeżeń zostawia nieaktualne komunikaty na ekranie
+Szczegóły: wspólny `WynikSzczegoly` kluczował ostrzeżenia samym kodem. Ekran z listą urządzeń (M7/E19) emituje ten sam kod
+kilka razy (jeden na urządzenie) — duplikaty kluczy sprawiły, że po uzupełnieniu danych na ekranie został komunikat „brak
+minimalnej temperatury” dla urządzenia, które już ją miało. Silnik zwracał poprawny wynik; błąd tylko w DOM, złapany
+zrzutem Playwright. Naprawa: `key={w.code + i}` (tak jak już dla założeń). Kod ostrzeżenia identyfikuje typ, nie wystąpienie.
+
+Dlaczego warto zgłosić do new-app-standards: rozdz. o CalcResult/UI zakłada kod jako identyfikator ostrzeżenia; każdy
+projekt rodziny z listami wejściowymi (wiele odbiorników, ogniw, obwodów) trafi na to samo, a skutek — nieaktualny werdykt
+bezpieczeństwa na ekranie — jest groźny. Kandydat na regułę: „kod ostrzeżenia ≠ klucz renderowania; klucz = kod + indeks
+(lub kod + pole/id wiersza)”.
+
+Status: 🔎 nowe

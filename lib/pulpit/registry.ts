@@ -205,6 +205,8 @@ export const KAFLE: KafelEntry[] = [
       { href: "/kalkulatory/procedura-black-start", label: "Procedura Black Start" },
       { href: "/kalkulatory/wind-chill", label: "Wind Chill — temperatura odczuwalna" },
       { href: "/kalkulatory/obciazenie-dachu-sniegiem", label: "Obciążenie dachu śniegiem" },
+      { href: "/kalkulatory/sztywnienie-izolacji", label: "Sztywnienie izolacji na mrozie" },
+      { href: "/kalkulatory/elektronika-w-mrozie", label: "Elektronika w mrozie" },
     ],
   },
   {

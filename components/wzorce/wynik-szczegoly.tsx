@@ -44,8 +44,8 @@ export function WynikSzczegoly({
 
       {warnings && warnings.length > 0 && (
         <ul className="mt-2 space-y-1 text-small">
-          {warnings.map((w) => (
-            <li key={w.code}>{tekstOstrzezenia(w)}</li>
+          {warnings.map((w, i) => (
+            <li key={w.code + i}>{tekstOstrzezenia(w)}</li>
           ))}
         </ul>
       )}

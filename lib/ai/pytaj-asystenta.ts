@@ -65,6 +65,8 @@ import { weryfikacjaWstepnaOlowTool } from "./tools/weryfikacja-wstepna-olow-too
 import { proceduraBlackStartTool } from "./tools/procedura-black-start-tool"
 import { windChillTool } from "./tools/wind-chill-tool"
 import { obciazenieDachuSniegiemTool } from "./tools/obciazenie-dachu-sniegiem-tool"
+import { sztywnienieIzolacjiTool } from "./tools/sztywnienie-izolacji-tool"
+import { elektronikaWMrozieTool } from "./tools/elektronika-w-mrozie-tool"
 import { katalogCzujnikowTool } from "./tools/katalog-czujnikow-tool"
 import { doborRegulatoraPwmMpptTool } from "./tools/dobor-regulatora-pwm-mppt-tool"
 import { dniBezSloncaTool } from "./tools/dni-bez-slonca-tool"
@@ -319,6 +321,8 @@ const NARZEDZIA: Array<AiToolDefinition<any, any>> = [
   proceduraBlackStartTool,
   windChillTool,
   obciazenieDachuSniegiemTool,
+  sztywnienieIzolacjiTool,
+  elektronikaWMrozieTool,
   katalogCzujnikowTool,
   doborRegulatoraPwmMpptTool,
   dniBezSloncaTool,
