@@ -150,6 +150,7 @@ const MIGRATED_MODULES = [
   "lib/core/modules/kalkulator-mobilny/kable-bezpieczniki-male",
   "lib/core/modules/stress-test/wind-chill",
   "lib/core/modules/stress-test/obciazenie-dachu-sniegiem",
+  "lib/core/modules/stress-test/sztywnienie-izolacji",
   "lib/core/modules/zapotrzebowanie/urzadzenia-zmienne",
   "lib/core/modules/zapotrzebowanie/sprawnosc-inwertera-niskie-obciazenie",
   "lib/core/modules/zapotrzebowanie/architektura-fazowa",

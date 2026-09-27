@@ -289,7 +289,7 @@ ma samodzielny wzór fizyczny i nie musi czekać.
 | 10 | 6.12→7.12 | SPOF | todo | zależny (lista komponentów wszystkich modułów) |
 | 11 | 6.16→7.16 | Grzałki dachowe/rynnowe | todo | zależny (M1 dach) |
 | 12 | 6.14→7.14 | Współczynnik Bezpieczeństwa Zimowego | todo | zależny (agreguje 6.1,6.4,6.7,6.9,6.11...) |
-| 13 | 6.17→7.17 | Sztywnienie izolacji w mrozie | todo | **niezależny kandydat** — progi materiałowe to stała tabela, nie wymaga bazy komponentów |
+| 13 | 6.17→7.17 | Sztywnienie izolacji w mrozie | **done** | **[27.09.2026]** `lib/core/modules/stress-test/sztywnienie-izolacji/`, UI: `app/kalkulatory/sztywnienie-izolacji/page.tsx`, 6 testów silnika + 2 testy narzędzia AI `sprawdz_sztywnienie_izolacji_na_mrozie`. Progi 1:1 ze źródła: PVC −10°C (🔴 poniżej), XLPE −40°C (poniżej tylko 🟡 — źródło nie wpisuje 🔴), guma i aluminium bez liczby → info. Strona gorąca — M5/E28. Bez bazy komponentów (materiały zaznacza user). Pierwotna notatka: **niezależny kandydat** — progi materiałowe to stała tabela, nie wymaga bazy komponentów |
 | 14 | 6.18→7.18 | Wieczna mgła/szadź | todo | zależny (M1, M3) |
 | 15 | 6.22→7.21 | Krótkie okno słoneczne | todo | zależny (M3 produkcja, M2 zapotrzebowanie) |
 | 16 | 6.24→7.23 | Turbina wiatrowa zimą | todo | zależny (dane wiatrowe M1) |

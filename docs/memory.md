@@ -7635,3 +7635,7 @@ Polecenie właściciela: „co można jeszcze zrobić beze mnie, czy są większ
 - **Pułapka IEEE-754 (drugi raz po E27):** 0,8 × 0,9 = 0,7200000000000001, więc s równe nośności dawało fałszywe 🔴. Porównanie z tolerancją `EPS_KN_M2 = 1e-9`. Wniosek: każde porównanie iloczynu z progiem „>” wpisanym przez usera potrzebuje tolerancji — kandydat do `docs/wklad-do-standardu.md`.
 - Porównanie na wartościach charakterystycznych (bez γQ = 1,5) — założenie jawne w UI; nośność user musi podać też jako charakterystyczną.
 - Otwarte dla właściciela: próg „zbliżania się do nośności” (źródło: 🔴 „zbliżające się lub przekraczające”, bez liczby) — dziś tylko % wykorzystania.
+
+### M7/E13 sztywnienie izolacji (27.09.2026)
+
+- Progi 1:1 ze źródła (PVC −10°C, XLPE −40°C). Asymetria świadoma: 🔴 tylko PVC (tak źródło), XLPE poniżej progu — 🟡. Guma/aluminium bez liczby → info. Para z M5/E28 (strona gorąca) — osobne ekrany, nie scalone, bo źródło ma je w dwóch modułach.
