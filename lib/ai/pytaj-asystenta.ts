@@ -44,6 +44,121 @@ import { zapotrzebowanieCoCwuTool } from "./tools/zapotrzebowanie-co-cwu-tool"
 import { mostkiTermiczneTool } from "./tools/mostki-termiczne-tool"
 import { optymalizacjaIzolacjiTool } from "./tools/optymalizacja-izolacji-tool"
 import { pojemnoscCieplnaTool } from "./tools/pojemnosc-cieplna-tool"
+import { buforCieplaTool } from "./tools/bufor-ciepla-tool"
+import { copPompyCieplaTool } from "./tools/cop-pompy-ciepla-tool"
+import { infiltracjaPowietrzaTool } from "./tools/infiltracja-powietrza-tool"
+import { kociolElektrycznyTool } from "./tools/kociol-elektryczny-tool"
+import { pompyCyrkulacyjneTool } from "./tools/pompy-cyrkulacyjne-tool"
+import { ryzykoNiskiegoNapieciaTool } from "./tools/ryzyko-niskiego-napiecia-tool"
+import { wentylacjaOdzyskCieplaTool } from "./tools/wentylacja-odzysk-ciepla-tool"
+import { weryfikacjaOgniwTool } from "./tools/weryfikacja-ogniw-tool"
+import { montazMechanicznyTool } from "./tools/montaz-mechaniczny-tool"
+import { polaczeniaElektryczneTool } from "./tools/polaczenia-elektryczne-tool"
+import { sekwencjaMontazuTool } from "./tools/sekwencja-montazu-tool"
+import { podlaczenieBmsTool } from "./tools/podlaczenie-bms-tool"
+import { pierwszeUruchomienieTool } from "./tools/pierwsze-uruchomienie-tool"
+import { demontazPakietuTool } from "./tools/demontaz-pakietu-tool"
+import { przygotowanieStanowiskaTool } from "./tools/przygotowanie-stanowiska-tool"
+import { ocenaZuzyciaTool } from "./tools/ocena-zuzycia-tool"
+import { ratowanieOgniwaTool } from "./tools/ratowanie-ogniwa-tool"
+import { weryfikacjaWstepnaOlowTool } from "./tools/weryfikacja-wstepna-olow-tool"
+import { proceduraBlackStartTool } from "./tools/procedura-black-start-tool"
+import { windChillTool } from "./tools/wind-chill-tool"
+import { katalogCzujnikowTool } from "./tools/katalog-czujnikow-tool"
+import { doborRegulatoraPwmMpptTool } from "./tools/dobor-regulatora-pwm-mppt-tool"
+import { trybUproszczonyTool } from "./tools/tryb-uproszczony-tool"
+import { montazMechanicznyOlowTool } from "./tools/montaz-mechaniczny-olow-tool"
+import { polaczeniaCzyszczenieOlowTool } from "./tools/polaczenia-czyszczenie-olow-tool"
+import { balanseryZewnetrzneOlowTool } from "./tools/balansery-zewnetrzne-olow-tool"
+import { doborKabliBezpiecznikowOlowTool } from "./tools/dobor-kabli-bezpiecznikow-olow-tool"
+import { uruchomienieTestyOlowTool } from "./tools/uruchomienie-testy-olow-tool"
+import { demontazOlowTool } from "./tools/demontaz-olow-tool"
+import { bezpieczenstwoKwasTool } from "./tools/bezpieczenstwo-kwas-tool"
+import { gestoscElektrolituTool } from "./tools/gestosc-elektrolitu-tool"
+import { ocenaZasiarczeniaTool } from "./tools/ocena-zasiarczenia-tool"
+import { dopasowanieTablicyFalownikaTool } from "./tools/dopasowanie-tablicy-falownika-tool"
+import { konfiguratorStringowTool } from "./tools/konfigurator-stringow-tool"
+import { naporWiatruTool } from "./tools/napor-wiatru-tool"
+import { niedopasowaniePaneliTool } from "./tools/niedopasowanie-paneli-tool"
+import { ochronaStringowTool } from "./tools/ochrona-stringow-tool"
+import { paneleBifacjalneTool } from "./tools/panele-bifacjalne-tool"
+import { ryzykoPidTool } from "./tools/ryzyko-pid-tool"
+import { stratyOkablowanieDcTool } from "./tools/straty-okablowanie-dc-tool"
+import { stratyZlaczkiMc4Tool } from "./tools/straty-zlaczki-mc4-tool"
+import { stressTestMpptTool } from "./tools/stress-test-mppt-tool"
+import { wplywTemperaturyTool } from "./tools/wplyw-temperatury-tool"
+import { zacienienieDiodyBocznikujaceTool } from "./tools/zacienienie-diody-bocznikujace-tool"
+import { chlodzenieLatemTool } from "./tools/chlodzenie-latem-tool"
+import { coldCRateTool } from "./tools/cold-c-rate-tool"
+import { coldCrankingAmpsTool } from "./tools/cold-cranking-amps-tool"
+import { detekcjaDoziemieniaTool } from "./tools/detekcja-doziemienia-tool"
+import { detekcjaZwarciaEFuseTool } from "./tools/detekcja-zwarcia-efuse-tool"
+import { doborBezpiecznikaDcTool } from "./tools/dobor-bezpiecznika-dc-tool"
+import { doborPojemnosciTool } from "./tools/dobor-pojemnosci-tool"
+import { grzalkiBmsMrozTool } from "./tools/grzalki-bms-mroz-tool"
+import { hierarchiaLadowaniaTool } from "./tools/hierarchia-ladowania-tool"
+import { kalibracjaSocTool } from "./tools/kalibracja-soc-tool"
+import { koniecLadowaniaTool } from "./tools/koniec-ladowania-tool"
+import { longTermStorageTool } from "./tools/long-term-storage-tool"
+import { mixingRownoleglTool } from "./tools/mixing-rownolegle-tool"
+import { modulEvTool } from "./tools/modul-ev-tool"
+import { momentDokrecaniaSrubTool } from "./tools/moment-dokrecania-srub-tool"
+import { napiecieOdcieciaAZywotnoscTool } from "./tools/napiecie-odciecia-a-zywotnosc-tool"
+import { obwodPrechargeTool } from "./tools/obwod-precharge-tool"
+import { ochronaWilgocTool } from "./tools/ochrona-wilgoc-tool"
+import { oplacalnoscMagazynuTool } from "./tools/oplacalnosc-magazynu-tool"
+import { poborWlasnyBmsTool } from "./tools/pobor-wlasny-bms-tool"
+import { pozycjonowanieOgniwTool } from "./tools/pozycjonowanie-ogniw-tool"
+import { secondLifeTool } from "./tools/second-life-tool"
+import { slabeOgniwoTool } from "./tools/slabe-ogniwo-tool"
+import { sohPerOgniwoTool } from "./tools/soh-per-ogniwo-tool"
+import { starzenieDegradacjaTool } from "./tools/starzenie-degradacja-tool"
+import { symulacjaLadowaniaRozladowaniaTool } from "./tools/symulacja-ladowania-rozladowania-tool"
+import { symulacjaMiesiacaZachmurzeniaTool } from "./tools/symulacja-miesiaca-zachmurzenia-tool"
+import { szynyZbiorczeMiedzypakietoweTool } from "./tools/szyny-zbiorcze-miedzypakietowe-tool"
+import { topologiaBmsTool } from "./tools/topologia-bms-tool"
+import { vehicleToHomeTool } from "./tools/vehicle-to-home-tool"
+import { systemyPodtrzymaniaZyciaTool } from "./tools/systemy-podtrzymania-zycia-tool"
+import { urzadzeniaZmienneTool } from "./tools/urzadzenia-zmienne-tool"
+import { liczbaDomownikowTool } from "./tools/liczba-domownikow-tool"
+import { profilAstronomicznyTool } from "./tools/profil-astronomiczny-tool"
+import { sezonowoscTool } from "./tools/sezonowosc-tool"
+import { dniAutonomiiTool } from "./tools/dni-autonomii-tool"
+import { mocPozornaCosfiTool } from "./tools/moc-pozorna-cosfi-tool"
+import { poborWlasnyFalownikaTool } from "./tools/pobor-wlasny-falownika-tool"
+import { sprawnoscInwerteraTool } from "./tools/sprawnosc-inwertera-niskie-obciazenie-tool"
+import { przetworniceDcdcTool } from "./tools/przetwornice-dcdc-tool"
+import { loadSheddingTool } from "./tools/load-shedding-tool"
+import { buforRozbudowyTool } from "./tools/bufor-rozbudowe-tool"
+import { architekturaFazowaTool } from "./tools/architektura-fazowa-tool"
+import { kategorieSpecjalneTool } from "./tools/kategorie-specjalne-tool"
+import { agregatPradotworczyTool } from "./tools/agregat-pradotworczy-tool"
+import { bojlerCwuTool } from "./tools/bojler-cwu-tool"
+import { analizaZwarciowaTool } from "./tools/analiza-zwarciowa-tool"
+import { doborBezpiecznikaRozlacznikaTool } from "./tools/dobor-bezpiecznika-rozlacznika-tool"
+import { doborIzolacjiKablaTool } from "./tools/dobor-izolacji-kabla-tool"
+import { doborMocyFalownikaTool } from "./tools/dobor-mocy-falownika-tool"
+import { doborPrzekrojuKablaTool } from "./tools/dobor-przekroju-kabla-tool"
+import { napiecieSystemoweTool } from "./tools/napiecie-systemowe-tool"
+import { glownaSzynaWyrownawczaTool } from "./tools/glowna-szyna-wyrownawcza-tool"
+import { laczenieCuAlTool } from "./tools/laczenie-cu-al-tool"
+import { ochronaOdwrotnaPolaryzacjaTool } from "./tools/ochrona-odwrotna-polaryzacja-tool"
+import { ochronaPrzedDotykiemTool } from "./tools/ochrona-przed-dotykiem-tool"
+import { ochronaPrzedGryzoniamiTool } from "./tools/ochrona-przed-gryzoniami-tool"
+import { ochronaPrzepieciowaSpdTool } from "./tools/ochrona-przepieciowa-spd-tool"
+import { optymalizacjaTrasyKablaTool } from "./tools/optymalizacja-trasy-kabla-tool"
+import { oznakowanieObwodowTool } from "./tools/oznakowanie-obwodow-tool"
+import { peszleKorytaRurkiTool } from "./tools/peszle-koryta-rurki-tool"
+import { pomiaryPowykonawczeTool } from "./tools/pomiary-powykonawcze-tool"
+import { puszkiPolaczenioweTool } from "./tools/puszki-polaczeniowe-tool"
+import { stringBoxTool } from "./tools/string-box-tool"
+import { szynyZbiorczePolaczeniaTool } from "./tools/szyny-zbiorcze-polaczenia-tool"
+import { uziemienieFunkcjonalneOchronneTool } from "./tools/uziemienie-funkcjonalne-ochronne-tool"
+import { wylacznikiNadpradoweDcTool } from "./tools/wylaczniki-nadpradowe-dc-tool"
+import { wylacznikiRcdTool } from "./tools/wylaczniki-rcd-tool"
+import { upsKrytycznyTool } from "./tools/ups-krytyczny-tool"
+import { dogrzewaniePaliwemStalymTool } from "./tools/dogrzewanie-paliwem-stalym-tool"
+import { audytPozarowyTool } from "./tools/audyt-pozarowy-tool"
 import { toAnthropicTool } from "./to-anthropic-tool"
 import { validateAiToolDefinition, type AiToolDefinition } from "./types"
 
@@ -78,6 +193,121 @@ const NARZEDZIA: Array<AiToolDefinition<any, any>> = [
   mostkiTermiczneTool,
   optymalizacjaIzolacjiTool,
   pojemnoscCieplnaTool,
+  buforCieplaTool,
+  copPompyCieplaTool,
+  infiltracjaPowietrzaTool,
+  kociolElektrycznyTool,
+  pompyCyrkulacyjneTool,
+  ryzykoNiskiegoNapieciaTool,
+  wentylacjaOdzyskCieplaTool,
+  weryfikacjaOgniwTool,
+  montazMechanicznyTool,
+  polaczeniaElektryczneTool,
+  sekwencjaMontazuTool,
+  podlaczenieBmsTool,
+  pierwszeUruchomienieTool,
+  demontazPakietuTool,
+  przygotowanieStanowiskaTool,
+  ocenaZuzyciaTool,
+  ratowanieOgniwaTool,
+  weryfikacjaWstepnaOlowTool,
+  montazMechanicznyOlowTool,
+  polaczeniaCzyszczenieOlowTool,
+  balanseryZewnetrzneOlowTool,
+  doborKabliBezpiecznikowOlowTool,
+  uruchomienieTestyOlowTool,
+  demontazOlowTool,
+  bezpieczenstwoKwasTool,
+  gestoscElektrolituTool,
+  ocenaZasiarczeniaTool,
+  dopasowanieTablicyFalownikaTool,
+  konfiguratorStringowTool,
+  naporWiatruTool,
+  niedopasowaniePaneliTool,
+  ochronaStringowTool,
+  paneleBifacjalneTool,
+  ryzykoPidTool,
+  stratyOkablowanieDcTool,
+  stratyZlaczkiMc4Tool,
+  stressTestMpptTool,
+  wplywTemperaturyTool,
+  zacienienieDiodyBocznikujaceTool,
+  chlodzenieLatemTool,
+  coldCRateTool,
+  coldCrankingAmpsTool,
+  detekcjaDoziemieniaTool,
+  detekcjaZwarciaEFuseTool,
+  doborBezpiecznikaDcTool,
+  doborPojemnosciTool,
+  grzalkiBmsMrozTool,
+  hierarchiaLadowaniaTool,
+  kalibracjaSocTool,
+  koniecLadowaniaTool,
+  longTermStorageTool,
+  mixingRownoleglTool,
+  modulEvTool,
+  momentDokrecaniaSrubTool,
+  napiecieOdcieciaAZywotnoscTool,
+  obwodPrechargeTool,
+  ochronaWilgocTool,
+  oplacalnoscMagazynuTool,
+  poborWlasnyBmsTool,
+  pozycjonowanieOgniwTool,
+  secondLifeTool,
+  slabeOgniwoTool,
+  sohPerOgniwoTool,
+  starzenieDegradacjaTool,
+  symulacjaLadowaniaRozladowaniaTool,
+  symulacjaMiesiacaZachmurzeniaTool,
+  szynyZbiorczeMiedzypakietoweTool,
+  topologiaBmsTool,
+  vehicleToHomeTool,
+  systemyPodtrzymaniaZyciaTool,
+  urzadzeniaZmienneTool,
+  liczbaDomownikowTool,
+  profilAstronomicznyTool,
+  sezonowoscTool,
+  dniAutonomiiTool,
+  mocPozornaCosfiTool,
+  poborWlasnyFalownikaTool,
+  sprawnoscInwerteraTool,
+  przetworniceDcdcTool,
+  loadSheddingTool,
+  buforRozbudowyTool,
+  architekturaFazowaTool,
+  kategorieSpecjalneTool,
+  agregatPradotworczyTool,
+  bojlerCwuTool,
+  analizaZwarciowaTool,
+  doborBezpiecznikaRozlacznikaTool,
+  doborIzolacjiKablaTool,
+  doborMocyFalownikaTool,
+  doborPrzekrojuKablaTool,
+  napiecieSystemoweTool,
+  glownaSzynaWyrownawczaTool,
+  laczenieCuAlTool,
+  ochronaOdwrotnaPolaryzacjaTool,
+  ochronaPrzedDotykiemTool,
+  ochronaPrzedGryzoniamiTool,
+  ochronaPrzepieciowaSpdTool,
+  optymalizacjaTrasyKablaTool,
+  oznakowanieObwodowTool,
+  peszleKorytaRurkiTool,
+  pomiaryPowykonawczeTool,
+  puszkiPolaczenioweTool,
+  stringBoxTool,
+  szynyZbiorczePolaczeniaTool,
+  uziemienieFunkcjonalneOchronneTool,
+  wylacznikiNadpradoweDcTool,
+  wylacznikiRcdTool,
+  upsKrytycznyTool,
+  dogrzewaniePaliwemStalymTool,
+  audytPozarowyTool,
+  proceduraBlackStartTool,
+  windChillTool,
+  katalogCzujnikowTool,
+  doborRegulatoraPwmMpptTool,
+  trybUproszczonyTool,
 ]
 for (const narzedzie of NARZEDZIA) validateAiToolDefinition(narzedzie)
 

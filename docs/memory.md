@@ -6985,6 +6985,376 @@ Szczegóły per plik: sekcje „Weryfikacja OCR (25.09.2026)” w `00-INDEKS.md`
   nieodtwarzalny.
 - **E11 odłożony** decyzją właściciela (progi 🔴 poda później).
 
+## Moduł 11 (Montaż baterii) — opisy narzędzi AI, 20/20 kalkulatorów (26.09.2026)
+
+- **Zakres.** Backlog z wpisu 20.09.2026 ("116 z 122 kalkulatorów bez opisu narzędzia AI",
+  kolejność rolloutu 11→3→4→2→reszta) — Moduł 11 zamknięty jako pierwszy. Dodano 20 plików
+  `lib/ai/tools/*-tool.ts` (Ścieżka A LiFePO4: 10, Ścieżka B kwasowo-ołowiowa: 10) i
+  zarejestrowano w `lib/ai/pytaj-asystenta.ts` (import + tablica `NARZEDZIA`).
+- **Rozbieżność liczby ekranów vs kalkulatorów (wyjaśniona, nie błąd):** Moduł 11 ma 23 ekrany
+  (`docs/rejestr-pokrycia.md`), ale tylko 20 ma realny `calculator.ts` — trzy ekrany (A10
+  `przechowywanie-recykling`, B11 `ratowanie-zasiarczenia`, B12 `przechowywanie-recykling-olow`)
+  to Wzorzec C (czysta treść, bez funkcji liczącej, żadnego pola do zwalidowania) — świadomie
+  pominięte w tym rollout-cie: rozdział 9 dotyczy narzędzi zwracających policzony wynik, a tu nie
+  ma nic do policzenia (nie jest to luka wymagająca dopisania, tylko naturalna granica zakresu 9.3).
+  Ekran B5 (`dobor-kabli-bezpiecznikow-olow`) ma osobne narzędzie, mimo że jest wzorcem "echo"
+  Modułu 5 — wywołuje realną logikę domenową (`calculateDoborPrzekrojuKabla` +
+  `calculateDoborBezpiecznikaRozlacznika`), więc kwalifikuje się jak każdy inny kalkulator.
+- **Wzorzec 1:1 z istniejącymi narzędziami** (`pojemnosc-cieplna-tool.ts`, `mostki-termiczne-tool.ts`,
+  `zloty-srodek-tool.ts`): `operationType: 'read'`, `requiresConfirmation: false`, handler zawsze
+  deleguje do prawdziwego `calculateXxx` z `lib/core/modules/montaz-baterii/**`, ostrzeżenia/
+  założenia przez `tekstyOstrzezen`/`tekstyZalozen` (i18n → PL). Dane bezpieczeństwa (napięcia
+  ogniw, napięcie pakietu, gęstość elektrolitu, prąd zwarciowy, AIC bezpiecznika, docisk, rezystor
+  pre-charge) opisane w `.describe()` jako "tylko od usera, nie zgaduj" — zgodnie z 9.1/9.2.
+- **Weryfikacja:** `pnpm typecheck` (czysto), `pnpm lint` (0 błędów, 2 istniejące wcześniej
+  ostrzeżenia `no-img-element` niezwiązane ze zmianą), `pnpm check:i18n-guard` (OK, 152 moduły),
+  `pnpm test` (170 plików, 1408 testów — wszystkie przeszły, zero regresji), `pnpm build` (OK).
+- **Następny w kolejności rolloutu:** Moduł 3.
+
+## Moduł 3 (Instalacja PV) — opisy narzędzi AI, 12 nowych + 13 już istniejących (26.09.2026)
+
+- **Zakres.** Kolejny krok rolloutu 11→3→4→2→reszta. Z 24 podkatalogów `lib/core/modules/pv/*` z
+  realnym `calculator.ts`, 13 miało już narzędzie AI działające na prawdziwym `calculateXxx` tego
+  ekranu (`kat-i-azymut`, `liczba-paneli`, `mikroinwertery-vs-centralny`, `mikropekniecia-termiczne`,
+  `powloki-antyrefleksyjne`, `technologie-paneli`, `tracker-vs-staly`, `typ-montazu`,
+  `warunki-nadmorskie-pyliste`, `wschod-zachod`, `zloty-srodek` — kilka z nich zarejestrowanych pod
+  nazwą narzędzia z innego ekranu, np. `zloty-srodek-tool.ts` i `typ-montazu-tool.ts` importują też
+  `eurokod-1/wiatr`, ale wywołują właściwe `calculateZlotySrodek`/`calculateDachPlaski` itd. —
+  zweryfikowane treścią pliku, nie samą nazwą, jak w zadaniu). Dodano 12 nowych plików
+  `lib/ai/tools/*-tool.ts`: `dopasowanie-tablicy-falownika`, `konfigurator-stringow`,
+  `napor-wiatru`, `niedopasowanie-paneli`, `ochrona-stringow`, `panele-bifacjalne`, `ryzyko-pid`,
+  `straty-okablowanie-dc`, `straty-zlaczki-mc4`, `stress-test-mppt`, `wplyw-temperatury`,
+  `zacienienie-diody-bocznikujace` — zarejestrowane w `lib/ai/pytaj-asystenta.ts`.
+- **Świadomie pominięty: `czystosc-i-snieg`.** Dane katalogowe (i18n modelu tekstowego wprost w
+  polu, nie prosty `i18nKey`/`params`), tak samo jak `baterie/komunikacja-bms` i
+  `baterie/porownanie-technologii` — udokumentowane jako poza zakresem migracji i18n już we
+  wpisach z 19–26.09.2026 wyżej w tym pliku i w `docs/lista-do-zrobienia.md`; ten sam powód
+  wyklucza go z tego rolloutu narzędzi AI (opisy narzędzia i tak musiałyby wyciągać gotowy tekst PL
+  bez klucza i18n, co nie jest błędem tego ekranu, tylko jego świadomym stanem przejściowym).
+  `eurokod-0`, `eurokod-1`, `typ-montazu` (ten ostatni ma już narzędzie, patrz wyżej) nie mają
+  własnego `calculator.ts` — to funkcje pomocnicze/warianty wzorca reużywane przez inne ekrany, nie
+  osobne ekrany kwalifikujące się do tego rolloutu wg treści zadania.
+- **Wzorzec 1:1** z Modułu 11 (`montaz-mechaniczny-tool.ts` itd.): `operationType: 'read'`,
+  `requiresConfirmation: false`, handler zawsze deleguje do prawdziwego `calculateXxx` z
+  `lib/core/modules/pv/**`, ostrzeżenia/założenia przez `tekstyOstrzezen`/`tekstyZalozen`. Dane
+  bezpieczeństwa/katalogowe (Voc/Vmp/Imp, β, Tmin, Isc, I_MOD_MAX_OCPR, rezystancja złączki/kabla,
+  prędkość wiatru, procent uzysku bifacjalnego) opisane w `.describe()` jako dane usera, nie do
+  zgadywania. `konfigurator-stringow-tool.ts` używa `z.discriminatedUnion` (wejście kalkulatora to
+  unia trzech trybów: szereg/równolegle/mieszany). `straty-zlaczki-mc4-tool.ts` ma osobną nazwę
+  narzędzia (`policz_straty_na_zlaczkach_mc4`) niż istniejący `zlacza-mc4-tool.ts` — to dwa różne
+  kalkulatory w dwóch różnych modułach (`pv/straty-zlaczki-mc4` vs `okablowanie/zlacza-mc4`), nie
+  duplikat.
+- **Weryfikacja:** `pnpm typecheck` (czysto), `pnpm lint` (0 błędów, te same 2 istniejące wcześniej
+  ostrzeżenia `no-img-element`, niezwiązane ze zmianą), `pnpm check:i18n-guard` (OK, 152 moduły),
+  `pnpm test` (170 plików, 1408 testów — wszystkie przeszły, zero regresji), `pnpm build` (OK).
+- **Następny w kolejności rolloutu:** Moduł 4.
+
+## Moduł 4 (Magazyn energii / baterie) — opisy narzędzi AI (26.09.2026)
+
+- Kontekst: rollout opisów narzędzi AI wg kolejności 11→3→4→2→reszta (wpis 20.09.2026). Moduł 4
+  (`lib/core/modules/baterie/`) miał 0 istniejących narzędzi AI przed tą sesją (sprawdzone grep-em
+  po treści importu `calculateXxx` z `modules/baterie`, nie tylko po nazwie pliku) — cały rollout
+  tego modułu to nowe pliki.
+- **32 podkatalogi w `lib/core/modules/baterie/`, z czego 29 dostało nowe narzędzie AI**:
+  `chlodzenie-latem`, `cold-c-rate`, `cold-cranking-amps`, `detekcja-doziemienia`,
+  `detekcja-zwarcia-efuse`, `dobor-bezpiecznika-dc`, `dobor-pojemnosci`, `grzalki-bms-mroz`,
+  `hierarchia-ladowania`, `kalibracja-soc`, `koniec-ladowania`, `long-term-storage`,
+  `mixing-rownolegle`, `modul-ev`, `moment-dokrecania-srub`, `napiecie-odciecia-a-zywotnosc`,
+  `obwod-precharge`, `ochrona-wilgoc`, `oplacalnosc-magazynu`, `pobor-wlasny-bms`,
+  `pozycjonowanie-ogniw`, `second-life`, `slabe-ogniwo`, `soh-per-ogniwo`,
+  `starzenie-degradacja`, `symulacja-ladowania-rozladowania`, `symulacja-miesiaca-zachmurzenia`,
+  `szyny-zbiorcze-miedzypakietowe`, `topologia-bms`, `vehicle-to-home`.
+- **Pominięte (3):**
+  - `matryca-alarmow-bms` — brak `calculator.ts` (Wzorzec C, czysta treść) — poza zakresem zadania.
+  - `komunikacja-bms`, `porownanie-technologii` — dane katalogowe/nie-i18n, świadomie wyłączone z
+    tego samego powodu co analogiczne wyłączenia z i18n (wpisy 19–26.09.2026 wyżej w tym pliku).
+- **Zatrzymane na jednym pliku, do zrobienia osobno — `napiecie-systemowe` (Ekran 2):** kalkulator
+  wielo-etapowy (Etapy A–H materiału źródłowego "Dobór napięcia systemu Off-Grid v3.0") — kreator
+  odbiorników z analizą jednoczesności, echo doboru przekroju kabla z `okablowanie/dobor-przekroju-
+  kabla` (typy `Material`/`SposobUlozenia`), trzy równoległe kosztorysy 12/24/48V z kilkunastoma
+  cenami edytowalnymi, pułapka konwersji 24V→48V. Kształt wejścia/wyjścia jest znacznie bardziej
+  złożony i zależny od typów innych modułów niż reszta wzorca Modułu 4 — zmapowanie 1:1 bez ryzyka
+  pomyłki w danych elektrycznych/kosztorysowych wymaga osobnej, dedykowanej sesji, nie tego
+  rollout-u. Zgodnie z zasadą zadania („jeśli kształt jest niejasny — zatrzymaj się na tym jednym
+  pliku, opisz problem, idź dalej”) — reszta modułu zbudowana, ten jeden ekran czeka.
+- **4 ekrany wcześniej opisywane w zadaniu jako „blocked/todo, cross-modułowe” — okazały się mieć
+  już działający `calculator.ts`:** Symulacja czasu ładowania/rozładowania
+  (`symulacja-ladowania-rozladowania`), Napięcie odcięcia a żywotność
+  (`napiecie-odciecia-a-zywotnosc`), Hierarchia ładowania (`hierarchia-ladowania`), Symulacja
+  miesiąca zachmurzenia (`symulacja-miesiaca-zachmurzenia`) — wszystkie cztery mają pełny, działający
+  kalkulator (uproszczony wg deklaracji w komentarzach nagłówkowych, np. średnie moce zamiast
+  pełnego profilu godzinowego z niebudowanych jeszcze Modułu 2/3, ale w pełni obliczalny z danych
+  wejściowych usera). Zgodnie z dosłownym brzmieniem zadania („pomiń TYLKO jeśli nie mają jeszcze
+  `calculator.ts`”) — zbudowane razem z resztą modułu, nie pominięte.
+- **Wzorzec 1:1** z Modułów 11/3: `operationType: 'read'`, `requiresConfirmation: false`, handler
+  zawsze deleguje do prawdziwego `calculateXxx` z `lib/core/modules/baterie/**`, ostrzeżenia/
+  założenia przez `tekstyOstrzezen`/`tekstyZalozen`. Dane bezpieczeństwa (napięcia/prądy/rezystancje
+  zmierzone, temperatury ogniw, AIC bezpiecznika, zdolność łączeniowa tranzystorów BMS, obecność
+  zabezpieczeń przed doziemieniem) opisane w `.describe()` jako dane WYŁĄCZNIE od usera/pomiaru/BMS
+  — model nigdy ich nie zgaduje. `hierarchia-ladowania-tool.ts` i `moment-dokrecania-srub-tool.ts`
+  mają kalkulatory bez `unit`/liczbowego wzoru (klasyfikator dyskretny / checklista) — output nadal
+  pełny `CalcResult` (status, ew. ostrzeżenia/założenia), zgodnie z kontraktem.
+- **Weryfikacja:** `pnpm typecheck` (czysto), `pnpm lint` (0 błędów, te same 2 istniejące wcześniej
+  ostrzeżenia `no-img-element`, niezwiązane ze zmianą), `pnpm check:i18n-guard` (OK, 152 moduły),
+  `pnpm test` (170 plików, 1408 testów — wszystkie przeszły, zero regresji), `pnpm build` (OK).
+- **Następny w kolejności rolloutu:** Moduł 2. `napiecie-systemowe` (Ekran 2, Moduł 4) zostaje jako
+  jawny dług do domknięcia osobno.
+
+## Moduł 2 (Zapotrzebowanie) — opisy narzędzi AI (26.09.2026)
+
+Kolejność rolloutu 11→3→4→2→reszta (wpisy 20–26.09.2026 wyżej): po Module 4 zrobiony Moduł 2
+(Zapotrzebowanie energetyczne). 16 z 17 podkatalogów `lib/core/modules/zapotrzebowanie/*` miało
+`calculator.ts` — dla wszystkich 16 zbudowano nowe narzędzie AI (`lib/ai/tools/*-tool.ts`), żaden
+ekran Modułu 2 nie miał wcześniej narzędzia (jedyny istniejący plik referencyjny modułu,
+`kalkulatory-pomocnicze-tool.ts`, powstał w sesji pilotażowej i18n, nie w tym rolloucie):
+`systemy-podtrzymania-zycia` (Ekran 1), `urzadzenia-zmienne` (Ekran 3), `liczba-domownikow`
+(Ekran 4), `profil-astronomiczny` (Ekran 5, tylko część astronomiczna — profil godzinowy
+świadomie nie zbudowany, patrz komentarz w `input.ts`), `sezonowosc` (Ekran 6), `dni-autonomii`
+(Ekran 7), `moc-pozorna-cosfi` (Ekran 8, podpunkt 1 — prądy rozruchowe/współczynnik jednoczesności
+poza zakresem), `pobor-wlasny-falownika` (Ekran 9), `sprawnosc-inwertera-niskie-obciazenie`
+(Ekran 10), `przetwornice-dcdc` (Ekran 11), `load-shedding` (Ekran 12), `bufor-rozbudowe`
+(Ekran 13), `architektura-fazowa` (Ekran 14 — bez werdyktu ok/uwaga, źródło nie podaje progu
+liczbowego, opisane w `.description`), `kategorie-specjalne` (Ekran 15), `agregat-pradotworczy`
+(Ekran 17), `bojler-cwu` (Ekran 2).
+
+**Świadomie pominięty: cały `wampiry-energetyczne/`** (5 podmodułów: `automatyzacja`,
+`katalog-urzadzen`, `pomiar-mocy-jalowej`, `rekomendacje-sprzetowe`, `symulacje-i-raporty` —
+wszystkie mają `calculator.ts`) — zgodnie z jawnym poleceniem zadania: to osobna, znacznie
+większa sesja (24 funkcje wg backlogu), nie rollout narzędzi AI dla prostego wzorca reszty
+Modułu 2. Sprawdzony wpis z 19.09.2026 potwierdza, że to świadomie odłożony moduł zbiorczy — nie
+odblokowany do dziś, więc pominięty w całości bez próby zmapowania.
+
+Wzorzec 1:1 z Modułów 11/3/4: `operationType: 'read'`, `requiresConfirmation: false`, handler
+zawsze deleguje do prawdziwego `calculateXxx` z `lib/core/modules/zapotrzebowanie/**`, ostrzeżenia/
+założenia przez `tekstyOstrzezen`/`tekstyZalozen`. Dane, które źródło świadomie nie podaje jako
+wartość domyślną (ΔT bojlera C.W.U., cos φ, sprawność przetwornicy/falownika/inwertera, granice
+sezonu, moc "ogrzewanie" w Survival Core) opisane w `.describe()` jako WYŁĄCZNIE od usera — model
+nigdy ich nie zgaduje. `dni-autonomii-tool.ts` i `profil-astronomiczny-tool.ts` mają pola opcjonalne
+(wzorzec "echo"/podgląd) mapowane na `0`/`false` w handlerze, zgodnie z konwencją "0 = pominięte"
+tych kalkulatorów.
+
+Weryfikacja: `pnpm typecheck` (czysto), `pnpm lint` (0 błędów, te same 2 istniejące wcześniej
+ostrzeżenia `no-img-element`, niezwiązane ze zmianą), `pnpm check:i18n-guard` (OK, 152 moduły),
+`pnpm test` (170 plików, 1408 testów — wszystkie przeszły, zero regresji), `pnpm build` (OK).
+
+**Następny w kolejności rolloutu:** reszta modułów spoza 11/3/4/2 wg backlogu. `napiecie-systemowe`
+(Ekran 2, Moduł 4) i cały `wampiry-energetyczne` (Moduł 2) zostają jako jawny dług do domknięcia
+osobno.
+
+## Moduł 5 (Okablowanie) — opisy narzędzi AI (26.09.2026)
+
+Pierwszy z "reszty" modułów po zakończeniu kolejki 11→3→4→2 (wpis wyżej). `lib/core/modules/okablowanie/`
+ma 25 podkatalogów z `calculator.ts` (0 podkatalogów Wzorca C/informacyjnych bez `calculator.ts` w
+tym module — inaczej niż sugerował ogólny backlog "reszty", tu wszystkie 25 ekranów mają jądro
+obliczeniowe). 5 z 25 już miało narzędzie AI z wcześniejszych sesji (`zlacza-mc4`,
+`przepust-powietrza`, `projekt-uziemienia`, `monitorowanie-izolacji-imd`, `normy-i-certyfikaty`) —
+sprawdzone przez faktyczny import `calculateXxx` w treści pliku narzędzia, nie tylko po nazwie
+(dwa inne pliki, `straty-zlaczki-mc4-tool.ts` i `sekwencja-montazu-tool.ts`, tylko wspominają
+"okablowanie" w komentarzu/nazwie pola — nie importują niczego z tego modułu, sprawdzone i
+odrzucone). Dla pozostałych 20 zbudowano nowe narzędzia (`lib/ai/tools/*-tool.ts`):
+`analiza-zwarciowa` (Ekran 12), `dobor-bezpiecznika-rozlacznika` (Ekran 6), `dobor-izolacji-kabla`
+(Ekran 28), `dobor-mocy-falownika` (Ekran 7), `dobor-przekroju-kabla` (Ekran 1, mega-Doradca z
+tabelami PN-HD 60364-5-52), `glowna-szyna-wyrownawcza` (Ekran 10), `laczenie-cu-al` (Ekran 4),
+`ochrona-odwrotna-polaryzacja` (Ekran 15), `ochrona-przed-dotykiem` (Ekran 17),
+`ochrona-przed-gryzoniami` (Ekran 25), `ochrona-przepieciowa-spd` (Ekran 2),
+`optymalizacja-trasy-kabla` (Ekran 26, wzorzec echo — TCO liczony realnymi stratami z
+`dobor-przekroju-kabla`, nie osobnym wzorem), `oznakowanie-obwodow` (Ekran 20),
+`peszle-koryta-rurki` (Ekran 24), `pomiary-powykonawcze` (Ekran 29), `puszki-polaczeniowe`
+(Ekran 27), `string-box` (Ekran 22), `szyny-zbiorcze-polaczenia` (Ekran 3, tylko dolna sekcja E —
+checklist momentów dokręcania, górna sekcja D dobór przekroju szyny świadomie niezbudowana w
+jądrze), `uziemienie-funkcjonalne-ochronne` (Ekran 11), `wylaczniki-nadpradowe-dc` (Ekran 14),
+`wylaczniki-rcd` (Ekran 16).
+
+Wzorzec 1:1 z Modułów 11/3/4/2: `operationType: 'read'`, `requiresConfirmation: false`, handler
+zawsze deleguje do prawdziwego `calculateXxx` z `lib/core/modules/okablowanie/**`, ostrzeżenia/
+założenia przez `tekstyOstrzezen`/`tekstyZalozen`. Dane wysokiego ryzyka elektrycznego (napięcie/
+rezystancja wewnętrzna baterii, Isc panelu, prąd zwarciowy, AIC zabezpieczeń, Voc zimowe stringu,
+rezystancje/czasy zmierzone przy odbiorze) opisane w `.describe()` jako pochodzące WYŁĄCZNIE z
+karty katalogowej/pomiaru/projektu instalacji — model nigdy ich nie zgaduje. Kalkulatory typu
+checklist (`glowna-szyna-wyrownawcza`, `ochrona-przed-dotykiem`, `oznakowanie-obwodow`,
+`szyny-zbiorcze-polaczenia`) i klasyfikatory bez wzoru liczbowego (`ochrona-odwrotna-polaryzacja`,
+`ochrona-przed-gryzoniami`, `ochrona-przepieciowa-spd`, `peszle-koryta-rurki`,
+`puszki-polaczeniowe`, `uziemienie-funkcjonalne-ochronne`, `wylaczniki-nadpradowe-dc`) mają
+uproszczony output (bez pól, których źródłowy `calculator.ts` też nie ma), zgodnie z kontraktem
+`AiToolDefinition` — nadal pełny status/ostrzeżenia gdzie kalkulator je zwraca.
+
+Weryfikacja: `pnpm typecheck` (czysto), `pnpm lint` (0 błędów, te same 2 istniejące wcześniej
+ostrzeżenia `no-img-element`, niezwiązane ze zmianą), `pnpm check:i18n-guard` (OK, 152 moduły),
+`pnpm test` (170 plików, 1408 testów — wszystkie przeszły, zero regresji), `pnpm build` (OK),
+`pnpm audit:gate` (OK, brak podatności high/critical).
+
+**Następny w kolejności rolloutu:** Moduł 1 (Lokalizacja).
+
+## Rollout opisów narzędzi AI — Moduł 1 (Lokalizacja), 26.09.2026
+
+Sprawdzono `lib/core/modules/lokalizacja/*` (5 podkatalogów). Wynik: **0 nowych plików** —
+Moduł 1 jest już w pełni pokryty albo świadomie poza zakresem, bez potrzeby żadnej zmiany kodu.
+
+- `skaner-dzialki`, `analiza-zacienienia`, `orientacja-powierzchni` — narzędzia AI już istniały
+  z sesji 24.09.2026 (`lib/ai/tools/skaner-dzialki-tool.ts`, `analiza-zacienienia-tool.ts`,
+  `orientacja-powierzchni-tool.ts`), zweryfikowane treścią (realny import `calculateXxx` z
+  odpowiedniego `calculator.ts`) i już zarejestrowane w `NARZEDZIA` (`lib/ai/pytaj-asystenta.ts`).
+  Wzorzec 1:1 z resztą rolloutu, `analiza-zacienienia`/`orientacja-powierzchni` poprawnie
+  pobierają 8760 rekordów PVGIS TMY po stronie serwera (handler), model dostaje tylko
+  podsumowanie — nie zmieniano tego wzorca.
+- `lokalizacja-i-klimat` (Ekran 1, "GPS i dane klimatyczne") — ma `calculator.ts`, ale bez
+  jądra obliczeniowego: to ekran czysto infrastrukturalny (zapis współrzędnych/temperatury
+  minimalnej wpisanych ręcznie przez użytkownika, `status: zapisano: boolean`, sam plik mówi
+  wprost "Bez silnika obliczeniowego"). Świadomie pominięty — narzędzie AI nie miałoby nic do
+  policzenia (user i tak podaje gotowe liczby), a 9.1–9.3 dotyczy sytuacji, gdy model inaczej
+  policzyłby sam; tu nie ma nic do liczenia.
+- `geometria-slonca` (`pozycja-slonca.ts`) — potwierdzone `grep`: to wewnętrzna biblioteka
+  matematyczna (pozycja Słońca), reużywana przez `analiza-zacienienia`, `orientacja-powierzchni`
+  i Moduł 3 (`wschod-zachod`, `kat-i-azymut`) — bez własnego ekranu/UI z sensownym wejściem od
+  usera. Pominięta jako funkcja pomocnicza, nie osobny "ekran"; jej logika jest już pośrednio
+  dostępna przez narzędzia AI modułów, które z niej korzystają.
+
+Weryfikacja: `pnpm typecheck` (czysto), `pnpm lint` (te same 2 istniejące ostrzeżenia
+`no-img-element`, niezwiązane), `pnpm check:i18n-guard` (OK, 152 moduły), `pnpm test` (170
+plików, 1408 testów, zero regresji), `pnpm build` (OK).
+
+**Następny w kolejności: Moduł 6 (Ogrzewanie).**
+
+## Rollout opisów narzędzi AI — Moduł 6 (Ogrzewanie), 26.09.2026
+
+Sprawdzono `lib/core/modules/ogrzewanie/*` (15 podkatalogów). 6 ekranów (`koszty-ogrzewania`,
+`obciazenie-cieplne`, `zapotrzebowanie-co-cwu`, `mostki-termiczne`, `optymalizacja-izolacji`,
+`pojemnosc-cieplna`) już miało narzędzie AI z sesji 26.09.2026, zweryfikowane realnym importem
+`calculateXxx` w `lib/ai/tools/*-tool.ts` i obecnością w `NARZEDZIA` (`lib/ai/pytaj-asystenta.ts`)
+— pominięte, nie duplikowane.
+
+**7 nowych plików `lib/ai/tools/*-tool.ts` zbudowanych od zera** (wzorzec 1:1 z
+`mostki-termiczne-tool.ts`/`pojemnosc-cieplna-tool.ts`), zarejestrowane w `NARZEDZIA`:
+`bufor-ciepla-tool`, `cop-pompy-ciepla-tool`, `infiltracja-powietrza-tool`,
+`kociol-elektryczny-tool`, `pompy-cyrkulacyjne-tool`, `ryzyko-niskiego-napiecia-tool`,
+`wentylacja-odzysk-ciepla-tool`.
+
+**Pominięte (2, brak `calculator.ts` — Wzorzec C, czysta treść):** `halas-i-wibracje` (tylko
+`constants.ts`), `ryzyko-zamarzniecia-dolnego-zrodla` (tylko `constants.ts`).
+
+Uwagi merytoryczne per narzędzie (żeby nie zgadywać przy przyszłej rozbudowie):
+- `infiltracja-powietrza-tool` — liczy tylko podstawową fizykę strat wentylacyjnych (Q =
+  n·V·ρ·cp·ΔT/3600); poprawa "8% po uszczelnieniu" z przykładu źródła świadomie NIE jest w
+  `calculator.ts`, więc narzędzie też jej nie liczy — zgodnie z zadaniem "buduj narzędzie dla
+  tego, co realnie liczy dzisiejszy calculator.ts".
+- `wentylacja-odzysk-ciepla-tool` — analogicznie: tylko podstawowy bilans cieplno-elektryczny
+  (E3), bez projektu strumieni per pomieszczenie (dawne 5.23) i bez logiki bypassu letniego
+  (dawne 5.24) — obie świadomie poza `calculator.ts` (brak wzoru w źródle).
+- `ryzyko-niskiego-napiecia-tool` — napięcie systemu off-grid jest polem ręcznego wpisu (nie
+  wyprowadzanym z SoC baterii), bo krzywa rozładowania jest specyficzna dla producenta ogniw i
+  nie ma jej w aplikacji — `.describe()` to podkreśla.
+- `bufor-ciepla-tool`, `cop-pompy-ciepla-tool`, `kociol-elektryczny-tool`,
+  `pompy-cyrkulacyjne-tool` — proste wzory jednorodne (mnożnik/dzielenie/różnica), bez pól
+  specjalnych do odnotowania.
+
+Weryfikacja: `pnpm typecheck` (czysto), `pnpm lint` (te same 2 istniejące ostrzeżenia
+`no-img-element`, niezwiązane), `pnpm check:i18n-guard` (OK, 152 moduły), `pnpm test` (170 plików,
+1408 testów, zero regresji — kalkulatory `lib/core/modules/ogrzewanie/**` nietknięte),
+`pnpm build` (OK), `pnpm audit:gate` (OK, brak podatności high/critical).
+
+**Następny w kolejności: Moduł 8 (Bezpieczeństwo).**
+
+## Rollout opisów narzędzi AI — Moduł 8 (Bezpieczeństwo), 26.09.2026
+
+Sprawdzono `lib/core/modules/bezpieczenstwo/*` — 3 podkatalogi, wszystkie z `calculator.ts`, żaden
+nie miał wcześniej narzędzia AI (zweryfikowane brakiem importu z `modules/bezpieczenstwo/` w
+`lib/ai/tools/*-tool.ts`). Zbudowane od zera i zarejestrowane w `NARZEDZIA`:
+`ups-krytyczny-tool` (Ekran 6 — dobór sprzętowy UPS krytycznego, `calculateUpsKrytyczny`),
+`dogrzewanie-paliwem-stalym-tool` (Ekran 2 — bezpieczeństwo pożarowe pieca/kotła na paliwo stałe,
+`calculateDogrzewaniePaliwemStalym`), `audyt-pozarowy-tool` (Ekran 11 — podsumowanie audytu
+pożarowego z listy pozycji, `calculateAuditPozarowy`).
+
+Uwagi merytoryczne (dane wysokiego ryzyka bezpieczeństwa — dla przyszłej rozbudowy):
+- `ups-krytyczny-tool` — moc każdego urządzenia krytycznego (`powerW`) oraz pojemność/napięcie
+  akumulatora UPS muszą pochodzić wyłącznie od usera; `constants.ts` źródła jawnie mówi, że
+  źródło NIE podaje mocy żadnego urządzenia z domyślnej listy — `.describe()` to podkreśla.
+- `dogrzewanie-paliwem-stalym-tool` — `maNawiewPowietrzaDoSpalania` i `maCzujnikCo` to `boolean`
+  bez wartości domyślnej „tak” w samym `input.ts` domeny; opis narzędzia dodatkowo zaznacza, że to
+  dane bezpieczeństwa życia i nigdy nie wolno ich domyślnie zakładać jako `true`. Brak czujnika CO
+  jest twardym stopem już w `warnings.ts` domeny — narzędzie tylko przekazuje ten wynik dalej.
+- `audyt-pozarowy-tool` — `calculateAuditPozarowy` (Wzorzec G, ekran raportowy bez pól do
+  wypełnienia) przyjmuje gotową listę pozycji ze statusem `ok`/`warning`/`critical`; opis narzędzia
+  jasno mówi, że status musi pochodzić z realnej kontroli/odczytu czujnika, nie z domysłu modelu —
+  narzędzie samo niczego nie "sprawdza", tylko liczy podsumowanie z dostarczonych danych.
+
+Pominiętych 0 — wszystkie 3 podkatalogi Modułu 8 mają `calculator.ts`.
+
+Weryfikacja: `pnpm typecheck` (czysto), `pnpm lint` (te same 2 istniejące ostrzeżenia
+`no-img-element`, niezwiązane), `pnpm check:i18n-guard` (OK, 152 moduły), `pnpm test` (170 plików,
+1408 testów, zero regresji), `pnpm build` (OK).
+
+**Następny w kolejności: Moduł 9.**
+
+## Rollout opisów narzędzi AI — Moduł 7 (stress-test)/9 (ESP32)/12 (mobilny), 26.09.2026 — ZAMYKA CAŁY ROLLOUT
+
+Ostatnia część rolloutu "opisy narzędzi AI dla kalkulatorów" (backlog 20.09.2026, punkt 7).
+Sprawdzone trzy pozostałe podkatalogi `lib/core/modules/*` bez wcześniejszego narzędzia
+(zweryfikowane brakiem importu z ich ścieżek w `lib/ai/tools/*-tool.ts`): `stress-test/`
+(`procedura-black-start`, `wind-chill`), `esp32/` (`katalog-czujnikow`), `kalkulator-mobilny/`
+(`dobor-regulatora-pwm-mppt`, `tryb-uproszczony`). Wszystkie 5 miało `calculator.ts` — 5 nowych
+plików `lib/ai/tools/*-tool.ts` zbudowanych od zera i zarejestrowanych w `NARZEDZIA`:
+
+- `procedura-black-start-tool` — Ekran 5, M7. **Uwaga krytyczna:** `KROK-POZA-KOLEJNOSCIA` to
+  twardy stop `level: "critical"` (decyzja właściciela 07.09.2026) — opis narzędzia i handler
+  zwracają go z tą samą wagą co UI, bez łagodzenia. Wejście to wyłącznie lista ID kroków
+  potwierdzonych przez usera.
+- `wind-chill-tool` — Ekran 17, M7. Wzór NWS ważny tylko dla T ≤ 10°C i V > 4,8 km/h — poza
+  zakresem `OUT_OF_SCOPE`, `.describe()` zaznacza, że temperatura/wiatr to dane z pomiaru
+  lokalizacji usera, nie zgadywane.
+- `katalog-czujnikow-tool` — M9/ESP32, Katalog 1. Wzorzec H (podsumowanie stanu katalogu, bez
+  wzoru fizycznego) — lista instancji czujników (typ/etykieta/lokalizacja) wyłącznie od usera.
+- `dobor-regulatora-pwm-mppt-tool` — M12. Reguła twarda: klasa napięciowa paneli > akumulatora →
+  MPPT wymagany (nie tylko zalecany), PWM fizycznie nie zadziała — opis to podkreśla.
+- `tryb-uproszczony-tool` — Ekran 1, M12. Czas teoretyczny (bez sprawności/DoD/temperatury) —
+  `.describe()` jasno mówi, że to szybka orientacyjna odpowiedź trybu mobilnego, nie pełny proces
+  projektowy.
+
+Pominiętych 0 — wszystkie 5 kalkulatorów tej ostatniej partii miało `calculator.ts`. Poza tymi
+trzema katalogami sprawdzono, że nie ma żadnych innych nietkniętych podkatalogów w
+`lib/core/modules/` (wszystkie pozostałe: `baterie`, `bezpieczenstwo`, `lokalizacja`,
+`montaz-baterii`, `ogrzewanie`, `okablowanie`, `pv`, `zapotrzebowanie` — zamknięte w poprzednich
+sesjach rolloutu).
+
+**Tym samym cały rollout "opisy narzędzi AI dla kalkulatorów" (backlog 20.09.2026, punkt 7) jest
+zamknięty dla wszystkich `lib/core/modules/*`** — z wyjątkiem świadomie pominiętych w
+poprzednich sesjach (Wzorzec C bez `calculator.ts`, dane katalogowe/nie-i18n, moduły
+wielo-etapowe zbyt złożone do bezpiecznego mapowania 1:1, `wampiry-energetyczne` jako osobna
+większa sesja) — pełna lista uzasadnień: wpisy tej sekcji `docs/memory.md` od Modułu 11 do
+Modułu 8 wyżej.
+
+Weryfikacja: `pnpm typecheck` (czysto), `pnpm lint` (te same 2 istniejące ostrzeżenia
+`no-img-element`, niezwiązane), `pnpm check:i18n-guard` (OK, 152 moduły), `pnpm test` (170 plików,
+1408 testów, zero regresji), `pnpm build` (OK).
+
+## `napiecie-systemowe` — dług z Modułu 4 domknięty (26.09.2026)
+
+Ekran 2, Moduł 4 (`lib/core/modules/baterie/napiecie-systemowe/`), świadomie pominięty przy
+rollcie Modułu 4 (wpis wyżej: "kalkulator wielo-etapowy A–H... zbyt złożony, żeby bezpiecznie
+zmapować 1:1"). Po ponownym, dokładnym przeczytaniu całego katalogu (`calculator.ts`, `input.ts`,
+`jednoczesnosc.ts`, `kosztorys.ts`, `warnings.ts`, `validation.ts`, `constants.ts`): funkcja
+`calculateNapiecieSystemowe()` jest zwykłą czystą funkcją (jeden argument `NapiecieSystemoweInput`
+→ jeden `CalcResult<NapiecieSystemoweResult>`), bez efektów ubocznych, bez stanu sesji, bez
+wielokrokowego kreatora wymagającego wielu wywołań — "kreator odbiorników" (Etap B) w jądrze to po
+prostu pole `odbiorniki: OdbiornikWybor[]` przekazywane w jednym wywołaniu. Dało się więc
+zmapować 1:1 pojedynczym `z.object` (z zagnieżdżonym `z.array` dla `odbiorniki` i zagnieżdżonymi
+obiektami dla `kable`/`kosztorysy`/`jednoczesnosc` w wyjściu) — bez zgadywania i bez upraszczania
+kształtu. Zbudowano `lib/ai/tools/napiecie-systemowe-tool.ts`:
+- Wejście 1:1 z `NapiecieSystemoweInput` (29 pól, w tym `odbiorniki[]`, 3×ceny per napięcie,
+  dane trasy kabla Etapu C — wszystkie opisane jako pochodzące wyłącznie od użytkownika/pomiaru/
+  cennika, nigdy nie zgadywane przez model). `zastosowanie`/`priorytet` (Etap A) zaznaczone w
+  `.describe()` jako informacyjne — jądro ich nie używa do liczenia, ale nadal muszą pochodzić od
+  usera, nie od modelu.
+- Wyjście 1:1 z `NapiecieSystemoweResult`: prądy przy 12/24/48V, `jednoczesnosc` (analiza z
+  `jednoczesnosc.ts`, nullable — pomijana gdy brak odbiorników), `kable` (echo ×3 z Modułu 5,
+  `dobor-przekroju-kabla-tool.ts` jako wzorzec, ostrzeżenia kabla przepuszczone przez
+  `tekstyOstrzezen`), `kosztorysy` (×3, `kosztorys.ts`), `kosztKonwersji24Do48Zl`.
+- Handler woła bezpośrednio `calculateNapiecieSystemowe()` — nie duplikuje algorytmu
+  jednoczesności ani kosztorysu.
+
+Zarejestrowano w `lib/ai/pytaj-asystenta.ts` (obok `doborPrzekrojuKablaTool`, koncepcyjnie
+powiązanego przez echo Etapu C). `pnpm typecheck`/`lint`/`check:i18n-guard` (152 moduły, bez
+regresji)/`test` (170 plików, 1408 testów)/`build` — czyste.
+
 ## Synchronizacja ze standardem — Y.6, sprawdzenie automatyczne (26.09.2026, 16:40 UTC)
 
 **Krok 1:** `new-app-standards` zaktualizowany `b68e561`→`35c84bd` (ff-only) — GOD BOOK `v2_38`→`v2_39` już
@@ -7042,4 +7412,3 @@ dodania.
 
 **Krok 2b — zero nowej treści:** `interwał_h = min(48, 12 × 1,5) = 18` (poprzednio 12),
 `licznik_zero_z_rzedu = 1`. Routine przestawiona na +18 h od tego sprawdzenia.
-
