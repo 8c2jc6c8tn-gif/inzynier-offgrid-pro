@@ -7026,3 +7026,20 @@ właściciela:
 `interwał_h` pozostaje `12` (już było 12 po porannej synchronizacji), `licznik_zero_z_rzedu = 0`. Routine
 przestawiona na +12 h od tego sprawdzenia.
 
+## Synchronizacja ze standardem — Y.6, sprawdzenie automatyczne (27.09.2026, 04:40 UTC)
+
+**Krok 1:** `new-app-standards` `35c84bd`→`8eff570` (ff-only) — jedyny nowy commit to znów ruch **U.4**
+(`docs/god-book/memory.md`/`docs/projekty-downstream.md` samego źródła, "2 nowe znaleziska (offgrid-pro)"
+z perspektywy `new-app-standards`, dotyczy tych samych pozycji co poprzednio). `AKTUALIZACJE.md` bez
+nowego wiersza (112 linii, jak przy poprzednim sprawdzeniu). Zero nowej treści NIETYKALNE/ADAPTOWALNE.
+
+**Krok 2:** `diff -rq` na `docs/standards/*`, GOD BOOK `v2_39`, `PROMPT_STARTOWY.md`,
+`docs/przyklady/i18n/*` — bez różnic. `docs/wklad-do-standardu.md` — nadal 4 pozycje `🔎 nowe` (bez zmian
+od poprzedniego sprawdzenia, zgodnie ze stanem po stronie `new-app-standards`) — nic do oznaczenia ✅.
+Pytanie z poprzedniego sprawdzenia (SW/PWA — porównanie `public/sw.js` ze wzorcem `docs/przyklady/pwa/`,
+oraz rozbieżność MapLibre w `AKTUALIZACJE.md`) wciąż otwarte, czeka na właściciela — nic nowego do
+dodania.
+
+**Krok 2b — zero nowej treści:** `interwał_h = min(48, 12 × 1,5) = 18` (poprzednio 12),
+`licznik_zero_z_rzedu = 1`. Routine przestawiona na +18 h od tego sprawdzenia.
+
