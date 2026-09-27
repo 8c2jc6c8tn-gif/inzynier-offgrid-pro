@@ -3,6 +3,7 @@ import { t } from "@/lib/i18n/t"
 import { validateAiToolDefinition } from "../../types"
 import { dniBezSloncaTool } from "../dni-bez-slonca-tool"
 import { ochronaPrzedRozladowaniemTool } from "../ochrona-przed-rozladowaniem-tool"
+import { urzadzenie12vBezposrednioTool } from "../urzadzenie-12v-bezposrednio-tool"
 
 describe("dniBezSloncaTool (M12/E32, dawne 8.59)", () => {
   it("kontrakt 9.3: 'read', bez potwierdzenia", () => {
@@ -44,5 +45,25 @@ describe("ochronaPrzedRozladowaniemTool (M12/E9, dawne 8.11)", () => {
     expect(w.status).toBe("VALID_WITH_WARNINGS")
     expect(w.progOdcieciaV).toBe(11.5)
     expect(w.ostrzezenia).toEqual([t("pl", "LVD-BRAK-OCHRONY-OLOWIOWY")])
+  })
+})
+
+describe("urzadzenie12vBezposrednioTool (M12/E27, dawne 8.54)", () => {
+  it("kontrakt 9.3: 'read', bez potwierdzenia", () => {
+    expect(urzadzenie12vBezposrednioTool.operationType).toBe("read")
+    expect(urzadzenie12vBezposrednioTool.requiresConfirmation).toBe(false)
+    expect(() => validateAiToolDefinition(urzadzenie12vBezposrednioTool)).not.toThrow()
+  })
+
+  it("przykład źródła 12,0 V ±5% → twardy stop jako tekst PL z wartościami", async () => {
+    const w = await urzadzenie12vBezposrednioTool.handler({
+      napiecieSystemuV: 12,
+      napiecieUrzadzeniaV: 12,
+      tolerancjaPct: 5,
+      przezStabilizator: false,
+    })
+    expect(w.status).toBe("VALID_WITH_WARNINGS")
+    expect(w.zakresPokryty).toBe(false)
+    expect(w.ostrzezenia[0]).toBe(t("pl", "U12-PRZEPIECIE-PRZY-LADOWANIU", { aku: "14.5", urzadzenie: "12.6" }))
   })
 })

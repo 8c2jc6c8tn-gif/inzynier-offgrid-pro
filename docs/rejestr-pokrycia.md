@@ -537,7 +537,7 @@ Już z wierszem wcześniej: E1 (8.1, `done`) i dawne 8.8 (PWM vs MPPT, `done` �
 | 24 | 8.47 | Lista kontrolna na kemping | todo | Wzorzec E. |
 | 25 | 8.50 | Szybka diagnoza problemów | todo | Wzorzec D. |
 | 26 | 8.51 | Zasilanie urządzeń medycznych | todo | Wzorzec D. |
-| 27 | 8.54 | "Czy mogę podłączyć urządzenie 12V bezpośrednio?" | todo | Wzorzec D. |
+| 27 | 8.54 | "Czy mogę podłączyć urządzenie 12V bezpośrednio?" | **done** | Wzorzec D. **[27.09.2026]** `lib/core/modules/kalkulator-mobilny/urzadzenie-12v-bezposrednio/`, UI: `app/kalkulatory/urzadzenie-12v-bezposrednio/page.tsx`, 8 testów silnika + 2 testy narzędzia AI `sprawdz_urzadzenie_12v_bezposrednio`. Zakres urządzenia Un·(1±t) vs zakres akumulatora 11–14,5 V (×2 dla 24 V). Przykład źródła (12,0 V ±5% → 🔴) odtworzony. 🔴 `U12-PRZEPIECIE-PRZY-LADOWANIU` (górna granica), dolna granica tylko info (źródło nie stawia stopu). ✏️ Rozbieżność źródeł: `Tresc` 14,5 V vs Biblia §12.42 14,6 V — użyte 14,5 V, do decyzji właściciela. Porównania z tolerancją 1e-9 V (12,5 V × 1,16 = 14,4999… nie może dać fałszywego 🔴). |
 | 28 | 8.55 | Zabezpieczenie akumulatora przed zimnem — mała instalacja | todo | Wzorzec D. |
 | 29 | 8.56 | Koszt małego zestawu solarnego vs przedłużacz | todo | Wzorzec B. |
 | 30 | 8.57 | Gniazda zapalniczki samochodowej i adaptery | todo | Wzorzec C. |

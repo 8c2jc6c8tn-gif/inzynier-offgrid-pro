@@ -7608,3 +7608,8 @@ Polecenie właściciela: „co można jeszcze zrobić beze mnie, czy są większ
   modułami. Kwasowy zalewowy bez progu (źródło podaje tylko AGM i LiFePO4). `PoleCheckbox` wymaga `id` → `useId()` (standard 08).
 - **Pułapka narzędziowa:** `pkill -f next-server` w tym samym poleceniu Bash zabija własną powłokę (wzorzec jest w jej linii
   poleceń) — kolejne kroki się nie wykonują. Zatrzymywać serwer po porcie (`fuser -k 3123/tcp`) albo osobnym wywołaniem.
+- **[27.09.2026, pakiet 2] M12/E27 (urządzenie 12 V wprost) zbudowany.** ✏️ **Rozbieżność A/B do decyzji właściciela:** górna
+  granica napięcia akumulatora 12 V przy ładowaniu — `Tresc_Modul_12` (E27) **14,5 V**, Biblia §12.42 **14,6 V**. Użyte 14,5 V (plik
+  ekranów = specyfikacja ekranu, Dyrektywa #13), stała w `urzadzenie-12v-bezposrednio/constants.ts`. Konsekwencja: urządzenie o
+  max 14,55 V przejdzie bez 🔴, choć przy ładowarce 14,6 V (typowej dla LiFePO4) byłoby przekroczone. **Pułapka:** porównania granic
+  zakresów liczonych z procentów wymagają tolerancji numerycznej (12,5 × 1,16 = 14,4999…) — tu `EPS_V = 1e-9`.

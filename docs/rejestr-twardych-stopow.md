@@ -144,6 +144,10 @@ nie do audytu poprawności formularza webowego.
   zabezpieczenia przed niskim napięciem** — realne ryzyko trwałego uszkodzenia przez głębokie rozładowanie.
   [27.09.2026] (M12/E9 — `lib/core/modules/kalkulator-mobilny/ochrona-przed-rozladowaniem/warnings.ts`,
   `brakDozownikaOlowiowy`, kod `LVD-BRAK-OCHRONY-OLOWIOWY`)
+- **Urządzenie o wąskiej tolerancji napięciowej podłączone wprost do akumulatora bez stabilizacji** — napięcie
+  ładowania (do 14,5 V dla 12 V) przekracza górną granicę tolerancji urządzenia, ryzyko uszkodzenia.
+  [27.09.2026] (M12/E27 — `lib/core/modules/kalkulator-mobilny/urzadzenie-12v-bezposrednio/warnings.ts`,
+  `przepieciePrzyLadowaniu`, kod `U12-PRZEPIECIE-PRZY-LADOWANIU`)
 
 ## Cieplne / systemowe
 
