@@ -7487,3 +7487,24 @@ branżowego PV-2019. Pełny wykaz: `docs/normy-brakujace.md`.
 
 `pnpm typecheck`/`check:i18n-guard` czyste (brak zmian kodu, tylko dokumentacja i pliki źródłowe
 w `docs/zrodla/`).
+
+## Materiał ze szkolenia ZIAD Bielsko-Biała dodany bez analizy (27.09.2026)
+
+Właściciel projektu dostarczył plik `.docx` "Bezpieczeństwo instalacji fotowoltaicznych"
+(dodatek Rynek Elektryczny nr 3/2019, egzemplarz szkolenia ZIAD Bielsko-Biała) z jawnym
+poleceniem: dodać do repo, ale **nie analizować w tej sesji** — analiza odłożona do innej
+sesji. Skopiowany do `docs/zrodla/materialy-szkolenie-ZIAD-Bielsko-Biala/`, opisany minimalnie
+w `00-INDEKS.md` (tylko rozpoznanie tytułu/wydawcy przy pobieżnym podglądzie tekstu, bez
+merytorycznej ekstrakcji).
+
+Zauważona, ale niesprawdzona zależność: tytuł i wydawca są identyczne z już posiadanym
+`docs/zrodla/materialy-branzowe-PV-2019/` — materiałem, w którym przy konwersji PPTX→DOCX
+zgubiło się 9 pozycji z listy 43 norm (`docs/normy-brakujace.md`, sekcja ⚫, pozycje #2, #6,
+#10, #13, #17, #27, #29, #33, #37). Spis treści widoczny przy pobieżnym podglądzie różni się
+jednak numeracją rozdziałów, więc **nie jest to na pierwszy rzut oka identyczny duplikat** —
+wymaga porównania treść-po-treści przez następną sesję (zadanie zapisane w
+`docs/lista-do-zrobienia.md`). Jeśli okaże się, że to pełna (nieprzycięta) wersja tej samej
+publikacji, zamknie to od razu 9 pozycji z listy brakujących norm bez konieczności zgadywania.
+
+`pnpm typecheck`/`check:i18n-guard` czyste (brak zmian kodu, tylko dokumentacja i nowy plik
+źródłowy w `docs/zrodla/`).

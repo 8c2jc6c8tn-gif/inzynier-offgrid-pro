@@ -325,3 +325,14 @@ właściciel projektu; w repo tylko notatka robocza z liczbami używanymi w kodz
 Pełne opisy w `docs/zrodla/norma-HD-60364-4-443/00-INDEKS.md`, dopiskach w
 `docs/zrodla/norma-IEC-62305/00-INDEKS.md` i `docs/zrodla/materialy-Purmo-PN-EN-12831-ogrzewanie/00-INDEKS.md`,
 oraz `docs/zrodla/norma-IEC-62109-1/00-INDEKS.md`. Status w `docs/normy-brakujace.md` zaktualizowany.
+
+## Materiał ze szkolenia ZIAD Bielsko-Biała (27.09.2026)
+
+[27.09.2026] ✅ DODANO (tylko dodanie, bez analizy — jawne polecenie właściciela projektu: "inna
+sesja zajmie się tym") — `docs/zrodla/materialy-szkolenie-ZIAD-Bielsko-Biala/`. Plik `.docx`
+"Bezpieczeństwo instalacji fotowoltaicznych" (dodatek do magazynu Rynek Elektryczny nr 3/2019,
+egzemplarz rozdawany na szkoleniu ZIAD Bielsko-Biała). Tytuł i wydawca identyczne z już
+posiadanym `docs/zrodla/materialy-branzowe-PV-2019/` — **niesprawdzona hipoteza**, czy to inna
+edycja tej samej publikacji z pełną (nieprzyciętą) listą 43 norm, w tym 9 pozycji zgubionych w
+tamtym materiale przy konwersji PPTX→DOCX. Zadanie porównawcze zapisane w
+`docs/lista-do-zrobienia.md` i `00-INDEKS.md` tego folderu.
