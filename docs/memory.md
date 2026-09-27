@@ -7540,3 +7540,18 @@ whitepaper, Boryń/Olesz, ELEKTRA) mają tekst natywny na każdej stronie — OC
   (duplikat) i niekompletny `.docx` z `materialy-branzowe-PV-2019/` (−2×22,5 MB). Oryginałem publikacji jest tylko PDF;
   wzmianki o `.docx` w starszych opisach są historyczne (plik w historii git, commit `0033707`). Odnośniki zaktualizowane
   dopiskami (00-INDEKS PV-2019, `zrodla/README.md`, `normy-brakujace.md`, lista, biblioteka-norm-zrodlowych).
+
+## Porządki gałęzi na GitHubie — 30 gałęzi oznaczonych jako śmieci (27.09.2026)
+
+- **Stan:** jedyne żywe gałęzie to `main` i bieżąca gałąź sesji. Pozostałe 30 gałęzi zdalnych to **śmieci — nie weryfikuj
+  ich, nie scalaj, nie porównuj z `main`**. Sprawdzone 27.09.2026 (`git cherry` + diff treści), żadna nie ma treści,
+  której brakuje w `main`:
+  - 5 ma identyczne łatki już w `main`: `claude/app-rules-r4guty`, `claude/prep-work-kppxeb`, `claude/sync-cadence-12h`,
+    `claude/sync-offgrid-standard-ucgqok-2`, `claude/y6-routine-id-20260924`;
+  - 3 zastąpione nowszymi wersjami (scalenie **cofnęłoby** dokumenty): `claude/laughing-faraday-lp6ytt` (→ PR #153),
+    `claude/youthful-fermat-tbxoxg` (→ PR #154), `claude/sync-offgrid-standard-ucgqok` (GOD BOOK v2.21, w `main` v2.39);
+  - 7 bez wspólnej historii z `main` (prototyp v0 z sierpnia, zastąpiony): `design-system-refinement`,
+    `design-system-refinement-1`, `design-system-refinement-2`, `v0/jf7kryn4f9-6614-*` (4 gałęzie);
+  - 15 pozostałych `claude/*` nie ma żadnego commita spoza `main`.
+- **Dlaczego nie usunięte:** sesja w chmurze nie może kasować gałęzi zdalnych (proxy git zwraca HTTP 403 na push
+  inny niż do gałęzi sesji). Właściciel może je usunąć ręcznie: GitHub → repo → *Branches* → ikona kosza.
