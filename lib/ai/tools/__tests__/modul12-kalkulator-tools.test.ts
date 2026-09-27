@@ -8,6 +8,8 @@ import { panelDoStacjiZasilaniaTool } from "../panel-do-stacji-zasilania-tool"
 import { zuzyciePerUrzadzenieTool } from "../zuzycie-per-urzadzenie-tool"
 import { gniazdoZapalniczkiTool } from "../gniazdo-zapalniczki-tool"
 import { ratowanieAkumulatoraMalyTool } from "../ratowanie-akumulatora-maly-tool"
+import { bezpieczenstwoKamperTool } from "../bezpieczenstwo-kamper-tool"
+import { ladowanieWGarazuTool } from "../ladowanie-w-garazu-tool"
 
 describe("dniBezSloncaTool (M12/E32, dawne 8.59)", () => {
   it("kontrakt 9.3: 'read', bez potwierdzenia", () => {
@@ -135,5 +137,23 @@ describe("ratowanieAkumulatoraMalyTool (M12/E42, dawne 8.70)", () => {
     const w = await ratowanieAkumulatoraMalyTool.handler({ chemia: "AGM", napiecieSpoczynkoweV: 10.2 })
     expect(w.procedury.map((p) => p.ekran)).toEqual(["M11/B10", "M11/B11"])
     expect(w.ostrzezenia).toEqual([t("pl", "RAM-KRYTYCZNIE-ROZLADOWANY", { napiecie: "10.20", prog: "10.5" })])
+  })
+})
+
+describe("bezpieczenstwoKamperTool + ladowanieWGarazuTool (M12/E22, E36)", () => {
+  it("kontrakt 9.3: 'read', bez potwierdzenia", () => {
+    for (const tool of [bezpieczenstwoKamperTool, ladowanieWGarazuTool]) {
+      expect(tool.operationType).toBe("read")
+      expect(tool.requiresConfirmation).toBe(false)
+      expect(() => validateAiToolDefinition(tool)).not.toThrow()
+    }
+  })
+
+  it("kwasowy bez wentylacji → ostrzeżenie o wodorze jako tekst PL (oba ekrany)", async () => {
+    const k = await bezpieczenstwoKamperTool.handler({ chemia: "kwasowy", potwierdzoneIds: [] })
+    expect(k.ostrzezenia).toEqual([t("pl", "BK-OLOW-BEZ-WENTYLACJI")])
+    expect(k.razem).toBe(5)
+    const g = await ladowanieWGarazuTool.handler({ chemia: "kwasowy", potwierdzoneIds: [] })
+    expect(g.ostrzezenia).toEqual([t("pl", "LG-OLOW-BEZ-WENTYLACJI")])
   })
 })

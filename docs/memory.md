@@ -7619,3 +7619,7 @@ Polecenie właściciela: „co można jeszcze zrobić beze mnie, czy są większ
   kreatorów). Baza typowych mocy nie zbudowana: źródło ma tylko nazwy urządzeń — dane potrzebne od właściciela, jeśli ma powstać.
 - **[27.09.2026, pakiet 2] M12/E30 (gniazdo zapalniczki)** — prąd bezpiecznika od usera (zakres 10–15 A tylko jako podpowiedź).
 - **[27.09.2026, pakiet 2] M12/E42** — odsyłacz; dołożone B10 przed B11 (B11 sam mówi, że diagnoza przychodzi z B10).
+- **[27.09.2026, pakiet 2] M12/E22 + E36 (checklisty wg chemii)** — wspólna logika `ocenChecklisteChemii` (E22) i wspólny komponent
+  `components/wzorce/ekran-checklisty-chemii.tsx`. ⚠️ **Do decyzji właściciela:** alert Biblii o wodorze (ołowiowy bez wentylacji)
+  wdrożony jako 🟡 `warning`, nie 🔴 — lista twardych stopów M12 w `Tresc` go nie wymienia. Podniesienie do 🔴 = zmiana `level` w
+  `bezpieczenstwo-kamper/warnings.ts` + wpis w rejestrze twardych stopów.

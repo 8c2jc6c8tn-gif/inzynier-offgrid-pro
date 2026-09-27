@@ -280,6 +280,8 @@ export const KAFLE: KafelEntry[] = [
       { href: "/kalkulatory/zuzycie-per-urzadzenie", label: "Zużycie energii per urządzenie (z cyklem pracy sprężarki)" },
       { href: "/kalkulatory/gniazdo-zapalniczki", label: "Gniazdo zapalniczki — co można podłączyć" },
       { href: "/kalkulatory/ratowanie-akumulatora-maly", label: "Ratowanie rozładowanego akumulatora — mała instalacja" },
+      { href: "/kalkulatory/bezpieczenstwo-kamper", label: "Bezpieczeństwo akumulatora w kamperze (lista kontrolna)" },
+      { href: "/kalkulatory/ladowanie-w-garazu", label: "Bezpieczne ładowanie akumulatora w garażu (lista kontrolna)" },
     ],
   },
   {

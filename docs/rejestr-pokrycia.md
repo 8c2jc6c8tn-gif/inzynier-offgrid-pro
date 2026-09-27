@@ -532,7 +532,7 @@ Już z wierszem wcześniej: E1 (8.1, `done`) i dawne 8.8 (PWM vs MPPT, `done` �
 | 19 | 8.39 | Ile paneli na dachu kampera | todo | Wzorzec D. |
 | 20 | 8.40, 8.43 | Ładowanie z alternatora vs paneli | todo | Wzorzec B. |
 | 21 | 8.44 | Monitoring małej instalacji | — | → przeniesione do M13 jako widżet Live (źródło) — wiersz w sekcji M13 niżej. |
-| 22 | 8.45 | Bezpieczeństwo w kamperze | todo | Wzorzec E. |
+| 22 | 8.45 | Bezpieczeństwo w kamperze | **done** | Wzorzec E. **[27.09.2026]** `lib/core/modules/kalkulator-mobilny/bezpieczenstwo-kamper/`, UI: `app/kalkulatory/bezpieczenstwo-kamper/page.tsx` (wspólny `components/wzorce/ekran-checklisty-chemii.tsx`), 5 testów silnika + testy narzędzia AI `sprawdz_bezpieczenstwo_akumulatora_w_kamperze`. Checklista zależna od chemii — pozycje z `Tresc` (wentylacja, wibracje, dostęp serwisowy) + Biblia §12.33 (wilgoć/przegrzanie, osłona zacisków). Brak wentylacji przy ołowiowym → 🟡 `BK-OLOW-BEZ-WENTYLACJI` (alert Biblii; źródło nie oznacza go 🔴 — do decyzji właściciela). Logika `ocenChecklisteChemii` współdzielona z E36. |
 | 23 | 8.46 | Zabezpieczenia przeciwwilgociowe dla małych instalacji | todo | Wzorzec D. |
 | 24 | 8.47 | Lista kontrolna na kemping | todo | Wzorzec E. |
 | 25 | 8.50 | Szybka diagnoza problemów | todo | Wzorzec D. |
@@ -546,7 +546,7 @@ Już z wierszem wcześniej: E1 (8.1, `done`) i dawne 8.8 (PWM vs MPPT, `done` �
 | 33 | 8.60 | Test "czy mój akumulator jest jeszcze dobry?" | todo | Wzorzec D. |
 | 34 | 8.61 | Solarny generator (stacja) vs zestaw DIY | todo | Wzorzec B. |
 | 35 | 8.62 | Agregat przenośny — ile paliwa na dobę | todo | Wzorzec D. |
-| 36 | 8.63 | Bezpieczne ładowanie w garażu | todo | Wzorzec E. |
+| 36 | 8.63 | Bezpieczne ładowanie w garażu | **done** | Wzorzec E. **[27.09.2026]** `lib/core/modules/kalkulator-mobilny/ladowanie-w-garazu/`, UI: `app/kalkulatory/ladowanie-w-garazu/page.tsx`, 3 testy silnika + testy narzędzia AI `sprawdz_ladowanie_w_garazu`. Pozycje 1:1 z `Tresc` (wentylacja, brak iskrzenia, ładowarka dla chemii); dla LiFePO4 tylko ładowarka + info Biblii §12.51 „nie wydziela gazów”. Brak wentylacji przy ołowiowym → 🟡 `LG-OLOW-BEZ-WENTYLACJI` (tekst alertu Biblii; poziom do decyzji właściciela). Reużywa `ocenChecklisteChemii` z E22. |
 | 37 | 8.64 | Urządzenia zabronione dla małych falowników | todo | Wzorzec C. |
 | 38 | 8.65 | Uziemienie małej instalacji | todo | Wzorzec D. |
 | 39 | 8.66 | Łączenie paneli z powerbankiem/stacją zasilania | **done** | Wzorzec D. **[27.09.2026]** `lib/core/modules/kalkulator-mobilny/panel-do-stacji-zasilania/`, UI: `app/kalkulatory/panel-do-stacji-zasilania/page.tsx`, 7 testów silnika + 2 testy narzędzia AI `sprawdz_panel_do_stacji_zasilania`. **Wzorzec „echo”:** Voc łańcucha w mrozie liczone `obliczNapiecieStringuZimowego` z M3/E5, te same progi (> limit 🔴, > 95% 🟡, `PROG_OSTRZEGAWCZY_UDZIAL_LIMITU`). 🔴 `PST-PRZEKROCZONE-NAPIECIE-WEJSCIA` ze źródła. Prąd zwarciowy vs max prąd wejścia (Biblia §12.54) — tylko 🟡, opcjonalnie (źródło nie stawia stopu). Dobór przejściówek MC4/XT60/Anderson pominięty — źródło nie podaje danych do doboru; zostaje info o polaryzacji. |
