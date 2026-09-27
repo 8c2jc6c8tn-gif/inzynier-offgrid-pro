@@ -156,6 +156,10 @@ nie do audytu poprawności formularza webowego.
   przepalenia bezpiecznika lub przegrzania przewodów instalacji pojazdu.
   [27.09.2026] (M12/E30 — `lib/core/modules/kalkulator-mobilny/gniazdo-zapalniczki/warnings.ts`,
   `przeciazenieGniazda`, kod `GZ-PRZECIAZENIE-GNIAZDA`)
+- **Bezpiecznik nie chroni kabla przed przeciążeniem (In > Iz)** — sprawdzany przekrój przechodzi obciążalność i
+  spadek napięcia, ale bezpiecznik 1,25 × I jest większy niż obciążalność kabla (PN-IEC 60364-4-43, 433.2).
+  [27.09.2026] (M12/E2, E15 — `lib/core/modules/kalkulator-mobilny/kable-bezpieczniki-male/warnings.ts`,
+  `przekrojPonizejMinimum`, kod `MK-BEZPIECZNIK-NIE-CHRONI-KABLA`)
 
 ## Cieplne / systemowe
 

@@ -10,6 +10,7 @@ import { gniazdoZapalniczkiTool } from "../gniazdo-zapalniczki-tool"
 import { ratowanieAkumulatoraMalyTool } from "../ratowanie-akumulatora-maly-tool"
 import { bezpieczenstwoKamperTool } from "../bezpieczenstwo-kamper-tool"
 import { ladowanieWGarazuTool } from "../ladowanie-w-garazu-tool"
+import { kableBezpiecznikiMaleTool } from "../kable-bezpieczniki-male-tool"
 
 describe("dniBezSloncaTool (M12/E32, dawne 8.59)", () => {
   it("kontrakt 9.3: 'read', bez potwierdzenia", () => {
@@ -155,5 +156,28 @@ describe("bezpieczenstwoKamperTool + ladowanieWGarazuTool (M12/E22, E36)", () =>
     expect(k.razem).toBe(5)
     const g = await ladowanieWGarazuTool.handler({ chemia: "kwasowy", potwierdzoneIds: [] })
     expect(g.ostrzezenia).toEqual([t("pl", "LG-OLOW-BEZ-WENTYLACJI")])
+  })
+})
+
+describe("kableBezpiecznikiMaleTool (M12/E2 + E15)", () => {
+  it("kontrakt 9.3: 'read', bez potwierdzenia", () => {
+    expect(kableBezpiecznikiMaleTool.operationType).toBe("read")
+    expect(kableBezpiecznikiMaleTool.requiresConfirmation).toBe(false)
+    expect(() => validateAiToolDefinition(kableBezpiecznikiMaleTool)).not.toThrow()
+  })
+
+  it("15 A, 12 V, 3 m, 3% → 6 mm², bezpiecznik min. 18,75 A; pola opcjonalne pominięte; założenia jako tekst PL", async () => {
+    const w = await kableBezpiecznikiMaleTool.handler({
+      pradA: 15,
+      napiecieV: 12,
+      dlugoscTrasyM: 3,
+      sposobUlozenia: "swobodnie",
+      temperaturaOtoczeniaC: 30,
+      dopuszczalnySpadekNapieciaPct: 3,
+    })
+    expect(w.status).toBe("VALID")
+    expect(w.przekrojMm2).toBe(6)
+    expect(w.bezpiecznikMinA).toBeCloseTo(18.75, 12)
+    expect(w.zalozenia).toContain(t("pl", "MK-ZALOZENIE-ECHO-M5"))
   })
 })

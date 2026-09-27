@@ -147,6 +147,7 @@ const MIGRATED_MODULES = [
   "lib/core/modules/kalkulator-mobilny/ratowanie-akumulatora-maly",
   "lib/core/modules/kalkulator-mobilny/bezpieczenstwo-kamper",
   "lib/core/modules/kalkulator-mobilny/ladowanie-w-garazu",
+  "lib/core/modules/kalkulator-mobilny/kable-bezpieczniki-male",
   "lib/core/modules/stress-test/wind-chill",
   "lib/core/modules/zapotrzebowanie/urzadzenia-zmienne",
   "lib/core/modules/zapotrzebowanie/sprawnosc-inwertera-niskie-obciazenie",
