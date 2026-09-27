@@ -542,7 +542,7 @@ Już z wierszem wcześniej: E1 (8.1, `done`) i dawne 8.8 (PWM vs MPPT, `done` �
 | 29 | 8.56 | Koszt małego zestawu solarnego vs przedłużacz | todo | Wzorzec B. |
 | 30 | 8.57 | Gniazda zapalniczki samochodowej i adaptery | todo | Wzorzec C. |
 | 31 | 8.58 | Planowanie rozbudowy małej instalacji | todo | Wzorzec D. |
-| 32 | 8.59 | Ile dni pracy bez słońca — mały zestaw | todo | Wzorzec D. |
+| 32 | 8.59 | Ile dni pracy bez słońca — mały zestaw | **done** | Wzorzec D. **[27.09.2026]** `lib/core/modules/kalkulator-mobilny/dni-bez-slonca/`, UI: `app/kalkulatory/dni-bez-slonca/page.tsx`, 8 testów silnika + 2 testy narzędzia AI `policz_dni_bez_slonca`. **Wzorzec „echo”:** wzór M4/E1 `C = E·d/(η·DoD)` rozwiązany względem d — nowa funkcja `obliczDniAutonomiiZPojemnosci` obok oryginału w `baterie/dobor-pojemnosci/calculator.ts` (nie duplikat); przykład źródła M4/E1 odtworzony w obie strony (45 kWh ↔ 3 dni), wartości testów z Pythona (ułamki). DoD i sprawność wpisuje użytkownik z podpowiedzią (LiFePO4 80–90% i 95% z M4/E1, AGM 300–500 cykli przy 50% DoD z M4/E30) — Dyrektywa #1. Bez korekty temperatury (jawne założenie). |
 | 33 | 8.60 | Test "czy mój akumulator jest jeszcze dobry?" | todo | Wzorzec D. |
 | 34 | 8.61 | Solarny generator (stacja) vs zestaw DIY | todo | Wzorzec B. |
 | 35 | 8.62 | Agregat przenośny — ile paliwa na dobę | todo | Wzorzec D. |
@@ -551,7 +551,7 @@ Już z wierszem wcześniej: E1 (8.1, `done`) i dawne 8.8 (PWM vs MPPT, `done` �
 | 38 | 8.65 | Uziemienie małej instalacji | todo | Wzorzec D. |
 | 39 | 8.66 | Łączenie paneli z powerbankiem/stacją zasilania | todo | Wzorzec D. |
 | 40 | 8.68 | Blackout w bloku — zestaw balkonowy | todo | Wzorzec D. |
-| 41 | 8.69 | Czy mój przedłużacz wytrzyma? | todo | Wzorzec D. |
+| 41 | 8.69 | Czy mój przedłużacz wytrzyma? | ⚠️ blocked | Wzorzec D. **[27.09.2026] sprawdzone przy starcie budowy — zablokowane:** źródło każe użyć wzoru obciążalności z M5/E1, ale przedłużacz to przewód giętki (0,75/1,0/1,5 mm²), a PN-HD 60364-5-52 w repo nie obejmuje przewodów giętkich — dla nich obciążalność podaje osobna norma (HIPOTEZA: PN-EN 50565-1/-2, dawniej HD 516 — `docs/normy-brakujace.md`). Spadek napięcia (fizyka uniwersalna) dałoby się policzyć, ale 🔴 „przegrzeje się” wymaga obciążalności — bez niej ekran dawałby fałszywe poczucie bezpieczeństwa. Przykład źródła („0,75 mm², 20 m → max ok. 1000 W”) nie wynika ze spadku napięcia (1000 W → ΔU ≈ 1,8%), więc pochodzi z tabeli obciążalności/deratingu, której nie mamy. Dyrektywa #1. |
 | 42 | 8.70 | Ratowanie rozładowanego akumulatora — mała instalacja | todo | Wzorzec D. Źródło: ekran ma **odsyłać** do M11/A9 i B11 (`done`), nie duplikować logiki. |
 
 ### Moduł 13 — Tryb Live, biblioteka widżetów Ekranu 2 (`Tresc_Modul_13_Live_Ekrany.md`, 33 funkcje)

@@ -89,7 +89,7 @@ pozycji (`docs/zrodla/materialy-branzowe-PV-2019/01-tresc.md`) — nazwa/numer z
 
 - **PN-EN 62852** (złącza DC dla instalacji fotowoltaicznych).
 - **PN-EN 61427-1** (akumulatory do zastosowań fotowoltaicznych off-grid).
-- **PN-EN 50565-1:2014** (przewody elektryczne).
+- **PN-EN 50565-1:2014** (przewody elektryczne). **[27.09.2026]** blokuje M12/E41 „Czy mój przedłużacz wytrzyma?” — potrzebna obciążalność prądowa przewodów giętkich 0,75/1,0/1,5 mm² (H05VV-F/H05RN-F itp.), której PN-HD 60364-5-52 nie obejmuje. HIPOTEZA do potwierdzenia przy pozyskaniu: tablice obciążalności są w części 2 (PN-EN 50565-2) albo w załączniku części 1.
 
 ## ⚫ Nieznane nawet z nazwy — zgubione przy konwersji
 

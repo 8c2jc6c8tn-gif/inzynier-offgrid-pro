@@ -1025,6 +1025,8 @@ export const dictionaryPl = {
   "IZOL-ZALOZENIE-WARSTWA-SZEREGOWA": "U po dociepleniu = 1/(1/U + d/λ): nowa warstwa dokłada swój opór do obecnej przegrody (opory przejmowania ciepła są już w obecnym U). Bez łączników mechanicznych, szczelin i mostków na styku warstw — rzeczywiste U będzie nieco wyższe.",
   "IZOL-ZALOZENIE-10-LAT": "Opłacalność liczona na {lata} lat (horyzont ze źródła): koszt izolacji ÷ ciepło zaoszczędzone w tym czasie, bez zmiany cen i bez dyskontowania.",
   "IZOL-ZALOZENIE-CIEPLO-NIE-PRAD": "Oszczędność to ciepło (kWh ciepła), liczone z tych samych średnich miesięcznych co Ekran 1. Prąd zaoszczędzony przez pompę ciepła = ciepło ÷ COP.",
+  "DBS-ZALOZENIE-BEZ-DOLADOWANIA": "Akumulator na starcie w pełni naładowany i przez cały ten czas bez żadnego doładowania (panel, alternator, sieć) — każdy słoneczny dzień wydłuża wynik.",
+  "DBS-ZALOZENIE-BEZ-KOREKTY-TEMPERATURY": "Bez korekty na temperaturę — w mrozie akumulator oddaje mniej energii niż na tabliczce, więc zimą wynik będzie niższy (patrz Moduł 4: praca baterii w mrozie).",
   "POJC-ZALACZNIK-A-PRZYBLIZENIE": "Pojemność liczona metodą uproszczoną EN ISO 13786, Załącznik A (grubość efektywna dla wahań dobowych). To przybliżenie: rzeczywista warstwa czynna to 40–120 % przyjętej, a dla drewna i betonu komórkowego metoda może pojemność zawyżać. Nie planuj ochrony przed mrozem na styk z tym czasem.",
   "POJC-ELEMENT-CIENSZY-NIZ-WARSTWA": "„{nazwa}”: grubość całej przegrody ({element} cm) nie może być mniejsza niż grubość warstwy masywnej ({warstwa} cm).",
   "POJC-GRANICA-NIEOSIAGALNA": "Bez ogrzewania dom ustali się na ok. {rownowaga} °C — w tym modelu nie spadnie do {granica} °C.",
