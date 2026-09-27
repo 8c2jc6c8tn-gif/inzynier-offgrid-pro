@@ -204,6 +204,7 @@ export const KAFLE: KafelEntry[] = [
     ekrany: [
       { href: "/kalkulatory/procedura-black-start", label: "Procedura Black Start" },
       { href: "/kalkulatory/wind-chill", label: "Wind Chill — temperatura odczuwalna" },
+      { href: "/kalkulatory/obciazenie-dachu-sniegiem", label: "Obciążenie dachu śniegiem" },
     ],
   },
   {

@@ -203,6 +203,14 @@ nie do audytu poprawności formularza webowego.
   (M3/E6 — `lib/core/modules/pv/napor-wiatru/warnings.ts`, `balastNiewystarczajacy`, kod
   `NW-BALAST-NIEWYSTARCZAJACY`; sprawdzany tylko, gdy użytkownik wpisze planowany balast. Przesuw i
   wywracanie niesprawdzane — brak współczynnika tarcia i punktu przyłożenia siły.)
+- **[27.09.2026] Obciążenie śniegiem przekraczające nośność dachu** — osobno: (a) obciążenie normowe
+  `s = μ1·Ce·Ct·sk` (PN-EN 1991-1-3 + NB) większe niż nośność z projektu konstrukcji, (b) ciężar
+  zmierzonej warstwy `γ·h` (górne γ z Tablicy E.1) większy niż ta nośność. Źródło: Moduł 7, Ekran 23
+  ("obciążenie zbliżające się lub przekraczające dopuszczalną nośność konstrukcji").
+  (M7/E23 — `lib/core/modules/stress-test/obciazenie-dachu-sniegiem/warnings.ts`,
+  `normowePrzekraczaNosnosc` / `aktualnePrzekraczaNosnosc`, kody `SNIEG-NORMOWE-PRZEKRACZA-NOSNOSC`,
+  `SNIEG-AKTUALNE-PRZEKRACZA-NOSNOSC`; sprawdzany tylko, gdy użytkownik wpisze nośność. Wariant
+  „zbliżające się” niezaimplementowany — źródło nie podaje progu, decyzja właściciela.)
 
 ## Znane luki (świadomie, nie przeoczenie)
 

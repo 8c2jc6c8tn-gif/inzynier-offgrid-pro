@@ -835,3 +835,18 @@ stałe z nazwanych źródeł; rozdz. 10 — podwójna weryfikacja); (1) i (2) to
 tablicowych, (3) — higiena diffu przy pracy AI.
 
 Status: 🔎 nowe
+
+[27.09.2026] KATEGORIA: POMYSŁ NA REGUŁĘ — porównanie wyniku zmiennoprzecinkowego z progiem wymaga tolerancji (fałszywe twarde stopy na granicy)
+
+Szczegóły: w jednym dniu dwa niezależne ekrany dały fałszywe 🔴 dokładnie na granicy, oba złapane testem przypadku granicznego:
+(1) 12,5 × 1,16 = 14,499999999999998 zamiast 14,5 V (limit napięcia urządzenia), (2) 0,8 × 0,9 = 0,7200000000000001 zamiast
+0,72 kN/m² (obciążenie śniegiem równe nośności dachu wpisanej przez usera). W aplikacji liczącej twarde fakty różnica 1e-16
+zmienia werdykt z ✅ na 🔴, a użytkownik widzi „przekroczono” przy wartościach, które sam wpisał jako równe. Rozwiązanie:
+jawnie nazwana stała tolerancji w jednostce porównania (`EPS_V = 1e-9`, `EPS_KN_M2 = 1e-9`) plus test „wartość równa progowi
+nie jest przekroczeniem” w każdym kalkulatorze z twardym stopem progowym.
+
+Dlaczego warto zgłosić do new-app-standards: rozdz. 04 (walidacja i twarde stopy) opisuje progi, ale nie sposób porównania;
+każdy projekt rodziny z twardymi stopami progowymi trafi na ten sam błąd. Kandydat na regułę: „porównanie iloczynu/ilorazu
+z progiem — z nazwaną tolerancją; obowiązkowy test przypadku równości”.
+
+Status: 🔎 nowe
