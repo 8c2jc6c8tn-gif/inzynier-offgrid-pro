@@ -7639,3 +7639,7 @@ Polecenie właściciela: „co można jeszcze zrobić beze mnie, czy są większ
 ### M7/E13 sztywnienie izolacji (27.09.2026)
 
 - Progi 1:1 ze źródła (PVC −10°C, XLPE −40°C). Asymetria świadoma: 🔴 tylko PVC (tak źródło), XLPE poniżej progu — 🟡. Guma/aluminium bez liczby → info. Para z M5/E28 (strona gorąca) — osobne ekrany, nie scalone, bo źródło ma je w dwóch modułach.
+
+### M7/E19 elektronika w mrozie (27.09.2026)
+
+- Źródło nie podaje progów per urządzenie — min. temperaturę pracy wpisuje user z karty katalogowej (Dyrektywa #1). 🔴 tylko BMS (jedyny „nie wystartuje” w źródle); przetwornica/falownik 🟡 mimo że realnie też krytyczne — otwarte dla właściciela (`docs/lista-do-zrobienia.md`). Porównanie ścisłe `<` (równo z minimum = w zakresie, jak E13).

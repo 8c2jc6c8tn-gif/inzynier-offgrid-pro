@@ -3,6 +3,7 @@ import { t } from "@/lib/i18n/t"
 import { validateAiToolDefinition } from "../../types"
 import { obciazenieDachuSniegiemTool } from "../obciazenie-dachu-sniegiem-tool"
 import { sztywnienieIzolacjiTool } from "../sztywnienie-izolacji-tool"
+import { elektronikaWMrozieTool } from "../elektronika-w-mrozie-tool"
 
 describe("obciazenieDachuSniegiemTool (M7/E23, dawne 6.34→7.32)", () => {
   it("kontrakt 9.3: 'read', bez potwierdzenia", () => {
@@ -43,5 +44,23 @@ describe("sztywnienieIzolacjiTool (M7/E13, dawne 6.17→7.17)", () => {
     expect(w.status).toBe("VALID_WITH_WARNINGS")
     expect(w.ostrzezenia).toContain(t("pl", "MROZ-PVC-PONIZEJ-PROGU", { temp: -15, prog: -10 }))
     expect(w.zalozenia).toContain(t("pl", "MROZ-ZALOZENIE-PROGI-OGOLNE"))
+  })
+})
+
+describe("elektronikaWMrozieTool (M7/E19, dawne 6.29→7.27)", () => {
+  it("kontrakt 9.3: 'read', bez potwierdzenia", () => {
+    expect(elektronikaWMrozieTool.operationType).toBe("read")
+    expect(elektronikaWMrozieTool.requiresConfirmation).toBe(false)
+    expect(() => validateAiToolDefinition(elektronikaWMrozieTool)).not.toThrow()
+  })
+
+  it("BMS −10°C w garażu −20°C → twardy stop jako tekst PL", async () => {
+    const w = await elektronikaWMrozieTool.handler({
+      temperaturaMiejscaC: -20,
+      urzadzenia: [{ nazwa: "BMS", typ: "BMS", minTempPracyC: -10 }],
+    })
+    expect(w.status).toBe("VALID_WITH_WARNINGS")
+    expect(w.liczbaPonizejMin).toBe(1)
+    expect(w.ostrzezenia).toContain(t("pl", "ELEKTRONIKA-BMS-PONIZEJ-MIN", { nazwa: "BMS", temp: -20, min: -10 }))
   })
 })

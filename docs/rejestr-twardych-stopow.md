@@ -215,6 +215,11 @@ nie do audytu poprawności formularza webowego.
   PVC sztywnieje i pęka. Źródło: Moduł 7, Ekran 13.
   (M7/E13 — `lib/core/modules/stress-test/sztywnienie-izolacji/warnings.ts`, `pvcPonizejProgu`, kod
   `MROZ-PVC-PONIZEJ-PROGU`; XLPE poniżej −40°C tylko 🟡 — źródło nie wpisuje go jako twardego stopu.)
+- **[27.09.2026] BMS w miejscu, gdzie minimalna temperatura spada poniżej jego minimalnej temperatury pracy** —
+  BMS nie wystartuje, bateria bez nadzoru/niedostępna. Źródło: Moduł 7, Ekran 19.
+  (M7/E19 — `lib/core/modules/stress-test/elektronika-w-mrozie/warnings.ts`, `bmsPonizejMin`, kod
+  `ELEKTRONIKA-BMS-PONIZEJ-MIN`; próg = wartość z karty katalogowej wpisana przez użytkownika. Inne typy
+  urządzeń tylko 🟡 — decyzja o rozszerzeniu zbioru krytycznych: `docs/lista-do-zrobienia.md`.)
 
 ## Znane luki (świadomie, nie przeoczenie)
 
