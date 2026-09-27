@@ -67,6 +67,7 @@ import { windChillTool } from "./tools/wind-chill-tool"
 import { katalogCzujnikowTool } from "./tools/katalog-czujnikow-tool"
 import { doborRegulatoraPwmMpptTool } from "./tools/dobor-regulatora-pwm-mppt-tool"
 import { dniBezSloncaTool } from "./tools/dni-bez-slonca-tool"
+import { ochronaPrzedRozladowaniemTool } from "./tools/ochrona-przed-rozladowaniem-tool"
 import { trybUproszczonyTool } from "./tools/tryb-uproszczony-tool"
 import { montazMechanicznyOlowTool } from "./tools/montaz-mechaniczny-olow-tool"
 import { polaczeniaCzyszczenieOlowTool } from "./tools/polaczenia-czyszczenie-olow-tool"
@@ -311,6 +312,7 @@ const NARZEDZIA: Array<AiToolDefinition<any, any>> = [
   katalogCzujnikowTool,
   doborRegulatoraPwmMpptTool,
   dniBezSloncaTool,
+  ochronaPrzedRozladowaniemTool,
   trybUproszczonyTool,
 ]
 for (const narzedzie of NARZEDZIA) validateAiToolDefinition(narzedzie)

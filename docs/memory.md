@@ -7603,3 +7603,8 @@ Polecenie właściciela: „co można jeszcze zrobić beze mnie, czy są większ
   `/opt/node22/lib/node_modules/playwright/index.mjs` (skrypt w scratchpadzie, nie w repo).
 - Weryfikacja: typecheck / lint (0 błędów) / i18n-guard (154) / test 1439 / build / audit:gate / audit:n1; `next start` +
   Playwright 390 px `pl-PL`: 100 Ah/12 V/80%/100%/300 Wh → „3,2 dni”, bez poziomego przewijania.
+- **[27.09.2026, partia 2] M12/E9 (dozownik LVD) zbudowany.** Progi 12 V ze źródła; 24/48 V skalowane szeregowo (na ogniwo ×
+  liczba ogniw). Kontrola krzyżowa: LiFePO4 11,0 V/4S = 2,75 V/ogniwo = kalibracja M4/E31 (44,0 V/16S) — brak sprzeczności między
+  modułami. Kwasowy zalewowy bez progu (źródło podaje tylko AGM i LiFePO4). `PoleCheckbox` wymaga `id` → `useId()` (standard 08).
+- **Pułapka narzędziowa:** `pkill -f next-server` w tym samym poleceniu Bash zabija własną powłokę (wzorzec jest w jej linii
+  poleceń) — kolejne kroki się nie wykonują. Zatrzymywać serwer po porcie (`fuser -k 3123/tcp`) albo osobnym wywołaniem.

@@ -519,7 +519,7 @@ Już z wierszem wcześniej: E1 (8.1, `done`) i dawne 8.8 (PWM vs MPPT, `done` �
 | 6 | 8.6 | Szybki dobór paneli PV dla pojedynczego urządzenia | todo | Wzorzec D. |
 | 7 | 8.7 | Powerbank solarny vs mały akumulator | todo | Wzorzec B. |
 | 8 | 8.9, 8.41, 8.42 | Przetwornice — mode-switch po typie konwersji | todo | Wzorzec A. |
-| 9 | 8.11 | Ochrona przed rozładowaniem akumulatora | todo | Wzorzec D. |
+| 9 | 8.11 | Ochrona przed rozładowaniem akumulatora | **done** | Wzorzec D. **[27.09.2026]** `lib/core/modules/kalkulator-mobilny/ochrona-przed-rozladowaniem/`, UI: `app/kalkulatory/ochrona-przed-rozladowaniem/page.tsx`, 8 testów silnika + 2 testy narzędzia AI `dobierz_prog_dozownika_lvd`. Progi 12 V 1:1 ze źródła (AGM 11,5 V, LiFePO4 11,0 V); 24/48 V — ten sam próg na ogniwo × liczba ogniw (połączenie szeregowe, jawne założenie). **Spójność sprawdzona:** LiFePO4 2,75 V/ogniwo = punkt kalibracji M4/E31 (44,0 V/16S, 80% DoD) — test importuje stałą z M4. Kwasowy zalewowy: źródło progu nie podaje → brak wartości + info (Dyrektywa #1). 🔴 `LVD-BRAK-OCHRONY-OLOWIOWY` dopisany do `docs/rejestr-twardych-stopow.md`. |
 | 10 | 8.12 | Łączenie paneli przenośnych | todo | Wzorzec D. |
 | 11 | 8.15, 8.23–8.28 | Kalkulator zużycia energii per urządzenie — moduł zbiorczy | todo | Wzorzec D. |
 | 12 | 8.17, 8.18, 8.19, 8.21, 8.29–8.36, 8.48, 8.52, 8.53, 8.67 | Kreator zasilania małego odbiornika — moduł zbiorczy | todo | Wzorzec D. |
