@@ -140,6 +140,10 @@ nie do audytu poprawności formularza webowego.
   SoC.
   (M4/E5 — `lib/core/modules/baterie/grzalki-bms-mroz/warnings.ts`, `grzanieWstrzymane`,
   kod `GRZANIE-WSTRZYMANE`)
+- **Akumulator kwasowy/AGM bez dozownika napięcia (LVD), zasilający odbiornik bez własnego
+  zabezpieczenia przed niskim napięciem** — realne ryzyko trwałego uszkodzenia przez głębokie rozładowanie.
+  [27.09.2026] (M12/E9 — `lib/core/modules/kalkulator-mobilny/ochrona-przed-rozladowaniem/warnings.ts`,
+  `brakDozownikaOlowiowy`, kod `LVD-BRAK-OCHRONY-OLOWIOWY`)
 
 ## Cieplne / systemowe
 

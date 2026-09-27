@@ -138,6 +138,8 @@ const MIGRATED_MODULES = [
   "lib/core/modules/pv/tracker-vs-staly",
   "lib/core/modules/pv/typ-montazu",
   "lib/core/modules/kalkulator-mobilny/dobor-regulatora-pwm-mppt",
+  "lib/core/modules/kalkulator-mobilny/dni-bez-slonca",
+  "lib/core/modules/kalkulator-mobilny/ochrona-przed-rozladowaniem",
   "lib/core/modules/stress-test/wind-chill",
   "lib/core/modules/zapotrzebowanie/urzadzenia-zmienne",
   "lib/core/modules/zapotrzebowanie/sprawnosc-inwertera-niskie-obciazenie",

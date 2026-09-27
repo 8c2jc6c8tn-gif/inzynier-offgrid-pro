@@ -273,6 +273,8 @@ export const KAFLE: KafelEntry[] = [
     ekrany: [
       { href: "/kalkulatory/tryb-uproszczony", label: "Tryb uproszczony — dobór akumulatora" },
       { href: "/kalkulatory/dobor-regulatora-pwm-mppt", label: "Dobór regulatora PWM vs MPPT" },
+      { href: "/kalkulatory/dni-bez-slonca", label: "Ile dni pracy bez słońca — mały zestaw" },
+      { href: "/kalkulatory/ochrona-przed-rozladowaniem", label: "Ochrona przed rozładowaniem (dozownik LVD)" },
     ],
   },
   {

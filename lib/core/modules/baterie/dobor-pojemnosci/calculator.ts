@@ -36,6 +36,21 @@ export function obliczPojemnoscUzytecznaKwh(
   return (zapotrzebowanieDoboweKwh * dniAutonomii) / (sprawnosc * dod)
 }
 
+/**
+ * The same formula solved for days: `d = C × η × DoD / E_dobowe`. Echo for M12/E32 ("Ile dni
+ * pracy bez słońca") — the question asked the other way round, for a battery the user already has.
+ */
+export function obliczDniAutonomiiZPojemnosci(
+  pojemnoscKwh: number,
+  zapotrzebowanieDoboweKwh: number,
+  sprawnoscFalownikaPct: number,
+  dodPct: number,
+): number {
+  const sprawnosc = sprawnoscFalownikaPct / 100
+  const dod = dodPct / 100
+  return (pojemnoscKwh * sprawnosc * dod) / zapotrzebowanieDoboweKwh
+}
+
 export function calculateDoborPojemnosci(input: DoborPojemnosciInput): CalcResult<DoborPojemnosciResult> {
   const { errors } = validateInput(input)
   const pustyWynik: DoborPojemnosciResult = { pojemnoscUzytecznaKwh: 0 }

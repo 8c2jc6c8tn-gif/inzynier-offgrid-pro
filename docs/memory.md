@@ -7583,3 +7583,28 @@ kod trzy normy (whitepaper IEC 62109-1 nadal nieprzeczytany, ELEKTRA = duplikat 
   ustawieniami (średniki, szerokość 80). Cofnięte; formatować ręcznie w stylu pliku (bez średników, linie do ~160).
 - Weryfikacja: typecheck / lint (0 błędów) / i18n-guard (153) / test 172 plików, 1429 / build / audit:gate / audit:n1;
   `next start` + Playwright 390 px `pl-PL`: E7 (C2 → Ψoi 0,10), E8, SPD (CRL 81,7) — bez poziomego przewijania.
+
+## Przegląd niedokończonych sekcji + M12/E32 (27.09.2026)
+
+Polecenie właściciela: „co można jeszcze zrobić beze mnie, czy są większe niedokończone sekcje”. Stan z `mapa-wdrozenia.md`
+(przeliczony 26.09): 155/314 → po tej sesji **156/314**. Największe luki: M12 (2/43), M6 (14/48), M7 (2/26), M10, M9, M8, M13.
+
+- **M12 wybrany jako pierwszy**, bo ekrany są małe i samodzielne (źródło: „Wzorzec D-lite”), często echo gotowych silników.
+  Triaż wszystkich 40 pozostałych ekranów zapisany w `docs/lista-do-zrobienia.md` (budowalne / wymagają danych / zależne).
+- **E32 zbudowany** — echo M4/E1: `obliczDniAutonomiiZPojemnosci` dopisana obok `obliczPojemnoscUzytecznaKwh`
+  (ten sam wzór rozwiązany względem d), nie osobny wzór w M12. Przykład źródła M4/E1 w obie strony (45 kWh ↔ 3 dni).
+  Uwaga do nazwy w M4/E1: `pojemnoscUzytecznaKwh = E·d/(η·DoD)` to w praktyce pojemność **znamionowa** (dzielenie przez DoD) —
+  nazwa zmiennej myląca, ale przykład źródła („45 kWh użytecznej”) tak ją nazywa; nie zmieniane (15.1), tylko odnotowane.
+  W E32 wejściem jest pojemność znamionowa z tabliczki (Ah × V), więc wzór odwrotny jest spójny.
+- **E41 (przedłużacz) → `⚠️ blocked`**: przewody giętkie nie są w PN-HD 60364-5-52; przykład źródła („0,75 mm², 20 m → max ~1000 W”)
+  nie wynika ze spadku napięcia (1000 W → ΔU ≈ 1,8%), więc pochodzi z tablicy obciążalności, której nie mamy. Dopisane do
+  `docs/normy-brakujace.md` przy PN-EN 50565-1.
+- **Pułapka narzędziowa:** `playwright` nie jest w zależnościach repo — skrypt zrzutu importuje go z globalnej instalacji
+  `/opt/node22/lib/node_modules/playwright/index.mjs` (skrypt w scratchpadzie, nie w repo).
+- Weryfikacja: typecheck / lint (0 błędów) / i18n-guard (154) / test 1439 / build / audit:gate / audit:n1; `next start` +
+  Playwright 390 px `pl-PL`: 100 Ah/12 V/80%/100%/300 Wh → „3,2 dni”, bez poziomego przewijania.
+- **[27.09.2026, partia 2] M12/E9 (dozownik LVD) zbudowany.** Progi 12 V ze źródła; 24/48 V skalowane szeregowo (na ogniwo ×
+  liczba ogniw). Kontrola krzyżowa: LiFePO4 11,0 V/4S = 2,75 V/ogniwo = kalibracja M4/E31 (44,0 V/16S) — brak sprzeczności między
+  modułami. Kwasowy zalewowy bez progu (źródło podaje tylko AGM i LiFePO4). `PoleCheckbox` wymaga `id` → `useId()` (standard 08).
+- **Pułapka narzędziowa:** `pkill -f next-server` w tym samym poleceniu Bash zabija własną powłokę (wzorzec jest w jej linii
+  poleceń) — kolejne kroki się nie wykonują. Zatrzymywać serwer po porcie (`fuser -k 3123/tcp`) albo osobnym wywołaniem.
