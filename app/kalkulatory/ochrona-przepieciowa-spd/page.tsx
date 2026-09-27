@@ -9,6 +9,7 @@ import { NawigacjaEkranu } from "@/components/nawigacja-ekranu"
 import { NaglowekEkranu } from "@/components/wzorce/naglowek-ekranu"
 import { WynikGlowny } from "@/components/wzorce/wynik-glowny"
 import { WynikSzczegoly } from "@/components/wzorce/wynik-szczegoly"
+import { SekcjaCrl } from "./sekcja-crl"
 
 type FormularzStan = {
   vocMaxStringuV: string
@@ -149,6 +150,8 @@ export default function OchronaPrzepieciowaSpdPage() {
         )}
         <WynikSzczegoly assumptions={result.assumptions} warnings={result.warnings} formula={result.formula} />
       </WerdyktPanel>
+
+      <SekcjaCrl />
     </main>
   )
 }

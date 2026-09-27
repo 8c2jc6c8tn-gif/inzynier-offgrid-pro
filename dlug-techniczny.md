@@ -1,6 +1,6 @@
 # Dług techniczny — Inżynier Offgrid Pro
 
-**Wersja:** 2.1 | **Filar:** C | **Data utworzenia:** 04.09.2026 | **Ostatnia aktualizacja:** 24.09.2026 | **Status:** Stabilny (rosnący)
+**Wersja:** 2.2 | **Filar:** C | **Data utworzenia:** 04.09.2026 | **Ostatnia aktualizacja:** 27.09.2026 | **Status:** Stabilny (rosnący)
 **Powiązane dokumenty:** `00_Biblia.md`, `docs/rejestr-pokrycia.md`, `backlog-poza-v1.md`
 
 TL;DR: Rejestr świadomych uproszczeń kodu względem specyfikacji źródła (Część X.4 GOD BOOK) — ekrany zbudowane **częściowo**, gdzie zbudowana część jest kompletna i poprawna, ale źródło opisuje więcej niż jest dziś zaimplementowane. Różni się od `backlog-poza-v1.md`: tam są całe ekrany niezbudowane, tu są ekrany **częściowo** zbudowane z jawnie oznaczoną brakującą resztą. **To jest indeks, nie kopia** — każdy wpis TD# odpowiada spójnemu markerowi `🔎 TD#` w kodzie źródłowym (GOD BOOK X.4, rozszerzenie 04.09.2026, wersja 2.8); audyt (Część N) sprawdza zgodność w obie strony przez `grep -rn "🔎 TD"`.
@@ -47,6 +47,20 @@ TL;DR: Rejestr świadomych uproszczeń kodu względem specyfikacji źródła (Cz
 - **TD18 (24.09.2026) — moduł: M1/E3 i M1/E4 (zacienienie), co skrócono:** przeszkody zasłaniają też część nieboskłonu, co zmniejsza promieniowanie rozproszone nawet przy widocznym słońcu — **nie modelowane** (decyzja właściciela 1(b) przy naprawie TD14). Model uwzględnia tylko godziny, w których słońce jest za przeszkodą (znika bezpośrednie i okołosłoneczne). **Ryzyko:** strata zaniżona, najbardziej dla wysokich, bliskich przeszkód i powierzchni o dużym udziale rozproszonego (Polska, zima); jawne w założeniu `ZACIENIENIE-ZALOZENIE-NIEBOSKLON` / `ORIENTACJA-ZALOZENIE-ZACIENIENIE-HORYZONT`. **Priorytet naprawy:** średni — wariant (a): współczynnik widoczności nieba z profilu horyzontu (wzór z literatury, do znalezienia i porównania), przed tym sprawdzić, jak robi to PVGIS (niezweryfikowane). **Kod:** `lib/core/modules/lokalizacja/orientacja-powierzchni/muneer.ts` (`natezenieGodziny`), `lib/core/modules/lokalizacja/analiza-zacienienia/calculator.ts`.
 - **TD19 (24.09.2026) — moduł: M1/E3 (Analiza zacienienia), co skrócono:** drzewa nieprzezroczyste przez cały rok, także liściaste bez liści (dawna część TD14). **Znalezione źródło (24.09.2026, do decyzji właściciela):** J. Konarska, F. Lindberg, A. Larsson i in., "Transmissivity of solar radiation through crowns of single urban trees — application for outdoor thermal comfort modelling", *Theoretical and Applied Climatology* 117, 363–376 (2014), DOI 10.1007/s00704-013-1000-3 — pomiary w Göteborgu (57,7°N), 4 gatunki liściaste i 1 iglasty typowe dla miast Europy Północnej: przepuszczalność promieniowania **bezpośredniego** przez koronę bezlistną **40,2–51,9%**, ulistnioną 1,3–5,3%. Zweryfikowane tylko w streszczeniu (pełny tekst niedostępny z sieci kontenera — blokada wydawcy); wartości per gatunek i okresy bezlistności NIE zweryfikowane. Okres bezlistności (miesiące) zależy od gatunku i lokalizacji — źródła fenologicznego dla Polski jeszcze nie ma, kandydat: pole ręczne użytkownika (jak prognoza wzrostu). **Ryzyko:** zawyżona strata zimą dla drzew liściastych (założenie ostrożne, jawne w `ZACIENIENIE-ZALOZENIE-DRZEWA-NIEPRZEZROCZYSTE`). **Priorytet naprawy:** średni — po decyzji właściciela i weryfikacji pełnego tekstu. **Kod:** `lib/core/modules/lokalizacja/analiza-zacienienia/calculator.ts`.
 
+- **TD20 (27.09.2026) — moduł: M6/E8 (Pojemność cieplna, EN ISO 13786 Zał. A), co skrócono:** (1) każdy wiersz „warstwy”
+  liczony osobno — przy przegrodzie z kilku materiałów w strefie czynnej (np. tynk + cegła) wzór (A.3) Σ ρi·di·ci przy
+  Σ di = dT jest przybliżony: tynk i cegła dostają każde własne dT, więc pojemność lekko rośnie (strona niekorzystna,
+  wpływ zwykle mały); (2) (A.4) tylko z Rsi = 0,13 m²·K/W — bez oporu R lekkich okładzin (wykładzina, boazeria), które
+  zmniejszają κ′ dalej; (3) okres stały 1 doba (Tablica A.1: 100 mm), bez wyboru 1 h/1 tydzień. Marker: komentarze
+  `pojemnoscWarstwy()` i `OPOR_PRZEJMOWANIA_WEWN_M2K_W` w `lib/core/modules/ogrzewanie/pojemnosc-cieplna/`.
+- **TD21 (27.09.2026) — moduł: M5/E2 (SPD — „Czy SPD jest wymagany”, HD 60364-4-443), co skrócono:** (1) wyjątek 443.4 dla
+  pojedynczego mieszkania (wartość instalacji względem 5 × wartość SPD) nie jest liczony — tłumaczenie serbskie („pięć
+  razy mniejsza”) i streszczenie w `00-INDEKS.md` („< 5×”) czytają go różnie, rozstrzygnięcie wymaga wersji PL/EN;
+  (2) Tablica 443.2 (kategorie przepięć I–IV, wymagane U_W) nie jest jeszcze użyta; (3) obcinanie długości ponad 1 km —
+  norma nie mówi, które odcinki odciąć, przyjęte od największej wagi (ostrożnie, ✅🤖). Strona DC PV (HD 60364-7-712,
+  712.443) poza tym obliczeniem — ostrzeżenie `CRL-STRONA-DC-POZA`. Marker: komentarz nagłówkowy
+  `lib/core/modules/okablowanie/ocena-ryzyka-crl/calculator.ts`.
+
 **M4/E17 (Second-Life) — poza numeracją TD#, świadomie.** Obie metody szacowania SoH (z wieku LUB przebiegu) zbudowane w pełni, ale reprodukują przykład źródła tylko przy self-konsystentnych wartościach własnych — źródło nie podaje dokładnego wieku/przebiegu użytego w swoim przykładzie liczbowym (833 zł/kWh). To nie jest skrócona implementacja (kod jest kompletny wg specyfikacji) — to ograniczenie weryfikowalności przykładu źródłowego, inny rodzaj wpisu niż TD1-TD5, dlatego bez markera w kodzie i bez numeru TD#.
 
 ## Uproszczenia infrastrukturalne (świadome, nie "luki")
@@ -73,3 +87,4 @@ TL;DR: Rejestr świadomych uproszczeń kodu względem specyfikacji źródła (Cz
 | 24.09.2026 | TD14 naprawiony (E3 na danych TMY, Muneer wspólny z E4; wariant zapasowy clear-sky offline). Wydzielone TD18 (nieboskłon, decyzja 1(b)) i TD19 (drzewa liściaste zimą — znalezione źródło Konarska i in. 2014, do decyzji). Wersja 1.8→1.9. |
 | 24.09.2026 | TD19 częściowo wdrożony w E3 (τ = 0,40 dla korony bezlistnej w miesiącach wpisanych przez użytkownika); otwarte: pełny tekst źródła, E4, fenologia. Wersja 1.9→2.0. |
 | 24.09.2026 | TD17 naprawiony: przeszkoda-obrys w Skanerze (E2) → bryła w Analizie zacienienia (E3). Wersja 2.0→2.1. |
+| 27.09.2026 | Dodano TD20 (M6/E8 — Załącznik A EN ISO 13786, uproszczenia) i TD21 (M5/E2 — CRL HD 60364-4-443, niewdrożone części). Wersja 2.1→2.2. |

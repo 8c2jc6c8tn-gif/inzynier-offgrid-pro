@@ -117,6 +117,7 @@ tak jak resztę listy 43 (większość to on-grid/produktowe). Szczegóły:
   identyczna z HD 60364-4-443:2016 — dokument harmonizacyjny CENELEC), przeczytana w całości.
   **Usuwa tę pozycję z listy ⚪ niżej — norma pozyskana i przeanalizowana.** Opis:
   `docs/zrodla/norma-HD-60364-4-443/00-INDEKS.md`.
+  **[27.09.2026, później] Wykorzystana w kodzie:** CRL (443.4/443.5) w M5/E2 — moduł `okablowanie/ocena-ryzyka-crl`.
 - **[27.09.2026] Artykuł nauk. PL "Zmiany zasad ochrony odgromowej... wg norm serii PN-EN 62305"
   (Boryń, Olesz, 2010)**, dostarczony przez właściciela projektu, 7 stron, przeczytany w całości.
   Drugie (po Furse) źródło wtórne do EN 62305 — **wciąż nie sam tekst normy**, patrz pozycja EN
@@ -136,6 +137,7 @@ tak jak resztę listy 43 (większość to on-grid/produktowe). Szczegóły:
 - **[27.09.2026] PN-EN ISO 14683:2007 (mostki cieplne — liniowy współczynnik przenikania ciepła)**,
   dostarczona przez właściciela projektu, 27 stron, natywny PDF, przeczytana w całości. Częściowo
   odblokowuje lukę Ψ zgłoszoną w pozycji PN-EN 12831-1 wyżej. Opis: `docs/zrodla/norma-PN-EN-ISO-14683-1/00-INDEKS.md`.
+  **[27.09.2026, później] Wykorzystana w kodzie:** Tablica A.2 w M6/E7 (`mostki-termiczne/katalog-psi.ts`).
 - **[27.09.2026] EN ISO 13786:2007 (dynamiczne charakterystyki cieplne komponentów budowlanych)**,
   dostarczona przez właściciela projektu — plik dodany, **treść nieprzeczytana/nieOCR-owana**
   (odłożone do innej sesji). Nie przypisana jeszcze do żadnej konkretnej luki. Opis:
@@ -143,6 +145,7 @@ tak jak resztę listy 43 (większość to on-grid/produktowe). Szczegóły:
   **[27.09.2026, później] OCR wykonany, treść w pełni zweryfikowana** (odczyt wizualny wszystkich
   stron + odtworzenie przykładów Zał. D). **Odblokowuje M6/E8** (głębokość czynna masy — Zał. A.2.4,
   Tablica A.1: 100 mm dla okresu 1 doby). Opis: `02-wzory-i-tablice-zweryfikowane.md` tego folderu.
+  **[27.09.2026, później] Wykorzystana w kodzie:** Załącznik A w M6/E8 (`pojemnosc-cieplna`).
 
 - **[06.09.2026] Eurokod obciążenia śniegiem — PN-EN 1991-1-3:2005**, dostarczony przez
   właściciela projektu, 54 strony, w pełni zweryfikowany wizualnie strona po stronie (nie

@@ -816,3 +816,22 @@ kandydat do procedury przetwarzania materiałów źródłowych (`docs/propozycje
 przetwarzanie-materialow-zrodlowych.md`, Krok 0/1A/1D/2).
 
 Status: 🔎 nowe
+
+[27.09.2026] KATEGORIA: DOBRA PRAKTYKA / BŁĄD — tablice z norm w kodzie: (1) skrypt „kod ↔ tekst PDF” zamiast przepisywania na oko, (2) znaki relacji giną w ekstrakcji PDF, (3) formater bez konfiguracji w repo
+
+Szczegóły: wdrożenie trzech norm w jednej sesji (PN-EN ISO 14683, EN ISO 13786, HD 60364-4-443).
+(1) Tablica A.2 PN-EN ISO 14683 to 76 detali × 3 wartości = 228 liczb. Wartości wyjęte regexem z natywnego tekstu PDF do
+JSON-a, a po napisaniu stałej TS drugi skrypt porównał kod z JSON-em (0 rozbieżności). Na oko 228 liczb to pewny błąd
+przepisania; skrypt kosztuje minutę. Tam, gdzie znaczenie wiersza jest w rysunku (nie w tekście), opis z odczytu
+wizualnego, a niepewny wiersz jawnie odsyła do rysunku normy zamiast zgadywać.
+(2) W HD 60364-4-443 (PDF z tekstem) progi „CRL < 1000” / „CRL ≥ 1000” wyekstrahowały się jako „CRL  1 000” — oba
+zdania identyczne. Kierunek rozstrzygnęły przykłady liczbowe normy. Reguła: po ekstrakcji sprawdzić, czy zdania z
+nierównościami nie zgubiły symbolu; przykłady liczbowe normy jako test rozstrzygający.
+(3) `npx prettier --write` w repo bez `.prettierrc` sformatował pliki domyślnymi ustawieniami (średniki, 80 znaków) —
+setki linii szumu w diffie. Reguła: formatować tylko narzędziem i konfiguracją, które repo faktycznie ma.
+
+Dlaczego warto zgłosić do new-app-standards: każdy projekt rodziny przenosi tablice normowe do kodu (rozdz. 03 —
+stałe z nazwanych źródeł; rozdz. 10 — podwójna weryfikacja); (1) i (2) to konkretny, tani krok weryfikacji danych
+tablicowych, (3) — higiena diffu przy pracy AI.
+
+Status: 🔎 nowe

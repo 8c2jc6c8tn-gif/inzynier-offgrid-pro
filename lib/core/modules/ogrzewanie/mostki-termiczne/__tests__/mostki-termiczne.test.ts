@@ -21,7 +21,8 @@ const BAZA: MostkiTermiczneInput = {
 describe("calculateMostkiTermiczne (M6/E7, dawne 5.7)", () => {
   it("H = Σ Ψ·l, Φ = H·ΔT, udział w całości strat (wartości z Pythona)", () => {
     const w = calculateMostkiTermiczne(BAZA)
-    expect(w.status).toBe("VALID_WITH_WARNINGS")
+    // Only info-level notes → VALID (Dyrektywa AI #6; before 27.09.2026 the module returned VALID_WITH_WARNINGS here).
+    expect(w.status).toBe("VALID")
     const v = w.value!
     expect(v.mostki.map((m) => m.hWK)).toEqual([6, 12, 3])
     expect(v.hMostkowWK).toBe(21)
@@ -76,5 +77,44 @@ describe("calculateMostkiTermiczne (M6/E7, dawne 5.7)", () => {
     const w = calculateMostkiTermiczne({ ...BAZA, temperaturaWewnetrznaC: -20 })
     expect(w.status).toBe("INVALID_INPUT")
     expect(w.warnings[0]).toMatchObject({ code: "MT-TEMP-WEWN-NIE-WYZSZA", level: "critical" })
+  })
+
+  // PN-EN ISO 14683 Załącznik B — the norm's own worked example (Tablice B.2, 4 and 5).
+  const przykladB = (dl: number[], z: Partial<Mostek>[] = []): Mostek[] =>
+    ["R2", "C2", "GF6", "IW2", "IW6", "W8"].map((kod, i) => mostek(kod, dl[i]!, null, { kodKatalogu: kod, ...z[i] }))
+  const DL_OI = [30, 10, 30, 5, 5, 23.6]
+
+  it("Tablica A.2, wymiary całkowite wewnętrzne: Σ Ψoi·l = 69,85 W/K (Tablica B.2)", () => {
+    const w = calculateMostkiTermiczne({ ...BAZA, mostki: przykladB(DL_OI), systemWymiarow: "oi" })
+    expect(w.value!.hMostkowWK).toBeCloseTo(69.85, 9)
+    expect(w.value!.mostki.map((m) => m.psiWmK)).toEqual([0.75, 0.1, 0.6, 0.95, 0, 1])
+    expect(w.warnings.map((x) => x.code)).toEqual(["MT-PSI-Z-TABLICY-A2"])
+    expect(w.assumptions).toContainEqual({ kod: "MT-ZALOZENIE-SYSTEM-OI" })
+  })
+
+  it("Tablica A.2, wymiary zewnętrzne: Σ Ψe·l = 58,88 W/K (Tablica 4), ujemne Ψe naroża", () => {
+    const v = calculateMostkiTermiczne({ ...BAZA, mostki: przykladB([32.4, 12, 32.4, 6, 5.6, 23.6]), systemWymiarow: "e" }).value!
+    expect(v.hMostkowWK).toBeCloseTo(58.88, 9)
+    expect(v.mostki[1]!.hWK).toBeCloseTo(-1.2, 12)
+  })
+
+  it("poprawa detali IW2→IW5, W8→W11: 69,85 → 41,50 W/K (Tablica 5)", () => {
+    const po: Partial<Mostek>[] = [{}, {}, {}, { kodKataloguPoPoprawie: "IW5" }, {}, { kodKataloguPoPoprawie: "W11" }]
+    const v = calculateMostkiTermiczne({ ...BAZA, mostki: przykladB(DL_OI, po), systemWymiarow: "oi" }).value!
+    expect(v.strataMostkowPoPoprawieW! / 40).toBeCloseTo(41.5, 9)
+  })
+
+  it("kod z tablicy bez systemu wymiarów → INCOMPLETE; kod ma pierwszeństwo przed wpisanym Ψ", () => {
+    expect(calculateMostkiTermiczne({ ...BAZA, mostki: [mostek("W", 1, null, { kodKatalogu: "W1" })] }).status).toBe("INCOMPLETE")
+    const v = calculateMostkiTermiczne({ ...BAZA, mostki: [mostek("W", 10, 0.5, { kodKatalogu: "P1" })], systemWymiarow: "i" }).value!
+    expect(v.mostki[0]!.psiWmK).toBe(1.3)
+    expect(v.mostki[0]!.kodKatalogu).toBe("P1")
+  })
+
+  it("nieznany kod → INVALID_INPUT; pusty kod = Ψ od użytkownika", () => {
+    const w = calculateMostkiTermiczne({ ...BAZA, mostki: [mostek("X", 1, null, { kodKatalogu: "W99" })], systemWymiarow: "e" })
+    expect(w.status).toBe("INVALID_INPUT")
+    expect(w.warnings[0]).toMatchObject({ code: "MT-NIEZNANY-KOD", field: "mostki.0.kodKatalogu", params: { kod: "W99" } })
+    expect(calculateMostkiTermiczne({ ...BAZA, mostki: [mostek("X", 1, 0.2, { kodKatalogu: "" })] }).value!.hMostkowWK).toBeCloseTo(0.2, 12)
   })
 })

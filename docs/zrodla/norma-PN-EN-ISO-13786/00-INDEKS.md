@@ -92,3 +92,7 @@ czy jest to materiał "na przyszłość".
    żadnej luki.
 
 **Status wykorzystania: dodana, nieprzeanalizowana, niewykorzystana w kodzie.**
+
+**[27.09.2026] ✅ Wykorzystana w kodzie:** Załącznik A (A.2.4, Tablica A.1 — 100 mm dla 1 doby, A.4 z Rsi = 0,13)
+→ M6/E8 `lib/core/modules/ogrzewanie/pojemnosc-cieplna/`; przykład D.1/D.2 (97 kJ/(m²·K)) jako test. Status wyżej
+(„niewykorzystana”) jest historyczny.

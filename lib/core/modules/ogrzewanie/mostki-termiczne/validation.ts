@@ -1,7 +1,8 @@
 import type { Warning } from "@/lib/core/calc-result"
 import { PSI_SANITY_MAX } from "./constants"
 import type { MostkiTermiczneInput } from "./input"
-import { wartoscPozaZakresem, wartoscUjemna } from "./warnings"
+import { pozycjaKatalogu } from "./katalog-psi"
+import { nieznanyKodKatalogu, wartoscPozaZakresem, wartoscUjemna } from "./warnings"
 
 export function validateInput(input: MostkiTermiczneInput): Warning[] {
   const e: Warning[] = []
@@ -15,6 +16,12 @@ export function validateInput(input: MostkiTermiczneInput): Warning[] {
       if (psi !== null && Math.abs(psi) > PSI_SANITY_MAX) {
         e.push(wartoscPozaZakresem(`mostki.${i}.${pole}`, `Ψ (${etykieta})`, psi, -PSI_SANITY_MAX, PSI_SANITY_MAX))
       }
+    }
+    for (const [pole, kod] of [
+      ["kodKatalogu", m.kodKatalogu],
+      ["kodKataloguPoPoprawie", m.kodKataloguPoPoprawie],
+    ] as const) {
+      if (kod != null && kod !== "" && pozycjaKatalogu(kod) === undefined) e.push(nieznanyKodKatalogu(`mostki.${i}.${pole}`, kod))
     }
   })
   return e

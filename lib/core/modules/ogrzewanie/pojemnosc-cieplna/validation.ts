@@ -1,7 +1,7 @@
 import type { Warning } from "@/lib/core/calc-result"
 import { CIEPLO_WLASCIWE_SANITY_MAX, CIEPLO_WLASCIWE_SANITY_MIN, GESTOSC_SANITY_MAX_KG_M3, GRUBOSC_SANITY_MAX_CM } from "./constants"
 import type { PojemnoscCieplnaInput } from "./input"
-import { granicaNieNizszaNizStart, wartoscNiedodatnia, wartoscPozaZakresem } from "./warnings"
+import { elementCienszyNizWarstwa, granicaNieNizszaNizStart, wartoscNiedodatnia, wartoscPozaZakresem } from "./warnings"
 
 export function validateInput(input: PojemnoscCieplnaInput): Warning[] {
   const e: Warning[] = []
@@ -15,6 +15,12 @@ export function validateInput(input: PojemnoscCieplnaInput): Warning[] {
     }
     if (w.gestoscKgM3 !== null && (w.gestoscKgM3 <= 0 || w.gestoscKgM3 > GESTOSC_SANITY_MAX_KG_M3)) {
       e.push(wartoscPozaZakresem(`warstwy.${i}.gestoscKgM3`, `Gęstość (${etykieta})`, w.gestoscKgM3, 0, GESTOSC_SANITY_MAX_KG_M3))
+    }
+    const de = w.gruboscElementuCm ?? null
+    if (de !== null && (de <= 0 || de > GRUBOSC_SANITY_MAX_CM)) {
+      e.push(wartoscPozaZakresem(`warstwy.${i}.gruboscElementuCm`, `Grubość całej przegrody (${etykieta})`, de, 0, GRUBOSC_SANITY_MAX_CM))
+    } else if (de !== null && w.gruboscCm !== null && de < w.gruboscCm) {
+      e.push(elementCienszyNizWarstwa(`warstwy.${i}.gruboscElementuCm`, etykieta, de, w.gruboscCm))
     }
     const c = w.cieploWlasciweJKgK
     if (c !== null && (c < CIEPLO_WLASCIWE_SANITY_MIN || c > CIEPLO_WLASCIWE_SANITY_MAX)) {

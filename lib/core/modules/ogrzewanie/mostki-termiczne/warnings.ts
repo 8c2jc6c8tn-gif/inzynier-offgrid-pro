@@ -13,13 +13,35 @@ export function nadprozeBezIzolacji(nazwa: string): Warning {
   }
 }
 
-/** Ψ comes from the user — EN ISO 14683 (tabulated Ψ) and EN ISO 10211 (numerical Ψ) are not in the app. */
+/** Ψ typed by the user — the app does not check it (EN ISO 10211 numerics are not in the app). */
 export function psiOdUzytkownika(): Warning {
   return {
     code: "MT-PSI-OD-UZYTKOWNIKA",
     level: "info",
     i18nKey: "MT-PSI-OD-UZYTKOWNIKA",
-    technicalMessage: "Ψ wpisane przez użytkownika — PN-EN ISO 14683 / 10211 poza repo",
+    technicalMessage: "Ψ wpisane przez użytkownika — bez weryfikacji (ISO 10211 poza aplikacją)",
+  }
+}
+
+/** PN-EN ISO 14683 5.1, 5.5, Zał. A Uwaga 1: indicative values, worst case, accuracy 0 %…50 %, heat loss only. */
+export function psiZTablicyA2(): Warning {
+  return {
+    code: "MT-PSI-Z-TABLICY-A2",
+    level: "info",
+    i18nKey: "MT-PSI-Z-TABLICY-A2",
+    technicalMessage: "Ψ z PN-EN ISO 14683 Tablica A.2 — wartości orientacyjne, najgorszy przypadek, dokładność 0–50 %",
+  }
+}
+
+/** Detail code outside Tablica A.2. */
+export function nieznanyKodKatalogu(field: string, kod: string): Warning {
+  return {
+    code: "MT-NIEZNANY-KOD",
+    level: "critical",
+    i18nKey: "MT-NIEZNANY-KOD",
+    params: { kod },
+    technicalMessage: `${field} = "${kod}" — brak w PN-EN ISO 14683 Tablica A.2`,
+    field,
   }
 }
 
