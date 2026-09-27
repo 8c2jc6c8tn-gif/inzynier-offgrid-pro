@@ -209,6 +209,13 @@ zwodem pionowym a panelem PV, by nie powodować cienia (Rys. 20, wzór z niemiec
 do DIN-EN 62305-3, zależny od średnicy zwodu i długości). Ochrona na dachu płaskim: maszty (zwody
 pionowe) o wysokości 1000-4000mm, stal ocynkowana/aluminium/stal nierdzewna, w podstawach
 betonowych (dobór wg katalogu producenta względem strefy wiatrowej/wysokości masztu).
+**[27.09.2026 — uzupełnione z PDF str. 21, fragmenty zgubione w `.docx`]** (4) Odstępy separujące
+trzeba zachować **nie tylko w powietrzu, ale również w materiałach stałych** stanowiących pokrycie i
+warstwę izolacji dachu — inaczej część prądu pioruna może wniknąć do obiektu, uszkodzić inne
+instalacje lub spowodować pożar. (5) Wg Bbl. 5 do DIN-EN 62305-3: instalacja PV na istniejącym
+budynku może wymagać dostosowania (modernizacji) istniejącej instalacji elektrycznej, np. zmiany
+tras przewodów pod dachem, by uniknąć przeskoków iskrowych. Rys. 17: SPD typu 1 i typu 2 w
+instalacji elektrycznej + SPD typu 2 dla systemu PV, przy zachowanym odstępie s.
 
 **6.2 Ochrona przed przepięciami.** SPD (Surge Protective Device) — jedyne sensowne rozwiązanie
 techniczne. Dobór typu (T1/T2) i miejsca montażu zależy od: obecności LPS na budynku, liczby

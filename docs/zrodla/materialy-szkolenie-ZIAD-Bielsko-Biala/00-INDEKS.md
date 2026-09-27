@@ -22,6 +22,12 @@ UNE-HD 60364-7-712 usunięty 25.09, duplikat Purmo niedodany 27.09) — treść 
 `materialy-branzowe-PV-2019/`; (B) zostawić jako drugą kopię z odsyłaczem (stan obecny).
 Nie usunięto samodzielnie, bo plik dodano na wyraźne polecenie.
 
+**[27.09.2026, później] PDF „ZIAD” dostarczony osobno** (`…fotowoltaika-dodatek-szkolenia-ZIAD-Bielsko-Biala.pdf`)
+— też **identyczny bajt-w-bajt** (MD5 `007dfe6c…`) z PDF już w `materialy-branzowe-PV-2019/`, więc
+nie dodany drugi raz. PDF ma tekst natywny (OCR zbędny); pełny tekst wyciągnięty do
+`materialy-branzowe-PV-2019/02-tresc-pelna-z-pdf.txt`, wynik porównania `.docx` vs PDF (co zgubiła
+konwersja) — `materialy-branzowe-PV-2019/00-INDEKS.md`.
+
 ---
 
 ## [historyczne — opis sprzed sprawdzenia, zachowany bez zmian]

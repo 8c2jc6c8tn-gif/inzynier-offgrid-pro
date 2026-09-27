@@ -1,0 +1,2900 @@
+"Bezpieczeństwo instalacji fotowoltaicznych" (Rynek Fotowoltaiczny, dodatek do Rynku Elektrycznego nr 3/2019)
+PEŁNY TEKST 1:1 z PDF (warstwa tekstu natywnego, PyMuPDF), 27.09.2026 — bez OCR (PDF nie jest skanem).
+To jest bezstratna wersja treści — .docx w tym folderze zgubił przy konwersji kilka fragmentów
+(lista: 00-INDEKS.md, sekcja „Kompletność .docx vs PDF”). Tabele: kolejność komórek bywa
+linearyzowana kolumnami — dla liczb obowiązują tabele zweryfikowane wizualnie w 01-tresc.md.
+Strona 2 i 32 — reklamy/okładka bez treści merytorycznej.
+=== PDF str. 1 ===
+Bezpieczeństwo 
+instalacji 
+fotowoltaicznych
+fotowoltaiczny
+rynek
+rynek
+I S S N 1 8 9 7 - 4 3 7 6
+Bezpłatny dodatek do magazynu Rynek Elektryczny nr 3/2019
+
+=== PDF str. 2 ===
+Rynek Fotowoltaiczny 2019
+
+=== PDF str. 3 ===
+3
+Rynek Fotowoltaiczny 2019
+Spis treści
+Rynek Fotowoltaiczny
+Dodatek do magazynu
+Rynek Elektryczny  
+nr 3/2019
+Redakcja
+Małgorzata Kozińska
+redaktor naczelny
+malgorzata.kozinska@rynekelektryczny.pl
+Reklama
+reklama@rynekelektryczny.pl
+Prenumerata
+prenumarata@rynekelektryczny.pl
+Fot. na okładce moerschy z Pixabay
+Drukarnia
+LOTOS, Warszawa
+Opracowanie graficzne
+Studio QM
+Czasopismo dostępne 
+w prenumeracie u kolporterów:
+RUCH S.A.
+KOLPORTER S.A.
+GARMOND PRESS S.A.
+Wydawca
+ul. Bogumińska 12/12 
+03-619 Warszawa
+tel. 22 743 00 70-71
+re@publikatech.pl
+www.publikatech.pl
+Publikatech
+fotowoltaiczny
+rynek
+rynek
+Wstęp ....................................................................................... 4
+O autorach................................................................................... 4
+1. Podstawy systemów PV .............................................. 5
+1.1.  Słownik pojęć......................................................................... 5
+1.2.  Klasyﬁkacja układów PV przyłączanych do sieci................................ 5
+1.2.1.  Miejsce instalacji....................................................................... 5
+1.2.2.  Moc i topologia instalacji PV .......................................................... 6
+1.2.3. Technologia modułów PV.............................................................. 6
+1.2.4. Technologia falowników................................................................ 6
+2. Wymagania techniczne .............................................. 7
+2.1.  Status wymagań dotyczących komponentów, systemów i instalacji........ 7
+2.2.  Przepisy i normy...................................................................... 7
+2.3. Wybór i ocena lokalizacji przyszłej instalacji..................................... 9
+2.4.  Konstrukcje wsporcze pod moduły fotowoltaiczne........................... 10
+2.5.  Obwody prądu stałego (DC)...................................................... 10
+2.6.  Obwody prądu przemiennego (AC), falowniki................................ 11
+2.7.	Monitorowanie..................................................................... 12
+2.8.  Pozostałe dokumenty niezbędne do opracowania projektu................ 12
+2.9. Warunki odbioru – przeglądy i konserwacje.................................. 12
+3. Zagrożenia ................................................................... 13
+3.1.  Pożar a systemy PV. Fakty i mity................................................. 13
+3.2.  Ryzyko pożaru a ryzyko dla strażaków.......................................... 13
+3.3.  Doświadczenie innych rynków................................................... 14
+3.3.1.  Niemcy......................................................................................................................14
+3.3.2. Wielka Brytania.........................................................................................................14
+3.3.3.  Holandia....................................................................................................................14
+4. Najczęściej popełniane błędy w projektach 
+i realizacjach systemów PV ..................................... 15
+4.1.  Błędy na etapie projektowania .................................................. 15
+4.2.  Błędy na etapie realizacji ......................................................... 15
+5. Łuk elektryczny: podstawy fizyczne i kwestie  
+związane z DC ............................................................. 16
+5.1.  Powstawanie łuku elektrycznego............................................... 16
+5.2.  Środki zapobiegania powstawania łuków elektrycznych.................... 17
+5.3.  Zasady prowadzenia przewodów................................................ 17
+5.3.1. Wykorzystanie kanałów kablowych.................................................. 17
+5.3.2.  Promienie gięcia przewodów......................................................... 17
+5.3.3.  Bezpieczny montaż przewodów...................................................... 18
+5.4.  Zasady łączenia przewodów...................................................... 18
+5.4.1.  Kompatybilność złączy MC4.......................................................... 18
+5.4.2.  Odciążenie............................................................................ 19
+5.4.3.  Odpowiednie zaprojektowanie i ustawienie złączy................................... 19
+5.4.4.  Pozostałe zalecenia dotyczące złącz DC............................................... 19
+5.5.  Inne zalecenia dotyczące bezpieczeństwa..................................... 19
+5.5.1.  Ograniczenie możliwości rozprzestrzeniania się ognia............................... 19
+5.5.2.  Ochrona przewodów na dachu....................................................... 19
+5.5.3.  Bezpiecznie szafki rozdzielcze i rozdzielnice.......................................... 20
+5.6.  Zalecenia dotyczące jakości odpowiednich materiałów..................... 20
+5.6.1.  Przewody............................................................................. 20
+5.6.2.  Złącza MC4........................................................................... 20
+5.6.3.  Kanały i korytka kablowe (systemy prowadzenia przewodów)....................... 20
+5.6.4. Tuleje................................................................................. 20
+5.6.5.  Mocowania........................................................................... 20
+5.6.6.  Uwaga ogólna........................................................................ 20
+6. Ochrona odgromowa i przeciwprzepięciowa 
+instalacji fotowoltaicznej ......................................... 20
+6.1.  Ochrona odgromowa.............................................................. 20
+6.2.  Ochrona przed przepięciami...................................................... 22
+Podsumowanie........................................................................... 24
+7. Zagrożenia dla służb ratowniczych  
+w razie pożaru ........................................................... 25
+7.1.  Gaszenie pożarów instalacji elektrycznych pod napięciem.................. 25
+7.2.  Oznakowanie....................................................................... 26
+8. Bezpieczeństwo i ryzyko – zalecenia 
+dla projektantów i wykonawców .......................... 26
+9. Rekomendacje dotyczące inspekcji  
+i konserwacji .............................................................. 27
+10.Praca i bezpieczeństwo mikroinstalacji  
+według Instrukcji Ruchu i Eksploatacji Sieci 
+Dystrybucyjnej (IRiESD) ........................................... 28
+10.1.Nastawy zadanych wartości, możliwych do ustawienia w mikroinstalacji, 
+muszą być możliwe do odczytania z mikroinstalacji (w przypadku mikro­
+instalacji przyłączonych przez falownik – bezpośrednio z falownika)......... 28
+10.2. Inne wymagania dotyczące przekazania mikroinstalacji  
+do eksploatacji:.................................................................... 28
+Zastrzeżenia ..................................................................... 28
+Bibliografia  ...................................................................... 29
+
+=== PDF str. 4 ===
+Rynek Fotowoltaiczny 2019
+4
+Wstęp
+Fotowoltaika to niezwykle bezpieczna technologia, ale niektórzy 
+ludzie nadal mają nieuzasadnione obawy dotyczące bezpieczeństwa 
+instalacji PV. Dobrym przykładem są kwestie związane z bezpie-
+czeństwem pożarowym. Plotki o palących się domach, które nie 
+mogą zostać ugaszone lub strażakach, którzy nie atakują ognia, jeśli 
+na dachu znajduje się instalacja PV, stawiają takie systemy w złym 
+świetle, na które nie zasługują.
+W rzeczywistości systemy fotowoltaiczne mają bardzo wysoki 
+poziom bezpieczeństwa w zakresie prewencyjnej ochrony prze-
+ciwpożarowej, a także bezpieczeństwa operacyjnego w przypadku 
+pożaru. Wiele ostatnich analiz incydentów przeciwpożarowych 
+związanych z PV, takich jak Sepanski i inni (2015) [12], BRE 
+(2017b) [4] lub IEA PVPS (2017) [9] pokazują, że komponenty 
+systemów fotowoltaicznych są testowane zgodnie z bardzo rygory-
+stycznymi protokołami bezpieczeństwa i niezawodności podczas 
+procesu produkcyjnego i spełniają wymagania bezpieczeństwa 
+elektrycznego różnych krajowych i międzynarodowych norm 
+i wytycznych. Dodatkowo podczas planowania, budowy i eksplo-
+atacji uwzględnia się takie kwestie, jak tworzenie przegród poża-
+rowych, dostępność, integralność funkcjonalna i bezpieczeństwo 
+mechaniczne. Moduły, które stanowią część dachu (BIPV, zintegro-
+wane PV z budynkiem) muszą spełniać te same testy odporności 
+ogniowej, co materiał pokrycia dachowego.
+Zgodnie z Programem Międzynarodowej Agencji Energetyki 
+fotowoltaicznej (IEA PVPS) „systemy PV nie stwarzają zagrożeń 
+dla zdrowia, bezpieczeństwa lub środowiska w normalnych warun-
+kach pracy, jeśli są odpowiednio zainstalowane i konserwowane 
+przez przeszkolony personel, zgodnie z wymogami norm elektrycz-
+nych.” (IEA PVPS 2017 [9]).
+Celem tego dokumentu jest ocena i prezentacja aktualnej 
+sytuacji dotyczącej szeroko rozumianego bezpieczeństwa 
+systemów fotowoltaicznych. W instalacjach elektrycznych, 
+a więc także w systemach fotowoltaicznych, bezpieczeństwo ma 
+ogromne znaczenie. Systemy PV, które są projektowane, insta-
+lowane i eksploatowane zgodnie z ogólnie przyjętymi zasadami 
+technicznymi są bezpieczne i niezawodne, nawet w najbardziej 
+niesprzyjających warunkach pogodowych. Jednak mogą zaist-
+nieć scenariusze zdarzeń, które wymagają dodatkowych urzą-
+dzeń zabezpieczających. Na przykład w systemach, które nie są 
+regularnie monitorowane, i w których moduły są instalowane na 
+łatwopalnym dachu lub izolacji.
+Chociaż instalacje elektryczne od dziesięcioleci są częścią 
+prawie każdego budynku, a strażacy wiedzą, jak sobie z nimi 
+radzić, w społeczeństwie istnieje pewna niewiedza, jeśli cho-
+dzi o gaszenie pożaru związanego z fotowoltaiką. Analizując 
+różne taktyki, działania i strategie, a także środki bezpieczeństwa 
+zmniejszające ryzyko porażenia prądem przez strażaków, niniej-
+szy dokument zawiera również zalecenia dotyczące postępowa-
+nia w przypadku pożaru. 
+Instalacja układów fotowoltaicznych (instalacji PV) na budyn-
+kach jest dużym wyzwaniem szczególnie na rynku takim jak Polska, 
+który nie ma doświadczeń w tym zakresie. W wyniku realizacji błęd-
+nego projektu lub w przypadku błędów montażowych powstanie 
+instalacja, która może przyczynić się do powstania ryzyka porażenia 
+elektrycznego lub ryzyka pożarowego. W niniejszym dokumencie 
+postaram się przybliżyć podstawowe wymagania techniczne zwią-
+zane z projektowaniem i budową elektrowni słonecznych, w szcze-
+gólności instalowanych na budynkach.
+inż. Stanisław Osiński jest absolwentem 
+Wydziału Elektrycznego Politechniki 
+Poznańskiej na kierunku elektrotechnika 
+i specjalności elektroenergetyka.
+Od 1993 roku prowadzi własną firmę 
+– PHU ELSTAN Stanisław Osiński.
+Od 2012 roku projektuje, nadzoruje, 
+buduje oraz dokonuje audytów instalacji 
+fotowoltaicznych od 0,003 MW do 1 MW.
+Od 2013 roku prowadzi autoryzowane 
+biuro projektowe w zakresie instalacji 
+odgromowych i przepięciowych.
+Od 2018 roku jest członkiem 
+Polskiego Komitetu Ochrony Odgromowej 
+Stowarzyszenia Elektryków Polskich 
+(PKOO SEP).
+Jego hobby to narciarstwo, kolarstwo, 
+fotografia, podróże.
+Dr inż. Maciej Piliński jest absolwentem 
+Wydziału Elektrycznego Politechniki 
+Częstochowskiej. Tytuł doktora nauk 
+technicznych obronił w 1997 r. w Instytucie 
+Cybernetyki Technicznej Politechniki 
+Wrocławskiej.
+Od ponad 8 lat zdobywa doświadczenia 
+na rynku fotowoltaiki w Polsce. Jest członkiem 
+Polskiego Towarzystwa Fotowoltaiki, 
+niezależnym ekspertem wielu stowarzyszeń, 
+autorem licznych publikacji i prezentacji.
+Od 2014 pracuje w firmie Fronius Polska 
+Sp. z o.o., oddziału Fronius International 
+GmbH, wiodącego producenta falowników PV 
+i urządzeń do magazynowania i zarządzania 
+energią. Od stycznia 2016 r. pracuje na 
+stanowisku Sales Manager jednostki 
+biznesowej Solar Energy.
+mgr inż. Krzysztof Wincencik 
+jest z wykształcenia elektrykiem, 
+absolwentem Politechniki Krakowskiej.
+Od roku 1994 związany z firmą DEHN. 
+Obecnie pełni w firmie obowiązki dyrektora 
+technicznego.
+Rzeczoznawca i weryfikator Izby 
+Rzeczoznawców SEP w zakresie instalacji 
+i urządzeń elektrycznych. Członek Polskiego 
+Komitetu Ochrony Odgromowej SEP, Polskiego 
+Komitetu SEP ds. Jakości i Efektywnego 
+Użytkowania Energii Elektrycznej oraz 
+Polskiego Komitetu Normalizacyjnego. 
+Autor wielu artykułów w czasopismach 
+technicznych oraz materiałach konferencyj-
+nych krajowych i międzynarodowych. 
+Miłośnik fotografii cyfrowej oraz literatury 
+z zakresu militariów.
+Bezpieczeństwo instalacji fotowoltaicznych
+dr inż. Maciej Piliński
+O autorach
+
+=== PDF str. 5 ===
+Rynek Fotowoltaiczny 2019
+5
+1. Podstawy systemów PV
+W niniejszym opracowaniu będziemy zajmować się wyłącznie 
+układami fotowoltaicznymi (PV) podłączony do sieci energetycz-
+nej (ang. on-grid). Systemy wyspowe (ang. off-grid), szczególnie 
+ze względu na konieczność stosowania akumulatorów, wymagają 
+odrębnego opracowania.
+Rysunek 1 przedstawia przykład systemu fotowoltaicznego zainstalowanego na dachu 
+i przyłączonego do sieci energetycznej. Poszczególne elementy składowe to:
+1.	 pole modułów, generator fotowoltaiczny wytwarzający prąd 
+stały (DC),
+2.	 konstrukcja wsporcza,
+3.	 kable prądu stałego dedykowane do zastosowań w fotowoltaice 
+oraz zabezpieczenia przepięciowe modułów (jeśli wymagane), 
+4.	 instalacja odgromowa,
+5.	 rozdzielnica główna budynku, zabezpieczenia AC,
+6.	 falownik przetwarzający prąd stały (DC) na prąd przemienny 
+(AC); z reguły w pobliżu falownika montuje się również zabez-
+pieczenia po stronie DC (bezpieczniki gPV, ochronniki prze-
+ciwprzepięciowe, rozłącznik DC) oraz zabezpieczenia po stro-
+nie AC (wyłącznik nadprądowy, wyłącznik różnicowoprądowy, 
+ogranicznik przepięć).
+7.	 istniejąca w budynku sieć energetyczna, odbiorniki energii,
+8.	 miejsce przyłączenia do sieci energetycznej dwukierunkowy 
+licznik energii elektrycznej,
+9.	 sieć Operatora Systemu Dystrybucyjnego (OSD).
+Umiejętne dopasowanie każdego z elementów przedstawionych 
+na rysunku wymaga wiedzy i doświadczenia z kilku dziedzin, m.in. 
+astronomii, mechaniki, fizyki, elektrotechniki i energetyki. Na efekt 
+końcowy, a więc na ilość wyprodukowanej energii, lecz także na 
+bezpieczeństwo działania i obsługi instalacji wpływają wszystkie 
+elementy systemu.
+Jedynie poprawny projekt i poprawny montaż wszystkich ele-
+mentów zapewni właściwe i bezpieczne działanie całej instalacji 
+fotowoltaicznej.
+1.1. Słownik pojęć
+termin
+j. ang.
+opis
+fotowoltaika
+photovoltaics
+fotowoltaika – a nie „” – to dziedzina wykorzystująca 
+zjawisko fotowoltaiczne, zw. też efektem fotowoltaicznym 
+(ang. photovoltaic effect), polegające na generowaniu siły 
+elektromotorycznej w złączu półprzewodnikowym pod 
+wpływem promieniowania świetlnego (najczęściej światła 
+słonecznego). Samo określenie pochodzi od połączenia 
+dwóch wyrazów: „foto” – oznaczającego światło oraz 
+„wolt” – jednostki pomiaru napięcia (od nazwiska 
+włoskiego badacza zjawisk elektrycznych Alessandra 
+Volty). Jako ciekawostkę można podać, że Albert Einstein 
+został laureatem Nagrody Nobla w dziedzinie fizyki 
+w 1921 roku za „wkład do fizyki teoretycznej, zwłaszcza 
+opis prawa efektu fotoelektrycznego”.
+Zamiennie można stosować ogólnie przyjęty skrót: PV.
+ogniwo
+solar cell
+najmniejszy element fotowoltaiczny generujący 
+energię elektryczną pod wpływem padającego światła 
+słonecznego. Pojedyncze ogniwo wytwarza niewielkie 
+napięcie (w przypadku krzemu krystalicznego jest to ok. 
+0,5 Vmpp oraz 0,6 Voc), aby więc można je było stosować 
+na skalę przemysłową, musimy szeregowo łączyć je 
+w łańcuchy ogniw (np. po 60 lub 72 sztuki), a te z kolei 
+zamykać w pojedyncze moduły.
+moduł, moduł 
+PV, moduł 
+fotowoltaiczny
+module
+mechanicznie i elektrycznie najmniejszy zestaw 
+połączonych ogniw fotowoltaicznych. Moduł 
+zabezpieczony jest przed oddziaływaniem 
+warunków atmosferycznych i stanowi 
+najmniejszy pojedynczy element stosowany do 
+budowy generatora fotowoltaicznego.
+łańcuch
+string
+elektryczny układ szeregowo połączonych modułów
+generator
+generator
+urządzenie przetwarzające (a nie „wytwarzające”) 
+energię nieelektryczną w elektryczną. Generatorem 
+fotowoltaicznym (PV) będzie zestaw modułów PV.
+falownik
+inverter
+urządzenie, do którego przyłącza się łańcuchy modułów. 
+Piękne polskie określenie „falownik” doskonale oddaje 
+jego podstawowe zadanie, czyli przemianę energii 
+prądu stałego (ang. direct current, DC) na energię prądu 
+przemiennego (ang. alternate current, AC).
+instalacja 
+fotowoltaiczna, 
+instalacja PV
+PV system
+kompleksowo zmontowana i przyłączona do sieci 
+elektrownia fotowoltaiczna zbudowana min. z falownika, 
+modułów fotowoltaicznych, konstrukcji wsporczej, 
+zabezpieczeń i okablowania
+Wp
+Watt peak
+moc ogniw, modułów lub generatora PV (instalacji 
+fotowoltaicznej) zmierzona i podawana dla warunków 
+STC
+łańcuch 
+fotowoltaiczny, 
+łańcuch PV
+string
+zestaw połączonych szeregowo modułów PV, które jako 
+zestaw przyłącza się do falownika
+OSD
+ 
+Operator Systemu Dystrybucyjnego
+standardowe 
+warunki badania
+Standart Test 
+Conditions 
+(STC)
+warunki badań ogniw i modułów fotowoltaicznych 
+wyszczególnione w normie EN 60904-3 (lub 
+równoważnej). W uproszczeniu: natężenie 
+promieniowania słonecznego = 1000W/m2, temperatura 
+ogniw (nie otoczenia!) = 25°C, gęstość atmosfery AM 
+= 1,5
+strona AC (prądu 
+przemiennego) 
+instalacji PV
+Alternate 
+Current 
+(AC)
+część instalacji PV pomiędzy zaciskami AC falownika PV 
+a punktem przyłączenia przewodu zasilającego PV do 
+instalacji elektrycznej
+strona DC (prądu 
+stałego) instalacji 
+PV
+Direct 
+Current 
+(DC)
+część instalacji PV pomiędzy ogniwem PV, a zaciskami 
+DC falownika
+1.2. Klasyﬁkacja układów PV 
+przyłączanych do sieci
+Podziału systemów fotowoltaicznych podłączanych do sieci 
+dokonuje się ze względu na: miejsce instalacji, moc i topologię, 
+technologię.
+1.2.1. Miejsce instalacji
+Linia podziału przebiega pomiędzy instalacjami wolnostoją-
+cymi i zainstalowanymi na istniejących budynkach. Te pierwsze 
+mogą być palowane, wkręcane lub montowane na betonowych 
+
+=== PDF str. 6 ===
+Rynek Fotowoltaiczny 2019
+6
+podporach. Najważniejszym zadaniem takiej konstrukcji jest nie 
+tylko udźwignięcie odpowiedniego ciężaru (w tym ciężaru zalega-
+jącego śniegu), lecz także, a może przede wszystkim zapewnienie 
+wytrzymałości na podmuchy wiatru.
+Wyróżnić też można dedykowane konstrukcje przewidziane do 
+montażu na parkingach, często połączone z systemami ładowania 
+samochodów elektrycznych (ang. carport), w ofertach producentów 
+występujące jako gotowe konstrukcje.
+Ze względu na rodzaj konstrukcji wyróżniamy systemy nadążne 
+(inaczej systemy śledzące), w których mechaniczna podkonstrukcja 
+obraca się, śledząc pozorny ruch Słońca lub najjaśniejszy punkt na 
+nieboskłonie (w jednej lub w obu osiach), dzięki czemu moduły 
+znajdują się zawsze w położeniu najbardziej korzystnym pod wzglę-
+dem uzysku energii.
+W przypadku instalacji montowanych na budynkach istnieje 
+kilka rozwiązań:
+––
+instalacje przeznaczone na dach skośny, montowane na uprosz-
+czonej podkonstrukcji przylegającej bezpośrednio do połaci 
+dachu (do poszycia lub krokwi dachowych);
+––
+instalacje zintegrowane z  połacią dachu (zastępujące np. 
+dachówkę);
+––
+instalacje przeznaczone na dach płaski (z penetracją poszycia 
+dachowego lub bezinwazyjne);
+––
+instalacje specjalnie projektowane na elewacje budynków, 
+w tym wykonane np. jako szyby okienne.
+Wybór i poprawny projekt systemu montażowego mają decydu-
+jący wpływ na bezpieczeństwo osób, instalacji fotowoltaicznej oraz 
+budynku.
+Prawidłowy dobór systemu montażowego dla modułów decyduje 
+nie tylko o bezpieczeństwie samej instalacji PV, ale także o bezpie-
+czeństwie budynku oraz osób znajdujących się w nim lub w jego 
+pobliżu. Montaż modułów powinien być poprzedzony szczegółową 
+analizą wpływu dodatkowego obciążenia (ciężar modułów i podkon-
+strukcji, dodatkowe siły pochodzące od siły wiatru) wykonaną przez 
+konstruktora posiadającego odpowiednie uprawnienia.
+1.2.2. Moc i topologia instalacji PV
+Podział ten jest płynny i brak w nim zdefiniowanych kryteriów, dla-
+tego przyjmowany jest na podstawie zapisów w ustawach (Ustawa 
+z dnia 20 lutego 2015 r. o odnawialnych źródłach energii wraz 
+z późn. zm.; Dz. U. 2015 poz. 478). Mikroinstalacje – odnawialne 
+źródło energii, o łącznej mocy zainstalowanej elektrycznej nie więk-
+szej niż 50 kW – to najczęściej nadachowe instalacje przydomowe. 
+Małe instalacje – odnawialne źródło energii, o łącznej mocy zain-
+stalowanej elektrycznej większej niż 50 kW i nie większej niż 500 
+kW – bardzo często montowane są na dachach hal produkcyjnych 
+lub w pobliżu zakładów produkcyjnych (np. parkingów). Instalacje 
+duże – od 500 kW do 1 MW lub większe – to najczęściej instalacje 
+wolnostojące, choć i tu można spotkać wyjątki.
+Podział można przeprowadzić również według wartości napię-
+cia, do której przyłączona zostanie instalacja. Mamy zatem możli-
+wość przyłączenia się do sieci:
+––
+niskiego napięcia (nN, w Polsce 230 V/400 V) – najczęściej 
+dotyczy mikro- i małych instalacji;
+––
+średniego napięcia (SN, >1 kV) – przyłączane są instalacje 
+średnie i duże;
+––
+wysokiego napięcia (WN, 110 kV) – przyłączane są instalacje 
+kilkunasto- lub kilkudziesięciomegawatowe.
+27 kwietnia 2019 w Unii Europejskiej weszły w życie tzw. 
+kodeksy sieciowe – NC RfG – dotyczące przyłączania modułów 
+wytwarzania energii (ang. Power Generation Module, PGM), daw-
+niej znanych jako „jednostki wytwórcze”. W Polsce Prezes URE 
+zatwierdził następujące progi mocowe:
+A – od 0,8kW do 200kW włącznie,
+B – od 0,2MW do 10MW,
+C – od 10MW do 75 MW,
+D – ponad 75MW oraz każdy PGM przyłączony do sieci o napięciu 
+110kV lub wyższym.
+1.2.3. Technologia modułów PV
+Najbardziej rozpowszechnione obecnie technologie wykorzysty-
+wane do produkcji ogniw fotowoltaicznych, mono- i polikrysta-
+liczne, bardzo się zbliżyły pod względem uzyskiwanych parametrów, 
+w tym sprawności konwersji energii. Istnieje wiele opracowań na 
+ten temat, więc nie będziemy go tutaj szerzej rozwijać. Ważne, by 
+pamiętać, że z tymi technologiami (poza pojedynczymi przypad-
+kami) mogą współpracować praktycznie wszystkie dostępne na 
+rynku falowniki.
+Z kolei w przypadku zastosowania modułów cienkowarstwo-
+wych należy zwrócić uwagę, że charakteryzują się one wyższym 
+napięciem pracy oraz koniecznością uziemienia jednego z elektrycz-
+nych połączeń łańcucha modułów. To wymusza galwaniczną izolację 
+wejścia od wyjścia falownika, a więc jego specjalną konstrukcję. 
+Tak więc poza wadą polegającą na małej sprawności konwersji 
+dochodzi konieczność stosowania falowników transformatorowych. 
+Rekompensuje to jednak niższa cena modułów, a w naszych szero-
+kościach geograficznych dodatkowo zdolność modułów do lepszego 
+przetwarzania światła odbitego i rozproszonego.
+1.2.4. Technologia falowników
+Obecnie najbardziej rozpowszechnionym typem falowników są 
+urządzenia beztransformatorowe. Nie zawierają one – jak wskazuje 
+nazwa – wewnętrznego transformatora zapewniającego galwaniczną 
+izolację pomiędzy obwodami wejściowymi (DC) a wyjściowymi 
+(AC) falownika. Dlatego urządzenia te charakteryzują się znacz-
+nie bardziej skomplikowaną konstrukcją, na którą składa się wiele 
+układów zapewniających bezpieczeństwo użytkowania instalacji. 
+Jedne z ważniejszych to:
+––
+Urządzenie do monitorowania izolacji (ang. Insulation 
+Monitoring Device, IMD), czyli układ pomiaru rezystancji izola-
+cji przewodów po stronie DC. Codziennie przed rozpoczęciem 
+wprowadzania energii do sieci falownik mierzy stan izolacji po 
+stronie bieguna dodatniego oraz ujemnego względem zacisku 
+przewodu ochronnego PE. Zbyt niska wartość rezystancji unie-
+możliwia wprowadzanie energii do sieci i powinna skutkować 
+powiadomieniem służb serwisowych. Funkcja IMD powinna 
+być zgodna z PN-EN 62109-2:2011.
+––
+Układ RCMU (ang. Residual Current Monitoring Unit), czyli 
+zaawansowany układ różnicowo-prądowy reagujący na zmiany 
+wartości prądu upływu w czasie. To urządzenie monitoruje 
+
+=== PDF str. 7 ===
+Rynek Fotowoltaiczny 2019
+prądy stałe i zmienne upływu (RCD typ B) z generatora PV do 
+punktu przyłączenia falownika do sieci energetycznej i odłącza 
+falownik od sieci, jeżeli wystąpią ciągłe nadmierne wartości bie-
+żące lub nadmierne nagłe zmiany prądu różnicowego. W zależ-
+ności od stopnia ochrony instalacji lub wymogów operatora sieci 
+dystrybucyjnej, dodatkowe zabezpieczenia różnicowo-prądowe 
+(RCD) może być wymagane w miejscu przyłączenia instalacji 
+PV. W takim przypadku, mogą być zastosowane układy RCD 
+typu A z czułością co najmniej 100mA na pojedynczy falownik.
+Do poprawnej pracy układu monitorowania prądów różnicowych 
+RCMU oraz poprawności pomiaru rezystancji izolacji strony DC przez 
+falownik wysoce zalecane jest wykonanie układu połączeń wyrów-
+nawczych sprowadzonych do punktu o potencjalne wspólnym do 
+PE strony AC instalacji. Brak uziemienia roboczego prowadzi również 
+do niepoprawnego działania zabezpieczeń przeciwprzepięciowych 
+po stronie DC zarówno w przypadku przepięć indukowanych jak 
+i bezpośredniego oddziaływania piorunowego (zgodnie z PN-EN 
+62305 – „Ochrona odgromowa”). Ponadto należy uwzględnić rosnące 
+ryzyko dla osób i mienia w przypadku zwarcia po stronie DC do izolo-
+wanych od PE części przewodzących generator PV, w tym rosnącego 
+zagrożenia pożarem w przypadku zwarć wielokrotnych, które mogą 
+pozostać niewykryte. Zalecenia te wynikają z wytycznych wska-
+zanych w normie PN-HD 60364-7-712:2016 „Instalacje elektryczne 
+niskiego napięcia cz. 7-712: Wymagania dotyczące specjalnych insta-
+lacji lub lokalizacji – Fotowoltaiczne (PV) układy zasilania”. 
+2. Wymagania techniczne
+2.1. Status wymagań dotyczących 
+komponentów, systemów i instalacji
+W badaniach przyczyn wypadków pożarowych, w których usta-
+lono przyczynę instalacji fotowoltaicznej, stwierdzono, że około 
+1/3 przypadków szkód była oparta na błędach komponentów, 
+1/3 na złym planowaniu i 1/3 na błędnej realizacji instalacji 
+(porównaj Rozdział 3.3 „Doświadczenia”). Jedną z przyczyn błę-
+dów instalacji, wśród wielu innych, jest to, że dokumentacja projek-
+towa jest często nieodpowiednia lub nie zawiera żadnych informacji 
+o potencjalnych źródłach zagrożenia. Dlatego wymieniono normy, 
+wytyczne i specjalne warunki podłączenia instalacji fotowoltaicznej 
+wynikające z branży energetycznej.
+2.2. Przepisy i normy
+Aby móc poprawnie wykonać instalację fotowoltaiczną należy 
+przede wszystkim posiadać uprawnienia do wykonywania pracy 
+w zakresie obsługi, konserwacji, remontów i montażu urządzeń, 
+instalacji i sieci elektroenergetycznych wytwarzających, przetwa-
+rzających, przesyłających i zużywających energię elektryczną. 
+Jak już wspomniano, potrzebna jest również podstawowa wiedza 
+z zakresu mechaniki, konstrukcji, dekarstwa. Obecnie dostępne 
+jest coraz więcej literatury pozwalają uzupełnić brakującą wiedzę 
+niezbędną przy projektowaniu i wykonywaniu instalacji fotowolta-
+icznych. Polecić można również szkolenia oferowane przez profe-
+sjonalne firmy – producentów sprzętu i komponentów do instalacji 
+PV. Szkolenia takie poświęcone są z reguły wybranym, wąskim 
+
+=== PDF str. 8 ===
+Rynek Fotowoltaiczny 2019
+8
+zagadnieniom, np. podkonstrukcjom, falownikom, ochronie prze-
+ciwprzepięciowej, itp.
+Podstawą dobrych praktyk jest niewątpliwie stosowanie przepi-
+sów prawa budowlanego oraz prawa energetycznego, a także wybór 
+takich rozwiązań technicznych, które gwarantują pełne zastosowa-
+nie obecnie obowiązujących norm bezpieczeństwa. Najważniejsze 
+z nich, to zestaw norm PN-HD 60364, „Instalacje elektryczne 
+niskiego napięcia”, które szeroko określają reguły dotyczące pro-
+jektowania, wykonywania i sprawdzania instalacji elektrycznych 
+w sposób zapewniający bezpieczeństwo ich użytkowania i prawi-
+dłowego działania. 
+Szczególnej uwadze poleca się obowiązujące w Polsce normy. 
+Patrz tabele, 1-5.
+#
+numer
+wersja
+opis
+1
+PN EN 50565-1:2014-11
+polska
+Przewody elektryczne – Wytyczne stosowania 
+przewodów na napięcie znamionowe 
+nieprzekraczające 450/750 V (U0/U) – Część 
+1: Wskazówki ogólne
+2
+PN-HD 60364-4-41 
+:2017-09
+polska
+Instalacje elektryczne niskiego napięcia – Część 
+4-41: Ochrona dla zapewnienia bezpieczeństwa 
+– Ochrona przed porażeniem elektrycznym
+3
+PN-HD 60364-5-54:2011
+polska
+Instalacje elektryczne niskiego napięcia – 
+Część 5-54: Dobór i montaż wyposażenia 
+elektrycznego – Układy uziemiające i przewody 
+ochronne
+4
+PN-EN 61140:2016-07
+angielska Ochrona przed porażeniem prądem 
+elektrycznym – Wspólne aspekty instalacji 
+i urządzeń
+5
+PN-EN 61439-2:2011
+polska
+Rozdzielnice i sterownice niskonapięciowe – 
+Część 2: Rozdzielnice i sterownice do rozdziału 
+energii elektrycznej
+6
+PN-EN 62305-1:2011
+polska
+Ochrona odgromowa – Część 1: Zasady ogólne
+7
+PN-EN 62305-2:2011
+polska
+Ochrona odgromowa – Część 2: Zarządzanie 
+ryzykiem
+8
+PN-EN 62305-3:2011
+polska
+Ochrona odgromowa – Część 3: Uszkodzenia 
+fizyczne obiektów i zagrożenie życia
+9
+PN-EN 62305-4:2011
+polska
+Ochrona odgromowa – Część 4: Urządzenia 
+elektryczne i elektroniczne w obiektach
+10 N SEP-E 002
+polska
+Instalacje elektryczne w obiektach budowlanych. 
+Instalacje elektryczne w obiektach mieszkalnych. 
+Podstawy planowania. 
+11 N SEP-E 004
+polska
+Elektroenergetyczne i sygnalizacyjne linie 
+kablowe. Projektowanie i budowa
+12 N SEP-E 005
+polska
+Dobór przewodów elektrycznych do urządzeń, 
+których funkcjonowanie jest niezbędne w czasie 
+pożaru
+Tabela 1. Spis ogólnych norm zalecanych przy projektowaniu i montażu instalacji elektrycznych, 
+w tym instalacji PV
+13 PN-EN 50618:2015-03
+polska
+Kable i przewody elektryczne do systemów 
+fotowoltaicznych
+14 PN-EN 60269-6:2011
+angielska Bezpieczniki topikowe niskonapięciowe – Część 
+6: Wymagania dodatkowe dotyczące wkładek 
+topikowych do zabezpieczania fotowoltaicznych 
+systemów energetycznych
+15 PN-HD 60364-7-712 
+:2016-05
+polska
+Instalacje elektryczne niskiego napięcia – Część 
+7-712: Wymagania dotyczące specjalnych 
+instalacji lub lokalizacji – Fotowoltaiczne (PV) 
+układy zasilania
+16 PN-EN 61173:2002
+polska
+Ochrona przepięciowa fotowoltaicznych (PV) 
+systemów wytwarzania mocy elektrycznej – 
+Przewodnik
+17 DIN EN 61277 
+(nieobowiązująca w Polsce)
+niemiec-
+ka
+ „Terrestrische photovoltaische (PV-) 
+Stromerzeugungssysteme – Allgemeines und 
+Leitfaden“ – Ogólne informacje o systemach PV
+18 PN-EN 61724-1:2017-10
+angielska Wydajność systemu fotowoltaicznego – Część 1: 
+Monitorowanie 
+19 PN-EN 61727:2002
+angielska Systemy fotowoltaiczne (PV) – Charakterystyki 
+uniwersalnych złączy standardowych
+20 PN-EN 62446-1:2016-08
+angielska Systemy fotowoltaiczne (PV) – Wymagania 
+dotyczące badań, dokumentacji i utrzymania 
+– Część 1: Systemy podłączone do sieci – 
+Dokumentacja, odbiory i nadzór
+21 IEC 62446-2 
+(nieobowiązująca w Polsce)
+angielska Systemy fotowoltaiczne (PV) – Wymagania 
+dotyczące badań, dokumentacji i utrzymania 
+– Część 2: Systemy podłączone do sieci – 
+Konserwacja systemów PV
+22 PN-EN 62852:2015-05
+angielska Złącza DC stosowane w systemach 
+fotowoltaicznych – Wymagania bezpieczeństwa 
+i badania
+Tabela 2. Wykaz norm szczególnie istotnych z punktu widzenia projektowania instalacji PV
+23 PN-EN 50380:2018-04
+angielska Wymagania dotyczące oznakowania 
+i dokumentacji modułów fotowoltaicznych
+24 PN-EN 60904-1:2007
+angielska Elementy fotowoltaiczne – Część 1: Pomiar 
+charakterystyk prądowo-napięciowych 
+elementów fotowoltaicznych
+25 PN-EN 61215-1:2017-01
+angielska Moduły fotowoltaiczne (PV) do zastosowań 
+naziemnych – Kwalifikacja konstrukcji i aprobata 
+typu – Część 1: Wymagania dotyczące badań
+26 PN-EN 61215-2:2017-05
+angielska Moduły fotowoltaiczne (PV) do zastosowań 
+naziemnych – Kwalifikacja konstrukcji i aprobata 
+typu – Część 2: Metody badań
+27 PN-EN IEC 61730-1 
+:2018-06
+angielska Ocena bezpieczeństwa modułu fotowoltaicznego 
+(PV) – Część 1: Wymagania dotyczące 
+konstrukcji
+28 PN-EN IEC 61730-2 
+:2018-06
+angielska Ocena bezpieczeństwa modułu fotowoltaicznego 
+(PV) – Część 2: Wymagania dotyczące badań
+Tabela 3. Spis norm dotyczących bezpieczeństwa modułów PV
+29 PN-EN 50438:2014-02 
+Norma wycofana i zastąpiona 
+przez PN-EN 50549-
+1:2019-02
+angielska Wymagania dla instalacji mikrogeneracyjnych 
+przeznaczonych do równoległego przyłączenia 
+do publicznych sieci rozdzielczych niskiego 
+napięcia
+30 PN-EN 50524:2009
+angielska Karta danych i tabliczka znamionowa 
+falowników do systemów fotowoltaicznych
+31 PN-EN 50530:2010
+angielska Całkowita sprawność falowników 
+fotowoltaicznych
+32 PN-EN 50549-1:2019-02 
+(zastępuje PN-EN 50438)
+angielska Wymagania dla instalacji generacyjnych 
+przeznaczonych do równoległego przyłączania 
+do publicznych sieci dystrybucyjnych – Część 
+1: Przyłączanie do sieci dystrybucyjnej nN – 
+Instalacje generacyjne aż do typu B i włącznie 
+z nim
+33 PN-EN 50549-2:2019-04
+angielska Wymagania dla instalacji generacyjnych 
+przeznaczonych do równoległego przyłączania 
+do publicznych sieci dystrybucyjnych – Część 
+2: Przyłączanie do sieci dystrybucyjnej SN – 
+Instalacje generacyjne aż do typu B i włącznie 
+z nim
+34 PN-EN 61000
+Seria norm dotycząca kompatybilności 
+elektromagnetycznej (EMC)
+35 PN-EN 62109-1:2010
+angielska Bezpieczeństwo konwerterów mocy 
+stosowanych w fotowoltaicznych systemach 
+energetycznych – Część 1: Wymagania ogólne
+36 PN-EN 62109-2:2011
+angielska Bezpieczeństwo konwerterów mocy 
+stosowanych w fotowoltaicznych systemach 
+energetycznych – Część 2: Wymagania 
+szczegółowe dotyczące falowników
+37 PN-EN 62116:2014-11
+angielska Falowniki fotowoltaiczne włączone do 
+publicznej sieci energetycznej – Procedura 
+badania ochrony przed zanikiem napięcia
+Tabela 4. Spis norm związanych z bezpieczeństwem i wymaganiami odnośnie falowników
+38 PN-EN 61194:2002
+polska
+Parametry charakterystyczne autonomicznych 
+systemów fotowoltaicznych (PV)
+39 PN-EN 62124:2005
+angielska
+Systemy fotowoltaiczne (PV) wolnostojące – 
+Weryfikacja projektu
+40 PN-EN 50521:2009 
+Norma wycofana
+angielska
+Złącza elektryczne do zastosowań 
+w systemach fotowoltaicznych – Wymagania 
+bezpieczeństwa i badania
+
+=== PDF str. 9 ===
+Rynek Fotowoltaiczny 2019
+41 PN-EN 62093:2005
+angielska
+Elementy uzupełniające w systemach 
+fotowoltaicznych – Założenia kwalifikacyjne 
+dla środowiska naturalnego
+42 PN-EN 61427-1:2013-12
+angielska
+Wtórne ogniwa i akumulatory 
+wykorzystywane w celu magazynowania 
+energii w systemach energetyki odnawialnej – 
+Wymagania ogólne i metody badań – Część 1: 
+Zastosowanie w systemach fotowoltaicznych 
+nie podłączonych do publicznej sieci 
+energetycznej
+43 PN-EN 62509:2011
+angielska
+Urządzenia kontrolujące proces ładowania 
+akumulatorów w systemach fotowoltaicznych 
+– Parametry i działanie
+Tabela 5. Spis dodatkowych norm, szczególnych dla instalacji nie podłączonych do sieci
+Dodatkowo lekturze poleca się:
+1.	 Rozporządzenie Ministra Infrastruktury z dnia 12 kwietnia 2002 
+roku w sprawie warunków technicznych jakim powinny odpo-
+wiadać budynki i ich usytuowanie (Dz. U. 2015 poz. 1422);
+2.	 Ustawę z dnia 26 lipca 2013 r. o zmianie ustawy – Prawo ener-
+getyczne oraz niektórych innych ustaw (Dz.U. 2013 poz. 984);
+3.	 Ustawę z dnia 20 lutego 2015 r. o odnawialnych źródłach energii 
+(Dz.U. 2015 poz. 478; akt posiada tekst jednolity);
+4.	 Ustawę z dnia 7 czerwca 2018 r. o zmianie ustawy o odnawial-
+nych źródłach energii oraz niektórych innych ustaw (Dz.U. 2018 
+poz. 1276);
+5.	 Ustawę z dnia 7 lipca 1994 r. – Prawo budowlane (Dz.U. 1994 
+nr 89 poz. 414; akt posiada tekst jednolity).
+2.3. Wybór i ocena lokalizacji przyszłej 
+instalacji
+Pierwszym zadaniem instalatora jest ocena realnego zapotrzebowa-
+nia na energię w budynku inwestora, a następnie dobór właściwej 
+wielkości instalacji fotowoltaicznej. Przy szacowaniu możliwej do 
+zainstalowania mocy modułów PV należy uwzględnić następujące 
+czynniki:
+1.	 lokalizacja – szerokość geograficzna, która określa kąt padania 
+promieni słonecznych,
+2.	 nachylenie powierzchni, na której instaluje się elektrownię foto-
+woltaiczną (kąt nachylenia dachu),
+3.	 azymut – ustawienie przyszłej instalacji względem kierunku 
+południowego,
+4.	 przeszkody terenowe (np. instalacje antenowe, świetliki i okna 
+dachowe, instalacje dachowe) i zacienianie instalacji pobliskimi 
+elementami (komin, sąsiednie budynki, dach, drzewa, anteny 
+satelitarne i TV, słupy energetyczne, itp.),
+5.	 wymagania projektowe, np. drogi technologiczne i pożarowe, 
+dobór falowników i linii energetycznych, instalacje odgromowe 
+i przeciwprzepięciowe,
+6.	 wymagania technologiczne, np. dopuszczalne obciążenia dachu 
+z instalacją przez wiatr, śnieg itp.
+Podstawowym i najważniejszym celem projektu instalacji jest unika-
+nie zacieniania modułów fotowoltaicznych. Cień padający na moduł 
+powoduje nie tylko znaczne ograniczenie ilości produkowanej ener-
+gii elektrycznej, lecz także nagrzewanie się takiego miejsca (ogniwo 
+zacienione działa jak opornik), co w skrajnym przypadku powoduje 
+nieodwracalne uszkodzenie modułu. Niemniej jednak ważnym 
+jest ocena wytrzymałości istniejącej konstrukcji dachu, do której 
+zostanie dołożone dodatkowe obciążenie w postaci instalacji PV.
+
+=== PDF str. 10 ===
+Rynek Fotowoltaiczny 2019
+10
+2.4. Konstrukcje wsporcze pod moduły 
+fotowoltaiczne
+Konstrukcje wsporcze dla instalacji fotowoltaicznych spełniają dwa 
+podstawowe zadania: ustawiają moduły pod odpowiednim kątem 
+względem Ziemi i azymutem względem kierunku południowego 
+oraz przenoszą siły pochodzące od:
+a)	 ciężaru modułów,
+b)	 obciążenia śniegiem,
+c)	 sił dociskających oraz odrywających pochodzących do wiatru.
+Można wyróżnić następujące rodzaje montażu instalacji PV 
+związanych z budynkami:
+a)	 moduły fotowoltaiczne stanowiące zintegrowany z budynkiem 
+element, np. fasadę lub dach, określane skrótem BIPV pocho-
+dzącym z ang. Building Integrated Photovoltaics,
+b)	 montaż na dachu skośnym budynku – równolegle do połaci 
+dachu,
+c)	 montaż na dachu płaskim budynku – na dedykowanej 
+podkonstrukcji,
+d)	 montaż na elewacji budynku
+oraz
+e)	 montaż wolnostojący – obok budynku,
+f)	 wiaty i stanowiska parkingowe.
+Dla każdego z wymienionych rozwiązań wymagane jest przepro-
+wadzenie obliczeń obciążenia: modułu, podkonstrukcji oraz sił 
+przenoszonych na konstrukcję dachu lub elewacji. Jeśli system 
+konstrukcyjny przewiduje stosowanie balastu dociążającego (naj-
+częściej w konstrukcjach wolnostojących na dach płaskich), należy 
+wyliczyć jego rozkład dla całej powierzchni instalacji, nie jest on 
+bowiem równomierny.
+Dlatego w projektowaniu i budowie instalacji fotowoltaicznej 
+powinien uczestniczyć projektant o specjalności konstrukcyjno-
+-budowlanej lub rzeczoznawca budowlany, który może przygo-
+tować ekspertyzę w zakresie stanu technicznego budynku oraz 
+na jej podstawie wydać opinię techniczną dotyczącą możliwości 
+posadowienia konstrukcji wsporczej oraz modułów fotowoltaicz-
+nych na danym obiekcie.
+Podstawowym grzechem firm projektujących i montujących 
+instalacje PV jest ocena obecnego stanu konstrukcji dachu oraz 
+wpływu dodatkowego obciążenia pochodzącego od instalacji 
+fotowoltaicznej przez osoby niemające do tego ani odpowiednich 
+uprawnień, ani tym bardziej właściwej wiedzy.
+Zgodnie z obowiązującym stanem prawnym (Ustawa z dnia 26 
+lipca 2013 r. o zmianie ustawy – Prawo energetyczne oraz niektórych 
+innych ustaw, Dz.U. 2013 poz. 984, która weszła w życie z dniem 12. 
+września 2013) w art. 29 w ust. 2 pkt 16 Ustawy prawo budowlane:
+„16) montaż pomp ciepła, wolnostojących kolektorów sło-
+necznych, urządzeń fotowoltaicznych o mocy zainstalowanej 
+elektrycznej nie większej niż 50 kW […]”
+nie wymaga pozwolenia na budowę ani zgłoszenia zamiaru 
+budowy. Niestety, zapis ten mający na celu wyeliminowanie 
+zbędnej biurokracji, często traktowany jest jako zwolnienie z obo-
+wiązku dokonania stosownych (a wręcz jakichkolwiek!) obliczeń 
+projektowych. 
+Natomiast zagadnienia, które należy uwzględnić przy projekto-
+waniu i budowie konstrukcji wsporczej pod moduły fotowoltaiczne, 
+są niezwykle obszerne:
+1.	 W zależności od rodzaju podkonstrukcji i jej sposobu montażu 
+należy uwzględnić dodatkowe obciążenie konstrukcji dachu lub 
+elewacji (np. wpływ sił statycznych i dynamicznych działających 
+na konstrukcje dachu). Montaż musi zapewniać bezpieczeństwo 
+istniejącej konstrukcji budynku, jak i instalacji fotowoltaicznej. 
+Mocowanie modułów fotowoltaicznych do elewacji budynku 
+lub dachu wymaga zachowania zasad bezpiecznego montażu 
+i stosowania odpowiednich elementów konstrukcyjnych:
+a)	 wysokiej jakości użytych materiałów: profili, połączeń śru-
+bowych, klem mocujących, itp.,
+b)	 przekroi profili odpowiednich do wyliczonego obciążenia,
+c)	 elementów mocujących do konstrukcji dachu, które nie będą 
+źródłem ognisk korozji (np. połączenie stal-aluminium),
+d)	 które zapewnią szczelność dachu.
+2.	 Podkonstrukcja instalowana na dachu nie może utrudniać 
+odprowadzania wody deszczowej, a w przypadku dachów 
+wymagających odśnieżania: usuwania śniegu. Konstrukcja, 
+moduły i  wszystkie pozostałe elementy montowane na 
+powierzchni dachu muszą mieć zapewnioną odporność na 
+warunki atmosferyczne.
+3.	 Podkonstrukcja nie może stwarzać dodatkowego zagrożenia 
+pożarowego (przykłady: „komin” w instalacji fotowoltaicznej 
+montowanej na elewacji, wiaty parkingowe lub konstrukcje 
+wolnostojące utrudniające dojazd jednostek straży pożarnej). 
+W przypadku instalacji nadachowych należy przewidzieć drogi 
+pożarowe. Wzorem niemieckich wymagań przeciwpożarowych, 
+pojedyncze pole modułów nie powinno mieć wymiarów więk-
+szych niż 10x10m.
+4.	 Podkonstrukcja nie może utrudniać dostępu do istniejącej infra-
+struktury nadachowej (urządzenia HVAC, kominy, anteny, itp.). 
+Należy przewidzieć odpowiednie ciągi komunikacyjne.
+5.	 Zaleca się zachowanie odpowiednich odstępów pola modułów 
+fotowoltaicznych od krawędzi dachu. Nie ma tu jasno sprecy-
+zowanych wymagań, niemniej jednak odległość 50cm wydaje 
+się być minimalną.
+6.	 Należy dokonać integracji instalacji PV z istniejącą ochroną 
+odgromową lub przewidzieć konieczność wykonania instalacji 
+odgromowej chroniącej elementy elektrowni fotowoltaicznej:
+a)	 postawienie podkonstrukcji na dachu z urządzeniem pioru-
+nochronnym nie może wpłynąć na pogorszenie warunków 
+ochrony odgromowej,
+b)	 należy zaprojektować wyrównanie potencjałów, w tym odpo-
+wiednie zaciski i przekroje przewodów,
+c)	 w przypadku istniejącej instalacji odgromowej należy zacho-
+wać wyliczone dla obiektu odstępy izolacyjne lub wykorzy-
+stać podkonstrukcję jako element mogący przewodzić prądy 
+piorunowej, pod warunkiem:
+d)	 uwzględnienia skoordynowanej ochrony przeciwprzepięcio-
+wej.
+7.	 Instalacja fotowoltaiczna nie może negatywnie wpływać na 
+estetykę budynku (kryterium ocenne).
+2.5. Obwody prądu stałego (DC)
+Największą trudność stanowi zrozumienie pozornie oczywistego 
+faktu, że zjawiska fizyczne występujące w obwodach prądu stałego 
+
+=== PDF str. 11 ===
+różnią się od tych znanych z instalacji prądu przemiennego. Dlatego 
+jednym z najważniejszych wymagań jest:
+1.	 Stosowanie elementów i  materiałów dedykowanych do 
+prądu stałego (np. rozłączników, bezpieczników, itp.). 
+Niedopuszczalne jest stosowanie elementów projektowanych 
+dla prądów przemiennych w obwodach prądu stałego.
+2.	 Stosowanie przewodów solarnych o odpowiedniej klasie izolacji 
+napięciowej oraz przewidzianych do stosowania w warunkach 
+zewnętrznych (odporność na warunki atmosferyczne i na pro-
+mieniowanie UV) o podwójnej lub wzmocnionej izolacji.
+3.	 Wykorzystanie istniejących lub budowanie nowych: przepu-
+stów kablowych, rur instalacyjnych, szybów instalacyjnych, 
+koryt, duktów i kanałów instalacyjnych zapewniających odpo-
+wiednią klasę ognioodporności i zabezpieczających przewody 
+solarne przed uszkodzeniem mechanicznym, a także przed 
+dostępem osób.
+4.	 Skrzynki instalacyjne zlokalizowane w pobliżu modułów foto-
+woltaicznych oraz/lub w pobliżu falowników, służące w szcze-
+gólności umieszczeniu doprowadzonych do nich zakończeń 
+kabli i umieszczenia urządzeń zabezpieczających, powinny 
+posiadać odpowiednią klasę ochrony przed warunkami 
+zewnętrznymi (klasa IP), minimum II klasę wytrzymałości 
+izolacji napięciowej, a także spełniać odpowiednie wymagania 
+jakościowe: np. wentylacja – zapobieganie kondensacji pary 
+wodnej.
+5.	 Jeżeli wynika to z projektu, należy stosować zabezpieczenia 
+bezpiecznikowe łańcuchów modułów, ochronę przetężeniową 
+chroniącą przewody solarne, ochronę przeciwprzepięciową. 
+Rozłączniki izolacyjne DC, wymagane przytoczonymi powy-
+żej normami, często stanowią element budowy falownika. Ze 
+względu na wysokie napięcia w instalacji DC (możliwe wartości 
+nawet do 1000V) wymagane jest bezwzględne stosowanie urzą-
+dzeń zapewniających ochronę przed dotykiem bezpośrednim.
+6.	 Wyłączniki pożarowe, to zagadnienie skomplikowane. Pamiętać 
+należy, że przerwa w obwodzie DC nie powoduje zaprzestania 
+generacji napięcia na łańcuchu modułów – co może być niebez-
+pieczne dla strażaków próbujących ugasić płonący budynek. 
+Najlepszym rozwiązaniem byłoby stosowanie odpowiednich 
+zabezpieczeń polegających na zwieraniu modułów (zerowe 
+napięcie), jednakże koszt takiego zabezpieczenia może dorów-
+nać cenie modułów fotowoltaicznych. Kompromisem wydaje 
+się być odpowiednie oznakowanie budynku wyposażonego 
+w instalację fotowoltaiczną oraz konsultacje z lokalnym oddzia-
+łem Straży Pożarnej.
+7.	 Spadki napięć (straty energii) na przewodach pomiędzy modu-
+łami PV a falownikiem muszą mieć wartość poniżej 1%.
+2.6. Obwody prądu przemiennego (AC), 
+falowniki
+Dla wielu aspektów projekty przyłączenia instalacji fotowol-
+taicznej do istniejących obwodów sieci elektroenergetycznej 
+w budynku obowiązują identyczne reguły, jak dla instalacji odbiera-
+jących energię. Przykładowo, obowiązują identyczne zapisy poświę-
+cone doborowi przekroju przewodów ze względu na obciążalność 
+
+=== PDF str. 12 ===
+Rynek Fotowoltaiczny 2019
+12
+prądową długotrwałą, dopuszczalny spadek napięcia, wytrzymałość 
+mechaniczną oraz ze względu na zapewnienie skutecznej ochrony 
+przeciwporażeniowej.
+Ponadto, należy stosować zasady poprawnego doboru zabez-
+pieczeń przewodów, tak aby spełnić warunki ochrony przed prze-
+ciążeniem czy też skutkami zwarć, łącznie z zasadą selektywności 
+zabezpieczeń. Bardzo ważnym jest również zagadnienie wyłączni-
+ków różnicowoprądowych od strony konieczności ich stosowania 
+w warunkach domowych.
+1.	 Falownik powinien być usytuowany w odrębnym pomieszcze-
+niu technicznym, a w przypadku braku możliwości zapewnienia 
+takiego pomieszczenia – w pobliżu rozdzielni głównej budyn-
+kowej wyposażonej w odpowiednią instalację i urządzenia 
+elektryczne.
+2.	 Falownik może być instalowany na zewnątrz budynku, o ile 
+producent urządzenia przewidział taką możliwość. Należy 
+zapewnić ochronę urządzenia przed bezpośrednim działaniem 
+promieni słonecznych (ze względu na temperaturę).
+3.	 Niewskazane jest instalowanie falowników w pomieszczeniach 
+o podwyższonej zawartości substancji żrących lub szkodliwych 
+(przykład: NH3 – amoniak, występujący w oborach, kurnikach, 
+stajniach, chlewach), o podwyższonej wilgotności (szklarnie, 
+oranżerie), a także w miejscach narażających urządzenie na 
+zabrudzenia lub utrudnioną wentylację.
+4.	 Falownik powinien być montowany na podłożu niepalnym, 
+nieprzewodzącym i suchym. Należy zapewnić właściwą wen-
+tylację falownika.
+5.	 Nie można instalować falownika w pomieszczeniach, w któ-
+rych stale przebywają ludzie. Niedopuszczalne jest instalowanie 
+falowników w sypialniach, itp.
+6.	 Falownik powinien być łatwo dostępny dla obsługi technicz-
+nej; być oznakowany w sposób jednoznacznie określający nie-
+bezpieczeństwo zagrożenia zdrowia i życia; być poza dostępem 
+dzieci.
+7.	 Podłączenie falownika – należy stosować zabezpieczenia nad-
+prądowe i przepięciowe. Stosowanie ochrony różnicowo-prą-
+dowej: w zależności od zaleceń producenta falownika.
+8.	 Prowadzenie przewodów i wykonanie instalacji elektrycznej – 
+zgodne z obowiązującymi przepisami.
+9.	 Przyłączenie urządzenia do sieci energetycznej wymaga wie-
+dzy i zgody odpowiedniego Operatora Sieci Dystrybucyjnej 
+(OSD). Jednym z podstawowych zadań falownika jest ciągłe 
+monitorowanie parametrów sieci takich jak napięcie i czę-
+stotliwość oraz odpowiednie reagowanie na ich zmiany, 
+a w przypadku, gdy wartości tych parametrów znajdą się poza 
+dopuszczalnym zakresem – odłączenie falownika od sieci. 
+Niedopuszczalna jest tzw. wyspowa praca falownika (ang. 
+off-grid), ponieważ bez dodatkowych urządzeń separujących go 
+od sieci mógłby on stanowić zagrożenie zdrowia i życia w przy-
+padku awarii sieci.
+10.	Instalowanie liczników energii elektrycznej – zgodnie z wyma-
+ganiami OSD.
+11.	Wyłącznik główny (rozłącznik bezpiecznikowy) falownika 
+należy instalować, o ile to możliwe, w rozdzielni głównej 
+budynku. W widocznym miejscu należy umieścić tabliczkę 
+informującą o instalacji PV w obiekcie.
+12.	Spadki napięć (straty energii) na przewodach pomiędzy falow-
+nikiem a miejscem przyłączenia do sieci elektroenergetycznej 
+muszą być mniejsze niż 1%.
+13.	Należy stosować falowniki o sprawności europejskiej (euro-η):
+a)	 powyżej 95% dla urządzeń transformatorowych
+b)	 powyżej 97% dla urządzeń beztransformatorowych.
+14.	W przypadku modułów fotowoltaicznych wymagających uzie-
+mienia jednego z biegunów (moduły cienkowarstwowe) należy 
+stosować falowniki zapewniające izolację galwaniczną wejścia 
+i wyjścia (falowniki z transformatorem).
+15.	Należy przewidzieć możliwość dostępu falownika do instalacji 
+teleinformatycznej (przewodowej lub bezprzewodowej).
+16.	Wszystkie urządzenia aktywne i pasywne w instalacji fotowol-
+taicznej powinny być uziemione.
+2.7.	
+Monitorowanie
+Jednym z podstawowych wymagań ze strony inwestora jest bie-
+żące monitorowanie pracy instalacji fotowoltaicznej. Pojawia się 
+oczekiwanie nie tylko raportowania bieżących i historycznych 
+wartości wyprodukowanej energii, ale również, a może przede 
+wszystkim, informowania o ewentualnych zakłóceniach w pracy 
+instalacji. Wiodący producenci falowników oferują bezpłatną (lub 
+za stosunkowo niewielką opłatą) możliwość zbierania, agregowania 
+i prezentowania stosownych danych na atrakcyjnie wizualnych stro-
+nach internetowych. Dostęp do tej informacji użytkownik instalacji 
+może mieć 24h na dobę z dowolnego punktu na Ziemi. System taki 
+potrafi również proaktywnie informować np. wiadomością SMS 
+o wszelkich nieprawidłowościach, również tych, które mogą mieć 
+bezpośredni wpływ na bezpieczeństwo systemu.
+2.8. Pozostałe dokumenty niezbędne 
+do opracowania projektu
+Każdy projekt techniczny wymaga wymienienia wytycznych, na 
+podstawie których został opracowany. Oprócz norm wykazanych 
+w Rozdziale 2.2 „Przepisy i normy”, w przypadku projektu instalacji 
+fotowoltaicznej są to dodatkowo:
+1.	 Uzgodnienia z inwestorem.
+2.	 Projekt architektoniczno-budowlany budynku (idealnie: pro-
+jekt powykonawczy).
+3.	 Projekt konstrukcji nośnej paneli fotowoltaicznych oraz kana-
+łów kablowych.
+4.	 Warunki przyłączenia do sieci elektroenergetycznej, wydane 
+przez Operatora Sieci Dystrybucyjnej (w przypadku instalacji, 
+które ze względu na wielkość wymagają takich uzgodnień).
+5.	 Aktualna „Instrukcja Ruchu i Eksploatacji Sieci Dystrybucyjnej” 
+Operatora Systemu Dystrybucyjnego do sieci którego zostanie 
+przyłączona instalacji.
+6.	 Dane meteorologiczne dotyczące nasłonecznienia oraz szacunki 
+dotyczące potencjalnych uzysków, np. w bezpłatnym narzędziu 
+PV-GIS.
+2.9. Warunki odbioru – przeglądy 
+i konserwacje
+Przegląd instalacji fotowoltaicznej: mechaniczny oraz elektryczny 
+należy przeprowadzać przynajmniej raz w roku. Przegląd powinien 
+obejmować:
+
+=== PDF str. 13 ===
+Rynek Fotowoltaiczny 2019
+1.	 kontrolę techniczną dachu, na którym zamontowano moduły 
+fotowoltaiczne, w tym badania dotyczące wpływu konstrukcji 
+wsporczej i modułów na konstrukcję dachu,
+2.	 mycie modułów fotowoltaicznych – pozwalające zachować uzy-
+ski na najwyższym poziomie i uniknąć termicznych uszkodzeń 
+modułów (ang. hot-spots) pochodzących od stałych zabrudzeń,
+3.	 kontrola pęknięć, uszkodzeń modułów i ogniw PV (badanie 
+modułów fotowoltaicznych kamerą termowizyjną),
+4.	 przegląd stanu elementów mocujących – pęknięcia, uszkodze-
+nia, korozja konstrukcji
+5.	 przegląd stanu okablowania DC,
+6.	 przegląd stanu okablowania AC,
+7.	 czyszczenie i zabezpieczenie styków połączeń elektrycznych,
+8.	 sprawdzenie zabezpieczeń DC,
+9.	 sprawdzenie zabezpieczeń AC,
+10.	przegląd stanu technicznego falowników, przegląd stanów awa-
+ryjnych falowników wraz z analizą,
+11.	pomiar parametrów elektrycznych.
+3. Zagrożenia
+3.1. Pożar a systemy PV. Fakty i mity
+Należy zwrócić uwagę, że ogólna wiedza na temat zagrożeń poża-
+rowych wynikających z instalacji systemów PV opiera się głównie 
+na mitach, plotkach i niesprawdzonych informacjach. Analizując 
+opinie producentów i instalatorów, informacje prasowe oraz odpo-
+wiednią literaturę (Sepanski i inni, 2015), zidentyfikowano nastę-
+pujące punkty, reprezentujące różnorodność nieprawidłowych 
+informacji, które krążą w domenie publicznej:
+––
+Strażacy nie ugaszą pożaru w budynkach z systemem PV na 
+dachu;
+––
+System PV na dachu znacznie zwiększa ryzyko pożaru;
+––
+System PV na dachu znacznie zwiększa ryzyko zranienia stra-
+żaków w sytuacjach awaryjnych;
+––
+Wyłączenie instalacji PV na poziomie modułu zmniejsza ryzyko 
+pożaru;
+––
+Nie jest możliwe ugaszenie pożaru spowodowanego przez insta-
+lację PV;
+––
+System PV na dachu znacznie zwiększa prawdopodobieństwo, 
+że budynek zostanie trafiony przez piorun.
+Wymienione powyżej punkty zostały krytycznie przeanalizo-
+wane, aby sprawdzić, czy istnieją realistyczne stwierdzenia, które 
+potwierdzają lub unieważniają te pogłoski.
+3.2. Ryzyko pożaru a ryzyko dla strażaków
+Mówiąc o bezpieczeństwie systemów PV, możliwe zagrożenia zwią-
+zane z pożarem należy podzielić na dwie kategorie:
+Ryzyko pożaru
+To ryzyko opisuje prawdopodobieństwo 
+wystąpienia pożaru. Im wyższe 
+prawdopodobieństwo, tym większe ryzyko 
+pożaru.
+Ryzyko dla osób  
+udzielających pomocy
+Ryzyko to opisuje prawdopodobieństwo, 
+że strażak lub inny personel ratowniczy 
+zostanie ranny podczas misji ratowniczej lub 
+przeciwpożarowej.
+
+=== PDF str. 14 ===
+Rynek Fotowoltaiczny 2019
+14
+Te dwie kategorie są równie ważne, gdy mówimy o zwiększeniu 
+bezpieczeństwa systemów fotowoltaicznych.
+Podjęcie odpowiednich działań, które zmniejszają ryzyko 
+pożaru, bezpośrednio zmniejsza ryzyko dla osób udzielających 
+pomocy, ponieważ brak pożaru oznacza brak zagrożenia dla osób 
+udzielających pomocy. Ta reguła nie ma jednak działania odwrot-
+nego. Środki, które bezpośrednio wpływają na ryzyko dla służb 
+ratowniczych, takie jak na przykład wymagania do ograniczenia 
+napięcia na poziomie modułów PV, często nie przyczyniają się do 
+zmniejszenia ryzyka pożaru.
+3.3. Doświadczenie innych rynków
+3.3.1. Niemcy
+Niemcy są jednym z najstarszych i największych rynków PV 
+w  Europie. W  2015 roku TÜV Rheinland we współpracy 
+z Instytutem Systemów Energetyki Słonecznej im. Fraunhofera 
+(Fraunhofer Institute for Solar Energy Systems; ISE) opublikował 
+raport o incydentach pożarowych z udziałem systemów fotowol-
+taicznych związanych z budynkiem do roku 2013 i ich przyczynami. 
+Ta szczegółowa analiza wykazała, że oficjalnie zgłoszone zostały 
+430 szkody pożarowe, z których 210 zostało wywołanych przez 
+sam system PV. Porównując to do łącznej liczby około 1,3 mln 
+instalacji PV, stanowi to zaledwie 0,016% wszystkich systemów 
+PV zainstalowanych w Niemczech (Sepanski i inni, 2015, [12]). 
+Wykresy pokazują rozłożenie incydentów pożarowych do różnych 
+typów źródeł błędów i błędów.
+Wykres 1. Źródło wystąpienia pożaru instalacji PV w Niemczech (Sepanski i inni, 2015)
+Wykres 2. Przyczyny wystąpienia pożaru instalacji PV w Niemczech (Sepanski i inni, 2015)
+Analiza wykazała, że tylko około 17% błędów powodujących 
+pożar jest opartych na awariach sprzętu (patrz rysunek 2), a tylko 
+10% błędów występuje w falowniku (patrz rysunek 1). Ponad 70% 
+błędów wynika z czynników zewnętrznych, takich jak wyładowanie 
+atmosferyczne lub błędy montażowe (patrz rysunek 2).
+3.3.2. Wielka Brytania
+W 2017 r. BRE National Solar Center opublikowało szczegółowy 
+raport na temat incydentów pożarowych związanych z budynkami.
+Zgodnie z tym sprawozdaniem (BRE 2017a, [3]), w ciągu 
+ostatnich 7 lat w Wielkiej Brytanii doniesiono o 58 zdarzeniach 
+pożarowych dotyczących systemów fotowoltaicznych związanych 
+z budynkami. W porównaniu do całkowitej liczby około 1 miliona 
+systemów PV w Wielkiej Brytanii, daje to 0,0058% wszystkich 
+zainstalowanych systemów PV. Poniższe ilustracje pokazują alo-
+kację incydentów pożarowych do różnych typów błędów i źródeł 
+błędów.
+Wykres 3. Źródło wystąpienia pożaru instalacji PV w Wlk. Brytanii (dane z BRE 2017a)
+Wykres. 4. Przyczyny wystąpienia pożaru instalacji PV w Wlk. Brytanii (dane z BRE 2017a)
+Wyłączając kategorię „Nieznany typ błędu”, większość incy-
+dentów pożarowych wynika z czynników zewnętrznych i błędów 
+instalacji. Tylko około 9% wszystkich zdarzeń pożarowych jest 
+weryfikowany jako awarię sprzętu (patrz wykres 4).
+3.3.3. Holandia
+Holenderska Organizacja Stosowanych Badań Naukowych (TNO) 
+zakończyła w 2018 roku dochodzenie w sprawie szeregu incyden-
+tów pożarowych z udziałem dachowych systemów PV. 
+Zgodnie z ustaleniami raportu pożary doprowadziły wyłącznie 
+do szkód gospodarczych. W 2018 roku stwierdzono 23 incydenty 
+pożarowe z udziałem domów, co stanowi zaledwie 0,014% wszyst-
+kich około 170 tysięcy domowych instalacji PV zarejestrowanych 
+na koniec 2018 roku w Holandii.
+Raport TNO stwierdził, że około 70% pożarów zostało 
+spowodowanych przez wadliwe złącza DC, a zwłaszcza przez 
+stosowanie złączy typu MC4 pochodzących od różnych pro-
+ducentów (więcej w rozdziale „Zasady łączenia przewodów”). 
+Inne incydenty pożarowe były spowodowane akumulacją ciepła, 
+
+=== PDF str. 15 ===
+Rynek Fotowoltaiczny 2019
+15
+skrzynkami przyłączeniowymi modułów i bliskością instalacji do 
+materiałów palnych, przy czym każdy z tych czynników stanowił 
+ok. 10% przypadków.
+4. Najczęściej popełniane błędy 
+w projektach i realizacjach 
+systemów PV
+4.1. Błędy na etapie projektowania
+Błędy popełnianie na etapie projektowania z reguły bywają brze-
+mienne w skutkach: w najlepszym wypadku mogą doprowadzić 
+do droższej niż planowano budowy, w najgorszym – do katastrofy 
+budowlanej. Niestety w praktyce spotykam się z ogromną liczbą 
+„projektów”, które choć podpisane przez osoby z tzw. uprawnie-
+niami –zawierają liczne, niekiedy rażące błędy uniemożliwiając 
+działanie elektrowni.
+Choć wydaje się to niemożliwe, to najczęściej popełnianym błę-
+dem w projektowaniu jest … zła dokumentacja projektowa, doku-
+mentacja zbyt ogólna lub nawet jej całkowity brak. Na to wszystko 
+nakłada się przygotowywanie projektów przez osoby uprawnione 
+do projektowania instalacji elektrycznych, ale bez odpowiedniej 
+wiedzy w zakresie fotowoltaiki. A przecież projektowanie instalacji 
+PV wymaga adekwatnego zasobu informacji z dziedziny mechaniki, 
+fizyki, astronomii, energetyki prądów stałych i prądu przemiennego, 
+a przede wszystkim: doświadczenia w projektowaniu takich insta-
+lacji popartego ich udaną realizacją!
+Przykładem, który dobrze obrazuje powyższe zagadnienie to 
+projekty konstrukcji wsporczych pod moduły. Zbyt rzadko do pro-
+jektu instalacji PV zapraszani są projektanci konstruktorzy. Brak 
+dobrego projektu konstrukcji nośnej, nieuwzględnienie warunków 
+panujących w danej strefie wiatrowej oraz strefie śniegowej, a także 
+jakże częsty brak jakiejkolwiek wiedzy na temat aktualnego stanu 
+konstrukcji budynku, a w szczególności dachu, to tylko najlżejsze 
+z popełnianych grzechów. Nawet w przypadku dużych elektrowni 
+fotowoltaicznych, kosztujących miliony złotych, oszczędza się na 
+badaniach geologicznych gruntu i dobiera się konstrukcje kierując 
+się kryterium najniższej ceny. A przecież konstrukcja wsporcza jest 
+jak gwóźdź podtrzymujący cenny obraz – oszczędność kilku złotych 
+może doprowadzić do ogromnych strat.
+W dalszej kolejności przejdę do tematu błędnego łączenia modu-
+łów PV do falownika lub niewłaściwego ich wzajemnego doboru 
+– zarówno pod względem optymalizacji uzysków, jak i ryzyka 
+uszkodzenia falownika. Istotą dobrego doboru jest zrozumienie 
+danych technicznych zamieszczonych zarówno w karcie katalogo-
+wej modułów, jak i w karcie katalogowej falownika. Niezrozumiałe 
+jest, dlaczego projektanci nagminnie ignorują fakt istnienia instrukcji 
+obsługi i instalacji tych urządzeń. Tymczasem dobre moduły foto-
+woltaiczne posiadają instrukcję obsługi i montażu! Nie wszystkie 
+informacje zawarte są w kartach katalogowych – zawsze należy się-
+gnąć po informacje znajdującą się w innych dokumentach, w tym 
+również w obowiązujących normach i przepisach prawa budowlanego 
+(wymienionych w Rozdziale 2.2). Bardzo pomocne są szkolenia 
+organizowane przez producentów tych urządzeń. Z doświadczenia 
+autora niniejszego artykułu wynika jednak, że gdy są bezpłatne nie 
+gwarantują właściwego poziomu przekazywanej wiedzy, a z kolei, 
+gdy są odpłatne – traktowane są przez projektantów jako zbędny 
+wydatek, a nie inwestycję w swoje umiejętności.
+Wrócę na chwilę do zagadnień związanych z właściwym dobo-
+rem modułów. Aż nazbyt często można spotkać projekty, w których 
+nie bierze się pod uwagę zakresów napięć i prądów wejściowych 
+falownika, a to przecież podstawy projektowania! Owszem, nie-
+którzy projektanci zaczynają rozumieć znaczenie temperatury i jej 
+wpływ na wartości napięć, prądów i mocy modułów. Zwiększa 
+się świadomość uwzględnienia wpływu ujemnych temperatur na 
+napięcie układu otwartego łańcucha modułów i ewentualność 
+uszkodzenia falownika, gdy napięcie to przekroczy dopuszczalną 
+wartość. Ale niewielu projektantów sprawdza wpływ temperatur 
+dodatnich na napięcia w punkcie mocy maksymalnej, a przecież 
+warunki takie występującą w trakcie dni o najwyższych wartościach 
+promieniowania słonecznego. W efekcie łańcuchy o zbyt małej ilości 
+modułów mogą poprawnie pracować w miesiącach zimowych, ale 
+latem nie będą w stanie dostarczyć wartości napięć pozwalających 
+na efektywną pracę falownika.
+Instalacje, w których optymalnie dobrano długość łańcuchów 
+i jeszcze uwzględniono ten dobór przy rozmieszczaniu modułów 
+na podkonstrukcjach wsporczych, a w efekcie – przygotowano ele-
+gancki pod względem technicznym projekt, w którym mechaniczne 
+rozmieszczenie modułów i ich elektryczne połączenie są ze sobą 
+spójne, można niestety policzyć na palcach jednej ręki.
+Podobnie kluczowym tematem jest stosowanie odpowiednich 
+zabezpieczeń zarówno po stronie prądu stałego, jak i po stronie 
+prądu przemiennego. W tym pierwszym przypadku można spotkać 
+albo brak właściwego zabezpieczenia łańcuchów modułów albo 
+ich zabezpieczanie w konfiguracjach, gdy nie jest ono konieczne. 
+Używanie w obwodach prądów stałych zabezpieczeń, które mogą 
+być stosowane wyłącznie dla prądów przemiennych to błąd, który 
+powinien skutkować odbieraniem projektantowi jego uprawnień 
+do projektowania. Elementem zabezpieczeń jest ochrona odgro-
+mowa i przeciwprzepięciowa, która z powodzeniem może sta-
+nowić temat na kilka osobnych artykułów (zasygnalizowano ten 
+temat w Rozdziale 6). Zapewne ze względu na złożony charakter 
+tej materii projekt takiej ochrony nie jest wykonywany właściwie 
+lub nie jest wykonywany w ogóle. Ale nawet rezygnacja z takiej 
+ochrony, głównie ze względu na niemały, dodatkowy koszt, również 
+powinna zostać podjęta w wyniku świadomej i wspólnej decyzji 
+projektanta i inwestora, po poprawnym oszacowaniu wiążącego 
+się z tą decyzją ryzyka.
+Kolejnym błędem popełnianym przy projektowaniu konstruk-
+cji, doborze modułów, kabli, falowników, zabezpieczeń jest kie-
+rowanie się kryterium najniższej ceny. Elementy mające znamię 
+„taniości” przynoszą krótkotrwałą radość, a mszczą się w bardzo 
+krótkim czasie. Niestety, nie na projektancie, tylko na inwestorze. 
+A stosowanie najtańszych komponentów przekłada się również 
+bezpośrednio na bezpieczeństwo instalacji PV.
+4.2. Błędy na etapie realizacji
+Szczegółowa analiza przyczyn awarii dla zdarzeń pożarowych wska-
+zała wystąpienie łuku elektrycznego jako najważniejszą przyczynę 
+możliwego wybuchu pożaru. Tabela 6 zawiera listę tych przy-
+czyn, posortowanych według składników i prawdopodobieństwa 
+wystąpienia.
+
+=== PDF str. 16 ===
+Rynek Fotowoltaiczny 2019
+16
+Komponent
+Możliwa przyczyna wystąpienia łuku elektrycznego
+Wtyczka DC
+–	 niedopasowanie wtyczek DC (np. wtyczki MC4 różnych producen-
+tów – por. Rozdział 5.4.1)
+–	 wtyczka słabo zaciśnięta na miejscu instalacji
+–	 wtyczki nie włożone całkowicie
+–	 wtyczka mechanicznie uszkodzona lub skorodowana z powodu nie-
+właściwej instalacji, warunków atmosferycznych, ugryzień zwierząt 
+lub błędów w produkcji
+–	 wtyczka słabo zaciśnięta na etapie produkcji
+Zaciski śrubowe 
+w rozdzielnicy 
+lub falowniku 
+(po stronie prądu 
+stałego)
+–	 styk zostało niedokładnie dokręcony, kabel niewystarczająco głębo-
+ko włożony
+–	 zbyt duży moment dokręcający skutkujący zerwanie gwintu zacisku 
+śrubowego
+–	 niedowymiarowane, ułożone zbyt blisko siebie przewody
+–	 zacisk dokręcony na izolacji, a nie na żyle przewodu
+Połączenie lutowane 
+(w module)
+–	 złe podłączenie lutowia, starzenie z powodu naprężeń mechanicz-
+nych / termicznych
+Dioda by-pass
+–	 przepięcie z powodu burzy lub przepięcia łączeniowe w systemie
+–	 długotrwałe działanie przeciążenia termicznego
+Moduł
+–	 uszkodzenia ogniw (mikropęknięcia, ...)
+–	 zerwane złącza ogniw
+–	 pęknięcie ogniwa / pęknięcie szkła
+Bezpieczniki DC
+–	 nieprawidłowo dobrane bezpieczniki
+–	 niewłaściwa instalacja
+Kabel DC
+–	 długotrwałe działanie związana z pogodą (promieniowanie UV, 
+wilgotność, zmiana temperatury, ...)
+–	 uszkodzenie spowodowane niewłaściwą instalacją (załamanie, ...)
+–	 ugryzienia zwierząt
+Wyłącznik prądu 
+stałego
+–	 nieodpowiedni dla instalacji DC
+Skrzynka 
+przyłączeniowa
+–	 złe połączenie lutowane
+–	 starzenie się z powodu stresu mechanicznego / termicznego
+Ogólne błędy 
+instalacji
+–	 niewłaściwy stopień ochrony (wilgotność, kurz)
+–	 odwrotne włożenie kabla w dławik PG
+Tabela 6. Lista najczęstszych przyczyn wystąpienia awarii ułożona według prawdopodobieństwa 
+wystąpienia
+Analiza wykazała, że obok zewnętrznych przyczyn, większość 
+błędów prowadzących do pożaru wynika z awarii instalacji po 
+stronie DC systemu fotowoltaicznego. Zwłaszcza wtyczki prądu 
+stałego, które łączą moduły PV w łańcuchy, są częstym źródłem 
+błędów. Powyższa lista przedstawia główne przyczyny powstawania 
+wyładowań łukowych, które szczegółowo opisano w Rozdziale 5.
+Analiza incydentów pożarowych związanych z systemami foto-
+woltaicznymi wykazała, że obok zewnętrznych źródeł błędów więk-
+szość błędów prowadzących do pożaru wynika z awarii instalacji 
+po stronie DC systemu PV:
+1.	 Wnikanie wilgoci powodujące degradację połączeń w złączach, 
+skrzynkach połączeniowych i przełącznikach.
+2.	 Nieprawidłowo zaciśnięte styki złącz.
+3.	 Łączenie niekompatybilnych wtyczek i gniazd.
+4.	 Wtyczki i gniazda nie są w pełni złączone.
+5.	 Niezupełnie dokręcone śruby lub luźne zaciski śrubowe 
+w skrzynkach przyłączeniowych lub rozłącznikach izolacyjnych.
+6.	 Słabo lutowane połączenia w skrzynce przyłączeniowej modu-
+łów fotowoltaicznych lub inne wady skrzynki przyłączeniowej.
+7.	 Uszkodzenie podzespołu (np. przerwane busbary w module 
+fotowoltaicznym).
+5. Łuk elektryczny: podstawy 
+fizyczne i kwestie związane z DC
+5.1. Powstawanie łuku elektrycznego
+Łuk elektryczny może zdarzyć się tylko wtedy, gdy wystąpią 
+poważne usterki w istotnych dla bezpieczeństwa systemu PV ele-
+mentach i nie zostaną one zawczasu wykryte. Przyczyną może być 
+np. uszkodzenie podwójnej izolacji przewodu DC w kilku miejscach 
+lub zwiększona oporność na styku uszkodzonego złącza.
+Zasadniczo rozróżnia się łuki równoległe i szeregowe. Znacznie 
+bardziej prawdopodobne jest wystąpienie łuku szeregowego. 
+W typowym systemie PV istnieją niezliczone punkty połączenia 
+szeregowego, np. w module między poszczególnymi ogniwami, na 
+złączach przewodów (szczególnie w przypadku stosowania złącz 
+typu „MC4” pochodzących od różnych producentów), w skrzynce 
+przyłączeniowej modułu, na zewnątrz modułu w skrzynkach połą-
+czeniowych DC, na złączach lub wewnątrz falownika. Jeśli jedno 
+z tych połączeń jest słabo wykonane lub pogarsza się w trakcie czasu 
+pracy w wyniku zwiększonej rezystancji styku. Miejsce to nagrzewa 
+się gdy płynie prąd – pojawia się „gorący punkt”.
+Ze względu na pojawienie się ciepła, dalszy materiał kontaktowy 
+może dyfundować lub nawet stopić się, aż w pewnym momencie połą-
+czenie zostanie całkowicie przerwane. W tym przypadku łuk może 
+tworzyć się nad – początkowo bardzo małą – szczeliną powietrzną. 
+Łuki szeregowe mają zwykle mniejszą energię niż łuki równoległe, 
+ponieważ duża część napięcia nadal odkłada się na falowniku i czę-
+sto łuk występuje tylko w jednym z kilku równoległych łańcuchów. 
+W rezultacie są one znacznie trudniejsze do zidentyfikowania, ponie-
+waż instalacja wydaje się kontynuować normalną pracę. Jednak naj-
+lepiej można zapobiec ich powstawaniu lub co najmniej zminimali-
+zować je, jeśli zastosuje się do wytycznych niniejszego dokumentu.
+W przypadku tak zwanych łuków równoległych już zapewnienie 
+monitorowania stanu izolacji DC przez falownik zapewnia znaczną 
+ochronę, ponieważ poprzez wyeliminowanie pierwszych sympto-
+mów błędów izolacji, w większości przypadków można zapobiec 
+powstaniu łuku równoległego. Oznacza to jednak, że operator sys-
+temu fotowoltaicznego musi być szczególnie uczulony, aby analizo-
+wać komunikaty o błędach pochodzące z falownika i poinformować 
+o tym fakcie specjalistyczną firmę.
+Rysunek 2. przedstawia schematycznie różne lokalizacje ryzyka 
+wystąpienia łuków: szeregowych i równoległych. 
+Rysunek 2. Potencjalne miejsca występowanie łuków szeregowych i równoległych w instalacjach PV
+
+=== PDF str. 17 ===
+Rynek Fotowoltaiczny 2019
+17
+5.2. Środki zapobiegania powstawania 
+łuków elektrycznych
+Środki zapobiegające powstawaniu łuków elektrycznych i rozprze-
+strzeniania się uszkodzeń są łatwe do wdrożenia w fazie projektowa-
+nia oraz w fazie instalacji. Poniższe zalecenia oparte są na możliwych 
+do zaobserwowania głównych przyczynach powstawania łuków 
+elektrycznych w systemach fotowoltaicznych. Biorąc pod uwagę 
+te zalecenia, ryzyko wyładowania łukowego jest w dużej mierze 
+wykluczone, a jego skutki są ograniczone.
+Miejsca potencjalnego ryzyka wystąpienia łuku w systemach 
+PV to:
+––
+moduł PV,
+––
+połączenia i okablowanie,
+––
+bezpieczniki,
+––
+przełączniki i punkty rozłączające,
+––
+skrzynka przyłączeniowa generatora PV,
+––
+falowniki,
+––
+instalacja AC.
+Ze względu na największe ryzyko wystąpienia łuku i jednocze-
+śnie możliwość łatwego zapobiegania jego powstaniu, najwięcej 
+uwagi zostanie poświęcone połączeniom (złączom MC4) oraz 
+okablowaniu.
+5.3. Zasady prowadzenia przewodów
+5.3.1. Wykorzystanie kanałów kablowych
+Kanały kablowe oferują niezawodną ochronę przed obciążeniami 
+mechanicznymi kabli i przed ich uszkodzeniem mechanicznym. 
+Należy pamiętać, że na końcach kanałów kablowych lub siatek 
+kablowych, a także na odgięciach i rozgałęzieniach nie może być 
+ostrych krawędzi. Mogą one prowadzić do uszkodzenia izolacji 
+kabli. Metalowe kanały kablowe mogą również łagodzić skutki wyła-
+dowań łukowych, ponieważ nie są one wykonywane z materiału 
+łatwopalnego.
+Rys. 3. Koryto z zadziorami. 
+Uwaga – ryzyko uszkodzenia 
+izolacji!
+Rys. 4. Gratowanie kanałów 
+kablowych, tak aby izolacja 
+przewodów pozostała 
+nienaruszona przez dłuższy 
+czas
+Rys. 5. Należy stosować 
+ochronę krawędzi lub 
+dodatkowo zabezpieczoną 
+instalację w plastikowych 
+rurach w obszarze krawędzi 
+i ugięć przewodów.
+Rys. 6. Kratka kablowa 
+z wolnymi końcami prętów 
+i ostrymi krawędziami. Uwaga 
+– Ryzyko uszkodzenia izolacji!
+Rys. 7. Usuń końcówki prętów 
+lub użyj ochraniaczy krawędzi.
+Rys. 8. Zalecana jest 
+prowadnica kabla 
+zintegrowana w konstrukcji 
+wsporczej.
+Podczas układania przewodów należy zapewnić, aby nie 
+były one na stałe zanurzone w wodzie. W przeciwnym 
+razie izolacja może zostać uszkodzona. Warunek ten 
+musi być zapewniony podczas instalowania kabli.
+Elastyczne kable muszą być prowadzone ze wsparciem mechanicz-
+nym i zabezpieczone przed wpływami środowiskowymi po zainsta-
+lowaniu na stałe (PN EN 50565-1). Wymogi te dotyczą również kabli 
+fotowoltaicznych zgodnie z normą PN EN 50618.
+5.3.2. Promienie gięcia przewodów
+Promień gięcia określony przez producenta musi być przestrze-
+gany. W przeciwnym razie izolacja może być nadmiernie naprę-
+żona, co prowadzi do powstawania pęknięć, szczególnie w niskich 
+temperaturach.
+W przypadku elastycznych przewodów do instalacji fotowolta-
+icznych z reguły promień gięcia nie powinien być mniejszy niż 4 x D.
+Rys. 9. Należy unikać pękania izolacji.
+Rys. 10. Promień gięcia a średnica kabla
+Średnica zewnętrzna 
+przewodu
+Dopuszczalne promienie gięcia dla … 
+D [mm]
+Sztywne przewody
+Elastyczne przewody
+< 8
+4 x D
+3 x D
+8 < D < 12
+5 x D
+3 x D
+D > 12
+6 x D
+4 x D
+Tabela 7. Przykładowe dopuszczalne promienie zginania, zawsze należy potwierdzić z danymi 
+pochodzącymi od producenta przewodu
+Podczas montażu kabli do skrzynek przyłączowych falowników, 
+skrzynek przyłączeniowych modułów, wtyczek i rozdzielaczy, należy 
+również zapewnić odpowiednie promienie gięcia. W szczególności 
+w przypadku modułów montowanych poprzecznie, należy z góry 
+rozważyć wystarczającą długość kabli. Zawsze należy przestrzegać 
+dopuszczalnych promieni zginania.
+Rys. 11. Skrzynka 
+połączeniowa modułu
+Rys. 12. W przypadku modułów montowanych poprzecznie 
+należy zwrócić uwagę na odpowiednie długości kabli, 
+aby zachować zgodność z promieniem gięcia i uniknąć 
+dodatkowych obciążeń rozciągających na modułowym 
+gnieździe połączeniowym. 
+
+=== PDF str. 18 ===
+Rynek Fotowoltaiczny 2019
+18
+Przy zmianie kierunku wiązek kabli należy wziąć pod uwagę różne 
+długości kabli.
+Rys. 13. Zmiana kierunku prowadzenia przewodów
+Jeśli promień gięcia nie może być dotrzymany przez zbyt krótkie 
+przewody łączące, jest to uważane za poważną wadę z odpowied-
+nimi kwestiami odpowiedzialności.
+5.3.3. Bezpieczny montaż przewodów
+Mocowanie kabli służy przede wszystkim do odbierania obciążeń. 
+Chroni to kable i zintegrowane zabezpieczenia (np. złącza) przed 
+odkształceniami i przed przeciążeniem mechanicznym. Ponadto 
+nasadka powinna zapobiegać otarciom linii lub ścieraniu izola-
+cji. Ponadto nie wolno uszkadzać izolacji przewodów za pomocą 
+urządzeń mocujących. Wymagania te mogą zwykle spełniać tylko 
+odpowiednie urządzenia / wsporniki. Opaski kablowe nadają się 
+zatem tylko do mocowania kabli, a nie do przenoszenia obciążenia. 
+Można stosować wyłącznie opaski kablowe zatwierdzone do użytku 
+na zewnątrz (w szczególności odporność na promieniowanie UV).
+Odstępy mocowania muszą być przestrzegane zgodnie z instruk-
+cjami producenta lub ustaleniami z producentem przewodów. Jeśli 
+dane te nie są dostępne, przyjmuje się, że odległość montażowa 
+przewodów PV w poziomie powinna być nie mniejsza niż 250 mm, 
+a w pionie: nie mniejsza niż 400 mm.
+Jeśli kable są ułożone swobodnie, zaleca się następujące odle-
+głości do montażu:
+Średnica zewnętrzna 
+przewodu
+Odległość montażowa w mm
+D [mm]
+poziomo
+pionowo
+< 9
+250
+400
+9 < D < 15
+300
+400
+15 < D < 20
+350
+450
+20 < D < 40
+400
+500
+Tabela 8. Maksymalne odległości montażu przewodów, chyba że producenci przewodów określą inne 
+/ większe odległości
+Podstawowe wymaganie: przewody muszą być luźno ułożone, nie 
+mogą być układane pod obciążeniem mechanicznym, muszą być 
+odciążone i w wystarczającym stopniu uwolnione od naprężeń. 
+W trakcie funkcjonowania instalacji nie mogą być nigdy poddawane 
+mechanicznemu naprężeniu. Należy unikać kontaktu z ostrymi kra-
+wędziami lub porysowaniem na szorstkim podłożu.
+Kable należy mocować w odstępach zgodnych z instrukcjami producenta
+5.4. Zasady łączenia przewodów
+5.4.1. Kompatybilność złączy MC4
+W pierwszych latach budowania instalacji PV na rynku był dostępny 
+szereg różnych typów złącz DC. Były to wyraźnie różne konstruk-
+cje i nie można było ze sobą łączyć. Na początku lat 2000-tych 
+złącze typu MC41 stawało się coraz bardziej popularne. Inni produ-
+cenci zaczęli dostosowywać swoje złącza do typu MC4. Niemniej 
+jednak nie są dostępne specyfikacje techniczne dla tych konek-
+torów. Międzynarodowa norma IEC 62852 (w Polsce: PN-EN 
+62852:2015), często przywoływana w tym kontekście, jest normą 
+bezpieczeństwa produktu i nie ma na celu testowania wzajemnego 
+dopasowania różnych złącz. 
+Doświadczenia innych krajów wskazują, że problemy ze złą-
+czami DC są główną przyczyną awarii, takich jak zagrożenia poża-
+rowe w systemach PV. Raporty z różnych laboratoriów testowych 
+wykazały, że szczególnie niebezpieczne mogą być połączenia 
+wykonane złączami DC różnych producentów. Nawet jeśli speł-
+niają one podstawowe wymagania jakościowe w krótkim okresie 
+czasu, w dłuższej perspektywie mogą obniżać jakość połączenia, 
+jeśli pochodzą od różnych producentów. 
+Łączenie modułów między sobą jest względnie bezpieczne, ponie-
+waż łączy się je konektorami pochodzącymi od tego samego pro-
+ducenta. Problem pojawia się jednak na zakończeniach łańcucha 
+modułów. Należy zastosować dodatkowe złącza dostarczone przez 
+producenta modułów lub zastąpić złącza na końcach łańcuchów 
+własnymi złączami (uwaga, może to oznaczać utratę gwarancji na 
+moduł!).
+Niezależnie od tych okoliczności, złącza DC są często deklaro-
+wane jako „kompatybilne z MC4”. To twierdzenie o zgodności jest 
+potencjalnie mylące, ponieważ sugeruje bezpieczną interoperacyj-
+ność złączy DC pochodzących od różnych producentów. 
+Przyczyny niekompatybilności złączy DC różnych 
+producentów:
+––
+producenci używają różnych stopów metali. Powoduje to 
+wysokie ryzyko zwiększonej rezystancji między złączami DC, 
+np. z powodu korozji kontaktowej na styku dwóch różnych 
+materiałów;
+––
+producenci stosują różne konstrukcje styków. Powoduje to 
+wysokie ryzyko zwiększonej odporności;
+––
+nie są zdefiniowane tolerancje mechaniczne. Może to prowa-
+dzić zarówno do stresu materiałowego, jak i do luźnych (nie-
+pewnych) połączeń;
+––
+materiał użyty do polimerowych (plastikowych) części ory-
+ginalnego złącza DC nie został ujawniony. To stwarza ryzyko 
+niekompatybilności chemicznej oraz różnej rozszerzalności 
+cieplnej, co przekłada się na przyspieszone starzenie elemen-
+tów oraz ryzyko rozszczelnienia złącza, co może prowadzić do 
+przedostania się pyłu i wody. 
+W Europie normy IEC 62548 i IEC 60364-7-712:2017 nie 
+zezwalają na podłączanie złączy DC różnych producentów. 
+Norma PN-EN 62852:2015-05 – wersja angielska (IEC 62852) 
+nie jest dedykowana do zastosowania w przypadku użycia złącz DC 
+wytwarzanych przez różnych producentów i nie gwarantuje długo-
+terminowej niezawodności elementów pochodzących z różnych 
+systemów zarządzania jakością. Mimo wyraźnych zakazów w tych 
+międzynarodowych standardach świadomość pojawiającego się 
+zagrożenia, gdy lekceważy się te klauzule, nie jest dziś wystarczająca.
+1  Produkowany przez Multi-Contact AG (od 1st stycznia 2017 o nazwie  
+Stäubli Electrical Connectors AG)
+
+=== PDF str. 19 ===
+Rynek Fotowoltaiczny 2019
+19
+5.4.2. Odciążenie
+Odciążenie chroni połączenia liniowe przed przeciążeniem mecha-
+nicznym. W poszczególnych elementach (wtyczka, skrzynka przy-
+łączeniowa modułu, itp.) są one często zintegrowane i dlatego mogą 
+one absorbować jedynie ograniczone siły. Na przykład w przy-
+padku wtyków PV o średnicach przewodów 4-9 mm zintegrowany 
+w standardzie reduktor naprężeń może wytrzymać 80N (IEC / 
+EN 62852). Ewentualnie występujące obciążenia muszą zostać 
+pochłonięte przez sposób układania.
+Rys. 14. Złącza DC i skrzynki połączeniowe modułów z dławikami PG – zintegrowane przepusty 
+absorbują siły tylko w ograniczonym zakresie.
+5.4.3. Odpowiednie zaprojektowanie i ustawienie złączy
+Układając złącza, upewnij się, że są one prawidłowo zainstalowane 
+(patrz także Rozdział 5.6 – „Zalecenia dotyczące jakości odpowied-
+nich materiałów”). Wtyczki muszą być zaślepione zgodnie ze spe-
+cyfikacją producenta i nie mogą być montowane pod naprężeniem 
+mechanicznym (przestrzegać odciążenia, patrz Rys. 14).
+Rys. 15. Złącze DC
+Wtyki PV są zwykle chronione przed wnikaniem wody. Należy 
+unikać trwałego przebywania wtyczek w wodzie. Ciągłe narażenie 
+na wodę może negatywnie wpływać na poprawność działanie złączy.
+Należy unikać umiejscawiania w zasięgu działania bezpośred-
+niego światła słonecznego.
+O ile to możliwe, należy podczas projektowania instalacji 
+wziąć pod uwagę dostępność złączy dla późniejszych przeglądów 
+i serwisu: w trakcie funkcjonowania instalacji należy zapobiegać 
+ewentualnemu zanieczyszczeniu i powstawaniu mchu na złączach 
+lub należy je regularnie usuwać. Wtyczki muszą być zainstalowane 
+zgodnie ze specyfikacją producenta.
+5.4.4. Pozostałe zalecenia dotyczące złącz DC
+Należy prowadzić działania mające na celu uniknięcie łączenia 
+wtyków DC różnych producentów. W niniejszym dokumencie 
+zaproponowano zestaw środków zapobiegawczych:
+1.	 Należy zwiększyć świadomość, że łączenie wtyków DC od róż-
+nych producentów zwiększa ryzyko zagrożenia pożarowego 
+i dlatego jest niebezpieczne.
+2.	 Termin „kompatybilny z MC4” nie powinien być używany jako 
+mylący i sprzyjający niebezpiecznemu łączeniu wtyków DC 
+różnych producentów.
+3.	 Producenci modułów powinni ułatwić dostęp do złączy DC 
+tego samego producenta, którego używają do swojego produktu. 
+Mogą to zrobić na dwa sposoby:
+a.	 dostarczyć dodatkowe komplety złącz tego samego modelu 
+wraz z modułami fotowoltaicznymi,
+b.	 wyspecyfikować producenta i model wtyków DC stosowa-
+nych w module.
+4.	 Jeśli producenci modułów nie są w stanie zapewnić łatwej 
+dostępności złącz, których używają w  swoich modułach, 
+powinni pozwolić instalatorom na odcinanie złączy na modu-
+łach na końcach łańcuchów i podłączanie innych złączy do kabli 
+bez unieważniania gwarancji na swoje produkty.
+Szczególną uwagę na zagadnienie kompatybilności złącz należy 
+zwrócić przy podłączaniu bezpośrednio do modułów zewnętrz-
+nych urządzeń MPLE (ang. Module Level Power Electronics), takich jak 
+mikrofalowniki lub optymalizatory mocy. Niezastosowanie złącz 
+tego samego typu i producenta może potencjalnie prowadzić do 
+zwiększenia ryzyka powstania łuku elektrycznego, a co za tym idzie 
+– pożaru.
+5.5. Inne zalecenia dotyczące 
+bezpieczeństwa
+5.5.1. Ograniczenie możliwości rozprzestrzeniania się ognia
+Łuki elektryczne mogą zapalać łatwopalne membrany dachowe 
+i leżącą pod nimi izolację w przypadku bezpośredniego kontaktu. 
+Na etapie planowania należy zatem sprawdzić, czy można zasto-
+sować niepalne membrany dachowe lub izolację. Jeśli nie jest to 
+możliwe, wpływ ewentualnego wystąpienia łuku należy zminima-
+lizować w sposób trwały i wystarczający – należy zapewnić odle-
+głości między przewodem i poszyciem dachu (kanały kablowe lub 
+wystarczająco gruba baza mineralna, taka jak żwir).
+Wybierając materiały instalacyjne, należy wziąć pod uwagę, że 
+tworzywa sztuczne mają wyższy potencjał zapłonu i rozprzestrze-
+niania się ognia niż materiały metalowe.
+5.5.2. Ochrona przewodów na dachu
+Wejścia kablowe do budynku muszą być wykonane profesjonal-
+nie. Nie prowadź kabli po ostrych krawędziach i nie przytwierdzaj 
+do dachu. Odnośnie wpływu grawitacji na przewody decydujące 
+są specyfikacje producenta kabla. Należy przestrzegać zalecane 
+maksymalne odległości poziomych i pionowych mocowań kabli. 
+Opaski kablowe są niedozwolone w przypadku działania grawitacji 
+na przewody.
+Kontynuowaniu możliwego równoległego łuku przez wpusty 
+dachowe można zapobiec poprzez osobne zamontowanie prze-
+wodów DC-plus i DC-minus bezpośrednio przed wprowadzeniem 
+do budynku. Generalnie zaleca się stosowanie bariery ogniowej 
+do wprowadzania kabli do budynku. W ten sposób zapobiega się 
+przekazywaniu ognia przez tak zwany efekt bezpiecznika.
+
+=== PDF str. 20 ===
+Rynek Fotowoltaiczny 2019
+20
+5.5.3. Bezpiecznie szafki rozdzielcze i rozdzielnice
+Skrzynki przyłączowe modułów PV muszą spełniać wymagania 
+normy PN-EN 61439-2 (i jej załączników).
+Zapewnij prawidłowe podłączenie kabli oraz rozdzielenie strony 
+dodatniej i ujemnej w skrzynkach przyłączeniowych generatora 
+i innych skrzynkach zaciskowych. Zwiększona rezystancja styku 
+z powodu niewłaściwego połączenia może doprowadzić do prze-
+grzania punktu końcowego, a to z kolei: do ryzyka pożaru z powodu 
+łuków szeregowych. 
+Nawet przy rozłącznikach należy przestrzegać specyfikacji pro-
+ducenta. Niektórzy producenci zalecają używanie rozłączników DC 
+minimum raz każdego roku. W wyniku tego działania powstające 
+osady tlenkowe są ścierane, a rezystancja kontaktu jest znacznie 
+zmniejszona.
+5.6. Zalecenia dotyczące jakości 
+odpowiednich materiałów
+5.6.1. Przewody
+Najwłaściwsze jest zastosowanie jednożyłowych kabli PV z oznacze-
+niem PV1-F, a następnie H1Z2Z2-K (PN-EN 50618). Posiadają izo-
+lację, która pozwala na ich stosowanie w urządzeniach i systemach 
+klasy II. Ponadto mają wysoką odporność na wpływy środowiska, 
+takie jak promieniowanie UV i wysoką wytrzymałość mechaniczną. 
+Jeśli inne przewody są używane jako linie główne lub stałe, muszą 
+być uziemione i zabezpieczone przed zwarciem. Należy je chronić 
+przed warunkami atmosferycznymi i promieniowaniem UV, np. 
+w zamkniętych kanałach kablowych.
+5.6.2. Złącza MC4
+Stosuj wyłącznie złącza zgodne z PN-EN 62852. Odpowiedniki 
+(męskie / żeńskie) muszą być tego samego typu i producenta.
+5.6.3. Kanały i korytka kablowe (systemy prowadzenia 
+przewodów)
+Kanały i korytka kablowe muszą być zatwierdzone przez produ-
+centa do użytku na zewnątrz. W przypadku kanałów kablowych 
+producent powinien zapewnić odpowiednią ochronę krawędzi. 
+Preferowane są metalowe kanały kablowe i rury instalacyjne, pod 
+warunkiem, że są one odporne na korozję. Gdy stosowane są kanały 
+z tworzywa sztucznego, muszą być odporne na warunki atmosfe-
+ryczne, a zwłaszcza na promieniowanie UV i ozon.
+5.6.4. Tuleje
+W celu wprowadzenia kabla do kanały kablowego należy zastosować 
+tuleje (np. zgodnie z DIN 18195 część 9).
+5.6.5. Mocowania
+Złącza kablowe nie są odpowiednie do mocowania kabli. Mogą być 
+używane tylko do łączenia kabli. Do zamocowania należy zastoso-
+wać odpowiednie zaciski kablowe, klipsy itp.
+5.6.6. Uwaga ogólna
+W przypadku obiektów rolniczych może być również konieczna 
+odporność na działanie amoniaku.
+6. Ochrona odgromowa 
+i przeciwprzepięciowa 
+instalacji fotowoltaicznej
+Stanisław Osiński, PHU „Elstan” Poznań
+Krzysztof Wincencik, Krakowski Oddział SEP,  
+Sekcja Instalacji i Urządzeń Elektrycznych
+Bezawaryjne funkcjonowanie systemu ogniw i  paneli na 
+budynku przez okres wielu lat wymaga zapewnienia im ochrony 
+przed oddziaływaniem pioruna. Dotyczy to zarówno ochrony 
+przed uszkodzeniem mechanicznym lub termicznym spowo-
+dowanym bezpośrednim uderzeniem pioruna jak też ochrony 
+systemów sterowania przez oddziaływaniem LEMP (Lightning 
+ElectroMagnetic Pulse).
+Zagrożeniem dla systemów PV mogą być nie tylko bezpośred-
+nie uderzenia piorunów w instalacje elektrowni fotowoltaicznych. 
+Również uderzenia w sąsiedztwie obiektu lub przepływ prądu 
+wyładowczego przez urządzenie piorunochronne może stanowić 
+zagrożenie dla elementów elektronicznych i instalacji przyłączonych 
+do paneli. Błędnie zaprojektowana wykonana ochrona odgromowa 
+i przepięciowa może spowodować wzrost zagrożenia wystąpienia 
+szkody w urządzeniu. W takim przypadku należy liczyć się z dodat-
+kowymi kosztami wynikającymi nie tylko wymianą urządzeń, ale 
+również kosztami bankowymi (przy braku produkcji energii), kosz-
+tami ekspertyz (w spornych sprawach), kosztami utylizacji paneli.
+6.1. Ochrona odgromowa
+Instalując system ochrony odgromowej zaprojektowany i zainstalo-
+wany zgodnie z wieloarkuszową normą PN-EN 62305, trzeba mieć 
+świadomość, że nie może on zagwarantować absolutnej ochrony 
+budowli, osób lub rozmieszczonych na dachach obiektów urzą-
+dzeń, takich jak np. panele fotowoltaiczne, jednakże jego zastoso-
+wanie obniża znacznie ryzyko szkód powodowanych przez pioruny 
+w przypadku wyładowań bezpośrednich lub pobliskich. Ochrona 
+obiektu wymaga kompleksowego podejścia (zgodnie ze strefową 
+koncepcją ochrony), czyli zapewnienia ochrony przed skutkami 
+wyładowania bezpośredniego (odprowadzenie prądu pioruna 
+do ziemi), jak też ochrony przed przepięciami atmosferycznymi 
+i łączeniowymi.
+Rys. 16. Przykład błędnie wykonanej ochrony odgromowej Instalacji PV – niezachowanie odstępów 
+separujących elementów LPS od paneli oraz rozmieszczenie zwodów pionowych w sposób 
+zacieniający panele (fot. S. Osiński)
+
+=== PDF str. 21 ===
+Rynek Fotowoltaiczny 2019
+21
+Kompleksowa ochrona przykładowej instalacji pokazanej na 
+rys. 17 powinna również zwracać uwagę na sposób prowadzenia 
+przewodów i zachowanie bezpiecznych odstępów separujących 
+nie tylko w powietrzu, ale również w materiałach stałych stano-
+wiących pokrycie i warstwę izolacji dachu. Brak spełnienia tego 
+warunku może zaowocować wniknięciem części prądu pioruna 
+do wnętrza obiektu i spowodować uszkodzenia innych instalacji 
+lub nawet pożarem.
+Rys. 17. Kompleksowe rozwiązanie ochrony odgromowej i przepięciowej dla instalacji PV na budynku 
+z urządzeniem piorunochronnym (odstęp bezpieczny s jest zachowany): 1 – SPD typu 1 w instalacji 
+elektrycznej, 2 – SPD typu 2 w instalacji elektrycznej, 3 – SPD typu 2 przeznaczony do systemów PV
+Projektując oraz instalując instalację na dachu budynku, warto 
+poznać zapisy niemieckiego załącznika do normy DIN-EN 62305-3 
+– Bbl. 5 poświęconego ochronie instalacji PV. Zapisano tam m.in., że 
+niektóre obiekty budowlane (na podstawie urzędowych wytycznych) 
+wymagają często ochrony odgromowej jako środka zapobiegawczego 
+dla ochrony przeciwpożarowej i/lub ochrony osób. Ale ochrona 
+odgromowa jest również potrzebna, aby chronić wrażliwą infrastruk-
+turę techniczną wewnątrz obiektu budowlanego. Ta właśnie funkcja 
+ochronna urządzenia piorunochronnego nie może zostać zakłócona 
+na skutek montażu na dachu obiektu systemu paneli fotowoltaicznych.
+Norma zaleca, że kiedy jest to tylko możliwe, powinno być 
+zastosowane separowane urządzenie piorunochronne – czyli 
+wymagane zachowanie bezpiecznych odstępów separujących pomię-
+dzy elementami instalacji PV a elementami urządzenia piorunochron-
+nego. Tym samym elementy urządzenia piorunochronnego nie 
+powinny być bezpośrednio łączone z systemem paneli PV. I kolejna 
+ważna uwaga zawarta w tym załączniku do normy: „(…) instalacja 
+systemu PV na istniejącym obiekcie budowlanym może wymagać 
+dostosowania (modernizacji) istniejącej instalacji elektrycznej”. Może 
+to być właśnie związane ze zmianą prowadzenia instalacji pod dachem 
+z uwagi na konieczność wykonania zewnętrznego urządzenia pioru-
+nochronnego i uniknięcia przeskoków iskrowych.
+Rys. 18. Ochrona odgromowa paneli fotowoltaicznych na dachu budynku – wymagania w zakresie 
+odstępów separujących
+Przy projektowaniu ochrony dla zamontowanych na dachu 
+paneli należy zapewnić odstęp separujący s (obliczony zgodnie 
+z pkt. 6.3 normy PN-EN 62305-3). Przykład odstępów separujących 
+wymagających wyliczenia dla dachu płaskiego oraz spadzistego 
+pokazano na rys. 18.
+Rys. 19. Ochrona paneli PV na dachu płaskim z wykorzystaniem zwodu pionowego zamocowanego 
+w podstawie betonowej
+Ochrona paneli fotowoltaicznych na dachach płaskich może 
+być zrealizowana za pomocą sytemu zwodów pionowych mocowa-
+nych w betonowej podstawie. Zastosowanie mogą znaleźć maszty 
+o wysokości od 1000 mm do 4000 mm wykonane ze stali ocynko-
+wanej, stopów aluminium lub stali nierdzewnej. Maszty mocowane 
+są w betonowych podstawach (np. o wadze 17,5 kg) za pomocą klina 
+lub posiadają gwintowane zakończenie i wkręcane są w podstawę. 
+Zgodnie z zapisami PN-EN 62305-3 rozmieszczenie układu zwodów 
+jest uznawane za odpowiednie, jeżeli obiekt poddawany ochronie jest 
+
+=== PDF str. 22 ===
+Rynek Fotowoltaiczny 2019
+22
+całkowicie usytuowany w przestrzeni chronionej utworzonej przez 
+układ zwodów. Do określenia chronionej przestrzeni należy brać pod 
+uwagę jedynie rzeczywiste fizyczne wymiary układu metalowych 
+zwodów. Przykład rozmieszczenia zwodów pionowych chroniących 
+panele PV na dachu płaskim pokazano na rysunku 19.
+Dobierając maszt, należy również zwrócić uwagę na obciąże-
+nie masztów parciem wiatru. W katalogach firm produkujących 
+elementy do budowy urządzeń piorunochronnych można znaleźć 
+tabele doboru odpowiedniej ilości betonowych podstaw w zależ-
+ności od przewidywanej strefy wiatrowej i wysokości masztu. 
+Rys. 20. Minimalna odległość pomiędzy zwodem pionowym a panelem PV nie powodująca 
+postawiania cienia na powierzchni panelu
+Aby uniknąć zacienienia paneli przez zwody pionowe należy 
+zachować odpowiednią odległość zwodu od powierzchni panelu. 
+W niemieckim załącznika do normy DIN-EN 62305-3 – Bbl. 5 
+przedstawiono wzór pozwalający określić bezpieczną odległość 
+pomiędzy panelem a prętem zwodu pionowego. Wyniki obliczeń 
+dla prętów o średnicy 10 i 16 mm pokazano na rys. 20.
+W obiektach, dla których wymagany odstęp separujący s nie 
+może być zachowany lub panel zainstalowany jest na dachu z meta-
+lowym pokryciem, należy przewidzieć środki ochrony przed trafie-
+niem bezpośrednim (rys. 22). Również i w tym przypadku – zgod-
+nie zapisem PN-EN 62305-3 – urządzanie PV powinno również 
+znaleźć się w przestrzeni ochronnej zwodów. Należy jednak wyko-
+nać dodatkowe połączenia wyrównawcze pomiędzy obudową paneli 
+a układem zwodów. W przypadku tego typu układów – z uwagi na 
+możliwość oddziaływania na instalację wewnątrz budynku części 
+prądu piorunowego – przewody biegnące od modułu PV do wnę-
+trza winny być zabezpieczone ogranicznikiem przepięć typu 1.
+Rys. 21a. Sprawdzenie strefy osłonowej zwód pionowych mocowanych na kalenicy oraz przykład 
+ochrony paneli wraz z przykładami uchwytów do mocowania zwodów na kalenicy
+Rys. 21b. Sprawdzenie strefy osłonowej zwód pionowych mocowanych na kalenicy oraz przykład 
+ochrony paneli wraz z przykładami uchwytów do mocowania zwodów na kalenicy
+Rys. 22. Wspornik dachowy do montażu masztów odgromowych na dachach o pochyleniu do 53 stopni
+6.2. Ochrona przed przepięciami
+Najczęściej w warunkach, kiedy instalacja PV zabudowana jest na 
+dachu obiektu i tym samym jest wyeksponowana, zastosowanie 
+urządzeń ograniczających przepięcia (SPD – ang. Surge Protective 
+Device) wydaje się jedynym sensownym rozwiązaniem technicznym 
+mającym na celu ochronę instalacji przed niebezpiecznymi przepię-
+ciami. Odpowiedź na pytanie o wybór miejsca montażu i typu SPD 
+nie jest łatwa bez dokładnej znajomości realnego stanu instalacji 
+w obiekcie. Oprócz wielkości generatora PV (liczba stringów) oraz 
+położenia falownika duże znaczenie mają też odpowiedź na pytania:
+––
+czy budynek wyposażony jest w urządzenie piorunochronne lub
+––
+czy w związku z montażem instalacji PV wykonane zostanie 
+urządzenie piorunochronne.
+Związane jest to z problem doboru odpowiedniego typu ogra-
+niczników przepięć (T1 lub T2) w instalacji AC i DC.
+Przykładowe rozwiązania ochrony przepięciowej dla budynku 
+z urządzeniem piorunochronnym, w którym udało się zachować 
+bezpieczny odstęp separujący pomiędzy elementami LPS i insta-
+lacją fotowoltaiczną pokazano na rysunku 17.
+Do ograniczania przepięć dochodzących do przekształtnika 
+należy zastosować SPD typu 2 przeznaczony do instalacji sta-
+łoprądowej DC (oznaczony nr 3). Analogicznie jak w przypadku 
+rozwiązania dla obiektu bez LPS, SPD typu 2 w instalacji AC 
+(oznaczony numerem 2) jest zalecany, jeżeli odległość pomię-
+dzy rozdzielnicą główną obiektu z układem SPD typu 1 (ozna-
+czony nr 1) a przekształtnikiem jest większa niż 10 m. Wymóg 
+
+=== PDF str. 23 ===
+Rynek Fotowoltaiczny 2019
+23
+zainstalowania w układzie zasilania SPD typu 1 wynika z faktu 
+wyposażenia obiektu w urządzenie piorunochronne (piorunowe 
+połączenie wyrównawcze).
+Rys. 23. Schemat wewnętrzny oraz wygład ogranicznika przepięć typu 2 do instalacji fotowoltaicznej 
+wyposażonego w wewnętrzny bezpiecznik – technologia SCI (Short Circuit Interruption) 
+Ogranicznik przepięć typu 1 stosowany w rozdzielni głównej 
+obiektu powinien zapewniać niski poziom ochrony oraz być przy-
+stosowany do odprowadzenia części prądu pioruna przy bezpo-
+średnim lub pobliskim wyładowaniu. Jednocześnie powinien być 
+skoordynowany energetycznie z elektronicznymi urządzeniami 
+zainstalowanymi w rozdzielnicy.
+Ograniczniki przepięć stosowane w instalacji DC winny być tak 
+dobierane, aby podczas zwarcia odłączały się od instalacji w sposób 
+bezpieczny, bez stwarzania zagrożenia pożarowego w skutek prze-
+ciążenia lub powstania łuku elektrycznego. Producent ogranicznika 
+przepięć winien wykazać, że wewnętrzny mechanizm łączeniowy 
+ogranicznika wykazuje niezbędne możliwości łączeniowe wyma-
+gane w miejscu jego zainstalowania. 
+Rys. 24. Montaż ograniczników przepięć w instalacji elektrycznej DC w przypadku, gdy odległość 
+pomiędzy miejscem podłączenia paneli PV a przekształtnikiem jest większa od 10 m
+Przykładem takiego rozwiązania może być pokazany ogranicz-
+nik, którego schemat wewnętrzny pokazano na rys. 23. Ogranicznik 
+zaprojektowany został specjalnie do ochrony wejść DC falowni-
+ków łańcuchowych (stringowych) oraz modułów PV (nie wymaga 
+dodatkowego dobezpieczenia). Zastosowana w nim technologia 
+SCI (Short Circuit Interruption) posiada oczywiste zalety: łączy 
+skuteczną ochronę przepięciową, przeciwpożarową oraz zdrowia 
+i życia ludzkiego w jednym urządzeniu. Zastosowanie w układzie 
+zwierającym specjalnego bezpiecznika, przeznaczonego do insta-
+lacji PV, zapewnia bezpieczne przerwanie obwodu w przypadku 
+przeciążenia i odizolowanie ogranicznika od instalacji.
+W przypadku zwykłych modułów PV można zakładać, że odpor-
+ność udarowa UW(PV_Mod) jest większa niż odporność udarowa prze-
+kształtnika UW(PV_INW). W takim przypadku zaleca się instalować 
+ogranicznik przepięć typu 2 do linii DC w pobliżu przekształtnika. 
+Lecz gdy długość przewodów łączących panele PV z przekształt-
+nikiem przekracza 10 m, należy zainstalować dwa ograniczniki 
+przepięć typu 2 (dedykowane do systemów PV).
+W przypadku małego obiektu – np. domku jednorodzinnego 
+– gdy przekształtnik zlokalizowany jest wewnątrz budynku, odle-
+głość między rozdzielnicą główną a przekształtnikiem może być 
+mniejsza niż 10 m. W takim przypadku zastosowanie w rozdziel-
+nicy głównej ogranicznik przepięć typ 1 o niskim napięciowym 
+poziomie ochrony pozwala na rezygnację ze stosowania dodat-
+kowego ogranicznika przepięć typu 2 w pobliżu przekształtnika 
+(zabezpieczenie wejścia AC). W przypadku obiektów, gdzie mamy 
+większą odległość pomiędzy SPD w rozdzielnicy głównej a wej-
+ściem AC falownika, należy zastosować dodatkowy SPD przy 
+falowniku (rys. 25).
+Rys. 25. Montaż ograniczników przepięć w instalacji elektrycznej AC w przypadku, gdy odległość 
+pomiędzy SPD w rozdzielnicy głównej a przekształtnikiem jest większa od 10 m
+W niektórych obiektach wymagany odstęp separujący s nie 
+może być zachowany lub panel zainstalowany jest na dachu z meta-
+lowym pokryciem. Również i w tym przypadku – zgodnie zapisem 
+PN-EN 62305-3 – urządzanie PV powinno znaleźć się w przestrzeni 
+ochronnej zwodów. Należy jednak wykonać dodatkowe połącze-
+nia wyrównawcze pomiędzy obudową paneli a układem zwodów. 
+W takim przypadku – z uwagi na możliwość oddziaływania na 
+instalację wewnątrz budynku części prądu piorunowego – przewody 
+biegnące od modułu PV do wnętrza obiekty winny zostać zabezpie-
+czone specjalnie do tego celu zaprojektowanymi SPD typu 1 (SPD 
+oznaczony numer 3 na rys. 26).
+
+=== PDF str. 24 ===
+Rynek Fotowoltaiczny 2019
+24
+Rys. 26. Przykładowe rozwiązanie ochrony przepięciowej dla budynku z urządzeniem 
+piorunochronnym, odstęp bezpieczny s nie jest zachowany: 1 – SPD typu 1 w instalacji elektrycznej 
+AC, 2 – SPD typu 1 w instalacji elektrycznej AC, 3 SPD typu 1 – przeznaczony do systemów PV
+zwody pionowe
+ZK
+Z
+Z
+GSU
+16 mm2
+Cu
+skrzynka
+przyłączeniowa
+1
+2
+3
+Jak widać na rysunku 17 instalacja fotowoltaiczna nie stanowi 
+„samotnej wyspy”, ale ma również powiązania systemowe liniami 
+przesyłu danych z komputerem, centrum pogodowym, system nad-
+zoru itd. Zdalny nadzór nad pracą instalacji oferuje właścicielowi / 
+inwestorowi informacje o stanie elektrowni i dochodach o każdej 
+porze dnia. Jego zadaniem jest dać inwestorowi maksymalną ilość 
+informacji, a to wymaga przez cały czas transportu danych w sposób 
+nieprzerwany i niezakłócony. To powoduje konieczność stosowa-
+nia również w liniach przesyłu sygnałów odpowiednio dobranych 
+ograniczników przepięć.
+W przypadku systemów fotowoltaicznych w liniach przesyłu 
+sygnałów wychodzących na zewnątrz budynku, które narażone 
+mogą być na oddziaływania prądu piorunowego, zgodnie z zale-
+ceniami norm powinny być zastosowane ograniczniki odporne na 
+działanie udarów o dużej energii. W przypadku SPD ograniczają-
+cych przepięcia indukowane można zastosować SPD odporne na 
+działania mniejszej energii, zapewniające ochronę przed szybko 
+narastającymi impulsami.
+Ograniczniki przepięć w liniach przesyłu sygnałów instalowane 
+są dla każdej linii z osobna, stąd też nawet w niewielkim obiekcie 
+prosumenckiej elektrowni fotowoltaicznej ilość koniecznych do 
+zabezpieczenia urządzeń może wynosić kilkanaście sztuk. W celu 
+zapewnienia automatycznego nadzoru nad prawidłową pracą 
+ograniczników można stosować system zdalnego monitorowania 
+włączony w magistralę i tym samym na bieżąco mieć podgląd na 
+skuteczność ochrony przepięciowej w obiekcie.
+W celu łatwiejszego projektowania i zarządzania systemem 
+ochrony na obiekcie, gdzie występują rożne interfejsy można zasto-
+sować uniwersalny ogranicznik przepięć technologia actiVsense. 
+Pokazany na rys. 27 ogranicznik jest kombinowanym ograniczni-
+kiem przepięć do ochrony sieci sygnałowych, teleinformatycznych, 
+automatyki, który rozpoznaje automatyczne napięcie robocze pod-
+łączonej do niego instalacji w zakresie napięć od 0 do 180 V. Dzięki 
+tej innowacyjnej technologii, która rozpoznaje wartość napięcia 
+roboczego sygnału i ogranicznik automatycznie dopasowuje do 
+niego swoje właściwości ochronne. Ponieważ dopasowuje on 
+w sposób ciągły swój napięciowy poziom ochrony do aktualnie 
+przyłożonego napięcia pracy, nadaje się do wszystkich zastosowań, 
+gdzie napięcie pracy może się zmieniać.
+Rys. 27. Uniwersalny ogranicznik przepięć do ochrony do ochrony 2 par linii sygnałowych
+I na koniec kilka słów o tym, co nierzadko umyka instalato-
+rom podczas wykonywania instalacji fotowoltaicznych, tj. sposób 
+układania przewodów. Należy pamiętać, że ułożenie przewodów 
+łączących poszczególne panele fotowoltaiczne oraz przewodach 
+sygnalizacyjnych łączących urządzenia sterujące i kontrolno-po-
+miarowe rozlokowane na terenie elektrowni fotowoltaicznej na 
+wpływ na zagrożenie przepięciowe. Jednym z ważnych sposobów 
+pozwalających zredukować zagrożenie przepięciowe jest trasowanie 
+linii w taki sposób, aby zminimalizować rozległe pętle indukcyjne, 
+a tym samym zagrożenie przepięciami spowodowanymi pobliskimi 
+wyładowania piorunowymi. Na to zagrożenie zwracają uwagę doku-
+menty normalizacyjne różnych krajów europejskich, pokazując 
+błędne i prawidłowe sposoby wykonywania oprzewodowania dla 
+elektrowni fotowoltaicznych. Zalecenia te pokazano na rys. 28. 
+W przykładzie pokazanym na rysunku (b) zagrożenie spowodo-
+wane jest „pętlą masy”, gdy połączenia wyrównawcze poprowa-
+dzone dookoła pola paneli mogą stanowić dużą pętle indukcyjną, 
+wewnątrz której mogą pojawić się przepięcia stanowiące zagrożenie 
+dla urządzeń elektronicznych.
+Rys.28. Przykład błędnego (a,b) oraz poprawnego (c) oprzewodowania paneli PV
+Podsumowanie
+Instalując system fotowoltaiczny na dachu budynku należy 
+zapewnić ochronę przed bezpośrednim oddziaływaniem prądu 
+piorunowego (obiekty z LPS) oraz zwrócić szczególną uwagę na 
+ograniczania prądów i napięć udarowych w instalacji elektrycznej 
+oraz obwodach stałoprądowych. Tylko takie kompleksowe potrak-
+towanie zagadnienia ochrony odgromowej przepięciowej może 
+zapewnić ochronę i bezawaryjne działanie systemów fotowolta-
+icznych. Problem ochrony przepięciowej systemu PV dostrzegają 
+nie tylko towarzystwa ubezpieczeniowe, ale również producenci 
+
+=== PDF str. 25 ===
+Rynek Fotowoltaiczny 2019
+25
+przekształtników do systemów PV. Przy stosowaniu dla klientów 
+korzystnych warunków wymiany przekształtnika w przypadku awa-
+rii producent nie uwzględnia uszkodzeń spowodowanych przez 
+przepięcia, a tym samym praktycznie wymusza stosowanie ochrony 
+przepięciowej w obwodach DC oraz AC przekształtnika.
+Poprawne wykonanie systemu ochrony odgromowej i przepię-
+ciowej może przyczynić się do znacznej redukcji zagrożenia utraty 
+sprawności produkcyjnej oraz minimalizacji ewentualnych kosztów 
+poniesionych z tytułu wyładowań piorunowych lub przepięć łącze-
+niowych, jak też zminimalizować zagrożenie pożarowe. Dlatego 
+tak ważne jest, aby wykonując system ochrony dla instalacji, od 
+samego początku zwracać uwagę na jakość stosowanych elementów 
+oraz prawidłowe ich rozmieszczenie i właściwy montaż. Droga na 
+skróty i szukanie oszczędności w systemie ochrony odgromowej 
+i przepięciowej instalacji PV może okazać się jednak ostatecznie 
+bardzo kosztownym rozwiązaniem.
+7. Zagrożenia dla służb 
+ratowniczych w razie pożaru
+7.1. Gaszenie pożarów instalacji 
+elektrycznych pod napięciem
+We wspólnym badaniu branżowym przeprowadzonym w Niemczech 
+(Fraunhofer ISE 2017) stwierdzono, że systemy fotowoltaiczne 
+nie stanowią szczególnego zagrożenia dla strażaków, o ile stra-
+żacy przestrzegają zasad bezpieczeństwa. Systemy PV mogą być 
+obsługiwane w taki sam sposób jak inne urządzenia pod napięciem. 
+Zgodnie z wynikami prac badawczych przeprowadzonych przez 
+BRE National Solar Center (BRE 2017b), wyłączniki systemów PV 
+w obwodzie DC są nadal postrzegane jako niesprawdzona techno-
+logia. Ta technologia musi jeszcze udowodnić swoją niezawodność 
+przez cały okres użytkowania systemu fotowoltaicznego. Instalacja 
+takich urządzeń może zapewnić strażakom fałszywe poczucie 
+bezpieczeństwa, co może prowadzić do wypadków, urazów lub 
+pogorszenia, ponieważ uszkodzony układ fotowoltaiczny może 
+nadal być zasilany energią. Ten sam wniosek można wyciągnąć 
+także w odniesieniu do wyłączenia napięcia na poziomie modułów.
+W rzeczywistości, w badaniu TÜV Rheinland i Fraunhofer ISE 
+(Sepanski i in., 2015, str. 206) zakłada się, że instalacja przełącznika 
+DC, tzw. „wyłącznika strażaka”, zwiększa ryzyko pożaru. Główną 
+przyczyną pożaru w systemie PV jest wystąpienie łuku elektrycz-
+nego, a większość pożarów spowodowanych przez systemy PV 
+można przypisać błędom instalacji (BRE 2017c; str. 10).
+Zalecenia dla niemieckich strażaków i służb ratowniczych 
+w przypadku incydentu, który może spowodować ryzyko kontaktu 
+z elektrycznymi instalacjami pod napięciem, mają również zasto-
+sowanie do systemów fotowoltaicznych. Niemiecka norma VDE 
+0132:2008 „Gaszenie pożarów w instalacjach elektrycznych lub w ich 
+pobliżu”, określa odległości bezpieczeństwa dla służb ratowniczych, 
+które powinny pomóc im uniknąć ryzyka porażenia prądem, gdy 
+znajdują się blisko części pod napięciem podczas gaszenia pożaru, 
+w tym potencjalnie uszkodzonego systemu fotowoltaicznego. 
+Aby zapobiec przepływowi niebezpiecznych prądów przez ciało 
+personelu ratunkowego podczas gaszenia części systemu pod napię-
+ciem, DIN VDE 0132:2008– „Gaszenie pożaru i pomoc w zakresie 
+instalacji elektrycznych” – zdefiniowane zostały zalecane minimalne 
+odstępy między wylotem środka gaśniczego a częściami czynnymi 
+układu. W przypadku instalacji fotowoltaicznej o maksymalnym 
+napięciu do 1,5kV, norma ta zaleca minimalną bezpieczną odległość 
+1 m, jeśli gasi się pożar za pomocą rozpylonego strumienia wody 
+i 5 m przy użyciu ciągłego strumienia wody.
+Tabela 4-6 przedstawia minimalne odstępy dla sprzętu elek-
+trycznego gaśniczego niskiego napięcia, tj. do 1000 V przy prądzie 
+przemiennym (AC) lub do 1500 V przy prądzie stałym (DC).
+Wylot  
+DIN 14365-CM
+Niskie napięcie (≤1kV 
+dla AC, ≤1.5kV dla DC)
+Wysokie napięcie (≥1kV 
+dla AC; ≥1,5kV dla DC)
+Rozproszony
+1 m
+5 m
+Pełny
+5 m
+10 m
+Tabela 9. Wartości orientacyjne dla minimalnych odległości gaszenia instalacji pod napięciem
+Na przykład w Austrii podobne odległości bezpieczeństwa są 
+zalecane w oficjalnych dokumentach szkoleniowych dla strażaków. 
+ÖNORM F2190 definiuje następujące odległości bezpieczeństwa 
+między częściami pod napięciem do 1 kV a wylotem znormalizowa-
+nej wielofunkcyjnej rury rozgałęźnej CM, która jest powszechnie 
+stosowana:
+––
+rozproszony prąd gaśniczy (strumień cieczy rozpylonej): 1 m
+––
+zwarty prąd gaśniczy (pełny strumień cieczy): 5 m
+Odległości te odnoszą się zasadniczo do znormalizowanych 
+dysz uniwersalnych C zgodnie z DIN 14365-CM z średnicą ustnika 
+9 mm i ciśnieniem przepływu 5 bar. Jednak standardowe wartości 
+dotyczą również większych gaśnic wodnych, jeśli ich rury strumie-
+niowe są zgodne z normą DIN 14365-2 pod względem bezpieczeń-
+stwa elektrycznego. Należy przestrzegać instrukcji użytkowania lub 
+ostrzeżeń na gaśnicach. Jeśli dysze CM są używane bez ustnika lub 
+innych dysz wielofunkcyjnych, odległości należy zwiększyć zgod-
+nie z VDE 0132, np. w przypadku rur BMMulti-jet do minimalnej 
+odległości 5 m.
+Aby zrozumieć te ograniczenia normatywne, rozważana 
+jest struktura strugi cieczy. Pełny strumień rozróżnia trzy strefy 
+(rys. 17). Obszar zwartego strumienia wody natychmiast po wyła-
+dowaniu środka gaśniczego określa się jako strefę strugi ciągłej. 
+Poprzez obszar strefy rozpadu, przechodzi on do oddzielonych 
+elektrycznie pojedynczych kropelek (które nadal wydają się zwartą 
+dla ludzkiego oka strugą). Nazywana jest ona strefą kropel lub strefą 
+rozpylania.
+Rysunek 29. Schematyczna struktura strumienia natryskowego wielozadaniowej rury strumieniowej
+Wartości wytycznych dla minimalnych odległości rur (dysz) 
+strumieniowych od gaszonych elektrycznych części instalacji pod 
+napięciem wybrano tak, aby były one uderzane tylko przez strefę 
+rozpylania (strefę kropel), a zatem nie ma ciągłej ścieżki przewo-
+dzącej. Nie ma więc ryzyka dla pojawienia się prądów upływowych 
+niebezpiecznych dla personelu ratunkowego.
+
+=== PDF str. 26 ===
+Rynek Fotowoltaiczny 2019
+26
+Aby wykazać, że odległość bezpieczeństwa jest wystarczająca 
+do ochrony personelu ratowniczego przed porażeniem prądem 
+elektrycznym, przeprowadzono test w Niemczech (Fire Retardants 
+Online 2011 cytowany w BRE 2017b). W tym teście podpalono 
+instalację fotowoltaiczną, aby wykryć wpływ pożaru na moduły 
+fotowoltaiczne. Oprócz innych ustaleń, wyniki wykazały, że jeśli 
+minimalne odległości bezpieczeństwa zalecane w wytycznych 
+niemieckich strażaków są spełnione podczas gaszenia pożaru, nie 
+powstają żadne nietypowe zagrożenia.
+W zależności od projektu technicznego rury strumieniowej, 
+długość opisywanej strefy rozpadu strugi, a co za tym idzie: obser-
+wowane w ten sposób odległości gaśnicze mogą ulec zmianie. 
+Przykładowo odległość 5m jest bezpieczna dla napięcia do 3kV 
+przy średnicy wylotu nie większej niż 18mm.
+7.2. Oznakowanie
+Dla bezpieczeństwa osób, zaleca się, aby budynek, w którym znaj-
+duje się instalacja fotowoltaiczna posiadał oznakowanie zgodne 
+z normą: PN-HD 60364-7-712:2016 w następujących miejscach:
+––
+w rozdzielni głównej budynku
+––
+obok głównego licznika energii (jeśli oddalony od rozdzielni 
+głównej) 
+––
+obok głównego wyłącznika
+––
+w  rozdzielnicy, w  której przyłączona jest instalacja foto­
+woltaiczna do instalacji elektrycznej budynku
+Rysunek 30. Etykieta wskazująca na obecność instalacji elektrycznej w budynku
+W każdym punkcie dostępu do części pod napięciem po stronie 
+DC (np. rozdzielnice z zabezpieczeniem przepięciowym) należy 
+umieścić w sposób trwały ostrzeżenie, że części te mogą być nadal 
+zasilane:
+––
+po wyłączeniu falownika,
+––
+po wyłączeniu napięcia AC w  budynku (np. rozłącznika 
+głównym),
+––
+po ustawieniu rozłącznika DC w pozycji „0”.
+Na falownikach należy umieścić ostrzeżenie, że wszelkie prace 
+serwisowe można prowadzić dopiero po odłączeniu separującym 
+falownika zarówno od strony DC, jak i AC. Uwaga: falowniki mają 
+zgromadzoną energię w kondensatorach, której rozładowanie do 
+wartości bezpiecznych może zająć nawet kilka minut.
+8. Bezpieczeństwo i ryzyko 
+– zalecenia dla projektantów 
+i wykonawców.
+Najważniejsze odkrycie, które zostało stwierdzone przez Fraunhofer 
+ISE (Fraunhofer ISE 2017), TÜV Rheinland (Sepanski i inni 
+2017), BRE National Solar Center (BRE 2017a) oraz program 
+Międzynarodowej Agencji Energetyki „Photovoltaic Power Systems 
+Program” (IEA PVPS 2017) jest to, że elementy systemów PV są 
+testowane zgodnie z bardzo rygorystycznymi protokołami bezpie-
+czeństwa i niezawodności podczas procesu produkcyjnego i speł-
+niają wymagania bezpieczeństwa elektrycznego różnych krajowych 
+i międzynarodowych norm i standardów. Jeśli są prawidłowo zain-
+stalowane, nie stwarzają zagrożenia dla zdrowia, bezpieczeństwa 
+ani środowiska w normalnych warunkach pracy.
+Aby jeszcze bardziej zwiększyć bezpieczeństwo systemu PV 
+i zmniejszyć ryzyko pożaru, zaleca się:
+––
+Monitorowanie systemu fotowoltaicznego: właściciel systemu 
+fotowoltaicznego, powinien monitorować swój system PV tak, 
+aby cały czas mieć podgląd na swój produkt. System monito-
+rowania zapewnia przegląd działania systemu i ostrzega użyt-
+kownika, jeśli występuje jakaś nieprawidłowość. Zmniejszenie 
+mocy niezależnie od warunków pogodowych może być oznaką 
+usterki w systemie, która może doprowadzić do pożaru.
+––
+Codzienny automatyczny monitoring stanu izolacji DC: 
+przed uruchomieniem falownik sprawdza stan izolacji po stro-
+nie DC. Jeśli zostanie wykryty błąd, falownik nie uruchomi 
+się i powiadomi, że nastąpiła usterka. Monitorowanie to jest 
+również wykonywane podczas pracy instalacji. Jeśli podczas 
+pracy wykryta zostanie nieprawidłowość, falownik wyłączy się 
+i wyświetli kod błędu.
+––
+Profesjonalny montaż i  uruchomienie: w  szczególno-
+ści wykonanie i odbiór instalacji zgodnie z normą PN-EN 
+62446-1: „Systemy fotowoltaiczne (PV) – Wymagania doty-
+czące badań, dokumentacji i utrzymania – Część 1: Systemy 
+podłączone do sieci – Dokumentacja, odbiory i nadzór” 
+zawiera listę punktów, które należy sprawdzić przed urucho-
+mieniem System PV.
+––
+Okresowa konserwacja instalacji fotowoltaicznej: w szcze-
+gólności IEC 62446-2: „Systemy fotowoltaiczne – Wymagania 
+dotyczące testowania, dokumentacji i konserwacji – Część 2: 
+Systemy podłączone do sieci – Konserwacja systemów PV” 
+daje dobre wskazówki dotyczące takiej okresowej konserwacji.
+Jak wspomniano w Rozdziale 3.2, podejmowanie odpowiednich 
+działań, które zmniejszają ryzyko pożaru, bezpośrednio zmniej-
+sza ryzyko dla ratowników, ponieważ brak pożaru oznacza brak 
+zagrożenia dla ratowników, takich jak strażacy. Dlatego przed pod-
+jęciem działań mających na celu zmniejszenie ryzyka dla służb 
+ratunkowych, priorytetem powinno zawsze być zmniejszenie 
+ryzyka pożaru.
+Niemniej jednak korzystne są dodatkowe środki zmniejsza-
+jące ryzyko dla strażaków. Na podstawie ustaleń z Rozdziału 8 
+„Zagrożenia dla służb ratowniczych w razie pożaru” zaleca się nastę-
+pujące środki w celu zmniejszenia tego ryzyka:
+––
+Jasne i  łatwo widoczne oznakowanie lub oznakowanie 
+komponentów fotowoltaicznych: Czas jest ważnym czynni-
+kiem podczas walki z ogniem! Po dotarciu do miejsca pożaru, 
+dowódca grupy roboczej musi ustalić sytuację i opracować stra-
+tegię operacyjną, aby poradzić sobie z ogniem i obsłużyć inne 
+zadania, takie jak ratowanie ludzi. W oparciu o fakt, że każdy 
+dowódca grupy roboczej jest przeszkolony do przeprowadzania 
+dynamicznej oceny ryzyka potencjalnych zagrożeń na miejscu 
+przed przekazaniem rozkazów swojemu zastępowi, ważne jest, 
+
+=== PDF str. 27 ===
+Rynek Fotowoltaiczny 2019
+27
+aby byli oni świadomi tego, czy system PV jest zainstalowany 
+na budynku, czy nie.
+––
+Zachowaj bezpieczną odległość: niezachowanie bezpiecznych 
+odległości opisanych w Rozdziale 8 może spowodować zagro-
+żenie dla personelu ratunkowego. Zaleca się przestrzegać bez-
+piecznych odległości w celu uniknięcia obrażeń lub porażenia 
+prądem elektrycznym.
+––
+Rozłącznik DC: to urządzenie zapewnia, że falownik zostanie 
+odłączony od modułów w razie awarii.
+Najważniejsze dla bezpieczeństwa strażaków jest okresowe 
+kształcenie i szkolenie. Wiedza o tym, co robić w wyjątkowej sytu-
+acji, oszczędza czas, dobra materialne i – co najważniejsze – życie. 
+Strażacy są dobrze wyszkoleni, a obsługa systemów elektrycznych 
+nie jest dla nich niczym nowym. Dopóki zdają sobie sprawę, że na 
+miejscu mogą wystąpić szczególne zagrożenia, są w stanie sobie 
+z nimi poradzić.
+Jeśli przyjrzeć się mitom i  pogłoskom wymienionym 
+w Rozdziale 3.1, najprostszym sposobem udowodnienia, że są fał-
+szywe, jest porównanie ich z faktami z ustaleń z ostatnich badań:
+––
+Strażacy nie ugaszą pożaru w budynkach z systemem PV na 
+dachu: „Na podstawie dotychczasowych badań wszystkie stwier-
+dzenia, że straż pożarna nie mogła ugasić pożaru domu z powodu 
+instalacji fotowoltaicznej, okazały się nieprawdziwe.” (Fraunhofer 
+ISE 2017)
+––
+System fotowoltaiczny na dachu znacznie zwiększa ryzyko 
+pożaru: „Dotychczas 0,006% wszystkich elektrowni fotowoltaicz-
+nych w Niemczech spowodowało pożar, który spowodował poważne 
+szkody!”; „Instalacje fotowoltaiczne nie stwarzają większego zagro-
+żenia pożarowego niż jakiekolwiek inne urządzenia techniczne.” 
+(Fraunhofer ISE 2017)
+––
+System fotowoltaiczny na dachu znacznie zwiększa ryzyko, 
+że strażacy odniosą obrażenia w sytuacjach awaryjnych: 
+„W Niemczech żaden strażak nie doznał obrażeń spowodowanych 
+przez energię PV podczas gaszenia pożaru.” (Fraunhofer ISE 
+2017)
+––
+Wyłączenie instalacji PV na poziomie modułu zmniejsza 
+ryzyko pożaru: „... rozłączniki systemów PV w obwodzie DC są 
+nadal postrzegane jako niesprawdzona technologia, która musi jesz-
+cze udowodnić swoją niezawodność przez cały okres użytkowania 
+systemu fotowoltaicznego, a instalacja takich urządzeń może zapew-
+nić strażakom fałszywe poczucie bezpieczeństwa.” (BRE 2017b)
+––
+Nie jest możliwe ugaszenie pożaru spowodowanego przez 
+instalację PV: „Podobnie jak w przypadku każdej instalacji elek-
+trycznej, w zależności od rodzaju łuku elektrycznego możliwe jest 
+również ugaszenie pożaru za pomocą wody z odległości od jednego 
+do pięciu metrów.” (Fraunhofer ISE 2017)
+––
+System fotowoltaiczny na dachu znacznie zwiększa prawdo-
+podobieństwo, że budynek zostanie trafiony przez piorun: 
+„Jeśli system PV zostanie zainstalowany na budynku, nie zwiększy 
+to możliwości uderzenia pioruna, pod warunkiem, że system foto-
+woltaiczny nie wystaje znacząco poza budynek.” (BDSW 2008)
+Jak pokazano w Rozdziale 3.3, awarie instalacji są najczęstszymi 
+przyczynami wystąpienia pożaru. Najbardziej skutecznym środkiem 
+poprawy bezpieczeństwa systemów PV są profesjonalne szkolenia 
+dla instalatorów, które zapewniają wysoką jakość instalacji i zmniej-
+szają ryzyko pożaru, a także ryzyko dla strażaków.
+9. Rekomendacje dotyczące 
+inspekcji i konserwacji
+Aby zapewnić długoterminową wydajność i bezpieczeństwo pracy 
+systemu PV, należy go poddawać regularnej inspekcji i konserwacji. 
+Poniższy przegląd zawiera zalecenia dotyczące zawartości i często-
+tliwości konserwacji.
+Kiedy
+Gdzie
+Co
+Kto
+Uwagi
+Codziennie
+Falownik
+Kontrola wyświetlacza 
+roboczego w celu 
+uniknięcia utraty 
+wydajności przy 
+wyłączeniach awaryjnych
+Operator
+Alternatywnie: 
+monitorowanie 
+z aktywnym 
+raportowaniem 
+o błędzie do 
+operatora
+Monitoring 
+danych 
+operacyjnych 
+(system)
+Kontrola stanu pracy 
+za pomocą zdalnego 
+monitorowania 
+(w przypadku ochrony 
+przeciwpożarowej należy 
+zwrócić szczególną uwagę 
+na błędy izolacji).
+Operator / 
+serwis
+Analiza komunikatów 
+o błędach i podejmowanie 
+odpowiednich działań
+Serwis
+Miesięcznie
+Licznik 
+energii
+Monitorowanie 
+wydajności: regularnie 
+rejestruj i analizuj 
+odczyty liczników! (nie 
+dotyczy automatycznego 
+gromadzenia i oceny 
+danych operacyjnych).
+Operator / 
+serwis
+Powierzchnia 
+modułów
+Kontrola wzrokowa, 
+czy występują poważne, 
+oczywiste wady, 
+takie jak przesunięte 
+moduły, luźne: zaciski 
+modułów, elementy ram 
+montażowych lub kable 
+solarne
+Operator
+Przemieszczanie 
+się w okolicy pola 
+modułów tylko po 
+zatwierdzonych 
+trasach!
+Regularnie, 
+najrzadziej co 
+cztery lata
+Cała 
+instalacja
+Powtórzenie 
+pomiarów i testów przy 
+uruchamianiu zgodnie 
+z PN-EN 62446-1
+Serwis
+Sytuacyjne – po 
+automatycznym 
+wyłączeniu 
+falownika
+Cała 
+instalacja
+Rozwiązywanie 
+problemów
+Serwis
+Tabela 10. Zalecenia dotyczące konserwacji i inspekcji instalacji PV
+
+=== PDF str. 28 ===
+Rynek Fotowoltaiczny 2019
+28
+10. Praca i bezpieczeństwo 
+mikroinstalacji według 
+Instrukcji Ruchu i Eksploatacji 
+Sieci Dystrybucyjnej (IRiESD) 
+10.1. Nastawy zadanych wartości, 
+możliwych do ustawienia 
+w mikroinstalacji, muszą 
+być możliwe do odczytania 
+z mikroinstalacji (w przypadku 
+mikroinstalacji przyłączonych 
+przez falownik – bezpośrednio 
+z falownika).
+Tabliczka znamionowa mikroinstalacji ma posiadać co najmniej 
+następujące informacje:
+a)	 Nazwę producenta lub znak firmowy,
+b)	 Określenie typu lub numer identyfikacyjny, lub inne sposoby 
+identyfikacji umożliwiające uzyskanie stosownych informacji 
+od producenta,
+c)	 Moc znamionową,
+d)	 Napięcie znamionowe,
+e)	 Częstotliwość znamionowa,
+f)	 Zakres regulacji współczynnika przesunięcia fazowego podsta-
+wowych harmonicznych napięcia i prądu.
+Informacje te muszą być umieszczone również w instrukcji 
+obsługi. Dodatkowo na tabliczce znamionowej powinien być 
+umieszczony numer seryjny.
+Wszystkie informacje powinny być podane w języku polskim.
+W miejscach z dostępnymi elementami pod napięciem należy 
+stosować etykiety ostrzegawcze.
+10.2. Inne wymagania dotyczące 
+przekazania mikroinstalacji 
+do eksploatacji:
+a)	 Producent musi dostarczyć instrukcję montażu zgodnie z nor-
+mami i wymaganiami krajowymi,
+b)	 Urządzenia wchodzące w skład mikroinstalacji muszą podlegać 
+badaniom typu pod względem wymagań odpowiednich norm 
+w zakresie współpracy z siecią, w przypadku braku stosownych 
+norm wyrobu,
+c)	 Montaż musi być wykonany przez instalatorów posiadających 
+odpowiednie i potwierdzone kwalifikacje,
+d)	 Właściciel mikroinstalacji musi dysponować przygotowanym 
+przez instalatora schematem jednokresowym mikroinstalacji.
+Pn [kW]
+Pn ≤ 3,68
+3,68 < Pn ≤ 10
+10 < Pn ≤ 40
+Wymagania w zakresie 
+zdalnego sterowania 
+przez... ABC... 
+–
+Możliwość 
+zdalnego 
+sterowania mocą 
+czynną oraz 
+możliwość 
+zdalnego 
+odłączenia 
+mikroinstalacji tj. 
+zaprzestania 
+generacji mocy do 
+sieci dystrybucyjnej
+Automatyczna redukcja 
+mocy czynnej przy  
+f >50,2 Hz wg zadanej 
+charakterystyki P(f)
+TAK 
+Regulacja mocy 
+biernej według zadanej 
+charakterystyki Q(U)  
+i cos ϕ (P)
+TAK 
+Układ zabezpieczeń:  
+komplet zabezpieczeń nad- 
+i podnapięciowych, nad- 
+i podczęstotliwościowych 
+oraz od pracy wyspowej
+Zintegrowany z falownikiem 
+Sposób przyłączenia
+1-fazowo lub 
+3-fazowo
+3-fazowo
+Tabela nr 11. Zbiorcze zestawienie wymagań dla mikroinstalacji w zależności od mocy 
+zainstalowanej.
+Zastrzeżenia
+Zawarte w dokumencie informacje, zalecenia, adaptacja i tłumacze-
+nia były tworzone z najwyższą starannością. Wydawca dokumentu 
+nie ponosi jednak żadnej odpowiedzialności za dokładność, rzetel-
+ność, prawidłowość i przydatność informacji w indywidualnych 
+przypadkach. Niezbędna jest zawsze wnikliwa analiza okoliczności, 
+aktualnych norm i przepisów, które należy przeprowadzić w przy-
+padku konkretnej realizacji.
+
+=== PDF str. 29 ===
+Bibliografia 
+Przy opracowaniu niniejszego dokumentu wykorzystano w nie-
+zbędnym zakresie:
+1.	 Norma Austriacka, 1989 r., ÖNORM F2190: Multi-purpose 
+branchpipe: Requirements, Tests, Standard labelling; 
+(„Rozgałęźna prądnica wody: wymagania, testy, standardowe 
+oznakowanie”)
+2.	 BSW, 2008, Lightning- and overvoltage protection for PV 
+Systems on Buildings (“Ochrona odgromowa i przepięciowa 
+w systemach fotowoltaicznych na budynkach”) https://www.
+solarwirtschaft.de/fileadmin/content_files/mb_bswsolar_
+blitzsch.pdf
+3.	 BRE National Solar Centre, 2017a, Fire and Solar PV 
+Systems – Investigations and Evidence (“Pożar a systemy 
+fotowoltaiczne – badania i dowody”) https://www.gov.uk/
+government/uploads/system/uploads/attachment_data/
+file/630639/fire-solar-pv-systems-investigations-evidence.pdf
+4.	 BRE National Solar Centre, 2017b, Fire and Solar PV 
+Systems – Literature Review. (“Pożar a systemy fotowolta-
+iczne – przegląd literatury”).
+5.	 https://www.gov.uk/government/uploads/system/uploads/
+attachment_data/file/630638/fire-solar-pv-systems-literatu-
+re-review.pdf
+6.	 BRE National Solar Centre, 2017c, Fire and Solar PV Systems 
+– Recommendations for the Fire and Rescue Services 
+(“Pożar a systemy fotowoltaiczne – zalecenia dla służb pożar-
+nictwa i ratownictwa”). https://www.gov.uk/government/
+uploads/system/uploads/attachment_data/file/630641/
+fire-solar-pv-systems-frs-recommendations.pdf
+7.	 Fire Retardants Online, 2011, Photovoltaic array fire test. 
+Proceedings of Photovoltaics and Fire: Separating Fact from 
+Fiction, BRE, Watford (“Test pożarowy generatorów fotowolta-
+icznych. Materiały nt. fotowoltaiki i pożaów: oddzielanie faktów 
+od mitów”)
+8.	 Fire Retardants Online, 2011, Photovoltaic array fire test. 
+Proceedings of Photovoltaics and Fire: Separating Fact from 
+Fiction, BRE, Watford (“Test pożarowy generatorów fotowolta-
+icznych. Materiały nt. fotowoltaiki i pożaów: oddzielanie faktów od 
+mitów”)
+9.	 Fraunhofer ISE, 2017, Recent Facts about Photovoltaics in 
+Germany. Fraunhofer ISE, Division Photovoltaic Modules, 
+Systems and Reliability, Freiburg (“Najnowsze fakty dotyczące 
+fotowoltaiki w Niemczech. Fraunhofer ISE, Podział modułów foto-
+woltaicznych, Systemy i niezawodność”)
+10.	IEA PVPS Task 12, 2017, Photovoltaics and Firefighters’ 
+Operations: Best Practice in Selected Countries („Foto­
+woltaika a działania strażaków: Najlepsze praktyki w wybranych 
+krajach”)
+11.	IEC, 2017a, IEC 62446-1: Systemy fotowoltaiczne (PV) 
+– Wymagania dotyczące testowania, dokumentacji i konser-
+wacji – Część 1: Systemy przyłączone do sieci – Dokumentacja, 
+testy uruchamiania i kontrola
+12.	IEC, 2017b, IEC 62446-2: Systemy fotowoltaiczne (PV) 
+– Wymagania dotyczące testowania, dokumentacji i konserwacji 
+
+=== PDF str. 30 ===
+Rynek Fotowoltaiczny 2019
+30
+– Część 2: Systemy przyłączone do sieci – Konserwacja syste-
+mów fotowoltaicznych
+13.	Sepanski, A., Reil, F., Vaaßen, W., Janknecht, E., Hupach, 
+U., Bogdanski, N., van Heeckeren, B., Schmidt, H., Bopp, 
+G., Laukamp, H., Grab, R., Philipp, S., Thiem, H., Huber, J., 
+Haselhuhn, R., Häberlin, H., Krutzke, A., Neu, B., Richter, A., 
+Bansemer, B., Halfmann, M., 2015, Assessment of the fire risk 
+in PV-arrays and development of security concepts for risk mini-
+mization. TÜV Rheinland Energie und Umwelt GmbH, Köln 
+(„Ocena ryzyka pożaru w tablicach fotowoltaicznych i opracowanie 
+koncepcji bezpieczeństwa w celu minimalizacji ryzyka.”)
+14.	VDE, 2008, VDE 0132:2008 Firefighting and assistance in or 
+near electric installations (“Gaszenie i wsparcie w instalacjach 
+elektrycznych lub w ich pobliżu”)
+15.	Przewodnik „Bewertung des Brandrisikos in Photovoltaik-
+Anlagen und Erstellung von Sicherheitskonzepten zur 
+Risikominimierung“, Project Management Jülich, http://www.
+pv-brandsicherheit.com/fileadmin/downloads_fe/Leitfaden_
+Brandrisiko_in_PV-Anlagen_V01.pdf („Ocena ryzyka pożaru 
+w systemach fotowoltaicznych i tworzenie koncepcji bezpieczeństwa 
+w celu zminimalizowania ryzyka“)
+16.	VDE, 2008, VDE 0132:2008 Firefighting and assistance in or 
+near electric installations (“Gaszenie i wsparcie w instalacjach 
+elektrycznych lub w ich pobliżu”)
+17.	Royal Dutch Shell, New Lens Scenario, A shift in perspective 
+for a World in transition, 2013
+18.	Solarpower Europe, Global Market Outlook for Solar Power 
+2017 – 2020, 2018
+19.	S. M. Pietruszko, Rynek fotowoltaiki w Polsce – 2017, Magazyn 
+Fotowoltaika 1/2018
+20.	S. M. Pietruszko, Bezpieczeństwo pożarowe systemów fotowol-
+taicznych, Ochrona Przeciwpożarowa 2018, nr 2
+21.	Roman-Alexander Brück, TÜV Rheinland LGA Products 
+GmbH, Köln „Anforderungen an die Interoperabilität von 
+Steckverbindern“, 9. Workshop „Photovoltaik-Modultechnik“, 
+29.11.2012 – 30.11.2012, Germany („Wymagania dotyczące 
+interoperacyjności złączy“)
+22.	Roman-Alexander Brück, TÜV Rheinland LGA Products 
+GmbH, Köln „Risiken durch Interoperabilität von PV 
+Steckverbindern“, „Sicherheitsanforderungen für aktive und 
+passive Photovoltaik-Komponenten“, 20.04.2016, Germany 
+(„Ryzyko związane z interoperacyjnością złączy PV“)
+23.	Dr. 
+Michael 
+Berginski, 
+Multi-Contact, 
+„Sichere 
+Steckverbindungen: Paarung von Fremdprodukten / Crimpen 
+im Feld“, Workshop PV Brandsicherheit, Freiburg, Germany, 
+http://www.pv-brandsicherheit.de/fileadmin/WS_24-01-
+13/09_Berginski_Sichere_Steckverbindungen.pdf
+24.	„Statement of TUV Rheinland concerning interoperability 
+of Photovoltaic (PV) connectors of different types and/or 
+manufacturers” („Oświadczenie TUV Rheinland w sprawie inte-
+roperacyjności złącz fotowoltaicznych (PV) różnych typów i / lub 
+producentów”)
+25.	DIN CLC/TS 50539-12 (VDE V 0675-39-12) 
+Überspannungsschutzgeräte 
+für 
+Niederspannung 
+Überspannungsschutzgeräte für besondere Anwendungen 
+einschließlich Gleichspannung – Teil 12: Auswahl und 
+Anwendungsgrundsätze Überspannungsschutzgeräte für den 
+Einsatz in Photovoltaik-Installationen, Deutsche Fassung CLC/
+TS 50539-12:2010
+26.	PN-HD 60364-7-712:2016 Instalacje elektryczne w obiektach 
+budowlanych – Część 7-712: Wytyczne dotyczące specjalnych 
+instalacji lub lokalizacji. Fotowoltaiczne (PV) układy zasilania
+27.	PN-EN 62305-3:2011 Ochrona odgromowa – Część 3: 
+Uszkodzenia fizyczne obiektów budowlanych i zagrożenie życia
+28.	 Sowa A., Ochrona odgromowa systemów fotowoltaicznych na 
+dachach dwuspadowych, elektro.info 4/2012
+29.	Sowa. A, Wincencik K., Ograniczanie przepięć w instalacjach nisko-
+napięciowych systemów fotowoltaicznych, elektro.info 7-8/2012
+Wykorzystano również wiedzę dzięki współpracy z następującymi 
+organizacjami:
+––
+Bundesverband Solarwirtschaft e.V. – BSW-Solar 
+(Niemieckie Stowarzyszenie Przemysłu Solarnego e.V. 
+– BSW-Solar)
+––
+Deutsche Gesellschaft für Sonnenernergie e.V. – DGS 
+(Niemieckie Towarzystwo Energii Słonecznej e.V. – DGS)
+––
+Fraunhofer-Institut für Solare Energie Systeme ISE 
+(Instytut Fraunhofer do Systemów Energii Słonecznej 
+ISE)
+––
+GDV TÜV Rheinland – www.tuv.com
+––
+Gesamtverband der Deutschen Versicherungswirtschaft 
+e.V. – GDV (Ogólne Stowarzyszenie Niemieckich 
+Ubezpieczycieli e.V. – GDV)
+––
+Zentralverband der Deutschen Elektro- und 
+Informationstechnischen Handwerke – ZVEH
+––
+DKE Deutsche Kommission Elektrotechnik Elektronik 
+Informationstechnik in DIN und VDE
+––
+Polskie Towarzystwo Fotowoltaiki – www.pv-polska.pl
+
+=== PDF str. 31 ===
+Czytaj Rynek Elektryczny
+Co trzeba wiedzieć o branży elektrotechnicznej?
+ Co się dzieje u producentów, dystrybutorów i wykonawców?
+ Kto oferuje najlepsze rozwiązania techniczne?
+ Jaki jest wskaźniki koniunktury rynkowej?
+ Na które targi i konferencje warto pojechać?
+ Jakie są ceny artykułów i usług instalacyjnych?
+ Jaki jest wskaźnik moralności płatnicznej?
+ Kto i dlaczego wygrywa przetargi?
+ Jak wygląda krajowa produkcja wyrobów?
+ Które produkty warto kupić?
+ Co robi konkurencja?
+www.rynekelektryczny.pl
+3/2017
+I S S N 1 8 9 7 - 4 3 7 6
+.pl
+cena 9,90 zł (w tym 8% VAT)
+W NUMERZE RÓWNIEŻ:
+Klucz do życia w inteligentnym mieście
+Zasilacze UPS
+Kamery termowizyjne dla specjalistów
+Budowanie na solidnych fundamentach
+Wywiad z Arturem Oklińskim, dyrektorem generalnym 
+oraz Krzysztofem Bartosem, dyrektorem działu oświetlenia i narzędzi w ﬁ rmie GTV Poland
+5/2017
+I S S N 1 8 9 7 - 4 3 7 6
+.pl
+cena 9,90 zł (w tym 8% VAT)
+W NUMERZE RÓWNIEŻ:
+Dystrybucja artykułów 
+elektrotechnicznych
+TELE-FONIKA Kable spełnia 
+w 100% wymagania CPR
+Metody przeprowadzania pomiarów strumienia 
+świetlnego i strumienia promieniowania
+Początek długiej drogi
+Wywiad ze Zbigniewem Turskim, prezesem zarządu Bemko Sp. z o.o.
+raport
+4/2017
+I S S N 1 8 9 7 - 4 3 7 6
+.pl
+cena 9,90 zł (w tym 8% VAT)
+W NUMERZE RÓWNIEŻ:
+Jak stać się liderem 
+na rynku oświetleniowym?
+RurAKS
+Styczniki
+Zmiany są konieczne
+Rozmowa z Kamilem Kulmą – dyrektorem zarządzającym ASAJ
+
+=== PDF str. 32 ===

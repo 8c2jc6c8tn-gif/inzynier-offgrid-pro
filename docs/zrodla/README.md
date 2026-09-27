@@ -349,4 +349,6 @@ tamtym materiale przy konwersji PPTX→DOCX. Zadanie porównawcze zapisane w
   obalona. 9 „zgubionych” pozycji listy norm odzyskane z akapitów tego samego pliku i potwierdzone
   z PDF — uzupełnione w `materialy-branzowe-PV-2019/01-tresc.md`. Usunięcie duplikatu — decyzja
   właściciela (A/B w `00-INDEKS.md` folderu ZIAD).
-
+- **PDF „ZIAD”** (oryginał `.docx`) — identyczny (MD5) z PDF w `materialy-branzowe-PV-2019/`, nie dodany ponownie.
+  Pełny tekst: `materialy-branzowe-PV-2019/02-tresc-pelna-z-pdf.txt`; lista fragmentów zgubionych w `.docx`:
+  `materialy-branzowe-PV-2019/00-INDEKS.md`.

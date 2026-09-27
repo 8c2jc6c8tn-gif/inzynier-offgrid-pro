@@ -23,6 +23,25 @@ odległości montażowe) — oznaczone niżej jako w miarę bezpieczne do użyci
 | Plik | Zakres |
 |---|---|
 | [`01-tresc.md`](01-tresc.md) | Pełne streszczenie wszystkich 10 rozdziałów + wszystkie tabele liczbowe |
+| [`02-tresc-pelna-z-pdf.txt`](02-tresc-pelna-z-pdf.txt) | [27.09.2026] Pełny tekst 1:1 z PDF, strona po stronie — **bezstratna** wersja treści (PDF ma tekst natywny, OCR zbędny) |
+
+## [27.09.2026] Kompletność `.docx` vs PDF
+
+Właściciel projektu dostarczył ten sam PDF drugi raz (jako „ZIAD Bielsko-Biała”, MD5
+`007dfe6c…` — identyczny z PDF w tym folderze), wskazując, że przy przeróbce na `.docx` zgubiły
+się fragmenty. Porównanie linia po linii (tekst PDF vs akapity+tabele `.docx`, z pominięciem
+numeracji list i nagłówków stron):
+- **Nie zgubił się żaden rozdział ani podrozdział** (spis treści PDF 1.–10. w całości obecny w `.docx`).
+- **Zgubione fragmenty (z pól tekstowych na granicach kolumn/rysunków):** str. 21 — pierwszy akapit
+  („Kompleksowa ochrona… rys. 17… odstępów separujących… w materiałach stałych… pożarem”), podpisy
+  Rys. 17 i Rys. 18, zdanie „Norma zaleca, że kiedy jest to tylko możliwe, powinno być [zastosowane
+  separowane urządzenie piorunochronne]” i „Przy projektowaniu… odstęp separujący s (pkt 6.3 PN-EN
+  62305-3)… rys. 18”; str. 17 — podpis Rys. 5 (ochrona krawędzi, rury w obszarze krawędzi i ugięć);
+  str. 18 — przypis 1 (MC4 produkowany przez Multi-Contact AG, od 1.01.2017 Stäubli Electrical Connectors AG).
+- 9 pozycji listy norm (Tabele 1–5) — **nie zgubione, tylko wypchnięte z tabel do akapitów**
+  (patrz korekta w `01-tresc.md`).
+- `01-tresc.md` pisano z PDF, więc streszczenie było kompletne co do rozdziałów; brakujące dwie myśli
+  merytoryczne ze str. 21 dopisano (oznaczone datą). **Źródłem prawdy jest PDF / `02-tresc-pelna-z-pdf.txt`, nie `.docx`.**
 
 ## Najważniejsze dla tego projektu
 

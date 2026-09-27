@@ -7530,3 +7530,9 @@ whitepaper, Boryń/Olesz, ELEKTRA) mają tekst natywny na każdej stronie — OC
 - **Pułapka narzędziowa:** równoległe `tesseract` bez `OMP_THREAD_LIMIT=1` → ~9 min/stronę (pierwszy przebieg
   przerwany); z limitem ~1,3 s/stronę. `tesseract`/`pymupdf`/`numpy`/`python-docx` w kontenerze trzeba doinstalować.
 - Zgłoszenie do `docs/wklad-do-standardu.md` (MD5 przed dodaniem, akapity `.docx`, OMP, odtwarzanie przykładów).
+- **[uzupełnienie, 27.09.2026] PDF „ZIAD”** dostarczony jako „plik, w którym zgubiły się rozdziały przy przeróbce” —
+  identyczny (MD5 `007dfe6c…`) z PDF już w `materialy-branzowe-PV-2019/` (repo miało oryginał od 23.09). Tekst natywny,
+  bez OCR. Porównanie linia po linii PDF vs `.docx`: rozdziały kompletne; konwersja zgubiła fragmenty pól tekstowych
+  (str. 17 podpis Rys. 5, str. 18 przypis MC4, str. 21 akapit o odstępach separujących w materiałach stałych, podpisy
+  Rys. 17/18, dwa zdania). Nowy plik `02-tresc-pelna-z-pdf.txt` (bezstratny); `01-tresc.md` uzupełniony o 2 myśli ze
+  str. 21. Wniosek: przy materiałach z `.docx`-konwersją źródłem prawdy jest PDF.
