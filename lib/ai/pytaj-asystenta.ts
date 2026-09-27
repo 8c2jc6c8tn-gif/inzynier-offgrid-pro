@@ -68,6 +68,7 @@ import { katalogCzujnikowTool } from "./tools/katalog-czujnikow-tool"
 import { doborRegulatoraPwmMpptTool } from "./tools/dobor-regulatora-pwm-mppt-tool"
 import { dniBezSloncaTool } from "./tools/dni-bez-slonca-tool"
 import { ochronaPrzedRozladowaniemTool } from "./tools/ochrona-przed-rozladowaniem-tool"
+import { ratowanieAkumulatoraMalyTool } from "./tools/ratowanie-akumulatora-maly-tool"
 import { gniazdoZapalniczkiTool } from "./tools/gniazdo-zapalniczki-tool"
 import { zuzyciePerUrzadzenieTool } from "./tools/zuzycie-per-urzadzenie-tool"
 import { panelDoStacjiZasilaniaTool } from "./tools/panel-do-stacji-zasilania-tool"
@@ -317,6 +318,7 @@ const NARZEDZIA: Array<AiToolDefinition<any, any>> = [
   doborRegulatoraPwmMpptTool,
   dniBezSloncaTool,
   ochronaPrzedRozladowaniemTool,
+  ratowanieAkumulatoraMalyTool,
   gniazdoZapalniczkiTool,
   zuzyciePerUrzadzenieTool,
   panelDoStacjiZasilaniaTool,

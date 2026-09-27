@@ -7,6 +7,7 @@ import { urzadzenie12vBezposrednioTool } from "../urzadzenie-12v-bezposrednio-to
 import { panelDoStacjiZasilaniaTool } from "../panel-do-stacji-zasilania-tool"
 import { zuzyciePerUrzadzenieTool } from "../zuzycie-per-urzadzenie-tool"
 import { gniazdoZapalniczkiTool } from "../gniazdo-zapalniczki-tool"
+import { ratowanieAkumulatoraMalyTool } from "../ratowanie-akumulatora-maly-tool"
 
 describe("dniBezSloncaTool (M12/E32, dawne 8.59)", () => {
   it("kontrakt 9.3: 'read', bez potwierdzenia", () => {
@@ -120,5 +121,19 @@ describe("gniazdoZapalniczkiTool (M12/E30, dawne 8.57)", () => {
     const w = await gniazdoZapalniczkiTool.handler({ napiecieV: 12, pradBezpiecznikaA: 10, urzadzenia: [{ nazwa: "Czajnik", mocW: 200 }] })
     expect(w.status).toBe("VALID_WITH_WARNINGS")
     expect(w.ostrzezenia).toEqual([t("pl", "GZ-PRZECIAZENIE-GNIAZDA", { prad: "16.7", bezpiecznik: "10", mocMax: "120" })])
+  })
+})
+
+describe("ratowanieAkumulatoraMalyTool (M12/E42, dawne 8.70)", () => {
+  it("kontrakt 9.3: 'read', bez potwierdzenia", () => {
+    expect(ratowanieAkumulatoraMalyTool.operationType).toBe("read")
+    expect(ratowanieAkumulatoraMalyTool.requiresConfirmation).toBe(false)
+    expect(() => validateAiToolDefinition(ratowanieAkumulatoraMalyTool)).not.toThrow()
+  })
+
+  it("AGM 10,2 V → B10 + B11, krytycznie rozładowany jako tekst PL", async () => {
+    const w = await ratowanieAkumulatoraMalyTool.handler({ chemia: "AGM", napiecieSpoczynkoweV: 10.2 })
+    expect(w.procedury.map((p) => p.ekran)).toEqual(["M11/B10", "M11/B11"])
+    expect(w.ostrzezenia).toEqual([t("pl", "RAM-KRYTYCZNIE-ROZLADOWANY", { napiecie: "10.20", prog: "10.5" })])
   })
 })
