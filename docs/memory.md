@@ -7608,3 +7608,18 @@ Polecenie właściciela: „co można jeszcze zrobić beze mnie, czy są większ
   modułami. Kwasowy zalewowy bez progu (źródło podaje tylko AGM i LiFePO4). `PoleCheckbox` wymaga `id` → `useId()` (standard 08).
 - **Pułapka narzędziowa:** `pkill -f next-server` w tym samym poleceniu Bash zabija własną powłokę (wzorzec jest w jej linii
   poleceń) — kolejne kroki się nie wykonują. Zatrzymywać serwer po porcie (`fuser -k 3123/tcp`) albo osobnym wywołaniem.
+- **[27.09.2026, pakiet 2] M12/E27 (urządzenie 12 V wprost) zbudowany.** ✏️ **Rozbieżność A/B do decyzji właściciela:** górna
+  granica napięcia akumulatora 12 V przy ładowaniu — `Tresc_Modul_12` (E27) **14,5 V**, Biblia §12.42 **14,6 V**. Użyte 14,5 V (plik
+  ekranów = specyfikacja ekranu, Dyrektywa #13), stała w `urzadzenie-12v-bezposrednio/constants.ts`. Konsekwencja: urządzenie o
+  max 14,55 V przejdzie bez 🔴, choć przy ładowarce 14,6 V (typowej dla LiFePO4) byłoby przekroczone. **Pułapka:** porównania granic
+  zakresów liczonych z procentów wymagają tolerancji numerycznej (12,5 × 1,16 = 14,4999…) — tu `EPS_V = 1e-9`.
+- **[27.09.2026, pakiet 2] M12/E39 (panel → stacja zasilania)** — echo `obliczNapiecieStringuZimowego` + progi M3/E5. `WerdyktPoziom`
+  ma wartości `ok | uwaga | blad` (nie „ostrzezenie”). Prąd zwarciowy tylko 🟡 (źródło bez stopu, zachowanie stacji zależy od producenta).
+- **[27.09.2026, pakiet 2] M12/E11 (zużycie per urządzenie)** — `obliczZuzycieDoboweWh(P, t, k%)` eksportowane (echo dla E12/E13
+  kreatorów). Baza typowych mocy nie zbudowana: źródło ma tylko nazwy urządzeń — dane potrzebne od właściciela, jeśli ma powstać.
+- **[27.09.2026, pakiet 2] M12/E30 (gniazdo zapalniczki)** — prąd bezpiecznika od usera (zakres 10–15 A tylko jako podpowiedź).
+- **[27.09.2026, pakiet 2] M12/E42** — odsyłacz; dołożone B10 przed B11 (B11 sam mówi, że diagnoza przychodzi z B10).
+- **[27.09.2026, pakiet 2] M12/E22 + E36 (checklisty wg chemii)** — wspólna logika `ocenChecklisteChemii` (E22) i wspólny komponent
+  `components/wzorce/ekran-checklisty-chemii.tsx`. ⚠️ **Do decyzji właściciela:** alert Biblii o wodorze (ołowiowy bez wentylacji)
+  wdrożony jako 🟡 `warning`, nie 🔴 — lista twardych stopów M12 w `Tresc` go nie wymienia. Podniesienie do 🔴 = zmiana `level` w
+  `bezpieczenstwo-kamper/warnings.ts` + wpis w rejestrze twardych stopów.
