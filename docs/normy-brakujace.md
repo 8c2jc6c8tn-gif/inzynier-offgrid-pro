@@ -47,7 +47,9 @@ wtedy zaktualizowane — naprawione teraz, przy okazji.)*
 ## 🟡 Potrzebne, nie blokują dziś konkretnego kodu (zidentyfikowane wcześniej w rozmowie o normach)
 
 - **IEC 62109-1** (bezpieczeństwo przetwornic mocy PV — część 1, wymagania ogólne). Mamy tylko
-  **Część 2** (falowniki, `docs/zrodla/norma-IEC-62109-2/`) — Część 1 nigdy nie dostarczona.
+  **Część 2** (falowniki, `docs/zrodla/norma-IEC-62109-2/`) — Część 1 nigdy nie dostarczona jako
+  norma. **[27.09.2026]** dostarczony whitepaper firmowy o izolacji wg IEC 62109-1 (materiał
+  pomocniczy, nie norma) — `docs/zrodla/norma-IEC-62109-1/`, status bez zmian.
 - **IEC 61215** (kwalifikacja konstrukcji/typu modułów fotowoltaicznych) — norma testowa/
   certyfikacyjna dla samych paneli, nie instalacji; wyjaśniona użytkownikowi wcześniej co robi,
   treść nigdy nie pozyskana.
@@ -74,12 +76,13 @@ wtedy zaktualizowane — naprawione teraz, przy okazji.)*
 Odkryte przy analizie bibliografii UNE-HD 60364-7-712 (05.09.2026) — dotąd nie mieliśmy ich nawet
 z nazwy:
 
-- **HD 60364-4-443** (ochrona przed przepięciami atmosferycznymi i łączeniowymi).
 - **HD 60364-5-551** (zespoły prądotwórcze/agregaty) — **bezpośrednio istotna dla funkcji 1.19
   "Agregat prądotwórczy — definicja i logika"** (Moduł 2), dziś zbudowanej bez formalnego źródła
   normatywnego dla tej części.
-- 🟡 **[25.09.2026] częściowo: dostarczony poradnik producenta „A Guide to BS EN 62305” (Furse)** — `docs/zrodla/norma-IEC-62305/` (tablice zweryfikowane); tekstu normy nadal brak. **Pełna seria EN 62305** (ochrona odgromowa) — mamy tylko wzmiankę z indeksu norm w materiale
-  branżowym PV-2019 (`docs/zrodla/materialy-branzowe-PV-2019/`), nie treść.
+- 🟡 **[25.09.2026] częściowo: dostarczony poradnik producenta „A Guide to BS EN 62305” (Furse)** — `docs/zrodla/norma-IEC-62305/` (tablice zweryfikowane); **[27.09.2026] dodano drugie źródło wtórne:
+  artykuł naukowy PL Boryń/Olesz 2010 (ten sam folder)** — tekstu samej normy PN-EN 62305-1÷4
+  nadal brak. **Pełna seria EN 62305** (ochrona odgromowa) — mamy tylko materiały wtórne, nie treść
+  normatywną.
 
 Odkryte przy analizie indeksu norm w materiale branżowym PV-2019 (05–06.09.2026), lista 34 z 43
 pozycji (`docs/zrodla/materialy-branzowe-PV-2019/01-tresc.md`) — nazwa/numer znany, treść nie:
@@ -99,6 +102,27 @@ dostęp do oryginalnej prezentacji (nie konwersji), warto sprawdzić te konkretn
 ---
 
 ## Pozyskane (historia — dla śledzenia, co przeszło z tej listy do `docs/zrodla/`)
+
+- **[27.09.2026] SRPS HD 60364-4-443:2017 (ochrona przed przepięciami atmosferycznymi/łączeniowymi)**,
+  dostarczona przez właściciela projektu, 18 stron, natywny PDF (wersja serbska, technicznie
+  identyczna z HD 60364-4-443:2016 — dokument harmonizacyjny CENELEC), przeczytana w całości.
+  **Usuwa tę pozycję z listy ⚪ niżej — norma pozyskana i przeanalizowana.** Opis:
+  `docs/zrodla/norma-HD-60364-4-443/00-INDEKS.md`.
+- **[27.09.2026] Artykuł nauk. PL "Zmiany zasad ochrony odgromowej... wg norm serii PN-EN 62305"
+  (Boryń, Olesz, 2010)**, dostarczony przez właściciela projektu, 7 stron, przeczytany w całości.
+  Drugie (po Furse) źródło wtórne do EN 62305 — **wciąż nie sam tekst normy**, patrz pozycja EN
+  62305 niżej (bez zmiany statusu 🟡). Opis: dopisek w `docs/zrodla/norma-IEC-62305/00-INDEKS.md`.
+- **[27.09.2026] Whitepaper "Isolation in solar power converters" (IEC 62109-1, materiał firmowy)**,
+  dostarczony przez właściciela projektu, 14 stron, dodany i rozpoznany po tytule — **treść
+  nieprzeczytana w całości** (zadanie dla następnej sesji). Nie zamyka luki IEC 62109-1 (patrz
+  wyżej, bez zmiany statusu 🟡). Opis: `docs/zrodla/norma-IEC-62109-1/00-INDEKS.md`.
+- **[27.09.2026] Poradnik ELEKTRA "Obliczanie EN 12831" (wyd. 2011)**, dostarczony przez właściciela
+  projektu — **duplikat treściowy** poradnika Purmo już w repo (ten sam bazowy tekst metodyczny,
+  inny wydawca/branding). Dodany jako kopia zapasowa/porównawcza, nie jako nowe źródło. Opis:
+  dopisek w `docs/zrodla/materialy-Purmo-PN-EN-12831-ogrzewanie/00-INDEKS.md`.
+  **Uwaga:** plik `Poradnik-Purmo-nowa-metoda-obliczania_12831_01_2012.pdf` dostarczony w tej samej
+  paczce jest identycznym duplikatem pliku już obecnego w repo (`79967189-Poradnik-Purmo-...pdf`)
+  — **nie dodany ponownie**.
 
 - **[27.09.2026] PN-EN ISO 14683:2007 (mostki cieplne — liniowy współczynnik przenikania ciepła)**,
   dostarczona przez właściciela projektu, 27 stron, natywny PDF, przeczytana w całości. Częściowo

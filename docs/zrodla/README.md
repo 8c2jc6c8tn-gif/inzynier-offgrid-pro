@@ -293,3 +293,35 @@ właściciel projektu; w repo tylko notatka robocza z liczbami używanymi w kodz
 **`docs/zrodla/norma-PN-EN-1991-1-4/00-INDEKS.md`**. Odstępstwo od zasady B.5 (oryginał w
 `docs/zrodla/`) — świadome, powód i otwarta decyzja o pozostałych normach: `docs/memory.md`,
 "Licencje norm w publicznym repozytorium (25.09.2026)".
+
+## Cztery pliki: SRPS HD 60364-4-443, artykuł PL o EN 62305, whitepaper IEC 62109-1, poradnik ELEKTRA 12831 (27.09.2026)
+
+[27.09.2026] ✅ DODANO (4 pliki) — źródło: właściciel projektu, paczka 5 PDF (jeden pominięty jako duplikat, patrz niżej).
+
+- **SRPS HD 60364-4-443:2017** (ochrona przed przepięciami atmosferycznymi/łączeniowymi, wersja
+  serbska dokumentu harmonizacyjnego CENELEC, technicznie identyczna z HD 60364-4-443:2016) —
+  `docs/zrodla/norma-HD-60364-4-443/`. **Pełny tekst, natywny PDF, przeczytany w całości** (18
+  stron). **Wypełnia bezpośrednio pozycję ⚪ "HD 60364-4-443" z `docs/normy-brakujace.md`** — wzór
+  CRL (ocena ryzyka, decyzja o konieczności SPD) + tabela kategorii przepięć I–IV + 4 przykłady
+  liczbowe rozwiązane w Załączniku A. Trafność: uzupełnia Moduł 5 (`ochrona-przepieciowa-spd`).
+- **Artykuł naukowy PL "Zmiany zasad ochrony odgromowej... wg norm serii PN-EN 62305"** (Boryń,
+  Olesz, Politechnika Gdańska, 2010, 7 stron) — dopisany do `docs/zrodla/norma-IEC-62305/00-INDEKS.md`
+  jako drugie źródło wtórne (po Furse), tym razem po polsku. Przeczytany w całości. **Nie zamyka
+  luki EN 62305** (nadal brak oficjalnego tekstu normy) — ale daje krótszy, polskojęzyczny opis
+  procedury oceny ryzyka R = N·P·L i tabel materiałowych/przeglądowych.
+- **Whitepaper "Isolation in solar power converters" (IEC 62109-1, materiał firmowy)** — dodany do
+  `docs/zrodla/norma-IEC-62109-1/` (nowy folder), 14 stron, natywny PDF. **Rozpoznany tylko po
+  tytule/metadanych — treść NIE przeczytana w całości w tej sesji** (zadanie dla następnej sesji,
+  patrz `00-INDEKS.md` tego folderu). Nie zamyka luki IEC 62109-1 (wciąż brak tekstu normy).
+- **Poradnik ELEKTRA "Obliczanie EN 12831" (wyd. 2011)** — dodany do
+  `docs/zrodla/materialy-Purmo-PN-EN-12831-ogrzewanie/` jako plik porównawczy. Spis treści
+  identyczny z już posiadanym poradnikiem Purmo (ta sama bazowa metodyka, inny wydawca) —
+  **nie jest niezależnym drugim źródłem**, tylko kopią zapasową na wypadek luki w treści Purmo.
+- **Pominięty duplikat:** plik `Poradnik-Purmo-nowa-metoda-obliczania_12831_01_2012.pdf`
+  dostarczony w tej samej paczce jest identyczny z plikiem już obecnym w repo
+  (`materialy-Purmo-PN-EN-12831-ogrzewanie/79967189-Poradnik-Purmo-...pdf`) — **nie dodany
+  ponownie**, żeby nie duplikować treści w repo.
+
+Pełne opisy w `docs/zrodla/norma-HD-60364-4-443/00-INDEKS.md`, dopiskach w
+`docs/zrodla/norma-IEC-62305/00-INDEKS.md` i `docs/zrodla/materialy-Purmo-PN-EN-12831-ogrzewanie/00-INDEKS.md`,
+oraz `docs/zrodla/norma-IEC-62109-1/00-INDEKS.md`. Status w `docs/normy-brakujace.md` zaktualizowany.
