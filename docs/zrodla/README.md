@@ -400,3 +400,12 @@ SHA-256 `df512101d76a3d52f9d9f66d42e0e2c791e40f402c10c644ae35d6c9e3a24238`. Decy
 (Biuletyn Branżowy nr 272 (4802) z 17.12.2025) z taryfą w załączniku, okres 1.01–31.12.2026. Skan bez warstwy
 tekstowej — stawki odczytane wizualnie z tabel 7.1 (grupy A/B/C), 7.2 (grupy G), 7.3 (abonament), s. 62–64 taryfy.
 Kontrola: stawki G netto × 1,23 zgodne z informacją OSD o stawkach brutto (11/11 sprawdzonych wartości).
+
+## Odczyt whitepaper IEC 62109-1 + przegląd kompletności `docs/zrodla/` (27.09.2026)
+
+- **Whitepaper IEC 62109-1** (`norma-IEC-62109-1/`) — przeczytany w całości: Texas Instruments
+  SLYY102, 2016, **11 stron** (wcześniejsze „14” było błędne). Dobór izolatorów wewnątrz
+  falownika; nie odblokowuje ekranów, bez liczb do kodu. Streszczenie w `00-INDEKS.md` folderu.
+- **Przegląd wszystkich folderów:** żaden inny plik nie pozostaje nieprzeczytany. Indeksy
+  `materialy-fizyka-budowli/` i `norma-PN-EN-1990-eurokod-0/` uzupełnione o nazwy oryginałów PDF
+  (`document-download 4–9.pdf`), z których wcześniej wyekstrahowano pliki `.txt`.
