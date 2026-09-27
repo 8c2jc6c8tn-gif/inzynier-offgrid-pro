@@ -7643,3 +7643,4 @@ Polecenie właściciela: „co można jeszcze zrobić beze mnie, czy są większ
 ### M7/E19 elektronika w mrozie (27.09.2026)
 
 - Źródło nie podaje progów per urządzenie — min. temperaturę pracy wpisuje user z karty katalogowej (Dyrektywa #1). 🔴 tylko BMS (jedyny „nie wystartuje” w źródle); przetwornica/falownik 🟡 mimo że realnie też krytyczne — otwarte dla właściciela (`docs/lista-do-zrobienia.md`). Porównanie ścisłe `<` (równo z minimum = w zakresie, jak E13).
+- **Błąd naprawiony (wspólny komponent):** `components/wzorce/wynik-szczegoly.tsx` miał `key={w.code}` — przy kilku ostrzeżeniach o tym samym kodzie (lista urządzeń) React zostawiał nieaktualny komunikat. Teraz `key={w.code + i}`. Ten sam wzorzec `key={w.code}` jest jeszcze w ~10 stronach z własnym renderem ostrzeżeń (np. `mixing-rownolegle`, `liczba-paneli`) — nieruszone, bo tam kody są unikalne per wynik; do sprawdzenia przy dotknięciu tych ekranów. Wkład: `docs/wklad-do-standardu.md`.
