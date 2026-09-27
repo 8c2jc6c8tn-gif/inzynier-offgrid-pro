@@ -1,0 +1,1368 @@
+EN ISO 13786:2007 — surowy tekst OCR (tesseract 5.3.4, -l eng, 250 DPI, PyMuPDF render), 27.09.2026.
+UWAGA: tekst roboczy. Tekst ciągły dobry; WZORY I TABLICE W TYM PLIKU SĄ ZNIEKSZTAŁCONE — obowiązuje
+02-wzory-i-tablice-zweryfikowane.md (odczyt wizualny + odtworzenie przykładów Załącznika D).
+Numer strony = strona PDF (1–27); strona normy ISO = strona PDF − 5 (dla str. 6–26).
+
+===== strona PDF 1 =====
+EUROPEAN STANDARD EN ISO 13786
+NORME EUROPEENNE
+EUROPAISCHE NORM Sissanisanbogy
+
+ICS 91.060.01; 91.120.10 Supersedes EN ISO 13786:1999
+
+English Version
+
+Thermal performance of building components - Dynamic thermal
+characteristics - Calculation methods (ISO 13786:2007)
+
+Performance thermique des composants de batiment - Warmetechnisches Verhalten von Bauteilen - Dynamisch-
+Caractéristiques thermiques dynamiques - Méthodes de thermische KenngréBen - Berechnungsvertahren (ISO
+calcul (ISO 13786:2007) 18786:2007)
+
+This European Standard was approved by CEN on 7 December 2007,
+
+CEN members are bound to comply with the CEN/CENELEC Internal Regulations which stipulate the conditions for giving this European
+Standard the status of a national standard without any alteration. Up-to-date lists and bibliographical references concerning such national
+standards may be obtained on application to the CEN Management Centre or to any CEN member.
+
+This European Standard exists in three official versions (English, French, German). A version in any other language made by translation
+
+under the responsibility of a CEN member into its own language and notified to the CEN Management Centre has the same status as the
+official versions.
+
+CEN members are the national standards bodies of Austria, Belgium, Bulgaria, Cyprus, Czech Republic, Denmark, Estonia, Finland,
+France, Germany, Greece, Hungary, Iceland, Ireland, Italy, Latvia, Lithuania, Luxembourg, Malta, Netherlands, Norway, Poland, Portugal,
+Romania, Slovakia, Slovenia, Spain, Sweden, Switzerland and United Kingdom.
+
+js §
+
+EUROPEAN COMMITTEE FOR STANDARDIZATION
+COMITE EUROPEEN DE NORMALISATION
+EUROPAISCHES KOMITEE FUR NORMUNG
+
+Management Centre: rue de Stassart, 36 B-1050 Brussels
+
+©2007 CEN All rights of exploitation in any form and by any means reserved Ref. No. EN ISO 13786:2007: E
+worldwide for CEN national Members.
+
+===== strona PDF 2 =====
+EN ISO 13786:2007 (E)
+
+Foreword
+
+This document (EN ISO 13786:2007) has been prepared by Technical Committee ISO/TC 163 "Thermal
+performance and energy use in the built environment" in collaboration with Technical Committee CEN/TC 89
+"Thermal performance of buildings and building components", the secretariat of which is held by SIS.
+
+This European Standard shall be given the status of a national standard, either by publication of an identical
+text or by endorsement, at the latest by June 2008, and conflicting national standards shall be withdrawn at
+the latest by June 2008.
+
+Attention is drawn to the possibility that some of the elements of this document may be the subject of patent
+rights. CEN [and/or CENELEC] shall not be held responsible for identifying any or all such patent rights.
+
+This document supersedes EN ISO 13786:1999.
+
+According to the CEN/CENELEC Internal Regulations, the national standards organizations of the following
+countries are bound to implement this European Standard: Austria, Belgium, Bulgaria, Cyprus, Czech
+Republic, Denmark, Estonia, Finland, France, Germany, Greece, Hungary, Iceland, Ireland, Italy, Latvia,
+
+Lithuania, Luxembourg, Malta, Netherlands, Norway, Poland, Portugal, Romania, Slovakia, Slovenia, Spain,
+Sweden, Switzerland and the United Kingdom.
+
+Endorsement notice
+
+The text of ISO 13786:2007 has been approved by CEN as a EN ISO 13786:2007 without any modification.
+
+===== strona PDF 3 =====
+ISO 13786:2007(E)
+
+Contents Page
+COV Ns a a Ne i a le SN ae ee cel ee A Sane 8 de ee lee iv
+IntrodUCtiON iiss e aie a eae ea eae aa ne eee ce Vv
+1 SS GO DE scceoces aacens seacecaaaeeucaaseiue aueaa ease ane aes Pe eeeata cat a eae See EERE eR En 1
+2 INGEST E FOP Fe rae Seo is ees ara ea ries Savwce sta cacao Gua a cobs coc Wee sean e ak eae seen eee
+3 Terms, definitions, Symbols ANd UNItS ..........cscceeeeseseseesseeeeeeseeseesersersneeneesenaseeaesessnaneesseeaeesesaneoaeeess 2
+3.1 Terms and definitions
+
+3.2 SS MINUS S SUNN UUM ES ces cesses «sacsccien cess nev suntan conessiters yosnedssnenaesoanesseseesi sss pasmasachanssuesseus ts svensiies tas eenseseenpseese
+3.3 Sep LMSC N FOS cessed coe ae evap vet cas marae woe wwe cove opauawotcaduaa nui e Was duuwske vuamuaa ua wausecswavsaste sl lvauaeuatewaeywastauteusamouwsbiunveaceins
+3.4 Others yr 52 23.0 sice esses eee ese ccee ice ag ee
+4 Period of the thermal Varlatlons | iviicccsscncicccnvaca cient aianisaea ccc iesie ceeded cobs ait eas 6
+5 Teatea Tec LUA Ch icon ces sec ewe shee sca see cede en ee Se eke neonate ee ee
+6 Heat transfer matrix of a multi-layer COMPOMENTL.................ccccccccssccsssussseesssessenesesssasseesseeseeeeseeesoneaans vA
+6.1 CSS NEN ese ses cesses scscesnscenet canaseteunsa cencusvareaecute weggenenetes
+
+6.2 Procedure.
+
+6.3 Heat transfer matrix of a homogeneous layer
+
+6.4 Heat transfer matrix of plane air cavities ............
+
+6.5 Heat transfer matrix of a DUIIdINg COMPONENL.......ccssscesessessssneessseteeieesneesessaesteeesoersessneeseesesoane 8
+7 Dynamic thermal characteristics -...............-----.:ces:cceeeeeeeeeeeeeceeeeeeeeeneeeceeneseneceeseeeeeeseeerscenseesneaeeseecees 8
+7.1 Characteristics for any component eae
+7.2 Characteristics for components consisting of plane and homogeneous layers...............0.c B
+8 FRG DOE ioe cese cscs ar cee eete cece cine eens tea tea teve nates ee arate cee eekines cement ate aaa aaa La Tad ee eam ceee ae Tada eee ce Re eet ee
+8.1 Calculation report.... -
+8.2 SUMUTIALY. OF POSUING sass sciissie csccssinsssiycasvcssenscncnses sven sextoussni cee sansa nas tnsanite cosebeusid sosisissntentinenssnseececnvucbedpeasen’
+Annex A (normative) Simplified calculation of the heat Capacity ..........cceseteeseeneetseeseeeeseeeeeeeeeaneessseemene 11
+Annex B (informative) Principle of the method and examples of applications................cccccccsseeseesseeeee 13
+Annex C (informative) Further information for computer programming .......:ccsssssecsseessssenrsecsssnneesssseneee 17
+Ahinex D-intormistive): Escetyn ples cis ccickices ie cscevaeestevecadtensccuscevdsuesaiavctaseunscucdensseta tevarstonsniaensbgivarsadaeitamanaacenay 19
+Bibliography ........... ccc cee cece eee eceeeeeeeeeeeeesseeeeeseeeessaeeeesassesedsecaeeeaees ssauessecaeeeeesesaesueesasssassconesssaaenauesetaseeauuassoease 22
+
+ISO 2007 — All rights reserved iii
+
+===== strona PDF 4 =====
+ISO 13786:2007(E)
+
+Foreword
+
+ISO (the International Organization for Standardization) is a worldwide federation of national standards bodies
+(ISO member bodies). The work of preparing International Standards is normally carried out through ISO
+technical committees. Each member body interested in a subject for which a technical committee has been
+established has the right to be represented on that committee. International organizations, governmental and
+non-governmental, in liaison with ISO, also take part in the work. ISO collaborates closely with the
+International Electrotechnical Commission (IEC) on all matters of electrotechnical standardization.
+International Standards are drafted in accordance with the rules given in the ISO/IEC Directives, Part 2.
+
+The main task of technical committees is to prepare International Standards. Draft International Standards
+adopted by the technical committees are circulated to the member bodies for voting. Publication as an
+International Standard requires approval by at least 75 % of the member bodies casting a vote.
+
+Attention is drawn to the possibility that some of the elements of this document may be the subject of patent
+rights. ISO shall not be held responsible for identifying any or all such patent rights.
+
+ISO 13786 was prepared by Technical Committee ISO/TC 163, Thermal performance and energy use in the
+built environment, Subcommittee SC 2, Calculation methods.
+
+This second edition cancels and replaces the first edition (ISO 13786:1999), which has been technically
+revised.
+
+The following principal changes have been made to the first edition:
+
+— _ all equations in Clause 3 have been reviewed and corrected as appropriate; the definition of heat capacity
+(3.1.1.5) has been modified;
+
+— all equations in 7.2.1 and 7.2.2 have been reviewed and corrected as appropriate;
+— 7.2.4 contains a new equation for periodic thermal transmittance, and a new note;
+— Equation (A.4) has been corrected:
+
+— 8.2 has undergone minor revisions;
+
+— Table C.1 has been added;
+
+— Annex D contains amended examples to align with changes to the formulae in the main body of the text.
+
+iv © 1SO 2007 — All rights reserved
+
+===== strona PDF 5 =====
+ISO 13786:2007(E)
+
+Introduction
+
+This International Standard provides the means (in part) to assess the contribution that building products and
+services make to energy conservation and to the overall energy performance of buildings.
+
+The dynamic thermal characteristics of a building component describe the thermal behaviour of the
+component when it is subject to variable boundary conditions, i.e. variable heat flow rate or variable
+temperature on one or both of its boundaries. In this International Standard, only sinusoidal boundary
+conditions are considered: boundaries are submitted to sinusoidal variations of temperature or heat flow rate.
+
+The properties considered are thermal admittances and thermal dynamic transfer properties, relating cyclic
+heat flow rate to cyclic temperature variations. Thermal admittance relates heat flow rate to temperature
+variations on the same side of the component. Thermal dynamic transfer properties relate physical quantities
+on one side of the component to those on the other side. From the aforementioned properties, it is possible to
+define the heat capacity of a given component which quantifies the heat storage property of that component.
+
+The dynamic thermal characteristics defined in this International Standard can be used in product
+specifications of complete building components.
+
+The dynamic thermal characteristics can also be used in the calculation of:
+— the internal temperature in a room;
+— the daily peak power and energy needs for heating or cooling;
+
+— the effects of intermittent heating or cooling, etc.
+
+® |SO 2007 — All rights reserved v
+
+===== strona PDF 6 =====
+INTERNATIONAL STANDARD ISO 13786:2007(E)
+
+Thermal performance of building components — Dynamic
+thermal characteristics — Calculation methods
+
+1 Scope
+
+This International Standard specifies the characteristics related to the dynamic thermal behaviour of a
+complete building component and provides methods for their calculation. It also specifies the information on
+building materials required for the use of the building component. Since the characteristics depend on the way
+materials are combined to form building components, this International Standard is not applicable to building
+materials or to unfinished building components.
+
+The definitions given in this International Standard are applicable to any building component. A simplified
+calculation method is provided for plane components consisting of plane layers of substantially homogeneous
+building materials.
+
+Annex A specifies simpler methods for the estimation of the heat capacities in some limited cases. These
+methods are suitable for the determination of dynamic thermal properties required for the estimation of energy
+use. These approximations are not appropriate, however, for product characterization.
+
+Annex B gives the basic principle and examples of applications of the dynamic thermal characteristics defined
+in this International Standard.
+
+Annex C provides information for programming the calculation method.
+
+Annex D gives examples of calculation for a building component.
+
+2 Normative references
+
+The following referenced documents are indispensable for the application of this document. For dated
+references, only the edition cited applies. For undated references, the latest edition of the referenced
+document (including any amendments) applies.
+
+ISO 6946, Building components and building elements — Thermal resistance and thermal transmittance —
+Calculation method
+
+ISO 7345, Thermal insulation — Physical quantities and definitions
+
+ISO 10211, Thermal bridges in building construction — Heat flows and surface temperatures — Detailed
+calculations
+
+ISO 2007 — Al rights reserved 1
+
+===== strona PDF 7 =====
+ISO 13786:2007(E)
+
+3. Terms, definitions, symbols and units
+
+3.1. Terms and definitions
+
+For the purposes of this document, the terms and definitions given in ISO 7345 and the following apply.
+
+3.1.1. Definitions valid for any component
+
+3.1.1.1
+component
+part of a building, such as a wall, floor or roof, or a part of such an element
+
+3.1.1.2
+thermal zone of a building
+part of a building throughout which the internal temperature is assumed to have negligible spatial variations
+
+NOTE 1 A component separates two zones, designated in this International Standard by m and a.
+
+NOTE 2 The external environment can also be considered a zone.
+
+3.1.1.3
+
+sinusoidal conditions
+
+conditions in which the variations of the temperature and heat flows around their long term average values are
+described by a sine function of time
+
+NOTE Using complex numbers, the temperature in zone » can be described by Equation (1) and the heat flow by
+Equation (2):
+a = fast mF es F 5 =
+4,,(t) a 8, +|6,|cos(ws ty) a a, +514 snel T O_,@ iat) (1)
+= F, = iy; jet z —jart
+,(t)=@, +|@,|cos(wt+ 9) =@, + aL Pant +@_,e | (2)
+
+where
+
+@, and @, are average values of temperature and heat flow;
+
+(6, and |é,| are amplitudes of temperature and heat flow variations,
+
+6, and db, are complex amplitudes defined by:
+G,,=|6,|e7" and &,,, =|6,| e*!” (3)
+wo is the angular frequency of the variations.
+
+3.1.1.4
+
+periodic thermal conductance
+
+L HAD
+
+complex number relating the periodic heat flow into a component to the periodic temperatures on either side of
+it under sinusoidal conditions
+
+Another representation of the concept:
+
+Bi = Lim Om — Ln 8,
+
+ci an on Sn (4)
+
+2 ISO 2007 — All rights reserved
+
+===== strona PDF 8 =====
+ISO 13786:2007(E)
+
+NOTE 1 L,,,,, relates the periodic heat flow on side » to the periodic temperature on side » when the temperature
+amplitude on side » is zero. L.,,,, relates the periodic heat flow on side m to the periodic temperature on side » when the
+temperature amplitude on side » is zero.
+
+NOTE 2 = As aconvention within this International Standard, the heat flow rate is defined as positive when it enters the
+surface of the component.
+
+3.1.1.5
+heat capacity
+modulus of the net periodic thermal conductance divided by the angular frequency
+
+Another representation of the concept:
+
+Fl
+
+Cr = —|Lnimn ~ be (5)
+wo
+
+3.1.1.6
+
+time shift
+
+At
+
+period of time between the maximum amplitude of a cause and the maximum amplitude of its effect
+
+3.1.2 Definitions valid only for one dimensional heat flow
+
+3.1.2.1
+plane component
+component for which the smallest curvature radius is at least five times its thickness
+
+3.1.2.2
+
+homogeneous material layer
+
+layer of material in which the largest size of inhomogeneities does not exceed one fifth of the thickness of the
+layer
+
+3.1.2.3
+
+thermal admittance
+
+complex quantity defined as the complex amplitude of the density of heat flow rate through the surface of the
+component adjacent to zone m, divided by the complex amplitude of the temperature in the same zone when
+the temperature on the other side is held constant
+
+Another representation of the concept:
+
+cis
+
+ta dm
+
+Youm =e (6)
+an
+
+3.1.2.4
+
+periodic thermal transmittance
+
+complex quantity defined as the complex amplitude of the density of heat flow rate through the surface of the
+
+component adjacent to zone m, divided by the complex amplitude of the temperature in zone » when the
+temperature in zone m is held constant
+
+Another representation of the concept:
+
+at
+
+dm
+Y.,. =-= 7
+a, 2
+
+ISO 2007 — All rights reserved 3
+
+===== strona PDF 9 =====
+ISO 13786:2007(E)
+
+3.1.2.5
+areal heat capacity
+heat capacity divided by area of element
+
+Another representation of the concept:
+
+m— ” eal a gee ZZ re (8)
+
+NOTE1 Using Equation (8), the heat capacities are then:
+
+C= Ax (9)
+
+arr "
+
+NOTE2 ~~ There are two thermal admittances and two heat capacities for a component separating two zones, all of
+which depend on the period of the thermal variations.
+
+3.1.2.6
+
+decrement factor
+ratio of the modulus of the periodic thermal transmittance to the steady-state thermal transmittance L’
+
+Another representation of the concept:
+
+j Y,
+ie Aa zs | a (10)
+a
+where m #n
+3.1.2.7
+periodic penetration depth
+é
+
+depth at which the amplitude of the temperature variations are reduced by the factor “e” in a homogeneous
+material of infinite thickness subjected to sinusoidal temperature variations on its surface
+
+Another representation of the concept:
+
+AE
+Tec
+
+es (11)
+
+NOTE e is the base of natural logarithms; e = 2,718...
+
+3.1.2.8
+
+heat transfer matrix
+
+Z
+
+matrix relating the complex amplitudes of temperature and heat flow rate on one side of a component to the
+complex amplitudes of temperature and heat flow rate on the other side
+
+Another representation of the concept:
+
+()- (211 72), @ (12)
+“las \421 422 la
+
+4 © 1SO 2007 — All rights reserved
+
+===== strona PDF 10 =====
+3.2. Symbols and units
+
+ISO 13786:2007(E)
+
+Symbol Quantity Unit
+
+A area m2
+
+E heat capacity JIK
+periodic thermal conductance WiK
+
+R thermal resistance m2.K/iW
+
+T period of the variations s
+
+U thermal transmittance under steady state boundary conditions Wim2-K)
+Yi thermal admittance Wi(m2-K)
+Yi periodic thermal transmittance Wi(m2-K)
+
+Z heat transfer matrix environment to environment —
+fi element of the heat transfer matrix =
+
+a thermal diffusivity m/s
+
+c specific heat capacity Ji(kg-K)
+
+d thickness of a layer m
+
+i decrement factor —
+
+j unit on the imaginary axis for a complex number; j = JA —
+
+gq density of heat flow rate Wim?
+
+t time sorh
+
+x distance through the component m
+
+At time shift: time lead (if positive), or time lag (if negative) sorh
+
+é periodic penetration depth of a heat wave in a material m
+
+Ce heat flow rate Ww
+
+Fa ratio of the thickness of the layer to the penetration depth —
+
+K areal heat capacity Ji(m2-K)
+
+A design thermal conductivity Wi(m-K)
+
+ral density kg/m?
+
+é temperature °C
+
+o angular frequency; @ = oa rad/s
+Qo, Wf phase differences rad
+
+ISO 2007 — All rights reserved
+
+===== strona PDF 11 =====
+ISO 13786:2007(E)
+
+3.3. Subscripts
+
+Subscript Definition
+a air layer
+e external
+i internal
+m,n for the thermal zones
+s related to surface
+ee from environment to environment
+3.4 Other symbols
+Symbol Definition
+As complex amplitude
+- mean value
+
+| | modulus of a complex number
+
+arg argument of a complex number
+
+4 Period of the thermal variations
+
+The definition of dynamic thermal characteristics and the formulae for their calculation are valid for any period
+of thermal variations.
+
+The values of dynamic thermal characteristics depend on the periods. If more than one period is considered,
+an additional suffix shall be added to all quantities affected so as to distinguish between the values for
+different periods.
+
+Practical time periods are:
+
+— one hour (3600s), which corresponds to very short time variations, such as those resulting from
+temperature control systems;
+
+— one day (86 400 s), corresponding to daily meteorological variations and temperature setback;
+— one week (604 800 s), corresponding to longer term averaging of the building;
+
+— one year (31 536 000 s), useful for treatment of heat transfer through the ground.
+
+5 Data required
+
+The data required to compute the dynamic thermal characteristics are:
+a) the detailed drawings of the product, with dimensions;
+
+b) for each material used in the product:
+
+— the thermal conductivity, 4;
+
+6 ©1S0 2007 — All rights reserved
+
+===== strona PDF 12 =====
+ISO 13786:2007(E)
+
+— the specific heat capacity, c;
+— the density, p.
+
+These values shall be the design values of the materials used.
+
+6 Heat transfer matrix of a multi-layer component
+
+6.1 General
+
+The procedure in 6.2 applies to building components consisting of plane homogeneous layers. Thermal
+bridges usually present in such building components do not affect significantly the dynamic thermal
+characteristics, and can hence be neglected.
+
+The calculation of dynamic thermal characteristics of non-plane components and of components containing
+very important thermal bridges shall be made by solving the equation of heat transfer under periodic boundary
+
+conditions. For this purpose, the rules for modelling the component as given in ISO 10211 shall be used
+together with numerical methods, such as finite difference and finite element techniques.
+
+6.2 Procedure
+The procedure is as follows:
+
+a) identify the materials comprising the layers of the building component and the thickness of these layers,
+and determine the thermal characteristics of the materials;
+
+b) specify the period of the variations at the surfaces;
+c) calculate the penetration depth for the material of each layer;
+d) determine the elements of the heat transfer matrix for each layer;
+
+e) multiply the layer heat transfer matrices, including those of the boundary layers, in the correct order, so as
+to obtain the transfer matrix of the component.
+
+6.3 Heat transfer matrix of a homogeneous layer
+
+The periodic penetration depth for the material of the layer, 4, is calculated from its thermal properties and the
+period T using Equation (11).
+
+The ratio of the thickness of the layer to the penetration depth is then
+
+d
+pe D 1
+ear (13)
+The matrix elements, Z,,,,, are calculated as follows:
+Z44 = Zz = cosh(é)cos(€)+ j sinh(<)sin(<);
+Z42 = -< {sinh(z)cos(£)+cosh(¢)sin(Z) + j| cosh(Z)sin(<) - sinh(¢)cos(2)]};
+Z4 = ~4|sinh(§)o0s( ¢) -cosh(5)sin(s) + j[sinh($)oos() + cosh(5)sin(<) |. (14)
+cf
+
+ISO 2007 — All rights reserved 7
+
+===== strona PDF 13 =====
+ISO 13786:2007(E)
+
+6.4 Heat transfer matrix of plane air cavities
+
+The specific heat capacity of such layers is neglected. Hence, if R, is the thermal resistance of the air layer,
+including convection, conduction and radiation, its heat transfer matrix is
+
+ri. Rs"
+Z,= | (15)
+a lo 1 /
+
+The thermal resistance of the air layer shall be calculated in accordance with ISO 6946.
+
+6.5 Heat transfer matrix of a building component
+
+The heat transfer matrix of the building component from surface to surface is
+
+Zz Zz
+z.{ 11 12)az Ly Yee OT A (16)
+\ Zo4 Z22 N N-1 oe
+where Z,, Zo, Z3, ..., Zy, are the heat transfer matrices of the various layers of the building component,
+
+beginning from layer 1. As a convention for building envelope components, layer 1 shall be the innermost
+layer.
+
+The heat transfer matrix from environment to environment through the building component is
+fog = £59 % boy (17)
+
+where Z,, and Z,. are the heat transfer matrices of the boundary layers, given by
+
+_{1 -Rg
+
+where &, is the surface resistance of the boundary layer, including convection and radiation. Values of surface
+resistance shall be in accordance with ISO 6946.
+
+In most cases, the heat transfer matrix and the dynamic characteristics of a building component shall be
+calculated using the surface resistance values appropriate to the intended orientation of the component. If the
+orientation of the component is not known, the calculations shall be done for vertical orientation (heat flow
+horizontal). For certain applications where boundary layers are taken into account separately, the periodic
+heat capacity of the component should be calculated omitting the boundary layers.
+
+7 Dynamic thermal characteristics
+
+7.1 Characteristics for any component
+The dynamic thermal characteristics of any component are four periodic thermal conductances, L.,,,,, and two
+heat capacities, C_,, as given in 3.1.1.4 and 3.1.1.5.
+
+mt
+
+we
+
+7.2 Characteristics for components consisting of plane and homogeneous layers
+
+7.2.1 Thermal admittances and periodic thermal conductances
+
+The thermal admittances are
+
+Z Zé
+¥,,=-— and Yoo = ——22 (19)
+Z12 242
+
+8 © 180 2007 — All rights reserved
+
+===== strona PDF 14 =====
+where Y,, is for the internal side of the component, while Y5 is for the external side.
+
+The time shift of admittance, is:
+
+T
+Aty 7 By 2°9(Fnm )
+
+with the argument evaluated in the range 0 to 2n.
+
+7.2.2 Modified admittance for internal partitions
+
+ISO 13786:2007(E)
+
+(20)
+
+For internal partitions within a building, where the temperature variations are the same on either side of the
+partition, the periodic heat flow is related to the periodic temperature variations by a modified admittance:
+
+Leni =, a
+
+mm mm 4 mn
+
+where is the periodic thermal transmittance (see also 7.2.3, Note).
+
+wT
+
+7.2.3 Areal heat capacities
+
+The areal heat capacities are
+
+T [244-1
+m| 242
+and
+Pe a Zo9-1
+E 2n 242
+
+Equations (22) and (23) apply to both external elements and to internal partitions.
+
+e
+
+ut fo.
+
+NOTE For an internal partition, «,, =
+
+7.2.4 Periodic thermal transmittance and decrement factor
+The periodic thermal transmittance is given by
+
+1
+Kote
+Z42
+
+and the decrement factor is given by
+
+_ |¥i2
+f= Uy
+
+(21)
+
+(22)
+
+(23)
+
+(24)
+
+(25)
+
+where the thermal transmittance, Up, is calculated in accordance with ISO 6946 ignoring any thermal bridges.
+
+NOTE Jy is calculated ignoring thermal bridges for consistency with the calculation of the dynamic characteristics
+
+(see 6.1).
+
+The decrement factor is always less than 1.
+
+ISO 2007 — All rights reserved
+
+===== strona PDF 15 =====
+ISO 13786:2007(E)
+
+The time shift of the periodic thermal transmittance is:
+
+ti
+aa
+
+= >—arg(Z42) (26)
+Tt
+
+with the argument evaluated in the range —2z to 0.
+
+8 Report
+
+8.1 Calculation report
+
+The calculation report shall include a description of the building component, its normal use (part of the
+envelope or internal component) and enumeration of zones in contact with it.
+
+Each homogeneous part shall be clearly defined with dimensions and identification of the material used in the
+part, as well as the thermal conductivity, the density and the specific heat capacity used for the calculations.
+
+The report shall provide, for any component, the periodic thermal conductances and the heat capacities,
+together with the period, 7, used for the calculations.
+
+In addition, for plane components made of homogeneous layers, the report shall contain:
+— the area of the element;
+
+— alist of the layers beginning with side 1; side 1 adopted for the calculation shall be clearly designated; for
+building envelope components, side 1 shall be that of the innermost layer;
+
+— the values of the surface resistances, R,; and R,., used for the calculation;
+
+— the four elements of the transfer matrix, 7; these complex numbers are given by their modulus and
+argument, in angular units; the arguments may also be converted into the corresponding time shifts;
+
+— the two thermal admittances, described by their modulus and arguments;
+
+— the decrement factor;
+
+— the thermal transmittance, Up, used for the calculation of the decrement factor; the thermal transmittance
+including thermal bridges, calculated in accordance with ISO 6946, shall also be included where possible:
+if that is not possible, it shall be made clear in the report that the thermal transmittance does not include
+
+thermal bridges and is not suitable for steady-state heat transfer calculations.
+
+The heat transfer matrix of the reversed component shall also be provided for building envelope components
+which could be installed with either side in contact with the external environment.
+
+lf the calculation is performed for several periods, the results shall be provided for each period.
+
+8.2 Summary of results
+
+If only some of the characteristics are extracted from the calculation report for use as product specifications,
+then these shall include at least the heat capacities and the decrement factor for a period of one day.
+
+For components where the decrement factor cannot be calculated, the periodic thermal conductance is given
+instead of the decrement factor.
+
+10 © 180 2007 — All rights reserved
+
+===== strona PDF 16 =====
+ISO 13786:2007(E)
+
+Annex A
+(normative)
+
+Simplified calculation of the heat capacity
+
+A.1 Limits of use
+
+The simplified methods described below apply only to plane components. They are based on the penetration
+depth of a heat wave calculated for the material adjacent to the surface [see Equation (11)].
+
+When the accuracy of the calculation is of secondary importance, e.g. when a rough estimate of the internal
+thermal inertia of a whole thermal zone is required, the following simplified methods can be used. However,
+these approximations cannot be used to define the thermal inertia characteristics of a product.
+
+The results obtained by following the methods described in this annex shall be accompanied by a note
+mentioning that they are calculated in accordance with this annnex and stating which approximation was used.
+
+A.2 Simplified methods
+
+A.2.1 Procedure
+The heat capacity of the component is calculated first without taking account of the surface resistance, using
+
+the most suitable of the approximations in A.2.2 to A.2.4. Account is then taken of the surface resistance in
+accordance with A.3.
+
+A.2.2 Thin layer approximation
+
+If, for the side under consideration, the first layer of the building component has a thickness d less than half its
+periodic penetration depth, and if the next layer is an insulating material, then the first layer can be assumed
+to be isothermal and the areal heat capacity of the component for the side under consideration is assessed by
+
+K,=d pe (A.1)
+
+A.2.3 Semi-infinite medium approximation
+
+If, for the side under consideration, the first layer of the building component has a thickness greater than twice
+its periodic penetration depth, then that layer can be considered as infinitely thick and the areal heat capacity
+of the component for the side under consideration is assessed by
+
+dpe
+
+J2
+
+Ik
+
+(A.2)
+
+ISO 2007 — All rights reserved 11
+
+===== strona PDF 17 =====
+ISO 13786:2007(E)
+
+A.2.4 Effective thickness method
+
+This method uses the approximations given in A.2.2 and A.2.3, together with a conventional value of the
+thermal diffusivity, @ = 0,7 x 10-® m/s.
+
+The effective thickness, d,, of one side of a component is the minimum value of the following:
+a) half the total thickness of the component;
+
+b) the thickness of materials between the surface of interest and the first thermal insulating layer, not taking
+account of coatings which are not part of the component;
+
+c) amaximum effective thickness, depending on the period of the variations.
+
+Table A.1 gives indicative values of maximum effective thickness. Values for specific materials may be
+provided on a national basis.
+
+Table A.1 — Maximum effective thickness depending on the period of the variations
+
+Period of the variations 1 hour 1 day 1 week
+Maximum effective thickness 20mm 100 mm 250 mm
+NOTE These effective thicknesses are very approximate values. The conventional value of thermal diffusivity is close
+
+to that of concrete, plaster and mortar. Thermal diffusivity of usual building materials (excluding insulating materials and
+metals) range from 0,12 x 10-® m/s (pine wood) to 1 x 10° m2/s (limestone). Actual effective thickness can then range
+from 40 % to 120 % of the conventional value.
+
+The areal heat capacity is calculated by
+Km = >, Pic with 4 =4r (A.3)
+
+The heat capacity of a component completely contained within the thermal zone under consideration is
+calculated as the sum of the heat capacities calculated from both surfaces of the component.
+
+This simplified method can overestimate the heat capacity for some materials, such as wood or aerated
+
+concrete, and can provide results somewhat different from those given by the calculation method described in
+this International Standard.
+
+A.3 Effect of surface resistance
+The equivalent areal heat capacity, «’,,,, of a building component including the surface resistance, R,, or of a
+
+high-mass component covered by a layer of negligible mass but representing a thermal resistance, R, is
+estimated by
+
+(A.4)
+
+where
+
+Rk. is the surface resistance;
+
+]
+
+«is the areal heat capacity for the high-mass component.
+
+uid
+
+12 © 180 2007 — All rights reserved
+
+===== strona PDF 18 =====
+ISO 13786:2007(E)
+
+Annex B
+(informative)
+
+Principle of the method and examples of applications
+
+B.1 Principle
+
+The method given in this International Standard is based on heat conduction in building components
+composed of several plane, parallel, homogeneous layers, under regular sinusoidal boundary conditions and
+one dimensional heat flow.
+
+That means that at any location in the component, the temperature variations can be modelled by
+
+: 6,,(xyel?' + 6_,(xje I?"
+
+é,(xt)= (x) 5 (B.1)
+and the variations of the density of heat flow rate are
+ay) dene + 4_nlxjerl!
+In(xst) = q(x) +— >. (B.2)
+with
+6.(x) =|6(x)| e*!” and g(x) =|4(x)| e*!” (B.3)
+
+Temperature and density of heat flow rate variations are those around the mean values @ and @ of these
+variables, which are linked by
+
+q =U(G -O,) (B.4)
+
+where U is the thermal transmittance of the component.
+
+The one dimensional equation of heat can be solved for a single layer of homogenous material with sinusoidal
+boundary conditions (e.g. see [1]). The solution can be represented by Equation (12), the element being
+represented by the heat transfer matrix.
+
+The heat transfer matrix, Z, then allows the calculation of the variations of the temperature, @, and of the
+density of heat flow rate, go, on one side of the building component, when these quantities, 6, and q,, are
+known on the other side.
+
+The elements of the heat transfer matrix have the physical interpretation indicated below. Each element is a
+complex number, which can be represented by its modulus, |Z,,,.|, and its argument, Pry = AG(Z ap)
+
+nT ci)
+
+— IZ44| is a temperature amplitude factor, i.e. the amplitude of the temperature variations on side 2
+resulting from an amplitude of 1 K on side 1.
+
+— 4, \s the phase difference between temperatures on both sides of the component.
+
+a |Zo4 | gives the amplitude of the density of heat flow rate through side 2 resulting from a periodic variation
+of temperature on side 1 with an amplitude of 1 K.
+
+ISO 2007 — All rights reserved 13
+
+===== strona PDF 19 =====
+ISO 13786:2007(E)
+
+— bg, is the phase difference between the density of heat flow rate through side 2 and the temperature of
+side 1.
+
+= |Z45| gives the amplitude of the temperature on side 2 when side 1 is subjected to a periodically varying
+density of heat flow rate with an amplitude of 1 W/m2.
+
+— 42 is the phase difference between the temperature on side 2 and the density of heat flow rate through
+side 1.
+
+— |Zoo| is the heat flow rate amplitude factor, i.e. the amplitude of the variations of the density of heat flow
+rate through side 2 resulting from an amplitude of density of heat flow rate of 1 W/m? through side 1.
+
+— 99 is the phase difference between the densities of heat flow rate through both sides of the component.
+
+The time delays between the maximum of an effect and the maximum corresponding cause can be calculated
+from the phase shift of the transfer matrix element, Z;;:
+
+T T
+Ati, = ont = 5 zy) (B.5)
+
+B.2 Examples of application
+
+B.2.1 General
+
+The applications of the dynamic thermal characteristics are numerous. Some general examples are given in
+B.2.2 and B.2.3.
+
+B.2.2 One component
+
+The heat transfer matrix, Z, can be used for any application linking the boundary conditions on one side to the
+temperature and heat flow on the other side, as shown in Equation (12).
+
+For example, the heat flow rate required to maintain a constant temperature on side 2 despite temperature
+and heat flow rate variations on side 1 is given by
+
+G2 = ZO, + Zp 44 (B.6)
+Similarly, the variation of the temperature on side 2 can be obtained by
+62 = 2405+ Z12 44 (B.7)
+
+The variations of heat flow rate entering into the component on both sides can be calculated from the
+variations of temperatures by solving Equation (12) for the densities of heat flow rates:
+
+(a) = 1 (Zu (3: (B.8)
+42 £49 \ 1 £99 \ Oo
+NOTE The sign of 4, is changed because the positive direction is going out of the element at side 2.
+
+Thermal admittance is the amplitude of the density of heat flow rate on one side resulting from a unit
+temperature amplitude on the same side, when the temperature amplitude on the other side is zero:
+
+4 ; 244
+¥4,=-—— for 62 =0,s0 ¥y,=-—4 B.9
+4 b, 2 haa 7 (B.9)
+
+14 ISO 2007 — All rights reserved
+
+===== strona PDF 20 =====
+ISO 13786:2007(E)
+
+Yo = 742 for 6, =0 , 50 Yp9 = fae (B.10)
+@y 242
+
+Periodic thermal transmittance is amplitude of the density of heat flow rate on one side when the temperature
+amplitude on that side is zero and there is unit temperature amplitude on the other side:
+
+] - 1
+Yio = 22 for fy =0, 50 Yyg =->_ (B.11)
+a, 242
+NOTE Yoq is, in general, different from ¥,,, but always Yo; = Vy.
+
+Heat capacities represent the ability of a building component to store energy from either side when the
+corresponding temperature varies periodically.
+
+The component having heat capacity C, on one side will store, on that side, an amount of energy equal to
+Q=2C, \4,| (B.12)
+
+resulting from a periodic change in the temperature of side 1 from -6, to +6, during a half period. The
+same applies to side 2.
+
+B.2.3 Several components
+
+When several components are linked to the same zone, /,
+By =D (L149) - £1249 J (eg)
+k
+where the summation is over all zones, «, that are thermally connected to zone /. The thermal conductances
+can be calculated directly by solving the time-dependent equation of heat transfer using a geometrical model
+
+in accordance with 1S0 10211. For components in which one dimensional heat flow can be assumed,
+however, the calculation method provided in this International Standard can be used to obtain
+
+“mn ke
+
+For example, let us consider a cold store built outside and consisting of two types of components: the walls
+and the roof. Assuming that these components have a relatively small thermal inertia, only the daily variations
+are considered. It is also assumed that the mass of the products stored in the cold store should not be taken
+into account and that the cold store is well insulated from the ground. Therefore, as far as thermal bridges can
+be neglected, the daily average cooling power, @; , required to maintain a fixed internal temperature, 0; , when
+the daily average external temperature is @,, is
+
+Bj = (AU y + AU,) (Be - 4) (B.14)
+where
+
+A, is the area of the roof;
+
+U, is steady state thermal transmittance of the roof;
+
+Ay, |s the area of the wall;
+is the steady state thermal transmittance of the wall.
+
+A negative cooling power means a heating power.
+
+© ISO 2007 — All rights reserved 15
+
+===== strona PDF 21 =====
+ISO 13786:2007(E)
+
+However, some supplementary power can be required to maintain a constant internal temperature despite a
+daily variation of the external temperature. If this variation is considered as sinusoidal of amplitude @, , this
+supplementary power amplitude will be
+
+P= |Awhjaw + ArY42r|Ge (B.15)
+
+where ¥49 is calculated with a period of 24h and with the innermost layer as the first layer. Here again,
+thermal bridges are neglected. The total peak power will then be
+
+(B.16)
+
+NOTE 1 The simplifying assumptions in this example are made for sake of simplicity and are not necessary. For
+example, solving the heat transfer equation for two- and three-dimensional heat flow allows one to take account of heat
+transfer to the ground and thermal bridges. Higher thermal inertia and non sinusoidal (but periodic) external temperature
+variations can be considered by using a representation of the temperature and heat flow as Fourier series, with several
+time periods (1, 2, 4, 8, ... days).
+
+NOTE 2 The absorption of solar radiation on the external surface could be taken into account as an external heat flow,
+or by introducing an equivalent radiation temperature.
+
+16 © 180 2007 — All rights reserved
+
+===== strona PDF 22 =====
+Annex C
+(informative)
+
+ISO 13786:2007(E)
+
+Further information for computer programming
+
+C.1 General
+
+The calculations in accordance with this International Standard will usually be done on a computer. The
+following can assist the programmer.
+
+C.2 Flow chart for the calculation method
+
+Figure C.1 shows the sequence of operations, from top to bottom.
+
+ISO 2007 — All rights reserved
+
+Input: Materials characteristics
+Thickness of the layers
+
+Input time period
+
+'
+
+Heat transfer matrix of each layer
+Surface transfer matrices
+eq. (13) to (15), (18)
+
+'
+
+Make the product of these matrices
+
+1
+
+Calculate dynamic thermal
+characteristics
+
+1
+
+Display or print results
+
+Figure C.1 — Flow chart of the calculation method
+
+17
+
+===== strona PDF 23 =====
+ISO 13786:2007(E)
+
+C.3 Representation of complex numbers
+
+This International Standard requires computation with complex numbers. This can be done on computers,
+even if the mathematical language does not include complex numbers, by using the technique presented
+below.
+
+Let a and b be respectively the real and imaginary parts of a complex number, z. This number can be
+represented in matrix notation:
+
+2-(4 | (C.1)
+
+This changes a complex number into a real matrix of order 2, and a complex matrix of order 2 into a real
+matrix of order4. Then the calculations with complex numbers are replaced by conventional matrix
+calculations. The matrix resulting from the calculation contains, in its odd rows, the real and imaginary parts of
+the corresponding complex number.
+
+The modulus and argument of a complex number can be obtained from the real and imaginary parts by
+
+=Va* +b? (C.2)
+
+Assuming that the arctan function is evaluated in the range —n/2 to +n/2, arg(z) is obtained from the
+appropriate formula in Table C.1.
+
+Zz
+
+Table C.1 — Argument of complex number
+
+18
+
+: . arg(z) for periodic
+aihiiincamlics Siig) (oraxinktance thermal transmittance
+b=0 fa] fi]
+a ;
+a>0,b>0 arctan (4) arctan =) —9q
+a} La
+a=0,b>0 mi2 —3n /2
+if 7 ,
+a<0,b=0 arctan| aye arctan| *)-
+\@ a}
+fe Fae
+a>0,b<0 arctan| )s 2n arctan| =|
+Va La
+a=0,b<0 3x /2 —n /2
+yf * ,
+a<0,hb<0 arctan| aye arctan| >) ~ x
+Wa LaJ
+
+ISO 2007 — All rights reserved
+
+
+===== strona PDF 24 =====
+ISO 13786:2007(E)
+
+Annex D
+(informative)
+
+Examples
+
+D.1 Example 1: Single layer component
+
+A 200 mm wall is made up of homogeneous concrete. Its physical characteristics are:
+— thermal conductivity, 4 = 1,8 Wi(m-K)
+
+— density, o= 2 400 kg/m?
+
+— specific heat capacity, c = 1 000 J/(kg-K)
+
+Then, for a period of 24 h:
+
+— periodic penetration depth 5= 0,144 m and = 1,393
+
+The elements of the heat transfer matrix of the concrete layer are then:
+
+Z44 = 0,378 8 + 1,858) Z49 = 0,097 25 — 0,075 4j
+Zn4 = 22,16 - 30,55) Zo9 = 0,378 8 + 1,858)
+
+Taking account of surface resistances of 0,13 m2:K/W inside and 0,04 m2.KMW outside, the transfer matrix of
+the wall is:
+
+Z44 = 0,508 + 3,081] Z49 = -0,046 - 0,545)
+Zo4 = 22,16 - 30,55) Zy9 = -2,502 + 5,830)
+
+Solving the transfer matrix in accordance with the equations in Clauses 3 to 8 of this International Standard
+gives the results in Table D.1
+
+Table D.1 — Dynamic thermal characteristics for Example 1
+
+Property Modulus “meen
+
+Internal thermal admittance, ¥4, 5,70 Wi(m2.K) 0,95
+External thermal admittance, ¥52 11,59 W/(m?-K) 1,87
+
+Periodic thermal transmittance, ¥42 1,83 Wi(m?-K} -5,68
+Internal areal heat capacity, x B86 kJ/(m?-K) —
+External areal heat capacity, x» 171 kd/(m?-K) —
+Thermal transmittance, L’ 3,56 W/(m2-K) _
+Decrement factor, / 0,514 —_
+
+ISO 2007 - Alll rights reserved 19
+
+===== strona PDF 25 =====
+ISO 13786:2007(E)
+
+Areal heat capacities (without surface resistances) are:
+— exact values:
+
+— inside: «,=224 kJ/(m?-K);
+
+— outside: «y= 224 kJ/(m2-K);
+— A.2.4 approximation (effective thickness):
+
+— inside: «, = 240 kJ/(m?-K);
+
+— outside: x= 240 kJm?-K).
+Areal heat capacities (with surface resistances) are:
+— exact values:
+
+— inside: «, =86kJ/(m2-K);
+
+— outside: «=171 kJ/(m?-K);
+— A.2.4 approximation (effective thickness):
+
+— inside: «,=97 kJm?.K);
+
+— outside: «= 197 kJm2-K).
+
+D.2 Example 2: Multilayer component
+
+A concrete wall is insulated outside with 100 mm polystyrene foam coated with a convenient finishing. Material
+properties are given in Table D.2. The results of calculation are in Tables D.3 to D.5.
+
+Table D.2 — Thermal properties of materials for Example 2
+
+. A p c ad R a é ig
+Material
+
+Wi(m-K) kg/m* Ji(kg-K) m m?KIW mm/s m —
+
+Internal surface _— — _ — 0,130 — _ _
+Concrete 1,80 2 400 1 000 0,200 0,111 0,75 0,144 1,393
+Thermal insulation 0,04 30 1 400 0,100 2,500 0,95 0,162 0,618
+Coating 1,00 1 200 1 500 0,005 0,005 0,56 0,124 0,040
+
+External surface — —_— —_— — 0,040 _ —_— _
+
+20 © 180 2007 — All rights reserved
+
+===== strona PDF 26 =====
+ISO 13786:2007(E)
+
+Table D.3 — Elements of the heat transfer matrices in both directions
+
+Element Time shift (in range -—12 h to 12 h)
+Matrix s Modulus
+of matrix h
+244 98,12 8,96
+Heat Zo 83,07 Wi(m2.K) 0,99
+transfer
+matrix Z42 16,51 m2.K/W -3,89
+222 13,99 -11,86
+244 13,99 11,86
+Inverse Z'04 83,07 Wi(m2-K) ~11,01
+matrix Z49 16,51 m2-K/W 8.11
+222 98,12 8,96
+
+Large differences appear when the component is seen from the high-mass side or from the insulated side.
+
+Table D.4 — Dynamic thermal characteristics for Example 2
+
+Property Modulus "mes
+
+Internal thermal admittance, Y,, 5,94 Wi(m2-K) 0,85
+External thermal admittance, ¥'p> 0.85 Wi(m2-K) 4,03
+
+Periodic thermal transmittance, ¥42 0,061 Wi(m2-K) —8,11
+Internal areal heat capacity, « 82 kJ/(m2-K) —_
+External areal heat capacity, x» 12 kJ/(m?-K) —
+Thermal transmittance, U 0,359 Wi/(m?-K) =
+Decrement factor, / 0,169 _
+
+The capacity under harmonic conditions (24 h period) is less than the long term (steady state) capacity, which
+is the sum of d- p-c for each layer, or 493 kJ/(m?2-K).
+
+Table D.5 — Areal heat capacities in accordance with the simplified calculation of Annex A
+
+Areal heat capacity, kJ/(m2-K)
+Approximations
+without #, with R,
+Internal, semi infinite 244 97
+Internal, effective thickness 240 o7
+External, thin layer 9 9
+
+When surface resistance is taken into account, there is little difference between the values calculated in
+accordance with Clauses 3 to 8 of this International Standard and the values obtained from Annex A.
+
+ISO 2007 — All rights reserved 21
+
+===== strona PDF 27 =====
+ISO 13786:2007(E)
+
+Bibliography
+
+[1] CARSLAW and JAEGER., Conduction of Heat in Solids, Oxford university press, section 3.7, 1959
+
+2? © 1SO 2007 ~ Alll rights reserved

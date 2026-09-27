@@ -336,3 +336,22 @@ posiadanym `docs/zrodla/materialy-branzowe-PV-2019/` — **niesprawdzona hipotez
 edycja tej samej publikacji z pełną (nieprzyciętą) listą 43 norm, w tym 9 pozycji zgubionych w
 tamtym materiale przy konwersji PPTX→DOCX. Zadanie porównawcze zapisane w
 `docs/lista-do-zrobienia.md` i `00-INDEKS.md` tego folderu.
+
+## OCR EN ISO 13786 + sprawdzenie materiału ZIAD (27.09.2026, sesja OCR)
+
+- **EN ISO 13786:2007** — OCR (tesseract `eng`, dwa przebiegi 250/300 DPI) + odczyt wizualny
+  wszystkich stron treści + odtworzenie przykładów D.1/D.2 w Pythonie. Nowe pliki:
+  `norma-PN-EN-ISO-13786/01-tresc-ocr.txt` (surowy, wzory zniekształcone) i
+  `02-wzory-i-tablice-zweryfikowane.md` (źródło prawdy). Dwie niespójności oryginału oznaczone ⚠️.
+  Odblokowuje M6/E8 (Załącznik A.2.4). Status: zweryfikowana, niewykorzystana w kodzie.
+- **`materialy-szkolenie-ZIAD-Bielsko-Biala/`** — plik jest **identyczny bajt-w-bajt (MD5)** z
+  `materialy-branzowe-PV-2019/*.docx`; OCR niepotrzebny (tekst natywny). Hipoteza „inna edycja”
+  obalona. 9 „zgubionych” pozycji listy norm odzyskane z akapitów tego samego pliku i potwierdzone
+  z PDF — uzupełnione w `materialy-branzowe-PV-2019/01-tresc.md`. Usunięcie duplikatu — decyzja
+  właściciela (A/B w `00-INDEKS.md` folderu ZIAD).
+- **PDF „ZIAD”** (oryginał `.docx`) — identyczny (MD5) z PDF w `materialy-branzowe-PV-2019/`, nie dodany ponownie.
+  Pełny tekst: `materialy-branzowe-PV-2019/02-tresc-pelna-z-pdf.txt`; lista fragmentów zgubionych w `.docx`:
+  `materialy-branzowe-PV-2019/00-INDEKS.md`.
+- **[27.09.2026] Decyzja właściciela — wariant A:** folder `materialy-szkolenie-ZIAD-Bielsko-Biala/` **usunięty**
+  (duplikat), a niekompletny `.docx` usunięty też z `materialy-branzowe-PV-2019/` — oryginałem zostaje tylko pełny
+  PDF. Opisy wyżej, wskazujące na folder ZIAD / `.docx`, są historyczne (pliki w historii git).
