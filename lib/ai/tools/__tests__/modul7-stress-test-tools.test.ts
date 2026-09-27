@@ -4,6 +4,7 @@ import { validateAiToolDefinition } from "../../types"
 import { obciazenieDachuSniegiemTool } from "../obciazenie-dachu-sniegiem-tool"
 import { sztywnienieIzolacjiTool } from "../sztywnienie-izolacji-tool"
 import { elektronikaWMrozieTool } from "../elektronika-w-mrozie-tool"
+import { pompyZaworyWMrozieTool } from "../pompy-zawory-w-mrozie-tool"
 
 describe("obciazenieDachuSniegiemTool (M7/E23, dawne 6.34→7.32)", () => {
   it("kontrakt 9.3: 'read', bez potwierdzenia", () => {
@@ -62,5 +63,26 @@ describe("elektronikaWMrozieTool (M7/E19, dawne 6.29→7.27)", () => {
     expect(w.status).toBe("VALID_WITH_WARNINGS")
     expect(w.liczbaPonizejMin).toBe(1)
     expect(w.ostrzezenia).toContain(t("pl", "ELEKTRONIKA-BMS-PONIZEJ-MIN", { nazwa: "BMS", temp: -20, min: -10 }))
+  })
+})
+
+describe("pompyZaworyWMrozieTool (M7/E21, dawne 6.32)", () => {
+  it("kontrakt 9.3: 'read', bez potwierdzenia", () => {
+    expect(pompyZaworyWMrozieTool.operationType).toBe("read")
+    expect(pompyZaworyWMrozieTool.requiresConfirmation).toBe(false)
+    expect(() => validateAiToolDefinition(pompyZaworyWMrozieTool)).not.toThrow()
+  })
+
+  it("pompa −10°C w garażu −15°C + nieopróżniony zawór → dwa ostrzeżenia jako tekst PL", async () => {
+    const w = await pompyZaworyWMrozieTool.handler({
+      temperaturaMiejscaC: -15,
+      elementy: [{ nazwa: "Pompa", typ: "pompa", minTempPracyC: -10 }],
+      maZaworZewnetrzny: true,
+      zaworZewnetrznyOprozniony: false,
+    })
+    expect(w.status).toBe("VALID_WITH_WARNINGS")
+    expect(w.liczbaPonizejMin).toBe(1)
+    expect(w.ostrzezenia).toContain(t("pl", "POMPY-ZAWOR-ZEWNETRZNY"))
+    expect(w.ostrzezenia).toContain(t("pl", "POMPY-PONIZEJ-MIN-POMPA", { nazwa: "Pompa", temp: -15, min: -10 }))
   })
 })

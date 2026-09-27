@@ -67,6 +67,7 @@ import { windChillTool } from "./tools/wind-chill-tool"
 import { obciazenieDachuSniegiemTool } from "./tools/obciazenie-dachu-sniegiem-tool"
 import { sztywnienieIzolacjiTool } from "./tools/sztywnienie-izolacji-tool"
 import { elektronikaWMrozieTool } from "./tools/elektronika-w-mrozie-tool"
+import { pompyZaworyWMrozieTool } from "./tools/pompy-zawory-w-mrozie-tool"
 import { katalogCzujnikowTool } from "./tools/katalog-czujnikow-tool"
 import { doborRegulatoraPwmMpptTool } from "./tools/dobor-regulatora-pwm-mppt-tool"
 import { dniBezSloncaTool } from "./tools/dni-bez-slonca-tool"
@@ -323,6 +324,7 @@ const NARZEDZIA: Array<AiToolDefinition<any, any>> = [
   obciazenieDachuSniegiemTool,
   sztywnienieIzolacjiTool,
   elektronikaWMrozieTool,
+  pompyZaworyWMrozieTool,
   katalogCzujnikowTool,
   doborRegulatoraPwmMpptTool,
   dniBezSloncaTool,
