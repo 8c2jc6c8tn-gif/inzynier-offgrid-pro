@@ -5,6 +5,7 @@ import { obciazenieDachuSniegiemTool } from "../obciazenie-dachu-sniegiem-tool"
 import { sztywnienieIzolacjiTool } from "../sztywnienie-izolacji-tool"
 import { elektronikaWMrozieTool } from "../elektronika-w-mrozie-tool"
 import { pompyZaworyWMrozieTool } from "../pompy-zawory-w-mrozie-tool"
+import { grzalkiDachoweTool } from "../grzalki-dachowe-tool"
 
 describe("obciazenieDachuSniegiemTool (M7/E23, dawne 6.34→7.32)", () => {
   it("kontrakt 9.3: 'read', bez potwierdzenia", () => {
@@ -84,5 +85,26 @@ describe("pompyZaworyWMrozieTool (M7/E21, dawne 6.32)", () => {
     expect(w.liczbaPonizejMin).toBe(1)
     expect(w.ostrzezenia).toContain(t("pl", "POMPY-ZAWOR-ZEWNETRZNY"))
     expect(w.ostrzezenia).toContain(t("pl", "POMPY-PONIZEJ-MIN-POMPA", { nazwa: "Pompa", temp: -15, min: -10 }))
+  })
+})
+
+describe("grzalkiDachoweTool (M7/E11, dawne 6.16)", () => {
+  it("kontrakt 9.3: 'read', bez potwierdzenia", () => {
+    expect(grzalkiDachoweTool.operationType).toBe("read")
+    expect(grzalkiDachoweTool.requiresConfirmation).toBe(false)
+    expect(() => validateAiToolDefinition(grzalkiDachoweTool)).not.toThrow()
+  })
+
+  it("przykład źródła 12 m × 30 W/m, 6 h → 360 W, 2,16 kWh; zapas 300 W → ostrzeżenie PL", async () => {
+    const w = await grzalkiDachoweTool.handler({
+      dlugoscKablaM: 12,
+      mocNaMetrW: 30,
+      godzinyPracyNaDobe: 6,
+      mocPompyCieplaW: null,
+      zapasMocyW: 300,
+    })
+    expect(w.mocW).toBe(360)
+    expect(w.energiaKwhDoba).toBeCloseTo(2.16, 12)
+    expect(w.ostrzezenia).toContain(t("pl", "GRZALKI-BRAK-ZAPASU-MOCY", { moc: 360, zapas: 300 }))
   })
 })

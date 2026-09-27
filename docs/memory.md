@@ -7649,3 +7649,7 @@ Polecenie właściciela: „co można jeszcze zrobić beze mnie, czy są większ
 
 - Kopia wzorca E19 (osobny moduł, nie wspólny silnik — inne kody, inne skutki, brak 🔴). Świadomie nie scalone z E19 w generyczny „sprzęt w mrozie”: dwa ekrany źródła, dwie różne listy skutków; przy trzecim podobnym ekranie rozważyć ekstrakcję.
 - „Spadek ciśnienia” (sekcja B) nieliczony — źródło nie podaje zależności.
+
+### M7/E11 grzałki dachowe (27.09.2026, częściowo)
+
+- Wzór z przykładu źródła; 30 W/m i 6 h to przykład → pola usera. Zdanie źródła „sprawdź, czy masz zapas mocy” zamienione na realne porównanie z opcjonalnym polem „wolny zapas mocy falownika” (bez niego — info). Porównanie z pompą ciepła tylko, gdy user poda jej moc. Strefy zatorów (kosze, przy rynnach) — tylko opis; auto-identyfikacja czeka na model dachu M1.
