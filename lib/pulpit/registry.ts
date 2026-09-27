@@ -278,6 +278,7 @@ export const KAFLE: KafelEntry[] = [
       { href: "/kalkulatory/urzadzenie-12v-bezposrednio", label: "Czy mogę podłączyć urządzenie 12 V bezpośrednio?" },
       { href: "/kalkulatory/panel-do-stacji-zasilania", label: "Łączenie paneli ze stacją zasilania / powerbankiem" },
       { href: "/kalkulatory/zuzycie-per-urzadzenie", label: "Zużycie energii per urządzenie (z cyklem pracy sprężarki)" },
+      { href: "/kalkulatory/gniazdo-zapalniczki", label: "Gniazdo zapalniczki — co można podłączyć" },
     ],
   },
   {

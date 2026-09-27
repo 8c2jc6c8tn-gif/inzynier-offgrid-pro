@@ -152,6 +152,10 @@ nie do audytu poprawności formularza webowego.
   limity niż profesjonalne MPPT, przekroczenie uszkadza wejście.
   [27.09.2026] (M12/E39 — `lib/core/modules/kalkulator-mobilny/panel-do-stacji-zasilania/warnings.ts`,
   `przekroczoneNapiecieWejscia`, kod `PST-PRZEKROCZONE-NAPIECIE-WEJSCIA`)
+- **Przeciążenie gniazda zapalniczki samochodowej** — suma prądów urządzeń powyżej bezpiecznika gniazda, ryzyko
+  przepalenia bezpiecznika lub przegrzania przewodów instalacji pojazdu.
+  [27.09.2026] (M12/E30 — `lib/core/modules/kalkulator-mobilny/gniazdo-zapalniczki/warnings.ts`,
+  `przeciazenieGniazda`, kod `GZ-PRZECIAZENIE-GNIAZDA`)
 
 ## Cieplne / systemowe
 

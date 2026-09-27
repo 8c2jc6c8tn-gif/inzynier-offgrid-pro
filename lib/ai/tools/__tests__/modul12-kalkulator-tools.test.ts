@@ -6,6 +6,7 @@ import { ochronaPrzedRozladowaniemTool } from "../ochrona-przed-rozladowaniem-to
 import { urzadzenie12vBezposrednioTool } from "../urzadzenie-12v-bezposrednio-tool"
 import { panelDoStacjiZasilaniaTool } from "../panel-do-stacji-zasilania-tool"
 import { zuzyciePerUrzadzenieTool } from "../zuzycie-per-urzadzenie-tool"
+import { gniazdoZapalniczkiTool } from "../gniazdo-zapalniczki-tool"
 
 describe("dniBezSloncaTool (M12/E32, dawne 8.59)", () => {
   it("kontrakt 9.3: 'read', bez potwierdzenia", () => {
@@ -105,5 +106,19 @@ describe("zuzyciePerUrzadzenieTool (M12/E11, dawne 8.15 + 8.23–8.28)", () => {
     expect(w.status).toBe("VALID")
     expect(w.sumaWh).toBeCloseTo(432, 9)
     expect(w.ostrzezenia).toEqual([t("pl", "ZPU-CYKLICZNE-REALNIE-MNIEJ", { nazwa: "Lodówka", realne: "432", znamionowe: "1080" })])
+  })
+})
+
+describe("gniazdoZapalniczkiTool (M12/E30, dawne 8.57)", () => {
+  it("kontrakt 9.3: 'read', bez potwierdzenia", () => {
+    expect(gniazdoZapalniczkiTool.operationType).toBe("read")
+    expect(gniazdoZapalniczkiTool.requiresConfirmation).toBe(false)
+    expect(() => validateAiToolDefinition(gniazdoZapalniczkiTool)).not.toThrow()
+  })
+
+  it("czajnik 200 W przy 10 A / 12 V → twardy stop jako tekst PL", async () => {
+    const w = await gniazdoZapalniczkiTool.handler({ napiecieV: 12, pradBezpiecznikaA: 10, urzadzenia: [{ nazwa: "Czajnik", mocW: 200 }] })
+    expect(w.status).toBe("VALID_WITH_WARNINGS")
+    expect(w.ostrzezenia).toEqual([t("pl", "GZ-PRZECIAZENIE-GNIAZDA", { prad: "16.7", bezpiecznik: "10", mocMax: "120" })])
   })
 })

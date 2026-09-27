@@ -7617,3 +7617,4 @@ Polecenie właściciela: „co można jeszcze zrobić beze mnie, czy są większ
   ma wartości `ok | uwaga | blad` (nie „ostrzezenie”). Prąd zwarciowy tylko 🟡 (źródło bez stopu, zachowanie stacji zależy od producenta).
 - **[27.09.2026, pakiet 2] M12/E11 (zużycie per urządzenie)** — `obliczZuzycieDoboweWh(P, t, k%)` eksportowane (echo dla E12/E13
   kreatorów). Baza typowych mocy nie zbudowana: źródło ma tylko nazwy urządzeń — dane potrzebne od właściciela, jeśli ma powstać.
+- **[27.09.2026, pakiet 2] M12/E30 (gniazdo zapalniczki)** — prąd bezpiecznika od usera (zakres 10–15 A tylko jako podpowiedź).

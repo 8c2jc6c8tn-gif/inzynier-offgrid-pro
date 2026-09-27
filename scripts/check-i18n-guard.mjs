@@ -143,6 +143,7 @@ const MIGRATED_MODULES = [
   "lib/core/modules/kalkulator-mobilny/urzadzenie-12v-bezposrednio",
   "lib/core/modules/kalkulator-mobilny/panel-do-stacji-zasilania",
   "lib/core/modules/kalkulator-mobilny/zuzycie-per-urzadzenie",
+  "lib/core/modules/kalkulator-mobilny/gniazdo-zapalniczki",
   "lib/core/modules/stress-test/wind-chill",
   "lib/core/modules/zapotrzebowanie/urzadzenia-zmienne",
   "lib/core/modules/zapotrzebowanie/sprawnosc-inwertera-niskie-obciazenie",
