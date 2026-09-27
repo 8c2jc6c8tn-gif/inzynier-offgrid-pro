@@ -146,6 +146,7 @@ import { ochronaOdwrotnaPolaryzacjaTool } from "./tools/ochrona-odwrotna-polaryz
 import { ochronaPrzedDotykiemTool } from "./tools/ochrona-przed-dotykiem-tool"
 import { ochronaPrzedGryzoniamiTool } from "./tools/ochrona-przed-gryzoniami-tool"
 import { ochronaPrzepieciowaSpdTool } from "./tools/ochrona-przepieciowa-spd-tool"
+import { ocenaRyzykaCrlTool } from "./tools/ocena-ryzyka-crl-tool"
 import { optymalizacjaTrasyKablaTool } from "./tools/optymalizacja-trasy-kabla-tool"
 import { oznakowanieObwodowTool } from "./tools/oznakowanie-obwodow-tool"
 import { peszleKorytaRurkiTool } from "./tools/peszle-koryta-rurki-tool"
@@ -290,6 +291,7 @@ const NARZEDZIA: Array<AiToolDefinition<any, any>> = [
   ochronaPrzedDotykiemTool,
   ochronaPrzedGryzoniamiTool,
   ochronaPrzepieciowaSpdTool,
+  ocenaRyzykaCrlTool,
   optymalizacjaTrasyKablaTool,
   oznakowanieObwodowTool,
   peszleKorytaRurkiTool,

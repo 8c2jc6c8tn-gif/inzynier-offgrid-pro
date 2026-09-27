@@ -7555,3 +7555,31 @@ whitepaper, Boryń/Olesz, ELEKTRA) mają tekst natywny na każdej stronie — OC
   - 15 pozostałych `claude/*` nie ma żadnego commita spoza `main`.
 - **Dlaczego nie usunięte:** sesja w chmurze nie może kasować gałęzi zdalnych (proxy git zwraca HTTP 403 na push
   inny niż do gałęzi sesji). Właściciel może je usunąć ręcznie: GitHub → repo → *Branches* → ikona kosza.
+
+## Ekrany odblokowane przez normy z 27.09 (27.09.2026)
+
+Polecenie właściciela: „wnieść poprawki w ekrany odblokowane po dodaniu nowych dokumentów”. Z plików 27.09 odblokowały
+kod trzy normy (whitepaper IEC 62109-1 nadal nieprzeczytany, ELEKTRA = duplikat Purmo, Boryń/Olesz = materiał wtórny).
+
+- **M6/E7 Mostki — PN-EN ISO 14683 Tablica A.2.** Katalog 76 detali w `mostki-termiczne/katalog-psi.ts`; wartości wyjęte
+  skryptem z tekstu PDF i porównane z kodem (0 rozbieżności), opisy z odczytu rysunków (str. 12–22; W1–W18 to przekrój
+  poziomy, góra = zewnątrz). Użytkownik wybiera detal (także „po poprawie”) i **system wymiarów** (Ψe/Ψoi/Ψi — E1 go nie
+  zna, więc pytanie na E7); kod detalu ma pierwszeństwo przed wpisanym Ψ, kod bez systemu → `INCOMPLETE`. Testy = przykład
+  Załącznika B normy (69,85 / 58,88 / 41,50 W/K). **Dryf naprawiony (Y.2, Dyrektywa #6):** E7 zwracał zawsze
+  `VALID_WITH_WARNINGS`, choć jedyne ostrzeżenie było `info` — teraz `VALID`.
+- **M6/E8 Pojemność — EN ISO 13786 Zał. A.** C użyte do τ = Σ n·A·κ′: dT = min(½ przegrody, grubość do izolacji,
+  100 mm), (A.4) z Rsi = 0,13 (✅🤖 — ISO 6946 poza repo, wartość z D.1 i 14683 A.1). Nowe pola warstwy: położenie
+  (jedna strona / obie — cała w strefie / za izolacją) i opcjonalna grubość całej przegrody; stare szkice działają
+  (domyślnie „jedna strona”). Cała masa zostaje jako `pojemnoscCalkowitaKwhK` (informacyjnie). **Skutek:** w przykładzie
+  testowym (strop 100 m² × 20 cm betonu) czas do 5 °C 26,1 h → 6,3 h — stary wynik był ~4× za optymistyczny.
+  `POJC-CALA-MASA-ZAWYZA` usunięty (także ze słowników) → `POJC-ZALACZNIK-A-PRZYBLIZENIE` (🟡, adnotacja wymagana przez A.1).
+  `CALCULATOR_VERSION` 2.0.0 (zmiana znaczenia wyniku).
+- **M5/E2 SPD — HD 60364-4-443 443.4/443.5.** Nowy moduł `okablowanie/ocena-ryzyka-crl` (strażnik i18n sprawdza tylko
+  `calculator/warnings/validation.ts`, więc osobny katalog zamiast pliku `crl.ts` w module SPD) + sekcja na ekranie
+  (`sekcja-crl.tsx`, osobny szkic) + narzędzie AI. **Pułapka ekstrakcji:** symbole „<”/„≥” progu CRL znikają z tekstu
+  PDF — kierunek rozstrzygnięty przykładami A.1–A.4. **Off-grid:** brak linii → L_P = 0 → brak wymogu z 443.5; zawsze
+  info o stronie DC (712.443 — osobne wymagania) i przepięciach łączeniowych (443.4: generatory nn, magazyny).
+- **Pułapka narzędziowa:** repo nie ma konfiguracji Prettiera — `npx prettier --write` przeformatował pliki domyślnymi
+  ustawieniami (średniki, szerokość 80). Cofnięte; formatować ręcznie w stylu pliku (bez średników, linie do ~160).
+- Weryfikacja: typecheck / lint (0 błędów) / i18n-guard (153) / test 172 plików, 1429 / build / audit:gate / audit:n1;
+  `next start` + Playwright 390 px `pl-PL`: E7 (C2 → Ψoi 0,10), E8, SPD (CRL 81,7) — bez poziomego przewijania.

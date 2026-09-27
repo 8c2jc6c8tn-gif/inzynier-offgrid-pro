@@ -70,3 +70,8 @@ braku wg `docs/memory.md`/`docs/normy-brakujace.md`).
 
 **Status wykorzystania: pozyskana i przeanalizowana (ta sesja), jeszcze niewykorzystana w
 kodzie** — implementacja w `lib/core/modules/ogrzewanie/` (M6) czeka na osobną sesję/zadanie.
+
+**[27.09.2026] ✅ Wykorzystana w kodzie:** Tablica A.2 (76 detali × Ψe/Ψoi/Ψi) → `lib/core/modules/ogrzewanie/mostki-termiczne/katalog-psi.ts`
+(M6/E7). Wartości porównane skryptem z tekstem PDF (0 rozbieżności) i opisane na podstawie rysunków (odczyt wizualny
+str. 12–22). Załącznik B odtworzony w testach (69,85 / 58,88 / 41,50 W/K). Opis R11 niepewny co do różnicy z R5 —
+w aplikacji odsyła do rysunku normy. Konwencja rysunków W1–W18 (przekrój poziomy): góra = strona zewnętrzna.

@@ -108,6 +108,19 @@ describe("mostkiTermiczneTool (M6/E7, dawne 5.7)", () => {
     expect(w.ostrzezenia).toContain(t("pl", "MT-NADPROZE-BEZ-IZOLACJI", { nazwa: "Nadproża" }))
     for (const tekst of [...w.ostrzezenia, ...w.zalozenia]) expect(tekst.startsWith("⚠")).toBe(false)
   })
+
+  it("kod detalu PN-EN ISO 14683 (W8, Ψoi = 1,00) wskazany przez usera + system wymiarów", async () => {
+    const w = await mostkiTermiczneTool.handler({
+      mostki: [{ nazwa: "Ościeża", dlugoscM: 23.6, kodKatalogu: "W8" }],
+      systemWymiarow: "oi",
+      temperaturaWewnetrznaC: 20,
+      temperaturaZewnetrznaC: -20,
+    })
+    expect(w.status).toBe("VALID")
+    expect(w.hMostkowWK).toBeCloseTo(23.6, 9)
+    expect(w.mostki[0]).toMatchObject({ psiWmK: 1, kodKatalogu: "W8" })
+    expect(w.ostrzezenia).toContain(t("pl", "MT-PSI-Z-TABLICY-A2"))
+  })
 })
 
 describe("optymalizacjaIzolacjiTool (M6/E10, dawne 5.10)", () => {
@@ -145,7 +158,7 @@ describe("pojemnoscCieplnaTool (M6/E8, dawne 5.8 + 6.11)", () => {
     expect(() => validateAiToolDefinition(pojemnoscCieplnaTool)).not.toThrow()
   })
 
-  it("τ, czas do granicy i ostrzeżenie o zawyżeniu jako tekst PL", async () => {
+  it("τ, czas do granicy (warstwa czynna EN ISO 13786) i adnotacja o przybliżeniu jako tekst PL", async () => {
     const w = await pojemnoscCieplnaTool.handler({
       warstwy: [{ nazwa: "Strop", powierzchniaM2: 100, gruboscCm: 20, gestoscKgM3: 2000, cieploWlasciweJKgK: 1000 }],
       kubaturaM3: 300,
@@ -156,9 +169,10 @@ describe("pojemnoscCieplnaTool (M6/E8, dawne 5.8 + 6.11)", () => {
       temperaturaGranicznaC: 5,
     })
     expect(w.status).toBe("VALID_WITH_WARNINGS")
-    expect(w.stalaCzasowaH).toBeCloseTo(44.846444444444444, 9)
-    expect(w.czasDoGranicyH).toBeCloseTo(26.097112259036162, 9)
-    expect(w.ostrzezenia).toContain(t("pl", "POJC-CALA-MASA-ZAWYZA"))
+    expect(w.stalaCzasowaH).toBeCloseTo(10.791408039980732, 9)
+    expect(w.czasDoGranicyH).toBeCloseTo(6.279752844204132, 9)
+    expect(w.pojemnoscCalkowitaKwhK).toBeCloseTo(11.211611111111111, 12)
+    expect(w.ostrzezenia).toContain(t("pl", "POJC-ZALACZNIK-A-PRZYBLIZENIE"))
     for (const tekst of [...w.ostrzezenia, ...w.zalozenia]) expect(tekst.startsWith("⚠")).toBe(false)
   })
 })

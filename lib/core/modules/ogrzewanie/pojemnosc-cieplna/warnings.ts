@@ -3,16 +3,28 @@ import type { Warning } from "@/lib/core/calc-result"
 export { wartoscNiedodatnia, wartoscPozaZakresem } from "../obciazenie-cieplne/warnings"
 
 /**
- * Owner's decision (26.09.2026): the source's C = Σ m·c of the whole building is implemented as written, with this
- * warning. In a day-scale cooling only the inner part of heavy elements exchanges heat with the room (PN-EN ISO 13786,
- * not in the repo), so the result overstates the effective capacity and the time to freezing.
+ * [27.09.2026] Replaces POJC-CALA-MASA-ZAWYZA (owner's decision 26.09.2026: whole mass until the norm arrives).
+ * EN ISO 13786 A.1 requires the note that Załącznik A was used and which approximation; A.2.4 UWAGA: real effective
+ * thickness 40 %…120 % of the conventional one, the method may overstate capacity (e.g. timber, aerated concrete).
  */
-export function calaMasaZawyza(): Warning {
+export function zalacznikAPrzyblizenie(): Warning {
   return {
-    code: "POJC-CALA-MASA-ZAWYZA",
+    code: "POJC-ZALACZNIK-A-PRZYBLIZENIE",
     level: "warning",
-    i18nKey: "POJC-CALA-MASA-ZAWYZA",
-    technicalMessage: "C = Σ ρ·A·d·c całych warstw; bez głębokości penetracji (PN-EN ISO 13786 poza repo) — τ i czasy zawyżone",
+    i18nKey: "POJC-ZALACZNIK-A-PRZYBLIZENIE",
+    technicalMessage: "κ wg EN ISO 13786 Zał. A (A.2.4 grubość efektywna, okres 1 doba, A.4 z Rsi) — przybliżenie, dT rzeczywiste 40–120 %",
+  }
+}
+
+/** Element thinner than its own massive layer. */
+export function elementCienszyNizWarstwa(field: string, nazwa: string, element: number, warstwa: number): Warning {
+  return {
+    code: "POJC-ELEMENT-CIENSZY-NIZ-WARSTWA",
+    level: "critical",
+    i18nKey: "POJC-ELEMENT-CIENSZY-NIZ-WARSTWA",
+    params: { nazwa, element, warstwa },
+    technicalMessage: `gruboscElementuCm = ${element} < gruboscCm = ${warstwa}`,
+    field,
   }
 }
 

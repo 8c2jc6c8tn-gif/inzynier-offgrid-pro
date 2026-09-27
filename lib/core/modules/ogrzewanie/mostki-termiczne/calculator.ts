@@ -1,12 +1,19 @@
 import type { Assumption, CalcResult, Warning } from "@/lib/core/calc-result"
-import type { MostkiTermiczneInput } from "./input"
+import type { Mostek, MostkiTermiczneInput } from "./input"
+import { pozycjaKatalogu, type SystemWymiarow } from "./katalog-psi"
 import { validateInput } from "./validation"
-import { nadprozeBezIzolacji, psiOdUzytkownika, temperaturaWewnetrznaNieWyzsza } from "./warnings"
+import { nadprozeBezIzolacji, psiOdUzytkownika, psiZTablicyA2, temperaturaWewnetrznaNieWyzsza } from "./warnings"
 
-export const CALCULATOR_VERSION = "1.0.0"
+export const CALCULATOR_VERSION = "1.1.0"
 
 export type StrataMostka = {
   nazwa: string
+  /** Ψ used [W/(m·K)] — typed by the user or from Tablica A.2. */
+  psiWmK: number
+  /** Tablica A.2 detail code when Ψ comes from the table. */
+  kodKatalogu: string | null
+  /** Ψ after the fix used [W/(m·K)]; `null` when none. */
+  psiPoPoprawieWmK: number | null
   /** H = Ψ·l [W/K]. */
   hWK: number
   strataW: number
@@ -65,19 +72,30 @@ export function calculateMostkiTermiczne(input: MostkiTermiczneInput): CalcResul
 
   if (errors.length > 0) return wynik("INVALID_INPUT", null)
   const { temperaturaWewnetrznaC: ti, temperaturaZewnetrznaC: te, obciazenieBezMostkowW: e1 } = input
-  // A bridge without length or Ψ would silently lower the result — wait for complete data.
-  const kompletne = input.mostki.every((m) => m.dlugoscM !== null && m.psiWmK !== null)
+  const system = input.systemWymiarow ?? null
+  const psi = input.mostki.map((m) => ({
+    przed: psiMostka(m.kodKatalogu, m.psiWmK, system),
+    po: psiMostka(m.kodKataloguPoPoprawie, m.psiPoPoprawieWmK, system),
+  }))
+  // A bridge without length or Ψ (also: table code without the dimension system) would silently lower the result.
+  const kompletne = input.mostki.every(
+    (m, i) => m.dlugoscM !== null && psi[i]!.przed !== null && (psi[i]!.po !== null || !maKod(m.kodKataloguPoPoprawie)),
+  )
   if (ti === null || te === null || input.mostki.length === 0 || !kompletne) return wynik("INCOMPLETE", null, [])
   if (ti <= te) return wynik("INVALID_INPUT", null, [temperaturaWewnetrznaNieWyzsza(ti, te)])
 
   const dT = ti - te
   const mostki: StrataMostka[] = input.mostki.map((m, i) => {
-    const hWK = m.psiWmK! * m.dlugoscM!
+    const { przed, po } = psi[i]!
+    const hWK = przed! * m.dlugoscM!
     return {
       nazwa: m.nazwa || `Mostek ${i + 1}`,
+      psiWmK: przed!,
+      kodKatalogu: maKod(m.kodKatalogu) ? m.kodKatalogu! : null,
+      psiPoPoprawieWmK: po,
       hWK,
       strataW: hWK * dT,
-      strataPoPoprawieW: m.psiPoPoprawieWmK === null ? null : m.psiPoPoprawieWmK * m.dlugoscM! * dT,
+      strataPoPoprawieW: po === null ? null : po * m.dlugoscM! * dT,
     }
   })
   const hMostkowWK = mostki.reduce((a, m) => a + m.hWK, 0)
@@ -90,7 +108,11 @@ export function calculateMostkiTermiczne(input: MostkiTermiczneInput): CalcResul
     return calosc > 0 ? (100 * strata) / calosc : null
   }
 
-  const warnings: Warning[] = [psiOdUzytkownika()]
+  const zTablicy = input.mostki.some((m) => maKod(m.kodKatalogu) || maKod(m.kodKataloguPoPoprawie))
+  const odUzytkownika = input.mostki.some((m) => !maKod(m.kodKatalogu) || (!maKod(m.kodKataloguPoPoprawie) && m.psiPoPoprawieWmK !== null))
+  const warnings: Warning[] = []
+  if (odUzytkownika) warnings.push(psiOdUzytkownika())
+  if (zTablicy) warnings.push(psiZTablicyA2())
   input.mostki.forEach((m, i) => {
     if (m.nadprozeBezIzolacji) warnings.push(nadprozeBezIzolacji(mostki[i]!.nazwa))
   })
@@ -98,9 +120,11 @@ export function calculateMostkiTermiczne(input: MostkiTermiczneInput): CalcResul
     { kod: "MT-ZALOZENIE-TEMPERATURY", params: { ti, te } },
     { kod: "MT-ZALOZENIE-WYMIARY" },
   ]
+  if (zTablicy && system !== null) assumptions.push({ kod: `MT-ZALOZENIE-SYSTEM-${system.toUpperCase()}` })
 
   return wynik(
-    "VALID_WITH_WARNINGS",
+    // Info-level notes never raise the status (Dyrektywa AI #6).
+    warnings.some((w) => w.level !== "info") ? "VALID_WITH_WARNINGS" : "VALID",
     {
       mostki,
       hMostkowWK,
@@ -113,4 +137,13 @@ export function calculateMostkiTermiczne(input: MostkiTermiczneInput): CalcResul
     warnings,
     assumptions,
   )
+}
+
+const maKod = (kod: Mostek["kodKatalogu"]): boolean => kod != null && kod !== ""
+
+/** Ψ from Tablica A.2 when a detail code is given (needs the dimension system), else the value typed by the user. */
+function psiMostka(kod: Mostek["kodKatalogu"], wpisane: number | null, system: SystemWymiarow | null): number | null {
+  if (!maKod(kod)) return wpisane
+  if (system === null) return null
+  return pozycjaKatalogu(kod!)!.psi[system]
 }

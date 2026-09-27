@@ -70,6 +70,7 @@ const MIGRATED_MODULES = [
   "lib/core/modules/okablowanie/normy-i-certyfikaty",
   "lib/core/modules/okablowanie/ochrona-odwrotna-polaryzacja",
   "lib/core/modules/okablowanie/ochrona-przepieciowa-spd",
+  "lib/core/modules/okablowanie/ocena-ryzyka-crl",
   "lib/core/modules/okablowanie/optymalizacja-trasy-kabla",
   "lib/core/modules/okablowanie/pomiary-powykonawcze",
   "lib/core/modules/okablowanie/przepust-powietrza",

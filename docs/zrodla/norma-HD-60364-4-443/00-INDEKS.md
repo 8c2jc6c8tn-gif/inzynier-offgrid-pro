@@ -53,3 +53,10 @@ jest tu wymagane" zamiast zakładania SPD zawsze.
 ## Status wykorzystania
 
 Pozyskana i przeanalizowana (ta sesja), jeszcze niewykorzystana w kodzie.
+
+**[27.09.2026] ✅ Wykorzystana w kodzie:** 443.4 (skutki krytyczne) + 443.5 (CRL, Tablica 443.1, reguły długości)
+→ `lib/core/modules/okablowanie/ocena-ryzyka-crl/`, sekcja na ekranie M5/E2; 4 przykłady Załącznika A jako testy.
+Zweryfikowane w PDF: symbole „<”/„≥” progu 1000 giną w ekstrakcji tekstu — rozstrzygnięte przykładami A.1–A.4 (CRL < 1000
+→ wymagany). Przypis krajowy SRPS: w HD błąd „90 m”, powinno być 900 m (reszta do 1 km). **Uwaga do streszczenia wyżej:**
+wyjątek dla mieszkań w tekście serbskim brzmi „wartość instalacji pięć razy mniejsza od wartości SPD”, a nie
+„< 5 × wartość SPD” — rozbieżność niezweryfikowana z wersją PL/EN, wyjątek niewdrożony (TD21). Tablica 443.2 niewykorzystana.
