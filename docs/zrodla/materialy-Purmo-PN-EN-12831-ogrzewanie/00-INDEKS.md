@@ -47,3 +47,28 @@ brakujących norm" z CLAUDE.md.
   `docs/normy-brakujace.md` wymienia aktualną **PN-EN 12831-1:2017**. Metoda obciążenia cieplnego
   (ΦHL = ΦT + ΦV + ΦRH) ta sama co do zasady, szczegóły (współczynniki, tablice NA) mogą się różnić — przy
   budowie kalkulatora oznaczyć jako założenie.
+
+## Drugie, niezależne źródło (27.09.2026): poradnik ELEKTRA "Obliczanie EN 12831"
+
+Plik: `Poradnik-ELEKTRA-Obliczanie-EN-12831-wyd-2011.pdf` (71+ stron, wydawca: ELEKTRA — inny
+producent, elektryczne ogrzewanie podłogowe/kablowe, nie ma związku z Purmo). **Uwaga: struktura
+spisu treści (13 rozdziałów, identyczne tytuły 1–12: "Zasady ogólne" → "Załączniki") jest
+praktycznie identyczna z poradnikiem Purmo** — obaj wydawcy licencjonowali/przetłumaczyli
+prawdopodobnie tę samą bazową metodykę (autorstwa Strzeszewski/Wereszczyński, ten sam krąg
+autorski normalizacji PN-EN 12831 w Polsce), różni się tylko okładka/branding wydawcy i rok
+wydania (Purmo 2009/wyd.2012 vs ELEKTRA wyd. 2011). **To nie jest niezależne potwierdzenie
+innym źródłem — to w praktyce ten sam tekst od dwóch dystrybutorów.** Traktować jako kopię
+zapasową/porównawczą, nie jako drugie źródło prawdy.
+
+Dokument natywny tekstowo (nie skan; sporo osadzonych fontów/obrazów wektorowych na
+diagramach). Nie przeprowadzono pełnej ekstrakcji/indeksowania rozdział-po-rozdziale w tej
+sesji (rozpoznano tylko spis treści z zakładek PDF — identyczny z Purmo, patrz wyżej) —
+**zadanie dla następnej sesji, jeśli okaże się potrzebne** (np. gdyby poradnik Purmo miał lukę
+w konkretnym wzorze, ten plik jest gotowym zapasowym źródłem do sprawdzenia).
+
+### Status wykorzystania
+
+Dodany, rozpoznany po spisie treści (identyczny z Purmo), **niewykorzystany, nieprzeanalizowany
+rozdział-po-rozdziale**. Niski priorytet dalszej analizy — dubluje materiał już przeanalizowany
+(`01-tresc-surowa.txt`, `02-wzory-zweryfikowane.md` wyżej), chyba że pojawi się konkretna
+rozbieżność do rozstrzygnięcia.

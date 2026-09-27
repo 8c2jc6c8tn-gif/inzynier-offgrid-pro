@@ -64,3 +64,48 @@ obowiązują zamiast rozsypanego OCR powyżej]` z tabelami przepisanymi ze skanu
 
 Status bez zmian: to **poradnik producenta (Furse/ABB), nie tekst normy** — liczby do kodu po
 potwierdzeniu w PN-EN 62305.
+
+## Drugie źródło (27.09.2026): artykuł naukowy PL — Boryń, Olesz, "Zmiany zasad ochrony
+## odgromowej obiektów budowlanych według norm serii PN-EN 62305"
+
+Plik: `zmiany-zasad-ochrony-odgromowej-wg-PN-EN-62305-Boryn-Olesz-2010.pdf` (7 stron, Politechnika
+Gdańska, Zeszyty Naukowe WEiA PG nr 27, Gdańskie Dni Elektryki 2010). Natywny tekst PDF,
+przeczytany w całości. **To nie jest tekst normy** — to recenzowany referat naukowy w języku
+polskim, streszczający strukturę i nowości całej serii PN-EN 62305 (Części 1–4) względem
+wycofanych norm PN-IEC 61024/61312. **Drugie, niezależne od Furse, źródło do krzyżowej
+weryfikacji** — po polsku, co ułatwia porównanie terminologii z resztą polskojęzycznej
+dokumentacji projektu.
+
+### Zawartość istotna dla kodu
+- **Procedura oceny ryzyka R wg PN-EN 62305-2** — wzór ogólny `Rx = Nx · Px · Lx` (częstość ×
+  prawdopodobieństwo uszkodzenia × strata), z rozbiciem na komponenty RA–RZ wg przyczyny
+  wyładowania (S1–S4) i typu szkody (D1–D3) — Tabela 2 w artykule.
+  `Nx = Ng · Aex · Cdx · Ctx · 10⁻⁶`, `Ae = ab + 6h(a+b) + 9πh²` dla samotnego budynku na
+  płaskim terenie (Rys. 1) — **gotowy, prostszy wzór na powierzchnię zbierania wyładowań** niż
+  cokolwiek dotąd w repo.
+  Ryzyko tolerowane: `R_T = 10⁻⁵` (zagrożenie życia) / `R_T = 10⁻³` (utrata usług
+  publicznych/dziedzictwa); w innych przypadkach ustala inwestor/projektant.
+- **Tabela 3–4 (norma PN-EN 62305-3)**: minimalne przekroje/wymiary materiałów zwodów,
+  przewodów odprowadzających i uziomów (miedź, aluminium, stal ocynkowana, stal nierdzewna) —
+  wartości liczbowe zgodne co do rzędu wielkości z Tabelą 2.x u Furse, dobry materiał do
+  krzyżowej weryfikacji przed użyciem w kodzie.
+- **Odległości między przewodami odprowadzającymi wg klasy LPS**: I i II = 10 m, III = 15 m,
+  IV = 20 m.
+- **Tabela 5**: terminy przeglądów LPS — klasa I/II: oględziny rocznie, pełne sprawdzenie co 2
+  lata; klasa III/IV: oględziny co 2 lata, pełne sprawdzenie co 4 lata; obiekty zagrożone
+  wybuchem: oględziny co 6 mies., próby elektryczne raz/rok.
+- Algorytm decyzyjny (Rys. 2): R > R_T? → LPS/LPMS zainstalowany? → dobór typu ochrony →
+  ponowne przeliczenie R, aż do R ≤ R_T.
+
+### Trafność w domenie off-grid PV
+
+Ten sam gap co poradnik Furse — Moduł 8 (Bezpieczeństwo) nie liczy formalnie ryzyka
+piorunowego R metodą PN-EN 62305-2 ani nie dobiera klasy LPS na tej podstawie. Artykuł, będąc
+krótszym i po polsku, jest lepszym punktem startowym do zrozumienia procedury przed sięgnięciem
+po pełny (140-stronicowy, po angielsku) poradnik Furse.
+
+### Status wykorzystania
+
+Przeanalizowany w całości (ta sesja), niewykorzystany w kodzie. **EN 62305 nadal NIE jest w pełni
+pozyskana jako tekst normy** — mamy teraz dwa niezależne materiały wtórne (Furse + ten artykuł),
+ale wciąż nie oficjalny tekst PN-EN 62305-1÷4.

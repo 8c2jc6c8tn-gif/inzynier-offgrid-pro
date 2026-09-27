@@ -7441,3 +7441,49 @@ przy konwersji PPTX→DOCX materiału branżowego PV-2019. Pełny wykaz: `docs/n
 
 `pnpm typecheck`/`lint`/`check:i18n-guard`/`test`/`build` czyste (brak zmian kodu, tylko
 dokumentacja i pliki źródłowe w `docs/zrodla/`).
+
+## Cztery kolejne pliki norm dodane, jeden duplikat pominięty (27.09.2026)
+
+Właściciel projektu dostarczył 5 kolejnych PDF do dodania do `docs/zrodla/`. Jeden okazał się
+identycznym duplikatem pliku już w repo (`Poradnik-Purmo-nowa-metoda-obliczania_12831_01_2012.pdf`
+= treściowo ten sam plik co już posiadany `79967189-Poradnik-Purmo-...pdf`) — **nie dodany
+ponownie**, żeby nie powielać treści (zasada B.5). Pozostałe 4:
+
+- **SRPS HD 60364-4-443:2017** → `docs/zrodla/norma-HD-60364-4-443/`. Pełny tekst, natywny PDF,
+  przeczytany w całości (18 stron, wersja serbska — technicznie identyczna z HD 60364-4-443:2016,
+  dokument harmonizacyjny CENELEC, treść normatywna identyczna między wersjami językowymi).
+  **Zamyka pozycję ⚪ "HD 60364-4-443" w `docs/normy-brakujace.md`** — przeniesiona do sekcji
+  "Pozyskane". Zawiera wzór CRL do oceny konieczności SPD (443.5), tabelę kategorii przepięć I–IV
+  (443.6) i 4 rozwiązane przykłady liczbowe (Załącznik A) — bezpośrednio użyteczne dla ekranu
+  `ochrona-przepieciowa-spd` (M5), zadanie zapisane w `docs/lista-do-zrobienia.md`.
+- **Artykuł naukowy PL "Zmiany zasad ochrony odgromowej... wg norm serii PN-EN 62305"** (Boryń,
+  Olesz, Politechnika Gdańska, 2010) → dopisany do `docs/zrodla/norma-IEC-62305/00-INDEKS.md` jako
+  drugie źródło wtórne (po angielskim poradniku Furse). Przeczytany w całości. **Nie zamyka luki
+  EN 62305** — status bez zmian (🟡, nadal brak oficjalnego tekstu normy), ale daje krótszy,
+  polskojęzyczny opis procedury R = N·P·L i tabel materiałowych/przeglądowych do krzyżowej
+  weryfikacji z Furse.
+- **Whitepaper "Isolation in solar power converters" (IEC 62109-1)** → nowy folder
+  `docs/zrodla/norma-IEC-62109-1/`. **Rozpoznany tylko po tytule/metadanych PDF — treść NIE
+  przeczytana w całości w tej sesji** (14 stron, natywny tekst, nie wymaga OCR — zadanie
+  jednoznacznie dla następnej sesji, zapisane w `00-INDEKS.md` i `docs/lista-do-zrobienia.md`).
+  Nie zamyka luki IEC 62109-1 (wciąż brak Części 1 normy — mamy tylko Część 2).
+- **Poradnik ELEKTRA "Obliczanie EN 12831" (wyd. 2011)** → dopisany do
+  `docs/zrodla/materialy-Purmo-PN-EN-12831-ogrzewanie/00-INDEKS.md`. Spis treści (z zakładek PDF)
+  identyczny z już posiadanym poradnikiem Purmo (ten sam autorski krąg/bazowa metodyka, inny
+  wydawca-branding) — **nie jest niezależnym drugim źródłem**, dodany jako kopia zapasowa na
+  wypadek luki w treści Purmo, nieprzeanalizowany rozdział-po-rozdziale (niski priorytet).
+
+Metoda identyfikacji treści bez OCR/renderowania stron (poppler-utils niedostępny w tej sesji):
+odczyt zakładek/outline PDF (`/Title` w obiektach `/Outlines`) i ekstrakcja tekstu z zdekompresowanych
+strumieni FlateDecode (Python `zlib` + regex na operatorach `Tj`/`TJ`) — pozwoliło rozpoznać pełny
+spis treści `nowa_norma.pdf` (i tym samym zidentyfikować go jako dokument o PN-EN 12831) i pierwszy
+fragment tekstu bez wywoływania `pdftoppm`.
+
+Przypomniana lista wciąż brakujących norm (zaktualizowana, HD 60364-4-443 usunięta):
+PN-EN 12831-1 (pełny tekst), IEC 62109-1 (norma — mamy tylko whitepaper), IEC 61215, IEC 62619,
+EN 61439, pełna seria EN 62305 (mamy tylko 2 materiały wtórne), HD 60364-5-551, PN-EN 62852,
+PN-EN 61427-1, PN-EN 50565-1, + 9 pozycji zgubionych przy konwersji PPTX→DOCX materiału
+branżowego PV-2019. Pełny wykaz: `docs/normy-brakujace.md`.
+
+`pnpm typecheck`/`check:i18n-guard` czyste (brak zmian kodu, tylko dokumentacja i pliki źródłowe
+w `docs/zrodla/`).
