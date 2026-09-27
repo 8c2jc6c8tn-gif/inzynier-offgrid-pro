@@ -262,6 +262,28 @@ jeszcze w kodzie.
   właściciela projektu, wariant A): PDF, `01-tresc-ocr.txt` i dawny indeks są teraz w
   `norma-PN-EN-1991-1-4/`. Nazwa `…-wiatr/` w tabeli i akapitach wyżej to zapis historyczny.
 
+## PN-EN ISO 14683 (mostki cieplne) i EN ISO 13786 (dynamiczne charakterystyki cieplne) (27.09.2026)
+
+[27.09.2026] ✅ DODANO (częściowo) — źródło: właściciel projektu, 2 pliki PDF.
+- **PN-EN ISO 14683:2007** (Mostki cieplne w budynkach — liniowy współczynnik przenikania ciepła —
+  metody uproszczone i wartości orientacyjne) — `docs/zrodla/norma-PN-EN-ISO-14683-1/`.
+  **Pełny tekst, natywny PDF (nie skan), przeczytany w całości** (27 stron). Zawiera Tablicę A.2
+  (wartości orientacyjne Ψ dla ~9 kategorii złączy budowlanych × 4 warianty izolacji) i przykład
+  liczbowy (Załącznik B) pokazujący, że mostki cieplne odpowiadają za 36–42% strat ciepła przez
+  przenikanie w przykładowym budynku. **Odblokowuje częściowo lukę Ψ (mostki cieplne, M6/E7)**
+  zgłoszoną w `docs/normy-brakujace.md` przy okazji normy PN-EN 12831-1 (nadal brak tekstu tej
+  ostatniej — mostki to tylko jeden z kilku elementów, których ona wymaga). Szczegóły:
+  `docs/zrodla/norma-PN-EN-ISO-14683-1/00-INDEKS.md`.
+- **EN ISO 13786:2007** (Thermal performance of building components — Dynamic thermal
+  characteristics — Calculation methods) — `docs/zrodla/norma-PN-EN-ISO-13786/`. **⚠️ Tylko plik
+  dodany, treść NIE przeczytana/OCR-owana** — dokument jest w większości skanem (~28 stron).
+  OCR i analiza odłożone do innej sesji (polecenie właściciela, 27.09.2026) — patrz
+  `docs/zrodla/norma-PN-EN-ISO-13786/00-INDEKS.md` dla zakresu zadania i hipotezy (niepotwierdzonej)
+  o zastosowaniu w projekcie.
+
+Status wykorzystania: 14683 przeanalizowana, niewykorzystana jeszcze w kodzie; 13786
+nieprzeanalizowana. Lista wciąż brakujących norm/materiałów: `docs/normy-brakujace.md`.
+
 ## Norma PN-EN 1991-1-4:2008 + AC:2009 — Eurokod 1, oddziaływanie wiatru (25.09.2026)
 
 Dostarczona przez właściciela projektu (6 plików PDF, 161 stron, z Załącznikiem krajowym NA).

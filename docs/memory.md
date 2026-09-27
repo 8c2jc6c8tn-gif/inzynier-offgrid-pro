@@ -7412,3 +7412,32 @@ dodania.
 
 **Krok 2b — zero nowej treści:** `interwał_h = min(48, 12 × 1,5) = 18` (poprzednio 12),
 `licznik_zero_z_rzedu = 1`. Routine przestawiona na +18 h od tego sprawdzenia.
+
+## Dwa pliki norm dodane do `docs/zrodla/` — mostki cieplne + dynamiczne charakterystyki (27.09.2026)
+
+Właściciel projektu przesłał 2 pliki PDF, polecił dodać do repo + opisać, powiedzieć czego jeszcze
+brakuje, i zapisać co pozostało do zrobienia dla innej sesji (OCR odłożony wprost do innej sesji).
+
+- **PN-EN ISO 14683:2007** (mostki cieplne, liniowy współczynnik przenikania ciepła) →
+  `docs/zrodla/norma-PN-EN-ISO-14683-1/`. Natywny PDF (nie skan), 27 stron, **przeczytany w
+  całości** w tej sesji. Zawiera Tablicę A.2 (Ψ orientacyjne dla ~9 kategorii złączy budowlanych)
+  i przykład liczbowy (Załącznik B): mostki cieplne = 36–42% strat ciepła przez przenikanie w
+  przykładowym budynku. Częściowo zaspokaja lukę zgłoszoną wcześniej przy PN-EN 12831-1
+  (`docs/normy-brakujace.md`, "mostków cieplnych Ψ, M6/E7") — ale nie całą (12831-1 nadal
+  potrzebna do strat do gruntu/zysków/nadwyżki mocy). **Niewykorzystana jeszcze w kodzie** —
+  zadanie w `docs/lista-do-zrobienia.md`.
+- **EN ISO 13786:2007** (dynamiczne charakterystyki cieplne komponentów budowlanych) →
+  `docs/zrodla/norma-PN-EN-ISO-13786/`. **Treść NIE przeczytana** — struktura PDF wskazuje na skan
+  (108 obiektów obrazu vs. 7 czcionek/62 fragmenty tekstu na ~28 stron, prawdopodobnie tylko
+  okładka natywna). OCR i analiza jawnie odłożone do innej sesji, zadanie zapisane w
+  `docs/lista-do-zrobienia.md` i `00-INDEKS.md` tego folderu. Nie ma jeszcze zidentyfikowanego
+  ekranu/luki, którą by odblokowywała — hipoteza (akumulacyjność cieplna budynku, bufor
+  termiczny off-grid) zapisana jako niepotwierdzona, do zweryfikowania po OCR.
+
+Przy tej okazji przypomniana lista wciąż brakujących norm (bez zmian od poprzednich sprawdzeń):
+PN-EN 12831-1 (pełny tekst), IEC 62109-1, IEC 61215, IEC 62619, EN 61439, pełna seria EN 62305,
+HD 60364-4-443, HD 60364-5-551, PN-EN 62852, PN-EN 61427-1, PN-EN 50565-1, + 9 pozycji zgubionych
+przy konwersji PPTX→DOCX materiału branżowego PV-2019. Pełny wykaz: `docs/normy-brakujace.md`.
+
+`pnpm typecheck`/`lint`/`check:i18n-guard`/`test`/`build` czyste (brak zmian kodu, tylko
+dokumentacja i pliki źródłowe w `docs/zrodla/`).

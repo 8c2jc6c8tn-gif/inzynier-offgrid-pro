@@ -64,8 +64,10 @@ wtedy zaktualizowane — naprawione teraz, przy okazji.)*
   zapotrzebowaniem, zamiast wpisu ręcznego.
   **[26.09.2026] Częściowo obejście (nie pozyskanie):** M6/E1 „Straty ciepła budynku” zbudowany z fizyki
   opisanej wprost w źródle (Σ U·A·ΔT + wentylacja) i temperatur obliczeniowych stref (PN-82/B-02403 =
-  zał. krajowy PN-EN 12831 wg Purmo). Norma nadal potrzebna do: mostków cieplnych (Ψ, M6/E7),
-  współczynników strat do gruntu, zysków i nadwyżki mocy na nagrzewanie — ekran jawnie ostrzega o ich braku.
+  zał. krajowy PN-EN 12831 wg Purmo). Norma nadal potrzebna do: mostków cieplnych (Ψ, M6/E7) —
+  **[27.09.2026] częściowo pozyskane osobną normą PN-EN ISO 14683, patrz “Pozyskane (historia)”
+  niżej** — współczynników strat do gruntu, zysków i nadwyżki mocy na nagrzewanie — ekran jawnie
+  ostrzega o ich braku.
 
 ## ⚪ Zidentyfikowane tylko z nazwy (z bibliografii/indeksów innych źródeł)
 
@@ -97,6 +99,14 @@ dostęp do oryginalnej prezentacji (nie konwersji), warto sprawdzić te konkretn
 ---
 
 ## Pozyskane (historia — dla śledzenia, co przeszło z tej listy do `docs/zrodla/`)
+
+- **[27.09.2026] PN-EN ISO 14683:2007 (mostki cieplne — liniowy współczynnik przenikania ciepła)**,
+  dostarczona przez właściciela projektu, 27 stron, natywny PDF, przeczytana w całości. Częściowo
+  odblokowuje lukę Ψ zgłoszoną w pozycji PN-EN 12831-1 wyżej. Opis: `docs/zrodla/norma-PN-EN-ISO-14683-1/00-INDEKS.md`.
+- **[27.09.2026] EN ISO 13786:2007 (dynamiczne charakterystyki cieplne komponentów budowlanych)**,
+  dostarczona przez właściciela projektu — plik dodany, **treść nieprzeczytana/nieOCR-owana**
+  (odłożone do innej sesji). Nie przypisana jeszcze do żadnej konkretnej luki. Opis:
+  `docs/zrodla/norma-PN-EN-ISO-13786/00-INDEKS.md`.
 
 - **[06.09.2026] Eurokod obciążenia śniegiem — PN-EN 1991-1-3:2005**, dostarczony przez
   właściciela projektu, 54 strony, w pełni zweryfikowany wizualnie strona po stronie (nie
