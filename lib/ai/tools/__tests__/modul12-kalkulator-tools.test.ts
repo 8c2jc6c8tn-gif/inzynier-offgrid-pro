@@ -5,6 +5,7 @@ import { dniBezSloncaTool } from "../dni-bez-slonca-tool"
 import { ochronaPrzedRozladowaniemTool } from "../ochrona-przed-rozladowaniem-tool"
 import { urzadzenie12vBezposrednioTool } from "../urzadzenie-12v-bezposrednio-tool"
 import { panelDoStacjiZasilaniaTool } from "../panel-do-stacji-zasilania-tool"
+import { zuzyciePerUrzadzenieTool } from "../zuzycie-per-urzadzenie-tool"
 
 describe("dniBezSloncaTool (M12/E32, dawne 8.59)", () => {
   it("kontrakt 9.3: 'read', bez potwierdzenia", () => {
@@ -87,5 +88,22 @@ describe("panelDoStacjiZasilaniaTool (M12/E39, dawne 8.66)", () => {
     expect(w.status).toBe("VALID_WITH_WARNINGS")
     expect(w.pradZwarciowyA).toBeNull()
     expect(w.ostrzezenia[0]).toBe(t("pl", "PST-PRZEKROCZONE-NAPIECIE-WEJSCIA", { voc: "51.1", limit: "50" }))
+  })
+})
+
+describe("zuzyciePerUrzadzenieTool (M12/E11, dawne 8.15 + 8.23–8.28)", () => {
+  it("kontrakt 9.3: 'read', bez potwierdzenia", () => {
+    expect(zuzyciePerUrzadzenieTool.operationType).toBe("read")
+    expect(zuzyciePerUrzadzenieTool.requiresConfirmation).toBe(false)
+    expect(() => validateAiToolDefinition(zuzyciePerUrzadzenieTool)).not.toThrow()
+  })
+
+  it("przykład źródła: lodówka 45 W, 24 h, 40% → 432 Wh; info jako tekst PL", async () => {
+    const w = await zuzyciePerUrzadzenieTool.handler({
+      urzadzenia: [{ nazwa: "Lodówka", mocW: 45, godzinNaDobe: 24, cykliczne: true, wspolczynnikPracyPct: 40 }],
+    })
+    expect(w.status).toBe("VALID")
+    expect(w.sumaWh).toBeCloseTo(432, 9)
+    expect(w.ostrzezenia).toEqual([t("pl", "ZPU-CYKLICZNE-REALNIE-MNIEJ", { nazwa: "Lodówka", realne: "432", znamionowe: "1080" })])
   })
 })
