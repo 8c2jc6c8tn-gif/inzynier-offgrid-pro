@@ -64,6 +64,7 @@ import { ratowanieOgniwaTool } from "./tools/ratowanie-ogniwa-tool"
 import { weryfikacjaWstepnaOlowTool } from "./tools/weryfikacja-wstepna-olow-tool"
 import { proceduraBlackStartTool } from "./tools/procedura-black-start-tool"
 import { windChillTool } from "./tools/wind-chill-tool"
+import { obciazenieDachuSniegiemTool } from "./tools/obciazenie-dachu-sniegiem-tool"
 import { katalogCzujnikowTool } from "./tools/katalog-czujnikow-tool"
 import { doborRegulatoraPwmMpptTool } from "./tools/dobor-regulatora-pwm-mppt-tool"
 import { dniBezSloncaTool } from "./tools/dni-bez-slonca-tool"
@@ -317,6 +318,7 @@ const NARZEDZIA: Array<AiToolDefinition<any, any>> = [
   audytPozarowyTool,
   proceduraBlackStartTool,
   windChillTool,
+  obciazenieDachuSniegiemTool,
   katalogCzujnikowTool,
   doborRegulatoraPwmMpptTool,
   dniBezSloncaTool,

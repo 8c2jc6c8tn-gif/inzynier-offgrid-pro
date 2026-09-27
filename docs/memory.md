@@ -7628,3 +7628,10 @@ Polecenie właściciela: „co można jeszcze zrobić beze mnie, czy są większ
   ta sama rozbieżność co w M5/E1, nie powielana (2L → 6 mm² przy 3%). E15: tablice obciążalności dotyczą przewodów instalacyjnych
   PVC (H07V-K); przewody samochodowe FLRY mają osobne tablice — jawne założenie, nie blokada (inaczej niż E41, gdzie przedłużacz
   to przewód giętki poza zakresem normy i przykład źródła nie wynikał z żadnego wzoru).
+
+### M7/E23 obciążenie dachu śniegiem (27.09.2026)
+
+- Pierwszy ekran M7 zbudowany w pełni na normie z repo (PN-EN 1991-1-3 + NB), bez danych z M1 — strefę i wysokość n.p.m. wpisuje user. Tablice NB.1 (sk), 5.1 (Ce), E.1 (γ) i minimum μ = 0,8 przy barierkach dopisane do wspólnego `lib/core/modules/pv/eurokod-1/snieg.ts` (obok istniejącego μ1) — M3 może z nich korzystać bez duplikatu.
+- **Pułapka IEEE-754 (drugi raz po E27):** 0,8 × 0,9 = 0,7200000000000001, więc s równe nośności dawało fałszywe 🔴. Porównanie z tolerancją `EPS_KN_M2 = 1e-9`. Wniosek: każde porównanie iloczynu z progiem „>” wpisanym przez usera potrzebuje tolerancji — kandydat do `docs/wklad-do-standardu.md`.
+- Porównanie na wartościach charakterystycznych (bez γQ = 1,5) — założenie jawne w UI; nośność user musi podać też jako charakterystyczną.
+- Otwarte dla właściciela: próg „zbliżania się do nośności” (źródło: 🔴 „zbliżające się lub przekraczające”, bez liczby) — dziś tylko % wykorzystania.
