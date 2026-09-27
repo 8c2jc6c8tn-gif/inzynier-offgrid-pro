@@ -42,6 +42,11 @@ numeracji list i nagłówków stron):
   (patrz korekta w `01-tresc.md`).
 - `01-tresc.md` pisano z PDF, więc streszczenie było kompletne co do rozdziałów; brakujące dwie myśli
   merytoryczne ze str. 21 dopisano (oznaczone datą). **Źródłem prawdy jest PDF / `02-tresc-pelna-z-pdf.txt`, nie `.docx`.**
+- **[27.09.2026, decyzja właściciela — wariant A] Niekompletny `.docx` USUNIĘTY z repo** (MD5 `428edf51…`, 22,5 MB),
+  razem z jego duplikatem `docs/zrodla/materialy-szkolenie-ZIAD-Bielsko-Biala/`. Oryginałem w folderze jest
+  wyłącznie PDF. Wzmianki o `.docx` w `01-tresc.md` (np. „akapit `.docx`”) są historyczne — opisują metodę
+  z 06.09/27.09; każdą wartość da się sprawdzić w PDF / `02-tresc-pelna-z-pdf.txt`. Plik `.docx` jest w historii git
+  (commit `0033707` i wcześniejsze), gdyby był kiedyś potrzebny.
 
 ## Najważniejsze dla tego projektu
 

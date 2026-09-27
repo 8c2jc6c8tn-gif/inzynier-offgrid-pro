@@ -99,7 +99,7 @@ odnotowane jawnie jako nieznane w `docs/zrodla/materialy-branzowe-PV-2019/01-tre
 pozycje **#2, #6, #10, #13, #17, #27, #29, #33, #37** tej listy. Jeśli właściciel projektu ma
 dostęp do oryginalnej prezentacji (nie konwersji), warto sprawdzić te konkretne numery.
 
-**✅ [27.09.2026] ROZWIĄZANE — pozycje nie były zgubione.** Są w tym samym `.docx` jako akapity
+**✅ [27.09.2026] ROZWIĄZANE — pozycje nie były zgubione.** *(`.docx` usunięty z repo 27.09.2026 — wariant A; wszystkie 9 pozycji są w PDF str. 8 / `02-tresc-pelna-z-pdf.txt`.)* Były w tym samym `.docx` jako akapity
 poza tabelami (poprzednio czytano tylko tabele); potwierdzone wizualnie z PDF str. 8:
 #2 PN-HD 60364-4-41:2017-09 · #6 PN-EN 62305-1:2011 · #10 N SEP-E 002 · #13 PN-EN 50618:2015-03 ·
 #17 DIN EN 61277 (nieobowiązująca w PL) · #27 PN-EN IEC 61730-1:2018-06 · #29 PN-EN 50438:2014-02

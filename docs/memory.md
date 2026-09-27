@@ -7536,3 +7536,7 @@ whitepaper, Boryń/Olesz, ELEKTRA) mają tekst natywny na każdej stronie — OC
   (str. 17 podpis Rys. 5, str. 18 przypis MC4, str. 21 akapit o odstępach separujących w materiałach stałych, podpisy
   Rys. 17/18, dwa zdania). Nowy plik `02-tresc-pelna-z-pdf.txt` (bezstratny); `01-tresc.md` uzupełniony o 2 myśli ze
   str. 21. Wniosek: przy materiałach z `.docx`-konwersją źródłem prawdy jest PDF.
+- **[27.09.2026] Decyzja właściciela — wariant A:** usunięty folder `materialy-szkolenie-ZIAD-Bielsko-Biala/`
+  (duplikat) i niekompletny `.docx` z `materialy-branzowe-PV-2019/` (−2×22,5 MB). Oryginałem publikacji jest tylko PDF;
+  wzmianki o `.docx` w starszych opisach są historyczne (plik w historii git, commit `0033707`). Odnośniki zaktualizowane
+  dopiskami (00-INDEKS PV-2019, `zrodla/README.md`, `normy-brakujace.md`, lista, biblioteka-norm-zrodlowych).

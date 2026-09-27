@@ -352,3 +352,6 @@ tamtym materiale przy konwersji PPTX→DOCX. Zadanie porównawcze zapisane w
 - **PDF „ZIAD”** (oryginał `.docx`) — identyczny (MD5) z PDF w `materialy-branzowe-PV-2019/`, nie dodany ponownie.
   Pełny tekst: `materialy-branzowe-PV-2019/02-tresc-pelna-z-pdf.txt`; lista fragmentów zgubionych w `.docx`:
   `materialy-branzowe-PV-2019/00-INDEKS.md`.
+- **[27.09.2026] Decyzja właściciela — wariant A:** folder `materialy-szkolenie-ZIAD-Bielsko-Biala/` **usunięty**
+  (duplikat), a niekompletny `.docx` usunięty też z `materialy-branzowe-PV-2019/` — oryginałem zostaje tylko pełny
+  PDF. Opisy wyżej, wskazujące na folder ZIAD / `.docx`, są historyczne (pliki w historii git).
