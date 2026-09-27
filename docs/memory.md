@@ -7508,3 +7508,25 @@ publikacji, zamknie to od razu 9 pozycji z listy brakujących norm bez konieczno
 
 `pnpm typecheck`/`check:i18n-guard` czyste (brak zmian kodu, tylko dokumentacja i nowy plik
 źródłowy w `docs/zrodla/`).
+
+## OCR EN ISO 13786 + sprawdzenie materiału ZIAD (27.09.2026, sesja OCR)
+
+Polecenie właściciela: „zrób OCR plików, które zostały dodane”. Z plików dodanych 27.09 **tylko EN ISO 13786 jest
+skanem** (PyMuPDF: 0 znaków tekstu na wszystkich 27 stronach); pozostałe PDF (SRPS HD 60364-4-443, IEC 62109-1
+whitepaper, Boryń/Olesz, ELEKTRA) mają tekst natywny na każdej stronie — OCR zbędny. `.docx` ZIAD — tekst natywny.
+
+- **EN ISO 13786:2007** — OCR (tesseract 5.3.4 `eng`, 250 DPI auto + 300 DPI `--psm 6`, porównanie liczb strona po
+  stronie) → odczyt wizualny wszystkich stron treści (PDF 6–26) → odtworzenie przykładów D.1/D.2 w Pythonie z
+  przepisanych wzorów (zgodne do ostatniej cyfry). Pliki: `01-tresc-ocr.txt`, `02-wzory-i-tablice-zweryfikowane.md`.
+  **Niespójności oryginału (nie OCR), nierozstrzygnięte, oznaczone ⚠️:** literówka Z12 w D.1 (−0,0754j zamiast
+  −0,0705j — potwierdza to reszta tego samego przykładu); wzór (26) arg(Z12) vs Tablice D.1/D.4, które odpowiadają
+  arg(Y12) — pytać właściciela dopiero, gdy kod będzie potrzebował przesunięcia fazowego.
+  **Odblokowuje M6/E8** (Zał. A.2.4, Tablica A.1: 1 h/1 doba/1 tydzień → 20/100/250 mm) — zadanie w liście.
+- **ZIAD = duplikat bajt-w-bajt** `materialy-branzowe-PV-2019/*.docx` (MD5 `428edf51…`). Nie usunięty (dodany na
+  wyraźne polecenie) — A/B do właściciela. **Błąd poprzedniej sesji naprawiony:** 9 „zgubionych” pozycji listy norm
+  były w akapitach `.docx` poza tabelami; uzupełnione w `01-tresc.md` PV-2019 po potwierdzeniu z PDF str. 8, sekcja ⚫
+  `normy-brakujace.md` rozwiązana. Dawne przypuszczenie „#29 = 61730-1” było błędne (61730-1 to #27).
+- **Korekta opisu z poprzedniej sesji:** 13786 miała „~28 stron, okładka natywna” — faktycznie 27 stron, 0 tekstu.
+- **Pułapka narzędziowa:** równoległe `tesseract` bez `OMP_THREAD_LIMIT=1` → ~9 min/stronę (pierwszy przebieg
+  przerwany); z limitem ~1,3 s/stronę. `tesseract`/`pymupdf`/`numpy`/`python-docx` w kontenerze trzeba doinstalować.
+- Zgłoszenie do `docs/wklad-do-standardu.md` (MD5 przed dodaniem, akapity `.docx`, OMP, odtwarzanie przykładów).

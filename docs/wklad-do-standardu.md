@@ -795,3 +795,24 @@ wsadowanie kilku naraz") oraz rutynowe czyszczenie gałęzi już w pełni pokryt
 --merged`) jako część higieny repo (14.x?), nie tylko ad-hoc audyt na żądanie.
 
 Status: 🔎 nowe
+
+[27.09.2026] KATEGORIA: BŁĄD / DOBRA PRAKTYKA — przetwarzanie źródeł: (1) MD5 przed dodaniem pliku, (2) `.docx` czytać akapity, nie tylko tabele, (3) tesseract z `OMP_THREAD_LIMIT=1`
+
+Szczegóły: jedna sesja OCR znalazła trzy powtarzalne pułapki.
+(1) Materiał „ze szkolenia ZIAD” dodany jako nowe źródło i opisany jako „może inna edycja” okazał się **bajt-w-bajt
+identyczny** z plikiem już w repo (inna nazwa pliku) — 22,5 MB duplikatu i fałszywe zadanie „porównaj treść-po-treści”.
+Jeden `md5sum` wobec `docs/zrodla/**` przed dodaniem rozstrzyga to w sekundę.
+(2) W konwersji PPTX/PDF→DOCX co któryś wiersz tabeli ląduje **poza tabelą, jako zwykły akapit**. Sesja czytająca tylko
+`d.tables` uznała 9 z 43 pozycji listy norm za „zgubione w konwersji” i przez 3 tygodnie trzymała je na liście
+brakujących — a były w `d.paragraphs` tego samego pliku. Reguła: przy liście numerowanej sprawdzić ciągłość numeracji
+w tabelach + akapitach łącznie, zanim cokolwiek uzna się za zgubione.
+(3) `tesseract` uruchamiany równolegle (kilka procesów) bez `OMP_THREAD_LIMIT=1` zakleszcza się wątkami OpenMP —
+1 strona trwała ~9 min zamiast ~1,3 s; z limitem 27 stron × 2 przebiegi w kilkadziesiąt sekund.
+Plus (4) potwierdzona metoda weryfikacji norm z wzorami: odtworzyć przykłady liczbowe normy skryptem z przepisanych
+wzorów — wykryło literówkę w samym oryginale (EN ISO 13786, D.1) i niespójność wzoru (26) z tablicami przykładów.
+
+Dlaczego warto zgłosić do new-app-standards: dotyczy każdego projektu rodziny, który gromadzi normy w `docs/zrodla/`;
+kandydat do procedury przetwarzania materiałów źródłowych (`docs/propozycje-do-new-app-standards/
+przetwarzanie-materialow-zrodlowych.md`, Krok 0/1A/1D/2).
+
+Status: 🔎 nowe

@@ -99,6 +99,15 @@ odnotowane jawnie jako nieznane w `docs/zrodla/materialy-branzowe-PV-2019/01-tre
 pozycje **#2, #6, #10, #13, #17, #27, #29, #33, #37** tej listy. Jeśli właściciel projektu ma
 dostęp do oryginalnej prezentacji (nie konwersji), warto sprawdzić te konkretne numery.
 
+**✅ [27.09.2026] ROZWIĄZANE — pozycje nie były zgubione.** Są w tym samym `.docx` jako akapity
+poza tabelami (poprzednio czytano tylko tabele); potwierdzone wizualnie z PDF str. 8:
+#2 PN-HD 60364-4-41:2017-09 · #6 PN-EN 62305-1:2011 · #10 N SEP-E 002 · #13 PN-EN 50618:2015-03 ·
+#17 DIN EN 61277 (nieobowiązująca w PL) · #27 PN-EN IEC 61730-1:2018-06 · #29 PN-EN 50438:2014-02
+(wycofana → PN-EN 50549-1) · #33 PN-EN 50549-2:2019-04 · #37 PN-EN 62116:2014-11. To są tytuły z
+listy literatury, nie posiadane teksty norm — czy któraś jest potrzebna projektowi, ocenia się
+tak jak resztę listy 43 (większość to on-grid/produktowe). Szczegóły:
+`docs/zrodla/materialy-branzowe-PV-2019/01-tresc.md`. Ta sekcja ⚫ jest tym samym pusta.
+
 ---
 
 ## Pozyskane (historia — dla śledzenia, co przeszło z tej listy do `docs/zrodla/`)
@@ -131,6 +140,9 @@ dostęp do oryginalnej prezentacji (nie konwersji), warto sprawdzić te konkretn
   dostarczona przez właściciela projektu — plik dodany, **treść nieprzeczytana/nieOCR-owana**
   (odłożone do innej sesji). Nie przypisana jeszcze do żadnej konkretnej luki. Opis:
   `docs/zrodla/norma-PN-EN-ISO-13786/00-INDEKS.md`.
+  **[27.09.2026, później] OCR wykonany, treść w pełni zweryfikowana** (odczyt wizualny wszystkich
+  stron + odtworzenie przykładów Zał. D). **Odblokowuje M6/E8** (głębokość czynna masy — Zał. A.2.4,
+  Tablica A.1: 100 mm dla okresu 1 doby). Opis: `02-wzory-i-tablice-zweryfikowane.md` tego folderu.
 
 - **[06.09.2026] Eurokod obciążenia śniegiem — PN-EN 1991-1-3:2005**, dostarczony przez
   właściciela projektu, 54 strony, w pełni zweryfikowany wizualnie strona po stronie (nie

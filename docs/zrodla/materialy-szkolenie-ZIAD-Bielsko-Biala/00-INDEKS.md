@@ -1,6 +1,31 @@
 # "Bezpieczeństwo instalacji fotowoltaicznych" — dodatek do magazynu Rynek Elektryczny nr 3/2019
 # (egzemplarz ze szkolenia ZIAD Bielsko-Biała)
 
+## [27.09.2026, sesja OCR] Wynik sprawdzenia — to DUPLIKAT bajt-w-bajt
+
+**MD5 `428edf5113a738f0a449c25cf92d6ee5` — identyczny z
+`docs/zrodla/materialy-branzowe-PV-2019/Bezpieczenstwo-instalacji-fotowoltaicznych-Rynek-Fotowoltaiczny-2019.docx`**
+(ten sam rozmiar 22 507 562 B, ta sama treść). Hipoteza „inna edycja” niżej — **obalona**; różnica
+w numeracji rozdziałów widziana przy pobieżnym podglądzie wynikała z tego, jak konwersja rozbiła
+tekst, nie z innej treści. Plik jest `.docx` z tekstem natywnym (111 860 znaków, 31 tabel,
+127 obrazów / 74 unikalne) — **OCR nie był potrzebny**; obrazy to zdjęcia/rysunki/reklamy
+publikacji, treść tekstowa (w tym lista norm) jest w warstwie tekstu.
+
+**Odzyskane „zgubione” 9 pozycji listy norm (#2, #6, #10, #13, #17, #27, #29, #33, #37):**
+były w pliku od początku — nie w tabelach, tylko jako zwykłe akapity (konwersja wyrzuciła
+co któryś wiersz tabeli poza tabelę). Wcześniejsza sesja czytała tylko `d.tables`. Wartości
+potwierdzone wizualnie z PDF tej samej publikacji (str. 8) i wpisane do
+`docs/zrodla/materialy-branzowe-PV-2019/01-tresc.md`.
+
+**⚠️ Do decyzji właściciela projektu:** (A) usunąć ten folder jako duplikat (precedens: duplikat
+UNE-HD 60364-7-712 usunięty 25.09, duplikat Purmo niedodany 27.09) — treść zostaje w
+`materialy-branzowe-PV-2019/`; (B) zostawić jako drugą kopię z odsyłaczem (stan obecny).
+Nie usunięto samodzielnie, bo plik dodano na wyraźne polecenie.
+
+---
+
+## [historyczne — opis sprzed sprawdzenia, zachowany bez zmian]
+
 **Status: ⚠️ tylko plik dodany, treść NIE przeanalizowana w tej sesji** (polecenie właściciela
 projektu, 27.09.2026: "dodaj, inna sesja zajmie się tym").
 

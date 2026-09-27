@@ -350,25 +350,31 @@ tekst 34 z 43 pozycji bez ryzyka pominięcia szczegółu przy odczycie wizualnym
 granicach slajdów) i pozostają nieznane — do sprawdzenia względem oryginalnego pliku, jeśli
 którejś z nich zabraknie przy realnej potrzebie.
 
+**[27.09.2026 — KOREKTA, sesja OCR]** Stwierdzenie wyżej było błędne: 9 pozycji **nie zgubiło
+się** — w `.docx` są jako zwykłe akapity poza tabelami (sesja z 06.09 czytała tylko `d.tables`).
+Wszystkie 43 pozycje potwierdzone wizualnie z PDF (str. 8) i uzupełnione w tabeli niżej.
+Poprawka przy okazji: dawne przypuszczenia „#29 prawdopodobnie 61730-1” były przesunięte —
+61730-1 to #27, #29 to PN-EN 50438 (wycofana); #33 (50549-2) i #37 (62116) — zgodne.
+
 | # | Numer normy | Wersja językowa | Opis |
 |---|---|---|---|
 | 1 | PN-EN 50565-1:2014-11 | polska | Przewody elektryczne — Wytyczne stosowania przewodów na napięcie znamionowe nieprzekraczające 450/750 V (U0/U) — Część 1: Wskazówki ogólne |
-| 2 | *(nieznana — zgubiona w konwersji)* | — | — |
+| 2 | PN-HD 60364-4-41:2017-09 | polska | Instalacje elektryczne niskiego napięcia — Część 4-41: Ochrona dla zapewnienia bezpieczeństwa — Ochrona przed porażeniem elektrycznym | *[27.09.2026 — uzupełnione: akapit `.docx` + odczyt wizualny PDF str. 8]*
 | 3 | PN-HD 60364-5-54:2011 | polska | Instalacje elektryczne niskiego napięcia — Część 5-54: Dobór i montaż wyposażenia elektrycznego — Układy uziemiające i przewody ochronne |
 | 4 | PN-EN 61140:2016-07 | angielska | Ochrona przed porażeniem prądem elektrycznym — Wspólne aspekty instalacji i urządzeń |
 | 5 | PN-EN 61439-2:2011 | polska | Rozdzielnice i sterownice niskonapięciowe — Część 2: Rozdzielnice i sterownice do rozdziału energii elektrycznej |
-| 6 | *(nieznana — zgubiona w konwersji)* | — | — |
+| 6 | **PN-EN 62305-1:2011** | polska | Ochrona odgromowa — Część 1: Zasady ogólne | *[27.09.2026 — uzupełnione: akapit `.docx` + odczyt wizualny PDF str. 8]*
 | 7 | **PN-EN 62305-2:2011** | polska | Ochrona odgromowa — Część 2: Zarządzanie ryzykiem |
 | 8 | **PN-EN 62305-3:2011** | polska | Ochrona odgromowa — Część 3: Uszkodzenia fizyczne obiektów i zagrożenie życia |
 | 9 | **PN-EN 62305-4:2011** | polska | Ochrona odgromowa — Część 4: Urządzenia elektryczne i elektroniczne w obiektach |
-| 10 | *(nieznana — zgubiona w konwersji)* | — | — |
+| 10 | N SEP-E 002 | polska | Instalacje elektryczne w obiektach budowlanych. Instalacje elektryczne w obiektach mieszkalnych. Podstawy planowania. | *[27.09.2026 — uzupełnione: akapit `.docx` + odczyt wizualny PDF str. 8]*
 | 11 | N SEP-E 004 | polska | Elektroenergetyczne i sygnalizacyjne linie kablowe. Projektowanie i budowa |
 | 12 | N SEP-E 005 | polska | Dobór przewodów elektrycznych do urządzeń, których funkcjonowanie jest niezbędne w czasie pożaru |
-| 13 | *(nieznana — zgubiona w konwersji)* | — | — |
+| 13 | PN-EN 50618:2015-03 | polska | Kable i przewody elektryczne do systemów fotowoltaicznych | *[27.09.2026 — uzupełnione: akapit `.docx` + odczyt wizualny PDF str. 8]*
 | 14 | PN-EN 60269-6:2011 | angielska | Bezpieczniki topikowe niskonapięciowe — Część 6: Wymagania dodatkowe dotyczące wkładek topikowych do zabezpieczania fotowoltaicznych systemów energetycznych |
 | 15 | **PN-HD 60364-7-712:2016-05** | polska | Instalacje elektryczne niskiego napięcia — Część 7-712: Wymagania dotyczące specjalnych instalacji lub lokalizacji — Fotowoltaiczne (PV) układy zasilania — **najważniejsza norma specyficznie dla PV**; mamy dziś tylko wyciąg (spis treści+bibliografia), patrz `docs/zrodla/norma-HD-60364-7-712/` |
 | 16 | PN-EN 61173:2002 | polska | Ochrona przepięciowa fotowoltaicznych (PV) systemów wytwarzania mocy elektrycznej — Przewodnik |
-| 17 | *(nieznana — zgubiona w konwersji)* | — | — |
+| 17 | DIN EN 61277 (nieobowiązująca w Polsce) | niemiecka | „Terrestrische photovoltaische (PV-) Stromerzeugungssysteme — Allgemeines und Leitfaden” — Ogólne informacje o systemach PV | *[27.09.2026 — uzupełnione: akapit `.docx` + odczyt wizualny PDF str. 8]*
 | 18 | PN-EN 61724-1:2017-10 | angielska | Wydajność systemu fotowoltaicznego — Część 1: Monitorowanie |
 | 19 | PN-EN 61727:2002 | angielska | Systemy fotowoltaiczne (PV) — Charakterystyki uniwersalnych złączy standardowych |
 | 20 | PN-EN 62446-1:2016-08 | angielska | Systemy fotowoltaiczne (PV) — Wymagania dotyczące badań, dokumentacji i utrzymania — Część 1: Systemy podłączone do sieci — Dokumentacja, odbiory i nadzór |
@@ -378,17 +384,17 @@ którejś z nich zabraknie przy realnej potrzebie.
 | 24 | PN-EN 60904-1:2007 | angielska | Elementy fotowoltaiczne — Część 1: Pomiar charakterystyk prądowo-napięciowych elementów fotowoltaicznych |
 | 25 | PN-EN 61215-1:2017-01 | angielska | Moduły fotowoltaiczne (PV) do zastosowań naziemnych — Kwalifikacja konstrukcji i aprobata typu — Część 1: Wymagania dotyczące badań |
 | 26 | PN-EN 61215-2:2017-05 | angielska | j.w. — Część 2: Metody badań |
-| 27 | *(nieznana — zgubiona w konwersji)* | — | — |
+| 27 | PN-EN IEC 61730-1:2018-06 | angielska | Ocena bezpieczeństwa modułu fotowoltaicznego (PV) — Część 1: Wymagania dotyczące konstrukcji | *[27.09.2026 — uzupełnione: akapit `.docx` + odczyt wizualny PDF str. 8]*
 | 28 | PN-EN IEC 61730-2:2018-06 | angielska | Ocena bezpieczeństwa modułu fotowoltaicznego (PV) — Część 2: Wymagania dotyczące badań |
-| 29 | *(nieznana — zgubiona w konwersji, prawdopodobnie 61730-1 wg wcześniejszego odczytu wizualnego)* | — | — |
+| 29 | PN-EN 50438:2014-02 (norma wycofana i zastąpiona przez PN-EN 50549-1:2019-02) | angielska | Wymagania dla instalacji mikrogeneracyjnych przeznaczonych do równoległego przyłączenia do publicznych sieci rozdzielczych niskiego napięcia | *[27.09.2026 — uzupełnione: akapit `.docx` + odczyt wizualny PDF str. 8]*
 | 30 | PN-EN 50524:2009 | angielska | Karta danych i tabliczka znamionowa falowników do systemów fotowoltaicznych |
 | 31 | PN-EN 50530:2010 | angielska | Całkowita sprawność falowników fotowoltaicznych |
 | 32 | PN-EN 50549-1:2019-02 (zastępuje PN-EN 50438) | angielska | Wymagania dla instalacji generacyjnych przeznaczonych do równoległego przyłączania do publicznych sieci dystrybucyjnych — Część 1: Przyłączanie do sieci dystrybucyjnej nN — Instalacje generacyjne aż do typu B włącznie |
-| 33 | *(nieznana — zgubiona w konwersji, prawdopodobnie 50549-2 wg wcześniejszego odczytu wizualnego)* | — | — |
+| 33 | PN-EN 50549-2:2019-04 | angielska | Wymagania dla instalacji generacyjnych przeznaczonych do równoległego przyłączania do publicznych sieci dystrybucyjnych — Część 2: Przyłączanie do sieci dystrybucyjnej SN — Instalacje generacyjne aż do typu B i włącznie z nim | *[27.09.2026 — uzupełnione: akapit `.docx` + odczyt wizualny PDF str. 8]*
 | 34 | PN-EN 61000 (seria) | — | Seria norm dotycząca kompatybilności elektromagnetycznej (EMC) |
 | 35 | **PN-EN 62109-1:2010** | angielska | Bezpieczeństwo konwerterów mocy stosowanych w fotowoltaicznych systemach energetycznych — Część 1: Wymagania ogólne |
 | 36 | **PN-EN 62109-2:2011** | angielska | j.w. — Część 2: Wymagania szczegółowe dotyczące falowników — **mamy dziś pełną treść (IEC 62109-2), patrz `docs/zrodla/norma-IEC-62109-2/`** |
-| 37 | *(nieznana — zgubiona w konwersji, prawdopodobnie 62116 wg wcześniejszego odczytu wizualnego)* | — | — |
+| 37 | PN-EN 62116:2014-11 | angielska | Falowniki fotowoltaiczne włączone do publicznej sieci energetycznej — Procedura badania ochrony przed zanikiem napięcia | *[27.09.2026 — uzupełnione: akapit `.docx` + odczyt wizualny PDF str. 8]*
 | 38 | PN-EN 61194:2002 | polska | Parametry charakterystyczne autonomicznych systemów fotowoltaicznych (PV) — **off-grid** |
 | 39 | PN-EN 62124:2005 | angielska | Systemy fotowoltaiczne (PV) wolnostojące — Weryfikacja projektu — **off-grid** |
 | 40 | PN-EN 50521:2009 (norma wycofana) | angielska | Złącza elektryczne do zastosowań w systemach fotowoltaicznych — Wymagania bezpieczeństwa i badania |
