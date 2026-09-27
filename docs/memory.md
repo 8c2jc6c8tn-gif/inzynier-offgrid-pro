@@ -7623,3 +7623,8 @@ Polecenie właściciela: „co można jeszcze zrobić beze mnie, czy są większ
   `components/wzorce/ekran-checklisty-chemii.tsx`. ⚠️ **Do decyzji właściciela:** alert Biblii o wodorze (ołowiowy bez wentylacji)
   wdrożony jako 🟡 `warning`, nie 🔴 — lista twardych stopów M12 w `Tresc` go nie wymienia. Podniesienie do 🔴 = zmiana `level` w
   `bezpieczenstwo-kamper/warnings.ts` + wpis w rejestrze twardych stopów.
+- **[27.09.2026, pakiet 3] M12/E2 + E15 (kabel i bezpiecznik)** — echo M5/E1 + M5/E6 (jak M11/B5) + pierwsze użycie PN-IEC
+  60364-4-43 433.2 (IB ≤ In ≤ Iz). ✏️ Przykłady źródła (15 A/3 m → 2,5 mm²; 15 A/4 m → 4 mm²) liczone wzorem jednostronnym ρ·L/S —
+  ta sama rozbieżność co w M5/E1, nie powielana (2L → 6 mm² przy 3%). E15: tablice obciążalności dotyczą przewodów instalacyjnych
+  PVC (H07V-K); przewody samochodowe FLRY mają osobne tablice — jawne założenie, nie blokada (inaczej niż E41, gdzie przedłużacz
+  to przewód giętki poza zakresem normy i przykład źródła nie wynikał z żadnego wzoru).

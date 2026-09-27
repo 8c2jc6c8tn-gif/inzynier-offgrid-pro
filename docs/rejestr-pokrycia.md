@@ -512,7 +512,7 @@ Już z wierszem wcześniej: E1 (8.1, `done`) i dawne 8.8 (PWM vs MPPT, `done` �
 
 | Ekran | ID (dawne) | Nazwa | Status | Notatka |
 |---|---|---|---|---|
-| 2 | 8.2, 8.10 | Zabezpieczenia dla małych instalacji | todo | Wzorzec D. |
+| 2 | 8.2, 8.10 | Zabezpieczenia dla małych instalacji | **done** (częściowo) | Wzorzec D. **[27.09.2026]** `lib/core/modules/kalkulator-mobilny/kable-bezpieczniki-male/` (wspólny z E15), UI: `app/kalkulatory/kable-bezpieczniki-male/page.tsx` + `components/wzorce/ekran-kabli-malej-instalacji.tsx`, 9 testów silnika + 2 testy narzędzia AI `dobierz_kabel_i_bezpiecznik_mala_instalacja`. **Echo M5/E1 + M5/E6** (jak M11/B5): przekrój `calculateDoborPrzekrojuKabla`, bezpiecznik 1,25 × I `calculateDoborBezpiecznikaRozlacznika` (ta sama reguła w Biblii §12.10). **Nowe:** koordynacja PN-IEC 60364-4-43, 433.2 `IB ≤ In ≤ Iz` — pierwszy kalkulator używający tej normy (była w repo od 05.09, nieużywana); gdy Iz < 1,25·I, przekrój podnoszony. 🔴 ze źródła („przekrój poniżej minimum”) = twardy stop silnika M5/E1 albo `MK-BEZPIECZNIK-NIE-CHRONI-KABLA`. ✏️ Przykład źródła (15 A, 3 m → 2,5 mm²) odtwarza się tylko wzorem jednostronnym ρ·L/S — ta sama rozbieżność co M5/E1; przy ρ·2L/S i 3% → 6 mm². **Częściowo:** schemat obwodów, baza bezpieczników (nożowe/szklane/mini) i sugestia 24 V przy dużych prądach (Biblia „np. > 200 A” — przykład, nie próg) nie zbudowane; I₂ ≤ 1,45·Iz niesprawdzane (dane z karty bezpiecznika). |
 | 3 | 8.3, 8.16 | Gotowe szablony zestawów | todo | Wzorzec A. |
 | 4 | 8.4 | "Mam akumulator — co mogę podłączyć?" | todo | Wzorzec D. |
 | 5 | 8.5 | Kalkulator "na weekend" | todo | Wzorzec D. |
@@ -525,7 +525,7 @@ Już z wierszem wcześniej: E1 (8.1, `done`) i dawne 8.8 (PWM vs MPPT, `done` �
 | 12 | 8.17, 8.18, 8.19, 8.21, 8.29–8.36, 8.48, 8.52, 8.53, 8.67 | Kreator zasilania małego odbiornika — moduł zbiorczy | todo | Wzorzec D. |
 | 13 | 8.20 | Blackout w domu — minimum do przeżycia | todo | Wzorzec D. |
 | 14 | 8.22 | Raport bezpieczeństwa małej instalacji — RAPORT | todo | Wzorzec G. |
-| 15 | 8.13, 8.49 | Kable/bezpieczniki do kampera + dobór złączek | todo | Wzorzec D. |
+| 15 | 8.13, 8.49 | Kable/bezpieczniki do kampera + dobór złączek | **done** (częściowo) | Wzorzec D. **[27.09.2026]** Ten sam silnik co E2 (`kable-bezpieczniki-male`, `pojazd: true`), UI: `app/kalkulatory/kable-bezpieczniki-kamper/page.tsx`. Dodatkowo: info o bezpieczniku z certyfikatem do zastosowań mobilnych (wibracje — `Tresc`), peszlach i zakazie przewodów głośnikowych (Biblia §12.13) oraz założenie, że tablice obciążalności dotyczą przewodów instalacyjnych PVC (H07V-K), nie samochodowych (FLRY). ✏️ Przykład źródła (15 A, 4 m → 4 mm²) — wzór jednostronny, jak w E2; przy 2L i 3% → 6 mm². **Częściowo:** dobór złączek (MC4/XT60/oczkowe — dawne 8.49) i baza bezpieczników samochodowych nie zbudowane — źródło podaje tylko nazwy. |
 | 16 | 8.14 | Czas pracy na akumulatorze samochodowym | todo | Wzorzec D. |
 | 17 | 8.37 | Dobór akumulatora do kampera (AGM vs LiFePO4) | todo | Wzorzec B. |
 | 18 | 8.38 | Dobór panelu do kampera (elastyczny vs sztywny) | todo | Wzorzec B. |

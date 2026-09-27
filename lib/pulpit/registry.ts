@@ -282,6 +282,8 @@ export const KAFLE: KafelEntry[] = [
       { href: "/kalkulatory/ratowanie-akumulatora-maly", label: "Ratowanie rozładowanego akumulatora — mała instalacja" },
       { href: "/kalkulatory/bezpieczenstwo-kamper", label: "Bezpieczeństwo akumulatora w kamperze (lista kontrolna)" },
       { href: "/kalkulatory/ladowanie-w-garazu", label: "Bezpieczne ładowanie akumulatora w garażu (lista kontrolna)" },
+      { href: "/kalkulatory/kable-bezpieczniki-male", label: "Kabel i bezpiecznik dla małej instalacji 12/24 V" },
+      { href: "/kalkulatory/kable-bezpieczniki-kamper", label: "Kable i bezpieczniki w kamperze / pojeździe" },
     ],
   },
   {
