@@ -769,3 +769,29 @@ zalecać odwrócenie domyślności (po zakończeniu migracji: wszystkie moduły 
 `push` wśród konstrukcji, które strażnik musi rozpoznawać.
 
 Status: 🔎 nowe
+
+[27.09.2026] KATEGORIA: POMYSŁ NA REGUŁĘ — brak wprost sformułowanego obowiązku commit→push→PR→merge po każdym zamkniętym module/zadaniu (tylko obowiązek zadeklarowania stanu)
+
+Szczegóły: sprawdzone wprost na żądanie właściciela repo, czy standard/GOD BOOK nakazuje commit+push+PR+merge po każdej
+większej pracy/module. Wynik: **nie ma takiej reguły** — jest tylko 15.21 (deklaracja stanu commit/push/PR/merge zawsze
+jako ostatnie zdanie odpowiedzi) i osobno GOD BOOK v2.39 dopisek "od wersji 2.19" (U.4), który mówi wyłącznie, że w
+środowisku z wyznaczonym branchem (Claude Code Remote) intencja self-bind Routine "commit+push na main" realizuje się
+jako PR+merge tej samej sesji — to opisuje jeden konkretny mechanizm (Routine Y.6), nie ogólną zasadę dla zwykłej pracy
+nad modułami. W praktyce zaobserwowanej w tym repo: gałęzie robocze potrafią rosnąć przez wiele sesji/dni bez PR-a i
+mergea do `main` (np. `claude/prep-work-kppxeb` przed tym wpisem: 12 commitów, kilka dni pracy, PR dopiero na wyraźne
+polecenie właściciela), podczas gdy równolegle powstawały osobne krótkotrwałe gałęzie (`claude/y6-check-*`,
+`claude/sync-*`) merge'owane szybciej. Efekt uboczny braku jawnej reguły: w repo narosło ~15 nigdy niescalonych gałęzi,
+z których część (5 gałęzi `y6-check`/`sync-*`/`app-rules-*`) okazała się już martwa — ich jedyna unikalna treść była
+później i tak zapisana inną drogą do `main`, więc same gałęzie stały się śmieciem wymagającym ręcznego audytu
+(`git branch -r --no-merged`, sprawdzenie każdej pod kątem czy to nie regres).
+
+Dlaczego warto zgłosić do new-app-standards: 15.21 zakłada, że *ktoś* (właściciel albo AI z własnej inicjatywy) i tak
+zdecyduje o momencie push/PR/merge — ale bez jawnego progu ("po zamknięciu każdego zadania z listy `docs/lista-do-
+zrobienia.md`", "po każdym module", albo "na koniec sesji") decyzja o kiedy scalić zostaje całkowicie do uznania,
+co w projektach wielosesyjnych/wielogałęziowych (ta sama rodzina co self-bind Routine) prowadzi do narastania martwych
+gałęzi i utrudnia orientację "co jest już w `main`, a co nie". Propozycja: 15.21 albo nowa podsekcja mogłaby dodać
+zalecenie domyślnego progu (np. "po zamknięciu pozycji `docs/lista-do-zrobienia.md`, chyba że właściciel prosi o
+wsadowanie kilku naraz") oraz rutynowe czyszczenie gałęzi już w pełni pokrytych przez `main` (`git branch -r
+--merged`) jako część higieny repo (14.x?), nie tylko ad-hoc audyt na żądanie.
+
+Status: 🔎 nowe
