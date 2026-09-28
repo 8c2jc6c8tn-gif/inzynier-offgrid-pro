@@ -2,7 +2,9 @@
 
 *(Nazwa pliku z roboczą nazwą „Z sieci na off-grid” zostaje dla ciągłości odsyłaczy; obowiązujące nazwy kafli — decyzja 7 niżej.)*
 
-**STATUS: SZKIC ROBOCZY — NIE JEST CZĘŚCIĄ BIBLII.** To opracowanie eksperckie (GOD BOOK Część D.7,
+**[28.09.2026] ZINTEGROWANE do Biblii** — rozdział kanoniczny: `03_M14_Dom_i_Firma_Siec.md`, decyzje D35–D38 (`rejestr-decyzji.md`). Ten plik zostaje jako zapis weryfikacji (✏️ K1–K14, odczyty DANE-1, tabele stawek per OSD), do którego rozdział odsyła; nowe ustalenia dopisuj w rozdziale, a tu tylko nowe odczyty źródeł. Poniżej pierwotny status, dla historii:
+
+~~**STATUS: SZKIC ROBOCZY — NIE JEST CZĘŚCIĄ BIBLII.**~~ To opracowanie eksperckie (GOD BOOK Część D.7,
 F.2) poprzedza wpisanie treści do Biblii. Nie wpisywać go do Biblii i nie budować na jego podstawie
 kodu bez polecenia właściciela „integruj teraz”. Bramka N.3 obowiązuje: najpierw cały rozdział
 Biblii i audyt N.2, dopiero potem kod.

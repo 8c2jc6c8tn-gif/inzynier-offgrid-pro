@@ -606,3 +606,50 @@ Sekcje M4 i M5 mają komplet ekranów, ale dwie funkcje przeniesione „poza ekr
 | 5 | 4.25 | Lista materiałów (BOM) dla instalacji elektrycznej | todo | Źródło (`Tresc_Modul_5` l. 401): nie osobny ekran — zasila mechanizm BOM z §13.1 Zasad UX. Ten sam brak co M3/E10 (⚠️ blocked — mechanizm BOM + baza komponentów). |
 
 **Kontrola po dopisaniu (ten sam skrypt):** każdy identyfikator `(dawne X.Y)` Biblii modułów 1–13 (579 pozycji — zgodnie z liczbą z nagłówka tego pliku) ma co najmniej jeden wiersz w tym pliku. Kolejne przebiegi N.1: `pnpm audit:n1`.
+
+## Moduł 14 — „Dom – sieć” / „Firma – sieć” (M14, Biblia od 28.09.2026)
+
+Rozdział Biblii: `03_M14_Dom_i_Firma_Siec.md` (D35–D38); źródło: `docs/zrodla/Opracowanie_M14_Z_Sieci_Na_OffGrid_DRAFT.md` §10.
+Materiał wyjściowy nie ma numeracji funkcji Biblii v2.0, więc `pnpm audit:n1` go nie obejmuje. ID ekranów
+pochodzą z opracowania. **Wszystkie ekrany mają status `todo`**, bo kod blokuje bramka N.3 (audyt końcowy
+całej Biblii). Kalkulatory rachunku mają dodatkowo bramkę DANE-1: do czasu pełnego pliku stawek działają
+tylko w trybie „moje dane z faktury” (D36). Ekrany wspólne Dom/Firma to jeden ekran z parametrem segmentu
+— przy liczeniu pokrycia liczyć je raz.
+
+### Moduł 14 — rozdział DOM (M14-D)
+
+| ID | Nazwa | Część | Status | Notatki |
+|---|---|---|---|---|
+| D1 | Mój rachunek dziś — stałe/zmienne, „cena trzymania sieci” | Sieć | todo | Kalkulator, Wzorzec D. Tryb „moje dane z faktury” zawsze; domyślne stawki tylko ✅ (D36). |
+| D2 | Która taryfa G (G11/G12/G12w/G13…) | Sieć | todo | Wzorzec B. Strefy czasowe z pliku danych OSD, nie założenie. |
+| D3 | Moje zużycie miesięcznie | Sieć | todo | Pochodny — echo M2 albo wpis z faktur. |
+| D4 | Ile PV i magazynu, żeby uniezależnić się od sieci | Przejście | todo | Pochodny — echo M3, M4. |
+| D5 | Zima bez sieci | Przejście | todo | Pochodny — echo M7 (warunek konieczny scenariusza D). |
+| D6 | Agregat jako zapas | Przejście | todo | Pochodny — echo M2/E17. Twarde stopy: agregat bez przełącznika, agregat w pomieszczeniu. |
+| D7 | Porównanie scenariuszy A–D (TCO) | Przejście | todo | Kalkulator, Wzorzec G. Nigdy jeden werdykt „najlepszy”. Twarde stopy scenariusza D. Pole „Wzrost cen energii” (D40–D42): przełącznik Suwak % / Plany UE / Plany UE + inflacja w miejscu suwaka. |
+| D8 | Net-metering, net-billing, depozyt — co tracę, odchodząc | Sieć | todo | Artykuł + mini-kalkulator (C + D). 1,23 i zwrot 20%/30% ✅ (ustawa o OZE). |
+| D9 | Ryzyka odłączenia (lista z potwierdzeniem) | Przejście | todo | Wzorzec E. **Wspólny z F9** (parametr segmentu). |
+| D10 | Jak zrezygnować z przyłącza — krok po kroku | Przejście | todo | Artykuł, Wzorzec F. **Wspólny z F10**. |
+| D11 | Przełącznik sieć/wyspa i bezpieczeństwo | Przejście | todo | Artykuł + twarde stopy (F + E). Backfeed — `docs/rejestr-twardych-stopow.md`, sekcja M14. |
+| D12 | Test licznika i reklamacja (dioda + pismo) | Sieć | todo | Kalkulator + generator (D + G). **Wspólny z F11**. |
+| D13 | Dotacje (stan na dzień, z terminami) | Sieć | todo | Artykuł. Plik dotacji ze `stanNa`/`waznoscDo`; PME czeka na regulamin (W6). |
+| D14 | FAQ | Sieć | todo | Artykuł. |
+| Kreator | „Ścieżka przejścia” — 6 kroków (oba kafle) | Przejście | todo | Kreator Pro, Wzorzec F + podsumowanie Wzorzec G; wejście na końcu części Sieć (D35). |
+
+### Moduł 14 — rozdział FIRMA (M14-F)
+
+| ID | Nazwa | Część | Status | Notatki |
+|---|---|---|---|---|
+| F1 | Mój rachunek dziś (C) | Sieć | todo | Kalkulator, Wzorzec D. |
+| F2 | Porównywarka taryf C | Sieć | todo | Wzorce B + G. Taryfy niedostępne dla mocy umownej wyłączone (✏️ K8). |
+| F3 | Moc bierna — opłata i opłacalność kompensacji | Sieć | todo | Wzór z √ (✏️ K1, ✅ taryfy OSD); wartość `C_rk` 🔎 — do tego czasu wpis z faktury. |
+| F4 | Moc umowna — przekroczenia i optymalny poziom | Sieć | todo | Suma 10 największych nadwyżek albo 10 × maks. (✏️ K12, ✅). |
+| F5 | Opłata mocowa — przesunięcie poboru | Sieć | todo | 0,2194 zł/kWh, dni robocze 7–22 ✅. |
+| F6 | PV w firmie i autokonsumpcja | Sieć | todo | Pochodny — echo M3; autokonsumpcja z profili (D38, profile W4 do pozyskania). |
+| F7 | Magazyn (BESS) dla firmy — strumienie korzyści | Sieć | todo | Pochodny — echo M4/E23. Ceny/zwrot z materiału nie do kodu. |
+| F8 | Scenariusze A–D dla firmy (ciągłość działalności) | Przejście | todo | Kalkulator, Wzorzec G; RF1. Pole „Wzrost cen energii” jak w D7 (D40–D42). |
+| F9 | Ryzyka odłączenia firmy | Przejście | todo | **Wspólny z D9** + RF1–RF3. |
+| F10 | Procedura i umowy B2B | Przejście | todo | **Wspólny z D10**. |
+| F11 | Test licznika, reklamacja, badanie laboratoryjne | Sieć | todo | **Wspólny z D12**. |
+| F12 | Dotacje i podatki — informacja, nie porada | Sieć | todo | Artykuł; podatki bez wyliczeń (✏️ K5). |
+| F13 | FAQ firm | Sieć | todo | Artykuł — pytania z materiału z poprawkami ✏️. |

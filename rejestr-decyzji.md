@@ -1,6 +1,6 @@
 # Rejestr decyzji — Inżynier Offgrid Pro
 
-**Wersja:** 1.13 | **Filar:** C | **Data utworzenia:** 04.09.2026 | **Ostatnia aktualizacja:** 28.09.2026 | **Status:** Stabilny (rosnący)
+**Wersja:** 1.18 | **Filar:** C | **Data utworzenia:** 04.09.2026 | **Ostatnia aktualizacja:** 28.09.2026 | **Status:** Stabilny (rosnący)
 **Powiązane dokumenty:** `00_Biblia.md`, `docs/memory.md`, `USTALENIA.md` (historyczny, Część II)
 
 TL;DR: D1, D2, D3… — decyzje **strategiczne/fundamentalne** (blokujące wiele innych rzeczy naraz, Krok 4 GOD BOOK), ponumerowane, nigdy nie kasowane, tylko unieważniane jawnie (F.5). **Nie duplikuje `docs/memory.md`**: tam żyje pełna, szczegółowa historia każdej sesji (setki drobnych decyzji implementacyjnych per ekran) — tu tylko decyzje, które zmieniły kierunek/regułę obowiązującą cały projekt. Gdy wpis niżej odsyła do `docs/memory.md`, tam jest pełne uzasadnienie i przykłady.
@@ -82,6 +82,93 @@ TL;DR: D1, D2, D3… — decyzje **strategiczne/fundamentalne** (blokujące wiel
 
 
 **D34 (28.09.2026) — Chmurki „?” przy polach (standard 8.4): wariant B + bogaty opis działania kalkulatora.** Koszt cofnięcia: średni (treść na wszystkich ekranach). Decyzja właściciela projektu (wybór B w poprzedniej sesji, potwierdzony 28.09.2026: „muszą zawierać bogaty opis wyjaśniający jak i po co działa kalkulator, no i tak jak było podane w odpowiedzi B”). Treść: (1) każde pole liczbowe ma `?` z pełną nazwą, do czego służy, gdzie znaleźć wartość i typowym zakresem — zakresy wyłącznie ze źródeł/norm w repo, w braku — „zakres z karty katalogowej” (Dyrektywa #1, bez zgadywania); (2) chmurki wyjaśniają też, jak i po co działa kalkulator — bogato, językiem dla laika; (3) moduł po module, PR na moduł; warianty A (mechaniczne przepisanie `hint`) i C (A, potem B) odrzucone; (4) praca w osobnej sesji (`docs/lista-do-zrobienia.md`). Nowe ekrany od teraz od razu z chmurkami w tym standardzie.
+**D35 (28.09.2026) — Nowy moduł M14 = ścieżka przejścia z sieci na off-grid; na pulpicie dwa duże kafle i dwa rozdziały: „Dom – sieć” (M14-D, grupy G) i „Firma – sieć” (M14-F, grupy C); w każdym najpierw część Sieć, potem jako opcja część Przejście.** Koszt cofnięcia: średni (nawigacja, pulpit, podział ekranów; kod jeszcze nie istnieje). Decyzje właściciela projektu z 28.09.2026, numery 1, 2, 3 i 7 w opracowaniu. Cytaty:
+- „niektórzy jeszcze są podłączeni do sieci i chcą częściowo przejść do Offgrid… muszą mieć podgląd i porównanie”;
+- „jak przejść na off grid, z kalkulatorami obliczeń, opłacalności, doboru magazynów energii, ilości PV… dokładnie informować, co i jak zrobić i jakie ryzyka niesie, także przy odłączeniu przyłącza”;
+- „moduły opowiadają i liczą sieć, a dopiero potem jest opcja obliczenia dla przejścia Offgrid”.
+
+Treść:
+- (1) Rozdział nie jest samą porównywarką taryf. Najpierw pokazuje rachunek, taryfy, prosumenta i licznik, a potem daje wejście do scenariuszy A–D (TCO, echo M1–M8), ryzyk i procedury odłączenia.
+- (2) Ekrany wspólne dla Domu i Firmy (ryzyka, procedura, przełącznik sieć/wyspa, test licznika) to w kodzie jeden ekran z parametrem segmentu (D12/D20).
+- (3) Kreator „Ścieżka przejścia” ma 6 kroków i startuje z końca części Sieć.
+- (4) Wynik nigdy nie jest jednym werdyktem „najlepszy”. Pokazuje osobno „najtańszy” i „najbardziej niezależny”, zawsze z informacją o odwracalności.
+
+Kolejny numer modułu po M13 (zgodnie z Z1). Pełne: `03_M14_Dom_i_Firma_Siec.md`, opracowanie `docs/zrodla/Opracowanie_M14_Z_Sieci_Na_OffGrid_DRAFT.md`.
+
+**D36 (28.09.2026) — Stawki rozliczeń energii to dane, nie stałe w kodzie. Plik JSON + Zod `rozliczenia-pl-2026`, każda stawka ma listę okresów ważności `{ odDnia, doDnia, wartosc }` i pola `zrodlo`/`stanNa`/`pewnosc`. Wartości domyślne pochodzą wyłącznie ze źródeł ✅. Tryb „moje dane z faktury” jest zawsze dostępny przy każdym polu stawki.** Koszt cofnięcia: średni (model danych M14; kod jeszcze nie istnieje). Decyzja właściciela projektu nr 4 (28.09.2026): „ty znajdziesz mi poprawne dane i je wpiszesz, a także zostawisz opcje dla wpisania swoich danych”.
+
+Model z okresami ważności zamiast pary (rok, wartość) wynika z odczytu pierwotnego: stawka jakościowa zmieniła się w trakcie roku (0,0331 → 0,0332 zł/kWh od 1.02.2026).
+
+Treść:
+- (1) Rachunek roczny liczy się jako średnia ważona zużyciem z miesięcy. Przy braku danych miesięcznych bierze się stawkę obowiązującą najdłużej, z ostrzeżeniem.
+- (2) Po `waznoscDo` pojawia się ostrzeżenie „stawki mogą być nieaktualne — sprawdź fakturę”.
+- (3) Do czasu zamknięcia DANE-1 dla danego OSD kalkulator działa tylko w trybie „moje dane z faktury”. To pełnoprawny tryb, nie namiastka.
+- (4) Liczby z dok. 2 (tabele stawek z innego narzędzia AI) nie wchodzą do danych (✏️ K11).
+
+Pełne: `03_M14_Dom_i_Firma_Siec.md` §2, opracowanie §0, §2.3–2.4a, §9.
+
+**D37 (28.09.2026) — FREE/PRO dla M14: na razie nie przypisujemy.** Koszt cofnięcia: tani. Decyzja właściciela projektu nr 6: „Free pro narazie nie ruszamy. Potem będziemy dzielić.” Ekrany M14 nie mają przypisania FREE/PRO, a podział wróci osobną decyzją. **Nie unieważnia D2**: D2 nadal obowiązuje dla modułów M1–M13, a M14 jest do tego czasu poza podziałem.
+
+**D38 (28.09.2026) — M14: autokonsumpcja w trybie prostym liczona z profili zużycia, nie z samego wpisu %.** Koszt cofnięcia: tani. Decyzja właściciela projektu (P3 w opracowaniu: „Autokonsumpcja wybieram profile, to najlepiej”).
+
+Treść:
+- (1) Profil „typowy” pochodzi ze standardowych profili zużycia OSD (IRiESD) dla G11/C11. Do czasu odczytu (W4, 🔎B) profilu nie ma w kodzie.
+- (2) Warianty („nikogo w dzień”, „praca zdalna”) wolno dodać tylko ze źródłem albo jako jawne przesunięcie profilu typowego, z opisem założenia.
+- (3) Wpis ręczny % zostaje jako opcja „znam swoją autokonsumpcję”.
+- (4) W trybie zaawansowanym używany jest profil z M2.
+
+**D39 (28.09.2026) — M14: dwa kafle („Dom – sieć”, „Firma – sieć”) stoją na końcu domyślnej kolejności pulpitu, za kaflem 13; później preset onboardingu „Jestem podłączony do sieci” wysuwa je na początek.** Koszt cofnięcia: tani (kolejność kafli to konfiguracja pulpitu, kod M14 jeszcze nie istnieje). Decyzja właściciela projektu z 28.09.2026: „Zgadzam się” — na propozycję AI (wcześniej ✅🤖). „Kafel 14” pozostaje Ustawieniami (D9), więc kafle M14 nazywa się nazwą albo M14-D / M14-F. Pełne: `03_M14_Dom_i_Firma_Siec.md` („Miejsce w aplikacji”), `docs/pulpit-i-nawigacja.md`.
+
+**D40 (28.09.2026) — M14 TCO: `N` = 15 lat (zakres 10–25), `r` = 0, `g` = 0 plus suwak −3 / 0 / +5 / +10%/rok plus trzecia opcja „Ścieżka UE” — dynamika cen energii z oficjalnej projekcji Komisji Europejskiej dla Polski.** Koszt cofnięcia: tani (dane plus jedna opcja wyboru, kod jeszcze nie istnieje). Decyzja właściciela projektu z 28.09.2026: „Tak. Ale weźmy jeszcze planowane ceny energii prognozowane na kolejne lata przez ue.”
+
+Treść:
+- (1) Źródło „Ścieżki UE”: KE DG ENER, *EU Reference Scenario 2020*, arkusz wyników, `PL_A`, „Average Price of Electricity in Final demand sectors (€'15/MWh)”, odczyt pierwotny ✅. Na 28.09.2026 to najnowsza opublikowana edycja.
+- (2) Do obliczeń wchodzi tylko dynamika realna (ponad inflację), nie poziom w €/MWh. Wartość to średnia dla wszystkich odbiorców, a status podatków jest nieokreślony.
+- (3) Ścieżka jest zawsze podpisana źródłem i datą i ma ostrzeżenie: założenia polityki z końca 2019 r., bez kryzysu cen 2021–2023, Fit for 55 i ETS2.
+- (4) Domyślnie nadal `g` = 0: aplikacja sama cen nie prognozuje, a ścieżkę UE wybiera użytkownik.
+- (5) `g` z suwaka ma to samo znaczenie (zmiana ponad inflację). Wynik przy `r` = 0 jest w dzisiejszych złotych.
+- (6) Nowsza edycja projekcji KE podmienia dane (dane z okresem ważności, D36).
+
+Pełne: `03_M14_Dom_i_Firma_Siec.md` („Kluczowe zasady i wzory”, TCO).
+
+**D41 (28.09.2026) — M14 TCO: czwarta opcja cen energii „Ścieżka UE + inflacja” (ceny nominalne, kwoty do zapłaty). Rozszerza D40, niczego w nim nie unieważnia.** Koszt cofnięcia: tani (dane plus opcja, kod jeszcze nie istnieje). Decyzja właściciela projektu z 28.09.2026: „Musimy zrobić opcję liczenia wzrostu cen na te 15 lat zgodnie z planami ue i drugą opcją plany ue + średnioroczną inflacja.”
+
+Treść:
+- (1) Wzór Fisher: `(1+g_UE)·(1+π) − 1`, nie suma.
+- (2) `π` do wyboru:
+  - cel NBP 2,5% — Uchwała RPP nr 7/2025, M.P. 2025 poz. 1013, ✅. Jako domyślna to propozycja AI ✅🤖, do potwierdzenia;
+  - średnia GUS z 15 lat 3,58% (2011–2025, ✅ z danych pierwotnych);
+  - własna wartość.
+- (3) Przy inflacji rośnie o `π` każdy koszt bieżący (paliwo, serwis, wymiany), a nie tylko sieć.
+- (4) Wynik pokazuje sumę nominalną i sumę w dzisiejszych złotych. Ranking scenariuszy idzie według złotych dzisiejszych, bo suma nominalna bez dyskonta faworyzuje duże inwestycje na starcie.
+- (5) Nazewnictwo w UI: „ponad inflację” (UE) oraz „kwoty, które zapłacisz” (UE + inflacja). Nie używamy słowa „realny” dla ceny nominalnej.
+
+Pełne: `03_M14_Dom_i_Firma_Siec.md` (TCO, „Ścieżka UE + inflacja”).
+
+**D42 (28.09.2026) — M14: wybór ścieżki cen energii to jedno pole „Wzrost cen energii” w miejscu suwaka procentów (ekrany D7 i F8).** Koszt cofnięcia: tani (układ jednego pola, kod jeszcze nie istnieje). Decyzja właściciela projektu z 28.09.2026: „Myślę że musi być ten przełącznik akurat tam gdzie do wyboru jest pasek z procentami”.
+
+Treść:
+- (1) Przełącznik segmentowy: „Suwak %” (domyślny, 0) / „Plany UE” / „Plany UE + inflacja”.
+- (2) Pod przełącznikiem, w tym samym miejscu, pojawia się odpowiednio:
+  - suwak;
+  - średnia %/rok ze źródłem i ostrzeżeniem;
+  - to samo plus wybór inflacji (NBP / GUS / własna).
+- (3) Każda zmiana od razu przelicza tabelę A–D.
+- (4) Wyjaśnienia trafiają do chmurki „?” (D34).
+
+Uzupełnia D40/D41, niczego nie unieważnia. Pełne: `03_M14_Dom_i_Firma_Siec.md` (TCO, „Gdzie użytkownik to wybiera”).
+
+**D43 (28.09.2026) — M14: domyślna inflacja w opcji „Plany UE + inflacja” = średnia GUS z ostatnich 15 lat, 3,58%/rok (2011–2025, średnia geometryczna rocznych wskaźników CPI).** Koszt cofnięcia: tani (jedna wartość domyślna, kod jeszcze nie istnieje). Decyzja właściciela projektu z 28.09.2026: „Ja wybieram inflację GUS, ponieważ podawana inflacja jest i tak zaniżona i nie trzyma się kupy z prawdziwymi cenami.”
+
+Treść:
+- (1) Rozstrzyga otwarty punkt D41 (2): propozycja AI „cel NBP domyślny” (✅🤖) nie zostaje przyjęta.
+- (2) Cel NBP 2,5% zostaje w przełączniku jako opcja, podobnie jak własna wartość.
+- (3) Średnia jest przeliczana po publikacji przez GUS danych za kolejny rok (okres ważności wartości, D36).
+
+Uwaga rewidenta, zapisana jako kontekst, a nie korekta decyzji: średnia GUS też jest wskaźnikiem CPI, tym samym co w celu NBP. Różnica bierze się z tego, że średnia z ostatnich 15 lat zawiera szok 2022–2023 (14,4% i 11,4%), a cel NBP to kotwica na przyszłość. Wybór GUS daje ostrożniejszy, czyli wyższy, szacunek przyszłych rachunków.
+
+Pełne: `03_M14_Dom_i_Firma_Siec.md` (TCO, tabela źródeł `π`).
+
 ---
 
 ## Założenia robocze (F.7 GOD BOOK)
@@ -108,3 +195,8 @@ TL;DR: D1, D2, D3… — decyzje **strategiczne/fundamentalne** (blokujące wiel
 | 26.09.2026 | Dodano D29 (balast projektowy PN-EN 1990 EQU w M3/E9, E2, E6; twardy stop E6 „za mały balast”) — polecenie właściciela projektu. Wersja 1.10→1.11. |
 | 28.09.2026 | Dodano D30 (E23 próg 80%), D31 (E19 falownik 🔴, regulator 🟡), D32 (E8 progi rozruchu diesla/benzyny), D33 (E11 przykładowe moce urządzeń) — decyzje właściciela projektu, runda 3. Wersja 1.11→1.12. |
 | 28.09.2026 | Dodano D34 (chmurki „?” — wariant B + bogaty opis działania kalkulatora) — decyzja właściciela projektu. Wersja 1.12→1.13. |
+| 28.09.2026 | Dodano D35 (M14: ścieżka przejścia sieć → off-grid, kafle „Dom – sieć” / „Firma – sieć”, najpierw Sieć, potem Przejście), D36 (stawki jako dane z okresami ważności + tryb „moje dane z faktury”), D37 (FREE/PRO dla M14 odłożone, D2 bez zmian), D38 (autokonsumpcja z profili) — integracja M14 do Biblii („Integruj teraz”). Wersja 1.13→1.14. |
+| 28.09.2026 | Dodano D39 (pozycja kafli M14) i D40 (parametry TCO M14 plus „Ścieżka UE” z EU Reference Scenario 2020) — decyzje właściciela projektu. Wersja 1.14→1.15. |
+| 28.09.2026 | Dodano D41 (M14 TCO: „Ścieżka UE + inflacja”, π z celu NBP albo średniej GUS) — decyzja właściciela projektu. Wersja 1.15→1.16. |
+| 28.09.2026 | Dodano D42 (M14: przełącznik ścieżek cen w miejscu suwaka procentów) — decyzja właściciela projektu. Wersja 1.16→1.17. |
+| 28.09.2026 | Dodano D43 (M14: domyślna inflacja = średnia GUS 15 lat 3,58%) — decyzja właściciela projektu. Wersja 1.17→1.18. |
