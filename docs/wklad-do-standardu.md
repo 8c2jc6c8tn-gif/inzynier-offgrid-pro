@@ -948,3 +948,27 @@ sesji „`git fetch` + gałęzie `claude/*` zmienione w ostatniej dobie + `git l
 przekazania czytać z najnowszej gałęzi, nie z `main`”; (2) sesja kończąca bez merge zapisuje notatkę przekazania także
 w miejscu widocznym z `main` (np. PR w stanie draft), albo wprost w prompcie dla kolejnej sesji podaje nazwę gałęzi.
 Status: 🔎 nowe
+
+[28.09.2026] KATEGORIA: POMYSŁ NA REGUŁĘ (zgłoszenie właściciela repo) — lista zadań zawsze aktualna na `main` + ślad ostatniej gałęzi + obowiązkowy commit→push→PR→merge po skończonej pracy
+
+Szczegóły: bezpośrednia reakcja właściciela repo na wpis wyżej (28.09.2026, duplikat D29) i rozwinięcie wpisu z
+27.09.2026 (brak obowiązku commit→push→PR→merge). Właściciel prosi o trzy reguły, które razem zamykają tę klasę błędów:
+(1) **`docs/lista-do-zrobienia.md` aktualizowana zawsze na `main`**, niezależnie od gałęzi, na której toczy się praca —
+zmiana statusu zadania (🔲→🔄→✅) i notatka „PRZEKAZANIE DLA KOLEJNEJ SESJI” trafiają na `main` od razu, a nie dopiero
+razem z kodem przy (ewentualnym) merge'u; (2) **ślad ostatniej gałęzi** — lista na `main` zawsze podaje, na jakiej gałęzi
+pracowała ostatnia sesja i co tam leży niescalone (nazwa gałęzi, ostatni commit, co zrobione, co jest następnym
+krokiem), także gdy gałąź nie została scalona, żeby kolejna sesja startująca z `main` wiedziała, skąd przejąć pracę,
+zamiast ją powtarzać; (3) **commit → push → PR → merge po skończonej pracy jest obowiązkowy**, nie „do uznania” — po
+zamknięciu zadania z listy sesja scala swoją gałąź do `main` (z pełnym lokalnym pakietem kontroli przed merge'em, gdy CI
+jest niedostępne), więc niescalona gałąź staje się wyjątkiem (praca realnie przerwana w połowie), a nie stanem domyślnym.
+Reguła (3) sama w dużej mierze usuwa potrzebę (2); (2) zostaje jako zabezpieczenie na przypadek przerwanej sesji.
+Dlaczego warto zgłosić do new-app-standards: problem nie jest specyficzny dla tego repo — dotyczy każdego projektu
+rodziny prowadzonego równoległymi sesjami w chmurze, z których każda dostaje własną gałąź. Obecnie 15.21 wymaga tylko
+*zadeklarowania* stanu commit/push/PR/merge, a GOD BOOK P.2/Y.4 każe czytać listę zadań na starcie, zakładając milcząco,
+że `main` jest aktualny — obie reguły razem dopuszczają dokładnie scenariusz z wpisu wyżej. Propozycja brzmienia do
+rozważenia w sesji nad `new-app-standards`: 14.x — „lista zadań i notatka przekazania żyją na gałęzi domyślnej; każda
+zmiana statusu zadania trafia tam od razu, razem z nazwą gałęzi roboczej”; 15.21 — z „zadeklaruj stan” na „po zamknięciu
+zadania wykonaj commit→push→PR→merge, chyba że właściciel wprost każe wstrzymać; wtedy zapisz na gałęzi domyślnej, gdzie
+leży niescalona praca”. Uwaga praktyczna: w środowisku, w którym sesja ma prawo pushu tylko na wyznaczoną gałąź,
+reguła (1) realizuje się przez mały PR+merge samej listy zadań (albo razem z kodem przez regułę (3)).
+Status: 🔎 nowe
