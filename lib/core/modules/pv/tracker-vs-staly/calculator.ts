@@ -25,8 +25,8 @@ export type TrackerVsStalyResult = {
 }
 
 const FORMULA =
-  `n_{dod} = \\lfloor K_{tr} / K_{p} \\rfloor;\; E_{st} = (n + n_{dod}) \\cdot E_p;\; ` +
-  `E_{tr} = n \\cdot E_p \\cdot (1 + z),\; z \\in [${ZYSK_TRACKERA_MIN_PCT}\\%, ${ZYSK_TRACKERA_MAX_PCT}\\%]`
+  `n_{dod} = \\lfloor K_{tr} / K_{p} \\rfloor;\\; E_{st} = (n + n_{dod}) \\cdot E_p;\\; ` +
+  `E_{tr} = n \\cdot E_p \\cdot (1 + z),\\; z \\in [${ZYSK_TRACKERA_MIN_PCT}\\%, ${ZYSK_TRACKERA_MAX_PCT}\\%]`
 
 const PUSTY: TrackerVsStalyResult = {
   dodatkowePanele: 0,
