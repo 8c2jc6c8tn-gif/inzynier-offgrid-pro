@@ -7957,3 +7957,30 @@ Polecenie właściciela „Integruj teraz” (F.2/F.4) wykonane na gałęzi odtw
 - **Otwarte:** która π ma być domyślna (✅🤖 NBP).
 - **[28.09.2026] D42:** właściciel chce przełącznik ścieżek cen dokładnie w miejscu suwaka procentów (D7/F8). Jedno pole „Wzrost cen energii”: segmenty „Suwak %” / „Plany UE” / „Plany UE + inflacja”. Treść pod nimi podmienia się w tym samym miejscu, a tabela A–D przelicza się od razu.
 - **[28.09.2026] D43:** właściciel wybrał domyślną inflację GUS (średnia 15 lat, 3,58%) zamiast proponowanej NBP 2,5%. Uzasadnienie właściciela: oficjalna inflacja jest zaniżona względem cen. Uwaga rewidenta w D43: to ten sam wskaźnik CPI, a różnica wynika z okna 2011–2025 z szokiem 2022–2023. Przykład kontrolny: 1,9440 w roku 15 i ≈109 699 zł.
+
+## Audyt końcowy N.3 całej Biblii (28.09.2026, polecenie „Audyt końcowy”)
+
+Tryb Audyt (czapka rewidenta). Warstwa „w pełni na końcu” z N.2 — wszystko od nowa, bez „już sprawdzone”.
+
+- **Mechanicznie, w obie strony:**
+  - `pnpm audit:n1`: każda pozycja źródła M1–M13 ma wiersz w rejestrze. Braki w plikach `Tresc_*` (M2 1.19, M3 2.15, M12 8.8, M13 7.7, M9 katalogi) są już znane i opisane — to nie nowe luki.
+  - `policz-rejestr`: 4 wiersze „?” to sekcja „Funkcje przeniesione” (bez modułu z definicji), nie luka.
+  - Rejestr decyzji D1–D43 ciągły.
+  - `🔎 TD` ↔ `dlug-techniczny.md`: **TD20 i TD21 bez znacznika w kodzie** — naprawione (tylko komentarze).
+  - Terminy `🔎 (do: …)`: brak przeterminowanych.
+- **Metadane Biblii:** tabela w `00_Biblia.md` miała nieaktualne wersje 6 plików. Nagłówki mapy, backlogu i słownika też były nieaktualne. Poprawione. Do indeksu dopisane 3 istniejące rejestry.
+- **Treść M14 na tle reszty (sens N.3):**
+  1. **M7:** warunek zimowy scenariusza D (D5/D7/F8) potrzebuje ekranów M7 7.2 i 7.37, oba `todo`. Zapisane w rejestrze pokrycia.
+  2. **M8:** rozdział M14 i stop „backfeed” odsyłają szczegół normowy przełącznika do M8, ale w M8 nie ma na to miejsca. Norma HD 60364-5-551 jest nieobecna (`docs/normy-brakujace.md`, dopisane M14). **Decyzja właściciela.**
+  3. **M2/E17 i M7/E8 (kod istnieje):** brak ostrzeżeń „agregat w pomieszczeniu” (CO) i „agregat bez przełącznika”. W M14 to twarde stopy, a źródło M2/M7 ich nie wymaga. **Decyzja właściciela**, czy dopisać je do istniejących ekranów.
+- **Rozdziały poza Biblią:**
+  - „Dobór napięcia” — rozstrzygnięty 13.09 (rozbudowa M4/E2). `docs/zrodla/README.md` wciąż mówił „nierozstrzygnięte”, dopisana adnotacja.
+  - **„Oświetlenie LED”** (szkic 14.09) czeka na kartę katalogową taśmy. Nie było go na liście zadań, dopisany. **Decyzja właściciela:** czy to rozdział blokujący N.3.
+- **C.7:** 10 otwartych ✅🤖 w kodzie i rejestrach czeka na potwierdzenie właściciela (lista w `docs/lista-do-zrobienia.md`).
+- **Sprawdzone niezależnie z danych pierwotnych:**
+  - przykład kontrolny M14: 81 444 / 100 143 / 109 699 zł, mnożniki roku 1 i roku 15;
+  - średnie GUS: 3,58 / 4,59 / 3,37 / 3,32;
+  - nachylenia UE: 1,65% i 0,44%.
+
+  Wszystko zgodne co do grosza.
+- **Wynik:** audyt **nie jest jeszcze zamknięty**. Zamknie go odpowiedź właściciela na 4 decyzje: M8/przełącznik, stopy agregatu w M2/M7, status LED, ✅🤖. Do tego czasu bramka N.3 trzyma kod M14.

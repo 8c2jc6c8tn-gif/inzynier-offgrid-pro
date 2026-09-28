@@ -1,3 +1,4 @@
+// 🔎 TD21 (dlug-techniczny.md): 443.4 exception wording, Table 443.2 unused, length cap cut from the heaviest weight.
 import type { Assumption, CalcResult, Warning } from "@/lib/core/calc-result"
 import { CRL_PROG, F_ENV_BAZOWE, LP_DLUGOSC_MAX_KM, NG_NA_DZIEN_BURZOWY, WAGI_LP, WSPOLCZYNNIK_F } from "./constants"
 import type { OcenaRyzykaCrlInput } from "./input"

@@ -1,6 +1,6 @@
 # Backlog poza v1 — Inżynier Offgrid Pro
 
-**Wersja:** 1.4 | **Filar:** C | **Data utworzenia:** 04.09.2026 | **Ostatnia aktualizacja:** 25.09.2026 | **Status:** Stabilny (rosnący)
+**Wersja:** 1.5 | **Filar:** C | **Data utworzenia:** 04.09.2026 | **Ostatnia aktualizacja:** 28.09.2026 | **Status:** Stabilny (rosnący)
 **Powiązane dokumenty:** `00_Biblia.md`, `docs/rejestr-pokrycia.md`, `docs/lista-do-zrobienia.md`, `mapa-wdrozenia.md`
 
 TL;DR: Rzeczy świadomie odłożone poza zakres pierwszej wersji — decyzje o skali/fazowaniu (N.2 GOD BOOK), zbierane tutaj przy audycie. **Nie to samo, co `docs/lista-do-zrobienia.md`** (bieżący stan pracy, inny rytm — patrz B.6 GOD BOOK). Dwie kategorie: (1) **⚠️ blocked** — ekran/funkcja sprawdzona i odrzucona jako niebuildowalna bez wymyślania danych, jawne uzasadnienie; (2) **⏳ poza zakresem v1** — świadomie odłożone całe obszary produktu (infrastruktura, płatności, i18n), nie kwestia brakujących danych.
@@ -11,6 +11,7 @@ TL;DR: Rzeczy świadomie odłożone poza zakres pierwszej wersji — decyzje o s
 
 - **`IndexedDBStorageAdapter`** — implementacja trwałego zapisu (interfejs `StorageAdapter` istnieje, `kontrakty-rdzenia.md` §3). Powód: kod dziś trzyma stan tylko w React state, wystarcza do zweryfikowania logiki domenowej każdego ekranu; trwały zapis to osobny, duży krok.
 - **i18n wielojęzyczne** — profil `PL` jako jedyny start (Zasada 4, `zlote-zasady.md`). Nowy kraj = nowy plik JSON, bez zmian w jądrze, gdy będzie potrzebny.
+- **Preset onboardingu „Jestem podłączony do sieci”** (28.09.2026, D39) — wysuwa kafle M14 na początek pulpitu. Odłożony razem z całym ekranem onboardingu (`docs/pulpit-i-nawigacja.md` §3 — osiem presetów to wersja robocza, onboarding jeszcze nie istnieje). Zebrane tu przy audycie końcowym N.3 (dotąd tylko w D39 i w „Otwartych sprawach” pulpitu).
 - **FREE/PRO dla M14 „Dom – sieć” / „Firma – sieć”** (28.09.2026, D37) — ekrany M14 bez przypisania, podział wróci osobną decyzją właściciela. D2 dla M1–M13 bez zmian.
 - **Freemium/Stripe** — podział FREE/PRO zdecydowany (D2, `rejestr-decyzji.md`), egzekwowanie i integracja płatności nie zaimplementowane.
 - **Tryb Live z realną telemetrią** (M13) — dziś czysta brama informacyjna bez połączenia; sensowny dopiero, gdy M8/M9 mają dane na żywo do pokazania.
@@ -88,3 +89,4 @@ Pełne wyliczenie per-funkcja nierozpoczęte (rozpoczęto pojedyncze buildowalne
 | 07.09.2026 | **Wynik audytu GOD BOOK Część N (na żądanie właściciela projektu)**: plik nie był aktualizowany od 05.09.2026 mimo znaczącej pracy w międzyczasie. Poprawiono: wpis M5/Ekran 1 (zbudowany 06.09.2026, nie jest już blocked; skorygowana nazwa normy PN-IEC→PN-HD 60364-5-52), wpis M11/B5 (przeniesiony z `⚠️ Blocked` do zwykłego `todo` — odblokowany źródłowo tego samego dnia). Dodano nową sekcję M3 z pięcioma pozycjami świadomie poza zakresem dzisiejszej korekty `ochrona-stringow` wg HD 60364-7-712 (dioda blokująca, alternatywa kablowa, tabele SPD, RCD typu B, etykieta PV) — dotąd tylko w `docs/memory.md`/kodzie, nigdzie skonsolidowane. Wersja 1.2→1.3. |
 | 25.09.2026 | Dodano sekcję M3 (E9 częściowo, E10, E19 — blocked) z pełnego wyliczenia pozostałych pozycji M3. Wersja 1.3→1.4. |
 | 28.09.2026 | Dodano pozycję „FREE/PRO dla M14” (D37) — integracja rozdziału M14 do Biblii. |
+| 28.09.2026 | **Wynik audytu końcowego N.3:** dodano pozycję „Preset onboardingu »Jestem podłączony do sieci«” (D39), dotąd poza backlogiem (N.1 pkt 2). Nagłówek zsynchronizowany: 1.4→1.5, data 28.09.2026. |

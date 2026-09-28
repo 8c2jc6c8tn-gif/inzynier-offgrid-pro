@@ -159,6 +159,7 @@ const LICZBA_STRON = { jedna: 1, obie: 2, "za-izolacja": 0 } as const
  * EN ISO 13786 Załącznik A for one layer, 1-day period: dT = min(½ element; material up to the first insulating
  * layer = `gruboscCm`; Tablica A.1) per surface, κ = ρ·c·dT (A.3), κ′ with Rsi (A.4), both surfaces for an element
  * wholly inside the zone. Validated input only.
+ * 🔎 TD20 (dlug-techniczny.md): layers counted separately, fixed 1-day period.
  */
 function pojemnoscWarstwy(w: WarstwaMasy) {
   const d = w.gruboscCm!

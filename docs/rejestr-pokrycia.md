@@ -624,9 +624,9 @@ tylko w trybie „moje dane z faktury” (D36). Ekrany wspólne Dom/Firma to jed
 | D2 | Która taryfa G (G11/G12/G12w/G13…) | Sieć | todo | Wzorzec B. Strefy czasowe z pliku danych OSD, nie założenie. |
 | D3 | Moje zużycie miesięcznie | Sieć | todo | Pochodny — echo M2 albo wpis z faktur. |
 | D4 | Ile PV i magazynu, żeby uniezależnić się od sieci | Przejście | todo | Pochodny — echo M3, M4. |
-| D5 | Zima bez sieci | Przejście | todo | Pochodny — echo M7 (warunek konieczny scenariusza D). |
+| D5 | Zima bez sieci | Przejście | todo | Pochodny — echo M7 (warunek konieczny scenariusza D). **[28.09.2026, audyt końcowy N.3]** Warunek zimowy potrzebuje z M7 ekranów 7.2 „Deficyty miesięczne i agregat” i 7.37 „Deep Winter Energy Budget”. Oba są jeszcze `todo`, więc albo powstają przed tą częścią ekranu, albo M14 liczy bilans grudnia i stycznia sam z PVGIS (M1). |
 | D6 | Agregat jako zapas | Przejście | todo | Pochodny — echo M2/E17. Twarde stopy: agregat bez przełącznika, agregat w pomieszczeniu. |
-| D7 | Porównanie scenariuszy A–D (TCO) | Przejście | todo | Kalkulator, Wzorzec G. Nigdy jeden werdykt „najlepszy”. Twarde stopy scenariusza D. Pole „Wzrost cen energii” (D40–D42): przełącznik Suwak % / Plany UE / Plany UE + inflacja w miejscu suwaka. |
+| D7 | Porównanie scenariuszy A–D (TCO) | Przejście | todo | Kalkulator, Wzorzec G. Nigdy jeden werdykt „najlepszy”. Twarde stopy scenariusza D. Pole „Wzrost cen energii” (D40–D42): przełącznik Suwak % / Plany UE / Plany UE + inflacja w miejscu suwaka. Kolumna „wynik M7” i twardy stop D — patrz D5. |
 | D8 | Net-metering, net-billing, depozyt — co tracę, odchodząc | Sieć | todo | Artykuł + mini-kalkulator (C + D). 1,23 i zwrot 20%/30% ✅ (ustawa o OZE). |
 | D9 | Ryzyka odłączenia (lista z potwierdzeniem) | Przejście | todo | Wzorzec E. **Wspólny z F9** (parametr segmentu). |
 | D10 | Jak zrezygnować z przyłącza — krok po kroku | Przejście | todo | Artykuł, Wzorzec F. **Wspólny z F10**. |
@@ -647,7 +647,7 @@ tylko w trybie „moje dane z faktury” (D36). Ekrany wspólne Dom/Firma to jed
 | F5 | Opłata mocowa — przesunięcie poboru | Sieć | todo | 0,2194 zł/kWh, dni robocze 7–22 ✅. |
 | F6 | PV w firmie i autokonsumpcja | Sieć | todo | Pochodny — echo M3; autokonsumpcja z profili (D38, profile W4 do pozyskania). |
 | F7 | Magazyn (BESS) dla firmy — strumienie korzyści | Sieć | todo | Pochodny — echo M4/E23. Ceny/zwrot z materiału nie do kodu. |
-| F8 | Scenariusze A–D dla firmy (ciągłość działalności) | Przejście | todo | Kalkulator, Wzorzec G; RF1. Pole „Wzrost cen energii” jak w D7 (D40–D42). |
+| F8 | Scenariusze A–D dla firmy (ciągłość działalności) | Przejście | todo | Kalkulator, Wzorzec G; RF1. Pole „Wzrost cen energii” jak w D7 (D40–D42). Warunek zimowy jak w D5 (M7 7.2, 7.37 `todo`). |
 | F9 | Ryzyka odłączenia firmy | Przejście | todo | **Wspólny z D9** + RF1–RF3. |
 | F10 | Procedura i umowy B2B | Przejście | todo | **Wspólny z D10**. |
 | F11 | Test licznika, reklamacja, badanie laboratoryjne | Sieć | todo | **Wspólny z D12**. |

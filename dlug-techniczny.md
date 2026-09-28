@@ -1,6 +1,6 @@
 # Dług techniczny — Inżynier Offgrid Pro
 
-**Wersja:** 2.2 | **Filar:** C | **Data utworzenia:** 04.09.2026 | **Ostatnia aktualizacja:** 27.09.2026 | **Status:** Stabilny (rosnący)
+**Wersja:** 2.3 | **Filar:** C | **Data utworzenia:** 04.09.2026 | **Ostatnia aktualizacja:** 28.09.2026 | **Status:** Stabilny (rosnący)
 **Powiązane dokumenty:** `00_Biblia.md`, `docs/rejestr-pokrycia.md`, `backlog-poza-v1.md`
 
 TL;DR: Rejestr świadomych uproszczeń kodu względem specyfikacji źródła (Część X.4 GOD BOOK) — ekrany zbudowane **częściowo**, gdzie zbudowana część jest kompletna i poprawna, ale źródło opisuje więcej niż jest dziś zaimplementowane. Różni się od `backlog-poza-v1.md`: tam są całe ekrany niezbudowane, tu są ekrany **częściowo** zbudowane z jawnie oznaczoną brakującą resztą. **To jest indeks, nie kopia** — każdy wpis TD# odpowiada spójnemu markerowi `🔎 TD#` w kodzie źródłowym (GOD BOOK X.4, rozszerzenie 04.09.2026, wersja 2.8); audyt (Część N) sprawdza zgodność w obie strony przez `grep -rn "🔎 TD"`.
@@ -88,3 +88,4 @@ TL;DR: Rejestr świadomych uproszczeń kodu względem specyfikacji źródła (Cz
 | 24.09.2026 | TD19 częściowo wdrożony w E3 (τ = 0,40 dla korony bezlistnej w miesiącach wpisanych przez użytkownika); otwarte: pełny tekst źródła, E4, fenologia. Wersja 1.9→2.0. |
 | 24.09.2026 | TD17 naprawiony: przeszkoda-obrys w Skanerze (E2) → bryła w Analizie zacienienia (E3). Wersja 2.0→2.1. |
 | 27.09.2026 | Dodano TD20 (M6/E8 — Załącznik A EN ISO 13786, uproszczenia) i TD21 (M5/E2 — CRL HD 60364-4-443, niewdrożone części). Wersja 2.1→2.2. |
+| 28.09.2026 | **Wynik audytu końcowego N.3:** grep `🔎 TD` ↔ TD1–TD21 — TD20 i TD21 miały opis znacznika w tym pliku, ale w kodzie nie było tekstu `🔎 TD20`/`🔎 TD21` (znaleziono tylko TD1–TD19). Dopisano znaczniki w miejscach wskazanych wyżej (`pojemnoscWarstwy()` i `OPOR_PRZEJMOWANIA_WEWN_M2K_W`; nagłówek `ocena-ryzyka-crl/calculator.ts`) — sam komentarz, logika bez zmian. Teraz 21/21 w obie strony. Wersja 2.2→2.3. |

@@ -1,6 +1,6 @@
 # 00. Biblia — Inżynier Offgrid Pro
 
-**Wersja:** 1.0 | **Filar:** — (indeks, poza podziałem na filary) | **Data utworzenia:** 04.09.2026 | **Ostatnia aktualizacja:** 28.09.2026 | **Status:** Stabilny
+**Wersja:** 1.1 | **Filar:** — (indeks, poza podziałem na filary) | **Data utworzenia:** 04.09.2026 | **Ostatnia aktualizacja:** 28.09.2026 | **Status:** Stabilny
 **Powiązane dokumenty:** wszystkie poniżej (tabela dokumentów)
 
 TL;DR: Indeks kanonicznej Biblii projektu w formacie GOD BOOK (`docs/god-book/instrukcja-uniwersalna-biblii-projektu-v2_39.md`, Część S). Migracja z `ZASADY_APLIKACJI.md`/`USTALENIA.md`, które pełniły tę rolę wcześniej pod inną nazwą — treść tamtych plików **zachowana, nie usunięta** (oznaczone jako historyczne, patrz "Relacja ze starą konstytucją" niżej).
@@ -49,20 +49,23 @@ Do 04.09.2026 rolę Biblii pełniły `ZASADY_APLIKACJI.md` (pełna) i `USTALENIA
 
 | # | Dokument | Filar | Wersja | Status | Opis |
 |---|---|---|---|---|---|
-| 00 | `00_Biblia.md` (ten plik) | — | 1.0 | Stabilny | Indeks |
+| 00 | `00_Biblia.md` (ten plik) | — | 1.1 | Stabilny | Indeks |
 | 01 | `01_Zasady_Pracy_i_Konwencje.md` | C | 1.0 | Stabilny | Wyciąg operacyjny z GOD BOOK dla tego projektu |
-| 02 | `02_Dyrektywy_AI_Projektu.md` | C | 1.0 | Stabilny | Twarde reguły zachowania AI specyficzne dla domeny off-grid |
+| 02 | `02_Dyrektywy_AI_Projektu.md` | C | 1.1 | Stabilny | Twarde reguły zachowania AI specyficzne dla domeny off-grid |
 | 03 | `03_M14_Dom_i_Firma_Siec.md` | B | 1.4 | Stabilny (kod za bramką N.3) | M14 „Dom – sieć” / „Firma – sieć” — rachunek za prąd, prosument, taryfy G/C, potem scenariusze przejścia A–D, ryzyka i procedura odłączenia (D35–D43). Pierwszy moduł opisany w Biblii, a nie w `docs/zrodla/Tresc_*` |
 | — | `zlote-zasady.md` | C | 1.0 | Stabilny | Kompas projektu — 4 filozofie + 14 zasad architektonicznych |
 | — | `rejestr-decyzji.md` | C | 1.18 | Stabilny | D1, D2, D3… decyzje strategiczne, ponumerowane, rosnące |
-| — | `slownik-pojec.md` | C | 1.0 | Stabilny | Terminy branżowe (SoC, DoD, MPPT, Voc, C-rate...) |
+| — | `slownik-pojec.md` | C | 1.1 | Stabilny | Terminy branżowe (SoC, DoD, MPPT, Voc, C-rate...) |
 | — | `wiedza-surowa.md` | C | 1.0 | Stabilny | Synteza materiałów źródłowych — wskaźnik do `docs/zrodla/`, nie duplikat |
-| — | `kontrakty-rdzenia.md` | A | 1.0 | Stabilny | `CalcResult<T>`, Status, Warning, warstwy, wzorzec echo — konkretne kontrakty tego projektu |
+| — | `kontrakty-rdzenia.md` | A | 1.1 | Stabilny | `CalcResult<T>`, Status, Warning, warstwy, wzorzec echo — konkretne kontrakty tego projektu |
 | — | `docs/zrodla/` | C | — | Stabilny | Materiały źródłowe, niezmienione, tylko do odczytu (Filar C, B.5 GOD BOOK) — **już istniało** przed migracją |
 | — | `docs/rejestr-pokrycia.md` | B | — | Stabilny (rosnący) | Per-moduł/ekran: status, wzór, przykład, notatki — pełni rolę "osobnego pliku per moduł" (Część S poz. 9) — **już istniało** przed migracją, nie duplikowane w nowym formacie |
-| — | `mapa-wdrozenia.md` | C | 1.3 | Stabilny (rosnący) | M#, opisany/zaimplementowany/przetestowany, gotowość — zbudowana z `docs/rejestr-pokrycia.md` |
-| — | `backlog-poza-v1.md` | C | 1.4 | Stabilny (rosnący) | Świadomie odłożone/blocked — ekstrakcja z `docs/rejestr-pokrycia.md` i `docs/lista-do-zrobienia.md` |
-| — | `dlug-techniczny.md` | C | 1.0 | Stabilny (rosnący) | Świadome uproszczenia kodu względem specyfikacji źródła |
+| — | `mapa-wdrozenia.md` | C | 1.5 | Stabilny (rosnący) | M#, opisany/zaimplementowany/przetestowany, gotowość — zbudowana z `docs/rejestr-pokrycia.md` |
+| — | `backlog-poza-v1.md` | C | 1.5 | Stabilny (rosnący) | Świadomie odłożone/blocked — ekstrakcja z `docs/rejestr-pokrycia.md` i `docs/lista-do-zrobienia.md` |
+| — | `dlug-techniczny.md` | C | 2.3 | Stabilny (rosnący) | Świadome uproszczenia kodu względem specyfikacji źródła |
+| — | `docs/rejestr-twardych-stopow.md` | B | — | Stabilny (rosnący) | Twarde stopy (🔴) per moduł, z plikiem i kodem ostrzeżenia; sekcja M14 wyprzedza kod świadomie — **już istniało**, dopisane do indeksu przy audycie końcowym 28.09.2026 |
+| — | `docs/pulpit-i-nawigacja.md` | B | — | Stabilny (rosnący) | Kafle pulpitu, domyślna kolejność, presety onboardingu — **już istniało**, dopisane do indeksu przy audycie końcowym 28.09.2026 |
+| — | `docs/normy-brakujace.md` | C | — | Stabilny (rosnący) | Normy potrzebne, a nieobecne w `docs/zrodla/` — **już istniało**, dopisane do indeksu przy audycie końcowym 28.09.2026 |
 | — | `docs/lista-do-zrobienia.md` | C | — | Stabilny (rosnący) | Bieżąca lista zadań — **już istniało** przed migracją |
 | — | `docs/memory.md` | C | — | Stabilny (rosnący) | Żywy, szczegółowy log decyzji/pułapek — **już istniało**, zostaje główny dziennik roboczy (patrz rozróżnienie w `rejestr-decyzji.md`) |
 
@@ -84,3 +87,4 @@ Do 04.09.2026 rolę Biblii pełniły `ZASADY_APLIKACJI.md` (pełna) i `USTALENIA
 | 28.09.2026 | D41 (M14 TCO: „Ścieżka UE + inflacja”); rozdział 03 v1.2; rejestr decyzji 1.15→1.16. |
 | 28.09.2026 | D42 (M14: przełącznik ścieżek cen w miejscu suwaka); rozdział 03 v1.3; rejestr decyzji 1.16→1.17. |
 | 28.09.2026 | D43 (M14: domyślna inflacja GUS 3,58%); rozdział 03 v1.4; rejestr decyzji 1.17→1.18. |
+| 28.09.2026 | **Wynik audytu końcowego N.3** (tryb Audyt, N.1/N.2): wersje w tabeli zsynchronizowane z nagłówkami plików (02: 1.0→1.1, kontrakty-rdzenia: 1.0→1.1, słownik: 1.0→1.1, mapa: 1.3→1.5, backlog: 1.4→1.5, dług: 1.0→2.3 — były nieaktualne); dopisane do tabeli trzy istniejące rejestry (twarde stopy, pulpit, brakujące normy). Wersja indeksu 1.0→1.1 (C.5: bump przy każdej zmianie tabeli — wcześniej pomijany). |

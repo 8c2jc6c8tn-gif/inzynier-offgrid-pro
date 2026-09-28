@@ -136,7 +136,7 @@ Pełne: `03_M14_Dom_i_Firma_Siec.md` („Kluczowe zasady i wzory”, TCO).
 Treść:
 - (1) Wzór Fisher: `(1+g_UE)·(1+π) − 1`, nie suma.
 - (2) `π` do wyboru:
-  - cel NBP 2,5% — Uchwała RPP nr 7/2025, M.P. 2025 poz. 1013, ✅. Jako domyślna to propozycja AI ✅🤖, do potwierdzenia;
+  - cel NBP 2,5% — Uchwała RPP nr 7/2025, M.P. 2025 poz. 1013, ✅. Jako domyślna to propozycja AI ✅🤖, do potwierdzenia; **[28.09.2026] rozstrzygnięte przez D43: domyślna jest średnia GUS 3,58%, NBP zostaje do wyboru;**
   - średnia GUS z 15 lat 3,58% (2011–2025, ✅ z danych pierwotnych);
   - własna wartość.
 - (3) Przy inflacji rośnie o `π` każdy koszt bieżący (paliwo, serwis, wymiany), a nie tylko sieć.
