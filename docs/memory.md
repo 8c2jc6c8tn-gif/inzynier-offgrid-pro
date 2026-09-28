@@ -7777,3 +7777,29 @@ ignorować. Muszą mieć podgląd i porównanie, żeby zrezygnować z sieci i pr
 bardzo popularny kierunek.” Konsekwencja: rozdział nie jest porównywarką taryf samą w sobie, tylko
 **ścieżką przejścia sieć → off-grid** (dziś: mój rachunek; jutro: porównanie scenariuszy z
 kalkulatorami M2/M3/M4/M7). Pochodzenie materiału potwierdzone przez właściciela: pisane przez AI.
+
+**[28.09.2026, później] Opracowanie M14 + korekta własnej notatki.** Właściciel: brak dalszych
+materiałów (ponownie wklejony tekst = dok. 1, już zapisany), M14 potwierdzony, **dwa duże kafle
+Dom/Firma**, prowadzenie za rękę (kalkulatory opłacalności, PV, magazynu) + pełna informacja o
+ryzykach odłączenia; dane stawek — Claude znajduje poprawne + użytkownik zawsze może wpisać swoje.
+Opracowanie: `docs/zrodla/Opracowanie_M14_Z_Sieci_Na_OffGrid_DRAFT.md` (czeka na P1–P4 i „integruj
+teraz”).
+- ✏️ **Korekta mojej notatki wyżej (pkt 10 „brakuje opłaty przejściowej”):** opłata przejściowa
+  **zniesiona od 1.01.2026** (decyzja Ministra Energii, 🔎A) — brak w dok. 1 był poprawny, błędny jest
+  krok algorytmu dok. 2, który ją nalicza.
+- **Weryfikacja danych w sieci:** WebSearch działa, ale WebFetch do `ure.gov.pl`, `gov.pl`,
+  `gramwzielone.pl`, `industria.eu` blokowany przez proxy środowiska → stawki ogólnokrajowe 2026 na
+  poziomie 🔎A (≥2 zgodne źródła wtórne): mocowa G 4,29/10,31/17,18/24,05 zł/mies., C 0,2194 zł/kWh;
+  OZE 7,30 zł/MWh; kogeneracyjna 3,00 zł/MWh; przejściowa 0; średnia cena G 495,16 zł/MWh.
+  **Pułapka:** źródła wtórne o stawkach per OSD są wzajemnie sprzeczne (mieszają netto/brutto,
+  podają zniesioną opłatę przejściową) — stawki per OSD tylko z PDF taryf (zadanie DANE-1).
+- Wprowadzona skala pewności 🔎A/🔎B (opracowanie §0); do kodu jako dane domyślne tylko ✅.
+
+## Synchronizacja ze standardem — Y.6, sprawdzenie (28.09.2026, 09:55 UTC)
+
+Świeży płytki klon `new-app-standards` (`b59a052`, 27.09 06:17 UTC) — jedyny nowy commit od `8eff570`
+to znów ruch U.4 po stronie źródła (cykliczne sprawdzenie, brak treści). `AKTUALIZACJE.md` 112 linii,
+bez nowego wiersza. `diff -rq` `docs/standards/*`, GOD BOOK `v2_39`, `PROMPT_STARTOWY.md`,
+`docs/przyklady/i18n/*` — bez różnic. Zero nowej treści → `interwał_h = min(48, 18 × 1,5) = 27`,
+`licznik_zero_z_rzedu = 2`. Kolejne sprawdzenie najpóźniej 29.09.2026 ok. 13:00 UTC.
+

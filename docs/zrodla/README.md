@@ -369,3 +369,9 @@ Oba najpewniej wygenerowane przez inne narzędzie AI (standard 15.1b — podwyż
 domena** względem 13 modułów off-grid (rozliczenia z siecią), przypisanie do modułu
 nierozstrzygnięte. Wynik weryfikacji (m.in. błąd we wzorze opłaty za moc bierną, tabele stawek
 niewiarygodne jako dane): `docs/memory.md`, wpis z 28.09.2026.
+
+[28.09.2026, później] ✅ Przypisanie rozstrzygnięte przez właściciela: **M14 „Z sieci na off-grid”**
+(dwa kafle Dom / Firma). Opracowanie eksperckie (szkic, nie Biblia): 
+**`Opracowanie_M14_Z_Sieci_Na_OffGrid_DRAFT.md`** — poprawki ✏️ do obu dokumentów, części Dom i
+„przejście/ryzyka” napisane z wiedzy eksperckiej (brak materiału źródłowego, polecenie właściciela).
+Właściciel przesłał ponownie dok. 1 (identyczny z zapisanym) — nie dublowano pliku.

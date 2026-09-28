@@ -10,8 +10,8 @@ merytoryczna, poprawki (✏️) i uzupełnienia trafiają do opracowania/Biblii,
 (GOD BOOK Część D.7). Wyniki weryfikacji: `docs/memory.md`, wpis z 28.09.2026 „Nowy materiał
 źródłowy — rozliczenia energii (gospodarstwo / przedsiębiorca)”.
 
-**Przypisanie do modułu: NIEROZSTRZYGNIĘTE** — nowa domena (rozliczenia z siecią), do decyzji
-właściciela.
+**Przypisanie do modułu:** M14 „Z sieci na off-grid” (decyzja właściciela 28.09.2026; wcześniej: nierozstrzygnięte — nowa domena (rozliczenia z siecią), do decyzji
+właściciela).
 
 ---
 
