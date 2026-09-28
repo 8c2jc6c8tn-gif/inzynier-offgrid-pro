@@ -7697,3 +7697,10 @@ Polecenie właściciela: „zacznij od modułów M8–M7 i ruszaj dalej; po każ
 - **E26** — deficyt + echo M4/E1 dla dni na baterii.
 - **Pułapka narzędziowa (trzeci raz):** `\;` w FORMULA pisanej przez heredoc Basha ginie do `\;` pojedynczego — pliki z wzorami LaTeX pisać narzędziem Write, a w FORMULA używać `\\quad` zamiast `\;`. Strażnik `formula-escapes.test.ts` łapie to niezawodnie.
 - M7 po bloku 4: z triażu nie zostało nic budowalnego bez właściciela — E24/E25/E16 wpisane do decyzji w `docs/lista-do-zrobienia.md`.
+
+### M9 blok 5: E2, E4, E5, E6 (28.09.2026)
+
+- **E2** — porównanie zakresu przetwornicy z **najwyższym** napięciem magistrali (przy ładowaniu), nie z nominalnym: nominalne 48 V przy przetwornicy do 50 V wyglądałoby dobrze, a ładowanie do 58,4 V ją niszczy. Przykład źródła „48 V → MP1584” podejrzany (hipoteza, wpis do weryfikacji w `docs/lista-do-zrobienia.md`); limitów konkretnych przetwornic nie wpisano do kodu — tylko z karty od usera.
+- **E5** — rozróżnienie linii magistral współdzielonych (I2C, 1-Wire, SPI MOSI/MISO/SCK) od funkcji wyłącznych (CS, ADC, UART, PWM…). Mapa ADC1/ADC2 poza źródłem — tylko przypomnienie.
+- **E4** — Biblia §9.4 („konflikty adresów i prędkości”) dała więcej niż `Tresc` — obie reguły wdrożone jako 🟡.
+- Pliki z FORMULA pisane narzędziem Write, bez `\;` — strażnik escapowania zielony od razu.
