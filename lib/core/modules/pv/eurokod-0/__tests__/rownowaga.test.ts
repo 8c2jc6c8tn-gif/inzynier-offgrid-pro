@@ -16,16 +16,4 @@ describe("PN-EN 1990 — EQU (Tablica A1.2(A), wartości zalecane, NB bez zmian 
     expect(balastProjektowyEquKg(0, 9.80665)).toBe(0)
     expect(balastProjektowyEquKg(2000, 9.80665)).toBeCloseTo(2 * balastProjektowyEquKg(1000, 9.80665), 9)
   })
-
-  // D29: panels + frame as a stabilising permanent action with the same γG,inf — reference in Python:
-  // 1.5 × 1000 / (0.9 × 9.80665) − 50 = 119.95270216298806.
-  it("masa paneli i stelaża odejmuje się od balastu (ten sam γG,inf)", () => {
-    expect(balastProjektowyEquKg(1000, 9.80665, 50)).toBeCloseTo(119.95270216298806, 9)
-    expect(balastProjektowyEquKg(1000, 9.80665, 0)).toBe(balastProjektowyEquKg(1000, 9.80665))
-  })
-
-  it("masa własna większa niż potrzebna → balast 0, nigdy ujemny", () => {
-    expect(balastProjektowyEquKg(1000, 9.80665, 200)).toBe(0)
-    expect(balastProjektowyEquKg(1000, 9.80665, 169.95270216298806)).toBeCloseTo(0, 9)
-  })
 })

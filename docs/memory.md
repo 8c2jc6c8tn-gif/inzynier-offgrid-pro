@@ -7892,23 +7892,3 @@ idą od najstarszych otwartych ⚠️. Decyzje rundy 1–2 i co z nimi zrobiono:
 - **Chmurki „?” — decyzja D34 (28.09):** wariant **B** (wybrany już w poprzedniej sesji, ale nieodnotowany —
   tu uzupełnione) + chmurki mają bogato wyjaśniać, jak i po co działa kalkulator. Realizacja w osobnej sesji,
   moduł po module. Nowe ekrany od razu w tym standardzie.
-
-## D29 — masa paneli i stelaża w balaście EQU (28.09.2026)
-
-Wdrożona decyzja właściciela z rundy 28.09 (dopisek do D29 w `rejestr-decyzji.md`, wersja 1.14).
-- **Fizyka:** masa paneli i stelaża to oddziaływanie stałe korzystne — ten sam `γG,inf = 0,90` co balast
-  (Tablica A1.2(A)): `γQ·Fw ≤ γG,inf·(m + mw)·g` → `m = max(0, γQ·Fw/(γG,inf·g) − mw)`. Obcięcie do zera —
-  balast nigdy ujemny. Odniesienia testów liczone niezależnie w Pythonie (1456,155 → 1256,155 kg przy 200 kg).
-- **Kod:** jeden punkt zmiany — trzeci, opcjonalny argument `balastProjektowyEquKg` (domyślnie 0, więc
-  stare wywołania bez zmian); pole `masaPaneliStelazaKg: number | null` w wejściu E6, E9 i we wspólnym
-  `GeometriaStelazaInput` E2; założenie wybiera helper `zalozenieBalastuEqu(masa)` w
-  `zloty-srodek/warnings.ts` (bez masy — stary klucz „ciężar pominięty”, z masą — nowy klucz z `{masa}`).
-  UI: wspólny komponent `components/pv/pole-masy-paneli-stelaza.tsx` z chmurką 8.4 (bez typowego zakresu —
-  wartość tylko z karty/wagi, Dyrektywa #1). Wersje kalkulatorów 1.1.0 → 1.2.0 (E6, E9, E2).
-- **Szkice formularzy:** pole opcjonalne w typie szkicu (`?:`) + `?? ""` przy odczycie — ta sama pułapka co
-  E21/E27 (stare szkice nie mają klucza). Sprawdzone Playwrightem: przeładowanie zachowuje wartość.
-- **Dryf naprawiony przy okazji (Y.2):** wyświetlany wzór trybu „regulowany” (E2) pokazywał `m = max Fw / g`
-  bez współczynników γ od D29 (26.09) — liczenie było poprawne, tylko tekst wzoru nie. Poprawione.
-- **Pułapka narzędziowa:** Playwright nie jest w `node_modules` projektu — tylko globalnie
-  (`$(npm root -g)/playwright/index.mjs`); skrypt z `import "playwright"` w scratchpadzie nie znajdzie pakietu.
-  Emulacja `Pixel 5` ma locale en-US → aplikacja przy pierwszej wizycie pokazuje EN (poprawne, 17.4a).

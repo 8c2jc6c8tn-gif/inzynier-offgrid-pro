@@ -1,5 +1,4 @@
-import type { Assumption, Warning } from "@/lib/core/calc-result"
-import { GAMMA_G_INF_EQU, GAMMA_Q_EQU } from "../eurokod-0/rownowaga"
+import type { Warning } from "@/lib/core/calc-result"
 
 export function wartoscPozaZakresem(field: string, label: string, value: number, min: number, max: number): Warning {
   return {
@@ -57,16 +56,6 @@ export function balastProjektowyEqu(): Warning {
     i18nKey: "ZS-BALAST-EQU-TYLKO-ODRYWANIE",
     technicalMessage: "m = γQ·Fw/(γG,inf·g), EQU (6.7) — sprawdzone oderwanie; przesuw i wywracanie niesprawdzone",
   }
-}
-
-/**
- * EQU assumption for the ballast result — self-weight of panels + frame counted only when the user
- * entered it (D29); otherwise it is ignored, on the safe side.
- */
-export function zalozenieBalastuEqu(masaPaneliStelazaKg: number | null): Assumption {
-  return masaPaneliStelazaKg === null
-    ? { kod: "ZS-ZALOZENIE-BALAST-EQU", params: { gammaQ: GAMMA_Q_EQU, gammaG: GAMMA_G_INF_EQU } }
-    : { kod: "ZS-ZALOZENIE-BALAST-EQU-MASA-WLASNA", params: { gammaQ: GAMMA_Q_EQU, gammaG: GAMMA_G_INF_EQU, masa: masaPaneliStelazaKg } }
 }
 
 export function wybranyKatBezDanychWiatru(kat: number): Warning {

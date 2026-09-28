@@ -5,7 +5,6 @@ import { calculateNaporWiatru } from "@/lib/core/modules/pv/napor-wiatru/calcula
 import { CD_TYPOWY_MAX, CD_TYPOWY_MIN } from "@/lib/core/modules/pv/napor-wiatru/constants"
 import { usePersistedDraft } from "@/lib/adapters/use-persisted-draft"
 import { Pole } from "@/components/ui/pole"
-import { PoleMasyPaneliStelaza } from "@/components/pv/pole-masy-paneli-stelaza"
 import { WerdyktPanel } from "@/components/werdykt"
 import { NawigacjaEkranu } from "@/components/nawigacja-ekranu"
 import { NaglowekEkranu } from "@/components/wzorce/naglowek-ekranu"
@@ -17,7 +16,6 @@ type FormularzStan = {
   powierzchniaM2: string
   cd: string
   balastPlanowanyKg: string
-  masaPaneliStelazaKg?: string
 }
 
 const STAN_POCZATKOWY: FormularzStan = {
@@ -25,7 +23,6 @@ const STAN_POCZATKOWY: FormularzStan = {
   powierzchniaM2: "",
   cd: "",
   balastPlanowanyKg: "",
-  masaPaneliStelazaKg: "",
 }
 
 export default function NaporWiatruPage() {
@@ -33,8 +30,6 @@ export default function NaporWiatruPage() {
   // Drafts saved before 26.09.2026 have no `balastPlanowanyKg` — treat as empty.
   const { predkoscWiatruMS, powierzchniaM2, cd } = stan
   const balastPlanowanyKg = stan.balastPlanowanyKg ?? ""
-  // Drafts saved before 28.09.2026 (D29) have no `masaPaneliStelazaKg`.
-  const masaPaneliStelazaKg = stan.masaPaneliStelazaKg ?? ""
 
   function setPole<K extends keyof FormularzStan>(pole: K, akcja: FormularzStan[K] | ((prev: FormularzStan[K]) => FormularzStan[K])) {
     setStan((prev) => ({
@@ -46,7 +41,6 @@ export default function NaporWiatruPage() {
   const setPowierzchniaM2 = (a: string | ((p: string) => string)) => setPole("powierzchniaM2", a)
   const setCd = (a: string | ((p: string) => string)) => setPole("cd", a)
   const setBalastPlanowanyKg = (a: string | ((p: string) => string)) => setPole("balastPlanowanyKg", a)
-  const setMasaPaneliStelazaKg = (v: string) => setStan((prev) => ({ ...prev, masaPaneliStelazaKg: v }))
 
   const result = useMemo(
     () =>
@@ -55,9 +49,8 @@ export default function NaporWiatruPage() {
         powierzchniaM2: powierzchniaM2 === "" ? 0 : Number(powierzchniaM2),
         cd: cd === "" ? 0 : Number(cd),
         balastPlanowanyKg: balastPlanowanyKg === "" ? null : Number(balastPlanowanyKg),
-        masaPaneliStelazaKg: masaPaneliStelazaKg === "" ? null : Number(masaPaneliStelazaKg),
       }),
-    [predkoscWiatruMS, powierzchniaM2, cd, balastPlanowanyKg, masaPaneliStelazaKg],
+    [predkoscWiatruMS, powierzchniaM2, cd, balastPlanowanyKg],
   )
   // Directive #4: the hard stop comes from warning levels, not from the Status enum.
   const balastZaMaly = result.warnings.some((w) => w.level === "critical")
@@ -109,7 +102,6 @@ export default function NaporWiatruPage() {
           onChange={(e) => setBalastPlanowanyKg(e.target.value)}
           hint="Wpisz, ile balastu chcesz dać — aplikacja porówna to z balastem projektowym."
         />
-        <PoleMasyPaneliStelaza value={masaPaneliStelazaKg} onChange={setMasaPaneliStelazaKg} />
       </div>
 
       {result.status === "INVALID_INPUT" ? (

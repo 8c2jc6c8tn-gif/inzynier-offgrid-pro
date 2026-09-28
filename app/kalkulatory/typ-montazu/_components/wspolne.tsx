@@ -1,7 +1,6 @@
 "use client"
 
 import { useState } from "react"
-import { PoleMasyPaneliStelaza } from "@/components/pv/pole-masy-paneli-stelaza"
 import { Button } from "@/components/ui/button"
 import { Pole, PoleSelect } from "@/components/ui/pole"
 import { StanPusty } from "@/components/ui/stany"
@@ -119,56 +118,51 @@ export function PolaWiatru({ s, ustaw, wysokoscPvgis }: { s: WiatrSeed; ustaw: (
   )
 }
 
-/** `masaPaneliStelazaKg` optional — drafts saved before 28.09.2026 (D29) do not have it. */
-export type StelazSeed = { dlugoscWzdluzSpaduM: string; szerokoscStelazaM: string; wysokoscDolnejKrawedziM: string; masaPaneliStelazaKg?: string }
-export const STELAZ_PUSTY: StelazSeed = { dlugoscWzdluzSpaduM: "", szerokoscStelazaM: "", wysokoscDolnejKrawedziM: "", masaPaneliStelazaKg: "" }
+export type StelazSeed = { dlugoscWzdluzSpaduM: string; szerokoscStelazaM: string; wysokoscDolnejKrawedziM: string }
+export const STELAZ_PUSTY: StelazSeed = { dlugoscWzdluzSpaduM: "", szerokoscStelazaM: "", wysokoscDolnejKrawedziM: "" }
 
 export function stelazZSeeda(s: StelazSeed) {
   return {
     dlugoscWzdluzSpaduM: n(s.dlugoscWzdluzSpaduM),
     szerokoscStelazaM: n(s.szerokoscStelazaM),
     wysokoscDolnejKrawedziM: n(s.wysokoscDolnejKrawedziM),
-    masaPaneliStelazaKg: n(s.masaPaneliStelazaKg ?? ""),
   }
 }
 
 export function PolaStelaza({ s, ustaw, podpowiedzKrawedzi }: { s: StelazSeed; ustaw: (p: keyof StelazSeed, v: string) => void; podpowiedzKrawedzi: string }) {
   return (
-    <>
-      <div className="grid gap-3 sm:grid-cols-3">
-        <Pole
-          label="Długość wzdłuż spadku L"
-          unit="m"
-          type="number"
-          inputMode="decimal"
-          min={0}
-          value={s.dlugoscWzdluzSpaduM}
-          onChange={(e) => ustaw("dlugoscWzdluzSpaduM", e.target.value)}
-          hint="Od dolnej do górnej krawędzi paneli, mierzone po ich powierzchni."
-        />
-        <Pole
-          label="Szerokość stelaża"
-          unit="m"
-          type="number"
-          inputMode="decimal"
-          min={0}
-          value={s.szerokoscStelazaM}
-          onChange={(e) => ustaw("szerokoscStelazaM", e.target.value)}
-          hint="W poprzek spadku — razem z L daje powierzchnię paneli."
-        />
-        <Pole
-          label="Dolna krawędź nad terenem"
-          unit="m"
-          type="number"
-          inputMode="decimal"
-          min={0}
-          value={s.wysokoscDolnejKrawedziM}
-          onChange={(e) => ustaw("wysokoscDolnejKrawedziM", e.target.value)}
-          hint={podpowiedzKrawedzi}
-        />
-      </div>
-      <PoleMasyPaneliStelaza value={s.masaPaneliStelazaKg ?? ""} onChange={(v) => ustaw("masaPaneliStelazaKg", v)} />
-    </>
+    <div className="grid gap-3 sm:grid-cols-3">
+      <Pole
+        label="Długość wzdłuż spadku L"
+        unit="m"
+        type="number"
+        inputMode="decimal"
+        min={0}
+        value={s.dlugoscWzdluzSpaduM}
+        onChange={(e) => ustaw("dlugoscWzdluzSpaduM", e.target.value)}
+        hint="Od dolnej do górnej krawędzi paneli, mierzone po ich powierzchni."
+      />
+      <Pole
+        label="Szerokość stelaża"
+        unit="m"
+        type="number"
+        inputMode="decimal"
+        min={0}
+        value={s.szerokoscStelazaM}
+        onChange={(e) => ustaw("szerokoscStelazaM", e.target.value)}
+        hint="W poprzek spadku — razem z L daje powierzchnię paneli."
+      />
+      <Pole
+        label="Dolna krawędź nad terenem"
+        unit="m"
+        type="number"
+        inputMode="decimal"
+        min={0}
+        value={s.wysokoscDolnejKrawedziM}
+        onChange={(e) => ustaw("wysokoscDolnejKrawedziM", e.target.value)}
+        hint={podpowiedzKrawedzi}
+      />
+    </div>
   )
 }
 

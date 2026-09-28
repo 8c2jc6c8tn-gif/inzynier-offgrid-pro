@@ -70,7 +70,6 @@ describe("calculateDachPlaski (M3/E2, dawne 2.5)", () => {
     dlugoscWzdluzSpaduM: 2,
     szerokoscStelazaM: 5,
     wysokoscDolnejKrawedziM: 0.5,
-    masaPaneliStelazaKg: null,
   }
 
   it("h = L × sin(α) 1:1 ze źródła (L = 2,1 m, 35° → 1,2 m jak w przykładzie)", () => {
@@ -91,16 +90,6 @@ describe("calculateDachPlaski (M3/E2, dawne 2.5)", () => {
     expect(v.balastKg).toBeCloseTo((1.5 * 1.8 * qp * 10) / (0.9 * PRZYSPIESZENIE_ZIEMSKIE_M_S2), 6)
     expect(kody(r)).toEqual(["ZS-BALAST-EQU-TYLKO-ODRYWANIE"])
     expect(v.mu1).toBe(0.8)
-  })
-
-  // D29 — reference in Python: 1.5·1.8·qp·10/(0.9·9.80665) = 1456.1551011023253; − 200 kg = 1256.1551011023253.
-  it("D29: masa paneli i stelaża odejmuje się od balastu EQU; założenie z masą zamiast „pominięta”", () => {
-    const r = calculateDachPlaski({ ...bazowe, masaPaneliStelazaKg: 200 })
-    expect(r.value!.balastKg).toBeCloseTo(1256.1551011023253, 6)
-    expect(r.assumptions).toContainEqual({ kod: "ZS-ZALOZENIE-BALAST-EQU-MASA-WLASNA", params: { gammaQ: 1.5, gammaG: 0.9, masa: 200 } })
-    expect(r.assumptions.some((a) => typeof a !== "string" && a.kod === "ZS-ZALOZENIE-BALAST-EQU")).toBe(false)
-    expect(calculateDachPlaski({ ...bazowe, masaPaneliStelazaKg: 2000 }).value!.balastKg).toBe(0)
-    expect(calculateDachPlaski({ ...bazowe, masaPaneliStelazaKg: -1 }).status).toBe("INVALID_INPUT")
   })
 
   it("35° — brak cf w normie: bez siły i balastu, bez zgadywania", () => {
@@ -225,7 +214,6 @@ describe("calculateRegulowany (M3/E2, D26)", () => {
     dlugoscWzdluzSpaduM: 2,
     szerokoscStelazaM: 5,
     wysokoscDolnejKrawedziM: 0.5,
-    masaPaneliStelazaKg: null,
   }
 
   it("kąt miesiąca = najlepszy w zakresie regulacji; zysk vs najlepszy kąt stały w tym zakresie", () => {
@@ -254,13 +242,6 @@ describe("calculateRegulowany (M3/E2, D26)", () => {
     expect(v.liczbaMiesiecyBezDanychWiatru).toBe(0)
     expect(v.balastWymaganyKg).toBe(Math.max(...v.miesiace.map((m) => m.balastKg!)))
     expect(kody(r)).toEqual(["ZS-BALAST-EQU-TYLKO-ODRYWANIE"])
-  })
-
-  it("D29: masa paneli i stelaża zmniejsza balast każdego ustawienia o tę samą wartość", () => {
-    const bez = calculateRegulowany(bazowe).value!
-    const z = calculateRegulowany({ ...bazowe, masaPaneliStelazaKg: 100 })
-    expect(z.value!.balastWymaganyKg).toBeCloseTo(bez.balastWymaganyKg! - 100, 9)
-    expect(z.assumptions).toContainEqual({ kod: "ZS-ZALOZENIE-BALAST-EQU-MASA-WLASNA", params: { gammaQ: 1.5, gammaG: 0.9, masa: 100 } })
   })
 
   it("zakres odwrócony → INVALID_INPUT; zakres bez węzła siatki albo brak tabeli → INCOMPLETE", () => {
