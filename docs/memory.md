@@ -7756,6 +7756,10 @@ idą od najstarszych otwartych ⚠️. Decyzje rundy 1–2 i co z nimi zrobiono:
   niewidoczny, więc „paliwo + temperatura” jest teraz osobną kompletną ścieżką. **Pułapka procesowa:** repo
   nie ma konfiguracji Prettiera — `prettier --write` przeformatowuje cały plik na domyślne reguły (średniki);
   nie uruchamiać, formatować ręcznie w stylu pliku. Do potwierdzenia ✅🤖: poziomy D32, lista/wartości D33.
+  **[28.09] D33:** właściciel zlecił AI dopisanie mocy — pompa głębinowa 750 W, klimatyzator split 900 W,
+  kamera IP 5 W (19 pozycji). **D32 potwierdzone z korektą:** zwykły diesel 🟡 ≤ +10°C, 🔴 < +5°C (ścisła
+  nierówność — +5°C to jeszcze 🟡); teksty: paliwo zimowe od +5°C, arktyczne < −10°C, świece obowiązkowo,
+  dodatek zimowy; zdanie „próg zależy od klasy paliwa (dystrybutor)” usunięte na życzenie właściciela.
 - **Chmurki „?” — decyzja D34 (28.09):** wariant **B** (wybrany już w poprzedniej sesji, ale nieodnotowany —
   tu uzupełnione) + chmurki mają bogato wyjaśniać, jak i po co działa kalkulator. Realizacja w osobnej sesji,
   moduł po module. Nowe ekrany od razu w tym standardzie.

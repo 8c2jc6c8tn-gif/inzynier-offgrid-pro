@@ -17,7 +17,7 @@ import {
   przerwyWPracy,
 } from "./warnings"
 
-export const CALCULATOR_VERSION = "1.1.0"
+export const CALCULATOR_VERSION = "1.2.0"
 
 const FORMULA =
   "V = t \\cdot q;\\; n_{olej} = \\lfloor t / t_{olej} \\rfloor;\\; n_{przerw} = \\lceil t / t_{ciag} \\rceil - 1"
@@ -40,8 +40,8 @@ const PUSTY_WYNIK: AgregatWMrozieResult = { paliwoL: null, wymianyOleju: null, l
  * 120 h → 180 l, 2 wymiany oleju): paliwo, wymiany oleju, przerwy i czas kalendarzowy z danych
  * producenta wpisanych przez usera. Długi postój (B.3): 🟡 przy ≥ 14 dniach w mrozie — próg ze
  * źródła. Rozruch (B.1, od 1.1.0): źródło podaje dwa różne progi parafinizacji (−20°C w B, −15°C
- * w C); rozstrzygnięte decyzją właściciela D32 (praktyka, nie norma) — zwykły diesel 🟡 od +5°C,
- * 🔴 od 0°C; każdy diesel 🟡 od −10°C (akumulator, świece żarowe); benzyna w mrozie ℹ️.
+ * w C); rozstrzygnięte decyzją właściciela D32 (praktyka, nie norma) — zwykły diesel 🟡 od +10°C,
+ * 🔴 poniżej +5°C (od 1.2.0); każdy diesel 🟡 od −10°C (akumulator, świece żarowe); benzyna w mrozie ℹ️.
  * Spadek pojemności akumulatora rozruchowego — M4/E15 Cold Cranking Amps.
  */
 export function calculateAgregatWMrozie(input: AgregatWMrozieInput): CalcResult<AgregatWMrozieResult> {
@@ -99,7 +99,7 @@ export function calculateAgregatWMrozie(input: AgregatWMrozieInput): CalcResult<
   }
   if (temp !== null) {
     if (input.paliwo === "diesel-zwykly") {
-      if (temp <= DIESEL_ZWYKLY_WYSOKIE_RYZYKO_C) warnings.push(dieselParafinizacja(temp))
+      if (temp < DIESEL_ZWYKLY_WYSOKIE_RYZYKO_C) warnings.push(dieselParafinizacja(temp))
       else if (temp <= DIESEL_ZWYKLY_RYZYKO_C) warnings.push(dieselRyzykoRozruchu(temp))
     }
     const diesel = input.paliwo === "diesel-zwykly" || input.paliwo === "diesel-arktyczny"
