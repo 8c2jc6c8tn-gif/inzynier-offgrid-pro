@@ -97,6 +97,16 @@ nie do audytu poprawności formularza webowego.
   dopiero w pożarze.
   (M8/E4 — `lib/core/modules/bezpieczenstwo/modul-gasniczy/warnings.ts`, `modulRozladowany`, kod
   `GASZ-MODUL-ROZLADOWANY`)
+- **[28.09.2026] Awaria centrali sygnalizacji pożaru** — dopóki centrala nie działa, system nie dowie się o
+  pożarze; status priorytetowy.
+  (M8/E5 — `lib/core/modules/bezpieczenstwo/centrala-ssp/warnings.ts`, `awariaCentrali`, kod `SSP-AWARIA-CENTRALI`)
+- **[28.09.2026] Niesprawna lampa awaryjna na drodze ewakuacji** — awaria musi być widoczna, zanim będzie potrzebna.
+  (M8/E7 — `lib/core/modules/bezpieczenstwo/oswietlenie-awaryjne/warnings.ts`, `lampaNiesprawna`, kod
+  `OSW-LAMPA-NIESPRAWNA`)
+- **[28.09.2026] Automatyczne wezwanie służb bez wyraźnej zgody użytkownika** — reguła produktowa źródła; kalkulator
+  zwraca wezwanie jako nieaktywne.
+  (M8/E10 — `lib/core/modules/bezpieczenstwo/powiadomienia-alarmowe/warnings.ts`, `wezwanieBezZgody`, kod
+  `ALARM-WEZWANIE-BEZ-ZGODY`)
 
 ## Bateryjne
 

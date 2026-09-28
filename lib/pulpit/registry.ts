@@ -228,6 +228,10 @@ export const KAFLE: KafelEntry[] = [
       { href: "/kalkulatory/awaryjne-zrodlo-ciepla", label: "Awaryjne źródło ciepła (kominek, koza, piec)" },
       { href: "/kalkulatory/zamki-drzwi-ewakuacyjnych", label: "Zamki drzwi ewakuacyjnych" },
       { href: "/kalkulatory/modul-gasniczy", label: "Moduł gaśniczy" },
+      { href: "/kalkulatory/centrala-ssp", label: "Centrala sygnalizacji pożaru — wejścia" },
+      { href: "/kalkulatory/oswietlenie-awaryjne", label: "Oświetlenie awaryjne" },
+      { href: "/kalkulatory/klapy-pozarowe", label: "Klapy pożarowe i wentylacja" },
+      { href: "/kalkulatory/powiadomienia-alarmowe", label: "Syrena, powiadomienia i służby" },
     ],
   },
   {

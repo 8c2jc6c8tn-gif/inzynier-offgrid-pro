@@ -7674,3 +7674,10 @@ Polecenie właściciela: „zacznij od modułów M8–M7 i ruszaj dalej; po każ
 - **E1 awaryjne źródło ciepła** — **pułapka echa:** przykład źródła (kominek 8 kW + bufor 400 l) pasuje liczbowo do reguły 50 l/kW z M6/E14, ale ta reguła dotyczy pompy ciepła — świadomie NIE przeniesiona na kominek (Dyrektywa #1). Paliwo m = P·t/(η·W_o): P to moc oddana, więc energia paliwa = E/η. Wartość opałowa drewna od usera (źródło jej nie podaje).
 - Nowy plik testów narzędzi AI M8: `lib/ai/tools/__tests__/modul8-bezpieczenstwo-tools.test.ts`.
 - Weryfikacja: typecheck / lint (0 błędów) / i18n-guard (173) / test 196 plików, 1600 / build / audit:gate / audit:n1; `next start` + Playwright 390 px `pl-PL` — trzy ekrany, werdykty zgodne z testami, bez poziomego przewijania.
+
+### M8 blok 2: E5, E7, E8, E10 (28.09.2026)
+
+- Wszystkie cztery to kontrole konfiguracji (Wzorzec D bez liczb): flagi domyślnie `false`, 🔴 tylko tam, gdzie źródło je daje (E5 awaria centrali, E7 niesprawna lampa) + E10 zgoda na wezwanie służb (reguła produktowa, pogrubiona w źródle — ✅🤖). E8 — źródło bez 🔴, same 🟡/info.
+- E10 — wynik `autoWezwanieAktywne = auto ∧ zgoda`: kalkulator sam „wyłącza” wezwanie bez zgody zamiast tylko ostrzegać; narzędzie AI niczego nie wysyła (`read`).
+- E7 — lista lamp jak w M7/E19 (`id` tylko w stanie strony, silnik go nie potrzebuje); klucze ostrzeżeń w `WynikSzczegoly` już `code + i` (poprawka z 27.09), więc powtarzający się kod per lampa renderuje się poprawnie.
+- Świadomie nie zbudowane: E9 (telemetria M13), część AI E6 (brak progu „zbliżającego się rozładowania” w źródle — przykład „10 minut” to ilustracja), adaptacyjna trasa ewakuacji E7 (mapa budynku M1), reset klap E8 (sterownik).

@@ -180,6 +180,10 @@ import { audytPozarowyTool } from "./tools/audyt-pozarowy-tool"
 import { zamkiDrzwiEwakuacyjnychTool } from "./tools/zamki-drzwi-ewakuacyjnych-tool"
 import { modulGasniczyTool } from "./tools/modul-gasniczy-tool"
 import { awaryjneZrodloCieplaTool } from "./tools/awaryjne-zrodlo-ciepla-tool"
+import { centralaSspTool } from "./tools/centrala-ssp-tool"
+import { oswietlenieAwaryjneTool } from "./tools/oswietlenie-awaryjne-tool"
+import { klapyPozaroweTool } from "./tools/klapy-pozarowe-tool"
+import { powiadomieniaAlarmoweTool } from "./tools/powiadomienia-alarmowe-tool"
 import { toAnthropicTool } from "./to-anthropic-tool"
 import { validateAiToolDefinition, type AiToolDefinition } from "./types"
 
@@ -328,6 +332,10 @@ const NARZEDZIA: Array<AiToolDefinition<any, any>> = [
   zamkiDrzwiEwakuacyjnychTool,
   modulGasniczyTool,
   awaryjneZrodloCieplaTool,
+  centralaSspTool,
+  oswietlenieAwaryjneTool,
+  klapyPozaroweTool,
+  powiadomieniaAlarmoweTool,
   proceduraBlackStartTool,
   windChillTool,
   obciazenieDachuSniegiemTool,
