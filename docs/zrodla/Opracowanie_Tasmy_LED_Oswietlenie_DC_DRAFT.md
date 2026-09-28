@@ -6,6 +6,10 @@ prośbę autora (14.09.2026), poprzedzające ewentualne włączenie do Biblii pr
 Autor zapowiedział własne uzupełnienia — ten szkic jest punktem wyjścia do dyskusji, nie
 gotowym, zamkniętym materiałem.
 
+**[28.09.2026, D46] Status: „kandydat poza Biblią”.** Decyzja właściciela przy audycie końcowym N.3.
+Szkic nie blokuje bramki N.3 ani kodu M14. Czeka na kartę katalogową taśmy (`R` na metr) od
+właściciela. Przy integracji do Biblii dostaje własny pełny audyt N.1/N.2, tak jak M14.
+
 **[14.09.2026, runda 2]** Rozbudowany o drugą turę uzupełnień autora (FCOB, SPI/adresowalne
 WS2811/WS2812B, okablowanie VCC/GND/DATA, kontrolery, dobór zasilacza 220V, ostrzeżenie o
 zawyżaniu mocy przez producentów, pełna tabela IP jako przyszły zasób współdzielony całej apki,

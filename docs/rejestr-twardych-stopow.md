@@ -285,6 +285,18 @@ nie do audytu poprawności formularza webowego.
   zastępuje sprzeczne progi źródła (B: −20°C, C: −15°C). Źródło: Moduł 7, Ekran 8.
   (M7/E8 — `lib/core/modules/stress-test/agregat-w-mrozie/warnings.ts`, `dieselParafinizacja`, kod
   `AGREGAT-DIESEL-PARAFINIZACJA`; ≤ +5°C i ≤ −10°C (każdy diesel) tylko 🟡.)
+- **[28.09.2026, D45] Agregat spalinowy w budynku** (piwnica, kotłownia, garaż przy domu, część
+  mieszkalna) — zatrucie czadem (CO). Wydzielone pomieszczenie techniczne z wydechem na zewnątrz,
+  osobną wentylacją wyciągową i nawiewną oraz czujkami czadu to tylko 🟡 (szczegół normowy 🔎
+  HD 60364-5-551). Decyzja właściciela; praktyka, nie norma.
+  (M2/E17 i M7/E8 — wspólny `lib/core/modules/zapotrzebowanie/agregat-pradotworczy/bezpieczenstwo.ts`,
+  `agregatWBudynku`, kod `AGREGAT-W-BUDYNKU-CZAD`. Widoczny także przy niepełnych danych liczbowych.)
+- **[28.09.2026, D45] Agregat zasila instalację budynku bez przełącznika** (gniazdko, „wtyczka z dwoma
+  bolcami”) — **niezależnie od tego, czy jest przyłącze sieci**. Przy sieci: backfeed, porażenie
+  elektromontera. Bez sieci: praca równoległa z wyjściem falownika, napięcie na bolcach wtyczki.
+  Wymagany przełącznik I–0–II z blokadą mechaniczną, fazy i N (szczegół: M14/D11, D44).
+  (M2/E17 i M7/E8 — `bezpieczenstwo.ts`, `agregatBezPrzelacznika`, kod `AGREGAT-BEZ-PRZELACZNIKA`.
+  Wejście AC falownika i odbiorniki wpięte wprost w agregat — ℹ️, wyjątki ✅🤖 z D45 pkt 4.)
 - **[28.09.2026] Instalacja w gruncie (kabel, rura, uziom) ułożona płycej niż strefa przemarzania** —
   zamarzający, pęczniejący grunt ją uszkodzi. Źródło: Moduł 7, Ekran 22 (tryb Grunt).
   (M7/E22 — `lib/core/modules/stress-test/ryzyko-zamarzniecia/warnings.ts`, `plycejNizPrzemarzanie`, kod
@@ -304,12 +316,15 @@ uzupełnić o ścieżkę `warnings.ts` i kod ostrzeżenia, tak jak w sekcjach wy
 - **Backfeed** — instalacja wyspowa albo agregat może podać napięcie do sieci OSD, bo nie ma
   przełącznika sieć – 0 – wyspa z blokadą mechaniczną ani SZR z blokadą elektryczną i mechaniczną.
   Grozi to porażeniem osób pracujących na „wyłączonej” linii. Przełączać trzeba fazy **i N**;
-  szczegół normowy PN-HD 60364 do doprecyzowania w M8 (🔎).
+  ~~szczegół normowy PN-HD 60364 do doprecyzowania w M8 (🔎).~~ **[28.09.2026, D44]** szczegół
+  normowy mieszka w M14/D11, M8 tylko odsyła (🔎 HD 60364-5-551).
   (M14-D/D11, M14-F — ekran wspólny; opracowanie §6.1)
 - **Agregat podłączony do instalacji bez przełącznika** — przez gniazdko albo „wtyczką z dwoma
-  bolcami”.
+  bolcami”. **[28.09.2026, D45]** Kod już istnieje w M2/E17 i M7/E8 (`AGREGAT-BEZ-PRZELACZNIKA`,
+  sekcja wyżej) — D6 użyje tego samego `bezpieczenstwo.ts`.
   (M14-D/D6, D11; opracowanie §6.1)
-- **Agregat spalinowy w pomieszczeniu** — zatrucie CO.
+- **Agregat spalinowy w pomieszczeniu** — zatrucie CO. **[28.09.2026, D45]** Kod już istnieje w M2/E17
+  i M7/E8 (`AGREGAT-W-BUDYNKU-CZAD`, sekcja wyżej).
   (M14-D/D6, R8; opracowanie §5.1. Powiązane: M7/E8, D32 — rozruch agregatu na mrozie)
 - **Scenariusz D (pełne odłączenie) przy ujemnym bilansie zimowym bez agregatu** — wynik M7 dla
   lokalizacji użytkownika.

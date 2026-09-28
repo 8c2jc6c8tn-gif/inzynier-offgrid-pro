@@ -10,9 +10,14 @@ import { NawigacjaEkranu } from "@/components/nawigacja-ekranu"
 import { NaglowekEkranu } from "@/components/wzorce/naglowek-ekranu"
 import { WynikGlowny } from "@/components/wzorce/wynik-glowny"
 import { WynikSzczegoly } from "@/components/wzorce/wynik-szczegoly"
+import {
+  PolaBezpieczenstwaAgregatu,
+  naWejscieBezpieczenstwa,
+  type BezpieczenstwoAgregatuStan,
+} from "@/components/agregat/pola-bezpieczenstwa-agregatu"
 
-type PoleLiczbowe = Exclude<keyof AgregatWMrozieInput, "paliwo">
-type FormularzStan = { paliwo: PaliwoAgregatu | "" } & Record<PoleLiczbowe, string>
+type PoleLiczbowe = Exclude<keyof AgregatWMrozieInput, "paliwo" | keyof BezpieczenstwoAgregatuStan>
+type FormularzStan = { paliwo: PaliwoAgregatu | "" } & BezpieczenstwoAgregatuStan & Record<PoleLiczbowe, string>
 
 const STAN_POCZATKOWY: FormularzStan = {
   paliwo: "",
@@ -23,6 +28,8 @@ const STAN_POCZATKOWY: FormularzStan = {
   zuzyciePaliwaLH: "",
   interwalWymianyOlejuH: "",
   dniPostoju: "",
+  miejsceAgregatu: "",
+  podlaczenieAgregatu: "",
 }
 
 const liczba = (v: string) => (v === "" ? null : Number(v))
@@ -44,6 +51,7 @@ export default function AgregatWMroziePage() {
         zuzyciePaliwaLH: liczba(stan.zuzyciePaliwaLH),
         interwalWymianyOlejuH: liczba(stan.interwalWymianyOlejuH),
         dniPostoju: liczba(stan.dniPostoju),
+        ...naWejscieBezpieczenstwa(stan),
       }),
     [stan],
   )
@@ -117,18 +125,24 @@ export default function AgregatWMroziePage() {
         onChange={ustaw("dniPostoju")}
       />
 
+      <PolaBezpieczenstwaAgregatu
+        miejsceAgregatu={stan.miejsceAgregatu}
+        podlaczenieAgregatu={stan.podlaczenieAgregatu}
+        onChange={(zmiana) => setStan((prev) => ({ ...prev, ...zmiana }))}
+      />
+
       {result.status === "INVALID_INPUT" ? (
         <WerdyktPanel poziom="blad" etykieta="Nie da się policzyć — sprawdź wpisane dane">
           <WynikSzczegoly assumptions={[]} warnings={result.warnings} />
         </WerdyktPanel>
       ) : result.status === "INCOMPLETE" ? (
-        <p className="text-small text-muted-foreground">Wpisz czas pracy w scenariuszu, albo temperaturę z rodzajem paliwa lub dniami postoju.</p>
+        <p className="text-small text-muted-foreground">Wpisz czas pracy w scenariuszu, albo temperaturę z rodzajem paliwa lub dniami postoju, albo odpowiedz na pytania o bezpieczeństwo.</p>
       ) : (
         <WerdyktPanel
           poziom={hasCritical ? "blad" : hasWarning ? "uwaga" : "ok"}
           etykieta={
             hasCritical
-              ? "Bardzo duże ryzyko, że agregat nie wystartuje"
+              ? "Poważne zagrożenie — sprawdź czerwone ostrzeżenia"
               : hasWarning
                 ? "Agregat może nie wystartować"
                 : "Agregat w scenariuszu zimowym"

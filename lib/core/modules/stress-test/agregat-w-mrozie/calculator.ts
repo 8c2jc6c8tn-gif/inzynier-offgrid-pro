@@ -6,6 +6,10 @@ import {
   DLUGI_POSTOJ_DNI,
   PROG_MROZU_C,
 } from "./constants"
+import {
+  maOdpowiedzBezpieczenstwa,
+  ocenBezpieczenstwoAgregatu,
+} from "@/lib/core/modules/zapotrzebowanie/agregat-pradotworczy/bezpieczenstwo"
 import type { AgregatWMrozieInput } from "./input"
 import { validateInput } from "./validation"
 import {
@@ -17,7 +21,7 @@ import {
   przerwyWPracy,
 } from "./warnings"
 
-export const CALCULATOR_VERSION = "1.1.0"
+export const CALCULATOR_VERSION = "1.2.0"
 
 const FORMULA =
   "V = t \\cdot q;\\; n_{olej} = \\lfloor t / t_{olej} \\rfloor;\\; n_{przerw} = \\lceil t / t_{ciag} \\rceil - 1"
@@ -43,6 +47,8 @@ const PUSTY_WYNIK: AgregatWMrozieResult = { paliwoL: null, wymianyOleju: null, l
  * w C); rozstrzygnięte decyzją właściciela D32 (praktyka, nie norma) — zwykły diesel 🟡 od +5°C,
  * 🔴 od 0°C; każdy diesel 🟡 od −10°C (akumulator, świece żarowe); benzyna w mrozie ℹ️.
  * Spadek pojemności akumulatora rozruchowego — M4/E15 Cold Cranking Amps.
+ * 1.2.0 (D45): generator safety block shared with M2/E17 (CO, hot parts, fuel vapour, separate
+ * fuel store, extinguisher, changeover switch); a safety answer alone is enough for a verdict.
  */
 export function calculateAgregatWMrozie(input: AgregatWMrozieInput): CalcResult<AgregatWMrozieResult> {
   const inputs: Record<string, number> = {
@@ -74,7 +80,8 @@ export function calculateAgregatWMrozie(input: AgregatWMrozieInput): CalcResult<
   const maPostoj = input.dniPostoju !== null && temp !== null
   // 1.1.0: fuel + temperature alone is a complete start-up check (D32 can be a hard stop).
   const maRozruch = input.paliwo !== null && temp !== null
-  if (!maPrace && !maPostoj && !maRozruch) return wynik("INCOMPLETE", [])
+  const maBezpieczenstwo = maOdpowiedzBezpieczenstwa(input)
+  if (!maPrace && !maPostoj && !maRozruch && !maBezpieczenstwo) return wynik("INCOMPLETE", [])
 
   const warnings: Warning[] = []
   const assumptions: Assumption[] = []
@@ -106,6 +113,7 @@ export function calculateAgregatWMrozie(input: AgregatWMrozieInput): CalcResult<
     if (diesel && temp <= DIESEL_ROZRUCH_MROZ_C) warnings.push(dieselRozruchWMrozie(temp))
     if (input.paliwo === "benzyna" && temp < PROG_MROZU_C) warnings.push(benzynaWMrozie(temp))
   }
+  warnings.push(...ocenBezpieczenstwoAgregatu(input))
 
   return {
     value,

@@ -924,3 +924,15 @@ prymitywem — naturalny wybór („to przecież tooltip”) jest błędny dla k
 telefonie (wszystkie, rozdz. 13). Propozycja: 8.4 dopowiada „popover otwierany dotknięciem, nie tooltip hover-only”
 + 10.x: weryfikacja chmurek e2e także z emulacją dotyku, nie tylko myszy.
 Status: 🔎 nowe
+
+[28.09.2026] KATEGORIA: BŁĄD — autozapis szkicu formularza nadpisuje cały stan, więc nowe pole po aktualizacji ma `undefined`
+
+Szczegóły: `lib/adapters/use-persisted-draft.ts` (realizacja 5.1 — zapis Seed formularza do IndexedDB) po odczycie
+robi `setStan(zapisany)`, bez scalania z `poczatkowy`. Gdy ekran dostaje nowe pole (tu: pytania o bezpieczeństwo
+agregatu, D45), użytkownik ze starym szkicem dostaje `undefined` zamiast `""`. Porównanie `=== ""` przepuszcza wtedy
+`undefined` do jądra, a lookup `MAPA[undefined]()` wywala ekran. Testy jednostkowe tego nie łapią (zaczynają od
+`STAN_POCZATKOWY`). Wyłapane przy przeglądzie własnego diffu; zabezpieczone lokalnie (`|| null`, `!= null`).
+Dlaczego warto zgłosić do new-app-standards: każda aplikacja rodziny z autozapisem 5.1 trafi na to przy pierwszym
+nowym polu formularza. Propozycja do 5.1: odczyt szkicu scala `{ ...poczatkowy, ...zapisany }` (albo wersjonuje
+kształt Seed), plus 10.x: test „stary szkic bez nowego pola” przy każdej zmianie kształtu formularza.
+Status: 🔎 nowe

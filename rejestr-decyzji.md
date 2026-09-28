@@ -1,6 +1,6 @@
 # Rejestr decyzji — Inżynier Offgrid Pro
 
-**Wersja:** 1.18 | **Filar:** C | **Data utworzenia:** 04.09.2026 | **Ostatnia aktualizacja:** 28.09.2026 | **Status:** Stabilny (rosnący)
+**Wersja:** 1.19 | **Filar:** C | **Data utworzenia:** 04.09.2026 | **Ostatnia aktualizacja:** 28.09.2026 | **Status:** Stabilny (rosnący)
 **Powiązane dokumenty:** `00_Biblia.md`, `docs/memory.md`, `USTALENIA.md` (historyczny, Część II)
 
 TL;DR: D1, D2, D3… — decyzje **strategiczne/fundamentalne** (blokujące wiele innych rzeczy naraz, Krok 4 GOD BOOK), ponumerowane, nigdy nie kasowane, tylko unieważniane jawnie (F.5). **Nie duplikuje `docs/memory.md`**: tam żyje pełna, szczegółowa historia każdej sesji (setki drobnych decyzji implementacyjnych per ekran) — tu tylko decyzje, które zmieniły kierunek/regułę obowiązującą cały projekt. Gdy wpis niżej odsyła do `docs/memory.md`, tam jest pełne uzasadnienie i przykłady.
@@ -169,6 +169,42 @@ Uwaga rewidenta, zapisana jako kontekst, a nie korekta decyzji: średnia GUS te�
 
 Pełne: `03_M14_Dom_i_Firma_Siec.md` (TCO, tabela źródeł `π`).
 
+**D44 (28.09.2026) — Szczegół normowy przełącznika sieć – 0 – wyspa / SZR mieszka w M14 na ekranie D11. M8 tylko do niego odsyła.** Koszt cofnięcia: tani (miejsce opisu, kod jeszcze nie istnieje). Decyzja właściciela projektu z 28.09.2026 („1. Ok”, audyt końcowy N.3, decyzja 1).
+
+Treść:
+- (1) Wcześniej rozdział M14 i stop „backfeed” odsyłały szczegół do M8 („🔎 w M8”), a w M8 nie ma ekranu, który by go niósł.
+- (2) Miejscem szczegółu jest M14/D11 (przełącznik, blokada mechaniczna i elektryczna, przełączanie faz i N).
+- (3) Norma HD 60364-5-551 (agregaty i inne źródła) jest nieobecna w repo (`docs/normy-brakujace.md`), więc szczegół zostaje z 🔎 do czasu jej dostarczenia.
+- (4) Ekrany agregatu M2/E17 i M7/E8 odsyłają do M14/D11 przez D45.
+
+**D45 (28.09.2026) — Blok bezpieczeństwa agregatu w M2/E17 i M7/E8: czad, gorące części, opary paliwa, wentylacja, paliwo osobno, środki gaśnicze, przełącznik.** Koszt cofnięcia: średni (zmienia działający kod dwóch ekranów i narzędzi AI). Decyzja właściciela projektu z 28.09.2026 (audyt końcowy N.3, decyzja 2): „Dodać ostrzeżenie o czadzie, wysokiej temperaturze, parowaniu paliwa, oddzielnej wentylacji (wyciąg) i natlenienie, także środki ostrożności i środki gaśnicze. Także że bak z paliwem najlepiej musi być odseparowany od generatora […]. Przełącznik ja bym dawał kiedy jest sieć i kiedy jest generator, żeby można było za jego pomocą bezpiecznie przełączać zasilanie.”
+
+Treść:
+- (1) Dwa nowe pytania na obu ekranach: „Gdzie pracuje agregat” i „Jak agregat zasila odbiorniki”. Wspólny kod: `lib/core/modules/zapotrzebowanie/agregat-pradotworczy/bezpieczenstwo.ts`.
+- (2) Miejsce:
+  - w budynku → 🔴 czad (twardy stop);
+  - wydzielone pomieszczenie techniczne → 🟡: wydech szczelnie na zewnątrz, osobna wentylacja wyciągowa i nawiewna (powietrze do spalania i chłodzenia), oddzielenie od części mieszkalnej, czujki czadu; szczegół normowy 🔎;
+  - na zewnątrz → ℹ️: spaliny z dala od okien, drzwi i czerpni, czujka czadu w domu.
+- (3) Podłączenie — **przełącznik wymagany zawsze, gdy agregat zasila instalację budynku, niezależnie od tego, czy jest sieć** (zasada właściciela):
+  - bez przełącznika → 🔴 (przy sieci backfeed i porażenie elektromontera; bez sieci praca równoległa z wyjściem falownika i napięcie na bolcach wtyczki);
+  - przez przełącznik I–0–II → ℹ️ (położenie 0, blokada mechaniczna, fazy i N; szczegół w M14/D11, D44).
+- (4) Dwa wyjątki od przełącznika, propozycja AI ✅🤖 do potwierdzenia przy zamknięciu N.3:
+  - wejście AC falownika/ładowarki przeznaczone dla agregatu → ℹ️, bo falownik sam przełącza; jeśli budynek ma też sieć, przełącznik sieć – 0 – agregat przed tym wejściem;
+  - odbiorniki wpięte wprost w gniazda agregatu → ℹ️, bez przełącznika, nigdy do gniazdka w ścianie.
+- (5) Zawsze, bez pytania (ℹ️): gorące części i opary paliwa (tankowanie po wyłączeniu i ostygnięciu), zapas paliwa osobno od agregatu, gaśnica do pożarów paliwa i urządzeń elektrycznych (bez wody).
+- (6) Charakter: praktyka, nie norma. Rodzaj gaśnicy (proszkowa ABC albo CO₂) to powszechna praktyka pożarowa, bez podawania wielkości.
+- (7) Samo pytanie o bezpieczeństwo wystarcza do werdyktu, więc 🔴 nigdy nie chowa się za „wypełnij dane”.
+
+Wersje kalkulatorów: M2/E17 1.0.0→1.1.0, M7/E8 1.1.0→1.2.0. Rejestr: `docs/rejestr-twardych-stopow.md` (M2, M7).
+
+**D46 (28.09.2026) — Szkic „Oświetlenie LED” ma status „kandydat poza Biblią” i nie blokuje bramki N.3.** Koszt cofnięcia: tani. Decyzja właściciela projektu z 28.09.2026 („3. Ok zgadzam się, tylko zanotuj to, inaczej się zgubi”, audyt końcowy N.3, decyzja 3).
+
+Treść:
+- (1) Szkic `docs/zrodla/Opracowanie_Tasmy_LED_Oswietlenie_DC_DRAFT.md` (14.09.2026) czeka na kartę katalogową taśmy z `R` na metr od właściciela. Bez niej Claude nie proponuje wartości.
+- (2) Nie jest rozdziałem Biblii, więc audyt końcowy N.3 i kod M14 na niego nie czekają.
+- (3) Przy integracji do Biblii dostaje własny pełny audyt N.1/N.2, tak jak M14.
+- (4) Zapisane w czterech miejscach, żeby się nie zgubiło: ten rejestr, nagłówek szkicu, `docs/lista-do-zrobienia.md`, `backlog-poza-v1.md`.
+
 ---
 
 ## Założenia robocze (F.7 GOD BOOK)
@@ -200,3 +236,4 @@ Pełne: `03_M14_Dom_i_Firma_Siec.md` (TCO, tabela źródeł `π`).
 | 28.09.2026 | Dodano D41 (M14 TCO: „Ścieżka UE + inflacja”, π z celu NBP albo średniej GUS) — decyzja właściciela projektu. Wersja 1.15→1.16. |
 | 28.09.2026 | Dodano D42 (M14: przełącznik ścieżek cen w miejscu suwaka procentów) — decyzja właściciela projektu. Wersja 1.16→1.17. |
 | 28.09.2026 | Dodano D43 (M14: domyślna inflacja = średnia GUS 15 lat 3,58%) — decyzja właściciela projektu. Wersja 1.17→1.18. |
+| 28.09.2026 | Dodano D44 (szczegół przełącznika w M14/D11), D45 (blok bezpieczeństwa agregatu w M2/E17 i M7/E8), D46 (szkic LED = kandydat poza Biblią) — decyzje 1–3 właściciela z audytu końcowego N.3. Wersja 1.18→1.19. |

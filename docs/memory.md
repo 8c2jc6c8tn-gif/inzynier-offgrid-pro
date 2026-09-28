@@ -7984,3 +7984,12 @@ Tryb Audyt (czapka rewidenta). Warstwa „w pełni na końcu” z N.2 — wszyst
 
   Wszystko zgodne co do grosza.
 - **Wynik:** audyt **nie jest jeszcze zamknięty**. Zamknie go odpowiedź właściciela na 4 decyzje: M8/przełącznik, stopy agregatu w M2/M7, status LED, ✅🤖. Do tego czasu bramka N.3 trzyma kod M14.
+
+## Audyt N.3 — decyzje 1–3 właściciela wykonane (28.09.2026)
+
+- **D44:** szczegół przełącznika sieć – 0 – wyspa mieszka w M14/D11; w rozdziale i w rejestrze stopów „🔎 w M8” przekreślone z adnotacją (F.5).
+- **D45:** wspólny blok `lib/core/modules/zapotrzebowanie/agregat-pradotworczy/bezpieczenstwo.ts`, używany przez M2/E17 (1.1.0) i M7/E8 (1.2.0), narzędzia AI (opcjonalne pola, wspólny schemat `lib/ai/tools/agregat-bezpieczenstwo-schema.ts`) i UI (`components/agregat/pola-bezpieczenstwa-agregatu.tsx`). 🔴 w budynku (czad) i 🔴 bez przełącznika — zawsze, przy sieci i bez (zasada właściciela). 3 notki ℹ️ zawsze: gorące części/opary, paliwo osobno, gaśnica. Teksty PL/EN/RU.
+  - **Pułapka:** `usePersistedDraft` zastępuje cały stan zapisem z IndexedDB, bez scalania z `poczatkowy`. Szkic zapisany przed dodaniem pola ma `undefined` zamiast `""`. Zabezpieczone (`|| null` w UI, `!= null` w jądrze). Dotyczy każdego ekranu, któremu dochodzi pole — kandydat do `docs/wklad-do-standardu.md`.
+  - Dwa wyjątki (wejście AC falownika, odbiorniki wprost w agregat) to ✅🤖 — dopisane do decyzji 4.
+- **D46:** szkic LED = kandydat poza Biblią; zapisany w rejestrze decyzji, backlogu, liście zadań i nagłówku szkicu.
+- **Stan N.3:** otwarta tylko decyzja 4 (✅🤖).
