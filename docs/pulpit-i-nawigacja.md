@@ -51,7 +51,7 @@ numeracja już koduje logiczną kolejność.
 | 12 | Szybki kalkulator / tryb mobilny | w większości samodzielny |
 | 13 | Tryb Live | monitoring tego, co już zbudowane — ma sens na końcu |
 
-**[28.09.2026, audyt końcowy N.3]** Za kaflem 13 stoją dwa kafle M14: „Dom – sieć” i „Firma – sieć” (D39). Czytają z 1–4 i 6–8. Nie mają numeru kafla, bo „Kafel 14” to Ustawienia (D9). Tabela wyżej zostaje bez zmian jako stan z 30.08.2026.
+**[28.09.2026, audyt końcowy N.3]** Za kaflem 13 stoją dwa kafle M14: „Dom – sieć” i „Firma – sieć” (D39). Czytają z 1–4 i 6–8. Nie mają numeru kafla, bo „Kafel 14” to Ustawienia (D9). Tabela wyżej zostaje bez zmian jako stan z 30.08.2026. **[28.09.2026]** W `lib/pulpit/registry.ts` mają wewnętrzne id 15 i 16 (tylko techniczne — w UI nazwa), na końcu kolejności; zapisany wcześniej układ pulpitu dostaje je na końcu (`parsujStan`). Wygląd „duży kafel” i animowana ikona — jeszcze nie (TD22).
 
 **Ważne — to jest niezależne od `ZASADY_APLIKACJI.md` §14** ("kolejność budowy"). §14 opisuje, w
 jakiej kolejności *my* implementujemy kod; kolejność kafli opisuje, co domyślnie widzi *user* na

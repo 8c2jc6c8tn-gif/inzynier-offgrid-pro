@@ -322,6 +322,11 @@ uzupełnić o ścieżkę `warnings.ts` i kod ostrzeżenia, tak jak w sekcjach wy
 „rejestr nie wyprzedza `docs/rejestr-pokrycia.md`” jest świadomy: te pozycje dotyczą bezpieczeństwa
 życia na styku z siecią OSD i mają być widoczne przy audycie M8, zanim powstanie kod M14.
 
+**[28.09.2026] Kod części Sieć (D1, D2, D8, D12, F1–F5) nie dodaje twardych stopów.** Jej `critical` w
+`lib/core/modules/siec/*/warnings.ts` to wyłącznie walidacja wejścia (`INVALID_INPUT`: wartość ujemna, grupa niezgodna
+z mocą umowną/segmentem, tgφ₀ < 0,2, horyzont poza 10–25 itp.), nie stopy bezpieczeństwa. Pięć stopów niżej należy do
+części Przejście (D6, D7, D11, F8) — nadal bez kodu M14.
+
 - **Backfeed** — instalacja wyspowa albo agregat może podać napięcie do sieci OSD, bo nie ma
   przełącznika sieć – 0 – wyspa z blokadą mechaniczną ani SZR z blokadą elektryczną i mechaniczną.
   Grozi to porażeniem osób pracujących na „wyłączonej” linii. Przełączać trzeba fazy **i N**;

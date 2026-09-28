@@ -8047,3 +8047,26 @@ Tryb Audyt (czapka rewidenta). Warstwa „w pełni na końcu” z N.2 — wszyst
   `lib/core/modules/<moduł>/*/warnings.ts`, wyciągnięcie kodów z `level: "critical"` i `grep` każdego w rejestrze.
 - **Pułapka narzędziowa:** `playwright` nie jest w `node_modules` repo — skrypty weryfikacyjne importują
   `/opt/node22/lib/node_modules/playwright/index.mjs`; headless bez `locale: "pl-PL"` pokazuje teksty EN.
+
+## M14 — start kodu: plik danych `rozliczenia-pl-2026` i część Sieć (28.09.2026)
+
+- **Zakres:** Krok 2a–2c przekazania (bez D3). Silniki `lib/core/modules/siec/*` (8 modułów, wszystkie na liście strażnika
+  i18n), dane `lib/core/dane/rozliczenia-pl-2026`, 9 ekranów, kafle 15/16, narzędzia AI `rozbij_rachunek_za_prad`,
+  `dobierz_taryfe`, `policz_oplate_za_moc_bierna`. Dwa pozostałe narzędzia z rozdziału (`porownaj_scenariusze_przejscia`,
+  `oszacuj_koszt_powrotu_do_sieci`) czekają na TCO i stawki opłat przyłączeniowych.
+- **Decyzja techniczna (bez decyzji właściciela — to wykonanie D36):** bramka DANE-1 wymuszona schematem —
+  `pewnosc: z.literal("potwierdzone")`; test sprawdza, że podmiana na „wtorne-A” wywraca parsowanie. Ścieżka i wzorzec
+  zapisane w `kontrakty-rdzenia.md` §9.
+- **Weryfikacja niezależna:** przykład kontrolny §4 (81 444 / 100 143 / 109 699 zł, mnożniki roku 1 i 15) przeliczony w
+  Pythonie przed implementacją — zgodny co do złotówki (GUS: 109 699,5 zł, test sprawdza część całkowitą). Progi opłaty
+  mocowej G sprawdzone w PDF URE 58/2025 (art. 89b ust. 3: poniżej 500 / od 500 do 1 200 / powyżej 1 200 do 2 800 /
+  powyżej 2 800). Pozostałe przykłady rozdziału (0,0381; 0,9 kW; 1 107 zł; +55,3%) w testach.
+- **Pułapka:** ścieżka UE z bazą 2026 i N = 25 kończy się na 2051, a projekcja na 2050 — silnik zwraca `OUT_OF_SCOPE`,
+  nie ekstrapoluje. Przy budowie D7/F8 UI musi to obsłużyć (np. maks. N = 24 przy „Plany UE”).
+- **Pułapka interpretacyjna (zapisana jako założenie, nie decyzja):** limit zwrotu depozytu 20%/30% liczony od wartości
+  energii (E × cena), bez mnożnika 1,23 — tak brzmi art. 4 ust. 11a („wartości energii elektrycznej wprowadzonej”).
+- **Weryfikacja w przeglądarce:** `pnpm start` + `playwright-core` (Chromium `/opt/pw-browsers/chromium`) — D1 2 373 zł,
+  F3 0,0381, D12 0,9 kW, D2 ranking; jedyne błędy konsoli to `/_vercel/insights` (lokalnie nieistniejący skrypt).
+- **Pakiet kontroli lokalnie** (CI nie działa do 1.10): typecheck, lint (2 stare ostrzeżenia `<img>`), i18n-guard, 1 901
+  testów, build, audit:gate, audit:n1 — zielone.
+

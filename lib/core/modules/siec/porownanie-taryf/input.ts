@@ -7,6 +7,7 @@
  * consumption per zone for each compared group (from invoices or the OSD metering portal) — the
  * app does not assume a split. Sale prices differ per group, so they are given per variant too.
  * Only ✅ tariff data is compared: a group without data is excluded, not estimated.
+ * 🔎 TD22 (`dlug-techniczny.md`): zone split per group entered by the user; no invoice overrides here.
  */
 import type { Grupa, Strefa } from "@/lib/core/dane/rozliczenia-pl-2026"
 import type { RachunekInput } from "../rachunek-za-prad/input"

@@ -1,6 +1,6 @@
 # Przekazanie dla następnej sesji — co dalej (28.09.2026)
 
-**Wersja:** 1.3 | **Utworzono:** 28.09.2026 | **Aktualizacja:** 28.09.2026 (D50 — kod M14 odblokowany) | **Status:** aktualne, dopóki kolejna sesja nie odhaczy kroków
+**Wersja:** 1.4 | **Utworzono:** 28.09.2026 | **Aktualizacja:** 28.09.2026 (plik danych + część Sieć zrobione) | **Status:** aktualne, dopóki kolejna sesja nie odhaczy kroków
 
 Polecenie właściciela z 28.09.2026: sesja, która kończy się tym wpisem, **nie pisze kodu M14**. Zostawia
 instrukcje, a kod pisze następna sesja. Ten plik mówi: od czego zacząć, co jest otwarte, jaki kod
@@ -20,19 +20,19 @@ odłożone pozycje (lista niżej), dopóki sam do nich nie wróci.**
 | Decyzje M14 | D35–D43 (zakres, dane, FREE/PRO odłożone, profile, kafle, TCO, ścieżki cen, inflacja), D47 (przełącznik w D11), D50 (odblokowanie) — `rejestr-decyzji.md` |
 | Audyt końcowy N.3 | wykonany; decyzje 1–3 wdrożone (D47–D49); decyzja 4: część zamknięta, reszta **odłożona** (D50) |
 | Bezpieczeństwo agregatu | **gotowe w kodzie:** `lib/core/modules/zapotrzebowanie/agregat-pradotworczy/bezpieczenstwo.ts` (D48), M2/E17 1.1.0, M7/E8 1.3.0 — ekran D6 M14 ma go użyć, nie pisać drugi raz |
-| Kod M14 | **nic jeszcze nie istnieje** — wszystkie wiersze M14 w `docs/rejestr-pokrycia.md` mają `todo` |
+| Kod M14 | ~~**nic jeszcze nie istnieje**~~ **[28.09.2026]** plik danych `lib/core/dane/rozliczenia-pl-2026`, silniki `lib/core/modules/siec/` (rachunek, porównanie taryf, depozyt, test licznika, moc bierna, moc umowna, opłata mocowa, ścieżka cen), ekrany D1, D2, D8, D12/F11, F1–F5, 2 kafle w pulpicie, 3 narzędzia AI. Ograniczenia: TD22 |
 | Bramka danych DANE-1 | **obowiązuje:** domyślne tylko wartości ✅ (Tauron, Energa, Stoen netto, stawki ogólnokrajowe); reszta = tryb „moje dane z faktury” |
 | Dane, których brakuje (dostarcza właściciel) | PDF PGE, PDF regulaminu PME (NFOŚiGW), odczyt skanu Enea netto, Stoen C22a/b, profile W4, `C_rk`, opłaty przyłączeniowe IV–VI, 495,16 zł/MWh — lista: M14 „Otwarte — wymaga danych zewnętrznych” |
 | FREE/PRO dla M14 | nieprzypisane (D37) — nie wprowadzaj podziału |
 
 ### Co jest do zrobienia — w tej kolejności
 
-1. **Plik danych `rozliczenia-pl-2026`** (Krok 2a niżej) — JSON + Zod, tylko wartości ✅, testy przykładu TCO.
-2. **Część Sieć, Dom:** D1 rachunek, D2 taryfa G, D3 zużycie, D8 prosument, D12 licznik (Krok 2b).
-3. **Część Sieć, Firma:** F1–F5 (Krok 2c).
-4. **Silnik TCO i scenariusze A–D** (D7/F8, Krok 2d).
+1. ~~**Plik danych `rozliczenia-pl-2026`** (Krok 2a niżej) — JSON + Zod, tylko wartości ✅, testy przykładu TCO.~~ **✅ 28.09.2026** (przykład TCO w testach silnika `siec/sciezka-cen-energii`; ścieżka zapisana w `kontrakty-rdzenia.md` §9).
+2. **Część Sieć, Dom:** ~~D1 rachunek, D2 taryfa G,~~ D3 zużycie, ~~D8 prosument, D12 licznik~~ (Krok 2b). **✅ 28.09.2026 poza D3** (D3 = pole zużycia miesięcznego, silnik rachunku już je obsługuje — TD22 pkt 3). Zostają też artykuły D13, D14.
+3. **Część Sieć, Firma:** ~~F1–F5~~ (Krok 2c). **✅ 28.09.2026.** Zostają F6, F7 (echo M3/M4), F12, F13.
+4. **Silnik TCO i scenariusze A–D** (D7/F8, Krok 2d). **Następny krok.** Pole „Wzrost cen energii” ma już silnik: `mnoznikCenyEnergii` / `mnoznikKosztowBiezacych` w `lib/core/modules/siec/sciezka-cen-energii/calculator.ts` — TCO ma go użyć (echo), nie liczyć drugi raz. Uwaga: ścieżka UE od 2026 z N = 25 wychodzi poza 2050 → `OUT_OF_SCOPE` (bez ekstrapolacji) — rozważyć, czy UI ogranicza N przy tej ścieżce.
 5. **Część Przejście:** D4–D6, D9–D11 (Krok 2e). D5 czeka na M7 7.2 i 7.37 albo na liczenie zimy w M14 z PVGIS.
-6. **Kafle, pulpit, kreator** (Krok 2f) — kafle domyślnie ukryte w 8 presetach (✅🤖, pytanie odłożone).
+6. **Kafle, pulpit, kreator** (Krok 2f) — kafle domyślnie ukryte w 8 presetach (✅🤖, pytanie odłożone). **[28.09.2026]** Kafle są już w `lib/pulpit/registry.ts` (id 15/16, na końcu); zostaje: „duży” wygląd, animowana ikona, presety (nie istnieją jeszcze w kodzie), kreator.
 7. Przy każdym ekranie: `docs/rejestr-pokrycia.md`, `docs/rejestr-twardych-stopow.md`, `mapa-wdrozenia.md`, lokalny
    pakiet kontroli, commit → push → PR → merge.
 
