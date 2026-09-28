@@ -7,6 +7,7 @@ import { elektronikaWMrozieTool } from "../elektronika-w-mrozie-tool"
 import { pompyZaworyWMrozieTool } from "../pompy-zawory-w-mrozie-tool"
 import { grzalkiDachoweTool } from "../grzalki-dachowe-tool"
 import { ryzykoZamarznieciaTool } from "../ryzyko-zamarzniecia-tool"
+import { agregatWMrozieTool } from "../agregat-w-mrozie-tool"
 
 describe("obciazenieDachuSniegiemTool (M7/E23, dawne 6.34→7.32)", () => {
   it("kontrakt 9.3: 'read', bez potwierdzenia", () => {
@@ -125,5 +126,29 @@ describe("ryzykoZamarznieciaTool (M7/E22 tryb grunt, dawne 6.35 + 6.37)", () => 
     })
     expect(w.liczbaWStrefie).toBe(1)
     expect(w.ostrzezenia).toContain(t("pl", "ZAMARZ-PLYCEJ-NIZ-PRZEMARZANIE", { nazwa: "Kabel", glebokosc: 40, hz: 80 }))
+  })
+})
+
+describe("agregatWMrozieTool (M7/E8, dawne 6.9/6.23/6.36)", () => {
+  it("kontrakt 9.3: 'read', bez potwierdzenia", () => {
+    expect(agregatWMrozieTool.operationType).toBe("read")
+    expect(agregatWMrozieTool.requiresConfirmation).toBe(false)
+    expect(() => validateAiToolDefinition(agregatWMrozieTool)).not.toThrow()
+  })
+
+  it("przykład źródła 120 h, 1,5 l/h, olej co 50 h → 180 l, 2 wymiany; postój 14 dni w −20°C → ostrzeżenie PL", async () => {
+    const w = await agregatWMrozieTool.handler({
+      paliwo: "diesel-arktyczny",
+      temperaturaMiejscaC: -20,
+      wymaganyCzasPracyH: 120,
+      maxPracaCiaglaH: 8,
+      przerwaH: 1,
+      zuzyciePaliwaLH: 1.5,
+      interwalWymianyOlejuH: 50,
+      dniPostoju: 14,
+    })
+    expect(w.paliwoL).toBeCloseTo(180, 12)
+    expect(w.wymianyOleju).toBe(2)
+    expect(w.ostrzezenia).toContain(t("pl", "AGREGAT-DLUGI-POSTOJ", { dni: 14, temp: -20 }))
   })
 })

@@ -7659,3 +7659,8 @@ Polecenie właściciela: „co można jeszcze zrobić beze mnie, czy są większ
 - Zapas 20 cm dla wodociągu wzięty z `Biblia_Offgrid_v2_0` („minimum 20 cm poniżej strefy przemarzania”) — 🟡, bo tam to komunikat, nie twardy stop. Kabel/uziom: wymagane = h_z. Porównanie ścisłe `<` (dokładnie na granicy = OK).
 - Mapy stref przemarzania (PN-81/B-03020) nie ma w repo → h_z od usera. Gdy właściciel dostarczy normę, można podpiąć wybór strefy.
 - **Błąd naprawiony (dryf, Y.2):** `\;` w FORMULA pisane jednym backslashem — JS po cichu robi z tego `;`, odstęp LaTeX znikał. Było w 4 istniejących kalkulatorach (`powloki-antyrefleksyjne`, `mikropekniecia-termiczne`, `gniazdo-zapalniczki`, `zuzycie-per-urzadzenie`) i dwa razy w tej sesji. ESLint nie łapie (brak `no-useless-escape` w konfiguracji). Dodano strażnika: `lib/core/__tests__/formula-escapes.test.ts` (skan linii z FORMULA). **Uzupełnienie (28.09.2026):** strażnik rozszerzony o wzory łamane na kilka linii (`=`/`+`/`(` na końcu linii) — znalazł jeszcze 5 kalkulatorów (`kable-bezpieczniki-male`, `panel-do-stacji-zasilania`, `urzadzenie-12v-bezposrednio`, `koszty-ogrzewania`, `tracker-vs-staly`); poprawione. Łącznie 9 plików z dryfem. Wkład: `docs/wklad-do-standardu.md`.
+
+### M7/E8 agregat w mrozie (28.09.2026, częściowo)
+
+- **Konflikt w źródle (nie rozstrzygnięty samodzielnie):** próg parafinizacji zwykłego diesla — sekcja B „przy −20°C”, przykład C „nie wystartuje przy −15°C”. Dziś tylko info dla zwykłego diesla < 0°C. Wpis do decyzji: `docs/lista-do-zrobienia.md`.
+- 120 h z przykładu to wymagany czas pracy, nie wynik (8 h + 1 h przez 168 h dałoby 150 h) — stąd wejście „łączny czas pracy”, a czas kalendarzowy jako wynik.
