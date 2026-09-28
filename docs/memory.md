@@ -7803,3 +7803,10 @@ bez nowego wiersza. `diff -rq` `docs/standards/*`, GOD BOOK `v2_39`, `PROMPT_STA
 `docs/przyklady/i18n/*` — bez różnic. Zero nowej treści → `interwał_h = min(48, 18 × 1,5) = 27`,
 `licznik_zero_z_rzedu = 2`. Kolejne sprawdzenie najpóźniej 29.09.2026 ok. 13:00 UTC.
 
+
+**[28.09.2026, później] ✅ Decyzje właściciela do opracowania M14 (P1, P2):** (6) **FREE/PRO — na razie
+nie ruszamy**, podział później, osobną decyzją; (7) **kafle „Dom – sieć” / „Firma – sieć”** — „moduły
+opowiadają i liczą sieć, a dopiero potem jest opcja obliczenia dla przejścia Offgrid”. Opracowanie
+zaktualizowane: każdy rozdział = część **Sieć** (najpierw) + część **Przejście** (opcja, wejście na
+końcu części Sieć; kreator „Ścieżka przejścia” startuje stamtąd); kolumna FREE/PRO w planie ekranów
+zastąpiona kolumną „Część”. Otwarte zostają P3 (autokonsumpcja w trybie prostym) i P4 (DANE-1).

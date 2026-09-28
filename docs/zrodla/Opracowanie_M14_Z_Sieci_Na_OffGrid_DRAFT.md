@@ -1,4 +1,6 @@
-# Opracowanie: M14 „Z sieci na off-grid” — rozliczenia energii, scenariusze przejścia, ryzyka (Dom / Firma)
+# Opracowanie: M14 „Sieć” (Dom – sieć / Firma – sieć) — rozliczenia energii, a potem opcja przejścia na off-grid
+
+*(Nazwa pliku z roboczą nazwą „Z sieci na off-grid” zostaje dla ciągłości odsyłaczy; obowiązujące nazwy kafli — decyzja 7 niżej.)*
 
 **STATUS: SZKIC ROBOCZY — NIE JEST CZĘŚCIĄ BIBLII.** To opracowanie eksperckie (GOD BOOK Część D.7,
 F.2) poprzedza wpisanie treści do Biblii. Nie wpisywać go do Biblii i nie budować na jego podstawie
@@ -26,6 +28,14 @@ uzupełnić ze swojej wiedzy eksperckiej”.
 4. **Dane stawek**: wpisuje je Claude z poprawnych źródeł, a **użytkownik zawsze może wpisać
    własne** (z faktury). Właściciel nie ma tych danych.
 5. Więcej materiałów nie będzie.
+6. **FREE/PRO — na razie nie ruszamy** (28.09.2026): „Potem będziemy dzielić.” Podział FREE/PRO nie
+   jest częścią tego opracowania ani integracji do Biblii; wraca jako osobna decyzja później.
+7. **Nazwy kafli: „Dom – sieć” i „Firma – sieć”** (28.09.2026): „tak będzie prościej, moduły
+   opowiadają i liczą sieć, a dopiero potem jest opcja obliczenia dla przejścia Offgrid”.
+   Konsekwencja dla układu: każdy rozdział ma **dwie części w stałej kolejności** — najpierw
+   **Sieć** (jak działa i ile kosztuje mój rachunek, taryfy, prosument, licznik), potem
+   **Przejście na off-grid** jako opcja (scenariusze A–D, dobór PV/magazynu, zima, ryzyka,
+   procedura). Przejście nie jest punktem wejścia rozdziału.
 
 ---
 
@@ -64,13 +74,17 @@ Dochodzą dwa duże kafle, każdy prowadzi do osobnego rozdziału:
 
 | Kafel | Rozdział | Dla kogo |
 |---|---|---|
-| **Dom — z sieci na off-grid** | M14-D | Gospodarstwo domowe (grupy taryfowe G), prosument lub nie |
-| **Firma — energia i przejście na off-grid** | M14-F | Przedsiębiorca, rolnik (grupy C na nN; grupa B tylko w poradniku) |
+| **Dom – sieć** | M14-D | Gospodarstwo domowe (grupy taryfowe G), prosument lub nie |
+| **Firma – sieć** | M14-F | Przedsiębiorca, rolnik (grupy C na nN; grupa B tylko w poradniku) |
 
 **Dlaczego dwa kafle, a nie przełącznik Dom/Firma w środku jednego:**
 - użytkownik jest w swoim świecie od pierwszego kliknięcia (decyzja właściciela);
 - zbiory ekranów różnią się istotnie (moc bierna, moc umowna, porównywarka C występują tylko w
   części firmowej).
+
+**Układ każdego rozdziału (decyzja 7):** najpierw część **Sieć**, na jej końcu wejście
+„Chcę policzyć przejście na off-grid” → część **Przejście**. Obie części w tabelach §10 oznaczone
+kolumną „Część”.
 
 **Ekrany wspólne** (ryzyka odłączenia, procedura rezygnacji z przyłącza, przełącznik sieć/wyspa,
 test licznika):
@@ -666,9 +680,13 @@ kalkulatorów rachunku.
 
 Role ekranów wg standardu (8.11, taksonomia z opracowania LED): **artykuł referencyjny** /
 **ekran pochodny** (cienka nakładka na istniejący silnik) / **Kreator Pro**. Wzorce UI A–H wg
-`slownik-pojec.md`. FREE/PRO to propozycja do decyzji właściciela (12.4).
+`slownik-pojec.md`. **FREE/PRO — odłożone decyzją właściciela (decyzja 6), tabele nie przypisują
+ekranów do FREE/PRO.**
 
 ### 10.1 Kreator „Ścieżka przejścia” (w obu kaflach — prowadzenie za rękę)
+
+Wejście do kreatora jest na końcu części **Sieć** („Chcę policzyć przejście na off-grid”), nie na
+starcie rozdziału (decyzja 7). Krok 1 korzysta z już policzonego rachunku z części Sieć.
 
 Kreator Pro, Wzorzec F + postęp zapisany lokalnie. Sześć kroków; każdy krok prowadzi do ekranu
 poniżej (link, bez wklejania treści):
@@ -683,40 +701,40 @@ Na końcu podsumowanie (Wzorzec G) do zapisania/wydruku.
 
 ### 10.2 Rozdział DOM (M14-D)
 
-| ID | Ekran | Rola | Wzorzec | FREE/PRO (propozycja) | Silnik / dane |
+| ID | Część | Ekran | Rola | Wzorzec | Silnik / dane |
 |---|---|---|---|---|---|
-| D1 | Mój rachunek dziś — rozbicie na stałe/zmienne, „cena trzymania sieci” | kalkulator | D | FREE | plik stawek / faktura |
-| D2 | Która taryfa G (G11/G12/G12w/G13…) | kalkulator porównawczy | B | FREE | plik stawek + strefy OSD |
-| D3 | Moje zużycie miesięcznie | pochodny | D | FREE | M2 / faktury |
-| D4 | Ile PV i magazynu, żeby uniezależnić się od sieci | pochodny | D | FREE (wynik) / PRO (warianty) | M3, M4 |
-| D5 | Zima bez sieci | pochodny | G | FREE | M7 |
-| D6 | Agregat jako zapas | pochodny | D | FREE | M2/E17 |
-| D7 | Porównanie scenariuszy A–D | kalkulator | G | FREE: A vs D rok 1; PRO: A–D, TCO(N), wrażliwość, eksport | §4 |
-| D8 | Net-metering, net-billing, depozyt — co tracę, odchodząc | artykuł + mini-kalkulator | C + D | FREE | §3 |
-| D9 | Ryzyka odłączenia (lista z potwierdzeniem) | kalkulator/checklista | E | FREE | §5.1 — **wspólny** |
-| D10 | Jak zrezygnować z przyłącza — krok po kroku | artykuł | F | FREE | §5.2 — **wspólny** |
-| D11 | Przełącznik sieć/wyspa i bezpieczeństwo | artykuł + twarde stopy | F + E | FREE | §6, M8 — **wspólny** |
-| D12 | Test licznika i reklamacja (dioda + pismo) | kalkulator + generator | D + G | FREE | §8.6 — **wspólny** |
-| D13 | Dotacje (stan na dzień, z terminami) | artykuł | C | FREE | plik dotacji |
-| D14 | FAQ | artykuł | C | FREE | — |
+| D1 | Sieć | Mój rachunek dziś — rozbicie na stałe/zmienne, „cena trzymania sieci” | kalkulator | D | plik stawek / faktura |
+| D2 | Sieć | Która taryfa G (G11/G12/G12w/G13…) | kalkulator porównawczy | B | plik stawek + strefy OSD |
+| D3 | Sieć | Moje zużycie miesięcznie | pochodny | D | M2 / faktury |
+| D4 | Przejście | Ile PV i magazynu, żeby uniezależnić się od sieci | pochodny | D | M3, M4 |
+| D5 | Przejście | Zima bez sieci | pochodny | G | M7 |
+| D6 | Przejście | Agregat jako zapas | pochodny | D | M2/E17 |
+| D7 | Przejście | Porównanie scenariuszy A–D | kalkulator | G | §4 |
+| D8 | Sieć | Net-metering, net-billing, depozyt — co tracę, odchodząc | artykuł + mini-kalkulator | C + D | §3 |
+| D9 | Przejście | Ryzyka odłączenia (lista z potwierdzeniem) | kalkulator/checklista | E | §5.1 — **wspólny** |
+| D10 | Przejście | Jak zrezygnować z przyłącza — krok po kroku | artykuł | F | §5.2 — **wspólny** |
+| D11 | Przejście | Przełącznik sieć/wyspa i bezpieczeństwo | artykuł + twarde stopy | F + E | §6, M8 — **wspólny** |
+| D12 | Sieć | Test licznika i reklamacja (dioda + pismo) | kalkulator + generator | D + G | §8.6 — **wspólny** |
+| D13 | Sieć | Dotacje (stan na dzień, z terminami) | artykuł | C | plik dotacji |
+| D14 | Sieć | FAQ | artykuł | C | — |
 
 ### 10.3 Rozdział FIRMA (M14-F)
 
-| ID | Ekran | Rola | Wzorzec | FREE/PRO (propozycja) | Silnik / dane |
+| ID | Część | Ekran | Rola | Wzorzec | Silnik / dane |
 |---|---|---|---|---|---|
-| F1 | Mój rachunek dziś (C) | kalkulator | D | FREE | plik stawek / faktura |
-| F2 | Porównywarka taryf C | kalkulator | B + G | FREE (2 taryfy) / PRO (wszystkie + profil CSV) | §8.7 |
-| F3 | Moc bierna — opłata i opłacalność kompensacji | kalkulator | D | PRO | §8.2 |
-| F4 | Moc umowna — przekroczenia i optymalny poziom | kalkulator | D | PRO | §8.3 |
-| F5 | Opłata mocowa — przesunięcie poboru | kalkulator | D | FREE | §8.4 |
-| F6 | PV w firmie i autokonsumpcja | pochodny | D | FREE | M3 + §3 |
-| F7 | Magazyn (BESS) dla firmy — strumienie korzyści | pochodny | D + G | PRO | M4/E23 + §8.5 |
-| F8 | Scenariusze A–D dla firmy (z ciągłością działalności) | kalkulator | G | PRO | §4 + RF1 |
-| F9 | Ryzyka odłączenia firmy | kalkulator/checklista | E | FREE | D9 + RF1–RF3 (**wspólny**, parametr segmentu) |
-| F10 | Procedura i umowy B2B | artykuł | F | FREE | D10 (**wspólny**) |
-| F11 | Test licznika, reklamacja, badanie laboratoryjne | kalkulator + generator | D + G | FREE | D12 (**wspólny**) |
-| F12 | Dotacje i podatki — informacja, nie porada | artykuł | C | FREE | §7 |
-| F13 | FAQ firm (poprawione pytania z materiału) | artykuł | C | FREE | dok. 1 cz. 8 z ✏️ |
+| F1 | Sieć | Mój rachunek dziś (C) | kalkulator | D | plik stawek / faktura |
+| F2 | Sieć | Porównywarka taryf C | kalkulator | B + G | §8.7 |
+| F3 | Sieć | Moc bierna — opłata i opłacalność kompensacji | kalkulator | D | §8.2 |
+| F4 | Sieć | Moc umowna — przekroczenia i optymalny poziom | kalkulator | D | §8.3 |
+| F5 | Sieć | Opłata mocowa — przesunięcie poboru | kalkulator | D | §8.4 |
+| F6 | Sieć | PV w firmie i autokonsumpcja | pochodny | D | M3 + §3 |
+| F7 | Sieć | Magazyn (BESS) dla firmy — strumienie korzyści | pochodny | D + G | M4/E23 + §8.5 |
+| F8 | Przejście | Scenariusze A–D dla firmy (z ciągłością działalności) | kalkulator | G | §4 + RF1 |
+| F9 | Przejście | Ryzyka odłączenia firmy | kalkulator/checklista | E | D9 + RF1–RF3 (**wspólny**, parametr segmentu) |
+| F10 | Przejście | Procedura i umowy B2B | artykuł | F | D10 (**wspólny**) |
+| F11 | Sieć | Test licznika, reklamacja, badanie laboratoryjne | kalkulator + generator | D + G | D12 (**wspólny**) |
+| F12 | Sieć | Dotacje i podatki — informacja, nie porada | artykuł | C | §7 |
+| F13 | Sieć | FAQ firm (poprawione pytania z materiału) | artykuł | C | dok. 1 cz. 8 z ✏️ |
 
 ### 10.4 Narzędzia AI (echo silników, wzorem istniejących)
 
@@ -780,8 +798,8 @@ odłączenia (wymagane potwierdzenie), dane stawek po terminie ważności.
 
 ## 13. Otwarte kwestie do decyzji właściciela (przed „integruj teraz”)
 
-- **P1** — FREE/PRO z §10 (propozycja): czy akceptujesz?
-- **P2** — nazwy kafli: „Dom — z sieci na off-grid” / „Firma — energia i przejście na off-grid”?
+- ~~**P1** — FREE/PRO z §10~~ → rozstrzygnięte: odłożone (decyzja 6).
+- ~~**P2** — nazwy kafli~~ → rozstrzygnięte: „Dom – sieć” / „Firma – sieć”, Sieć najpierw, przejście jako opcja (decyzja 7).
 - **P3** — autokonsumpcja w trybie prostym: wybór profilu z kilku typowych (dom pusty w dzień /
   ktoś w domu / praca zdalna) czy wpis ręczny %? Rekomendacja: profile, ale ich kształty muszą
   mieć źródło. Do czasu jego znalezienia — wpis ręczny.
