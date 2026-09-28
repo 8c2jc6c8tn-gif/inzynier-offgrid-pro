@@ -1,6 +1,6 @@
 # Rejestr decyzji — Inżynier Offgrid Pro
 
-**Wersja:** 1.17 | **Filar:** C | **Data utworzenia:** 04.09.2026 | **Ostatnia aktualizacja:** 28.09.2026 | **Status:** Stabilny (rosnący)
+**Wersja:** 1.18 | **Filar:** C | **Data utworzenia:** 04.09.2026 | **Ostatnia aktualizacja:** 28.09.2026 | **Status:** Stabilny (rosnący)
 **Powiązane dokumenty:** `00_Biblia.md`, `docs/memory.md`, `USTALENIA.md` (historyczny, Część II)
 
 TL;DR: D1, D2, D3… — decyzje **strategiczne/fundamentalne** (blokujące wiele innych rzeczy naraz, Krok 4 GOD BOOK), ponumerowane, nigdy nie kasowane, tylko unieważniane jawnie (F.5). **Nie duplikuje `docs/memory.md`**: tam żyje pełna, szczegółowa historia każdej sesji (setki drobnych decyzji implementacyjnych per ekran) — tu tylko decyzje, które zmieniły kierunek/regułę obowiązującą cały projekt. Gdy wpis niżej odsyła do `docs/memory.md`, tam jest pełne uzasadnienie i przykłady.
@@ -158,6 +158,17 @@ Treść:
 
 Uzupełnia D40/D41, niczego nie unieważnia. Pełne: `03_M14_Dom_i_Firma_Siec.md` (TCO, „Gdzie użytkownik to wybiera”).
 
+**D43 (28.09.2026) — M14: domyślna inflacja w opcji „Plany UE + inflacja” = średnia GUS z ostatnich 15 lat, 3,58%/rok (2011–2025, średnia geometryczna rocznych wskaźników CPI).** Koszt cofnięcia: tani (jedna wartość domyślna, kod jeszcze nie istnieje). Decyzja właściciela projektu z 28.09.2026: „Ja wybieram inflację GUS, ponieważ podawana inflacja jest i tak zaniżona i nie trzyma się kupy z prawdziwymi cenami.”
+
+Treść:
+- (1) Rozstrzyga otwarty punkt D41 (2): propozycja AI „cel NBP domyślny” (✅🤖) nie zostaje przyjęta.
+- (2) Cel NBP 2,5% zostaje w przełączniku jako opcja, podobnie jak własna wartość.
+- (3) Średnia jest przeliczana po publikacji przez GUS danych za kolejny rok (okres ważności wartości, D36).
+
+Uwaga rewidenta, zapisana jako kontekst, a nie korekta decyzji: średnia GUS też jest wskaźnikiem CPI, tym samym co w celu NBP. Różnica bierze się z tego, że średnia z ostatnich 15 lat zawiera szok 2022–2023 (14,4% i 11,4%), a cel NBP to kotwica na przyszłość. Wybór GUS daje ostrożniejszy, czyli wyższy, szacunek przyszłych rachunków.
+
+Pełne: `03_M14_Dom_i_Firma_Siec.md` (TCO, tabela źródeł `π`).
+
 ---
 
 ## Założenia robocze (F.7 GOD BOOK)
@@ -188,3 +199,4 @@ Uzupełnia D40/D41, niczego nie unieważnia. Pełne: `03_M14_Dom_i_Firma_Siec.md
 | 28.09.2026 | Dodano D39 (pozycja kafli M14) i D40 (parametry TCO M14 plus „Ścieżka UE” z EU Reference Scenario 2020) — decyzje właściciela projektu. Wersja 1.14→1.15. |
 | 28.09.2026 | Dodano D41 (M14 TCO: „Ścieżka UE + inflacja”, π z celu NBP albo średniej GUS) — decyzja właściciela projektu. Wersja 1.15→1.16. |
 | 28.09.2026 | Dodano D42 (M14: przełącznik ścieżek cen w miejscu suwaka procentów) — decyzja właściciela projektu. Wersja 1.16→1.17. |
+| 28.09.2026 | Dodano D43 (M14: domyślna inflacja = średnia GUS 15 lat 3,58%) — decyzja właściciela projektu. Wersja 1.17→1.18. |

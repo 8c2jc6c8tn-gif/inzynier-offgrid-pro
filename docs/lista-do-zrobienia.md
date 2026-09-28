@@ -1093,4 +1093,5 @@ Pełne wyniki audytu: `docs/memory.md`, sekcja "Pełny audyt na polecenie właś
   - Alternatywa: **średnia GUS z 15 lat, 3,58%** — historia, w tym szok 2022–2023.
   
   Obie wartości są w rozdziale ze źródłami. **Przy pliku danych:** wpisać π (NBP, GUS) z `zrodlo` / `stanNa` / `pewnosc` i przykład kontrolny (75 000 / ≈81 444 / ≈100 143 zł) jako test. Średnie GUS przeliczać po publikacji danych za kolejny rok. **Priorytet:** niski (kod czeka na N.3). **Odblokowuje:** opcję nominalną w TCO. **Kolizje:** brak. **Kolejność:** razem z plikiem `rozliczenia-pl-2026`.
+- ✅ (2026-09-28) **Rozstrzygnięte: domyślna inflacja M14 = średnia GUS z 15 lat, 3,58% (D43)**. Zamyka wpis ⚠️ „D41 — do potwierdzenia, która inflacja domyślna”. Decyzja właściciela; NBP 2,5% zostaje do wyboru. Przykład kontrolny do testów pliku danych: 109 699 zł (UE + 3,58%, 5 000 zł/rok, `N` = 15).
 

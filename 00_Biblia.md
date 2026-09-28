@@ -52,9 +52,9 @@ Do 04.09.2026 rolę Biblii pełniły `ZASADY_APLIKACJI.md` (pełna) i `USTALENIA
 | 00 | `00_Biblia.md` (ten plik) | — | 1.0 | Stabilny | Indeks |
 | 01 | `01_Zasady_Pracy_i_Konwencje.md` | C | 1.0 | Stabilny | Wyciąg operacyjny z GOD BOOK dla tego projektu |
 | 02 | `02_Dyrektywy_AI_Projektu.md` | C | 1.0 | Stabilny | Twarde reguły zachowania AI specyficzne dla domeny off-grid |
-| 03 | `03_M14_Dom_i_Firma_Siec.md` | B | 1.3 | Stabilny (kod za bramką N.3) | M14 „Dom – sieć” / „Firma – sieć” — rachunek za prąd, prosument, taryfy G/C, potem scenariusze przejścia A–D, ryzyka i procedura odłączenia (D35–D42). Pierwszy moduł opisany w Biblii, a nie w `docs/zrodla/Tresc_*` |
+| 03 | `03_M14_Dom_i_Firma_Siec.md` | B | 1.4 | Stabilny (kod za bramką N.3) | M14 „Dom – sieć” / „Firma – sieć” — rachunek za prąd, prosument, taryfy G/C, potem scenariusze przejścia A–D, ryzyka i procedura odłączenia (D35–D43). Pierwszy moduł opisany w Biblii, a nie w `docs/zrodla/Tresc_*` |
 | — | `zlote-zasady.md` | C | 1.0 | Stabilny | Kompas projektu — 4 filozofie + 14 zasad architektonicznych |
-| — | `rejestr-decyzji.md` | C | 1.17 | Stabilny | D1, D2, D3… decyzje strategiczne, ponumerowane, rosnące |
+| — | `rejestr-decyzji.md` | C | 1.18 | Stabilny | D1, D2, D3… decyzje strategiczne, ponumerowane, rosnące |
 | — | `slownik-pojec.md` | C | 1.0 | Stabilny | Terminy branżowe (SoC, DoD, MPPT, Voc, C-rate...) |
 | — | `wiedza-surowa.md` | C | 1.0 | Stabilny | Synteza materiałów źródłowych — wskaźnik do `docs/zrodla/`, nie duplikat |
 | — | `kontrakty-rdzenia.md` | A | 1.0 | Stabilny | `CalcResult<T>`, Status, Warning, warstwy, wzorzec echo — konkretne kontrakty tego projektu |
@@ -83,3 +83,4 @@ Do 04.09.2026 rolę Biblii pełniły `ZASADY_APLIKACJI.md` (pełna) i `USTALENIA
 | 28.09.2026 | Decyzje D39 (pozycja kafli M14) i D40 (TCO M14 plus „Ścieżka UE”); rozdział 03 v1.1; rejestr decyzji 1.14→1.15. |
 | 28.09.2026 | D41 (M14 TCO: „Ścieżka UE + inflacja”); rozdział 03 v1.2; rejestr decyzji 1.15→1.16. |
 | 28.09.2026 | D42 (M14: przełącznik ścieżek cen w miejscu suwaka); rozdział 03 v1.3; rejestr decyzji 1.16→1.17. |
+| 28.09.2026 | D43 (M14: domyślna inflacja GUS 3,58%); rozdział 03 v1.4; rejestr decyzji 1.17→1.18. |

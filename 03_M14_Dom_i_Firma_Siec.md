@@ -1,7 +1,7 @@
 # 03. M14 — „Dom – sieć” i „Firma – sieć”: rachunek za prąd, a potem przejście na off-grid
 
-**Wersja:** 1.3 | **Filar:** B (merytoryczny) | **Data utworzenia:** 28.09.2026 | **Ostatnia aktualizacja:** 28.09.2026 | **Status:** Stabilny — **kod zablokowany bramką N.3** (patrz „Stan i bramki”)
-**Powiązane dokumenty:** `docs/zrodla/Opracowanie_M14_Z_Sieci_Na_OffGrid_DRAFT.md` (opracowanie źródłowe: weryfikacja, adnotacje ✏️ K1–K14, tabele stawek per OSD), `rejestr-decyzji.md` D35–D42, `docs/rejestr-pokrycia.md` (sekcja M14), `docs/rejestr-twardych-stopow.md` (sekcja M14), `mapa-wdrozenia.md`, `slownik-pojec.md` (sekcja „Sieć i rozliczenia energii”)
+**Wersja:** 1.4 | **Filar:** B (merytoryczny) | **Data utworzenia:** 28.09.2026 | **Ostatnia aktualizacja:** 28.09.2026 | **Status:** Stabilny — **kod zablokowany bramką N.3** (patrz „Stan i bramki”)
+**Powiązane dokumenty:** `docs/zrodla/Opracowanie_M14_Z_Sieci_Na_OffGrid_DRAFT.md` (opracowanie źródłowe: weryfikacja, adnotacje ✏️ K1–K14, tabele stawek per OSD), `rejestr-decyzji.md` D35–D43, `docs/rejestr-pokrycia.md` (sekcja M14), `docs/rejestr-twardych-stopow.md` (sekcja M14), `mapa-wdrozenia.md`, `slownik-pojec.md` (sekcja „Sieć i rozliczenia energii”)
 
 TL;DR: Moduł **M14** ma dwa rozdziały i na pulpicie dwa duże kafle: **M14-D „Dom – sieć”** (grupy taryfowe G) oraz **M14-F „Firma – sieć”** (grupy C na nN). Każdy rozdział składa się z dwóch części w stałej kolejności:
 1. najpierw **Sieć** — ile kosztuje mój rachunek i z czego się składa: taryfa, prosument, licznik;
@@ -192,8 +192,8 @@ g_nom(t)      = (1 + g_UE(t)) · (1 + π) − 1
 
 | Opcja | Wartość | Źródło | Pewność |
 |---|---|---|---|
-| **Cel inflacyjny NBP** (domyślna ✅🤖) | **2,5%/rok** (pasmo ±1 pkt proc.) | Uchwała nr 7/2025 RPP z 2.09.2025 w sprawie założeń polityki pieniężnej na rok 2026, M.P. 2025 poz. 1013: „celem polityki pieniężnej jest utrzymanie inflacji – rozumianej jako procentowa roczna zmiana indeksu cen towarów i usług konsumpcyjnych – na poziomie 2,5 % z symetrycznym przedziałem odchyleń o szerokości ±1 punktu procentowego w średnim okresie” (od 2004 r.) | ✅ odczyt pierwotny 28.09.2026 |
-| **Średnia z ostatnich 15 lat (GUS)** | **3,58%/rok** (2011–2025, średnia geometryczna) | GUS, „Roczne wskaźniki cen towarów i usług konsumpcyjnych od 1950 roku” (CSV, rok poprzedni = 100) | ✅ wyliczone z danych pierwotnych 28.09.2026 |
+| **Cel inflacyjny NBP** (do wyboru; do 28.09.2026 proponowana jako domyślna ✅🤖, zastąpione przez D43) | **2,5%/rok** (pasmo ±1 pkt proc.) | Uchwała nr 7/2025 RPP z 2.09.2025 w sprawie założeń polityki pieniężnej na rok 2026, M.P. 2025 poz. 1013: „celem polityki pieniężnej jest utrzymanie inflacji – rozumianej jako procentowa roczna zmiana indeksu cen towarów i usług konsumpcyjnych – na poziomie 2,5 % z symetrycznym przedziałem odchyleń o szerokości ±1 punktu procentowego w średnim okresie” (od 2004 r.) | ✅ odczyt pierwotny 28.09.2026 |
+| **Średnia z ostatnich 15 lat (GUS)** — **domyślna (D43)** | **3,58%/rok** (2011–2025, średnia geometryczna) | GUS, „Roczne wskaźniki cen towarów i usług konsumpcyjnych od 1950 roku” (CSV, rok poprzedni = 100) | ✅ wyliczone z danych pierwotnych 28.09.2026 |
 | **Własna wartość** | wpis użytkownika | — | — |
 
 Średnie GUS dla porównania (ten sam plik): 10 lat (2016–2025) 4,59%/rok, 20 lat (2006–2025) 3,37%/rok, od 2004 r. 3,32%/rok. Okno 15 lat wybrano, bo tyle wynosi domyślny horyzont `N`. W pliku GUS wiersz 2025 ma w kolumnie „Sposób prezentacji” wpis „Rok poprzedni = 101” zamiast „= 100”. To oczywisty błąd opisu; wartość 103,6 przyjmujemy jako wskaźnik rok do roku. Po publikacji danych za 2026 średnie trzeba przeliczyć.
@@ -213,9 +213,10 @@ Zasady (twarde, żeby porównanie scenariuszy nie kłamało):
 |---|---|---|---|
 | `g` = 0 | 1,0000 | 0,00 | 75 000 zł |
 | Ścieżka UE | 1,1470 | 0,92 | ≈ 81 444 zł |
-| Ścieżka UE + inflacja 2,5% | 1,6612 | 3,44 | ≈ 100 143 zł (nominalnie) |
+| Ścieżka UE + inflacja 2,5% (NBP) | 1,6612 | 3,44 | ≈ 100 143 zł (nominalnie) |
+| **Ścieżka UE + inflacja 3,58% (GUS, domyślna)** | 1,9440 | 4,53 | ≈ 109 699 zł (nominalnie) |
 
-W roku 1 (2027) mnożniki wynoszą 1,0172 (UE) i 1,0426 (UE + 2,5%).
+W roku 1 (2027) mnożniki wynoszą 1,0172 (UE), 1,0426 (UE + 2,5%) i 1,0536 (UE + 3,58%). Do danych i testów wchodzi π = 3,58% (zaokrąglenie do 0,01 pkt proc.; dokładna średnia z pliku to 3,5768%).
 
 **Gdzie użytkownik to wybiera — jedno pole „Wzrost cen energii” (D42)**
 
@@ -228,7 +229,7 @@ Przełącznik ścieżek stoi **dokładnie w miejscu suwaka procentów**, na ekra
 2. **Pod przełącznikiem zmienia się zawartość, w tym samym miejscu:**
    - **„Suwak %”** (domyślnie): suwak −3 / 0 / +5 / +10%/rok, ustawiony na 0 (ceny stałe);
    - **„Plany UE”**: zamiast suwaka widać średnią %/rok dla wybranego horyzontu `N`, podpis źródła (EU Reference Scenario 2020, KE) i ostrzeżenie o założeniach z 2019 r.;
-   - **„Plany UE + inflacja”**: to samo, plus pod spodem wybór inflacji: cel NBP 2,5% / średnia GUS 3,58% / własna wartość. Obok widać wynikową średnią %/rok.
+   - **„Plany UE + inflacja”**: to samo, plus pod spodem wybór inflacji: **średnia GUS 3,58% (domyślnie, D43)** / cel NBP 2,5% / własna wartość. Obok widać wynikową średnią %/rok.
 3. Każda zmiana **od razu przelicza tabelę A–D** na tym samym ekranie.
 4. Na telefonie przełącznik mieści się w jednej linii (krótkie etykiety). Pełne nazwy i wyjaśnienie „ponad inflację / kwoty do zapłaty” trafiają do chmurki „?” (D34).
 - Okres zwrotu liczony jest względem A.
@@ -569,3 +570,4 @@ Nie jest potrzebny do pierwszej działającej wersji rdzenia off-grid (M1–M8).
 | 28.09.2026 | Decyzje właściciela: pozycja kafli (D39); parametry TCO plus „Ścieżka UE” z EU Reference Scenario 2020, odczyt pierwotny arkusza KE (D40). Zdanie „nie prognozuje cen energii” doprecyzowane: aplikacja sama nie prognozuje, pokazuje projekcję UE ze źródłem i datą. Wersja 1.0→1.1. |
 | 28.09.2026 | D41: opcja „Ścieżka UE + inflacja” (Fisher). π = cel NBP 2,5% (M.P. 2025 poz. 1013, domyślne ✅🤖) albo średnia GUS z 15 lat 3,58% albo własna. Inflacja stosowana do wszystkich kosztów bieżących; ranking według złotych dzisiejszych. Przykład kontrolny. Wersja 1.1→1.2. |
 | 28.09.2026 | D42: przełącznik ścieżek cen („Suwak %” / „Plany UE” / „Plany UE + inflacja”) w miejscu suwaka procentów na D7/F8. Wersja 1.2→1.3. |
+| 28.09.2026 | D43: domyślna inflacja w „Plany UE + inflacja” = średnia GUS z 15 lat 3,58% (decyzja właściciela); NBP 2,5% zostaje do wyboru. Przykład kontrolny uzupełniony o wiersz GUS. Wersja 1.3→1.4. |

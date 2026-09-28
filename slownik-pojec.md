@@ -57,7 +57,7 @@ TL;DR: Terminy branżowe (off-grid PV/baterie/elektryka) i skróty specyficzne d
   się tylko tempo zmian ponad inflację, nie poziom ceny. Zawsze podpisana źródłem i datą; to
   scenariusz odniesienia, nie przewidywanie rachunku.
 - **„Ścieżka UE + inflacja” (D41)** — „Ścieżka UE” pomnożona przez średnioroczną inflację
-  (cel NBP 2,5% albo średnia GUS z 15 lat). Pokazuje kwoty, które faktycznie trafią na rachunki
+  (domyślnie średnia GUS z 15 lat, D43; albo cel NBP 2,5%). Pokazuje kwoty, które faktycznie trafią na rachunki
   w kolejnych latach (ceny nominalne). Ceny „realne” to w ekonomii ceny ponad inflację, czyli
   sama „Ścieżka UE”.
 - **Grupa taryfowa G / C / B** — G to gospodarstwa domowe. C to odbiorcy na niskim napięciu

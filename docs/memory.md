@@ -7956,3 +7956,4 @@ Polecenie właściciela „Integruj teraz” (F.2/F.4) wykonane na gałęzi odtw
   - właściciel nazwał wariant z inflacją „realnym wzrostem”, a w ekonomii to cena nominalna. W UI unikamy słowa „realny”.
 - **Otwarte:** która π ma być domyślna (✅🤖 NBP).
 - **[28.09.2026] D42:** właściciel chce przełącznik ścieżek cen dokładnie w miejscu suwaka procentów (D7/F8). Jedno pole „Wzrost cen energii”: segmenty „Suwak %” / „Plany UE” / „Plany UE + inflacja”. Treść pod nimi podmienia się w tym samym miejscu, a tabela A–D przelicza się od razu.
+- **[28.09.2026] D43:** właściciel wybrał domyślną inflację GUS (średnia 15 lat, 3,58%) zamiast proponowanej NBP 2,5%. Uzasadnienie właściciela: oficjalna inflacja jest zaniżona względem cen. Uwaga rewidenta w D43: to ten sam wskaźnik CPI, a różnica wynika z okna 2011–2025 z szokiem 2022–2023. Przykład kontrolny: 1,9440 w roku 15 i ≈109 699 zł.
