@@ -11,7 +11,7 @@ export type MikropeknieciaTermiczneResult = {
   montazSztywny: boolean
 }
 
-const FORMULA = `s_{dyl} \\ge ${ODSTEP_DYLATACYJNY_MIN_MM}\\,\\text{mm} \;\\wedge\; \\text{podkładki EPDM}`
+const FORMULA = `s_{dyl} \\ge ${ODSTEP_DYLATACYJNY_MIN_MM}\\,\\text{mm} \\;\\wedge\\; \\text{podkładki EPDM}`
 
 /**
  * Ekran 7, Moduł 3 — "Mikropęknięcia termiczne" (dawne 2.13). Reguła progowa 1:1 ze źródła:

@@ -6,6 +6,7 @@ import { sztywnienieIzolacjiTool } from "../sztywnienie-izolacji-tool"
 import { elektronikaWMrozieTool } from "../elektronika-w-mrozie-tool"
 import { pompyZaworyWMrozieTool } from "../pompy-zawory-w-mrozie-tool"
 import { grzalkiDachoweTool } from "../grzalki-dachowe-tool"
+import { ryzykoZamarznieciaTool } from "../ryzyko-zamarzniecia-tool"
 
 describe("obciazenieDachuSniegiemTool (M7/E23, dawne 6.34→7.32)", () => {
   it("kontrakt 9.3: 'read', bez potwierdzenia", () => {
@@ -106,5 +107,23 @@ describe("grzalkiDachoweTool (M7/E11, dawne 6.16)", () => {
     expect(w.mocW).toBe(360)
     expect(w.energiaKwhDoba).toBeCloseTo(2.16, 12)
     expect(w.ostrzezenia).toContain(t("pl", "GRZALKI-BRAK-ZAPASU-MOCY", { moc: 360, zapas: 300 }))
+  })
+})
+
+describe("ryzykoZamarznieciaTool (M7/E22 tryb grunt, dawne 6.35 + 6.37)", () => {
+  it("kontrakt 9.3: 'read', bez potwierdzenia", () => {
+    expect(ryzykoZamarznieciaTool.operationType).toBe("read")
+    expect(ryzykoZamarznieciaTool.requiresConfirmation).toBe(false)
+    expect(() => validateAiToolDefinition(ryzykoZamarznieciaTool)).not.toThrow()
+  })
+
+  it("kabel 40 cm przy strefie 80 cm → twardy stop jako tekst PL", async () => {
+    const w = await ryzykoZamarznieciaTool.handler({
+      glebokoscPrzemarzaniaCm: 80,
+      instalacje: [{ nazwa: "Kabel", typ: "kabel", glebokoscCm: 40 }],
+      metodaRozmrazania: "nie-dotyczy",
+    })
+    expect(w.liczbaWStrefie).toBe(1)
+    expect(w.ostrzezenia).toContain(t("pl", "ZAMARZ-PLYCEJ-NIZ-PRZEMARZANIE", { nazwa: "Kabel", glebokosc: 40, hz: 80 }))
   })
 })

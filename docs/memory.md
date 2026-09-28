@@ -7653,3 +7653,9 @@ Polecenie właściciela: „co można jeszcze zrobić beze mnie, czy są większ
 ### M7/E11 grzałki dachowe (27.09.2026, częściowo)
 
 - Wzór z przykładu źródła; 30 W/m i 6 h to przykład → pola usera. Zdanie źródła „sprawdź, czy masz zapas mocy” zamienione na realne porównanie z opcjonalnym polem „wolny zapas mocy falownika” (bez niego — info). Porównanie z pompą ciepła tylko, gdy user poda jej moc. Strefy zatorów (kosze, przy rynnach) — tylko opis; auto-identyfikacja czeka na model dachu M1.
+
+### M7/E22 ryzyko zamarznięcia — tryb grunt (28.09.2026, częściowo)
+
+- Zapas 20 cm dla wodociągu wzięty z `Biblia_Offgrid_v2_0` („minimum 20 cm poniżej strefy przemarzania”) — 🟡, bo tam to komunikat, nie twardy stop. Kabel/uziom: wymagane = h_z. Porównanie ścisłe `<` (dokładnie na granicy = OK).
+- Mapy stref przemarzania (PN-81/B-03020) nie ma w repo → h_z od usera. Gdy właściciel dostarczy normę, można podpiąć wybór strefy.
+- **Błąd naprawiony (dryf, Y.2):** `\;` w FORMULA pisane jednym backslashem — JS po cichu robi z tego `;`, odstęp LaTeX znikał. Było w 4 istniejących kalkulatorach (`powloki-antyrefleksyjne`, `mikropekniecia-termiczne`, `gniazdo-zapalniczki`, `zuzycie-per-urzadzenie`) i dwa razy w tej sesji. ESLint nie łapie (brak `no-useless-escape` w konfiguracji). Dodano strażnika: `lib/core/__tests__/formula-escapes.test.ts` (skan linii z FORMULA). Wkład: `docs/wklad-do-standardu.md`.
