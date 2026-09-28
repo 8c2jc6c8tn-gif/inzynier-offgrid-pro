@@ -2,9 +2,14 @@
 
 import Link from "next/link"
 import { useMemo } from "react"
-import { OPCJE_IP } from "@/lib/core/modules/baterie/ochrona-wilgoc/constants"
 import { calculateWilgocMaleInstalacje } from "@/lib/core/modules/kalkulator-mobilny/wilgoc-male-instalacje/calculator"
-import type { ZalecenieWilgoc } from "@/lib/core/modules/kalkulator-mobilny/wilgoc-male-instalacje/constants"
+import {
+  IP_ZALECANE_NAMIOT_JACHT,
+  IP_ZALECANE_WILGOC,
+  MIEJSCA_PODWYZSZONE_RYZYKO,
+  OPCJE_IP_MALE_INSTALACJE,
+  type ZalecenieWilgoc,
+} from "@/lib/core/modules/kalkulator-mobilny/wilgoc-male-instalacje/constants"
 import type { MiejsceMalejInstalacji } from "@/lib/core/modules/kalkulator-mobilny/wilgoc-male-instalacje/input"
 import { usePersistedDraft } from "@/lib/adapters/use-persisted-draft"
 import { PoleSelect } from "@/components/ui/pole"
@@ -54,6 +59,9 @@ export default function WilgocMaleInstalacjePage() {
   const hasCritical = result.warnings.some((w) => w.level === "critical")
   const hasWarning = result.warnings.some((w) => w.level === "warning")
   const { minimalneIp, zalecenia } = result.value
+  // Tent/yacht are always treated as exposed to moisture (D44) — the moisture question is not asked there.
+  const podwyzszoneRyzyko = (MIEJSCA_PODWYZSZONE_RYZYKO as readonly string[]).includes(stan.miejsce)
+  const zalecaneIp = podwyzszoneRyzyko ? `IP${IP_ZALECANE_NAMIOT_JACHT}–IP68` : `IP${IP_ZALECANE_WILGOC}`
 
   return (
     <main className="mx-auto flex max-w-md flex-col gap-6 p-6">
@@ -73,8 +81,8 @@ export default function WilgocMaleInstalacjePage() {
             <>
               <strong>Miejsce instalacji</strong> — pomieszczenie albo miejsce, w którym stoją akumulator, regulator i
               przetwornica. Ekran sprawdza, czy obudowy tych urządzeń wytrzymają wilgoć, jaka tam bywa, i podpowiada osłony.
-              W wilgotnym garażu obudowa poniżej IP65 dostaje żółte ostrzeżenie (źródło aplikacji zaleca tam IP65). Namiot i
-              jacht to większe ryzyko (deszcz, rosa, bryzgi, słone powietrze) — tam minimum to IP65, poniżej czerwony stop.
+              Namiot i jacht to większe ryzyko (deszcz, rosa, bryzgi, słone powietrze) — zawsze traktujemy je jako wilgotne:
+              minimum IP65 (poniżej czerwony stop), zalecane IP67–IP68.
             </>
           }
         >
@@ -85,23 +93,30 @@ export default function WilgocMaleInstalacjePage() {
             </option>
           ))}
         </PoleSelect>
-        <PoleSelect
-          label="Czy to miejsce jest narażone na wilgoć?"
-          value={stan.narazone}
-          onChange={(e) => setStan((prev) => ({ ...prev, narazone: e.target.value as FormularzStan["narazone"] }))}
-          pomoc={
-            <>
-              <strong>Narażenie na wilgoć</strong> — odpowiedz „tak”, jeśli bywa tam para wodna, skropliny na ścianach,
-              zacieki, bryzgi albo woda z butów i samochodu. Wilgoć powoduje korozję styków, zwarcia i uszkodzenia
-              elektroniki. Przy „tak” obudowa musi mieć co najmniej IP55 (ten sam próg co w Module 4), a w namiocie i na
-              jachcie co najmniej IP65; przy „nie” próg nie dotyczy. Nie wiesz? Wybierz „tak” — to strona bezpieczna.
-            </>
-          }
-        >
-          <option value="">— wybierz —</option>
-          <option value="tak">Tak</option>
-          <option value="nie">Nie, jest sucho</option>
-        </PoleSelect>
+        {podwyzszoneRyzyko ? (
+          <p className="text-small text-muted-foreground">
+            Namiot i jacht są zawsze traktowane jako narażone na wilgoć — pytanie o wilgoć tu nie dotyczy.
+          </p>
+        ) : (
+          <PoleSelect
+            label="Czy to miejsce jest narażone na wilgoć?"
+            value={stan.narazone}
+            onChange={(e) => setStan((prev) => ({ ...prev, narazone: e.target.value as FormularzStan["narazone"] }))}
+            pomoc={
+              <>
+                <strong>Narażenie na wilgoć</strong> — odpowiedz „tak”, jeśli bywa tam para wodna, skropliny na ścianach,
+                zacieki, bryzgi albo woda z butów i samochodu. Wilgoć powoduje korozję styków, zwarcia i uszkodzenia
+                elektroniki. Przy „tak” obudowa musi mieć co najmniej IP55 (ten sam próg co w Module 4), a zalecane jest IP65
+                — poniżej IP65 dostaniesz żółte ostrzeżenie; przy „nie” próg nie dotyczy. Nie wiesz? Wybierz „tak” — to
+                strona bezpieczna.
+              </>
+            }
+          >
+            <option value="">— wybierz —</option>
+            <option value="tak">Tak</option>
+            <option value="nie">Nie, jest sucho</option>
+          </PoleSelect>
+        )}
         <PoleSelect
           label="Stopień ochrony obudowy (IP)"
           value={stan.ipKod}
@@ -116,7 +131,7 @@ export default function WilgocMaleInstalacjePage() {
           }
         >
           <option value={0}>— wybierz —</option>
-          {OPCJE_IP.map((o) => (
+          {OPCJE_IP_MALE_INSTALACJE.map((o) => (
             <option key={o.kod} value={o.kod}>
               {o.label}
             </option>
@@ -125,7 +140,7 @@ export default function WilgocMaleInstalacjePage() {
       </div>
 
       {result.status === "INCOMPLETE" ? (
-        <p className="text-small text-muted-foreground">Wybierz miejsce, odpowiedz na pytanie o wilgoć i wybierz stopień IP.</p>
+        <p className="text-small text-muted-foreground">Wybierz miejsce, odpowiedz na pytanie o wilgoć (nie dotyczy namiotu i jachtu) i wybierz stopień IP.</p>
       ) : (
         <WerdyktPanel
           poziom={hasCritical ? "blad" : hasWarning ? "uwaga" : "ok"}
@@ -133,7 +148,7 @@ export default function WilgocMaleInstalacjePage() {
             hasCritical
               ? "Obudowa za słaba na wilgoć"
               : hasWarning
-                ? "Obudowa dopuszczalna — zalecane IP65"
+                ? `Obudowa dopuszczalna — zalecane ${zalecaneIp}`
                 : minimalneIp === null
                   ? "Miejsce suche"
                   : "Obudowa wystarczająca"

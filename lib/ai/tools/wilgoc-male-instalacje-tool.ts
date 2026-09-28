@@ -11,7 +11,7 @@ import { tekstyOstrzezen, tekstyZalozen } from "./teksty-wyniku"
 
 export const WilgocMaleInstalacjeToolInput = z.object({
   miejsce: z.enum(["garaz", "piwnica", "namiot", "jacht"]).describe("Gdzie stoi instalacja — od usera"),
-  narazoneNaWilgoc: z.boolean().describe("Czy miejsce jest narażone na wilgoć (para, skropliny, bryzgi) — od usera; gdy nie wie, true"),
+  narazoneNaWilgoc: z.boolean().describe("Czy miejsce jest narażone na wilgoć (para, skropliny, bryzgi) — od usera; gdy nie wie, true. Dla namiotu i jachtu ignorowane (zawsze wilgoć)"),
   ipKod: z.number().describe("Stopień IP obudowy jako liczba (np. 55 dla IP55) — z tabliczki/karty, nie zgaduj"),
 })
 export type WilgocMaleInstalacjeToolInputT = z.infer<typeof WilgocMaleInstalacjeToolInput>
@@ -31,10 +31,9 @@ export const wilgocMaleInstalacjeTool: AiToolDefinition<WilgocMaleInstalacjeTool
   name: "sprawdz_ochrone_przed_wilgocia_malej_instalacji",
   description:
     "Sprawdza, czy obudowa małej instalacji (garaż, piwnica, namiot, jacht) ma wystarczający stopień IP: w miejscu " +
-    "narażonym na wilgoć minimum IP55 (ten sam próg co Moduł 4, Ekran 10), w namiocie i na jachcie minimum IP65 — poniżej " +
-    "twardy stop. Podaje listę osłon: " +
-    "obudowy IP, puszki z uszczelką, przewody w peszlu, osuszacz/pochłaniacz. W wilgotnym garażu poniżej IP65 " +
-    "ostrzeżenie (zalecenie źródła). Nie liczy punktu rosy. Użyj, gdy user pyta o wilgoć, stopień IP albo osłony dla małego zestawu.",
+    "narażonym na wilgoć minimum IP55 (ten sam próg co Moduł 4, Ekran 10), zalecane IP65 (poniżej ostrzeżenie); namiot i " +
+    "jacht zawsze jako wilgotne — minimum IP65 (poniżej twardy stop), zalecane IP67–IP68. Podaje listę osłon: " +
+    "obudowy IP, puszki z uszczelką, przewody w peszlu, osuszacz/pochłaniacz. Nie liczy punktu rosy. Użyj, gdy user pyta o wilgoć, stopień IP albo osłony dla małego zestawu.",
   inputSchema: WilgocMaleInstalacjeToolInput,
   outputSchema: WilgocMaleInstalacjeToolOutput,
   operationType: "read",

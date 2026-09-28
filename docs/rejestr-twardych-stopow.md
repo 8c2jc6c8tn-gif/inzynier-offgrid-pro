@@ -50,7 +50,8 @@ nie do audytu poprawności formularza webowego.
   (`lib/core/modules/kalkulator-mobilny/wilgoc-male-instalacje/`) — garaż/piwnica/namiot/jacht.
   **[28.09.2026, D44]** W M12/E23 namiot i jacht narażone na wilgoć mają wyższy próg: poniżej **IP65** 🔴
   (`namiotJachtPonizejIp65`, kod `WMI-NAMIOT-JACHT-PONIZEJ-IP65`, zastępuje tam stop IP55 — jeden stop na miejsce).
-  Próg to praktyka właściciela („większe ryzyko”), nie norma. Wilgotny garaż IP55–IP64 → tylko 🟡, nie stop.
+  Próg to praktyka właściciela („większe ryzyko”), nie norma; namiot/jacht zawsze traktowane jako wilgotne (stop nie zależy
+  od odpowiedzi o wilgoci). IP55–IP64 w miejscu z wilgocią (garaż, piwnica) oraz IP65–IP66 w namiocie/na jachcie → tylko 🟡, nie stop.
 - **Prąd zwarciowy pakietu przekracza zdolność łączeniową tranzystorów BMS** — zwykły
   bezpiecznik (~10ms) jest za wolny, wymagana funkcja e-Fuse (<100µs).
   (M4/E9 — `lib/core/modules/baterie/detekcja-zwarcia-efuse/warnings.ts`, `wymaganyEFuse`, kod
