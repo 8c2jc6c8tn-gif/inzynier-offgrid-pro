@@ -4,6 +4,10 @@ import { validateAiToolDefinition } from "../../types"
 import { zamkiDrzwiEwakuacyjnychTool } from "../zamki-drzwi-ewakuacyjnych-tool"
 import { modulGasniczyTool } from "../modul-gasniczy-tool"
 import { awaryjneZrodloCieplaTool } from "../awaryjne-zrodlo-ciepla-tool"
+import { centralaSspTool } from "../centrala-ssp-tool"
+import { oswietlenieAwaryjneTool } from "../oswietlenie-awaryjne-tool"
+import { klapyPozaroweTool } from "../klapy-pozarowe-tool"
+import { powiadomieniaAlarmoweTool } from "../powiadomienia-alarmowe-tool"
 
 describe("zamkiDrzwiEwakuacyjnychTool (M8/E3, dawne 11.51)", () => {
   it("kontrakt 9.3: 'read', bez potwierdzenia", () => {
@@ -67,5 +71,66 @@ describe("awaryjneZrodloCieplaTool (M8/E1, dawne 6.19)", () => {
     expect(w.pokrycieProc).toBeCloseTo(60, 12)
     expect(w.paliwoKgDoba).toBeCloseTo(20, 12)
     expect(w.ostrzezenia).toContain(t("pl", "ZRODLO-NIE-POKRYWA", { pokrycie: 60 }))
+  })
+})
+
+describe("narzędzia M8 blok 2 — kontrakt 9.3 ('read', bez potwierdzenia)", () => {
+  it.each([centralaSspTool, oswietlenieAwaryjneTool, klapyPozaroweTool, powiadomieniaAlarmoweTool])("$name", (tool) => {
+    expect(tool.operationType).toBe("read")
+    expect(tool.requiresConfirmation).toBe(false)
+    expect(() => validateAiToolDefinition(tool)).not.toThrow()
+  })
+})
+
+describe("centralaSspTool (M8/E5, dawne 11.53)", () => {
+  it("awaria centrali → twardy stop PL", async () => {
+    const w = await centralaSspTool.handler({
+      interfejs: "rs485",
+      stanCentrali: "awaria",
+      odbieraAlarm: true,
+      odbieraAwarie: true,
+      odbieraRozbrojenie: true,
+      logujeZdarzenia: true,
+    })
+    expect(w.ostrzezenia).toEqual([t("pl", "SSP-AWARIA-CENTRALI")])
+  })
+})
+
+describe("oswietlenieAwaryjneTool (M8/E7, dawne 11.55)", () => {
+  it("lampa #3 niesprawna → twardy stop PL z nazwą", async () => {
+    const w = await oswietlenieAwaryjneTool.handler({
+      zasilanie: "ups",
+      lampy: [{ nazwa: "#3", stan: "niesprawna" }],
+      oswietlenieZewnetrzne: true,
+    })
+    expect(w.niesprawne).toBe(1)
+    expect(w.ostrzezenia).toEqual([t("pl", "OSW-LAMPA-NIESPRAWNA", { nazwa: "#3" })])
+  })
+})
+
+describe("klapyPozaroweTool (M8/E8, dawne 11.56 + 12.56)", () => {
+  it("rekuperacja nie wyłączana przy pożarze → ostrzeżenie PL", async () => {
+    const w = await klapyPozaroweTool.handler({
+      wentylacja: "mechaniczna",
+      wentylacjaWylaczanaPrzyPozarze: false,
+      klapyZamykanePrzyPozarze: true,
+      sygnalizacjaStanuKlap: true,
+      maOddymianie: true,
+    })
+    expect(w.ostrzezenia).toEqual([t("pl", "KLAPY-WENTYLACJA-NIE-WYLACZANA")])
+  })
+})
+
+describe("powiadomieniaAlarmoweTool (M8/E10, dawne 12.55)", () => {
+  it("auto-wezwanie bez zgody → nieaktywne + twardy stop PL", async () => {
+    const w = await powiadomieniaAlarmoweTool.handler({
+      maSyrene: true,
+      liczbaKontaktow: 1,
+      maKamery: true,
+      autoWezwanieSluzb: true,
+      zgodaNaWezwanieSluzb: false,
+    })
+    expect(w.autoWezwanieAktywne).toBe(false)
+    expect(w.ostrzezenia).toEqual([t("pl", "ALARM-WEZWANIE-BEZ-ZGODY")])
   })
 })
