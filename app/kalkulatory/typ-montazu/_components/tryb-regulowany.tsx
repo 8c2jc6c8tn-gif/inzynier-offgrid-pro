@@ -11,6 +11,7 @@ import { usePersistedDraft } from "@/lib/adapters/use-persisted-draft"
 import { calculateRegulowany, type MiesiacRegulowany } from "@/lib/core/modules/pv/typ-montazu/regulowany"
 import {
   BledyDanych,
+  dopiskMasyWlasnej,
   f0,
   f1,
   f2,
@@ -111,7 +112,7 @@ export function TrybRegulowany() {
             <li className="font-medium">
               {v.balastWymaganyKg === null
                 ? "Balast: brak danych normowych dla żadnego z ustawień."
-                : `Balast projektowy (PN-EN 1990, przeciw oderwaniu) dla najgorszego ustawienia${v.liczbaMiesiecyBezDanychWiatru > 0 ? " do 30°" : ""}: ${f0(v.balastWymaganyKg)} kg.`}
+                : `Balast projektowy (PN-EN 1990, przeciw oderwaniu) dla najgorszego ustawienia${v.liczbaMiesiecyBezDanychWiatru > 0 ? " do 30°" : ""}: ${f0(v.balastWymaganyKg)} kg${dopiskMasyWlasnej(s.stelaz)}.`}
             </li>
           </ul>
           <div className="mt-3">

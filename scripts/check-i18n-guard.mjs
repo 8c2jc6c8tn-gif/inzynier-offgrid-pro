@@ -140,6 +140,7 @@ const MIGRATED_MODULES = [
   "lib/core/modules/kalkulator-mobilny/dobor-regulatora-pwm-mppt",
   "lib/core/modules/kalkulator-mobilny/dni-bez-slonca",
   "lib/core/modules/kalkulator-mobilny/ochrona-przed-rozladowaniem",
+  "lib/core/modules/kalkulator-mobilny/wilgoc-male-instalacje",
   "lib/core/modules/kalkulator-mobilny/urzadzenie-12v-bezposrednio",
   "lib/core/modules/kalkulator-mobilny/panel-do-stacji-zasilania",
   "lib/core/modules/kalkulator-mobilny/zuzycie-per-urzadzenie",

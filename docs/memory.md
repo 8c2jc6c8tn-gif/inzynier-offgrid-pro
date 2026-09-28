@@ -6878,6 +6878,11 @@ Szczegóły per plik: sekcje „Weryfikacja OCR (25.09.2026)” w `00-INDEKS.md`
   początkowymi — pułapka przy dodawaniu pola do istniejącego szkicu).
 - **Pułapka (złapana przez test):** wartość referencyjną wpisałem z pamięci zamiast skopiować wynik Pythona
   (169,947 vs 169,953) — test to wychwycił. Liczby referencyjne zawsze kopiować z wydruku skryptu.
+- **28.09.2026 — masa paneli+stelaża (decyzja właściciela):** `balastProjektowyEquKg(F, g, G = 0)` →
+  `max(0, γQ·F/(γG,inf·g) − G)`; równoważne `γG,inf·(G + m)·g ≥ γQ·F`. Wynik = balast **dodatkowy** (clamp 0).
+  W E2/regulowany `max_miesięcy(m) − G` = `max_miesięcy(m − G)` (ta sama stała). Pole `masaPaneliStelazaKg`
+  (`null` = pominięta → założenie `ZS-ZALOZENIE-MASA-WLASNA-POMINIETA`), wspólny helper
+  `zloty-srodek/zalozenia.ts`. Stare szkice: `?? ""` przy odczycie (ta sama pułapka co wyżej).
 
 ## M6/E1 „Straty ciepła budynku” (dawne 5.1) — 26.09.2026
 
@@ -7873,7 +7878,7 @@ idą od najstarszych otwartych ⚠️. Decyzje rundy 1–2 i co z nimi zrobiono:
   (`?:`) + `?? ""` przy odczycie (stare szkice nie mają klucza). Dotyczy E21 i E27.
 - **Licencje norm:** zostaje plan B (świadomie). **27.09 pkt 2–4:** potwierdzone. **Rsi per kierunek:** czeka na
   PN-EN ISO 6946 od właściciela (0,10/0,17 nie ma w żadnym materiale repo — sprawdzone grepem i w PDF-ach).
-- **D29:** dodać masę paneli+stelaża jako siłę utrzymującą (γG,inf) — następna partia.
+- **D29:** masa paneli+stelaża jako siła utrzymująca (γG,inf) — ✅ zrobione 28.09 (wpis w sekcji D29).
 - **M12 „uproszczone wersje”:** hybryda (odsyłacz dla prostych źródeł, wrapper dla rozbudowanych, Wzorce B budować).
 - Nowe pola w tej sesji dostają od razu `pomoc` (chmurka 8.4) — zgodnie z wpisem 28.09 o chmurkach.
 - **Błąd naprawiony (28.09): chmurka „?” nie działała na telefonie.** `Chmurka` używała `Tooltip` (Base UI) —
@@ -7889,9 +7894,34 @@ idą od najstarszych otwartych ⚠️. Decyzje rundy 1–2 i co z nimi zrobiono:
   niewidoczny, więc „paliwo + temperatura” jest teraz osobną kompletną ścieżką. **Pułapka procesowa:** repo
   nie ma konfiguracji Prettiera — `prettier --write` przeformatowuje cały plik na domyślne reguły (średniki);
   nie uruchamiać, formatować ręcznie w stylu pliku. Do potwierdzenia ✅🤖: poziomy D32, lista/wartości D33.
+  **[28.09] D33:** właściciel zlecił AI dopisanie mocy — pompa głębinowa 750 W, klimatyzator split 900 W,
+  kamera IP 5 W (19 pozycji). **D32 potwierdzone z korektą:** zwykły diesel 🟡 ≤ +10°C, 🔴 < +5°C (ścisła
+  nierówność — +5°C to jeszcze 🟡); teksty: paliwo zimowe od +5°C, arktyczne < −10°C, świece obowiązkowo,
+  dodatek zimowy; zdanie „próg zależy od klasy paliwa (dystrybutor)” usunięte na życzenie właściciela.
 - **Chmurki „?” — decyzja D34 (28.09):** wariant **B** (wybrany już w poprzedniej sesji, ale nieodnotowany —
   tu uzupełnione) + chmurki mają bogato wyjaśniać, jak i po co działa kalkulator. Realizacja w osobnej sesji,
   moduł po module. Nowe ekrany od razu w tym standardzie.
+- **M12 runda „uproszczone wersje” — E28 (28.09):** odsyłacz = drugi wpis w kaflu M12 (`lib/pulpit/registry.ts`)
+  z tym samym `href` co ekran-źródło (M4/E12 `cold-c-rate`, już 2 pola) — bez nowego silnika/strony. Duplikat
+  `href` między kaflami jest bezpieczny (klucze React per kafel), ale okruszki `NawigacjaEkranu` pokazują moduł
+  źródłowy (`znajdzKafelIEkranPoHref` — pierwsze trafienie, M4 przed M12) — świadomie, „jeden ekran, dwa wejścia”.
+
+## Duplikat D29 i przejęcie gałęzi poprzedniej sesji (28.09.2026)
+
+**Pułapka procesowa (kosztowała jedną pełną partię):** start sesji czytał `docs/lista-do-zrobienia.md` z `main`,
+a poprzednia sesja pracowała na niescalonej gałęzi `claude/todo-list-review-l7me97` (bez PR) — tam D29 był już
+zrobiony (commit `1b365cc`), razem z M12/E28, E31 i notatką przekazania „następny: E23”. Na `main` wpis D29 był nadal
+🔲, więc zrobiłem go drugi raz (ta sama matematyka). Wykryte dopiero na prośbę właściciela. Naprawa bez przepisywania
+historii (force-push zablokowany): `git revert` własnego commitu + merge gałęzi poprzedniej sesji (konflikt tylko w
+liście zadań — scalone ręcznie: wpisy M12 i D32/D33 z tamtej gałęzi, wpis M14 z `main`). **Od teraz na starcie
+sesji:** `git fetch` + lista gałęzi `claude/*` z datami i `git log origin/main..origin/<gałąź>` dla gałęzi z
+ostatniej doby — notatka przekazania może leżeć poza `main`. Wkład: `docs/wklad-do-standardu.md`.
+
+**M12/E23 (wrapper do M4/E10)** zbudowany według notatki przekazania — szczegóły w rejestrze pokrycia. Decyzja
+interpretacyjna do potwierdzenia: przykład Biblii „wilgotny garaż → IP65” jako ℹ️ zalecenie, nie próg (wpis ⚠️).
+→ Rozstrzygnięte **D44** (kalkulator 1.2.0): wszędzie z wilgocią zalecane IP65 (🟡 IP55–IP64); namiot/jacht zawsze
+wilgotne, minimum IP65 (🔴), zalecane IP67–IP68 (🟡 IP65–IP66) — praktyka właściciela, nie norma. Numer D44 wybrany
+z pominięciem D35–D43 zajętych wtedy na niescalonej gałęzi M14 (H.3) — przy scaleniu z `main` bez kolizji.
 
 ## Integracja M14 do Biblii (28.09.2026, „Integruj teraz”)
 

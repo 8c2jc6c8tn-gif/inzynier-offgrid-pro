@@ -3,6 +3,7 @@ import { t } from "@/lib/i18n/t"
 import { validateAiToolDefinition } from "../../types"
 import { dniBezSloncaTool } from "../dni-bez-slonca-tool"
 import { ochronaPrzedRozladowaniemTool } from "../ochrona-przed-rozladowaniem-tool"
+import { wilgocMaleInstalacjeTool } from "../wilgoc-male-instalacje-tool"
 import { urzadzenie12vBezposrednioTool } from "../urzadzenie-12v-bezposrednio-tool"
 import { panelDoStacjiZasilaniaTool } from "../panel-do-stacji-zasilania-tool"
 import { zuzyciePerUrzadzenieTool } from "../zuzycie-per-urzadzenie-tool"
@@ -180,5 +181,21 @@ describe("kableBezpiecznikiMaleTool (M12/E2 + E15)", () => {
     expect(w.przekrojMm2).toBe(6)
     expect(w.bezpiecznikMinA).toBeCloseTo(18.75, 12)
     expect(w.zalozenia).toContain(t("pl", "MK-ZALOZENIE-ECHO-M5"))
+  })
+})
+
+describe("wilgocMaleInstalacjeTool (M12/E23, dawne 8.46)", () => {
+  it("kontrakt 9.3: 'read', bez potwierdzenia", () => {
+    expect(wilgocMaleInstalacjeTool.operationType).toBe("read")
+    expect(wilgocMaleInstalacjeTool.requiresConfirmation).toBe(false)
+    expect(() => validateAiToolDefinition(wilgocMaleInstalacjeTool)).not.toThrow()
+  })
+
+  it("wilgotny garaż, IP54 → twardy stop IP55 z M4/E10 jako tekst PL", async () => {
+    const w = await wilgocMaleInstalacjeTool.handler({ miejsce: "garaz", narazoneNaWilgoc: true, ipKod: 54 })
+    expect(w.status).toBe("VALID_WITH_WARNINGS")
+    expect(w.minimalneIp).toBe(55)
+    expect(w.ipWystarczajace).toBe(false)
+    expect(w.ostrzezenia[0]).toBe(t("pl", "IP-PONIZEJ-WYMAGANEGO", { ip: 54, min: 55 }))
   })
 })

@@ -10,11 +10,14 @@ export const PROG_MROZU_C = 0
 /**
  * Progi rozruchu zwykłego oleju napędowego [°C] — nie z normy ani ze źródła: praktyka właściciela
  * projektu (28.09.2026, `rejestr-decyzji.md` D32), rozstrzyga konflikt źródła (B: −20°C, C: −15°C).
- * Od +5°C zwykły diesel może już nie wystartować (🟡), od 0°C ryzyko bardzo duże (🔴). Temperatura
- * to ta w miejscu agregatu i zbiornika — na zewnątrz albo w budynku.
+ * Zwykły diesel: 🟡 już od +10°C, 🔴 poniżej +5°C — najprawdopodobniej parafinuje się i nie odpali
+ * (doprecyzowanie właściciela 28.09.2026, realia paliwa w Polsce; wcześniej +5°C / 0°C). Zalecenie:
+ * paliwo zimowe od +5°C, arktyczne poniżej −10°C. Temperatura to ta w miejscu agregatu i zbiornika —
+ * na zewnątrz albo w budynku.
  */
-export const DIESEL_ZWYKLY_RYZYKO_C = 5
-export const DIESEL_ZWYKLY_WYSOKIE_RYZYKO_C = 0
+export const DIESEL_ZWYKLY_RYZYKO_C = 10
+/** 🔴 when strictly below this value. */
+export const DIESEL_ZWYKLY_WYSOKIE_RYZYKO_C = 5
 
 /** Od −10°C każdy diesel potrzebuje naładowanego akumulatora i sprawnych świec żarowych (D32). */
 export const DIESEL_ROZRUCH_MROZ_C = -10
