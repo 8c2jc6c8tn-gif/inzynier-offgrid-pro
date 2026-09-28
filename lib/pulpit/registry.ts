@@ -312,6 +312,8 @@ export const KAFLE: KafelEntry[] = [
       { href: "/kalkulatory/kable-bezpieczniki-kamper", label: "Kable i bezpieczniki w kamperze / pojeździe" },
       // M12/E28 = simplified M4/E12 — same screen, second entry point (already only 2 fields).
       { href: "/kalkulatory/cold-c-rate", label: "Zabezpieczenie akumulatora przed zimnem — mała instalacja" },
+      // M12/E31 = simplified M2/E13 — same screen, second entry point (spatial limits not built).
+      { href: "/kalkulatory/bufor-rozbudowe", label: "Planowanie rozbudowy małej instalacji" },
     ],
   },
   {
