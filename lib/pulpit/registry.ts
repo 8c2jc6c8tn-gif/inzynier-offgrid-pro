@@ -245,7 +245,13 @@ export const KAFLE: KafelEntry[] = [
     nazwa: "Elektronika / ESP32 / sensoryka",
     opis: "Czujniki, sterowanie, komunikacja.",
     ikona: "🧰",
-    ekrany: [{ href: "/kalkulatory/katalog-czujnikow", label: "Katalog czujników" }],
+    ekrany: [
+      { href: "/kalkulatory/katalog-czujnikow", label: "Katalog czujników" },
+      { href: "/kalkulatory/zasilanie-esp32", label: "Zasilanie ESP32 z magistrali" },
+      { href: "/kalkulatory/architektura-komunikacji", label: "Architektura komunikacji ESP32" },
+      { href: "/kalkulatory/przydzial-pinow", label: "Przydział pinów GPIO" },
+      { href: "/kalkulatory/niezawodnosc-esp32", label: "Niezawodność sterownika ESP32" },
+    ],
   },
   {
     id: 10,

@@ -112,6 +112,18 @@ nie do audytu poprawności formularza webowego.
 - **[28.09.2026] Przegrzewanie budynku nocą z baterii (Pre-Heat)** — „zrujnuje magazyn energii”, twardy stop źródła.
   (M7/E18 — `lib/core/modules/stress-test/pre-heat/warnings.ts`, `grzanieNocaZBaterii`, kod
   `PREHEAT-GRZANIE-NOCA-Z-BATERII`)
+- **[28.09.2026] ESP32 zasilany bezpośrednio z magistrali 12/24/48 V** — spala stabilizator płytki.
+  (M9/E2 — `lib/core/modules/esp32/zasilanie-esp32/warnings.ts`, `bezposrednioZMagistrali`, kod `ESP-BEZ-PRZETWORNICY`)
+- **[28.09.2026] Najwyższe napięcie magistrali ponad maks. napięcie wejściowe przetwornicy** — przetwornica uszkodzona
+  przy ładowaniu (poziom 🔴 do potwierdzenia przez właściciela).
+  (M9/E2 — `napiecieWejsciaPrzekroczone`, kod `ESP-PRZETWORNICA-ZA-NISKIE-WEJSCIE`)
+- **[28.09.2026] GPIO 3,3 V bezpośrednio na magistrali RS485, bez transceivera** — uszkodzenie portu.
+  (M9/E4 — `lib/core/modules/esp32/architektura-komunikacji/warnings.ts`, `rs485BezTransceivera`, kod
+  `KOM-RS485-BEZ-TRANSCEIVERA`)
+- **[28.09.2026] Konflikt przypisania pinu GPIO.**
+  (M9/E5 — `lib/core/modules/esp32/przydzial-pinow/warnings.ts`, `konfliktPinu`, kod `PIN-KONFLIKT`)
+- **[28.09.2026] Aktualizacja OTA bez weryfikacji podpisu cyfrowego** — ryzyko złośliwego/uszkodzonego firmware.
+  (M9/E6 — `lib/core/modules/esp32/niezawodnosc-esp32/warnings.ts`, `otaBezPodpisu`, kod `OTA-BEZ-PODPISU`)
 
 ## Bateryjne
 

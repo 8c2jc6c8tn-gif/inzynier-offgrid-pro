@@ -78,6 +78,10 @@ import { bezRekuperacjiTool } from "./tools/bez-rekuperacji-tool"
 import { preHeatTool } from "./tools/pre-heat-tool"
 import { awariaStringaZimaTool } from "./tools/awaria-stringa-zima-tool"
 import { katalogCzujnikowTool } from "./tools/katalog-czujnikow-tool"
+import { zasilanieEsp32Tool } from "./tools/zasilanie-esp32-tool"
+import { architekturaKomunikacjiTool } from "./tools/architektura-komunikacji-tool"
+import { przydzialPinowTool } from "./tools/przydzial-pinow-tool"
+import { niezawodnoscEsp32Tool } from "./tools/niezawodnosc-esp32-tool"
 import { doborRegulatoraPwmMpptTool } from "./tools/dobor-regulatora-pwm-mppt-tool"
 import { dniBezSloncaTool } from "./tools/dni-bez-slonca-tool"
 import { ochronaPrzedRozladowaniemTool } from "./tools/ochrona-przed-rozladowaniem-tool"
@@ -358,6 +362,10 @@ const NARZEDZIA: Array<AiToolDefinition<any, any>> = [
   preHeatTool,
   awariaStringaZimaTool,
   katalogCzujnikowTool,
+  zasilanieEsp32Tool,
+  architekturaKomunikacjiTool,
+  przydzialPinowTool,
+  niezawodnoscEsp32Tool,
   doborRegulatoraPwmMpptTool,
   dniBezSloncaTool,
   ochronaPrzedRozladowaniemTool,
