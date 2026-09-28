@@ -13,7 +13,7 @@ export type PowlokiAntyrefleksyjneResult = {
   zyskMaxKwh: number
 }
 
-const FORMULA = `\\Delta E \\in \\left[ E \\times ${WZROST_UZYSKU_MIN_PCT}\\%,\; E \\times ${WZROST_UZYSKU_MAX_PCT}\\% \\right]`
+const FORMULA = `\\Delta E \\in \\left[ E \\times ${WZROST_UZYSKU_MIN_PCT}\\%,\\; E \\times ${WZROST_UZYSKU_MAX_PCT}\\% \\right]`
 
 /**
  * Ekran 23, Moduł 3 — "Powłoki antyrefleksyjne" (dawne 2.39). Przelicza zakres procentowy ze

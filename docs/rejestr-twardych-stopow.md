@@ -220,6 +220,13 @@ nie do audytu poprawności formularza webowego.
   (M7/E19 — `lib/core/modules/stress-test/elektronika-w-mrozie/warnings.ts`, `bmsPonizejMin`, kod
   `ELEKTRONIKA-BMS-PONIZEJ-MIN`; próg = wartość z karty katalogowej wpisana przez użytkownika. Inne typy
   urządzeń tylko 🟡 — decyzja o rozszerzeniu zbioru krytycznych: `docs/lista-do-zrobienia.md`.)
+- **[28.09.2026] Instalacja w gruncie (kabel, rura, uziom) ułożona płycej niż strefa przemarzania** —
+  zamarzający, pęczniejący grunt ją uszkodzi. Źródło: Moduł 7, Ekran 22 (tryb Grunt).
+  (M7/E22 — `lib/core/modules/stress-test/ryzyko-zamarzniecia/warnings.ts`, `plycejNizPrzemarzanie`, kod
+  `ZAMARZ-PLYCEJ-NIZ-PRZEMARZANIE`; strefa przemarzania wpisywana przez użytkownika.)
+- **[28.09.2026] Rozmrażanie zamarzniętej rury otwartym ogniem / palnikiem** — ryzyko pęknięcia rury i pożaru.
+  Źródło: Moduł 7, Ekran 22 (sekcja wspólna rozmrażania).
+  (M7/E22 — `rozmrazanieOgniem`, kod `ZAMARZ-ROZMRAZANIE-OGIEN`.)
 
 ## Znane luki (świadomie, nie przeoczenie)
 

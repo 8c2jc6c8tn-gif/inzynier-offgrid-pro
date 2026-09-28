@@ -863,3 +863,15 @@ bezpieczeństwa na ekranie — jest groźny. Kandydat na regułę: „kod ostrze
 (lub kod + pole/id wiersza)”.
 
 Status: 🔎 nowe
+
+[28.09.2026] KATEGORIA: BŁĄD — LaTeX w stringach JS: pojedynczy backslash przed `;` `,` `:` `!` znika bez ostrzeżenia
+Szczegóły: wzory `FORMULA` pisane jako string JS z `\;` (odstęp w LaTeX) — JS traktuje `\;` jako zbędny escape i zostawia
+samo `;`. Wzór pokazywany w UI traci odstępy, ale nic nie pada: typecheck, testy i build przechodzą. Znalezione w 4
+istniejących kalkulatorach + 2 razy w nowym kodzie tej samej nocy. Naprawa: podwójny backslash + test strażnik skanujący
+linie z `FORMULA` (`lib/core/__tests__/formula-escapes.test.ts`); alternatywa — włączyć ESLint `no-useless-escape`.
+
+Dlaczego warto zgłosić do new-app-standards: każda aplikacja rodziny pokazuje wzory (standard: jawny wzór w wyniku), więc
+każda ma ten sam cichy błąd. Kandydat na regułę: „wzory LaTeX w kodzie — `String.raw` albo podwójny backslash, pilnowane
+lintem (`no-useless-escape`) lub testem”.
+
+Status: 🔎 nowe

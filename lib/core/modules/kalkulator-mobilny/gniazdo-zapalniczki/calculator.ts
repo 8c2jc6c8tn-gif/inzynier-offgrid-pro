@@ -5,7 +5,7 @@ import { przeciazenieGniazda } from "./warnings"
 
 export const CALCULATOR_VERSION = "1.0.0"
 
-const FORMULA = "I = \\dfrac{\\sum P}{U_n} \\le I_{bezp} \;\; ; \;\; P_{max} = I_{bezp} \\times U_n"
+const FORMULA = "I = \\dfrac{\\sum P}{U_n} \\le I_{bezp} \\;\\; ; \\;\\; P_{max} = I_{bezp} \\times U_n"
 
 export type GniazdoZapalniczkiResult = {
   /** Suma mocy urządzeń [W]. */

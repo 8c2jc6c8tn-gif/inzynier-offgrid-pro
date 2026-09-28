@@ -5,7 +5,7 @@ import { cykliczneRealnieMniej } from "./warnings"
 
 export const CALCULATOR_VERSION = "1.0.0"
 
-const FORMULA = "E_{dobowe} = \\sum P \\times t \\times k_{pracy} \;\; (k_{pracy} = 1 \\text{ dla urządzeń niecyklicznych})"
+const FORMULA = "E_{dobowe} = \\sum P \\times t \\times k_{pracy} \\;\\; (k_{pracy} = 1 \\text{ dla urządzeń niecyklicznych})"
 
 export type WynikUrzadzenia = {
   id: string

@@ -209,6 +209,7 @@ export const KAFLE: KafelEntry[] = [
       { href: "/kalkulatory/elektronika-w-mrozie", label: "Elektronika w mrozie" },
       { href: "/kalkulatory/pompy-zawory-w-mrozie", label: "Pompy i zawory w mrozie" },
       { href: "/kalkulatory/grzalki-dachowe", label: "Grzałki dachowe i rynnowe" },
+      { href: "/kalkulatory/ryzyko-zamarzniecia", label: "Ryzyko zamarznięcia — grunt" },
     ],
   },
   {
