@@ -7704,3 +7704,7 @@ Polecenie właściciela: „zacznij od modułów M8–M7 i ruszaj dalej; po każ
 - **E5** — rozróżnienie linii magistral współdzielonych (I2C, 1-Wire, SPI MOSI/MISO/SCK) od funkcji wyłącznych (CS, ADC, UART, PWM…). Mapa ADC1/ADC2 poza źródłem — tylko przypomnienie.
 - **E4** — Biblia §9.4 („konflikty adresów i prędkości”) dała więcej niż `Tresc` — obie reguły wdrożone jako 🟡.
 - Pliki z FORMULA pisane narzędziem Write, bez `\;` — strażnik escapowania zielony od razu.
+
+### Chmurki „?” przy polach — niezgodność ze standardem 8.4 (28.09.2026)
+
+- Pytanie właściciela: czy chmurki z opisem są na każdym ekranie. Sprawdzone: opis ekranu (nagłówek) — tak, wszędzie; chmurka `?` przy polach (`PomocPole`, prop `pomoc`) — tylko na 1 kalkulatorze + `/wzornik`, choć standard 8.4 wymaga jej przy każdym polu liczbowym. Dryf bez decyzji; ekrany M7/M8/M9 z 28.09 go powieliły. Właściciel zlecił wpis do pracy planowanej (inna sesja) — pełny opis, warianty A/B/C i rekomendacja: `docs/lista-do-zrobienia.md`, wpis z 28.09 „Chmurki „?” przy polach liczbowych”. Nowe ekrany od teraz: dodawać `pomoc` od razu.
