@@ -1,6 +1,6 @@
 # 00. Biblia — Inżynier Offgrid Pro
 
-**Wersja:** 1.4 | **Filar:** — (indeks, poza podziałem na filary) | **Data utworzenia:** 04.09.2026 | **Ostatnia aktualizacja:** 28.09.2026 | **Status:** Stabilny
+**Wersja:** 1.5 | **Filar:** — (indeks, poza podziałem na filary) | **Data utworzenia:** 04.09.2026 | **Ostatnia aktualizacja:** 28.09.2026 | **Status:** Stabilny
 **Powiązane dokumenty:** wszystkie poniżej (tabela dokumentów)
 
 TL;DR: Indeks kanonicznej Biblii projektu w formacie GOD BOOK (`docs/god-book/instrukcja-uniwersalna-biblii-projektu-v2_39.md`, Część S). Migracja z `ZASADY_APLIKACJI.md`/`USTALENIA.md`, które pełniły tę rolę wcześniej pod inną nazwą — treść tamtych plików **zachowana, nie usunięta** (oznaczone jako historyczne, patrz "Relacja ze starą konstytucją" niżej).
@@ -64,7 +64,7 @@ Do 04.09.2026 rolę Biblii pełniły `ZASADY_APLIKACJI.md` (pełna) i `USTALENIA
 | — | `backlog-poza-v1.md` | C | 1.6 | Stabilny (rosnący) | Świadomie odłożone/blocked — ekstrakcja z `docs/rejestr-pokrycia.md` i `docs/lista-do-zrobienia.md` |
 | — | `dlug-techniczny.md` | C | 2.3 | Stabilny (rosnący) | Świadome uproszczenia kodu względem specyfikacji źródła |
 | — | `docs/rejestr-twardych-stopow.md` | B | — | Stabilny (rosnący) | Twarde stopy (🔴) per moduł, z plikiem i kodem ostrzeżenia; sekcja M14 wyprzedza kod świadomie — **już istniało**, dopisane do indeksu przy audycie końcowym 28.09.2026 |
-| — | `docs/przekazanie-nastepnej-sesji.md` | C | 1.1 | Aktualne | Instrukcja dla następnej sesji: decyzja 4 → zamknięcie N.3 → kolejność kodu M14 (28.09.2026) |
+| — | `docs/przekazanie-nastepnej-sesji.md` | C | 1.2 | Aktualne | Instrukcja dla następnej sesji: decyzja 4 → zamknięcie N.3 → kolejność kodu M14 (28.09.2026) |
 | — | `docs/pulpit-i-nawigacja.md` | B | — | Stabilny (rosnący) | Kafle pulpitu, domyślna kolejność, presety onboardingu — **już istniało**, dopisane do indeksu przy audycie końcowym 28.09.2026 |
 | — | `docs/normy-brakujace.md` | C | — | Stabilny (rosnący) | Normy potrzebne, a nieobecne w `docs/zrodla/` — **już istniało**, dopisane do indeksu przy audycie końcowym 28.09.2026 |
 | — | `docs/lista-do-zrobienia.md` | C | — | Stabilny (rosnący) | Bieżąca lista zadań — **już istniało** przed migracją |
@@ -92,3 +92,4 @@ Do 04.09.2026 rolę Biblii pełniły `ZASADY_APLIKACJI.md` (pełna) i `USTALENIA
 | 28.09.2026 | Decyzje 1–3 właściciela z audytu N.3: D47 (przełącznik w M14/D11), D48 (bezpieczeństwo agregatu w M2/E17 i M7/E8), D49 (LED = kandydat poza Biblią). Rozdział 03 v1.5, rejestr decyzji 1.19, backlog 1.6. Wersja indeksu 1.1→1.2. Audyt czeka jeszcze na decyzję 4 (10 × ✅🤖 plus 2 wyjątki D48). |
 | 28.09.2026 | Dodano `docs/przekazanie-nastepnej-sesji.md` — instrukcja kolejności pracy dla następnej sesji (polecenie właściciela: ta sesja nie pisze kodu M14). Wersja indeksu 1.2→1.3. |
 | 28.09.2026 | Scalenie gałęzi M14 z `main`: D44–D46 tej gałęzi → D47–D49 (D44 na `main` = M12/E23), `rejestr-decyzji.md` 1.19→1.22 (łącznie z decyzjami z `main`), przekazanie 1.0→1.1 (pozycje 1–3 decyzji 4 zamknięte na `main`). Wersja indeksu 1.3→1.4. |
+| 28.09.2026 | Odpowiedzi właściciela na decyzję 4 audytu N.3 zapisane w `docs/przekazanie-nastepnej-sesji.md` (1.1→1.2): D29/D32/D33 zamknięte, 4/5/7/8 odłożone, bez odpowiedzi 6 i 9–12. Wersja indeksu 1.4→1.5. |

@@ -8024,3 +8024,12 @@ Tryb Audyt (czapka rewidenta). Warstwa „w pełni na końcu” z N.2 — wszyst
 - **D49:** szkic LED = kandydat poza Biblią; zapisany w rejestrze decyzji, backlogu, liście zadań i nagłówku szkicu.
 - **Stan N.3:** otwarta tylko decyzja 4 (✅🤖).
 - **Przekazanie:** na polecenie właściciela ta sesja nie pisze kodu M14. Instrukcja dla następnej sesji: `docs/przekazanie-nastepnej-sesji.md` (odsyłacz na górze `docs/lista-do-zrobienia.md`).
+
+### Decyzja 4 audytu N.3 — odpowiedzi właściciela (28.09.2026)
+
+- Pozycje 1–2 (D29, D32) były już zapisane na `main` przez równoległą sesję — pytanie w audycie wynikało z tego, że
+  audyt robiono na gałęzi M14 bez tamtych commitów (lekcja: przed zadaniem pytań właścicielowi `git fetch` + sprawdź
+  `main`, czy odpowiedź już nie istnieje). Nic nie zginęło.
+- Odpowiedzi: 1 B (= stan `main`), 2 już ustalone, 3 zostawić, 4/7/8 odłożone, 5 odłożone do PKN (wartości 0,17/0,10/0,13
+  podane przez właściciela, przypisanie do przegród do sprawdzenia z normą). Bez odpowiedzi: 6, 9, 10, 11, 12.
+  Szczegóły: `docs/przekazanie-nastepnej-sesji.md`, `docs/lista-do-zrobienia.md`.
