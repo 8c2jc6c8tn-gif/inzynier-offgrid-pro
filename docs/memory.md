@@ -7708,3 +7708,65 @@ Polecenie właściciela: „zacznij od modułów M8–M7 i ruszaj dalej; po każ
 ### Chmurki „?” przy polach — niezgodność ze standardem 8.4 (28.09.2026)
 
 - Pytanie właściciela: czy chmurki z opisem są na każdym ekranie. Sprawdzone: opis ekranu (nagłówek) — tak, wszędzie; chmurka `?` przy polach (`PomocPole`, prop `pomoc`) — tylko na 1 kalkulatorze + `/wzornik`, choć standard 8.4 wymaga jej przy każdym polu liczbowym. Dryf bez decyzji; ekrany M7/M8/M9 z 28.09 go powieliły. Właściciel zlecił wpis do pracy planowanej (inna sesja) — pełny opis, warianty A/B/C i rekomendacja: `docs/lista-do-zrobienia.md`, wpis z 28.09 „Chmurki „?” przy polach liczbowych”. Nowe ekrany od teraz: dodawać `pomoc` od razu.
+
+## Nowy materiał źródłowy — rozliczenia energii (gospodarstwo / przedsiębiorca) (28.09.2026)
+
+[28.09.2026] ✅ DODANO — właściciel dostarczył 2 dokumenty (zapisane 1:1:
+`docs/zrodla/Material_Przedsiebiorcy_Taryfy_C_PV_Magazyny_2026-09-28.md`,
+`docs/zrodla/Material_Stawki_Dystrybucyjne_OSD_2026_2026-09-28.md`). Cel właściciela: nowy
+rozdział Biblii + kalkulatory/porównywarki, **osobne ekrany dla gospodarstwa domowego i dla
+przedsiębiorcy** (wybór segmentu na pierwszym kliknięciu — na ekranie wyboru albo wyżej w menu).
+Proces ustalony: źródło 1:1 [wykonane] → weryfikacja + kategoryzacja F.2 [wykonane, przedstawione
+właścicielowi, czeka na decyzje] → opracowanie (dokument źródłowy poprawiony/uzupełniony) →
+Biblia → plan ekranów → audyt N.2 → dopiero kod (bramka N.3). **Kodu nie zaczynać.**
+
+**Pochodzenie:** oba dokumenty z innego narzędzia AI (dok. 2 wprost: „mogę napisać kod
+kalkulatora”, kolumny „Źródło” puste) — 15.1b.
+
+**Kontekst zakresu:** aplikacja jest off-grid; sieć występuje dotąd marginalnie (M6 „pompa ciepła
+w taryfie nocnej”, „jeśli jest sieć”). To rozszerzenie domeny (rynek energii, prawo energetyczne,
+podatki) — do potwierdzenia jako decyzja D# (GOD BOOK 0.5 — rozszerzenie ekspertyzy o analityka
+rozliczeń energii; Część K — treści prawne/podatkowe = informacja, nie porada).
+
+**Weryfikacja — błędy merytoryczne (do adnotacji ✏️ w opracowaniu, źródło nietknięte):**
+1. **Wzór opłaty za moc bierną bez pierwiastka.** Źródło: `O_b = k·C_rk·[(1+tg²φ)/(1+tg²φ₀) − 1]·A`.
+   Rozporządzenie taryfowe: `O_b = k·C_rk·(√((1+tg²φ)/(1+tg²φ₀)) − 1)·A` (stosunek mocy pozornej
+   do czynnej = √(1+tg²φ)). Przeliczone: wzór źródła zawyża opłatę ok. 2× (tgφ=0,5: 0,0776 vs
+   0,0381). Pewność wzoru: wysoka, 🔎 potwierdzić brzmieniem aktualnego rozporządzenia.
+2. **C_rk to nie cena energii klienta** — to cena energii ogłaszana przez Prezesa URE (art. 23
+   ust. 2 pkt 18 lit. b Prawa energetycznego), a energia bierna pojemnościowa i indukcyjna przy
+   braku poboru czynnej rozliczana jest inną formułą (całość, nie nadwyżka). 🔎 treść rozporządzenia.
+3. **Moc bierna w C1x „zawsze tak”** — nadmierne uogólnienie: dla nN obowiązek dotyczy zasadniczo
+   mocy umownej >40 kW, dla ≤40 kW — gdy wynika z warunków przyłączenia/umowy. 🔎.
+4. **Współczynnik 1,23 depozytu dla firm** — najpewniej dotyczy prosumentów niebędących
+   podatnikami VAT (gospodarstwa domowe, rekompensata VAT); przykład 1 107 zł dla firmy
+   prawdopodobnie powinien dać 900 zł. Data „1.02.2025” niepotwierdzona. 🔎 (ustawa OZE).
+5. **Podatki (4.4)** — dwa zdania wzajemnie sprzeczne (nadwyżka „nie stanowi przychodu” vs
+   „podlega opodatkowaniu jako przychód”), plus nieprawdziwe uogólnienie „przedsiębiorcy zwolnieni z
+   podatku dochodowego i akcyzy”. Sygnatura interpretacji niezweryfikowana. Nie przenosić do
+   kalkulatora; do poradnika tylko jako informacja z datą i zastrzeżeniem (Część K).
+6. **Dotacje (5.4)** — program NFOŚiGW i ulga termomodernizacyjna dotyczą osób fizycznych/
+   budynków mieszkalnych, nie firm; nabór FEPK zakończony 31.03.2026. Dane przeterminowane.
+7. **Reklamacja (7.1)** — „14 dni na złożenie” nie wynika z ustawy (14 dni to termin na
+   rozpatrzenie); termin złożenia wg umowy/OWU. 🔎. Tabela „dodatkowa ekspertyza — płaci odbiorca”
+   uproszczona (przy stwierdzeniu nieprawidłowości koszt ponosi przedsiębiorstwo). 🔎.
+8. **Przykład 9.3 wewnętrznie sprzeczny** — dane wejściowe 9.1 mają moc umowną 30 kW, a tabela
+   rekomenduje C21 (wymaga >40 kW). Kwoty w tabeli nie są wyliczone, tylko ilustracyjne.
+9. **„Od 2008 ceny taryfy C nieregulowane”** — dotyczy tylko sprzedaży; dystrybucja nadal
+   zatwierdzana przez URE.
+10. **Brakujące składniki rachunku:** opłata przejściowa, abonamentowa, handlowa sprzedawcy;
+    grupa B (SN) poza zakresem materiału; inni OSD (np. Stoen Operator).
+
+**Dokument 2 (tabele stawek) — niewiarygodny jako dane:** Tauron i PGE mają identyczne stawki co
+do grosza (niemożliwe przy różnych taryfach OSD); stawka jakościowa różna per OSD (w praktyce
+jednolita); „Energa = Ergo Energy (dawniej Stoen)” — pomylenie operatorów; Tauron C21 z „strefą
+zalecanego poboru” (C21 jest jednostrefowa); Tauron C22a dzień = noc. **Wniosek: żadnej liczby z
+dok. 2 nie wpisywać do kodu** — dane stawek wyłącznie z oficjalnych taryf OSD 2026 (PDF), wersjonowane
+rocznie (Zasada 4 „profile jako dane”), albo wpisywane przez użytkownika z faktury.
+
+**Poprawne/potwierdzone:** tgφ₀=0,4 domyślnie; akcyza 5 zł/MWh; VAT 23%; podział C1x ≤40 kW /
+C2x >40 kW; godziny opłaty mocowej 7–22 w dni robocze; mikroinstalacja ≤50 kW; depozyt 12 mies.;
+test diody (15×60/1000 = 0,9 kW ✅); arytmetyka 2×450×1,23 = 1 107 ✅, 169,99×1,23 = 209,09 ✅;
+0,2194 vs 0,1413 (2025) = +55,3% — spójne ze źródłem, sama stawka 🔎 (Informacja Prezesa URE).
+Ceny BESS, zwrot 5–8 lat, „0,3–0,4 współczynnik bilansowania”, „54% węgla” — orientacyjne, nie
+stałe do kodu (kalkulator ma to liczyć, nie przyjmować).

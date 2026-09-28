@@ -355,3 +355,17 @@ tamtym materiale przy konwersji PPTX→DOCX. Zadanie porównawcze zapisane w
 - **[27.09.2026] Decyzja właściciela — wariant A:** folder `materialy-szkolenie-ZIAD-Bielsko-Biala/` **usunięty**
   (duplikat), a niekompletny `.docx` usunięty też z `materialy-branzowe-PV-2019/` — oryginałem zostaje tylko pełny
   PDF. Opisy wyżej, wskazujące na folder ZIAD / `.docx`, są historyczne (pliki w historii git).
+
+## Rozliczenia energii z siecią — gospodarstwo / przedsiębiorca (28.09.2026)
+
+[28.09.2026] ✅ DODANO — źródło: właściciel projektu, dwa dokumenty zapisane 1:1:
+- **`Material_Przedsiebiorcy_Taryfy_C_PV_Magazyny_2026-09-28.md`** — poradnik/FAQ/wytyczne
+  kalkulatora dla firm: struktura rachunku, taryfy C, moc bierna, net-billing, BESS, weryfikacja
+  licznika, reklamacja (11 części).
+- **`Material_Stawki_Dystrybucyjne_OSD_2026_2026-09-28.md`** — tabele stawek dystrybucyjnych G i C
+  czterech OSD na 2026 r. + opłata mocowa.
+
+Oba najpewniej wygenerowane przez inne narzędzie AI (standard 15.1b — podwyższona czujność). **Nowa
+domena** względem 13 modułów off-grid (rozliczenia z siecią), przypisanie do modułu
+nierozstrzygnięte. Wynik weryfikacji (m.in. błąd we wzorze opłaty za moc bierną, tabele stawek
+niewiarygodne jako dane): `docs/memory.md`, wpis z 28.09.2026.
