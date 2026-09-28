@@ -1,6 +1,6 @@
 # Rejestr decyzji — Inżynier Offgrid Pro
 
-**Wersja:** 1.21 | **Filar:** C | **Data utworzenia:** 04.09.2026 | **Ostatnia aktualizacja:** 28.09.2026 | **Status:** Stabilny (rosnący)
+**Wersja:** 1.22 | **Filar:** C | **Data utworzenia:** 04.09.2026 | **Ostatnia aktualizacja:** 28.09.2026 | **Status:** Stabilny (rosnący)
 **Powiązane dokumenty:** `00_Biblia.md`, `docs/memory.md`, `USTALENIA.md` (historyczny, Część II)
 
 TL;DR: D1, D2, D3… — decyzje **strategiczne/fundamentalne** (blokujące wiele innych rzeczy naraz, Krok 4 GOD BOOK), ponumerowane, nigdy nie kasowane, tylko unieważniane jawnie (F.5). **Nie duplikuje `docs/memory.md`**: tam żyje pełna, szczegółowa historia każdej sesji (setki drobnych decyzji implementacyjnych per ekran) — tu tylko decyzje, które zmieniły kierunek/regułę obowiązującą cały projekt. Gdy wpis niżej odsyła do `docs/memory.md`, tam jest pełne uzasadnienie i przykłady.
@@ -138,7 +138,7 @@ Pełne: `03_M14_Dom_i_Firma_Siec.md` („Kluczowe zasady i wzory”, TCO).
 Treść:
 - (1) Wzór Fisher: `(1+g_UE)·(1+π) − 1`, nie suma.
 - (2) `π` do wyboru:
-  - cel NBP 2,5% — Uchwała RPP nr 7/2025, M.P. 2025 poz. 1013, ✅. Jako domyślna to propozycja AI ✅🤖, do potwierdzenia;
+  - cel NBP 2,5% — Uchwała RPP nr 7/2025, M.P. 2025 poz. 1013, ✅. Jako domyślna to propozycja AI ✅🤖, do potwierdzenia; **[28.09.2026] rozstrzygnięte przez D43: domyślna jest średnia GUS 3,58%, NBP zostaje do wyboru;**
   - średnia GUS z 15 lat 3,58% (2011–2025, ✅ z danych pierwotnych);
   - własna wartość.
 - (3) Przy inflacji rośnie o `π` każdy koszt bieżący (paliwo, serwis, wymiany), a nie tylko sieć.
@@ -175,6 +175,42 @@ Pełne: `03_M14_Dom_i_Firma_Siec.md` (TCO, tabela źródeł `π`).
 
 **D44 (28.09.2026) — M12/E23 „Zabezpieczenia przeciwwilgociowe — mała instalacja”: wilgotny garaż IP55–IP64 → 🟡; namiot i jacht (zawsze wilgotne) → minimum IP65 (🔴 poniżej), zalecane IP67–IP68; wszędzie z wilgocią zalecane IP65.** Koszt cofnięcia: tani (`IP_ZALECANE_WILGOTNY_GARAZ`, `MIN_IP_NAMIOT_JACHT` w `lib/core/modules/kalkulator-mobilny/wilgoc-male-instalacje/constants.ts`). Decyzja właściciela projektu (28.09.2026, odpowiedź na pytanie ⚠️ z `docs/lista-do-zrobienia.md`: „IP55–IP64 w wilgotnym garażu dostaje żółte ostrzeżenie; tak zostaje… [namiot i jacht] tutaj co najmniej IP65, bo większe ryzyko”). Treść: (1) garaż — twardy próg zostaje IP55 z M4/E10, przykład Biblii §12.34 („w garażu wilgotnym użyj obudów IP65”) z informacji ℹ️ podniesiony do ostrzeżenia 🟡; (2) namiot i jacht — źródło nie podaje stopnia IP, próg IP65 to praktyka właściciela, nie norma (tak opisane w tekstach), stop IP65 zastępuje tam stop IP55; (3) piwnica bez zmian (IP55). M4/E10 bez zmian. Numer D44, bo D35–D43 są zajęte na niescalonych gałęziach (H.3). **Uzupełnienie (28.09.2026, potwierdzenie właściciela: „Tak twardy stop nie można poniżej IP65… Namiot albo jacht jest minimum IP65 jako zabezpieczenie, lecz zalecane IP67–68. Wszędzie jak będzie zaznaczona wilgoć zalecane IP65”):** (a) 🔴 poniżej IP65 dla namiotu/jachtu potwierdzone; (b) namiot i jacht zawsze traktowane jako narażone na wilgoć — odpowiedź użytkownika o wilgoci tam nie obowiązuje (pole ukryte w UI); (c) namiot/jacht IP65–IP66 → 🟡 zalecane IP67–IP68 (`IP_ZALECANE_NAMIOT_JACHT = 67`; do listy IP ekranu dodane IP67/IP68 z opisami wg IEC 60529); (d) zalecenie IP65 (🟡 przy IP55–IP64) w każdym miejscu z zaznaczoną wilgocią, nie tylko w garażu (`IP_ZALECANE_WILGOC`, kod `WMI-WILGOC-ZALECANE-IP65` zastępuje `WMI-GARAZ-ZALECANE-IP65`); (e) poniżej progu minimalnego pokazywany jest tylko stop, bez dodatkowego zalecenia. Kalkulator v1.2.0.
 
+**D47 (28.09.2026) — Szczegół normowy przełącznika sieć – 0 – wyspa / SZR mieszka w M14 na ekranie D11. M8 tylko do niego odsyła.** Koszt cofnięcia: tani (miejsce opisu, kod jeszcze nie istnieje). Decyzja właściciela projektu z 28.09.2026 („1. Ok”, audyt końcowy N.3, decyzja 1).
+
+Treść:
+- (1) Wcześniej rozdział M14 i stop „backfeed” odsyłały szczegół do M8 („🔎 w M8”), a w M8 nie ma ekranu, który by go niósł.
+- (2) Miejscem szczegółu jest M14/D11 (przełącznik, blokada mechaniczna i elektryczna, przełączanie faz i N).
+- (3) Norma HD 60364-5-551 (agregaty i inne źródła) jest nieobecna w repo (`docs/normy-brakujace.md`), więc szczegół zostaje z 🔎 do czasu jej dostarczenia.
+- (4) Ekrany agregatu M2/E17 i M7/E8 odsyłają do M14/D11 przez D48.
+
+**D48 (28.09.2026) — Blok bezpieczeństwa agregatu w M2/E17 i M7/E8: czad, gorące części, opary paliwa, wentylacja, paliwo osobno, środki gaśnicze, przełącznik.** Koszt cofnięcia: średni (zmienia działający kod dwóch ekranów i narzędzi AI). Decyzja właściciela projektu z 28.09.2026 (audyt końcowy N.3, decyzja 2): „Dodać ostrzeżenie o czadzie, wysokiej temperaturze, parowaniu paliwa, oddzielnej wentylacji (wyciąg) i natlenienie, także środki ostrożności i środki gaśnicze. Także że bak z paliwem najlepiej musi być odseparowany od generatora […]. Przełącznik ja bym dawał kiedy jest sieć i kiedy jest generator, żeby można było za jego pomocą bezpiecznie przełączać zasilanie.”
+
+Treść:
+- (1) Dwa nowe pytania na obu ekranach: „Gdzie pracuje agregat” i „Jak agregat zasila odbiorniki”. Wspólny kod: `lib/core/modules/zapotrzebowanie/agregat-pradotworczy/bezpieczenstwo.ts`.
+- (2) Miejsce:
+  - w budynku → 🔴 czad (twardy stop);
+  - wydzielone pomieszczenie techniczne → 🟡: wydech szczelnie na zewnątrz, osobna wentylacja wyciągowa i nawiewna (powietrze do spalania i chłodzenia), oddzielenie od części mieszkalnej, czujki czadu; szczegół normowy 🔎;
+  - na zewnątrz → ℹ️: spaliny z dala od okien, drzwi i czerpni, czujka czadu w domu.
+- (3) Podłączenie — **przełącznik wymagany zawsze, gdy agregat zasila instalację budynku, niezależnie od tego, czy jest sieć** (zasada właściciela):
+  - bez przełącznika → 🔴 (przy sieci backfeed i porażenie elektromontera; bez sieci praca równoległa z wyjściem falownika i napięcie na bolcach wtyczki);
+  - przez przełącznik I–0–II → ℹ️ (położenie 0, blokada mechaniczna, fazy i N; szczegół w M14/D11, D47).
+- (4) Dwa wyjątki od przełącznika, propozycja AI ✅🤖 do potwierdzenia przy zamknięciu N.3:
+  - wejście AC falownika/ładowarki przeznaczone dla agregatu → ℹ️, bo falownik sam przełącza; jeśli budynek ma też sieć, przełącznik sieć – 0 – agregat przed tym wejściem;
+  - odbiorniki wpięte wprost w gniazda agregatu → ℹ️, bez przełącznika, nigdy do gniazdka w ścianie.
+- (5) Zawsze, bez pytania (ℹ️): gorące części i opary paliwa (tankowanie po wyłączeniu i ostygnięciu), zapas paliwa osobno od agregatu, gaśnica do pożarów paliwa i urządzeń elektrycznych (bez wody).
+- (6) Charakter: praktyka, nie norma. Rodzaj gaśnicy (proszkowa ABC albo CO₂) to powszechna praktyka pożarowa, bez podawania wielkości.
+- (7) Samo pytanie o bezpieczeństwo wystarcza do werdyktu, więc 🔴 nigdy nie chowa się za „wypełnij dane”.
+
+Wersje kalkulatorów: M2/E17 1.0.0→1.1.0, M7/E8 1.2.0→1.3.0 (przy scaleniu z `main`, gdzie 1.2.0 to korekta D32). Rejestr: `docs/rejestr-twardych-stopow.md` (M2, M7).
+
+**D49 (28.09.2026) — Szkic „Oświetlenie LED” ma status „kandydat poza Biblią” i nie blokuje bramki N.3.** Koszt cofnięcia: tani. Decyzja właściciela projektu z 28.09.2026 („3. Ok zgadzam się, tylko zanotuj to, inaczej się zgubi”, audyt końcowy N.3, decyzja 3).
+
+Treść:
+- (1) Szkic `docs/zrodla/Opracowanie_Tasmy_LED_Oswietlenie_DC_DRAFT.md` (14.09.2026) czeka na kartę katalogową taśmy z `R` na metr od właściciela. Bez niej Claude nie proponuje wartości.
+- (2) Nie jest rozdziałem Biblii, więc audyt końcowy N.3 i kod M14 na niego nie czekają.
+- (3) Przy integracji do Biblii dostaje własny pełny audyt N.1/N.2, tak jak M14.
+- (4) Zapisane w czterech miejscach, żeby się nie zgubiło: ten rejestr, nagłówek szkicu, `docs/lista-do-zrobienia.md`, `backlog-poza-v1.md`.
+
 ## Założenia robocze (F.7 GOD BOOK)
 
 **Z1 (04.09.2026) — przyjęto:** ID modułów (H.2 GOD BOOK, M#) odpowiadają wprost numeracji "Moduł N" już używanej w całym projekcie (1–13), nie nowej, niezależnej numeracji. **Powód:** ta numeracja jest już stabilna, używana w kodzie, dokumentacji i UI od 29.08.2026 — wprowadzenie równoległej numeracji M# byłoby duplikatem, nie nowym bytem. **Na czym się opiera:** cała struktura `docs/rejestr-pokrycia.md`, `lib/pulpit/registry.ts`, `docs/pulpit-i-nawigacja.md`.
@@ -207,3 +243,5 @@ Pełne: `03_M14_Dom_i_Firma_Siec.md` (TCO, tabela źródeł `π`).
 | 28.09.2026 | Addendum do D29 (masa paneli i stelaża jako siła utrzymująca z γG,inf = 0,90; balast dodatkowy) — decyzja właściciela projektu. Wersja 1.18→1.19 (przy scaleniu z `main`; pierwotnie 1.13→1.14). |
 | 28.09.2026 | Dodano D44 (M12/E23: wilgotny garaż IP55–IP64 🟡; namiot/jacht minimum IP65 🔴) — decyzja właściciela projektu. Numer D44 z pominięciem D35–D43 zajętych na niescalonych gałęziach. Wersja 1.19→1.20. |
 | 28.09.2026 | Uzupełniono D44 (potwierdzenie właściciela: namiot/jacht zawsze wilgotne, 🔴 < IP65, 🟡 zalecane IP67–IP68; zalecenie IP65 🟡 we wszystkich miejscach z wilgocią). Wersja 1.20→1.21. |
+| 28.09.2026 | Dodano D47 (szczegół przełącznika w M14/D11), D48 (blok bezpieczeństwa agregatu w M2/E17 i M7/E8), D49 (szkic LED = kandydat poza Biblią) — decyzje 1–3 właściciela z audytu końcowego N.3. Wersja 1.21→1.22. |
+| 28.09.2026 | Scalenie z `main`: decyzje audytu N.3 z gałęzi M14 dostały numery D47/D48/D49 (pierwotnie D44/D45/D46, a D44 na `main` to M12/E23 — H.3). Wersja 1.21→1.22 łącznie z wierszem wyżej. |

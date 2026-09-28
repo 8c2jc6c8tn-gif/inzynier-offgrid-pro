@@ -79,6 +79,9 @@ z nazwy:
 - **HD 60364-5-551** (zespoły prądotwórcze/agregaty) — **bezpośrednio istotna dla funkcji 1.19
   "Agregat prądotwórczy — definicja i logika"** (Moduł 2), dziś zbudowanej bez formalnego źródła
   normatywnego dla tej części.
+  **[28.09.2026, audyt końcowy N.3]** Ta sama norma jest podstawą dla M14: przełącznik sieć – 0 – wyspa / SZR i
+  twarde stopy „backfeed” oraz „agregat bez przełącznika” (M14-D/D6, D11; `docs/rejestr-twardych-stopow.md`, sekcja M14).
+  Bez niej te stopy opierają się na opracowaniu eksperckim (🔎).
 - 🟡 **[25.09.2026] częściowo: dostarczony poradnik producenta „A Guide to BS EN 62305” (Furse)** — `docs/zrodla/norma-IEC-62305/` (tablice zweryfikowane); **[27.09.2026] dodano drugie źródło wtórne:
   artykuł naukowy PL Boryń/Olesz 2010 (ten sam folder)** — tekstu samej normy PN-EN 62305-1÷4
   nadal brak. **Pełna seria EN 62305** (ochrona odgromowa) — mamy tylko materiały wtórne, nie treść

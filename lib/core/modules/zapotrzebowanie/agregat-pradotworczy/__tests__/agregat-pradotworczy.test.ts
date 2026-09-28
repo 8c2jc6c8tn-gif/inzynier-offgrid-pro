@@ -9,6 +9,8 @@ describe("calculateAgregatPradotworczy", () => {
       sredniZuzycieLH: 1.25,
       cenaZaLitrZl: 8,
       maWyjscieSterujaceBms: true,
+      miejsceAgregatu: null,
+      podlaczenieAgregatu: null,
     })
     expect(result.status).toBe("VALID")
     expect(result.value.godzinyPracy).toBeCloseTo(20, 6)
@@ -23,6 +25,8 @@ describe("calculateAgregatPradotworczy", () => {
       sredniZuzycieLH: 1.25,
       cenaZaLitrZl: 8,
       maWyjscieSterujaceBms: false,
+      miejsceAgregatu: null,
+      podlaczenieAgregatu: null,
     })
     expect(result.status).toBe("VALID_WITH_WARNINGS")
     expect(result.warnings[0].code).toBe("BRAK-WYJSCIA-STERUJACEGO")
@@ -35,6 +39,8 @@ describe("calculateAgregatPradotworczy", () => {
       sredniZuzycieLH: 2,
       cenaZaLitrZl: 8,
       maWyjscieSterujaceBms: true,
+      miejsceAgregatu: null,
+      podlaczenieAgregatu: null,
     })
     expect(result.value.godzinyPracy).toBeCloseTo(10, 6)
   })
@@ -46,6 +52,8 @@ describe("calculateAgregatPradotworczy", () => {
       sredniZuzycieLH: 1.25,
       cenaZaLitrZl: 8,
       maWyjscieSterujaceBms: true,
+      miejsceAgregatu: null,
+      podlaczenieAgregatu: null,
     })
     expect(result.status).toBe("INCOMPLETE")
   })
@@ -57,6 +65,8 @@ describe("calculateAgregatPradotworczy", () => {
       sredniZuzycieLH: 1.25,
       cenaZaLitrZl: 8,
       maWyjscieSterujaceBms: true,
+      miejsceAgregatu: null,
+      podlaczenieAgregatu: null,
     })
     expect(result.status).toBe("INVALID_INPUT")
   })
@@ -68,6 +78,8 @@ describe("calculateAgregatPradotworczy", () => {
       sredniZuzycieLH: 1.25,
       cenaZaLitrZl: 8,
       maWyjscieSterujaceBms: false,
+      miejsceAgregatu: null,
+      podlaczenieAgregatu: null,
     })
     expect(brak.warnings[0].i18nKey).toBe("BRAK-WYJSCIA-STERUJACEGO")
     expect(brak.warnings[0].message).toBeUndefined()
@@ -79,8 +91,45 @@ describe("calculateAgregatPradotworczy", () => {
       sredniZuzycieLH: 1.25,
       cenaZaLitrZl: 8,
       maWyjscieSterujaceBms: true,
+      miejsceAgregatu: null,
+      podlaczenieAgregatu: null,
     })
     expect(invalid.warnings[0].i18nKey).toBe("MOCAGREGATUKW-NIEDODATNI")
     expect(invalid.warnings[0].message).toBeUndefined()
+  })
+
+  it("D48: blok bezpieczeństwa — 🔴 w budynku i bez przełącznika, widoczny także przy niepełnych liczbach", () => {
+    const baza = {
+      deficytKwh: 80,
+      mocAgregatuKw: 5,
+      sredniZuzycieLH: 1.25,
+      cenaZaLitrZl: 8,
+      maWyjscieSterujaceBms: true,
+      miejsceAgregatu: null,
+      podlaczenieAgregatu: null,
+    } as const
+    const zawsze = calculateAgregatPradotworczy(baza).warnings.map((w) => w.code)
+    expect(zawsze).toEqual([
+      "MA-WYJSCIE-STERUJACE",
+      "AGREGAT-GORACE-CZESCI-OPARY",
+      "AGREGAT-PALIWO-OSOBNO",
+      "AGREGAT-SRODKI-GASNICZE",
+    ])
+    const zle = calculateAgregatPradotworczy({
+      ...baza,
+      miejsceAgregatu: "wewnatrz-budynku",
+      podlaczenieAgregatu: "bez-przelacznika",
+    })
+    expect(zle.status).toBe("VALID_WITH_WARNINGS")
+    expect(zle.warnings.filter((w) => w.level === "critical").map((w) => w.code)).toEqual([
+      "AGREGAT-W-BUDYNKU-CZAD",
+      "AGREGAT-BEZ-PRZELACZNIKA",
+    ])
+    const niepelne = calculateAgregatPradotworczy({ ...baza, deficytKwh: 0, miejsceAgregatu: "wewnatrz-budynku" })
+    expect(niepelne.status).toBe("INCOMPLETE")
+    expect(niepelne.warnings[0].code).toBe("AGREGAT-W-BUDYNKU-CZAD")
+    expect(calculateAgregatPradotworczy({ ...baza, deficytKwh: 0 }).warnings).toEqual([])
+    const wejscie = calculateAgregatPradotworczy({ ...baza, podlaczenieAgregatu: "wejscie-ac-falownika" })
+    expect(wejscie.status).toBe("VALID")
   })
 })

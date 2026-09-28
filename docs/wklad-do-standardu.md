@@ -971,6 +971,17 @@ zmiana statusu zadania trafia tam od razu, razem z nazwą gałęzi roboczej”; 
 zadania wykonaj commit→push→PR→merge, chyba że właściciel wprost każe wstrzymać; wtedy zapisz na gałęzi domyślnej, gdzie
 leży niescalona praca”. Uwaga praktyczna: w środowisku, w którym sesja ma prawo pushu tylko na wyznaczoną gałąź,
 reguła (1) realizuje się przez mały PR+merge samej listy zadań (albo razem z kodem przez regułę (3)).
+
+[28.09.2026] KATEGORIA: BŁĄD — autozapis szkicu formularza nadpisuje cały stan, więc nowe pole po aktualizacji ma `undefined`
+
+Szczegóły: `lib/adapters/use-persisted-draft.ts` (realizacja 5.1 — zapis Seed formularza do IndexedDB) po odczycie
+robi `setStan(zapisany)`, bez scalania z `poczatkowy`. Gdy ekran dostaje nowe pole (tu: pytania o bezpieczeństwo
+agregatu, D48), użytkownik ze starym szkicem dostaje `undefined` zamiast `""`. Porównanie `=== ""` przepuszcza wtedy
+`undefined` do jądra, a lookup `MAPA[undefined]()` wywala ekran. Testy jednostkowe tego nie łapią (zaczynają od
+`STAN_POCZATKOWY`). Wyłapane przy przeglądzie własnego diffu; zabezpieczone lokalnie (`|| null`, `!= null`).
+Dlaczego warto zgłosić do new-app-standards: każda aplikacja rodziny z autozapisem 5.1 trafi na to przy pierwszym
+nowym polu formularza. Propozycja do 5.1: odczyt szkicu scala `{ ...poczatkowy, ...zapisany }` (albo wersjonuje
+kształt Seed), plus 10.x: test „stary szkic bez nowego pola” przy każdej zmianie kształtu formularza.
 Status: 🔎 nowe
 
 [28.09.2026] KATEGORIA: DOBRA PRAKTYKA — mechaniczne sprawdzanie kompletności rejestru twardych stopów (4.3) zamiast polegania na dyscyplinie „dopisz przy każdym module”

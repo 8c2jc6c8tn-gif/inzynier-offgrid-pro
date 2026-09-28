@@ -5,9 +5,12 @@
  * user wpisuje; źródło podaje je tylko jako przykład (8 h pracy / 1 h przerwy).
  */
 
+import type { BezpieczenstwoAgregatuInput } from "@/lib/core/modules/zapotrzebowanie/agregat-pradotworczy/bezpieczenstwo"
+
 export type PaliwoAgregatu = "diesel-zwykly" | "diesel-arktyczny" | "benzyna" | "inne"
 
-export type AgregatWMrozieInput = {
+/** 1.3.0 (D48): plus the generator safety answers shared with M2/E17 (location, connection). */
+export type AgregatWMrozieInput = BezpieczenstwoAgregatuInput & {
   paliwo: PaliwoAgregatu | null
   /** Najniższa temperatura w miejscu przechowywania/pracy agregatu [°C]. null = nie wpisano. */
   temperaturaMiejscaC: number | null

@@ -7,6 +7,7 @@ import { z } from "zod"
 import { calculateAgregatWMrozie } from "@/lib/core/modules/stress-test/agregat-w-mrozie/calculator"
 import type { AiToolDefinition } from "../types"
 import { tekstyOstrzezen, tekstyZalozen } from "./teksty-wyniku"
+import { MiejsceAgregatuSchema, PodlaczenieAgregatuSchema } from "./agregat-bezpieczenstwo-schema"
 
 const liczbaLubNull = (opis: string) => z.number().nullable().describe(opis)
 
@@ -19,6 +20,8 @@ export const AgregatWMrozieToolInput = z.object({
   zuzyciePaliwaLH: liczbaLubNull("Zużycie paliwa [l/h]; null gdy nieznane — nie zgaduj"),
   interwalWymianyOlejuH: liczbaLubNull("Interwał wymiany oleju [h]; null gdy nieznany — nie zgaduj"),
   dniPostoju: liczbaLubNull("Dni bez uruchamiania"),
+  miejsceAgregatu: MiejsceAgregatuSchema,
+  podlaczenieAgregatu: PodlaczenieAgregatuSchema,
 })
 export type AgregatWMrozieToolInputT = z.infer<typeof AgregatWMrozieToolInput>
 
@@ -47,7 +50,11 @@ export const agregatWMrozieTool: AiToolDefinition<AgregatWMrozieToolInputT, Agre
   requiresConfirmation: false,
   scope: "stress-test/agregat-w-mrozie",
   handler: async (input) => {
-    const wynik = calculateAgregatWMrozie(input)
+    const wynik = calculateAgregatWMrozie({
+      ...input,
+      miejsceAgregatu: input.miejsceAgregatu ?? null,
+      podlaczenieAgregatu: input.podlaczenieAgregatu ?? null,
+    })
     return {
       status: wynik.status,
       ...wynik.value,

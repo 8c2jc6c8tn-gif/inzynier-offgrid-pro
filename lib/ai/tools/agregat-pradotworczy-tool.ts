@@ -8,6 +8,7 @@ import { z } from "zod"
 import { calculateAgregatPradotworczy } from "@/lib/core/modules/zapotrzebowanie/agregat-pradotworczy/calculator"
 import type { AiToolDefinition } from "../types"
 import { tekstyOstrzezen, tekstyZalozen } from "./teksty-wyniku"
+import { MiejsceAgregatuSchema, PodlaczenieAgregatuSchema } from "./agregat-bezpieczenstwo-schema"
 
 export const AgregatPradotworczyToolInput = z.object({
   deficytKwh: z.number().describe("Deficyt energetyczny w najgorszym miesiącu roku [kWh] — od usera"),
@@ -15,6 +16,8 @@ export const AgregatPradotworczyToolInput = z.object({
   sredniZuzycieLH: z.number().describe("Średnie zużycie paliwa przy optymalnym obciążeniu [l/h] — od usera, karta katalogowa"),
   cenaZaLitrZl: z.number().describe("Cena paliwa [zł/l] — od usera"),
   maWyjscieSterujaceBms: z.boolean().describe("Czy BMS ma wyjście sterujące do automatycznego startu agregatu"),
+  miejsceAgregatu: MiejsceAgregatuSchema,
+  podlaczenieAgregatu: PodlaczenieAgregatuSchema,
 })
 export type AgregatPradotworczyToolInputT = z.infer<typeof AgregatPradotworczyToolInput>
 
@@ -51,6 +54,8 @@ export const agregatPradotworczyTool: AiToolDefinition<
       sredniZuzycieLH: input.sredniZuzycieLH,
       cenaZaLitrZl: input.cenaZaLitrZl,
       maWyjscieSterujaceBms: input.maWyjscieSterujaceBms,
+      miejsceAgregatu: input.miejsceAgregatu ?? null,
+      podlaczenieAgregatu: input.podlaczenieAgregatu ?? null,
     })
     return {
       status: wynik.status,
