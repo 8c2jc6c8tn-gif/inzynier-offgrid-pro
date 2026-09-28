@@ -7743,3 +7743,11 @@ idą od najstarszych otwartych ⚠️. Decyzje rundy 1–2 i co z nimi zrobiono:
   `node_modules`, nie z pamięci). Zweryfikowane Playwright: desktop hover + `Pixel 5` tap + zamknięcie tapnięciem
   obok, na `/wzornik`, `dobor-przekroju-kabla`, E27. **Od 28.09: chmurki weryfikować też emulacją dotyku.**
   Wkład: `docs/wklad-do-standardu.md`.
+- **Runda 3 (28.09) wdrożona — D30–D33** (`rejestr-decyzji.md`): E23 🟡 od 80% nośności; E19 falownik 🔴,
+  nowy typ „regulator” 🟡; E8 progi rozruchu z praktyki właściciela (zwykły diesel 🟡 ≤ +5°C / 🔴 ≤ 0°C,
+  każdy diesel 🟡 ≤ −10°C, benzyna ℹ️) — zastępują sprzeczne −20/−15 źródła; E11 przykładowe moce urządzeń
+  jako podpowiedź (nigdy wartość domyślna). Wszystkie progi opisane w tekstach jako ustalenie aplikacji, nie
+  norma. **Pułapka E8:** kalkulator zwracał INCOMPLETE bez czasu pracy/dni postoju — nowy 🔴 rozruchu byłby
+  niewidoczny, więc „paliwo + temperatura” jest teraz osobną kompletną ścieżką. **Pułapka procesowa:** repo
+  nie ma konfiguracji Prettiera — `prettier --write` przeformatowuje cały plik na domyślne reguły (średniki);
+  nie uruchamiać, formatować ręcznie w stylu pliku. Do potwierdzenia ✅🤖: poziomy D32, lista/wartości D33.

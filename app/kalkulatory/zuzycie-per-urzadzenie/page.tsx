@@ -3,6 +3,10 @@
 import { useMemo } from "react"
 import { calculateZuzyciePerUrzadzenie } from "@/lib/core/modules/kalkulator-mobilny/zuzycie-per-urzadzenie/calculator"
 import type { PozycjaZuzycia } from "@/lib/core/modules/kalkulator-mobilny/zuzycie-per-urzadzenie/input"
+import {
+  PRZYKLADOWE_URZADZENIA,
+  znajdzPrzyklad,
+} from "@/lib/core/modules/kalkulator-mobilny/zuzycie-per-urzadzenie/przykladowe-urzadzenia"
 import { usePersistedDraft } from "@/lib/adapters/use-persisted-draft"
 import { Pole, PoleCheckbox } from "@/components/ui/pole"
 import { WerdyktPanel } from "@/components/werdykt"
@@ -26,6 +30,7 @@ const STAN_POCZATKOWY: FormularzStan = { urzadzenia: [] }
 
 const f0 = (x: number) => x.toLocaleString("pl-PL", { maximumFractionDigits: 0 })
 const pole = (x: number) => (x === 0 ? "" : String(x))
+const LISTA_PRZYKLADOW = "zuzycie-przykladowe-urzadzenia"
 
 export default function ZuzyciePerUrzadzeniePage() {
   const [stan, setStan] = usePersistedDraft<FormularzStan>("zuzycie-per-urzadzenie", STAN_POCZATKOWY)
@@ -45,48 +50,79 @@ export default function ZuzyciePerUrzadzeniePage() {
         przerwy. Moduł 12.
       </NaglowekEkranu>
 
-      <ul className="flex flex-col gap-4">
-        {urzadzenia.map((u, i) => (
-          <li key={u.id} className="flex flex-col gap-3 rounded-md border p-3">
-            <Pole
-              label={`Urządzenie ${i + 1}`}
-              placeholder="np. lodówka turystyczna"
-              value={u.nazwa}
-              onChange={(e) => aktualizuj(u.id, { nazwa: e.target.value })}
-            />
-            <div className="grid grid-cols-2 gap-3">
-              <Pole label="Moc" unit="W" type="number" inputMode="decimal" min={0} value={pole(u.mocW)} onChange={(e) => aktualizuj(u.id, { mocW: Number(e.target.value) })} />
-              <Pole label="Włączone" unit="h/dobę" type="number" inputMode="decimal" min={0} max={24} value={pole(u.godzinNaDobe)} onChange={(e) => aktualizuj(u.id, { godzinNaDobe: Number(e.target.value) })} />
-            </div>
-            <PoleCheckbox
-              id={`${u.id}-cykliczne`}
-              label="Pracuje cyklicznie (sprężarka — lodówka, klimatyzator)"
-              checked={u.cykliczne}
-              onChange={(e) => aktualizuj(u.id, { cykliczne: e.target.checked })}
-            />
-            {u.cykliczne && (
-              <Pole
-                label="Współczynnik pracy sprężarki"
-                unit="%"
-                type="number"
-                inputMode="decimal"
-                min={0}
-                max={100}
-                value={pole(u.wspolczynnikPracyPct)}
-                onChange={(e) => aktualizuj(u.id, { wspolczynnikPracyPct: Number(e.target.value) })}
-                hint="Jaką część czasu sprężarka faktycznie pracuje. Przykład ze źródła: lodówka turystyczna ok. 40% przy 25 °C otoczenia — w upale więcej."
-              />
-            )}
-            <button
-              type="button"
-              onClick={() => setStan((prev) => ({ urzadzenia: prev.urzadzenia.filter((x) => x.id !== u.id) }))}
-              className="self-start text-caption text-muted-foreground underline"
-              aria-label={`Usuń ${u.nazwa || `urządzenie ${i + 1}`}`}
-            >
-              Usuń
-            </button>
-          </li>
+      <p className="rounded-md border p-3 text-small">
+        Wpisz moc <strong>swojego</strong> urządzenia — z tabliczki znamionowej, instrukcji albo wyszukaj w internecie, ile
+        pobiera Twój model. Wpisujesz to tylko raz, aplikacja zapamięta listę na tym urządzeniu, więc warto poświęcić 10–15
+        minut na dokładne wypełnienie. Przykłady niżej to tylko średnie dla typowych urządzeń — Twój model może pobierać
+        wielokrotnie mniej albo więcej.
+      </p>
+      <details className="text-small">
+        <summary className="cursor-pointer font-medium">Przykładowe średnie moce typowych urządzeń</summary>
+        <ul className="mt-2 flex flex-col gap-1 text-muted-foreground">
+          {PRZYKLADOWE_URZADZENIA.map((p) => (
+            <li key={p.nazwa}>
+              {p.nazwa}: ok. {f0(p.mocW)} W{p.cykliczne ? " (pracuje cyklicznie)" : ""}
+            </li>
+          ))}
+        </ul>
+      </details>
+      <datalist id={LISTA_PRZYKLADOW}>
+        {PRZYKLADOWE_URZADZENIA.map((p) => (
+          <option key={p.nazwa} value={p.nazwa} />
         ))}
+      </datalist>
+
+      <ul className="flex flex-col gap-4">
+        {urzadzenia.map((u, i) => {
+          const przyklad = znajdzPrzyklad(u.nazwa)
+          return (
+            <li key={u.id} className="flex flex-col gap-3 rounded-md border p-3">
+              <Pole
+                label={`Urządzenie ${i + 1}`}
+                placeholder="np. lodówka turystyczna"
+                list={LISTA_PRZYKLADOW}
+                value={u.nazwa}
+                onChange={(e) => aktualizuj(u.id, { nazwa: e.target.value })}
+              />
+              {przyklad && (
+                <p className="text-caption text-muted-foreground">
+                  Przykładowa średnia: ok. {f0(przyklad.mocW)} W — to nie jest moc Twojego modelu. Sprawdź ją i wpisz niżej.
+                </p>
+              )}
+              <div className="grid grid-cols-2 gap-3">
+                <Pole label="Moc" unit="W" type="number" inputMode="decimal" min={0} value={pole(u.mocW)} onChange={(e) => aktualizuj(u.id, { mocW: Number(e.target.value) })} />
+                <Pole label="Włączone" unit="h/dobę" type="number" inputMode="decimal" min={0} max={24} value={pole(u.godzinNaDobe)} onChange={(e) => aktualizuj(u.id, { godzinNaDobe: Number(e.target.value) })} />
+              </div>
+              <PoleCheckbox
+                id={`${u.id}-cykliczne`}
+                label="Pracuje cyklicznie (sprężarka — lodówka, klimatyzator)"
+                checked={u.cykliczne}
+                onChange={(e) => aktualizuj(u.id, { cykliczne: e.target.checked })}
+              />
+              {u.cykliczne && (
+                <Pole
+                  label="Współczynnik pracy sprężarki"
+                  unit="%"
+                  type="number"
+                  inputMode="decimal"
+                  min={0}
+                  max={100}
+                  value={pole(u.wspolczynnikPracyPct)}
+                  onChange={(e) => aktualizuj(u.id, { wspolczynnikPracyPct: Number(e.target.value) })}
+                  hint="Jaką część czasu sprężarka faktycznie pracuje. Przykład ze źródła: lodówka turystyczna ok. 40% przy 25 °C otoczenia — w upale więcej."
+                />
+              )}
+              <button
+                type="button"
+                onClick={() => setStan((prev) => ({ urzadzenia: prev.urzadzenia.filter((x) => x.id !== u.id) }))}
+                className="self-start text-caption text-muted-foreground underline"
+                aria-label={`Usuń ${u.nazwa || `urządzenie ${i + 1}`}`}
+              >
+                Usuń
+              </button>
+            </li>
+          )
+        })}
       </ul>
 
       <button

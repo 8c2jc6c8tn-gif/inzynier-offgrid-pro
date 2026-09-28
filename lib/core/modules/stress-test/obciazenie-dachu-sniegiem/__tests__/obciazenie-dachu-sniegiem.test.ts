@@ -71,10 +71,27 @@ describe("calculateObciazenieDachuSniegiem (M7/E23, dawne 6.34→7.32)", () => {
     expect(w.warnings.find((x) => x.code === "SNIEG-NORMOWE-PRZEKRACZA-NOSNOSC")?.level).toBe("critical")
   })
 
-  it("s równe nośności nie jest przekroczeniem (0,72 vs 0,72)", () => {
+  it("s równe nośności nie jest przekroczeniem, ale jest 🟡 zbliżania (0,72 vs 0,72)", () => {
     const w = calculateObciazenieDachuSniegiem({ ...BAZA, nosnoscDachuKnM2: 0.72 })
-    expect(w.status).toBe("VALID")
+    expect(w.status).toBe("VALID_WITH_WARNINGS")
     expect(w.value.wykorzystanieNormowePct).toBeCloseTo(100, 9)
+    expect(w.warnings.map((x) => [x.code, x.level])).toEqual([["SNIEG-NORMOWE-ZBLIZA-SIE-DO-NOSNOSCI", "warning"]])
+  })
+
+  it("próg D30 = 80%: 0,72 / 0,9 = 80% → 🟡; 0,72 / 0,91 ≈ 79% → nic (przykład źródła 120/150 kg/m²)", () => {
+    expect(kody(calculateObciazenieDachuSniegiem({ ...BAZA, nosnoscDachuKnM2: 0.9 }))).toEqual([
+      "SNIEG-NORMOWE-ZBLIZA-SIE-DO-NOSNOSCI",
+    ])
+    const ponizej = calculateObciazenieDachuSniegiem({ ...BAZA, nosnoscDachuKnM2: 0.91 })
+    expect(ponizej.warnings).toEqual([])
+    expect(ponizej.status).toBe("VALID")
+  })
+
+  it("zmierzona warstwa między 80% a 100% nośności → 🟡 aktualne, bez 🔴", () => {
+    // 40 cm śniegu osiadłego: γ·h = 2,0 × 0,4 = 0,8 kN/m²; nośność 0,95 → 84%; normowe 0,72 → 76%
+    const w = calculateObciazenieDachuSniegiem({ ...BAZA, nosnoscDachuKnM2: 0.95, gruboscWarstwyCm: 40, rodzajSniegu: "osiadly" })
+    expect(w.warnings.map((x) => [x.code, x.level])).toEqual([["SNIEG-AKTUALNE-ZBLIZA-SIE-DO-NOSNOSCI", "warning"]])
+    expect(w.status).toBe("VALID_WITH_WARNINGS")
   })
 
   it("pomiar 50 cm śniegu osiadłego → γ·h = 2,0 × 0,5 = 1,0 kN/m² ≈ 102 kg/m²; 🔴 gdy > nośność", () => {
@@ -86,7 +103,7 @@ describe("calculateObciazenieDachuSniegiem (M7/E23, dawne 6.34→7.32)", () => {
     })
     expect(w.value.aktualneMaxKnM2).toBeCloseTo(1.0, 12)
     expect(w.value.aktualneMaxKgM2).toBeCloseTo(101.97162129779284, 9)
-    expect(kody(w)).toEqual(["SNIEG-AKTUALNE-PRZEKRACZA-NOSNOSC"])
+    expect(kody(w)).toEqual(["SNIEG-NORMOWE-ZBLIZA-SIE-DO-NOSNOSCI", "SNIEG-AKTUALNE-PRZEKRACZA-NOSNOSC"])
     expect(w.status).toBe("VALID_WITH_WARNINGS")
   })
 

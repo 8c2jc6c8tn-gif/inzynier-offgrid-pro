@@ -265,7 +265,8 @@ nie do audytu poprawności formularza webowego.
   (M7/E23 — `lib/core/modules/stress-test/obciazenie-dachu-sniegiem/warnings.ts`,
   `normowePrzekraczaNosnosc` / `aktualnePrzekraczaNosnosc`, kody `SNIEG-NORMOWE-PRZEKRACZA-NOSNOSC`,
   `SNIEG-AKTUALNE-PRZEKRACZA-NOSNOSC`; sprawdzany tylko, gdy użytkownik wpisze nośność. Wariant
-  „zbliżające się” niezaimplementowany — źródło nie podaje progu, decyzja właściciela.)
+  „zbliżające się” — **[28.09.2026, D30]** 🟡 (nie twardy stop) od 80% nośności, próg ustalony przez
+  właściciela, nie z normy: kody `SNIEG-NORMOWE-ZBLIZA-SIE-DO-NOSNOSCI`, `SNIEG-AKTUALNE-ZBLIZA-SIE-DO-NOSNOSCI`.)
 - **[27.09.2026] PVC (izolacja, osłona, złączka) w miejscu o minimalnej temperaturze poniżej −10°C** —
   PVC sztywnieje i pęka. Źródło: Moduł 7, Ekran 13.
   (M7/E13 — `lib/core/modules/stress-test/sztywnienie-izolacji/warnings.ts`, `pvcPonizejProgu`, kod
@@ -275,6 +276,15 @@ nie do audytu poprawności formularza webowego.
   (M7/E19 — `lib/core/modules/stress-test/elektronika-w-mrozie/warnings.ts`, `bmsPonizejMin`, kod
   `ELEKTRONIKA-BMS-PONIZEJ-MIN`; próg = wartość z karty katalogowej wpisana przez użytkownika. Inne typy
   urządzeń tylko 🟡 — decyzja o rozszerzeniu zbioru krytycznych: `docs/lista-do-zrobienia.md`.)
+- **[28.09.2026, D31] Przetwornica/falownik w miejscu poniżej jej minimalnej temperatury pracy** — nie
+  wystartuje, brak 230 V w całym domu. Decyzja właściciela (źródło nazywa 🔴 tylko BMS).
+  (M7/E19 — `przetwornicaPonizejMin`, kod `ELEKTRONIKA-PRZETWORNICA-PONIZEJ-MIN`; zbiór krytycznych
+  `TYPY_KRYTYCZNE` w `constants.ts`. Regulator ładowania — 🟡.)
+- **[28.09.2026, D32] Zwykły olej napędowy przy temperaturze miejsca agregatu/paliwa ≤ 0°C** — bardzo
+  duże ryzyko, że agregat nie wystartuje (parafinowanie). Próg z praktyki właściciela, nie z normy;
+  zastępuje sprzeczne progi źródła (B: −20°C, C: −15°C). Źródło: Moduł 7, Ekran 8.
+  (M7/E8 — `lib/core/modules/stress-test/agregat-w-mrozie/warnings.ts`, `dieselParafinizacja`, kod
+  `AGREGAT-DIESEL-PARAFINIZACJA`; ≤ +5°C i ≤ −10°C (każdy diesel) tylko 🟡.)
 - **[28.09.2026] Instalacja w gruncie (kabel, rura, uziom) ułożona płycej niż strefa przemarzania** —
   zamarzający, pęczniejący grunt ją uszkodzi. Źródło: Moduł 7, Ekran 22 (tryb Grunt).
   (M7/E22 — `lib/core/modules/stress-test/ryzyko-zamarzniecia/warnings.ts`, `plycejNizPrzemarzanie`, kod

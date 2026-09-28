@@ -4,8 +4,11 @@
  * minimalną temperaturę pracy każdego urządzenia user przepisuje z karty katalogowej.
  */
 
-/** Typy z sekcji B źródła (wyświetlacze LCD, BMS, czujniki, przetwornice) + „inne”. */
-export type TypElektroniki = "BMS" | "wyswietlacz" | "czujnik" | "przetwornica" | "inne"
+/**
+ * Typy z sekcji B źródła (wyświetlacze LCD, BMS, czujniki, przetwornice) + „inne”; „regulator”
+ * (regulator ładowania) dopisany decyzją D31 (28.09.2026).
+ */
+export type TypElektroniki = "BMS" | "wyswietlacz" | "czujnik" | "przetwornica" | "regulator" | "inne"
 
 export type UrzadzenieElektroniczne = {
   id: string

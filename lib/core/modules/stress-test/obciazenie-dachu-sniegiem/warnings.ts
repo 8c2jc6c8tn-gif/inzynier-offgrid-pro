@@ -1,5 +1,6 @@
 import type { Warning } from "@/lib/core/calc-result"
 import { NAWISY_STREFA, NAWISY_WYSOKOSC_PROG_M } from "@/lib/core/modules/pv/eurokod-1/snieg"
+import { PROG_ZBLIZANIA_DO_NOSNOSCI } from "./constants"
 
 const kn = (x: number) => x.toFixed(2)
 
@@ -43,6 +44,28 @@ export function aktualnePrzekraczaNosnosc(qKnM2: number, nosnoscKnM2: number): W
     i18nKey: "SNIEG-AKTUALNE-PRZEKRACZA-NOSNOSC",
     params: { q: kn(qKnM2), nosnosc: kn(nosnoscKnM2) },
     technicalMessage: `γ·h = ${qKnM2} kN/m² (górna wartość γ z Tablicy E.1) > nośność ${nosnoscKnM2} kN/m²`,
+    field: "gruboscWarstwyCm",
+  }
+}
+
+export function normoweZblizaSieDoNosnosci(sKnM2: number, nosnoscKnM2: number): Warning {
+  return {
+    code: "SNIEG-NORMOWE-ZBLIZA-SIE-DO-NOSNOSCI",
+    level: "warning",
+    i18nKey: "SNIEG-NORMOWE-ZBLIZA-SIE-DO-NOSNOSCI",
+    params: { s: kn(sKnM2), nosnosc: kn(nosnoscKnM2), pct: Math.round((sKnM2 / nosnoscKnM2) * 100) },
+    technicalMessage: `s = ${sKnM2} kN/m² >= ${PROG_ZBLIZANIA_DO_NOSNOSCI} × nośność ${nosnoscKnM2} kN/m² (próg D30)`,
+    field: "nosnoscDachuKnM2",
+  }
+}
+
+export function aktualneZblizaSieDoNosnosci(qKnM2: number, nosnoscKnM2: number): Warning {
+  return {
+    code: "SNIEG-AKTUALNE-ZBLIZA-SIE-DO-NOSNOSCI",
+    level: "warning",
+    i18nKey: "SNIEG-AKTUALNE-ZBLIZA-SIE-DO-NOSNOSCI",
+    params: { q: kn(qKnM2), nosnosc: kn(nosnoscKnM2), pct: Math.round((qKnM2 / nosnoscKnM2) * 100) },
+    technicalMessage: `γ·h = ${qKnM2} kN/m² >= ${PROG_ZBLIZANIA_DO_NOSNOSCI} × nośność ${nosnoscKnM2} kN/m² (próg D30)`,
     field: "gruboscWarstwyCm",
   }
 }

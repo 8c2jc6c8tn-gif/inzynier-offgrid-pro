@@ -1,8 +1,8 @@
 import type { Assumption, CalcResult, Warning } from "@/lib/core/calc-result"
 import type { ElektronikaWMrozieInput, TypElektroniki } from "./input"
-import { bmsPonizejMin, brakMinTemp, urzadzeniePonizejMin } from "./warnings"
+import { bmsPonizejMin, brakMinTemp, przetwornicaPonizejMin, urzadzeniePonizejMin } from "./warnings"
 
-export const CALCULATOR_VERSION = "1.0.0"
+export const CALCULATOR_VERSION = "1.1.0"
 
 const FORMULA = "T_{min,miejsca} \\ge T_{min,pracy}"
 
@@ -23,7 +23,8 @@ export type ElektronikaWMrozieResult = {
  * Ekran 19, Moduł 7 — "Wpływ niskich temperatur na elektronikę" (dawne 6.29→7.27). Porównanie
  * temperatury miejsca z minimalną temperaturą pracy z karty każdego urządzenia. Twardy stop 🔴 1:1
  * ze źródła: krytyczna elektronika (BMS) poniżej minimalnej temperatury pracy. Inne urządzenia
- * poniżej zakresu — 🟡 ze skutkiem z sekcji B źródła (źródło podaje jako 🔴 tylko BMS).
+ * poniżej zakresu — 🟡 ze skutkiem z sekcji B źródła (źródło podaje jako 🔴 tylko BMS). Od 1.1.0
+ * także przetwornica/falownik 🔴 (decyzja właściciela D31, `constants.ts`), regulator ładowania 🟡.
  */
 export function calculateElektronikaWMrozie(input: ElektronikaWMrozieInput): CalcResult<ElektronikaWMrozieResult> {
   const inputs = { temperaturaMiejscaC: input.temperaturaMiejscaC ?? 0, liczbaUrzadzen: input.urzadzenia.length }
@@ -52,7 +53,11 @@ export function calculateElektronikaWMrozie(input: ElektronikaWMrozieInput): Cal
     const zapasK = t - u.minTempPracyC
     if (zapasK < 0) {
       warnings.push(
-        u.typ === "BMS" ? bmsPonizejMin(nazwa, t, u.minTempPracyC) : urzadzeniePonizejMin(u.typ, nazwa, t, u.minTempPracyC),
+        u.typ === "BMS"
+          ? bmsPonizejMin(nazwa, t, u.minTempPracyC)
+          : u.typ === "przetwornica"
+            ? przetwornicaPonizejMin(nazwa, t, u.minTempPracyC)
+            : urzadzeniePonizejMin(u.typ, nazwa, t, u.minTempPracyC),
       )
     }
     return { id: u.id, nazwa, typ: u.typ, zapasK }

@@ -60,6 +60,7 @@ export default function ObciazenieDachuSniegiemPage() {
   )
 
   const hasCritical = result.warnings.some((w) => w.level === "critical")
+  const hasWarning = result.warnings.some((w) => w.level === "warning")
   const v = result.value
 
   return (
@@ -159,8 +160,14 @@ export default function ObciazenieDachuSniegiemPage() {
         <p className="text-small text-muted-foreground">Wybierz strefę, wpisz wysokość n.p.m. i kąt dachu, żeby zobaczyć wynik.</p>
       ) : (
         <WerdyktPanel
-          poziom={hasCritical ? "blad" : "ok"}
-          etykieta={hasCritical ? "Dach może nie przenieść śniegu" : "Obciążenie śniegiem dachu wg normy"}
+          poziom={hasCritical ? "blad" : hasWarning ? "uwaga" : "ok"}
+          etykieta={
+            hasCritical
+              ? "Dach może nie przenieść śniegu"
+              : hasWarning
+                ? "Zbliżasz się do granicy nośności dachu"
+                : "Obciążenie śniegiem dachu wg normy"
+          }
         >
           <WynikGlowny>{f2(v.sKnM2)} kN/m²</WynikGlowny>
           <p className="mt-1 text-small">

@@ -10,17 +10,20 @@ import {
   wspolczynnikKsztaltuMu1,
 } from "@/lib/core/modules/pv/eurokod-1/snieg"
 import { PRZYSPIESZENIE_ZIEMSKIE_M_S2 } from "@/lib/core/modules/pv/zloty-srodek/constants"
+import { PROG_ZBLIZANIA_DO_NOSNOSCI } from "./constants"
 import type { ObciazenieDachuSniegiemInput } from "./input"
 import { validateInput } from "./validation"
 import {
   aktualnePrzekraczaNosnosc,
+  aktualneZblizaSieDoNosnosci,
   brakNosnosci,
   nawisySniezne,
   normowePrzekraczaNosnosc,
+  normoweZblizaSieDoNosnosci,
   pomiarBezRodzaju,
 } from "./warnings"
 
-export const CALCULATOR_VERSION = "1.0.0"
+export const CALCULATOR_VERSION = "1.1.0"
 
 const FORMULA = "s = \\mu_1 \\cdot C_e \\cdot C_t \\cdot s_k;\\; q = \\gamma \\cdot h"
 
@@ -63,6 +66,13 @@ const PUSTY_WYNIK: ObciazenieDachuSniegiemResult = {
 /** Tolerancja porównania z nośnością [kN/m²] — 0,8 × 0,9 daje w IEEE-754 0,7200000000000001. */
 const EPS_KN_M2 = 1e-9
 
+/** 🔴 powyżej nośności, 🟡 od progu D30 do nośności włącznie, poniżej progu — nic. */
+const ocenaWzgledemNosnosci = (obciazenieKnM2: number, nosnoscKnM2: number): "przekracza" | "zbliza" | null => {
+  if (obciazenieKnM2 > nosnoscKnM2 + EPS_KN_M2) return "przekracza"
+  if (obciazenieKnM2 >= PROG_ZBLIZANIA_DO_NOSNOSCI * nosnoscKnM2 - EPS_KN_M2) return "zbliza"
+  return null
+}
+
 const naKg = (kNm2: number) => (kNm2 * 1000) / PRZYSPIESZENIE_ZIEMSKIE_M_S2
 
 /**
@@ -72,8 +82,8 @@ const naKg = (kNm2: number) => (kNm2 * 1000) / PRZYSPIESZENIE_ZIEMSKIE_M_S2
  * M3 złoty środek i typ montażu), C_e z Tablicy 5.1, C_t = 1,0 (5.2(8)), γ śniegu z Tablicy E.1.
  *
  * Twardy stop 🔴 ze źródła: obciążenie przekraczające nośność konstrukcji — osobno dla wartości
- * normowej i dla zmierzonej warstwy. Wariant „zbliżające się do nośności” NIE jest liczony — źródło
- * nie podaje progu (Dyrektywa #1); ekran pokazuje wykorzystanie w %.
+ * normowej i dla zmierzonej warstwy. Wariant „zbliżające się do nośności” (od 1.1.0): 🟡 od 80%
+ * nośności — próg nie z normy ani źródła, tylko decyzja właściciela D30 (wartość z przykładu źródła).
  */
 export function calculateObciazenieDachuSniegiem(
   input: ObciazenieDachuSniegiemInput,
@@ -121,7 +131,9 @@ export function calculateObciazenieDachuSniegiem(
   ]
   if (mu > mu1) assumptions.push({ kod: "SNIEG-ZALOZENIE-MU-MIN-BARIERKI", params: { mu: MU_MIN_Z_BARIERKAMI } })
 
-  if (maNosnosc && sKnM2 > nosnoscDachuKnM2 + EPS_KN_M2) warnings.push(normowePrzekraczaNosnosc(sKnM2, nosnoscDachuKnM2))
+  const ocenaNormowa = maNosnosc ? ocenaWzgledemNosnosci(sKnM2, nosnoscDachuKnM2) : null
+  if (ocenaNormowa === "przekracza") warnings.push(normowePrzekraczaNosnosc(sKnM2, nosnoscDachuKnM2))
+  if (ocenaNormowa === "zbliza") warnings.push(normoweZblizaSieDoNosnosci(sKnM2, nosnoscDachuKnM2))
 
   let aktualneMinKnM2: number | null = null
   let aktualneMaxKnM2: number | null = null
@@ -137,16 +149,16 @@ export function calculateObciazenieDachuSniegiem(
       if (gamma.min !== gamma.max) {
         assumptions.push({ kod: "SNIEG-ZALOZENIE-GAMMA-GORNA", params: { min: gamma.min, max: gamma.max } })
       }
-      if (maNosnosc && aktualneMaxKnM2 > nosnoscDachuKnM2 + EPS_KN_M2) {
-        warnings.push(aktualnePrzekraczaNosnosc(aktualneMaxKnM2, nosnoscDachuKnM2))
-      }
+      const ocenaAktualna = maNosnosc ? ocenaWzgledemNosnosci(aktualneMaxKnM2, nosnoscDachuKnM2) : null
+      if (ocenaAktualna === "przekracza") warnings.push(aktualnePrzekraczaNosnosc(aktualneMaxKnM2, nosnoscDachuKnM2))
+      if (ocenaAktualna === "zbliza") warnings.push(aktualneZblizaSieDoNosnosci(aktualneMaxKnM2, nosnoscDachuKnM2))
     }
   }
 
   if (!maNosnosc) warnings.push(brakNosnosci())
   if (wysokoscNpmM > NAWISY_WYSOKOSC_PROG_M || strefa === NAWISY_STREFA) warnings.push(nawisySniezne())
 
-  const maKrytyczne = warnings.some((w) => w.level === "critical")
+  const maOstrzezenia = warnings.some((w) => w.level === "critical" || w.level === "warning")
 
   return {
     value: {
@@ -164,7 +176,7 @@ export function calculateObciazenieDachuSniegiem(
         aktualneMaxKnM2 !== null && maNosnosc ? (aktualneMaxKnM2 / nosnoscDachuKnM2) * 100 : null,
     },
     unit: "kN/m²",
-    status: maKrytyczne ? "VALID_WITH_WARNINGS" : "VALID",
+    status: maOstrzezenia ? "VALID_WITH_WARNINGS" : "VALID",
     formula: FORMULA,
     inputs,
     assumptions,

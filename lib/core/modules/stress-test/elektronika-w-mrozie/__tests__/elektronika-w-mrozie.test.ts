@@ -29,6 +29,21 @@ describe("calculateElektronikaWMrozie (M7/E19, dawne 6.29→7.27)", () => {
     expect(w.status).toBe("VALID_WITH_WARNINGS")
   })
 
+  it("D31: przetwornica/falownik poniżej zakresu → 🔴; regulator ładowania → 🟡", () => {
+    const w = calculateElektronikaWMrozie({
+      temperaturaMiejscaC: -25,
+      urzadzenia: [
+        { id: "4", nazwa: "Falownik", typ: "przetwornica", minTempPracyC: -20 },
+        { id: "5", nazwa: "MPPT", typ: "regulator", minTempPracyC: -20 },
+      ],
+    })
+    expect(w.warnings.map((x) => [x.code, x.level, x.i18nKey])).toEqual([
+      ["ELEKTRONIKA-PRZETWORNICA-PONIZEJ-MIN", "critical", "ELEKTRONIKA-PONIZEJ-MIN-PRZETWORNICA"],
+      ["ELEKTRONIKA-PONIZEJ-MIN", "warning", "ELEKTRONIKA-PONIZEJ-MIN-REGULATOR"],
+    ])
+    expect(w.value.liczbaPonizejMin).toBe(2)
+  })
+
   it("brak danych z karty → info, status nie rośnie; pusta nazwa → „urządzenie N”", () => {
     const w = calculateElektronikaWMrozie({
       temperaturaMiejscaC: -30,
