@@ -1,6 +1,6 @@
 # Przekazanie dla następnej sesji — co dalej (28.09.2026)
 
-**Wersja:** 1.1 | **Utworzono:** 28.09.2026 | **Aktualizacja:** 28.09.2026 (scalenie z `main`) | **Status:** aktualne, dopóki kolejna sesja nie odhaczy kroków
+**Wersja:** 1.2 | **Utworzono:** 28.09.2026 | **Aktualizacja:** 28.09.2026 (scalenie z `main`) | **Status:** aktualne, dopóki kolejna sesja nie odhaczy kroków
 
 Polecenie właściciela z 28.09.2026: sesja, która kończy się tym wpisem, **nie pisze kodu M14**. Zostawia
 instrukcje, a kod pisze następna sesja. Ten plik mówi: od czego zacząć, co jest otwarte, jaki kod
@@ -34,18 +34,20 @@ wystarczą sekcje z 28.09.2026 („Integracja M14 do Biblii”, „Audyt końcow
 ## Krok 0 — odpowiedź właściciela na decyzję 4 (zanim powstanie jakikolwiek kod M14)
 
 Wyjaśnienie z opcjami dostał właściciel 28.09.2026. Jeśli nie odpowiedział, zapytaj go jeszcze raz,
-krótko, o pozycje 4–12. Opcja **A** = zostaw, jak jest (nic w kodzie). Przy **B/C** — zmiana we wskazanym miejscu.
+krótko, o pozycje, które nadal są bez odpowiedzi (patrz kolumna „Odpowiedź 28.09”).
+**[28.09.2026, odpowiedź właściciela]** 1 B, 2 „już ustalone”, 3 zostawić, 4 odłożyć, 5 „już ustalone, odłożone do
+PKN”, 7 odłożyć, 8 odłożyć. **Bez odpowiedzi: 6, 9, 10, 11, 12.** Opcja **A** = zostaw, jak jest (nic w kodzie). Przy **B/C** — zmiana we wskazanym miejscu.
 
 | # | Sprawa | Gdzie jest kod / zapis | Co zmienić przy B/C |
 |---|---|---|---|
-| 1 | ~~Balast M3 (D29 pkt 2 i 5)~~ | — | **✅ zamknięte na `main`** (D29 addendum: masa paneli i stelaża jako siła utrzymująca) — nie pytaj ponownie |
-| 2 | ~~Agregat w mrozie (D32): poziomy 🟡/🔴/ℹ️~~ | — | **✅ zamknięte na `main`** (D32 potwierdzone z korektą progów, E8 1.2.0) — nie pytaj ponownie |
-| 3 | ~~Lista 16 urządzeń (D33)~~ | — | **✅ zamknięte na `main`** (D33 potwierdzone, nowe moce, 19 pozycji) — nie pytaj ponownie |
-| 4 | CRL: długość > 1 km obcinana od największej wagi (TD21) | `lib/core/modules/okablowanie/ocena-ryzyka-crl/calculator.ts` | B: sortowanie odcinków rosnąco po wadze zamiast malejąco + test |
-| 5 | Rsi = 0,13 (M6/E8, TD20) | `lib/core/modules/ogrzewanie/pojemnosc-cieplna/constants.ts` | B: czeka na normę ISO 6946 od właściciela |
+| 1 | ~~Balast M3 (D29 pkt 2 i 5)~~ | — | **✅ zamknięte na `main`** (D29 addendum: masa paneli i stelaża jako siła utrzymująca) — nie pytaj ponownie **Odpowiedź 28.09: B** — to jest dokładnie to, co już jest na `main` (D29 addendum). Nic do zrobienia. |
+| 2 | ~~Agregat w mrozie (D32): poziomy 🟡/🔴/ℹ️~~ | — | **✅ zamknięte na `main`** (D32 potwierdzone z korektą progów, E8 1.2.0) — nie pytaj ponownie **Odpowiedź 28.09:** „już pisałem” — tak, zapisane w D32 (korekta: 🟡 od +10°C, 🔴 poniżej +5°C, paliwo zimowe od +5°C, arktyczne poniżej −10°C, świece obowiązkowo, dodatki zimowe). Nic do zrobienia. |
+| 3 | ~~Lista 16 urządzeń (D33)~~ | — | **✅ zamknięte na `main`** (D33 potwierdzone, nowe moce, 19 pozycji) — nie pytaj ponownie **Odpowiedź 28.09: zostawić (A).** |
+| 4 | CRL: długość > 1 km obcinana od największej wagi (TD21) | `lib/core/modules/okablowanie/ocena-ryzyka-crl/calculator.ts` | B: sortowanie odcinków rosnąco po wadze zamiast malejąco + test **Odpowiedź 28.09: odłożone** — właściciel nie może teraz zdecydować. Zostaje jak jest (✅🤖). |
+| 5 | Rsi = 0,13 (M6/E8, TD20) | `lib/core/modules/ogrzewanie/pojemnosc-cieplna/constants.ts` | B: czeka na normę ISO 6946 od właściciela **Odpowiedź 28.09:** decyzja już była (lista 28.09, „Rsi per kierunek”): wartości per kierunek, ale poprawka **odłożona do czasu, aż właściciel dostarczy PKN** (PN-EN ISO 6946). Właściciel podał 0,17 / 0,10 / 0,13 dla ścian / dachu / podłogi — **przypisanie do sprawdzenia z normą** (w ISO 6946 zwykle: ściana 0,13, strumień w górę 0,10, w dół 0,17). Do tego czasu 0,13 wszędzie. |
 | 6 | Zamki fail-secure z UPS = 🟡 (M8/E3) | `lib/core/modules/bezpieczenstwo/zamki-drzwi-ewakuacyjnych/` | B: 🔴 + dopis w `docs/rejestr-twardych-stopow.md` |
-| 7 | Gaz obojętny/aerozol przy LiFePO4 = 🟡 (M8/E4) | `lib/core/modules/bezpieczenstwo/modul-gasniczy/` | B: ℹ️; C: 🔴 + rejestr stopów |
-| 8 | Magistrala ponad wejście przetwornicy = 🔴 (M9/E2) | `lib/core/modules/esp32/zasilanie-esp32/` | B: 🟡 + usunięcie z rejestru stopów (przekreślenie, F.5) |
+| 7 | Gaz obojętny/aerozol przy LiFePO4 = 🟡 (M8/E4) | `lib/core/modules/bezpieczenstwo/modul-gasniczy/` | B: ℹ️; C: 🔴 + rejestr stopów **Odpowiedź 28.09: odłożone.** |
+| 8 | Magistrala ponad wejście przetwornicy = 🔴 (M9/E2) | `lib/core/modules/esp32/zasilanie-esp32/` | B: 🟡 + usunięcie z rejestru stopów (przekreślenie, F.5) **Odpowiedź 28.09: odłożone.** |
 | 9 | CAN bez transceivera = 🟡 (M9/E4) | `lib/core/modules/esp32/architektura-komunikacji/` | B: 🔴 jak RS485 + rejestr stopów |
 | 10 | Kafle M14 ukryte w 8 presetach | `docs/pulpit-i-nawigacja.md` §3 (kafli M14 jeszcze nie ma w `lib/pulpit/`) | B: zapisać, w których presetach są widoczne — wejdzie razem z kaflami |
 | 11 | D48 (dawniej D45): agregat przez wejście AC falownika = ℹ️, bez wymogu przełącznika | `lib/core/modules/zapotrzebowanie/agregat-pradotworczy/bezpieczenstwo.ts` | B: `agregatWejscieFalownika` → poziom `critical` albo `warning` wg odpowiedzi, teksty PL/EN/RU |
