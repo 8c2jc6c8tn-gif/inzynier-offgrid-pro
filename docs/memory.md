@@ -7827,3 +7827,22 @@ ust. 1 pkt 1 ustawy o rynku mocy (w praktyce G) — nie „G” wprost.
 nadal: wersje `www.` (`www.ure.gov.pl`, `www.gov.pl`, `www.nfosigw.gov.pl`, `www.pse.pl`,
 `www.tauron-dystrybucja.pl`, `www.operator.enea.pl`, `www.stoen.pl` — domeny bez www przekierowują na
 www), `pgedystrybucja.pl` (z i bez www), CDN z PDF-ami Energi `cdn-netpr.pl`; `isap.sejm.gov.pl` → 403.
+
+**[28.09.2026, wieczór] DANE-1 — drugi odczyt pierwotny (sieć odblokowana w pełni, poza 2 hostami).**
+Zamknięte ✅: W2 (OZE 7,30, kogeneracyjna 3,00 zł/MWh — z taryf OSD; przejściowa 0 — komunikat ME
+28.11.2025 + brak w taryfach), W5 (1,23 — art. 4c ust. 4 OZE; zwrot nadpłaty 20%/30% — art. 4 ust.
+11a), W7 (wzór mocy biernej z √, k=3/1/0,5, tgφ₀=0,4 min 0,2, przekroczenie = stały × suma 10
+największych nadwyżek — w taryfach Tauron/Energa/Stoen). W3 częściowo: Tauron, Energa, Stoen ✅,
+Enea tylko brutto (pełna taryfa = skan), PGE ❌. Otwarte: W4 profile, W6 PME, wartość `C_rk`.
+**Trzy lekcje:**
+1. **Moja poprawka ✏️ K4 (1,23 „tylko dla nie-VAT”, data niepotwierdzona) była błędna** — ustawa
+   nie różnicuje, stosowanie od 1.02.2025 (art. 31 ustawy Dz.U. 2024/1847). Materiał właściciela miał
+   rację; poprawkę wycofano jawnie (zostaje w historii). Wiedza „ekspercka” bez odczytu to 🔎B, nie ✏️.
+2. **Stawki zmieniają się w trakcie roku** — jakościowa 0,0331 (I) → 0,0332 zł/kWh (od 1.02.2026, zmiana
+   kok w taryfie PSE). Model danych: lista okresów `{odDnia, doDnia, wartosc}`, nie „stawka roczna”.
+3. **Dostęp:** `pgedystrybucja.pl` i `www.nfosigw.gov.pl` mają niepełny łańcuch certyfikatów (brak
+   pośredniego Certum) — curl je odrzuca; obejście przez dociąganie certyfikatu zablokował klasyfikator
+   bezpieczeństwa → te dwa dokumenty tylko od właściciela (PDF). `isap.sejm.gov.pl` → 403, ale
+   **API ELI Sejmu (`api.sejm.gov.pl/eli/...`) działa** i daje oficjalne PDF-y aktów — używać zamiast ISAP.
+Narzędzia: brak `pdftotext`/`pdftoppm`; działa `pypdf` (pip `--no-deps`) z `sys.modules['cryptography']=None`
+(zepsuty pakiet systemowy cryptography/cffi).

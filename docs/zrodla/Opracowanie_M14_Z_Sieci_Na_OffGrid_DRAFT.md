@@ -57,9 +57,13 @@ uzupełnić ze swojej wiedzy eksperckiej”.
   fakturę”.
 
 **Stan weryfikacji (28.09.2026):**
-- Środowisko sesji blokuje strony pierwotne (`ure.gov.pl`, `bip.ure.gov.pl`, `gov.pl`, strony OSD).
+- ~~Środowisko sesji blokuje strony pierwotne (`ure.gov.pl`, `bip.ure.gov.pl`, `gov.pl`, strony OSD).
   Dlatego dane ogólnokrajowe są dziś na poziomie 🔎A, a stawki per OSD nie zostały zebrane
-  (zadanie DANE-1).
+  (zadanie DANE-1).~~ **Aktualizacja 28.09.2026 (po odblokowaniu sieci przez właściciela):**
+  opłaty mocowa, OZE, kogeneracyjna, jakościowa, VAT, akcyza — ✅ z dokumentów pierwotnych;
+  stawki per OSD — Tauron, Energa, Stoen ✅, Enea tylko brutto, PGE niepobrane (§2.4a);
+  przepisy o depozycie, 1,23 i zwrocie — ✅ (§3); moc bierna i przekroczenie mocy — ✅ (§8.2–8.3).
+  Otwarte: W3-PGE, W3-Enea netto, W4 profile, W6 PME, wartość `C_rk`, średnia cena G 495,16.
 - Wniosek z próby wyszukiwania stawek per OSD: źródła wtórne podają **sprzeczne** liczby, np.
   „opłata przejściowa 0,41 zł/mies.” mimo jej zniesienia oraz mieszanie netto z brutto. To
   potwierdza, że stawki per OSD wolno brać **wyłącznie** z PDF taryf OSD.
@@ -157,10 +161,11 @@ licznik:
 | Opłata mocowa ryczałt, >1 200–2 800 kWh | 17,18 zł/mies. netto | j.w., pkt 3 | ✅ |
 | Opłata mocowa ryczałt, > 2 800 kWh | 24,05 zł/mies. netto | j.w., pkt 4 | ✅ |
 | Opłata mocowa, pozostali odbiorcy (art. 89a ust. 1 pkt 2; m.in. C) | 0,2194 zł/kWh netto — energia pobrana w 15 kolejnych godzinach dni roboczych (pn–pt bez świąt ustawowych), pierwsza od 7:00, ostatnia od 21:00, czyli 7:00–22:00, jednakowo we wszystkich kwartałach 2026 | j.w., pkt 5 + str. 2 (powołuje Informację nr 57/2025) | ✅ |
-| Opłata OZE | 7,30 zł/MWh (2025: 3,50) | Rozporządzenie/obwieszczenie na 2026 | 🔎A |
-| Opłata kogeneracyjna | 3,00 zł/MWh (planowane 4,36 wycofane) | Ministerstwo Energii | 🔎A |
-| Opłata przejściowa | 0 (zniesiona od 1.01.2026) | Decyzja Ministra Energii | 🔎A |
-| Stawka jakościowa | 0,0331 zł/kWh | taryfy OSD (wartość wspólna, pochodzi od PSE) | 🔎B |
+| Opłata OZE | 7,30 zł/MWh netto (2025: 3,50) | Taryfy OSD 2026 zatwierdzone przez Prezesa URE, powołujące Informację Prezesa URE: Energa-Operator pkt 9.3, Stoen pkt 7.8, Tauron pkt 7.5 (+ Enea brutto 8,98 = 7,30 × 1,23) — **odczyt pierwotny 28.09.2026**, PDF-y w `docs/zrodla/` | ✅ |
+| Opłata kogeneracyjna | 3,00 zł/MWh netto (planowane 4,36 wycofane) | j.w.: Energa pkt 9.4, Stoen pkt 7.9, Tauron pkt 7.6 (+ Enea brutto 3,69 = 3,00 × 1,23) | ✅ |
+| Opłata przejściowa | 0 (zniesiona od 1.01.2026) | Komunikat Ministerstwa Energii z 28.11.2025 (gov.pl/web/energia, odczyt 28.09.2026): obwieszczenie Ministra Energii o wygaśnięciu opłaty, podstawa — ustawa KDT z 29.06.2007; żadna z odczytanych taryf OSD 2026 (Tauron, Energa, Stoen, Enea) nie zawiera już tej stawki | ✅ (komunikat organu + taryfy; tekst obwieszczenia w Dz.U./M.P. nieodczytany) |
+| Stawka jakościowa, odbiorcy nN (G, C1x, C2x) | **0,0331 zł/kWh netto od 1.01 do 31.01.2026; 0,0332 zł/kWh netto od 1.02 do 31.12.2026** | Taryfa OSP (PSE), zmiana współczynnika kok decyzją Prezesa URE z 16.01.2026 (DRE.WPR.4211.1.4.2026.BTS); komunikaty Tauron i Enea, tabela 7.7 taryfy Stoen — **odczyt pierwotny 28.09.2026** | ✅ |
+| Stawka jakościowa, odbiorcy SN/WN (B, A) | 33,06 zł/MWh (styczeń) → 33,16 zł/MWh (od 1.02.2026) | j.w. | ✅ |
 | Akcyza | 5,00 zł/MWh | ustawa o podatku akcyzowym | ✅ |
 | VAT na energię | 23% | ustawa o VAT | ✅ |
 | Średnia cena energii w taryfach sprzedawców z urzędu (G) | 495,16 zł/MWh netto | Prezes URE, zatwierdzenie 17.12.2025 (PGE Obrót, Tauron Sprzedaż, Enea, Energa Obrót) | 🔎A |
@@ -169,8 +174,23 @@ licznik:
 ✏️ **Opłata przejściowa.** Materiał (dok. 2, algorytm, krok 2) każe ją naliczać, a w pierwszej
 weryfikacji (memory 28.09.2026, pkt 10) sam wskazałem ją jako brakującą. Poprawiono: od 1.01.2026
 wynosi 0 (zniesiona). Podstawa: decyzja Ministra Energii, zgodna w kilku źródłach wtórnych.
-Pewność 🔎A. W pliku danych pozostaje pole z wartością 0 i adnotacją, bo historyczne faktury z
+Pewność 🔎A → **✅ od 28.09.2026** (tabela wyżej). W pliku danych pozostaje pole z wartością 0 i adnotacją, bo historyczne faktury z
 2025 r. ją zawierają (tryb „moje dane z faktury”).
+
+✏️ **Stawka jakościowa — jedna wartość na cały rok (moja wcześniejsza wersja tabeli, 🔎B).**
+- **Źródło podało:** 0,0331 zł/kWh na 2026 r. (moja notatka z wyszukiwania; materiał właściciela
+  jej nie ustalał).
+- **Poprawiono na:** 0,0331 zł/kWh tylko w styczniu 2026; od 1.02.2026 wynosi 0,0332 zł/kWh netto.
+- **Dlaczego:** PSE zmieniło w trakcie roku współczynnik kok w taryfie OSP, a OSD przenoszą
+  zmianę automatycznie (Tauron pkt 7.4, Enea pkt 7.7.1–7.7.2, Energa pkt 9.1.1, Stoen pkt 7.7).
+- **Podstawa:** komunikaty Tauron Dystrybucja i Enea Operator o zmianie od 1.02.2026, tabela 7.7
+  taryfy Stoen (wersja z 25.02.2026).
+- **Pewność:** ✅.
+- **Konsekwencja dla kodu (ważna, ogólna):** stawka w pliku danych **nie jest parą (rok,
+  wartość)**, tylko listą okresów `{ odDnia, doDnia, wartosc }`. Ta sama pułapka dotyczy każdej
+  składowej ustalanej poza taryfą OSD (jakościowa, OZE, mocowa). Rachunek roczny liczy średnią
+  ważoną zużyciem z miesięcy, a przy braku danych miesięcznych — stawkę obowiązującą najdłużej,
+  z ostrzeżeniem.
 
 ### 2.4 Stawki per OSD — model danych, nie liczby
 
@@ -195,13 +215,71 @@ każdy OSD oferuje każdą):
 - **Poprawiono na:** żadna liczba z dok. 2 nie wchodzi do danych.
 - **Dlaczego:**
   - PGE i Tauron mają identyczne stawki co do grosza;
-  - stawka jakościowa jest różna per OSD;
+  - stawka jakościowa jest w dok. 2 różna per OSD (0,0331 / 0,0164 / 0,0407), a w rzeczywistości
+    jest jedna dla wszystkich OSD, bo pochodzi z taryfy PSE (✅ odczyt 28.09.2026, §2.3);
   - „Energa = Ergo Energy (dawniej Stoen)” to pomylenie trzech podmiotów (Energa-Operator, Stoen
     Operator, E.ON);
   - C21 ze strefami;
   - C22a z dniem równym nocy;
   - kolumna „Źródło” jest pusta.
 - **Podstawa:** porównanie wewnętrzne + struktura taryf OSD. ✅ (odrzucenie danych).
+- **Kontrola wyrywkowa po odczycie pierwotnym (28.09.2026):** Tauron G11 w dok. 2 — składnik
+  zmienny 0,2464 ✅ zgodny, jakościowa 0,0331 ✅ (tylko styczeń), składnik stały 8,50 / 12,28 ❌
+  (taryfa: 7,38 / 10,86). Energa G11 zmienna 0,3988 ❌ (taryfa: 0,3485). Część liczb jest więc
+  trafna, część nie, i bez dokumentu pierwotnego nie da się ich rozróżnić. Decyzja „nic z dok. 2
+  do danych” pozostaje w mocy.
+
+### 2.4a Stawki per OSD 2026 — odczyt pierwotny (DANE-1, 28.09.2026)
+
+Wszystkie wartości **netto** (bez VAT), chyba że zaznaczono inaczej. Źródła w `docs/zrodla/`:
+- `Tauron-Dystrybucja-Taryfa-2026.pdf` (tabele 7.1, 7.4) i `…-wyciag-grupy-G.pdf`
+  (zatw. decyzją Prezesa URE z 17.12.2025, DRE.WRE.4211.54.8.2025.ASa1);
+- `Energa-Operator-Taryfa-2026.pdf` (tabele 8, 9.1–9.5; plik taryfy z 17.12.2025);
+- `Stoen-Operator-Taryfa-2026-tekst-z-25-02-2026.pdf` (tabele 7.3–7.10);
+- `Enea-Operator-stawki-brutto-2026-od-02-01.pdf` — **tylko brutto** (informacja poglądowa OSD;
+  pełna taryfa Enea jest w załączniku do decyzji URE jako skan, bez warstwy tekstowej).
+
+**Grupa G — składnik zmienny opłaty sieciowej [zł/kWh] i stały [zł/mies., 1-faz / 3-faz]**
+
+| OSD | G11 | G12 dzień / noc | G12w szczyt / pozaszczyt | Stały 1f / 3f (G11, G12, G12w) | Abonament 1-mies. |
+|---|---|---|---|---|---|
+| Tauron | 0,2464 | 0,2841 / 0,0558 | 0,3298 / 0,0512 | 7,38 / 10,86 | 4,56 |
+| Energa | 0,3485 | 0,3844 / 0,0827 | 0,4017 / 0,0851 | G11: 7,83 / 11,77; G12, G12w: 14,35 / 20,17 | 4,64 |
+| Stoen | 0,2342 | 0,2545 / 0,0555 | 0,2570 / 0,1079 | 11,46 / 18,53 | 2,88 |
+| Enea (**brutto**) | 0,3021 | 0,3418 / 0,1123 | 0,3323 / 0,1000 | G11: 9,16 / 12,80; G12: 11,80 / 17,91; G12w: 20,73 / 32,26 | 4,72 |
+| PGE Dystrybucja | — | — | — | — | — (niepobrane, §9.1 W3) |
+
+Abonament zależy od okresu rozliczeniowego (np. Tauron: 4,56 / 2,28 / 0,76 / 0,38 zł/mies. przy
+okresie 1 / 2 / 6 / 12 mies.; Energa: 4,64 / 2,32, a przy zdalnym odczycie 0,74 / 0,70).
+**Prosument rozliczany jest w okresie 1-miesięcznym** (Tauron wyciąg G pkt 2.3.1 ppkt 2 lit. b i
+2.3.1b) — kalkulator ścieżki A/B bierze więc stawkę 1-miesięczną, nie tę z dotychczasowej faktury
+dwumiesięcznej.
+
+**Grupa C (nN) — składnik zmienny [zł/kWh] i stały [zł/kW/mies.]**
+
+| OSD | C11 | C12a szczyt / pozaszczyt | C12b dzień / noc | C21 | C22a szczyt / pozaszczyt | C22b dzień / noc | Stały C1x / C2x | Abonament C1x / C2x (1 mies.) |
+|---|---|---|---|---|---|---|---|---|
+| Tauron | 0,2283 | 0,2333 / 0,1762 | 0,2152 / 0,1651 | 0,2153 | 0,2758 / 0,1968 | 0,2755 / 0,0954 | 5,73 / 17,52 | tab. 7.4 (do odczytu przy pliku danych) |
+| Energa | 0,4045 | 0,5094 / 0,1482 | 0,4433 / 0,0983 | 0,2912 | 0,3432 / 0,2338 | 0,2960 / 0,1328 | 8,08 / 34,84 | 5,92 / 7,40 |
+| Stoen | 0,2562 | 0,3027 / 0,1611 | 0,3226 / 0,1005 | 0,1481 | 🔎 | 🔎 | 7,72 / 18,33 | 3,12 / 7,83 |
+
+🔎 Stoen C22a/C22b: tabela C2x w PDF ma strefy „zalecanego poboru / zalecanego ograniczenia /
+pozostałe godziny doby” (0,1184 / 0,1481 / 0,1622 i 0,1708), a warstwa tekstowa nie pozwala
+jednoznacznie przypisać kolumn do grup. **Nie przypisuję na oko** — do odczytu wizualnego tabeli
+7.3 przy budowie pliku danych. Już teraz widać, że podział stref u Stoen różni się od pozostałych
+OSD, co potwierdza zasadę §2.4: **strefy są daną per OSD**.
+
+**Moc bierna i przekroczenie mocy umownej — zgodne w trzech taryfach (Tauron 3.2.11, 3.4.x;
+Energa 4.2.11, 4.3.x; Stoen 3.2.11, 3.4.x) ✅:**
+- `k` = 3,00 (nN), 1,00 (SN), 0,50 (110 kV);
+- tgφ₀ = 0,4, chyba że warunki przyłączenia/umowa stanowią inaczej, ale nie mniej niż 0,2;
+- przekroczenie mocy umownej = składnik stały stawki sieciowej × suma 10 największych nadwyżek
+  (pomiar 15-minutowy) albo × 10 × największa nadwyżka, gdy układ pomiarowy nie pozwala na
+  wariant pierwszy; naliczane za każdy miesiąc z przekroczeniem.
+
+**Niepobrane (reszta W3):** PGE Dystrybucja (serwer z niepełnym łańcuchem certyfikatów — środowisko
+go odrzuca), stawki netto Enea (skan), opłaty przyłączeniowe IV–VI (są w taryfach, do wyciągnięcia
+razem z plikiem danych).
 
 ### 2.5 Sprzedaż: taryfa czy oferta rynkowa (Dom)
 
@@ -229,10 +307,22 @@ kontrolny.
 | **Net-billing** | Mikroinstalacje ≤50 kW przyłączone od 1.04.2022 | Nadwyżka sprzedawana po cenie rynkowej (RCEm miesięczna, od 07.2024 domyślnie RCE godzinowa) → wartość trafia na depozyt prosumencki ważny 12 mies. | 🔎A (mikroinstalacja ≤50 kW ✅, depozyt 12 mies. ✅) |
 
 **Dodatkowe mechanizmy net-billingu:**
-- częściowy zwrot niewykorzystanego depozytu (🔎B, zasady do odczytu z ustawy o OZE);
+- częściowy zwrot niewykorzystanego depozytu ✅ (ustawa o OZE, t.j. Dz.U. 2026 poz. 68, art. 4
+  ust. 11 pkt 2 i ust. 11a): środki z danego miesiąca niewykorzystane przez 12 kolejnych miesięcy
+  są zwracane do końca 13. miesiąca, ale najwyżej:
+  - **20%** wartości energii wprowadzonej w tym miesiącu — gdy wartość liczona jest ceną
+    miesięczną RCEm (art. 4b ust. 1: pierwsze wprowadzenie energii do 30.06.2024);
+  - **30%** — gdy liczona jest ceną godzinową RCE (art. 4b ust. 2: pierwsze wprowadzenie od
+    1.07.2024, albo prosument „starszy”, który złożył oświadczenie z art. 4b ust. 2a).
+  - Reszta niewykorzystanych środków jest umarzana po 12 miesiącach (art. 4c ust. 6).
+- przejście z RCEm na RCE (art. 4b ust. 2a) jest **nieodwracalne** (art. 4b ust. 2b) ✅. Tak samo
+  nieodwracalne jest przejście z net-meteringu na net-billing (art. 4d ust. 1) ✅. Oba fakty
+  trafiają do ekranu ryzyk jako „decyzja jednokierunkowa”;
+- ujemna cena RCE w danej godzinie liczy się jako zero dla zwykłego prosumenta (art. 4b ust. 2
+  pkt 2) ✅;
 - współczynnik 1,23 (poniżej).
 
-✏️ **Współczynnik 1,23 dla firm (dok. 1, 4.2 i przykład).**
+✏️ **Współczynnik 1,23 dla firm (dok. 1, 4.2 i przykład).** — ~~poprawka~~ **wycofana 28.09.2026**, patrz „Rewizja” niżej; treść zostaje dla historii.
 - **Źródło podało:** depozyt każdego prosumenta, także firmy, powiększany o 1,23; „od
   1.02.2025”; przykład firmy: 2 MWh × 450 zł × 1,23 = 1 107 zł.
 - **Poprawiono na:** zakres podmiotowy współczynnika jest niepotwierdzony. Wiedza ekspercka
@@ -247,7 +337,26 @@ kontrolny.
   odczytu kalkulator firmowy liczy wariant bez 1,23 i pokazuje wariant z 1,23 jako „jeśli
   dotyczy Twojej firmy”.
 
-Arytmetyka przykładu: 2 × 450 × 1,23 = 1 107 zł ✅ (sam rachunek jest poprawny).
+**↩️ Rewizja po odczycie pierwotnym (28.09.2026) — poprawka K4 WYCOFANA, materiał miał rację.**
+- **Brzmienie przepisu:** art. 4c ust. 4 ustawy o OZE (t.j. Dz.U. 2026 poz. 68): „Wartość
+  depozytu prosumenckiego dotycząca danego miesiąca kalendarzowego jest ustalana, zwiększana o
+  współczynnik 1,23 i przyporządkowywana do konta prosumenckiego w kolejnym miesiącu”. Przepis
+  **nie różnicuje** prosumentów według statusu VAT. Dotyczy każdego prosumenta energii
+  odnawialnej, zbiorowego i wirtualnego, a więc także firmy, która jest prosumentem.
+- **Data:** zmianę wprowadziła ustawa z 27.11.2024 (Dz.U. 2024 poz. 1847, art. 1 pkt 4 lit. a),
+  w mocy od 28.12.2024. Jej art. 31 każe stosować nowe brzmienie „od pierwszego dnia miesiąca
+  kalendarzowego następującego po upływie miesiąca od dnia wejścia w życie”, czyli **od
+  1.02.2025**. Data z materiału jest poprawna.
+- **Pewność:** ✅. Źródła: API ELI Sejmu — `api.sejm.gov.pl/eli/acts/DU/2026/68/text.pdf`
+  (SHA-256 zaczyna się od `82f1684302ec8932`) i `…/DU/2024/1847/text.pdf` (`1adfd0ca2ac1d8c9`).
+- **Konsekwencja dla kodu:** 1,23 jest stałą prawną z datą obowiązywania (od 2025-02-01), wspólną
+  dla Dom i Firma. Pole `dotyczy` znika. Wariant „bez 1,23” jest zbędny.
+- **Uwaga K (informacja, nie porada):** skutki VAT/CIT po stronie firmy (np. czy depozyt jest
+  przychodem) nie wynikają z art. 4c. Art. 4 ust. 12 mówi o nadwyżce **ilości energii** z ust. 11,
+  a nie wprost o depozycie. Kalkulator firmowy pokazuje ten temat jako „do sprawdzenia z
+  księgowym”, bez wyliczeń podatkowych.
+
+Arytmetyka przykładu: 2 × 450 × 1,23 = 1 107 zł ✅ (rachunek i założenie materiału poprawne).
 
 ✏️ **„Realny współczynnik bilansowania 0,3–0,4” (dok. 1, 4.3).**
 - **Źródło podało:** stałą 0,3–0,4.
@@ -516,11 +625,15 @@ Podział ≤40 / >40 kW ✅ (zgodny z materiałem i praktyką taryf OSD).
   warunków przyłączenia/umowy. Zasadniczo są to odbiorcy z mocą >40 kW; przy ≤40 kW — jeśli
   umowa to przewiduje.
 - **Dlaczego:** nadmierne uogólnienie materiału.
-- **Podstawa:** rozporządzenie taryfowe (🔎A — brzmienie do odczytu). Kalkulator pyta: „czy
-  masz na fakturze pozycję za energię bierną?”.
+- **Podstawa:** taryfy OSD 2026 (Energa pkt 4.3.2; analogicznie Tauron i Stoen): „Rozliczeniami
+  za pobór energii biernej są objęci odbiorcy zasilani z sieci średniego i wysokiego napięcia.
+  Takimi rozliczeniami mogą być objęci także odbiorcy zasilani z sieci o napięciu znamionowym nie
+  wyższym niż 1 kV” ✅. Próg „>40 kW” jako praktyczna reguła na nN pozostaje 🔎B (wiedza
+  ekspercka; w taryfach 40 kW to granica grup C1x/C2x, nie reguła mocy biernej). Kalkulator
+  pyta: „czy masz na fakturze pozycję za energię bierną?”.
 
-**tgφ₀.** Domyślnie 0,4, chyba że umowa lub warunki przyłączenia stanowią inaczej ✅ (zgodne z
-materiałem).
+**tgφ₀.** Domyślnie 0,4, chyba że umowa lub warunki przyłączenia stanowią inaczej, ale nigdy
+poniżej 0,2 ✅ (zgodne z materiałem; granica 0,2 — taryfy OSD 2026, np. Energa pkt 4.3.4).
 
 **Wzór.**
 
@@ -533,7 +646,9 @@ materiałem).
   - wzór poprawny: √(1,25/1,16) − 1 = **0,0381**.
 - **Podstawa:** rozporządzenie w sprawie kształtowania i kalkulacji taryf w elektroenergetyce
   (paragraf do odczytu) + geometria trójkąta mocy.
-- **Pewność:** ✅ (fizyka), 🔎A (brzmienie aktualnego rozporządzenia).
+- **Pewność:** ✅ — fizyka oraz brzmienie wzoru w taryfach OSD 2026 (Energa pkt 4.3.6, Tauron i
+  Stoen pkt 3.4.6): pierwiastek jest w tekście taryfy. Rozporządzenia taryfowego nie odczytano,
+  ale taryfa zatwierdzona przez URE jest dokumentem pierwotnym dla rozliczenia.
 
 ✏️ **K2 — `C_rk`.**
 - **Źródło podało:** „cena energii czynnej [zł/kWh]”, sugerując cenę z faktury klienta.
@@ -542,15 +657,18 @@ materiałem).
   `k` to krotność z taryfy OSD.
 - **Dlaczego:** definicja z rozporządzenia.
 - **Podstawa:** j.w.
-- **Pewność:** 🔎A. **Dane:** `C_rk` i `k` trafiają do pliku stawek per OSD; użytkownik może wpisać
-  wartości z faktury.
+- **Pewność:** definicja ✅ (taryfy OSD 2026: „cena energii elektrycznej, o której mowa w art. 23
+  ust. 2 pkt 18 lit. b ustawy, obowiązująca w dniu zatwierdzenia Taryfy”); `k` ✅ = 3,00 nN /
+  1,00 SN / 0,50 110 kV (zgodnie Tauron, Energa, Stoen). **Wartość liczbowa `C_rk` — 🔎
+  (nieodczytana;** jest w komunikacie Prezesa URE, nie w taryfie). **Dane:** `C_rk` i `k` trafiają
+  do pliku stawek per OSD; użytkownik może wpisać wartości z faktury.
 
 **Pozostałe przypadki** (✏️ K2, uzupełnienie):
 - energia bierna **pojemnościowa** (przekompensowanie);
 - energia bierna indukcyjna **przy braku poboru czynnej**.
 
 Oba przypadki rozlicza się od **całej** energii biernej, nie od nadwyżki: `O_b = k · C_rk · E_b`
-(🔎A). To typowa pułapka po montażu baterii kondensatorów bez automatyki (weekend, noc).
+(✅ taryfy OSD 2026: Energa pkt 4.3.3 lit. b i 4.3.8; „nadwyżka ponad tgφ = 0”). To typowa pułapka po montażu baterii kondensatorów bez automatyki (weekend, noc).
 
 **Kompensacja — kalkulator opłacalności (nowy, wiedza ekspercka):**
 - Wymagana moc kompensacyjna: `Q_C = P · (tgφ − tgφ_cel)`, gdzie P to średnia moc czynna w
@@ -563,12 +681,15 @@ Oba przypadki rozlicza się od **całej** energii biernej, nie od nadwyżki: `O_
 
 ✏️ **K12 — materiał nie podaje wzoru.**
 - **Źródło podało:** „opłatę oblicza się od wartości przekraczającej moc umowną”.
-- **Poprawiono na** (uzupełnienie): opłata = krotność (typowo 10) × stawka składnika stałego
-  opłaty sieciowej × nadwyżka mocy. Wariant zależy od układu pomiarowego: największa nadwyżka w
-  okresie rozliczeniowym albo suma 10 największych nadwyżek.
+- **Poprawiono na** (uzupełnienie): opłata = składnik stały stawki sieciowej [zł/kW/mies.] ×
+  **suma 10 największych nadwyżek** mocy pobranej ponad umowną (pomiar 15-minutowy, a gdy
+  niemożliwy — godzinowy), albo × **10 × największa nadwyżka**, gdy układ pomiarowy nie pozwala na
+  wariant pierwszy. Naliczana za każdy miesiąc z przekroczeniem.
 - **Dlaczego:** materiał jest niekompletny.
-- **Podstawa:** rozporządzenie taryfowe + taryfa OSD.
-- **Pewność:** 🔎A. Krotność i wariant trafiają do pliku danych per OSD.
+- **Podstawa:** taryfy OSD 2026 — Tauron pkt 3.2.11, Energa pkt 4.2.11–4.2.12, Stoen pkt 3.2.11
+  (brzmienie jednakowe).
+- **Pewność:** ✅. Wariant (a/b) zależy od licznika klienta, więc jest pytaniem do użytkownika,
+  nie daną OSD.
 
 **Optymalizacja mocy umownej (C2x):**
 - kalkulator porównuje roczny koszt składnika stałego przy mocy umownej `P_u` z kosztem
@@ -665,7 +786,11 @@ kalkulatorów rachunku.
   rozporządzenia (OZE, kogeneracyjna, zniesienie przejściowej), rozporządzenie taryfowe
   (moc bierna, przekroczenia) i systemowe (reklamacje, badanie licznika), ustawa o OZE (depozyt,
   1,23, zwrot), regulamin programu Przydomowe Magazyny Energii.
-- **Blokada:** środowisko tej sesji nie ma dostępu do tych domen. Da się to rozwiązać na dwa
+- **Stan 28.09.2026:** większość pobrana i odczytana (§0 „Stan weryfikacji”). Otwarte pozycje
+  wymagają albo ręcznego dostarczenia PDF (PGE Dystrybucja, regulamin PME z NFOŚiGW — oba serwery
+  mają niepełny łańcuch certyfikatów TLS i środowisko je odrzuca), albo odczytu wizualnego (skan
+  taryfy Enea, tabela C2x Stoen).
+- ~~**Blokada:** środowisko tej sesji nie ma dostępu do tych domen.~~ (historyczne) Da się to rozwiązać na dwa
   sposoby:
   - dodać domeny do dozwolonych w ustawieniach środowiska (menu środowiska → Edit → Network
     access): `ure.gov.pl`, `bip.ure.gov.pl`, `gov.pl`, `isap.sejm.gov.pl`, `nfosigw.gov.pl`,
@@ -685,12 +810,12 @@ Wystarczy odesłać wartość + nazwę dokumentu/stronę (albo zdjęcie/PDF). Ko
 | # | Co sprawdzić | Gdzie | Co odesłać |
 |---|---|---|---|
 | ~~W1~~ ✅ 28.09.2026 (odczyt pierwotny) | Stawki opłaty mocowej 2026 (G 4 progi, pozostali 0,2194 zł/kWh + godziny) | ure.gov.pl → Informacja Prezesa URE nr 58/2025 | potwierdzenie liczb albo różnice |
-| W2 | Opłata OZE 2026 (7,30 zł/MWh?), kogeneracyjna (3,00 zł/MWh?), zniesienie przejściowej | gov.pl/web/energia (komunikaty), URE | j.w. |
-| W3 | Taryfa OSD 2026 (dla każdego OSD z osobna): G11, G12, G12w, G13, C11, C12a/b, C21, C22a/b — opłata sieciowa stała i zmienna, abonamentowa, stawka jakościowa, godziny stref, stawki opłaty przyłączeniowej IV–VI, krotność przekroczenia mocy umownej, `k` dla mocy biernej | strona OSD → „Taryfa” (PDF): pgedystrybucja.pl, tauron-dystrybucja.pl, operator.enea.pl, energa-operator.pl, stoen.pl | **najprościej: sam PDF taryfy** (wyciągnę liczby, Ty tylko potwierdzasz wynik) |
+| ~~W2~~ ✅ 28.09.2026 (OZE, kogeneracyjna — z taryf OSD; przejściowa — komunikat ME + brak w taryfach) | Opłata OZE 2026 (7,30 zł/MWh?), kogeneracyjna (3,00 zł/MWh?), zniesienie przejściowej | gov.pl/web/energia (komunikaty), URE | j.w. |
+| W3 — **częściowo** 28.09.2026: Tauron ✅, Energa ✅, Stoen ✅ (bez C22a/b), Enea tylko brutto; **PGE ❌** | Taryfa OSD 2026 (dla każdego OSD z osobna): G11, G12, G12w, G13, C11, C12a/b, C21, C22a/b — opłata sieciowa stała i zmienna, abonamentowa, stawka jakościowa, godziny stref, stawki opłaty przyłączeniowej IV–VI, krotność przekroczenia mocy umownej, `k` dla mocy biernej | strona OSD → „Taryfa” (PDF): pgedystrybucja.pl, tauron-dystrybucja.pl, operator.enea.pl, energa-operator.pl, stoen.pl | **najprościej: sam PDF taryfy** (wyciągnę liczby, Ty tylko potwierdzasz wynik) |
 | W4 | Standardowe profile zużycia G11/C11 (do profili autokonsumpcji, P3) | strona OSD → IRiESD / „standardowe profile” | plik (zwykle XLS/CSV) |
-| W5 | Współczynnik 1,23 — kogo dotyczy; zasady zwrotu depozytu | isap.sejm.gov.pl → ustawa o OZE, tekst jednolity, przepis o depozycie prosumenckim | brzmienie przepisu |
+| ~~W5~~ ✅ 28.09.2026 (API ELI Sejmu) | Współczynnik 1,23 — kogo dotyczy; zasady zwrotu depozytu | isap.sejm.gov.pl → ustawa o OZE, tekst jednolity, przepis o depozycie prosumenckim | brzmienie przepisu |
 | W6 | Program „Przydomowe Magazyny Energii” — warunki (czy wymaga bycia prosumentem, trwałość, zwrot przy odłączeniu) | nfosigw.gov.pl → regulamin naboru | regulamin (PDF) |
-| W7 | Wzór mocy biernej, przekroczenie mocy umownej | isap.sejm.gov.pl → rozporządzenie w sprawie kształtowania i kalkulacji taryf w elektroenergetyce | paragraf (zdjęcie/tekst) |
+| ~~W7~~ ✅ 28.09.2026 (z taryf OSD; wartość `C_rk` nadal 🔎) | Wzór mocy biernej, przekroczenie mocy umownej | isap.sejm.gov.pl → rozporządzenie w sprawie kształtowania i kalkulacji taryf w elektroenergetyce | paragraf (zdjęcie/tekst) |
 
 Każda odesłana wartość wchodzi do `docs/zrodla/` jako źródło (1:1) i zamienia 🔎 na ✅ albo ✏️.
 
@@ -799,10 +924,10 @@ odłączenia (wymagane potwierdzenie), dane stawek po terminie ważności.
 
 | Nr | Miejsce w materiale | Sekcja opracowania | Pewność |
 |---|---|---|---|
-| K1 | dok. 1, 3.2 — wzór mocy biernej bez √ | §8.2 | ✅ fizyka / 🔎A brzmienie |
-| K2 | dok. 1, 3.2 — C_rk; pojemnościowa | §8.2 | 🔎A |
-| K3 | dok. 1, 2 i 3.1 — moc bierna w C1x | §8.2 | 🔎A |
-| K4 | dok. 1, 4.2 — 1,23 dla firm, data | §3.1 | 🔎B |
+| K1 | dok. 1, 3.2 — wzór mocy biernej bez √ | §8.2 | ✅ (fizyka + brzmienie taryf OSD) |
+| K2 | dok. 1, 3.2 — C_rk; pojemnościowa | §8.2 | ✅ definicja, k, pojemnościowa; 🔎 wartość C_rk |
+| K3 | dok. 1, 2 i 3.1 — moc bierna w C1x | §8.2 | ✅ (taryfy OSD: SN/WN zawsze, nN „mogą być”); próg 40 kW 🔎B |
+| ~~K4~~ | dok. 1, 4.2 — 1,23 dla firm, data | §3.1 | **wycofana** 28.09.2026 — materiał miał rację (art. 4c ust. 4 OZE, od 1.02.2025) ✅ |
 | K5 | dok. 1, 4.4 — podatki sprzeczne | §7 | ✅ odrzucenie |
 | K6 | dok. 1, 5.4 — dotacje | §7 | ✅ / 🔎B |
 | K7 / K7b | dok. 1, 7.1, 7.3 — terminy, koszt ekspertyzy | §8.6 | 🔎A/🔎B |
@@ -810,7 +935,7 @@ odłączenia (wymagane potwierdzenie), dane stawek po terminie ważności.
 | K9 | dok. 1, 2 — „ceny C nieregulowane” | §8.1 | ✅ |
 | K10 | dok. 2, algorytm — opłata przejściowa (oraz moja wcześniejsza notatka „brakuje”) | §2.3 | 🔎A |
 | K11 | dok. 2, cz. 1–2 — tabele stawek | §2.4 | ✅ odrzucenie |
-| K12 | dok. 1, 3.4 — brak wzoru przekroczenia | §8.3 | 🔎A |
+| K12 | dok. 1, 3.4 — brak wzoru przekroczenia | §8.3 | ✅ (taryfy OSD) |
 | K13 | dok. 1, 5.3 — redukcja opłaty za moc umowną | §8.5 | 🔎B |
 | K14 | dok. 1, 4.3 — stały współczynnik 0,3–0,4 | §3.1 | ✅ metoda |
 
@@ -835,3 +960,18 @@ odłączenia (wymagane potwierdzenie), dane stawek po terminie ważności.
 - [Globenergia — opłata kogeneracyjna bez podwyżki](https://globenergia.pl/kolejne-zmiany-na-rachunkach-za-prad-oplata-kogeneracyjna-jednak-bez-podwyzki/)
 - [Globenergia — Przydomowe Magazyny Energii, wznowienie naboru](https://globenergia.pl/druga-szansa-na-dotacje-do-magazynu-energii-i-pv-nfosigw-wznawia-nabor-po-programie-moj-prad/)
 - [Globenergia — współczynnik 1,23 w net-billingu](https://globenergia.pl/prosumenci-w-net-bilingu-zyskaja-23-wartosci-depozytu-propozycje-zmian-w-ustawie/)
+
+## Źródła pierwotne odczytane 28.09.2026 (DANE-1)
+
+- Informacja Prezesa URE nr 58/2025 — `docs/zrodla/URE-Informacja-58-2025-stawki-oplaty-mocowej-2026.pdf`.
+- Taryfy OSD 2026 — `docs/zrodla/Tauron-Dystrybucja-Taryfa-2026.pdf`, `…-wyciag-grupy-G.pdf`,
+  `Energa-Operator-Taryfa-2026.pdf`, `Stoen-Operator-Taryfa-2026-tekst-z-25-02-2026.pdf`,
+  `Enea-Operator-stawki-brutto-2026-od-02-01.pdf`.
+- Zmiana stawki jakościowej od 1.02.2026 — `docs/zrodla/Tauron-Dystrybucja-stawka-jakosciowa-od-2026-02-01.pdf`,
+  `docs/zrodla/Enea-Operator-stawka-jakosciowa-od-2026-02-01.pdf`.
+- Ustawa o OZE, t.j. Dz.U. 2026 poz. 68 — https://api.sejm.gov.pl/eli/acts/DU/2026/68/text.pdf
+  (3,2 MB, nie kopiowana do repo; SHA-256 `82f1684302ec8932…`): art. 4 ust. 11–11a, art. 4b, 4c, 4d.
+- Ustawa z 27.11.2024 zmieniająca ustawę o OZE, Dz.U. 2024 poz. 1847 —
+  https://api.sejm.gov.pl/eli/acts/DU/2024/1847/text.pdf (SHA-256 `1adfd0ca2ac1d8c9…`): art. 1 pkt 4
+  lit. a, art. 31, art. 33.
+- Komunikat Ministerstwa Energii z 28.11.2025 „Koniec opłaty przejściowej…” — gov.pl/web/energia.
