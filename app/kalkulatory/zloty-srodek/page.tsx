@@ -3,6 +3,7 @@
 import { useMemo, useState } from "react"
 import { SekcjaDanychNaslonecznienia } from "@/components/lokalizacja/sekcja-dane-nasloniecznienia"
 import { NawigacjaEkranu } from "@/components/nawigacja-ekranu"
+import { PoleMasyPaneliStelaza } from "@/components/pv/pole-masy-paneli-stelaza"
 import { Button } from "@/components/ui/button"
 import { Pole, PoleSelect } from "@/components/ui/pole"
 import { StanLadowania, StanPusty } from "@/components/ui/stany"
@@ -29,6 +30,8 @@ type FormularzStan = {
   wysokoscKonstrukcjiM: string
   powierzchniaM2: string
   phi: string
+  /** Drafts saved before 28.09.2026 (D29) do not have it. */
+  masaPaneliStelazaKg?: string
   cenaBalastu: string
   mocKwp: string
   pr: string
@@ -45,6 +48,7 @@ const STAN_POCZATKOWY: FormularzStan = {
   wysokoscKonstrukcjiM: "",
   powierzchniaM2: "",
   phi: "",
+  masaPaneliStelazaKg: "",
   cenaBalastu: String(CENA_BALASTU_PODPOWIEDZ_ZL_KG),
   mocKwp: "",
   pr: "",
@@ -169,6 +173,7 @@ export default function ZlotySrodekPage() {
         wysokoscKonstrukcjiM: n(stan.wysokoscKonstrukcjiM),
         powierzchniaPaneliM2: n(stan.powierzchniaM2),
         wspolczynnikPhi: n(stan.phi),
+        masaPaneliStelazaKg: n(stan.masaPaneliStelazaKg ?? ""),
         cenaBalastuZlKg: n(stan.cenaBalastu),
         mocInstalacjiKwp: n(stan.mocKwp),
         wspolczynnikPr: n(stan.pr),
@@ -298,6 +303,7 @@ export default function ZlotySrodekPage() {
 
       <section className="flex flex-col gap-3">
         <h2 className="font-semibold">3. Balast i wycena energii</h2>
+        <PoleMasyPaneliStelaza value={stan.masaPaneliStelazaKg ?? ""} onChange={(v) => ustaw("masaPaneliStelazaKg", v)} />
         <Pole
           label="Cena balastu"
           unit="zł/kg"

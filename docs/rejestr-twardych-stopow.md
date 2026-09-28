@@ -258,6 +258,8 @@ nie do audytu poprawności formularza webowego.
   (M3/E6 — `lib/core/modules/pv/napor-wiatru/warnings.ts`, `balastNiewystarczajacy`, kod
   `NW-BALAST-NIEWYSTARCZAJACY`; sprawdzany tylko, gdy użytkownik wpisze planowany balast. Przesuw i
   wywracanie niesprawdzane — brak współczynnika tarcia i punktu przyłożenia siły.)
+  **[28.09.2026] Dopisek D29:** gdy użytkownik wpisze masę paneli i stelaża, próg = balast projektowy
+  pomniejszony o tę masę (`max(0, γQ·F/(γG,inf·g) − mw)`); puste pole = próg jak dotąd.
 - **[27.09.2026] Obciążenie śniegiem przekraczające nośność dachu** — osobno: (a) obciążenie normowe
   `s = μ1·Ce·Ct·sk` (PN-EN 1991-1-3 + NB) większe niż nośność z projektu konstrukcji, (b) ciężar
   zmierzonej warstwy `γ·h` (górne γ z Tablicy E.1) większy niż ta nośność. Źródło: Moduł 7, Ekran 23

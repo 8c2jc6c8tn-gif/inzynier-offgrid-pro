@@ -28,7 +28,7 @@ export type WiatrDlaKata = {
   /** |cf| — odrywanie (0–30°) albo siła pozioma (90°); `null` = brak danych normowych. */
   cf: number | null
   silaWiatruN: number | null
-  /** Design ballast m = γQ·Fw/(γG,inf·g), PN-EN 1990 EQU — tylko 0–30° (siła odrywająca); pion i 31–89° → `null`. */
+  /** Design ballast m = max(0, γQ·Fw/(γG,inf·g) − m_w), PN-EN 1990 EQU, m_w = panels + frame (D29) — tylko 0–30° (siła odrywająca); pion i 31–89° → `null`. */
   balastKg: number | null
 }
 
@@ -44,12 +44,12 @@ export function katPosredniTablicy(katDeg: number): boolean {
 
 /**
  * Siła wiatru i balast dla stelaża = wiaty jednospadowej (D26) — ten sam tor co M3/E9:
- * Fw = cscd·cf·ce(ze)·qb·Aref, m = γQ·Fw/(γG,inf·g) (PN-EN 1990, EQU).
+ * Fw = cscd·cf·ce(ze)·qb·Aref, m = max(0, γQ·Fw/(γG,inf·g) − m_w) (PN-EN 1990, EQU; m_w — D29, 0 = pominięta).
  */
-export function wiatrDlaKata(w: WiatrPelny, katDeg: number, zeM: number, powierzchniaM2: number): WiatrDlaKata {
+export function wiatrDlaKata(w: WiatrPelny, katDeg: number, zeM: number, powierzchniaM2: number, masaWlasnaKg = 0): WiatrDlaKata {
   const qpPa = szczytoweCisnieniePa(bazoweCisnienieWiatruPa(w.strefaWiatrowa, w.wysokoscNpmM), wspolczynnikEkspozycji(w.kategoriaTerenu, zeM))
   const cf = katDeg === KAT_PIONOWY_DEG ? CF_TABLICA_PIONOWA : cfOdrywaniaWiaty(katDeg, w.wspolczynnikPhi)
   const sila = cf === null ? null : silaWiatruN(CSCD_STELAZ, cf, qpPa, powierzchniaM2)
-  const balastKg = sila !== null && katDeg <= CF_WIATA_MAX_KAT_DEG ? balastProjektowyEquKg(sila, PRZYSPIESZENIE_ZIEMSKIE_M_S2) : null
+  const balastKg = sila !== null && katDeg <= CF_WIATA_MAX_KAT_DEG ? balastProjektowyEquKg(sila, PRZYSPIESZENIE_ZIEMSKIE_M_S2, masaWlasnaKg) : null
   return { zeM, qpPa, cf, silaWiatruN: sila, balastKg }
 }

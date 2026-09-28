@@ -14,5 +14,8 @@ export function validateInput(input: NaporWiatruInput): ValidationResult {
   if (input.balastPlanowanyKg !== null && input.balastPlanowanyKg < 0) {
     errors.push(wartoscUjemna("balastPlanowanyKg", input.balastPlanowanyKg))
   }
+  if (input.masaPaneliStelazaKg !== null && !(Number.isFinite(input.masaPaneliStelazaKg) && input.masaPaneliStelazaKg >= 0)) {
+    errors.push(wartoscUjemna("masaPaneliStelazaKg", input.masaPaneliStelazaKg))
+  }
   return { errors }
 }

@@ -18,6 +18,7 @@ export const NaporWiatruToolInput = z.object({
     .number()
     .optional()
     .describe("Planowana masa balastu [kg], do porównania z balastem projektowym; pomiń, jeśli user nie podał"),
+  masaPaneliStelazaKg: z.number().optional().describe("Masa paneli i stelaża [kg] z karty katalogowej albo ważenia — odejmowana od balastu (PN-EN 1990 EQU); pomiń, jeśli user nie podał, nie zgaduj"),
 })
 export type NaporWiatruToolInputT = z.infer<typeof NaporWiatruToolInput>
 
@@ -49,6 +50,7 @@ export const naporWiatruTool: AiToolDefinition<NaporWiatruToolInputT, NaporWiatr
       powierzchniaM2: input.powierzchniaM2,
       cd: input.cd,
       balastPlanowanyKg: input.balastPlanowanyKg ?? null,
+      masaPaneliStelazaKg: input.masaPaneliStelazaKg ?? null,
     })
     return {
       status: wynik.status,

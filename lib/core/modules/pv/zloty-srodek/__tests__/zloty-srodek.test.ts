@@ -21,6 +21,7 @@ const bazowe: ZlotySrodekInput = {
   wysokoscKonstrukcjiM: 2,
   powierzchniaPaneliM2: 10,
   wspolczynnikPhi: 0,
+  masaPaneliStelazaKg: null,
   cenaBalastuZlKg: 1,
   mocInstalacjiKwp: null,
   wspolczynnikPr: null,
@@ -47,6 +48,18 @@ describe("calculateZlotySrodek (M3/E9, D27)", () => {
     expect(p30.silaWiatruN).toBeCloseTo(1.8 * qp * 10, 6)
     expect(p30.balastKg).toBeCloseTo((1.5 * 1.8 * qp * 10) / (0.9 * PRZYSPIESZENIE_ZIEMSKIE_M_S2), 6)
     expect(p30.kosztBalastuZl).toBeCloseTo(p30.balastKg! * 2, 6)
+  })
+
+  // D29 — reference in Python: 1.5·1.8·qp·10/(0.9·9.80665) − 200 = 1256.1551011023253.
+  it("D29: masa paneli i stelaża odejmuje się od balastu i kosztu; nigdy poniżej zera", () => {
+    const r = calculateZlotySrodek({ ...bazowe, masaPaneliStelazaKg: 200 })
+    const p30 = r.value!.punkty[30]!
+    expect(p30.balastKg).toBeCloseTo(1256.1551011023253, 6)
+    expect(p30.kosztBalastuZl).toBeCloseTo(1256.1551011023253, 6)
+    expect(r.assumptions).toContainEqual({ kod: "ZS-ZALOZENIE-BALAST-EQU-MASA-WLASNA", params: { gammaQ: 1.5, gammaG: 0.9, masa: 200 } })
+    const ciezki = calculateZlotySrodek({ ...bazowe, masaPaneliStelazaKg: 5000 }).value!
+    expect(ciezki.punkty.filter((q) => q.balastKg !== null).every((q) => q.balastKg === 0)).toBe(true)
+    expect(calculateZlotySrodek({ ...bazowe, masaPaneliStelazaKg: -1 }).status).toBe("INVALID_INPUT")
   })
 
   it("31–89° bez danych wiatru; 90° — siła pozioma cf = 1,80, bez balastu", () => {

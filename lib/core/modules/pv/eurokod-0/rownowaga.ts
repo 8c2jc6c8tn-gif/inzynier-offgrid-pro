@@ -16,9 +16,11 @@ export const GAMMA_Q_EQU = 1.5
 
 /**
  * Minimum ballast mass [kg] from EQU (6.7) for a vertical uplift force:
- * γQ·Fk ≤ γG,inf·m·g  →  m = γQ·Fk / (γG,inf·g).
- * Self-weight of panels and frame is ignored (it would be stabilising) — on the safe side.
+ * γQ·Fk ≤ γG,inf·(m + mw)·g  →  m = max(0, γQ·Fk / (γG,inf·g) − mw).
+ * `masaWlasnaKg` (mw) = panels + frame, from the datasheet or weighing — a permanent stabilising action
+ * with the same γG,inf as ballast (D29, owner decision 28.09.2026). 0 = not entered → self-weight
+ * ignored, on the safe side.
  */
-export function balastProjektowyEquKg(silaOdrywajacaN: number, przyspieszenieZiemskieMS2: number): number {
-  return (GAMMA_Q_EQU * silaOdrywajacaN) / (GAMMA_G_INF_EQU * przyspieszenieZiemskieMS2)
+export function balastProjektowyEquKg(silaOdrywajacaN: number, przyspieszenieZiemskieMS2: number, masaWlasnaKg = 0): number {
+  return Math.max(0, (GAMMA_Q_EQU * silaOdrywajacaN) / (GAMMA_G_INF_EQU * przyspieszenieZiemskieMS2) - masaWlasnaKg)
 }

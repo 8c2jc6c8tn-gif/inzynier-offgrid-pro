@@ -37,6 +37,11 @@ export type GeometriaStelazaInput = {
   szerokoscStelazaM: number | null
   /** Wysokość dolnej krawędzi paneli nad terenem [m] (dla dachu — razem z wysokością budynku). */
   wysokoscDolnejKrawedziM: number | null
+  /**
+   * Masa paneli i stelaża [kg] z karty/wagi — opcjonalna (`null` = pominięta, strona bezpieczna).
+   * Siła utrzymująca w EQU, odejmowana od balastu (D29).
+   */
+  masaPaneliStelazaKg: number | null
 }
 
 export type MiejsceMontazu = "grunt" | "dach"

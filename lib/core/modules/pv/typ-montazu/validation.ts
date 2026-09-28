@@ -32,6 +32,7 @@ export function validateWiatr(input: DaneWiatruInput & GeometriaStelazaInput): W
   if (!dodatnia(input.dlugoscWzdluzSpaduM)) e.push(wartoscNiedodatnia("dlugoscWzdluzSpaduM", "długość wzdłuż spadku", input.dlugoscWzdluzSpaduM!))
   if (!dodatnia(input.szerokoscStelazaM)) e.push(wartoscNiedodatnia("szerokoscStelazaM", "szerokość stelaża", input.szerokoscStelazaM!))
   if (!nieujemna(input.wysokoscDolnejKrawedziM)) e.push(wartoscUjemna("wysokoscDolnejKrawedziM", "Wysokość dolnej krawędzi", input.wysokoscDolnejKrawedziM!))
+  if (!nieujemna(input.masaPaneliStelazaKg)) e.push(wartoscUjemna("masaPaneliStelazaKg", "Masa paneli i stelaża", input.masaPaneliStelazaKg!))
   return e
 }
 

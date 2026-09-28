@@ -22,6 +22,11 @@ export type ZlotySrodekInput = {
   powierzchniaPaneliM2: number | null
   /** Współczynnik ograniczenia przepływu pod stelażem φ ∈ [0, 1] (7.3 (2)): 0 = pusto pod spodem. */
   wspolczynnikPhi: number | null
+  /**
+   * Masa paneli i stelaża [kg] z karty/wagi — opcjonalna (`null` = pominięta, strona bezpieczna).
+   * Siła utrzymująca w EQU, odejmowana od balastu dla każdego kąta (D29).
+   */
+  masaPaneliStelazaKg: number | null
   /** Cena balastu [zł/kg] — podpowiedź 1 zł/kg (D27, wykonanie własne), użytkownik wpisuje swoją. */
   cenaBalastuZlKg: number | null
   /** Do wyceny energii (kryterium D27) — wszystkie cztery albo brak rekomendacji. */

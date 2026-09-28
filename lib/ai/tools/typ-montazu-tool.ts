@@ -32,6 +32,7 @@ export const TypMontazuToolInput = z.object({
   nachylenieDeg: z.number().optional().describe("Kąt nachylenia stelaża albo dachu wiaty [°]"),
   dlugoscWzdluzSpaduM: z.number().optional().describe("Długość pola paneli wzdłuż spadku [m]"),
   szerokoscStelazaM: z.number().optional().describe("Szerokość pola paneli w poprzek spadku [m]"),
+  masaPaneliStelazaKg: z.number().optional().describe("Masa paneli i stelaża [kg] z karty katalogowej albo ważenia — odejmowana od balastu (PN-EN 1990 EQU); pomiń, jeśli user nie podał, nie zgaduj"),
   strefaWiatrowa: z.union([z.literal(1), z.literal(2), z.literal(3)]).optional().describe("Strefa wiatrowa NA.1 PN-EN 1991-1-4 — tylko jeśli user podał"),
   kategoriaTerenu: z.enum(KATEGORIE_TERENU as unknown as [string, ...string[]]).optional().describe("0, I, II, III, IV — tylko jeśli user podał lub opisał teren jednoznacznie"),
   wysokoscNpmM: z.number().optional().describe("Wysokość terenu n.p.m. [m]; brak → z PVGIS (tylko tryby z PVGIS)"),
@@ -139,6 +140,7 @@ export function utworzTypMontazuTool(fetchImpl: typeof fetch = fetch): AiToolDef
         dlugoscWzdluzSpaduM: n(input.dlugoscWzdluzSpaduM),
         szerokoscStelazaM: n(input.szerokoscStelazaM),
         wysokoscDolnejKrawedziM: n(input.wysokoscDolnejKrawedziM),
+        masaPaneliStelazaKg: n(input.masaPaneliStelazaKg),
       }
 
       if (input.tryb === "wiata") {
