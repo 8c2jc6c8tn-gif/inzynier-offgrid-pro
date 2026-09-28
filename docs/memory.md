@@ -7770,3 +7770,10 @@ test diody (15×60/1000 = 0,9 kW ✅); arytmetyka 2×450×1,23 = 1 107 ✅, 169,
 0,2194 vs 0,1413 (2025) = +55,3% — spójne ze źródłem, sama stawka 🔎 (Informacja Prezesa URE).
 Ceny BESS, zwrot 5–8 lat, „0,3–0,4 współczynnik bilansowania”, „54% węgla” — orientacyjne, nie
 stałe do kodu (kalkulator ma to liczyć, nie przyjmować).
+
+**[28.09.2026] ✅ Decyzja właściciela — cel rozdziału (do zapisu jako D# przy integracji do Biblii):**
+„Niektórzy są jeszcze podłączeni do sieci i chcą częściowo przejść do off-grid — nie możemy ich
+ignorować. Muszą mieć podgląd i porównanie, żeby zrezygnować z sieci i przejść na off-grid. To
+bardzo popularny kierunek.” Konsekwencja: rozdział nie jest porównywarką taryf samą w sobie, tylko
+**ścieżką przejścia sieć → off-grid** (dziś: mój rachunek; jutro: porównanie scenariuszy z
+kalkulatorami M2/M3/M4/M7). Pochodzenie materiału potwierdzone przez właściciela: pisane przez AI.
