@@ -86,6 +86,7 @@ import { doborRegulatoraPwmMpptTool } from "./tools/dobor-regulatora-pwm-mppt-to
 import { dniBezSloncaTool } from "./tools/dni-bez-slonca-tool"
 import { ochronaPrzedRozladowaniemTool } from "./tools/ochrona-przed-rozladowaniem-tool"
 import { wilgocMaleInstalacjeTool } from "./tools/wilgoc-male-instalacje-tool"
+import { uziemienieMaleInstalacjeTool } from "./tools/uziemienie-male-instalacje-tool"
 import { kableBezpiecznikiMaleTool } from "./tools/kable-bezpieczniki-male-tool"
 import { ladowanieWGarazuTool } from "./tools/ladowanie-w-garazu-tool"
 import { bezpieczenstwoKamperTool } from "./tools/bezpieczenstwo-kamper-tool"
@@ -371,6 +372,7 @@ const NARZEDZIA: Array<AiToolDefinition<any, any>> = [
   dniBezSloncaTool,
   ochronaPrzedRozladowaniemTool,
   wilgocMaleInstalacjeTool,
+  uziemienieMaleInstalacjeTool,
   kableBezpiecznikiMaleTool,
   ladowanieWGarazuTool,
   bezpieczenstwoKamperTool,

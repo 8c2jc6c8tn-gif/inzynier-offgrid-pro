@@ -17,6 +17,7 @@ nie do audytu poprawności formularza webowego.
 
 ## Elektryczne / pożarowe
 
+- **[28.09.2026] Biegun DC uziemiony, gdy falownik wymaga układu izolowanego (IT)** — ryzyko uszkodzenia MPPT. (M5/E11 — `lib/core/modules/okablowanie/uziemienie-funkcjonalne-ochronne/warnings.ts`, `biegunUziemionyWbrewIt`, kod `BIEGUN-UZIEMIONY-WBREW-IT`) — dopisany przy budowie M12/E38 (dryf M5 — patrz wpis M5/E11 w sekcji „Bezpieczeństwo życia / montaż”).
 - **Zdolność wyłączania (AIC) bezpiecznika niższa niż prąd zwarciowy pakietu** — bezpiecznik
   rozerwie się, tworząc łuk plazmowy, zamiast bezpiecznie przerwać obwód.
   (M4/E24 — `lib/core/modules/baterie/dobor-bezpiecznika-dc/warnings.ts`,
@@ -239,6 +240,8 @@ nie do audytu poprawności formularza webowego.
 
 ## Bezpieczeństwo życia / montaż
 
+- **[28.09.2026] Obudowa falownika niepołączona z GSW (uziemienie ochronne)** — przy zwarciu do obudowy obudowa jest pod napięciem. (M5/E11 — `lib/core/modules/okablowanie/uziemienie-funkcjonalne-ochronne/warnings.ts`, `obudowaNiepolaczonaZGsw`, kod `OBUDOWA-NIEPOLACZONA-Z-GSW`) — stop istniał w kodzie od 13.09.2026, ale nie był w tym rejestrze (dryf, dopisany przy budowie M12/E38; ten sam dryf dotyczy całego M5 — zadanie na liście).
+  **Echo w M12/E38** (`lib/core/modules/kalkulator-mobilny/uziemienie-male-instalacje/warnings.ts`): instalacja 230 V z falownika w kamperze/jachcie/garażu/na zewnątrz — obudowa falownika nieuziemiona albo „nie wiem” 🔴 (kod `UMI-OBUDOWA-FALOWNIKA-NIEUZIEMIONA`, poziom brany z M5/E11) oraz gniazda 230 V bez podłączonego styku ochronnego albo „nie wiem” 🔴 (kod `UMI-GNIAZDA-BEZ-STYKU-OCHRONNEGO`, Biblia §12.53: „Brak uziemienia przy zwarciach to ryzyko porażenia”). Instalacja tylko 12/24 V DC — bez stopu (źródło: zwykle bez uziemienia ochronnego).
 - **Rozpoczęcie montażu baterii LiFePO4 bez pełnego kompletu: mata izolacyjna, klucz
   dynamometryczny z nasadkami izolowanymi, rękawice, okulary, gaśnica w zasięgu ręki** — checklist
   musi być potwierdzona w całości przed werdyktem "Stanowisko gotowe do montażu".

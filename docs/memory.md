@@ -8035,3 +8035,15 @@ Tryb Audyt (czapka rewidenta). Warstwa „w pełni na końcu” z N.2 — wszyst
   Szczegóły: `docs/przekazanie-nastepnej-sesji.md`, `docs/lista-do-zrobienia.md`.
 - **D50 (28.09.2026):** właściciel odłożył pozostałe pytania; bramka N.3 dla M14 zdjęta — kod M14 może startować.
   Stan i kolejność: `docs/przekazanie-nastepnej-sesji.md`, sekcja „STAN NA TERAZ”.
+
+## M12/E38 — uziemienie małej instalacji i dryf rejestru twardych stopów M5 (28.09.2026)
+
+- **E38 zbudowany** jako wrapper (hybryda) do M5/E9/E11. Treść `Tresc_Modul_12` to jedno zdanie — logika wzięta z
+  Biblii §12.53 (dawne 8.65), bez liczb i norm spoza niej. Twardy stop obudowy falownika bierze **poziom** z
+  `obudowaNiepolaczonaZGsw()` M5/E11 (echo), ale ma własny kod `UMI-…`, bo tekst M5 mówi o GSW budynku, której w
+  kamperze/na jachcie nie ma. Poziomy 🔴 gniazd i ℹ️ wilgoci — ✅🤖 do potwierdzenia (lista zadań).
+- **Dryf znaleziony (Y.2):** stopy `critical` całego M5 nie trafiły do `docs/rejestr-twardych-stopow.md` (4.3).
+  Dopisane tylko M5/E11; reszta jako zadanie 🔲 z wysokim priorytetem. Szybkie wykrycie: pętla po
+  `lib/core/modules/<moduł>/*/warnings.ts`, wyciągnięcie kodów z `level: "critical"` i `grep` każdego w rejestrze.
+- **Pułapka narzędziowa:** `playwright` nie jest w `node_modules` repo — skrypty weryfikacyjne importują
+  `/opt/node22/lib/node_modules/playwright/index.mjs`; headless bez `locale: "pl-PL"` pokazuje teksty EN.
