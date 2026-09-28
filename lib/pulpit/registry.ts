@@ -310,6 +310,8 @@ export const KAFLE: KafelEntry[] = [
       { href: "/kalkulatory/ladowanie-w-garazu", label: "Bezpieczne ładowanie akumulatora w garażu (lista kontrolna)" },
       { href: "/kalkulatory/kable-bezpieczniki-male", label: "Kabel i bezpiecznik dla małej instalacji 12/24 V" },
       { href: "/kalkulatory/kable-bezpieczniki-kamper", label: "Kable i bezpieczniki w kamperze / pojeździe" },
+      // M12/E28 = simplified M4/E12 — same screen, second entry point (already only 2 fields).
+      { href: "/kalkulatory/cold-c-rate", label: "Zabezpieczenie akumulatora przed zimnem — mała instalacja" },
     ],
   },
   {

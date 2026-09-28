@@ -7763,3 +7763,7 @@ idą od najstarszych otwartych ⚠️. Decyzje rundy 1–2 i co z nimi zrobiono:
 - **Chmurki „?” — decyzja D34 (28.09):** wariant **B** (wybrany już w poprzedniej sesji, ale nieodnotowany —
   tu uzupełnione) + chmurki mają bogato wyjaśniać, jak i po co działa kalkulator. Realizacja w osobnej sesji,
   moduł po module. Nowe ekrany od razu w tym standardzie.
+- **M12 runda „uproszczone wersje” — E28 (28.09):** odsyłacz = drugi wpis w kaflu M12 (`lib/pulpit/registry.ts`)
+  z tym samym `href` co ekran-źródło (M4/E12 `cold-c-rate`, już 2 pola) — bez nowego silnika/strony. Duplikat
+  `href` między kaflami jest bezpieczny (klucze React per kafel), ale okruszki `NawigacjaEkranu` pokazują moduł
+  źródłowy (`znajdzKafelIEkranPoHref` — pierwsze trafienie, M4 przed M12) — świadomie, „jeden ekran, dwa wejścia”.
