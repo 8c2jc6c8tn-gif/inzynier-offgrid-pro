@@ -2,6 +2,7 @@ import type { Assumption, CalcResult, Warning } from "@/lib/core/calc-result"
 import { GAMMA_G_INF_EQU, GAMMA_Q_EQU } from "../eurokod-0/rownowaga"
 import { CF_WIATA_MAX_KAT_DEG, KAT_PIONOWY_DEG } from "../eurokod-1/wiatr"
 import { CSCD_STELAZ, PRZYSPIESZENIE_ZIEMSKIE_M_S2 } from "../zloty-srodek/constants"
+import { zalozenieMasyWlasnej } from "../zloty-srodek/zalozenia"
 import { balastProjektowyEqu, pionSilaPozioma } from "../zloty-srodek/warnings"
 import { LICZBA_MIESIECY, PROG_SSANIA_OD_SPODU_DEG } from "./constants"
 import type { RegulowanyInput } from "./input"
@@ -35,7 +36,7 @@ export type RegulowanyResult = {
 }
 
 const FORMULA =
-  "\\beta^*_m = \\arg\\max_{\\beta \\in [\\beta_{min}, \\beta_{max}]} H_m(\\beta),\\quad h_m = L \\sin\\beta^*_m,\\quad m_{bal} = \\max_m F_w(\\beta^*_m) / g"
+  "\\beta^*_m = \\arg\\max_{\\beta \\in [\\beta_{min}, \\beta_{max}]} H_m(\\beta),\\quad h_m = L \\sin\\beta^*_m,\\quad m_{bal} = \\max\\left(0,\\ \\frac{\\gamma_Q \\max_m F_w(\\beta^*_m)}{\\gamma_{G,inf}\\, g} - G\\right)"
 
 const suma = (xs: number[]) => xs.reduce((a, b) => a + b, 0)
 
@@ -84,7 +85,7 @@ export function calculateRegulowany(input: RegulowanyInput): CalcResult<Regulowa
       katDeg,
       napromieniowanieKwhM2: tabela.miesiace[iNaj]![m]!,
       podniesienieM,
-      ...wiatrDlaKata(daneWiatru, katDeg, h0 + podniesienieM, powierzchniaM2),
+      ...wiatrDlaKata(daneWiatru, katDeg, h0 + podniesienieM, powierzchniaM2, input.masaPaneliStelazaKg ?? 0),
     }
   })
   const iStaly = indeksy.reduce((a, i) => (suma(tabela.miesiace[i]!) > suma(tabela.miesiace[a]!) ? i : a))
@@ -113,6 +114,7 @@ export function calculateRegulowany(input: RegulowanyInput): CalcResult<Regulowa
   if (balasty.length > 0) {
     assumptions.push({ kod: "ZS-ZALOZENIE-BALAST-PIONOWO", params: { g: PRZYSPIESZENIE_ZIEMSKIE_M_S2 } })
     assumptions.push({ kod: "ZS-ZALOZENIE-BALAST-EQU", params: { gammaQ: GAMMA_Q_EQU, gammaG: GAMMA_G_INF_EQU } })
+    assumptions.push(zalozenieMasyWlasnej(input.masaPaneliStelazaKg))
   }
   if (katMaksUzyty >= PROG_SSANIA_OD_SPODU_DEG) assumptions.push({ kod: "TM-ZALOZENIE-PROG-SSANIA", params: { prog: PROG_SSANIA_OD_SPODU_DEG } })
 

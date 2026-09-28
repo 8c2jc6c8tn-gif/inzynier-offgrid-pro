@@ -37,6 +37,11 @@ export type GeometriaStelazaInput = {
   szerokoscStelazaM: number | null
   /** Wysokość dolnej krawędzi paneli nad terenem [m] (dla dachu — razem z wysokością budynku). */
   wysokoscDolnejKrawedziM: number | null
+  /**
+   * Masa paneli i stelaża (jednego stelaża, bez balastu) [kg] — z karty katalogowej albo z wagi, nigdy
+   * domyślna (D29). Liczona jako siła utrzymująca z γG,inf = 0,90; `null` = pominięta (po stronie bezpiecznej).
+   */
+  masaPaneliStelazaKg: number | null
 }
 
 export type MiejsceMontazu = "grunt" | "dach"

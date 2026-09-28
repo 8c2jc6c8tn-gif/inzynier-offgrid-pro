@@ -3,6 +3,7 @@ import { GAMMA_G_INF_EQU, GAMMA_Q_EQU } from "../eurokod-0/rownowaga"
 import { wspolczynnikKsztaltuMu1 } from "../eurokod-1/snieg"
 import { KAT_PIONOWY_DEG } from "../eurokod-1/wiatr"
 import { CSCD_STELAZ, PRZYSPIESZENIE_ZIEMSKIE_M_S2 } from "../zloty-srodek/constants"
+import { zalozenieMasyWlasnej } from "../zloty-srodek/zalozenia"
 import { balastProjektowyEqu, pionSilaPozioma, wybranyKatBezDanychWiatru } from "../zloty-srodek/warnings"
 import { PROG_SSANIA_OD_SPODU_DEG, PROG_ZALEGANIA_SNIEGU_DEG } from "./constants"
 import type { DachPlaskiInput } from "./input"
@@ -20,7 +21,7 @@ export type DachPlaskiResult = WiatrDlaKata & {
 }
 
 const FORMULA =
-  "h = L \\sin\\alpha,\\quad z_e = h_0 + h,\\quad F_w = c_sc_d \\cdot c_f(\\alpha,\\varphi) \\cdot c_e(z_e) \\cdot q_b \\cdot L \\cdot B,\\quad m = \\frac{\\gamma_Q F_w}{\\gamma_{G,inf}\\, g}"
+  "h = L \\sin\\alpha,\\quad z_e = h_0 + h,\\quad F_w = c_sc_d \\cdot c_f(\\alpha,\\varphi) \\cdot c_e(z_e) \\cdot q_b \\cdot L \\cdot B,\\quad m = \\max\\left(0,\\ \\frac{\\gamma_Q F_w}{\\gamma_{G,inf}\\, g} - G\\right)"
 
 /**
  * Tryb "Dach płaski / grunt" (dawne 2.5). Źródło (B): `h = L × sin(α)` 1:1; siła wiatru — pełny tor
@@ -51,7 +52,7 @@ export function calculateDachPlaski(input: DachPlaskiInput): CalcResult<DachPlas
 
   const podniesienieM = podniesienieKrawedziM(L, kat)
   const powierzchniaM2 = L * B
-  const wiatr = wiatrDlaKata({ strefaWiatrowa, wysokoscNpmM, kategoriaTerenu, wspolczynnikPhi }, kat, h0 + podniesienieM, powierzchniaM2)
+  const wiatr = wiatrDlaKata({ strefaWiatrowa, wysokoscNpmM, kategoriaTerenu, wspolczynnikPhi }, kat, h0 + podniesienieM, powierzchniaM2, input.masaPaneliStelazaKg ?? 0)
 
   const warnings: Warning[] = []
   if (wiatr.balastKg !== null) warnings.push(balastProjektowyEqu())
@@ -71,6 +72,7 @@ export function calculateDachPlaski(input: DachPlaskiInput): CalcResult<DachPlas
   if (wiatr.balastKg !== null) {
     assumptions.push({ kod: "ZS-ZALOZENIE-BALAST-PIONOWO", params: { g: PRZYSPIESZENIE_ZIEMSKIE_M_S2 } })
     assumptions.push({ kod: "ZS-ZALOZENIE-BALAST-EQU", params: { gammaQ: GAMMA_Q_EQU, gammaG: GAMMA_G_INF_EQU } })
+    assumptions.push(zalozenieMasyWlasnej(input.masaPaneliStelazaKg))
   }
   assumptions.push({ kod: "ZS-ZALOZENIE-SNIEG-MU1" })
   if (kat >= PROG_SSANIA_OD_SPODU_DEG) assumptions.push({ kod: "TM-ZALOZENIE-PROG-SSANIA", params: { prog: PROG_SSANIA_OD_SPODU_DEG } })

@@ -118,15 +118,23 @@ export function PolaWiatru({ s, ustaw, wysokoscPvgis }: { s: WiatrSeed; ustaw: (
   )
 }
 
-export type StelazSeed = { dlugoscWzdluzSpaduM: string; szerokoscStelazaM: string; wysokoscDolnejKrawedziM: string }
-export const STELAZ_PUSTY: StelazSeed = { dlugoscWzdluzSpaduM: "", szerokoscStelazaM: "", wysokoscDolnejKrawedziM: "" }
+export type StelazSeed = { dlugoscWzdluzSpaduM: string; szerokoscStelazaM: string; wysokoscDolnejKrawedziM: string; masaPaneliStelazaKg: string }
+export const STELAZ_PUSTY: StelazSeed = { dlugoscWzdluzSpaduM: "", szerokoscStelazaM: "", wysokoscDolnejKrawedziM: "", masaPaneliStelazaKg: "" }
 
 export function stelazZSeeda(s: StelazSeed) {
   return {
     dlugoscWzdluzSpaduM: n(s.dlugoscWzdluzSpaduM),
     szerokoscStelazaM: n(s.szerokoscStelazaM),
     wysokoscDolnejKrawedziM: n(s.wysokoscDolnejKrawedziM),
+    // Drafts saved before D29 (28.09.2026) have no mass — treat as empty.
+    masaPaneliStelazaKg: n(s.masaPaneliStelazaKg ?? ""),
   }
+}
+
+/** Result suffix: the ballast is on top of the entered panels + frame weight (D29). */
+export function dopiskMasyWlasnej(s: StelazSeed): string {
+  const masa = n(s.masaPaneliStelazaKg ?? "")
+  return masa === null ? "" : ` ponad ciężar paneli i stelaża (${masa.toLocaleString("pl-PL")} kg)`
 }
 
 export function PolaStelaza({ s, ustaw, podpowiedzKrawedzi }: { s: StelazSeed; ustaw: (p: keyof StelazSeed, v: string) => void; podpowiedzKrawedzi: string }) {
@@ -161,6 +169,17 @@ export function PolaStelaza({ s, ustaw, podpowiedzKrawedzi }: { s: StelazSeed; u
         value={s.wysokoscDolnejKrawedziM}
         onChange={(e) => ustaw("wysokoscDolnejKrawedziM", e.target.value)}
         hint={podpowiedzKrawedzi}
+      />
+      <Pole
+        label="Masa paneli i stelaża (opcjonalnie)"
+        unit="kg"
+        type="number"
+        inputMode="decimal"
+        min={0}
+        value={s.masaPaneliStelazaKg ?? ""}
+        onChange={(e) => ustaw("masaPaneliStelazaKg", e.target.value)}
+        hint="Jednego stelaża, bez balastu — z karty katalogowej albo zważona. Puste = pominięta (bezpieczniej, balast wyjdzie większy)."
+        pomoc="Ciężar paneli i stelaża dociska konstrukcję do podłoża, tak jak balast. Norma PN-EN 1990 każe liczyć go ostrożnie — tylko 90% (γG,inf = 0,90), bo rzeczywista masa może być mniejsza od deklarowanej. Masę paneli znajdziesz w karcie katalogowej, stelaża — u producenta albo zważ elementy. Nie zgaduj: puste pole liczy balast tak, jakby konstrukcja nic nie ważyła (bezpieczniej). Aplikacja pokazuje wtedy balast dodatkowy, ponad tę masę. Przesuwu i wywracania to nie sprawdza."
       />
     </div>
   )

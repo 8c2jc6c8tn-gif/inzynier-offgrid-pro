@@ -54,7 +54,7 @@ export function balastProjektowyEqu(): Warning {
     code: "ZS-BALAST-EQU-TYLKO-ODRYWANIE",
     level: "warning",
     i18nKey: "ZS-BALAST-EQU-TYLKO-ODRYWANIE",
-    technicalMessage: "m = γQ·Fw/(γG,inf·g), EQU (6.7) — sprawdzone oderwanie; przesuw i wywracanie niesprawdzone",
+    technicalMessage: "m = max(0, γQ·Fw/(γG,inf·g) − G), EQU (6.7) — sprawdzone oderwanie; przesuw i wywracanie niesprawdzone",
   }
 }
 

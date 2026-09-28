@@ -27,4 +27,10 @@ export type NaporWiatruInput = {
    * design ballast per PN-EN 1990 (EQU); less than required = hard stop (source line 451, Ekran 6).
    */
   balastPlanowanyKg: number | null
+  /**
+   * Mass of panels and frame for the area A (without ballast) [kg] — from the datasheet or a scale,
+   * never a default (D29). Stabilising action with γG,inf = 0,90; required ballast is on top of it.
+   * `null` = not entered, ignored (on the safe side).
+   */
+  masaPaneliStelazaKg: number | null
 }

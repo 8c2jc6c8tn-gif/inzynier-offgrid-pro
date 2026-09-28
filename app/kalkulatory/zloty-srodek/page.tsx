@@ -29,6 +29,7 @@ type FormularzStan = {
   wysokoscKonstrukcjiM: string
   powierzchniaM2: string
   phi: string
+  masaPaneliStelaza: string
   cenaBalastu: string
   mocKwp: string
   pr: string
@@ -45,6 +46,7 @@ const STAN_POCZATKOWY: FormularzStan = {
   wysokoscKonstrukcjiM: "",
   powierzchniaM2: "",
   phi: "",
+  masaPaneliStelaza: "",
   cenaBalastu: String(CENA_BALASTU_PODPOWIEDZ_ZL_KG),
   mocKwp: "",
   pr: "",
@@ -169,6 +171,8 @@ export default function ZlotySrodekPage() {
         wysokoscKonstrukcjiM: n(stan.wysokoscKonstrukcjiM),
         powierzchniaPaneliM2: n(stan.powierzchniaM2),
         wspolczynnikPhi: n(stan.phi),
+        // Drafts saved before D29 (28.09.2026) have no mass — treat as empty.
+        masaPaneliStelazaKg: n(stan.masaPaneliStelaza ?? ""),
         cenaBalastuZlKg: n(stan.cenaBalastu),
         mocInstalacjiKwp: n(stan.mocKwp),
         wspolczynnikPr: n(stan.pr),
@@ -299,6 +303,17 @@ export default function ZlotySrodekPage() {
       <section className="flex flex-col gap-3">
         <h2 className="font-semibold">3. Balast i wycena energii</h2>
         <Pole
+          label="Masa paneli i stelaża (opcjonalnie)"
+          unit="kg"
+          type="number"
+          inputMode="decimal"
+          min={0}
+          value={stan.masaPaneliStelaza ?? ""}
+          onChange={(e) => ustaw("masaPaneliStelaza", e.target.value)}
+          hint="Bez balastu — z karty katalogowej albo zważona. Aplikacja odejmie ją od balastu (liczona w 90%). Puste = pominięta (bezpieczniej)."
+          pomoc="Ciężar paneli i stelaża dociska konstrukcję do podłoża, tak jak balast. Norma PN-EN 1990 każe liczyć go ostrożnie — tylko 90% (γG,inf = 0,90), bo rzeczywista masa może być mniejsza od deklarowanej. Masę paneli znajdziesz w karcie katalogowej, stelaża — u producenta albo zważ elementy. Nie zgaduj: puste pole liczy balast tak, jakby konstrukcja nic nie ważyła (bezpieczniej). Aplikacja pokazuje wtedy balast dodatkowy, ponad tę masę. Przesuwu i wywracania to nie sprawdza."
+        />
+        <Pole
           label="Cena balastu"
           unit="zł/kg"
           type="number"
@@ -366,7 +381,8 @@ export default function ZlotySrodekPage() {
               <WynikGlowny>{rek.nachylenieDeg}°</WynikGlowny>
               <p className="text-small">
                 Przy {rek.nachylenieDeg}° masz {f1((100 * rek.napromieniowanieRoczneKwhM2) / hMax)}% energii najlepszego
-                kąta ({r.optimumEnergiiDeg}°), siła wiatru to {f0(rek.silaWiatruN!)} N, a balast projektowy (PN-EN 1990){" "}
+                kąta ({r.optimumEnergiiDeg}°), siła wiatru to {f0(rek.silaWiatruN!)} N, a balast projektowy (PN-EN 1990)
+                {stan.masaPaneliStelaza ? " ponad ciężar paneli i stelaża" : ""}{" "}
                 <strong>{f0(rek.balastKg!)} kg</strong> ≈ {f0(rek.kosztBalastuZl!)} zł. Bilans w okresie analizy
                 (wartość energii minus balast): {f0(rek.bilansZl!)} zł — najwyższy spośród kątów 0–30°.
               </p>

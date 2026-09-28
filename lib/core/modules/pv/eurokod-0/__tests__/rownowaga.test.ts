@@ -16,4 +16,14 @@ describe("PN-EN 1990 — EQU (Tablica A1.2(A), wartości zalecane, NB bez zmian 
     expect(balastProjektowyEquKg(0, 9.80665)).toBe(0)
     expect(balastProjektowyEquKg(2000, 9.80665)).toBeCloseTo(2 * balastProjektowyEquKg(1000, 9.80665), 9)
   })
+
+  // D29 (28.09.2026): self-weight of panels and frame as a favourable permanent action (γG,inf).
+  // Reference in Python: 1.5 × 1000 / (0.9 × 9.80665) − 40; max(0, … − 200).
+  it("masa własna 40 kg odejmuje się od masy wymaganej → 129,953 kg balastu dodatkowego", () => {
+    expect(balastProjektowyEquKg(1000, 9.80665, 40)).toBeCloseTo(129.95270216298806, 9)
+  })
+
+  it("masa własna większa niż wymagana → balast dodatkowy 0 (nie ujemny)", () => {
+    expect(balastProjektowyEquKg(1000, 9.80665, 200)).toBe(0)
+  })
 })
