@@ -1,6 +1,6 @@
 # Rejestr decyzji — Inżynier Offgrid Pro
 
-**Wersja:** 1.13 | **Filar:** C | **Data utworzenia:** 04.09.2026 | **Ostatnia aktualizacja:** 28.09.2026 | **Status:** Stabilny (rosnący)
+**Wersja:** 1.14 | **Filar:** C | **Data utworzenia:** 04.09.2026 | **Ostatnia aktualizacja:** 28.09.2026 | **Status:** Stabilny (rosnący)
 **Powiązane dokumenty:** `00_Biblia.md`, `docs/memory.md`, `USTALENIA.md` (historyczny, Część II)
 
 TL;DR: D1, D2, D3… — decyzje **strategiczne/fundamentalne** (blokujące wiele innych rzeczy naraz, Krok 4 GOD BOOK), ponumerowane, nigdy nie kasowane, tylko unieważniane jawnie (F.5). **Nie duplikuje `docs/memory.md`**: tam żyje pełna, szczegółowa historia każdej sesji (setki drobnych decyzji implementacyjnych per ekran) — tu tylko decyzje, które zmieniły kierunek/regułę obowiązującą cały projekt. Gdy wpis niżej odsyła do `docs/memory.md`, tam jest pełne uzasadnienie i przykłady.
@@ -82,6 +82,41 @@ TL;DR: D1, D2, D3… — decyzje **strategiczne/fundamentalne** (blokujące wiel
 
 
 **D34 (28.09.2026) — Chmurki „?” przy polach (standard 8.4): wariant B + bogaty opis działania kalkulatora.** Koszt cofnięcia: średni (treść na wszystkich ekranach). Decyzja właściciela projektu (wybór B w poprzedniej sesji, potwierdzony 28.09.2026: „muszą zawierać bogaty opis wyjaśniający jak i po co działa kalkulator, no i tak jak było podane w odpowiedzi B”). Treść: (1) każde pole liczbowe ma `?` z pełną nazwą, do czego służy, gdzie znaleźć wartość i typowym zakresem — zakresy wyłącznie ze źródeł/norm w repo, w braku — „zakres z karty katalogowej” (Dyrektywa #1, bez zgadywania); (2) chmurki wyjaśniają też, jak i po co działa kalkulator — bogato, językiem dla laika; (3) moduł po module, PR na moduł; warianty A (mechaniczne przepisanie `hint`) i C (A, potem B) odrzucone; (4) praca w osobnej sesji (`docs/lista-do-zrobienia.md`). Nowe ekrany od teraz od razu z chmurkami w tym standardzie.
+**D35 (28.09.2026) — Nowy moduł M14 = ścieżka przejścia z sieci na off-grid; na pulpicie dwa duże kafle i dwa rozdziały: „Dom – sieć” (M14-D, grupy G) i „Firma – sieć” (M14-F, grupy C); w każdym najpierw część Sieć, potem jako opcja część Przejście.** Koszt cofnięcia: średni (nawigacja, pulpit, podział ekranów; kod jeszcze nie istnieje). Decyzje właściciela projektu z 28.09.2026, numery 1, 2, 3 i 7 w opracowaniu. Cytaty:
+- „niektórzy jeszcze są podłączeni do sieci i chcą częściowo przejść do Offgrid… muszą mieć podgląd i porównanie”;
+- „jak przejść na off grid, z kalkulatorami obliczeń, opłacalności, doboru magazynów energii, ilości PV… dokładnie informować, co i jak zrobić i jakie ryzyka niesie, także przy odłączeniu przyłącza”;
+- „moduły opowiadają i liczą sieć, a dopiero potem jest opcja obliczenia dla przejścia Offgrid”.
+
+Treść:
+- (1) Rozdział nie jest samą porównywarką taryf. Najpierw pokazuje rachunek, taryfy, prosumenta i licznik, a potem daje wejście do scenariuszy A–D (TCO, echo M1–M8), ryzyk i procedury odłączenia.
+- (2) Ekrany wspólne dla Domu i Firmy (ryzyka, procedura, przełącznik sieć/wyspa, test licznika) to w kodzie jeden ekran z parametrem segmentu (D12/D20).
+- (3) Kreator „Ścieżka przejścia” ma 6 kroków i startuje z końca części Sieć.
+- (4) Wynik nigdy nie jest jednym werdyktem „najlepszy”. Pokazuje osobno „najtańszy” i „najbardziej niezależny”, zawsze z informacją o odwracalności.
+
+Kolejny numer modułu po M13 (zgodnie z Z1). Pełne: `03_M14_Dom_i_Firma_Siec.md`, opracowanie `docs/zrodla/Opracowanie_M14_Z_Sieci_Na_OffGrid_DRAFT.md`.
+
+**D36 (28.09.2026) — Stawki rozliczeń energii to dane, nie stałe w kodzie. Plik JSON + Zod `rozliczenia-pl-2026`, każda stawka ma listę okresów ważności `{ odDnia, doDnia, wartosc }` i pola `zrodlo`/`stanNa`/`pewnosc`. Wartości domyślne pochodzą wyłącznie ze źródeł ✅. Tryb „moje dane z faktury” jest zawsze dostępny przy każdym polu stawki.** Koszt cofnięcia: średni (model danych M14; kod jeszcze nie istnieje). Decyzja właściciela projektu nr 4 (28.09.2026): „ty znajdziesz mi poprawne dane i je wpiszesz, a także zostawisz opcje dla wpisania swoich danych”.
+
+Model z okresami ważności zamiast pary (rok, wartość) wynika z odczytu pierwotnego: stawka jakościowa zmieniła się w trakcie roku (0,0331 → 0,0332 zł/kWh od 1.02.2026).
+
+Treść:
+- (1) Rachunek roczny liczy się jako średnia ważona zużyciem z miesięcy. Przy braku danych miesięcznych bierze się stawkę obowiązującą najdłużej, z ostrzeżeniem.
+- (2) Po `waznoscDo` pojawia się ostrzeżenie „stawki mogą być nieaktualne — sprawdź fakturę”.
+- (3) Do czasu zamknięcia DANE-1 dla danego OSD kalkulator działa tylko w trybie „moje dane z faktury”. To pełnoprawny tryb, nie namiastka.
+- (4) Liczby z dok. 2 (tabele stawek z innego narzędzia AI) nie wchodzą do danych (✏️ K11).
+
+Pełne: `03_M14_Dom_i_Firma_Siec.md` §2, opracowanie §0, §2.3–2.4a, §9.
+
+**D37 (28.09.2026) — FREE/PRO dla M14: na razie nie przypisujemy.** Koszt cofnięcia: tani. Decyzja właściciela projektu nr 6: „Free pro narazie nie ruszamy. Potem będziemy dzielić.” Ekrany M14 nie mają przypisania FREE/PRO, a podział wróci osobną decyzją. **Nie unieważnia D2**: D2 nadal obowiązuje dla modułów M1–M13, a M14 jest do tego czasu poza podziałem.
+
+**D38 (28.09.2026) — M14: autokonsumpcja w trybie prostym liczona z profili zużycia, nie z samego wpisu %.** Koszt cofnięcia: tani. Decyzja właściciela projektu (P3 w opracowaniu: „Autokonsumpcja wybieram profile, to najlepiej”).
+
+Treść:
+- (1) Profil „typowy” pochodzi ze standardowych profili zużycia OSD (IRiESD) dla G11/C11. Do czasu odczytu (W4, 🔎B) profilu nie ma w kodzie.
+- (2) Warianty („nikogo w dzień”, „praca zdalna”) wolno dodać tylko ze źródłem albo jako jawne przesunięcie profilu typowego, z opisem założenia.
+- (3) Wpis ręczny % zostaje jako opcja „znam swoją autokonsumpcję”.
+- (4) W trybie zaawansowanym używany jest profil z M2.
+
 ---
 
 ## Założenia robocze (F.7 GOD BOOK)
@@ -108,3 +143,4 @@ TL;DR: D1, D2, D3… — decyzje **strategiczne/fundamentalne** (blokujące wiel
 | 26.09.2026 | Dodano D29 (balast projektowy PN-EN 1990 EQU w M3/E9, E2, E6; twardy stop E6 „za mały balast”) — polecenie właściciela projektu. Wersja 1.10→1.11. |
 | 28.09.2026 | Dodano D30 (E23 próg 80%), D31 (E19 falownik 🔴, regulator 🟡), D32 (E8 progi rozruchu diesla/benzyny), D33 (E11 przykładowe moce urządzeń) — decyzje właściciela projektu, runda 3. Wersja 1.11→1.12. |
 | 28.09.2026 | Dodano D34 (chmurki „?” — wariant B + bogaty opis działania kalkulatora) — decyzja właściciela projektu. Wersja 1.12→1.13. |
+| 28.09.2026 | Dodano D35 (M14: ścieżka przejścia sieć → off-grid, kafle „Dom – sieć” / „Firma – sieć”, najpierw Sieć, potem Przejście), D36 (stawki jako dane z okresami ważności + tryb „moje dane z faktury”), D37 (FREE/PRO dla M14 odłożone, D2 bez zmian), D38 (autokonsumpcja z profili) — integracja M14 do Biblii („Integruj teraz”). Wersja 1.13→1.14. |

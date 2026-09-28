@@ -142,3 +142,4 @@ komponent (`AdaptiveMenu`, 08.11) na swoim poziomie, nie osobną implementację:
   dodać później bez zmiany kształtu stanu (`PulpitState.order`).
 - "Zmień rozmiar" i "Przypnij" z menu `⋮` (sekcja 4) — nie zaimplementowane w v1, tylko
   pokaż/ukryj/przenieś/przywróć domyślne.
+- **[28.09.2026] Dwa nowe duże kafle M14 „Dom – sieć” / „Firma – sieć”** (D35, `03_M14_Dom_i_Firma_Siec.md`) — pozycja w domyślnej kolejności (§2) **wymaga decyzji właściciela**. Robocza propozycja AI (✅🤖): na końcu, za kaflem 13 (czytają z M1–M4, M6–M8), plus później preset onboardingu „Jestem podłączony do sieci”, który je wysuwa na początek. Uwaga na numerację: „Kafel 14” to już Ustawienia (D9) — kafle M14 nazywać nazwą albo „M14-D” / „M14-F”, nie numerem kafla.

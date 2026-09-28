@@ -7892,3 +7892,38 @@ idą od najstarszych otwartych ⚠️. Decyzje rundy 1–2 i co z nimi zrobiono:
 - **Chmurki „?” — decyzja D34 (28.09):** wariant **B** (wybrany już w poprzedniej sesji, ale nieodnotowany —
   tu uzupełnione) + chmurki mają bogato wyjaśniać, jak i po co działa kalkulator. Realizacja w osobnej sesji,
   moduł po module. Nowe ekrany od razu w tym standardzie.
+
+## Integracja M14 do Biblii (28.09.2026, „Integruj teraz”)
+
+Polecenie właściciela „Integruj teraz” (F.2/F.4) wykonane na gałęzi odtworzonej z `main` po scaleniu PR #183.
+- **Rozdział kanoniczny:** `03_M14_Dom_i_Firma_Siec.md` (Filar B, szablon H.1). To pierwszy moduł opisany
+  wprost w Biblii, a nie w `docs/zrodla/Tresc_*`. Opracowanie w `docs/zrodla/` zostaje zapisem weryfikacji:
+  ✏️ K1–K14, odczyty DANE-1 i tabele stawek per OSD, do których rozdział odsyła zamiast je kopiować.
+  W nagłówku opracowania dopisano status „ZINTEGROWANE”.
+- **Decyzje D35–D38**; najwyższy numer na `main` przed nadaniem to D34 (H.3a):
+  - D35 — cel i kafle;
+  - D36 — stawki jako dane z okresami ważności + tryb „moje dane z faktury”;
+  - D37 — FREE/PRO dla M14 odłożone, D2 bez zmian;
+  - D38 — autokonsumpcja z profili.
+- **Rejestry:**
+  - `docs/rejestr-pokrycia.md` — sekcja „Moduł 14”, 28 wierszy `todo` (25 ekranów unikalnych; 3 pary
+    wspólnych Dom/Firma liczone raz). Nagłówek pasuje do `policz-rejestr.mjs` (mod 14). `audit:n1` go nie
+    obejmuje, bo nie ma numeracji Biblii v2.0;
+  - `docs/rejestr-twardych-stopow.md` — 5 stopów M14 jako „zaplanowane, bez kodu” (świadomy wyjątek od
+    zasady „nie wyprzedza rejestru pokrycia”, bo chodzi o bezpieczeństwo życia na styku z OSD);
+  - `slownik-pojec.md` — sekcja „Sieć i rozliczenia energii”; `mapa-wdrozenia.md` — wiersz M14;
+  - `backlog-poza-v1.md` — FREE/PRO M14; `docs/pulpit-i-nawigacja.md` — pozycja kafli (✅🤖, do decyzji);
+  - `00_Biblia.md` — dokument 03. Przy okazji poprawiona nieaktualna wersja rejestru decyzji w tabeli
+    (1.11 → 1.14).
+- **Audyt przyrostowy N.2 rozdziału** (mechanicznie, grep):
+  - każdy identyfikator opracowania (K1–K14, R1–R10, RF1–RF3, W3/W4/W6, D1–D14, F1–F13, 5 narzędzi AI)
+    ma odpowiednik w rozdziale;
+  - każda liczba dziesiętna z rozdziału występuje w opracowaniu;
+  - pierwsze przejście znalazło 7 braków (✏️ K2, K10, K11, grupy G12as/G13, okres wypowiedzenia umowy,
+    usługi systemowe BESS, portale OSD) — uzupełnione od razu.
+- **Pułapka numeracji:** „Kafel 14” to już Ustawienia (D9). Kafle M14 nazywać nazwą albo „M14-D” / „M14-F”.
+- **Otwarte:**
+  - dane (W3-PGE, W3-Enea netto, Stoen C22a/b, W4, W6, `C_rk`, stawki przyłączeniowe IV–VI, 495,16);
+  - decyzje (pozycja kafli, domyślne TCO `N`=15/`r`=0/`g`=0 jako ✅🤖).
+  
+  Kod M14 zablokowany bramką N.3 (audyt końcowy całej Biblii) i DANE-1.

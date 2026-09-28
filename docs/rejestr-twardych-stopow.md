@@ -293,6 +293,30 @@ nie do audytu poprawności formularza webowego.
   Źródło: Moduł 7, Ekran 22 (sekcja wspólna rozmrażania).
   (M7/E22 — `rozmrazanieOgniem`, kod `ZAMARZ-ROZMRAZANIE-OGIEN`.)
 
+## M14 „Dom – sieć” / „Firma – sieć” — zaplanowane w Biblii, jeszcze bez kodu (28.09.2026)
+
+Te stopy wpisano przy integracji rozdziału do Biblii (`03_M14_Dom_i_Firma_Siec.md`, D35). **Nie ma
+jeszcze kodu**, a więc ani pliku, ani kodu ostrzeżenia. Przy implementacji każdą pozycję trzeba
+uzupełnić o ścieżkę `warnings.ts` i kod ostrzeżenia, tak jak w sekcjach wyżej. Wyjątek od zasady
+„rejestr nie wyprzedza `docs/rejestr-pokrycia.md`” jest świadomy: te pozycje dotyczą bezpieczeństwa
+życia na styku z siecią OSD i mają być widoczne przy audycie M8, zanim powstanie kod M14.
+
+- **Backfeed** — instalacja wyspowa albo agregat może podać napięcie do sieci OSD, bo nie ma
+  przełącznika sieć – 0 – wyspa z blokadą mechaniczną ani SZR z blokadą elektryczną i mechaniczną.
+  Grozi to porażeniem osób pracujących na „wyłączonej” linii. Przełączać trzeba fazy **i N**;
+  szczegół normowy PN-HD 60364 do doprecyzowania w M8 (🔎).
+  (M14-D/D11, M14-F — ekran wspólny; opracowanie §6.1)
+- **Agregat podłączony do instalacji bez przełącznika** — przez gniazdko albo „wtyczką z dwoma
+  bolcami”.
+  (M14-D/D6, D11; opracowanie §6.1)
+- **Agregat spalinowy w pomieszczeniu** — zatrucie CO.
+  (M14-D/D6, R8; opracowanie §5.1. Powiązane: M7/E8, D32 — rozruch agregatu na mrozie)
+- **Scenariusz D (pełne odłączenie) przy ujemnym bilansie zimowym bez agregatu** — wynik M7 dla
+  lokalizacji użytkownika.
+  (M14-D/D7, M14-F/F8; opracowanie §4.3)
+- **Scenariusz D przy osobach zależnych od zasilania medycznego bez redundantnego zapasu.**
+  (M14-D/D7, D9; R4; opracowanie §5.1)
+
 ## Znane luki (świadomie, nie przeoczenie)
 
 - **Moduł 8 (Bezpieczeństwo pożarowe), Ekran 11** — mechanizm agregacji (dowolna pozycja checklisty
