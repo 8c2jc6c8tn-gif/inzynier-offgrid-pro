@@ -324,8 +324,12 @@ TCO_s(N)  = I_s − D_s + Σ_{t=1..N} [ K_sieć,s(t) + K_paliwo,s(t) + K_serwis,
   Produkcja miesięczna pochodzi z PVGIS dla lokalizacji (M1).
 - **Autokonsumpcja godzinowa** (ile nadwyżki idzie do sieci *w ciągu dnia*, zanim bilans
   miesięczny się domknie) wymaga profilu godzinowego zużycia. Tryb prosty: użytkownik wybiera
-  profil albo wpisuje udział autokonsumpcji; tryb zaawansowany: profil z M2. **Otwarte 🔎 —
-  decyzja przy projektowaniu ekranu (§10, P3).**
+  profil z listy; tryb zaawansowany: profil z M2. **Decyzja właściciela (P3, 28.09.2026):
+  profile.** Źródło kształtów: standardowe profile zużycia publikowane przez OSD w IRiESD dla
+  grup G11/C11 (🔎B — do odczytu w DANE-1) jako profil „typowy”. Warianty („nikogo w dzień”,
+  „praca zdalna”) wolno dodać tylko ze źródłem albo jako jawne przesunięcie profilu typowego z
+  opisem założenia (bez ukrytych liczb). Wpis ręczny % zostaje jako opcja „znam swoją
+  autokonsumpcję” (np. z aplikacji falownika).
 
 ### 4.3 Warunek konieczny scenariusza D (i C bez sięgania po sieć)
 
@@ -674,6 +678,22 @@ kalkulatorów rachunku.
 - **Do czasu DANE-1:** kalkulatory rachunku mogą działać **wyłącznie w trybie „moje dane z
   faktury”**. To pełnoprawny tryb, nie namiastka, i odpowiada decyzji właściciela 4.
 
+### 9.1 Ręczna weryfikacja przez właściciela — lista kontrolna (alternatywa dla odblokowania sieci)
+
+Wystarczy odesłać wartość + nazwę dokumentu/stronę (albo zdjęcie/PDF). Kolejność wg ważności:
+
+| # | Co sprawdzić | Gdzie | Co odesłać |
+|---|---|---|---|
+| W1 | Stawki opłaty mocowej 2026 (G 4 progi, pozostali 0,2194 zł/kWh + godziny) | ure.gov.pl → Informacja Prezesa URE nr 58/2025 | potwierdzenie liczb albo różnice |
+| W2 | Opłata OZE 2026 (7,30 zł/MWh?), kogeneracyjna (3,00 zł/MWh?), zniesienie przejściowej | gov.pl/web/energia (komunikaty), URE | j.w. |
+| W3 | Taryfa OSD 2026 (dla każdego OSD z osobna): G11, G12, G12w, G13, C11, C12a/b, C21, C22a/b — opłata sieciowa stała i zmienna, abonamentowa, stawka jakościowa, godziny stref, stawki opłaty przyłączeniowej IV–VI, krotność przekroczenia mocy umownej, `k` dla mocy biernej | strona OSD → „Taryfa” (PDF): pgedystrybucja.pl, tauron-dystrybucja.pl, operator.enea.pl, energa-operator.pl, stoen.pl | **najprościej: sam PDF taryfy** (wyciągnę liczby, Ty tylko potwierdzasz wynik) |
+| W4 | Standardowe profile zużycia G11/C11 (do profili autokonsumpcji, P3) | strona OSD → IRiESD / „standardowe profile” | plik (zwykle XLS/CSV) |
+| W5 | Współczynnik 1,23 — kogo dotyczy; zasady zwrotu depozytu | isap.sejm.gov.pl → ustawa o OZE, tekst jednolity, przepis o depozycie prosumenckim | brzmienie przepisu |
+| W6 | Program „Przydomowe Magazyny Energii” — warunki (czy wymaga bycia prosumentem, trwałość, zwrot przy odłączeniu) | nfosigw.gov.pl → regulamin naboru | regulamin (PDF) |
+| W7 | Wzór mocy biernej, przekroczenie mocy umownej | isap.sejm.gov.pl → rozporządzenie w sprawie kształtowania i kalkulacji taryf w elektroenergetyce | paragraf (zdjęcie/tekst) |
+
+Każda odesłana wartość wchodzi do `docs/zrodla/` jako źródło (1:1) i zamienia 🔎 na ✅ albo ✏️.
+
 ---
 
 ## 10. Plan ekranów
@@ -800,10 +820,9 @@ odłączenia (wymagane potwierdzenie), dane stawek po terminie ważności.
 
 - ~~**P1** — FREE/PRO z §10~~ → rozstrzygnięte: odłożone (decyzja 6).
 - ~~**P2** — nazwy kafli~~ → rozstrzygnięte: „Dom – sieć” / „Firma – sieć”, Sieć najpierw, przejście jako opcja (decyzja 7).
-- **P3** — autokonsumpcja w trybie prostym: wybór profilu z kilku typowych (dom pusty w dzień /
-  ktoś w domu / praca zdalna) czy wpis ręczny %? Rekomendacja: profile, ale ich kształty muszą
-  mieć źródło. Do czasu jego znalezienia — wpis ręczny.
-- **P4** — DANE-1: odblokować domeny w środowisku czy dostarczyć PDF-y?
+- ~~**P3** — autokonsumpcja w trybie prostym~~ → rozstrzygnięte: **profile** (§4.2; źródło kształtów W4).
+- **P4** — DANE-1: właściciel rozważa odblokowanie domen albo ręczną weryfikację (lista §9.1);
+  obie drogi otwarte, nie blokują integracji do Biblii — blokują tylko dane domyślne w kodzie.
 
 ## Źródła wtórne użyte przy weryfikacji (28.09.2026, bez odczytu pierwotnego)
 

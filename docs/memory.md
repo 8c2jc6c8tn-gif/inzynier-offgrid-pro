@@ -7810,3 +7810,9 @@ opowiadają i liczą sieć, a dopiero potem jest opcja obliczenia dla przejścia
 zaktualizowane: każdy rozdział = część **Sieć** (najpierw) + część **Przejście** (opcja, wejście na
 końcu części Sieć; kreator „Ścieżka przejścia” startuje stamtąd); kolumna FREE/PRO w planie ekranów
 zastąpiona kolumną „Część”. Otwarte zostają P3 (autokonsumpcja w trybie prostym) i P4 (DANE-1).
+
+**[28.09.2026, później] ✅ P3: autokonsumpcja w trybie prostym = profile** (decyzja właściciela).
+Źródło kształtów: standardowe profile zużycia OSD (IRiESD) — 🔎B, do pozyskania; warianty tylko ze
+źródłem albo jako jawne przesunięcie profilu typowego. **P4 (dane):** właściciel wybierze
+odblokowanie domen w ustawieniach środowiska albo sam zweryfikuje ręcznie — lista kontrolna W1–W7
+w opracowaniu §9.1. Najprościej: PDF-y taryf OSD, liczby wyciąga Claude.
