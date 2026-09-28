@@ -1,9 +1,9 @@
 # Mapa wdrożenia — Inżynier Offgrid Pro
 
-**Wersja:** 1.4 | **Filar:** C | **Data utworzenia:** 04.09.2026 | **Ostatnia aktualizacja:** 26.09.2026 | **Status:** Stabilny (rosnący)
+**Wersja:** 1.5 | **Filar:** C | **Data utworzenia:** 04.09.2026 | **Ostatnia aktualizacja:** 28.09.2026 | **Status:** Stabilny (rosnący)
 **Powiązane dokumenty:** `00_Biblia.md`, `docs/rejestr-pokrycia.md`, `zlote-zasady.md` (Zasada 14 — kolejność budowy)
 
-TL;DR: Status opisany/zaimplementowany/przetestowany per moduł (M1–M13, Część T.2 GOD BOOK) — status *kodu*, w odróżnieniu od statusu *opisu* w `docs/zrodla/` (które jest kompletne dla wszystkich 13 modułów od 29.08.2026). Budowana z `docs/rejestr-pokrycia.md`, aktualizowana przy każdej sesji implementacyjnej, nie tylko przy audycie.
+TL;DR: Status opisany/zaimplementowany/przetestowany per moduł (M1–M13, Część T.2 GOD BOOK; **[28.09.2026]** + M14, opisany w Biblii `03_M14_Dom_i_Firma_Siec.md`, nie w `docs/zrodla/`) — status *kodu*, w odróżnieniu od statusu *opisu* w `docs/zrodla/` (które jest kompletne dla wszystkich 13 modułów od 29.08.2026). Budowana z `docs/rejestr-pokrycia.md`, aktualizowana przy każdej sesji implementacyjnej, nie tylko przy audycie.
 
 **Rubryka gotowości (Część T.1 GOD BOOK, ustalona raz):** % ekranów danego modułu ze statusem `done` w `docs/rejestr-pokrycia.md` względem wszystkich zidentyfikowanych ekranów tego modułu (nie względem 579 funkcji łącznie — wiele funkcji źródła scala się w jeden ekran, patrz `docs/rejestr-pokrycia.md`, sekcja "Funkcje przeniesione"). Kryteria per ekran: ma Cel (nagłówek+opis) · ma Wejście/Wyjście (`input.ts`/`CalcResult`) · ma walidację · ma przykład przeliczony (test z wartością referencyjną) · ma sprawdzone odsyłacze (formuła 1:1 ze źródła albo jawnie udokumentowane odstępstwo) · ma jednoznaczny status (`done`/`⚠️ blocked`/`todo`).
 
@@ -91,3 +91,4 @@ TL;DR: Status opisany/zaimplementowany/przetestowany per moduł (M1–M13, Czę�
 | 28.09.2026 | M7: E18 (Pre-Heat — Q = C·ΔT, bufor, 🔴 grzanie nocą z baterii), E20 (bez rekuperacji — echo M6/E3, nagrzewnica wstępna), E26 (awaria stringa — deficyt, dni na baterii); wszystkie częściowo → 15/26; łącznie 186/314. |
 | 28.09.2026 | M9: E2 (zasilanie ESP32 — 🔴 bez przetwornicy, 🔴 magistrala ponad wejście przetwornicy), E4 (komunikacja — 🔴 RS485 bez transceivera, konflikty adresów/prędkości), E5 (piny — 🔴 konflikt; częściowo), E6 (niezawodność — 🔴 OTA bez podpisu) → 5/10; łącznie 190/314. |
 | 28.09.2026 | Dodano M14 „Dom – sieć” / „Firma – sieć” (D35) — opisany w Biblii (`03_M14_Dom_i_Firma_Siec.md`), 25 ekranów unikalnych `todo`, kod zablokowany bramką N.3 i DANE-1. Łączna liczba ekranów docelowych M1–M13 bez zmian. |
+| 28.09.2026 | **Wynik audytu końcowego N.3:** nagłówek był na 1.4 / 26.09 mimo wierszy z 27–28.09 — wersja 1.4→1.5, data i TL;DR (M14) uzupełnione. |

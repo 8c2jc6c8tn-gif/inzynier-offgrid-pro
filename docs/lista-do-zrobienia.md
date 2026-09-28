@@ -14,6 +14,9 @@ Tu trafia bieżący stan pracy: co w trakcie, co zablokowane, co następne — a
 
 ---
 
+> **▶ START NASTĘPNEJ SESJI (28.09.2026):** najpierw `docs/przekazanie-nastepnej-sesji.md` — kolejność pracy
+> (decyzja 4 właściciela → zamknięcie N.3 → kod M14), jaki kod pisać i czego nie robić.
+
 ## Zadania
 
 - ✅ (2026-09-03) Synchronizacja pakietu `new-app-standards`: rozdziały 00–16 odświeżone, dodano `docs/god-book/`, `PROMPT_STARTOWY.md`, ten plik i `docs/wklad-do-standardu.md`. Szczegóły: `docs/memory.md`, sekcja "Synchronizacja ze standardem".
@@ -1096,3 +1099,23 @@ Pełne wyniki audytu: `docs/memory.md`, sekcja "Pełny audyt na polecenie właś
   Obie wartości są w rozdziale ze źródłami. **Przy pliku danych:** wpisać π (NBP, GUS) z `zrodlo` / `stanNa` / `pewnosc` i przykład kontrolny (75 000 / ≈81 444 / ≈100 143 zł) jako test. Średnie GUS przeliczać po publikacji danych za kolejny rok. **Priorytet:** niski (kod czeka na N.3). **Odblokowuje:** opcję nominalną w TCO. **Kolizje:** brak. **Kolejność:** razem z plikiem `rozliczenia-pl-2026`.
 - ✅ (2026-09-28) **Rozstrzygnięte: domyślna inflacja M14 = średnia GUS z 15 lat, 3,58% (D43)**. Zamyka wpis ⚠️ „D41 — do potwierdzenia, która inflacja domyślna”. Decyzja właściciela; NBP 2,5% zostaje do wyboru. Przykład kontrolny do testów pliku danych: 109 699 zł (UE + 3,58%, 5 000 zł/rok, `N` = 15).
 - ✅ (2026-09-28) ~~**Do decyzji właściciela — M12/E23, wilgotny garaż: IP55 czy IP65?** (A) Próg twardy z M4/E10: poniżej IP55 w miejscu narażonym na wilgoć → 🔴 (wdrożone). (B) Przykład Biblii §12.34: „W garażu wilgotnym użyj obudów IP65 i puszki z uszczelką”. Dziś: IP55–IP64 w wilgotnym garażu = werdykt 🟢 + informacja ℹ️ z zaleceniem IP65 (przykład potraktowany jako zalecenie, nie próg). Opcje: (1) zostaje tak; (2) IP55–IP64 w wilgotnym garażu → 🟡; (3) próg 🔴 w garażu podnieść do IP65 (rozjazd z M4/E10). Dla namiotu i jachtu źródło nie podaje żadnego stopnia IP — obowiązuje ogólne IP55. **Priorytet:** niski. **Kolizje:** bezkolizyjne (`lib/core/modules/kalkulator-mobilny/wilgoc-male-instalacje/`).~~ **[28.09.2026] Rozstrzygnięte — D44 (`rejestr-decyzji.md`):** garaż IP55–IP64 → 🟡 (opcja 2); namiot i jacht → minimum IP65, poniżej 🔴. Wdrożone (kalkulator 1.1.0). ✅ **Potwierdzone przez właściciela (28.09.2026, kalkulator 1.2.0):** 🔴 poniżej IP65 dla namiotu/jachtu; namiot i jacht zawsze traktowane jako wilgotne; zalecane tam IP67–IP68 (🟡 przy IP65–IP66); zalecane IP65 (🟡 przy IP55–IP64) w każdym miejscu z zaznaczoną wilgocią.
+- ⚠️ (2026-09-28) **[28.09.2026] Decyzje 1–3 podjęte i wykonane: D47, D48 (kod M2/E17 1.1.0 i M7/E8 1.3.0), D49. Otwarta tylko decyzja 4: 10 × ✅🤖 plus 2 wyjątki przełącznika z D48 pkt 4 (wejście AC falownika, odbiorniki wprost w agregat). Wyjaśnienie z opcjami podane właścicielowi 28.09.2026.** Audyt końcowy N.3 — do zamknięcia potrzebne 4 decyzje właściciela (szczegóły: `docs/memory.md`, „Audyt końcowy N.3 całej Biblii”). Poprawki mechaniczne zrobione (wersje w indeksie, TD20/TD21, słownik, backlog, adnotacje).
+  **[28.09.2026, scalenie z `main`]** Z pkt 4 zamknięte na `main` przez równoległą sesję: D29 addendum, D32 i D33. Otwarte zostaje 9 pozycji (TD21, Rsi, M8/E3, M8/E4, M9/E2, M9/E4, kafle M14 i 2 wyjątki D48). Numery D44–D46 z tej gałęzi zmienione na D47–D49 (H.3). Szczegóły: `docs/przekazanie-nastepnej-sesji.md`.
+  1. **Przełącznik sieć – 0 – wyspa / SZR:** M14 i stop „backfeed” odsyłają szczegół normowy do M8, a w M8 nie ma na to ekranu. Propozycja: szczegół mieszka w M14/D11, a M8 tylko odsyła. Norma HD 60364-5-551 jest nieobecna (🔎).
+  2. **Stopy agregatu w istniejącym kodzie:** M2/E17 i M7/E8 nie ostrzegają przed agregatem w pomieszczeniu (CO) ani przed agregatem bez przełącznika. Propozycja: dopisać do obu ekranów stop „w pomieszczeniu”, a „bez przełącznika” tylko wtedy, gdy użytkownik ma przyłącze.
+  3. **Szkic „Oświetlenie LED”** (14.09): czeka na kartę katalogową taśmy (`R_taśmy_na_metr`). Propozycja: status „kandydat poza Biblią”, więc nie blokuje N.3. Po integracji dostaje własny audyt, tak jak M14.
+  4. **Potwierdzenie ✅🤖 (C.7), 10 pozycji:**
+     - D29 pkt (2) i (5): balast M3;
+     - D32: poziomy ostrzeżeń i pkt (5) agregatu w mrozie;
+     - D33: lista 16 urządzeń;
+     - TD21: obcinanie długości od największej wagi (CRL);
+     - M6/E8: Rsi = 0,13;
+     - M8/E3: fail-secure z UPS jako 🟡;
+     - M8/E4: gaz obojętny/aerozol przy LiFePO4 jako 🟡;
+     - M9/E2: 🔴 magistrala ponad wejście przetwornicy;
+     - M9/E4: 🟡 CAN bez transceivera;
+     - pulpit: kafle M14 ukryte w 8 presetach.
+
+  **Priorytet:** wysoki (bramka N.3 kodu M14). **Odblokowuje:** kod M14. **Kolizje:** pkt 2 zmienia istniejące ekrany M2/E17 i M7/E8 (kolizja z każdą sesją nad nimi). **Kolejność:** decyzje → ewentualne poprawki → zamknięcie audytu → plik danych `rozliczenia-pl-2026` + silnik TCO.
+- ⚠️ (2026-09-28) **Szkic „Oświetlenie LED” czeka na kartę katalogową taśmy** (`docs/zrodla/Opracowanie_Tasmy_LED_Oswietlenie_DC_DRAFT.md`, `docs/memory.md` 14.09.2026). Do tej pory śledzony tylko w `docs/memory.md` (znalezione w audycie N.3). Właściciel dostarcza kartę z `R` na metr; bez niej Claude nie proponuje wartości. **Priorytet:** niski. **Odblokowuje:** integrację rozdziału LED. **Kolizje:** brak. **Kolejność:** po decyzji 3 z audytu N.3. **[28.09.2026] Decyzja 3 podjęta (D49): kandydat poza Biblią, nie blokuje N.3; zapis także w `backlog-poza-v1.md` i nagłówku szkicu.**
+- 🔲 (2026-09-28) **Przekazanie dla następnej sesji:** `docs/przekazanie-nastepnej-sesji.md`. Ta sesja nie pisze kodu M14 (polecenie właściciela) — kod pisze następna, według tego pliku. **Priorytet:** wysoki. **Odblokowuje:** kod M14. **Kolizje:** brak. **Kolejność:** decyzja 4 → zamknięcie N.3 → plik `rozliczenia-pl-2026` → ekrany Sieć → TCO → Przejście → kafle.

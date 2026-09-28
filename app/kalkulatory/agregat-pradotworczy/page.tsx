@@ -9,8 +9,13 @@ import { NawigacjaEkranu } from "@/components/nawigacja-ekranu"
 import { NaglowekEkranu } from "@/components/wzorce/naglowek-ekranu"
 import { WynikGlowny } from "@/components/wzorce/wynik-glowny"
 import { WynikSzczegoly } from "@/components/wzorce/wynik-szczegoly"
+import {
+  PolaBezpieczenstwaAgregatu,
+  naWejscieBezpieczenstwa,
+  type BezpieczenstwoAgregatuStan,
+} from "@/components/agregat/pola-bezpieczenstwa-agregatu"
 
-type FormularzStan = {
+type FormularzStan = BezpieczenstwoAgregatuStan & {
   deficytKwh: string
   mocAgregatuKw: string
   sredniZuzycieLH: string
@@ -24,11 +29,14 @@ const STAN_POCZATKOWY: FormularzStan = {
   sredniZuzycieLH: "",
   cenaZaLitrZl: "",
   maWyjscieSterujaceBms: false,
+  miejsceAgregatu: "",
+  podlaczenieAgregatu: "",
 }
 
 export default function AgregatPradotworczyPage() {
   const [stan, setStan] = usePersistedDraft<FormularzStan>("agregat-pradotworczy", STAN_POCZATKOWY)
-  const { deficytKwh, mocAgregatuKw, sredniZuzycieLH, cenaZaLitrZl, maWyjscieSterujaceBms } = stan
+  const { deficytKwh, mocAgregatuKw, sredniZuzycieLH, cenaZaLitrZl, maWyjscieSterujaceBms, miejsceAgregatu, podlaczenieAgregatu } =
+    stan
 
   function setPole<K extends keyof FormularzStan>(pole: K, akcja: FormularzStan[K] | ((prev: FormularzStan[K]) => FormularzStan[K])) {
     setStan((prev) => ({
@@ -50,12 +58,15 @@ export default function AgregatPradotworczyPage() {
         sredniZuzycieLH: sredniZuzycieLH === "" ? 0 : Number(sredniZuzycieLH),
         cenaZaLitrZl: cenaZaLitrZl === "" ? 0 : Number(cenaZaLitrZl),
         maWyjscieSterujaceBms,
+        ...naWejscieBezpieczenstwa({ miejsceAgregatu, podlaczenieAgregatu }),
       }),
-    [deficytKwh, mocAgregatuKw, sredniZuzycieLH, cenaZaLitrZl, maWyjscieSterujaceBms],
+    [deficytKwh, mocAgregatuKw, sredniZuzycieLH, cenaZaLitrZl, maWyjscieSterujaceBms, miejsceAgregatu, podlaczenieAgregatu],
   )
 
+  // 1.1.0 (D48): a critical safety warning (CO, no changeover switch) turns the verdict red.
+  const hasCritical = result.warnings.some((w) => w.level === "critical")
   const poziom: WerdyktPoziom | null =
-    result.status === "INVALID_INPUT"
+    result.status === "INVALID_INPUT" || hasCritical
       ? "blad"
       : result.status === "VALID"
         ? "ok"
@@ -115,18 +126,33 @@ export default function AgregatPradotworczyPage() {
         />
       </div>
 
+      <PolaBezpieczenstwaAgregatu
+        miejsceAgregatu={miejsceAgregatu}
+        podlaczenieAgregatu={podlaczenieAgregatu}
+        onChange={(zmiana) => setStan((prev) => ({ ...prev, ...zmiana }))}
+      />
+
       {result.status === "INCOMPLETE" ? (
-        <p className="text-small text-muted-foreground">
-          Wypełnij dane, żeby zobaczyć raport pracy agregatu.
-        </p>
+        <>
+          <p className="text-small text-muted-foreground">
+            Wypełnij dane, żeby zobaczyć raport pracy agregatu.
+          </p>
+          {hasCritical && (
+            <WerdyktPanel poziom="blad" etykieta="Zagrożenie życia — agregat w tej konfiguracji jest niebezpieczny">
+              <WynikSzczegoly assumptions={[]} warnings={result.warnings} />
+            </WerdyktPanel>
+          )}
+        </>
       ) : result.status === "INVALID_INPUT" ? (
         <WerdyktPanel poziom="blad" etykieta="Nie da się policzyć — sprawdź wpisane dane">
           <WynikSzczegoly assumptions={[]} warnings={result.warnings} />
         </WerdyktPanel>
       ) : (
-        poziom !== null &&
-        poziom !== "blad" && (
-          <WerdyktPanel poziom={poziom} etykieta="Raport pracy agregatu">
+        poziom !== null && (
+          <WerdyktPanel
+            poziom={poziom}
+            etykieta={hasCritical ? "Raport pracy agregatu — zagrożenie życia, popraw konfigurację" : "Raport pracy agregatu"}
+          >
             <WynikGlowny>
               {result.value.godzinyPracy.toLocaleString("pl-PL", { maximumFractionDigits: 1 })} h
             </WynikGlowny>

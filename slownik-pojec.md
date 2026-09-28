@@ -1,6 +1,6 @@
 # Słownik pojęć — Inżynier Offgrid Pro
 
-**Wersja:** 1.0 | **Filar:** C | **Data utworzenia:** 04.09.2026 | **Ostatnia aktualizacja:** 04.09.2026 | **Status:** Stabilny (rosnący)
+**Wersja:** 1.1 | **Filar:** C | **Data utworzenia:** 04.09.2026 | **Ostatnia aktualizacja:** 28.09.2026 | **Status:** Stabilny (rosnący)
 **Powiązane dokumenty:** `00_Biblia.md`, `kontrakty-rdzenia.md`
 
 TL;DR: Terminy branżowe (off-grid PV/baterie/elektryka) i skróty specyficzne dla kodu tego projektu, rosnący od pierwszego użycia (C.9 GOD BOOK). Nowe terminy dopisywane na końcu, nie w środku.
@@ -99,6 +99,14 @@ TL;DR: Terminy branżowe (off-grid PV/baterie/elektryka) i skróty specyficzne d
   - D — pełne odłączenie.
 - **TCO (Total Cost of Ownership)** — całkowity koszt posiadania w horyzoncie N lat: inwestycja
   minus dotacja, plus koszty roczne i wymiany, minus wartość rezydualna.
+- **Autokonsumpcja** — część energii z PV zużyta na miejscu (od razu albo przez magazyn), a nie oddana do sieci;
+  podawana jako % produkcji PV. W M14 w trybie prostym z profili zużycia (D38).
+- **BESS (Battery Energy Storage System)** — bateryjny magazyn energii; w M14 nazwa magazynu w części Firma (F7).
+- **IRiESD** — Instrukcja Ruchu i Eksploatacji Sieci Dystrybucyjnej: dokument każdego OSD zatwierdzany przez
+  Prezesa URE. Zawiera m.in. standardowe profile zużycia (W4 w M14).
+- **NC RfG** — kodeks sieci „Requirements for Generators” (rozporządzenie Komisji (UE) 2016/631): wymagania dla
+  źródeł pracujących równolegle z siecią. Przy zgłoszeniu mikroinstalacji do OSD potrzebny jest certyfikat
+  zgodności falownika (M14, praca równoległa).
 
 ---
 
@@ -111,3 +119,4 @@ TL;DR: Terminy branżowe (off-grid PV/baterie/elektryka) i skróty specyficzne d
 | 28.09.2026 | Dodano sekcję „Sieć i rozliczenia energii (M14)” — terminy z integracji rozdziału `03_M14_Dom_i_Firma_Siec.md` (opracowanie §11). |
 | 28.09.2026 | Dodano termin „Ścieżka UE” (M14, D40). |
 | 28.09.2026 | Dodano termin „Ścieżka UE + inflacja” (M14, D41). |
+| 28.09.2026 | **Wynik audytu końcowego N.3:** dopisano terminy używane w rozdziale M14, a nieobecne w słowniku (C.9): Autokonsumpcja, BESS, IRiESD, NC RfG. Nagłówek: 1.0→1.1 (dopiski z 07.09 i 28.09 były bez bumpu), data 28.09.2026. |

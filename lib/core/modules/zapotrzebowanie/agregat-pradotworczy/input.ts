@@ -13,7 +13,10 @@
  * integrację międzymodułową).
  */
 
-export type AgregatPradotworczyInput = {
+import type { BezpieczenstwoAgregatuInput } from "./bezpieczenstwo"
+
+/** 1.1.0 (D48): plus the shared safety answers — location and connection (`bezpieczenstwo.ts`). */
+export type AgregatPradotworczyInput = BezpieczenstwoAgregatuInput & {
   /** Deficyt energetyczny w najgorszym miesiącu roku [kWh]. 0 = jeszcze nie wpisano. */
   deficytKwh: number
   /** Moc znamionowa agregatu [kW]. 0 = jeszcze nie wpisano. */

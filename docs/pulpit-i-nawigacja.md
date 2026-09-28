@@ -51,6 +51,8 @@ numeracja już koduje logiczną kolejność.
 | 12 | Szybki kalkulator / tryb mobilny | w większości samodzielny |
 | 13 | Tryb Live | monitoring tego, co już zbudowane — ma sens na końcu |
 
+**[28.09.2026, audyt końcowy N.3]** Za kaflem 13 stoją dwa kafle M14: „Dom – sieć” i „Firma – sieć” (D39). Czytają z 1–4 i 6–8. Nie mają numeru kafla, bo „Kafel 14” to Ustawienia (D9). Tabela wyżej zostaje bez zmian jako stan z 30.08.2026.
+
 **Ważne — to jest niezależne od `ZASADY_APLIKACJI.md` §14** ("kolejność budowy"). §14 opisuje, w
 jakiej kolejności *my* implementujemy kod; kolejność kafli opisuje, co domyślnie widzi *user* na
 pulpicie. To dwie różne rzeczy, mogą się różnić bez sprzeczności — kolejność kafli może się
@@ -78,6 +80,8 @@ Przy każdej kategorii krótkie zdanie, co ona włącza/wyłącza. Po wyborze: p
 | 🧰 Instalacja elektryczna | 1, 5, 3, 4, 8 | 2, 6, 7, 9, 10, 11, 12, 13 |
 | 🧪 Analiza / stress-test | 1, 7, 2, 3, 4, 6, 10 | 5, 8, 9, 11, 12, 13 |
 | 🤖 Automatyka i AI | 1, 9, 10, 13, 8 | 2, 3, 4, 5, 6, 7, 11, 12 |
+
+**[28.09.2026, audyt końcowy N.3]** Dziewiąty preset, „Jestem podłączony do sieci” (D39), wysuwa kafle M14 na początek. Skład jego widocznych kafli nie jest jeszcze ustalony. Powstanie razem z ekranem onboardingu (`backlog-poza-v1.md`). Kafle M14 w ośmiu presetach wyżej: ukryte, dopóki właściciel nie zdecyduje inaczej (✅🤖).
 
 Kafel 1 (Lokalizacja) jest widoczny w każdym presecie — to fundament danych dla każdej ścieżki
 projektowej, niezależnie od tego, nad czym user akurat pracuje. Kafel 14 (Ustawienia) nie jest

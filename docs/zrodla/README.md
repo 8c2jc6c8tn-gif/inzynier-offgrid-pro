@@ -198,6 +198,8 @@ prądy, Etap C), Moduł 3 (dobór paneli PV do falownika, Etap G — pokrywa si�
 przypisaniu i budowie **czeka na etap poprawek**, nie podejmowana samodzielnie — patrz
 `docs/memory.md`.
 
+**[28.09.2026, audyt końcowy N.3] ROZSTRZYGNIĘTE 13.09.2026** — materiał nie jest nowym modułem, tylko rozbudową M4/Ekran 2 `napiecie-systemowe` (zbudowane 14.09.2026). Źródło: `docs/memory.md`, „Miejsce modułu »Dobór napięcia« — ROZSTRZYGNIĘTE” i „Budowa modułu »Dobór napięcia« — zakończona”. Zdanie „NIEROZSTRZYGNIĘTE” wyżej zostaje jako historia.
+
 Status wykorzystania: zapisany, trwa etap poprawek (patrz `docs/memory.md`, 13.09.2026),
 jeszcze niewykorzystany w kodzie.
 
