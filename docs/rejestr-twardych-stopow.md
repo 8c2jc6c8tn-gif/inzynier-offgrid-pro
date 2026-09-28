@@ -46,7 +46,8 @@ nie do audytu poprawności formularza webowego.
 - **Obudowa poniżej IP55 w środowisku narażonym na wilgoć (garaż, komora zewnętrzna)** —
   kondensacja w środku prowadzi do zwarcia na mokrym BMS/szynach.
   (M4/E10 — `lib/core/modules/baterie/ochrona-wilgoc/warnings.ts`, `ipPonizejWymaganego`, kod
-  `IP-PONIZEJ-WYMAGANEGO`)
+  `IP-PONIZEJ-WYMAGANEGO`) **[28.09.2026]** Ten sam stop (echo, bez nowego progu) także w M12/E23
+  (`lib/core/modules/kalkulator-mobilny/wilgoc-male-instalacje/`) — garaż/piwnica/namiot/jacht.
 - **Prąd zwarciowy pakietu przekracza zdolność łączeniową tranzystorów BMS** — zwykły
   bezpiecznik (~10ms) jest za wolny, wymagana funkcja e-Fuse (<100µs).
   (M4/E9 — `lib/core/modules/baterie/detekcja-zwarcia-efuse/warnings.ts`, `wymaganyEFuse`, kod

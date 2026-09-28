@@ -936,3 +936,15 @@ Dlaczego warto zgłosić do new-app-standards: rozdz. 00/07 zabraniają ukrytych
 opcjonalnym, którego wpisanie działa na niekorzyść bezpieczeństwa. Kandydat na regułę: „pole opcjonalne zmniejszające
 zapas bezpieczeństwa: puste = wariant zachowawczy, a wynik zawsze deklaruje, który wariant policzono”.
 Status: 🔎 nowe
+
+[28.09.2026] KATEGORIA: BŁĄD / PUŁAPKA — notatka przekazania na niescalonej gałęzi: kolejna sesja powtarza zrobioną pracę
+
+Szczegóły: sesja A zakończyła pracę na własnej gałęzi (bez PR, bez merge), zostawiając w `docs/lista-do-zrobienia.md`
+wpis ✅ i notatkę „PRZEKAZANIE DLA KOLEJNEJ SESJI”. Sesja B (nowa gałąź z `main`) przeczytała listę z `main`, gdzie ten
+sam wpis był nadal 🔲, i zrobiła identyczną zmianę (D29 — trzy kalkulatory, testy, UI, dokumentacja) drugi raz.
+Standard (14.x, GOD BOOK P.2/Y.4) każe czytać listę zadań na starcie, ale zakłada, że lista na `main` jest aktualna —
+przy pracy wielu równoległych sesji w chmurze, każda na własnej gałęzi, tak nie jest. Propozycja: (1) krok startu
+sesji „`git fetch` + gałęzie `claude/*` zmienione w ostatniej dobie + `git log origin/main..origin/<gałąź>`, a notatkę
+przekazania czytać z najnowszej gałęzi, nie z `main`”; (2) sesja kończąca bez merge zapisuje notatkę przekazania także
+w miejscu widocznym z `main` (np. PR w stanie draft), albo wprost w prompcie dla kolejnej sesji podaje nazwę gałęzi.
+Status: 🔎 nowe

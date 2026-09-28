@@ -7905,3 +7905,17 @@ idą od najstarszych otwartych ⚠️. Decyzje rundy 1–2 i co z nimi zrobiono:
   z tym samym `href` co ekran-źródło (M4/E12 `cold-c-rate`, już 2 pola) — bez nowego silnika/strony. Duplikat
   `href` między kaflami jest bezpieczny (klucze React per kafel), ale okruszki `NawigacjaEkranu` pokazują moduł
   źródłowy (`znajdzKafelIEkranPoHref` — pierwsze trafienie, M4 przed M12) — świadomie, „jeden ekran, dwa wejścia”.
+
+## Duplikat D29 i przejęcie gałęzi poprzedniej sesji (28.09.2026)
+
+**Pułapka procesowa (kosztowała jedną pełną partię):** start sesji czytał `docs/lista-do-zrobienia.md` z `main`,
+a poprzednia sesja pracowała na niescalonej gałęzi `claude/todo-list-review-l7me97` (bez PR) — tam D29 był już
+zrobiony (commit `1b365cc`), razem z M12/E28, E31 i notatką przekazania „następny: E23”. Na `main` wpis D29 był nadal
+🔲, więc zrobiłem go drugi raz (ta sama matematyka). Wykryte dopiero na prośbę właściciela. Naprawa bez przepisywania
+historii (force-push zablokowany): `git revert` własnego commitu + merge gałęzi poprzedniej sesji (konflikt tylko w
+liście zadań — scalone ręcznie: wpisy M12 i D32/D33 z tamtej gałęzi, wpis M14 z `main`). **Od teraz na starcie
+sesji:** `git fetch` + lista gałęzi `claude/*` z datami i `git log origin/main..origin/<gałąź>` dla gałęzi z
+ostatniej doby — notatka przekazania może leżeć poza `main`. Wkład: `docs/wklad-do-standardu.md`.
+
+**M12/E23 (wrapper do M4/E10)** zbudowany według notatki przekazania — szczegóły w rejestrze pokrycia. Decyzja
+interpretacyjna do potwierdzenia: przykład Biblii „wilgotny garaż → IP65” jako ℹ️ zalecenie, nie próg (wpis ⚠️).
