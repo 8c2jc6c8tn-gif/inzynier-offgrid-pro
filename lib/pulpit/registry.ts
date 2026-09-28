@@ -211,6 +211,9 @@ export const KAFLE: KafelEntry[] = [
       { href: "/kalkulatory/grzalki-dachowe", label: "Grzałki dachowe i rynnowe" },
       { href: "/kalkulatory/ryzyko-zamarzniecia", label: "Ryzyko zamarznięcia — grunt" },
       { href: "/kalkulatory/agregat-w-mrozie", label: "Agregat w mrozie" },
+      { href: "/kalkulatory/blackout", label: "Blackout — dni bez słońca" },
+      { href: "/kalkulatory/strategia-zamarzanie", label: "Strategia „Zamarzanie” — odłączanie odbiorników" },
+      { href: "/kalkulatory/analiza-spof", label: "Analiza SPOF — pojedyncze punkty awarii" },
     ],
   },
   {
