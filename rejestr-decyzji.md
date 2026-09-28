@@ -1,6 +1,6 @@
 # Rejestr decyzji — Inżynier Offgrid Pro
 
-**Wersja:** 1.12 | **Filar:** C | **Data utworzenia:** 04.09.2026 | **Ostatnia aktualizacja:** 28.09.2026 | **Status:** Stabilny (rosnący)
+**Wersja:** 1.13 | **Filar:** C | **Data utworzenia:** 04.09.2026 | **Ostatnia aktualizacja:** 28.09.2026 | **Status:** Stabilny (rosnący)
 **Powiązane dokumenty:** `00_Biblia.md`, `docs/memory.md`, `USTALENIA.md` (historyczny, Część II)
 
 TL;DR: D1, D2, D3… — decyzje **strategiczne/fundamentalne** (blokujące wiele innych rzeczy naraz, Krok 4 GOD BOOK), ponumerowane, nigdy nie kasowane, tylko unieważniane jawnie (F.5). **Nie duplikuje `docs/memory.md`**: tam żyje pełna, szczegółowa historia każdej sesji (setki drobnych decyzji implementacyjnych per ekran) — tu tylko decyzje, które zmieniły kierunek/regułę obowiązującą cały projekt. Gdy wpis niżej odsyła do `docs/memory.md`, tam jest pełne uzasadnienie i przykłady.
@@ -80,6 +80,8 @@ TL;DR: D1, D2, D3… — decyzje **strategiczne/fundamentalne** (blokujące wiel
 
 **D33 (28.09.2026) — M12/E11 „Zużycie per urządzenie”: baza przykładowych średnich mocy typowych urządzeń jako podpowiedź, nigdy wartość domyślna.** Koszt cofnięcia: tani (`lib/core/modules/kalkulator-mobilny/zuzycie-per-urzadzenie/przykladowe-urzadzenia.ts`). Decyzja właściciela projektu (runda 3, 28.09.2026: „wpisać przykładowe średnie dane mocy dla typowych urządzeń… jako przykład dla laika, ale on musi wpisać swoje poprawne moce… wyszukać w internecie, ile jego model pobiera… wpisuje tylko raz i system zapamięta, więc warto poświęcić 10–15 minut”). Treść: lista przykładów (rozwijana) + podpowiedzi nazw; po wybraniu nazwy z listy ekran pokazuje „przykładowa średnia: ok. X W — to nie jest moc Twojego modelu”, ale pola mocy nie wypełnia; komunikat o jednorazowym wpisie i zapamiętaniu (zapis lokalny szkicu). Wartości to przykładowe średnie, nie dane katalogowe. **Do potwierdzenia przez właściciela (✅🤖):** lista urządzeń i wartości (16 pozycji w pliku).
 
+
+**D34 (28.09.2026) — Chmurki „?” przy polach (standard 8.4): wariant B + bogaty opis działania kalkulatora.** Koszt cofnięcia: średni (treść na wszystkich ekranach). Decyzja właściciela projektu (wybór B w poprzedniej sesji, potwierdzony 28.09.2026: „muszą zawierać bogaty opis wyjaśniający jak i po co działa kalkulator, no i tak jak było podane w odpowiedzi B”). Treść: (1) każde pole liczbowe ma `?` z pełną nazwą, do czego służy, gdzie znaleźć wartość i typowym zakresem — zakresy wyłącznie ze źródeł/norm w repo, w braku — „zakres z karty katalogowej” (Dyrektywa #1, bez zgadywania); (2) chmurki wyjaśniają też, jak i po co działa kalkulator — bogato, językiem dla laika; (3) moduł po module, PR na moduł; warianty A (mechaniczne przepisanie `hint`) i C (A, potem B) odrzucone; (4) praca w osobnej sesji (`docs/lista-do-zrobienia.md`). Nowe ekrany od teraz od razu z chmurkami w tym standardzie.
 ---
 
 ## Założenia robocze (F.7 GOD BOOK)
@@ -105,3 +107,4 @@ TL;DR: D1, D2, D3… — decyzje **strategiczne/fundamentalne** (blokujące wiel
 | 25.09.2026 | Dodano D28 (M6: porównanie kosztów ogrzewania 5.39 + nagrzewnica typu webasto i olej; parametry paliw tylko wpis użytkownika) — decyzja właściciela projektu. Wersja 1.9→1.10. |
 | 26.09.2026 | Dodano D29 (balast projektowy PN-EN 1990 EQU w M3/E9, E2, E6; twardy stop E6 „za mały balast”) — polecenie właściciela projektu. Wersja 1.10→1.11. |
 | 28.09.2026 | Dodano D30 (E23 próg 80%), D31 (E19 falownik 🔴, regulator 🟡), D32 (E8 progi rozruchu diesla/benzyny), D33 (E11 przykładowe moce urządzeń) — decyzje właściciela projektu, runda 3. Wersja 1.11→1.12. |
+| 28.09.2026 | Dodano D34 (chmurki „?” — wariant B + bogaty opis działania kalkulatora) — decyzja właściciela projektu. Wersja 1.12→1.13. |
