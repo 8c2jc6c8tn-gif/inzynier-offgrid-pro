@@ -1,10 +1,23 @@
 import type { Assumption, CalcResult, Warning } from "@/lib/core/calc-result"
-import { DLUGI_POSTOJ_DNI, PROG_MROZU_C } from "./constants"
+import {
+  DIESEL_ROZRUCH_MROZ_C,
+  DIESEL_ZWYKLY_RYZYKO_C,
+  DIESEL_ZWYKLY_WYSOKIE_RYZYKO_C,
+  DLUGI_POSTOJ_DNI,
+  PROG_MROZU_C,
+} from "./constants"
 import type { AgregatWMrozieInput } from "./input"
 import { validateInput } from "./validation"
-import { dieselParafinizacja, dlugiPostoj, przerwyWPracy } from "./warnings"
+import {
+  benzynaWMrozie,
+  dieselParafinizacja,
+  dieselRozruchWMrozie,
+  dieselRyzykoRozruchu,
+  dlugiPostoj,
+  przerwyWPracy,
+} from "./warnings"
 
-export const CALCULATOR_VERSION = "1.0.0"
+export const CALCULATOR_VERSION = "1.1.0"
 
 const FORMULA =
   "V = t \\cdot q;\\; n_{olej} = \\lfloor t / t_{olej} \\rfloor;\\; n_{przerw} = \\lceil t / t_{ciag} \\rceil - 1"
@@ -26,8 +39,9 @@ const PUSTY_WYNIK: AgregatWMrozieResult = { paliwoL: null, wymianyOleju: null, l
  * Ekran 8, Moduł 7 — "Agregat w mrozie" (dawne 6.9/6.23/6.36). Liczone (sekcja B.2, przykład C:
  * 120 h → 180 l, 2 wymiany oleju): paliwo, wymiany oleju, przerwy i czas kalendarzowy z danych
  * producenta wpisanych przez usera. Długi postój (B.3): 🟡 przy ≥ 14 dniach w mrozie — próg ze
- * źródła. Rozruch (B.1): tylko info dla zwykłego diesla — źródło podaje dwa różne progi
- * parafinizacji (−20°C w B, −15°C w C), rozstrzyga właściciel (`docs/lista-do-zrobienia.md`).
+ * źródła. Rozruch (B.1, od 1.1.0): źródło podaje dwa różne progi parafinizacji (−20°C w B, −15°C
+ * w C); rozstrzygnięte decyzją właściciela D32 (praktyka, nie norma) — zwykły diesel 🟡 od +5°C,
+ * 🔴 od 0°C; każdy diesel 🟡 od −10°C (akumulator, świece żarowe); benzyna w mrozie ℹ️.
  * Spadek pojemności akumulatora rozruchowego — M4/E15 Cold Cranking Amps.
  */
 export function calculateAgregatWMrozie(input: AgregatWMrozieInput): CalcResult<AgregatWMrozieResult> {
@@ -58,7 +72,9 @@ export function calculateAgregatWMrozie(input: AgregatWMrozieInput): CalcResult<
   const temp = input.temperaturaMiejscaC
   const maPrace = t !== null && t > 0
   const maPostoj = input.dniPostoju !== null && temp !== null
-  if (!maPrace && !maPostoj) return wynik("INCOMPLETE", [])
+  // 1.1.0: fuel + temperature alone is a complete start-up check (D32 can be a hard stop).
+  const maRozruch = input.paliwo !== null && temp !== null
+  if (!maPrace && !maPostoj && !maRozruch) return wynik("INCOMPLETE", [])
 
   const warnings: Warning[] = []
   const assumptions: Assumption[] = []
@@ -81,7 +97,15 @@ export function calculateAgregatWMrozie(input: AgregatWMrozieInput): CalcResult<
   if (maPostoj && input.dniPostoju! >= DLUGI_POSTOJ_DNI && temp! < PROG_MROZU_C) {
     warnings.push(dlugiPostoj(input.dniPostoju!, temp!))
   }
-  if (input.paliwo === "diesel-zwykly" && temp !== null && temp < PROG_MROZU_C) warnings.push(dieselParafinizacja(temp))
+  if (temp !== null) {
+    if (input.paliwo === "diesel-zwykly") {
+      if (temp <= DIESEL_ZWYKLY_WYSOKIE_RYZYKO_C) warnings.push(dieselParafinizacja(temp))
+      else if (temp <= DIESEL_ZWYKLY_RYZYKO_C) warnings.push(dieselRyzykoRozruchu(temp))
+    }
+    const diesel = input.paliwo === "diesel-zwykly" || input.paliwo === "diesel-arktyczny"
+    if (diesel && temp <= DIESEL_ROZRUCH_MROZ_C) warnings.push(dieselRozruchWMrozie(temp))
+    if (input.paliwo === "benzyna" && temp < PROG_MROZU_C) warnings.push(benzynaWMrozie(temp))
+  }
 
   return {
     value,

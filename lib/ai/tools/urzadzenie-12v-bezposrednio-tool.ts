@@ -12,6 +12,12 @@ export const Urzadzenie12vBezposrednioToolInput = z.object({
   napiecieSystemuV: z.union([z.literal(12), z.literal(24)]).describe("Napięcie znamionowe akumulatora/instalacji [V] — od usera"),
   napiecieUrzadzeniaV: z.number().describe("Napięcie znamionowe urządzenia [V] — od usera"),
   tolerancjaPct: z.number().describe("Tolerancja napięcia urządzenia [±%] z instrukcji — od usera, nie zgaduj"),
+  maksNapiecieLadowaniaV: z
+    .number()
+    .describe(
+      "Maks. napięcie ładowania całej instalacji [V] z ustawień regulatora/ładowarki (absorpcja, przy ołowiowym także " +
+        "wyrównywanie) — od usera, nie zgaduj. Dla 12 V źródła podają 14,5–14,6 V; dla 24 V wartość całej instalacji.",
+    ),
   przezStabilizator: z.boolean().describe("true = urządzenie zasilane przez stabilizator/przetwornicę DC-DC"),
 })
 export type Urzadzenie12vBezposrednioToolInputT = z.infer<typeof Urzadzenie12vBezposrednioToolInput>
@@ -36,8 +42,8 @@ export const urzadzenie12vBezposrednioTool: AiToolDefinition<
   name: "sprawdz_urzadzenie_12v_bezposrednio",
   description:
     "Sprawdza, czy urządzenie 12/24 V można zasilić wprost z akumulatora (Moduł 12). Realne napięcie akumulatora " +
-    "12 V to 11–14,5 V, nie stałe 12 V. Twardy stop, gdy górna granica tolerancji urządzenia jest niższa niż napięcie " +
-    "akumulatora przy ładowaniu (np. 12,0 V ±5% → max 12,6 V). Użyj, gdy user pyta, czy może podłączyć urządzenie " +
+    "to od 11 V na każde 12 V do maks. napięcia ładowania z regulatora usera, nie stałe 12 V. Twardy stop, gdy górna " +
+    "granica tolerancji urządzenia jest niższa niż napięcie przy ładowaniu (np. 12,0 V ±5% → max 12,6 V). Użyj, gdy user pyta, czy może podłączyć urządzenie " +
     "bezpośrednio do akumulatora bez stabilizatora.",
   inputSchema: Urzadzenie12vBezposrednioToolInput,
   outputSchema: Urzadzenie12vBezposrednioToolOutput,

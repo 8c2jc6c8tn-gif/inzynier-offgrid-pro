@@ -86,11 +86,19 @@ describe("technologiePaneliTool (M3/E15)", () => {
 
 describe("mikroinwerteryVsCentralnyTool (M3/E21)", () => {
   it("zacienienie → mikroinwertery + ostrzeżenie off-grid jako tekst PL, tabela 4 kryteriów", async () => {
-    const wynik = await mikroinwerteryVsCentralnyTool.handler({ regularneZacienienie: true })
+    const wynik = await mikroinwerteryVsCentralnyTool.handler({ regularneZacienienie: true, falownikWyspowyAcCoupling: "tak" })
     expect(wynik.rekomendacja).toBe("mikroinwertery")
     expect(wynik.porownanie).toHaveLength(4)
     expect(wynik.ostrzezenia).toContain(t("pl", "MIKROINWERTER-OFFGRID-SPRZEZENIE-AC"))
     bezBrakujacegoKlucza(wynik.ostrzezenia)
+  })
+
+  it("zacienienie bez falownika wyspowego → twardy stop jako tekst PL; bez odpowiedzi → INCOMPLETE", async () => {
+    const bez = await mikroinwerteryVsCentralnyTool.handler({ regularneZacienienie: true, falownikWyspowyAcCoupling: "nie" })
+    expect(bez.ostrzezenia).toContain(t("pl", "MIKROINWERTER-OFFGRID-BEZ-FALOWNIKA-WYSPOWEGO"))
+    bezBrakujacegoKlucza(bez.ostrzezenia)
+    const brak = await mikroinwerteryVsCentralnyTool.handler({ regularneZacienienie: true })
+    expect(brak.status).toBe("INCOMPLETE")
   })
 
   it("brak zacienienia → centralny", async () => {

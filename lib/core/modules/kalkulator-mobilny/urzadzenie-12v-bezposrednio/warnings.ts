@@ -21,6 +21,17 @@ export function tolerancjaPozaZakresem(value: number): Warning {
   }
 }
 
+export function maksLadowaniaPonizejZnamionowego(maksV: number, systemV: number): Warning {
+  return {
+    code: "U12-MAKS-LADOWANIA-PONIZEJ-ZNAMIONOWEGO",
+    level: "critical",
+    i18nKey: "U12-MAKS-LADOWANIA-PONIZEJ-ZNAMIONOWEGO",
+    params: { maks: maksV, system: systemV },
+    technicalMessage: `maksNapiecieLadowaniaV=${maksV} < napiecieSystemuV=${systemV}`,
+    field: "maksNapiecieLadowaniaV",
+  }
+}
+
 export function przepieciePrzyLadowaniu(akuMaxV: number, urzadzenieMaxV: number): Warning {
   return {
     code: "U12-PRZEPIECIE-PRZY-LADOWANIU",

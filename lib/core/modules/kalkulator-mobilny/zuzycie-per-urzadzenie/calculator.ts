@@ -31,7 +31,8 @@ export function obliczZuzycieDoboweWh(mocW: number, godzinNaDobe: number, wspolc
  * Logika wspólna 1:1 ze źródła; przykład (lodówka turystyczna 45 W, 40% przy 25 °C → ok. 430 Wh, nie
  * 1080 Wh) odtworzony: 432 Wh. Współczynnik pracy wpisuje użytkownik (40% to przykład źródła dla jednej
  * lodówki w 25 °C, nie stała — Dyrektywa #1). „Baza urządzeń” ze źródła to tylko nazwy, bez mocy —
- * nie zbudowana (wiersz rejestru: częściowo).
+ * od 28.09.2026 (D33) przykładowe średnie moce w `przykladowe-urzadzenia.ts`, wyłącznie jako
+ * podpowiedź na ekranie; kalkulator liczy zawsze z mocy wpisanej przez użytkownika.
  */
 export function calculateZuzyciePerUrzadzenie(input: ZuzyciePerUrzadzenieInput): CalcResult<ZuzyciePerUrzadzenieResult> {
   const { errors } = validateInput(input)

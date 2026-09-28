@@ -38,7 +38,9 @@ export const agregatWMrozieTool: AiToolDefinition<AgregatWMrozieToolInputT, Agre
   name: "sprawdz_agregat_w_mrozie",
   description:
     "Liczy paliwo, wymiany oleju i przerwy agregatu w scenariuszu zimowym (np. tydzień blackoutu) z danych " +
-    "producenta oraz ostrzega przed długim postojem w mrozie i parafinizacją zwykłego diesla (Moduł 7, Ekran 8).",
+    "producenta oraz ostrzega przed długim postojem w mrozie i ryzykiem rozruchu: zwykły diesel 🟡 od +5°C, " +
+    "🔴 od 0°C, każdy diesel 🟡 od −10°C (akumulator, świece żarowe), benzyna ℹ️ poniżej 0°C — progi z praktyki " +
+    "(decyzja właściciela), nie z normy (Moduł 7, Ekran 8).",
   inputSchema: AgregatWMrozieToolInput,
   outputSchema: AgregatWMrozieToolOutput,
   operationType: "read",

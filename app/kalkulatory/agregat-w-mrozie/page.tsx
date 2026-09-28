@@ -47,6 +47,7 @@ export default function AgregatWMroziePage() {
       }),
     [stan],
   )
+  const hasCritical = result.warnings.some((w) => w.level === "critical")
   const hasWarning = result.warnings.some((w) => w.level === "warning")
   const { paliwoL, wymianyOleju, liczbaPrzerw, czasKalendarzowyH } = result.value
 
@@ -76,7 +77,7 @@ export default function AgregatWMroziePage() {
           inputMode="decimal"
           value={stan.temperaturaMiejscaC}
           onChange={ustaw("temperaturaMiejscaC")}
-          hint="Garaż, wiata, kontener — najzimniejsza noc."
+          hint="Tam, gdzie stoi agregat i paliwo — na zewnątrz, garaż, wiata, kontener — najzimniejsza noc."
         />
       </div>
 
@@ -121,11 +122,17 @@ export default function AgregatWMroziePage() {
           <WynikSzczegoly assumptions={[]} warnings={result.warnings} />
         </WerdyktPanel>
       ) : result.status === "INCOMPLETE" ? (
-        <p className="text-small text-muted-foreground">Wpisz czas pracy w scenariuszu albo temperaturę i dni postoju.</p>
+        <p className="text-small text-muted-foreground">Wpisz czas pracy w scenariuszu, albo temperaturę z rodzajem paliwa lub dniami postoju.</p>
       ) : (
         <WerdyktPanel
-          poziom={hasWarning ? "uwaga" : "ok"}
-          etykieta={hasWarning ? "Agregat może nie wystartować" : "Agregat w scenariuszu zimowym"}
+          poziom={hasCritical ? "blad" : hasWarning ? "uwaga" : "ok"}
+          etykieta={
+            hasCritical
+              ? "Bardzo duże ryzyko, że agregat nie wystartuje"
+              : hasWarning
+                ? "Agregat może nie wystartować"
+                : "Agregat w scenariuszu zimowym"
+          }
         >
           {paliwoL !== null && <WynikGlowny>{f0(paliwoL)} l paliwa</WynikGlowny>}
           <ul className="mt-2 flex flex-col gap-1 text-small">

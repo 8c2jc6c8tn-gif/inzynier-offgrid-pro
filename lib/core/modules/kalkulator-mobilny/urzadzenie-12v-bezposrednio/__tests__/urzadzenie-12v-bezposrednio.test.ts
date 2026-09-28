@@ -6,6 +6,7 @@ const BAZA: Urzadzenie12vBezposrednioInput = {
   napiecieSystemuV: 12,
   napiecieUrzadzeniaV: 12,
   tolerancjaPct: 5,
+  maksNapiecieLadowaniaV: 14.5,
   przezStabilizator: false,
 }
 
@@ -41,8 +42,37 @@ describe("calculateUrzadzenie12vBezposrednio (M12/E27, dawne 8.54)", () => {
     expect(w.warnings.map((x) => x.code)).toEqual(["U12-ZA-NISKIE-PRZY-ROZLADOWANIU"])
   })
 
-  it("24 V: zakres akumulatora 22–29 V", () => {
-    const w = calculateUrzadzenie12vBezposrednio({ ...BAZA, napiecieSystemuV: 24, napiecieUrzadzeniaV: 24, tolerancjaPct: 25 })
+  it("luka 14,5 vs 14,6 V zamknięta: urządzenie max 14,55 V przy regulatorze 14,6 V (Biblia §12.42) → 🔴", () => {
+    const w = calculateUrzadzenie12vBezposrednio({ ...BAZA, napiecieUrzadzeniaV: 12.5, tolerancjaPct: 16.4, maksNapiecieLadowaniaV: 14.6 })
+    expect(w.value.urzadzenieMaxV).toBeCloseTo(14.55, 12)
+    expect(w.value.akuMaxV).toBe(14.6)
+    expect(w.warnings.map((x) => [x.code, x.level])).toContainEqual(["U12-PRZEPIECIE-PRZY-LADOWANIU", "critical"])
+  })
+
+  it("wyrównywanie ołowiowego (np. 15,5 V z ustawień regulatora) → górna granica z wpisu usera", () => {
+    const w = calculateUrzadzenie12vBezposrednio({ ...BAZA, tolerancjaPct: 25, maksNapiecieLadowaniaV: 15.5 })
+    expect(w.value.akuMaxV).toBe(15.5)
+    expect(w.status).toBe("VALID_WITH_WARNINGS")
+  })
+
+  it("brak maks. napięcia ładowania → INCOMPLETE (bez ukrytego domyślnego)", () => {
+    expect(calculateUrzadzenie12vBezposrednio({ ...BAZA, maksNapiecieLadowaniaV: null }).status).toBe("INCOMPLETE")
+  })
+
+  it("maks. napięcie ładowania poniżej znamionowego (14,6 V przy 24 V) → INVALID_INPUT", () => {
+    const w = calculateUrzadzenie12vBezposrednio({ ...BAZA, napiecieSystemuV: 24, maksNapiecieLadowaniaV: 14.6 })
+    expect(w.status).toBe("INVALID_INPUT")
+    expect(w.warnings.map((x) => x.code)).toEqual(["U12-MAKS-LADOWANIA-PONIZEJ-ZNAMIONOWEGO"])
+  })
+
+  it("24 V: dolna granica 22 V, górna z wpisu (29 V)", () => {
+    const w = calculateUrzadzenie12vBezposrednio({
+      ...BAZA,
+      napiecieSystemuV: 24,
+      napiecieUrzadzeniaV: 24,
+      tolerancjaPct: 25,
+      maksNapiecieLadowaniaV: 29,
+    })
     expect(w.value.akuMinV).toBe(22)
     expect(w.value.akuMaxV).toBe(29)
     expect(w.status).toBe("VALID")

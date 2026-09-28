@@ -2,9 +2,14 @@ import { describe, expect, it } from "vitest"
 import { calculateLadowanieWGarazu } from "../calculator"
 
 describe("calculateLadowanieWGarazu (M12/E36, dawne 8.63)", () => {
-  it("kwasowy: 3 pozycje; bez wentylacji → ostrzeżenie o wodorze (Biblia §12.51)", () => {
+  it("kwasowy: 3 pozycje; bez wentylacji → 🔴 wodór (Biblia §12.51, decyzja 28.09.2026)", () => {
     const w = calculateLadowanieWGarazu({ chemia: "kwasowy", potwierdzoneIds: ["ladowarka-chemia"] })
     expect(w.value).toMatchObject({ potwierdzone: 1, razem: 3 })
+    expect(w.warnings.map((x) => [x.code, x.level])).toEqual([["LG-OLOW-BEZ-WENTYLACJI", "critical"]])
+  })
+
+  it("AGM bez wentylacji → 🟡 wodór", () => {
+    const w = calculateLadowanieWGarazu({ chemia: "AGM", potwierdzoneIds: ["ladowarka-chemia"] })
     expect(w.warnings.map((x) => [x.code, x.level])).toEqual([["LG-OLOW-BEZ-WENTYLACJI", "warning"]])
   })
 

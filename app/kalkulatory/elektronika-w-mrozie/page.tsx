@@ -2,6 +2,7 @@
 
 import { useMemo } from "react"
 import { calculateElektronikaWMrozie } from "@/lib/core/modules/stress-test/elektronika-w-mrozie/calculator"
+import { jestKrytyczny } from "@/lib/core/modules/stress-test/elektronika-w-mrozie/constants"
 import type { TypElektroniki, UrzadzenieElektroniczne } from "@/lib/core/modules/stress-test/elektronika-w-mrozie/input"
 import { usePersistedDraft } from "@/lib/adapters/use-persisted-draft"
 import { Pole } from "@/components/ui/pole"
@@ -23,6 +24,7 @@ const TYPY: { id: TypElektroniki; label: string }[] = [
   { id: "przetwornica", label: "Przetwornica / falownik" },
   { id: "wyswietlacz", label: "Wyświetlacz LCD" },
   { id: "czujnik", label: "Czujnik" },
+  { id: "regulator", label: "Regulator ładowania (MPPT/PWM)" },
   { id: "inne", label: "Inne" },
 ]
 
@@ -141,7 +143,7 @@ export default function ElektronikaWMroziePage() {
           <ul className="mt-2 flex flex-col gap-1 text-small">
             {result.value.oceny.map((o) => (
               <li key={o.id}>
-                {o.zapasK === null ? "ℹ️" : o.zapasK < 0 ? (o.typ === "BMS" ? "🔴" : "🟡") : "✅"} {o.nazwa}
+                {o.zapasK === null ? "ℹ️" : o.zapasK < 0 ? (jestKrytyczny(o.typ) ? "🔴" : "🟡") : "✅"} {o.nazwa}
                 {o.zapasK === null ? " — brak danych z karty" : ` — zapas ${f0(o.zapasK)} K`}
               </li>
             ))}

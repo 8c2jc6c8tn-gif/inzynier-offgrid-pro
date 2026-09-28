@@ -909,3 +909,18 @@ pamięci”. Kandydat na regułę: ✏️ zmieniające treść źródła wymaga 
 materiału” (treść źródła zostaje, obok pytanie), a nie korekta.
 
 Status: 🔎 nowe
+
+[28.09.2026] KATEGORIA: BŁĄD — chmurka pomocy „?” (8.4) zbudowana na komponencie Tooltip nie otwiera się na ekranie dotykowym
+
+Szczegóły: `components/ui/chmurka.tsx` (`Chmurka`/`PomocPole`, realizacja 8.4 — „?” obok etykiety pola z nazwą,
+zastosowaniem i zakresem) był zbudowany na `Tooltip` z Base UI. Na desktopie działał (hover/focus), więc przeszedł
+przez wzornik i pierwszy ekran bez uwag. Test Playwright z emulacją telefonu (`devices["Pixel 5"]`, `tap`) pokazał,
+że na dotyk chmurka **w ogóle się nie otwiera** — Tooltip z założenia nie reaguje na tap (tak działa większość
+bibliotek: tooltip = hover-only). W aplikacji mobile-first to oznacza, że cała warstwa wyjaśnień 8.4 była
+niewidoczna dla głównej grupy użytkowników. Naprawa: `Popover` z `openOnHover` (hover zostaje na desktopie,
+tap/klik/Enter działają wszędzie), API komponentu bez zmian. Wykryte przypadkiem, przy dodawaniu nowego `pomoc`.
+Dlaczego warto zgłosić do new-app-standards: 8.4 każe dać „?” przy każdym polu liczbowym, ale nie mówi, jakim
+prymitywem — naturalny wybór („to przecież tooltip”) jest błędny dla każdej aplikacji rodziny działającej na
+telefonie (wszystkie, rozdz. 13). Propozycja: 8.4 dopowiada „popover otwierany dotknięciem, nie tooltip hover-only”
++ 10.x: weryfikacja chmurek e2e także z emulacją dotyku, nie tylko myszy.
+Status: 🔎 nowe

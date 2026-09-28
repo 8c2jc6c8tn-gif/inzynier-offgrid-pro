@@ -6,7 +6,7 @@ import {
 import type { ChecklistaChemiiInput } from "@/lib/core/modules/kalkulator-mobilny/bezpieczenstwo-kamper/input"
 import { CHECKLIST_ITEMS } from "./constants"
 
-export const CALCULATOR_VERSION = "1.0.0"
+export const CALCULATOR_VERSION = "1.1.0"
 
 /** Ekran 36, Moduł 12 — "Bezpieczne ładowanie w garażu" (dawne 8.63). Wzorzec E, logika wspólna z Ekranem 22. */
 export function calculateLadowanieWGarazu(input: ChecklistaChemiiInput): CalcResult<ChecklistaChemiiResult> {
