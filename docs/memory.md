@@ -7681,3 +7681,11 @@ Polecenie właściciela: „zacznij od modułów M8–M7 i ruszaj dalej; po każ
 - E10 — wynik `autoWezwanieAktywne = auto ∧ zgoda`: kalkulator sam „wyłącza” wezwanie bez zgody zamiast tylko ostrzegać; narzędzie AI niczego nie wysyła (`read`).
 - E7 — lista lamp jak w M7/E19 (`id` tylko w stanie strony, silnik go nie potrzebuje); klucze ostrzeżeń w `WynikSzczegoly` już `code + i` (poprawka z 27.09), więc powtarzający się kod per lampa renderuje się poprawnie.
 - Świadomie nie zbudowane: E9 (telemetria M13), część AI E6 (brak progu „zbliżającego się rozładowania” w źródle — przykład „10 minut” to ilustracja), adaptacyjna trasa ewakuacji E7 (mapa budynku M1), reset klap E8 (sterownik).
+
+### M7 blok 3: E4, E6, E10 (28.09.2026)
+
+- **E4 Blackout** — czyste echo M4/E1 w obie strony (`obliczDniAutonomiiZPojemnosci`, `obliczPojemnoscUzytecznaKwh`), DoD = SoC₀ − SoC_min. Testy sprawdzają spójność odwrotną: po dołożeniu wyliczonej pojemności albo redukcji zużycia system wytrzymuje dokładnie N dni. Przykład C (14 dni, 9. dzień, 30 kWh, 40%) nie ma danych wejściowych — test na własnych liczbach tej samej skali.
+- **E6 Zamarzanie** — źródło w sekcji A odsyła do M2 „Ekran 1.20” (Smart Load Shedding) → progi wzięte stamtąd jako echo stałej, nie kopiowane. Zimą bez nadwyżki PV reguła M2/E12 odłącza komfort od razu.
+- **E10 SPOF** — 🔴 tylko BMS (tak źródło), pozostałe z przykładu C jako 🟡 z konkretnym zaleceniem.
+- **Pułapka (drugi raz tej samej doby):** `\;` w FORMULA — strażnik `formula-escapes.test.ts` złapał to w 2 nowych plikach. **Nowa pułapka przy naprawie:** regex w Pythonie wewnątrz heredoc (`(?<!\\)\;`) po warstwach escapowania dopasował każdy `;` i zepsuł komentarze oraz poprawny plik E1 — wykryte `git diff`/`od -c`, E1 przywrócony z HEAD. Wniosek: poprawki backslashy robić `str.replace` z `chr(92)`, zawsze sprawdzać `git diff` po masowej zamianie.
+- Weryfikacja: typecheck / lint / i18n-guard (180) / test / build / audit:gate / audit:n1 — wynik w PR.

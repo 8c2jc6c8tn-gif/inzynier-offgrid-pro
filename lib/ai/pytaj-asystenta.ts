@@ -71,6 +71,9 @@ import { pompyZaworyWMrozieTool } from "./tools/pompy-zawory-w-mrozie-tool"
 import { grzalkiDachoweTool } from "./tools/grzalki-dachowe-tool"
 import { ryzykoZamarznieciaTool } from "./tools/ryzyko-zamarzniecia-tool"
 import { agregatWMrozieTool } from "./tools/agregat-w-mrozie-tool"
+import { blackoutTool } from "./tools/blackout-tool"
+import { strategiaZamarzanieTool } from "./tools/strategia-zamarzanie-tool"
+import { analizaSpofTool } from "./tools/analiza-spof-tool"
 import { katalogCzujnikowTool } from "./tools/katalog-czujnikow-tool"
 import { doborRegulatoraPwmMpptTool } from "./tools/dobor-regulatora-pwm-mppt-tool"
 import { dniBezSloncaTool } from "./tools/dni-bez-slonca-tool"
@@ -345,6 +348,9 @@ const NARZEDZIA: Array<AiToolDefinition<any, any>> = [
   grzalkiDachoweTool,
   ryzykoZamarznieciaTool,
   agregatWMrozieTool,
+  blackoutTool,
+  strategiaZamarzanieTool,
+  analizaSpofTool,
   katalogCzujnikowTool,
   doborRegulatoraPwmMpptTool,
   dniBezSloncaTool,

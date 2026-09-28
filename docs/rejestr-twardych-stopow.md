@@ -107,6 +107,8 @@ nie do audytu poprawności formularza webowego.
   zwraca wezwanie jako nieaktywne.
   (M8/E10 — `lib/core/modules/bezpieczenstwo/powiadomienia-alarmowe/warnings.ts`, `wezwanieBezZgody`, kod
   `ALARM-WEZWANIE-BEZ-ZGODY`)
+- **[28.09.2026] BMS bez obejścia / redundancji (SPOF)** — awaria BMS wyłącza cały system w kilka sekund.
+  (M7/E10 — `lib/core/modules/stress-test/analiza-spof/warnings.ts`, `bmsBezObejscia`, kod `SPOF-BMS`)
 
 ## Bateryjne
 

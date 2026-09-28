@@ -8,6 +8,9 @@ import { pompyZaworyWMrozieTool } from "../pompy-zawory-w-mrozie-tool"
 import { grzalkiDachoweTool } from "../grzalki-dachowe-tool"
 import { ryzykoZamarznieciaTool } from "../ryzyko-zamarzniecia-tool"
 import { agregatWMrozieTool } from "../agregat-w-mrozie-tool"
+import { blackoutTool } from "../blackout-tool"
+import { strategiaZamarzanieTool } from "../strategia-zamarzanie-tool"
+import { analizaSpofTool } from "../analiza-spof-tool"
 
 describe("obciazenieDachuSniegiemTool (M7/E23, dawne 6.34→7.32)", () => {
   it("kontrakt 9.3: 'read', bez potwierdzenia", () => {
@@ -150,5 +153,52 @@ describe("agregatWMrozieTool (M7/E8, dawne 6.9/6.23/6.36)", () => {
     expect(w.paliwoL).toBeCloseTo(180, 12)
     expect(w.wymianyOleju).toBe(2)
     expect(w.ostrzezenia).toContain(t("pl", "AGREGAT-DLUGI-POSTOJ", { dni: 14, temp: -20 }))
+  })
+})
+
+describe("narzędzia M7 blok 3 — kontrakt 9.3 ('read', bez potwierdzenia)", () => {
+  it.each([blackoutTool, strategiaZamarzanieTool, analizaSpofTool])("$name", (tool) => {
+    expect(tool.operationType).toBe("read")
+    expect(tool.requiresConfirmation).toBe(false)
+    expect(() => validateAiToolDefinition(tool)).not.toThrow()
+  })
+})
+
+describe("blackoutTool (M7/E4, dawne 6.4)", () => {
+  it("50 kWh, 5 kWh/dobę, 14 dni → awaria 9. dnia, komunikat PL", async () => {
+    const w = await blackoutTool.handler({
+      pojemnoscKwh: 50,
+      socStartPct: 100,
+      socMinPct: 10,
+      sprawnoscFalownikaPct: 90,
+      zuzycieDoboweKwh: 5,
+      dniScenariusza: 14,
+      agregatKwhDoba: null,
+    })
+    expect(w.dzienAwarii).toBe(9)
+    expect(w.ostrzezenia).toEqual([t("pl", "BLACKOUT-SYSTEM-PADNIE", { dzien: 9, dni: 14, pojemnosc: 37, redukcja: 43 })])
+  })
+})
+
+describe("strategiaZamarzanieTool (M7/E6, dawne 6.6)", () => {
+  it("SoC 50%, 20 kWh, pompa 800 W + router 200 W → 8,5 h ogrzewania", async () => {
+    const w = await strategiaZamarzanieTool.handler({
+      pojemnoscKwh: 20,
+      socPct: 50,
+      socMinPct: 10,
+      sprawnoscFalownikaPct: 100,
+      odbiorniki: [
+        { nazwa: "Pompa ciepła", mocW: 800, priorytet: 1 },
+        { nazwa: "Router", mocW: 200, priorytet: 2 },
+      ],
+    })
+    expect(w.czasKrytycznychH).toBeCloseTo(8.5, 12)
+  })
+})
+
+describe("analizaSpofTool (M7/E10, dawne 6.12)", () => {
+  it("BMS bez obejścia → twardy stop PL", async () => {
+    const w = await analizaSpofTool.handler({ komponenty: [{ nazwa: "BMS", typ: "bms", maRedundancje: false }] })
+    expect(w.ostrzezenia).toEqual([t("pl", "SPOF-BMS", { nazwa: "BMS" })])
   })
 })
