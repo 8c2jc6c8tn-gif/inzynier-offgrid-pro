@@ -7709,6 +7709,144 @@ Polecenie właściciela: „zacznij od modułów M8–M7 i ruszaj dalej; po każ
 
 - Pytanie właściciela: czy chmurki z opisem są na każdym ekranie. Sprawdzone: opis ekranu (nagłówek) — tak, wszędzie; chmurka `?` przy polach (`PomocPole`, prop `pomoc`) — tylko na 1 kalkulatorze + `/wzornik`, choć standard 8.4 wymaga jej przy każdym polu liczbowym. Dryf bez decyzji; ekrany M7/M8/M9 z 28.09 go powieliły. Właściciel zlecił wpis do pracy planowanej (inna sesja) — pełny opis, warianty A/B/C i rekomendacja: `docs/lista-do-zrobienia.md`, wpis z 28.09 „Chmurki „?” przy polach liczbowych”. Nowe ekrany od teraz: dodawać `pomoc` od razu.
 
+## Nowy materiał źródłowy — rozliczenia energii (gospodarstwo / przedsiębiorca) (28.09.2026)
+
+[28.09.2026] ✅ DODANO — właściciel dostarczył 2 dokumenty (zapisane 1:1:
+`docs/zrodla/Material_Przedsiebiorcy_Taryfy_C_PV_Magazyny_2026-09-28.md`,
+`docs/zrodla/Material_Stawki_Dystrybucyjne_OSD_2026_2026-09-28.md`). Cel właściciela: nowy
+rozdział Biblii + kalkulatory/porównywarki, **osobne ekrany dla gospodarstwa domowego i dla
+przedsiębiorcy** (wybór segmentu na pierwszym kliknięciu — na ekranie wyboru albo wyżej w menu).
+Proces ustalony: źródło 1:1 [wykonane] → weryfikacja + kategoryzacja F.2 [wykonane, przedstawione
+właścicielowi, czeka na decyzje] → opracowanie (dokument źródłowy poprawiony/uzupełniony) →
+Biblia → plan ekranów → audyt N.2 → dopiero kod (bramka N.3). **Kodu nie zaczynać.**
+
+**Pochodzenie:** oba dokumenty z innego narzędzia AI (dok. 2 wprost: „mogę napisać kod
+kalkulatora”, kolumny „Źródło” puste) — 15.1b.
+
+**Kontekst zakresu:** aplikacja jest off-grid; sieć występuje dotąd marginalnie (M6 „pompa ciepła
+w taryfie nocnej”, „jeśli jest sieć”). To rozszerzenie domeny (rynek energii, prawo energetyczne,
+podatki) — do potwierdzenia jako decyzja D# (GOD BOOK 0.5 — rozszerzenie ekspertyzy o analityka
+rozliczeń energii; Część K — treści prawne/podatkowe = informacja, nie porada).
+
+**Weryfikacja — błędy merytoryczne (do adnotacji ✏️ w opracowaniu, źródło nietknięte):**
+1. **Wzór opłaty za moc bierną bez pierwiastka.** Źródło: `O_b = k·C_rk·[(1+tg²φ)/(1+tg²φ₀) − 1]·A`.
+   Rozporządzenie taryfowe: `O_b = k·C_rk·(√((1+tg²φ)/(1+tg²φ₀)) − 1)·A` (stosunek mocy pozornej
+   do czynnej = √(1+tg²φ)). Przeliczone: wzór źródła zawyża opłatę ok. 2× (tgφ=0,5: 0,0776 vs
+   0,0381). Pewność wzoru: wysoka, 🔎 potwierdzić brzmieniem aktualnego rozporządzenia.
+2. **C_rk to nie cena energii klienta** — to cena energii ogłaszana przez Prezesa URE (art. 23
+   ust. 2 pkt 18 lit. b Prawa energetycznego), a energia bierna pojemnościowa i indukcyjna przy
+   braku poboru czynnej rozliczana jest inną formułą (całość, nie nadwyżka). 🔎 treść rozporządzenia.
+3. **Moc bierna w C1x „zawsze tak”** — nadmierne uogólnienie: dla nN obowiązek dotyczy zasadniczo
+   mocy umownej >40 kW, dla ≤40 kW — gdy wynika z warunków przyłączenia/umowy. 🔎.
+4. **Współczynnik 1,23 depozytu dla firm** — najpewniej dotyczy prosumentów niebędących
+   podatnikami VAT (gospodarstwa domowe, rekompensata VAT); przykład 1 107 zł dla firmy
+   prawdopodobnie powinien dać 900 zł. Data „1.02.2025” niepotwierdzona. 🔎 (ustawa OZE).
+5. **Podatki (4.4)** — dwa zdania wzajemnie sprzeczne (nadwyżka „nie stanowi przychodu” vs
+   „podlega opodatkowaniu jako przychód”), plus nieprawdziwe uogólnienie „przedsiębiorcy zwolnieni z
+   podatku dochodowego i akcyzy”. Sygnatura interpretacji niezweryfikowana. Nie przenosić do
+   kalkulatora; do poradnika tylko jako informacja z datą i zastrzeżeniem (Część K).
+6. **Dotacje (5.4)** — program NFOŚiGW i ulga termomodernizacyjna dotyczą osób fizycznych/
+   budynków mieszkalnych, nie firm; nabór FEPK zakończony 31.03.2026. Dane przeterminowane.
+7. **Reklamacja (7.1)** — „14 dni na złożenie” nie wynika z ustawy (14 dni to termin na
+   rozpatrzenie); termin złożenia wg umowy/OWU. 🔎. Tabela „dodatkowa ekspertyza — płaci odbiorca”
+   uproszczona (przy stwierdzeniu nieprawidłowości koszt ponosi przedsiębiorstwo). 🔎.
+8. **Przykład 9.3 wewnętrznie sprzeczny** — dane wejściowe 9.1 mają moc umowną 30 kW, a tabela
+   rekomenduje C21 (wymaga >40 kW). Kwoty w tabeli nie są wyliczone, tylko ilustracyjne.
+9. **„Od 2008 ceny taryfy C nieregulowane”** — dotyczy tylko sprzedaży; dystrybucja nadal
+   zatwierdzana przez URE.
+10. **Brakujące składniki rachunku:** opłata przejściowa, abonamentowa, handlowa sprzedawcy;
+    grupa B (SN) poza zakresem materiału; inni OSD (np. Stoen Operator).
+
+**Dokument 2 (tabele stawek) — niewiarygodny jako dane:** Tauron i PGE mają identyczne stawki co
+do grosza (niemożliwe przy różnych taryfach OSD); stawka jakościowa różna per OSD (w praktyce
+jednolita); „Energa = Ergo Energy (dawniej Stoen)” — pomylenie operatorów; Tauron C21 z „strefą
+zalecanego poboru” (C21 jest jednostrefowa); Tauron C22a dzień = noc. **Wniosek: żadnej liczby z
+dok. 2 nie wpisywać do kodu** — dane stawek wyłącznie z oficjalnych taryf OSD 2026 (PDF), wersjonowane
+rocznie (Zasada 4 „profile jako dane”), albo wpisywane przez użytkownika z faktury.
+
+**Poprawne/potwierdzone:** tgφ₀=0,4 domyślnie; akcyza 5 zł/MWh; VAT 23%; podział C1x ≤40 kW /
+C2x >40 kW; godziny opłaty mocowej 7–22 w dni robocze; mikroinstalacja ≤50 kW; depozyt 12 mies.;
+test diody (15×60/1000 = 0,9 kW ✅); arytmetyka 2×450×1,23 = 1 107 ✅, 169,99×1,23 = 209,09 ✅;
+0,2194 vs 0,1413 (2025) = +55,3% — spójne ze źródłem, sama stawka 🔎 (Informacja Prezesa URE).
+Ceny BESS, zwrot 5–8 lat, „0,3–0,4 współczynnik bilansowania”, „54% węgla” — orientacyjne, nie
+stałe do kodu (kalkulator ma to liczyć, nie przyjmować).
+
+**[28.09.2026] ✅ Decyzja właściciela — cel rozdziału (do zapisu jako D# przy integracji do Biblii):**
+„Niektórzy są jeszcze podłączeni do sieci i chcą częściowo przejść do off-grid — nie możemy ich
+ignorować. Muszą mieć podgląd i porównanie, żeby zrezygnować z sieci i przejść na off-grid. To
+bardzo popularny kierunek.” Konsekwencja: rozdział nie jest porównywarką taryf samą w sobie, tylko
+**ścieżką przejścia sieć → off-grid** (dziś: mój rachunek; jutro: porównanie scenariuszy z
+kalkulatorami M2/M3/M4/M7). Pochodzenie materiału potwierdzone przez właściciela: pisane przez AI.
+
+**[28.09.2026, później] Opracowanie M14 + korekta własnej notatki.** Właściciel: brak dalszych
+materiałów (ponownie wklejony tekst = dok. 1, już zapisany), M14 potwierdzony, **dwa duże kafle
+Dom/Firma**, prowadzenie za rękę (kalkulatory opłacalności, PV, magazynu) + pełna informacja o
+ryzykach odłączenia; dane stawek — Claude znajduje poprawne + użytkownik zawsze może wpisać swoje.
+Opracowanie: `docs/zrodla/Opracowanie_M14_Z_Sieci_Na_OffGrid_DRAFT.md` (czeka na P1–P4 i „integruj
+teraz”).
+- ✏️ **Korekta mojej notatki wyżej (pkt 10 „brakuje opłaty przejściowej”):** opłata przejściowa
+  **zniesiona od 1.01.2026** (decyzja Ministra Energii, 🔎A) — brak w dok. 1 był poprawny, błędny jest
+  krok algorytmu dok. 2, który ją nalicza.
+- **Weryfikacja danych w sieci:** WebSearch działa, ale WebFetch do `ure.gov.pl`, `gov.pl`,
+  `gramwzielone.pl`, `industria.eu` blokowany przez proxy środowiska → stawki ogólnokrajowe 2026 na
+  poziomie 🔎A (≥2 zgodne źródła wtórne): mocowa G 4,29/10,31/17,18/24,05 zł/mies., C 0,2194 zł/kWh;
+  OZE 7,30 zł/MWh; kogeneracyjna 3,00 zł/MWh; przejściowa 0; średnia cena G 495,16 zł/MWh.
+  **Pułapka:** źródła wtórne o stawkach per OSD są wzajemnie sprzeczne (mieszają netto/brutto,
+  podają zniesioną opłatę przejściową) — stawki per OSD tylko z PDF taryf (zadanie DANE-1).
+- Wprowadzona skala pewności 🔎A/🔎B (opracowanie §0); do kodu jako dane domyślne tylko ✅.
+
+## Synchronizacja ze standardem — Y.6, sprawdzenie (28.09.2026, 09:55 UTC)
+
+Świeży płytki klon `new-app-standards` (`b59a052`, 27.09 06:17 UTC) — jedyny nowy commit od `8eff570`
+to znów ruch U.4 po stronie źródła (cykliczne sprawdzenie, brak treści). `AKTUALIZACJE.md` 112 linii,
+bez nowego wiersza. `diff -rq` `docs/standards/*`, GOD BOOK `v2_39`, `PROMPT_STARTOWY.md`,
+`docs/przyklady/i18n/*` — bez różnic. Zero nowej treści → `interwał_h = min(48, 18 × 1,5) = 27`,
+`licznik_zero_z_rzedu = 2`. Kolejne sprawdzenie najpóźniej 29.09.2026 ok. 13:00 UTC.
+
+
+**[28.09.2026, później] ✅ Decyzje właściciela do opracowania M14 (P1, P2):** (6) **FREE/PRO — na razie
+nie ruszamy**, podział później, osobną decyzją; (7) **kafle „Dom – sieć” / „Firma – sieć”** — „moduły
+opowiadają i liczą sieć, a dopiero potem jest opcja obliczenia dla przejścia Offgrid”. Opracowanie
+zaktualizowane: każdy rozdział = część **Sieć** (najpierw) + część **Przejście** (opcja, wejście na
+końcu części Sieć; kreator „Ścieżka przejścia” startuje stamtąd); kolumna FREE/PRO w planie ekranów
+zastąpiona kolumną „Część”. Otwarte zostają P3 (autokonsumpcja w trybie prostym) i P4 (DANE-1).
+
+**[28.09.2026, później] ✅ P3: autokonsumpcja w trybie prostym = profile** (decyzja właściciela).
+Źródło kształtów: standardowe profile zużycia OSD (IRiESD) — 🔎B, do pozyskania; warianty tylko ze
+źródłem albo jako jawne przesunięcie profilu typowego. **P4 (dane):** właściciel wybierze
+odblokowanie domen w ustawieniach środowiska albo sam zweryfikuje ręcznie — lista kontrolna W1–W7
+w opracowaniu §9.1. Najprościej: PDF-y taryf OSD, liczby wyciąga Claude.
+
+**[28.09.2026, później] DANE-1 — pierwszy odczyt pierwotny (po zmianie sieci przez właściciela).**
+Informacja Prezesa URE nr 58/2025 pobrana z `bip.ure.gov.pl` → `docs/zrodla/`: stawki mocowe 2026
+✅ (4,29 / 10,31 / 17,18 / 24,05 zł/mies. ryczałt; 0,2194 zł/kWh pozostali, 15 godzin dni roboczych
+od 7:00 do 22:00). **Pułapka dla kodu — granice progów:** `<500`, `500–1 200` (włącznie),
+`>1 200–2 800`, `>2 800` kWh/rok — brzmienie URE, nie zaokrąglać. Ryczałt dotyczy odbiorców z art. 89a
+ust. 1 pkt 1 ustawy o rynku mocy (w praktyce G) — nie „G” wprost.
+**Dostęp sieciowy po zmianie:** działają `bip.ure.gov.pl`, `energa-operator.pl` (strona), a blokowane
+nadal: wersje `www.` (`www.ure.gov.pl`, `www.gov.pl`, `www.nfosigw.gov.pl`, `www.pse.pl`,
+`www.tauron-dystrybucja.pl`, `www.operator.enea.pl`, `www.stoen.pl` — domeny bez www przekierowują na
+www), `pgedystrybucja.pl` (z i bez www), CDN z PDF-ami Energi `cdn-netpr.pl`; `isap.sejm.gov.pl` → 403.
+
+**[28.09.2026, wieczór] DANE-1 — drugi odczyt pierwotny (sieć odblokowana w pełni, poza 2 hostami).**
+Zamknięte ✅: W2 (OZE 7,30, kogeneracyjna 3,00 zł/MWh — z taryf OSD; przejściowa 0 — komunikat ME
+28.11.2025 + brak w taryfach), W5 (1,23 — art. 4c ust. 4 OZE; zwrot nadpłaty 20%/30% — art. 4 ust.
+11a), W7 (wzór mocy biernej z √, k=3/1/0,5, tgφ₀=0,4 min 0,2, przekroczenie = stały × suma 10
+największych nadwyżek — w taryfach Tauron/Energa/Stoen). W3 częściowo: Tauron, Energa, Stoen ✅,
+Enea tylko brutto (pełna taryfa = skan), PGE ❌. Otwarte: W4 profile, W6 PME, wartość `C_rk`.
+**Trzy lekcje:**
+1. **Moja poprawka ✏️ K4 (1,23 „tylko dla nie-VAT”, data niepotwierdzona) była błędna** — ustawa
+   nie różnicuje, stosowanie od 1.02.2025 (art. 31 ustawy Dz.U. 2024/1847). Materiał właściciela miał
+   rację; poprawkę wycofano jawnie (zostaje w historii). Wiedza „ekspercka” bez odczytu to 🔎B, nie ✏️.
+2. **Stawki zmieniają się w trakcie roku** — jakościowa 0,0331 (I) → 0,0332 zł/kWh (od 1.02.2026, zmiana
+   kok w taryfie PSE). Model danych: lista okresów `{odDnia, doDnia, wartosc}`, nie „stawka roczna”.
+3. **Dostęp:** `pgedystrybucja.pl` i `www.nfosigw.gov.pl` mają niepełny łańcuch certyfikatów (brak
+   pośredniego Certum) — curl je odrzuca; obejście przez dociąganie certyfikatu zablokował klasyfikator
+   bezpieczeństwa → te dwa dokumenty tylko od właściciela (PDF). `isap.sejm.gov.pl` → 403, ale
+   **API ELI Sejmu (`api.sejm.gov.pl/eli/...`) działa** i daje oficjalne PDF-y aktów — używać zamiast ISAP.
+Narzędzia: brak `pdftotext`/`pdftoppm`; działa `pypdf` (pip `--no-deps`) z `sys.modules['cryptography']=None`
+(zepsuty pakiet systemowy cryptography/cffi).
+
 ## Synchronizacja ze standardem — Y.6, sprawdzenie na starcie sesji (28.09.2026, ok. 09:20 UTC)
 
 Termin cyklu minął (27.09 04:40 UTC + 18 h). `new-app-standards` sklonowany świeżo (tylko odczyt, bez

@@ -355,3 +355,39 @@ tamtym materiale przy konwersji PPTX→DOCX. Zadanie porównawcze zapisane w
 - **[27.09.2026] Decyzja właściciela — wariant A:** folder `materialy-szkolenie-ZIAD-Bielsko-Biala/` **usunięty**
   (duplikat), a niekompletny `.docx` usunięty też z `materialy-branzowe-PV-2019/` — oryginałem zostaje tylko pełny
   PDF. Opisy wyżej, wskazujące na folder ZIAD / `.docx`, są historyczne (pliki w historii git).
+
+## Rozliczenia energii z siecią — gospodarstwo / przedsiębiorca (28.09.2026)
+
+[28.09.2026] ✅ DODANO — źródło: właściciel projektu, dwa dokumenty zapisane 1:1:
+- **`Material_Przedsiebiorcy_Taryfy_C_PV_Magazyny_2026-09-28.md`** — poradnik/FAQ/wytyczne
+  kalkulatora dla firm: struktura rachunku, taryfy C, moc bierna, net-billing, BESS, weryfikacja
+  licznika, reklamacja (11 części).
+- **`Material_Stawki_Dystrybucyjne_OSD_2026_2026-09-28.md`** — tabele stawek dystrybucyjnych G i C
+  czterech OSD na 2026 r. + opłata mocowa.
+
+Oba najpewniej wygenerowane przez inne narzędzie AI (standard 15.1b — podwyższona czujność). **Nowa
+domena** względem 13 modułów off-grid (rozliczenia z siecią), przypisanie do modułu
+nierozstrzygnięte. Wynik weryfikacji (m.in. błąd we wzorze opłaty za moc bierną, tabele stawek
+niewiarygodne jako dane): `docs/memory.md`, wpis z 28.09.2026.
+
+[28.09.2026, później] ✅ Przypisanie rozstrzygnięte przez właściciela: **M14 „Z sieci na off-grid”**
+(dwa kafle Dom / Firma). Opracowanie eksperckie (szkic, nie Biblia): 
+**`Opracowanie_M14_Z_Sieci_Na_OffGrid_DRAFT.md`** — poprawki ✏️ do obu dokumentów, części Dom i
+„przejście/ryzyka” napisane z wiedzy eksperckiej (brak materiału źródłowego, polecenie właściciela).
+Właściciel przesłał ponownie dok. 1 (identyczny z zapisanym) — nie dublowano pliku.
+
+[28.09.2026, później] ✅ DODANO — **`URE-Informacja-58-2025-stawki-oplaty-mocowej-2026.pdf`** — dokument
+pierwotny (bip.ure.gov.pl, pobrany 1:1), stawki opłaty mocowej na 2026 r. + godziny doby (7:00–22:00
+w dni robocze, powołanie Informacji nr 57/2025). Zamyka W1 z opracowania M14 (§9.1) — stawki ✅.
+
+[28.09.2026, wieczór] ✅ DODANO — dokumenty pierwotne DANE-1 (M14), pobrane 1:1 ze stron OSD po odblokowaniu
+sieci przez właściciela:
+- `Tauron-Dystrybucja-Taryfa-2026.pdf` (wersja z warstwą tekstową „_ocr” ze strony OSD) i
+  `Tauron-Dystrybucja-Taryfa-2026-wyciag-grupy-G.pdf`;
+- `Tauron-Dystrybucja-stawka-jakosciowa-od-2026-02-01.pdf`, `Enea-Operator-stawka-jakosciowa-od-2026-02-01.pdf`;
+- `Energa-Operator-Taryfa-2026.pdf` (z cdn-netpr.pl, link ze strony energa-operator.pl);
+- `Stoen-Operator-Taryfa-2026-tekst-z-25-02-2026.pdf`;
+- `Enea-Operator-stawki-brutto-2026-od-02-01.pdf` (informacja poglądowa OSD — brutto; pełna taryfa Enea
+  jest skanem w załączniku decyzji URE, nie kopiowana).
+Ustawy o OZE (t.j. Dz.U. 2026 poz. 68 i nowelizacja Dz.U. 2024 poz. 1847) — nie kopiowane (rozmiar),
+wskazane stałym adresem API ELI Sejmu + SHA-256 w opracowaniu M14 (sekcja „Źródła pierwotne”).

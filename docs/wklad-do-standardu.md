@@ -888,6 +888,28 @@ temu samemu obiektowi fizycznemu; zbieżność z przykładem to hipoteza, nie po
 
 Status: 🔎 nowe
 
+[28.09.2026] KATEGORIA: BŁĄD/PUŁAPKA — stawki regulowane zmieniają się w trakcie roku; model „stawka na rok” jest błędny
+Szczegóły: M14 (rachunek za energię) — stawka jakościowa 2026 wynosiła 0,0331 zł/kWh w styczniu i 0,0332 zł/kWh od 1.02.2026
+(zmiana współczynnika w taryfie operatora przesyłowego, przeniesiona automatycznie do wszystkich taryf dystrybucyjnych).
+Źródła wtórne i pierwsza wersja opracowania podawały jedną wartość „na 2026”. Wykryte dopiero przy odczycie PDF taryf.
+
+Dlaczego warto zgłosić do new-app-standards: Zasada 4 („stawki to dane, wersjonowane rocznie”) sugeruje granulację roczną.
+Kandydat na regułę: każda stawka regulowana w pliku danych to lista okresów obowiązywania `{od, do, wartość, źródło}`;
+walidator Zod odrzuca nakładające się okresy i dziury; kalkulator roczny waży okresy zużyciem.
+
+Status: 🔎 nowe
+
+[28.09.2026] KATEGORIA: DOBRA PRAKTYKA — poprawka ✏️ oparta na „wiedzy eksperckiej” bez odczytu pierwotnego to 🔎B, nie ✏️
+Szczegóły: M14 — materiał właściciela podał „1,23 dla każdego prosumenta, także firmy, od 1.02.2025”. Opracowanie oznaczyło to
+jako ✏️ (błąd), opierając się na wiedzy eksperckiej („dotyczy tylko nie-VAT”). Odczyt ustawy (art. 4c ust. 4 OZE + art. 31
+noweli Dz.U. 2024/1847) wykazał, że materiał miał rację. Poprawka wycofana jawnie.
+
+Dlaczego warto zgłosić do new-app-standards: D.7 (✏️) nie rozróżnia „poprawiono na podstawie dokumentu” od „poprawiono z
+pamięci”. Kandydat na regułę: ✏️ zmieniające treść źródła wymaga odczytanej podstawy; bez niej wpis to „🔎 wątpliwość do
+materiału” (treść źródła zostaje, obok pytanie), a nie korekta.
+
+Status: 🔎 nowe
+
 [28.09.2026] KATEGORIA: BŁĄD — chmurka pomocy „?” (8.4) zbudowana na komponencie Tooltip nie otwiera się na ekranie dotykowym
 
 Szczegóły: `components/ui/chmurka.tsx` (`Chmurka`/`PomocPole`, realizacja 8.4 — „?” obok etykiety pola z nazwą,
