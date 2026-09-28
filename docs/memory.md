@@ -7919,3 +7919,71 @@ ostatniej doby — notatka przekazania może leżeć poza `main`. Wkład: `docs/
 
 **M12/E23 (wrapper do M4/E10)** zbudowany według notatki przekazania — szczegóły w rejestrze pokrycia. Decyzja
 interpretacyjna do potwierdzenia: przykład Biblii „wilgotny garaż → IP65” jako ℹ️ zalecenie, nie próg (wpis ⚠️).
+→ Rozstrzygnięte **D44** (kalkulator 1.2.0): wszędzie z wilgocią zalecane IP65 (🟡 IP55–IP64); namiot/jacht zawsze
+wilgotne, minimum IP65 (🔴), zalecane IP67–IP68 (🟡 IP65–IP66) — praktyka właściciela, nie norma. Numer D44 wybrany
+z pominięciem D35–D43 zajętych wtedy na niescalonej gałęzi M14 (H.3) — przy scaleniu z `main` bez kolizji.
+
+## Integracja M14 do Biblii (28.09.2026, „Integruj teraz”)
+
+Polecenie właściciela „Integruj teraz” (F.2/F.4) wykonane na gałęzi odtworzonej z `main` po scaleniu PR #183.
+- **Rozdział kanoniczny:** `03_M14_Dom_i_Firma_Siec.md` (Filar B, szablon H.1). To pierwszy moduł opisany
+  wprost w Biblii, a nie w `docs/zrodla/Tresc_*`. Opracowanie w `docs/zrodla/` zostaje zapisem weryfikacji:
+  ✏️ K1–K14, odczyty DANE-1 i tabele stawek per OSD, do których rozdział odsyła zamiast je kopiować.
+  W nagłówku opracowania dopisano status „ZINTEGROWANE”.
+- **Decyzje D35–D38**; najwyższy numer na `main` przed nadaniem to D34 (H.3a):
+  - D35 — cel i kafle;
+  - D36 — stawki jako dane z okresami ważności + tryb „moje dane z faktury”;
+  - D37 — FREE/PRO dla M14 odłożone, D2 bez zmian;
+  - D38 — autokonsumpcja z profili.
+- **Rejestry:**
+  - `docs/rejestr-pokrycia.md` — sekcja „Moduł 14”, 28 wierszy `todo` (25 ekranów unikalnych; 3 pary
+    wspólnych Dom/Firma liczone raz). Nagłówek pasuje do `policz-rejestr.mjs` (mod 14). `audit:n1` go nie
+    obejmuje, bo nie ma numeracji Biblii v2.0;
+  - `docs/rejestr-twardych-stopow.md` — 5 stopów M14 jako „zaplanowane, bez kodu” (świadomy wyjątek od
+    zasady „nie wyprzedza rejestru pokrycia”, bo chodzi o bezpieczeństwo życia na styku z OSD);
+  - `slownik-pojec.md` — sekcja „Sieć i rozliczenia energii”; `mapa-wdrozenia.md` — wiersz M14;
+  - `backlog-poza-v1.md` — FREE/PRO M14; `docs/pulpit-i-nawigacja.md` — pozycja kafli (✅🤖, do decyzji);
+  - `00_Biblia.md` — dokument 03. Przy okazji poprawiona nieaktualna wersja rejestru decyzji w tabeli
+    (1.11 → 1.14).
+- **Audyt przyrostowy N.2 rozdziału** (mechanicznie, grep):
+  - każdy identyfikator opracowania (K1–K14, R1–R10, RF1–RF3, W3/W4/W6, D1–D14, F1–F13, 5 narzędzi AI)
+    ma odpowiednik w rozdziale;
+  - każda liczba dziesiętna z rozdziału występuje w opracowaniu;
+  - pierwsze przejście znalazło 7 braków (✏️ K2, K10, K11, grupy G12as/G13, okres wypowiedzenia umowy,
+    usługi systemowe BESS, portale OSD) — uzupełnione od razu.
+- **Pułapka numeracji:** „Kafel 14” to już Ustawienia (D9). Kafle M14 nazywać nazwą albo „M14-D” / „M14-F”.
+- **Otwarte:**
+  - dane (W3-PGE, W3-Enea netto, Stoen C22a/b, W4, W6, `C_rk`, stawki przyłączeniowe IV–VI, 495,16);
+  - decyzje (pozycja kafli, domyślne TCO `N`=15/`r`=0/`g`=0 jako ✅🤖).
+  
+  Kod M14 zablokowany bramką N.3 (audyt końcowy całej Biblii) i DANE-1.
+
+## M14 — decyzje D39/D40 i „Ścieżka UE” (28.09.2026)
+
+- **Właściciel rozstrzygnął dwie otwarte decyzje M14:**
+  - pozycja kafli → **D39**: na końcu, za kaflem 13, a później preset onboardingu;
+  - parametry TCO → **D40**: `N` = 15, `r` = 0, `g` = 0 plus suwak, plus nowa opcja **„Ścieżka UE”**.
+- **Źródło „Ścieżki UE”:** KE DG ENER, *EU Reference Scenario 2020*, arkusz „main results”, zakładka `PL_A`, wiersz „Average Price of Electricity in Final demand sectors (€'15/MWh)”. Punkty 2020–2050: 123,57 / 133,59 / 145,49 / 146,60 / 155,50 / 157,34 / 158,87. Arkusz podaje: +1,65%/rok (2020–2030), +0,44%/rok (2030–2050).
+- **Na 28.09.2026 strona KE nie ma nowszej edycji.** REF2025 był konsultowany w latach 2024–2025, ale nie znalazłem publikacji.
+- **Pułapki:**
+  - linki `circabc.europa.eu/ui/.../details?download=true` zwracają przez curl 404 (to aplikacja Angular). Działa `https://circabc.europa.eu/rest/download/<id>`;
+  - `openpyxl` nie ma w systemie. Instalacja lokalna: `pip install --target <scratchpad>/py`.
+- **Audyt:** wiersz ceny w arkuszu to średnia dla **wszystkich** odbiorców końcowych, a status podatków jest nieokreślony. Średnia UE z arkusza (2020: 148,71) nie równa się wykresowi „po podatkach” w raporcie (151). Dlatego do obliczeń wchodzi **tylko dynamika realna**, nigdy poziom.
+- **Doprecyzowanie przy okazji:** `r` = 0 oznacza wynik w dzisiejszych zł. `g` (suwak i UE) oznacza zmianę ponad inflację. Wcześniejszy zapis „suma nominalna” był nieprecyzyjny przy cenach wpisywanych dziś.
+- **Lista zadań:** osobne wpisy „PDF-y od właściciela (PGE, PME)” (polecenie „Dodaj do listy zadań”) oraz „Ścieżka UE do pliku danych i jej aktualność”.
+
+## M14 — D41 „Ścieżka UE + inflacja” (28.09.2026)
+
+- **Polecenie właściciela:** dwie opcje wzrostu cen na 15 lat: plany UE, oraz plany UE plus średnioroczna inflacja.
+- **Wzór:** Fisher `(1+g_UE)(1+π)−1`.
+- **Źródła π:**
+  - cel NBP 2,5% ±1 pkt, CPI — Uchwała RPP nr 7/2025, M.P. 2025 poz. 1013. Pobrane z `api.sejm.gov.pl/eli/acts/MP/2025/1013/text.pdf`, bo `nbp.pl` blokuje boty kodem 403;
+  - średnia GUS z 15 lat 3,58% (2011–2025, geometryczna) z CSV „Roczne wskaźniki cen … od 1950 roku” (stat.gov.pl, kodowanie cp1250).
+- **Pułapka źródła:** w pliku GUS wiersz 2025 ma opis „Rok poprzedni = 101” zamiast „= 100”. To błąd opisu, wartość 103,6 przyjęta.
+- **Audyt (czapka rewidenta):**
+  - inflacja musi obejmować wszystkie koszty bieżące, inaczej off-grid wychodzi sztucznie tanio;
+  - suma nominalna przy `r` = 0 faworyzuje inwestycje na starcie, więc ranking idzie według złotych dzisiejszych, a suma nominalna jest pokazywana obok jako „ile zapłacisz”;
+  - właściciel nazwał wariant z inflacją „realnym wzrostem”, a w ekonomii to cena nominalna. W UI unikamy słowa „realny”.
+- **Otwarte:** która π ma być domyślna (✅🤖 NBP).
+- **[28.09.2026] D42:** właściciel chce przełącznik ścieżek cen dokładnie w miejscu suwaka procentów (D7/F8). Jedno pole „Wzrost cen energii”: segmenty „Suwak %” / „Plany UE” / „Plany UE + inflacja”. Treść pod nimi podmienia się w tym samym miejscu, a tabela A–D przelicza się od razu.
+- **[28.09.2026] D43:** właściciel wybrał domyślną inflację GUS (średnia 15 lat, 3,58%) zamiast proponowanej NBP 2,5%. Uzasadnienie właściciela: oficjalna inflacja jest zaniżona względem cen. Uwaga rewidenta w D43: to ten sam wskaźnik CPI, a różnica wynika z okna 2011–2025 z szokiem 2022–2023. Przykład kontrolny: 1,9440 w roku 15 i ≈109 699 zł.
