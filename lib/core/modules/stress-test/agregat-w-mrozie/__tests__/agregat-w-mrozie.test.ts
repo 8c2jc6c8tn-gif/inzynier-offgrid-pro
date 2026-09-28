@@ -53,12 +53,43 @@ describe("calculateAgregatWMrozie (M7/E8, dawne 6.9/6.23/6.36)", () => {
     expect(calculateAgregatWMrozie({ ...postoj, temperaturaMiejscaC: 5 }).warnings).toEqual([])
   })
 
-  it("zwykły diesel w mrozie → tylko info (próg parafinizacji do decyzji właściciela)", () => {
-    const w = calculateAgregatWMrozie({ ...PRACA, paliwo: "diesel-zwykly", temperaturaMiejscaC: -15 })
-    expect(w.warnings.find((x) => x.code === "AGREGAT-DIESEL-PARAFINIZACJA")!.level).toBe("info")
+  it("D32: zwykły diesel +6°C → nic; +5°C → 🟡; 0°C → 🔴 (bez 🟡 naraz)", () => {
+    const kody = (t: number) =>
+      calculateAgregatWMrozie({ ...PRACA, paliwo: "diesel-zwykly", temperaturaMiejscaC: t }).warnings
+        .filter((x) => x.code.startsWith("AGREGAT-DIESEL"))
+        .map((x) => [x.code, x.level])
+    expect(kody(6)).toEqual([])
+    expect(kody(5)).toEqual([["AGREGAT-DIESEL-RYZYKO-ROZRUCHU", "warning"]])
+    expect(kody(0)).toEqual([["AGREGAT-DIESEL-PARAFINIZACJA", "critical"]])
+    const w = calculateAgregatWMrozie({ ...PRACA, paliwo: "diesel-zwykly", temperaturaMiejscaC: 0 })
+    expect(w.status).toBe("VALID_WITH_WARNINGS")
+  })
+
+  it("D32: każdy diesel od −10°C → 🟡 akumulator/świece; arktyczny bez parafinizacji", () => {
+    const zwykly = calculateAgregatWMrozie({ ...PRACA, paliwo: "diesel-zwykly", temperaturaMiejscaC: -15 })
+    expect(zwykly.warnings.map((x) => x.code)).toEqual([
+      "AGREGAT-PRZERWY",
+      "AGREGAT-DIESEL-PARAFINIZACJA",
+      "AGREGAT-DIESEL-ROZRUCH-MROZ",
+    ])
+    const arktyczny = (t: number) =>
+      calculateAgregatWMrozie({ ...PRACA, paliwo: "diesel-arktyczny", temperaturaMiejscaC: t }).warnings.map((x) => x.code)
+    expect(arktyczny(-10)).toEqual(["AGREGAT-PRZERWY", "AGREGAT-DIESEL-ROZRUCH-MROZ"])
+    expect(arktyczny(-9)).toEqual(["AGREGAT-PRZERWY"])
+  })
+
+  it("D32: benzyna w mrozie → tylko ℹ️ (olej zimowy, świeca); 0°C → nic", () => {
+    const w = calculateAgregatWMrozie({ ...PRACA, paliwo: "benzyna", temperaturaMiejscaC: -1 })
+    expect(w.warnings.map((x) => [x.code, x.level])).toEqual([["AGREGAT-PRZERWY", "info"], ["AGREGAT-BENZYNA-MROZ", "info"]])
     expect(w.status).toBe("VALID")
-    const arktyczny = calculateAgregatWMrozie({ ...PRACA, paliwo: "diesel-arktyczny", temperaturaMiejscaC: -15 })
-    expect(arktyczny.warnings.some((x) => x.code === "AGREGAT-DIESEL-PARAFINIZACJA")).toBe(false)
+    const zero = calculateAgregatWMrozie({ ...PRACA, paliwo: "benzyna", temperaturaMiejscaC: 0 })
+    expect(zero.warnings.map((x) => x.code)).toEqual(["AGREGAT-PRZERWY"])
+  })
+
+  it("1.1.0: samo paliwo + temperatura → werdykt rozruchu (bez scenariusza pracy)", () => {
+    const w = calculateAgregatWMrozie({ ...PUSTY, paliwo: "diesel-zwykly", temperaturaMiejscaC: -2 })
+    expect(w.warnings.map((x) => x.code)).toEqual(["AGREGAT-DIESEL-PARAFINIZACJA"])
+    expect(calculateAgregatWMrozie({ ...PUSTY, temperaturaMiejscaC: -2 }).status).toBe("INCOMPLETE")
   })
 
   it("puste → INCOMPLETE; wartość ujemna → INVALID_INPUT", () => {

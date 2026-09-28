@@ -11,6 +11,13 @@ export const MikroinwerteryVsCentralnyToolInput = z.object({
   regularneZacienienie: z
     .boolean()
     .describe("Czy panele będą częściowo lub regularnie zacienione (drzewa, komin, sąsiedni budynek). Dopytaj usera, nie zgaduj."),
+  falownikWyspowyAcCoupling: z
+    .enum(["tak", "nie", "nie-wiem"])
+    .optional()
+    .describe(
+      "Tylko gdy zacienienie = true: czy user ma falownik wyspowy (off-grid) obsługujący sprzężenie AC " +
+        "mikroinwerterów. Dopytaj usera; bez odpowiedzi pomiń pole (wynik INCOMPLETE). „nie wiem” = twardy stop.",
+    ),
 })
 
 export type MikroinwerteryVsCentralnyToolInputT = z.infer<typeof MikroinwerteryVsCentralnyToolInput>
@@ -33,7 +40,7 @@ export const mikroinwerteryVsCentralnyTool: AiToolDefinition<
   description:
     "Porównuje mikroinwertery z inwerterem centralnym (zacienienie, monitoring, koszt, niezawodność) i " +
     "rekomenduje rozwiązanie na podstawie tego, czy panele są regularnie zacienione. Zwraca też " +
-    "ostrzeżenie o wymaganiach mikroinwerterów w instalacji off-grid. Użyj, gdy user waha się między " +
+    "ostrzeżenie (albo twardy stop bez falownika wyspowego z AC-coupling) o wymaganiach mikroinwerterów w instalacji off-grid. Użyj, gdy user waha się między " +
     "mikroinwerterami a jednym falownikiem.",
   inputSchema: MikroinwerteryVsCentralnyToolInput,
   outputSchema: MikroinwerteryVsCentralnyToolOutput,
@@ -41,7 +48,10 @@ export const mikroinwerteryVsCentralnyTool: AiToolDefinition<
   requiresConfirmation: false,
   scope: "pv/mikroinwertery-vs-centralny",
   handler: async (input) => {
-    const wynik = calculateMikroinwerteryVsCentralny(input)
+    const wynik = calculateMikroinwerteryVsCentralny({
+      regularneZacienienie: input.regularneZacienienie,
+      falownikWyspowyAcCoupling: input.falownikWyspowyAcCoupling ?? null,
+    })
     return {
       rekomendacja: wynik.value.rekomendacja,
       porownanie: KRYTERIA_POROWNANIA.map(({ kryterium, mikroinwerter, centralny }) => ({ kryterium, mikroinwerter, centralny })),

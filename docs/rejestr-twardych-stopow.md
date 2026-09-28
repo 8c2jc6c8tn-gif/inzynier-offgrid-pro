@@ -72,6 +72,12 @@ nie do audytu poprawności formularza webowego.
   (M3/E22 — `lib/core/modules/pv/ochrona-stringow/warnings.ts`, `ochronaObowiazkowaBrak` kod
   `OCHRONA-OBOWIAZKOWA-BRAK`, `zakresBezpiecznikaNiepoprawny` kod
   `ZAKRES-BEZPIECZNIKA-NIEPOPRAWNY`)
+- **[28.09.2026] Mikroinwertery w instalacji off-grid bez falownika wyspowego obsługującego sprzężenie AC
+  (albo „nie wiem”)** — mikroinwerter to falownik sieciowy (nadążny), bez napięcia odniesienia nie wystartuje;
+  instalacja nie zadziała. ✏️ Uzupełnienie eksperckie spoza źródła (źródło rekomenduje mikroinwertery przy
+  cieniu bez tego zastrzeżenia), poziom 🔴 — decyzja właściciela projektu 28.09.2026.
+  (M3/E21 — `lib/core/modules/pv/mikroinwertery-vs-centralny/warnings.ts`, `mikroinwerterBezFalownikaWyspowego`,
+  kod `MIKROINWERTER-OFFGRID-BEZ-FALOWNIKA-WYSPOWEGO`)
 - **Odległość źródła spalania paliwa stałego od materiałów palnych poniżej 40 cm** — realne
   ryzyko pożaru, próg podany wprost przez źródło jako liczba, nie zakres.
   (M8/E2 — `lib/core/modules/bezpieczenstwo/dogrzewanie-paliwem-stalym/warnings.ts`,
@@ -184,8 +190,17 @@ nie do audytu poprawności formularza webowego.
   zabezpieczenia przed niskim napięciem** — realne ryzyko trwałego uszkodzenia przez głębokie rozładowanie.
   [27.09.2026] (M12/E9 — `lib/core/modules/kalkulator-mobilny/ochrona-przed-rozladowaniem/warnings.ts`,
   `brakDozownikaOlowiowy`, kod `LVD-BRAK-OCHRONY-OLOWIOWY`)
+- **[28.09.2026] Akumulator kwasowy (zalewowy, otwarty) bez wentylacji w kamperze albo przy ładowaniu w
+  zamkniętym garażu** — wydziela wodór, w małej kubaturze ryzyko wybuchu. Poziom 🔴 tylko dla zalewowego;
+  AGM (VRLA) — 🟡 (gazuje znacznie mniej). Alert Biblii §12.33/§12.51, lista twardych stopów `Tresc_Modul_12`
+  go nie wymienia — poziom to decyzja właściciela projektu 28.09.2026. Wymiarowanie wentylacji (EN IEC 62485-2)
+  poza zakresem — normy brak w repo.
+  (M12/E22 i E36 — `lib/core/modules/kalkulator-mobilny/bezpieczenstwo-kamper/warnings.ts`,
+  `brakWentylacjiOlowiowy`, kody `BK-OLOW-BEZ-WENTYLACJI`, `LG-OLOW-BEZ-WENTYLACJI`)
 - **Urządzenie o wąskiej tolerancji napięciowej podłączone wprost do akumulatora bez stabilizacji** — napięcie
   ładowania (do 14,5 V dla 12 V) przekracza górną granicę tolerancji urządzenia, ryzyko uszkodzenia.
+  **[28.09.2026] ZMIENIONO:** górna granica nie jest już stałą 14,5 V — to maks. napięcie ładowania z ustawień
+  regulatora usera (decyzja właściciela; rozbieżność `Tresc` 14,5 V vs Biblia 14,6 V i wyrównywanie ołowiowego).
   [27.09.2026] (M12/E27 — `lib/core/modules/kalkulator-mobilny/urzadzenie-12v-bezposrednio/warnings.ts`,
   `przepieciePrzyLadowaniu`, kod `U12-PRZEPIECIE-PRZY-LADOWANIU`)
 - **Voc paneli w mrozie powyżej max napięcia wejścia solarnego stacji zasilania/powerbanka** — stacje mają niższe
@@ -250,7 +265,8 @@ nie do audytu poprawności formularza webowego.
   (M7/E23 — `lib/core/modules/stress-test/obciazenie-dachu-sniegiem/warnings.ts`,
   `normowePrzekraczaNosnosc` / `aktualnePrzekraczaNosnosc`, kody `SNIEG-NORMOWE-PRZEKRACZA-NOSNOSC`,
   `SNIEG-AKTUALNE-PRZEKRACZA-NOSNOSC`; sprawdzany tylko, gdy użytkownik wpisze nośność. Wariant
-  „zbliżające się” niezaimplementowany — źródło nie podaje progu, decyzja właściciela.)
+  „zbliżające się” — **[28.09.2026, D30]** 🟡 (nie twardy stop) od 80% nośności, próg ustalony przez
+  właściciela, nie z normy: kody `SNIEG-NORMOWE-ZBLIZA-SIE-DO-NOSNOSCI`, `SNIEG-AKTUALNE-ZBLIZA-SIE-DO-NOSNOSCI`.)
 - **[27.09.2026] PVC (izolacja, osłona, złączka) w miejscu o minimalnej temperaturze poniżej −10°C** —
   PVC sztywnieje i pęka. Źródło: Moduł 7, Ekran 13.
   (M7/E13 — `lib/core/modules/stress-test/sztywnienie-izolacji/warnings.ts`, `pvcPonizejProgu`, kod
@@ -260,6 +276,15 @@ nie do audytu poprawności formularza webowego.
   (M7/E19 — `lib/core/modules/stress-test/elektronika-w-mrozie/warnings.ts`, `bmsPonizejMin`, kod
   `ELEKTRONIKA-BMS-PONIZEJ-MIN`; próg = wartość z karty katalogowej wpisana przez użytkownika. Inne typy
   urządzeń tylko 🟡 — decyzja o rozszerzeniu zbioru krytycznych: `docs/lista-do-zrobienia.md`.)
+- **[28.09.2026, D31] Przetwornica/falownik w miejscu poniżej jej minimalnej temperatury pracy** — nie
+  wystartuje, brak 230 V w całym domu. Decyzja właściciela (źródło nazywa 🔴 tylko BMS).
+  (M7/E19 — `przetwornicaPonizejMin`, kod `ELEKTRONIKA-PRZETWORNICA-PONIZEJ-MIN`; zbiór krytycznych
+  `TYPY_KRYTYCZNE` w `constants.ts`. Regulator ładowania — 🟡.)
+- **[28.09.2026, D32] Zwykły olej napędowy przy temperaturze miejsca agregatu/paliwa ≤ 0°C** — bardzo
+  duże ryzyko, że agregat nie wystartuje (parafinowanie). Próg z praktyki właściciela, nie z normy;
+  zastępuje sprzeczne progi źródła (B: −20°C, C: −15°C). Źródło: Moduł 7, Ekran 8.
+  (M7/E8 — `lib/core/modules/stress-test/agregat-w-mrozie/warnings.ts`, `dieselParafinizacja`, kod
+  `AGREGAT-DIESEL-PARAFINIZACJA`; ≤ +5°C i ≤ −10°C (każdy diesel) tylko 🟡.)
 - **[28.09.2026] Instalacja w gruncie (kabel, rura, uziom) ułożona płycej niż strefa przemarzania** —
   zamarzający, pęczniejący grunt ją uszkodzi. Źródło: Moduł 7, Ekran 22 (tryb Grunt).
   (M7/E22 — `lib/core/modules/stress-test/ryzyko-zamarzniecia/warnings.ts`, `plycejNizPrzemarzanie`, kod

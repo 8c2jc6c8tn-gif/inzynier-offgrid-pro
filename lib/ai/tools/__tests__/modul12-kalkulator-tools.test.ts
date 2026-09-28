@@ -67,6 +67,7 @@ describe("urzadzenie12vBezposrednioTool (M12/E27, dawne 8.54)", () => {
       napiecieSystemuV: 12,
       napiecieUrzadzeniaV: 12,
       tolerancjaPct: 5,
+      maksNapiecieLadowaniaV: 14.5,
       przezStabilizator: false,
     })
     expect(w.status).toBe("VALID_WITH_WARNINGS")

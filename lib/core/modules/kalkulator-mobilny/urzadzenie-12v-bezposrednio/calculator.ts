@@ -1,16 +1,16 @@
 import type { Assumption, CalcResult, Warning } from "@/lib/core/calc-result"
-import { NAPIECIE_AKU_12V_MAX_V, NAPIECIE_AKU_12V_MIN_V } from "./constants"
+import { NAPIECIE_AKU_12V_MIN_V } from "./constants"
 import type { Urzadzenie12vBezposrednioInput } from "./input"
 import { validateInput } from "./validation"
 import { przepieciePrzyLadowaniu, przezStabilizatorInfo, zaNiskiePrzyRozladowaniu } from "./warnings"
 
-export const CALCULATOR_VERSION = "1.0.0"
+export const CALCULATOR_VERSION = "1.1.0"
 
 /** Float tolerance for range comparisons: 12,5 V × 1,16 = 14,4999… must count as 14,5 V, not as an overvoltage. */
 const EPS_V = 1e-9
 
 const FORMULA =
-  "U_{urz} \\in [U_n (1 - t),\\; U_n (1 + t)] \\;\\; ; \\;\\; U_{aku} \\in [11,\\; 14{,}5] \\times \\dfrac{U_{sys}}{12}"
+  "U_{urz} \\in [U_n (1 - t),\\; U_n (1 + t)] \\;\\; ; \\;\\; U_{aku} \\in \\left[11 \\cdot \\dfrac{U_{sys}}{12},\\; U_{lad,max}\\right]"
 
 export type Urzadzenie12vBezposrednioResult = {
   urzadzenieMinV: number
@@ -32,10 +32,11 @@ const PUSTY_WYNIK: Urzadzenie12vBezposrednioResult = {
 /**
  * Ekran 27, Moduł 12 — "Czy mogę podłączyć urządzenie 12V bezpośrednio?" (dawne 8.54,
  * docs/zrodla/Tresc_Modul_12_Kalkulator_Ekrany.md). Sekcja B: czy urządzenie wytrzyma górny zakres
- * napięcia akumulatora (do 14,5 V przy ładowaniu). 🔴 ze źródła: urządzenie o wąskiej tolerancji
- * wprost na akumulatorze (przykład: 12,0 V ±5% → max 12,6 V < 14,5 V). Dolna granica (11 V) tylko
- * jako info — źródło nie stawia tu stopu, urządzenie najwyżej przestanie działać. 24 V = zakres 12 V ×2
- * (dwa akumulatory w szeregu, jawne założenie).
+ * napięcia akumulatora przy ładowaniu. 🔴 ze źródła: urządzenie o wąskiej tolerancji wprost na
+ * akumulatorze (przykład: 12,0 V ±5% → max 12,6 V < 14,5 V). Od 1.1.0 górna granica = maks. napięcie
+ * ładowania z ustawień regulatora usera (źródła: 14,5 V `Tresc` vs 14,6 V Biblia — żadna stała nie
+ * obejmuje wszystkich chemii i wyrównywania ołowiowego). Dolna granica (11 V) tylko jako info — źródło
+ * nie stawia tu stopu. 24 V = dolna granica 12 V ×2 (dwa akumulatory w szeregu, jawne założenie).
  */
 export function calculateUrzadzenie12vBezposrednio(
   input: Urzadzenie12vBezposrednioInput,
@@ -45,6 +46,7 @@ export function calculateUrzadzenie12vBezposrednio(
     napiecieSystemuV: input.napiecieSystemuV,
     napiecieUrzadzeniaV: input.napiecieUrzadzeniaV,
     tolerancjaPct: input.tolerancjaPct ?? 0,
+    maksNapiecieLadowaniaV: input.maksNapiecieLadowaniaV ?? 0,
     przezStabilizator: input.przezStabilizator ? 1 : 0,
   }
 
@@ -61,7 +63,12 @@ export function calculateUrzadzenie12vBezposrednio(
     }
   }
 
-  if (input.napiecieSystemuV === 0 || input.napiecieUrzadzeniaV === 0 || input.tolerancjaPct === null) {
+  if (
+    input.napiecieSystemuV === 0 ||
+    input.napiecieUrzadzeniaV === 0 ||
+    input.tolerancjaPct === null ||
+    input.maksNapiecieLadowaniaV === null
+  ) {
     return {
       value: PUSTY_WYNIK,
       unit: "V",
@@ -76,7 +83,7 @@ export function calculateUrzadzenie12vBezposrednio(
 
   const krotnosc = input.napiecieSystemuV / 12
   const akuMinV = NAPIECIE_AKU_12V_MIN_V * krotnosc
-  const akuMaxV = NAPIECIE_AKU_12V_MAX_V * krotnosc
+  const akuMaxV = input.maksNapiecieLadowaniaV
   const t = input.tolerancjaPct / 100
   const urzadzenieMinV = input.napiecieUrzadzeniaV * (1 - t)
   const urzadzenieMaxV = input.napiecieUrzadzeniaV * (1 + t)

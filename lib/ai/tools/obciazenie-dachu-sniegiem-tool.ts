@@ -52,7 +52,7 @@ export const obciazenieDachuSniegiemTool: AiToolDefinition<
   description:
     "Liczy obciążenie dachu śniegiem wg PN-EN 1991-1-3 z Załącznikiem krajowym (Moduł 7, Ekran 23): " +
     "s = μ1·Ce·Ct·s_k, s_k ze strefy NB.1 i wysokości n.p.m. Opcjonalnie ciężar zmierzonej warstwy śniegu " +
-    "(γ z Tablicy E.1) i porównanie obu z nośnością dachu podaną przez usera — przekroczenie to twardy stop. " +
+    "(γ z Tablicy E.1) i porównanie obu z nośnością dachu podaną przez usera — przekroczenie to twardy stop, od 80% nośności ostrzeżenie „zbliżasz się do granicy” (próg aplikacji, nie normy). " +
     "Tylko dach jedno-/dwupołaciowy, obciążenie równomierne, wartości charakterystyczne. Użyj, gdy user pyta, " +
     "czy dach wytrzyma śnieg albo czy trzeba go odśnieżyć.",
   inputSchema: ObciazenieDachuSniegiemToolInput,

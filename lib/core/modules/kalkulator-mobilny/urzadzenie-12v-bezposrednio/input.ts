@@ -11,6 +11,11 @@ export type Urzadzenie12vBezposrednioInput = {
   napiecieUrzadzeniaV: number
   /** Tolerancja napięcia urządzenia [±%] (z instrukcji/tabliczki). null = jeszcze nie wpisano. */
   tolerancjaPct: number | null
+  /**
+   * Maksymalne napięcie ładowania całej instalacji [V] — z ustawień regulatora/ładowarki (absorpcja,
+   * a przy ołowiowym także wyrównywanie). Decyzja właściciela 28.09.2026: zamiast stałej. null = nie wpisano.
+   */
+  maksNapiecieLadowaniaV: number | null
   /** Urządzenie zasilane przez stabilizator/przetwornicę DC-DC, nie wprost z akumulatora. */
   przezStabilizator: boolean
 }

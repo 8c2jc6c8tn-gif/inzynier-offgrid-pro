@@ -1,4 +1,5 @@
 import type { Warning } from "@/lib/core/calc-result"
+import { DIESEL_ROZRUCH_MROZ_C, DIESEL_ZWYKLY_RYZYKO_C, DIESEL_ZWYKLY_WYSOKIE_RYZYKO_C, PROG_MROZU_C } from "./constants"
 
 export function wartoscUjemna(pole: string, etykieta: string, value: number): Warning {
   return {
@@ -11,13 +12,50 @@ export function wartoscUjemna(pole: string, etykieta: string, value: number): Wa
   }
 }
 
+/** 🔴 od 1.1.0 (D32): zwykły diesel przy ≤ 0°C — ryzyko nieuruchomienia bardzo duże. */
 export function dieselParafinizacja(tempC: number): Warning {
   return {
     code: "AGREGAT-DIESEL-PARAFINIZACJA",
-    level: "info",
+    level: "critical",
     i18nKey: "AGREGAT-DIESEL-PARAFINIZACJA",
     params: { temp: tempC },
-    technicalMessage: `paliwo=diesel-zwykly, temperaturaMiejscaC=${tempC} < 0 — próg parafinizacji w źródle niejednoznaczny (B: −20°C, C: −15°C), decyzja właściciela`,
+    technicalMessage: `paliwo=diesel-zwykly, temperaturaMiejscaC=${tempC} <= ${DIESEL_ZWYKLY_WYSOKIE_RYZYKO_C} (D32)`,
+    field: "paliwo",
+  }
+}
+
+/** 🟡 (D32): zwykły diesel w (0; +5]°C — może już nie wystartować. */
+export function dieselRyzykoRozruchu(tempC: number): Warning {
+  return {
+    code: "AGREGAT-DIESEL-RYZYKO-ROZRUCHU",
+    level: "warning",
+    i18nKey: "AGREGAT-DIESEL-RYZYKO-ROZRUCHU",
+    params: { temp: tempC },
+    technicalMessage: `paliwo=diesel-zwykly, temperaturaMiejscaC=${tempC} <= ${DIESEL_ZWYKLY_RYZYKO_C} (D32)`,
+    field: "paliwo",
+  }
+}
+
+/** 🟡 (D32): każdy diesel przy ≤ −10°C — akumulator i świece żarowe decydują o rozruchu. */
+export function dieselRozruchWMrozie(tempC: number): Warning {
+  return {
+    code: "AGREGAT-DIESEL-ROZRUCH-MROZ",
+    level: "warning",
+    i18nKey: "AGREGAT-DIESEL-ROZRUCH-MROZ",
+    params: { temp: tempC },
+    technicalMessage: `paliwo=diesel, temperaturaMiejscaC=${tempC} <= ${DIESEL_ROZRUCH_MROZ_C} (D32)`,
+    field: "temperaturaMiejscaC",
+  }
+}
+
+/** ℹ️ (D32): benzyna w mrozie — olej zimowy i sprawna świeca zapłonowa. */
+export function benzynaWMrozie(tempC: number): Warning {
+  return {
+    code: "AGREGAT-BENZYNA-MROZ",
+    level: "info",
+    i18nKey: "AGREGAT-BENZYNA-MROZ",
+    params: { temp: tempC },
+    technicalMessage: `paliwo=benzyna, temperaturaMiejscaC=${tempC} < ${PROG_MROZU_C} (D32)`,
     field: "paliwo",
   }
 }

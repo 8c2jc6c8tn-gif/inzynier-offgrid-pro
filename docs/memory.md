@@ -7708,3 +7708,49 @@ Polecenie właściciela: „zacznij od modułów M8–M7 i ruszaj dalej; po każ
 ### Chmurki „?” przy polach — niezgodność ze standardem 8.4 (28.09.2026)
 
 - Pytanie właściciela: czy chmurki z opisem są na każdym ekranie. Sprawdzone: opis ekranu (nagłówek) — tak, wszędzie; chmurka `?` przy polach (`PomocPole`, prop `pomoc`) — tylko na 1 kalkulatorze + `/wzornik`, choć standard 8.4 wymaga jej przy każdym polu liczbowym. Dryf bez decyzji; ekrany M7/M8/M9 z 28.09 go powieliły. Właściciel zlecił wpis do pracy planowanej (inna sesja) — pełny opis, warianty A/B/C i rekomendacja: `docs/lista-do-zrobienia.md`, wpis z 28.09 „Chmurki „?” przy polach liczbowych”. Nowe ekrany od teraz: dodawać `pomoc` od razu.
+
+## Synchronizacja ze standardem — Y.6, sprawdzenie na starcie sesji (28.09.2026, ok. 09:20 UTC)
+
+Termin cyklu minął (27.09 04:40 UTC + 18 h). `new-app-standards` sklonowany świeżo (tylko odczyt, bez
+`register_repo_root`, bez push — 15.17), HEAD `b59a052` (27.09 08:17). `AKTUALIZACJE.md` — nadal 112 linii,
+brak nowego wiersza. `diff` mirrora: `docs/standards/*`, GOD BOOK `v2_39`, `PROMPT_STARTOWY.md` — identyczne.
+Jedyna różnica: `docs/przyklady/pwa/` (+ `README.md`/`PROMPT.md` przykładów) — znana od 26.09, czeka na decyzję
+właściciela (porównanie `public/sw.js` ze wzorcem). **Zero nowej treści →** `interwał_h = min(48, 18 × 1,5) = 27`,
+`licznik_zero_z_rzedu = 2`.
+
+## Sesja decyzji po kolei (28.09.2026)
+
+Polecenie właściciela: przerobić `docs/lista-do-zrobienia.md` po kolei, pytania z ≥3 wariantami. Rundy pytań
+idą od najstarszych otwartych ⚠️. Decyzje rundy 1–2 i co z nimi zrobiono:
+
+- **M3/E21 → 🔴** (było 🟡, samo ostrzeżenie potwierdzone już 25.09 — lista tego nie odnotowała). Nowe pytanie
+  `falownikWyspowyAcCoupling` (tak/nie/nie wiem), pokazywane tylko przy rekomendacji mikroinwerterów; „nie wiem”
+  = strona bezpieczna (wzorzec M8/E3); brak odpowiedzi → `INCOMPLETE`, ale rekomendacja zostaje widoczna.
+- **M12/E22+E36 wodór:** poziom zależny od chemii w `brakWentylacjiOlowiowy(kod, chemia)` — kwasowy 🔴, AGM 🟡.
+  Wspólny komponent `ekran-checklisty-chemii.tsx` mapuje teraz `critical` → werdykt „blad”.
+- **M12/E27:** górna granica = pole usera „maks. napięcie ładowania instalacji” (wartość całej instalacji, nie
+  jednego akumulatora); 14,5/14,6 V tylko w podpowiedzi (`NAPIECIE_LADOWANIA_12V_*` w `constants.ts`).
+  Walidacja: wartość < napięcia znamionowego = `INVALID_INPUT` (typowy błąd: 14,6 V wpisane przy 24 V).
+- **Pułapka powtórzona i obsłużona:** nowe pole w istniejącym szkicu `usePersistedDraft` — typ pola opcjonalny
+  (`?:`) + `?? ""` przy odczycie (stare szkice nie mają klucza). Dotyczy E21 i E27.
+- **Licencje norm:** zostaje plan B (świadomie). **27.09 pkt 2–4:** potwierdzone. **Rsi per kierunek:** czeka na
+  PN-EN ISO 6946 od właściciela (0,10/0,17 nie ma w żadnym materiale repo — sprawdzone grepem i w PDF-ach).
+- **D29:** dodać masę paneli+stelaża jako siłę utrzymującą (γG,inf) — następna partia.
+- **M12 „uproszczone wersje”:** hybryda (odsyłacz dla prostych źródeł, wrapper dla rozbudowanych, Wzorce B budować).
+- Nowe pola w tej sesji dostają od razu `pomoc` (chmurka 8.4) — zgodnie z wpisem 28.09 o chmurkach.
+- **Błąd naprawiony (28.09): chmurka „?” nie działała na telefonie.** `Chmurka` używała `Tooltip` (Base UI) —
+  hover-only, tap nic nie robi. Podmieniona na `Popover` z `openOnHover` (Base UI 1.8.0, API sprawdzone w
+  `node_modules`, nie z pamięci). Zweryfikowane Playwright: desktop hover + `Pixel 5` tap + zamknięcie tapnięciem
+  obok, na `/wzornik`, `dobor-przekroju-kabla`, E27. **Od 28.09: chmurki weryfikować też emulacją dotyku.**
+  Wkład: `docs/wklad-do-standardu.md`.
+- **Runda 3 (28.09) wdrożona — D30–D33** (`rejestr-decyzji.md`): E23 🟡 od 80% nośności; E19 falownik 🔴,
+  nowy typ „regulator” 🟡; E8 progi rozruchu z praktyki właściciela (zwykły diesel 🟡 ≤ +5°C / 🔴 ≤ 0°C,
+  każdy diesel 🟡 ≤ −10°C, benzyna ℹ️) — zastępują sprzeczne −20/−15 źródła; E11 przykładowe moce urządzeń
+  jako podpowiedź (nigdy wartość domyślna). Wszystkie progi opisane w tekstach jako ustalenie aplikacji, nie
+  norma. **Pułapka E8:** kalkulator zwracał INCOMPLETE bez czasu pracy/dni postoju — nowy 🔴 rozruchu byłby
+  niewidoczny, więc „paliwo + temperatura” jest teraz osobną kompletną ścieżką. **Pułapka procesowa:** repo
+  nie ma konfiguracji Prettiera — `prettier --write` przeformatowuje cały plik na domyślne reguły (średniki);
+  nie uruchamiać, formatować ręcznie w stylu pliku. Do potwierdzenia ✅🤖: poziomy D32, lista/wartości D33.
+- **Chmurki „?” — decyzja D34 (28.09):** wariant **B** (wybrany już w poprzedniej sesji, ale nieodnotowany —
+  tu uzupełnione) + chmurki mają bogato wyjaśniać, jak i po co działa kalkulator. Realizacja w osobnej sesji,
+  moduł po module. Nowe ekrany od razu w tym standardzie.

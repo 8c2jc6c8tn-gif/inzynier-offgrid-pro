@@ -8,7 +8,7 @@ import { calculateElektronikaWMrozie } from "@/lib/core/modules/stress-test/elek
 import type { AiToolDefinition } from "../types"
 import { tekstyOstrzezen, tekstyZalozen } from "./teksty-wyniku"
 
-const Typ = z.enum(["BMS", "wyswietlacz", "czujnik", "przetwornica", "inne"])
+const Typ = z.enum(["BMS", "wyswietlacz", "czujnik", "przetwornica", "regulator", "inne"])
 
 export const ElektronikaWMrozieToolInput = z.object({
   temperaturaMiejscaC: z.number().describe("Minimalna spodziewana temperatura w miejscu montażu [°C] — od usera"),
@@ -37,9 +37,9 @@ export type ElektronikaWMrozieToolOutputT = z.infer<typeof ElektronikaWMrozieToo
 export const elektronikaWMrozieTool: AiToolDefinition<ElektronikaWMrozieToolInputT, ElektronikaWMrozieToolOutputT> = {
   name: "sprawdz_elektronike_w_mrozie",
   description:
-    "Sprawdza, które urządzenia elektroniczne (BMS, wyświetlacze, czujniki, przetwornice) pracują poniżej swojej " +
+    "Sprawdza, które urządzenia elektroniczne (BMS, wyświetlacze, czujniki, przetwornice/falowniki, regulatory ładowania) pracują poniżej swojej " +
     "minimalnej temperatury pracy z karty katalogowej przy najniższej temperaturze miejsca montażu (Moduł 7, Ekran 19). " +
-    "BMS poniżej minimum to twardy stop. Użyj, gdy user pyta, czy sprzęt w garażu/altanie przetrwa mróz.",
+    "BMS lub przetwornica/falownik poniżej minimum to twardy stop. Użyj, gdy user pyta, czy sprzęt w garażu/altanie przetrwa mróz.",
   inputSchema: ElektronikaWMrozieToolInput,
   outputSchema: ElektronikaWMrozieToolOutput,
   operationType: "read",
