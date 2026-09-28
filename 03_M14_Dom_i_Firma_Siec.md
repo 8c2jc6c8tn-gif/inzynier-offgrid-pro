@@ -1,7 +1,7 @@
 # 03. M14 — „Dom – sieć” i „Firma – sieć”: rachunek za prąd, a potem przejście na off-grid
 
-**Wersja:** 1.1 | **Filar:** B (merytoryczny) | **Data utworzenia:** 28.09.2026 | **Ostatnia aktualizacja:** 28.09.2026 | **Status:** Stabilny — **kod zablokowany bramką N.3** (patrz „Stan i bramki”)
-**Powiązane dokumenty:** `docs/zrodla/Opracowanie_M14_Z_Sieci_Na_OffGrid_DRAFT.md` (opracowanie źródłowe: weryfikacja, adnotacje ✏️ K1–K14, tabele stawek per OSD), `rejestr-decyzji.md` D35–D40, `docs/rejestr-pokrycia.md` (sekcja M14), `docs/rejestr-twardych-stopow.md` (sekcja M14), `mapa-wdrozenia.md`, `slownik-pojec.md` (sekcja „Sieć i rozliczenia energii”)
+**Wersja:** 1.2 | **Filar:** B (merytoryczny) | **Data utworzenia:** 28.09.2026 | **Ostatnia aktualizacja:** 28.09.2026 | **Status:** Stabilny — **kod zablokowany bramką N.3** (patrz „Stan i bramki”)
+**Powiązane dokumenty:** `docs/zrodla/Opracowanie_M14_Z_Sieci_Na_OffGrid_DRAFT.md` (opracowanie źródłowe: weryfikacja, adnotacje ✏️ K1–K14, tabele stawek per OSD), `rejestr-decyzji.md` D35–D41, `docs/rejestr-pokrycia.md` (sekcja M14), `docs/rejestr-twardych-stopow.md` (sekcja M14), `mapa-wdrozenia.md`, `slownik-pojec.md` (sekcja „Sieć i rozliczenia energii”)
 
 TL;DR: Moduł **M14** ma dwa rozdziały i na pulpicie dwa duże kafle: **M14-D „Dom – sieć”** (grupy taryfowe G) oraz **M14-F „Firma – sieć”** (grupy C na nN). Każdy rozdział składa się z dwóch części w stałej kolejności:
 1. najpierw **Sieć** — ile kosztuje mój rachunek i z czego się składa: taryfa, prosument, licznik;
@@ -155,7 +155,8 @@ Zasady liczenia:
 - **Ceny sprzętu, paliwa i serwisu wpisuje użytkownik.** Aplikacja nie zgaduje cen i **sama nie prognozuje cen energii**. Zmiana ceny energii `g` ma trzy źródła do wyboru (D40):
   1. domyślnie `g` = 0;
   2. suwak wrażliwości −3 / 0 / +5 / +10%/rok;
-  3. **„Ścieżka UE”** — dynamika cen z oficjalnej projekcji Komisji Europejskiej dla Polski, zawsze podpisana nazwą źródła i datą (niżej).
+  3. **„Ścieżka UE”** — dynamika cen z oficjalnej projekcji Komisji Europejskiej dla Polski, zawsze podpisana nazwą źródła i datą (niżej);
+  4. **„Ścieżka UE + inflacja”** (D41) — ta sama dynamika plus średnioroczna inflacja. Pokazuje kwoty, które użytkownik faktycznie zapłaci w kolejnych latach (niżej).
 - Parametry domyślne (D40, zatwierdzone przez właściciela 28.09.2026):
   - horyzont `N` = 15 lat, zakres 10–25;
   - `r` = 0 w trybie prostym: wynik w dzisiejszych złotych, bez inflacji i dyskonta. `g` z suwaka i ze „Ścieżki UE” oznacza zmianę ceny **ponad inflację**, żeby obie opcje dało się porównać.
@@ -177,6 +178,44 @@ Zasady użycia:
 - **Ostrzeżenie widoczne przy wyborze ścieżki:** projekcja przyjmuje politykę z końca 2019 r. Nie uwzględnia kryzysu cen 2021–2023, pakietu Fit for 55 ani ETS2. To oficjalny scenariusz odniesienia UE, a nie przewidywanie rachunku.
 - Wartości trafiają do pliku danych `rozliczenia-pl-2026` (lub osobnego, patrz lista zadań) z polami `zrodlo` / `stanNa` / `pewnosc`, tak jak stawki (D36).
 - Gdy KE opublikuje nowszą edycję (prace nad *Reference Scenario 2025* trwały w latach 2024–2025), dane zostaną podmienione. Stara wersja zostaje w logu źródła.
+
+**„Ścieżka UE + inflacja” — ceny nominalne, czyli kwoty do zapłaty (D41)**
+
+Wzór (Fisher, mnożenie, nie dodawanie):
+
+```
+indeks_nom(t) = indeks_UE(t) · (1 + π)^t
+g_nom(t)      = (1 + g_UE(t)) · (1 + π) − 1
+```
+
+Źródła inflacji `π` do wyboru:
+
+| Opcja | Wartość | Źródło | Pewność |
+|---|---|---|---|
+| **Cel inflacyjny NBP** (domyślna ✅🤖) | **2,5%/rok** (pasmo ±1 pkt proc.) | Uchwała nr 7/2025 RPP z 2.09.2025 w sprawie założeń polityki pieniężnej na rok 2026, M.P. 2025 poz. 1013: „celem polityki pieniężnej jest utrzymanie inflacji – rozumianej jako procentowa roczna zmiana indeksu cen towarów i usług konsumpcyjnych – na poziomie 2,5 % z symetrycznym przedziałem odchyleń o szerokości ±1 punktu procentowego w średnim okresie” (od 2004 r.) | ✅ odczyt pierwotny 28.09.2026 |
+| **Średnia z ostatnich 15 lat (GUS)** | **3,58%/rok** (2011–2025, średnia geometryczna) | GUS, „Roczne wskaźniki cen towarów i usług konsumpcyjnych od 1950 roku” (CSV, rok poprzedni = 100) | ✅ wyliczone z danych pierwotnych 28.09.2026 |
+| **Własna wartość** | wpis użytkownika | — | — |
+
+Średnie GUS dla porównania (ten sam plik): 10 lat (2016–2025) 4,59%/rok, 20 lat (2006–2025) 3,37%/rok, od 2004 r. 3,32%/rok. Okno 15 lat wybrano, bo tyle wynosi domyślny horyzont `N`. W pliku GUS wiersz 2025 ma w kolumnie „Sposób prezentacji” wpis „Rok poprzedni = 101” zamiast „= 100”. To oczywisty błąd opisu; wartość 103,6 przyjmujemy jako wskaźnik rok do roku. Po publikacji danych za 2026 średnie trzeba przeliczyć.
+
+Zasady (twarde, żeby porównanie scenariuszy nie kłamało):
+- **Gdy wybrano inflację, rośnie o `π` każdy koszt bieżący**: paliwo do agregatu, serwis i wymiany sprzętu. Energia z sieci rośnie o `g_nom`. Bez tego scenariusze off-grid wyglądałyby sztucznie tanio.
+- **Wynik pokazuje dwie liczby obok siebie:**
+  1. „zapłacisz łącznie (w złotych z tamtych lat)” — suma nominalna;
+  2. „w dzisiejszych złotych” — ta sama suma przeliczona przez `(1+π)^t`, czyli wynik „Ścieżki UE”.
+  
+  Ranking scenariuszy aplikacja podaje według liczby 2. Suma nominalna bez dyskonta zawyża koszty odległe w czasie, a przez to faworyzuje scenariusze z dużą inwestycją na starcie.
+- W nagłówku wyniku zawsze widać, która ścieżka i które `π` zostały użyte, ze źródłem.
+
+**Przykład kontrolny (do testów)**, liczony od 2026 r. (punkt 2026 z interpolacji geometrycznej 2025–2030), `N` = 15, koszt energii z sieci 5 000 zł/rok w cenach 2026:
+
+| Ścieżka | Mnożnik ceny w roku 15 (2041) | Średnio %/rok | Suma 15 lat |
+|---|---|---|---|
+| `g` = 0 | 1,0000 | 0,00 | 75 000 zł |
+| Ścieżka UE | 1,1470 | 0,92 | ≈ 81 444 zł |
+| Ścieżka UE + inflacja 2,5% | 1,6612 | 3,44 | ≈ 100 143 zł (nominalnie) |
+
+W roku 1 (2027) mnożniki wynoszą 1,0172 (UE) i 1,0426 (UE + 2,5%).
 - Okres zwrotu liczony jest względem A.
 - Pobór z sieci w B/C: `E_sieć,m = max(0, E_zuż,m − E_PV,m·η − ΔE_mag,m)`, produkcja z PVGIS dla lokalizacji (M1).
 - **Autokonsumpcja w trybie prostym = profile** (D38):
@@ -513,3 +552,4 @@ Nie jest potrzebny do pierwszej działającej wersji rdzenia off-grid (M1–M8).
 |---|---|
 | 28.09.2026 | Utworzono — integracja opracowania M14 na polecenie właściciela („Integruj teraz”, F.2/F.4). Decyzje D35–D38. Wersja 1.0. |
 | 28.09.2026 | Decyzje właściciela: pozycja kafli (D39); parametry TCO plus „Ścieżka UE” z EU Reference Scenario 2020, odczyt pierwotny arkusza KE (D40). Zdanie „nie prognozuje cen energii” doprecyzowane: aplikacja sama nie prognozuje, pokazuje projekcję UE ze źródłem i datą. Wersja 1.0→1.1. |
+| 28.09.2026 | D41: opcja „Ścieżka UE + inflacja” (Fisher). π = cel NBP 2,5% (M.P. 2025 poz. 1013, domyślne ✅🤖) albo średnia GUS z 15 lat 3,58% albo własna. Inflacja stosowana do wszystkich kosztów bieżących; ranking według złotych dzisiejszych. Przykład kontrolny. Wersja 1.1→1.2. |

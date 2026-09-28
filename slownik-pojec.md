@@ -56,6 +56,10 @@ TL;DR: Terminy branżowe (off-grid PV/baterie/elektryka) i skróty specyficzne d
   wzięta z oficjalnej projekcji Komisji Europejskiej dla Polski (EU Reference Scenario). Liczy
   się tylko tempo zmian ponad inflację, nie poziom ceny. Zawsze podpisana źródłem i datą; to
   scenariusz odniesienia, nie przewidywanie rachunku.
+- **„Ścieżka UE + inflacja” (D41)** — „Ścieżka UE” pomnożona przez średnioroczną inflację
+  (cel NBP 2,5% albo średnia GUS z 15 lat). Pokazuje kwoty, które faktycznie trafią na rachunki
+  w kolejnych latach (ceny nominalne). Ceny „realne” to w ekonomii ceny ponad inflację, czyli
+  sama „Ścieżka UE”.
 - **Grupa taryfowa G / C / B** — G to gospodarstwa domowe. C to odbiorcy na niskim napięciu
   (nN): C1x przy mocy umownej ≤ 40 kW, C2x przy mocy > 40 kW. B to średnie napięcie (SN).
 - **Moc umowna / przyłączeniowa** — moc umowna to moc zamówiona w umowie; od niej w grupie C
@@ -106,3 +110,4 @@ TL;DR: Terminy branżowe (off-grid PV/baterie/elektryka) i skróty specyficzne d
 | 07.09.2026 | **Wynik audytu GOD BOOK Część N**: dopisano OCPR i I_SC_MAX/K1 — terminy wprowadzone 06.09.2026 przy przepisaniu `ochrona-stringow` wg normy HD 60364-7-712, dotąd nieobecne mimo zasady "rośnie od pierwszego użycia" (C.9). |
 | 28.09.2026 | Dodano sekcję „Sieć i rozliczenia energii (M14)” — terminy z integracji rozdziału `03_M14_Dom_i_Firma_Siec.md` (opracowanie §11). |
 | 28.09.2026 | Dodano termin „Ścieżka UE” (M14, D40). |
+| 28.09.2026 | Dodano termin „Ścieżka UE + inflacja” (M14, D41). |

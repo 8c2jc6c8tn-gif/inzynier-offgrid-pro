@@ -7942,3 +7942,17 @@ Polecenie właściciela „Integruj teraz” (F.2/F.4) wykonane na gałęzi odtw
 - **Doprecyzowanie przy okazji:** `r` = 0 oznacza wynik w dzisiejszych zł. `g` (suwak i UE) oznacza zmianę ponad inflację. Wcześniejszy zapis „suma nominalna” był nieprecyzyjny przy cenach wpisywanych dziś.
 - **Lista zadań:** osobne wpisy „PDF-y od właściciela (PGE, PME)” (polecenie „Dodaj do listy zadań”) oraz „Ścieżka UE do pliku danych i jej aktualność”.
 
+## M14 — D41 „Ścieżka UE + inflacja” (28.09.2026)
+
+- **Polecenie właściciela:** dwie opcje wzrostu cen na 15 lat: plany UE, oraz plany UE plus średnioroczna inflacja.
+- **Wzór:** Fisher `(1+g_UE)(1+π)−1`.
+- **Źródła π:**
+  - cel NBP 2,5% ±1 pkt, CPI — Uchwała RPP nr 7/2025, M.P. 2025 poz. 1013. Pobrane z `api.sejm.gov.pl/eli/acts/MP/2025/1013/text.pdf`, bo `nbp.pl` blokuje boty kodem 403;
+  - średnia GUS z 15 lat 3,58% (2011–2025, geometryczna) z CSV „Roczne wskaźniki cen … od 1950 roku” (stat.gov.pl, kodowanie cp1250).
+- **Pułapka źródła:** w pliku GUS wiersz 2025 ma opis „Rok poprzedni = 101” zamiast „= 100”. To błąd opisu, wartość 103,6 przyjęta.
+- **Audyt (czapka rewidenta):**
+  - inflacja musi obejmować wszystkie koszty bieżące, inaczej off-grid wychodzi sztucznie tanio;
+  - suma nominalna przy `r` = 0 faworyzuje inwestycje na starcie, więc ranking idzie według złotych dzisiejszych, a suma nominalna jest pokazywana obok jako „ile zapłacisz”;
+  - właściciel nazwał wariant z inflacją „realnym wzrostem”, a w ekonomii to cena nominalna. W UI unikamy słowa „realny”.
+- **Otwarte:** która π ma być domyślna (✅🤖 NBP).
+

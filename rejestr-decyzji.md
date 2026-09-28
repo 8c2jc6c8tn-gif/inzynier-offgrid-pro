@@ -1,6 +1,6 @@
 # Rejestr decyzji — Inżynier Offgrid Pro
 
-**Wersja:** 1.15 | **Filar:** C | **Data utworzenia:** 04.09.2026 | **Ostatnia aktualizacja:** 28.09.2026 | **Status:** Stabilny (rosnący)
+**Wersja:** 1.16 | **Filar:** C | **Data utworzenia:** 04.09.2026 | **Ostatnia aktualizacja:** 28.09.2026 | **Status:** Stabilny (rosnący)
 **Powiązane dokumenty:** `00_Biblia.md`, `docs/memory.md`, `USTALENIA.md` (historyczny, Część II)
 
 TL;DR: D1, D2, D3… — decyzje **strategiczne/fundamentalne** (blokujące wiele innych rzeczy naraz, Krok 4 GOD BOOK), ponumerowane, nigdy nie kasowane, tylko unieważniane jawnie (F.5). **Nie duplikuje `docs/memory.md`**: tam żyje pełna, szczegółowa historia każdej sesji (setki drobnych decyzji implementacyjnych per ekran) — tu tylko decyzje, które zmieniły kierunek/regułę obowiązującą cały projekt. Gdy wpis niżej odsyła do `docs/memory.md`, tam jest pełne uzasadnienie i przykłady.
@@ -131,6 +131,20 @@ Treść:
 
 Pełne: `03_M14_Dom_i_Firma_Siec.md` („Kluczowe zasady i wzory”, TCO).
 
+**D41 (28.09.2026) — M14 TCO: czwarta opcja cen energii „Ścieżka UE + inflacja” (ceny nominalne, kwoty do zapłaty). Rozszerza D40, niczego w nim nie unieważnia.** Koszt cofnięcia: tani (dane plus opcja, kod jeszcze nie istnieje). Decyzja właściciela projektu z 28.09.2026: „Musimy zrobić opcję liczenia wzrostu cen na te 15 lat zgodnie z planami ue i drugą opcją plany ue + średnioroczną inflacja.”
+
+Treść:
+- (1) Wzór Fisher: `(1+g_UE)·(1+π) − 1`, nie suma.
+- (2) `π` do wyboru:
+  - cel NBP 2,5% — Uchwała RPP nr 7/2025, M.P. 2025 poz. 1013, ✅. Jako domyślna to propozycja AI ✅🤖, do potwierdzenia;
+  - średnia GUS z 15 lat 3,58% (2011–2025, ✅ z danych pierwotnych);
+  - własna wartość.
+- (3) Przy inflacji rośnie o `π` każdy koszt bieżący (paliwo, serwis, wymiany), a nie tylko sieć.
+- (4) Wynik pokazuje sumę nominalną i sumę w dzisiejszych złotych. Ranking scenariuszy idzie według złotych dzisiejszych, bo suma nominalna bez dyskonta faworyzuje duże inwestycje na starcie.
+- (5) Nazewnictwo w UI: „ponad inflację” (UE) oraz „kwoty, które zapłacisz” (UE + inflacja). Nie używamy słowa „realny” dla ceny nominalnej.
+
+Pełne: `03_M14_Dom_i_Firma_Siec.md` (TCO, „Ścieżka UE + inflacja”).
+
 ---
 
 ## Założenia robocze (F.7 GOD BOOK)
@@ -159,3 +173,4 @@ Pełne: `03_M14_Dom_i_Firma_Siec.md` („Kluczowe zasady i wzory”, TCO).
 | 28.09.2026 | Dodano D34 (chmurki „?” — wariant B + bogaty opis działania kalkulatora) — decyzja właściciela projektu. Wersja 1.12→1.13. |
 | 28.09.2026 | Dodano D35 (M14: ścieżka przejścia sieć → off-grid, kafle „Dom – sieć” / „Firma – sieć”, najpierw Sieć, potem Przejście), D36 (stawki jako dane z okresami ważności + tryb „moje dane z faktury”), D37 (FREE/PRO dla M14 odłożone, D2 bez zmian), D38 (autokonsumpcja z profili) — integracja M14 do Biblii („Integruj teraz”). Wersja 1.13→1.14. |
 | 28.09.2026 | Dodano D39 (pozycja kafli M14) i D40 (parametry TCO M14 plus „Ścieżka UE” z EU Reference Scenario 2020) — decyzje właściciela projektu. Wersja 1.14→1.15. |
+| 28.09.2026 | Dodano D41 (M14 TCO: „Ścieżka UE + inflacja”, π z celu NBP albo średniej GUS) — decyzja właściciela projektu. Wersja 1.15→1.16. |
