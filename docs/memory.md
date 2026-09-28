@@ -7644,3 +7644,12 @@ Polecenie właściciela: „co można jeszcze zrobić beze mnie, czy są większ
 
 - Źródło nie podaje progów per urządzenie — min. temperaturę pracy wpisuje user z karty katalogowej (Dyrektywa #1). 🔴 tylko BMS (jedyny „nie wystartuje” w źródle); przetwornica/falownik 🟡 mimo że realnie też krytyczne — otwarte dla właściciela (`docs/lista-do-zrobienia.md`). Porównanie ścisłe `<` (równo z minimum = w zakresie, jak E13).
 - **Błąd naprawiony (wspólny komponent):** `components/wzorce/wynik-szczegoly.tsx` miał `key={w.code}` — przy kilku ostrzeżeniach o tym samym kodzie (lista urządzeń) React zostawiał nieaktualny komunikat. Teraz `key={w.code + i}`. Ten sam wzorzec `key={w.code}` jest jeszcze w ~10 stronach z własnym renderem ostrzeżeń (np. `mixing-rownolegle`, `liczba-paneli`) — nieruszone, bo tam kody są unikalne per wynik; do sprawdzenia przy dotknięciu tych ekranów. Wkład: `docs/wklad-do-standardu.md`.
+
+### M7/E21 pompy i zawory w mrozie (27.09.2026)
+
+- Kopia wzorca E19 (osobny moduł, nie wspólny silnik — inne kody, inne skutki, brak 🔴). Świadomie nie scalone z E19 w generyczny „sprzęt w mrozie”: dwa ekrany źródła, dwie różne listy skutków; przy trzecim podobnym ekranie rozważyć ekstrakcję.
+- „Spadek ciśnienia” (sekcja B) nieliczony — źródło nie podaje zależności.
+
+### M7/E11 grzałki dachowe (27.09.2026, częściowo)
+
+- Wzór z przykładu źródła; 30 W/m i 6 h to przykład → pola usera. Zdanie źródła „sprawdź, czy masz zapas mocy” zamienione na realne porównanie z opcjonalnym polem „wolny zapas mocy falownika” (bez niego — info). Porównanie z pompą ciepła tylko, gdy user poda jej moc. Strefy zatorów (kosze, przy rynnach) — tylko opis; auto-identyfikacja czeka na model dachu M1.

@@ -207,6 +207,8 @@ export const KAFLE: KafelEntry[] = [
       { href: "/kalkulatory/obciazenie-dachu-sniegiem", label: "Obciążenie dachu śniegiem" },
       { href: "/kalkulatory/sztywnienie-izolacji", label: "Sztywnienie izolacji na mrozie" },
       { href: "/kalkulatory/elektronika-w-mrozie", label: "Elektronika w mrozie" },
+      { href: "/kalkulatory/pompy-zawory-w-mrozie", label: "Pompy i zawory w mrozie" },
+      { href: "/kalkulatory/grzalki-dachowe", label: "Grzałki dachowe i rynnowe" },
     ],
   },
   {
