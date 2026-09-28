@@ -16,6 +16,7 @@ type FormularzStan = {
   powierzchniaM2: string
   cd: string
   balastPlanowanyKg: string
+  masaPaneliStelazaKg: string
 }
 
 const STAN_POCZATKOWY: FormularzStan = {
@@ -23,6 +24,7 @@ const STAN_POCZATKOWY: FormularzStan = {
   powierzchniaM2: "",
   cd: "",
   balastPlanowanyKg: "",
+  masaPaneliStelazaKg: "",
 }
 
 export default function NaporWiatruPage() {
@@ -30,6 +32,8 @@ export default function NaporWiatruPage() {
   // Drafts saved before 26.09.2026 have no `balastPlanowanyKg` — treat as empty.
   const { predkoscWiatruMS, powierzchniaM2, cd } = stan
   const balastPlanowanyKg = stan.balastPlanowanyKg ?? ""
+  // Same for `masaPaneliStelazaKg` before D29 (28.09.2026).
+  const masaPaneliStelazaKg = stan.masaPaneliStelazaKg ?? ""
 
   function setPole<K extends keyof FormularzStan>(pole: K, akcja: FormularzStan[K] | ((prev: FormularzStan[K]) => FormularzStan[K])) {
     setStan((prev) => ({
@@ -41,6 +45,7 @@ export default function NaporWiatruPage() {
   const setPowierzchniaM2 = (a: string | ((p: string) => string)) => setPole("powierzchniaM2", a)
   const setCd = (a: string | ((p: string) => string)) => setPole("cd", a)
   const setBalastPlanowanyKg = (a: string | ((p: string) => string)) => setPole("balastPlanowanyKg", a)
+  const setMasaPaneliStelazaKg = (a: string | ((p: string) => string)) => setPole("masaPaneliStelazaKg", a)
 
   const result = useMemo(
     () =>
@@ -49,8 +54,9 @@ export default function NaporWiatruPage() {
         powierzchniaM2: powierzchniaM2 === "" ? 0 : Number(powierzchniaM2),
         cd: cd === "" ? 0 : Number(cd),
         balastPlanowanyKg: balastPlanowanyKg === "" ? null : Number(balastPlanowanyKg),
+        masaPaneliStelazaKg: masaPaneliStelazaKg === "" ? null : Number(masaPaneliStelazaKg),
       }),
-    [predkoscWiatruMS, powierzchniaM2, cd, balastPlanowanyKg],
+    [predkoscWiatruMS, powierzchniaM2, cd, balastPlanowanyKg, masaPaneliStelazaKg],
   )
   // Directive #4: the hard stop comes from warning levels, not from the Status enum.
   const balastZaMaly = result.warnings.some((w) => w.level === "critical")
@@ -102,6 +108,17 @@ export default function NaporWiatruPage() {
           onChange={(e) => setBalastPlanowanyKg(e.target.value)}
           hint="Wpisz, ile balastu chcesz dać — aplikacja porówna to z balastem projektowym."
         />
+        <Pole
+          label="Masa panelu i stelaża (opcjonalnie)"
+          unit="kg"
+          type="number"
+          inputMode="decimal"
+          min={0}
+          value={masaPaneliStelazaKg}
+          onChange={(e) => setMasaPaneliStelazaKg(e.target.value)}
+          hint="Dla tej powierzchni, bez balastu — z karty katalogowej albo zważona. Aplikacja odejmie ją od balastu (liczona w 90%). Puste = pominięta (bezpieczniej)."
+          pomoc="Ciężar paneli i stelaża dociska konstrukcję do podłoża, tak jak balast. Norma PN-EN 1990 każe liczyć go ostrożnie — tylko 90% (γG,inf = 0,90), bo rzeczywista masa może być mniejsza od deklarowanej. Masę paneli znajdziesz w karcie katalogowej, stelaża — u producenta albo zważ elementy. Nie zgaduj: puste pole liczy balast tak, jakby konstrukcja nic nie ważyła (bezpieczniej). Aplikacja pokazuje wtedy balast dodatkowy, ponad tę masę. Przesuwu i wywracania to nie sprawdza."
+        />
       </div>
 
       {result.status === "INVALID_INPUT" ? (
@@ -117,7 +134,8 @@ export default function NaporWiatruPage() {
         >
           <WynikGlowny>{result.value.silaNaporuN.toFixed(0)} N</WynikGlowny>
           <p className="text-small">
-            Balast projektowy przeciw oderwaniu (PN-EN 1990): co najmniej{" "}
+            Balast projektowy przeciw oderwaniu (PN-EN 1990)
+            {masaPaneliStelazaKg !== "" ? " ponad ciężar panelu i stelaża" : ""}: co najmniej{" "}
             <strong>{Math.ceil(result.value.balastProjektowyKg).toLocaleString("pl-PL")} kg</strong>
           </p>
           <WynikSzczegoly assumptions={result.assumptions} warnings={result.warnings} formula={result.formula} />

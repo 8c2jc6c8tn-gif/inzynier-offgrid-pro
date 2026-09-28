@@ -15,6 +15,7 @@ import { obliczProdukcjeKwh } from "../kat-i-azymut/calculator"
 import { CSCD_STELAZ, PRZYSPIESZENIE_ZIEMSKIE_M_S2 } from "./constants"
 import type { ZlotySrodekInput } from "./input"
 import { validateInput } from "./validation"
+import { zalozenieMasyWlasnej } from "./zalozenia"
 import {
   balastProjektowyEqu,
   optimumPozaZakresemWiatru,
@@ -23,7 +24,7 @@ import {
   wybranyKatBezDanychWiatru,
 } from "./warnings"
 
-export const CALCULATOR_VERSION = "1.1.0"
+export const CALCULATOR_VERSION = "1.2.0"
 
 export type PunktKata = {
   nachylenieDeg: number
@@ -35,7 +36,10 @@ export type PunktKata = {
   silaWiatruN: number | null
   /** Siła względem największej siły ze wszystkich kątów z danymi normowymi [%]. */
   procentSilyMaks: number | null
-  /** Design ballast m = γQ·Fw/(γG,inf·g) [kg], PN-EN 1990 EQU — only 0–30° (uplift); 90° and 31–89° → `null`. */
+  /**
+   * Design ballast m = max(0, γQ·Fw/(γG,inf·g) − G) [kg], PN-EN 1990 EQU — only 0–30° (uplift); 90° and
+   * 31–89° → `null`. G = panels + frame mass when entered (D29) — m is the ballast on top of it.
+   */
   balastKg: number | null
   kosztBalastuZl: number | null
   produkcjaRocznaKwh: number | null
@@ -57,7 +61,7 @@ export type ZlotySrodekResult = {
 
 const FORMULA =
   "F_w = c_sc_d \\cdot c_f(\\alpha,\\varphi) \\cdot c_e(z_e) \\cdot q_b \\cdot A_{ref},\\quad " +
-  "m = \\frac{\\gamma_Q F_w}{\\gamma_{G,inf}\\, g},\\quad " +
+  "m = \\max\\left(0,\\ \\frac{\\gamma_Q F_w}{\\gamma_{G,inf}\\, g} - G\\right),\\quad " +
   "\\alpha^* = \\arg\\max_{\\alpha \\le 30^\\circ} \\left( E(\\alpha) \\cdot n \\cdot c_{kWh} - m(\\alpha) \\cdot c_{kg} \\right)"
 
 const suma = (xs: number[]) => xs.reduce((a, b) => a + b, 0)
@@ -111,7 +115,7 @@ export function calculateZlotySrodek(input: ZlotySrodekInput): CalcResult<ZlotyS
     const cf = kat === KAT_PIONOWY_DEG ? CF_TABLICA_PIONOWA : cfOdrywaniaWiaty(kat, wspolczynnikPhi)
     const sila = cf === null ? null : silaWiatruN(CSCD_STELAZ, cf, qpPa, powierzchniaPaneliM2)
     const odrywanie = sila !== null && kat <= CF_WIATA_MAX_KAT_DEG
-    const balastKg = odrywanie ? balastProjektowyEquKg(sila, PRZYSPIESZENIE_ZIEMSKIE_M_S2) : null
+    const balastKg = odrywanie ? balastProjektowyEquKg(sila, PRZYSPIESZENIE_ZIEMSKIE_M_S2, input.masaPaneliStelazaKg ?? 0) : null
     const kosztBalastuZl = balastKg === null ? null : balastKg * cenaBalastuZlKg
     const produkcjaRocznaKwh = zWycena ? obliczProdukcjeKwh(h, p, pr) : null
     const wartoscEnergiiZl = produkcjaRocznaKwh === null ? null : produkcjaRocznaKwh * lata! * cenaKwh!
@@ -153,6 +157,7 @@ export function calculateZlotySrodek(input: ZlotySrodekInput): CalcResult<ZlotyS
     { kod: "ZS-ZALOZENIE-KAT-POSREDNI" },
     { kod: "ZS-ZALOZENIE-BALAST-PIONOWO", params: { g: PRZYSPIESZENIE_ZIEMSKIE_M_S2 } },
     { kod: "ZS-ZALOZENIE-BALAST-EQU", params: { gammaQ: GAMMA_Q_EQU, gammaG: GAMMA_G_INF_EQU } },
+    zalozenieMasyWlasnej(input.masaPaneliStelazaKg),
     { kod: "ZS-ZALOZENIE-CENA-BALASTU", params: { cena: cenaBalastuZlKg } },
     { kod: "ZS-ZALOZENIE-SNIEG-MU1" },
     { kod: "KAT-ZALOZENIE-TABELA-PVGIS", params: { azymut: tabela.azymutDeg, albedo: tabela.albedo } },

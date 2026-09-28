@@ -924,3 +924,15 @@ prymitywem — naturalny wybór („to przecież tooltip”) jest błędny dla k
 telefonie (wszystkie, rozdz. 13). Propozycja: 8.4 dopowiada „popover otwierany dotknięciem, nie tooltip hover-only”
 + 10.x: weryfikacja chmurek e2e także z emulacją dotyku, nie tylko myszy.
 Status: 🔎 nowe
+
+[28.09.2026] KATEGORIA: DOBRA PRAKTYKA — opcjonalne wejście, które przesuwa wynik w stronę mniej bezpieczną: `null` = strona bezpieczna + jawne założenie w każdym wyniku
+
+Szczegóły: D29 (addendum) dodał do trzech kalkulatorów balastu pole „masa paneli i stelaża”. Masa działa korzystnie
+(zmniejsza wymagany balast), więc źle wpisana albo zgadnięta obniża bezpieczeństwo. Zrobione tak: brak wartości
+domyślnej (także w narzędziach AI — opis pola „nigdy nie zgaduj”), `null` = pominięta (dawny, zachowawczy wynik), a
+każdy wynik niesie jedno z dwóch założeń: `…-MASA-WLASNA` (z wpisaną masą i współczynnikiem) albo `…-MASA-WLASNA-POMINIETA`.
+Użytkownik zawsze widzi, na czym oparto liczbę; wynik nazwany jawnie „balast dodatkowy ponad …” (clamp do 0).
+Dlaczego warto zgłosić do new-app-standards: rozdz. 00/07 zabraniają ukrytych domyślnych, ale nie mówią, co z polem
+opcjonalnym, którego wpisanie działa na niekorzyść bezpieczeństwa. Kandydat na regułę: „pole opcjonalne zmniejszające
+zapas bezpieczeństwa: puste = wariant zachowawczy, a wynik zawsze deklaruje, który wariant policzono”.
+Status: 🔎 nowe

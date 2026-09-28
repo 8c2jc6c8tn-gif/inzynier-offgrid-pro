@@ -12,19 +12,19 @@ export function wartoscUjemna(pole: string, etykieta: string, value: number): Wa
   }
 }
 
-/** 🔴 od 1.1.0 (D32): zwykły diesel przy ≤ 0°C — ryzyko nieuruchomienia bardzo duże. */
+/** 🔴 (D32, od 1.2.0): zwykły diesel poniżej +5°C — najprawdopodobniej nie odpali. */
 export function dieselParafinizacja(tempC: number): Warning {
   return {
     code: "AGREGAT-DIESEL-PARAFINIZACJA",
     level: "critical",
     i18nKey: "AGREGAT-DIESEL-PARAFINIZACJA",
     params: { temp: tempC },
-    technicalMessage: `paliwo=diesel-zwykly, temperaturaMiejscaC=${tempC} <= ${DIESEL_ZWYKLY_WYSOKIE_RYZYKO_C} (D32)`,
+    technicalMessage: `paliwo=diesel-zwykly, temperaturaMiejscaC=${tempC} < ${DIESEL_ZWYKLY_WYSOKIE_RYZYKO_C} (D32)`,
     field: "paliwo",
   }
 }
 
-/** 🟡 (D32): zwykły diesel w (0; +5]°C — może już nie wystartować. */
+/** 🟡 (D32, od 1.2.0): zwykły diesel w [+5; +10]°C — może już nie wystartować. */
 export function dieselRyzykoRozruchu(tempC: number): Warning {
   return {
     code: "AGREGAT-DIESEL-RYZYKO-ROZRUCHU",

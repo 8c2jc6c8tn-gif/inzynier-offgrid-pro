@@ -18,6 +18,7 @@ export function validateInput(input: ZlotySrodekInput): Warning[] {
   if (phi !== null && !(Number.isFinite(phi) && phi >= PHI_MIN && phi <= PHI_MAX)) {
     e.push(wartoscPozaZakresem("wspolczynnikPhi", "zabudowa pod stelażem φ", phi, PHI_MIN, PHI_MAX))
   }
+  if (!nieujemna(input.masaPaneliStelazaKg)) e.push(wartoscUjemna("masaPaneliStelazaKg", "Masa paneli i stelaża", input.masaPaneliStelazaKg!))
   if (!nieujemna(input.cenaBalastuZlKg)) e.push(wartoscUjemna("cenaBalastuZlKg", "Cena balastu", input.cenaBalastuZlKg!))
   if (!dodatnia(input.mocInstalacjiKwp)) e.push(wartoscNiedodatnia("mocInstalacjiKwp", "moc instalacji", input.mocInstalacjiKwp!))
   if (pr !== null && !(pr > 0 && pr <= PR_MAX)) e.push(prPozaZakresem(pr))

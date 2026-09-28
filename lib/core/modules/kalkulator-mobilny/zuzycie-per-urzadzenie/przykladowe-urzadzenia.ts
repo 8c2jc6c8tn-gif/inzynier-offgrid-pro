@@ -32,6 +32,10 @@ export const PRZYKLADOWE_URZADZENIA: readonly PrzykladoweUrzadzenie[] = [
   { nazwa: "Ekspres do kawy", mocW: 1200, cykliczne: false },
   { nazwa: "Czajnik elektryczny", mocW: 2000, cykliczne: false },
   { nazwa: "Suszarka do włosów", mocW: 1800, cykliczne: false },
+  // Added 28.09.2026 at the owner's request (D33 addendum) — values chosen by AI, same status as above.
+  { nazwa: "Pompa głębinowa (studnia)", mocW: 750, cykliczne: false },
+  { nazwa: "Klimatyzator split", mocW: 900, cykliczne: true },
+  { nazwa: "Kamera monitoringu IP", mocW: 5, cykliczne: false },
 ]
 
 /** Przykład pasujący do wpisanej nazwy (bez rozróżniania wielkości liter), albo null. */

@@ -53,13 +53,15 @@ describe("calculateAgregatWMrozie (M7/E8, dawne 6.9/6.23/6.36)", () => {
     expect(calculateAgregatWMrozie({ ...postoj, temperaturaMiejscaC: 5 }).warnings).toEqual([])
   })
 
-  it("D32: zwykły diesel +6°C → nic; +5°C → 🟡; 0°C → 🔴 (bez 🟡 naraz)", () => {
+  it("D32 (1.2.0): zwykły diesel +11°C → nic; +10°C i +5°C → 🟡; +4,9°C i 0°C → 🔴 (bez 🟡 naraz)", () => {
     const kody = (t: number) =>
       calculateAgregatWMrozie({ ...PRACA, paliwo: "diesel-zwykly", temperaturaMiejscaC: t }).warnings
         .filter((x) => x.code.startsWith("AGREGAT-DIESEL"))
         .map((x) => [x.code, x.level])
-    expect(kody(6)).toEqual([])
+    expect(kody(11)).toEqual([])
+    expect(kody(10)).toEqual([["AGREGAT-DIESEL-RYZYKO-ROZRUCHU", "warning"]])
     expect(kody(5)).toEqual([["AGREGAT-DIESEL-RYZYKO-ROZRUCHU", "warning"]])
+    expect(kody(4.9)).toEqual([["AGREGAT-DIESEL-PARAFINIZACJA", "critical"]])
     expect(kody(0)).toEqual([["AGREGAT-DIESEL-PARAFINIZACJA", "critical"]])
     const w = calculateAgregatWMrozie({ ...PRACA, paliwo: "diesel-zwykly", temperaturaMiejscaC: 0 })
     expect(w.status).toBe("VALID_WITH_WARNINGS")
