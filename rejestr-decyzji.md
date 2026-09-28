@@ -1,6 +1,6 @@
 # Rejestr decyzji — Inżynier Offgrid Pro
 
-**Wersja:** 1.16 | **Filar:** C | **Data utworzenia:** 04.09.2026 | **Ostatnia aktualizacja:** 28.09.2026 | **Status:** Stabilny (rosnący)
+**Wersja:** 1.17 | **Filar:** C | **Data utworzenia:** 04.09.2026 | **Ostatnia aktualizacja:** 28.09.2026 | **Status:** Stabilny (rosnący)
 **Powiązane dokumenty:** `00_Biblia.md`, `docs/memory.md`, `USTALENIA.md` (historyczny, Część II)
 
 TL;DR: D1, D2, D3… — decyzje **strategiczne/fundamentalne** (blokujące wiele innych rzeczy naraz, Krok 4 GOD BOOK), ponumerowane, nigdy nie kasowane, tylko unieważniane jawnie (F.5). **Nie duplikuje `docs/memory.md`**: tam żyje pełna, szczegółowa historia każdej sesji (setki drobnych decyzji implementacyjnych per ekran) — tu tylko decyzje, które zmieniły kierunek/regułę obowiązującą cały projekt. Gdy wpis niżej odsyła do `docs/memory.md`, tam jest pełne uzasadnienie i przykłady.
@@ -145,6 +145,19 @@ Treść:
 
 Pełne: `03_M14_Dom_i_Firma_Siec.md` (TCO, „Ścieżka UE + inflacja”).
 
+**D42 (28.09.2026) — M14: wybór ścieżki cen energii to jedno pole „Wzrost cen energii” w miejscu suwaka procentów (ekrany D7 i F8).** Koszt cofnięcia: tani (układ jednego pola, kod jeszcze nie istnieje). Decyzja właściciela projektu z 28.09.2026: „Myślę że musi być ten przełącznik akurat tam gdzie do wyboru jest pasek z procentami”.
+
+Treść:
+- (1) Przełącznik segmentowy: „Suwak %” (domyślny, 0) / „Plany UE” / „Plany UE + inflacja”.
+- (2) Pod przełącznikiem, w tym samym miejscu, pojawia się odpowiednio:
+  - suwak;
+  - średnia %/rok ze źródłem i ostrzeżeniem;
+  - to samo plus wybór inflacji (NBP / GUS / własna).
+- (3) Każda zmiana od razu przelicza tabelę A–D.
+- (4) Wyjaśnienia trafiają do chmurki „?” (D34).
+
+Uzupełnia D40/D41, niczego nie unieważnia. Pełne: `03_M14_Dom_i_Firma_Siec.md` (TCO, „Gdzie użytkownik to wybiera”).
+
 ---
 
 ## Założenia robocze (F.7 GOD BOOK)
@@ -174,3 +187,4 @@ Pełne: `03_M14_Dom_i_Firma_Siec.md` (TCO, „Ścieżka UE + inflacja”).
 | 28.09.2026 | Dodano D35 (M14: ścieżka przejścia sieć → off-grid, kafle „Dom – sieć” / „Firma – sieć”, najpierw Sieć, potem Przejście), D36 (stawki jako dane z okresami ważności + tryb „moje dane z faktury”), D37 (FREE/PRO dla M14 odłożone, D2 bez zmian), D38 (autokonsumpcja z profili) — integracja M14 do Biblii („Integruj teraz”). Wersja 1.13→1.14. |
 | 28.09.2026 | Dodano D39 (pozycja kafli M14) i D40 (parametry TCO M14 plus „Ścieżka UE” z EU Reference Scenario 2020) — decyzje właściciela projektu. Wersja 1.14→1.15. |
 | 28.09.2026 | Dodano D41 (M14 TCO: „Ścieżka UE + inflacja”, π z celu NBP albo średniej GUS) — decyzja właściciela projektu. Wersja 1.15→1.16. |
+| 28.09.2026 | Dodano D42 (M14: przełącznik ścieżek cen w miejscu suwaka procentów) — decyzja właściciela projektu. Wersja 1.16→1.17. |

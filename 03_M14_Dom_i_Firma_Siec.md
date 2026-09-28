@@ -1,7 +1,7 @@
 # 03. M14 — „Dom – sieć” i „Firma – sieć”: rachunek za prąd, a potem przejście na off-grid
 
-**Wersja:** 1.2 | **Filar:** B (merytoryczny) | **Data utworzenia:** 28.09.2026 | **Ostatnia aktualizacja:** 28.09.2026 | **Status:** Stabilny — **kod zablokowany bramką N.3** (patrz „Stan i bramki”)
-**Powiązane dokumenty:** `docs/zrodla/Opracowanie_M14_Z_Sieci_Na_OffGrid_DRAFT.md` (opracowanie źródłowe: weryfikacja, adnotacje ✏️ K1–K14, tabele stawek per OSD), `rejestr-decyzji.md` D35–D41, `docs/rejestr-pokrycia.md` (sekcja M14), `docs/rejestr-twardych-stopow.md` (sekcja M14), `mapa-wdrozenia.md`, `slownik-pojec.md` (sekcja „Sieć i rozliczenia energii”)
+**Wersja:** 1.3 | **Filar:** B (merytoryczny) | **Data utworzenia:** 28.09.2026 | **Ostatnia aktualizacja:** 28.09.2026 | **Status:** Stabilny — **kod zablokowany bramką N.3** (patrz „Stan i bramki”)
+**Powiązane dokumenty:** `docs/zrodla/Opracowanie_M14_Z_Sieci_Na_OffGrid_DRAFT.md` (opracowanie źródłowe: weryfikacja, adnotacje ✏️ K1–K14, tabele stawek per OSD), `rejestr-decyzji.md` D35–D42, `docs/rejestr-pokrycia.md` (sekcja M14), `docs/rejestr-twardych-stopow.md` (sekcja M14), `mapa-wdrozenia.md`, `slownik-pojec.md` (sekcja „Sieć i rozliczenia energii”)
 
 TL;DR: Moduł **M14** ma dwa rozdziały i na pulpicie dwa duże kafle: **M14-D „Dom – sieć”** (grupy taryfowe G) oraz **M14-F „Firma – sieć”** (grupy C na nN). Każdy rozdział składa się z dwóch części w stałej kolejności:
 1. najpierw **Sieć** — ile kosztuje mój rachunek i z czego się składa: taryfa, prosument, licznik;
@@ -216,6 +216,21 @@ Zasady (twarde, żeby porównanie scenariuszy nie kłamało):
 | Ścieżka UE + inflacja 2,5% | 1,6612 | 3,44 | ≈ 100 143 zł (nominalnie) |
 
 W roku 1 (2027) mnożniki wynoszą 1,0172 (UE) i 1,0426 (UE + 2,5%).
+
+**Gdzie użytkownik to wybiera — jedno pole „Wzrost cen energii” (D42)**
+
+Przełącznik ścieżek stoi **dokładnie w miejscu suwaka procentów**, na ekranach porównania scenariuszy (D7 dom, F8 firma). Nie ma osobnego ekranu ani ustawienia gdzie indziej. Budowa pola:
+
+1. **Przełącznik segmentowy** z trzema pozycjami:
+   - „Suwak %”;
+   - „Plany UE”;
+   - „Plany UE + inflacja”.
+2. **Pod przełącznikiem zmienia się zawartość, w tym samym miejscu:**
+   - **„Suwak %”** (domyślnie): suwak −3 / 0 / +5 / +10%/rok, ustawiony na 0 (ceny stałe);
+   - **„Plany UE”**: zamiast suwaka widać średnią %/rok dla wybranego horyzontu `N`, podpis źródła (EU Reference Scenario 2020, KE) i ostrzeżenie o założeniach z 2019 r.;
+   - **„Plany UE + inflacja”**: to samo, plus pod spodem wybór inflacji: cel NBP 2,5% / średnia GUS 3,58% / własna wartość. Obok widać wynikową średnią %/rok.
+3. Każda zmiana **od razu przelicza tabelę A–D** na tym samym ekranie.
+4. Na telefonie przełącznik mieści się w jednej linii (krótkie etykiety). Pełne nazwy i wyjaśnienie „ponad inflację / kwoty do zapłaty” trafiają do chmurki „?” (D34).
 - Okres zwrotu liczony jest względem A.
 - Pobór z sieci w B/C: `E_sieć,m = max(0, E_zuż,m − E_PV,m·η − ΔE_mag,m)`, produkcja z PVGIS dla lokalizacji (M1).
 - **Autokonsumpcja w trybie prostym = profile** (D38):
@@ -553,3 +568,4 @@ Nie jest potrzebny do pierwszej działającej wersji rdzenia off-grid (M1–M8).
 | 28.09.2026 | Utworzono — integracja opracowania M14 na polecenie właściciela („Integruj teraz”, F.2/F.4). Decyzje D35–D38. Wersja 1.0. |
 | 28.09.2026 | Decyzje właściciela: pozycja kafli (D39); parametry TCO plus „Ścieżka UE” z EU Reference Scenario 2020, odczyt pierwotny arkusza KE (D40). Zdanie „nie prognozuje cen energii” doprecyzowane: aplikacja sama nie prognozuje, pokazuje projekcję UE ze źródłem i datą. Wersja 1.0→1.1. |
 | 28.09.2026 | D41: opcja „Ścieżka UE + inflacja” (Fisher). π = cel NBP 2,5% (M.P. 2025 poz. 1013, domyślne ✅🤖) albo średnia GUS z 15 lat 3,58% albo własna. Inflacja stosowana do wszystkich kosztów bieżących; ranking według złotych dzisiejszych. Przykład kontrolny. Wersja 1.1→1.2. |
+| 28.09.2026 | D42: przełącznik ścieżek cen („Suwak %” / „Plany UE” / „Plany UE + inflacja”) w miejscu suwaka procentów na D7/F8. Wersja 1.2→1.3. |
