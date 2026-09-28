@@ -33,11 +33,31 @@ describe("calculateWilgocMaleInstalacje (M12/E23, echo M4/E10)", () => {
     expect(stop?.params).toEqual({ ip: 54, min: 55 })
   })
 
-  it("wilgotny garaż poniżej IP65 → info z przykładu źródła; od IP65 bez tej informacji", () => {
+  it("wilgotny garaż IP55–IP64 → ostrzeżenie 🟡 (D44), bez twardego stopu; od IP65 bez ostrzeżenia", () => {
     const r = calculateWilgocMaleInstalacje({ ...bazowe, miejsce: "garaz", ipKod: 55 })
-    expect(r.warnings.find((w) => w.code === "WMI-GARAZ-ZALECANE-IP65")?.level).toBe("info")
+    expect(r.status).toBe("VALID_WITH_WARNINGS")
+    expect(r.value.ipWystarczajace).toBe(true)
+    expect(r.value.minimalneIp).toBe(55)
+    expect(r.warnings.find((w) => w.code === "WMI-GARAZ-ZALECANE-IP65")?.level).toBe("warning")
+    expect(r.warnings.some((w) => w.level === "critical")).toBe(false)
     expect(kody(calculateWilgocMaleInstalacje({ ...bazowe, miejsce: "garaz", ipKod: 65 }))).not.toContain("WMI-GARAZ-ZALECANE-IP65")
     expect(kody(calculateWilgocMaleInstalacje({ ...bazowe, miejsce: "piwnica", ipKod: 55 }))).not.toContain("WMI-GARAZ-ZALECANE-IP65")
+  })
+
+  it.each(["namiot", "jacht"] as const)("%s narażony na wilgoć: minimum IP65 (D44) — IP55 → jeden twardy stop, IP65 → VALID", (miejsce) => {
+    const r = calculateWilgocMaleInstalacje({ ...bazowe, miejsce, ipKod: 55 })
+    expect(r.value.minimalneIp).toBe(65)
+    expect(r.value.ipWystarczajace).toBe(false)
+    const stopy = r.warnings.filter((w) => w.level === "critical")
+    expect(stopy.map((w) => w.code)).toEqual(["WMI-NAMIOT-JACHT-PONIZEJ-IP65"])
+    expect(stopy[0].params).toEqual({ ip: 55, min: 65 })
+    expect(r.assumptions).toEqual([{ kod: "WMI-ZALOZENIE-PROG-NAMIOT-JACHT", params: { min: 65 } }])
+    expect(kody(calculateWilgocMaleInstalacje({ ...bazowe, miejsce, ipKod: 20 })).filter((k) => k.includes("IP"))).toEqual([
+      "WMI-NAMIOT-JACHT-PONIZEJ-IP65",
+    ])
+    const ok = calculateWilgocMaleInstalacje({ ...bazowe, miejsce, ipKod: 65 })
+    expect(ok.status).toBe("VALID")
+    expect(ok.value.ipWystarczajace).toBe(true)
   })
 
   it("miejsce nienarażone na wilgoć → próg IP nie dotyczy, także dla IP20", () => {

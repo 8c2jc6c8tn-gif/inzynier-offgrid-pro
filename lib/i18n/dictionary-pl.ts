@@ -1176,6 +1176,8 @@ export const dictionaryPl = {
   "WMI-WILGOC-CICHY-ZABOJCA": "Wilgoć to cichy zabójca instalacji elektrycznej — powoduje korozję, zwarcia i uszkodzenia elektroniki.",
   "WMI-GARAZ-ZALECANE-IP65": "W wilgotnym garażu źródło zaleca obudowy IP{zalecane} i puszki z uszczelką (Twoja obudowa: IP{ip}). Przewody prowadź w peszlu.",
   "WMI-ZALOZENIE-PROG-Z-M4-E10": "Minimalny stopień ochrony obudowy w miejscu narażonym na wilgoć: IP{min} — ten sam próg co w Module 4, Ekran 10 (ochrona przed wilgocią i kondensacją).",
+  "WMI-NAMIOT-JACHT-PONIZEJ-IP65": "Namiot albo jacht narażony na wilgoć wymaga obudowy co najmniej IP{min} (Twoja: IP{ip}) — ryzyko jest większe niż w garażu czy piwnicy (deszcz, rosa, bryzgi, słone powietrze). To praktyka przyjęta w aplikacji, nie wymóg normy.",
+  "WMI-ZALOZENIE-PROG-NAMIOT-JACHT": "Minimalny stopień ochrony obudowy w namiocie lub na jachcie narażonym na wilgoć: IP{min} — wyżej niż ogólne IP55 z Modułu 4, Ekran 10, bo ryzyko jest większe (praktyka przyjęta w aplikacji, nie norma).",
   "LVD-ZALOZENIE-SKALOWANIE-SZEREGOWE": "Próg dla 12 V ze źródła przeliczony na ogniwo i pomnożony ×{krotnosc} — akumulator o wyższym napięciu to ogniwa połączone szeregowo.",
   "LVD-ZALOZENIE-SPOJNE-Z-M4-E31": "LiFePO4: 2,75 V na ogniwo — ten sam punkt co w Module 4 (napięcie odcięcia a żywotność): ok. 80% DoD i ok. 5000 cykli.",
   "U12-TOLERANCJA-POZA-ZAKRESEM": "Tolerancja napięcia urządzenia musi być z przedziału 0–99%.",

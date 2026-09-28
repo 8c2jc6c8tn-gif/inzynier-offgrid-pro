@@ -1164,6 +1164,8 @@ export const dictionaryEn = {
   "WMI-WILGOC-CICHY-ZABOJCA": "Moisture is a silent killer of electrical installations — it causes corrosion, short circuits and damage to electronics.",
   "WMI-GARAZ-ZALECANE-IP65": "In a damp garage the source recommends IP{zalecane} enclosures and junction boxes with a seal (your enclosure: IP{ip}). Run the cables in conduit.",
   "WMI-ZALOZENIE-PROG-Z-M4-E10": "Minimum enclosure protection rating in a place exposed to moisture: IP{min} — the same threshold as in Module 4, Screen 10 (protection against moisture and condensation).",
+  "WMI-NAMIOT-JACHT-PONIZEJ-IP65": "A tent or yacht exposed to moisture needs an enclosure of at least IP{min} (yours: IP{ip}) — the risk is higher than in a garage or basement (rain, dew, spray, salty air). This is a practice adopted in the app, not a requirement of a standard.",
+  "WMI-ZALOZENIE-PROG-NAMIOT-JACHT": "Minimum enclosure protection rating in a tent or on a yacht exposed to moisture: IP{min} — higher than the general IP55 from Module 4, Screen 10, because the risk is higher (a practice adopted in the app, not a standard).",
   "LVD-ZALOZENIE-SKALOWANIE-SZEREGOWE": "The 12 V threshold from the source converted per cell and multiplied ×{krotnosc} — a higher-voltage battery is cells connected in series.",
   "LVD-ZALOZENIE-SPOJNE-Z-M4-E31": "LiFePO4: 2.75 V per cell — the same point as in Module 4 (cut-off voltage vs lifetime): about 80% DoD and about 5000 cycles.",
   "U12-TOLERANCJA-POZA-ZAKRESEM": "The device voltage tolerance must be within 0–99%.",

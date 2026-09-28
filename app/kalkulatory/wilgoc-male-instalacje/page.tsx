@@ -52,6 +52,7 @@ export default function WilgocMaleInstalacjePage() {
   )
   // Directive #4: the hard stop comes from warning levels, not from the Status enum.
   const hasCritical = result.warnings.some((w) => w.level === "critical")
+  const hasWarning = result.warnings.some((w) => w.level === "warning")
   const { minimalneIp, zalecenia } = result.value
 
   return (
@@ -72,7 +73,8 @@ export default function WilgocMaleInstalacjePage() {
             <>
               <strong>Miejsce instalacji</strong> — pomieszczenie albo miejsce, w którym stoją akumulator, regulator i
               przetwornica. Ekran sprawdza, czy obudowy tych urządzeń wytrzymają wilgoć, jaka tam bywa, i podpowiada osłony.
-              Dla wilgotnego garażu podaje dodatkowo zalecenie ze źródła aplikacji (obudowy IP65).
+              W wilgotnym garażu obudowa poniżej IP65 dostaje żółte ostrzeżenie (źródło aplikacji zaleca tam IP65). Namiot i
+              jacht to większe ryzyko (deszcz, rosa, bryzgi, słone powietrze) — tam minimum to IP65, poniżej czerwony stop.
             </>
           }
         >
@@ -91,8 +93,8 @@ export default function WilgocMaleInstalacjePage() {
             <>
               <strong>Narażenie na wilgoć</strong> — odpowiedz „tak”, jeśli bywa tam para wodna, skropliny na ścianach,
               zacieki, bryzgi albo woda z butów i samochodu. Wilgoć powoduje korozję styków, zwarcia i uszkodzenia
-              elektroniki. Przy „tak” obudowa musi mieć co najmniej IP55 (ten sam próg co w Module 4); przy „nie” próg nie
-              dotyczy. Nie wiesz? Wybierz „tak” — to strona bezpieczna.
+              elektroniki. Przy „tak” obudowa musi mieć co najmniej IP55 (ten sam próg co w Module 4), a w namiocie i na
+              jachcie co najmniej IP65; przy „nie” próg nie dotyczy. Nie wiesz? Wybierz „tak” — to strona bezpieczna.
             </>
           }
         >
@@ -126,8 +128,16 @@ export default function WilgocMaleInstalacjePage() {
         <p className="text-small text-muted-foreground">Wybierz miejsce, odpowiedz na pytanie o wilgoć i wybierz stopień IP.</p>
       ) : (
         <WerdyktPanel
-          poziom={hasCritical ? "blad" : "ok"}
-          etykieta={hasCritical ? "Obudowa za słaba na wilgoć" : minimalneIp === null ? "Miejsce suche" : "Obudowa wystarczająca"}
+          poziom={hasCritical ? "blad" : hasWarning ? "uwaga" : "ok"}
+          etykieta={
+            hasCritical
+              ? "Obudowa za słaba na wilgoć"
+              : hasWarning
+                ? "Obudowa dopuszczalna — zalecane IP65"
+                : minimalneIp === null
+                  ? "Miejsce suche"
+                  : "Obudowa wystarczająca"
+          }
         >
           <WynikGlowny>{minimalneIp === null ? "próg IP nie dotyczy" : `minimum IP${minimalneIp}`}</WynikGlowny>
           {zalecenia.length > 0 && (

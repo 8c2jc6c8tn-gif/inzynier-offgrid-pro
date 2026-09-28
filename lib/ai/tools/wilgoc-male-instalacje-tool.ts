@@ -31,9 +31,10 @@ export const wilgocMaleInstalacjeTool: AiToolDefinition<WilgocMaleInstalacjeTool
   name: "sprawdz_ochrone_przed_wilgocia_malej_instalacji",
   description:
     "Sprawdza, czy obudowa małej instalacji (garaż, piwnica, namiot, jacht) ma wystarczający stopień IP: w miejscu " +
-    "narażonym na wilgoć minimum IP55 (ten sam próg co Moduł 4, Ekran 10) — poniżej twardy stop. Podaje listę osłon: " +
-    "obudowy IP, puszki z uszczelką, przewody w peszlu, osuszacz/pochłaniacz. Dla wilgotnego garażu dodaje zalecenie IP65 " +
-    "ze źródła. Nie liczy punktu rosy. Użyj, gdy user pyta o wilgoć, stopień IP albo osłony dla małego zestawu.",
+    "narażonym na wilgoć minimum IP55 (ten sam próg co Moduł 4, Ekran 10), w namiocie i na jachcie minimum IP65 — poniżej " +
+    "twardy stop. Podaje listę osłon: " +
+    "obudowy IP, puszki z uszczelką, przewody w peszlu, osuszacz/pochłaniacz. W wilgotnym garażu poniżej IP65 " +
+    "ostrzeżenie (zalecenie źródła). Nie liczy punktu rosy. Użyj, gdy user pyta o wilgoć, stopień IP albo osłony dla małego zestawu.",
   inputSchema: WilgocMaleInstalacjeToolInput,
   outputSchema: WilgocMaleInstalacjeToolOutput,
   operationType: "read",
