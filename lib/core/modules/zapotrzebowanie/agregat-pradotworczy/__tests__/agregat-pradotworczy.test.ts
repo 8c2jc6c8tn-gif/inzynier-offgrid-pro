@@ -98,7 +98,7 @@ describe("calculateAgregatPradotworczy", () => {
     expect(invalid.warnings[0].message).toBeUndefined()
   })
 
-  it("D45: blok bezpieczeństwa — 🔴 w budynku i bez przełącznika, widoczny także przy niepełnych liczbach", () => {
+  it("D48: blok bezpieczeństwa — 🔴 w budynku i bez przełącznika, widoczny także przy niepełnych liczbach", () => {
     const baza = {
       deficytKwh: 80,
       mocAgregatuKw: 5,

@@ -15,7 +15,7 @@
 
 import type { BezpieczenstwoAgregatuInput } from "./bezpieczenstwo"
 
-/** 1.1.0 (D45): plus the shared safety answers — location and connection (`bezpieczenstwo.ts`). */
+/** 1.1.0 (D48): plus the shared safety answers — location and connection (`bezpieczenstwo.ts`). */
 export type AgregatPradotworczyInput = BezpieczenstwoAgregatuInput & {
   /** Deficyt energetyczny w najgorszym miesiącu roku [kWh]. 0 = jeszcze nie wpisano. */
   deficytKwh: number

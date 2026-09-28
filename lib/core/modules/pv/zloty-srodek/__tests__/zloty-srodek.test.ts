@@ -21,6 +21,7 @@ const bazowe: ZlotySrodekInput = {
   wysokoscKonstrukcjiM: 2,
   powierzchniaPaneliM2: 10,
   wspolczynnikPhi: 0,
+  masaPaneliStelazaKg: null,
   cenaBalastuZlKg: 1,
   mocInstalacjiKwp: null,
   wspolczynnikPr: null,
@@ -47,6 +48,18 @@ describe("calculateZlotySrodek (M3/E9, D27)", () => {
     expect(p30.silaWiatruN).toBeCloseTo(1.8 * qp * 10, 6)
     expect(p30.balastKg).toBeCloseTo((1.5 * 1.8 * qp * 10) / (0.9 * PRZYSPIESZENIE_ZIEMSKIE_M_S2), 6)
     expect(p30.kosztBalastuZl).toBeCloseTo(p30.balastKg! * 2, 6)
+  })
+
+  it("D29: masa paneli i stelaża odejmowana od balastu i jego kosztu; większa niż wymagana → 0", () => {
+    const bez = calculateZlotySrodek({ ...bazowe, cenaBalastuZlKg: 2 })
+    expect(bez.assumptions).toContainEqual({ kod: "ZS-ZALOZENIE-MASA-WLASNA-POMINIETA" })
+    const r = calculateZlotySrodek({ ...bazowe, cenaBalastuZlKg: 2, masaPaneliStelazaKg: 100 })
+    const p30 = r.value!.punkty[30]!
+    expect(p30.balastKg).toBeCloseTo(bez.value!.punkty[30]!.balastKg! - 100, 9)
+    expect(p30.kosztBalastuZl).toBeCloseTo(p30.balastKg! * 2, 9)
+    expect(r.value!.punkty[0]!.balastKg).toBe(Math.max(0, bez.value!.punkty[0]!.balastKg! - 100))
+    expect(r.assumptions).toContainEqual({ kod: "ZS-ZALOZENIE-MASA-WLASNA", params: { masa: 100, gammaG: 0.9 } })
+    expect(calculateZlotySrodek({ ...bazowe, masaPaneliStelazaKg: -1 }).status).toBe("INVALID_INPUT")
   })
 
   it("31–89° bez danych wiatru; 90° — siła pozioma cf = 1,80, bez balastu", () => {

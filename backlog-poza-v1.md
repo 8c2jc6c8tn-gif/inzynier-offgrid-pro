@@ -12,7 +12,7 @@ TL;DR: Rzeczy świadomie odłożone poza zakres pierwszej wersji — decyzje o s
 - **`IndexedDBStorageAdapter`** — implementacja trwałego zapisu (interfejs `StorageAdapter` istnieje, `kontrakty-rdzenia.md` §3). Powód: kod dziś trzyma stan tylko w React state, wystarcza do zweryfikowania logiki domenowej każdego ekranu; trwały zapis to osobny, duży krok.
 - **i18n wielojęzyczne** — profil `PL` jako jedyny start (Zasada 4, `zlote-zasady.md`). Nowy kraj = nowy plik JSON, bez zmian w jądrze, gdy będzie potrzebny.
 - **Preset onboardingu „Jestem podłączony do sieci”** (28.09.2026, D39) — wysuwa kafle M14 na początek pulpitu. Odłożony razem z całym ekranem onboardingu (`docs/pulpit-i-nawigacja.md` §3 — osiem presetów to wersja robocza, onboarding jeszcze nie istnieje). Zebrane tu przy audycie końcowym N.3 (dotąd tylko w D39 i w „Otwartych sprawach” pulpitu).
-- **Rozdział „Oświetlenie LED” — kandydat poza Biblią** (28.09.2026, D46) — szkic `docs/zrodla/Opracowanie_Tasmy_LED_Oswietlenie_DC_DRAFT.md` (14.09.2026) czeka na kartę katalogową taśmy (`R` na metr) od właściciela. Nie blokuje N.3 ani kodu M14; przy integracji dostaje własny pełny audyt.
+- **Rozdział „Oświetlenie LED” — kandydat poza Biblią** (28.09.2026, D49) — szkic `docs/zrodla/Opracowanie_Tasmy_LED_Oswietlenie_DC_DRAFT.md` (14.09.2026) czeka na kartę katalogową taśmy (`R` na metr) od właściciela. Nie blokuje N.3 ani kodu M14; przy integracji dostaje własny pełny audyt.
 - **FREE/PRO dla M14 „Dom – sieć” / „Firma – sieć”** (28.09.2026, D37) — ekrany M14 bez przypisania, podział wróci osobną decyzją właściciela. D2 dla M1–M13 bez zmian.
 - **Freemium/Stripe** — podział FREE/PRO zdecydowany (D2, `rejestr-decyzji.md`), egzekwowanie i integracja płatności nie zaimplementowane.
 - **Tryb Live z realną telemetrią** (M13) — dziś czysta brama informacyjna bez połączenia; sensowny dopiero, gdy M8/M9 mają dane na żywo do pokazania.
@@ -91,4 +91,4 @@ Pełne wyliczenie per-funkcja nierozpoczęte (rozpoczęto pojedyncze buildowalne
 | 25.09.2026 | Dodano sekcję M3 (E9 częściowo, E10, E19 — blocked) z pełnego wyliczenia pozostałych pozycji M3. Wersja 1.3→1.4. |
 | 28.09.2026 | Dodano pozycję „FREE/PRO dla M14” (D37) — integracja rozdziału M14 do Biblii. |
 | 28.09.2026 | **Wynik audytu końcowego N.3:** dodano pozycję „Preset onboardingu »Jestem podłączony do sieci«” (D39), dotąd poza backlogiem (N.1 pkt 2). Nagłówek zsynchronizowany: 1.4→1.5, data 28.09.2026. |
-| 28.09.2026 | Dodano pozycję „Rozdział »Oświetlenie LED« — kandydat poza Biblią” (D46, decyzja właściciela z audytu N.3). Wersja 1.5→1.6. |
+| 28.09.2026 | Dodano pozycję „Rozdział »Oświetlenie LED« — kandydat poza Biblią” (D49, decyzja właściciela z audytu N.3). Wersja 1.5→1.6. |

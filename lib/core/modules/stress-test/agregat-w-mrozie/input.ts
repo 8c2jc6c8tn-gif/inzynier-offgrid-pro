@@ -9,7 +9,7 @@ import type { BezpieczenstwoAgregatuInput } from "@/lib/core/modules/zapotrzebow
 
 export type PaliwoAgregatu = "diesel-zwykly" | "diesel-arktyczny" | "benzyna" | "inne"
 
-/** 1.2.0 (D45): plus the generator safety answers shared with M2/E17 (location, connection). */
+/** 1.3.0 (D48): plus the generator safety answers shared with M2/E17 (location, connection). */
 export type AgregatWMrozieInput = BezpieczenstwoAgregatuInput & {
   paliwo: PaliwoAgregatu | null
   /** Najniższa temperatura w miejscu przechowywania/pracy agregatu [°C]. null = nie wpisano. */

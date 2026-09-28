@@ -63,7 +63,7 @@ export default function AgregatPradotworczyPage() {
     [deficytKwh, mocAgregatuKw, sredniZuzycieLH, cenaZaLitrZl, maWyjscieSterujaceBms, miejsceAgregatu, podlaczenieAgregatu],
   )
 
-  // 1.1.0 (D45): a critical safety warning (CO, no changeover switch) turns the verdict red.
+  // 1.1.0 (D48): a critical safety warning (CO, no changeover switch) turns the verdict red.
   const hasCritical = result.warnings.some((w) => w.level === "critical")
   const poziom: WerdyktPoziom | null =
     result.status === "INVALID_INPUT" || hasCritical

@@ -1,7 +1,7 @@
 # 03. M14 — „Dom – sieć” i „Firma – sieć”: rachunek za prąd, a potem przejście na off-grid
 
 **Wersja:** 1.5 | **Filar:** B (merytoryczny) | **Data utworzenia:** 28.09.2026 | **Ostatnia aktualizacja:** 28.09.2026 | **Status:** Stabilny — **kod zablokowany bramką N.3** (patrz „Stan i bramki”)
-**Powiązane dokumenty:** `docs/zrodla/Opracowanie_M14_Z_Sieci_Na_OffGrid_DRAFT.md` (opracowanie źródłowe: weryfikacja, adnotacje ✏️ K1–K14, tabele stawek per OSD), `rejestr-decyzji.md` D35–D45, `docs/rejestr-pokrycia.md` (sekcja M14), `docs/rejestr-twardych-stopow.md` (sekcja M14), `mapa-wdrozenia.md`, `slownik-pojec.md` (sekcja „Sieć i rozliczenia energii”)
+**Powiązane dokumenty:** `docs/zrodla/Opracowanie_M14_Z_Sieci_Na_OffGrid_DRAFT.md` (opracowanie źródłowe: weryfikacja, adnotacje ✏️ K1–K14, tabele stawek per OSD), `rejestr-decyzji.md` D35–D43 i D47–D48, `docs/rejestr-pokrycia.md` (sekcja M14), `docs/rejestr-twardych-stopow.md` (sekcja M14), `mapa-wdrozenia.md`, `slownik-pojec.md` (sekcja „Sieć i rozliczenia energii”)
 
 TL;DR: Moduł **M14** ma dwa rozdziały i na pulpicie dwa duże kafle: **M14-D „Dom – sieć”** (grupy taryfowe G) oraz **M14-F „Firma – sieć”** (grupy C na nN). Każdy rozdział składa się z dwóch części w stałej kolejności:
 1. najpierw **Sieć** — ile kosztuje mój rachunek i z czego się składa: taryfa, prosument, licznik;
@@ -297,8 +297,8 @@ Firma dodatkowo:
   - wymagany przełącznik sieć – 0 – wyspa z blokadą mechaniczną albo SZR z blokadą elektryczną i mechaniczną;
   - przełączane są fazy **i N** zgodnie z układem sieci.
   
-  ~~Szczegóły normowe mają być doprecyzowane w M8 wg PN-HD 60364 (🔎 w M8).~~ **[28.09.2026, D44]** Szczegóły normowe mieszkają tu, na ekranie D11; M8 tylko do niego odsyła. Wymagają HD 60364-5-551, której nie ma w repo (🔎, `docs/normy-brakujace.md`).
-- **[28.09.2026, D45]** Agregat: przełącznik jest wymagany zawsze, gdy agregat zasila instalację budynku — przy sieci i bez niej. Ekrany M2/E17 i M7/E8 mają już ten stop w kodzie; D6 go powtarza (echo).
+  ~~Szczegóły normowe mają być doprecyzowane w M8 wg PN-HD 60364 (🔎 w M8).~~ **[28.09.2026, D47]** Szczegóły normowe mieszkają tu, na ekranie D11; M8 tylko do niego odsyła. Wymagają HD 60364-5-551, której nie ma w repo (🔎, `docs/normy-brakujace.md`).
+- **[28.09.2026, D48]** Agregat: przełącznik jest wymagany zawsze, gdy agregat zasila instalację budynku — przy sieci i bez niej. Ekrany M2/E17 i M7/E8 mają już ten stop w kodzie; D6 go powtarza (echo).
 - Praca **równoległa** z siecią (A, B, także „zero oddawania”) wymaga zgłoszenia mikroinstalacji do OSD i certyfikatu NC RfG (🔎A). Aplikacja pyta o tryb pracy i przy „równolegle” pokazuje ten obowiązek.
 
 ### 7. Część FIRMA (opracowanie §8)
@@ -572,4 +572,4 @@ Nie jest potrzebny do pierwszej działającej wersji rdzenia off-grid (M1–M8).
 | 28.09.2026 | D41: opcja „Ścieżka UE + inflacja” (Fisher). π = cel NBP 2,5% (M.P. 2025 poz. 1013, domyślne ✅🤖) albo średnia GUS z 15 lat 3,58% albo własna. Inflacja stosowana do wszystkich kosztów bieżących; ranking według złotych dzisiejszych. Przykład kontrolny. Wersja 1.1→1.2. |
 | 28.09.2026 | D42: przełącznik ścieżek cen („Suwak %” / „Plany UE” / „Plany UE + inflacja”) w miejscu suwaka procentów na D7/F8. Wersja 1.2→1.3. |
 | 28.09.2026 | D43: domyślna inflacja w „Plany UE + inflacja” = średnia GUS z 15 lat 3,58% (decyzja właściciela); NBP 2,5% zostaje do wyboru. Przykład kontrolny uzupełniony o wiersz GUS. Wersja 1.3→1.4. |
-| 28.09.2026 | D44: szczegół przełącznika w D11 zamiast „🔎 w M8”; D45: przełącznik agregatu zawsze (sieć i bez sieci), stopy w M2/E17 i M7/E8. Wersja 1.4→1.5. |
+| 28.09.2026 | D47: szczegół przełącznika w D11 zamiast „🔎 w M8”; D48: przełącznik agregatu zawsze (sieć i bez sieci), stopy w M2/E17 i M7/E8. Wersja 1.4→1.5. |

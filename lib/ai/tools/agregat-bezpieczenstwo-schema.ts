@@ -1,5 +1,5 @@
 /**
- * Zod schemas for the generator safety answers (D45) shared by the M2/E17 and M7/E8 AI tools.
+ * Zod schemas for the generator safety answers (D48) shared by the M2/E17 and M7/E8 AI tools.
  * Optional: when the user has not said where the generator stands or how it is connected, the
  * model passes nothing — it must not guess.
  */

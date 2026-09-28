@@ -1,13 +1,13 @@
 # Przekazanie dla następnej sesji — co dalej (28.09.2026)
 
-**Wersja:** 1.0 | **Utworzono:** 28.09.2026 | **Status:** aktualne, dopóki kolejna sesja nie odhaczy kroków
+**Wersja:** 1.1 | **Utworzono:** 28.09.2026 | **Aktualizacja:** 28.09.2026 (scalenie z `main`) | **Status:** aktualne, dopóki kolejna sesja nie odhaczy kroków
 
 Polecenie właściciela z 28.09.2026: sesja, która kończy się tym wpisem, **nie pisze kodu M14**. Zostawia
 instrukcje, a kod pisze następna sesja. Ten plik mówi: od czego zacząć, co jest otwarte, jaki kod
 powstaje i w jakiej kolejności. Nie zastępuje Biblii — każdy krok odsyła do miejsca, gdzie leży pełna treść.
 
 **Czytaj najpierw (Y.4):** ten plik → `docs/lista-do-zrobienia.md` (końcówka, wpisy z 28.09) →
-`03_M14_Dom_i_Firma_Siec.md` → `rejestr-decyzji.md` D35–D46. Nie czytaj całej `docs/memory.md` od nowa —
+`03_M14_Dom_i_Firma_Siec.md` → `rejestr-decyzji.md` D35–D43 i D47–D49. Nie czytaj całej `docs/memory.md` od nowa —
 wystarczą sekcje z 28.09.2026 („Integracja M14 do Biblii”, „Audyt końcowy N.3…”, „Audyt N.3 — decyzje 1–3…”).
 
 ---
@@ -15,12 +15,17 @@ wystarczą sekcje z 28.09.2026 („Integracja M14 do Biblii”, „Audyt końcow
 ## Stan na koniec sesji
 
 - Audyt końcowy N.3 całej Biblii jest **wykonany**. Decyzje 1–3 właściciela są zapisane i zrobione:
-  - D44 — szczegół przełącznika w M14/D11;
-  - D45 — blok bezpieczeństwa agregatu, już w kodzie M2/E17 i M7/E8;
-  - D46 — szkic LED jest kandydatem poza Biblią.
-- **Otwarta jest tylko decyzja 4:** 12 pozycji ✅🤖 do potwierdzenia (lista niżej). Do czasu odpowiedzi
+  - D47 — szczegół przełącznika w M14/D11;
+  - D48 — blok bezpieczeństwa agregatu, już w kodzie M2/E17 i M7/E8;
+  - D49 — szkic LED jest kandydatem poza Biblią.
+- **Otwarta jest tylko decyzja 4:** ~~12~~ **9 pozycji** ✅🤖 do potwierdzenia (lista niżej). Pozycje 1–3 zamknęła
+  równoległa sesja, już na `main`: D29 addendum, D32 z korektą progów, D33 z nowymi mocami. Do czasu odpowiedzi
   **bramka N.3 trzyma kod M14.**
-- Ostatni commit z pracą: `09af18f` (gałąź `claude/nowy-rozdzial-biblia-kalkulator-to73by`, potem PR i merge).
+- **Numeracja po scaleniu z `main`:** na `main` numer D44 był już zajęty (M12/E23, stopień IP). Decyzje tej gałęzi
+  mają więc numery **D47** (przełącznik w M14/D11), **D48** (blok bezpieczeństwa agregatu) i **D49** (szkic LED)
+  zamiast D44–D46 (H.3). M7/E8 z D48 ma wersję **1.3.0** — 1.2.0 na `main` to korekta D32.
+- Gałąź `claude/nowy-rozdzial-biblia-kalkulator-to73by` jest scalona do `main` w PR #186. Następna sesja startuje
+  od `main`.
 - CI nie działa do 1.10.2026 (`CLAUDE.md`) — przed merge uruchom lokalnie pełny pakiet:
   `pnpm typecheck`, `lint`, `check:i18n-guard`, `test`, `build`, `audit:gate`, `audit:n1`.
 
@@ -29,13 +34,13 @@ wystarczą sekcje z 28.09.2026 („Integracja M14 do Biblii”, „Audyt końcow
 ## Krok 0 — odpowiedź właściciela na decyzję 4 (zanim powstanie jakikolwiek kod M14)
 
 Wyjaśnienie z opcjami dostał właściciel 28.09.2026. Jeśli nie odpowiedział, zapytaj go jeszcze raz,
-krótko, tą samą listą. Opcja **A** = zostaw, jak jest (nic w kodzie). Przy **B/C** — zmiana we wskazanym miejscu.
+krótko, o pozycje 4–12. Opcja **A** = zostaw, jak jest (nic w kodzie). Przy **B/C** — zmiana we wskazanym miejscu.
 
 | # | Sprawa | Gdzie jest kod / zapis | Co zmienić przy B/C |
 |---|---|---|---|
-| 1 | Balast M3 (D29 pkt 2 i 5): bez ciężaru paneli i stelaża; E6 z siły wzoru źródła | `lib/core/modules/pv/eurokod-0/rownowaga.ts`, ekran M3/E6 | B: pole „ciężar paneli + stelaża” i odjęcie go (γG,inf = 0,90) po stronie stabilizującej; C: usunąć balast z E6 (adnotacja, nie kasacja — F.5) |
-| 2 | Agregat w mrozie (D32): 🟡/🔴/ℹ️ i werdykt z samego paliwa i temperatury | `lib/core/modules/stress-test/agregat-w-mrozie/` (`warnings.ts`, `calculator.ts`) | B: zmiana `level` w `warnings.ts` wg odpowiedzi + testy |
-| 3 | Lista 16 urządzeń (D33) | `lib/core/modules/kalkulator-mobilny/zuzycie-per-urzadzenie/przykladowe-urzadzenia.ts` | B: dopisać lub poprawić pozycje podane przez właściciela |
+| 1 | ~~Balast M3 (D29 pkt 2 i 5)~~ | — | **✅ zamknięte na `main`** (D29 addendum: masa paneli i stelaża jako siła utrzymująca) — nie pytaj ponownie |
+| 2 | ~~Agregat w mrozie (D32): poziomy 🟡/🔴/ℹ️~~ | — | **✅ zamknięte na `main`** (D32 potwierdzone z korektą progów, E8 1.2.0) — nie pytaj ponownie |
+| 3 | ~~Lista 16 urządzeń (D33)~~ | — | **✅ zamknięte na `main`** (D33 potwierdzone, nowe moce, 19 pozycji) — nie pytaj ponownie |
 | 4 | CRL: długość > 1 km obcinana od największej wagi (TD21) | `lib/core/modules/okablowanie/ocena-ryzyka-crl/calculator.ts` | B: sortowanie odcinków rosnąco po wadze zamiast malejąco + test |
 | 5 | Rsi = 0,13 (M6/E8, TD20) | `lib/core/modules/ogrzewanie/pojemnosc-cieplna/constants.ts` | B: czeka na normę ISO 6946 od właściciela |
 | 6 | Zamki fail-secure z UPS = 🟡 (M8/E3) | `lib/core/modules/bezpieczenstwo/zamki-drzwi-ewakuacyjnych/` | B: 🔴 + dopis w `docs/rejestr-twardych-stopow.md` |
@@ -43,8 +48,8 @@ krótko, tą samą listą. Opcja **A** = zostaw, jak jest (nic w kodzie). Przy *
 | 8 | Magistrala ponad wejście przetwornicy = 🔴 (M9/E2) | `lib/core/modules/esp32/zasilanie-esp32/` | B: 🟡 + usunięcie z rejestru stopów (przekreślenie, F.5) |
 | 9 | CAN bez transceivera = 🟡 (M9/E4) | `lib/core/modules/esp32/architektura-komunikacji/` | B: 🔴 jak RS485 + rejestr stopów |
 | 10 | Kafle M14 ukryte w 8 presetach | `docs/pulpit-i-nawigacja.md` §3 (kafli M14 jeszcze nie ma w `lib/pulpit/`) | B: zapisać, w których presetach są widoczne — wejdzie razem z kaflami |
-| 11 | D45: agregat przez wejście AC falownika = ℹ️, bez wymogu przełącznika | `lib/core/modules/zapotrzebowanie/agregat-pradotworczy/bezpieczenstwo.ts` | B: `agregatWejscieFalownika` → poziom `critical` albo `warning` wg odpowiedzi, teksty PL/EN/RU |
-| 12 | D45: odbiorniki wpięte wprost w agregat = ℹ️ | ten sam plik | B: jak wyżej, `agregatTylkoOdbiorniki` |
+| 11 | D48 (dawniej D45): agregat przez wejście AC falownika = ℹ️, bez wymogu przełącznika | `lib/core/modules/zapotrzebowanie/agregat-pradotworczy/bezpieczenstwo.ts` | B: `agregatWejscieFalownika` → poziom `critical` albo `warning` wg odpowiedzi, teksty PL/EN/RU |
+| 12 | D48: odbiorniki wpięte wprost w agregat = ℹ️ | ten sam plik | B: jak wyżej, `agregatTylkoOdbiorniki` |
 
 Po odpowiedzi: przy każdej pozycji w kodzie i rejestrach zamień „✅🤖” na adnotację
 „**[data] potwierdzone przez właściciela (A)**” albo opis zmiany (F.5 — nie kasuj starego tekstu).
@@ -93,7 +98,7 @@ Plany UE / Plany UE + inflacja” w miejscu suwaka (D42), `N` = 15 (10–25), `r
 **2e. Część Przejście** — D4 (echo M3/M4), D5 zima (echo M7 — **wymaga M7 7.2 i 7.37, oba `todo`**; bez
 nich warunek zimowy scenariusza D liczony tylko wg alternatywy w `docs/rejestr-pokrycia.md` D5/D7/F8),
 D6 agregat (**użyj istniejącego `bezpieczenstwo.ts`** z M2/E17, nie pisz drugiej wersji), D9 ryzyka,
-D10 procedura, D11 przełącznik (twarde stopy: backfeed; szczegół normowy 🔎 HD 60364-5-551, D44).
+D10 procedura, D11 przełącznik (twarde stopy: backfeed; szczegół normowy 🔎 HD 60364-5-551, D47).
 
 **2f. Kafle i pulpit** — dwa duże kafle „Dom – sieć” / „Firma – sieć” za kaflem 13 (D39), ukryte w 8
 presetach (albo wg odpowiedzi na pozycję 10), kreator „Ścieżka przejścia” (Wzorzec F).
@@ -107,7 +112,7 @@ Każdy ekran: wiersz w `docs/rejestr-pokrycia.md` (sekcja M14) todo → done, tw
 - Nie proponuj wartości stawek, `C_rk`, profili W4 ani norm z pamięci — brakujące dane dostarcza właściciel
   (PGE i NFOŚiGW mają zepsuty łańcuch TLS; obejście certyfikatów było odrzucone, nie próbuj).
 - FREE/PRO dla M14 nie jest przypisane (D37) — nie wprowadzaj podziału.
-- Szkic LED (D46) nie jest częścią tej pracy.
+- Szkic LED (D49) nie jest częścią tej pracy.
 
 ## Stałe sprawy w tle
 

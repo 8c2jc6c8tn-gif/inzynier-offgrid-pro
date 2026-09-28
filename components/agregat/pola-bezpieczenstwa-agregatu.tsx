@@ -15,7 +15,7 @@ type Props = BezpieczenstwoAgregatuStan & {
   onChange: (zmiana: Partial<BezpieczenstwoAgregatuStan>) => void
 }
 
-/** Generator safety questions (D45) shared by M2/E17 and M7/E8. */
+/** Generator safety questions (D48) shared by M2/E17 and M7/E8. */
 export function PolaBezpieczenstwaAgregatu({ miejsceAgregatu, podlaczenieAgregatu, onChange }: Props) {
   return (
     <div className="flex flex-col gap-4">
@@ -48,7 +48,7 @@ export function PolaBezpieczenstwaAgregatu({ miejsceAgregatu, podlaczenieAgregat
   )
 }
 
-/** Drafts saved before D45 lack these keys (undefined) — both "" and undefined map to null. */
+/** Drafts saved before D48 lack these keys (undefined) — both "" and undefined map to null. */
 export const naWejscieBezpieczenstwa = (stan: BezpieczenstwoAgregatuStan) => ({
   miejsceAgregatu: stan.miejsceAgregatu || null,
   podlaczenieAgregatu: stan.podlaczenieAgregatu || null,

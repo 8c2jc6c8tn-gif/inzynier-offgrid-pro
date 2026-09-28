@@ -22,7 +22,7 @@ const FORMULA =
  * zakresu 70-80% ze źródła — patrz `constants.ts`), zużycie paliwa i koszt — cały łańcuch
  * zweryfikowany niezależnie w Pythonie i odtwarza dokładnie własny przykład źródła (deficyt
  * 80 kWh, agregat 5 kW → 20 godzin, 25 l, 200 zł).
- * 1.1.0 (D45): generator safety block (CO, hot parts, fuel vapour, separate fuel store,
+ * 1.1.0 (D48): generator safety block (CO, hot parts, fuel vapour, separate fuel store,
  * extinguisher, changeover switch) — shared with M7/E8. Safety answers alone still get their
  * warnings while the numbers are incomplete, so a hard stop is never hidden behind INCOMPLETE.
  */
