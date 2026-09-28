@@ -214,6 +214,9 @@ export const KAFLE: KafelEntry[] = [
       { href: "/kalkulatory/blackout", label: "Blackout — dni bez słońca" },
       { href: "/kalkulatory/strategia-zamarzanie", label: "Strategia „Zamarzanie” — odłączanie odbiorników" },
       { href: "/kalkulatory/analiza-spof", label: "Analiza SPOF — pojedyncze punkty awarii" },
+      { href: "/kalkulatory/pre-heat", label: "Pre-Heat — ciepło na zapas przed mrozem" },
+      { href: "/kalkulatory/bez-rekuperacji", label: "Rekuperacja zamarzła — straty bez odzysku" },
+      { href: "/kalkulatory/awaria-stringa-zima", label: "Awaria stringa PV zimą" },
     ],
   },
   {

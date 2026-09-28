@@ -11,6 +11,9 @@ import { agregatWMrozieTool } from "../agregat-w-mrozie-tool"
 import { blackoutTool } from "../blackout-tool"
 import { strategiaZamarzanieTool } from "../strategia-zamarzanie-tool"
 import { analizaSpofTool } from "../analiza-spof-tool"
+import { bezRekuperacjiTool } from "../bez-rekuperacji-tool"
+import { preHeatTool } from "../pre-heat-tool"
+import { awariaStringaZimaTool } from "../awaria-stringa-zima-tool"
 
 describe("obciazenieDachuSniegiemTool (M7/E23, dawne 6.34→7.32)", () => {
   it("kontrakt 9.3: 'read', bez potwierdzenia", () => {
@@ -200,5 +203,59 @@ describe("analizaSpofTool (M7/E10, dawne 6.12)", () => {
   it("BMS bez obejścia → twardy stop PL", async () => {
     const w = await analizaSpofTool.handler({ komponenty: [{ nazwa: "BMS", typ: "bms", maRedundancje: false }] })
     expect(w.ostrzezenia).toEqual([t("pl", "SPOF-BMS", { nazwa: "BMS" })])
+  })
+})
+
+describe("narzędzia M7 blok 4 — kontrakt 9.3 ('read', bez potwierdzenia)", () => {
+  it.each([bezRekuperacjiTool, preHeatTool, awariaStringaZimaTool])("$name", (tool) => {
+    expect(tool.operationType).toBe("read")
+    expect(tool.requiresConfirmation).toBe(false)
+    expect(() => validateAiToolDefinition(tool)).not.toThrow()
+  })
+})
+
+describe("preHeatTool (M7/E18, dawne 6.28)", () => {
+  it("grzanie nocą z baterii → twardy stop PL", async () => {
+    const w = await preHeatTool.handler({
+      pojemnoscCieplnaKwhK: 6,
+      podniesienieTempDomuK: 3,
+      stratyCieplaKw: 1.5,
+      pojemnoscBojleraL: null,
+      podniesienieTempBojleraK: null,
+      cop: 3,
+      zrodloEnergii: "bateria-noc",
+      nadwyzkaPvKwh: null,
+    })
+    expect(w.buforGodzin).toBeCloseTo(12, 12)
+    expect(w.ostrzezenia).toEqual([t("pl", "PREHEAT-GRZANIE-NOCA-Z-BATERII")])
+  })
+})
+
+describe("bezRekuperacjiTool (M7/E20, dawne 6.30)", () => {
+  it("mróz poniżej granicy wymiennika → ostrzeżenie PL", async () => {
+    const w = await bezRekuperacjiTool.handler({
+      strumienM3H: 250,
+      sprawnoscOdzyskuPct: 85,
+      tempWewnC: 20,
+      tempZewnC: -16,
+      tempZamarzaniaWymiennikaC: -15,
+      tempZaNagrzewnicaC: null,
+    })
+    expect(w.ostrzezenia[0]).toBe(t("pl", "REKU-RYZYKO-ZAMARZNIECIA", { temp: -16, granica: -15 }))
+  })
+})
+
+describe("awariaStringaZimaTool (M7/E26, dawne 6.40)", () => {
+  it("deficyt 8 kWh/dobę → komunikat PL", async () => {
+    const w = await awariaStringaZimaTool.handler({
+      produkcjaCalkowitaKwhDoba: 12,
+      produkcjaStringuKwhDoba: 6,
+      zapotrzebowanieKwhDoba: 14,
+      pojemnoscBateriiKwh: null,
+      dodPct: null,
+      sprawnoscFalownikaPct: null,
+    })
+    expect(w.deficytDobowyKwh).toBe(8)
+    expect(w.ostrzezenia[0]).toBe(t("pl", "STRING-DEFICYT", { deficyt: "8.0" }))
   })
 })

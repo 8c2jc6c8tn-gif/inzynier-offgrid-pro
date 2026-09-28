@@ -13,6 +13,14 @@ export type WentylacjaOdzyskCieplaResult = {
 const FORMULA = "\\dot{Q}_{odzysk} = \\frac{\\dot{V} \\times \\eta \\times \\rho \\times c_p \\times \\Delta T}{3600}"
 
 /**
+ * Heat flow carried by an air stream: `V̇ × η × ρ × cp × ΔT / 3600` [W]. With η = 100% it is the full ventilation
+ * heat flow. Extracted as an echo for M7/E20 (frozen recuperation: loss without recovery, pre-heater power).
+ */
+export function obliczStrumienCieplaPowietrzaW(strumienM3H: number, deltaTK: number, sprawnoscPct = 100): number {
+  return (strumienM3H * (sprawnoscPct / 100) * GESTOSC_POWIETRZA_KG_M3 * CIEPLO_WLASCIWE_POWIETRZA_J_KG_K * deltaTK) / 3600
+}
+
+/**
  * Ekran 3, Moduł 6 "Ogrzewanie / wentylacja / pompa ciepła" — "System wentylacji z odzyskiem
  * ciepła" (scala dawne 5.3, 5.23, 5.24, docs/zrodla/Tresc_Modul_6_Ogrzewanie_Ekrany.md, Sekcja B
  * punkt 1). Wzorzec echo `infiltracja-powietrza` (M6/E12) — ten sam wzór strumienia ciepła
@@ -68,13 +76,7 @@ export function calculateWentylacjaOdzyskCiepla(
   }
 
   const deltaTK: number = input.deltaTK ?? 0
-  const odzyskaneCieploW =
-    (input.wydajnoscCentraliM3H *
-      (input.sprawnoscRekuperatoraPct / 100) *
-      GESTOSC_POWIETRZA_KG_M3 *
-      CIEPLO_WLASCIWE_POWIETRZA_J_KG_K *
-      deltaTK) /
-    3600
+  const odzyskaneCieploW = obliczStrumienCieplaPowietrzaW(input.wydajnoscCentraliM3H, deltaTK, input.sprawnoscRekuperatoraPct)
   const odzyskaneCieploKw = odzyskaneCieploW / 1000
 
   const warnings = [odzyskInfo(odzyskaneCieploKw, input.poborWentylatorowW)]

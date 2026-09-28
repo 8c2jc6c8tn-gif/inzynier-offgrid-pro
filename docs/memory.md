@@ -7689,3 +7689,11 @@ Polecenie właściciela: „zacznij od modułów M8–M7 i ruszaj dalej; po każ
 - **E10 SPOF** — 🔴 tylko BMS (tak źródło), pozostałe z przykładu C jako 🟡 z konkretnym zaleceniem.
 - **Pułapka (drugi raz tej samej doby):** `\;` w FORMULA — strażnik `formula-escapes.test.ts` złapał to w 2 nowych plikach. **Nowa pułapka przy naprawie:** regex w Pythonie wewnątrz heredoc (`(?<!\\)\;`) po warstwach escapowania dopasował każdy `;` i zepsuł komentarze oraz poprawny plik E1 — wykryte `git diff`/`od -c`, E1 przywrócony z HEAD. Wniosek: poprawki backslashy robić `str.replace` z `chr(92)`, zawsze sprawdzać `git diff` po masowej zamianie.
 - Weryfikacja: typecheck / lint / i18n-guard (180) / test / build / audit:gate / audit:n1 — wynik w PR.
+
+### M7 blok 4: E18, E20, E26 (28.09.2026)
+
+- **E20** — wyodrębniona `obliczStrumienCieplaPowietrzaW(V̇, ΔT, η=100)` z M6/E3 (wzorzec echo); M6/E3 teraz ją wywołuje, jego 9 testów bez zmian. Ta sama funkcja z η=100% daje moc nagrzewnicy wstępnej.
+- **E18** — stała wody z M2/E2 (`WSPOLCZYNNIK_KWH_NA_L_K`) zamiast nowej liczby; bufor = Q_dom / straty (straty stałe — założenie jawne).
+- **E26** — deficyt + echo M4/E1 dla dni na baterii.
+- **Pułapka narzędziowa (trzeci raz):** `\;` w FORMULA pisanej przez heredoc Basha ginie do `\;` pojedynczego — pliki z wzorami LaTeX pisać narzędziem Write, a w FORMULA używać `\\quad` zamiast `\;`. Strażnik `formula-escapes.test.ts` łapie to niezawodnie.
+- M7 po bloku 4: z triażu nie zostało nic budowalnego bez właściciela — E24/E25/E16 wpisane do decyzji w `docs/lista-do-zrobienia.md`.

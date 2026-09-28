@@ -74,6 +74,9 @@ import { agregatWMrozieTool } from "./tools/agregat-w-mrozie-tool"
 import { blackoutTool } from "./tools/blackout-tool"
 import { strategiaZamarzanieTool } from "./tools/strategia-zamarzanie-tool"
 import { analizaSpofTool } from "./tools/analiza-spof-tool"
+import { bezRekuperacjiTool } from "./tools/bez-rekuperacji-tool"
+import { preHeatTool } from "./tools/pre-heat-tool"
+import { awariaStringaZimaTool } from "./tools/awaria-stringa-zima-tool"
 import { katalogCzujnikowTool } from "./tools/katalog-czujnikow-tool"
 import { doborRegulatoraPwmMpptTool } from "./tools/dobor-regulatora-pwm-mppt-tool"
 import { dniBezSloncaTool } from "./tools/dni-bez-slonca-tool"
@@ -351,6 +354,9 @@ const NARZEDZIA: Array<AiToolDefinition<any, any>> = [
   blackoutTool,
   strategiaZamarzanieTool,
   analizaSpofTool,
+  bezRekuperacjiTool,
+  preHeatTool,
+  awariaStringaZimaTool,
   katalogCzujnikowTool,
   doborRegulatoraPwmMpptTool,
   dniBezSloncaTool,
