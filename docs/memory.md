@@ -7987,3 +7987,16 @@ Polecenie właściciela „Integruj teraz” (F.2/F.4) wykonane na gałęzi odtw
 - **Otwarte:** która π ma być domyślna (✅🤖 NBP).
 - **[28.09.2026] D42:** właściciel chce przełącznik ścieżek cen dokładnie w miejscu suwaka procentów (D7/F8). Jedno pole „Wzrost cen energii”: segmenty „Suwak %” / „Plany UE” / „Plany UE + inflacja”. Treść pod nimi podmienia się w tym samym miejscu, a tabela A–D przelicza się od razu.
 - **[28.09.2026] D43:** właściciel wybrał domyślną inflację GUS (średnia 15 lat, 3,58%) zamiast proponowanej NBP 2,5%. Uzasadnienie właściciela: oficjalna inflacja jest zaniżona względem cen. Uwaga rewidenta w D43: to ten sam wskaźnik CPI, a różnica wynika z okna 2011–2025 z szokiem 2022–2023. Przykład kontrolny: 1,9440 w roku 15 i ≈109 699 zł.
+
+## M12/E38 — uziemienie małej instalacji i dryf rejestru twardych stopów M5 (28.09.2026)
+
+- **E38 zbudowany** jako wrapper (hybryda) do M5/E9/E11. Treść `Tresc_Modul_12` to jedno zdanie — logika wzięta z
+  Biblii §12.53 (dawne 8.65), bez liczb i norm spoza niej. Twardy stop obudowy falownika bierze **poziom** z
+  `obudowaNiepolaczonaZGsw()` M5/E11 (echo), ale ma własny kod `UMI-…`, bo tekst M5 mówi o GSW budynku, której w
+  kamperze/na jachcie nie ma. Poziomy 🔴 gniazd i ℹ️ wilgoci — ✅🤖 do potwierdzenia (lista zadań).
+- **Dryf znaleziony (Y.2):** stopy `critical` całego M5 nie trafiły do `docs/rejestr-twardych-stopow.md` (4.3).
+  Dopisane tylko M5/E11; reszta jako zadanie 🔲 z wysokim priorytetem. Szybkie wykrycie: pętla po
+  `lib/core/modules/<moduł>/*/warnings.ts`, wyciągnięcie kodów z `level: "critical"` i `grep` każdego w rejestrze.
+- **Pułapka narzędziowa:** `playwright` nie jest w `node_modules` repo — skrypty weryfikacyjne importują
+  `/opt/node22/lib/node_modules/playwright/index.mjs`; headless bez `locale: "pl-PL"` pokazuje teksty EN.
+

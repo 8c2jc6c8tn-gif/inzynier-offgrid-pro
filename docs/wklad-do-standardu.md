@@ -972,3 +972,17 @@ zadania wykonaj commit→push→PR→merge, chyba że właściciel wprost każe 
 leży niescalona praca”. Uwaga praktyczna: w środowisku, w którym sesja ma prawo pushu tylko na wyznaczoną gałąź,
 reguła (1) realizuje się przez mały PR+merge samej listy zadań (albo razem z kodem przez regułę (3)).
 Status: 🔎 nowe
+
+[28.09.2026] KATEGORIA: DOBRA PRAKTYKA — mechaniczne sprawdzanie kompletności rejestru twardych stopów (4.3) zamiast polegania na dyscyplinie „dopisz przy każdym module”
+
+Szczegóły: przy budowie M12/E38 okazało się, że żaden stop `critical` całego Modułu 5 (ok. 20 realnych warunków, budowane
+13–20.09.2026) nie trafił do `docs/rejestr-twardych-stopow.md`, mimo że reguła 4.3 i nagłówek rejestru każą dopisywać
+stop przy każdym nowym module. Nikt tego nie zauważył przez 2 tygodnie — audyt N.1 sprawdzał rejestr pokrycia, nie
+rejestr stopów. Wykrycie zajęło minutę: pętla po `lib/core/modules/<moduł>/*/warnings.ts`, wyciągnięcie kodów z
+`level: "critical"` i `grep` każdego kodu w rejestrze (generyczne kody walidacji formularza odfiltrować ręcznie).
+Dlaczego warto zgłosić do new-app-standards: 4.3 opisuje rejestr jako indeks, ale nie daje mechanizmu kontroli jego
+kompletności — w każdym projekcie rodziny z wieloma modułami ten dryf powstaje tak samo (moduł budowany seriami, rejestr
+zapominany). Propozycja do rozważenia: w 4.3 lub 10.x — „kompletność rejestru twardych stopów sprawdzana mechanicznie
+(skrypt kod `critical` ↔ wpis w rejestrze, z listą świadomych wyjątków), najlepiej jako krok `audit:*` w pakiecie przed
+merge'em”, analogicznie do dwukierunkowego `grep` markerów TD# (GOD BOOK X.4).
+Status: 🔎 nowe

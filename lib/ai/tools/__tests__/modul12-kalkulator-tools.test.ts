@@ -4,6 +4,7 @@ import { validateAiToolDefinition } from "../../types"
 import { dniBezSloncaTool } from "../dni-bez-slonca-tool"
 import { ochronaPrzedRozladowaniemTool } from "../ochrona-przed-rozladowaniem-tool"
 import { wilgocMaleInstalacjeTool } from "../wilgoc-male-instalacje-tool"
+import { uziemienieMaleInstalacjeTool } from "../uziemienie-male-instalacje-tool"
 import { urzadzenie12vBezposrednioTool } from "../urzadzenie-12v-bezposrednio-tool"
 import { panelDoStacjiZasilaniaTool } from "../panel-do-stacji-zasilania-tool"
 import { zuzyciePerUrzadzenieTool } from "../zuzycie-per-urzadzenie-tool"
@@ -197,5 +198,25 @@ describe("wilgocMaleInstalacjeTool (M12/E23, dawne 8.46)", () => {
     expect(w.minimalneIp).toBe(55)
     expect(w.ipWystarczajace).toBe(false)
     expect(w.ostrzezenia[0]).toBe(t("pl", "IP-PONIZEJ-WYMAGANEGO", { ip: 54, min: 55 }))
+  })
+})
+
+describe("uziemienieMaleInstalacjeTool (M12/E38, dawne 8.65)", () => {
+  it("kontrakt 9.3: 'read', bez potwierdzenia", () => {
+    expect(uziemienieMaleInstalacjeTool.operationType).toBe("read")
+    expect(uziemienieMaleInstalacjeTool.requiresConfirmation).toBe(false)
+    expect(() => validateAiToolDefinition(uziemienieMaleInstalacjeTool)).not.toThrow()
+  })
+
+  it("kamper 230 V, obudowa falownika „nie wiem” → twardy stop jako tekst PL", async () => {
+    const w = await uziemienieMaleInstalacjeTool.handler({
+      rodzaj: "ac230",
+      miejsce: "kamper",
+      obudowaFalownikaUziemiona: "nie-wiem",
+      gniazdaZeStykiemOchronnym: "tak",
+    })
+    expect(w.status).toBe("VALID_WITH_WARNINGS")
+    expect(w.wymaganeUziemienieOchronne).toBe(true)
+    expect(w.ostrzezenia).toEqual([t("pl", "UMI-OBUDOWA-FALOWNIKA-NIEUZIEMIONA")])
   })
 })
