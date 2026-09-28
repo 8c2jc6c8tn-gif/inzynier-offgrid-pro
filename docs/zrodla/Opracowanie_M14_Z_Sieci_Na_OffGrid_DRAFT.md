@@ -152,11 +152,11 @@ licznik:
 
 | Pozycja | Wartość 2026 | Podstawa | Pewność |
 |---|---|---|---|
-| Opłata mocowa G, zużycie roczne < 500 kWh | 4,29 zł/mies. netto | Informacja Prezesa URE nr 58/2025 (30.10.2025) | 🔎A |
-| Opłata mocowa G, 500–1200 kWh | 10,31 zł/mies. netto | j.w. | 🔎A |
-| Opłata mocowa G, 1200–2800 kWh | 17,18 zł/mies. netto | j.w. | 🔎A |
-| Opłata mocowa G, > 2800 kWh | 24,05 zł/mies. netto | j.w. | 🔎A |
-| Opłata mocowa, pozostali odbiorcy (m.in. C) | 0,2194 zł/kWh netto, dni robocze 7:00–22:00 | j.w. | 🔎A (godziny ✅ — ustawa o rynku mocy) |
+| Opłata mocowa — odbiorcy rozliczani ryczałtowo (art. 89a ust. 1 pkt 1 ustawy o rynku mocy; w praktyce G), zużycie roczne < 500 kWh | 4,29 zł/mies. netto, za punkt poboru | Informacja Prezesa URE nr 58/2025 (30.10.2025), pkt 1 — **odczyt pierwotny 28.09.2026**, plik `docs/zrodla/URE-Informacja-58-2025-stawki-oplaty-mocowej-2026.pdf` | ✅ |
+| Opłata mocowa ryczałt, 500–1 200 kWh | 10,31 zł/mies. netto | j.w., pkt 2 | ✅ |
+| Opłata mocowa ryczałt, >1 200–2 800 kWh | 17,18 zł/mies. netto | j.w., pkt 3 | ✅ |
+| Opłata mocowa ryczałt, > 2 800 kWh | 24,05 zł/mies. netto | j.w., pkt 4 | ✅ |
+| Opłata mocowa, pozostali odbiorcy (art. 89a ust. 1 pkt 2; m.in. C) | 0,2194 zł/kWh netto — energia pobrana w 15 kolejnych godzinach dni roboczych (pn–pt bez świąt ustawowych), pierwsza od 7:00, ostatnia od 21:00, czyli 7:00–22:00, jednakowo we wszystkich kwartałach 2026 | j.w., pkt 5 + str. 2 (powołuje Informację nr 57/2025) | ✅ |
 | Opłata OZE | 7,30 zł/MWh (2025: 3,50) | Rozporządzenie/obwieszczenie na 2026 | 🔎A |
 | Opłata kogeneracyjna | 3,00 zł/MWh (planowane 4,36 wycofane) | Ministerstwo Energii | 🔎A |
 | Opłata przejściowa | 0 (zniesiona od 1.01.2026) | Decyzja Ministra Energii | 🔎A |
@@ -578,7 +578,7 @@ Oba przypadki rozlicza się od **całej** energii biernej, nie od nadwyżki: `O_
 
 ### 8.4 Opłata mocowa w firmie
 
-0,2194 zł/kWh netto za energię pobraną w dni robocze 7:00–22:00 (🔎A). Wzrost wobec 2025
+0,2194 zł/kWh netto za energię pobraną w dni robocze 7:00–22:00 (✅ Informacja URE 58/2025). Wzrost wobec 2025
 (0,1413) to +55,3%, arytmetyka ✅.
 
 Kalkulator pokazuje:
@@ -684,7 +684,7 @@ Wystarczy odesłać wartość + nazwę dokumentu/stronę (albo zdjęcie/PDF). Ko
 
 | # | Co sprawdzić | Gdzie | Co odesłać |
 |---|---|---|---|
-| W1 | Stawki opłaty mocowej 2026 (G 4 progi, pozostali 0,2194 zł/kWh + godziny) | ure.gov.pl → Informacja Prezesa URE nr 58/2025 | potwierdzenie liczb albo różnice |
+| ~~W1~~ ✅ 28.09.2026 (odczyt pierwotny) | Stawki opłaty mocowej 2026 (G 4 progi, pozostali 0,2194 zł/kWh + godziny) | ure.gov.pl → Informacja Prezesa URE nr 58/2025 | potwierdzenie liczb albo różnice |
 | W2 | Opłata OZE 2026 (7,30 zł/MWh?), kogeneracyjna (3,00 zł/MWh?), zniesienie przejściowej | gov.pl/web/energia (komunikaty), URE | j.w. |
 | W3 | Taryfa OSD 2026 (dla każdego OSD z osobna): G11, G12, G12w, G13, C11, C12a/b, C21, C22a/b — opłata sieciowa stała i zmienna, abonamentowa, stawka jakościowa, godziny stref, stawki opłaty przyłączeniowej IV–VI, krotność przekroczenia mocy umownej, `k` dla mocy biernej | strona OSD → „Taryfa” (PDF): pgedystrybucja.pl, tauron-dystrybucja.pl, operator.enea.pl, energa-operator.pl, stoen.pl | **najprościej: sam PDF taryfy** (wyciągnę liczby, Ty tylko potwierdzasz wynik) |
 | W4 | Standardowe profile zużycia G11/C11 (do profili autokonsumpcji, P3) | strona OSD → IRiESD / „standardowe profile” | plik (zwykle XLS/CSV) |

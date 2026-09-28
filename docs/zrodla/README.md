@@ -375,3 +375,7 @@ niewiarygodne jako dane): `docs/memory.md`, wpis z 28.09.2026.
 **`Opracowanie_M14_Z_Sieci_Na_OffGrid_DRAFT.md`** — poprawki ✏️ do obu dokumentów, części Dom i
 „przejście/ryzyka” napisane z wiedzy eksperckiej (brak materiału źródłowego, polecenie właściciela).
 Właściciel przesłał ponownie dok. 1 (identyczny z zapisanym) — nie dublowano pliku.
+
+[28.09.2026, później] ✅ DODANO — **`URE-Informacja-58-2025-stawki-oplaty-mocowej-2026.pdf`** — dokument
+pierwotny (bip.ure.gov.pl, pobrany 1:1), stawki opłaty mocowej na 2026 r. + godziny doby (7:00–22:00
+w dni robocze, powołanie Informacji nr 57/2025). Zamyka W1 z opracowania M14 (§9.1) — stawki ✅.

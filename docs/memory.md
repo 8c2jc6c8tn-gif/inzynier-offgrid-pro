@@ -7816,3 +7816,14 @@ zastąpiona kolumną „Część”. Otwarte zostają P3 (autokonsumpcja w trybi
 źródłem albo jako jawne przesunięcie profilu typowego. **P4 (dane):** właściciel wybierze
 odblokowanie domen w ustawieniach środowiska albo sam zweryfikuje ręcznie — lista kontrolna W1–W7
 w opracowaniu §9.1. Najprościej: PDF-y taryf OSD, liczby wyciąga Claude.
+
+**[28.09.2026, później] DANE-1 — pierwszy odczyt pierwotny (po zmianie sieci przez właściciela).**
+Informacja Prezesa URE nr 58/2025 pobrana z `bip.ure.gov.pl` → `docs/zrodla/`: stawki mocowe 2026
+✅ (4,29 / 10,31 / 17,18 / 24,05 zł/mies. ryczałt; 0,2194 zł/kWh pozostali, 15 godzin dni roboczych
+od 7:00 do 22:00). **Pułapka dla kodu — granice progów:** `<500`, `500–1 200` (włącznie),
+`>1 200–2 800`, `>2 800` kWh/rok — brzmienie URE, nie zaokrąglać. Ryczałt dotyczy odbiorców z art. 89a
+ust. 1 pkt 1 ustawy o rynku mocy (w praktyce G) — nie „G” wprost.
+**Dostęp sieciowy po zmianie:** działają `bip.ure.gov.pl`, `energa-operator.pl` (strona), a blokowane
+nadal: wersje `www.` (`www.ure.gov.pl`, `www.gov.pl`, `www.nfosigw.gov.pl`, `www.pse.pl`,
+`www.tauron-dystrybucja.pl`, `www.operator.enea.pl`, `www.stoen.pl` — domeny bez www przekierowują na
+www), `pgedystrybucja.pl` (z i bez www), CDN z PDF-ami Energi `cdn-netpr.pl`; `isap.sejm.gov.pl` → 403.
