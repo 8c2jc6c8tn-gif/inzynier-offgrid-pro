@@ -196,6 +196,9 @@ import { centralaSspTool } from "./tools/centrala-ssp-tool"
 import { oswietlenieAwaryjneTool } from "./tools/oswietlenie-awaryjne-tool"
 import { klapyPozaroweTool } from "./tools/klapy-pozarowe-tool"
 import { powiadomieniaAlarmoweTool } from "./tools/powiadomienia-alarmowe-tool"
+import { rozbijRachunekTool } from "./tools/rozbij-rachunek-tool"
+import { dobierzTaryfeTool } from "./tools/dobierz-taryfe-tool"
+import { mocBiernaTool } from "./tools/moc-bierna-tool"
 import { toAnthropicTool } from "./to-anthropic-tool"
 import { validateAiToolDefinition, type AiToolDefinition } from "./types"
 
@@ -382,6 +385,9 @@ const NARZEDZIA: Array<AiToolDefinition<any, any>> = [
   panelDoStacjiZasilaniaTool,
   urzadzenie12vBezposrednioTool,
   trybUproszczonyTool,
+  rozbijRachunekTool,
+  dobierzTaryfeTool,
+  mocBiernaTool,
 ]
 for (const narzedzie of NARZEDZIA) validateAiToolDefinition(narzedzie)
 
