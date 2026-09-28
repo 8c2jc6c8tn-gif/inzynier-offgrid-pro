@@ -1,7 +1,7 @@
 # 03. M14 — „Dom – sieć” i „Firma – sieć”: rachunek za prąd, a potem przejście na off-grid
 
-**Wersja:** 1.0 | **Filar:** B (merytoryczny) | **Data utworzenia:** 28.09.2026 | **Ostatnia aktualizacja:** 28.09.2026 | **Status:** Stabilny — **kod zablokowany bramką N.3** (patrz „Stan i bramki”)
-**Powiązane dokumenty:** `docs/zrodla/Opracowanie_M14_Z_Sieci_Na_OffGrid_DRAFT.md` (opracowanie źródłowe: weryfikacja, adnotacje ✏️ K1–K14, tabele stawek per OSD), `rejestr-decyzji.md` D35–D38, `docs/rejestr-pokrycia.md` (sekcja M14), `docs/rejestr-twardych-stopow.md` (sekcja M14), `mapa-wdrozenia.md`, `slownik-pojec.md` (sekcja „Sieć i rozliczenia energii”)
+**Wersja:** 1.1 | **Filar:** B (merytoryczny) | **Data utworzenia:** 28.09.2026 | **Ostatnia aktualizacja:** 28.09.2026 | **Status:** Stabilny — **kod zablokowany bramką N.3** (patrz „Stan i bramki”)
+**Powiązane dokumenty:** `docs/zrodla/Opracowanie_M14_Z_Sieci_Na_OffGrid_DRAFT.md` (opracowanie źródłowe: weryfikacja, adnotacje ✏️ K1–K14, tabele stawek per OSD), `rejestr-decyzji.md` D35–D40, `docs/rejestr-pokrycia.md` (sekcja M14), `docs/rejestr-twardych-stopow.md` (sekcja M14), `mapa-wdrozenia.md`, `slownik-pojec.md` (sekcja „Sieć i rozliczenia energii”)
 
 TL;DR: Moduł **M14** ma dwa rozdziały i na pulpicie dwa duże kafle: **M14-D „Dom – sieć”** (grupy taryfowe G) oraz **M14-F „Firma – sieć”** (grupy C na nN). Każdy rozdział składa się z dwóch części w stałej kolejności:
 1. najpierw **Sieć** — ile kosztuje mój rachunek i z czego się składa: taryfa, prosument, licznik;
@@ -51,7 +51,7 @@ Obraz obejmuje koszty, opłacalność, dobór PV i magazynu, zimę oraz ryzyka. 
   - w kodzie to jeden ekran z parametrem segmentu `dom | firma` (echo, D12/D20);
   - wchodzi się do nich z obu kafli;
   - treść różni się tylko tam, gdzie prawo odróżnia konsumenta od przedsiębiorcy.
-- Pozycja kafli na pulpicie: patrz „Wymaga decyzji” niżej.
+- **Pozycja kafli na pulpicie (D39):** na końcu domyślnej kolejności, za kaflem 13. Później dojdzie preset onboardingu „Jestem podłączony do sieci”, który wysuwa je na początek. „Kafel 14” to Ustawienia (D9), więc kafle M14 nazywamy nazwą albo M14-D / M14-F, nie numerem.
 
 ## Kluczowe zasady i wzory
 
@@ -152,10 +152,31 @@ TCO_s(N) = I_s − D_s + Σ_{t=1..N} [K_sieć,s(t) + K_paliwo,s(t) + K_serwis,s(
 Znaczenie symboli: opracowanie §4.2.
 
 Zasady liczenia:
-- **Ceny sprzętu, paliwa i serwisu wpisuje użytkownik.** Aplikacja nie zgaduje cen i **nie prognozuje cen energii**: `g` = 0 z suwakiem wrażliwości −3 / 0 / +5 / +10%/rok.
-- Parametry domyślne (✅🤖):
+- **Ceny sprzętu, paliwa i serwisu wpisuje użytkownik.** Aplikacja nie zgaduje cen i **sama nie prognozuje cen energii**. Zmiana ceny energii `g` ma trzy źródła do wyboru (D40):
+  1. domyślnie `g` = 0;
+  2. suwak wrażliwości −3 / 0 / +5 / +10%/rok;
+  3. **„Ścieżka UE”** — dynamika cen z oficjalnej projekcji Komisji Europejskiej dla Polski, zawsze podpisana nazwą źródła i datą (niżej).
+- Parametry domyślne (D40, zatwierdzone przez właściciela 28.09.2026):
   - horyzont `N` = 15 lat, zakres 10–25;
-  - `r` = 0 w trybie prostym (suma nominalna).
+  - `r` = 0 w trybie prostym: wynik w dzisiejszych złotych, bez inflacji i dyskonta. `g` z suwaka i ze „Ścieżki UE” oznacza zmianę ceny **ponad inflację**, żeby obie opcje dało się porównać.
+
+**„Ścieżka UE” — projekcja cen energii elektrycznej dla Polski (D40)**
+
+Źródło: Komisja Europejska, DG ENER, *EU Reference Scenario 2020 (REF2020)*, arkusz „main results on energy, transport and GHG emissions”, zakładka `PL_A`, wiersz „Average Price of Electricity in Final demand sectors (€'15/MWh)”, model PRIMES, lipiec 2021. Odczyt pierwotny 28.09.2026 (✅ — co mówi źródło). Plik pobrany ze strony KE (energy.ec.europa.eu → EU Reference Scenario 2020); strona na 28.09.2026 nie podaje nowszej edycji.
+
+| Rok | 2020 | 2025 | 2030 | 2035 | 2040 | 2045 | 2050 |
+|---|---|---|---|---|---|---|---|
+| €'15/MWh | 123,57 | 133,59 | 145,49 | 146,60 | 155,50 | 157,34 | 158,87 |
+
+Średnia roczna zmiana wg arkusza: **+1,65%/rok** w latach 2020–2030 i **+0,44%/rok** w latach 2030–2050 (ceny stałe z 2015 r., czyli realnie, ponad inflację).
+
+Zasady użycia:
+- Do aplikacji wchodzi **tylko dynamika** (indeks rok do roku, między punktami 5-letnimi interpolacja geometryczna), nigdy poziom w €/MWh. Powody:
+  - wartość to średnia dla **wszystkich odbiorców końcowych**, nie tylko gospodarstw domowych;
+  - arkusz nie mówi, czy cena zawiera podatki. Średnia UE z arkusza (2020: 148,71) nie równa się liczbie z wykresu „po podatkach” w raporcie (151), więc nie wolno tego zakładać.
+- **Ostrzeżenie widoczne przy wyborze ścieżki:** projekcja przyjmuje politykę z końca 2019 r. Nie uwzględnia kryzysu cen 2021–2023, pakietu Fit for 55 ani ETS2. To oficjalny scenariusz odniesienia UE, a nie przewidywanie rachunku.
+- Wartości trafiają do pliku danych `rozliczenia-pl-2026` (lub osobnego, patrz lista zadań) z polami `zrodlo` / `stanNa` / `pewnosc`, tak jak stawki (D36).
+- Gdy KE opublikuje nowszą edycję (prace nad *Reference Scenario 2025* trwały w latach 2024–2025), dane zostaną podmienione. Stara wersja zostaje w logu źródła.
 - Okres zwrotu liczony jest względem A.
 - Pobór z sieci w B/C: `E_sieć,m = max(0, E_zuż,m − E_PV,m·η − ΔE_mag,m)`, produkcja z PVGIS dla lokalizacji (M1).
 - **Autokonsumpcja w trybie prostym = profile** (D38):
@@ -476,11 +497,12 @@ Nie jest potrzebny do pierwszej działającej wersji rdzenia off-grid (M1–M8).
 - **Wartość `C_rk`** — komunikat Prezesa URE.
 - **Stawki opłaty przyłączeniowej IV–VI** — są w taryfach, do wyciągnięcia przy pliku danych.
 - **Średnia cena G 495,16 zł/MWh** — 🔎A, do odczytu pierwotnego.
+- **Nowsza projekcja cen UE** — sprawdzać, czy KE opublikowała *EU Reference Scenario 2025* (lub nowszy). Jeśli tak, podmienić „Ścieżkę UE” (D40).
 
 ### Otwarte — wymaga decyzji
 
-- **Pozycja dwóch kafli na pulpicie** (`docs/pulpit-i-nawigacja.md` §2). Robocza propozycja AI (✅🤖): na końcu domyślnej kolejności, za kaflem 13. Później można dodać preset onboardingu „Jestem podłączony do sieci”, który wysuwa je na początek.
-- **Parametry domyślne TCO** (✅🤖): `N` = 15 lat (zakres 10–25), `r` = 0, `g` = 0 z suwakiem −3 / 0 / +5 / +10%.
+- ~~Pozycja dwóch kafli na pulpicie~~ — **rozstrzygnięte 28.09.2026 (D39):** na końcu, za kaflem 13, a później preset onboardingu.
+- ~~Parametry domyślne TCO~~ — **rozstrzygnięte 28.09.2026 (D40):** `N` = 15 (10–25), `r` = 0, `g` = 0 plus suwak plus „Ścieżka UE”.
 - **FREE/PRO dla M14** — odłożone (D37), wraca osobną decyzją.
 
 ---
@@ -490,3 +512,4 @@ Nie jest potrzebny do pierwszej działającej wersji rdzenia off-grid (M1–M8).
 | Data | Zmiana |
 |---|---|
 | 28.09.2026 | Utworzono — integracja opracowania M14 na polecenie właściciela („Integruj teraz”, F.2/F.4). Decyzje D35–D38. Wersja 1.0. |
+| 28.09.2026 | Decyzje właściciela: pozycja kafli (D39); parametry TCO plus „Ścieżka UE” z EU Reference Scenario 2020, odczyt pierwotny arkusza KE (D40). Zdanie „nie prognozuje cen energii” doprecyzowane: aplikacja sama nie prognozuje, pokazuje projekcję UE ze źródłem i datą. Wersja 1.0→1.1. |

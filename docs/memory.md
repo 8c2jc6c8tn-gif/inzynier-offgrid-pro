@@ -7927,3 +7927,18 @@ Polecenie właściciela „Integruj teraz” (F.2/F.4) wykonane na gałęzi odtw
   - decyzje (pozycja kafli, domyślne TCO `N`=15/`r`=0/`g`=0 jako ✅🤖).
   
   Kod M14 zablokowany bramką N.3 (audyt końcowy całej Biblii) i DANE-1.
+
+## M14 — decyzje D39/D40 i „Ścieżka UE” (28.09.2026)
+
+- **Właściciel rozstrzygnął dwie otwarte decyzje M14:**
+  - pozycja kafli → **D39**: na końcu, za kaflem 13, a później preset onboardingu;
+  - parametry TCO → **D40**: `N` = 15, `r` = 0, `g` = 0 plus suwak, plus nowa opcja **„Ścieżka UE”**.
+- **Źródło „Ścieżki UE”:** KE DG ENER, *EU Reference Scenario 2020*, arkusz „main results”, zakładka `PL_A`, wiersz „Average Price of Electricity in Final demand sectors (€'15/MWh)”. Punkty 2020–2050: 123,57 / 133,59 / 145,49 / 146,60 / 155,50 / 157,34 / 158,87. Arkusz podaje: +1,65%/rok (2020–2030), +0,44%/rok (2030–2050).
+- **Na 28.09.2026 strona KE nie ma nowszej edycji.** REF2025 był konsultowany w latach 2024–2025, ale nie znalazłem publikacji.
+- **Pułapki:**
+  - linki `circabc.europa.eu/ui/.../details?download=true` zwracają przez curl 404 (to aplikacja Angular). Działa `https://circabc.europa.eu/rest/download/<id>`;
+  - `openpyxl` nie ma w systemie. Instalacja lokalna: `pip install --target <scratchpad>/py`.
+- **Audyt:** wiersz ceny w arkuszu to średnia dla **wszystkich** odbiorców końcowych, a status podatków jest nieokreślony. Średnia UE z arkusza (2020: 148,71) nie równa się wykresowi „po podatkach” w raporcie (151). Dlatego do obliczeń wchodzi **tylko dynamika realna**, nigdy poziom.
+- **Doprecyzowanie przy okazji:** `r` = 0 oznacza wynik w dzisiejszych zł. `g` (suwak i UE) oznacza zmianę ponad inflację. Wcześniejszy zapis „suma nominalna” był nieprecyzyjny przy cenach wpisywanych dziś.
+- **Lista zadań:** osobne wpisy „PDF-y od właściciela (PGE, PME)” (polecenie „Dodaj do listy zadań”) oraz „Ścieżka UE do pliku danych i jej aktualność”.
+

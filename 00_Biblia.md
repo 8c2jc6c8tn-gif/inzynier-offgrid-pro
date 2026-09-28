@@ -52,9 +52,9 @@ Do 04.09.2026 rolę Biblii pełniły `ZASADY_APLIKACJI.md` (pełna) i `USTALENIA
 | 00 | `00_Biblia.md` (ten plik) | — | 1.0 | Stabilny | Indeks |
 | 01 | `01_Zasady_Pracy_i_Konwencje.md` | C | 1.0 | Stabilny | Wyciąg operacyjny z GOD BOOK dla tego projektu |
 | 02 | `02_Dyrektywy_AI_Projektu.md` | C | 1.0 | Stabilny | Twarde reguły zachowania AI specyficzne dla domeny off-grid |
-| 03 | `03_M14_Dom_i_Firma_Siec.md` | B | 1.0 | Stabilny (kod za bramką N.3) | M14 „Dom – sieć” / „Firma – sieć” — rachunek za prąd, prosument, taryfy G/C, potem scenariusze przejścia A–D, ryzyka i procedura odłączenia (D35–D38). Pierwszy moduł opisany w Biblii, a nie w `docs/zrodla/Tresc_*` |
+| 03 | `03_M14_Dom_i_Firma_Siec.md` | B | 1.1 | Stabilny (kod za bramką N.3) | M14 „Dom – sieć” / „Firma – sieć” — rachunek za prąd, prosument, taryfy G/C, potem scenariusze przejścia A–D, ryzyka i procedura odłączenia (D35–D40). Pierwszy moduł opisany w Biblii, a nie w `docs/zrodla/Tresc_*` |
 | — | `zlote-zasady.md` | C | 1.0 | Stabilny | Kompas projektu — 4 filozofie + 14 zasad architektonicznych |
-| — | `rejestr-decyzji.md` | C | 1.14 | Stabilny | D1, D2, D3… decyzje strategiczne, ponumerowane, rosnące |
+| — | `rejestr-decyzji.md` | C | 1.15 | Stabilny | D1, D2, D3… decyzje strategiczne, ponumerowane, rosnące |
 | — | `slownik-pojec.md` | C | 1.0 | Stabilny | Terminy branżowe (SoC, DoD, MPPT, Voc, C-rate...) |
 | — | `wiedza-surowa.md` | C | 1.0 | Stabilny | Synteza materiałów źródłowych — wskaźnik do `docs/zrodla/`, nie duplikat |
 | — | `kontrakty-rdzenia.md` | A | 1.0 | Stabilny | `CalcResult<T>`, Status, Warning, warstwy, wzorzec echo — konkretne kontrakty tego projektu |
@@ -80,3 +80,4 @@ Do 04.09.2026 rolę Biblii pełniły `ZASADY_APLIKACJI.md` (pełna) i `USTALENIA
 |---|---|
 | 04.09.2026 | Utworzono `00_Biblia.md` — migracja z `ZASADY_APLIKACJI.md`/`USTALENIA.md` do kanonicznego formatu GOD BOOK, na wniosek właściciela projektu. Wersja 1.0 (pierwsza stabilna). |
 | 28.09.2026 | Dodano rozdział `03_M14_Dom_i_Firma_Siec.md` (Filar B) — integracja opracowania M14 na polecenie właściciela („Integruj teraz”); decyzje D35–D38. Wersja rejestru decyzji w tabeli zaktualizowana (1.11 → 1.14, była nieaktualna). |
+| 28.09.2026 | Decyzje D39 (pozycja kafli M14) i D40 (TCO M14 plus „Ścieżka UE”); rozdział 03 v1.1; rejestr decyzji 1.14→1.15. |

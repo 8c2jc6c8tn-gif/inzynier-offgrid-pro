@@ -1,6 +1,6 @@
 # Rejestr decyzji — Inżynier Offgrid Pro
 
-**Wersja:** 1.14 | **Filar:** C | **Data utworzenia:** 04.09.2026 | **Ostatnia aktualizacja:** 28.09.2026 | **Status:** Stabilny (rosnący)
+**Wersja:** 1.15 | **Filar:** C | **Data utworzenia:** 04.09.2026 | **Ostatnia aktualizacja:** 28.09.2026 | **Status:** Stabilny (rosnący)
 **Powiązane dokumenty:** `00_Biblia.md`, `docs/memory.md`, `USTALENIA.md` (historyczny, Część II)
 
 TL;DR: D1, D2, D3… — decyzje **strategiczne/fundamentalne** (blokujące wiele innych rzeczy naraz, Krok 4 GOD BOOK), ponumerowane, nigdy nie kasowane, tylko unieważniane jawnie (F.5). **Nie duplikuje `docs/memory.md`**: tam żyje pełna, szczegółowa historia każdej sesji (setki drobnych decyzji implementacyjnych per ekran) — tu tylko decyzje, które zmieniły kierunek/regułę obowiązującą cały projekt. Gdy wpis niżej odsyła do `docs/memory.md`, tam jest pełne uzasadnienie i przykłady.
@@ -117,6 +117,20 @@ Treść:
 - (3) Wpis ręczny % zostaje jako opcja „znam swoją autokonsumpcję”.
 - (4) W trybie zaawansowanym używany jest profil z M2.
 
+**D39 (28.09.2026) — M14: dwa kafle („Dom – sieć”, „Firma – sieć”) stoją na końcu domyślnej kolejności pulpitu, za kaflem 13; później preset onboardingu „Jestem podłączony do sieci” wysuwa je na początek.** Koszt cofnięcia: tani (kolejność kafli to konfiguracja pulpitu, kod M14 jeszcze nie istnieje). Decyzja właściciela projektu z 28.09.2026: „Zgadzam się” — na propozycję AI (wcześniej ✅🤖). „Kafel 14” pozostaje Ustawieniami (D9), więc kafle M14 nazywa się nazwą albo M14-D / M14-F. Pełne: `03_M14_Dom_i_Firma_Siec.md` („Miejsce w aplikacji”), `docs/pulpit-i-nawigacja.md`.
+
+**D40 (28.09.2026) — M14 TCO: `N` = 15 lat (zakres 10–25), `r` = 0, `g` = 0 plus suwak −3 / 0 / +5 / +10%/rok plus trzecia opcja „Ścieżka UE” — dynamika cen energii z oficjalnej projekcji Komisji Europejskiej dla Polski.** Koszt cofnięcia: tani (dane plus jedna opcja wyboru, kod jeszcze nie istnieje). Decyzja właściciela projektu z 28.09.2026: „Tak. Ale weźmy jeszcze planowane ceny energii prognozowane na kolejne lata przez ue.”
+
+Treść:
+- (1) Źródło „Ścieżki UE”: KE DG ENER, *EU Reference Scenario 2020*, arkusz wyników, `PL_A`, „Average Price of Electricity in Final demand sectors (€'15/MWh)”, odczyt pierwotny ✅. Na 28.09.2026 to najnowsza opublikowana edycja.
+- (2) Do obliczeń wchodzi tylko dynamika realna (ponad inflację), nie poziom w €/MWh. Wartość to średnia dla wszystkich odbiorców, a status podatków jest nieokreślony.
+- (3) Ścieżka jest zawsze podpisana źródłem i datą i ma ostrzeżenie: założenia polityki z końca 2019 r., bez kryzysu cen 2021–2023, Fit for 55 i ETS2.
+- (4) Domyślnie nadal `g` = 0: aplikacja sama cen nie prognozuje, a ścieżkę UE wybiera użytkownik.
+- (5) `g` z suwaka ma to samo znaczenie (zmiana ponad inflację). Wynik przy `r` = 0 jest w dzisiejszych złotych.
+- (6) Nowsza edycja projekcji KE podmienia dane (dane z okresem ważności, D36).
+
+Pełne: `03_M14_Dom_i_Firma_Siec.md` („Kluczowe zasady i wzory”, TCO).
+
 ---
 
 ## Założenia robocze (F.7 GOD BOOK)
@@ -144,3 +158,4 @@ Treść:
 | 28.09.2026 | Dodano D30 (E23 próg 80%), D31 (E19 falownik 🔴, regulator 🟡), D32 (E8 progi rozruchu diesla/benzyny), D33 (E11 przykładowe moce urządzeń) — decyzje właściciela projektu, runda 3. Wersja 1.11→1.12. |
 | 28.09.2026 | Dodano D34 (chmurki „?” — wariant B + bogaty opis działania kalkulatora) — decyzja właściciela projektu. Wersja 1.12→1.13. |
 | 28.09.2026 | Dodano D35 (M14: ścieżka przejścia sieć → off-grid, kafle „Dom – sieć” / „Firma – sieć”, najpierw Sieć, potem Przejście), D36 (stawki jako dane z okresami ważności + tryb „moje dane z faktury”), D37 (FREE/PRO dla M14 odłożone, D2 bez zmian), D38 (autokonsumpcja z profili) — integracja M14 do Biblii („Integruj teraz”). Wersja 1.13→1.14. |
+| 28.09.2026 | Dodano D39 (pozycja kafli M14) i D40 (parametry TCO M14 plus „Ścieżka UE” z EU Reference Scenario 2020) — decyzje właściciela projektu. Wersja 1.14→1.15. |
