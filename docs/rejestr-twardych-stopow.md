@@ -72,6 +72,12 @@ nie do audytu poprawności formularza webowego.
   (M3/E22 — `lib/core/modules/pv/ochrona-stringow/warnings.ts`, `ochronaObowiazkowaBrak` kod
   `OCHRONA-OBOWIAZKOWA-BRAK`, `zakresBezpiecznikaNiepoprawny` kod
   `ZAKRES-BEZPIECZNIKA-NIEPOPRAWNY`)
+- **[28.09.2026] Mikroinwertery w instalacji off-grid bez falownika wyspowego obsługującego sprzężenie AC
+  (albo „nie wiem”)** — mikroinwerter to falownik sieciowy (nadążny), bez napięcia odniesienia nie wystartuje;
+  instalacja nie zadziała. ✏️ Uzupełnienie eksperckie spoza źródła (źródło rekomenduje mikroinwertery przy
+  cieniu bez tego zastrzeżenia), poziom 🔴 — decyzja właściciela projektu 28.09.2026.
+  (M3/E21 — `lib/core/modules/pv/mikroinwertery-vs-centralny/warnings.ts`, `mikroinwerterBezFalownikaWyspowego`,
+  kod `MIKROINWERTER-OFFGRID-BEZ-FALOWNIKA-WYSPOWEGO`)
 - **Odległość źródła spalania paliwa stałego od materiałów palnych poniżej 40 cm** — realne
   ryzyko pożaru, próg podany wprost przez źródło jako liczba, nie zakres.
   (M8/E2 — `lib/core/modules/bezpieczenstwo/dogrzewanie-paliwem-stalym/warnings.ts`,
@@ -184,8 +190,17 @@ nie do audytu poprawności formularza webowego.
   zabezpieczenia przed niskim napięciem** — realne ryzyko trwałego uszkodzenia przez głębokie rozładowanie.
   [27.09.2026] (M12/E9 — `lib/core/modules/kalkulator-mobilny/ochrona-przed-rozladowaniem/warnings.ts`,
   `brakDozownikaOlowiowy`, kod `LVD-BRAK-OCHRONY-OLOWIOWY`)
+- **[28.09.2026] Akumulator kwasowy (zalewowy, otwarty) bez wentylacji w kamperze albo przy ładowaniu w
+  zamkniętym garażu** — wydziela wodór, w małej kubaturze ryzyko wybuchu. Poziom 🔴 tylko dla zalewowego;
+  AGM (VRLA) — 🟡 (gazuje znacznie mniej). Alert Biblii §12.33/§12.51, lista twardych stopów `Tresc_Modul_12`
+  go nie wymienia — poziom to decyzja właściciela projektu 28.09.2026. Wymiarowanie wentylacji (EN IEC 62485-2)
+  poza zakresem — normy brak w repo.
+  (M12/E22 i E36 — `lib/core/modules/kalkulator-mobilny/bezpieczenstwo-kamper/warnings.ts`,
+  `brakWentylacjiOlowiowy`, kody `BK-OLOW-BEZ-WENTYLACJI`, `LG-OLOW-BEZ-WENTYLACJI`)
 - **Urządzenie o wąskiej tolerancji napięciowej podłączone wprost do akumulatora bez stabilizacji** — napięcie
   ładowania (do 14,5 V dla 12 V) przekracza górną granicę tolerancji urządzenia, ryzyko uszkodzenia.
+  **[28.09.2026] ZMIENIONO:** górna granica nie jest już stałą 14,5 V — to maks. napięcie ładowania z ustawień
+  regulatora usera (decyzja właściciela; rozbieżność `Tresc` 14,5 V vs Biblia 14,6 V i wyrównywanie ołowiowego).
   [27.09.2026] (M12/E27 — `lib/core/modules/kalkulator-mobilny/urzadzenie-12v-bezposrednio/warnings.ts`,
   `przepieciePrzyLadowaniu`, kod `U12-PRZEPIECIE-PRZY-LADOWANIU`)
 - **Voc paneli w mrozie powyżej max napięcia wejścia solarnego stacji zasilania/powerbanka** — stacje mają niższe

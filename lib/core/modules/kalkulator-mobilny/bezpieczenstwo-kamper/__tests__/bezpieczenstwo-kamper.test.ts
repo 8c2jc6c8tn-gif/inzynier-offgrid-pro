@@ -10,10 +10,15 @@ describe("calculateBezpieczenstwoKamper (M12/E22, dawne 8.45)", () => {
     expect(w.value.razem).toBe(0)
   })
 
-  it("kwasowy bez potwierdzonej wentylacji → ostrzeżenie 🟡 o wodorze (Biblia §12.33)", () => {
+  it("kwasowy (zalewowy) bez potwierdzonej wentylacji → 🔴 wodór (Biblia §12.33, decyzja 28.09.2026)", () => {
     const w = calculateBezpieczenstwoKamper({ chemia: "kwasowy", potwierdzoneIds: ["mocowanie"] })
     expect(w.status).toBe("INCOMPLETE")
     expect(w.value).toMatchObject({ potwierdzone: 1, razem: 5 })
+    expect(w.warnings.map((x) => [x.code, x.level])).toEqual([["BK-OLOW-BEZ-WENTYLACJI", "critical"]])
+  })
+
+  it("AGM (VRLA) bez potwierdzonej wentylacji → 🟡 wodór", () => {
+    const w = calculateBezpieczenstwoKamper({ chemia: "AGM", potwierdzoneIds: ["mocowanie"] })
     expect(w.warnings.map((x) => [x.code, x.level])).toEqual([["BK-OLOW-BEZ-WENTYLACJI", "warning"]])
   })
 

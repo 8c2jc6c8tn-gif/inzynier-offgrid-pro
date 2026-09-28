@@ -3,7 +3,7 @@ import { CHECKLIST_ITEMS, ID_WENTYLACJI, type PozycjaChecklistyChemii } from "./
 import type { ChecklistaChemiiInput } from "./input"
 import { brakWentylacjiOlowiowy, lifepo4Info } from "./warnings"
 
-export const CALCULATOR_VERSION = "1.0.0"
+export const CALCULATOR_VERSION = "1.1.0"
 
 export type ChecklistaChemiiResult = {
   /** Pozycje dotyczące wybranej chemii. */
@@ -14,7 +14,8 @@ export type ChecklistaChemiiResult = {
 
 /**
  * Shared logic of a chemistry-dependent checklist (M12/E22, reused by M12/E36): only items for the chosen
- * chemistry count; an unconfirmed ventilation item with a lead-acid battery adds a warning (hydrogen).
+ * chemistry count; an unconfirmed ventilation item with a lead-acid battery adds a warning (hydrogen) —
+ * 🔴 for flooded, 🟡 for AGM (since 1.1.0).
  */
 export function ocenChecklisteChemii(
   items: readonly PozycjaChecklistyChemii[],
@@ -41,7 +42,7 @@ export function ocenChecklisteChemii(
 
   const warnings: Warning[] = []
   if (chemia === "LiFePO4") warnings.push(lifepo4Info(kody.lifepo4))
-  else if (!ids.has(ID_WENTYLACJI)) warnings.push(brakWentylacjiOlowiowy(kody.brakWentylacji))
+  else if (!ids.has(ID_WENTYLACJI)) warnings.push(brakWentylacjiOlowiowy(kody.brakWentylacji, chemia))
 
   return {
     value: { pozycje, potwierdzone, razem },

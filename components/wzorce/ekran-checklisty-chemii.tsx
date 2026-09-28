@@ -29,6 +29,7 @@ export function EkranChecklistyChemii({
   const { pozycje, potwierdzone, razem } = result.value
   const widoczneIds = stan.potwierdzoneIds.filter((id) => pozycje.some((p) => p.id === id))
   const maOstrzezenie = result.warnings.some((w) => w.level !== "info")
+  const maTwardyStop = result.warnings.some((w) => w.level === "critical")
 
   function toggle(id: string) {
     setStan((prev) => ({
@@ -45,7 +46,7 @@ export function EkranChecklistyChemii({
         onChange={(e) => setStan((prev) => ({ ...prev, chemia: e.target.value as FormularzStan["chemia"] }))}
       >
         <option value="">— wybierz —</option>
-        <option value="AGM">AGM</option>
+        <option value="AGM">AGM (VRLA, szczelny)</option>
         <option value="kwasowy">Kwasowy (zalewowy)</option>
         <option value="LiFePO4">LiFePO4</option>
       </PoleSelect>
@@ -71,7 +72,7 @@ export function EkranChecklistyChemii({
           <WynikSzczegoly assumptions={[]} warnings={result.warnings} />
         </WerdyktPanel>
       ) : maOstrzezenie ? (
-        <WerdyktPanel poziom="uwaga" etykieta={`Potwierdzono ${potwierdzone} / ${razem}`}>
+        <WerdyktPanel poziom={maTwardyStop ? "blad" : "uwaga"} etykieta={`Potwierdzono ${potwierdzone} / ${razem}`}>
           <WynikSzczegoly assumptions={[]} warnings={result.warnings} />
         </WerdyktPanel>
       ) : (

@@ -3,6 +3,10 @@
 import { useId, useMemo } from "react"
 import { calculateUrzadzenie12vBezposrednio } from "@/lib/core/modules/kalkulator-mobilny/urzadzenie-12v-bezposrednio/calculator"
 import type { Urzadzenie12vBezposrednioInput } from "@/lib/core/modules/kalkulator-mobilny/urzadzenie-12v-bezposrednio/input"
+import {
+  NAPIECIE_LADOWANIA_12V_BIBLIA_V,
+  NAPIECIE_LADOWANIA_12V_TRESC_V,
+} from "@/lib/core/modules/kalkulator-mobilny/urzadzenie-12v-bezposrednio/constants"
 import { usePersistedDraft } from "@/lib/adapters/use-persisted-draft"
 import { Pole, PoleCheckbox, PoleSelect } from "@/components/ui/pole"
 import { WerdyktPanel } from "@/components/werdykt"
@@ -15,6 +19,8 @@ type FormularzStan = {
   napiecieSystemuV: Urzadzenie12vBezposrednioInput["napiecieSystemuV"]
   napiecieUrzadzeniaV: string
   tolerancjaPct: string
+  /** Optional: drafts saved before 1.1.0 do not have it (usePersistedDraft does not merge with initial values). */
+  maksNapiecieLadowaniaV?: string
   przezStabilizator: boolean
 }
 
@@ -22,6 +28,7 @@ const STAN_POCZATKOWY: FormularzStan = {
   napiecieSystemuV: 0,
   napiecieUrzadzeniaV: "",
   tolerancjaPct: "",
+  maksNapiecieLadowaniaV: "",
   przezStabilizator: false,
 }
 
@@ -30,6 +37,7 @@ const f1 = (x: number) => x.toLocaleString("pl-PL", { minimumFractionDigits: 1, 
 export default function Urzadzenie12vBezposrednioPage() {
   const [stan, setStan] = usePersistedDraft<FormularzStan>("urzadzenie-12v-bezposrednio", STAN_POCZATKOWY)
   const idStabilizator = useId()
+  const maksLadowania = stan.maksNapiecieLadowaniaV ?? ""
 
   const result = useMemo(
     () =>
@@ -37,9 +45,10 @@ export default function Urzadzenie12vBezposrednioPage() {
         napiecieSystemuV: stan.napiecieSystemuV,
         napiecieUrzadzeniaV: stan.napiecieUrzadzeniaV === "" ? 0 : Number(stan.napiecieUrzadzeniaV),
         tolerancjaPct: stan.tolerancjaPct === "" ? null : Number(stan.tolerancjaPct),
+        maksNapiecieLadowaniaV: maksLadowania === "" ? null : Number(maksLadowania),
         przezStabilizator: stan.przezStabilizator,
       }),
-    [stan],
+    [stan, maksLadowania],
   )
 
   const hasCritical = result.warnings.some((w) => w.level === "critical")
@@ -49,7 +58,8 @@ export default function Urzadzenie12vBezposrednioPage() {
     <main className="mx-auto flex max-w-md flex-col gap-6 p-6">
       <NawigacjaEkranu href="/kalkulatory/urzadzenie-12v-bezposrednio" />
       <NaglowekEkranu tytul="Czy mogę podłączyć urządzenie 12 V bezpośrednio?">
-        „12 V” na akumulatorze to uproszczenie — realnie od 11 V do 14,5 V. Nie każde urządzenie to wytrzyma. Moduł 12.
+        „12 V” na akumulatorze to uproszczenie — realnie od ok. 11 V do napięcia ładowania (ok. 14,5 V i więcej). Nie
+        każde urządzenie to wytrzyma. Moduł 12.
       </NaglowekEkranu>
 
       <div className="flex flex-col gap-4">
@@ -82,6 +92,24 @@ export default function Urzadzenie12vBezposrednioPage() {
           value={stan.tolerancjaPct}
           onChange={(e) => setStan((prev) => ({ ...prev, tolerancjaPct: e.target.value }))}
           hint="Z instrukcji lub tabliczki. Gdy podany jest zakres (np. 10–16 V), przelicz go na ± % od napięcia znamionowego."
+        />
+        <Pole
+          label="Maks. napięcie ładowania instalacji"
+          unit="V"
+          type="number"
+          inputMode="decimal"
+          min={0}
+          value={maksLadowania}
+          onChange={(e) => setStan((prev) => ({ ...prev, maksNapiecieLadowaniaV: e.target.value }))}
+          hint={`Z ustawień regulatora lub ładowarki. Dla 12 V źródła podają ${NAPIECIE_LADOWANIA_12V_TRESC_V.toLocaleString("pl-PL")}–${NAPIECIE_LADOWANIA_12V_BIBLIA_V.toLocaleString("pl-PL")} V.`}
+          pomoc={
+            <>
+              <strong>Maksymalne napięcie ładowania</strong> — najwyższe napięcie, do jakiego regulator lub ładowarka
+              doprowadza akumulator (absorpcja; przy akumulatorze ołowiowym także wyrównywanie, jeśli jest włączone).
+              Znajdziesz je w ustawieniach regulatora albo w instrukcji ładowarki. Dla instalacji 24 V wpisz wartość
+              całej instalacji, nie jednego akumulatora.
+            </>
+          }
         />
         <PoleCheckbox
           id={idStabilizator}
