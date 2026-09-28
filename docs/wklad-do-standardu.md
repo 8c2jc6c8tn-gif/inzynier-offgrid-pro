@@ -875,3 +875,15 @@ każda ma ten sam cichy błąd. Kandydat na regułę: „wzory LaTeX w kodzie �
 lintem (`no-useless-escape`) lub testem”.
 
 Status: 🔎 nowe
+
+[28.09.2026] KATEGORIA: DOBRA PRAKTYKA — „przykład źródła pasuje liczbowo do reguły z innego modułu” to nie dowód, że reguła obowiązuje
+Szczegóły: M8/E1 (kominek z płaszczem wodnym) ma w źródle przykład „kominek 8 kW + bufor 400 l”. Liczbowo to dokładnie reguła
+50 l/kW z M6/E14 — ale tam źródło podaje ją wyłącznie dla pompy ciepła. Kuszące echo (reużycie gotowego silnika) przeniosłoby
+współczynnik na inne urządzenie bez podstawy w źródle ani normie. Nie przeniesiono; zapisane w rejestrze pokrycia jako „nie
+zbudowane — reguła dotyczy innego urządzenia”.
+
+Dlaczego warto zgłosić do new-app-standards: wzorzec „echo” (reużycie silnika) jest w rodzinie aplikacji promowany, a zgodność
+liczbowa z przykładem wygląda jak weryfikacja. Kandydat na regułę: „echo wolno użyć tylko, gdy źródło/norma przypisuje regułę
+temu samemu obiektowi fizycznemu; zbieżność z przykładem to hipoteza, nie podstawa”.
+
+Status: 🔎 nowe

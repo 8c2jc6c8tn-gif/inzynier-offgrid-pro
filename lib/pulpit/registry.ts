@@ -225,6 +225,9 @@ export const KAFLE: KafelEntry[] = [
         href: "/kalkulatory/dogrzewanie-paliwem-stalym",
         label: "Bezpieczeństwo pożarowe — dogrzewanie paliwem stałym",
       },
+      { href: "/kalkulatory/awaryjne-zrodlo-ciepla", label: "Awaryjne źródło ciepła (kominek, koza, piec)" },
+      { href: "/kalkulatory/zamki-drzwi-ewakuacyjnych", label: "Zamki drzwi ewakuacyjnych" },
+      { href: "/kalkulatory/modul-gasniczy", label: "Moduł gaśniczy" },
     ],
   },
   {

@@ -7664,3 +7664,13 @@ Polecenie właściciela: „co można jeszcze zrobić beze mnie, czy są większ
 
 - **Konflikt w źródle (nie rozstrzygnięty samodzielnie):** próg parafinizacji zwykłego diesla — sekcja B „przy −20°C”, przykład C „nie wystartuje przy −15°C”. Dziś tylko info dla zwykłego diesla < 0°C. Wpis do decyzji: `docs/lista-do-zrobienia.md`.
 - 120 h z przykładu to wymagany czas pracy, nie wynik (8 h + 1 h przez 168 h dałoby 150 h) — stąd wejście „łączny czas pracy”, a czas kalendarzowy jako wynik.
+
+### M8 blok 1: E1, E3, E4 (28.09.2026)
+
+Polecenie właściciela: „zacznij od modułów M8–M7 i ruszaj dalej; po każdym bloku, który możesz zrobić beze mnie — commit, push, PR, merge”.
+
+- **E3 zamki drzwi ewakuacyjnych** — źródło sformułowało 🔴 nieprecyzyjnie („zamek elektromagnetyczny bez zasilania awaryjnego … jeśli logika nie jest fail-safe”). Fizycznie o bezpieczeństwie decyduje zachowanie przy zaniku prądu, nie typ zamka — stąd wejście „co robi zamek przy zaniku prądu” (otwiera/blokuje/nie wiem), a 🔴 = nie fail-safe ∧ brak zasilania awaryjnego. „Nie wiem” = blokuje (strona bezpieczna). Fail-secure z UPS → 🟡 (✅🤖, lista do decyzji).
+- **E4 moduł gaśniczy** — 🔴 tylko dla środków wymienionych wprost jako nieskuteczne przy LiFePO4 (proszek, CO2); gaz obojętny/aerozol 🟡 (✅🤖). Próg 2 czujników z „np. dwa niezależne” — potwierdzenie jednym czujnikiem nie jest potwierdzeniem. Sekwencja 12.51 — lista na ekranie, nie logika (wykonanie to M9/M13).
+- **E1 awaryjne źródło ciepła** — **pułapka echa:** przykład źródła (kominek 8 kW + bufor 400 l) pasuje liczbowo do reguły 50 l/kW z M6/E14, ale ta reguła dotyczy pompy ciepła — świadomie NIE przeniesiona na kominek (Dyrektywa #1). Paliwo m = P·t/(η·W_o): P to moc oddana, więc energia paliwa = E/η. Wartość opałowa drewna od usera (źródło jej nie podaje).
+- Nowy plik testów narzędzi AI M8: `lib/ai/tools/__tests__/modul8-bezpieczenstwo-tools.test.ts`.
+- Weryfikacja: typecheck / lint (0 błędów) / i18n-guard (173) / test 196 plików, 1600 / build / audit:gate / audit:n1; `next start` + Playwright 390 px `pl-PL` — trzy ekrany, werdykty zgodne z testami, bez poziomego przewijania.

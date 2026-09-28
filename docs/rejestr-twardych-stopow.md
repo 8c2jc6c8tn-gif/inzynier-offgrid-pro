@@ -84,6 +84,19 @@ nie do audytu poprawności formularza webowego.
   zagrożenie życia, nie tylko mienia; czad nie ma zapachu i zabija we śnie.
   (M8/E2 — `lib/core/modules/bezpieczenstwo/dogrzewanie-paliwem-stalym/warnings.ts`,
   `brakCzujnikaCo`, kod `BRAK-CZUJNIKA-CO`)
+- **[28.09.2026] Zamek drzwi ewakuacyjnych, który przy zaniku prądu blokuje drzwi (albo nie wiadomo,
+  co robi), bez zasilania awaryjnego** — w pożarze, gdy padnie zasilanie, droga ewakuacji zostaje
+  zamknięta. Twardy stop źródła.
+  (M8/E3 — `lib/core/modules/bezpieczenstwo/zamki-drzwi-ewakuacyjnych/warnings.ts`,
+  `zamekBlokujeBezZasilaniaAwaryjnego`, kod `ZAMEK-BLOKUJE-BEZ-ZASILANIA-AWARYJNEGO`)
+- **[28.09.2026] Proszek lub CO2 jako środek gaśniczy w strefie magazynu LiFePO4** — nie gaszą
+  wewnętrznej reakcji ogniwa; wymagana mgła wodna lub środek do magazynów energii.
+  (M8/E4 — `lib/core/modules/bezpieczenstwo/modul-gasniczy/warnings.ts`,
+  `srodekNieskutecznyLifepo4`, kod `GASZ-SRODEK-NIESKUTECZNY-LIFEPO4`)
+- **[28.09.2026] Moduł gaśniczy rozładowany** — status krytyczny, sygnalizowany proaktywnie, nie
+  dopiero w pożarze.
+  (M8/E4 — `lib/core/modules/bezpieczenstwo/modul-gasniczy/warnings.ts`, `modulRozladowany`, kod
+  `GASZ-MODUL-ROZLADOWANY`)
 
 ## Bateryjne
 
