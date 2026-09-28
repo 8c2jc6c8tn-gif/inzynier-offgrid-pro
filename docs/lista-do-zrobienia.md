@@ -14,6 +14,9 @@ Tu trafia bieżący stan pracy: co w trakcie, co zablokowane, co następne — a
 
 ---
 
+> **▶ START NASTĘPNEJ SESJI (28.09.2026):** najpierw `docs/przekazanie-nastepnej-sesji.md` — kolejność pracy
+> (decyzja 4 właściciela → zamknięcie N.3 → kod M14), jaki kod pisać i czego nie robić.
+
 ## Zadania
 
 - ✅ (2026-09-03) Synchronizacja pakietu `new-app-standards`: rozdziały 00–16 odświeżone, dodano `docs/god-book/`, `PROMPT_STARTOWY.md`, ten plik i `docs/wklad-do-standardu.md`. Szczegóły: `docs/memory.md`, sekcja "Synchronizacja ze standardem".
@@ -1113,3 +1116,4 @@ Pełne wyniki audytu: `docs/memory.md`, sekcja "Pełny audyt na polecenie właś
 
   **Priorytet:** wysoki (bramka N.3 kodu M14). **Odblokowuje:** kod M14. **Kolizje:** pkt 2 zmienia istniejące ekrany M2/E17 i M7/E8 (kolizja z każdą sesją nad nimi). **Kolejność:** decyzje → ewentualne poprawki → zamknięcie audytu → plik danych `rozliczenia-pl-2026` + silnik TCO.
 - ⚠️ (2026-09-28) **Szkic „Oświetlenie LED” czeka na kartę katalogową taśmy** (`docs/zrodla/Opracowanie_Tasmy_LED_Oswietlenie_DC_DRAFT.md`, `docs/memory.md` 14.09.2026). Do tej pory śledzony tylko w `docs/memory.md` (znalezione w audycie N.3). Właściciel dostarcza kartę z `R` na metr; bez niej Claude nie proponuje wartości. **Priorytet:** niski. **Odblokowuje:** integrację rozdziału LED. **Kolizje:** brak. **Kolejność:** po decyzji 3 z audytu N.3. **[28.09.2026] Decyzja 3 podjęta (D46): kandydat poza Biblią, nie blokuje N.3; zapis także w `backlog-poza-v1.md` i nagłówku szkicu.**
+- 🔲 (2026-09-28) **Przekazanie dla następnej sesji:** `docs/przekazanie-nastepnej-sesji.md`. Ta sesja nie pisze kodu M14 (polecenie właściciela) — kod pisze następna, według tego pliku. **Priorytet:** wysoki. **Odblokowuje:** kod M14. **Kolizje:** brak. **Kolejność:** decyzja 4 → zamknięcie N.3 → plik `rozliczenia-pl-2026` → ekrany Sieć → TCO → Przejście → kafle.

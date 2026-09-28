@@ -7993,3 +7993,4 @@ Tryb Audyt (czapka rewidenta). Warstwa „w pełni na końcu” z N.2 — wszyst
   - Dwa wyjątki (wejście AC falownika, odbiorniki wprost w agregat) to ✅🤖 — dopisane do decyzji 4.
 - **D46:** szkic LED = kandydat poza Biblią; zapisany w rejestrze decyzji, backlogu, liście zadań i nagłówku szkicu.
 - **Stan N.3:** otwarta tylko decyzja 4 (✅🤖).
+- **Przekazanie:** na polecenie właściciela ta sesja nie pisze kodu M14. Instrukcja dla następnej sesji: `docs/przekazanie-nastepnej-sesji.md` (odsyłacz na górze `docs/lista-do-zrobienia.md`).
