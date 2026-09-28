@@ -155,6 +155,7 @@ const MIGRATED_MODULES = [
   "lib/core/modules/stress-test/pompy-zawory-w-mrozie",
   "lib/core/modules/stress-test/grzalki-dachowe",
   "lib/core/modules/stress-test/ryzyko-zamarzniecia",
+  "lib/core/modules/stress-test/agregat-w-mrozie",
   "lib/core/modules/zapotrzebowanie/urzadzenia-zmienne",
   "lib/core/modules/zapotrzebowanie/sprawnosc-inwertera-niskie-obciazenie",
   "lib/core/modules/zapotrzebowanie/architektura-fazowa",

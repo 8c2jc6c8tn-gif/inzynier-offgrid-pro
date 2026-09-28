@@ -10,7 +10,7 @@ import { brakPrzekrojuDlaKoordynacji, koordynacjaPodniosla, pojazdWibracje, prze
 export const CALCULATOR_VERSION = "1.0.0"
 
 const FORMULA =
-  "\\Delta U\\% = \\frac{I_B \\rho\\, 2L / S}{U} \\times 100 \;\; ; \;\; I_n = 1{,}25\\, I_B \;\; ; \;\; I_B \\le I_n \\le I_z"
+  "\\Delta U\\% = \\frac{I_B \\rho\\, 2L / S}{U} \\times 100 \\;\\; ; \\;\\; I_n = 1{,}25\\, I_B \\;\\; ; \\;\\; I_B \\le I_n \\le I_z"
 
 export type KableBezpiecznikiMaleResult = {
   /** Przekrój dobrany (auto) albo sprawdzany przez użytkownika [mm²]. 0 = brak. */

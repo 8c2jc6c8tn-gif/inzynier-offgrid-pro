@@ -8,7 +8,7 @@ import { bliskoLimituNapiecia, polaryzacjaInfo, pradPowyzejLimitu, przekroczoneN
 export const CALCULATOR_VERSION = "1.0.0"
 
 const FORMULA =
-  "V_{oc,zima} = n_s \\times V_{oc} \\times (1 + \\beta (T_{min} - 25)) \\le U_{max,wej} \;\; ; \;\; I_{sc} \\times n_p \\le I_{max,wej}"
+  "V_{oc,zima} = n_s \\times V_{oc} \\times (1 + \\beta (T_{min} - 25)) \\le U_{max,wej} \\;\\; ; \\;\\; I_{sc} \\times n_p \\le I_{max,wej}"
 
 export type PanelDoStacjiZasilaniaResult = {
   /** Napięcie jałowe całego łańcucha w najniższej temperaturze [V]. */

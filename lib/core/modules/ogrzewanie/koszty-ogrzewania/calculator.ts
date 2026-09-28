@@ -50,7 +50,7 @@ export type KosztyOgrzewaniaResult = {
 }
 
 const FORMULA =
-  "c_Q = \\frac{c}{WO \\cdot \\eta} \;|\; \\frac{c \\cdot \\dot V}{P} \;|\; \\frac{c_{el}}{COP},\\quad K = I + n \\cdot (Q \\cdot c_Q + S)"
+  "c_Q = \\frac{c}{WO \\cdot \\eta} \\;|\\; \\frac{c \\cdot \\dot V}{P} \\;|\\; \\frac{c_{el}}{COP},\\quad K = I + n \\cdot (Q \\cdot c_Q + S)"
 
 function kosztKwh(z: ZrodloCiepla, sposob: SposobLiczenia): number | null {
   const { cenaZl: c, wartoscOpalowaKwh: wo, sprawnoscPct: eta, mocGrzewczaKw: p, zuzyciePaliwaNaH: v } = z

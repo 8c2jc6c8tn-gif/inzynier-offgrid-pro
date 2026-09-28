@@ -22,12 +22,24 @@ function pojedynczyEscape(linia: string): boolean {
   return false
 }
 
+/** Lines of every `FORMULA` expression, including continuation lines (`=`, `+`, `(` at line end). */
+function linieWzorow(tresc: string): string[] {
+  const wynik: string[] = []
+  let wewnatrz = false
+  for (const l of tresc.split("\n")) {
+    if (l.includes("FORMULA") || wewnatrz) {
+      wynik.push(l)
+      wewnatrz = /[=+(]$/.test(l.trimEnd())
+    }
+  }
+  return wynik
+}
+
 describe("FORMULA — LaTeX escapes", () => {
   it("no single-backslash spacing (JS turns it into a bare character, e.g. ';')", () => {
     const zle = plikiKalkulatorow(join(process.cwd(), "lib/core/modules")).flatMap((p) =>
-      readFileSync(p, "utf8")
-        .split("\n")
-        .filter((l) => l.includes("FORMULA") && pojedynczyEscape(l))
+      linieWzorow(readFileSync(p, "utf8"))
+        .filter(pojedynczyEscape)
         .map((l) => `${p}: ${l.trim()}`),
     )
     expect(zle).toEqual([])

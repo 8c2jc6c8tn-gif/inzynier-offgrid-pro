@@ -10,7 +10,7 @@ export const CALCULATOR_VERSION = "1.0.0"
 const EPS_V = 1e-9
 
 const FORMULA =
-  "U_{urz} \\in [U_n (1 - t),\; U_n (1 + t)] \;\; ; \;\; U_{aku} \\in [11,\; 14{,}5] \\times \\dfrac{U_{sys}}{12}"
+  "U_{urz} \\in [U_n (1 - t),\\; U_n (1 + t)] \\;\\; ; \\;\\; U_{aku} \\in [11,\\; 14{,}5] \\times \\dfrac{U_{sys}}{12}"
 
 export type Urzadzenie12vBezposrednioResult = {
   urzadzenieMinV: number
