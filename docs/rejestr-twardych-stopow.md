@@ -109,6 +109,9 @@ nie do audytu poprawności formularza webowego.
   `ALARM-WEZWANIE-BEZ-ZGODY`)
 - **[28.09.2026] BMS bez obejścia / redundancji (SPOF)** — awaria BMS wyłącza cały system w kilka sekund.
   (M7/E10 — `lib/core/modules/stress-test/analiza-spof/warnings.ts`, `bmsBezObejscia`, kod `SPOF-BMS`)
+- **[28.09.2026] Przegrzewanie budynku nocą z baterii (Pre-Heat)** — „zrujnuje magazyn energii”, twardy stop źródła.
+  (M7/E18 — `lib/core/modules/stress-test/pre-heat/warnings.ts`, `grzanieNocaZBaterii`, kod
+  `PREHEAT-GRZANIE-NOCA-Z-BATERII`)
 
 ## Bateryjne
 
