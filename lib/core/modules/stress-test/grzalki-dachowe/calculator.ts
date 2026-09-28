@@ -5,7 +5,7 @@ import { brakZapasuMocy, sprawdzZapasMocy, wiekszeNizPompa } from "./warnings"
 
 export const CALCULATOR_VERSION = "1.0.0"
 
-const FORMULA = "P = L \\cdot p_{m};\; E = P \\cdot t / 1000"
+const FORMULA = "P = L \\cdot p_{m};\\; E = P \\cdot t / 1000"
 
 export type GrzalkiDachoweResult = {
   /** Moc całkowita kabli grzewczych [W]. */
