@@ -8033,3 +8033,5 @@ Tryb Audyt (czapka rewidenta). Warstwa „w pełni na końcu” z N.2 — wszyst
 - Odpowiedzi: 1 B (= stan `main`), 2 już ustalone, 3 zostawić, 4/7/8 odłożone, 5 odłożone do PKN (wartości 0,17/0,10/0,13
   podane przez właściciela, przypisanie do przegród do sprawdzenia z normą). Bez odpowiedzi: 6, 9, 10, 11, 12.
   Szczegóły: `docs/przekazanie-nastepnej-sesji.md`, `docs/lista-do-zrobienia.md`.
+- **D50 (28.09.2026):** właściciel odłożył pozostałe pytania; bramka N.3 dla M14 zdjęta — kod M14 może startować.
+  Stan i kolejność: `docs/przekazanie-nastepnej-sesji.md`, sekcja „STAN NA TERAZ”.

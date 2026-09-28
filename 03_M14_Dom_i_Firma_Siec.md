@@ -1,6 +1,6 @@
 # 03. M14 — „Dom – sieć” i „Firma – sieć”: rachunek za prąd, a potem przejście na off-grid
 
-**Wersja:** 1.5 | **Filar:** B (merytoryczny) | **Data utworzenia:** 28.09.2026 | **Ostatnia aktualizacja:** 28.09.2026 | **Status:** Stabilny — **kod zablokowany bramką N.3** (patrz „Stan i bramki”)
+**Wersja:** 1.6 | **Filar:** B (merytoryczny) | **Data utworzenia:** 28.09.2026 | **Ostatnia aktualizacja:** 28.09.2026 | **Status:** Stabilny — ~~**kod zablokowany bramką N.3**~~ **kod odblokowany 28.09.2026 (D50)**, obowiązuje bramka danych DANE-1 (patrz „Stan i bramki”)
 **Powiązane dokumenty:** `docs/zrodla/Opracowanie_M14_Z_Sieci_Na_OffGrid_DRAFT.md` (opracowanie źródłowe: weryfikacja, adnotacje ✏️ K1–K14, tabele stawek per OSD), `rejestr-decyzji.md` D35–D43 i D47–D48, `docs/rejestr-pokrycia.md` (sekcja M14), `docs/rejestr-twardych-stopow.md` (sekcja M14), `mapa-wdrozenia.md`, `slownik-pojec.md` (sekcja „Sieć i rozliczenia energii”)
 
 TL;DR: Moduł **M14** ma dwa rozdziały i na pulpicie dwa duże kafle: **M14-D „Dom – sieć”** (grupy taryfowe G) oraz **M14-F „Firma – sieć”** (grupy C na nN). Każdy rozdział składa się z dwóch części w stałej kolejności:
@@ -538,7 +538,7 @@ Nie jest potrzebny do pierwszej działającej wersji rdzenia off-grid (M1–M8).
 
 ## Stan i bramki
 
-- **Bramka N.3:** kod M14 nie startuje przed zamknięciem pełnego audytu końcowego N.2 całej Biblii. Audyt przyrostowy N.2 tego rozdziału: `docs/memory.md` (28.09.2026, „Integracja M14 do Biblii”).
+- ~~**Bramka N.3:** kod M14 nie startuje przed zamknięciem pełnego audytu końcowego N.2 całej Biblii.~~ **[28.09.2026] Zdjęta (D50):** audyt końcowy wykonany, decyzje 1–3 wdrożone (D47–D49), pozostałe pytania odłożone przez właściciela i nie blokują M14. Kolejność pracy: `docs/przekazanie-nastepnej-sesji.md`. Audyt przyrostowy N.2 tego rozdziału: `docs/memory.md` (28.09.2026, „Integracja M14 do Biblii”).
 - **Kod rachunków — bramka danych DANE-1:**
   - do czasu pełnego pliku danych kalkulatory rachunku działają **wyłącznie w trybie „moje dane z faktury”** (pełnoprawny tryb, D36);
   - jako domyślne wolno wpisać tylko wartości ✅ (Tauron, Energa i Stoen netto; stawki ogólnokrajowe).
@@ -573,3 +573,4 @@ Nie jest potrzebny do pierwszej działającej wersji rdzenia off-grid (M1–M8).
 | 28.09.2026 | D42: przełącznik ścieżek cen („Suwak %” / „Plany UE” / „Plany UE + inflacja”) w miejscu suwaka procentów na D7/F8. Wersja 1.2→1.3. |
 | 28.09.2026 | D43: domyślna inflacja w „Plany UE + inflacja” = średnia GUS z 15 lat 3,58% (decyzja właściciela); NBP 2,5% zostaje do wyboru. Przykład kontrolny uzupełniony o wiersz GUS. Wersja 1.3→1.4. |
 | 28.09.2026 | D47: szczegół przełącznika w D11 zamiast „🔎 w M8”; D48: przełącznik agregatu zawsze (sieć i bez sieci), stopy w M2/E17 i M7/E8. Wersja 1.4→1.5. |
+| 28.09.2026 | D50: bramka N.3 zdjęta — kod M14 może startować (od pliku danych `rozliczenia-pl-2026`, bramka DANE-1 dalej obowiązuje). Wersja 1.5→1.6. |

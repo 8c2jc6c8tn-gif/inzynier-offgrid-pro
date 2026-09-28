@@ -1,10 +1,48 @@
 # Przekazanie dla następnej sesji — co dalej (28.09.2026)
 
-**Wersja:** 1.2 | **Utworzono:** 28.09.2026 | **Aktualizacja:** 28.09.2026 (scalenie z `main`) | **Status:** aktualne, dopóki kolejna sesja nie odhaczy kroków
+**Wersja:** 1.3 | **Utworzono:** 28.09.2026 | **Aktualizacja:** 28.09.2026 (D50 — kod M14 odblokowany) | **Status:** aktualne, dopóki kolejna sesja nie odhaczy kroków
 
 Polecenie właściciela z 28.09.2026: sesja, która kończy się tym wpisem, **nie pisze kodu M14**. Zostawia
 instrukcje, a kod pisze następna sesja. Ten plik mówi: od czego zacząć, co jest otwarte, jaki kod
 powstaje i w jakiej kolejności. Nie zastępuje Biblii — każdy krok odsyła do miejsca, gdzie leży pełna treść.
+
+## ▶ STAN NA TERAZ (28.09.2026, D50) — przeczytaj tę sekcję, reszta pliku to historia
+
+Polecenie właściciela: „Zostaw pytania na potem. Napisz co jest do zrobienia i na czym stanęło w Biblii, żeby inna
+sesja mogła już działać z tym rozdziałem”. **Następna sesja może od razu pisać kod M14. Nie pytaj właściciela o
+odłożone pozycje (lista niżej), dopóki sam do nich nie wróci.**
+
+### Na czym stanęło w Biblii
+
+| Element | Stan |
+|---|---|
+| Rozdział `03_M14_Dom_i_Firma_Siec.md` | **v1.6, kompletny, kod odblokowany (D50).** Wzory §1–§9, wejście, walidacja, twarde stopy, przykłady kontrolne, plan ekranów D1–D14 / F1–F13 plus kreator |
+| Decyzje M14 | D35–D43 (zakres, dane, FREE/PRO odłożone, profile, kafle, TCO, ścieżki cen, inflacja), D47 (przełącznik w D11), D50 (odblokowanie) — `rejestr-decyzji.md` |
+| Audyt końcowy N.3 | wykonany; decyzje 1–3 wdrożone (D47–D49); decyzja 4: część zamknięta, reszta **odłożona** (D50) |
+| Bezpieczeństwo agregatu | **gotowe w kodzie:** `lib/core/modules/zapotrzebowanie/agregat-pradotworczy/bezpieczenstwo.ts` (D48), M2/E17 1.1.0, M7/E8 1.3.0 — ekran D6 M14 ma go użyć, nie pisać drugi raz |
+| Kod M14 | **nic jeszcze nie istnieje** — wszystkie wiersze M14 w `docs/rejestr-pokrycia.md` mają `todo` |
+| Bramka danych DANE-1 | **obowiązuje:** domyślne tylko wartości ✅ (Tauron, Energa, Stoen netto, stawki ogólnokrajowe); reszta = tryb „moje dane z faktury” |
+| Dane, których brakuje (dostarcza właściciel) | PDF PGE, PDF regulaminu PME (NFOŚiGW), odczyt skanu Enea netto, Stoen C22a/b, profile W4, `C_rk`, opłaty przyłączeniowe IV–VI, 495,16 zł/MWh — lista: M14 „Otwarte — wymaga danych zewnętrznych” |
+| FREE/PRO dla M14 | nieprzypisane (D37) — nie wprowadzaj podziału |
+
+### Co jest do zrobienia — w tej kolejności
+
+1. **Plik danych `rozliczenia-pl-2026`** (Krok 2a niżej) — JSON + Zod, tylko wartości ✅, testy przykładu TCO.
+2. **Część Sieć, Dom:** D1 rachunek, D2 taryfa G, D3 zużycie, D8 prosument, D12 licznik (Krok 2b).
+3. **Część Sieć, Firma:** F1–F5 (Krok 2c).
+4. **Silnik TCO i scenariusze A–D** (D7/F8, Krok 2d).
+5. **Część Przejście:** D4–D6, D9–D11 (Krok 2e). D5 czeka na M7 7.2 i 7.37 albo na liczenie zimy w M14 z PVGIS.
+6. **Kafle, pulpit, kreator** (Krok 2f) — kafle domyślnie ukryte w 8 presetach (✅🤖, pytanie odłożone).
+7. Przy każdym ekranie: `docs/rejestr-pokrycia.md`, `docs/rejestr-twardych-stopow.md`, `mapa-wdrozenia.md`, lokalny
+   pakiet kontroli, commit → push → PR → merge.
+
+### Odłożone przez właściciela (nie pytaj teraz, nie blokują M14)
+
+TD21 CRL · Rsi per kierunek (czeka na PKN; podane 0,17 / 0,10 / 0,13 — przypisanie do sprawdzenia z normą) · M8/E3
+fail-secure · M8/E4 gaz · M9/E2 magistrala · M9/E4 CAN · kafle M14 w presetach · 2 wyjątki D48 (wejście AC falownika,
+odbiorniki wprost). Kod tych miejsc zostaje bez zmian (✅🤖).
+
+---
 
 **Czytaj najpierw (Y.4):** ten plik → `docs/lista-do-zrobienia.md` (końcówka, wpisy z 28.09) →
 `03_M14_Dom_i_Firma_Siec.md` → `rejestr-decyzji.md` D35–D43 i D47–D49. Nie czytaj całej `docs/memory.md` od nowa —
@@ -31,7 +69,7 @@ wystarczą sekcje z 28.09.2026 („Integracja M14 do Biblii”, „Audyt końcow
 
 ---
 
-## Krok 0 — odpowiedź właściciela na decyzję 4 (zanim powstanie jakikolwiek kod M14)
+## Krok 0 — odpowiedź właściciela na decyzję 4 ~~(zanim powstanie jakikolwiek kod M14)~~ **[28.09.2026, D50] odłożone — nie blokuje M14**
 
 Wyjaśnienie z opcjami dostał właściciel 28.09.2026. Jeśli nie odpowiedział, zapytaj go jeszcze raz,
 krótko, o pozycje, które nadal są bez odpowiedzi (patrz kolumna „Odpowiedź 28.09”).
@@ -56,7 +94,7 @@ PKN”, 7 odłożyć, 8 odłożyć. **Bez odpowiedzi: 6, 9, 10, 11, 12.** Opcja 
 Po odpowiedzi: przy każdej pozycji w kodzie i rejestrach zamień „✅🤖” na adnotację
 „**[data] potwierdzone przez właściciela (A)**” albo opis zmiany (F.5 — nie kasuj starego tekstu).
 
-## Krok 1 — zamknięcie audytu N.3
+## Krok 1 — zamknięcie audytu N.3 **[28.09.2026, D50] zrobione: bramka zdjęta w M14 „Stan i bramki”**
 
 1. Dopisz wynik w `docs/memory.md` (sekcja „Audyt końcowy N.3”): „zamknięty [data]”.
 2. `docs/lista-do-zrobienia.md`: wpis ⚠️ „Audyt końcowy N.3” → ✅ z datą.
@@ -110,7 +148,7 @@ Każdy ekran: wiersz w `docs/rejestr-pokrycia.md` (sekcja M14) todo → done, tw
 
 ## Czego nie robić
 
-- Nie zaczynaj M14 bez kroku 0 i 1.
+- ~~Nie zaczynaj M14 bez kroku 0 i 1.~~ **[28.09.2026, D50]** Kroki 0 i 1 załatwione — zaczynaj od Kroku 2a.
 - Nie proponuj wartości stawek, `C_rk`, profili W4 ani norm z pamięci — brakujące dane dostarcza właściciel
   (PGE i NFOŚiGW mają zepsuty łańcuch TLS; obejście certyfikatów było odrzucone, nie próbuj).
 - FREE/PRO dla M14 nie jest przypisane (D37) — nie wprowadzaj podziału.

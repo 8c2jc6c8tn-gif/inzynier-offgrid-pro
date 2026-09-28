@@ -1,6 +1,6 @@
 # Rejestr decyzji — Inżynier Offgrid Pro
 
-**Wersja:** 1.22 | **Filar:** C | **Data utworzenia:** 04.09.2026 | **Ostatnia aktualizacja:** 28.09.2026 | **Status:** Stabilny (rosnący)
+**Wersja:** 1.23 | **Filar:** C | **Data utworzenia:** 04.09.2026 | **Ostatnia aktualizacja:** 28.09.2026 | **Status:** Stabilny (rosnący)
 **Powiązane dokumenty:** `00_Biblia.md`, `docs/memory.md`, `USTALENIA.md` (historyczny, Część II)
 
 TL;DR: D1, D2, D3… — decyzje **strategiczne/fundamentalne** (blokujące wiele innych rzeczy naraz, Krok 4 GOD BOOK), ponumerowane, nigdy nie kasowane, tylko unieważniane jawnie (F.5). **Nie duplikuje `docs/memory.md`**: tam żyje pełna, szczegółowa historia każdej sesji (setki drobnych decyzji implementacyjnych per ekran) — tu tylko decyzje, które zmieniły kierunek/regułę obowiązującą cały projekt. Gdy wpis niżej odsyła do `docs/memory.md`, tam jest pełne uzasadnienie i przykłady.
@@ -211,6 +211,14 @@ Treść:
 - (3) Przy integracji do Biblii dostaje własny pełny audyt N.1/N.2, tak jak M14.
 - (4) Zapisane w czterech miejscach, żeby się nie zgubiło: ten rejestr, nagłówek szkicu, `docs/lista-do-zrobienia.md`, `backlog-poza-v1.md`.
 
+**D50 (28.09.2026) — Pozostałe pytania decyzji 4 audytu N.3 odłożone; nie blokują pracy nad M14 — bramka N.3 dla M14 zdjęta.** Koszt cofnięcia: tani (zapis w dokumentach). Decyzja właściciela projektu z 28.09.2026: „Zostaw pytania na potem. Napisz co jest do zrobienia i na czym stanęło w Biblii, żeby inna sesja mogła już działać z tym rozdziałem”.
+
+Treść:
+- (1) Odłożone (✅🤖 zostaje, kod bez zmian do odpowiedzi): TD21 CRL, Rsi per kierunek (czeka na PKN), M8/E3 fail-secure z UPS, M8/E4 gaz przy LiFePO4, M9/E2 magistrala, M9/E4 CAN, kafle M14 ukryte w 8 presetach, dwa wyjątki przełącznika z D48 pkt (4). Lista: `docs/lista-do-zrobienia.md`.
+- (2) Żadna z tych pozycji nie zmienia wzorów ani danych M14. Kafle M14 powstają z ustawieniem ✅🤖 (ukryte w presetach), zmiana to jedna linia w rejestrze pulpitu.
+- (3) Audyt końcowy N.3 uznany za zamknięty dla M14 (analogicznie do D49 — pozycje odłożone żyją na liście zadań, nie w bramce).
+- (4) Bramka danych DANE-1 (tylko wartości ✅, tryb „moje dane z faktury”) obowiązuje dalej.
+
 ## Założenia robocze (F.7 GOD BOOK)
 
 **Z1 (04.09.2026) — przyjęto:** ID modułów (H.2 GOD BOOK, M#) odpowiadają wprost numeracji "Moduł N" już używanej w całym projekcie (1–13), nie nowej, niezależnej numeracji. **Powód:** ta numeracja jest już stabilna, używana w kodzie, dokumentacji i UI od 29.08.2026 — wprowadzenie równoległej numeracji M# byłoby duplikatem, nie nowym bytem. **Na czym się opiera:** cała struktura `docs/rejestr-pokrycia.md`, `lib/pulpit/registry.ts`, `docs/pulpit-i-nawigacja.md`.
@@ -245,3 +253,4 @@ Treść:
 | 28.09.2026 | Uzupełniono D44 (potwierdzenie właściciela: namiot/jacht zawsze wilgotne, 🔴 < IP65, 🟡 zalecane IP67–IP68; zalecenie IP65 🟡 we wszystkich miejscach z wilgocią). Wersja 1.20→1.21. |
 | 28.09.2026 | Dodano D47 (szczegół przełącznika w M14/D11), D48 (blok bezpieczeństwa agregatu w M2/E17 i M7/E8), D49 (szkic LED = kandydat poza Biblią) — decyzje 1–3 właściciela z audytu końcowego N.3. Wersja 1.21→1.22. |
 | 28.09.2026 | Scalenie z `main`: decyzje audytu N.3 z gałęzi M14 dostały numery D47/D48/D49 (pierwotnie D44/D45/D46, a D44 na `main` to M12/E23 — H.3). Wersja 1.21→1.22 łącznie z wierszem wyżej. |
+| 28.09.2026 | Dodano D50 (pozostałe pytania decyzji 4 odłożone; bramka N.3 dla M14 zdjęta) — decyzja właściciela projektu. Wersja 1.22→1.23. |

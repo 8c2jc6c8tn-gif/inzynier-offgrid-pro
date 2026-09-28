@@ -1,6 +1,6 @@
 # 00. Biblia — Inżynier Offgrid Pro
 
-**Wersja:** 1.5 | **Filar:** — (indeks, poza podziałem na filary) | **Data utworzenia:** 04.09.2026 | **Ostatnia aktualizacja:** 28.09.2026 | **Status:** Stabilny
+**Wersja:** 1.6 | **Filar:** — (indeks, poza podziałem na filary) | **Data utworzenia:** 04.09.2026 | **Ostatnia aktualizacja:** 28.09.2026 | **Status:** Stabilny
 **Powiązane dokumenty:** wszystkie poniżej (tabela dokumentów)
 
 TL;DR: Indeks kanonicznej Biblii projektu w formacie GOD BOOK (`docs/god-book/instrukcja-uniwersalna-biblii-projektu-v2_39.md`, Część S). Migracja z `ZASADY_APLIKACJI.md`/`USTALENIA.md`, które pełniły tę rolę wcześniej pod inną nazwą — treść tamtych plików **zachowana, nie usunięta** (oznaczone jako historyczne, patrz "Relacja ze starą konstytucją" niżej).
@@ -52,9 +52,9 @@ Do 04.09.2026 rolę Biblii pełniły `ZASADY_APLIKACJI.md` (pełna) i `USTALENIA
 | 00 | `00_Biblia.md` (ten plik) | — | 1.1 | Stabilny | Indeks |
 | 01 | `01_Zasady_Pracy_i_Konwencje.md` | C | 1.0 | Stabilny | Wyciąg operacyjny z GOD BOOK dla tego projektu |
 | 02 | `02_Dyrektywy_AI_Projektu.md` | C | 1.1 | Stabilny | Twarde reguły zachowania AI specyficzne dla domeny off-grid |
-| 03 | `03_M14_Dom_i_Firma_Siec.md` | B | 1.5 | Stabilny (kod za bramką N.3) | M14 „Dom – sieć” / „Firma – sieć” — rachunek za prąd, prosument, taryfy G/C, potem scenariusze przejścia A–D, ryzyka i procedura odłączenia (D35–D43). Pierwszy moduł opisany w Biblii, a nie w `docs/zrodla/Tresc_*` |
+| 03 | `03_M14_Dom_i_Firma_Siec.md` | B | 1.6 | Stabilny (kod odblokowany, D50) | M14 „Dom – sieć” / „Firma – sieć” — rachunek za prąd, prosument, taryfy G/C, potem scenariusze przejścia A–D, ryzyka i procedura odłączenia (D35–D43). Pierwszy moduł opisany w Biblii, a nie w `docs/zrodla/Tresc_*` |
 | — | `zlote-zasady.md` | C | 1.0 | Stabilny | Kompas projektu — 4 filozofie + 14 zasad architektonicznych |
-| — | `rejestr-decyzji.md` | C | 1.22 | Stabilny | D1, D2, D3… decyzje strategiczne, ponumerowane, rosnące |
+| — | `rejestr-decyzji.md` | C | 1.23 | Stabilny | D1, D2, D3… decyzje strategiczne, ponumerowane, rosnące |
 | — | `slownik-pojec.md` | C | 1.1 | Stabilny | Terminy branżowe (SoC, DoD, MPPT, Voc, C-rate...) |
 | — | `wiedza-surowa.md` | C | 1.0 | Stabilny | Synteza materiałów źródłowych — wskaźnik do `docs/zrodla/`, nie duplikat |
 | — | `kontrakty-rdzenia.md` | A | 1.1 | Stabilny | `CalcResult<T>`, Status, Warning, warstwy, wzorzec echo — konkretne kontrakty tego projektu |
@@ -64,7 +64,7 @@ Do 04.09.2026 rolę Biblii pełniły `ZASADY_APLIKACJI.md` (pełna) i `USTALENIA
 | — | `backlog-poza-v1.md` | C | 1.6 | Stabilny (rosnący) | Świadomie odłożone/blocked — ekstrakcja z `docs/rejestr-pokrycia.md` i `docs/lista-do-zrobienia.md` |
 | — | `dlug-techniczny.md` | C | 2.3 | Stabilny (rosnący) | Świadome uproszczenia kodu względem specyfikacji źródła |
 | — | `docs/rejestr-twardych-stopow.md` | B | — | Stabilny (rosnący) | Twarde stopy (🔴) per moduł, z plikiem i kodem ostrzeżenia; sekcja M14 wyprzedza kod świadomie — **już istniało**, dopisane do indeksu przy audycie końcowym 28.09.2026 |
-| — | `docs/przekazanie-nastepnej-sesji.md` | C | 1.2 | Aktualne | Instrukcja dla następnej sesji: decyzja 4 → zamknięcie N.3 → kolejność kodu M14 (28.09.2026) |
+| — | `docs/przekazanie-nastepnej-sesji.md` | C | 1.3 | Aktualne | Stan Biblii i kolejność kodu M14 dla następnej sesji (28.09.2026, D50) |
 | — | `docs/pulpit-i-nawigacja.md` | B | — | Stabilny (rosnący) | Kafle pulpitu, domyślna kolejność, presety onboardingu — **już istniało**, dopisane do indeksu przy audycie końcowym 28.09.2026 |
 | — | `docs/normy-brakujace.md` | C | — | Stabilny (rosnący) | Normy potrzebne, a nieobecne w `docs/zrodla/` — **już istniało**, dopisane do indeksu przy audycie końcowym 28.09.2026 |
 | — | `docs/lista-do-zrobienia.md` | C | — | Stabilny (rosnący) | Bieżąca lista zadań — **już istniało** przed migracją |
@@ -93,3 +93,4 @@ Do 04.09.2026 rolę Biblii pełniły `ZASADY_APLIKACJI.md` (pełna) i `USTALENIA
 | 28.09.2026 | Dodano `docs/przekazanie-nastepnej-sesji.md` — instrukcja kolejności pracy dla następnej sesji (polecenie właściciela: ta sesja nie pisze kodu M14). Wersja indeksu 1.2→1.3. |
 | 28.09.2026 | Scalenie gałęzi M14 z `main`: D44–D46 tej gałęzi → D47–D49 (D44 na `main` = M12/E23), `rejestr-decyzji.md` 1.19→1.22 (łącznie z decyzjami z `main`), przekazanie 1.0→1.1 (pozycje 1–3 decyzji 4 zamknięte na `main`). Wersja indeksu 1.3→1.4. |
 | 28.09.2026 | Odpowiedzi właściciela na decyzję 4 audytu N.3 zapisane w `docs/przekazanie-nastepnej-sesji.md` (1.1→1.2): D29/D32/D33 zamknięte, 4/5/7/8 odłożone, bez odpowiedzi 6 i 9–12. Wersja indeksu 1.4→1.5. |
+| 28.09.2026 | D50: pozostałe pytania decyzji 4 odłożone, bramka N.3 dla M14 zdjęta. M14 1.5→1.6, rejestr 1.22→1.23, przekazanie 1.2→1.3 (sekcja „Stan na teraz”). Wersja indeksu 1.5→1.6. |
