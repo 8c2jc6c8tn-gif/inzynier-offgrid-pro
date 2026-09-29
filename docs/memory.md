@@ -8141,3 +8141,21 @@ Tryb Audyt (czapka rewidenta). Warstwa „w pełni na końcu” z N.2 — wszyst
   (wyjątek tylko komentarzem `ai-tool: nie dotyczy — <powód>`). Lista zapadkowa `scripts/ai-tools-guard-baseline.json`
   startowo 18 kalkulatorów. Dyrektywa #15 v1.4, `CLAUDE.md`, CI.
 
+## M12/E38 — D52 i sprawdzenie kolizji po zmianach na `main` (29.09.2026)
+
+- Przed zmianą sprawdzone `main` po scaleniu PR #189 (D51 „pomoc” we wszystkich modułach, M14 w kodzie): E38 przeszedł
+  migrację chmurek do `PomocPola` (teksty w `lib/i18n/pomoc/m12-kalkulator-mobilny.ts`) — bez kolizji z silnikiem.
+  Dryf rejestru twardych stopów M5 nadal otwarty (nikt go nie ruszył).
+- **D52:** gniazda bez styku ochronnego 🟡 z wyjaśnieniem roli bolca, wilgoć 🟡. Przy okazji: ostrzeżenie o wilgoci tylko
+  przy DC — przy 230 V z kompletem uziemienia dawałoby fałszywe 🟡. **Pułapka:** zmiana poziomu = też teksty migawki „i”
+  (mówiły „nie = czerwony stop”) i opis narzędzia AI, nie tylko `warnings.ts` — grep po kodzie ostrzeżenia i po „czerwony”.
+
+## Rsi per kierunek — liczby odtworzone (29.09.2026)
+
+- Decyzja z 28.09 („Rsi per kierunek, wartości z PN-EN ISO 6946, właściciel dostarczy PKN”) została zapisana **bez
+  liczb** — w pamięci zostało samo „0,10/0,17”. Przy pkt 4 audytu właściciel podał liczby z pamięci
+  (0,17/0,10/0,13 ściany/dach/podłoga) i zostały zapisane dosłownie. **Korekta właściciela 29.09:** wiążące są
+  wartości z decyzji: **ściana 0,13 · strop/dach (strumień w górę) 0,10 · podłoga (strumień w dół) 0,17 m²·K/W**
+  (✅🤖). Kod E8 bez zmian (0,13 wszędzie) do sprawdzenia końcowego z PKN — nie pytać ponownie.
+- **Pułapka:** decyzję z wartościami liczbowymi zapisuj od razu z liczbami i ich przypisaniem, nie samym „tak”.
+

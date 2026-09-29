@@ -33,12 +33,20 @@ describe("calculateUziemienieMaleInstalacje (M12/E38, echo M5/E11)", () => {
     expect(r.assumptions).toEqual([{ kod: "UMI-ZALOZENIE-BEZ-UZIOMU-BUDYNKOWEGO" }])
   })
 
-  it.each(["jacht", "zewnatrz"] as const)("DC — %s (wilgoć wg źródła) → ℹ️ zalecane uziemienie, bez stopu", (miejsce) => {
+  it.each(["jacht", "zewnatrz"] as const)("DC — %s (wilgoć wg źródła) → 🟡 zalecane uziemienie (D52), bez stopu", (miejsce) => {
     const r = calculateUziemienieMaleInstalacje({ ...dc, miejsce })
-    expect(r.status).toBe("VALID")
+    expect(r.status).toBe("VALID_WITH_WARNINGS")
     expect(r.value.zalecaneZeWzgleduNaWilgoc).toBe(true)
     expect(kody(r)).toEqual(["UMI-DC-BEZ-UZIEMIENIA-OCHRONNEGO", "UMI-WILGOC-ZALECANE-UZIEMIENIE"])
-    expect(r.warnings.every((w) => w.level === "info")).toBe(true)
+    expect(r.warnings.find((w) => w.code === "UMI-WILGOC-ZALECANE-UZIEMIENIE")?.level).toBe("warning")
+    expect(r.warnings.some((w) => w.level === "critical")).toBe(false)
+  })
+
+  it("230 V na jachcie, wszystko uziemione → VALID, bez ostrzeżenia o wilgoci (uziemienie już jest)", () => {
+    const r = calculateUziemienieMaleInstalacje({ ...ac, miejsce: "jacht" })
+    expect(r.status).toBe("VALID")
+    expect(r.value).toEqual({ wymaganeUziemienieOchronne: true, zalecaneZeWzgleduNaWilgoc: true })
+    expect(r.warnings).toEqual([])
   })
 
   it.each(["garaz", "kamper"] as const)("%s — brak zalecenia „wilgoć” (źródło wymienia tylko jacht i na zewnątrz)", (miejsce) => {
@@ -62,15 +70,18 @@ describe("calculateUziemienieMaleInstalacje (M12/E38, echo M5/E11)", () => {
     expect(r.warnings[0].field).toBe("obudowaFalownikaUziemiona")
   })
 
-  it.each(["nie", "nie-wiem"] as const)("230 V: gniazda bez styku ochronnego „%s” → 🔴 (ryzyko porażenia)", (odp) => {
+  it.each(["nie", "nie-wiem"] as const)("230 V: gniazda bez styku ochronnego „%s” → 🟡 (D52), bez twardego stopu", (odp) => {
     const r = calculateUziemienieMaleInstalacje({ ...ac, gniazdaZeStykiemOchronnym: odp })
+    expect(r.status).toBe("VALID_WITH_WARNINGS")
     expect(kody(r)).toEqual(["UMI-GNIAZDA-BEZ-STYKU-OCHRONNEGO"])
-    expect(r.warnings[0].level).toBe("critical")
+    expect(r.warnings[0].level).toBe("warning")
+    expect(r.warnings[0].field).toBe("gniazdaZeStykiemOchronnym")
   })
 
-  it("230 V na jachcie, oba braki → dwa 🔴 plus ℹ️ zalecenie wilgoci", () => {
+  it("230 V na jachcie, oba braki → 🔴 obudowa + 🟡 gniazda; bez osobnego ostrzeżenia o wilgoci", () => {
     const r = calculateUziemienieMaleInstalacje({ ...ac, miejsce: "jacht", obudowaFalownikaUziemiona: "nie", gniazdaZeStykiemOchronnym: "nie" })
-    expect(kody(r)).toEqual(["UMI-OBUDOWA-FALOWNIKA-NIEUZIEMIONA", "UMI-GNIAZDA-BEZ-STYKU-OCHRONNEGO", "UMI-WILGOC-ZALECANE-UZIEMIENIE"])
+    expect(kody(r)).toEqual(["UMI-OBUDOWA-FALOWNIKA-NIEUZIEMIONA", "UMI-GNIAZDA-BEZ-STYKU-OCHRONNEGO"])
+    expect(r.warnings.map((w) => w.level)).toEqual(["critical", "warning"])
     expect(r.value).toEqual({ wymaganeUziemienieOchronne: true, zalecaneZeWzgleduNaWilgoc: true })
   })
 

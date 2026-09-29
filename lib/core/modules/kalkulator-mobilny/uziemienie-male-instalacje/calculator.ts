@@ -8,7 +8,7 @@ import {
   wilgocZalecaneUziemienie,
 } from "./warnings"
 
-export const CALCULATOR_VERSION = "1.0.0"
+export const CALCULATOR_VERSION = "1.1.0"
 
 const FORMULA = "230\\,V_{AC} \\Rightarrow PE_{obudowa\\ falownika} \\wedge PE_{gniazda\\ 230\\,V};\\ 12/24\\,V_{DC} \\Rightarrow PE \\text{ zwykle niewymagane}"
 
@@ -26,7 +26,8 @@ const KOD_ODPOWIEDZI: Record<OdpowiedzKontrolna, number> = { tak: 1, nie: 0, "ni
 /**
  * Ekran 38, Moduł 12 — "Uziemienie małej instalacji" (dawne 8.65, Biblia §12.53). Logika 1:1 ze źródła: 12/24 V DC
  * zwykle bez uziemienia ochronnego; 230 V z falownika — wymagana uziemiona obudowa falownika i gniazda ze stykiem
- * ochronnym; w miejscach wilgotnych (jacht, na zewnątrz) źródło zaleca uziemienie. Twardy stop obudowy — poziom z M5/E11.
+ * ochronnym; w miejscach wilgotnych (jacht, na zewnątrz) źródło zaleca uziemienie. Twardy stop obudowy — poziom z M5/E11;
+ * gniazda bez styku ochronnego i zalecenie przy wilgoci — 🟡 (D52).
  * "Nie wiem" = strona bezpieczna (jak "nie"). Bez liczb i norm spoza źródła; uziom prętowy (rezystancja) — M5/E9.
  */
 export function calculateUziemienieMaleInstalacje(
@@ -62,6 +63,9 @@ export function calculateUziemienieMaleInstalacje(
 
   if (rodzaj === "dc") {
     warnings.push(dcBezUziemieniaOchronnego())
+    // Damp place: the source recommends earthing. With 230 V earthing is already required and checked by the questions below,
+    // so the recommendation would only duplicate them (or be a false alarm when everything is connected).
+    if (zalecaneZeWzgleduNaWilgoc) warnings.push(wilgocZalecaneUziemienie(miejsce))
   } else {
     // The control questions only apply to 230 V — without both answers the check is not done (3.3, INCOMPLETE).
     if (obudowa === null || gniazda === null) return wynik("INCOMPLETE", PUSTY_WYNIK)
@@ -69,7 +73,6 @@ export function calculateUziemienieMaleInstalacje(
     if (obudowa !== "tak") warnings.push(obudowaFalownikaNieuziemiona(obudowa))
     if (gniazda !== "tak") warnings.push(gniazdaBezStykuOchronnego(gniazda))
   }
-  if (zalecaneZeWzgleduNaWilgoc) warnings.push(wilgocZalecaneUziemienie(miejsce))
 
   return wynik(
     warnings.some((w) => w.level !== "info") ? "VALID_WITH_WARNINGS" : "VALID",
