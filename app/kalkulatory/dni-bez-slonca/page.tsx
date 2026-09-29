@@ -9,6 +9,7 @@ import {
 } from "@/lib/core/modules/baterie/dobor-pojemnosci/constants"
 import { usePersistedDraft } from "@/lib/adapters/use-persisted-draft"
 import { Pole } from "@/components/ui/pole"
+import { PomocPola } from "@/components/ui/pomoc"
 import { WerdyktPanel } from "@/components/werdykt"
 import { NawigacjaEkranu } from "@/components/nawigacja-ekranu"
 import { NaglowekEkranu } from "@/components/wzorce/naglowek-ekranu"
@@ -55,7 +56,7 @@ export default function DniBezSloncaPage() {
   return (
     <main className="mx-auto flex max-w-md flex-col gap-6 p-6">
       <NawigacjaEkranu href="/kalkulatory/dni-bez-slonca" />
-      <NaglowekEkranu tytul="Ile dni pracy bez słońca — mały zestaw">
+      <NaglowekEkranu tytul="Ile dni pracy bez słońca — mały zestaw" ekran="dni-bez-slonca" wzor={result.formula}>
         Na ile pochmurnych dni starczy akumulator, który już masz — bez żadnego doładowania. Moduł 12.
       </NaglowekEkranu>
 
@@ -68,6 +69,7 @@ export default function DniBezSloncaPage() {
           min={0}
           value={stan.pojemnoscAh}
           onChange={ustaw("pojemnoscAh")}
+          pomoc={<PomocPola ekran="dni-bez-slonca" pole="pojemnosc" />}
         />
         <Pole
           label="Napięcie akumulatora"
@@ -77,6 +79,7 @@ export default function DniBezSloncaPage() {
           min={0}
           value={stan.napiecieV}
           onChange={ustaw("napiecieV")}
+          pomoc={<PomocPola ekran="dni-bez-slonca" pole="napiecie" />}
         />
         <Pole
           label="Dopuszczalne rozładowanie (DoD)"
@@ -87,7 +90,7 @@ export default function DniBezSloncaPage() {
           max={100}
           value={stan.dodPct}
           onChange={ustaw("dodPct")}
-          hint={`LiFePO4 typowo ${DOD_LIFEPO4_TYPOWY_MIN_PCT}–${DOD_LIFEPO4_TYPOWY_MAX_PCT}%. AGM — źródło podaje 300–500 cykli przy 50% DoD; głębsze rozładowanie skraca jego życie.`}
+          pomoc={<PomocPola ekran="dni-bez-slonca" pole="dod" params={{ dodMin: DOD_LIFEPO4_TYPOWY_MIN_PCT, dodMax: DOD_LIFEPO4_TYPOWY_MAX_PCT }} />}
         />
         <Pole
           label="Sprawność przetwornicy"
@@ -98,7 +101,7 @@ export default function DniBezSloncaPage() {
           max={100}
           value={stan.sprawnoscPct}
           onChange={ustaw("sprawnoscPct")}
-          hint={`100% gdy odbiorniki 12 V są zasilane wprost z akumulatora. Z przetwornicą 230 V wpisz jej sprawność z karty (Moduł 4 sugeruje ${SPRAWNOSC_FALOWNIKA_SUGEROWANA_PCT}%).`}
+          pomoc={<PomocPola ekran="dni-bez-slonca" pole="sprawnosc" params={{ sprawnosc: SPRAWNOSC_FALOWNIKA_SUGEROWANA_PCT }} />}
         />
         <Pole
           label="Zużycie na dobę"
@@ -108,7 +111,7 @@ export default function DniBezSloncaPage() {
           min={0}
           value={stan.zuzycieDoboweWh}
           onChange={ustaw("zuzycieDoboweWh")}
-          hint="Suma: moc urządzenia × godziny pracy na dobę, np. lodówka 50 W × 6 h = 300 Wh."
+          pomoc={<PomocPola ekran="dni-bez-slonca" pole="zuzycie" />}
         />
       </div>
 

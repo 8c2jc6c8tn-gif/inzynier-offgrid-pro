@@ -5,6 +5,7 @@ import type { ChecklistaChemiiResult } from "@/lib/core/modules/kalkulator-mobil
 import type { ChecklistaChemiiInput, ChemiaChecklisty } from "@/lib/core/modules/kalkulator-mobilny/bezpieczenstwo-kamper/input"
 import { usePersistedDraft } from "@/lib/adapters/use-persisted-draft"
 import { PoleSelect } from "@/components/ui/pole"
+import { PomocPola } from "@/components/ui/pomoc"
 import { WerdyktPanel } from "@/components/werdykt"
 import { StanPusty } from "@/components/ui/stany"
 import { ListaChecklist } from "@/components/wzorce/lista-checklist"
@@ -44,6 +45,7 @@ export function EkranChecklistyChemii({
         label="Typ akumulatora"
         value={stan.chemia}
         onChange={(e) => setStan((prev) => ({ ...prev, chemia: e.target.value as FormularzStan["chemia"] }))}
+        pomoc={<PomocPola ekran="checklista-chemii" pole="typ" />}
       >
         <option value="">— wybierz —</option>
         <option value="AGM">AGM (VRLA, szczelny)</option>

@@ -7,6 +7,7 @@ import type { SposobUlozenia } from "@/lib/core/modules/okablowanie/dobor-przekr
 import { DOMYSLNY_SPADEK_DC_PCT } from "@/lib/core/modules/okablowanie/dobor-przekroju-kabla/constants"
 import { usePersistedDraft } from "@/lib/adapters/use-persisted-draft"
 import { Pole, PoleCheckbox, PoleSelect } from "@/components/ui/pole"
+import { PomocPola } from "@/components/ui/pomoc"
 import { WerdyktPanel, type WerdyktPoziom } from "@/components/werdykt"
 import { WynikGlowny } from "@/components/wzorce/wynik-glowny"
 import { WynikSzczegoly } from "@/components/wzorce/wynik-szczegoly"
@@ -72,21 +73,23 @@ export function EkranKabliMalejInstalacji({ kluczSzkicu, pojazd }: { kluczSzkicu
   return (
     <>
       <div className="flex flex-col gap-4">
-        <Pole label="Prąd obciążenia" unit="A" type="number" inputMode="decimal" min={0} value={stan.pradA} onChange={ustaw("pradA")} hint="Moc odbiornika ÷ napięcie, np. przetwornica 600 W / 12 V = 50 A." />
+        <Pole label="Prąd obciążenia" unit="A" type="number" inputMode="decimal" min={0} value={stan.pradA} onChange={ustaw("pradA")} pomoc={<PomocPola ekran="kable-male-instalacje" pole="prad" />} />
         <PoleSelect
           label="Napięcie instalacji"
           value={stan.napiecieV}
           onChange={(e) => setStan((prev) => ({ ...prev, napiecieV: Number(e.target.value) as FormularzStan["napiecieV"] }))}
+          pomoc={<PomocPola ekran="kable-male-instalacje" pole="napiecie" />}
         >
           <option value={0}>— wybierz —</option>
           <option value={12}>12 V</option>
           <option value={24}>24 V</option>
         </PoleSelect>
-        <Pole label="Długość trasy (w jedną stronę)" unit="m" type="number" inputMode="decimal" min={0} value={stan.dlugoscTrasyM} onChange={ustaw("dlugoscTrasyM")} />
+        <Pole label="Długość trasy (w jedną stronę)" unit="m" type="number" inputMode="decimal" min={0} value={stan.dlugoscTrasyM} onChange={ustaw("dlugoscTrasyM")} pomoc={<PomocPola ekran="kable-male-instalacje" pole="dlugosc" />} />
         <PoleSelect
           label="Sposób ułożenia"
           value={stan.sposobUlozenia}
           onChange={(e) => setStan((prev) => ({ ...prev, sposobUlozenia: e.target.value as SposobUlozenia }))}
+          pomoc={<PomocPola ekran="kable-male-instalacje" pole="ulozenie" />}
         >
           <option value="swobodnie">Swobodnie (na ścianie, w powietrzu)</option>
           <option value="w_peszlu">W peszlu / rurze instalacyjnej</option>
@@ -94,7 +97,7 @@ export function EkranKabliMalejInstalacji({ kluczSzkicu, pojazd }: { kluczSzkicu
           <option value="w_wiazce">W wiązce z innymi kablami</option>
         </PoleSelect>
         {stan.sposobUlozenia !== "swobodnie" && (
-          <Pole label="Liczba kabli w wiązce" unit="szt." type="number" inputMode="numeric" min={0} value={stan.liczbaKabliWWiazce} onChange={ustaw("liczbaKabliWWiazce")} />
+          <Pole label="Liczba kabli w wiązce" unit="szt." type="number" inputMode="numeric" min={0} value={stan.liczbaKabliWWiazce} onChange={ustaw("liczbaKabliWWiazce")} pomoc={<PomocPola ekran="kable-male-instalacje" pole="wiazka" />} />
         )}
         <Pole
           label="Temperatura otoczenia"
@@ -103,7 +106,7 @@ export function EkranKabliMalejInstalacji({ kluczSzkicu, pojazd }: { kluczSzkicu
           inputMode="decimal"
           value={stan.temperaturaOtoczeniaC}
           onChange={ustaw("temperaturaOtoczeniaC")}
-          hint={pojazd ? "Najwyższa spodziewana — np. komora silnika albo nagrzany kamper latem." : "Najwyższa spodziewana w miejscu prowadzenia kabla."}
+          pomoc={<PomocPola ekran="kable-male-instalacje" pole={pojazd ? "temperaturaPojazd" : "temperatura"} />}
         />
         <Pole
           label="Dopuszczalny spadek napięcia"
@@ -113,7 +116,7 @@ export function EkranKabliMalejInstalacji({ kluczSzkicu, pojazd }: { kluczSzkicu
           min={0}
           value={stan.dopuszczalnySpadekNapieciaPct}
           onChange={ustaw("dopuszczalnySpadekNapieciaPct")}
-          hint={`Dla instalacji DC zwykle ${DOMYSLNY_SPADEK_DC_PCT}%.`}
+          pomoc={<PomocPola ekran="kable-male-instalacje" pole="spadek" params={{ spadek: DOMYSLNY_SPADEK_DC_PCT }} />}
         />
         <PoleCheckbox
           id={idWlasny}
@@ -122,7 +125,7 @@ export function EkranKabliMalejInstalacji({ kluczSzkicu, pojazd }: { kluczSzkicu
           onChange={(e) => setStan((prev) => ({ ...prev, sprawdzamWlasny: e.target.checked }))}
         />
         {stan.sprawdzamWlasny && (
-          <Pole label="Mój przekrój" unit="mm²" type="number" inputMode="decimal" min={0} value={stan.sprawdzanyPrzekrojMm2} onChange={ustaw("sprawdzanyPrzekrojMm2")} />
+          <Pole label="Mój przekrój" unit="mm²" type="number" inputMode="decimal" min={0} value={stan.sprawdzanyPrzekrojMm2} onChange={ustaw("sprawdzanyPrzekrojMm2")} pomoc={<PomocPola ekran="kable-male-instalacje" pole="przekroj" />} />
         )}
       </div>
 

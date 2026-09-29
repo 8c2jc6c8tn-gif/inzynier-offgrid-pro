@@ -1023,3 +1023,25 @@ danymi z datą ważności ma oba problemy; reguła „jeden właściciel szkicu�
 daty — do 08 (UI) albo 12 (wydajność/SSR).
 Status: 🔎 nowe
 
+[29.09.2026] KATEGORIA: POMYSŁ NA REGUŁĘ (zgłoszenie właściciela repo) + BŁĄD — „Definicja ukończenia ekranu” musi obejmować komplet warstw użytkowych (autosave, tłumaczenia, „?” przy polach, „i” przy tytule) i mieć strażnika w CI, inaczej reguła nie działa
+
+Szczegóły: standard 8.4 od dawna wymaga „?” przy każdym parametrze liczbowym, a decyzja projektu D34 (28.09.2026)
+dodała „nowe ekrany od teraz od razu z chmurkami”. Nikt tego nie sprawdzał mechanicznie. Wynik po jednym dniu: z 220
+ekranów tylko 7 miało „?”, a 30 z 36 ekranów zbudowanych **po** D34 (cały nowy moduł M14) znowu bez chmurek — każda
+sesja kopiowała sąsiedni ekran, który ich nie miał. Teraz ta sama praca jest robiona drugi raz na ~640 polach, w trzech
+językach. Właściciel repo: „wraz z autosave, tłumaczeniem na inne języki musi od razu być dodawana migawka ? i »i«, bo
+teraz robimy robotę drugi raz, a to już było mówione, ale nikt tego nie pilnuje”. Rozwiązanie w tym repo (D51):
+(1) treść pomocy jako typowany obiekt per ekran w `lib/i18n/pomoc/<moduł>.ts`, EN/RU typowane z kształtu PL — brak
+tłumaczenia = błąd kompilacji; liczby ze stałych silnika wchodzą przez parametry `{nazwa}`, nie przepisane;
+(2) `scripts/check-pomoc-guard.mjs` (AST TypeScript): każde `<Pole>` ma `pomoc={<PomocPola …/>}` i nie ma `hint=`, każde
+surowe `<input>`/`<select>` ma `<PomocPola>` obok, każdy `<NaglowekEkranu>` ma `ekran=` („i”), każda strona z polami ma
+`usePersistedDraft` albo komentarz z powodem; (3) **lista zapadkowa** (`pomoc-guard-baseline.json`): stare niezgodne pliki
+są na liście, która może tylko maleć (strażnik odrzuca także plik, który już spełnia regułę, a wciąż jest na liście), nowy
+plik musi przejść od razu — reguła działa od pierwszego dnia bez „big bang” na 220 ekranach.
+Dlaczego warto zgłosić do new-app-standards: to ogólny wzorzec, nie domena off-grid. (a) Każda reguła UI typu „każdy X
+ma Y” bez mechanicznego strażnika dryfuje w ciągu dni, bo nowy kod powstaje przez kopiowanie sąsiedniego — ten sam
+mechanizm co 17.9 (strażnik i18n), tylko dla pomocy i autosave. (b) 10.4 „Definicja ukończenia” powinna wprost wymieniać
+warstwy użytkowe ekranu (autozapis, i18n, pomoc per pole, migawka ekranu), nie tylko „testy przechodzą”. (c) Lista
+zapadkowa to sposób na wprowadzenie nowej reguły do istniejącego projektu bez blokowania pracy — warto opisać ją raz
+w rozdziale 11 (CI) jako wzorzec dla każdego nowego strażnika.
+Status: 🔎 nowe

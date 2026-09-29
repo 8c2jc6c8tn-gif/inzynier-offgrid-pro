@@ -10,9 +10,9 @@ import type {
 } from "@/lib/core/modules/kalkulator-mobilny/uziemienie-male-instalacje/input"
 import { usePersistedDraft } from "@/lib/adapters/use-persisted-draft"
 import { PoleSelect } from "@/components/ui/pole"
+import { PomocPola } from "@/components/ui/pomoc"
 import { WerdyktPanel } from "@/components/werdykt"
 import { NawigacjaEkranu } from "@/components/nawigacja-ekranu"
-import { MigawkaBox } from "@/components/wzorce/migawka-box"
 import { NaglowekEkranu } from "@/components/wzorce/naglowek-ekranu"
 import { WynikGlowny } from "@/components/wzorce/wynik-glowny"
 import { WynikSzczegoly } from "@/components/wzorce/wynik-szczegoly"
@@ -113,27 +113,18 @@ export default function UziemienieMaleInstalacjePage() {
   return (
     <main className="mx-auto flex max-w-md flex-col gap-6 p-6">
       <NawigacjaEkranu href="/kalkulatory/uziemienie-male-instalacje" />
-      <NaglowekEkranu tytul="Uziemienie małej instalacji">
+      <NaglowekEkranu tytul="Uziemienie małej instalacji" ekran="uziemienie-male-instalacje" wzor={result.formula}>
         Kamper, jacht, garaż albo zestaw na zewnątrz: sprawdza, czy instalacja wymaga uziemienia ochronnego i czy falownik
         oraz gniazda 230 V są poprawnie podłączone. Moduł 12, Ekran 38 (uproszczona wersja Modułu 5, Ekrany 9 i 11).
       </NaglowekEkranu>
-      <MigawkaBox>
-        O co chodzi? Uziemienie to droga ucieczki dla prądu. Jak jej nie ma, prąd ucieka przez Ciebie.
-      </MigawkaBox>
+      
 
       <div className="flex flex-col gap-4">
         <PoleSelect
           label="Rodzaj instalacji"
           value={stan.rodzaj}
           onChange={(e) => setStan((prev) => ({ ...prev, rodzaj: e.target.value as FormularzStan["rodzaj"] }))}
-          pomoc={
-            <>
-              <strong>Rodzaj instalacji</strong> — czy w instalacji jest tylko niskie napięcie stałe z akumulatora (12 V albo
-              24 V DC), czy także falownik (przetwornica), który robi z niego 230 V AC do zwykłych gniazdek. Od tego zależy,
-              czy uziemienie ochronne jest wymagane: sama instalacja 12/24 V DC zwykle go nie wymaga, instalacja 230 V z
-              falownika — tak. Jeśli masz choćby jedno gniazdko 230 V zasilane z falownika, wybierz „230 V z falownika”.
-            </>
-          }
+          pomoc={<PomocPola ekran="uziemienie-male-instalacje" pole="rodzaj" />}
         >
           <option value="">— wybierz —</option>
           <option value="dc">Tylko 12/24 V DC</option>
@@ -143,14 +134,7 @@ export default function UziemienieMaleInstalacjePage() {
           label="Gdzie jest instalacja"
           value={stan.miejsce}
           onChange={(e) => setStan((prev) => ({ ...prev, miejsce: e.target.value as FormularzStan["miejsce"] }))}
-          pomoc={
-            <>
-              <strong>Miejsce instalacji</strong> — gdzie pracuje zestaw. Ten ekran jest dla instalacji tymczasowych i
-              mobilnych, w których pełne uziemienie budynkowe nie ma zastosowania. Na jachcie i na zewnątrz jest wilgotno —
-              tam uziemienie jest zalecane także przy samym 12/24 V DC. Dla domu z uziomem w ziemi użyj pełnego projektu
-              uziemienia w Module 5.
-            </>
-          }
+          pomoc={<PomocPola ekran="uziemienie-male-instalacje" pole="miejsce" />}
         >
           <option value="">— wybierz —</option>
           {MIEJSCA.map((m) => (
@@ -165,15 +149,7 @@ export default function UziemienieMaleInstalacjePage() {
               label="Czy obudowa falownika jest uziemiona?"
               value={stan.obudowa}
               onChange={(e) => setStan((prev) => ({ ...prev, obudowa: e.target.value as FormularzStan["obudowa"] }))}
-              pomoc={
-                <>
-                  <strong>Uziemienie obudowy falownika</strong> — przewód ochronny (zielono-żółty) z zacisku uziemienia
-                  falownika, oznaczonego PE albo symbolem uziemienia, do uziemienia pojazdu (masy) lub uziomu. Zacisk
-                  znajdziesz na obudowie albo w instrukcji falownika. Gdy dojdzie do zwarcia wewnątrz, ten przewód odprowadza
-                  prąd — bez niego obudowa jest pod napięciem. Nie wiesz? Wybierz „Nie wiem” — aplikacja przyjmie stronę
-                  bezpieczną (jak „nie”).
-                </>
-              }
+              pomoc={<PomocPola ekran="uziemienie-male-instalacje" pole="obudowa" />}
             >
               <option value="">— wybierz —</option>
               {ODPOWIEDZI.map((o) => (
@@ -186,14 +162,7 @@ export default function UziemienieMaleInstalacjePage() {
               label="Czy gniazda 230 V mają podłączony styk ochronny?"
               value={stan.gniazda}
               onChange={(e) => setStan((prev) => ({ ...prev, gniazda: e.target.value as FormularzStan["gniazda"] }))}
-              pomoc={
-                <>
-                  <strong>Styk ochronny gniazda</strong> — bolec albo boczne styki w gnieździe 230 V, do których dochodzi
-                  przewód ochronny (zielono-żółty) połączony z uziemieniem pojazdu lub uziomem. Samo gniazdo z bolcem nie
-                  wystarczy — przewód musi być podłączony. Sprawdź puszkę gniazda albo schemat instalacji. Nie wiesz? Wybierz
-                  „Nie wiem” — aplikacja przyjmie stronę bezpieczną (jak „nie”).
-                </>
-              }
+              pomoc={<PomocPola ekran="uziemienie-male-instalacje" pole="gniazda" />}
             >
               <option value="">— wybierz —</option>
               {ODPOWIEDZI.map((o) => (
