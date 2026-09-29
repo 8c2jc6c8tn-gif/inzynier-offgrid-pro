@@ -8284,3 +8284,13 @@ Tryb Audyt (czapka rewidenta). Warstwa „w pełni na końcu” z N.2 — wszyst
   do właściciela na liście.
 - Cykl adaptacyjny: nowa treść → `interwał_h = 12`, `licznik_zero_z_rzedu = 0`. Kolejne sprawdzenie najpóźniej
   30.09.2026 ok. 07:00 UTC.
+
+## Y.11 — pierwszy audyt zgodności kodu (29.09.2026, na żądanie właściciela)
+
+- Raport: `docs/audyt-zgodnosci-kodu.md` (nowy plik, LOKALNE). 7 pozycji rejestru: 5 ✅, 1b ⚠️ nowe, 7 ⚠️ znane.
+- **1b:** ekrany zmienione 29.09 (m.in. E38 `uziemienie-male-instalacje`, M14 `przelacznik-siec-wyspa`, `components/siec/*`)
+  dodały polskie teksty JSX bez `t(...)`. `check:i18n-guard` pilnuje tylko silników — JSX nie ma strażnika, stąd dryf.
+  Kodu nie zmieniono (Y.11) — decyzja właściciela A/B/C w raporcie.
+- **7:** bramka logowania w `middleware.ts` wyłączona do czasu projektu Supabase — bez zmian od 15.09.
+- **Pułapka tej sesji:** `git checkout -B <gałąź> origin/main` po scaleniu PR przez API — lokalny `origin/main` był sprzed
+  scalenia (fetch zrobiony wcześniej). Zawsze `git fetch origin main` tuż przed takim resetem.
