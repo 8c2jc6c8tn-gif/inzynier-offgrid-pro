@@ -50,7 +50,3 @@ export const NARZEDZIA_FAKTY: FaktStopka[] = [
     tekst: "Woda destylowana (uzupełnianie poziomu elektrolitu).",
   },
 ]
-
-export const MIGAWKA =
-  "Kluczowa różnica względem LiFePO4: akumulator kwasowy przechowuj w pełni naładowany, nie na " +
-  "50% — rozładowany zamarza i traci pojemność przez siarczanowanie."

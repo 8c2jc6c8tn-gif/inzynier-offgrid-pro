@@ -5,11 +5,13 @@ import { calculatePierwszeUruchomienie } from "@/lib/core/modules/montaz-baterii
 import { CHECKLIST_ITEMS, PROG_TOP_BALANCING_V } from "@/lib/core/modules/montaz-baterii/pierwsze-uruchomienie/constants"
 import { usePersistedDraft } from "@/lib/adapters/use-persisted-draft"
 import { Pole } from "@/components/ui/pole"
+import { PomocPola } from "@/components/ui/pomoc"
 import { ListaChecklist } from "@/components/wzorce/lista-checklist"
 import { WerdyktPanel, type WerdyktPoziom } from "@/components/werdykt"
 import { NawigacjaEkranu } from "@/components/nawigacja-ekranu"
 import { NaglowekEkranu } from "@/components/wzorce/naglowek-ekranu"
 import { WynikSzczegoly } from "@/components/wzorce/wynik-szczegoly"
+import { CZAS_TESTU_MIN, TEST_LADOWANIA_C_RATE } from "@/lib/core/modules/montaz-baterii/pierwsze-uruchomienie/constants"
 
 type FormularzStan = {
   pojemnoscAh: number
@@ -67,7 +69,11 @@ export default function PierwszeUruchomieniePage() {
   return (
     <main className="mx-auto flex max-w-md flex-col gap-6 p-6">
       <NawigacjaEkranu href="/kalkulatory/pierwsze-uruchomienie" />
-      <NaglowekEkranu tytul="Pierwsze uruchomienie i test balansowania">
+      <NaglowekEkranu
+        tytul="Pierwsze uruchomienie i test balansowania"
+        ekran="pierwsze-uruchomienie"
+        parametry={{ cRate: TEST_LADOWANIA_C_RATE, czas: CZAS_TESTU_MIN, prog: PROG_TOP_BALANCING_V }}
+      >
         Pierwsze ładowanie to nie jest &bdquo;włącz i zapomnij&rdquo; — to moment, kiedy BMS uczy
         się Twojego pakietu i wyrównuje różnice między ogniwami z fabryki. Moduł 11, Ekran A5
         (ścieżka LiFePO4).
@@ -81,7 +87,7 @@ export default function PierwszeUruchomieniePage() {
         min={0}
         value={pojemnoscAh || ""}
         onChange={(e) => setPojemnoscAh(Number(e.target.value))}
-        hint="Do wyliczenia prądu testowego ładowania (0,1C przez 30 minut)."
+        pomoc={<PomocPola ekran="pierwsze-uruchomienie" pole="pojemnosc" params={{ cRate: TEST_LADOWANIA_C_RATE, czas: CZAS_TESTU_MIN, prog: PROG_TOP_BALANCING_V }} />}
       />
 
       {pojemnoscAh > 0 && (
@@ -99,7 +105,7 @@ export default function PierwszeUruchomieniePage() {
         min={0}
         value={napiecieNajwyzszegoOgniwaV || ""}
         onChange={(e) => setNapiecieNajwyzszegoOgniwaV(Number(e.target.value))}
-        hint={`Top Balancing osiągnięty przy ${PROG_TOP_BALANCING_V} V.`}
+        pomoc={<PomocPola ekran="pierwsze-uruchomienie" pole="napiecieMax" params={{ cRate: TEST_LADOWANIA_C_RATE, czas: CZAS_TESTU_MIN, prog: PROG_TOP_BALANCING_V }} />}
       />
 
       <ListaChecklist

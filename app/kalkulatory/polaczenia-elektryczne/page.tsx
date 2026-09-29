@@ -118,7 +118,7 @@ export default function PolaczeniaElektrycznePage() {
   return (
     <main className="mx-auto flex max-w-md flex-col gap-6 p-6">
       <NawigacjaEkranu href="/kalkulatory/polaczenia-elektryczne" />
-      <NaglowekEkranu tytul="Połączenia elektryczne i kolejność łączenia">
+      <NaglowekEkranu tytul="Połączenia elektryczne i kolejność łączenia" ekran="polaczenia-elektryczne">
         Kolejność łączenia ma znaczenie — przypadkowe zwarcie podczas montażu szeregu ogniw to
         najczęstsza przyczyna wypadków przy budowie własnego pakietu. Moduł 11, Ekran A3.
       </NaglowekEkranu>

@@ -45,7 +45,7 @@ export default function WeryfikacjaWstepnaOlowPage() {
   return (
     <main className="mx-auto flex max-w-md flex-col gap-6 p-6">
       <NawigacjaEkranu href="/kalkulatory/weryfikacja-wstepna-olow" />
-      <NaglowekEkranu tytul="Weryfikacja + kontrola wstępna">
+      <NaglowekEkranu tytul="Weryfikacja + kontrola wstępna" ekran="weryfikacja-wstepna-olow">
         Moduł 11, Ekran B1 (Ścieżka B — kwasowo-ołowiowa).
       </NaglowekEkranu>
 

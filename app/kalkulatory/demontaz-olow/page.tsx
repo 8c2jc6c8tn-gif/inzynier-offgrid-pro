@@ -92,7 +92,7 @@ export default function DemontazOlowPage() {
   return (
     <main className="mx-auto flex max-w-md flex-col gap-6 p-6">
       <NawigacjaEkranu href="/kalkulatory/demontaz-olow" />
-      <NaglowekEkranu tytul="Demontaż — procedura, kolejność, zabezpieczenie">
+      <NaglowekEkranu tytul="Demontaż — procedura, kolejność, zabezpieczenie" ekran="demontaz-olow">
         Ta sama zasada co w LiFePO4 — masa (minus) zawsze pierwsza przy odłączaniu. Moduł 11,
         Ekran B7 (Ścieżka B — kwasowo-ołowiowa).
       </NaglowekEkranu>

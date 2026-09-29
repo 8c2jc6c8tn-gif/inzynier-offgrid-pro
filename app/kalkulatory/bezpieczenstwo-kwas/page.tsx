@@ -38,7 +38,7 @@ export default function BezpieczenstwoKwasPage() {
   return (
     <main className="mx-auto flex max-w-md flex-col gap-6 p-6">
       <NawigacjaEkranu href="/kalkulatory/bezpieczenstwo-kwas" />
-      <NaglowekEkranu tytul="Bezpieczeństwo pracy z kwasem">
+      <NaglowekEkranu tytul="Bezpieczeństwo pracy z kwasem" ekran="bezpieczenstwo-kwas">
         Moduł 11, Ekran B8 (Ścieżka B — kwasowo-ołowiowa).
       </NaglowekEkranu>
 

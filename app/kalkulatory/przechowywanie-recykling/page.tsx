@@ -1,5 +1,4 @@
 import {
-  MIGAWKA,
   NARZEDZIA_DIAGNOSTYCZNE_FAKTY,
   PRZECHOWYWANIE_FAKTY,
   RECYKLING_FAKTY,
@@ -7,13 +6,12 @@ import {
 import { NawigacjaEkranu } from "@/components/nawigacja-ekranu"
 import { NaglowekEkranu } from "@/components/wzorce/naglowek-ekranu"
 import { SekcjaAkordeon } from "@/components/wzorce/sekcja-akordeon"
-import { MigawkaBox } from "@/components/wzorce/migawka-box"
 
 export default function PrzechowywanieRecyklingPage() {
   return (
     <main className="mx-auto flex max-w-md flex-col gap-6 p-6">
       <NawigacjaEkranu href="/kalkulatory/przechowywanie-recykling" />
-      <NaglowekEkranu tytul="Przechowywanie / recykling / narzędzia diagnostyczne">
+      <NaglowekEkranu tytul="Przechowywanie / recykling / narzędzia diagnostyczne" ekran="przechowywanie-recykling">
         Moduł 11, Ekran A10 (Ścieżka A — LiFePO4). Trzy tematy poniżej uzupełniają się nawzajem.
       </NaglowekEkranu>
 
@@ -49,7 +47,7 @@ export default function PrzechowywanieRecyklingPage() {
         </SekcjaAkordeon>
       </div>
 
-      <MigawkaBox>{MIGAWKA}</MigawkaBox>
+      
     </main>
   )
 }

@@ -49,7 +49,7 @@ export default function OcenaZuzyciaPage() {
   return (
     <main className="mx-auto flex max-w-md flex-col gap-6 p-6">
       <NawigacjaEkranu href="/kalkulatory/ocena-zuzycia" />
-      <NaglowekEkranu tytul="Ocena zużycia ogniwa po demontażu">
+      <NaglowekEkranu tytul="Ocena zużycia ogniwa po demontażu" ekran="ocena-zuzycia">
         Trzy pomiary do wykonania po zdjęciu ogniwa, plus jedna ocena, która decyduje o
         wszystkim: czy obudowa widocznie spuchła. Moduł 11, Ekran A8.
       </NaglowekEkranu>

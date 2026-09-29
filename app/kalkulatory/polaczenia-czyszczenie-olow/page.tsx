@@ -97,7 +97,7 @@ export default function PolaczeniaCzyszczenieOlowPage() {
   return (
     <main className="mx-auto flex max-w-md flex-col gap-6 p-6">
       <NawigacjaEkranu href="/kalkulatory/polaczenia-czyszczenie-olow" />
-      <NaglowekEkranu tytul="Połączenia + czyszczenie biegunów">
+      <NaglowekEkranu tytul="Połączenia + czyszczenie biegunów" ekran="polaczenia-czyszczenie-olow">
         Moduł 11, Ekran B3 (Ścieżka B — kwasowo-ołowiowa).
       </NaglowekEkranu>
 

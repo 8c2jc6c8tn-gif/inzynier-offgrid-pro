@@ -42,7 +42,7 @@ export default function MontazMechanicznyOlowPage() {
   return (
     <main className="mx-auto flex max-w-md flex-col gap-6 p-6">
       <NawigacjaEkranu href="/kalkulatory/montaz-mechaniczny-olow" />
-      <NaglowekEkranu tytul="Montaż mechaniczny + mocowanie/wentylacja">
+      <NaglowekEkranu tytul="Montaż mechaniczny + mocowanie/wentylacja" ekran="montaz-mechaniczny-olow">
         Moduł 11, Ekran B2 (Ścieżka B — kwasowo-ołowiowa).
       </NaglowekEkranu>
 

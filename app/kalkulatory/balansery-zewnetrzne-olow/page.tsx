@@ -4,10 +4,12 @@ import { useMemo } from "react"
 import { calculateBalanseryZewnetrzneOlow } from "@/lib/core/modules/montaz-baterii/balansery-zewnetrzne-olow/calculator"
 import { usePersistedDraft } from "@/lib/adapters/use-persisted-draft"
 import { Pole, PoleCheckbox } from "@/components/ui/pole"
+import { PomocPola } from "@/components/ui/pomoc"
 import { WerdyktPanel, type WerdyktPoziom } from "@/components/werdykt"
 import { NawigacjaEkranu } from "@/components/nawigacja-ekranu"
 import { NaglowekEkranu } from "@/components/wzorce/naglowek-ekranu"
 import { WynikSzczegoly } from "@/components/wzorce/wynik-szczegoly"
+import { MIN_AKUMULATOROW_WYMAGAJACYCH_BALANSERA } from "@/lib/core/modules/montaz-baterii/balansery-zewnetrzne-olow/constants"
 
 /** Schemat: balanser zewnętrzny podłączony równolegle do KAŻDEGO akumulatora w szeregu. */
 function BalanseryIlustracja() {
@@ -110,7 +112,11 @@ export default function BalanseryZewnetrzneOlowPage() {
   return (
     <main className="mx-auto flex max-w-md flex-col gap-6 p-6">
       <NawigacjaEkranu href="/kalkulatory/balansery-zewnetrzne-olow" />
-      <NaglowekEkranu tytul="Balansery zewnętrzne">
+      <NaglowekEkranu
+        tytul="Balansery zewnętrzne"
+        ekran="balansery-zewnetrzne-olow"
+        parametry={{ minAku: MIN_AKUMULATOROW_WYMAGAJACYCH_BALANSERA }}
+      >
         Akumulatory kwasowe, w przeciwieństwie do LiFePO4, nie mają wbudowanego „sędziego”
         pilnującego równowagi — trzeba go dodać z zewnątrz, inaczej najsłabszy akumulator ograniczy
         cały zestaw. Moduł 11, Ekran B4 (Ścieżka B — kwasowo-ołowiowa).
@@ -127,6 +133,7 @@ export default function BalanseryZewnetrzneOlowPage() {
         step="1"
         value={iloscAkumulatorow}
         onChange={(e) => setIloscAkumulatorow(e.target.value)}
+        pomoc={<PomocPola ekran="balansery-zewnetrzne-olow" pole="liczba" params={{ minAku: MIN_AKUMULATOROW_WYMAGAJACYCH_BALANSERA }} />}
       />
 
       <PoleCheckbox

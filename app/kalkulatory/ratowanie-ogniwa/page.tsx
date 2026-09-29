@@ -4,10 +4,12 @@ import { useMemo } from "react"
 import { calculateRatowanieOgniwa } from "@/lib/core/modules/montaz-baterii/ratowanie-ogniwa/calculator"
 import { usePersistedDraft } from "@/lib/adapters/use-persisted-draft"
 import { Pole } from "@/components/ui/pole"
+import { PomocPola } from "@/components/ui/pomoc"
 import { WerdyktPanel, type WerdyktPoziom } from "@/components/werdykt"
 import { NawigacjaEkranu } from "@/components/nawigacja-ekranu"
 import { NaglowekEkranu } from "@/components/wzorce/naglowek-ekranu"
 import { WynikSzczegoly } from "@/components/wzorce/wynik-szczegoly"
+import { NAPIECIE_ZASILACZA_RATUNKOWEGO_V, PRAD_LADOWANIA_RATUNKOWEGO_A, PROG_BEZPIECZNEGO_RATUNKU_V } from "@/lib/core/modules/montaz-baterii/ratowanie-ogniwa/constants"
 
 type FormularzStan = {
   napiecieOgniwaV: string
@@ -52,7 +54,11 @@ export default function RatowanieOgniwaPage() {
   return (
     <main className="mx-auto flex max-w-md flex-col gap-6 p-6">
       <NawigacjaEkranu href="/kalkulatory/ratowanie-ogniwa" />
-      <NaglowekEkranu tytul="Ratowanie głęboko rozładowanego ogniwa">
+      <NaglowekEkranu
+        tytul="Ratowanie głęboko rozładowanego ogniwa"
+        ekran="ratowanie-ogniwa"
+        parametry={{ progRatunku: PROG_BEZPIECZNEGO_RATUNKU_V, prad: PRAD_LADOWANIA_RATUNKOWEGO_A, napiecieZasilacza: NAPIECIE_ZASILACZA_RATUNKOWEGO_V }}
+      >
         Głębokie rozładowanie to klinicznie „śmierć” ogniwa — czasem da się je obudzić, ale zwykle
         to już nieodwracalne uszkodzenie, i próba ratunku ma swoje realne ryzyko. Moduł 11, Ekran
         A9.
@@ -67,7 +73,7 @@ export default function RatowanieOgniwaPage() {
         step="0.01"
         value={napiecieOgniwaV}
         onChange={(e) => setNapiecieOgniwaV(e.target.value)}
-        hint="0 V jest prawidłowym, krytycznym wynikiem pomiaru."
+        pomoc={<PomocPola ekran="ratowanie-ogniwa" pole="napiecie" params={{ progRatunku: PROG_BEZPIECZNEGO_RATUNKU_V, prad: PRAD_LADOWANIA_RATUNKOWEGO_A, napiecieZasilacza: NAPIECIE_ZASILACZA_RATUNKOWEGO_V }} />}
       />
 
       {poziom === null ? (

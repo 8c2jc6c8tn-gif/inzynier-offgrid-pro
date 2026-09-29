@@ -36,7 +36,7 @@ export default function PrzygotowanieStanowiskaPage() {
   return (
     <main className="mx-auto flex max-w-md flex-col gap-6 p-6">
       <NawigacjaEkranu href="/kalkulatory/przygotowanie-stanowiska" />
-      <NaglowekEkranu tytul="Przygotowanie stanowiska i narzędzi">
+      <NaglowekEkranu tytul="Przygotowanie stanowiska i narzędzi" ekran="przygotowanie-stanowiska">
         Zanim zaczniesz montaż pakietu — stanowisko i narzędzia muszą być gotowe. Moduł 11,
         Ekran A7 (ścieżka LiFePO4).
       </NaglowekEkranu>

@@ -5,6 +5,7 @@ import { calculatePodlaczenieBms } from "@/lib/core/modules/montaz-baterii/podla
 import { CHECKLIST_ITEMS, OSTRZEZENIA_STALE, PRZYKLADOWA_REZYSTANCJA_OHM } from "@/lib/core/modules/montaz-baterii/podlaczenie-bms/constants"
 import { usePersistedDraft } from "@/lib/adapters/use-persisted-draft"
 import { Pole } from "@/components/ui/pole"
+import { PomocPola } from "@/components/ui/pomoc"
 import { ListaChecklist } from "@/components/wzorce/lista-checklist"
 import { WerdyktPanel, type WerdyktPoziom } from "@/components/werdykt"
 import { NawigacjaEkranu } from "@/components/nawigacja-ekranu"
@@ -157,7 +158,7 @@ export default function PodlaczenieBmsPage() {
   return (
     <main className="mx-auto flex max-w-md flex-col gap-6 p-6">
       <NawigacjaEkranu href="/kalkulatory/podlaczenie-bms" />
-      <NaglowekEkranu tytul="Podłączenie BMS">
+      <NaglowekEkranu tytul="Podłączenie BMS" ekran="podlaczenie-bms" wzor={result.formula}>
         Zanim główny bezpiecznik/stycznik pójdzie w górę, kondensatory wejściowe falownika muszą
         się najpierw naładować przez rezystor — inaczej zaiskrzy. Moduł 11, Ekran A4.
       </NaglowekEkranu>
@@ -172,7 +173,7 @@ export default function PodlaczenieBmsPage() {
           inputMode="decimal"
           value={pojemnoscFalownikaUf}
           onChange={(e) => setPojemnoscFalownikaUf(e.target.value)}
-          hint="Z karty katalogowej falownika."
+          pomoc={<PomocPola ekran="podlaczenie-bms" pole="pojemnosc" />}
         />
         <Pole
           label="Rezystor wstępny (pre-charge)"
@@ -181,7 +182,7 @@ export default function PodlaczenieBmsPage() {
           inputMode="decimal"
           value={rezystancjaPreChargeOhm}
           onChange={(e) => setRezystancjaPreChargeOhm(e.target.value)}
-          hint="Przykład ze źródła: 50 Ω / 50 W."
+          pomoc={<PomocPola ekran="podlaczenie-bms" pole="rezystor" params={{ rezystor: PRZYKLADOWA_REZYSTANCJA_OHM }} />}
         />
       </div>
 
