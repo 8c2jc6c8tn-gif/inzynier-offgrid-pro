@@ -16,16 +16,14 @@
  *  4. every `app/kalkulatory/<screen>/page.tsx` with a form field (checkboxes included) uses `usePersistedDraft`, unless
  *     the file says why not in a comment `autosave: nie dotyczy — <reason>`.
  *
- * Ratchet: `scripts/pomoc-guard-baseline.json` lists files that were already non-compliant on
- * 29.09.2026 and are being fixed module by module. A file outside it must pass; a file on it
- * that now passes must be removed from it (the list only shrinks). New screens never go on it.
+ * No ratchet: the baseline list (files non-compliant on 29.09.2026) emptied the same day and was
+ * deleted (standard 11.9 — an empty list means the guard is fully strict). Every file must pass.
  */
 import ts from "typescript"
 import { readFileSync, readdirSync, statSync, existsSync } from "node:fs"
 import path from "node:path"
 
 const ROOTS = ["app/kalkulatory", "components/siec", "components/agregat", "components/wzorce"]
-const BASELINE_PATH = "scripts/pomoc-guard-baseline.json"
 const RAW_EXEMPT_TYPES = new Set(["checkbox", "radio", "hidden", "file"])
 
 function listTsx(dir) {
@@ -115,29 +113,16 @@ export function checkFile(file, src) {
 }
 
 function main() {
-  const baseline = new Set(JSON.parse(readFileSync(BASELINE_PATH, "utf8")).pliki)
   const files = ROOTS.flatMap(listTsx).map((f) => f.split(path.sep).join("/"))
-  const errors = []
-  const healed = []
-  for (const file of files) {
-    const problems = checkFile(file, readFileSync(file, "utf8"))
-    if (baseline.has(file)) {
-      if (problems.length === 0) healed.push(file)
-    } else {
-      errors.push(...problems)
-    }
-  }
-  const stale = [...baseline].filter((f) => !files.includes(f))
-  if (errors.length || healed.length || stale.length) {
+  const errors = files.flatMap((file) => checkFile(file, readFileSync(file, "utf8")))
+  if (errors.length) {
     for (const e of errors) console.error(`✗ ${e}`)
-    for (const h of healed) console.error(`✗ ${h} spełnia już regułę — usuń go z ${BASELINE_PATH} (lista tylko maleje)`)
-    for (const s of stale) console.error(`✗ ${s} nie istnieje — usuń go z ${BASELINE_PATH}`)
     console.error(
       `\ncheck:pomoc-guard: ekran musi mieć od razu autosave, tłumaczenia, „?” przy każdym polu i „i” przy tytule (D51).`,
     )
     process.exit(1)
   }
-  console.log(`check:pomoc-guard OK — ${files.length - baseline.size} plików zgodnych, ${baseline.size} na liście do naprawy.`)
+  console.log(`check:pomoc-guard OK — ${files.length} plików zgodnych.`)
 }
 
 if (import.meta.url === `file://${process.argv[1]}`) main()

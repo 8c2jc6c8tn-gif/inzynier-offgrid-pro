@@ -8255,3 +8255,32 @@ Tryb Audyt (czapka rewidenta). Warstwa „w pełni na końcu” z N.2 — wszyst
   `prace-rozdzialy-status-qb0uwf`, `screen-fixes-new-documents-80kzcm`, `e38-uziemienie-c3xs6h`,
   `nowy-rozdzial-biblia-kalkulator-to73by`). Stan 29.09: **każda gałąź zdalna poza `main` jest do usunięcia**.
   Kasowanie z sesji nadal niemożliwe (`git push --delete` → HTTP 403, sprawdzone 29.09) — robi to właściciel ręcznie.
+
+## Synchronizacja ze standardem — Y.6 (29.09.2026, 19:00 UTC, na polecenie właściciela „przeprowadź aktualizacje”)
+
+- Świeży płytki klon `new-app-standards` (`af63da7`, 29.09 18:50 UTC), tylko odczyt, bez `register_repo_root`.
+  `AKTUALIZACJE.md` 112 → 114 linii: dwa wiersze 2026-09-29 (blok U.4 z tego projektu — 8.12, 11.9, 15.23, dopiski
+  4.3/5.5/8.4/9.0a/10.4/17.1a/17.9; oraz 8.4b — forma „i”: zakładki „Po ludzku”/„Fizyka”).
+- *NIETYKALNE (pełny nadpis):* `docs/standards/` 00-INDEKS, 04, 05, 08, 09, 10, 11, 15, 17. GOD BOOK `v2_39`,
+  `PROMPT_STARTOWY.md`, `docs/przyklady/i18n/*` — identyczne. `docs/przyklady/pwa/` — nadal świadomie niekopiowany
+  (pytanie do właściciela z 26.09 otwarte).
+- *ADAPTOWALNE (patch):* `CLAUDE.md` — z `CLAUDE.template.md` dopisane 3 akapity: 15.23 (nowy wiersz) oraz 15.21 i 15.22,
+  których brakowało od synchronizacji 24.09 (wtedy czekały na zgodę; od korekty Y.6/Y.8 z v2.38 ADAPTOWALNE stosuje się
+  bez pytania). Skill: przywrócone „decyzja D#” ze źródła.
+- *LOKALNE:* `docs/wklad-do-standardu.md` — 9 wpisów → ✅ skonsolidowane (w tym wpis 28.09 o liście na `main`, który nie
+  miał linii `Status:`). Otwarte po stronie źródła: pkt 7–13, 15, 17–21 wpisów z 27–29.09 i wpisy z 26.09 (locale, OCR, N.1).
+- **Y.2 — dryf kodu od nowych reguł, naprawiony od razu:** (1) 5.5 — `usePersistedDraft` zastępował stan szkicem;
+  teraz `scalSzkic` nakłada szkic na stan początkowy (płytko, tylko zwykłe obiekty) + test „stary szkic bez nowego
+  pola”. Wzorzec `?? ""` w ekranach zostaje (nieszkodliwy), nowych już nie wymaga. (2) 11.9 — puste listy zapadkowe
+  `pomoc-guard-baseline.json`/`ai-tools-guard-baseline.json` usunięte, strażniki bez logiki listy.
+- **Nie naprawione teraz (na liście zadań):** `MigawkaInfo` wobec 8.4b (brak `assumptions` w „Fizyka”, brak panelu od dołu
+  na telefonie, cyfry w tekstach „Fizyka”); strażnik rejestru twardych stopów (4.3/11.9).
+- **Checklista Y.9:** 1 `docs/standards/` ✅ (20 plików = źródło) · 2 GOD BOOK ✅ v2_39 · 3 `CLAUDE.md` ✅ (patch) ·
+  4 pełna Biblia ✅ 14/14 · 5 lista ✅ · 6 wkład ✅ · 7 `docs/zrodla/` ✅ · 8 skill ✅ (patch) · 9 `01_`/`02_` ✅.
+  Y.10: bez nowych modułów opcjonalnych (oba obecne).
+- **Pakiet lokalny (CI nie działa do 30.09):** typecheck, lint (0 błędów, 2 stare ostrzeżenia `<img>`), `check:i18n-guard`,
+  `check:pomoc-guard` (255 plików), `check:ai-tools-guard` (200/200), `audit:n1`, `audit:gate`, test 2089/2089, build — zielone.
+- **Routine Y.6** `trig_01892Z45ThAi2T56PJRjQQAh` nie istnieje (not found) — nikt jej nie przestawiał od 27.09; pytanie
+  do właściciela na liście.
+- Cykl adaptacyjny: nowa treść → `interwał_h = 12`, `licznik_zero_z_rzedu = 0`. Kolejne sprawdzenie najpóźniej
+  30.09.2026 ok. 07:00 UTC.

@@ -13,9 +13,8 @@
  *  3. every `lib/core/modules/**\/calculator.ts` is imported by some tool, unless the calculator
  *     says why not in a comment `ai-tool: nie dotyczy — <reason>`.
  *
- * Ratchet for rule 3: `scripts/ai-tools-guard-baseline.json` lists calculators that had no tool on
- * 29.09.2026. A calculator outside it must have a tool; one on it that now has a tool must be
- * removed from it (the list only shrinks). New calculators never go on it.
+ * No ratchet: the baseline list (calculators without a tool on 29.09.2026) emptied the same day and
+ * was deleted (standard 11.9 — an empty list means the guard is fully strict).
  */
 import ts from "typescript"
 import { readFileSync, readdirSync, statSync } from "node:fs"
@@ -24,7 +23,6 @@ import path from "node:path"
 const TOOLS_DIR = "lib/ai/tools"
 const REGISTRY = "lib/ai/pytaj-asystenta.ts"
 const MODULES_DIR = "lib/core/modules"
-const BASELINE_PATH = "scripts/ai-tools-guard-baseline.json"
 const EXEMPT = /ai-tool: nie dotyczy — \S/
 
 function walk(dir) {
@@ -74,18 +72,13 @@ function main() {
     for (const m of src.matchAll(/["']@\/lib\/core\/modules\/(.+?)\/calculator["']/g)) covered.add(m[1])
   }
 
-  const baseline = new Set(JSON.parse(readFileSync(BASELINE_PATH, "utf8")).kalkulatory)
   const calculators = walk(MODULES_DIR)
     .filter((f) => f.endsWith(`${path.sep}calculator.ts`))
     .map((f) => path.relative(MODULES_DIR, path.dirname(f)).split(path.sep).join("/"))
   for (const calc of calculators) {
     const exempt = EXEMPT.test(readFileSync(path.join(MODULES_DIR, calc, "calculator.ts"), "utf8"))
-    const ok = covered.has(calc) || exempt
-    if (!ok && !baseline.has(calc)) problems.push(`${MODULES_DIR}/${calc}: kalkulator bez narzędzia AI`)
-    if (ok && baseline.has(calc)) problems.push(`${BASELINE_PATH}: usuń „${calc}” — ma już narzędzie (lista tylko maleje)`)
+    if (!covered.has(calc) && !exempt) problems.push(`${MODULES_DIR}/${calc}: kalkulator bez narzędzia AI`)
   }
-  for (const calc of baseline)
-    if (!calculators.includes(calc)) problems.push(`${BASELINE_PATH}: „${calc}” nie istnieje — usuń z listy`)
 
   if (problems.length) {
     console.error(`check:ai-tools-guard — ${problems.length} problem(ów):`)
@@ -93,7 +86,7 @@ function main() {
     process.exit(1)
   }
   console.log(
-    `check:ai-tools-guard OK — ${toolFiles.length} narzędzi z „Użyj, gdy”, ${calculators.length - baseline.size}/${calculators.length} kalkulatorów z narzędziem (${baseline.size} na liście do zrobienia).`,
+    `check:ai-tools-guard OK — ${toolFiles.length} narzędzi z „Użyj, gdy”, ${calculators.length}/${calculators.length} kalkulatorów z narzędziem albo adnotacją „nie dotyczy”.`,
   )
 }
 

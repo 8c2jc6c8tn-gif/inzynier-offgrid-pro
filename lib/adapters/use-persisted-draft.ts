@@ -20,9 +20,24 @@ const DEBOUNCE_MS = 500
 
 type Aktualizator<T> = T | ((poprzedni: T) => T)
 
+function zwyklyObiekt(v: unknown): v is Record<string, unknown> {
+  return typeof v === "object" && v !== null && !Array.isArray(v)
+}
+
+/**
+ * Standard 5.5 (29.09.2026): szkic zapisany, zanim ekran dostał nowe pole, nie ma jego klucza —
+ * zastąpienie całego stanu dawałoby temu polu `undefined`. Szkic nakładamy więc na stan
+ * początkowy (płytko), żeby nowe pole dostało wartość domyślną. Tablice i wartości proste —
+ * bez scalania, bierzemy zapisany szkic.
+ */
+export function scalSzkic<T>(poczatkowy: T, zapisany: T): T {
+  return zwyklyObiekt(poczatkowy) && zwyklyObiekt(zapisany) ? ({ ...poczatkowy, ...zapisany } as T) : zapisany
+}
+
 export function usePersistedDraft<T>(kluczEkranu: string, poczatkowy: T): [T, (aktualizator: Aktualizator<T>) => void] {
   const key = PREFIX + kluczEkranu
   const [stan, setStanWewn] = useState<T>(poczatkowy)
+  const poczatkowyRef = useRef(poczatkowy)
   const wczytanoRef = useRef(false)
 
   useEffect(() => {
@@ -32,7 +47,7 @@ export function usePersistedDraft<T>(kluczEkranu: string, poczatkowy: T): [T, (a
       .getItem<T>(key)
       .then((zapisany) => {
         if (!aktywny) return
-        if (zapisany !== null) setStanWewn(zapisany)
+        if (zapisany !== null) setStanWewn(scalSzkic(poczatkowyRef.current, zapisany))
       })
       .catch((err) => {
         consoleReporter.reportError({

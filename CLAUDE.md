@@ -54,6 +54,12 @@ Etap 1 wznowiony (patrz `docs/memory.md`) — repo ma już warstwę domenową: `
 
 Kod działa · testy przechodzą (gdy istnieją) · typecheck bez nowych błędów · **ekran w komplecie: autosave + tłumaczenia PL/EN/RU + „?” przy każdym polu + „i” przy tytule + narzędzie AI z „Użyj, gdy…” (D51, Dyrektywa #15, `pnpm check:pomoc-guard`, `pnpm check:ai-tools-guard`)** · brak martwego kodu · dokumentacja (w tym `docs/memory.md`, jeśli decyzja jest warta zapamiętania) zaktualizowana · zmiana nie narusza innych modułów. Pełna wersja: `docs/standards/10-testy.md` (10.4).
 
+**Deklaracja stanu repo — zawsze na końcu odpowiedzi, jednym zdaniem.** Ostatni element każdej odpowiedzi podsumowującej zadanie: jawnie, czy stało się commit (bez push) / push (do jakiej gałęzi) / PR otwarty / PR zmergowany / nic z powyższego (working tree niezacommitowane) — standard 15.21. Nigdy w środku odpowiedzi ani na początku obok planu.
+
+**Po większej pracy — commit → push → PR → merge obowiązkowo** (zamknięte zadanie z listy, moduł, zmiana reguły), po przejściu pakietu kontroli (dopóki CI nie działa — pełny pakiet lokalnie, patrz „Stan repo”); wstrzymanie tylko na wyraźne polecenie właściciela, a wtedy lista zadań na gałęzi domyślnej podaje nazwę gałęzi, ostatni commit i następny krok. Na starcie sesji `git fetch` + przegląd niescalonych gałęzi roboczych — standard 15.23.
+
+**`docs/lista-do-zrobienia.md` żywa na koniec zadania.** Zamknięte wpisy oznaczone, nowe dopisane, a każdy otwarty wpis niesie: priorytet, co odblokowuje, plusy/minusy zrobienia teraz, kolizje z innymi zadaniami listy (żeby dwie sesje mogły świadomie podzielić pracę), kolejność względem zadań powiązanych (duże zadanie przed mniejszymi zależnymi od niego) — standard 15.22, GOD BOOK B.6.
+
 Po commit/push (albo PR/merge) kończącym zadanie: zanim zaczniesz kolejne, niezwiązane zadanie w tej samej sesji, oceń jakościowo, czy sesja urosła na tyle, że warto zaproponować `/compact` — standard 15.16. Brak narzędzia do dokładnego pomiaru zapełnienia okna kontekstu albo do samodzielnego wywołania `/compact` nie jest powodem, żeby pominąć tę ocenę — to rekomendacja dla właściciela projektu na granicy zadań, nie automat progowy.
 
 ## Zasada `docs/memory.md`

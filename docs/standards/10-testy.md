@@ -38,6 +38,8 @@ Testy są deterministyczne — brak losowości, brak zależności od czasu syste
 
 Zadanie jest ukończone, gdy: kod działa, testy przechodzą, typowanie nie zgłasza nowych błędów, nie ma martwego kodu ani nieużywanych importów, dokumentacja (w tym `docs/memory.md` jeśli dotyczy — rozdział 14) została zaktualizowana, zmiana nie narusza innych modułów.
 
+[29.09.2026] ✅ DODANO — dla ekranu (nowego albo zmienionego) DoD obejmuje dodatkowo komplet warstw z **8.12** (autosave, tłumaczenia we wszystkich językach minimalnego zestawu, `?` przy polach, „i” przy tytule, opis narzędzia AI) oraz zielone strażniki 11.9.
+
 ## 10.5. Kompleksowy audyt modułu wg 8 uniwersalnych kryteriów (K1–K8)
 
 [10.09.2026] ✅ DODANO — źródło: projekt inzynier-szkieletowy-pro, zebrane mechanizmem U.4 GOD BOOK. Kontekst powstania: w ramach audytu 38 modułów Kernela tego projektu wypracowano i zastosowano w praktyce na 20+ modułach zestaw kryteriów opisanych niżej.
