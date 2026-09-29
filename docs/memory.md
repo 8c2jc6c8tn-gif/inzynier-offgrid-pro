@@ -8169,3 +8169,12 @@ Tryb Audyt (czapka rewidenta). Warstwa „w pełni na końcu” z N.2 — wszyst
 - **Bez zmian w kodzie:** M8/E4 gaz (rekomendacja mgła wodna, czeka na wybór), M9/E2 (ESP32 z osobnego zasilania),
   M9/E4 CAN (właściciel jeszcze nie wie; rekomendacja 🔴).
 
+## Sprawdzenie stanu po D53 (29.09.2026, „sprawdź jak daleko poszedł projekt”)
+
+- `main` = scalenie #211; brak otwartych PR; gałęzie `claude/*` przed `main` pochodzą sprzed 28.09 i ich treść jest już
+  na `main` (np. `youthful-fermat` → #154). Żadne z otwartych pytań nie zostało rozwiązane równolegle.
+- Źródła repo: gaz przy LiFePO4 — Biblia v2.0 §4.10 (mgła wodna / środek do magazynów energii „jedyny skuteczny”);
+  CAN — §9.28 to samo ostrzeżenie co RS485. Rsi kierunkowe i kolejność przycinania CRL — brak w repo.
+- Poprawione nieaktualne wpisy: lista „Otwarte” w 03_M14 (Enea netto, Stoen C22 były już ✅), tabela i pkt 6 w
+  „STAN NA TERAZ”, wskaźnik startowy na górze `docs/lista-do-zrobienia.md`.
+

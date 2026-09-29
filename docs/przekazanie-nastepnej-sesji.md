@@ -6,7 +6,7 @@ Polecenie właściciela z 28.09.2026: sesja, która kończy się tym wpisem, **n
 instrukcje, a kod pisze następna sesja. Ten plik mówi: od czego zacząć, co jest otwarte, jaki kod
 powstaje i w jakiej kolejności. Nie zastępuje Biblii — każdy krok odsyła do miejsca, gdzie leży pełna treść.
 
-## ▶ STAN NA TERAZ (28.09.2026, D50) — przeczytaj tę sekcję, reszta pliku to historia
+## ▶ STAN NA TERAZ (28.09.2026, D50; uzupełnione 29.09.2026, D53) — przeczytaj tę sekcję, reszta pliku to historia
 
 Polecenie właściciela: „Zostaw pytania na potem. Napisz co jest do zrobienia i na czym stanęło w Biblii, żeby inna
 sesja mogła już działać z tym rozdziałem”. **Następna sesja może od razu pisać kod M14. Nie pytaj właściciela o
@@ -22,7 +22,7 @@ odłożone pozycje (lista niżej), dopóki sam do nich nie wróci.**
 | Bezpieczeństwo agregatu | **gotowe w kodzie:** `lib/core/modules/zapotrzebowanie/agregat-pradotworczy/bezpieczenstwo.ts` (D48), M2/E17 1.1.0, M7/E8 1.3.0 — ekran D6 M14 ma go użyć, nie pisać drugi raz |
 | Kod M14 | ~~**nic jeszcze nie istnieje**~~ **[28.09.2026]** plik danych `lib/core/dane/rozliczenia-pl-2026`, silniki `lib/core/modules/siec/` (rachunek, porównanie taryf, depozyt, test licznika, moc bierna, moc umowna, opłata mocowa, ścieżka cen), ekrany D1, D2, D8, D12/F11, F1–F5, 2 kafle w pulpicie, 3 narzędzia AI. Ograniczenia: TD22. **[28.09.2026] Rozdział zbudowany w całości:** wszystkie ekrany D1–D14, F1–F13, kreator `/kalkulatory/sciezka-przejscia`, 5 narzędzi AI, silniki `bilans-miesieczny`, `scenariusze-przejscia`, `przelacznik-siec-wyspa`, `koszt-powrotu`, `strumienie-bess`, plik `lib/core/dane/dotacje`. Ograniczenia: TD22, TD23 |
 | Bramka danych DANE-1 | **obowiązuje:** domyślne tylko wartości ✅ (Tauron, Energa, Stoen netto, stawki ogólnokrajowe); reszta = tryb „moje dane z faktury” |
-| Dane, których brakuje (dostarcza właściciel) | PDF PGE, PDF regulaminu PME (NFOŚiGW), odczyt skanu Enea netto, Stoen C22a/b, profile W4, `C_rk`, opłaty przyłączeniowe IV–VI, 495,16 zł/MWh — lista: M14 „Otwarte — wymaga danych zewnętrznych” |
+| Dane, których brakuje (dostarcza właściciel) | PDF PGE, PDF regulaminu PME (NFOŚiGW), ~~odczyt skanu Enea netto, Stoen C22a/b~~ **(✅ 29.09.2026)**, profile W4, `C_rk`, opłaty przyłączeniowe IV–VI, 495,16 zł/MWh — lista: M14 „Otwarte — wymaga danych zewnętrznych” |
 | FREE/PRO dla M14 | nieprzypisane (D37) — nie wprowadzaj podziału |
 
 ### Co jest do zrobienia — w tej kolejności
@@ -32,7 +32,7 @@ odłożone pozycje (lista niżej), dopóki sam do nich nie wróci.**
 3. **Część Sieć, Firma:** ~~F1–F5~~ (Krok 2c). **✅ 28.09.2026.** Zostają F6, F7 (echo M3/M4), F12, F13.
 4. **Silnik TCO i scenariusze A–D** (D7/F8, Krok 2d). **Następny krok.** Pole „Wzrost cen energii” ma już silnik: `mnoznikCenyEnergii` / `mnoznikKosztowBiezacych` w `lib/core/modules/siec/sciezka-cen-energii/calculator.ts` — TCO ma go użyć (echo), nie liczyć drugi raz. Uwaga: ścieżka UE od 2026 z N = 25 wychodzi poza 2050 → `OUT_OF_SCOPE` (bez ekstrapolacji) — rozważyć, czy UI ogranicza N przy tej ścieżce.
 5. **Część Przejście:** D4–D6, D9–D11 (Krok 2e). D5 czeka na M7 7.2 i 7.37 albo na liczenie zimy w M14 z PVGIS.
-6. **Kafle, pulpit, kreator** (Krok 2f) — kafle domyślnie ukryte w 8 presetach (✅🤖, pytanie odłożone). **[28.09.2026]** Kafle są już w `lib/pulpit/registry.ts` (id 15/16, na końcu); zostaje: „duży” wygląd, animowana ikona, presety (nie istnieją jeszcze w kodzie), kreator.
+6. **Kafle, pulpit, kreator** (Krok 2f) — ~~kafle domyślnie ukryte w 8 presetach (✅🤖, pytanie odłożone)~~ **[29.09.2026, D53] widoczne we wszystkich 8 presetach**. **[28.09.2026]** Kafle są już w `lib/pulpit/registry.ts` (id 15/16, na końcu); zostaje: „duży” wygląd, animowana ikona, presety (nie istnieją jeszcze w kodzie), kreator.
 **[28.09.2026] Punkty 2–6 zrobione** (D3 = `/kalkulatory/zuzycie-miesieczne`, zasila D1 — TD22 pkt 3 zamknięty; D5 liczy
 bilans wyspy miesięcznie i odsyła do M7 — TD23; UI ścieżki UE przy N = 25 pokazuje `OUT_OF_SCOPE` z silnika, bez ekstrapolacji).
 **Co zostaje po M14 (wszystko czeka na dane albo decyzje właściciela, nie na kod):** lista „Otwarte — wymaga danych
@@ -50,6 +50,12 @@ odbiorniki wprost). Kod tych miejsc zostaje bez zmian (✅🤖).
 **[29.09.2026, D53]** Właściciel odpowiedział: M8/E3 zamki, kafle M14 i 2 wyjątki D48 — **zamknięte** (wdrożone, patrz D53);
 M8/E4 gaz i M9/E2 — bez zmian w kodzie (D53 pkt 4–5). **Nadal otwarte:** TD21 CRL, Rsi (PKN), M9/E4 CAN (właściciel
 jeszcze nie wie, czy będzie CAN; rekomendacja 🔴 jak RS485) i potwierdzenie środka gaśniczego (rekomendacja: mgła wodna).
+**[29.09.2026, sprawdzenie źródeł]** Gaz: Biblia v2.0 §4.10 (dawne 3.10) i `Tresc_Modul_4` mówią wprost: „jedyny skuteczny
+środek gaśniczy dla pakietu LiFePO4 to agregat wodny/mgłowy lub specjalny środek do magazynów energii” — rekomendacja =
+źródło; otwarte zostaje tylko, czy gaz/aerozol ma być 🟡 (teraz) czy 🔴. CAN: Biblia v2.0 §9.28 (dawne 11.28) daje dla CAN
+to samo ostrzeżenie co dla RS485 („Bez transceivera nie podłączaj GPIO bezpośrednio do magistrali CAN”) — przemawia za
+🔴. Rsi: w źródłach repo nadal tylko 0,13 (i 0,25 dla kondensacji) — czeka na PKN. CRL: poradnik IEC 62305 podaje tylko
+domyślną długość 1000 m, kolejności przycinania nie rozstrzyga.
 
 ---
 
