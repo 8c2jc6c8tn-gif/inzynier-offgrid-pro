@@ -1272,3 +1272,9 @@ Pełne wyniki audytu: `docs/memory.md`, sekcja "Pełny audyt na polecenie właś
   **Kolejność:** najpierw strażnik z listą zapadkową, potem uzupełnianie M5/M3/M6/M7/M8 (lista maleje).
 - ⚠️ (2026-09-29) **Routine cyklu Y.6 nie istnieje** (`trig_01892Z45ThAi2T56PJRjQQAh` → not found). Kolejne sprawdzenie
   tylko na starcie sesji albo po odtworzeniu Routine — decyzja właściciela (co 12 h wg cyklu adaptacyjnego).
+- ⚠️ (2026-09-29) **Y.11 pkt 1b — twarde polskie teksty w JSX ekranów zmienionych 29.09** (raport:
+  `docs/audyt-zgodnosci-kodu.md`, przebieg 1). Do decyzji właściciela: (A) poprawić ≈15 plików teraz (klucze + EN/RU)
+  + (B) strażnik 11.9 na teksty w JSX z jednorazową listą zapadkową starych ekranów; albo (C) sam strażnik, teksty przy
+  najbliższej zmianie ekranu. Rekomendacja A+B. **Priorytet:** wysoki (8.12 — ekran bez tłumaczeń nie jest ukończony).
+  **Kolizje:** rozszerza wpis „Tłumaczenie etykiet stron na EN/RU” (indeks po D54, pkt 6); dotyka tych samych plików co
+  „i” wg 8.4b — robić w jednej sesji albo po kolei, nie równolegle. **Kolejność:** strażnik (B) przed tekstami (A).
