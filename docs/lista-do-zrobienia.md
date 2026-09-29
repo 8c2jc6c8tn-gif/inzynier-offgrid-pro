@@ -1178,3 +1178,6 @@ Pełne wyniki audytu: `docs/memory.md`, sekcja "Pełny audyt na polecenie właś
   `scripts/ai-tools-guard-baseline.json`. Dokładne liczenie strażnikiem: **18** kalkulatorów bez narzędzia (nie 12 —
   doszło 5 podmodułów `wampiry-energetyczne` i `ai/prognozy`). Dalej, moduł po module (PR na partię): M14 (8) →
   baterie/lokalizacja/pv (4) → wampiry-energetyczne (5) → `ai/prognozy` (po decyzji Δt, wpis wyżej).
+  **Partia 2 ✅ (29.09):** M14 — 8 narzędzi (`bilans-miesieczny`, `depozyt-prosumencki`, `moc-umowna`, `oplata-mocowa`,
+  `przelacznik-siec-wyspa`, `sciezka-cen-energii`, `strumienie-bess`, `test-licznika`), testy na przykładach kontrolnych
+  silników; lista zapadkowa 18 → 10.
