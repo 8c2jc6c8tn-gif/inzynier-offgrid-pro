@@ -5,6 +5,7 @@ import { calculateStringBox } from "@/lib/core/modules/okablowanie/string-box/ca
 import { BEZPIECZNIK_STRINGOWY_MAX_A, BEZPIECZNIK_STRINGOWY_MIN_A } from "@/lib/core/modules/okablowanie/string-box/constants"
 import { usePersistedDraft } from "@/lib/adapters/use-persisted-draft"
 import { Pole, PoleCheckbox } from "@/components/ui/pole"
+import { PomocPola } from "@/components/ui/pomoc"
 import { WerdyktPanel, type WerdyktPoziom } from "@/components/werdykt"
 import { NawigacjaEkranu } from "@/components/nawigacja-ekranu"
 import { NaglowekEkranu } from "@/components/wzorce/naglowek-ekranu"
@@ -76,7 +77,11 @@ export default function StringBoxPage() {
   return (
     <main className="mx-auto flex max-w-md flex-col gap-6 p-6">
       <NawigacjaEkranu href="/kalkulatory/string-box" />
-      <NaglowekEkranu tytul="String Box / Array Box">
+      <NaglowekEkranu
+        tytul="String Box / Array Box"
+        ekran="string-box"
+        parametry={{ bezpMin: BEZPIECZNIK_STRINGOWY_MIN_A, bezpMax: BEZPIECZNIK_STRINGOWY_MAX_A }}
+      >
         String box to węzeł, w którym kable z paneli spotykają się w uporządkowany sposób — bez
         tego masz plątaninę i ryzyko pożaru. Moduł 5, Ekran 22.
       </NaglowekEkranu>
@@ -88,6 +93,7 @@ export default function StringBoxPage() {
         min={0}
         value={liczbaStringow || ""}
         onChange={(e) => setLiczbaStringow(Number(e.target.value))}
+        pomoc={<PomocPola ekran="string-box" pole="stringi" />}
       />
 
       <Pole
@@ -97,6 +103,7 @@ export default function StringBoxPage() {
         min={0}
         value={liczbaWejscSkrzynki || ""}
         onChange={(e) => setLiczbaWejscSkrzynki(Number(e.target.value))}
+        pomoc={<PomocPola ekran="string-box" pole="wejscia" />}
       />
 
       <Pole
@@ -107,7 +114,7 @@ export default function StringBoxPage() {
         min={0}
         value={bezpiecznikStringowyA || ""}
         onChange={(e) => setBezpiecznikStringowyA(Number(e.target.value))}
-        hint={`Zalecany zakres: ${BEZPIECZNIK_STRINGOWY_MIN_A}-${BEZPIECZNIK_STRINGOWY_MAX_A} A/string.`}
+        pomoc={<PomocPola ekran="string-box" pole="bezpiecznik" params={{ bezpMin: BEZPIECZNIK_STRINGOWY_MIN_A, bezpMax: BEZPIECZNIK_STRINGOWY_MAX_A }} />}
       />
 
       <PoleCheckbox

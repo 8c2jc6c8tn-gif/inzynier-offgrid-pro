@@ -6,6 +6,7 @@ import { ETYKIETA_CELU } from "@/lib/core/modules/okablowanie/projekt-uziemienia
 import type { CelUziemienia } from "@/lib/core/modules/okablowanie/projekt-uziemienia/input"
 import { usePersistedDraft } from "@/lib/adapters/use-persisted-draft"
 import { Pole, PoleSelect } from "@/components/ui/pole"
+import { PomocPola } from "@/components/ui/pomoc"
 import { WerdyktPanel, type WerdyktPoziom } from "@/components/werdykt"
 import { NawigacjaEkranu } from "@/components/nawigacja-ekranu"
 import { NaglowekEkranu } from "@/components/wzorce/naglowek-ekranu"
@@ -76,7 +77,7 @@ export default function ProjektUziemieniaPage() {
   return (
     <main className="mx-auto flex max-w-md flex-col gap-6 p-6">
       <NawigacjaEkranu href="/kalkulatory/projekt-uziemienia" />
-      <NaglowekEkranu tytul="Projekt uziemienia">
+      <NaglowekEkranu tytul="Projekt uziemienia" ekran="projekt-uziemienia" wzor={result.formula}>
         Ziemia to kabel — jeśli jest „za cienki” (za mała powierzchnia styku), prąd zwarciowy nie
         ucieknie skutecznie i może wrócić do ciebie. Moduł 5, Ekran 9.
       </NaglowekEkranu>
@@ -90,7 +91,7 @@ export default function ProjektUziemieniaPage() {
           min={0}
           value={rezystywnoscGruntuOmM}
           onChange={(e) => setPole("rezystywnoscGruntuOmM", e.target.value)}
-          hint="Pomiar albo wartość orientacyjna dla typu gruntu (np. glina ok. 100 Ω·m)."
+          pomoc={<PomocPola ekran="projekt-uziemienia" pole="rezystywnosc" />}
         />
         <Pole
           label="Długość pojedynczego pręta uziomowego"
@@ -100,6 +101,7 @@ export default function ProjektUziemieniaPage() {
           min={0}
           value={dlugoscPretaM}
           onChange={(e) => setPole("dlugoscPretaM", e.target.value)}
+          pomoc={<PomocPola ekran="projekt-uziemienia" pole="dlugosc" />}
         />
         <Pole
           label="Średnica pręta uziomowego"
@@ -109,11 +111,13 @@ export default function ProjektUziemieniaPage() {
           min={0}
           value={srednicaPretaMm}
           onChange={(e) => setPole("srednicaPretaMm", e.target.value)}
+          pomoc={<PomocPola ekran="projekt-uziemienia" pole="srednica" />}
         />
         <PoleSelect
           label="Cel uziemienia"
           value={celUziemienia}
           onChange={(e) => setPole("celUziemienia", e.target.value as CelUziemienia | "")}
+          pomoc={<PomocPola ekran="projekt-uziemienia" pole="cel" />}
         >
           <option value="">— wybierz —</option>
           {(Object.keys(ETYKIETA_CELU) as CelUziemienia[]).map((cel) => (

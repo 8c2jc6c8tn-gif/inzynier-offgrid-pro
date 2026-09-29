@@ -34,7 +34,3 @@ export const TRASY_KABLOWE_RULES: TrasaRule[] = [
     opis: "4–5× średnica kabla solarnego — ciaśniejszy zakręt uszkadza izolację i żyły.",
   },
 ]
-
-export const MIGAWKA =
-  "Kable to drogi. Nie chcesz, żeby ruch tranzytowy (prąd) blokował spokojną uliczkę " +
-  "(internet) — trzeba je prowadzić osobno."

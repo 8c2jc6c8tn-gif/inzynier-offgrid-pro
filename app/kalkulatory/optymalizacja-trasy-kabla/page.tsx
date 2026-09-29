@@ -5,11 +5,13 @@ import { calculateOptymalizacjaTrasyKabla } from "@/lib/core/modules/okablowanie
 import type { Material, SposobUlozenia } from "@/lib/core/modules/okablowanie/dobor-przekroju-kabla/constants"
 import { usePersistedDraft } from "@/lib/adapters/use-persisted-draft"
 import { Pole, PoleSelect } from "@/components/ui/pole"
+import { PomocPola } from "@/components/ui/pomoc"
 import { WerdyktPanel, type WerdyktPoziom } from "@/components/werdykt"
 import { NawigacjaEkranu } from "@/components/nawigacja-ekranu"
 import { NaglowekEkranu } from "@/components/wzorce/naglowek-ekranu"
 import { WynikGlowny } from "@/components/wzorce/wynik-glowny"
 import { WynikSzczegoly } from "@/components/wzorce/wynik-szczegoly"
+import { DOMYSLNY_SPADEK_AC_PCT, DOMYSLNY_SPADEK_DC_PCT } from "@/lib/core/modules/okablowanie/dobor-przekroju-kabla/constants"
 
 type FormularzStan = {
   pradA: string
@@ -159,43 +161,179 @@ export default function OptymalizacjaTrasyKablaPage() {
   return (
     <main className="mx-auto flex max-w-md flex-col gap-6 p-6">
       <NawigacjaEkranu href="/kalkulatory/optymalizacja-trasy-kabla" />
-      <NaglowekEkranu tytul="Optymalizacja trasy i kosztu kabla">
+      <NaglowekEkranu
+        tytul="Optymalizacja trasy i kosztu kabla"
+        ekran="optymalizacja-trasy-kabla"
+        wzor={result.formula}
+      >
         Nie patrz tylko na cenę kabla — grubszy, krótszy kabel często zwraca się w mniejszych
         stratach przez lata. Moduł 5, Ekran 26.
       </NaglowekEkranu>
 
       <div className="flex flex-col gap-4">
-        <Pole label="Prąd obwodu (wspólny dla obu tras)" unit="A" type="number" inputMode="decimal" min={0} value={pradA} onChange={(e) => setPradA(e.target.value)} />
-        <Pole label="Napięcie systemowe" unit="V" type="number" inputMode="decimal" min={0} value={napiecieV} onChange={(e) => setNapiecieV(e.target.value)} />
-        <PoleSelect label="Materiał" value={material} onChange={(e) => setMaterial(e.target.value as Material)}>
+        <Pole
+          label="Prąd obwodu (wspólny dla obu tras)"
+          unit="A"
+          type="number"
+          inputMode="decimal"
+          min={0}
+          value={pradA}
+          onChange={(e) => setPradA(e.target.value)}
+          pomoc={<PomocPola ekran="optymalizacja-trasy-kabla" pole="prad" />}
+        />
+        <Pole
+          label="Napięcie systemowe"
+          unit="V"
+          type="number"
+          inputMode="decimal"
+          min={0}
+          value={napiecieV}
+          onChange={(e) => setNapiecieV(e.target.value)}
+          pomoc={<PomocPola ekran="optymalizacja-trasy-kabla" pole="napiecie" />}
+        />
+        <PoleSelect
+          label="Materiał"
+          value={material}
+          onChange={(e) => setMaterial(e.target.value as Material)}
+          pomoc={<PomocPola ekran="optymalizacja-trasy-kabla" pole="material" />}
+        >
           <option value="Cu">Miedź (Cu)</option>
           <option value="Al">Aluminium (Al)</option>
         </PoleSelect>
-        <PoleSelect label="Sposób ułożenia" value={sposobUlozenia} onChange={(e) => setSposobUlozenia(e.target.value as SposobUlozenia)}>
+        <PoleSelect
+          label="Sposób ułożenia"
+          value={sposobUlozenia}
+          onChange={(e) => setSposobUlozenia(e.target.value as SposobUlozenia)}
+          pomoc={<PomocPola ekran="optymalizacja-trasy-kabla" pole="ulozenie" />}
+        >
           <option value="swobodnie">Swobodnie / na ścianie</option>
           <option value="w_peszlu">W peszlu</option>
           <option value="w_ziemi">W ziemi</option>
           <option value="w_wiazce">W wiązce</option>
         </PoleSelect>
-        <Pole label="Temperatura otoczenia" unit="°C" type="number" inputMode="decimal" value={temperaturaOtoczeniaC} onChange={(e) => setTemperaturaOtoczeniaC(e.target.value)} />
-        <Pole label="Liczba kabli w wiązce" unit="szt." type="number" inputMode="decimal" min={0} value={liczbaKabliWWiazce} onChange={(e) => setLiczbaKabliWWiazce(e.target.value)} />
-        <Pole label="Dopuszczalny spadek napięcia" unit="%" type="number" inputMode="decimal" min={0} value={dopuszczalnySpadekNapieciaPct} onChange={(e) => setDopuszczalnySpadekNapieciaPct(e.target.value)} />
-        <Pole label="Cena energii elektrycznej" unit="zł/kWh" type="number" inputMode="decimal" min={0} value={cenaEnergiiZlZaKwh} onChange={(e) => setCenaEnergiiZlZaKwh(e.target.value)} />
-        <Pole label="Horyzont porównania" unit="lat" type="number" inputMode="decimal" min={0} value={liczbaLat} onChange={(e) => setLiczbaLat(e.target.value)} />
+        <Pole
+          label="Temperatura otoczenia"
+          unit="°C"
+          type="number"
+          inputMode="decimal"
+          value={temperaturaOtoczeniaC}
+          onChange={(e) => setTemperaturaOtoczeniaC(e.target.value)}
+          pomoc={<PomocPola ekran="optymalizacja-trasy-kabla" pole="temperatura" />}
+        />
+        <Pole
+          label="Liczba kabli w wiązce"
+          unit="szt."
+          type="number"
+          inputMode="decimal"
+          min={0}
+          value={liczbaKabliWWiazce}
+          onChange={(e) => setLiczbaKabliWWiazce(e.target.value)}
+          pomoc={<PomocPola ekran="optymalizacja-trasy-kabla" pole="wiazka" />}
+        />
+        <Pole
+          label="Dopuszczalny spadek napięcia"
+          unit="%"
+          type="number"
+          inputMode="decimal"
+          min={0}
+          value={dopuszczalnySpadekNapieciaPct}
+          onChange={(e) => setDopuszczalnySpadekNapieciaPct(e.target.value)}
+          pomoc={<PomocPola ekran="optymalizacja-trasy-kabla" pole="spadek" params={{ spadekAc: DOMYSLNY_SPADEK_AC_PCT, spadekDc: DOMYSLNY_SPADEK_DC_PCT }} />}
+        />
+        <Pole
+          label="Cena energii elektrycznej"
+          unit="zł/kWh"
+          type="number"
+          inputMode="decimal"
+          min={0}
+          value={cenaEnergiiZlZaKwh}
+          onChange={(e) => setCenaEnergiiZlZaKwh(e.target.value)}
+          pomoc={<PomocPola ekran="optymalizacja-trasy-kabla" pole="cenaEnergii" />}
+        />
+        <Pole
+          label="Horyzont porównania"
+          unit="lat"
+          type="number"
+          inputMode="decimal"
+          min={0}
+          value={liczbaLat}
+          onChange={(e) => setLiczbaLat(e.target.value)}
+          pomoc={<PomocPola ekran="optymalizacja-trasy-kabla" pole="horyzont" />}
+        />
       </div>
 
       <div className="flex flex-col gap-3 rounded-lg border p-4">
         <div className="font-medium">Trasa A</div>
-        <Pole id="dlugosc-trasy-a" label="Długość trasy" unit="m" type="number" inputMode="decimal" min={0} value={dlugoscA} onChange={(e) => setDlugoscA(e.target.value)} />
-        <Pole id="przekroj-trasy-a" label="Przekrój rozważany" unit="mm²" type="number" inputMode="decimal" min={0} value={przekrojA} onChange={(e) => setPrzekrojA(e.target.value)} />
-        <Pole id="koszt-trasy-a" label="Koszt zakupu (kabel + osłony + robocizna)" unit="zł" type="number" inputMode="decimal" min={0} value={kosztA} onChange={(e) => setKosztA(e.target.value)} />
+        <Pole
+          id="dlugosc-trasy-a"
+          label="Długość trasy"
+          unit="m"
+          type="number"
+          inputMode="decimal"
+          min={0}
+          value={dlugoscA}
+          onChange={(e) => setDlugoscA(e.target.value)}
+          pomoc={<PomocPola ekran="optymalizacja-trasy-kabla" pole="dlugosc" />}
+        />
+        <Pole
+          id="przekroj-trasy-a"
+          label="Przekrój rozważany"
+          unit="mm²"
+          type="number"
+          inputMode="decimal"
+          min={0}
+          value={przekrojA}
+          onChange={(e) => setPrzekrojA(e.target.value)}
+          pomoc={<PomocPola ekran="optymalizacja-trasy-kabla" pole="przekroj" />}
+        />
+        <Pole
+          id="koszt-trasy-a"
+          label="Koszt zakupu (kabel + osłony + robocizna)"
+          unit="zł"
+          type="number"
+          inputMode="decimal"
+          min={0}
+          value={kosztA}
+          onChange={(e) => setKosztA(e.target.value)}
+          pomoc={<PomocPola ekran="optymalizacja-trasy-kabla" pole="koszt" />}
+        />
       </div>
 
       <div className="flex flex-col gap-3 rounded-lg border p-4">
         <div className="font-medium">Trasa B</div>
-        <Pole id="dlugosc-trasy-b" label="Długość trasy" unit="m" type="number" inputMode="decimal" min={0} value={dlugoscB} onChange={(e) => setDlugoscB(e.target.value)} />
-        <Pole id="przekroj-trasy-b" label="Przekrój rozważany" unit="mm²" type="number" inputMode="decimal" min={0} value={przekrojB} onChange={(e) => setPrzekrojB(e.target.value)} />
-        <Pole id="koszt-trasy-b" label="Koszt zakupu (kabel + osłony + robocizna)" unit="zł" type="number" inputMode="decimal" min={0} value={kosztB} onChange={(e) => setKosztB(e.target.value)} />
+        <Pole
+          id="dlugosc-trasy-b"
+          label="Długość trasy"
+          unit="m"
+          type="number"
+          inputMode="decimal"
+          min={0}
+          value={dlugoscB}
+          onChange={(e) => setDlugoscB(e.target.value)}
+          pomoc={<PomocPola ekran="optymalizacja-trasy-kabla" pole="dlugosc" />}
+        />
+        <Pole
+          id="przekroj-trasy-b"
+          label="Przekrój rozważany"
+          unit="mm²"
+          type="number"
+          inputMode="decimal"
+          min={0}
+          value={przekrojB}
+          onChange={(e) => setPrzekrojB(e.target.value)}
+          pomoc={<PomocPola ekran="optymalizacja-trasy-kabla" pole="przekroj" />}
+        />
+        <Pole
+          id="koszt-trasy-b"
+          label="Koszt zakupu (kabel + osłony + robocizna)"
+          unit="zł"
+          type="number"
+          inputMode="decimal"
+          min={0}
+          value={kosztB}
+          onChange={(e) => setKosztB(e.target.value)}
+          pomoc={<PomocPola ekran="optymalizacja-trasy-kabla" pole="koszt" />}
+        />
       </div>
 
       <WerdyktPanel poziom={verdictPoziom[verdict]} etykieta={verdictLabel[verdict]}>

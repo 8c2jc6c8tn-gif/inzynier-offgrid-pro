@@ -5,6 +5,7 @@ import { calculateMonitorowanieIzolacjiImd } from "@/lib/core/modules/okablowani
 import { PRZYKLADOWY_PROG_ALARMU_KOM } from "@/lib/core/modules/okablowanie/monitorowanie-izolacji-imd/constants"
 import { usePersistedDraft } from "@/lib/adapters/use-persisted-draft"
 import { Pole, PoleCheckbox } from "@/components/ui/pole"
+import { PomocPola } from "@/components/ui/pomoc"
 import { WerdyktPanel, type WerdyktPoziom } from "@/components/werdykt"
 import { NawigacjaEkranu } from "@/components/nawigacja-ekranu"
 import { NaglowekEkranu } from "@/components/wzorce/naglowek-ekranu"
@@ -57,7 +58,12 @@ export default function MonitorowanieIzolacjiImdPage() {
   return (
     <main className="mx-auto flex max-w-md flex-col gap-6 p-6">
       <NawigacjaEkranu href="/kalkulatory/monitorowanie-izolacji-imd" />
-      <NaglowekEkranu tytul="Monitorowanie izolacji (IMD)">
+      <NaglowekEkranu
+        tytul="Monitorowanie izolacji (IMD)"
+        ekran="monitorowanie-izolacji-imd"
+        wzor={result.formula}
+        parametry={{ progPrzyklad: PRZYKLADOWY_PROG_ALARMU_KOM }}
+      >
         W układzie IT nie ma bezpośredniego uziemienia, więc pierwsze doziemienie nie wyłączy
         bezpiecznika. IMD wyłapie problem, zanim stanie się groźny. Moduł 5, Ekran 18.
       </NaglowekEkranu>
@@ -86,7 +92,7 @@ export default function MonitorowanieIzolacjiImdPage() {
                 min={0}
                 value={progAlarmuKOm}
                 onChange={(e) => setPole("progAlarmuKOm", e.target.value)}
-                hint={`Przykład ze źródła: ${PRZYKLADOWY_PROG_ALARMU_KOM} kΩ — realny próg zależy od napięcia systemu i zaleceń producenta IMD, nie jest to wartość uniwersalna.`}
+                pomoc={<PomocPola ekran="monitorowanie-izolacji-imd" pole="prog" params={{ progPrzyklad: PRZYKLADOWY_PROG_ALARMU_KOM }} />}
               />
             )}
           </>

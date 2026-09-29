@@ -5,6 +5,7 @@ import { calculateZlaczaMc4 } from "@/lib/core/modules/okablowanie/zlacza-mc4/ca
 import { PRODUCENCI_MC4 } from "@/lib/core/modules/okablowanie/zlacza-mc4/constants"
 import { usePersistedDraft } from "@/lib/adapters/use-persisted-draft"
 import { PoleSelect } from "@/components/ui/pole"
+import { PomocPola } from "@/components/ui/pomoc"
 import { WerdyktPanel, type WerdyktPoziom } from "@/components/werdykt"
 import { NawigacjaEkranu } from "@/components/nawigacja-ekranu"
 import { NaglowekEkranu } from "@/components/wzorce/naglowek-ekranu"
@@ -52,7 +53,7 @@ export default function ZlaczaMc4Page() {
   return (
     <main className="mx-auto flex max-w-md flex-col gap-6 p-6">
       <NawigacjaEkranu href="/kalkulatory/zlacza-mc4" />
-      <NaglowekEkranu tytul="Złącza MC4">
+      <NaglowekEkranu tytul="Złącza MC4" ekran="zlacza-mc4" wzor={result.formula}>
         MC4 wygląda uniwersalnie, ale styki różnych producentów nie zawsze pasują idealnie — luźny
         styk pod prądem robi łuk elektryczny, a to już realny pożar. Moduł 5, Ekran 5.
       </NaglowekEkranu>
@@ -62,6 +63,7 @@ export default function ZlaczaMc4Page() {
           label="Złączka żeńska — producent/rodzina"
           value={producentZenski}
           onChange={(e) => setPole("producentZenski", e.target.value)}
+          pomoc={<PomocPola ekran="zlacza-mc4" pole="zenska" />}
         >
           <option value="">— wybierz —</option>
           {PRODUCENCI_MC4.map((p) => (
@@ -74,6 +76,7 @@ export default function ZlaczaMc4Page() {
           label="Złączka męska — producent/rodzina"
           value={producentMeski}
           onChange={(e) => setPole("producentMeski", e.target.value)}
+          pomoc={<PomocPola ekran="zlacza-mc4" pole="meska" />}
         >
           <option value="">— wybierz —</option>
           {PRODUCENCI_MC4.map((p) => (

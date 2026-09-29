@@ -4,6 +4,7 @@ import { useMemo } from "react"
 import { calculateAnalizaZwarciowa } from "@/lib/core/modules/okablowanie/analiza-zwarciowa/calculator"
 import { usePersistedDraft } from "@/lib/adapters/use-persisted-draft"
 import { Pole } from "@/components/ui/pole"
+import { PomocPola } from "@/components/ui/pomoc"
 import { WerdyktPanel, type WerdyktPoziom } from "@/components/werdykt"
 import { NawigacjaEkranu } from "@/components/nawigacja-ekranu"
 import { NaglowekEkranu } from "@/components/wzorce/naglowek-ekranu"
@@ -77,7 +78,7 @@ export default function AnalizaZwarciowaPage() {
   return (
     <main className="mx-auto flex max-w-md flex-col gap-6 p-6">
       <NawigacjaEkranu href="/kalkulatory/analiza-zwarciowa" />
-      <NaglowekEkranu tytul="Analiza zwarciowa">
+      <NaglowekEkranu tytul="Analiza zwarciowa" ekran="analiza-zwarciowa" wzor={result.formula}>
         Zwarcie to jak wybuch — trzeba wiedzieć, ile energii popłynie, zanim bezpiecznik zdąży
         przerwać obwód. Moduł 5, Ekran 12 — punkt odniesienia dla doboru bezpieczników,
         wyłączników DC i selektywności w innych ekranach tego modułu.
@@ -92,6 +93,7 @@ export default function AnalizaZwarciowaPage() {
           min={0}
           value={napiecieBateriiV}
           onChange={(e) => setNapiecieBateriiV(e.target.value)}
+          pomoc={<PomocPola ekran="analiza-zwarciowa" pole="napiecie" />}
         />
         <Pole
           label="Rezystancja wewnętrzna pakietu"
@@ -101,7 +103,7 @@ export default function AnalizaZwarciowaPage() {
           min={0}
           value={rezystancjaWewnetrznaBateriiOhm}
           onChange={(e) => setRezystancjaWewnetrznaBateriiOhm(e.target.value)}
-          hint="Z pomiaru lub karty katalogowej ogniw."
+          pomoc={<PomocPola ekran="analiza-zwarciowa" pole="rezystancja" />}
         />
         <Pole
           label="Prąd zwarciowy panelu (Isc)"
@@ -111,6 +113,7 @@ export default function AnalizaZwarciowaPage() {
           min={0}
           value={iscPanelaA}
           onChange={(e) => setIscPanelaA(e.target.value)}
+          pomoc={<PomocPola ekran="analiza-zwarciowa" pole="isc" />}
         />
         <Pole
           label="Liczba stringów PV równoległych"
@@ -120,6 +123,7 @@ export default function AnalizaZwarciowaPage() {
           min={0}
           value={liczbaStringowRownoleglych}
           onChange={(e) => setLiczbaStringowRownoleglych(e.target.value)}
+          pomoc={<PomocPola ekran="analiza-zwarciowa" pole="stringi" />}
         />
         <Pole
           label="AIC sprawdzanego zabezpieczenia (opcjonalnie)"
@@ -129,7 +133,7 @@ export default function AnalizaZwarciowaPage() {
           min={0}
           value={aicZabezpieczeniaA}
           onChange={(e) => setAicZabezpieczeniaA(e.target.value)}
-          hint="Zdolność wyłączania, z karty katalogowej bezpiecznika/wyłącznika."
+          pomoc={<PomocPola ekran="analiza-zwarciowa" pole="aic" />}
         />
       </div>
 

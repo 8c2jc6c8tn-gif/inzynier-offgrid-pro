@@ -33,7 +33,7 @@ export default function OchronaPrzedDotykiemPage() {
   return (
     <main className="mx-auto flex max-w-md flex-col gap-6 p-6">
       <NawigacjaEkranu href="/kalkulatory/ochrona-przed-dotykiem" />
-      <NaglowekEkranu tytul="Ochrona przed dotykiem">
+      <NaglowekEkranu tytul="Ochrona przed dotykiem" ekran="ochrona-przed-dotykiem">
         Prąd nie wybacza. Jak dotkniesz nieosłoniętego plusa, nie zdążysz zareagować. Osłony i
         szybkie wyłączniki to twoje bezpieczeństwo. Moduł 5, Ekran 17.
       </NaglowekEkranu>

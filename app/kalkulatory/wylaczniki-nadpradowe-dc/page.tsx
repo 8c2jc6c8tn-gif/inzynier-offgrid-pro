@@ -4,6 +4,7 @@ import { useMemo } from "react"
 import { calculateWylacznikiNadpradoweDc } from "@/lib/core/modules/okablowanie/wylaczniki-nadpradowe-dc/calculator"
 import { usePersistedDraft } from "@/lib/adapters/use-persisted-draft"
 import { Pole, PoleCheckbox } from "@/components/ui/pole"
+import { PomocPola } from "@/components/ui/pomoc"
 import { WerdyktPanel, type WerdyktPoziom } from "@/components/werdykt"
 import { NawigacjaEkranu } from "@/components/nawigacja-ekranu"
 import { NaglowekEkranu } from "@/components/wzorce/naglowek-ekranu"
@@ -80,13 +81,22 @@ export default function WylacznikiNadpradoweDcPage() {
   return (
     <main className="mx-auto flex max-w-md flex-col gap-6 p-6">
       <NawigacjaEkranu href="/kalkulatory/wylaczniki-nadpradowe-dc" />
-      <NaglowekEkranu tytul="Wyłączniki nadprądowe DC">
+      <NaglowekEkranu tytul="Wyłączniki nadprądowe DC" ekran="wylaczniki-nadpradowe-dc" wzor={result.formula}>
         Prąd stały pali się jak spawarka. Wyłącznik musi umieć zgasić ten łuk, inaczej sam
         zamieni się w źródło pożaru. Moduł 5, Ekran 14.
       </NaglowekEkranu>
 
       <div className="flex flex-col gap-4">
-        <Pole label="Prąd obwodu" unit="A" type="number" inputMode="decimal" min={0} value={pradA} onChange={(e) => setPradA(e.target.value)} />
+        <Pole
+          label="Prąd obwodu"
+          unit="A"
+          type="number"
+          inputMode="decimal"
+          min={0}
+          value={pradA}
+          onChange={(e) => setPradA(e.target.value)}
+          pomoc={<PomocPola ekran="wylaczniki-nadpradowe-dc" pole="prad" />}
+        />
         <Pole
           label="Napięcie DC obwodu"
           unit="V"
@@ -95,6 +105,7 @@ export default function WylacznikiNadpradoweDcPage() {
           min={0}
           value={napiecieV}
           onChange={(e) => setNapiecieV(e.target.value)}
+          pomoc={<PomocPola ekran="wylaczniki-nadpradowe-dc" pole="napiecie" />}
         />
         <Pole
           label="Liczba biegunów"
@@ -104,6 +115,7 @@ export default function WylacznikiNadpradoweDcPage() {
           min={0}
           value={liczbaBiegunow}
           onChange={(e) => setLiczbaBiegunow(e.target.value)}
+          pomoc={<PomocPola ekran="wylaczniki-nadpradowe-dc" pole="bieguny" />}
         />
         <PoleCheckbox
           id="certyfikowany-dc"
@@ -119,6 +131,7 @@ export default function WylacznikiNadpradoweDcPage() {
           min={0}
           value={aicA}
           onChange={(e) => setAicA(e.target.value)}
+          pomoc={<PomocPola ekran="wylaczniki-nadpradowe-dc" pole="aic" />}
         />
         <Pole
           label="Prąd zwarciowy w tym punkcie — opcjonalnie"
@@ -128,6 +141,7 @@ export default function WylacznikiNadpradoweDcPage() {
           min={0}
           value={pradZwarciowyA}
           onChange={(e) => setPradZwarciowyA(e.target.value)}
+          pomoc={<PomocPola ekran="wylaczniki-nadpradowe-dc" pole="pradZwarcia" />}
         />
       </div>
 

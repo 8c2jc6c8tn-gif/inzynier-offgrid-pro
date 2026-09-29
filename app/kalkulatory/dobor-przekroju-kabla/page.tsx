@@ -5,11 +5,13 @@ import { calculateDoborPrzekrojuKabla } from "@/lib/core/modules/okablowanie/dob
 import type { Material, SposobUlozenia } from "@/lib/core/modules/okablowanie/dobor-przekroju-kabla/constants"
 import { usePersistedDraft } from "@/lib/adapters/use-persisted-draft"
 import { Pole, PoleCheckbox, PoleSelect } from "@/components/ui/pole"
+import { PomocPola } from "@/components/ui/pomoc"
 import { WerdyktPanel, type WerdyktPoziom } from "@/components/werdykt"
 import { NawigacjaEkranu } from "@/components/nawigacja-ekranu"
 import { NaglowekEkranu } from "@/components/wzorce/naglowek-ekranu"
 import { WynikGlowny } from "@/components/wzorce/wynik-glowny"
 import { WynikSzczegoly } from "@/components/wzorce/wynik-szczegoly"
+import { DOMYSLNY_SPADEK_AC_PCT, DOMYSLNY_SPADEK_DC_PCT, PROG_MARGINESU_ZALECANE_PCT } from "@/lib/core/modules/okablowanie/dobor-przekroju-kabla/constants"
 
 const LICZBA = (v: number) => v.toLocaleString("pl-PL", { maximumFractionDigits: 2 })
 
@@ -128,7 +130,12 @@ export default function DoborPrzekrojuKablaPage() {
   return (
     <main className="mx-auto flex max-w-md flex-col gap-6 p-6">
       <NawigacjaEkranu href="/kalkulatory/dobor-przekroju-kabla" />
-      <NaglowekEkranu tytul="Dobór przekroju kabla">
+      <NaglowekEkranu
+        tytul="Dobór przekroju kabla"
+        ekran="dobor-przekroju-kabla"
+        wzor={result.formula}
+        parametry={{ margines: PROG_MARGINESU_ZALECANE_PCT }}
+      >
         Prąd płynący długim kablem traci energię jak woda w długim wężu — im dłuższa droga i
         cieńsza rura, tym mniej ciśnienia (napięcia) zostaje na końcu. Moduł 5, Ekran 1.
       </NaglowekEkranu>
@@ -142,7 +149,7 @@ export default function DoborPrzekrojuKablaPage() {
           min={0}
           value={pradA}
           onChange={(e) => setPradA(e.target.value)}
-          pomoc="Prąd płynący w tym obwodzie w normalnej pracy. Znajdziesz go w danych panelu/falownika albo policzysz: P (W) ÷ U (V)."
+          pomoc={<PomocPola ekran="dobor-przekroju-kabla" pole="prad" />}
         />
         <Pole
           label="Napięcie systemowe (U)"
@@ -152,7 +159,7 @@ export default function DoborPrzekrojuKablaPage() {
           min={0}
           value={napiecieV}
           onChange={(e) => setNapiecieV(e.target.value)}
-          pomoc="Napięcie DC (12/24/48V) lub AC (230V) tego obwodu."
+          pomoc={<PomocPola ekran="dobor-przekroju-kabla" pole="napiecie" />}
         />
         <Pole
           label="Długość trasy (L, jedna strona)"
@@ -162,13 +169,13 @@ export default function DoborPrzekrojuKablaPage() {
           min={0}
           value={dlugoscTrasyM}
           onChange={(e) => setDlugoscTrasyM(e.target.value)}
-          pomoc="Rzeczywista długość kabla od źródła do odbiornika — nie odległość w linii prostej, tylko po trasie prowadzenia (z zakrętami, pionami)."
+          pomoc={<PomocPola ekran="dobor-przekroju-kabla" pole="dlugosc" />}
         />
         <PoleSelect
           label="Materiał przewodnika"
           value={material}
           onChange={(e) => setMaterial(e.target.value as Material)}
-          pomoc="Miedź (Cu) — standard. Aluminium (Al) — tańsze, ale wymaga większego przekroju."
+          pomoc={<PomocPola ekran="dobor-przekroju-kabla" pole="material" />}
         >
           <option value="Cu">Miedź (Cu)</option>
           <option value="Al">Aluminium (Al)</option>
@@ -177,7 +184,7 @@ export default function DoborPrzekrojuKablaPage() {
           label="Sposób ułożenia"
           value={sposobUlozenia}
           onChange={(e) => setSposobUlozenia(e.target.value as SposobUlozenia)}
-          pomoc="Im gorsze chłodzenie kabla, tym mniej prądu może bezpiecznie przenieść."
+          pomoc={<PomocPola ekran="dobor-przekroju-kabla" pole="ulozenie" />}
         >
           <option value="swobodnie">Swobodnie (na ścianie, w powietrzu)</option>
           <option value="w_peszlu">W peszlu / rurze instalacyjnej</option>
@@ -193,7 +200,7 @@ export default function DoborPrzekrojuKablaPage() {
             min={0}
             value={liczbaKabliWWiazce}
             onChange={(e) => setLiczbaKabliWWiazce(e.target.value)}
-            pomoc="Kable leżące razem grzeją się nawzajem — im więcej, tym mocniej trzeba przewymiarować przekrój."
+            pomoc={<PomocPola ekran="dobor-przekroju-kabla" pole="wiazka" />}
           />
         )}
         <Pole
@@ -203,7 +210,7 @@ export default function DoborPrzekrojuKablaPage() {
           inputMode="decimal"
           value={temperaturaOtoczeniaC}
           onChange={(e) => setTemperaturaOtoczeniaC(e.target.value)}
-          pomoc="Maksymalna spodziewana temperatura w miejscu prowadzenia kabla (np. poddasze latem, nie średnia roczna)."
+          pomoc={<PomocPola ekran="dobor-przekroju-kabla" pole="temperatura" />}
         />
         <Pole
           label="Dopuszczalny spadek napięcia"
@@ -213,8 +220,7 @@ export default function DoborPrzekrojuKablaPage() {
           min={0}
           value={dopuszczalnySpadekNapieciaPct}
           onChange={(e) => setDopuszczalnySpadekNapieciaPct(e.target.value)}
-          hint="Domyślnie: 2% AC / 3% DC"
-          pomoc="Im dalej prąd płynie, tym więcej energii traci się po drodze."
+          pomoc={<PomocPola ekran="dobor-przekroju-kabla" pole="spadek" params={{ spadekAc: DOMYSLNY_SPADEK_AC_PCT, spadekDc: DOMYSLNY_SPADEK_DC_PCT }} />}
         />
 
         <PoleCheckbox
@@ -232,6 +238,7 @@ export default function DoborPrzekrojuKablaPage() {
             min={0}
             value={sprawdzanyPrzekrojMm2}
             onChange={(e) => setSprawdzanyPrzekrojMm2(e.target.value)}
+            pomoc={<PomocPola ekran="dobor-przekroju-kabla" pole="sprawdzany" />}
           />
         )}
       </div>

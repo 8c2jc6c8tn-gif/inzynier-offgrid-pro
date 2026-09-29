@@ -56,7 +56,7 @@ export default function GlownaSzynaWyrownawczaPage() {
   return (
     <main className="mx-auto flex max-w-md flex-col gap-6 p-6">
       <NawigacjaEkranu href="/kalkulatory/glowna-szyna-wyrownawcza" />
-      <NaglowekEkranu tytul="Główna Szyna Wyrównawcza (GSW)">
+      <NaglowekEkranu tytul="Główna Szyna Wyrównawcza (GSW)" ekran="glowna-szyna-wyrownawcza">
         Jeśli dotkniesz dwóch metalowych rzeczy o różnym potencjale, popłynie przez ciebie prąd —
         GSW wyrównuje potencjały, więc nic nie „kopie”. Moduł 5, Ekran 10.
       </NaglowekEkranu>

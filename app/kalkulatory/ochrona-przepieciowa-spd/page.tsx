@@ -4,12 +4,14 @@ import { useMemo } from "react"
 import { calculateOchronaPrzepieciowaSpd } from "@/lib/core/modules/okablowanie/ochrona-przepieciowa-spd/calculator"
 import { usePersistedDraft } from "@/lib/adapters/use-persisted-draft"
 import { Pole, PoleCheckbox } from "@/components/ui/pole"
+import { PomocPola } from "@/components/ui/pomoc"
 import { WerdyktPanel, type WerdyktPoziom } from "@/components/werdykt"
 import { NawigacjaEkranu } from "@/components/nawigacja-ekranu"
 import { NaglowekEkranu } from "@/components/wzorce/naglowek-ekranu"
 import { WynikGlowny } from "@/components/wzorce/wynik-glowny"
 import { WynikSzczegoly } from "@/components/wzorce/wynik-szczegoly"
 import { SekcjaCrl } from "./sekcja-crl"
+import { MIN_ODLEGLOSC_OD_ZWODU_M, WSPOLCZYNNIK_MARGINESU_UC } from "@/lib/core/modules/okablowanie/ochrona-przepieciowa-spd/constants"
 
 type FormularzStan = {
   vocMaxStringuV: string
@@ -84,7 +86,12 @@ export default function OchronaPrzepieciowaSpdPage() {
   return (
     <main className="mx-auto flex max-w-md flex-col gap-6 p-6">
       <NawigacjaEkranu href="/kalkulatory/ochrona-przepieciowa-spd" />
-      <NaglowekEkranu tytul="Ochrona przeciwprzepięciowa (SPD)">
+      <NaglowekEkranu
+        tytul="Ochrona przeciwprzepięciowa (SPD)"
+        ekran="ochrona-przepieciowa-spd"
+        wzor={result.formula}
+        parametry={{ marginesUc: WSPOLCZYNNIK_MARGINESU_UC, minOdleglosc: MIN_ODLEGLOSC_OD_ZWODU_M }}
+      >
         Piorun nie musi trafić w panel — wystarczy, że uderzy w pobliżu, a w kablach indukuje się
         napięcie, które niszczy elektronikę. Moduł 5, Ekran 2.
       </NaglowekEkranu>
@@ -98,7 +105,7 @@ export default function OchronaPrzepieciowaSpdPage() {
           min={0}
           value={vocMaxStringuV}
           onChange={(e) => setVocMaxStringuV(e.target.value)}
-          hint="Z ekranu Zimowy stress-test MPPT (Moduł 3), nie warunki STC."
+          pomoc={<PomocPola ekran="ochrona-przepieciowa-spd" pole="voc" />}
         />
         <PoleCheckbox
           id="ma-instalacje-odgromowa"
@@ -116,6 +123,7 @@ export default function OchronaPrzepieciowaSpdPage() {
               min={0}
               value={odlegloscOdZwoduM}
               onChange={(e) => setOdlegloscOdZwoduM(e.target.value)}
+              pomoc={<PomocPola ekran="ochrona-przepieciowa-spd" pole="odleglosc" params={{ marginesUc: WSPOLCZYNNIK_MARGINESU_UC, minOdleglosc: MIN_ODLEGLOSC_OD_ZWODU_M }} />}
             />
             <PoleCheckbox
               id="ma-spd-typ1"
@@ -133,6 +141,7 @@ export default function OchronaPrzepieciowaSpdPage() {
           min={0}
           value={ucSpdV}
           onChange={(e) => setUcSpdV(e.target.value)}
+          pomoc={<PomocPola ekran="ochrona-przepieciowa-spd" pole="uc" params={{ marginesUc: WSPOLCZYNNIK_MARGINESU_UC, minOdleglosc: MIN_ODLEGLOSC_OD_ZWODU_M }} />}
         />
         <PoleCheckbox
           id="uziemienie-gsw"
