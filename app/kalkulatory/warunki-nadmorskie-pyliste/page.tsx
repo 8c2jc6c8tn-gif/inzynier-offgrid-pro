@@ -6,10 +6,10 @@ import { calculateWarunkiNadmorskiePyliste } from "@/lib/core/modules/pv/warunki
 import type { TypLokalizacji } from "@/lib/core/modules/pv/warunki-nadmorskie-pyliste/input"
 import { usePersistedDraft } from "@/lib/adapters/use-persisted-draft"
 import { PoleCheckbox, PoleSelect } from "@/components/ui/pole"
+import { PomocPola } from "@/components/ui/pomoc"
 import { WerdyktPanel, type WerdyktPoziom } from "@/components/werdykt"
 import { NawigacjaEkranu } from "@/components/nawigacja-ekranu"
 import { NaglowekEkranu } from "@/components/wzorce/naglowek-ekranu"
-import { MigawkaBox } from "@/components/wzorce/migawka-box"
 import { useTranslate } from "@/lib/i18n/language-context"
 
 type FormularzStan = {
@@ -50,7 +50,7 @@ export default function WarunkiNadmorskiePylistePage() {
   return (
     <main className="mx-auto flex max-w-md flex-col gap-6 p-6">
       <NawigacjaEkranu href="/kalkulatory/warunki-nadmorskie-pyliste" />
-      <NaglowekEkranu tytul="Warunki nadmorskie i pyliste">
+      <NaglowekEkranu tytul="Warunki nadmorskie i pyliste" ekran="warunki-nadmorskie-pyliste">
         Mgła solna koroduje ramki i połączenia, pył i piasek rysują szkło, a wysoka wilgotność podnosi ryzyko
         PID. Sprawdź, czy wybrane panele są do tego przystosowane. Moduł 3, Ekran 25.
       </NaglowekEkranu>
@@ -60,6 +60,7 @@ export default function WarunkiNadmorskiePylistePage() {
           label="Typ lokalizacji"
           value={stan.typLokalizacji}
           onChange={(e) => ustaw("typLokalizacji", e.target.value as FormularzStan["typLokalizacji"])}
+          pomoc={<PomocPola ekran="warunki-nadmorskie-pyliste" pole="typ" />}
         >
           <option value="">— wybierz —</option>
           <option value="nadmorska">Nadmorska</option>
@@ -133,10 +134,7 @@ export default function WarunkiNadmorskiePylistePage() {
         </WerdyktPanel>
       )}
 
-      <MigawkaBox>
-        „Morze i pustynia to trudne środowiska dla elektroniki — nie każdy panel i nie każda złączka są do tego
-        przystosowane.”
-      </MigawkaBox>
+      
     </main>
   )
 }

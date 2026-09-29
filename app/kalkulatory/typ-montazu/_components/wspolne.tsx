@@ -3,6 +3,7 @@
 import { useState } from "react"
 import { Button } from "@/components/ui/button"
 import { Pole, PoleSelect } from "@/components/ui/pole"
+import { PomocPola } from "@/components/ui/pomoc"
 import { StanPusty } from "@/components/ui/stany"
 import { WerdyktPanel, type WerdyktPoziom } from "@/components/werdykt"
 import type { Warning } from "@/lib/core/calc-result"
@@ -72,7 +73,7 @@ export function PolaWiatru({ s, ustaw, wysokoscPvgis }: { s: WiatrSeed; ustaw: (
           label="Strefa wiatrowa"
           value={s.strefa}
           onChange={(e) => ustaw("strefa", e.target.value)}
-          hint="Odczytaj z mapy stref wiatrowych w Załączniku krajowym normy PN-EN 1991-1-4 (Rysunek NA.1)."
+          pomoc={<PomocPola ekran="typ-montazu-pola" pole="strefa" />}
         >
           <option value="">— wybierz —</option>
           <option value="1">Strefa 1</option>
@@ -87,14 +88,14 @@ export function PolaWiatru({ s, ustaw, wysokoscPvgis }: { s: WiatrSeed; ustaw: (
           value={s.wysokoscNpmM}
           onChange={(e) => ustaw("wysokoscNpmM", e.target.value)}
           placeholder={wysokoscPvgis !== undefined ? String(wysokoscPvgis) : undefined}
-          hint={wysokoscPvgis !== undefined ? `Puste = wysokość z danych PVGIS (${f0(wysokoscPvgis)} m).` : "Powyżej 300 m wiatr w strefach 1 i 3 liczy się mocniej."}
+          pomoc={<PomocPola ekran="typ-montazu-pola" pole="wysokoscNpm" />}
         />
       </div>
       <PoleSelect
         label="Teren wokół (kategoria terenu)"
         value={s.kategoria}
         onChange={(e) => ustaw("kategoria", e.target.value)}
-        hint="Teren od strony wiatru. Im bardziej otwarty, tym silniejszy wiatr przy ziemi."
+        pomoc={<PomocPola ekran="typ-montazu-pola" pole="teren" />}
       >
         <option value="">— wybierz —</option>
         {KATEGORIE_TERENU.map((k) => (
@@ -112,7 +113,7 @@ export function PolaWiatru({ s, ustaw, wysokoscPvgis }: { s: WiatrSeed; ustaw: (
         step={0.1}
         value={s.phi}
         onChange={(e) => ustaw("phi", e.target.value)}
-        hint="0 = pod panelami pusto. 1 = pod panelami składowane rzeczy aż do krawędzi. Wartości pośrednie dozwolone."
+        pomoc={<PomocPola ekran="typ-montazu-pola" pole="zabudowa" />}
       />
     </section>
   )
@@ -137,7 +138,7 @@ export function dopiskMasyWlasnej(s: StelazSeed): string {
   return masa === null ? "" : ` ponad ciężar paneli i stelaża (${masa.toLocaleString("pl-PL")} kg)`
 }
 
-export function PolaStelaza({ s, ustaw, podpowiedzKrawedzi }: { s: StelazSeed; ustaw: (p: keyof StelazSeed, v: string) => void; podpowiedzKrawedzi: string }) {
+export function PolaStelaza({ s, ustaw, poleKrawedzi }: { s: StelazSeed; ustaw: (p: keyof StelazSeed, v: string) => void; poleKrawedzi: "krawedzRegulowany" | "krawedzDachPlaski" }) {
   return (
     <div className="grid gap-3 sm:grid-cols-3">
       <Pole
@@ -148,7 +149,7 @@ export function PolaStelaza({ s, ustaw, podpowiedzKrawedzi }: { s: StelazSeed; u
         min={0}
         value={s.dlugoscWzdluzSpaduM}
         onChange={(e) => ustaw("dlugoscWzdluzSpaduM", e.target.value)}
-        hint="Od dolnej do górnej krawędzi paneli, mierzone po ich powierzchni."
+        pomoc={<PomocPola ekran="typ-montazu-pola" pole="dlugoscL" />}
       />
       <Pole
         label="Szerokość stelaża"
@@ -158,7 +159,7 @@ export function PolaStelaza({ s, ustaw, podpowiedzKrawedzi }: { s: StelazSeed; u
         min={0}
         value={s.szerokoscStelazaM}
         onChange={(e) => ustaw("szerokoscStelazaM", e.target.value)}
-        hint="W poprzek spadku — razem z L daje powierzchnię paneli."
+        pomoc={<PomocPola ekran="typ-montazu-pola" pole="szerokosc" />}
       />
       <Pole
         label="Dolna krawędź nad terenem"
@@ -168,7 +169,7 @@ export function PolaStelaza({ s, ustaw, podpowiedzKrawedzi }: { s: StelazSeed; u
         min={0}
         value={s.wysokoscDolnejKrawedziM}
         onChange={(e) => ustaw("wysokoscDolnejKrawedziM", e.target.value)}
-        hint={podpowiedzKrawedzi}
+        pomoc={<PomocPola ekran="typ-montazu-pola" pole={poleKrawedzi} />}
       />
       <Pole
         label="Masa paneli i stelaża (opcjonalnie)"
@@ -178,8 +179,7 @@ export function PolaStelaza({ s, ustaw, podpowiedzKrawedzi }: { s: StelazSeed; u
         min={0}
         value={s.masaPaneliStelazaKg ?? ""}
         onChange={(e) => ustaw("masaPaneliStelazaKg", e.target.value)}
-        hint="Jednego stelaża, bez balastu — z karty katalogowej albo zważona. Puste = pominięta (bezpieczniej, balast wyjdzie większy)."
-        pomoc="Ciężar paneli i stelaża dociska konstrukcję do podłoża, tak jak balast. Norma PN-EN 1990 każe liczyć go ostrożnie — tylko 90% (γG,inf = 0,90), bo rzeczywista masa może być mniejsza od deklarowanej. Masę paneli znajdziesz w karcie katalogowej, stelaża — u producenta albo zważ elementy. Nie zgaduj: puste pole liczy balast tak, jakby konstrukcja nic nie ważyła (bezpieczniej). Aplikacja pokazuje wtedy balast dodatkowy, ponad tę masę. Przesuwu i wywracania to nie sprawdza."
+        pomoc={<PomocPola ekran="typ-montazu-pola" pole="masa" />}
       />
     </div>
   )
@@ -229,7 +229,7 @@ export function PoleAzymutu({ wartosc, ustaw, tab }: { wartosc: string; ustaw: (
         max={360}
         value={wartosc}
         onChange={(e) => ustaw(e.target.value)}
-        hint="180° = południe, 90° = wschód, 270° = zachód."
+        pomoc={<PomocPola ekran="typ-montazu-pola" pole="azymut" />}
       />
       <Button className="min-h-11" disabled={!tab.mozna} onClick={tab.policz}>
         {tab.liczy ? "Liczę nasłonecznienie dla kątów 0–90°…" : "Policz nasłonecznienie"}

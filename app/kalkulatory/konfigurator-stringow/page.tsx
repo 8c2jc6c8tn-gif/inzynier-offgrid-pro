@@ -5,11 +5,13 @@ import { calculateKonfiguratorStringow } from "@/lib/core/modules/pv/konfigurato
 import type { KonfiguratorStringowInput } from "@/lib/core/modules/pv/konfigurator-stringow/input"
 import { usePersistedDraft } from "@/lib/adapters/use-persisted-draft"
 import { Pole, PoleSelect } from "@/components/ui/pole"
+import { PomocPola } from "@/components/ui/pomoc"
 import { WerdyktPanel, type WerdyktPoziom } from "@/components/werdykt"
 import { NawigacjaEkranu } from "@/components/nawigacja-ekranu"
 import { NaglowekEkranu } from "@/components/wzorce/naglowek-ekranu"
 import { WynikGlowny } from "@/components/wzorce/wynik-glowny"
 import { WynikSzczegoly } from "@/components/wzorce/wynik-szczegoly"
+import { LICZBA_PANELI_SANITY_MAX } from "@/lib/core/modules/pv/konfigurator-stringow/constants"
 
 type Mode = KonfiguratorStringowInput["mode"]
 
@@ -82,12 +84,17 @@ export default function KonfiguratorStringowPage() {
   return (
     <main className="mx-auto flex max-w-md flex-col gap-6 p-6">
       <NawigacjaEkranu href="/kalkulatory/konfigurator-stringow" />
-      <NaglowekEkranu tytul="Konfigurator stringów">
+      <NaglowekEkranu tytul="Konfigurator stringów" ekran="konfigurator-stringow" wzor={result.formula}>
         Szereg dodaje napięcia, równoległe dodaje prądy — to jak łączenie ogniw latarki: jedna za
         drugą (szereg) albo obok siebie (równolegle). Moduł 3, Ekran 11.
       </NaglowekEkranu>
 
-      <PoleSelect label="Tryb" value={mode} onChange={(e) => setMode(e.target.value as Mode)}>
+      <PoleSelect
+        label="Tryb"
+        value={mode}
+        onChange={(e) => setMode(e.target.value as Mode)}
+        pomoc={<PomocPola ekran="konfigurator-stringow" pole="tryb" />}
+      >
         {Object.entries(MODE_LABELS).map(([value, label]) => (
           <option key={value} value={value}>
             {label}
@@ -96,8 +103,24 @@ export default function KonfiguratorStringowPage() {
       </PoleSelect>
 
       <div className="flex flex-col gap-4">
-        <Pole label="Napięcie Vmp panelu" unit="V" type="number" inputMode="decimal" value={vmpV} onChange={(e) => setVmpV(e.target.value)} />
-        <Pole label="Prąd Imp panelu" unit="A" type="number" inputMode="decimal" value={impA} onChange={(e) => setImpA(e.target.value)} />
+        <Pole
+          label="Napięcie Vmp panelu"
+          unit="V"
+          type="number"
+          inputMode="decimal"
+          value={vmpV}
+          onChange={(e) => setVmpV(e.target.value)}
+          pomoc={<PomocPola ekran="konfigurator-stringow" pole="vmp" />}
+        />
+        <Pole
+          label="Prąd Imp panelu"
+          unit="A"
+          type="number"
+          inputMode="decimal"
+          value={impA}
+          onChange={(e) => setImpA(e.target.value)}
+          pomoc={<PomocPola ekran="konfigurator-stringow" pole="imp" />}
+        />
 
         {mode === "mieszany" ? (
           <>
@@ -108,6 +131,7 @@ export default function KonfiguratorStringowPage() {
               inputMode="decimal"
               value={panelWGrupie}
               onChange={(e) => setPanelWGrupie(e.target.value)}
+              pomoc={<PomocPola ekran="konfigurator-stringow" pole="szereg" />}
             />
             <Pole
               label="Liczba grup (równolegle)"
@@ -116,6 +140,7 @@ export default function KonfiguratorStringowPage() {
               inputMode="decimal"
               value={liczbaGrup}
               onChange={(e) => setLiczbaGrup(e.target.value)}
+              pomoc={<PomocPola ekran="konfigurator-stringow" pole="grupy" />}
             />
           </>
         ) : (
@@ -126,6 +151,7 @@ export default function KonfiguratorStringowPage() {
             inputMode="decimal"
             value={liczbaPaneli}
             onChange={(e) => setLiczbaPaneli(e.target.value)}
+            pomoc={<PomocPola ekran="konfigurator-stringow" pole="liczba" params={{ max: LICZBA_PANELI_SANITY_MAX }} />}
           />
         )}
       </div>

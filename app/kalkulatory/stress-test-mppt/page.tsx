@@ -5,9 +5,11 @@ import { calculateStressTestMppt } from "@/lib/core/modules/pv/stress-test-mppt/
 import {
   BETA_TYPOWA_MAX_PCT_NA_C,
   BETA_TYPOWA_MIN_PCT_NA_C,
+  PROG_OSTRZEGAWCZY_UDZIAL_LIMITU,
 } from "@/lib/core/modules/pv/stress-test-mppt/constants"
 import { usePersistedDraft } from "@/lib/adapters/use-persisted-draft"
 import { Pole } from "@/components/ui/pole"
+import { PomocPola } from "@/components/ui/pomoc"
 import { WerdyktPanel, type WerdyktPoziom } from "@/components/werdykt"
 import { NawigacjaEkranu } from "@/components/nawigacja-ekranu"
 import { NaglowekEkranu } from "@/components/wzorce/naglowek-ekranu"
@@ -94,7 +96,12 @@ export default function StressTestMpptPage() {
   return (
     <main className="mx-auto flex max-w-md flex-col gap-6 p-6">
       <NawigacjaEkranu href="/kalkulatory/stress-test-mppt" />
-      <NaglowekEkranu tytul="Zimowy stress-test napięciowy MPPT">
+      <NaglowekEkranu
+        tytul="Zimowy stress-test napięciowy MPPT"
+        ekran="stress-test-mppt"
+        wzor={result.formula}
+        parametry={{ progOstrzezenia: Math.round(PROG_OSTRZEGAWCZY_UDZIAL_LIMITU * 100) }}
+      >
         Panele PV zachowują się odwrotnie niż można by się spodziewać — im zimniej, tym WYŻSZE
         napięcie dają na biegu jałowym. Mroźny, słoneczny poranek to najbardziej niebezpieczny
         moment dla falownika, nie upalne lato. To jeden z najważniejszych twardych stopów w
@@ -110,7 +117,7 @@ export default function StressTestMpptPage() {
           min={0}
           value={vocStcV}
           onChange={(e) => setVocStcV(e.target.value)}
-          hint="Napięcie obwodu otwartego — z karty katalogowej panelu."
+          pomoc={<PomocPola ekran="stress-test-mppt" pole="voc" />}
         />
         <Pole
           label="Współczynnik temperaturowy Voc (β)"
@@ -119,7 +126,7 @@ export default function StressTestMpptPage() {
           inputMode="decimal"
           value={betaPctNaC}
           onChange={(e) => setBetaPctNaC(e.target.value)}
-          hint={`Typowo ${BETA_TYPOWA_MIN_PCT_NA_C} do ${BETA_TYPOWA_MAX_PCT_NA_C}%/°C (wartość ujemna — Voc rośnie przy spadku temperatury).`}
+          pomoc={<PomocPola ekran="stress-test-mppt" pole="beta" params={{ betaMin: BETA_TYPOWA_MIN_PCT_NA_C, betaMax: BETA_TYPOWA_MAX_PCT_NA_C }} />}
         />
         <Pole
           label="Minimalna temperatura w lokalizacji (Tmin)"
@@ -128,7 +135,7 @@ export default function StressTestMpptPage() {
           inputMode="decimal"
           value={tminC}
           onChange={(e) => setTminC(e.target.value)}
-          hint="Docelowo automatycznie z Modułu 1 — na razie wpisz ręcznie."
+          pomoc={<PomocPola ekran="stress-test-mppt" pole="tmin" />}
         />
         <Pole
           label="Liczba paneli w stringu"
@@ -138,6 +145,7 @@ export default function StressTestMpptPage() {
           min={0}
           value={liczbaPaneliWStringu}
           onChange={(e) => setLiczbaPaneliWStringu(e.target.value)}
+          pomoc={<PomocPola ekran="stress-test-mppt" pole="liczbaPaneli" />}
         />
         <Pole
           label="Max napięcie wejściowe MPPT/falownika"
@@ -147,7 +155,7 @@ export default function StressTestMpptPage() {
           min={0}
           value={limitMpptV}
           onChange={(e) => setLimitMpptV(e.target.value)}
-          hint="Z karty katalogowej falownika — przekroczenie może trwale uszkodzić wejście DC."
+          pomoc={<PomocPola ekran="stress-test-mppt" pole="limit" />}
         />
       </div>
 

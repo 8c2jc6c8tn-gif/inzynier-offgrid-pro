@@ -4,11 +4,13 @@ import { useMemo } from "react"
 import { calculateStratyOkablowanieDc } from "@/lib/core/modules/pv/straty-okablowanie-dc/calculator"
 import { usePersistedDraft } from "@/lib/adapters/use-persisted-draft"
 import { Pole } from "@/components/ui/pole"
+import { PomocPola } from "@/components/ui/pomoc"
 import { WerdyktPanel } from "@/components/werdykt"
 import { NawigacjaEkranu } from "@/components/nawigacja-ekranu"
 import { NaglowekEkranu } from "@/components/wzorce/naglowek-ekranu"
 import { WynikGlowny } from "@/components/wzorce/wynik-glowny"
 import { WynikSzczegoly } from "@/components/wzorce/wynik-szczegoly"
+import { CEL_STRATY_MAX_PCT } from "@/lib/core/modules/pv/straty-okablowanie-dc/constants"
 
 type FormularzStan = {
   dlugoscKablaM: string
@@ -56,7 +58,12 @@ export default function StratyOkablowanieDcPage() {
   return (
     <main className="mx-auto flex max-w-md flex-col gap-6 p-6">
       <NawigacjaEkranu href="/kalkulatory/straty-okablowanie-dc" />
-      <NaglowekEkranu tytul="Straty na okablowaniu DC">
+      <NaglowekEkranu
+        tytul="Straty na okablowaniu DC"
+        ekran="straty-okablowanie-dc"
+        wzor={result.formula}
+        parametry={{ cel: CEL_STRATY_MAX_PCT }}
+      >
         Prąd płynący kablem zawsze trochę „grzeje” po drodze — to normalne, ale zbyt cienki kabel
         zamienia w ciepło więcej energii niż powinien. Moduł 3, Ekran 8.
       </NaglowekEkranu>
@@ -70,6 +77,7 @@ export default function StratyOkablowanieDcPage() {
           min={0}
           value={dlugoscKablaM}
           onChange={(e) => setDlugoscKablaM(e.target.value)}
+          pomoc={<PomocPola ekran="straty-okablowanie-dc" pole="dlugosc" />}
         />
         <Pole
           label="Prąd roboczy (Imp)"
@@ -79,6 +87,7 @@ export default function StratyOkablowanieDcPage() {
           min={0}
           value={pradA}
           onChange={(e) => setPradA(e.target.value)}
+          pomoc={<PomocPola ekran="straty-okablowanie-dc" pole="prad" />}
         />
         <Pole
           label="Napięcie robocze (Vmp)"
@@ -88,6 +97,7 @@ export default function StratyOkablowanieDcPage() {
           min={0}
           value={napiecieV}
           onChange={(e) => setNapiecieV(e.target.value)}
+          pomoc={<PomocPola ekran="straty-okablowanie-dc" pole="napiecie" />}
         />
         <Pole
           label="Przekrój kabla"
@@ -97,6 +107,7 @@ export default function StratyOkablowanieDcPage() {
           min={0}
           value={przekrojMm2}
           onChange={(e) => setPrzekrojMm2(e.target.value)}
+          pomoc={<PomocPola ekran="straty-okablowanie-dc" pole="przekroj" />}
         />
       </div>
 

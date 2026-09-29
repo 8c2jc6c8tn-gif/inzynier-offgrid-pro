@@ -4,6 +4,7 @@ import Link from "next/link"
 import { useMemo, useState } from "react"
 import { Button } from "@/components/ui/button"
 import { Pole } from "@/components/ui/pole"
+import { PomocPola } from "@/components/ui/pomoc"
 import { StanPusty } from "@/components/ui/stany"
 import { WerdyktPanel } from "@/components/werdykt"
 import { WynikGlowny } from "@/components/wzorce/wynik-glowny"
@@ -163,6 +164,7 @@ export function TrybPowierzchnie({ tylkoJednaPolac }: { tylkoJednaPolac: boolean
                     min={0}
                     value={s.moc[o.nazwa] ?? ""}
                     onChange={(e) => setS((p) => ({ ...p, moc: { ...p.moc, [o.nazwa]: e.target.value } }))}
+                    pomoc={<PomocPola ekran="typ-montazu-pola" pole="mocPowierzchni" />}
                   />
                 )}
               </div>
@@ -177,7 +179,7 @@ export function TrybPowierzchnie({ tylkoJednaPolac }: { tylkoJednaPolac: boolean
             step={0.01}
             value={s.pr}
             onChange={(e) => setS((p) => ({ ...p, pr: e.target.value }))}
-            hint="Ułamek 0–1 — część energii, która zostaje po stratach. Źródło nie podaje wartości."
+            pomoc={<PomocPola ekran="typ-montazu-pola" pole="pr" />}
           />
           {aktualna && aktualna.warnings.length > 0 && (
             <ul className="text-small text-muted-foreground">

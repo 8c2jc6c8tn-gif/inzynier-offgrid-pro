@@ -3,6 +3,7 @@
 import Link from "next/link"
 import { useMemo } from "react"
 import { Pole } from "@/components/ui/pole"
+import { PomocPola } from "@/components/ui/pomoc"
 import { WerdyktPanel } from "@/components/werdykt"
 import { KartaPorownawcza, type Kolumna } from "@/components/wzorce/karta-porownawcza"
 import { WynikGlowny } from "@/components/wzorce/wynik-glowny"
@@ -80,6 +81,7 @@ export function TrybRegulowany() {
           max={90}
           value={s.katMinDeg}
           onChange={(e) => setS((p) => ({ ...p, katMinDeg: e.target.value }))}
+          pomoc={<PomocPola ekran="typ-montazu-pola" pole="katMin" />}
         />
         <Pole
           label="Największy kąt regulacji"
@@ -90,13 +92,13 @@ export function TrybRegulowany() {
           max={90}
           value={s.katMaxDeg}
           onChange={(e) => setS((p) => ({ ...p, katMaxDeg: e.target.value }))}
-          hint="Do 30° norma podaje siłę wiatru — powyżej balastu nie policzymy."
+          pomoc={<PomocPola ekran="typ-montazu-pola" pole="katMax" />}
         />
       </div>
       <PolaStelaza
         s={s.stelaz}
         ustaw={(pole, x) => setS((p) => ({ ...p, stelaz: { ...p.stelaz, [pole]: x } }))}
-        podpowiedzKrawedzi="Stała przy każdym kącie — stelaż obraca się na dolnej krawędzi."
+        poleKrawedzi="krawedzRegulowany"
       />
       <PolaWiatru s={s.wiatr} ustaw={(pole, x) => setS((p) => ({ ...p, wiatr: { ...p.wiatr, [pole]: x } }))} wysokoscPvgis={tab.wysokoscPvgis} />
 

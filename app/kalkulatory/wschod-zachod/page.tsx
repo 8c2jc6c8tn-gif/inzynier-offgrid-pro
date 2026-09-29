@@ -5,9 +5,9 @@ import { SekcjaDanychNaslonecznienia } from "@/components/lokalizacja/sekcja-dan
 import { NawigacjaEkranu } from "@/components/nawigacja-ekranu"
 import { Button } from "@/components/ui/button"
 import { Pole } from "@/components/ui/pole"
+import { PomocPola } from "@/components/ui/pomoc"
 import { StanLadowania, StanPusty } from "@/components/ui/stany"
 import { WerdyktPanel } from "@/components/werdykt"
-import { MigawkaBox } from "@/components/wzorce/migawka-box"
 import { NaglowekEkranu } from "@/components/wzorce/naglowek-ekranu"
 import { WynikGlowny } from "@/components/wzorce/wynik-glowny"
 import { WynikSzczegoly } from "@/components/wzorce/wynik-szczegoly"
@@ -18,6 +18,7 @@ import { useTranslate } from "@/lib/i18n/language-context"
 import { liczba } from "@/lib/lokalizacja/model-dzialki"
 import { useLokalizacjaProjektu } from "@/lib/lokalizacja/use-lokalizacja-projektu"
 import { useObliczeniaWTle } from "@/lib/lokalizacja/use-obliczenia-w-tle"
+import { TYPOWY_STOSUNEK_MAX_PCT, TYPOWY_STOSUNEK_MIN_PCT } from "@/lib/core/modules/pv/wschod-zachod/constants"
 
 type FormularzStan = {
   wschodNachylenie: string
@@ -121,7 +122,12 @@ export default function WschodZachodPage() {
   return (
     <main className="mx-auto flex max-w-2xl flex-col gap-6 p-6">
       <NawigacjaEkranu href="/kalkulatory/wschod-zachod" />
-      <NaglowekEkranu tytul="Orientacja wschód-zachód">
+      <NaglowekEkranu
+        tytul="Orientacja wschód-zachód"
+        ekran="wschod-zachod"
+        wzor={result.formula}
+        parametry={{ stosunekMin: TYPOWY_STOSUNEK_MIN_PCT, stosunekMax: TYPOWY_STOSUNEK_MAX_PCT }}
+      >
         Panele na dwóch połaciach — wschodniej i zachodniej — w porównaniu z panelami skierowanymi na południe: ile
         energii w roku i jak rozkłada się ona w ciągu dnia. Moduł 3, Ekran 20.
       </NaglowekEkranu>
@@ -129,10 +135,50 @@ export default function WschodZachodPage() {
       <SekcjaDanychNaslonecznienia lokalizacja={lokalizacja} dane={dane} tmy={tmy} />
 
       <section className="grid grid-cols-2 gap-3">
-        <Pole label="Wschód — nachylenie" unit="°" type="number" inputMode="decimal" min={0} max={90} value={stan.wschodNachylenie} onChange={(e) => ustaw("wschodNachylenie", e.target.value)} />
-        <Pole label="Wschód — azymut" unit="°" type="number" inputMode="decimal" min={0} max={360} value={stan.wschodAzymut} onChange={(e) => ustaw("wschodAzymut", e.target.value)} hint="Wschód = 90°." />
-        <Pole label="Zachód — nachylenie" unit="°" type="number" inputMode="decimal" min={0} max={90} value={stan.zachodNachylenie} onChange={(e) => ustaw("zachodNachylenie", e.target.value)} />
-        <Pole label="Zachód — azymut" unit="°" type="number" inputMode="decimal" min={0} max={360} value={stan.zachodAzymut} onChange={(e) => ustaw("zachodAzymut", e.target.value)} hint="Zachód = 270°." />
+        <Pole
+          label="Wschód — nachylenie"
+          unit="°"
+          type="number"
+          inputMode="decimal"
+          min={0}
+          max={90}
+          value={stan.wschodNachylenie}
+          onChange={(e) => ustaw("wschodNachylenie", e.target.value)}
+          pomoc={<PomocPola ekran="wschod-zachod" pole="wschodKat" />}
+        />
+        <Pole
+          label="Wschód — azymut"
+          unit="°"
+          type="number"
+          inputMode="decimal"
+          min={0}
+          max={360}
+          value={stan.wschodAzymut}
+          onChange={(e) => ustaw("wschodAzymut", e.target.value)}
+          pomoc={<PomocPola ekran="wschod-zachod" pole="wschodAzymut" />}
+        />
+        <Pole
+          label="Zachód — nachylenie"
+          unit="°"
+          type="number"
+          inputMode="decimal"
+          min={0}
+          max={90}
+          value={stan.zachodNachylenie}
+          onChange={(e) => ustaw("zachodNachylenie", e.target.value)}
+          pomoc={<PomocPola ekran="wschod-zachod" pole="zachodKat" />}
+        />
+        <Pole
+          label="Zachód — azymut"
+          unit="°"
+          type="number"
+          inputMode="decimal"
+          min={0}
+          max={360}
+          value={stan.zachodAzymut}
+          onChange={(e) => ustaw("zachodAzymut", e.target.value)}
+          pomoc={<PomocPola ekran="wschod-zachod" pole="zachodAzymut" />}
+        />
       </section>
       <p className="-mt-3 text-small text-muted-foreground">Kąty i azymuty połaci znajdziesz w Module 1 (Bryła budynku i orientacja ścian).</p>
       <Button className="min-h-11" disabled={!lokalizacja || !dane || !kompletne || obliczenia.liczy} onClick={policz}>
@@ -151,7 +197,7 @@ export default function WschodZachodPage() {
           max={100}
           value={stan.udzialWschodPct}
           onChange={(e) => ustaw("udzialWschodPct", e.target.value)}
-          hint="Reszta mocy trafia na zachód. Przy tej samej liczbie paneli na obu połaciach wpisz 50."
+          pomoc={<PomocPola ekran="wschod-zachod" pole="udzial" />}
         />
       )}
 
@@ -208,10 +254,7 @@ export default function WschodZachodPage() {
         </WerdyktPanel>
       )}
 
-      <MigawkaBox>
-        „Nie masz idealnego południowego dachu? Wschód-zachód to nie kompromis, to inna strategia — czasem lepiej
-        dopasowana do tego, kiedy realnie zużywasz prąd.”
-      </MigawkaBox>
+      
     </main>
   )
 }

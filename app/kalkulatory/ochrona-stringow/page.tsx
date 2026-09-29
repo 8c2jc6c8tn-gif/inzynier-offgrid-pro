@@ -4,11 +4,13 @@ import { useMemo } from "react"
 import { calculateOchronaStringow } from "@/lib/core/modules/pv/ochrona-stringow/calculator"
 import { usePersistedDraft } from "@/lib/adapters/use-persisted-draft"
 import { Pole, PoleCheckbox } from "@/components/ui/pole"
+import { PomocPola } from "@/components/ui/pomoc"
 import { WerdyktPanel, type WerdyktPoziom } from "@/components/werdykt"
 import { NawigacjaEkranu } from "@/components/nawigacja-ekranu"
 import { NaglowekEkranu } from "@/components/wzorce/naglowek-ekranu"
 import { WynikGlowny } from "@/components/wzorce/wynik-glowny"
 import { WynikSzczegoly } from "@/components/wzorce/wynik-szczegoly"
+import { K1_ISC_MAX, PROG_LICZBY_STRINGOW } from "@/lib/core/modules/pv/ochrona-stringow/constants"
 
 type FormularzStan = {
   iscStcA: string
@@ -91,7 +93,12 @@ export default function OchronaStringowPage() {
   return (
     <main className="mx-auto flex max-w-md flex-col gap-6 p-6">
       <NawigacjaEkranu href="/kalkulatory/ochrona-stringow" />
-      <NaglowekEkranu tytul="Ochrona stringów">
+      <NaglowekEkranu
+        tytul="Ochrona stringów"
+        ekran="ochrona-stringow"
+        wzor={result.formula}
+        parametry={{ progStringow: PROG_LICZBY_STRINGOW, k1: K1_ISC_MAX }}
+      >
         Chroń każdy string osobno, żeby awaria jednego nie pociągnęła za sobą reszty instalacji.
         Moduł 3, Ekran 22. Wg normy HD 60364-7-712 (§712.431-433, Załącznik B.2).
       </NaglowekEkranu>
@@ -105,6 +112,7 @@ export default function OchronaStringowPage() {
           min={0}
           value={iscStcA}
           onChange={(e) => setIscStcA(e.target.value)}
+          pomoc={<PomocPola ekran="ochrona-stringow" pole="isc" />}
         />
         <Pole
           label="Maks. prąd zabezpieczenia nadprądowego modułu (I_MOD_MAX_OCPR, karta katalogowa)"
@@ -114,6 +122,7 @@ export default function OchronaStringowPage() {
           min={0}
           value={iModMaxOcprA}
           onChange={(e) => setIModMaxOcprA(e.target.value)}
+          pomoc={<PomocPola ekran="ochrona-stringow" pole="ocpr" />}
         />
         <Pole
           label="Liczba stringów równoległych"
@@ -123,6 +132,7 @@ export default function OchronaStringowPage() {
           min={0}
           value={liczbaStringowRownoleglych}
           onChange={(e) => setLiczbaStringowRownoleglych(e.target.value)}
+          pomoc={<PomocPola ekran="ochrona-stringow" pole="stringi" params={{ progStringow: PROG_LICZBY_STRINGOW }} />}
         />
         <PoleCheckbox
           id="ma-zabezpieczenia"
@@ -145,6 +155,7 @@ export default function OchronaStringowPage() {
             min={0}
             value={wybranyBezpiecznikA}
             onChange={(e) => setWybranyBezpiecznikA(e.target.value)}
+            pomoc={<PomocPola ekran="ochrona-stringow" pole="bezpiecznik" />}
           />
         )}
       </div>

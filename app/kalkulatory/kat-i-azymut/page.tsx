@@ -5,9 +5,9 @@ import { SekcjaDanychNaslonecznienia } from "@/components/lokalizacja/sekcja-dan
 import { NawigacjaEkranu } from "@/components/nawigacja-ekranu"
 import { Button } from "@/components/ui/button"
 import { Pole } from "@/components/ui/pole"
+import { PomocPola } from "@/components/ui/pomoc"
 import { StanLadowania, StanPusty } from "@/components/ui/stany"
 import { WerdyktPanel } from "@/components/werdykt"
-import { MigawkaBox } from "@/components/wzorce/migawka-box"
 import { NaglowekEkranu } from "@/components/wzorce/naglowek-ekranu"
 import { WynikGlowny } from "@/components/wzorce/wynik-glowny"
 import { WynikSzczegoly } from "@/components/wzorce/wynik-szczegoly"
@@ -138,7 +138,7 @@ export default function KatIAzymutPage() {
   return (
     <main className="mx-auto flex max-w-2xl flex-col gap-6 p-6">
       <NawigacjaEkranu href="/kalkulatory/kat-i-azymut" />
-      <NaglowekEkranu tytul="Kąt pochylenia i azymut">
+      <NaglowekEkranu tytul="Kąt pochylenia i azymut" ekran="kat-i-azymut" wzor={result.formula}>
         Ile słońca złapią panele w każdym miesiącu przy wybranym kącie i kierunku — policzone z godzinowych danych
         PVGIS dla Twojej lokalizacji. Dla stelaża z regulacją: najlepszy kąt na każdy miesiąc. Moduł 3, Ekran 1.
       </NaglowekEkranu>
@@ -155,7 +155,7 @@ export default function KatIAzymutPage() {
           max={360}
           value={stan.azymutDeg}
           onChange={(e) => ustaw("azymutDeg", e.target.value)}
-          hint="Kierunek, w który patrzy panel: 180° = południe (najlepsze), 90° = wschód, 270° = zachód."
+          pomoc={<PomocPola ekran="kat-i-azymut" pole="azymut" />}
         />
         <Button className="min-h-11" disabled={!lokalizacja || !dane || azymut === undefined || obliczenia.liczy} onClick={policzTabele}>
           {obliczenia.liczy ? "Liczę nasłonecznienie dla kątów 0–90°…" : "Policz nasłonecznienie"}
@@ -166,8 +166,13 @@ export default function KatIAzymutPage() {
 
       {aktualna && (
         <section className="flex flex-col gap-3">
-          <label className="flex flex-col gap-1 text-small font-medium" htmlFor="suwak-kata">
-            Kąt pochylenia: {stan.nachylenieDeg === "" ? "—" : `${stan.nachylenieDeg}°`}
+          <div className="flex flex-col gap-1 text-small font-medium">
+            <div className="flex items-center gap-1">
+              <label htmlFor="suwak-kata">
+                Kąt pochylenia: {stan.nachylenieDeg === "" ? "—" : `${stan.nachylenieDeg}°`}
+              </label>
+              <PomocPola ekran="kat-i-azymut" pole="kat" />
+            </div>
             <span className="font-normal text-muted-foreground">0° = panel leży płasko, 90° = panel stoi pionowo.</span>
             <input
               id="suwak-kata"
@@ -179,7 +184,7 @@ export default function KatIAzymutPage() {
               onChange={(e) => ustaw("nachylenieDeg", e.target.value)}
               className="min-h-11 w-full accent-sky-600"
             />
-          </label>
+          </div>
           <div className="grid gap-3 sm:grid-cols-2">
             <Pole
               label="Moc instalacji"
@@ -189,7 +194,7 @@ export default function KatIAzymutPage() {
               min={0}
               value={stan.mocInstalacjiKwp}
               onChange={(e) => ustaw("mocInstalacjiKwp", e.target.value)}
-              hint="Opcjonalnie — do przeliczenia na kWh."
+              pomoc={<PomocPola ekran="kat-i-azymut" pole="moc" />}
             />
             <Pole
               label="Współczynnik wydajności PR"
@@ -200,7 +205,7 @@ export default function KatIAzymutPage() {
               step={0.01}
               value={stan.wspolczynnikPr}
               onChange={(e) => ustaw("wspolczynnikPr", e.target.value)}
-              hint="Ułamek 0–1: jaka część „teoretycznej” energii zostaje po stratach (temperatura, kable, falownik, brud). Źródło aplikacji nie podaje wartości — wpisz własną, np. z projektu instalacji."
+              pomoc={<PomocPola ekran="kat-i-azymut" pole="pr" />}
             />
           </div>
         </section>
@@ -273,10 +278,7 @@ export default function KatIAzymutPage() {
         </WerdyktPanel>
       )}
 
-      <MigawkaBox>
-        „Kąt i kierunek panelu decydują, ile słońca złapie w ciągu roku — to jak ustawienie parasola tak, żeby łapał
-        jak najwięcej deszczu, tylko na odwrót: chcemy złapać jak najwięcej słońca.”
-      </MigawkaBox>
+      
     </main>
   )
 }

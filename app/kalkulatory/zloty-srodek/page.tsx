@@ -5,9 +5,9 @@ import { SekcjaDanychNaslonecznienia } from "@/components/lokalizacja/sekcja-dan
 import { NawigacjaEkranu } from "@/components/nawigacja-ekranu"
 import { Button } from "@/components/ui/button"
 import { Pole, PoleSelect } from "@/components/ui/pole"
+import { PomocPola } from "@/components/ui/pomoc"
 import { StanLadowania, StanPusty } from "@/components/ui/stany"
 import { WerdyktPanel } from "@/components/werdykt"
-import { MigawkaBox } from "@/components/wzorce/migawka-box"
 import { NaglowekEkranu } from "@/components/wzorce/naglowek-ekranu"
 import { WynikGlowny } from "@/components/wzorce/wynik-glowny"
 import { WynikSzczegoly } from "@/components/wzorce/wynik-szczegoly"
@@ -195,7 +195,7 @@ export default function ZlotySrodekPage() {
   return (
     <main className="mx-auto flex max-w-2xl flex-col gap-6 p-6">
       <NawigacjaEkranu href="/kalkulatory/zloty-srodek" />
-      <NaglowekEkranu tytul="Złoty środek — kąt, wiatr i balast">
+      <NaglowekEkranu tytul="Złoty środek — kąt, wiatr i balast" ekran="zloty-srodek" wzor={result.formula}>
         Kąt, który daje najwięcej energii, zwykle nie jest najtańszy w utrzymaniu: im bardziej stromy stelaż, tym
         mocniej wiatr próbuje go poderwać i tym więcej balastu trzeba. Ten ekran liczy obie strony z Twoich danych i
         normy wiatrowej PN-EN 1991-1-4. Moduł 3, Ekran 9.
@@ -214,7 +214,7 @@ export default function ZlotySrodekPage() {
           max={360}
           value={stan.azymutDeg}
           onChange={(e) => ustaw("azymutDeg", e.target.value)}
-          hint="180° = południe, 90° = wschód, 270° = zachód."
+          pomoc={<PomocPola ekran="zloty-srodek" pole="azymut" />}
         />
         <Button className="min-h-11" disabled={!lokalizacja || !dane || azymut === undefined || obliczenia.liczy} onClick={policzTabele}>
           {obliczenia.liczy ? "Liczę nasłonecznienie dla kątów 0–90°…" : "Policz nasłonecznienie"}
@@ -230,7 +230,7 @@ export default function ZlotySrodekPage() {
             label="Strefa wiatrowa"
             value={stan.strefa}
             onChange={(e) => ustaw("strefa", e.target.value)}
-            hint="Odczytaj z mapy stref wiatrowych w Załączniku krajowym normy PN-EN 1991-1-4 (Rysunek NA.1)."
+            pomoc={<PomocPola ekran="typ-montazu-pola" pole="strefa" />}
           >
             <option value="">— wybierz —</option>
             <option value="1">Strefa 1</option>
@@ -245,18 +245,14 @@ export default function ZlotySrodekPage() {
             value={stan.wysokoscNpmM}
             onChange={(e) => ustaw("wysokoscNpmM", e.target.value)}
             placeholder={wysokoscPvgis !== undefined ? String(wysokoscPvgis) : undefined}
-            hint={
-              wysokoscPvgis !== undefined
-                ? `Puste = wysokość z danych PVGIS dla lokalizacji (${f0(wysokoscPvgis)} m).`
-                : "Powyżej 300 m wiatr w strefach 1 i 3 liczy się mocniej."
-            }
+            pomoc={<PomocPola ekran="typ-montazu-pola" pole="wysokoscNpm" />}
           />
         </div>
         <PoleSelect
           label="Teren wokół (kategoria terenu)"
           value={stan.kategoria}
           onChange={(e) => ustaw("kategoria", e.target.value)}
-          hint="Wybierz teren, jaki ciągnie się od strony wiatru. Im bardziej otwarty, tym silniejszy wiatr przy ziemi."
+          pomoc={<PomocPola ekran="typ-montazu-pola" pole="teren" />}
         >
           <option value="">— wybierz —</option>
           {KATEGORIE_TERENU.map((k) => (
@@ -274,7 +270,7 @@ export default function ZlotySrodekPage() {
             min={0}
             value={stan.wysokoscKonstrukcjiM}
             onChange={(e) => ustaw("wysokoscKonstrukcjiM", e.target.value)}
-            hint="Od gruntu do najwyższego punktu paneli."
+            pomoc={<PomocPola ekran="zloty-srodek" pole="wysokoscStelaza" />}
           />
           <Pole
             label="Powierzchnia paneli na stelażu"
@@ -284,7 +280,7 @@ export default function ZlotySrodekPage() {
             min={0}
             value={stan.powierzchniaM2}
             onChange={(e) => ustaw("powierzchniaM2", e.target.value)}
-            hint="Suma powierzchni paneli na jednym stelażu (np. 6 paneli × 1,95 m²)."
+            pomoc={<PomocPola ekran="zloty-srodek" pole="powierzchnia" />}
           />
         </div>
         <Pole
@@ -296,7 +292,7 @@ export default function ZlotySrodekPage() {
           step={0.1}
           value={stan.phi}
           onChange={(e) => ustaw("phi", e.target.value)}
-          hint="0 = pod panelami pusto (typowy stelaż naziemny). 1 = pod panelami składowane rzeczy aż do krawędzi (drewno, skrzynie). Wartości pośrednie dozwolone."
+          pomoc={<PomocPola ekran="typ-montazu-pola" pole="zabudowa" />}
         />
       </section>
 
@@ -310,8 +306,7 @@ export default function ZlotySrodekPage() {
           min={0}
           value={stan.masaPaneliStelaza ?? ""}
           onChange={(e) => ustaw("masaPaneliStelaza", e.target.value)}
-          hint="Bez balastu — z karty katalogowej albo zważona. Aplikacja odejmie ją od balastu (liczona w 90%). Puste = pominięta (bezpieczniej)."
-          pomoc="Ciężar paneli i stelaża dociska konstrukcję do podłoża, tak jak balast. Norma PN-EN 1990 każe liczyć go ostrożnie — tylko 90% (γG,inf = 0,90), bo rzeczywista masa może być mniejsza od deklarowanej. Masę paneli znajdziesz w karcie katalogowej, stelaża — u producenta albo zważ elementy. Nie zgaduj: puste pole liczy balast tak, jakby konstrukcja nic nie ważyła (bezpieczniej). Aplikacja pokazuje wtedy balast dodatkowy, ponad tę masę. Przesuwu i wywracania to nie sprawdza."
+          pomoc={<PomocPola ekran="typ-montazu-pola" pole="masa" />}
         />
         <Pole
           label="Cena balastu"
@@ -322,14 +317,23 @@ export default function ZlotySrodekPage() {
           step={0.1}
           value={stan.cenaBalastu}
           onChange={(e) => ustaw("cenaBalastu", e.target.value)}
-          hint="Podpowiedź 1 zł/kg — bloczki odlane samodzielnie z betonu (wartość właściciela projektu, nie z normy). Wpisz swoją cenę."
+          pomoc={<PomocPola ekran="zloty-srodek" pole="cenaBalastu" params={{ cena: CENA_BALASTU_PODPOWIEDZ_ZL_KG }} />}
         />
         <p className="text-small text-muted-foreground">
           Żeby aplikacja wskazała najlepszy kąt, podaj też, ile warta jest energia. Bez tego zobaczysz wykresy i możesz
           sprawdzić dowolny kąt.
         </p>
         <div className="grid gap-3 sm:grid-cols-2">
-          <Pole label="Moc paneli na stelażu" unit="kWp" type="number" inputMode="decimal" min={0} value={stan.mocKwp} onChange={(e) => ustaw("mocKwp", e.target.value)} />
+          <Pole
+            label="Moc paneli na stelażu"
+            unit="kWp"
+            type="number"
+            inputMode="decimal"
+            min={0}
+            value={stan.mocKwp}
+            onChange={(e) => ustaw("mocKwp", e.target.value)}
+            pomoc={<PomocPola ekran="zloty-srodek" pole="moc" />}
+          />
           <Pole
             label="Współczynnik wydajności PR"
             type="number"
@@ -339,7 +343,7 @@ export default function ZlotySrodekPage() {
             step={0.01}
             value={stan.pr}
             onChange={(e) => ustaw("pr", e.target.value)}
-            hint="Ułamek 0–1 — część energii, która zostaje po stratach. Źródło nie podaje wartości."
+            pomoc={<PomocPola ekran="zloty-srodek" pole="pr" />}
           />
           <Pole
             label="Wartość 1 kWh"
@@ -350,7 +354,7 @@ export default function ZlotySrodekPage() {
             step={0.01}
             value={stan.cenaKwh}
             onChange={(e) => ustaw("cenaKwh", e.target.value)}
-            hint="Ile płaciłbyś za tę energię z innego źródła (sieć, agregat)."
+            pomoc={<PomocPola ekran="zloty-srodek" pole="wartoscKwh" />}
           />
           <Pole
             label="Okres analizy"
@@ -360,7 +364,7 @@ export default function ZlotySrodekPage() {
             min={1}
             value={stan.lata}
             onChange={(e) => ustaw("lata", e.target.value)}
-            hint="Przez ile lat liczyć wartość energii."
+            pomoc={<PomocPola ekran="zloty-srodek" pole="okres" />}
           />
         </div>
       </section>
@@ -396,8 +400,13 @@ export default function ZlotySrodekPage() {
             </p>
           ))}
 
-          <label className="mt-3 flex flex-col gap-1 text-small font-medium" htmlFor="suwak-zs">
-            Sprawdź dowolny kąt: {stan.nachylenieDeg === "" ? "—" : `${stan.nachylenieDeg}°`}
+          <div className="mt-3 flex flex-col gap-1 text-small font-medium">
+            <div className="flex items-center gap-1">
+              <label htmlFor="suwak-zs">
+                Sprawdź dowolny kąt: {stan.nachylenieDeg === "" ? "—" : `${stan.nachylenieDeg}°`}
+              </label>
+              <PomocPola ekran="zloty-srodek" pole="katSprawdz" />
+            </div>
             <input
               id="suwak-zs"
               type="range"
@@ -408,7 +417,7 @@ export default function ZlotySrodekPage() {
               onChange={(e) => ustaw("nachylenieDeg", e.target.value)}
               className="min-h-11 w-full accent-sky-600"
             />
-          </label>
+          </div>
           {wyb && (
             <p className="text-small">
               {wyb.nachylenieDeg}°: energia {f1((100 * wyb.napromieniowanieRoczneKwhM2) / hMax)}% maksimum, śnieg μ1 ={" "}
@@ -497,10 +506,7 @@ export default function ZlotySrodekPage() {
         </WerdyktPanel>
       )}
 
-      <MigawkaBox>
-        „Najwyższa produkcja teoretyczna rzadko jest najlepszym wyborem w praktyce — czasem warto oddać 5-6%
-        energii, żeby radykalnie obniżyć ryzyko uszkodzenia instalacji.”
-      </MigawkaBox>
+      
     </main>
   )
 }

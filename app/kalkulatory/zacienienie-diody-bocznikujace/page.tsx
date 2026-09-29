@@ -4,11 +4,13 @@ import { useMemo } from "react"
 import { calculateZacienienieDiodyBocznikujace } from "@/lib/core/modules/pv/zacienienie-diody-bocznikujace/calculator"
 import { usePersistedDraft } from "@/lib/adapters/use-persisted-draft"
 import { Pole } from "@/components/ui/pole"
+import { PomocPola } from "@/components/ui/pomoc"
 import { WerdyktPanel } from "@/components/werdykt"
 import { NawigacjaEkranu } from "@/components/nawigacja-ekranu"
 import { NaglowekEkranu } from "@/components/wzorce/naglowek-ekranu"
 import { WynikGlowny } from "@/components/wzorce/wynik-glowny"
 import { WynikSzczegoly } from "@/components/wzorce/wynik-szczegoly"
+import { LICZBA_SEKCJI_DIOD_BOCZNIKUJACYCH } from "@/lib/core/modules/pv/zacienienie-diody-bocznikujace/constants"
 
 type FormularzStan = {
   mocPaneluNominalnaW: string
@@ -55,7 +57,11 @@ export default function ZacienienieDiodyBocznikujacePage() {
   return (
     <main className="mx-auto flex max-w-md flex-col gap-6 p-6">
       <NawigacjaEkranu href="/kalkulatory/zacienienie-diody-bocznikujace" />
-      <NaglowekEkranu tytul="Zacienienie i diody bocznikujące">
+      <NaglowekEkranu
+        tytul="Zacienienie i diody bocznikujące"
+        ekran="zacienienie-diody-bocznikujace"
+        wzor={result.formula}
+      >
         Jeden cień potrafi „położyć” cały string, nie tylko zacieniony panel — to jak korek na
         jednym pasie, który spowalnia cały ruch, nie tylko ten jeden samochód. Moduł 3, Ekran 13.
       </NaglowekEkranu>
@@ -69,6 +75,7 @@ export default function ZacienienieDiodyBocznikujacePage() {
           min={0}
           value={mocPaneluNominalnaW}
           onChange={(e) => setMocPaneluNominalnaW(e.target.value)}
+          pomoc={<PomocPola ekran="zacienienie-diody-bocznikujace" pole="moc" />}
         />
         <Pole
           label="Liczba zacienionych sekcji panelu"
@@ -80,6 +87,7 @@ export default function ZacienienieDiodyBocznikujacePage() {
           step={1}
           value={liczbaZacienionychSekcji}
           onChange={(e) => setLiczbaZacienionychSekcji(e.target.value)}
+          pomoc={<PomocPola ekran="zacienienie-diody-bocznikujace" pole="sekcje" params={{ sekcje: LICZBA_SEKCJI_DIOD_BOCZNIKUJACYCH }} />}
         />
         <Pole
           label="Liczba paneli w stringu (szeregowo)"
@@ -89,6 +97,7 @@ export default function ZacienienieDiodyBocznikujacePage() {
           min={0}
           value={liczbaPaneliWStringu}
           onChange={(e) => setLiczbaPaneliWStringu(e.target.value)}
+          pomoc={<PomocPola ekran="zacienienie-diody-bocznikujace" pole="liczbaPaneli" />}
         />
       </div>
 

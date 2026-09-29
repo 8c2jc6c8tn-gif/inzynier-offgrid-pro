@@ -11,10 +11,10 @@ import {
 } from "@/lib/core/modules/pv/mikropekniecia-termiczne/constants"
 import { usePersistedDraft } from "@/lib/adapters/use-persisted-draft"
 import { Pole, PoleCheckbox } from "@/components/ui/pole"
+import { PomocPola } from "@/components/ui/pomoc"
 import { WerdyktPanel, type WerdyktPoziom } from "@/components/werdykt"
 import { NawigacjaEkranu } from "@/components/nawigacja-ekranu"
 import { NaglowekEkranu } from "@/components/wzorce/naglowek-ekranu"
-import { MigawkaBox } from "@/components/wzorce/migawka-box"
 import { WynikSzczegoly } from "@/components/wzorce/wynik-szczegoly"
 import { useTranslate } from "@/lib/i18n/language-context"
 
@@ -47,7 +47,12 @@ export default function MikropeknieciaTermicznePage() {
   return (
     <main className="mx-auto flex max-w-md flex-col gap-6 p-6">
       <NawigacjaEkranu href="/kalkulatory/mikropekniecia-termiczne" />
-      <NaglowekEkranu tytul="Mikropęknięcia termiczne">
+      <NaglowekEkranu
+        tytul="Mikropęknięcia termiczne"
+        ekran="mikropekniecia-termiczne"
+        wzor={result.formula}
+        parametry={{ tMin: TEMPERATURA_PANELU_MIN_C, tMax: TEMPERATURA_PANELU_MAX_C, schlodzenie: SCHLODZENIE_PRZY_DESZCZU_C, odstepMin: ODSTEP_DYLATACYJNY_MIN_MM, lata: CZAS_DO_MIKROPEKNIEC_LATA }}
+      >
         Panele nagrzewają się w słońcu do {TEMPERATURA_PANELU_MIN_C}–{TEMPERATURA_PANELU_MAX_C}°C, a przy
         nagłym deszczu chłodzą się o {SCHLODZENIE_PRZY_DESZCZU_C}°C w kilka minut. Aluminium ramy i krzem
         ogniw rozszerzają się inaczej — przy sztywnym montażu bez dylatacji naprężenia prowadzą do
@@ -63,7 +68,7 @@ export default function MikropeknieciaTermicznePage() {
           min={0}
           value={odstepDylatacyjnyMm}
           onChange={(e) => setStan((prev) => ({ ...prev, odstepDylatacyjnyMm: e.target.value }))}
-          hint={`Luz między sąsiednimi panelami w rzędzie. Zalecane minimum: ${ODSTEP_DYLATACYJNY_MIN_MM} mm. 0 = montaż na styk.`}
+          pomoc={<PomocPola ekran="mikropekniecia-termiczne" pole="odstep" params={{ odstepMin: ODSTEP_DYLATACYJNY_MIN_MM }} />}
         />
         <PoleCheckbox
           id="podkladki-epdm"
@@ -95,10 +100,7 @@ export default function MikropeknieciaTermicznePage() {
         </WerdyktPanel>
       )}
 
-      <MigawkaBox>
-        „Materiały »oddychają« przy zmianach temperatury inaczej — trzeba im dać trochę luzu, inaczej
-        pękają od środka, niewidocznie.”
-      </MigawkaBox>
+      
     </main>
   )
 }
