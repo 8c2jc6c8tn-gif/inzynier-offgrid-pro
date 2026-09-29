@@ -18,6 +18,7 @@ import { KrokZMedia } from "@/components/wzorce/krok-z-media"
 import { NaglowekEkranu } from "@/components/wzorce/naglowek-ekranu"
 import { WynikSzczegoly } from "@/components/wzorce/wynik-szczegoly"
 import { poziomWerdyktu } from "@/components/siec/wspolne"
+import { useTranslate } from "@/lib/i18n/language-context"
 
 type Stan = BezpieczenstwoAgregatuStan & {
   trybPracy: TrybPracy | ""
@@ -45,6 +46,7 @@ const takNie = (s: "" | "tak" | "nie") => (s === "" ? null : s === "tak")
  * `siec/przelacznik-siec-wyspa` (generator block = M2/E17, D48).
  */
 export default function PrzelacznikSiecWyspaPage() {
+  const t = useTranslate()
   const [stan, setStan] = usePersistedDraft<Stan>("siec-przelacznik", POCZATKOWY)
   const ustaw = (z: Partial<Stan>) => setStan((p) => ({ ...p, ...z }))
   const result = useMemo(
@@ -63,82 +65,76 @@ export default function PrzelacznikSiecWyspaPage() {
   return (
     <main className="mx-auto flex max-w-2xl flex-col gap-6 p-6">
       <NawigacjaEkranu href="/kalkulatory/przelacznik-siec-wyspa" />
-      <NaglowekEkranu tytul="Przełącznik sieć/wyspa i bezpieczeństwo" ekran="przelacznik-siec-wyspa">
-        Instalacja wyspowa ani agregat nie mogą nigdy podać napięcia do sieci — monter na „wyłączonej” linii może zginąć. Tu
-        sprawdzisz, czy styk z siecią jest bezpieczny. M14, ekran D11 (wspólny dla domu i firmy).
+      <NaglowekEkranu tytul={t("UI-PSW-TYTUL")} ekran="przelacznik-siec-wyspa">
+        {t("UI-PSW-OPIS")}
       </NaglowekEkranu>
 
       <ol className="flex flex-col gap-3">
-        <KrokZMedia numer={1} tytul="Przełącznik z pozycją 0">
-          Sieć – 0 – wyspa z blokadą mechaniczną albo stycznikowy układ SZR z blokadą elektryczną i mechaniczną. Pozycja 0 rozłącza
-          oba źródła, zanim połączy drugie.
+        <KrokZMedia numer={1} tytul={t("UI-PSW-K1-T")}>
+          {t("UI-PSW-K1-O")}
         </KrokZMedia>
-        <KrokZMedia numer={2} tytul="Przełączane fazy i przewód neutralny N">
-          Zgodnie z układem sieci w budynku. Szczegół normowy (HD 60364-5-551) jest do doprecyzowania — ustal go z elektrykiem z
-          uprawnieniami.
+        <KrokZMedia numer={2} tytul={t("UI-PSW-K2-T")}>
+          {t("UI-PSW-K2-O")}
         </KrokZMedia>
-        <KrokZMedia numer={3} tytul="Agregat zawsze przez przełącznik">
-          Nigdy „przez gniazdko” ani wtyczką z dwoma bolcami — to podaje napięcie na bolce wtyczki i do sieci. Agregat spalinowy tylko
-          na zewnątrz albo w wydzielonym, wentylowanym miejscu (czad).
+        <KrokZMedia numer={3} tytul={t("UI-PSW-K3-T")}>
+          {t("UI-PSW-K3-O")}
         </KrokZMedia>
-        <KrokZMedia numer={4} tytul="Praca równoległa to co innego">
-          Falownik pracujący równolegle z siecią (scenariusze A i B, także „zero oddawania”) to źródło przyłączone do sieci — wymaga
-          zgłoszenia mikroinstalacji do OSD i certyfikatu NC RfG. Instalacja wyłącznie przełączana zwykle nie jest pracą równoległą
-          (zależy od konfiguracji falownika).
+        <KrokZMedia numer={4} tytul={t("UI-PSW-K4-T")}>
+          {t("UI-PSW-K4-O")}
         </KrokZMedia>
       </ol>
 
       <section className="flex flex-col gap-3">
-        <h2 className="font-semibold">Sprawdź swoją instalację</h2>
+        <h2 className="font-semibold">{t("UI-PSW-SPRAWDZ")}</h2>
         <PoleSelect
-          label="Jak instalacja styka się z siecią"
+          label={t("UI-PSW-TRYB")}
           value={stan.trybPracy}
           onChange={(e) => ustaw({ trybPracy: e.target.value as Stan["trybPracy"] })}
           pomoc={<PomocPola ekran="przelacznik-siec-wyspa" pole="tryb" />}
         >
-          <option value="">— wybierz —</option>
-          <option value="przelaczany">Przełączana: sieć albo wyspa (bez synchronizacji)</option>
-          <option value="rownolegle">Równolegle z siecią (falownik hybrydowy / sieciowy)</option>
-          <option value="bez-sieci">Bez sieci (pełne odłączenie)</option>
+          <option value="">{t("UI-WYBIERZ")}</option>
+          <option value="przelaczany">{t("UI-PSW-TRYB-PRZELACZANY")}</option>
+          <option value="rownolegle">{t("UI-PSW-TRYB-ROWNOLEGLE")}</option>
+          <option value="bez-sieci">{t("UI-PSW-TRYB-BEZ-SIECI")}</option>
         </PoleSelect>
         {stan.trybPracy === "przelaczany" && (
           <>
             <PoleSelect
-              label="Przełącznik"
+              label={t("UI-PSW-PRZELACZNIK")}
               value={stan.przelacznik}
               onChange={(e) => ustaw({ przelacznik: e.target.value as Stan["przelacznik"] })}
               pomoc={<PomocPola ekran="przelacznik-siec-wyspa" pole="przelacznik" />}
             >
-              <option value="">— wybierz —</option>
-              <option value="reczny-z-zerem-blokada">Ręczny sieć – 0 – wyspa z blokadą mechaniczną</option>
-              <option value="szr-blokada-el-mech">SZR z blokadą elektryczną i mechaniczną</option>
-              <option value="brak-lub-bez-blokady">Brak, zwykły wyłącznik albo bez blokady</option>
+              <option value="">{t("UI-WYBIERZ")}</option>
+              <option value="reczny-z-zerem-blokada">{t("UI-PSW-PRZ-RECZNY")}</option>
+              <option value="szr-blokada-el-mech">{t("UI-PSW-PRZ-SZR")}</option>
+              <option value="brak-lub-bez-blokady">{t("UI-PSW-PRZ-BRAK")}</option>
             </PoleSelect>
             <PoleSelect
-              label="Czy przełączany jest też przewód N?"
+              label={t("UI-PSW-N")}
               value={stan.przelaczaN}
               onChange={(e) => ustaw({ przelaczaN: e.target.value as Stan["przelaczaN"] })}
               pomoc={<PomocPola ekran="przelacznik-siec-wyspa" pole="przewodN" />}
             >
-              <option value="">nie wiem</option>
-              <option value="tak">tak, fazy i N</option>
-              <option value="nie">nie, tylko fazy</option>
+              <option value="">{t("UI-PSW-N-NIE-WIEM")}</option>
+              <option value="tak">{t("UI-PSW-N-TAK")}</option>
+              <option value="nie">{t("UI-PSW-N-NIE")}</option>
             </PoleSelect>
           </>
         )}
         {stan.trybPracy === "rownolegle" && (
           <PoleSelect
-            label="Mikroinstalacja zgłoszona do OSD?"
+            label={t("UI-PSW-ZGLOSZENIE")}
             value={stan.zgloszenieOsd}
             onChange={(e) => ustaw({ zgloszenieOsd: e.target.value as Stan["zgloszenieOsd"] })}
             pomoc={<PomocPola ekran="przelacznik-siec-wyspa" pole="zgloszenie" />}
           >
-            <option value="">— wybierz —</option>
-            <option value="tak">tak</option>
-            <option value="nie">nie</option>
+            <option value="">{t("UI-WYBIERZ")}</option>
+            <option value="tak">{t("UI-TAK")}</option>
+            <option value="nie">{t("UI-NIE")}</option>
           </PoleSelect>
         )}
-        <PoleCheckbox id="siec-przelacznik-agregat" checked={stan.maAgregat} onChange={(e) => ustaw({ maAgregat: e.target.checked })} label="Agregat zasila instalację budynku" />
+        <PoleCheckbox id="siec-przelacznik-agregat" checked={stan.maAgregat} onChange={(e) => ustaw({ maAgregat: e.target.checked })} label={t("UI-PSW-MA-AGREGAT")} />
         {stan.maAgregat && (
           <PolaBezpieczenstwaAgregatu
             miejsceAgregatu={stan.miejsceAgregatu}
@@ -149,25 +145,27 @@ export default function PrzelacznikSiecWyspaPage() {
       </section>
 
       {result.status === "INCOMPLETE" ? (
-        <WerdyktPanel poziom="uwaga" etykieta="Odpowiedz na pytania powyżej">
+        <WerdyktPanel poziom="uwaga" etykieta={t("UI-PSW-ODPOWIEDZ")}>
           <WynikSzczegoly assumptions={[]} warnings={result.warnings} />
         </WerdyktPanel>
       ) : (
         <WerdyktPanel
           poziom={poziomWerdyktu(result.status, result.warnings) ?? "ok"}
-          etykieta={result.value.twardeStopy > 0 ? `STOP — ${result.value.twardeStopy} zagrożenie(a) życia` : "Styk z siecią bez twardych stopów"}
+          etykieta={
+            result.value.twardeStopy > 0 ? t("UI-PSW-STOP", { n: result.value.twardeStopy }) : t("UI-PSW-BEZ-STOPOW")
+          }
         >
           <WynikSzczegoly assumptions={[]} warnings={result.warnings} />
         </WerdyktPanel>
       )}
       <p className="text-small text-muted-foreground">
-        Powiązane:{" "}
+        {t("UI-PSW-POWIAZANE")}{" "}
         <Link className="underline" href="/kalkulatory/agregat-pradotworczy">
-          agregat prądotwórczy (Moduł 2)
+          {t("UI-PSW-L-AGREGAT")}
         </Link>{" "}
         ·{" "}
         <Link className="underline" href="/kalkulatory/rezygnacja-z-przylacza">
-          procedura rezygnacji
+          {t("UI-PSW-L-PROCEDURA")}
         </Link>
       </p>
     </main>

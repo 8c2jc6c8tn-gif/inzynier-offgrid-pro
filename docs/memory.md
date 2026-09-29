@@ -8295,6 +8295,38 @@ Tryb Audyt (czapka rewidenta). Warstwa „w pełni na końcu” z N.2 — wszyst
 - **Pułapka tej sesji:** `git checkout -B <gałąź> origin/main` po scaleniu PR przez API — lokalny `origin/main` był sprzed
   scalenia (fetch zrobiony wcześniej). Zawsze `git fetch origin main` tuż przed takim resetem.
 
+## D58 — teksty ekranów przez klucze UI-*, strażnik i18n na warstwie UI (29.09.2026, „wybieram A + B”)
+
+- **Architektura:** teksty pisane przez sam ekran (etykiety, nagłówki, akapity) żyją w `lib/i18n/ui/<grupa>.ts` — `pl` (as const)
+  jest źródłem, `en`/`ru` typowane `Record<klucz, string>`, więc brak tłumaczenia to błąd `tsc`. Klucze `UI-*`, scalane w
+  `dictionaries.ts` obok komunikatów silników — ekran używa zwykłego `t()`/`useTranslate()`. `lib/i18n/ui/index.ts` importuje
+  wszystkie części (po dodaniu pliku dopisz import). Test `lib/i18n/__tests__/ui.test.ts`: prefiks, unikalność (także wobec
+  `dictionary-pl`), te same klucze i `{parametry}` w EN/RU.
+- **Zdanie z wariantami = osobne pełne klucze**, nie sklejanie fragmentów (E38: `-J` jacht / `-K` kamper) — każdy język ma
+  własną odmianę i szyk. Tablice etykiet (`MIEJSCA`, `FLAGI`, `KOLEJNOSCI`) trzymają klucze, render przez `t(label)`.
+- **Strażnik:** `scripts/check-i18n-ui-guard.mjs` (AST, w `pnpm check:i18n-guard`). Lista zapadkowa
+  `scripts/i18n-ui-guard-baseline.json` sporządzona raz 29.09.2026: 248 plików, 3711 tekstów — wszystkie ≤ stanu sprzed
+  zmian 29.09 (commit 97dacda). `--pokaz <plik>` wypisuje trafienia, `--policz` bieżące liczby. Liczba per plik, więc także
+  dopisanie tekstu do starego ekranu zatrzymuje build — nowy tekst na takim ekranie: `lib/i18n/ui/dopiski-starych-ekranow.ts`.
+  Znana luka (w nagłówku skryptu): polskie słowo bez polskich liter, poza JSX i poza nazwami typu `label`, nie jest wykrywane.
+- **Korekta zakresu audytu Y.11 1b:** raport mówił o ≈15 plikach; faktycznie ~40 plików M14 + E38 miało nowe teksty (m.in.
+  całe `tresci-faq.ts`, `tresci-przejscia.ts`) — przetłumaczone wszystkie (≈580 kluczy). Pliki, w których 29.09 tylko
+  przeformatowano stare teksty (hint → „?”), zostały na liście zapadkowej z bieżącą liczbą.
+- **Pułapki tej pracy:** (1) generator słowników obcinał wieloliniowe teksty — po wygenerowaniu zawsze sprawdzić, że każdy
+  oryginał PL jest w pliku; (2) skrypt podmieniający wstawiał `const t = useTranslate()`, a potem sprawdzał „czy jest
+  `useTranslate`” zamiast ścieżki importu — 25 błędów TS2304; (3) heredoc bez cudzysłowu (`<<EOF`) wykonał backticki z
+  komentarzy jako polecenia powłoki i wyciął fragmenty komentarzy — do skryptów z kodem TS zawsze `<<'EOF'`; (4) hook
+  `useTranslate()` przed każdym wczesnym `return` i osobno w każdej funkcji-komponencie (np. schemat SVG w E38).
+- **Poza zakresem (bez zmian):** parametry liczbowe formatowane `toLocaleString("pl-PL")` (np. „1 234”) trafiają do tekstu
+  jak są; dane katalogu dotacji (`lib/core/dane/dotacje`) zostają po polsku (nazwy programów).
+- **Dokończenie (29.09 wieczór, pełny pakiet):** zielony po jednej poprawce spoza D58 — znów timeouty 5 s w
+  `orientacja-powierzchni.test.ts` i `modul1-lokalizacja-tools.test.ts` (za każdym przebiegiem inne testy; w izolacji też
+  bywa > 5 s). Pułapka z 25.09 wróciła, bo limit dodawano test po teście. Teraz `{ timeout: 30_000 }` na poziomie
+  `describe` dla każdego bloku wołającego `calculateOrientacjaPowierzchni` (pełny rok TMY). Nowy test w tych blokach
+  dziedziczy limit — nie trzeba o nim pamiętać.
+- **Znane, poza zakresem:** `components/wzorce/krok-z-media.tsx` („Miejsce na zdjęcie/nagranie…”) i okruszki nawigacji
+  zostają po polsku w EN/RU — stare teksty z listy zapadkowej, wpis „Tłumaczenie samych stron”.
+
 ## Porównanie `public/sw.js` ze wzorcem PWA standardu (29.09.2026, na żądanie właściciela)
 
 - Zamyka pytanie z 26.09 (pkt 2 sprawdzenia Y.6). Raport: `docs/audyt-sw-vs-wzorzec-pwa.md` (LOKALNE). Kod bez zmian —

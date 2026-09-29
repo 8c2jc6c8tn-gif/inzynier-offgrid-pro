@@ -26,3 +26,7 @@ Stan kodu: `main` @ `5b51c6e` (po PR #221). Faza projektu: przedpremierowa (17.7
 **Do decyzji właściciela:**
 1. **1b:** (A) naprawić teraz ekrany zmienione 29.09 (≈15 plików z największą liczbą nowych tekstów — klucze + EN/RU), razem z (B) strażnikiem 11.9 na polskie teksty w JSX ekranów (AST, lista zapadkowa jednorazowo dla starych ekranów); albo (C) tylko strażnik teraz, a teksty przy najbliższej zmianie każdego ekranu. Rekomendacja: A+B — bez strażnika to samo wróci przy kolejnym ekranie (11.9), a lista zapadkowa i tak obejmie 162 stare ekrany bez tłumaczeń.
 2. **7:** bez zmian — czeka na projekt Supabase (akcja właściciela).
+
+**[29.09.2026] Dopisek po decyzji właściciela (A + B, D58):** 1b naprawione — ekrany M14 i E38 przez klucze `UI-*` PL/EN/RU,
+strażnik UI w `pnpm check:i18n-guard` z listą zapadkową. Korekta zakresu: nowe teksty były w ~40 plikach, nie w ≈15
+(`docs/memory.md`, sekcja „D58”).

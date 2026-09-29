@@ -17,6 +17,7 @@ import { NawigacjaEkranu } from "@/components/nawigacja-ekranu"
 import { NaglowekEkranu } from "@/components/wzorce/naglowek-ekranu"
 import { WynikGlowny } from "@/components/wzorce/wynik-glowny"
 import { WynikSzczegoly } from "@/components/wzorce/wynik-szczegoly"
+import { useTranslate } from "@/lib/i18n/language-context"
 
 /**
  * Pętla zwarcia w wyspie z falownika (D56, decyzja właściciela 29.09.2026): ochrona nie potrzebuje ziemi, tylko zamkniętej
@@ -24,16 +25,17 @@ import { WynikSzczegoly } from "@/components/wzorce/wynik-szczegoly"
  * falownika i styk ochronny gniazd podłączone do uziemienia pojazdu — tu jako wspólna szyna PE z podwoziem.
  */
 function SchematPetliZwarcia() {
+  const t = useTranslate()
   return (
     <svg
       viewBox="0 0 400 262"
       className="w-full rounded-lg border bg-muted/30 text-foreground"
       role="img"
-      aria-label="Schemat pętli zwarcia: falownik z połączeniem N–PE, wyłącznik RCD 30 mA, gniazdo z urządzeniem, przewód ochronny PE łączący obudowę urządzenia, podwozie i punkt N–PE w falowniku"
+      aria-label={t("UI-UMI-SCHEMAT-ARIA")}
     >
       <rect x="15" y="20" width="120" height="110" rx="4" className="fill-indigo-400/60 stroke-current" />
       <text x="75" y="40" textAnchor="middle" className="fill-current text-[10px] font-semibold">
-        Falownik 230 V
+        {t("UI-UMI-SCH-FALOWNIK")}
       </text>
       <text x="120" y="64" textAnchor="end" className="fill-current text-[9px]">
         L
@@ -63,15 +65,15 @@ function SchematPetliZwarcia() {
 
       <rect x="265" y="30" width="120" height="100" rx="4" className="fill-amber-400/70 stroke-current" />
       <text x="325" y="50" textAnchor="middle" className="fill-current text-[10px] font-semibold">
-        Odbiornik
+        {t("UI-UMI-SCH-ODBIORNIK")}
       </text>
       <text x="325" y="63" textAnchor="middle" className="fill-current text-[9px]">
-        (gniazdo + urządzenie)
+        {t("UI-UMI-SCH-GNIAZDO")}
       </text>
       {/* insulation fault L → enclosure */}
       <polyline points="290,72 300,84 310,76 320,94 330,88 340,104" className="fill-none stroke-red-600" strokeWidth="2" />
       <text x="325" y="120" textAnchor="middle" className="fill-red-600 text-[9px] font-semibold">
-        zwarcie na obudowę
+        {t("UI-UMI-SCH-ZWARCIE")}
       </text>
 
       {/* protective conductor PE (green-yellow): enclosure, chassis, N–PE point */}
@@ -87,18 +89,18 @@ function SchematPetliZwarcia() {
         </g>
       ))}
       <text x="250" y="174" textAnchor="middle" className="fill-current text-[9px] font-semibold">
-        przewód ochronny PE
+        {t("UI-UMI-SCH-PE")}
       </text>
       <rect x="140" y="205" width="120" height="18" rx="4" className="fill-green-600/30 stroke-current" />
       <text x="200" y="218" textAnchor="middle" className="fill-current text-[9px] font-semibold">
-        podwozie / masa pojazdu
+        {t("UI-UMI-SCH-PODWOZIE")}
       </text>
 
       <text x="200" y="240" textAnchor="middle" className="fill-muted-foreground text-[9px]">
-        Prąd zwarcia: obudowa → PE → N–PE → falownik.
+        {t("UI-UMI-SCH-PRAD")}
       </text>
       <text x="200" y="254" textAnchor="middle" className="fill-muted-foreground text-[9px]">
-        Duży prąd — bezpiecznik albo RCD wyłącza obwód.
+        {t("UI-UMI-SCH-DUZY")}
       </text>
     </svg>
   )
@@ -128,23 +130,25 @@ const STAN_POCZATKOWY: FormularzStan = {
 
 type PoleOdpowiedzi = "obudowa" | "gniazda" | "npe" | "rcd" | "npeRozlaczane"
 
+/** `label` is a translation key (`t()`). */
 const MIEJSCA: { id: MiejsceUziemienia; label: string }[] = [
-  { id: "garaz", label: "Garaż" },
-  { id: "kamper", label: "Kamper / przyczepa" },
-  { id: "jacht", label: "Jacht / łódź" },
-  { id: "zewnatrz", label: "Na zewnątrz" },
-  { id: "namiot", label: "Namiot" },
+  { id: "garaz", label: "UI-UMI-M-GARAZ" },
+  { id: "kamper", label: "UI-UMI-M-KAMPER" },
+  { id: "jacht", label: "UI-UMI-M-JACHT" },
+  { id: "zewnatrz", label: "UI-UMI-M-ZEWNATRZ" },
+  { id: "namiot", label: "UI-UMI-M-NAMIOT" },
 ]
 
 const ODPOWIEDZI: { id: OdpowiedzKontrolna; label: string }[] = [
-  { id: "tak", label: "Tak" },
-  { id: "nie", label: "Nie" },
-  { id: "nie-wiem", label: "Nie wiem" },
+  { id: "tak", label: "UI-TAK-DUZE" },
+  { id: "nie", label: "UI-NIE-DUZE" },
+  { id: "nie-wiem", label: "UI-NIE-WIEM" },
 ]
 
 const doOdpowiedzi = (v: OdpowiedzKontrolna | "") => (v === "" ? null : v)
 
 export default function UziemienieMaleInstalacjePage() {
+  const t = useTranslate()
   const [stan, setStan] = usePersistedDraft<FormularzStan>("uziemienie-male-instalacje", STAN_POCZATKOWY)
   // Drafts saved before D56 (29.09.2026) have no `npe`/`rcd` — treat as empty (INCOMPLETE, never "OK").
   const npe = stan.npe ?? ""
@@ -186,18 +190,21 @@ export default function UziemienieMaleInstalacjePage() {
   // Tent (D57): the N–PE question comes first; enclosure, sockets and RCD only apply to an output with an N–PE bond.
   const namiotPlywajace = namiot && npe !== "tak"
   const zeSlupka = pytajOZasilanie && zasilanie === "tak"
+  // Variant of the external-supply texts: J = yacht (shore power), K = camper (hook-up post).
+  const w = stan.miejsce === "jacht" ? "J" : "K"
 
-  const pytanie = (pole: PoleOdpowiedzi, label: string) => (
+  /** `klucz` is the translation key of the question label. */
+  const pytanie = (pole: PoleOdpowiedzi, klucz: string) => (
     <PoleSelect
-      label={label}
+      label={t(klucz)}
       value={odpowiedzi[pole]}
       onChange={(e) => setStan((prev) => ({ ...prev, [pole]: e.target.value as OdpowiedzKontrolna | "" }))}
       pomoc={<PomocPola ekran="uziemienie-male-instalacje" pole={pole} />}
     >
-      <option value="">— wybierz —</option>
+      <option value="">{t("UI-WYBIERZ")}</option>
       {ODPOWIEDZI.map((o) => (
         <option key={o.id} value={o.id}>
-          {o.label}
+          {t(o.label)}
         </option>
       ))}
     </PoleSelect>
@@ -206,95 +213,92 @@ export default function UziemienieMaleInstalacjePage() {
   return (
     <main className="mx-auto flex max-w-md flex-col gap-6 p-6">
       <NawigacjaEkranu href="/kalkulatory/uziemienie-male-instalacje" />
-      <NaglowekEkranu tytul="Uziemienie małej instalacji" ekran="uziemienie-male-instalacje" wzor={result.formula}>
-        Kamper, jacht, garaż albo zestaw na zewnątrz: sprawdza, czy instalacja wymaga uziemienia ochronnego i czy falownik
-        oraz gniazda 230 V są poprawnie podłączone. Moduł 12, Ekran 38 (uproszczona wersja Modułu 5, Ekrany 9 i 11).
+      <NaglowekEkranu tytul={t("UI-UMI-TYTUL")} ekran="uziemienie-male-instalacje" wzor={result.formula}>
+        {t("UI-UMI-OPIS")}
       </NaglowekEkranu>
       
 
       <div className="flex flex-col gap-4">
         <PoleSelect
-          label="Rodzaj instalacji"
+          label={t("UI-UMI-RODZAJ")}
           value={stan.rodzaj}
           onChange={(e) => setStan((prev) => ({ ...prev, rodzaj: e.target.value as FormularzStan["rodzaj"] }))}
           pomoc={<PomocPola ekran="uziemienie-male-instalacje" pole="rodzaj" />}
         >
-          <option value="">— wybierz —</option>
-          <option value="dc">Tylko 12/24 V DC</option>
-          <option value="ac230">230 V z falownika</option>
+          <option value="">{t("UI-WYBIERZ")}</option>
+          <option value="dc">{t("UI-UMI-RODZAJ-DC")}</option>
+          <option value="ac230">{t("UI-UMI-RODZAJ-AC")}</option>
         </PoleSelect>
         <PoleSelect
-          label="Gdzie jest instalacja"
+          label={t("UI-UMI-GDZIE")}
           value={stan.miejsce}
           onChange={(e) => setStan((prev) => ({ ...prev, miejsce: e.target.value as FormularzStan["miejsce"] }))}
           pomoc={<PomocPola ekran="uziemienie-male-instalacje" pole="miejsce" />}
         >
-          <option value="">— wybierz —</option>
+          <option value="">{t("UI-WYBIERZ")}</option>
           {MIEJSCA.map((m) => (
             <option key={m.id} value={m.id}>
-              {m.label}
+              {t(m.label)}
             </option>
           ))}
         </PoleSelect>
         {ac230 && pytajOZasilanie && (
           <PoleSelect
-            label={stan.miejsce === "jacht" ? "Czy jacht bywa zasilany z kei?" : "Czy kamper bywa zasilany ze słupka (kemping)?"}
+            label={t(`UI-UMI-Q-ZASILANIE-${w}`)}
             value={zasilanie}
             onChange={(e) => setStan((prev) => ({ ...prev, zasilanie: e.target.value as FormularzStan["zasilanie"] }))}
             pomoc={<PomocPola ekran="uziemienie-male-instalacje" pole="zasilanie" />}
           >
-            <option value="">— wybierz —</option>
-            <option value="tak">Tak</option>
-            <option value="nie">Nie</option>
+            <option value="">{t("UI-WYBIERZ")}</option>
+            <option value="tak">{t("UI-TAK-DUZE")}</option>
+            <option value="nie">{t("UI-NIE-DUZE")}</option>
           </PoleSelect>
         )}
-        {ac230 && namiot && pytanie("npe", "Czy wyjście 230 V stacji albo falownika ma połączenie N–PE (wg instrukcji)?")}
+        {ac230 && namiot && pytanie("npe", "UI-UMI-Q-NPE-NAMIOT")}
         {ac230 && !namiotPlywajace && (
           <>
-            {pytanie("obudowa", "Czy obudowa falownika jest uziemiona?")}
-            {pytanie("gniazda", "Czy gniazda 230 V mają podłączony styk ochronny?")}
-            {!namiot && pytanie("npe", "Czy falownik ma połączenie N–PE (fabryczne, przekaźnik albo wg instrukcji)?")}
-            {zeSlupka &&
-              npe === "tak" &&
-              pytanie("npeRozlaczane", "Czy to połączenie N–PE jest rozłączane przy zasilaniu z zewnątrz?")}
-            {pytanie("rcd", "Czy za falownikiem jest wyłącznik różnicowoprądowy (RCD) 30 mA?")}
+            {pytanie("obudowa", "UI-UMI-Q-OBUDOWA")}
+            {pytanie("gniazda", "UI-UMI-Q-GNIAZDA")}
+            {!namiot && pytanie("npe", "UI-UMI-Q-NPE")}
+            {zeSlupka && npe === "tak" && pytanie("npeRozlaczane", "UI-UMI-Q-NPE-ROZLACZANE")}
+            {pytanie("rcd", "UI-UMI-Q-RCD")}
           </>
         )}
       </div>
 
       {result.status === "INCOMPLETE" ? (
-        <p className="text-small text-muted-foreground">
-          Wybierz rodzaj instalacji i miejsce{ac230 ? ", a potem odpowiedz na wszystkie pytania, które się pojawią" : ""}.
-        </p>
+        <p className="text-small text-muted-foreground">{t(ac230 ? "UI-UMI-WYBIERZ-AC" : "UI-UMI-WYBIERZ-DC")}</p>
       ) : (
         <WerdyktPanel
           poziom={hasCritical ? "blad" : hasWarning ? "uwaga" : "ok"}
-          etykieta={
+          etykieta={t(
             kody.has("UMI-PODWOJNE-POLACZENIE-N-PE")
-              ? "Podwójne połączenie N–PE przy zasilaniu z zewnątrz"
+              ? "UI-UMI-W-PODWOJNE"
               : kody.has("UMI-OBUDOWA-FALOWNIKA-NIEUZIEMIONA")
-                ? "Obudowa falownika nieuziemiona — ryzyko porażenia"
+                ? "UI-UMI-W-OBUDOWA"
                 : kody.has("UMI-BRAK-POLACZENIA-N-PE")
-                  ? "Brak połączenia N–PE — zabezpieczenie nie wyłączy zwarcia"
+                  ? "UI-UMI-W-BRAK-NPE"
                   : kody.has("UMI-BRAK-RCD-30MA")
-                    ? "Brak RCD 30 mA — ryzyko porażenia"
+                    ? "UI-UMI-W-BRAK-RCD"
                     : kody.has("UMI-NAMIOT-WYJSCIE-PLYWAJACE")
-                      ? "Namiot, wyjście pływające — stosuj zasady poniżej"
+                      ? "UI-UMI-W-NAMIOT"
                       : gniazdaBezStyku
-                        ? "Gniazda bez styku ochronnego — przeczytaj, czym to grozi"
+                        ? "UI-UMI-W-GNIAZDA"
                         : wymaganeUziemienieOchronne
-                          ? "Pętla zwarcia zamknięta — ochrona kompletna"
+                          ? "UI-UMI-W-PETLA"
                           : zalecaneZeWzgleduNaWilgoc
-                            ? "Uziemienie niewymagane — zalecane przy wilgoci"
-                            : "Uziemienie ochronne zwykle niewymagane"
-          }
+                            ? "UI-UMI-W-WILGOC"
+                            : "UI-UMI-W-ZWYKLE",
+          )}
         >
           <WynikGlowny>
-            {wymaganeUziemienieOchronne
-              ? "uziemienie ochronne wymagane"
-              : namiotPlywajace && ac230
-                ? "wyjście pływające — nie uziemiaj na własną rękę"
-                : "uziemienie ochronne zwykle niewymagane"}
+            {t(
+              wymaganeUziemienieOchronne
+                ? "UI-UMI-G-WYMAGANE"
+                : namiotPlywajace && ac230
+                  ? "UI-UMI-G-PLYWAJACE"
+                  : "UI-UMI-G-ZWYKLE",
+            )}
           </WynikGlowny>
           <WynikSzczegoly assumptions={result.assumptions} warnings={result.warnings} formula={result.formula} />
         </WerdyktPanel>
@@ -302,109 +306,63 @@ export default function UziemienieMaleInstalacjePage() {
 
       {ac230 && namiotPlywajace && (
         <section className="flex flex-col gap-2">
-          <h2 className="text-small font-semibold">Namiot — stacja zasilania albo mały falownik</h2>
-          <p className="text-small text-muted-foreground">
-            W namiocie nie ma podwozia, więc strategia jest inna. Zobacz w instrukcji, jakie wyjście ma stacja. Większość
-            przenośnych stacji ma wyjście 230 V „pływające”, czyli bez połączenia z ziemią. Pojedyncza usterka (np. dotknięcie
-            jednego przewodu) nie grozi wtedy porażeniem, bo prąd nie ma drogi powrotnej. Niebezpieczna jest druga usterka naraz.
-          </p>
+          <h2 className="text-small font-semibold">{t("UI-UMI-NAMIOT-H")}</h2>
+          <p className="text-small text-muted-foreground">{t("UI-UMI-NAMIOT-OPIS")}</p>
           <ul className="list-disc pl-5 text-small text-muted-foreground">
-            <li>Takiego wyjścia nie uziemiaj na własną rękę, jeśli producent tego nie przewiduje.</li>
+            <li>{t("UI-UMI-NAMIOT-1")}</li>
+            <li>{t("UI-UMI-NAMIOT-2")}</li>
+            <li>{t("UI-UMI-NAMIOT-3")}</li>
+            <li>{t("UI-UMI-NAMIOT-4")}</li>
             <li>
-              Najbezpieczniej: jedno urządzenie na jedno wyjście. Norma zna taki środek ochrony pod nazwą „separacja
-              elektryczna”.
-            </li>
-            <li>Wybieraj urządzenia z podwójną izolacją (symbol podwójnego kwadratu, płaska wtyczka).</li>
-            <li>
-              Użyj przenośnego RCD 30 mA (PRCD) między stacją a przedłużaczem. Uwaga: przy wyjściu pływającym RCD może nie
-              zadziałać, zależnie od konstrukcji stacji — sprawdź to w instrukcji, to nie jest pewnik.
-            </li>
-            <li>
-              Sprzęt trzymaj nad podłogą, nie na mokrym tropiku, a złącza w obudowach IP —{" "}
+              {t("UI-UMI-NAMIOT-5")}{" "}
               <Link href="/kalkulatory/wilgoc-male-instalacje" className="underline">
-                zabezpieczenia przeciwwilgociowe (IP65/IP67)
+                {t("UI-UMI-NAMIOT-5-L")}
               </Link>
               .
             </li>
-            <li>
-              Szpilka namiotowa jako uziom działa tylko wtedy, gdy instrukcja stacji przewiduje zacisk uziemienia. Poza tym daje
-              głównie fałszywe poczucie bezpieczeństwa, tak jak wiszący przewód.
-            </li>
+            <li>{t("UI-UMI-NAMIOT-6")}</li>
           </ul>
         </section>
       )}
 
       {ac230 && !namiotPlywajace && (
         <section className="flex flex-col gap-2">
-          <h2 className="text-small font-semibold">Jak działa ochrona na falowniku</h2>
-          <p className="text-small text-muted-foreground">
-            Ochrona nie potrzebuje ziemi — potrzebuje zamkniętej pętli zwarcia do źródła. Przy zwarciu na obudowę prąd płynie:
-            obudowa → przewód ochronny (PE) → punkt połączenia N z PE w falowniku → z powrotem do falownika. Płynie wtedy duży
-            prąd, więc bezpiecznik albo wyłącznik różnicowoprądowy (RCD) wyłącza obwód. Warunki są trzy:
-          </p>
+          <h2 className="text-small font-semibold">{t("UI-UMI-OCHRONA-H")}</h2>
+          <p className="text-small text-muted-foreground">{t("UI-UMI-OCHRONA-OPIS")}</p>
           <ul className="list-disc pl-5 text-small text-muted-foreground">
-            <li>
-              wszystkie obudowy, styki ochronne gniazd i podwozie połączone jednym przewodem PE (połączenie wyrównawcze);
-            </li>
-            <li>
-              falownik ma połączenie N–PE, ale tylko jeśli producent na to pozwala — wiele falowników z przełącznikiem sieci
-              robi to automatycznie przekaźnikiem, gdy nie ma zasilania z zewnątrz;
-            </li>
-            <li>za tym połączeniem jest RCD 30 mA.</li>
+            <li>{t("UI-UMI-OCHRONA-1")}</li>
+            <li>{t("UI-UMI-OCHRONA-2")}</li>
+            <li>{t("UI-UMI-OCHRONA-3")}</li>
           </ul>
-          <p className="text-small text-muted-foreground">
-            Pręt wbity w ziemię ani przewód czy łańcuch wiszący spod kampera nie zastąpią tej pętli.
-          </p>
+          <p className="text-small text-muted-foreground">{t("UI-UMI-PRET")}</p>
           {zeSlupka && (
             <>
               <p className="text-small text-muted-foreground">
-                <strong>Przy zasilaniu {stan.miejsce === "jacht" ? "z kei" : "ze słupka"}</strong> przewód ochronny przychodzi z
-                sieci. Połączenie N–PE {stan.miejsce === "jacht" ? "na jachcie" : "w kamperze"} musi być wtedy rozłączone, inaczej
-                powstaje podwójne połączenie N–PE.
+                <strong>{t(`UI-UMI-Z-P1-S-${w}`)}</strong> {t(`UI-UMI-Z-P1-${w}`)}
               </p>
-              <p className="text-small text-muted-foreground">
-                {stan.miejsce === "jacht" ? "Na kei" : "Na słupku"} N i PE przychodzą już rozdzielone, bo rozdzielenie jest po
-                stronie sieci. Połączenie N–PE {stan.miejsce === "jacht" ? "na jachcie" : "w kamperze"} to ponowne połączenie N z
-                częścią uziemioną. Norma PN-HD 60364-5-54 (punkt 543.4.3) nazywa to „niedopuszczalnym”, nie „zalecanym”. Co się
-                wtedy dzieje:
-              </p>
+              <p className="text-small text-muted-foreground">{t(`UI-UMI-Z-P2-${w}`)}</p>
               <ol className="list-decimal pl-5 text-small text-muted-foreground">
                 <li>
-                  <strong>Prąd roboczy płynie przewodem ochronnym.</strong> Powrót z odbiorników dzieli się na N i PE razem z
-                  {stan.miejsce === "jacht" ? " kadłubem" : " podwoziem"}. Na obudowach pojawia się napięcie względem ziemi, równe
-                  spadkowi napięcia na PE i przyłączu. Przewód ochronny przestaje być „czysty”.
+                  <strong>{t("UI-UMI-Z-L1-S")}</strong> {t(`UI-UMI-Z-L1-${w}`)}
                 </li>
                 <li>
-                  <strong>Najczęstszy objaw: wybija RCD na {stan.miejsce === "jacht" ? "kei" : "słupku"}.</strong> Część prądu
-                  wraca przez PE, z pominięciem RCD, więc RCD widzi różnicę i wyłącza. To wyłączenie jest bezpieczne, ale mylące:
-                  łatwo obwinić {stan.miejsce === "jacht" ? "keję" : "słupek"} i szukać obejścia. Nie szukaj — rozłącz N–PE.
+                  <strong>{t(`UI-UMI-Z-L2-S-${w}`)}</strong> {t(`UI-UMI-Z-L2-${w}`)}
                 </li>
                 <li>
-                  <strong>Groźny przypadek: stare przyłącze bez RCD.</strong> Nic nie wybija, a PE stale niesie prąd. Jeśli w
-                  sieci przerwie się przewód PEN, cały prąd powrotny szuka drogi przez PE i{" "}
-                  {stan.miejsce === "jacht" ? "kadłub" : "podwozie"}. Na {stan.miejsce === "jacht" ? "metalowych częściach jachtu" : "karoserii"}{" "}
-                  może pojawić się niebezpieczne napięcie. Porażony zostaje ktoś, kto {stan.miejsce === "jacht" ? "ich" : "jej"} dotyka, stojąc na{" "}
-                  {stan.miejsce === "jacht" ? "pomoście" : "trawie"}.
+                  <strong>{t("UI-UMI-Z-L3-S")}</strong> {t(`UI-UMI-Z-L3-${w}`)}
                 </li>
                 {stan.miejsce === "jacht" && (
                   <li>
-                    <strong>Na jachcie jest gorzej.</strong> Prąd płynący przewodem ochronnym przez wodę powoduje korozję części
-                    podwodnych. W marinie prąd w wodzie grozi też porażeniem pływających w pobliżu. Dlatego przepisy jachtowe są tu
-                    szczególnie ostre.
+                    <strong>{t("UI-UMI-Z-L4-S")}</strong> {t("UI-UMI-Z-L4")}
                   </li>
                 )}
               </ol>
-              <p className="text-small text-muted-foreground">
-                Ta usterka nie zabija od razu, tak jak brak N–PE na samym falowniku. Łamie jednak podstawową regułę układu i przy
-                drugiej usterce — przerwanym PEN — robi się groźna. Dlatego aplikacja pokazuje ją na czerwono, tak jak
-                nieuziemioną obudowę.
-              </p>
+              <p className="text-small text-muted-foreground">{t("UI-UMI-Z-P3")}</p>
             </>
           )}
           {stan.miejsce === "kamper" && (
             <p className="text-small text-muted-foreground">
-              <strong>Przy dłuższym postoju</strong> szpilka uziemiająca wbita w grunt ma sens jako dodatek. Nie zastępuje
-              połączenia wyrównawczego ani RCD.
+              <strong>{t("UI-UMI-POSTOJ-S")}</strong> {t("UI-UMI-POSTOJ")}
             </p>
           )}
           <SchematPetliZwarcia />
@@ -412,13 +370,13 @@ export default function UziemienieMaleInstalacjePage() {
       )}
 
       <p className="text-small text-muted-foreground">
-        Uziemienie w domu, z uziomem w ziemi i pomiarem rezystancji — pełne kalkulatory:{" "}
+        {t("UI-UMI-STOPKA")}{" "}
         <Link href="/kalkulatory/projekt-uziemienia" className="underline">
-          Moduł 5 — Projekt uziemienia
-        </Link>{" "}
-        oraz{" "}
+          {t("UI-UMI-STOPKA-L1")}
+        </Link>
+        {t("UI-UMI-STOPKA-ORAZ")}
         <Link href="/kalkulatory/uziemienie-funkcjonalne-ochronne" className="underline">
-          Moduł 5 — Uziemienie funkcjonalne vs ochronne
+          {t("UI-UMI-STOPKA-L2")}
         </Link>
         .
       </p>

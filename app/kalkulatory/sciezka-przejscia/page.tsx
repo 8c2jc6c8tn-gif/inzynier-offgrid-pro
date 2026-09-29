@@ -9,8 +9,10 @@ import { WerdyktPanel } from "@/components/werdykt"
 import { KrokZMedia } from "@/components/wzorce/krok-z-media"
 import { NaglowekEkranu } from "@/components/wzorce/naglowek-ekranu"
 import { KLUCZ_SEGMENTU_PRZEJSCIA, POCZATKOWY_SEGMENTU, PrzelacznikSegmentu } from "@/components/siec/wspolne"
+import { useTranslate } from "@/lib/i18n/language-context"
 
 type Odnosnik = { href: string; label: string }
+/** `tytul`, `opis` and `label` are translation keys (`t()`). */
 type Krok = { id: string; tytul: string; opis: string; ekrany: Record<Segment, Odnosnik[]> }
 
 /**
@@ -20,82 +22,82 @@ type Krok = { id: string; tytul: string; opis: string; ekrany: Record<Segment, O
 const KROKI: Krok[] = [
   {
     id: "rachunek",
-    tytul: "Mój rachunek",
-    opis: "Ile płacisz dziś i ile z tego to „cena trzymania sieci” — koszty stałe, które znikną po odejściu.",
+    tytul: "UI-SCZ-RACHUNEK-T",
+    opis: "UI-SCZ-RACHUNEK-O",
     ekrany: {
       dom: [
-        { href: "/kalkulatory/rachunek-dom", label: "Mój rachunek dziś" },
-        { href: "/kalkulatory/taryfa-g", label: "Która taryfa G" },
-        { href: "/kalkulatory/depozyt-prosumencki", label: "Co tracę jako prosument" },
+        { href: "/kalkulatory/rachunek-dom", label: "UI-SCZ-L-RACHUNEK-DOM" },
+        { href: "/kalkulatory/taryfa-g", label: "UI-SCZ-L-TARYFA-G" },
+        { href: "/kalkulatory/depozyt-prosumencki", label: "UI-SCZ-L-DEPOZYT" },
       ],
       firma: [
-        { href: "/kalkulatory/rachunek-firma", label: "Mój rachunek dziś (C)" },
-        { href: "/kalkulatory/taryfy-c", label: "Porównywarka taryf C" },
-        { href: "/kalkulatory/moc-umowna", label: "Moc umowna" },
+        { href: "/kalkulatory/rachunek-firma", label: "UI-SCZ-L-RACHUNEK-FIRMA" },
+        { href: "/kalkulatory/taryfy-c", label: "UI-SCZ-L-TARYFY-C" },
+        { href: "/kalkulatory/moc-umowna", label: "UI-SCZ-L-MOC-UMOWNA" },
       ],
     },
   },
   {
     id: "zuzycie",
-    tytul: "Moje zużycie",
-    opis: "Zużycie miesiąc po miesiącu — zima decyduje o wszystkim, średnia roczna nie wystarczy.",
+    tytul: "UI-SCZ-ZUZYCIE-T",
+    opis: "UI-SCZ-ZUZYCIE-O",
     ekrany: {
-      dom: [{ href: "/kalkulatory/zuzycie-miesieczne", label: "Moje zużycie miesięcznie" }],
+      dom: [{ href: "/kalkulatory/zuzycie-miesieczne", label: "UI-SCZ-L-ZUZYCIE-DOM" }],
       // Firm consumption per month is entered on F6 (PvFirmy owns `siec-zuzycie-firma`).
-      firma: [{ href: "/kalkulatory/pv-w-firmie", label: "Zużycie firmy miesięcznie (ekran PV w firmie)" }],
+      firma: [{ href: "/kalkulatory/pv-w-firmie", label: "UI-SCZ-L-ZUZYCIE-FIRMA" }],
     },
   },
   {
     id: "pv-magazyn",
-    tytul: "Ile PV i magazynu",
-    opis: "Instalacja, która pokryje zużycie bez sieci, i jej koszt.",
+    tytul: "UI-SCZ-PV-T",
+    opis: "UI-SCZ-PV-O",
     ekrany: {
-      dom: [{ href: "/kalkulatory/pv-i-magazyn", label: "Ile PV i magazynu" }],
+      dom: [{ href: "/kalkulatory/pv-i-magazyn", label: "UI-SCZ-PV-T" }],
       firma: [
-        { href: "/kalkulatory/pv-w-firmie", label: "PV w firmie i autokonsumpcja" },
-        { href: "/kalkulatory/magazyn-firmy", label: "Magazyn (BESS) — strumienie korzyści" },
+        { href: "/kalkulatory/pv-w-firmie", label: "UI-SCZ-L-PV-FIRMA" },
+        { href: "/kalkulatory/magazyn-firmy", label: "UI-SCZ-L-BESS" },
       ],
     },
   },
   {
     id: "zima",
-    tytul: "Zima i agregat",
-    opis: "Czy najgorszy miesiąc się domyka i ile godzin musi pracować agregat.",
+    tytul: "UI-SCZ-ZIMA-T",
+    opis: "UI-SCZ-ZIMA-O",
     ekrany: {
       dom: [
-        { href: "/kalkulatory/zima-bez-sieci", label: "Zima bez sieci" },
-        { href: "/kalkulatory/agregat-jako-zapas", label: "Agregat jako zapas" },
+        { href: "/kalkulatory/zima-bez-sieci", label: "UI-SCZ-L-ZIMA" },
+        { href: "/kalkulatory/agregat-jako-zapas", label: "UI-SCZ-L-AGREGAT-ZAPAS" },
       ],
       // No separate winter screen for a firm: the island balance of F8 (scenario D) shows it.
       firma: [
-        { href: "/kalkulatory/scenariusze-firma", label: "Bilans bez sieci — scenariusz D" },
-        { href: "/kalkulatory/agregat-pradotworczy", label: "Agregat prądotwórczy" },
+        { href: "/kalkulatory/scenariusze-firma", label: "UI-SCZ-L-BILANS-D" },
+        { href: "/kalkulatory/agregat-pradotworczy", label: "UI-SCZ-L-AGREGAT" },
       ],
     },
   },
   {
     id: "scenariusze",
-    tytul: "Scenariusze A–D",
-    opis: "Zostaję jak jest, dokładam PV, dokładam magazyn, odchodzę od sieci — koszt w latach i niezależność.",
+    tytul: "UI-SCZ-SCEN-T",
+    opis: "UI-SCZ-SCEN-O",
     ekrany: {
-      dom: [{ href: "/kalkulatory/scenariusze-dom", label: "Porównanie scenariuszy A–D" }],
-      firma: [{ href: "/kalkulatory/scenariusze-firma", label: "Scenariusze A–D dla firmy" }],
+      dom: [{ href: "/kalkulatory/scenariusze-dom", label: "UI-SCZ-L-SCEN-DOM" }],
+      firma: [{ href: "/kalkulatory/scenariusze-firma", label: "UI-SCZ-L-SCEN-FIRMA" }],
     },
   },
   {
     id: "ryzyka",
-    tytul: "Ryzyka i procedura",
-    opis: "Co może pójść źle, czego nie da się odwrócić i jak bezpiecznie połączyć sieć, wyspę i agregat.",
+    tytul: "UI-SCZ-RYZYKA-T",
+    opis: "UI-SCZ-RYZYKA-O",
     ekrany: {
       dom: [
-        { href: "/kalkulatory/ryzyka-odlaczenia", label: "Ryzyka odłączenia" },
-        { href: "/kalkulatory/rezygnacja-z-przylacza", label: "Jak zrezygnować z przyłącza" },
-        { href: "/kalkulatory/przelacznik-siec-wyspa", label: "Przełącznik sieć/wyspa" },
+        { href: "/kalkulatory/ryzyka-odlaczenia", label: "UI-SCZ-L-RYZYKA" },
+        { href: "/kalkulatory/rezygnacja-z-przylacza", label: "UI-SCZ-L-REZYGNACJA" },
+        { href: "/kalkulatory/przelacznik-siec-wyspa", label: "UI-SCZ-L-PRZELACZNIK" },
       ],
       firma: [
-        { href: "/kalkulatory/ryzyka-odlaczenia", label: "Ryzyka odłączenia firmy" },
-        { href: "/kalkulatory/rezygnacja-z-przylacza", label: "Procedura i umowy B2B" },
-        { href: "/kalkulatory/przelacznik-siec-wyspa", label: "Przełącznik sieć/wyspa" },
+        { href: "/kalkulatory/ryzyka-odlaczenia", label: "UI-SCZ-L-RYZYKA-FIRMA" },
+        { href: "/kalkulatory/rezygnacja-z-przylacza", label: "UI-SCZ-L-PROCEDURA-B2B" },
+        { href: "/kalkulatory/przelacznik-siec-wyspa", label: "UI-SCZ-L-PRZELACZNIK" },
       ],
     },
   },
@@ -106,6 +108,7 @@ const KROKI: Krok[] = [
  * local draft; the segment switch is shared with the other Przejście screens.
  */
 export default function SciezkaPrzejsciaPage() {
+  const t = useTranslate()
   const [{ segment }, setSegment] = usePersistedDraft(KLUCZ_SEGMENTU_PRZEJSCIA, POCZATKOWY_SEGMENTU)
   const [stan, setStan] = usePersistedDraft<{ zrobione: string[] }>("siec-sciezka-przejscia", { zrobione: [] })
   const przelacz = (id: string) =>
@@ -117,22 +120,21 @@ export default function SciezkaPrzejsciaPage() {
   return (
     <main className="mx-auto flex max-w-2xl flex-col gap-6 p-6">
       <NawigacjaEkranu href="/kalkulatory/sciezka-przejscia" />
-      <NaglowekEkranu tytul="Ścieżka przejścia" ekran="sciezka-przejscia">
-        Sześć kroków od rachunku za prąd do decyzji o odejściu od sieci. Każdy krok otwiera ekrany, które go liczą — Twoje
-        dane z nich przechodzą dalej automatycznie. Postęp zapisuje się na tym urządzeniu.
+      <NaglowekEkranu tytul={t("UI-SCZ-TYTUL")} ekran="sciezka-przejscia">
+        {t("UI-SCZ-OPIS")}
       </NaglowekEkranu>
 
       <PrzelacznikSegmentu value={segment} onChange={(s) => setSegment({ segment: s })} />
 
       <ol className="flex flex-col gap-3">
         {KROKI.map((k, i) => (
-          <KrokZMedia key={k.id} numer={i + 1} tytul={k.tytul}>
-            <p>{k.opis}</p>
+          <KrokZMedia key={k.id} numer={i + 1} tytul={t(k.tytul)}>
+            <p>{t(k.opis)}</p>
             <ul className="mt-2 flex flex-col gap-1">
               {k.ekrany[segment].map((e) => (
                 <li key={e.href}>
                   <Link className="underline" href={e.href}>
-                    {e.label} →
+                    {t(e.label)} →
                   </Link>
                 </li>
               ))}
@@ -142,7 +144,7 @@ export default function SciezkaPrzejsciaPage() {
                 id={`sciezka-${k.id}`}
                 checked={stan.zrobione.includes(k.id)}
                 onChange={() => przelacz(k.id)}
-                label="Zrobione"
+                label={t("UI-SCZ-ZROBIONE")}
               />
             </div>
           </KrokZMedia>
@@ -151,28 +153,26 @@ export default function SciezkaPrzejsciaPage() {
 
       <WerdyktPanel
         poziom={nastepny ? "uwaga" : "ok"}
-        etykieta={`Podsumowanie — ${zrobione.length} z ${KROKI.length} kroków`}
+        etykieta={t("UI-SCZ-PODSUMOWANIE", { zrobione: zrobione.length, wszystkie: KROKI.length })}
       >
         {nastepny ? (
           <p className="text-small">
-            Następny krok: <strong>{nastepny.tytul}</strong>. Decyzję o odejściu od sieci podejmuj dopiero po przejściu
-            wszystkich kroków — zwłaszcza zimy i ryzyk.
+            {t("UI-SCZ-NASTEPNY")} <strong>{t(nastepny.tytul)}</strong>. {t("UI-SCZ-NASTEPNY-UWAGA")}
           </p>
         ) : (
           <p className="text-small">
-            Wszystkie kroki przejrzane. Wynik porównania i warunki bezpieczeństwa są na ekranie scenariuszy — tam jest
-            werdykt.
+            {t("UI-SCZ-WSZYSTKIE")}
           </p>
         )}
         <ul className="mt-2 flex flex-col gap-1 text-small">
           {KROKI.map((k) => (
             <li key={k.id}>
-              {stan.zrobione.includes(k.id) ? "✓" : "○"} {k.tytul}
+              {stan.zrobione.includes(k.id) ? "✓" : "○"} {t(k.tytul)}
             </li>
           ))}
         </ul>
         <button type="button" className="mt-3 w-fit rounded-md border px-3 py-1 text-small print:hidden" onClick={() => window.print()}>
-          Drukuj / zapisz jako PDF
+          {t("UI-SCZ-DRUKUJ")}
         </button>
       </WerdyktPanel>
     </main>

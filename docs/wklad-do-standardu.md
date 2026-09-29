@@ -1121,6 +1121,9 @@ pilnowaną. Warstwa UI to miejsce, gdzie teksty powstają najczęściej (każdy 
 tam. Każdy projekt rodziny z i18n (17.1a jest bezwarunkowa) ma tę samą lukę, dopóki standard nie nazwie obu warstw wprost.
 Lokalnie: decyzja A/B/C (naprawa + strażnik) czeka na właściciela — `docs/lista-do-zrobienia.md`, wpis Y.11 pkt 1b.
 Status: 🔎 nowe
+[29.09.2026] Wdrożone lokalnie (D58, decyzja właściciela „A + B”): `scripts/check-i18n-ui-guard.mjs` — AST po `app/**` i
+`components/**`, liczba trafień per plik (wariant „opcjonalnie” z propozycji), lista zapadkowa 248 plików / 3711 tekstów.
+Koszt wdrożenia z listą zapadkową: jedno popołudnie; do rozważenia w standardzie gotowy skrypt jako wzór (17.11).
 
 [29.09.2026] KATEGORIA: BŁĄD — `context.setOffline(true)` Playwrighta nie odcina `fetch()` wykonywanego przez Service Workera; strażnik „puste przejście” z 10.8 tego nie wykrywa
 

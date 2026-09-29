@@ -22,6 +22,7 @@ import {
   poziomWerdyktu,
   zl,
 } from "@/components/siec/wspolne"
+import { useTranslate } from "@/lib/i18n/language-context"
 
 type Stan = { stawka: string; moc: string; odleglosc: "" | "tak" | "nie" }
 const POCZATKOWY: Stan = { stawka: "", moc: "", odleglosc: "" }
@@ -32,6 +33,7 @@ const POCZATKOWY: Stan = { stawka: "", moc: "", odleglosc: "" }
  * back (`siec/koszt-powrotu`). The connection rate is always a user entry from the DSO tariff.
  */
 export default function RezygnacjaZPrzylaczaPage() {
+  const t = useTranslate()
   const [{ segment }, setSegment] = usePersistedDraft(KLUCZ_SEGMENTU_PRZEJSCIA, POCZATKOWY_SEGMENTU)
   const [stan, setStan] = usePersistedDraft<Stan>("siec-koszt-powrotu", POCZATKOWY)
   const ustaw = (z: Partial<Stan>) => setStan((p) => ({ ...p, ...z }))
@@ -49,9 +51,8 @@ export default function RezygnacjaZPrzylaczaPage() {
   return (
     <main className="mx-auto flex max-w-2xl flex-col gap-6 p-6">
       <NawigacjaEkranu href="/kalkulatory/rezygnacja-z-przylacza" />
-      <NaglowekEkranu tytul="Jak zrezygnować z przyłącza" ekran="rezygnacja-z-przylacza" wzor={result.formula}>
-        Siedem kroków w kolejności, która ma znaczenie. Kroki 1–4 możesz cofnąć, 5–7 już nie. Na dole — ile kosztowałby powrót do
-        sieci. M14, ekran D10 / F10.
+      <NaglowekEkranu tytul={t("UI-REZ-TYTUL")} ekran="rezygnacja-z-przylacza" wzor={result.formula}>
+        {t("UI-REZ-OPIS")}
       </NaglowekEkranu>
       <PrzelacznikSegmentu value={segment} onChange={(s) => setSegment({ segment: s })} />
 
@@ -62,29 +63,28 @@ export default function RezygnacjaZPrzylaczaPage() {
             numer={i + 1}
             tytul={
               <>
-                {k.tytul}{" "}
+                {t(k.tytul)}{" "}
                 <span className={k.odwracalny ? "text-caption text-muted-foreground" : "text-caption font-semibold text-destructive"}>
-                  {k.odwracalny ? "(odwracalne)" : "(nieodwracalne)"}
+                  {k.odwracalny ? t("UI-REZ-ODWRACALNE") : t("UI-REZ-NIEODWRACALNE")}
                 </span>
               </>
             }
           >
-            <p>{k.opis}</p>
-            {segment === "firma" && k.firma && <p className="mt-1 font-medium">Firma: {k.firma}</p>}
+            <p>{t(k.opis)}</p>
+            {segment === "firma" && k.firma && <p className="mt-1 font-medium">{t("UI-REZ-FIRMA", { tekst: t(k.firma) })}</p>}
           </KrokZMedia>
         ))}
       </ol>
 
       <section className="flex flex-col gap-3">
-        <h2 className="font-semibold">Koszt powrotu do sieci</h2>
+        <h2 className="font-semibold">{t("UI-REZ-KOSZT-POWROTU")}</h2>
         <p className="text-small text-muted-foreground">
-          K ≈ stawka opłaty przyłączeniowej OSD [zł/kW] × moc przyłączeniowa — grupy IV–VI, odległość standardowa. Stawkę znajdziesz
-          w taryfie swojego OSD (rozdział o opłatach za przyłączenie); aplikacja jeszcze jej nie ma.
+          {t("UI-REZ-KOSZT-OPIS")}
         </p>
         <div className="grid grid-cols-2 gap-3">
           <Pole
-            label="Stawka opłaty przyłączeniowej"
-            unit="zł/kW"
+            label={t("UI-REZ-STAWKA")}
+            unit={t("UI-REZ-J-ZL-KW")}
             type="number"
             inputMode="decimal"
             value={stan.stawka}
@@ -92,7 +92,7 @@ export default function RezygnacjaZPrzylaczaPage() {
             pomoc={<PomocPola ekran="rezygnacja-z-przylacza" pole="stawka" />}
           />
           <Pole
-            label="Moc przyłączeniowa"
+            label={t("UI-REZ-MOC")}
             unit="kW"
             type="number"
             inputMode="decimal"
@@ -102,33 +102,33 @@ export default function RezygnacjaZPrzylaczaPage() {
           />
         </div>
         <PoleSelect
-          label="Odległość od sieci"
+          label={t("UI-REZ-ODLEGLOSC")}
           value={stan.odleglosc}
           onChange={(e) => ustaw({ odleglosc: e.target.value as Stan["odleglosc"] })}
           pomoc={<PomocPola ekran="rezygnacja-z-przylacza" pole="odleglosc" />}
         >
-          <option value="">— wybierz —</option>
-          <option value="tak">W standardowej odległości z taryfy OSD</option>
-          <option value="nie">Dalej niż standardowa odległość</option>
+          <option value="">{t("UI-WYBIERZ")}</option>
+          <option value="tak">{t("UI-REZ-ODL-TAK")}</option>
+          <option value="nie">{t("UI-REZ-ODL-NIE")}</option>
         </PoleSelect>
         {result.status === "INCOMPLETE" || result.status === "INVALID_INPUT" ? (
-          <WerdyktPanel poziom={result.status === "INVALID_INPUT" ? "blad" : "uwaga"} etykieta="Uzupełnij dane">
+          <WerdyktPanel poziom={result.status === "INVALID_INPUT" ? "blad" : "uwaga"} etykieta={t("UI-REZ-UZUPELNIJ")}>
             <WynikSzczegoly assumptions={[]} warnings={result.warnings} />
           </WerdyktPanel>
         ) : (
-          <WerdyktPanel poziom={poziomWerdyktu(result.status, result.warnings) ?? "uwaga"} etykieta="Powrót do sieci">
-            <WynikGlowny>{v.kosztNettoZl === null ? "Wycena indywidualna OSD" : `ok. ${zl(v.kosztNettoZl)} netto`}</WynikGlowny>
+          <WerdyktPanel poziom={poziomWerdyktu(result.status, result.warnings) ?? "uwaga"} etykieta={t("UI-REZ-POWROT")}>
+            <WynikGlowny>{v.kosztNettoZl === null ? t("UI-REZ-WYCENA-INDYW") : t("UI-REZ-OK-NETTO", { kwota: zl(v.kosztNettoZl) })}</WynikGlowny>
             <WynikSzczegoly assumptions={result.assumptions} warnings={result.warnings} formula={result.formula} />
           </WerdyktPanel>
         )}
         <p className="text-small text-muted-foreground">
-          Przed krokiem 5:{" "}
+          {t("UI-REZ-PRZED-KROKIEM-5")}{" "}
           <Link className="underline" href="/kalkulatory/ryzyka-odlaczenia">
-            ryzyka odłączenia
+            {t("UI-REZ-LINK-RYZYKA")}
           </Link>{" "}
           ·{" "}
           <Link className="underline" href="/kalkulatory/przelacznik-siec-wyspa">
-            przełącznik sieć/wyspa
+            {t("UI-REZ-LINK-PRZELACZNIK")}
           </Link>
         </p>
       </section>

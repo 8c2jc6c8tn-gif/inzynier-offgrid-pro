@@ -10,6 +10,7 @@ import { PoleSelect } from "@/components/ui/pole"
 import { PomocPola } from "@/components/ui/pomoc"
 import { cn } from "@/lib/utils"
 import type { Segment as SegmentSieci } from "@/lib/core/modules/siec/rachunek-za-prad/input"
+import { useTranslate } from "@/lib/i18n/language-context"
 
 /** Shared pieces of the M14 screens (D1/F1, D2/F2, D8, D12, F3–F5). */
 
@@ -112,13 +113,14 @@ export function PrzyciskSegmentu({ aktywny, onClick, children }: { aktywny: bool
 
 /** Dom/Firma switch of the shared screens D9–D11 / F9–F10 and the „Ścieżka przejścia” wizard. */
 export function PrzelacznikSegmentu({ value, onChange }: { value: SegmentSieci; onChange: (s: SegmentSieci) => void }) {
+  const t = useTranslate()
   return (
-    <div className="flex gap-1 rounded-lg border p-1" role="group" aria-label="Dom czy firma">
+    <div className="flex gap-1 rounded-lg border p-1" role="group" aria-label={t("UI-DOM-CZY-FIRMA")}>
       <PrzyciskSegmentu aktywny={value === "dom"} onClick={() => onChange("dom")}>
-        Dom
+        {t("UI-DOM")}
       </PrzyciskSegmentu>
       <PrzyciskSegmentu aktywny={value === "firma"} onClick={() => onChange("firma")}>
-        Firma
+        {t("UI-FIRMA")}
       </PrzyciskSegmentu>
     </div>
   )

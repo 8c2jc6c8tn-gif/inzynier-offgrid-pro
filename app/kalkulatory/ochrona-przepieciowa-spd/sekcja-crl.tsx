@@ -11,6 +11,7 @@ import { calculateOcenaRyzykaCrl } from "@/lib/core/modules/okablowanie/ocena-ry
 import type { OdcinekCrl, SrodowiskoCrl } from "@/lib/core/modules/okablowanie/ocena-ryzyka-crl/input"
 import { liczba } from "@/lib/lokalizacja/model-dzialki"
 import { LP_DLUGOSC_MAX_KM, NG_NA_DZIEN_BURZOWY } from "@/lib/core/modules/okablowanie/ocena-ryzyka-crl/constants"
+import { useTranslate } from "@/lib/i18n/language-context"
 
 type Stan = {
   skutkiKrytyczne: boolean
@@ -27,22 +28,22 @@ type Stan = {
   kolejnosc?: KolejnoscId | ""
 }
 
-/** D54: section order from the building outward (LV before MV — the transformer lies between them). */
+/** D54: section order from the building outward (LV before MV — the transformer lies between them). `etykieta` is a translation key. */
 const KOLEJNOSCI = {
   "nn-nap-kab-sn-nap-kab": {
-    etykieta: "nn napowietrzna → nn kabel → SN napowietrzna → SN kabel",
+    etykieta: "UI-CRL-K-1",
     odcinki: ["napowietrznaNnKm", "kablowaNnKm", "napowietrznaSnKm", "kablowaSnKm"],
   },
   "nn-nap-kab-sn-kab-nap": {
-    etykieta: "nn napowietrzna → nn kabel → SN kabel → SN napowietrzna",
+    etykieta: "UI-CRL-K-2",
     odcinki: ["napowietrznaNnKm", "kablowaNnKm", "kablowaSnKm", "napowietrznaSnKm"],
   },
   "nn-kab-nap-sn-nap-kab": {
-    etykieta: "nn kabel → nn napowietrzna → SN napowietrzna → SN kabel",
+    etykieta: "UI-CRL-K-3",
     odcinki: ["kablowaNnKm", "napowietrznaNnKm", "napowietrznaSnKm", "kablowaSnKm"],
   },
   "nn-kab-nap-sn-kab-nap": {
-    etykieta: "nn kabel → nn napowietrzna → SN kabel → SN napowietrzna",
+    etykieta: "UI-CRL-K-4",
     odcinki: ["kablowaNnKm", "napowietrznaNnKm", "kablowaSnKm", "napowietrznaSnKm"],
   },
 } as const satisfies Record<string, { etykieta: string; odcinki: readonly OdcinekCrl[] }>
@@ -71,6 +72,7 @@ const f2 = (x: number) => x.toLocaleString("pl-PL", { maximumFractionDigits: 2 }
  * selection above: a different question (is protection required) with different data (supply network, lightning).
  */
 export function SekcjaCrl() {
+  const t = useTranslate()
   const [stan, setStan] = usePersistedDraft<Stan>("ochrona-przepieciowa-spd-crl", STAN_POCZATKOWY)
   const ustaw = (z: Partial<Stan>) => setStan((s) => ({ ...s, ...z }))
   const wynik = useMemo(
@@ -164,15 +166,15 @@ export function SekcjaCrl() {
         />
       </div>
       <PoleSelect
-        label="Kolejność odcinków od budynku"
+        label={t("UI-CRL-KOLEJNOSC")}
         value={stan.kolejnosc ?? ""}
         onChange={(e) => ustaw({ kolejnosc: e.target.value as KolejnoscId | "" })}
         pomoc={<PomocPola ekran="spd-crl" pole="kolejnosc" params={{ lpMax: LP_DLUGOSC_MAX_KM, ngNaDzien: NG_NA_DZIEN_BURZOWY }} />}
       >
-        <option value="">Nie wiem — licz ostrożnie</option>
+        <option value="">{t("UI-CRL-K-NIE-WIEM")}</option>
         {(Object.keys(KOLEJNOSCI) as KolejnoscId[]).map((id) => (
           <option key={id} value={id}>
-            {KOLEJNOSCI[id].etykieta}
+            {t(KOLEJNOSCI[id].etykieta)}
           </option>
         ))}
       </PoleSelect>
@@ -201,8 +203,7 @@ export function SekcjaCrl() {
           </p>
           {!v.spdWymagany && v.powod === "crl" && (
             <p className="mt-1 text-small">
-              <strong>Zalecenie, nie wymóg normy:</strong> SPD typu 2 kosztuje niewiele w porównaniu z chronionym sprzętem —
-              warto go zamontować.
+              <strong>{t("UI-CRL-ZALECENIE-S")}</strong> {t("UI-CRL-ZALECENIE")}
             </p>
           )}
           <WynikSzczegoly assumptions={wynik.assumptions} warnings={wynik.warnings} formula={wynik.formula} />

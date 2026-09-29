@@ -156,7 +156,8 @@ function odpowiedzPvgis() {
   }
 }
 
-describe("orientacjaPowierzchniTool", () => {
+// Every calculateOrientacjaPowierzchni call runs a full hourly TMY year (~3–6 s under full-suite load) — see docs/memory.md, 25.09 and 29.09.
+describe("orientacjaPowierzchniTool", { timeout: 30_000 }, () => {
   const powierzchnie = [
     { nazwa: "dach S", nachylenieDeg: 35, azymutDeg: 180 },
     { nazwa: "ściana N", nachylenieDeg: 90, azymutDeg: 0 },

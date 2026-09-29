@@ -20,7 +20,8 @@ import {
 } from "@/components/agregat/pola-bezpieczenstwa-agregatu"
 import { liczba, poziomWerdyktu, zl } from "@/components/siec/wspolne"
 import { useDaneBilansu, wejscieBilansu } from "@/components/siec/pv-magazyn"
-import { MIESIACE_KROTKO } from "@/components/siec/zuzycie-miesieczne"
+import { KLUCZE_MIESIECY } from "@/components/siec/zuzycie-miesieczne"
+import { useTranslate } from "@/lib/i18n/language-context"
 
 type Stan = BezpieczenstwoAgregatuStan & { moc: string; zuzycieLH: string; cena: string; bms: boolean }
 
@@ -33,6 +34,7 @@ const f1 = (x: number) => x.toLocaleString("pl-PL", { maximumFractionDigits: 1 }
  * island balance (D4 installation without the grid) — no second generator model.
  */
 export default function AgregatJakoZapasPage() {
+  const t = useTranslate()
   const { zuzycie, pv, wczytano } = useDaneBilansu("dom")
   const [stan, setStan] = usePersistedDraft<Stan>("siec-agregat-dom", POCZATKOWY)
   const ustaw = (z: Partial<Stan>) => setStan((p) => ({ ...p, ...z }))
@@ -62,30 +64,30 @@ export default function AgregatJakoZapasPage() {
   return (
     <main className="mx-auto flex max-w-md flex-col gap-6 p-6">
       <NawigacjaEkranu href="/kalkulatory/agregat-jako-zapas" />
-      <NaglowekEkranu tytul="Agregat jako zapas" ekran="agregat-jako-zapas" wzor={result.formula}>
-        Ile godzin i paliwa potrzeba, żeby agregat pokrył niedobór najgorszego miesiąca bez sieci — i jak go bezpiecznie
-        podłączyć. Ten sam silnik co ekran „Agregat prądotwórczy” (Moduł 2). M14 „Dom – sieć”, ekran D6.
+      <NaglowekEkranu tytul={t("UI-AGZ-TYTUL")} ekran="agregat-jako-zapas" wzor={result.formula}>
+        {t("UI-AGZ-OPIS")}
       </NaglowekEkranu>
 
       {!bilans ? (
-        <StanPusty tytul="Najpierw policz zimę bez sieci">
+        <StanPusty tytul={t("UI-AGZ-NAJPIERW")}>
           <Link className="underline" href="/kalkulatory/zima-bez-sieci">
-            Zima bez sieci →
+            {t("UI-AGZ-L-ZIMA")}
           </Link>
         </StanPusty>
       ) : m === null ? (
-        <WerdyktPanel poziom="ok" etykieta="Bez niedoboru">
-          <p className="text-small">W bilansie miesięcznym nie brakuje energii w żadnym miesiącu. Seria pochmurnych dni i tak może wymagać zapasu — sprawdź stress-test zimowy (Moduł 7).</p>
+        <WerdyktPanel poziom="ok" etykieta={t("UI-AGZ-BEZ-NIEDOBORU")}>
+          <p className="text-small">{t("UI-AGZ-BEZ-NIEDOBORU-OPIS")}</p>
         </WerdyktPanel>
       ) : (
         <p className="text-small">
-          Najgorszy miesiąc bez sieci: <strong>{MIESIACE_KROTKO[m]}</strong>, brakuje {f1(deficyt)} kWh.
+          {t("UI-AGZ-NAJGORSZY")} <strong>{t(KLUCZE_MIESIECY[m])}</strong>
+          {t("UI-AGZ-BRAKUJE", { kwh: f1(deficyt) })}
         </p>
       )}
 
       <div className="flex flex-col gap-4">
         <Pole
-          label="Moc agregatu"
+          label={t("UI-AGZ-MOC")}
           unit="kW"
           type="number"
           inputMode="decimal"
@@ -94,7 +96,7 @@ export default function AgregatJakoZapasPage() {
           pomoc={<PomocPola ekran="agregat-jako-zapas" pole="moc" />}
         />
         <Pole
-          label="Zużycie paliwa przy obciążeniu 80%"
+          label={t("UI-AGZ-ZUZYCIE")}
           unit="l/h"
           type="number"
           inputMode="decimal"
@@ -103,36 +105,35 @@ export default function AgregatJakoZapasPage() {
           pomoc={<PomocPola ekran="agregat-jako-zapas" pole="paliwo" />}
         />
         <Pole
-          label="Cena paliwa"
-          unit="zł/l"
+          label={t("UI-AGZ-CENA")}
+          unit={t("UI-J-ZL-L")}
           type="number"
           inputMode="decimal"
           value={stan.cena}
           onChange={(e) => ustaw({ cena: e.target.value })}
           pomoc={<PomocPola ekran="agregat-jako-zapas" pole="cenaPaliwa" />}
         />
-        <PoleCheckbox id="siec-agregat-bms" checked={stan.bms} onChange={(e) => ustaw({ bms: e.target.checked })} label="BMS / falownik ma wyjście do automatycznego startu agregatu" />
+        <PoleCheckbox id="siec-agregat-bms" checked={stan.bms} onChange={(e) => ustaw({ bms: e.target.checked })} label={t("UI-AGZ-BMS")} />
         <PolaBezpieczenstwaAgregatu miejsceAgregatu={stan.miejsceAgregatu} podlaczenieAgregatu={stan.podlaczenieAgregatu} onChange={ustaw} />
       </div>
 
       {result.status === "INVALID_INPUT" ? (
-        <WerdyktPanel poziom="blad" etykieta="Sprawdź wpisane dane">
+        <WerdyktPanel poziom="blad" etykieta={t("UI-AGZ-SPRAWDZ")}>
           <WynikSzczegoly assumptions={[]} warnings={result.warnings} />
         </WerdyktPanel>
       ) : result.status === "INCOMPLETE" ? (
         result.warnings.length > 0 && (
-          <WerdyktPanel poziom={poziom ?? "uwaga"} etykieta="Bezpieczeństwo agregatu">
+          <WerdyktPanel poziom={poziom ?? "uwaga"} etykieta={t("UI-AGZ-BEZPIECZENSTWO")}>
             <WynikSzczegoly assumptions={[]} warnings={result.warnings} />
           </WerdyktPanel>
         )
       ) : (
-        <WerdyktPanel poziom={poziom ?? "ok"} etykieta={`Agregat w miesiącu ${m === null ? "" : MIESIACE_KROTKO[m]}`}>
-          <WynikGlowny>{f1(result.value.godzinyPracy)} h pracy</WynikGlowny>
+        <WerdyktPanel poziom={poziom ?? "ok"} etykieta={t("UI-AGZ-W-MIESIACU", { miesiac: m === null ? "" : t(KLUCZE_MIESIECY[m]) })}>
+          <WynikGlowny>{t("UI-AGZ-GODZINY", { h: f1(result.value.godzinyPracy) })}</WynikGlowny>
           <p className="mt-1 text-small">
-            Paliwo {f1(result.value.zuzyciePaliwaLitry)} l, koszt {zl(result.value.kosztZl)}. Przełącznik sieć/wyspa i
-            agregat:{" "}
+            {t("UI-AGZ-PALIWO", { litry: f1(result.value.zuzyciePaliwaLitry), koszt: zl(result.value.kosztZl) })}{" "}
             <Link className="underline" href="/kalkulatory/przelacznik-siec-wyspa">
-              bezpieczeństwo styku →
+              {t("UI-AGZ-L-STYK")}
             </Link>
           </p>
           <WynikSzczegoly assumptions={result.assumptions} warnings={result.warnings} formula={result.formula} />

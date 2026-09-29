@@ -11,6 +11,7 @@ import { NawigacjaEkranu } from "@/components/nawigacja-ekranu"
 import { NaglowekEkranu } from "@/components/wzorce/naglowek-ekranu"
 import { WynikGlowny } from "@/components/wzorce/wynik-glowny"
 import { WynikSzczegoly } from "@/components/wzorce/wynik-szczegoly"
+import { useTranslate } from "@/lib/i18n/language-context"
 
 type Flagi =
   | "maZasilanieAwaryjne"
@@ -32,19 +33,21 @@ const STAN_POCZATKOWY: FormularzStan = {
   maKontaktron: false,
 }
 
+/** `label` and `hint` are translation keys (`t()`). */
 const FLAGI: { pole: Flagi; label: string; hint?: string }[] = [
-  { pole: "maZasilanieAwaryjne", label: "Zamek ma zasilanie awaryjne (UPS lub akumulator)" },
+  { pole: "maZasilanieAwaryjne", label: "UI-ZDE-F-AWARYJNE" },
   {
     pole: "maOtwarcieReczneMechaniczne",
-    label: "Drzwi da się otworzyć ręcznie bez prądu",
-    hint: "Mechanicznie, od środka i bez klucza: klamka, pochwyt antypaniczny. Przycisk elektryczny się nie liczy.",
+    label: "UI-ZDE-F-RECZNE",
+    hint: "UI-ZDE-F-RECZNE-HINT",
   },
-  { pole: "zwalnianiePoAlarmiePozarowym", label: "Alarm pożarowy zwalnia zamek" },
-  { pole: "maPrzyciskEwakuacyjny", label: "Jest przycisk ewakuacyjny" },
-  { pole: "maKontaktron", label: "Kontaktron potwierdza otwarcie drzwi" },
+  { pole: "zwalnianiePoAlarmiePozarowym", label: "UI-ZDE-F-ALARM" },
+  { pole: "maPrzyciskEwakuacyjny", label: "UI-ZDE-F-PRZYCISK" },
+  { pole: "maKontaktron", label: "UI-ZDE-F-KONTAKTRON" },
 ]
 
 export default function ZamkiDrzwiEwakuacyjnychPage() {
+  const t = useTranslate()
   const [stan, setStan] = usePersistedDraft<FormularzStan>("zamki-drzwi-ewakuacyjnych", STAN_POCZATKOWY)
 
   const result = useMemo(
@@ -97,8 +100,8 @@ export default function ZamkiDrzwiEwakuacyjnychPage() {
           <PoleCheckbox
             key={pole}
             id={`zamek-${pole}`}
-            label={label}
-            hint={hint}
+            label={t(label)}
+            hint={hint && t(hint)}
             // `?? false`: drafts saved before D53 lack maOtwarcieReczneMechaniczne.
             checked={stan[pole] ?? false}
             onChange={(e) => setStan((prev) => ({ ...prev, [pole]: e.target.checked }))}
