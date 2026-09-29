@@ -1,5 +1,6 @@
 "use client"
 
+import Link from "next/link"
 import type {
   MiejsceAgregatu,
   PodlaczenieAgregatu,
@@ -44,6 +45,12 @@ export function PolaBezpieczenstwaAgregatu({ miejsceAgregatu, podlaczenieAgregat
         <option value="wejscie-ac-falownika">Przez wejście AC falownika / ładowarki</option>
         <option value="tylko-odbiorniki">Tylko odbiorniki wpięte wprost w agregat</option>
       </PoleSelect>
+      <p className="text-caption text-muted-foreground">
+        Jak ma wyglądać przełącznik (pozycja 0, blokada, przewód N):{" "}
+        <Link className="underline" href="/kalkulatory/przelacznik-siec-wyspa">
+          Przełącznik sieć/wyspa i bezpieczeństwo
+        </Link>
+      </p>
     </div>
   )
 }

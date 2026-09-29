@@ -4,6 +4,8 @@ import { validateAiToolDefinition } from "../../types"
 import { rozbijRachunekTool } from "../rozbij-rachunek-tool"
 import { dobierzTaryfeTool } from "../dobierz-taryfe-tool"
 import { mocBiernaTool } from "../moc-bierna-tool"
+import { porownajScenariuszeTool } from "../porownaj-scenariusze-tool"
+import { kosztPowrotuTool } from "../koszt-powrotu-tool"
 
 const wspolne = {
   segment: "dom" as const,
@@ -17,7 +19,7 @@ const wspolne = {
 }
 
 describe("narzędzia AI M14", () => {
-  it.each([rozbijRachunekTool, dobierzTaryfeTool, mocBiernaTool])("kontrakt 9.3: $name — 'read', bez potwierdzenia", (tool) => {
+  it.each([rozbijRachunekTool, dobierzTaryfeTool, mocBiernaTool, porownajScenariuszeTool, kosztPowrotuTool])("kontrakt 9.3: $name — 'read', bez potwierdzenia", (tool) => {
     expect(tool.operationType).toBe("read")
     expect(tool.requiresConfirmation).toBe(false)
     expect(() => validateAiToolDefinition(tool)).not.toThrow()
@@ -72,5 +74,42 @@ describe("narzędzia AI M14", () => {
     expect(w.czynnik).toBeCloseTo(0.0381, 4)
     expect(w.oplataRazemZl).toBeNull()
   })
-})
 
+  it("porownaj_scenariusze_przejscia — pełna tabela A–D, najtańszy A, najbardziej niezależny D", async () => {
+    const scen = (inwestycjaZl: number, pojemnoscMagazynuKwh: number, kosztMagazynuZl = 0, serwisRokZl = 0) => ({
+      inwestycjaZl,
+      dotacjaZl: 0,
+      mocPvKwp: 5,
+      pojemnoscMagazynuKwh,
+      kosztMagazynuZl,
+      serwisRokZl,
+    })
+    const w = await porownajScenariuszeTool.handler({
+      segment: "dom",
+      horyzontLat: 10,
+      tryb: { rodzaj: "suwak", gProcent: 0 },
+      stopaDyskontowaProcent: 0,
+      zuzycieMiesieczneKwh: Array(12).fill(300),
+      uzyskMiesiecznyKwhNaKwp: [20, 20, 120, 120, 120, 120, 120, 120, 120, 120, 20, 20],
+      autokonsumpcjaBezposrednia: 0.3,
+      sprawnoscMagazynu: 0.9,
+      zywotnoscMagazynuLat: 6,
+      siec: { kosztStalyRokBruttoZl: 1000, cenaZmiennaKwhBruttoZl: 1, wartoscNadwyzkiKwhZl: 0.3 },
+      agregat: { mocKw: 5, zuzycieLH: 2, cenaPaliwaZlL: 7 },
+      scenariusze: { A: scen(20000, 0), B: scen(45000, 10), C: scen(55000, 10), D: scen(60000, 10, 30000, 500) },
+      kontrola: { osobyZalezneOdZasilania: false, zapasRedundantny: false, progGodzinAgregatuMies: 40, dopuszczalnyCzasBezZasilaniaH: null },
+    })
+    expect(w.scenariusze.map((s) => s.id)).toEqual(["A", "B", "C", "D"])
+    expect(w.scenariusze[0].tcoDzisiejszeZl).toBeCloseTo(39480, 6)
+    expect(w.najtanszy).toBe("A")
+    expect(w.najbardziejNiezalezny).toBe("D")
+  })
+
+  it("oszacuj_koszt_powrotu_do_sieci — stawka testowa 40 zł/kW × 15 kW = 600 zł; bez stawki INCOMPLETE", async () => {
+    const w = await kosztPowrotuTool.handler({ stawkaZlKw: 40, mocPrzylaczeniowaKw: 15, odlegloscStandardowa: true })
+    expect(w.kosztNettoZl).toBeCloseTo(600, 9)
+    const b = await kosztPowrotuTool.handler({ stawkaZlKw: null, mocPrzylaczeniowaKw: 15, odlegloscStandardowa: true })
+    expect(b.status).toBe("INCOMPLETE")
+    expect(b.ostrzezenia).toContain(t("pl", "SIEC-BRAK-STAWKAPRZYLACZENIOWA"))
+  })
+})

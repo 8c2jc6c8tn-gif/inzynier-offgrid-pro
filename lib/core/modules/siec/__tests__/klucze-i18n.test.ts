@@ -20,6 +20,23 @@ const POLA_BRAKU = [
   "mocowa",
   "energiaMocowa",
   "vat",
+  "kosztStaly",
+  "cenaZmienna",
+  "wartoscNadwyzki",
+  "zywotnoscMagazynu",
+  "osobyZalezne",
+  "dopuszczalnyCzas",
+  "bilans",
+  "agregat",
+  "trybPracy",
+  "przelacznik",
+  "mocPrzylaczeniowa",
+  "stawkaPrzylaczeniowa",
+  "odleglosc",
+  "kosztCyklu",
+  "zyskAutokonsumpcji",
+  "zyskArbitrazu",
+  "przeplyw",
 ]
 
 function zrodla(dir: string): string[] {

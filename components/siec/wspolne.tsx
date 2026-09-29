@@ -7,6 +7,8 @@ import type { Status } from "@/lib/core/calc-result"
 import type { Warning } from "@/lib/core/calc-result"
 import type { WerdyktPoziom } from "@/components/werdykt"
 import { PoleSelect } from "@/components/ui/pole"
+import { cn } from "@/lib/utils"
+import type { Segment as SegmentSieci } from "@/lib/core/modules/siec/rachunek-za-prad/input"
 
 /** Shared pieces of the M14 screens (D1/F1, D2/F2, D8, D12, F3–F5). */
 
@@ -93,3 +95,38 @@ export function ZrodloDanych({ children }: { children?: ReactNode }) {
     </p>
   )
 }
+
+/** One position of a segmented switch (M14: price path D42, dom/firma on the shared screens). */
+export function PrzyciskSegmentu({ aktywny, onClick, children }: { aktywny: boolean; onClick: () => void; children: ReactNode }) {
+  return (
+    <button
+      type="button"
+      aria-pressed={aktywny}
+      onClick={onClick}
+      className={cn(
+        "min-h-11 flex-1 rounded-md px-2 text-small transition-colors",
+        aktywny ? "bg-primary text-primary-foreground" : "hover:bg-muted",
+      )}
+    >
+      {children}
+    </button>
+  )
+}
+
+/** Dom/Firma switch of the shared screens D9–D11 / F9–F10 and the „Ścieżka przejścia” wizard. */
+export function PrzelacznikSegmentu({ value, onChange }: { value: SegmentSieci; onChange: (s: SegmentSieci) => void }) {
+  return (
+    <div className="flex gap-1 rounded-lg border p-1" role="group" aria-label="Dom czy firma">
+      <PrzyciskSegmentu aktywny={value === "dom"} onClick={() => onChange("dom")}>
+        Dom
+      </PrzyciskSegmentu>
+      <PrzyciskSegmentu aktywny={value === "firma"} onClick={() => onChange("firma")}>
+        Firma
+      </PrzyciskSegmentu>
+    </div>
+  )
+}
+
+/** Segment chosen on the shared „Przejście” screens (D9–D11, F9–F10, wizard) — one draft for all of them. */
+export const KLUCZ_SEGMENTU_PRZEJSCIA = "siec-segment-przejscia"
+export const POCZATKOWY_SEGMENTU: { segment: SegmentSieci } = { segment: "dom" }

@@ -8070,3 +8070,21 @@ Tryb Audyt (czapka rewidenta). Warstwa „w pełni na końcu” z N.2 — wszyst
 - **Pakiet kontroli lokalnie** (CI nie działa do 1.10): typecheck, lint (2 stare ostrzeżenia `<img>`), i18n-guard, 1 901
   testów, build, audit:gate, audit:n1 — zielone.
 
+
+## M14 — rozdział zbudowany w całości (28.09.2026, „Rób dalej… commit push pr i merge”)
+
+- **Zakres:** reszta części Sieć (D3, D13, D14, F6, F7, F12, F13), cała część Przejście (D4–D7, D9–D11, F8–F10), kreator
+  `/kalkulatory/sciezka-przejscia`, pełne listy ekranów w kaflach 15/16. Nowe silniki `siec/bilans-miesieczny`,
+  `scenariusze-przejscia`, `przelacznik-siec-wyspa`, `koszt-powrotu`, `strumienie-bess` (na liście strażnika i18n), plik
+  `lib/core/dane/dotacje`, narzędzia AI `porownaj_scenariusze_przejscia` i `oszacuj_koszt_powrotu_do_sieci` (5/5 z rozdziału).
+- **Wzorzec szkiców (decyzja techniczna):** każdy szkic ma jednego właściciela (`usePersistedDraft`), ekrany echo czytają go
+  `useOdczytDraftu` i nigdy nie piszą. Właściciele: D1/F1 `siec-rachunek-*`, D3 `siec-zuzycie-dom`, F6 `siec-zuzycie-firma`
+  i `siec-pv-firma`, D4 `siec-pv-dom`. Segment Dom/Firma ekranów wspólnych Przejścia — jeden szkic `siec-segment-przejscia`.
+  F7 czyta szkic E23 `oplacalnosc-magazynu` (koszt 1 kWh z cyklu) — zmiana pól E23 zepsuje echo F7.
+- **Pułapka:** `new Date()` na statycznie prerenderowanej stronie (dotacje: status naboru) daje błąd hydracji —
+  `useSyncExternalStore` z migawką serwera = `stanNa` pliku.
+- **Pułapka:** parametr ostrzeżenia z wewnętrznym id (`{strumien}`) pokazałby użytkownikowi kod — rozbite na dwa klucze
+  słownika (`SIEC-BESS-STRATNA-AUTOKONSUMPCJA`, `SIEC-BESS-STRATNY-ARBITRAZ`).
+- **Nic z pamięci:** linki regulaminów dotacji `null` (W6, TLS), stawki przyłączeniowe od użytkownika, ceny BESS z materiału
+  nie weszły do kodu, norma przełącznika 🔎 (`SIEC-PRZELACZNIK-NORMA-BRAK` zawsze widoczne). Uproszczenia: TD23.
+- **Pakiet kontroli lokalnie** (CI nie działa do 1.10): wyniki w opisie PR.

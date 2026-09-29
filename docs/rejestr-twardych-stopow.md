@@ -314,7 +314,7 @@ nie do audytu poprawności formularza webowego.
   Źródło: Moduł 7, Ekran 22 (sekcja wspólna rozmrażania).
   (M7/E22 — `rozmrazanieOgniem`, kod `ZAMARZ-ROZMRAZANIE-OGIEN`.)
 
-## M14 „Dom – sieć” / „Firma – sieć” — zaplanowane w Biblii, jeszcze bez kodu (28.09.2026)
+## M14 „Dom – sieć” / „Firma – sieć” — ~~zaplanowane w Biblii, jeszcze bez kodu~~ **[28.09.2026] w kodzie** (28.09.2026)
 
 Te stopy wpisano przy integracji rozdziału do Biblii (`03_M14_Dom_i_Firma_Siec.md`, D35). **Nie ma
 jeszcze kodu**, a więc ani pliku, ani kodu ostrzeżenia. Przy implementacji każdą pozycję trzeba
@@ -325,7 +325,7 @@ uzupełnić o ścieżkę `warnings.ts` i kod ostrzeżenia, tak jak w sekcjach wy
 **[28.09.2026] Kod części Sieć (D1, D2, D8, D12, F1–F5) nie dodaje twardych stopów.** Jej `critical` w
 `lib/core/modules/siec/*/warnings.ts` to wyłącznie walidacja wejścia (`INVALID_INPUT`: wartość ujemna, grupa niezgodna
 z mocą umowną/segmentem, tgφ₀ < 0,2, horyzont poza 10–25 itp.), nie stopy bezpieczeństwa. Pięć stopów niżej należy do
-części Przejście (D6, D7, D11, F8) — nadal bez kodu M14.
+części Przejście (D6, D7, D11, F8) — ~~nadal bez kodu M14~~. **[28.09.2026]** Część Przejście zbudowana — każda pozycja niżej ma już plik i kod ostrzeżenia.
 
 - **Backfeed** — instalacja wyspowa albo agregat może podać napięcie do sieci OSD, bo nie ma
   przełącznika sieć – 0 – wyspa z blokadą mechaniczną ani SZR z blokadą elektryczną i mechaniczną.
@@ -333,18 +333,25 @@ części Przejście (D6, D7, D11, F8) — nadal bez kodu M14.
   ~~szczegół normowy PN-HD 60364 do doprecyzowania w M8 (🔎).~~ **[28.09.2026, D47]** szczegół
   normowy mieszka w M14/D11, M8 tylko odsyła (🔎 HD 60364-5-551).
   (M14-D/D11, M14-F — ekran wspólny; opracowanie §6.1)
+  **[28.09.2026]** `lib/core/modules/siec/przelacznik-siec-wyspa/warnings.ts`, `backfeed`, kod `SIEC-BACKFEED`
+  (ekran `/kalkulatory/przelacznik-siec-wyspa`; brak przełącznika albo przełącznik bez blokady → 🔴 critical).
 - **Agregat podłączony do instalacji bez przełącznika** — przez gniazdko albo „wtyczką z dwoma
   bolcami”. **[28.09.2026, D48]** Kod już istnieje w M2/E17 i M7/E8 (`AGREGAT-BEZ-PRZELACZNIKA`,
   sekcja wyżej) — D6 użyje tego samego `bezpieczenstwo.ts`.
   (M14-D/D6, D11; opracowanie §6.1)
+  **[28.09.2026]** D6 (`/kalkulatory/agregat-jako-zapas`) i D11 wołają `bezpieczenstwo.ts` — kod `AGREGAT-BEZ-PRZELACZNIKA`.
 - **Agregat spalinowy w pomieszczeniu** — zatrucie CO. **[28.09.2026, D48]** Kod już istnieje w M2/E17
   i M7/E8 (`AGREGAT-W-BUDYNKU-CZAD`, sekcja wyżej).
   (M14-D/D6, R8; opracowanie §5.1. Powiązane: M7/E8, D32 — rozruch agregatu na mrozie)
+  **[28.09.2026]** D6 i D11 — ten sam `bezpieczenstwo.ts`, kod `AGREGAT-W-BUDYNKU-CZAD`.
 - **Scenariusz D (pełne odłączenie) przy ujemnym bilansie zimowym bez agregatu** — wynik M7 dla
   lokalizacji użytkownika.
   (M14-D/D7, M14-F/F8; opracowanie §4.3)
+  **[28.09.2026]** `lib/core/modules/siec/scenariusze-przejscia/warnings.ts`, `dBezAgregatu`, kod `SIEC-TCO-D-BEZ-AGREGATU`
+  (niedobór z bilansu miesięcznego, nie z M7 — TD23; M7 pozostaje warunkiem, info `SIEC-TCO-WARUNEK-M7`).
 - **Scenariusz D przy osobach zależnych od zasilania medycznego bez redundantnego zapasu.**
   (M14-D/D7, D9; R4; opracowanie §5.1)
+  **[28.09.2026]** tamże, `dZalezniMedycznie`, kod `SIEC-TCO-D-ZALEZNI-MEDYCZNIE`.
 
 ## Znane luki (świadomie, nie przeoczenie)
 

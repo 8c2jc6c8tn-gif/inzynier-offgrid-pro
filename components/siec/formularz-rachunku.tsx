@@ -4,7 +4,7 @@ import { useMemo } from "react"
 import type { Grupa, OkresRozliczeniowy, OsdId, Strefa } from "@/lib/core/dane/rozliczenia-pl-2026"
 import { calculateRachunek } from "@/lib/core/modules/siec/rachunek-za-prad/calculator"
 import { STREFY_GRUPY } from "@/lib/core/modules/siec/rachunek-za-prad/constants"
-import type { Fazy, Segment } from "@/lib/core/modules/siec/rachunek-za-prad/input"
+import type { Fazy, RachunekInput, Segment } from "@/lib/core/modules/siec/rachunek-za-prad/input"
 import { usePersistedDraft } from "@/lib/adapters/use-persisted-draft"
 import { Pole, PoleCheckbox, PoleSelect } from "@/components/ui/pole"
 import { WerdyktPanel } from "@/components/werdykt"
@@ -24,10 +24,11 @@ import {
   poziomWerdyktu,
   zl,
 } from "./wspolne"
+import { useZuzycieMiesieczne } from "./zuzycie-miesieczne"
 
 type Strefowe = Partial<Record<Strefa, string>>
 
-type Stan = {
+export type StanRachunku = {
   osd: OsdId
   grupa: Grupa
   rok: string
@@ -48,7 +49,9 @@ type Stan = {
   wlMocowa: string
 }
 
-function poczatkowy(segment: Segment): Stan {
+export const kluczRachunku = (segment: Segment) => `siec-rachunek-${segment}`
+
+export function poczatkowyRachunek(segment: Segment): StanRachunku {
   return {
     osd: "tauron",
     grupa: segment === "dom" ? "G11" : "C11",
@@ -83,14 +86,50 @@ function strefoweLiczby(s: Strefowe, strefy: Strefa[], puste: "pomin" | "zero"):
 }
 
 /**
+ * Engine input from the D1/F1 draft — also used by the echo screens (D7/F8 read the bill through
+ * `useOdczytDraftu`, never write it). Monthly consumption comes from D3/F6 when all 12 months exist.
+ */
+export function wejscieRachunku(segment: Segment, stan: StanRachunku, zuzycieMies: number[] | null): RachunekInput {
+  const g = segment === "dom"
+  const strefy = STREFY_GRUPY[stan.grupa]
+  const pokazFaktura = stan.zFaktury || !czyOsdMaStawki(stan.osd)
+  return {
+    segment,
+    osd: stan.osd,
+    grupa: stan.grupa,
+    dataRozliczenia: `${stan.rok === "" ? "0000" : stan.rok.padStart(4, "0")}-12-31`,
+    fazy: stan.fazy,
+    mocUmownaKw: liczba(stan.mocUmownaKw),
+    okresRozliczeniowy: stan.okres,
+    zuzycieStrefKwh: strefoweLiczby(stan.zuzycie, strefy, "zero"),
+    zuzycieMiesieczneKwh: zuzycieMies,
+    cenaEnergiiZlKwh: strefoweLiczby(stan.ceny, strefy, "pomin"),
+    oplataHandlowaZlMies: liczbaLubNull(stan.handlowa),
+    energiaMocowaKwh: g ? null : liczbaLubNull(stan.energiaMocowa),
+    stawkiWlasne: pokazFaktura
+      ? {
+          sieciowaZmienna: strefoweLiczby(stan.wlZmienna, strefy, "pomin"),
+          sieciowaStala: nadpisanie(stan.wlStala),
+          abonamentZlMies: nadpisanie(stan.wlAbonament),
+          jakosciowaZlKwh: nadpisanie(stan.wlJakosciowa),
+          ozeZlKwh: nadpisanie(stan.wlOze),
+          kogeneracyjnaZlKwh: nadpisanie(stan.wlKogeneracyjna),
+          ...(g ? { mocowaGZlMies: nadpisanie(stan.wlMocowa) } : { mocowaCZlKwh: nadpisanie(stan.wlMocowa) }),
+        }
+      : {},
+  }
+}
+
+/**
  * M14 — D1 „Mój rachunek dziś” (dom) / F1 „Mój rachunek dziś (C)” (firma): one form, segment as a
  * parameter (echo, D12/D20). Rates from the ✅ data file or from the invoice (D36).
- * 🔎 TD22 (`dlug-techniczny.md`): no monthly consumption field yet (the engine supports it) and the
- * settlement date is the 31.12 of the entered year.
+ * 🔎 TD22 (`dlug-techniczny.md`): the settlement date is the 31.12 of the entered year. Monthly
+ * consumption (TD22 pt 3, closed 28.09.2026) is read from D3/F6 when all 12 months are filled.
  */
 export function FormularzRachunku({ segment }: { segment: Segment }) {
-  const [stan, setStan] = usePersistedDraft<Stan>(`siec-rachunek-${segment}`, poczatkowy(segment))
-  const ustaw = <K extends keyof Stan>(pole: K, v: Stan[K]) => setStan((p) => ({ ...p, [pole]: v }))
+  const [stan, setStan] = usePersistedDraft<StanRachunku>(kluczRachunku(segment), poczatkowyRachunek(segment))
+  const { zuzycie: zuzycieMies } = useZuzycieMiesieczne(segment)
+  const ustaw = <K extends keyof StanRachunku>(pole: K, v: StanRachunku[K]) => setStan((p) => ({ ...p, [pole]: v }))
   const ustawStrefe = (pole: "zuzycie" | "ceny" | "wlZmienna", z: Strefa, v: string) =>
     setStan((p) => ({ ...p, [pole]: { ...p[pole], [z]: v } }))
 
@@ -100,33 +139,8 @@ export function FormularzRachunku({ segment }: { segment: Segment }) {
   const pokazFaktura = stan.zFaktury || !maStawki
 
   const result = useMemo(
-    () =>
-      calculateRachunek({
-        segment,
-        osd: stan.osd,
-        grupa: stan.grupa,
-        dataRozliczenia: `${stan.rok === "" ? "0000" : stan.rok.padStart(4, "0")}-12-31`,
-        fazy: stan.fazy,
-        mocUmownaKw: liczba(stan.mocUmownaKw),
-        okresRozliczeniowy: stan.okres,
-        zuzycieStrefKwh: strefoweLiczby(stan.zuzycie, strefy, "zero"),
-        zuzycieMiesieczneKwh: null,
-        cenaEnergiiZlKwh: strefoweLiczby(stan.ceny, strefy, "pomin"),
-        oplataHandlowaZlMies: liczbaLubNull(stan.handlowa),
-        energiaMocowaKwh: g ? null : liczbaLubNull(stan.energiaMocowa),
-        stawkiWlasne: pokazFaktura
-          ? {
-              sieciowaZmienna: strefoweLiczby(stan.wlZmienna, strefy, "pomin"),
-              sieciowaStala: nadpisanie(stan.wlStala),
-              abonamentZlMies: nadpisanie(stan.wlAbonament),
-              jakosciowaZlKwh: nadpisanie(stan.wlJakosciowa),
-              ozeZlKwh: nadpisanie(stan.wlOze),
-              kogeneracyjnaZlKwh: nadpisanie(stan.wlKogeneracyjna),
-              ...(g ? { mocowaGZlMies: nadpisanie(stan.wlMocowa) } : { mocowaCZlKwh: nadpisanie(stan.wlMocowa) }),
-            }
-          : {},
-      }),
-    [segment, stan, strefy, g, pokazFaktura],
+    () => calculateRachunek(wejscieRachunku(segment, stan, zuzycieMies)),
+    [segment, stan, zuzycieMies],
   )
   const poziom = poziomWerdyktu(result.status, result.warnings)
   const v = result.value
@@ -296,7 +310,11 @@ export function FormularzRachunku({ segment }: { segment: Segment }) {
         )}
       </div>
 
-      <ZrodloDanych />
+      <ZrodloDanych>
+        {zuzycieMies
+          ? "Stawki zmienne w ciągu roku ważone zużyciem z 12 miesięcy (ekran „Moje zużycie miesięcznie”)."
+          : "Po wpisaniu 12 miesięcy zużycia (ekran „Moje zużycie miesięcznie”) stawki zmienne w roku zostaną zważone zużyciem."}
+      </ZrodloDanych>
 
       {result.status === "INCOMPLETE" ? (
         <WerdyktPanel poziom="uwaga" etykieta="Brakuje danych — nic nie zgadujemy">

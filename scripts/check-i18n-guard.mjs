@@ -219,6 +219,11 @@ const MIGRATED_MODULES = [
   "lib/core/modules/siec/moc-bierna",
   "lib/core/modules/siec/moc-umowna",
   "lib/core/modules/siec/oplata-mocowa",
+  "lib/core/modules/siec/bilans-miesieczny",
+  "lib/core/modules/siec/scenariusze-przejscia",
+  "lib/core/modules/siec/przelacznik-siec-wyspa",
+  "lib/core/modules/siec/koszt-powrotu",
+  "lib/core/modules/siec/strumienie-bess",
 ]
 
 const FILES_TO_CHECK = ["warnings.ts", "calculator.ts", "validation.ts"]

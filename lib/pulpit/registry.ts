@@ -328,7 +328,8 @@ export const KAFLE: KafelEntry[] = [
   },
   // M14 (D35, D39): two tiles after tile 13. Ids 15/16 are internal only — "Kafel 14" is Settings
   // (D9), so these tiles are named "Dom – sieć" / "Firma – sieć" (M14-D / M14-F), never by number.
-  // Screens of the Sieć part so far; Przejście (D4–D7, D9–D11) and the wizard come later.
+  // Order follows the chapter parts (D35): Sieć, the wizard at the end of Sieć, then Przejście.
+  // Shared screens (D9–D12 = F9–F11) sit in both tiles; breadcrumbs resolve to the first match.
   {
     id: 15,
     nazwa: "Dom – sieć",
@@ -338,7 +339,18 @@ export const KAFLE: KafelEntry[] = [
       { href: "/kalkulatory/rachunek-dom", label: "Mój rachunek dziś" },
       { href: "/kalkulatory/taryfa-g", label: "Która taryfa G" },
       { href: "/kalkulatory/depozyt-prosumencki", label: "Net-metering, net-billing, depozyt" },
+      { href: "/kalkulatory/zuzycie-miesieczne", label: "Moje zużycie miesięcznie" },
       { href: "/kalkulatory/test-licznika", label: "Test licznika i reklamacja" },
+      { href: "/kalkulatory/dotacje", label: "Dotacje (stan na dzień)" },
+      { href: "/kalkulatory/faq-dom", label: "FAQ — dom i sieć" },
+      { href: "/kalkulatory/sciezka-przejscia", label: "Ścieżka przejścia — kreator" },
+      { href: "/kalkulatory/pv-i-magazyn", label: "Ile PV i magazynu" },
+      { href: "/kalkulatory/zima-bez-sieci", label: "Zima bez sieci" },
+      { href: "/kalkulatory/agregat-jako-zapas", label: "Agregat jako zapas" },
+      { href: "/kalkulatory/scenariusze-dom", label: "Porównanie scenariuszy A–D" },
+      { href: "/kalkulatory/ryzyka-odlaczenia", label: "Ryzyka odłączenia" },
+      { href: "/kalkulatory/rezygnacja-z-przylacza", label: "Jak zrezygnować z przyłącza" },
+      { href: "/kalkulatory/przelacznik-siec-wyspa", label: "Przełącznik sieć/wyspa i bezpieczeństwo" },
     ],
   },
   {
@@ -352,7 +364,16 @@ export const KAFLE: KafelEntry[] = [
       { href: "/kalkulatory/moc-bierna", label: "Moc bierna — opłata i kompensacja" },
       { href: "/kalkulatory/moc-umowna", label: "Moc umowna — przekroczenia i optymalny poziom" },
       { href: "/kalkulatory/oplata-mocowa", label: "Opłata mocowa — przesunięcie poboru" },
+      { href: "/kalkulatory/pv-w-firmie", label: "PV w firmie i autokonsumpcja" },
+      { href: "/kalkulatory/magazyn-firmy", label: "Magazyn (BESS) — strumienie korzyści" },
       { href: "/kalkulatory/test-licznika", label: "Test licznika, reklamacja, badanie" },
+      { href: "/kalkulatory/dotacje-firma", label: "Dotacje i podatki — informacja" },
+      { href: "/kalkulatory/faq-firma", label: "FAQ firm" },
+      { href: "/kalkulatory/sciezka-przejscia", label: "Ścieżka przejścia — kreator" },
+      { href: "/kalkulatory/scenariusze-firma", label: "Scenariusze A–D dla firmy" },
+      { href: "/kalkulatory/ryzyka-odlaczenia", label: "Ryzyka odłączenia firmy" },
+      { href: "/kalkulatory/rezygnacja-z-przylacza", label: "Procedura i umowy B2B" },
+      { href: "/kalkulatory/przelacznik-siec-wyspa", label: "Przełącznik sieć/wyspa i bezpieczeństwo" },
     ],
   },
 ]
