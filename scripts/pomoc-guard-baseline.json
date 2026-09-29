@@ -1,15 +1,11 @@
 {
   "opis": "Pliki niezgodne z D51 na 29.09.2026 — naprawiane moduł po module. Lista tylko maleje; nowy ekran nigdy tu nie trafia.",
   "pliki": [
-    "app/kalkulatory/analiza-zacienienia/page.tsx",
     "app/kalkulatory/architektura-komunikacji/page.tsx",
     "app/kalkulatory/katalog-czujnikow/page.tsx",
-    "app/kalkulatory/lokalizacja-i-klimat/page.tsx",
     "app/kalkulatory/niezawodnosc-esp32/page.tsx",
-    "app/kalkulatory/orientacja-powierzchni/page.tsx",
     "app/kalkulatory/prognozy/page.tsx",
     "app/kalkulatory/przydzial-pinow/page.tsx",
-    "app/kalkulatory/skaner-dzialki/page.tsx",
     "app/kalkulatory/tryb-live/page.tsx",
     "app/kalkulatory/zasilanie-esp32/page.tsx"
   ]

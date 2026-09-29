@@ -8,6 +8,7 @@ import { kolorStraty, normalnaPolaci, type ProbkaMapy } from "@/components/lokal
 import { MIESIACE, WykresMiesiecy, WykresHoryzontu } from "@/components/lokalizacja/wykresy-zacienienia"
 import { Button } from "@/components/ui/button"
 import { Pole } from "@/components/ui/pole"
+import { PomocPola } from "@/components/ui/pomoc"
 import { StanLadowania, StanPusty } from "@/components/ui/stany"
 import { NaglowekEkranu } from "@/components/wzorce/naglowek-ekranu"
 import { WerdyktPanel } from "@/components/werdykt"
@@ -37,6 +38,7 @@ import { podsumujPowierzchnie, type PodsumowaniePowierzchni } from "@/lib/lokali
 import { useDaneTmy } from "@/lib/lokalizacja/use-dane-tmy"
 import { useObliczeniaWTle } from "@/lib/lokalizacja/use-obliczenia-w-tle"
 import { useOnline } from "@/lib/lokalizacja/use-online"
+import { PRZEPUSZCZALNOSC_KORONY_BEZLISTNEJ } from "@/lib/core/modules/lokalizacja/analiza-zacienienia/constants"
 
 const Widok3d = dynamic(() => import("@/components/lokalizacja/widok-3d"), {
   ssr: false,
@@ -163,7 +165,7 @@ export default function AnalizaZacienieniaPage() {
   return (
     <main className="mx-auto flex max-w-2xl flex-col gap-6 p-6">
       <NawigacjaEkranu href="/kalkulatory/analiza-zacienienia" />
-      <NaglowekEkranu tytul="Analiza zacienienia">
+      <NaglowekEkranu tytul="Analiza zacienienia" ekran="analiza-zacienienia" parametry={{ tau: PRZEPUSZCZALNOSC_KORONY_BEZLISTNEJ * 100 }}>
         Dla każdej godziny roku sprawdza, czy przeszkoda zasłania słońce, i sumuje roczną stratę energii. Cień to niewidoczny złodziej energii — jedno drzewo, które dziś ledwo sięga dachu, za 10 lat może
         zasłaniać połowę instalacji, jeśli się z tym nie policzy od razu. Moduł 1, Ekran 3.
       </NaglowekEkranu>
@@ -204,9 +206,9 @@ export default function AnalizaZacienieniaPage() {
                 ustawienie paneli — analiza obejmie cały obrys na tej wysokości.
               </p>
               <div className="grid grid-cols-3 gap-2">
-                <Pole label="Wysokość dachu" unit="m" inputMode="decimal" value={stan.dach.wysokoscM} onChange={(e) => ustawDach({ wysokoscM: e.target.value })} />
-                <Pole label="Nachylenie paneli" unit="°" inputMode="decimal" value={stan.dach.nachyleniePaneliDeg} onChange={(e) => ustawDach({ nachyleniePaneliDeg: e.target.value })} />
-                <Pole label="Azymut paneli" unit="°" inputMode="decimal" hint="S = 180" value={stan.dach.azymutPaneliDeg} onChange={(e) => ustawDach({ azymutPaneliDeg: e.target.value })} />
+                <Pole label="Wysokość dachu" unit="m" inputMode="decimal" value={stan.dach.wysokoscM} onChange={(e) => ustawDach({ wysokoscM: e.target.value })} pomoc={<PomocPola ekran="analiza-zacienienia" pole="wysokoscDachu" />} />
+                <Pole label="Nachylenie paneli" unit="°" inputMode="decimal" value={stan.dach.nachyleniePaneliDeg} onChange={(e) => ustawDach({ nachyleniePaneliDeg: e.target.value })} pomoc={<PomocPola ekran="analiza-zacienienia" pole="nachylenie" />} />
+                <Pole label="Azymut paneli" unit="°" inputMode="decimal" value={stan.dach.azymutPaneliDeg} onChange={(e) => ustawDach({ azymutPaneliDeg: e.target.value })} pomoc={<PomocPola ekran="analiza-zacienienia" pole="azymut" />} />
               </div>
             </section>
           )}
@@ -230,6 +232,7 @@ export default function AnalizaZacienieniaPage() {
                   value={stan.prognoza.lat}
                   onChange={(e) => ustawPrognoze({ lat: e.target.value })}
                   placeholder="np. 10"
+                  pomoc={<PomocPola ekran="analiza-zacienienia" pole="horyzont" />}
                 />
                 {drzewa.map((p) => (
                   <div key={p.nazwa} className="flex flex-col gap-1">
@@ -239,21 +242,28 @@ export default function AnalizaZacienieniaPage() {
                       inputMode="decimal"
                       value={stan.prognoza.wysokosci[p.nazwa] ?? ""}
                       onChange={(e) => ustawPrognoze({ wysokosci: { ...stan.prognoza.wysokosci, [p.nazwa]: e.target.value } })}
+                      pomoc={<PomocPola ekran="analiza-zacienienia" pole="wysokoscPrognoza" />}
                     />
-                    <label className="flex items-center gap-3">
-                      <input
-                        type="checkbox"
-                        className="h-5 w-5 shrink-0 cursor-pointer accent-primary outline-none"
-                        checked={stan.prognoza.lisciaste?.[p.nazwa] ?? false}
-                        onChange={(e) => ustawPrognoze({ lisciaste: { ...stan.prognoza.lisciaste, [p.nazwa]: e.target.checked } })}
-                      />
-                      <span className="text-small">Drzewo liściaste (zimą bez liści)</span>
-                    </label>
+                    <div className="flex items-center gap-2">
+                      <label className="flex items-center gap-3">
+                        <input
+                          type="checkbox"
+                          className="h-5 w-5 shrink-0 cursor-pointer accent-primary outline-none"
+                          checked={stan.prognoza.lisciaste?.[p.nazwa] ?? false}
+                          onChange={(e) => ustawPrognoze({ lisciaste: { ...stan.prognoza.lisciaste, [p.nazwa]: e.target.checked } })}
+                        />
+                        <span className="text-small">Drzewo liściaste (zimą bez liści)</span>
+                      </label>
+                      <PomocPola ekran="analiza-zacienienia" pole="lisciaste" params={{ tau: PRZEPUSZCZALNOSC_KORONY_BEZLISTNEJ * 100 }} />
+                    </div>
                   </div>
                 ))}
                 {Object.values(stan.prognoza.lisciaste ?? {}).some(Boolean) && (
                   <fieldset className="flex flex-col gap-1">
-                    <legend className="text-small font-medium">Miesiące bez liści w Twojej okolicy</legend>
+                    <legend className="flex items-center gap-2 text-small font-medium">
+                      Miesiące bez liści w Twojej okolicy
+                      <PomocPola ekran="analiza-zacienienia" pole="miesiaceBezlisci" params={{ tau: PRZEPUSZCZALNOSC_KORONY_BEZLISTNEJ * 100 }} />
+                    </legend>
                     <div className="flex flex-wrap gap-x-4 gap-y-1">
                       {MIESIACE.map((nazwa, m) => (
                         <label key={nazwa} className="flex items-center gap-2">

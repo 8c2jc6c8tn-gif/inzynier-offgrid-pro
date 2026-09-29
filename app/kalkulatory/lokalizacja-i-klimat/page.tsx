@@ -6,9 +6,11 @@ import { usePersistedDraft } from "@/lib/adapters/use-persisted-draft"
 import { WerdyktPanel } from "@/components/werdykt"
 import { NawigacjaEkranu } from "@/components/nawigacja-ekranu"
 import { Pole } from "@/components/ui/pole"
+import { PomocPola } from "@/components/ui/pomoc"
 import { StanPusty } from "@/components/ui/stany"
 import { NaglowekEkranu } from "@/components/wzorce/naglowek-ekranu"
 import { useTranslate } from "@/lib/i18n/language-context"
+import { TEMPERATURA_MAX_C, TEMPERATURA_MIN_C } from "@/lib/core/modules/lokalizacja/lokalizacja-i-klimat/constants"
 
 type FormularzStan = {
   adres: string
@@ -77,14 +79,14 @@ export default function LokalizacjaIKlimatPage() {
   return (
     <main className="mx-auto flex max-w-md flex-col gap-6 p-6">
       <NawigacjaEkranu href="/kalkulatory/lokalizacja-i-klimat" />
-      <NaglowekEkranu tytul="Lokalizacja i dane klimatyczne">
+      <NaglowekEkranu tytul="Lokalizacja i dane klimatyczne" ekran="lokalizacja-i-klimat">
         Dane stąd zasilają niemal wszystkie pozostałe moduły — kąt padania słońca, strefę
         wiatrową i śniegową, minima temperaturowe do stress-testów zimowych. Moduł 1, Ekran 1.
         Tryb offline: wpisz dane ręcznie.
       </NaglowekEkranu>
 
       <div className="flex flex-col gap-4">
-        <Pole label="Adres / działka (opcjonalnie)" value={adres} onChange={(e) => setAdres(e.target.value)} />
+        <Pole label="Adres / działka (opcjonalnie)" value={adres} onChange={(e) => setAdres(e.target.value)} pomoc={<PomocPola ekran="lokalizacja-i-klimat" pole="adres" />} />
         <Pole
           label="Szerokość geograficzna"
           unit="°"
@@ -93,6 +95,7 @@ export default function LokalizacjaIKlimatPage() {
           value={szerokosc}
           onChange={(e) => setSzerokosc(e.target.value)}
           placeholder="np. 52.23"
+          pomoc={<PomocPola ekran="lokalizacja-i-klimat" pole="szerokosc" />}
         />
         <Pole
           label="Długość geograficzna"
@@ -102,6 +105,7 @@ export default function LokalizacjaIKlimatPage() {
           value={dlugosc}
           onChange={(e) => setDlugosc(e.target.value)}
           placeholder="np. 21.01"
+          pomoc={<PomocPola ekran="lokalizacja-i-klimat" pole="dlugosc" />}
         />
         <Pole
           label="Temperatura minimalna w lokalizacji"
@@ -111,6 +115,7 @@ export default function LokalizacjaIKlimatPage() {
           value={temperaturaMin}
           onChange={(e) => setTemperaturaMin(e.target.value)}
           placeholder="np. -22"
+          pomoc={<PomocPola ekran="lokalizacja-i-klimat" pole="temperaturaMin" params={{ tMin: TEMPERATURA_MIN_C, tMax: TEMPERATURA_MAX_C }} />}
         />
       </div>
 
