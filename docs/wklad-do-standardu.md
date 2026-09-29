@@ -997,3 +997,29 @@ zapominany). Propozycja do rozważenia: w 4.3 lub 10.x — „kompletność reje
 (skrypt kod `critical` ↔ wpis w rejestrze, z listą świadomych wyjątków), najlepiej jako krok `audit:*` w pakiecie przed
 merge'em”, analogicznie do dwukierunkowego `grep` markerów TD# (GOD BOOK X.4).
 Status: 🔎 nowe
+
+[28.09.2026] KATEGORIA: DOBRA PRAKTYKA — poziom pewności danych jako typ w schemacie, nie konwencja
+
+Szczegóły: Plik stawek M14 (`lib/core/dane/rozliczenia-pl-2026`) ma przy każdej wartości pole `pewnosc`, a schemat Zod
+przyjmuje wyłącznie `z.literal("potwierdzone")`. Wartość z jednego źródła wtórnego (🔎) po prostu nie przechodzi walidacji
+przy starcie modułu i w testach — reguła „do kodu jako domyślna trafia tylko ✅” nie zależy od pamięci kolejnej sesji. Do
+tego każda stawka jest listą okresów `{ odDnia, doDnia | null, wartosc }`, a nie parą (rok, wartość), bo stawka zmieniła się
+w trakcie roku (1.02.2026). Brak wartości (ani w danych, ani z faktury użytkownika) daje `INCOMPLETE` z listą braków.
+Dlaczego warto zgłosić do new-app-standards: każda aplikacja rodziny, która trzyma dane normatywne/cennikowe (stawki, normy,
+współczynniki), ma ten sam problem „nie zgaduj brakujących danych”; wymuszenie typem jest tańsze niż audyt po fakcie i
+pasuje do rozdziałów 02 (model danych) i 04 (walidacja).
+Status: 🔎 nowe
+
+[28.09.2026] KATEGORIA: DOBRA PRAKTYKA / BŁĄD — ekrany-echo: jeden właściciel szkicu, reszta tylko czyta; data „dziś” na stronie prerenderowanej
+
+Szczegóły: M14 ma kilkanaście ekranów, które liczą z tych samych danych (rachunek, zużycie miesięczne, PV). Zamiast
+kopiować pola na każdy ekran, każdy szkic ma dokładnie jednego właściciela (`usePersistedDraft`), a ekrany pochodne czytają
+go hookiem tylko do odczytu (`useOdczytDraftu`) i odsyłają linkiem do właściciela, gdy danych brak. Dwa ekrany piszące ten
+sam klucz nadpisywałyby sobie stan (autozapis zapisuje cały obiekt). Druga lekcja: `new Date()` w renderze komponentu na
+stronie statycznie prerenderowanej (status naboru dotacji „trwa/zakończony”) daje inny HTML na serwerze i kliencie → błąd
+hydracji; rozwiązanie: `useSyncExternalStore` z migawką serwera równą dacie `stanNa` pliku danych.
+Dlaczego warto zgłosić do new-app-standards: każda aplikacja rodziny z modułami „pochodnymi” (echo innego modułu) i z
+danymi z datą ważności ma oba problemy; reguła „jeden właściciel szkicu” pasuje do rozdziału 05 (dane offline), a pułapka
+daty — do 08 (UI) albo 12 (wydajność/SSR).
+Status: 🔎 nowe
+

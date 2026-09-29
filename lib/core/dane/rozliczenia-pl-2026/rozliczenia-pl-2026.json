@@ -1,0 +1,245 @@
+{
+  "id": "rozliczenia-pl-2026",
+  "wersjaDanych": "1.0.0",
+  "stanNa": "2026-09-28",
+  "waznoscDo": "2026-12-31",
+  "uwaga": "Tylko wartości ✅ (odczyt pierwotny 28.09.2026, bramka DANE-1). Kwoty netto (bez VAT), zł. Źródła: 03_M14_Dom_i_Firma_Siec.md §2, docs/zrodla/Opracowanie_M14_Z_Sieci_Na_OffGrid_DRAFT.md §2.3, §2.4a, §3.1, §8.2–8.4. Niczego nie wpisywać z pamięci.",
+  "krajowe": {
+    "vat": {
+      "jednostka": "ułamek",
+      "okresy": [{ "odDnia": "2026-01-01", "doDnia": "2026-12-31", "wartosc": 0.23 }],
+      "zrodlo": "ustawa o VAT — 23% na energię elektryczną",
+      "stanNa": "2026-09-28",
+      "pewnosc": "potwierdzone"
+    },
+    "oplataMocowaRyczalt": {
+      "jednostka": "zł/mies. za punkt poboru",
+      "okresy": [
+        {
+          "odDnia": "2026-01-01",
+          "doDnia": "2026-12-31",
+          "wartosc": [
+            { "powyzejKwh": null, "doKwh": 500, "doWlacznie": false, "zlMies": 4.29 },
+            { "powyzejKwh": null, "doKwh": 1200, "doWlacznie": true, "zlMies": 10.31 },
+            { "powyzejKwh": 1200, "doKwh": 2800, "doWlacznie": true, "zlMies": 17.18 },
+            { "powyzejKwh": 2800, "doKwh": null, "doWlacznie": true, "zlMies": 24.05 }
+          ]
+        }
+      ],
+      "zrodlo": "Informacja Prezesa URE nr 58/2025 (30.10.2025), pkt 1–4; progi wg art. 89b ust. 3 pkt 1–4 ustawy o rynku mocy (poniżej 500 / od 500 do 1 200 / powyżej 1 200 do 2 800 / powyżej 2 800 kWh rocznie). Plik docs/zrodla/URE-Informacja-58-2025-stawki-oplaty-mocowej-2026.pdf",
+      "stanNa": "2026-09-28",
+      "pewnosc": "potwierdzone"
+    },
+    "oplataMocowaPozostali": {
+      "jednostka": "zł/kWh (dni robocze 7:00–22:00)",
+      "okresy": [{ "odDnia": "2026-01-01", "doDnia": "2026-12-31", "wartosc": 0.2194 }],
+      "zrodlo": "Informacja Prezesa URE nr 58/2025, pkt 5 (art. 89a ust. 1 pkt 2 ustawy o rynku mocy); godziny wg Informacji nr 57/2025",
+      "stanNa": "2026-09-28",
+      "pewnosc": "potwierdzone"
+    },
+    "stawkaJakosciowaNn": {
+      "jednostka": "zł/kWh",
+      "okresy": [
+        { "odDnia": "2026-01-01", "doDnia": "2026-01-31", "wartosc": 0.0331 },
+        { "odDnia": "2026-02-01", "doDnia": "2026-12-31", "wartosc": 0.0332 }
+      ],
+      "zrodlo": "Taryfa OSP (PSE), zmiana kok decyzją Prezesa URE z 16.01.2026 (DRE.WPR.4211.1.4.2026.BTS); komunikaty Tauron i Enea, tabela 7.7 taryfy Stoen",
+      "stanNa": "2026-09-28",
+      "pewnosc": "potwierdzone"
+    },
+    "oplataOze": {
+      "jednostka": "zł/kWh",
+      "okresy": [{ "odDnia": "2026-01-01", "doDnia": "2026-12-31", "wartosc": 0.0073 }],
+      "zrodlo": "7,30 zł/MWh — taryfy OSD 2026: Energa-Operator pkt 9.3, Stoen pkt 7.8, Tauron pkt 7.5",
+      "stanNa": "2026-09-28",
+      "pewnosc": "potwierdzone"
+    },
+    "oplataKogeneracyjna": {
+      "jednostka": "zł/kWh",
+      "okresy": [{ "odDnia": "2026-01-01", "doDnia": "2026-12-31", "wartosc": 0.003 }],
+      "zrodlo": "3,00 zł/MWh — taryfy OSD 2026: Energa pkt 9.4, Stoen pkt 7.9, Tauron pkt 7.6",
+      "stanNa": "2026-09-28",
+      "pewnosc": "potwierdzone"
+    },
+    "oplataPrzejsciowa": {
+      "jednostka": "zł/kWh",
+      "okresy": [{ "odDnia": "2026-01-01", "doDnia": "2026-12-31", "wartosc": 0 }],
+      "zrodlo": "Zniesiona od 1.01.2026 — komunikat Ministerstwa Energii z 28.11.2025; brak stawki w taryfach OSD 2026. Pole zostaje dla faktur z 2025 r. (tryb „moje dane z faktury”).",
+      "stanNa": "2026-09-28",
+      "pewnosc": "potwierdzone"
+    }
+  },
+  "prosument": {
+    "wspolczynnikDepozytu": {
+      "jednostka": "mnożnik",
+      "okresy": [{ "odDnia": "2025-02-01", "doDnia": null, "wartosc": 1.23 }],
+      "zrodlo": "Ustawa o OZE (t.j. Dz.U. 2026 poz. 68) art. 4c ust. 4; w brzmieniu od 1.02.2025 (Dz.U. 2024 poz. 1847, art. 31)",
+      "stanNa": "2026-09-28",
+      "pewnosc": "potwierdzone"
+    },
+    "zwrotDepozytuMaksRcem": {
+      "jednostka": "ułamek wartości energii wprowadzonej w miesiącu",
+      "okresy": [{ "odDnia": "2025-02-01", "doDnia": null, "wartosc": 0.2 }],
+      "zrodlo": "Ustawa o OZE art. 4 ust. 11a (rozliczenie ceną RCEm)",
+      "stanNa": "2026-09-28",
+      "pewnosc": "potwierdzone"
+    },
+    "zwrotDepozytuMaksRce": {
+      "jednostka": "ułamek wartości energii wprowadzonej w miesiącu",
+      "okresy": [{ "odDnia": "2025-02-01", "doDnia": null, "wartosc": 0.3 }],
+      "zrodlo": "Ustawa o OZE art. 4 ust. 11a (rozliczenie ceną RCE)",
+      "stanNa": "2026-09-28",
+      "pewnosc": "potwierdzone"
+    }
+  },
+  "mocBierna": {
+    "krotnoscKNn": {
+      "jednostka": "—",
+      "okresy": [{ "odDnia": "2026-01-01", "doDnia": "2026-12-31", "wartosc": 3 }],
+      "zrodlo": "Taryfy OSD 2026 zgodnie: Tauron pkt 3.4.x, Energa pkt 4.3.x, Stoen pkt 3.4.x (k = 3,00 nN)",
+      "stanNa": "2026-09-28",
+      "pewnosc": "potwierdzone"
+    },
+    "tgFi0Domyslny": {
+      "jednostka": "—",
+      "okresy": [{ "odDnia": "2026-01-01", "doDnia": "2026-12-31", "wartosc": 0.4 }],
+      "zrodlo": "Taryfy OSD 2026 (np. Energa pkt 4.3.4): tgφ₀ = 0,4, chyba że umowa stanowi inaczej",
+      "stanNa": "2026-09-28",
+      "pewnosc": "potwierdzone"
+    },
+    "tgFi0Minimalny": {
+      "jednostka": "—",
+      "okresy": [{ "odDnia": "2026-01-01", "doDnia": "2026-12-31", "wartosc": 0.2 }],
+      "zrodlo": "Taryfy OSD 2026 (np. Energa pkt 4.3.4): nie mniej niż 0,2",
+      "stanNa": "2026-09-28",
+      "pewnosc": "potwierdzone"
+    }
+  },
+  "inflacja": {
+    "sredniaGus15Lat": {
+      "jednostka": "ułamek/rok",
+      "okresy": [{ "odDnia": "2026-01-01", "doDnia": null, "wartosc": 0.0358 }],
+      "zrodlo": "GUS, „Roczne wskaźniki cen towarów i usług konsumpcyjnych od 1950 roku” (CSV), średnia geometryczna 2011–2025 = 3,5768% → 3,58% (D43)",
+      "stanNa": "2026-09-28",
+      "pewnosc": "potwierdzone"
+    },
+    "celNbp": {
+      "jednostka": "ułamek/rok",
+      "okresy": [{ "odDnia": "2026-01-01", "doDnia": null, "wartosc": 0.025 }],
+      "zrodlo": "Uchwała nr 7/2025 RPP z 2.09.2025, M.P. 2025 poz. 1013 — cel 2,5% ±1 pkt proc.",
+      "stanNa": "2026-09-28",
+      "pewnosc": "potwierdzone"
+    }
+  },
+  "sciezkaUe": {
+    "jednostka": "€'15/MWh (do aplikacji wchodzi tylko dynamika, nigdy poziom)",
+    "punkty": [
+      { "rok": 2020, "wartosc": 123.57 },
+      { "rok": 2025, "wartosc": 133.59 },
+      { "rok": 2030, "wartosc": 145.49 },
+      { "rok": 2035, "wartosc": 146.6 },
+      { "rok": 2040, "wartosc": 155.5 },
+      { "rok": 2045, "wartosc": 157.34 },
+      { "rok": 2050, "wartosc": 158.87 }
+    ],
+    "zrodlo": "Komisja Europejska, DG ENER, EU Reference Scenario 2020 (REF2020), arkusz „main results…”, zakładka PL_A, wiersz „Average Price of Electricity in Final demand sectors (€'15/MWh)”, PRIMES, lipiec 2021 (D40)",
+    "stanNa": "2026-09-28",
+    "pewnosc": "potwierdzone"
+  },
+  "osd": [
+    {
+      "id": "tauron",
+      "nazwa": "Tauron Dystrybucja",
+      "okresy": [
+        {
+          "odDnia": "2026-01-01",
+          "doDnia": "2026-12-31",
+          "grupy": {
+            "G11": { "strefy": { "calodobowa": 0.2464 }, "stalaG": { "jednofazowa": 7.38, "trojfazowa": 10.86 }, "abonament": { "1": 4.56, "2": 2.28, "6": 0.76, "12": 0.38 } },
+            "G12": { "strefy": { "dzien": 0.2841, "noc": 0.0558 }, "stalaG": { "jednofazowa": 7.38, "trojfazowa": 10.86 }, "abonament": { "1": 4.56, "2": 2.28, "6": 0.76, "12": 0.38 } },
+            "G12w": { "strefy": { "szczyt": 0.3298, "pozaszczyt": 0.0512 }, "stalaG": { "jednofazowa": 7.38, "trojfazowa": 10.86 }, "abonament": { "1": 4.56, "2": 2.28, "6": 0.76, "12": 0.38 } },
+            "C11": { "strefy": { "calodobowa": 0.2283 }, "stalaCZlKw": 5.73 },
+            "C12a": { "strefy": { "szczyt": 0.2333, "pozaszczyt": 0.1762 }, "stalaCZlKw": 5.73 },
+            "C12b": { "strefy": { "dzien": 0.2152, "noc": 0.1651 }, "stalaCZlKw": 5.73 },
+            "C21": { "strefy": { "calodobowa": 0.2153 }, "stalaCZlKw": 17.52 },
+            "C22a": { "strefy": { "szczyt": 0.2758, "pozaszczyt": 0.1968 }, "stalaCZlKw": 17.52 },
+            "C22b": { "strefy": { "dzien": 0.2755, "noc": 0.0954 }, "stalaCZlKw": 17.52 }
+          }
+        }
+      ],
+      "zrodlo": "Taryfa Tauron Dystrybucja 2026 (DRE.WRE.4211.54.8.2025.ASa1, 17.12.2025), tabele 7.1, 7.4 i wyciąg grupy G. Abonament C — tab. 7.4 jeszcze nieodczytana (brak w danych).",
+      "stanNa": "2026-09-28",
+      "pewnosc": "potwierdzone"
+    },
+    {
+      "id": "energa",
+      "nazwa": "Energa-Operator",
+      "okresy": [
+        {
+          "odDnia": "2026-01-01",
+          "doDnia": "2026-12-31",
+          "grupy": {
+            "G11": { "strefy": { "calodobowa": 0.3485 }, "stalaG": { "jednofazowa": 7.83, "trojfazowa": 11.77 }, "abonament": { "1": 4.64, "2": 2.32 } },
+            "G12": { "strefy": { "dzien": 0.3844, "noc": 0.0827 }, "stalaG": { "jednofazowa": 14.35, "trojfazowa": 20.17 }, "abonament": { "1": 4.64, "2": 2.32 } },
+            "G12w": { "strefy": { "szczyt": 0.4017, "pozaszczyt": 0.0851 }, "stalaG": { "jednofazowa": 14.35, "trojfazowa": 20.17 }, "abonament": { "1": 4.64, "2": 2.32 } },
+            "C11": { "strefy": { "calodobowa": 0.4045 }, "stalaCZlKw": 8.08, "abonament": { "1": 5.92 } },
+            "C12a": { "strefy": { "szczyt": 0.5094, "pozaszczyt": 0.1482 }, "stalaCZlKw": 8.08, "abonament": { "1": 5.92 } },
+            "C12b": { "strefy": { "dzien": 0.4433, "noc": 0.0983 }, "stalaCZlKw": 8.08, "abonament": { "1": 5.92 } },
+            "C21": { "strefy": { "calodobowa": 0.2912 }, "stalaCZlKw": 34.84, "abonament": { "1": 7.4 } },
+            "C22a": { "strefy": { "szczyt": 0.3432, "pozaszczyt": 0.2338 }, "stalaCZlKw": 34.84, "abonament": { "1": 7.4 } },
+            "C22b": { "strefy": { "dzien": 0.296, "noc": 0.1328 }, "stalaCZlKw": 34.84, "abonament": { "1": 7.4 } }
+          }
+        }
+      ],
+      "zrodlo": "Taryfa Energa-Operator 2026 (plik z 17.12.2025), tabele 8, 9.1–9.5",
+      "stanNa": "2026-09-28",
+      "pewnosc": "potwierdzone"
+    },
+    {
+      "id": "stoen",
+      "nazwa": "Stoen Operator",
+      "okresy": [
+        {
+          "odDnia": "2026-01-01",
+          "doDnia": "2026-12-31",
+          "grupy": {
+            "G11": { "strefy": { "calodobowa": 0.2342 }, "stalaG": { "jednofazowa": 11.46, "trojfazowa": 18.53 }, "abonament": { "1": 2.88 } },
+            "G12": { "strefy": { "dzien": 0.2545, "noc": 0.0555 }, "stalaG": { "jednofazowa": 11.46, "trojfazowa": 18.53 }, "abonament": { "1": 2.88 } },
+            "G12w": { "strefy": { "szczyt": 0.257, "pozaszczyt": 0.1079 }, "stalaG": { "jednofazowa": 11.46, "trojfazowa": 18.53 }, "abonament": { "1": 2.88 } },
+            "C11": { "strefy": { "calodobowa": 0.2562 }, "stalaCZlKw": 7.72, "abonament": { "1": 3.12 } },
+            "C12a": { "strefy": { "szczyt": 0.3027, "pozaszczyt": 0.1611 }, "stalaCZlKw": 7.72, "abonament": { "1": 3.12 } },
+            "C12b": { "strefy": { "dzien": 0.3226, "noc": 0.1005 }, "stalaCZlKw": 7.72, "abonament": { "1": 3.12 } },
+            "C21": { "strefy": { "calodobowa": 0.1481 }, "stalaCZlKw": 18.33, "abonament": { "1": 7.83 } }
+          }
+        }
+      ],
+      "zrodlo": "Taryfa Stoen Operator 2026 (tekst z 25.02.2026), tabele 7.3–7.10. C22a/C22b — przypisanie kolumn tabeli 7.3 do odczytu wizualnego (brak w danych).",
+      "stanNa": "2026-09-28",
+      "pewnosc": "potwierdzone"
+    },
+    {
+      "id": "pge",
+      "nazwa": "PGE Dystrybucja",
+      "okresy": [],
+      "zrodlo": "Taryfa 2026 niepobrana (W3-PGE) — tylko tryb „moje dane z faktury”.",
+      "stanNa": "2026-09-28",
+      "pewnosc": "potwierdzone"
+    },
+    {
+      "id": "enea",
+      "nazwa": "Enea Operator",
+      "okresy": [],
+      "zrodlo": "Dostępne tylko stawki brutto (informacja poglądowa OSD); pełna taryfa netto to skan (W3-Enea) — tylko tryb „moje dane z faktury”.",
+      "stanNa": "2026-09-28",
+      "pewnosc": "potwierdzone"
+    },
+    {
+      "id": "inny",
+      "nazwa": "Inny OSD",
+      "okresy": [],
+      "zrodlo": "Mniejszy operator lokalny — tylko tryb „moje dane z faktury”.",
+      "stanNa": "2026-09-28",
+      "pewnosc": "potwierdzone"
+    }
+  ]
+}

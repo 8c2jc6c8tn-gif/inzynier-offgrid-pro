@@ -1,6 +1,6 @@
 # 03. M14 — „Dom – sieć” i „Firma – sieć”: rachunek za prąd, a potem przejście na off-grid
 
-**Wersja:** 1.6 | **Filar:** B (merytoryczny) | **Data utworzenia:** 28.09.2026 | **Ostatnia aktualizacja:** 28.09.2026 | **Status:** Stabilny — ~~**kod zablokowany bramką N.3**~~ **kod odblokowany 28.09.2026 (D50)**, obowiązuje bramka danych DANE-1 (patrz „Stan i bramki”)
+**Wersja:** 1.8 | **Filar:** B (merytoryczny) | **Data utworzenia:** 28.09.2026 | **Ostatnia aktualizacja:** 28.09.2026 | **Status:** Stabilny — ~~**kod zablokowany bramką N.3**~~ **kod odblokowany 28.09.2026 (D50)**, obowiązuje bramka danych DANE-1 (patrz „Stan i bramki”)
 **Powiązane dokumenty:** `docs/zrodla/Opracowanie_M14_Z_Sieci_Na_OffGrid_DRAFT.md` (opracowanie źródłowe: weryfikacja, adnotacje ✏️ K1–K14, tabele stawek per OSD), `rejestr-decyzji.md` D35–D43 i D47–D48, `docs/rejestr-pokrycia.md` (sekcja M14), `docs/rejestr-twardych-stopow.md` (sekcja M14), `mapa-wdrozenia.md`, `slownik-pojec.md` (sekcja „Sieć i rozliczenia energii”)
 
 TL;DR: Moduł **M14** ma dwa rozdziały i na pulpicie dwa duże kafle: **M14-D „Dom – sieć”** (grupy taryfowe G) oraz **M14-F „Firma – sieć”** (grupy C na nN). Każdy rozdział składa się z dwóch części w stałej kolejności:
@@ -542,6 +542,19 @@ Nie jest potrzebny do pierwszej działającej wersji rdzenia off-grid (M1–M8).
 - **Kod rachunków — bramka danych DANE-1:**
   - do czasu pełnego pliku danych kalkulatory rachunku działają **wyłącznie w trybie „moje dane z faktury”** (pełnoprawny tryb, D36);
   - jako domyślne wolno wpisać tylko wartości ✅ (Tauron, Energa i Stoen netto; stawki ogólnokrajowe).
+  - **[28.09.2026] Plik danych istnieje:** `lib/core/dane/rozliczenia-pl-2026/` (JSON + Zod). Schemat przyjmuje wyłącznie
+    `pewnosc: "potwierdzone"`, więc wartość 🔎 nie przejdzie walidacji. PGE, Enea i „inny OSD” są w pliku bez stawek (tryb
+    faktury). Nie ma w nim: godzin stref OSD, abonamentu C Tauronu (tab. 7.4), Stoen C22a/C22b, `C_rk`, opłat
+    przyłączeniowych — nadal lista „Otwarte — wymaga danych zewnętrznych”.
+- **[28.09.2026] Stan kodu:** część Sieć — D1, D2, D8, D12 (= F11), F1–F5 zbudowane (`lib/core/modules/siec/`, ekrany
+  `app/kalkulatory/…`, dwa kafle w pulpicie), plus silnik pola „Wzrost cen energii” (D40–D43) z testem przykładu
+  kontrolnego §4 (ekran D7/F8 jeszcze nie). Ograniczenia: `dlug-techniczny.md` TD22. Szczegóły: `docs/rejestr-pokrycia.md`.
+- **[28.09.2026] Stan kodu — rozdział zbudowany w całości:** reszta części Sieć (D3, D13, D14, F6, F7, F12, F13), cała część
+  Przejście (D4–D7, D9–D11, F8–F10) i kreator „Ścieżka przejścia”; oba kafle mają pełną listę ekranów. Silniki:
+  `bilans-miesieczny`, `scenariusze-przejscia`, `przelacznik-siec-wyspa`, `koszt-powrotu`, `strumienie-bess`; plik dotacji
+  `lib/core/dane/dotacje` (terminy naborów, linki regulaminów puste do odczytu W6). Pięć twardych stopów — w kodzie
+  (`docs/rejestr-twardych-stopow.md`). Narzędzia AI — wszystkie pięć z listy wyżej. Uproszczenia: TD23 (bilans miesięczny
+  zamiast M7, autokonsumpcja bez W4, stawka przyłączeniowa od użytkownika). Bramka DANE-1 i lista „Otwarte” bez zmian.
 
 ### Otwarte — wymaga danych zewnętrznych
 
@@ -574,3 +587,5 @@ Nie jest potrzebny do pierwszej działającej wersji rdzenia off-grid (M1–M8).
 | 28.09.2026 | D43: domyślna inflacja w „Plany UE + inflacja” = średnia GUS z 15 lat 3,58% (decyzja właściciela); NBP 2,5% zostaje do wyboru. Przykład kontrolny uzupełniony o wiersz GUS. Wersja 1.3→1.4. |
 | 28.09.2026 | D47: szczegół przełącznika w D11 zamiast „🔎 w M8”; D48: przełącznik agregatu zawsze (sieć i bez sieci), stopy w M2/E17 i M7/E8. Wersja 1.4→1.5. |
 | 28.09.2026 | D50: bramka N.3 zdjęta — kod M14 może startować (od pliku danych `rozliczenia-pl-2026`, bramka DANE-1 dalej obowiązuje). Wersja 1.5→1.6. |
+| 28.09.2026 | Start kodu M14 (po D50): plik danych `rozliczenia-pl-2026`, część Sieć D1, D2, D8, D12/F11, F1–F5, silnik ścieżki cen. Treść rozdziału bez zmian — dopisany tylko stan w „Stan i bramki”. Wersja 1.6→1.7. |
+| 28.09.2026 | Zamknięcie kodu rozdziału: reszta części Sieć, część Przejście, kreator, kafle. Treść rozdziału bez zmian — dopisany tylko stan w „Stan i bramki”. Wersja 1.7→1.8. |

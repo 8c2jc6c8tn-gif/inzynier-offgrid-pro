@@ -1,6 +1,6 @@
 # Dług techniczny — Inżynier Offgrid Pro
 
-**Wersja:** 2.3 | **Filar:** C | **Data utworzenia:** 04.09.2026 | **Ostatnia aktualizacja:** 28.09.2026 | **Status:** Stabilny (rosnący)
+**Wersja:** 2.5 | **Filar:** C | **Data utworzenia:** 04.09.2026 | **Ostatnia aktualizacja:** 28.09.2026 | **Status:** Stabilny (rosnący)
 **Powiązane dokumenty:** `00_Biblia.md`, `docs/rejestr-pokrycia.md`, `backlog-poza-v1.md`
 
 TL;DR: Rejestr świadomych uproszczeń kodu względem specyfikacji źródła (Część X.4 GOD BOOK) — ekrany zbudowane **częściowo**, gdzie zbudowana część jest kompletna i poprawna, ale źródło opisuje więcej niż jest dziś zaimplementowane. Różni się od `backlog-poza-v1.md`: tam są całe ekrany niezbudowane, tu są ekrany **częściowo** zbudowane z jawnie oznaczoną brakującą resztą. **To jest indeks, nie kopia** — każdy wpis TD# odpowiada spójnemu markerowi `🔎 TD#` w kodzie źródłowym (GOD BOOK X.4, rozszerzenie 04.09.2026, wersja 2.8); audyt (Część N) sprawdza zgodność w obie strony przez `grep -rn "🔎 TD"`.
@@ -60,6 +60,27 @@ TL;DR: Rejestr świadomych uproszczeń kodu względem specyfikacji źródła (Cz
   norma nie mówi, które odcinki odciąć, przyjęte od największej wagi (ostrożnie, ✅🤖). Strona DC PV (HD 60364-7-712,
   712.443) poza tym obliczeniem — ostrzeżenie `CRL-STRONA-DC-POZA`. Marker: komentarz nagłówkowy
   `lib/core/modules/okablowanie/ocena-ryzyka-crl/calculator.ts`.
+- **TD22 (28.09.2026) — moduł: M14, część Sieć (D1/F1, D2/F2, F4, pulpit), co skrócono:** (1) godzin stref OSD nie ma
+  w pliku `rozliczenia-pl-2026` (odczyt pierwotny ich nie obejmował) — podział zużycia na strefy wpisuje użytkownik, w D2/F2
+  osobno dla każdej porównywanej grupy; (2) D2/F2 porównuje tylko na stawkach ✅ z taryf, bez nadpisań z faktury — dla PGE,
+  Enea i „innego OSD” porównanie jest puste (rachunek D1/F1 działa w trybie faktury); (3) D1/F1 nie ma pola zużycia
+  miesięcznego (silnik je obsługuje) — ~~stawka jakościowa zmienna w roku bierze wartość obowiązującą najdłużej (0,0332 zamiast
+  ważonej, różnica rzędu 0,0001 zł/kWh w styczniu), z informacją;~~ **[28.09.2026] zamknięte:** D1/F1 bierze zużycie miesięczne z D3/F6 (12 miesięcy), gdy jest wpisane — bez niego nadal wartość obowiązująca najdłużej, z informacją; datą rozliczenia jest 31.12 wpisanego roku; (4) F4 w wariancie
+  „suma 10 największych nadwyżek” UI nie ma pól na 10 wartości — liczone górne oszacowanie 10 × maks., z ostrzeżeniem (silnik
+  przyjmuje listę); (5) kafle „Dom – sieć” / „Firma – sieć” są zwykłej wielkości z ikoną emoji, nie „duże” (D39), a presety
+  onboardingu (8 + „Jestem podłączony do sieci”) nie istnieją jeszcze w kodzie. Markery: `🔎 TD22` w
+  `lib/core/modules/siec/porownanie-taryf/input.ts`, `components/siec/formularz-rachunku.tsx`,
+  `app/kalkulatory/moc-umowna/page.tsx`.
+- **TD23 (28.09.2026) — moduł: M14, część Przejście (D4–D7, D10, F6–F8), co skrócono:** (1) bilans wyspy jest miesięczny
+  (`bilans-miesieczny`: zużycie, produkcja, magazyn przenoszący nadwyżkę w obrębie miesiąca) — nie zastępuje stress-testu M7
+  (7.2, 7.37 `todo`), ekran D5 odsyła do M7 i mówi to wprost; (2) autokonsumpcja PV to współczynnik wpisany przez użytkownika,
+  bez profili godzinowych W4 (D38 — profile do pozyskania); (3) D7/F8 liczy agregat z osobnych pól ekranu scenariuszy (echo silnika
+  M2/E17), nie z zapisu D6; wartość rezydualna tylko dla magazynu; (4) koszt powrotu do sieci (D10) = stawka opłaty przyłączeniowej
+  wpisana przez użytkownika × moc — stawek OSD nie ma w pliku danych, poza odległością standardową tylko „wycena indywidualna”;
+  (5) F7 — kWh i zysk na kWh każdego strumienia wpisuje użytkownik, usługi systemowe tylko jako informacja, bez kwoty; stała
+  tylko opłata mocowa ✅ z pliku danych. Ryzyko: wynik TCO/zwrotu jest orientacyjny przy dużej zmienności dobowej; priorytet
+  średni (poprawia go M7 7.2/7.37 i profile W4). Markery: `🔎 TD23` w `lib/core/modules/siec/bilans-miesieczny/calculator.ts`,
+  `scenariusze-przejscia/calculator.ts`, `koszt-powrotu/input.ts`, `strumienie-bess/input.ts`.
 
 **M4/E17 (Second-Life) — poza numeracją TD#, świadomie.** Obie metody szacowania SoH (z wieku LUB przebiegu) zbudowane w pełni, ale reprodukują przykład źródła tylko przy self-konsystentnych wartościach własnych — źródło nie podaje dokładnego wieku/przebiegu użytego w swoim przykładzie liczbowym (833 zł/kWh). To nie jest skrócona implementacja (kod jest kompletny wg specyfikacji) — to ograniczenie weryfikowalności przykładu źródłowego, inny rodzaj wpisu niż TD1-TD5, dlatego bez markera w kodzie i bez numeru TD#.
 
@@ -89,3 +110,5 @@ TL;DR: Rejestr świadomych uproszczeń kodu względem specyfikacji źródła (Cz
 | 24.09.2026 | TD17 naprawiony: przeszkoda-obrys w Skanerze (E2) → bryła w Analizie zacienienia (E3). Wersja 2.0→2.1. |
 | 27.09.2026 | Dodano TD20 (M6/E8 — Załącznik A EN ISO 13786, uproszczenia) i TD21 (M5/E2 — CRL HD 60364-4-443, niewdrożone części). Wersja 2.1→2.2. |
 | 28.09.2026 | **Wynik audytu końcowego N.3:** grep `🔎 TD` ↔ TD1–TD21 — TD20 i TD21 miały opis znacznika w tym pliku, ale w kodzie nie było tekstu `🔎 TD20`/`🔎 TD21` (znaleziono tylko TD1–TD19). Dopisano znaczniki w miejscach wskazanych wyżej (`pojemnoscWarstwy()` i `OPOR_PRZEJMOWANIA_WEWN_M2K_W`; nagłówek `ocena-ryzyka-crl/calculator.ts`) — sam komentarz, logika bez zmian. Teraz 21/21 w obie strony. Wersja 2.2→2.3. |
+| 28.09.2026 | Dodano TD22 (M14, część Sieć — strefy wpisywane przez użytkownika, porównanie bez nadpisań z faktury, brak pola zużycia miesięcznego w UI, górne oszacowanie F4, kafle bez presetów) z markerami `🔎 TD22` w kodzie. Wersja 2.3→2.4. |
+| 28.09.2026 | TD22 (3) zamknięty częściowo (zużycie miesięczne z D3/F6 zasila D1/F1). Dodano TD23 (M14, część Przejście — bilans miesięczny zamiast M7, autokonsumpcja bez W4, agregat D7 z osobnych pól, stawka przyłączeniowa od użytkownika, strumienie BESS z wpisów) z markerami `🔎 TD23`. Wersja 2.4→2.5. |

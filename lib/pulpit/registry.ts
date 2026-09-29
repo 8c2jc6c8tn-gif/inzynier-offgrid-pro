@@ -1,5 +1,6 @@
 /**
- * Rejestr 13 kafli pulpitu (+ Kafel 14 Ustawienia, osobno — `USTAWIENIA_KAFEL` niżej).
+ * Rejestr 13 kafli pulpitu (+ Kafel 14 Ustawienia, osobno — `USTAWIENIA_KAFEL` niżej) i dwóch kafli M14
+ * (id 15/16, D39).
  * Kolejność domyślna i uzasadnienie: `docs/pulpit-i-nawigacja.md`, sekcja 2 (przepływ zależności
  * danych między modułami). To jest jedyne miejsce prawdy dla listy modułów i ich ekranów —
  * strona główna (`app/page.tsx`), strona modułu (`app/moduly/[id]/page.tsx`) i ustawienia
@@ -324,6 +325,56 @@ export const KAFLE: KafelEntry[] = [
     opis: "Monitoring bieżący — ma sens dopiero, gdy reszta jest zbudowana.",
     ikona: "📡",
     ekrany: [{ href: "/kalkulatory/tryb-live", label: "Wejście w tryb Live" }],
+  },
+  // M14 (D35, D39): two tiles after tile 13. Ids 15/16 are internal only — "Kafel 14" is Settings
+  // (D9), so these tiles are named "Dom – sieć" / "Firma – sieć" (M14-D / M14-F), never by number.
+  // Order follows the chapter parts (D35): Sieć, the wizard at the end of Sieć, then Przejście.
+  // Shared screens (D9–D12 = F9–F11) sit in both tiles; breadcrumbs resolve to the first match.
+  {
+    id: 15,
+    nazwa: "Dom – sieć",
+    opis: "Rachunek za prąd, taryfa G, prosument — a potem opcja przejścia na off-grid.",
+    ikona: "🏠",
+    ekrany: [
+      { href: "/kalkulatory/rachunek-dom", label: "Mój rachunek dziś" },
+      { href: "/kalkulatory/taryfa-g", label: "Która taryfa G" },
+      { href: "/kalkulatory/depozyt-prosumencki", label: "Net-metering, net-billing, depozyt" },
+      { href: "/kalkulatory/zuzycie-miesieczne", label: "Moje zużycie miesięcznie" },
+      { href: "/kalkulatory/test-licznika", label: "Test licznika i reklamacja" },
+      { href: "/kalkulatory/dotacje", label: "Dotacje (stan na dzień)" },
+      { href: "/kalkulatory/faq-dom", label: "FAQ — dom i sieć" },
+      { href: "/kalkulatory/sciezka-przejscia", label: "Ścieżka przejścia — kreator" },
+      { href: "/kalkulatory/pv-i-magazyn", label: "Ile PV i magazynu" },
+      { href: "/kalkulatory/zima-bez-sieci", label: "Zima bez sieci" },
+      { href: "/kalkulatory/agregat-jako-zapas", label: "Agregat jako zapas" },
+      { href: "/kalkulatory/scenariusze-dom", label: "Porównanie scenariuszy A–D" },
+      { href: "/kalkulatory/ryzyka-odlaczenia", label: "Ryzyka odłączenia" },
+      { href: "/kalkulatory/rezygnacja-z-przylacza", label: "Jak zrezygnować z przyłącza" },
+      { href: "/kalkulatory/przelacznik-siec-wyspa", label: "Przełącznik sieć/wyspa i bezpieczeństwo" },
+    ],
+  },
+  {
+    id: 16,
+    nazwa: "Firma – sieć",
+    opis: "Rachunek w taryfach C, moc bierna, moc umowna, opłata mocowa — a potem opcja przejścia na off-grid.",
+    ikona: "🏭",
+    ekrany: [
+      { href: "/kalkulatory/rachunek-firma", label: "Mój rachunek dziś (C)" },
+      { href: "/kalkulatory/taryfy-c", label: "Porównywarka taryf C" },
+      { href: "/kalkulatory/moc-bierna", label: "Moc bierna — opłata i kompensacja" },
+      { href: "/kalkulatory/moc-umowna", label: "Moc umowna — przekroczenia i optymalny poziom" },
+      { href: "/kalkulatory/oplata-mocowa", label: "Opłata mocowa — przesunięcie poboru" },
+      { href: "/kalkulatory/pv-w-firmie", label: "PV w firmie i autokonsumpcja" },
+      { href: "/kalkulatory/magazyn-firmy", label: "Magazyn (BESS) — strumienie korzyści" },
+      { href: "/kalkulatory/test-licznika", label: "Test licznika, reklamacja, badanie" },
+      { href: "/kalkulatory/dotacje-firma", label: "Dotacje i podatki — informacja" },
+      { href: "/kalkulatory/faq-firma", label: "FAQ firm" },
+      { href: "/kalkulatory/sciezka-przejscia", label: "Ścieżka przejścia — kreator" },
+      { href: "/kalkulatory/scenariusze-firma", label: "Scenariusze A–D dla firmy" },
+      { href: "/kalkulatory/ryzyka-odlaczenia", label: "Ryzyka odłączenia firmy" },
+      { href: "/kalkulatory/rezygnacja-z-przylacza", label: "Procedura i umowy B2B" },
+      { href: "/kalkulatory/przelacznik-siec-wyspa", label: "Przełącznik sieć/wyspa i bezpieczeństwo" },
+    ],
   },
 ]
 
