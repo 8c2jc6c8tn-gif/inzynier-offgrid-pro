@@ -197,6 +197,8 @@ Kod źródłowy (nazwy zmiennych, funkcji, klas, plików, komentarze, komunikaty
 
 **Uzasadnienie.** Właściciel projektu koordynuje równolegle kilka projektów rodziny — potrzebuje módz jednym rzutem oka, na końcu każdej odpowiedzi, w tym samym miejscu za każdym razem, ustalić stan repozytorium bez czytania całej odpowiedzi wstecz w poszukiwaniu tej informacji. Stałe miejsce (zawsze koniec) jest tu równie ważne jak sama treść — zmienne miejsce niweczy oszczędność czasu, nawet jeśli informacja gdzieś w odpowiedzi faktycznie się znajduje.
 
+[29.09.2026] ✅ ROZSZERZONO — decyzja właściciela repo (źródło: inzynier-offgrid-pro, U.4 27–28.09.2026). Sama deklaracja stanu nie wystarcza: po zakończeniu większej pracy commit → push → PR → merge jest **obowiązkowy** — patrz **15.23**. Zdanie końcowe z tej reguły zostaje i informuje, że to się stało (albo dlaczego nie).
+
 ## 15.22. Lista zadań na koniec pracy: żywa, aktualna, z priorytetem/odblokowaniem/plusami-minusami/kolizjami/kolejnością
 
 [24.09.2026] ✅ DODANO — źródło: właściciel projektu, `new-app-standards`. Rozszerza GOD BOOK B.6 (`docs/lista-do-zrobienia.md`) o konkretny, obowiązkowy format treści każdego wpisu — dotychczasowy format (B.6, tylko statusy 🔲🔄✅⏳⚠️) mówił *jaki jest stan* zadania, ale nie wymuszał zapisania informacji potrzebnej do **zaplanowania kolejnej pracy** bez ponownego przemyślenia tego od zera, zwłaszcza gdy nad rodziną projektów pracuje więcej niż jedna sesja naraz.
@@ -211,3 +213,16 @@ Każdy wpis zadania w tej liście zawiera, obok statusu (B.6):
 - **Kolejność wykonania względem zadań powiązanych** — gdy jedno duże zadanie i kilka mniejszych, zależnych od niego (wymagających poprawki PO jego zamknięciu) współistnieją na liście, wpis wprost nazywa, że duże idzie **pierwsze**, a powiązane mniejsze **po nim** — żeby uniknąć podwójnej roboty (poprawka mniejszego zadania przed zamknięciem większego, potem powtórna poprawka po jego zamknięciu).
 
 **Uzasadnienie.** Właściciel projektu koordynuje wiele sesji/projektów naraz — lista bez priorytetu/odblokowania/kolizji zmusza go (albo kolejną sesję) do odtwarzania tego kontekstu z pamięci albo z historii czatu za każdym razem. Jawny zapis kolejności (duże przed powiązanymi małymi) zapobiega sytuacji, w której drobna poprawka zrobiona przed dużym zadaniem musi być robiona ponownie po jego zamknięciu, bo duże zadanie zmieniło założenia, na których drobna poprawka się opierała.
+
+## 15.23. Po większej pracy: commit → push → PR → merge obowiązkowo; lista zadań i ślad gałęzi zawsze na gałęzi domyślnej
+
+[29.09.2026] ✅ DODANO — źródło: inzynier-offgrid-pro (U.4: 27.09.2026 oraz dwa wpisy 28.09.2026, w tym zgłoszenie właściciela repo), decyzja właściciela repo. 15.21 wymagała tylko zadeklarowania stanu, a moment scalenia zostawał do uznania. W inzynier-offgrid-pro gałęzie robocze rosły przez wiele dni bez PR, narosło ~15 nigdy niescalonych gałęzi (część martwa, wymagająca ręcznego audytu), a sesja startująca z `main` przeczytała tam nieaktualną listę zadań (notatka przekazania leżała na niescalonej gałęzi) i wykonała drugi raz całą, już zrobioną pracę (D29).
+
+**Reguła.**
+1. **Merge obowiązkowy.** Po zakończeniu większej pracy (zamknięte zadanie z `docs/lista-do-zrobienia.md`, moduł, zmiana reguły) sesja wykonuje commit → push → PR → merge do gałęzi domyślnej, po przejściu pakietu kontroli (11.3; gdy CI jest niedostępne — pełny pakiet lokalnie przed merge'em). Wstrzymanie tylko na wyraźne polecenie właściciela projektu — wtedy obowiązuje punkt 3.
+2. **Informacja na końcu.** Zdanie końcowe z 15.21 mówi, co faktycznie się stało (commit / push / PR z numerem / merge), żeby właściciel i kolejne sesje wiedziały, czy praca jest już na gałęzi domyślnej.
+3. **Lista zadań i ślad gałęzi na gałęzi domyślnej.** Zmiana statusu zadania (🔲→🔄→✅) i notatka przekazania trafiają na gałąź domyślną od razu, nie dopiero razem z kodem. Gdy praca zostaje niescalona (przerwana w połowie albo wstrzymana poleceniem), wpis listy na gałęzi domyślnej podaje: nazwę gałęzi, ostatni commit, co zrobione, następny krok. W środowisku, w którym sesja może pushować tylko na wyznaczoną gałąź, realizuje się to małym PR+merge samej listy.
+4. **Start sesji.** Oprócz odczytu listy (GOD BOOK B.6, P.2/Y.4): `git fetch` i przegląd gałęzi roboczych niescalonych do gałęzi domyślnej (`git branch -r --no-merged origin/<domyślna>`), zanim sesja zacznie zadanie, które mogło już zostać zrobione gdzie indziej.
+5. **Higiena gałęzi.** Gałęzie w pełni scalone są usuwane; niescalona gałąź bez wpisu śladu (punkt 3) to błąd do wyjaśnienia, nie stan do zignorowania.
+
+**Uzasadnienie.** Przy wielu równoległych sesjach w chmurze, każdej na własnej gałęzi, niescalona praca jest niewidoczna dla kolejnej sesji — skutkiem są zgubione gałęzie, trudne późniejsze scalanie i podwójna praca, która może nadpisać tę pierwszą. Merge po każdej większej pracy sprawia, że niescalona gałąź jest wyjątkiem (praca przerwana), a nie stanem domyślnym; punkt 3 zabezpiecza właśnie ten wyjątek.

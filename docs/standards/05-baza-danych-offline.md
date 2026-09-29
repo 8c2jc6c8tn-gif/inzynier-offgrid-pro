@@ -36,6 +36,8 @@ Powiązane: [01 Architektura](01-architektura.md) · [02 Model danych](02-model-
 
 **Reguła.** Mechanizm wczytywania danych ma naprawiać typowe, znane uszkodzenia struktury (np. tablica zserializowana błędnie jako obiekt przez wcześniejszy bug) w jednym miejscu, z testami odzwierciedlającymi dokładnie historyczne przypadki, które taką naprawę uzasadniły. Nie jest to zamiennik migracji wersji schematu (2.4) — to dodatkowa warstwa odporności na błędy, które migracja nie przewidziała.
 
+[29.09.2026] ✅ DODANO — źródło: inzynier-offgrid-pro (U.4). **Szkic formularza zapisany przed dodaniem nowego pola.** Autosave (5.7), który po odczycie zastępuje cały stan zapisanym szkicem, daje nowemu polu `undefined` u każdego użytkownika ze starym szkicem — porównanie `=== ""` to przepuszcza, a odwołanie po tej wartości wywala ekran; testy jednostkowe tego nie łapią, bo startują ze stanu początkowego. Reguła: odczyt szkicu scala stan początkowy ze szkicem (`{ ...poczatkowy, ...zapisany }`) albo wersjonuje kształt Seeda (2.4), a każda zmiana kształtu formularza (8.12) ma test "stary szkic bez nowego pola".
+
 ## 5.6. Blob po przejściu przez Web Workera: odtwórz przed zapisem do IndexedDB
 
 **Reguła.** Gdy `Blob` powstaje w Web Workerze (np. wynik kompresji zdjęcia, przekazany do głównego wątku przez `postMessage`) i ma trafić do IndexedDB (5.2), odtwórz go z surowych bajtów tuż przed zapisem — `await blob.arrayBuffer()` → `new Blob([bytes], {type})` — zawsze, nie warunkowo dla jednej platformy.
@@ -55,6 +57,8 @@ Powiązane: [01 Architektura](01-architektura.md) · [02 Model danych](02-model-
 **Konsekwencja procesowa (pomost do czasu wdrożenia powyższego w projekcie, który go jeszcze nie ma).** Patrz 15.19 — przed napisaniem nowego ekranu wg istniejącego wzorca, AI musi sprawdzić `docs/memory.md`/`docs/standards/` pod kątem najnowszej, aktualnej wersji tego wzorca, nie kopiować z pamięci/z najbliższego przykładu w kodzie bez tej weryfikacji.
 
 [21.09.2026] ✅ DOPRECYZOWANO ZAKRES — źródło: właściciel repo. "Nowy projekt od Etapu 1" opisuje najtańszy moment wdrożenia, nie granicę obowiązku — **autosave draftu jest obowiązkowy w KAŻDYM projekcie rodziny z formularzami wielopolowymi, również już istniejących, nie tylko przyszłych**, tym samym rodzajem bezwarunkowej obowiązkowości co 9.0 (rozdz. 09) i 18.1 (rozdz. 18). Projekt istniejący bez tego wzorca ma dług, nie zwolnienie — konsekwencja procesowa wyżej (15.19, pomost do czasu wdrożenia) opisuje właśnie ten przypadek: wzorzec ma powstać (albo zostać dokończony retrofitem na już istniejących ekranach) przy najbliższej realnej okazji, nie zostać trwale pominięty jako "nie dotyczy, bo projekt już istniał przed tą regułą".
+
+[29.09.2026] ✅ DOPRECYZOWANO — decyzja właściciela repo. Obowiązek dotyczy także **zmiany istniejącego ekranu**: nowe pole dodane do ekranu trafia do autosave draftu w tej samej zmianie, a istniejący ekran bez autosave dostaje go przy pierwszej takiej zmianie. Pełna kolejność budowy i zmiany ekranu: **8.12**.
 
 ## 5.8. Service Worker własny, bez wtyczki bundlera (Next.js App Router)
 

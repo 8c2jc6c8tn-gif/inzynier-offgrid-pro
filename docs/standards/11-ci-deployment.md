@@ -61,3 +61,18 @@ Niektóre narzędzia startowe (np. generatory projektów, buildery wizualne) two
 **(3) Baseline przed bumpem, weryfikacja empiryczna, budżet podnoszony o zmierzoną deltę.** [25.09.2026] ✅ DODANO — źródło: zero-waste (U.4, bump Next 15→16). Przed bumpem majora: zmierz baseline (rozmiar JS, czasy buildu, wynik e2e) na **starej** wersji, w **tym samym** środowisku, w którym po bumpie zmierzysz nową — porównanie wyników z różnych środowisk nie mówi nic o wpływie bumpa. Ocenę ryzyka z (2) weryfikuj empirycznie na realnym buildzie, nie tylko lekturą changelogu — realny przypadek: projekt uznał rename `middleware`→`proxy` za obowiązkowy, a był wyłącznie deprecated (dokładnie błąd klasyfikacji, przed którym chroni (2)). Jeśli nowy framework przekracza budżet JS, budżet podnosi się **o zmierzoną deltę samego frameworka** (baseline vs po bumpie, bez zmian w kodzie aplikacji), z wpisem w rejestrze decyzji — nigdy "do wartości, przy której CI przechodzi".
 
 **Uzasadnienie.** (1) zapobiega powtórce sytuacji "wtyczka porzucona, migracja zablokowana" w innym projekcie rodziny z inną biblioteką bundlerozależną. (2) jest metodologią ogólną — przenosi się na migrację dowolnego frameworka/biblioteki, nie tylko Next.js.
+
+## 11.9. Strażnik reguły "każdy X ma Y" — w CI od dnia wprowadzenia reguły, z listą zapadkową tylko dla starego kodu
+
+[29.09.2026] ✅ DODANO — źródło: inzynier-offgrid-pro (U.4, 26.09 i 29.09.2026), decyzja właściciela repo. Każda reguła typu "każdy ekran ma X / każde pole ma Y / każdy kalkulator ma Z / każda pozycja źródła ma wiersz rejestru" bez mechanicznej kontroli dryfuje w ciągu dni. W jednym projekcie dotyczyło to kolejno: rejestru pokrycia (GOD BOOK N.1 — dwukrotnie przeoczone pozycje), listy modułów strażnika i18n (17.9), rejestru twardych stopów (4.3), pomocy przy polach (8.4/8.12) i narzędzi AI (9.0a).
+
+**Reguła.**
+1. Reguła tej klasy dostaje strażnika — skrypt (najlepiej AST, 17.11, nie regex) kończący się kodem błędu, uruchamiany w CI i w lokalnym pakiecie kontroli przed merge'em — **w tej samej zmianie, w której reguła wchodzi**, nie jako późniejsze zadanie.
+2. **Lista zapadkowa** (baseline) istnieje wyłącznie dla starego kodu, który był już w repo w chwili wprowadzenia reguły — spis niezgodnych plików sporządzony **jednorazowo**, przy wprowadzeniu strażnika. Od tej chwili:
+   - na listę **nigdy nie dochodzą nowe pozycje** — nowy plik spełnia regułę od razu;
+   - każde naruszenie wykryte przez strażnika poza listą (nowy plik, regres w pliku już poprawionym) jest **poprawiane natychmiast**, w tej samej zmianie — nigdy dopisywane do listy;
+   - lista może tylko maleć; strażnik odrzuca także plik, który już spełnia regułę, a wciąż jest na liście (wymusza jej skracanie);
+   - pusta lista = strażnik w pełni ostry, plik listy do usunięcia.
+3. Strażnik sprawdza też kompletność własnego zakresu (np. czy każdy katalog modułu jest objęty), zamiast polegać na ręcznie dopisywanej liście objętych modułów (17.9).
+
+**Uzasadnienie.** Lista zapadkowa pozwala wprowadzić regułę do istniejącego projektu bez blokowania pracy ("big bang" na setkach plików), a jednocześnie od pierwszego dnia zatrzymuje powstawanie nowego długu. Bez zakazu dopisywania do listy staje się ona zwykłym `TODO` — miejscem, gdzie nowe naruszenia są legalizowane zamiast naprawiane.

@@ -768,7 +768,7 @@ Dlaczego warto zgłosić do new-app-standards: lista „ręcznie dopisywana” r
 zalecać odwrócenie domyślności (po zakończeniu migracji: wszystkie moduły objęte, wyjątki jawne) oraz wymienić wzorzec
 `push` wśród konstrukcji, które strażnik musi rozpoznawać.
 
-Status: 🔎 nowe
+Status: ✅ skonsolidowane w standardzie (29.09.2026) — `docs/standards/17-i18n.md` dopisek do **17.9** (strażnik sprawdza kompletność własnego zakresu) + **11.9** pkt 3. Źródło: `AKTUALIZACJE.md` `new-app-standards`, wiersze 2026-09-29.
 
 [27.09.2026] KATEGORIA: POMYSŁ NA REGUŁĘ — brak wprost sformułowanego obowiązku commit→push→PR→merge po każdym zamkniętym module/zadaniu (tylko obowiązek zadeklarowania stanu)
 
@@ -794,7 +794,7 @@ zalecenie domyślnego progu (np. "po zamknięciu pozycji `docs/lista-do-zrobieni
 wsadowanie kilku naraz") oraz rutynowe czyszczenie gałęzi już w pełni pokrytych przez `main` (`git branch -r
 --merged`) jako część higieny repo (14.x?), nie tylko ad-hoc audyt na żądanie.
 
-Status: 🔎 nowe
+Status: ✅ skonsolidowane w standardzie (29.09.2026) — `docs/standards/15-wspolpraca-z-ai.md` nowa **15.23** + dopisek do 15.21 (commit→push→PR→merge obowiązkowy po większej pracy). Źródło: `AKTUALIZACJE.md` `new-app-standards`, wiersze 2026-09-29.
 
 [27.09.2026] KATEGORIA: BŁĄD / DOBRA PRAKTYKA — przetwarzanie źródeł: (1) MD5 przed dodaniem pliku, (2) `.docx` czytać akapity, nie tylko tabele, (3) tesseract z `OMP_THREAD_LIMIT=1`
 
@@ -923,7 +923,7 @@ Dlaczego warto zgłosić do new-app-standards: 8.4 każe dać „?” przy każd
 prymitywem — naturalny wybór („to przecież tooltip”) jest błędny dla każdej aplikacji rodziny działającej na
 telefonie (wszystkie, rozdz. 13). Propozycja: 8.4 dopowiada „popover otwierany dotknięciem, nie tooltip hover-only”
 + 10.x: weryfikacja chmurek e2e także z emulacją dotyku, nie tylko myszy.
-Status: 🔎 nowe
+Status: ✅ skonsolidowane w standardzie (29.09.2026) — `docs/standards/08-ui-ux.md` dopisek do **8.4** (`?` otwierany kliknięciem/dotknięciem, nigdy tooltip hover-only). Źródło: `AKTUALIZACJE.md` `new-app-standards`, wiersze 2026-09-29.
 
 [28.09.2026] KATEGORIA: DOBRA PRAKTYKA — opcjonalne wejście, które przesuwa wynik w stronę mniej bezpieczną: `null` = strona bezpieczna + jawne założenie w każdym wyniku
 
@@ -947,7 +947,7 @@ przy pracy wielu równoległych sesji w chmurze, każda na własnej gałęzi, ta
 sesji „`git fetch` + gałęzie `claude/*` zmienione w ostatniej dobie + `git log origin/main..origin/<gałąź>`, a notatkę
 przekazania czytać z najnowszej gałęzi, nie z `main`”; (2) sesja kończąca bez merge zapisuje notatkę przekazania także
 w miejscu widocznym z `main` (np. PR w stanie draft), albo wprost w prompcie dla kolejnej sesji podaje nazwę gałęzi.
-Status: 🔎 nowe
+Status: ✅ skonsolidowane w standardzie (29.09.2026) — `docs/standards/15-wspolpraca-z-ai.md` **15.23** pkt 3–4 (lista zadań i ślad gałęzi na gałęzi domyślnej, start z przeglądem niescalonych gałęzi). Źródło: `AKTUALIZACJE.md` `new-app-standards`, wiersze 2026-09-29.
 
 [28.09.2026] KATEGORIA: POMYSŁ NA REGUŁĘ (zgłoszenie właściciela repo) — lista zadań zawsze aktualna na `main` + ślad ostatniej gałęzi + obowiązkowy commit→push→PR→merge po skończonej pracy
 
@@ -971,6 +971,7 @@ zmiana statusu zadania trafia tam od razu, razem z nazwą gałęzi roboczej”; 
 zadania wykonaj commit→push→PR→merge, chyba że właściciel wprost każe wstrzymać; wtedy zapisz na gałęzi domyślnej, gdzie
 leży niescalona praca”. Uwaga praktyczna: w środowisku, w którym sesja ma prawo pushu tylko na wyznaczoną gałąź,
 reguła (1) realizuje się przez mały PR+merge samej listy zadań (albo razem z kodem przez regułę (3)).
+Status: ✅ skonsolidowane w standardzie (29.09.2026) — `docs/standards/15-wspolpraca-z-ai.md` nowa **15.23** + dopisek do 15.21 (wpis wcześniej bez linii `Status:`). Źródło: `AKTUALIZACJE.md` `new-app-standards`, wiersze 2026-09-29.
 
 [28.09.2026] KATEGORIA: BŁĄD — autozapis szkicu formularza nadpisuje cały stan, więc nowe pole po aktualizacji ma `undefined`
 
@@ -982,7 +983,7 @@ agregatu, D48), użytkownik ze starym szkicem dostaje `undefined` zamiast `""`. 
 Dlaczego warto zgłosić do new-app-standards: każda aplikacja rodziny z autozapisem 5.1 trafi na to przy pierwszym
 nowym polu formularza. Propozycja do 5.1: odczyt szkicu scala `{ ...poczatkowy, ...zapisany }` (albo wersjonuje
 kształt Seed), plus 10.x: test „stary szkic bez nowego pola” przy każdej zmianie kształtu formularza.
-Status: 🔎 nowe
+Status: ✅ skonsolidowane w standardzie (29.09.2026) — `docs/standards/05-baza-danych-offline.md` dopisek do **5.5** (odczyt starego szkicu scala stan początkowy) + 8.12. Źródło: `AKTUALIZACJE.md` `new-app-standards`, wiersze 2026-09-29.
 
 [28.09.2026] KATEGORIA: DOBRA PRAKTYKA — mechaniczne sprawdzanie kompletności rejestru twardych stopów (4.3) zamiast polegania na dyscyplinie „dopisz przy każdym module”
 
@@ -996,7 +997,7 @@ kompletności — w każdym projekcie rodziny z wieloma modułami ten dryf powst
 zapominany). Propozycja do rozważenia: w 4.3 lub 10.x — „kompletność rejestru twardych stopów sprawdzana mechanicznie
 (skrypt kod `critical` ↔ wpis w rejestrze, z listą świadomych wyjątków), najlepiej jako krok `audit:*` w pakiecie przed
 merge'em”, analogicznie do dwukierunkowego `grep` markerów TD# (GOD BOOK X.4).
-Status: 🔎 nowe
+Status: ✅ skonsolidowane w standardzie (29.09.2026) — `docs/standards/04-walidacja-i-twarde-stopy.md` dopisek do **4.3** + `11-ci-deployment.md` nowa **11.9** (strażnik „każdy X ma Y”, lista zapadkowa tylko dla starego kodu). Źródło: `AKTUALIZACJE.md` `new-app-standards`, wiersze 2026-09-29.
 
 [28.09.2026] KATEGORIA: DOBRA PRAKTYKA — poziom pewności danych jako typ w schemacie, nie konwencja
 
@@ -1061,7 +1062,7 @@ pomocy** — jest tam „kalkulator → klucze i18n → opis narzędzia AI”, a
 jednej, pełnej kolejności dla ekranu: kalkulator + testy → klucze i18n → ekran z autosave → „?” przy każdym polu + migawka
 „i”, od razu we wszystkich językach → opis narzędzia AI na końcu. Migawka „i” i `description` narzędzia AI opisują to samo
 (do czego służy ekran, kiedy go użyć) — warto zalecić pisanie ich razem. Lokalnie wpisane w Dyrektywę #15 (v1.3).
-Status: 🔎 nowe
+Status: ✅ skonsolidowane w standardzie (29.09.2026) — `docs/standards/08-ui-ux.md` nowa **8.12** (kolejność budowy i DoD ekranu) + **8.4b** (forma „i”: zakładki „Po ludzku”/„Fizyka”) + dopiski 9.0a/5.7/17.1a/10.4 + **11.9**. Źródło: `AKTUALIZACJE.md` `new-app-standards`, wiersze 2026-09-29.
 
 [29.09.2026] KATEGORIA: BŁĄD + DOBRA PRAKTYKA — reguła 9.0a („opis narzędzia AI mówi, kiedy go użyć; każdy kalkulator ma narzędzie”) bez strażnika dryfuje tak samo jak pomoc przy polach
 Szczegóły: pytanie właściciela repo „czy są rozbudowane opisy funkcji dla AI, żeby dokładnie wiedziało, do czego to służy
@@ -1075,7 +1076,7 @@ narzędzie albo ma komentarz `ai-tool: nie dotyczy — <powód>`; brakujące kal
 Dlaczego warto zgłosić do new-app-standards: 9.0a warto uzupełnić o (a) obowiązkowe zdanie „kiedy użyć” w stałej,
 wykrywalnej formie (tu „Użyj, gdy …”), bo to ono decyduje o wyborze narzędzia przez model, oraz (b) strażnika pokrycia
 „kalkulator ↔ narzędzie ↔ rejestr” w CI — ten sam wzorzec co 17.9 i strażnik pomocy (wpis wyżej).
-Status: 🔎 nowe
+Status: ✅ skonsolidowane w standardzie (29.09.2026) — `docs/standards/09-ai-w-produkcie.md` dopisek do **9.0a** („kiedy użyć” w opisie narzędzia + strażnik 11.9). Źródło: `AKTUALIZACJE.md` `new-app-standards`, wiersze 2026-09-29.
 
 [27.09.2026] KATEGORIA: BŁĄD PROCESU / DOBRA PRAKTYKA — dokument źródłowy „dodany, nieprzeczytany” potrafi wisieć bez końca; mechaniczna kontrola kompletności folderu źródeł
 

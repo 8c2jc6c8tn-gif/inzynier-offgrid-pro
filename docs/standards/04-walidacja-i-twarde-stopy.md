@@ -50,6 +50,8 @@ Kategoria tematyczna (nazwa zależy od domeny projektu,
 
 Każda pozycja odsyła do modułu/ekranu, w którym warunek jest faktycznie sprawdzany — rejestr jest **indeksem**, nie duplikatem logiki walidacji.
 
+[29.09.2026] ✅ DODANO — źródło: inzynier-offgrid-pro (U.4). Kompletność rejestru sprawdzana mechanicznie strażnikiem wg 11.9 (każdy kod ostrzeżenia poziomu 🔴 w module ↔ wpis w rejestrze, z listą świadomych wyjątków), nie dyscypliną "dopisz przy każdym module" — w jednym projekcie ~20 twardych stopów całego modułu nie trafiło do rejestru przez 2 tygodnie.
+
 ## 4.4. Świadome odblokowanie błędu do ostrzeżenia
 
 **Reguła.** Błąd (🔴) może zostać obniżony do ostrzeżenia (🟡) **wyłącznie** przez jawną, świadomą zgodę użytkownika (np. zaznaczenie checkboxa "potwierdzam ryzyko"). Sam brak działania nigdy nie obniża poziomu automatycznie. Niektóre twarde stopy (te o najwyższym ryzyku dla zdrowia lub bezpieczeństwa) nie mają takiego obejścia z premedytacji i pozostają zablokowane bez wyjątku — decyzja, które to są, należy do właściciela projektu i ma być spisana w `docs/memory.md`.

@@ -1248,3 +1248,27 @@ Pełne wyniki audytu: `docs/memory.md`, sekcja "Pełny audyt na polecenie właś
   **Kolizje:** `lib/ai/tools/prognozy-tool.ts` (pole `krokProbkowaniaH` w wyniku).
 - ✅ (2026-09-27) **Odczyt whitepaper IEC 62109-1** (zamyka wpis 🔲 z 27.09 „Dokończyć odczyt whitepaper IEC 62109-1”): przeczytany w całości — Texas Instruments SLYY102 (2016), **11 stron, nie 14**. Temat: dobór izolatorów wewnątrz falownika (odstępy izolacyjne, drogi upływu, napięcia udarowe, OVC) — perspektywa producenta elektroniki, nie instalatora. **Nie odblokowuje żadnego ekranu, żadna liczba nie trafia do kodu** (parafraza producenta, nie norma; wymogi instalacyjne udaru/SPD po stronie PV już z HD 60364-7-712 i HD 60364-4-443). Luka IEC 62109-1 bez zmian (🟡). Streszczenie i ocena: `docs/zrodla/norma-IEC-62109-1/00-INDEKS.md`.
 - ✅ (2026-09-27) **Przegląd wszystkich 22 folderów `docs/zrodla/` pod kątem nieprzerobionych plików:** poza whitepaperem IEC 62109-1 **wszystkie pliki są przeczytane/przetworzone**. Jedyne luki formalne: 6 oryginałów PDF (`document-download 4–9.pdf` w `materialy-fizyka-budowli/` i `norma-PN-EN-1990-eurokod-0/`) nie były wymienione z nazwy w indeksach, choć ich treść była już wyekstrahowana do plików `.txt` — mapowanie PDF→txt dopisane do obu indeksów. `.docx` w `materialy-branzowe-ochrona-przeciwporazeniowa-2010/` to ta sama treść co PDF (opisane w `docs/zrodla/README.md`, 06.09.2026). Przy okazji: wpis ⚠️ „duplikat ZIAD” wyżej jest już rozstrzygnięty (wariant A, patrz `docs/zrodla/README.md`), a „9 pozycji zgubionych” w przypomnieniu 🟡 wyżej — odzyskane 27.09.2026 (`docs/normy-brakujace.md`, sekcja ⚫).
+- ✅ (2026-09-29) **Synchronizacja Y.6 z `new-app-standards` (`af63da7`) — 2 nowe wiersze `AKTUALIZACJE.md` z 29.09.**
+  Nadpisane rozdziały 00-INDEKS, 04, 05, 08, 09, 10, 11, 15, 17 (nowe 8.4b, 8.12, 11.9, 15.23); `CLAUDE.md` +3 akapity
+  z szablonu (15.21, 15.23, 15.22); 9 wpisów `docs/wklad-do-standardu.md` → ✅. Dryf naprawiony od razu: autozapis
+  scala stary szkic ze stanem początkowym (5.5), puste listy zapadkowe strażników usunięte (11.9). Szczegóły:
+  `docs/memory.md`, „Synchronizacja ze standardem — Y.6 (29.09.2026, 19:00 UTC)”.
+- 🔲 (2026-09-29) **„i” przy tytule wg nowej 8.4b — dostosować `MigawkaInfo` (`components/ui/pomoc.tsx`).** Różnice:
+  (1) zakładka „Fizyka” pokazuje tylko `formula`, a 8.4b wymaga też `assumptions` bieżącego wyniku, tym samym
+  komponentem co lista założeń pod wynikiem; (2) na telefonie „i” ma być panelem od dołu, dziś popover wszędzie
+  (sprawdzić emulacją dotyku, jak chmurki 28.09); (3) 146 z 345 tekstów `fizyka` w `lib/i18n/pomoc/*` zawiera cyfry —
+  przejrzeć, które przepisują stałe silnika, i podać je przez `params` (reszta to numery norm/lat — zostają).
+  Sekcja D pod wynikiem: sprawdzone — żaden ekran nie przeniósł jej wyłącznie do „i” (3 ekrany, `koszty-ogrzewania`,
+  `skaner-dzialki`, `orientacja-powierzchni`, nigdy nie pokazywały wzoru pod wynikiem — założenia tak). **Priorytet:**
+  średni; AKTUALIZACJE: „przy najbliższej zmianie ekranu”, ale (1) i (2) to jeden wspólny komponent — jedna zmiana
+  obejmuje ~244 ekrany, taniej od razu. **Kolizje:** każda sesja zmieniająca `components/ui/pomoc.tsx`/`chmurka.tsx`.
+  **Kolejność:** (1)+(2) przed (3).
+- 🔲 (2026-09-29) **Strażnik rejestru twardych stopów — teraz wymóg standardu (4.3 dopisek + 11.9).** Rozszerza wpis
+  🔲 z 28.09 „Rejestr twardych stopów — dryf całego M5”: skrypt `scripts/check-stopy-guard.mjs` (każdy kod `level:
+  "critical"` w `lib/core/modules/**/warnings.ts` ↔ wpis w `docs/rejestr-twardych-stopow.md`, jawna lista wyjątków
+  typu walidacja danych), w pakiecie przed merge i w `ci.yml`. Lista zapadkowa **jednorazowo** przy wprowadzeniu,
+  tylko maleje (11.9). Dziś w modułach 373 wystąpienia `level: "critical"`. **Priorytet:** wysoki (rejestr = narzędzie
+  audytu bezpieczeństwa). **Kolizje:** `docs/rejestr-twardych-stopow.md`, `package.json`, `.github/workflows/ci.yml`.
+  **Kolejność:** najpierw strażnik z listą zapadkową, potem uzupełnianie M5/M3/M6/M7/M8 (lista maleje).
+- ⚠️ (2026-09-29) **Routine cyklu Y.6 nie istnieje** (`trig_01892Z45ThAi2T56PJRjQQAh` → not found). Kolejne sprawdzenie
+  tylko na starcie sesji albo po odtworzeniu Routine — decyzja właściciela (co 12 h wg cyklu adaptacyjnego).
