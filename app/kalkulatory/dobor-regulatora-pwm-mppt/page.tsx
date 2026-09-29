@@ -2,8 +2,10 @@
 
 import { useMemo } from "react"
 import { calculateReguRatorPwmMppt } from "@/lib/core/modules/kalkulator-mobilny/dobor-regulatora-pwm-mppt/calculator"
+import { PROG_MOC_MPPT_OPLACALNY_W } from "@/lib/core/modules/kalkulator-mobilny/dobor-regulatora-pwm-mppt/constants"
 import { usePersistedDraft } from "@/lib/adapters/use-persisted-draft"
 import { Pole } from "@/components/ui/pole"
+import { PomocPola } from "@/components/ui/pomoc"
 import { WerdyktPanel, type WerdyktPoziom } from "@/components/werdykt"
 import { NawigacjaEkranu } from "@/components/nawigacja-ekranu"
 import { NaglowekEkranu } from "@/components/wzorce/naglowek-ekranu"
@@ -53,7 +55,12 @@ export default function DoborRegulatoraPwmMpptPage() {
   return (
     <main className="mx-auto flex max-w-md flex-col gap-6 p-6">
       <NawigacjaEkranu href="/kalkulatory/dobor-regulatora-pwm-mppt" />
-      <NaglowekEkranu tytul="Dobór regulatora PWM vs MPPT">
+      <NaglowekEkranu
+        tytul="Dobór regulatora PWM vs MPPT"
+        ekran="dobor-regulatora-pwm-mppt"
+        wzor={result.formula}
+        parametry={{ progMppt: PROG_MOC_MPPT_OPLACALNY_W }}
+      >
         PWM to tani robotnik, MPPT to inżynier — do dużych zysków zatrudnij inżyniera. Moduł 12.
       </NaglowekEkranu>
 
@@ -66,6 +73,7 @@ export default function DoborRegulatoraPwmMpptPage() {
           min={0}
           value={mocPaneliW}
           onChange={(e) => setMocPaneliW(e.target.value)}
+          pomoc={<PomocPola ekran="dobor-regulatora-pwm-mppt" pole="moc" params={{ progMppt: PROG_MOC_MPPT_OPLACALNY_W }} />}
         />
         <Pole
           label="Napięcie paneli (klasa)"
@@ -75,7 +83,7 @@ export default function DoborRegulatoraPwmMpptPage() {
           min={0}
           value={napiecieNominalnePaneluV}
           onChange={(e) => setNapiecieNominalnePaneluV(e.target.value)}
-          hint="Napięcie znamionowe/klasa panelu (np. 12V, 24V), nie Voc."
+          pomoc={<PomocPola ekran="dobor-regulatora-pwm-mppt" pole="napieciePanelu" />}
         />
         <Pole
           label="Napięcie systemowe akumulatora"
@@ -85,6 +93,7 @@ export default function DoborRegulatoraPwmMpptPage() {
           min={0}
           value={napiecieAkumulatoraV}
           onChange={(e) => setNapiecieAkumulatoraV(e.target.value)}
+          pomoc={<PomocPola ekran="dobor-regulatora-pwm-mppt" pole="napiecieAkumulatora" />}
         />
       </div>
 

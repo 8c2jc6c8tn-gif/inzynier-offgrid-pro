@@ -8103,3 +8103,27 @@ Tryb Audyt (czapka rewidenta). Warstwa „w pełni na końcu” z N.2 — wszyst
 - **Dostęp sieciowy 29.09.2026:** `www.operator.enea.pl` działa; `pgedystrybucja.pl` nadal bez połączenia (TLS) —
   PGE czeka na PDF od właściciela.
 
+## Chmurki „?” i migawka „i” — infrastruktura + M12 (29.09.2026, D51)
+
+- **Polecenie właściciela:** D34 (wariant B) + odpowiedzi 29.09: `hint` usunąć i przenieść do „?”, tłumaczenia PL/EN/RU od
+  razu, robić „?” i „i”, a regułę „ekran w komplecie” zapisać i **pilnować** (D51, Dyrektywa #15, wkład do standardu).
+- **Stan wyjściowy (policzony):** 220 ekranów, `pomoc=` na 7, `hint=` na 115, `MigawkaBox` na 29; ~590 `<Pole>` + ~49 surowych
+  `<input>/<select>`. Po D34 z 36 zmienionych ekranów 30 bez chmurek (cały M14) — dryf, powód strażnika.
+- **Architektura:** treść w `lib/i18n/pomoc/<moduł>.ts` (`pl` + `en`/`ru: Tlumaczenie<typeof pl>`), scalana w
+  `lib/i18n/pomoc/index.ts`; wpis = ekran (`migawka` + `pola`) albo grupa pól komponentu wspólnego (`pola`, np.
+  `kable-male-instalacje`, `checklista-chemii`). Komponenty `components/ui/pomoc.tsx`: `PomocPola` (id ekranu i pola
+  typowane — literówka się nie kompiluje) i `MigawkaInfo` (zakładki „Po ludzku”/„Fizyka”, tylko klik — ma przyciski).
+  `NaglowekEkranu` przyjmuje `ekran`, `wzor` (= `result.formula`) i `parametry`. Liczby ze stałych silnika: `params` /
+  `parametry` z `{nazwa}` (wspólna funkcja `podstaw()` w `lib/i18n/t.ts`).
+- **Pułapka (naprawiona przed commitem):** `Pole` owijał `pomoc` w `PomocPole`, a `PomocPola` sam jest „?” — wychodziła
+  chmurka w chmurce z samym „?” w środku. `Etykieta` rozpoznaje `PomocPola` (`isValidElement` + `type`) i nie owija.
+- **Strażnik:** `scripts/check-pomoc-guard.mjs` (+ test w `lib/i18n/__tests__/pomoc.test.ts`), w CI i w `CLAUDE.md`.
+  Lista zapadkowa `scripts/pomoc-guard-baseline.json` — startowo 243 pliki, po M12 226; maleje z każdym modułem.
+- **MigawkaBox:** tekst przeniesiony do „i” (pole „O co chodzi”) i ramka usunięta z ekranu — ta sama zasada co `hint`
+  (bez dublowania, bez nieprzetłumaczonego tekstu).
+- **Znane ograniczenie:** etykiety pól, nagłówki i komunikaty na stronach są nadal tylko po polsku (strony nie są jeszcze
+  w i18n) — tłumaczone są komunikaty silników oraz cała treść „?” i „i”. Wzór w „Fizyka” jest w zapisie LaTeX bez
+  renderera (tak jak dotąd w `WynikSzczegoly`).
+- **Weryfikacja:** Playwright (iPhone 13) — „i” i „?” otwierają się na dotyk, PL/EN/RU, `{params}` podstawione, bez
+  poziomego przewijania.
+

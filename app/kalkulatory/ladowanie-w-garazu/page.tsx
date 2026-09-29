@@ -9,7 +9,7 @@ export default function LadowanieWGarazuPage() {
   return (
     <main className="mx-auto flex max-w-md flex-col gap-6 p-6">
       <NawigacjaEkranu href="/kalkulatory/ladowanie-w-garazu" />
-      <NaglowekEkranu tytul="Bezpieczne ładowanie w garażu">Wodór to cichy zabójca — wentylacja to Twój ochroniarz. Moduł 12.</NaglowekEkranu>
+      <NaglowekEkranu tytul="Bezpieczne ładowanie w garażu" ekran="ladowanie-w-garazu">Wodór to cichy zabójca — wentylacja to Twój ochroniarz. Moduł 12.</NaglowekEkranu>
       <EkranChecklistyChemii kluczSzkicu="ladowanie-w-garazu" oblicz={calculateLadowanieWGarazu} etykietaGotowe="Ładowanie można zaczynać" />
     </main>
   )

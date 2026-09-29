@@ -25,6 +25,11 @@ export function t(language: Language, kod: string, params?: Record<string, strin
     })
     return `⚠ [${kod}]`
   }
+  return podstaw(language, szablon, params)
+}
+
+/** Fills `{name}` placeholders — shared by `t()` and the help content (`components/ui/pomoc.tsx`). */
+export function podstaw(language: Language, szablon: string, params?: Record<string, string | number>): string {
   if (!params) return szablon
   return szablon.replace(/\{(\w+)\}/g, (dopasowanie, nazwa: string) =>
     nazwa in params ? formatujParametr(language, params[nazwa]!) : dopasowanie,

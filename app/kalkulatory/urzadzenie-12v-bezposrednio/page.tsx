@@ -9,6 +9,7 @@ import {
 } from "@/lib/core/modules/kalkulator-mobilny/urzadzenie-12v-bezposrednio/constants"
 import { usePersistedDraft } from "@/lib/adapters/use-persisted-draft"
 import { Pole, PoleCheckbox, PoleSelect } from "@/components/ui/pole"
+import { PomocPola } from "@/components/ui/pomoc"
 import { WerdyktPanel } from "@/components/werdykt"
 import { NawigacjaEkranu } from "@/components/nawigacja-ekranu"
 import { NaglowekEkranu } from "@/components/wzorce/naglowek-ekranu"
@@ -57,7 +58,11 @@ export default function Urzadzenie12vBezposrednioPage() {
   return (
     <main className="mx-auto flex max-w-md flex-col gap-6 p-6">
       <NawigacjaEkranu href="/kalkulatory/urzadzenie-12v-bezposrednio" />
-      <NaglowekEkranu tytul="Czy mogę podłączyć urządzenie 12 V bezpośrednio?">
+      <NaglowekEkranu
+        tytul="Czy mogę podłączyć urządzenie 12 V bezpośrednio?"
+        ekran="urzadzenie-12v-bezposrednio"
+        wzor={result.formula}
+      >
         „12 V” na akumulatorze to uproszczenie — realnie od ok. 11 V do napięcia ładowania (ok. 14,5 V i więcej). Nie
         każde urządzenie to wytrzyma. Moduł 12.
       </NaglowekEkranu>
@@ -69,6 +74,7 @@ export default function Urzadzenie12vBezposrednioPage() {
           onChange={(e) =>
             setStan((prev) => ({ ...prev, napiecieSystemuV: Number(e.target.value) as FormularzStan["napiecieSystemuV"] }))
           }
+          pomoc={<PomocPola ekran="urzadzenie-12v-bezposrednio" pole="napiecieInstalacji" />}
         >
           <option value={0}>— wybierz —</option>
           <option value={12}>12 V</option>
@@ -82,6 +88,7 @@ export default function Urzadzenie12vBezposrednioPage() {
           min={0}
           value={stan.napiecieUrzadzeniaV}
           onChange={(e) => setStan((prev) => ({ ...prev, napiecieUrzadzeniaV: e.target.value }))}
+          pomoc={<PomocPola ekran="urzadzenie-12v-bezposrednio" pole="napiecieUrzadzenia" />}
         />
         <Pole
           label="Tolerancja napięcia urządzenia"
@@ -91,7 +98,7 @@ export default function Urzadzenie12vBezposrednioPage() {
           min={0}
           value={stan.tolerancjaPct}
           onChange={(e) => setStan((prev) => ({ ...prev, tolerancjaPct: e.target.value }))}
-          hint="Z instrukcji lub tabliczki. Gdy podany jest zakres (np. 10–16 V), przelicz go na ± % od napięcia znamionowego."
+          pomoc={<PomocPola ekran="urzadzenie-12v-bezposrednio" pole="tolerancja" />}
         />
         <Pole
           label="Maks. napięcie ładowania instalacji"
@@ -101,14 +108,12 @@ export default function Urzadzenie12vBezposrednioPage() {
           min={0}
           value={maksLadowania}
           onChange={(e) => setStan((prev) => ({ ...prev, maksNapiecieLadowaniaV: e.target.value }))}
-          hint={`Z ustawień regulatora lub ładowarki. Dla 12 V źródła podają ${NAPIECIE_LADOWANIA_12V_TRESC_V.toLocaleString("pl-PL")}–${NAPIECIE_LADOWANIA_12V_BIBLIA_V.toLocaleString("pl-PL")} V.`}
           pomoc={
-            <>
-              <strong>Maksymalne napięcie ładowania</strong> — najwyższe napięcie, do jakiego regulator lub ładowarka
-              doprowadza akumulator (absorpcja; przy akumulatorze ołowiowym także wyrównywanie, jeśli jest włączone).
-              Znajdziesz je w ustawieniach regulatora albo w instrukcji ładowarki. Dla instalacji 24 V wpisz wartość
-              całej instalacji, nie jednego akumulatora.
-            </>
+            <PomocPola
+              ekran="urzadzenie-12v-bezposrednio"
+              pole="napiecieLadowania"
+              params={{ ladowanieMin: NAPIECIE_LADOWANIA_12V_TRESC_V, ladowanieMax: NAPIECIE_LADOWANIA_12V_BIBLIA_V }}
+            />
           }
         />
         <PoleCheckbox

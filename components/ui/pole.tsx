@@ -1,5 +1,6 @@
-import { useId, type InputHTMLAttributes, type ReactNode, type SelectHTMLAttributes } from "react"
+import { isValidElement, useId, type InputHTMLAttributes, type ReactNode, type SelectHTMLAttributes } from "react"
 import { PomocPole } from "@/components/ui/chmurka"
+import { PomocPola } from "@/components/ui/pomoc"
 import { cn } from "@/lib/utils"
 
 /**
@@ -39,7 +40,8 @@ function Etykieta({
         <label htmlFor={htmlFor}>
           {label} {unit && <span className="text-muted-foreground">[{unit}]</span>}
         </label>
-        {pomoc && <PomocPole tresc={pomoc} />}
+        {/* A translated <PomocPola> is already the „?” trigger (D51); plain content is wrapped once. */}
+        {pomoc && (isValidElement(pomoc) && pomoc.type === PomocPola ? pomoc : <PomocPole tresc={pomoc} />)}
       </span>
       {hint && <span className="text-caption text-muted-foreground">{hint}</span>}
     </span>

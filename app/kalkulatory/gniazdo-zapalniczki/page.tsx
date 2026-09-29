@@ -5,6 +5,7 @@ import { calculateGniazdoZapalniczki } from "@/lib/core/modules/kalkulator-mobil
 import type { GniazdoZapalniczkiInput, UrzadzenieGniazda } from "@/lib/core/modules/kalkulator-mobilny/gniazdo-zapalniczki/input"
 import { usePersistedDraft } from "@/lib/adapters/use-persisted-draft"
 import { Pole, PoleSelect } from "@/components/ui/pole"
+import { PomocPola } from "@/components/ui/pomoc"
 import { WerdyktPanel } from "@/components/werdykt"
 import { NawigacjaEkranu } from "@/components/nawigacja-ekranu"
 import { NaglowekEkranu } from "@/components/wzorce/naglowek-ekranu"
@@ -43,7 +44,11 @@ export default function GniazdoZapalniczkiPage() {
   return (
     <main className="mx-auto flex max-w-md flex-col gap-6 p-6">
       <NawigacjaEkranu href="/kalkulatory/gniazdo-zapalniczki" />
-      <NaglowekEkranu tytul="Gniazdo zapalniczki — co można podłączyć">
+      <NaglowekEkranu
+        tytul="Gniazdo zapalniczki — co można podłączyć"
+        ekran="gniazdo-zapalniczki"
+        wzor={result.formula}
+      >
         Gniazdo zapalniczki ma własny, niewielki bezpiecznik. Lodówka turystyczna zwykle tak, kompresor do opon na granicy,
         sprzęt powyżej ok. 180 W raczej nie. Moduł 12.
       </NaglowekEkranu>
@@ -53,6 +58,7 @@ export default function GniazdoZapalniczkiPage() {
           label="Napięcie instalacji pojazdu"
           value={stan.napiecieV}
           onChange={(e) => setStan((prev) => ({ ...prev, napiecieV: Number(e.target.value) as FormularzStan["napiecieV"] }))}
+          pomoc={<PomocPola ekran="gniazdo-zapalniczki" pole="napiecie" />}
         >
           <option value={0}>— wybierz —</option>
           <option value={12}>12 V (samochód osobowy, kamper)</option>
@@ -66,12 +72,20 @@ export default function GniazdoZapalniczkiPage() {
           min={0}
           value={stan.pradBezpiecznikaA}
           onChange={(e) => setStan((prev) => ({ ...prev, pradBezpiecznikaA: e.target.value }))}
-          hint="Z instrukcji pojazdu lub opisu skrzynki bezpieczników — typowo 10–15 A."
+          pomoc={<PomocPola ekran="gniazdo-zapalniczki" pole="bezpiecznik" />}
         />
       </div>
 
       <div className="flex flex-col gap-2">
         <p className="text-small font-medium">Urządzenia włączone jednocześnie (także przez rozgałęźnik)</p>
+        <p className="flex items-center gap-3 text-caption text-muted-foreground">
+          <span className="flex items-center gap-1">
+            Nazwa <PomocPola ekran="gniazdo-zapalniczki" pole="nazwaUrzadzenia" />
+          </span>
+          <span className="flex items-center gap-1">
+            Moc [W] <PomocPola ekran="gniazdo-zapalniczki" pole="mocUrzadzenia" />
+          </span>
+        </p>
         <ul className="flex flex-col gap-2">
           {stan.urzadzenia.map((u, i) => (
             <li key={u.id} className="flex flex-wrap items-center gap-2">

@@ -5,6 +5,7 @@ import { calculateTrybUproszczony } from "@/lib/core/modules/kalkulator-mobilny/
 import { usePersistedDraft } from "@/lib/adapters/use-persisted-draft"
 import { WerdyktPanel } from "@/components/werdykt"
 import { Pole } from "@/components/ui/pole"
+import { PomocPola } from "@/components/ui/pomoc"
 import { NaglowekEkranu } from "@/components/wzorce/naglowek-ekranu"
 import { NawigacjaEkranu } from "@/components/nawigacja-ekranu"
 import { useTranslate } from "@/lib/i18n/language-context"
@@ -52,7 +53,7 @@ export default function TrybUproszczonyPage() {
   return (
     <main className="mx-auto flex max-w-md flex-col gap-6 p-6">
       <NawigacjaEkranu href="/kalkulatory/tryb-uproszczony" />
-      <NaglowekEkranu tytul="Tryb uproszczony">
+      <NaglowekEkranu tytul="Tryb uproszczony" ekran="tryb-uproszczony" wzor={result.formula}>
         To wejście dla kogoś, kto nie chce przechodzić przez pełny proces projektowy — szybka
         odpowiedź na jedno pytanie. Moduł 12, Ekran 1.
       </NaglowekEkranu>
@@ -65,6 +66,7 @@ export default function TrybUproszczonyPage() {
           inputMode="decimal"
           value={pojemnoscAh}
           onChange={(e) => setPojemnoscAh(e.target.value)}
+          pomoc={<PomocPola ekran="tryb-uproszczony" pole="pojemnosc" />}
         />
         <Pole
           label="Napięcie"
@@ -73,6 +75,7 @@ export default function TrybUproszczonyPage() {
           inputMode="decimal"
           value={napiecieV}
           onChange={(e) => setNapiecieV(e.target.value)}
+          pomoc={<PomocPola ekran="tryb-uproszczony" pole="napiecie" />}
         />
         <Pole
           label="Moc odbiornika"
@@ -81,6 +84,7 @@ export default function TrybUproszczonyPage() {
           inputMode="decimal"
           value={mocOdbiornikaW}
           onChange={(e) => setMocOdbiornikaW(e.target.value)}
+          pomoc={<PomocPola ekran="tryb-uproszczony" pole="moc" />}
         />
       </div>
 

@@ -2,12 +2,14 @@
 
 import { useId, useMemo } from "react"
 import { calculateOchronaPrzedRozladowaniem } from "@/lib/core/modules/kalkulator-mobilny/ochrona-przed-rozladowaniem/calculator"
+import { PROG_ODCIECIA_12V } from "@/lib/core/modules/kalkulator-mobilny/ochrona-przed-rozladowaniem/constants"
 import type {
   ChemiaMalegoAkumulatora,
   OchronaPrzedRozladowaniemInput,
 } from "@/lib/core/modules/kalkulator-mobilny/ochrona-przed-rozladowaniem/input"
 import { usePersistedDraft } from "@/lib/adapters/use-persisted-draft"
 import { PoleCheckbox, PoleSelect } from "@/components/ui/pole"
+import { PomocPola } from "@/components/ui/pomoc"
 import { WerdyktPanel } from "@/components/werdykt"
 import { NawigacjaEkranu } from "@/components/nawigacja-ekranu"
 import { NaglowekEkranu } from "@/components/wzorce/naglowek-ekranu"
@@ -52,7 +54,12 @@ export default function OchronaPrzedRozladowaniemPage() {
   return (
     <main className="mx-auto flex max-w-md flex-col gap-6 p-6">
       <NawigacjaEkranu href="/kalkulatory/ochrona-przed-rozladowaniem" />
-      <NaglowekEkranu tytul="Ochrona przed rozładowaniem akumulatora">
+      <NaglowekEkranu
+        tytul="Ochrona przed rozładowaniem akumulatora"
+        ekran="ochrona-przed-rozladowaniem"
+        wzor={result.formula}
+        parametry={{ progAgm: PROG_ODCIECIA_12V.AGM ?? "—", progLfp: PROG_ODCIECIA_12V.LiFePO4 ?? "—" }}
+      >
         Dozownik napięcia (LVD) odłącza odbiornik, zanim rozładuje akumulator za głęboko. Moduł 12.
       </NaglowekEkranu>
 
@@ -61,6 +68,7 @@ export default function OchronaPrzedRozladowaniemPage() {
           label="Typ akumulatora"
           value={stan.chemia}
           onChange={(e) => setStan((prev) => ({ ...prev, chemia: e.target.value as FormularzStan["chemia"] }))}
+          pomoc={<PomocPola ekran="ochrona-przed-rozladowaniem" pole="typ" />}
         >
           <option value="">— wybierz —</option>
           <option value="AGM">AGM</option>
@@ -76,6 +84,7 @@ export default function OchronaPrzedRozladowaniemPage() {
               napiecieZnamionoweV: Number(e.target.value) as FormularzStan["napiecieZnamionoweV"],
             }))
           }
+          pomoc={<PomocPola ekran="ochrona-przed-rozladowaniem" pole="napiecie" />}
         >
           <option value={0}>— wybierz —</option>
           <option value={12}>12 V</option>

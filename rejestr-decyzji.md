@@ -1,6 +1,6 @@
 # Rejestr decyzji — Inżynier Offgrid Pro
 
-**Wersja:** 1.23 | **Filar:** C | **Data utworzenia:** 04.09.2026 | **Ostatnia aktualizacja:** 28.09.2026 | **Status:** Stabilny (rosnący)
+**Wersja:** 1.24 | **Filar:** C | **Data utworzenia:** 04.09.2026 | **Ostatnia aktualizacja:** 29.09.2026 | **Status:** Stabilny (rosnący)
 **Powiązane dokumenty:** `00_Biblia.md`, `docs/memory.md`, `USTALENIA.md` (historyczny, Część II)
 
 TL;DR: D1, D2, D3… — decyzje **strategiczne/fundamentalne** (blokujące wiele innych rzeczy naraz, Krok 4 GOD BOOK), ponumerowane, nigdy nie kasowane, tylko unieważniane jawnie (F.5). **Nie duplikuje `docs/memory.md`**: tam żyje pełna, szczegółowa historia każdej sesji (setki drobnych decyzji implementacyjnych per ekran) — tu tylko decyzje, które zmieniły kierunek/regułę obowiązującą cały projekt. Gdy wpis niżej odsyła do `docs/memory.md`, tam jest pełne uzasadnienie i przykłady.
@@ -219,6 +219,16 @@ Treść:
 - (3) Audyt końcowy N.3 uznany za zamknięty dla M14 (analogicznie do D49 — pozycje odłożone żyją na liście zadań, nie w bramce).
 - (4) Bramka danych DANE-1 (tylko wartości ✅, tryb „moje dane z faktury”) obowiązuje dalej.
 
+**D51 (29.09.2026) — Ekran jest skończony dopiero z kompletem: autosave + tłumaczenia (PL/EN/RU) + „?” przy każdym polu + „i” przy tytule, w tej samej zmianie; pilnuje tego strażnik `pnpm check:pomoc-guard`. Uzupełnia D34.** Koszt cofnięcia: średni (treść pomocy na wszystkich ekranach, strażnik w CI). Decyzje właściciela projektu z 29.09.2026 (odpowiedzi na dwa pytania otwarte w D34): „1. Tak zrób. 2. Oczywiście od razu, żeby nie było więcej takich braków. Robisz ? i »i«. […] wraz z autosave, tłumaczeniem na inne języki musi od razu być dodawana migawka ? i »i«, bo teraz robimy robotę drugi raz, a to już było mówione, ale nikt tego nie pilnuje”.
+
+Treść:
+- (1) Szara podpowiedź pod polem (`hint`) znika — jej treść przechodzi do chmurki „?” (odpowiedź na pytanie 1 z D34). Tak samo tekst z `MigawkaBox` przechodzi do „i” (pole „O co chodzi”), żeby nie dublować treści i nie zostawiać nieprzetłumaczonego tekstu.
+- (2) Treść „?” i „i” od razu w trzech językach (odpowiedź na pytanie 2 z D34): `lib/i18n/pomoc/<moduł>.ts`, polski kształt + `Tlumaczenie<typeof pl>` dla EN/RU — brak tłumaczenia = błąd kompilacji (17.1). Liczby, które silnik trzyma w stałych, wchodzą do tekstu przez parametry `{nazwa}` (jedno źródło prawdy, Dyrektywa #8), nie przepisane w trzech językach.
+- (3) „?” (`PomocPola`) = pełna nazwa, do czego służy, gdzie znaleźć, typowy zakres (8.4, D34 pkt 1). „i” (`MigawkaInfo` przy tytule) = zakładka „Po ludzku” (o co chodzi, jak to liczy, po co) i „Fizyka” (tło fizyczne/normowe + bieżący `CalcResult.formula`).
+- (4) Definicja ukończenia ekranu (rozszerza `docs/standards/10-testy.md` 10.4 lokalnie): autosave (`usePersistedDraft`), komunikaty silnika przez i18n (`check:i18n-guard`), „?” przy każdym polu, „i” przy tytule — w jednej zmianie, nie „później”.
+- (5) Egzekwowanie: `scripts/check-pomoc-guard.mjs` w CI i w lokalnym pakiecie przed merge. Lista zapadkowa `scripts/pomoc-guard-baseline.json` zawiera tylko ekrany niezgodne na 29.09.2026 i może tylko maleć; nowy ekran nigdy na nią nie trafia.
+- (6) Kolejność uzupełniania: moduł po module, PR na moduł (D34 pkt 3); start od M12, dalej ekrany z twardymi stopami, M14, reszta.
+
 ## Założenia robocze (F.7 GOD BOOK)
 
 **Z1 (04.09.2026) — przyjęto:** ID modułów (H.2 GOD BOOK, M#) odpowiadają wprost numeracji "Moduł N" już używanej w całym projekcie (1–13), nie nowej, niezależnej numeracji. **Powód:** ta numeracja jest już stabilna, używana w kodzie, dokumentacji i UI od 29.08.2026 — wprowadzenie równoległej numeracji M# byłoby duplikatem, nie nowym bytem. **Na czym się opiera:** cała struktura `docs/rejestr-pokrycia.md`, `lib/pulpit/registry.ts`, `docs/pulpit-i-nawigacja.md`.
@@ -254,3 +264,4 @@ Treść:
 | 28.09.2026 | Dodano D47 (szczegół przełącznika w M14/D11), D48 (blok bezpieczeństwa agregatu w M2/E17 i M7/E8), D49 (szkic LED = kandydat poza Biblią) — decyzje 1–3 właściciela z audytu końcowego N.3. Wersja 1.21→1.22. |
 | 28.09.2026 | Scalenie z `main`: decyzje audytu N.3 z gałęzi M14 dostały numery D47/D48/D49 (pierwotnie D44/D45/D46, a D44 na `main` to M12/E23 — H.3). Wersja 1.21→1.22 łącznie z wierszem wyżej. |
 | 28.09.2026 | Dodano D50 (pozostałe pytania decyzji 4 odłożone; bramka N.3 dla M14 zdjęta) — decyzja właściciela projektu. Wersja 1.22→1.23. |
+| 29.09.2026 | Dodano D51 (komplet ekranu: autosave + tłumaczenia + „?” + „i” w jednej zmianie; strażnik `check:pomoc-guard`; uzupełnia D34) — decyzja właściciela projektu. Wersja 1.23→1.24. |

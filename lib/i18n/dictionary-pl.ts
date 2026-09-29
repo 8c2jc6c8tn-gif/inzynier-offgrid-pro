@@ -1360,6 +1360,16 @@ export const dictionaryPl = {
   "SIEC-BRAK-ZYSKAUTOKONSUMPCJI": "Wpisz zysk na 1 kWh z autokonsumpcji (cena zakupu − wartość oddanej kWh).",
   "SIEC-BRAK-ZYSKARBITRAZU": "Wpisz różnicę cen dla arbitrażu (drogie godziny − tanie godziny) [zł/kWh].",
   "SIEC-BRAK-PRZEPLYW": "Wpisz, ile energii rocznie przejdzie przez magazyn (autokonsumpcja albo arbitraż).",
+  "POMOC-UI-ARIA-POLE": "Więcej informacji: {nazwa}",
+  "POMOC-UI-DO-CZEGO": "Do czego służy",
+  "POMOC-UI-GDZIE": "Gdzie to znaleźć",
+  "POMOC-UI-ZAKRES": "Typowy zakres",
+  "MIGAWKA-UI-ARIA": "Jak działa ten kalkulator — wyjaśnienie",
+  "MIGAWKA-UI-PO-LUDZKU": "Po ludzku",
+  "MIGAWKA-UI-FIZYKA": "Fizyka",
+  "MIGAWKA-UI-JAK-DZIALA": "Jak to liczy",
+  "MIGAWKA-UI-PO-CO": "Po co to",
+  "MIGAWKA-UI-WZOR": "Wzór",
 } as const
 
 export type KluczTlumaczenia = keyof typeof dictionaryPl

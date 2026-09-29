@@ -9,7 +9,7 @@ export default function BezpieczenstwoKamperPage() {
   return (
     <main className="mx-auto flex max-w-md flex-col gap-6 p-6">
       <NawigacjaEkranu href="/kalkulatory/bezpieczenstwo-kamper" />
-      <NaglowekEkranu tytul="Bezpieczeństwo w kamperze">Akumulator to ciężki i niebezpieczny pasażer — musi być odpowiednio zabezpieczony. Moduł 12.</NaglowekEkranu>
+      <NaglowekEkranu tytul="Bezpieczeństwo w kamperze" ekran="bezpieczenstwo-kamper">Akumulator to ciężki i niebezpieczny pasażer — musi być odpowiednio zabezpieczony. Moduł 12.</NaglowekEkranu>
       <EkranChecklistyChemii kluczSzkicu="bezpieczenstwo-kamper" oblicz={calculateBezpieczenstwoKamper} etykietaGotowe="Akumulator bezpiecznie zamontowany" />
     </main>
   )

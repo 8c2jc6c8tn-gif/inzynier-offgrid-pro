@@ -3,9 +3,11 @@
 import Link from "next/link"
 import { useMemo } from "react"
 import { calculateRatowanieAkumulatoraMaly } from "@/lib/core/modules/kalkulator-mobilny/ratowanie-akumulatora-maly/calculator"
+import { PROG_KRYTYCZNEGO_ROZLADOWANIA_OLOW_12V } from "@/lib/core/modules/kalkulator-mobilny/ratowanie-akumulatora-maly/constants"
 import type { ChemiaRatowania } from "@/lib/core/modules/kalkulator-mobilny/ratowanie-akumulatora-maly/input"
 import { usePersistedDraft } from "@/lib/adapters/use-persisted-draft"
 import { Pole, PoleSelect } from "@/components/ui/pole"
+import { PomocPola } from "@/components/ui/pomoc"
 import { WerdyktPanel } from "@/components/werdykt"
 import { NawigacjaEkranu } from "@/components/nawigacja-ekranu"
 import { NaglowekEkranu } from "@/components/wzorce/naglowek-ekranu"
@@ -39,7 +41,12 @@ export default function RatowanieAkumulatoraMalyPage() {
   return (
     <main className="mx-auto flex max-w-md flex-col gap-6 p-6">
       <NawigacjaEkranu href="/kalkulatory/ratowanie-akumulatora-maly" />
-      <NaglowekEkranu tytul="Ratowanie rozładowanego akumulatora — mała instalacja">
+      <NaglowekEkranu
+        tytul="Ratowanie rozładowanego akumulatora — mała instalacja"
+        ekran="ratowanie-akumulatora-maly"
+        wzor={result.formula}
+        parametry={{ prog: PROG_KRYTYCZNEGO_ROZLADOWANIA_OLOW_12V }}
+      >
         Wybierz typ akumulatora — poprowadzimy Cię do pełnej procedury ratowania w sekcji Montaż baterii. Moduł 12.
       </NaglowekEkranu>
 
@@ -48,6 +55,7 @@ export default function RatowanieAkumulatoraMalyPage() {
           label="Typ akumulatora"
           value={stan.chemia}
           onChange={(e) => setStan((prev) => ({ ...prev, chemia: e.target.value as FormularzStan["chemia"] }))}
+          pomoc={<PomocPola ekran="ratowanie-akumulatora-maly" pole="typ" />}
         >
           <option value="">— wybierz —</option>
           <option value="AGM">AGM</option>
@@ -63,7 +71,7 @@ export default function RatowanieAkumulatoraMalyPage() {
             min={0}
             value={stan.napiecieSpoczynkoweV}
             onChange={(e) => setStan((prev) => ({ ...prev, napiecieSpoczynkoweV: e.target.value }))}
-            hint="Akumulator 12 V, zmierzony po kilku godzinach bez ładowania i obciążenia."
+            pomoc={<PomocPola ekran="ratowanie-akumulatora-maly" pole="napiecie" params={{ prog: PROG_KRYTYCZNEGO_ROZLADOWANIA_OLOW_12V }} />}
           />
         )}
       </div>

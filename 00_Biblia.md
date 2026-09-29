@@ -1,6 +1,6 @@
 # 00. Biblia — Inżynier Offgrid Pro
 
-**Wersja:** 1.8 | **Filar:** — (indeks, poza podziałem na filary) | **Data utworzenia:** 04.09.2026 | **Ostatnia aktualizacja:** 28.09.2026 | **Status:** Stabilny
+**Wersja:** 1.9 | **Filar:** — (indeks, poza podziałem na filary) | **Data utworzenia:** 04.09.2026 | **Ostatnia aktualizacja:** 29.09.2026 | **Status:** Stabilny
 **Powiązane dokumenty:** wszystkie poniżej (tabela dokumentów)
 
 TL;DR: Indeks kanonicznej Biblii projektu w formacie GOD BOOK (`docs/god-book/instrukcja-uniwersalna-biblii-projektu-v2_39.md`, Część S). Migracja z `ZASADY_APLIKACJI.md`/`USTALENIA.md`, które pełniły tę rolę wcześniej pod inną nazwą — treść tamtych plików **zachowana, nie usunięta** (oznaczone jako historyczne, patrz "Relacja ze starą konstytucją" niżej).
@@ -96,3 +96,4 @@ Do 04.09.2026 rolę Biblii pełniły `ZASADY_APLIKACJI.md` (pełna) i `USTALENIA
 | 28.09.2026 | D50: pozostałe pytania decyzji 4 odłożone, bramka N.3 dla M14 zdjęta. M14 1.5→1.6, rejestr 1.22→1.23, przekazanie 1.2→1.3 (sekcja „Stan na teraz”). Wersja indeksu 1.5→1.6. |
 | 28.09.2026 | Start kodu M14: rozdział 03 1.6→1.7, kontrakty rdzenia 1.1→1.2 (§9 pliki danych), mapa 1.5→1.6, dług 2.3→2.4 (TD22), przekazanie 1.3→1.4. Wersja indeksu 1.6→1.7. |
 | 28.09.2026 | Zamknięcie kodu M14: rozdział 03 1.7→1.8, mapa 1.6→1.7, dług 2.4→2.5 (TD23), przekazanie 1.4→1.5. Wersja indeksu 1.7→1.8. |
+| 29.09.2026 | D51: ekran tylko w komplecie (autosave + tłumaczenia + „?” + „i”), strażnik `check:pomoc-guard`. Rejestr decyzji 1.23→1.24, dyrektywy 1.1→1.2 (#15). Wersja indeksu 1.8→1.9. |

@@ -9,6 +9,7 @@ import {
 } from "@/lib/core/modules/kalkulator-mobilny/zuzycie-per-urzadzenie/przykladowe-urzadzenia"
 import { usePersistedDraft } from "@/lib/adapters/use-persisted-draft"
 import { Pole, PoleCheckbox } from "@/components/ui/pole"
+import { PomocPola } from "@/components/ui/pomoc"
 import { WerdyktPanel } from "@/components/werdykt"
 import { NawigacjaEkranu } from "@/components/nawigacja-ekranu"
 import { NaglowekEkranu } from "@/components/wzorce/naglowek-ekranu"
@@ -45,7 +46,7 @@ export default function ZuzyciePerUrzadzeniePage() {
   return (
     <main className="mx-auto flex max-w-md flex-col gap-6 p-6">
       <NawigacjaEkranu href="/kalkulatory/zuzycie-per-urzadzenie" />
-      <NaglowekEkranu tytul="Zużycie energii per urządzenie">
+      <NaglowekEkranu tytul="Zużycie energii per urządzenie" ekran="zuzycie-per-urzadzenie" wzor={result.formula}>
         Moc × czas pracy — a dla lodówki czy klimatyzatora jeszcze × współczynnik pracy sprężarki, bo nie pracuje ona bez
         przerwy. Moduł 12.
       </NaglowekEkranu>
@@ -83,6 +84,7 @@ export default function ZuzyciePerUrzadzeniePage() {
                 list={LISTA_PRZYKLADOW}
                 value={u.nazwa}
                 onChange={(e) => aktualizuj(u.id, { nazwa: e.target.value })}
+                pomoc={<PomocPola ekran="zuzycie-per-urzadzenie" pole="nazwa" />}
               />
               {przyklad && (
                 <p className="text-caption text-muted-foreground">
@@ -90,8 +92,8 @@ export default function ZuzyciePerUrzadzeniePage() {
                 </p>
               )}
               <div className="grid grid-cols-2 gap-3">
-                <Pole label="Moc" unit="W" type="number" inputMode="decimal" min={0} value={pole(u.mocW)} onChange={(e) => aktualizuj(u.id, { mocW: Number(e.target.value) })} />
-                <Pole label="Włączone" unit="h/dobę" type="number" inputMode="decimal" min={0} max={24} value={pole(u.godzinNaDobe)} onChange={(e) => aktualizuj(u.id, { godzinNaDobe: Number(e.target.value) })} />
+                <Pole label="Moc" unit="W" type="number" inputMode="decimal" min={0} value={pole(u.mocW)} onChange={(e) => aktualizuj(u.id, { mocW: Number(e.target.value) })} pomoc={<PomocPola ekran="zuzycie-per-urzadzenie" pole="moc" />} />
+                <Pole label="Włączone" unit="h/dobę" type="number" inputMode="decimal" min={0} max={24} value={pole(u.godzinNaDobe)} onChange={(e) => aktualizuj(u.id, { godzinNaDobe: Number(e.target.value) })} pomoc={<PomocPola ekran="zuzycie-per-urzadzenie" pole="godziny" />} />
               </div>
               <PoleCheckbox
                 id={`${u.id}-cykliczne`}
@@ -109,7 +111,7 @@ export default function ZuzyciePerUrzadzeniePage() {
                   max={100}
                   value={pole(u.wspolczynnikPracyPct)}
                   onChange={(e) => aktualizuj(u.id, { wspolczynnikPracyPct: Number(e.target.value) })}
-                  hint="Jaką część czasu sprężarka faktycznie pracuje. Przykład ze źródła: lodówka turystyczna ok. 40% przy 25 °C otoczenia — w upale więcej."
+                  pomoc={<PomocPola ekran="zuzycie-per-urzadzenie" pole="wspolczynnik" />}
                 />
               )}
               <button
