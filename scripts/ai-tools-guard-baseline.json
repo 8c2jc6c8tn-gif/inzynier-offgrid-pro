@@ -1,10 +1,6 @@
 {
   "opis": "Kalkulatory bez narzędzia AI na 29.09.2026 — budowane moduł po module. Lista tylko maleje; nowy kalkulator nigdy tu nie trafia.",
   "kalkulatory": [
-    "ai/prognozy",
-    "baterie/komunikacja-bms",
-    "baterie/porownanie-technologii",
-    "lokalizacja/lokalizacja-i-klimat",
-    "pv/czystosc-i-snieg"
+    "ai/prognozy"
   ]
 }
