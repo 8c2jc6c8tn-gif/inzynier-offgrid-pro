@@ -10,7 +10,7 @@ export default function RachunekDomPage() {
       <NawigacjaEkranu href="/kalkulatory/rachunek-dom" />
       <NaglowekEkranu tytul="Mój rachunek dziś">
         Z czego składa się Twój rachunek za prąd i ile z niego płacisz za samo posiadanie przyłącza („cena trzymania
-        sieci”). Stawki dystrybucyjne 2026 są w aplikacji dla Tauron, Energa i Stoen — dla innych OSD wpiszesz je z
+        sieci”). Stawki dystrybucyjne 2026 są w aplikacji dla Tauron, Energa, Stoen i Enea — dla innych OSD wpiszesz je z
         faktury. M14 „Dom – sieć”, ekran D1.
       </NaglowekEkranu>
       <FormularzRachunku segment="dom" />
