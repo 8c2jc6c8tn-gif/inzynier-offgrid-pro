@@ -1184,3 +1184,7 @@ Pełne wyniki audytu: `docs/memory.md`, sekcja "Pełny audyt na polecenie właś
   **Partia 2 ✅ (29.09):** M14 — 8 narzędzi (`bilans-miesieczny`, `depozyt-prosumencki`, `moc-umowna`, `oplata-mocowa`,
   `przelacznik-siec-wyspa`, `sciezka-cen-energii`, `strumienie-bess`, `test-licznika`), testy na przykładach kontrolnych
   silników; lista zapadkowa 18 → 10.
+  **Partia 3 ✅ (29.09):** wampiry-energetyczne — 5 narzędzi (`wampiry-katalog`, `wampiry-pomiar`,
+  `wampiry-automatyzacja`, `wampiry-rekomendacje`, `wampiry-symulacje` z trybami autonomia/koszt-roczny/wplyw-na-dobor);
+  lista zapadkowa 10 → 5. Zostały: 4 kalkulatory baterie/lokalizacja/pv (narzędzie albo `ai-tool: nie dotyczy`)
+  i `ai/prognozy` (po decyzji Δt).
