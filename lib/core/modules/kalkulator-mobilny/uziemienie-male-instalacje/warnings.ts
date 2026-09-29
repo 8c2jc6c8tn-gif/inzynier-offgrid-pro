@@ -64,7 +64,7 @@ export function brakRcd30mA(odpowiedz: OdpowiedzKontrolna): Warning {
 /**
  * Zasilanie z zewnątrz (słupek, keja) przy połączeniu N–PE w falowniku, które nie jest wtedy rozłączane (D55, właściciel
  * 29.09.2026: „połączenie N–PE w kamperze musi być wtedy rozłączone, inaczej powstaje podwójne połączenie N–PE”).
- * Poziom 🔴 — „musi” w decyzji właściciela, interpretacja AI ✅🤖.
+ * Poziom 🔴 — interpretacja AI ✅🤖 słowa „musi” z cytatu wyżej (sekcja o kempingu); właściciel poziomu nie podał.
  */
 export function podwojnePolaczenieNPE(odpowiedz: OdpowiedzKontrolna): Warning {
   return {
