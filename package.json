@@ -17,6 +17,7 @@
     "check:i18n-guard": "node scripts/check-i18n-guard.mjs && node scripts/check-i18n-ui-guard.mjs",
     "check:pomoc-guard": "node scripts/check-pomoc-guard.mjs",
     "check:ai-tools-guard": "node scripts/check-ai-tools-guard.mjs",
+    "test:e2e": "node --test --test-concurrency=1 e2e/",
     "audit:gate": "node scripts/audit-gate.mjs",
     "audit:n1": "node scripts/audit-n1-rejestr.mjs",
     "rejestr:licz": "node scripts/policz-rejestr.mjs"
@@ -37,6 +38,7 @@
     "react-dom": "^19.3.0",
     "server-only": "^0.0.1",
     "shadcn": "^4.21.0",
+    "sonner": "^2.0.8",
     "tailwind-merge": "^3.7.0",
     "three": "^0.186.0",
     "tw-animate-css": "^1.4.0",
@@ -54,6 +56,7 @@
     "eslint": "^9.39.5",
     "eslint-config-next": "^16.3.5",
     "jsdom": "^30.0.1",
+    "playwright": "^1.63.0",
     "postcss": "^8.5.28",
     "tailwindcss": "^4.3.3",
     "typescript": "5.7.3",

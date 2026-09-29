@@ -1,0 +1,79 @@
+// Pure precache-list builder for the service worker (D59, SW variant C stage 1 —
+// docs/plan-migracji-sw-wariant-c.md; copied from the standard pattern
+// docs/przyklady/pwa/precache.ts; local changes: plan, section 1.1). No fs/Node APIs — the build-time reader
+// (lib/pwa/precache-build.ts) collects the inputs, this module decides what
+// goes into the precache and with which revision, so the rules are unit-tested.
+
+/** One precached URL. `rev` changes whenever the content may have changed. */
+export interface WpisPrecache {
+  url: string
+  rev: string
+  /** HTML page served for navigations (cache-first, D-PWA-2 = A). */
+  strona?: true
+}
+
+/** Revision for URLs whose content is already addressed by a hash in the URL. */
+export const REV_NIEZMIENNY = 'i'
+
+/** Path of the precached "not found" page, served for unknown URLs offline. */
+export const STRONA_NIE_ZNALEZIONO = '/_not-found'
+
+// App-router entries that are not navigable pages (framework internals).
+// `/auth/login` — signing in makes no sense offline; with Supabase enabled it is
+// the only public route (standard 18.1), always served by the network.
+const POMIJANE_STRONY = new Set(['/_global-error', '/auth/login'])
+
+export interface WejsciePrecache {
+  buildId: string
+  /** Paths relative to `.next/static`, `/` separated. */
+  plikiStatyczne: string[]
+  /** `.next/app-path-routes-manifest.json`: entry → route path. */
+  trasy: Record<string, string>
+  /** Files in `public/` (relative, `/` separated) with a content hash each. */
+  plikiPubliczne: { sciezka: string; hash: string }[]
+  /**
+   * Concrete URLs of dynamic page routes (e.g. `/moduly/1` for `/moduly/[id]`).
+   * Pages use a per-request CSP nonce, so nothing is prerendered and the build
+   * manifests do not list them — the caller expands them from the app's own
+   * registry (lib/pulpit/registry.ts).
+   */
+  trasyDynamiczne: string[]
+}
+
+/** Static route handlers precached together with the pages (same build). */
+// Icons are plain files in public/ here, so they come in through `plikiPubliczne`.
+const TRASY_STATYCZNE_Z_BUILDU = ['/manifest.webmanifest']
+
+/**
+ * Builds the precache list. Throws on an input that suggests the `.next`
+ * layout changed (no pages, no JS) — a loud build failure instead of a
+ * service worker that silently caches nothing.
+ */
+export function zbudujWpisyPrecache(wejscie: WejsciePrecache): WpisPrecache[] {
+  const strony = Object.entries(wejscie.trasy)
+    .filter(([wpis]) => wpis.endsWith('/page'))
+    .map(([, trasa]) => trasa)
+    .filter((trasa) => !POMIJANE_STRONY.has(trasa) && !trasa.includes('['))
+    .concat(wejscie.trasyDynamiczne)
+    .sort()
+
+  if (strony.length === 0) throw new Error('precache: no pages found in app-path-routes-manifest.json')
+  if (!strony.includes(STRONA_NIE_ZNALEZIONO)) throw new Error('precache: missing /_not-found page')
+  if (!wejscie.plikiStatyczne.some((p) => p.endsWith('.js'))) {
+    throw new Error('precache: no JS files found in .next/static')
+  }
+
+  const wpisy: WpisPrecache[] = [
+    ...strony.map((url) => ({ url, rev: wejscie.buildId, strona: true as const })),
+    ...wejscie.plikiStatyczne.slice().sort().map((p) => ({ url: `/_next/static/${p}`, rev: REV_NIEZMIENNY })),
+    ...wejscie.plikiPubliczne
+      .slice()
+      .sort((a, b) => a.sciezka.localeCompare(b.sciezka))
+      .map((p) => ({ url: `/${p.sciezka}`, rev: p.hash })),
+    ...TRASY_STATYCZNE_Z_BUILDU.map((url) => ({ url, rev: wejscie.buildId })),
+  ]
+
+  const duplikat = wpisy.find((w, i) => wpisy.findIndex((x) => x.url === w.url) !== i)
+  if (duplikat) throw new Error(`precache: duplicate URL ${duplikat.url}`)
+  return wpisy
+}

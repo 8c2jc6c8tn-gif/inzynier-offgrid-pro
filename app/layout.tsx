@@ -3,6 +3,8 @@ import type { Metadata, Viewport } from 'next'
 import { headers } from 'next/headers'
 import { Inter, Lato, Roboto, Source_Sans_3 } from 'next/font/google'
 import { AsystentAi } from '@/components/asystent-ai'
+import { Powiadomienia } from '@/components/pwa/powiadomienia'
+import { SwRejestracja } from '@/components/pwa/sw-rejestracja'
 import { LanguageProvider } from '@/lib/i18n/language-context'
 import { DEFAULT_LANGUAGE, SUPPORTED_LANGUAGES } from '@/lib/i18n/language'
 import { STORAGE_KEY } from '@/lib/i18n/storage'
@@ -146,15 +148,14 @@ export default async function RootLayout({
       <head>
         <script nonce={nonce} dangerouslySetInnerHTML={{ __html: WYGLAD_INIT_SCRIPT }} />
         <script nonce={nonce} dangerouslySetInnerHTML={{ __html: JEZYK_INIT_SCRIPT }} />
-        {/* Zewnętrzny plik (nie inline) — rejestracja nie zależy od hydracji Reacta
-            (docs/standards/05-baza-danych-offline.md, 5.3). Wymaga nonce mimo bycia zewnętrznym:
-            'self' w script-src wystarczyłby, ale nonce trzymamy spójnie na obu własnych <script>. */}
-        {process.env.NODE_ENV === 'production' && <script nonce={nonce} src="/register-sw.js" defer />}
       </head>
       <body className="antialiased">
         <LanguageProvider>
           {children}
           <AsystentAi />
+          <Powiadomienia />
+          {/* Service worker (D59): registers itself in production only and offers updates as a toast. */}
+          <SwRejestracja />
           {process.env.NODE_ENV === 'production' && <Analytics />}
         </LanguageProvider>
       </body>

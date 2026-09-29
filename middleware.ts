@@ -119,11 +119,11 @@ export async function middleware(request: NextRequest) {
   return zastosujCsp(request, response, nonce)
 }
 
-// PWA files (`/sw.js`, `/register-sw.js`, `/manifest.webmanifest`) bypass the middleware: with
+// PWA files (`/sw.js`, `/manifest.webmanifest`) bypass the middleware: with
 // Supabase configured, a logged-out browser would otherwise get a redirect to /auth/login instead
 // of the worker script, so registration and every SW update check would fail
 // (docs/audyt-sw-vs-wzorzec-pwa.md, item 12). Consequence: the SW script response carries no CSP
 // header (the worker only talks to its own origin).
 export const config = {
-  matcher: ["/((?!_next/static|_next/image|favicon.ico|manifest.json|sw\\.js$|register-sw\\.js$|manifest\\.webmanifest$|.*\\.(?:svg|png|jpg|jpeg|gif|webp|ico)$).*)"],
+  matcher: ["/((?!_next/static|_next/image|favicon.ico|sw\\.js$|manifest\\.webmanifest$|.*\\.(?:svg|png|jpg|jpeg|gif|webp|ico)$).*)"],
 }

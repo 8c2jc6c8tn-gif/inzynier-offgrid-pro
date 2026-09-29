@@ -1247,6 +1247,8 @@ Pełne wyniki audytu: `docs/memory.md`, sekcja "Pełny audyt na polecenie właś
   CI na `main` sprawdzić ręcznie — od 24.09 wszystkie PR (m.in. #213–#215) scalano tylko po lokalnym pakiecie, a krok
   `pnpm check:ai-tools-guard` w `.github/workflows/ci.yml` jeszcze nigdy nie ruszył w GitHub Actions. Czerwony przebieg
   = naprawić od razu, nie odkładać. **Priorytet:** wysoki, 1.10.2026. **Kolizje:** brak.
+  (3) **[29.09.2026, D59]** Dodać job e2e SW do `ci.yml`: `pnpm exec playwright install --with-deps chromium`, potem
+  `pnpm test:e2e` (sam robi trzy buildy, ~3–5 min). Kolizja: `.github/workflows/ci.yml`.
 - 🔲 (2026-09-29) **Prognozy M10 — Δt przy podłączaniu realnych danych (TD7).** Silnik `ai/prognozy` 1.1.0 zakłada
   stały krok `KROK_PROBKOWANIA_H = 3` (decyzja A). Gdy ekran dostanie prawdziwe źródło (symulacja SoC, pogoda, dane live),
   sprawdzić krok próbkowania tego źródła: inny niż 3 h → krok jako jawne pole wejścia silnika (+ test), nie cicha
@@ -1316,11 +1318,18 @@ Pełne wyniki audytu: `docs/memory.md`, sekcja "Pełny audyt na polecenie właś
   🔄 **[29.09.2026, 22:45] W trakcie** — gałąź `claude/sw-wariant-c-etap1` (osobny worktree `../offgrid-sw-etap1`).
   C-1…C-3 = rekomendacje A/A/A (D59). Inne sesje: nie ruszać `app/layout.tsx`, `middleware.ts`, `next.config.mjs`,
   `public/sw.js`, `public/register-sw.js`, `lib/pwa/**` do merge tej gałęzi.
+  ✅ **[29.09.2026, noc] Zrobione (D59).** Wzorzec standardu wdrożony: `app/sw.js/route.ts`, `lib/pwa/*`,
+  `components/pwa/*`, `app/not-found.tsx` (PL/EN/RU), `sonner` + `playwright`; `public/sw.js` i `register-sw.js`
+  usunięte. Testy: 26 jednostkowych (`lib/pwa/__tests__`), e2e `pnpm test:e2e` zielone (238 ekranów offline przy ubitym
+  serwerze, toast i jedno przeładowanie na dwóch buildach, wyłącznik). Precache **21,3 MB** (539 wpisów). Szczegóły:
+  `docs/memory.md` „SW wariant C — etap 1”, raport `docs/audyt-sw-vs-wzorzec-pwa.md` „Stan po etapie 1”.
 - 🔲 (2026-09-29) **SW wariant C — etap 2: pomiar i odchudzenie precache** (plan, sekcja 3). **Priorytet:** średni
   (wysoki, jeśli pomiar etapu 1 przekroczy budżet). **Odblokowuje:** rozsądny pierwszy download na słabym łączu.
   **Kolizje:** `lib/pwa/precache-build.ts`, `scripts/kopiuj-maplibre-worker.mjs`, `components/lokalizacja/*`.
   **Kolejność:** dopiero po merge etapu 1 (potrzebne jego liczby); decyzja o budżecie i o widoku 3D offline —
   właściciel.
+  → **[29.09.2026] Odblokowane** — etap 1 scalony, pomiar wyjściowy: 21,3 MB / 539 wpisów (`pnpm test:e2e` wypisuje
+  rozmiar). Następny krok: 10 największych wpisów, pytanie o budżet i widok 3D (plan, sekcja 3).
 - 🔲 (2026-09-29) **5.10 — `navigator.storage.persist()` z zapamiętaniem odmowy** (raport SW, pkt 15; wzorzec
   `docs/przyklady/pwa/trwaly-magazyn.ts`). Bez tego szkice autosave mogą zostać skasowane przez przeglądarkę.
   **Priorytet:** średni. **Kolizje:** `lib/adapters/indexeddb-storage-adapter.ts`, `use-persisted-draft.ts`.
@@ -1329,4 +1338,12 @@ Pełne wyniki audytu: `docs/memory.md`, sekcja "Pełny audyt na polecenie właś
   `indexeddb-baza.ts` + `baza-wersja-listener.tsx`). Dziś `DB_VERSION = 1` — uśpione. **Priorytet:** musi wejść
   **przed** pierwszym podbiciem `DB_VERSION`. **Kolizje:** jak 5.10 — robić w jednej sesji. Toast wymaga tego samego
   komponentu co toast aktualizacji SW — wybrano C, więc robić po etapie 1 SW.
-
+  → **[29.09.2026] Odblokowane** — host toastów `sonner` jest w `app/layout.tsx` (`components/pwa/powiadomienia.tsx`).
+- 🔲 (2026-09-29) **Usunąć nieużywane `public/placeholder*` (5 plików z szablonu).** Wyszło przy D59: nigdzie w `app/`,
+  `components/`, `lib/` nieużywane; dziś tylko wykluczone z precache (`lib/pwa/precache-build.ts`). Po usunięciu zdjąć
+  wykluczenie. **Priorytet:** niski. **Odblokowuje:** nic. **Plusy teraz:** 5 minut. **Minusy:** brak.
+  **Kolizje:** `lib/pwa/precache-build.ts` (etap 2 SW) — robić razem z etapem 2 albo po nim.
+- 🔲 (2026-09-29) **Next 16: `middleware.ts` → `proxy.ts`.** `pnpm build` ostrzega: konwencja „middleware” jest
+  przestarzała, nowa nazwa „proxy” (build nadal działa). Przed zmianą przeczytać przewodnik w
+  `node_modules/next/dist/docs/` (standard 11.8 — klasyfikacja zmiany). **Priorytet:** niski, przed kolejnym majorem
+  Next. **Kolizje:** `middleware.ts` (CSP, bramka Supabase 18.1, `matcher` plików SW) — nie równolegle z 18.x.
