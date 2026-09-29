@@ -11,7 +11,7 @@ import { LICZBA_SEKCJI_DIOD_BOCZNIKUJACYCH } from "./constants"
 
 // 🔎 TD10 (dlug-techniczny.md): tylko strata mocy zacienionego panelu. Strata na poziomie CAŁEGO
 // STRINGU (zależna od konfiguracji wg źródła) NIE liczona — źródło nie podaje wzoru.
-export const CALCULATOR_VERSION = "1.0.0"
+export const CALCULATOR_VERSION = "1.0.1"
 
 export type ZacienienieDiodyBocznikujaceResult = {
   strataPaneluPct: number

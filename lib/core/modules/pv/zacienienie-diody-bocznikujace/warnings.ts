@@ -39,10 +39,14 @@ export function zacienienieJednejSekcji(strataPct: number): Warning {
   }
 }
 
+/**
+ * 2 sections / full panel: yield loss, not a hazard or equipment damage — 🟡, not 🔴 (owner decision 29.09.2026,
+ * source gives 🟡 here; the hard-stop registry covers only "dangerous / damages equipment").
+ */
 export function zacienienieDwochSekcji(strataPct: number): Warning {
   return {
     code: "ZACIENIENIE-2-SEKCJE",
-    level: "critical",
+    level: "warning",
     i18nKey: "ZACIENIENIE-2-SEKCJE",
     params: { strata: strataPct.toFixed(0) },
     technicalMessage: `liczbaZacienionychSekcji = 2, strataPaneluPct = ${strataPct.toFixed(1)}`,
@@ -52,7 +56,7 @@ export function zacienienieDwochSekcji(strataPct: number): Warning {
 export function zacienieniePelnegoPanelu(strataPct: number): Warning {
   return {
     code: "ZACIENIENIE-PELNY-PANEL",
-    level: "critical",
+    level: "warning",
     i18nKey: "ZACIENIENIE-PELNY-PANEL",
     params: { strata: strataPct.toFixed(0) },
     technicalMessage: `liczbaZacienionychSekcji = 3, strataPaneluPct = ${strataPct.toFixed(1)}`,

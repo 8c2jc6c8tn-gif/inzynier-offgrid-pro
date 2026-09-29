@@ -1310,7 +1310,7 @@ Pełne wyniki audytu: `docs/memory.md`, sekcja "Pełny audyt na polecenie właś
   (`ZA-DUZO-OGNIW`, `ZACIENIENIE-*`, `SYSTEM-NIE-PRZETRWA-SCENARIUSZA`, `KONFLIKT-JEDNOCZESNOSCI`) — pytania do właściciela.
   **Kolizje:** `docs/rejestr-twardych-stopow.md` + oba pliki JSON strażnika; bezkolizyjne z SW etapem 1. **Kolejność:**
   decyzja właściciela 29.09 — po merge SW etapu 1 (razem z pracą domenową M5/M7/M12).
-- ⚠️ (2026-09-29) **Do decyzji właściciela: 🔴 przy zacienieniu 2 sekcji / całego panelu** (`ZACIENIENIE-2-SEKCJE`,
+- ✅ (2026-09-29, **wybrano B** — obniżone do 🟡, wersja kalkulatora 1.0.1; lista zapadkowa strażnika pusta, strażnik w pełni ostry) ~~⚠️ (2026-09-29) **Do decyzji właściciela: 🔴 przy zacienieniu 2 sekcji / całego panelu**~~ (`ZACIENIENIE-2-SEKCJE`,
   `ZACIENIENIE-PELNY-PANEL`, M3/E13 `pv/zacienienie-diody-bocznikujace`) — jedyne 2 kody na liście zapadkowej. To strata
   uzysku (66% / 100% mocy panelu), nie zagrożenie ani uszkodzenie sprzętu, a źródło przy tym ekranie daje 🟡 (mikroinwertery),
   nie 🔴. Opcje: (A) zostawić 🔴 i wpisać do rejestru; (B) obniżyć do 🟡 `warning` (zmiana kodu + testy, kody znikają z listy
