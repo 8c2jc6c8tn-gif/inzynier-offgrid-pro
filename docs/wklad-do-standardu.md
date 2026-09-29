@@ -1141,3 +1141,36 @@ zatrzymanie serwera (albo `context.route('**', r => r.abort())`, do sprawdzenia,
 nawigacja do strony spoza cache SW ma zawieść offline.
 
 Status: 🔎 nowe
+
+[29.09.2026] KATEGORIA: BŁĄD — wzorzec PWA (`docs/przyklady/pwa/sw-rdzen.js`) przy włączonej bramce logowania zapisze stronę logowania pod adresem każdego ekranu
+
+Szczegóły: Migracja SW do wzorca (D59, `docs/plan-migracji-sw-wariant-c.md`). `pobierzDoCache` przyjmuje każdą
+odpowiedź `ok`, a `bezPrzekierowania` zapisuje treść po przekierowaniu. Standard 18.1 każe przekierować niezalogowanego
+na logowanie z każdej trasy — instalacja SW w przeglądarce bez sesji (albo po wygaśnięciu sesji w trakcie instalacji)
+zapisze więc HTML strony logowania pod URL-em każdego ekranu, a offline użytkownik zobaczy wszędzie logowanie. Lokalnie
+naprawione: po `fetch`, jeśli `odp.redirected` i ścieżka docelowa zaczyna się od `/auth/` → `throw` (instalacja się nie
+udaje, stara wersja zostaje, przeglądarka ponowi przy kolejnej nawigacji) + `czyPominac` pomija `/auth/**`; test w
+`lib/pwa/__tests__/sw-rdzen.test.ts`. Przy okazji: wzorzec pomija trasy dynamiczne (`[id]`), a przy CSP nonce-per-request
+(7.3) `prerender-manifest.json` jest pusty — lista konkretnych URL musi przyjść z rejestru aplikacji (u nas
+`trasyDynamiczne` z `lib/pulpit/registry.ts`).
+
+Dlaczego warto zgłosić do new-app-standards: każdy projekt rodziny ma logowanie od pierwszego uruchomienia (18.1) i ten
+sam wzorzec SW (5.8) — luka dotyczy wszystkich, a ujawnia się dopiero w dniu włączenia logowania. Propozycja: strażnik
+przekierowania do `sw-rdzen.js` wzorca (ścieżka logowania jako parametr `__SW_KONFIG`) i pole `trasyDynamiczne` w
+`precache.ts`.
+
+Status: 🔎 nowe
+
+[29.09.2026] KATEGORIA: BŁĄD — `page.waitForFunction` Playwrighta z predykatem `async` przechodzi od razu (Promise = „prawda”)
+
+Szczegóły: e2e SW (D59, `e2e/pomocnicze.mjs`). Oczekiwanie „SW aktywny i precache gotowy” zapisane jako
+`page.waitForFunction(async () => …)` kończyło się po ~100 ms przy pustym cache — zwrócony Promise jest traktowany jak
+wartość prawdziwa. Kolejne kroki testu (ubicie serwera, nawigacje offline) biegły przed końcem instalacji i dawały
+mylące `ERR_INTERNET_DISCONNECTED`. Poprawka: pętla z `page.evaluate` (ono czeka na Promise) + `.catch(() => false)`, bo
+przeładowanie w trakcie niszczy kontekst wykonania.
+
+Dlaczego warto zgłosić do new-app-standards: wzorzec testowy 10.8/10.9 każe czekać na gotowość SW i precache — naturalny
+zapis tego czekania jest asynchroniczny (`getRegistration()`, `caches.keys()`), więc każdy projekt wpadnie w to samo.
+Propozycja: gotowa funkcja „czekaj na SW” w `docs/przyklady/pwa/` (nasza: `e2e/pomocnicze.mjs`, `czekajNaSw`).
+
+Status: 🔎 nowe

@@ -31,6 +31,13 @@ const nextConfig = {
         source: "/(.*)",
         headers: securityHeaders,
       },
+      // Service worker (app/sw.js/route.ts): every update check must reach the server — a cached
+      // /sw.js would hide a new version. Next.js applies the headers of every matching rule, so
+      // the security headers above stay on this response too.
+      {
+        source: "/sw.js",
+        headers: [{ key: "Cache-Control", value: "no-cache" }],
+      },
     ]
   },
 }

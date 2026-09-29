@@ -8373,3 +8373,30 @@ Tryb Audyt (czapka rewidenta). Warstwa „w pełni na końcu” z N.2 — wszyst
   `timeout` z `describe` — sprawdzone w `@vitest/runner`); dwa kolejne przebiegi zielone, komunikatu błędu nie zachowano.
   Hipoteza (niepotwierdzona): drugi pakiet drugiej sesji w tym samym czasie albo limit dopisany w trakcie pomiaru. Jeśli
   wróci — zapisać pełny komunikat przed ponownym uruchomieniem (10.x: nie zakładać „flaky”).
+
+## SW wariant C — etap 1 (29.09.2026, D59)
+
+- **Od 29.09: Service Worker = wzorzec standardu** — `app/sw.js/route.ts` (`force-static`) + `lib/pwa/sw-rdzen.js`
+  (czysty JS, test `node:vm`) + lista precache `lib/pwa/precache.ts` (czysta) / `precache-build.ts` (czyta `.next`) +
+  `lib/pwa/aktualizacja-sw.ts` + `components/pwa/sw-rejestracja.tsx` (toast) + `components/pwa/powiadomienia.tsx`
+  (`<Toaster>` sonner, kolory z tokenów). **Nie** `public/sw.js`/`register-sw.js` (usunięte). Nowy toast w aplikacji =
+  `toast` z `sonner` (host już jest w `app/layout.tsx`), nie własny komponent.
+- **Odstępstwa od wzorca (plan 1.1–1.5):** prefiks `offgrid-precache-`; bez `slownikiPrepaint` (słowniki są w chunku);
+  `trasyDynamiczne` = `/moduly/<id>` z `KAFLE`; `/auth/login` poza precache i `/auth/**` zawsze sieć; strażnik
+  przekierowania na logowanie w `pobierzDoCache`; `aktywuj()` i wyłącznik kasują też stary `offgrid-v1`; wykluczenia
+  MapLibre (`public/maplibre/**`, `media/maplibre-gl*`) i `public/placeholder*`; teksty przez klucze `UI-PWA-*`
+  (`lib/i18n/ui/pwa.ts`, mechanizm D58 zamiast kluczy `pwa.aktualizacja.*` z planu); odwołania w komentarzach
+  wskazują dokumenty tego repo.
+- **Fakty sprawdzone:** w chwili prerenderu `app/sw.js/route.ts` (Next 16.3 + Turbopack) `.next/BUILD_ID`,
+  `app-path-routes-manifest.json` i kompletny `.next/static` już istnieją (sonda: 254 chunki w trakcie = 254 po buildzie).
+  `wersja` SW zmienia się przy każdym buildzie (losowy `BUILD_ID` = `rev` stron) — to oczekiwane, chunki (`rev: 'i'`)
+  i tak są reużywane. Precache: 539 wpisów, **21,3 MB**. Hydracja z komponentem rejestracji — bez `#412`.
+- **Wyłącznik awaryjny:** deploy zbudowany z `NEXT_PUBLIC_SW_WYLACZ=1` → `/sw.js` serwuje skrypt samousuwający (kasuje
+  `offgrid-precache-*` i `offgrid-v1`, wyrejestrowuje się), nowy kod klienta nie rejestruje SW. Powrót: zwykły deploy.
+- **E2e:** `pnpm test:e2e` (`node --test`, trzy buildy produkcyjne, port 3947, ~3 min). Lokalnie, gdy wersja
+  `playwright` nie pasuje do zainstalowanej przeglądarki: `PW_CHROMIUM_PATH=~/.cache/ms-playwright/chromium-1234/chrome-linux64/chrome`.
+  `E2E_BEZ_BUILDU=1` tylko dla `offline.test.mjs` i tylko gdy `.next` to zwykły build (po `aktualizacja.test.mjs` leży
+  tam build wyłącznika!). **Pułapki:** `waitForFunction` z predykatem `async` przechodzi od razu (zgłoszone do
+  standardu); `/_vercel/insights` daje lokalnie 404 + błąd MIME w konsoli — oczekiwane, filtrowane.
+- **Pierwszy deploy:** stary SW serwuje strony z sieci, więc od razu wczytuje się nowy HTML; nowy SW instaluje się w tle
+  i toast pojawia się bez dodatkowej nawigacji (sprawdzone: build `main` → build gałęzi na tym samym porcie).

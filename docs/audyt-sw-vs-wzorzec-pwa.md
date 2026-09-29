@@ -90,3 +90,30 @@ wyłączy PWA w dniu włączenia logowania). Najważniejsze technicznie: pkt **7
 
 **Rekomendacja audytora: A w wariancie C.** Niezależnie od wyboru — pkt 12 (`matcher`) przed włączeniem Supabase,
 pkt 15 (5.10) i 16 (5.11) to osobne, małe zadania, niezależne od kształtu SW (lista zadań).
+
+## Stan po etapie 1 (29.09.2026, D59, `docs/plan-migracji-sw-wariant-c.md`)
+
+| # | Obszar | Po etapie 1 | Dowód |
+|---|---|---|---|
+| 1 | Własny SW, bez wtyczki | ✅ bez zmian | `lib/pwa/sw-rdzen.js` |
+| 2 | Forma | ✅ `app/sw.js/route.ts` (`force-static`), `public/sw.js` usunięty | build: `○ /sw.js` |
+| 3 | Co jest offline | ✅ precache 238 stron + `/_next/static` + `public/` | e2e `offline.test.mjs`: każda strona offline przy **ubitym serwerze**, bez wcześniejszej wizyty |
+| 4 | Nawigacja | ✅ precache → sieć → `/_not-found` (`app/not-found.tsx`, PL/EN/RU) | test `node:vm` + e2e |
+| 5 | RSC, `/api/**`, obce originy, nie-GET | ✅ + `/auth/**` zawsze sieć | test `node:vm` |
+| 6 | `public/`, manifest | ✅ z hashem treści (bez MapLibre i placeholderów) | e2e: maskotki `naturalWidth > 0`, manifest 200 offline |
+| 7 | Wersjonowanie | ✅ hash listy; chunki `rev: 'i'` reużywane między wersjami; stary `offgrid-v1` kasowany | test `node:vm`; przejście ze starego SW sprawdzone ręcznie |
+| 8 | Aktualizacja | ✅ czekanie + toast „Odśwież” (`sonner`), jedno przeładowanie | e2e `aktualizacja.test.mjs` na dwóch buildach |
+| 9 | Sprawdzanie aktualizacji | ✅ `visibilitychange`, maks. co 1 h | kod wzorca 1:1 |
+| 10 | SW w trybie dev | ✅ w dev `/sw.js` = skrypt samousuwający | ten sam mechanizm co pkt 11 (e2e) |
+| 11 | Wyłącznik awaryjny | ✅ `NEXT_PUBLIC_SW_WYLACZ=1` | e2e: brak rejestracji i cache `offgrid-*` |
+| 12 | Middleware a pliki SW | ✅ (29.09, przed etapem 1); martwe `register-sw.js`, `manifest.json` usunięte z `matcher` | build + e2e |
+| 13 | Rejestracja | ✅ `components/pwa/sw-rejestracja.tsx`; hydracja bez `#412` | e2e: konsola bez błędów |
+| 14 | Testy | ✅ Vitest (`lib/pwa/__tests__`, 26 testów) + `pnpm test:e2e` | — |
+| 15 | `storage.persist()` (5.10) | 🔲 osobne zadanie | lista zadań |
+| 16 | Kolizja wersji IndexedDB (5.11) | 🔲 osobne zadanie (toast już jest) | lista zadań |
+| 17 | Wskaźnik offline (8.11) | 🔲 osobne zadanie | lista zadań |
+
+**Pomiar precache po etapie 1:** 539 wpisów, **21,3 MB** (przed wykluczeniami ≈ 26 MB). Dalsze odchudzanie: etap 2.
+**Przejście ze starego SW (jednorazowo przy pierwszym deployu):** stary SW serwuje strony z sieci, więc pierwsza
+wizyta po deployu dostaje już nowy HTML z `SwRejestracja`; nowy SW instaluje się w tle (~14 s lokalnie), toast
+pojawia się bez dodatkowej nawigacji, po „Odśwież” zostaje tylko `offgrid-precache-*`.
