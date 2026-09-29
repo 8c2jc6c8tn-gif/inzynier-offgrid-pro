@@ -8307,3 +8307,22 @@ Tryb Audyt (czapka rewidenta). Warstwa „w pełni na końcu” z N.2 — wszyst
 - **Pułapka (testy SW):** `context.setOffline(true)` Playwrighta nie obejmuje `fetch()` z wnętrza Service Workera —
   strona „działa offline”, bo SW pobiera ją z sieci. Prawdziwy offline = ubity serwer. Zgłoszone do standardu (10.8).
 - Koszt pełnego precache dziś ≈ 26 MB (HTML 220 kalkulatorów 6,1 MB + chunki 14 MB + `media` 4,2 MB + `public/` 1,5 MB).
+
+## SW — decyzja „wariant C” + poprawka `matcher` (29.09.2026)
+
+- **Decyzja właściciela:** migracja SW do wzorca standardu etapami (C). Plan dla innej sesji:
+  `docs/plan-migracji-sw-wariant-c.md` (decyzje C-1…C-3 do potwierdzenia na starcie etapu 1, potem D# w
+  `rejestr-decyzji.md`).
+- **Zrobione od razu:** `middleware.ts` `matcher` pomija `/sw.js`, `/register-sw.js`, `/manifest.webmanifest`
+  (raport, pkt 12). Skutek uboczny, świadomy: odpowiedź ze skryptem SW nie ma nagłówka CSP (SW rozmawia tylko z własnym
+  originem). Sprawdzone na buildzie: `/` i kalkulator — CSP jest; trzy pliki PWA — bez middleware.
+- **Synchronizacja Y.9 (wycinek):** `docs/przyklady/pwa/` + `README.md` + `PROMPT.md` skopiowane 1:1 z
+  `new-app-standards` @ `af63da7` (same dopisania, zero usunięć) — sesja wykonawcza nie potrzebuje dostępu do tamtego repo.
+  Pliki `.ts/.tsx` wzorca importują moduły projektu źródłowego (`sonner`, `@/lib/pwa/*`) → `tsconfig.json` `exclude`
+  dostał `docs/przyklady` (inaczej `pnpm typecheck` pada).
+- **Pułapki znalezione przy planowaniu (do etapu 1):** (1) `/moduly/[id]` wzorzec pomija jako trasę dynamiczną —
+  rozwinąć z `KAFLE`; `prerender-manifest.json` jest pusty przez nonce. (2) Po włączeniu Supabase instalacja SW u
+  niezalogowanego zapisałaby stronę logowania pod adresem każdej strony (`bezPrzekierowania`) — plan dodaje strażnika.
+  (3) Stary cache `offgrid-v1` nie zostanie usunięty przez nowy `aktywuj()` — plan dodaje jawne usunięcie.
+  (4) W `.next/static/media` są wersje `-dev` MapLibre (~2,5 MB) w buildzie produkcyjnym — etap 2.
+  (5) `pkill -f "next start"` ubija powłokę wywołującą (exit 144) — ubijać po PID / grupie procesów.
