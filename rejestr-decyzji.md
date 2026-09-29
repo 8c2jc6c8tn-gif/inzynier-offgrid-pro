@@ -1,6 +1,6 @@
 # Rejestr decyzji — Inżynier Offgrid Pro
 
-**Wersja:** 1.30 | **Filar:** C | **Data utworzenia:** 04.09.2026 | **Ostatnia aktualizacja:** 29.09.2026 | **Status:** Stabilny (rosnący)
+**Wersja:** 1.31 | **Filar:** C | **Data utworzenia:** 04.09.2026 | **Ostatnia aktualizacja:** 29.09.2026 | **Status:** Stabilny (rosnący)
 **Powiązane dokumenty:** `00_Biblia.md`, `docs/memory.md`, `USTALENIA.md` (historyczny, Część II)
 
 TL;DR: D1, D2, D3… — decyzje **strategiczne/fundamentalne** (blokujące wiele innych rzeczy naraz, Krok 4 GOD BOOK), ponumerowane, nigdy nie kasowane, tylko unieważniane jawnie (F.5). **Nie duplikuje `docs/memory.md`**: tam żyje pełna, szczegółowa historia każdej sesji (setki drobnych decyzji implementacyjnych per ekran) — tu tylko decyzje, które zmieniły kierunek/regułę obowiązującą cały projekt. Gdy wpis niżej odsyła do `docs/memory.md`, tam jest pełne uzasadnienie i przykłady.
@@ -255,6 +255,8 @@ Treść:
 
 **D58 (29.09.2026) — Teksty ekranów przez klucze UI-* i strażnik i18n na warstwie UI z listą zapadkową.** Koszt cofnięcia: średni (`lib/i18n/ui/*`, `scripts/check-i18n-ui-guard.mjs`, `scripts/i18n-ui-guard-baseline.json`). Decyzja właściciela projektu (29.09.2026, „wybieram A + B do naprawy” — audyt Y.11, pkt 1b). Treść: (A) teksty ekranów M14 i E38 dopisane/zmienione 29.09 przeniesione do kluczy `UI-*` z PL/EN/RU (`lib/i18n/ui/<grupa>.ts`: `pl` źródłem, `en`/`ru` typowane jego kluczami — brak tłumaczenia = błąd kompilacji; scalane do `dictionaries` obok komunikatów silników, ten sam `t()`); (B) `pnpm check:i18n-guard` sprawdza odtąd także `app/**` i `components/**` (AST, standard 17.1a/17.9, wzorzec 11.9): plik spoza listy zapadkowej nie może mieć ani jednego tekstu wpisanego wprost; plik z listy — nie więcej niż zapisano jednorazowo 29.09.2026 (248 plików, 3711 tekstów), liczba tylko maleje. Nowy tekst na starym, niezmigrowanym ekranie też idzie przez `t()` (`lib/i18n/ui/dopiski-starych-ekranow.ts`). Szczegóły i pułapki: `docs/memory.md`, sekcja „D58”.
 
+**D59 (29.09.2026) — SW wariant C, etap 1: odpowiedzi C-1…C-3 z planu migracji.** Koszt cofnięcia: niski–średni (`sonner` i `playwright` to jedna zależność każda; lista precache to dane w `lib/pwa/precache-build.ts`). Decyzja właściciela projektu (29.09.2026, „rób dalej po kolei nie pytając mnie”) = przyjęcie rekomendacji z `docs/plan-migracji-sw-wariant-c.md`, sekcja 1: **C-1 A** — toast aktualizacji z biblioteki `sonner` (wzorzec 1:1; ten sam toast obsłuży 5.11); **C-2 A** — `playwright` w `devDependencies` (bez `@playwright/test`, e2e przez `node --test`, standard 10.9); **C-3 A** — precache wszystkich stron przy instalacji SW (5.3), koszt renderów po stronie serwera akceptowany, do ponownej oceny w etapie 2 na podstawie pomiaru. Każdą z trzech właściciel może odwrócić bez utraty pracy innych kroków etapu 1.
+
 ## Założenia robocze (F.7 GOD BOOK)
 
 **Z1 (04.09.2026) — przyjęto:** ID modułów (H.2 GOD BOOK, M#) odpowiadają wprost numeracji "Moduł N" już używanej w całym projekcie (1–13), nie nowej, niezależnej numeracji. **Powód:** ta numeracja jest już stabilna, używana w kodzie, dokumentacji i UI od 29.08.2026 — wprowadzenie równoległej numeracji M# byłoby duplikatem, nie nowym bytem. **Na czym się opiera:** cała struktura `docs/rejestr-pokrycia.md`, `lib/pulpit/registry.ts`, `docs/pulpit-i-nawigacja.md`.
@@ -299,3 +301,4 @@ Treść:
 | 29.09.2026 | Dodano D57 (M12/E38: słupek/keja — rozłączanie N–PE, 🔴 podwójne N–PE; namiot — wyjście pływające 🟡 z zasadami; kamper i jacht — ℹ️; RCD 🔴 do czasu PN-HD 60364-7-721) — decyzja właściciela projektu. Wersja 1.28→1.29. |
 | 29.09.2026 | Scalenie z `main`: druga kolizja numerów (H.3) — D54 na `main` = CRL/gaz/Rsi (scalone pierwsze), więc pętla zwarcia D54→**D56**, sytuacje D55→**D57**. Wersja rejestru po scaleniu 1.29. |
 | 29.09.2026 | Dodano D58 (teksty ekranów przez klucze `UI-*` PL/EN/RU + strażnik i18n na warstwie UI z listą zapadkową; audyt Y.11 pkt 1b, „A + B”) — decyzja właściciela projektu. Wersja 1.29→1.30. |
+| 29.09.2026 | Dodano D59 (SW wariant C, etap 1: `sonner`, `playwright` w devDependencies, precache wszystkich stron — rekomendacje planu przyjęte poleceniem „rób dalej nie pytając”). Wersja 1.30→1.31. |
