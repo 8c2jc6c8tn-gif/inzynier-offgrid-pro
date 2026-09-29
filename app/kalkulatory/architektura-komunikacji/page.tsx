@@ -6,6 +6,7 @@ import type { PolaczenieEsp32, ProtokolPolaczenia } from "@/lib/core/modules/esp
 import { usePersistedDraft } from "@/lib/adapters/use-persisted-draft"
 import { WerdyktPanel } from "@/components/werdykt"
 import { NawigacjaEkranu } from "@/components/nawigacja-ekranu"
+import { PomocPola } from "@/components/ui/pomoc"
 import { NaglowekEkranu } from "@/components/wzorce/naglowek-ekranu"
 import { WynikGlowny } from "@/components/wzorce/wynik-glowny"
 import { WynikSzczegoly } from "@/components/wzorce/wynik-szczegoly"
@@ -39,7 +40,7 @@ export default function ArchitekturaKomunikacjiPage() {
   return (
     <main className="mx-auto flex max-w-md flex-col gap-6 p-6">
       <NawigacjaEkranu href="/kalkulatory/architektura-komunikacji" />
-      <NaglowekEkranu tytul="Architektura komunikacji ESP32">
+      <NaglowekEkranu tytul="Architektura komunikacji ESP32" ekran="architektura-komunikacji" wzor={result.formula}>
         ESP32 to tłumacz między urządzeniami mówiącymi różnymi „językami” elektrycznymi — do każdego potrzebuje odpowiedniego
         adaptera. Zwykle: RS485 → falownik, CAN → BMS, Wi-Fi → aplikacja. Moduł 9, Ekran 4.
       </NaglowekEkranu>
@@ -59,6 +60,7 @@ export default function ArchitekturaKomunikacjiPage() {
                   className={`${pole} min-w-24 flex-1`}
                   aria-label={`Urządzenie — połączenie ${i + 1}`}
                 />
+                <PomocPola ekran="architektura-komunikacji" pole="urzadzenie" />
                 <select
                   value={p.protokol}
                   onChange={(e) => aktualizuj(p.id, { protokol: e.target.value as ProtokolPolaczenia })}
@@ -71,6 +73,7 @@ export default function ArchitekturaKomunikacjiPage() {
                     </option>
                   ))}
                 </select>
+                <PomocPola ekran="architektura-komunikacji" pole="protokol" />
                 {magistrala && (
                   <>
                     <label className="flex items-center gap-1 text-caption">
@@ -83,17 +86,21 @@ export default function ArchitekturaKomunikacjiPage() {
                       />
                       transceiver
                     </label>
+                    <PomocPola ekran="architektura-komunikacji" pole="transceiver" />
                     {p.protokol === "rs485" && (
-                      <input
-                        type="number"
-                        inputMode="numeric"
-                        min={1}
-                        placeholder="adres"
-                        value={p.adres ?? ""}
-                        onChange={(e) => aktualizuj(p.id, { adres: liczba(e.target.value) })}
-                        className={`${pole} w-20`}
-                        aria-label={`Adres Modbus — ${opis}`}
-                      />
+                      <>
+                        <input
+                          type="number"
+                          inputMode="numeric"
+                          min={1}
+                          placeholder="adres"
+                          value={p.adres ?? ""}
+                          onChange={(e) => aktualizuj(p.id, { adres: liczba(e.target.value) })}
+                          className={`${pole} w-20`}
+                          aria-label={`Adres Modbus — ${opis}`}
+                        />
+                        <PomocPola ekran="architektura-komunikacji" pole="adres" />
+                      </>
                     )}
                     <input
                       type="number"
@@ -105,6 +112,7 @@ export default function ArchitekturaKomunikacjiPage() {
                       className={`${pole} w-24`}
                       aria-label={`Prędkość [bit/s] — ${opis}`}
                     />
+                    <PomocPola ekran="architektura-komunikacji" pole="predkosc" />
                   </>
                 )}
                 <button

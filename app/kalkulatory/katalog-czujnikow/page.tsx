@@ -8,6 +8,7 @@ import { usePersistedDraft } from "@/lib/adapters/use-persisted-draft"
 import { NawigacjaEkranu } from "@/components/nawigacja-ekranu"
 import { Button } from "@/components/ui/button"
 import { Pole, PoleSelect } from "@/components/ui/pole"
+import { PomocPola } from "@/components/ui/pomoc"
 import { NaglowekEkranu } from "@/components/wzorce/naglowek-ekranu"
 import { BudowniczyListy, PrzyciskUsun } from "@/components/wzorce/budowniczy-listy"
 
@@ -65,7 +66,7 @@ export default function KatalogCzujnikowPage() {
   return (
     <main className="mx-auto flex max-w-md flex-col gap-6 p-6">
       <NawigacjaEkranu href="/kalkulatory/katalog-czujnikow" />
-      <NaglowekEkranu tytul="Katalog czujników">{MIGAWKA_KATALOGU} Moduł 9, Katalog 1.</NaglowekEkranu>
+      <NaglowekEkranu tytul="Katalog czujników" ekran="katalog-czujnikow">{MIGAWKA_KATALOGU} Moduł 9, Katalog 1.</NaglowekEkranu>
 
       <BudowniczyListy
         pozycje={instances}
@@ -73,7 +74,7 @@ export default function KatalogCzujnikowPage() {
         podsumowanie={`Dodane: ${result.value.liczbaInstancji} (typów: ${result.value.liczbaTypowUzytych})`}
         formularz={
           <>
-            <PoleSelect label="Typ czujnika" value={typeId} onChange={(e) => setTypeId(e.target.value)}>
+            <PoleSelect label="Typ czujnika" value={typeId} onChange={(e) => setTypeId(e.target.value)} pomoc={<PomocPola ekran="katalog-czujnikow" pole="typ" />}>
               {SENSOR_TYPES.map((t) => (
                 <option key={t.id} value={t.id}>
                   {t.pozycja}
@@ -89,11 +90,13 @@ export default function KatalogCzujnikowPage() {
               value={etykieta}
               onChange={(e) => setEtykieta(e.target.value)}
               placeholder="np. Czujnik dymu — sypialnia"
+              pomoc={<PomocPola ekran="katalog-czujnikow" pole="etykieta" />}
             />
             <Pole
               label="Lokalizacja (opcjonalnie)"
               value={lokalizacja}
               onChange={(e) => setLokalizacja(e.target.value)}
+              pomoc={<PomocPola ekran="katalog-czujnikow" pole="lokalizacja" />}
             />
 
             <Button type="button" onClick={addInstance} disabled={!etykieta.trim()}>
