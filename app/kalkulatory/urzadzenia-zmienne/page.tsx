@@ -4,11 +4,13 @@ import { useMemo } from "react"
 import { calculateUrzadzeniaZmienne } from "@/lib/core/modules/zapotrzebowanie/urzadzenia-zmienne/calculator"
 import {
   KATALOG_URZADZEN_ZMIENNYCH,
+  MNOZNIK_KLASY,
   PLYTA_INDUKCYJNA_MOC_SUGEROWANA_W,
 } from "@/lib/core/modules/zapotrzebowanie/urzadzenia-zmienne/constants"
 import type { KlasaEnergetyczna, PozycjaUrzadzenia } from "@/lib/core/modules/zapotrzebowanie/urzadzenia-zmienne/input"
 import { usePersistedDraft } from "@/lib/adapters/use-persisted-draft"
 import { PoleSelect } from "@/components/ui/pole"
+import { PomocPola } from "@/components/ui/pomoc"
 import { WerdyktPanel } from "@/components/werdykt"
 import { NawigacjaEkranu } from "@/components/nawigacja-ekranu"
 import { NaglowekEkranu } from "@/components/wzorce/naglowek-ekranu"
@@ -82,7 +84,12 @@ export default function UrzadzeniaZmiennePage() {
   return (
     <main className="mx-auto flex max-w-md flex-col gap-6 p-6">
       <NawigacjaEkranu href="/kalkulatory/urzadzenia-zmienne" />
-      <NaglowekEkranu tytul="Urządzenia zmienne i klasa energetyczna">
+      <NaglowekEkranu
+        tytul="Urządzenia zmienne i klasa energetyczna"
+        ekran="urzadzenia-zmienne"
+        wzor={result.formula}
+        parametry={{ nowoczesne: MNOZNIK_KLASY.nowoczesne, standardowe: MNOZNIK_KLASY.standardowe, stare: MNOZNIK_KLASY.stare }}
+      >
         Stare urządzenia to nie tylko wyższy rachunek za prąd w sieci — w off-gridzie to też
         większa, droższa bateria, żeby je udźwignąć. Moduł 2, Ekran 3.
       </NaglowekEkranu>
@@ -114,6 +121,7 @@ export default function UrzadzeniaZmiennePage() {
                   onChange={(e) => aktualizuj(u.id, { mocW: Number(e.target.value) })}
                   aria-label={`Moc — ${def?.label ?? u.id}`}
                 />
+                <PomocPola ekran="urzadzenia-zmienne" pole="moc" />
                 <span>W ×</span>
                 <input
                   type="number"
@@ -125,6 +133,7 @@ export default function UrzadzeniaZmiennePage() {
                   onChange={(e) => aktualizuj(u.id, { czasMin: Number(e.target.value) })}
                   aria-label={`Czas pracy dziennie — ${def?.label ?? u.id}`}
                 />
+                <PomocPola ekran="urzadzenia-zmienne" pole="czas" />
                 <span>min/dobę</span>
                 <select
                   className="min-h-10 rounded-md border border-input bg-background px-2 text-small disabled:opacity-50"
@@ -137,6 +146,11 @@ export default function UrzadzeniaZmiennePage() {
                   <option value="standardowe">Standardowe (5-10 lat)</option>
                   <option value="stare">Stare (&gt;10 lat)</option>
                 </select>
+                <PomocPola
+                  ekran="urzadzenia-zmienne"
+                  pole="klasa"
+                  params={{ nowoczesne: MNOZNIK_KLASY.nowoczesne, standardowe: MNOZNIK_KLASY.standardowe, stare: MNOZNIK_KLASY.stare }}
+                />
               </div>
             </li>
           )
@@ -159,6 +173,7 @@ export default function UrzadzeniaZmiennePage() {
               label="Moc palników"
               value={plytaIndukcyjnaMocW}
               onChange={(e) => setPlytaIndukcyjnaMocW(e.target.value)}
+              pomoc={<PomocPola ekran="urzadzenia-zmienne" pole="mocPlyty" params={{ sugerowana: PLYTA_INDUKCYJNA_MOC_SUGEROWANA_W }} />}
             >
               <option value="3000">3000 W</option>
               <option value="5000">5000 W</option>
@@ -174,6 +189,7 @@ export default function UrzadzeniaZmiennePage() {
               onChange={(e) => setPlytaIndukcyjnaCzasMin(e.target.value)}
               aria-label="Czas gotowania dziennie"
             />
+            <PomocPola ekran="urzadzenia-zmienne" pole="czasGotowania" />
           </div>
         )}
       </div>

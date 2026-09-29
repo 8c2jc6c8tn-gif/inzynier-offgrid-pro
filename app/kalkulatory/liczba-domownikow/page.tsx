@@ -5,11 +5,13 @@ import { calculateLiczbaDomownikow } from "@/lib/core/modules/zapotrzebowanie/li
 import { MAX_DOMOWNIKOW, MIN_DOMOWNIKOW } from "@/lib/core/modules/zapotrzebowanie/liczba-domownikow/constants"
 import { usePersistedDraft } from "@/lib/adapters/use-persisted-draft"
 import { Pole } from "@/components/ui/pole"
+import { PomocPola } from "@/components/ui/pomoc"
 import { WerdyktPanel } from "@/components/werdykt"
 import { NawigacjaEkranu } from "@/components/nawigacja-ekranu"
 import { NaglowekEkranu } from "@/components/wzorce/naglowek-ekranu"
 import { WynikGlowny } from "@/components/wzorce/wynik-glowny"
 import { WynikSzczegoly } from "@/components/wzorce/wynik-szczegoly"
+import { CWU_MAX_L_NA_OSOBE, CWU_MIN_L_NA_OSOBE } from "@/lib/core/modules/zapotrzebowanie/liczba-domownikow/constants"
 
 type FormularzStan = {
   liczbaDomownikow: string
@@ -45,7 +47,11 @@ export default function LiczbaDomownikowPage() {
   return (
     <main className="mx-auto flex max-w-md flex-col gap-6 p-6">
       <NawigacjaEkranu href="/kalkulatory/liczba-domownikow" />
-      <NaglowekEkranu tytul="Liczba domowników">
+      <NaglowekEkranu
+        tytul="Liczba domowników"
+        ekran="liczba-domownikow"
+        parametry={{ cwuMin: CWU_MIN_L_NA_OSOBE, cwuMax: CWU_MAX_L_NA_OSOBE }}
+      >
         To jest lista rzeczy, bez których dom przestaje być bezpieczny do mieszkania — zasila
         automatycznie zapotrzebowanie na C.W.U. i profil zużycia wody. Moduł 2, Ekran 4.
       </NaglowekEkranu>
@@ -60,7 +66,7 @@ export default function LiczbaDomownikowPage() {
         step="1"
         value={liczbaDomownikow}
         onChange={(e) => setLiczbaDomownikow(e.target.value)}
-        hint={`Zakres suwaka źródła: ${MIN_DOMOWNIKOW}–${MAX_DOMOWNIKOW} osób.`}
+        pomoc={<PomocPola ekran="liczba-domownikow" pole="liczba" params={{ min: MIN_DOMOWNIKOW, max: MAX_DOMOWNIKOW }} />}
       />
 
       {result.status === "INVALID_INPUT" ? (

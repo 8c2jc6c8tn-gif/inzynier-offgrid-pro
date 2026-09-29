@@ -5,11 +5,13 @@ import { calculateLoadShedding } from "@/lib/core/modules/zapotrzebowanie/load-s
 import type { LoadSheddingInput } from "@/lib/core/modules/zapotrzebowanie/load-shedding/input"
 import { usePersistedDraft } from "@/lib/adapters/use-persisted-draft"
 import { Pole, PoleCheckbox, PoleSelect } from "@/components/ui/pole"
+import { PomocPola } from "@/components/ui/pomoc"
 import { WerdyktPanel } from "@/components/werdykt"
 import { NawigacjaEkranu } from "@/components/nawigacja-ekranu"
 import { NaglowekEkranu } from "@/components/wzorce/naglowek-ekranu"
 import { WynikGlowny } from "@/components/wzorce/wynik-glowny"
 import { WynikSzczegoly } from "@/components/wzorce/wynik-szczegoly"
+import { PROG_ODLACZENIA_PRIORYTET_2_SOC_PCT, PROG_ODLACZENIA_PRIORYTET_3_SOC_PCT } from "@/lib/core/modules/zapotrzebowanie/load-shedding/constants"
 
 type FormularzStan = {
   priorytet: LoadSheddingInput["priorytet"]
@@ -54,7 +56,12 @@ export default function LoadSheddingPage() {
   return (
     <main className="mx-auto flex max-w-md flex-col gap-6 p-6">
       <NawigacjaEkranu href="/kalkulatory/load-shedding" />
-      <NaglowekEkranu tytul="Macierz priorytetów odłączania">
+      <NaglowekEkranu
+        tytul="Macierz priorytetów odłączania"
+        ekran="load-shedding"
+        wzor={result.formula}
+        parametry={{ prog2: PROG_ODLACZENIA_PRIORYTET_2_SOC_PCT, prog3: PROG_ODLACZENIA_PRIORYTET_3_SOC_PCT }}
+      >
         To jest system, który sam decyduje, co poświęcić, zanim Ty musiałbyś to robić ręcznie w
         panice przy niskiej baterii. Moduł 2, Ekran 12.
       </NaglowekEkranu>
@@ -64,6 +71,7 @@ export default function LoadSheddingPage() {
           label="Priorytet odbiornika"
           value={priorytet}
           onChange={(e) => setPriorytet(Number(e.target.value) as LoadSheddingInput["priorytet"])}
+          pomoc={<PomocPola ekran="load-shedding" pole="priorytet" />}
         >
           <option value={0}>— wybierz —</option>
           <option value={1}>1 — krytyczny (nigdy nie odłączany)</option>
@@ -79,6 +87,7 @@ export default function LoadSheddingPage() {
           max={100}
           value={socPct}
           onChange={(e) => setSocPct(e.target.value)}
+          pomoc={<PomocPola ekran="load-shedding" pole="soc" />}
         />
         {priorytet === 3 && (
           <PoleCheckbox

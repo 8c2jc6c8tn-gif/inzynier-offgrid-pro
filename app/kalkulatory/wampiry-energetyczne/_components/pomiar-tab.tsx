@@ -7,6 +7,7 @@ import { WerdyktPanel, poziomZStatusu } from "@/components/werdykt"
 import { WynikGlowny } from "@/components/wzorce/wynik-glowny"
 import { WynikSzczegoly } from "@/components/wzorce/wynik-szczegoly"
 import { StanPusty } from "@/components/ui/stany"
+import { PomocPola } from "@/components/ui/pomoc"
 
 export function PomiarTab({
   input,
@@ -46,6 +47,7 @@ export function PomiarTab({
               onChange={(e) => aktualizuj(p.id, { nazwa: e.target.value })}
               className="min-h-10 flex-1 min-w-24 rounded-md border border-input bg-background px-2"
             />
+            <PomocPola ekran="wampiry-energetyczne" pole="nazwa" />
             <input
               type="number"
               inputMode="decimal"
@@ -55,6 +57,7 @@ export function PomiarTab({
               className="min-h-10 w-20 rounded-md border border-input bg-background px-2"
               aria-label={`Zmierzona moc jałowa — ${p.nazwa || "pozycja"}`}
             />
+            <PomocPola ekran="wampiry-energetyczne" pole="mocJalowa" />
             <button
               type="button"
               onClick={() => usun(p.id)}

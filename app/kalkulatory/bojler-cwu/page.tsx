@@ -4,6 +4,7 @@ import { useMemo } from "react"
 import { calculateBojlerCwu } from "@/lib/core/modules/zapotrzebowanie/bojler-cwu/calculator"
 import { usePersistedDraft } from "@/lib/adapters/use-persisted-draft"
 import { Pole } from "@/components/ui/pole"
+import { PomocPola } from "@/components/ui/pomoc"
 import { WerdyktPanel } from "@/components/werdykt"
 import { NawigacjaEkranu } from "@/components/nawigacja-ekranu"
 import { NaglowekEkranu } from "@/components/wzorce/naglowek-ekranu"
@@ -53,7 +54,7 @@ export default function BojlerCwuPage() {
   return (
     <main className="mx-auto flex max-w-md flex-col gap-6 p-6">
       <NawigacjaEkranu href="/kalkulatory/bojler-cwu" />
-      <NaglowekEkranu tytul="Inteligentny bojler C.W.U.">
+      <NaglowekEkranu tytul="Inteligentny bojler C.W.U." ekran="bojler-cwu" wzor={result.formula}>
         Bojler to jeden z największych „elastycznych” odbiorników w domu — dobowe zapotrzebowanie
         na energię i czas potrzebny na jego naładowanie, żeby zaplanować grzanie w oknie
         produkcji PV. Moduł 2, Ekran 2.
@@ -68,7 +69,7 @@ export default function BojlerCwuPage() {
           min={0}
           value={wolumenCwuLDoba}
           onChange={(e) => setWolumenCwuLDoba(e.target.value)}
-          hint="Docelowo automatycznie z Modułu 2, Ekran 4 (liczba domowników × 50–70 l/osobę) — na razie wpisz ręcznie."
+          pomoc={<PomocPola ekran="bojler-cwu" pole="wolumen" />}
         />
         <Pole
           label="Wzrost temperatury wody (zimna → C.W.U.)"
@@ -78,7 +79,7 @@ export default function BojlerCwuPage() {
           min={0}
           value={deltaTK}
           onChange={(e) => setDeltaTK(e.target.value)}
-          hint="Źródło nie podaje wartości domyślnej — wpisz własną (np. z 10°C do 45°C = 35K)."
+          pomoc={<PomocPola ekran="bojler-cwu" pole="deltaT" />}
         />
         <Pole
           label="Moc grzałki"
@@ -88,6 +89,7 @@ export default function BojlerCwuPage() {
           min={0}
           value={mocGrzalkiKw}
           onChange={(e) => setMocGrzalkiKw(e.target.value)}
+          pomoc={<PomocPola ekran="bojler-cwu" pole="mocGrzalki" />}
         />
         <Pole
           label="Pojemność zbiornika bojlera"
@@ -97,6 +99,7 @@ export default function BojlerCwuPage() {
           min={0}
           value={pojemnoscBojleraL}
           onChange={(e) => setPojemnoscBojleraL(e.target.value)}
+          pomoc={<PomocPola ekran="bojler-cwu" pole="pojemnosc" />}
         />
       </div>
 

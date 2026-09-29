@@ -4,12 +4,14 @@ import { useMemo } from "react"
 import { calculateSprawnoscInwertera } from "@/lib/core/modules/zapotrzebowanie/sprawnosc-inwertera-niskie-obciazenie/calculator"
 import { usePersistedDraft } from "@/lib/adapters/use-persisted-draft"
 import { Pole } from "@/components/ui/pole"
+import { PomocPola } from "@/components/ui/pomoc"
 import { WerdyktPanel } from "@/components/werdykt"
 import { NawigacjaEkranu } from "@/components/nawigacja-ekranu"
 import { NaglowekEkranu } from "@/components/wzorce/naglowek-ekranu"
 import { WynikGlowny } from "@/components/wzorce/wynik-glowny"
 import { WynikSzczegoly } from "@/components/wzorce/wynik-szczegoly"
 import { useTranslate } from "@/lib/i18n/language-context"
+import { PROG_NISKIEGO_OBCIAZENIA_PCT, ZAKRES_OPTYMALNY_MAX_PCT, ZAKRES_OPTYMALNY_MIN_PCT } from "@/lib/core/modules/zapotrzebowanie/sprawnosc-inwertera-niskie-obciazenie/constants"
 
 type FormularzStan = {
   zapotrzebowanieW: string
@@ -53,7 +55,12 @@ export default function SprawnoscInwerteraPage() {
   return (
     <main className="mx-auto flex max-w-md flex-col gap-6 p-6">
       <NawigacjaEkranu href="/kalkulatory/sprawnosc-inwertera-niskie-obciazenie" />
-      <NaglowekEkranu tytul="Sprawność inwertera przy niskim obciążeniu">
+      <NaglowekEkranu
+        tytul="Sprawność inwertera przy niskim obciążeniu"
+        ekran="sprawnosc-inwertera-niskie-obciazenie"
+        wzor={result.formula}
+        parametry={{ prog: PROG_NISKIEGO_OBCIAZENIA_PCT, optMin: ZAKRES_OPTYMALNY_MIN_PCT, optMax: ZAKRES_OPTYMALNY_MAX_PCT }}
+      >
         Za duży falownik względem realnego obciążenia to trochę jak jazda autem na najwyższym
         biegu w mieście — silnik pracuje, ale nieefektywnie. Moduł 2, Ekran 10.
       </NaglowekEkranu>
@@ -67,6 +74,7 @@ export default function SprawnoscInwerteraPage() {
           min={0}
           value={zapotrzebowanieW}
           onChange={(e) => setZapotrzebowanieW(e.target.value)}
+          pomoc={<PomocPola ekran="sprawnosc-inwertera-niskie-obciazenie" pole="zapotrzebowanie" />}
         />
         <Pole
           label="Znamionowa moc falownika"
@@ -76,6 +84,7 @@ export default function SprawnoscInwerteraPage() {
           min={0}
           value={mocFalownikaW}
           onChange={(e) => setMocFalownikaW(e.target.value)}
+          pomoc={<PomocPola ekran="sprawnosc-inwertera-niskie-obciazenie" pole="mocFalownika" />}
         />
         <Pole
           label="Sprawność falownika przy tym obciążeniu"
@@ -86,7 +95,7 @@ export default function SprawnoscInwerteraPage() {
           max={100}
           value={sprawnoscPct}
           onChange={(e) => setSprawnoscPct(e.target.value)}
-          hint="Z karty katalogowej/krzywej producenta — typowo ~95% przy 40-80% obciążenia, spada do 70-80% poniżej 10%."
+          pomoc={<PomocPola ekran="sprawnosc-inwertera-niskie-obciazenie" pole="sprawnosc" />}
         />
       </div>
 

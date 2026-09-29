@@ -5,6 +5,7 @@ import { calculateSezonowosc } from "@/lib/core/modules/zapotrzebowanie/sezonowo
 import type { TypSezonowosci } from "@/lib/core/modules/zapotrzebowanie/sezonowosc/input"
 import { usePersistedDraft } from "@/lib/adapters/use-persisted-draft"
 import { Pole, PoleCheckbox, PoleSelect } from "@/components/ui/pole"
+import { PomocPola } from "@/components/ui/pomoc"
 import { WerdyktPanel } from "@/components/werdykt"
 import { NawigacjaEkranu } from "@/components/nawigacja-ekranu"
 import { NaglowekEkranu } from "@/components/wzorce/naglowek-ekranu"
@@ -71,7 +72,7 @@ export default function SezonowoscPage() {
   return (
     <main className="mx-auto flex max-w-md flex-col gap-6 p-6">
       <NawigacjaEkranu href="/kalkulatory/sezonowosc" />
-      <NaglowekEkranu tytul="Sezonowość i tryb wakacyjny">
+      <NaglowekEkranu tytul="Sezonowość i tryb wakacyjny" ekran="sezonowosc" wzor={result.formula}>
         Nie każde urządzenie pracuje cały rok — dobry bilans uwzględnia, że klimatyzacja zimą stoi
         wyłączona, a odśnieżarka latem w ogóle nie istnieje. Moduł 2, Ekran 6.
       </NaglowekEkranu>
@@ -85,8 +86,14 @@ export default function SezonowoscPage() {
           min={0}
           value={zapotrzebowanieKwhDoba}
           onChange={(e) => setZapotrzebowanieKwhDoba(e.target.value)}
+          pomoc={<PomocPola ekran="sezonowosc" pole="energia" />}
         />
-        <PoleSelect label="Typ sezonowości" value={typ} onChange={(e) => setTyp(e.target.value as TypSezonowosci)}>
+        <PoleSelect
+          label="Typ sezonowości"
+          value={typ}
+          onChange={(e) => setTyp(e.target.value as TypSezonowosci)}
+          pomoc={<PomocPola ekran="sezonowosc" pole="typ" />}
+        >
           {(Object.keys(ETYKIETY_TYPU) as TypSezonowosci[]).map((t) => (
             <option key={t} value={t}>
               {ETYKIETY_TYPU[t]}
@@ -105,7 +112,7 @@ export default function SezonowoscPage() {
               max={12}
               value={miesiacOd}
               onChange={(e) => setMiesiacOd(e.target.value)}
-              hint="Np. klimatyzacja: czerwiec = 6."
+              pomoc={<PomocPola ekran="sezonowosc" pole="miesiacOd" />}
             />
             <Pole
               label="Miesiąc końca sezonu"
@@ -116,7 +123,7 @@ export default function SezonowoscPage() {
               max={12}
               value={miesiacDo}
               onChange={(e) => setMiesiacDo(e.target.value)}
-              hint="Np. klimatyzacja: wrzesień = 9."
+              pomoc={<PomocPola ekran="sezonowosc" pole="miesiacDo" />}
             />
             <Pole
               label="Sprawdzany miesiąc"
@@ -127,6 +134,7 @@ export default function SezonowoscPage() {
               max={12}
               value={aktualnyMiesiac}
               onChange={(e) => setAktualnyMiesiac(e.target.value)}
+              pomoc={<PomocPola ekran="sezonowosc" pole="miesiac" />}
             />
           </>
         )}

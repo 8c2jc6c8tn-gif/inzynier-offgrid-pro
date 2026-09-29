@@ -11,6 +11,7 @@ import type { DoborMetodyInput, PorownanieMetodInput } from "@/lib/core/modules/
 import type { ScenariuszAutomatyzacjiInput } from "@/lib/core/modules/zapotrzebowanie/wampiry-energetyczne/automatyzacja/input"
 import { usePersistedDraft } from "@/lib/adapters/use-persisted-draft"
 import { PoleSelect } from "@/components/ui/pole"
+import { PomocPola } from "@/components/ui/pomoc"
 import { NawigacjaEkranu } from "@/components/nawigacja-ekranu"
 import { NaglowekEkranu } from "@/components/wzorce/naglowek-ekranu"
 import { KatalogTab } from "./_components/katalog-tab"
@@ -88,7 +89,7 @@ export default function WampiryEnergetycznePage() {
   return (
     <main className="mx-auto flex max-w-md flex-col gap-6 p-6">
       <NawigacjaEkranu href="/kalkulatory/wampiry-energetyczne" />
-      <NaglowekEkranu tytul="Wampiry energetyczne">
+      <NaglowekEkranu tytul="Wampiry energetyczne" ekran="wampiry-energetyczne">
         Drobny, ciągły pobór urządzeń w trybie czuwania — pojedynczo niewiele, ale w skali roku i w systemie
         off-grid regularnie zjada pojemność baterii. Moduł 2.
       </NaglowekEkranu>
@@ -97,6 +98,7 @@ export default function WampiryEnergetycznePage() {
         label="Podzakładka"
         value={stan.podzakladka}
         onChange={(e) => setPole("podzakladka", e.target.value as Podzakladka)}
+        pomoc={<PomocPola ekran="wampiry-energetyczne" pole="podzakladka" />}
       >
         {PODZAKLADKI.map((p) => (
           <option key={p.id} value={p.id}>

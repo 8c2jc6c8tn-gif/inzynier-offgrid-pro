@@ -4,6 +4,7 @@ import { useMemo } from "react"
 import { calculateAutonomiaStandby, calculateKosztRocznyStandby, calculateWplywNaDobor } from "@/lib/core/modules/zapotrzebowanie/wampiry-energetyczne/symulacje-i-raporty/calculator"
 import type { AutonomiaStandbyInput, KosztRocznyStandbyInput, WplywNaDoborInput } from "@/lib/core/modules/zapotrzebowanie/wampiry-energetyczne/symulacje-i-raporty/input"
 import { Pole } from "@/components/ui/pole"
+import { PomocPola } from "@/components/ui/pomoc"
 import { WerdyktPanel, poziomZStatusu } from "@/components/werdykt"
 import { WynikGlowny } from "@/components/wzorce/wynik-glowny"
 import { WynikSzczegoly } from "@/components/wzorce/wynik-szczegoly"
@@ -55,15 +56,16 @@ export function SymulacjeTab({
           inputMode="decimal"
           value={autonomia.standbyW || ""}
           onChange={(e) => onChangeAutonomia({ ...autonomia, standbyW: Number(e.target.value) })}
+          pomoc={<PomocPola ekran="wampiry-energetyczne" pole="standby" />}
         />
         <Pole
           label="Pobór po redukcji (opcjonalnie)"
           unit="W"
-          hint="0 = pomiń drugi scenariusz porównawczy"
           type="number"
           inputMode="decimal"
           value={autonomia.standbyZredukowanyW || ""}
           onChange={(e) => onChangeAutonomia({ ...autonomia, standbyZredukowanyW: Number(e.target.value) })}
+          pomoc={<PomocPola ekran="wampiry-energetyczne" pole="standbyRedukcja" />}
         />
         <Pole
           label="Pojemność użyteczna baterii"
@@ -72,6 +74,7 @@ export function SymulacjeTab({
           inputMode="decimal"
           value={autonomia.pojemnoscUzytecznaKwh || ""}
           onChange={(e) => onChangeAutonomia({ ...autonomia, pojemnoscUzytecznaKwh: Number(e.target.value) })}
+          pomoc={<PomocPola ekran="wampiry-energetyczne" pole="pojemnosc" />}
         />
         <Pole
           label="DoD (głębokość rozładowania)"
@@ -80,6 +83,7 @@ export function SymulacjeTab({
           inputMode="decimal"
           value={autonomia.dodPct || ""}
           onChange={(e) => onChangeAutonomia({ ...autonomia, dodPct: Number(e.target.value) })}
+          pomoc={<PomocPola ekran="wampiry-energetyczne" pole="dod" />}
         />
 
         {wynikAutonomia.status === "INCOMPLETE" ? (
@@ -107,24 +111,25 @@ export function SymulacjeTab({
           inputMode="decimal"
           value={kosztRoczny.standbyW || ""}
           onChange={(e) => onChangeKosztRoczny({ ...kosztRoczny, standbyW: Number(e.target.value) })}
+          pomoc={<PomocPola ekran="wampiry-energetyczne" pole="standby" />}
         />
         <Pole
           label="Cena energii"
           unit="zł/kWh"
-          hint="Wpisz swoją cenę — źródło nie podaje uniwersalnej wartości."
           type="number"
           inputMode="decimal"
           value={kosztRoczny.cenaEnergiiZlZaKwh || ""}
           onChange={(e) => onChangeKosztRoczny({ ...kosztRoczny, cenaEnergiiZlZaKwh: Number(e.target.value) })}
+          pomoc={<PomocPola ekran="wampiry-energetyczne" pole="cenaEnergii" />}
         />
         <Pole
           label="Całkowite roczne zużycie domu (opcjonalnie)"
           unit="kWh"
-          hint="0 = pomiń wyliczenie udziału % standby w całości"
           type="number"
           inputMode="decimal"
           value={kosztRoczny.zapotrzebowanieCalkowiteRocznaKwh || ""}
           onChange={(e) => onChangeKosztRoczny({ ...kosztRoczny, zapotrzebowanieCalkowiteRocznaKwh: Number(e.target.value) })}
+          pomoc={<PomocPola ekran="wampiry-energetyczne" pole="zuzycieRoczne" />}
         />
 
         {wynikKoszt.status === "INCOMPLETE" ? (
@@ -150,6 +155,7 @@ export function SymulacjeTab({
           inputMode="decimal"
           value={wplywNaDobor.standbyDobowaKwh || ""}
           onChange={(e) => onChangeWplywNaDobor({ ...wplywNaDobor, standbyDobowaKwh: Number(e.target.value) })}
+          pomoc={<PomocPola ekran="wampiry-energetyczne" pole="standbyDobowa" />}
         />
         <Pole
           label="Planowana eliminacja standby"
@@ -158,6 +164,7 @@ export function SymulacjeTab({
           inputMode="decimal"
           value={wplywNaDobor.eliminacjaPct || ""}
           onChange={(e) => onChangeWplywNaDobor({ ...wplywNaDobor, eliminacjaPct: Number(e.target.value) })}
+          pomoc={<PomocPola ekran="wampiry-energetyczne" pole="eliminacja" />}
         />
         <Pole
           label="Dni autonomii"
@@ -165,6 +172,7 @@ export function SymulacjeTab({
           inputMode="decimal"
           value={wplywNaDobor.dniAutonomii || ""}
           onChange={(e) => onChangeWplywNaDobor({ ...wplywNaDobor, dniAutonomii: Number(e.target.value) })}
+          pomoc={<PomocPola ekran="wampiry-energetyczne" pole="dniAutonomii" />}
         />
         <Pole
           label="Sprawność falownika"
@@ -173,6 +181,7 @@ export function SymulacjeTab({
           inputMode="decimal"
           value={wplywNaDobor.sprawnoscFalownikaPct || ""}
           onChange={(e) => onChangeWplywNaDobor({ ...wplywNaDobor, sprawnoscFalownikaPct: Number(e.target.value) })}
+          pomoc={<PomocPola ekran="wampiry-energetyczne" pole="sprawnosc" />}
         />
         <Pole
           label="DoD (głębokość rozładowania)"
@@ -181,6 +190,7 @@ export function SymulacjeTab({
           inputMode="decimal"
           value={wplywNaDobor.dodPct || ""}
           onChange={(e) => onChangeWplywNaDobor({ ...wplywNaDobor, dodPct: Number(e.target.value) })}
+          pomoc={<PomocPola ekran="wampiry-energetyczne" pole="dod" />}
         />
 
         {wynikDobor.status === "INCOMPLETE" ? (
