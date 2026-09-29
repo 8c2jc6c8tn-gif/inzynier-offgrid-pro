@@ -8358,3 +8358,13 @@ Tryb Audyt (czapka rewidenta). Warstwa „w pełni na końcu” z N.2 — wszyst
   (3) Stary cache `offgrid-v1` nie zostanie usunięty przez nowy `aktywuj()` — plan dodaje jawne usunięcie.
   (4) W `.next/static/media` są wersje `-dev` MapLibre (~2,5 MB) w buildzie produkcyjnym — etap 2.
   (5) `pkill -f "next start"` ubija powłokę wywołującą (exit 144) — ubijać po PID / grupie procesów.
+
+## D58 — uzupełnienie + pułapka „dwie sesje w jednym katalogu” (29.09.2026, wieczór)
+
+- Uzupełnienie wpisu „Dokończenie” wyżej: ten sam brak limitu miał też blok TMY w `analiza-zacienienia.test.ts`
+  („strata całkowitego napromieniowania na danych TMY (TD14)”) — dostał `{ timeout: 30_000 }` na `describe`.
+- **Pułapka:** dwie sesje Claude pracowały równocześnie w tym samym katalogu roboczym i na tej samej gałęzi (obie
+  domykały D58). Skutki: pełne pakiety testów szły równolegle (2× obciążenie 4 rdzeni → więcej timeoutów), edycje jednej
+  sesji pojawiały się w drzewie drugiej w trakcie pomiaru, commit jednej wszedł pod commit drugiej. Przed startem
+  zadania z listy sprawdź `git log`/`git status` jeszcze raz tuż przed commitem i nie uruchamiaj dwóch sesji na jednym
+  checkoutcie — druga sesja w osobnym worktree.

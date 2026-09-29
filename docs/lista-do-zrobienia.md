@@ -1296,6 +1296,8 @@ Pełne wyniki audytu: `docs/memory.md`, sekcja "Pełny audyt na polecenie właś
   obie). Pełny pakiet lokalnie: typecheck ✅, lint ✅ (2 stare ostrzeżenia `<img>`), `check:i18n-guard` ✅,
   `check:pomoc-guard` ✅, `check:ai-tools-guard` ✅, `test` ✅ 2095/2095 (po poprawce limitów czasu, `docs/memory.md` D58),
   `build` ✅, `audit:gate` ✅. Przeglądarka: E38 i M14 w PL/EN/RU bez surowych kluczy `UI-*`.
+  ✅ **[29.09.2026, wieczór]** Uzupełnienie: limit 30 s także dla bloku TMY w `analiza-zacienienia.test.ts`; po nim
+  pakiet ponownie zielony (2095/2095, build). Scalone do `main` przez PR.
 - ✅ (2026-09-29) **Porównanie `public/sw.js` ze wzorcem PWA standardu** (pytanie otwarte od 26.09, `docs/memory.md`,
   Y.6 pkt 2). Raport z pomiarem na buildzie produkcyjnym: `docs/audyt-sw-vs-wzorzec-pwa.md`. Kod bez zmian.
 - ✅ (2026-09-29) **Service Worker — decyzja właściciela: wariant C (A etapami).** Plan wykonawczy krok po kroku:
