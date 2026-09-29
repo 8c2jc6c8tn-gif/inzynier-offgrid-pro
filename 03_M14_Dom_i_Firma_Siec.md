@@ -1,6 +1,6 @@
 # 03. M14 — „Dom – sieć” i „Firma – sieć”: rachunek za prąd, a potem przejście na off-grid
 
-**Wersja:** 1.8 | **Filar:** B (merytoryczny) | **Data utworzenia:** 28.09.2026 | **Ostatnia aktualizacja:** 28.09.2026 | **Status:** Stabilny — ~~**kod zablokowany bramką N.3**~~ **kod odblokowany 28.09.2026 (D50)**, obowiązuje bramka danych DANE-1 (patrz „Stan i bramki”)
+**Wersja:** 1.9 | **Filar:** B (merytoryczny) | **Data utworzenia:** 28.09.2026 | **Ostatnia aktualizacja:** 29.09.2026 | **Status:** Stabilny — ~~**kod zablokowany bramką N.3**~~ **kod odblokowany 28.09.2026 (D50)**, obowiązuje bramka danych DANE-1 (patrz „Stan i bramki”)
 **Powiązane dokumenty:** `docs/zrodla/Opracowanie_M14_Z_Sieci_Na_OffGrid_DRAFT.md` (opracowanie źródłowe: weryfikacja, adnotacje ✏️ K1–K14, tabele stawek per OSD), `rejestr-decyzji.md` D35–D43 i D47–D48, `docs/rejestr-pokrycia.md` (sekcja M14), `docs/rejestr-twardych-stopow.md` (sekcja M14), `mapa-wdrozenia.md`, `slownik-pojec.md` (sekcja „Sieć i rozliczenia energii”)
 
 TL;DR: Moduł **M14** ma dwa rozdziały i na pulpicie dwa duże kafle: **M14-D „Dom – sieć”** (grupy taryfowe G) oraz **M14-F „Firma – sieć”** (grupy C na nN). Każdy rozdział składa się z dwóch części w stałej kolejności:
@@ -99,7 +99,7 @@ Uwagi do tabeli:
 - **Granice progów opłaty mocowej** trzeba odwzorować 1:1 wg brzmienia URE, bez zaokrąglania.
 - **Średnia cena energii G (495,16 zł/MWh)** ma pewność 🔎A, więc nie jest wartością domyślną.
 
-**Per OSD** (składnik stały/zmienny opłaty sieciowej, abonament, strefy): Tauron, Energa i Stoen ✅; Enea tylko brutto; PGE jeszcze niepobrana. Tabele: opracowanie §2.4a. **Żadna liczba z tabel dok. 2 nie wchodzi do danych** (✏️ K11): są wewnętrznie sprzeczne, a kontrola wyrywkowa po odczycie pierwotnym wykazała, że część jest trafna, a część nie.
+**Per OSD** (składnik stały/zmienny opłaty sieciowej, abonament, strefy): ~~Tauron, Energa i Stoen ✅; Enea tylko brutto; PGE jeszcze niepobrana.~~ **[29.09.2026]** Tauron, Energa, Stoen i Enea ✅ (Enea — odczyt wizualny skanu taryfy z decyzji URE; Stoen C22a/C22b i abonament C Tauronu dopisane); PGE jeszcze niepobrana. Tabele: opracowanie §2.4a. **Żadna liczba z tabel dok. 2 nie wchodzi do danych** (✏️ K11): są wewnętrznie sprzeczne, a kontrola wyrywkowa po odczycie pierwotnym wykazała, że część jest trafna, a część nie.
 
 Model danych dla OSD:
 - lista OSD: PGE Dystrybucja, Tauron Dystrybucja, Enea Operator, Energa-Operator, Stoen Operator oraz „inny OSD” z wpisem ręcznym;
@@ -541,11 +541,15 @@ Nie jest potrzebny do pierwszej działającej wersji rdzenia off-grid (M1–M8).
 - ~~**Bramka N.3:** kod M14 nie startuje przed zamknięciem pełnego audytu końcowego N.2 całej Biblii.~~ **[28.09.2026] Zdjęta (D50):** audyt końcowy wykonany, decyzje 1–3 wdrożone (D47–D49), pozostałe pytania odłożone przez właściciela i nie blokują M14. Kolejność pracy: `docs/przekazanie-nastepnej-sesji.md`. Audyt przyrostowy N.2 tego rozdziału: `docs/memory.md` (28.09.2026, „Integracja M14 do Biblii”).
 - **Kod rachunków — bramka danych DANE-1:**
   - do czasu pełnego pliku danych kalkulatory rachunku działają **wyłącznie w trybie „moje dane z faktury”** (pełnoprawny tryb, D36);
-  - jako domyślne wolno wpisać tylko wartości ✅ (Tauron, Energa i Stoen netto; stawki ogólnokrajowe).
+  - jako domyślne wolno wpisać tylko wartości ✅ (Tauron, Energa i Stoen netto; stawki ogólnokrajowe). **[29.09.2026]** Doszła Enea netto.
   - **[28.09.2026] Plik danych istnieje:** `lib/core/dane/rozliczenia-pl-2026/` (JSON + Zod). Schemat przyjmuje wyłącznie
-    `pewnosc: "potwierdzone"`, więc wartość 🔎 nie przejdzie walidacji. PGE, Enea i „inny OSD” są w pliku bez stawek (tryb
+    `pewnosc: "potwierdzone"`, więc wartość 🔎 nie przejdzie walidacji. ~~PGE, Enea i „inny OSD” są w pliku bez stawek (tryb
     faktury). Nie ma w nim: godzin stref OSD, abonamentu C Tauronu (tab. 7.4), Stoen C22a/C22b, `C_rk`, opłat
-    przyłączeniowych — nadal lista „Otwarte — wymaga danych zewnętrznych”.
+    przyłączeniowych — nadal lista „Otwarte — wymaga danych zewnętrznych”.~~
+  - **[29.09.2026]** Dopisane: Enea (G11/G12/G12w, C11/C12a/C12b/C21/C22a/C22b, abonament), Stoen C22a/C22b i abonament G
+    6/12 mies., abonament C Tauronu. U Enei (C12a/b, C22a/b) i Stoenu (C22a/b) taryfa podaje jedną stawkę zmienną dla całej
+    energii — w pliku wpisana dla obu stref. Bez stawek (tryb faktury) zostają PGE i „inny OSD”. Nadal brak: godzin stref
+    OSD, `C_rk`, opłat przyłączeniowych — lista „Otwarte — wymaga danych zewnętrznych”.
 - **[28.09.2026] Stan kodu:** część Sieć — D1, D2, D8, D12 (= F11), F1–F5 zbudowane (`lib/core/modules/siec/`, ekrany
   `app/kalkulatory/…`, dwa kafle w pulpicie), plus silnik pola „Wzrost cen energii” (D40–D43) z testem przykładu
   kontrolnego §4 (ekran D7/F8 jeszcze nie). Ograniczenia: `dlug-techniczny.md` TD22. Szczegóły: `docs/rejestr-pokrycia.md`.
@@ -589,3 +593,4 @@ Nie jest potrzebny do pierwszej działającej wersji rdzenia off-grid (M1–M8).
 | 28.09.2026 | D50: bramka N.3 zdjęta — kod M14 może startować (od pliku danych `rozliczenia-pl-2026`, bramka DANE-1 dalej obowiązuje). Wersja 1.5→1.6. |
 | 28.09.2026 | Start kodu M14 (po D50): plik danych `rozliczenia-pl-2026`, część Sieć D1, D2, D8, D12/F11, F1–F5, silnik ścieżki cen. Treść rozdziału bez zmian — dopisany tylko stan w „Stan i bramki”. Wersja 1.6→1.7. |
 | 28.09.2026 | Zamknięcie kodu rozdziału: reszta części Sieć, część Przejście, kreator, kafle. Treść rozdziału bez zmian — dopisany tylko stan w „Stan i bramki”. Wersja 1.7→1.8. |
+| 29.09.2026 | DANE-1 uzupełnione: Enea netto (skan taryfy z decyzji URE DRE.WRE.4211.52.11.2025.TG), Stoen C22a/C22b, abonament C Tauronu, abonament G Stoen 6/12 mies. Zmiany w „Dane” (per OSD) i „Stan i bramki” — stare brzmienie przekreślone. Wersja 1.8→1.9. |

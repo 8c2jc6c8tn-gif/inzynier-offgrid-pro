@@ -158,17 +158,17 @@
             "G11": { "strefy": { "calodobowa": 0.2464 }, "stalaG": { "jednofazowa": 7.38, "trojfazowa": 10.86 }, "abonament": { "1": 4.56, "2": 2.28, "6": 0.76, "12": 0.38 } },
             "G12": { "strefy": { "dzien": 0.2841, "noc": 0.0558 }, "stalaG": { "jednofazowa": 7.38, "trojfazowa": 10.86 }, "abonament": { "1": 4.56, "2": 2.28, "6": 0.76, "12": 0.38 } },
             "G12w": { "strefy": { "szczyt": 0.3298, "pozaszczyt": 0.0512 }, "stalaG": { "jednofazowa": 7.38, "trojfazowa": 10.86 }, "abonament": { "1": 4.56, "2": 2.28, "6": 0.76, "12": 0.38 } },
-            "C11": { "strefy": { "calodobowa": 0.2283 }, "stalaCZlKw": 5.73 },
-            "C12a": { "strefy": { "szczyt": 0.2333, "pozaszczyt": 0.1762 }, "stalaCZlKw": 5.73 },
-            "C12b": { "strefy": { "dzien": 0.2152, "noc": 0.1651 }, "stalaCZlKw": 5.73 },
-            "C21": { "strefy": { "calodobowa": 0.2153 }, "stalaCZlKw": 17.52 },
-            "C22a": { "strefy": { "szczyt": 0.2758, "pozaszczyt": 0.1968 }, "stalaCZlKw": 17.52 },
-            "C22b": { "strefy": { "dzien": 0.2755, "noc": 0.0954 }, "stalaCZlKw": 17.52 }
+            "C11": { "strefy": { "calodobowa": 0.2283 }, "stalaCZlKw": 5.73, "abonament": { "1": 4.56, "2": 2.28, "6": 0.76, "12": 0.38 } },
+            "C12a": { "strefy": { "szczyt": 0.2333, "pozaszczyt": 0.1762 }, "stalaCZlKw": 5.73, "abonament": { "1": 4.56, "2": 2.28, "6": 0.76, "12": 0.38 } },
+            "C12b": { "strefy": { "dzien": 0.2152, "noc": 0.1651 }, "stalaCZlKw": 5.73, "abonament": { "1": 4.56, "2": 2.28, "6": 0.76, "12": 0.38 } },
+            "C21": { "strefy": { "calodobowa": 0.2153 }, "stalaCZlKw": 17.52, "abonament": { "1": 9.5 } },
+            "C22a": { "strefy": { "szczyt": 0.2758, "pozaszczyt": 0.1968 }, "stalaCZlKw": 17.52, "abonament": { "1": 9.5 } },
+            "C22b": { "strefy": { "dzien": 0.2755, "noc": 0.0954 }, "stalaCZlKw": 17.52, "abonament": { "1": 9.5 } }
           }
         }
       ],
-      "zrodlo": "Taryfa Tauron Dystrybucja 2026 (DRE.WRE.4211.54.8.2025.ASa1, 17.12.2025), tabele 7.1, 7.4 i wyciąg grupy G. Abonament C — tab. 7.4 jeszcze nieodczytana (brak w danych).",
-      "stanNa": "2026-09-28",
+      "zrodlo": "Taryfa Tauron Dystrybucja 2026 (DRE.WRE.4211.54.8.2025.ASa1, 17.12.2025), tabele 7.1, 7.4 i wyciąg grupy G. Abonament C z tabeli stawek opłaty abonamentowej (s. 45, odczyt 29.09.2026): C11/C12a/C12b 4,56/2,28/0,76/0,38 zł/m-c (1/2/6/12 mies.), C21/C22a/C22b 9,50 zł/m-c (tylko 1 mies.).",
+      "stanNa": "2026-09-29",
       "pewnosc": "potwierdzone"
     },
     {
@@ -203,18 +203,20 @@
           "odDnia": "2026-01-01",
           "doDnia": "2026-12-31",
           "grupy": {
-            "G11": { "strefy": { "calodobowa": 0.2342 }, "stalaG": { "jednofazowa": 11.46, "trojfazowa": 18.53 }, "abonament": { "1": 2.88 } },
-            "G12": { "strefy": { "dzien": 0.2545, "noc": 0.0555 }, "stalaG": { "jednofazowa": 11.46, "trojfazowa": 18.53 }, "abonament": { "1": 2.88 } },
-            "G12w": { "strefy": { "szczyt": 0.257, "pozaszczyt": 0.1079 }, "stalaG": { "jednofazowa": 11.46, "trojfazowa": 18.53 }, "abonament": { "1": 2.88 } },
+            "G11": { "strefy": { "calodobowa": 0.2342 }, "stalaG": { "jednofazowa": 11.46, "trojfazowa": 18.53 }, "abonament": { "1": 2.88, "6": 0.48, "12": 0.24 } },
+            "G12": { "strefy": { "dzien": 0.2545, "noc": 0.0555 }, "stalaG": { "jednofazowa": 11.46, "trojfazowa": 18.53 }, "abonament": { "1": 2.88, "6": 0.48, "12": 0.24 } },
+            "G12w": { "strefy": { "szczyt": 0.257, "pozaszczyt": 0.1079 }, "stalaG": { "jednofazowa": 11.46, "trojfazowa": 18.53 }, "abonament": { "1": 2.88, "6": 0.48, "12": 0.24 } },
             "C11": { "strefy": { "calodobowa": 0.2562 }, "stalaCZlKw": 7.72, "abonament": { "1": 3.12 } },
             "C12a": { "strefy": { "szczyt": 0.3027, "pozaszczyt": 0.1611 }, "stalaCZlKw": 7.72, "abonament": { "1": 3.12 } },
             "C12b": { "strefy": { "dzien": 0.3226, "noc": 0.1005 }, "stalaCZlKw": 7.72, "abonament": { "1": 3.12 } },
-            "C21": { "strefy": { "calodobowa": 0.1481 }, "stalaCZlKw": 18.33, "abonament": { "1": 7.83 } }
+            "C21": { "strefy": { "calodobowa": 0.1481 }, "stalaCZlKw": 18.33, "abonament": { "1": 7.83 } },
+            "C22a": { "strefy": { "szczyt": 0.1481, "pozaszczyt": 0.1481 }, "stalaCZlKw": 18.33, "abonament": { "1": 7.83 } },
+            "C22b": { "strefy": { "dzien": 0.1481, "noc": 0.1481 }, "stalaCZlKw": 18.33, "abonament": { "1": 7.83 } }
           }
         }
       ],
-      "zrodlo": "Taryfa Stoen Operator 2026 (tekst z 25.02.2026), tabele 7.3–7.10. C22a/C22b — przypisanie kolumn tabeli 7.3 do odczytu wizualnego (brak w danych).",
-      "stanNa": "2026-09-28",
+      "zrodlo": "Taryfa Stoen Operator 2026 (tekst z 25.02.2026), tabele 7.3–7.10. C22a/C22b (tab. 7.3, odczyt wizualny 29.09.2026): taryfa podaje dla nich tylko składnik zmienny „jednostrefowy” 0,1481 zł/kWh — ta sama stawka wpisana dla obu stref. Abonament G 6/12 mies. z tab. 7.5.",
+      "stanNa": "2026-09-29",
       "pewnosc": "potwierdzone"
     },
     {
@@ -228,9 +230,25 @@
     {
       "id": "enea",
       "nazwa": "Enea Operator",
-      "okresy": [],
-      "zrodlo": "Dostępne tylko stawki brutto (informacja poglądowa OSD); pełna taryfa netto to skan (W3-Enea) — tylko tryb „moje dane z faktury”.",
-      "stanNa": "2026-09-28",
+      "okresy": [
+        {
+          "odDnia": "2026-01-01",
+          "doDnia": "2026-12-31",
+          "grupy": {
+            "G11": { "strefy": { "calodobowa": 0.2456 }, "stalaG": { "jednofazowa": 7.45, "trojfazowa": 10.41 }, "abonament": { "1": 3.84, "2": 1.92, "6": 0.64, "12": 0.32 } },
+            "G12": { "strefy": { "dzien": 0.2779, "noc": 0.0913 }, "stalaG": { "jednofazowa": 9.59, "trojfazowa": 14.56 }, "abonament": { "1": 3.84, "2": 1.92, "6": 0.64, "12": 0.32 } },
+            "G12w": { "strefy": { "szczyt": 0.2702, "pozaszczyt": 0.0813 }, "stalaG": { "jednofazowa": 16.85, "trojfazowa": 26.23 }, "abonament": { "1": 3.84, "2": 1.92, "6": 0.64, "12": 0.32 } },
+            "C11": { "strefy": { "calodobowa": 0.2304 }, "stalaCZlKw": 7.41, "abonament": { "1": 3.84, "2": 1.92, "6": 0.64, "12": 0.32 } },
+            "C12a": { "strefy": { "szczyt": 0.1967, "pozaszczyt": 0.1967 }, "stalaCZlKw": 7.41, "abonament": { "1": 3.84, "2": 1.92, "6": 0.64, "12": 0.32 } },
+            "C12b": { "strefy": { "dzien": 0.1967, "noc": 0.1967 }, "stalaCZlKw": 7.41, "abonament": { "1": 3.84, "2": 1.92, "6": 0.64, "12": 0.32 } },
+            "C21": { "strefy": { "calodobowa": 0.1538 }, "stalaCZlKw": 24.84, "abonament": { "1": 10 } },
+            "C22a": { "strefy": { "szczyt": 0.1538, "pozaszczyt": 0.1538 }, "stalaCZlKw": 24.84, "abonament": { "1": 10 } },
+            "C22b": { "strefy": { "dzien": 0.1538, "noc": 0.1538 }, "stalaCZlKw": 24.84, "abonament": { "1": 10 } }
+          }
+        }
+      ],
+      "zrodlo": "Taryfa Enea Operator 2026 — załącznik do decyzji Prezesa URE DRE.WRE.4211.52.11.2025.TG (Biuletyn Branżowy nr 272 (4802) z 17.12.2025), skan; tabele 7.1 (grupy C), 7.2 (grupy G), 7.3 (abonament), odczyt wizualny 29.09.2026. Grupy C12a/C12b/C22a/C22b mają w taryfie jedną stawkę zmienną sieciową dla całej energii — wpisana dla obu stref. Grupy G zgodne z informacją OSD o stawkach brutto (netto × 1,23).",
+      "stanNa": "2026-09-29",
       "pewnosc": "potwierdzone"
     },
     {

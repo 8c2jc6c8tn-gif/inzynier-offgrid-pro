@@ -102,11 +102,18 @@ describe("calculateRachunek — Firma (F1), Energa C21", () => {
     expect(w.warnings.map((x) => x.code)).toContain("SIEC-BRAK-ENERGIAMOCOWA")
   })
 
-  it("Tauron C — abonament nieodczytany → wymaga wpisu z faktury", () => {
-    const w = calculateRachunek({ ...firma, osd: "tauron" })
+  it("Tauron C21 — abonament 9,50 z taryfy (odczyt 29.09.2026)", () => {
+    const r = calculateRachunek({ ...firma, osd: "tauron" })
+    expect(r.status).toBe("VALID")
+    expect(r.value.skladniki.find((s) => s.kod === "abonament")?.zrodlo).toBe("taryfa")
+    expect(kwota(r, "abonament")).toBeCloseTo(9.5 * 12, 6)
+  })
+
+  it("Tauron C21 przy okresie 2-mies. — taryfa nie podaje abonamentu → wymaga wpisu z faktury", () => {
+    const w = calculateRachunek({ ...firma, osd: "tauron", okresRozliczeniowy: "2" })
     expect(w.status).toBe("INCOMPLETE")
     expect(braki(w)).toEqual(["SIEC-BRAK-ABONAMENT"])
-    const zFaktury = calculateRachunek({ ...firma, osd: "tauron", stawkiWlasne: { abonamentZlMies: 10 } })
+    const zFaktury = calculateRachunek({ ...firma, osd: "tauron", okresRozliczeniowy: "2", stawkiWlasne: { abonamentZlMies: 10 } })
     expect(zFaktury.status).toBe("VALID")
     expect(zFaktury.value.skladniki.find((s) => s.kod === "abonament")?.zrodlo).toBe("faktura")
   })

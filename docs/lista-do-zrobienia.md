@@ -1082,7 +1082,7 @@ Pełne wyniki audytu: `docs/memory.md`, sekcja "Pełny audyt na polecenie właś
 
   - [28.09.2026, po „Integruj teraz”] ✅ **Zintegrowane do Biblii:** `03_M14_Dom_i_Firma_Siec.md` + D35–D38 + rejestry (pokrycie 28 wierszy `todo`, twarde stopy, słownik, mapa, backlog, pulpit, `00_Biblia.md`); audyt przyrostowy N.2 rozdziału zamknięty (`docs/memory.md`). **Dalej:**
     - (a) ⚠️ PDF od właściciela: taryfa PGE Dystrybucja 2026 i regulamin PME (NFOŚiGW) — serwery z niepełnym łańcuchem TLS;
-    - (b) 🔲 odczyt wizualny: skan taryfy Enea (netto), Stoen tabela 7.3 (C22a/b); `C_rk` (komunikat URE); profile W4; stawki przyłączeniowe IV–VI;
+    - (b) 🔲 odczyt wizualny: ~~skan taryfy Enea (netto), Stoen tabela 7.3 (C22a/b);~~ **[29.09.2026] Enea netto i Stoen C22a/b ✅ w pliku danych;** `C_rk` (komunikat URE); profile W4; stawki przyłączeniowe IV–VI;
     - (c) ⚠️ decyzje właściciela: pozycja kafli na pulpicie, domyślne TCO (`N` = 15, `r` = 0, `g` = 0 — ✅🤖).
     - (c) ✅ [28.09.2026] rozstrzygnięte przez właściciela: pozycja kafli → D39, domyślne TCO → D40, plus „Ścieżka UE” (projekcja cen KE, EU Reference Scenario 2020, odczyt pierwotny arkusza `PL_A`).
     
@@ -1129,7 +1129,7 @@ Pełne wyniki audytu: `docs/memory.md`, sekcja "Pełny audyt na polecenie właś
 - ✅ ~~(2026-09-28) **M14 — kod, start:** plik danych `rozliczenia-pl-2026` → część Sieć (D1–D3, D8, D12, F1–F5) → TCO i scenariusze → Przejście → kafle. Pełna kolejność: `docs/przekazanie-nastepnej-sesji.md` („STAN NA TERAZ”). **Priorytet:** wysoki. **Odblokowuje:** M14. **Kolizje:** `lib/pulpit/` (kafle, na końcu), `lib/i18n/`. **Kolejność:** od pliku danych.~~ **[28.09.2026] zrobione** (patrz wpis niżej).
 - ✅ (2026-09-28) **M14 — start kodu (po D50).** Plik danych `lib/core/dane/rozliczenia-pl-2026` (JSON + Zod, tylko ✅, okresy ważności; schemat odrzuca 🔎), część Sieć: D1/F1 rachunek, D2/F2 porównanie taryf, D8 depozyt, D12/F11 test licznika + pismo, F3 moc bierna, F4 moc umowna, F5 opłata mocowa; silnik „Wzrost cen energii” (D40–D43) z przykładem kontrolnym; 2 kafle pulpitu; 3 narzędzia AI. Ograniczenia: `dlug-techniczny.md` TD22. Szczegóły: `docs/memory.md`.
 - ✅ ~~(2026-09-28) M14 — dalej wg `docs/przekazanie-nastepnej-sesji.md`: silnik TCO i ekran D7/F8 (Krok 2d), potem Przejście (2e), reszta Sieci (D3, D13, D14, F6, F7, F12, F13), kafle/kreator (2f).~~ **[28.09.2026] zrobione** — rozdział M14 zbudowany w całości (25/25 ekranów + kreator, 5 narzędzi AI, 5 twardych stopów w kodzie). Uproszczenia TD23.
-- 🔲 (2026-09-28) **M14 — po kodzie zostają tylko dane i decyzje:** lista „Otwarte — wymaga danych zewnętrznych” w `03_M14` (PDF PGE, PDF regulaminu PME → linki w `lib/core/dane/dotacje`, Enea, Stoen C22, profile W4, `C_rk`, stawki przyłączeniowe IV–VI), „duże” kafle i presety (odłożone), FREE/PRO (D37), M7 7.2/7.37 jako pełny warunek zimowy D5 (TD23). **Priorytet:** średni. **Odblokowuje:** pełne stawki domyślne (DANE-1). **Kolizje:** brak.
+- 🔲 (2026-09-28) **M14 — po kodzie zostają tylko dane i decyzje:** lista „Otwarte — wymaga danych zewnętrznych” w `03_M14` (PDF PGE, PDF regulaminu PME → linki w `lib/core/dane/dotacje`, ~~Enea, Stoen C22,~~ **[29.09.2026] Enea, Stoen C22 i abonament C Tauronu ✅,** profile W4, `C_rk`, stawki przyłączeniowe IV–VI), „duże” kafle i presety (odłożone), FREE/PRO (D37), M7 7.2/7.37 jako pełny warunek zimowy D5 (TD23). **Priorytet:** średni. **Odblokowuje:** pełne stawki domyślne (DANE-1). **Kolizje:** brak.
 - 🔄 (2026-09-29) **Chmurki „?” i migawka „i” na wszystkich ekranach (D34 + D51).** Odpowiedzi właściciela na pytania
   otwarte w D34: `hint` usunąć (treść do „?”), tłumaczenia PL/EN/RU od razu, robić „?” i „i”. Zrobione: infrastruktura
   (`lib/i18n/pomoc/`, `components/ui/pomoc.tsx`), strażnik `pnpm check:pomoc-guard` z listą zapadkową, **M12 w komplecie**
@@ -1141,4 +1141,3 @@ Pełne wyniki audytu: `docs/memory.md`, sekcja "Pełny audyt na polecenie właś
   „?”/„i” i komunikaty silników są w trzech językach, ale etykiety pól i teksty na stronach nadal tylko po polsku.
   Osobne, duże zadanie (standard 17). **Priorytet:** do decyzji właściciela. **Kolizje:** te same pliki co chmurki —
   robić po nich albo razem, moduł po module.
-

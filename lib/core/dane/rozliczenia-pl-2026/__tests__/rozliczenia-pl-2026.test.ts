@@ -28,15 +28,39 @@ describe("rozliczenia-pl-2026 — schemat (DANE-1)", () => {
     expect(RozliczeniaSchema.safeParse(zly).success).toBe(false)
   })
 
-  it("PGE, Enea, inny OSD — brak stawek (tylko tryb faktury)", () => {
-    for (const id of ["pge", "enea", "inny"] as const) {
+  it("PGE, inny OSD — brak stawek (tylko tryb faktury)", () => {
+    for (const id of ["pge", "inny"] as const) {
       expect(stawkiOsd(id, "G11", "2026-06-01")).toBeNull()
     }
   })
 
-  it("Stoen C22a/C22b — brak w danych (🔎, do odczytu wizualnego)", () => {
-    expect(stawkiOsd("stoen", "C22a", "2026-06-01")).toBeNull()
+  it("Stoen C22a/C22b — jedna stawka „jednostrefowy” 0,1481 w obu strefach (tab. 7.3); abonament G 6/12 mies.", () => {
+    expect(stawkiOsd("stoen", "C22a", "2026-06-01")?.strefy).toEqual({ szczyt: 0.1481, pozaszczyt: 0.1481 })
+    expect(stawkiOsd("stoen", "C22b", "2026-06-01")?.stalaCZlKw).toBe(18.33)
     expect(stawkiOsd("stoen", "C21", "2026-06-01")?.strefy.calodobowa).toBe(0.1481)
+    expect(stawkiOsd("stoen", "G11", "2026-06-01")?.abonament).toEqual({ "1": 2.88, "6": 0.48, "12": 0.24 })
+  })
+
+  it("Tauron abonament C: C11/C12 4,56/2,28/0,76/0,38; C21/C22 9,50 tylko 1 mies.", () => {
+    expect(stawkiOsd("tauron", "C12b", "2026-06-01")?.abonament).toEqual({ "1": 4.56, "2": 2.28, "6": 0.76, "12": 0.38 })
+    expect(stawkiOsd("tauron", "C22a", "2026-06-01")?.abonament).toEqual({ "1": 9.5 })
+  })
+
+  it("Enea (skan taryfy, decyzja URE 17.12.2025): G11 7,45 / 10,41 i 0,2456; C22a 24,84 i 0,1538 w obu strefach", () => {
+    const g = stawkiOsd("enea", "G11", "2026-06-01")
+    expect(g?.stalaG).toEqual({ jednofazowa: 7.45, trojfazowa: 10.41 })
+    expect(g?.strefy.calodobowa).toBe(0.2456)
+    expect(g?.abonament).toEqual({ "1": 3.84, "2": 1.92, "6": 0.64, "12": 0.32 })
+    const c = stawkiOsd("enea", "C22a", "2026-06-01")
+    expect(c?.stalaCZlKw).toBe(24.84)
+    expect(c?.strefy).toEqual({ szczyt: 0.1538, pozaszczyt: 0.1538 })
+    expect(c?.abonament).toEqual({ "1": 10 })
+  })
+
+  it("Enea G — netto × 1,23 = stawki brutto z informacji OSD (kontrola odczytu skanu)", () => {
+    const brutto = (v: number, m: number) => Math.round(v * 1.23 * 10 ** m) / 10 ** m
+    expect(brutto(stawkiOsd("enea", "G12", "2026-06-01")!.strefy.dzien!, 4)).toBe(0.3418)
+    expect(brutto(stawkiOsd("enea", "G12w", "2026-06-01")!.stalaG!.trojfazowa, 2)).toBe(32.26)
   })
 
   it("odczyt pierwotny: Tauron G11 7,38 / 10,86 i 0,2464; Energa G12 stała 14,35", () => {
