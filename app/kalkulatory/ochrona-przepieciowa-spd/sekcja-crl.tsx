@@ -199,6 +199,12 @@ export function SekcjaCrl() {
             L<sub>P</sub> = {f2(v.lpKm)} km{v.fEnv !== null && <>, f<sub>env</sub> = {v.fEnv}</>}
             {v.ngUzyte !== null && <>, N<sub>g</sub> = {f2(v.ngUzyte)}</>}. Próg: CRL &lt; 1000 → SPD obowiązkowy.
           </p>
+          {!v.spdWymagany && v.powod === "crl" && (
+            <p className="mt-1 text-small">
+              <strong>Zalecenie, nie wymóg normy:</strong> SPD typu 2 kosztuje niewiele w porównaniu z chronionym sprzętem —
+              warto go zamontować.
+            </p>
+          )}
           <WynikSzczegoly assumptions={wynik.assumptions} warnings={wynik.warnings} formula={wynik.formula} />
         </WerdyktPanel>
       )}

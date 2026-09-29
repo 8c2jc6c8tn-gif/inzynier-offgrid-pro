@@ -1104,7 +1104,7 @@ export const dictionaryPl = {
   "MT-ZALOZENIE-SYSTEM-I": "Ψ z Tablicy A.2 dla wymiarów wewnętrznych (Ψi) — powierzchnie przegród na Ekranie 1 mierzone w świetle każdego pomieszczenia, bez grubości ścian działowych.",
   "CRL-SKUTKI-KRYTYCZNE": "Przepięcie zagrażałoby życiu (np. systemy podtrzymania życia, sprzęt medyczny), usługom publicznym, działalności gospodarczej (także gospodarstwu rolnemu) albo wielu osobom — wtedy ochrona przed przepięciami przejściowymi jest obowiązkowa bez liczenia ryzyka (HD 60364-4-443, 443.4).",
   "CRL-SPD-WYMAGANY": "CRL = {crl} — poniżej 1000, więc ochrona przed przepięciami pochodzenia atmosferycznego jest wymagana (HD 60364-4-443, 443.5).",
-  "CRL-SPD-ZALECANY": "Norma nie wymaga SPD od strony sieci, ale ogranicznik typu 2 kosztuje niewiele w porównaniu ze sprzętem, który chroni — zalecany mimo to.",
+  "CRL-SPD-ZALECANY": "Zalecenie, nie wymóg normy: HD 60364-4-443 nie wymaga tu SPD od strony sieci, ale ogranicznik typu 2 kosztuje niewiele w porównaniu ze sprzętem, który chroni — warto go zamontować.",
   "CRL-BRAK-LINII": "Brak linii zasilających (typowy off-grid) — metoda CRL nie daje wymogu SPD od strony sieci. To nie znaczy, że instalacja jest chroniona: pozostaje strona DC paneli i przepięcia łączeniowe.",
   "CRL-PRZEPIECIA-LACZENIOWE": "Instalacja z własnym źródłem (falownik, agregat), magazynem energii lub silnikami — norma każe rozważyć ochronę przed przepięciami łączeniowymi niezależnie od CRL (443.4).",
   "CRL-STRONA-DC-POZA": "CRL dotyczy linii, które zasilają instalację. Ochrona strony DC generatora PV to osobne wymagania HD 60364-7-712 — ten wynik ich nie obejmuje.",

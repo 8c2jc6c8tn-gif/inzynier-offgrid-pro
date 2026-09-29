@@ -1092,7 +1092,7 @@ export const dictionaryEn = {
   "MT-ZALOZENIE-SYSTEM-I": "Ψ from Table A.2 for internal dimensions (Ψi) — element areas on Screen 1 measured inside each room, without the thickness of partitions.",
   "CRL-SKUTKI-KRYTYCZNE": "An overvoltage would endanger human life (e.g. life-support systems, medical equipment), public services, business activity (including a farm) or many people — then protection against transient overvoltages is mandatory without a risk calculation (HD 60364-4-443, 443.4).",
   "CRL-SPD-WYMAGANY": "CRL = {crl} — below 1000, so protection against overvoltages of atmospheric origin is required (HD 60364-4-443, 443.5).",
-  "CRL-SPD-ZALECANY": "The standard does not require an SPD on the network side, but a type 2 SPD costs little compared with the equipment it protects — recommended anyway.",
+  "CRL-SPD-ZALECANY": "Recommendation, not a requirement of the standard: HD 60364-4-443 does not require an SPD on the network side here, but a type 2 SPD costs little compared with the equipment it protects — worth fitting.",
   "CRL-BRAK-LINII": "No supply lines (typical off-grid) — the CRL method gives no SPD requirement from the network side. This does not mean the installation is protected: the PV DC side and switching overvoltages remain.",
   "CRL-PRZEPIECIA-LACZENIOWE": "An installation with its own source (inverter, generator), energy storage or motors — the standard requires protection against switching overvoltages to be considered regardless of CRL (443.4).",
   "CRL-STRONA-DC-POZA": "CRL concerns the lines that supply the installation. Protection of the PV generator DC side is covered by separate requirements of HD 60364-7-712 — not included in this result.",
