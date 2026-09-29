@@ -5,11 +5,6 @@
     "baterie/komunikacja-bms",
     "baterie/porownanie-technologii",
     "lokalizacja/lokalizacja-i-klimat",
-    "pv/czystosc-i-snieg",
-    "zapotrzebowanie/wampiry-energetyczne/automatyzacja",
-    "zapotrzebowanie/wampiry-energetyczne/katalog-urzadzen",
-    "zapotrzebowanie/wampiry-energetyczne/pomiar-mocy-jalowej",
-    "zapotrzebowanie/wampiry-energetyczne/rekomendacje-sprzetowe",
-    "zapotrzebowanie/wampiry-energetyczne/symulacje-i-raporty"
+    "pv/czystosc-i-snieg"
   ]
 }

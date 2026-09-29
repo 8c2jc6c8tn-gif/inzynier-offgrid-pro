@@ -209,6 +209,11 @@ import { sciezkaCenEnergiiTool } from "./tools/sciezka-cen-energii-tool"
 import { strumienieBessTool } from "./tools/strumienie-bess-tool"
 import { testLicznikaTool } from "./tools/test-licznika-tool"
 import { mocBiernaTool } from "./tools/moc-bierna-tool"
+import { wampiryAutomatyzacjaTool } from "./tools/wampiry-automatyzacja-tool"
+import { wampiryKatalogTool } from "./tools/wampiry-katalog-tool"
+import { wampiryPomiarTool } from "./tools/wampiry-pomiar-tool"
+import { wampiryRekomendacjeTool } from "./tools/wampiry-rekomendacje-tool"
+import { wampirySymulacjeTool } from "./tools/wampiry-symulacje-tool"
 import { toAnthropicTool } from "./to-anthropic-tool"
 import { validateAiToolDefinition, type AiToolDefinition } from "./types"
 
@@ -408,6 +413,11 @@ const NARZEDZIA: Array<AiToolDefinition<any, any>> = [
   strumienieBessTool,
   testLicznikaTool,
   mocBiernaTool,
+  wampiryAutomatyzacjaTool,
+  wampiryKatalogTool,
+  wampiryPomiarTool,
+  wampiryRekomendacjeTool,
+  wampirySymulacjeTool,
 ]
 for (const narzedzie of NARZEDZIA) validateAiToolDefinition(narzedzie)
 
