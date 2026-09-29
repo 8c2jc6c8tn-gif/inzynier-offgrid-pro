@@ -38,7 +38,7 @@ export const blackoutTool: AiToolDefinition<BlackoutToolInputT, BlackoutToolOutp
   name: "symuluj_blackout_zimowy",
   description:
     "Symuluje N dni bez słońca (PV = 0) w mrozie: ile dni bateria wytrzyma do krytycznego minimum, którego dnia system " +
-    "padnie, ile brakuje pojemności albo o ile ograniczyć zużycie, z uwzględnieniem agregatu (Moduł 7, Ekran 4).",
+    "padnie, ile brakuje pojemności albo o ile ograniczyć zużycie, z uwzględnieniem agregatu (Moduł 7, Ekran 4). Użyj, gdy user pyta, ile dni bez słońca wytrzyma jego system zimą albo ile pojemności baterii brakuje na taki scenariusz.",
   inputSchema: BlackoutToolInput,
   outputSchema: BlackoutToolOutput,
   operationType: "read",

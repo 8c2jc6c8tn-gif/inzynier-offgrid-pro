@@ -30,7 +30,7 @@ export const centralaSspTool: AiToolDefinition<CentralaSspToolInputT, CentralaSs
   name: "sprawdz_integracje_centrali_pozarowej",
   description:
     "Sprawdza integrację sterownika z centralą sygnalizacji pożaru: czy odbiera sygnały alarmu, awarii i rozbrojenia, czy " +
-    "loguje zdarzenia; awaria centrali to twardy stop (Moduł 8, Ekran 5).",
+    "loguje zdarzenia; awaria centrali to twardy stop (Moduł 8, Ekran 5). Użyj, gdy user pyta, czy sterownik jest poprawnie zintegrowany z centralą sygnalizacji pożaru.",
   inputSchema: CentralaSspToolInput,
   outputSchema: CentralaSspToolOutput,
   operationType: "read",

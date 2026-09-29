@@ -37,7 +37,7 @@ export const mocBiernaTool: AiToolDefinition<MocBiernaToolInputT, MocBiernaToolO
   description:
     "Liczy roczną opłatę za energię bierną w firmie na niskim napięciu (M14, F3): nadwyżka indukcyjna ponad tgφ₀ " +
     "(wzór z pierwiastkiem jak w taryfach OSD 2026, k = 3,00) i energia pojemnościowa, oraz moc i zwrot baterii " +
-    "kondensatorów. C_rk i ceny podaje user — nie zgaduj.",
+    "kondensatorów. C_rk i ceny podaje user — nie zgaduj. Użyj, gdy firma pyta o opłatę za energię bierną albo czy opłaca się bateria kondensatorów.",
   inputSchema: MocBiernaToolInput,
   outputSchema: MocBiernaToolOutput,
   operationType: "read",

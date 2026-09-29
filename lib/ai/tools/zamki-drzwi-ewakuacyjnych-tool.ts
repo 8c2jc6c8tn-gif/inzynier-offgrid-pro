@@ -37,7 +37,7 @@ export const zamkiDrzwiEwakuacyjnychTool: AiToolDefinition<ZamkiDrzwiEwakuacyjny
   description:
     "Sprawdza konfigurację zamka drzwi ewakuacyjnych: czy przy zaniku prądu drzwi się otwierają (fail-safe), czy jest " +
     "zasilanie awaryjne, przycisk ewakuacyjny, zwalnianie po alarmie pożarowym i kontaktron (Moduł 8, Ekran 3). " +
-    "Twardy stop: zamek blokujący bez zasilania awaryjnego.",
+    "Twardy stop: zamek blokujący bez zasilania awaryjnego. Użyj, gdy user pyta, czy zamek elektryczny na drogach ewakuacji zachowa się bezpiecznie przy zaniku prądu i alarmie pożarowym.",
   inputSchema: ZamkiDrzwiEwakuacyjnychToolInput,
   outputSchema: ZamkiDrzwiEwakuacyjnychToolOutput,
   operationType: "read",

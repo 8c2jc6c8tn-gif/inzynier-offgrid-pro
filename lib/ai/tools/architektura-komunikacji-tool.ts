@@ -34,7 +34,7 @@ export const architekturaKomunikacjiTool: AiToolDefinition<ArchitekturaKomunikac
   name: "sprawdz_architekture_komunikacji_esp32",
   description:
     "Sprawdza połączenia ESP32 z falownikiem, BMS i aplikacją: RS485 bez transceivera (twardy stop), CAN bez transceivera, " +
-    "powtórzone adresy Modbus i różne prędkości na jednej magistrali (Moduł 9, Ekran 4).",
+    "powtórzone adresy Modbus i różne prędkości na jednej magistrali (Moduł 9, Ekran 4). Użyj, gdy user pyta, jak podłączyć ESP32 do falownika/BMS (RS485, CAN, Modbus) albo dlaczego komunikacja nie działa.",
   inputSchema: ArchitekturaKomunikacjiToolInput,
   outputSchema: ArchitekturaKomunikacjiToolOutput,
   operationType: "read",

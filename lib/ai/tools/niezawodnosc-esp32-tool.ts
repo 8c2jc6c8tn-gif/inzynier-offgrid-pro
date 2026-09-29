@@ -35,7 +35,7 @@ export const niezawodnoscEsp32Tool: AiToolDefinition<NiezawodnoscEsp32ToolInputT
   name: "sprawdz_niezawodnosc_esp32",
   description:
     "Sprawdza ustawienia niezawodności sterownika ESP32 (SD, RTC, podtrzymanie, watchdog, izolacja, ochrona przepięciowa, OTA, " +
-    "redundancja); OTA bez weryfikacji podpisu to twardy stop, bez sumy kontrolnej i rollbacku — ostrzeżenie (Moduł 9, Ekran 6).",
+    "redundancja); OTA bez weryfikacji podpisu to twardy stop, bez sumy kontrolnej i rollbacku — ostrzeżenie (Moduł 9, Ekran 6). Użyj, gdy user pyta, czy sterownik ESP32 jest odporny na awarie, zaniki zasilania i bezpiecznie aktualizowany (OTA).",
   inputSchema: NiezawodnoscEsp32ToolInput,
   outputSchema: NiezawodnoscEsp32ToolOutput,
   operationType: "read",

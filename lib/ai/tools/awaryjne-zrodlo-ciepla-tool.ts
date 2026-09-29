@@ -38,7 +38,7 @@ export const awaryjneZrodloCieplaTool: AiToolDefinition<AwaryjneZrodloCieplaTool
   name: "policz_awaryjne_zrodlo_ciepla",
   description:
     "Liczy, ile ciepła na dobę daje kominek/koza/piec na drewno, jaką część dobowego zapotrzebowania domu pokryje przez " +
-    "płaszcz wodny i ile paliwa (kg/dobę) zużyje przy podanej sprawności i wartości opałowej (Moduł 8, Ekran 1).",
+    "płaszcz wodny i ile paliwa (kg/dobę) zużyje przy podanej sprawności i wartości opałowej (Moduł 8, Ekran 1). Użyj, gdy user pyta, ile ciepła i opału da kominek/koza/piec na drewno jako zapas przy awarii ogrzewania elektrycznego.",
   inputSchema: AwaryjneZrodloCieplaToolInput,
   outputSchema: AwaryjneZrodloCieplaToolOutput,
   operationType: "read",

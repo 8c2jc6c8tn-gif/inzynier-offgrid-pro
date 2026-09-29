@@ -33,7 +33,7 @@ export const dobierzTaryfeTool: AiToolDefinition<DobierzTaryfeToolInputT, Dobier
   description:
     "Porównuje roczny koszt brutto w kilku grupach taryfowych (M14, D2 dom: G11/G12/G12w; F2 firma: C11–C22b) " +
     "i podaje najtańszą. Grupy niedostępne dla mocy umownej (C1x ≤ 40 kW, C2x > 40 kW) albo bez stawek 2026 w " +
-    "danych są wyłączone, nie szacowane. Podział zużycia na strefy i ceny energii podaje user — nie zgaduj.",
+    "danych są wyłączone, nie szacowane. Podział zużycia na strefy i ceny energii podaje user — nie zgaduj. Użyj, gdy user pyta, która grupa taryfowa będzie dla niego najtańsza.",
   inputSchema: DobierzTaryfeToolInput,
   outputSchema: DobierzTaryfeToolOutput,
   operationType: "read",

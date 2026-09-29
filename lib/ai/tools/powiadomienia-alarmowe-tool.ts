@@ -31,7 +31,7 @@ export const powiadomieniaAlarmoweTool: AiToolDefinition<PowiadomieniaAlarmoweTo
   name: "sprawdz_powiadomienia_alarmowe",
   description:
     "Sprawdza konfigurację reakcji na zagrożenie: syrena, kontakty alarmowe, kamery i automatyczne wezwanie służb — to " +
-    "ostatnie działa tylko za wyraźną zgodą usera (bez zgody — twardy stop). Niczego nie wysyła (Moduł 8, Ekran 10).",
+    "ostatnie działa tylko za wyraźną zgodą usera (bez zgody — twardy stop). Niczego nie wysyła (Moduł 8, Ekran 10). Użyj, gdy user pyta, jak system ma go powiadomić o zagrożeniu (syrena, kontakty, kamery, wezwanie służb).",
   inputSchema: PowiadomieniaAlarmoweToolInput,
   outputSchema: PowiadomieniaAlarmoweToolOutput,
   operationType: "read",

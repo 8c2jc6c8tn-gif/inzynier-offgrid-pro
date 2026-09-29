@@ -35,7 +35,7 @@ export const zasilanieEsp32Tool: AiToolDefinition<ZasilanieEsp32ToolInputT, Zasi
   name: "sprawdz_zasilanie_esp32",
   description:
     "Sprawdza zasilanie ESP32 z magistrali 12/24/48 V: czy jest przetwornica (bez niej — twardy stop), czy jej napięcie " +
-    "wejściowe wytrzyma najwyższe napięcie magistrali i czy starczy prądu; liczy prąd z magistrali (Moduł 9, Ekran 2).",
+    "wejściowe wytrzyma najwyższe napięcie magistrali i czy starczy prądu; liczy prąd z magistrali (Moduł 9, Ekran 2). Użyj, gdy user pyta, jak zasilić ESP32 z magistrali 12/24/48 V albo czy jego przetwornica jest dobrana poprawnie.",
   inputSchema: ZasilanieEsp32ToolInput,
   outputSchema: ZasilanieEsp32ToolOutput,
   operationType: "read",
