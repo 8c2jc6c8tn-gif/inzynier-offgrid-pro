@@ -8294,3 +8294,16 @@ Tryb Audyt (czapka rewidenta). Warstwa „w pełni na końcu” z N.2 — wszyst
 - **7:** bramka logowania w `middleware.ts` wyłączona do czasu projektu Supabase — bez zmian od 15.09.
 - **Pułapka tej sesji:** `git checkout -B <gałąź> origin/main` po scaleniu PR przez API — lokalny `origin/main` był sprzed
   scalenia (fetch zrobiony wcześniej). Zawsze `git fetch origin main` tuż przed takim resetem.
+
+## Porównanie `public/sw.js` ze wzorcem PWA standardu (29.09.2026, na żądanie właściciela)
+
+- Zamyka pytanie z 26.09 (pkt 2 sprawdzenia Y.6). Raport: `docs/audyt-sw-vs-wzorzec-pwa.md` (LOKALNE). Kod bez zmian —
+  decyzja właściciela A/B/C w raporcie (rekomendacja: A etapami = C).
+- **Pomiar na buildzie produkcyjnym:** nieodwiedzony ekran offline → `net::ERR_FAILED`; maskotki `public/` i manifest
+  offline nie działają; cache `offgrid-v1` rośnie o stare chunki przy każdym deployu ze zmianą kodu (`CACHE_VERSION`
+  nigdy niepodbijany, `sw.js` bajtowo stały → SW nigdy się nie aktualizuje).
+- **Uśpiony błąd:** `matcher` w `middleware.ts` nie wyklucza `/sw.js`, `/register-sw.js`, `/manifest.webmanifest` —
+  po włączeniu bramki Supabase (18.1) niezalogowany dostanie przekierowanie zamiast skryptu SW.
+- **Pułapka (testy SW):** `context.setOffline(true)` Playwrighta nie obejmuje `fetch()` z wnętrza Service Workera —
+  strona „działa offline”, bo SW pobiera ją z sieci. Prawdziwy offline = ubity serwer. Zgłoszone do standardu (10.8).
+- Koszt pełnego precache dziś ≈ 26 MB (HTML 220 kalkulatorów 6,1 MB + chunki 14 MB + `media` 4,2 MB + `public/` 1,5 MB).
