@@ -1,6 +1,6 @@
 # 03. M14 — „Dom – sieć” i „Firma – sieć”: rachunek za prąd, a potem przejście na off-grid
 
-**Wersja:** 1.9 | **Filar:** B (merytoryczny) | **Data utworzenia:** 28.09.2026 | **Ostatnia aktualizacja:** 29.09.2026 | **Status:** Stabilny — ~~**kod zablokowany bramką N.3**~~ **kod odblokowany 28.09.2026 (D50)**, obowiązuje bramka danych DANE-1 (patrz „Stan i bramki”)
+**Wersja:** 1.10 | **Filar:** B (merytoryczny) | **Data utworzenia:** 28.09.2026 | **Ostatnia aktualizacja:** 29.09.2026 | **Status:** Stabilny — ~~**kod zablokowany bramką N.3**~~ **kod odblokowany 28.09.2026 (D50)**, obowiązuje bramka danych DANE-1 (patrz „Stan i bramki”)
 **Powiązane dokumenty:** `docs/zrodla/Opracowanie_M14_Z_Sieci_Na_OffGrid_DRAFT.md` (opracowanie źródłowe: weryfikacja, adnotacje ✏️ K1–K14, tabele stawek per OSD), `rejestr-decyzji.md` D35–D43 i D47–D48, `docs/rejestr-pokrycia.md` (sekcja M14), `docs/rejestr-twardych-stopow.md` (sekcja M14), `mapa-wdrozenia.md`, `slownik-pojec.md` (sekcja „Sieć i rozliczenia energii”)
 
 TL;DR: Moduł **M14** ma dwa rozdziały i na pulpicie dwa duże kafle: **M14-D „Dom – sieć”** (grupy taryfowe G) oraz **M14-F „Firma – sieć”** (grupy C na nN). Każdy rozdział składa się z dwóch części w stałej kolejności:
@@ -563,8 +563,8 @@ Nie jest potrzebny do pierwszej działającej wersji rdzenia off-grid (M1–M8).
 ### Otwarte — wymaga danych zewnętrznych
 
 - **W3-PGE** — taryfa PGE Dystrybucja 2026. Serwer ma niepełny łańcuch TLS, więc PDF musi dostarczyć właściciel.
-- **W3-Enea netto** — pełna taryfa jest skanem; do odczytu wizualnego.
-- **Stoen C22a/C22b** — przypisanie kolumn tabeli 7.3 do odczytu wizualnego.
+- ~~**W3-Enea netto** — pełna taryfa jest skanem; do odczytu wizualnego.~~ **✅ [29.09.2026]** odczytane i w pliku danych (wpis „DANE-1 uzupełnione” wyżej).
+- ~~**Stoen C22a/C22b** — przypisanie kolumn tabeli 7.3 do odczytu wizualnego.~~ **✅ [29.09.2026]** odczytane i w pliku danych.
 - **W4** — standardowe profile zużycia G11/C11 (IRiESD OSD), potrzebne dla D38.
 - **W6** — regulamin Przydomowych Magazynów Energii (NFOŚiGW). Serwer ma niepełny łańcuch TLS, więc PDF musi dostarczyć właściciel.
 - **Wartość `C_rk`** — komunikat Prezesa URE.
@@ -594,3 +594,4 @@ Nie jest potrzebny do pierwszej działającej wersji rdzenia off-grid (M1–M8).
 | 28.09.2026 | Start kodu M14 (po D50): plik danych `rozliczenia-pl-2026`, część Sieć D1, D2, D8, D12/F11, F1–F5, silnik ścieżki cen. Treść rozdziału bez zmian — dopisany tylko stan w „Stan i bramki”. Wersja 1.6→1.7. |
 | 28.09.2026 | Zamknięcie kodu rozdziału: reszta części Sieć, część Przejście, kreator, kafle. Treść rozdziału bez zmian — dopisany tylko stan w „Stan i bramki”. Wersja 1.7→1.8. |
 | 29.09.2026 | DANE-1 uzupełnione: Enea netto (skan taryfy z decyzji URE DRE.WRE.4211.52.11.2025.TG), Stoen C22a/C22b, abonament C Tauronu, abonament G Stoen 6/12 mies. Zmiany w „Dane” (per OSD) i „Stan i bramki” — stare brzmienie przekreślone. Wersja 1.8→1.9. |
+| 29.09.2026 | Lista „Otwarte — wymaga danych zewnętrznych”: Enea netto i Stoen C22a/C22b przekreślone jako ✅ (były już uzupełnione, lista tego nie odnotowała). Wersja 1.9→1.10. |

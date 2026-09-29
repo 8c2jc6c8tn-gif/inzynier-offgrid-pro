@@ -239,6 +239,7 @@ Treść:
 - (5) **M9/E2 zasilanie ESP32** — „będzie oddzielne zasilanie ESP32”: to układ instalacji właściciela, nie poziom ostrzeżenia. 🔴 za przekroczenie napięcia wejściowego przetwornicy zostaje (dotyczy tylko zasilania z magistrali). Bez zmian w kodzie.
 - (6) **M9/E4 CAN** — „najprawdopodobniej będzie, jeszcze nie wiem”: poziom dla CAN bez transceivera nadal otwarty (🟡 ✅🤖, rekomendacja 🔴 jak RS485). Bez zmian w kodzie.
 - (7) Nadal odłożone: TD21 CRL, Rsi (czeka na PKN).
+- **[29.09.2026, sprawdzenie źródeł]** Do pkt (4): Biblia v2.0 §4.10 (dawne 3.10) — „jedyny skuteczny środek gaśniczy dla pakietu LiFePO4 to agregat wodny/mgłowy lub specjalny środek do magazynów energii”; rekomendacja pokrywa się ze źródłem, otwarte tylko 🟡/🔴 dla gazu i aerozolu. Do pkt (6): Biblia v2.0 §9.28 (dawne 11.28) — „Bez transceivera nie podłączaj GPIO bezpośrednio do magistrali CAN”, to samo ostrzeżenie co dla RS485 (🔴). Kod bez zmian do decyzji właściciela.
 
 ## Założenia robocze (F.7 GOD BOOK)
 
