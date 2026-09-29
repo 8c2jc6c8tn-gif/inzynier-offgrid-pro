@@ -17,7 +17,7 @@
     "check:i18n-guard": "node scripts/check-i18n-guard.mjs && node scripts/check-i18n-ui-guard.mjs",
     "check:pomoc-guard": "node scripts/check-pomoc-guard.mjs",
     "check:ai-tools-guard": "node scripts/check-ai-tools-guard.mjs",
-    "test:e2e": "node --test --test-concurrency=1 e2e/",
+    "test:e2e": "node --test --test-concurrency=1 \"e2e/*.test.mjs\"",
     "audit:gate": "node scripts/audit-gate.mjs",
     "audit:n1": "node scripts/audit-n1-rejestr.mjs",
     "rejestr:licz": "node scripts/policz-rejestr.mjs"
