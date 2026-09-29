@@ -27,7 +27,7 @@ describe("calculateZacienienieDiodyBocznikujace", () => {
     expect(result.warnings[0].level).toBe("warning")
   })
 
-  it("przykład źródła: 2 zacienione sekcje -> strata panelu ok. 66% (dokładnie 66,7%), critical", () => {
+  it("przykład źródła: 2 zacienione sekcje -> strata panelu ok. 66% (dokładnie 66,7%), warning (strata uzysku, nie twardy stop)", () => {
     const result = calculateZacienienieDiodyBocznikujace({
       mocPaneluNominalnaW: 400,
       liczbaZacienionychSekcji: 2,
@@ -37,10 +37,10 @@ describe("calculateZacienienieDiodyBocznikujace", () => {
     expect(result.value.strataPaneluPct).toBeCloseTo(66.666666667, 6)
     expect(result.value.mocPaneluRzeczywistaW).toBeCloseTo(133.333333333, 6)
     expect(result.warnings[0].code).toBe("ZACIENIENIE-2-SEKCJE")
-    expect(result.warnings[0].level).toBe("critical")
+    expect(result.warnings[0].level).toBe("warning")
   })
 
-  it("wszystkie 3 sekcje zacienione -> panel praktycznie zerowy, critical", () => {
+  it("wszystkie 3 sekcje zacienione -> panel praktycznie zerowy, warning (strata uzysku, nie twardy stop)", () => {
     const result = calculateZacienienieDiodyBocznikujace({
       mocPaneluNominalnaW: 400,
       liczbaZacienionychSekcji: 3,
@@ -49,7 +49,7 @@ describe("calculateZacienienieDiodyBocznikujace", () => {
     expect(result.value.strataPaneluPct).toBe(100)
     expect(result.value.mocPaneluRzeczywistaW).toBe(0)
     expect(result.warnings[0].code).toBe("ZACIENIENIE-PELNY-PANEL")
-    expect(result.warnings[0].level).toBe("critical")
+    expect(result.warnings[0].level).toBe("warning")
   })
 
   it("INCOMPLETE — liczba paneli w stringu jeszcze nie wpisana", () => {

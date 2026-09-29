@@ -8392,6 +8392,15 @@ Tryb Audyt (czapka rewidenta). Warstwa „w pełni na końcu” z N.2 — wszyst
   (`` `PARA-POZA-ZAKRESEM` ``) od razu dał konflikt „i w rejestrze, i w wyjątkach”; w prozie rejestru nie cytować kodów,
   które nie są stopami.
 
+- **[29.09, później] Lista zapadkowa 51 → 2:** 46 kodów dopisanych do rejestru (sekcje wg kategorii, notka HTML-komentarz
+  w „Elektryczne / pożarowe”), 3 kody sekwencji montażu (status OUT_OF_SCOPE) do „poza-zakresem-modelu”. Zostają
+  `ZACIENIENIE-2-SEKCJE`/`-PELNY-PANEL` — pytanie o poziom (strata uzysku, nie bezpieczeństwo), `lista-do-zrobienia.md`.
+  **Rozstrzygnięte tego samego wieczoru (właściciel: wariant B):** oba obniżone do 🟡 `warning` (strata uzysku ≠ twardy
+  stop; źródło daje tu 🟡), M3/E13 `CALCULATOR_VERSION` 1.0.1. Lista zapadkowa **pusta** — każdy nowy 🔴 bez wpisu w
+  rejestrze albo wyjątkach od razu wywraca `check:stopy-guard`.
+  Klasyfikacja po treści funkcji w `warnings.ts` — wyciąganie `technicalMessage` wycinkiem tekstu wokół kodu łapało
+  komunikat sąsiedniej funkcji; wiarygodnie tylko przez AST (całe ciało funkcji).
+
 ## 8.4b — „i” z założeniami i panel od dołu na telefonie (29.09.2026, wieczór)
 
 - `MigawkaInfo`/`NaglowekEkranu`: prop `wzor` zastąpiony przez `wynik` (`Partial<Pick<CalcResult, "formula" |
