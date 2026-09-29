@@ -6,7 +6,7 @@ import { z } from "zod"
 import { GrupaSchema, OkresRozliczeniowySchema, OsdIdSchema, StrefaSchema } from "@/lib/core/dane/rozliczenia-pl-2026"
 
 export const SiecOsdSchema = OsdIdSchema.describe(
-  "OSD: tauron, energa, stoen (stawki ✅ 2026 w danych), pge, enea, inny (brak stawek — potrzebne dane z faktury)",
+  "OSD: tauron, energa, stoen, enea (stawki ✅ 2026 w danych), pge, inny (brak stawek — potrzebne dane z faktury)",
 )
 export const SiecGrupaSchema = GrupaSchema.describe("Grupa taryfowa: G11/G12/G12w (dom) albo C11/C12a/C12b/C21/C22a/C22b (firma)")
 export const SiecStrefyKwhSchema = z

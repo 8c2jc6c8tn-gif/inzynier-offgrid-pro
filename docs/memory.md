@@ -8088,3 +8088,18 @@ Tryb Audyt (czapka rewidenta). Warstwa „w pełni na końcu” z N.2 — wszyst
 - **Nic z pamięci:** linki regulaminów dotacji `null` (W6, TLS), stawki przyłączeniowe od użytkownika, ceny BESS z materiału
   nie weszły do kodu, norma przełącznika 🔎 (`SIEC-PRZELACZNIK-NORMA-BRAK` zawsze widoczne). Uproszczenia: TD23.
 - **Pakiet kontroli lokalnie** (CI nie działa do 1.10): wyniki w opisie PR.
+
+## M14 — DANE-1 uzupełnione: Enea netto, Stoen C22, abonament C Tauronu (29.09.2026, „Zrób to”)
+
+- **Enea:** pełna taryfa 2026 to skan w załączniku decyzji URE (strona OSD, link „Decyzja Prezesa URE z dnia 17 grudnia
+  2025 r.”) — skopiowana do `docs/zrodla/`, stawki odczytane wizualnie (render strony, nie OCR). Kontrola odczytu:
+  netto × 1,23 = informacja OSD o stawkach brutto (grupy G); grupy C nie mają kontroli brutto (dokument OSD obejmuje
+  tylko gospodarstwa domowe) — test utrwala wartości.
+- **Pułapka dla danych:** Enea (C12a/b, C22a/b) i Stoen (C22a/b) mają w taryfie **jedną** stawkę zmienną sieciową dla
+  całej energii w grupach dwustrefowych — strefy różnicują tylko cenę sprzedaży. Silnik liczy per strefa, więc stawka
+  wpisana dla obu stref (opis w `zrodlo`). Nie „uzupełniać” drugiej strefy z innego OSD.
+- **Tauron C21/C22:** abonament tylko dla okresu 1-mies. (9,50) — przy innym okresie silnik wymaga wpisu z faktury;
+  test rachunku przepisany z „brak abonamentu Tauron C” na ten przypadek.
+- **Dostęp sieciowy 29.09.2026:** `www.operator.enea.pl` działa; `pgedystrybucja.pl` nadal bez połączenia (TLS) —
+  PGE czeka na PDF od właściciela.
+

@@ -1023,3 +1023,15 @@ danymi z datą ważności ma oba problemy; reguła „jeden właściciel szkicu�
 daty — do 08 (UI) albo 12 (wydajność/SSR).
 Status: 🔎 nowe
 
+
+[29.09.2026] KATEGORIA: DOBRA PRAKTYKA — odczyt wizualny skanu dokumentu normatywnego: kontrola niezależnym dokumentem i testem
+
+Szczegóły: Taryfa Enea 2026 istnieje tylko jako skan (załącznik decyzji URE, bez warstwy tekstowej). Zamiast OCR — render
+stron w wysokiej rozdzielczości i odczyt wizualny tabel, a potem kontrola krzyżowa z niezależnym dokumentem tego samego
+wydawcy (informacja OSD o stawkach brutto: netto × VAT musi dać opublikowaną kwotę; 11/11 zgodne). Kontrola zapisana jako
+test, żeby przyszła edycja danych nie rozjechała się z brutto po cichu. Druga lekcja z tych samych tabel: tekst wyciągnięty
+z PDF z warstwą tekstową (Stoen) gubi przypisanie komórek do kolumn przy pustych polach — przy tabelach z lukami odczyt
+tekstowy służy tylko do znalezienia strony, wartości potwierdza render.
+Dlaczego warto zgłosić do new-app-standards: każda aplikacja rodziny wpisuje dane z tabel norm/cenników w PDF; reguła
+„odczyt skanu = render + kontrola niezależnym źródłem + test” pasuje do rozdziału 14 (proces) lub 02 (dane referencyjne).
+Status: 🔎 nowe

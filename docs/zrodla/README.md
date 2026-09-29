@@ -390,6 +390,13 @@ sieci przez właściciela:
 - `Energa-Operator-Taryfa-2026.pdf` (z cdn-netpr.pl, link ze strony energa-operator.pl);
 - `Stoen-Operator-Taryfa-2026-tekst-z-25-02-2026.pdf`;
 - `Enea-Operator-stawki-brutto-2026-od-02-01.pdf` (informacja poglądowa OSD — brutto; pełna taryfa Enea
-  jest skanem w załączniku decyzji URE, nie kopiowana).
+  jest skanem w załączniku decyzji URE, ~~nie kopiowana~~ — **[29.09.2026] skopiowana, patrz niżej**).
 Ustawy o OZE (t.j. Dz.U. 2026 poz. 68 i nowelizacja Dz.U. 2024 poz. 1847) — nie kopiowane (rozmiar),
 wskazane stałym adresem API ELI Sejmu + SHA-256 w opracowaniu M14 (sekcja „Źródła pierwotne”).
+
+[29.09.2026] ✅ DODANO — **`Enea-Operator-Taryfa-2026-decyzja-URE-skan.pdf`** — dokument pierwotny, pobrany 1:1 ze strony
+OSD (`www.operator.enea.pl/uslugi-dystrybucyjne/taryfy-i-cenniki` → „Decyzja Prezesa URE z dnia 17 grudnia 2025 r.”),
+SHA-256 `df512101d76a3d52f9d9f66d42e0e2c791e40f402c10c644ae35d6c9e3a24238`. Decyzja DRE.WRE.4211.52.11.2025.TG
+(Biuletyn Branżowy nr 272 (4802) z 17.12.2025) z taryfą w załączniku, okres 1.01–31.12.2026. Skan bez warstwy
+tekstowej — stawki odczytane wizualnie z tabel 7.1 (grupy A/B/C), 7.2 (grupy G), 7.3 (abonament), s. 62–64 taryfy.
+Kontrola: stawki G netto × 1,23 zgodne z informacją OSD o stawkach brutto (11/11 sprawdzonych wartości).
