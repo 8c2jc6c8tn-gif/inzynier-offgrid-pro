@@ -1094,3 +1094,30 @@ Dlaczego warto zgłosić do new-app-standards: rozdz. 14 (proces i pamięć) i b
 rodziny gromadzi normy w repo; kontrola jest tania, a „dodany, nieprzeczytany” to cicha luka wiedzy.
 
 Status: 🔎 nowe
+
+[29.09.2026] KATEGORIA: BŁĄD + POMYSŁ NA REGUŁĘ — strażnik i18n pilnuje tylko silników, nie tekstów w interfejsie; nowe ekrany znów dostają twarde polskie teksty w JSX
+Szczegóły: pierwszy audyt Y.11 w tym repo (`docs/audyt-zgodnosci-kodu.md`, przebieg 1, pkt 1b) wykazał, że zmiany z jednego
+dnia (29.09.2026, ok. 40 plików `app/`/`components/`) dodały polskie teksty wpisane wprost w JSX, bez `t(...)` — m.in.
+`przelacznik-siec-wyspa` (18 linii), `porownanie-scenariuszy` (16), `optymalizacja-trasy-kabla` (13), `magazyn-firmy` (13),
+a nowy ekran E38 `uziemienie-male-instalacje` nie ma ani jednego tłumaczenia. Stało się to w dniu, w którym standard dostał
+8.12 (ekran bez PL/EN/RU nie jest ukończony) i 11.9 (strażnik „każdy X ma Y” od dnia wprowadzenia reguły). Przyczyna:
+`check:i18n-guard` (17.9) sprawdza wyłącznie jądro — `Warning.message`/`assumptions` w `lib/core/modules/*` — a warstwy UI
+nie sprawdza nic. Wszystkie kontrole były zielone, więc ani sesja pisząca kod, ani pakiet przed merge'em nie miały sygnału.
+Reguła 17.1a („nowy kod UI nie dodaje twardych stringów”) istniała, ale jako jedyna z rodziny „każdy X ma Y” nie miała
+strażnika na tej warstwie — i dryfowała dokładnie tak, jak 11.9 przewiduje. Tło: tylko 58 z 220 `page.tsx` używa
+`useTranslate`, więc bez strażnika sesja nie odróżnia „stary ekran jeszcze niezmigrowany” (dozwolone, 17.9) od „nowy tekst
+dopisany dziś” (naruszenie).
+Propozycja: dopisać do 17.9 (albo 17.1a), że strażnik i18n obejmuje **obie warstwy**: (1) jądro — jak dziś; (2) UI —
+skrypt AST (17.11) po `app/**/*.tsx` i `components/**/*.tsx`, który zgłasza tekst dla użytkownika podany wprost: `JsxText`
+z literami, literał string w atrybutach tekstowych (`title`, `label`, `placeholder`, `aria-label`, `alt`, propsy typu
+`tytul`/`opis`/`jednostka`) i literał w `{...}` wewnątrz JSX. Poza zakresem: klucze i18n, nazwy klas, identyfikatory,
+same liczby/jednostki SI/symbole wzorów, pliki testów i strony-wzorniki (jawna lista wyjątków z powodem). Stary kod — lista
+zapadkowa per plik sporządzona **jednorazowo** przy wprowadzeniu strażnika, dokładnie wg 11.9 (nic nie dochodzi, tylko
+maleje; plik z listy, który już jest czysty, wymusza jej skrócenie). Opcjonalnie liczba trafień per plik zamiast samej
+obecności — wtedy także dopisanie nowego tekstu do starego, niezmigrowanego ekranu zatrzymuje build.
+Dlaczego warto zgłosić do new-app-standards: 17.9 mówi „mechanizm strażniczy wykrywający nowy twardy string”, ale nie mówi,
+**gdzie** — projekt, który zaczyna migrację od jądra (jak ten), naturalnie pisze strażnika tylko tam i uznaje regułę za
+pilnowaną. Warstwa UI to miejsce, gdzie teksty powstają najczęściej (każdy nowy ekran), więc luka jest największa właśnie
+tam. Każdy projekt rodziny z i18n (17.1a jest bezwarunkowa) ma tę samą lukę, dopóki standard nie nazwie obu warstw wprost.
+Lokalnie: decyzja A/B/C (naprawa + strażnik) czeka na właściciela — `docs/lista-do-zrobienia.md`, wpis Y.11 pkt 1b.
+Status: 🔎 nowe
