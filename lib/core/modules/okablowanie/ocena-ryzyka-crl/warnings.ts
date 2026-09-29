@@ -23,6 +23,19 @@ export function spdWymagany(crl: number): Warning {
   }
 }
 
+/**
+ * D54: CRL ≥ 1000 — the norm does not require SPD, but a type 2 SPD is cheap next to the equipment it protects; the owner
+ * prefers fitting it more often than less. Recommendation, not a norm requirement.
+ */
+export function spdZalecany(): Warning {
+  return {
+    code: "CRL-SPD-ZALECANY",
+    level: "info",
+    i18nKey: "CRL-SPD-ZALECANY",
+    technicalMessage: "CRL >= 1000 — nie wymagany przez 443.5, zalecany (D54, tani względem chronionego sprzętu)",
+  }
+}
+
 /** L_P = 0: no supply line — 443.5 gives no requirement from lines (typical off-grid). */
 export function brakLinii(): Warning {
   return {

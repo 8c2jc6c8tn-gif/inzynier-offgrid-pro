@@ -1,15 +1,18 @@
-// 🔎 TD21 (dlug-techniczny.md): 443.4 exception wording, Table 443.2 unused, length cap cut from the heaviest weight.
+// 🔎 TD21 (dlug-techniczny.md): 443.4 exception wording, Table 443.2 unused. Length cap: D54 (from the building outward).
 import type { Assumption, CalcResult, Warning } from "@/lib/core/calc-result"
 import { CRL_PROG, F_ENV_BAZOWE, LP_DLUGOSC_MAX_KM, NG_NA_DZIEN_BURZOWY, WAGI_LP, WSPOLCZYNNIK_F } from "./constants"
-import type { OcenaRyzykaCrlInput } from "./input"
+import type { OcenaRyzykaCrlInput, OdcinekCrl } from "./input"
 import { validateInput } from "./validation"
-import { brakLinii, przepieciaLaczeniowe, skutkiKrytyczne, spdWymagany, stronaDcPoza } from "./warnings"
+import { brakLinii, przepieciaLaczeniowe, skutkiKrytyczne, spdWymagany, spdZalecany, stronaDcPoza } from "./warnings"
 
-export const CALCULATOR_VERSION = "1.0.0"
+export const CALCULATOR_VERSION = "1.1.0"
 
-type Dlugosci = { napowietrznaNnKm: number; kablowaNnKm: number; napowietrznaSnKm: number; kablowaSnKm: number }
-/** Order of filling the length limit — heaviest weight first (conservative: the largest L_P). */
-const KOLEJNOSC: (keyof Dlugosci)[] = ["napowietrznaNnKm", "kablowaNnKm", "napowietrznaSnKm", "kablowaSnKm"]
+type Dlugosci = Record<OdcinekCrl, number>
+/**
+ * Order of filling the length limit when the user does not give the order from the building — heaviest weight first
+ * (conservative: the largest L_P). It is also the typical layout: LV nearest the house, MV beyond the transformer (D54).
+ */
+const KOLEJNOSC: OdcinekCrl[] = ["napowietrznaNnKm", "kablowaNnKm", "napowietrznaSnKm", "kablowaSnKm"]
 const WAGA: Record<keyof Dlugosci, number> = {
   napowietrznaNnKm: WAGI_LP.napowietrznaNn,
   kablowaNnKm: WAGI_LP.kablowaNn,
@@ -40,8 +43,11 @@ const FORMULA =
 /**
  * Moduł 5, Ekran 2 — "Czy SPD jest wymagany" per HD 60364-4-443:2016 443.4/443.5 (Załącznik A examples 1–4 as tests).
  * Length rules of 443.5: the total counted is limited to 1 km or to the first SPD in the network, whichever is smaller;
- * unknown lengths → L_PAL takes the rest. The norm does not say which lengths to cut when the total is longer — here the
- * heaviest weights are kept first (the largest L_P, conservative; ✅🤖 27.09.2026, assumption CRL-ZALOZENIE-OBCIECIE).
+ * unknown lengths → L_PAL takes the rest. The norm does not say which lengths to cut when the total is longer — ~~here the
+ * heaviest weights are kept first (the largest L_P, conservative; ✅🤖 27.09.2026, assumption CRL-ZALOZENIE-OBCIECIE)~~
+ * D54 (29.09.2026, owner): the sections nearest the building are kept, in the order the user gives
+ * (`kolejnoscOdBudynku`, assumption CRL-ZALOZENIE-OBCIECIE-OD-BUDYNKU); without the order — heaviest weight first as
+ * before (CRL-ZALOZENIE-OBCIECIE). When SPD is not required, an ℹ️ still recommends it (cheap — owner's preference).
  */
 export function calculateOcenaRyzykaCrl(input: OcenaRyzykaCrlInput): CalcResult<OcenaRyzykaCrlResult | null> {
   const errors = validateInput(input)
@@ -77,13 +83,17 @@ export function calculateOcenaRyzykaCrl(input: OcenaRyzykaCrlInput): CalcResult<
     podane.napowietrznaNnKm += limitKm - sumaPodanych
     assumptions.push({ kod: "CRL-ZALOZENIE-NIEZNANE-DLUGOSCI", params: { reszta: limitKm - sumaPodanych } })
   }
+  const kolejnoscPodana = input.kolejnoscOdBudynku != null && input.kolejnoscOdBudynku.length > 0
+  const kolejnosc = kolejnoscPodana ? [...new Set([...input.kolejnoscOdBudynku!, ...KOLEJNOSC])] : KOLEJNOSC
   let zostalo = limitKm
   const dlugosciUzyte = { ...podane }
-  for (const k of KOLEJNOSC) {
+  for (const k of kolejnosc) {
     dlugosciUzyte[k] = Math.min(podane[k], zostalo)
     zostalo -= dlugosciUzyte[k]
   }
-  if (KOLEJNOSC.some((k) => dlugosciUzyte[k] < podane[k])) assumptions.push({ kod: "CRL-ZALOZENIE-OBCIECIE", params: { limit: limitKm } })
+  if (KOLEJNOSC.some((k) => dlugosciUzyte[k] < podane[k])) {
+    assumptions.push({ kod: kolejnoscPodana ? "CRL-ZALOZENIE-OBCIECIE-OD-BUDYNKU" : "CRL-ZALOZENIE-OBCIECIE", params: { limit: limitKm } })
+  }
   const lpKm = KOLEJNOSC.reduce((s, k) => s + WAGA[k] * dlugosciUzyte[k], 0)
 
   const fEnv = input.srodowisko === null ? null : F_ENV_BAZOWE[input.srodowisko] * WSPOLCZYNNIK_F
@@ -102,6 +112,6 @@ export function calculateOcenaRyzykaCrl(input: OcenaRyzykaCrlInput): CalcResult<
   }
   if (crl === null) return wynik("INCOMPLETE", null, [])
   const wymagany = crl < CRL_PROG
-  const warnings = wymagany ? [spdWymagany(crl), ...staleInfo] : staleInfo
+  const warnings = wymagany ? [spdWymagany(crl), ...staleInfo] : [spdZalecany(), ...staleInfo]
   return wynik(wymagany ? "VALID_WITH_WARNINGS" : "VALID", { spdWymagany: wymagany, powod: "crl", crl, lpKm, fEnv, ngUzyte, dlugosciUzyte }, warnings, assumptions)
 }

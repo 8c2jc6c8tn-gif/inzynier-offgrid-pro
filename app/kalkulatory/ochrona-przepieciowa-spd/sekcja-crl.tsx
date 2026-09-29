@@ -8,7 +8,7 @@ import { WynikGlowny } from "@/components/wzorce/wynik-glowny"
 import { WynikSzczegoly } from "@/components/wzorce/wynik-szczegoly"
 import { usePersistedDraft } from "@/lib/adapters/use-persisted-draft"
 import { calculateOcenaRyzykaCrl } from "@/lib/core/modules/okablowanie/ocena-ryzyka-crl/calculator"
-import type { SrodowiskoCrl } from "@/lib/core/modules/okablowanie/ocena-ryzyka-crl/input"
+import type { OdcinekCrl, SrodowiskoCrl } from "@/lib/core/modules/okablowanie/ocena-ryzyka-crl/input"
 import { liczba } from "@/lib/lokalizacja/model-dzialki"
 import { LP_DLUGOSC_MAX_KM, NG_NA_DZIEN_BURZOWY } from "@/lib/core/modules/okablowanie/ocena-ryzyka-crl/constants"
 
@@ -23,7 +23,30 @@ type Stan = {
   kablowaSn: string
   dlugosciNiepelne: boolean
   odlegloscDoSpd: string
+  /** Key of KOLEJNOSCI; "" = order unknown. Optional: drafts saved before D54 lack it. */
+  kolejnosc?: KolejnoscId | ""
 }
+
+/** D54: section order from the building outward (LV before MV — the transformer lies between them). */
+const KOLEJNOSCI = {
+  "nn-nap-kab-sn-nap-kab": {
+    etykieta: "nn napowietrzna → nn kabel → SN napowietrzna → SN kabel",
+    odcinki: ["napowietrznaNnKm", "kablowaNnKm", "napowietrznaSnKm", "kablowaSnKm"],
+  },
+  "nn-nap-kab-sn-kab-nap": {
+    etykieta: "nn napowietrzna → nn kabel → SN kabel → SN napowietrzna",
+    odcinki: ["napowietrznaNnKm", "kablowaNnKm", "kablowaSnKm", "napowietrznaSnKm"],
+  },
+  "nn-kab-nap-sn-nap-kab": {
+    etykieta: "nn kabel → nn napowietrzna → SN napowietrzna → SN kabel",
+    odcinki: ["kablowaNnKm", "napowietrznaNnKm", "napowietrznaSnKm", "kablowaSnKm"],
+  },
+  "nn-kab-nap-sn-kab-nap": {
+    etykieta: "nn kabel → nn napowietrzna → SN kabel → SN napowietrzna",
+    odcinki: ["kablowaNnKm", "napowietrznaNnKm", "kablowaSnKm", "napowietrznaSnKm"],
+  },
+} as const satisfies Record<string, { etykieta: string; odcinki: readonly OdcinekCrl[] }>
+type KolejnoscId = keyof typeof KOLEJNOSCI
 
 const STAN_POCZATKOWY: Stan = {
   skutkiKrytyczne: false,
@@ -36,6 +59,7 @@ const STAN_POCZATKOWY: Stan = {
   kablowaSn: "",
   dlugosciNiepelne: false,
   odlegloscDoSpd: "",
+  kolejnosc: "",
 }
 
 const n = (s: string) => liczba(s) ?? null
@@ -62,6 +86,7 @@ export function SekcjaCrl() {
         kablowaSnKm: n(stan.kablowaSn) ?? 0,
         dlugosciNiepelne: stan.dlugosciNiepelne,
         odlegloscDoSpdWSieciKm: n(stan.odlegloscDoSpd),
+        kolejnoscOdBudynku: stan.kolejnosc ? [...KOLEJNOSCI[stan.kolejnosc].odcinki] : null,
       }),
     [stan],
   )
@@ -138,6 +163,19 @@ export function SekcjaCrl() {
           pomoc={<PomocPola ekran="spd-crl" pole="odlegloscSpd" params={{ lpMax: LP_DLUGOSC_MAX_KM, ngNaDzien: NG_NA_DZIEN_BURZOWY }} />}
         />
       </div>
+      <PoleSelect
+        label="Kolejność odcinków od budynku"
+        value={stan.kolejnosc ?? ""}
+        onChange={(e) => ustaw({ kolejnosc: e.target.value as KolejnoscId | "" })}
+        pomoc={<PomocPola ekran="spd-crl" pole="kolejnosc" params={{ lpMax: LP_DLUGOSC_MAX_KM, ngNaDzien: NG_NA_DZIEN_BURZOWY }} />}
+      >
+        <option value="">Nie wiem — licz ostrożnie</option>
+        {(Object.keys(KOLEJNOSCI) as KolejnoscId[]).map((id) => (
+          <option key={id} value={id}>
+            {KOLEJNOSCI[id].etykieta}
+          </option>
+        ))}
+      </PoleSelect>
       <PoleCheckbox
         id="crl-niepelne"
         label="Nie znam wszystkich długości sieci (reszta do 1 km liczona jako linia napowietrzna nn)"
@@ -161,6 +199,12 @@ export function SekcjaCrl() {
             L<sub>P</sub> = {f2(v.lpKm)} km{v.fEnv !== null && <>, f<sub>env</sub> = {v.fEnv}</>}
             {v.ngUzyte !== null && <>, N<sub>g</sub> = {f2(v.ngUzyte)}</>}. Próg: CRL &lt; 1000 → SPD obowiązkowy.
           </p>
+          {!v.spdWymagany && v.powod === "crl" && (
+            <p className="mt-1 text-small">
+              <strong>Zalecenie, nie wymóg normy:</strong> SPD typu 2 kosztuje niewiele w porównaniu z chronionym sprzętem —
+              warto go zamontować.
+            </p>
+          )}
           <WynikSzczegoly assumptions={wynik.assumptions} warnings={wynik.warnings} formula={wynik.formula} />
         </WerdyktPanel>
       )}

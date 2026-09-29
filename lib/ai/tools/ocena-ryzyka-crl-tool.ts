@@ -22,6 +22,13 @@ export const OcenaRyzykaCrlToolInput = z.object({
   kablowaSnKm: z.number().optional().describe("Długość kabla ziemnego SN [km]"),
   dlugosciNiepelne: z.boolean().optional().describe("true = user nie zna wszystkich długości sieci"),
   odlegloscDoSpdWSieciKm: z.number().optional().describe("Odległość do pierwszego SPD w sieci [km], jeśli znana"),
+  kolejnoscOdBudynku: z
+    .array(z.enum(["napowietrznaNnKm", "kablowaNnKm", "napowietrznaSnKm", "kablowaSnKm"]))
+    .optional()
+    .describe(
+      "Kolejność odcinków od budynku na zewnątrz (D54: liczy się 1 km najbliżej domu) — tylko od usera; brak = ostrożnie, " +
+        "najpierw linia napowietrzna nn",
+    ),
 })
 export type OcenaRyzykaCrlToolInputT = z.infer<typeof OcenaRyzykaCrlToolInput>
 
@@ -61,6 +68,7 @@ export const ocenaRyzykaCrlTool: AiToolDefinition<OcenaRyzykaCrlToolInputT, Ocen
       kablowaSnKm: input.kablowaSnKm ?? 0,
       dlugosciNiepelne: input.dlugosciNiepelne ?? false,
       odlegloscDoSpdWSieciKm: input.odlegloscDoSpdWSieciKm ?? null,
+      kolejnoscOdBudynku: input.kolejnoscOdBudynku ?? null,
     })
     const v = wynik.value
     return {

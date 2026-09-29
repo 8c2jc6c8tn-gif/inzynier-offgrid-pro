@@ -147,7 +147,7 @@ export const pl = {
       oCoChodzi:
         "Człowiek może nie zdążyć pomyśleć we właściwej kolejności podczas pożaru — system gaśniczy realizuje sprawdzoną sekwencję kroków w ciągu sekund.",
       jakDziala:
-        "Aplikacja sprawdza środek gaśniczy względem tego, co jest w strefie: przy magazynie LiFePO4 proszek i CO₂ to czerwony stop (nie chłodzą ogniw, grozi ponowny zapłon), właściwe są mgła wodna albo środek przeznaczony do magazynów energii. Sprawdza też, ile czujników musi potwierdzić pożar (minimum {minCzujnikow}) i czy moduł jest naładowany.",
+        "Aplikacja sprawdza środek gaśniczy względem tego, co jest w strefie: przy magazynie LiFePO4 proszek i CO₂ to czerwony stop (nie chłodzą ogniw, grozi ponowny zapłon), właściwe są mgła wodna albo środek przeznaczony do magazynów energii; gaz obojętny i aerozol to żółte ostrzeżenie (gaszą płomień, ale nie chłodzą). Przy niewłaściwym środku podpowiada zamiennik, a przy większym magazynie także chłodzenie (zamrażanie) ogniw. Sprawdza też, ile czujników musi potwierdzić pożar (minimum {minCzujnikow}) i czy moduł jest naładowany.",
       poCo:
         "Pożar baterii litowej wytwarza własne ciepło i gazy — zły środek gaśniczy tylko na chwilę zdusi płomień. A gaszenie po jednym, fałszywym sygnale zniszczy sprzęt bez powodu.",
       fizyka:
@@ -427,7 +427,7 @@ export const en: Tlumaczenie<typeof pl> = {
       oCoChodzi:
         "A person may not manage to think in the right order during a fire — the extinguishing system carries out a proven sequence of steps within seconds.",
       jakDziala:
-        "The app checks the extinguishing agent against what is in the zone: with a LiFePO4 storage, powder and CO₂ are a red stop (they don't cool the cells, re-ignition is likely); water mist or an agent designed for energy storage is appropriate. It also checks how many detectors must confirm the fire (minimum {minCzujnikow}) and whether the module is charged.",
+        "The app checks the extinguishing agent against what is in the zone: with a LiFePO4 storage, powder and CO₂ are a red stop (they don't cool the cells, re-ignition is likely); water mist or an agent designed for energy storage is appropriate; inert gas and aerosol are a yellow warning (they put out the flame but do not cool). With an unsuitable agent it suggests a replacement and, for a larger storage, cell cooling (freezing). It also checks how many detectors must confirm the fire (minimum {minCzujnikow}) and whether the module is charged.",
       poCo:
         "A lithium battery fire produces its own heat and gases — the wrong agent only smothers the flame for a moment. And extinguishing after a single false signal destroys equipment for no reason.",
       fizyka:
@@ -706,7 +706,7 @@ export const ru: Tlumaczenie<typeof pl> = {
       oCoChodzi:
         "Человек может не успеть подумать в правильном порядке во время пожара — система пожаротушения выполняет проверенную последовательность шагов за секунды.",
       jakDziala:
-        "Приложение проверяет огнетушащее вещество относительно того, что находится в зоне: при накопителе LiFePO4 порошок и CO₂ — красный стоп (не охлаждают элементы, возможно повторное возгорание); подходят тонкораспылённая вода или вещество для накопителей энергии. Также проверяет, сколько датчиков должны подтвердить пожар (минимум {minCzujnikow}), и заряжен ли модуль.",
+        "Приложение проверяет огнетушащее вещество относительно того, что находится в зоне: при накопителе LiFePO4 порошок и CO₂ — красный стоп (не охлаждают элементы, возможно повторное возгорание); подходят тонкораспылённая вода или вещество для накопителей энергии; инертный газ и аэрозоль — жёлтое предупреждение (гасят пламя, но не охлаждают). При неподходящем веществе подсказывает замену, а при большем накопителе — также охлаждение (заморозку) ячеек. Также проверяет, сколько датчиков должны подтвердить пожар (минимум {minCzujnikow}), и заряжен ли модуль.",
       poCo:
         "Пожар литиевой батареи сам производит тепло и газы — неподходящее вещество лишь на мгновение собьёт пламя. А тушение по одному ложному сигналу уничтожит оборудование без причины.",
       fizyka:

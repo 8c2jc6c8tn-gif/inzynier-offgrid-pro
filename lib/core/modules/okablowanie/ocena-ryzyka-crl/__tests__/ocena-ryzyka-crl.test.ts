@@ -46,6 +46,12 @@ describe("calculateOcenaRyzykaCrl (M5/E2, HD 60364-4-443 443.5)", () => {
     expect(v.spdWymagany).toBe(false)
   })
 
+  it("D54: SPD niewymagany → ℹ️ zalecenie SPD (tani względem sprzętu)", () => {
+    const w = calculateOcenaRyzykaCrl({ ...BAZA, ...zero, srodowisko: "miejskie", kablowaNnKm: 1, gestoscWyladowanNg: 0.5 })
+    expect(w.warnings[0]).toMatchObject({ code: "CRL-SPD-ZALECANY", level: "info" })
+    expect(w.status).toBe("VALID")
+  })
+
   it("nieznane długości: znany kabel 0,1 km → L_PAL = 0,9 km (przypis krajowy: 900 m)", () => {
     const w = calculateOcenaRyzykaCrl({ ...BAZA, ...zero, kablowaNnKm: 0.1, dlugosciNiepelne: true })
     expect(w.value!.dlugosciUzyte.napowietrznaNnKm).toBeCloseTo(0.9, 12)
@@ -60,6 +66,24 @@ describe("calculateOcenaRyzykaCrl (M5/E2, HD 60364-4-443 443.5)", () => {
     const s = calculateOcenaRyzykaCrl({ ...BAZA, odlegloscDoSpdWSieciKm: 0.25 }).value!
     expect(s.dlugosciUzyte.napowietrznaNnKm).toBe(0.25)
     expect(s.lpKm).toBeCloseTo(0.5, 12)
+  })
+
+  it("D54: podana kolejność od budynku → liczony 1 km najbliżej domu", () => {
+    const dane = { ...BAZA, ...zero, kablowaNnKm: 0.5, napowietrznaNnKm: 2 }
+    const w = calculateOcenaRyzykaCrl({ ...dane, kolejnoscOdBudynku: ["kablowaNnKm", "napowietrznaNnKm"] })
+    expect(w.value!.dlugosciUzyte).toEqual({ napowietrznaNnKm: 0.5, kablowaNnKm: 0.5, napowietrznaSnKm: 0, kablowaSnKm: 0 })
+    expect(w.value!.lpKm).toBeCloseTo(1.5, 12)
+    expect(w.assumptions.map((a) => (typeof a === "string" ? a : a.kod))).toContain("CRL-ZALOZENIE-OBCIECIE-OD-BUDYNKU")
+    // Without the order: heaviest weight first (conservative, larger L_P).
+    const bez = calculateOcenaRyzykaCrl({ ...dane, kolejnoscOdBudynku: null })
+    expect(bez.value!.lpKm).toBeCloseTo(2, 12)
+    expect(bez.assumptions.map((a) => (typeof a === "string" ? a : a.kod))).toContain("CRL-ZALOZENIE-OBCIECIE")
+  })
+
+  it("D54: typowy układ nn przy domu, SN dalej → ten sam wynik co bez kolejności", () => {
+    const dane = { ...BAZA, ...zero, napowietrznaNnKm: 0.3, napowietrznaSnKm: 2 }
+    const z = calculateOcenaRyzykaCrl({ ...dane, kolejnoscOdBudynku: ["napowietrznaNnKm", "kablowaNnKm", "napowietrznaSnKm", "kablowaSnKm"] })
+    expect(z.value!.lpKm).toBeCloseTo(calculateOcenaRyzykaCrl(dane).value!.lpKm, 12)
   })
 
   it("off-grid bez linii zasilającej: L_P = 0 → brak wymogu z 443.5, informacje o stronie DC i przepięciach łączeniowych", () => {
