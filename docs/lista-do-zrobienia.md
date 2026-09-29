@@ -1278,3 +1278,25 @@ Pełne wyniki audytu: `docs/memory.md`, sekcja "Pełny audyt na polecenie właś
   najbliższej zmianie ekranu. Rekomendacja A+B. **Priorytet:** wysoki (8.12 — ekran bez tłumaczeń nie jest ukończony).
   **Kolizje:** rozszerza wpis „Tłumaczenie etykiet stron na EN/RU” (indeks po D54, pkt 6); dotyka tych samych plików co
   „i” wg 8.4b — robić w jednej sesji albo po kolei, nie równolegle. **Kolejność:** strażnik (B) przed tekstami (A).
+- ✅ (2026-09-29) **Porównanie `public/sw.js` ze wzorcem PWA standardu** (pytanie otwarte od 26.09, `docs/memory.md`,
+  Y.6 pkt 2). Raport z pomiarem na buildzie produkcyjnym: `docs/audyt-sw-vs-wzorzec-pwa.md`. Kod bez zmian.
+- ⚠️ (2026-09-29) **Service Worker — decyzja właściciela: A (migracja do wzorca `docs/przyklady/pwa/`), B (poprawki
+  punktowe + D# świadome odstępstwo od precache) albo C (A etapami).** Rekomendacja: C. Szczegóły, plusy/minusy:
+  `docs/audyt-sw-vs-wzorzec-pwa.md`. **Co odblokowuje:** offline każdego ekranu w terenie (5.3), aktualizacje SW (5.9),
+  testy SW (10.8/10.9). **Priorytet:** wysoki (profil aplikacji = teren bez zasięgu). **Kolizje:** `public/sw.js`,
+  `public/register-sw.js`, `app/layout.tsx`, `middleware.ts`, `lib/i18n` (teksty toastów PL/EN/RU); zadanie
+  „Powrót CI od 1.10” (nowy krok e2e w `ci.yml`). **Kolejność:** po decyzji; poprawka `matcher` (niżej) może iść
+  wcześniej, niezależnie.
+- 🔲 (2026-09-29) **`middleware.ts` — wykluczyć z `matcher` `/sw.js`, `/register-sw.js`, `/manifest.webmanifest`**
+  (raport SW, pkt 12). Dziś uśpione; po włączeniu Supabase niezalogowany dostaje przekierowanie zamiast skryptu SW i
+  manifestu. **Priorytet:** wysoki, najpóźniej razem z włączeniem logowania (18.1). **Plusy teraz:** jedna linia, zero
+  ryzyka. **Kolizje:** zadanie SW wyżej (A/C i tak tego wymaga), każda zmiana CSP w `middleware.ts`.
+- 🔲 (2026-09-29) **5.10 — `navigator.storage.persist()` z zapamiętaniem odmowy** (raport SW, pkt 15; wzorzec
+  `docs/przyklady/pwa/trwaly-magazyn.ts`). Bez tego szkice autosave mogą zostać skasowane przez przeglądarkę.
+  **Priorytet:** średni. **Kolizje:** `lib/adapters/indexeddb-storage-adapter.ts`, `use-persisted-draft.ts`.
+  Niezależne od decyzji SW.
+- 🔲 (2026-09-29) **5.11 — obsługa kolizji wersji IndexedDB między kartami** (raport SW, pkt 16; wzorzec
+  `indexeddb-baza.ts` + `baza-wersja-listener.tsx`). Dziś `DB_VERSION = 1` — uśpione. **Priorytet:** musi wejść
+  **przed** pierwszym podbiciem `DB_VERSION`. **Kolizje:** jak 5.10 — robić w jednej sesji. Toast wymaga tego samego
+  komponentu co toast aktualizacji SW — jeśli wybrano A/C, zrobić po nim.
+
