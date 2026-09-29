@@ -1313,6 +1313,9 @@ Pełne wyniki audytu: `docs/memory.md`, sekcja "Pełny audyt na polecenie właś
   czasu etapu 2. **Kolizje:** `app/layout.tsx`, `next.config.mjs`, `middleware.ts`, `lib/i18n/dictionary-*.ts`
   (klucze `pwa.aktualizacja.*` — uwaga na równoległe sesje tłumaczeń), `package.json`/`pnpm-lock.yaml`, zadanie
   „Powrót CI od 1.10” (job e2e). **Kolejność:** przed etapem 2 i przed 5.11; niezależne od 5.10.
+  🔄 **[29.09.2026, 22:45] W trakcie** — gałąź `claude/sw-wariant-c-etap1` (osobny worktree `../offgrid-sw-etap1`).
+  C-1…C-3 = rekomendacje A/A/A (D59). Inne sesje: nie ruszać `app/layout.tsx`, `middleware.ts`, `next.config.mjs`,
+  `public/sw.js`, `public/register-sw.js`, `lib/pwa/**` do merge tej gałęzi.
 - 🔲 (2026-09-29) **SW wariant C — etap 2: pomiar i odchudzenie precache** (plan, sekcja 3). **Priorytet:** średni
   (wysoki, jeśli pomiar etapu 1 przekroczy budżet). **Odblokowuje:** rozsądny pierwszy download na słabym łączu.
   **Kolizje:** `lib/pwa/precache-build.ts`, `scripts/kopiuj-maplibre-worker.mjs`, `components/lokalizacja/*`.
