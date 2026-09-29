@@ -4,11 +4,13 @@ import { useMemo } from "react"
 import { calculateDoborMocyFalownika } from "@/lib/core/modules/okablowanie/dobor-mocy-falownika/calculator"
 import { usePersistedDraft } from "@/lib/adapters/use-persisted-draft"
 import { Pole } from "@/components/ui/pole"
+import { PomocPola } from "@/components/ui/pomoc"
 import { WerdyktPanel, type WerdyktPoziom } from "@/components/werdykt"
 import { NawigacjaEkranu } from "@/components/nawigacja-ekranu"
 import { NaglowekEkranu } from "@/components/wzorce/naglowek-ekranu"
 import { WynikGlowny } from "@/components/wzorce/wynik-glowny"
 import { WynikSzczegoly } from "@/components/wzorce/wynik-szczegoly"
+import { DOMYSLNY_WSPOLCZYNNIK_JEDNOCZESNOSCI } from "@/lib/core/modules/okablowanie/dobor-mocy-falownika/constants"
 
 type FormularzStan = {
   mocSzczytowaW: string
@@ -72,7 +74,12 @@ export default function DoborMocyFalownikaPage() {
   return (
     <main className="mx-auto flex max-w-md flex-col gap-6 p-6">
       <NawigacjaEkranu href="/kalkulatory/dobor-mocy-falownika" />
-      <NaglowekEkranu tytul="Dobór mocy falownika">
+      <NaglowekEkranu
+        tytul="Dobór mocy falownika"
+        ekran="dobor-mocy-falownika"
+        wzor={result.formula}
+        parametry={{ wspJednoczesnosci: DOMYSLNY_WSPOLCZYNNIK_JEDNOCZESNOSCI }}
+      >
         Falownik musi wytrzymać nie tylko normalną pracę, ale ten ułamek sekundy, gdy silnik
         lodówki czy pompy rusza z miejsca — wtedy pobiera nawet 5-7× więcej prądu niż normalnie.
         Moduł 5, Ekran 7.
@@ -87,6 +94,7 @@ export default function DoborMocyFalownikaPage() {
           min={0}
           value={mocSzczytowaW}
           onChange={(e) => setMocSzczytowaW(e.target.value)}
+          pomoc={<PomocPola ekran="dobor-mocy-falownika" pole="mocSzczytowa" />}
         />
         <Pole
           label="Moc pozorna odbiorników (opcjonalnie)"
@@ -96,6 +104,7 @@ export default function DoborMocyFalownikaPage() {
           min={0}
           value={mocPozornaVa}
           onChange={(e) => setMocPozornaVa(e.target.value)}
+          pomoc={<PomocPola ekran="dobor-mocy-falownika" pole="mocPozorna" />}
         />
         <Pole
           label="Współczynnik jednoczesności"
@@ -106,6 +115,7 @@ export default function DoborMocyFalownikaPage() {
           step={0.05}
           value={wspolczynnikJednoczesnosci}
           onChange={(e) => setWspolczynnikJednoczesnosci(e.target.value)}
+          pomoc={<PomocPola ekran="dobor-mocy-falownika" pole="wspolczynnik" params={{ wspJednoczesnosci: DOMYSLNY_WSPOLCZYNNIK_JEDNOCZESNOSCI }} />}
         />
         <Pole
           label="Moc rozważanego falownika (opcjonalnie, do sprawdzenia)"
@@ -115,6 +125,7 @@ export default function DoborMocyFalownikaPage() {
           min={0}
           value={mocFalownikaWybranaW}
           onChange={(e) => setMocFalownikaWybranaW(e.target.value)}
+          pomoc={<PomocPola ekran="dobor-mocy-falownika" pole="mocFalownika" />}
         />
       </div>
 

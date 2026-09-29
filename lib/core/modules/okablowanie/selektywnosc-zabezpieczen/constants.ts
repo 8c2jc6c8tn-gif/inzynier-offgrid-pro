@@ -40,7 +40,3 @@ export const ZASADY: ZasadaSelektywnosci[] = [
 export const PRZYKLAD =
   "Przy zwarciu 500 A w obwodzie gniazd zadziała tylko bezpiecznik 16 A. Główny 125 A nie " +
   "wyłączy się — reszta domu działa dalej."
-
-export const MIGAWKA =
-  "Jak pęknie jedna rura, nie zakręcasz głównego zaworu w całym domu. Tak samo z prądem — ma " +
-  "zadziałać tylko ten bezpiecznik, który jest najbliżej awarii."

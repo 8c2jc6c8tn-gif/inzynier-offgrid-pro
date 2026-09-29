@@ -28,6 +28,3 @@ export const SEPARACJA_EMC_RULES: SeparacjaEmcRule[] = [
     opis: "Zalecana ekranowana skrętka FTP — najsilniejsze pole magnetyczne jest tuż przy falowniku.",
   },
 ]
-
-export const MIGAWKA =
-  "Prąd w kablu robi pole magnetyczne. To pole może „zagłuszyć” kabel internetowy. Trzeba je rozdzielić."

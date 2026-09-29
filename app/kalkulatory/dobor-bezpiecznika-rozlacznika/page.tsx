@@ -4,6 +4,7 @@ import { useMemo } from "react"
 import { calculateDoborBezpiecznikaRozlacznika } from "@/lib/core/modules/okablowanie/dobor-bezpiecznika-rozlacznika/calculator"
 import { usePersistedDraft } from "@/lib/adapters/use-persisted-draft"
 import { Pole } from "@/components/ui/pole"
+import { PomocPola } from "@/components/ui/pomoc"
 import { WerdyktPanel, type WerdyktPoziom } from "@/components/werdykt"
 import { NawigacjaEkranu } from "@/components/nawigacja-ekranu"
 import { NaglowekEkranu } from "@/components/wzorce/naglowek-ekranu"
@@ -64,7 +65,7 @@ export default function DoborBezpiecznikaRozlacznikaPage() {
   return (
     <main className="mx-auto flex max-w-md flex-col gap-6 p-6">
       <NawigacjaEkranu href="/kalkulatory/dobor-bezpiecznika-rozlacznika" />
-      <NaglowekEkranu tytul="Dobór bezpieczników i rozłączników">
+      <NaglowekEkranu tytul="Dobór bezpieczników i rozłączników" ekran="dobor-bezpiecznika-rozlacznika">
         Bezpiecznik to bezpieczna wkładka topikowa dla całej instalacji — ma przepalić się on,
         zanim przepali się kabel. Moduł 5, Ekran 6.
       </NaglowekEkranu>
@@ -77,6 +78,7 @@ export default function DoborBezpiecznikaRozlacznikaPage() {
         min={0}
         value={pradZnamionowyA || ""}
         onChange={(e) => setPradZnamionowyA(Number(e.target.value))}
+        pomoc={<PomocPola ekran="dobor-bezpiecznika-rozlacznika" pole="prad" />}
       />
 
       <Pole
@@ -87,7 +89,7 @@ export default function DoborBezpiecznikaRozlacznikaPage() {
         min={0}
         value={pradZwarciowyA || ""}
         onChange={(e) => setPradZwarciowyA(Number(e.target.value))}
-        hint="Docelowo z Ekranu 12 (Analiza zwarciowa, jeszcze niezbudowany) — dziś wpisz ręcznie."
+        pomoc={<PomocPola ekran="dobor-bezpiecznika-rozlacznika" pole="pradZwarcia" />}
       />
 
       <Pole
@@ -98,7 +100,7 @@ export default function DoborBezpiecznikaRozlacznikaPage() {
         min={0}
         value={aicBezpiecznikaA || ""}
         onChange={(e) => setAicBezpiecznikaA(Number(e.target.value))}
-        hint="Z karty katalogowej bezpiecznika."
+        pomoc={<PomocPola ekran="dobor-bezpiecznika-rozlacznika" pole="aic" />}
       />
 
       {poziom === null ? (

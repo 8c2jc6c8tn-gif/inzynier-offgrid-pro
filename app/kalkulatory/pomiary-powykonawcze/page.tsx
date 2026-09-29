@@ -5,11 +5,13 @@ import { calculatePomiaryPowykonawcze } from "@/lib/core/modules/okablowanie/pom
 import type { CelUziemienia } from "@/lib/core/modules/okablowanie/pomiary-powykonawcze/input"
 import { usePersistedDraft } from "@/lib/adapters/use-persisted-draft"
 import { Pole, PoleCheckbox, PoleSelect } from "@/components/ui/pole"
+import { PomocPola } from "@/components/ui/pomoc"
 import { WerdyktPanel, type WerdyktPoziom } from "@/components/werdykt"
 import { NawigacjaEkranu } from "@/components/nawigacja-ekranu"
 import { NaglowekEkranu } from "@/components/wzorce/naglowek-ekranu"
 import { WynikGlowny } from "@/components/wzorce/wynik-glowny"
 import { WynikSzczegoly } from "@/components/wzorce/wynik-szczegoly"
+import { MAX_CZAS_ZADZIALANIA_RCD_S, MIN_REZYSTANCJA_IZOLACJI_MOHM } from "@/lib/core/modules/okablowanie/pomiary-powykonawcze/constants"
 
 type FormularzStan = {
   ciagloscPotwierdzona: boolean
@@ -104,7 +106,12 @@ export default function PomiaryPowykonawczePage() {
   return (
     <main className="mx-auto flex max-w-md flex-col gap-6 p-6">
       <NawigacjaEkranu href="/kalkulatory/pomiary-powykonawcze" />
-      <NaglowekEkranu tytul="Pomiary i testy powykonawcze">
+      <NaglowekEkranu
+        tytul="Pomiary i testy powykonawcze"
+        ekran="pomiary-powykonawcze"
+        wzor={result.formula}
+        parametry={{ minIzolacja: MIN_REZYSTANCJA_IZOLACJI_MOHM, maxRcd: MAX_CZAS_ZADZIALANIA_RCD_S }}
+      >
         Ostatni krok przed odbiorem instalacji — sześć testów, każdy z twardym progiem. Dowolny
         wynik poza progiem oznacza brak formalnego odbioru. Moduł 5, Ekran 29.
       </NaglowekEkranu>
@@ -124,11 +131,13 @@ export default function PomiaryPowykonawczePage() {
           min={0}
           value={rezystancjaIzolacjiMohm}
           onChange={(e) => setRezystancjaIzolacjiMohm(e.target.value)}
+          pomoc={<PomocPola ekran="pomiary-powykonawcze" pole="izolacja" params={{ minIzolacja: MIN_REZYSTANCJA_IZOLACJI_MOHM }} />}
         />
         <PoleSelect
           label="Cel uziemienia"
           value={celUziemienia}
           onChange={(e) => setCelUziemienia(e.target.value as CelUziemienia)}
+          pomoc={<PomocPola ekran="pomiary-powykonawcze" pole="celUziemienia" />}
         >
           <option value="odgromowa">Odgromowe (próg 10 Ω)</option>
           <option value="ochronna">Ochronne (próg 30 Ω)</option>
@@ -141,6 +150,7 @@ export default function PomiaryPowykonawczePage() {
           min={0}
           value={rezystancjaUziemieniaOhm}
           onChange={(e) => setRezystancjaUziemieniaOhm(e.target.value)}
+          pomoc={<PomocPola ekran="pomiary-powykonawcze" pole="uziemienie" />}
         />
         <Pole
           label="Czas zadziałania RCD (wymagane < 0,4 s)"
@@ -150,6 +160,7 @@ export default function PomiaryPowykonawczePage() {
           min={0}
           value={czasZadzialaniaRcdS}
           onChange={(e) => setCzasZadzialaniaRcdS(e.target.value)}
+          pomoc={<PomocPola ekran="pomiary-powykonawcze" pole="rcd" params={{ maxRcd: MAX_CZAS_ZADZIALANIA_RCD_S }} />}
         />
         <PoleCheckbox
           id="test-zwarciowy-potwierdzony"

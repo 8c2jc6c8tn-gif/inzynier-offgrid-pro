@@ -2,6 +2,7 @@
 
 import { useMemo } from "react"
 import { Pole, PoleCheckbox, PoleSelect } from "@/components/ui/pole"
+import { PomocPola } from "@/components/ui/pomoc"
 import { WerdyktPanel } from "@/components/werdykt"
 import { WynikGlowny } from "@/components/wzorce/wynik-glowny"
 import { WynikSzczegoly } from "@/components/wzorce/wynik-szczegoly"
@@ -9,6 +10,7 @@ import { usePersistedDraft } from "@/lib/adapters/use-persisted-draft"
 import { calculateOcenaRyzykaCrl } from "@/lib/core/modules/okablowanie/ocena-ryzyka-crl/calculator"
 import type { SrodowiskoCrl } from "@/lib/core/modules/okablowanie/ocena-ryzyka-crl/input"
 import { liczba } from "@/lib/lokalizacja/model-dzialki"
+import { LP_DLUGOSC_MAX_KM, NG_NA_DZIEN_BURZOWY } from "@/lib/core/modules/okablowanie/ocena-ryzyka-crl/constants"
 
 type Stan = {
   skutkiKrytyczne: boolean
@@ -65,7 +67,16 @@ export function SekcjaCrl() {
   )
   const v = wynik.value
   const dlugosc = (klucz: "napowietrznaNn" | "kablowaNn" | "napowietrznaSn" | "kablowaSn", label: string) => (
-    <Pole label={label} unit="km" type="number" inputMode="decimal" min={0} value={stan[klucz]} onChange={(e) => ustaw({ [klucz]: e.target.value })} />
+    <Pole
+      label={label}
+      unit="km"
+      type="number"
+      inputMode="decimal"
+      min={0}
+      value={stan[klucz]}
+      onChange={(e) => ustaw({ [klucz]: e.target.value })}
+      pomoc={<PomocPola ekran="spd-crl" pole={klucz} />}
+    />
   )
 
   return (
@@ -81,7 +92,12 @@ export function SekcjaCrl() {
         checked={stan.skutkiKrytyczne}
         onChange={(e) => ustaw({ skutkiKrytyczne: e.target.checked })}
       />
-      <PoleSelect label="Otoczenie" value={stan.srodowisko} onChange={(e) => ustaw({ srodowisko: e.target.value as SrodowiskoCrl | "" })}>
+      <PoleSelect
+        label="Otoczenie"
+        value={stan.srodowisko}
+        onChange={(e) => ustaw({ srodowisko: e.target.value as SrodowiskoCrl | "" })}
+        pomoc={<PomocPola ekran="spd-crl" pole="otoczenie" />}
+      >
         <option value="">— wybierz —</option>
         <option value="wiejskie">Wiejskie lub podmiejskie (mało budynków)</option>
         <option value="miejskie">Miejskie</option>
@@ -95,7 +111,7 @@ export function SekcjaCrl() {
           min={0}
           value={stan.ng}
           onChange={(e) => ustaw({ ng: e.target.value })}
-          hint="Z mapy wyładowań dla Twojej okolicy — aplikacja jej nie ma."
+          pomoc={<PomocPola ekran="spd-crl" pole="ng" />}
         />
         <Pole
           label="albo dni burzowe w roku Td"
@@ -105,7 +121,7 @@ export function SekcjaCrl() {
           min={0}
           value={stan.td}
           onChange={(e) => ustaw({ td: e.target.value })}
-          hint="Użyte tylko, gdy Ng puste: Ng = 0,1 · Td."
+          pomoc={<PomocPola ekran="spd-crl" pole="td" params={{ lpMax: LP_DLUGOSC_MAX_KM, ngNaDzien: NG_NA_DZIEN_BURZOWY }} />}
         />
         {dlugosc("napowietrznaNn", "Linia napowietrzna nn")}
         {dlugosc("kablowaNn", "Kabel ziemny nn")}
@@ -119,7 +135,7 @@ export function SekcjaCrl() {
           min={0}
           value={stan.odlegloscDoSpd}
           onChange={(e) => ustaw({ odlegloscDoSpd: e.target.value })}
-          hint="Liczy się najwyżej 1 km albo do tego SPD."
+          pomoc={<PomocPola ekran="spd-crl" pole="odlegloscSpd" params={{ lpMax: LP_DLUGOSC_MAX_KM, ngNaDzien: NG_NA_DZIEN_BURZOWY }} />}
         />
       </div>
       <PoleCheckbox

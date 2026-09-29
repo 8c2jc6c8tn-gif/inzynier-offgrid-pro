@@ -6,6 +6,7 @@ import { ETYKIETY_MIEJSC, OSLONY } from "@/lib/core/modules/okablowanie/peszle-k
 import type { MiejsceMontazu } from "@/lib/core/modules/okablowanie/peszle-koryta-rurki/input"
 import { usePersistedDraft } from "@/lib/adapters/use-persisted-draft"
 import { PoleSelect } from "@/components/ui/pole"
+import { PomocPola } from "@/components/ui/pomoc"
 import { WerdyktPanel } from "@/components/werdykt"
 import { NawigacjaEkranu } from "@/components/nawigacja-ekranu"
 import { NaglowekEkranu } from "@/components/wzorce/naglowek-ekranu"
@@ -39,12 +40,17 @@ export default function PeszleKorytaRurkiPage() {
   return (
     <main className="mx-auto flex max-w-md flex-col gap-6 p-6">
       <NawigacjaEkranu href="/kalkulatory/peszle-koryta-rurki" />
-      <NaglowekEkranu tytul="Peszle, koryta, rurki">
+      <NaglowekEkranu tytul="Peszle, koryta, rurki" ekran="peszle-koryta-rurki">
         Osłona to ubranie dla kabla. Musi być dobrane do pogody i miejsca, inaczej kabel się
         zużyje przedwcześnie. Moduł 5, Ekran 24.
       </NaglowekEkranu>
 
-      <PoleSelect label="Miejsce montażu" value={miejsceMontazu} onChange={(e) => setMiejsceMontazu(e.target.value as MiejsceMontazu)}>
+      <PoleSelect
+        label="Miejsce montażu"
+        value={miejsceMontazu}
+        onChange={(e) => setMiejsceMontazu(e.target.value as MiejsceMontazu)}
+        pomoc={<PomocPola ekran="peszle-koryta-rurki" pole="miejsce" />}
+      >
         <option value="">— wybierz —</option>
         {(Object.keys(ETYKIETY_MIEJSC) as MiejsceMontazu[]).map((m) => (
           <option key={m} value={m}>

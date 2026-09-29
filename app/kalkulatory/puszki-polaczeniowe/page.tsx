@@ -6,6 +6,7 @@ import { ETYKIETY_MIEJSC } from "@/lib/core/modules/okablowanie/puszki-polaczeni
 import type { MiejsceMontazu } from "@/lib/core/modules/okablowanie/puszki-polaczeniowe/input"
 import { usePersistedDraft } from "@/lib/adapters/use-persisted-draft"
 import { PoleSelect } from "@/components/ui/pole"
+import { PomocPola } from "@/components/ui/pomoc"
 import { WerdyktPanel } from "@/components/werdykt"
 import { NawigacjaEkranu } from "@/components/nawigacja-ekranu"
 import { NaglowekEkranu } from "@/components/wzorce/naglowek-ekranu"
@@ -34,12 +35,17 @@ export default function PuszkiPolaczenioweePage() {
   return (
     <main className="mx-auto flex max-w-md flex-col gap-6 p-6">
       <NawigacjaEkranu href="/kalkulatory/puszki-polaczeniowe" />
-      <NaglowekEkranu tytul="Puszki połączeniowe">
+      <NaglowekEkranu tytul="Puszki połączeniowe" ekran="puszki-polaczeniowe" wzor={result.formula}>
         Każde połączenie to potencjalny przeciek. Trzeba je zamknąć w szczelnej puszce, żeby woda
         nie zrobiła zwarcia. Moduł 5, Ekran 27.
       </NaglowekEkranu>
 
-      <PoleSelect label="Miejsce montażu" value={miejsceMontazu} onChange={(e) => setMiejsceMontazu(e.target.value as MiejsceMontazu)}>
+      <PoleSelect
+        label="Miejsce montażu"
+        value={miejsceMontazu}
+        onChange={(e) => setMiejsceMontazu(e.target.value as MiejsceMontazu)}
+        pomoc={<PomocPola ekran="puszki-polaczeniowe" pole="miejsce" />}
+      >
         <option value="">— wybierz —</option>
         {(Object.keys(ETYKIETY_MIEJSC) as MiejsceMontazu[]).map((m) => (
           <option key={m} value={m}>

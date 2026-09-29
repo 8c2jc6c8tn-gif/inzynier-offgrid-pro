@@ -1,7 +1,6 @@
-import { MIGAWKA, SEPARACJA_EMC_RULES } from "@/lib/core/modules/okablowanie/separacja-emc/constants"
+import { SEPARACJA_EMC_RULES } from "@/lib/core/modules/okablowanie/separacja-emc/constants"
 import { NawigacjaEkranu } from "@/components/nawigacja-ekranu"
 import { NaglowekEkranu } from "@/components/wzorce/naglowek-ekranu"
-import { MigawkaBox } from "@/components/wzorce/migawka-box"
 
 function SeparacjaIlustracja() {
   return (
@@ -42,7 +41,7 @@ export default function SeparacjaEmcPage() {
   return (
     <main className="mx-auto flex max-w-md flex-col gap-6 p-6">
       <NawigacjaEkranu href="/kalkulatory/separacja-emc" />
-      <NaglowekEkranu tytul="Separacja EMC">Moduł 5, Ekran 23.</NaglowekEkranu>
+      <NaglowekEkranu tytul="Separacja EMC" ekran="separacja-emc">Moduł 5, Ekran 23.</NaglowekEkranu>
 
       <SeparacjaIlustracja />
 
@@ -55,7 +54,7 @@ export default function SeparacjaEmcPage() {
         ))}
       </ul>
 
-      <MigawkaBox>{MIGAWKA}</MigawkaBox>
+      
     </main>
   )
 }

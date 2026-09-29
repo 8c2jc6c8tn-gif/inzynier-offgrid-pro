@@ -1,7 +1,6 @@
-import { MIGAWKA, TRASY_KABLOWE_RULES } from "@/lib/core/modules/okablowanie/trasy-kablowe/constants"
+import { TRASY_KABLOWE_RULES } from "@/lib/core/modules/okablowanie/trasy-kablowe/constants"
 import { NawigacjaEkranu } from "@/components/nawigacja-ekranu"
 import { NaglowekEkranu } from "@/components/wzorce/naglowek-ekranu"
-import { MigawkaBox } from "@/components/wzorce/migawka-box"
 
 function TrasyIlustracja() {
   return (
@@ -67,7 +66,7 @@ export default function TrasyKabloweePage() {
   return (
     <main className="mx-auto flex max-w-md flex-col gap-6 p-6">
       <NawigacjaEkranu href="/kalkulatory/trasy-kablowe" />
-      <NaglowekEkranu tytul="Trasy kablowe — prowadzenie i separacja">Moduł 5, Ekran 19.</NaglowekEkranu>
+      <NaglowekEkranu tytul="Trasy kablowe — prowadzenie i separacja" ekran="trasy-kablowe">Moduł 5, Ekran 19.</NaglowekEkranu>
 
       <TrasyIlustracja />
 
@@ -80,7 +79,7 @@ export default function TrasyKabloweePage() {
         ))}
       </ul>
 
-      <MigawkaBox>{MIGAWKA}</MigawkaBox>
+      
     </main>
   )
 }

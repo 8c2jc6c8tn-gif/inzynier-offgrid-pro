@@ -5,6 +5,7 @@ import { calculateDoborIzolacjiKabla } from "@/lib/core/modules/okablowanie/dobo
 import type { Izolacja, MiejsceTrasy } from "@/lib/core/modules/okablowanie/dobor-izolacji-kabla/input"
 import { usePersistedDraft } from "@/lib/adapters/use-persisted-draft"
 import { Pole, PoleSelect } from "@/components/ui/pole"
+import { PomocPola } from "@/components/ui/pomoc"
 import { WerdyktPanel, type WerdyktPoziom } from "@/components/werdykt"
 import { NawigacjaEkranu } from "@/components/nawigacja-ekranu"
 import { NaglowekEkranu } from "@/components/wzorce/naglowek-ekranu"
@@ -76,7 +77,11 @@ export default function DoborIzolacjiKablaPage() {
   return (
     <main className="mx-auto flex max-w-md flex-col gap-6 p-6">
       <NawigacjaEkranu href="/kalkulatory/dobor-izolacji-kabla" />
-      <NaglowekEkranu tytul="Dobór izolacji kabla do warunków montażu">
+      <NaglowekEkranu
+        tytul="Dobór izolacji kabla do warunków montażu"
+        ekran="dobor-izolacji-kabla"
+        wzor={result.formula}
+      >
         Izolacja to skóra kabla — musi być dobrana do pogody i miejsca, inaczej pęka i puszcza
         wilgoć. Moduł 5, Ekran 28.
       </NaglowekEkranu>
@@ -86,6 +91,7 @@ export default function DoborIzolacjiKablaPage() {
           label="Miejsce trasy (informacyjnie)"
           value={miejsceTrasy}
           onChange={(e) => setMiejsceTrasy(e.target.value as MiejsceTrasy)}
+          pomoc={<PomocPola ekran="dobor-izolacji-kabla" pole="miejsce" />}
         >
           <option value="">— wybierz —</option>
           {(Object.keys(ETYKIETY_MIEJSC) as MiejsceTrasy[]).map((m) => (
@@ -98,6 +104,7 @@ export default function DoborIzolacjiKablaPage() {
           label="Rozważana izolacja kabla"
           value={izolacjaWybrana}
           onChange={(e) => setIzolacjaWybrana(e.target.value as Izolacja)}
+          pomoc={<PomocPola ekran="dobor-izolacji-kabla" pole="izolacja" />}
         >
           <option value="">— wybierz —</option>
           <option value="PVC">PVC (YKY/YAKY) — do 70°C</option>
@@ -111,6 +118,7 @@ export default function DoborIzolacjiKablaPage() {
           min={0}
           value={temperaturaMaksymalnaC}
           onChange={(e) => setTemperaturaMaksymalnaC(e.target.value)}
+          pomoc={<PomocPola ekran="dobor-izolacji-kabla" pole="temperatura" />}
         />
       </div>
 

@@ -41,7 +41,7 @@ export default function OznakowanieObwodowPage() {
   return (
     <main className="mx-auto flex max-w-md flex-col gap-6 p-6">
       <NawigacjaEkranu href="/kalkulatory/oznakowanie-obwodow" />
-      <NaglowekEkranu tytul="Oznakowanie obwodów">
+      <NaglowekEkranu tytul="Oznakowanie obwodów" ekran="oznakowanie-obwodow">
         Za 5 lat zapomnisz, co jest czym. Etykieta to pamięć twojego systemu. Moduł 5, Ekran 20.
       </NaglowekEkranu>
 

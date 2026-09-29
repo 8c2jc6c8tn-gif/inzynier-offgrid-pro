@@ -4,11 +4,13 @@ import { useMemo } from "react"
 import { calculatePrzepustPowietrza } from "@/lib/core/modules/okablowanie/przepust-powietrza/calculator"
 import { usePersistedDraft } from "@/lib/adapters/use-persisted-draft"
 import { Pole } from "@/components/ui/pole"
+import { PomocPola } from "@/components/ui/pomoc"
 import { WerdyktPanel, type WerdyktPoziom } from "@/components/werdykt"
 import { NawigacjaEkranu } from "@/components/nawigacja-ekranu"
 import { NaglowekEkranu } from "@/components/wzorce/naglowek-ekranu"
 import { WynikGlowny } from "@/components/wzorce/wynik-glowny"
 import { WynikSzczegoly } from "@/components/wzorce/wynik-szczegoly"
+import { PROG_BEZPIECZNY_CM, PROG_KRYTYCZNY_CM } from "@/lib/core/modules/okablowanie/przepust-powietrza/constants"
 
 type FormularzStan = { szczelinaCm: string }
 
@@ -47,7 +49,12 @@ export default function PrzepustPowietrzaPage() {
   return (
     <main className="mx-auto flex max-w-md flex-col gap-6 p-6">
       <NawigacjaEkranu href="/kalkulatory/przepust-powietrza" />
-      <NaglowekEkranu tytul="Przepust powietrza pod panelami">
+      <NaglowekEkranu
+        tytul="Przepust powietrza pod panelami"
+        ekran="przepust-powietrza"
+        wzor={result.formula}
+        parametry={{ progKrytyczny: PROG_KRYTYCZNY_CM, progBezpieczny: PROG_BEZPIECZNY_CM }}
+      >
         Panele nagrzewają się jak dach samochodu w słońcu — im gorszy przepływ powietrza pod
         spodem, tym gorętsze i mniej wydajne. Moduł 5, Ekran 8.
       </NaglowekEkranu>
@@ -60,6 +67,7 @@ export default function PrzepustPowietrzaPage() {
         min={0}
         value={szczelinaCm}
         onChange={(e) => setStan({ szczelinaCm: e.target.value })}
+        pomoc={<PomocPola ekran="przepust-powietrza" pole="szczelina" params={{ progKrytyczny: PROG_KRYTYCZNY_CM, progBezpieczny: PROG_BEZPIECZNY_CM }} />}
       />
 
       <WerdyktPanel poziom={verdictPoziom[verdict]} etykieta={verdictLabel[verdict]}>

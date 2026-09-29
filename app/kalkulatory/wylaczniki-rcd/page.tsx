@@ -5,11 +5,13 @@ import { calculateWylaczniki } from "@/lib/core/modules/okablowanie/wylaczniki-r
 import type { CelOchrony, TypRcd } from "@/lib/core/modules/okablowanie/wylaczniki-rcd/input"
 import { usePersistedDraft } from "@/lib/adapters/use-persisted-draft"
 import { Pole, PoleCheckbox, PoleSelect } from "@/components/ui/pole"
+import { PomocPola } from "@/components/ui/pomoc"
 import { WerdyktPanel, type WerdyktPoziom } from "@/components/werdykt"
 import { NawigacjaEkranu } from "@/components/nawigacja-ekranu"
 import { NaglowekEkranu } from "@/components/wzorce/naglowek-ekranu"
 import { WynikGlowny } from "@/components/wzorce/wynik-glowny"
 import { WynikSzczegoly } from "@/components/wzorce/wynik-szczegoly"
+import { PROG_OCHRONA_OSOB_MA, PROG_OCHRONA_POZAROWA_MA } from "@/lib/core/modules/okablowanie/wylaczniki-rcd/constants"
 
 type FormularzStan = {
   falownikHybrydowy: boolean
@@ -80,7 +82,12 @@ export default function WylacznikiRcdPage() {
   return (
     <main className="mx-auto flex max-w-md flex-col gap-6 p-6">
       <NawigacjaEkranu href="/kalkulatory/wylaczniki-rcd" />
-      <NaglowekEkranu tytul="Wyłączniki RCD">
+      <NaglowekEkranu
+        tytul="Wyłączniki RCD"
+        ekran="wylaczniki-rcd"
+        wzor={result.formula}
+        parametry={{ progOsob: PROG_OCHRONA_OSOB_MA, progPozar: PROG_OCHRONA_POZAROWA_MA }}
+      >
         RCD to strażnik, który wyczuwa, że prąd ucieka tam, gdzie nie powinien — np. do twojego
         ciała — i wyłącza w ułamku sekundy. Moduł 5, Ekran 16.
       </NaglowekEkranu>
@@ -102,13 +109,19 @@ export default function WylacznikiRcdPage() {
           label="Zainstalowany typ RCD"
           value={zainstalowanyTyp}
           onChange={(e) => setZainstalowanyTyp(e.target.value as TypRcd)}
+          pomoc={<PomocPola ekran="wylaczniki-rcd" pole="typ" />}
         >
           <option value="">— wybierz —</option>
           <option value="AC">Typ AC</option>
           <option value="A">Typ A</option>
           <option value="B">Typ B</option>
         </PoleSelect>
-        <PoleSelect label="Cel ochrony tego obwodu" value={celOchrony} onChange={(e) => setCelOchrony(e.target.value as CelOchrony)}>
+        <PoleSelect
+          label="Cel ochrony tego obwodu"
+          value={celOchrony}
+          onChange={(e) => setCelOchrony(e.target.value as CelOchrony)}
+          pomoc={<PomocPola ekran="wylaczniki-rcd" pole="cel" params={{ progOsob: PROG_OCHRONA_OSOB_MA, progPozar: PROG_OCHRONA_POZAROWA_MA }} />}
+        >
           <option value="osob">Ochrona osób (30 mA)</option>
           <option value="pozarowa">Ochrona przeciwpożarowa (300 mA)</option>
         </PoleSelect>
@@ -120,6 +133,7 @@ export default function WylacznikiRcdPage() {
           min={0}
           value={progMa}
           onChange={(e) => setProgMa(e.target.value)}
+          pomoc={<PomocPola ekran="wylaczniki-rcd" pole="prad" params={{ progOsob: PROG_OCHRONA_OSOB_MA, progPozar: PROG_OCHRONA_POZAROWA_MA }} />}
         />
       </div>
 

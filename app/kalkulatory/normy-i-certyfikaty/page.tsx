@@ -37,7 +37,7 @@ export default function NormyICertyfikatyPage() {
   return (
     <main className="mx-auto flex max-w-md flex-col gap-6 p-6">
       <NawigacjaEkranu href="/kalkulatory/normy-i-certyfikaty" />
-      <NaglowekEkranu tytul="Normy i certyfikaty">
+      <NaglowekEkranu tytul="Normy i certyfikaty" ekran="normy-i-certyfikaty">
         Certyfikat to dowód, że coś nie wybuchnie przy normalnym użytkowaniu. Bez niego jesteś
         testerem beta. Moduł 5, Ekran 21.
       </NaglowekEkranu>

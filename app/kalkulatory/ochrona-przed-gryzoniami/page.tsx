@@ -6,6 +6,7 @@ import { ETYKIETY_RYZYKA } from "@/lib/core/modules/okablowanie/ochrona-przed-gr
 import type { PoziomRyzykaGryzoni } from "@/lib/core/modules/okablowanie/ochrona-przed-gryzoniami/input"
 import { usePersistedDraft } from "@/lib/adapters/use-persisted-draft"
 import { PoleSelect } from "@/components/ui/pole"
+import { PomocPola } from "@/components/ui/pomoc"
 import { WerdyktPanel } from "@/components/werdykt"
 import { NawigacjaEkranu } from "@/components/nawigacja-ekranu"
 import { NaglowekEkranu } from "@/components/wzorce/naglowek-ekranu"
@@ -33,12 +34,17 @@ export default function OchronaPrzedGryzoniamiPage() {
   return (
     <main className="mx-auto flex max-w-md flex-col gap-6 p-6">
       <NawigacjaEkranu href="/kalkulatory/ochrona-przed-gryzoniami" />
-      <NaglowekEkranu tytul="Ochrona przed gryzoniami">
+      <NaglowekEkranu tytul="Ochrona przed gryzoniami" ekran="ochrona-przed-gryzoniami">
         Mysz nie patrzy, czy kabel jest ładny. Po prostu go przegryzie i zrobi zwarcie. Moduł 5,
         Ekran 25.
       </NaglowekEkranu>
 
-      <PoleSelect label="Ryzyko gryzoni w okolicy" value={poziomRyzyka} onChange={(e) => setPoziomRyzyka(e.target.value as PoziomRyzykaGryzoni)}>
+      <PoleSelect
+        label="Ryzyko gryzoni w okolicy"
+        value={poziomRyzyka}
+        onChange={(e) => setPoziomRyzyka(e.target.value as PoziomRyzykaGryzoni)}
+        pomoc={<PomocPola ekran="ochrona-przed-gryzoniami" pole="ryzyko" />}
+      >
         <option value="">— wybierz —</option>
         {(Object.keys(ETYKIETY_RYZYKA) as PoziomRyzykaGryzoni[]).map((r) => (
           <option key={r} value={r}>

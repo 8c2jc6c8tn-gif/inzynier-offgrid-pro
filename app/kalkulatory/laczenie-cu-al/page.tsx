@@ -2,10 +2,11 @@
 
 import { useMemo } from "react"
 import { calculateLaczenieCuAl } from "@/lib/core/modules/okablowanie/laczenie-cu-al/calculator"
-import { ETYKIETY_MATERIALOW, ETYKIETY_SRODOWISK, kluczPary } from "@/lib/core/modules/okablowanie/laczenie-cu-al/constants"
+import { ETYKIETY_MATERIALOW, ETYKIETY_SRODOWISK, WSPOLCZYNNIK_PRZEKROJU_AL_WZGLEDEM_CU, kluczPary } from "@/lib/core/modules/okablowanie/laczenie-cu-al/constants"
 import type { Material, Srodowisko } from "@/lib/core/modules/okablowanie/laczenie-cu-al/input"
 import { usePersistedDraft } from "@/lib/adapters/use-persisted-draft"
 import { Pole, PoleCheckbox, PoleSelect } from "@/components/ui/pole"
+import { PomocPola } from "@/components/ui/pomoc"
 import { WerdyktPanel, type WerdyktPoziom } from "@/components/werdykt"
 import { NawigacjaEkranu } from "@/components/nawigacja-ekranu"
 import { NaglowekEkranu } from "@/components/wzorce/naglowek-ekranu"
@@ -101,13 +102,23 @@ export default function LaczenieCuAlPage() {
   return (
     <main className="mx-auto flex max-w-md flex-col gap-6 p-6">
       <NawigacjaEkranu href="/kalkulatory/laczenie-cu-al" />
-      <NaglowekEkranu tytul="Łączenie Cu-Al i ochrona przed korozją">
+      <NaglowekEkranu
+        tytul="Łączenie Cu-Al i ochrona przed korozją"
+        ekran="laczenie-cu-al"
+        wzor={result.formula}
+        parametry={{ wspAl: WSPOLCZYNNIK_PRZEKROJU_AL_WZGLEDEM_CU }}
+      >
         Miedź i aluminium w wilgoci nie znoszą bezpośredniego kontaktu — trzeba je rozdzielić
         barierą, inaczej rdzewieją tam, gdzie się stykają. Moduł 5, Ekran 4.
       </NaglowekEkranu>
 
       <div className="flex flex-col gap-4">
-        <PoleSelect label="Materiał przewodu 1" value={material1} onChange={(e) => setMaterial1(e.target.value as Material)}>
+        <PoleSelect
+          label="Materiał przewodu 1"
+          value={material1}
+          onChange={(e) => setMaterial1(e.target.value as Material)}
+          pomoc={<PomocPola ekran="laczenie-cu-al" pole="material1" />}
+        >
           <option value="">— wybierz —</option>
           {MATERIALY.map((m) => (
             <option key={m} value={m}>
@@ -115,7 +126,12 @@ export default function LaczenieCuAlPage() {
             </option>
           ))}
         </PoleSelect>
-        <PoleSelect label="Materiał przewodu 2" value={material2} onChange={(e) => setMaterial2(e.target.value as Material)}>
+        <PoleSelect
+          label="Materiał przewodu 2"
+          value={material2}
+          onChange={(e) => setMaterial2(e.target.value as Material)}
+          pomoc={<PomocPola ekran="laczenie-cu-al" pole="material2" />}
+        >
           <option value="">— wybierz —</option>
           {MATERIALY.map((m) => (
             <option key={m} value={m}>
@@ -123,7 +139,12 @@ export default function LaczenieCuAlPage() {
             </option>
           ))}
         </PoleSelect>
-        <PoleSelect label="Środowisko" value={srodowisko} onChange={(e) => setSrodowisko(e.target.value as Srodowisko)}>
+        <PoleSelect
+          label="Środowisko"
+          value={srodowisko}
+          onChange={(e) => setSrodowisko(e.target.value as Srodowisko)}
+          pomoc={<PomocPola ekran="laczenie-cu-al" pole="srodowisko" />}
+        >
           {SRODOWISKA.map((s) => (
             <option key={s} value={s}>
               {ETYKIETY_SRODOWISK[s]}
@@ -156,7 +177,7 @@ export default function LaczenieCuAlPage() {
           min={0}
           value={przekrojCuMm2}
           onChange={(e) => setPrzekrojCuMm2(e.target.value)}
-          hint="Aluminium potrzebuje ok. 1,6× większego przekroju niż miedź dla tego samego prądu."
+          pomoc={<PomocPola ekran="laczenie-cu-al" pole="przekrojCu" params={{ wspAl: WSPOLCZYNNIK_PRZEKROJU_AL_WZGLEDEM_CU }} />}
         />
       </div>
 

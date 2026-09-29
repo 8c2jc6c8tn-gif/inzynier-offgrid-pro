@@ -33,7 +33,7 @@ export default function SzynyZbiorczePolaczeniaPage() {
   return (
     <main className="mx-auto flex max-w-md flex-col gap-6 p-6">
       <NawigacjaEkranu href="/kalkulatory/szyny-zbiorcze-polaczenia" />
-      <NaglowekEkranu tytul="Szyny zbiorcze i połączenia">
+      <NaglowekEkranu tytul="Szyny zbiorcze i połączenia" ekran="szyny-zbiorcze-polaczenia">
         Śruba to sprężyna. Za słabo dokręcona — iskrzy. Za mocno — pęka gwint. Trzeba trafić w
         idealny moment, i to inny dla aluminium niż dla miedzi. Moduł 5, Ekran 3.
       </NaglowekEkranu>
