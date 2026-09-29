@@ -5,6 +5,7 @@ import { calculateSymulacjaZachmurzenia } from "@/lib/core/modules/baterie/symul
 import { LICZBA_DNI_SCENARIUSZA_SUGEROWANA } from "@/lib/core/modules/baterie/symulacja-miesiaca-zachmurzenia/constants"
 import { usePersistedDraft } from "@/lib/adapters/use-persisted-draft"
 import { Pole } from "@/components/ui/pole"
+import { PomocPola } from "@/components/ui/pomoc"
 import { WerdyktPanel } from "@/components/werdykt"
 import { NawigacjaEkranu } from "@/components/nawigacja-ekranu"
 import { NaglowekEkranu } from "@/components/wzorce/naglowek-ekranu"
@@ -76,7 +77,11 @@ export default function SymulacjaMiesiacaZachmurzeniaPage() {
   return (
     <main className="mx-auto flex max-w-md flex-col gap-6 p-6">
       <NawigacjaEkranu href="/kalkulatory/symulacja-miesiaca-zachmurzenia" />
-      <NaglowekEkranu tytul="Symulacja miesiąca zachmurzenia (No-Sun Scenario)">
+      <NaglowekEkranu
+        tytul="Symulacja miesiąca zachmurzenia (No-Sun Scenario)"
+        ekran="symulacja-miesiaca-zachmurzenia"
+        wzor={result.formula}
+      >
         Projektujesz system nie na średnią pogodę, tylko na najgorszy realistyczny tydzień w roku
         — to jest istota prawdziwego off-gridu. Moduł 4, Ekran 33.
       </NaglowekEkranu>
@@ -90,7 +95,7 @@ export default function SymulacjaMiesiacaZachmurzeniaPage() {
           min={0}
           value={stan.pojemnoscUzytecznaKwh}
           onChange={(e) => setPole("pojemnoscUzytecznaKwh", e.target.value)}
-          hint="Docelowo automatycznie z Ekranu 1 (Dobór pojemności)."
+          pomoc={<PomocPola ekran="symulacja-miesiaca-zachmurzenia" pole="pojemnosc" />}
         />
         <Pole
           label="SoC na początku scenariusza"
@@ -101,6 +106,7 @@ export default function SymulacjaMiesiacaZachmurzeniaPage() {
           max={100}
           value={stan.socStartPct}
           onChange={(e) => setPole("socStartPct", e.target.value)}
+          pomoc={<PomocPola ekran="symulacja-miesiaca-zachmurzenia" pole="socStart" />}
         />
         <Pole
           label="Zapotrzebowanie dobowe"
@@ -110,7 +116,7 @@ export default function SymulacjaMiesiacaZachmurzeniaPage() {
           min={0}
           value={stan.zapotrzebowanieDoboweKwh}
           onChange={(e) => setPole("zapotrzebowanieDoboweKwh", e.target.value)}
-          hint="Docelowo automatycznie z Modułu 2."
+          pomoc={<PomocPola ekran="symulacja-miesiaca-zachmurzenia" pole="zapotrzebowanie" />}
         />
         <Pole
           label="Nominalna produkcja dobowa PV (dzień słoneczny)"
@@ -120,7 +126,7 @@ export default function SymulacjaMiesiacaZachmurzeniaPage() {
           min={0}
           value={stan.produkcjaNominalnaDobowaKwh}
           onChange={(e) => setPole("produkcjaNominalnaDobowaKwh", e.target.value)}
-          hint="Docelowo automatycznie z Modułu 3."
+          pomoc={<PomocPola ekran="symulacja-miesiaca-zachmurzenia" pole="produkcja" />}
         />
         <Pole
           label="Poziom zachmurzenia (% produkcji nominalnej)"
@@ -131,7 +137,7 @@ export default function SymulacjaMiesiacaZachmurzeniaPage() {
           max={100}
           value={stan.poziomZachmurzeniaPct}
           onChange={(e) => setPole("poziomZachmurzeniaPct", e.target.value)}
-          hint="Źródło sugeruje zakres 5–10% dla czarnego scenariusza — brak jednej kanonicznej wartości, ustal świadomie."
+          pomoc={<PomocPola ekran="symulacja-miesiaca-zachmurzenia" pole="zachmurzenie" />}
         />
         <Pole
           label="Liczba dni scenariusza"
@@ -142,7 +148,7 @@ export default function SymulacjaMiesiacaZachmurzeniaPage() {
           step={1}
           value={stan.liczbaDniScenariusza}
           onChange={(e) => setPole("liczbaDniScenariusza", e.target.value)}
-          hint={`Sugerowane ze źródła: ${LICZBA_DNI_SCENARIUSZA_SUGEROWANA} dni — edytowalne.`}
+          pomoc={<PomocPola ekran="symulacja-miesiaca-zachmurzenia" pole="dni" params={{ dni: LICZBA_DNI_SCENARIUSZA_SUGEROWANA }} />}
         />
       </div>
 

@@ -5,6 +5,7 @@ import { calculateTopologiaBms } from "@/lib/core/modules/baterie/topologia-bms/
 import { TOPOLOGIE } from "@/lib/core/modules/baterie/topologia-bms/constants"
 import { usePersistedDraft } from "@/lib/adapters/use-persisted-draft"
 import { Pole } from "@/components/ui/pole"
+import { PomocPola } from "@/components/ui/pomoc"
 import { WerdyktPanel, type WerdyktPoziom } from "@/components/werdykt"
 import { NawigacjaEkranu } from "@/components/nawigacja-ekranu"
 import { NaglowekEkranu } from "@/components/wzorce/naglowek-ekranu"
@@ -58,7 +59,7 @@ export default function TopologiaBmsPage() {
   return (
     <main className="mx-auto flex max-w-md flex-col gap-6 p-6">
       <NawigacjaEkranu href="/kalkulatory/topologia-bms" />
-      <NaglowekEkranu tytul="Topologia BMS (Common Port vs Separate Port)">
+      <NaglowekEkranu tytul="Topologia BMS (Common Port vs Separate Port)" ekran="topologia-bms">
         Jak masz jedną rurę do wody i ścieków, to w końcu się zapcha — czasem lepiej rozdzielić
         drogi ładowania i rozładowania. Moduł 4, Ekran 26.
       </NaglowekEkranu>
@@ -80,6 +81,7 @@ export default function TopologiaBmsPage() {
           inputMode="decimal"
           value={bmsCommonPortA}
           onChange={(e) => setBmsCommonPortA(e.target.value)}
+          pomoc={<PomocPola ekran="topologia-bms" pole="pradCommon" />}
         />
         <Pole
           label="Szczytowy prąd rozruchu falownika"
@@ -88,7 +90,7 @@ export default function TopologiaBmsPage() {
           inputMode="decimal"
           value={falownikPradRozruchuA}
           onChange={(e) => setFalownikPradRozruchuA(e.target.value)}
-          hint="Z karty katalogowej falownika — prąd rozruchowy bywa znacznie wyższy niż nominalny."
+          pomoc={<PomocPola ekran="topologia-bms" pole="pradRozruchu" />}
         />
       </div>
 

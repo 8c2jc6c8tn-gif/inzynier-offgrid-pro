@@ -15,12 +15,15 @@ import {
 import type { Material, SposobUlozenia } from "@/lib/core/modules/okablowanie/dobor-przekroju-kabla/constants"
 import { usePersistedDraft } from "@/lib/adapters/use-persisted-draft"
 import { Pole, PoleSelect, PoleCheckbox } from "@/components/ui/pole"
+import { PomocPola } from "@/components/ui/pomoc"
 import { WerdyktPanel, WerdyktBadge, type WerdyktPoziom } from "@/components/werdykt"
 import { NawigacjaEkranu } from "@/components/nawigacja-ekranu"
 import { NaglowekEkranu } from "@/components/wzorce/naglowek-ekranu"
 import { WynikGlowny } from "@/components/wzorce/wynik-glowny"
 import { WynikSzczegoly } from "@/components/wzorce/wynik-szczegoly"
 import { useTranslate } from "@/lib/i18n/language-context"
+import { PROG_12V_MAX_W, PROG_48V_MIN_W } from "@/lib/core/modules/baterie/napiecie-systemowe/constants"
+import { DOMYSLNY_SPADEK_DC_PCT } from "@/lib/core/modules/okablowanie/dobor-przekroju-kabla/constants"
 
 const num = (s: string) => (s === "" ? 0 : Number(s))
 
@@ -281,7 +284,12 @@ export default function NapiecieSystemowePage() {
   return (
     <main className="mx-auto flex max-w-2xl flex-col gap-6 p-6">
       <NawigacjaEkranu href="/kalkulatory/napiecie-systemowe" />
-      <NaglowekEkranu tytul="Doradca doboru napięcia systemowego">
+      <NaglowekEkranu
+        tytul="Doradca doboru napięcia systemowego"
+        ekran="napiecie-systemowe"
+        wzor={result.formula}
+        parametry={{ prog12: PROG_12V_MAX_W, prog48: PROG_48V_MIN_W }}
+      >
         Nie wybieramy napięcia na podstawie ceny BMS-a — wybieramy je na podstawie maksymalnego
         jednorazowego poboru mocy, dziennego zużycia energii i kontekstu zastosowania. Wyższe
         napięcie = mniejszy prąd przy tej samej mocy = cieńsze, tańsze i bezpieczniejsze kable.
@@ -298,6 +306,7 @@ export default function NapiecieSystemowePage() {
           min={0}
           value={mocSzczytowaW}
           onChange={(e) => setMocSzczytowaW(e.target.value)}
+          pomoc={<PomocPola ekran="napiecie-systemowe" pole="obciazenie" params={{ prog12: PROG_12V_MAX_W, prog48: PROG_48V_MIN_W }} />}
         />
 
         {poziom === null ? (
@@ -325,7 +334,12 @@ export default function NapiecieSystemowePage() {
       <details className={SEKCJA_KLASY} open>
         <summary className={`cursor-pointer ${SEKCJA_TYTUL_KLASY}`}>Etap A — kontekst zastosowania</summary>
         <div className="mt-4 flex flex-col gap-4">
-          <PoleSelect label="Gdzie będzie używany ten system?" value={zastosowanie} onChange={(e) => setZastosowanie(e.target.value as Zastosowanie | "")}>
+          <PoleSelect
+            label="Gdzie będzie używany ten system?"
+            value={zastosowanie}
+            onChange={(e) => setZastosowanie(e.target.value as Zastosowanie | "")}
+            pomoc={<PomocPola ekran="napiecie-systemowe" pole="zastosowanie" />}
+          >
             <option value="">— wybierz —</option>
             {ZASTOSOWANIA.map((z) => (
               <option key={z.id} value={z.id}>
@@ -335,7 +349,12 @@ export default function NapiecieSystemowePage() {
           </PoleSelect>
           {zastosowanie !== "" && <p className="text-caption text-muted-foreground">{ZASTOSOWANIA.find((z) => z.id === zastosowanie)?.filozofia}</p>}
 
-          <PoleSelect label="Co jest dla Ciebie ważniejsze?" value={priorytet} onChange={(e) => setPriorytet(e.target.value as Priorytet | "")}>
+          <PoleSelect
+            label="Co jest dla Ciebie ważniejsze?"
+            value={priorytet}
+            onChange={(e) => setPriorytet(e.target.value as Priorytet | "")}
+            pomoc={<PomocPola ekran="napiecie-systemowe" pole="priorytet" />}
+          >
             <option value="">— wybierz —</option>
             {PRIORYTETY.map((p) => (
               <option key={p.id} value={p.id}>
@@ -355,12 +374,12 @@ export default function NapiecieSystemowePage() {
             <Pole
               label="Szczytowa moc ogrzewania elektrycznego"
               unit="W"
-              hint="Pomiń, jeśli konkretne urządzenie grzewcze rozpiszesz osobno w kreatorze odbiorników (Etap B, kategoria „Ogrzewanie”) — nie dodawaj tej samej mocy dwa razy."
               type="number"
               inputMode="decimal"
               min={0}
               value={ogrzewanieMocW}
               onChange={(e) => setOgrzewanieMocW(e.target.value)}
+              pomoc={<PomocPola ekran="napiecie-systemowe" pole="ogrzewanie" />}
             />
           )}
         </div>
@@ -418,6 +437,7 @@ export default function NapiecieSystemowePage() {
                           <option value="min">min</option>
                           <option value="h">godz.</option>
                         </select>
+                        <PomocPola ekran="napiecie-systemowe" pole="wierszOdbiornika" />
                       </div>
                     </li>
                   )
@@ -434,6 +454,7 @@ export default function NapiecieSystemowePage() {
             min={0}
             value={mocCiaglaFalownikaPlanowanaW}
             onChange={(e) => setMocCiaglaFalownikaPlanowanaW(e.target.value)}
+            pomoc={<PomocPola ekran="napiecie-systemowe" pole="mocFalownika" />}
           />
 
           {result.value.jednoczesnosc && (
@@ -471,6 +492,7 @@ export default function NapiecieSystemowePage() {
               min={0}
               value={dlugoscTrasyM}
               onChange={(e) => setDlugoscTrasyM(e.target.value)}
+              pomoc={<PomocPola ekran="napiecie-systemowe" pole="dlugosc" />}
             />
             <Pole
               id="temperatura-otoczenia"
@@ -480,12 +502,23 @@ export default function NapiecieSystemowePage() {
               inputMode="decimal"
               value={temperaturaOtoczeniaC}
               onChange={(e) => setTemperaturaOtoczeniaC(e.target.value)}
+              pomoc={<PomocPola ekran="napiecie-systemowe" pole="temperatura" />}
             />
-            <PoleSelect label="Materiał" value={material} onChange={(e) => setMaterial(e.target.value as Material)}>
+            <PoleSelect
+              label="Materiał"
+              value={material}
+              onChange={(e) => setMaterial(e.target.value as Material)}
+              pomoc={<PomocPola ekran="napiecie-systemowe" pole="material" />}
+            >
               <option value="Cu">Miedź (Cu)</option>
               <option value="Al">Aluminium (Al)</option>
             </PoleSelect>
-            <PoleSelect label="Sposób ułożenia" value={sposobUlozenia} onChange={(e) => setSposobUlozenia(e.target.value as SposobUlozenia)}>
+            <PoleSelect
+              label="Sposób ułożenia"
+              value={sposobUlozenia}
+              onChange={(e) => setSposobUlozenia(e.target.value as SposobUlozenia)}
+              pomoc={<PomocPola ekran="napiecie-systemowe" pole="ulozenie" />}
+            >
               <option value="swobodnie">Swobodnie / na ścianie</option>
               <option value="w_peszlu">W peszlu / rurze</option>
               <option value="w_ziemi">W ziemi</option>
@@ -499,6 +532,7 @@ export default function NapiecieSystemowePage() {
               min={1}
               value={liczbaKabliWWiazce}
               onChange={(e) => setLiczbaKabliWWiazce(e.target.value)}
+              pomoc={<PomocPola ekran="napiecie-systemowe" pole="wiazka" />}
             />
             <Pole
               id="dopuszczalny-spadek"
@@ -509,6 +543,7 @@ export default function NapiecieSystemowePage() {
               min={0}
               value={dopuszczalnySpadekNapieciaPct}
               onChange={(e) => setDopuszczalnySpadekNapieciaPct(e.target.value)}
+              pomoc={<PomocPola ekran="napiecie-systemowe" pole="spadek" params={{ spadekDc: DOMYSLNY_SPADEK_DC_PCT }} />}
             />
           </div>
 
@@ -571,15 +606,16 @@ export default function NapiecieSystemowePage() {
             min={0}
             value={docelowaPojemnoscKwh}
             onChange={(e) => setDocelowaPojemnoscKwh(e.target.value)}
+            pomoc={<PomocPola ekran="napiecie-systemowe" pole="pojemnoscBanku" />}
           />
           <Pole
             label="Liczba linii oświetlenia 24V (tylko jeśli budujesz system 48V)"
-            hint="każda dolicza przetwornicę DC-DC 48V→24V"
             type="number"
             inputMode="numeric"
             min={0}
             value={liczbaLiniiOswietlenia24v}
             onChange={(e) => setLiczbaLiniiOswietlenia24v(e.target.value)}
+            pomoc={<PomocPola ekran="napiecie-systemowe" pole="linie24v" />}
           />
 
           <details>
@@ -613,6 +649,7 @@ export default function NapiecieSystemowePage() {
                   min={0}
                   value={ceny[klucz]}
                   onChange={(e) => setCeny((prev) => ({ ...prev, [klucz]: e.target.value }))}
+                  pomoc={<PomocPola ekran="napiecie-systemowe" pole="cenaSkladnika" />}
                 />
               ))}
             </div>

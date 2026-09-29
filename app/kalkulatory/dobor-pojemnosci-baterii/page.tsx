@@ -11,6 +11,7 @@ import {
 import { useProfilSprzetu } from "@/lib/profil-sprzetu/use-profil-sprzetu"
 import { usePersistedDraft } from "@/lib/adapters/use-persisted-draft"
 import { Pole } from "@/components/ui/pole"
+import { PomocPola } from "@/components/ui/pomoc"
 import { WerdyktPanel } from "@/components/werdykt"
 import { NawigacjaEkranu } from "@/components/nawigacja-ekranu"
 import { NaglowekEkranu } from "@/components/wzorce/naglowek-ekranu"
@@ -73,7 +74,7 @@ export default function DoborPojemnosciBateriiPage() {
   return (
     <main className="mx-auto flex max-w-md flex-col gap-6 p-6">
       <NawigacjaEkranu href="/kalkulatory/dobor-pojemnosci-baterii" />
-      <NaglowekEkranu tytul="Dobór pojemności baterii">
+      <NaglowekEkranu tytul="Dobór pojemności baterii" ekran="dobor-pojemnosci-baterii" wzor={result.formula}>
         Bateria nigdy nie jest w 100% „użyteczna” — część pojemności to bufor bezpieczeństwa,
         żeby nie skracać jej życia głębokim rozładowywaniem. Moduł 4, Ekran 1.
       </NaglowekEkranu>
@@ -87,7 +88,7 @@ export default function DoborPojemnosciBateriiPage() {
           min={0}
           value={zapotrzebowanieDoboweKwh}
           onChange={(e) => setZapotrzebowanieDoboweKwh(e.target.value)}
-          hint="Docelowo automatycznie z Modułu 2 (bilans obciążeń) — na razie wpisz ręcznie."
+          pomoc={<PomocPola ekran="dobor-pojemnosci-baterii" pole="zapotrzebowanie" />}
         />
         <Pole
           label="Dni autonomii"
@@ -97,7 +98,7 @@ export default function DoborPojemnosciBateriiPage() {
           min={0}
           value={dniAutonomii}
           onChange={(e) => setDniAutonomii(e.target.value)}
-          hint="Ile dni bez słońca system ma wytrzymać wyłącznie na baterii. Docelowo z Modułu 2, Ekran 7."
+          pomoc={<PomocPola ekran="dobor-pojemnosci-baterii" pole="dniAutonomii" />}
         />
         <Pole
           label="Sprawność falownika"
@@ -108,7 +109,7 @@ export default function DoborPojemnosciBateriiPage() {
           max={100}
           value={sprawnoscFalownikaPct}
           onChange={(e) => setSprawnoscFalownikaPct(e.target.value)}
-          hint={`Sugerowany start: ${SPRAWNOSC_FALOWNIKA_SUGEROWANA_PCT}% — edytowalne, nie ukryty domyślny.`}
+          pomoc={<PomocPola ekran="dobor-pojemnosci-baterii" pole="sprawnosc" params={{ sprawnosc: SPRAWNOSC_FALOWNIKA_SUGEROWANA_PCT }} />}
         />
         <Pole
           label="DoD (głębokość rozładowania)"
@@ -119,7 +120,7 @@ export default function DoborPojemnosciBateriiPage() {
           max={100}
           value={dodPct}
           onChange={(e) => setDodPct(e.target.value)}
-          hint={`Dla LiFePO4 typowo ${DOD_LIFEPO4_TYPOWY_MIN_PCT}–${DOD_LIFEPO4_TYPOWY_MAX_PCT}% — reszta to bufor chroniący żywotność.`}
+          pomoc={<PomocPola ekran="dobor-pojemnosci-baterii" pole="dod" params={{ dodMin: DOD_LIFEPO4_TYPOWY_MIN_PCT, dodMax: DOD_LIFEPO4_TYPOWY_MAX_PCT }} />}
         />
       </div>
 

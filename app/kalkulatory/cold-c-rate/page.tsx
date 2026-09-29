@@ -4,12 +4,14 @@ import { useMemo } from "react"
 import { calculateColdCRate } from "@/lib/core/modules/baterie/cold-c-rate/calculator"
 import { usePersistedDraft } from "@/lib/adapters/use-persisted-draft"
 import { Pole } from "@/components/ui/pole"
+import { PomocPola } from "@/components/ui/pomoc"
 import { WerdyktPanel, type WerdyktPoziom } from "@/components/werdykt"
 import { NawigacjaEkranu } from "@/components/nawigacja-ekranu"
 import { NaglowekEkranu } from "@/components/wzorce/naglowek-ekranu"
 import { WynikGlowny } from "@/components/wzorce/wynik-glowny"
 import { WynikSzczegoly } from "@/components/wzorce/wynik-szczegoly"
 import { useTranslate } from "@/lib/i18n/language-context"
+import { LIMIT_C_RATE_CHLODNO, LIMIT_C_RATE_ZIMNO, PROG_BLOKADY_C, PROG_LIMITU_02C, PROG_LUKI_GORNY_C, PROG_PELNEGO_PRADU_C } from "@/lib/core/modules/baterie/cold-c-rate/constants"
 
 const POZIOM_ZE_STREFY: Record<string, WerdyktPoziom> = {
   blokada: "blad",
@@ -63,7 +65,12 @@ export default function ColdCRatePage() {
   return (
     <main className="mx-auto flex max-w-md flex-col gap-6 p-6">
       <NawigacjaEkranu href="/kalkulatory/cold-c-rate" />
-      <NaglowekEkranu tytul="Ograniczenie prądu ładowania w mrozie">
+      <NaglowekEkranu
+        tytul="Ograniczenie prądu ładowania w mrozie"
+        ekran="cold-c-rate"
+        wzor={result.formula}
+        parametry={{ blokada: PROG_BLOKADY_C, limit02: PROG_LIMITU_02C, luka: PROG_LUKI_GORNY_C, pelny: PROG_PELNEGO_PRADU_C, cZimno: LIMIT_C_RATE_ZIMNO, cChlodno: LIMIT_C_RATE_CHLODNO }}
+      >
         W lodówce miód ledwo płynie. W baterii jony litu też poruszają się wolniej na mrozie —
         ładowanie zbyt szybkie w zimnie trwale uszkadza ogniwa (osadzanie litu metalicznego).
         Moduł 4, Ekran 12.
@@ -78,7 +85,7 @@ export default function ColdCRatePage() {
           step="0.1"
           value={temperaturaOgniwaC}
           onChange={(e) => setTemperaturaOgniwaC(e.target.value)}
-          hint="Live z BMS. 0°C jest prawidłowym pomiarem."
+          pomoc={<PomocPola ekran="cold-c-rate" pole="temperatura" params={{ blokada: PROG_BLOKADY_C, limit02: PROG_LIMITU_02C, luka: PROG_LUKI_GORNY_C, pelny: PROG_PELNEGO_PRADU_C, cZimno: LIMIT_C_RATE_ZIMNO, cChlodno: LIMIT_C_RATE_CHLODNO }} />}
         />
         <Pole
           label="Pojemność pakietu"
@@ -88,6 +95,7 @@ export default function ColdCRatePage() {
           min={0}
           value={pojemnoscAh}
           onChange={(e) => setPojemnoscAh(e.target.value)}
+          pomoc={<PomocPola ekran="cold-c-rate" pole="pojemnosc" />}
         />
       </div>
 

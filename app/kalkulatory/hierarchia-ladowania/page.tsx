@@ -4,6 +4,7 @@ import { useMemo } from "react"
 import { calculateHierarchiaLadowania } from "@/lib/core/modules/baterie/hierarchia-ladowania/calculator"
 import { usePersistedDraft } from "@/lib/adapters/use-persisted-draft"
 import { Pole, PoleCheckbox } from "@/components/ui/pole"
+import { PomocPola } from "@/components/ui/pomoc"
 import { WerdyktPanel } from "@/components/werdykt"
 import { NawigacjaEkranu } from "@/components/nawigacja-ekranu"
 import { NaglowekEkranu } from "@/components/wzorce/naglowek-ekranu"
@@ -81,7 +82,11 @@ export default function HierarchiaLadowaniaPage() {
   return (
     <main className="mx-auto flex max-w-md flex-col gap-6 p-6">
       <NawigacjaEkranu href="/kalkulatory/hierarchia-ladowania" />
-      <NaglowekEkranu tytul="Hierarchia ładowania (PV > Agregat > Sieć)">
+      <NaglowekEkranu
+        tytul="Hierarchia ładowania (PV > Agregat > Sieć)"
+        ekran="hierarchia-ladowania"
+        wzor={result.formula}
+      >
         Mądry system czeka na darmowe paliwo ze słońca, zamiast od razu sięgać po drogi agregat.
         Moduł 4, Ekran 32.
       </NaglowekEkranu>
@@ -102,6 +107,7 @@ export default function HierarchiaLadowaniaPage() {
           max={100}
           value={stan.socAktualnyPct}
           onChange={(e) => setPole("socAktualnyPct", e.target.value)}
+          pomoc={<PomocPola ekran="hierarchia-ladowania" pole="soc" />}
         />
         <Pole
           label="Próg krytyczny SoC (od którego rozważany jest agregat)"
@@ -112,7 +118,7 @@ export default function HierarchiaLadowaniaPage() {
           max={100}
           value={stan.socProguKrytycznegoPct}
           onChange={(e) => setPole("socProguKrytycznegoPct", e.target.value)}
-          hint="Brak sugerowanej wartości — ustal ją świadomie, dane bezpieczeństwa nie mają ukrytego domyślnego wypełnienia."
+          pomoc={<PomocPola ekran="hierarchia-ladowania" pole="progKrytyczny" />}
         />
         <PoleCheckbox
           id="prognoza-slonca-jutro"

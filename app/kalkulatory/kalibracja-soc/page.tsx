@@ -5,6 +5,7 @@ import { calculateKalibracjaSoc } from "@/lib/core/modules/baterie/kalibracja-so
 import { PROG_KALIBRACJI_DNI } from "@/lib/core/modules/baterie/kalibracja-soc/constants"
 import { usePersistedDraft } from "@/lib/adapters/use-persisted-draft"
 import { Pole } from "@/components/ui/pole"
+import { PomocPola } from "@/components/ui/pomoc"
 import { WerdyktPanel } from "@/components/werdykt"
 import { NawigacjaEkranu } from "@/components/nawigacja-ekranu"
 import { NaglowekEkranu } from "@/components/wzorce/naglowek-ekranu"
@@ -42,7 +43,11 @@ export default function KalibracjaSocPage() {
   return (
     <main className="mx-auto flex max-w-md flex-col gap-6 p-6">
       <NawigacjaEkranu href="/kalkulatory/kalibracja-soc" />
-      <NaglowekEkranu tytul="Kalibracja i dokładność SoC">
+      <NaglowekEkranu
+        tytul="Kalibracja i dokładność SoC"
+        ekran="kalibracja-soc"
+        parametry={{ progDni: PROG_KALIBRACJI_DNI }}
+      >
         Liczenie prądu w BMS to ciągły szacunek, nie dokładny pomiar — od czasu do czasu trzeba go
         „zresetować” pełnym naładowaniem, żeby błąd się nie kumulował. Moduł 4, Ekran 28.
       </NaglowekEkranu>
@@ -55,7 +60,7 @@ export default function KalibracjaSocPage() {
         min={0}
         value={dni}
         onChange={(e) => setDni(e.target.value)}
-        hint={`Próg rekomendacji kalibracji: ${PROG_KALIBRACJI_DNI} dni. 0 = dziś było pełne ładowanie.`}
+        pomoc={<PomocPola ekran="kalibracja-soc" pole="dni" params={{ progDni: PROG_KALIBRACJI_DNI }} />}
       />
 
       {result.status === "INVALID_INPUT" ? (

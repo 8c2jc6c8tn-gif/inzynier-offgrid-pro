@@ -4,6 +4,7 @@ import { useMemo } from "react"
 import { calculateModulEv } from "@/lib/core/modules/baterie/modul-ev/calculator"
 import { usePersistedDraft } from "@/lib/adapters/use-persisted-draft"
 import { Pole } from "@/components/ui/pole"
+import { PomocPola } from "@/components/ui/pomoc"
 import { WerdyktPanel } from "@/components/werdykt"
 import { NawigacjaEkranu } from "@/components/nawigacja-ekranu"
 import { NaglowekEkranu } from "@/components/wzorce/naglowek-ekranu"
@@ -50,7 +51,7 @@ export default function ModulEvPage() {
   return (
     <main className="mx-auto flex max-w-md flex-col gap-6 p-6">
       <NawigacjaEkranu href="/kalkulatory/modul-ev" />
-      <NaglowekEkranu tytul="Moduł EV — ładowanie samochodu elektrycznego">
+      <NaglowekEkranu tytul="Moduł EV — ładowanie samochodu elektrycznego" ekran="modul-ev">
         EV to dodatkowy „odbiornik” o dużym apetycie — trzeba go policzyć osobno, bo potrafi zjeść
         całą nadwyżkę produkcji. Moduł 4, Ekran 4.
       </NaglowekEkranu>
@@ -64,6 +65,7 @@ export default function ModulEvPage() {
           min={0}
           value={energiaDobowaEvKwh}
           onChange={(e) => setEnergiaDobowaEvKwh(e.target.value)}
+          pomoc={<PomocPola ekran="modul-ev" pole="zapotrzebowanieEv" />}
         />
         <Pole
           label="Nadwyżka produkcji PV latem"
@@ -73,7 +75,7 @@ export default function ModulEvPage() {
           min={0}
           value={nadwyzkaPvLatemKwh}
           onChange={(e) => setNadwyzkaPvLatemKwh(e.target.value)}
-          hint="Docelowo automatycznie z Modułu 3 (instalacja PV) — na razie wpisz ręcznie."
+          pomoc={<PomocPola ekran="modul-ev" pole="nadwyzkaLato" />}
         />
         <Pole
           label="Nadwyżka produkcji PV zimą"
@@ -83,6 +85,7 @@ export default function ModulEvPage() {
           min={0}
           value={nadwyzkaPvZimaKwh}
           onChange={(e) => setNadwyzkaPvZimaKwh(e.target.value)}
+          pomoc={<PomocPola ekran="modul-ev" pole="nadwyzkaZima" />}
         />
       </div>
 

@@ -5,12 +5,14 @@ import { calculateSecondLife } from "@/lib/core/modules/baterie/second-life/calc
 import type { MetodaSzacunkuSoh } from "@/lib/core/modules/baterie/second-life/input"
 import { usePersistedDraft } from "@/lib/adapters/use-persisted-draft"
 import { Pole, PoleSelect } from "@/components/ui/pole"
+import { PomocPola } from "@/components/ui/pomoc"
 import { WerdyktPanel, type WerdyktPoziom } from "@/components/werdykt"
 import { NawigacjaEkranu } from "@/components/nawigacja-ekranu"
 import { NaglowekEkranu } from "@/components/wzorce/naglowek-ekranu"
 import { WynikGlowny } from "@/components/wzorce/wynik-glowny"
 import { WynikSzczegoly } from "@/components/wzorce/wynik-szczegoly"
 import { useTranslate } from "@/lib/i18n/language-context"
+import { DEGRADACJA_NA_10000KM_PCT, DEGRADACJA_ROCZNA_PCT } from "@/lib/core/modules/baterie/second-life/constants"
 
 type FormularzStan = {
   pojemnoscDeklarowanaKwh: string
@@ -80,7 +82,12 @@ export default function SecondLifePage() {
   return (
     <main className="mx-auto flex max-w-md flex-col gap-6 p-6">
       <NawigacjaEkranu href="/kalkulatory/second-life" />
-      <NaglowekEkranu tytul="Analiza Second-Life (baterie z EV)">
+      <NaglowekEkranu
+        tytul="Analiza Second-Life (baterie z EV)"
+        ekran="second-life"
+        wzor={result.formula}
+        parametry={{ degRok: DEGRADACJA_ROCZNA_PCT, degKm: DEGRADACJA_NA_10000KM_PCT }}
+      >
         Kupujesz kota w worku — bateria z rozbiórki EV może być świetną okazją albo drogim
         rozczarowaniem, zależnie od realnego stanu, nie deklarowanego. Moduł 4, Ekran 17.
       </NaglowekEkranu>
@@ -93,6 +100,7 @@ export default function SecondLifePage() {
           inputMode="decimal"
           value={pojemnoscDeklarowanaKwh}
           onChange={(e) => setPojemnoscDeklarowanaKwh(e.target.value)}
+          pomoc={<PomocPola ekran="second-life" pole="pojemnosc" />}
         />
         <Pole
           label="Cena zakupu"
@@ -101,11 +109,13 @@ export default function SecondLifePage() {
           inputMode="decimal"
           value={cenaZakupuZl}
           onChange={(e) => setCenaZakupuZl(e.target.value)}
+          pomoc={<PomocPola ekran="second-life" pole="cena" />}
         />
         <PoleSelect
           label="Metoda szacunku SoH"
           value={metodaSzacunku}
           onChange={(e) => setMetodaSzacunku(e.target.value as MetodaSzacunkuSoh)}
+          pomoc={<PomocPola ekran="second-life" pole="metoda" />}
         >
           <option value="">— wybierz —</option>
           <option value="wiek">Z wieku baterii</option>
@@ -119,6 +129,7 @@ export default function SecondLifePage() {
             inputMode="numeric"
             value={wiekLata}
             onChange={(e) => setWiekLata(e.target.value)}
+            pomoc={<PomocPola ekran="second-life" pole="wiek" params={{ degRok: DEGRADACJA_ROCZNA_PCT, degKm: DEGRADACJA_NA_10000KM_PCT }} />}
           />
         )}
         {metodaSzacunku === "przebieg" && (
@@ -129,6 +140,7 @@ export default function SecondLifePage() {
             inputMode="numeric"
             value={przebiegKm}
             onChange={(e) => setPrzebiegKm(e.target.value)}
+            pomoc={<PomocPola ekran="second-life" pole="przebieg" params={{ degRok: DEGRADACJA_ROCZNA_PCT, degKm: DEGRADACJA_NA_10000KM_PCT }} />}
           />
         )}
         <Pole
@@ -138,7 +150,7 @@ export default function SecondLifePage() {
           inputMode="decimal"
           value={cenaNowejLiFePO4ZlZaKwh}
           onChange={(e) => setCenaNowejLiFePO4ZlZaKwh(e.target.value)}
-          hint="Zostaw puste, żeby zobaczyć sam koszt tej baterii, bez porównania."
+          pomoc={<PomocPola ekran="second-life" pole="cenaNowej" />}
         />
       </div>
 

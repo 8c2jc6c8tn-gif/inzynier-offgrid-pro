@@ -6,6 +6,7 @@ import type { GalazInput } from "@/lib/core/modules/baterie/szyny-zbiorcze-miedz
 import type { Material } from "@/lib/core/modules/okablowanie/dobor-przekroju-kabla/constants"
 import { usePersistedDraft } from "@/lib/adapters/use-persisted-draft"
 import { Pole, PoleSelect } from "@/components/ui/pole"
+import { PomocPola } from "@/components/ui/pomoc"
 import { WerdyktPanel, type WerdyktPoziom } from "@/components/werdykt"
 import { NawigacjaEkranu } from "@/components/nawigacja-ekranu"
 import { NaglowekEkranu } from "@/components/wzorce/naglowek-ekranu"
@@ -94,7 +95,11 @@ export default function SzynyZbiorczeMiedzypakietowePage() {
   return (
     <main className="mx-auto flex max-w-md flex-col gap-6 p-6">
       <NawigacjaEkranu href="/kalkulatory/szyny-zbiorcze-miedzypakietowe" />
-      <NaglowekEkranu tytul="Szyny zbiorcze i połączenia międzypakietowe">
+      <NaglowekEkranu
+        tytul="Szyny zbiorcze i połączenia międzypakietowe"
+        ekran="szyny-zbiorcze-miedzypakietowe"
+        wzor={result.formula}
+      >
         Elektrony, jak wszystko leniwe, płyną tam, gdzie jest im łatwiej — nierówne długości
         kabli czy niesymetryczne podłączenie zawsze prowadzi do nierównego obciążenia. Moduł 4,
         Ekran 25.
@@ -109,8 +114,14 @@ export default function SzynyZbiorczeMiedzypakietowePage() {
           min={0}
           value={pradCalkowityA}
           onChange={(e) => setPradCalkowityA(e.target.value)}
+          pomoc={<PomocPola ekran="szyny-zbiorcze-miedzypakietowe" pole="pradCalkowity" />}
         />
-        <PoleSelect label="Materiał przewodów" value={material} onChange={(e) => setMaterial(e.target.value as Material)}>
+        <PoleSelect
+          label="Materiał przewodów"
+          value={material}
+          onChange={(e) => setMaterial(e.target.value as Material)}
+          pomoc={<PomocPola ekran="szyny-zbiorcze-miedzypakietowe" pole="material" />}
+        >
           <option value="Cu">Miedź (Cu)</option>
           <option value="Al">Aluminium (Al)</option>
         </PoleSelect>
@@ -140,6 +151,7 @@ export default function SzynyZbiorczeMiedzypakietowePage() {
               min={0}
               value={g.dlugoscM}
               onChange={(e) => aktualizujGalaz(g.id, "dlugoscM", e.target.value)}
+              pomoc={<PomocPola ekran="szyny-zbiorcze-miedzypakietowe" pole="dlugosc" />}
             />
             <Pole
               id={`przekroj-${g.id}`}
@@ -150,6 +162,7 @@ export default function SzynyZbiorczeMiedzypakietowePage() {
               min={0}
               value={g.przekrojMm2}
               onChange={(e) => aktualizujGalaz(g.id, "przekrojMm2", e.target.value)}
+              pomoc={<PomocPola ekran="szyny-zbiorcze-miedzypakietowe" pole="przekroj" />}
             />
           </div>
         ))}

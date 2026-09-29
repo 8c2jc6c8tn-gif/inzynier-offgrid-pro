@@ -5,6 +5,7 @@ import { calculatePorownanieTechnologii } from "@/lib/core/modules/baterie/porow
 import { CENA_STARTOWA_LABELS } from "@/lib/core/modules/baterie/porownanie-technologii/constants"
 import { usePersistedDraft } from "@/lib/adapters/use-persisted-draft"
 import { Pole } from "@/components/ui/pole"
+import { PomocPola } from "@/components/ui/pomoc"
 import { WerdyktPanel } from "@/components/werdykt"
 import { NawigacjaEkranu } from "@/components/nawigacja-ekranu"
 import { KartaPorownawcza, type Kolumna } from "@/components/wzorce/karta-porownawcza"
@@ -56,7 +57,11 @@ export default function PorownanieTechnologiiMagazynowPage() {
   return (
     <main className="mx-auto flex max-w-2xl flex-col gap-6 p-6">
       <NawigacjaEkranu href="/kalkulatory/porownanie-technologii-magazynow" />
-      <NaglowekEkranu tytul="Porównanie technologii magazynów">
+      <NaglowekEkranu
+        tytul="Porównanie technologii magazynów"
+        ekran="porownanie-technologii-magazynow"
+        wzor={result.formula}
+      >
         Cena zakupu to nie to samo co koszt w całym cyklu życia — trzeba doliczyć wagę
         (konstrukcja podłogi), obsługę i realną liczbę cykli. Moduł 4, Ekran 30.
       </NaglowekEkranu>
@@ -70,6 +75,7 @@ export default function PorownanieTechnologiiMagazynowPage() {
         placeholder="np. 45 — bez wpisania: porównanie na 1 kWh"
         value={pojemnoscKwh}
         onChange={(e) => setPojemnoscKwh(e.target.value)}
+        pomoc={<PomocPola ekran="porownanie-technologii-magazynow" pole="pojemnosc" />}
       />
 
       {isInvalid ? (

@@ -5,6 +5,7 @@ import { calculateKoniecLadowania } from "@/lib/core/modules/baterie/koniec-lado
 import { PRZYKLADOWY_PROG_KONCOWY_C } from "@/lib/core/modules/baterie/koniec-ladowania/constants"
 import { usePersistedDraft } from "@/lib/adapters/use-persisted-draft"
 import { Pole } from "@/components/ui/pole"
+import { PomocPola } from "@/components/ui/pomoc"
 import { WerdyktPanel, type WerdyktPoziom } from "@/components/werdykt"
 import { NawigacjaEkranu } from "@/components/nawigacja-ekranu"
 import { NaglowekEkranu } from "@/components/wzorce/naglowek-ekranu"
@@ -78,7 +79,11 @@ export default function KoniecLadowaniaPage() {
   return (
     <main className="mx-auto flex max-w-md flex-col gap-6 p-6">
       <NawigacjaEkranu href="/kalkulatory/koniec-ladowania" />
-      <NaglowekEkranu tytul="Algorytm końca ładowania (Tail Current / Absorption)">
+      <NaglowekEkranu
+        tytul="Algorytm końca ładowania (Tail Current / Absorption)"
+        ekran="koniec-ladowania"
+        wzor={result.formula}
+      >
         To jak napełnianie butelki — ciśnienie już jest, ale trzeba chwilę odczekać, żeby woda
         dotarła do samego końca. Moduł 4, Ekran 13.
       </NaglowekEkranu>
@@ -91,6 +96,7 @@ export default function KoniecLadowaniaPage() {
           inputMode="decimal"
           value={pojemnoscAh}
           onChange={(e) => setPojemnoscAh(e.target.value)}
+          pomoc={<PomocPola ekran="koniec-ladowania" pole="pojemnosc" />}
         />
         <Pole
           label="Napięcie absorpcji"
@@ -99,6 +105,7 @@ export default function KoniecLadowaniaPage() {
           inputMode="decimal"
           value={napiecieAbsorpcjiV}
           onChange={(e) => setNapiecieAbsorpcjiV(e.target.value)}
+          pomoc={<PomocPola ekran="koniec-ladowania" pole="napiecieAbsorpcji" />}
         />
         <Pole
           label="Próg prądu końcowego"
@@ -107,7 +114,7 @@ export default function KoniecLadowaniaPage() {
           inputMode="decimal"
           value={progKoncowyC}
           onChange={(e) => setProgKoncowyC(e.target.value)}
-          hint={`Przykład ze źródła: ${PRZYKLADOWY_PROG_KONCOWY_C}C.`}
+          pomoc={<PomocPola ekran="koniec-ladowania" pole="progKoncowy" params={{ progC: PRZYKLADOWY_PROG_KONCOWY_C }} />}
         />
         <Pole
           label="Aktualny prąd (live)"
@@ -116,6 +123,7 @@ export default function KoniecLadowaniaPage() {
           inputMode="decimal"
           value={aktualnyPradA}
           onChange={(e) => setAktualnyPradA(e.target.value)}
+          pomoc={<PomocPola ekran="koniec-ladowania" pole="prad" />}
         />
         <Pole
           label="Aktualne napięcie (live)"
@@ -124,6 +132,7 @@ export default function KoniecLadowaniaPage() {
           inputMode="decimal"
           value={aktualneNapiecieV}
           onChange={(e) => setAktualneNapiecieV(e.target.value)}
+          pomoc={<PomocPola ekran="koniec-ladowania" pole="napiecie" />}
         />
       </div>
 

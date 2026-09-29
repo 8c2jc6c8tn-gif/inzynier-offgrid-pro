@@ -5,6 +5,7 @@ import { calculatePozycjonowanieOgniw } from "@/lib/core/modules/baterie/pozycjo
 import { DOCISK_MAX_KGF, DOCISK_MIN_KGF } from "@/lib/core/modules/baterie/pozycjonowanie-ogniw/constants"
 import { usePersistedDraft } from "@/lib/adapters/use-persisted-draft"
 import { Pole, PoleCheckbox } from "@/components/ui/pole"
+import { PomocPola } from "@/components/ui/pomoc"
 import { WerdyktPanel, type WerdyktPoziom } from "@/components/werdykt"
 import { NawigacjaEkranu } from "@/components/nawigacja-ekranu"
 import { NaglowekEkranu } from "@/components/wzorce/naglowek-ekranu"
@@ -59,7 +60,7 @@ export default function PozycjonowanieOgniwPage() {
   return (
     <main className="mx-auto flex max-w-md flex-col gap-6 p-6">
       <NawigacjaEkranu href="/kalkulatory/pozycjonowanie-ogniw" />
-      <NaglowekEkranu tytul="Pozycjonowanie ogniw (kompresja/spuchnięcie)">
+      <NaglowekEkranu tytul="Pozycjonowanie ogniw (kompresja/spuchnięcie)" ekran="pozycjonowanie-ogniw">
         Ogniwa lubią być trzymane stabilnie, ale nie jak w imadle — muszą mieć trochę przestrzeni
         na naturalne „oddychanie” podczas pracy. Moduł 4, Ekran 21.
       </NaglowekEkranu>
@@ -72,7 +73,7 @@ export default function PozycjonowanieOgniwPage() {
           inputMode="decimal"
           value={dociskKgf}
           onChange={(e) => setDociskKgf(e.target.value)}
-          hint={`Zalecany zakres dla ogniw pryzmatycznych: ${DOCISK_MIN_KGF}-${DOCISK_MAX_KGF} kgf.`}
+          pomoc={<PomocPola ekran="pozycjonowanie-ogniw" pole="docisk" params={{ dociskMin: DOCISK_MIN_KGF, dociskMax: DOCISK_MAX_KGF }} />}
         />
         <PoleCheckbox
           id="luz-peczenie"

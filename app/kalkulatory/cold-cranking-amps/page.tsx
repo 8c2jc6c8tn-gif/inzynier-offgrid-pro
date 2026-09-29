@@ -4,6 +4,7 @@ import { useMemo } from "react"
 import { calculateColdCrankingAmps } from "@/lib/core/modules/baterie/cold-cranking-amps/calculator"
 import { usePersistedDraft } from "@/lib/adapters/use-persisted-draft"
 import { Pole } from "@/components/ui/pole"
+import { PomocPola } from "@/components/ui/pomoc"
 import { WerdyktPanel, type WerdyktPoziom } from "@/components/werdykt"
 import { NawigacjaEkranu } from "@/components/nawigacja-ekranu"
 import { NaglowekEkranu } from "@/components/wzorce/naglowek-ekranu"
@@ -62,7 +63,11 @@ export default function ColdCrankingAmpsPage() {
   return (
     <main className="mx-auto flex max-w-md flex-col gap-6 p-6">
       <NawigacjaEkranu href="/kalkulatory/cold-cranking-amps" />
-      <NaglowekEkranu tytul="Cold Cranking Amps — zimny start dużych odbiorników">
+      <NaglowekEkranu
+        tytul="Cold Cranking Amps — zimny start dużych odbiorników"
+        ekran="cold-cranking-amps"
+        wzor={result.formula}
+      >
         Zimna bateria to leniwa chemia — reakcje chemiczne wewnątrz zwalniają, więc bateria
         chwilowo „nie nadąża” z dostarczeniem prądu rozruchowego, nawet jeśli ma dużo energii.
         Moduł 4, Ekran 15.
@@ -77,6 +82,7 @@ export default function ColdCrankingAmpsPage() {
           min={0}
           value={napiecieOtwartegoObwoduV}
           onChange={(e) => setNapiecieOtwartegoObwoduV(e.target.value)}
+          pomoc={<PomocPola ekran="cold-cranking-amps" pole="napiecie" />}
         />
         <Pole
           label="Prąd rozruchowy odbiornika"
@@ -86,7 +92,7 @@ export default function ColdCrankingAmpsPage() {
           min={0}
           value={pradRozruchowyA}
           onChange={(e) => setPradRozruchowyA(e.target.value)}
-          hint="Np. prąd startowy pompy głębinowej."
+          pomoc={<PomocPola ekran="cold-cranking-amps" pole="pradRozruchu" />}
         />
         <Pole
           label="Rezystancja wewnętrzna pakietu"
@@ -96,7 +102,7 @@ export default function ColdCrankingAmpsPage() {
           min={0}
           value={rezystancjaWewnetrznaMOhm}
           onChange={(e) => setRezystancjaWewnetrznaMOhm(e.target.value)}
-          hint="Zmierzona w bieżącej (zimnej) temperaturze ogniw, np. testerem YR1035."
+          pomoc={<PomocPola ekran="cold-cranking-amps" pole="rezystancja" />}
         />
         <Pole
           label="Minimalne napięcie pracy falownika"
@@ -106,6 +112,7 @@ export default function ColdCrankingAmpsPage() {
           min={0}
           value={minimalneNapiecieFalownikaV}
           onChange={(e) => setMinimalneNapiecieFalownikaV(e.target.value)}
+          pomoc={<PomocPola ekran="cold-cranking-amps" pole="minFalownika" />}
         />
       </div>
 

@@ -43,7 +43,7 @@ export default function DetekcjaDoziemieniaPage() {
   return (
     <main className="mx-auto flex max-w-md flex-col gap-6 p-6">
       <NawigacjaEkranu href="/kalkulatory/detekcja-doziemienia" />
-      <NaglowekEkranu tytul="Detekcja doziemienia (Ground Fault & IMD)">
+      <NaglowekEkranu tytul="Detekcja doziemienia (Ground Fault & IMD)" ekran="detekcja-doziemienia">
         Prąd stały (DC) trzyma ofiarę porażenia mocniej niż zmienny (AC) — mięśnie nie mogą się
         „puścić” tak jak przy AC. Dlatego detekcja doziemienia w DC jest tak krytyczna. Moduł 4,
         Ekran 29.

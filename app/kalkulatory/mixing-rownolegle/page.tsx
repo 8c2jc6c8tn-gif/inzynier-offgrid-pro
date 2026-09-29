@@ -6,6 +6,7 @@ import { PROG_ROZNICY_NAPIEC_V } from "@/lib/core/modules/baterie/mixing-rownole
 import { BATTERY_TECHNOLOGIES } from "@/lib/core/modules/baterie/porownanie-technologii/constants"
 import { usePersistedDraft } from "@/lib/adapters/use-persisted-draft"
 import { Pole, PoleSelect } from "@/components/ui/pole"
+import { PomocPola } from "@/components/ui/pomoc"
 import { WerdyktPanel, type WerdyktPoziom } from "@/components/werdykt"
 import { NawigacjaEkranu } from "@/components/nawigacja-ekranu"
 import { NaglowekEkranu } from "@/components/wzorce/naglowek-ekranu"
@@ -102,14 +103,24 @@ export default function MixingRownoleglePage() {
   return (
     <main className="mx-auto flex max-w-md flex-col gap-6 p-6">
       <NawigacjaEkranu href="/kalkulatory/mixing-rownolegle" />
-      <NaglowekEkranu tytul="Łączenie równoległe różnych baterii (Mixing)">
+      <NaglowekEkranu
+        tytul="Łączenie równoległe różnych baterii (Mixing)"
+        ekran="mixing-rownolegle"
+        wzor={result.formula}
+        parametry={{ progRoznicy: PROG_ROZNICY_NAPIEC_V }}
+      >
         To jak zaprzęgnięcie konia pociągowego z kucykiem do tego samego wozu — jeden ciągnie
         więcej i szybciej się wykończy. Moduł 4, Ekran 18.
       </NaglowekEkranu>
 
       <div className="flex flex-col gap-4 rounded-lg border p-4">
         <p className="text-small font-medium">Bateria 1</p>
-        <PoleSelect label="Chemia ogniw" value={chemia1} onChange={(e) => setChemia1(e.target.value)}>
+        <PoleSelect
+          label="Chemia ogniw"
+          value={chemia1}
+          onChange={(e) => setChemia1(e.target.value)}
+          pomoc={<PomocPola ekran="mixing-rownolegle" pole="chemia" />}
+        >
           <option value="">— wybierz —</option>
           {BATTERY_TECHNOLOGIES.map((t) => (
             <option key={t.id} value={t.id}>
@@ -124,6 +135,7 @@ export default function MixingRownoleglePage() {
           inputMode="decimal"
           value={napiecieNominalneV1}
           onChange={(e) => setNapiecieNominalneV1(e.target.value)}
+          pomoc={<PomocPola ekran="mixing-rownolegle" pole="napiecie" params={{ progRoznicy: PROG_ROZNICY_NAPIEC_V }} />}
         />
         <Pole
           label="Rezystancja wewnętrzna"
@@ -132,12 +144,18 @@ export default function MixingRownoleglePage() {
           inputMode="decimal"
           value={rezystancjaWewnetrznaMOhm1}
           onChange={(e) => setRezystancjaWewnetrznaMOhm1(e.target.value)}
+          pomoc={<PomocPola ekran="mixing-rownolegle" pole="rezystancja" />}
         />
       </div>
 
       <div className="flex flex-col gap-4 rounded-lg border p-4">
         <p className="text-small font-medium">Bateria 2</p>
-        <PoleSelect label="Chemia ogniw" value={chemia2} onChange={(e) => setChemia2(e.target.value)}>
+        <PoleSelect
+          label="Chemia ogniw"
+          value={chemia2}
+          onChange={(e) => setChemia2(e.target.value)}
+          pomoc={<PomocPola ekran="mixing-rownolegle" pole="chemia" />}
+        >
           <option value="">— wybierz —</option>
           {BATTERY_TECHNOLOGIES.map((t) => (
             <option key={t.id} value={t.id}>
@@ -152,6 +170,7 @@ export default function MixingRownoleglePage() {
           inputMode="decimal"
           value={napiecieNominalneV2}
           onChange={(e) => setNapiecieNominalneV2(e.target.value)}
+          pomoc={<PomocPola ekran="mixing-rownolegle" pole="napiecie" params={{ progRoznicy: PROG_ROZNICY_NAPIEC_V }} />}
         />
         <Pole
           label="Rezystancja wewnętrzna"
@@ -160,6 +179,7 @@ export default function MixingRownoleglePage() {
           inputMode="decimal"
           value={rezystancjaWewnetrznaMOhm2}
           onChange={(e) => setRezystancjaWewnetrznaMOhm2(e.target.value)}
+          pomoc={<PomocPola ekran="mixing-rownolegle" pole="rezystancja" />}
         />
       </div>
 

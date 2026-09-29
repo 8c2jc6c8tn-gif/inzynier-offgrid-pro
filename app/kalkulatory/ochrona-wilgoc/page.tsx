@@ -5,12 +5,14 @@ import { calculateOchronaWilgoc } from "@/lib/core/modules/baterie/ochrona-wilgo
 import { OPCJE_IP } from "@/lib/core/modules/baterie/ochrona-wilgoc/constants"
 import { usePersistedDraft } from "@/lib/adapters/use-persisted-draft"
 import { Pole, PoleCheckbox, PoleSelect } from "@/components/ui/pole"
+import { PomocPola } from "@/components/ui/pomoc"
 import { WerdyktPanel, type WerdyktPoziom } from "@/components/werdykt"
 import { NawigacjaEkranu } from "@/components/nawigacja-ekranu"
 import { NaglowekEkranu } from "@/components/wzorce/naglowek-ekranu"
 import { WynikGlowny } from "@/components/wzorce/wynik-glowny"
 import { WynikSzczegoly } from "@/components/wzorce/wynik-szczegoly"
 import { useTranslate } from "@/lib/i18n/language-context"
+import { MIN_IP_KOD_WILGOTNE } from "@/lib/core/modules/baterie/ochrona-wilgoc/constants"
 
 type FormularzStan = {
   temperaturaOtoczeniaC: string
@@ -73,7 +75,12 @@ export default function OchronaWilgocPage() {
   return (
     <main className="mx-auto flex max-w-md flex-col gap-6 p-6">
       <NawigacjaEkranu href="/kalkulatory/ochrona-wilgoc" />
-      <NaglowekEkranu tytul="Ochrona przed wilgocią i kondensacją">
+      <NaglowekEkranu
+        tytul="Ochrona przed wilgocią i kondensacją"
+        ekran="ochrona-wilgoc"
+        wzor={result.formula}
+        parametry={{ minIp: MIN_IP_KOD_WILGOTNE }}
+      >
         Mokry BMS i miedziane szyny to gotowy przepis na zwarcie — kondensacja to cichy zabójca
         elektroniki. Moduł 4, Ekran 10.
       </NaglowekEkranu>
@@ -86,6 +93,7 @@ export default function OchronaWilgocPage() {
           inputMode="decimal"
           value={temperaturaOtoczeniaC}
           onChange={(e) => setTemperaturaOtoczeniaC(e.target.value)}
+          pomoc={<PomocPola ekran="ochrona-wilgoc" pole="temperatura" />}
         />
         <Pole
           label="Wilgotność względna"
@@ -96,6 +104,7 @@ export default function OchronaWilgocPage() {
           max={100}
           value={wilgotnoscPct}
           onChange={(e) => setWilgotnoscPct(e.target.value)}
+          pomoc={<PomocPola ekran="ochrona-wilgoc" pole="wilgotnosc" />}
         />
         <Pole
           label="Temperatura obudowy / ogniw"
@@ -104,9 +113,14 @@ export default function OchronaWilgocPage() {
           inputMode="decimal"
           value={temperaturaObudowyC}
           onChange={(e) => setTemperaturaObudowyC(e.target.value)}
-          hint="Zmierzona lub spodziewana — może być niższa niż otoczenia (wychłodzenie radiacyjne w nocy)."
+          pomoc={<PomocPola ekran="ochrona-wilgoc" pole="temperaturaObudowy" />}
         />
-        <PoleSelect label="Kod IP obudowy" value={ipKod} onChange={(e) => setIpKod(e.target.value)}>
+        <PoleSelect
+          label="Kod IP obudowy"
+          value={ipKod}
+          onChange={(e) => setIpKod(e.target.value)}
+          pomoc={<PomocPola ekran="ochrona-wilgoc" pole="ip" params={{ minIp: MIN_IP_KOD_WILGOTNE }} />}
+        >
           <option value="">— wybierz —</option>
           {OPCJE_IP.map((o) => (
             <option key={o.kod} value={o.kod}>

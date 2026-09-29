@@ -1,13 +1,12 @@
-import { MATRYCA_ALARMOW, MIGAWKA, PRZYKLADOWY_KOMUNIKAT } from "@/lib/core/modules/baterie/matryca-alarmow-bms/constants"
+import { MATRYCA_ALARMOW, PRZYKLADOWY_KOMUNIKAT } from "@/lib/core/modules/baterie/matryca-alarmow-bms/constants"
 import { NawigacjaEkranu } from "@/components/nawigacja-ekranu"
 import { NaglowekEkranu } from "@/components/wzorce/naglowek-ekranu"
-import { MigawkaBox } from "@/components/wzorce/migawka-box"
 
 export default function MatrycaAlarmowBmsPage() {
   return (
     <main className="mx-auto flex max-w-md flex-col gap-6 p-6">
       <NawigacjaEkranu href="/kalkulatory/matryca-alarmow-bms" />
-      <NaglowekEkranu tytul="Matryca alarmów BMS i reakcje systemu">
+      <NaglowekEkranu tytul="Matryca alarmów BMS i reakcje systemu" ekran="matryca-alarmow-bms">
         Moduł 4, Ekran 34. Tabela referencyjna — co robi BMS automatycznie, gdy wykryje dany
         stan alarmowy.
       </NaglowekEkranu>
@@ -36,7 +35,7 @@ export default function MatrycaAlarmowBmsPage() {
         <p className="mt-1 text-muted-foreground">{PRZYKLADOWY_KOMUNIKAT}</p>
       </div>
 
-      <MigawkaBox>{MIGAWKA}</MigawkaBox>
+      
     </main>
   )
 }
