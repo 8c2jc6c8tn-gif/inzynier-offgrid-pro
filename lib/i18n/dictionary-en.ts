@@ -1152,7 +1152,7 @@ export const dictionaryEn = {
   "KO-ZALOZENIE-COP-OPOROWE": "Heater element, electric boiler and infrared panels: COP = 1 — all electricity turns into heat (source: electric boiler “COP=1”).",
   "KO-ZALOZENIE-GODZINY-NOMINALNE": "Operating hours and electricity of fuel-fired devices calculated at rated output (heat ÷ output). At lower output there will be more hours and more auxiliary electricity.",
   "PROGNOZY-ZALOZENIE-DANE-DEMO": "Demonstration data — eventually the screen will draw on the annual simulation engine and a live weather forecast.",
-  "PROGNOZY-ZALOZENIE-PROBKOWANIE-3H": "Total computed over the available sampling points (every 3 h), not the full hourly curve — indicative, not a detailed design.",
+  "PROGNOZY-ZALOZENIE-PROBKOWANIE-3H": "Each point is the average power over its 3-hour window — energy = power × 3 h, summed over the points. This is 3-hour sampling, not the full hourly curve — indicative, not a detailed design.",
   "PROTOKOL-NIEZNANY": "At least one of the devices has an unknown/unclassified protocol — check the documentation of both devices; compatibility cannot be assessed automatically.",
   "PORTECH-POJEMNOSC-NIEDODATNIA": "The \"planned capacity\" field must be greater than zero.",
   "PORTECH-ZALOZENIE-BASELINE": "Capacity not given — comparison computed for {pojemnosc} kWh (\"per 1 kWh\" baseline).",

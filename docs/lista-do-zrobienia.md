@@ -1159,16 +1159,19 @@ Pełne wyniki audytu: `docs/memory.md`, sekcja "Pełny audyt na polecenie właś
   **[29.09.2026] ZAMKNIĘTE:** `pnpm check:pomoc-guard` — 255 plików zgodnych, lista zapadkowa pusta (od teraz każdy
   nowy ekran bez „?”/„i” blokuje merge). Prop `hint` usunięty z typów `Pole`/`PoleSelect` (nie da się go już użyć);
   `PoleCheckbox` zachowuje `hint` (opis obok pola wyboru, strażnik go nie liczy jako zamiennika „?”).
-- 🔲 (2026-09-29) **Prognozy (M10) — możliwe zaniżenie energii ×3 (pytanie do właściciela).** Znalezione przy migawce M10:
+- ✅ (2026-09-29) **Prognozy (M10) — możliwe zaniżenie energii ×3 (pytanie do właściciela).** Znalezione przy migawce M10:
   `lib/core/modules/ai/prognozy/calculator.ts` sumuje próbki mocy `produkcjaKw`/`zuzycieKw` (8 punktów co 3 h) wprost jako
   kWh, bez mnożenia przez Δt = 3 h. (A) próbka to średnia moc w przedziale 3 h → energia = Σ P·3 h, obecny wynik ×3 za mały —
   poprawić silnik + testy. (B) próbka to już energia przedziału w kWh → poprawić tylko nazwy pól (`…Kwh`), liczby zostają.
   Dziś ekran pokazuje dane demonstracyjne (TD7), więc bez wpływu na projekt użytkownika. **Nie ruszane — czeka na decyzję.**
+  → **[29.09.2026] Decyzja właściciela: A** (tak opisuje to ekran; docelowe źródła — symulacja, pogoda — podają moc).
+  Silnik 1.1.0: energia = Σ P × `KROK_PROBKOWANIA_H` (3 h), wzór w `formula`; demo: produkcja 27,3 kWh, zużycie 26,1 kWh,
+  bilans +1,2 kWh (było 9,1 / 8,7 / +0,4). Teksty założenia PL/EN/RU mówią wprost „energia = moc × 3 h”.
 - 🔲 (2026-09-29) **Tłumaczenie samych stron (etykiety pól, nagłówki, komunikaty UI) na EN/RU.** Wyszło przy D51: treść
   „?”/„i” i komunikaty silników są w trzech językach, ale etykiety pól i teksty na stronach nadal tylko po polsku.
   Osobne, duże zadanie (standard 17). **Priorytet:** do decyzji właściciela. **Kolizje:** te same pliki co chmurki —
   robić po nich albo razem, moduł po module.
-- 🔄 (2026-09-29) **Opisy narzędzi AI — domknięcie luk (pytanie właściciela: „czy są rozbudowane opisy funkcji dla AI”).**
+- ✅ (2026-09-29) **Opisy narzędzi AI — domknięcie luk (pytanie właściciela: „czy są rozbudowane opisy funkcji dla AI”).**
   Stan 29.09.2026: 183 narzędzia w rejestrze, 181 ma `.describe()` na polach wejścia, 156 ma w `description` zdanie
   „Użyj, gdy…” (kiedy model ma je wywołać) — **27 go nie ma** (m.in. blackout, analiza-spof, typ-montazu, klapy-pozarowe,
   moc-bierna, zasilanie-esp32). **12 kalkulatorów bez narzędzia AI:** baterie/komunikacja-bms, baterie/porownanie-technologii,
@@ -1190,4 +1193,7 @@ Pełne wyniki audytu: `docs/memory.md`, sekcja "Pełny audyt na polecenie właś
   i `ai/prognozy` (po decyzji Δt).
   **Partia 4 ✅ (29.09):** narzędzia `komunikacja-bms`, `porownanie-technologii`, `czystosc-i-snieg`;
   `lokalizacja-i-klimat` — adnotacja `ai-tool: nie dotyczy` (silnik tylko zapisuje profil, nic nie liczy). Lista 5 → 1.
+  **Partia 5 ✅ (29.09) — ZAMKNIĘTE:** `ai/prognozy` — narzędzie `policz_bilans_prognozy` (razem z poprawką Δt, decyzja A).
+  Lista zapadkowa pusta — od teraz każdy nowy kalkulator bez narzędzia AI (albo bez `ai-tool: nie dotyczy — powód`)
+  blokuje merge.
 - ✅ (2026-09-29) **D54 — odpowiedzi właściciela: CRL, kafle M14, gaz, Rsi.** M5/E2 CRL 1.1.0: pole `kolejnoscOdBudynku` (limit 1 km od budynku na zewnątrz; bez kolejności ostrożnie jak dotąd) + ℹ️ `CRL-SPD-ZALECANY` przy CRL ≥ 1000 (TD21 pkt 3 zamknięty). M8/E4 1.1.0: gaz/aerozol 🟡 potwierdzone + ℹ️ `GASZ-PROPOZYCJA-LIFEPO4` (mgła wodna, środek do magazynów energii, chłodzenie/zamrażanie ogniw — ✅🤖). Kafle M14 na końcu presetów — potwierdzone. Rsi = 0,13 ze źródeł do czasu PKN. **Otwarte:** tylko M9/E4 CAN (🟡 ✅🤖, rekomendacja 🔴).

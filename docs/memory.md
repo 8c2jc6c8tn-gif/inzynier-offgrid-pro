@@ -8178,6 +8178,16 @@ Tryb Audyt (czapka rewidenta). Warstwa „w pełni na końcu” z N.2 — wszyst
 - Poprawione nieaktualne wpisy: lista „Otwarte” w 03_M14 (Enea netto, Stoen C22 były już ✅), tabela i pkt 6 w
   „STAN NA TERAZ”, wskaźnik startowy na górze `docs/lista-do-zrobienia.md`.
 
+## Prognozy M10 — Δt, decyzja A; narzędzia AI domknięte (29.09.2026)
+
+- Właściciel wybrał **A**: punkt prognozy = średnia moc [kW] w oknie 3 h, energia = Σ P × 3 h. Silnik `ai/prognozy` 1.0.0
+  sumował same kW (energia ×3 za mała); 1.1.0 mnoży przez stałą `KROK_PROBKOWANIA_H = 3` i ma wzór w `formula`.
+  Demo: 27,3 / 26,1 / +1,2 kWh. Ekran nadal na danych demonstracyjnych (TD7), więc bez wpływu na projekty użytkowników.
+- **Pułapka:** pola `…Kw` sumowane do wyniku `…Kwh` bez Δt — przy kolejnych szeregach czasowych (symulacja SoC 12.4,
+  dane live) krok próbkowania musi być jawny w silniku, nie domyślny „1 h”.
+- Narzędzie `policz_bilans_prognozy`; lista zapadkowa `ai-tools-guard-baseline.json` pusta — każdy kalkulator ma
+  narzędzie AI albo adnotację `ai-tool: nie dotyczy — powód` (jedyna: `lokalizacja-i-klimat`).
+
 ## D54 — CRL od budynku, gaz 🟡 z propozycją, kafle M14, Rsi (29.09.2026)
 
 - **CRL (M5/E2 1.1.0):** `kolejnoscOdBudynku?: OdcinekCrl[] | null` — opcjonalne (stare szkice, AI). Niewymienione

@@ -1164,7 +1164,7 @@ export const dictionaryPl = {
   "KO-ZALOZENIE-COP-OPOROWE": "Grzałka, kocioł elektryczny i promienniki podczerwieni: COP = 1 — cały prąd zamienia się w ciepło (źródło: kocioł elektryczny „COP=1”).",
   "KO-ZALOZENIE-GODZINY-NOMINALNE": "Godziny pracy i prąd urządzeń paliwowych policzone przy mocy nominalnej (ciepło ÷ moc). Przy pracy na niższej mocy godzin i prądu pomocniczego będzie więcej.",
   "PROGNOZY-ZALOZENIE-DANE-DEMO": "Dane demonstracyjne — docelowo ekran czerpie z silnika symulacji rocznej i prognozy pogody live.",
-  "PROGNOZY-ZALOZENIE-PROBKOWANIE-3H": "Suma liczona po dostępnych punktach próbkowania (co 3h), nie pełnej krzywej godzinowej — orientacyjnie, nie jako projekt wykonawczy.",
+  "PROGNOZY-ZALOZENIE-PROBKOWANIE-3H": "Każdy punkt to średnia moc w swoim 3-godzinnym oknie — energia = moc × 3 h, zsumowana po punktach. To próbkowanie co 3 h, nie pełna krzywa godzinowa — orientacyjnie, nie jako projekt wykonawczy.",
   "PROTOKOL-NIEZNANY": "Co najmniej jedno z urządzeń ma nieznany/niesklasyfikowany protokół — sprawdź dokumentację obu urządzeń, zgodności nie da się ocenić automatycznie.",
   "PORTECH-POJEMNOSC-NIEDODATNIA": "Wartość pola \"planowana pojemność\" musi być większa od zera.",
   "PORTECH-ZALOZENIE-BASELINE": "Pojemność nie podana — porównanie liczone dla {pojemnosc} kWh (baseline \"na 1 kWh\").",
