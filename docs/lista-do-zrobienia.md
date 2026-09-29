@@ -1292,6 +1292,10 @@ Pełne wyniki audytu: `docs/memory.md`, sekcja "Pełny audyt na polecenie właś
   `lib/i18n/__tests__/ui.test.ts` ✅ (6/6). **NIE uruchomiono** pełnego pakietu. Następny krok: `pnpm lint`,
   `check:i18n-guard`, `check:pomoc-guard`, `check:ai-tools-guard`, `test` (cały — sprawdź zwłaszcza testy ekranów szukające
   polskich tekstów, np. E38/M14), `build`, `audit:gate` → poprawki → PR → merge (SHA 40 znaków).
+  ✅ **[29.09.2026, wieczór] Dokończone.** Pełny pakiet zielony (typecheck, lint 0 błędów, trzy strażniki, `test`
+  2095/2095, `build`, `audit:gate`); jedyna poprawka: jawny `timeout: 30_000` dla bloku TMY w
+  `analiza-zacienienia.test.ts` (test ciężki, padał tylko w pełnym pakiecie — pułapka z `docs/memory.md` 25.09).
+  Test dymny na `pnpm start`: 6 zmigrowanych ekranów bez widocznych kluczy `UI-*`. Scalone do `main` przez PR.
   ▶️ **[29.09.2026, wieczór] Dokończone.** Scalono `origin/main` (konflikty tylko w docs — dopisy z obu stron, zachowane
   obie). Pełny pakiet lokalnie: typecheck ✅, lint ✅ (2 stare ostrzeżenia `<img>`), `check:i18n-guard` ✅,
   `check:pomoc-guard` ✅, `check:ai-tools-guard` ✅, `test` ✅ 2095/2095 (po poprawce limitów czasu, `docs/memory.md` D58),

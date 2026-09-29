@@ -170,7 +170,7 @@ function rokSyntetyczny(lat: number, lon: number, dhiStale: number): RekordGodzi
   return dane
 }
 
-describe("strata całkowitego napromieniowania na danych TMY (TD14)", () => {
+describe("strata całkowitego napromieniowania na danych TMY (TD14)", { timeout: 30_000 }, () => {
   const dane = rokSyntetyczny(baza.szerokoscGeograficzna!, baza.dlugoscGeograficzna!, 80)
   const tmy: AnalizaZacienieniaInput = { ...baza, daneGodzinowe: dane }
 

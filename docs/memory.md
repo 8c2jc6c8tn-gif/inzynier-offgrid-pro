@@ -8358,3 +8358,13 @@ Tryb Audyt (czapka rewidenta). Warstwa „w pełni na końcu” z N.2 — wszyst
   (3) Stary cache `offgrid-v1` nie zostanie usunięty przez nowy `aktywuj()` — plan dodaje jawne usunięcie.
   (4) W `.next/static/media` są wersje `-dev` MapLibre (~2,5 MB) w buildzie produkcyjnym — etap 2.
   (5) `pkill -f "next start"` ubija powłokę wywołującą (exit 144) — ubijać po PID / grupie procesów.
+
+## D58 — domknięcie przerwanej pracy (29.09.2026, wieczór)
+
+- Pełny pakiet na gałęzi `claude/update-audit-xowv23` zielony po jednej poprawce: `analiza-zacienienia.test.ts`, blok
+  „strata całkowitego napromieniowania na danych TMY (TD14)” dostał `{ timeout: 30_000 }` — ten sam przypadek co 25.09
+  (pełny przebieg godzinowy TMY > 5 s pod obciążeniem pakietu). **Obserwacja:** w pierwszym przebiegu pakietu padły też
+  jednorazowo 4 testy `orientacja-powierzchni`/`modul1-lokalizacja-tools`, choć ich `describe` ma już 30 s (Vitest 4.1.11
+  dziedziczy `timeout` z `describe` — sprawdzone w `@vitest/runner`); dwa kolejne przebiegi zielone, komunikatu błędu
+  z pierwszego przebiegu nie zachowano. Jeśli wróci — zapisać pełny komunikat przed ponownym uruchomieniem (10.x: nie
+  zakładać „flaky”).
