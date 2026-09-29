@@ -336,7 +336,7 @@ export const pl = {
       podlaczenie: {
         nazwa: "Sposób podłączenia agregatu",
         cel: "Agregat podłączony do instalacji budynku bez przełącznika (np. „wtyczką” do gniazdka) może podać napięcie do sieci i zabić montera na „wyłączonej” linii — czerwony stop. Przełącznik I–0–II jest wymagany zawsze, gdy agregat zasila instalację budynku.",
-        gdzie: "Sprawdź, jak agregat jest połączony: przez przełącznik, wprost do instalacji, przez wejście AC falownika albo tylko odbiorniki wpięte w jego gniazda.",
+        gdzie: "Sprawdź, jak agregat jest połączony: przez przełącznik, wprost do instalacji, przez rozdzielnię do wejścia AC falownika albo odbiorniki awaryjne z rozdzielni zasilanej tylko z agregatu (wg planu awaryjnego). Agregat łączy się zawsze przez rozdzielnię.",
         zakres: "Opcje z listy. Szczegóły przełącznika — ekran „Przełącznik sieć/wyspa i bezpieczeństwo”.",
       },
     },
@@ -1225,7 +1225,7 @@ export const en: Tlumaczenie<typeof pl> = {
       podlaczenie: {
         nazwa: "How the generator is connected",
         cel: "A generator connected to the building installation without a switch (e.g. with a plug into a socket) can feed voltage into the grid and kill a line worker on a “switched-off” line — red stop. A I–0–II changeover switch is always required when a generator feeds the building installation.",
-        gdzie: "Check how the generator is connected: through a switch, directly into the installation, through the inverter's AC input, or only loads plugged into its sockets.",
+        gdzie: "Check how the generator is connected: through a switch, directly into the installation, through a distribution board to the inverter's AC input, or emergency loads from a board supplied only by the generator (per the emergency plan). A generator is always connected through a distribution board.",
         zakres: "Options on the list. Switch details — the “Grid/island switch and safety” screen.",
       },
     },
@@ -2110,7 +2110,7 @@ export const ru: Tlumaczenie<typeof pl> = {
       podlaczenie: {
         nazwa: "Способ подключения генератора",
         cel: "Генератор, подключённый к электропроводке здания без переключателя (например, «вилкой» в розетку), может подать напряжение в сеть и убить монтёра на «отключённой» линии — красный стоп. Переключатель I–0–II обязателен всегда, когда генератор питает проводку здания.",
-        gdzie: "Проверьте, как подключён генератор: через переключатель, напрямую в проводку, через вход AC инвертора или только потребители, включённые в его розетки.",
+        gdzie: "Проверьте, как подключён генератор: через переключатель, напрямую в проводку, через щит на вход AC инвертора или аварийные потребители от щита, питаемого только от генератора (по аварийному плану). Генератор всегда подключается через щит.",
         zakres: "Варианты из списка. Подробности о переключателе — экран «Переключатель сеть/остров и безопасность».",
       },
     },

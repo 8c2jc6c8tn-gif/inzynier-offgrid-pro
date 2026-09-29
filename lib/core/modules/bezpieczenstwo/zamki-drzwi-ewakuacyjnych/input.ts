@@ -15,6 +15,12 @@ export type ZamkiDrzwiEwakuacyjnychInput = {
   zachowaniePrzyZanikuZasilania: ZachowaniePrzyZaniku | null
   /** Zamek/sterownik zasilany z UPS lub własnego akumulatora. */
   maZasilanieAwaryjne: boolean
+  /**
+   * Manual mechanical release that opens the door with no power (lever handle, panic bar, key override) — D53:
+   * the owner accepts fail-secure only with emergency power OR such a release. Optional: drafts and AI calls
+   * from before D53 lack it (read as false).
+   */
+  maOtwarcieReczneMechaniczne?: boolean
   /** Przycisk ewakuacyjny zwalniający blokadę ręcznie. */
   maPrzyciskEwakuacyjny: boolean
   /** Zwalnianie blokady po sygnale alarmu pożarowego (centrala/czujki). */

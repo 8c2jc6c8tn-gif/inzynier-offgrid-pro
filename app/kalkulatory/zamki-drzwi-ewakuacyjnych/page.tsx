@@ -12,7 +12,10 @@ import { NaglowekEkranu } from "@/components/wzorce/naglowek-ekranu"
 import { WynikGlowny } from "@/components/wzorce/wynik-glowny"
 import { WynikSzczegoly } from "@/components/wzorce/wynik-szczegoly"
 
-type Flagi = "maZasilanieAwaryjne" | "maPrzyciskEwakuacyjny" | "zwalnianiePoAlarmiePozarowym" | "maKontaktron"
+type Flagi =
+  | "maZasilanieAwaryjne"
+  | "maOtwarcieReczneMechaniczne"
+  | "maPrzyciskEwakuacyjny" | "zwalnianiePoAlarmiePozarowym" | "maKontaktron"
 type FormularzStan = {
   typZamka: TypZamka | ""
   zachowaniePrzyZanikuZasilania: ZachowaniePrzyZaniku | ""
@@ -23,13 +26,19 @@ const STAN_POCZATKOWY: FormularzStan = {
   typZamka: "",
   zachowaniePrzyZanikuZasilania: "",
   maZasilanieAwaryjne: false,
+  maOtwarcieReczneMechaniczne: false,
   maPrzyciskEwakuacyjny: false,
   zwalnianiePoAlarmiePozarowym: false,
   maKontaktron: false,
 }
 
-const FLAGI: { pole: Flagi; label: string }[] = [
+const FLAGI: { pole: Flagi; label: string; hint?: string }[] = [
   { pole: "maZasilanieAwaryjne", label: "Zamek ma zasilanie awaryjne (UPS lub akumulator)" },
+  {
+    pole: "maOtwarcieReczneMechaniczne",
+    label: "Drzwi da się otworzyć ręcznie bez prądu",
+    hint: "Mechanicznie, od środka i bez klucza: klamka, pochwyt antypaniczny. Przycisk elektryczny się nie liczy.",
+  },
   { pole: "zwalnianiePoAlarmiePozarowym", label: "Alarm pożarowy zwalnia zamek" },
   { pole: "maPrzyciskEwakuacyjny", label: "Jest przycisk ewakuacyjny" },
   { pole: "maKontaktron", label: "Kontaktron potwierdza otwarcie drzwi" },
@@ -84,12 +93,14 @@ export default function ZamkiDrzwiEwakuacyjnychPage() {
           <option value="blokuje">Blokuje drzwi (fail-secure)</option>
           <option value="nie-wiem">Nie wiem</option>
         </PoleSelect>
-        {FLAGI.map(({ pole, label }) => (
+        {FLAGI.map(({ pole, label, hint }) => (
           <PoleCheckbox
             key={pole}
             id={`zamek-${pole}`}
             label={label}
-            checked={stan[pole]}
+            hint={hint}
+            // `?? false`: drafts saved before D53 lack maOtwarcieReczneMechaniczne.
+            checked={stan[pole] ?? false}
             onChange={(e) => setStan((prev) => ({ ...prev, [pole]: e.target.checked }))}
           />
         ))}

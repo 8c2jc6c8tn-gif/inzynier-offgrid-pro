@@ -8159,3 +8159,13 @@ Tryb Audyt (czapka rewidenta). Warstwa „w pełni na końcu” z N.2 — wszyst
   (✅🤖). Kod E8 bez zmian (0,13 wszędzie) do sprawdzenia końcowego z PKN — nie pytać ponownie.
 - **Pułapka:** decyzję z wartościami liczbowymi zapisuj od razu z liczbami i ich przypisaniem, nie samym „tak”.
 
+## D53 — odpowiedzi właściciela na odłożone pytania (29.09.2026)
+
+- **M8/E3 zamki:** nowe pole `maOtwarcieReczneMechaniczne` (opcjonalne w typie — stare szkice i wywołania AI go nie
+  mają, czytane jak `false`; w UI `?? false`). 🔴 tylko fail-secure bez UPS **i** bez ręcznego otwarcia. E3 → 1.1.0.
+- **Agregat (D48 pkt 4):** „zawsze przez rozdzielnię” — enum bez zmian (szkice), zmienione tylko etykiety, teksty
+  PL/EN/RU, chmurka i opis AI. Poziomy ℹ️ zostają.
+- **Kafle M14:** widoczne we wszystkich 8 presetach — presetów nie ma jeszcze w kodzie (onboarding w backlogu).
+- **Bez zmian w kodzie:** M8/E4 gaz (rekomendacja mgła wodna, czeka na wybór), M9/E2 (ESP32 z osobnego zasilania),
+  M9/E4 CAN (właściciel jeszcze nie wie; rekomendacja 🔴).
+

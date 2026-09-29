@@ -44,8 +44,8 @@ export function PolaBezpieczenstwaAgregatu({ miejsceAgregatu, podlaczenieAgregat
         <option value="">— wybierz —</option>
         <option value="przez-przelacznik">Do instalacji przez przełącznik I–0–II</option>
         <option value="bez-przelacznika">Do instalacji bez przełącznika (gniazdko, wtyczka)</option>
-        <option value="wejscie-ac-falownika">Przez wejście AC falownika / ładowarki</option>
-        <option value="tylko-odbiorniki">Tylko odbiorniki wpięte wprost w agregat</option>
+        <option value="wejscie-ac-falownika">Przez rozdzielnię do wejścia AC falownika / ładowarki</option>
+        <option value="tylko-odbiorniki">Odbiorniki awaryjne z rozdzielni zasilanej tylko z agregatu</option>
       </PoleSelect>
       <p className="text-caption text-muted-foreground">
         Jak ma wyglądać przełącznik (pozycja 0, blokada, przewód N):{" "}

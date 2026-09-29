@@ -47,6 +47,9 @@ przyłączeniowe); „duży” wygląd kafli i presety onboardingu (odłożone);
 TD21 CRL · Rsi per kierunek (czeka na PKN; ~~podane 0,17 / 0,10 / 0,13 — przypisanie do sprawdzenia z normą~~ **[29.09] ustalone: ściana 0,13 · strop/dach 0,10 · podłoga 0,17** — sprawdzenie końcowe z PKN, patrz lista 28.09) · M8/E3
 fail-secure · M8/E4 gaz · M9/E2 magistrala · M9/E4 CAN · kafle M14 w presetach · 2 wyjątki D48 (wejście AC falownika,
 odbiorniki wprost). Kod tych miejsc zostaje bez zmian (✅🤖).
+**[29.09.2026, D53]** Właściciel odpowiedział: M8/E3 zamki, kafle M14 i 2 wyjątki D48 — **zamknięte** (wdrożone, patrz D53);
+M8/E4 gaz i M9/E2 — bez zmian w kodzie (D53 pkt 4–5). **Nadal otwarte:** TD21 CRL, Rsi (PKN), M9/E4 CAN (właściciel
+jeszcze nie wie, czy będzie CAN; rekomendacja 🔴 jak RS485) i potwierdzenie środka gaśniczego (rekomendacja: mgła wodna).
 
 ---
 
@@ -89,13 +92,13 @@ PKN”, 7 odłożyć, 8 odłożyć. **Bez odpowiedzi: 6, 9, 10, 11, 12.** Opcja 
 | 3 | ~~Lista 16 urządzeń (D33)~~ | — | **✅ zamknięte na `main`** (D33 potwierdzone, nowe moce, 19 pozycji) — nie pytaj ponownie **Odpowiedź 28.09: zostawić (A).** |
 | 4 | CRL: długość > 1 km obcinana od największej wagi (TD21) | `lib/core/modules/okablowanie/ocena-ryzyka-crl/calculator.ts` | B: sortowanie odcinków rosnąco po wadze zamiast malejąco + test **Odpowiedź 28.09: odłożone** — właściciel nie może teraz zdecydować. Zostaje jak jest (✅🤖). |
 | 5 | Rsi = 0,13 (M6/E8, TD20) | `lib/core/modules/ogrzewanie/pojemnosc-cieplna/constants.ts` | B: czeka na normę ISO 6946 od właściciela **Odpowiedź 28.09:** decyzja już była (lista 28.09, „Rsi per kierunek”): wartości per kierunek, ale poprawka **odłożona do czasu, aż właściciel dostarczy PKN** (PN-EN ISO 6946). Właściciel podał 0,17 / 0,10 / 0,13 dla ścian / dachu / podłogi — **przypisanie do sprawdzenia z normą** (w ISO 6946 zwykle: ściana 0,13, strumień w górę 0,10, w dół 0,17). Do tego czasu 0,13 wszędzie. **[29.09.2026, korekta właściciela]** Liczby z 28.09 były podane z pamięci — wiążące są wartości z wcześniejszej decyzji: **ściana 0,13 · strop/dach (strumień w górę) 0,10 · podłoga (strumień w dół) 0,17 m²·K/W**; wdrożenie odłożone do sprawdzenia końcowego z PKN. |
-| 6 | Zamki fail-secure z UPS = 🟡 (M8/E3) | `lib/core/modules/bezpieczenstwo/zamki-drzwi-ewakuacyjnych/` | B: 🔴 + dopis w `docs/rejestr-twardych-stopow.md` |
-| 7 | Gaz obojętny/aerozol przy LiFePO4 = 🟡 (M8/E4) | `lib/core/modules/bezpieczenstwo/modul-gasniczy/` | B: ℹ️; C: 🔴 + rejestr stopów **Odpowiedź 28.09: odłożone.** |
-| 8 | Magistrala ponad wejście przetwornicy = 🔴 (M9/E2) | `lib/core/modules/esp32/zasilanie-esp32/` | B: 🟡 + usunięcie z rejestru stopów (przekreślenie, F.5) **Odpowiedź 28.09: odłożone.** |
-| 9 | CAN bez transceivera = 🟡 (M9/E4) | `lib/core/modules/esp32/architektura-komunikacji/` | B: 🔴 jak RS485 + rejestr stopów |
-| 10 | Kafle M14 ukryte w 8 presetach | `docs/pulpit-i-nawigacja.md` §3 (kafli M14 jeszcze nie ma w `lib/pulpit/`) | B: zapisać, w których presetach są widoczne — wejdzie razem z kaflami |
-| 11 | D48 (dawniej D45): agregat przez wejście AC falownika = ℹ️, bez wymogu przełącznika | `lib/core/modules/zapotrzebowanie/agregat-pradotworczy/bezpieczenstwo.ts` | B: `agregatWejscieFalownika` → poziom `critical` albo `warning` wg odpowiedzi, teksty PL/EN/RU |
-| 12 | D48: odbiorniki wpięte wprost w agregat = ℹ️ | ten sam plik | B: jak wyżej, `agregatTylkoOdbiorniki` |
+| 6 | Zamki fail-secure z UPS = 🟡 (M8/E3) | `lib/core/modules/bezpieczenstwo/zamki-drzwi-ewakuacyjnych/` | B: 🔴 + dopis w `docs/rejestr-twardych-stopow.md` **[29.09.2026, D53]** Odpowiedź: drzwi muszą się otworzyć, dopuszczalne osobne zasilanie awaryjne albo ręczne otwarcie. Wdrożone: pole `maOtwarcieReczneMechaniczne`, 🔴 tylko bez obu. |
+| 7 | Gaz obojętny/aerozol przy LiFePO4 = 🟡 (M8/E4) | `lib/core/modules/bezpieczenstwo/modul-gasniczy/` | B: ℹ️; C: 🔴 + rejestr stopów **Odpowiedź 28.09: odłożone.** **[29.09.2026, D53]** Właściciel poprosił o podpowiedź — rekomendacja: mgła wodna; gaz/aerozol zostaje 🟡 (A) do potwierdzenia. |
+| 8 | Magistrala ponad wejście przetwornicy = 🔴 (M9/E2) | `lib/core/modules/esp32/zasilanie-esp32/` | B: 🟡 + usunięcie z rejestru stopów (przekreślenie, F.5) **Odpowiedź 28.09: odłożone.** **[29.09.2026, D53]** „Będzie oddzielne zasilanie ESP32” — układ właściciela; 🔴 zostaje (A). |
+| 9 | CAN bez transceivera = 🟡 (M9/E4) | `lib/core/modules/esp32/architektura-komunikacji/` | B: 🔴 jak RS485 + rejestr stopów **[29.09.2026, D53]** „Najprawdopodobniej będzie, jeszcze nie wiem” — poziom nadal otwarty (rekomendacja B). |
+| 10 | Kafle M14 ukryte w 8 presetach | `docs/pulpit-i-nawigacja.md` §3 (kafli M14 jeszcze nie ma w `lib/pulpit/`) | B: zapisać, w których presetach są widoczne — wejdzie razem z kaflami **[29.09.2026, D53]** Widoczne we wszystkich presetach (`docs/pulpit-i-nawigacja.md`). |
+| 11 | D48 (dawniej D45): agregat przez wejście AC falownika = ℹ️, bez wymogu przełącznika | `lib/core/modules/zapotrzebowanie/agregat-pradotworczy/bezpieczenstwo.ts` | B: `agregatWejscieFalownika` → poziom `critical` albo `warning` wg odpowiedzi, teksty PL/EN/RU **[29.09.2026, D53]** „Agregat zawsze przez rozdzielnię” — ℹ️ zostaje, etykieta i teksty: rozdzielnia → wejście AC. |
+| 12 | D48: odbiorniki wpięte wprost w agregat = ℹ️ | ten sam plik | B: jak wyżej, `agregatTylkoOdbiorniki` **[29.09.2026, D53]** Odbiorniki przez rozdzielnię zasilaną z agregatu wg planu awaryjnego — ℹ️ zostaje, etykieta i teksty zmienione. |
 
 Po odpowiedzi: przy każdej pozycji w kodzie i rejestrach zamień „✅🤖” na adnotację
 „**[data] potwierdzone przez właściciela (A)**” albo opis zmiany (F.5 — nie kasuj starego tekstu).

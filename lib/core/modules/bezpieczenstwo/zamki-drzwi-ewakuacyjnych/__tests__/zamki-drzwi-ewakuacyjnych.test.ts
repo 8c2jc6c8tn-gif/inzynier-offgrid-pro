@@ -31,6 +31,23 @@ describe("calculateZamkiDrzwiEwakuacyjnych (M8/E3, dawne 11.51)", () => {
     expect(w.warnings.map((x) => [x.code, x.level])).toEqual([["ZAMEK-FAIL-SECURE", "warning"]])
   })
 
+  it("D53: fail-secure bez UPS, ale z ręcznym otwarciem mechanicznym → 🟡 zamiast 🔴", () => {
+    const w = calculateZamkiDrzwiEwakuacyjnych({
+      ...PELNY,
+      zachowaniePrzyZanikuZasilania: "blokuje",
+      maZasilanieAwaryjne: false,
+      maOtwarcieReczneMechaniczne: true,
+    })
+    expect(w.warnings.map((x) => [x.code, x.level])).toEqual([["ZAMEK-FAIL-SECURE", "warning"]])
+    expect(w.inputs.maOtwarcieReczneMechaniczne).toBe(1)
+  })
+
+  it("D53: pole ręcznego otwarcia pominięte (szkic sprzed D53) → jak false, 🔴 bez UPS", () => {
+    expect(kody({ ...PELNY, zachowaniePrzyZanikuZasilania: "blokuje", maZasilanieAwaryjne: false })).toEqual([
+      "ZAMEK-BLOKUJE-BEZ-ZASILANIA-AWARYJNEGO",
+    ])
+  })
+
   it("fail-safe bez UPS → bez 🔴 (drzwi i tak otwarte przy zaniku)", () => {
     expect(kody({ ...PELNY, maZasilanieAwaryjne: false })).toEqual([])
   })

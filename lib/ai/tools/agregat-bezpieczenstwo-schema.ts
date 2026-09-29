@@ -15,4 +15,6 @@ export const PodlaczenieAgregatuSchema = z
   .enum(["przez-przelacznik", "bez-przelacznika", "wejscie-ac-falownika", "tylko-odbiorniki"])
   .nullable()
   .optional()
-  .describe("Jak agregat zasila odbiorniki — tylko gdy user to podał; nie zgaduj")
+  .describe(
+    "Jak agregat zasila odbiorniki — tylko gdy user to podał; nie zgaduj. Agregat zawsze przez rozdzielnię (D53): wejscie-ac-falownika = rozdzielnia → wejście AC falownika; tylko-odbiorniki = rozdzielnia awaryjna zasilana wyłącznie z agregatu",
+  )
