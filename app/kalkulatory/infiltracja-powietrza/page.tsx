@@ -4,6 +4,7 @@ import { useMemo } from "react"
 import { calculateInfiltracjaPowietrza } from "@/lib/core/modules/ogrzewanie/infiltracja-powietrza/calculator"
 import { usePersistedDraft } from "@/lib/adapters/use-persisted-draft"
 import { Pole } from "@/components/ui/pole"
+import { PomocPola } from "@/components/ui/pomoc"
 import { WerdyktPanel } from "@/components/werdykt"
 import { NawigacjaEkranu } from "@/components/nawigacja-ekranu"
 import { NaglowekEkranu } from "@/components/wzorce/naglowek-ekranu"
@@ -52,7 +53,7 @@ export default function InfiltracjaPowietrzaPage() {
   return (
     <main className="mx-auto flex max-w-md flex-col gap-6 p-6">
       <NawigacjaEkranu href="/kalkulatory/infiltracja-powietrza" />
-      <NaglowekEkranu tytul="Infiltracja powietrza (test szczelności)">
+      <NaglowekEkranu tytul="Infiltracja powietrza (test szczelności)" ekran="infiltracja-powietrza" wzor={result.formula}>
         Szpary w budynku to darmowa wentylacja, ale zimą płacisz za nią ciepłem — lepiej mieć
         kontrolowaną wymianę powietrza niż przypadkową. Moduł 6, Ekran 12.
       </NaglowekEkranu>
@@ -64,9 +65,9 @@ export default function InfiltracjaPowietrzaPage() {
           type="number"
           inputMode="decimal"
           min={0}
-          hint="Z testu szczelności (blower door) lub szacunek na podstawie typu konstrukcji."
           value={wymianyPowietrzaNaH}
           onChange={(e) => setWymianyPowietrzaNaH(e.target.value)}
+          pomoc={<PomocPola ekran="infiltracja-powietrza" pole="wymiany" />}
         />
         <Pole
           label="Kubatura budynku"
@@ -76,6 +77,7 @@ export default function InfiltracjaPowietrzaPage() {
           min={0}
           value={kubaturaBudynkuM3}
           onChange={(e) => setKubaturaBudynkuM3(e.target.value)}
+          pomoc={<PomocPola ekran="infiltracja-powietrza" pole="kubatura" />}
         />
         <Pole
           label="Różnica temperatur wewnątrz/na zewnątrz"
@@ -85,6 +87,7 @@ export default function InfiltracjaPowietrzaPage() {
           min={0}
           value={deltaTK}
           onChange={(e) => setDeltaTK(e.target.value)}
+          pomoc={<PomocPola ekran="infiltracja-powietrza" pole="deltaT" />}
         />
       </div>
 

@@ -1,6 +1,5 @@
 import {
   CZYNNIKI_RYZYKA,
-  MIGAWKA,
   PRZYKLAD_ILUSTRACYJNY,
   TWARDY_STOP,
   ZALECENIA,
@@ -8,13 +7,12 @@ import {
 import { NawigacjaEkranu } from "@/components/nawigacja-ekranu"
 import { NaglowekEkranu } from "@/components/wzorce/naglowek-ekranu"
 import { WerdyktPanel } from "@/components/werdykt"
-import { MigawkaBox } from "@/components/wzorce/migawka-box"
 
 export default function RyzykoZamarznieciaDolnegoZrodlaPage() {
   return (
     <main className="mx-auto flex max-w-md flex-col gap-6 p-6">
       <NawigacjaEkranu href="/kalkulatory/ryzyko-zamarzniecia-dolnego-zrodla" />
-      <NaglowekEkranu tytul="Ryzyko zamarznięcia dolnego źródła">
+      <NaglowekEkranu tytul="Ryzyko zamarznięcia dolnego źródła" ekran="ryzyko-zamarzniecia-dolnego-zrodla">
         Dłuższa praca ciągła schładza grunt wokół kolektora gruntowego. Moduł 6, Część 2C. Treść
         informacyjna — źródło nie podaje wzoru wiążącego czynniki poniżej z temperaturą czynnika
         roboczego, tylko jeden ilustracyjny przykład.
@@ -52,7 +50,7 @@ export default function RyzykoZamarznieciaDolnegoZrodlaPage() {
         </ul>
       </div>
 
-      <MigawkaBox>{MIGAWKA}</MigawkaBox>
+      
     </main>
   )
 }

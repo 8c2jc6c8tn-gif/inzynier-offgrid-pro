@@ -1,6 +1,5 @@
 import {
   CZYNNIKI,
-  MIGAWKA,
   OSTRZEZENIE,
   PRZYKLAD_ILUSTRACYJNY,
   ZALECENIA,
@@ -8,13 +7,12 @@ import {
 import { NawigacjaEkranu } from "@/components/nawigacja-ekranu"
 import { NaglowekEkranu } from "@/components/wzorce/naglowek-ekranu"
 import { WerdyktPanel } from "@/components/werdykt"
-import { MigawkaBox } from "@/components/wzorce/migawka-box"
 
 export default function HalasIWibracjePage() {
   return (
     <main className="mx-auto flex max-w-md flex-col gap-6 p-6">
       <NawigacjaEkranu href="/kalkulatory/halas-i-wibracje" />
-      <NaglowekEkranu tytul="Hałas i wibracje pompy ciepła">
+      <NaglowekEkranu tytul="Hałas i wibracje pompy ciepła" ekran="halas-i-wibracje">
         Moduł 6, Część 2C. Treść informacyjna — źródło nie podaje wzoru propagacji akustycznej,
         tylko jeden ilustracyjny przykład.
       </NaglowekEkranu>
@@ -51,7 +49,7 @@ export default function HalasIWibracjePage() {
         </ul>
       </div>
 
-      <MigawkaBox>{MIGAWKA}</MigawkaBox>
+      
     </main>
   )
 }

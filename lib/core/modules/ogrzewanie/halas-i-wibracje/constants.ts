@@ -26,10 +26,6 @@ export const OSTRZEZENIE =
   "Przekroczenie lokalnej normy hałasu nocnego — sprawdź dokumentację akustyczną pompy i realną " +
   "odległość od najbliższych okien sypialni (własnych i sąsiada)."
 
-export const MIGAWKA =
-  "Pompa ciepła to maszyna z wentylatorem i sprężarką — jak stoi pod oknem sypialni, nie da Ci " +
-  "spać, a sąsiad może złożyć skargę."
-
 export const ZALECENIA = [
   "Zastosuj obudowę akustyczną jednostki zewnętrznej.",
   "Zamontuj wibroizolatory pod jednostką (ok. -5 dB wg przykładu źródła).",

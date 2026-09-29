@@ -5,9 +5,9 @@ import { useMemo } from "react"
 import { NawigacjaEkranu } from "@/components/nawigacja-ekranu"
 import { Button } from "@/components/ui/button"
 import { Pole, PoleSelect } from "@/components/ui/pole"
+import { PomocPola } from "@/components/ui/pomoc"
 import { WerdyktPanel, type WerdyktPoziom } from "@/components/werdykt"
 import { KartaPorownawcza, type Kolumna } from "@/components/wzorce/karta-porownawcza"
-import { MigawkaBox } from "@/components/wzorce/migawka-box"
 import { NaglowekEkranu } from "@/components/wzorce/naglowek-ekranu"
 import { WynikGlowny } from "@/components/wzorce/wynik-glowny"
 import { WynikSzczegoly } from "@/components/wzorce/wynik-szczegoly"
@@ -91,7 +91,7 @@ function doWejscia(z: ZrodloSeed, i: number): ZrodloCiepla {
 
 function KartaZrodla({ z, i, ustaw, usun }: { z: ZrodloSeed; i: number; ustaw: (p: Partial<ZrodloSeed>) => void; usun: () => void }) {
   const sposob = SPOSOB_LICZENIA[z.rodzaj]
-  const pole = (klucz: keyof ZrodloSeed, label: string, unit?: string, hint?: string) => (
+  const pole = (klucz: keyof ZrodloSeed, label: string, unit?: string) => (
     <Pole
       id={`zrodlo-${i}-${klucz}`}
       label={label}
@@ -101,24 +101,24 @@ function KartaZrodla({ z, i, ustaw, usun }: { z: ZrodloSeed; i: number; ustaw: (
       min={0}
       value={z[klucz] as string}
       onChange={(e) => ustaw({ [klucz]: e.target.value })}
-      hint={hint}
+      pomoc={<PomocPola ekran="koszty-ogrzewania" pole={klucz} />}
     />
   )
   return (
     <div className="flex flex-col gap-3 rounded-lg border p-3">
       <div className="grid gap-3 sm:grid-cols-2">
-        <PoleSelect id={`zrodlo-${i}-rodzaj`} label="Rodzaj" value={z.rodzaj} onChange={(e) => ustaw({ rodzaj: e.target.value as RodzajZrodla, jednostka: RODZAJE.find((r) => r.id === e.target.value)!.jednostka })}>
+        <PoleSelect id={`zrodlo-${i}-rodzaj`} label="Rodzaj" value={z.rodzaj} onChange={(e) => ustaw({ rodzaj: e.target.value as RodzajZrodla, jednostka: RODZAJE.find((r) => r.id === e.target.value)!.jednostka })} pomoc={<PomocPola ekran="koszty-ogrzewania" pole="rodzaj" />}>
           {RODZAJE.map((r) => (
             <option key={r.id} value={r.id}>
               {r.label}
             </option>
           ))}
         </PoleSelect>
-        <Pole id={`zrodlo-${i}-nazwa`} label="Nazwa (opcjonalnie)" value={z.nazwa} placeholder={nazwaZrodla({ ...z, nazwa: "" }, i)} onChange={(e) => ustaw({ nazwa: e.target.value })} />
+        <Pole id={`zrodlo-${i}-nazwa`} label="Nazwa (opcjonalnie)" value={z.nazwa} placeholder={nazwaZrodla({ ...z, nazwa: "" }, i)} onChange={(e) => ustaw({ nazwa: e.target.value })} pomoc={<PomocPola ekran="koszty-ogrzewania" pole="nazwa" />} />
       </div>
       <div className="grid gap-3 sm:grid-cols-2">
         {sposob !== "prad" && (
-          <PoleSelect id={`zrodlo-${i}-jednostka`} label="Jednostka paliwa" value={z.jednostka} onChange={(e) => ustaw({ jednostka: e.target.value })} hint="mp — metr przestrzenny (drewno układane).">
+          <PoleSelect id={`zrodlo-${i}-jednostka`} label="Jednostka paliwa" value={z.jednostka} onChange={(e) => ustaw({ jednostka: e.target.value })} pomoc={<PomocPola ekran="koszty-ogrzewania" pole="jednostka" />}>
             {JEDNOSTKI.map((j) => (
               <option key={j} value={j}>
                 {j}
@@ -126,16 +126,16 @@ function KartaZrodla({ z, i, ustaw, usun }: { z: ZrodloSeed; i: number; ustaw: (
             ))}
           </PoleSelect>
         )}
-        {pole("cenaZl", "Cena", sposob === "prad" ? "zł/kWh" : `zł/${z.jednostka}`, sposob === "prad" ? "Twój koszt 1 kWh prądu zimą (z agregatu, z sieci albo wyceniony z PV)." : undefined)}
-        {sposob === "paliwo" && pole("wartoscOpalowaKwh", "Wartość opałowa", `kWh/${z.jednostka}`, "Od dostawcy albo z certyfikatu paliwa. Dla drewna zależy mocno od wilgotności.")}
-        {sposob === "paliwo" && pole("sprawnoscPct", "Sprawność urządzenia", "%", "Z karty katalogowej kotła, pieca lub kominka.")}
-        {sposob === "karta" && pole("mocGrzewczaKw", "Moc grzewcza", "kW", "Z karty katalogowej nagrzewnicy.")}
-        {sposob === "karta" && pole("zuzyciePaliwaNaH", "Zużycie paliwa przy tej mocy", `${z.jednostka}/h`, "Z karty katalogowej.")}
-        {z.rodzaj === "pompa-ciepla" && pole("cop", "COP (średni w sezonie)", undefined, "SCOP z karty albo z ekranu „COP pompy ciepła”.")}
-        {sposob === "paliwo" && pole("mocGrzewczaKw", "Moc grzewcza (opcjonalnie)", "kW", "Potrzebna, żeby policzyć godziny pracy i prąd pomocniczy.")}
-        {sposob !== "prad" && pole("poborPraduW", "Pobór prądu w pracy (opcjonalnie)", "W", "Wentylator, podajnik, pompa, świeca — z karty. Ważne w off-gridzie.")}
-        {pole("kosztInwestycjiZl", "Koszt zakupu i montażu", "zł", "0 — jeśli już masz to urządzenie.")}
-        {pole("kosztSerwisuRocznyZl", "Serwis i przeglądy rocznie", "zł", "Np. przegląd, czyszczenie komina, części.")}
+        {pole("cenaZl", "Cena", sposob === "prad" ? "zł/kWh" : `zł/${z.jednostka}`)}
+        {sposob === "paliwo" && pole("wartoscOpalowaKwh", "Wartość opałowa", `kWh/${z.jednostka}`)}
+        {sposob === "paliwo" && pole("sprawnoscPct", "Sprawność urządzenia", "%")}
+        {sposob === "karta" && pole("mocGrzewczaKw", "Moc grzewcza", "kW")}
+        {sposob === "karta" && pole("zuzyciePaliwaNaH", "Zużycie paliwa przy tej mocy", `${z.jednostka}/h`)}
+        {z.rodzaj === "pompa-ciepla" && pole("cop", "COP (średni w sezonie)")}
+        {sposob === "paliwo" && pole("mocGrzewczaKw", "Moc grzewcza (opcjonalnie)", "kW")}
+        {sposob !== "prad" && pole("poborPraduW", "Pobór prądu w pracy (opcjonalnie)", "W")}
+        {pole("kosztInwestycjiZl", "Koszt zakupu i montażu", "zł")}
+        {pole("kosztSerwisuRocznyZl", "Serwis i przeglądy rocznie", "zł")}
       </div>
       <Button variant="ghost" className="min-h-11 w-fit" onClick={usun}>
         Usuń źródło
@@ -183,7 +183,7 @@ export default function KosztyOgrzewaniaPage() {
   return (
     <main className="mx-auto flex max-w-2xl flex-col gap-6 p-6">
       <NawigacjaEkranu href="/kalkulatory/koszty-ogrzewania" />
-      <NaglowekEkranu tytul="Porównanie kosztów ogrzewania">
+      <NaglowekEkranu tytul="Porównanie kosztów ogrzewania" ekran="koszty-ogrzewania" wzor={wynik.formula} parametry={{ lata: LICZBA_LAT_ZRODLO }}>
         Drewno, węgiel, pellet, gaz, olej, nagrzewnica paliwowa, prąd czy pompa ciepła — ile naprawdę kosztuje 1 kWh ciepła z
         każdego źródła i które wychodzi najtaniej razem z zakupem i serwisem. W off-gridzie liczy się też, ile prądu
         potrzebuje dane źródło zimą. Moduł 6.
@@ -199,7 +199,7 @@ export default function KosztyOgrzewaniaPage() {
             min={0}
             value={stan.zapotrzebowanieSezonKwh}
             onChange={(e) => setStan((s) => ({ ...s, zapotrzebowanieSezonKwh: e.target.value }))}
-            hint="Z zużycia w poprzednich sezonach, od projektanta albo suma miesięcy z ekranu „Straty ciepła budynku”."
+            pomoc={<PomocPola ekran="koszty-ogrzewania" pole="zapotrzebowanie" />}
           />
           <Pole
             label="Okres analizy"
@@ -209,7 +209,7 @@ export default function KosztyOgrzewaniaPage() {
             min={1}
             value={stan.liczbaLat}
             onChange={(e) => setStan((s) => ({ ...s, liczbaLat: e.target.value }))}
-            hint="Źródło proponuje 10 lat. Możesz zmienić."
+            pomoc={<PomocPola ekran="koszty-ogrzewania" pole="liczbaLat" params={{ lata: LICZBA_LAT_ZRODLO }} />}
           />
         </div>
       </section>
@@ -263,7 +263,7 @@ export default function KosztyOgrzewaniaPage() {
         </WerdyktPanel>
       )}
 
-      <MigawkaBox>„O co chodzi? Nie daj się zwieść tanim paliwom. Licz koszt całkowity, nie tylko cenę za kg.”</MigawkaBox>
+      
     </main>
   )
 }

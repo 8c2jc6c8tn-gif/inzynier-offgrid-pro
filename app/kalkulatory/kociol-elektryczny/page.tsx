@@ -4,6 +4,7 @@ import { useMemo } from "react"
 import { calculateKociolElektryczny } from "@/lib/core/modules/ogrzewanie/kociol-elektryczny/calculator"
 import { usePersistedDraft } from "@/lib/adapters/use-persisted-draft"
 import { Pole } from "@/components/ui/pole"
+import { PomocPola } from "@/components/ui/pomoc"
 import { WerdyktPanel } from "@/components/werdykt"
 import { NawigacjaEkranu } from "@/components/nawigacja-ekranu"
 import { NaglowekEkranu } from "@/components/wzorce/naglowek-ekranu"
@@ -52,7 +53,7 @@ export default function KociolElektrycznyPage() {
   return (
     <main className="mx-auto flex max-w-md flex-col gap-6 p-6">
       <NawigacjaEkranu href="/kalkulatory/kociol-elektryczny" />
-      <NaglowekEkranu tytul="Kocioł elektryczny vs pompa ciepła">
+      <NaglowekEkranu tytul="Kocioł elektryczny vs pompa ciepła" ekran="kociol-elektryczny" wzor={result.formula}>
         Kocioł elektryczny ma sprawność blisko 100%, ale to nie to samo co tanie ogrzewanie —
         pompa ciepła nie produkuje ciepła z prądu, tylko przenosi je z zewnątrz, więc zużywa
         kilka razy mniej. Moduł 6, ekran dodatkowy (dawne 5.33).
@@ -67,6 +68,7 @@ export default function KociolElektrycznyPage() {
           min={0}
           value={zapotrzebowanieCieplneKwh}
           onChange={(e) => setZapotrzebowanieCieplneKwh(e.target.value)}
+          pomoc={<PomocPola ekran="kociol-elektryczny" pole="zapotrzebowanie" />}
         />
         <Pole
           label="COP pompy ciepła"
@@ -74,9 +76,9 @@ export default function KociolElektrycznyPage() {
           type="number"
           inputMode="decimal"
           min={0}
-          hint="Typowe pompy powietrze-woda: 1,5-6, zależnie od temperatury."
           value={copPompy}
           onChange={(e) => setCopPompy(e.target.value)}
+          pomoc={<PomocPola ekran="kociol-elektryczny" pole="cop" />}
         />
         <Pole
           label="Cena energii elektrycznej"
@@ -86,6 +88,7 @@ export default function KociolElektrycznyPage() {
           min={0}
           value={cenaZaKwhZl}
           onChange={(e) => setCenaZaKwhZl(e.target.value)}
+          pomoc={<PomocPola ekran="kociol-elektryczny" pole="cena" />}
         />
       </div>
 

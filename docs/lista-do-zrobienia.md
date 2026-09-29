@@ -1146,6 +1146,7 @@ Pełne wyniki audytu: `docs/memory.md`, sekcja "Pełny audyt na polecenie właś
   M3 PV (24 ekrany + 6 komponentów „Typ montażu”) — ✅ „?” + „i” PL/EN/RU
   M2 zapotrzebowanie ✅ (18 ekranów + wampiry energetyczne)
   M7 stress-test ✅ (15 ekranów, baseline 41→26)
+  M6 ogrzewanie (15 ekranów) — ✅ ? + i PL/EN/RU; martwe stałe MIGAWKA (hałas, dolne źródło) przeniesione do migawki „i”
 - 🔲 (2026-09-29) **Tłumaczenie samych stron (etykiety pól, nagłówki, komunikaty UI) na EN/RU.** Wyszło przy D51: treść
   „?”/„i” i komunikaty silników są w trzech językach, ale etykiety pól i teksty na stronach nadal tylko po polsku.
   Osobne, duże zadanie (standard 17). **Priorytet:** do decyzji właściciela. **Kolizje:** te same pliki co chmurki —

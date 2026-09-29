@@ -4,11 +4,13 @@ import { useMemo } from "react"
 import { calculatePompyCyrkulacyjne } from "@/lib/core/modules/ogrzewanie/pompy-cyrkulacyjne/calculator"
 import { usePersistedDraft } from "@/lib/adapters/use-persisted-draft"
 import { Pole } from "@/components/ui/pole"
+import { PomocPola } from "@/components/ui/pomoc"
 import { WerdyktPanel } from "@/components/werdykt"
 import { NawigacjaEkranu } from "@/components/nawigacja-ekranu"
 import { NaglowekEkranu } from "@/components/wzorce/naglowek-ekranu"
 import { WynikGlowny } from "@/components/wzorce/wynik-glowny"
 import { WynikSzczegoly } from "@/components/wzorce/wynik-szczegoly"
+import { GODZINY_PRACY_CIAGLEJ_H, MOC_ELEKTRONICZNEJ_MAX_W, MOC_ELEKTRONICZNEJ_MIN_W, MOC_STALOOBROTOWEJ_MAX_W, MOC_STALOOBROTOWEJ_MIN_W } from "@/lib/core/modules/ogrzewanie/pompy-cyrkulacyjne/constants"
 
 type FormularzStan = {
   mocObecnejPompyW: string
@@ -54,7 +56,7 @@ export default function PompyCyrkulacyjnePage() {
   return (
     <main className="mx-auto flex max-w-md flex-col gap-6 p-6">
       <NawigacjaEkranu href="/kalkulatory/pompy-cyrkulacyjne" />
-      <NaglowekEkranu tytul="Pompy cyrkulacyjne — dobór">
+      <NaglowekEkranu tytul="Pompy cyrkulacyjne — dobór" ekran="pompy-cyrkulacyjne" wzor={result.formula}>
         W off-gridzie pompy cyrkulacyjne to cisi złodzieje energii — pracują 24/7 i łatwo je
         zlekceważyć, a różnica między starym a nowym modelem to realne kilowatogodziny dziennie.
         Moduł 6, Ekran 15.
@@ -67,9 +69,9 @@ export default function PompyCyrkulacyjnePage() {
           type="number"
           inputMode="decimal"
           min={0}
-          hint="Typowo pompa stałoobrotowa: 100-150 W."
           value={mocObecnejPompyW}
           onChange={(e) => setMocObecnejPompyW(e.target.value)}
+          pomoc={<PomocPola ekran="pompy-cyrkulacyjne" pole="mocObecna" params={{ min: MOC_STALOOBROTOWEJ_MIN_W, max: MOC_STALOOBROTOWEJ_MAX_W }} />}
         />
         <Pole
           label="Moc rozważanej pompy elektronicznej (PWM)"
@@ -77,9 +79,9 @@ export default function PompyCyrkulacyjnePage() {
           type="number"
           inputMode="decimal"
           min={0}
-          hint="Typowo 5-50 W."
           value={mocNowejPompyW}
           onChange={(e) => setMocNowejPompyW(e.target.value)}
+          pomoc={<PomocPola ekran="pompy-cyrkulacyjne" pole="mocNowa" params={{ min: MOC_ELEKTRONICZNEJ_MIN_W, max: MOC_ELEKTRONICZNEJ_MAX_W }} />}
         />
         <Pole
           label="Godziny pracy na dobę"
@@ -88,9 +90,9 @@ export default function PompyCyrkulacyjnePage() {
           inputMode="decimal"
           min={0}
           max={24}
-          hint="24 dla pracy ciągłej (24/7)."
           value={godzinyPracyDobowoH}
           onChange={(e) => setGodzinyPracyDobowoH(e.target.value)}
+          pomoc={<PomocPola ekran="pompy-cyrkulacyjne" pole="godziny" params={{ h: GODZINY_PRACY_CIAGLEJ_H }} />}
         />
       </div>
 

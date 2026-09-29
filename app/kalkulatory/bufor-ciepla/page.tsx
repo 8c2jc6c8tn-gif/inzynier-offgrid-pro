@@ -4,11 +4,13 @@ import { useMemo } from "react"
 import { calculateBuforCiepla } from "@/lib/core/modules/ogrzewanie/bufor-ciepla/calculator"
 import { usePersistedDraft } from "@/lib/adapters/use-persisted-draft"
 import { Pole } from "@/components/ui/pole"
+import { PomocPola } from "@/components/ui/pomoc"
 import { WerdyktPanel } from "@/components/werdykt"
 import { NawigacjaEkranu } from "@/components/nawigacja-ekranu"
 import { NaglowekEkranu } from "@/components/wzorce/naglowek-ekranu"
 import { WynikGlowny } from "@/components/wzorce/wynik-glowny"
 import { WynikSzczegoly } from "@/components/wzorce/wynik-szczegoly"
+import { ZALECANA_POJEMNOSC_L_NA_KW } from "@/lib/core/modules/ogrzewanie/bufor-ciepla/constants"
 
 type FormularzStan = {
   mocPompyKw: string
@@ -47,7 +49,7 @@ export default function BuforCieplaPage() {
   return (
     <main className="mx-auto flex max-w-md flex-col gap-6 p-6">
       <NawigacjaEkranu href="/kalkulatory/bufor-ciepla" />
-      <NaglowekEkranu tytul="Bufor ciepła — dobór pojemności">
+      <NaglowekEkranu tytul="Bufor ciepła — dobór pojemności" ekran="bufor-ciepla" wzor={result.formula} parametry={{ lkw: ZALECANA_POJEMNOSC_L_NA_KW }}>
         Bufor to termos dla ciepła — gromadzi je, gdy jest „tanio” (słońce świeci), i oddaje, gdy
         jest „drogo” (noc, chmury). Moduł 6, Ekran 14.
       </NaglowekEkranu>
@@ -61,6 +63,7 @@ export default function BuforCieplaPage() {
           min={0}
           value={mocPompyKw}
           onChange={(e) => setMocPompyKw(e.target.value)}
+          pomoc={<PomocPola ekran="bufor-ciepla" pole="moc" />}
         />
         <Pole
           label="Posiadana/planowana pojemność bufora"
@@ -70,6 +73,7 @@ export default function BuforCieplaPage() {
           min={0}
           value={pojemnoscBuforaL}
           onChange={(e) => setPojemnoscBuforaL(e.target.value)}
+          pomoc={<PomocPola ekran="bufor-ciepla" pole="pojemnosc" params={{ lkw: ZALECANA_POJEMNOSC_L_NA_KW }} />}
         />
       </div>
 

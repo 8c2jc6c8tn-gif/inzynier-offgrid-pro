@@ -6,8 +6,10 @@ import { usePersistedDraft } from "@/lib/adapters/use-persisted-draft"
 import { WerdyktPanel, type WerdyktPoziom } from "@/components/werdykt"
 import { NawigacjaEkranu } from "@/components/nawigacja-ekranu"
 import { Pole } from "@/components/ui/pole"
+import { PomocPola } from "@/components/ui/pomoc"
 import { NaglowekEkranu } from "@/components/wzorce/naglowek-ekranu"
 import { useTranslate } from "@/lib/i18n/language-context"
+import { COP_MAX, COP_MIN, MOC_CIEPLNA_KW_MAX } from "@/lib/core/modules/ogrzewanie/cop-pompy-ciepla/constants"
 
 type FormularzStan = {
   mocCieplnaKw: string
@@ -48,7 +50,7 @@ export default function CopPompyCieplaPage() {
   return (
     <main className="mx-auto flex max-w-md flex-col gap-6 p-6">
       <NawigacjaEkranu href="/kalkulatory/cop-pompy-ciepla" />
-      <NaglowekEkranu tytul="Pompa ciepła — COP w funkcji temperatury">
+      <NaglowekEkranu tytul="Pompa ciepła — COP w funkcji temperatury" ekran="cop-pompy-ciepla" wzor={result.formula}>
         COP to „mnożnik” — pompa ciepła nie produkuje ciepła z niczego, tylko przenosi je z
         zewnątrz, zużywając mniej prądu niż grzałka elektryczna. Moduł 6, Ekran 5.
       </NaglowekEkranu>
@@ -61,6 +63,7 @@ export default function CopPompyCieplaPage() {
           inputMode="decimal"
           value={mocCieplnaKw}
           onChange={(e) => setMocCieplnaKw(e.target.value)}
+          pomoc={<PomocPola ekran="cop-pompy-ciepla" pole="moc" params={{ mocMax: MOC_CIEPLNA_KW_MAX }} />}
         />
         <Pole
           label="COP przy aktualnej temperaturze"
@@ -69,6 +72,7 @@ export default function CopPompyCieplaPage() {
           inputMode="decimal"
           value={cop}
           onChange={(e) => setCop(e.target.value)}
+          pomoc={<PomocPola ekran="cop-pompy-ciepla" pole="cop" params={{ min: COP_MIN, max: COP_MAX }} />}
         />
       </div>
 
