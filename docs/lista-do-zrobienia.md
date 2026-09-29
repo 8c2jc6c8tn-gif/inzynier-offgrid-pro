@@ -1278,6 +1278,18 @@ Pełne wyniki audytu: `docs/memory.md`, sekcja "Pełny audyt na polecenie właś
   tylko maleje (11.9). Dziś w modułach 373 wystąpienia `level: "critical"`. **Priorytet:** wysoki (rejestr = narzędzie
   audytu bezpieczeństwa). **Kolizje:** `docs/rejestr-twardych-stopow.md`, `package.json`, `.github/workflows/ci.yml`.
   **Kolejność:** najpierw strażnik z listą zapadkową, potem uzupełnianie M5/M3/M6/M7/M8 (lista maleje).
+  ✅ **[29.09.2026, 23:05] Strażnik zrobiony** — `pnpm check:stopy-guard` (pakiet, `ci.yml`, `CLAUDE.md`), gałąź
+  `claude/stopy-guard-84b`. 265 kodów 🔴: 69 w rejestrze, 145 wyjątków walidacyjnych, 51 na liście zapadkowej.
+  Dalsza część → wpis „Rejestr twardych stopów — uzupełnienie 51 pozycji” niżej. Szczegóły: `docs/memory.md`.
+- 🔲 (2026-09-29) **Rejestr twardych stopów — uzupełnienie 51 pozycji z listy zapadkowej**
+  (`scripts/stopy-guard-baseline.json`; obejmuje wpis z 28.09 „dryf całego M5”). Każdy kod: wpis w
+  `docs/rejestr-twardych-stopow.md` (kategoria, opis, M#/E#, plik, funkcja, kod) albo — gdy okaże się walidacją — przeniesienie
+  do `scripts/stopy-guard-wyjatki.json` z uzasadnieniem; kod znika z listy zapadkowej w tej samej zmianie (strażnik to
+  wymusza). **Priorytet:** wysoki (rejestr = audyt bezpieczeństwa). **Odblokowuje:** pusty baseline = strażnik w pełni
+  ostry (11.9). **Plusy teraz:** tylko dokumentacja, bez kodu. **Minusy:** ok. 1 sesja; część kodów niejednoznaczna
+  (`ZA-DUZO-OGNIW`, `ZACIENIENIE-*`, `SYSTEM-NIE-PRZETRWA-SCENARIUSZA`, `KONFLIKT-JEDNOCZESNOSCI`) — pytania do właściciela.
+  **Kolizje:** `docs/rejestr-twardych-stopow.md` + oba pliki JSON strażnika; bezkolizyjne z SW etapem 1. **Kolejność:**
+  decyzja właściciela 29.09 — po merge SW etapu 1 (razem z pracą domenową M5/M7/M12).
   🔄 **[29.09.2026, 22:55] W trakcie** — gałąź `claude/pwa-parallel-branch-work-4e99fd` (worktree
   `.claude/worktrees/pwa-parallel-branch-work-4e99fd`). Inne sesje: nie ruszać `docs/rejestr-twardych-stopow.md`
   do merge tej gałęzi. Uzupełnianie M5 i dalszych modułów — po merge SW etapu 1 (decyzja właściciela).
