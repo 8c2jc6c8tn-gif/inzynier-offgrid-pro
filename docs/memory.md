@@ -8318,6 +8318,8 @@ Tryb Audyt (czapka rewidenta). Warstwa „w pełni na końcu” z N.2 — wszyst
   originem). Sprawdzone na buildzie: `/` i kalkulator — CSP jest; trzy pliki PWA — bez middleware.
 - **Synchronizacja Y.9 (wycinek):** `docs/przyklady/pwa/` + `README.md` + `PROMPT.md` skopiowane 1:1 z
   `new-app-standards` @ `af63da7` (same dopisania, zero usunięć) — sesja wykonawcza nie potrzebuje dostępu do tamtego repo.
+  Pliki `.ts/.tsx` wzorca importują moduły projektu źródłowego (`sonner`, `@/lib/pwa/*`) → `tsconfig.json` `exclude`
+  dostał `docs/przyklady` (inaczej `pnpm typecheck` pada).
 - **Pułapki znalezione przy planowaniu (do etapu 1):** (1) `/moduly/[id]` wzorzec pomija jako trasę dynamiczną —
   rozwinąć z `KAFLE`; `prerender-manifest.json` jest pusty przez nonce. (2) Po włączeniu Supabase instalacja SW u
   niezalogowanego zapisałaby stronę logowania pod adresem każdej strony (`bezPrzekierowania`) — plan dodaje strażnika.
