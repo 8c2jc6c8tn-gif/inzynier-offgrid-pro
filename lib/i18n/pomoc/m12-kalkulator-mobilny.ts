@@ -339,9 +339,11 @@ export const pl = {
     migawka: {
       oCoChodzi: "Uziemienie to droga ucieczki dla prądu. Jak jej nie ma, prąd ucieka przez Ciebie.",
       jakDziala:
-        "Wybierasz rodzaj instalacji i miejsce. Instalacja z samym 12/24 V DC zwykle nie wymaga uziemienia ochronnego, ale na jachcie i na zewnątrz (wilgoć) jest ono zalecane — żółte ostrzeżenie. Instalacja z falownikiem 230 V wymaga uziemienia — wtedy aplikacja pyta, czy obudowa falownika i styki ochronne gniazd są podłączone. Nieuziemiona obudowa falownika („nie” albo „nie wiem”) to czerwony stop; gniazda bez podłączonego styku ochronnego — żółte ostrzeżenie z wyjaśnieniem, czym to grozi.",
+        "Wybierasz rodzaj instalacji i miejsce. Instalacja z samym 12/24 V DC zwykle nie wymaga uziemienia ochronnego, ale na jachcie i na zewnątrz (wilgoć) jest ono zalecane — żółte ostrzeżenie. Instalacja z falownikiem 230 V wymaga uziemienia — wtedy aplikacja pyta, czy obudowa falownika i styki ochronne gniazd są podłączone. Nieuziemiona obudowa falownika („nie” albo „nie wiem”) to czerwony stop; gniazda bez podłączonego styku ochronnego — żółte ostrzeżenie z wyjaśnieniem, czym to grozi. Na koniec pyta o połączenie N–PE w falowniku i o wyłącznik różnicowoprądowy (RCD) 30 mA — brak któregoś z nich to czerwony stop, bo bez nich zabezpieczenie nie wyłączy zwarcia.",
       poCo:
         "Przy uszkodzeniu izolacji w falowniku obudowa albo metalowe elementy pojazdu mogą znaleźć się pod napięciem 230 V. Przewód ochronny odprowadza wtedy prąd zwarcia, zanim dotknie go człowiek. To uproszczona wersja Modułu 5 (ekrany 9 i 11) — dom z uziomem w ziemi liczy się tam.",
+      fizyka:
+        "Ochrona na falowniku nie potrzebuje ziemi, tylko zamkniętej pętli zwarcia do źródła: obudowa → przewód ochronny (PE) → punkt połączenia N z PE w falowniku → z powrotem do falownika. Wtedy przy zwarciu płynie duży prąd i bezpiecznik albo RCD wyłącza obwód. Warunki są trzy: (1) wszystkie obudowy, styki ochronne gniazd i podwozie połączone jednym przewodem PE (połączenie wyrównawcze); (2) falownik ma połączenie N–PE, ale tylko jeśli producent na to pozwala — wiele falowników z przełącznikiem sieci robi to automatycznie przekaźnikiem, gdy nie ma zasilania z zewnątrz; (3) RCD 30 mA za tym połączeniem. Pręt w ziemi ani przewód czy łańcuch wiszący spod pojazdu nie zastąpią tej pętli.",
     },
     pola: {
       rodzaj: {
@@ -366,6 +368,18 @@ export const pl = {
         nazwa: "Styk ochronny gniazd 230 V",
         cel: "Bolec albo boczne styki w gnieździe 230 V, do których dochodzi przewód ochronny (zielono-żółty) połączony z uziemieniem pojazdu lub uziomem. Bolec łączy metalową obudowę podłączonego urządzenia z tym przewodem: gdy w urządzeniu uszkodzi się izolacja, prąd zwarcia płynie przewodem ochronnym, a nie przez człowieka, który dotknie obudowy. Samo gniazdo z bolcem nie wystarczy — przewód musi być podłączony.",
         gdzie: "Sprawdź puszkę gniazda albo schemat instalacji.",
+        zakres: "Tak, nie albo nie wiem. „Nie wiem” aplikacja traktuje jak „nie” — to strona bezpieczna.",
+      },
+      npe: {
+        nazwa: "Połączenie N–PE w falowniku",
+        cel: "Punkt, w którym przewód neutralny (N) jest połączony z przewodem ochronnym (PE). To do niego wraca prąd zwarcia z obudowy — bez niego pętla zwarcia jest otwarta, prąd jest mały i ani bezpiecznik, ani RCD nie wyłączą obwodu. Wiele falowników z przełącznikiem sieci robi to połączenie samo, przekaźnikiem, gdy nie ma zasilania z zewnątrz, i rozłącza je po podłączeniu do sieci.",
+        gdzie: "W instrukcji falownika: szukaj „N–PE”, „neutral-ground bond”, „ground relay” albo „przekaźnik uziemienia”. Połączenie wykonuj sam tylko wtedy, gdy producent na to pozwala — nigdy wbrew instrukcji.",
+        zakres: "Tak, nie albo nie wiem. „Nie wiem” aplikacja traktuje jak „nie” — to strona bezpieczna.",
+      },
+      rcd: {
+        nazwa: "Wyłącznik różnicowoprądowy (RCD) 30 mA",
+        cel: "Wyłącznik, który odłącza obwód, gdy część prądu ucieka poza przewody robocze — przez obudowę do PE albo przez człowieka. Do ochrony osób potrzebny jest próg 30 mA. Działa tylko za połączeniem N–PE, dlatego montuje się go między falownikiem a gniazdami.",
+        gdzie: "W rozdzielnicy albo skrzynce za falownikiem: aparat z przyciskiem „T” (test) i oznaczeniem 30 mA (IΔn = 0,03 A).",
         zakres: "Tak, nie albo nie wiem. „Nie wiem” aplikacja traktuje jak „nie” — to strona bezpieczna.",
       },
     },
@@ -858,9 +872,11 @@ export const en: Tlumaczenie<typeof pl> = {
     migawka: {
       oCoChodzi: "Earthing is an escape route for current. Without it, the current escapes through you.",
       jakDziala:
-        "You choose the installation type and location. A 12/24 V DC-only installation usually does not need protective earthing, but on a yacht and outdoors (moisture) it is recommended — a yellow warning. An installation with a 230 V inverter requires earthing — then the app asks whether the inverter housing and the protective contacts of the sockets are connected. An unearthed inverter housing (“no” or “don't know”) is a red stop; sockets without a connected protective contact give a yellow warning explaining the risk.",
+        "You choose the installation type and location. A 12/24 V DC-only installation usually does not need protective earthing, but on a yacht and outdoors (moisture) it is recommended — a yellow warning. An installation with a 230 V inverter requires earthing — then the app asks whether the inverter housing and the protective contacts of the sockets are connected. An unearthed inverter housing (“no” or “don't know”) is a red stop; sockets without a connected protective contact give a yellow warning explaining the risk. Finally it asks about the N–PE bond in the inverter and about a 30 mA residual current device (RCD) — missing either is a red stop, because without them the protection will not clear a fault.",
       poCo:
         "When insulation fails in the inverter, its housing or metal parts of the vehicle can become live at 230 V. The protective conductor then carries the fault current away before a person touches it. This is a simplified version of Module 5 (screens 9 and 11) — a house with an earth electrode is calculated there.",
+      fizyka:
+        "Protection on an inverter does not need earth, only a closed fault loop back to the source: enclosure → protective conductor (PE) → N–PE bond point in the inverter → back to the inverter. Then a fault drives a large current and the fuse or RCD disconnects the circuit. There are three conditions: (1) all enclosures, socket protective contacts and the chassis joined by one PE conductor (equipotential bonding); (2) the inverter has an N–PE bond, but only if the manufacturer allows it — many inverters with a transfer switch make it automatically with a relay when there is no external supply; (3) a 30 mA RCD after that bond. A rod in the ground or a wire or chain hanging under the vehicle does not replace this loop.",
     },
     pola: {
       rodzaj: {
@@ -885,6 +901,18 @@ export const en: Tlumaczenie<typeof pl> = {
         nazwa: "Protective contact of 230 V sockets",
         cel: "The pin or side contacts in a 230 V socket, to which the protective conductor (green-yellow) connected to the vehicle earth or an earth electrode leads. The pin connects the metal casing of the plugged-in appliance to that conductor: when the appliance's insulation fails, the fault current flows through the protective conductor, not through the person who touches the casing. A socket with a pin alone is not enough — the conductor must be connected.",
         gdzie: "Check the socket box or the installation diagram.",
+        zakres: "Yes, no or don't know. The app treats “don't know” as “no” — the safe side.",
+      },
+      npe: {
+        nazwa: "N–PE bond in the inverter",
+        cel: "The point where the neutral conductor (N) is joined to the protective conductor (PE). The fault current from the enclosure returns to it — without it the fault loop is open, the current is small and neither the fuse nor the RCD will disconnect the circuit. Many inverters with a transfer switch make this bond themselves, with a relay, when there is no external supply, and open it when connected to the grid.",
+        gdzie: "In the inverter manual: look for “N–PE”, “neutral-ground bond” or “ground relay”. Make the bond yourself only if the manufacturer allows it — never against the manual.",
+        zakres: "Yes, no or don't know. The app treats “don't know” as “no” — the safe side.",
+      },
+      rcd: {
+        nazwa: "30 mA residual current device (RCD)",
+        cel: "A switch that disconnects the circuit when part of the current escapes outside the live conductors — through the enclosure to PE or through a person. Protection of persons needs a 30 mA threshold. It works only after the N–PE bond, so it is installed between the inverter and the sockets.",
+        gdzie: "In the distribution board or box after the inverter: a device with a “T” (test) button marked 30 mA (IΔn = 0.03 A).",
         zakres: "Yes, no or don't know. The app treats “don't know” as “no” — the safe side.",
       },
     },
@@ -1376,9 +1404,11 @@ export const ru: Tlumaczenie<typeof pl> = {
     migawka: {
       oCoChodzi: "Заземление — это путь отхода для тока. Если его нет, ток уходит через вас.",
       jakDziala:
-        "Вы выбираете тип установки и место. Установка только на 12/24 В постоянного тока обычно не требует защитного заземления, но на яхте и на улице (влажность) оно рекомендуется — жёлтое предупреждение. Установка с инвертором 230 В требует заземления — тогда приложение спрашивает, подключены ли корпус инвертора и защитные контакты розеток. Незаземлённый корпус инвертора («нет» или «не знаю») — красный стоп; розетки без подключённого защитного контакта — жёлтое предупреждение с объяснением, чем это грозит.",
+        "Вы выбираете тип установки и место. Установка только на 12/24 В постоянного тока обычно не требует защитного заземления, но на яхте и на улице (влажность) оно рекомендуется — жёлтое предупреждение. Установка с инвертором 230 В требует заземления — тогда приложение спрашивает, подключены ли корпус инвертора и защитные контакты розеток. Незаземлённый корпус инвертора («нет» или «не знаю») — красный стоп; розетки без подключённого защитного контакта — жёлтое предупреждение с объяснением, чем это грозит. В конце спрашивает о соединении N–PE в инверторе и об устройстве защитного отключения (УЗО) 30 мА — отсутствие любого из них — красный стоп, потому что без них защита не отключит замыкание.",
       poCo:
         "При повреждении изоляции в инверторе корпус или металлические части автомобиля могут оказаться под напряжением 230 В. Защитный проводник отводит ток замыкания, прежде чем его коснётся человек. Это упрощённая версия Модуля 5 (экраны 9 и 11) — дом с заземлителем в грунте считается там.",
+      fizyka:
+        "Защите на инверторе не нужна земля, нужна только замкнутая петля замыкания до источника: корпус → защитный проводник (PE) → точка соединения N с PE в инверторе → обратно в инвертор. Тогда при замыкании течёт большой ток, и предохранитель или УЗО отключает цепь. Условий три: (1) все корпуса, защитные контакты розеток и шасси соединены одним проводником PE (уравнивание потенциалов); (2) в инверторе есть соединение N–PE, но только если производитель это разрешает — многие инверторы с переключателем сети делают его автоматически реле, когда нет внешнего питания; (3) УЗО 30 мА после этого соединения. Штырь в земле или провод либо цепь, свисающие под автомобилем, не заменяют эту петлю.",
     },
     pola: {
       rodzaj: {
@@ -1403,6 +1433,18 @@ export const ru: Tlumaczenie<typeof pl> = {
         nazwa: "Защитный контакт розеток 230 В",
         cel: "Штырь или боковые контакты в розетке 230 В, к которым подходит защитный проводник (жёлто-зелёный), соединённый с массой автомобиля или заземлителем. Штырь соединяет металлический корпус подключённого прибора с этим проводником: при повреждении изоляции прибора ток замыкания идёт по защитному проводнику, а не через человека, коснувшегося корпуса. Одной розетки со штырём недостаточно — проводник должен быть подключён.",
         gdzie: "Проверьте коробку розетки или схему установки.",
+        zakres: "Да, нет или не знаю. «Не знаю» приложение считает как «нет» — это безопасная сторона.",
+      },
+      npe: {
+        nazwa: "Соединение N–PE в инверторе",
+        cel: "Точка, в которой нейтральный проводник (N) соединён с защитным (PE). К ней возвращается ток замыкания с корпуса — без неё петля замыкания разомкнута, ток мал, и ни предохранитель, ни УЗО не отключат цепь. Многие инверторы с переключателем сети делают это соединение сами, реле, когда нет внешнего питания, и размыкают его при подключении к сети.",
+        gdzie: "В инструкции инвертора: ищите «N–PE», «neutral-ground bond», «ground relay» или «реле заземления». Выполняйте соединение сами только если производитель это разрешает — никогда вопреки инструкции.",
+        zakres: "Да, нет или не знаю. «Не знаю» приложение считает как «нет» — это безопасная сторона.",
+      },
+      rcd: {
+        nazwa: "Устройство защитного отключения (УЗО) 30 мА",
+        cel: "Выключатель, который отключает цепь, когда часть тока уходит мимо рабочих проводников — через корпус в PE или через человека. Для защиты людей нужен порог 30 мА. Работает только после соединения N–PE, поэтому его ставят между инвертором и розетками.",
+        gdzie: "В щитке или коробке после инвертора: аппарат с кнопкой «T» (тест) и обозначением 30 мА (IΔn = 0,03 А).",
         zakres: "Да, нет или не знаю. «Не знаю» приложение считает как «нет» — это безопасная сторона.",
       },
     },

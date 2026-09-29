@@ -1,5 +1,6 @@
 import type { Warning } from "@/lib/core/calc-result"
 import { obudowaNiepolaczonaZGsw } from "@/lib/core/modules/okablowanie/uziemienie-funkcjonalne-ochronne/warnings"
+import { progPowyzejOchronyOsob } from "@/lib/core/modules/okablowanie/wylaczniki-rcd/warnings"
 import type { OdpowiedzKontrolna } from "./input"
 
 /**
@@ -28,6 +29,35 @@ export function gniazdaBezStykuOchronnego(odpowiedz: OdpowiedzKontrolna): Warnin
     i18nKey: "UMI-GNIAZDA-BEZ-STYKU-OCHRONNEGO",
     technicalMessage: `rodzaj = ac230, gniazdaZeStykiemOchronnym = ${odpowiedz} (źródło: ryzyko porażenia)`,
     field: "gniazdaZeStykiemOchronnym",
+  }
+}
+
+/**
+ * Brak połączenia N–PE w falowniku (D54, decyzja właściciela 29.09.2026). Ochrona w wyspie z falownika nie potrzebuje
+ * ziemi, tylko zamkniętej pętli zwarcia: obudowa → PE → punkt N–PE w falowniku → falownik. Bez tego punktu zwarcie na
+ * obudowę nie daje dużego prądu, więc ani bezpiecznik, ani RCD nie wyłączą obwodu — twardy stop.
+ */
+export function brakPolaczeniaNPE(odpowiedz: OdpowiedzKontrolna): Warning {
+  return {
+    code: "UMI-BRAK-POLACZENIA-N-PE",
+    level: "critical",
+    i18nKey: "UMI-BRAK-POLACZENIA-N-PE",
+    technicalMessage: `rodzaj = ac230, polaczenieNPE = ${odpowiedz} — pętla zwarcia otwarta, zabezpieczenie nie zadziała (D54)`,
+    field: "polaczenieNPE",
+  }
+}
+
+/**
+ * Brak RCD 30 mA za połączeniem N–PE (D54). Poziom — echo M5 `PROG-POWYZEJ-OCHRONY-OSOB` (wylaczniki-rcd: ochrona
+ * osób wymaga 30 mA, twardy stop); własny kod, bo tu pytanie brzmi „czy RCD 30 mA w ogóle jest”.
+ */
+export function brakRcd30mA(odpowiedz: OdpowiedzKontrolna): Warning {
+  return {
+    code: "UMI-BRAK-RCD-30MA",
+    level: progPowyzejOchronyOsob(30).level,
+    i18nKey: "UMI-BRAK-RCD-30MA",
+    technicalMessage: `rodzaj = ac230, rcd30mA = ${odpowiedz} (poziom z M5 PROG-POWYZEJ-OCHRONY-OSOB)`,
+    field: "rcd30mA",
   }
 }
 

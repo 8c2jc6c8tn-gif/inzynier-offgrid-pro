@@ -24,4 +24,11 @@ export type UziemienieMaleInstalacjeInput = {
   obudowaFalownikaUziemiona: OdpowiedzKontrolna | null
   /** Tylko dla 230 V AC: czy gniazda 230 V mają styk ochronny (bolec/PE) podłączony. `null` = brak odpowiedzi. */
   gniazdaZeStykiemOchronnym: OdpowiedzKontrolna | null
+  /**
+   * Tylko dla 230 V AC: czy falownik ma połączenie N–PE (fabryczne, przekaźnikiem przełącznika sieci albo wykonane wg
+   * instrukcji producenta) — punkt, do którego wraca prąd zwarcia (D54). `null` = brak odpowiedzi.
+   */
+  polaczenieNPE: OdpowiedzKontrolna | null
+  /** Tylko dla 230 V AC: czy za połączeniem N–PE jest wyłącznik różnicowoprądowy (RCD) 30 mA (D54). `null` = brak odpowiedzi. */
+  rcd30mA: OdpowiedzKontrolna | null
 }

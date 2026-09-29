@@ -1,7 +1,7 @@
 /**
  * Narzędzie AI (9.3) dla Modułu 12 "Szybki kalkulator/tryb mobilny" — Ekran 38 "Uziemienie małej instalacji"
- * (dawne 8.65). `operationType: 'read'`. Rodzaj instalacji, miejsce i odpowiedzi o obudowie falownika i gniazdach
- * MUSZĄ pochodzić od usera — model ich nie zgaduje. Nie liczy uziomu prętowego (pełny projekt: M5/E9).
+ * (dawne 8.65). `operationType: 'read'`. Rodzaj instalacji, miejsce i odpowiedzi o obudowie falownika, gniazdach,
+ * połączeniu N–PE i RCD 30 mA (D54) MUSZĄ pochodzić od usera — model ich nie zgaduje. Nie liczy uziomu prętowego (pełny projekt: M5/E9).
  */
 import { z } from "zod"
 import { calculateUziemienieMaleInstalacje } from "@/lib/core/modules/kalkulator-mobilny/uziemienie-male-instalacje/calculator"
@@ -18,6 +18,12 @@ export const UziemienieMaleInstalacjeToolInput = z.object({
   ),
   gniazdaZeStykiemOchronnym: OdpowiedzKontrolna.nullable().describe(
     "Tylko dla ac230: czy gniazda 230 V mają podłączony styk ochronny — od usera; gdy nie wie, 'nie-wiem'. Dla dc: null",
+  ),
+  polaczenieNPE: OdpowiedzKontrolna.nullable().describe(
+    "Tylko dla ac230: czy falownik ma połączenie N–PE (fabryczne, przekaźnikiem przełącznika sieci albo wg instrukcji producenta) — od usera; gdy nie wie, 'nie-wiem'. Dla dc: null",
+  ),
+  rcd30mA: OdpowiedzKontrolna.nullable().describe(
+    "Tylko dla ac230: czy za połączeniem N–PE jest wyłącznik różnicowoprądowy (RCD) 30 mA — od usera; gdy nie wie, 'nie-wiem'. Dla dc: null",
   ),
 })
 export type UziemienieMaleInstalacjeToolInputT = z.infer<typeof UziemienieMaleInstalacjeToolInput>
@@ -38,7 +44,8 @@ export const uziemienieMaleInstalacjeTool: AiToolDefinition<UziemienieMaleInstal
     "Sprawdza uziemienie małej, tymczasowej lub mobilnej instalacji (garaż, kamper, jacht, na zewnątrz): tylko 12/24 V DC " +
     "zwykle nie wymaga uziemienia ochronnego; przy falowniku 230 V wymagana jest uziemiona obudowa falownika i gniazda ze " +
     "stykiem ochronnym (obudowa nieuziemiona lub „nie wiem” = twardy stop; gniazda bez styku ochronnego = ostrzeżenie z " +
-    "wyjaśnieniem ryzyka porażenia); przy samym DC w miejscu wilgotnym (jacht, na zewnątrz) ostrzega, że uziemienie jest zalecane. Nie liczy uziomu prętowego ani rezystancji uziemienia. Użyj, gdy user pyta o uziemienie kampera, jachtu albo małego zestawu.",
+    "wyjaśnieniem ryzyka porażenia); ochrona na falowniku wymaga zamkniętej pętli zwarcia, nie ziemi — brak połączenia N–PE " +
+    "w falowniku albo brak RCD 30 mA za nim (lub „nie wiem”) = twardy stop; przy samym DC w miejscu wilgotnym (jacht, na zewnątrz) ostrzega, że uziemienie jest zalecane. Nie liczy uziomu prętowego ani rezystancji uziemienia. Użyj, gdy user pyta o uziemienie kampera, jachtu albo małego zestawu.",
   inputSchema: UziemienieMaleInstalacjeToolInput,
   outputSchema: UziemienieMaleInstalacjeToolOutput,
   operationType: "read",

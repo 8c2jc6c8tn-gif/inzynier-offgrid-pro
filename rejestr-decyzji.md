@@ -1,6 +1,6 @@
 # Rejestr decyzji — Inżynier Offgrid Pro
 
-**Wersja:** 1.26 | **Filar:** C | **Data utworzenia:** 04.09.2026 | **Ostatnia aktualizacja:** 29.09.2026 | **Status:** Stabilny (rosnący)
+**Wersja:** 1.27 | **Filar:** C | **Data utworzenia:** 04.09.2026 | **Ostatnia aktualizacja:** 29.09.2026 | **Status:** Stabilny (rosnący)
 **Powiązane dokumenty:** `00_Biblia.md`, `docs/memory.md`, `USTALENIA.md` (historyczny, Część II)
 
 TL;DR: D1, D2, D3… — decyzje **strategiczne/fundamentalne** (blokujące wiele innych rzeczy naraz, Krok 4 GOD BOOK), ponumerowane, nigdy nie kasowane, tylko unieważniane jawnie (F.5). **Nie duplikuje `docs/memory.md`**: tam żyje pełna, szczegółowa historia każdej sesji (setki drobnych decyzji implementacyjnych per ekran) — tu tylko decyzje, które zmieniły kierunek/regułę obowiązującą cały projekt. Gdy wpis niżej odsyła do `docs/memory.md`, tam jest pełne uzasadnienie i przykłady.
@@ -241,6 +241,8 @@ Treść:
 - (7) Nadal odłożone: TD21 CRL, Rsi (czeka na PKN).
 - **[29.09.2026, sprawdzenie źródeł]** Do pkt (4): Biblia v2.0 §4.10 (dawne 3.10) — „jedyny skuteczny środek gaśniczy dla pakietu LiFePO4 to agregat wodny/mgłowy lub specjalny środek do magazynów energii”; rekomendacja pokrywa się ze źródłem, otwarte tylko 🟡/🔴 dla gazu i aerozolu. Do pkt (6): Biblia v2.0 §9.28 (dawne 11.28) — „Bez transceivera nie podłączaj GPIO bezpośrednio do magistrali CAN”, to samo ostrzeżenie co dla RS485 (🔴). Kod bez zmian do decyzji właściciela.
 
+**D54 (29.09.2026) — M12/E38: ochrona na falowniku = zamknięta pętla zwarcia, nie ziemia. Kalkulator pyta o połączenie N–PE w falowniku i o RCD 30 mA za nim; brak któregokolwiek (albo „nie wiem”) → 🔴.** Koszt cofnięcia: tani (pola i poziomy w `lib/core/modules/kalkulator-mobilny/uziemienie-male-instalacje/`). Decyzja właściciela projektu (29.09.2026: „Musimy to rozwiązanie ująć w kalkulatorze i podawać go ludziom”). Treść: (1) przy zwarciu na obudowę prąd płynie obudowa → PE → punkt połączenia N z PE w falowniku → falownik; duży prąd pozwala bezpiecznikowi albo RCD wyłączyć obwód; (2) warunki są trzy: wszystkie obudowy, styki ochronne gniazd i podwozie połączone jednym przewodem PE (połączenie wyrównawcze); falownik ma połączenie N–PE, ale tylko jeśli producent na to pozwala (wiele falowników z przełącznikiem sieci robi to automatycznie przekaźnikiem, gdy nie ma zasilania z zewnątrz); RCD 30 mA za tym połączeniem; (3) poziomy: brak N–PE → 🔴 (bez pętli zabezpieczenie nie zadziała — interpretacja AI ✅🤖 słów „warunki są trzy”); brak RCD 30 mA → 🔴, poziom echo M5 `PROG-POWYZEJ-OCHRONY-OSOB` (ochrona osób = 30 mA); „nie wiem” = „nie” jak w D52; (4) ekran pokazuje objaśnienie pętli i schemat; pręt w ziemi ani przewód/łańcuch spod pojazdu nie zastępują pętli (odpowiedź na pytanie właściciela o wiszący przewód). Gniazda bez styku ochronnego zostają 🟡 (D52, potwierdzone 29.09: „zostaje A”). Kalkulator 1.2.0.
+
 ## Założenia robocze (F.7 GOD BOOK)
 
 **Z1 (04.09.2026) — przyjęto:** ID modułów (H.2 GOD BOOK, M#) odpowiadają wprost numeracji "Moduł N" już używanej w całym projekcie (1–13), nie nowej, niezależnej numeracji. **Powód:** ta numeracja jest już stabilna, używana w kodzie, dokumentacji i UI od 29.08.2026 — wprowadzenie równoległej numeracji M# byłoby duplikatem, nie nowym bytem. **Na czym się opiera:** cała struktura `docs/rejestr-pokrycia.md`, `lib/pulpit/registry.ts`, `docs/pulpit-i-nawigacja.md`.
@@ -279,3 +281,4 @@ Treść:
 | 29.09.2026 | Dodano D51 (komplet ekranu: autosave + tłumaczenia + „?” + „i” w jednej zmianie; strażnik `check:pomoc-guard`; uzupełnia D34) — decyzja właściciela projektu. Wersja 1.23→1.24. |
 | 29.09.2026 | Dodano D52 (M12/E38: gniazda bez styku ochronnego 🟡 z wyjaśnieniem; zalecenie przy wilgoci 🟡) — decyzja właściciela projektu. Wersja 1.24→1.25. |
 | 29.09.2026 | Dodano D53 (odpowiedzi na odłożone pytania D50: zamki M8/E3, kafle M14 w presetach, agregat przez rozdzielnię; gaz, ESP32, CAN bez zmian poziomów) — decyzja właściciela projektu. Wersja 1.25→1.26. |
+| 29.09.2026 | Dodano D54 (M12/E38: pętla zwarcia — pytania o połączenie N–PE i RCD 30 mA, brak = 🔴; objaśnienie i schemat na ekranie) — decyzja właściciela projektu. Wersja 1.26→1.27. |

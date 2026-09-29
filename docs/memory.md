@@ -8150,6 +8150,15 @@ Tryb Audyt (czapka rewidenta). Warstwa „w pełni na końcu” z N.2 — wszyst
   przy DC — przy 230 V z kompletem uziemienia dawałoby fałszywe 🟡. **Pułapka:** zmiana poziomu = też teksty migawki „i”
   (mówiły „nie = czerwony stop”) i opis narzędzia AI, nie tylko `warnings.ts` — grep po kodzie ostrzeżenia i po „czerwony”.
 
+## M12/E38 — D54 pętla zwarcia (29.09.2026)
+
+- Właściciel: ochrona na falowniku nie potrzebuje ziemi, tylko zamkniętej pętli obudowa → PE → N–PE w falowniku →
+  falownik; trzy warunki (połączenie wyrównawcze PE, N–PE za zgodą producenta, RCD 30 mA za nim). Wdrożone jako D54:
+  pola `polaczenieNPE`, `rcd30mA` (INCOMPLETE bez odpowiedzi), oba braki 🔴; RCD — poziom echo `progPowyzejOchronyOsob`.
+- Stare autozapisy bez `npe`/`rcd` → `?? ""` (wzorzec `napor-wiatru`), więc wynik INCOMPLETE, nigdy „OK”.
+- Otwarte (⚠️ na liście): pojedynczy odbiornik z wyjścia pływającego (separacja elektryczna) — dziś 🔴; bez źródła normy
+  nie rozstrzygam.
+
 ## Rsi per kierunek — liczby odtworzone (29.09.2026)
 
 - Decyzja z 28.09 („Rsi per kierunek, wartości z PN-EN ISO 6946, właściciel dostarczy PKN”) została zapisana **bez

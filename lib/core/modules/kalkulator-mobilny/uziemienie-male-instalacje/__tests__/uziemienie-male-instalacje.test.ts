@@ -1,5 +1,6 @@
 import { describe, expect, it } from "vitest"
 import { obudowaNiepolaczonaZGsw } from "@/lib/core/modules/okablowanie/uziemienie-funkcjonalne-ochronne/warnings"
+import { progPowyzejOchronyOsob } from "@/lib/core/modules/okablowanie/wylaczniki-rcd/warnings"
 import { calculateUziemienieMaleInstalacje } from "../calculator"
 import type { UziemienieMaleInstalacjeInput } from "../input"
 
@@ -8,8 +9,17 @@ const ac: UziemienieMaleInstalacjeInput = {
   miejsce: "kamper",
   obudowaFalownikaUziemiona: "tak",
   gniazdaZeStykiemOchronnym: "tak",
+  polaczenieNPE: "tak",
+  rcd30mA: "tak",
 }
-const dc: UziemienieMaleInstalacjeInput = { rodzaj: "dc", miejsce: "garaz", obudowaFalownikaUziemiona: null, gniazdaZeStykiemOchronnym: null }
+const dc: UziemienieMaleInstalacjeInput = {
+  rodzaj: "dc",
+  miejsce: "garaz",
+  obudowaFalownikaUziemiona: null,
+  gniazdaZeStykiemOchronnym: null,
+  polaczenieNPE: null,
+  rcd30mA: null,
+}
 const kody = (r: ReturnType<typeof calculateUziemienieMaleInstalacje>) => r.warnings.map((w) => w.code)
 
 describe("calculateUziemienieMaleInstalacje (M12/E38, echo M5/E11)", () => {
@@ -23,6 +33,8 @@ describe("calculateUziemienieMaleInstalacje (M12/E38, echo M5/E11)", () => {
     expect(calculateUziemienieMaleInstalacje({ ...ac, obudowaFalownikaUziemiona: null }).status).toBe("INCOMPLETE")
     expect(calculateUziemienieMaleInstalacje({ ...ac, gniazdaZeStykiemOchronnym: null }).status).toBe("INCOMPLETE")
     expect(calculateUziemienieMaleInstalacje({ ...ac, gniazdaZeStykiemOchronnym: null }).warnings).toEqual([])
+    expect(calculateUziemienieMaleInstalacje({ ...ac, polaczenieNPE: null }).status).toBe("INCOMPLETE")
+    expect(calculateUziemienieMaleInstalacje({ ...ac, rcd30mA: null }).status).toBe("INCOMPLETE")
   })
 
   it("12/24 V DC w garażu → VALID, uziemienie ochronne niewymagane, pytania o falownik nie dotyczą", () => {
@@ -76,6 +88,29 @@ describe("calculateUziemienieMaleInstalacje (M12/E38, echo M5/E11)", () => {
     expect(kody(r)).toEqual(["UMI-GNIAZDA-BEZ-STYKU-OCHRONNEGO"])
     expect(r.warnings[0].level).toBe("warning")
     expect(r.warnings[0].field).toBe("gniazdaZeStykiemOchronnym")
+  })
+
+  it.each(["nie", "nie-wiem"] as const)("230 V: brak połączenia N–PE „%s” → 🔴, pętla zwarcia otwarta (D54)", (odp) => {
+    const r = calculateUziemienieMaleInstalacje({ ...ac, polaczenieNPE: odp })
+    expect(r.status).toBe("VALID_WITH_WARNINGS")
+    expect(kody(r)).toEqual(["UMI-BRAK-POLACZENIA-N-PE"])
+    expect(r.warnings[0].level).toBe("critical")
+    expect(r.warnings[0].field).toBe("polaczenieNPE")
+  })
+
+  it.each(["nie", "nie-wiem"] as const)("230 V: brak RCD 30 mA „%s” → 🔴, poziom z M5 PROG-POWYZEJ-OCHRONY-OSOB (echo, D54)", (odp) => {
+    const r = calculateUziemienieMaleInstalacje({ ...ac, rcd30mA: odp })
+    expect(r.status).toBe("VALID_WITH_WARNINGS")
+    expect(kody(r)).toEqual(["UMI-BRAK-RCD-30MA"])
+    expect(r.warnings[0].level).toBe("critical")
+    expect(r.warnings[0].level).toBe(progPowyzejOchronyOsob(30).level)
+    expect(r.warnings[0].field).toBe("rcd30mA")
+  })
+
+  it("DC: pytania o N–PE i RCD nie dotyczą — null nie daje INCOMPLETE ani ostrzeżeń pętli zwarcia", () => {
+    const r = calculateUziemienieMaleInstalacje(dc)
+    expect(r.status).toBe("VALID")
+    expect(kody(r).some((k) => k === "UMI-BRAK-POLACZENIA-N-PE" || k === "UMI-BRAK-RCD-30MA")).toBe(false)
   })
 
   it("230 V na jachcie, oba braki → 🔴 obudowa + 🟡 gniazda; bez osobnego ostrzeżenia o wilgoci", () => {
