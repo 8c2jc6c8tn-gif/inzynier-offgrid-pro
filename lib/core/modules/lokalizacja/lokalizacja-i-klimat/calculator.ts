@@ -13,6 +13,10 @@ export type LokalizacjaResult = {
  * docs/zrodla/Tresc_Modul_1_Lokalizacja_Ekrany.md). Tryb offline: zapis współrzędnych/temperatury
  * minimalnej wpisanych ręcznie. Bez silnika obliczeniowego — to ekran infrastrukturalny, zasila
  * pozostałe moduły (klimat/strefy dla PV, ogrzewania, stress-testu).
+ *
+ * ai-tool: nie dotyczy — silnik niczego nie liczy, zwraca tylko `zapisano: true/false` dla profilu
+ * lokalizacji; współrzędne i temperaturę minimalną model dostaje wprost od usera i przekazuje do
+ * narzędzi, które ich używają (np. profil astronomiczny, stress-test).
  */
 export function calculateLokalizacja(input: LokalizacjaInput): CalcResult<LokalizacjaResult> {
   const { errors } = validateInput(input)

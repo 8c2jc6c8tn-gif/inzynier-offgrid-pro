@@ -1188,3 +1188,5 @@ Pełne wyniki audytu: `docs/memory.md`, sekcja "Pełny audyt na polecenie właś
   `wampiry-automatyzacja`, `wampiry-rekomendacje`, `wampiry-symulacje` z trybami autonomia/koszt-roczny/wplyw-na-dobor);
   lista zapadkowa 10 → 5. Zostały: 4 kalkulatory baterie/lokalizacja/pv (narzędzie albo `ai-tool: nie dotyczy`)
   i `ai/prognozy` (po decyzji Δt).
+  **Partia 4 ✅ (29.09):** narzędzia `komunikacja-bms`, `porownanie-technologii`, `czystosc-i-snieg`;
+  `lokalizacja-i-klimat` — adnotacja `ai-tool: nie dotyczy` (silnik tylko zapisuje profil, nic nie liczy). Lista 5 → 1.
