@@ -1150,6 +1150,7 @@ Pełne wyniki audytu: `docs/memory.md`, sekcja "Pełny audyt na polecenie właś
   M1 lokalizacja (4 ekrany) ✅
   M9 esp32 (5 ekranów) ✅
   M10 Prognozy: migawka „i” PL/EN/RU (ekran bez pól)
+  M13 Tryb Live: migawka „i” PL/EN/RU (ekran bez pól) — baseline strażnika pusta
 - 🔲 (2026-09-29) **Tłumaczenie samych stron (etykiety pól, nagłówki, komunikaty UI) na EN/RU.** Wyszło przy D51: treść
   „?”/„i” i komunikaty silników są w trzech językach, ale etykiety pól i teksty na stronach nadal tylko po polsku.
   Osobne, duże zadanie (standard 17). **Priorytet:** do decyzji właściciela. **Kolizje:** te same pliki co chmurki —
