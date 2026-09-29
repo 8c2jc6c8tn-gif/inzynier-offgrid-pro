@@ -3,6 +3,7 @@
 import { useMemo } from "react"
 import { calculateWindChill } from "@/lib/core/modules/stress-test/wind-chill/calculator"
 import { Pole } from "@/components/ui/pole"
+import { PomocPola } from "@/components/ui/pomoc"
 import { WerdyktPanel } from "@/components/werdykt"
 import { NawigacjaEkranu } from "@/components/nawigacja-ekranu"
 import { NaglowekEkranu } from "@/components/wzorce/naglowek-ekranu"
@@ -10,6 +11,7 @@ import { WynikGlowny } from "@/components/wzorce/wynik-glowny"
 import { WynikSzczegoly } from "@/components/wzorce/wynik-szczegoly"
 import { useTranslate } from "@/lib/i18n/language-context"
 import { usePersistedDraft } from "@/lib/adapters/use-persisted-draft"
+import { WIND_CHILL_MAX_TEMP_C, WIND_CHILL_MIN_PREDKOSC_KMH } from "@/lib/core/modules/stress-test/wind-chill/constants"
 
 type FormularzStan = {
   temperaturaC: string
@@ -50,7 +52,12 @@ export default function WindChillPage() {
   return (
     <main className="mx-auto flex max-w-md flex-col gap-6 p-6">
       <NawigacjaEkranu href="/kalkulatory/wind-chill" />
-      <NaglowekEkranu tytul="Wind Chill — temperatura odczuwalna">
+      <NaglowekEkranu
+        tytul="Wind Chill — temperatura odczuwalna"
+        ekran="wind-chill"
+        wzor={result.formula}
+        parametry={{ maxT: WIND_CHILL_MAX_TEMP_C, minV: WIND_CHILL_MIN_PREDKOSC_KMH }}
+      >
         Wiatr wywiewa ciepło z domu nawet wtedy, gdy termometr nie pokazuje wcale tak niskiej
         temperatury — liczy się nie tylko stopień, ale i to, jak mocno wieje. Moduł 7.
       </NaglowekEkranu>
@@ -63,6 +70,7 @@ export default function WindChillPage() {
           inputMode="decimal"
           value={temperaturaC}
           onChange={(e) => setTemperaturaC(e.target.value)}
+          pomoc={<PomocPola ekran="wind-chill" pole="temp" params={{ maxT: WIND_CHILL_MAX_TEMP_C }} />}
         />
         <Pole
           label="Prędkość wiatru"
@@ -72,7 +80,7 @@ export default function WindChillPage() {
           min={0}
           value={predkoscWiatruKmh}
           onChange={(e) => setPredkoscWiatruKmh(e.target.value)}
-          hint="Na wysokości ok. 10m — dane z prognozy pogody lub stacji lokalnej."
+          pomoc={<PomocPola ekran="wind-chill" pole="wiatr" params={{ minV: WIND_CHILL_MIN_PREDKOSC_KMH }} />}
         />
       </div>
 

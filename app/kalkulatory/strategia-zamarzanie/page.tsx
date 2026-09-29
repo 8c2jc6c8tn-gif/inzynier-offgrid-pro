@@ -4,8 +4,10 @@ import { useMemo } from "react"
 import { calculateStrategiaZamarzanie } from "@/lib/core/modules/stress-test/strategia-zamarzanie/calculator"
 import type { OdbiornikZimowy } from "@/lib/core/modules/stress-test/strategia-zamarzanie/input"
 import type { PriorytetOdbiornika } from "@/lib/core/modules/zapotrzebowanie/load-shedding/input"
+import { PROG_ODLACZENIA_PRIORYTET_2_SOC_PCT } from "@/lib/core/modules/zapotrzebowanie/load-shedding/constants"
 import { usePersistedDraft } from "@/lib/adapters/use-persisted-draft"
 import { Pole } from "@/components/ui/pole"
+import { PomocPola } from "@/components/ui/pomoc"
 import { WerdyktPanel } from "@/components/werdykt"
 import { NawigacjaEkranu } from "@/components/nawigacja-ekranu"
 import { NaglowekEkranu } from "@/components/wzorce/naglowek-ekranu"
@@ -18,10 +20,10 @@ type FormularzStan = Record<PoleLiczbowe, string> & { odbiorniki: Wiersz[] }
 
 const STAN_POCZATKOWY: FormularzStan = { pojemnoscKwh: "", socPct: "", socMinPct: "", sprawnoscFalownikaPct: "", odbiorniki: [] }
 
-const POLA: { pole: PoleLiczbowe; label: string; unit: string; hint?: string }[] = [
+const POLA: { pole: PoleLiczbowe; label: string; unit: string }[] = [
   { pole: "pojemnoscKwh", label: "Pojemność baterii", unit: "kWh" },
   { pole: "socPct", label: "Aktualny SoC", unit: "%" },
-  { pole: "socMinPct", label: "SoC wyłączenia systemu", unit: "%", hint: "Odcięcie BMS lub falownika." },
+  { pole: "socMinPct", label: "SoC wyłączenia systemu", unit: "%" },
   { pole: "sprawnoscFalownikaPct", label: "Sprawność falownika", unit: "%" },
 ]
 
@@ -60,13 +62,18 @@ export default function StrategiaZamarzaniePage() {
   return (
     <main className="mx-auto flex max-w-md flex-col gap-6 p-6">
       <NawigacjaEkranu href="/kalkulatory/strategia-zamarzanie" />
-      <NaglowekEkranu tytul="Strategia „Zamarzanie”">
+      <NaglowekEkranu
+        tytul="Strategia „Zamarzanie”"
+        ekran="strategia-zamarzanie"
+        wzor={result.formula}
+        parametry={{ prog: PROG_ODLACZENIA_PRIORYTET_2_SOC_PCT }}
+      >
         Gdy energii jest mało, trzeba wybrać, co poświęcić — ogrzewanie i woda są ważniejsze niż zmywarka, i system musi to
         wiedzieć wcześniej, nie w panice. Moduł 7, Ekran 6.
       </NaglowekEkranu>
 
       <div className="flex flex-col gap-4">
-        {POLA.map(({ pole: p, label, unit, hint }) => (
+        {POLA.map(({ pole: p, label, unit }) => (
           <Pole
             key={p}
             label={label}
@@ -76,7 +83,7 @@ export default function StrategiaZamarzaniePage() {
             min={0}
             value={stan[p]}
             onChange={(e) => setStan((prev) => ({ ...prev, [p]: e.target.value }))}
-            hint={hint}
+            pomoc={<PomocPola ekran="strategia-zamarzanie" pole={p} />}
           />
         ))}
       </div>
@@ -99,6 +106,7 @@ export default function StrategiaZamarzaniePage() {
                   className={`${pole} min-w-24 flex-1`}
                   aria-label={`Nazwa — odbiornik ${i + 1}`}
                 />
+                <PomocPola ekran="strategia-zamarzanie" pole="nazwa" />
                 <input
                   type="number"
                   inputMode="decimal"
@@ -109,6 +117,7 @@ export default function StrategiaZamarzaniePage() {
                   className={`${pole} w-20`}
                   aria-label={`Moc [W] — ${opis}`}
                 />
+                <PomocPola ekran="strategia-zamarzanie" pole="moc" />
                 <select
                   value={o.priorytet}
                   onChange={(e) => aktualizuj(o.id, { priorytet: Number(e.target.value) as PriorytetOdbiornika })}
@@ -121,6 +130,7 @@ export default function StrategiaZamarzaniePage() {
                     </option>
                   ))}
                 </select>
+                <PomocPola ekran="strategia-zamarzanie" pole="priorytet" params={{ prog: PROG_ODLACZENIA_PRIORYTET_2_SOC_PCT }} />
                 <button
                   type="button"
                   onClick={() => setStan((prev) => ({ ...prev, odbiorniki: prev.odbiorniki.filter((x) => x.id !== o.id) }))}

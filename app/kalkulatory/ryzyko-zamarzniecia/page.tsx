@@ -9,11 +9,13 @@ import type {
 } from "@/lib/core/modules/stress-test/ryzyko-zamarzniecia/input"
 import { usePersistedDraft } from "@/lib/adapters/use-persisted-draft"
 import { Pole, PoleSelect } from "@/components/ui/pole"
+import { PomocPola } from "@/components/ui/pomoc"
 import { WerdyktPanel } from "@/components/werdykt"
 import { NawigacjaEkranu } from "@/components/nawigacja-ekranu"
 import { NaglowekEkranu } from "@/components/wzorce/naglowek-ekranu"
 import { WynikGlowny } from "@/components/wzorce/wynik-glowny"
 import { WynikSzczegoly } from "@/components/wzorce/wynik-szczegoly"
+import { ZAPAS_RURY_WODNEJ_POD_STREFA_CM } from "@/lib/core/modules/stress-test/ryzyko-zamarzniecia/constants"
 
 type FormularzStan = {
   glebokoscPrzemarzaniaCm: string
@@ -55,7 +57,12 @@ export default function RyzykoZamarznieciaPage() {
   return (
     <main className="mx-auto flex max-w-md flex-col gap-6 p-6">
       <NawigacjaEkranu href="/kalkulatory/ryzyko-zamarzniecia" />
-      <NaglowekEkranu tytul="Ryzyko zamarznięcia — grunt">
+      <NaglowekEkranu
+        tytul="Ryzyko zamarznięcia — grunt"
+        ekran="ryzyko-zamarzniecia"
+        wzor={result.formula}
+        parametry={{ zapas: ZAPAS_RURY_WODNEJ_POD_STREFA_CM }}
+      >
         Czy kable, rury i uziomy leżą poniżej strefy przemarzania, i jak bezpiecznie rozmrozić rurę. Moduł 7.
       </NaglowekEkranu>
 
@@ -67,7 +74,7 @@ export default function RyzykoZamarznieciaPage() {
         min={0}
         value={stan.glebokoscPrzemarzaniaCm}
         onChange={(e) => setStan((prev) => ({ ...prev, glebokoscPrzemarzaniaCm: e.target.value }))}
-        hint="Z mapy stref przemarzania dla Twojej lokalizacji albo z projektu budowlanego."
+        pomoc={<PomocPola ekran="ryzyko-zamarzniecia" pole="glebokoscPrzemarzania" />}
       />
 
       <div className="flex flex-col gap-2">
@@ -85,6 +92,7 @@ export default function RyzykoZamarznieciaPage() {
                   className={`${pole} min-w-24 flex-1`}
                   aria-label={`Nazwa — instalacja ${i + 1}`}
                 />
+                <PomocPola ekran="ryzyko-zamarzniecia" pole="nazwa" />
                 <select
                   value={e.typ}
                   onChange={(ev) => aktualizuj(e.id, { typ: ev.target.value as TypInstalacjiGruntowej })}
@@ -97,6 +105,7 @@ export default function RyzykoZamarznieciaPage() {
                     </option>
                   ))}
                 </select>
+                <PomocPola ekran="ryzyko-zamarzniecia" pole="typ" />
                 <input
                   type="number"
                   inputMode="decimal"
@@ -107,6 +116,7 @@ export default function RyzykoZamarznieciaPage() {
                   className={`${pole} w-20`}
                   aria-label={`Głębokość ułożenia [cm] — ${opis}`}
                 />
+                <PomocPola ekran="ryzyko-zamarzniecia" pole="glebokosc" />
                 <button
                   type="button"
                   onClick={() => setStan((prev) => ({ ...prev, instalacje: prev.instalacje.filter((x) => x.id !== e.id) }))}
@@ -137,6 +147,7 @@ export default function RyzykoZamarznieciaPage() {
         label="Jak rozmrozisz zamarzniętą rurę?"
         value={stan.metodaRozmrazania}
         onChange={(e) => setStan((prev) => ({ ...prev, metodaRozmrazania: e.target.value as MetodaRozmrazania }))}
+        pomoc={<PomocPola ekran="ryzyko-zamarzniecia" pole="rozmrazanie" />}
       >
         <option value="nie-dotyczy">Nie dotyczy</option>
         <option value="kabel-grzewczy">Kabel grzewczy</option>

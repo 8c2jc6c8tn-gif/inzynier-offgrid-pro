@@ -9,6 +9,7 @@ import { NawigacjaEkranu } from "@/components/nawigacja-ekranu"
 import { NaglowekEkranu } from "@/components/wzorce/naglowek-ekranu"
 import { WynikGlowny } from "@/components/wzorce/wynik-glowny"
 import { WynikSzczegoly } from "@/components/wzorce/wynik-szczegoly"
+import { PomocPola } from "@/components/ui/pomoc"
 
 type Wiersz = KomponentSystemu & { id: string }
 type FormularzStan = { komponenty: Wiersz[] }
@@ -41,7 +42,7 @@ export default function AnalizaSpofPage() {
   return (
     <main className="mx-auto flex max-w-md flex-col gap-6 p-6">
       <NawigacjaEkranu href="/kalkulatory/analiza-spof" />
-      <NaglowekEkranu tytul="Analiza SPOF — pojedyncze punkty awarii">
+      <NaglowekEkranu tytul="Analiza SPOF — pojedyncze punkty awarii" ekran="analiza-spof" wzor={result.formula}>
         Jeden element może pociągnąć cały system na dno — trzeba go znaleźć, zanim znajdzie go zima. Moduł 7, Ekran 10.
       </NaglowekEkranu>
 
@@ -62,6 +63,7 @@ export default function AnalizaSpofPage() {
                   className={`${pole} min-w-24 flex-1`}
                   aria-label={`Nazwa — komponent ${i + 1}`}
                 />
+                <PomocPola ekran="analiza-spof" pole="nazwa" />
                 <select
                   value={k.typ}
                   onChange={(e) => aktualizuj(k.id, { typ: e.target.value as TypKomponentu })}
@@ -74,6 +76,7 @@ export default function AnalizaSpofPage() {
                     </option>
                   ))}
                 </select>
+                <PomocPola ekran="analiza-spof" pole="typ" />
                 <label className="flex items-center gap-1 text-caption">
                   <input
                     type="checkbox"
@@ -84,6 +87,7 @@ export default function AnalizaSpofPage() {
                   />
                   redundancja
                 </label>
+                <PomocPola ekran="analiza-spof" pole="redundancja" />
                 <button
                   type="button"
                   onClick={() => setStan((prev) => ({ komponenty: prev.komponenty.filter((x) => x.id !== k.id) }))}

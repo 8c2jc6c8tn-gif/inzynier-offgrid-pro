@@ -5,6 +5,7 @@ import { calculatePreHeat } from "@/lib/core/modules/stress-test/pre-heat/calcul
 import type { PreHeatInput, ZrodloEnergiiPreHeat } from "@/lib/core/modules/stress-test/pre-heat/input"
 import { usePersistedDraft } from "@/lib/adapters/use-persisted-draft"
 import { Pole, PoleSelect } from "@/components/ui/pole"
+import { PomocPola } from "@/components/ui/pomoc"
 import { WerdyktPanel } from "@/components/werdykt"
 import { NawigacjaEkranu } from "@/components/nawigacja-ekranu"
 import { NaglowekEkranu } from "@/components/wzorce/naglowek-ekranu"
@@ -25,13 +26,13 @@ const STAN_POCZATKOWY: FormularzStan = {
   nadwyzkaPvKwh: "",
 }
 
-const POLA: { pole: PoleLiczbowe; label: string; unit: string; hint?: string }[] = [
-  { pole: "pojemnoscCieplnaKwhK", label: "Pojemność cieplna budynku", unit: "kWh/K", hint: "Z Modułu 6 „Pojemność cieplna budynku”." },
-  { pole: "podniesienieTempDomuK", label: "O ile podnieść temperaturę w domu", unit: "K", hint: "Np. z 20°C do 23°C = 3 K." },
-  { pole: "stratyCieplaKw", label: "Straty ciepła przy nadchodzącym mrozie", unit: "kW", hint: "Z Modułu 6 „Straty ciepła budynku”." },
+const POLA: { pole: PoleLiczbowe; label: string; unit: string }[] = [
+  { pole: "pojemnoscCieplnaKwhK", label: "Pojemność cieplna budynku", unit: "kWh/K" },
+  { pole: "podniesienieTempDomuK", label: "O ile podnieść temperaturę w domu", unit: "K" },
+  { pole: "stratyCieplaKw", label: "Straty ciepła przy nadchodzącym mrozie", unit: "kW" },
   { pole: "pojemnoscBojleraL", label: "Pojemność bojlera (opcjonalnie)", unit: "l" },
-  { pole: "podniesienieTempBojleraK", label: "O ile podgrzać bojler", unit: "K", hint: "Np. z 50°C do 70°C = 20 K." },
-  { pole: "cop", label: "COP ogrzewania", unit: "", hint: "Pompa ciepła — z karty; grzałka elektryczna = 1." },
+  { pole: "podniesienieTempBojleraK", label: "O ile podgrzać bojler", unit: "K" },
+  { pole: "cop", label: "COP ogrzewania", unit: "" },
   { pole: "nadwyzkaPvKwh", label: "Nadwyżka PV w dniu przed mrozem (opcjonalnie)", unit: "kWh" },
 ]
 
@@ -54,13 +55,13 @@ export default function PreHeatPage() {
   return (
     <main className="mx-auto flex max-w-md flex-col gap-6 p-6">
       <NawigacjaEkranu href="/kalkulatory/pre-heat" />
-      <NaglowekEkranu tytul="Pre-Heat — ciepło na zapas">
+      <NaglowekEkranu tytul="Pre-Heat — ciepło na zapas" ekran="pre-heat" wzor={result.formula}>
         Ładuj ciepło, zanim przyjdzie mróz — przegrzej dom i bojler w słoneczny dzień przed frontem, a nie w trakcie, kiedy
         będzie już za późno i za drogo. Moduł 7, Ekran 18.
       </NaglowekEkranu>
 
       <div className="flex flex-col gap-4">
-        {POLA.map(({ pole, label, unit, hint }) => (
+        {POLA.map(({ pole, label, unit }) => (
           <Pole
             key={pole}
             label={label}
@@ -70,13 +71,14 @@ export default function PreHeatPage() {
             min={0}
             value={stan[pole]}
             onChange={(e) => setStan((prev) => ({ ...prev, [pole]: e.target.value }))}
-            hint={hint}
+            pomoc={<PomocPola ekran="pre-heat" pole={pole} />}
           />
         ))}
         <PoleSelect
           label="Skąd energia na przegrzanie?"
           value={stan.zrodloEnergii}
           onChange={(e) => setStan((prev) => ({ ...prev, zrodloEnergii: e.target.value as FormularzStan["zrodloEnergii"] }))}
+          pomoc={<PomocPola ekran="pre-heat" pole="zrodloEnergii" />}
         >
           <option value="">— wybierz —</option>
           <option value="pv-dzien">Nadwyżka PV w dzień</option>

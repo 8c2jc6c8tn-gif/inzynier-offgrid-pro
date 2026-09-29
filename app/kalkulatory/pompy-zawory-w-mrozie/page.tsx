@@ -5,6 +5,7 @@ import { calculatePompyZaworyWMrozie } from "@/lib/core/modules/stress-test/pomp
 import type { ElementArmatury, TypArmatury } from "@/lib/core/modules/stress-test/pompy-zawory-w-mrozie/input"
 import { usePersistedDraft } from "@/lib/adapters/use-persisted-draft"
 import { Pole, PoleCheckbox } from "@/components/ui/pole"
+import { PomocPola } from "@/components/ui/pomoc"
 import { WerdyktPanel } from "@/components/werdykt"
 import { NawigacjaEkranu } from "@/components/nawigacja-ekranu"
 import { NaglowekEkranu } from "@/components/wzorce/naglowek-ekranu"
@@ -59,7 +60,7 @@ export default function PompyZaworyWMroziePage() {
   return (
     <main className="mx-auto flex max-w-md flex-col gap-6 p-6">
       <NawigacjaEkranu href="/kalkulatory/pompy-zawory-w-mrozie" />
-      <NaglowekEkranu tytul="Pompy i zawory w mrozie">
+      <NaglowekEkranu tytul="Pompy i zawory w mrozie" ekran="pompy-zawory-w-mrozie" wzor={result.formula}>
         Które pompy, zawory i siłowniki mogą się zablokować przy najniższej temperaturze w miejscu montażu. Moduł 7.
       </NaglowekEkranu>
 
@@ -70,7 +71,7 @@ export default function PompyZaworyWMroziePage() {
         inputMode="decimal"
         value={stan.temperaturaMiejscaC}
         onChange={(e) => setStan((prev) => ({ ...prev, temperaturaMiejscaC: e.target.value }))}
-        hint="Np. garaż, studnia, kotłownia — najzimniejsza noc, nie średnia."
+        pomoc={<PomocPola ekran="pompy-zawory-w-mrozie" pole="temp" />}
       />
 
       <div className="flex flex-col gap-2">
@@ -90,6 +91,7 @@ export default function PompyZaworyWMroziePage() {
                   className={`${pole} min-w-24 flex-1`}
                   aria-label={`Nazwa — element ${i + 1}`}
                 />
+                <PomocPola ekran="pompy-zawory-w-mrozie" pole="nazwa" />
                 <select
                   value={e.typ}
                   onChange={(ev) => aktualizuj(e.id, { typ: ev.target.value as TypArmatury })}
@@ -102,6 +104,7 @@ export default function PompyZaworyWMroziePage() {
                     </option>
                   ))}
                 </select>
+                <PomocPola ekran="pompy-zawory-w-mrozie" pole="typ" />
                 <input
                   type="number"
                   inputMode="decimal"
@@ -113,6 +116,7 @@ export default function PompyZaworyWMroziePage() {
                   className={`${pole} w-24`}
                   aria-label={`Minimalna temperatura pracy [°C] — ${opis}`}
                 />
+                <PomocPola ekran="pompy-zawory-w-mrozie" pole="tempMin" />
                 <button
                   type="button"
                   onClick={() => setStan((prev) => ({ ...prev, elementy: prev.elementy.filter((x) => x.id !== e.id) }))}

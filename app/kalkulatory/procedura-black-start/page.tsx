@@ -49,7 +49,7 @@ export default function ProceduraBlackStartPage() {
   return (
     <main className="mx-auto flex max-w-md flex-col gap-6 p-6">
       <NawigacjaEkranu href="/kalkulatory/procedura-black-start" />
-      <NaglowekEkranu tytul="Procedura Black Start">
+      <NaglowekEkranu tytul="Procedura Black Start" ekran="procedura-black-start">
         To jak rozruch samochodu po nocy na mrozie — trzeba wiedzieć dokładnie, co i w jakiej
         kolejności przekręcić, żeby zapalić. Moduł 7, Ekran 5.
       </NaglowekEkranu>

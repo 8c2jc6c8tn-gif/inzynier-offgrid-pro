@@ -5,6 +5,7 @@ import { calculateAwariaStringaZima } from "@/lib/core/modules/stress-test/awari
 import type { AwariaStringaZimaInput } from "@/lib/core/modules/stress-test/awaria-stringa-zima/input"
 import { usePersistedDraft } from "@/lib/adapters/use-persisted-draft"
 import { Pole } from "@/components/ui/pole"
+import { PomocPola } from "@/components/ui/pomoc"
 import { WerdyktPanel } from "@/components/werdykt"
 import { NawigacjaEkranu } from "@/components/nawigacja-ekranu"
 import { NaglowekEkranu } from "@/components/wzorce/naglowek-ekranu"
@@ -22,8 +23,8 @@ const STAN_POCZATKOWY: FormularzStan = {
   sprawnoscFalownikaPct: "",
 }
 
-const POLA: { pole: keyof AwariaStringaZimaInput; label: string; unit: string; hint?: string }[] = [
-  { pole: "produkcjaCalkowitaKwhDoba", label: "Produkcja instalacji w najgorszym miesiącu", unit: "kWh/dobę", hint: "Z Modułu 3." },
+const POLA: { pole: keyof AwariaStringaZimaInput; label: string; unit: string }[] = [
+  { pole: "produkcjaCalkowitaKwhDoba", label: "Produkcja instalacji w najgorszym miesiącu", unit: "kWh/dobę" },
   { pole: "produkcjaStringuKwhDoba", label: "Produkcja stringu, który ulega awarii", unit: "kWh/dobę" },
   { pole: "zapotrzebowanieKwhDoba", label: "Zapotrzebowanie w tym miesiącu", unit: "kWh/dobę" },
   { pole: "pojemnoscBateriiKwh", label: "Pojemność baterii (opcjonalnie)", unit: "kWh" },
@@ -46,13 +47,13 @@ export default function AwariaStringaZimaPage() {
   return (
     <main className="mx-auto flex max-w-md flex-col gap-6 p-6">
       <NawigacjaEkranu href="/kalkulatory/awaria-stringa-zima" />
-      <NaglowekEkranu tytul="Awaria stringa PV zimą">
+      <NaglowekEkranu tytul="Awaria stringa PV zimą" ekran="awaria-stringa-zima" wzor={result.formula}>
         Jeden chory string, który latem byłby drobnym problemem, w styczniu może oznaczać, że dom nie przetrwa nocy bez
         agregatu. Moduł 7, Ekran 26.
       </NaglowekEkranu>
 
       <div className="flex flex-col gap-4">
-        {POLA.map(({ pole, label, unit, hint }) => (
+        {POLA.map(({ pole, label, unit }) => (
           <Pole
             key={pole}
             label={label}
@@ -62,7 +63,7 @@ export default function AwariaStringaZimaPage() {
             min={0}
             value={stan[pole]}
             onChange={(e) => setStan((prev) => ({ ...prev, [pole]: e.target.value }))}
-            hint={hint}
+            pomoc={<PomocPola ekran="awaria-stringa-zima" pole={pole} />}
           />
         ))}
       </div>

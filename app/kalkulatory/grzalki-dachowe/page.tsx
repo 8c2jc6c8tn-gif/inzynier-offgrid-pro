@@ -4,6 +4,7 @@ import { useMemo } from "react"
 import { calculateGrzalkiDachowe } from "@/lib/core/modules/stress-test/grzalki-dachowe/calculator"
 import { usePersistedDraft } from "@/lib/adapters/use-persisted-draft"
 import { Pole } from "@/components/ui/pole"
+import { PomocPola } from "@/components/ui/pomoc"
 import { WerdyktPanel } from "@/components/werdykt"
 import { NawigacjaEkranu } from "@/components/nawigacja-ekranu"
 import { NaglowekEkranu } from "@/components/wzorce/naglowek-ekranu"
@@ -51,7 +52,7 @@ export default function GrzalkiDachowePage() {
   return (
     <main className="mx-auto flex max-w-md flex-col gap-6 p-6">
       <NawigacjaEkranu href="/kalkulatory/grzalki-dachowe" />
-      <NaglowekEkranu tytul="Grzałki dachowe i rynnowe">
+      <NaglowekEkranu tytul="Grzałki dachowe i rynnowe" ekran="grzalki-dachowe" wzor={result.formula}>
         Ile mocy i energii zjedzą kable grzewcze przeciw zatorom lodowym w rynnach i koszach dachu. Moduł 7.
       </NaglowekEkranu>
 
@@ -64,7 +65,7 @@ export default function GrzalkiDachowePage() {
           min={0}
           value={stan.dlugoscKablaM}
           onChange={ustaw("dlugoscKablaM")}
-          hint="Rynny, rury spustowe i kosze dachowe — tam, gdzie kabel faktycznie leży."
+          pomoc={<PomocPola ekran="grzalki-dachowe" pole="dlugosc" />}
         />
         <Pole
           label="Moc kabla na metr"
@@ -74,7 +75,7 @@ export default function GrzalkiDachowePage() {
           min={0}
           value={stan.mocNaMetrW}
           onChange={ustaw("mocNaMetrW")}
-          hint="Z karty katalogowej kabla."
+          pomoc={<PomocPola ekran="grzalki-dachowe" pole="mocNaMetr" />}
         />
         <Pole
           label="Czas pracy na dobę"
@@ -85,6 +86,7 @@ export default function GrzalkiDachowePage() {
           max={24}
           value={stan.godzinyPracyNaDobe}
           onChange={ustaw("godzinyPracyNaDobe")}
+          pomoc={<PomocPola ekran="grzalki-dachowe" pole="czas" />}
         />
         <Pole
           label="Moc elektryczna pompy ciepła (opcjonalnie)"
@@ -94,7 +96,7 @@ export default function GrzalkiDachowePage() {
           min={0}
           value={stan.mocPompyCieplaW}
           onChange={ustaw("mocPompyCieplaW")}
-          hint="Do porównania — grzałki potrafią pobierać więcej niż pompa."
+          pomoc={<PomocPola ekran="grzalki-dachowe" pole="mocPompy" />}
         />
         <Pole
           label="Wolny zapas mocy falownika (opcjonalnie)"
@@ -104,7 +106,7 @@ export default function GrzalkiDachowePage() {
           min={0}
           value={stan.zapasMocyW}
           onChange={ustaw("zapasMocyW")}
-          hint="Moc falownika minus odbiorniki pracujące w tym samym czasie."
+          pomoc={<PomocPola ekran="grzalki-dachowe" pole="zapasFalownika" />}
         />
       </div>
 
