@@ -8126,4 +8126,9 @@ Tryb Audyt (czapka rewidenta). Warstwa „w pełni na końcu” z N.2 — wszyst
   renderera (tak jak dotąd w `WynikSzczegoly`).
 - **Weryfikacja:** Playwright (iPhone 13) — „i” i „?” otwierają się na dotyk, PL/EN/RU, `{params}` podstawione, bez
   poziomego przewijania.
+- **Zamknięte 29.09.2026:** wszystkie moduły (M1–M14) w komplecie, lista zapadkowa pusta (255 plików zgodnych). Prop `hint`
+  usunięty z `Pole`/`PoleSelect` — typecheck pilnuje, że nie wróci; `PoleCheckbox` go zachowuje. Pułapki z partii: surowy
+  `<input>` w `{warunek && (...)}` + `PomocPola` obok wymaga fragmentu `<>…</>`; powtarzające się etykiety w listach
+  (np. „Nachylenie” w M1/E4) wymagają osobnych id pól. Przy M10 znaleziona możliwa pomyłka Δt w silniku prognoz — pytanie
+  A/B w `lista-do-zrobienia.md`, nie ruszane.
 
