@@ -8132,3 +8132,12 @@ Tryb Audyt (czapka rewidenta). Warstwa „w pełni na końcu” z N.2 — wszyst
   (np. „Nachylenie” w M1/E4) wymagają osobnych id pól. Przy M10 znaleziona możliwa pomyłka Δt w silniku prognoz — pytanie
   A/B w `lista-do-zrobienia.md`, nie ruszane.
 
+## M12/E38 — D52 i sprawdzenie kolizji po zmianach na `main` (29.09.2026)
+
+- Przed zmianą sprawdzone `main` po scaleniu PR #189 (D51 „pomoc” we wszystkich modułach, M14 w kodzie): E38 przeszedł
+  migrację chmurek do `PomocPola` (teksty w `lib/i18n/pomoc/m12-kalkulator-mobilny.ts`) — bez kolizji z silnikiem.
+  Dryf rejestru twardych stopów M5 nadal otwarty (nikt go nie ruszył).
+- **D52:** gniazda bez styku ochronnego 🟡 z wyjaśnieniem roli bolca, wilgoć 🟡. Przy okazji: ostrzeżenie o wilgoci tylko
+  przy DC — przy 230 V z kompletem uziemienia dawałoby fałszywe 🟡. **Pułapka:** zmiana poziomu = też teksty migawki „i”
+  (mówiły „nie = czerwony stop”) i opis narzędzia AI, nie tylko `warnings.ts` — grep po kodzie ostrzeżenia i po „czerwony”.
+

@@ -18,12 +18,13 @@ export function obudowaFalownikaNieuziemiona(odpowiedz: OdpowiedzKontrolna): War
 
 /**
  * Gniazda 230 V bez styku ochronnego (Biblia §12.53: "Sprawdza, czy … gniazda 230V mają styk ochronny"; ostrzeżenie
- * źródła: "Brak uziemienia przy zwarciach to ryzyko porażenia"). Poziom 🔴 — ryzyko porażenia (4.1), ten sam co obudowa.
+ * źródła: "Brak uziemienia przy zwarciach to ryzyko porażenia"). Poziom 🟡 — D52 (decyzja właściciela 29.09.2026:
+ * „żółty, ale napisać, czym grozi brak bolca i po co on jest”); komunikat wyjaśnia rolę styku ochronnego.
  */
 export function gniazdaBezStykuOchronnego(odpowiedz: OdpowiedzKontrolna): Warning {
   return {
     code: "UMI-GNIAZDA-BEZ-STYKU-OCHRONNEGO",
-    level: "critical",
+    level: "warning",
     i18nKey: "UMI-GNIAZDA-BEZ-STYKU-OCHRONNEGO",
     technicalMessage: `rodzaj = ac230, gniazdaZeStykiemOchronnym = ${odpowiedz} (źródło: ryzyko porażenia)`,
     field: "gniazdaZeStykiemOchronnym",
@@ -40,11 +41,11 @@ export function dcBezUziemieniaOchronnego(): Warning {
   }
 }
 
-/** Miejsce wilgotne (jacht, na zewnątrz) — źródło zaleca uziemienie; zalecenie, nie próg. */
+/** Miejsce wilgotne (jacht, na zewnątrz) — źródło zaleca uziemienie; 🟡 jak zalecenia IP w E23 (D52), nie twardy stop. */
 export function wilgocZalecaneUziemienie(miejsce: string): Warning {
   return {
     code: "UMI-WILGOC-ZALECANE-UZIEMIENIE",
-    level: "info",
+    level: "warning",
     i18nKey: "UMI-WILGOC-ZALECANE-UZIEMIENIE",
     technicalMessage: `miejsce = ${miejsce} ∈ {jacht, zewnatrz} (źródło: zaleca uziemienie w miejscach wilgotnych)`,
   }
