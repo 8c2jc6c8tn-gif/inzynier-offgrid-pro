@@ -8,6 +8,7 @@ import {
 } from "@/lib/core/modules/baterie/symulacja-ladowania-rozladowania/constants"
 import { usePersistedDraft } from "@/lib/adapters/use-persisted-draft"
 import { Pole } from "@/components/ui/pole"
+import { PomocPola } from "@/components/ui/pomoc"
 import { WerdyktPanel } from "@/components/werdykt"
 import { NawigacjaEkranu } from "@/components/nawigacja-ekranu"
 import { NaglowekEkranu } from "@/components/wzorce/naglowek-ekranu"
@@ -66,7 +67,11 @@ export default function SymulacjaLadowaniaRozladowaniaPage() {
   return (
     <main className="mx-auto flex max-w-md flex-col gap-6 p-6">
       <NawigacjaEkranu href="/kalkulatory/symulacja-ladowania-rozladowania" />
-      <NaglowekEkranu tytul="Symulacja czasu ładowania/rozładowania">
+      <NaglowekEkranu
+        tytul="Symulacja czasu ładowania/rozładowania"
+        ekran="symulacja-ladowania-rozladowania"
+        wzor={result.formula}
+      >
         Pokazuje, czy Twoja bateria i produkcja PV są w ogóle zsynchronizowane z Twoim zużyciem —
         czy zdąży naładować się w ciągu dnia i czy przetrwa do rana. Moduł 4, Ekran 3.
       </NaglowekEkranu>
@@ -80,7 +85,7 @@ export default function SymulacjaLadowaniaRozladowaniaPage() {
           min={0}
           value={stan.pojemnoscUzytecznaKwh}
           onChange={(e) => setPole("pojemnoscUzytecznaKwh", e.target.value)}
-          hint="Docelowo automatycznie z Ekranu 1 (Dobór pojemności) — na razie wpisz ręcznie."
+          pomoc={<PomocPola ekran="symulacja-ladowania-rozladowania" pole="pojemnosc" />}
         />
         <Pole
           label="SoC na początku dnia"
@@ -91,6 +96,7 @@ export default function SymulacjaLadowaniaRozladowaniaPage() {
           max={100}
           value={stan.socStartPct}
           onChange={(e) => setPole("socStartPct", e.target.value)}
+          pomoc={<PomocPola ekran="symulacja-ladowania-rozladowania" pole="socStart" />}
         />
         <Pole
           label="Średnia moc ładowania z PV"
@@ -100,7 +106,7 @@ export default function SymulacjaLadowaniaRozladowaniaPage() {
           min={0}
           value={stan.mocLadowaniaKw}
           onChange={(e) => setPole("mocLadowaniaKw", e.target.value)}
-          hint="Netto (po odjęciu bieżącego zużycia w dzień). Docelowo auto z Modułu 3. 0 = dzień bez słońca."
+          pomoc={<PomocPola ekran="symulacja-ladowania-rozladowania" pole="mocLadowania" />}
         />
         <Pole
           label="Długość okna ładowania (naświetlenia)"
@@ -111,7 +117,7 @@ export default function SymulacjaLadowaniaRozladowaniaPage() {
           max={24}
           value={stan.dlugoscDniaGodz}
           onChange={(e) => setPole("dlugoscDniaGodz", e.target.value)}
-          hint="Docelowo auto z Modułu 1 (wschód/zachód słońca w Twojej lokalizacji)."
+          pomoc={<PomocPola ekran="symulacja-ladowania-rozladowania" pole="oknoLadowania" />}
         />
         <Pole
           label="Średnia moc rozładowania w nocy"
@@ -121,7 +127,7 @@ export default function SymulacjaLadowaniaRozladowaniaPage() {
           min={0}
           value={stan.mocRozladowaniaKw}
           onChange={(e) => setPole("mocRozladowaniaKw", e.target.value)}
-          hint="Profil obciążenia nocnego. Docelowo auto z Modułu 2."
+          pomoc={<PomocPola ekran="symulacja-ladowania-rozladowania" pole="mocNoc" />}
         />
         <Pole
           label="Próg ostrzegawczy SoC"
@@ -132,7 +138,7 @@ export default function SymulacjaLadowaniaRozladowaniaPage() {
           max={100}
           value={stan.socProgPct}
           onChange={(e) => setPole("socProgPct", e.target.value)}
-          hint={`Sugerowany start: ${SOC_PROG_SUGEROWANY_PCT}% — edytowalne, nie ukryty domyślny.`}
+          pomoc={<PomocPola ekran="symulacja-ladowania-rozladowania" pole="progSoc" params={{ progSoc: SOC_PROG_SUGEROWANY_PCT }} />}
         />
       </div>
 

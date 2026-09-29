@@ -5,6 +5,7 @@ import { calculateKomunikacjaBms } from "@/lib/core/modules/baterie/komunikacja-
 import { PROTOKOLY } from "@/lib/core/modules/baterie/komunikacja-bms/constants"
 import { usePersistedDraft } from "@/lib/adapters/use-persisted-draft"
 import { PoleSelect } from "@/components/ui/pole"
+import { PomocPola } from "@/components/ui/pomoc"
 import { WerdyktPanel, type WerdyktPoziom } from "@/components/werdykt"
 import { NawigacjaEkranu } from "@/components/nawigacja-ekranu"
 import { NaglowekEkranu } from "@/components/wzorce/naglowek-ekranu"
@@ -54,13 +55,18 @@ export default function KomunikacjaBmsPage() {
   return (
     <main className="mx-auto flex max-w-md flex-col gap-6 p-6">
       <NawigacjaEkranu href="/kalkulatory/komunikacja-bms" />
-      <NaglowekEkranu tytul="Komunikacja BMS — CAN/RS485/Modbus">
+      <NaglowekEkranu tytul="Komunikacja BMS — CAN/RS485/Modbus" ekran="komunikacja-bms">
         BMS i falownik muszą „mówić tym samym językiem” — bez tego falownik nie wie, ile realnie
         ma baterii, i musi zgadywać. Moduł 4, Ekran 20.
       </NaglowekEkranu>
 
       <div className="flex flex-col gap-4">
-        <PoleSelect label="Protokół BMS" value={protokolBms} onChange={(e) => setProtokolBms(e.target.value)}>
+        <PoleSelect
+          label="Protokół BMS"
+          value={protokolBms}
+          onChange={(e) => setProtokolBms(e.target.value)}
+          pomoc={<PomocPola ekran="komunikacja-bms" pole="protokolBms" />}
+        >
           <option value="">— wybierz —</option>
           {PROTOKOLY.map((p) => (
             <option key={p.id} value={p.id}>
@@ -72,6 +78,7 @@ export default function KomunikacjaBmsPage() {
           label="Protokół falownika/ładowarki"
           value={protokolFalownika}
           onChange={(e) => setProtokolFalownika(e.target.value)}
+          pomoc={<PomocPola ekran="komunikacja-bms" pole="protokolFalownika" />}
         >
           <option value="">— wybierz —</option>
           {PROTOKOLY.map((p) => (

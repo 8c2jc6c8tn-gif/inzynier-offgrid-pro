@@ -5,6 +5,7 @@ import { calculateSlabeOgniwo } from "@/lib/core/modules/baterie/slabe-ogniwo/ca
 import { DOMYSLNA_TOLERANCJA_PCT } from "@/lib/core/modules/baterie/slabe-ogniwo/constants"
 import { usePersistedDraft } from "@/lib/adapters/use-persisted-draft"
 import { Pole } from "@/components/ui/pole"
+import { PomocPola } from "@/components/ui/pomoc"
 import { WerdyktPanel } from "@/components/werdykt"
 import { NawigacjaEkranu } from "@/components/nawigacja-ekranu"
 import { NaglowekEkranu } from "@/components/wzorce/naglowek-ekranu"
@@ -51,7 +52,11 @@ export default function SlabeOgniwoPage() {
   return (
     <main className="mx-auto flex max-w-md flex-col gap-6 p-6">
       <NawigacjaEkranu href="/kalkulatory/slabe-ogniwo" />
-      <NaglowekEkranu tytul="Symulacja Słabego Ogniwa (Cell Drift & Balancing)">
+      <NaglowekEkranu
+        tytul="Symulacja Słabego Ogniwa (Cell Drift & Balancing)"
+        ekran="slabe-ogniwo"
+        wzor={result.formula}
+      >
         To jak pociągnięcie za hamulec w całym pociągu, bo jeden wagon się zepsuł — jedno słabe
         ogniwo ogranicza cały pakiet. Moduł 4, Ekran 8.
       </NaglowekEkranu>
@@ -64,6 +69,7 @@ export default function SlabeOgniwoPage() {
           inputMode="decimal"
           value={pojemnoscZnamionowaAh}
           onChange={(e) => setPojemnoscZnamionowaAh(e.target.value)}
+          pomoc={<PomocPola ekran="slabe-ogniwo" pole="pojemnosc" />}
         />
         <Pole
           label="Tolerancja fabryczna"
@@ -74,7 +80,7 @@ export default function SlabeOgniwoPage() {
           max={100}
           value={tolerancjaPct}
           onChange={(e) => setTolerancjaPct(e.target.value)}
-          hint={`Domyślnie ±${DOMYSLNA_TOLERANCJA_PCT}% wg źródła.`}
+          pomoc={<PomocPola ekran="slabe-ogniwo" pole="tolerancja" params={{ tolerancja: DOMYSLNA_TOLERANCJA_PCT }} />}
         />
       </div>
 

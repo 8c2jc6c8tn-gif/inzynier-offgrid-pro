@@ -10,6 +10,7 @@ import {
 import type { ProdukcjaPv } from "@/lib/core/modules/baterie/grzalki-bms-mroz/input"
 import { usePersistedDraft } from "@/lib/adapters/use-persisted-draft"
 import { Pole, PoleSelect } from "@/components/ui/pole"
+import { PomocPola } from "@/components/ui/pomoc"
 import { WerdyktPanel, type WerdyktPoziom } from "@/components/werdykt"
 import { NawigacjaEkranu } from "@/components/nawigacja-ekranu"
 import { NaglowekEkranu } from "@/components/wzorce/naglowek-ekranu"
@@ -95,7 +96,11 @@ export default function GrzalkiBmsMrozPage() {
   return (
     <main className="mx-auto flex max-w-md flex-col gap-6 p-6">
       <NawigacjaEkranu href="/kalkulatory/grzalki-bms-mroz" />
-      <NaglowekEkranu tytul="Grzałki BMS i ochrona przed mrozem">
+      <NaglowekEkranu
+        tytul="Grzałki BMS i ochrona przed mrozem"
+        ekran="grzalki-bms-mroz"
+        parametry={{ progTemp: PROG_TEMPERATURY_GRZANIA_C, progSoc: PROG_SOC_WSTRZYMANIA_PCT }}
+      >
         Nie marnuj prądu z baterii na grzanie, jeśli za chwilę słońce zrobi to za darmo — system
         sam to policzy i wybierze mądrzejszy moment. Moduł 4, Ekran 5.
       </NaglowekEkranu>
@@ -108,7 +113,7 @@ export default function GrzalkiBmsMrozPage() {
           inputMode="decimal"
           value={temperaturaMinC}
           onChange={(e) => setTemperaturaMinC(e.target.value)}
-          hint={`Próg włączenia grzałek: ${PROG_TEMPERATURY_GRZANIA_C}°C. Jeśli magazyn jest w pomieszczeniu ogrzewanym, wpisz temperaturę tam, nie zewnętrzną.`}
+          pomoc={<PomocPola ekran="grzalki-bms-mroz" pole="temperatura" params={{ progTemp: PROG_TEMPERATURY_GRZANIA_C, progSoc: PROG_SOC_WSTRZYMANIA_PCT }} />}
         />
         <Pole
           label="Bieżący SoC baterii"
@@ -119,12 +124,13 @@ export default function GrzalkiBmsMrozPage() {
           max={100}
           value={socPct}
           onChange={(e) => setSocPct(e.target.value)}
-          hint={`Próg wstrzymania grzania z baterii (brak PV): ${PROG_SOC_WSTRZYMANIA_PCT}%.`}
+          pomoc={<PomocPola ekran="grzalki-bms-mroz" pole="soc" params={{ progTemp: PROG_TEMPERATURY_GRZANIA_C, progSoc: PROG_SOC_WSTRZYMANIA_PCT }} />}
         />
         <PoleSelect
           label="Czy w tej chwili jest produkcja PV"
           value={produkcjaPv}
           onChange={(e) => setProdukcjaPv(e.target.value as ProdukcjaPv)}
+          pomoc={<PomocPola ekran="grzalki-bms-mroz" pole="pv" />}
         >
           <option value="">— wybierz —</option>
           <option value="tak">Tak</option>

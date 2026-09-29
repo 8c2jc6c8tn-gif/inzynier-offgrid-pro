@@ -3,6 +3,7 @@
 import { useMemo } from "react"
 import { calculateVehicleToHome } from "@/lib/core/modules/baterie/vehicle-to-home/calculator"
 import { Pole, PoleCheckbox } from "@/components/ui/pole"
+import { PomocPola } from "@/components/ui/pomoc"
 import { WerdyktPanel } from "@/components/werdykt"
 import { NawigacjaEkranu } from "@/components/nawigacja-ekranu"
 import { NaglowekEkranu } from "@/components/wzorce/naglowek-ekranu"
@@ -64,7 +65,7 @@ export default function VehicleToHomePage() {
   return (
     <main className="mx-auto flex max-w-md flex-col gap-6 p-6">
       <NawigacjaEkranu href="/kalkulatory/vehicle-to-home" />
-      <NaglowekEkranu tytul="Vehicle-to-Home (V2H)">
+      <NaglowekEkranu tytul="Vehicle-to-Home (V2H)" ekran="vehicle-to-home" wzor={result.formula}>
         Auto może być powerbankiem na kółkach, ale to zużywa jego baterię trakcyjną — warto
         policzyć, czy to się opłaca, zanim zrobisz to w praktyce. Moduł 4, Ekran 19.
       </NaglowekEkranu>
@@ -84,6 +85,7 @@ export default function VehicleToHomePage() {
           min={0}
           value={pojemnoscBaterEvKwh}
           onChange={(e) => setPojemnoscBaterEvKwh(e.target.value)}
+          pomoc={<PomocPola ekran="vehicle-to-home" pole="pojemnosc" />}
         />
         <Pole
           label="Rezerwa na dojazd"
@@ -93,6 +95,7 @@ export default function VehicleToHomePage() {
           min={0}
           value={rezerwaNaDojazdKwh}
           onChange={(e) => setRezerwaNaDojazdKwh(e.target.value)}
+          pomoc={<PomocPola ekran="vehicle-to-home" pole="rezerwa" />}
         />
         <Pole
           label="Sprawność efektywna (degradacja + straty)"
@@ -103,6 +106,7 @@ export default function VehicleToHomePage() {
           max={100}
           value={sprawnoscEfektywnaPct}
           onChange={(e) => setSprawnoscEfektywnaPct(e.target.value)}
+          pomoc={<PomocPola ekran="vehicle-to-home" pole="sprawnosc" />}
         />
         <Pole
           label="Koszt wymiany baterii trakcyjnej"
@@ -112,6 +116,7 @@ export default function VehicleToHomePage() {
           min={0}
           value={kosztWymianyBateriiZl}
           onChange={(e) => setKosztWymianyBateriiZl(e.target.value)}
+          pomoc={<PomocPola ekran="vehicle-to-home" pole="kosztWymiany" />}
         />
         <Pole
           label="Liczba cykli życia baterii trakcyjnej"
@@ -121,6 +126,7 @@ export default function VehicleToHomePage() {
           min={0}
           value={liczbaCykli}
           onChange={(e) => setLiczbaCykli(e.target.value)}
+          pomoc={<PomocPola ekran="vehicle-to-home" pole="cykle" />}
         />
       </div>
 

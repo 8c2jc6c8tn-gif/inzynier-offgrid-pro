@@ -12,6 +12,7 @@ import {
 } from "@/lib/core/modules/baterie/moment-dokrecania-srub/constants"
 import { usePersistedDraft } from "@/lib/adapters/use-persisted-draft"
 import { PoleSelect } from "@/components/ui/pole"
+import { PomocPola } from "@/components/ui/pomoc"
 import { WerdyktPanel } from "@/components/werdykt"
 import { NawigacjaEkranu } from "@/components/nawigacja-ekranu"
 import { NaglowekEkranu } from "@/components/wzorce/naglowek-ekranu"
@@ -71,7 +72,7 @@ export default function MomentDokrecaniaSrubPage() {
   return (
     <main className="mx-auto flex max-w-md flex-col gap-6 p-6">
       <NawigacjaEkranu href="/kalkulatory/moment-dokrecania-srub" />
-      <NaglowekEkranu tytul="Moment dokręcania śrub">
+      <NaglowekEkranu tytul="Moment dokręcania śrub" ekran="moment-dokrecania-srub">
         Śruba to sprężyna — musisz ją naciągnąć dokładnie tyle, ile trzeba, żeby docisnęła
         końcówkę kablową, ani trochę więcej. Moduł 4, Ekran 11.
       </NaglowekEkranu>
@@ -80,6 +81,7 @@ export default function MomentDokrecaniaSrubPage() {
         label="Typ / pojemność ogniwa"
         value={typOgniwaId}
         onChange={(e) => setTypOgniwaId(e.target.value)}
+        pomoc={<PomocPola ekran="moment-dokrecania-srub" pole="typ" />}
       >
         {TYPY_OGNIW.map((typ) => (
           <option key={typ.id} value={typ.id}>

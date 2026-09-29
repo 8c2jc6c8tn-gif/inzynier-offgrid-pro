@@ -19,6 +19,3 @@ export const MATRYCA_ALARMOW: AlarmWiersz[] = [
 
 export const PRZYKLADOWY_KOMUNIKAT =
   'ALARM: Przegrzanie ogniwa #3 (52°C). BMS ograniczył prąd ładowania do 20A. Sprawdź wentylację komory.'
-
-export const MIGAWKA =
-  "System broni się sam — Twoim zadaniem jest zrozumieć komunikat i usunąć przyczynę, nie tylko skasować alarm."

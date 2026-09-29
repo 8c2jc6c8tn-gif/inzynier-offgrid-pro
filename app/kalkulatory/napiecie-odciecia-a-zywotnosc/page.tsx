@@ -5,11 +5,13 @@ import { calculateNapiecieOdciecia } from "@/lib/core/modules/baterie/napiecie-o
 import { LICZBA_OGNIW_SUGEROWANA } from "@/lib/core/modules/baterie/napiecie-odciecia-a-zywotnosc/constants"
 import { usePersistedDraft } from "@/lib/adapters/use-persisted-draft"
 import { Pole } from "@/components/ui/pole"
+import { PomocPola } from "@/components/ui/pomoc"
 import { WerdyktPanel } from "@/components/werdykt"
 import { NawigacjaEkranu } from "@/components/nawigacja-ekranu"
 import { NaglowekEkranu } from "@/components/wzorce/naglowek-ekranu"
 import { WynikGlowny } from "@/components/wzorce/wynik-glowny"
 import { WynikSzczegoly } from "@/components/wzorce/wynik-szczegoly"
+import { KALIBRACJA_NAPIECIE_OGNIWO_MAX_V, KALIBRACJA_NAPIECIE_OGNIWO_MIN_V } from "@/lib/core/modules/baterie/napiecie-odciecia-a-zywotnosc/constants"
 
 type FormularzStan = {
   napiecieOdcieciaV: string
@@ -44,7 +46,12 @@ export default function NapiecieOdcieciaAZywotnoscPage() {
   return (
     <main className="mx-auto flex max-w-md flex-col gap-6 p-6">
       <NawigacjaEkranu href="/kalkulatory/napiecie-odciecia-a-zywotnosc" />
-      <NaglowekEkranu tytul="Napięcie odcięcia vs żywotność">
+      <NaglowekEkranu
+        tytul="Napięcie odcięcia vs żywotność"
+        ekran="napiecie-odciecia-a-zywotnosc"
+        wzor={result.formula}
+        parametry={{ vMin: KALIBRACJA_NAPIECIE_OGNIWO_MIN_V, vMax: KALIBRACJA_NAPIECIE_OGNIWO_MAX_V }}
+      >
         Nie wyciskaj baterii do ostatniej kropli — pozostawienie małego zapasu (wyższe napięcie
         odcięcia) radykalnie wydłuża jej życie, kosztem niewielkiej części dostępnej pojemności.
         Moduł 4, Ekran 31.
@@ -59,6 +66,7 @@ export default function NapiecieOdcieciaAZywotnoscPage() {
           min={0}
           value={stan.napiecieOdcieciaV}
           onChange={(e) => setPole("napiecieOdcieciaV", e.target.value)}
+          pomoc={<PomocPola ekran="napiecie-odciecia-a-zywotnosc" pole="napiecie" />}
         />
         <Pole
           label="Liczba ogniw połączonych szeregowo (S)"
@@ -69,7 +77,7 @@ export default function NapiecieOdcieciaAZywotnoscPage() {
           step={1}
           value={stan.liczbaOgniwSzeregowo}
           onChange={(e) => setPole("liczbaOgniwSzeregowo", e.target.value)}
-          hint={`Typowy pakiet 48V LiFePO4 to 16S — sugerowana wartość: ${LICZBA_OGNIW_SUGEROWANA}.`}
+          pomoc={<PomocPola ekran="napiecie-odciecia-a-zywotnosc" pole="ogniwa" params={{ ogniwa: LICZBA_OGNIW_SUGEROWANA }} />}
         />
       </div>
 

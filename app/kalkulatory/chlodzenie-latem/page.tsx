@@ -5,6 +5,7 @@ import { calculateChlodzenieLatem } from "@/lib/core/modules/baterie/chlodzenie-
 import { ZAKRES_PRACY_MAX_C, ZAKRES_PRACY_MIN_C } from "@/lib/core/modules/baterie/chlodzenie-latem/constants"
 import { usePersistedDraft } from "@/lib/adapters/use-persisted-draft"
 import { Pole } from "@/components/ui/pole"
+import { PomocPola } from "@/components/ui/pomoc"
 import { WerdyktPanel, type WerdyktPoziom } from "@/components/werdykt"
 import { NawigacjaEkranu } from "@/components/nawigacja-ekranu"
 import { NaglowekEkranu } from "@/components/wzorce/naglowek-ekranu"
@@ -53,7 +54,11 @@ export default function ChlodzenieLatemPage() {
   return (
     <main className="mx-auto flex max-w-md flex-col gap-6 p-6">
       <NawigacjaEkranu href="/kalkulatory/chlodzenie-latem" />
-      <NaglowekEkranu tytul="Chłodzenie baterii latem">
+      <NaglowekEkranu
+        tytul="Chłodzenie baterii latem"
+        ekran="chlodzenie-latem"
+        parametry={{ tMin: ZAKRES_PRACY_MIN_C, tMax: ZAKRES_PRACY_MAX_C }}
+      >
         Bateria to nie piec — wysoka temperatura nie tylko chwilowo obniża wydajność, ale trwale
         przyspiesza starzenie ogniw. Moduł 4, Ekran 27.
       </NaglowekEkranu>
@@ -65,7 +70,7 @@ export default function ChlodzenieLatemPage() {
         inputMode="decimal"
         value={temperaturaOgniwC}
         onChange={(e) => setTemperaturaOgniwC(e.target.value)}
-        hint={`Dopuszczalny zakres pracy: ${ZAKRES_PRACY_MIN_C}–${ZAKRES_PRACY_MAX_C}°C.`}
+        pomoc={<PomocPola ekran="chlodzenie-latem" pole="temperatura" params={{ tMin: ZAKRES_PRACY_MIN_C, tMax: ZAKRES_PRACY_MAX_C }} />}
       />
 
       {result.status === "INCOMPLETE" ? (

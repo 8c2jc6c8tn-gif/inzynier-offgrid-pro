@@ -4,6 +4,7 @@ import { useMemo } from "react"
 import { calculateOplacalnoscMagazynu } from "@/lib/core/modules/baterie/oplacalnosc-magazynu/calculator"
 import { usePersistedDraft } from "@/lib/adapters/use-persisted-draft"
 import { Pole } from "@/components/ui/pole"
+import { PomocPola } from "@/components/ui/pomoc"
 import { WerdyktPanel, type WerdyktPoziom } from "@/components/werdykt"
 import { NawigacjaEkranu } from "@/components/nawigacja-ekranu"
 import { NaglowekEkranu } from "@/components/wzorce/naglowek-ekranu"
@@ -68,7 +69,11 @@ export default function OplacalnoscMagazynuPage() {
   return (
     <main className="mx-auto flex max-w-md flex-col gap-6 p-6">
       <NawigacjaEkranu href="/kalkulatory/oplacalnosc-magazynu" />
-      <NaglowekEkranu tytul="Analiza opłacalności magazynu (True Cost of Storage)">
+      <NaglowekEkranu
+        tytul="Analiza opłacalności magazynu (True Cost of Storage)"
+        ekran="oplacalnosc-magazynu"
+        wzor={result.formula}
+      >
         Bateria to skarbonka energii, ale sama też kosztuje — dopiero policzenie kosztu za każdą
         oddaną kWh pokazuje, czy się faktycznie opłaca. Moduł 4, Ekran 23.
       </NaglowekEkranu>
@@ -81,6 +86,7 @@ export default function OplacalnoscMagazynuPage() {
           inputMode="decimal"
           value={cenaBateriiZl}
           onChange={(e) => setCenaBateriiZl(e.target.value)}
+          pomoc={<PomocPola ekran="oplacalnosc-magazynu" pole="cena" />}
         />
         <Pole
           label="Pojemność użyteczna"
@@ -89,6 +95,7 @@ export default function OplacalnoscMagazynuPage() {
           inputMode="decimal"
           value={pojemnoscUzytecznaKwh}
           onChange={(e) => setPojemnoscUzytecznaKwh(e.target.value)}
+          pomoc={<PomocPola ekran="oplacalnosc-magazynu" pole="pojemnosc" />}
         />
         <Pole
           label="Liczba cykli życia przy wybranym DoD"
@@ -96,7 +103,7 @@ export default function OplacalnoscMagazynuPage() {
           inputMode="numeric"
           value={liczbaCykli}
           onChange={(e) => setLiczbaCykli(e.target.value)}
-          hint="Z karty katalogowej albo Ekranu 30 (Porównanie technologii)."
+          pomoc={<PomocPola ekran="oplacalnosc-magazynu" pole="cykle" />}
         />
         <Pole
           label="Sprawność magazynu"
@@ -107,6 +114,7 @@ export default function OplacalnoscMagazynuPage() {
           max={100}
           value={sprawnoscPct}
           onChange={(e) => setSprawnoscPct(e.target.value)}
+          pomoc={<PomocPola ekran="oplacalnosc-magazynu" pole="sprawnosc" />}
         />
         <Pole
           label="Koszt alternatywy (agregat/sieć) — opcjonalnie"
@@ -115,7 +123,7 @@ export default function OplacalnoscMagazynuPage() {
           inputMode="decimal"
           value={kosztAlternatywyZlZaKwh}
           onChange={(e) => setKosztAlternatywyZlZaKwh(e.target.value)}
-          hint="Zostaw puste, żeby zobaczyć sam koszt magazynu, bez porównania."
+          pomoc={<PomocPola ekran="oplacalnosc-magazynu" pole="alternatywa" />}
         />
       </div>
 

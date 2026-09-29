@@ -11,6 +11,7 @@ import {
 import { useProfilSprzetu } from "@/lib/profil-sprzetu/use-profil-sprzetu"
 import { usePersistedDraft } from "@/lib/adapters/use-persisted-draft"
 import { Pole, PoleSelect } from "@/components/ui/pole"
+import { PomocPola } from "@/components/ui/pomoc"
 import { WerdyktPanel } from "@/components/werdykt"
 import { NawigacjaEkranu } from "@/components/nawigacja-ekranu"
 import { NaglowekEkranu } from "@/components/wzorce/naglowek-ekranu"
@@ -80,7 +81,7 @@ export default function StarzenieDegradacjaPage() {
   return (
     <main className="mx-auto flex max-w-md flex-col gap-6 p-6">
       <NawigacjaEkranu href="/kalkulatory/starzenie-degradacja" />
-      <NaglowekEkranu tytul="Starzenie i degradacja ogniw">
+      <NaglowekEkranu tytul="Starzenie i degradacja ogniw" ekran="starzenie-degradacja" wzor={result.formula}>
         Kupujesz baterię nie na dziś, tylko na cały okres jej życia — trzeba od razu doliczyć
         zapas na to, że będzie „słabnąć”. Moduł 4, Ekran 6.
       </NaglowekEkranu>
@@ -94,17 +95,14 @@ export default function StarzenieDegradacjaPage() {
           min={0}
           value={pojemnoscUzytecznaDzisKwh}
           onChange={(e) => setPojemnoscUzytecznaDzisKwh(e.target.value)}
-          hint={
-            autoWypelnione
-              ? "Auto z Ekranu 1 (Dobór pojemności baterii) — możesz nadpisać, nie zapisze się to na stałe w Ekranie 1."
-              : "Wpisz ręcznie albo policz najpierw Ekran 1 (Dobór pojemności baterii) — wynik zostanie tu podstawiony automatycznie."
-          }
+          pomoc={<PomocPola ekran="starzenie-degradacja" pole="pojemnoscDzis" />}
         />
 
         <PoleSelect
           label="Horyzont projektowy"
           value={horyzontLata}
           onChange={(e) => setHoryzontLata(Number(e.target.value) as HoryzontLata)}
+          pomoc={<PomocPola ekran="starzenie-degradacja" pole="horyzont" />}
         >
           <option value={5}>5 lat</option>
           <option value={10}>10 lat</option>
@@ -120,7 +118,7 @@ export default function StarzenieDegradacjaPage() {
           max={100}
           value={degradacjaRocznaPct}
           onChange={(e) => setDegradacjaRocznaPct(e.target.value)}
-          hint={`LiFePO4 typowo ${DEGRADACJA_TYPOWA_MIN_PCT}–${DEGRADACJA_TYPOWA_MAX_PCT}% rocznie.`}
+          pomoc={<PomocPola ekran="starzenie-degradacja" pole="degradacja" params={{ degMin: DEGRADACJA_TYPOWA_MIN_PCT, degMax: DEGRADACJA_TYPOWA_MAX_PCT }} />}
         />
       </div>
 

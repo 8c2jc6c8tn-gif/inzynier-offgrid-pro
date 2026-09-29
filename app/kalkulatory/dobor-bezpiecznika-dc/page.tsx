@@ -4,11 +4,13 @@ import { useMemo } from "react"
 import { calculateDoborBezpiecznika } from "@/lib/core/modules/baterie/dobor-bezpiecznika-dc/calculator"
 import { usePersistedDraft } from "@/lib/adapters/use-persisted-draft"
 import { Pole } from "@/components/ui/pole"
+import { PomocPola } from "@/components/ui/pomoc"
 import { WerdyktPanel, type WerdyktPoziom } from "@/components/werdykt"
 import { NawigacjaEkranu } from "@/components/nawigacja-ekranu"
 import { NaglowekEkranu } from "@/components/wzorce/naglowek-ekranu"
 import { WynikGlowny } from "@/components/wzorce/wynik-glowny"
 import { WynikSzczegoly } from "@/components/wzorce/wynik-szczegoly"
+import { MIN_AIC_LIFEPO4_A } from "@/lib/core/modules/baterie/dobor-bezpiecznika-dc/constants"
 
 type FormularzStan = {
   napiecieBateriiV: string
@@ -75,7 +77,12 @@ export default function DoborBezpiecznikaDcPage() {
   return (
     <main className="mx-auto flex max-w-md flex-col gap-6 p-6">
       <NawigacjaEkranu href="/kalkulatory/dobor-bezpiecznika-dc" />
-      <NaglowekEkranu tytul="Dobór bezpiecznika DC">
+      <NaglowekEkranu
+        tytul="Dobór bezpiecznika DC"
+        ekran="dobor-bezpiecznika-dc"
+        wzor={result.formula}
+        parametry={{ minAic: MIN_AIC_LIFEPO4_A }}
+      >
         Bezpiecznik musi umieć ugasić pożar elektryczny, a nie tylko się przepalić — źle dobrany
         pod względem AIC sam staje się źródłem łuku elektrycznego. Moduł 4, Ekran 24.
       </NaglowekEkranu>
@@ -88,6 +95,7 @@ export default function DoborBezpiecznikaDcPage() {
           inputMode="decimal"
           value={napiecieBateriiV}
           onChange={(e) => setNapiecieBateriiV(e.target.value)}
+          pomoc={<PomocPola ekran="dobor-bezpiecznika-dc" pole="napiecie" />}
         />
         <Pole
           label="Rezystancja wewnętrzna pakietu"
@@ -96,7 +104,7 @@ export default function DoborBezpiecznikaDcPage() {
           inputMode="decimal"
           value={rezystancjaWewnetrznaOhm}
           onChange={(e) => setRezystancjaWewnetrznaOhm(e.target.value)}
-          hint="Z pomiaru lub karty katalogowej ogniw."
+          pomoc={<PomocPola ekran="dobor-bezpiecznika-dc" pole="rezystancja" />}
         />
         <Pole
           label="AIC wybranego bezpiecznika"
@@ -105,7 +113,7 @@ export default function DoborBezpiecznikaDcPage() {
           inputMode="decimal"
           value={aicBezpiecznikaA}
           onChange={(e) => setAicBezpiecznikaA(e.target.value)}
-          hint="Zdolność wyłączania, z karty katalogowej bezpiecznika."
+          pomoc={<PomocPola ekran="dobor-bezpiecznika-dc" pole="aic" params={{ minAic: MIN_AIC_LIFEPO4_A }} />}
         />
       </div>
 

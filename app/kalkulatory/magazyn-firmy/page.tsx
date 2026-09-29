@@ -10,6 +10,7 @@ import type { GrupaMocy } from "@/lib/core/modules/siec/strumienie-bess/input"
 import { useOdczytDraftu, usePersistedDraft } from "@/lib/adapters/use-persisted-draft"
 import { NawigacjaEkranu } from "@/components/nawigacja-ekranu"
 import { Pole, PoleSelect } from "@/components/ui/pole"
+import { PomocPola } from "@/components/ui/pomoc"
 import { StanLadowania } from "@/components/ui/stany"
 import { WerdyktPanel } from "@/components/werdykt"
 import { NaglowekEkranu } from "@/components/wzorce/naglowek-ekranu"
@@ -82,7 +83,11 @@ export default function MagazynFirmyPage() {
   return (
     <main className="mx-auto flex max-w-2xl flex-col gap-6 p-6">
       <NawigacjaEkranu href="/kalkulatory/magazyn-firmy" />
-      <NaglowekEkranu tytul="Magazyn energii (BESS) w firmie — strumienie korzyści">
+      <NaglowekEkranu
+        tytul="Magazyn energii (BESS) w firmie — strumienie korzyści"
+        ekran="magazyn-firmy"
+        wzor={result.formula}
+      >
         Magazyn zarabia na pięć sposobów, ale nie każdy jest dostępny dla Twojej firmy. Każdy strumień porównujemy z kosztem zużycia
         magazynu na 1 kWh z „Analizy opłacalności magazynu” (Moduł 4). M14 „Firma – sieć”, ekran F7.
       </NaglowekEkranu>
@@ -103,8 +108,24 @@ export default function MagazynFirmyPage() {
       <section className="flex flex-col gap-3">
         <h2 className="font-semibold">1. Autokonsumpcja nadwyżek PV</h2>
         <div className="grid grid-cols-2 gap-3">
-          <Pole label="Energia przez magazyn" unit="kWh/rok" type="number" inputMode="decimal" value={stan.autoKwh} onChange={(e) => ustaw({ autoKwh: e.target.value })} />
-          <Pole label="Zysk na 1 kWh" unit="zł/kWh" type="number" inputMode="decimal" value={stan.autoZysk} onChange={(e) => ustaw({ autoZysk: e.target.value })} hint="Cena zakupu − wartość oddanej kWh, bez opłaty mocowej." />
+          <Pole
+            label="Energia przez magazyn"
+            unit="kWh/rok"
+            type="number"
+            inputMode="decimal"
+            value={stan.autoKwh}
+            onChange={(e) => ustaw({ autoKwh: e.target.value })}
+            pomoc={<PomocPola ekran="magazyn-firmy" pole="energiaAutokonsumpcja" />}
+          />
+          <Pole
+            label="Zysk na 1 kWh"
+            unit="zł/kWh"
+            type="number"
+            inputMode="decimal"
+            value={stan.autoZysk}
+            onChange={(e) => ustaw({ autoZysk: e.target.value })}
+            pomoc={<PomocPola ekran="magazyn-firmy" pole="zyskKwh" />}
+          />
         </div>
         <Link className="text-small underline" href="/kalkulatory/pv-w-firmie">
           Ile nadwyżki masz — PV w firmie →
@@ -115,8 +136,24 @@ export default function MagazynFirmyPage() {
         <h2 className="font-semibold">2. Arbitraż cenowy</h2>
         <p className="text-small text-muted-foreground">Ładowanie z sieci w tanich godzinach i zużycie w drogich — ma sens przy cenie dynamicznej albo strefowej.</p>
         <div className="grid grid-cols-2 gap-3">
-          <Pole label="Energia przez magazyn" unit="kWh/rok" type="number" inputMode="decimal" value={stan.arbKwh} onChange={(e) => ustaw({ arbKwh: e.target.value })} />
-          <Pole label="Różnica cen" unit="zł/kWh" type="number" inputMode="decimal" value={stan.arbZysk} onChange={(e) => ustaw({ arbZysk: e.target.value })} hint="Drogie − tanie godziny, bez opłaty mocowej." />
+          <Pole
+            label="Energia przez magazyn"
+            unit="kWh/rok"
+            type="number"
+            inputMode="decimal"
+            value={stan.arbKwh}
+            onChange={(e) => ustaw({ arbKwh: e.target.value })}
+            pomoc={<PomocPola ekran="magazyn-firmy" pole="energiaAutokonsumpcja" />}
+          />
+          <Pole
+            label="Różnica cen"
+            unit="zł/kWh"
+            type="number"
+            inputMode="decimal"
+            value={stan.arbZysk}
+            onChange={(e) => ustaw({ arbZysk: e.target.value })}
+            pomoc={<PomocPola ekran="magazyn-firmy" pole="roznicaCen" />}
+          />
         </div>
       </section>
 
@@ -129,7 +166,7 @@ export default function MagazynFirmyPage() {
           inputMode="decimal"
           value={stan.mocowaKwh}
           onChange={(e) => ustaw({ mocowaKwh: e.target.value })}
-          hint="Energia z magazynu, której nie pobierzesz z sieci w godzinach opłaty mocowej."
+          pomoc={<PomocPola ekran="magazyn-firmy" pole="energiaMocowa" />}
         />
         <Link className="text-small underline" href="/kalkulatory/oplata-mocowa">
           Opłata mocowa — przesunięcie poboru →
@@ -138,11 +175,24 @@ export default function MagazynFirmyPage() {
 
       <section className="flex flex-col gap-3">
         <h2 className="font-semibold">4. Opłaty za moc umowną</h2>
-        <PoleSelect label="Grupa taryfowa" value={stan.grupa} onChange={(e) => ustaw({ grupa: e.target.value as GrupaMocy })}>
+        <PoleSelect
+          label="Grupa taryfowa"
+          value={stan.grupa}
+          onChange={(e) => ustaw({ grupa: e.target.value as GrupaMocy })}
+          pomoc={<PomocPola ekran="magazyn-firmy" pole="grupa" />}
+        >
           <option value="C1x">C11 / C12a / C12b (do 40 kW)</option>
           <option value="C2x">C21 / C22a / C22b (powyżej 40 kW)</option>
         </PoleSelect>
-        <Pole label="Oszczędność na mocy umownej i przekroczeniach" unit="zł/rok" type="number" inputMode="decimal" value={stan.mocUmowna} onChange={(e) => ustaw({ mocUmowna: e.target.value })} hint="Z kalkulatora mocy umownej; puste = nie liczymy." />
+        <Pole
+          label="Oszczędność na mocy umownej i przekroczeniach"
+          unit="zł/rok"
+          type="number"
+          inputMode="decimal"
+          value={stan.mocUmowna}
+          onChange={(e) => ustaw({ mocUmowna: e.target.value })}
+          pomoc={<PomocPola ekran="magazyn-firmy" pole="mocUmowna" />}
+        />
         <Link className="text-small underline" href="/kalkulatory/moc-umowna">
           Moc umowna — przekroczenia →
         </Link>

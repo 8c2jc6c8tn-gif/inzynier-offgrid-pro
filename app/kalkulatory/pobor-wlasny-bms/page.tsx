@@ -10,6 +10,7 @@ import {
 } from "@/lib/core/modules/baterie/pobor-wlasny-bms/constants"
 import { usePersistedDraft } from "@/lib/adapters/use-persisted-draft"
 import { Pole } from "@/components/ui/pole"
+import { PomocPola } from "@/components/ui/pomoc"
 import { WerdyktPanel } from "@/components/werdykt"
 import { NawigacjaEkranu } from "@/components/nawigacja-ekranu"
 import { NaglowekEkranu } from "@/components/wzorce/naglowek-ekranu"
@@ -51,7 +52,7 @@ export default function PoborWlasnyBmsPage() {
   return (
     <main className="mx-auto flex max-w-md flex-col gap-6 p-6">
       <NawigacjaEkranu href="/kalkulatory/pobor-wlasny-bms" />
-      <NaglowekEkranu tytul="Pobór własny BMS i tryb uśpienia">
+      <NaglowekEkranu tytul="Pobór własny BMS i tryb uśpienia" ekran="pobor-wlasny-bms" wzor={result.formula}>
         BMS to też odbiornik prądu, nawet gdy „nic nie robi” — w małych off-gridach ten stały
         pobór potrafi być zaskakująco dużą częścią bilansu. Moduł 4, Ekran 22.
       </NaglowekEkranu>
@@ -65,7 +66,7 @@ export default function PoborWlasnyBmsPage() {
           min={0}
           value={poborCiagleW}
           onChange={(e) => setPoborCiagleW(e.target.value)}
-          hint={`Typowo ${POBOR_CIAGLE_TYPOWY_MIN_W}–${POBOR_CIAGLE_TYPOWY_MAX_W}W.`}
+          pomoc={<PomocPola ekran="pobor-wlasny-bms" pole="ciagle" params={{ ciagleMin: POBOR_CIAGLE_TYPOWY_MIN_W, ciagleMax: POBOR_CIAGLE_TYPOWY_MAX_W }} />}
         />
         <Pole
           label="Pobór w trybie uśpienia (deep sleep)"
@@ -75,7 +76,7 @@ export default function PoborWlasnyBmsPage() {
           min={0}
           value={poborUspienieW}
           onChange={(e) => setPoborUspienieW(e.target.value)}
-          hint={`Typowo ${POBOR_USPIENIE_TYPOWY_MIN_W}–${POBOR_USPIENIE_TYPOWY_MAX_W}W.`}
+          pomoc={<PomocPola ekran="pobor-wlasny-bms" pole="uspienie" params={{ uspienieMin: POBOR_USPIENIE_TYPOWY_MIN_W, uspienieMax: POBOR_USPIENIE_TYPOWY_MAX_W }} />}
         />
       </div>
 

@@ -1141,6 +1141,7 @@ Pełne wyniki audytu: `docs/memory.md`, sekcja "Pełny audyt na polecenie właś
   przez M2/E17 i M7/E8); lista zapadkowa 226 → 193.
   **[29.09.2026] M8 w komplecie** (10 ekranów); lista zapadkowa 193 → 183.
   **[29.09.2026] M5 w komplecie** (29 ekranów + sekcja CRL); teksty `MIGAWKA` z 3 plików `constants.ts` przeniesione do „i” (stałe usunięte jako martwy kod); lista 183 → 153.
+  **[29.09.2026] M4 w komplecie** (35 ekranów, w tym F7 „Magazyn w firmie”); `MIGAWKA` matrycy alarmów BMS przeniesiona do „i”; lista 153 → 118.
 - 🔲 (2026-09-29) **Tłumaczenie samych stron (etykiety pól, nagłówki, komunikaty UI) na EN/RU.** Wyszło przy D51: treść
   „?”/„i” i komunikaty silników są w trzech językach, ale etykiety pól i teksty na stronach nadal tylko po polsku.
   Osobne, duże zadanie (standard 17). **Priorytet:** do decyzji właściciela. **Kolizje:** te same pliki co chmurki —

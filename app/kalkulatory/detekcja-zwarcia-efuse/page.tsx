@@ -4,6 +4,7 @@ import { useMemo } from "react"
 import { calculateDetekcjaZwarciaEFuse } from "@/lib/core/modules/baterie/detekcja-zwarcia-efuse/calculator"
 import { usePersistedDraft } from "@/lib/adapters/use-persisted-draft"
 import { Pole } from "@/components/ui/pole"
+import { PomocPola } from "@/components/ui/pomoc"
 import { WerdyktPanel, type WerdyktPoziom } from "@/components/werdykt"
 import { NawigacjaEkranu } from "@/components/nawigacja-ekranu"
 import { NaglowekEkranu } from "@/components/wzorce/naglowek-ekranu"
@@ -61,7 +62,7 @@ export default function DetekcjaZwarciaEFusePage() {
   return (
     <main className="mx-auto flex max-w-md flex-col gap-6 p-6">
       <NawigacjaEkranu href="/kalkulatory/detekcja-zwarcia-efuse" />
-      <NaglowekEkranu tytul="Detekcja zwarcia i e-Fuse">
+      <NaglowekEkranu tytul="Detekcja zwarcia i e-Fuse" ekran="detekcja-zwarcia-efuse" wzor={result.formula}>
         Zwykły bezpiecznik wyłącza zwarcie w ok. 10 ms — elektroniczny e-Fuse w mniej niż 100 µs.
         Przy bardzo wysokich prądach zwarciowych ta różnica decyduje, czy tranzystory BMS
         przetrwają. Moduł 4, Ekran 9.
@@ -75,6 +76,7 @@ export default function DetekcjaZwarciaEFusePage() {
           inputMode="decimal"
           value={napiecieBateriiV}
           onChange={(e) => setNapiecieBateriiV(e.target.value)}
+          pomoc={<PomocPola ekran="detekcja-zwarcia-efuse" pole="napiecie" />}
         />
         <Pole
           label="Rezystancja wewnętrzna pakietu"
@@ -83,6 +85,7 @@ export default function DetekcjaZwarciaEFusePage() {
           inputMode="decimal"
           value={rezystancjaWewnetrznaOhm}
           onChange={(e) => setRezystancjaWewnetrznaOhm(e.target.value)}
+          pomoc={<PomocPola ekran="detekcja-zwarcia-efuse" pole="rezystancja" />}
         />
         <Pole
           label="Zdolność łączeniowa tranzystorów BMS"
@@ -91,7 +94,7 @@ export default function DetekcjaZwarciaEFusePage() {
           inputMode="decimal"
           value={zdolnoscLaczeniowaTranzystorowA}
           onChange={(e) => setZdolnoscLaczeniowaTranzystorowA(e.target.value)}
-          hint="Z karty katalogowej BMS."
+          pomoc={<PomocPola ekran="detekcja-zwarcia-efuse" pole="zdolnoscBms" />}
         />
       </div>
 

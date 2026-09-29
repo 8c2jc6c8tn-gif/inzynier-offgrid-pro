@@ -5,6 +5,7 @@ import { calculateSohPerOgniwo } from "@/lib/core/modules/baterie/soh-per-ogniwo
 import { PROG_KRYTYCZNY_WZROSTU_PCT } from "@/lib/core/modules/baterie/soh-per-ogniwo/constants"
 import { usePersistedDraft } from "@/lib/adapters/use-persisted-draft"
 import { Pole } from "@/components/ui/pole"
+import { PomocPola } from "@/components/ui/pomoc"
 import { WerdyktPanel, type WerdyktPoziom } from "@/components/werdykt"
 import { NawigacjaEkranu } from "@/components/nawigacja-ekranu"
 import { NaglowekEkranu } from "@/components/wzorce/naglowek-ekranu"
@@ -60,7 +61,12 @@ export default function SohPerOgniwoPage() {
   return (
     <main className="mx-auto flex max-w-md flex-col gap-6 p-6">
       <NawigacjaEkranu href="/kalkulatory/soh-per-ogniwo" />
-      <NaglowekEkranu tytul="SoH — diagnostyka per ogniwo">
+      <NaglowekEkranu
+        tytul="SoH — diagnostyka per ogniwo"
+        ekran="soh-per-ogniwo"
+        wzor={result.formula}
+        parametry={{ progWzrostu: PROG_KRYTYCZNY_WZROSTU_PCT }}
+      >
         Rosnąca rezystancja jednego ogniwa to jak zatkane naczynie krwionośne — reszta układu
         musi pracować ciężej, żeby to skompensować. Moduł 4, Ekran 14.
       </NaglowekEkranu>
@@ -73,6 +79,7 @@ export default function SohPerOgniwoPage() {
           inputMode="decimal"
           value={rezystancjaFabrycznaMOhm}
           onChange={(e) => setRezystancjaFabrycznaMOhm(e.target.value)}
+          pomoc={<PomocPola ekran="soh-per-ogniwo" pole="rFabryczna" />}
         />
         <Pole
           label="Rezystancja wewnętrzna aktualna"
@@ -81,7 +88,7 @@ export default function SohPerOgniwoPage() {
           inputMode="decimal"
           value={rezystancjaAktualnaMOhm}
           onChange={(e) => setRezystancjaAktualnaMOhm(e.target.value)}
-          hint="Z pomiaru testerem rezystancji wewnętrznej."
+          pomoc={<PomocPola ekran="soh-per-ogniwo" pole="rAktualna" params={{ progWzrostu: PROG_KRYTYCZNY_WZROSTU_PCT }} />}
         />
       </div>
 

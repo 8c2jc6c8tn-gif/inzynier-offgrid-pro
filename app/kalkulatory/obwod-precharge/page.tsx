@@ -8,6 +8,7 @@ import {
 } from "@/lib/core/modules/baterie/obwod-precharge/constants"
 import { usePersistedDraft } from "@/lib/adapters/use-persisted-draft"
 import { Pole } from "@/components/ui/pole"
+import { PomocPola } from "@/components/ui/pomoc"
 import { WerdyktPanel } from "@/components/werdykt"
 import { NawigacjaEkranu } from "@/components/nawigacja-ekranu"
 import { NaglowekEkranu } from "@/components/wzorce/naglowek-ekranu"
@@ -49,7 +50,7 @@ export default function ObwodPrechargePage() {
   return (
     <main className="mx-auto flex max-w-md flex-col gap-6 p-6">
       <NawigacjaEkranu href="/kalkulatory/obwod-precharge" />
-      <NaglowekEkranu tytul="Obwód Pre-Charge">
+      <NaglowekEkranu tytul="Obwód Pre-Charge" ekran="obwod-precharge" wzor={result.formula}>
         Kondensatory falownika w pierwszej chwili zachowują się jak zwarcie — pre-charge to
         łagodne „obudzenie” ich prądem, zanim puścisz pełną moc. Moduł 4, Ekran 7.
       </NaglowekEkranu>
@@ -63,7 +64,7 @@ export default function ObwodPrechargePage() {
           min={0}
           value={pojemnoscFalownikaUf}
           onChange={(e) => setPojemnoscFalownikaUf(e.target.value)}
-          hint="Z karty katalogowej falownika (baza komponentów)."
+          pomoc={<PomocPola ekran="obwod-precharge" pole="pojemnosc" />}
         />
         <Pole
           label="Rezystor wstępny (pre-charge)"
@@ -73,7 +74,7 @@ export default function ObwodPrechargePage() {
           min={0}
           value={rezystancjaPreChargeOhm}
           onChange={(e) => setRezystancjaPreChargeOhm(e.target.value)}
-          hint="Przykład ze źródła: 50 Ω / 50 W. Dobierz tak, by ograniczyć prąd uderzeniowy (np. do 5 A)."
+          pomoc={<PomocPola ekran="obwod-precharge" pole="rezystor" params={{ rezystor: PRZYKLADOWA_REZYSTANCJA_OHM }} />}
         />
       </div>
 

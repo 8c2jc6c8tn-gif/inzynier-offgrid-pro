@@ -10,6 +10,7 @@ import {
 } from "@/lib/core/modules/baterie/long-term-storage/constants"
 import { usePersistedDraft } from "@/lib/adapters/use-persisted-draft"
 import { Pole } from "@/components/ui/pole"
+import { PomocPola } from "@/components/ui/pomoc"
 import { ListaChecklist } from "@/components/wzorce/lista-checklist"
 import { WerdyktPanel, type WerdyktPoziom } from "@/components/werdykt"
 import { NawigacjaEkranu } from "@/components/nawigacja-ekranu"
@@ -73,7 +74,11 @@ export default function LongTermStoragePage() {
   return (
     <main className="mx-auto flex max-w-md flex-col gap-6 p-6">
       <NawigacjaEkranu href="/kalkulatory/long-term-storage" />
-      <NaglowekEkranu tytul="Tryb Long Term Storage (odstawienie na zimę)">
+      <NaglowekEkranu
+        tytul="Tryb Long Term Storage (odstawienie na zimę)"
+        ekran="long-term-storage"
+        parametry={{ socMin: SOC_ZALECANY_MIN_PCT, socMax: SOC_ZALECANY_MAX_PCT, tMin: TEMPERATURA_MIN_BEZPIECZNA_C }}
+      >
         Bateria odstawiona na dłużej nie lubi być ani przesuszona, ani przelana — a mróz poniżej
         pewnej granicy uszkadza ogniwa nawet bez ładowania. Moduł 4, Ekran 16.
       </NaglowekEkranu>
@@ -88,7 +93,7 @@ export default function LongTermStoragePage() {
           max={100}
           value={socDocelowyPct}
           onChange={(e) => setSocDocelowyPct(e.target.value)}
-          hint={`Zalecany zakres: ${SOC_ZALECANY_MIN_PCT}–${SOC_ZALECANY_MAX_PCT}%.`}
+          pomoc={<PomocPola ekran="long-term-storage" pole="soc" params={{ socMin: SOC_ZALECANY_MIN_PCT, socMax: SOC_ZALECANY_MAX_PCT, tMin: TEMPERATURA_MIN_BEZPIECZNA_C }} />}
         />
         <Pole
           label="Najniższa spodziewana temperatura przechowywania"
@@ -97,7 +102,7 @@ export default function LongTermStoragePage() {
           inputMode="decimal"
           value={temperaturaMinC}
           onChange={(e) => setTemperaturaMinC(e.target.value)}
-          hint={`Bezpieczne minimum: ${TEMPERATURA_MIN_BEZPIECZNA_C}°C.`}
+          pomoc={<PomocPola ekran="long-term-storage" pole="temperatura" params={{ socMin: SOC_ZALECANY_MIN_PCT, socMax: SOC_ZALECANY_MAX_PCT, tMin: TEMPERATURA_MIN_BEZPIECZNA_C }} />}
         />
       </div>
 
