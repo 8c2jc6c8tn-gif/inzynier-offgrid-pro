@@ -8248,4 +8248,10 @@ Tryb Audyt (czapka rewidenta). Warstwa „w pełni na końcu” z N.2 — wszyst
   `49b2d64` (`prace-rozdzialy-status-qb0uwf` — 2 wpisy 🔲 listy zadań: powrót CI 1.10, Δt prognoz M10) i `f139f78`
   (`screen-fixes-new-documents-80kzcm` — odczyt whitepapera IEC 62109-1 + mapowanie PDF→txt w indeksach). Przeniesione
   na `claude/git-branches-merge-o7sy31`; konflikty wyłącznie typu „oba dopisały na końcu” w plikach append-only —
-  zachowane obie strony. Pozostałe gałęzie zdalne nie wnoszą już nic ponad `main` (kandydaci do usunięcia).
+  zachowane obie strony (PR #219). Pozostałe gałęzie zdalne nie wnoszą już nic ponad `main`.
+- **Błąd procesu tej sesji:** przegląd powtórzył pracę z 27.09 — lista gałęzi-śmieci jest wyżej („Porządki gałęzi na
+  GitHubie”, 27.09.2026). Przy poleceniu „sprawdź/scal gałęzie” najpierw ta lista; sprawdzać tylko gałęzie spoza niej.
+  Poza listą 27.09 do usunięcia doszły gałęzie scalone później (wszystkie `claude/*` z PR #166–#219, m.in.
+  `prace-rozdzialy-status-qb0uwf`, `screen-fixes-new-documents-80kzcm`, `e38-uziemienie-c3xs6h`,
+  `nowy-rozdzial-biblia-kalkulator-to73by`). Stan 29.09: **każda gałąź zdalna poza `main` jest do usunięcia**.
+  Kasowanie z sesji nadal niemożliwe (`git push --delete` → HTTP 403, sprawdzone 29.09) — robi to właściciel ręcznie.
