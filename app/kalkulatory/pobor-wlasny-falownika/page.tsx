@@ -5,6 +5,7 @@ import { calculatePoborWlasnyFalownika } from "@/lib/core/modules/zapotrzebowani
 import { DOMYSLNY_POBOR_JALOWY_W } from "@/lib/core/modules/zapotrzebowanie/pobor-wlasny-falownika/constants"
 import { usePersistedDraft } from "@/lib/adapters/use-persisted-draft"
 import { Pole } from "@/components/ui/pole"
+import { PomocPola } from "@/components/ui/pomoc"
 import { WerdyktPanel } from "@/components/werdykt"
 import { NawigacjaEkranu } from "@/components/nawigacja-ekranu"
 import { NaglowekEkranu } from "@/components/wzorce/naglowek-ekranu"
@@ -31,7 +32,7 @@ export default function PoborWlasnyFalownikaPage() {
   return (
     <main className="mx-auto flex max-w-md flex-col gap-6 p-6">
       <NawigacjaEkranu href="/kalkulatory/pobor-wlasny-falownika" />
-      <NaglowekEkranu tytul="Pobór własny falownika">
+      <NaglowekEkranu tytul="Pobór własny falownika" ekran="pobor-wlasny-falownika" wzor={result.formula}>
         Falownik sam w sobie coś zużywa, tylko żeby być gotowym do pracy — to niewidoczny, ale
         realny koszt stały, o którym łatwo zapomnieć przy liczeniu bilansu. Moduł 2, Ekran 9.
       </NaglowekEkranu>
@@ -43,7 +44,7 @@ export default function PoborWlasnyFalownikaPage() {
         inputMode="decimal"
         value={poborJalowyW}
         onChange={(e) => setPoborJalowyW(e.target.value)}
-        hint={`Typowo 20-100W. Domyślnie ${DOMYSLNY_POBOR_JALOWY_W}W, jeśli model nieznany.`}
+        pomoc={<PomocPola ekran="pobor-wlasny-falownika" pole="pobor" params={{ domyslny: DOMYSLNY_POBOR_JALOWY_W }} />}
       />
 
       {result.status === "INCOMPLETE" ? (

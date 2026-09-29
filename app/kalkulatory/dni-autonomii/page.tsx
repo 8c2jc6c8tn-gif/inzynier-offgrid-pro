@@ -6,6 +6,7 @@ import { OPCJE_DNI_AUTONOMII } from "@/lib/core/modules/zapotrzebowanie/dni-auto
 import type { DniAutonomiiInput } from "@/lib/core/modules/zapotrzebowanie/dni-autonomii/input"
 import { usePersistedDraft } from "@/lib/adapters/use-persisted-draft"
 import { Pole, PoleSelect } from "@/components/ui/pole"
+import { PomocPola } from "@/components/ui/pomoc"
 import { WerdyktPanel } from "@/components/werdykt"
 import { NawigacjaEkranu } from "@/components/nawigacja-ekranu"
 import { NaglowekEkranu } from "@/components/wzorce/naglowek-ekranu"
@@ -58,7 +59,7 @@ export default function DniAutonomiiPage() {
   return (
     <main className="mx-auto flex max-w-md flex-col gap-6 p-6">
       <NawigacjaEkranu href="/kalkulatory/dni-autonomii" />
-      <NaglowekEkranu tytul="Dni autonomii">
+      <NaglowekEkranu tytul="Dni autonomii" ekran="dni-autonomii">
         Im więcej dni bez słońca system ma wytrzymać wyłącznie na baterii, tym większy (i droższy)
         musi być magazyn energii. Wartość stąd docelowo zasila Moduł 4, Ekran 1 (dobór pojemności
         baterii). Moduł 2, Ekran 7.
@@ -69,6 +70,7 @@ export default function DniAutonomiiPage() {
           label="Dni autonomii"
           value={dniAutonomii}
           onChange={(e) => setDniAutonomii(Number(e.target.value) as DniAutonomiiInput["dniAutonomii"])}
+          pomoc={<PomocPola ekran="dni-autonomii" pole="dni" params={{ opcje: OPCJE_DNI_AUTONOMII.join(", ") }} />}
         >
           <option value={0}>— wybierz —</option>
           {OPCJE_DNI_AUTONOMII.map((opcja) => (
@@ -90,6 +92,7 @@ export default function DniAutonomiiPage() {
           min={0}
           value={zapotrzebowanieDoboweKwh}
           onChange={(e) => setZapotrzebowanieDoboweKwh(e.target.value)}
+          pomoc={<PomocPola ekran="dni-autonomii" pole="zapotrzebowanie" />}
         />
         <Pole
           label="Sprawność falownika"
@@ -100,6 +103,7 @@ export default function DniAutonomiiPage() {
           max={100}
           value={sprawnoscFalownikaPct}
           onChange={(e) => setSprawnoscFalownikaPct(e.target.value)}
+          pomoc={<PomocPola ekran="dni-autonomii" pole="sprawnosc" />}
         />
         <Pole
           label="DoD (głębokość rozładowania)"
@@ -110,6 +114,7 @@ export default function DniAutonomiiPage() {
           max={100}
           value={dodPct}
           onChange={(e) => setDodPct(e.target.value)}
+          pomoc={<PomocPola ekran="dni-autonomii" pole="dod" />}
         />
       </div>
 

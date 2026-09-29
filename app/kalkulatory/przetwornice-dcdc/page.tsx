@@ -5,6 +5,7 @@ import { calculatePrzetworniceDcdc } from "@/lib/core/modules/zapotrzebowanie/pr
 import { SPRAWNOSC_TYPOWA_MAX_PCT, SPRAWNOSC_TYPOWA_MIN_PCT } from "@/lib/core/modules/zapotrzebowanie/przetwornice-dcdc/constants"
 import { usePersistedDraft } from "@/lib/adapters/use-persisted-draft"
 import { Pole, PoleCheckbox } from "@/components/ui/pole"
+import { PomocPola } from "@/components/ui/pomoc"
 import { WerdyktPanel } from "@/components/werdykt"
 import { NawigacjaEkranu } from "@/components/nawigacja-ekranu"
 import { NaglowekEkranu } from "@/components/wzorce/naglowek-ekranu"
@@ -50,7 +51,7 @@ export default function PrzetworniceDcdcPage() {
   return (
     <main className="mx-auto flex max-w-md flex-col gap-6 p-6">
       <NawigacjaEkranu href="/kalkulatory/przetwornice-dcdc" />
-      <NaglowekEkranu tytul="Przetwornice DC/DC">
+      <NaglowekEkranu tytul="Przetwornice DC/DC" ekran="przetwornice-dcdc" wzor={result.formula}>
         Każda zmiana napięcia kosztuje trochę energii — czasem warto zasilić urządzenie
         bezpośrednio z magistrali w jego natywnym napięciu, zamiast przepuszczać prąd przez
         dodatkową przetwornicę. Moduł 2, Ekran 11.
@@ -64,6 +65,7 @@ export default function PrzetworniceDcdcPage() {
           inputMode="decimal"
           value={zapotrzebowanieUrzadzeniaW}
           onChange={(e) => setZapotrzebowanieUrzadzeniaW(e.target.value)}
+          pomoc={<PomocPola ekran="przetwornice-dcdc" pole="moc" />}
         />
         <PoleCheckbox
           id="zasilanie-bezposrednie"
@@ -81,7 +83,7 @@ export default function PrzetworniceDcdcPage() {
             max={100}
             value={sprawnoscPrzetwornicyPct}
             onChange={(e) => setSprawnoscPrzetwornicyPct(e.target.value)}
-            hint={`Typowo ${SPRAWNOSC_TYPOWA_MIN_PCT}-${SPRAWNOSC_TYPOWA_MAX_PCT}%.`}
+            pomoc={<PomocPola ekran="przetwornice-dcdc" pole="sprawnosc" params={{ min: SPRAWNOSC_TYPOWA_MIN_PCT, max: SPRAWNOSC_TYPOWA_MAX_PCT }} />}
           />
         )}
       </div>

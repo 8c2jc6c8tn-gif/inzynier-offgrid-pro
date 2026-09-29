@@ -6,6 +6,7 @@ import { KATEGORIE, PRZYKLADOWE_URZADZENIA_WARSZTAT } from "@/lib/core/modules/z
 import type { Kategoria, PozycjaKategorii } from "@/lib/core/modules/zapotrzebowanie/kategorie-specjalne/input"
 import { usePersistedDraft } from "@/lib/adapters/use-persisted-draft"
 import { PoleSelect } from "@/components/ui/pole"
+import { PomocPola } from "@/components/ui/pomoc"
 import { WerdyktPanel } from "@/components/werdykt"
 import { NawigacjaEkranu } from "@/components/nawigacja-ekranu"
 import { NaglowekEkranu } from "@/components/wzorce/naglowek-ekranu"
@@ -57,12 +58,17 @@ export default function KategorieSpecjalnePage() {
   return (
     <main className="mx-auto flex max-w-md flex-col gap-6 p-6">
       <NawigacjaEkranu href="/kalkulatory/kategorie-specjalne" />
-      <NaglowekEkranu tytul="Kategorie specjalne">
+      <NaglowekEkranu tytul="Kategorie specjalne" ekran="kategorie-specjalne" wzor={result.formula}>
         Zamiast zaczynać od pustej listy, wybierasz swój profil i dostajesz gotowy punkt startowy
         dopasowany do typowych urządzeń w tej kategorii. Moduł 2, Ekran 15.
       </NaglowekEkranu>
 
-      <PoleSelect label="Kategoria" value={kategoria} onChange={(e) => setKategoria(e.target.value as Kategoria)}>
+      <PoleSelect
+        label="Kategoria"
+        value={kategoria}
+        onChange={(e) => setKategoria(e.target.value as Kategoria)}
+        pomoc={<PomocPola ekran="kategorie-specjalne" pole="kategoria" />}
+      >
         {KATEGORIE.map((k) => (
           <option key={k.id} value={k.id}>
             {k.label}
@@ -97,6 +103,7 @@ export default function KategorieSpecjalnePage() {
               onChange={(e) => aktualizuj(p.id, { nazwa: e.target.value })}
               className="min-h-10 flex-1 min-w-24 rounded-md border border-input bg-background px-2"
             />
+            <PomocPola ekran="kategorie-specjalne" pole="nazwa" />
             <input
               type="number"
               inputMode="decimal"
@@ -106,6 +113,7 @@ export default function KategorieSpecjalnePage() {
               className="min-h-10 w-20 rounded-md border border-input bg-background px-2"
               aria-label={`Moc — ${p.nazwa || "urządzenie"}`}
             />
+            <PomocPola ekran="kategorie-specjalne" pole="moc" />
             <input
               type="number"
               inputMode="decimal"
@@ -115,6 +123,7 @@ export default function KategorieSpecjalnePage() {
               className="min-h-10 w-20 rounded-md border border-input bg-background px-2"
               aria-label={`Czas pracy — ${p.nazwa || "urządzenie"}`}
             />
+            <PomocPola ekran="kategorie-specjalne" pole="czas" />
             <button
               type="button"
               onClick={() => usunPozycje(p.id)}

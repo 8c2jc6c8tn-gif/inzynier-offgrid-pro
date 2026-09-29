@@ -4,6 +4,7 @@ import { useMemo } from "react"
 import { calculateScenariuszAutomatyzacji } from "@/lib/core/modules/zapotrzebowanie/wampiry-energetyczne/automatyzacja/calculator"
 import type { ScenariuszAutomatyzacjiInput } from "@/lib/core/modules/zapotrzebowanie/wampiry-energetyczne/automatyzacja/input"
 import { Pole } from "@/components/ui/pole"
+import { PomocPola } from "@/components/ui/pomoc"
 import { WerdyktPanel, poziomZStatusu } from "@/components/werdykt"
 import { WynikGlowny } from "@/components/wzorce/wynik-glowny"
 import { WynikSzczegoly } from "@/components/wzorce/wynik-szczegoly"
@@ -45,15 +46,16 @@ export function AutomatyzacjaTab({
         inputMode="decimal"
         value={input.standbyReferencyjnyW || ""}
         onChange={(e) => onChange({ ...input, standbyReferencyjnyW: Number(e.target.value) })}
+        pomoc={<PomocPola ekran="wampiry-energetyczne" pole="standbyRef" />}
       />
       <Pole
         label="Standby w scenariuszu"
         unit="W"
-        hint="np. nocny tryb czuwania, nieobecność, praca z domu, weekend, urlop"
         type="number"
         inputMode="decimal"
         value={input.standbyWScenariuszuW || ""}
         onChange={(e) => onChange({ ...input, standbyWScenariuszuW: Number(e.target.value) })}
+        pomoc={<PomocPola ekran="wampiry-energetyczne" pole="standbyScenariusz" />}
       />
 
       {result.status === "INCOMPLETE" ? (

@@ -4,6 +4,7 @@ import { useMemo } from "react"
 import { calculateAgregatPradotworczy } from "@/lib/core/modules/zapotrzebowanie/agregat-pradotworczy/calculator"
 import { usePersistedDraft } from "@/lib/adapters/use-persisted-draft"
 import { Pole, PoleCheckbox } from "@/components/ui/pole"
+import { PomocPola } from "@/components/ui/pomoc"
 import { WerdyktPanel, type WerdyktPoziom } from "@/components/werdykt"
 import { NawigacjaEkranu } from "@/components/nawigacja-ekranu"
 import { NaglowekEkranu } from "@/components/wzorce/naglowek-ekranu"
@@ -14,6 +15,7 @@ import {
   naWejscieBezpieczenstwa,
   type BezpieczenstwoAgregatuStan,
 } from "@/components/agregat/pola-bezpieczenstwa-agregatu"
+import { OPTYMALNE_OBCIAZENIE_PCT } from "@/lib/core/modules/zapotrzebowanie/agregat-pradotworczy/constants"
 
 type FormularzStan = BezpieczenstwoAgregatuStan & {
   deficytKwh: string
@@ -77,7 +79,12 @@ export default function AgregatPradotworczyPage() {
   return (
     <main className="mx-auto flex max-w-md flex-col gap-6 p-6">
       <NawigacjaEkranu href="/kalkulatory/agregat-pradotworczy" />
-      <NaglowekEkranu tytul="Agregat prądotwórczy — definicja i logika pracy">
+      <NaglowekEkranu
+        tytul="Agregat prądotwórczy — definicja i logika pracy"
+        ekran="agregat-pradotworczy"
+        wzor={result.formula}
+        parametry={{ obciazenie: OPTYMALNE_OBCIAZENIE_PCT }}
+      >
         System porównuje produkcję PV z zapotrzebowaniem w najgorszym miesiącu roku. Jeśli
         występuje deficyt, agregat musi go pokryć — tu policzysz ile godzin, ile paliwa i ile to
         będzie kosztować. Moduł 2, Ekran 17.
@@ -91,7 +98,7 @@ export default function AgregatPradotworczyPage() {
           inputMode="decimal"
           value={deficytKwh}
           onChange={(e) => setDeficytKwh(e.target.value)}
-          hint="Produkcja PV minus zapotrzebowanie w tym miesiącu."
+          pomoc={<PomocPola ekran="agregat-pradotworczy" pole="deficyt" />}
         />
         <Pole
           label="Moc znamionowa agregatu"
@@ -100,6 +107,7 @@ export default function AgregatPradotworczyPage() {
           inputMode="decimal"
           value={mocAgregatuKw}
           onChange={(e) => setMocAgregatuKw(e.target.value)}
+          pomoc={<PomocPola ekran="agregat-pradotworczy" pole="moc" />}
         />
         <Pole
           label="Średnie zużycie paliwa przy optymalnym obciążeniu"
@@ -108,7 +116,7 @@ export default function AgregatPradotworczyPage() {
           inputMode="decimal"
           value={sredniZuzycieLH}
           onChange={(e) => setSredniZuzycieLH(e.target.value)}
-          hint="Z karty katalogowej agregatu, przy ok. 70-80% mocy."
+          pomoc={<PomocPola ekran="agregat-pradotworczy" pole="zuzycie" />}
         />
         <Pole
           label="Cena paliwa"
@@ -117,6 +125,7 @@ export default function AgregatPradotworczyPage() {
           inputMode="decimal"
           value={cenaZaLitrZl}
           onChange={(e) => setCenaZaLitrZl(e.target.value)}
+          pomoc={<PomocPola ekran="agregat-pradotworczy" pole="cena" />}
         />
         <PoleCheckbox
           id="ma-wyjscie-sterujace"

@@ -8,6 +8,7 @@ import { WerdyktPanel, poziomZStatusu } from "@/components/werdykt"
 import { WynikGlowny } from "@/components/wzorce/wynik-glowny"
 import { WynikSzczegoly } from "@/components/wzorce/wynik-szczegoly"
 import { StanPusty } from "@/components/ui/stany"
+import { PomocPola } from "@/components/ui/pomoc"
 
 const INLINE_INPUT_KLASY =
   "w-24 min-h-11 rounded-md border border-input bg-background px-2 text-body outline-none transition-colors " +
@@ -68,6 +69,7 @@ export function KatalogTab({
                 aria-label={`Moc czuwania — ${item.label}`}
               />
               <span className="w-4 text-caption text-muted-foreground">W</span>
+              <PomocPola ekran="wampiry-energetyczne" pole="mocCzuwania" />
             </li>
           )
         })}

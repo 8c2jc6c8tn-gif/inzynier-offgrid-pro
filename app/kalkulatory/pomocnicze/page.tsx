@@ -7,8 +7,10 @@ import { usePersistedDraft } from "@/lib/adapters/use-persisted-draft"
 import { WerdyktPanel, type WerdyktPoziom } from "@/components/werdykt"
 import { NawigacjaEkranu } from "@/components/nawigacja-ekranu"
 import { Pole, PoleSelect } from "@/components/ui/pole"
+import { PomocPola } from "@/components/ui/pomoc"
 import { NaglowekEkranu } from "@/components/wzorce/naglowek-ekranu"
 import { useTranslate } from "@/lib/i18n/language-context"
+import { EFFICIENCY_DEFAULT, EFFICIENCY_MAX, EFFICIENCY_MIN } from "@/lib/core/modules/zapotrzebowanie/kalkulatory-pomocnicze/constants"
 
 type Mode = KalkulatoryPomocniczeInput["mode"]
 
@@ -90,12 +92,17 @@ export default function KalkulatoryPomocniczePage() {
   return (
     <main className="mx-auto flex max-w-md flex-col gap-6 p-6">
       <NawigacjaEkranu href="/kalkulatory/pomocnicze" />
-      <NaglowekEkranu tytul="Kalkulatory pomocnicze">
+      <NaglowekEkranu tytul="Kalkulatory pomocnicze" ekran="pomocnicze" wzor={result.formula}>
         To Twój podręczny „kalkulator kieszonkowy” do szybkich przeliczeń w terenie, bez
         przechodzenia przez pełny proces projektowy. Moduł 2, Ekran 16.
       </NaglowekEkranu>
 
-      <PoleSelect label="Tryb" value={mode} onChange={(e) => setMode(e.target.value as Mode)}>
+      <PoleSelect
+        label="Tryb"
+        value={mode}
+        onChange={(e) => setMode(e.target.value as Mode)}
+        pomoc={<PomocPola ekran="pomocnicze" pole="tryb" />}
+      >
         {Object.entries(MODE_LABELS).map(([value, label]) => (
           <option key={value} value={value}>
             {label}
@@ -105,16 +112,48 @@ export default function KalkulatoryPomocniczePage() {
 
       <div className="flex flex-col gap-4">
         {(mode === "watt-to-amp" || mode === "runtime") && (
-          <Pole label="Moc urządzenia" unit="W" type="number" inputMode="decimal" value={powerW} onChange={(e) => setPowerW(e.target.value)} />
+          <Pole
+            label="Moc urządzenia"
+            unit="W"
+            type="number"
+            inputMode="decimal"
+            value={powerW}
+            onChange={(e) => setPowerW(e.target.value)}
+            pomoc={<PomocPola ekran="pomocnicze" pole="moc" />}
+          />
         )}
         {(mode === "watt-to-amp" || mode === "ah-to-wh" || mode === "wh-to-ah" || mode === "runtime") && (
-          <Pole label="Napięcie systemu" unit="V" type="number" inputMode="decimal" value={voltageV} onChange={(e) => setVoltageV(e.target.value)} />
+          <Pole
+            label="Napięcie systemu"
+            unit="V"
+            type="number"
+            inputMode="decimal"
+            value={voltageV}
+            onChange={(e) => setVoltageV(e.target.value)}
+            pomoc={<PomocPola ekran="pomocnicze" pole="napiecie" />}
+          />
         )}
         {(mode === "ah-to-wh" || mode === "runtime") && (
-          <Pole label="Pojemność" unit="Ah" type="number" inputMode="decimal" value={capacityAh} onChange={(e) => setCapacityAh(e.target.value)} />
+          <Pole
+            label="Pojemność"
+            unit="Ah"
+            type="number"
+            inputMode="decimal"
+            value={capacityAh}
+            onChange={(e) => setCapacityAh(e.target.value)}
+            pomoc={<PomocPola ekran="pomocnicze" pole="pojemnosc" />}
+          />
         )}
         {mode === "wh-to-ah" && (
-          <Pole label="Energia" unit="Wh" type="number" inputMode="decimal" value={energyWh} onChange={(e) => setEnergyWh(e.target.value)} />
+          <Pole
+            label="Energia"
+            unit="Wh"
+            type="number"
+            inputMode="decimal"
+            value={energyWh}
+            onChange={(e) => setEnergyWh(e.target.value)}
+            pomoc={<PomocPola ekran="pomocnicze" pole="energia" />}
+          />
         )}
         {(mode === "watt-to-amp" || mode === "runtime") && (
           <Pole
@@ -124,6 +163,7 @@ export default function KalkulatoryPomocniczePage() {
             inputMode="decimal"
             value={efficiency}
             onChange={(e) => setEfficiency(e.target.value)}
+            pomoc={<PomocPola ekran="pomocnicze" pole="sprawnosc" params={{ min: EFFICIENCY_MIN, max: EFFICIENCY_MAX, domyslna: EFFICIENCY_DEFAULT }} />}
           />
         )}
       </div>

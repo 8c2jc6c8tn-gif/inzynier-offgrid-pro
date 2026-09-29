@@ -5,6 +5,7 @@ import { calculateMocPozornaCosfi } from "@/lib/core/modules/zapotrzebowanie/moc
 import { DOMYSLNY_COS_FI } from "@/lib/core/modules/zapotrzebowanie/moc-pozorna-cosfi/constants"
 import { usePersistedDraft } from "@/lib/adapters/use-persisted-draft"
 import { Pole } from "@/components/ui/pole"
+import { PomocPola } from "@/components/ui/pomoc"
 import { WerdyktPanel } from "@/components/werdykt"
 import { NawigacjaEkranu } from "@/components/nawigacja-ekranu"
 import { NaglowekEkranu } from "@/components/wzorce/naglowek-ekranu"
@@ -47,7 +48,7 @@ export default function MocPozornaCosfiPage() {
   return (
     <main className="mx-auto flex max-w-md flex-col gap-6 p-6">
       <NawigacjaEkranu href="/kalkulatory/moc-pozorna-cosfi" />
-      <NaglowekEkranu tytul="Moc pozorna (cos φ)">
+      <NaglowekEkranu tytul="Moc pozorna (cos φ)" ekran="moc-pozorna-cosfi">
         Waty na tabliczce znamionowej to nie cała historia — silniki i sprężarki obciążają
         falownik mocą pozorną (VA), nie tylko czynną (W). Moduł 2, Ekran 8.
       </NaglowekEkranu>
@@ -60,7 +61,7 @@ export default function MocPozornaCosfiPage() {
           inputMode="decimal"
           value={mocCzynnaW}
           onChange={(e) => setMocCzynnaW(e.target.value)}
-          hint="Z tabliczki znamionowej — urządzenie z silnikiem/sprężarką."
+          pomoc={<PomocPola ekran="moc-pozorna-cosfi" pole="moc" />}
         />
         <Pole
           label="Współczynnik mocy (cos φ)"
@@ -70,7 +71,7 @@ export default function MocPozornaCosfiPage() {
           max={1}
           value={cosFi}
           onChange={(e) => setCosFi(e.target.value)}
-          hint={`Domyślnie ${DOMYSLNY_COS_FI} dla urządzeń z silnikiem.`}
+          pomoc={<PomocPola ekran="moc-pozorna-cosfi" pole="cosFi" params={{ cosFi: DOMYSLNY_COS_FI }} />}
         />
       </div>
 

@@ -9,6 +9,7 @@ import { WerdyktPanel, type WerdyktPoziom } from "@/components/werdykt"
 import { NawigacjaEkranu } from "@/components/nawigacja-ekranu"
 import { NaglowekEkranu } from "@/components/wzorce/naglowek-ekranu"
 import { StanPusty } from "@/components/ui/stany"
+import { PomocPola } from "@/components/ui/pomoc"
 import { useTranslate } from "@/lib/i18n/language-context"
 
 const initialItems: CriticalLoadItem[] = DEFAULT_CRITICAL_LOADS.map((def) => ({
@@ -62,7 +63,7 @@ export default function SystemyPodtrzymaniaZyciaPage() {
   return (
     <main className="mx-auto flex max-w-md flex-col gap-6 p-6">
       <NawigacjaEkranu href="/kalkulatory/systemy-podtrzymania-zycia" />
-      <NaglowekEkranu tytul="Systemy podtrzymania życia">
+      <NaglowekEkranu tytul="Systemy podtrzymania życia" ekran="systemy-podtrzymania-zycia">
         To jest lista rzeczy, bez których dom przestaje być bezpieczny do mieszkania — reszta
         aplikacji będzie chronić te odbiorniki jako pierwsze, cokolwiek by się działo. Moduł 2,
         Ekran 1.
@@ -98,6 +99,7 @@ export default function SystemyPodtrzymaniaZyciaPage() {
                 aria-label={`Moc — ${item.label}`}
               />
               <span className="w-4 text-caption text-muted-foreground">W</span>
+              <PomocPola ekran="systemy-podtrzymania-zycia" pole="moc" />
             </li>
           )
         })}

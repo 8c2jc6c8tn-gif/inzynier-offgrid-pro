@@ -6,6 +6,7 @@ import type { EtykietaRekomendacji } from "@/lib/core/modules/zapotrzebowanie/wa
 import { KATEGORIE_URZADZEN, METODY_ODLACZANIA } from "@/lib/core/modules/zapotrzebowanie/wampiry-energetyczne/rekomendacje-sprzetowe/constants"
 import type { DoborMetodyInput, KategoriaUrzadzeniaId, MetodaOdlaczaniaId, PorownanieMetodInput } from "@/lib/core/modules/zapotrzebowanie/wampiry-energetyczne/rekomendacje-sprzetowe/input"
 import { PoleSelect } from "@/components/ui/pole"
+import { PomocPola } from "@/components/ui/pomoc"
 import { WerdyktPanel, poziomZStatusu } from "@/components/werdykt"
 import { WynikSzczegoly } from "@/components/wzorce/wynik-szczegoly"
 import { StanPusty } from "@/components/ui/stany"
@@ -70,6 +71,7 @@ export function RekomendacjeTab({
                   className="min-h-10 w-24 rounded-md border border-input bg-background px-2"
                   aria-label={`Koszt zakupu — ${def?.label ?? m.id}`}
                 />
+                <PomocPola ekran="wampiry-energetyczne" pole="koszt" />
                 <input
                   type="number"
                   inputMode="decimal"
@@ -79,6 +81,7 @@ export function RekomendacjeTab({
                   className="min-h-10 w-28 rounded-md border border-input bg-background px-2"
                   aria-label={`Roczna oszczędność — ${def?.label ?? m.id}`}
                 />
+                <PomocPola ekran="wampiry-energetyczne" pole="oszczednosc" />
                 <button
                   type="button"
                   onClick={() => usunMetode(m.id)}
@@ -133,6 +136,7 @@ export function RekomendacjeTab({
           label="Kategoria urządzenia"
           value={dobor.kategoria}
           onChange={(e) => onChangeDobor({ kategoria: e.target.value as KategoriaUrzadzeniaId })}
+          pomoc={<PomocPola ekran="wampiry-energetyczne" pole="kategoria" />}
         >
           {KATEGORIE_URZADZEN.map((k) => (
             <option key={k.id} value={k.id}>

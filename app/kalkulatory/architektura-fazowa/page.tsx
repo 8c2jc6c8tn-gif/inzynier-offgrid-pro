@@ -4,6 +4,7 @@ import { useMemo } from "react"
 import { calculateArchitekturaFazowa } from "@/lib/core/modules/zapotrzebowanie/architektura-fazowa/calculator"
 import { usePersistedDraft } from "@/lib/adapters/use-persisted-draft"
 import { Pole } from "@/components/ui/pole"
+import { PomocPola } from "@/components/ui/pomoc"
 import { WerdyktPanel } from "@/components/werdykt"
 import { NawigacjaEkranu } from "@/components/nawigacja-ekranu"
 import { NaglowekEkranu } from "@/components/wzorce/naglowek-ekranu"
@@ -51,13 +52,22 @@ export default function ArchitekturaFazowaPage() {
   return (
     <main className="mx-auto flex max-w-md flex-col gap-6 p-6">
       <NawigacjaEkranu href="/kalkulatory/architektura-fazowa" />
-      <NaglowekEkranu tytul="Architektura 1-fazowa / 3-fazowa">
+      <NaglowekEkranu tytul="Architektura 1-fazowa / 3-fazowa" ekran="architektura-fazowa" wzor={result.formula}>
         W systemie 3-fazowym nie liczy się tylko suma mocy — liczy się, jak równo jest rozłożona
         między trzy fazy, bo każda ma swój własny limit. Moduł 2, Ekran 14.
       </NaglowekEkranu>
 
       <div className="flex flex-col gap-4">
-        <Pole label="Obciążenie L1" unit="W" type="number" inputMode="decimal" min={0} value={mocL1W} onChange={(e) => setMocL1W(e.target.value)} />
+        <Pole
+          label="Obciążenie L1"
+          unit="W"
+          type="number"
+          inputMode="decimal"
+          min={0}
+          value={mocL1W}
+          onChange={(e) => setMocL1W(e.target.value)}
+          pomoc={<PomocPola ekran="architektura-fazowa" pole="l1" />}
+        />
         <Pole
           label="Obciążenie L2"
           unit="W"
@@ -66,7 +76,7 @@ export default function ArchitekturaFazowaPage() {
           min={0}
           value={mocL2W}
           onChange={(e) => setMocL2W(e.target.value)}
-          hint="0, jeśli instalacja jednofazowa."
+          pomoc={<PomocPola ekran="architektura-fazowa" pole="l2" />}
         />
         <Pole
           label="Obciążenie L3"
@@ -76,7 +86,7 @@ export default function ArchitekturaFazowaPage() {
           min={0}
           value={mocL3W}
           onChange={(e) => setMocL3W(e.target.value)}
-          hint="0, jeśli instalacja jednofazowa."
+          pomoc={<PomocPola ekran="architektura-fazowa" pole="l3" />}
         />
       </div>
 

@@ -6,6 +6,7 @@ import { OPCJE_BUFORA_PCT } from "@/lib/core/modules/zapotrzebowanie/bufor-rozbu
 import type { BuforRozbudowyInput } from "@/lib/core/modules/zapotrzebowanie/bufor-rozbudowe/input"
 import { usePersistedDraft } from "@/lib/adapters/use-persisted-draft"
 import { Pole, PoleSelect } from "@/components/ui/pole"
+import { PomocPola } from "@/components/ui/pomoc"
 import { WerdyktPanel } from "@/components/werdykt"
 import { NawigacjaEkranu } from "@/components/nawigacja-ekranu"
 import { NaglowekEkranu } from "@/components/wzorce/naglowek-ekranu"
@@ -49,7 +50,7 @@ export default function BuforRozbudowyPage() {
   return (
     <main className="mx-auto flex max-w-md flex-col gap-6 p-6">
       <NawigacjaEkranu href="/kalkulatory/bufor-rozbudowe" />
-      <NaglowekEkranu tytul="Bufor na rozbudowę">
+      <NaglowekEkranu tytul="Bufor na rozbudowę" ekran="bufor-rozbudowe" wzor={result.formula}>
         Projektując system tylko pod dzisiejsze potrzeby, gwarantujesz sobie, że za 2 lata będzie
         za mały — bufor to świadoma decyzja, ile „zapasu na przyszłość” wbudować od razu. Moduł 2,
         Ekran 13.
@@ -63,11 +64,13 @@ export default function BuforRozbudowyPage() {
           inputMode="decimal"
           value={zapotrzebowanieCalkowiteKwh}
           onChange={(e) => setZapotrzebowanieCalkowiteKwh(e.target.value)}
+          pomoc={<PomocPola ekran="bufor-rozbudowe" pole="zapotrzebowanie" />}
         />
         <PoleSelect
           label="Bufor na rozbudowę"
           value={buforPct}
           onChange={(e) => setBuforPct(Number(e.target.value) as BuforRozbudowyInput["buforPct"])}
+          pomoc={<PomocPola ekran="bufor-rozbudowe" pole="bufor" params={{ opcje: OPCJE_BUFORA_PCT.join(", ") }} />}
         >
           {OPCJE_BUFORA_PCT.map((opcja) => (
             <option key={opcja} value={opcja}>
