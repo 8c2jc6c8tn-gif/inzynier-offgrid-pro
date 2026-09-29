@@ -29,7 +29,7 @@ export const klapyPozaroweTool: AiToolDefinition<KlapyPozaroweToolInputT, KlapyP
   name: "sprawdz_klapy_pozarowe_i_wentylacje",
   description:
     "Sprawdza, czy przy pożarze wentylacja/rekuperacja się wyłącza i klapy w kanałach zamykają (żeby nie tłoczyć dymu), " +
-    "oraz sygnalizację klap i oddymianie (Moduł 8, Ekran 8).",
+    "oraz sygnalizację klap i oddymianie (Moduł 8, Ekran 8). Użyj, gdy user pyta, czy wentylacja/rekuperacja i klapy w kanałach zachowają się poprawnie przy pożarze.",
   inputSchema: KlapyPozaroweToolInput,
   outputSchema: KlapyPozaroweToolOutput,
   operationType: "read",

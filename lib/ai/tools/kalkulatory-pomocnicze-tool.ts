@@ -83,7 +83,7 @@ export const kalkulatoryPomocniczeTool: AiToolDefinition<
   name: "policz_kalkulatory_pomocnicze",
   description:
     "Liczy przelicznik mocy/prądu/napięcia/pojemności baterii (moduł 'Kalkulatory pomocnicze'). " +
-    "Zawsze używaj tego narzędzia do policzenia wartości — nigdy nie licz samodzielnie w odpowiedzi.",
+    "Zawsze używaj tego narzędzia do policzenia wartości — nigdy nie licz samodzielnie w odpowiedzi. Użyj, gdy user prosi o proste przeliczenie W↔A, Ah↔Wh albo szacunkowy czas pracy urządzenia z baterii.",
   inputSchema: KalkulatoryPomocniczeToolInput,
   outputSchema: KalkulatoryPomocniczeToolOutput,
   operationType: "read",

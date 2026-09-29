@@ -1062,3 +1062,17 @@ jednej, pełnej kolejności dla ekranu: kalkulator + testy → klucze i18n → e
 „i”, od razu we wszystkich językach → opis narzędzia AI na końcu. Migawka „i” i `description` narzędzia AI opisują to samo
 (do czego służy ekran, kiedy go użyć) — warto zalecić pisanie ich razem. Lokalnie wpisane w Dyrektywę #15 (v1.3).
 Status: 🔎 nowe
+
+[29.09.2026] KATEGORIA: BŁĄD + DOBRA PRAKTYKA — reguła 9.0a („opis narzędzia AI mówi, kiedy go użyć; każdy kalkulator ma narzędzie”) bez strażnika dryfuje tak samo jak pomoc przy polach
+Szczegóły: pytanie właściciela repo „czy są rozbudowane opisy funkcji dla AI, żeby dokładnie wiedziało, do czego to służy
+i w jakich przypadkach używać”. Stan: 183 narzędzia, 27 bez zdania „kiedy wywołać” (model widzi, co narzędzie liczy, ale
+nie, na jakie pytanie usera odpowiada — wybiera gorzej przy ~180 narzędziach naraz), 18 kalkulatorów w ogóle bez
+narzędzia (asystent nie może ich użyć i musiałby liczyć sam, co 9.1 zabrania). Wszystkie luki powstały po rolloucie, który
+„domknął” opisy — nowe moduły (M7–M9, M14) kopiowały narzędzia bez tego zdania. Rozwiązanie w tym repo:
+`scripts/check-ai-tools-guard.mjs` (AST TypeScript, skleja konkatenację literałów): każde `*-tool.ts` ma `description`
+z „Użyj, gdy …”, każde jest zarejestrowane w rejestrze narzędzi, każdy `calculator.ts` jest importowany przez jakieś
+narzędzie albo ma komentarz `ai-tool: nie dotyczy — <powód>`; brakujące kalkulatory na liście zapadkowej (tylko maleje).
+Dlaczego warto zgłosić do new-app-standards: 9.0a warto uzupełnić o (a) obowiązkowe zdanie „kiedy użyć” w stałej,
+wykrywalnej formie (tu „Użyj, gdy …”), bo to ono decyduje o wyborze narzędzia przez model, oraz (b) strażnika pokrycia
+„kalkulator ↔ narzędzie ↔ rejestr” w CI — ten sam wzorzec co 17.9 i strażnik pomocy (wpis wyżej).
+Status: 🔎 nowe

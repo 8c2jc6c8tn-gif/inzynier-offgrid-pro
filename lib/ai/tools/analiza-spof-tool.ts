@@ -32,7 +32,7 @@ export const analizaSpofTool: AiToolDefinition<AnalizaSpofToolInputT, AnalizaSpo
   name: "znajdz_pojedyncze_punkty_awarii",
   description:
     "Wskazuje pojedyncze punkty awarii (SPOF) w systemie off-grid — komponenty bez redundancji; BMS bez obejścia to " +
-    "twardy stop (Moduł 7, Ekran 10).",
+    "twardy stop (Moduł 7, Ekran 10). Użyj, gdy user pyta, co w jego instalacji jest pojedynczym punktem awarii albo gdzie brakuje redundancji.",
   inputSchema: AnalizaSpofToolInput,
   outputSchema: AnalizaSpofToolOutput,
   operationType: "read",

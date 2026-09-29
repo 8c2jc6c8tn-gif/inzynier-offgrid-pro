@@ -33,7 +33,7 @@ export const kosztPowrotuTool: AiToolDefinition<KosztPowrotuToolInputT, KosztPow
   description:
     "Szacuje koszt powrotu do sieci po pełnym odłączeniu (M14, D10/F10, ryzyko R1): stawka opłaty przyłączeniowej OSD " +
     "[zł/kW] × moc przyłączeniowa, grupy IV–VI, odległość standardowa. Powyżej standardowej odległości — tylko wzór i " +
-    "„wycena indywidualna OSD”. Czas powrotu opisowo (miesiące), bez liczby. Stawkę podaje user — nie zgaduj.",
+    "„wycena indywidualna OSD”. Czas powrotu opisowo (miesiące), bez liczby. Stawkę podaje user — nie zgaduj. Użyj, gdy user rozważa pełne odłączenie od sieci i pyta, ile by kosztował powrót.",
   inputSchema: KosztPowrotuToolInput,
   outputSchema: KosztPowrotuToolOutput,
   operationType: "read",

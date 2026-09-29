@@ -47,7 +47,7 @@ export const przydzialPinowTool: AiToolDefinition<PrzydzialPinowToolInputT, Przy
   name: "sprawdz_przydzial_pinow_esp32",
   description:
     "Sprawdza mapę pinów ESP32: konflikt dwóch funkcji na jednym GPIO to twardy stop (linie wspólnej magistrali I2C/1-Wire/SPI " +
-    "wolno dzielić); przypomina o ograniczeniu ADC2 przy aktywnym Wi-Fi (Moduł 9, Ekran 5).",
+    "wolno dzielić); przypomina o ograniczeniu ADC2 przy aktywnym Wi-Fi (Moduł 9, Ekran 5). Użyj, gdy user pyta, które piny ESP32 przydzielić czujnikom i wyjściom albo czy jego mapa pinów ma konflikty.",
   inputSchema: PrzydzialPinowToolInput,
   outputSchema: PrzydzialPinowToolOutput,
   operationType: "read",

@@ -32,7 +32,7 @@ export type BezRekuperacjiToolOutputT = z.infer<typeof BezRekuperacjiToolOutput>
 
 export const bezRekuperacjiTool: AiToolDefinition<BezRekuperacjiToolInputT, BezRekuperacjiToolOutputT> = {
   name: "sprawdz_wentylacje_bez_odzysku",
-  description: "Liczy dodatkową stratę ciepła, gdy rekuperator zamarznie lub pracuje bez odzysku, i moc nagrzewnicy wstępnej; ostrzega, gdy mróz przekracza granicę zamarzania wymiennika (Moduł 7, Ekran 20).",
+  description: "Liczy dodatkową stratę ciepła, gdy rekuperator zamarznie lub pracuje bez odzysku, i moc nagrzewnicy wstępnej; ostrzega, gdy mróz przekracza granicę zamarzania wymiennika (Moduł 7, Ekran 20). Użyj, gdy user pyta o skutki zamarznięcia rekuperatora albo o moc nagrzewnicy wstępnej.",
   inputSchema: BezRekuperacjiToolInput,
   outputSchema: BezRekuperacjiToolOutput,
   operationType: "read",

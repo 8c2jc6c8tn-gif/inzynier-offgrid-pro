@@ -35,7 +35,7 @@ export type PreHeatToolOutputT = z.infer<typeof PreHeatToolOutput>
 
 export const preHeatTool: AiToolDefinition<PreHeatToolInputT, PreHeatToolOutputT> = {
   name: "policz_przegrzanie_przed_mrozem",
-  description: "Liczy, ile ciepła zmagazynuje przegrzanie domu i bojlera przed frontem mrozu, ile to kosztuje prądu i na ile godzin wystarczy; grzanie nocą z baterii to twardy stop (Moduł 7, Ekran 18).",
+  description: "Liczy, ile ciepła zmagazynuje przegrzanie domu i bojlera przed frontem mrozu, ile to kosztuje prądu i na ile godzin wystarczy; grzanie nocą z baterii to twardy stop (Moduł 7, Ekran 18). Użyj, gdy user pyta, czy i jak przegrzać dom i bojler przed nadchodzącym mrozem.",
   inputSchema: PreHeatToolInput,
   outputSchema: PreHeatToolOutput,
   operationType: "read",

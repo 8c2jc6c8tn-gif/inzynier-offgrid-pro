@@ -1163,7 +1163,7 @@ Pełne wyniki audytu: `docs/memory.md`, sekcja "Pełny audyt na polecenie właś
   „?”/„i” i komunikaty silników są w trzech językach, ale etykiety pól i teksty na stronach nadal tylko po polsku.
   Osobne, duże zadanie (standard 17). **Priorytet:** do decyzji właściciela. **Kolizje:** te same pliki co chmurki —
   robić po nich albo razem, moduł po module.
-- 🔲 (2026-09-29) **Opisy narzędzi AI — domknięcie luk (pytanie właściciela: „czy są rozbudowane opisy funkcji dla AI”).**
+- 🔄 (2026-09-29) **Opisy narzędzi AI — domknięcie luk (pytanie właściciela: „czy są rozbudowane opisy funkcji dla AI”).**
   Stan 29.09.2026: 183 narzędzia w rejestrze, 181 ma `.describe()` na polach wejścia, 156 ma w `description` zdanie
   „Użyj, gdy…” (kiedy model ma je wywołać) — **27 go nie ma** (m.in. blackout, analiza-spof, typ-montazu, klapy-pozarowe,
   moc-bierna, zasilanie-esp32). **12 kalkulatorów bez narzędzia AI:** baterie/komunikacja-bms, baterie/porownanie-technologii,
@@ -1171,3 +1171,8 @@ Pełne wyniki audytu: `docs/memory.md`, sekcja "Pełny audyt na polecenie właś
   moc-umowna, oplata-mocowa, przelacznik-siec-wyspa, sciezka-cen-energii, strumienie-bess, test-licznika). Do zrobienia:
   dopisać „Użyj, gdy…” w 27 opisach, zbudować brakujące narzędzia (9.0a), rozważyć strażnika jak `check:pomoc-guard`
   (każdy kalkulator ma narzędzie, każdy opis ma „Użyj, gdy”). Kolejność: po chmurkach danego modułu (Dyrektywa #15, krok 5).
+  → **[29.09.2026] Decyzja właściciela: „trzeba naprawić”.** Partia 1 ✅: 27 opisów uzupełnionych o „Użyj, gdy…”
+  (183/183), strażnik `pnpm check:ai-tools-guard` (w CI i pakiecie przed merge) + lista zapadkowa
+  `scripts/ai-tools-guard-baseline.json`. Dokładne liczenie strażnikiem: **18** kalkulatorów bez narzędzia (nie 12 —
+  doszło 5 podmodułów `wampiry-energetyczne` i `ai/prognozy`). Dalej, moduł po module (PR na partię): M14 (8) →
+  baterie/lokalizacja/pv (4) → wampiry-energetyczne (5) → `ai/prognozy` (po decyzji Δt, wpis wyżej).
