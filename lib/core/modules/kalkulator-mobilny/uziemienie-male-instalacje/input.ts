@@ -10,7 +10,7 @@
 export type RodzajMalejInstalacji = "dc" | "ac230"
 
 /**
- * Miejsca ze źródła: garaż, kamper, jacht ("Skąd czerpie dane") oraz "na zewnątrz" ("Jak działa logika"); namiot — D55
+ * Miejsca ze źródła: garaż, kamper, jacht ("Skąd czerpie dane") oraz "na zewnątrz" ("Jak działa logika"); namiot — D57
  * (właściciel 29.09.2026: w namiocie nie ma podwozia, więc strategia ochrony jest inna).
  */
 export type MiejsceUziemienia = "garaz" | "kamper" | "jacht" | "zewnatrz" | "namiot"
@@ -29,19 +29,19 @@ export type UziemienieMaleInstalacjeInput = {
   gniazdaZeStykiemOchronnym: OdpowiedzKontrolna | null
   /**
    * Tylko dla 230 V AC: czy falownik ma połączenie N–PE (fabryczne, przekaźnikiem przełącznika sieci albo wykonane wg
-   * instrukcji producenta) — punkt, do którego wraca prąd zwarcia (D54). `null` = brak odpowiedzi.
+   * instrukcji producenta) — punkt, do którego wraca prąd zwarcia (D56). `null` = brak odpowiedzi.
    */
   polaczenieNPE: OdpowiedzKontrolna | null
-  /** Tylko dla 230 V AC: czy za połączeniem N–PE jest wyłącznik różnicowoprądowy (RCD) 30 mA (D54). `null` = brak odpowiedzi. */
+  /** Tylko dla 230 V AC: czy za połączeniem N–PE jest wyłącznik różnicowoprądowy (RCD) 30 mA (D56). `null` = brak odpowiedzi. */
   rcd30mA: OdpowiedzKontrolna | null
   /**
    * Tylko dla 230 V AC w kamperze albo na jachcie: czy instalacja bywa zasilana z zewnątrz (słupek na kempingu, keja) —
-   * wtedy przewód ochronny przychodzi z sieci (D55). `null` = brak odpowiedzi.
+   * wtedy przewód ochronny przychodzi z sieci (D57). `null` = brak odpowiedzi.
    */
   zasilanieZewnetrzne: "tak" | "nie" | null
   /**
    * Tylko gdy jest zasilanie z zewnątrz i połączenie N–PE w falowniku: czy to połączenie jest rozłączane przy zasilaniu
-   * z zewnątrz (np. przekaźnik przełącznika sieci) — inaczej powstaje podwójne połączenie N–PE (D55). `null` = brak odpowiedzi.
+   * z zewnątrz (np. przekaźnik przełącznika sieci) — inaczej powstaje podwójne połączenie N–PE (D57). `null` = brak odpowiedzi.
    */
   npeRozlaczanePrzyZasilaniuZewnetrznym: OdpowiedzKontrolna | null
 }

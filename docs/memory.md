@@ -8150,10 +8150,11 @@ Tryb Audyt (czapka rewidenta). Warstwa „w pełni na końcu” z N.2 — wszyst
   przy DC — przy 230 V z kompletem uziemienia dawałoby fałszywe 🟡. **Pułapka:** zmiana poziomu = też teksty migawki „i”
   (mówiły „nie = czerwony stop”) i opis narzędzia AI, nie tylko `warnings.ts` — grep po kodzie ostrzeżenia i po „czerwony”.
 
-## M12/E38 — D55 słupek, namiot, jacht (29.09.2026)
+## M12/E38 — D57 słupek, namiot, jacht (29.09.2026)
 
-- **Kolizja numerów:** równoległa sesja zajęła D53 na `main` (odpowiedzi na D50) — pętla zwarcia przemianowana na D54
-  przed scaleniem (H.3), to rozszerzenie = D55.
+- **Kolizja numerów (dwukrotna):** równoległe sesje zajęły na `main` najpierw D53 (odpowiedzi na D50), potem D54
+  (CRL/gaz/Rsi) — pętla zwarcia ostatecznie = **D56**, to rozszerzenie = **D57** (H.3, pierwszy scalony zachowuje numer).
+  Lekcja: przed utworzeniem PR zawsze `git fetch origin main` i sprawdź ostatni numer D w `rejestr-decyzji.md` na main.
 - Kamper/jacht: pytanie o zasilanie z zewnątrz; przy N–PE w falowniku — czy rozłączane; nie/nie wiem → 🔴 podwójne N–PE.
   Namiot = nowe miejsce: najpierw N–PE na wyjściu; pływające/nie wiem → 🟡 z zasadami (bez pytań o obudowę, gniazda, RCD).
   Kamper/jacht — ℹ️ (wiszący przewód, szpilka; Wzorzec C jachtu). RCD 🔴 tymczasowo do PN-HD 60364-7-721.
@@ -8167,10 +8168,10 @@ Tryb Audyt (czapka rewidenta). Warstwa „w pełni na końcu” z N.2 — wszyst
 - Pułapka: w teście `ac` bazowo zmieniony z kampera na garaż — kamper dokłada ℹ️ i pytanie o słupek, więc testy ogólne
   230 V przestałyby mieć pustą listę ostrzeżeń.
 
-## M12/E38 — D54 pętla zwarcia (29.09.2026)
+## M12/E38 — D56 pętla zwarcia (29.09.2026)
 
 - Właściciel: ochrona na falowniku nie potrzebuje ziemi, tylko zamkniętej pętli obudowa → PE → N–PE w falowniku →
-  falownik; trzy warunki (połączenie wyrównawcze PE, N–PE za zgodą producenta, RCD 30 mA za nim). Wdrożone jako D54:
+  falownik; trzy warunki (połączenie wyrównawcze PE, N–PE za zgodą producenta, RCD 30 mA za nim). Wdrożone jako D56:
   pola `polaczenieNPE`, `rcd30mA` (INCOMPLETE bez odpowiedzi), oba braki 🔴; RCD — poziom echo `progPowyzejOchronyOsob`.
 - Stare autozapisy bez `npe`/`rcd` → `?? ""` (wzorzec `napor-wiatru`), więc wynik INCOMPLETE, nigdy „OK”.
 - Otwarte (⚠️ na liście): pojedynczy odbiornik z wyjścia pływającego (separacja elektryczna) — dziś 🔴; bez źródła normy
@@ -8204,7 +8205,6 @@ Tryb Audyt (czapka rewidenta). Warstwa „w pełni na końcu” z N.2 — wszyst
 - Poprawione nieaktualne wpisy: lista „Otwarte” w 03_M14 (Enea netto, Stoen C22 były już ✅), tabela i pkt 6 w
   „STAN NA TERAZ”, wskaźnik startowy na górze `docs/lista-do-zrobienia.md`.
 
-
 ## Prognozy M10 — Δt, decyzja A; narzędzia AI domknięte (29.09.2026)
 
 - Właściciel wybrał **A**: punkt prognozy = średnia moc [kW] w oknie 3 h, energia = Σ P × 3 h. Silnik `ai/prognozy` 1.0.0
@@ -8214,3 +8214,13 @@ Tryb Audyt (czapka rewidenta). Warstwa „w pełni na końcu” z N.2 — wszyst
   dane live) krok próbkowania musi być jawny w silniku, nie domyślny „1 h”.
 - Narzędzie `policz_bilans_prognozy`; lista zapadkowa `ai-tools-guard-baseline.json` pusta — każdy kalkulator ma
   narzędzie AI albo adnotację `ai-tool: nie dotyczy — powód` (jedyna: `lokalizacja-i-klimat`).
+
+## D54 — CRL od budynku, gaz 🟡 z propozycją, kafle M14, Rsi (29.09.2026)
+
+- **CRL (M5/E2 1.1.0):** `kolejnoscOdBudynku?: OdcinekCrl[] | null` — opcjonalne (stare szkice, AI). Niewymienione
+  typy dochodzą na koniec w kolejności ostrożnej. Bez kolejności wynik identyczny jak 1.0.0 (testy A.1–A.4 bez zmian).
+  Przy CRL ≥ 1000 zawsze ℹ️ `CRL-SPD-ZALECANY` — preferencja właściciela, nie wymóg normy; werdykt nadal „nie wymaga”.
+- **Gaz (M8/E4 1.1.0):** ℹ️ `GASZ-PROPOZYCJA-LIFEPO4` przy każdym środku spoza wymaganych w strefie LiFePO4.
+  Chłodzenie/zamrażanie ogniw to propozycja AI bez liczb (brak źródła) — ✅🤖.
+- **Rsi:** bez zmian w kodzie (0,13 ze źródeł); wartości kierunkowe czekają na PN-EN ISO 6946.
+- Otwarte z listy D50: tylko M9/E4 CAN.

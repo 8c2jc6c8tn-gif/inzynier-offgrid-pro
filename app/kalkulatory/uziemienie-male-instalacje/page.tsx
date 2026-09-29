@@ -19,7 +19,7 @@ import { WynikGlowny } from "@/components/wzorce/wynik-glowny"
 import { WynikSzczegoly } from "@/components/wzorce/wynik-szczegoly"
 
 /**
- * Pętla zwarcia w wyspie z falownika (D54, decyzja właściciela 29.09.2026): ochrona nie potrzebuje ziemi, tylko zamkniętej
+ * Pętla zwarcia w wyspie z falownika (D56, decyzja właściciela 29.09.2026): ochrona nie potrzebuje ziemi, tylko zamkniętej
  * drogi obudowa → PE → punkt N–PE w falowniku → falownik; RCD 30 mA za tym punktem. Źródło (Biblia §12.53): obudowa
  * falownika i styk ochronny gniazd podłączone do uziemienia pojazdu — tu jako wspólna szyna PE z podwoziem.
  */
@@ -146,10 +146,10 @@ const doOdpowiedzi = (v: OdpowiedzKontrolna | "") => (v === "" ? null : v)
 
 export default function UziemienieMaleInstalacjePage() {
   const [stan, setStan] = usePersistedDraft<FormularzStan>("uziemienie-male-instalacje", STAN_POCZATKOWY)
-  // Drafts saved before D54 (29.09.2026) have no `npe`/`rcd` — treat as empty (INCOMPLETE, never "OK").
+  // Drafts saved before D56 (29.09.2026) have no `npe`/`rcd` — treat as empty (INCOMPLETE, never "OK").
   const npe = stan.npe ?? ""
   const rcd = stan.rcd ?? ""
-  // Same for `zasilanie`/`npeRozlaczane` before D55.
+  // Same for `zasilanie`/`npeRozlaczane` before D57.
   const zasilanie = stan.zasilanie ?? ""
   const npeRozlaczane = stan.npeRozlaczane ?? ""
   const odpowiedzi: Record<PoleOdpowiedzi, OdpowiedzKontrolna | ""> = {
@@ -183,7 +183,7 @@ export default function UziemienieMaleInstalacjePage() {
   const ac230 = stan.rodzaj === "ac230"
   const namiot = stan.miejsce === "namiot"
   const pytajOZasilanie = stan.miejsce !== "" && MIEJSCA_Z_ZASILANIEM_ZEWNETRZNYM.includes(stan.miejsce)
-  // Tent (D55): the N–PE question comes first; enclosure, sockets and RCD only apply to an output with an N–PE bond.
+  // Tent (D57): the N–PE question comes first; enclosure, sockets and RCD only apply to an output with an N–PE bond.
   const namiotPlywajace = namiot && npe !== "tak"
   const zeSlupka = pytajOZasilanie && zasilanie === "tak"
 

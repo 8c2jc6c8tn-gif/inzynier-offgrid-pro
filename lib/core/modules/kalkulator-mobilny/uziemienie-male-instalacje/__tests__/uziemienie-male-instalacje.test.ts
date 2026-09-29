@@ -58,7 +58,7 @@ describe("calculateUziemienieMaleInstalacje (M12/E38, echo M5/E11)", () => {
     expect(r.warnings.some((w) => w.level === "critical")).toBe(false)
   })
 
-  it("230 V na jachcie, wszystko uziemione → VALID, bez ostrzeżenia o wilgoci (uziemienie już jest); ℹ️ zasady jachtu (D55)", () => {
+  it("230 V na jachcie, wszystko uziemione → VALID, bez ostrzeżenia o wilgoci (uziemienie już jest); ℹ️ zasady jachtu (D57)", () => {
     const r = calculateUziemienieMaleInstalacje({ ...ac, miejsce: "jacht", zasilanieZewnetrzne: "nie" })
     expect(r.status).toBe("VALID")
     expect(r.value).toEqual({ wymaganeUziemienieOchronne: true, zalecaneZeWzgleduNaWilgoc: true })
@@ -94,7 +94,7 @@ describe("calculateUziemienieMaleInstalacje (M12/E38, echo M5/E11)", () => {
     expect(r.warnings[0].field).toBe("gniazdaZeStykiemOchronnym")
   })
 
-  it.each(["nie", "nie-wiem"] as const)("230 V: brak połączenia N–PE „%s” → 🔴, pętla zwarcia otwarta (D54)", (odp) => {
+  it.each(["nie", "nie-wiem"] as const)("230 V: brak połączenia N–PE „%s” → 🔴, pętla zwarcia otwarta (D56)", (odp) => {
     const r = calculateUziemienieMaleInstalacje({ ...ac, polaczenieNPE: odp })
     expect(r.status).toBe("VALID_WITH_WARNINGS")
     expect(kody(r)).toEqual(["UMI-BRAK-POLACZENIA-N-PE"])
@@ -102,7 +102,7 @@ describe("calculateUziemienieMaleInstalacje (M12/E38, echo M5/E11)", () => {
     expect(r.warnings[0].field).toBe("polaczenieNPE")
   })
 
-  it.each(["nie", "nie-wiem"] as const)("230 V: brak RCD 30 mA „%s” → 🔴, poziom z M5 PROG-POWYZEJ-OCHRONY-OSOB (echo, D54)", (odp) => {
+  it.each(["nie", "nie-wiem"] as const)("230 V: brak RCD 30 mA „%s” → 🔴, poziom z M5 PROG-POWYZEJ-OCHRONY-OSOB (echo, D56)", (odp) => {
     const r = calculateUziemienieMaleInstalacje({ ...ac, rcd30mA: odp })
     expect(r.status).toBe("VALID_WITH_WARNINGS")
     expect(kody(r)).toEqual(["UMI-BRAK-RCD-30MA"])
@@ -135,7 +135,7 @@ describe("calculateUziemienieMaleInstalacje (M12/E38, echo M5/E11)", () => {
     expect(r.warnings.every((w) => w.message === undefined && typeof w.i18nKey === "string")).toBe(true)
   })
 
-  describe("D55 — słupek/keja, namiot, kamper, jacht", () => {
+  describe("D57 — słupek/keja, namiot, kamper, jacht", () => {
     const kamper: UziemienieMaleInstalacjeInput = { ...ac, miejsce: "kamper", zasilanieZewnetrzne: "nie" }
 
     it("kamper: pytanie o zasilanie z zewnątrz obowiązkowe (INCOMPLETE bez odpowiedzi); garaż go nie zadaje", () => {

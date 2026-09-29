@@ -5,6 +5,9 @@
  */
 export type SrodowiskoCrl = "wiejskie" | "miejskie"
 
+/** Line section type — key of the matching length field. */
+export type OdcinekCrl = "napowietrznaNnKm" | "kablowaNnKm" | "napowietrznaSnKm" | "kablowaSnKm"
+
 export type OcenaRyzykaCrlInput = {
   /** 443.4 a)–z1): consequences for human life, public services/cultural heritage, commercial or industrial activity, many people. */
   skutkiKrytyczne: boolean
@@ -26,4 +29,9 @@ export type OcenaRyzykaCrlInput = {
   dlugosciNiepelne: boolean
   /** Distance to the first SPD installed in the supply network [km]; `null` = none/unknown (limit 1 km). */
   odlegloscDoSpdWSieciKm: number | null
+  /**
+   * D54: order of the sections from the building outward — the length limit keeps the sections nearest the building.
+   * Types not listed follow in the conservative order. `null`/absent = order unknown → heaviest weight first.
+   */
+  kolejnoscOdBudynku?: OdcinekCrl[] | null
 }

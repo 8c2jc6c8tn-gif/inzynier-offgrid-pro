@@ -42,12 +42,21 @@ wtedy zaktualizowane — naprawione teraz, przy okazji.)*
 
 ## 🔵 Spodziewane — zapowiedziane przez właściciela projektu
 
-- **PN-HD 60364-7-721** (instalacje elektryczne w przyczepach kempingowych i pojazdach wypoczynkowych). **[29.09.2026]** Właściciel: „na razie czerwone, potem normę dostarczę”. **Potrzebna do:** M12/E38 — potwierdzenia wymagania RCD 30 mA i poziomu `UMI-BRAK-RCD-30MA` (dziś 🔴 tymczasowo, D55); przy okazji zasilanie ze słupka (rozłączanie N–PE, `UMI-PODWOJNE-POLACZENIE-N-PE` — poziom 🔴 już ma podstawę w PN-HD 60364-5-54, 543.4.3, potwierdzony przez właściciela; 7-721 tylko jako potwierdzenie dla kamperów). **Potrzebny fragment:** rozdział o ochronie przeciwporażeniowej (RCD, połączenia wyrównawcze podwozia) i o zasilaniu z zewnątrz (przyłącze, słupek).
+*~~(pusta na razie)~~* **[29.09.2026]** dopisane po D54:
+
+- 🔵 **PN-EN ISO 6946** (opór cieplny i współczynnik przenikania ciepła — Rsi/Rse). Właściciel dostarczy z PKN.
+  **Użycie:** M6/E8 „Pojemność cieplna” — Rsi per kierunek strumienia (ściana 0,13 · strop/dach 0,10 · podłoga 0,17
+  m²·K/W, wartości do sprawdzenia z normą). Do tego czasu Rsi = 0,13 ze źródeł (EN ISO 13786 D.1, PN-EN ISO 14683
+  Tablica A.1) — D54 pkt 5, TD20.
+- 🔵 **Taryfa PGE Dystrybucja 2026 (PDF)** i **regulamin programu „Przydomowe Magazyny Energii” NFOŚiGW (PDF)** — nie
+  normy, ale materiały formalne dla M14 (W3-PGE, W6). Serwery mają niepełny łańcuch TLS — **właściciel dostarcza pliki;
+  nie obchodzić certyfikatów.** Pozostałe dane M14: `03_M14_Dom_i_Firma_Siec.md`, „Otwarte — wymaga danych zewnętrznych”.
+- 🔵 **PN-HD 60364-7-721** (instalacje elektryczne w przyczepach kempingowych i pojazdach wypoczynkowych). **[29.09.2026]** Właściciel: „na razie czerwone, potem normę dostarczę”. **Potrzebna do:** M12/E38 — potwierdzenia wymagania RCD 30 mA i poziomu `UMI-BRAK-RCD-30MA` (dziś 🔴 tymczasowo, D57); przy okazji zasilanie ze słupka (rozłączanie N–PE, `UMI-PODWOJNE-POLACZENIE-N-PE` — poziom 🔴 już ma podstawę w PN-HD 60364-5-54, 543.4.3, potwierdzony przez właściciela; 7-721 tylko jako potwierdzenie dla kamperów). **Potrzebny fragment:** rozdział o ochronie przeciwporażeniowej (RCD, połączenia wyrównawcze podwozia) i o zasilaniu z zewnątrz (przyłącze, słupek).
 
 ## 🟡 Potrzebne, nie blokują dziś konkretnego kodu (zidentyfikowane wcześniej w rozmowie o normach)
 
-- **PN-HD 60364-4-41:2017** (ochrona przeciwporażeniowa — wydanie aktualne). **[29.09.2026]** W repo jest tylko wyciąg PN-IEC 60364-4-41:2000 (`docs/zrodla/norma-PN-IEC-60364-4-41/`, 413.5 „separacja elektryczna”, prywatne tłumaczenie z 2002). **Potrzebna do:** M12/E38 namiot (D55) — (a) czy wyjście przenośnej stacji zasilania jest „źródłem równoważnym transformatorowi separacyjnemu”; (b) wymagania przy więcej niż jednym odbiorniku z jednego wyjścia; (c) czy 🟡 dla wyjścia pływającego ma zostać, czy przy kilku odbiornikach przejść w 🔴. Pozycja #2 z listy literatury materiału PV-2019 (wyżej) — znana z tytułu.
-- **ABYC E-11** (AC and DC Electrical Systems on Boats) i **ISO 13297** (małe statki — instalacje elektryczne prądu przemiennego). **[29.09.2026]** Do pozyskania (decyzja właściciela). **Potrzebne do:** M12/E38 jacht (D55) — dziś tylko ℹ️ Wzorzec C „do potwierdzenia z tekstu normy”: połączenie PE AC, obudów i minusa DC w jednym punkcie, automatyczne N–PE poza keją, RCD/ELCI, separator galwaniczny albo transformator separacyjny przy zasilaniu z kei.
+- **PN-HD 60364-4-41:2017** (ochrona przeciwporażeniowa — wydanie aktualne). **[29.09.2026]** W repo jest tylko wyciąg PN-IEC 60364-4-41:2000 (`docs/zrodla/norma-PN-IEC-60364-4-41/`, 413.5 „separacja elektryczna”, prywatne tłumaczenie z 2002). **Potrzebna do:** M12/E38 namiot (D57) — (a) czy wyjście przenośnej stacji zasilania jest „źródłem równoważnym transformatorowi separacyjnemu”; (b) wymagania przy więcej niż jednym odbiorniku z jednego wyjścia; (c) czy 🟡 dla wyjścia pływającego ma zostać, czy przy kilku odbiornikach przejść w 🔴. Pozycja #2 z listy literatury materiału PV-2019 (wyżej) — znana z tytułu.
+- **ABYC E-11** (AC and DC Electrical Systems on Boats) i **ISO 13297** (małe statki — instalacje elektryczne prądu przemiennego). **[29.09.2026]** Do pozyskania (decyzja właściciela). **Potrzebne do:** M12/E38 jacht (D57) — dziś tylko ℹ️ Wzorzec C „do potwierdzenia z tekstu normy”: połączenie PE AC, obudów i minusa DC w jednym punkcie, automatyczne N–PE poza keją, RCD/ELCI, separator galwaniczny albo transformator separacyjny przy zasilaniu z kei.
 
 - **IEC 62109-1** (bezpieczeństwo przetwornic mocy PV — część 1, wymagania ogólne). Mamy tylko
   **Część 2** (falowniki, `docs/zrodla/norma-IEC-62109-2/`) — Część 1 nigdy nie dostarczona jako
@@ -74,7 +83,16 @@ wtedy zaktualizowane — naprawione teraz, przy okazji.)*
   niżej** — współczynników strat do gruntu, zysków i nadwyżki mocy na nagrzewanie — ekran jawnie
   ostrzega o ich braku.
 
+- 🟡 **[29.09.2026] HD 60364-4-443 w wersji PL (PN-HD) albo EN** — mamy tylko tłumaczenie serbskie (SRPS, pełne,
+  użyte w M5/E2). **Potrzebne do:** wyjątku ekonomicznego 443.4 dla pojedynczego mieszkania — tekst serbski i streszczenie
+  czytają go różnie (TD21 pkt 1, wpis w `docs/lista-do-zrobienia.md` z 27.09). Priorytet niski.
+
 ## ⚪ Zidentyfikowane tylko z nazwy (z bibliografii/indeksów innych źródeł)
+
+- ⚪ **[29.09.2026] Wytyczne ochrony przeciwpożarowej stacjonarnych magazynów litowych** — kandydaci z nazwy (propozycja
+  AI, do potwierdzenia, czy potrzebne): **NFPA 855** (instalacja stacjonarnych systemów magazynowania energii), **VdS 3856**
+  (ochrona ppoż. baterii litowo-jonowych). **Użycie:** M8/E4 — podstawa dla propozycji chłodzenia/zamrażania ogniw
+  (D54 pkt 4c, dziś ✅🤖 bez źródła i bez liczb) oraz ewentualnych parametrów mgły wodnej.
 
 Odkryte przy analizie bibliografii UNE-HD 60364-7-712 (05.09.2026) — dotąd nie mieliśmy ich nawet
 z nazwy:

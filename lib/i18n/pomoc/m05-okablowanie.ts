@@ -159,6 +159,12 @@ export const pl = {
         gdzie: "Od operatora sieci.",
         zakres: "Liczy się najwyżej {lpMax} km albo do tego SPD.",
       },
+      kolejnosc: {
+        nazwa: "Kolejność odcinków sieci od budynku",
+        cel: "Liczy się tylko {lpMax} km sieci najbliżej budynku (D54). Kolejność mówi, które odcinki są przy domu.",
+        gdzie: "Zwykle przy domu jest sieć nn, a za stacją transformatorową SN. Kolejność kabla i linii napowietrznej — z mapy albo od operatora.",
+        zakres: "Nie wiem = liczone ostrożnie: najpierw linia napowietrzna nn (największa waga, SPD wychodzi częściej). Ma znaczenie tylko przy sieci dłuższej niż {lpMax} km.",
+      },
     },
   },
   "szyny-zbiorcze-polaczenia": {
@@ -972,6 +978,12 @@ export const en: Tlumaczenie<typeof pl> = {
         gdzie: "From the network operator.",
         zakres: "At most {lpMax} km or up to that SPD.",
       },
+      kolejnosc: {
+        nazwa: "Order of network sections from the building",
+        cel: "Only the {lpMax} km of network nearest the building counts (D54). The order says which sections are at the house.",
+        gdzie: "Usually the LV network is at the house and MV beyond the transformer station. The order of cable and overhead line — from a map or the network operator.",
+        zakres: "Don't know = conservative: LV overhead line first (highest weight, SPD comes out more often). Matters only for a network longer than {lpMax} km.",
+      },
     },
   },
   "szyny-zbiorcze-polaczenia": {
@@ -1770,6 +1782,12 @@ export const ru: Tlumaczenie<typeof pl> = {
         cel: "Перенапряжения с дальней части линии остановит УЗИП в сети — учитывается только участок до него.",
         gdzie: "У оператора сети.",
         zakres: "Максимум {lpMax} км или до этого УЗИП.",
+      },
+      kolejnosc: {
+        nazwa: "Порядок участков сети от здания",
+        cel: "Учитываются только {lpMax} км сети, ближайшие к зданию (D54). Порядок показывает, какие участки находятся у дома.",
+        gdzie: "Обычно у дома сеть НН, а за трансформаторной подстанцией — СН. Порядок кабеля и воздушной линии — по карте или у оператора сети.",
+        zakres: "Не знаю = осторожно: сначала воздушная линия НН (наибольший вес, УЗИП получается чаще). Важно только для сети длиннее {lpMax} км.",
       },
     },
   },

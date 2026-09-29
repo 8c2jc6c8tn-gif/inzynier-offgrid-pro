@@ -6,12 +6,13 @@ import {
   brakOdcieciaWentylacji,
   innaChemiaMagazynu,
   modulRozladowany,
+  propozycjaSrodkowLifepo4,
   srodekNiepotwierdzonyLifepo4,
   srodekNieskutecznyLifepo4,
   zaMaloCzujnikow,
 } from "./warnings"
 
-export const CALCULATOR_VERSION = "1.0.0"
+export const CALCULATOR_VERSION = "1.1.0"
 
 const FORMULA = "gaszenie \\Leftarrow n_{czujnikow} \\ge 2"
 
@@ -28,6 +29,8 @@ export type ModulGasniczyResult = {
  * magazynów energii — inne środki (gaz obojętny, aerozol) 🟡, bo źródło ich nie wyklucza wprost;
  * 🔴 moduł rozładowany (sekcja C); 🟡 potwierdzenie alarmu jednym czujnikiem (B.1: „np. dwa niezależne”)
  * i brak odcięcia wentylacji/klap (B.1). Sekwencja dowódcy AI (12.51) — treść na ekranie, nie wynik.
+ * D54: gaz/aerozol zostaje 🟡 (potwierdzone przez właściciela); przy 🟡/🔴 w strefie LiFePO4 dochodzi ℹ️ z propozycją
+ * środków i chłodzenia ogniw.
  */
 export function calculateModulGasniczy(input: ModulGasniczyInput): CalcResult<ModulGasniczyResult> {
   const inputs = {
@@ -58,6 +61,7 @@ export function calculateModulGasniczy(input: ModulGasniczyInput): CalcResult<Mo
     srodekWlasciwyDlaLifepo4 = SRODKI_WYMAGANE_LIFEPO4.includes(input.srodek)
     if (SRODKI_NIESKUTECZNE_LIFEPO4.includes(input.srodek)) warnings.push(srodekNieskutecznyLifepo4(input.srodek))
     else if (!srodekWlasciwyDlaLifepo4) warnings.push(srodekNiepotwierdzonyLifepo4(input.srodek))
+    if (!srodekWlasciwyDlaLifepo4) warnings.push(propozycjaSrodkowLifepo4())
   } else if (input.magazynWStrefie === "inna") {
     warnings.push(innaChemiaMagazynu())
   }

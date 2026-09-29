@@ -1,7 +1,7 @@
 /**
  * Narzędzie AI (9.3) dla Modułu 12 "Szybki kalkulator/tryb mobilny" — Ekran 38 "Uziemienie małej instalacji"
  * (dawne 8.65). `operationType: 'read'`. Rodzaj instalacji, miejsce i odpowiedzi o obudowie falownika, gniazdach,
- * połączeniu N–PE i RCD 30 mA (D54) MUSZĄ pochodzić od usera — model ich nie zgaduje. Nie liczy uziomu prętowego (pełny projekt: M5/E9).
+ * połączeniu N–PE i RCD 30 mA (D56) MUSZĄ pochodzić od usera — model ich nie zgaduje. Nie liczy uziomu prętowego (pełny projekt: M5/E9).
  */
 import { z } from "zod"
 import { calculateUziemienieMaleInstalacje } from "@/lib/core/modules/kalkulator-mobilny/uziemienie-male-instalacje/calculator"

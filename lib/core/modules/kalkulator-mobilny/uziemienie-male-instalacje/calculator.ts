@@ -35,9 +35,9 @@ const KOD_ODPOWIEDZI: Record<OdpowiedzKontrolna, number> = { tak: 1, nie: 0, "ni
  * Ekran 38, Moduł 12 — "Uziemienie małej instalacji" (dawne 8.65, Biblia §12.53). Logika 1:1 ze źródła: 12/24 V DC
  * zwykle bez uziemienia ochronnego; 230 V z falownika — wymagana uziemiona obudowa falownika i gniazda ze stykiem
  * ochronnym; w miejscach wilgotnych (jacht, na zewnątrz) źródło zaleca uziemienie. Twardy stop obudowy — poziom z M5/E11;
- * gniazda bez styku ochronnego i zalecenie przy wilgoci — 🟡 (D52). Pętla zwarcia (D54): ochrona na falowniku nie
+ * gniazda bez styku ochronnego i zalecenie przy wilgoci — 🟡 (D52). Pętla zwarcia (D56): ochrona na falowniku nie
  * potrzebuje ziemi, tylko połączenia N–PE w falowniku (jeśli producent pozwala) i RCD 30 mA za nim — brak = 🔴.
- * D55: przy zasilaniu z zewnątrz (słupek, keja) połączenie N–PE musi być wtedy rozłączone (inaczej 🔴 podwójne N–PE);
+ * D57: przy zasilaniu z zewnątrz (słupek, keja) połączenie N–PE musi być wtedy rozłączone (inaczej 🔴 podwójne N–PE);
  * namiot bez podwozia — wyjście pływające to 🟡 z zasadami (separacja elektryczna), nie 🔴; kamper i jacht — ℹ️ Wzorzec C.
  * "Nie wiem" = strona bezpieczna (jak "nie"). Bez liczb i norm spoza źródła; uziom prętowy (rezystancja) — M5/E9.
  */
@@ -93,7 +93,7 @@ export function calculateUziemienieMaleInstalacje(
     // so the recommendation would only duplicate them (or be a false alarm when everything is connected).
     if (zalecaneZeWzgleduNaWilgoc) warnings.push(wilgocZalecaneUziemienie(miejsce))
   } else if (miejsce === "namiot" && polaczenieNPE !== "tak") {
-    // Tent (D55): no chassis. A floating output ("nie"; "nie wiem" = "nie") is not bonded on one's own — 🟡 with the rules
+    // Tent (D57): no chassis. A floating output ("nie"; "nie wiem" = "nie") is not bonded on one's own — 🟡 with the rules
     // (electrical separation, double insulation, PRCD caveat, IP) instead of the fault-loop stops.
     if (polaczenieNPE === null) return wynik("INCOMPLETE", PUSTY_WYNIK)
     assumptions.push({ kod: "UMI-ZALOZENIE-NIE-WIEM-JAK-NIE" })
@@ -114,10 +114,10 @@ export function calculateUziemienieMaleInstalacje(
     assumptions.push({ kod: "UMI-ZALOZENIE-NIE-WIEM-JAK-NIE" })
     if (obudowa !== "tak") warnings.push(obudowaFalownikaNieuziemiona(obudowa))
     if (gniazda !== "tak") warnings.push(gniazdaBezStykuOchronnego(gniazda))
-    // Fault loop (D54): protection needs the loop PE → N–PE bond → inverter, and an RCD 30 mA behind the bond — not earth.
+    // Fault loop (D56): protection needs the loop PE → N–PE bond → inverter, and an RCD 30 mA behind the bond — not earth.
     if (polaczenieNPE !== "tak") warnings.push(brakPolaczeniaNPE(polaczenieNPE))
     if (rcd30mA !== "tak") warnings.push(brakRcd30mA(rcd30mA))
-    // Shore power (D55): PE comes from the grid — the inverter's N–PE bond must be open then, or there are two N–PE bonds.
+    // Shore power (D57): PE comes from the grid — the inverter's N–PE bond must be open then, or there are two N–PE bonds.
     if (pytajORozlaczanieNPE && npeRozlaczane !== null && npeRozlaczane !== "tak") warnings.push(podwojnePolaczenieNPE(npeRozlaczane))
     if (miejsce === "jacht") {
       warnings.push(jachtPolaczenieWJednymPunkcie())
