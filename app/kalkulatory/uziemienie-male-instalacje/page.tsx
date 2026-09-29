@@ -107,6 +107,8 @@ export default function UziemienieMaleInstalacjePage() {
   )
   // Directive #4: the hard stop comes from warning levels, not from the Status enum.
   const hasCritical = result.warnings.some((w) => w.level === "critical")
+  const hasWarning = result.warnings.some((w) => w.level === "warning")
+  const gniazdaBezStyku = result.warnings.some((w) => w.code === "UMI-GNIAZDA-BEZ-STYKU-OCHRONNEGO")
   const { wymaganeUziemienieOchronne, zalecaneZeWzgleduNaWilgoc } = result.value
   const ac230 = stan.rodzaj === "ac230"
 
@@ -181,15 +183,17 @@ export default function UziemienieMaleInstalacjePage() {
         </p>
       ) : (
         <WerdyktPanel
-          poziom={hasCritical ? "blad" : "ok"}
+          poziom={hasCritical ? "blad" : hasWarning ? "uwaga" : "ok"}
           etykieta={
             hasCritical
-              ? "Brak uziemienia — ryzyko porażenia"
-              : wymaganeUziemienieOchronne
-                ? "Uziemienie wymagane i podłączone"
-                : zalecaneZeWzgleduNaWilgoc
-                  ? "Uziemienie niewymagane — zalecane przy wilgoci"
-                  : "Uziemienie ochronne zwykle niewymagane"
+              ? "Obudowa falownika nieuziemiona — ryzyko porażenia"
+              : gniazdaBezStyku
+                ? "Gniazda bez styku ochronnego — przeczytaj, czym to grozi"
+                : wymaganeUziemienieOchronne
+                  ? "Uziemienie wymagane i podłączone"
+                  : zalecaneZeWzgleduNaWilgoc
+                    ? "Uziemienie niewymagane — zalecane przy wilgoci"
+                    : "Uziemienie ochronne zwykle niewymagane"
           }
         >
           <WynikGlowny>

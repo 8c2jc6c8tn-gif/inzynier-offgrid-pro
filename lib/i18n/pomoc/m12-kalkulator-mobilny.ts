@@ -339,7 +339,7 @@ export const pl = {
     migawka: {
       oCoChodzi: "Uziemienie to droga ucieczki dla prądu. Jak jej nie ma, prąd ucieka przez Ciebie.",
       jakDziala:
-        "Wybierasz rodzaj instalacji i miejsce. Instalacja z samym 12/24 V DC zwykle nie wymaga uziemienia ochronnego, ale na jachcie i na zewnątrz (wilgoć) jest ono zalecane. Instalacja z falownikiem 230 V wymaga uziemienia — wtedy aplikacja pyta, czy obudowa falownika i styki ochronne gniazd są podłączone. „Nie” albo „nie wiem” to czerwony stop.",
+        "Wybierasz rodzaj instalacji i miejsce. Instalacja z samym 12/24 V DC zwykle nie wymaga uziemienia ochronnego, ale na jachcie i na zewnątrz (wilgoć) jest ono zalecane — żółte ostrzeżenie. Instalacja z falownikiem 230 V wymaga uziemienia — wtedy aplikacja pyta, czy obudowa falownika i styki ochronne gniazd są podłączone. Nieuziemiona obudowa falownika („nie” albo „nie wiem”) to czerwony stop; gniazda bez podłączonego styku ochronnego — żółte ostrzeżenie z wyjaśnieniem, czym to grozi.",
       poCo:
         "Przy uszkodzeniu izolacji w falowniku obudowa albo metalowe elementy pojazdu mogą znaleźć się pod napięciem 230 V. Przewód ochronny odprowadza wtedy prąd zwarcia, zanim dotknie go człowiek. To uproszczona wersja Modułu 5 (ekrany 9 i 11) — dom z uziomem w ziemi liczy się tam.",
     },
@@ -364,7 +364,7 @@ export const pl = {
       },
       gniazda: {
         nazwa: "Styk ochronny gniazd 230 V",
-        cel: "Bolec albo boczne styki w gnieździe 230 V, do których dochodzi przewód ochronny (zielono-żółty) połączony z uziemieniem pojazdu lub uziomem. Samo gniazdo z bolcem nie wystarczy — przewód musi być podłączony.",
+        cel: "Bolec albo boczne styki w gnieździe 230 V, do których dochodzi przewód ochronny (zielono-żółty) połączony z uziemieniem pojazdu lub uziomem. Bolec łączy metalową obudowę podłączonego urządzenia z tym przewodem: gdy w urządzeniu uszkodzi się izolacja, prąd zwarcia płynie przewodem ochronnym, a nie przez człowieka, który dotknie obudowy. Samo gniazdo z bolcem nie wystarczy — przewód musi być podłączony.",
         gdzie: "Sprawdź puszkę gniazda albo schemat instalacji.",
         zakres: "Tak, nie albo nie wiem. „Nie wiem” aplikacja traktuje jak „nie” — to strona bezpieczna.",
       },
@@ -858,7 +858,7 @@ export const en: Tlumaczenie<typeof pl> = {
     migawka: {
       oCoChodzi: "Earthing is an escape route for current. Without it, the current escapes through you.",
       jakDziala:
-        "You choose the installation type and location. A 12/24 V DC-only installation usually does not need protective earthing, but on a yacht and outdoors (moisture) it is recommended. An installation with a 230 V inverter requires earthing — then the app asks whether the inverter housing and the protective contacts of the sockets are connected. “No” or “don't know” is a red stop.",
+        "You choose the installation type and location. A 12/24 V DC-only installation usually does not need protective earthing, but on a yacht and outdoors (moisture) it is recommended — a yellow warning. An installation with a 230 V inverter requires earthing — then the app asks whether the inverter housing and the protective contacts of the sockets are connected. An unearthed inverter housing (“no” or “don't know”) is a red stop; sockets without a connected protective contact give a yellow warning explaining the risk.",
       poCo:
         "When insulation fails in the inverter, its housing or metal parts of the vehicle can become live at 230 V. The protective conductor then carries the fault current away before a person touches it. This is a simplified version of Module 5 (screens 9 and 11) — a house with an earth electrode is calculated there.",
     },
@@ -883,7 +883,7 @@ export const en: Tlumaczenie<typeof pl> = {
       },
       gniazda: {
         nazwa: "Protective contact of 230 V sockets",
-        cel: "The pin or side contacts in a 230 V socket, to which the protective conductor (green-yellow) connected to the vehicle earth or an earth electrode leads. A socket with a pin alone is not enough — the conductor must be connected.",
+        cel: "The pin or side contacts in a 230 V socket, to which the protective conductor (green-yellow) connected to the vehicle earth or an earth electrode leads. The pin connects the metal casing of the plugged-in appliance to that conductor: when the appliance's insulation fails, the fault current flows through the protective conductor, not through the person who touches the casing. A socket with a pin alone is not enough — the conductor must be connected.",
         gdzie: "Check the socket box or the installation diagram.",
         zakres: "Yes, no or don't know. The app treats “don't know” as “no” — the safe side.",
       },
@@ -1376,7 +1376,7 @@ export const ru: Tlumaczenie<typeof pl> = {
     migawka: {
       oCoChodzi: "Заземление — это путь отхода для тока. Если его нет, ток уходит через вас.",
       jakDziala:
-        "Вы выбираете тип установки и место. Установка только на 12/24 В постоянного тока обычно не требует защитного заземления, но на яхте и на улице (влажность) оно рекомендуется. Установка с инвертором 230 В требует заземления — тогда приложение спрашивает, подключены ли корпус инвертора и защитные контакты розеток. «Нет» или «не знаю» — красный стоп.",
+        "Вы выбираете тип установки и место. Установка только на 12/24 В постоянного тока обычно не требует защитного заземления, но на яхте и на улице (влажность) оно рекомендуется — жёлтое предупреждение. Установка с инвертором 230 В требует заземления — тогда приложение спрашивает, подключены ли корпус инвертора и защитные контакты розеток. Незаземлённый корпус инвертора («нет» или «не знаю») — красный стоп; розетки без подключённого защитного контакта — жёлтое предупреждение с объяснением, чем это грозит.",
       poCo:
         "При повреждении изоляции в инверторе корпус или металлические части автомобиля могут оказаться под напряжением 230 В. Защитный проводник отводит ток замыкания, прежде чем его коснётся человек. Это упрощённая версия Модуля 5 (экраны 9 и 11) — дом с заземлителем в грунте считается там.",
     },
@@ -1401,7 +1401,7 @@ export const ru: Tlumaczenie<typeof pl> = {
       },
       gniazda: {
         nazwa: "Защитный контакт розеток 230 В",
-        cel: "Штырь или боковые контакты в розетке 230 В, к которым подходит защитный проводник (жёлто-зелёный), соединённый с массой автомобиля или заземлителем. Одной розетки со штырём недостаточно — проводник должен быть подключён.",
+        cel: "Штырь или боковые контакты в розетке 230 В, к которым подходит защитный проводник (жёлто-зелёный), соединённый с массой автомобиля или заземлителем. Штырь соединяет металлический корпус подключённого прибора с этим проводником: при повреждении изоляции прибора ток замыкания идёт по защитному проводнику, а не через человека, коснувшегося корпуса. Одной розетки со штырём недостаточно — проводник должен быть подключён.",
         gdzie: "Проверьте коробку розетки или схему установки.",
         zakres: "Да, нет или не знаю. «Не знаю» приложение считает как «нет» — это безопасная сторона.",
       },

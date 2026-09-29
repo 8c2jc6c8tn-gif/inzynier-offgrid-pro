@@ -1,6 +1,6 @@
 # Rejestr decyzji — Inżynier Offgrid Pro
 
-**Wersja:** 1.24 | **Filar:** C | **Data utworzenia:** 04.09.2026 | **Ostatnia aktualizacja:** 29.09.2026 | **Status:** Stabilny (rosnący)
+**Wersja:** 1.25 | **Filar:** C | **Data utworzenia:** 04.09.2026 | **Ostatnia aktualizacja:** 29.09.2026 | **Status:** Stabilny (rosnący)
 **Powiązane dokumenty:** `00_Biblia.md`, `docs/memory.md`, `USTALENIA.md` (historyczny, Część II)
 
 TL;DR: D1, D2, D3… — decyzje **strategiczne/fundamentalne** (blokujące wiele innych rzeczy naraz, Krok 4 GOD BOOK), ponumerowane, nigdy nie kasowane, tylko unieważniane jawnie (F.5). **Nie duplikuje `docs/memory.md`**: tam żyje pełna, szczegółowa historia każdej sesji (setki drobnych decyzji implementacyjnych per ekran) — tu tylko decyzje, które zmieniły kierunek/regułę obowiązującą cały projekt. Gdy wpis niżej odsyła do `docs/memory.md`, tam jest pełne uzasadnienie i przykłady.
@@ -221,6 +221,8 @@ Treść:
 
 **D51 (29.09.2026) — Ekran jest skończony dopiero z kompletem: autosave + tłumaczenia (PL/EN/RU) + „?” przy każdym polu + „i” przy tytule, w tej samej zmianie; pilnuje tego strażnik `pnpm check:pomoc-guard`. Uzupełnia D34.** Koszt cofnięcia: średni (treść pomocy na wszystkich ekranach, strażnik w CI). Decyzje właściciela projektu z 29.09.2026 (odpowiedzi na dwa pytania otwarte w D34): „1. Tak zrób. 2. Oczywiście od razu, żeby nie było więcej takich braków. Robisz ? i »i«. […] wraz z autosave, tłumaczeniem na inne języki musi od razu być dodawana migawka ? i »i«, bo teraz robimy robotę drugi raz, a to już było mówione, ale nikt tego nie pilnuje”.
 
+**D52 (29.09.2026) — M12/E38 „Uziemienie małej instalacji”: gniazda 230 V bez podłączonego styku ochronnego → 🟡 (nie 🔴), z wyjaśnieniem, po co jest bolec i czym grozi jego brak; zalecenie uziemienia w miejscu wilgotnym (jacht, na zewnątrz) → 🟡 (nie ℹ️), jak zalecenia IP w E23.** Koszt cofnięcia: tani (poziomy w `lib/core/modules/kalkulator-mobilny/uziemienie-male-instalacje/warnings.ts`). Decyzja właściciela projektu (29.09.2026, odpowiedź na pytanie ⚠️ z `docs/lista-do-zrobienia.md`: „Dawać żółty. … Dawać żółty, ale napisać czym grozi bez bolca i po co on jest potrzebny”). Treść: (1) nieuziemiona obudowa falownika zostaje 🔴 (echo M5/E11, poza pytaniem); (2) komunikat `UMI-GNIAZDA-BEZ-STYKU-OCHRONNEGO` tłumaczy rolę styku ochronnego (łączy metalową obudowę urządzenia z przewodem ochronnym; bez niego przy uszkodzonej izolacji obudowa jest pod napięciem i prąd płynie przez człowieka) i wyjątek dla urządzeń z podwójną izolacją; (3) ostrzeżenie o wilgoci tylko przy samym DC — przy 230 V uziemienie jest i tak wymagane i sprawdzane pytaniami, więc 🟡 byłby powtórzeniem albo fałszywym alarmem (interpretacja AI ✅🤖). „Nie wiem” = „nie” bez zmian. Kalkulator 1.1.0.
+
 Treść:
 - (1) Szara podpowiedź pod polem (`hint`) znika — jej treść przechodzi do chmurki „?” (odpowiedź na pytanie 1 z D34). Tak samo tekst z `MigawkaBox` przechodzi do „i” (pole „O co chodzi”), żeby nie dublować treści i nie zostawiać nieprzetłumaczonego tekstu.
 - (2) Treść „?” i „i” od razu w trzech językach (odpowiedź na pytanie 2 z D34): `lib/i18n/pomoc/<moduł>.ts`, polski kształt + `Tlumaczenie<typeof pl>` dla EN/RU — brak tłumaczenia = błąd kompilacji (17.1). Liczby, które silnik trzyma w stałych, wchodzą do tekstu przez parametry `{nazwa}` (jedno źródło prawdy, Dyrektywa #8), nie przepisane w trzech językach.
@@ -265,3 +267,4 @@ Treść:
 | 28.09.2026 | Scalenie z `main`: decyzje audytu N.3 z gałęzi M14 dostały numery D47/D48/D49 (pierwotnie D44/D45/D46, a D44 na `main` to M12/E23 — H.3). Wersja 1.21→1.22 łącznie z wierszem wyżej. |
 | 28.09.2026 | Dodano D50 (pozostałe pytania decyzji 4 odłożone; bramka N.3 dla M14 zdjęta) — decyzja właściciela projektu. Wersja 1.22→1.23. |
 | 29.09.2026 | Dodano D51 (komplet ekranu: autosave + tłumaczenia + „?” + „i” w jednej zmianie; strażnik `check:pomoc-guard`; uzupełnia D34) — decyzja właściciela projektu. Wersja 1.23→1.24. |
+| 29.09.2026 | Dodano D52 (M12/E38: gniazda bez styku ochronnego 🟡 z wyjaśnieniem; zalecenie przy wilgoci 🟡) — decyzja właściciela projektu. Wersja 1.24→1.25. |
