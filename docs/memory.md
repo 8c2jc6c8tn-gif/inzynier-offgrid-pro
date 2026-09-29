@@ -8368,6 +8368,11 @@ Tryb Audyt (czapka rewidenta). Warstwa „w pełni na końcu” z N.2 — wszyst
   sesji pojawiały się w drzewie drugiej w trakcie pomiaru, commit jednej wszedł pod commit drugiej. Przed startem
   zadania z listy sprawdź `git log`/`git status` jeszcze raz tuż przed commitem i nie uruchamiaj dwóch sesji na jednym
   checkoutcie — druga sesja w osobnym worktree.
+- **Otwarte (przywrócone z notatki usuniętej przy konsolidacji):** w pierwszym przebiegu pakietu padły jednorazowo
+  4 testy `orientacja-powierzchni`/`modul1-lokalizacja-tools`, choć ich `describe` miało już 30 s (Vitest 4.1.11 dziedziczy
+  `timeout` z `describe` — sprawdzone w `@vitest/runner`); dwa kolejne przebiegi zielone, komunikatu błędu nie zachowano.
+  Hipoteza (niepotwierdzona): drugi pakiet drugiej sesji w tym samym czasie albo limit dopisany w trakcie pomiaru. Jeśli
+  wróci — zapisać pełny komunikat przed ponownym uruchomieniem (10.x: nie zakładać „flaky”).
 
 ## SW wariant C — etap 1 (29.09.2026, D59)
 
