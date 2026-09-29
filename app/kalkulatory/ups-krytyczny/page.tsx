@@ -6,6 +6,7 @@ import { DOMYSLNE_URZADZENIA_KRYTYCZNE } from "@/lib/core/modules/bezpieczenstwo
 import type { UrzadzenieKrytyczne } from "@/lib/core/modules/bezpieczenstwo/ups-krytyczny/input"
 import { usePersistedDraft } from "@/lib/adapters/use-persisted-draft"
 import { Pole } from "@/components/ui/pole"
+import { PomocPola } from "@/components/ui/pomoc"
 import { WerdyktPanel } from "@/components/werdykt"
 import { NawigacjaEkranu } from "@/components/nawigacja-ekranu"
 import { NaglowekEkranu } from "@/components/wzorce/naglowek-ekranu"
@@ -76,7 +77,7 @@ export default function UpsKrytycznyPage() {
   return (
     <main className="mx-auto flex max-w-md flex-col gap-6 p-6">
       <NawigacjaEkranu href="/kalkulatory/ups-krytyczny" />
-      <NaglowekEkranu tytul="UPS krytyczny — dobór sprzętowy">
+      <NaglowekEkranu tytul="UPS krytyczny — dobór sprzętowy" ekran="ups-krytyczny" wzor={result.formula}>
         W pożarze często pada normalne zasilanie — UPS daje systemowi te kluczowe minuty na
         wykonanie sekwencji bezpieczeństwa, zamiast zamilknąć w najgorszym momencie. Moduł 8,
         Ekran 6.
@@ -108,6 +109,7 @@ export default function UpsKrytycznyPage() {
               aria-label={`Moc — ${u.label}`}
             />
             <span className="w-4 text-caption text-muted-foreground">W</span>
+            <PomocPola ekran="ups-krytyczny" pole="mocUrzadzenia" />
           </li>
         ))}
       </ul>
@@ -121,6 +123,7 @@ export default function UpsKrytycznyPage() {
           min={0}
           value={pojemnoscAh}
           onChange={(e) => setPojemnoscAh(e.target.value)}
+          pomoc={<PomocPola ekran="ups-krytyczny" pole="pojemnosc" />}
         />
         <Pole
           label="Napięcie systemu UPS"
@@ -130,6 +133,7 @@ export default function UpsKrytycznyPage() {
           min={0}
           value={napiecieV}
           onChange={(e) => setNapiecieV(e.target.value)}
+          pomoc={<PomocPola ekran="ups-krytyczny" pole="napiecie" />}
         />
       </div>
 

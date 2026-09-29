@@ -5,6 +5,7 @@ import { calculateKlapyPozarowe } from "@/lib/core/modules/bezpieczenstwo/klapy-
 import type { WentylacjaBudynku } from "@/lib/core/modules/bezpieczenstwo/klapy-pozarowe/input"
 import { usePersistedDraft } from "@/lib/adapters/use-persisted-draft"
 import { PoleCheckbox, PoleSelect } from "@/components/ui/pole"
+import { PomocPola } from "@/components/ui/pomoc"
 import { WerdyktPanel } from "@/components/werdykt"
 import { NawigacjaEkranu } from "@/components/nawigacja-ekranu"
 import { NaglowekEkranu } from "@/components/wzorce/naglowek-ekranu"
@@ -41,7 +42,7 @@ export default function KlapyPozarowePage() {
   return (
     <main className="mx-auto flex max-w-md flex-col gap-6 p-6">
       <NawigacjaEkranu href="/kalkulatory/klapy-pozarowe" />
-      <NaglowekEkranu tytul="Klapy pożarowe i wentylacja">
+      <NaglowekEkranu tytul="Klapy pożarowe i wentylacja" ekran="klapy-pozarowe" wzor={result.formula}>
         Dym zabija szybciej niż ogień — trzeba go zatrzymać, żeby się nie rozprzestrzenił, a potem sprawnie usunąć. Moduł 8,
         Ekran 8.
       </NaglowekEkranu>
@@ -51,6 +52,7 @@ export default function KlapyPozarowePage() {
           label="Wentylacja w budynku"
           value={stan.wentylacja}
           onChange={(e) => setStan((prev) => ({ ...prev, wentylacja: e.target.value as FormularzStan["wentylacja"] }))}
+          pomoc={<PomocPola ekran="klapy-pozarowe" pole="wentylacja" />}
         >
           <option value="">— wybierz —</option>
           <option value="mechaniczna">Mechaniczna / rekuperacja z kanałami</option>

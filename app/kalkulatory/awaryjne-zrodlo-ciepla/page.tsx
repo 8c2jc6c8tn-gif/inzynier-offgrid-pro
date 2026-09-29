@@ -5,6 +5,7 @@ import { calculateAwaryjneZrodloCiepla } from "@/lib/core/modules/bezpieczenstwo
 import type { AwaryjneZrodloCieplaInput, TypZrodlaCiepla } from "@/lib/core/modules/bezpieczenstwo/awaryjne-zrodlo-ciepla/input"
 import { usePersistedDraft } from "@/lib/adapters/use-persisted-draft"
 import { Pole, PoleCheckbox, PoleSelect } from "@/components/ui/pole"
+import { PomocPola } from "@/components/ui/pomoc"
 import { WerdyktPanel } from "@/components/werdykt"
 import { NawigacjaEkranu } from "@/components/nawigacja-ekranu"
 import { NaglowekEkranu } from "@/components/wzorce/naglowek-ekranu"
@@ -53,7 +54,7 @@ export default function AwaryjneZrodloCieplaPage() {
   return (
     <main className="mx-auto flex max-w-md flex-col gap-6 p-6">
       <NawigacjaEkranu href="/kalkulatory/awaryjne-zrodlo-ciepla" />
-      <NaglowekEkranu tytul="Awaryjne źródło ciepła">
+      <NaglowekEkranu tytul="Awaryjne źródło ciepła" ekran="awaryjne-zrodlo-ciepla" wzor={result.formula}>
         Ogień to najstarsze źródło ciepła — w off-gridzie wraca jako sensowna rezerwa, o ile jest bezpiecznie zintegrowany z
         resztą systemu. Ile ciepła da kominek i ile drewna zje. Moduł 8, Ekran 1.
       </NaglowekEkranu>
@@ -63,13 +64,23 @@ export default function AwaryjneZrodloCieplaPage() {
           label="Typ źródła"
           value={stan.typZrodla}
           onChange={(e) => setStan((prev) => ({ ...prev, typZrodla: e.target.value as FormularzStan["typZrodla"] }))}
+          pomoc={<PomocPola ekran="awaryjne-zrodlo-ciepla" pole="typ" />}
         >
           <option value="">— wybierz —</option>
           <option value="kominek">Kominek</option>
           <option value="koza">Koza</option>
           <option value="piec">Piec na drewno</option>
         </PoleSelect>
-        <Pole label="Moc cieplna (z karty)" unit="kW" type="number" inputMode="decimal" min={0} value={stan.mocKw} onChange={ustaw("mocKw")} />
+        <Pole
+          label="Moc cieplna (z karty)"
+          unit="kW"
+          type="number"
+          inputMode="decimal"
+          min={0}
+          value={stan.mocKw}
+          onChange={ustaw("mocKw")}
+          pomoc={<PomocPola ekran="awaryjne-zrodlo-ciepla" pole="moc" />}
+        />
         <Pole
           label="Czas palenia w dobie"
           unit="h"
@@ -79,6 +90,7 @@ export default function AwaryjneZrodloCieplaPage() {
           max={24}
           value={stan.godzinyPaleniaNaDobe}
           onChange={ustaw("godzinyPaleniaNaDobe")}
+          pomoc={<PomocPola ekran="awaryjne-zrodlo-ciepla" pole="czas" />}
         />
         <PoleCheckbox
           id="zrodlo-plaszcz-wodny"
@@ -88,7 +100,16 @@ export default function AwaryjneZrodloCieplaPage() {
         />
         {stan.plaszczWodny && (
           <>
-            <Pole label="Moc do wody (z karty)" unit="kW" type="number" inputMode="decimal" min={0} value={stan.mocDoWodyKw} onChange={ustaw("mocDoWodyKw")} />
+            <Pole
+              label="Moc do wody (z karty)"
+              unit="kW"
+              type="number"
+              inputMode="decimal"
+              min={0}
+              value={stan.mocDoWodyKw}
+              onChange={ustaw("mocDoWodyKw")}
+              pomoc={<PomocPola ekran="awaryjne-zrodlo-ciepla" pole="mocWoda" />}
+            />
             <Pole
               label="Zapotrzebowanie na ciepło w mroźny dzień"
               unit="kWh/dobę"
@@ -97,7 +118,7 @@ export default function AwaryjneZrodloCieplaPage() {
               min={0}
               value={stan.zapotrzebowanieCieplaKwhDoba}
               onChange={ustaw("zapotrzebowanieCieplaKwhDoba")}
-              hint="Z Modułu 6 — „Zapotrzebowanie na C.O. i C.W.U.” albo „Straty ciepła budynku”."
+              pomoc={<PomocPola ekran="awaryjne-zrodlo-ciepla" pole="zapotrzebowanie" />}
             />
           </>
         )}
@@ -114,7 +135,7 @@ export default function AwaryjneZrodloCieplaPage() {
           max={100}
           value={stan.sprawnoscProc}
           onChange={ustaw("sprawnoscProc")}
-          hint="Z karty — typowo 60–80%."
+          pomoc={<PomocPola ekran="awaryjne-zrodlo-ciepla" pole="sprawnosc" />}
         />
         <Pole
           label="Wartość opałowa paliwa"
@@ -124,7 +145,7 @@ export default function AwaryjneZrodloCieplaPage() {
           min={0}
           value={stan.wartoscOpalowaKwhKg}
           onChange={ustaw("wartoscOpalowaKwhKg")}
-          hint="Od dostawcy — zależy od gatunku i wilgotności drewna."
+          pomoc={<PomocPola ekran="awaryjne-zrodlo-ciepla" pole="wartoscOpalowa" />}
         />
       </div>
 
