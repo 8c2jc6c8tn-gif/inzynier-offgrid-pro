@@ -217,6 +217,7 @@ import { wampirySymulacjeTool } from "./tools/wampiry-symulacje-tool"
 import { komunikacjaBmsTool } from "./tools/komunikacja-bms-tool"
 import { porownanieTechnologiiTool } from "./tools/porownanie-technologii-tool"
 import { czystoscISniegTool } from "./tools/czystosc-i-snieg-tool"
+import { prognozyTool } from "./tools/prognozy-tool"
 import { toAnthropicTool } from "./to-anthropic-tool"
 import { validateAiToolDefinition, type AiToolDefinition } from "./types"
 
@@ -424,6 +425,7 @@ const NARZEDZIA: Array<AiToolDefinition<any, any>> = [
   komunikacjaBmsTool,
   porownanieTechnologiiTool,
   czystoscISniegTool,
+  prognozyTool,
 ]
 for (const narzedzie of NARZEDZIA) validateAiToolDefinition(narzedzie)
 
