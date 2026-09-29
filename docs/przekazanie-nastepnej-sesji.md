@@ -60,6 +60,9 @@ domyślną długość 1000 m, kolejności przycinania nie rozstrzyga.
 niego ostrożnie jak dotąd) + ℹ️ „SPD zalecany” przy CRL ≥ 1000; **kafle M14** na końcu presetów — potwierdzone;
 **gaz/aerozol** 🟡 potwierdzone + ℹ️ propozycja środków i chłodzenia (zamrażania) ogniw; **Rsi** — 0,13 ze źródeł do
 czasu PKN (kod bez zmian liczbowych). **Otwarte zostaje tylko M9/E4 CAN.**
+**[29.09.2026] Co zostało do zrobienia — pełny indeks:** ostatni wpis `docs/lista-do-zrobienia.md` („CO ZOSTAŁO DO
+ZROBIENIA — indeks po D54”); normy i materiały — `docs/normy-brakujace.md`. **Pierwszy krok:** PR i merge D54, jeśli
+gałąź jeszcze nie jest w `main`.
 
 ---
 
