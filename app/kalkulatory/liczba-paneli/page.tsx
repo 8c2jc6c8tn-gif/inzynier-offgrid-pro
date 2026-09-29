@@ -5,9 +5,9 @@ import { SekcjaDanychNaslonecznienia } from "@/components/lokalizacja/sekcja-dan
 import { NawigacjaEkranu } from "@/components/nawigacja-ekranu"
 import { Button } from "@/components/ui/button"
 import { Pole, PoleCheckbox } from "@/components/ui/pole"
+import { PomocPola } from "@/components/ui/pomoc"
 import { StanLadowania, StanPusty } from "@/components/ui/stany"
 import { WerdyktPanel, poziomZStatusu } from "@/components/werdykt"
-import { MigawkaBox } from "@/components/wzorce/migawka-box"
 import { NaglowekEkranu } from "@/components/wzorce/naglowek-ekranu"
 import { WynikGlowny } from "@/components/wzorce/wynik-glowny"
 import { WynikSzczegoly } from "@/components/wzorce/wynik-szczegoly"
@@ -115,7 +115,7 @@ export default function LiczbaPaneliPage() {
   return (
     <main className="mx-auto flex max-w-2xl flex-col gap-6 p-6">
       <NawigacjaEkranu href="/kalkulatory/liczba-paneli" />
-      <NaglowekEkranu tytul="Ile paneli potrzebujesz">
+      <NaglowekEkranu tytul="Ile paneli potrzebujesz" ekran="liczba-paneli" wzor={result.formula}>
         Liczba paneli dla czterech okresów: samo lato, marzec–październik, luty–listopad i cały rok — policzona z
         nasłonecznienia Twojej lokalizacji. Obok: ile paneli realnie zamontujesz i ile energii zabraknie zimą.
         Moduł 3, Ekran 4.
@@ -134,7 +134,7 @@ export default function LiczbaPaneliPage() {
           max={360}
           value={stan.azymutDeg}
           onChange={(e) => ustaw("azymutDeg", e.target.value)}
-          hint="180° = południe, 90° = wschód, 270° = zachód."
+          pomoc={<PomocPola ekran="liczba-paneli" pole="azymut" />}
         />
         <Button className="min-h-11" disabled={!lokalizacja || !dane || azymut === undefined || obliczenia.liczy} onClick={policzTabele}>
           {obliczenia.liczy ? "Liczę nasłonecznienie…" : "Policz nasłonecznienie"}
@@ -158,7 +158,7 @@ export default function LiczbaPaneliPage() {
             max={90}
             value={stan.nachylenieDeg}
             onChange={(e) => ustaw("nachylenieDeg", e.target.value)}
-            hint="Stały kąt przez cały rok. Najlepszy kąt dla swojej lokalizacji znajdziesz na ekranie „Kąt pochylenia i azymut”."
+            pomoc={<PomocPola ekran="liczba-paneli" pole="kat" />}
           />
         )}
       </section>
@@ -166,7 +166,16 @@ export default function LiczbaPaneliPage() {
       <section className="flex flex-col gap-3">
         <h2 className="font-semibold">2. Panel</h2>
         <div className="grid gap-3 sm:grid-cols-2">
-          <Pole label="Moc jednego panelu" unit="Wp" type="number" inputMode="decimal" min={0} value={stan.mocPaneluWp} onChange={(e) => ustaw("mocPaneluWp", e.target.value)} hint="Z karty katalogowej (STC)." />
+          <Pole
+            label="Moc jednego panelu"
+            unit="Wp"
+            type="number"
+            inputMode="decimal"
+            min={0}
+            value={stan.mocPaneluWp}
+            onChange={(e) => ustaw("mocPaneluWp", e.target.value)}
+            pomoc={<PomocPola ekran="liczba-paneli" pole="mocPanelu" />}
+          />
           <Pole
             label="Powierzchnia jednego panelu"
             unit="m²"
@@ -175,7 +184,7 @@ export default function LiczbaPaneliPage() {
             min={0}
             value={stan.powierzchniaPaneluM2}
             onChange={(e) => ustaw("powierzchniaPaneluM2", e.target.value)}
-            hint="Opcjonalnie — długość × szerokość z karty katalogowej."
+            pomoc={<PomocPola ekran="liczba-paneli" pole="powierzchniaPanelu" />}
           />
         </div>
         <Pole
@@ -187,7 +196,7 @@ export default function LiczbaPaneliPage() {
           step={0.01}
           value={stan.pr}
           onChange={(e) => ustaw("pr", e.target.value)}
-          hint="Ułamek 0–1 — część energii, która zostaje po stratach (temperatura, kable, falownik, brud). Źródło nie podaje wartości — wpisz własną."
+          pomoc={<PomocPola ekran="liczba-paneli" pole="pr" />}
         />
       </section>
 
@@ -201,7 +210,7 @@ export default function LiczbaPaneliPage() {
           min={0}
           value={stan.zapotrzebowanieKwh}
           onChange={(e) => ustaw("zapotrzebowanieKwh", e.target.value)}
-          hint="Suma wszystkich odbiorników z Modułu 2 (Zapotrzebowanie)."
+          pomoc={<PomocPola ekran="liczba-paneli" pole="zuzycie" />}
         />
         <Pole
           label="Dodatkowe zużycie w sezonie grzewczym"
@@ -211,7 +220,7 @@ export default function LiczbaPaneliPage() {
           min={0}
           value={stan.zimaKwh}
           onChange={(e) => ustaw("zimaKwh", e.target.value)}
-          hint="Prąd na ogrzewanie (pompa, grzałki, dmuchawy, sterowanie kotła). 0 = nie grzejesz prądem. Policzysz go na ekranie „Straty ciepła budynku” (Moduł 6) — prąd na dobę przy danym COP."
+          pomoc={<PomocPola ekran="liczba-paneli" pole="ogrzewanie" />}
         />
         <fieldset className="flex flex-col gap-2">
           <legend className="text-small font-medium">Miesiące, w których grzejesz</legend>
@@ -237,7 +246,7 @@ export default function LiczbaPaneliPage() {
           step={1}
           value={stan.limit}
           onChange={(e) => ustaw("limit", e.target.value)}
-          hint="Podpowiedź 30 szt. — praktyczny pułap dla domu (wartość właściciela projektu, nie z normy). Wpisz, ile zmieścisz na dachu, gruncie i ile udźwignie budżet."
+          pomoc={<PomocPola ekran="liczba-paneli" pole="realnie" params={{ limit: LIMIT_MONTAZOWY_PODPOWIEDZ_SZT }} />}
         />
       </section>
 
@@ -340,10 +349,7 @@ export default function LiczbaPaneliPage() {
         </WerdyktPanel>
       )}
 
-      <MigawkaBox>
-        „Im więcej paneli &apos;na zapas&apos;, tym mniej będziesz się martwić w grudniu — ale to też więcej miejsca i
-        pieniędzy na start. Wybierz świadomie, nie automatycznie największy wariant.”
-      </MigawkaBox>
+      
     </main>
   )
 }

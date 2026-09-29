@@ -4,11 +4,13 @@ import { useMemo } from "react"
 import { calculateStratyZlaczkiMc4 } from "@/lib/core/modules/pv/straty-zlaczki-mc4/calculator"
 import { usePersistedDraft } from "@/lib/adapters/use-persisted-draft"
 import { Pole } from "@/components/ui/pole"
+import { PomocPola } from "@/components/ui/pomoc"
 import { WerdyktPanel } from "@/components/werdykt"
 import { NawigacjaEkranu } from "@/components/nawigacja-ekranu"
 import { NaglowekEkranu } from "@/components/wzorce/naglowek-ekranu"
 import { WynikGlowny } from "@/components/wzorce/wynik-glowny"
 import { WynikSzczegoly } from "@/components/wzorce/wynik-szczegoly"
+import { MNOZNIK_ZLY_STYK, REZYSTANCJA_DOBRY_STAN_MAX_MOHM, REZYSTANCJA_DOBRY_STAN_MIN_MOHM } from "@/lib/core/modules/pv/straty-zlaczki-mc4/constants"
 
 type FormularzStan = {
   rezystancjaZlaczkiMOhm: string
@@ -55,7 +57,12 @@ export default function StratyZlaczkiMc4Page() {
   return (
     <main className="mx-auto flex max-w-md flex-col gap-6 p-6">
       <NawigacjaEkranu href="/kalkulatory/straty-zlaczki-mc4" />
-      <NaglowekEkranu tytul="Straty na złączkach MC4 w praktyce">
+      <NaglowekEkranu
+        tytul="Straty na złączkach MC4 w praktyce"
+        ekran="straty-zlaczki-mc4"
+        wzor={result.formula}
+        parametry={{ rMin: REZYSTANCJA_DOBRY_STAN_MIN_MOHM, rMax: REZYSTANCJA_DOBRY_STAN_MAX_MOHM, mnoznik: MNOZNIK_ZLY_STYK }}
+      >
         Małe złączki, duże znaczenie — luźny styk MC4 to jedna z najczęstszych przyczyn awarii i
         pożarów w instalacjach PV, mimo że wygląda niepozornie. Moduł 3, Ekran 26.
       </NaglowekEkranu>
@@ -68,9 +75,9 @@ export default function StratyZlaczkiMc4Page() {
           inputMode="decimal"
           step="0.1"
           min={0}
-          hint="Dobry stan: 0,5-2 mΩ. Luźna/zaśniedziała: nawet 10× więcej."
           value={rezystancjaZlaczkiMOhm}
           onChange={(e) => setRezystancjaZlaczkiMOhm(e.target.value)}
+          pomoc={<PomocPola ekran="straty-zlaczki-mc4" pole="rezystancja" params={{ rMin: REZYSTANCJA_DOBRY_STAN_MIN_MOHM, rMax: REZYSTANCJA_DOBRY_STAN_MAX_MOHM, mnoznik: MNOZNIK_ZLY_STYK }} />}
         />
         <Pole
           label="Liczba złączek"
@@ -80,6 +87,7 @@ export default function StratyZlaczkiMc4Page() {
           min={0}
           value={liczbaZlaczek}
           onChange={(e) => setLiczbaZlaczek(e.target.value)}
+          pomoc={<PomocPola ekran="straty-zlaczki-mc4" pole="liczba" />}
         />
         <Pole
           label="Prąd"
@@ -89,6 +97,7 @@ export default function StratyZlaczkiMc4Page() {
           min={0}
           value={pradA}
           onChange={(e) => setPradA(e.target.value)}
+          pomoc={<PomocPola ekran="straty-zlaczki-mc4" pole="prad" />}
         />
       </div>
 

@@ -10,11 +10,11 @@ import {
 import { usePersistedDraft } from "@/lib/adapters/use-persisted-draft"
 import { Button } from "@/components/ui/button"
 import { Pole } from "@/components/ui/pole"
+import { PomocPola } from "@/components/ui/pomoc"
 import { WerdyktPanel } from "@/components/werdykt"
 import { NawigacjaEkranu } from "@/components/nawigacja-ekranu"
 import { NaglowekEkranu } from "@/components/wzorce/naglowek-ekranu"
 import { KartaPorownawcza, type Kolumna } from "@/components/wzorce/karta-porownawcza"
-import { MigawkaBox } from "@/components/wzorce/migawka-box"
 import { WynikSzczegoly } from "@/components/wzorce/wynik-szczegoly"
 import { useTranslate } from "@/lib/i18n/language-context"
 
@@ -93,7 +93,7 @@ export default function TechnologiePaneliPage() {
   return (
     <main className="mx-auto flex max-w-md flex-col gap-6 p-6">
       <NawigacjaEkranu href="/kalkulatory/technologie-paneli" />
-      <NaglowekEkranu tytul="Technologie paneli">
+      <NaglowekEkranu tytul="Technologie paneli" ekran="technologie-paneli" wzor={result.formula}>
         Half-Cut, PERC, TOPCon, HJT i panele cienkowarstwowe różnią się sprawnością, tempem starzenia i
         tym, gdzie się sprawdzą. Moduł 3, Ekran 15.
       </NaglowekEkranu>
@@ -106,7 +106,7 @@ export default function TechnologiePaneliPage() {
         min={0}
         value={mocInstalacjiKwp}
         onChange={(e) => setStan((prev) => ({ ...prev, mocInstalacjiKwp: e.target.value }))}
-        hint="Opcjonalnie — żeby zobaczyć, ile m² modułów zajmie każda technologia."
+        pomoc={<PomocPola ekran="technologie-paneli" pole="moc" />}
       />
       {result.status === "INVALID_INPUT" && (
         <WerdyktPanel poziom="blad" etykieta="Nie da się policzyć — sprawdź wpisane dane">
@@ -165,9 +165,7 @@ export default function TechnologiePaneliPage() {
 
       {result.status === "VALID" && <WynikSzczegoly assumptions={result.assumptions} formula={result.formula} />}
 
-      <MigawkaBox>
-        „Technologia paneli to nie marketing. Ma realny wpływ na produkcję.”
-      </MigawkaBox>
+      
     </main>
   )
 }

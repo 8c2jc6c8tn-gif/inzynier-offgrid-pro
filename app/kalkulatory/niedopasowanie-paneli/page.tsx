@@ -4,11 +4,13 @@ import { useMemo } from "react"
 import { calculateNiedopasowaniePaneli } from "@/lib/core/modules/pv/niedopasowanie-paneli/calculator"
 import { usePersistedDraft } from "@/lib/adapters/use-persisted-draft"
 import { Pole } from "@/components/ui/pole"
+import { PomocPola } from "@/components/ui/pomoc"
 import { WerdyktPanel } from "@/components/werdykt"
 import { NawigacjaEkranu } from "@/components/nawigacja-ekranu"
 import { NaglowekEkranu } from "@/components/wzorce/naglowek-ekranu"
 import { WynikGlowny } from "@/components/wzorce/wynik-glowny"
 import { WynikSzczegoly } from "@/components/wzorce/wynik-szczegoly"
+import { ROZNICA_MOCY_KRYTYCZNA_PCT, ROZNICA_MOCY_OSTRZEZENIE_PCT } from "@/lib/core/modules/pv/niedopasowanie-paneli/constants"
 
 type FormularzStan = {
   mocPanel1W: string
@@ -60,7 +62,12 @@ export default function NiedopasowaniePaneliPage() {
   return (
     <main className="mx-auto flex max-w-md flex-col gap-6 p-6">
       <NawigacjaEkranu href="/kalkulatory/niedopasowanie-paneli" />
-      <NaglowekEkranu tytul="Niedopasowanie mocy paneli (mismatch)">
+      <NaglowekEkranu
+        tytul="Niedopasowanie mocy paneli (mismatch)"
+        ekran="niedopasowanie-paneli"
+        wzor={result.formula}
+        parametry={{ ostrzezenie: ROZNICA_MOCY_OSTRZEZENIE_PCT, krytyczna: ROZNICA_MOCY_KRYTYCZNA_PCT }}
+      >
         String działa jak zespół wioślarzy — tempo narzuca najsłabszy. Mieszanie mocnych i słabych
         paneli w jednym stringu marnuje potencjał tych mocniejszych. Moduł 3, Ekran 17.
       </NaglowekEkranu>
@@ -74,6 +81,7 @@ export default function NiedopasowaniePaneliPage() {
           min={0}
           value={mocPanel1W}
           onChange={(e) => setMocPanel1W(e.target.value)}
+          pomoc={<PomocPola ekran="niedopasowanie-paneli" pole="moc1" />}
         />
         <Pole
           label="Prąd roboczy panelu 1 (Imp)"
@@ -83,6 +91,7 @@ export default function NiedopasowaniePaneliPage() {
           min={0}
           value={impPanel1A}
           onChange={(e) => setImpPanel1A(e.target.value)}
+          pomoc={<PomocPola ekran="niedopasowanie-paneli" pole="imp1" />}
         />
         <Pole
           label="Moc panelu 2"
@@ -92,6 +101,7 @@ export default function NiedopasowaniePaneliPage() {
           min={0}
           value={mocPanel2W}
           onChange={(e) => setMocPanel2W(e.target.value)}
+          pomoc={<PomocPola ekran="niedopasowanie-paneli" pole="moc2" />}
         />
         <Pole
           label="Prąd roboczy panelu 2 (Imp)"
@@ -101,6 +111,7 @@ export default function NiedopasowaniePaneliPage() {
           min={0}
           value={impPanel2A}
           onChange={(e) => setImpPanel2A(e.target.value)}
+          pomoc={<PomocPola ekran="niedopasowanie-paneli" pole="imp2" />}
         />
         <Pole
           label="Wspólne napięcie robocze stringu (Vmp)"
@@ -110,6 +121,7 @@ export default function NiedopasowaniePaneliPage() {
           min={0}
           value={napiecieWspolneV}
           onChange={(e) => setNapiecieWspolneV(e.target.value)}
+          pomoc={<PomocPola ekran="niedopasowanie-paneli" pole="vmp" />}
         />
       </div>
 

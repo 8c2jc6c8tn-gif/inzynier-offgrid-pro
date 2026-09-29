@@ -8,10 +8,10 @@ import {
 } from "@/lib/core/modules/pv/powloki-antyrefleksyjne/constants"
 import { usePersistedDraft } from "@/lib/adapters/use-persisted-draft"
 import { Pole } from "@/components/ui/pole"
+import { PomocPola } from "@/components/ui/pomoc"
 import { WerdyktPanel } from "@/components/werdykt"
 import { NawigacjaEkranu } from "@/components/nawigacja-ekranu"
 import { NaglowekEkranu } from "@/components/wzorce/naglowek-ekranu"
-import { MigawkaBox } from "@/components/wzorce/migawka-box"
 import { WynikGlowny } from "@/components/wzorce/wynik-glowny"
 import { WynikSzczegoly } from "@/components/wzorce/wynik-szczegoly"
 import { useTranslate } from "@/lib/i18n/language-context"
@@ -35,7 +35,12 @@ export default function PowlokiAntyrefleksyjnePage() {
   return (
     <main className="mx-auto flex max-w-md flex-col gap-6 p-6">
       <NawigacjaEkranu href="/kalkulatory/powloki-antyrefleksyjne" />
-      <NaglowekEkranu tytul="Powłoki antyrefleksyjne">
+      <NaglowekEkranu
+        tytul="Powłoki antyrefleksyjne"
+        ekran="powloki-antyrefleksyjne"
+        wzor={result.formula}
+        parametry={{ wzrostMin: WZROST_UZYSKU_MIN_PCT, wzrostMax: WZROST_UZYSKU_MAX_PCT }}
+      >
         Powłoka antyrefleksyjna (i teksturowane szkło) zmniejsza odbicie światła od powierzchni panelu,
         więc więcej energii dociera do ogniw — typowo +{WZROST_UZYSKU_MIN_PCT}–{WZROST_UZYSKU_MAX_PCT}%
         uzysku rocznie. Moduł 3, Ekran 23.
@@ -49,7 +54,7 @@ export default function PowlokiAntyrefleksyjnePage() {
         min={0}
         value={rocznyUzyskKwh}
         onChange={(e) => setStan({ rocznyUzyskKwh: e.target.value })}
-        hint="Opcjonalnie — żeby zobaczyć, ile to kWh w Twojej instalacji."
+        pomoc={<PomocPola ekran="powloki-antyrefleksyjne" pole="uzysk" />}
       />
 
       {result.status === "INVALID_INPUT" ? (
@@ -74,10 +79,7 @@ export default function PowlokiAntyrefleksyjnePage() {
         </WerdyktPanel>
       )}
 
-      <MigawkaBox>
-        „Nie odbijaj słońca — wchłoń je. Powłoka antyrefleksyjna pomaga panelowi »złapać« więcej z tego,
-        co i tak na niego pada.”
-      </MigawkaBox>
+      
     </main>
   )
 }

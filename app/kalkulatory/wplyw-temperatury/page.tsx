@@ -10,6 +10,7 @@ import {
 } from "@/lib/core/modules/pv/wplyw-temperatury/constants"
 import { usePersistedDraft } from "@/lib/adapters/use-persisted-draft"
 import { Pole } from "@/components/ui/pole"
+import { PomocPola } from "@/components/ui/pomoc"
 import { WerdyktPanel } from "@/components/werdykt"
 import { NawigacjaEkranu } from "@/components/nawigacja-ekranu"
 import { NaglowekEkranu } from "@/components/wzorce/naglowek-ekranu"
@@ -62,7 +63,7 @@ export default function WplywTemperaturyPage() {
   return (
     <main className="mx-auto flex max-w-md flex-col gap-6 p-6">
       <NawigacjaEkranu href="/kalkulatory/wplyw-temperatury" />
-      <NaglowekEkranu tytul="Wpływ temperatury na wydajność">
+      <NaglowekEkranu tytul="Wpływ temperatury na wydajność" ekran="wplyw-temperatury" wzor={result.formula}>
         Panele nie lubią upałów — paradoksalnie, najzimniejszy słoneczny dzień daje więcej mocy
         niż najgorętszy. Moduł 3, Ekran 18.
       </NaglowekEkranu>
@@ -75,6 +76,7 @@ export default function WplywTemperaturyPage() {
           inputMode="decimal"
           value={temperaturaOtoczeniaC}
           onChange={(e) => setTemperaturaOtoczeniaC(e.target.value)}
+          pomoc={<PomocPola ekran="wplyw-temperatury" pole="tOtoczenia" />}
         />
         <Pole
           label="Przyrost temperatury panelu ponad otoczenie"
@@ -84,7 +86,7 @@ export default function WplywTemperaturyPage() {
           min={0}
           value={przyrostTemperaturyC}
           onChange={(e) => setPrzyrostTemperaturyC(e.target.value)}
-          hint={`Typowo ${PRZYROST_TEMPERATURY_TYPOWY_MIN_C}–${PRZYROST_TEMPERATURY_TYPOWY_MAX_C}°C (nagrzewanie od słońca).`}
+          pomoc={<PomocPola ekran="wplyw-temperatury" pole="przyrost" params={{ przyrostMin: PRZYROST_TEMPERATURY_TYPOWY_MIN_C, przyrostMax: PRZYROST_TEMPERATURY_TYPOWY_MAX_C }} />}
         />
         <Pole
           label="Współczynnik temperaturowy mocy γ"
@@ -93,7 +95,7 @@ export default function WplywTemperaturyPage() {
           inputMode="decimal"
           value={gammaPctNaC}
           onChange={(e) => setGammaPctNaC(e.target.value)}
-          hint={`Typowo ${GAMMA_TYPOWA_MIN_PCT_NA_C} do ${GAMMA_TYPOWA_MAX_PCT_NA_C}%/°C (z karty katalogowej panelu).`}
+          pomoc={<PomocPola ekran="wplyw-temperatury" pole="gamma" params={{ gammaMin: GAMMA_TYPOWA_MIN_PCT_NA_C, gammaMax: GAMMA_TYPOWA_MAX_PCT_NA_C }} />}
         />
         <Pole
           label="Moc nominalna panelu (STC, 25°C)"
@@ -103,6 +105,7 @@ export default function WplywTemperaturyPage() {
           min={0}
           value={mocNominalnaW}
           onChange={(e) => setMocNominalnaW(e.target.value)}
+          pomoc={<PomocPola ekran="wplyw-temperatury" pole="moc" />}
         />
       </div>
 

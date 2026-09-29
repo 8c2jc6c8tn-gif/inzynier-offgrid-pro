@@ -1143,7 +1143,16 @@ Pełne wyniki audytu: `docs/memory.md`, sekcja "Pełny audyt na polecenie właś
   **[29.09.2026] M5 w komplecie** (29 ekranów + sekcja CRL); teksty `MIGAWKA` z 3 plików `constants.ts` przeniesione do „i” (stałe usunięte jako martwy kod); lista 183 → 153.
   **[29.09.2026] M4 w komplecie** (35 ekranów, w tym F7 „Magazyn w firmie”); `MIGAWKA` matrycy alarmów BMS przeniesiona do „i”; lista 153 → 118.
   **[29.09.2026] M11 w komplecie** (23 ekrany, ścieżki A i B); 3 stałe `MIGAWKA` przeniesione do „i”; lista 118 → 95.
+  M3 PV (24 ekrany + 6 komponentów „Typ montażu”) — ✅ „?” + „i” PL/EN/RU
 - 🔲 (2026-09-29) **Tłumaczenie samych stron (etykiety pól, nagłówki, komunikaty UI) na EN/RU.** Wyszło przy D51: treść
   „?”/„i” i komunikaty silników są w trzech językach, ale etykiety pól i teksty na stronach nadal tylko po polsku.
   Osobne, duże zadanie (standard 17). **Priorytet:** do decyzji właściciela. **Kolizje:** te same pliki co chmurki —
   robić po nich albo razem, moduł po module.
+- 🔲 (2026-09-29) **Opisy narzędzi AI — domknięcie luk (pytanie właściciela: „czy są rozbudowane opisy funkcji dla AI”).**
+  Stan 29.09.2026: 183 narzędzia w rejestrze, 181 ma `.describe()` na polach wejścia, 156 ma w `description` zdanie
+  „Użyj, gdy…” (kiedy model ma je wywołać) — **27 go nie ma** (m.in. blackout, analiza-spof, typ-montazu, klapy-pozarowe,
+  moc-bierna, zasilanie-esp32). **12 kalkulatorów bez narzędzia AI:** baterie/komunikacja-bms, baterie/porownanie-technologii,
+  lokalizacja/lokalizacja-i-klimat, pv/czystosc-i-snieg i 8 kalkulatorów M14 (bilans-miesieczny, depozyt-prosumencki,
+  moc-umowna, oplata-mocowa, przelacznik-siec-wyspa, sciezka-cen-energii, strumienie-bess, test-licznika). Do zrobienia:
+  dopisać „Użyj, gdy…” w 27 opisach, zbudować brakujące narzędzia (9.0a), rozważyć strażnika jak `check:pomoc-guard`
+  (każdy kalkulator ma narzędzie, każdy opis ma „Użyj, gdy”). Kolejność: po chmurkach danego modułu (Dyrektywa #15, krok 5).

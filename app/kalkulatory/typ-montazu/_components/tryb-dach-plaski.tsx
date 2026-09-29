@@ -3,12 +3,14 @@
 import Link from "next/link"
 import { useMemo } from "react"
 import { Pole, PoleSelect } from "@/components/ui/pole"
+import { PomocPola } from "@/components/ui/pomoc"
 import { WerdyktPanel } from "@/components/werdykt"
 import { WynikGlowny } from "@/components/wzorce/wynik-glowny"
 import { WynikSzczegoly } from "@/components/wzorce/wynik-szczegoly"
 import { usePersistedDraft } from "@/lib/adapters/use-persisted-draft"
 import { calculateDachPlaski } from "@/lib/core/modules/pv/typ-montazu/dach-plaski"
 import type { MiejsceMontazu } from "@/lib/core/modules/pv/typ-montazu/input"
+import { PROG_ZALEGANIA_SNIEGU_DEG } from "@/lib/core/modules/pv/typ-montazu/constants"
 import { PRZYSPIESZENIE_ZIEMSKIE_M_S2 } from "@/lib/core/modules/pv/zloty-srodek/constants"
 import { useLokalizacjaProjektu } from "@/lib/lokalizacja/use-lokalizacja-projektu"
 import {
@@ -54,7 +56,12 @@ export function TrybDachPlaski() {
         wiatr próbuje poderwać panele.
       </p>
       <div className="grid gap-3 sm:grid-cols-2">
-        <PoleSelect label="Gdzie stoi stelaż" value={s.miejsce} onChange={(e) => setS((p) => ({ ...p, miejsce: e.target.value }))}>
+        <PoleSelect
+          label="Gdzie stoi stelaż"
+          value={s.miejsce}
+          onChange={(e) => setS((p) => ({ ...p, miejsce: e.target.value }))}
+          pomoc={<PomocPola ekran="typ-montazu-pola" pole="gdzieStelaz" />}
+        >
           <option value="">— wybierz —</option>
           <option value="grunt">Na gruncie</option>
           <option value="dach">Na dachu płaskim</option>
@@ -68,12 +75,13 @@ export function TrybDachPlaski() {
           max={90}
           value={s.nachylenieDeg}
           onChange={(e) => setS((p) => ({ ...p, nachylenieDeg: e.target.value }))}
+          pomoc={<PomocPola ekran="typ-montazu-pola" pole="katStelaza" params={{ progSnieg: PROG_ZALEGANIA_SNIEGU_DEG }} />}
         />
       </div>
       <PolaStelaza
         s={s.stelaz}
         ustaw={(pole, x) => setS((p) => ({ ...p, stelaz: { ...p.stelaz, [pole]: x } }))}
-        podpowiedzKrawedzi="Na dachu — wysokość budynku plus odstęp paneli od dachu."
+        poleKrawedzi="krawedzDachPlaski"
       />
       <PolaWiatru s={s.wiatr} ustaw={(pole, x) => setS((p) => ({ ...p, wiatr: { ...p.wiatr, [pole]: x } }))} wysokoscPvgis={wysokoscPvgis} />
 

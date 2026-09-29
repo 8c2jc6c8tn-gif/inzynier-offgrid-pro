@@ -4,11 +4,13 @@ import { useMemo } from "react"
 import { calculateRyzykoPid } from "@/lib/core/modules/pv/ryzyko-pid/calculator"
 import { usePersistedDraft } from "@/lib/adapters/use-persisted-draft"
 import { Pole, PoleCheckbox } from "@/components/ui/pole"
+import { PomocPola } from "@/components/ui/pomoc"
 import { WerdyktPanel, type WerdyktPoziom } from "@/components/werdykt"
 import { NawigacjaEkranu } from "@/components/nawigacja-ekranu"
 import { NaglowekEkranu } from "@/components/wzorce/naglowek-ekranu"
 import { WynikSzczegoly } from "@/components/wzorce/wynik-szczegoly"
 import { useTranslate } from "@/lib/i18n/language-context"
+import { PROG_NAPIECIA_PID_V } from "@/lib/core/modules/pv/ryzyko-pid/constants"
 
 type FormularzStan = {
   napiecieDcV: string
@@ -48,7 +50,12 @@ export default function RyzykoPidPage() {
   return (
     <main className="mx-auto flex max-w-md flex-col gap-6 p-6">
       <NawigacjaEkranu href="/kalkulatory/ryzyko-pid" />
-      <NaglowekEkranu tytul="Ryzyko PID (degradacja indukowana napięciem)">
+      <NaglowekEkranu
+        tytul="Ryzyko PID (degradacja indukowana napięciem)"
+        ekran="ryzyko-pid"
+        wzor={result.formula}
+        parametry={{ prog: PROG_NAPIECIA_PID_V }}
+      >
         W długich stringach napięcie panelu względem ramy/ziemi może przekroczyć kilkaset wolt.
         Przy wilgotnej pogodzie jony sodu ze szkła migrują pod wpływem tego napięcia, powodując
         trwałą utratę mocy panelu. Moduł 3.
@@ -63,7 +70,7 @@ export default function RyzykoPidPage() {
           min={0}
           value={napiecieDcV}
           onChange={(e) => setNapiecieDcV(e.target.value)}
-          hint="Voc panelu × liczba paneli w stringu."
+          pomoc={<PomocPola ekran="ryzyko-pid" pole="napiecie" params={{ prog: PROG_NAPIECIA_PID_V }} />}
         />
         <PoleCheckbox
           id="wilgotnosc-wysoka"

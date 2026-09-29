@@ -3,8 +3,8 @@
 import { NawigacjaEkranu } from "@/components/nawigacja-ekranu"
 import { SekcjaDanychNaslonecznienia } from "@/components/lokalizacja/sekcja-dane-nasloniecznienia"
 import { PoleSelect } from "@/components/ui/pole"
+import { PomocPola } from "@/components/ui/pomoc"
 import { StanLadowania } from "@/components/ui/stany"
-import { MigawkaBox } from "@/components/wzorce/migawka-box"
 import { NaglowekEkranu } from "@/components/wzorce/naglowek-ekranu"
 import { usePersistedDraft } from "@/lib/adapters/use-persisted-draft"
 import { useLokalizacjaProjektu } from "@/lib/lokalizacja/use-lokalizacja-projektu"
@@ -41,12 +41,17 @@ export default function TypMontazuPage() {
   return (
     <main className="mx-auto flex max-w-2xl flex-col gap-6 p-6">
       <NawigacjaEkranu href="/kalkulatory/typ-montazu" />
-      <NaglowekEkranu tytul="Typ montażu">
+      <NaglowekEkranu tytul="Typ montażu" ekran="typ-montazu">
         Gdzie i jak staną panele — na dachu, na gruncie, pionowo na ogrodzeniu, na wiacie. Każdy wariant ma swoje liczby: ile
         energii, jak wysoko, ile balastu, ile paneli się zmieści. Moduł 3, Ekran 2.
       </NaglowekEkranu>
 
-      <PoleSelect label="Jak staną panele?" value={stan.tryb} onChange={(e) => setStan({ tryb: e.target.value as Tryb })}>
+      <PoleSelect
+        label="Jak staną panele?"
+        value={stan.tryb}
+        onChange={(e) => setStan({ tryb: e.target.value as Tryb })}
+        pomoc={<PomocPola ekran="typ-montazu" pole="tryb" />}
+      >
         <option value="">— wybierz —</option>
         {TRYBY.map((t) => (
           <option key={t.id} value={t.id}>
@@ -64,10 +69,7 @@ export default function TypMontazuPage() {
       {stan.tryb === "wiata" && <TrybWiata />}
       {stan.tryb === "regulowany" && <TrybRegulowany />}
 
-      <MigawkaBox>
-        „Nie ma jednego ‚najlepszego’ montażu — jest najlepszy montaż dla Twojej konkretnej działki i dachu. Ten ekran pokazuje Ci
-        realne liczby dla każdej opcji, nie ogólniki.”
-      </MigawkaBox>
+      
     </main>
   )
 }

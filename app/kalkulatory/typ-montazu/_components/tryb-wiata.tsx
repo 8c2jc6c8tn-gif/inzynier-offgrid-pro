@@ -2,18 +2,20 @@
 
 import { useMemo } from "react"
 import { Pole } from "@/components/ui/pole"
+import { PomocPola } from "@/components/ui/pomoc"
 import { WerdyktPanel } from "@/components/werdykt"
 import { WynikGlowny } from "@/components/wzorce/wynik-glowny"
 import { WynikSzczegoly } from "@/components/wzorce/wynik-szczegoly"
 import { usePersistedDraft } from "@/lib/adapters/use-persisted-draft"
+import { WIATA_KAT_SAMOOCZYSZCZANIA_MAX_DEG, WIATA_KAT_SAMOOCZYSZCZANIA_MIN_DEG } from "@/lib/core/modules/pv/typ-montazu/constants"
 import { calculateWiata, type BlokPaneli, type Podzial } from "@/lib/core/modules/pv/typ-montazu/wiata"
 import { BledyDanych, f0, f2, n, poziomZOstrzezen } from "./wspolne"
 
 type Seed = { dlugoscM: string; szerokoscM: string; dlugoscPaneluM: string; szerokoscPaneluM: string; mocPaneluW: string; nachylenieDeg: string }
 const PUSTY: Seed = { dlugoscM: "", szerokoscM: "", dlugoscPaneluM: "", szerokoscPaneluM: "", mocPaneluW: "", nachylenieDeg: "" }
 
-const POLA: { pole: keyof Seed; label: string; unit: string; hint?: string }[] = [
-  { pole: "dlugoscM", label: "Długość wiaty", unit: "m", hint: "Wymiar połaci po jej powierzchni (wzdłuż spadku), nie rzut z góry." },
+const POLA: { pole: keyof Seed; label: string; unit: string }[] = [
+  { pole: "dlugoscM", label: "Długość wiaty", unit: "m" },
   { pole: "szerokoscM", label: "Szerokość wiaty", unit: "m" },
   { pole: "dlugoscPaneluM", label: "Długość panelu", unit: "m" },
   { pole: "szerokoscPaneluM", label: "Szerokość panelu", unit: "m" },
@@ -78,7 +80,9 @@ export function TrybWiata() {
             min={0}
             value={s[p.pole]}
             onChange={(e) => setS((prev) => ({ ...prev, [p.pole]: e.target.value }))}
-            hint={p.hint}
+            pomoc={
+              <PomocPola ekran="typ-montazu-pola" pole={p.pole} params={{ wiataMin: WIATA_KAT_SAMOOCZYSZCZANIA_MIN_DEG, wiataMax: WIATA_KAT_SAMOOCZYSZCZANIA_MAX_DEG }} />
+            }
           />
         ))}
       </div>

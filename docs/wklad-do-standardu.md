@@ -1055,5 +1055,10 @@ ma Y” bez mechanicznego strażnika dryfuje w ciągu dni, bo nowy kod powstaje 
 mechanizm co 17.9 (strażnik i18n), tylko dla pomocy i autosave. (b) 10.4 „Definicja ukończenia” powinna wprost wymieniać
 warstwy użytkowe ekranu (autozapis, i18n, pomoc per pole, migawka ekranu), nie tylko „testy przechodzą”. (c) Lista
 zapadkowa to sposób na wprowadzenie nowej reguły do istniejącego projektu bez blokowania pracy — warto opisać ją raz
-w rozdziale 11 (CI) jako wzorzec dla każdego nowego strażnika.
+w rozdziale 11 (CI) jako wzorzec dla każdego nowego strażnika. (d) **Kolejność budowy ekranu w 9.0a/17.1a nie wymienia
+pomocy** — jest tam „kalkulator → klucze i18n → opis narzędzia AI”, a autosave jest osobno w 5.7. Właściciel repo
+(29.09.2026): „tam w zasadach już była kolejność, jak budować ekrany — do tej reguły trzeba dopisać migawki”. Propozycja
+jednej, pełnej kolejności dla ekranu: kalkulator + testy → klucze i18n → ekran z autosave → „?” przy każdym polu + migawka
+„i”, od razu we wszystkich językach → opis narzędzia AI na końcu. Migawka „i” i `description` narzędzia AI opisują to samo
+(do czego służy ekran, kiedy go użyć) — warto zalecić pisanie ich razem. Lokalnie wpisane w Dyrektywę #15 (v1.3).
 Status: 🔎 nowe

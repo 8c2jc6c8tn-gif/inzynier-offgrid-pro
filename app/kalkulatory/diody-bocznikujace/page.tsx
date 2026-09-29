@@ -8,9 +8,9 @@ import {
 } from "@/lib/core/modules/pv/zacienienie-diody-bocznikujace/constants"
 import { usePersistedDraft } from "@/lib/adapters/use-persisted-draft"
 import { PoleSelect } from "@/components/ui/pole"
+import { PomocPola } from "@/components/ui/pomoc"
 import { NawigacjaEkranu } from "@/components/nawigacja-ekranu"
 import { NaglowekEkranu } from "@/components/wzorce/naglowek-ekranu"
-import { MigawkaBox } from "@/components/wzorce/migawka-box"
 import { WynikGlowny } from "@/components/wzorce/wynik-glowny"
 
 type FormularzStan = { zacienioneSekcje: number }
@@ -74,7 +74,11 @@ export default function DiodyBocznikujacePage() {
   return (
     <main className="mx-auto flex max-w-md flex-col gap-6 p-6">
       <NawigacjaEkranu href="/kalkulatory/diody-bocznikujace" />
-      <NaglowekEkranu tytul="Wpływ diod bocznikujących">
+      <NaglowekEkranu
+        tytul="Wpływ diod bocznikujących"
+        ekran="diody-bocznikujace"
+        parametry={{ sekcje: LICZBA_SEKCJI_DIOD_BOCZNIKUJACYCH }}
+      >
         Panel jest podzielony na {LICZBA_SEKCJI_DIOD_BOCZNIKUJACYCH} sekcje ogniw, każda z własną diodą
         bocznikującą. Gdy sekcja jest zacieniona, dioda pozwala prądowi ją ominąć — reszta panelu dalej
         pracuje, a zacienione ogniwa nie przegrzewają się (ochrona przed hot-spotem). Moduł 3, Ekran 12.
@@ -86,6 +90,7 @@ export default function DiodyBocznikujacePage() {
         label="Liczba zacienionych sekcji"
         value={String(zacienioneSekcje)}
         onChange={(e) => setStan({ zacienioneSekcje: Number(e.target.value) })}
+        pomoc={<PomocPola ekran="diody-bocznikujace" pole="sekcje" params={{ sekcje: LICZBA_SEKCJI_DIOD_BOCZNIKUJACYCH }} />}
       >
         {Array.from({ length: MAKS_LICZBA_ZACIENIONYCH_SEKCJI + 1 }, (_, n) => (
           <option key={n} value={n}>
@@ -106,9 +111,7 @@ export default function DiodyBocznikujacePage() {
         .
       </p>
 
-      <MigawkaBox>
-        „Diody to objazdy dla prądu — dzięki nim cień na kawałku panelu nie zatrzymuje całego panelu.”
-      </MigawkaBox>
+      
     </main>
   )
 }

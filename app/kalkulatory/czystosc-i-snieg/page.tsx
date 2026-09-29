@@ -7,12 +7,14 @@ import {
 } from "@/lib/core/modules/pv/czystosc-i-snieg/calculator"
 import { usePersistedDraft } from "@/lib/adapters/use-persisted-draft"
 import { Pole, PoleCheckbox } from "@/components/ui/pole"
+import { PomocPola } from "@/components/ui/pomoc"
 import { WerdyktPanel } from "@/components/werdykt"
 import { NaglowekEkranu } from "@/components/wzorce/naglowek-ekranu"
 import { useTranslate } from "@/lib/i18n/language-context"
 import { SekcjaAkordeon } from "@/components/wzorce/sekcja-akordeon"
 import { cn } from "@/lib/utils"
 import { NawigacjaEkranu } from "@/components/nawigacja-ekranu"
+import { KAT_PRZEJSCIOWY_MAX, KAT_SPLUKIWANIE_MAX, KAT_ZALEGANIE_MAX, SPADEK_PROG_MYCIA_PCT } from "@/lib/core/modules/pv/czystosc-i-snieg/constants"
 
 type FormularzStan = {
   katStopni: string
@@ -58,7 +60,11 @@ export default function CzystoscISniegPage() {
   return (
     <main className="mx-auto flex max-w-md flex-col gap-6 p-6">
       <NawigacjaEkranu href="/kalkulatory/czystosc-i-snieg" />
-      <NaglowekEkranu tytul="Czystość i śnieg na panelach">
+      <NaglowekEkranu
+        tytul="Czystość i śnieg na panelach"
+        ekran="czystosc-i-snieg"
+        parametry={{ katZaleganie: KAT_ZALEGANIE_MAX, katPrzejsciowy: KAT_PRZEJSCIOWY_MAX, katSplukiwanie: KAT_SPLUKIWANIE_MAX, progMycia: SPADEK_PROG_MYCIA_PCT }}
+      >
         Zasypany panel to martwy panel, a wiatr rozkłada śnieg jak piasek na pustyni —
         nierównomiernie. Trzy tematy poniżej uzupełniają się nawzajem. Moduł 3, Ekran 24.
       </NaglowekEkranu>
@@ -73,6 +79,7 @@ export default function CzystoscISniegPage() {
               inputMode="decimal"
               value={katStopni}
               onChange={(e) => setKatStopni(e.target.value)}
+              pomoc={<PomocPola ekran="czystosc-i-snieg" pole="kat" />}
             />
             {katResult.status === "INVALID_INPUT" ? (
               <p className="text-small text-werdykt-blad">Kąt musi być z przedziału 0–90°.</p>
@@ -106,6 +113,7 @@ export default function CzystoscISniegPage() {
               inputMode="decimal"
               value={spadekProdukcjiPct}
               onChange={(e) => setSpadekProdukcjiPct(e.target.value)}
+              pomoc={<PomocPola ekran="czystosc-i-snieg" pole="spadek" params={{ progMycia: SPADEK_PROG_MYCIA_PCT }} />}
             />
             <PoleCheckbox
               id="deszcz-prognozowany"

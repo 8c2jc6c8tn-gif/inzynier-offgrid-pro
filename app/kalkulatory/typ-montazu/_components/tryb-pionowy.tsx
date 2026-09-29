@@ -2,6 +2,7 @@
 
 import { useMemo } from "react"
 import { Pole } from "@/components/ui/pole"
+import { PomocPola } from "@/components/ui/pomoc"
 import { WerdyktPanel } from "@/components/werdykt"
 import { WynikGlowny } from "@/components/wzorce/wynik-glowny"
 import { WynikSzczegoly } from "@/components/wzorce/wynik-szczegoly"
@@ -67,6 +68,7 @@ export function TrybPionowy() {
           min={0}
           value={s.wysokoscDolnejKrawedziM}
           onChange={(e) => ustaw("wysokoscDolnejKrawedziM", e.target.value)}
+          pomoc={<PomocPola ekran="typ-montazu-pola" pole="krawedzPionowy" />}
         />
         <Pole
           label="Trawa lub zaspy śniegu w okolicy"
@@ -76,7 +78,7 @@ export function TrybPionowy() {
           min={0}
           value={s.wysokoscTrawySnieguCm}
           onChange={(e) => ustaw("wysokoscTrawySnieguCm", e.target.value)}
-          hint="Najwyższe, jakie zdarzają się przy panelach."
+          pomoc={<PomocPola ekran="typ-montazu-pola" pole="trawaSnieg" />}
         />
       </div>
 

@@ -5,6 +5,7 @@ import { calculateNaporWiatru } from "@/lib/core/modules/pv/napor-wiatru/calcula
 import { CD_TYPOWY_MAX, CD_TYPOWY_MIN } from "@/lib/core/modules/pv/napor-wiatru/constants"
 import { usePersistedDraft } from "@/lib/adapters/use-persisted-draft"
 import { Pole } from "@/components/ui/pole"
+import { PomocPola } from "@/components/ui/pomoc"
 import { WerdyktPanel } from "@/components/werdykt"
 import { NawigacjaEkranu } from "@/components/nawigacja-ekranu"
 import { NaglowekEkranu } from "@/components/wzorce/naglowek-ekranu"
@@ -64,7 +65,7 @@ export default function NaporWiatruPage() {
   return (
     <main className="mx-auto flex max-w-md flex-col gap-6 p-6">
       <NawigacjaEkranu href="/kalkulatory/napor-wiatru" />
-      <NaglowekEkranu tytul="Aerodynamika — napór wiatru">
+      <NaglowekEkranu tytul="Aerodynamika — napór wiatru" ekran="napor-wiatru" wzor={result.formula}>
         Panel działa trochę jak żagiel — wiatr może go pchać, ale też może pod niego „zajrzeć” i
         ciągnąć do góry jak skrzydło samolotu. Moduł 3, Ekran 6.
       </NaglowekEkranu>
@@ -78,6 +79,7 @@ export default function NaporWiatruPage() {
           min={0}
           value={predkoscWiatruMS}
           onChange={(e) => setPredkoscWiatruMS(e.target.value)}
+          pomoc={<PomocPola ekran="napor-wiatru" pole="predkosc" />}
         />
         <Pole
           label="Powierzchnia panelu"
@@ -87,6 +89,7 @@ export default function NaporWiatruPage() {
           min={0}
           value={powierzchniaM2}
           onChange={(e) => setPowierzchniaM2(e.target.value)}
+          pomoc={<PomocPola ekran="napor-wiatru" pole="powierzchnia" />}
         />
         <Pole
           label="Współczynnik oporu Cd"
@@ -96,7 +99,7 @@ export default function NaporWiatruPage() {
           min={0}
           value={cd}
           onChange={(e) => setCd(e.target.value)}
-          hint={`Typowo ${CD_TYPOWY_MIN}–${CD_TYPOWY_MAX} dla paneli PV.`}
+          pomoc={<PomocPola ekran="napor-wiatru" pole="cd" params={{ cdMin: CD_TYPOWY_MIN, cdMax: CD_TYPOWY_MAX }} />}
         />
         <Pole
           label="Planowany balast (opcjonalnie)"
@@ -106,7 +109,7 @@ export default function NaporWiatruPage() {
           min={0}
           value={balastPlanowanyKg}
           onChange={(e) => setBalastPlanowanyKg(e.target.value)}
-          hint="Wpisz, ile balastu chcesz dać — aplikacja porówna to z balastem projektowym."
+          pomoc={<PomocPola ekran="napor-wiatru" pole="balast" />}
         />
         <Pole
           label="Masa panelu i stelaża (opcjonalnie)"
@@ -116,8 +119,7 @@ export default function NaporWiatruPage() {
           min={0}
           value={masaPaneliStelazaKg}
           onChange={(e) => setMasaPaneliStelazaKg(e.target.value)}
-          hint="Dla tej powierzchni, bez balastu — z karty katalogowej albo zważona. Aplikacja odejmie ją od balastu (liczona w 90%). Puste = pominięta (bezpieczniej)."
-          pomoc="Ciężar paneli i stelaża dociska konstrukcję do podłoża, tak jak balast. Norma PN-EN 1990 każe liczyć go ostrożnie — tylko 90% (γG,inf = 0,90), bo rzeczywista masa może być mniejsza od deklarowanej. Masę paneli znajdziesz w karcie katalogowej, stelaża — u producenta albo zważ elementy. Nie zgaduj: puste pole liczy balast tak, jakby konstrukcja nic nie ważyła (bezpieczniej). Aplikacja pokazuje wtedy balast dodatkowy, ponad tę masę. Przesuwu i wywracania to nie sprawdza."
+          pomoc={<PomocPola ekran="napor-wiatru" pole="masa" />}
         />
       </div>
 

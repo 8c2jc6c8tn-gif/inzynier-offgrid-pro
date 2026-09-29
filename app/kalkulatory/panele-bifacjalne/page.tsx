@@ -6,6 +6,7 @@ import { ZAKRESY_UZYSKU_PCT } from "@/lib/core/modules/pv/panele-bifacjalne/cons
 import type { TypPowierzchniPodSpodem } from "@/lib/core/modules/pv/panele-bifacjalne/input"
 import { usePersistedDraft } from "@/lib/adapters/use-persisted-draft"
 import { Pole, PoleSelect } from "@/components/ui/pole"
+import { PomocPola } from "@/components/ui/pomoc"
 import { WerdyktPanel } from "@/components/werdykt"
 import { NawigacjaEkranu } from "@/components/nawigacja-ekranu"
 import { NaglowekEkranu } from "@/components/wzorce/naglowek-ekranu"
@@ -56,7 +57,7 @@ export default function PaneleBifacjalnePage() {
   return (
     <main className="mx-auto flex max-w-md flex-col gap-6 p-6">
       <NawigacjaEkranu href="/kalkulatory/panele-bifacjalne" />
-      <NaglowekEkranu tytul="Panele bifacjalne">
+      <NaglowekEkranu tytul="Panele bifacjalne" ekran="panele-bifacjalne" wzor={result.formula}>
         Panele bifacjalne zbierają światło także z dołu — ale tylko jeśli dasz im jasne tło, od
         którego światło się odbije. Moduł 3, Ekran 16.
       </NaglowekEkranu>
@@ -70,11 +71,13 @@ export default function PaneleBifacjalnePage() {
           min={0}
           value={mocRocznaBazowaKwh}
           onChange={(e) => setMocRocznaBazowaKwh(e.target.value)}
+          pomoc={<PomocPola ekran="panele-bifacjalne" pole="uzyskPrzod" />}
         />
         <PoleSelect
           label="Typ powierzchni pod spodem"
           value={typPowierzchni}
           onChange={(e) => setTypPowierzchni(e.target.value as TypPowierzchniPodSpodem)}
+          pomoc={<PomocPola ekran="panele-bifacjalne" pole="powierzchnia" />}
         >
           <option value="">— wybierz —</option>
           {(Object.entries(ZAKRESY_UZYSKU_PCT) as [TypPowierzchniPodSpodem, (typeof ZAKRESY_UZYSKU_PCT)[TypPowierzchniPodSpodem]][]).map(
@@ -91,10 +94,15 @@ export default function PaneleBifacjalnePage() {
           type="number"
           inputMode="decimal"
           min={0}
-          hint={zakres ? `Typowy zakres dla "${zakres.label}": ${zakres.minPct}-${zakres.maxPct}%.` : undefined}
           value={dodatkowyUzyskPct}
           onChange={(e) => setDodatkowyUzyskPct(e.target.value)}
+          pomoc={<PomocPola ekran="panele-bifacjalne" pole="uzyskTyl" />}
         />
+        {zakres && (
+          <p className="text-small text-muted-foreground">
+            Typowy zakres dla „{zakres.label}”: {zakres.minPct}–{zakres.maxPct}%.
+          </p>
+        )}
       </div>
 
       {result.status === "INVALID_INPUT" ? (

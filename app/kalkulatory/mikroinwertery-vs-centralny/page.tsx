@@ -10,11 +10,11 @@ import {
 import type { FalownikWyspowyAc } from "@/lib/core/modules/pv/mikroinwertery-vs-centralny/input"
 import { usePersistedDraft } from "@/lib/adapters/use-persisted-draft"
 import { PoleSelect } from "@/components/ui/pole"
+import { PomocPola } from "@/components/ui/pomoc"
 import { WerdyktPanel, type WerdyktPoziom } from "@/components/werdykt"
 import { NawigacjaEkranu } from "@/components/nawigacja-ekranu"
 import { NaglowekEkranu } from "@/components/wzorce/naglowek-ekranu"
 import { KartaPorownawcza, type Kolumna } from "@/components/wzorce/karta-porownawcza"
-import { MigawkaBox } from "@/components/wzorce/migawka-box"
 import { useTranslate } from "@/lib/i18n/language-context"
 
 type Odpowiedz = "" | "tak" | "nie"
@@ -54,7 +54,7 @@ export default function MikroinwerteryVsCentralnyPage() {
   return (
     <main className="mx-auto flex max-w-md flex-col gap-6 p-6">
       <NawigacjaEkranu href="/kalkulatory/mikroinwertery-vs-centralny" />
-      <NaglowekEkranu tytul="Mikroinwertery vs inwerter centralny">
+      <NaglowekEkranu tytul="Mikroinwertery vs inwerter centralny" ekran="mikroinwertery-vs-centralny">
         Mikroinwerter to osobny falownik przy każdym panelu. Inwerter centralny obsługuje cały string naraz.
         Moduł 3, Ekran 21.
       </NaglowekEkranu>
@@ -65,7 +65,7 @@ export default function MikroinwerteryVsCentralnyPage() {
         label="Czy panele będą częściowo lub regularnie zacienione?"
         value={regularneZacienienie}
         onChange={(e) => setStan({ ...stan, regularneZacienienie: e.target.value as Odpowiedz })}
-        hint="Drzewa, komin, sąsiedni budynek, lukarna — cień, który co dzień pada na część paneli."
+        pomoc={<PomocPola ekran="mikroinwertery-vs-centralny" pole="cien" />}
       >
         <option value="">— wybierz —</option>
         <option value="tak">Tak</option>
@@ -77,13 +77,7 @@ export default function MikroinwerteryVsCentralnyPage() {
           label="Czy masz falownik wyspowy obsługujący sprzężenie AC mikroinwerterów?"
           value={falownikWyspowyAcCoupling}
           onChange={(e) => setStan({ ...stan, falownikWyspowyAcCoupling: e.target.value as OdpowiedzFalownik })}
-          pomoc={
-            <>
-              <strong>Falownik wyspowy z AC-coupling</strong> — falownik off-grid, który sam tworzy sieć 230 V/50 Hz
-              i potrafi ograniczyć moc mikroinwerterów, gdy magazyn jest pełny (zwykle przesunięciem częstotliwości).
-              Sprawdź w karcie katalogowej falownika hasło „AC coupling” i listę zgodnych mikroinwerterów.
-            </>
-          }
+          pomoc={<PomocPola ekran="mikroinwertery-vs-centralny" pole="acCoupling" />}
         >
           <option value="">— wybierz —</option>
           <option value="tak">Tak</option>
@@ -127,10 +121,7 @@ export default function MikroinwerteryVsCentralnyPage() {
         </WerdyktPanel>
       )}
 
-      <MigawkaBox>
-        „Cień to wróg klasycznej instalacji szeregowej. Mikroinwerter daje każdemu panelowi niezależność od
-        sąsiadów.”
-      </MigawkaBox>
+      
     </main>
   )
 }

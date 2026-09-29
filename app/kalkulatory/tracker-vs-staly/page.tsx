@@ -6,11 +6,11 @@ import { calculateTrackerVsStaly } from "@/lib/core/modules/pv/tracker-vs-staly/
 import { ZYSK_TRACKERA_MAX_PCT, ZYSK_TRACKERA_MIN_PCT } from "@/lib/core/modules/pv/tracker-vs-staly/constants"
 import { usePersistedDraft } from "@/lib/adapters/use-persisted-draft"
 import { Pole } from "@/components/ui/pole"
+import { PomocPola } from "@/components/ui/pomoc"
 import { WerdyktPanel } from "@/components/werdykt"
 import { NawigacjaEkranu } from "@/components/nawigacja-ekranu"
 import { NaglowekEkranu } from "@/components/wzorce/naglowek-ekranu"
 import { KartaPorownawcza, type Kolumna } from "@/components/wzorce/karta-porownawcza"
-import { MigawkaBox } from "@/components/wzorce/migawka-box"
 import { WynikGlowny } from "@/components/wzorce/wynik-glowny"
 import { WynikSzczegoly } from "@/components/wzorce/wynik-szczegoly"
 import { useTranslate } from "@/lib/i18n/language-context"
@@ -73,23 +73,25 @@ export default function TrackerVsStalyPage() {
   return (
     <main className="mx-auto flex max-w-md flex-col gap-6 p-6">
       <NawigacjaEkranu href="/kalkulatory/tracker-vs-staly" />
-      <NaglowekEkranu tytul="Tracker czy stały stelaż">
+      <NaglowekEkranu
+        tytul="Tracker czy stały stelaż"
+        ekran="tracker-vs-staly"
+        wzor={result.formula}
+        parametry={{ zyskMin: ZYSK_TRACKERA_MIN_PCT, zyskMax: ZYSK_TRACKERA_MAX_PCT }}
+      >
         Tracker obraca panele za słońcem i zwiększa uzysk o {ZYSK_TRACKERA_MIN_PCT}–{ZYSK_TRACKERA_MAX_PCT}%. Za te
         same pieniądze możesz jednak dokupić panele na zwykły stały stelaż. Ten ekran porównuje oba warianty.
         Moduł 3, Ekran 3.
       </NaglowekEkranu>
 
       <Pole label="Liczba paneli na trackerze" unit="szt." type="number" inputMode="numeric" min={0} step={1}
-        value={stan.liczbaPaneliTracker} onChange={ustaw("liczbaPaneliTracker")} />
+        value={stan.liczbaPaneliTracker} onChange={ustaw("liczbaPaneliTracker")} pomoc={<PomocPola ekran="tracker-vs-staly" pole="liczbaPaneli" />} />
       <Pole label="Koszt trackera (mechanizm + fundament)" unit="zł" type="number" inputMode="decimal" min={0}
-        value={stan.kosztTrackeraZl} onChange={ustaw("kosztTrackeraZl")}
-        hint="Tyle, ile tracker kosztuje więcej niż zwykły stelaż pod te same panele." />
+        value={stan.kosztTrackeraZl} onChange={ustaw("kosztTrackeraZl")} pomoc={<PomocPola ekran="tracker-vs-staly" pole="kosztTrackera" />} />
       <Pole label="Koszt jednego dodatkowego panelu na stałym stelażu" unit="zł" type="number" inputMode="decimal" min={0}
-        value={stan.kosztPaneluZl} onChange={ustaw("kosztPaneluZl")}
-        hint="Panel razem z jego częścią stelaża, okablowania i montażu." />
+        value={stan.kosztPaneluZl} onChange={ustaw("kosztPaneluZl")} pomoc={<PomocPola ekran="tracker-vs-staly" pole="kosztPanelu" />} />
       <Pole label="Roczny uzysk jednego panelu na stałym stelażu" unit="kWh/rok" type="number" inputMode="decimal" min={0}
-        value={stan.uzyskPaneluKwh} onChange={ustaw("uzyskPaneluKwh")}
-        hint="Z karty katalogowej i danych lokalizacji — np. z ekranu „Kąt pochylenia i azymut” (uzysk instalacji ÷ liczba paneli)." />
+        value={stan.uzyskPaneluKwh} onChange={ustaw("uzyskPaneluKwh")} pomoc={<PomocPola ekran="tracker-vs-staly" pole="uzyskPanelu" />} />
 
       {result.status === "INVALID_INPUT" ? (
         <WerdyktPanel poziom="blad" etykieta="Nie da się policzyć — sprawdź wpisane dane">
@@ -129,10 +131,7 @@ export default function TrackerVsStalyPage() {
         </>
       )}
 
-      <MigawkaBox>
-        „Tracker brzmi zaawansowanie, ale w praktyce często taniej i bezpieczniej wyjdzie po prostu dokupić więcej
-        paneli na stałym stelażu.”
-      </MigawkaBox>
+      
     </main>
   )
 }
