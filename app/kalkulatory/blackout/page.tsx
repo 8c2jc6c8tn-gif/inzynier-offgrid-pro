@@ -5,6 +5,7 @@ import { calculateBlackout } from "@/lib/core/modules/stress-test/blackout/calcu
 import type { BlackoutInput } from "@/lib/core/modules/stress-test/blackout/input"
 import { usePersistedDraft } from "@/lib/adapters/use-persisted-draft"
 import { Pole } from "@/components/ui/pole"
+import { PomocPola } from "@/components/ui/pomoc"
 import { WerdyktPanel } from "@/components/werdykt"
 import { NawigacjaEkranu } from "@/components/nawigacja-ekranu"
 import { NaglowekEkranu } from "@/components/wzorce/naglowek-ekranu"
@@ -23,13 +24,13 @@ const STAN_POCZATKOWY: FormularzStan = {
   agregatKwhDoba: "",
 }
 
-const POLA: { pole: keyof BlackoutInput; label: string; unit: string; hint?: string }[] = [
+const POLA: { pole: keyof BlackoutInput; label: string; unit: string }[] = [
   { pole: "pojemnoscKwh", label: "Pojemność baterii (znamionowa)", unit: "kWh" },
   { pole: "socStartPct", label: "SoC na początku", unit: "%" },
-  { pole: "socMinPct", label: "Krytyczne minimum SoC", unit: "%", hint: "Np. 10% — poniżej BMS lub falownik odetnie zasilanie." },
+  { pole: "socMinPct", label: "Krytyczne minimum SoC", unit: "%" },
   { pole: "sprawnoscFalownikaPct", label: "Sprawność falownika", unit: "%" },
-  { pole: "zuzycieDoboweKwh", label: "Zużycie dobowe w mrozie", unit: "kWh/dobę", hint: "Z Modułu 2 i 6 — najzimniejsze dni, z ogrzewaniem." },
-  { pole: "dniScenariusza", label: "Dni bez słońca", unit: "dni", hint: "Scenariusz skrajny: 10–14 dni, do −25°C." },
+  { pole: "zuzycieDoboweKwh", label: "Zużycie dobowe w mrozie", unit: "kWh/dobę" },
+  { pole: "dniScenariusza", label: "Dni bez słońca", unit: "dni" },
   { pole: "agregatKwhDoba", label: "Energia z agregatu (opcjonalnie)", unit: "kWh/dobę" },
 ]
 
@@ -53,13 +54,13 @@ export default function BlackoutPage() {
   return (
     <main className="mx-auto flex max-w-md flex-col gap-6 p-6">
       <NawigacjaEkranu href="/kalkulatory/blackout" />
-      <NaglowekEkranu tytul="Blackout — dni bez słońca">
+      <NaglowekEkranu tytul="Blackout — dni bez słońca" ekran="blackout" wzor={result.formula}>
         Test najgorszego koszmaru: dwa tygodnie bez słońca w mrozie. Jeśli system przeżyje ten scenariusz, przeżyje właściwie
         wszystko inne. Moduł 7, Ekran 4.
       </NaglowekEkranu>
 
       <div className="flex flex-col gap-4">
-        {POLA.map(({ pole, label, unit, hint }) => (
+        {POLA.map(({ pole, label, unit }) => (
           <Pole
             key={pole}
             label={label}
@@ -69,7 +70,7 @@ export default function BlackoutPage() {
             min={0}
             value={stan[pole]}
             onChange={(e) => setStan((prev) => ({ ...prev, [pole]: e.target.value }))}
-            hint={hint}
+            pomoc={<PomocPola ekran="blackout" pole={pole} />}
           />
         ))}
       </div>

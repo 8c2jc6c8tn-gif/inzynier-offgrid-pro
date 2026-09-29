@@ -5,6 +5,7 @@ import { calculateAgregatWMrozie } from "@/lib/core/modules/stress-test/agregat-
 import type { AgregatWMrozieInput, PaliwoAgregatu } from "@/lib/core/modules/stress-test/agregat-w-mrozie/input"
 import { usePersistedDraft } from "@/lib/adapters/use-persisted-draft"
 import { Pole, PoleSelect } from "@/components/ui/pole"
+import { PomocPola } from "@/components/ui/pomoc"
 import { WerdyktPanel } from "@/components/werdykt"
 import { NawigacjaEkranu } from "@/components/nawigacja-ekranu"
 import { NaglowekEkranu } from "@/components/wzorce/naglowek-ekranu"
@@ -15,6 +16,7 @@ import {
   naWejscieBezpieczenstwa,
   type BezpieczenstwoAgregatuStan,
 } from "@/components/agregat/pola-bezpieczenstwa-agregatu"
+import { DIESEL_ROZRUCH_MROZ_C, DIESEL_ZWYKLY_RYZYKO_C, DIESEL_ZWYKLY_WYSOKIE_RYZYKO_C, DLUGI_POSTOJ_DNI } from "@/lib/core/modules/stress-test/agregat-w-mrozie/constants"
 
 type PoleLiczbowe = Exclude<keyof AgregatWMrozieInput, "paliwo" | keyof BezpieczenstwoAgregatuStan>
 type FormularzStan = { paliwo: PaliwoAgregatu | "" } & BezpieczenstwoAgregatuStan & Record<PoleLiczbowe, string>
@@ -62,7 +64,12 @@ export default function AgregatWMroziePage() {
   return (
     <main className="mx-auto flex max-w-md flex-col gap-6 p-6">
       <NawigacjaEkranu href="/kalkulatory/agregat-w-mrozie" />
-      <NaglowekEkranu tytul="Agregat w mrozie">
+      <NaglowekEkranu
+        tytul="Agregat w mrozie"
+        ekran="agregat-w-mrozie"
+        wzor={result.formula}
+        parametry={{ postoj: DLUGI_POSTOJ_DNI }}
+      >
         Rozruch na zimno, długa praca i długi postój — ile paliwa i oleju zje agregat w zimowym scenariuszu. Moduł 7.
       </NaglowekEkranu>
 
@@ -71,6 +78,7 @@ export default function AgregatWMroziePage() {
           label="Paliwo"
           value={stan.paliwo}
           onChange={(e) => setStan((prev) => ({ ...prev, paliwo: e.target.value as FormularzStan["paliwo"] }))}
+          pomoc={<PomocPola ekran="agregat-w-mrozie" pole="paliwo" params={{ ryzyko: DIESEL_ZWYKLY_RYZYKO_C, wysokie: DIESEL_ZWYKLY_WYSOKIE_RYZYKO_C, rozruch: DIESEL_ROZRUCH_MROZ_C }} />}
         >
           <option value="">— wybierz —</option>
           <option value="diesel-zwykly">Olej napędowy zwykły</option>
@@ -85,13 +93,22 @@ export default function AgregatWMroziePage() {
           inputMode="decimal"
           value={stan.temperaturaMiejscaC}
           onChange={ustaw("temperaturaMiejscaC")}
-          hint="Tam, gdzie stoi agregat i paliwo — na zewnątrz, garaż, wiata, kontener — najzimniejsza noc."
+          pomoc={<PomocPola ekran="agregat-w-mrozie" pole="temp" />}
         />
       </div>
 
       <div className="flex flex-col gap-4">
         <p className="text-small font-medium">Praca w scenariuszu (np. tydzień blackoutu)</p>
-        <Pole label="Łączny czas pracy" unit="h" type="number" inputMode="decimal" min={0} value={stan.wymaganyCzasPracyH} onChange={ustaw("wymaganyCzasPracyH")} />
+        <Pole
+          label="Łączny czas pracy"
+          unit="h"
+          type="number"
+          inputMode="decimal"
+          min={0}
+          value={stan.wymaganyCzasPracyH}
+          onChange={ustaw("wymaganyCzasPracyH")}
+          pomoc={<PomocPola ekran="agregat-w-mrozie" pole="czasPracy" />}
+        />
         <Pole
           label="Maks. praca ciągła wg producenta"
           unit="h"
@@ -100,10 +117,28 @@ export default function AgregatWMroziePage() {
           min={0}
           value={stan.maxPracaCiaglaH}
           onChange={ustaw("maxPracaCiaglaH")}
-          hint="Z instrukcji — niektóre agregaty wymagają przerwy co 8–12 h. Puste = bez limitu."
+          pomoc={<PomocPola ekran="agregat-w-mrozie" pole="maxCiagla" />}
         />
-        <Pole label="Wymagana przerwa" unit="h" type="number" inputMode="decimal" min={0} value={stan.przerwaH} onChange={ustaw("przerwaH")} />
-        <Pole label="Zużycie paliwa" unit="l/h" type="number" inputMode="decimal" min={0} value={stan.zuzyciePaliwaLH} onChange={ustaw("zuzyciePaliwaLH")} />
+        <Pole
+          label="Wymagana przerwa"
+          unit="h"
+          type="number"
+          inputMode="decimal"
+          min={0}
+          value={stan.przerwaH}
+          onChange={ustaw("przerwaH")}
+          pomoc={<PomocPola ekran="agregat-w-mrozie" pole="przerwa" />}
+        />
+        <Pole
+          label="Zużycie paliwa"
+          unit="l/h"
+          type="number"
+          inputMode="decimal"
+          min={0}
+          value={stan.zuzyciePaliwaLH}
+          onChange={ustaw("zuzyciePaliwaLH")}
+          pomoc={<PomocPola ekran="agregat-w-mrozie" pole="zuzycie" />}
+        />
         <Pole
           label="Wymiana oleju co"
           unit="h"
@@ -112,6 +147,7 @@ export default function AgregatWMroziePage() {
           min={0}
           value={stan.interwalWymianyOlejuH}
           onChange={ustaw("interwalWymianyOlejuH")}
+          pomoc={<PomocPola ekran="agregat-w-mrozie" pole="olej" />}
         />
       </div>
 
@@ -123,6 +159,7 @@ export default function AgregatWMroziePage() {
         min={0}
         value={stan.dniPostoju}
         onChange={ustaw("dniPostoju")}
+        pomoc={<PomocPola ekran="agregat-w-mrozie" pole="dniPostoju" params={{ postoj: DLUGI_POSTOJ_DNI }} />}
       />
 
       <PolaBezpieczenstwaAgregatu

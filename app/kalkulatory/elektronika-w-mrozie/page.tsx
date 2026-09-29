@@ -6,6 +6,7 @@ import { jestKrytyczny } from "@/lib/core/modules/stress-test/elektronika-w-mroz
 import type { TypElektroniki, UrzadzenieElektroniczne } from "@/lib/core/modules/stress-test/elektronika-w-mrozie/input"
 import { usePersistedDraft } from "@/lib/adapters/use-persisted-draft"
 import { Pole } from "@/components/ui/pole"
+import { PomocPola } from "@/components/ui/pomoc"
 import { WerdyktPanel } from "@/components/werdykt"
 import { NawigacjaEkranu } from "@/components/nawigacja-ekranu"
 import { NaglowekEkranu } from "@/components/wzorce/naglowek-ekranu"
@@ -52,7 +53,7 @@ export default function ElektronikaWMroziePage() {
   return (
     <main className="mx-auto flex max-w-md flex-col gap-6 p-6">
       <NawigacjaEkranu href="/kalkulatory/elektronika-w-mrozie" />
-      <NaglowekEkranu tytul="Elektronika w mrozie">
+      <NaglowekEkranu tytul="Elektronika w mrozie" ekran="elektronika-w-mrozie" wzor={result.formula}>
         Które urządzenia przestaną działać poprawnie przy najniższej temperaturze w miejscu montażu. Moduł 7.
       </NaglowekEkranu>
 
@@ -63,7 +64,7 @@ export default function ElektronikaWMroziePage() {
         inputMode="decimal"
         value={stan.temperaturaMiejscaC}
         onChange={(e) => setStan((prev) => ({ ...prev, temperaturaMiejscaC: e.target.value }))}
-        hint="Np. garaż, altana, szafka zewnętrzna — najzimniejsza noc, nie średnia."
+        pomoc={<PomocPola ekran="elektronika-w-mrozie" pole="temp" />}
       />
 
       <div className="flex flex-col gap-2">
@@ -83,6 +84,7 @@ export default function ElektronikaWMroziePage() {
                   className={`${pole} min-w-24 flex-1`}
                   aria-label={`Nazwa — urządzenie ${i + 1}`}
                 />
+                <PomocPola ekran="elektronika-w-mrozie" pole="nazwa" />
                 <select
                   value={u.typ}
                   onChange={(e) => aktualizuj(u.id, { typ: e.target.value as TypElektroniki })}
@@ -95,6 +97,7 @@ export default function ElektronikaWMroziePage() {
                     </option>
                   ))}
                 </select>
+                <PomocPola ekran="elektronika-w-mrozie" pole="typ" />
                 <input
                   type="number"
                   inputMode="decimal"
@@ -104,6 +107,7 @@ export default function ElektronikaWMroziePage() {
                   className={`${pole} w-24`}
                   aria-label={`Minimalna temperatura pracy [°C] — ${opis}`}
                 />
+                <PomocPola ekran="elektronika-w-mrozie" pole="tempMin" />
                 <button
                   type="button"
                   onClick={() => setStan((prev) => ({ ...prev, urzadzenia: prev.urzadzenia.filter((x) => x.id !== u.id) }))}

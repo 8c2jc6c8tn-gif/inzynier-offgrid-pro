@@ -5,11 +5,13 @@ import { calculateSztywnienieIzolacji } from "@/lib/core/modules/stress-test/szt
 import type { MaterialMrozu } from "@/lib/core/modules/stress-test/sztywnienie-izolacji/input"
 import { usePersistedDraft } from "@/lib/adapters/use-persisted-draft"
 import { Pole, PoleCheckbox } from "@/components/ui/pole"
+import { PomocPola } from "@/components/ui/pomoc"
 import { WerdyktPanel } from "@/components/werdykt"
 import { NawigacjaEkranu } from "@/components/nawigacja-ekranu"
 import { NaglowekEkranu } from "@/components/wzorce/naglowek-ekranu"
 import { WynikGlowny } from "@/components/wzorce/wynik-glowny"
 import { WynikSzczegoly } from "@/components/wzorce/wynik-szczegoly"
+import { MIN_TEMPERATURA_MATERIALU_C } from "@/lib/core/modules/stress-test/sztywnienie-izolacji/constants"
 
 type FormularzStan = {
   materialy: MaterialMrozu[]
@@ -52,7 +54,12 @@ export default function SztywnienieIzolacjiPage() {
   return (
     <main className="mx-auto flex max-w-md flex-col gap-6 p-6">
       <NawigacjaEkranu href="/kalkulatory/sztywnienie-izolacji" />
-      <NaglowekEkranu tytul="Sztywnienie izolacji na mrozie">
+      <NaglowekEkranu
+        tytul="Sztywnienie izolacji na mrozie"
+        ekran="sztywnienie-izolacji"
+        wzor={result.formula}
+        parametry={{ pvc: MIN_TEMPERATURA_MATERIALU_C.PVC ?? "—", xlpe: MIN_TEMPERATURA_MATERIALU_C.XLPE ?? "—" }}
+      >
         Czy izolacja kabli, osłony i złączki wytrzymają najniższą temperaturę w miejscu montażu. Moduł 7.
       </NaglowekEkranu>
 
@@ -64,7 +71,7 @@ export default function SztywnienieIzolacjiPage() {
           inputMode="decimal"
           value={stan.temperaturaMinimalnaC}
           onChange={(e) => setStan((prev) => ({ ...prev, temperaturaMinimalnaC: e.target.value }))}
-          hint="Dla kabli na zewnątrz i złączek w ziemi — najzimniejsza noc w lokalizacji, nie średnia zimowa."
+          pomoc={<PomocPola ekran="sztywnienie-izolacji" pole="temp" />}
         />
         <p className="text-small font-medium">Materiały w instalacji</p>
         {MATERIALY.map((m) => (

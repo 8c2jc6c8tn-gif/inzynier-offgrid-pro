@@ -5,6 +5,7 @@ import { calculateBezRekuperacji } from "@/lib/core/modules/stress-test/bez-reku
 import type { BezRekuperacjiInput } from "@/lib/core/modules/stress-test/bez-rekuperacji/input"
 import { usePersistedDraft } from "@/lib/adapters/use-persisted-draft"
 import { Pole } from "@/components/ui/pole"
+import { PomocPola } from "@/components/ui/pomoc"
 import { WerdyktPanel } from "@/components/werdykt"
 import { NawigacjaEkranu } from "@/components/nawigacja-ekranu"
 import { NaglowekEkranu } from "@/components/wzorce/naglowek-ekranu"
@@ -22,13 +23,13 @@ const STAN_POCZATKOWY: FormularzStan = {
   tempZaNagrzewnicaC: "",
 }
 
-const POLA: { pole: keyof BezRekuperacjiInput; label: string; unit: string; hint?: string }[] = [
-  { pole: "strumienM3H", label: "Wydajność centrali", unit: "m³/h", hint: "Z Modułu 6 „Wentylacja z odzyskiem ciepła”." },
+const POLA: { pole: keyof BezRekuperacjiInput; label: string; unit: string }[] = [
+  { pole: "strumienM3H", label: "Wydajność centrali", unit: "m³/h" },
   { pole: "sprawnoscOdzyskuPct", label: "Sprawność odzysku", unit: "%" },
   { pole: "tempWewnC", label: "Temperatura wewnątrz", unit: "°C" },
   { pole: "tempZewnC", label: "Najniższa temperatura na zewnątrz", unit: "°C" },
-  { pole: "tempZamarzaniaWymiennikaC", label: "Granica zamarzania wymiennika (instrukcja)", unit: "°C", hint: "Opcjonalnie. Poniżej tej temperatury wymiennik szroni się." },
-  { pole: "tempZaNagrzewnicaC", label: "Temperatura za nagrzewnicą wstępną (instrukcja)", unit: "°C", hint: "Opcjonalnie — do obliczenia mocy nagrzewnicy." },
+  { pole: "tempZamarzaniaWymiennikaC", label: "Granica zamarzania wymiennika (instrukcja)", unit: "°C" },
+  { pole: "tempZaNagrzewnicaC", label: "Temperatura za nagrzewnicą wstępną (instrukcja)", unit: "°C" },
 ]
 
 const liczba = (v: string) => (v === "" ? null : Number(v))
@@ -47,13 +48,13 @@ export default function BezRekuperacjiPage() {
   return (
     <main className="mx-auto flex max-w-md flex-col gap-6 p-6">
       <NawigacjaEkranu href="/kalkulatory/bez-rekuperacji" />
-      <NaglowekEkranu tytul="Rekuperacja zamarzła">
+      <NaglowekEkranu tytul="Rekuperacja zamarzła" ekran="bez-rekuperacji" wzor={result.formula}>
         Wentylacja to płuca domu — gdy rekuperator zamarznie, dom traci ciepło albo zaczyna się „dusić”. Ile to kosztuje i
         jak mocnej nagrzewnicy trzeba. Moduł 7, Ekran 20.
       </NaglowekEkranu>
 
       <div className="flex flex-col gap-4">
-        {POLA.map(({ pole, label, unit, hint }) => (
+        {POLA.map(({ pole, label, unit }) => (
           <Pole
             key={pole}
             label={label}
@@ -62,7 +63,7 @@ export default function BezRekuperacjiPage() {
             inputMode="decimal"
             value={stan[pole]}
             onChange={(e) => setStan((prev) => ({ ...prev, [pole]: e.target.value }))}
-            hint={hint}
+            pomoc={<PomocPola ekran="bez-rekuperacji" pole={pole} />}
           />
         ))}
       </div>

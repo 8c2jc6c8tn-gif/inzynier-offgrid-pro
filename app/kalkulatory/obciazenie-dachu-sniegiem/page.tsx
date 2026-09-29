@@ -5,11 +5,13 @@ import { calculateObciazenieDachuSniegiem } from "@/lib/core/modules/stress-test
 import type { EkspozycjaTerenu, RodzajSniegu, StrefaSniegowa } from "@/lib/core/modules/pv/eurokod-1/snieg"
 import { usePersistedDraft } from "@/lib/adapters/use-persisted-draft"
 import { Pole, PoleCheckbox, PoleSelect } from "@/components/ui/pole"
+import { PomocPola } from "@/components/ui/pomoc"
 import { WerdyktPanel } from "@/components/werdykt"
 import { NawigacjaEkranu } from "@/components/nawigacja-ekranu"
 import { NaglowekEkranu } from "@/components/wzorce/naglowek-ekranu"
 import { WynikGlowny } from "@/components/wzorce/wynik-glowny"
 import { WynikSzczegoly } from "@/components/wzorce/wynik-szczegoly"
+import { PROG_ZBLIZANIA_DO_NOSNOSCI } from "@/lib/core/modules/stress-test/obciazenie-dachu-sniegiem/constants"
 
 type FormularzStan = {
   strefa: string
@@ -66,7 +68,12 @@ export default function ObciazenieDachuSniegiemPage() {
   return (
     <main className="mx-auto flex max-w-md flex-col gap-6 p-6">
       <NawigacjaEkranu href="/kalkulatory/obciazenie-dachu-sniegiem" />
-      <NaglowekEkranu tytul="Obciążenie dachu śniegiem">
+      <NaglowekEkranu
+        tytul="Obciążenie dachu śniegiem"
+        ekran="obciazenie-dachu-sniegiem"
+        wzor={result.formula}
+        parametry={{ prog: Math.round(PROG_ZBLIZANIA_DO_NOSNOSCI * 100) }}
+      >
         Ile śniegu musi przenieść Twój dach według normy i ile waży to, co leży na nim teraz. PN-EN 1991-1-3. Moduł 7.
       </NaglowekEkranu>
 
@@ -75,7 +82,7 @@ export default function ObciazenieDachuSniegiemPage() {
           label="Strefa obciążenia śniegiem"
           value={stan.strefa}
           onChange={(e) => setStan((prev) => ({ ...prev, strefa: e.target.value }))}
-          hint="Mapa stref w PN-EN 1991-1-3, Załącznik krajowy NB.1. Strefa 2 to większość środkowej Polski; 4 — Pomorze Zachodnie i część Wielkopolski/Kujaw; 5 — okolice Tatr."
+          pomoc={<PomocPola ekran="obciazenie-dachu-sniegiem" pole="strefa" />}
         >
           <option value="">— wybierz —</option>
           <option value="1">Strefa 1</option>
@@ -91,6 +98,7 @@ export default function ObciazenieDachuSniegiemPage() {
           inputMode="decimal"
           value={stan.wysokoscNpmM}
           onChange={ustaw("wysokoscNpmM")}
+          pomoc={<PomocPola ekran="obciazenie-dachu-sniegiem" pole="wysokosc" />}
         />
         <Pole
           label="Kąt spadku dachu"
@@ -101,13 +109,13 @@ export default function ObciazenieDachuSniegiemPage() {
           max={90}
           value={stan.katDachuDeg}
           onChange={ustaw("katDachuDeg")}
-          hint="0° = dach płaski."
+          pomoc={<PomocPola ekran="obciazenie-dachu-sniegiem" pole="kat" />}
         />
         <PoleSelect
           label="Otoczenie budynku"
           value={stan.ekspozycja}
           onChange={(e) => setStan((prev) => ({ ...prev, ekspozycja: e.target.value as EkspozycjaTerenu }))}
-          hint="Wystawiony: płasko, otwarte ze wszystkich stron. Osłonięty: budynek dużo niższy niż teren, drzewa lub budynki wokół."
+          pomoc={<PomocPola ekran="obciazenie-dachu-sniegiem" pole="otoczenie" />}
         >
           <option value="wystawiony">Wystawiony na wiatr</option>
           <option value="normalny">Normalny</option>
@@ -128,7 +136,7 @@ export default function ObciazenieDachuSniegiemPage() {
           min={0}
           value={stan.nosnoscDachuKnM2}
           onChange={ustaw("nosnoscDachuKnM2")}
-          hint="Z projektu budowlanego lub od konstruktora (wartość charakterystyczna). 1 kN/m² ≈ 102 kg/m²."
+          pomoc={<PomocPola ekran="obciazenie-dachu-sniegiem" pole="nosnosc" />}
         />
         <Pole
           label="Grubość śniegu na dachu teraz (opcjonalnie)"
@@ -138,11 +146,13 @@ export default function ObciazenieDachuSniegiemPage() {
           min={0}
           value={stan.gruboscWarstwyCm}
           onChange={ustaw("gruboscWarstwyCm")}
+          pomoc={<PomocPola ekran="obciazenie-dachu-sniegiem" pole="grubosc" />}
         />
         <PoleSelect
           label="Rodzaj śniegu"
           value={stan.rodzajSniegu}
           onChange={(e) => setStan((prev) => ({ ...prev, rodzajSniegu: e.target.value as FormularzStan["rodzajSniegu"] }))}
+          pomoc={<PomocPola ekran="obciazenie-dachu-sniegiem" pole="rodzajSniegu" />}
         >
           <option value="">— wybierz —</option>
           <option value="swiezy">Świeży</option>

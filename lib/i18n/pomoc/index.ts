@@ -16,6 +16,7 @@ import * as m04 from "./m04-baterie"
 import * as m11 from "./m11-montaz-baterii"
 import * as m03 from "./m03-pv"
 import * as m02 from "./m02-zapotrzebowanie"
+import * as m07 from "./m07-stress-test"
 
 const pomocPl = {
   ...m12.pl,
@@ -26,6 +27,7 @@ const pomocPl = {
   ...m11.pl,
   ...m03.pl,
   ...m02.pl,
+  ...m07.pl,
 } satisfies Record<string, PomocEkranu | PomocGrupy>
 
 export type PomocWszystko = typeof pomocPl
@@ -39,9 +41,9 @@ export type EkranPomocy = {
 
 export const pomoc: Record<Language, PomocWszystko> = {
   pl: pomocPl,
-  en: { ...m12.en, ...m14.en, ...m08.en, ...m05.en, ...m04.en, ...m11.en, ...m03.en, ...m02.en },
-  ru: { ...m12.ru, ...m14.ru, ...m08.ru, ...m05.ru, ...m04.ru, ...m11.ru, ...m03.ru, ...m02.ru },
+  en: { ...m12.en, ...m14.en, ...m08.en, ...m05.en, ...m04.en, ...m11.en, ...m03.en, ...m02.en, ...m07.en },
+  ru: { ...m12.ru, ...m14.ru, ...m08.ru, ...m05.ru, ...m04.ru, ...m11.ru, ...m03.ru, ...m02.ru, ...m07.ru },
 }
 
 /** Module parts, exposed for the duplicate-key test (a spread silently overwrites a repeated screen id). */
-export const czesciPomocy: Record<string, object>[] = [m12.pl, m14.pl, m08.pl, m05.pl, m04.pl, m11.pl, m03.pl, m02.pl]
+export const czesciPomocy: Record<string, object>[] = [m12.pl, m14.pl, m08.pl, m05.pl, m04.pl, m11.pl, m03.pl, m02.pl, m07.pl]
