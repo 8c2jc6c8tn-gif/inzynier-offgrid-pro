@@ -46,7 +46,7 @@ export default function ZuzycieMiesiecznePage() {
   return (
     <main className="mx-auto flex max-w-md flex-col gap-6 p-6">
       <NawigacjaEkranu href="/kalkulatory/zuzycie-miesieczne" />
-      <NaglowekEkranu tytul="Moje zużycie miesięcznie">
+      <NaglowekEkranu tytul="Moje zużycie miesięcznie" ekran="zuzycie-miesieczne">
         Zużycie z 12 kolejnych miesięcy — z faktur albo z portalu pomiarowego Twojego OSD. Z tych liczb korzysta rachunek,
         bilans PV i magazynu, zima bez sieci i porównanie scenariuszy. M14 „Dom – sieć”, ekran D3.
       </NaglowekEkranu>

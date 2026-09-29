@@ -6,6 +6,7 @@ import { calculateKosztPowrotu } from "@/lib/core/modules/siec/koszt-powrotu/cal
 import { usePersistedDraft } from "@/lib/adapters/use-persisted-draft"
 import { NawigacjaEkranu } from "@/components/nawigacja-ekranu"
 import { Pole, PoleSelect } from "@/components/ui/pole"
+import { PomocPola } from "@/components/ui/pomoc"
 import { WerdyktPanel } from "@/components/werdykt"
 import { KrokZMedia } from "@/components/wzorce/krok-z-media"
 import { NaglowekEkranu } from "@/components/wzorce/naglowek-ekranu"
@@ -48,7 +49,7 @@ export default function RezygnacjaZPrzylaczaPage() {
   return (
     <main className="mx-auto flex max-w-2xl flex-col gap-6 p-6">
       <NawigacjaEkranu href="/kalkulatory/rezygnacja-z-przylacza" />
-      <NaglowekEkranu tytul="Jak zrezygnować z przyłącza">
+      <NaglowekEkranu tytul="Jak zrezygnować z przyłącza" ekran="rezygnacja-z-przylacza" wzor={result.formula}>
         Siedem kroków w kolejności, która ma znaczenie. Kroki 1–4 możesz cofnąć, 5–7 już nie. Na dole — ile kosztowałby powrót do
         sieci. M14, ekran D10 / F10.
       </NaglowekEkranu>
@@ -81,10 +82,31 @@ export default function RezygnacjaZPrzylaczaPage() {
           w taryfie swojego OSD (rozdział o opłatach za przyłączenie); aplikacja jeszcze jej nie ma.
         </p>
         <div className="grid grid-cols-2 gap-3">
-          <Pole label="Stawka opłaty przyłączeniowej" unit="zł/kW" type="number" inputMode="decimal" value={stan.stawka} onChange={(e) => ustaw({ stawka: e.target.value })} hint="Netto, z taryfy OSD (kablowe albo napowietrzne)." />
-          <Pole label="Moc przyłączeniowa" unit="kW" type="number" inputMode="decimal" value={stan.moc} onChange={(e) => ustaw({ moc: e.target.value })} hint="Z umowy albo warunków przyłączenia." />
+          <Pole
+            label="Stawka opłaty przyłączeniowej"
+            unit="zł/kW"
+            type="number"
+            inputMode="decimal"
+            value={stan.stawka}
+            onChange={(e) => ustaw({ stawka: e.target.value })}
+            pomoc={<PomocPola ekran="rezygnacja-z-przylacza" pole="stawka" />}
+          />
+          <Pole
+            label="Moc przyłączeniowa"
+            unit="kW"
+            type="number"
+            inputMode="decimal"
+            value={stan.moc}
+            onChange={(e) => ustaw({ moc: e.target.value })}
+            pomoc={<PomocPola ekran="rezygnacja-z-przylacza" pole="moc" />}
+          />
         </div>
-        <PoleSelect label="Odległość od sieci" value={stan.odleglosc} onChange={(e) => ustaw({ odleglosc: e.target.value as Stan["odleglosc"] })}>
+        <PoleSelect
+          label="Odległość od sieci"
+          value={stan.odleglosc}
+          onChange={(e) => ustaw({ odleglosc: e.target.value as Stan["odleglosc"] })}
+          pomoc={<PomocPola ekran="rezygnacja-z-przylacza" pole="odleglosc" />}
+        >
           <option value="">— wybierz —</option>
           <option value="tak">W standardowej odległości z taryfy OSD</option>
           <option value="nie">Dalej niż standardowa odległość</option>

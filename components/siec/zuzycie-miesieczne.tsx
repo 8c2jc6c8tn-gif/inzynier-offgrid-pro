@@ -3,6 +3,7 @@
 import type { Segment } from "@/lib/core/modules/siec/rachunek-za-prad/input"
 import { useOdczytDraftu } from "@/lib/adapters/use-persisted-draft"
 import { Pole } from "@/components/ui/pole"
+import { PomocPola } from "@/components/ui/pomoc"
 
 /**
  * M14 — 12 monthly consumption values (D3 for dom, owned by F6 for firma). One owner of the draft
@@ -41,6 +42,7 @@ export function PolaZuzycia({ stan, onChange }: { stan: StanZuzycia; onChange: (
           min={0}
           value={stan.miesiace[i] ?? ""}
           onChange={(e) => onChange({ miesiace: stan.miesiace.map((v, j) => (j === i ? e.target.value : v)) })}
+          pomoc={<PomocPola ekran="siec-zuzycie" pole="miesiac" />}
         />
       ))}
     </fieldset>

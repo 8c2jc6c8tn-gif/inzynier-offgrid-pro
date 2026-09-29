@@ -4,6 +4,7 @@ import { useMemo, useState } from "react"
 import { calculateTestLicznika } from "@/lib/core/modules/siec/test-licznika/calculator"
 import { usePersistedDraft } from "@/lib/adapters/use-persisted-draft"
 import { Pole } from "@/components/ui/pole"
+import { PomocPola } from "@/components/ui/pomoc"
 import { Button } from "@/components/ui/button"
 import { WerdyktPanel } from "@/components/werdykt"
 import { NawigacjaEkranu } from "@/components/nawigacja-ekranu"
@@ -99,7 +100,7 @@ export default function TestLicznikaPage() {
   return (
     <main className="mx-auto flex max-w-md flex-col gap-6 p-6">
       <NawigacjaEkranu href="/kalkulatory/test-licznika" />
-      <NaglowekEkranu tytul="Test licznika i reklamacja">
+      <NaglowekEkranu tytul="Test licznika i reklamacja" ekran="test-licznika" wzor={result.formula}>
         Sprawdź, ile mocy rejestruje licznik (dioda migająca przy każdej porcji energii), a przy wątpliwościach przygotuj
         pismo reklamacyjne. Ekran wspólny dla domu (D12) i firmy (F11), M14.
       </NaglowekEkranu>
@@ -109,9 +110,32 @@ export default function TestLicznikaPage() {
           Wyłącz wszystko poza jednym odbiornikiem o znanej mocy (np. czajnik), policz impulsy diody i zmierz ich czas.
           Stałą licznika (imp/kWh) znajdziesz na tabliczce.
         </p>
-        <Pole label="Liczba impulsów" type="number" inputMode="numeric" value={pomiar.impulsy} onChange={(e) => ustawP("impulsy", e.target.value)} />
-        <Pole label="Czas tych impulsów" unit="s" type="number" inputMode="decimal" value={pomiar.czas} onChange={(e) => ustawP("czas", e.target.value)} />
-        <Pole label="Stała licznika" unit="imp/kWh" type="number" inputMode="numeric" value={pomiar.stala} onChange={(e) => ustawP("stala", e.target.value)} />
+        <Pole
+          label="Liczba impulsów"
+          type="number"
+          inputMode="numeric"
+          value={pomiar.impulsy}
+          onChange={(e) => ustawP("impulsy", e.target.value)}
+          pomoc={<PomocPola ekran="test-licznika" pole="impulsy" />}
+        />
+        <Pole
+          label="Czas tych impulsów"
+          unit="s"
+          type="number"
+          inputMode="decimal"
+          value={pomiar.czas}
+          onChange={(e) => ustawP("czas", e.target.value)}
+          pomoc={<PomocPola ekran="test-licznika" pole="czas" />}
+        />
+        <Pole
+          label="Stała licznika"
+          unit="imp/kWh"
+          type="number"
+          inputMode="numeric"
+          value={pomiar.stala}
+          onChange={(e) => ustawP("stala", e.target.value)}
+          pomoc={<PomocPola ekran="test-licznika" pole="stala" />}
+        />
         <Pole
           label="Moc włączonego odbiornika (opcjonalnie)"
           unit="W"
@@ -119,6 +143,7 @@ export default function TestLicznikaPage() {
           inputMode="decimal"
           value={pomiar.odbiornik}
           onChange={(e) => ustawP("odbiornik", e.target.value)}
+          pomoc={<PomocPola ekran="test-licznika" pole="mocOdbiornika" />}
         />
       </div>
 
@@ -157,20 +182,60 @@ export default function TestLicznikaPage() {
 
       <div className="flex flex-col gap-4">
         <h2 className="text-base font-medium">Pismo reklamacyjne</h2>
-        <Pole label="Imię i nazwisko albo nazwa firmy" value={pismo.nadawca} onChange={(e) => ustawL("nadawca", e.target.value)} />
-        <Pole label="Adres" value={pismo.adres} onChange={(e) => ustawL("adres", e.target.value)} />
-        <Pole label="NIP (tylko firma)" value={pismo.nip} onChange={(e) => ustawL("nip", e.target.value)} />
-        <Pole label="Numer klienta" value={pismo.numerKlienta} onChange={(e) => ustawL("numerKlienta", e.target.value)} />
-        <Pole label="Numer PPE" value={pismo.ppe} onChange={(e) => ustawL("ppe", e.target.value)} hint="Punkt poboru energii — jest na fakturze." />
-        <Pole label="Numer i data faktury" value={pismo.faktura} onChange={(e) => ustawL("faktura", e.target.value)} />
+        <Pole
+          label="Imię i nazwisko albo nazwa firmy"
+          value={pismo.nadawca}
+          onChange={(e) => ustawL("nadawca", e.target.value)}
+          pomoc={<PomocPola ekran="test-licznika" pole="nadawca" />}
+        />
+        <Pole
+          label="Adres"
+          value={pismo.adres}
+          onChange={(e) => ustawL("adres", e.target.value)}
+          pomoc={<PomocPola ekran="test-licznika" pole="adres" />}
+        />
+        <Pole
+          label="NIP (tylko firma)"
+          value={pismo.nip}
+          onChange={(e) => ustawL("nip", e.target.value)}
+          pomoc={<PomocPola ekran="test-licznika" pole="nip" />}
+        />
+        <Pole
+          label="Numer klienta"
+          value={pismo.numerKlienta}
+          onChange={(e) => ustawL("numerKlienta", e.target.value)}
+          pomoc={<PomocPola ekran="test-licznika" pole="numerKlienta" />}
+        />
+        <Pole
+          label="Numer PPE"
+          value={pismo.ppe}
+          onChange={(e) => ustawL("ppe", e.target.value)}
+          pomoc={<PomocPola ekran="test-licznika" pole="ppe" />}
+        />
+        <Pole
+          label="Numer i data faktury"
+          value={pismo.faktura}
+          onChange={(e) => ustawL("faktura", e.target.value)}
+          pomoc={<PomocPola ekran="test-licznika" pole="faktura" />}
+        />
         <Pole
           label="Opis problemu"
           value={pismo.opis}
           onChange={(e) => ustawL("opis", e.target.value)}
-          hint="Np. „Nagły wzrost zużycia po wymianie licznika”."
+          pomoc={<PomocPola ekran="test-licznika" pole="opis" />}
         />
-        <Pole label="Żądanie" value={pismo.zadanie} onChange={(e) => ustawL("zadanie", e.target.value)} />
-        <Pole label="Miejscowość i data" value={pismo.miejscowoscData} onChange={(e) => ustawL("miejscowoscData", e.target.value)} />
+        <Pole
+          label="Żądanie"
+          value={pismo.zadanie}
+          onChange={(e) => ustawL("zadanie", e.target.value)}
+          pomoc={<PomocPola ekran="test-licznika" pole="zadanie" />}
+        />
+        <Pole
+          label="Miejscowość i data"
+          value={pismo.miejscowoscData}
+          onChange={(e) => ustawL("miejscowoscData", e.target.value)}
+          pomoc={<PomocPola ekran="test-licznika" pole="miejscowosc" />}
+        />
         <pre className="whitespace-pre-wrap rounded-md border bg-muted/40 p-3 text-small">{tekst}</pre>
         <Button type="button" onClick={kopiuj}>
           {skopiowano ? "Skopiowano" : "Kopiuj treść pisma"}

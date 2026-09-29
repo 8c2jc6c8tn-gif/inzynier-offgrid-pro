@@ -7,6 +7,7 @@ import { calculateAgregatPradotworczy } from "@/lib/core/modules/zapotrzebowanie
 import { usePersistedDraft } from "@/lib/adapters/use-persisted-draft"
 import { NawigacjaEkranu } from "@/components/nawigacja-ekranu"
 import { Pole, PoleCheckbox } from "@/components/ui/pole"
+import { PomocPola } from "@/components/ui/pomoc"
 import { StanLadowania, StanPusty } from "@/components/ui/stany"
 import { WerdyktPanel } from "@/components/werdykt"
 import { NaglowekEkranu } from "@/components/wzorce/naglowek-ekranu"
@@ -61,7 +62,7 @@ export default function AgregatJakoZapasPage() {
   return (
     <main className="mx-auto flex max-w-md flex-col gap-6 p-6">
       <NawigacjaEkranu href="/kalkulatory/agregat-jako-zapas" />
-      <NaglowekEkranu tytul="Agregat jako zapas">
+      <NaglowekEkranu tytul="Agregat jako zapas" ekran="agregat-jako-zapas" wzor={result.formula}>
         Ile godzin i paliwa potrzeba, żeby agregat pokrył niedobór najgorszego miesiąca bez sieci — i jak go bezpiecznie
         podłączyć. Ten sam silnik co ekran „Agregat prądotwórczy” (Moduł 2). M14 „Dom – sieć”, ekran D6.
       </NaglowekEkranu>
@@ -83,9 +84,33 @@ export default function AgregatJakoZapasPage() {
       )}
 
       <div className="flex flex-col gap-4">
-        <Pole label="Moc agregatu" unit="kW" type="number" inputMode="decimal" value={stan.moc} onChange={(e) => ustaw({ moc: e.target.value })} />
-        <Pole label="Zużycie paliwa przy obciążeniu 80%" unit="l/h" type="number" inputMode="decimal" value={stan.zuzycieLH} onChange={(e) => ustaw({ zuzycieLH: e.target.value })} hint="Z karty katalogowej agregatu." />
-        <Pole label="Cena paliwa" unit="zł/l" type="number" inputMode="decimal" value={stan.cena} onChange={(e) => ustaw({ cena: e.target.value })} />
+        <Pole
+          label="Moc agregatu"
+          unit="kW"
+          type="number"
+          inputMode="decimal"
+          value={stan.moc}
+          onChange={(e) => ustaw({ moc: e.target.value })}
+          pomoc={<PomocPola ekran="agregat-jako-zapas" pole="moc" />}
+        />
+        <Pole
+          label="Zużycie paliwa przy obciążeniu 80%"
+          unit="l/h"
+          type="number"
+          inputMode="decimal"
+          value={stan.zuzycieLH}
+          onChange={(e) => ustaw({ zuzycieLH: e.target.value })}
+          pomoc={<PomocPola ekran="agregat-jako-zapas" pole="paliwo" />}
+        />
+        <Pole
+          label="Cena paliwa"
+          unit="zł/l"
+          type="number"
+          inputMode="decimal"
+          value={stan.cena}
+          onChange={(e) => ustaw({ cena: e.target.value })}
+          pomoc={<PomocPola ekran="agregat-jako-zapas" pole="cenaPaliwa" />}
+        />
         <PoleCheckbox id="siec-agregat-bms" checked={stan.bms} onChange={(e) => ustaw({ bms: e.target.checked })} label="BMS / falownik ma wyjście do automatycznego startu agregatu" />
         <PolaBezpieczenstwaAgregatu miejsceAgregatu={stan.miejsceAgregatu} podlaczenieAgregatu={stan.podlaczenieAgregatu} onChange={ustaw} />
       </div>

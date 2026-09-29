@@ -12,6 +12,7 @@ import {
 } from "@/components/agregat/pola-bezpieczenstwa-agregatu"
 import { NawigacjaEkranu } from "@/components/nawigacja-ekranu"
 import { PoleCheckbox, PoleSelect } from "@/components/ui/pole"
+import { PomocPola } from "@/components/ui/pomoc"
 import { WerdyktPanel } from "@/components/werdykt"
 import { KrokZMedia } from "@/components/wzorce/krok-z-media"
 import { NaglowekEkranu } from "@/components/wzorce/naglowek-ekranu"
@@ -62,7 +63,7 @@ export default function PrzelacznikSiecWyspaPage() {
   return (
     <main className="mx-auto flex max-w-2xl flex-col gap-6 p-6">
       <NawigacjaEkranu href="/kalkulatory/przelacznik-siec-wyspa" />
-      <NaglowekEkranu tytul="Przełącznik sieć/wyspa i bezpieczeństwo">
+      <NaglowekEkranu tytul="Przełącznik sieć/wyspa i bezpieczeństwo" ekran="przelacznik-siec-wyspa">
         Instalacja wyspowa ani agregat nie mogą nigdy podać napięcia do sieci — monter na „wyłączonej” linii może zginąć. Tu
         sprawdzisz, czy styk z siecią jest bezpieczny. M14, ekran D11 (wspólny dla domu i firmy).
       </NaglowekEkranu>
@@ -89,7 +90,12 @@ export default function PrzelacznikSiecWyspaPage() {
 
       <section className="flex flex-col gap-3">
         <h2 className="font-semibold">Sprawdź swoją instalację</h2>
-        <PoleSelect label="Jak instalacja styka się z siecią" value={stan.trybPracy} onChange={(e) => ustaw({ trybPracy: e.target.value as Stan["trybPracy"] })}>
+        <PoleSelect
+          label="Jak instalacja styka się z siecią"
+          value={stan.trybPracy}
+          onChange={(e) => ustaw({ trybPracy: e.target.value as Stan["trybPracy"] })}
+          pomoc={<PomocPola ekran="przelacznik-siec-wyspa" pole="tryb" />}
+        >
           <option value="">— wybierz —</option>
           <option value="przelaczany">Przełączana: sieć albo wyspa (bez synchronizacji)</option>
           <option value="rownolegle">Równolegle z siecią (falownik hybrydowy / sieciowy)</option>
@@ -97,13 +103,23 @@ export default function PrzelacznikSiecWyspaPage() {
         </PoleSelect>
         {stan.trybPracy === "przelaczany" && (
           <>
-            <PoleSelect label="Przełącznik" value={stan.przelacznik} onChange={(e) => ustaw({ przelacznik: e.target.value as Stan["przelacznik"] })}>
+            <PoleSelect
+              label="Przełącznik"
+              value={stan.przelacznik}
+              onChange={(e) => ustaw({ przelacznik: e.target.value as Stan["przelacznik"] })}
+              pomoc={<PomocPola ekran="przelacznik-siec-wyspa" pole="przelacznik" />}
+            >
               <option value="">— wybierz —</option>
               <option value="reczny-z-zerem-blokada">Ręczny sieć – 0 – wyspa z blokadą mechaniczną</option>
               <option value="szr-blokada-el-mech">SZR z blokadą elektryczną i mechaniczną</option>
               <option value="brak-lub-bez-blokady">Brak, zwykły wyłącznik albo bez blokady</option>
             </PoleSelect>
-            <PoleSelect label="Czy przełączany jest też przewód N?" value={stan.przelaczaN} onChange={(e) => ustaw({ przelaczaN: e.target.value as Stan["przelaczaN"] })}>
+            <PoleSelect
+              label="Czy przełączany jest też przewód N?"
+              value={stan.przelaczaN}
+              onChange={(e) => ustaw({ przelaczaN: e.target.value as Stan["przelaczaN"] })}
+              pomoc={<PomocPola ekran="przelacznik-siec-wyspa" pole="przewodN" />}
+            >
               <option value="">nie wiem</option>
               <option value="tak">tak, fazy i N</option>
               <option value="nie">nie, tylko fazy</option>
@@ -111,7 +127,12 @@ export default function PrzelacznikSiecWyspaPage() {
           </>
         )}
         {stan.trybPracy === "rownolegle" && (
-          <PoleSelect label="Mikroinstalacja zgłoszona do OSD?" value={stan.zgloszenieOsd} onChange={(e) => ustaw({ zgloszenieOsd: e.target.value as Stan["zgloszenieOsd"] })}>
+          <PoleSelect
+            label="Mikroinstalacja zgłoszona do OSD?"
+            value={stan.zgloszenieOsd}
+            onChange={(e) => ustaw({ zgloszenieOsd: e.target.value as Stan["zgloszenieOsd"] })}
+            pomoc={<PomocPola ekran="przelacznik-siec-wyspa" pole="zgloszenie" />}
+          >
             <option value="">— wybierz —</option>
             <option value="tak">tak</option>
             <option value="nie">nie</option>

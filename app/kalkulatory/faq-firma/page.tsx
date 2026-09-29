@@ -7,7 +7,7 @@ export default function FaqFirmaPage() {
   return (
     <main className="mx-auto flex max-w-2xl flex-col gap-6 p-6">
       <NawigacjaEkranu href="/kalkulatory/faq-firma" />
-      <NaglowekEkranu tytul="Najczęstsze pytania firm">
+      <NaglowekEkranu tytul="Najczęstsze pytania firm" ekran="faq-firma">
         Taryfy C, moc bierna, opłata mocowa, net-billing, magazyny i licznik — odpowiedzi poprawione względem materiału
         źródłowego. M14 „Firma – sieć”, ekran F13.
       </NaglowekEkranu>

@@ -7,7 +7,7 @@ export default function FaqDomPage() {
   return (
     <main className="mx-auto flex max-w-2xl flex-col gap-6 p-6">
       <NawigacjaEkranu href="/kalkulatory/faq-dom" />
-      <NaglowekEkranu tytul="Najczęstsze pytania — dom i sieć">
+      <NaglowekEkranu tytul="Najczęstsze pytania — dom i sieć" ekran="faq-dom">
         Rachunek, prosument, odłączenie i bezpieczeństwo w krótkich odpowiedziach, z odnośnikami do kalkulatorów. M14 „Dom –
         sieć”, ekran D14.
       </NaglowekEkranu>

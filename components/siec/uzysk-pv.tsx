@@ -4,6 +4,7 @@ import { useMemo, useState, type ReactNode } from "react"
 import { SekcjaDanychNaslonecznienia } from "@/components/lokalizacja/sekcja-dane-nasloniecznienia"
 import { Button } from "@/components/ui/button"
 import { Pole, PoleSelect } from "@/components/ui/pole"
+import { PomocPola } from "@/components/ui/pomoc"
 import type { TabelaNapromieniowania } from "@/lib/core/modules/pv/kat-i-azymut/input"
 import { calculateKatIAzymut } from "@/lib/core/modules/pv/kat-i-azymut/calculator"
 import { useLokalizacjaProjektu } from "@/lib/lokalizacja/use-lokalizacja-projektu"
@@ -83,6 +84,7 @@ export function SekcjaUzyskuPv({ stan, onChange }: { stan: StanUzysku; onChange:
         label="Skąd uzysk"
         value={stan.zrodlo}
         onChange={(e) => onChange({ zrodlo: e.target.value as StanUzysku["zrodlo"] })}
+        pomoc={<PomocPola ekran="siec-uzysk-pv" pole="zrodlo" />}
       >
         <option value="lokalizacja">z nasłonecznienia mojej lokalizacji (Moduł 1 i 3)</option>
         <option value="reczny">wpiszę 12 wartości (np. z PVGIS)</option>
@@ -91,9 +93,33 @@ export function SekcjaUzyskuPv({ stan, onChange }: { stan: StanUzysku; onChange:
         <>
           <SekcjaDanychNaslonecznienia lokalizacja={lokalizacja} dane={dane} tmy={tmy} />
           <div className="grid grid-cols-3 gap-3">
-            <Pole label="Azymut" unit="°" type="number" inputMode="decimal" value={stan.azymutDeg} onChange={(e) => onChange({ azymutDeg: e.target.value })} hint="0 = południe" />
-            <Pole label="Nachylenie" unit="°" type="number" inputMode="decimal" value={stan.nachylenieDeg} onChange={(e) => onChange({ nachylenieDeg: e.target.value })} />
-            <Pole label="PR" type="number" inputMode="decimal" step={0.01} value={stan.pr} onChange={(e) => onChange({ pr: e.target.value })} hint="0–1, Twoja wartość" />
+            <Pole
+              label="Azymut"
+              unit="°"
+              type="number"
+              inputMode="decimal"
+              value={stan.azymutDeg}
+              onChange={(e) => onChange({ azymutDeg: e.target.value })}
+              pomoc={<PomocPola ekran="siec-uzysk-pv" pole="azymut" />}
+            />
+            <Pole
+              label="Nachylenie"
+              unit="°"
+              type="number"
+              inputMode="decimal"
+              value={stan.nachylenieDeg}
+              onChange={(e) => onChange({ nachylenieDeg: e.target.value })}
+              pomoc={<PomocPola ekran="siec-uzysk-pv" pole="nachylenie" />}
+            />
+            <Pole
+              label="PR"
+              type="number"
+              inputMode="decimal"
+              step={0.01}
+              value={stan.pr}
+              onChange={(e) => onChange({ pr: e.target.value })}
+              pomoc={<PomocPola ekran="siec-uzysk-pv" pole="pr" />}
+            />
           </div>
           <Button type="button" variant="outline" onClick={policz} disabled={!lokalizacja || !dane || stan.azymutDeg === "" || obliczenia.liczy}>
             Policz nasłonecznienie dla tego azymutu
@@ -124,6 +150,7 @@ export function SekcjaUzyskuPv({ stan, onChange }: { stan: StanUzysku; onChange:
               min={0}
               value={stan.reczny[i] ?? ""}
               onChange={(e) => onChange({ reczny: stan.reczny.map((v, j) => (j === i ? e.target.value : v)) })}
+              pomoc={<PomocPola ekran="siec-uzysk-pv" pole="miesiac" />}
             />
           ))}
         </fieldset>

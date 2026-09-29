@@ -6,6 +6,7 @@ import type { WariantPomiaru } from "@/lib/core/modules/siec/moc-umowna/input"
 import type { Grupa, OsdId } from "@/lib/core/dane/rozliczenia-pl-2026"
 import { usePersistedDraft } from "@/lib/adapters/use-persisted-draft"
 import { Pole, PoleSelect } from "@/components/ui/pole"
+import { PomocPola } from "@/components/ui/pomoc"
 import { WerdyktPanel } from "@/components/werdykt"
 import { NawigacjaEkranu } from "@/components/nawigacja-ekranu"
 import { NaglowekEkranu } from "@/components/wzorce/naglowek-ekranu"
@@ -55,21 +56,34 @@ export default function MocUmownaPage() {
   return (
     <main className="mx-auto flex max-w-md flex-col gap-6 p-6">
       <NawigacjaEkranu href="/kalkulatory/moc-umowna" />
-      <NaglowekEkranu tytul="Moc umowna — przekroczenia i optymalny poziom">
+      <NaglowekEkranu tytul="Moc umowna — przekroczenia i optymalny poziom" ekran="moc-umowna" wzor={result.formula}>
         Ile kosztują przekroczenia mocy umownej i przy jakiej mocy umownej suma opłaty stałej i przekroczeń jest najniższa.
         Zasady opłaty jak w taryfach OSD 2026. M14 „Firma – sieć”, ekran F4.
       </NaglowekEkranu>
 
       <div className="flex flex-col gap-4">
         <PoleOsd value={stan.osd} onChange={(osd) => ustaw("osd", osd)} />
-        <PoleSelect label="Grupa taryfowa" value={stan.grupa} onChange={(e) => ustaw("grupa", e.target.value as Grupa)}>
+        <PoleSelect
+          label="Grupa taryfowa"
+          value={stan.grupa}
+          onChange={(e) => ustaw("grupa", e.target.value as Grupa)}
+          pomoc={<PomocPola ekran="moc-umowna" pole="grupa" />}
+        >
           {GRUPY_FIRMA.map((g) => (
             <option key={g} value={g}>
               {g}
             </option>
           ))}
         </PoleSelect>
-        <Pole label="Obecna moc umowna" unit="kW" type="number" inputMode="decimal" value={stan.moc} onChange={(e) => ustaw("moc", e.target.value)} />
+        <Pole
+          label="Obecna moc umowna"
+          unit="kW"
+          type="number"
+          inputMode="decimal"
+          value={stan.moc}
+          onChange={(e) => ustaw("moc", e.target.value)}
+          pomoc={<PomocPola ekran="moc-umowna" pole="moc" />}
+        />
         <Pole
           label="Składnik stały stawki sieciowej (opcjonalnie, z faktury)"
           unit="zł/kW/mies."
@@ -77,13 +91,13 @@ export default function MocUmownaPage() {
           inputMode="decimal"
           value={stan.stala}
           onChange={(e) => ustaw("stala", e.target.value)}
-          hint="Puste pole = stawka z taryfy 2026 wybranego OSD."
+          pomoc={<PomocPola ekran="moc-umowna" pole="skladnikStaly" />}
         />
         <PoleSelect
           label="Jak licznik mierzy przekroczenia"
           value={stan.wariant}
           onChange={(e) => ustaw("wariant", e.target.value as WariantPomiaru)}
-          hint="Sprawdź na fakturze albo zapytaj OSD. Przy „10 największych” bez tych 10 wartości liczymy górne oszacowanie."
+          pomoc={<PomocPola ekran="moc-umowna" pole="pomiar" />}
         >
           <option value="suma10">suma 10 największych nadwyżek (pomiar 15-minutowy)</option>
           <option value="10xmax">10 × największa nadwyżka</option>
@@ -98,6 +112,7 @@ export default function MocUmownaPage() {
               inputMode="decimal"
               value={stan.maksy[i] ?? ""}
               onChange={(e) => ustaw("maksy", stan.maksy.map((x, j) => (j === i ? e.target.value : x)))}
+              pomoc={<PomocPola ekran="moc-umowna" pole="maksMiesiac" />}
             />
           ))}
         </fieldset>

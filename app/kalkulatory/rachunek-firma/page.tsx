@@ -8,7 +8,7 @@ export default function RachunekFirmaPage() {
   return (
     <main className="mx-auto flex max-w-md flex-col gap-6 p-6">
       <NawigacjaEkranu href="/kalkulatory/rachunek-firma" />
-      <NaglowekEkranu tytul="Mój rachunek dziś (taryfa C)">
+      <NaglowekEkranu tytul="Mój rachunek dziś (taryfa C)" ekran="rachunek-firma">
         Rachunek firmy na niskim napięciu (C11–C22b): energia, dystrybucja, opłata mocowa za pobór w dni robocze 7–22 i
         koszt stały zależny od mocy umownej. Cena sprzedaży jest rynkowa — wpisujesz ją z faktury. M14 „Firma – sieć”,
         ekran F1.

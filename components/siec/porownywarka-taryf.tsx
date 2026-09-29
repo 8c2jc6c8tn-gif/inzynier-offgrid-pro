@@ -8,6 +8,7 @@ import { STREFY_GRUPY } from "@/lib/core/modules/siec/rachunek-za-prad/constants
 import type { Fazy, Segment } from "@/lib/core/modules/siec/rachunek-za-prad/input"
 import { usePersistedDraft } from "@/lib/adapters/use-persisted-draft"
 import { Pole, PoleCheckbox, PoleSelect } from "@/components/ui/pole"
+import { PomocPola } from "@/components/ui/pomoc"
 import { WerdyktPanel } from "@/components/werdykt"
 import { WynikGlowny } from "@/components/wzorce/wynik-glowny"
 import { WynikSzczegoly } from "@/components/wzorce/wynik-szczegoly"
@@ -90,7 +91,12 @@ export function PorownywarkaTaryf({ segment }: { segment: Segment }) {
       <div className="flex flex-col gap-4">
         <PoleOsd value={stan.osd} onChange={(osd) => ustaw("osd", osd)} />
         {segment === "dom" ? (
-          <PoleSelect label="Przyłącze" value={stan.fazy} onChange={(e) => ustaw("fazy", e.target.value as Fazy)}>
+          <PoleSelect
+            label="Przyłącze"
+            value={stan.fazy}
+            onChange={(e) => ustaw("fazy", e.target.value as Fazy)}
+            pomoc={<PomocPola ekran="siec-rachunek" pole="przylacze" />}
+          >
             <option value="jednofazowa">jednofazowe</option>
             <option value="trojfazowa">trójfazowe</option>
           </PoleSelect>
@@ -103,7 +109,7 @@ export function PorownywarkaTaryf({ segment }: { segment: Segment }) {
               inputMode="decimal"
               value={stan.mocUmownaKw}
               onChange={(e) => ustaw("mocUmownaKw", e.target.value)}
-              hint="Grupy niedostępne dla tej mocy zostaną wyłączone z porównania, nie „uznane za gorsze”."
+              pomoc={<PomocPola ekran="siec-rachunek" pole="mocUmowna" />}
             />
             <Pole
               label="Energia pobrana w dni robocze 7:00–22:00"
@@ -112,11 +118,24 @@ export function PorownywarkaTaryf({ segment }: { segment: Segment }) {
               inputMode="decimal"
               value={stan.energiaMocowa}
               onChange={(e) => ustaw("energiaMocowa", e.target.value)}
+              pomoc={<PomocPola ekran="siec-rachunek" pole="energiaMocowa" />}
             />
           </>
         )}
-        <Pole label="Rok rozliczenia" type="number" inputMode="numeric" value={stan.rok} onChange={(e) => ustaw("rok", e.target.value)} />
-        <PoleSelect label="Okres rozliczeniowy" value={stan.okres} onChange={(e) => ustaw("okres", e.target.value as OkresRozliczeniowy)}>
+        <Pole
+          label="Rok rozliczenia"
+          type="number"
+          inputMode="numeric"
+          value={stan.rok}
+          onChange={(e) => ustaw("rok", e.target.value)}
+          pomoc={<PomocPola ekran="siec-rachunek" pole="rok" />}
+        />
+        <PoleSelect
+          label="Okres rozliczeniowy"
+          value={stan.okres}
+          onChange={(e) => ustaw("okres", e.target.value as OkresRozliczeniowy)}
+          pomoc={<PomocPola ekran="siec-rachunek" pole="okres" />}
+        >
           <option value="1">co 1 miesiąc</option>
           <option value="2">co 2 miesiące</option>
           <option value="6">co 6 miesięcy</option>
@@ -129,7 +148,7 @@ export function PorownywarkaTaryf({ segment }: { segment: Segment }) {
           inputMode="decimal"
           value={stan.handlowa}
           onChange={(e) => ustaw("handlowa", e.target.value)}
-          hint="Wpisz 0, jeśli jej nie ma."
+          pomoc={<PomocPola ekran="siec-rachunek" pole="handlowa" />}
         />
 
         <p className="text-small text-muted-foreground">
@@ -157,6 +176,7 @@ export function PorownywarkaTaryf({ segment }: { segment: Segment }) {
                       inputMode="decimal"
                       value={w.zuzycie[z] ?? ""}
                       onChange={(e) => ustawWariant(gr, { zuzycie: { ...w.zuzycie, [z]: e.target.value } })}
+                      pomoc={<PomocPola ekran="siec-rachunek" pole="zuzycieStrefy" />}
                     />
                     <Pole
                       label={`${gr} — cena energii, ${ETYKIETA_STREFY[z]}`}
@@ -165,6 +185,7 @@ export function PorownywarkaTaryf({ segment }: { segment: Segment }) {
                       inputMode="decimal"
                       value={w.ceny[z] ?? ""}
                       onChange={(e) => ustawWariant(gr, { ceny: { ...w.ceny, [z]: e.target.value } })}
+                      pomoc={<PomocPola ekran="siec-rachunek" pole="cenaStrefy" />}
                     />
                   </div>
                 ))}

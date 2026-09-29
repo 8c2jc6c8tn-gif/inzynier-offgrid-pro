@@ -12,6 +12,7 @@ import type { IdScenariusza, ParametryScenariusza } from "@/lib/core/modules/sie
 import { HORYZONT_DOMYSLNY_LAT } from "@/lib/core/modules/siec/sciezka-cen-energii/constants"
 import { useOdczytDraftu, usePersistedDraft } from "@/lib/adapters/use-persisted-draft"
 import { Pole, PoleCheckbox, PoleSelect } from "@/components/ui/pole"
+import { PomocPola } from "@/components/ui/pomoc"
 import { StanLadowania, StanPusty } from "@/components/ui/stany"
 import { WerdyktPanel } from "@/components/werdykt"
 import { SekcjaAkordeon } from "@/components/wzorce/sekcja-akordeon"
@@ -183,8 +184,26 @@ export function PorownanieScenariuszy({ segment }: { segment: Segment }) {
 
       <SekcjaAkordeon tytul="Sieć i horyzont">
         <div className="grid grid-cols-2 gap-3">
-          <Pole label="Horyzont N" unit="lat" type="number" inputMode="numeric" min={10} max={25} value={stan.horyzont} onChange={(e) => ustaw({ horyzont: e.target.value })} hint="10–25, domyślnie 15" />
-          <Pole label="Stopa dyskontowa r" unit="%/rok" type="number" inputMode="decimal" value={stan.stopa} onChange={(e) => ustaw({ stopa: e.target.value })} hint="0 = tryb prosty" />
+          <Pole
+            label="Horyzont N"
+            unit="lat"
+            type="number"
+            inputMode="numeric"
+            min={10}
+            max={25}
+            value={stan.horyzont}
+            onChange={(e) => ustaw({ horyzont: e.target.value })}
+            pomoc={<PomocPola ekran="siec-scenariusze" pole="horyzont" />}
+          />
+          <Pole
+            label="Stopa dyskontowa r"
+            unit="%/rok"
+            type="number"
+            inputMode="decimal"
+            value={stan.stopa}
+            onChange={(e) => ustaw({ stopa: e.target.value })}
+            pomoc={<PomocPola ekran="siec-scenariusze" pole="stopa" />}
+          />
           <Pole
             label="„Cena trzymania sieci” brutto"
             unit="zł/rok"
@@ -193,7 +212,7 @@ export function PorownanieScenariuszy({ segment }: { segment: Segment }) {
             value={stan.kosztStaly}
             placeholder={echoRachunku ? f0(echoRachunku.staly) : ""}
             onChange={(e) => ustaw({ kosztStaly: e.target.value })}
-            hint={echoRachunku ? "Puste = z ekranu „Mój rachunek dziś”." : "Policz na ekranie „Mój rachunek dziś” albo wpisz."}
+            pomoc={<PomocPola ekran="siec-scenariusze" pole="cenaSieci" />}
           />
           <Pole
             label="Koszt zmienny 1 kWh brutto"
@@ -203,7 +222,7 @@ export function PorownanieScenariuszy({ segment }: { segment: Segment }) {
             value={stan.cenaZmienna}
             placeholder={echoRachunku ? echoRachunku.zmienna.toFixed(2) : ""}
             onChange={(e) => ustaw({ cenaZmienna: e.target.value })}
-            hint={echoRachunku ? "Puste = z ekranu „Mój rachunek dziś”." : undefined}
+            pomoc={<PomocPola ekran="siec-scenariusze" pole="kosztKwh" />}
           />
           <Pole
             label="Wartość 1 kWh oddanej"
@@ -212,9 +231,17 @@ export function PorownanieScenariuszy({ segment }: { segment: Segment }) {
             inputMode="decimal"
             value={stan.wartoscNadwyzki}
             onChange={(e) => ustaw({ wartoscNadwyzki: e.target.value })}
-            hint="Z ekranu depozytu (cena × 1,23). 0, jeśli nic nie oddajesz."
+            pomoc={<PomocPola ekran="siec-scenariusze" pole="wartoscOddanej" />}
           />
-          <Pole label="Żywotność magazynu" unit="lat" type="number" inputMode="decimal" value={stan.zywotnosc} onChange={(e) => ustaw({ zywotnosc: e.target.value })} hint="Z karty katalogowej (cykle) — do wymian i wartości końcowej." />
+          <Pole
+            label="Żywotność magazynu"
+            unit="lat"
+            type="number"
+            inputMode="decimal"
+            value={stan.zywotnosc}
+            onChange={(e) => ustaw({ zywotnosc: e.target.value })}
+            pomoc={<PomocPola ekran="siec-scenariusze" pole="zywotnosc" />}
+          />
         </div>
         <p className="text-small text-muted-foreground">
           Moc PV i magazyn domyślnie jak na ekranie „{firma ? "PV w firmie" : "Ile PV i magazynu"}” ({f0(pvMoc)} kWp,{" "}
@@ -225,23 +252,105 @@ export function PorownanieScenariuszy({ segment }: { segment: Segment }) {
       {SCENARIUSZE.map((id) => (
         <SekcjaAkordeon key={id} tytul={NAZWA[id]}>
           <div className="grid grid-cols-2 gap-3">
-            <Pole label="Inwestycja" unit="zł" type="number" inputMode="decimal" value={stan.scen[id].inwestycja} onChange={(e) => ustawScen(id, { inwestycja: e.target.value })} hint="Puste = scenariusz pominięty. Twoje ceny." />
-            <Pole label="Dotacja" unit="zł" type="number" inputMode="decimal" value={stan.scen[id].dotacja} onChange={(e) => ustawScen(id, { dotacja: e.target.value })} />
-            <Pole label="Moc PV" unit="kWp" type="number" inputMode="decimal" value={stan.scen[id].moc} placeholder={String(pvMoc)} onChange={(e) => ustawScen(id, { moc: e.target.value })} />
+            <Pole
+              label="Inwestycja"
+              unit="zł"
+              type="number"
+              inputMode="decimal"
+              value={stan.scen[id].inwestycja}
+              onChange={(e) => ustawScen(id, { inwestycja: e.target.value })}
+              pomoc={<PomocPola ekran="siec-scenariusze" pole="inwestycja" />}
+            />
+            <Pole
+              label="Dotacja"
+              unit="zł"
+              type="number"
+              inputMode="decimal"
+              value={stan.scen[id].dotacja}
+              onChange={(e) => ustawScen(id, { dotacja: e.target.value })}
+              pomoc={<PomocPola ekran="siec-scenariusze" pole="dotacja" />}
+            />
+            <Pole
+              label="Moc PV"
+              unit="kWp"
+              type="number"
+              inputMode="decimal"
+              value={stan.scen[id].moc}
+              placeholder={String(pvMoc)}
+              onChange={(e) => ustawScen(id, { moc: e.target.value })}
+              pomoc={<PomocPola ekran="siec-scenariusze" pole="mocPv" />}
+            />
             {id !== "A" && (
               <>
-                <Pole label="Magazyn" unit="kWh" type="number" inputMode="decimal" value={stan.scen[id].pojemnosc} placeholder={String(pvPojemnosc)} onChange={(e) => ustawScen(id, { pojemnosc: e.target.value })} />
-                <Pole label="W tym koszt magazynu" unit="zł" type="number" inputMode="decimal" value={stan.scen[id].kosztMagazynu} onChange={(e) => ustawScen(id, { kosztMagazynu: e.target.value })} hint="Do wymiany po żywotności." />
+                <Pole
+                  label="Magazyn"
+                  unit="kWh"
+                  type="number"
+                  inputMode="decimal"
+                  value={stan.scen[id].pojemnosc}
+                  placeholder={String(pvPojemnosc)}
+                  onChange={(e) => ustawScen(id, { pojemnosc: e.target.value })}
+                  pomoc={<PomocPola ekran="siec-scenariusze" pole="magazyn" />}
+                />
+                <Pole
+                  label="W tym koszt magazynu"
+                  unit="zł"
+                  type="number"
+                  inputMode="decimal"
+                  value={stan.scen[id].kosztMagazynu}
+                  onChange={(e) => ustawScen(id, { kosztMagazynu: e.target.value })}
+                  pomoc={<PomocPola ekran="siec-scenariusze" pole="kosztMagazynu" />}
+                />
               </>
             )}
-            <Pole label="Serwis" unit="zł/rok" type="number" inputMode="decimal" value={stan.scen[id].serwis} onChange={(e) => ustawScen(id, { serwis: e.target.value })} />
+            <Pole
+              label="Serwis"
+              unit="zł/rok"
+              type="number"
+              inputMode="decimal"
+              value={stan.scen[id].serwis}
+              onChange={(e) => ustawScen(id, { serwis: e.target.value })}
+              pomoc={<PomocPola ekran="siec-scenariusze" pole="serwis" />}
+            />
           </div>
           {id === "D" && (
             <div className="mt-3 grid grid-cols-2 gap-3">
-              <Pole label="Agregat — moc" unit="kW" type="number" inputMode="decimal" value={stan.agregatMoc} onChange={(e) => ustaw({ agregatMoc: e.target.value })} hint="0 = bez agregatu" />
-              <Pole label="Zużycie paliwa" unit="l/h" type="number" inputMode="decimal" value={stan.agregatLH} onChange={(e) => ustaw({ agregatLH: e.target.value })} />
-              <Pole label="Cena paliwa" unit="zł/l" type="number" inputMode="decimal" value={stan.paliwo} onChange={(e) => ustaw({ paliwo: e.target.value })} />
-              <Pole label="Mój próg pracy agregatu" unit="h/mies." type="number" inputMode="decimal" value={stan.prog} onChange={(e) => ustaw({ prog: e.target.value })} hint="Powyżej — „D ryzykowne”." />
+              <Pole
+                label="Agregat — moc"
+                unit="kW"
+                type="number"
+                inputMode="decimal"
+                value={stan.agregatMoc}
+                onChange={(e) => ustaw({ agregatMoc: e.target.value })}
+                pomoc={<PomocPola ekran="siec-scenariusze" pole="agregatMoc" />}
+              />
+              <Pole
+                label="Zużycie paliwa"
+                unit="l/h"
+                type="number"
+                inputMode="decimal"
+                value={stan.agregatLH}
+                onChange={(e) => ustaw({ agregatLH: e.target.value })}
+                pomoc={<PomocPola ekran="siec-scenariusze" pole="paliwoZuzycie" />}
+              />
+              <Pole
+                label="Cena paliwa"
+                unit="zł/l"
+                type="number"
+                inputMode="decimal"
+                value={stan.paliwo}
+                onChange={(e) => ustaw({ paliwo: e.target.value })}
+                pomoc={<PomocPola ekran="siec-scenariusze" pole="paliwoCena" />}
+              />
+              <Pole
+                label="Mój próg pracy agregatu"
+                unit="h/mies."
+                type="number"
+                inputMode="decimal"
+                value={stan.prog}
+                onChange={(e) => ustaw({ prog: e.target.value })}
+                pomoc={<PomocPola ekran="siec-scenariusze" pole="progAgregatu" />}
+              />
             </div>
           )}
           {OPIS_SCENARIUSZA[id].wyspa && id === "C" && (
@@ -252,14 +361,27 @@ export function PorownanieScenariuszy({ segment }: { segment: Segment }) {
 
       <section className="flex flex-col gap-3">
         <h2 className="font-semibold">Pytania kontrolne</h2>
-        <PoleSelect label="Czy ktoś zależy od zasilanego sprzętu medycznego?" value={stan.osobyZalezne} onChange={(e) => ustaw({ osobyZalezne: e.target.value as Stan["osobyZalezne"] })} hint="Koncentrator tlenu, sprzęt medyczny, lodówka z lekami (R4).">
+        <PoleSelect
+          label="Czy ktoś zależy od zasilanego sprzętu medycznego?"
+          value={stan.osobyZalezne}
+          onChange={(e) => ustaw({ osobyZalezne: e.target.value as Stan["osobyZalezne"] })}
+          pomoc={<PomocPola ekran="siec-scenariusze" pole="medyczny" />}
+        >
           <option value="">— wybierz —</option>
           <option value="nie">nie</option>
           <option value="tak">tak</option>
         </PoleSelect>
         <PoleCheckbox id={`siec-zapas-${segment}`} checked={stan.zapasRedundantny} onChange={(e) => ustaw({ zapasRedundantny: e.target.checked })} label="Mam redundantny zapas — drugie, niezależne źródło (np. agregat z osobnym torem ładowania)" />
         {firma && (
-          <Pole label="Dopuszczalny czas bez zasilania" unit="h" type="number" inputMode="decimal" value={stan.czasBezZasilania} onChange={(e) => ustaw({ czasBezZasilania: e.target.value })} hint="Chłodnie, produkcja, serwery — ile godzin firma zniesie (RF1)." />
+          <Pole
+            label="Dopuszczalny czas bez zasilania"
+            unit="h"
+            type="number"
+            inputMode="decimal"
+            value={stan.czasBezZasilania}
+            onChange={(e) => ustaw({ czasBezZasilania: e.target.value })}
+            pomoc={<PomocPola ekran="siec-scenariusze" pole="czasBezZasilania" />}
+          />
         )}
       </section>
 

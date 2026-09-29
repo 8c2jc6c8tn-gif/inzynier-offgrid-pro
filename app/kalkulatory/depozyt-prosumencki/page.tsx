@@ -5,6 +5,7 @@ import { calculateDepozyt } from "@/lib/core/modules/siec/depozyt-prosumencki/ca
 import type { SystemCeny } from "@/lib/core/modules/siec/depozyt-prosumencki/input"
 import { usePersistedDraft } from "@/lib/adapters/use-persisted-draft"
 import { Pole, PoleSelect } from "@/components/ui/pole"
+import { PomocPola } from "@/components/ui/pomoc"
 import { WerdyktPanel } from "@/components/werdykt"
 import { NawigacjaEkranu } from "@/components/nawigacja-ekranu"
 import { NaglowekEkranu } from "@/components/wzorce/naglowek-ekranu"
@@ -46,7 +47,11 @@ export default function DepozytProsumenckiPage() {
   return (
     <main className="mx-auto flex max-w-md flex-col gap-6 p-6">
       <NawigacjaEkranu href="/kalkulatory/depozyt-prosumencki" />
-      <NaglowekEkranu tytul="Net-metering, net-billing, depozyt — co tracę, odchodząc">
+      <NaglowekEkranu
+        tytul="Net-metering, net-billing, depozyt — co tracę, odchodząc"
+        ekran="depozyt-prosumencki"
+        wzor={result.formula}
+      >
         Jak rozliczana jest energia oddana do sieci i co dzieje się z depozytem, gdy rezygnujesz z umowy. M14 „Dom – sieć”,
         ekran D8.
       </NaglowekEkranu>
@@ -91,6 +96,7 @@ export default function DepozytProsumenckiPage() {
           type="month"
           value={stan.miesiac}
           onChange={(e) => ustaw("miesiac", e.target.value)}
+          pomoc={<PomocPola ekran="depozyt-prosumencki" pole="miesiac" />}
         />
         <Pole
           label="Energia oddana do sieci w tym miesiącu"
@@ -99,8 +105,14 @@ export default function DepozytProsumenckiPage() {
           inputMode="decimal"
           value={stan.energia}
           onChange={(e) => ustaw("energia", e.target.value)}
+          pomoc={<PomocPola ekran="depozyt-prosumencki" pole="energia" />}
         />
-        <PoleSelect label="Cena rozliczenia" value={stan.system} onChange={(e) => ustaw("system", e.target.value as SystemCeny)}>
+        <PoleSelect
+          label="Cena rozliczenia"
+          value={stan.system}
+          onChange={(e) => ustaw("system", e.target.value as SystemCeny)}
+          pomoc={<PomocPola ekran="depozyt-prosumencki" pole="cena" />}
+        >
           <option value="rce">RCE — cena godzinowa</option>
           <option value="rcem">RCEm — cena miesięczna</option>
         </PoleSelect>
@@ -111,7 +123,7 @@ export default function DepozytProsumenckiPage() {
           inputMode="decimal"
           value={stan.cena}
           onChange={(e) => ustaw("cena", e.target.value)}
-          hint="Z rozliczenia sprzedawcy albo z publikacji PSE (RCEm / RCE)."
+          pomoc={<PomocPola ekran="depozyt-prosumencki" pole="sredniaCena" />}
         />
         <Pole
           label="Ile z tego depozytu wykorzystasz w 12 miesięcy (opcjonalnie)"
@@ -120,6 +132,7 @@ export default function DepozytProsumenckiPage() {
           inputMode="decimal"
           value={stan.wykorzystano}
           onChange={(e) => ustaw("wykorzystano", e.target.value)}
+          pomoc={<PomocPola ekran="depozyt-prosumencki" pole="wykorzystanie" />}
         />
         <Pole
           label="Pełny koszt 1 kWh pobranej, brutto (opcjonalnie)"
@@ -128,7 +141,7 @@ export default function DepozytProsumenckiPage() {
           inputMode="decimal"
           value={stan.pelnyKoszt}
           onChange={(e) => ustaw("pelnyKoszt", e.target.value)}
-          hint="Np. średnia z ekranu „Mój rachunek dziś”. Pozwala policzyć, ile naprawdę wart jest 1 kWh oddany."
+          pomoc={<PomocPola ekran="depozyt-prosumencki" pole="pelnyKoszt" />}
         />
       </div>
 
