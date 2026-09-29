@@ -8150,6 +8150,17 @@ Tryb Audyt (czapka rewidenta). Warstwa „w pełni na końcu” z N.2 — wszyst
   przy DC — przy 230 V z kompletem uziemienia dawałoby fałszywe 🟡. **Pułapka:** zmiana poziomu = też teksty migawki „i”
   (mówiły „nie = czerwony stop”) i opis narzędzia AI, nie tylko `warnings.ts` — grep po kodzie ostrzeżenia i po „czerwony”.
 
+## M12/E38 — D55 słupek, namiot, jacht (29.09.2026)
+
+- **Kolizja numerów:** równoległa sesja zajęła D53 na `main` (odpowiedzi na D50) — pętla zwarcia przemianowana na D54
+  przed scaleniem (H.3), to rozszerzenie = D55.
+- Kamper/jacht: pytanie o zasilanie z zewnątrz; przy N–PE w falowniku — czy rozłączane; nie/nie wiem → 🔴 podwójne N–PE.
+  Namiot = nowe miejsce: najpierw N–PE na wyjściu; pływające/nie wiem → 🟡 z zasadami (bez pytań o obudowę, gniazda, RCD).
+  Kamper/jacht — ℹ️ (wiszący przewód, szpilka; Wzorzec C jachtu). RCD 🔴 tymczasowo do PN-HD 60364-7-721.
+- W repo JEST wyciąg PN-IEC 60364-4-41:2000 z 413.5 (separacja) — właściciel pamiętał słusznie; brakuje wydania 2017.
+- Pułapka: w teście `ac` bazowo zmieniony z kampera na garaż — kamper dokłada ℹ️ i pytanie o słupek, więc testy ogólne
+  230 V przestałyby mieć pustą listę ostrzeżeń.
+
 ## M12/E38 — D54 pętla zwarcia (29.09.2026)
 
 - Właściciel: ochrona na falowniku nie potrzebuje ziemi, tylko zamkniętej pętli obudowa → PE → N–PE w falowniku →

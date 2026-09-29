@@ -3,6 +3,7 @@
 import Link from "next/link"
 import { useMemo } from "react"
 import { calculateUziemienieMaleInstalacje } from "@/lib/core/modules/kalkulator-mobilny/uziemienie-male-instalacje/calculator"
+import { MIEJSCA_Z_ZASILANIEM_ZEWNETRZNYM } from "@/lib/core/modules/kalkulator-mobilny/uziemienie-male-instalacje/constants"
 import type {
   MiejsceUziemienia,
   OdpowiedzKontrolna,
@@ -110,15 +111,29 @@ type FormularzStan = {
   gniazda: OdpowiedzKontrolna | ""
   npe: OdpowiedzKontrolna | ""
   rcd: OdpowiedzKontrolna | ""
+  zasilanie: "tak" | "nie" | ""
+  npeRozlaczane: OdpowiedzKontrolna | ""
 }
 
-const STAN_POCZATKOWY: FormularzStan = { rodzaj: "", miejsce: "", obudowa: "", gniazda: "", npe: "", rcd: "" }
+const STAN_POCZATKOWY: FormularzStan = {
+  rodzaj: "",
+  miejsce: "",
+  obudowa: "",
+  gniazda: "",
+  npe: "",
+  rcd: "",
+  zasilanie: "",
+  npeRozlaczane: "",
+}
+
+type PoleOdpowiedzi = "obudowa" | "gniazda" | "npe" | "rcd" | "npeRozlaczane"
 
 const MIEJSCA: { id: MiejsceUziemienia; label: string }[] = [
   { id: "garaz", label: "Garaż" },
   { id: "kamper", label: "Kamper / przyczepa" },
   { id: "jacht", label: "Jacht / łódź" },
   { id: "zewnatrz", label: "Na zewnątrz" },
+  { id: "namiot", label: "Namiot" },
 ]
 
 const ODPOWIEDZI: { id: OdpowiedzKontrolna; label: string }[] = [
@@ -134,6 +149,16 @@ export default function UziemienieMaleInstalacjePage() {
   // Drafts saved before D54 (29.09.2026) have no `npe`/`rcd` — treat as empty (INCOMPLETE, never "OK").
   const npe = stan.npe ?? ""
   const rcd = stan.rcd ?? ""
+  // Same for `zasilanie`/`npeRozlaczane` before D55.
+  const zasilanie = stan.zasilanie ?? ""
+  const npeRozlaczane = stan.npeRozlaczane ?? ""
+  const odpowiedzi: Record<PoleOdpowiedzi, OdpowiedzKontrolna | ""> = {
+    obudowa: stan.obudowa,
+    gniazda: stan.gniazda,
+    npe,
+    rcd,
+    npeRozlaczane,
+  }
 
   const result = useMemo(
     () =>
@@ -144,8 +169,10 @@ export default function UziemienieMaleInstalacjePage() {
         gniazdaZeStykiemOchronnym: doOdpowiedzi(stan.gniazda),
         polaczenieNPE: doOdpowiedzi(npe),
         rcd30mA: doOdpowiedzi(rcd),
+        zasilanieZewnetrzne: zasilanie === "" ? null : zasilanie,
+        npeRozlaczanePrzyZasilaniuZewnetrznym: doOdpowiedzi(npeRozlaczane),
       }),
-    [stan, npe, rcd],
+    [stan, npe, rcd, zasilanie, npeRozlaczane],
   )
   // Directive #4: the hard stop comes from warning levels, not from the Status enum.
   const hasCritical = result.warnings.some((w) => w.level === "critical")
@@ -154,6 +181,27 @@ export default function UziemienieMaleInstalacjePage() {
   const gniazdaBezStyku = kody.has("UMI-GNIAZDA-BEZ-STYKU-OCHRONNEGO")
   const { wymaganeUziemienieOchronne, zalecaneZeWzgleduNaWilgoc } = result.value
   const ac230 = stan.rodzaj === "ac230"
+  const namiot = stan.miejsce === "namiot"
+  const pytajOZasilanie = stan.miejsce !== "" && MIEJSCA_Z_ZASILANIEM_ZEWNETRZNYM.includes(stan.miejsce)
+  // Tent (D55): the N–PE question comes first; enclosure, sockets and RCD only apply to an output with an N–PE bond.
+  const namiotPlywajace = namiot && npe !== "tak"
+  const zeSlupka = pytajOZasilanie && zasilanie === "tak"
+
+  const pytanie = (pole: PoleOdpowiedzi, label: string) => (
+    <PoleSelect
+      label={label}
+      value={odpowiedzi[pole]}
+      onChange={(e) => setStan((prev) => ({ ...prev, [pole]: e.target.value as OdpowiedzKontrolna | "" }))}
+      pomoc={<PomocPola ekran="uziemienie-male-instalacje" pole={pole} />}
+    >
+      <option value="">— wybierz —</option>
+      {ODPOWIEDZI.map((o) => (
+        <option key={o.id} value={o.id}>
+          {o.label}
+        </option>
+      ))}
+    </PoleSelect>
+  )
 
   return (
     <main className="mx-auto flex max-w-md flex-col gap-6 p-6">
@@ -188,95 +236,105 @@ export default function UziemienieMaleInstalacjePage() {
             </option>
           ))}
         </PoleSelect>
-        {ac230 && (
+        {ac230 && pytajOZasilanie && (
+          <PoleSelect
+            label={stan.miejsce === "jacht" ? "Czy jacht bywa zasilany z kei?" : "Czy kamper bywa zasilany ze słupka (kemping)?"}
+            value={zasilanie}
+            onChange={(e) => setStan((prev) => ({ ...prev, zasilanie: e.target.value as FormularzStan["zasilanie"] }))}
+            pomoc={<PomocPola ekran="uziemienie-male-instalacje" pole="zasilanie" />}
+          >
+            <option value="">— wybierz —</option>
+            <option value="tak">Tak</option>
+            <option value="nie">Nie</option>
+          </PoleSelect>
+        )}
+        {ac230 && namiot && pytanie("npe", "Czy wyjście 230 V stacji albo falownika ma połączenie N–PE (wg instrukcji)?")}
+        {ac230 && !namiotPlywajace && (
           <>
-            <PoleSelect
-              label="Czy obudowa falownika jest uziemiona?"
-              value={stan.obudowa}
-              onChange={(e) => setStan((prev) => ({ ...prev, obudowa: e.target.value as FormularzStan["obudowa"] }))}
-              pomoc={<PomocPola ekran="uziemienie-male-instalacje" pole="obudowa" />}
-            >
-              <option value="">— wybierz —</option>
-              {ODPOWIEDZI.map((o) => (
-                <option key={o.id} value={o.id}>
-                  {o.label}
-                </option>
-              ))}
-            </PoleSelect>
-            <PoleSelect
-              label="Czy gniazda 230 V mają podłączony styk ochronny?"
-              value={stan.gniazda}
-              onChange={(e) => setStan((prev) => ({ ...prev, gniazda: e.target.value as FormularzStan["gniazda"] }))}
-              pomoc={<PomocPola ekran="uziemienie-male-instalacje" pole="gniazda" />}
-            >
-              <option value="">— wybierz —</option>
-              {ODPOWIEDZI.map((o) => (
-                <option key={o.id} value={o.id}>
-                  {o.label}
-                </option>
-              ))}
-            </PoleSelect>
-            <PoleSelect
-              label="Czy falownik ma połączenie N–PE (fabryczne, przekaźnik albo wg instrukcji)?"
-              value={npe}
-              onChange={(e) => setStan((prev) => ({ ...prev, npe: e.target.value as FormularzStan["npe"] }))}
-              pomoc={<PomocPola ekran="uziemienie-male-instalacje" pole="npe" />}
-            >
-              <option value="">— wybierz —</option>
-              {ODPOWIEDZI.map((o) => (
-                <option key={o.id} value={o.id}>
-                  {o.label}
-                </option>
-              ))}
-            </PoleSelect>
-            <PoleSelect
-              label="Czy za falownikiem jest wyłącznik różnicowoprądowy (RCD) 30 mA?"
-              value={rcd}
-              onChange={(e) => setStan((prev) => ({ ...prev, rcd: e.target.value as FormularzStan["rcd"] }))}
-              pomoc={<PomocPola ekran="uziemienie-male-instalacje" pole="rcd" />}
-            >
-              <option value="">— wybierz —</option>
-              {ODPOWIEDZI.map((o) => (
-                <option key={o.id} value={o.id}>
-                  {o.label}
-                </option>
-              ))}
-            </PoleSelect>
+            {pytanie("obudowa", "Czy obudowa falownika jest uziemiona?")}
+            {pytanie("gniazda", "Czy gniazda 230 V mają podłączony styk ochronny?")}
+            {!namiot && pytanie("npe", "Czy falownik ma połączenie N–PE (fabryczne, przekaźnik albo wg instrukcji)?")}
+            {zeSlupka &&
+              npe === "tak" &&
+              pytanie("npeRozlaczane", "Czy to połączenie N–PE jest rozłączane przy zasilaniu z zewnątrz?")}
+            {pytanie("rcd", "Czy za falownikiem jest wyłącznik różnicowoprądowy (RCD) 30 mA?")}
           </>
         )}
       </div>
 
       {result.status === "INCOMPLETE" ? (
         <p className="text-small text-muted-foreground">
-          Wybierz rodzaj instalacji i miejsce{ac230 ? ", a potem odpowiedz na wszystkie pytania o falownik, gniazda, połączenie N–PE i RCD" : ""}.
+          Wybierz rodzaj instalacji i miejsce{ac230 ? ", a potem odpowiedz na wszystkie pytania, które się pojawią" : ""}.
         </p>
       ) : (
         <WerdyktPanel
           poziom={hasCritical ? "blad" : hasWarning ? "uwaga" : "ok"}
           etykieta={
-            kody.has("UMI-OBUDOWA-FALOWNIKA-NIEUZIEMIONA")
-              ? "Obudowa falownika nieuziemiona — ryzyko porażenia"
-              : kody.has("UMI-BRAK-POLACZENIA-N-PE")
-                ? "Brak połączenia N–PE — zabezpieczenie nie wyłączy zwarcia"
-                : kody.has("UMI-BRAK-RCD-30MA")
-                  ? "Brak RCD 30 mA — ryzyko porażenia"
-                  : gniazdaBezStyku
-                    ? "Gniazda bez styku ochronnego — przeczytaj, czym to grozi"
-                    : wymaganeUziemienieOchronne
-                      ? "Pętla zwarcia zamknięta — ochrona kompletna"
-                      : zalecaneZeWzgleduNaWilgoc
-                        ? "Uziemienie niewymagane — zalecane przy wilgoci"
-                        : "Uziemienie ochronne zwykle niewymagane"
+            kody.has("UMI-PODWOJNE-POLACZENIE-N-PE")
+              ? "Podwójne połączenie N–PE przy zasilaniu z zewnątrz"
+              : kody.has("UMI-OBUDOWA-FALOWNIKA-NIEUZIEMIONA")
+                ? "Obudowa falownika nieuziemiona — ryzyko porażenia"
+                : kody.has("UMI-BRAK-POLACZENIA-N-PE")
+                  ? "Brak połączenia N–PE — zabezpieczenie nie wyłączy zwarcia"
+                  : kody.has("UMI-BRAK-RCD-30MA")
+                    ? "Brak RCD 30 mA — ryzyko porażenia"
+                    : kody.has("UMI-NAMIOT-WYJSCIE-PLYWAJACE")
+                      ? "Namiot, wyjście pływające — stosuj zasady poniżej"
+                      : gniazdaBezStyku
+                        ? "Gniazda bez styku ochronnego — przeczytaj, czym to grozi"
+                        : wymaganeUziemienieOchronne
+                          ? "Pętla zwarcia zamknięta — ochrona kompletna"
+                          : zalecaneZeWzgleduNaWilgoc
+                            ? "Uziemienie niewymagane — zalecane przy wilgoci"
+                            : "Uziemienie ochronne zwykle niewymagane"
           }
         >
           <WynikGlowny>
-            {wymaganeUziemienieOchronne ? "uziemienie ochronne wymagane" : "uziemienie ochronne zwykle niewymagane"}
+            {wymaganeUziemienieOchronne
+              ? "uziemienie ochronne wymagane"
+              : namiotPlywajace && ac230
+                ? "wyjście pływające — nie uziemiaj na własną rękę"
+                : "uziemienie ochronne zwykle niewymagane"}
           </WynikGlowny>
           <WynikSzczegoly assumptions={result.assumptions} warnings={result.warnings} formula={result.formula} />
         </WerdyktPanel>
       )}
 
-      {ac230 && (
+      {ac230 && namiotPlywajace && (
+        <section className="flex flex-col gap-2">
+          <h2 className="text-small font-semibold">Namiot — stacja zasilania albo mały falownik</h2>
+          <p className="text-small text-muted-foreground">
+            W namiocie nie ma podwozia, więc strategia jest inna. Zobacz w instrukcji, jakie wyjście ma stacja. Większość
+            przenośnych stacji ma wyjście 230 V „pływające”, czyli bez połączenia z ziemią. Pojedyncza usterka (np. dotknięcie
+            jednego przewodu) nie grozi wtedy porażeniem, bo prąd nie ma drogi powrotnej. Niebezpieczna jest druga usterka naraz.
+          </p>
+          <ul className="list-disc pl-5 text-small text-muted-foreground">
+            <li>Takiego wyjścia nie uziemiaj na własną rękę, jeśli producent tego nie przewiduje.</li>
+            <li>
+              Najbezpieczniej: jedno urządzenie na jedno wyjście. Norma zna taki środek ochrony pod nazwą „separacja
+              elektryczna”.
+            </li>
+            <li>Wybieraj urządzenia z podwójną izolacją (symbol podwójnego kwadratu, płaska wtyczka).</li>
+            <li>
+              Użyj przenośnego RCD 30 mA (PRCD) między stacją a przedłużaczem. Uwaga: przy wyjściu pływającym RCD może nie
+              zadziałać, zależnie od konstrukcji stacji — sprawdź to w instrukcji, to nie jest pewnik.
+            </li>
+            <li>
+              Sprzęt trzymaj nad podłogą, nie na mokrym tropiku, a złącza w obudowach IP —{" "}
+              <Link href="/kalkulatory/wilgoc-male-instalacje" className="underline">
+                zabezpieczenia przeciwwilgociowe (IP65/IP67)
+              </Link>
+              .
+            </li>
+            <li>
+              Szpilka namiotowa jako uziom działa tylko wtedy, gdy instrukcja stacji przewiduje zacisk uziemienia. Poza tym daje
+              głównie fałszywe poczucie bezpieczeństwa, tak jak wiszący przewód.
+            </li>
+          </ul>
+        </section>
+      )}
+
+      {ac230 && !namiotPlywajace && (
         <section className="flex flex-col gap-2">
           <h2 className="text-small font-semibold">Jak działa ochrona na falowniku</h2>
           <p className="text-small text-muted-foreground">
@@ -297,6 +355,19 @@ export default function UziemienieMaleInstalacjePage() {
           <p className="text-small text-muted-foreground">
             Pręt wbity w ziemię ani przewód czy łańcuch wiszący spod kampera nie zastąpią tej pętli.
           </p>
+          {zeSlupka && (
+            <p className="text-small text-muted-foreground">
+              <strong>Przy zasilaniu {stan.miejsce === "jacht" ? "z kei" : "ze słupka"}</strong> przewód ochronny przychodzi z
+              sieci. Połączenie N–PE {stan.miejsce === "jacht" ? "na jachcie" : "w kamperze"} musi być wtedy rozłączone, inaczej
+              powstaje podwójne połączenie N–PE.
+            </p>
+          )}
+          {stan.miejsce === "kamper" && (
+            <p className="text-small text-muted-foreground">
+              <strong>Przy dłuższym postoju</strong> szpilka uziemiająca wbita w grunt ma sens jako dodatek. Nie zastępuje
+              połączenia wyrównawczego ani RCD.
+            </p>
+          )}
           <SchematPetliZwarcia />
         </section>
       )}
