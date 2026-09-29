@@ -2,7 +2,7 @@
  * Adapter ULDK (Usługa Lokalizacji Działek Katastralnych, GUGiK) — tryb online Skanera działki
  * (Moduł 1, Ekran 2). rejestr-decyzji.md D23: wołany BEZPOŚREDNIO z przeglądarki, bez proxy —
  * ULDK wysyła `Access-Control-Allow-Origin: *` (sprawdzone 24.09.2026), CSP `connect-src`
- * dopuszcza wyłącznie `https://uldk.gugik.gov.pl` (middleware.ts).
+ * dopuszcza wyłącznie `https://uldk.gugik.gov.pl` (proxy.ts).
  *
  * Te same zasady co proxy (06-api-i-siec.md, 6.1), tylko po stronie klienta: walidacja
  * parametrów, jawny timeout, sprawdzenie formatu odpowiedzi, jawny kod błędu, nigdy dane

@@ -117,3 +117,19 @@ pkt 15 (5.10) i 16 (5.11) to osobne, małe zadania, niezależne od kształtu SW 
 **Przejście ze starego SW (jednorazowo przy pierwszym deployu):** stary SW serwuje strony z sieci, więc pierwsza
 wizyta po deployu dostaje już nowy HTML z `SwRejestracja`; nowy SW instaluje się w tle (~14 s lokalnie), toast
 pojawia się bez dodatkowej nawigacji, po „Odśwież” zostaje tylko `offgrid-precache-*`.
+
+## Stan po etapie 2 (30.09.2026, D60)
+
+Pomiar na buildzie produkcyjnym (540 wpisów): **20,85 MB surowo, ≈ 6,8 MB transferu gzip**.
+
+| Grupa | Wpisy | Surowo | gzip |
+|---|---|---|---|
+| HTML stron | 239 | 6,64 MB | 1,25 MB |
+| Chunki JS/CSS | 255 | 12,22 MB | 3,92 MB |
+| `_next/static/media` (fonty) | 28 | 0,57 MB | 0,57 MB |
+| `public/` (ikony, maskotki, worker MapLibre) | 15 | 1,41 MB | 1,05 MB |
+
+Wykluczone z precache (każde = nie działa offline): `/auth/login` (D59), `media/maplibre-gl*` (nieużywane kopie
+bundlera), chunk three.js — widok 3D tylko online (D60). **Worker MapLibre wrócił do precache** — etap 1 wykluczył go
+błędnie, co offline psuło spacer GPS na Skanerze (D22); szczegóły `docs/memory.md`. Budżet pierwszego pobrania —
+decyzja właściciela otwarta (`docs/lista-do-zrobienia.md`, wpis ⚠️ z 30.09).

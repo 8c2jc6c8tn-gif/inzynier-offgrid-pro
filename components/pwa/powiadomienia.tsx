@@ -14,8 +14,8 @@ const KOLORY = {
 
 /**
  * App-wide toast host (sonner, D59 C-1). Used by the service worker update prompt
- * (components/pwa/sw-rejestracja.tsx); the same host will serve the IndexedDB version
- * collision prompt (standard 5.11). Top-centre: the AI assistant button sits bottom-right.
+ * (components/pwa/sw-rejestracja.tsx) and the IndexedDB version collision prompt (standard 5.11,
+ * components/pwa/baza-wersja-listener.tsx). Top-centre: the AI assistant button sits bottom-right.
  * Font size in rem, so it scales with the enlarged font from Settings.
  */
 export function Powiadomienia() {

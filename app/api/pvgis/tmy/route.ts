@@ -1,7 +1,7 @@
 /**
  * Proxy PVGIS TMY — rejestr-decyzji.md D22. GET /api/pvgis/tmy?lat=..&lon=..
  *
- * Przeglądarka nie woła PVGIS bezpośrednio: CSP `connect-src 'self'` (middleware.ts) zostaje
+ * Przeglądarka nie woła PVGIS bezpośrednio: CSP `connect-src 'self'` (proxy.ts) zostaje
  * nienaruszone, a walidacja/timeout/sprawdzenie kształtu (06-api-i-siec.md, 6.1) są w jednym
  * miejscu — `lib/adapters/pvgis/tmy.ts`. Offline-first (05, 5.3): klient zapisuje wynik lokalnie
  * po pobraniu; ten endpoint jest dodatkiem, nie warunkiem działania Ekranu 4.

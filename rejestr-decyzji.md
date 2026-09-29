@@ -1,6 +1,6 @@
 # Rejestr decyzji — Inżynier Offgrid Pro
 
-**Wersja:** 1.31 | **Filar:** C | **Data utworzenia:** 04.09.2026 | **Ostatnia aktualizacja:** 29.09.2026 | **Status:** Stabilny (rosnący)
+**Wersja:** 1.32 | **Filar:** C | **Data utworzenia:** 04.09.2026 | **Ostatnia aktualizacja:** 30.09.2026 | **Status:** Stabilny (rosnący)
 **Powiązane dokumenty:** `00_Biblia.md`, `docs/memory.md`, `USTALENIA.md` (historyczny, Część II)
 
 TL;DR: D1, D2, D3… — decyzje **strategiczne/fundamentalne** (blokujące wiele innych rzeczy naraz, Krok 4 GOD BOOK), ponumerowane, nigdy nie kasowane, tylko unieważniane jawnie (F.5). **Nie duplikuje `docs/memory.md`**: tam żyje pełna, szczegółowa historia każdej sesji (setki drobnych decyzji implementacyjnych per ekran) — tu tylko decyzje, które zmieniły kierunek/regułę obowiązującą cały projekt. Gdy wpis niżej odsyła do `docs/memory.md`, tam jest pełne uzasadnienie i przykłady.
@@ -257,6 +257,8 @@ Treść:
 
 **D59 (29.09.2026) — SW wariant C, etap 1: odpowiedzi C-1…C-3 z planu migracji.** Koszt cofnięcia: niski–średni (`sonner` i `playwright` to jedna zależność każda; lista precache to dane w `lib/pwa/precache-build.ts`). Decyzja właściciela projektu (29.09.2026, „rób dalej po kolei nie pytając mnie”) = przyjęcie rekomendacji z `docs/plan-migracji-sw-wariant-c.md`, sekcja 1: **C-1 A** — toast aktualizacji z biblioteki `sonner` (wzorzec 1:1; ten sam toast obsłuży 5.11); **C-2 A** — `playwright` w `devDependencies` (bez `@playwright/test`, e2e przez `node --test`, standard 10.9); **C-3 A** — precache wszystkich stron przy instalacji SW (5.3), koszt renderów po stronie serwera akceptowany, do ponownej oceny w etapie 2 na podstawie pomiaru. Każdą z trzech właściciel może odwrócić bez utraty pracy innych kroków etapu 1.
 
+**D60 (30.09.2026) — SW wariant C, etap 2: widok 3D (three.js) tylko online; mapa Skanera zostaje offline.** Koszt cofnięcia: tani (jedna funkcja `czyChunkTylkoOnline` w `lib/pwa/precache-build.ts`). Decyzja właściciela projektu (30.09.2026: „nie wiem ile 3D będzie ważyło, myślę że jest potrzebne online”). Pomiar: three.js + React Three Fiber to jeden chunk ~0,9 MB, ładowany wyłącznie przez `components/lokalizacja/widok-3d.tsx` (Ekran 3, Analiza zacienienia) — wykluczony z precache po treści (znacznik `__THREE__`), nie po nazwie z hashem. Offline, zanim widok 3D był kiedykolwiek pobrany, ekran pokazuje komunikat „Widok 3D wymaga internetu” zamiast widoku; reszta ekranu działa. **Mapa nie jest objęta tą decyzją:** D22 wprost wymaga, żeby spacer GPS działał bez sieci, a MapLibre przetwarza geometrię w swoim workerze — worker (`public/maplibre/`, ~0,5 MB) wraca do precache (etap 1 go wykluczył na podstawie błędnego odczytania D22 jako „mapa tylko online” — naprawione jako dryf, Y.2, `docs/memory.md`). Budżet pierwszego pobrania — **nierozstrzygnięty**, pytanie otwarte do właściciela z liczbami (`docs/lista-do-zrobienia.md`).
+
 ## Założenia robocze (F.7 GOD BOOK)
 
 **Z1 (04.09.2026) — przyjęto:** ID modułów (H.2 GOD BOOK, M#) odpowiadają wprost numeracji "Moduł N" już używanej w całym projekcie (1–13), nie nowej, niezależnej numeracji. **Powód:** ta numeracja jest już stabilna, używana w kodzie, dokumentacji i UI od 29.08.2026 — wprowadzenie równoległej numeracji M# byłoby duplikatem, nie nowym bytem. **Na czym się opiera:** cała struktura `docs/rejestr-pokrycia.md`, `lib/pulpit/registry.ts`, `docs/pulpit-i-nawigacja.md`.
@@ -302,3 +304,4 @@ Treść:
 | 29.09.2026 | Scalenie z `main`: druga kolizja numerów (H.3) — D54 na `main` = CRL/gaz/Rsi (scalone pierwsze), więc pętla zwarcia D54→**D56**, sytuacje D55→**D57**. Wersja rejestru po scaleniu 1.29. |
 | 29.09.2026 | Dodano D58 (teksty ekranów przez klucze `UI-*` PL/EN/RU + strażnik i18n na warstwie UI z listą zapadkową; audyt Y.11 pkt 1b, „A + B”) — decyzja właściciela projektu. Wersja 1.29→1.30. |
 | 29.09.2026 | Dodano D59 (SW wariant C, etap 1: `sonner`, `playwright` w devDependencies, precache wszystkich stron — rekomendacje planu przyjęte poleceniem „rób dalej nie pytając”). Wersja 1.30→1.31. |
+| 30.09.2026 | Dodano D60 (SW etap 2: widok 3D tylko online, worker mapy z powrotem w precache — spacer GPS offline wg D22) — decyzja właściciela projektu. Wersja 1.31→1.32. |
