@@ -1236,3 +1236,15 @@ Pełne wyniki audytu: `docs/memory.md`, sekcja "Pełny audyt na polecenie właś
   9. 🔲 **Bieżące prace kodowe** (wpisy wyżej): rejestr twardych stopów M5, resynchronizacja `mapa-wdrozenia.md`,
      kolejne ekrany M7/M12, kafle „duże” + presety onboardingu (M14), przecinek w liczbach założeń i18n.
 
+- 🔲 (2026-09-29) **Powrót CI od 1.10.2026 (pozostałość sesji 29.09).** (1) Usunąć notę „⚠️ Do końca września 2026
+  CI NIE DZIAŁA” z `CLAUDE.md` (sekcja „Stan repo”) i dopisać w `docs/memory.md`, że CI wróciło. (2) Pierwszy przebieg
+  CI na `main` sprawdzić ręcznie — od 24.09 wszystkie PR (m.in. #213–#215) scalano tylko po lokalnym pakiecie, a krok
+  `pnpm check:ai-tools-guard` w `.github/workflows/ci.yml` jeszcze nigdy nie ruszył w GitHub Actions. Czerwony przebieg
+  = naprawić od razu, nie odkładać. **Priorytet:** wysoki, 1.10.2026. **Kolizje:** brak.
+- 🔲 (2026-09-29) **Prognozy M10 — Δt przy podłączaniu realnych danych (TD7).** Silnik `ai/prognozy` 1.1.0 zakłada
+  stały krok `KROK_PROBKOWANIA_H = 3` (decyzja A). Gdy ekran dostanie prawdziwe źródło (symulacja SoC, pogoda, dane live),
+  sprawdzić krok próbkowania tego źródła: inny niż 3 h → krok jako jawne pole wejścia silnika (+ test), nie cicha
+  zmiana stałej. Pułapka opisana w `docs/memory.md` („Prognozy M10 — Δt”). **Priorytet:** razem z TD7.
+  **Kolizje:** `lib/ai/tools/prognozy-tool.ts` (pole `krokProbkowaniaH` w wyniku).
+- ✅ (2026-09-27) **Odczyt whitepaper IEC 62109-1** (zamyka wpis 🔲 z 27.09 „Dokończyć odczyt whitepaper IEC 62109-1”): przeczytany w całości — Texas Instruments SLYY102 (2016), **11 stron, nie 14**. Temat: dobór izolatorów wewnątrz falownika (odstępy izolacyjne, drogi upływu, napięcia udarowe, OVC) — perspektywa producenta elektroniki, nie instalatora. **Nie odblokowuje żadnego ekranu, żadna liczba nie trafia do kodu** (parafraza producenta, nie norma; wymogi instalacyjne udaru/SPD po stronie PV już z HD 60364-7-712 i HD 60364-4-443). Luka IEC 62109-1 bez zmian (🟡). Streszczenie i ocena: `docs/zrodla/norma-IEC-62109-1/00-INDEKS.md`.
+- ✅ (2026-09-27) **Przegląd wszystkich 22 folderów `docs/zrodla/` pod kątem nieprzerobionych plików:** poza whitepaperem IEC 62109-1 **wszystkie pliki są przeczytane/przetworzone**. Jedyne luki formalne: 6 oryginałów PDF (`document-download 4–9.pdf` w `materialy-fizyka-budowli/` i `norma-PN-EN-1990-eurokod-0/`) nie były wymienione z nazwy w indeksach, choć ich treść była już wyekstrahowana do plików `.txt` — mapowanie PDF→txt dopisane do obu indeksów. `.docx` w `materialy-branzowe-ochrona-przeciwporazeniowa-2010/` to ta sama treść co PDF (opisane w `docs/zrodla/README.md`, 06.09.2026). Przy okazji: wpis ⚠️ „duplikat ZIAD” wyżej jest już rozstrzygnięty (wariant A, patrz `docs/zrodla/README.md`), a „9 pozycji zgubionych” w przypomnieniu 🟡 wyżej — odzyskane 27.09.2026 (`docs/normy-brakujace.md`, sekcja ⚫).

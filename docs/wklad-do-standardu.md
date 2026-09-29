@@ -1076,3 +1076,20 @@ Dlaczego warto zgłosić do new-app-standards: 9.0a warto uzupełnić o (a) obow
 wykrywalnej formie (tu „Użyj, gdy …”), bo to ono decyduje o wyborze narzędzia przez model, oraz (b) strażnika pokrycia
 „kalkulator ↔ narzędzie ↔ rejestr” w CI — ten sam wzorzec co 17.9 i strażnik pomocy (wpis wyżej).
 Status: 🔎 nowe
+
+[27.09.2026] KATEGORIA: BŁĄD PROCESU / DOBRA PRAKTYKA — dokument źródłowy „dodany, nieprzeczytany” potrafi wisieć bez końca; mechaniczna kontrola kompletności folderu źródeł
+
+Szczegóły: whitepaper IEC 62109-1 dodano z opisem „rozpoznany tylko po tytule” i wpisem 🔲 „dokończyć odczyt”. Kolejna
+sesja („popraw ekrany odblokowane przez nowe dokumenty”) zajęła się tylko normami odblokowującymi kod — wpis bez
+powiązanego ekranu przegrał z zadaniami kodowymi, dopóki właściciel sam nie zapytał. Przy okazji indeks podawał błędną
+liczbę stron (14 zamiast 11), wziętą bez otwarcia treści. Przegląd całego `docs/zrodla/` krótkim skryptem („każdy plik
+folderu wymieniony z nazwy w jego `00-INDEKS.md`” + grep statusów „nieprzeczytany/fragmentarycznie”) znalazł też 6
+oryginałów PDF, których nazwy indeksy pomijały (treść była wyekstrahowana do `.txt`, ale powiązania plik→wyciąg brakowało).
+Reguły: (1) przy poleceniu typu „przerób nowe dokumenty” przejrzeć wszystkie 🔲 dotyczące folderu źródeł, nie tylko te
+powiązane z ekranami; (2) po każdej paczce źródeł uruchomić kontrolę kompletności indeksów; (3) nie wpisywać do indeksu
+metryk (liczba stron, zakres) bez otwarcia pliku.
+
+Dlaczego warto zgłosić do new-app-standards: rozdz. 14 (proces i pamięć) i biblioteka norm źródłowych — każdy projekt
+rodziny gromadzi normy w repo; kontrola jest tania, a „dodany, nieprzeczytany” to cicha luka wiedzy.
+
+Status: 🔎 nowe

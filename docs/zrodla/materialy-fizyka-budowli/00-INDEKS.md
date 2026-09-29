@@ -9,6 +9,10 @@ bez OCR:
 | [`02-kondensacja-miedzywarstwowa.txt`](02-kondensacja-miedzywarstwowa.txt) | Zachodniopomorski Uniwersytet Technologiczny | Obliczenia kondensacji międzywarstwowej ściany zewnętrznej | — (notatka/przykład) |
 | [`03-czynnik-fRsi.txt`](03-czynnik-fRsi.txt) | Politechnika Łódzka | Czynnik temperaturowy f_Rsi (unikanie krytycznej wilgotności powierzchni) | PN-EN ISO 13788:2001 |
 
+**Oryginały PDF** (dopisane 27.09.2026 — wcześniej indeks nie wymieniał ich nazw; zgodność
+tytułów z metadanych PDF sprawdzona): `document-download 4.pdf` (7 stron) → `01-...`,
+`document-download 5.pdf` (6 stron) → `02-...`, `document-download 6.pdf` (2 strony) → `03-...`.
+
 ## Trafność w domenie off-grid PV — **poza rdzeniem tego projektu**
 
 To fizyka budowli (przegrody budowlane, wilgoć, kondensacja) — dotyczy projektowania budynku jako

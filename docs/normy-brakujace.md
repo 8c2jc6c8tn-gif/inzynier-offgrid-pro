@@ -62,7 +62,9 @@ wtedy zaktualizowane — naprawione teraz, przy okazji.)*
 - **IEC 62109-1** (bezpieczeństwo przetwornic mocy PV — część 1, wymagania ogólne). Mamy tylko
   **Część 2** (falowniki, `docs/zrodla/norma-IEC-62109-2/`) — Część 1 nigdy nie dostarczona jako
   norma. **[27.09.2026]** dostarczony whitepaper firmowy o izolacji wg IEC 62109-1 (materiał
-  pomocniczy, nie norma) — `docs/zrodla/norma-IEC-62109-1/`, status bez zmian.
+  pomocniczy, nie norma) — `docs/zrodla/norma-IEC-62109-1/`, status bez zmian. Przeczytany w
+  całości tego samego dnia — potrzebne z normy: napięcie systemowe, OVC, napięcia udarowe,
+  odstępy izolacyjne/drogi upływu, korekta wysokości (wg streszczenia TI).
 - **IEC 61215** (kwalifikacja konstrukcji/typu modułów fotowoltaicznych) — norma testowa/
   certyfikacyjna dla samych paneli, nie instalacji; wyjaśniona użytkownikowi wcześniej co robi,
   treść nigdy nie pozyskana.
@@ -148,9 +150,10 @@ tak jak resztę listy 43 (większość to on-grid/produktowe). Szczegóły:
   Drugie (po Furse) źródło wtórne do EN 62305 — **wciąż nie sam tekst normy**, patrz pozycja EN
   62305 niżej (bez zmiany statusu 🟡). Opis: dopisek w `docs/zrodla/norma-IEC-62305/00-INDEKS.md`.
 - **[27.09.2026] Whitepaper "Isolation in solar power converters" (IEC 62109-1, materiał firmowy)**,
-  dostarczony przez właściciela projektu, 14 stron, dodany i rozpoznany po tytule — **treść
-  nieprzeczytana w całości** (zadanie dla następnej sesji). Nie zamyka luki IEC 62109-1 (patrz
-  wyżej, bez zmiany statusu 🟡). Opis: `docs/zrodla/norma-IEC-62109-1/00-INDEKS.md`.
+  dostarczony przez właściciela projektu, 11 stron (nie 14), Texas Instruments SLYY102 (2016).
+  **[27.09.2026, później] Przeczytany w całości** — dobór izolatorów wewnątrz falownika
+  (perspektywa producenta elektroniki), nie odblokowuje żadnego ekranu, liczby nie do kodu.
+  Nie zamyka luki IEC 62109-1 (patrz wyżej, bez zmiany statusu 🟡). Opis: `docs/zrodla/norma-IEC-62109-1/00-INDEKS.md`.
 - **[27.09.2026] Poradnik ELEKTRA "Obliczanie EN 12831" (wyd. 2011)**, dostarczony przez właściciela
   projektu — **duplikat treściowy** poradnika Purmo już w repo (ten sam bazowy tekst metodyczny,
   inny wydawca/branding). Dodany jako kopia zapasowa/porównawcza, nie jako nowe źródło. Opis:

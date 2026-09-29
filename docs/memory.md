@@ -8224,3 +8224,28 @@ Tryb Audyt (czapka rewidenta). Warstwa „w pełni na końcu” z N.2 — wszyst
   Chłodzenie/zamrażanie ogniw to propozycja AI bez liczb (brak źródła) — ✅🤖.
 - **Rsi:** bez zmian w kodzie (0,13 ze źródeł); wartości kierunkowe czekają na PN-EN ISO 6946.
 - Otwarte z listy D50: tylko M9/E4 CAN.
+
+## Whitepaper IEC 62109-1 przeczytany + przegląd kompletności źródeł (27.09.2026)
+
+- **Dlaczego wisiał nieprzeczytany:** sesja dodająca 4 pliki (27.09) rozpoznała go tylko po
+  metadanych i odłożyła odczyt jako 🔲; sesja „ekrany odblokowane” wzięła na warsztat tylko normy
+  odblokowujące ekrany i whitepaper pominęła, choć odnotowała go jako nieprzeczytany. Pułapka:
+  wpis 🔲 „dokończyć odczyt” nie ma właściciela-ekranu, więc przegrywa z zadaniami kodowymi —
+  przy każdym „przerób nowe dokumenty” przejrzyj wszystkie 🔲 dotyczące `docs/zrodla/`.
+- **Wynik:** TI SLYY102 (2016), 11 stron (indeks podawał 14 — błąd z odczytu metadanych, poprawiony).
+  Izolacja wewnątrz falownika (projektant elektroniki), nie instalacja → nic do kodu, luka normy 🟡.
+- **Przegląd 22 folderów:** tylko ten plik był nieprzeczytany. 6 PDF `document-download 4–9`
+  miało treść w `.txt`, ale indeksy nie wymieniały nazw oryginałów — dopisano mapowanie. Skrypt
+  kontrolny (każdy plik folderu wymieniony z nazwy w `00-INDEKS.md`) — do powtarzania przy kolejnych paczkach.
+
+## Przegląd niescalonych gałęzi zdalnych (29.09.2026)
+
+- **Pułapka:** klon w sesji chmurowej jest płytki (`git rev-parse --is-shallow-repository` → `true`). Na płytkim klonie
+  `git diff main...gałąź` daje „no merge base”, a `rev-list main..gałąź` pokazuje setki „niescalonych” commitów na
+  prawie każdej gałęzi. Przed oceną gałęzi zawsze `git fetch --unshallow origin`.
+- **Wynik (po odpłytczeniu):** 10 gałęzi miało commity spoza historii `main`, ale 8 z nich było już scalonych przez
+  squash (PR #136–#139, #149, #153, #154, #163 — ta sama treść, inne SHA). Naprawdę brakowały 2 commity:
+  `49b2d64` (`prace-rozdzialy-status-qb0uwf` — 2 wpisy 🔲 listy zadań: powrót CI 1.10, Δt prognoz M10) i `f139f78`
+  (`screen-fixes-new-documents-80kzcm` — odczyt whitepapera IEC 62109-1 + mapowanie PDF→txt w indeksach). Przeniesione
+  na `claude/git-branches-merge-o7sy31`; konflikty wyłącznie typu „oba dopisały na końcu” w plikach append-only —
+  zachowane obie strony. Pozostałe gałęzie zdalne nie wnoszą już nic ponad `main` (kandydaci do usunięcia).
