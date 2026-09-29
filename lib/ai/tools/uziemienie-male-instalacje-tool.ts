@@ -37,8 +37,8 @@ export const uziemienieMaleInstalacjeTool: AiToolDefinition<UziemienieMaleInstal
   description:
     "Sprawdza uziemienie małej, tymczasowej lub mobilnej instalacji (garaż, kamper, jacht, na zewnątrz): tylko 12/24 V DC " +
     "zwykle nie wymaga uziemienia ochronnego; przy falowniku 230 V wymagana jest uziemiona obudowa falownika i gniazda ze " +
-    "stykiem ochronnym (brak lub „nie wiem” = twardy stop, ryzyko porażenia); w miejscu wilgotnym (jacht, na zewnątrz) " +
-    "zaleca uziemienie. Nie liczy uziomu prętowego ani rezystancji uziemienia. Użyj, gdy user pyta o uziemienie kampera, jachtu albo małego zestawu.",
+    "stykiem ochronnym (obudowa nieuziemiona lub „nie wiem” = twardy stop; gniazda bez styku ochronnego = ostrzeżenie z " +
+    "wyjaśnieniem ryzyka porażenia); przy samym DC w miejscu wilgotnym (jacht, na zewnątrz) ostrzega, że uziemienie jest zalecane. Nie liczy uziomu prętowego ani rezystancji uziemienia. Użyj, gdy user pyta o uziemienie kampera, jachtu albo małego zestawu.",
   inputSchema: UziemienieMaleInstalacjeToolInput,
   outputSchema: UziemienieMaleInstalacjeToolOutput,
   operationType: "read",
