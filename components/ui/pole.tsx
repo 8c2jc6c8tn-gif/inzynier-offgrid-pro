@@ -24,13 +24,11 @@ const STAN_KLASY =
 function Etykieta({
   label,
   unit,
-  hint,
   pomoc,
   htmlFor,
 }: {
   label: string
   unit?: string
-  hint?: string
   pomoc?: ReactNode
   htmlFor?: string
 }) {
@@ -43,7 +41,6 @@ function Etykieta({
         {/* A translated <PomocPola> is already the „?” trigger (D51); plain content is wrapped once. */}
         {pomoc && (isValidElement(pomoc) && pomoc.type === PomocPola ? pomoc : <PomocPole tresc={pomoc} />)}
       </span>
-      {hint && <span className="text-caption text-muted-foreground">{hint}</span>}
     </span>
   )
 }
@@ -51,7 +48,6 @@ function Etykieta({
 type PoleProps = Omit<InputHTMLAttributes<HTMLInputElement>, "className" | "id"> & {
   label: string
   unit?: string
-  hint?: string
   pomoc?: ReactNode
   error?: string
   className?: string
@@ -59,13 +55,13 @@ type PoleProps = Omit<InputHTMLAttributes<HTMLInputElement>, "className" | "id">
 }
 
 /** Pole tekstowe/liczbowe. Zastępuje duplikowany `Field`/`inputClass` z ekranów kalkulatorów. */
-export function Pole({ label, unit, hint, pomoc, error, className, id, ...props }: PoleProps) {
+export function Pole({ label, unit, pomoc, error, className, id, ...props }: PoleProps) {
   // Standard 8.10: id from useId(), never from the label text (repeated labels in lists).
   const autoId = useId()
   const inputId = id ?? autoId
   return (
     <div className="flex flex-col gap-1 text-small">
-      <Etykieta label={label} unit={unit} hint={hint} pomoc={pomoc} htmlFor={inputId} />
+      <Etykieta label={label} unit={unit} pomoc={pomoc} htmlFor={inputId} />
       <input
         id={inputId}
         className={cn(STAN_KLASY, className)}
@@ -83,7 +79,6 @@ export function Pole({ label, unit, hint, pomoc, error, className, id, ...props 
 
 type PoleSelectProps = Omit<SelectHTMLAttributes<HTMLSelectElement>, "className" | "id"> & {
   label: string
-  hint?: string
   pomoc?: ReactNode
   className?: string
   id?: string
@@ -91,12 +86,12 @@ type PoleSelectProps = Omit<SelectHTMLAttributes<HTMLSelectElement>, "className"
 }
 
 /** Pole wyboru (select) w tym samym stylu co `Pole` — ta sama skala stanów. */
-export function PoleSelect({ label, hint, pomoc, className, id, children, ...props }: PoleSelectProps) {
+export function PoleSelect({ label, pomoc, className, id, children, ...props }: PoleSelectProps) {
   const autoId = useId()
   const selectId = id ?? autoId
   return (
     <div className="flex flex-col gap-1 text-small">
-      <Etykieta label={label} hint={hint} pomoc={pomoc} htmlFor={selectId} />
+      <Etykieta label={label} pomoc={pomoc} htmlFor={selectId} />
       <select id={selectId} className={cn(STAN_KLASY, "cursor-pointer", className)} {...props}>
         {children}
       </select>

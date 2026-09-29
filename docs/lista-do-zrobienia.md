@@ -1130,7 +1130,7 @@ Pełne wyniki audytu: `docs/memory.md`, sekcja "Pełny audyt na polecenie właś
 - ✅ (2026-09-28) **M14 — start kodu (po D50).** Plik danych `lib/core/dane/rozliczenia-pl-2026` (JSON + Zod, tylko ✅, okresy ważności; schemat odrzuca 🔎), część Sieć: D1/F1 rachunek, D2/F2 porównanie taryf, D8 depozyt, D12/F11 test licznika + pismo, F3 moc bierna, F4 moc umowna, F5 opłata mocowa; silnik „Wzrost cen energii” (D40–D43) z przykładem kontrolnym; 2 kafle pulpitu; 3 narzędzia AI. Ograniczenia: `dlug-techniczny.md` TD22. Szczegóły: `docs/memory.md`.
 - ✅ ~~(2026-09-28) M14 — dalej wg `docs/przekazanie-nastepnej-sesji.md`: silnik TCO i ekran D7/F8 (Krok 2d), potem Przejście (2e), reszta Sieci (D3, D13, D14, F6, F7, F12, F13), kafle/kreator (2f).~~ **[28.09.2026] zrobione** — rozdział M14 zbudowany w całości (25/25 ekranów + kreator, 5 narzędzi AI, 5 twardych stopów w kodzie). Uproszczenia TD23.
 - 🔲 (2026-09-28) **M14 — po kodzie zostają tylko dane i decyzje:** lista „Otwarte — wymaga danych zewnętrznych” w `03_M14` (PDF PGE, PDF regulaminu PME → linki w `lib/core/dane/dotacje`, ~~Enea, Stoen C22,~~ **[29.09.2026] Enea, Stoen C22 i abonament C Tauronu ✅,** profile W4, `C_rk`, stawki przyłączeniowe IV–VI), „duże” kafle i presety (odłożone), FREE/PRO (D37), M7 7.2/7.37 jako pełny warunek zimowy D5 (TD23). **Priorytet:** średni. **Odblokowuje:** pełne stawki domyślne (DANE-1). **Kolizje:** brak.
-- 🔄 (2026-09-29) **Chmurki „?” i migawka „i” na wszystkich ekranach (D34 + D51).** Odpowiedzi właściciela na pytania
+- ✅ (2026-09-29) **Chmurki „?” i migawka „i” na wszystkich ekranach (D34 + D51).** Odpowiedzi właściciela na pytania
   otwarte w D34: `hint` usunąć (treść do „?”), tłumaczenia PL/EN/RU od razu, robić „?” i „i”. Zrobione: infrastruktura
   (`lib/i18n/pomoc/`, `components/ui/pomoc.tsx`), strażnik `pnpm check:pomoc-guard` z listą zapadkową, **M12 w komplecie**
   (15 ekranów + 2 komponenty wspólne). Zostaje: pozostałe moduły wg `scripts/pomoc-guard-baseline.json` (226 plików),
@@ -1151,6 +1151,14 @@ Pełne wyniki audytu: `docs/memory.md`, sekcja "Pełny audyt na polecenie właś
   M9 esp32 (5 ekranów) ✅
   M10 Prognozy: migawka „i” PL/EN/RU (ekran bez pól)
   M13 Tryb Live: migawka „i” PL/EN/RU (ekran bez pól) — baseline strażnika pusta
+  **[29.09.2026] ZAMKNIĘTE:** `pnpm check:pomoc-guard` — 255 plików zgodnych, lista zapadkowa pusta (od teraz każdy
+  nowy ekran bez „?”/„i” blokuje merge). Prop `hint` usunięty z typów `Pole`/`PoleSelect` (nie da się go już użyć);
+  `PoleCheckbox` zachowuje `hint` (opis obok pola wyboru, strażnik go nie liczy jako zamiennika „?”).
+- 🔲 (2026-09-29) **Prognozy (M10) — możliwe zaniżenie energii ×3 (pytanie do właściciela).** Znalezione przy migawce M10:
+  `lib/core/modules/ai/prognozy/calculator.ts` sumuje próbki mocy `produkcjaKw`/`zuzycieKw` (8 punktów co 3 h) wprost jako
+  kWh, bez mnożenia przez Δt = 3 h. (A) próbka to średnia moc w przedziale 3 h → energia = Σ P·3 h, obecny wynik ×3 za mały —
+  poprawić silnik + testy. (B) próbka to już energia przedziału w kWh → poprawić tylko nazwy pól (`…Kwh`), liczby zostają.
+  Dziś ekran pokazuje dane demonstracyjne (TD7), więc bez wpływu na projekt użytkownika. **Nie ruszane — czeka na decyzję.**
 - 🔲 (2026-09-29) **Tłumaczenie samych stron (etykiety pól, nagłówki, komunikaty UI) na EN/RU.** Wyszło przy D51: treść
   „?”/„i” i komunikaty silników są w trzech językach, ale etykiety pól i teksty na stronach nadal tylko po polsku.
   Osobne, duże zadanie (standard 17). **Priorytet:** do decyzji właściciela. **Kolizje:** te same pliki co chmurki —
