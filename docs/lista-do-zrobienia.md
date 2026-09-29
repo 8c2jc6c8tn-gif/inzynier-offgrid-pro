@@ -1292,3 +1292,32 @@ Pełne wyniki audytu: `docs/memory.md`, sekcja "Pełny audyt na polecenie właś
   `lib/i18n/__tests__/ui.test.ts` ✅ (6/6). **NIE uruchomiono** pełnego pakietu. Następny krok: `pnpm lint`,
   `check:i18n-guard`, `check:pomoc-guard`, `check:ai-tools-guard`, `test` (cały — sprawdź zwłaszcza testy ekranów szukające
   polskich tekstów, np. E38/M14), `build`, `audit:gate` → poprawki → PR → merge (SHA 40 znaków).
+- ✅ (2026-09-29) **Porównanie `public/sw.js` ze wzorcem PWA standardu** (pytanie otwarte od 26.09, `docs/memory.md`,
+  Y.6 pkt 2). Raport z pomiarem na buildzie produkcyjnym: `docs/audyt-sw-vs-wzorzec-pwa.md`. Kod bez zmian.
+- ✅ (2026-09-29) **Service Worker — decyzja właściciela: wariant C (A etapami).** Plan wykonawczy krok po kroku:
+  `docs/plan-migracji-sw-wariant-c.md`. Wzorzec zsynchronizowany do `docs/przyklady/pwa/` (kopia 1:1 z
+  `new-app-standards` @ `af63da7`).
+- ✅ (2026-09-29) **`middleware.ts` — `/sw.js`, `/register-sw.js`, `/manifest.webmanifest` wykluczone z `matcher`**
+  (raport SW, pkt 12). Sprawdzone na `pnpm build` + `pnpm start`: strony mają CSP, trzy pliki PWA omijają middleware.
+- 🔲 (2026-09-29) **SW wariant C — etap 1: wzorzec standardu** (`docs/plan-migracji-sw-wariant-c.md`, sekcje 0–2).
+  Na starcie zapytać właściciela o C-1 (`sonner`), C-2 (`playwright` w devDependencies), C-3 (precache ~230 tras
+  dynamicznych). **Priorytet:** wysoki (5.3 — nieodwiedzony ekran nie działa offline w terenie). **Odblokowuje:**
+  offline każdego ekranu, aktualizacje SW z toastem (5.9), testy SW (10.8/10.9), etap 2, 5.11 (ten sam toast).
+  **Plusy teraz:** plan i wzorzec gotowe, pomiary świeże. **Minusy:** 1–2 sesje; pierwsza instalacja ok. 20+ MB do
+  czasu etapu 2. **Kolizje:** `app/layout.tsx`, `next.config.mjs`, `middleware.ts`, `lib/i18n/dictionary-*.ts`
+  (klucze `pwa.aktualizacja.*` — uwaga na równoległe sesje tłumaczeń), `package.json`/`pnpm-lock.yaml`, zadanie
+  „Powrót CI od 1.10” (job e2e). **Kolejność:** przed etapem 2 i przed 5.11; niezależne od 5.10.
+- 🔲 (2026-09-29) **SW wariant C — etap 2: pomiar i odchudzenie precache** (plan, sekcja 3). **Priorytet:** średni
+  (wysoki, jeśli pomiar etapu 1 przekroczy budżet). **Odblokowuje:** rozsądny pierwszy download na słabym łączu.
+  **Kolizje:** `lib/pwa/precache-build.ts`, `scripts/kopiuj-maplibre-worker.mjs`, `components/lokalizacja/*`.
+  **Kolejność:** dopiero po merge etapu 1 (potrzebne jego liczby); decyzja o budżecie i o widoku 3D offline —
+  właściciel.
+- 🔲 (2026-09-29) **5.10 — `navigator.storage.persist()` z zapamiętaniem odmowy** (raport SW, pkt 15; wzorzec
+  `docs/przyklady/pwa/trwaly-magazyn.ts`). Bez tego szkice autosave mogą zostać skasowane przez przeglądarkę.
+  **Priorytet:** średni. **Kolizje:** `lib/adapters/indexeddb-storage-adapter.ts`, `use-persisted-draft.ts`.
+  Niezależne od decyzji SW.
+- 🔲 (2026-09-29) **5.11 — obsługa kolizji wersji IndexedDB między kartami** (raport SW, pkt 16; wzorzec
+  `indexeddb-baza.ts` + `baza-wersja-listener.tsx`). Dziś `DB_VERSION = 1` — uśpione. **Priorytet:** musi wejść
+  **przed** pierwszym podbiciem `DB_VERSION`. **Kolizje:** jak 5.10 — robić w jednej sesji. Toast wymaga tego samego
+  komponentu co toast aktualizacji SW — wybrano C, więc robić po etapie 1 SW.
+

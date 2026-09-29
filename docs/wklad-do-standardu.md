@@ -1124,3 +1124,20 @@ Status: 🔎 nowe
 [29.09.2026] Wdrożone lokalnie (D58, decyzja właściciela „A + B”): `scripts/check-i18n-ui-guard.mjs` — AST po `app/**` i
 `components/**`, liczba trafień per plik (wariant „opcjonalnie” z propozycji), lista zapadkowa 248 plików / 3711 tekstów.
 Koszt wdrożenia z listą zapadkową: jedno popołudnie; do rozważenia w standardzie gotowy skrypt jako wzór (17.11).
+
+[29.09.2026] KATEGORIA: BŁĄD — `context.setOffline(true)` Playwrighta nie odcina `fetch()` wykonywanego przez Service Workera; strażnik „puste przejście” z 10.8 tego nie wykrywa
+
+Szczegóły: Porównanie naszego `public/sw.js` ze wzorcem `docs/przyklady/pwa/` (`docs/audyt-sw-vs-wzorzec-pwa.md`),
+pomiar na buildzie produkcyjnym, `playwright` 1.63 + Chromium. Po `context.setOffline(true)` nawigacja do strony
+nigdy wcześniej nieodwiedzonej zwróciła 200 z `fromServiceWorker() === true` — SW (strategia „najpierw sieć”) pobrał ją
+z sieci i zapisał do cache. Strażnik z 10.8 (żądanie `/api/**` ze strony ma zawieść offline) był zielony, bo takie
+żądanie SW puszcza wprost z karty, a tam emulacja działa. Dopiero ubicie serwera (`process.kill(-pid)`) dało prawdziwy
+wynik: `net::ERR_FAILED`. Test oparty na samym `setOffline` dałby fałszywie zielony wynik dla każdej strategii SW, która
+w ogóle sięga do sieci (fallback „precache → sieć” we wzorcu też).
+
+Dlaczego warto zgłosić do new-app-standards: 10.8 opisuje `setOffline` jako sposób przejścia offline i strażnik, który
+ma chronić przed fałszywą zielenią — a ten konkretny przypadek przepuszcza. Propozycja: w 10.8 prawdziwy offline przez
+zatrzymanie serwera (albo `context.route('**', r => r.abort())`, do sprawdzenia, czy obejmuje SW) i drugi strażnik:
+nawigacja do strony spoza cache SW ma zawieść offline.
+
+Status: 🔎 nowe
