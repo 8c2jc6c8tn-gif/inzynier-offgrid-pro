@@ -2,9 +2,11 @@
 
 import { useMemo } from "react"
 import { calculateDogrzewaniePaliwemStalym } from "@/lib/core/modules/bezpieczenstwo/dogrzewanie-paliwem-stalym/calculator"
+import { MIN_ODLEGLOSC_OD_MATERIALOW_PALNYCH_CM } from "@/lib/core/modules/bezpieczenstwo/dogrzewanie-paliwem-stalym/constants"
 import type { PaliwoStale } from "@/lib/core/modules/bezpieczenstwo/dogrzewanie-paliwem-stalym/input"
 import { usePersistedDraft } from "@/lib/adapters/use-persisted-draft"
 import { Pole, PoleSelect, PoleCheckbox } from "@/components/ui/pole"
+import { PomocPola } from "@/components/ui/pomoc"
 import { WerdyktPanel } from "@/components/werdykt"
 import { NawigacjaEkranu } from "@/components/nawigacja-ekranu"
 import { NaglowekEkranu } from "@/components/wzorce/naglowek-ekranu"
@@ -57,7 +59,12 @@ export default function DogrzewaniePaliwemStalymPage() {
   return (
     <main className="mx-auto flex max-w-md flex-col gap-6 p-6">
       <NawigacjaEkranu href="/kalkulatory/dogrzewanie-paliwem-stalym" />
-      <NaglowekEkranu tytul="Bezpieczeństwo pożarowe — dogrzewanie paliwem stałym">
+      <NaglowekEkranu
+        tytul="Bezpieczeństwo pożarowe — dogrzewanie paliwem stałym"
+        ekran="dogrzewanie-paliwem-stalym"
+        parametry={{ minOdleglosc: MIN_ODLEGLOSC_OD_MATERIALOW_PALNYCH_CM }}
+        wzor={result.formula}
+      >
         Otwarty ogień w domu to realna odpowiedzialność — spalanie zużywa tlen z pomieszczenia i
         produkuje czad, który nie ma zapachu i zabija we śnie. Moduł 8, Ekran 2.
       </NaglowekEkranu>
@@ -67,6 +74,7 @@ export default function DogrzewaniePaliwemStalymPage() {
           label="Typ paliwa"
           value={typPaliwa}
           onChange={(e) => setTypPaliwa(e.target.value as PaliwoStale)}
+          pomoc={<PomocPola ekran="dogrzewanie-paliwem-stalym" pole="paliwo" />}
         >
           <option value="">— wybierz —</option>
           <option value="drewno">Drewno</option>
@@ -81,6 +89,7 @@ export default function DogrzewaniePaliwemStalymPage() {
           min={0}
           value={odlegloscOdMaterialowPalnychCm}
           onChange={(e) => setOdlegloscOdMaterialowPalnychCm(e.target.value)}
+          pomoc={<PomocPola ekran="dogrzewanie-paliwem-stalym" pole="odleglosc" params={{ minOdleglosc: MIN_ODLEGLOSC_OD_MATERIALOW_PALNYCH_CM }} />}
         />
         <PoleCheckbox
           id="ma-nawiew"

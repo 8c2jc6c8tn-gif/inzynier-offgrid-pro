@@ -4,6 +4,7 @@ import { useMemo } from "react"
 import { calculatePowiadomieniaAlarmowe } from "@/lib/core/modules/bezpieczenstwo/powiadomienia-alarmowe/calculator"
 import { usePersistedDraft } from "@/lib/adapters/use-persisted-draft"
 import { Pole, PoleCheckbox } from "@/components/ui/pole"
+import { PomocPola } from "@/components/ui/pomoc"
 import { WerdyktPanel } from "@/components/werdykt"
 import { NawigacjaEkranu } from "@/components/nawigacja-ekranu"
 import { NaglowekEkranu } from "@/components/wzorce/naglowek-ekranu"
@@ -50,7 +51,7 @@ export default function PowiadomieniaAlarmowePage() {
   return (
     <main className="mx-auto flex max-w-md flex-col gap-6 p-6">
       <NawigacjaEkranu href="/kalkulatory/powiadomienia-alarmowe" />
-      <NaglowekEkranu tytul="Syrena, powiadomienia i służby">
+      <NaglowekEkranu tytul="Syrena, powiadomienia i służby" ekran="powiadomienia-alarmowe" wzor={result.formula}>
         System nie tylko wykrywa zagrożenie, ale może też wezwać pomoc — ostatnia deska ratunku, gdy nikogo nie ma w domu.
         Moduł 8, Ekran 10.
       </NaglowekEkranu>
@@ -65,7 +66,7 @@ export default function PowiadomieniaAlarmowePage() {
           step={1}
           value={stan.liczbaKontaktow}
           onChange={(e) => setStan((prev) => ({ ...prev, liczbaKontaktow: e.target.value }))}
-          hint="Ty, rodzina, firma ochroniarska."
+          pomoc={<PomocPola ekran="powiadomienia-alarmowe" pole="kontakty" />}
         />
         {FLAGI.map(({ pole, label, hint }) => (
           <PoleCheckbox

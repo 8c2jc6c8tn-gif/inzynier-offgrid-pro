@@ -10,10 +10,12 @@ import type { Language } from "../language"
 import type { MigawkaTresc, PomocEkranu, PomocGrupy } from "./typy"
 import * as m12 from "./m12-kalkulator-mobilny"
 import * as m14 from "./m14-siec"
+import * as m08 from "./m08-bezpieczenstwo"
 
 const pomocPl = {
   ...m12.pl,
   ...m14.pl,
+  ...m08.pl,
 } satisfies Record<string, PomocEkranu | PomocGrupy>
 
 export type PomocWszystko = typeof pomocPl
@@ -27,9 +29,9 @@ export type EkranPomocy = {
 
 export const pomoc: Record<Language, PomocWszystko> = {
   pl: pomocPl,
-  en: { ...m12.en, ...m14.en },
-  ru: { ...m12.ru, ...m14.ru },
+  en: { ...m12.en, ...m14.en, ...m08.en },
+  ru: { ...m12.ru, ...m14.ru, ...m08.ru },
 }
 
 /** Module parts, exposed for the duplicate-key test (a spread silently overwrites a repeated screen id). */
-export const czesciPomocy: Record<string, object>[] = [m12.pl, m14.pl]
+export const czesciPomocy: Record<string, object>[] = [m12.pl, m14.pl, m08.pl]

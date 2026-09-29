@@ -32,7 +32,7 @@ export default function AudytPozarowyPage() {
   return (
     <main className="mx-auto flex max-w-md flex-col gap-6 p-6">
       <NawigacjaEkranu href="/kalkulatory/audyt-pozarowy" />
-      <NaglowekEkranu tytul="Autonomiczny audyt bezpieczeństwa pożarowego">
+      <NaglowekEkranu tytul="Autonomiczny audyt bezpieczeństwa pożarowego" ekran="audyt-pozarowy">
         AI regularnie sprawdza, czy w razie pożaru wszystko zadziała tak, jak powinno — żeby nie
         odkryć zepsutego czujnika dopiero w trakcie prawdziwego pożaru. Moduł 8, Ekran 11.
       </NaglowekEkranu>

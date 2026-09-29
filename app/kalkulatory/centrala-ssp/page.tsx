@@ -5,6 +5,7 @@ import { calculateCentralaSsp } from "@/lib/core/modules/bezpieczenstwo/centrala
 import type { InterfejsCentrali, StanCentrali } from "@/lib/core/modules/bezpieczenstwo/centrala-ssp/input"
 import { usePersistedDraft } from "@/lib/adapters/use-persisted-draft"
 import { PoleCheckbox, PoleSelect } from "@/components/ui/pole"
+import { PomocPola } from "@/components/ui/pomoc"
 import { WerdyktPanel } from "@/components/werdykt"
 import { NawigacjaEkranu } from "@/components/nawigacja-ekranu"
 import { NaglowekEkranu } from "@/components/wzorce/naglowek-ekranu"
@@ -48,7 +49,7 @@ export default function CentralaSspPage() {
   return (
     <main className="mx-auto flex max-w-md flex-col gap-6 p-6">
       <NawigacjaEkranu href="/kalkulatory/centrala-ssp" />
-      <NaglowekEkranu tytul="Centrala sygnalizacji pożaru — wejścia">
+      <NaglowekEkranu tytul="Centrala sygnalizacji pożaru — wejścia" ekran="centrala-ssp" wzor={result.formula}>
         Centrala pożarowa to serce ochrony — sterownik musi z nią „rozmawiać” bez zakłóceń, bo od niej zależy, czy reszta
         systemu w ogóle dowie się o zagrożeniu. Moduł 8, Ekran 5.
       </NaglowekEkranu>
@@ -58,6 +59,7 @@ export default function CentralaSspPage() {
           label="Połączenie z centralą"
           value={stan.interfejs}
           onChange={(e) => setStan((prev) => ({ ...prev, interfejs: e.target.value as FormularzStan["interfejs"] }))}
+          pomoc={<PomocPola ekran="centrala-ssp" pole="polaczenie" />}
         >
           <option value="">— wybierz —</option>
           <option value="styki">Styki bezpotencjałowe</option>
@@ -67,6 +69,7 @@ export default function CentralaSspPage() {
           label="Stan centrali"
           value={stan.stanCentrali}
           onChange={(e) => setStan((prev) => ({ ...prev, stanCentrali: e.target.value as FormularzStan["stanCentrali"] }))}
+          pomoc={<PomocPola ekran="centrala-ssp" pole="stan" />}
         >
           <option value="">— wybierz —</option>
           <option value="dozor">Dozór (sprawna)</option>

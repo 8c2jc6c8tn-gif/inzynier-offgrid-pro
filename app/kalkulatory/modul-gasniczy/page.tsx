@@ -2,9 +2,11 @@
 
 import { useMemo } from "react"
 import { calculateModulGasniczy } from "@/lib/core/modules/bezpieczenstwo/modul-gasniczy/calculator"
+import { MIN_CZUJNIKOW_POTWIERDZENIA } from "@/lib/core/modules/bezpieczenstwo/modul-gasniczy/constants"
 import type { MagazynWStrefie, SrodekGasniczy, StanModuluGasniczego } from "@/lib/core/modules/bezpieczenstwo/modul-gasniczy/input"
 import { usePersistedDraft } from "@/lib/adapters/use-persisted-draft"
 import { Pole, PoleCheckbox, PoleSelect } from "@/components/ui/pole"
+import { PomocPola } from "@/components/ui/pomoc"
 import { WerdyktPanel } from "@/components/werdykt"
 import { NawigacjaEkranu } from "@/components/nawigacja-ekranu"
 import { NaglowekEkranu } from "@/components/wzorce/naglowek-ekranu"
@@ -58,13 +60,23 @@ export default function ModulGasniczyPage() {
   return (
     <main className="mx-auto flex max-w-md flex-col gap-6 p-6">
       <NawigacjaEkranu href="/kalkulatory/modul-gasniczy" />
-      <NaglowekEkranu tytul="Moduł gaśniczy">
+      <NaglowekEkranu
+        tytul="Moduł gaśniczy"
+        ekran="modul-gasniczy"
+        parametry={{ minCzujnikow: MIN_CZUJNIKOW_POTWIERDZENIA }}
+        wzor={result.formula}
+      >
         Człowiek może nie zdążyć pomyśleć we właściwej kolejności podczas pożaru — system realizuje sprawdzoną sekwencję
         kroków w ciągu sekund. Moduł 8, Ekran 4.
       </NaglowekEkranu>
 
       <div className="flex flex-col gap-4">
-        <PoleSelect label="Środek gaśniczy" value={stan.srodek} onChange={(e) => ustaw("srodek", e.target.value as FormularzStan["srodek"])}>
+        <PoleSelect
+          label="Środek gaśniczy"
+          value={stan.srodek}
+          onChange={(e) => ustaw("srodek", e.target.value as FormularzStan["srodek"])}
+          pomoc={<PomocPola ekran="modul-gasniczy" pole="srodek" />}
+        >
           <option value="">— wybierz —</option>
           <option value="mgla-wodna">Mgła wodna</option>
           <option value="specjalny-magazyn-energii">Środek do magazynów energii</option>
@@ -77,6 +89,7 @@ export default function ModulGasniczyPage() {
           label="Magazyn energii w strefie gaśniczej"
           value={stan.magazynWStrefie}
           onChange={(e) => ustaw("magazynWStrefie", e.target.value as FormularzStan["magazynWStrefie"])}
+          pomoc={<PomocPola ekran="modul-gasniczy" pole="magazyn" />}
         >
           <option value="">— wybierz —</option>
           <option value="brak">Brak magazynu w strefie</option>
@@ -92,7 +105,7 @@ export default function ModulGasniczyPage() {
           step={1}
           value={stan.liczbaCzujnikowPotwierdzenia}
           onChange={(e) => ustaw("liczbaCzujnikowPotwierdzenia", e.target.value)}
-          hint="Ile niezależnych czujników musi potwierdzić pożar, zanim ruszy gaszenie."
+          pomoc={<PomocPola ekran="modul-gasniczy" pole="czujniki" params={{ minCzujnikow: MIN_CZUJNIKOW_POTWIERDZENIA }} />}
         />
         <PoleCheckbox
           id="gasz-odciecie-wentylacji"
@@ -100,7 +113,12 @@ export default function ModulGasniczyPage() {
           checked={stan.odcinaWentylacjeIKlapy}
           onChange={(e) => ustaw("odcinaWentylacjeIKlapy", e.target.checked)}
         />
-        <PoleSelect label="Stan modułu" value={stan.stanModulu} onChange={(e) => ustaw("stanModulu", e.target.value as FormularzStan["stanModulu"])}>
+        <PoleSelect
+          label="Stan modułu"
+          value={stan.stanModulu}
+          onChange={(e) => ustaw("stanModulu", e.target.value as FormularzStan["stanModulu"])}
+          pomoc={<PomocPola ekran="modul-gasniczy" pole="stanModulu" />}
+        >
           <option value="">— wybierz —</option>
           <option value="sprawny">Sprawny (naładowany)</option>
           <option value="rozladowany">Rozładowany</option>

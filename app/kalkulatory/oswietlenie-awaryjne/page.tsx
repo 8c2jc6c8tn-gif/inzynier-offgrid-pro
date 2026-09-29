@@ -5,6 +5,7 @@ import { calculateOswietlenieAwaryjne } from "@/lib/core/modules/bezpieczenstwo/
 import type { LampaAwaryjna, StanLampy, ZasilanieLamp } from "@/lib/core/modules/bezpieczenstwo/oswietlenie-awaryjne/input"
 import { usePersistedDraft } from "@/lib/adapters/use-persisted-draft"
 import { PoleCheckbox, PoleSelect } from "@/components/ui/pole"
+import { PomocPola } from "@/components/ui/pomoc"
 import { WerdyktPanel } from "@/components/werdykt"
 import { NawigacjaEkranu } from "@/components/nawigacja-ekranu"
 import { NaglowekEkranu } from "@/components/wzorce/naglowek-ekranu"
@@ -47,7 +48,7 @@ export default function OswietlenieAwaryjnePage() {
   return (
     <main className="mx-auto flex max-w-md flex-col gap-6 p-6">
       <NawigacjaEkranu href="/kalkulatory/oswietlenie-awaryjne" />
-      <NaglowekEkranu tytul="Oświetlenie awaryjne">
+      <NaglowekEkranu tytul="Oświetlenie awaryjne" ekran="oswietlenie-awaryjne" wzor={result.formula}>
         W dymie nie widać drogi — awaria lampy na trasie ewakuacji musi być widoczna, zanim będzie potrzebna. Moduł 8, Ekran 7.
       </NaglowekEkranu>
 
@@ -55,6 +56,7 @@ export default function OswietlenieAwaryjnePage() {
         label="Zasilanie lamp"
         value={stan.zasilanie}
         onChange={(e) => setStan((prev) => ({ ...prev, zasilanie: e.target.value as FormularzStan["zasilanie"] }))}
+        pomoc={<PomocPola ekran="oswietlenie-awaryjne" pole="zasilanie" />}
       >
         <option value="">— wybierz —</option>
         <option value="ups">Z UPS</option>
@@ -64,6 +66,14 @@ export default function OswietlenieAwaryjnePage() {
       <div className="flex flex-col gap-2">
         <p className="text-small font-medium">Lampy na drogach ewakuacji</p>
         <p className="text-caption text-muted-foreground">Stan z ostatniego testu. Bez testu — „nietestowana”.</p>
+        <p className="flex items-center gap-3 text-caption text-muted-foreground">
+          <span className="flex items-center gap-1">
+            Miejsce <PomocPola ekran="oswietlenie-awaryjne" pole="miejsce" />
+          </span>
+          <span className="flex items-center gap-1">
+            Stan <PomocPola ekran="oswietlenie-awaryjne" pole="stanLampy" />
+          </span>
+        </p>
         <ul className="flex flex-col gap-3">
           {stan.lampy.map((l, i) => {
             const opis = l.nazwa || `lampa ${i + 1}`

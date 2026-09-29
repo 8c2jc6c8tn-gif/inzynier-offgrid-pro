@@ -5,6 +5,7 @@ import { calculateZamkiDrzwiEwakuacyjnych } from "@/lib/core/modules/bezpieczens
 import type { TypZamka, ZachowaniePrzyZaniku } from "@/lib/core/modules/bezpieczenstwo/zamki-drzwi-ewakuacyjnych/input"
 import { usePersistedDraft } from "@/lib/adapters/use-persisted-draft"
 import { PoleCheckbox, PoleSelect } from "@/components/ui/pole"
+import { PomocPola } from "@/components/ui/pomoc"
 import { WerdyktPanel } from "@/components/werdykt"
 import { NawigacjaEkranu } from "@/components/nawigacja-ekranu"
 import { NaglowekEkranu } from "@/components/wzorce/naglowek-ekranu"
@@ -53,7 +54,7 @@ export default function ZamkiDrzwiEwakuacyjnychPage() {
   return (
     <main className="mx-auto flex max-w-md flex-col gap-6 p-6">
       <NawigacjaEkranu href="/kalkulatory/zamki-drzwi-ewakuacyjnych" />
-      <NaglowekEkranu tytul="Zamki drzwi ewakuacyjnych">
+      <NaglowekEkranu tytul="Zamki drzwi ewakuacyjnych" ekran="zamki-drzwi-ewakuacyjnych" wzor={result.formula}>
         W pożarze nie może być zablokowanych drzwi — dobra zasada projektowa to „fail-safe”: brak prądu = drzwi otwarte,
         nigdy odwrotnie. Moduł 8, Ekran 3.
       </NaglowekEkranu>
@@ -63,6 +64,7 @@ export default function ZamkiDrzwiEwakuacyjnychPage() {
           label="Typ zamka"
           value={stan.typZamka}
           onChange={(e) => setStan((prev) => ({ ...prev, typZamka: e.target.value as FormularzStan["typZamka"] }))}
+          pomoc={<PomocPola ekran="zamki-drzwi-ewakuacyjnych" pole="typ" />}
         >
           <option value="">— wybierz —</option>
           <option value="elektromagnetyczny">Zwora elektromagnetyczna</option>
@@ -75,6 +77,7 @@ export default function ZamkiDrzwiEwakuacyjnychPage() {
           onChange={(e) =>
             setStan((prev) => ({ ...prev, zachowaniePrzyZanikuZasilania: e.target.value as FormularzStan["zachowaniePrzyZanikuZasilania"] }))
           }
+          pomoc={<PomocPola ekran="zamki-drzwi-ewakuacyjnych" pole="zanikPradu" />}
         >
           <option value="">— wybierz —</option>
           <option value="otwiera">Otwiera drzwi (fail-safe)</option>
