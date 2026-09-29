@@ -6,7 +6,7 @@ export default function TrybLivePage() {
   return (
     <main className="mx-auto flex max-w-md flex-col gap-6 p-6">
       <NawigacjaEkranu href="/kalkulatory/tryb-live" />
-      <NaglowekEkranu tytul="Tryb Live">
+      <NaglowekEkranu tytul="Tryb Live" ekran="tryb-live">
         Przełącznik między trybem „Projektowanie” (Kafle 1–12) a trybem „Live” (monitoring
         bieżący). Moduł 13, Ekran 1.
       </NaglowekEkranu>

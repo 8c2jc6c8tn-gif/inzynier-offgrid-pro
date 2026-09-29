@@ -1,6 +1,4 @@
 {
   "opis": "Pliki niezgodne z D51 na 29.09.2026 — naprawiane moduł po module. Lista tylko maleje; nowy ekran nigdy tu nie trafia.",
-  "pliki": [
-    "app/kalkulatory/tryb-live/page.tsx"
-  ]
+  "pliki": []
 }
