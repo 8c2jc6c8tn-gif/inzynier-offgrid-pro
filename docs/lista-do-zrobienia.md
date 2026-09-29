@@ -1236,3 +1236,13 @@ Pełne wyniki audytu: `docs/memory.md`, sekcja "Pełny audyt na polecenie właś
   9. 🔲 **Bieżące prace kodowe** (wpisy wyżej): rejestr twardych stopów M5, resynchronizacja `mapa-wdrozenia.md`,
      kolejne ekrany M7/M12, kafle „duże” + presety onboardingu (M14), przecinek w liczbach założeń i18n.
 
+- 🔲 (2026-09-29) **Powrót CI od 1.10.2026 (pozostałość sesji 29.09).** (1) Usunąć notę „⚠️ Do końca września 2026
+  CI NIE DZIAŁA” z `CLAUDE.md` (sekcja „Stan repo”) i dopisać w `docs/memory.md`, że CI wróciło. (2) Pierwszy przebieg
+  CI na `main` sprawdzić ręcznie — od 24.09 wszystkie PR (m.in. #213–#215) scalano tylko po lokalnym pakiecie, a krok
+  `pnpm check:ai-tools-guard` w `.github/workflows/ci.yml` jeszcze nigdy nie ruszył w GitHub Actions. Czerwony przebieg
+  = naprawić od razu, nie odkładać. **Priorytet:** wysoki, 1.10.2026. **Kolizje:** brak.
+- 🔲 (2026-09-29) **Prognozy M10 — Δt przy podłączaniu realnych danych (TD7).** Silnik `ai/prognozy` 1.1.0 zakłada
+  stały krok `KROK_PROBKOWANIA_H = 3` (decyzja A). Gdy ekran dostanie prawdziwe źródło (symulacja SoC, pogoda, dane live),
+  sprawdzić krok próbkowania tego źródła: inny niż 3 h → krok jako jawne pole wejścia silnika (+ test), nie cicha
+  zmiana stałej. Pułapka opisana w `docs/memory.md` („Prognozy M10 — Δt”). **Priorytet:** razem z TD7.
+  **Kolizje:** `lib/ai/tools/prognozy-tool.ts` (pole `krokProbkowaniaH` w wyniku).
