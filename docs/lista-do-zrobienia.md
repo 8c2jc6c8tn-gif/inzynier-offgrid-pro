@@ -1269,6 +1269,8 @@ Pełne wyniki audytu: `docs/memory.md`, sekcja "Pełny audyt na polecenie właś
   średni; AKTUALIZACJE: „przy najbliższej zmianie ekranu”, ale (1) i (2) to jeden wspólny komponent — jedna zmiana
   obejmuje ~244 ekrany, taniej od razu. **Kolizje:** każda sesja zmieniająca `components/ui/pomoc.tsx`/`chmurka.tsx`.
   **Kolejność:** (1)+(2) przed (3).
+  🔄 **[29.09.2026, 22:55] W trakcie** — gałąź `claude/pwa-parallel-branch-work-4e99fd` (worktree
+  `.claude/worktrees/pwa-parallel-branch-work-4e99fd`), po strażniku stopów. Nie koliduje z plikami SW etapu 1.
 - 🔲 (2026-09-29) **Strażnik rejestru twardych stopów — teraz wymóg standardu (4.3 dopisek + 11.9).** Rozszerza wpis
   🔲 z 28.09 „Rejestr twardych stopów — dryf całego M5”: skrypt `scripts/check-stopy-guard.mjs` (każdy kod `level:
   "critical"` w `lib/core/modules/**/warnings.ts` ↔ wpis w `docs/rejestr-twardych-stopow.md`, jawna lista wyjątków
@@ -1276,6 +1278,9 @@ Pełne wyniki audytu: `docs/memory.md`, sekcja "Pełny audyt na polecenie właś
   tylko maleje (11.9). Dziś w modułach 373 wystąpienia `level: "critical"`. **Priorytet:** wysoki (rejestr = narzędzie
   audytu bezpieczeństwa). **Kolizje:** `docs/rejestr-twardych-stopow.md`, `package.json`, `.github/workflows/ci.yml`.
   **Kolejność:** najpierw strażnik z listą zapadkową, potem uzupełnianie M5/M3/M6/M7/M8 (lista maleje).
+  🔄 **[29.09.2026, 22:55] W trakcie** — gałąź `claude/pwa-parallel-branch-work-4e99fd` (worktree
+  `.claude/worktrees/pwa-parallel-branch-work-4e99fd`). Inne sesje: nie ruszać `docs/rejestr-twardych-stopow.md`
+  do merge tej gałęzi. Uzupełnianie M5 i dalszych modułów — po merge SW etapu 1 (decyzja właściciela).
 - ⚠️ (2026-09-29) **Routine cyklu Y.6 nie istnieje** (`trig_01892Z45ThAi2T56PJRjQQAh` → not found). Kolejne sprawdzenie
   tylko na starcie sesji albo po odtworzeniu Routine — decyzja właściciela (co 12 h wg cyklu adaptacyjnego).
 - ✅ (2026-09-29) **Y.11 pkt 1b — twarde polskie teksty w JSX ekranów zmienionych 29.09** (raport:
