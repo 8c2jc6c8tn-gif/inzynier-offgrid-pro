@@ -7,6 +7,7 @@ import type {
 } from "@/lib/core/modules/zapotrzebowanie/agregat-pradotworczy/bezpieczenstwo"
 import { PoleSelect } from "@/components/ui/pole"
 import { PomocPola } from "@/components/ui/pomoc"
+import { useTranslate } from "@/lib/i18n/language-context"
 
 export type BezpieczenstwoAgregatuStan = {
   miejsceAgregatu: MiejsceAgregatu | ""
@@ -19,38 +20,39 @@ type Props = BezpieczenstwoAgregatuStan & {
 
 /** Generator safety questions (D48) shared by M2/E17 and M7/E8. */
 export function PolaBezpieczenstwaAgregatu({ miejsceAgregatu, podlaczenieAgregatu, onChange }: Props) {
+  const t = useTranslate()
   return (
     <div className="flex flex-col gap-4">
-      <p className="text-small font-medium">Bezpieczeństwo agregatu</p>
+      <p className="text-small font-medium">{t("UI-AGB-TYTUL")}</p>
       <PoleSelect
-        label="Gdzie pracuje agregat"
+        label={t("UI-AGB-MIEJSCE")}
         value={miejsceAgregatu ?? ""}
         onChange={(e) => onChange({ miejsceAgregatu: e.target.value as BezpieczenstwoAgregatuStan["miejsceAgregatu"] })}
         pomoc={<PomocPola ekran="agregat-bezpieczenstwo" pole="miejsce" />}
       >
-        <option value="">— wybierz —</option>
-        <option value="na-zewnatrz">Na zewnątrz (wiata, pod zadaszeniem)</option>
-        <option value="pomieszczenie-wydzielone">Wydzielone pomieszczenie techniczne z wydechem na zewnątrz</option>
-        <option value="wewnatrz-budynku">W budynku (piwnica, garaż przy domu, kotłownia)</option>
+        <option value="">{t("UI-WYBIERZ")}</option>
+        <option value="na-zewnatrz">{t("UI-AGB-M-ZEWNATRZ")}</option>
+        <option value="pomieszczenie-wydzielone">{t("UI-AGB-M-WYDZIELONE")}</option>
+        <option value="wewnatrz-budynku">{t("UI-AGB-M-BUDYNEK")}</option>
       </PoleSelect>
       <PoleSelect
-        label="Jak agregat zasila odbiorniki"
+        label={t("UI-AGB-PODLACZENIE")}
         value={podlaczenieAgregatu ?? ""}
         onChange={(e) =>
           onChange({ podlaczenieAgregatu: e.target.value as BezpieczenstwoAgregatuStan["podlaczenieAgregatu"] })
         }
         pomoc={<PomocPola ekran="agregat-bezpieczenstwo" pole="podlaczenie" />}
       >
-        <option value="">— wybierz —</option>
-        <option value="przez-przelacznik">Do instalacji przez przełącznik I–0–II</option>
-        <option value="bez-przelacznika">Do instalacji bez przełącznika (gniazdko, wtyczka)</option>
-        <option value="wejscie-ac-falownika">Przez rozdzielnię do wejścia AC falownika / ładowarki</option>
-        <option value="tylko-odbiorniki">Odbiorniki awaryjne z rozdzielni zasilanej tylko z agregatu</option>
+        <option value="">{t("UI-WYBIERZ")}</option>
+        <option value="przez-przelacznik">{t("UI-AGB-P-PRZELACZNIK")}</option>
+        <option value="bez-przelacznika">{t("UI-AGB-P-BEZ")}</option>
+        <option value="wejscie-ac-falownika">{t("UI-AGB-P-FALOWNIK")}</option>
+        <option value="tylko-odbiorniki">{t("UI-AGB-P-ODBIORNIKI")}</option>
       </PoleSelect>
       <p className="text-caption text-muted-foreground">
-        Jak ma wyglądać przełącznik (pozycja 0, blokada, przewód N):{" "}
+        {t("UI-AGB-JAK-PRZELACZNIK")}{" "}
         <Link className="underline" href="/kalkulatory/przelacznik-siec-wyspa">
-          Przełącznik sieć/wyspa i bezpieczeństwo
+          {t("UI-AGB-L-PRZELACZNIK")}
         </Link>
       </p>
     </div>

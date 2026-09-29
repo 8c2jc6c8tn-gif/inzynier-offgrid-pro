@@ -3,14 +3,15 @@
 import { NawigacjaEkranu } from "@/components/nawigacja-ekranu"
 import { NaglowekEkranu } from "@/components/wzorce/naglowek-ekranu"
 import { PorownanieScenariuszy } from "@/components/siec/porownanie-scenariuszy"
+import { useTranslate } from "@/lib/i18n/language-context"
 
 export default function ScenariuszeDomPage() {
+  const t = useTranslate()
   return (
     <main className="mx-auto flex max-w-2xl flex-col gap-6 p-6">
       <NawigacjaEkranu href="/kalkulatory/scenariusze-dom" />
-      <NaglowekEkranu tytul="Porównanie scenariuszy A–D" ekran="scenariusze-dom">
-        Sieć + PV, sieć + PV + magazyn, off-grid z siecią jako zapasem i pełne odłączenie — koszt całkowity w horyzoncie,
-        okres zwrotu, godziny agregatu i odwracalność obok siebie. Ceny wpisujesz Ty. M14 „Dom – sieć”, ekran D7.
+      <NaglowekEkranu tytul={t("UI-SCEN-DOM-TYTUL")} ekran="scenariusze-dom">
+        {t("UI-SCEN-DOM-OPIS")}
       </NaglowekEkranu>
       <PorownanieScenariuszy segment="dom" />
     </main>

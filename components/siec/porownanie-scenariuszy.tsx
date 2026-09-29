@@ -23,6 +23,7 @@ import { type StanPvMagazynu, kluczPv } from "./pv-magazyn"
 import { uzyskZeStanu } from "./uzysk-pv"
 import { liczbaLubNull, poziomWerdyktu, zl } from "./wspolne"
 import { useZuzycieMiesieczne } from "./zuzycie-miesieczne"
+import { useTranslate } from "@/lib/i18n/language-context"
 
 type StanScenariusza = { inwestycja: string; dotacja: string; moc: string; pojemnosc: string; kosztMagazynu: string; serwis: string }
 
@@ -66,11 +67,12 @@ const POCZATKOWY: Stan = {
   potwierdzamD: false,
 }
 
+/** Translation keys (`t()`). */
 const NAZWA: Record<IdScenariusza, string> = {
-  A: "A — sieć + PV",
-  B: "B — sieć + PV + magazyn",
-  C: "C — off-grid, sieć jako zapas",
-  D: "D — pełne odłączenie",
+  A: "UI-SCEN-NAZWA-A",
+  B: "UI-SCEN-NAZWA-B",
+  C: "UI-SCEN-NAZWA-C",
+  D: "UI-SCEN-NAZWA-D",
 }
 
 const ROK_BAZOWY = Number(DANE_ROZLICZEN.stanNa.slice(0, 4))
@@ -83,6 +85,7 @@ const f0 = (x: number) => x.toLocaleString("pl-PL", { maximumFractionDigits: 0 }
  * never writes their drafts. Always the full A–D table — never one „best” verdict.
  */
 export function PorownanieScenariuszy({ segment }: { segment: Segment }) {
+  const t = useTranslate()
   const firma = segment === "firma"
   const [stan, setStan] = usePersistedDraft<Stan>(`siec-scenariusze-${segment}`, POCZATKOWY)
   const ustaw = (z: Partial<Stan>) => setStan((p) => ({ ...p, ...z }))
@@ -156,19 +159,19 @@ export function PorownanieScenariuszy({ segment }: { segment: Segment }) {
   return (
     <>
       {brakZrodel && (
-        <StanPusty tytul="Najpierw zużycie z 12 miesięcy i uzysk PV">
+        <StanPusty tytul={t("UI-SCEN-NAJPIERW")}>
           {firma ? (
             <Link className="underline" href="/kalkulatory/pv-w-firmie">
-              PV w firmie i autokonsumpcja →
+              {t("UI-SIEC-LINK-PV-FIRMA")}
             </Link>
           ) : (
             <>
               <Link className="underline" href="/kalkulatory/zuzycie-miesieczne">
-                Moje zużycie miesięcznie
+                {t("UI-SIEC-LINK-ZUZYCIE")}
               </Link>{" "}
               ·{" "}
               <Link className="underline" href="/kalkulatory/pv-i-magazyn">
-                Ile PV i magazynu
+                {t("UI-SIEC-LINK-PV-DOM")}
               </Link>
             </>
           )}
@@ -182,11 +185,11 @@ export function PorownanieScenariuszy({ segment }: { segment: Segment }) {
         horyzontLat={num(stan.horyzont)}
       />
 
-      <SekcjaAkordeon tytul="Sieć i horyzont">
+      <SekcjaAkordeon tytul={t("UI-SCEN-SIEC-HORYZONT")}>
         <div className="grid grid-cols-2 gap-3">
           <Pole
-            label="Horyzont N"
-            unit="lat"
+            label={t("UI-SCEN-HORYZONT")}
+            unit={t("UI-J-LAT")}
             type="number"
             inputMode="numeric"
             min={10}
@@ -196,8 +199,8 @@ export function PorownanieScenariuszy({ segment }: { segment: Segment }) {
             pomoc={<PomocPola ekran="siec-scenariusze" pole="horyzont" />}
           />
           <Pole
-            label="Stopa dyskontowa r"
-            unit="%/rok"
+            label={t("UI-SCEN-STOPA")}
+            unit={t("UI-J-PROC-ROK")}
             type="number"
             inputMode="decimal"
             value={stan.stopa}
@@ -205,8 +208,8 @@ export function PorownanieScenariuszy({ segment }: { segment: Segment }) {
             pomoc={<PomocPola ekran="siec-scenariusze" pole="stopa" />}
           />
           <Pole
-            label="„Cena trzymania sieci” brutto"
-            unit="zł/rok"
+            label={t("UI-SCEN-CENA-TRZYMANIA")}
+            unit={t("UI-J-ZL-ROK")}
             type="number"
             inputMode="decimal"
             value={stan.kosztStaly}
@@ -215,8 +218,8 @@ export function PorownanieScenariuszy({ segment }: { segment: Segment }) {
             pomoc={<PomocPola ekran="siec-scenariusze" pole="cenaSieci" />}
           />
           <Pole
-            label="Koszt zmienny 1 kWh brutto"
-            unit="zł/kWh"
+            label={t("UI-SCEN-KOSZT-ZMIENNY")}
+            unit={t("UI-J-ZL-KWH")}
             type="number"
             inputMode="decimal"
             value={stan.cenaZmienna}
@@ -225,8 +228,8 @@ export function PorownanieScenariuszy({ segment }: { segment: Segment }) {
             pomoc={<PomocPola ekran="siec-scenariusze" pole="kosztKwh" />}
           />
           <Pole
-            label="Wartość 1 kWh oddanej"
-            unit="zł/kWh"
+            label={t("UI-SCEN-WARTOSC-ODDANEJ")}
+            unit={t("UI-J-ZL-KWH")}
             type="number"
             inputMode="decimal"
             value={stan.wartoscNadwyzki}
@@ -234,8 +237,8 @@ export function PorownanieScenariuszy({ segment }: { segment: Segment }) {
             pomoc={<PomocPola ekran="siec-scenariusze" pole="wartoscOddanej" />}
           />
           <Pole
-            label="Żywotność magazynu"
-            unit="lat"
+            label={t("UI-SCEN-ZYWOTNOSC")}
+            unit={t("UI-J-LAT")}
             type="number"
             inputMode="decimal"
             value={stan.zywotnosc}
@@ -244,17 +247,20 @@ export function PorownanieScenariuszy({ segment }: { segment: Segment }) {
           />
         </div>
         <p className="text-small text-muted-foreground">
-          Moc PV i magazyn domyślnie jak na ekranie „{firma ? "PV w firmie" : "Ile PV i magazynu"}” ({f0(pvMoc)} kWp,{" "}
-          {f0(pvPojemnosc)} kWh). W scenariuszu możesz wpisać inne.
+          {t("UI-SCEN-DOMYSLNIE", {
+            ekran: t(firma ? "UI-SCEN-EKRAN-PV-FIRMA" : "UI-SCEN-EKRAN-PV-DOM"),
+            moc: f0(pvMoc),
+            pojemnosc: f0(pvPojemnosc),
+          })}
         </p>
       </SekcjaAkordeon>
 
       {SCENARIUSZE.map((id) => (
-        <SekcjaAkordeon key={id} tytul={NAZWA[id]}>
+        <SekcjaAkordeon key={id} tytul={t(NAZWA[id])}>
           <div className="grid grid-cols-2 gap-3">
             <Pole
-              label="Inwestycja"
-              unit="zł"
+              label={t("UI-SCEN-INWESTYCJA")}
+              unit={t("UI-J-ZL")}
               type="number"
               inputMode="decimal"
               value={stan.scen[id].inwestycja}
@@ -262,8 +268,8 @@ export function PorownanieScenariuszy({ segment }: { segment: Segment }) {
               pomoc={<PomocPola ekran="siec-scenariusze" pole="inwestycja" />}
             />
             <Pole
-              label="Dotacja"
-              unit="zł"
+              label={t("UI-SCEN-DOTACJA")}
+              unit={t("UI-J-ZL")}
               type="number"
               inputMode="decimal"
               value={stan.scen[id].dotacja}
@@ -271,7 +277,7 @@ export function PorownanieScenariuszy({ segment }: { segment: Segment }) {
               pomoc={<PomocPola ekran="siec-scenariusze" pole="dotacja" />}
             />
             <Pole
-              label="Moc PV"
+              label={t("UI-SCEN-MOC-PV")}
               unit="kWp"
               type="number"
               inputMode="decimal"
@@ -283,7 +289,7 @@ export function PorownanieScenariuszy({ segment }: { segment: Segment }) {
             {id !== "A" && (
               <>
                 <Pole
-                  label="Magazyn"
+                  label={t("UI-SCEN-MAGAZYN")}
                   unit="kWh"
                   type="number"
                   inputMode="decimal"
@@ -293,8 +299,8 @@ export function PorownanieScenariuszy({ segment }: { segment: Segment }) {
                   pomoc={<PomocPola ekran="siec-scenariusze" pole="magazyn" />}
                 />
                 <Pole
-                  label="W tym koszt magazynu"
-                  unit="zł"
+                  label={t("UI-SCEN-KOSZT-MAGAZYNU")}
+                  unit={t("UI-J-ZL")}
                   type="number"
                   inputMode="decimal"
                   value={stan.scen[id].kosztMagazynu}
@@ -304,8 +310,8 @@ export function PorownanieScenariuszy({ segment }: { segment: Segment }) {
               </>
             )}
             <Pole
-              label="Serwis"
-              unit="zł/rok"
+              label={t("UI-SCEN-SERWIS")}
+              unit={t("UI-J-ZL-ROK")}
               type="number"
               inputMode="decimal"
               value={stan.scen[id].serwis}
@@ -316,7 +322,7 @@ export function PorownanieScenariuszy({ segment }: { segment: Segment }) {
           {id === "D" && (
             <div className="mt-3 grid grid-cols-2 gap-3">
               <Pole
-                label="Agregat — moc"
+                label={t("UI-SCEN-AGREGAT-MOC")}
                 unit="kW"
                 type="number"
                 inputMode="decimal"
@@ -325,7 +331,7 @@ export function PorownanieScenariuszy({ segment }: { segment: Segment }) {
                 pomoc={<PomocPola ekran="siec-scenariusze" pole="agregatMoc" />}
               />
               <Pole
-                label="Zużycie paliwa"
+                label={t("UI-SCEN-ZUZYCIE-PALIWA")}
                 unit="l/h"
                 type="number"
                 inputMode="decimal"
@@ -334,8 +340,8 @@ export function PorownanieScenariuszy({ segment }: { segment: Segment }) {
                 pomoc={<PomocPola ekran="siec-scenariusze" pole="paliwoZuzycie" />}
               />
               <Pole
-                label="Cena paliwa"
-                unit="zł/l"
+                label={t("UI-SCEN-CENA-PALIWA")}
+                unit={t("UI-J-ZL-L")}
                 type="number"
                 inputMode="decimal"
                 value={stan.paliwo}
@@ -343,8 +349,8 @@ export function PorownanieScenariuszy({ segment }: { segment: Segment }) {
                 pomoc={<PomocPola ekran="siec-scenariusze" pole="paliwoCena" />}
               />
               <Pole
-                label="Mój próg pracy agregatu"
-                unit="h/mies."
+                label={t("UI-SCEN-PROG-AGREGATU")}
+                unit={t("UI-J-H-MIES")}
                 type="number"
                 inputMode="decimal"
                 value={stan.prog}
@@ -354,27 +360,27 @@ export function PorownanieScenariuszy({ segment }: { segment: Segment }) {
             </div>
           )}
           {OPIS_SCENARIUSZA[id].wyspa && id === "C" && (
-            <p className="mt-2 text-small text-muted-foreground">Sieć zostaje jako zapas: płacisz opłaty stałe i to, co pobierzesz w złych miesiącach.</p>
+            <p className="mt-2 text-small text-muted-foreground">{t("UI-SCEN-OPIS-C")}</p>
           )}
         </SekcjaAkordeon>
       ))}
 
       <section className="flex flex-col gap-3">
-        <h2 className="font-semibold">Pytania kontrolne</h2>
+        <h2 className="font-semibold">{t("UI-SCEN-PYTANIA-KONTROLNE")}</h2>
         <PoleSelect
-          label="Czy ktoś zależy od zasilanego sprzętu medycznego?"
+          label={t("UI-SCEN-MEDYCZNY")}
           value={stan.osobyZalezne}
           onChange={(e) => ustaw({ osobyZalezne: e.target.value as Stan["osobyZalezne"] })}
           pomoc={<PomocPola ekran="siec-scenariusze" pole="medyczny" />}
         >
-          <option value="">— wybierz —</option>
-          <option value="nie">nie</option>
-          <option value="tak">tak</option>
+          <option value="">{t("UI-WYBIERZ")}</option>
+          <option value="nie">{t("UI-NIE")}</option>
+          <option value="tak">{t("UI-TAK")}</option>
         </PoleSelect>
-        <PoleCheckbox id={`siec-zapas-${segment}`} checked={stan.zapasRedundantny} onChange={(e) => ustaw({ zapasRedundantny: e.target.checked })} label="Mam redundantny zapas — drugie, niezależne źródło (np. agregat z osobnym torem ładowania)" />
+        <PoleCheckbox id={`siec-zapas-${segment}`} checked={stan.zapasRedundantny} onChange={(e) => ustaw({ zapasRedundantny: e.target.checked })} label={t("UI-SCEN-ZAPAS-REDUNDANTNY")} />
         {firma && (
           <Pole
-            label="Dopuszczalny czas bez zasilania"
+            label={t("UI-SCEN-CZAS-BEZ-ZASILANIA")}
             unit="h"
             type="number"
             inputMode="decimal"
@@ -386,33 +392,33 @@ export function PorownanieScenariuszy({ segment }: { segment: Segment }) {
       </section>
 
       {result.status === "INCOMPLETE" ? (
-        <WerdyktPanel poziom="uwaga" etykieta="Brakuje danych — nic nie zgadujemy">
+        <WerdyktPanel poziom="uwaga" etykieta={t("UI-SIEC-BRAK-DANYCH")}>
           <WynikSzczegoly assumptions={[]} warnings={result.warnings} />
         </WerdyktPanel>
       ) : result.status === "INVALID_INPUT" || result.status === "OUT_OF_SCOPE" || !v ? (
-        <WerdyktPanel poziom="blad" etykieta="Nie da się policzyć">
+        <WerdyktPanel poziom="blad" etykieta={t("UI-SIEC-NIE-DA-SIE")}>
           <WynikSzczegoly assumptions={[]} warnings={result.warnings} />
         </WerdyktPanel>
       ) : (
-        <WerdyktPanel poziom={poziom ?? "ok"} etykieta={`Scenariusze na ${stan.horyzont} lat`}>
+        <WerdyktPanel poziom={poziom ?? "ok"} etykieta={t("UI-SCEN-NA-LAT", { lat: stan.horyzont })}>
           <p className="text-small">
-            <strong>Najtańszy:</strong> {v.najtanszy ? NAZWA[v.najtanszy] : "—"}. <strong>Najbardziej niezależny:</strong>{" "}
-            {v.najbardziejNiezalezny ? NAZWA[v.najbardziejNiezalezny] : "—"}. To dwie różne odpowiedzi — aplikacja nie wybiera
-            „najlepszego”.
+            <strong>{t("UI-SCEN-NAJTANSZY")}</strong> {v.najtanszy ? t(NAZWA[v.najtanszy]) : "—"}.{" "}
+            <strong>{t("UI-SCEN-NAJBARDZIEJ-NIEZALEZNY")}</strong>{" "}
+            {v.najbardziejNiezalezny ? t(NAZWA[v.najbardziejNiezalezny]) : "—"}. {t("UI-SCEN-DWIE-ODPOWIEDZI")}
           </p>
           <div className="mt-3 overflow-x-auto">
             <table className="w-full min-w-[36rem] text-small tabular-nums">
               <thead>
                 <tr className="text-left text-muted-foreground">
-                  <th className="py-1 font-normal">Scen.</th>
-                  <th className="py-1 text-right font-normal">I − dotacja</th>
-                  <th className="py-1 text-right font-normal">Koszt roku 1</th>
-                  <th className="py-1 text-right font-normal">TCO (dziś. zł)</th>
-                  {inflacja && <th className="py-1 text-right font-normal">Zapłacisz łącznie</th>}
-                  <th className="py-1 text-right font-normal">Zwrot vs A</th>
-                  <th className="py-1 text-right font-normal">Własna energia</th>
-                  <th className="py-1 text-right font-normal">Agregat</th>
-                  <th className="py-1 pl-2 font-normal">Odwracalność</th>
+                  <th className="py-1 font-normal">{t("UI-SCEN-TH-SCEN")}</th>
+                  <th className="py-1 text-right font-normal">{t("UI-SCEN-TH-INWESTYCJA")}</th>
+                  <th className="py-1 text-right font-normal">{t("UI-SCEN-TH-KOSZT-ROK1")}</th>
+                  <th className="py-1 text-right font-normal">{t("UI-SCEN-TH-TCO")}</th>
+                  {inflacja && <th className="py-1 text-right font-normal">{t("UI-SCEN-TH-ZAPLACISZ")}</th>}
+                  <th className="py-1 text-right font-normal">{t("UI-SCEN-TH-ZWROT")}</th>
+                  <th className="py-1 text-right font-normal">{t("UI-SCEN-TH-WLASNA")}</th>
+                  <th className="py-1 text-right font-normal">{t("UI-SCEN-TH-AGREGAT")}</th>
+                  <th className="py-1 pl-2 font-normal">{t("UI-SCEN-TH-ODWRACALNOSC")}</th>
                 </tr>
               </thead>
               <tbody>
@@ -423,12 +429,18 @@ export function PorownanieScenariuszy({ segment }: { segment: Segment }) {
                       <td className="py-1 font-medium">{s.id}</td>
                       <td className="py-1 text-right">{zl(s.inwestycjaNettoZl)}</td>
                       <td className="py-1 text-right">{zl(s.kosztRok1Zl)}</td>
-                      <td className="py-1 text-right">{ukryj ? "potwierdź ↓" : zl(s.tcoDzisiejszeZl)}</td>
+                      <td className="py-1 text-right">{ukryj ? t("UI-SCEN-POTWIERDZ") : zl(s.tcoDzisiejszeZl)}</td>
                       {inflacja && <td className="py-1 text-right">{ukryj ? "—" : zl(s.tcoNominalneZl)}</td>}
-                      <td className="py-1 text-right">{s.id === "A" ? "—" : s.okresZwrotuLat === null ? `> ${stan.horyzont} lat` : `${s.okresZwrotuLat} lat`}</td>
+                      <td className="py-1 text-right">{s.id === "A"
+                          ? "—"
+                          : s.okresZwrotuLat === null
+                            ? t("UI-SCEN-PONAD-LAT", { lat: stan.horyzont })
+                            : t("UI-SCEN-LAT", { lat: s.okresZwrotuLat })}</td>
                       <td className="py-1 text-right">{Math.round(s.pokrycieWlasne * 100)}%</td>
-                      <td className="py-1 text-right">{s.id === "D" ? `${f0(s.godzinyAgregatuRok)} h/rok (maks. ${f0(s.godzinyAgregatuMaxMies)} h/mies.)` : "—"}</td>
-                      <td className="py-1 pl-2">{s.odwracalny ? "pełna" : "praktycznie nieodwracalne"}</td>
+                      <td className="py-1 text-right">{s.id === "D"
+                          ? t("UI-SCEN-GODZINY-AGREGATU", { rok: f0(s.godzinyAgregatuRok), mies: f0(s.godzinyAgregatuMaxMies) })
+                          : "—"}</td>
+                      <td className="py-1 pl-2">{s.odwracalny ? t("UI-SCEN-ODWR-PELNA") : t("UI-SCEN-ODWR-NIE")}</td>
                     </tr>
                   )
                 })}
@@ -441,22 +453,22 @@ export function PorownanieScenariuszy({ segment }: { segment: Segment }) {
               className="mt-3"
               checked={stan.potwierdzamD}
               onChange={(e) => ustaw({ potwierdzamD: e.target.checked })}
-              label="Rozumiem, że pełne odłączenie (D) jest praktycznie nieodwracalne — powrót to nowe przyłączenie."
+              label={t("UI-SCEN-POTWIERDZ-D")}
             />
           )}
           <p className="mt-2 text-small text-muted-foreground">
-            Wymiany magazynu:{" "}
+            {t("UI-SCEN-WYMIANY")}{" "}
             {v.scenariusze
               .filter((s) => s.wymianyMagazynu.length > 0)
-              .map((s) => `${s.id} w roku ${s.wymianyMagazynu.join(", ")}`)
-              .join("; ") || "brak w horyzoncie"}
-            . Dalej:{" "}
+              .map((s) => t("UI-SCEN-WYMIANA-W-ROKU", { scen: s.id, lata: s.wymianyMagazynu.join(", ") }))
+              .join("; ") || t("UI-SCEN-BRAK-WYMIAN")}
+            {t("UI-SCEN-DALEJ")}{" "}
             <Link className="underline" href="/kalkulatory/ryzyka-odlaczenia">
-              ryzyka odłączenia
+              {t("UI-SIEC-LINK-RYZYKA")}
             </Link>{" "}
             ·{" "}
             <Link className="underline" href="/kalkulatory/rezygnacja-z-przylacza">
-              procedura
+              {t("UI-SIEC-LINK-PROCEDURA")}
             </Link>
           </p>
           <WynikSzczegoly assumptions={result.assumptions} warnings={result.warnings} formula={result.formula} />

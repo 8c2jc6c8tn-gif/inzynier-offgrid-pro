@@ -15,7 +15,7 @@ import { WynikSzczegoly } from "@/components/wzorce/wynik-szczegoly"
 import { poziomWerdyktu } from "./wspolne"
 import { POCZATKOWY_UZYSKU, SekcjaUzyskuPv, type StanUzysku, uzyskZeStanu } from "./uzysk-pv"
 import {
-  MIESIACE_KROTKO,
+  KLUCZE_MIESIECY,
   POCZATKOWY_ZUZYCIA,
   PolaZuzycia,
   type StanZuzycia,
@@ -23,6 +23,7 @@ import {
   useZuzycieMiesieczne,
   zuzycieZeSzkicu,
 } from "./zuzycie-miesieczne"
+import { useTranslate } from "@/lib/i18n/language-context"
 
 /**
  * M14 — PV + storage of the transition part: D4 „Ile PV i magazynu” (dom) / F6 „PV w firmie i
@@ -78,22 +79,23 @@ export function useDaneBilansu(segment: Segment) {
 const f0 = (x: number) => x.toLocaleString("pl-PL", { maximumFractionDigits: 0 })
 
 export function TabelaBilansu({ wynik, tryb }: { wynik: BilansMiesiecznyResult; tryb: TrybBilansu }) {
+  const t = useTranslate()
   return (
     <table className="mt-3 w-full text-small tabular-nums">
       <thead>
         <tr className="text-left text-muted-foreground">
-          <th className="py-1 font-normal">Mies.</th>
-          <th className="py-1 text-right font-normal">Zużycie</th>
+          <th className="py-1 font-normal">{t("UI-PV-TH-MIES")}</th>
+          <th className="py-1 text-right font-normal">{t("UI-PV-TH-ZUZYCIE")}</th>
           <th className="py-1 text-right font-normal">PV</th>
-          <th className="py-1 text-right font-normal">Z magazynu</th>
-          <th className="py-1 text-right font-normal">{tryb === "siec" ? "Z sieci" : "Brakuje"}</th>
-          <th className="py-1 text-right font-normal">{tryb === "siec" ? "Do sieci" : "Strata"}</th>
+          <th className="py-1 text-right font-normal">{t("UI-PV-TH-Z-MAGAZYNU")}</th>
+          <th className="py-1 text-right font-normal">{t(tryb === "siec" ? "UI-PV-TH-Z-SIECI" : "UI-PV-TH-BRAKUJE")}</th>
+          <th className="py-1 text-right font-normal">{t(tryb === "siec" ? "UI-PV-TH-DO-SIECI" : "UI-PV-TH-STRATA")}</th>
         </tr>
       </thead>
       <tbody>
         {wynik.miesiace.map((m, i) => (
           <tr key={i} className="border-t">
-            <td className="py-1">{MIESIACE_KROTKO[i]}</td>
+            <td className="py-1">{t(KLUCZE_MIESIECY[i])}</td>
             <td className="py-1 text-right">{f0(m.zuzycieKwh)}</td>
             <td className="py-1 text-right">{f0(m.produkcjaKwh)}</td>
             <td className="py-1 text-right">{f0(m.zMagazynuKwh)}</td>
@@ -122,14 +124,15 @@ function PvFirmy() {
 }
 
 function PvDomu() {
+  const t = useTranslate()
   const { zuzycie, wczytano } = useZuzycieMiesieczne("dom")
   if (!wczytano) return <StanLadowania linie={6} />
   return (
     <>
       {!zuzycie && (
-        <StanPusty tytul="Najpierw wpisz zużycie z 12 miesięcy">
+        <StanPusty tytul={t("UI-PV-NAJPIERW-ZUZYCIE")}>
           <Link className="underline" href="/kalkulatory/zuzycie-miesieczne">
-            Moje zużycie miesięcznie →
+            {t("UI-PV-LINK-ZUZYCIE")}
           </Link>
         </StanPusty>
       )}
@@ -139,6 +142,7 @@ function PvDomu() {
 }
 
 function PvIMagazyn({ segment, zuzycie }: { segment: Segment; zuzycie: number[] | null }) {
+  const t = useTranslate()
   const firma = segment === "firma"
   const [pv, setPv] = usePersistedDraft<StanPvMagazynu>(kluczPv(segment), POCZATKOWY_PV)
   const ustaw = <K extends keyof StanPvMagazynu>(k: K, v: StanPvMagazynu[K]) => setPv((p) => ({ ...p, [k]: v }))
@@ -153,10 +157,10 @@ function PvIMagazyn({ segment, zuzycie }: { segment: Segment; zuzycie: number[] 
       <SekcjaUzyskuPv stan={pv.uzysk} onChange={(z) => ustaw("uzysk", { ...pv.uzysk, ...z })} />
 
       <section className="flex flex-col gap-3">
-        <h2 className="font-semibold">Instalacja</h2>
+        <h2 className="font-semibold">{t("UI-PV-INSTALACJA")}</h2>
         <div className="grid grid-cols-2 gap-3">
           <Pole
-            label="Moc PV"
+            label={t("UI-PV-MOC")}
             unit="kWp"
             type="number"
             inputMode="decimal"
@@ -166,7 +170,7 @@ function PvIMagazyn({ segment, zuzycie }: { segment: Segment; zuzycie: number[] 
             pomoc={<PomocPola ekran="siec-pv-magazyn" pole="mocPv" />}
           />
           <Pole
-            label="Autokonsumpcja bezpośrednia"
+            label={t("UI-PV-AUTOKONSUMPCJA")}
             unit="%"
             type="number"
             inputMode="decimal"
@@ -177,7 +181,7 @@ function PvIMagazyn({ segment, zuzycie }: { segment: Segment; zuzycie: number[] 
             pomoc={<PomocPola ekran="siec-pv-magazyn" pole="autokonsumpcja" />}
           />
           <Pole
-            label="Magazyn — pojemność użyteczna"
+            label={t("UI-PV-POJEMNOSC")}
             unit="kWh"
             type="number"
             inputMode="decimal"
@@ -187,7 +191,7 @@ function PvIMagazyn({ segment, zuzycie }: { segment: Segment; zuzycie: number[] 
             pomoc={<PomocPola ekran="siec-pv-magazyn" pole="magazyn" />}
           />
           <Pole
-            label="Sprawność cyklu magazynu"
+            label={t("UI-PV-SPRAWNOSC")}
             unit="%"
             type="number"
             inputMode="decimal"
@@ -200,27 +204,31 @@ function PvIMagazyn({ segment, zuzycie }: { segment: Segment; zuzycie: number[] 
         </div>
         {firma && (
           <p className="text-small text-muted-foreground">
-            Opłacalność magazynu z Twoich cen:{" "}
+            {t("UI-PV-OPLACALNOSC")}{" "}
             <Link className="underline" href="/kalkulatory/magazyn-firmy">
-              Magazyn (BESS) — strumienie korzyści →
+              {t("UI-PV-LINK-BESS")}
             </Link>
           </p>
         )}
       </section>
 
       {!result ? (
-        <StanPusty tytul="Uzupełnij zużycie i uzysk PV — wtedy pojawi się bilans miesięczny." />
+        <StanPusty tytul={t("UI-PV-UZUPELNIJ")} />
       ) : result.status === "INVALID_INPUT" || result.value === null ? (
-        <WerdyktPanel poziom={result.status === "INVALID_INPUT" ? "blad" : "uwaga"} etykieta={result.status === "INVALID_INPUT" ? "Sprawdź wpisane dane" : "Brakuje danych"}>
+        <WerdyktPanel poziom={result.status === "INVALID_INPUT" ? "blad" : "uwaga"} etykieta={t(result.status === "INVALID_INPUT" ? "UI-PV-SPRAWDZ-DANE" : "UI-PV-BRAKUJE-DANYCH")}>
           <WynikSzczegoly assumptions={[]} warnings={result.warnings} />
-          {result.status === "INCOMPLETE" && <p className="text-small">Przy PV wpisz autokonsumpcję, przy magazynie — jego sprawność.</p>}
+          {result.status === "INCOMPLETE" && <p className="text-small">{t("UI-PV-WPISZ-AUTO")}</p>}
         </WerdyktPanel>
       ) : (
-        <WerdyktPanel poziom={poziomWerdyktu(result.status, result.warnings) ?? "ok"} etykieta="Bilans z siecią">
-          <WynikGlowny>{Math.round(result.value.pokrycieWlasne * 100)}% zużycia z własnej energii</WynikGlowny>
+        <WerdyktPanel poziom={poziomWerdyktu(result.status, result.warnings) ?? "ok"} etykieta={t("UI-PV-BILANS")}>
+          <WynikGlowny>{t("UI-PV-POKRYCIE", { p: Math.round(result.value.pokrycieWlasne * 100) })}</WynikGlowny>
           <p className="mt-1 text-small">
-            Z sieci {f0(result.value.niedoborRokKwh)} kWh/rok, do sieci {f0(result.value.nadwyzkaRokKwh)} kWh/rok. Produkcja PV{" "}
-            {f0(result.value.produkcjaRokKwh)} kWh/rok przy zużyciu {f0(result.value.zuzycieRokKwh)} kWh/rok.
+            {t("UI-PV-PODSUMOWANIE", {
+              zSieci: f0(result.value.niedoborRokKwh),
+              doSieci: f0(result.value.nadwyzkaRokKwh),
+              produkcja: f0(result.value.produkcjaRokKwh),
+              zuzycie: f0(result.value.zuzycieRokKwh),
+            })}
           </p>
           <TabelaBilansu wynik={result.value} tryb="siec" />
           <WynikSzczegoly assumptions={result.assumptions} warnings={result.warnings} formula={result.formula} />

@@ -14,7 +14,7 @@
     "test:watch": "vitest",
     "lint": "eslint .",
     "typecheck": "tsc --noEmit",
-    "check:i18n-guard": "node scripts/check-i18n-guard.mjs",
+    "check:i18n-guard": "node scripts/check-i18n-guard.mjs && node scripts/check-i18n-ui-guard.mjs",
     "check:pomoc-guard": "node scripts/check-pomoc-guard.mjs",
     "check:ai-tools-guard": "node scripts/check-ai-tools-guard.mjs",
     "audit:gate": "node scripts/audit-gate.mjs",

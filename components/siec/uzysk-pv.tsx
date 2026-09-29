@@ -9,7 +9,8 @@ import type { TabelaNapromieniowania } from "@/lib/core/modules/pv/kat-i-azymut/
 import { calculateKatIAzymut } from "@/lib/core/modules/pv/kat-i-azymut/calculator"
 import { useLokalizacjaProjektu } from "@/lib/lokalizacja/use-lokalizacja-projektu"
 import { useObliczeniaWTle } from "@/lib/lokalizacja/use-obliczenia-w-tle"
-import { MIESIACE_KROTKO } from "./zuzycie-miesieczne"
+import { KLUCZE_MIESIECY } from "./zuzycie-miesieczne"
+import { useTranslate } from "@/lib/i18n/language-context"
 
 /**
  * Monthly PV yield [kWh/kWp] for the M14 transition screens — echo of M3 „Kąt i azymut”
@@ -45,6 +46,7 @@ export function uzyskZeStanu(s: StanUzysku | null | undefined): number[] | null 
 const nn = (s: string) => (s === "" ? null : Number(s))
 
 export function SekcjaUzyskuPv({ stan, onChange }: { stan: StanUzysku; onChange: (z: Partial<StanUzysku>) => void }): ReactNode {
+  const t = useTranslate()
   const { lokalizacja, dane, tmy } = useLokalizacjaProjektu()
   const { uruchom, stan: obliczenia } = useObliczeniaWTle()
   const [tabela, setTabela] = useState<TabelaNapromieniowania | null>(null)
@@ -79,22 +81,22 @@ export function SekcjaUzyskuPv({ stan, onChange }: { stan: StanUzysku; onChange:
 
   return (
     <section className="flex flex-col gap-3">
-      <h2 className="font-semibold">Uzysk PV z 1 kWp</h2>
+      <h2 className="font-semibold">{t("UI-UZY-TYTUL")}</h2>
       <PoleSelect
-        label="Skąd uzysk"
+        label={t("UI-UZY-SKAD")}
         value={stan.zrodlo}
         onChange={(e) => onChange({ zrodlo: e.target.value as StanUzysku["zrodlo"] })}
         pomoc={<PomocPola ekran="siec-uzysk-pv" pole="zrodlo" />}
       >
-        <option value="lokalizacja">z nasłonecznienia mojej lokalizacji (Moduł 1 i 3)</option>
-        <option value="reczny">wpiszę 12 wartości (np. z PVGIS)</option>
+        <option value="lokalizacja">{t("UI-UZY-Z-LOKALIZACJI")}</option>
+        <option value="reczny">{t("UI-UZY-RECZNY")}</option>
       </PoleSelect>
       {stan.zrodlo === "lokalizacja" ? (
         <>
           <SekcjaDanychNaslonecznienia lokalizacja={lokalizacja} dane={dane} tmy={tmy} />
           <div className="grid grid-cols-3 gap-3">
             <Pole
-              label="Azymut"
+              label={t("UI-UZY-AZYMUT")}
               unit="°"
               type="number"
               inputMode="decimal"
@@ -103,7 +105,7 @@ export function SekcjaUzyskuPv({ stan, onChange }: { stan: StanUzysku; onChange:
               pomoc={<PomocPola ekran="siec-uzysk-pv" pole="azymut" />}
             />
             <Pole
-              label="Nachylenie"
+              label={t("UI-UZY-NACHYLENIE")}
               unit="°"
               type="number"
               inputMode="decimal"
@@ -122,29 +124,32 @@ export function SekcjaUzyskuPv({ stan, onChange }: { stan: StanUzysku; onChange:
             />
           </div>
           <Button type="button" variant="outline" onClick={policz} disabled={!lokalizacja || !dane || stan.azymutDeg === "" || obliczenia.liczy}>
-            Policz nasłonecznienie dla tego azymutu
+            {t("UI-UZY-POLICZ")}
           </Button>
           {produkcja && (
             <Button type="button" onClick={() => onChange({ obliczony: produkcja })}>
-              Użyj tego uzysku ({Math.round(produkcja.reduce((a, b) => a + b, 0))} kWh/kWp rocznie)
+              {t("UI-UZY-UZYJ", { roczny: Math.round(produkcja.reduce((a, b) => a + b, 0)) })}
             </Button>
           )}
           {zapisany ? (
             <p className="text-small">
-              Zapisany uzysk: {Math.round(zapisany.reduce((a, b) => a + b, 0))} kWh/kWp rocznie; grudzień {zapisany[11].toFixed(0)}, styczeń{" "}
-              {zapisany[0].toFixed(0)} kWh/kWp.
+              {t("UI-UZY-ZAPISANY", {
+                roczny: Math.round(zapisany.reduce((a, b) => a + b, 0)),
+                grudzien: zapisany[11].toFixed(0),
+                styczen: zapisany[0].toFixed(0),
+              })}
             </p>
           ) : (
-            <p className="text-small text-muted-foreground">Uzysk jeszcze nie zapisany — policz go i kliknij „Użyj tego uzysku”.</p>
+            <p className="text-small text-muted-foreground">{t("UI-UZY-NIEZAPISANY")}</p>
           )}
         </>
       ) : (
         <fieldset className="grid grid-cols-3 gap-3 rounded-md border p-3">
-          <legend className="px-1 text-small font-medium">Uzysk w miesiącach [kWh/kWp]</legend>
-          {MIESIACE_KROTKO.map((m, i) => (
+          <legend className="px-1 text-small font-medium">{t("UI-UZY-LEGENDA")}</legend>
+          {KLUCZE_MIESIECY.map((m, i) => (
             <Pole
               key={m}
-              label={m}
+              label={t(m)}
               type="number"
               inputMode="decimal"
               min={0}

@@ -9,6 +9,7 @@ import { Pole, PoleSelect } from "@/components/ui/pole"
 import { PomocPola } from "@/components/ui/pomoc"
 import { WynikSzczegoly } from "@/components/wzorce/wynik-szczegoly"
 import { PrzyciskSegmentu as Segment } from "./wspolne"
+import { useTranslate } from "@/lib/i18n/language-context"
 
 /**
  * M14 — the single field „Wzrost cen energii” of D7/F8 (D42): a three-position segmented switch,
@@ -34,10 +35,14 @@ export function trybZeStanu(s: StanWzrostuCen): TrybSciezki {
   }
 }
 
+/** At most two decimals; `t()` adds the decimal separator of the language. */
+const dwaMiejsca = (x: number) => Math.round(x * 100) / 100
+
+/** `etykieta` is a translation key (`t()`). */
 const POZYCJE: { id: TrybSciezki["rodzaj"]; etykieta: string }[] = [
-  { id: "suwak", etykieta: "Suwak %" },
-  { id: "ue", etykieta: "Plany UE" },
-  { id: "ue-inflacja", etykieta: "Plany UE + inflacja" },
+  { id: "suwak", etykieta: "UI-WZR-SUWAK" },
+  { id: "ue", etykieta: "UI-WZR-UE" },
+  { id: "ue-inflacja", etykieta: "UI-WZR-UE-INFLACJA" },
 ]
 
 
@@ -52,6 +57,7 @@ export function PoleWzrostuCen({
   rokBazowy: number
   horyzontLat: number
 }) {
+  const t = useTranslate()
   const sciezka = useMemo(
     () => calculateSciezkaCen({ rokBazowy, horyzontLat, kosztRocznyZl: 1, tryb: trybZeStanu(stan) }),
     [stan, rokBazowy, horyzontLat],
@@ -59,20 +65,20 @@ export function PoleWzrostuCen({
   return (
     <fieldset className="flex flex-col gap-3 rounded-md border p-3">
       <legend className="flex items-center gap-1.5 px-1 text-small font-medium">
-        Wzrost cen energii <PomocPola ekran="siec-wzrost-cen" pole="zrodlo" />
+        {t("UI-WZR-LEGENDA")} <PomocPola ekran="siec-wzrost-cen" pole="zrodlo" />
       </legend>
-      <div className="flex gap-1 rounded-md bg-muted/50 p-1" role="group" aria-label="Źródło zmiany cen energii">
+      <div className="flex gap-1 rounded-md bg-muted/50 p-1" role="group" aria-label={t("UI-WZR-ZRODLO-ARIA")}>
         {POZYCJE.map((p) => (
           <Segment key={p.id} aktywny={stan.rodzaj === p.id} onClick={() => onChange({ rodzaj: p.id })}>
-            {p.etykieta}
+            {t(p.etykieta)}
           </Segment>
         ))}
       </div>
       {stan.rodzaj === "suwak" ? (
-        <div className="flex gap-1" role="group" aria-label="Zmiana ceny ponad inflację, %/rok">
+        <div className="flex gap-1" role="group" aria-label={t("UI-WZR-SUWAK-ARIA")}>
           {SUWAK_WARTOSCI_PROCENT.map((g) => (
             <Segment key={g} aktywny={stan.gProcent === g} onClick={() => onChange({ gProcent: g })}>
-              {`${g > 0 ? "+" : ""}${g}%/rok`}
+              {t("UI-WZR-SUWAK-G", { g: `${g > 0 ? "+" : ""}${g}` })}
             </Segment>
           ))}
         </div>
@@ -81,19 +87,19 @@ export function PoleWzrostuCen({
           {stan.rodzaj === "ue-inflacja" && (
             <>
               <PoleSelect
-                label="Inflacja"
+                label={t("UI-WZR-INFLACJA")}
                 value={stan.zrodloInflacji}
                 onChange={(e) => onChange({ zrodloInflacji: e.target.value as ZrodloInflacji })}
                 pomoc={<PomocPola ekran="siec-wzrost-cen" pole="inflacjaZrodlo" />}
               >
-                <option value="gus">średnia GUS z 15 lat (domyślnie)</option>
-                <option value="nbp">cel NBP</option>
-                <option value="wlasna">własna wartość</option>
+                <option value="gus">{t("UI-WZR-INFL-GUS")}</option>
+                <option value="nbp">{t("UI-WZR-INFL-NBP")}</option>
+                <option value="wlasna">{t("UI-WZR-INFL-WLASNA")}</option>
               </PoleSelect>
               {stan.zrodloInflacji === "wlasna" && (
                 <Pole
-                  label="Inflacja"
-                  unit="%/rok"
+                  label={t("UI-WZR-INFLACJA")}
+                  unit={t("UI-J-PROC-ROK")}
                   type="number"
                   inputMode="decimal"
                   value={stan.wlasnaInflacja}
@@ -105,9 +111,14 @@ export function PoleWzrostuCen({
           )}
           {sciezka.status === "VALID" || sciezka.status === "VALID_WITH_WARNINGS" ? (
             <p className="text-small">
-              Średnio {sciezka.value.sredniaProcentRok.toLocaleString("pl-PL", { maximumFractionDigits: 2 })} %/rok przez {horyzontLat} lat.
-              Źródło: Komisja Europejska, EU Reference Scenario 2020 (stan na {DANE_ROZLICZEN.sciezkaUe.stanNa})
-              {sciezka.value.inflacjaProcent !== null && `, inflacja ${sciezka.value.inflacjaProcent.toLocaleString("pl-PL", { maximumFractionDigits: 2 })} %/rok`}.
+              {t("UI-WZR-SREDNIO", {
+                srednia: dwaMiejsca(sciezka.value.sredniaProcentRok),
+                lat: horyzontLat,
+                data: DANE_ROZLICZEN.sciezkaUe.stanNa,
+              })}
+              {sciezka.value.inflacjaProcent !== null &&
+                t("UI-WZR-INFLACJA-DOPISEK", { inflacja: dwaMiejsca(sciezka.value.inflacjaProcent) })}
+              .
             </p>
           ) : null}
           <WynikSzczegoly assumptions={sciezka.assumptions} warnings={sciezka.warnings} />

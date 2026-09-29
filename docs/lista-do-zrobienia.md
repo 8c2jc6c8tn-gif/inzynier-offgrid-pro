@@ -1184,6 +1184,12 @@ Pełne wyniki audytu: `docs/memory.md`, sekcja "Pełny audyt na polecenie właś
   „?”/„i” i komunikaty silników są w trzech językach, ale etykiety pól i teksty na stronach nadal tylko po polsku.
   Osobne, duże zadanie (standard 17). **Priorytet:** do decyzji właściciela. **Kolizje:** te same pliki co chmurki —
   robić po nich albo razem, moduł po module.
+  → **[29.09.2026] Stan po D58:** mechanizm gotowy (`lib/i18n/ui/<grupa>.ts`, klucze `UI-*`, test `ui.test.ts`), M14 i E38
+  przetłumaczone, strażnik z listą zapadkową pilnuje, żeby nie przybywało. Zostało: **248 plików, 3711 tekstów**
+  (`scripts/i18n-ui-guard-baseline.json`; największe: `node scripts/check-i18n-ui-guard.mjs --policz`). Po każdym
+  zmigrowanym ekranie obniż jego liczbę albo usuń go z listy (strażnik to wymusza). **Plusy teraz:** każdy moduł to
+  zamknięta całość do testu w EN/RU. **Minusy:** duży wolumen tłumaczeń do przeglądu merytorycznego RU/EN. **Kolejność:**
+  moduł po module, najpierw ekrany z największą liczbą (M5, M3).
 - ✅ (2026-09-29) **Opisy narzędzi AI — domknięcie luk (pytanie właściciela: „czy są rozbudowane opisy funkcji dla AI”).**
   Stan 29.09.2026: 183 narzędzia w rejestrze, 181 ma `.describe()` na polach wejścia, 156 ma w `description` zdanie
   „Użyj, gdy…” (kiedy model ma je wywołać) — **27 go nie ma** (m.in. blackout, analiza-spof, typ-montazu, klapy-pozarowe,
@@ -1272,9 +1278,17 @@ Pełne wyniki audytu: `docs/memory.md`, sekcja "Pełny audyt na polecenie właś
   **Kolejność:** najpierw strażnik z listą zapadkową, potem uzupełnianie M5/M3/M6/M7/M8 (lista maleje).
 - ⚠️ (2026-09-29) **Routine cyklu Y.6 nie istnieje** (`trig_01892Z45ThAi2T56PJRjQQAh` → not found). Kolejne sprawdzenie
   tylko na starcie sesji albo po odtworzeniu Routine — decyzja właściciela (co 12 h wg cyklu adaptacyjnego).
-- ⚠️ (2026-09-29) **Y.11 pkt 1b — twarde polskie teksty w JSX ekranów zmienionych 29.09** (raport:
+- ✅ (2026-09-29) **Y.11 pkt 1b — twarde polskie teksty w JSX ekranów zmienionych 29.09** (raport:
   `docs/audyt-zgodnosci-kodu.md`, przebieg 1). Do decyzji właściciela: (A) poprawić ≈15 plików teraz (klucze + EN/RU)
   + (B) strażnik 11.9 na teksty w JSX z jednorazową listą zapadkową starych ekranów; albo (C) sam strażnik, teksty przy
   najbliższej zmianie ekranu. Rekomendacja A+B. **Priorytet:** wysoki (8.12 — ekran bez tłumaczeń nie jest ukończony).
   **Kolizje:** rozszerza wpis „Tłumaczenie etykiet stron na EN/RU” (indeks po D54, pkt 6); dotyka tych samych plików co
   „i” wg 8.4b — robić w jednej sesji albo po kolei, nie równolegle. **Kolejność:** strażnik (B) przed tekstami (A).
+  → **[29.09.2026] Zrobione — decyzja właściciela „A + B” (D58).** (A) ekrany M14 i E38 w trzech językach (klucze `UI-*`,
+  `lib/i18n/ui/`); (B) strażnik `scripts/check-i18n-ui-guard.mjs` w `pnpm check:i18n-guard`, lista zapadkowa 248 plików /
+  3711 tekstów. Dalsza migracja starych ekranów: wpis „Tłumaczenie samych stron” wyżej.
+  ⏸️ **[29.09.2026] PRACA PRZERWANA (limit konta) — do dokończenia w nowej sesji.** Gałąź `claude/update-audit-xowv23`,
+  commit „WIP: D58 …” (push zrobiony, **bez PR**). Zrobione i sprawdzone: `pnpm typecheck` ✅, strażnik UI ✅,
+  `lib/i18n/__tests__/ui.test.ts` ✅ (6/6). **NIE uruchomiono** pełnego pakietu. Następny krok: `pnpm lint`,
+  `check:i18n-guard`, `check:pomoc-guard`, `check:ai-tools-guard`, `test` (cały — sprawdź zwłaszcza testy ekranów szukające
+  polskich tekstów, np. E38/M14), `build`, `audit:gate` → poprawki → PR → merge (SHA 40 znaków).

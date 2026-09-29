@@ -3,12 +3,14 @@
 import { useSyncExternalStore } from "react"
 import { DOTACJE, type Dotacja, stanNaboru } from "@/lib/core/dane/dotacje"
 import type { Segment } from "@/lib/core/modules/siec/rachunek-za-prad/input"
+import { useTranslate } from "@/lib/i18n/language-context"
 
+/** Translation keys (`t()`). */
 const ETYKIETA_STANU = {
-  trwa: "nabór trwa",
-  zakonczony: "nabór zakończony",
-  przyszly: "nabór jeszcze się nie zaczął",
-  "bez-terminu": "bez terminu naboru",
+  trwa: "UI-DOT-STAN-TRWA",
+  zakonczony: "UI-DOT-STAN-ZAKONCZONY",
+  przyszly: "UI-DOT-STAN-PRZYSZLY",
+  "bez-terminu": "UI-DOT-STAN-BEZ-TERMINU",
 } as const
 
 const data = (iso: string) => iso.split("-").reverse().join(".")
@@ -22,6 +24,7 @@ function useDzis(stanNa: string): string {
 
 /** M14 — D13/F12 list of subsidies with date, confidence and automatic „nabór zakończony” (§9). */
 export function ListaDotacji({ segment }: { segment: Segment }) {
+  const t = useTranslate()
   const dzis = useDzis(DOTACJE[0].stanNa)
   const pozycje = DOTACJE.filter((d) => d.dotyczy.includes(segment))
   return (
@@ -35,7 +38,7 @@ export function ListaDotacji({ segment }: { segment: Segment }) {
               <span className="text-caption text-muted-foreground">{d.pewnosc === "potwierdzone" ? "✅" : d.pewnosc}</span>
             </p>
             <p className={stan === "zakonczony" ? "text-small font-semibold text-muted-foreground" : "text-small font-semibold"}>
-              {ETYKIETA_STANU[stan]}
+              {t(ETYKIETA_STANU[stan])}
             </p>
             <ul className="list-disc pl-5 text-small text-muted-foreground">
               {d.opis.map((o) => (
@@ -43,13 +46,13 @@ export function ListaDotacji({ segment }: { segment: Segment }) {
               ))}
             </ul>
             <p className="text-caption text-muted-foreground">
-              Stan na {data(d.stanNa)}.{" "}
+              {t("UI-DOT-STAN-NA", { data: data(d.stanNa) })}{" "}
               {d.regulamin ? (
                 <a className="underline" href={d.regulamin} target="_blank" rel="noreferrer">
-                  Regulamin
+                  {t("UI-DOT-REGULAMIN")}
                 </a>
               ) : (
-                "Regulaminu jeszcze nie odczytaliśmy ze źródła — sprawdź go u operatora programu przed decyzją."
+                t("UI-DOT-BRAK-REGULAMINU")
               )}
             </p>
           </li>

@@ -1,0 +1,27 @@
+/**
+ * Screen text — labels, headings and messages written by the UI itself (standard 17.1a). Engine
+ * messages stay in `dictionary-*.ts`; the „?”/„i” help lives in `../pomoc`. One file per group of
+ * screens: `pl` is the source, `en`/`ru` are typed with its keys, so a missing translation is a
+ * compile error (17.1). Keys start with `UI-` and are merged into `dictionaries`, so screens use the
+ * same `t()` as everything else. `pnpm check:i18n-guard` blocks new text written straight into JSX.
+ */
+import * as dopiskiStarychEkranow from "./dopiski-starych-ekranow"
+import * as m12Uziemienie from "./m12-uziemienie"
+import * as m14Agregat from "./m14-agregat"
+import * as m14Bess from "./m14-bess"
+import * as m14Ekrany from "./m14-ekrany"
+import * as m14Faq from "./m14-faq"
+import * as m14Przejscie from "./m14-przejscie"
+import * as m14PrzejscieEkrany from "./m14-przejscie-ekrany"
+import * as m14Przelacznik from "./m14-przelacznik"
+import * as m14Pv from "./m14-pv"
+import * as m14Scenariusze from "./m14-scenariusze"
+import * as m14Sciezka from "./m14-sciezka"
+import * as m14Zima from "./m14-zima"
+import * as wspolne from "./wspolne"
+
+export const czesciUi = [wspolne, dopiskiStarychEkranow, m12Uziemienie, m14Agregat, m14Bess, m14Ekrany, m14Faq, m14Przejscie, m14PrzejscieEkrany, m14Przelacznik, m14Pv, m14Scenariusze, m14Sciezka, m14Zima] as const
+
+export const uiPl = Object.assign({}, ...czesciUi.map((c) => c.pl)) as Record<string, string>
+export const uiEn = Object.assign({}, ...czesciUi.map((c) => c.en)) as Record<string, string>
+export const uiRu = Object.assign({}, ...czesciUi.map((c) => c.ru)) as Record<string, string>

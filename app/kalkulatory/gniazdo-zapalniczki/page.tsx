@@ -11,6 +11,7 @@ import { NawigacjaEkranu } from "@/components/nawigacja-ekranu"
 import { NaglowekEkranu } from "@/components/wzorce/naglowek-ekranu"
 import { WynikGlowny } from "@/components/wzorce/wynik-glowny"
 import { WynikSzczegoly } from "@/components/wzorce/wynik-szczegoly"
+import { useTranslate } from "@/lib/i18n/language-context"
 
 type FormularzStan = {
   napiecieV: GniazdoZapalniczkiInput["napiecieV"]
@@ -24,6 +25,7 @@ const f0 = (x: number) => x.toLocaleString("pl-PL", { maximumFractionDigits: 0 }
 const f1 = (x: number) => x.toLocaleString("pl-PL", { minimumFractionDigits: 1, maximumFractionDigits: 1 })
 
 export default function GniazdoZapalniczkiPage() {
+  const t = useTranslate()
   const [stan, setStan] = usePersistedDraft<FormularzStan>("gniazdo-zapalniczki", STAN_POCZATKOWY)
 
   function aktualizuj(id: string, zmiana: Partial<UrzadzenieGniazda>) {
@@ -80,10 +82,10 @@ export default function GniazdoZapalniczkiPage() {
         <p className="text-small font-medium">Urządzenia włączone jednocześnie (także przez rozgałęźnik)</p>
         <p className="flex items-center gap-3 text-caption text-muted-foreground">
           <span className="flex items-center gap-1">
-            Nazwa <PomocPola ekran="gniazdo-zapalniczki" pole="nazwaUrzadzenia" />
+            {t("UI-GZ-NAZWA")} <PomocPola ekran="gniazdo-zapalniczki" pole="nazwaUrzadzenia" />
           </span>
           <span className="flex items-center gap-1">
-            Moc [W] <PomocPola ekran="gniazdo-zapalniczki" pole="mocUrzadzenia" />
+            {t("UI-GZ-MOC")} <PomocPola ekran="gniazdo-zapalniczki" pole="mocUrzadzenia" />
           </span>
         </p>
         <ul className="flex flex-col gap-2">

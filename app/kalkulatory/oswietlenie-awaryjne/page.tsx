@@ -11,6 +11,7 @@ import { NawigacjaEkranu } from "@/components/nawigacja-ekranu"
 import { NaglowekEkranu } from "@/components/wzorce/naglowek-ekranu"
 import { WynikGlowny } from "@/components/wzorce/wynik-glowny"
 import { WynikSzczegoly } from "@/components/wzorce/wynik-szczegoly"
+import { useTranslate } from "@/lib/i18n/language-context"
 
 type LampaWiersz = LampaAwaryjna & { id: string }
 type FormularzStan = { zasilanie: ZasilanieLamp | ""; lampy: LampaWiersz[]; oswietlenieZewnetrzne: boolean }
@@ -26,6 +27,7 @@ const STANY: { id: StanLampy; label: string }[] = [
 const pole = "min-h-10 rounded-md border border-input bg-background px-2"
 
 export default function OswietlenieAwaryjnePage() {
+  const t = useTranslate()
   const [stan, setStan] = usePersistedDraft<FormularzStan>("oswietlenie-awaryjne", STAN_POCZATKOWY)
 
   function aktualizuj(id: string, zmiana: Partial<LampaWiersz>) {
@@ -68,10 +70,10 @@ export default function OswietlenieAwaryjnePage() {
         <p className="text-caption text-muted-foreground">Stan z ostatniego testu. Bez testu — „nietestowana”.</p>
         <p className="flex items-center gap-3 text-caption text-muted-foreground">
           <span className="flex items-center gap-1">
-            Miejsce <PomocPola ekran="oswietlenie-awaryjne" pole="miejsce" />
+            {t("UI-OSW-MIEJSCE")} <PomocPola ekran="oswietlenie-awaryjne" pole="miejsce" />
           </span>
           <span className="flex items-center gap-1">
-            Stan <PomocPola ekran="oswietlenie-awaryjne" pole="stanLampy" />
+            {t("UI-OSW-STAN")} <PomocPola ekran="oswietlenie-awaryjne" pole="stanLampy" />
           </span>
         </p>
         <ul className="flex flex-col gap-3">

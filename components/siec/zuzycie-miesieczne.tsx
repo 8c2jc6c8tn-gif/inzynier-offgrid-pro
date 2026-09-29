@@ -4,6 +4,7 @@ import type { Segment } from "@/lib/core/modules/siec/rachunek-za-prad/input"
 import { useOdczytDraftu } from "@/lib/adapters/use-persisted-draft"
 import { Pole } from "@/components/ui/pole"
 import { PomocPola } from "@/components/ui/pomoc"
+import { useTranslate } from "@/lib/i18n/language-context"
 
 /**
  * M14 — 12 monthly consumption values (D3 for dom, owned by F6 for firma). One owner of the draft
@@ -16,7 +17,8 @@ export const POCZATKOWY_ZUZYCIA: StanZuzycia = { miesiace: Array(12).fill("") }
 
 export const kluczZuzycia = (segment: Segment) => `siec-zuzycie-${segment}`
 
-export const MIESIACE_KROTKO = ["sty", "lut", "mar", "kwi", "maj", "cze", "lip", "sie", "wrz", "paź", "lis", "gru"]
+/** Short month names as translation keys (`t()`), January first. */
+export const KLUCZE_MIESIECY = Array.from({ length: 12 }, (_, i) => `UI-MIES-${String(i + 1).padStart(2, "0")}`)
 
 /** 12 numbers when every month is filled, otherwise null (nothing guessed). */
 export function zuzycieZeSzkicu(stan: StanZuzycia | null): number[] | null {
@@ -30,13 +32,14 @@ export function useZuzycieMiesieczne(segment: Segment): { zuzycie: number[] | nu
 }
 
 export function PolaZuzycia({ stan, onChange }: { stan: StanZuzycia; onChange: (s: StanZuzycia) => void }) {
+  const t = useTranslate()
   return (
     <fieldset className="grid grid-cols-3 gap-3 rounded-md border p-3">
-      <legend className="px-1 text-small font-medium">Zużycie w kolejnych miesiącach [kWh]</legend>
-      {MIESIACE_KROTKO.map((m, i) => (
+      <legend className="px-1 text-small font-medium">{t("UI-ZUZ-LEGENDA")}</legend>
+      {KLUCZE_MIESIECY.map((m, i) => (
         <Pole
           key={m}
-          label={m}
+          label={t(m)}
           type="number"
           inputMode="decimal"
           min={0}
