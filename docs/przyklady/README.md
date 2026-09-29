@@ -22,6 +22,10 @@ uproszczona), bo pokazuje realne, przetestowane rozwiązanie, nie szkielet.
   procedura włączania bramki bez obniżania progu).
 - [`i18n/`](i18n/) — mechanizm strażniczy i18n (17.11: AST zamiast regex, explicit allowlist
   modułów już zmigrowanych, złapana pułapka z wyrażeniami warunkowymi).
+- [`pwa/`](pwa/) — własny Service Worker offline (5.8–5.10, 7.3, 8.11, 10.8: precache
+  wersjonowany hashem, aktualizacja przez toast nie cichy reload, kolizja wersji IndexedDB między
+  kartami, `navigator.storage.persist()`, wskaźnik online, e2e bez nowych zależności). Źródło:
+  `inzynier-szkieletowy-pro`.
 - [`PROMPT.md`](PROMPT.md) — skrócony, samodzielny blok do wklejenia jako pierwsza wiadomość nowej
   sesji AI budującej to od zera w innym projekcie rodziny, bez czekania na przeczytanie całego
   uzasadnienia wyżej.
