@@ -264,7 +264,7 @@ export const pl = {
       oCoChodzi:
         "W pożarze nie może być zablokowanych drzwi — dobra zasada projektowa to „fail-safe”: brak prądu = drzwi otwarte, nigdy odwrotnie.",
       jakDziala:
-        "Aplikacja sprawdza typ zamka i jego zachowanie przy zaniku prądu. Zamek, który blokuje drzwi bez prądu (fail-secure) i nie ma zasilania awaryjnego, to czerwony stop. Sprawdza też zwalnianie po alarmie pożarowym, przycisk ewakuacyjny i kontaktron.",
+        "Aplikacja sprawdza typ zamka i jego zachowanie przy zaniku prądu. Zamek, który blokuje drzwi bez prądu (fail-secure) i nie ma ani zasilania awaryjnego, ani ręcznego otwarcia działającego bez prądu, to czerwony stop. Sprawdza też zwalnianie po alarmie pożarowym, przycisk ewakuacyjny i kontaktron.",
       poCo:
         "W pożarze prąd pada często w pierwszych minutach. Zamek, który wtedy się blokuje, zamyka ludzi w środku.",
     },
@@ -544,7 +544,7 @@ export const en: Tlumaczenie<typeof pl> = {
       oCoChodzi:
         "In a fire no door may be locked — a good design rule is “fail-safe”: no power = door open, never the other way round.",
       jakDziala:
-        "The app checks the lock type and its behaviour on power loss. A lock that blocks the door without power (fail-secure) and has no backup power is a red stop. It also checks release on fire alarm, an emergency exit button and a reed contact.",
+        "The app checks the lock type and its behaviour on power loss. A lock that blocks the door without power (fail-secure) and has neither backup power nor a manual release that works without power is a red stop. It also checks release on fire alarm, an emergency exit button and a reed contact.",
       poCo: "In a fire power often fails in the first minutes. A lock that then blocks shuts people inside.",
     },
     pola: {
@@ -823,7 +823,7 @@ export const ru: Tlumaczenie<typeof pl> = {
       oCoChodzi:
         "При пожаре двери не должны быть заблокированы — хорошее проектное правило «fail-safe»: нет тока = дверь открыта, никогда наоборот.",
       jakDziala:
-        "Приложение проверяет тип замка и его поведение при пропадании питания. Замок, который блокирует дверь без тока (fail-secure) и не имеет резервного питания, — красный стоп. Проверяет также разблокировку по пожарной тревоге, кнопку аварийного выхода и геркон.",
+        "Приложение проверяет тип замка и его поведение при пропадании питания. Замок, который блокирует дверь без тока (fail-secure) и не имеет ни резервного питания, ни ручного открывания без тока, — красный стоп. Проверяет также разблокировку по пожарной тревоге, кнопку аварийного выхода и геркон.",
       poCo: "При пожаре ток часто пропадает в первые минуты. Замок, который тогда блокируется, запирает людей внутри.",
     },
     pola: {

@@ -9,7 +9,7 @@ import {
   zamekFailSecure,
 } from "./warnings"
 
-export const CALCULATOR_VERSION = "1.0.0"
+export const CALCULATOR_VERSION = "1.1.0"
 
 const FORMULA = "fail\\text{-}safe:\\; brak\\ zasilania \\Rightarrow drzwi\\ otwarte"
 
@@ -26,12 +26,15 @@ export type ZamkiDrzwiEwakuacyjnychResult = {
  * otwarte, nigdy odwrotnie” (sekcja D) — fail-secure z UPS tylko 🟡, bo 🔴 źródło wiąże z brakiem
  * zasilania awaryjnego. „Nie wiem” liczone jak fail-secure (strona bezpieczna). Zwolnienie po alarmie
  * albo przyciskiem i kontaktron — elementy logiki z sekcji B.
+ * D53 (owner, 29.09.2026): doors must open on power loss; fail-secure is acceptable (🟡) with separate
+ * emergency power OR a manual mechanical release — 🔴 only when neither is present.
  */
 export function calculateZamkiDrzwiEwakuacyjnych(
   input: ZamkiDrzwiEwakuacyjnychInput,
 ): CalcResult<ZamkiDrzwiEwakuacyjnychResult> {
   const inputs = {
     maZasilanieAwaryjne: input.maZasilanieAwaryjne ? 1 : 0,
+    maOtwarcieReczneMechaniczne: input.maOtwarcieReczneMechaniczne ? 1 : 0,
     maPrzyciskEwakuacyjny: input.maPrzyciskEwakuacyjny ? 1 : 0,
     zwalnianiePoAlarmiePozarowym: input.zwalnianiePoAlarmiePozarowym ? 1 : 0,
     maKontaktron: input.maKontaktron ? 1 : 0,
@@ -54,7 +57,8 @@ export function calculateZamkiDrzwiEwakuacyjnych(
   const failSafe = input.zachowaniePrzyZanikuZasilania === "otwiera"
   const warnings: Warning[] = []
   if (input.zachowaniePrzyZanikuZasilania === "nie-wiem") warnings.push(zachowanieNieznane())
-  if (!failSafe) warnings.push(input.maZasilanieAwaryjne ? zamekFailSecure() : zamekBlokujeBezZasilaniaAwaryjnego())
+  const maObejscie = input.maZasilanieAwaryjne || input.maOtwarcieReczneMechaniczne === true
+  if (!failSafe) warnings.push(maObejscie ? zamekFailSecure() : zamekBlokujeBezZasilaniaAwaryjnego())
   if (!input.zwalnianiePoAlarmiePozarowym) warnings.push(brakZwalnianiaPoAlarmie())
   if (!input.maPrzyciskEwakuacyjny) warnings.push(brakPrzyciskuEwakuacyjnego())
   if (!input.maKontaktron) warnings.push(brakKontaktronu())

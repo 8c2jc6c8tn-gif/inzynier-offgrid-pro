@@ -81,7 +81,7 @@ Przy każdej kategorii krótkie zdanie, co ona włącza/wyłącza. Po wyborze: p
 | 🧪 Analiza / stress-test | 1, 7, 2, 3, 4, 6, 10 | 5, 8, 9, 11, 12, 13 |
 | 🤖 Automatyka i AI | 1, 9, 10, 13, 8 | 2, 3, 4, 5, 6, 7, 11, 12 |
 
-**[28.09.2026, audyt końcowy N.3]** Dziewiąty preset, „Jestem podłączony do sieci” (D39), wysuwa kafle M14 na początek. Skład jego widocznych kafli nie jest jeszcze ustalony. Powstanie razem z ekranem onboardingu (`backlog-poza-v1.md`). Kafle M14 w ośmiu presetach wyżej: ukryte, dopóki właściciel nie zdecyduje inaczej (✅🤖).
+**[28.09.2026, audyt końcowy N.3]** Dziewiąty preset, „Jestem podłączony do sieci” (D39), wysuwa kafle M14 na początek. Skład jego widocznych kafli nie jest jeszcze ustalony. Powstanie razem z ekranem onboardingu (`backlog-poza-v1.md`). Kafle M14 w ośmiu presetach wyżej: ~~ukryte, dopóki właściciel nie zdecyduje inaczej (✅🤖)~~ **[29.09.2026, D53] widoczne we wszystkich ośmiu presetach** — decyzja właściciela: „nie muszą być ukryte, to ważna funkcja”. Miejsce: na końcu listy widocznych kafli danego presetu, w kolejności „Dom – sieć”, „Firma – sieć” (✅🤖 — właściciel nie wskazał pozycji). Tabela wyżej zostaje bez zmian (numery 1–13); kafle M14 dochodzą do kolumny „Widoczne” każdego wiersza. Wejdzie do kodu razem z ekranem onboardingu.
 
 Kafel 1 (Lokalizacja) jest widoczny w każdym presecie — to fundament danych dla każdej ścieżki
 projektowej, niezależnie od tego, nad czym user akurat pracuje. Kafel 14 (Ustawienia) nie jest

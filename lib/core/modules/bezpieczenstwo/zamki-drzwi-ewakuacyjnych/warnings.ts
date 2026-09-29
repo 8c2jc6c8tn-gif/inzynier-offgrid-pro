@@ -6,7 +6,7 @@ export function zamekBlokujeBezZasilaniaAwaryjnego(): Warning {
     level: "critical",
     i18nKey: "ZAMEK-BLOKUJE-BEZ-ZASILANIA-AWARYJNEGO",
     technicalMessage:
-      "zachowaniePrzyZanikuZasilania != otwiera && maZasilanieAwaryjne = false (Tresc_Modul_8, Ekran 3 — twardy stop źródła)",
+      "zachowaniePrzyZanikuZasilania != otwiera && maZasilanieAwaryjne = false && maOtwarcieReczneMechaniczne = false (Tresc_Modul_8, Ekran 3 — twardy stop źródła; D53)",
     field: "maZasilanieAwaryjne",
   }
 }
@@ -17,7 +17,7 @@ export function zamekFailSecure(): Warning {
     level: "warning",
     i18nKey: "ZAMEK-FAIL-SECURE",
     technicalMessage:
-      "zachowaniePrzyZanikuZasilania != otwiera && maZasilanieAwaryjne = true — zasada fail-safe (Tresc_Modul_8, Ekran 3, D) niespełniona, drzwi zależą od UPS",
+      "zachowaniePrzyZanikuZasilania != otwiera && (maZasilanieAwaryjne || maOtwarcieReczneMechaniczne) — zasada fail-safe (Tresc_Modul_8, Ekran 3, D) niespełniona, drzwi zależą od UPS albo ręcznego otwarcia (D53)",
     field: "zachowaniePrzyZanikuZasilania",
   }
 }

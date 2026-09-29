@@ -1,6 +1,6 @@
 # Rejestr decyzji — Inżynier Offgrid Pro
 
-**Wersja:** 1.25 | **Filar:** C | **Data utworzenia:** 04.09.2026 | **Ostatnia aktualizacja:** 29.09.2026 | **Status:** Stabilny (rosnący)
+**Wersja:** 1.26 | **Filar:** C | **Data utworzenia:** 04.09.2026 | **Ostatnia aktualizacja:** 29.09.2026 | **Status:** Stabilny (rosnący)
 **Powiązane dokumenty:** `00_Biblia.md`, `docs/memory.md`, `USTALENIA.md` (historyczny, Część II)
 
 TL;DR: D1, D2, D3… — decyzje **strategiczne/fundamentalne** (blokujące wiele innych rzeczy naraz, Krok 4 GOD BOOK), ponumerowane, nigdy nie kasowane, tylko unieważniane jawnie (F.5). **Nie duplikuje `docs/memory.md`**: tam żyje pełna, szczegółowa historia każdej sesji (setki drobnych decyzji implementacyjnych per ekran) — tu tylko decyzje, które zmieniły kierunek/regułę obowiązującą cały projekt. Gdy wpis niżej odsyła do `docs/memory.md`, tam jest pełne uzasadnienie i przykłady.
@@ -231,6 +231,15 @@ Treść:
 - (5) Egzekwowanie: `scripts/check-pomoc-guard.mjs` w CI i w lokalnym pakiecie przed merge. Lista zapadkowa `scripts/pomoc-guard-baseline.json` zawiera tylko ekrany niezgodne na 29.09.2026 i może tylko maleć; nowy ekran nigdy na nią nie trafia.
 - (6) Kolejność uzupełniania: moduł po module, PR na moduł (D34 pkt 3); start od M12, dalej ekrany z twardymi stopami, M14, reszta.
 
+**D53 (29.09.2026) — Odpowiedzi właściciela na odłożone pytania z D50: zamki drzwi ewakuacyjnych, kafle M14 w presetach, agregat zawsze przez rozdzielnię; gaz przy LiFePO4, zasilanie ESP32 i CAN — bez zmiany poziomów.** Koszt cofnięcia: tani (jedno pole i jeden warunek w M8/E3, teksty agregatu, akapit w `docs/pulpit-i-nawigacja.md`). Decyzje właściciela projektu z 29.09.2026. Treść:
+- (1) **M8/E3 zamki** — „muszą się otworzyć. Lecz mogą posiadać oddzielne awaryjne zasilanie czy ręczne otwarcie”. Nowe pole `maOtwarcieReczneMechaniczne` (otwarcie od środka, bez klucza i bez prądu: klamka, pochwyt antypaniczny; przycisk elektryczny się nie liczy). Fail-secure (albo „nie wiem”) → 🔴 tylko wtedy, gdy nie ma **ani** zasilania awaryjnego, **ani** ręcznego otwarcia; z jednym z nich 🟡 (`ZAMEK-FAIL-SECURE`, jak dotąd z UPS). E3 1.0.0 → 1.1.0; rejestr twardych stopów doprecyzowany.
+- (2) **Kafle M14** — „nie muszą być ukryte, to ważna funkcja”: widoczne we wszystkich ośmiu presetach, na końcu listy (pozycja ✅🤖). `docs/pulpit-i-nawigacja.md`.
+- (3) **D48 pkt (4), agregat** — „Agregat zawsze łączony jest przez rozdzielnię”; odbiorniki „podłączone są do agregatu przez rozdzielnię … zasilaną przez agregat … według awaryjnego planu”. Opcje `wejscie-ac-falownika` i `tylko-odbiorniki` znaczą odtąd: rozdzielnia → wejście AC falownika oraz odbiorniki awaryjne z rozdzielni zasilanej wyłącznie z agregatu. Poziomy bez zmian (ℹ️ — w obu układach agregat nie może podać napięcia do instalacji budynku ani do sieci); zmienione etykiety, komunikaty PL/EN/RU, chmurka „?” i opis narzędzia AI. Wartości enum zostają (stare szkice).
+- (4) **M8/E4 gaz obojętny/aerozol przy LiFePO4** — właściciel poprosił o podpowiedź. Rekomendacja przyjęta w odpowiedzi: mgła wodna (albo środek przeznaczony do magazynów energii); gaz/aerozol gasi płomień, ale nie chłodzi ogniw — zostaje 🟡 (✅🤖, bez zmian w kodzie) do potwierdzenia wyboru.
+- (5) **M9/E2 zasilanie ESP32** — „będzie oddzielne zasilanie ESP32”: to układ instalacji właściciela, nie poziom ostrzeżenia. 🔴 za przekroczenie napięcia wejściowego przetwornicy zostaje (dotyczy tylko zasilania z magistrali). Bez zmian w kodzie.
+- (6) **M9/E4 CAN** — „najprawdopodobniej będzie, jeszcze nie wiem”: poziom dla CAN bez transceivera nadal otwarty (🟡 ✅🤖, rekomendacja 🔴 jak RS485). Bez zmian w kodzie.
+- (7) Nadal odłożone: TD21 CRL, Rsi (czeka na PKN).
+
 ## Założenia robocze (F.7 GOD BOOK)
 
 **Z1 (04.09.2026) — przyjęto:** ID modułów (H.2 GOD BOOK, M#) odpowiadają wprost numeracji "Moduł N" już używanej w całym projekcie (1–13), nie nowej, niezależnej numeracji. **Powód:** ta numeracja jest już stabilna, używana w kodzie, dokumentacji i UI od 29.08.2026 — wprowadzenie równoległej numeracji M# byłoby duplikatem, nie nowym bytem. **Na czym się opiera:** cała struktura `docs/rejestr-pokrycia.md`, `lib/pulpit/registry.ts`, `docs/pulpit-i-nawigacja.md`.
@@ -268,3 +277,4 @@ Treść:
 | 28.09.2026 | Dodano D50 (pozostałe pytania decyzji 4 odłożone; bramka N.3 dla M14 zdjęta) — decyzja właściciela projektu. Wersja 1.22→1.23. |
 | 29.09.2026 | Dodano D51 (komplet ekranu: autosave + tłumaczenia + „?” + „i” w jednej zmianie; strażnik `check:pomoc-guard`; uzupełnia D34) — decyzja właściciela projektu. Wersja 1.23→1.24. |
 | 29.09.2026 | Dodano D52 (M12/E38: gniazda bez styku ochronnego 🟡 z wyjaśnieniem; zalecenie przy wilgoci 🟡) — decyzja właściciela projektu. Wersja 1.24→1.25. |
+| 29.09.2026 | Dodano D53 (odpowiedzi na odłożone pytania D50: zamki M8/E3, kafle M14 w presetach, agregat przez rozdzielnię; gaz, ESP32, CAN bez zmian poziomów) — decyzja właściciela projektu. Wersja 1.25→1.26. |

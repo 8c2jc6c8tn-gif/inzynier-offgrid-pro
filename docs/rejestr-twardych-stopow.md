@@ -98,7 +98,9 @@ nie do audytu poprawności formularza webowego.
   `brakCzujnikaCo`, kod `BRAK-CZUJNIKA-CO`)
 - **[28.09.2026] Zamek drzwi ewakuacyjnych, który przy zaniku prądu blokuje drzwi (albo nie wiadomo,
   co robi), bez zasilania awaryjnego** — w pożarze, gdy padnie zasilanie, droga ewakuacji zostaje
-  zamknięta. Twardy stop źródła.
+  zamknięta. Twardy stop źródła. **[29.09.2026, D53]** Doprecyzowane przez właściciela: drzwi muszą się
+  otworzyć; stop 🔴 tylko wtedy, gdy nie ma **ani** osobnego zasilania awaryjnego, **ani** ręcznego
+  otwarcia mechanicznego działającego bez prądu (pole `maOtwarcieReczneMechaniczne`). Z jednym z nich 🟡.
   (M8/E3 — `lib/core/modules/bezpieczenstwo/zamki-drzwi-ewakuacyjnych/warnings.ts`,
   `zamekBlokujeBezZasilaniaAwaryjnego`, kod `ZAMEK-BLOKUJE-BEZ-ZASILANIA-AWARYJNEGO`)
 - **[28.09.2026] Proszek lub CO2 jako środek gaśniczy w strefie magazynu LiFePO4** — nie gaszą

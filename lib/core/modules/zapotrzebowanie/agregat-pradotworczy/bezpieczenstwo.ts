@@ -65,7 +65,10 @@ export function agregatPrzezPrzelacznik(): Warning {
   )
 }
 
-/** ℹ️ Inverter/charger AC input: the inverter transfers; a grid connection still needs a switch. */
+/**
+ * ℹ️ Through a distribution board to the inverter/charger AC input: the inverter transfers; a grid connection
+ * still needs a switch. D53: the generator is always connected through a distribution board.
+ */
 export function agregatWejscieFalownika(): Warning {
   return ostrzezenie(
     "AGREGAT-WEJSCIE-FALOWNIKA",
@@ -75,7 +78,10 @@ export function agregatWejscieFalownika(): Warning {
   )
 }
 
-/** ℹ️ Loads plugged straight into the generator sockets — never into a wall socket. */
+/**
+ * ℹ️ Emergency loads from a distribution board fed only by the generator, per the emergency plan (D53 — the
+ * owner connects loads through a board, not straight into the generator sockets). Enum value kept for old drafts.
+ */
 export function agregatTylkoOdbiorniki(): Warning {
   return ostrzezenie("AGREGAT-TYLKO-ODBIORNIKI", "info", "podlaczenieAgregatu=tylko-odbiorniki (D48)", "podlaczenieAgregatu")
 }
