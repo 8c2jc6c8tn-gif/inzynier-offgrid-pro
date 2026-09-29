@@ -34,7 +34,8 @@ function rokSyntetyczny(dhiStale: number, zBezposrednim = true): RekordGodzinowy
 const dane = rokSyntetyczny(80)
 const baza: OrientacjaPowierzchniInput = { szerokoscGeograficzna: LAT, dlugoscGeograficzna: LON, daneGodzinowe: dane }
 
-describe("calculateOrientacjaPowierzchni", () => {
+// Every calculateOrientacjaPowierzchni call runs a full hourly TMY year (~3–6 s under full-suite load) — see docs/memory.md, 25.09 and 29.09.
+describe("calculateOrientacjaPowierzchni", { timeout: 30_000 }, () => {
   it("brak danych → INCOMPLETE", () => {
     expect(calculateOrientacjaPowierzchni({}).status).toBe("INCOMPLETE")
   })
@@ -120,7 +121,7 @@ describe("calculateOrientacjaPowierzchni", () => {
   })
 })
 
-describe("zacienienie z profilu horyzontu (TD15 punkt 2)", () => {
+describe("zacienienie z profilu horyzontu (TD15 punkt 2)", { timeout: 30_000 }, () => {
   const S35 = { nazwa: "S35", nachylenieDeg: 35, azymutDeg: 180 }
   const plaski = (kat: number) => new Array<number>(360).fill(kat)
   /** Przeszkoda tylko w sektorze południowym (150°–210°) o zadanym kącie. */

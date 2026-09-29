@@ -8319,6 +8319,13 @@ Tryb Audyt (czapka rewidenta). Warstwa „w pełni na końcu” z N.2 — wszyst
   `useTranslate()` przed każdym wczesnym `return` i osobno w każdej funkcji-komponencie (np. schemat SVG w E38).
 - **Poza zakresem (bez zmian):** parametry liczbowe formatowane `toLocaleString("pl-PL")` (np. „1 234”) trafiają do tekstu
   jak są; dane katalogu dotacji (`lib/core/dane/dotacje`) zostają po polsku (nazwy programów).
+- **Dokończenie (29.09 wieczór, pełny pakiet):** zielony po jednej poprawce spoza D58 — znów timeouty 5 s w
+  `orientacja-powierzchni.test.ts` i `modul1-lokalizacja-tools.test.ts` (za każdym przebiegiem inne testy; w izolacji też
+  bywa > 5 s). Pułapka z 25.09 wróciła, bo limit dodawano test po teście. Teraz `{ timeout: 30_000 }` na poziomie
+  `describe` dla każdego bloku wołającego `calculateOrientacjaPowierzchni` (pełny rok TMY). Nowy test w tych blokach
+  dziedziczy limit — nie trzeba o nim pamiętać.
+- **Znane, poza zakresem:** `components/wzorce/krok-z-media.tsx` („Miejsce na zdjęcie/nagranie…”) i okruszki nawigacji
+  zostają po polsku w EN/RU — stare teksty z listy zapadkowej, wpis „Tłumaczenie samych stron”.
 
 ## Porównanie `public/sw.js` ze wzorcem PWA standardu (29.09.2026, na żądanie właściciela)
 
