@@ -20,14 +20,14 @@ describe("calculateModulGasniczy (M8/E4, dawne 11.52 + 12.51)", () => {
   })
 
   it("proszek i CO2 w strefie LiFePO4 → 🔴 (nie gaszą reakcji ogniwa)", () => {
-    expect(poziomy({ ...OK, srodek: "proszek" })).toEqual([["GASZ-SRODEK-NIESKUTECZNY-LIFEPO4", "critical"]])
-    expect(poziomy({ ...OK, srodek: "co2" })).toEqual([["GASZ-SRODEK-NIESKUTECZNY-LIFEPO4", "critical"]])
+    expect(poziomy({ ...OK, srodek: "proszek" })).toEqual([["GASZ-SRODEK-NIESKUTECZNY-LIFEPO4", "critical"], ["GASZ-PROPOZYCJA-LIFEPO4", "info"]])
+    expect(poziomy({ ...OK, srodek: "co2" })).toEqual([["GASZ-SRODEK-NIESKUTECZNY-LIFEPO4", "critical"], ["GASZ-PROPOZYCJA-LIFEPO4", "info"]])
     expect(calculateModulGasniczy({ ...OK, srodek: "co2" }).value.srodekWlasciwyDlaLifepo4).toBe(false)
   })
 
-  it("gaz obojętny / aerozol w strefie LiFePO4 → 🟡 (ani wymagany, ani wykluczony w źródle)", () => {
-    expect(poziomy({ ...OK, srodek: "gaz-obojetny" })).toEqual([["GASZ-SRODEK-NIEPOTWIERDZONY-LIFEPO4", "warning"]])
-    expect(poziomy({ ...OK, srodek: "aerozol" })).toEqual([["GASZ-SRODEK-NIEPOTWIERDZONY-LIFEPO4", "warning"]])
+  it("gaz obojętny / aerozol w strefie LiFePO4 → 🟡 (D54: potwierdzone) + ℹ️ propozycja środków i chłodzenia ogniw", () => {
+    expect(poziomy({ ...OK, srodek: "gaz-obojetny" })).toEqual([["GASZ-SRODEK-NIEPOTWIERDZONY-LIFEPO4", "warning"], ["GASZ-PROPOZYCJA-LIFEPO4", "info"]])
+    expect(poziomy({ ...OK, srodek: "aerozol" })).toEqual([["GASZ-SRODEK-NIEPOTWIERDZONY-LIFEPO4", "warning"], ["GASZ-PROPOZYCJA-LIFEPO4", "info"]])
   })
 
   it("strefa bez magazynu → proszek bez ostrzeżenia; inna chemia → info", () => {

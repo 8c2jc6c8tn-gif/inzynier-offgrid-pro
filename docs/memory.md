@@ -8178,3 +8178,12 @@ Tryb Audyt (czapka rewidenta). Warstwa „w pełni na końcu” z N.2 — wszyst
 - Poprawione nieaktualne wpisy: lista „Otwarte” w 03_M14 (Enea netto, Stoen C22 były już ✅), tabela i pkt 6 w
   „STAN NA TERAZ”, wskaźnik startowy na górze `docs/lista-do-zrobienia.md`.
 
+## D54 — CRL od budynku, gaz 🟡 z propozycją, kafle M14, Rsi (29.09.2026)
+
+- **CRL (M5/E2 1.1.0):** `kolejnoscOdBudynku?: OdcinekCrl[] | null` — opcjonalne (stare szkice, AI). Niewymienione
+  typy dochodzą na koniec w kolejności ostrożnej. Bez kolejności wynik identyczny jak 1.0.0 (testy A.1–A.4 bez zmian).
+  Przy CRL ≥ 1000 zawsze ℹ️ `CRL-SPD-ZALECANY` — preferencja właściciela, nie wymóg normy; werdykt nadal „nie wymaga”.
+- **Gaz (M8/E4 1.1.0):** ℹ️ `GASZ-PROPOZYCJA-LIFEPO4` przy każdym środku spoza wymaganych w strefie LiFePO4.
+  Chłodzenie/zamrażanie ogniw to propozycja AI bez liczb (brak źródła) — ✅🤖.
+- **Rsi:** bez zmian w kodzie (0,13 ze źródeł); wartości kierunkowe czekają na PN-EN ISO 6946.
+- Otwarte z listy D50: tylko M9/E4 CAN.

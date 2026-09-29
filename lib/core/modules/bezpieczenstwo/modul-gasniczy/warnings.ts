@@ -31,6 +31,20 @@ export function srodekNiepotwierdzonyLifepo4(srodek: string): Warning {
   }
 }
 
+/**
+ * D54 (owner: gas/aerosol stays 🟡, propose agents and cell cooling): ℹ️ shown with 🟡/🔴 in a LiFePO4 zone.
+ * Water mist and energy-storage agents are the source's wording; cell cooling is the AI proposal (✅🤖).
+ */
+export function propozycjaSrodkowLifepo4(): Warning {
+  return {
+    code: "GASZ-PROPOZYCJA-LIFEPO4",
+    level: "info",
+    i18nKey: "GASZ-PROPOZYCJA-LIFEPO4",
+    technicalMessage: "magazynWStrefie=lifepo4, środek spoza wymaganych — propozycja: mgła wodna, środek do magazynów energii, chłodzenie ogniw (D54)",
+    field: "srodek",
+  }
+}
+
 export function innaChemiaMagazynu(): Warning {
   return {
     code: "GASZ-INNA-CHEMIA",

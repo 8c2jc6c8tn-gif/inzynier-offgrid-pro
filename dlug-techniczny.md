@@ -1,6 +1,6 @@
 # Dług techniczny — Inżynier Offgrid Pro
 
-**Wersja:** 2.5 | **Filar:** C | **Data utworzenia:** 04.09.2026 | **Ostatnia aktualizacja:** 28.09.2026 | **Status:** Stabilny (rosnący)
+**Wersja:** 2.6 | **Filar:** C | **Data utworzenia:** 04.09.2026 | **Ostatnia aktualizacja:** 29.09.2026 | **Status:** Stabilny (rosnący)
 **Powiązane dokumenty:** `00_Biblia.md`, `docs/rejestr-pokrycia.md`, `backlog-poza-v1.md`
 
 TL;DR: Rejestr świadomych uproszczeń kodu względem specyfikacji źródła (Część X.4 GOD BOOK) — ekrany zbudowane **częściowo**, gdzie zbudowana część jest kompletna i poprawna, ale źródło opisuje więcej niż jest dziś zaimplementowane. Różni się od `backlog-poza-v1.md`: tam są całe ekrany niezbudowane, tu są ekrany **częściowo** zbudowane z jawnie oznaczoną brakującą resztą. **To jest indeks, nie kopia** — każdy wpis TD# odpowiada spójnemu markerowi `🔎 TD#` w kodzie źródłowym (GOD BOOK X.4, rozszerzenie 04.09.2026, wersja 2.8); audyt (Część N) sprawdza zgodność w obie strony przez `grep -rn "🔎 TD"`.
@@ -57,7 +57,7 @@ TL;DR: Rejestr świadomych uproszczeń kodu względem specyfikacji źródła (Cz
   pojedynczego mieszkania (wartość instalacji względem 5 × wartość SPD) nie jest liczony — tłumaczenie serbskie („pięć
   razy mniejsza”) i streszczenie w `00-INDEKS.md` („< 5×”) czytają go różnie, rozstrzygnięcie wymaga wersji PL/EN;
   (2) Tablica 443.2 (kategorie przepięć I–IV, wymagane U_W) nie jest jeszcze użyta; (3) obcinanie długości ponad 1 km —
-  norma nie mówi, które odcinki odciąć, przyjęte od największej wagi (ostrożnie, ✅🤖). Strona DC PV (HD 60364-7-712,
+  norma nie mówi, które odcinki odciąć, przyjęte od największej wagi (ostrożnie, ✅🤖). **[29.09.2026, D54] pkt (3) zamknięty:** liczone od budynku na zewnątrz według kolejności podanej przez użytkownika (`kolejnoscOdBudynku`); bez kolejności — nadal od największej wagi. Strona DC PV (HD 60364-7-712,
   712.443) poza tym obliczeniem — ostrzeżenie `CRL-STRONA-DC-POZA`. Marker: komentarz nagłówkowy
   `lib/core/modules/okablowanie/ocena-ryzyka-crl/calculator.ts`.
 - **TD22 (28.09.2026) — moduł: M14, część Sieć (D1/F1, D2/F2, F4, pulpit), co skrócono:** (1) godzin stref OSD nie ma
@@ -112,3 +112,4 @@ TL;DR: Rejestr świadomych uproszczeń kodu względem specyfikacji źródła (Cz
 | 28.09.2026 | **Wynik audytu końcowego N.3:** grep `🔎 TD` ↔ TD1–TD21 — TD20 i TD21 miały opis znacznika w tym pliku, ale w kodzie nie było tekstu `🔎 TD20`/`🔎 TD21` (znaleziono tylko TD1–TD19). Dopisano znaczniki w miejscach wskazanych wyżej (`pojemnoscWarstwy()` i `OPOR_PRZEJMOWANIA_WEWN_M2K_W`; nagłówek `ocena-ryzyka-crl/calculator.ts`) — sam komentarz, logika bez zmian. Teraz 21/21 w obie strony. Wersja 2.2→2.3. |
 | 28.09.2026 | Dodano TD22 (M14, część Sieć — strefy wpisywane przez użytkownika, porównanie bez nadpisań z faktury, brak pola zużycia miesięcznego w UI, górne oszacowanie F4, kafle bez presetów) z markerami `🔎 TD22` w kodzie. Wersja 2.3→2.4. |
 | 28.09.2026 | TD22 (3) zamknięty częściowo (zużycie miesięczne z D3/F6 zasila D1/F1). Dodano TD23 (M14, część Przejście — bilans miesięczny zamiast M7, autokonsumpcja bez W4, agregat D7 z osobnych pól, stawka przyłączeniowa od użytkownika, strumienie BESS z wpisów) z markerami `🔎 TD23`. Wersja 2.4→2.5. |
+| 29.09.2026 | TD21 pkt (3) zamknięty decyzją D54 (CRL od budynku na zewnątrz); TD20: Rsi = 0,13 ze źródeł do czasu PKN (D54 pkt 5). Wersja 2.5→2.6. |

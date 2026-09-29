@@ -1190,3 +1190,4 @@ Pełne wyniki audytu: `docs/memory.md`, sekcja "Pełny audyt na polecenie właś
   i `ai/prognozy` (po decyzji Δt).
   **Partia 4 ✅ (29.09):** narzędzia `komunikacja-bms`, `porownanie-technologii`, `czystosc-i-snieg`;
   `lokalizacja-i-klimat` — adnotacja `ai-tool: nie dotyczy` (silnik tylko zapisuje profil, nic nie liczy). Lista 5 → 1.
+- ✅ (2026-09-29) **D54 — odpowiedzi właściciela: CRL, kafle M14, gaz, Rsi.** M5/E2 CRL 1.1.0: pole `kolejnoscOdBudynku` (limit 1 km od budynku na zewnątrz; bez kolejności ostrożnie jak dotąd) + ℹ️ `CRL-SPD-ZALECANY` przy CRL ≥ 1000 (TD21 pkt 3 zamknięty). M8/E4 1.1.0: gaz/aerozol 🟡 potwierdzone + ℹ️ `GASZ-PROPOZYCJA-LIFEPO4` (mgła wodna, środek do magazynów energii, chłodzenie/zamrażanie ogniw — ✅🤖). Kafle M14 na końcu presetów — potwierdzone. Rsi = 0,13 ze źródeł do czasu PKN. **Otwarte:** tylko M9/E4 CAN (🟡 ✅🤖, rekomendacja 🔴).
