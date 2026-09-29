@@ -200,6 +200,14 @@ import { rozbijRachunekTool } from "./tools/rozbij-rachunek-tool"
 import { dobierzTaryfeTool } from "./tools/dobierz-taryfe-tool"
 import { porownajScenariuszeTool } from "./tools/porownaj-scenariusze-tool"
 import { kosztPowrotuTool } from "./tools/koszt-powrotu-tool"
+import { bilansMiesiecznyTool } from "./tools/bilans-miesieczny-tool"
+import { depozytProsumenckiTool } from "./tools/depozyt-prosumencki-tool"
+import { mocUmownaTool } from "./tools/moc-umowna-tool"
+import { oplataMocowaTool } from "./tools/oplata-mocowa-tool"
+import { przelacznikSiecWyspaTool } from "./tools/przelacznik-siec-wyspa-tool"
+import { sciezkaCenEnergiiTool } from "./tools/sciezka-cen-energii-tool"
+import { strumienieBessTool } from "./tools/strumienie-bess-tool"
+import { testLicznikaTool } from "./tools/test-licznika-tool"
 import { mocBiernaTool } from "./tools/moc-bierna-tool"
 import { toAnthropicTool } from "./to-anthropic-tool"
 import { validateAiToolDefinition, type AiToolDefinition } from "./types"
@@ -391,6 +399,14 @@ const NARZEDZIA: Array<AiToolDefinition<any, any>> = [
   dobierzTaryfeTool,
   porownajScenariuszeTool,
   kosztPowrotuTool,
+  bilansMiesiecznyTool,
+  depozytProsumenckiTool,
+  mocUmownaTool,
+  oplataMocowaTool,
+  przelacznikSiecWyspaTool,
+  sciezkaCenEnergiiTool,
+  strumienieBessTool,
+  testLicznikaTool,
   mocBiernaTool,
 ]
 for (const narzedzie of NARZEDZIA) validateAiToolDefinition(narzedzie)
