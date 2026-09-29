@@ -95,7 +95,7 @@ export const porownajScenariuszeTool: AiToolDefinition<PorownajScenariuszeToolIn
     "zapasem, D pełne odłączenie z agregatem — TCO w horyzoncie N lat (dzisiejsze i nominalne zł), okres zwrotu " +
     "względem A, pokrycie własne, godziny agregatu, wymiany magazynu, odwracalność. Twarde stopy: D bez agregatu, " +
     "D przy osobach zależnych medycznie bez redundancji. Ceny sprzętu, paliwa i serwisu podaje user — nie zgaduj. " +
-    "Pokazuj oba wyniki: najtańszy i najbardziej niezależny.",
+    "Pokazuj oba wyniki: najtańszy i najbardziej niezależny. Użyj, gdy user pyta, czy lepiej zostać przy sieci, dodać magazyn czy przejść na off-grid, i ile to kosztuje w horyzoncie lat.",
   inputSchema: PorownajScenariuszeToolInput,
   outputSchema: PorownajScenariuszeToolOutput,
   operationType: "read",

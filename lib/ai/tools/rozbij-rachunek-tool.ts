@@ -38,7 +38,7 @@ export const rozbijRachunekTool: AiToolDefinition<RozbijRachunekToolInputT, Rozb
     "Rozbija roczny rachunek za prąd (M14, D1 dom / F1 firma) na składniki: energia, opłata handlowa, sieciowa " +
     "zmienna i stała, abonament, mocowa, jakościowa, OZE, kogeneracyjna; netto, brutto, stałe/zmienne i „cenę " +
     "trzymania sieci” (koszt samego posiadania przyłącza). Stawki OSD 2026 tylko dla Tauron, Energa, Stoen, Enea. Zużycie, " +
-    "ceny energii i opłatę handlową podaje user — nie zgaduj.",
+    "ceny energii i opłatę handlową podaje user — nie zgaduj. Użyj, gdy user pyta, z czego składa się jego rachunek za prąd albo ile kosztuje samo posiadanie przyłącza.",
   inputSchema: RozbijRachunekToolInput,
   outputSchema: RozbijRachunekToolOutput,
   operationType: "read",

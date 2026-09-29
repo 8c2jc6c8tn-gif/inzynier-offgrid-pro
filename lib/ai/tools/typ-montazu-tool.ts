@@ -124,7 +124,7 @@ export function utworzTypMontazuTool(fetchImpl: typeof fetch = fetch): AiToolDef
       "PN-EN 1991-1-4 tylko dla 0–30° i 90°, śnieg), 'wiata' (ile paneli zmieści się na wiacie/carporcie, kWp, kąt " +
       "samooczyszczania 5–10°), 'regulowany' (stelaż z ręczną zmianą kąta: kąt na każdy miesiąc w zakresie regulacji, " +
       "zysk vs kąt stały, balast dla najgorszego ustawienia). Balast projektowy wg PN-EN 1990 (EQU) tylko przeciw oderwaniu, bez przesuwu i wywracania — zawsze to przekaż. " +
-      "Dla oceny połaci dachu z modelu budynku użyj 'ocen_orientacje_powierzchni'.",
+      "Dla oceny połaci dachu z modelu budynku użyj 'ocen_orientacje_powierzchni'. Użyj, gdy user wybiera sposób montażu paneli (pionowo, na dachu płaskim/gruncie, na wiacie, stelaż regulowany) i pyta o kąt, uzysk, wiatr lub balast.",
     inputSchema: TypMontazuToolInput,
     outputSchema: TypMontazuToolOutput,
     operationType: "read",

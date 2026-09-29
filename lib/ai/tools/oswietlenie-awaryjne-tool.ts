@@ -36,7 +36,7 @@ export const oswietlenieAwaryjneTool: AiToolDefinition<OswietlenieAwaryjneToolIn
   name: "sprawdz_oswietlenie_awaryjne",
   description:
     "Sprawdza lampy awaryjne na drogach ewakuacji: niesprawna lampa to twardy stop, nietestowana — ostrzeżenie; " +
-    "przypomina o oświetleniu zewnętrznym dla służb (Moduł 8, Ekran 7).",
+    "przypomina o oświetleniu zewnętrznym dla służb (Moduł 8, Ekran 7). Użyj, gdy user pyta o oświetlenie awaryjne dróg ewakuacji albo o stan i testy lamp awaryjnych.",
   inputSchema: OswietlenieAwaryjneToolInput,
   outputSchema: OswietlenieAwaryjneToolOutput,
   operationType: "read",

@@ -46,6 +46,7 @@ jobs:
       - run: pnpm typecheck
       - run: pnpm check:i18n-guard
       - run: pnpm check:pomoc-guard
+      - run: pnpm check:ai-tools-guard
       - run: pnpm test
       - run: pnpm build
 

@@ -42,7 +42,7 @@ export const strategiaZamarzanieTool: AiToolDefinition<StrategiaZamarzanieToolIn
   name: "policz_strategie_zamarzanie",
   description:
     "Zimowa strategia odłączania odbiorników: komfort od razu, ważne poniżej 20% SoC, krytyczne nigdy — liczy, jak długo " +
-    "bateria utrzyma ogrzewanie i pompy (Moduł 7, Ekran 6).",
+    "bateria utrzyma ogrzewanie i pompy (Moduł 7, Ekran 6). Użyj, gdy user pyta, które odbiorniki odłączać zimą przy spadku SoC i jak długo bateria utrzyma ogrzewanie i pompy.",
   inputSchema: StrategiaZamarzanieToolInput,
   outputSchema: StrategiaZamarzanieToolOutput,
   operationType: "read",

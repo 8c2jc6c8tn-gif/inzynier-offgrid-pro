@@ -32,7 +32,7 @@ export type AwariaStringaZimaToolOutputT = z.infer<typeof AwariaStringaZimaToolO
 
 export const awariaStringaZimaTool: AiToolDefinition<AwariaStringaZimaToolInputT, AwariaStringaZimaToolOutputT> = {
   name: "sprawdz_awarie_stringa_zima",
-  description: "Liczy deficyt energii, gdy jeden string PV przestanie działać w najgorszym miesiącu, i na ile dni wystarczy bateria (Moduł 7, Ekran 26).",
+  description: "Liczy deficyt energii, gdy jeden string PV przestanie działać w najgorszym miesiącu, i na ile dni wystarczy bateria (Moduł 7, Ekran 26). Użyj, gdy user pyta, co się stanie zimą, gdy padnie jeden string PV, i ile dni wytrzyma bateria.",
   inputSchema: AwariaStringaZimaToolInput,
   outputSchema: AwariaStringaZimaToolOutput,
   operationType: "read",

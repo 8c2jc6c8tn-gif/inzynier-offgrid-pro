@@ -33,7 +33,7 @@ export const architekturaFazowaTool: AiToolDefinition<ArchitekturaFazowaToolInpu
   description:
     "Liczy sumę obciążenia, moc maksymalnej/minimalnej fazy i asymetrię % ((Pmax-Pmin)/Pmax) między fazami L1/L2/L3 " +
     "— Moduł 2, Ekran 14 'Architektura 1-fazowa/3-fazowa'. Nie wydaje werdyktu ok/uwaga/zabroniona — źródło nie " +
-    "podaje liczbowego progu, oceń to opisowo dla usera, nie wymyślaj progu. Moce faz podaje user — nie zgaduj.",
+    "podaje liczbowego progu, oceń to opisowo dla usera, nie wymyślaj progu. Moce faz podaje user — nie zgaduj. Użyj, gdy user pyta o rozkład obciążenia na fazy L1/L2/L3 albo o asymetrię instalacji 3-fazowej.",
   inputSchema: ArchitekturaFazowaToolInput,
   outputSchema: ArchitekturaFazowaToolOutput,
   operationType: "read",

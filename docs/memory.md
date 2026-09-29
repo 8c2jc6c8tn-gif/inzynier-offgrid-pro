@@ -8132,6 +8132,15 @@ Tryb Audyt (czapka rewidenta). Warstwa „w pełni na końcu” z N.2 — wszyst
   (np. „Nachylenie” w M1/E4) wymagają osobnych id pól. Przy M10 znaleziona możliwa pomyłka Δt w silniku prognoz — pytanie
   A/B w `lista-do-zrobienia.md`, nie ruszane.
 
+## Opisy narzędzi AI — strażnik (29.09.2026)
+
+- Właściciel: „trzeba naprawić” (pytanie o rozbudowane opisy funkcji dla AI). 27 narzędzi dostało zdanie „Użyj, gdy…”.
+- Strażnik `scripts/check-ai-tools-guard.mjs` (+ test `lib/ai/__tests__/ai-tools-guard.test.ts`): description z
+  „Użyj, gdy ” (sprawdzane po sklejeniu `"…" + "…"` — wcześniejszy grep po liniach dawał fałszywe braki, bo zdanie bywa
+  rozcięte na „Użyj, ” / „gdy”), rejestracja w `lib/ai/pytaj-asystenta.ts`, pokrycie `calculator.ts` → narzędzie
+  (wyjątek tylko komentarzem `ai-tool: nie dotyczy — <powód>`). Lista zapadkowa `scripts/ai-tools-guard-baseline.json`
+  startowo 18 kalkulatorów. Dyrektywa #15 v1.4, `CLAUDE.md`, CI.
+
 ## M12/E38 — D52 i sprawdzenie kolizji po zmianach na `main` (29.09.2026)
 
 - Przed zmianą sprawdzone `main` po scaleniu PR #189 (D51 „pomoc” we wszystkich modułach, M14 w kodzie): E38 przeszedł

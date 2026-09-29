@@ -35,7 +35,7 @@ export const modulGasniczyTool: AiToolDefinition<ModulGasniczyToolInputT, ModulG
   description:
     "Sprawdza konfigurację stałego urządzenia gaśniczego: czy środek nadaje się do strefy magazynu LiFePO4 (proszek i CO2 " +
     "nie gaszą ogniwa — twardy stop), potwierdzenie alarmu co najmniej dwoma czujnikami, odcięcie wentylacji i klap oraz " +
-    "stan modułu (rozładowany — twardy stop). Moduł 8, Ekran 4.",
+    "stan modułu (rozładowany — twardy stop). Moduł 8, Ekran 4. Użyj, gdy user pyta, czy jego stałe urządzenie gaśnicze nadaje się do strefy magazynu energii i jest poprawnie skonfigurowane.",
   inputSchema: ModulGasniczyToolInput,
   outputSchema: ModulGasniczyToolOutput,
   operationType: "read",

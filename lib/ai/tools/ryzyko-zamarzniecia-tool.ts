@@ -43,7 +43,7 @@ export const ryzykoZamarznieciaTool: AiToolDefinition<RyzykoZamarznieciaToolInpu
   description:
     "Sprawdza, czy kable ziemne, rury wodne i uziomy leżą poniżej strefy przemarzania gruntu (rura wodna z zapasem " +
     "20 cm) oraz czy planowany sposób rozmrażania rury jest bezpieczny (Moduł 7, Ekran 22). Ułożenie płycej niż " +
-    "strefa przemarzania i rozmrażanie otwartym ogniem to twarde stopy.",
+    "strefa przemarzania i rozmrażanie otwartym ogniem to twarde stopy. Użyj, gdy user pyta, na jakiej głębokości ułożyć kable, rury lub uziomy albo jak bezpiecznie rozmrozić zamarzniętą rurę.",
   inputSchema: RyzykoZamarznieciaToolInput,
   outputSchema: RyzykoZamarznieciaToolOutput,
   operationType: "read",
