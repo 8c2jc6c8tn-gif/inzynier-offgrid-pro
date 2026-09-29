@@ -8150,6 +8150,33 @@ Tryb Audyt (czapka rewidenta). Warstwa „w pełni na końcu” z N.2 — wszyst
   przy DC — przy 230 V z kompletem uziemienia dawałoby fałszywe 🟡. **Pułapka:** zmiana poziomu = też teksty migawki „i”
   (mówiły „nie = czerwony stop”) i opis narzędzia AI, nie tylko `warnings.ts` — grep po kodzie ostrzeżenia i po „czerwony”.
 
+## M12/E38 — D57 słupek, namiot, jacht (29.09.2026)
+
+- **Kolizja numerów (dwukrotna):** równoległe sesje zajęły na `main` najpierw D53 (odpowiedzi na D50), potem D54
+  (CRL/gaz/Rsi) — pętla zwarcia ostatecznie = **D56**, to rozszerzenie = **D57** (H.3, pierwszy scalony zachowuje numer).
+  Lekcja: przed utworzeniem PR zawsze `git fetch origin main` i sprawdź ostatni numer D w `rejestr-decyzji.md` na main.
+- Kamper/jacht: pytanie o zasilanie z zewnątrz; przy N–PE w falowniku — czy rozłączane; nie/nie wiem → 🔴 podwójne N–PE.
+  Namiot = nowe miejsce: najpierw N–PE na wyjściu; pływające/nie wiem → 🟡 z zasadami (bez pytań o obudowę, gniazda, RCD).
+  Kamper/jacht — ℹ️ (wiszący przewód, szpilka; Wzorzec C jachtu). RCD 🔴 tymczasowo do PN-HD 60364-7-721.
+- W repo JEST wyciąg PN-IEC 60364-4-41:2000 z 413.5 (separacja) — właściciel pamiętał słusznie; brakuje wydania 2017.
+- **Zasada właściciela (29.09.2026):** gdy poziom/decyzję opieram na słowach właściciela, podaję **dosłowny cytat i gdzie
+  padł** (data, która wiadomość/sekcja), a nie samo „Twoje »musi«”. Dotyczy raportu i wpisów ✅🤖 w rejestrach.
+- **[29.09.2026] Podwójne N–PE — poziom potwierdzony:** właściciel „Wybieram A” (🔴 dla „nie” i „nie wiem”); podstawa
+  PN-HD 60364-5-54, 543.4.3 („niedopuszczalne”) — norma była w repo, wcześniej jej nie powiązałem. Na prośbę właściciela
+  ekran (sekcja pętli, gdy słupek/keja) i komunikat tłumaczą fizykę: prąd w PE, wybija RCD na słupku, stary słupek bez RCD
+  + przerwany PEN, jacht — korozja i marina. Lekcja: zanim oznaczę poziom ✅🤖, grep po `docs/zrodla/` za regułą ogólną.
+- Pułapka: w teście `ac` bazowo zmieniony z kampera na garaż — kamper dokłada ℹ️ i pytanie o słupek, więc testy ogólne
+  230 V przestałyby mieć pustą listę ostrzeżeń.
+
+## M12/E38 — D56 pętla zwarcia (29.09.2026)
+
+- Właściciel: ochrona na falowniku nie potrzebuje ziemi, tylko zamkniętej pętli obudowa → PE → N–PE w falowniku →
+  falownik; trzy warunki (połączenie wyrównawcze PE, N–PE za zgodą producenta, RCD 30 mA za nim). Wdrożone jako D56:
+  pola `polaczenieNPE`, `rcd30mA` (INCOMPLETE bez odpowiedzi), oba braki 🔴; RCD — poziom echo `progPowyzejOchronyOsob`.
+- Stare autozapisy bez `npe`/`rcd` → `?? ""` (wzorzec `napor-wiatru`), więc wynik INCOMPLETE, nigdy „OK”.
+- Otwarte (⚠️ na liście): pojedynczy odbiornik z wyjścia pływającego (separacja elektryczna) — dziś 🔴; bez źródła normy
+  nie rozstrzygam.
+
 ## Rsi per kierunek — liczby odtworzone (29.09.2026)
 
 - Decyzja z 28.09 („Rsi per kierunek, wartości z PN-EN ISO 6946, właściciel dostarczy PKN”) została zapisana **bez

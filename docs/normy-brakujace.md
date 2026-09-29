@@ -51,8 +51,12 @@ wtedy zaktualizowane — naprawione teraz, przy okazji.)*
 - 🔵 **Taryfa PGE Dystrybucja 2026 (PDF)** i **regulamin programu „Przydomowe Magazyny Energii” NFOŚiGW (PDF)** — nie
   normy, ale materiały formalne dla M14 (W3-PGE, W6). Serwery mają niepełny łańcuch TLS — **właściciel dostarcza pliki;
   nie obchodzić certyfikatów.** Pozostałe dane M14: `03_M14_Dom_i_Firma_Siec.md`, „Otwarte — wymaga danych zewnętrznych”.
+- 🔵 **PN-HD 60364-7-721** (instalacje elektryczne w przyczepach kempingowych i pojazdach wypoczynkowych). **[29.09.2026]** Właściciel: „na razie czerwone, potem normę dostarczę”. **Potrzebna do:** M12/E38 — potwierdzenia wymagania RCD 30 mA i poziomu `UMI-BRAK-RCD-30MA` (dziś 🔴 tymczasowo, D57); przy okazji zasilanie ze słupka (rozłączanie N–PE, `UMI-PODWOJNE-POLACZENIE-N-PE` — poziom 🔴 już ma podstawę w PN-HD 60364-5-54, 543.4.3, potwierdzony przez właściciela; 7-721 tylko jako potwierdzenie dla kamperów). **Potrzebny fragment:** rozdział o ochronie przeciwporażeniowej (RCD, połączenia wyrównawcze podwozia) i o zasilaniu z zewnątrz (przyłącze, słupek).
 
 ## 🟡 Potrzebne, nie blokują dziś konkretnego kodu (zidentyfikowane wcześniej w rozmowie o normach)
+
+- **PN-HD 60364-4-41:2017** (ochrona przeciwporażeniowa — wydanie aktualne). **[29.09.2026]** W repo jest tylko wyciąg PN-IEC 60364-4-41:2000 (`docs/zrodla/norma-PN-IEC-60364-4-41/`, 413.5 „separacja elektryczna”, prywatne tłumaczenie z 2002). **Potrzebna do:** M12/E38 namiot (D57) — (a) czy wyjście przenośnej stacji zasilania jest „źródłem równoważnym transformatorowi separacyjnemu”; (b) wymagania przy więcej niż jednym odbiorniku z jednego wyjścia; (c) czy 🟡 dla wyjścia pływającego ma zostać, czy przy kilku odbiornikach przejść w 🔴. Pozycja #2 z listy literatury materiału PV-2019 (wyżej) — znana z tytułu.
+- **ABYC E-11** (AC and DC Electrical Systems on Boats) i **ISO 13297** (małe statki — instalacje elektryczne prądu przemiennego). **[29.09.2026]** Do pozyskania (decyzja właściciela). **Potrzebne do:** M12/E38 jacht (D57) — dziś tylko ℹ️ Wzorzec C „do potwierdzenia z tekstu normy”: połączenie PE AC, obudów i minusa DC w jednym punkcie, automatyczne N–PE poza keją, RCD/ELCI, separator galwaniczny albo transformator separacyjny przy zasilaniu z kei.
 
 - **IEC 62109-1** (bezpieczeństwo przetwornic mocy PV — część 1, wymagania ogólne). Mamy tylko
   **Część 2** (falowniki, `docs/zrodla/norma-IEC-62109-2/`) — Część 1 nigdy nie dostarczona jako

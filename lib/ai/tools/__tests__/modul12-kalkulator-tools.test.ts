@@ -214,9 +214,48 @@ describe("uziemienieMaleInstalacjeTool (M12/E38, dawne 8.65)", () => {
       miejsce: "kamper",
       obudowaFalownikaUziemiona: "nie-wiem",
       gniazdaZeStykiemOchronnym: "tak",
+      polaczenieNPE: "tak",
+      rcd30mA: "tak",
+      zasilanieZewnetrzne: "nie",
+      npeRozlaczanePrzyZasilaniuZewnetrznym: null,
     })
     expect(w.status).toBe("VALID_WITH_WARNINGS")
     expect(w.wymaganeUziemienieOchronne).toBe(true)
-    expect(w.ostrzezenia).toEqual([t("pl", "UMI-OBUDOWA-FALOWNIKA-NIEUZIEMIONA")])
+    expect(w.ostrzezenia).toEqual([t("pl", "UMI-OBUDOWA-FALOWNIKA-NIEUZIEMIONA"), t("pl", "UMI-KAMPER-WISZACY-PRZEWOD")])
+  })
+
+  it("kamper 230 V bez połączenia N–PE i bez RCD 30 mA → dwa twarde stopy pętli zwarcia (D56) jako tekst PL", async () => {
+    const w = await uziemienieMaleInstalacjeTool.handler({
+      rodzaj: "ac230",
+      miejsce: "kamper",
+      obudowaFalownikaUziemiona: "tak",
+      gniazdaZeStykiemOchronnym: "tak",
+      polaczenieNPE: "nie",
+      rcd30mA: "nie-wiem",
+      zasilanieZewnetrzne: "nie",
+      npeRozlaczanePrzyZasilaniuZewnetrznym: null,
+    })
+    expect(w.status).toBe("VALID_WITH_WARNINGS")
+    expect(w.ostrzezenia).toEqual([
+      t("pl", "UMI-BRAK-POLACZENIA-N-PE"),
+      t("pl", "UMI-BRAK-RCD-30MA"),
+      t("pl", "UMI-KAMPER-WISZACY-PRZEWOD"),
+    ])
+  })
+
+  it("namiot, wyjście pływające → ostrzeżenie z zasadami (D57), bez twardego stopu", async () => {
+    const w = await uziemienieMaleInstalacjeTool.handler({
+      rodzaj: "ac230",
+      miejsce: "namiot",
+      obudowaFalownikaUziemiona: null,
+      gniazdaZeStykiemOchronnym: null,
+      polaczenieNPE: "nie",
+      rcd30mA: null,
+      zasilanieZewnetrzne: null,
+      npeRozlaczanePrzyZasilaniuZewnetrznym: null,
+    })
+    expect(w.status).toBe("VALID_WITH_WARNINGS")
+    expect(w.wymaganeUziemienieOchronne).toBe(false)
+    expect(w.ostrzezenia).toEqual([t("pl", "UMI-NAMIOT-WYJSCIE-PLYWAJACE")])
   })
 })
