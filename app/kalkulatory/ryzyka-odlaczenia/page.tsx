@@ -24,7 +24,7 @@ export default function RyzykaOdlaczeniaPage() {
   return (
     <main className="mx-auto flex max-w-2xl flex-col gap-6 p-6">
       <NawigacjaEkranu href="/kalkulatory/ryzyka-odlaczenia" />
-      <NaglowekEkranu tytul="Ryzyka odłączenia od sieci">
+      <NaglowekEkranu tytul="Ryzyka odłączenia od sieci" ekran="ryzyka-odlaczenia">
         Dziesięć ryzyk pełnego odłączenia (scenariusz D), a dla firmy trzy kolejne. Odhacz każde, gdy je sprawdzisz. Znak przy
         pozycji mówi, na ile jest pewna: ✅ prawo, fizyka lub praktyka bez wątpliwości; 🔎A kilka zgodnych źródeł; 🔎B jedno źródło
         albo wiedza ekspercka. M14, ekran D9 / F9.

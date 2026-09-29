@@ -6,6 +6,7 @@ import type {
   PodlaczenieAgregatu,
 } from "@/lib/core/modules/zapotrzebowanie/agregat-pradotworczy/bezpieczenstwo"
 import { PoleSelect } from "@/components/ui/pole"
+import { PomocPola } from "@/components/ui/pomoc"
 
 export type BezpieczenstwoAgregatuStan = {
   miejsceAgregatu: MiejsceAgregatu | ""
@@ -25,7 +26,7 @@ export function PolaBezpieczenstwaAgregatu({ miejsceAgregatu, podlaczenieAgregat
         label="Gdzie pracuje agregat"
         value={miejsceAgregatu ?? ""}
         onChange={(e) => onChange({ miejsceAgregatu: e.target.value as BezpieczenstwoAgregatuStan["miejsceAgregatu"] })}
-        hint="Spaliny zawierają czad (CO) — bezwonny i śmiertelny."
+        pomoc={<PomocPola ekran="agregat-bezpieczenstwo" pole="miejsce" />}
       >
         <option value="">— wybierz —</option>
         <option value="na-zewnatrz">Na zewnątrz (wiata, pod zadaszeniem)</option>
@@ -38,6 +39,7 @@ export function PolaBezpieczenstwaAgregatu({ miejsceAgregatu, podlaczenieAgregat
         onChange={(e) =>
           onChange({ podlaczenieAgregatu: e.target.value as BezpieczenstwoAgregatuStan["podlaczenieAgregatu"] })
         }
+        pomoc={<PomocPola ekran="agregat-bezpieczenstwo" pole="podlaczenie" />}
       >
         <option value="">— wybierz —</option>
         <option value="przez-przelacznik">Do instalacji przez przełącznik I–0–II</option>

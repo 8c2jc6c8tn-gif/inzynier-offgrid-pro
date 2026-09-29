@@ -4,6 +4,7 @@ import { useMemo } from "react"
 import { calculateOplataMocowa } from "@/lib/core/modules/siec/oplata-mocowa/calculator"
 import { usePersistedDraft } from "@/lib/adapters/use-persisted-draft"
 import { Pole } from "@/components/ui/pole"
+import { PomocPola } from "@/components/ui/pomoc"
 import { WerdyktPanel } from "@/components/werdykt"
 import { NawigacjaEkranu } from "@/components/nawigacja-ekranu"
 import { NaglowekEkranu } from "@/components/wzorce/naglowek-ekranu"
@@ -34,14 +35,22 @@ export default function OplataMocowaPage() {
   return (
     <main className="mx-auto flex max-w-md flex-col gap-6 p-6">
       <NawigacjaEkranu href="/kalkulatory/oplata-mocowa" />
-      <NaglowekEkranu tytul="Opłata mocowa — przesunięcie poboru">
+      <NaglowekEkranu tytul="Opłata mocowa — przesunięcie poboru" ekran="oplata-mocowa" wzor={result.formula}>
         W firmie opłata mocowa to 0,2194 zł/kWh netto za energię pobraną w dni robocze 7:00–22:00 (2026). Zobacz, ile
         daje przesunięcie części poboru poza te godziny — produkcja, ładowanie aut, pompa ciepła z buforem, magazyn. M14
         „Firma – sieć”, ekran F5.
       </NaglowekEkranu>
 
       <div className="flex flex-col gap-4">
-        <Pole label="Energia pobrana w roku" unit="kWh" type="number" inputMode="decimal" value={stan.roczna} onChange={(e) => ustaw("roczna", e.target.value)} />
+        <Pole
+          label="Energia pobrana w roku"
+          unit="kWh"
+          type="number"
+          inputMode="decimal"
+          value={stan.roczna}
+          onChange={(e) => ustaw("roczna", e.target.value)}
+          pomoc={<PomocPola ekran="oplata-mocowa" pole="energiaRok" />}
+        />
         <Pole
           label="W tym w dni robocze 7:00–22:00"
           unit="kWh"
@@ -49,7 +58,7 @@ export default function OplataMocowaPage() {
           inputMode="decimal"
           value={stan.wGodzinach}
           onChange={(e) => ustaw("wGodzinach", e.target.value)}
-          hint="Z faktury (pozycja opłaty mocowej) albo portalu pomiarowego OSD."
+          pomoc={<PomocPola ekran="oplata-mocowa" pole="energiaSzczyt" />}
         />
         <Pole
           label="Ile z tego przesuniesz poza te godziny"
@@ -58,6 +67,7 @@ export default function OplataMocowaPage() {
           inputMode="decimal"
           value={stan.przesuniecie}
           onChange={(e) => ustaw("przesuniecie", e.target.value)}
+          pomoc={<PomocPola ekran="oplata-mocowa" pole="przesuniecie" />}
         />
         <Pole
           label="Stawka z faktury (opcjonalnie)"
@@ -66,6 +76,7 @@ export default function OplataMocowaPage() {
           inputMode="decimal"
           value={stan.stawka}
           onChange={(e) => ustaw("stawka", e.target.value)}
+          pomoc={<PomocPola ekran="oplata-mocowa" pole="stawka" />}
         />
       </div>
 

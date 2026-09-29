@@ -117,7 +117,7 @@ export default function SciezkaPrzejsciaPage() {
   return (
     <main className="mx-auto flex max-w-2xl flex-col gap-6 p-6">
       <NawigacjaEkranu href="/kalkulatory/sciezka-przejscia" />
-      <NaglowekEkranu tytul="Ścieżka przejścia">
+      <NaglowekEkranu tytul="Ścieżka przejścia" ekran="sciezka-przejscia">
         Sześć kroków od rachunku za prąd do decyzji o odejściu od sieci. Każdy krok otwiera ekrany, które go liczą — Twoje
         dane z nich przechodzą dalej automatycznie. Postęp zapisuje się na tym urządzeniu.
       </NaglowekEkranu>

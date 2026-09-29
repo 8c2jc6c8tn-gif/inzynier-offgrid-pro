@@ -7,6 +7,7 @@ import type { BilansMiesiecznyInput, TrybBilansu } from "@/lib/core/modules/siec
 import type { Segment } from "@/lib/core/modules/siec/rachunek-za-prad/input"
 import { useOdczytDraftu, usePersistedDraft } from "@/lib/adapters/use-persisted-draft"
 import { Pole } from "@/components/ui/pole"
+import { PomocPola } from "@/components/ui/pomoc"
 import { StanLadowania, StanPusty } from "@/components/ui/stany"
 import { WerdyktPanel } from "@/components/werdykt"
 import { WynikGlowny } from "@/components/wzorce/wynik-glowny"
@@ -154,7 +155,16 @@ function PvIMagazyn({ segment, zuzycie }: { segment: Segment; zuzycie: number[] 
       <section className="flex flex-col gap-3">
         <h2 className="font-semibold">Instalacja</h2>
         <div className="grid grid-cols-2 gap-3">
-          <Pole label="Moc PV" unit="kWp" type="number" inputMode="decimal" min={0} value={pv.mocPvKwp} onChange={(e) => ustaw("mocPvKwp", e.target.value)} />
+          <Pole
+            label="Moc PV"
+            unit="kWp"
+            type="number"
+            inputMode="decimal"
+            min={0}
+            value={pv.mocPvKwp}
+            onChange={(e) => ustaw("mocPvKwp", e.target.value)}
+            pomoc={<PomocPola ekran="siec-pv-magazyn" pole="mocPv" />}
+          />
           <Pole
             label="Autokonsumpcja bezpośrednia"
             unit="%"
@@ -164,7 +174,7 @@ function PvIMagazyn({ segment, zuzycie }: { segment: Segment; zuzycie: number[] 
             max={100}
             value={pv.autokonsumpcjaProcent}
             onChange={(e) => ustaw("autokonsumpcjaProcent", e.target.value)}
-            hint="Jaka część produkcji PV jest zużywana od razu. Twoja wartość — typowe profile OSD nie są jeszcze w aplikacji."
+            pomoc={<PomocPola ekran="siec-pv-magazyn" pole="autokonsumpcja" />}
           />
           <Pole
             label="Magazyn — pojemność użyteczna"
@@ -174,7 +184,7 @@ function PvIMagazyn({ segment, zuzycie }: { segment: Segment; zuzycie: number[] 
             min={0}
             value={pv.pojemnoscKwh}
             onChange={(e) => ustaw("pojemnoscKwh", e.target.value)}
-            hint="0 lub puste = bez magazynu. Użyteczna, czyli po DoD (Moduł 4)."
+            pomoc={<PomocPola ekran="siec-pv-magazyn" pole="magazyn" />}
           />
           <Pole
             label="Sprawność cyklu magazynu"
@@ -185,7 +195,7 @@ function PvIMagazyn({ segment, zuzycie }: { segment: Segment; zuzycie: number[] 
             max={100}
             value={pv.sprawnoscProcent}
             onChange={(e) => ustaw("sprawnoscProcent", e.target.value)}
-            hint="Z karty katalogowej magazynu i falownika."
+            pomoc={<PomocPola ekran="siec-pv-magazyn" pole="sprawnosc" />}
           />
         </div>
         {firma && (

@@ -8,7 +8,7 @@ export default function PvIMagazynPage() {
   return (
     <main className="mx-auto flex max-w-2xl flex-col gap-6 p-6">
       <NawigacjaEkranu href="/kalkulatory/pv-i-magazyn" />
-      <NaglowekEkranu tytul="Ile PV i magazynu, żeby uniezależnić się od sieci">
+      <NaglowekEkranu tytul="Ile PV i magazynu, żeby uniezależnić się od sieci" ekran="pv-i-magazyn">
         Bilans miesiąc po miesiącu: ile energii dadzą panele i magazyn, ile nadal weźmiesz z sieci i ile do niej oddasz.
         Nasłonecznienie z Twojej lokalizacji (Moduły 1 i 3), magazyn jak w Module 4. M14 „Dom – sieć”, ekran D4.
       </NaglowekEkranu>

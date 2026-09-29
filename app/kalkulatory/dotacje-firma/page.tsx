@@ -8,7 +8,7 @@ export default function DotacjeFirmaPage() {
   return (
     <main className="mx-auto flex max-w-2xl flex-col gap-6 p-6">
       <NawigacjaEkranu href="/kalkulatory/dotacje-firma" />
-      <NaglowekEkranu tytul="Dotacje i podatki — informacja, nie porada">
+      <NaglowekEkranu tytul="Dotacje i podatki — informacja, nie porada" ekran="dotacje-firma">
         Nabory dla firm ze stanem na dzień. „Przydomowe Magazyny Energii” i ulga termomodernizacyjna dotyczą osób fizycznych, więc
         są w części „Dom”. M14 „Firma – sieć”, ekran F12.
       </NaglowekEkranu>

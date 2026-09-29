@@ -6,6 +6,7 @@ import { calculateSciezkaCen } from "@/lib/core/modules/siec/sciezka-cen-energii
 import { SUWAK_WARTOSCI_PROCENT } from "@/lib/core/modules/siec/sciezka-cen-energii/constants"
 import type { TrybSciezki, ZrodloInflacji } from "@/lib/core/modules/siec/sciezka-cen-energii/input"
 import { Pole, PoleSelect } from "@/components/ui/pole"
+import { PomocPola } from "@/components/ui/pomoc"
 import { WynikSzczegoly } from "@/components/wzorce/wynik-szczegoly"
 import { PrzyciskSegmentu as Segment } from "./wspolne"
 
@@ -55,13 +56,10 @@ export function PoleWzrostuCen({
     () => calculateSciezkaCen({ rokBazowy, horyzontLat, kosztRocznyZl: 1, tryb: trybZeStanu(stan) }),
     [stan, rokBazowy, horyzontLat],
   )
-  const pomoc =
-    "Suwak i „Plany UE” to zmiana ceny ponad inflację — wynik w dzisiejszych złotych. „Plany UE + inflacja” pokazuje kwoty do zapłaty w złotych z tamtych lat; ranking scenariuszy i tak liczy się w dzisiejszych złotych."
-
   return (
     <fieldset className="flex flex-col gap-3 rounded-md border p-3">
-      <legend className="px-1 text-small font-medium" title={pomoc}>
-        Wzrost cen energii
+      <legend className="flex items-center gap-1.5 px-1 text-small font-medium">
+        Wzrost cen energii <PomocPola ekran="siec-wzrost-cen" pole="zrodlo" />
       </legend>
       <div className="flex gap-1 rounded-md bg-muted/50 p-1" role="group" aria-label="Źródło zmiany cen energii">
         {POZYCJE.map((p) => (
@@ -86,13 +84,22 @@ export function PoleWzrostuCen({
                 label="Inflacja"
                 value={stan.zrodloInflacji}
                 onChange={(e) => onChange({ zrodloInflacji: e.target.value as ZrodloInflacji })}
+                pomoc={<PomocPola ekran="siec-wzrost-cen" pole="inflacjaZrodlo" />}
               >
                 <option value="gus">średnia GUS z 15 lat (domyślnie)</option>
                 <option value="nbp">cel NBP</option>
                 <option value="wlasna">własna wartość</option>
               </PoleSelect>
               {stan.zrodloInflacji === "wlasna" && (
-                <Pole label="Inflacja" unit="%/rok" type="number" inputMode="decimal" value={stan.wlasnaInflacja} onChange={(e) => onChange({ wlasnaInflacja: e.target.value })} />
+                <Pole
+                  label="Inflacja"
+                  unit="%/rok"
+                  type="number"
+                  inputMode="decimal"
+                  value={stan.wlasnaInflacja}
+                  onChange={(e) => onChange({ wlasnaInflacja: e.target.value })}
+                  pomoc={<PomocPola ekran="siec-wzrost-cen" pole="inflacjaWlasna" />}
+                />
               )}
             </>
           )}

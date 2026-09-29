@@ -8,7 +8,7 @@ export default function DotacjePage() {
   return (
     <main className="mx-auto flex max-w-2xl flex-col gap-6 p-6">
       <NawigacjaEkranu href="/kalkulatory/dotacje" />
-      <NaglowekEkranu tytul="Dotacje (stan na dzień)">
+      <NaglowekEkranu tytul="Dotacje (stan na dzień)" ekran="dotacje">
         Informacja, nie porada. Każda pozycja ma datę stanu i znak pewności: ✅ odczyt źródła, 🔎B jedno źródło albo wiedza
         ekspercka. Po terminie naboru pozycja sama zmienia się na „nabór zakończony”. M14 „Dom – sieć”, ekran D13.
       </NaglowekEkranu>

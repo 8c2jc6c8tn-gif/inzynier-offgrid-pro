@@ -7,6 +7,7 @@ import { STREFY_GRUPY } from "@/lib/core/modules/siec/rachunek-za-prad/constants
 import type { Fazy, RachunekInput, Segment } from "@/lib/core/modules/siec/rachunek-za-prad/input"
 import { usePersistedDraft } from "@/lib/adapters/use-persisted-draft"
 import { Pole, PoleCheckbox, PoleSelect } from "@/components/ui/pole"
+import { PomocPola } from "@/components/ui/pomoc"
 import { WerdyktPanel } from "@/components/werdykt"
 import { WynikGlowny } from "@/components/wzorce/wynik-glowny"
 import { WynikSzczegoly } from "@/components/wzorce/wynik-szczegoly"
@@ -149,7 +150,12 @@ export function FormularzRachunku({ segment }: { segment: Segment }) {
     <>
       <div className="flex flex-col gap-4">
         <PoleOsd value={stan.osd} onChange={(osd) => ustaw("osd", osd)} />
-        <PoleSelect label="Grupa taryfowa" value={stan.grupa} onChange={(e) => ustaw("grupa", e.target.value as Grupa)}>
+        <PoleSelect
+          label="Grupa taryfowa"
+          value={stan.grupa}
+          onChange={(e) => ustaw("grupa", e.target.value as Grupa)}
+          pomoc={<PomocPola ekran="siec-rachunek" pole="grupa" />}
+        >
           {(g ? GRUPY_DOM : GRUPY_FIRMA).map((gr) => (
             <option key={gr} value={gr}>
               {gr}
@@ -157,7 +163,12 @@ export function FormularzRachunku({ segment }: { segment: Segment }) {
           ))}
         </PoleSelect>
         {g ? (
-          <PoleSelect label="Przyłącze" value={stan.fazy} onChange={(e) => ustaw("fazy", e.target.value as Fazy)}>
+          <PoleSelect
+            label="Przyłącze"
+            value={stan.fazy}
+            onChange={(e) => ustaw("fazy", e.target.value as Fazy)}
+            pomoc={<PomocPola ekran="siec-rachunek" pole="przylacze" />}
+          >
             <option value="jednofazowa">jednofazowe</option>
             <option value="trojfazowa">trójfazowe</option>
           </PoleSelect>
@@ -169,7 +180,7 @@ export function FormularzRachunku({ segment }: { segment: Segment }) {
             inputMode="decimal"
             value={stan.mocUmownaKw}
             onChange={(e) => ustaw("mocUmownaKw", e.target.value)}
-            hint="C11/C12a/C12b do 40 kW, C21/C22a/C22b powyżej 40 kW."
+            pomoc={<PomocPola ekran="siec-rachunek" pole="mocUmowna" />}
           />
         )}
         <Pole
@@ -178,13 +189,13 @@ export function FormularzRachunku({ segment }: { segment: Segment }) {
           inputMode="numeric"
           value={stan.rok}
           onChange={(e) => ustaw("rok", e.target.value)}
-          hint="Stawki w aplikacji dotyczą 2026 r. Dla innego roku wpiszesz je z faktury."
+          pomoc={<PomocPola ekran="siec-rachunek" pole="rok" />}
         />
         <PoleSelect
           label="Okres rozliczeniowy"
           value={stan.okres}
           onChange={(e) => ustaw("okres", e.target.value as OkresRozliczeniowy)}
-          hint="Od niego zależy opłata abonamentowa. Prosument jest rozliczany co 1 miesiąc."
+          pomoc={<PomocPola ekran="siec-rachunek" pole="okres" />}
         >
           <option value="1">co 1 miesiąc</option>
           <option value="2">co 2 miesiące</option>
@@ -203,6 +214,7 @@ export function FormularzRachunku({ segment }: { segment: Segment }) {
                 inputMode="decimal"
                 value={stan.zuzycie[z] ?? ""}
                 onChange={(e) => ustawStrefe("zuzycie", z, e.target.value)}
+                pomoc={<PomocPola ekran="siec-rachunek" pole="zuzycieStrefy" />}
               />
               <Pole
                 label={`Cena energii — ${ETYKIETA_STREFY[z]}`}
@@ -211,6 +223,7 @@ export function FormularzRachunku({ segment }: { segment: Segment }) {
                 inputMode="decimal"
                 value={stan.ceny[z] ?? ""}
                 onChange={(e) => ustawStrefe("ceny", z, e.target.value)}
+                pomoc={<PomocPola ekran="siec-rachunek" pole="cenaStrefy" />}
               />
             </div>
           ))}
@@ -221,7 +234,7 @@ export function FormularzRachunku({ segment }: { segment: Segment }) {
             inputMode="decimal"
             value={stan.handlowa}
             onChange={(e) => ustaw("handlowa", e.target.value)}
-            hint="Wpisz 0, jeśli na fakturze jej nie ma."
+            pomoc={<PomocPola ekran="siec-rachunek" pole="handlowa" />}
           />
           {!g && (
             <Pole
@@ -231,7 +244,7 @@ export function FormularzRachunku({ segment }: { segment: Segment }) {
               inputMode="decimal"
               value={stan.energiaMocowa}
               onChange={(e) => ustaw("energiaMocowa", e.target.value)}
-              hint="Od niej liczona jest opłata mocowa firmy. Z faktury albo portalu pomiarowego OSD."
+              pomoc={<PomocPola ekran="siec-rachunek" pole="energiaMocowa" />}
             />
           )}
         </fieldset>
@@ -256,6 +269,7 @@ export function FormularzRachunku({ segment }: { segment: Segment }) {
                 inputMode="decimal"
                 value={stan.wlZmienna[z] ?? ""}
                 onChange={(e) => ustawStrefe("wlZmienna", z, e.target.value)}
+                pomoc={<PomocPola ekran="siec-rachunek" pole="siecZmienna" />}
               />
             ))}
             <Pole
@@ -265,6 +279,7 @@ export function FormularzRachunku({ segment }: { segment: Segment }) {
               inputMode="decimal"
               value={stan.wlStala}
               onChange={(e) => ustaw("wlStala", e.target.value)}
+              pomoc={<PomocPola ekran="siec-rachunek" pole="siecStala" />}
             />
             <Pole
               label="Opłata abonamentowa"
@@ -273,6 +288,7 @@ export function FormularzRachunku({ segment }: { segment: Segment }) {
               inputMode="decimal"
               value={stan.wlAbonament}
               onChange={(e) => ustaw("wlAbonament", e.target.value)}
+              pomoc={<PomocPola ekran="siec-rachunek" pole="abonament" />}
             />
             <Pole
               label="Stawka jakościowa"
@@ -281,6 +297,7 @@ export function FormularzRachunku({ segment }: { segment: Segment }) {
               inputMode="decimal"
               value={stan.wlJakosciowa}
               onChange={(e) => ustaw("wlJakosciowa", e.target.value)}
+              pomoc={<PomocPola ekran="siec-rachunek" pole="jakosciowa" />}
             />
             <Pole
               label="Opłata OZE"
@@ -289,6 +306,7 @@ export function FormularzRachunku({ segment }: { segment: Segment }) {
               inputMode="decimal"
               value={stan.wlOze}
               onChange={(e) => ustaw("wlOze", e.target.value)}
+              pomoc={<PomocPola ekran="siec-rachunek" pole="oze" />}
             />
             <Pole
               label="Opłata kogeneracyjna"
@@ -297,6 +315,7 @@ export function FormularzRachunku({ segment }: { segment: Segment }) {
               inputMode="decimal"
               value={stan.wlKogeneracyjna}
               onChange={(e) => ustaw("wlKogeneracyjna", e.target.value)}
+              pomoc={<PomocPola ekran="siec-rachunek" pole="kogeneracyjna" />}
             />
             <Pole
               label="Opłata mocowa"
@@ -305,6 +324,7 @@ export function FormularzRachunku({ segment }: { segment: Segment }) {
               inputMode="decimal"
               value={stan.wlMocowa}
               onChange={(e) => ustaw("wlMocowa", e.target.value)}
+              pomoc={<PomocPola ekran="siec-rachunek" pole="mocowa" />}
             />
           </fieldset>
         )}

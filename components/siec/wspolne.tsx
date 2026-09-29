@@ -7,6 +7,7 @@ import type { Status } from "@/lib/core/calc-result"
 import type { Warning } from "@/lib/core/calc-result"
 import type { WerdyktPoziom } from "@/components/werdykt"
 import { PoleSelect } from "@/components/ui/pole"
+import { PomocPola } from "@/components/ui/pomoc"
 import { cn } from "@/lib/utils"
 import type { Segment as SegmentSieci } from "@/lib/core/modules/siec/rachunek-za-prad/input"
 
@@ -72,11 +73,7 @@ export function PoleOsd({ value, onChange }: { value: OsdId; onChange: (v: OsdId
       label="Operator sieci (OSD)"
       value={value}
       onChange={(e) => onChange(e.target.value as OsdId)}
-      hint={
-        czyOsdMaStawki(value)
-          ? "Stawki dystrybucyjne 2026 są w aplikacji (odczyt taryfy OSD)."
-          : "Dla tego OSD aplikacja nie ma jeszcze stawek — wpiszesz je z faktury."
-      }
+      pomoc={<PomocPola ekran="siec-osd" pole="osd" />}
     >
       {DANE_ROZLICZEN.osd.map((o) => (
         <option key={o.id} value={o.id}>

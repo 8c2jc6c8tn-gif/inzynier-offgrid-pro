@@ -5,6 +5,7 @@ import { calculateMocBierna } from "@/lib/core/modules/siec/moc-bierna/calculato
 import { DANE_ROZLICZEN } from "@/lib/core/dane/rozliczenia-pl-2026"
 import { usePersistedDraft } from "@/lib/adapters/use-persisted-draft"
 import { Pole } from "@/components/ui/pole"
+import { PomocPola } from "@/components/ui/pomoc"
 import { WerdyktPanel } from "@/components/werdykt"
 import { NawigacjaEkranu } from "@/components/nawigacja-ekranu"
 import { NaglowekEkranu } from "@/components/wzorce/naglowek-ekranu"
@@ -58,7 +59,7 @@ export default function MocBiernaPage() {
   return (
     <main className="mx-auto flex max-w-md flex-col gap-6 p-6">
       <NawigacjaEkranu href="/kalkulatory/moc-bierna" />
-      <NaglowekEkranu tytul="Moc bierna — opłata i kompensacja">
+      <NaglowekEkranu tytul="Moc bierna — opłata i kompensacja" ekran="moc-bierna" wzor={result.formula}>
         Ile firma płaci za energię bierną ponad dopuszczalny tgφ₀ i czy opłaca się bateria kondensatorów. Wzór jak w
         taryfach OSD 2026 (z pierwiastkiem — wersja bez niego zawyża opłatę ok. dwukrotnie). M14 „Firma – sieć”, ekran F3.
       </NaglowekEkranu>
@@ -68,14 +69,21 @@ export default function MocBiernaPage() {
           Najpierw sprawdź, czy na fakturze masz pozycję za energię bierną. Na niskim napięciu dotyczy to tylko odbiorców, u
           których przewiduje to umowa.
         </p>
-        <Pole label="Zmierzony tgφ (średni)" type="number" inputMode="decimal" value={stan.tgFi} onChange={(e) => ustaw("tgFi", e.target.value)} />
+        <Pole
+          label="Zmierzony tgφ (średni)"
+          type="number"
+          inputMode="decimal"
+          value={stan.tgFi}
+          onChange={(e) => ustaw("tgFi", e.target.value)}
+          pomoc={<PomocPola ekran="moc-bierna" pole="tgPhi" />}
+        />
         <Pole
           label="tgφ₀ z umowy"
           type="number"
           inputMode="decimal"
           value={stan.tgFi0}
           onChange={(e) => ustaw("tgFi0", e.target.value)}
-          hint="Zwykle 0,4, chyba że umowa mówi inaczej — nigdy mniej niż 0,2."
+          pomoc={<PomocPola ekran="moc-bierna" pole="tgPhi0" />}
         />
         <Pole
           label="Energia czynna pobrana"
@@ -84,6 +92,7 @@ export default function MocBiernaPage() {
           inputMode="decimal"
           value={stan.energiaCzynna}
           onChange={(e) => ustaw("energiaCzynna", e.target.value)}
+          pomoc={<PomocPola ekran="moc-bierna" pole="energiaCzynna" />}
         />
         <Pole
           label="Cena C_rk"
@@ -92,7 +101,7 @@ export default function MocBiernaPage() {
           inputMode="decimal"
           value={stan.cRk}
           onChange={(e) => ustaw("cRk", e.target.value)}
-          hint="Cena ogłaszana przez Prezesa URE, z faktury za energię bierną — nie cena Twojej energii. Bez niej pokażemy tylko czynnik nadwyżki."
+          pomoc={<PomocPola ekran="moc-bierna" pole="crk" />}
         />
         <Pole
           label="Energia bierna pojemnościowa (opcjonalnie)"
@@ -101,6 +110,7 @@ export default function MocBiernaPage() {
           inputMode="decimal"
           value={stan.pojemnosciowa}
           onChange={(e) => ustaw("pojemnosciowa", e.target.value)}
+          pomoc={<PomocPola ekran="moc-bierna" pole="pojemnosciowa" />}
         />
         <h2 className="text-base font-medium">Kompensacja (opcjonalnie)</h2>
         <Pole
@@ -110,6 +120,7 @@ export default function MocBiernaPage() {
           inputMode="decimal"
           value={stan.moc}
           onChange={(e) => ustaw("moc", e.target.value)}
+          pomoc={<PomocPola ekran="moc-bierna" pole="mocSrednia" />}
         />
         <Pole
           label="Docelowy tgφ"
@@ -117,7 +128,7 @@ export default function MocBiernaPage() {
           inputMode="decimal"
           value={stan.tgFiCel}
           onChange={(e) => ustaw("tgFiCel", e.target.value)}
-          hint="Twój wybór — z zapasem poniżej tgφ₀."
+          pomoc={<PomocPola ekran="moc-bierna" pole="tgCel" />}
         />
         <Pole
           label="Koszt baterii kondensatorów"
@@ -126,6 +137,7 @@ export default function MocBiernaPage() {
           inputMode="decimal"
           value={stan.koszt}
           onChange={(e) => ustaw("koszt", e.target.value)}
+          pomoc={<PomocPola ekran="moc-bierna" pole="kosztBaterii" />}
         />
       </div>
 

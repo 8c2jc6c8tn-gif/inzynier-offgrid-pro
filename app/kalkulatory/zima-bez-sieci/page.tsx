@@ -31,7 +31,7 @@ export default function ZimaBezSieciPage() {
   return (
     <main className="mx-auto flex max-w-2xl flex-col gap-6 p-6">
       <NawigacjaEkranu href="/kalkulatory/zima-bez-sieci" />
-      <NaglowekEkranu tytul="Zima bez sieci">
+      <NaglowekEkranu tytul="Zima bez sieci" ekran="zima-bez-sieci" wzor={result?.formula}>
         Ta sama instalacja co na ekranie „Ile PV i magazynu”, ale bez sieci: czego zabraknie w grudniu i styczniu i kto to
         pokryje. M14 „Dom – sieć”, ekran D5.
       </NaglowekEkranu>
