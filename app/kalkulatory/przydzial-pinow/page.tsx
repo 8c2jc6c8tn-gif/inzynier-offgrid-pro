@@ -5,6 +5,7 @@ import { calculatePrzydzialPinow } from "@/lib/core/modules/esp32/przydzial-pino
 import type { FunkcjaPinu, PrzypisaniePinu } from "@/lib/core/modules/esp32/przydzial-pinow/input"
 import { usePersistedDraft } from "@/lib/adapters/use-persisted-draft"
 import { PoleCheckbox } from "@/components/ui/pole"
+import { PomocPola } from "@/components/ui/pomoc"
 import { WerdyktPanel } from "@/components/werdykt"
 import { NawigacjaEkranu } from "@/components/nawigacja-ekranu"
 import { NaglowekEkranu } from "@/components/wzorce/naglowek-ekranu"
@@ -46,7 +47,7 @@ export default function PrzydzialPinowPage() {
   return (
     <main className="mx-auto flex max-w-md flex-col gap-6 p-6">
       <NawigacjaEkranu href="/kalkulatory/przydzial-pinow" />
-      <NaglowekEkranu tytul="Przydział pinów GPIO">
+      <NaglowekEkranu tytul="Przydział pinów GPIO" ekran="przydzial-pinow" wzor={result.formula}>
         Zanim podłączysz kable, rozplanuj piny na mapie — inaczej zrobisz sobie plątaninę, którą trudno będzie rozplątać. Moduł
         9, Ekran 5.
       </NaglowekEkranu>
@@ -69,6 +70,7 @@ export default function PrzydzialPinowPage() {
                   className={`${pole} w-20`}
                   aria-label={`Numer GPIO — pin ${i + 1}`}
                 />
+                <PomocPola ekran="przydzial-pinow" pole="gpio" />
                 <select
                   value={p.funkcja}
                   onChange={(e) => aktualizuj(p.id, { funkcja: e.target.value as FunkcjaPinu })}
@@ -81,6 +83,7 @@ export default function PrzydzialPinowPage() {
                     </option>
                   ))}
                 </select>
+                <PomocPola ekran="przydzial-pinow" pole="funkcja" />
                 <input
                   placeholder="Opis"
                   value={p.opis}
@@ -88,6 +91,7 @@ export default function PrzydzialPinowPage() {
                   className={`${pole} min-w-24 flex-1`}
                   aria-label={`Opis — pin ${i + 1}`}
                 />
+                <PomocPola ekran="przydzial-pinow" pole="opis" />
                 <button
                   type="button"
                   onClick={() => setStan((prev) => ({ ...prev, piny: prev.piny.filter((x) => x.id !== p.id) }))}
@@ -109,12 +113,16 @@ export default function PrzydzialPinowPage() {
         </button>
       </div>
 
-      <PoleCheckbox
-        id="piny-wifi"
-        label="Wi-Fi aktywne podczas pomiarów"
-        checked={stan.wifiAktywne}
-        onChange={(e) => setStan((prev) => ({ ...prev, wifiAktywne: e.target.checked }))}
-      />
+      <div className="flex items-center gap-2">
+        <PoleCheckbox
+          id="piny-wifi"
+          className="flex-1"
+          label="Wi-Fi aktywne podczas pomiarów"
+          checked={stan.wifiAktywne}
+          onChange={(e) => setStan((prev) => ({ ...prev, wifiAktywne: e.target.checked }))}
+        />
+        <PomocPola ekran="przydzial-pinow" pole="wifi" />
+      </div>
 
       {result.status === "INVALID_INPUT" ? (
         <WerdyktPanel poziom="blad" etykieta="Nie da się ocenić — sprawdź wpisane dane">

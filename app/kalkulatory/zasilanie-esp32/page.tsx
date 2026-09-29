@@ -5,6 +5,7 @@ import { calculateZasilanieEsp32 } from "@/lib/core/modules/esp32/zasilanie-esp3
 import type { SposobZasilania, ZasilanieEsp32Input } from "@/lib/core/modules/esp32/zasilanie-esp32/input"
 import { usePersistedDraft } from "@/lib/adapters/use-persisted-draft"
 import { Pole, PoleSelect } from "@/components/ui/pole"
+import { PomocPola } from "@/components/ui/pomoc"
 import { WerdyktPanel } from "@/components/werdykt"
 import { NawigacjaEkranu } from "@/components/nawigacja-ekranu"
 import { NaglowekEkranu } from "@/components/wzorce/naglowek-ekranu"
@@ -25,12 +26,12 @@ const STAN_POCZATKOWY: FormularzStan = {
   sprawnoscPct: "",
 }
 
-const POLA: { pole: PoleLiczbowe; label: string; unit: string; hint?: string }[] = [
-  { pole: "napiecieMagistraliV", label: "Napięcie magistrali (nominalne)", unit: "V", hint: "12, 24 albo 48 V." },
-  { pole: "napiecieMagistraliMaxV", label: "Najwyższe napięcie magistrali", unit: "V", hint: "Przy ładowaniu — np. dla LiFePO4 48 V ok. 58 V. Puste = nominalne." },
+const POLA: { pole: PoleLiczbowe; label: string; unit: string }[] = [
+  { pole: "napiecieMagistraliV", label: "Napięcie magistrali (nominalne)", unit: "V" },
+  { pole: "napiecieMagistraliMaxV", label: "Najwyższe napięcie magistrali", unit: "V" },
   { pole: "poborMocyW", label: "Pobór ESP32 + czujników", unit: "W" },
-  { pole: "napiecieWyjscioweV", label: "Napięcie wyjściowe przetwornicy", unit: "V", hint: "5 V albo 3,3 V." },
-  { pole: "napiecieWejscioweMaxV", label: "Maks. napięcie wejściowe przetwornicy", unit: "V", hint: "Z karty katalogowej przetwornicy." },
+  { pole: "napiecieWyjscioweV", label: "Napięcie wyjściowe przetwornicy", unit: "V" },
+  { pole: "napiecieWejscioweMaxV", label: "Maks. napięcie wejściowe przetwornicy", unit: "V" },
   { pole: "pradWyjsciowyMaxA", label: "Maks. prąd wyjściowy przetwornicy", unit: "A" },
   { pole: "sprawnoscPct", label: "Sprawność przetwornicy", unit: "%" },
 ]
@@ -54,7 +55,7 @@ export default function ZasilanieEsp32Page() {
   return (
     <main className="mx-auto flex max-w-md flex-col gap-6 p-6">
       <NawigacjaEkranu href="/kalkulatory/zasilanie-esp32" />
-      <NaglowekEkranu tytul="Zasilanie ESP32 z magistrali">
+      <NaglowekEkranu tytul="Zasilanie ESP32 z magistrali" ekran="zasilanie-esp32" wzor={result.formula}>
         ESP32 potrzebuje 5 V albo 3,3 V — przetwornica to jego osobisty zasilacz, dopasowany do napięcia magistrali. Moduł 9,
         Ekran 2.
       </NaglowekEkranu>
@@ -64,13 +65,14 @@ export default function ZasilanieEsp32Page() {
           label="Jak zasilasz ESP32?"
           value={stan.sposob}
           onChange={(e) => setStan((prev) => ({ ...prev, sposob: e.target.value as FormularzStan["sposob"] }))}
+          pomoc={<PomocPola ekran="zasilanie-esp32" pole="sposob" />}
         >
           <option value="">— wybierz —</option>
           <option value="przetwornica">Przez przetwornicę step-down</option>
           <option value="bezposrednio">Bezpośrednio z magistrali</option>
         </PoleSelect>
         {stan.sposob === "przetwornica" &&
-          POLA.map(({ pole, label, unit, hint }) => (
+          POLA.map(({ pole, label, unit }) => (
             <Pole
               key={pole}
               label={label}
@@ -80,7 +82,7 @@ export default function ZasilanieEsp32Page() {
               min={0}
               value={stan[pole]}
               onChange={(e) => setStan((prev) => ({ ...prev, [pole]: e.target.value }))}
-              hint={hint}
+              pomoc={<PomocPola ekran="zasilanie-esp32" pole={pole} />}
             />
           ))}
       </div>
