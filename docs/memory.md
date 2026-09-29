@@ -8391,3 +8391,17 @@ Tryb Audyt (czapka rewidenta). Warstwa „w pełni na końcu” z N.2 — wszyst
   w JSON. (2) Każdy kod w odwrotnych apostrofach w rejestrze liczy się jako wpis — przykład w tekście opisowym
   (`` `PARA-POZA-ZAKRESEM` ``) od razu dał konflikt „i w rejestrze, i w wyjątkach”; w prozie rejestru nie cytować kodów,
   które nie są stopami.
+
+## 8.4b — „i” z założeniami i panel od dołu na telefonie (29.09.2026, wieczór)
+
+- `MigawkaInfo`/`NaglowekEkranu`: prop `wzor` zastąpiony przez `wynik` (`Partial<Pick<CalcResult, "formula" |
+  "assumptions">>`, może być `null` przed obliczeniem) — zakładka „Fizyka” pokazuje wzór i założenia bieżącego wyniku.
+  Założenia renderuje **jeden** komponent `components/zalozenia-lista.tsx` (pod wynikiem przez `WynikSzczegoly` i w „i”).
+  Nowy ekran z wynikiem: `wynik={result}` w `NaglowekEkranu`, nie osobne pola.
+- `Chmurka` (`components/ui/chmurka.tsx`) na szerokości < 640 px renderuje Base UI `Drawer` (panel od dołu) zamiast
+  `Popover` — dotyczy „?” i „i” (8.4b: „oba otwierają się tak samo”). Hook `useTelefon` na `useSyncExternalStore` +
+  `matchMedia`; `unstable-use-media-query` z Base UI celowo nie użyty (API niestabilne). Serwer renderuje wariant desktop.
+- **Pułapka weryfikacji:** zrzut ekranu tuż po dotknięciu łapie panel w trakcie animacji (wygląda, jakby się nie
+  otworzył), a współrzędne elementów z tego zrzutu są przesunięte — sprawdzać `[role=dialog]` w DOM i klikać po `ref`.
+- Worktree bez własnego `node_modules` uruchamia vitest z katalogu nadrzędnego (rozwiązywanie modułów w górę drzewa),
+  ale `pnpm typecheck` pada („tsc: not found”) — w nowym worktree najpierw `pnpm install --frozen-lockfile`.

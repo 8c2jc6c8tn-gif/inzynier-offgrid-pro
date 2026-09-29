@@ -54,7 +54,7 @@ export default function BojlerCwuPage() {
   return (
     <main className="mx-auto flex max-w-md flex-col gap-6 p-6">
       <NawigacjaEkranu href="/kalkulatory/bojler-cwu" />
-      <NaglowekEkranu tytul="Inteligentny bojler C.W.U." ekran="bojler-cwu" wzor={result.formula}>
+      <NaglowekEkranu tytul="Inteligentny bojler C.W.U." ekran="bojler-cwu" wynik={result}>
         Bojler to jeden z największych „elastycznych” odbiorników w domu — dobowe zapotrzebowanie
         na energię i czas potrzebny na jego naładowanie, żeby zaplanować grzanie w oknie
         produkcji PV. Moduł 2, Ekran 2.

@@ -53,7 +53,7 @@ export default function ProfilAstronomicznyPage() {
       <NaglowekEkranu
         tytul="Profil dobowy + astronomiczny dzień/noc"
         ekran="profil-astronomiczny"
-        wzor={result.formula}
+        wynik={result}
       >
         Profil dobowy to nie tylko „kiedy używasz najwięcej prądu” — to też kiedy jest ciemno, bo
         od tego zależy, jak długo pracują urządzenia świecące, a to zmienia się drastycznie między

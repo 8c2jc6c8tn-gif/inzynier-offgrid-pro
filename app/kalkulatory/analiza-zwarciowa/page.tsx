@@ -78,7 +78,7 @@ export default function AnalizaZwarciowaPage() {
   return (
     <main className="mx-auto flex max-w-md flex-col gap-6 p-6">
       <NawigacjaEkranu href="/kalkulatory/analiza-zwarciowa" />
-      <NaglowekEkranu tytul="Analiza zwarciowa" ekran="analiza-zwarciowa" wzor={result.formula}>
+      <NaglowekEkranu tytul="Analiza zwarciowa" ekran="analiza-zwarciowa" wynik={result}>
         Zwarcie to jak wybuch — trzeba wiedzieć, ile energii popłynie, zanim bezpiecznik zdąży
         przerwać obwód. Moduł 5, Ekran 12 — punkt odniesienia dla doboru bezpieczników,
         wyłączników DC i selektywności w innych ekranach tego modułu.

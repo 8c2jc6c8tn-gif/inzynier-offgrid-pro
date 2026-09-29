@@ -51,7 +51,7 @@ export default function PrzetworniceDcdcPage() {
   return (
     <main className="mx-auto flex max-w-md flex-col gap-6 p-6">
       <NawigacjaEkranu href="/kalkulatory/przetwornice-dcdc" />
-      <NaglowekEkranu tytul="Przetwornice DC/DC" ekran="przetwornice-dcdc" wzor={result.formula}>
+      <NaglowekEkranu tytul="Przetwornice DC/DC" ekran="przetwornice-dcdc" wynik={result}>
         Każda zmiana napięcia kosztuje trochę energii — czasem warto zasilić urządzenie
         bezpośrednio z magistrali w jego natywnym napięciu, zamiast przepuszczać prąd przez
         dodatkową przetwornicę. Moduł 2, Ekran 11.

@@ -48,7 +48,7 @@ export default function RyzykoNiskiegoNapieciaPage() {
   return (
     <main className="mx-auto flex max-w-md flex-col gap-6 p-6">
       <NawigacjaEkranu href="/kalkulatory/ryzyko-niskiego-napiecia" />
-      <NaglowekEkranu tytul="Ryzyko wyłączenia pompy przy niskim napięciu" ekran="ryzyko-niskiego-napiecia" wzor={result.formula}>
+      <NaglowekEkranu tytul="Ryzyko wyłączenia pompy przy niskim napięciu" ekran="ryzyko-niskiego-napiecia" wynik={result}>
         Niskie napięcie to cichy zabójca pomp — nie zepsuje się od razu, po prostu przestanie
         działać dokładnie wtedy, gdy jest najbardziej potrzebna. Moduł 6, ekran dodatkowy (dawne
         5.63).

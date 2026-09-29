@@ -47,7 +47,7 @@ export default function AwariaStringaZimaPage() {
   return (
     <main className="mx-auto flex max-w-md flex-col gap-6 p-6">
       <NawigacjaEkranu href="/kalkulatory/awaria-stringa-zima" />
-      <NaglowekEkranu tytul="Awaria stringa PV zimą" ekran="awaria-stringa-zima" wzor={result.formula}>
+      <NaglowekEkranu tytul="Awaria stringa PV zimą" ekran="awaria-stringa-zima" wynik={result}>
         Jeden chory string, który latem byłby drobnym problemem, w styczniu może oznaczać, że dom nie przetrwa nocy bez
         agregatu. Moduł 7, Ekran 26.
       </NaglowekEkranu>

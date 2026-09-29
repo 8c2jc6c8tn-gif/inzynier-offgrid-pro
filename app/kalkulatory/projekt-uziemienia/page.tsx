@@ -77,7 +77,7 @@ export default function ProjektUziemieniaPage() {
   return (
     <main className="mx-auto flex max-w-md flex-col gap-6 p-6">
       <NawigacjaEkranu href="/kalkulatory/projekt-uziemienia" />
-      <NaglowekEkranu tytul="Projekt uziemienia" ekran="projekt-uziemienia" wzor={result.formula}>
+      <NaglowekEkranu tytul="Projekt uziemienia" ekran="projekt-uziemienia" wynik={result}>
         Ziemia to kabel — jeśli jest „za cienki” (za mała powierzchnia styku), prąd zwarciowy nie
         ucieknie skutecznie i może wrócić do ciebie. Moduł 5, Ekran 9.
       </NaglowekEkranu>

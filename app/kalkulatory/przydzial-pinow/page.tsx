@@ -47,7 +47,7 @@ export default function PrzydzialPinowPage() {
   return (
     <main className="mx-auto flex max-w-md flex-col gap-6 p-6">
       <NawigacjaEkranu href="/kalkulatory/przydzial-pinow" />
-      <NaglowekEkranu tytul="Przydział pinów GPIO" ekran="przydzial-pinow" wzor={result.formula}>
+      <NaglowekEkranu tytul="Przydział pinów GPIO" ekran="przydzial-pinow" wynik={result}>
         Zanim podłączysz kable, rozplanuj piny na mapie — inaczej zrobisz sobie plątaninę, którą trudno będzie rozplątać. Moduł
         9, Ekran 5.
       </NaglowekEkranu>

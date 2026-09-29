@@ -66,7 +66,7 @@ export default function ZamkiDrzwiEwakuacyjnychPage() {
   return (
     <main className="mx-auto flex max-w-md flex-col gap-6 p-6">
       <NawigacjaEkranu href="/kalkulatory/zamki-drzwi-ewakuacyjnych" />
-      <NaglowekEkranu tytul="Zamki drzwi ewakuacyjnych" ekran="zamki-drzwi-ewakuacyjnych" wzor={result.formula}>
+      <NaglowekEkranu tytul="Zamki drzwi ewakuacyjnych" ekran="zamki-drzwi-ewakuacyjnych" wynik={result}>
         W pożarze nie może być zablokowanych drzwi — dobra zasada projektowa to „fail-safe”: brak prądu = drzwi otwarte,
         nigdy odwrotnie. Moduł 8, Ekran 3.
       </NaglowekEkranu>

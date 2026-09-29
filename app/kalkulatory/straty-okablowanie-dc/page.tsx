@@ -61,7 +61,7 @@ export default function StratyOkablowanieDcPage() {
       <NaglowekEkranu
         tytul="Straty na okablowaniu DC"
         ekran="straty-okablowanie-dc"
-        wzor={result.formula}
+        wynik={result}
         parametry={{ cel: CEL_STRATY_MAX_PCT }}
       >
         Prąd płynący kablem zawsze trochę „grzeje” po drodze — to normalne, ale zbyt cienki kabel

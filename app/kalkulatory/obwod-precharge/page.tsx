@@ -50,7 +50,7 @@ export default function ObwodPrechargePage() {
   return (
     <main className="mx-auto flex max-w-md flex-col gap-6 p-6">
       <NawigacjaEkranu href="/kalkulatory/obwod-precharge" />
-      <NaglowekEkranu tytul="Obwód Pre-Charge" ekran="obwod-precharge" wzor={result.formula}>
+      <NaglowekEkranu tytul="Obwód Pre-Charge" ekran="obwod-precharge" wynik={result}>
         Kondensatory falownika w pierwszej chwili zachowują się jak zwarcie — pre-charge to
         łagodne „obudzenie” ich prądem, zanim puścisz pełną moc. Moduł 4, Ekran 7.
       </NaglowekEkranu>

@@ -60,7 +60,7 @@ export default function OchronaOdwrotnaPolaryzacjaPage() {
       <NaglowekEkranu
         tytul="Ochrona przed odwrotną polaryzacją"
         ekran="ochrona-odwrotna-polaryzacja"
-        wzor={result.formula}
+        wynik={result}
       >
         Plus z minusem to jak ogień z benzyną. Zabezpieczenie to blokada, która nie pozwala na
         pomyłkę. Moduł 5, Ekran 15.

@@ -1377,4 +1377,7 @@ export const dictionaryRu = {
   "MIGAWKA-UI-JAK-DZIALA": "Как это считается",
   "MIGAWKA-UI-PO-CO": "Зачем это",
   "MIGAWKA-UI-WZOR": "Формула",
+  "MIGAWKA-UI-ZALOZENIA": "Допущения текущего результата",
+  "POMOC-UI-ZAMKNIJ": "Закрыть",
+  "WYNIK-UI-ZALOZENIE": "Допущение",
 } satisfies Record<KluczTlumaczenia, string>

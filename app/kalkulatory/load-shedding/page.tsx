@@ -59,7 +59,7 @@ export default function LoadSheddingPage() {
       <NaglowekEkranu
         tytul="Macierz priorytetów odłączania"
         ekran="load-shedding"
-        wzor={result.formula}
+        wynik={result}
         parametry={{ prog2: PROG_ODLACZENIA_PRIORYTET_2_SOC_PCT, prog3: PROG_ODLACZENIA_PRIORYTET_3_SOC_PCT }}
       >
         To jest system, który sam decyduje, co poświęcić, zanim Ty musiałbyś to robić ręcznie w

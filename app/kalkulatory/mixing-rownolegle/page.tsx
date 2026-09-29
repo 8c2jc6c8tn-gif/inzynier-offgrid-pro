@@ -106,7 +106,7 @@ export default function MixingRownoleglePage() {
       <NaglowekEkranu
         tytul="Łączenie równoległe różnych baterii (Mixing)"
         ekran="mixing-rownolegle"
-        wzor={result.formula}
+        wynik={result}
         parametry={{ progRoznicy: PROG_ROZNICY_NAPIEC_V }}
       >
         To jak zaprzęgnięcie konia pociągowego z kucykiem do tego samego wozu — jeden ciągnie

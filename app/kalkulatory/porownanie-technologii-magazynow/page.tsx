@@ -60,7 +60,7 @@ export default function PorownanieTechnologiiMagazynowPage() {
       <NaglowekEkranu
         tytul="Porównanie technologii magazynów"
         ekran="porownanie-technologii-magazynow"
-        wzor={result.formula}
+        wynik={result}
       >
         Cena zakupu to nie to samo co koszt w całym cyklu życia — trzeba doliczyć wagę
         (konstrukcja podłogi), obsługę i realną liczbę cykli. Moduł 4, Ekran 30.

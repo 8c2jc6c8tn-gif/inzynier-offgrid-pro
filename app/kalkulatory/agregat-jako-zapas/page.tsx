@@ -64,7 +64,7 @@ export default function AgregatJakoZapasPage() {
   return (
     <main className="mx-auto flex max-w-md flex-col gap-6 p-6">
       <NawigacjaEkranu href="/kalkulatory/agregat-jako-zapas" />
-      <NaglowekEkranu tytul={t("UI-AGZ-TYTUL")} ekran="agregat-jako-zapas" wzor={result.formula}>
+      <NaglowekEkranu tytul={t("UI-AGZ-TYTUL")} ekran="agregat-jako-zapas" wynik={result}>
         {t("UI-AGZ-OPIS")}
       </NaglowekEkranu>
 

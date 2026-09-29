@@ -45,7 +45,7 @@ export default function GestoscElektrolituPage() {
       <NawigacjaEkranu href="/kalkulatory/gestosc-elektrolitu" />
       <NaglowekEkranu
         tytul="Test pojemności i gęstości elektrolitu"
-        ekran="gestosc-elektrolitu"
+        ekran="gestosc-elektrolitu" wynik={result}
         parametry={{ pelny: GESTOSC_PELNY_G_CM3, polowa: GESTOSC_POLOWA_G_CM3, rozladowany: GESTOSC_ROZLADOWANY_G_CM3 }}
       >
         Gęstość elektrolitu to bezpośredni wskaźnik stanu naładowania akumulatora kwasowego — to

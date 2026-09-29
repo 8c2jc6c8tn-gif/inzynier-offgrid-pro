@@ -79,7 +79,7 @@ export default function StringBoxPage() {
       <NawigacjaEkranu href="/kalkulatory/string-box" />
       <NaglowekEkranu
         tytul="String Box / Array Box"
-        ekran="string-box"
+        ekran="string-box" wynik={result}
         parametry={{ bezpMin: BEZPIECZNIK_STRINGOWY_MIN_A, bezpMax: BEZPIECZNIK_STRINGOWY_MAX_A }}
       >
         String box to węzeł, w którym kable z paneli spotykają się w uporządkowany sposób — bez

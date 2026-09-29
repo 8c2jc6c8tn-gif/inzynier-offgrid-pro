@@ -32,7 +32,7 @@ export default function PoborWlasnyFalownikaPage() {
   return (
     <main className="mx-auto flex max-w-md flex-col gap-6 p-6">
       <NawigacjaEkranu href="/kalkulatory/pobor-wlasny-falownika" />
-      <NaglowekEkranu tytul="Pobór własny falownika" ekran="pobor-wlasny-falownika" wzor={result.formula}>
+      <NaglowekEkranu tytul="Pobór własny falownika" ekran="pobor-wlasny-falownika" wynik={result}>
         Falownik sam w sobie coś zużywa, tylko żeby być gotowym do pracy — to niewidoczny, ale
         realny koszt stały, o którym łatwo zapomnieć przy liczeniu bilansu. Moduł 2, Ekran 9.
       </NaglowekEkranu>

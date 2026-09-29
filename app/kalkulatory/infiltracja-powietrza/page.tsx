@@ -53,7 +53,7 @@ export default function InfiltracjaPowietrzaPage() {
   return (
     <main className="mx-auto flex max-w-md flex-col gap-6 p-6">
       <NawigacjaEkranu href="/kalkulatory/infiltracja-powietrza" />
-      <NaglowekEkranu tytul="Infiltracja powietrza (test szczelności)" ekran="infiltracja-powietrza" wzor={result.formula}>
+      <NaglowekEkranu tytul="Infiltracja powietrza (test szczelności)" ekran="infiltracja-powietrza" wynik={result}>
         Szpary w budynku to darmowa wentylacja, ale zimą płacisz za nią ciepłem — lepiej mieć
         kontrolowaną wymianę powietrza niż przypadkową. Moduł 6, Ekran 12.
       </NaglowekEkranu>

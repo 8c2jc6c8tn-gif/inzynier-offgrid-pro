@@ -141,7 +141,7 @@ export default function DemontazPakietuPage() {
   return (
     <main className="mx-auto flex max-w-md flex-col gap-6 p-6">
       <NawigacjaEkranu href="/kalkulatory/demontaz-pakietu" />
-      <NaglowekEkranu tytul="Demontaż pakietu" ekran="demontaz-pakietu" wzor={result.formula}>
+      <NaglowekEkranu tytul="Demontaż pakietu" ekran="demontaz-pakietu" wynik={result}>
         Ta kolejność nie jest sugestią — to dokładna odwrotność kolejności montażu, i każde
         odstępstwo zwiększa ryzyko zwarcia w rękach. {WYMAGANE_WYPOSAZENIE} Moduł 11, Ekran A6.
       </NaglowekEkranu>

@@ -80,7 +80,7 @@ export default function DoborIzolacjiKablaPage() {
       <NaglowekEkranu
         tytul="Dobór izolacji kabla do warunków montażu"
         ekran="dobor-izolacji-kabla"
-        wzor={result.formula}
+        wynik={result}
       >
         Izolacja to skóra kabla — musi być dobrana do pogody i miejsca, inaczej pęka i puszcza
         wilgoć. Moduł 5, Ekran 28.

@@ -71,7 +71,7 @@ export default function PanelDoStacjiZasilaniaPage() {
       <NaglowekEkranu
         tytul="Łączenie paneli ze stacją zasilania / powerbankiem"
         ekran="panel-do-stacji-zasilania"
-        wzor={result.formula}
+        wynik={result}
       >
         Stacje zasilania mają niższe limity wejścia niż profesjonalne regulatory MPPT — panel dobrany pod „dorosłą”
         instalację łatwo je uszkodzi, zwłaszcza w mrozie. Moduł 12.

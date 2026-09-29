@@ -55,7 +55,7 @@ export default function SlabeOgniwoPage() {
       <NaglowekEkranu
         tytul="Symulacja Słabego Ogniwa (Cell Drift & Balancing)"
         ekran="slabe-ogniwo"
-        wzor={result.formula}
+        wynik={result}
       >
         To jak pociągnięcie za hamulec w całym pociągu, bo jeden wagon się zepsuł — jedno słabe
         ogniwo ogranicza cały pakiet. Moduł 4, Ekran 8.

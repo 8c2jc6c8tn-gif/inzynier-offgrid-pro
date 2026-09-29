@@ -117,7 +117,7 @@ export default function DopasowanieTablicyFalownikaPage() {
       <NaglowekEkranu
         tytul="Dopasowanie tablicy PV do falownika"
         ekran="dopasowanie-tablicy-falownika"
-        wzor={result.formula}
+        wynik={result}
         parametry={{ dcacMin: DC_AC_RATIO_ZALECANE_MIN, dcacMax: DC_AC_RATIO_ZALECANE_MAX }}
       >
         Nie wystarczy sprawdzić jednego parametru — falownik i panele muszą pasować do siebie na

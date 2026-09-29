@@ -56,7 +56,7 @@ export default function ChlodzenieLatemPage() {
       <NawigacjaEkranu href="/kalkulatory/chlodzenie-latem" />
       <NaglowekEkranu
         tytul="Chłodzenie baterii latem"
-        ekran="chlodzenie-latem"
+        ekran="chlodzenie-latem" wynik={result}
         parametry={{ tMin: ZAKRES_PRACY_MIN_C, tMax: ZAKRES_PRACY_MAX_C }}
       >
         Bateria to nie piec — wysoka temperatura nie tylko chwilowo obniża wydajność, ale trwale

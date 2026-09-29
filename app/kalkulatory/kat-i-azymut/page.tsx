@@ -138,7 +138,7 @@ export default function KatIAzymutPage() {
   return (
     <main className="mx-auto flex max-w-2xl flex-col gap-6 p-6">
       <NawigacjaEkranu href="/kalkulatory/kat-i-azymut" />
-      <NaglowekEkranu tytul="Kąt pochylenia i azymut" ekran="kat-i-azymut" wzor={result.formula}>
+      <NaglowekEkranu tytul="Kąt pochylenia i azymut" ekran="kat-i-azymut" wynik={result}>
         Ile słońca złapią panele w każdym miesiącu przy wybranym kącie i kierunku — policzone z godzinowych danych
         PVGIS dla Twojej lokalizacji. Dla stelaża z regulacją: najlepszy kąt na każdy miesiąc. Moduł 3, Ekran 1.
       </NaglowekEkranu>

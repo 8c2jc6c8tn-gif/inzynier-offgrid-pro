@@ -56,7 +56,7 @@ export default function MocUmownaPage() {
   return (
     <main className="mx-auto flex max-w-md flex-col gap-6 p-6">
       <NawigacjaEkranu href="/kalkulatory/moc-umowna" />
-      <NaglowekEkranu tytul="Moc umowna — przekroczenia i optymalny poziom" ekran="moc-umowna" wzor={result.formula}>
+      <NaglowekEkranu tytul="Moc umowna — przekroczenia i optymalny poziom" ekran="moc-umowna" wynik={result}>
         Ile kosztują przekroczenia mocy umownej i przy jakiej mocy umownej suma opłaty stałej i przekroczeń jest najniższa.
         Zasady opłaty jak w taryfach OSD 2026. M14 „Firma – sieć”, ekran F4.
       </NaglowekEkranu>

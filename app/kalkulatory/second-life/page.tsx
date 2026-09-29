@@ -85,7 +85,7 @@ export default function SecondLifePage() {
       <NaglowekEkranu
         tytul="Analiza Second-Life (baterie z EV)"
         ekran="second-life"
-        wzor={result.formula}
+        wynik={result}
         parametry={{ degRok: DEGRADACJA_ROCZNA_PCT, degKm: DEGRADACJA_NA_10000KM_PCT }}
       >
         Kupujesz kota w worku — bateria z rozbiórki EV może być świetną okazją albo drogim

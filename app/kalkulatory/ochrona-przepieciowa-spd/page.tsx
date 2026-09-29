@@ -89,7 +89,7 @@ export default function OchronaPrzepieciowaSpdPage() {
       <NaglowekEkranu
         tytul="Ochrona przeciwprzepięciowa (SPD)"
         ekran="ochrona-przepieciowa-spd"
-        wzor={result.formula}
+        wynik={result}
         parametry={{ marginesUc: WSPOLCZYNNIK_MARGINESU_UC, minOdleglosc: MIN_ODLEGLOSC_OD_ZWODU_M }}
       >
         Piorun nie musi trafić w panel — wystarczy, że uderzy w pobliżu, a w kablach indukuje się

@@ -50,7 +50,7 @@ export default function DepozytProsumenckiPage() {
       <NaglowekEkranu
         tytul="Net-metering, net-billing, depozyt — co tracę, odchodząc"
         ekran="depozyt-prosumencki"
-        wzor={result.formula}
+        wynik={result}
       >
         Jak rozliczana jest energia oddana do sieci i co dzieje się z depozytem, gdy rezygnujesz z umowy. M14 „Dom – sieć”,
         ekran D8.

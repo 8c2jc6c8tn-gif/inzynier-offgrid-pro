@@ -1,6 +1,7 @@
 "use client"
 
 import type { Assumption, Warning } from "@/lib/core/calc-result"
+import { ZalozeniaLista } from "@/components/zalozenia-lista"
 import { useTranslate } from "@/lib/i18n/language-context"
 
 /**
@@ -24,23 +25,13 @@ export function WynikSzczegoly({
 }) {
   const t = useTranslate()
 
-  function tekstZalozenia(a: Assumption): string {
-    return typeof a === "string" ? a : t(a.kod, a.params)
-  }
-
   function tekstOstrzezenia(w: Warning): string {
     return w.message ?? t(w.i18nKey ?? w.code, w.params)
   }
 
   return (
     <>
-      {assumptions.length > 0 && (
-        <ul className="mt-2 text-small opacity-90">
-          {assumptions.map((a, i) => (
-            <li key={typeof a === "string" ? a : a.kod + i}>Założenie: {tekstZalozenia(a)}</li>
-          ))}
-        </ul>
-      )}
+      {assumptions.length > 0 && <ZalozeniaLista assumptions={assumptions} className="mt-2 text-small text-inherit opacity-90" />}
 
       {warnings && warnings.length > 0 && (
         <ul className="mt-2 space-y-1 text-small">

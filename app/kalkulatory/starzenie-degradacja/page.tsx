@@ -81,7 +81,7 @@ export default function StarzenieDegradacjaPage() {
   return (
     <main className="mx-auto flex max-w-md flex-col gap-6 p-6">
       <NawigacjaEkranu href="/kalkulatory/starzenie-degradacja" />
-      <NaglowekEkranu tytul="Starzenie i degradacja ogniw" ekran="starzenie-degradacja" wzor={result.formula}>
+      <NaglowekEkranu tytul="Starzenie i degradacja ogniw" ekran="starzenie-degradacja" wynik={result}>
         Kupujesz baterię nie na dziś, tylko na cały okres jej życia — trzeba od razu doliczyć
         zapas na to, że będzie „słabnąć”. Moduł 4, Ekran 6.
       </NaglowekEkranu>

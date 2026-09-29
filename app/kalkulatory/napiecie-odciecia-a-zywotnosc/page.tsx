@@ -49,7 +49,7 @@ export default function NapiecieOdcieciaAZywotnoscPage() {
       <NaglowekEkranu
         tytul="Napięcie odcięcia vs żywotność"
         ekran="napiecie-odciecia-a-zywotnosc"
-        wzor={result.formula}
+        wynik={result}
         parametry={{ vMin: KALIBRACJA_NAPIECIE_OGNIWO_MIN_V, vMax: KALIBRACJA_NAPIECIE_OGNIWO_MAX_V }}
       >
         Nie wyciskaj baterii do ostatniej kropli — pozostawienie małego zapasu (wyższe napięcie

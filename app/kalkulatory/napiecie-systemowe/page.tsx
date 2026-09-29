@@ -287,7 +287,7 @@ export default function NapiecieSystemowePage() {
       <NaglowekEkranu
         tytul="Doradca doboru napięcia systemowego"
         ekran="napiecie-systemowe"
-        wzor={result.formula}
+        wynik={result}
         parametry={{ prog12: PROG_12V_MAX_W, prog48: PROG_48V_MIN_W }}
       >
         Nie wybieramy napięcia na podstawie ceny BMS-a — wybieramy je na podstawie maksymalnego

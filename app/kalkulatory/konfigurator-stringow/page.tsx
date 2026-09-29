@@ -84,7 +84,7 @@ export default function KonfiguratorStringowPage() {
   return (
     <main className="mx-auto flex max-w-md flex-col gap-6 p-6">
       <NawigacjaEkranu href="/kalkulatory/konfigurator-stringow" />
-      <NaglowekEkranu tytul="Konfigurator stringów" ekran="konfigurator-stringow" wzor={result.formula}>
+      <NaglowekEkranu tytul="Konfigurator stringów" ekran="konfigurator-stringow" wynik={result}>
         Szereg dodaje napięcia, równoległe dodaje prądy — to jak łączenie ogniw latarki: jedna za
         drugą (szereg) albo obok siebie (równolegle). Moduł 3, Ekran 11.
       </NaglowekEkranu>

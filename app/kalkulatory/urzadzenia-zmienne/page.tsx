@@ -87,7 +87,7 @@ export default function UrzadzeniaZmiennePage() {
       <NaglowekEkranu
         tytul="Urządzenia zmienne i klasa energetyczna"
         ekran="urzadzenia-zmienne"
-        wzor={result.formula}
+        wynik={result}
         parametry={{ nowoczesne: MNOZNIK_KLASY.nowoczesne, standardowe: MNOZNIK_KLASY.standardowe, stare: MNOZNIK_KLASY.stare }}
       >
         Stare urządzenia to nie tylko wyższy rachunek za prąd w sieci — w off-gridzie to też

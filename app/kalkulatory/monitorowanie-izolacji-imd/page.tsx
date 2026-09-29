@@ -61,7 +61,7 @@ export default function MonitorowanieIzolacjiImdPage() {
       <NaglowekEkranu
         tytul="Monitorowanie izolacji (IMD)"
         ekran="monitorowanie-izolacji-imd"
-        wzor={result.formula}
+        wynik={result}
         parametry={{ progPrzyklad: PRZYKLADOWY_PROG_ALARMU_KOM }}
       >
         W układzie IT nie ma bezpośredniego uziemienia, więc pierwsze doziemienie nie wyłączy

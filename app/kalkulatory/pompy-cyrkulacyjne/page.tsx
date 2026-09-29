@@ -56,7 +56,7 @@ export default function PompyCyrkulacyjnePage() {
   return (
     <main className="mx-auto flex max-w-md flex-col gap-6 p-6">
       <NawigacjaEkranu href="/kalkulatory/pompy-cyrkulacyjne" />
-      <NaglowekEkranu tytul="Pompy cyrkulacyjne — dobór" ekran="pompy-cyrkulacyjne" wzor={result.formula}>
+      <NaglowekEkranu tytul="Pompy cyrkulacyjne — dobór" ekran="pompy-cyrkulacyjne" wynik={result}>
         W off-gridzie pompy cyrkulacyjne to cisi złodzieje energii — pracują 24/7 i łatwo je
         zlekceważyć, a różnica między starym a nowym modelem to realne kilowatogodziny dziennie.
         Moduł 6, Ekran 15.

@@ -65,7 +65,7 @@ export default function StrategiaZamarzaniePage() {
       <NaglowekEkranu
         tytul="Strategia „Zamarzanie”"
         ekran="strategia-zamarzanie"
-        wzor={result.formula}
+        wynik={result}
         parametry={{ prog: PROG_ODLACZENIA_PRIORYTET_2_SOC_PCT }}
       >
         Gdy energii jest mało, trzeba wybrać, co poświęcić — ogrzewanie i woda są ważniejsze niż zmywarka, i system musi to

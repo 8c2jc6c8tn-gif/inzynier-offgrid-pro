@@ -74,7 +74,7 @@ export default function DoborPojemnosciBateriiPage() {
   return (
     <main className="mx-auto flex max-w-md flex-col gap-6 p-6">
       <NawigacjaEkranu href="/kalkulatory/dobor-pojemnosci-baterii" />
-      <NaglowekEkranu tytul="Dobór pojemności baterii" ekran="dobor-pojemnosci-baterii" wzor={result.formula}>
+      <NaglowekEkranu tytul="Dobór pojemności baterii" ekran="dobor-pojemnosci-baterii" wynik={result}>
         Bateria nigdy nie jest w 100% „użyteczna” — część pojemności to bufor bezpieczeństwa,
         żeby nie skracać jej życia głębokim rozładowywaniem. Moduł 4, Ekran 1.
       </NaglowekEkranu>

@@ -72,7 +72,7 @@ export default function SezonowoscPage() {
   return (
     <main className="mx-auto flex max-w-md flex-col gap-6 p-6">
       <NawigacjaEkranu href="/kalkulatory/sezonowosc" />
-      <NaglowekEkranu tytul="Sezonowość i tryb wakacyjny" ekran="sezonowosc" wzor={result.formula}>
+      <NaglowekEkranu tytul="Sezonowość i tryb wakacyjny" ekran="sezonowosc" wynik={result}>
         Nie każde urządzenie pracuje cały rok — dobry bilans uwzględnia, że klimatyzacja zimą stoi
         wyłączona, a odśnieżarka latem w ogóle nie istnieje. Moduł 2, Ekran 6.
       </NaglowekEkranu>

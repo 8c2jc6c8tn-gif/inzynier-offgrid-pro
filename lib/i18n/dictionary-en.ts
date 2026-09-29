@@ -1369,4 +1369,7 @@ export const dictionaryEn = {
   "MIGAWKA-UI-JAK-DZIALA": "How it calculates",
   "MIGAWKA-UI-PO-CO": "Why it matters",
   "MIGAWKA-UI-WZOR": "Formula",
+  "MIGAWKA-UI-ZALOZENIA": "Assumptions of the current result",
+  "POMOC-UI-ZAMKNIJ": "Close",
+  "WYNIK-UI-ZALOZENIE": "Assumption",
 } satisfies Record<KluczTlumaczenia, string>

@@ -65,7 +65,7 @@ export default function NiedopasowaniePaneliPage() {
       <NaglowekEkranu
         tytul="Niedopasowanie mocy paneli (mismatch)"
         ekran="niedopasowanie-paneli"
-        wzor={result.formula}
+        wynik={result}
         parametry={{ ostrzezenie: ROZNICA_MOCY_OSTRZEZENIE_PCT, krytyczna: ROZNICA_MOCY_KRYTYCZNA_PCT }}
       >
         String działa jak zespół wioślarzy — tempo narzuca najsłabszy. Mieszanie mocnych i słabych

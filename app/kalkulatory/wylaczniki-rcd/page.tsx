@@ -85,7 +85,7 @@ export default function WylacznikiRcdPage() {
       <NaglowekEkranu
         tytul="Wyłączniki RCD"
         ekran="wylaczniki-rcd"
-        wzor={result.formula}
+        wynik={result}
         parametry={{ progOsob: PROG_OCHRONA_OSOB_MA, progPozar: PROG_OCHRONA_POZAROWA_MA }}
       >
         RCD to strażnik, który wyczuwa, że prąd ucieka tam, gdzie nie powinien — np. do twojego

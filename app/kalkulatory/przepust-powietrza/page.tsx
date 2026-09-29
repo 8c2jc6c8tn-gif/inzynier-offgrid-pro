@@ -52,7 +52,7 @@ export default function PrzepustPowietrzaPage() {
       <NaglowekEkranu
         tytul="Przepust powietrza pod panelami"
         ekran="przepust-powietrza"
-        wzor={result.formula}
+        wynik={result}
         parametry={{ progKrytyczny: PROG_KRYTYCZNY_CM, progBezpieczny: PROG_BEZPIECZNY_CM }}
       >
         Panele nagrzewają się jak dach samochodu w słońcu — im gorszy przepływ powietrza pod

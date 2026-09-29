@@ -65,7 +65,7 @@ export default function VehicleToHomePage() {
   return (
     <main className="mx-auto flex max-w-md flex-col gap-6 p-6">
       <NawigacjaEkranu href="/kalkulatory/vehicle-to-home" />
-      <NaglowekEkranu tytul="Vehicle-to-Home (V2H)" ekran="vehicle-to-home" wzor={result.formula}>
+      <NaglowekEkranu tytul="Vehicle-to-Home (V2H)" ekran="vehicle-to-home" wynik={result}>
         Auto może być powerbankiem na kółkach, ale to zużywa jego baterię trakcyjną — warto
         policzyć, czy to się opłaca, zanim zrobisz to w praktyce. Moduł 4, Ekran 19.
       </NaglowekEkranu>

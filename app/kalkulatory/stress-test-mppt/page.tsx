@@ -99,7 +99,7 @@ export default function StressTestMpptPage() {
       <NaglowekEkranu
         tytul="Zimowy stress-test napięciowy MPPT"
         ekran="stress-test-mppt"
-        wzor={result.formula}
+        wynik={result}
         parametry={{ progOstrzezenia: Math.round(PROG_OSTRZEGAWCZY_UDZIAL_LIMITU * 100) }}
       >
         Panele PV zachowują się odwrotnie niż można by się spodziewać — im zimniej, tym WYŻSZE

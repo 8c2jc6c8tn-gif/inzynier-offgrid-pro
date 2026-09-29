@@ -96,7 +96,7 @@ export default function OchronaStringowPage() {
       <NaglowekEkranu
         tytul="Ochrona stringów"
         ekran="ochrona-stringow"
-        wzor={result.formula}
+        wynik={result}
         parametry={{ progStringow: PROG_LICZBY_STRINGOW, k1: K1_ISC_MAX }}
       >
         Chroń każdy string osobno, żeby awaria jednego nie pociągnęła za sobą reszty instalacji.

@@ -89,7 +89,7 @@ export default function MagazynFirmyPage() {
       <NaglowekEkranu
         tytul={t("UI-BESS-TYTUL")}
         ekran="magazyn-firmy"
-        wzor={result.formula}
+        wynik={result}
       >
         {t("UI-BESS-OPIS")}
       </NaglowekEkranu>

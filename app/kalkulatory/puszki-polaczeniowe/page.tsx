@@ -35,7 +35,7 @@ export default function PuszkiPolaczenioweePage() {
   return (
     <main className="mx-auto flex max-w-md flex-col gap-6 p-6">
       <NawigacjaEkranu href="/kalkulatory/puszki-polaczeniowe" />
-      <NaglowekEkranu tytul="Puszki połączeniowe" ekran="puszki-polaczeniowe" wzor={result.formula}>
+      <NaglowekEkranu tytul="Puszki połączeniowe" ekran="puszki-polaczeniowe" wynik={result}>
         Każde połączenie to potencjalny przeciek. Trzeba je zamknąć w szczelnej puszce, żeby woda
         nie zrobiła zwarcia. Moduł 5, Ekran 27.
       </NaglowekEkranu>

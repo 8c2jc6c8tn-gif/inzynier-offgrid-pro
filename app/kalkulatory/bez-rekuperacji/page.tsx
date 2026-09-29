@@ -48,7 +48,7 @@ export default function BezRekuperacjiPage() {
   return (
     <main className="mx-auto flex max-w-md flex-col gap-6 p-6">
       <NawigacjaEkranu href="/kalkulatory/bez-rekuperacji" />
-      <NaglowekEkranu tytul="Rekuperacja zamarzła" ekran="bez-rekuperacji" wzor={result.formula}>
+      <NaglowekEkranu tytul="Rekuperacja zamarzła" ekran="bez-rekuperacji" wynik={result}>
         Wentylacja to płuca domu — gdy rekuperator zamarznie, dom traci ciepło albo zaczyna się „dusić”. Ile to kosztuje i
         jak mocnej nagrzewnicy trzeba. Moduł 7, Ekran 20.
       </NaglowekEkranu>

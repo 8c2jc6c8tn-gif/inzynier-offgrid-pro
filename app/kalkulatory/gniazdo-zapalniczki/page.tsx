@@ -49,7 +49,7 @@ export default function GniazdoZapalniczkiPage() {
       <NaglowekEkranu
         tytul="Gniazdo zapalniczki — co można podłączyć"
         ekran="gniazdo-zapalniczki"
-        wzor={result.formula}
+        wynik={result}
       >
         Gniazdo zapalniczki ma własny, niewielki bezpiecznik. Lodówka turystyczna zwykle tak, kompresor do opon na granicy,
         sprzęt powyżej ok. 180 W raczej nie. Moduł 12.

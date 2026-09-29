@@ -115,7 +115,7 @@ export default function LiczbaPaneliPage() {
   return (
     <main className="mx-auto flex max-w-2xl flex-col gap-6 p-6">
       <NawigacjaEkranu href="/kalkulatory/liczba-paneli" />
-      <NaglowekEkranu tytul="Ile paneli potrzebujesz" ekran="liczba-paneli" wzor={result.formula}>
+      <NaglowekEkranu tytul="Ile paneli potrzebujesz" ekran="liczba-paneli" wynik={result}>
         Liczba paneli dla czterech okresów: samo lato, marzec–październik, luty–listopad i cały rok — policzona z
         nasłonecznienia Twojej lokalizacji. Obok: ile paneli realnie zamontujesz i ile energii zabraknie zimą.
         Moduł 3, Ekran 4.

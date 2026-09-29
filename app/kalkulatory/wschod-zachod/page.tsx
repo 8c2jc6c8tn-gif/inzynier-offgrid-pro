@@ -125,7 +125,7 @@ export default function WschodZachodPage() {
       <NaglowekEkranu
         tytul="Orientacja wschód-zachód"
         ekran="wschod-zachod"
-        wzor={result.formula}
+        wynik={result}
         parametry={{ stosunekMin: TYPOWY_STOSUNEK_MIN_PCT, stosunekMax: TYPOWY_STOSUNEK_MAX_PCT }}
       >
         Panele na dwóch połaciach — wschodniej i zachodniej — w porównaniu z panelami skierowanymi na południe: ile

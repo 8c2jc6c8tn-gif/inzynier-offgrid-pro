@@ -56,7 +56,7 @@ export default function DniBezSloncaPage() {
   return (
     <main className="mx-auto flex max-w-md flex-col gap-6 p-6">
       <NawigacjaEkranu href="/kalkulatory/dni-bez-slonca" />
-      <NaglowekEkranu tytul="Ile dni pracy bez słońca — mały zestaw" ekran="dni-bez-slonca" wzor={result.formula}>
+      <NaglowekEkranu tytul="Ile dni pracy bez słońca — mały zestaw" ekran="dni-bez-slonca" wynik={result}>
         Na ile pochmurnych dni starczy akumulator, który już masz — bez żadnego doładowania. Moduł 12.
       </NaglowekEkranu>
 

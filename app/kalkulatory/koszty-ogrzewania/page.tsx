@@ -183,7 +183,7 @@ export default function KosztyOgrzewaniaPage() {
   return (
     <main className="mx-auto flex max-w-2xl flex-col gap-6 p-6">
       <NawigacjaEkranu href="/kalkulatory/koszty-ogrzewania" />
-      <NaglowekEkranu tytul="Porównanie kosztów ogrzewania" ekran="koszty-ogrzewania" wzor={wynik.formula} parametry={{ lata: LICZBA_LAT_ZRODLO }}>
+      <NaglowekEkranu tytul="Porównanie kosztów ogrzewania" ekran="koszty-ogrzewania" wynik={wynik} parametry={{ lata: LICZBA_LAT_ZRODLO }}>
         Drewno, węgiel, pellet, gaz, olej, nagrzewnica paliwowa, prąd czy pompa ciepła — ile naprawdę kosztuje 1 kWh ciepła z
         każdego źródła i które wychodzi najtaniej razem z zakupem i serwisem. W off-gridzie liczy się też, ile prądu
         potrzebuje dane źródło zimą. Moduł 6.

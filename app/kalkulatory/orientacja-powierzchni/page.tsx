@@ -89,7 +89,7 @@ export default function OrientacjaPowierzchniPage() {
   return (
     <main className="mx-auto flex max-w-2xl flex-col gap-6 p-6">
       <NawigacjaEkranu href="/kalkulatory/orientacja-powierzchni" />
-      <NaglowekEkranu tytul="Bryła budynku i orientacja ścian" ekran="orientacja-powierzchni" wzor={r?.formula}>
+      <NaglowekEkranu tytul="Bryła budynku i orientacja ścian" ekran="orientacja-powierzchni" wynik={r}>
         Nie każda ściana i połać dachu są tak samo warte montażu paneli — ten wskaźnik pozwala od razu zobaczyć,
         gdzie inwestycja się najbardziej opłaci, zanim przejdziesz do szczegółowego projektowania w Module 3. Moduł 1,
         Ekran 4.

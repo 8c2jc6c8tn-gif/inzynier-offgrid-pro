@@ -51,7 +51,7 @@ export default function PowiadomieniaAlarmowePage() {
   return (
     <main className="mx-auto flex max-w-md flex-col gap-6 p-6">
       <NawigacjaEkranu href="/kalkulatory/powiadomienia-alarmowe" />
-      <NaglowekEkranu tytul="Syrena, powiadomienia i służby" ekran="powiadomienia-alarmowe" wzor={result.formula}>
+      <NaglowekEkranu tytul="Syrena, powiadomienia i służby" ekran="powiadomienia-alarmowe" wynik={result}>
         System nie tylko wykrywa zagrożenie, ale może też wezwać pomoc — ostatnia deska ratunku, gdy nikogo nie ma w domu.
         Moduł 8, Ekran 10.
       </NaglowekEkranu>

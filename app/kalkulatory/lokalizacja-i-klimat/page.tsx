@@ -79,7 +79,7 @@ export default function LokalizacjaIKlimatPage() {
   return (
     <main className="mx-auto flex max-w-md flex-col gap-6 p-6">
       <NawigacjaEkranu href="/kalkulatory/lokalizacja-i-klimat" />
-      <NaglowekEkranu tytul="Lokalizacja i dane klimatyczne" ekran="lokalizacja-i-klimat">
+      <NaglowekEkranu tytul="Lokalizacja i dane klimatyczne" ekran="lokalizacja-i-klimat" wynik={result}>
         Dane stąd zasilają niemal wszystkie pozostałe moduły — kąt padania słońca, strefę
         wiatrową i śniegową, minima temperaturowe do stress-testów zimowych. Moduł 1, Ekran 1.
         Tryb offline: wpisz dane ręcznie.
