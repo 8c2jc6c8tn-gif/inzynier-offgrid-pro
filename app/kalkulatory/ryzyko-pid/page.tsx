@@ -53,7 +53,7 @@ export default function RyzykoPidPage() {
       <NaglowekEkranu
         tytul="Ryzyko PID (degradacja indukowana napięciem)"
         ekran="ryzyko-pid"
-        wzor={result.formula}
+        wynik={result}
         parametry={{ prog: PROG_NAPIECIA_PID_V }}
       >
         W długich stringach napięcie panelu względem ramy/ziemi może przekroczyć kilkaset wolt.

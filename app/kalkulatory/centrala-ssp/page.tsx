@@ -49,7 +49,7 @@ export default function CentralaSspPage() {
   return (
     <main className="mx-auto flex max-w-md flex-col gap-6 p-6">
       <NawigacjaEkranu href="/kalkulatory/centrala-ssp" />
-      <NaglowekEkranu tytul="Centrala sygnalizacji pożaru — wejścia" ekran="centrala-ssp" wzor={result.formula}>
+      <NaglowekEkranu tytul="Centrala sygnalizacji pożaru — wejścia" ekran="centrala-ssp" wynik={result}>
         Centrala pożarowa to serce ochrony — sterownik musi z nią „rozmawiać” bez zakłóceń, bo od niej zależy, czy reszta
         systemu w ogóle dowie się o zagrożeniu. Moduł 8, Ekran 5.
       </NaglowekEkranu>

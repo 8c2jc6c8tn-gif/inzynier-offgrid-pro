@@ -244,7 +244,5 @@
   "components/wzorce/budowniczy-listy.tsx": 1,
   "components/wzorce/ekran-checklisty-chemii.tsx": 8,
   "components/wzorce/ekran-kabli-malej-instalacji.tsx": 25,
-  "components/wzorce/krok-z-media.tsx": 2,
-  "components/wzorce/wynik-szczegoly.tsx": 1,
-  "components/zalozenia-lista.tsx": 1
+  "components/wzorce/krok-z-media.tsx": 2
 }

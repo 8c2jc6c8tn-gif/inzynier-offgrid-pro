@@ -57,7 +57,7 @@ export default function SekwencjaMontazuPage() {
       <NaglowekEkranu
         tytul="Sekwencja montażu pakietu (busbary + BMS)"
         ekran="sekwencja-montazu"
-        wzor={result.formula}
+        wynik={result}
         parametry={{ min: MIN_OGNIW, max: MAX_OGNIW }}
       >
         Dokładna, ponumerowana kolejność połączeń — dopasowana do liczby ogniw w Twoim pakiecie

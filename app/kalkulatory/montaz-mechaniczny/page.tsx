@@ -68,7 +68,7 @@ export default function MontazMechanicznyPage() {
       <NawigacjaEkranu href="/kalkulatory/montaz-mechaniczny" />
       <NaglowekEkranu
         tytul="Montaż mechaniczny i separacja ogniw"
-        ekran="montaz-mechaniczny"
+        ekran="montaz-mechaniczny" wynik={result}
         parametry={{ dociskMin: DOCISK_MIN_KGF, dociskMax: DOCISK_MAX_KGF }}
       >
         Zanim ogniwa zostaną połączone elektrycznie — sprawdź docisk i separację. Docisk poza

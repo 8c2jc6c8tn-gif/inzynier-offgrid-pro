@@ -164,7 +164,7 @@ export default function OptymalizacjaTrasyKablaPage() {
       <NaglowekEkranu
         tytul="Optymalizacja trasy i kosztu kabla"
         ekran="optymalizacja-trasy-kabla"
-        wzor={result.formula}
+        wynik={result}
       >
         Nie patrz tylko na cenę kabla — grubszy, krótszy kabel często zwraca się w mniejszych
         stratach przez lata. Moduł 5, Ekran 26.

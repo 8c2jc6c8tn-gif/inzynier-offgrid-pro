@@ -2,6 +2,8 @@
 
 import { useState } from "react"
 import { Chmurka, PomocPole } from "@/components/ui/chmurka"
+import { ZalozeniaLista } from "@/components/zalozenia-lista"
+import type { CalcResult } from "@/lib/core/calc-result"
 import { pomoc, type EkranPomocy, type GrupaPomocy, type PolePomocy } from "@/lib/i18n/pomoc"
 import type { MigawkaTresc, PomocPolaTresc } from "@/lib/i18n/pomoc/typy"
 import { useLanguage, useTranslate } from "@/lib/i18n/language-context"
@@ -63,18 +65,22 @@ export function PomocPola<G extends GrupaPomocy>({
 
 type Zakladka = "po-ludzku" | "fizyka"
 
+/** The part of the current result the „Fizyka” tab shows; `null`/absent before the first calculation. */
+export type WynikMigawki = Partial<Pick<CalcResult<unknown>, "formula" | "assumptions">> | null | undefined
+
 /**
  * „i” next to the screen title. Click/tap only (no hover) — the popup has tabs the user clicks.
- * `wzor` = `CalcResult.formula` of the current result (8.4 Section D: the physics tab shows what the
- * engine really used, never a hand-copied formula).
+ * `wynik` = the current `CalcResult`: its `formula` and `assumptions` go into the physics tab (8.4b,
+ * 8.4 Section D — what the engine really used, never hand-copied), the assumptions through the same
+ * `ZalozeniaLista` as under the result.
  */
 export function MigawkaInfo({
   ekran,
-  wzor,
+  wynik,
   params,
 }: {
   ekran: EkranPomocy
-  wzor?: string
+  wynik?: WynikMigawki
   params?: Record<string, string | number>
 }) {
   const language = useLanguage()
@@ -87,7 +93,9 @@ export function MigawkaInfo({
     poCo: podstaw(language, surowa.poCo, params),
     fizyka: surowa.fizyka && podstaw(language, surowa.fizyka, params),
   }
-  const fizykaDostepna = Boolean(wzor || m.fizyka)
+  const wzor = wynik?.formula
+  const zalozenia = wynik?.assumptions ?? []
+  const fizykaDostepna = Boolean(wzor || zalozenia.length > 0 || m.fizyka)
 
   const tresc = (
     <div className="flex flex-col gap-2 leading-relaxed">
@@ -130,6 +138,12 @@ export function MigawkaInfo({
               <span className="font-medium">{t("MIGAWKA-UI-WZOR")}: </span>
               <span className="font-mono">{wzor}</span>
             </p>
+          )}
+          {zalozenia.length > 0 && (
+            <div>
+              <p className="font-medium">{t("MIGAWKA-UI-ZALOZENIA")}:</p>
+              <ZalozeniaLista assumptions={zalozenia} className="text-inherit" />
+            </div>
           )}
         </>
       )}

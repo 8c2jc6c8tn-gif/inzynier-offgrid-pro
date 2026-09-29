@@ -60,7 +60,7 @@ export default function ZacienienieDiodyBocznikujacePage() {
       <NaglowekEkranu
         tytul="Zacienienie i diody bocznikujące"
         ekran="zacienienie-diody-bocznikujace"
-        wzor={result.formula}
+        wynik={result}
       >
         Jeden cień potrafi „położyć” cały string, nie tylko zacieniony panel — to jak korek na
         jednym pasie, który spowalnia cały ruch, nie tylko ten jeden samochód. Moduł 3, Ekran 13.

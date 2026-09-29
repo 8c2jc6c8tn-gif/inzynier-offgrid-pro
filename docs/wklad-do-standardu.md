@@ -1142,6 +1142,23 @@ nawigacja do strony spoza cache SW ma zawieść offline.
 
 Status: 🔎 nowe
 
+[29.09.2026] KATEGORIA: DOBRA PRAKTYKA — strażnik rejestru twardych stopów (4.3 + 11.9) musi rozpoznawać nie tylko literał `{ code, level: "critical" }`
+
+Szczegóły: Wdrożenie `scripts/check-stopy-guard.mjs` (AST). Pierwsza wersja zbierała tylko literały obiektów i przegapiła
+13 stopów, które rejestr już wymieniał: funkcje pomocnicze `ostrzezenie("KOD", "critical", …)`, poziom przejęty z innego
+ostrzeżenia (`inneOstrzezenie().level`), `level: zmienna` i kod przekazany parametrem do wspólnej funkcji. Działające
+rozwiązanie: (1) poziom nieliteralny traktować jak 🔴 (ostrożnie); (2) wywołanie z argumentem `"critical"` = stop, kod =
+pierwszy argument w kształcie kodu; (3) szablon `${field}-NIEDODATNI` → wzorzec `*-NIEDODATNI`; (4) kod z parametru =
+„źródło dynamiczne”, które trzeba zadeklarować z listą możliwych kodów (nowe miejsce = błąd). Druga lekcja: wyjątki
+„walidacja danych” klasyfikować po treści warunku (`technicalMessage`), nie po nazwie kodu — `*-POZA-ZAKRESEM` bywa
+walidacją formularza, ale `WYBRANY-BEZPIECZNIK-POZA-ZAKRESEM` to stan instalacji.
+
+Dlaczego warto zgłosić do new-app-standards: 4.3 (dopisek) i 11.9 wymagają strażnika, ale nie mówią, co ma rozpoznawać;
+każdy projekt rodziny, który napisze go „na literałach”, dostanie fałszywie zielony wynik przy pierwszej funkcji
+pomocniczej. Skrypt z testami (`lib/core/__tests__/stopy-guard.test.ts`) nadaje się na wzór (17.11).
+
+Status: 🔎 nowe
+
 [29.09.2026] KATEGORIA: BŁĄD — wzorzec PWA (`docs/przyklady/pwa/sw-rdzen.js`) przy włączonej bramce logowania zapisze stronę logowania pod adresem każdego ekranu
 
 Szczegóły: Migracja SW do wzorca (D59, `docs/plan-migracji-sw-wariant-c.md`). `pobierzDoCache` przyjmuje każdą

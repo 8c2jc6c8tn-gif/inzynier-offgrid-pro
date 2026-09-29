@@ -64,7 +64,7 @@ export default function SohPerOgniwoPage() {
       <NaglowekEkranu
         tytul="SoH — diagnostyka per ogniwo"
         ekran="soh-per-ogniwo"
-        wzor={result.formula}
+        wynik={result}
         parametry={{ progWzrostu: PROG_KRYTYCZNY_WZROSTU_PCT }}
       >
         Rosnąca rezystancja jednego ogniwa to jak zatkane naczynie krwionośne — reszta układu

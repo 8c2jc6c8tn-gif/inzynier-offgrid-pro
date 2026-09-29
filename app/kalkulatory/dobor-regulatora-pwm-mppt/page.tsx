@@ -58,7 +58,7 @@ export default function DoborRegulatoraPwmMpptPage() {
       <NaglowekEkranu
         tytul="Dobór regulatora PWM vs MPPT"
         ekran="dobor-regulatora-pwm-mppt"
-        wzor={result.formula}
+        wynik={result}
         parametry={{ progMppt: PROG_MOC_MPPT_OPLACALNY_W }}
       >
         PWM to tani robotnik, MPPT to inżynier — do dużych zysków zatrudnij inżyniera. Moduł 12.

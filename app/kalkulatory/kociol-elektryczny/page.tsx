@@ -53,7 +53,7 @@ export default function KociolElektrycznyPage() {
   return (
     <main className="mx-auto flex max-w-md flex-col gap-6 p-6">
       <NawigacjaEkranu href="/kalkulatory/kociol-elektryczny" />
-      <NaglowekEkranu tytul="Kocioł elektryczny vs pompa ciepła" ekran="kociol-elektryczny" wzor={result.formula}>
+      <NaglowekEkranu tytul="Kocioł elektryczny vs pompa ciepła" ekran="kociol-elektryczny" wynik={result}>
         Kocioł elektryczny ma sprawność blisko 100%, ale to nie to samo co tanie ogrzewanie —
         pompa ciepła nie produkuje ciepła z prądu, tylko przenosi je z zewnątrz, więc zużywa
         kilka razy mniej. Moduł 6, ekran dodatkowy (dawne 5.33).

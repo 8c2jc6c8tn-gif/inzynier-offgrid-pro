@@ -63,7 +63,7 @@ export default function WplywTemperaturyPage() {
   return (
     <main className="mx-auto flex max-w-md flex-col gap-6 p-6">
       <NawigacjaEkranu href="/kalkulatory/wplyw-temperatury" />
-      <NaglowekEkranu tytul="Wpływ temperatury na wydajność" ekran="wplyw-temperatury" wzor={result.formula}>
+      <NaglowekEkranu tytul="Wpływ temperatury na wydajność" ekran="wplyw-temperatury" wynik={result}>
         Panele nie lubią upałów — paradoksalnie, najzimniejszy słoneczny dzień daje więcej mocy
         niż najgorętszy. Moduł 3, Ekran 18.
       </NaglowekEkranu>

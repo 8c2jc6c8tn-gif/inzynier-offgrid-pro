@@ -98,7 +98,7 @@ export default function SzynyZbiorczeMiedzypakietowePage() {
       <NaglowekEkranu
         tytul="Szyny zbiorcze i połączenia międzypakietowe"
         ekran="szyny-zbiorcze-miedzypakietowe"
-        wzor={result.formula}
+        wynik={result}
       >
         Elektrony, jak wszystko leniwe, płyną tam, gdzie jest im łatwiej — nierówne długości
         kabli czy niesymetryczne podłączenie zawsze prowadzi do nierównego obciążenia. Moduł 4,

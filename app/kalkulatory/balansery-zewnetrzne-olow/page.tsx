@@ -114,7 +114,7 @@ export default function BalanseryZewnetrzneOlowPage() {
       <NawigacjaEkranu href="/kalkulatory/balansery-zewnetrzne-olow" />
       <NaglowekEkranu
         tytul="Balansery zewnętrzne"
-        ekran="balansery-zewnetrzne-olow"
+        ekran="balansery-zewnetrzne-olow" wynik={result}
         parametry={{ minAku: MIN_AKUMULATOROW_WYMAGAJACYCH_BALANSERA }}
       >
         Akumulatory kwasowe, w przeciwieństwie do LiFePO4, nie mają wbudowanego „sędziego”

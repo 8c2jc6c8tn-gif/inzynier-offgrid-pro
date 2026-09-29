@@ -50,7 +50,7 @@ export default function BuforRozbudowyPage() {
   return (
     <main className="mx-auto flex max-w-md flex-col gap-6 p-6">
       <NawigacjaEkranu href="/kalkulatory/bufor-rozbudowe" />
-      <NaglowekEkranu tytul="Bufor na rozbudowę" ekran="bufor-rozbudowe" wzor={result.formula}>
+      <NaglowekEkranu tytul="Bufor na rozbudowę" ekran="bufor-rozbudowe" wynik={result}>
         Projektując system tylko pod dzisiejsze potrzeby, gwarantujesz sobie, że za 2 lata będzie
         za mały — bufor to świadoma decyzja, ile „zapasu na przyszłość” wbudować od razu. Moduł 2,
         Ekran 13.

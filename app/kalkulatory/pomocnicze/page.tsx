@@ -92,7 +92,7 @@ export default function KalkulatoryPomocniczePage() {
   return (
     <main className="mx-auto flex max-w-md flex-col gap-6 p-6">
       <NawigacjaEkranu href="/kalkulatory/pomocnicze" />
-      <NaglowekEkranu tytul="Kalkulatory pomocnicze" ekran="pomocnicze" wzor={result.formula}>
+      <NaglowekEkranu tytul="Kalkulatory pomocnicze" ekran="pomocnicze" wynik={result}>
         To Twój podręczny „kalkulator kieszonkowy” do szybkich przeliczeń w terenie, bez
         przechodzenia przez pełny proces projektowy. Moduł 2, Ekran 16.
       </NaglowekEkranu>

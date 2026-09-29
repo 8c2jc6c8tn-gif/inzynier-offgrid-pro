@@ -71,7 +71,7 @@ export default function ObciazenieDachuSniegiemPage() {
       <NaglowekEkranu
         tytul="Obciążenie dachu śniegiem"
         ekran="obciazenie-dachu-sniegiem"
-        wzor={result.formula}
+        wynik={result}
         parametry={{ prog: Math.round(PROG_ZBLIZANIA_DO_NOSNOSCI * 100) }}
       >
         Ile śniegu musi przenieść Twój dach według normy i ile waży to, co leży na nim teraz. PN-EN 1991-1-3. Moduł 7.

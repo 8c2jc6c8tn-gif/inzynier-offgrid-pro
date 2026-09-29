@@ -40,7 +40,7 @@ export default function ArchitekturaKomunikacjiPage() {
   return (
     <main className="mx-auto flex max-w-md flex-col gap-6 p-6">
       <NawigacjaEkranu href="/kalkulatory/architektura-komunikacji" />
-      <NaglowekEkranu tytul="Architektura komunikacji ESP32" ekran="architektura-komunikacji" wzor={result.formula}>
+      <NaglowekEkranu tytul="Architektura komunikacji ESP32" ekran="architektura-komunikacji" wynik={result}>
         ESP32 to tłumacz między urządzeniami mówiącymi różnymi „językami” elektrycznymi — do każdego potrzebuje odpowiedniego
         adaptera. Zwykle: RS485 → falownik, CAN → BMS, Wi-Fi → aplikacja. Moduł 9, Ekran 4.
       </NaglowekEkranu>

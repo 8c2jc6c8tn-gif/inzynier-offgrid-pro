@@ -57,7 +57,7 @@ export default function PaneleBifacjalnePage() {
   return (
     <main className="mx-auto flex max-w-md flex-col gap-6 p-6">
       <NawigacjaEkranu href="/kalkulatory/panele-bifacjalne" />
-      <NaglowekEkranu tytul="Panele bifacjalne" ekran="panele-bifacjalne" wzor={result.formula}>
+      <NaglowekEkranu tytul="Panele bifacjalne" ekran="panele-bifacjalne" wynik={result}>
         Panele bifacjalne zbierają światło także z dołu — ale tylko jeśli dasz im jasne tło, od
         którego światło się odbije. Moduł 3, Ekran 16.
       </NaglowekEkranu>

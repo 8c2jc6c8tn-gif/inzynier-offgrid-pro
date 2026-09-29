@@ -56,7 +56,7 @@ export default function RatowanieOgniwaPage() {
       <NawigacjaEkranu href="/kalkulatory/ratowanie-ogniwa" />
       <NaglowekEkranu
         tytul="Ratowanie głęboko rozładowanego ogniwa"
-        ekran="ratowanie-ogniwa"
+        ekran="ratowanie-ogniwa" wynik={result}
         parametry={{ progRatunku: PROG_BEZPIECZNEGO_RATUNKU_V, prad: PRAD_LADOWANIA_RATUNKOWEGO_A, napiecieZasilacza: NAPIECIE_ZASILACZA_RATUNKOWEGO_V }}
       >
         Głębokie rozładowanie to klinicznie „śmierć” ogniwa — czasem da się je obudzić, ale zwykle

@@ -64,7 +64,7 @@ export default function ModulGasniczyPage() {
         tytul="Moduł gaśniczy"
         ekran="modul-gasniczy"
         parametry={{ minCzujnikow: MIN_CZUJNIKOW_POTWIERDZENIA }}
-        wzor={result.formula}
+        wynik={result}
       >
         Człowiek może nie zdążyć pomyśleć we właściwej kolejności podczas pożaru — system realizuje sprawdzoną sekwencję
         kroków w ciągu sekund. Moduł 8, Ekran 4.

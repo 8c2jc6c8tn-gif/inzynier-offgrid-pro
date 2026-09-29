@@ -65,7 +65,7 @@ export default function PrzelacznikSiecWyspaPage() {
   return (
     <main className="mx-auto flex max-w-2xl flex-col gap-6 p-6">
       <NawigacjaEkranu href="/kalkulatory/przelacznik-siec-wyspa" />
-      <NaglowekEkranu tytul={t("UI-PSW-TYTUL")} ekran="przelacznik-siec-wyspa">
+      <NaglowekEkranu tytul={t("UI-PSW-TYTUL")} ekran="przelacznik-siec-wyspa" wynik={result}>
         {t("UI-PSW-OPIS")}
       </NaglowekEkranu>
 

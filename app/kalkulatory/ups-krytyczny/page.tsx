@@ -77,7 +77,7 @@ export default function UpsKrytycznyPage() {
   return (
     <main className="mx-auto flex max-w-md flex-col gap-6 p-6">
       <NawigacjaEkranu href="/kalkulatory/ups-krytyczny" />
-      <NaglowekEkranu tytul="UPS krytyczny — dobór sprzętowy" ekran="ups-krytyczny" wzor={result.formula}>
+      <NaglowekEkranu tytul="UPS krytyczny — dobór sprzętowy" ekran="ups-krytyczny" wynik={result}>
         W pożarze często pada normalne zasilanie — UPS daje systemowi te kluczowe minuty na
         wykonanie sekwencji bezpieczeństwa, zamiast zamilknąć w najgorszym momencie. Moduł 8,
         Ekran 6.

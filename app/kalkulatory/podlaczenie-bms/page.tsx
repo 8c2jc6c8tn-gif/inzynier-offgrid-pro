@@ -158,7 +158,7 @@ export default function PodlaczenieBmsPage() {
   return (
     <main className="mx-auto flex max-w-md flex-col gap-6 p-6">
       <NawigacjaEkranu href="/kalkulatory/podlaczenie-bms" />
-      <NaglowekEkranu tytul="Podłączenie BMS" ekran="podlaczenie-bms" wzor={result.formula}>
+      <NaglowekEkranu tytul="Podłączenie BMS" ekran="podlaczenie-bms" wynik={result}>
         Zanim główny bezpiecznik/stycznik pójdzie w górę, kondensatory wejściowe falownika muszą
         się najpierw naładować przez rezystor — inaczej zaiskrzy. Moduł 11, Ekran A4.
       </NaglowekEkranu>

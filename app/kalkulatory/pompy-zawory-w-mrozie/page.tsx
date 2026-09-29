@@ -60,7 +60,7 @@ export default function PompyZaworyWMroziePage() {
   return (
     <main className="mx-auto flex max-w-md flex-col gap-6 p-6">
       <NawigacjaEkranu href="/kalkulatory/pompy-zawory-w-mrozie" />
-      <NaglowekEkranu tytul="Pompy i zawory w mrozie" ekran="pompy-zawory-w-mrozie" wzor={result.formula}>
+      <NaglowekEkranu tytul="Pompy i zawory w mrozie" ekran="pompy-zawory-w-mrozie" wynik={result}>
         Które pompy, zawory i siłowniki mogą się zablokować przy najniższej temperaturze w miejscu montażu. Moduł 7.
       </NaglowekEkranu>
 

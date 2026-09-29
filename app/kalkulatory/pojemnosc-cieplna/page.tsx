@@ -147,7 +147,7 @@ export default function PojemnoscCieplnaPage() {
   return (
     <main className="mx-auto flex max-w-2xl flex-col gap-6 p-6">
       <NawigacjaEkranu href="/kalkulatory/pojemnosc-cieplna" />
-      <NaglowekEkranu tytul="Pojemność cieplna budynku" ekran="pojemnosc-cieplna" wzor={wynik.formula}>
+      <NaglowekEkranu tytul="Pojemność cieplna budynku" ekran="pojemnosc-cieplna" wynik={wynik}>
         Ile ciepła magazynują ściany i stropy i jak szybko dom wychładza się po awarii ogrzewania — w tym ile czasu zostaje do
         zamarznięcia instalacji. Moduł 6, Ekran 8.
       </NaglowekEkranu>

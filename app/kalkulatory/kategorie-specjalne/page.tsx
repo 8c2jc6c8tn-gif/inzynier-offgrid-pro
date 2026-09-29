@@ -58,7 +58,7 @@ export default function KategorieSpecjalnePage() {
   return (
     <main className="mx-auto flex max-w-md flex-col gap-6 p-6">
       <NawigacjaEkranu href="/kalkulatory/kategorie-specjalne" />
-      <NaglowekEkranu tytul="Kategorie specjalne" ekran="kategorie-specjalne" wzor={result.formula}>
+      <NaglowekEkranu tytul="Kategorie specjalne" ekran="kategorie-specjalne" wynik={result}>
         Zamiast zaczynać od pustej listy, wybierasz swój profil i dostajesz gotowy punkt startowy
         dopasowany do typowych urządzeń w tej kategorii. Moduł 2, Ekran 15.
       </NaglowekEkranu>

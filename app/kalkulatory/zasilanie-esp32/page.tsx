@@ -55,7 +55,7 @@ export default function ZasilanieEsp32Page() {
   return (
     <main className="mx-auto flex max-w-md flex-col gap-6 p-6">
       <NawigacjaEkranu href="/kalkulatory/zasilanie-esp32" />
-      <NaglowekEkranu tytul="Zasilanie ESP32 z magistrali" ekran="zasilanie-esp32" wzor={result.formula}>
+      <NaglowekEkranu tytul="Zasilanie ESP32 z magistrali" ekran="zasilanie-esp32" wynik={result}>
         ESP32 potrzebuje 5 V albo 3,3 V — przetwornica to jego osobisty zasilacz, dopasowany do napięcia magistrali. Moduł 9,
         Ekran 2.
       </NaglowekEkranu>

@@ -124,7 +124,7 @@ export default function ObciazenieCieplnePage() {
   return (
     <main className="mx-auto flex max-w-2xl flex-col gap-6 p-6">
       <NawigacjaEkranu href="/kalkulatory/obciazenie-cieplne" />
-      <NaglowekEkranu tytul="Straty ciepła budynku" ekran="obciazenie-cieplne" wzor={wynik.formula}>
+      <NaglowekEkranu tytul="Straty ciepła budynku" ekran="obciazenie-cieplne" wynik={wynik}>
         Ile ciepła ucieka przez ściany, okna, dach i podłogę oraz z wymienianym powietrzem w najzimniejszy dzień — to moc,
         którą musi dać ogrzewanie. W off-gridzie od tej liczby zależy, ile prądu albo paliwa potrzebujesz zimą. Moduł 6,
         Ekran 1.

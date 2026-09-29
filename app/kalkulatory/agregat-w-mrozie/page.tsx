@@ -67,7 +67,7 @@ export default function AgregatWMroziePage() {
       <NaglowekEkranu
         tytul="Agregat w mrozie"
         ekran="agregat-w-mrozie"
-        wzor={result.formula}
+        wynik={result}
         parametry={{ postoj: DLUGI_POSTOJ_DNI }}
       >
         Rozruch na zimno, długa praca i długi postój — ile paliwa i oleju zje agregat w zimowym scenariuszu. Moduł 7.

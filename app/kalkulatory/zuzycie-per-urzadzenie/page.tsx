@@ -46,7 +46,7 @@ export default function ZuzyciePerUrzadzeniePage() {
   return (
     <main className="mx-auto flex max-w-md flex-col gap-6 p-6">
       <NawigacjaEkranu href="/kalkulatory/zuzycie-per-urzadzenie" />
-      <NaglowekEkranu tytul="Zużycie energii per urządzenie" ekran="zuzycie-per-urzadzenie" wzor={result.formula}>
+      <NaglowekEkranu tytul="Zużycie energii per urządzenie" ekran="zuzycie-per-urzadzenie" wynik={result}>
         Moc × czas pracy — a dla lodówki czy klimatyzatora jeszcze × współczynnik pracy sprężarki, bo nie pracuje ona bez
         przerwy. Moduł 12.
       </NaglowekEkranu>

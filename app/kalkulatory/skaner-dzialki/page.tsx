@@ -138,7 +138,7 @@ export default function SkanerDzialkiPage() {
   return (
     <main className="mx-auto flex max-w-2xl flex-col gap-6 p-6">
       <NawigacjaEkranu href="/kalkulatory/skaner-dzialki" />
-      <NaglowekEkranu tytul="Skaner działki" ekran="skaner-dzialki" wzor={wynik.formula}>
+      <NaglowekEkranu tytul="Skaner działki" ekran="skaner-dzialki" wynik={wynik}>
         Granice działki, obrys i dach budynku, przeszkody — podstawa analizy zacienienia (Ekran 3) i oceny
         powierzchni pod panele (Ekran 4). Moduł 1, Ekran 2. Tryb online jest szybszy, ale nie wszędzie dane są
         dokładne — spacer GPS zajmuje więcej czasu, ale daje pewność, że model odpowiada rzeczywistej działce, nie

@@ -59,7 +59,7 @@ export default function MocBiernaPage() {
   return (
     <main className="mx-auto flex max-w-md flex-col gap-6 p-6">
       <NawigacjaEkranu href="/kalkulatory/moc-bierna" />
-      <NaglowekEkranu tytul="Moc bierna — opłata i kompensacja" ekran="moc-bierna" wzor={result.formula}>
+      <NaglowekEkranu tytul="Moc bierna — opłata i kompensacja" ekran="moc-bierna" wynik={result}>
         Ile firma płaci za energię bierną ponad dopuszczalny tgφ₀ i czy opłaca się bateria kondensatorów. Wzór jak w
         taryfach OSD 2026 (z pierwiastkiem — wersja bez niego zawyża opłatę ok. dwukrotnie). M14 „Firma – sieć”, ekran F3.
       </NaglowekEkranu>

@@ -51,7 +51,7 @@ export default function RezygnacjaZPrzylaczaPage() {
   return (
     <main className="mx-auto flex max-w-2xl flex-col gap-6 p-6">
       <NawigacjaEkranu href="/kalkulatory/rezygnacja-z-przylacza" />
-      <NaglowekEkranu tytul={t("UI-REZ-TYTUL")} ekran="rezygnacja-z-przylacza" wzor={result.formula}>
+      <NaglowekEkranu tytul={t("UI-REZ-TYTUL")} ekran="rezygnacja-z-przylacza" wynik={result}>
         {t("UI-REZ-OPIS")}
       </NaglowekEkranu>
       <PrzelacznikSegmentu value={segment} onChange={(s) => setSegment({ segment: s })} />

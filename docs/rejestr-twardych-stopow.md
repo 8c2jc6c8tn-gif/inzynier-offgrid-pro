@@ -6,6 +6,13 @@ Zbiorczy, przeszukiwalny indeks wszystkich warunków, które w dowolnym module a
 warunek jest faktycznie sprawdzany. Aktualizacja: przy każdym nowym module, który wprowadza własny
 twardy stop, dopisz go tutaj (nie usuwaj starych pozycji przy zmianach — `docs/standards/15`, 15.3).
 
+**[29.09.2026] Kompletność sprawdza strażnik** `pnpm check:stopy-guard` (`scripts/check-stopy-guard.mjs`,
+standard 4.3 + 11.9): każdy kod, który może wyjść z `level: "critical"` w `lib/core/**`, musi być tu wymieniony
+jako `KOD` (w odwrotnych apostrofach), albo być wyjątkiem w `scripts/stopy-guard-wyjatki.json` (walidacja danych /
+poza zakresem modelu — sekcja na końcu), albo stać na liście zapadkowej `scripts/stopy-guard-baseline.json` (stare
+stopy jeszcze niewpisane; lista tylko maleje). Kod wymieniony tutaj, którego nie ma już w `lib/core`, też jest
+błędem (nieaktualny indeks).
+
 Zakres tego rejestru: **fakty inżynierskie/bezpieczeństwa** ("to jest niebezpieczne/uszkodzi
 sprzęt"), nie generyczna walidacja formularza ("pole musi być większe od zera"). Ta druga kategoria
 istnieje jednolicie w niemal każdym kalkulatorze (`notPositive`/`outOfRange` w plikach
@@ -430,3 +437,8 @@ zakresem). To nie są fakty domenowe o niebezpieczeństwie — to bramka "dane s
 bez sensu". Pełna lista plików: `lib/core/modules/*/warnings.ts` (funkcje `notPositive`,
 `outOfRange`, `efficiencyOutOfRange`, `copOutOfRange`, `pojemnoscNotPositive`,
 `selectedItemNotPositive`).
+
+**[29.09.2026]** Pełna, sprawdzana mechanicznie lista takich kodów: `scripts/stopy-guard-wyjatki.json`
+(`walidacja-danych` — wartość wejściowa bez sensu albo sprzeczne pola; `poza-zakresem-modelu` — dane spoza tabeli
+źródła/wzoru). Klasyfikacja po `technicalMessage` każdego kodu, nie po samej nazwie. Kod,
+który opisuje stan instalacji (nie formularza), tam nie trafia — nawet jeśli brzmi jak zakres.

@@ -85,7 +85,7 @@ export default function HierarchiaLadowaniaPage() {
       <NaglowekEkranu
         tytul="Hierarchia ładowania (PV > Agregat > Sieć)"
         ekran="hierarchia-ladowania"
-        wzor={result.formula}
+        wynik={result}
       >
         Mądry system czeka na darmowe paliwo ze słońca, zamiast od razu sięgać po drogi agregat.
         Moduł 4, Ekran 32.

@@ -52,7 +52,7 @@ export default function GrzalkiDachowePage() {
   return (
     <main className="mx-auto flex max-w-md flex-col gap-6 p-6">
       <NawigacjaEkranu href="/kalkulatory/grzalki-dachowe" />
-      <NaglowekEkranu tytul="Grzałki dachowe i rynnowe" ekran="grzalki-dachowe" wzor={result.formula}>
+      <NaglowekEkranu tytul="Grzałki dachowe i rynnowe" ekran="grzalki-dachowe" wynik={result}>
         Ile mocy i energii zjedzą kable grzewcze przeciw zatorom lodowym w rynnach i koszach dachu. Moduł 7.
       </NaglowekEkranu>
 

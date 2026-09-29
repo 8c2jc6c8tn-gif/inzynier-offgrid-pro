@@ -63,7 +63,7 @@ export default function DogrzewaniePaliwemStalymPage() {
         tytul="Bezpieczeństwo pożarowe — dogrzewanie paliwem stałym"
         ekran="dogrzewanie-paliwem-stalym"
         parametry={{ minOdleglosc: MIN_ODLEGLOSC_OD_MATERIALOW_PALNYCH_CM }}
-        wzor={result.formula}
+        wynik={result}
       >
         Otwarty ogień w domu to realna odpowiedzialność — spalanie zużywa tlen z pomieszczenia i
         produkuje czad, który nie ma zapachu i zabija we śnie. Moduł 8, Ekran 2.

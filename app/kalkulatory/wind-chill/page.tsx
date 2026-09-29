@@ -55,7 +55,7 @@ export default function WindChillPage() {
       <NaglowekEkranu
         tytul="Wind Chill — temperatura odczuwalna"
         ekran="wind-chill"
-        wzor={result.formula}
+        wynik={result}
         parametry={{ maxT: WIND_CHILL_MAX_TEMP_C, minV: WIND_CHILL_MIN_PREDKOSC_KMH }}
       >
         Wiatr wywiewa ciepło z domu nawet wtedy, gdy termometr nie pokazuje wcale tak niskiej

@@ -60,7 +60,7 @@ export default function RyzykoZamarznieciaPage() {
       <NaglowekEkranu
         tytul="Ryzyko zamarznięcia — grunt"
         ekran="ryzyko-zamarzniecia"
-        wzor={result.formula}
+        wynik={result}
         parametry={{ zapas: ZAPAS_RURY_WODNEJ_POD_STREFA_CM }}
       >
         Czy kable, rury i uziomy leżą poniżej strefy przemarzania, i jak bezpiecznie rozmrozić rurę. Moduł 7.

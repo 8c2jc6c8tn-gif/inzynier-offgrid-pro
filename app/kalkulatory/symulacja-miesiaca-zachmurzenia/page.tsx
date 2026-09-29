@@ -80,7 +80,7 @@ export default function SymulacjaMiesiacaZachmurzeniaPage() {
       <NaglowekEkranu
         tytul="Symulacja miesiąca zachmurzenia (No-Sun Scenario)"
         ekran="symulacja-miesiaca-zachmurzenia"
-        wzor={result.formula}
+        wynik={result}
       >
         Projektujesz system nie na średnią pogodę, tylko na najgorszy realistyczny tydzień w roku
         — to jest istota prawdziwego off-gridu. Moduł 4, Ekran 33.

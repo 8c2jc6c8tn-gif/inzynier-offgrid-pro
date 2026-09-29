@@ -71,7 +71,7 @@ export default function ZapotrzebowanieCoCwuPage() {
   return (
     <main className="mx-auto flex max-w-2xl flex-col gap-6 p-6">
       <NawigacjaEkranu href="/kalkulatory/zapotrzebowanie-co-cwu" />
-      <NaglowekEkranu tytul="Zapotrzebowanie na C.O. i C.W.U." ekran="zapotrzebowanie-co-cwu" wzor={wynik.formula}>
+      <NaglowekEkranu tytul="Zapotrzebowanie na C.O. i C.W.U." ekran="zapotrzebowanie-co-cwu" wynik={wynik}>
         Ile ciepła dziennie potrzeba na ogrzewanie domu (C.O.) i na ciepłą wodę (C.W.U.) w każdym miesiącu. Ogrzewanie
         bierze straty ciepła z Ekranu 1, ciepła woda liczy się z liczby osób. Moduł 6, Ekran 2.
       </NaglowekEkranu>

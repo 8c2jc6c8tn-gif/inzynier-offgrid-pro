@@ -131,7 +131,7 @@ export default function DoborKabliBezpiecznikowOlowPage() {
       <NaglowekEkranu
         tytul="Dobór kabli, bezpieczników i zabezpieczeń"
         ekran="dobor-kabli-bezpiecznikow-olow"
-        wzor={result.formula}
+        wynik={result}
       >
         Dobór kabla nie zależy od chemii baterii, tylko od prądu i długości — ten sam silnik
         obliczeniowy co w Module 5, tylko podstawiasz inne liczby. Moduł 11, Ekran B5.

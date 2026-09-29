@@ -165,7 +165,7 @@ export default function AnalizaZacienieniaPage() {
   return (
     <main className="mx-auto flex max-w-2xl flex-col gap-6 p-6">
       <NawigacjaEkranu href="/kalkulatory/analiza-zacienienia" />
-      <NaglowekEkranu tytul="Analiza zacienienia" ekran="analiza-zacienienia" parametry={{ tau: PRZEPUSZCZALNOSC_KORONY_BEZLISTNEJ * 100 }}>
+      <NaglowekEkranu tytul="Analiza zacienienia" ekran="analiza-zacienienia" wynik={aktualny ? wynikE3 : null} parametry={{ tau: PRZEPUSZCZALNOSC_KORONY_BEZLISTNEJ * 100 }}>
         Dla każdej godziny roku sprawdza, czy przeszkoda zasłania słońce, i sumuje roczną stratę energii. Cień to niewidoczny złodziej energii — jedno drzewo, które dziś ledwo sięga dachu, za 10 lat może
         zasłaniać połowę instalacji, jeśli się z tym nie policzy od razu. Moduł 1, Ekran 3.
       </NaglowekEkranu>

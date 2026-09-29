@@ -65,7 +65,7 @@ export default function NaporWiatruPage() {
   return (
     <main className="mx-auto flex max-w-md flex-col gap-6 p-6">
       <NawigacjaEkranu href="/kalkulatory/napor-wiatru" />
-      <NaglowekEkranu tytul="Aerodynamika — napór wiatru" ekran="napor-wiatru" wzor={result.formula}>
+      <NaglowekEkranu tytul="Aerodynamika — napór wiatru" ekran="napor-wiatru" wynik={result}>
         Panel działa trochę jak żagiel — wiatr może go pchać, ale też może pod niego „zajrzeć” i
         ciągnąć do góry jak skrzydło samolotu. Moduł 3, Ekran 6.
       </NaglowekEkranu>

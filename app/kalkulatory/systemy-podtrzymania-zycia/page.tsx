@@ -63,7 +63,7 @@ export default function SystemyPodtrzymaniaZyciaPage() {
   return (
     <main className="mx-auto flex max-w-md flex-col gap-6 p-6">
       <NawigacjaEkranu href="/kalkulatory/systemy-podtrzymania-zycia" />
-      <NaglowekEkranu tytul="Systemy podtrzymania życia" ekran="systemy-podtrzymania-zycia">
+      <NaglowekEkranu tytul="Systemy podtrzymania życia" ekran="systemy-podtrzymania-zycia" wynik={result}>
         To jest lista rzeczy, bez których dom przestaje być bezpieczny do mieszkania — reszta
         aplikacji będzie chronić te odbiorniki jako pierwsze, cokolwiek by się działo. Moduł 2,
         Ekran 1.

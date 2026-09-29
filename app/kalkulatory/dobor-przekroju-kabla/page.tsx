@@ -133,7 +133,7 @@ export default function DoborPrzekrojuKablaPage() {
       <NaglowekEkranu
         tytul="Dobór przekroju kabla"
         ekran="dobor-przekroju-kabla"
-        wzor={result.formula}
+        wynik={result}
         parametry={{ margines: PROG_MARGINESU_ZALECANE_PCT }}
       >
         Prąd płynący długim kablem traci energię jak woda w długim wężu — im dłuższa droga i

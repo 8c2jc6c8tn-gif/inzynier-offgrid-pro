@@ -109,7 +109,7 @@ export default function PomiaryPowykonawczePage() {
       <NaglowekEkranu
         tytul="Pomiary i testy powykonawcze"
         ekran="pomiary-powykonawcze"
-        wzor={result.formula}
+        wynik={result}
         parametry={{ minIzolacja: MIN_REZYSTANCJA_IZOLACJI_MOHM, maxRcd: MAX_CZAS_ZADZIALANIA_RCD_S }}
       >
         Ostatni krok przed odbiorem instalacji — sześć testów, każdy z twardym progiem. Dowolny

@@ -50,7 +50,7 @@ export default function OswietlenieAwaryjnePage() {
   return (
     <main className="mx-auto flex max-w-md flex-col gap-6 p-6">
       <NawigacjaEkranu href="/kalkulatory/oswietlenie-awaryjne" />
-      <NaglowekEkranu tytul="Oświetlenie awaryjne" ekran="oswietlenie-awaryjne" wzor={result.formula}>
+      <NaglowekEkranu tytul="Oświetlenie awaryjne" ekran="oswietlenie-awaryjne" wynik={result}>
         W dymie nie widać drogi — awaria lampy na trasie ewakuacji musi być widoczna, zanim będzie potrzebna. Moduł 8, Ekran 7.
       </NaglowekEkranu>
 
