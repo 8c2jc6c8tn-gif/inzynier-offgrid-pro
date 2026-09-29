@@ -78,7 +78,7 @@ export default function OchronaWilgocPage() {
       <NaglowekEkranu
         tytul="Ochrona przed wilgocią i kondensacją"
         ekran="ochrona-wilgoc"
-        wzor={result.formula}
+        wynik={result}
         parametry={{ minIp: MIN_IP_KOD_WILGOTNE }}
       >
         Mokry BMS i miedziane szyny to gotowy przepis na zwarcie — kondensacja to cichy zabójca

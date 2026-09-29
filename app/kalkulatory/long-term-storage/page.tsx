@@ -76,7 +76,7 @@ export default function LongTermStoragePage() {
       <NawigacjaEkranu href="/kalkulatory/long-term-storage" />
       <NaglowekEkranu
         tytul="Tryb Long Term Storage (odstawienie na zimę)"
-        ekran="long-term-storage"
+        ekran="long-term-storage" wynik={result}
         parametry={{ socMin: SOC_ZALECANY_MIN_PCT, socMax: SOC_ZALECANY_MAX_PCT, tMin: TEMPERATURA_MIN_BEZPIECZNA_C }}
       >
         Bateria odstawiona na dłużej nie lubi być ani przesuszona, ani przelana — a mróz poniżej

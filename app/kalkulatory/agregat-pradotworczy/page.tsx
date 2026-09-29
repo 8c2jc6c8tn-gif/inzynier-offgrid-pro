@@ -82,7 +82,7 @@ export default function AgregatPradotworczyPage() {
       <NaglowekEkranu
         tytul="Agregat prądotwórczy — definicja i logika pracy"
         ekran="agregat-pradotworczy"
-        wzor={result.formula}
+        wynik={result}
         parametry={{ obciazenie: OPTYMALNE_OBCIAZENIE_PCT }}
       >
         System porównuje produkcję PV z zapotrzebowaniem w najgorszym miesiącu roku. Jeśli

@@ -33,7 +33,7 @@ export default function ZimaBezSieciPage() {
   return (
     <main className="mx-auto flex max-w-2xl flex-col gap-6 p-6">
       <NawigacjaEkranu href="/kalkulatory/zima-bez-sieci" />
-      <NaglowekEkranu tytul={t("UI-ZIMA-TYTUL")} ekran="zima-bez-sieci" wzor={result?.formula}>
+      <NaglowekEkranu tytul={t("UI-ZIMA-TYTUL")} ekran="zima-bez-sieci" wynik={result}>
         {t("UI-ZIMA-OPIS")}
       </NaglowekEkranu>
 

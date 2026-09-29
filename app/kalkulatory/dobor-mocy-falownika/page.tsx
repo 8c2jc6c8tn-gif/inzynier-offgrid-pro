@@ -77,7 +77,7 @@ export default function DoborMocyFalownikaPage() {
       <NaglowekEkranu
         tytul="Dobór mocy falownika"
         ekran="dobor-mocy-falownika"
-        wzor={result.formula}
+        wynik={result}
         parametry={{ wspJednoczesnosci: DOMYSLNY_WSPOLCZYNNIK_JEDNOCZESNOSCI }}
       >
         Falownik musi wytrzymać nie tylko normalną pracę, ale ten ułamek sekundy, gdy silnik

@@ -49,7 +49,7 @@ export default function LiczbaDomownikowPage() {
       <NawigacjaEkranu href="/kalkulatory/liczba-domownikow" />
       <NaglowekEkranu
         tytul="Liczba domowników"
-        ekran="liczba-domownikow"
+        ekran="liczba-domownikow" wynik={result}
         parametry={{ cwuMin: CWU_MIN_L_NA_OSOBE, cwuMax: CWU_MAX_L_NA_OSOBE }}
       >
         To jest lista rzeczy, bez których dom przestaje być bezpieczny do mieszkania — zasila

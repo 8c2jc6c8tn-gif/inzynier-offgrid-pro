@@ -82,7 +82,7 @@ export default function KoniecLadowaniaPage() {
       <NaglowekEkranu
         tytul="Algorytm końca ładowania (Tail Current / Absorption)"
         ekran="koniec-ladowania"
-        wzor={result.formula}
+        wynik={result}
       >
         To jak napełnianie butelki — ciśnienie już jest, ale trzeba chwilę odczekać, żeby woda
         dotarła do samego końca. Moduł 4, Ekran 13.

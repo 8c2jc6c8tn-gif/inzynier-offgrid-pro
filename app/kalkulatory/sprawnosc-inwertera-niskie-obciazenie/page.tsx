@@ -58,7 +58,7 @@ export default function SprawnoscInwerteraPage() {
       <NaglowekEkranu
         tytul="Sprawność inwertera przy niskim obciążeniu"
         ekran="sprawnosc-inwertera-niskie-obciazenie"
-        wzor={result.formula}
+        wynik={result}
         parametry={{ prog: PROG_NISKIEGO_OBCIAZENIA_PCT, optMin: ZAKRES_OPTYMALNY_MIN_PCT, optMax: ZAKRES_OPTYMALNY_MAX_PCT }}
       >
         Za duży falownik względem realnego obciążenia to trochę jak jazda autem na najwyższym

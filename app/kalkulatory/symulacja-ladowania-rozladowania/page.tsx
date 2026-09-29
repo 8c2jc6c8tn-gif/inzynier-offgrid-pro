@@ -70,7 +70,7 @@ export default function SymulacjaLadowaniaRozladowaniaPage() {
       <NaglowekEkranu
         tytul="Symulacja czasu ładowania/rozładowania"
         ekran="symulacja-ladowania-rozladowania"
-        wzor={result.formula}
+        wynik={result}
       >
         Pokazuje, czy Twoja bateria i produkcja PV są w ogóle zsynchronizowane z Twoim zużyciem —
         czy zdąży naładować się w ciągu dnia i czy przetrwa do rana. Moduł 4, Ekran 3.

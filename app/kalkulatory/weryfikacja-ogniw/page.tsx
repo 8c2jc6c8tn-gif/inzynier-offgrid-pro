@@ -99,7 +99,7 @@ export default function WeryfikacjaOgniwPage() {
       <NawigacjaEkranu href="/kalkulatory/weryfikacja-ogniw" />
       <NaglowekEkranu
         tytul="Weryfikacja kompletności i kontrola wstępna ogniw"
-        ekran="weryfikacja-ogniw"
+        ekran="weryfikacja-ogniw" wynik={result}
         parametry={{ maxRoznica: MAX_ROZNICA_NAPIEC_V }}
       >
         Zanim ogniwa trafią do wspólnego pakietu, muszą przejść tę kontrolę — złe dobranie liczby

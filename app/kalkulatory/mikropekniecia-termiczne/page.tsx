@@ -50,7 +50,7 @@ export default function MikropeknieciaTermicznePage() {
       <NaglowekEkranu
         tytul="Mikropęknięcia termiczne"
         ekran="mikropekniecia-termiczne"
-        wzor={result.formula}
+        wynik={result}
         parametry={{ tMin: TEMPERATURA_PANELU_MIN_C, tMax: TEMPERATURA_PANELU_MAX_C, schlodzenie: SCHLODZENIE_PRZY_DESZCZU_C, odstepMin: ODSTEP_DYLATACYJNY_MIN_MM, lata: CZAS_DO_MIKROPEKNIEC_LATA }}
       >
         Panele nagrzewają się w słońcu do {TEMPERATURA_PANELU_MIN_C}–{TEMPERATURA_PANELU_MAX_C}°C, a przy

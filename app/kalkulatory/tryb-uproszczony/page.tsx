@@ -53,7 +53,7 @@ export default function TrybUproszczonyPage() {
   return (
     <main className="mx-auto flex max-w-md flex-col gap-6 p-6">
       <NawigacjaEkranu href="/kalkulatory/tryb-uproszczony" />
-      <NaglowekEkranu tytul="Tryb uproszczony" ekran="tryb-uproszczony" wzor={result.formula}>
+      <NaglowekEkranu tytul="Tryb uproszczony" ekran="tryb-uproszczony" wynik={result}>
         To wejście dla kogoś, kto nie chce przechodzić przez pełny proces projektowy — szybka
         odpowiedź na jedno pytanie. Moduł 12, Ekran 1.
       </NaglowekEkranu>

@@ -61,7 +61,7 @@ export default function NiezawodnoscEsp32Page() {
   return (
     <main className="mx-auto flex max-w-md flex-col gap-6 p-6">
       <NawigacjaEkranu href="/kalkulatory/niezawodnosc-esp32" />
-      <NaglowekEkranu tytul="Niezawodność sterownika ESP32" ekran="niezawodnosc-esp32" wzor={result.formula}>
+      <NaglowekEkranu tytul="Niezawodność sterownika ESP32" ekran="niezawodnosc-esp32" wynik={result}>
         „System odpornościowy” ESP32: żeby nie stracił danych przy zaniku prądu, nie zawiesił się na trwałe, nie oberwał
         przepięciem i dało się go bezpiecznie aktualizować. Moduł 9, Ekran 6.
       </NaglowekEkranu>

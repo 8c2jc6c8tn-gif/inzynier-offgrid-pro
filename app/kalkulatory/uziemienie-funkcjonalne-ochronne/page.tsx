@@ -69,7 +69,7 @@ export default function UziemienieFunkcjonalneOchronnePage() {
       <NaglowekEkranu
         tytul="Uziemienie funkcjonalne vs ochronne"
         ekran="uziemienie-funkcjonalne-ochronne"
-        wzor={result.formula}
+        wynik={result}
       >
         Ochronne to poduszka powietrzna dla ciebie. Funkcjonalne to stabilizator dla elektroniki.
         Oba muszą być, ale nie zawsze razem. Moduł 5, Ekran 11.

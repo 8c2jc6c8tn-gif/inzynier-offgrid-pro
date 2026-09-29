@@ -57,7 +57,7 @@ export default function SztywnienieIzolacjiPage() {
       <NaglowekEkranu
         tytul="Sztywnienie izolacji na mrozie"
         ekran="sztywnienie-izolacji"
-        wzor={result.formula}
+        wynik={result}
         parametry={{ pvc: MIN_TEMPERATURA_MATERIALU_C.PVC ?? "—", xlpe: MIN_TEMPERATURA_MATERIALU_C.XLPE ?? "—" }}
       >
         Czy izolacja kabli, osłony i złączki wytrzymają najniższą temperaturę w miejscu montażu. Moduł 7.

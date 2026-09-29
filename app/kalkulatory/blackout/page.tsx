@@ -54,7 +54,7 @@ export default function BlackoutPage() {
   return (
     <main className="mx-auto flex max-w-md flex-col gap-6 p-6">
       <NawigacjaEkranu href="/kalkulatory/blackout" />
-      <NaglowekEkranu tytul="Blackout — dni bez słońca" ekran="blackout" wzor={result.formula}>
+      <NaglowekEkranu tytul="Blackout — dni bez słońca" ekran="blackout" wynik={result}>
         Test najgorszego koszmaru: dwa tygodnie bez słońca w mrozie. Jeśli system przeżyje ten scenariusz, przeżyje właściwie
         wszystko inne. Moduł 7, Ekran 4.
       </NaglowekEkranu>

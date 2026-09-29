@@ -72,7 +72,7 @@ export default function OplacalnoscMagazynuPage() {
       <NaglowekEkranu
         tytul="Analiza opłacalności magazynu (True Cost of Storage)"
         ekran="oplacalnosc-magazynu"
-        wzor={result.formula}
+        wynik={result}
       >
         Bateria to skarbonka energii, ale sama też kosztuje — dopiero policzenie kosztu za każdą
         oddaną kWh pokazuje, czy się faktycznie opłaca. Moduł 4, Ekran 23.

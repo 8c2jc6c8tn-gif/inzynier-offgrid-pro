@@ -57,7 +57,7 @@ export default function OchronaPrzedRozladowaniemPage() {
       <NaglowekEkranu
         tytul="Ochrona przed rozładowaniem akumulatora"
         ekran="ochrona-przed-rozladowaniem"
-        wzor={result.formula}
+        wynik={result}
         parametry={{ progAgm: PROG_ODCIECIA_12V.AGM ?? "—", progLfp: PROG_ODCIECIA_12V.LiFePO4 ?? "—" }}
       >
         Dozownik napięcia (LVD) odłącza odbiornik, zanim rozładuje akumulator za głęboko. Moduł 12.

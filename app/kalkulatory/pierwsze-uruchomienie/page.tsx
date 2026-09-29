@@ -71,7 +71,7 @@ export default function PierwszeUruchomieniePage() {
       <NawigacjaEkranu href="/kalkulatory/pierwsze-uruchomienie" />
       <NaglowekEkranu
         tytul="Pierwsze uruchomienie i test balansowania"
-        ekran="pierwsze-uruchomienie"
+        ekran="pierwsze-uruchomienie" wynik={result}
         parametry={{ cRate: TEST_LADOWANIA_C_RATE, czas: CZAS_TESTU_MIN, prog: PROG_TOP_BALANCING_V }}
       >
         Pierwsze ładowanie to nie jest &bdquo;włącz i zapomnij&rdquo; — to moment, kiedy BMS uczy

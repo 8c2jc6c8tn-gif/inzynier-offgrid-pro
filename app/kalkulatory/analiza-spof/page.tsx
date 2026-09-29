@@ -42,7 +42,7 @@ export default function AnalizaSpofPage() {
   return (
     <main className="mx-auto flex max-w-md flex-col gap-6 p-6">
       <NawigacjaEkranu href="/kalkulatory/analiza-spof" />
-      <NaglowekEkranu tytul="Analiza SPOF — pojedyncze punkty awarii" ekran="analiza-spof" wzor={result.formula}>
+      <NaglowekEkranu tytul="Analiza SPOF — pojedyncze punkty awarii" ekran="analiza-spof" wynik={result}>
         Jeden element może pociągnąć cały system na dno — trzeba go znaleźć, zanim znajdzie go zima. Moduł 7, Ekran 10.
       </NaglowekEkranu>
 

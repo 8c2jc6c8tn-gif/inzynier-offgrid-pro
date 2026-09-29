@@ -65,7 +65,7 @@ export default function DoborBezpiecznikaRozlacznikaPage() {
   return (
     <main className="mx-auto flex max-w-md flex-col gap-6 p-6">
       <NawigacjaEkranu href="/kalkulatory/dobor-bezpiecznika-rozlacznika" />
-      <NaglowekEkranu tytul="Dobór bezpieczników i rozłączników" ekran="dobor-bezpiecznika-rozlacznika">
+      <NaglowekEkranu tytul="Dobór bezpieczników i rozłączników" ekran="dobor-bezpiecznika-rozlacznika" wynik={result}>
         Bezpiecznik to bezpieczna wkładka topikowa dla całej instalacji — ma przepalić się on,
         zanim przepali się kabel. Moduł 5, Ekran 6.
       </NaglowekEkranu>

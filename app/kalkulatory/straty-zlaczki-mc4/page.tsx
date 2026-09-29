@@ -60,7 +60,7 @@ export default function StratyZlaczkiMc4Page() {
       <NaglowekEkranu
         tytul="Straty na złączkach MC4 w praktyce"
         ekran="straty-zlaczki-mc4"
-        wzor={result.formula}
+        wynik={result}
         parametry={{ rMin: REZYSTANCJA_DOBRY_STAN_MIN_MOHM, rMax: REZYSTANCJA_DOBRY_STAN_MAX_MOHM, mnoznik: MNOZNIK_ZLY_STYK }}
       >
         Małe złączki, duże znaczenie — luźny styk MC4 to jedna z najczęstszych przyczyn awarii i

@@ -54,7 +54,7 @@ export default function AwaryjneZrodloCieplaPage() {
   return (
     <main className="mx-auto flex max-w-md flex-col gap-6 p-6">
       <NawigacjaEkranu href="/kalkulatory/awaryjne-zrodlo-ciepla" />
-      <NaglowekEkranu tytul="Awaryjne źródło ciepła" ekran="awaryjne-zrodlo-ciepla" wzor={result.formula}>
+      <NaglowekEkranu tytul="Awaryjne źródło ciepła" ekran="awaryjne-zrodlo-ciepla" wynik={result}>
         Ogień to najstarsze źródło ciepła — w off-gridzie wraca jako sensowna rezerwa, o ile jest bezpiecznie zintegrowany z
         resztą systemu. Ile ciepła da kominek i ile drewna zje. Moduł 8, Ekran 1.
       </NaglowekEkranu>

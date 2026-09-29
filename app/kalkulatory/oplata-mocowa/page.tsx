@@ -35,7 +35,7 @@ export default function OplataMocowaPage() {
   return (
     <main className="mx-auto flex max-w-md flex-col gap-6 p-6">
       <NawigacjaEkranu href="/kalkulatory/oplata-mocowa" />
-      <NaglowekEkranu tytul="Opłata mocowa — przesunięcie poboru" ekran="oplata-mocowa" wzor={result.formula}>
+      <NaglowekEkranu tytul="Opłata mocowa — przesunięcie poboru" ekran="oplata-mocowa" wynik={result}>
         W firmie opłata mocowa to 0,2194 zł/kWh netto za energię pobraną w dni robocze 7:00–22:00 (2026). Zobacz, ile
         daje przesunięcie części poboru poza te godziny — produkcja, ładowanie aut, pompa ciepła z buforem, magazyn. M14
         „Firma – sieć”, ekran F5.

@@ -1381,6 +1381,9 @@ export const dictionaryPl = {
   "MIGAWKA-UI-JAK-DZIALA": "Jak to liczy",
   "MIGAWKA-UI-PO-CO": "Po co to",
   "MIGAWKA-UI-WZOR": "Wzór",
+  "MIGAWKA-UI-ZALOZENIA": "Założenia bieżącego wyniku",
+  "POMOC-UI-ZAMKNIJ": "Zamknij",
+  "WYNIK-UI-ZALOZENIE": "Założenie",
 } as const
 
 export type KluczTlumaczenia = keyof typeof dictionaryPl

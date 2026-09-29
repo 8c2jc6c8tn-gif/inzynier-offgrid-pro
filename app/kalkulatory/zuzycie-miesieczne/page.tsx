@@ -48,7 +48,7 @@ export default function ZuzycieMiesiecznePage() {
   return (
     <main className="mx-auto flex max-w-md flex-col gap-6 p-6">
       <NawigacjaEkranu href="/kalkulatory/zuzycie-miesieczne" />
-      <NaglowekEkranu tytul={t("UI-ZUZ-TYTUL")} ekran="zuzycie-miesieczne">
+      <NaglowekEkranu tytul={t("UI-ZUZ-TYTUL")} ekran="zuzycie-miesieczne" wynik={result}>
         {t("UI-ZUZ-OPIS")}
       </NaglowekEkranu>
       <PolaZuzycia stan={stan} onChange={setStan} />

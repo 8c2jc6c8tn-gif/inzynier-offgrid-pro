@@ -62,7 +62,7 @@ export default function CzystoscISniegPage() {
       <NawigacjaEkranu href="/kalkulatory/czystosc-i-snieg" />
       <NaglowekEkranu
         tytul="Czystość i śnieg na panelach"
-        ekran="czystosc-i-snieg"
+        ekran="czystosc-i-snieg" wynik={harmonogramResult}
         parametry={{ katZaleganie: KAT_ZALEGANIE_MAX, katPrzejsciowy: KAT_PRZEJSCIOWY_MAX, katSplukiwanie: KAT_SPLUKIWANIE_MAX, progMycia: SPADEK_PROG_MYCIA_PCT }}
       >
         Zasypany panel to martwy panel, a wiatr rozkłada śnieg jak piasek na pustyni —

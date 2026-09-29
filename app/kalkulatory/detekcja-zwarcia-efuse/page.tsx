@@ -62,7 +62,7 @@ export default function DetekcjaZwarciaEFusePage() {
   return (
     <main className="mx-auto flex max-w-md flex-col gap-6 p-6">
       <NawigacjaEkranu href="/kalkulatory/detekcja-zwarcia-efuse" />
-      <NaglowekEkranu tytul="Detekcja zwarcia i e-Fuse" ekran="detekcja-zwarcia-efuse" wzor={result.formula}>
+      <NaglowekEkranu tytul="Detekcja zwarcia i e-Fuse" ekran="detekcja-zwarcia-efuse" wynik={result}>
         Zwykły bezpiecznik wyłącza zwarcie w ok. 10 ms — elektroniczny e-Fuse w mniej niż 100 µs.
         Przy bardzo wysokich prądach zwarciowych ta różnica decyduje, czy tranzystory BMS
         przetrwają. Moduł 4, Ekran 9.

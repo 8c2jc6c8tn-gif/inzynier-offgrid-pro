@@ -105,7 +105,7 @@ export default function LaczenieCuAlPage() {
       <NaglowekEkranu
         tytul="Łączenie Cu-Al i ochrona przed korozją"
         ekran="laczenie-cu-al"
-        wzor={result.formula}
+        wynik={result}
         parametry={{ wspAl: WSPOLCZYNNIK_PRZEKROJU_AL_WZGLEDEM_CU }}
       >
         Miedź i aluminium w wilgoci nie znoszą bezpośredniego kontaktu — trzeba je rozdzielić

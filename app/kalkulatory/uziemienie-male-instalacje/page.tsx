@@ -213,7 +213,7 @@ export default function UziemienieMaleInstalacjePage() {
   return (
     <main className="mx-auto flex max-w-md flex-col gap-6 p-6">
       <NawigacjaEkranu href="/kalkulatory/uziemienie-male-instalacje" />
-      <NaglowekEkranu tytul={t("UI-UMI-TYTUL")} ekran="uziemienie-male-instalacje" wzor={result.formula}>
+      <NaglowekEkranu tytul={t("UI-UMI-TYTUL")} ekran="uziemienie-male-instalacje" wynik={result}>
         {t("UI-UMI-OPIS")}
       </NaglowekEkranu>
       

@@ -58,7 +58,7 @@ export default function WentylacjaOdzyskCieplaPage() {
   return (
     <main className="mx-auto flex max-w-md flex-col gap-6 p-6">
       <NawigacjaEkranu href="/kalkulatory/wentylacja-odzysk-ciepla" />
-      <NaglowekEkranu tytul="System wentylacji z odzyskiem ciepła" ekran="wentylacja-odzysk-ciepla" wzor={result.formula}>
+      <NaglowekEkranu tytul="System wentylacji z odzyskiem ciepła" ekran="wentylacja-odzysk-ciepla" wynik={result}>
         Wentylacja to płuca domu. Rekuperacja sprawia, że płuca oddychają, ale nie tracą przy tym
         ciepła. Moduł 6, Ekran 3.
       </NaglowekEkranu>

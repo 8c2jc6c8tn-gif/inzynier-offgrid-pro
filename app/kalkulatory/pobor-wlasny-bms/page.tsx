@@ -52,7 +52,7 @@ export default function PoborWlasnyBmsPage() {
   return (
     <main className="mx-auto flex max-w-md flex-col gap-6 p-6">
       <NawigacjaEkranu href="/kalkulatory/pobor-wlasny-bms" />
-      <NaglowekEkranu tytul="Pobór własny BMS i tryb uśpienia" ekran="pobor-wlasny-bms" wzor={result.formula}>
+      <NaglowekEkranu tytul="Pobór własny BMS i tryb uśpienia" ekran="pobor-wlasny-bms" wynik={result}>
         BMS to też odbiornik prądu, nawet gdy „nic nie robi” — w małych off-gridach ten stały
         pobór potrafi być zaskakująco dużą częścią bilansu. Moduł 4, Ekran 22.
       </NaglowekEkranu>

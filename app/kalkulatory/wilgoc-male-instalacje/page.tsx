@@ -69,7 +69,7 @@ export default function WilgocMaleInstalacjePage() {
       <NaglowekEkranu
         tytul="Zabezpieczenia przeciwwilgociowe — mała instalacja"
         ekran="wilgoc-male-instalacje"
-        wzor={result.formula}
+        wynik={result}
       >
         Garaż, piwnica, namiot albo jacht: sprawdza, czy obudowa ma wystarczający stopień ochrony IP, i podaje, jakie osłony
         zastosować. Moduł 12, Ekran 23 (uproszczona wersja Modułu 4, Ekran 10).

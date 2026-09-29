@@ -211,7 +211,7 @@ export default function MostkiTermicznePage() {
   return (
     <main className="mx-auto flex max-w-2xl flex-col gap-6 p-6">
       <NawigacjaEkranu href="/kalkulatory/mostki-termiczne" />
-      <NaglowekEkranu tytul="Mostki termiczne" ekran="mostki-termiczne" wzor={wynik.formula}>
+      <NaglowekEkranu tytul="Mostki termiczne" ekran="mostki-termiczne" wynik={wynik}>
         Miejsca, gdzie izolacja jest przerwana — narożniki, styk dachu ze ścianą, płyty balkonowe, ościeża okien. Każdy metr
         takiego połączenia traci ciepło ponad to, co liczą same przegrody na Ekranie 1. Moduł 6, Ekran 7.
       </NaglowekEkranu>

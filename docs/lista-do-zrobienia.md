@@ -1275,6 +1275,24 @@ Pełne wyniki audytu: `docs/memory.md`, sekcja "Pełny audyt na polecenie właś
   **Kolejność:** (1)+(2) przed (3).
   🔄 **[29.09.2026, 22:55] W trakcie** — gałąź `claude/pwa-parallel-branch-work-4e99fd` (worktree
   `.claude/worktrees/pwa-parallel-branch-work-4e99fd`), po strażniku stopów. Nie koliduje z plikami SW etapu 1.
+  ✅ **[29.09.2026, 23:25] (1) + (2) zrobione** (gałąź `claude/stopy-guard-84b`): `NaglowekEkranu`/`MigawkaInfo` biorą
+  `wynik` (cały `CalcResult`) zamiast `wzor` — „Fizyka” pokazuje wzór **i założenia** bieżącego wyniku tym samym
+  `ZalozeniaLista` co pod wynikiem (`WynikSzczegoly` używa go teraz też; prefiks „Założenie” przetłumaczony, klucz
+  `WYNIK-UI-ZALOZENIE`). 139 ekranów przepiętych z `wzor={result.formula}` na `wynik={result}`, +22 ekrany z
+  założeniami, które wzoru nie przekazywały (m.in. `audyt-pozarowy`, `prognozy`, `analiza-zacienienia`). Na telefonie
+  (<640 px) `Chmurka` otwiera „i” **i „?”** jako panel od dołu (Base UI `Drawer`, przycisk „Zamknij” PL/EN/RU) — 8.4b
+  mówi o obu. Sprawdzone w przeglądarce: desktop (popover, zakładki, wzór + założenia) i 375 px (panel, zakładki, „?”,
+  zamykanie), konsola bez błędów. **Zostaje (3)** — osobny wpis niżej.
+- 🔲 (2026-09-29) **8.4b pkt (3) — liczby w tekstach „Fizyka” przez `params`, nie przepisane.** 146 z 345 tekstów
+  `fizyka` w `lib/i18n/pomoc/*` ma cyfry; większość to struktura wzoru (`3600`, `/100`, `T = 5·R·C`) — zostaje.
+  Kandydaci na przepisaną stałą silnika (przykłady z przeglądu 29.09): `0,4 %/°C` (M3 temperatura), `c_wody = 4186`,
+  `0,001163 kWh/(l·K)`, `ρ = 1,225 kg/m³` (napór wiatru), `ρ_Cu ≈ 0,0175`, współczynniki wind chill, stawki ustawowe
+  `× 1,23`, `20%/30%`, `12 mies.` (M14 depozyt). Dla każdego: jest stała w `lib/core/modules/**/constants.ts`? → `{nazwa}`
+  + `parametry` w `NaglowekEkranu` we wszystkich trzech językach; nie ma → zostaje (to wiedza, nie parametr silnika).
+  **Priorytet:** średni. **Odblokowuje:** zgodność 8.4b w całości. **Plusy teraz:** (1)+(2) już weszły, kontekst świeży.
+  **Minusy:** ok. 1 sesja, sama treść w 3 językach. **Kolizje:** `lib/i18n/pomoc/*` i strony ekranów (atrybut
+  `parametry`) — te same pliki co „Tłumaczenie etykiet stron na EN/RU”; robić po kolei, nie równolegle. Bezkolizyjne z SW
+  etapem 1. **Kolejność:** po merge gałęzi `claude/stopy-guard-84b`.
 - 🔲 (2026-09-29) **Strażnik rejestru twardych stopów — teraz wymóg standardu (4.3 dopisek + 11.9).** Rozszerza wpis
   🔲 z 28.09 „Rejestr twardych stopów — dryf całego M5”: skrypt `scripts/check-stopy-guard.mjs` (każdy kod `level:
   "critical"` w `lib/core/modules/**/warnings.ts` ↔ wpis w `docs/rejestr-twardych-stopow.md`, jawna lista wyjątków
@@ -1282,6 +1300,27 @@ Pełne wyniki audytu: `docs/memory.md`, sekcja "Pełny audyt na polecenie właś
   tylko maleje (11.9). Dziś w modułach 373 wystąpienia `level: "critical"`. **Priorytet:** wysoki (rejestr = narzędzie
   audytu bezpieczeństwa). **Kolizje:** `docs/rejestr-twardych-stopow.md`, `package.json`, `.github/workflows/ci.yml`.
   **Kolejność:** najpierw strażnik z listą zapadkową, potem uzupełnianie M5/M3/M6/M7/M8 (lista maleje).
+  ✅ **[29.09.2026, 23:05] Strażnik zrobiony** — `pnpm check:stopy-guard` (pakiet, `ci.yml`, `CLAUDE.md`), gałąź
+  `claude/stopy-guard-84b`. 265 kodów 🔴: 69 w rejestrze, 145 wyjątków walidacyjnych, 51 na liście zapadkowej.
+  Dalsza część → wpis „Rejestr twardych stopów — uzupełnienie 51 pozycji” niżej. Szczegóły: `docs/memory.md`.
+- ✅ (2026-09-29, wieczór: 46 do rejestru, 3 do wyjątków, 2 czekają — wpis ⚠️ niżej) ~~🔲 (2026-09-29) **Rejestr twardych stopów — uzupełnienie 51 pozycji z listy zapadkowej**~~
+  (`scripts/stopy-guard-baseline.json`; obejmuje wpis z 28.09 „dryf całego M5”). Każdy kod: wpis w
+  `docs/rejestr-twardych-stopow.md` (kategoria, opis, M#/E#, plik, funkcja, kod) albo — gdy okaże się walidacją — przeniesienie
+  do `scripts/stopy-guard-wyjatki.json` z uzasadnieniem; kod znika z listy zapadkowej w tej samej zmianie (strażnik to
+  wymusza). **Priorytet:** wysoki (rejestr = audyt bezpieczeństwa). **Odblokowuje:** pusty baseline = strażnik w pełni
+  ostry (11.9). **Plusy teraz:** tylko dokumentacja, bez kodu. **Minusy:** ok. 1 sesja; część kodów niejednoznaczna
+  (`ZA-DUZO-OGNIW`, `ZACIENIENIE-*`, `SYSTEM-NIE-PRZETRWA-SCENARIUSZA`, `KONFLIKT-JEDNOCZESNOSCI`) — pytania do właściciela.
+  **Kolizje:** `docs/rejestr-twardych-stopow.md` + oba pliki JSON strażnika; bezkolizyjne z SW etapem 1. **Kolejność:**
+  decyzja właściciela 29.09 — po merge SW etapu 1 (razem z pracą domenową M5/M7/M12).
+- ✅ (2026-09-29, **wybrano B** — obniżone do 🟡, wersja kalkulatora 1.0.1; lista zapadkowa strażnika pusta, strażnik w pełni ostry) ~~⚠️ (2026-09-29) **Do decyzji właściciela: 🔴 przy zacienieniu 2 sekcji / całego panelu**~~ (`ZACIENIENIE-2-SEKCJE`,
+  `ZACIENIENIE-PELNY-PANEL`, M3/E13 `pv/zacienienie-diody-bocznikujace`) — jedyne 2 kody na liście zapadkowej. To strata
+  uzysku (66% / 100% mocy panelu), nie zagrożenie ani uszkodzenie sprzętu, a źródło przy tym ekranie daje 🟡 (mikroinwertery),
+  nie 🔴. Opcje: (A) zostawić 🔴 i wpisać do rejestru; (B) obniżyć do 🟡 `warning` (zmiana kodu + testy, kody znikają z listy
+  zapadkowej). Rekomendacja audytora: B — rejestr ma zawierać fakty „niebezpieczne / uszkodzi sprzęt” (nagłówek rejestru).
+  **Priorytet:** średni. **Odblokowuje:** pusty baseline = strażnik w pełni ostry (11.9). **Kolizje:** bezkolizyjne.
+  **Do potwierdzenia ✅🤖 przy okazji:** `BRAK-PASUJACEGO-PRZEKROJU` i `MK-BRAK-PRZEKROJU-DLA-BEZPIECZNIKA` wpisane do
+  rejestru (nie jako „poza zakresem tablicy”), `NIEPARZYSTA-LICZBA-OGNIW`/`ZA-MALO-OGNIW`/`ZA-DUZO-OGNIW` (M11 sekwencja
+  montażu, status OUT_OF_SCOPE) — do wyjątków „poza zakresem modelu”.
   🔄 **[29.09.2026, 22:55] W trakcie** — gałąź `claude/pwa-parallel-branch-work-4e99fd` (worktree
   `.claude/worktrees/pwa-parallel-branch-work-4e99fd`). Inne sesje: nie ruszać `docs/rejestr-twardych-stopow.md`
   do merge tej gałęzi. Uzupełnianie M5 i dalszych modułów — po merge SW etapu 1 (decyzja właściciela).

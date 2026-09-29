@@ -42,7 +42,7 @@ export default function OcenaZasiarczeniaPage() {
   return (
     <main className="mx-auto flex max-w-md flex-col gap-6 p-6">
       <NawigacjaEkranu href="/kalkulatory/ocena-zasiarczenia" />
-      <NaglowekEkranu tytul="Ocena zużycia — siarczanowanie" ekran="ocena-zasiarczenia">
+      <NaglowekEkranu tytul="Ocena zużycia — siarczanowanie" ekran="ocena-zasiarczenia" wynik={result}>
         Zaznacz objawy, które faktycznie obserwujesz na akumulatorze. Moduł 11, Ekran B10 (Ścieżka
         B — kwasowo-ołowiowa).
       </NaglowekEkranu>

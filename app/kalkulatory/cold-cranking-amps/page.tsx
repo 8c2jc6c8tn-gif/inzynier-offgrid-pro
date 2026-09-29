@@ -66,7 +66,7 @@ export default function ColdCrankingAmpsPage() {
       <NaglowekEkranu
         tytul="Cold Cranking Amps — zimny start dużych odbiorników"
         ekran="cold-cranking-amps"
-        wzor={result.formula}
+        wynik={result}
       >
         Zimna bateria to leniwa chemia — reakcje chemiczne wewnątrz zwalniają, więc bateria
         chwilowo „nie nadąża” z dostarczeniem prądu rozruchowego, nawet jeśli ma dużo energii.

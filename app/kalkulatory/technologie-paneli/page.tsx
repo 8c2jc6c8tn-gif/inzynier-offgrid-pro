@@ -93,7 +93,7 @@ export default function TechnologiePaneliPage() {
   return (
     <main className="mx-auto flex max-w-md flex-col gap-6 p-6">
       <NawigacjaEkranu href="/kalkulatory/technologie-paneli" />
-      <NaglowekEkranu tytul="Technologie paneli" ekran="technologie-paneli" wzor={result.formula}>
+      <NaglowekEkranu tytul="Technologie paneli" ekran="technologie-paneli" wynik={result}>
         Half-Cut, PERC, TOPCon, HJT i panele cienkowarstwowe różnią się sprawnością, tempem starzenia i
         tym, gdzie się sprawdzą. Moduł 3, Ekran 15.
       </NaglowekEkranu>

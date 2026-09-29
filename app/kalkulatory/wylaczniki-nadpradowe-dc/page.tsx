@@ -81,7 +81,7 @@ export default function WylacznikiNadpradoweDcPage() {
   return (
     <main className="mx-auto flex max-w-md flex-col gap-6 p-6">
       <NawigacjaEkranu href="/kalkulatory/wylaczniki-nadpradowe-dc" />
-      <NaglowekEkranu tytul="Wyłączniki nadprądowe DC" ekran="wylaczniki-nadpradowe-dc" wzor={result.formula}>
+      <NaglowekEkranu tytul="Wyłączniki nadprądowe DC" ekran="wylaczniki-nadpradowe-dc" wynik={result}>
         Prąd stały pali się jak spawarka. Wyłącznik musi umieć zgasić ten łuk, inaczej sam
         zamieni się w źródło pożaru. Moduł 5, Ekran 14.
       </NaglowekEkranu>

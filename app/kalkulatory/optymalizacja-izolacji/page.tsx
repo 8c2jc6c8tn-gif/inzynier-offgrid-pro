@@ -123,7 +123,7 @@ export default function OptymalizacjaIzolacjiPage() {
   return (
     <main className="mx-auto flex max-w-2xl flex-col gap-6 p-6">
       <NawigacjaEkranu href="/kalkulatory/optymalizacja-izolacji" />
-      <NaglowekEkranu tytul="Optymalizacja izolacji" ekran="optymalizacja-izolacji" wzor={wynik.formula} parametry={{ lata: LAT_ANALIZY }}>
+      <NaglowekEkranu tytul="Optymalizacja izolacji" ekran="optymalizacja-izolacji" wynik={wynik} parametry={{ lata: LAT_ANALIZY }}>
         Porównanie materiałów i grubości docieplenia jednej przegrody: ile ciepła oszczędza każdy wariant i ile kosztuje jedna
         zaoszczędzona kWh w {LAT_ANALIZY} lat. Moduł 6, Ekran 10.
       </NaglowekEkranu>

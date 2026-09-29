@@ -44,7 +44,7 @@ export default function RatowanieAkumulatoraMalyPage() {
       <NaglowekEkranu
         tytul="Ratowanie rozładowanego akumulatora — mała instalacja"
         ekran="ratowanie-akumulatora-maly"
-        wzor={result.formula}
+        wynik={result}
         parametry={{ prog: PROG_KRYTYCZNEGO_ROZLADOWANIA_OLOW_12V }}
       >
         Wybierz typ akumulatora — poprowadzimy Cię do pełnej procedury ratowania w sekcji Montaż baterii. Moduł 12.

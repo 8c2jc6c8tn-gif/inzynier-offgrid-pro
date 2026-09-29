@@ -6,6 +6,13 @@ Zbiorczy, przeszukiwalny indeks wszystkich warunków, które w dowolnym module a
 warunek jest faktycznie sprawdzany. Aktualizacja: przy każdym nowym module, który wprowadza własny
 twardy stop, dopisz go tutaj (nie usuwaj starych pozycji przy zmianach — `docs/standards/15`, 15.3).
 
+**[29.09.2026] Kompletność sprawdza strażnik** `pnpm check:stopy-guard` (`scripts/check-stopy-guard.mjs`,
+standard 4.3 + 11.9): każdy kod, który może wyjść z `level: "critical"` w `lib/core/**`, musi być tu wymieniony
+jako `KOD` (w odwrotnych apostrofach), albo być wyjątkiem w `scripts/stopy-guard-wyjatki.json` (walidacja danych /
+poza zakresem modelu — sekcja na końcu), albo stać na liście zapadkowej `scripts/stopy-guard-baseline.json` (stare
+stopy jeszcze niewpisane; lista tylko maleje). Kod wymieniony tutaj, którego nie ma już w `lib/core`, też jest
+błędem (nieaktualny indeks).
+
 Zakres tego rejestru: **fakty inżynierskie/bezpieczeństwa** ("to jest niebezpieczne/uszkodzi
 sprzęt"), nie generyczna walidacja formularza ("pole musi być większe od zera"). Ta druga kategoria
 istnieje jednolicie w niemal każdym kalkulatorze (`notPositive`/`outOfRange` w plikach
@@ -139,6 +146,88 @@ nie do audytu poprawności formularza webowego.
 - **[28.09.2026] Aktualizacja OTA bez weryfikacji podpisu cyfrowego** — ryzyko złośliwego/uszkodzonego firmware.
   (M9/E6 — `lib/core/modules/esp32/niezawodnosc-esp32/warnings.ts`, `otaBezPodpisu`, kod `OTA-BEZ-PODPISU`)
 
+<!-- [29.09.2026] Pozycje poniżej dopisane z listy zapadkowej strażnika `check:stopy-guard` (stopy istniejące w kodzie, dotąd bez wpisu). -->
+- **[29.09.2026] Komponent bez potwierdzonego certyfikatu (normy PN-EN/IEC dla elementu instalacji)**
+  (M5/E21 — `lib/core/modules/okablowanie/normy-i-certyfikaty/warnings.ts`, `brakCertyfikatu`, kod `BRAK-CERTYFIKATU`)
+- **[29.09.2026] Brak ochrony przed odwrotną polaryzacją po stronie DC**
+  (M5/E15 — `lib/core/modules/okablowanie/ochrona-odwrotna-polaryzacja/warnings.ts`, `brakOchrony`, kod `BRAK-OCHRONY`)
+- **[29.09.2026] Żaden przekrój do maksimum z tablicy nie spełnia jednocześnie obciążalności i spadku napięcia — obwodu nie da się poprawnie wykonać w tej konfiguracji**
+  (M5/E1 — `lib/core/modules/okablowanie/dobor-przekroju-kabla/warnings.ts`, `brakPasujacegoPrzekroju`, kod `BRAK-PASUJACEGO-PRZEKROJU`)
+- **[29.09.2026] Trasa kabla A/B nie spełnia wymagań przekroju (echo doboru przekroju M5/E1)**
+  (M5/E26 — `lib/core/modules/okablowanie/optymalizacja-trasy-kabla/warnings.ts`, `trasaNieSpelniaWymagan`, kod `TRASA-*-NIE-SPELNIA-WYMAGAN`)
+- **[29.09.2026] String box / array box bez obudowy IP66 na zewnątrz**
+  (M5/E22 — `lib/core/modules/okablowanie/string-box/warnings.ts`, `brakSkrzynkiIp66`, kod `BRAK-SKRZYNKI-IP66`)
+- **[29.09.2026] Instalacja odgromowa bez SPD Typu 1**
+  (M5/E2 — `lib/core/modules/okablowanie/ochrona-przepieciowa-spd/warnings.ts`, `brakTypu1PrzyOdgromowej`, kod `BRAK-TYPU-1-PRZY-ODGROMOWEJ`)
+- **[29.09.2026] Napięcie trwałej pracy SPD (Uc) poniżej 1,25 × Voc max stringu**
+  (M5/E2 — `lib/core/modules/okablowanie/ochrona-przepieciowa-spd/warnings.ts`, `ucPonizejMinimum`, kod `UC-PONIZEJ-MINIMUM`)
+- **[29.09.2026] SPD uziemiony osobno, nie przez GSW**
+  (M5/E2 — `lib/core/modules/okablowanie/ochrona-przepieciowa-spd/warnings.ts`, `spdUziemionyOsobno`, kod `SPD-UZIEMIONY-OSOBNO`)
+- **[29.09.2026] Instalacja PV bliżej niż 0,5 m od zwodu odgromowego**
+  (M5/E2 — `lib/core/modules/okablowanie/ochrona-przepieciowa-spd/warnings.ts`, `zaBliskoZwodu`, kod `ZA-BLISKO-ZWODU`)
+- **[29.09.2026] Pomiary powykonawcze: ciągłość przewodów ochronnych niepotwierdzona**
+  (M5/E29 — `lib/core/modules/okablowanie/pomiary-powykonawcze/warnings.ts`, `ciagloscNiepotwierdzona`, kod `CIAGLOSC-NIEPOTWIERDZONA`)
+- **[29.09.2026] Pomiary powykonawcze: rezystancja izolacji ≤ 1 MΩ**
+  (M5/E29 — `lib/core/modules/okablowanie/pomiary-powykonawcze/warnings.ts`, `rezystancjaIzolacjiZaNiska`, kod `REZYSTANCJA-IZOLACJI-ZA-NISKA`)
+- **[29.09.2026] Pomiary powykonawcze: rezystancja uziemienia niezmierzona (0)**
+  (M5/E29 — `lib/core/modules/okablowanie/pomiary-powykonawcze/warnings.ts`, `rezystancjaUziemieniaNiezmierzona`, kod `REZYSTANCJA-UZIEMIENIA-NIEZMIERZONA`)
+- **[29.09.2026] Pomiary powykonawcze: rezystancja uziemienia ≥ progu dla celu uziemienia**
+  (M5/E29 — `lib/core/modules/okablowanie/pomiary-powykonawcze/warnings.ts`, `rezystancjaUziemieniaZaWysoka`, kod `REZYSTANCJA-UZIEMIENIA-ZA-WYSOKA`)
+- **[29.09.2026] Pomiary powykonawcze: czas zadziałania RCD niezmierzony (0)**
+  (M5/E29 — `lib/core/modules/okablowanie/pomiary-powykonawcze/warnings.ts`, `czasRcdNiezmierzony`, kod `CZAS-RCD-NIEZMIERZONY`)
+- **[29.09.2026] Pomiary powykonawcze: czas zadziałania RCD ≥ 0,4 s**
+  (M5/E29 — `lib/core/modules/okablowanie/pomiary-powykonawcze/warnings.ts`, `czasRcdZaDlugi`, kod `CZAS-RCD-ZA-DLUGI`)
+- **[29.09.2026] Pomiary powykonawcze: test zwarciowy niepotwierdzony**
+  (M5/E29 — `lib/core/modules/okablowanie/pomiary-powykonawcze/warnings.ts`, `testZwarciowyNiepotwierdzony`, kod `TEST-ZWARCIOWY-NIEPOTWIERDZONY`)
+- **[29.09.2026] Pomiary powykonawcze: kontrola termowizyjna niepotwierdzona**
+  (M5/E29 — `lib/core/modules/okablowanie/pomiary-powykonawcze/warnings.ts`, `termowizjaNiepotwierdzona`, kod `TERMOWIZJA-NIEPOTWIERDZONA`)
+- **[29.09.2026] Moc falownika poniżej zalecanej dla odbiorników**
+  (M5/E7 — `lib/core/modules/okablowanie/dobor-mocy-falownika/warnings.ts`, `falownikZaSlaby`, kod `FALOWNIK-ZA-SLABY`)
+- **[29.09.2026] Główna szyna wyrównawcza używana jako przyłącze odbiorników**
+  (M5/E10 — `lib/core/modules/okablowanie/glowna-szyna-wyrownawcza/warnings.ts`, `gswUzywanaJakoPrzylacze`, kod `GSW-UZYWANA-JAKO-PRZYLACZE`)
+- **[29.09.2026] Dopuszczalna temperatura izolacji kabla niższa niż maksymalna temperatura trasy**
+  (M5/E28 — `lib/core/modules/okablowanie/dobor-izolacji-kabla/warnings.ts`, `izolacjaPonizejTemperatury`, kod `IZOLACJA-PONIZEJ-TEMPERATURY`)
+- **[29.09.2026] Połączenie Cu–Al bez złączki bimetalicznej — korozja galwaniczna**
+  (M5/E4 — `lib/core/modules/okablowanie/laczenie-cu-al/warnings.ts`, `korozjaGalwanicznaCuAl`, kod `KOROZJA-GALWANICZNA-CU-AL`)
+- **[29.09.2026] Złącza MC4 różnych producentów w jednej parze**
+  (M5/E5 — `lib/core/modules/okablowanie/zlacza-mc4/warnings.ts`, `mieszaniProducenci`, kod `MIESZANI-PRODUCENCI-MC4`)
+- **[29.09.2026] Wyłącznik RCD: próg powyżej 300 mA przy celu ochrony pożarowej**
+  (M5/E16 — `lib/core/modules/okablowanie/wylaczniki-rcd/warnings.ts`, `progPowyzejOchronyPozarowej`, kod `PROG-POWYZEJ-OCHRONY-POZAROWEJ`)
+- **[29.09.2026] Wyłącznik RCD typu AC przy odbiornikach z silnikami — wymagany co najmniej typ A**
+  (M5/E16 — `lib/core/modules/okablowanie/wylaczniki-rcd/warnings.ts`, `wymaganyTypAMinimum`, kod `WYMAGANY-TYP-A-MINIMUM`)
+- **[29.09.2026] Falownik hybrydowy bez RCD typu B**
+  (M5/E16 — `lib/core/modules/okablowanie/wylaczniki-rcd/warnings.ts`, `wymaganyTypB`, kod `WYMAGANY-TYP-B`)
+- **[29.09.2026] Układ IT bez monitora izolacji (IMD)**
+  (M5/E18 — `lib/core/modules/okablowanie/monitorowanie-izolacji-imd/warnings.ts`, `ukladItBezImd`, kod `UKLAD-IT-BEZ-IMD`)
+- **[29.09.2026] Wyłącznik nadprądowy niecertyfikowany do prądu stałego w obwodzie DC**
+  (M5/E14 — `lib/core/modules/okablowanie/wylaczniki-nadpradowe-dc/warnings.ts`, `wylacznikNieCertyfikowanyDoDc`, kod `WYLACZNIK-NIECERTYFIKOWANY-DO-DC`)
+- **[29.09.2026] Napięcie stringu w mrozie (Voc zimowe) powyżej maksimum falownika**
+  (M3/E14 — `lib/core/modules/pv/dopasowanie-tablicy-falownika/warnings.ts`, `napiecieZimoweZaWysokie`, kod `NAPIECIE-ZIMOWE-ZA-WYSOKIE`)
+- **[29.09.2026] Napięcie stringu w STC poniżej okna MPPT**
+  (M3/E14 — `lib/core/modules/pv/dopasowanie-tablicy-falownika/warnings.ts`, `ponizejOknaMppt`, kod `PONIZEJ-OKNA-MPPT`)
+- **[29.09.2026] Prąd stringu powyżej maksimum wejścia MPPT**
+  (M3/E14 — `lib/core/modules/pv/dopasowanie-tablicy-falownika/warnings.ts`, `pradPrzekroczony`, kod `PRAD-PRZEKROCZONY`)
+- **[29.09.2026] Różnica mocy paneli w jednym stringu > 15% (źródło: 🔴 przy >10–15% bez osobnego MPPT)**
+  (M3/E17 — `lib/core/modules/pv/niedopasowanie-paneli/warnings.ts`, `duzaRoznicaMocy`, kod `DUZA-ROZNICA-MOCY`)
+- **[29.09.2026] Wybrany bezpiecznik stringu poza zakresem In min–max**
+  (M3/E22 — `lib/core/modules/pv/ochrona-stringow/warnings.ts`, `wybranyBezpiecznikPozaZakresem`, kod `WYBRANY-BEZPIECZNIK-POZA-ZAKRESEM`)
+- **[29.09.2026] Zły styk złącza MC4 (rezystancja > 20 mΩ) — lokalne grzanie, ryzyko pożaru**
+  (M3/E26 — `lib/core/modules/pv/straty-zlaczki-mc4/warnings.ts`, `zlyStyk`, kod `ZLY-STYK`)
+- **[29.09.2026] Prąd przy 12 V powyżej 100 A — ryzyko łuku i przegrzania złączek**
+  (M4/E2 — `lib/core/modules/baterie/napiecie-systemowe/warnings.ts`, `pradWysokiPrzy12V`, kod `PRAD-WYSOKI-PRZY-12V`)
+- **[29.09.2026] Konflikt jednoczesności: suma odbiorników w najgorszym przypadku > moc ciągła falownika (🔴 tylko przy przewadze odbiorników długotrwałych, inaczej 🟡)**
+  (M4/E2 — `lib/core/modules/baterie/napiecie-systemowe/warnings.ts`, `konfliktJednoczesnosci`, kod `KONFLIKT-JEDNOCZESNOSCI`)
+- **[29.09.2026] Regulator PWM przy napięciu nominalnym panelu wyższym niż napięcie akumulatora**
+  (M12 (Biblia 8.8) — `lib/core/modules/kalkulator-mobilny/dobor-regulatora-pwm-mppt/warnings.ts`, `niezgodnoscNapiecPwm`, kod `NIEZGODNOSC-NAPIEC-PWM`)
+- **[29.09.2026] Mała instalacja: żaden przekrój z tablicy nie ma Iz ≥ In wybranego bezpiecznika**
+  (M12/E2, E15 — `lib/core/modules/kalkulator-mobilny/kable-bezpieczniki-male/warnings.ts`, `brakPrzekrojuDlaKoordynacji`, kod `MK-BRAK-PRZEKROJU-DLA-BEZPIECZNIKA`)
+- **[29.09.2026] Maksymalne napięcie ładowania instalacji poniżej napięcia znamionowego urządzenia 12 V**
+  (M12/E27 — `lib/core/modules/kalkulator-mobilny/urzadzenie-12v-bezposrednio/warnings.ts`, `maksLadowaniaPonizejZnamionowego`, kod `U12-MAKS-LADOWANIA-PONIZEJ-ZNAMIONOWEGO`)
+- **[29.09.2026] Pozycja audytu pożarowego oznaczona jako krytyczna** — każdy element listy kontrolnej ze statusem
+  `critical` daje osobny stop (kod ze wzorca `AUDYT-*` + id pozycji).
+  (M8/E11 — `lib/core/modules/bezpieczenstwo/audyt-pozarowy/calculator.ts`, `calculateAuditPozarowy`, kod `AUDYT-*`)
+
+
 ## Bateryjne
 
 - **Brak BMS z balancerem przed montażem pakietu LiFePO4** — bez balancera ogniwa rozjeżdżają się
@@ -223,6 +312,15 @@ nie do audytu poprawności formularza webowego.
   spadek napięcia, ale bezpiecznik 1,25 × I jest większy niż obciążalność kabla (PN-IEC 60364-4-43, 433.2).
   [27.09.2026] (M12/E2, E15 — `lib/core/modules/kalkulator-mobilny/kable-bezpieczniki-male/warnings.ts`,
   `przekrojPonizejMinimum`, kod `MK-BEZPIECZNIK-NIE-CHRONI-KABLA`)
+- **[29.09.2026] Stan naładowania poniżej progu krytycznego i żadne źródło ładowania niedostępne**
+  (M4/E32 — `lib/core/modules/baterie/hierarchia-ladowania/warnings.ts`, `brakDostepnegoZrodlaLadowania`, kod `BRAK-DOSTEPNEGO-ZRODLA-LADOWANIA`)
+- **[29.09.2026] BMS Common Port: prąd portu mniejszy niż prąd rozruchowy falownika**
+  (M4/E26 — `lib/core/modules/baterie/topologia-bms/warnings.ts`, `commonPortNiewystarczajacy`, kod `COMMON-PORT-NIEWYSTARCZAJACY`)
+- **[29.09.2026] Temperatura ogniw latem powyżej 35 °C (górna granica zakresu pracy)**
+  (M4/E27 — `lib/core/modules/baterie/chlodzenie-latem/warnings.ts`, `powyzejZakresu`, kod `TEMPERATURA-POWYZEJ-ZAKRESU`)
+- **[29.09.2026] System nie przetrwa scenariusza miesiąca zachmurzenia (blackout w trakcie symulacji)**
+  (M4/E33 — `lib/core/modules/baterie/symulacja-miesiaca-zachmurzenia/warnings.ts`, `systemNiePrzetrwaScenariusza`, kod `SYSTEM-NIE-PRZETRWA-SCENARIUSZA`)
+
 
 ## Cieplne / systemowe
 
@@ -239,6 +337,11 @@ nie do audytu poprawności formularza webowego.
   wiążącego temperaturę gruntu/głębokość kolektora/stężenie glikolu/czas pracy z temperaturą
   solanki, tylko jeden ilustracyjny przykład), nie automatycznie wykrywany warunek.
   (M6/dawne 5.46 — `app/kalkulatory/ryzyko-zamarzniecia-dolnego-zrodla/page.tsx`)
+- **[29.09.2026] Szczelina wentylacyjna pod panelami < 5 cm — panel może dojść do ~70 °C**
+  (M5/E8 — `lib/core/modules/okablowanie/przepust-powietrza/warnings.ts`, `szczelinaKrytyczna`, kod `SZCZELINA-KRYTYCZNA`)
+- **[29.09.2026] Strategia na zamarzanie: bateria już na minimum SoC, odbiorniki krytyczne bez zasilania**
+  (M7/E6 — `lib/core/modules/stress-test/strategia-zamarzanie/warnings.ts`, `socPonizejMinimum`, kod `ZAMARZANIE-SOC-PONIZEJ-MINIMUM`)
+
 
 ## Bezpieczeństwo życia / montaż
 
@@ -318,6 +421,9 @@ nie do audytu poprawności formularza webowego.
 - **[28.09.2026] Rozmrażanie zamarzniętej rury otwartym ogniem / palnikiem** — ryzyko pęknięcia rury i pożaru.
   Źródło: Moduł 7, Ekran 22 (sekcja wspólna rozmrażania).
   (M7/E22 — `rozmrazanieOgniem`, kod `ZAMARZ-ROZMRAZANIE-OGIEN`.)
+- **[29.09.2026] Nachylenie montażu ≥ 45° — ssanie wiatru od spodu może zerwać panele (skonsultuj z konstruktorem)**
+  (M3/E2 — `lib/core/modules/pv/typ-montazu/warnings.ts`, `ssanieOdSpodu`, kod `TM-SSANIE-OD-SPODU`)
+
 
 ## M14 „Dom – sieć” / „Firma – sieć” — ~~zaplanowane w Biblii, jeszcze bez kodu~~ **[28.09.2026] w kodzie** (28.09.2026)
 
@@ -430,3 +536,8 @@ zakresem). To nie są fakty domenowe o niebezpieczeństwie — to bramka "dane s
 bez sensu". Pełna lista plików: `lib/core/modules/*/warnings.ts` (funkcje `notPositive`,
 `outOfRange`, `efficiencyOutOfRange`, `copOutOfRange`, `pojemnoscNotPositive`,
 `selectedItemNotPositive`).
+
+**[29.09.2026]** Pełna, sprawdzana mechanicznie lista takich kodów: `scripts/stopy-guard-wyjatki.json`
+(`walidacja-danych` — wartość wejściowa bez sensu albo sprzeczne pola; `poza-zakresem-modelu` — dane spoza tabeli
+źródła/wzoru). Klasyfikacja po `technicalMessage` każdego kodu, nie po samej nazwie. Kod,
+który opisuje stan instalacji (nie formularza), tam nie trafia — nawet jeśli brzmi jak zakres.

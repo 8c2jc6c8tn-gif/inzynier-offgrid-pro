@@ -61,7 +61,7 @@ export default function Urzadzenie12vBezposrednioPage() {
       <NaglowekEkranu
         tytul="Czy mogę podłączyć urządzenie 12 V bezpośrednio?"
         ekran="urzadzenie-12v-bezposrednio"
-        wzor={result.formula}
+        wynik={result}
       >
         „12 V” na akumulatorze to uproszczenie — realnie od ok. 11 V do napięcia ładowania (ok. 14,5 V i więcej). Nie
         każde urządzenie to wytrzyma. Moduł 12.

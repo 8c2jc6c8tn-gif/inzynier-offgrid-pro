@@ -68,7 +68,7 @@ export default function ColdCRatePage() {
       <NaglowekEkranu
         tytul="Ograniczenie prądu ładowania w mrozie"
         ekran="cold-c-rate"
-        wzor={result.formula}
+        wynik={result}
         parametry={{ blokada: PROG_BLOKADY_C, limit02: PROG_LIMITU_02C, luka: PROG_LUKI_GORNY_C, pelny: PROG_PELNEGO_PRADU_C, cZimno: LIMIT_C_RATE_ZIMNO, cChlodno: LIMIT_C_RATE_CHLODNO }}
       >
         W lodówce miód ledwo płynie. W baterii jony litu też poruszają się wolniej na mrozie —

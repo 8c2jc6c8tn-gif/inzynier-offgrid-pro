@@ -53,7 +53,7 @@ export default function ZlaczaMc4Page() {
   return (
     <main className="mx-auto flex max-w-md flex-col gap-6 p-6">
       <NawigacjaEkranu href="/kalkulatory/zlacza-mc4" />
-      <NaglowekEkranu tytul="Złącza MC4" ekran="zlacza-mc4" wzor={result.formula}>
+      <NaglowekEkranu tytul="Złącza MC4" ekran="zlacza-mc4" wynik={result}>
         MC4 wygląda uniwersalnie, ale styki różnych producentów nie zawsze pasują idealnie — luźny
         styk pod prądem robi łuk elektryczny, a to już realny pożar. Moduł 5, Ekran 5.
       </NaglowekEkranu>

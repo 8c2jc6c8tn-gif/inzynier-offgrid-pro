@@ -49,7 +49,7 @@ export default function BuforCieplaPage() {
   return (
     <main className="mx-auto flex max-w-md flex-col gap-6 p-6">
       <NawigacjaEkranu href="/kalkulatory/bufor-ciepla" />
-      <NaglowekEkranu tytul="Bufor ciepła — dobór pojemności" ekran="bufor-ciepla" wzor={result.formula} parametry={{ lkw: ZALECANA_POJEMNOSC_L_NA_KW }}>
+      <NaglowekEkranu tytul="Bufor ciepła — dobór pojemności" ekran="bufor-ciepla" wynik={result} parametry={{ lkw: ZALECANA_POJEMNOSC_L_NA_KW }}>
         Bufor to termos dla ciepła — gromadzi je, gdy jest „tanio” (słońce świeci), i oddaje, gdy
         jest „drogo” (noc, chmury). Moduł 6, Ekran 14.
       </NaglowekEkranu>

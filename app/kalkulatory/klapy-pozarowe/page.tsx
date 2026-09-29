@@ -42,7 +42,7 @@ export default function KlapyPozarowePage() {
   return (
     <main className="mx-auto flex max-w-md flex-col gap-6 p-6">
       <NawigacjaEkranu href="/kalkulatory/klapy-pozarowe" />
-      <NaglowekEkranu tytul="Klapy pożarowe i wentylacja" ekran="klapy-pozarowe" wzor={result.formula}>
+      <NaglowekEkranu tytul="Klapy pożarowe i wentylacja" ekran="klapy-pozarowe" wynik={result}>
         Dym zabija szybciej niż ogień — trzeba go zatrzymać, żeby się nie rozprzestrzenił, a potem sprawnie usunąć. Moduł 8,
         Ekran 8.
       </NaglowekEkranu>

@@ -38,7 +38,7 @@ export default function PowlokiAntyrefleksyjnePage() {
       <NaglowekEkranu
         tytul="Powłoki antyrefleksyjne"
         ekran="powloki-antyrefleksyjne"
-        wzor={result.formula}
+        wynik={result}
         parametry={{ wzrostMin: WZROST_UZYSKU_MIN_PCT, wzrostMax: WZROST_UZYSKU_MAX_PCT }}
       >
         Powłoka antyrefleksyjna (i teksturowane szkło) zmniejsza odbicie światła od powierzchni panelu,

@@ -98,7 +98,7 @@ export default function GrzalkiBmsMrozPage() {
       <NawigacjaEkranu href="/kalkulatory/grzalki-bms-mroz" />
       <NaglowekEkranu
         tytul="Grzałki BMS i ochrona przed mrozem"
-        ekran="grzalki-bms-mroz"
+        ekran="grzalki-bms-mroz" wynik={result}
         parametry={{ progTemp: PROG_TEMPERATURY_GRZANIA_C, progSoc: PROG_SOC_WSTRZYMANIA_PCT }}
       >
         Nie marnuj prądu z baterii na grzanie, jeśli za chwilę słońce zrobi to za darmo — system

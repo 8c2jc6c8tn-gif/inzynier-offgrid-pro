@@ -50,7 +50,7 @@ export default function CopPompyCieplaPage() {
   return (
     <main className="mx-auto flex max-w-md flex-col gap-6 p-6">
       <NawigacjaEkranu href="/kalkulatory/cop-pompy-ciepla" />
-      <NaglowekEkranu tytul="Pompa ciepła — COP w funkcji temperatury" ekran="cop-pompy-ciepla" wzor={result.formula}>
+      <NaglowekEkranu tytul="Pompa ciepła — COP w funkcji temperatury" ekran="cop-pompy-ciepla" wynik={result}>
         COP to „mnożnik” — pompa ciepła nie produkuje ciepła z niczego, tylko przenosi je z
         zewnątrz, zużywając mniej prądu niż grzałka elektryczna. Moduł 6, Ekran 5.
       </NaglowekEkranu>

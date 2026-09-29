@@ -195,7 +195,7 @@ export default function ZlotySrodekPage() {
   return (
     <main className="mx-auto flex max-w-2xl flex-col gap-6 p-6">
       <NawigacjaEkranu href="/kalkulatory/zloty-srodek" />
-      <NaglowekEkranu tytul="Złoty środek — kąt, wiatr i balast" ekran="zloty-srodek" wzor={result.formula}>
+      <NaglowekEkranu tytul="Złoty środek — kąt, wiatr i balast" ekran="zloty-srodek" wynik={result}>
         Kąt, który daje najwięcej energii, zwykle nie jest najtańszy w utrzymaniu: im bardziej stromy stelaż, tym
         mocniej wiatr próbuje go poderwać i tym więcej balastu trzeba. Ten ekran liczy obie strony z Twoich danych i
         normy wiatrowej PN-EN 1991-1-4. Moduł 3, Ekran 9.

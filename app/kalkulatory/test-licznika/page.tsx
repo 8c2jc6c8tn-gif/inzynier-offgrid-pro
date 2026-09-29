@@ -100,7 +100,7 @@ export default function TestLicznikaPage() {
   return (
     <main className="mx-auto flex max-w-md flex-col gap-6 p-6">
       <NawigacjaEkranu href="/kalkulatory/test-licznika" />
-      <NaglowekEkranu tytul="Test licznika i reklamacja" ekran="test-licznika" wzor={result.formula}>
+      <NaglowekEkranu tytul="Test licznika i reklamacja" ekran="test-licznika" wynik={result}>
         Sprawdź, ile mocy rejestruje licznik (dioda migająca przy każdej porcji energii), a przy wątpliwościach przygotuj
         pismo reklamacyjne. Ekran wspólny dla domu (D12) i firmy (F11), M14.
       </NaglowekEkranu>

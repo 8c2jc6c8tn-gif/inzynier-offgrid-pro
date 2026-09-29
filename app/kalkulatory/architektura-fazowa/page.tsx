@@ -52,7 +52,7 @@ export default function ArchitekturaFazowaPage() {
   return (
     <main className="mx-auto flex max-w-md flex-col gap-6 p-6">
       <NawigacjaEkranu href="/kalkulatory/architektura-fazowa" />
-      <NaglowekEkranu tytul="Architektura 1-fazowa / 3-fazowa" ekran="architektura-fazowa" wzor={result.formula}>
+      <NaglowekEkranu tytul="Architektura 1-fazowa / 3-fazowa" ekran="architektura-fazowa" wynik={result}>
         W systemie 3-fazowym nie liczy się tylko suma mocy — liczy się, jak równo jest rozłożona
         między trzy fazy, bo każda ma swój własny limit. Moduł 2, Ekran 14.
       </NaglowekEkranu>

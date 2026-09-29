@@ -53,7 +53,7 @@ export default function ElektronikaWMroziePage() {
   return (
     <main className="mx-auto flex max-w-md flex-col gap-6 p-6">
       <NawigacjaEkranu href="/kalkulatory/elektronika-w-mrozie" />
-      <NaglowekEkranu tytul="Elektronika w mrozie" ekran="elektronika-w-mrozie" wzor={result.formula}>
+      <NaglowekEkranu tytul="Elektronika w mrozie" ekran="elektronika-w-mrozie" wynik={result}>
         Które urządzenia przestaną działać poprawnie przy najniższej temperaturze w miejscu montażu. Moduł 7.
       </NaglowekEkranu>
 

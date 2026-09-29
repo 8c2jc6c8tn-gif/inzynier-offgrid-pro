@@ -8374,6 +8374,47 @@ Tryb Audyt (czapka rewidenta). Warstwa „w pełni na końcu” z N.2 — wszyst
   Hipoteza (niepotwierdzona): drugi pakiet drugiej sesji w tym samym czasie albo limit dopisany w trakcie pomiaru. Jeśli
   wróci — zapisać pełny komunikat przed ponownym uruchomieniem (10.x: nie zakładać „flaky”).
 
+## Strażnik rejestru twardych stopów — `pnpm check:stopy-guard` (29.09.2026, wieczór)
+
+- Wdrożony wg 4.3 (dopisek 29.09) + 11.9: `scripts/check-stopy-guard.mjs` (AST), w pakiecie przed merge, w `ci.yml`
+  i w `CLAUDE.md`. Stan na wejściu: **265 kodów 🔴** w `lib/core/**` → 69 w rejestrze, 145 wyjątków
+  (`scripts/stopy-guard-wyjatki.json`: 134 „walidacja-danych” + 11 „poza-zakresem-modelu”), **51 na liście
+  zapadkowej** (`scripts/stopy-guard-baseline.json` — stopy inżynierskie albo niejednoznaczne, jeszcze bez wpisu).
+- Klasyfikacja wyjątków po `technicalMessage` każdego kodu („oczekiwano > 0”, zakres, sprzeczne pola, dane spoza
+  tabeli), nie po nazwie. Niejednoznaczne (np. `ZA-DUZO-OGNIW`, `ZACIENIENIE-PELNY-PANEL`, `SYSTEM-NIE-PRZETRWA-SCENARIUSZA`)
+  celowo na liście zapadkowej — rozstrzygane przy uzupełnianiu rejestru (wpis w rejestrze albo wyjątek z powodem).
+- **Pułapki wykryte przy budowie:** (1) nie każdy stop to literał `{ code, level: "critical" }` — są funkcje pomocnicze
+  `ostrzezenie("KOD", "critical", …)` (M14), poziom z innego ostrzeżenia (`obudowaNiepolaczonaZGsw().level`), `level:
+  zmienna` (`KONFLIKT-JEDNOCZESNOSCI`) i kod przekazywany parametrem (`brakWentylacjiOlowiowy(kod, …)` dla
+  `BK-/LG-OLOW-BEZ-WENTYLACJI`) — pierwsza wersja zbierająca same literały przegapiła 13 stopów, które rejestr już
+  wymieniał. Poziom nieliteralny = traktowany jak 🔴 (ostrożnie); kod z parametru = „źródło dynamiczne” do zadeklarowania
+  w JSON. (2) Każdy kod w odwrotnych apostrofach w rejestrze liczy się jako wpis — przykład w tekście opisowym
+  (`` `PARA-POZA-ZAKRESEM` ``) od razu dał konflikt „i w rejestrze, i w wyjątkach”; w prozie rejestru nie cytować kodów,
+  które nie są stopami.
+
+- **[29.09, później] Lista zapadkowa 51 → 2:** 46 kodów dopisanych do rejestru (sekcje wg kategorii, notka HTML-komentarz
+  w „Elektryczne / pożarowe”), 3 kody sekwencji montażu (status OUT_OF_SCOPE) do „poza-zakresem-modelu”. Zostają
+  `ZACIENIENIE-2-SEKCJE`/`-PELNY-PANEL` — pytanie o poziom (strata uzysku, nie bezpieczeństwo), `lista-do-zrobienia.md`.
+  **Rozstrzygnięte tego samego wieczoru (właściciel: wariant B):** oba obniżone do 🟡 `warning` (strata uzysku ≠ twardy
+  stop; źródło daje tu 🟡), M3/E13 `CALCULATOR_VERSION` 1.0.1. Lista zapadkowa **pusta** — każdy nowy 🔴 bez wpisu w
+  rejestrze albo wyjątkach od razu wywraca `check:stopy-guard`.
+  Klasyfikacja po treści funkcji w `warnings.ts` — wyciąganie `technicalMessage` wycinkiem tekstu wokół kodu łapało
+  komunikat sąsiedniej funkcji; wiarygodnie tylko przez AST (całe ciało funkcji).
+
+## 8.4b — „i” z założeniami i panel od dołu na telefonie (29.09.2026, wieczór)
+
+- `MigawkaInfo`/`NaglowekEkranu`: prop `wzor` zastąpiony przez `wynik` (`Partial<Pick<CalcResult, "formula" |
+  "assumptions">>`, może być `null` przed obliczeniem) — zakładka „Fizyka” pokazuje wzór i założenia bieżącego wyniku.
+  Założenia renderuje **jeden** komponent `components/zalozenia-lista.tsx` (pod wynikiem przez `WynikSzczegoly` i w „i”).
+  Nowy ekran z wynikiem: `wynik={result}` w `NaglowekEkranu`, nie osobne pola.
+- `Chmurka` (`components/ui/chmurka.tsx`) na szerokości < 640 px renderuje Base UI `Drawer` (panel od dołu) zamiast
+  `Popover` — dotyczy „?” i „i” (8.4b: „oba otwierają się tak samo”). Hook `useTelefon` na `useSyncExternalStore` +
+  `matchMedia`; `unstable-use-media-query` z Base UI celowo nie użyty (API niestabilne). Serwer renderuje wariant desktop.
+- **Pułapka weryfikacji:** zrzut ekranu tuż po dotknięciu łapie panel w trakcie animacji (wygląda, jakby się nie
+  otworzył), a współrzędne elementów z tego zrzutu są przesunięte — sprawdzać `[role=dialog]` w DOM i klikać po `ref`.
+- Worktree bez własnego `node_modules` uruchamia vitest z katalogu nadrzędnego (rozwiązywanie modułów w górę drzewa),
+  ale `pnpm typecheck` pada („tsc: not found”) — w nowym worktree najpierw `pnpm install --frozen-lockfile`.
+
 ## SW wariant C — etap 1 (29.09.2026, D59)
 
 - **Od 29.09: Service Worker = wzorzec standardu** — `app/sw.js/route.ts` (`force-static`) + `lib/pwa/sw-rdzen.js`

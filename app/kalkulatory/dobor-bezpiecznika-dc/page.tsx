@@ -80,7 +80,7 @@ export default function DoborBezpiecznikaDcPage() {
       <NaglowekEkranu
         tytul="Dobór bezpiecznika DC"
         ekran="dobor-bezpiecznika-dc"
-        wzor={result.formula}
+        wynik={result}
         parametry={{ minAic: MIN_AIC_LIFEPO4_A }}
       >
         Bezpiecznik musi umieć ugasić pożar elektryczny, a nie tylko się przepalić — źle dobrany

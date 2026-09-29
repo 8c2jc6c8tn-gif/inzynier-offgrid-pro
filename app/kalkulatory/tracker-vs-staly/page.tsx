@@ -76,7 +76,7 @@ export default function TrackerVsStalyPage() {
       <NaglowekEkranu
         tytul="Tracker czy stały stelaż"
         ekran="tracker-vs-staly"
-        wzor={result.formula}
+        wynik={result}
         parametry={{ zyskMin: ZYSK_TRACKERA_MIN_PCT, zyskMax: ZYSK_TRACKERA_MAX_PCT }}
       >
         Tracker obraca panele za słońcem i zwiększa uzysk o {ZYSK_TRACKERA_MIN_PCT}–{ZYSK_TRACKERA_MAX_PCT}%. Za te
