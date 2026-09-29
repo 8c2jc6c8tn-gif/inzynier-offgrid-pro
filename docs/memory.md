@@ -8359,12 +8359,12 @@ Tryb Audyt (czapka rewidenta). Warstwa „w pełni na końcu” z N.2 — wszyst
   (4) W `.next/static/media` są wersje `-dev` MapLibre (~2,5 MB) w buildzie produkcyjnym — etap 2.
   (5) `pkill -f "next start"` ubija powłokę wywołującą (exit 144) — ubijać po PID / grupie procesów.
 
-## D58 — domknięcie przerwanej pracy (29.09.2026, wieczór)
+## D58 — uzupełnienie + pułapka „dwie sesje w jednym katalogu” (29.09.2026, wieczór)
 
-- Pełny pakiet na gałęzi `claude/update-audit-xowv23` zielony po jednej poprawce: `analiza-zacienienia.test.ts`, blok
-  „strata całkowitego napromieniowania na danych TMY (TD14)” dostał `{ timeout: 30_000 }` — ten sam przypadek co 25.09
-  (pełny przebieg godzinowy TMY > 5 s pod obciążeniem pakietu). **Obserwacja:** w pierwszym przebiegu pakietu padły też
-  jednorazowo 4 testy `orientacja-powierzchni`/`modul1-lokalizacja-tools`, choć ich `describe` ma już 30 s (Vitest 4.1.11
-  dziedziczy `timeout` z `describe` — sprawdzone w `@vitest/runner`); dwa kolejne przebiegi zielone, komunikatu błędu
-  z pierwszego przebiegu nie zachowano. Jeśli wróci — zapisać pełny komunikat przed ponownym uruchomieniem (10.x: nie
-  zakładać „flaky”).
+- Uzupełnienie wpisu „Dokończenie” wyżej: ten sam brak limitu miał też blok TMY w `analiza-zacienienia.test.ts`
+  („strata całkowitego napromieniowania na danych TMY (TD14)”) — dostał `{ timeout: 30_000 }` na `describe`.
+- **Pułapka:** dwie sesje Claude pracowały równocześnie w tym samym katalogu roboczym i na tej samej gałęzi (obie
+  domykały D58). Skutki: pełne pakiety testów szły równolegle (2× obciążenie 4 rdzeni → więcej timeoutów), edycje jednej
+  sesji pojawiały się w drzewie drugiej w trakcie pomiaru, commit jednej wszedł pod commit drugiej. Przed startem
+  zadania z listy sprawdź `git log`/`git status` jeszcze raz tuż przed commitem i nie uruchamiaj dwóch sesji na jednym
+  checkoutcie — druga sesja w osobnym worktree.
