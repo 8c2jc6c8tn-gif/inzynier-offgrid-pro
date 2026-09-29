@@ -7,6 +7,7 @@ import { NawigacjaEkranu } from "@/components/nawigacja-ekranu"
 import { ListaPunktow } from "@/components/lokalizacja/lista-punktow"
 import { Button } from "@/components/ui/button"
 import { Pole, PoleSelect } from "@/components/ui/pole"
+import { PomocPola } from "@/components/ui/pomoc"
 import { StanLadowania, StanPusty } from "@/components/ui/stany"
 import { NaglowekEkranu } from "@/components/wzorce/naglowek-ekranu"
 import { WerdyktPanel, poziomZStatusu } from "@/components/werdykt"
@@ -137,7 +138,7 @@ export default function SkanerDzialkiPage() {
   return (
     <main className="mx-auto flex max-w-2xl flex-col gap-6 p-6">
       <NawigacjaEkranu href="/kalkulatory/skaner-dzialki" />
-      <NaglowekEkranu tytul="Skaner działki">
+      <NaglowekEkranu tytul="Skaner działki" ekran="skaner-dzialki" wzor={wynik.formula}>
         Granice działki, obrys i dach budynku, przeszkody — podstawa analizy zacienienia (Ekran 3) i oceny
         powierzchni pod panele (Ekran 4). Moduł 1, Ekran 2. Tryb online jest szybszy, ale nie wszędzie dane są
         dokładne — spacer GPS zajmuje więcej czasu, ale daje pewność, że model odpowiada rzeczywistej działce, nie
@@ -185,7 +186,7 @@ export default function SkanerDzialkiPage() {
       </section>
 
       <section className="flex flex-col gap-3 rounded-lg border p-4">
-        <PoleSelect label="Następny punkt dodaj do" value={zbior} onChange={(e) => setZbior(e.target.value as Zbior)}>
+        <PoleSelect label="Następny punkt dodaj do" value={zbior} onChange={(e) => setZbior(e.target.value as Zbior)} pomoc={<PomocPola ekran="skaner-dzialki" pole="zbior" />}>
           <option value="dzialka">Granica działki</option>
           <option value="budynek">Obrys budynku (narożniki przy gruncie)</option>
           {model.polacie.map((p, i) => (
@@ -245,7 +246,7 @@ export default function SkanerDzialkiPage() {
               </Button>
             </div>
             <div className="flex items-end gap-2">
-              <Pole label="Identyfikator działki (TERYT)" value={teryt} onChange={(e) => setTeryt(e.target.value)} placeholder="np. 146510_8.0309.23/3" />
+              <Pole label="Identyfikator działki (TERYT)" value={teryt} onChange={(e) => setTeryt(e.target.value)} placeholder="np. 146510_8.0309.23/3" pomoc={<PomocPola ekran="skaner-dzialki" pole="teryt" />} />
               <Button variant="outline" className="min-h-11" disabled={uldk.czeka || !online || teryt.trim() === ""} onClick={() => pobierzDzialke(null)}>
                 Pobierz
               </Button>
@@ -300,6 +301,7 @@ export default function SkanerDzialkiPage() {
                   label="Nazwa połaci"
                   value={pl.nazwa}
                   onChange={(e) => zmien({ polacie: model.polacie.map((q, j) => (j === i ? { ...q, nazwa: e.target.value } : q)) })}
+                  pomoc={<PomocPola ekran="skaner-dzialki" pole="nazwaPolaci" />}
                 />
                 <Button
                   variant="ghost"
@@ -351,7 +353,7 @@ export default function SkanerDzialkiPage() {
             }
             return (
               <div key={i} className="grid grid-cols-2 gap-2 rounded-md border p-3 sm:grid-cols-4">
-                <Pole id={`przeszkoda-${i}-nazwa`} label="Nazwa" value={p.nazwa} onChange={(e) => ustaw({ nazwa: e.target.value })} />
+                <Pole id={`przeszkoda-${i}-nazwa`} label="Nazwa" value={p.nazwa} onChange={(e) => ustaw({ nazwa: e.target.value })} pomoc={<PomocPola ekran="skaner-dzialki" pole="nazwaPrzeszkody" />} />
                 <Pole
                   id={`przeszkoda-${i}-wysokosc`}
                   label="Wysokość"
@@ -359,11 +361,12 @@ export default function SkanerDzialkiPage() {
                   inputMode="decimal"
                   value={p.wysokoscM}
                   onChange={(e) => ustaw({ wysokoscM: e.target.value })}
+                  pomoc={<PomocPola ekran="skaner-dzialki" pole="wysokoscPrzeszkody" />}
                 />
                 {p.typ === "obrys" ? (
                   <p className="mt-auto text-small text-muted-foreground">Narożniki obrysu: {p.obrys.length}</p>
                 ) : (
-                  <Pole id={`przeszkoda-${i}-promien`} label="Promień" unit="m" inputMode="decimal" value={p.promienM} onChange={(e) => ustaw({ promienM: e.target.value })} />
+                  <Pole id={`przeszkoda-${i}-promien`} label="Promień" unit="m" inputMode="decimal" value={p.promienM} onChange={(e) => ustaw({ promienM: e.target.value })} pomoc={<PomocPola ekran="skaner-dzialki" pole="promien" />} />
                 )}
                 <Button variant="ghost" className="mt-auto min-h-11" onClick={usun}>
                   Usuń
@@ -396,18 +399,20 @@ export default function SkanerDzialkiPage() {
               label="Zbiór"
               value={model.kalibracja.zbior}
               onChange={(e) => zmien({ kalibracja: { ...model.kalibracja, zbior: e.target.value as "dzialka" | "budynek" } })}
+              pomoc={<PomocPola ekran="skaner-dzialki" pole="zbiorKalibracji" />}
             >
               <option value="budynek">Budynek</option>
               <option value="dzialka">Działka</option>
             </PoleSelect>
-            <Pole label="Punkt A (nr)" inputMode="numeric" value={model.kalibracja.punktA} onChange={(e) => zmien({ kalibracja: { ...model.kalibracja, punktA: e.target.value } })} />
-            <Pole label="Punkt B (nr)" inputMode="numeric" value={model.kalibracja.punktB} onChange={(e) => zmien({ kalibracja: { ...model.kalibracja, punktB: e.target.value } })} />
+            <Pole label="Punkt A (nr)" inputMode="numeric" value={model.kalibracja.punktA} onChange={(e) => zmien({ kalibracja: { ...model.kalibracja, punktA: e.target.value } })} pomoc={<PomocPola ekran="skaner-dzialki" pole="punktA" />} />
+            <Pole label="Punkt B (nr)" inputMode="numeric" value={model.kalibracja.punktB} onChange={(e) => zmien({ kalibracja: { ...model.kalibracja, punktB: e.target.value } })} pomoc={<PomocPola ekran="skaner-dzialki" pole="punktB" />} />
             <Pole
               label="Długość A–B"
               unit="m"
               inputMode="decimal"
               value={model.kalibracja.znanaDlugoscM}
               onChange={(e) => zmien({ kalibracja: { ...model.kalibracja, znanaDlugoscM: e.target.value } })}
+              pomoc={<PomocPola ekran="skaner-dzialki" pole="dlugoscAB" />}
             />
           </div>
         </div>

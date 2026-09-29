@@ -6,6 +6,7 @@ import { NawigacjaEkranu } from "@/components/nawigacja-ekranu"
 import { SekcjaDanychNaslonecznienia } from "@/components/lokalizacja/sekcja-dane-nasloniecznienia"
 import { Button } from "@/components/ui/button"
 import { Pole } from "@/components/ui/pole"
+import { PomocPola } from "@/components/ui/pomoc"
 import { StanLadowania, StanPusty } from "@/components/ui/stany"
 import { NaglowekEkranu } from "@/components/wzorce/naglowek-ekranu"
 import { WerdyktPanel, poziomZStatusu } from "@/components/werdykt"
@@ -26,6 +27,7 @@ import {
 } from "@/lib/lokalizacja/model-dzialki"
 import { useLokalizacjaProjektu } from "@/lib/lokalizacja/use-lokalizacja-projektu"
 import { useObliczeniaWTle } from "@/lib/lokalizacja/use-obliczenia-w-tle"
+import { ALBEDO_DOMYSLNE, ALBEDO_MAX, ALBEDO_MIN } from "@/lib/core/modules/lokalizacja/orientacja-powierzchni/constants"
 
 type StanE4 = {
   korekty: Record<string, KorektaSeed>
@@ -87,7 +89,7 @@ export default function OrientacjaPowierzchniPage() {
   return (
     <main className="mx-auto flex max-w-2xl flex-col gap-6 p-6">
       <NawigacjaEkranu href="/kalkulatory/orientacja-powierzchni" />
-      <NaglowekEkranu tytul="Bryła budynku i orientacja ścian">
+      <NaglowekEkranu tytul="Bryła budynku i orientacja ścian" ekran="orientacja-powierzchni" wzor={r?.formula}>
         Nie każda ściana i połać dachu są tak samo warte montażu paneli — ten wskaźnik pozwala od razu zobaczyć,
         gdzie inwestycja się najbardziej opłaci, zanim przejdziesz do szczegółowego projektowania w Module 3. Moduł 1,
         Ekran 4.
@@ -127,6 +129,7 @@ export default function OrientacjaPowierzchniPage() {
                   placeholder={String(z.nachylenieDeg)}
                   value={k?.nachylenieDeg ?? ""}
                   onChange={(e) => ustawKorekte(p.id, { nachylenieDeg: e.target.value })}
+                  pomoc={<PomocPola ekran="orientacja-powierzchni" pole="nachylenie" />}
                 />
                 <Pole
                   id={`korekta-${p.id}-azymut`}
@@ -136,15 +139,16 @@ export default function OrientacjaPowierzchniPage() {
                   placeholder={String(z.azymutDeg)}
                   value={k?.azymutDeg ?? ""}
                   onChange={(e) => ustawKorekte(p.id, { azymutDeg: e.target.value })}
+                  pomoc={<PomocPola ekran="orientacja-powierzchni" pole="azymut" />}
                 />
               </div>
             )
           })}
         {stan.reczne.map((r, i) => (
           <div key={i} className="grid grid-cols-2 gap-2 rounded-md border p-3 sm:grid-cols-[1fr_8rem_8rem_auto]">
-            <Pole id={`reczna-${i}-nazwa`} className="col-span-2 sm:col-span-1" label="Nazwa" value={r.nazwa} onChange={(e) => ustawReczna(i, { nazwa: e.target.value })} placeholder={`Powierzchnia ${i + 1}`} />
-            <Pole id={`reczna-${i}-nachylenie`} label="Nachylenie" unit="°" inputMode="decimal" value={r.nachylenieDeg} onChange={(e) => ustawReczna(i, { nachylenieDeg: e.target.value })} />
-            <Pole id={`reczna-${i}-azymut`} label="Azymut" unit="°" inputMode="decimal" hint="S = 180" value={r.azymutDeg} onChange={(e) => ustawReczna(i, { azymutDeg: e.target.value })} />
+            <Pole id={`reczna-${i}-nazwa`} className="col-span-2 sm:col-span-1" label="Nazwa" value={r.nazwa} onChange={(e) => ustawReczna(i, { nazwa: e.target.value })} placeholder={`Powierzchnia ${i + 1}`} pomoc={<PomocPola ekran="orientacja-powierzchni" pole="nazwa" />} />
+            <Pole id={`reczna-${i}-nachylenie`} label="Nachylenie" unit="°" inputMode="decimal" value={r.nachylenieDeg} onChange={(e) => ustawReczna(i, { nachylenieDeg: e.target.value })} pomoc={<PomocPola ekran="orientacja-powierzchni" pole="nachylenieReczne" />} />
+            <Pole id={`reczna-${i}-azymut`} label="Azymut" unit="°" inputMode="decimal" value={r.azymutDeg} onChange={(e) => ustawReczna(i, { azymutDeg: e.target.value })} pomoc={<PomocPola ekran="orientacja-powierzchni" pole="azymutReczny" />} />
             <Button variant="ghost" className="mt-auto min-h-11" onClick={() => setStan((s) => ({ ...s, reczne: s.reczne.filter((_, j) => j !== i) }))}>
               Usuń
             </Button>
@@ -159,10 +163,10 @@ export default function OrientacjaPowierzchniPage() {
         </Button>
         <Pole
           label="Albedo gruntu (opcjonalnie)"
-          hint="0–1; puste = wartość domyślna podana w założeniach"
           inputMode="decimal"
           value={stan.albedo}
           onChange={(e) => setStan((s) => ({ ...s, albedo: e.target.value }))}
+          pomoc={<PomocPola ekran="orientacja-powierzchni" pole="albedo" params={{ albedo: ALBEDO_DOMYSLNE, aMin: ALBEDO_MIN, aMax: ALBEDO_MAX }} />}
         />
       </section>
 
