@@ -5,9 +5,9 @@ import { useMemo } from "react"
 import { NawigacjaEkranu } from "@/components/nawigacja-ekranu"
 import { Button } from "@/components/ui/button"
 import { Pole, PoleSelect } from "@/components/ui/pole"
+import { PomocPola } from "@/components/ui/pomoc"
 import { WerdyktPanel, type WerdyktPoziom } from "@/components/werdykt"
 import { KartaPorownawcza, type Kolumna } from "@/components/wzorce/karta-porownawcza"
-import { MigawkaBox } from "@/components/wzorce/migawka-box"
 import { NaglowekEkranu } from "@/components/wzorce/naglowek-ekranu"
 import { WynikGlowny } from "@/components/wzorce/wynik-glowny"
 import { WynikSzczegoly } from "@/components/wzorce/wynik-szczegoly"
@@ -54,7 +54,7 @@ const SYSTEMY: { system: SystemWymiarow; nazwa: string }[] = [
 
 function WyborDetalu({ id, label, value, onChange }: { id: string; label: string; value: string; onChange: (kod: string) => void }) {
   return (
-    <PoleSelect id={id} label={label} value={value} onChange={(e) => onChange(e.target.value)}>
+    <PoleSelect id={id} label={label} value={value} onChange={(e) => onChange(e.target.value)} pomoc={<PomocPola ekran="mostki-termiczne" pole="detal" />}>
       <option value="">— własna wartość Ψ —</option>
       {KATEGORIE.map((k) => (
         <optgroup key={k.kategoria} label={k.nazwa}>
@@ -105,7 +105,7 @@ function KartaMostka({
   const kodPo = m.kodPo ?? ""
   return (
     <div className="flex flex-col gap-3 rounded-lg border p-3">
-      <Pole id={`mostek-${i}-nazwa`} label="Nazwa" value={m.nazwa} onChange={(e) => ustaw({ nazwa: e.target.value })} />
+      <Pole id={`mostek-${i}-nazwa`} label="Nazwa" value={m.nazwa} onChange={(e) => ustaw({ nazwa: e.target.value })} pomoc={<PomocPola ekran="mostki-termiczne" pole="nazwa" />} />
       <WyborDetalu id={`mostek-${i}-kod`} label="Detal z PN-EN ISO 14683 (opcjonalnie)" value={kod} onChange={(k) => ustaw({ kod: k })} />
       <PsiZTablicy kod={kod} system={system} />
       <div className="grid gap-3 sm:grid-cols-3">
@@ -118,7 +118,7 @@ function KartaMostka({
           min={0}
           value={m.dlugoscM}
           onChange={(e) => ustaw({ dlugoscM: e.target.value })}
-          hint="Łączna długość takich połączeń w domu."
+          pomoc={<PomocPola ekran="mostki-termiczne" pole="dlugosc" />}
         />
         {kod === "" && (
           <Pole
@@ -129,7 +129,7 @@ function KartaMostka({
             inputMode="decimal"
             value={m.psi}
             onChange={(e) => ustaw({ psi: e.target.value })}
-            hint="Z katalogu mostków cieplnych albo od projektanta."
+            pomoc={<PomocPola ekran="mostki-termiczne" pole="psi" />}
           />
         )}
         {kodPo === "" && (
@@ -141,7 +141,7 @@ function KartaMostka({
             inputMode="decimal"
             value={m.psiPo}
             onChange={(e) => ustaw({ psiPo: e.target.value })}
-            hint="Np. po dociepleniu ościeży."
+            pomoc={<PomocPola ekran="mostki-termiczne" pole="psiPo" />}
           />
         )}
       </div>
@@ -158,6 +158,7 @@ function KartaMostka({
         <label htmlFor={`mostek-${i}-nadproze`} className="text-small">
           To nadproże nad oknem bez izolacji
         </label>
+        <PomocPola ekran="mostki-termiczne" pole="nadproze" />
       </div>
       <Button variant="ghost" className="min-h-11 w-fit" onClick={usun}>
         Usuń mostek
@@ -210,7 +211,7 @@ export default function MostkiTermicznePage() {
   return (
     <main className="mx-auto flex max-w-2xl flex-col gap-6 p-6">
       <NawigacjaEkranu href="/kalkulatory/mostki-termiczne" />
-      <NaglowekEkranu tytul="Mostki termiczne">
+      <NaglowekEkranu tytul="Mostki termiczne" ekran="mostki-termiczne" wzor={wynik.formula}>
         Miejsca, gdzie izolacja jest przerwana — narożniki, styk dachu ze ścianą, płyty balkonowe, ościeża okien. Każdy metr
         takiego połączenia traci ciepło ponad to, co liczą same przegrody na Ekranie 1. Moduł 6, Ekran 7.
       </NaglowekEkranu>
@@ -249,7 +250,7 @@ export default function MostkiTermicznePage() {
           label="Jak mierzone są powierzchnie na Ekranie 1"
           value={stan.system ?? ""}
           onChange={(e) => setStan((s) => ({ ...s, system: e.target.value as SystemWymiarow | "" }))}
-          hint="Potrzebne tylko dla detali z tablicy — Ψ zależy od systemu wymiarów, suma strat nie."
+          pomoc={<PomocPola ekran="mostki-termiczne" pole="system" />}
         >
           <option value="">— wybierz —</option>
           {SYSTEMY.map((x) => (
@@ -304,7 +305,7 @@ export default function MostkiTermicznePage() {
         </WerdyktPanel>
       )}
 
-      <MigawkaBox>„To jak dziura w swetrze — nawet jak reszta jest ciepła, przez dziurę ucieka mnóstwo energii, nieproporcjonalnie do jej wielkości.”</MigawkaBox>
+      
     </main>
   )
 }

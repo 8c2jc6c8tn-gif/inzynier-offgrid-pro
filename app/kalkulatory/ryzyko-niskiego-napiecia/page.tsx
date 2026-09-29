@@ -4,6 +4,7 @@ import { useMemo } from "react"
 import { calculateRyzykoNiskiegoNapiecia } from "@/lib/core/modules/ogrzewanie/ryzyko-niskiego-napiecia/calculator"
 import { usePersistedDraft } from "@/lib/adapters/use-persisted-draft"
 import { Pole } from "@/components/ui/pole"
+import { PomocPola } from "@/components/ui/pomoc"
 import { WerdyktPanel } from "@/components/werdykt"
 import { NawigacjaEkranu } from "@/components/nawigacja-ekranu"
 import { NaglowekEkranu } from "@/components/wzorce/naglowek-ekranu"
@@ -47,7 +48,7 @@ export default function RyzykoNiskiegoNapieciaPage() {
   return (
     <main className="mx-auto flex max-w-md flex-col gap-6 p-6">
       <NawigacjaEkranu href="/kalkulatory/ryzyko-niskiego-napiecia" />
-      <NaglowekEkranu tytul="Ryzyko wyłączenia pompy przy niskim napięciu">
+      <NaglowekEkranu tytul="Ryzyko wyłączenia pompy przy niskim napięciu" ekran="ryzyko-niskiego-napiecia" wzor={result.formula}>
         Niskie napięcie to cichy zabójca pomp — nie zepsuje się od razu, po prostu przestanie
         działać dokładnie wtedy, gdy jest najbardziej potrzebna. Moduł 6, ekran dodatkowy (dawne
         5.63).
@@ -60,9 +61,9 @@ export default function RyzykoNiskiegoNapieciaPage() {
           type="number"
           inputMode="decimal"
           min={0}
-          hint="Z karty katalogowej pompy ciepła."
           value={minNapiecieRoboczeV}
           onChange={(e) => setMinNapiecieRoboczeV(e.target.value)}
+          pomoc={<PomocPola ekran="ryzyko-niskiego-napiecia" pole="vMin" />}
         />
         <Pole
           label="Aktualne napięcie systemu off-grid"
@@ -70,9 +71,9 @@ export default function RyzykoNiskiegoNapieciaPage() {
           type="number"
           inputMode="decimal"
           min={0}
-          hint="Docelowo auto z Modułu 4 (live) — dziś wpisz ręcznie."
           value={aktualneNapiecieSystemuV}
           onChange={(e) => setAktualneNapiecieSystemuV(e.target.value)}
+          pomoc={<PomocPola ekran="ryzyko-niskiego-napiecia" pole="vSys" />}
         />
       </div>
 

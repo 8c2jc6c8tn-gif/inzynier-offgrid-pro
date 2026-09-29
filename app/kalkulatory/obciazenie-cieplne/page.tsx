@@ -6,9 +6,9 @@ import { TemperaturyZPvgis } from "@/components/lokalizacja/temperatury-z-pvgis"
 import { NawigacjaEkranu } from "@/components/nawigacja-ekranu"
 import { Button } from "@/components/ui/button"
 import { Pole, PoleSelect } from "@/components/ui/pole"
+import { PomocPola } from "@/components/ui/pomoc"
 import { WerdyktPanel, type WerdyktPoziom } from "@/components/werdykt"
 import { KartaPorownawcza, type Kolumna } from "@/components/wzorce/karta-porownawcza"
-import { MigawkaBox } from "@/components/wzorce/migawka-box"
 import { NaglowekEkranu } from "@/components/wzorce/naglowek-ekranu"
 import { WynikGlowny } from "@/components/wzorce/wynik-glowny"
 import { WynikSzczegoly } from "@/components/wzorce/wynik-szczegoly"
@@ -43,7 +43,7 @@ const f1 = (x: number) => x.toLocaleString("pl-PL", { maximumFractionDigits: 1 }
 function KartaPrzegrody({ p, i, ustaw, usun }: { p: PrzegrodaSeed; i: number; ustaw: (z: Partial<PrzegrodaSeed>) => void; usun: () => void }) {
   return (
     <div className="flex flex-col gap-3 rounded-lg border p-3">
-      <Pole id={`przegroda-${i}-nazwa`} label="Nazwa" value={p.nazwa} onChange={(e) => ustaw({ nazwa: e.target.value })} />
+      <Pole id={`przegroda-${i}-nazwa`} label="Nazwa" value={p.nazwa} onChange={(e) => ustaw({ nazwa: e.target.value })} pomoc={<PomocPola ekran="obciazenie-cieplne" pole="nazwa" />} />
       <div className="grid gap-3 sm:grid-cols-2">
         <Pole
           id={`przegroda-${i}-powierzchnia`}
@@ -54,7 +54,7 @@ function KartaPrzegrody({ p, i, ustaw, usun }: { p: PrzegrodaSeed; i: number; us
           min={0}
           value={p.powierzchniaM2}
           onChange={(e) => ustaw({ powierzchniaM2: e.target.value })}
-          hint="Ściany — bez okien i drzwi (te wpisz osobno)."
+          pomoc={<PomocPola ekran="obciazenie-cieplne" pole="powierzchnia" />}
         />
         <Pole
           id={`przegroda-${i}-u`}
@@ -65,13 +65,14 @@ function KartaPrzegrody({ p, i, ustaw, usun }: { p: PrzegrodaSeed; i: number; us
           min={0}
           value={p.uWM2K}
           onChange={(e) => ustaw({ uWM2K: e.target.value })}
-          hint="Z projektu, świadectwa energetycznego albo karty okna."
+          pomoc={<PomocPola ekran="obciazenie-cieplne" pole="u" />}
         />
         <PoleSelect
           id={`przegroda-${i}-strona`}
           label="Po drugiej stronie"
           value={p.zewnetrzna ? "zewnatrz" : "inna"}
           onChange={(e) => ustaw({ zewnetrzna: e.target.value === "zewnatrz" })}
+          pomoc={<PomocPola ekran="obciazenie-cieplne" pole="strona" />}
         >
           <option value="zewnatrz">Powietrze zewnętrzne</option>
           <option value="inna">Grunt / nieogrzewane pomieszczenie</option>
@@ -85,7 +86,7 @@ function KartaPrzegrody({ p, i, ustaw, usun }: { p: PrzegrodaSeed; i: number; us
             inputMode="decimal"
             value={p.temperaturaPoDrugiejStronieC}
             onChange={(e) => ustaw({ temperaturaPoDrugiejStronieC: e.target.value })}
-            hint="Np. grunt pod podłogą, nieogrzewany strych lub garaż — Twoja ocena albo z projektu."
+            pomoc={<PomocPola ekran="obciazenie-cieplne" pole="tempStrona" />}
           />
         )}
       </div>
@@ -123,7 +124,7 @@ export default function ObciazenieCieplnePage() {
   return (
     <main className="mx-auto flex max-w-2xl flex-col gap-6 p-6">
       <NawigacjaEkranu href="/kalkulatory/obciazenie-cieplne" />
-      <NaglowekEkranu tytul="Straty ciepła budynku">
+      <NaglowekEkranu tytul="Straty ciepła budynku" ekran="obciazenie-cieplne" wzor={wynik.formula}>
         Ile ciepła ucieka przez ściany, okna, dach i podłogę oraz z wymienianym powietrzem w najzimniejszy dzień — to moc,
         którą musi dać ogrzewanie. W off-gridzie od tej liczby zależy, ile prądu albo paliwa potrzebujesz zimą. Moduł 6,
         Ekran 1.
@@ -132,7 +133,7 @@ export default function ObciazenieCieplnePage() {
       <section className="flex flex-col gap-3">
         <h2 className="font-semibold">1. Temperatury i powietrze</h2>
         <div className="grid gap-3 sm:grid-cols-2">
-          <PoleSelect label="Strefa klimatyczna" value={stan.strefa} onChange={(e) => ustaw("strefa", e.target.value)} hint="Z mapy stref klimatycznych Polski (PN-82/B-02403 / PN-EN 12831).">
+          <PoleSelect label="Strefa klimatyczna" value={stan.strefa} onChange={(e) => ustaw("strefa", e.target.value)} pomoc={<PomocPola ekran="obciazenie-cieplne" pole="strefa" />}>
             <option value="">— wybierz —</option>
             {STREFY_KLIMATYCZNE.map((s) => (
               <option key={s} value={s}>
@@ -147,7 +148,7 @@ export default function ObciazenieCieplnePage() {
             inputMode="decimal"
             value={stan.temperaturaWewnetrznaC}
             onChange={(e) => ustaw("temperaturaWewnetrznaC", e.target.value)}
-            hint="Jaką chcesz utrzymać zimą."
+            pomoc={<PomocPola ekran="obciazenie-cieplne" pole="tempDom" />}
           />
           <Pole
             label="Kubatura ogrzewana"
@@ -157,7 +158,7 @@ export default function ObciazenieCieplnePage() {
             min={0}
             value={stan.kubaturaM3}
             onChange={(e) => ustaw("kubaturaM3", e.target.value)}
-            hint="Powierzchnia × wysokość pomieszczeń."
+            pomoc={<PomocPola ekran="obciazenie-cieplne" pole="kubatura" />}
           />
           <Pole
             label="Wymiany powietrza"
@@ -167,7 +168,7 @@ export default function ObciazenieCieplnePage() {
             min={0}
             value={stan.wymianyPowietrzaNaH}
             onChange={(e) => ustaw("wymianyPowietrzaNaH", e.target.value)}
-            hint="Nieszczelności + wentylacja bez odzysku. Wynik testu szczelności albo od projektanta."
+            pomoc={<PomocPola ekran="obciazenie-cieplne" pole="wymiany" />}
           />
           <Pole
             label="COP ogrzewania (opcjonalnie)"
@@ -176,7 +177,7 @@ export default function ObciazenieCieplnePage() {
             min={0}
             value={stan.cop}
             onChange={(e) => ustaw("cop", e.target.value)}
-            hint="Grzałka, kocioł elektryczny: 1. Pompa ciepła: z karty albo z ekranu „COP pompy ciepła”."
+            pomoc={<PomocPola ekran="obciazenie-cieplne" pole="cop" />}
           />
         </div>
       </section>
@@ -209,6 +210,7 @@ export default function ObciazenieCieplnePage() {
               inputMode="decimal"
               value={stan.miesiace[i] ?? ""}
               onChange={(e) => ustaw("miesiace", stan.miesiace.map((x, j) => (j === i ? e.target.value : x)))}
+              pomoc={<PomocPola ekran="obciazenie-cieplne" pole="miesiac" />}
             />
           ))}
         </div>
@@ -270,7 +272,7 @@ export default function ObciazenieCieplnePage() {
         </WerdyktPanel>
       )}
 
-      <MigawkaBox>„O co chodzi? Dom zimą to wiadro z dziurami — ogrzewanie musi dolewać tyle, ile wycieka.”</MigawkaBox>
+      
     </main>
   )
 }

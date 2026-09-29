@@ -27,10 +27,6 @@ export const TWARDY_STOP =
   "Temperatura czynnika roboczego zbliżająca się do punktu zamarzania. Zamarznięcie dolnego źródła " +
   "to koniec pracy pompy i ryzyko uszkodzenia wymiennika."
 
-export const MIGAWKA =
-  "Grunt to bateria ciepła — jak za mocno i za długo z niej czerpiesz bez przerwy na regenerację, " +
-  "w końcu zamarza."
-
 export const ZALECENIA = [
   "Zwiększ stężenie glikolu w solance (koszt: niższa sprawność cieplna czynnika).",
   "Powiększ kolektor (więcej metrów rury / głębszy odwiert) — rozkłada obciążenie cieplne na większą powierzchnię gruntu.",

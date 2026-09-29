@@ -5,9 +5,9 @@ import { useMemo } from "react"
 import { NawigacjaEkranu } from "@/components/nawigacja-ekranu"
 import { Button } from "@/components/ui/button"
 import { Pole, PoleSelect } from "@/components/ui/pole"
+import { PomocPola } from "@/components/ui/pomoc"
 import { WerdyktPanel } from "@/components/werdykt"
 import { KartaPorownawcza, type Kolumna } from "@/components/wzorce/karta-porownawcza"
-import { MigawkaBox } from "@/components/wzorce/migawka-box"
 import { NaglowekEkranu } from "@/components/wzorce/naglowek-ekranu"
 import { WynikGlowny } from "@/components/wzorce/wynik-glowny"
 import { WynikSzczegoly } from "@/components/wzorce/wynik-szczegoly"
@@ -45,7 +45,7 @@ const f2 = (x: number) => x.toLocaleString("pl-PL", { minimumFractionDigits: 2, 
 const f0 = (x: number) => x.toLocaleString("pl-PL", { maximumFractionDigits: 0 })
 
 function KartaWarstwy({ w, i, ustaw, usun }: { w: WarstwaSeed; i: number; ustaw: (z: Partial<WarstwaSeed>) => void; usun: () => void }) {
-  const pole = (klucz: "powierzchnia" | "grubosc" | "gestosc" | "cieplo" | "gruboscElementu", label: string, unit: string, hint?: string) => (
+  const pole = (klucz: "powierzchnia" | "grubosc" | "gestosc" | "cieplo" | "gruboscElementu", label: string, unit: string) => (
     <Pole
       id={`warstwa-${i}-${klucz}`}
       label={label}
@@ -55,28 +55,29 @@ function KartaWarstwy({ w, i, ustaw, usun }: { w: WarstwaSeed; i: number; ustaw:
       min={0}
       value={w[klucz] ?? ""}
       onChange={(e) => ustaw({ [klucz]: e.target.value })}
-      hint={hint}
+      pomoc={<PomocPola ekran="pojemnosc-cieplna" pole={klucz} />}
     />
   )
   return (
     <div className="flex flex-col gap-3 rounded-lg border p-3">
-      <Pole id={`warstwa-${i}-nazwa`} label="Warstwa / materiał" value={w.nazwa} onChange={(e) => ustaw({ nazwa: e.target.value })} />
+      <Pole id={`warstwa-${i}-nazwa`} label="Warstwa / materiał" value={w.nazwa} onChange={(e) => ustaw({ nazwa: e.target.value })} pomoc={<PomocPola ekran="pojemnosc-cieplna" pole="nazwa" />} />
       <div className="grid gap-3 sm:grid-cols-2">
         {pole("powierzchnia", "Powierzchnia", "m²")}
-        {pole("grubosc", "Grubość", "cm", "Materiał od strony pokoju do pierwszej warstwy izolacji.")}
-        {pole("gestosc", "Gęstość ρ", "kg/m³", "Z karty materiału.")}
-        {pole("cieplo", "Ciepło właściwe c", "J/(kg·K)", "Z karty materiału — w J, nie kJ.")}
+        {pole("grubosc", "Grubość", "cm")}
+        {pole("gestosc", "Gęstość ρ", "kg/m³")}
+        {pole("cieplo", "Ciepło właściwe c", "J/(kg·K)")}
         <PoleSelect
           id={`warstwa-${i}-strona`}
           label="Położenie"
           value={w.strona ?? "jedna"}
           onChange={(e) => ustaw({ strona: e.target.value as StronaWarstwy })}
+          pomoc={<PomocPola ekran="pojemnosc-cieplna" pole="polozenie" />}
         >
           <option value="jedna">Jedną stroną do wnętrza (ściana zewnętrzna, strop nad piwnicą)</option>
           <option value="obie">Cała wewnątrz domu (ścianka działowa, strop między piętrami)</option>
           <option value="za-izolacja">Za izolacją (np. zewnętrzna warstwa muru trójwarstwowego)</option>
         </PoleSelect>
-        {pole("gruboscElementu", "Grubość całej przegrody (opcjonalnie)", "cm", "Gdy przegroda ma więcej warstw niż ta. Puste = sama ta warstwa.")}
+        {pole("gruboscElementu", "Grubość całej przegrody (opcjonalnie)", "cm")}
       </div>
       <Button variant="ghost" className="min-h-11 w-fit" onClick={usun}>
         Usuń warstwę
@@ -146,7 +147,7 @@ export default function PojemnoscCieplnaPage() {
   return (
     <main className="mx-auto flex max-w-2xl flex-col gap-6 p-6">
       <NawigacjaEkranu href="/kalkulatory/pojemnosc-cieplna" />
-      <NaglowekEkranu tytul="Pojemność cieplna budynku">
+      <NaglowekEkranu tytul="Pojemność cieplna budynku" ekran="pojemnosc-cieplna" wzor={wynik.formula}>
         Ile ciepła magazynują ściany i stropy i jak szybko dom wychładza się po awarii ogrzewania — w tym ile czasu zostaje do
         zamarznięcia instalacji. Moduł 6, Ekran 8.
       </NaglowekEkranu>
@@ -179,7 +180,7 @@ export default function PojemnoscCieplnaPage() {
             value={stan.temperaturaStartowa}
             placeholder={e1 ? String(e1.ti) : undefined}
             onChange={(e) => ustaw({ temperaturaStartowa: e.target.value })}
-            hint="W chwili awarii. Puste = z Ekranu 1."
+            pomoc={<PomocPola ekran="pojemnosc-cieplna" pole="tempDom" />}
           />
           <Pole
             label="Temperatura na zewnątrz"
@@ -189,7 +190,7 @@ export default function PojemnoscCieplnaPage() {
             value={stan.temperaturaZewnetrzna}
             placeholder={e1 ? String(e1.te) : undefined}
             onChange={(e) => ustaw({ temperaturaZewnetrzna: e.target.value })}
-            hint="Podczas awarii. Puste = obliczeniowa dla strefy z Ekranu 1."
+            pomoc={<PomocPola ekran="pojemnosc-cieplna" pole="tempZew" />}
           />
           <Pole
             label="Nie niżej niż (opcjonalnie)"
@@ -198,7 +199,7 @@ export default function PojemnoscCieplnaPage() {
             inputMode="decimal"
             value={stan.temperaturaGraniczna}
             onChange={(e) => ustaw({ temperaturaGraniczna: e.target.value })}
-            hint="Twój próg ochrony, np. rur z wodą."
+            pomoc={<PomocPola ekran="pojemnosc-cieplna" pole="prog" />}
           />
         </div>
       </section>
@@ -271,10 +272,7 @@ export default function PojemnoscCieplnaPage() {
         </WerdyktPanel>
       )}
 
-      <MigawkaBox>
-        „Ciężki dom to jak piec kaflowy — długo się nagrzewa, ale długo trzyma ciepło. To ta sama liczba, która mówi, ile czasu
-        masz w razie awarii ogrzewania, zanim zacznie robić się naprawdę zimno.”
-      </MigawkaBox>
+      
     </main>
   )
 }

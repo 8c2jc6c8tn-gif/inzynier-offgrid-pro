@@ -3,12 +3,14 @@
 import { useMemo } from "react"
 import { calculateWentylacjaOdzyskCiepla } from "@/lib/core/modules/ogrzewanie/wentylacja-odzysk-ciepla/calculator"
 import { Pole } from "@/components/ui/pole"
+import { PomocPola } from "@/components/ui/pomoc"
 import { WerdyktPanel } from "@/components/werdykt"
 import { NawigacjaEkranu } from "@/components/nawigacja-ekranu"
 import { NaglowekEkranu } from "@/components/wzorce/naglowek-ekranu"
 import { WynikGlowny } from "@/components/wzorce/wynik-glowny"
 import { WynikSzczegoly } from "@/components/wzorce/wynik-szczegoly"
 import { usePersistedDraft } from "@/lib/adapters/use-persisted-draft"
+import { POBOR_WENTYLATOROW_MAX_W, POBOR_WENTYLATOROW_MIN_W } from "@/lib/core/modules/ogrzewanie/wentylacja-odzysk-ciepla/constants"
 
 type FormularzStan = {
   wydajnoscCentraliM3H: string
@@ -56,7 +58,7 @@ export default function WentylacjaOdzyskCieplaPage() {
   return (
     <main className="mx-auto flex max-w-md flex-col gap-6 p-6">
       <NawigacjaEkranu href="/kalkulatory/wentylacja-odzysk-ciepla" />
-      <NaglowekEkranu tytul="System wentylacji z odzyskiem ciepła">
+      <NaglowekEkranu tytul="System wentylacji z odzyskiem ciepła" ekran="wentylacja-odzysk-ciepla" wzor={result.formula}>
         Wentylacja to płuca domu. Rekuperacja sprawia, że płuca oddychają, ale nie tracą przy tym
         ciepła. Moduł 6, Ekran 3.
       </NaglowekEkranu>
@@ -70,6 +72,7 @@ export default function WentylacjaOdzyskCieplaPage() {
           min={0}
           value={wydajnoscCentraliM3H}
           onChange={(e) => setWydajnoscCentraliM3H(e.target.value)}
+          pomoc={<PomocPola ekran="wentylacja-odzysk-ciepla" pole="przeplyw" />}
         />
         <Pole
           label="Sprawność rekuperatora"
@@ -80,6 +83,7 @@ export default function WentylacjaOdzyskCieplaPage() {
           max={100}
           value={sprawnoscRekuperatoraPct}
           onChange={(e) => setSprawnoscRekuperatoraPct(e.target.value)}
+          pomoc={<PomocPola ekran="wentylacja-odzysk-ciepla" pole="sprawnosc" />}
         />
         <Pole
           label="Różnica temperatur wewnątrz/na zewnątrz"
@@ -89,6 +93,7 @@ export default function WentylacjaOdzyskCieplaPage() {
           min={0}
           value={deltaTK}
           onChange={(e) => setDeltaTK(e.target.value)}
+          pomoc={<PomocPola ekran="wentylacja-odzysk-ciepla" pole="deltaT" />}
         />
         <Pole
           label="Stały pobór mocy wentylatorów"
@@ -96,9 +101,9 @@ export default function WentylacjaOdzyskCieplaPage() {
           type="number"
           inputMode="decimal"
           min={0}
-          hint="Typowo 50-100 W."
           value={poborWentylatorowW}
           onChange={(e) => setPoborWentylatorowW(e.target.value)}
+          pomoc={<PomocPola ekran="wentylacja-odzysk-ciepla" pole="pobor" params={{ min: POBOR_WENTYLATOROW_MIN_W, max: POBOR_WENTYLATOROW_MAX_W }} />}
         />
       </div>
 

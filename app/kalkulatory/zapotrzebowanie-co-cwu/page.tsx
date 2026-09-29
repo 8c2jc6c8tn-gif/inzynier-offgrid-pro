@@ -4,9 +4,9 @@ import Link from "next/link"
 import { useMemo } from "react"
 import { NawigacjaEkranu } from "@/components/nawigacja-ekranu"
 import { Pole } from "@/components/ui/pole"
+import { PomocPola } from "@/components/ui/pomoc"
 import { WerdyktPanel, type WerdyktPoziom } from "@/components/werdykt"
 import { KartaPorownawcza, type Kolumna } from "@/components/wzorce/karta-porownawcza"
-import { MigawkaBox } from "@/components/wzorce/migawka-box"
 import { NaglowekEkranu } from "@/components/wzorce/naglowek-ekranu"
 import { WynikGlowny } from "@/components/wzorce/wynik-glowny"
 import { WynikSzczegoly } from "@/components/wzorce/wynik-szczegoly"
@@ -71,7 +71,7 @@ export default function ZapotrzebowanieCoCwuPage() {
   return (
     <main className="mx-auto flex max-w-2xl flex-col gap-6 p-6">
       <NawigacjaEkranu href="/kalkulatory/zapotrzebowanie-co-cwu" />
-      <NaglowekEkranu tytul="Zapotrzebowanie na C.O. i C.W.U.">
+      <NaglowekEkranu tytul="Zapotrzebowanie na C.O. i C.W.U." ekran="zapotrzebowanie-co-cwu" wzor={wynik.formula}>
         Ile ciepła dziennie potrzeba na ogrzewanie domu (C.O.) i na ciepłą wodę (C.W.U.) w każdym miesiącu. Ogrzewanie
         bierze straty ciepła z Ekranu 1, ciepła woda liczy się z liczby osób. Moduł 6, Ekran 2.
       </NaglowekEkranu>
@@ -117,11 +117,7 @@ export default function ZapotrzebowanieCoCwuPage() {
             value={stan.liczbaOsob}
             placeholder={osobyZModulu2 !== null ? String(osobyZModulu2) : undefined}
             onChange={(e) => ustaw("liczbaOsob", e.target.value)}
-            hint={
-              osobyZModulu2 !== null
-                ? `Puste = ${osobyZModulu2} z Modułu 2 („Liczba domowników”).`
-                : "Albo ustaw na ekranie „Liczba domowników” w Module 2."
-            }
+            pomoc={<PomocPola ekran="zapotrzebowanie-co-cwu" pole="osoby" />}
           />
           <Pole
             label="Ciepła woda na osobę"
@@ -131,7 +127,7 @@ export default function ZapotrzebowanieCoCwuPage() {
             min={0}
             value={stan.litry}
             onChange={(e) => ustaw("litry", e.target.value)}
-            hint={`Źródło: ok. ${CWU_L_NA_OSOBE_ZRODLO_M6} l; Moduł 2 podaje zakres 50–70 l. Zmień, jeśli znasz swoje zużycie.`}
+            pomoc={<PomocPola ekran="zapotrzebowanie-co-cwu" pole="litry" params={{ l: CWU_L_NA_OSOBE_ZRODLO_M6 }} />}
           />
           <Pole
             label="Temperatura zimnej wody"
@@ -140,7 +136,7 @@ export default function ZapotrzebowanieCoCwuPage() {
             inputMode="decimal"
             value={stan.tZimna}
             onChange={(e) => ustaw("tZimna", e.target.value)}
-            hint="Woda z sieci albo studni — zmierz na kranie zimnej wody."
+            pomoc={<PomocPola ekran="zapotrzebowanie-co-cwu" pole="tZimna" />}
           />
           <Pole
             label="Temperatura ciepłej wody"
@@ -149,7 +145,7 @@ export default function ZapotrzebowanieCoCwuPage() {
             inputMode="decimal"
             value={stan.tCwu}
             onChange={(e) => ustaw("tCwu", e.target.value)}
-            hint="Ustawienie podgrzewacza lub bojlera."
+            pomoc={<PomocPola ekran="zapotrzebowanie-co-cwu" pole="tCiepla" />}
           />
           <Pole
             label="COP podgrzewania wody (opcjonalnie)"
@@ -158,7 +154,7 @@ export default function ZapotrzebowanieCoCwuPage() {
             min={0}
             value={stan.copCwu}
             onChange={(e) => ustaw("copCwu", e.target.value)}
-            hint="Grzałka elektryczna: 1. Pompa ciepła: z karty. Pusto = bez przeliczenia na prąd."
+            pomoc={<PomocPola ekran="zapotrzebowanie-co-cwu" pole="cop" />}
           />
         </div>
       </section>
@@ -219,7 +215,7 @@ export default function ZapotrzebowanieCoCwuPage() {
         </WerdyktPanel>
       )}
 
-      <MigawkaBox>„To są dwa różne ‘apetyty na ciepło’ — C.O. skacze z pogodą, C.W.U. jest w miarę stałe cały rok.”</MigawkaBox>
+      
     </main>
   )
 }

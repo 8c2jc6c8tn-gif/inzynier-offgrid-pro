@@ -5,9 +5,9 @@ import { useMemo } from "react"
 import { NawigacjaEkranu } from "@/components/nawigacja-ekranu"
 import { Button } from "@/components/ui/button"
 import { Pole, PoleSelect } from "@/components/ui/pole"
+import { PomocPola } from "@/components/ui/pomoc"
 import { WerdyktPanel, type WerdyktPoziom } from "@/components/werdykt"
 import { KartaPorownawcza, type Kolumna } from "@/components/wzorce/karta-porownawcza"
-import { MigawkaBox } from "@/components/wzorce/migawka-box"
 import { NaglowekEkranu } from "@/components/wzorce/naglowek-ekranu"
 import { WynikGlowny } from "@/components/wzorce/wynik-glowny"
 import { WynikSzczegoly } from "@/components/wzorce/wynik-szczegoly"
@@ -39,7 +39,7 @@ const f3 = (x: number) => x.toLocaleString("pl-PL", { maximumFractionDigits: 3 }
 function KartaWariantu({ w, i, ustaw, usun }: { w: WariantSeed; i: number; ustaw: (z: Partial<WariantSeed>) => void; usun: () => void }) {
   return (
     <div className="flex flex-col gap-3 rounded-lg border p-3">
-      <Pole id={`wariant-${i}-nazwa`} label="Materiał" value={w.nazwa} onChange={(e) => ustaw({ nazwa: e.target.value })} />
+      <Pole id={`wariant-${i}-nazwa`} label="Materiał" value={w.nazwa} onChange={(e) => ustaw({ nazwa: e.target.value })} pomoc={<PomocPola ekran="optymalizacja-izolacji" pole="material" />} />
       <div className="grid gap-3 sm:grid-cols-3">
         <Pole
           id={`wariant-${i}-lambda`}
@@ -50,7 +50,7 @@ function KartaWariantu({ w, i, ustaw, usun }: { w: WariantSeed; i: number; ustaw
           min={0}
           value={w.lambda}
           onChange={(e) => ustaw({ lambda: e.target.value })}
-          hint="λ deklarowane z karty produktu (np. 0,035)."
+          pomoc={<PomocPola ekran="optymalizacja-izolacji" pole="lambda" />}
         />
         <Pole
           id={`wariant-${i}-grubosc`}
@@ -61,6 +61,7 @@ function KartaWariantu({ w, i, ustaw, usun }: { w: WariantSeed; i: number; ustaw
           min={0}
           value={w.grubosc}
           onChange={(e) => ustaw({ grubosc: e.target.value })}
+          pomoc={<PomocPola ekran="optymalizacja-izolacji" pole="grubosc" />}
         />
         <Pole
           id={`wariant-${i}-cena`}
@@ -71,7 +72,7 @@ function KartaWariantu({ w, i, ustaw, usun }: { w: WariantSeed; i: number; ustaw
           min={0}
           value={w.cena}
           onChange={(e) => ustaw({ cena: e.target.value })}
-          hint="Za m² warstwy tej grubości (z robocizną, jeśli ją liczysz)."
+          pomoc={<PomocPola ekran="optymalizacja-izolacji" pole="cena" />}
         />
       </div>
       <Button variant="ghost" className="min-h-11 w-fit" onClick={usun}>
@@ -122,7 +123,7 @@ export default function OptymalizacjaIzolacjiPage() {
   return (
     <main className="mx-auto flex max-w-2xl flex-col gap-6 p-6">
       <NawigacjaEkranu href="/kalkulatory/optymalizacja-izolacji" />
-      <NaglowekEkranu tytul="Optymalizacja izolacji">
+      <NaglowekEkranu tytul="Optymalizacja izolacji" ekran="optymalizacja-izolacji" wzor={wynik.formula} parametry={{ lata: LAT_ANALIZY }}>
         Porównanie materiałów i grubości docieplenia jednej przegrody: ile ciepła oszczędza każdy wariant i ile kosztuje jedna
         zaoszczędzona kWh w {LAT_ANALIZY} lat. Moduł 6, Ekran 10.
       </NaglowekEkranu>
@@ -154,7 +155,7 @@ export default function OptymalizacjaIzolacjiPage() {
               const p = przegrodyZewnetrzne.find((x) => String(x.i) === e.target.value)
               ustaw(p ? { przegroda: e.target.value, powierzchniaM2: p.powierzchniaM2, uWM2K: p.uWM2K } : { przegroda: "" })
             }}
-            hint="Wstawia powierzchnię i U — możesz je poprawić niżej."
+            pomoc={<PomocPola ekran="optymalizacja-izolacji" pole="przegroda" />}
           >
             <option value="">— wybierz —</option>
             {przegrodyZewnetrzne.map((p) => (
@@ -173,6 +174,7 @@ export default function OptymalizacjaIzolacjiPage() {
             min={0}
             value={stan.powierzchniaM2}
             onChange={(e) => ustaw({ powierzchniaM2: e.target.value })}
+            pomoc={<PomocPola ekran="optymalizacja-izolacji" pole="powierzchnia" />}
           />
           <Pole
             label="Obecne U"
@@ -182,7 +184,7 @@ export default function OptymalizacjaIzolacjiPage() {
             min={0}
             value={stan.uWM2K}
             onChange={(e) => ustaw({ uWM2K: e.target.value })}
-            hint="Przed dociepleniem — z projektu, świadectwa albo Ekranu 1."
+            pomoc={<PomocPola ekran="optymalizacja-izolacji" pole="u" />}
           />
         </div>
       </section>
@@ -213,7 +215,7 @@ export default function OptymalizacjaIzolacjiPage() {
           min={0}
           value={stan.cenaCiepla}
           onChange={(e) => ustaw({ cenaCiepla: e.target.value })}
-          hint="Np. z ekranu „Porównanie kosztów ogrzewania”. Bez niej aplikacja nie oceni, od której grubości kolejne centymetry się nie zwracają."
+          pomoc={<PomocPola ekran="optymalizacja-izolacji" pole="cenaCiepla" />}
         />
       </section>
 
@@ -253,10 +255,7 @@ export default function OptymalizacjaIzolacjiPage() {
         </WerdyktPanel>
       )}
 
-      <MigawkaBox>
-        „Nie chodzi o to, żeby zaizolować jak najgrubiej, tylko żeby rozsądnie wydać pieniądze — jest punkt, po którym kolejny
-        centymetr izolacji już się nie opłaca.”
-      </MigawkaBox>
+      
     </main>
   )
 }
