@@ -1301,7 +1301,7 @@ Pełne wyniki audytu: `docs/memory.md`, sekcja "Pełny audyt na polecenie właś
   ✅ **[29.09.2026, 23:05] Strażnik zrobiony** — `pnpm check:stopy-guard` (pakiet, `ci.yml`, `CLAUDE.md`), gałąź
   `claude/stopy-guard-84b`. 265 kodów 🔴: 69 w rejestrze, 145 wyjątków walidacyjnych, 51 na liście zapadkowej.
   Dalsza część → wpis „Rejestr twardych stopów — uzupełnienie 51 pozycji” niżej. Szczegóły: `docs/memory.md`.
-- 🔲 (2026-09-29) **Rejestr twardych stopów — uzupełnienie 51 pozycji z listy zapadkowej**
+- ✅ (2026-09-29, wieczór: 46 do rejestru, 3 do wyjątków, 2 czekają — wpis ⚠️ niżej) ~~🔲 (2026-09-29) **Rejestr twardych stopów — uzupełnienie 51 pozycji z listy zapadkowej**~~
   (`scripts/stopy-guard-baseline.json`; obejmuje wpis z 28.09 „dryf całego M5”). Każdy kod: wpis w
   `docs/rejestr-twardych-stopow.md` (kategoria, opis, M#/E#, plik, funkcja, kod) albo — gdy okaże się walidacją — przeniesienie
   do `scripts/stopy-guard-wyjatki.json` z uzasadnieniem; kod znika z listy zapadkowej w tej samej zmianie (strażnik to
@@ -1310,6 +1310,15 @@ Pełne wyniki audytu: `docs/memory.md`, sekcja "Pełny audyt na polecenie właś
   (`ZA-DUZO-OGNIW`, `ZACIENIENIE-*`, `SYSTEM-NIE-PRZETRWA-SCENARIUSZA`, `KONFLIKT-JEDNOCZESNOSCI`) — pytania do właściciela.
   **Kolizje:** `docs/rejestr-twardych-stopow.md` + oba pliki JSON strażnika; bezkolizyjne z SW etapem 1. **Kolejność:**
   decyzja właściciela 29.09 — po merge SW etapu 1 (razem z pracą domenową M5/M7/M12).
+- ⚠️ (2026-09-29) **Do decyzji właściciela: 🔴 przy zacienieniu 2 sekcji / całego panelu** (`ZACIENIENIE-2-SEKCJE`,
+  `ZACIENIENIE-PELNY-PANEL`, M3/E13 `pv/zacienienie-diody-bocznikujace`) — jedyne 2 kody na liście zapadkowej. To strata
+  uzysku (66% / 100% mocy panelu), nie zagrożenie ani uszkodzenie sprzętu, a źródło przy tym ekranie daje 🟡 (mikroinwertery),
+  nie 🔴. Opcje: (A) zostawić 🔴 i wpisać do rejestru; (B) obniżyć do 🟡 `warning` (zmiana kodu + testy, kody znikają z listy
+  zapadkowej). Rekomendacja audytora: B — rejestr ma zawierać fakty „niebezpieczne / uszkodzi sprzęt” (nagłówek rejestru).
+  **Priorytet:** średni. **Odblokowuje:** pusty baseline = strażnik w pełni ostry (11.9). **Kolizje:** bezkolizyjne.
+  **Do potwierdzenia ✅🤖 przy okazji:** `BRAK-PASUJACEGO-PRZEKROJU` i `MK-BRAK-PRZEKROJU-DLA-BEZPIECZNIKA` wpisane do
+  rejestru (nie jako „poza zakresem tablicy”), `NIEPARZYSTA-LICZBA-OGNIW`/`ZA-MALO-OGNIW`/`ZA-DUZO-OGNIW` (M11 sekwencja
+  montażu, status OUT_OF_SCOPE) — do wyjątków „poza zakresem modelu”.
   🔄 **[29.09.2026, 22:55] W trakcie** — gałąź `claude/pwa-parallel-branch-work-4e99fd` (worktree
   `.claude/worktrees/pwa-parallel-branch-work-4e99fd`). Inne sesje: nie ruszać `docs/rejestr-twardych-stopow.md`
   do merge tej gałęzi. Uzupełnianie M5 i dalszych modułów — po merge SW etapu 1 (decyzja właściciela).
