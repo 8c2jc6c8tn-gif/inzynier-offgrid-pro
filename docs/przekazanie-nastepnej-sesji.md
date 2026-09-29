@@ -44,7 +44,7 @@ przyłączeniowe); „duży” wygląd kafli i presety onboardingu (odłożone);
 
 ### Odłożone przez właściciela (nie pytaj teraz, nie blokują M14)
 
-TD21 CRL · Rsi per kierunek (czeka na PKN; podane 0,17 / 0,10 / 0,13 — przypisanie do sprawdzenia z normą) · M8/E3
+TD21 CRL · Rsi per kierunek (czeka na PKN; ~~podane 0,17 / 0,10 / 0,13 — przypisanie do sprawdzenia z normą~~ **[29.09] ustalone: ściana 0,13 · strop/dach 0,10 · podłoga 0,17** — sprawdzenie końcowe z PKN, patrz lista 28.09) · M8/E3
 fail-secure · M8/E4 gaz · M9/E2 magistrala · M9/E4 CAN · kafle M14 w presetach · 2 wyjątki D48 (wejście AC falownika,
 odbiorniki wprost). Kod tych miejsc zostaje bez zmian (✅🤖).
 
@@ -88,7 +88,7 @@ PKN”, 7 odłożyć, 8 odłożyć. **Bez odpowiedzi: 6, 9, 10, 11, 12.** Opcja 
 | 2 | ~~Agregat w mrozie (D32): poziomy 🟡/🔴/ℹ️~~ | — | **✅ zamknięte na `main`** (D32 potwierdzone z korektą progów, E8 1.2.0) — nie pytaj ponownie **Odpowiedź 28.09:** „już pisałem” — tak, zapisane w D32 (korekta: 🟡 od +10°C, 🔴 poniżej +5°C, paliwo zimowe od +5°C, arktyczne poniżej −10°C, świece obowiązkowo, dodatki zimowe). Nic do zrobienia. |
 | 3 | ~~Lista 16 urządzeń (D33)~~ | — | **✅ zamknięte na `main`** (D33 potwierdzone, nowe moce, 19 pozycji) — nie pytaj ponownie **Odpowiedź 28.09: zostawić (A).** |
 | 4 | CRL: długość > 1 km obcinana od największej wagi (TD21) | `lib/core/modules/okablowanie/ocena-ryzyka-crl/calculator.ts` | B: sortowanie odcinków rosnąco po wadze zamiast malejąco + test **Odpowiedź 28.09: odłożone** — właściciel nie może teraz zdecydować. Zostaje jak jest (✅🤖). |
-| 5 | Rsi = 0,13 (M6/E8, TD20) | `lib/core/modules/ogrzewanie/pojemnosc-cieplna/constants.ts` | B: czeka na normę ISO 6946 od właściciela **Odpowiedź 28.09:** decyzja już była (lista 28.09, „Rsi per kierunek”): wartości per kierunek, ale poprawka **odłożona do czasu, aż właściciel dostarczy PKN** (PN-EN ISO 6946). Właściciel podał 0,17 / 0,10 / 0,13 dla ścian / dachu / podłogi — **przypisanie do sprawdzenia z normą** (w ISO 6946 zwykle: ściana 0,13, strumień w górę 0,10, w dół 0,17). Do tego czasu 0,13 wszędzie. |
+| 5 | Rsi = 0,13 (M6/E8, TD20) | `lib/core/modules/ogrzewanie/pojemnosc-cieplna/constants.ts` | B: czeka na normę ISO 6946 od właściciela **Odpowiedź 28.09:** decyzja już była (lista 28.09, „Rsi per kierunek”): wartości per kierunek, ale poprawka **odłożona do czasu, aż właściciel dostarczy PKN** (PN-EN ISO 6946). Właściciel podał 0,17 / 0,10 / 0,13 dla ścian / dachu / podłogi — **przypisanie do sprawdzenia z normą** (w ISO 6946 zwykle: ściana 0,13, strumień w górę 0,10, w dół 0,17). Do tego czasu 0,13 wszędzie. **[29.09.2026, korekta właściciela]** Liczby z 28.09 były podane z pamięci — wiążące są wartości z wcześniejszej decyzji: **ściana 0,13 · strop/dach (strumień w górę) 0,10 · podłoga (strumień w dół) 0,17 m²·K/W**; wdrożenie odłożone do sprawdzenia końcowego z PKN. |
 | 6 | Zamki fail-secure z UPS = 🟡 (M8/E3) | `lib/core/modules/bezpieczenstwo/zamki-drzwi-ewakuacyjnych/` | B: 🔴 + dopis w `docs/rejestr-twardych-stopow.md` |
 | 7 | Gaz obojętny/aerozol przy LiFePO4 = 🟡 (M8/E4) | `lib/core/modules/bezpieczenstwo/modul-gasniczy/` | B: ℹ️; C: 🔴 + rejestr stopów **Odpowiedź 28.09: odłożone.** |
 | 8 | Magistrala ponad wejście przetwornicy = 🔴 (M9/E2) | `lib/core/modules/esp32/zasilanie-esp32/` | B: 🟡 + usunięcie z rejestru stopów (przekreślenie, F.5) **Odpowiedź 28.09: odłożone.** |
