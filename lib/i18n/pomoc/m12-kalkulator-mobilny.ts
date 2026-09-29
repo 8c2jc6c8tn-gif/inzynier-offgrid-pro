@@ -390,7 +390,7 @@ export const pl = {
       },
       npeRozlaczane: {
         nazwa: "Rozłączanie N–PE przy zasilaniu z zewnątrz",
-        cel: "Czy połączenie N–PE w falowniku jest rozłączane, gdy podłączysz zasilanie ze słupka albo z kei. Wiele falowników z przełącznikiem sieci robi to samo, przekaźnikiem. Jeśli nie — powstaje podwójne połączenie N–PE: prąd roboczy płynie też przewodem ochronnym, a RCD może działać źle.",
+        cel: "Czy połączenie N–PE w falowniku jest rozłączane, gdy podłączysz zasilanie ze słupka albo z kei. Wiele falowników z przełącznikiem sieci robi to samo, przekaźnikiem. Jeśli nie — powstaje podwójne połączenie N–PE, które norma (PN-HD 60364-5-54, 543.4.3) nazywa niedopuszczalnym: prąd roboczy płynie też przewodem ochronnym. Typowy objaw: RCD na słupku wybija zaraz po podłączeniu.",
         gdzie: "W instrukcji falownika: szukaj „ground relay”, „przekaźnik uziemienia”, „N–PE switching”. Stały mostek N–PE przy zasilaniu ze słupka jest błędem.",
         zakres: "Tak, nie albo nie wiem. „Nie wiem” aplikacja traktuje jak „nie” — to strona bezpieczna.",
       },
@@ -935,7 +935,7 @@ export const en: Tlumaczenie<typeof pl> = {
       },
       npeRozlaczane: {
         nazwa: "N–PE bond opened on external supply",
-        cel: "Whether the inverter's N–PE bond is opened when you connect hook-up or shore power. Many inverters with a transfer switch do this themselves, with a relay. If not, there is a double N–PE bond: working current also flows through the protective conductor and the RCD may misbehave.",
+        cel: "Whether the inverter's N–PE bond is opened when you connect hook-up or shore power. Many inverters with a transfer switch do this themselves, with a relay. If not, there is a double N–PE bond, which the standard (PN-HD 60364-5-54, 543.4.3) calls not permitted: working current also flows through the protective conductor. Typical symptom: the RCD on the hook-up post trips right after plugging in.",
         gdzie: "In the inverter manual: look for “ground relay” or “N–PE switching”. A fixed N–PE link while on hook-up power is a fault.",
         zakres: "Yes, no or don't know. The app treats “don't know” as “no” — the safe side.",
       },
@@ -1479,7 +1479,7 @@ export const ru: Tlumaczenie<typeof pl> = {
       },
       npeRozlaczane: {
         nazwa: "Размыкание N–PE при внешнем питании",
-        cel: "Размыкается ли соединение N–PE в инверторе, когда вы подключаете питание от колонки или причала. Многие инверторы с переключателем сети делают это сами, реле. Если нет — возникает двойное соединение N–PE: рабочий ток идёт и по защитному проводнику, а УЗО может работать неправильно.",
+        cel: "Размыкается ли соединение N–PE в инверторе, когда вы подключаете питание от колонки или причала. Многие инверторы с переключателем сети делают это сами, реле. Если нет — возникает двойное соединение N–PE, которое норма (PN-HD 60364-5-54, 543.4.3) называет недопустимым: рабочий ток идёт и по защитному проводнику. Типичный признак: УЗО на колонке срабатывает сразу после подключения.",
         gdzie: "В инструкции инвертора: ищите «ground relay», «реле заземления», «N–PE switching». Постоянная перемычка N–PE при питании от колонки — ошибка.",
         zakres: "Да, нет или не знаю. «Не знаю» приложение считает как «нет» — это безопасная сторона.",
       },

@@ -64,7 +64,9 @@ export function brakRcd30mA(odpowiedz: OdpowiedzKontrolna): Warning {
 /**
  * Zasilanie z zewnątrz (słupek, keja) przy połączeniu N–PE w falowniku, które nie jest wtedy rozłączane (D55, właściciel
  * 29.09.2026: „połączenie N–PE w kamperze musi być wtedy rozłączone, inaczej powstaje podwójne połączenie N–PE”).
- * Poziom 🔴 — interpretacja AI ✅🤖 słowa „musi” z cytatu wyżej (sekcja o kempingu); właściciel poziomu nie podał.
+ * Poziom 🔴 potwierdzony przez właściciela 29.09.2026 („Wybieram A”, 🔴 dla „nie” i „nie wiem”). Podstawa normowa:
+ * PN-HD 60364-5-54, 543.4.3 — po rozdzieleniu N i PE połączenie N z częścią uziemioną jest „niedopuszczalne”
+ * (`docs/zrodla/norma-PN-HD-60364-5-54/05-przewody-ochronne-543.md`).
  */
 export function podwojnePolaczenieNPE(odpowiedz: OdpowiedzKontrolna): Warning {
   return {

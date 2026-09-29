@@ -8160,6 +8160,10 @@ Tryb Audyt (czapka rewidenta). Warstwa „w pełni na końcu” z N.2 — wszyst
 - W repo JEST wyciąg PN-IEC 60364-4-41:2000 z 413.5 (separacja) — właściciel pamiętał słusznie; brakuje wydania 2017.
 - **Zasada właściciela (29.09.2026):** gdy poziom/decyzję opieram na słowach właściciela, podaję **dosłowny cytat i gdzie
   padł** (data, która wiadomość/sekcja), a nie samo „Twoje »musi«”. Dotyczy raportu i wpisów ✅🤖 w rejestrach.
+- **[29.09.2026] Podwójne N–PE — poziom potwierdzony:** właściciel „Wybieram A” (🔴 dla „nie” i „nie wiem”); podstawa
+  PN-HD 60364-5-54, 543.4.3 („niedopuszczalne”) — norma była w repo, wcześniej jej nie powiązałem. Na prośbę właściciela
+  ekran (sekcja pętli, gdy słupek/keja) i komunikat tłumaczą fizykę: prąd w PE, wybija RCD na słupku, stary słupek bez RCD
+  + przerwany PEN, jacht — korozja i marina. Lekcja: zanim oznaczę poziom ✅🤖, grep po `docs/zrodla/` za regułą ogólną.
 - Pułapka: w teście `ac` bazowo zmieniony z kampera na garaż — kamper dokłada ℹ️ i pytanie o słupek, więc testy ogólne
   230 V przestałyby mieć pustą listę ostrzeżeń.
 

@@ -356,11 +356,50 @@ export default function UziemienieMaleInstalacjePage() {
             Pręt wbity w ziemię ani przewód czy łańcuch wiszący spod kampera nie zastąpią tej pętli.
           </p>
           {zeSlupka && (
-            <p className="text-small text-muted-foreground">
-              <strong>Przy zasilaniu {stan.miejsce === "jacht" ? "z kei" : "ze słupka"}</strong> przewód ochronny przychodzi z
-              sieci. Połączenie N–PE {stan.miejsce === "jacht" ? "na jachcie" : "w kamperze"} musi być wtedy rozłączone, inaczej
-              powstaje podwójne połączenie N–PE.
-            </p>
+            <>
+              <p className="text-small text-muted-foreground">
+                <strong>Przy zasilaniu {stan.miejsce === "jacht" ? "z kei" : "ze słupka"}</strong> przewód ochronny przychodzi z
+                sieci. Połączenie N–PE {stan.miejsce === "jacht" ? "na jachcie" : "w kamperze"} musi być wtedy rozłączone, inaczej
+                powstaje podwójne połączenie N–PE.
+              </p>
+              <p className="text-small text-muted-foreground">
+                {stan.miejsce === "jacht" ? "Na kei" : "Na słupku"} N i PE przychodzą już rozdzielone, bo rozdzielenie jest po
+                stronie sieci. Połączenie N–PE {stan.miejsce === "jacht" ? "na jachcie" : "w kamperze"} to ponowne połączenie N z
+                częścią uziemioną. Norma PN-HD 60364-5-54 (punkt 543.4.3) nazywa to „niedopuszczalnym”, nie „zalecanym”. Co się
+                wtedy dzieje:
+              </p>
+              <ol className="list-decimal pl-5 text-small text-muted-foreground">
+                <li>
+                  <strong>Prąd roboczy płynie przewodem ochronnym.</strong> Powrót z odbiorników dzieli się na N i PE razem z
+                  {stan.miejsce === "jacht" ? " kadłubem" : " podwoziem"}. Na obudowach pojawia się napięcie względem ziemi, równe
+                  spadkowi napięcia na PE i przyłączu. Przewód ochronny przestaje być „czysty”.
+                </li>
+                <li>
+                  <strong>Najczęstszy objaw: wybija RCD na {stan.miejsce === "jacht" ? "kei" : "słupku"}.</strong> Część prądu
+                  wraca przez PE, z pominięciem RCD, więc RCD widzi różnicę i wyłącza. To wyłączenie jest bezpieczne, ale mylące:
+                  łatwo obwinić {stan.miejsce === "jacht" ? "keję" : "słupek"} i szukać obejścia. Nie szukaj — rozłącz N–PE.
+                </li>
+                <li>
+                  <strong>Groźny przypadek: stare przyłącze bez RCD.</strong> Nic nie wybija, a PE stale niesie prąd. Jeśli w
+                  sieci przerwie się przewód PEN, cały prąd powrotny szuka drogi przez PE i{" "}
+                  {stan.miejsce === "jacht" ? "kadłub" : "podwozie"}. Na {stan.miejsce === "jacht" ? "metalowych częściach jachtu" : "karoserii"}{" "}
+                  może pojawić się niebezpieczne napięcie. Porażony zostaje ktoś, kto {stan.miejsce === "jacht" ? "ich" : "jej"} dotyka, stojąc na{" "}
+                  {stan.miejsce === "jacht" ? "pomoście" : "trawie"}.
+                </li>
+                {stan.miejsce === "jacht" && (
+                  <li>
+                    <strong>Na jachcie jest gorzej.</strong> Prąd płynący przewodem ochronnym przez wodę powoduje korozję części
+                    podwodnych. W marinie prąd w wodzie grozi też porażeniem pływających w pobliżu. Dlatego przepisy jachtowe są tu
+                    szczególnie ostre.
+                  </li>
+                )}
+              </ol>
+              <p className="text-small text-muted-foreground">
+                Ta usterka nie zabija od razu, tak jak brak N–PE na samym falowniku. Łamie jednak podstawową regułę układu i przy
+                drugiej usterce — przerwanym PEN — robi się groźna. Dlatego aplikacja pokazuje ją na czerwono, tak jak
+                nieuziemioną obudowę.
+              </p>
+            </>
           )}
           {stan.miejsce === "kamper" && (
             <p className="text-small text-muted-foreground">

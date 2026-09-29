@@ -42,7 +42,7 @@ wtedy zaktualizowane — naprawione teraz, przy okazji.)*
 
 ## 🔵 Spodziewane — zapowiedziane przez właściciela projektu
 
-- **PN-HD 60364-7-721** (instalacje elektryczne w przyczepach kempingowych i pojazdach wypoczynkowych). **[29.09.2026]** Właściciel: „na razie czerwone, potem normę dostarczę”. **Potrzebna do:** M12/E38 — potwierdzenia wymagania RCD 30 mA i poziomu `UMI-BRAK-RCD-30MA` (dziś 🔴 tymczasowo, D55); przy okazji zasilanie ze słupka (rozłączanie N–PE, `UMI-PODWOJNE-POLACZENIE-N-PE`).
+- **PN-HD 60364-7-721** (instalacje elektryczne w przyczepach kempingowych i pojazdach wypoczynkowych). **[29.09.2026]** Właściciel: „na razie czerwone, potem normę dostarczę”. **Potrzebna do:** M12/E38 — potwierdzenia wymagania RCD 30 mA i poziomu `UMI-BRAK-RCD-30MA` (dziś 🔴 tymczasowo, D55); przy okazji zasilanie ze słupka (rozłączanie N–PE, `UMI-PODWOJNE-POLACZENIE-N-PE` — poziom 🔴 już ma podstawę w PN-HD 60364-5-54, 543.4.3, potwierdzony przez właściciela; 7-721 tylko jako potwierdzenie dla kamperów). **Potrzebny fragment:** rozdział o ochronie przeciwporażeniowej (RCD, połączenia wyrównawcze podwozia) i o zasilaniu z zewnątrz (przyłącze, słupek).
 
 ## 🟡 Potrzebne, nie blokują dziś konkretnego kodu (zidentyfikowane wcześniej w rozmowie o normach)
 
