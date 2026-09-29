@@ -13,7 +13,7 @@ export default function PrognozyPage() {
   return (
     <main className="mx-auto flex max-w-md flex-col gap-6 p-6">
       <NawigacjaEkranu href="/kalkulatory/prognozy" />
-      <NaglowekEkranu tytul="Prognozy">
+      <NaglowekEkranu tytul="Prognozy" ekran="prognozy">
         To jest „pogoda” Twojego systemu energetycznego — nie tylko atmosferyczna, ale cała: ile
         będziesz mieć prądu, ile zużyjesz, i kiedy będzie ciasno. Moduł 10, Ekran 1.
       </NaglowekEkranu>
