@@ -7,11 +7,13 @@ import { OCZEKIWANA_LICZBA_OGNIW } from "@/lib/core/modules/montaz-baterii/weryf
 import type { NapiecieSystemu } from "@/lib/core/modules/montaz-baterii/weryfikacja-ogniw/input"
 import { usePersistedDraft } from "@/lib/adapters/use-persisted-draft"
 import { Pole, PoleSelect } from "@/components/ui/pole"
+import { PomocPola } from "@/components/ui/pomoc"
 import { ListaChecklist } from "@/components/wzorce/lista-checklist"
 import { WerdyktPanel, type WerdyktPoziom } from "@/components/werdykt"
 import { NawigacjaEkranu } from "@/components/nawigacja-ekranu"
 import { NaglowekEkranu } from "@/components/wzorce/naglowek-ekranu"
 import { WynikSzczegoly } from "@/components/wzorce/wynik-szczegoly"
+import { MAX_ZALECANE_NAPIECIE_OGNIWA_V } from "@/lib/core/modules/montaz-baterii/demontaz-pakietu/constants"
 
 /** Schemat: ten sam szereg co przy montażu, rozpinany od końca o najwyższym potencjale. */
 function DemontazIlustracja() {
@@ -139,7 +141,7 @@ export default function DemontazPakietuPage() {
   return (
     <main className="mx-auto flex max-w-md flex-col gap-6 p-6">
       <NawigacjaEkranu href="/kalkulatory/demontaz-pakietu" />
-      <NaglowekEkranu tytul="Demontaż pakietu">
+      <NaglowekEkranu tytul="Demontaż pakietu" ekran="demontaz-pakietu" wzor={result.formula}>
         Ta kolejność nie jest sugestią — to dokładna odwrotność kolejności montażu, i każde
         odstępstwo zwiększa ryzyko zwarcia w rękach. {WYMAGANE_WYPOSAZENIE} Moduł 11, Ekran A6.
       </NaglowekEkranu>
@@ -150,6 +152,7 @@ export default function DemontazPakietuPage() {
         label="Napięcie systemu"
         value={napiecieSystemu}
         onChange={(e) => setNapiecieSystemu(Number(e.target.value) as NapiecieSystemu)}
+        pomoc={<PomocPola ekran="demontaz-pakietu" pole="napiecieSystemu" />}
       >
         <option value={12}>12 V (4S)</option>
         <option value={24}>24 V (8S)</option>
@@ -163,7 +166,7 @@ export default function DemontazPakietuPage() {
         inputMode="decimal"
         value={napieciePakietuV}
         onChange={(e) => setNapieciePakietuV(e.target.value)}
-        hint={`Zalecane przed demontażem: 3,0–3,2 V/ogniwo (dla ${OCZEKIWANA_LICZBA_OGNIW[napiecieSystemu]}S: ok. ${(3 * OCZEKIWANA_LICZBA_OGNIW[napiecieSystemu]).toFixed(0)}–${(3.2 * OCZEKIWANA_LICZBA_OGNIW[napiecieSystemu]).toFixed(0)} V).`}
+        pomoc={<PomocPola ekran="demontaz-pakietu" pole="napiecie" params={{ vMax: MAX_ZALECANE_NAPIECIE_OGNIWA_V, s: OCZEKIWANA_LICZBA_OGNIW[napiecieSystemu], vLo: (3 * OCZEKIWANA_LICZBA_OGNIW[napiecieSystemu]).toFixed(0), vHi: (MAX_ZALECANE_NAPIECIE_OGNIWA_V * OCZEKIWANA_LICZBA_OGNIW[napiecieSystemu]).toFixed(0) }} />}
       />
 
       {result.status !== "INVALID_INPUT" && (

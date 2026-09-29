@@ -5,11 +5,13 @@ import { calculateMontazMechaniczny } from "@/lib/core/modules/montaz-baterii/mo
 import { CHECKLIST_ITEMS } from "@/lib/core/modules/montaz-baterii/montaz-mechaniczny/constants"
 import { usePersistedDraft } from "@/lib/adapters/use-persisted-draft"
 import { Pole } from "@/components/ui/pole"
+import { PomocPola } from "@/components/ui/pomoc"
 import { ListaChecklist } from "@/components/wzorce/lista-checklist"
 import { WerdyktPanel, type WerdyktPoziom } from "@/components/werdykt"
 import { NawigacjaEkranu } from "@/components/nawigacja-ekranu"
 import { NaglowekEkranu } from "@/components/wzorce/naglowek-ekranu"
 import { WynikSzczegoly } from "@/components/wzorce/wynik-szczegoly"
+import { DOCISK_MAX_KGF, DOCISK_MIN_KGF } from "@/lib/core/modules/baterie/pozycjonowanie-ogniw/constants"
 
 type FormularzStan = {
   dociskKgf: number
@@ -64,7 +66,11 @@ export default function MontazMechanicznyPage() {
   return (
     <main className="mx-auto flex max-w-md flex-col gap-6 p-6">
       <NawigacjaEkranu href="/kalkulatory/montaz-mechaniczny" />
-      <NaglowekEkranu tytul="Montaż mechaniczny i separacja ogniw">
+      <NaglowekEkranu
+        tytul="Montaż mechaniczny i separacja ogniw"
+        ekran="montaz-mechaniczny"
+        parametry={{ dociskMin: DOCISK_MIN_KGF, dociskMax: DOCISK_MAX_KGF }}
+      >
         Zanim ogniwa zostaną połączone elektrycznie — sprawdź docisk i separację. Docisk poza
         zakresem to ryzyko utraty kontaktu wewnętrznego albo uszkodzenia mechanicznego ogniw, ten
         sam próg co Moduł 4/Ekran 21. Moduł 11, Ekran A2 (ścieżka LiFePO4).
@@ -78,7 +84,7 @@ export default function MontazMechanicznyPage() {
         min={0}
         value={dociskKgf || ""}
         onChange={(e) => setDociskKgf(Number(e.target.value))}
-        hint="Zalecany zakres: 300-400 kgf (Moduł 4/Ekran 21)."
+        pomoc={<PomocPola ekran="montaz-mechaniczny" pole="docisk" params={{ dociskMin: DOCISK_MIN_KGF, dociskMax: DOCISK_MAX_KGF }} />}
       />
 
       <ListaChecklist

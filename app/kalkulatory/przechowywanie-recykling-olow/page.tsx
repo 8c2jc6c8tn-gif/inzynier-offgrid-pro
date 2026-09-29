@@ -1,5 +1,4 @@
 import {
-  MIGAWKA,
   NARZEDZIA_FAKTY,
   PRZECHOWYWANIE_FAKTY,
   RECYKLING_FAKTY,
@@ -8,7 +7,6 @@ import {
 import { NawigacjaEkranu } from "@/components/nawigacja-ekranu"
 import { NaglowekEkranu } from "@/components/wzorce/naglowek-ekranu"
 import { SekcjaAkordeon } from "@/components/wzorce/sekcja-akordeon"
-import { MigawkaBox } from "@/components/wzorce/migawka-box"
 
 function ListaFaktow({ fakty }: { fakty: FaktStopka[] }) {
   return (
@@ -30,7 +28,7 @@ export default function PrzechowywanieRecyklingOlowPage() {
   return (
     <main className="mx-auto flex max-w-md flex-col gap-6 p-6">
       <NawigacjaEkranu href="/kalkulatory/przechowywanie-recykling-olow" />
-      <NaglowekEkranu tytul="Przechowywanie / recykling / narzędzia">
+      <NaglowekEkranu tytul="Przechowywanie / recykling / narzędzia" ekran="przechowywanie-recykling-olow">
         Moduł 11, Ekran B12 (Ścieżka B — kwasowo-ołowiowa). Trzy tematy poniżej uzupełniają się
         nawzajem.
       </NaglowekEkranu>
@@ -49,7 +47,7 @@ export default function PrzechowywanieRecyklingOlowPage() {
         </SekcjaAkordeon>
       </div>
 
-      <MigawkaBox>{MIGAWKA}</MigawkaBox>
+      
     </main>
   )
 }

@@ -5,12 +5,14 @@ import { calculateSekwencjaMontazu } from "@/lib/core/modules/montaz-baterii/sek
 import { PRESETY_LICZBY_OGNIW } from "@/lib/core/modules/montaz-baterii/sekwencja-montazu/constants"
 import { usePersistedDraft } from "@/lib/adapters/use-persisted-draft"
 import { Pole, PoleSelect } from "@/components/ui/pole"
+import { PomocPola } from "@/components/ui/pomoc"
 import { WerdyktPanel, type WerdyktPoziom } from "@/components/werdykt"
 import { NawigacjaEkranu } from "@/components/nawigacja-ekranu"
 import { NaglowekEkranu } from "@/components/wzorce/naglowek-ekranu"
 import { WynikSzczegoly } from "@/components/wzorce/wynik-szczegoly"
 import { KrokZMedia } from "@/components/wzorce/krok-z-media"
 import { StanPusty } from "@/components/ui/stany"
+import { MAX_OGNIW, MIN_OGNIW } from "@/lib/core/modules/montaz-baterii/sekwencja-montazu/constants"
 
 type FormularzStan = {
   preset: number
@@ -52,7 +54,12 @@ export default function SekwencjaMontazuPage() {
   return (
     <main className="mx-auto flex max-w-md flex-col gap-6 p-6">
       <NawigacjaEkranu href="/kalkulatory/sekwencja-montazu" />
-      <NaglowekEkranu tytul="Sekwencja montażu pakietu (busbary + BMS)">
+      <NaglowekEkranu
+        tytul="Sekwencja montażu pakietu (busbary + BMS)"
+        ekran="sekwencja-montazu"
+        wzor={result.formula}
+        parametry={{ min: MIN_OGNIW, max: MAX_OGNIW }}
+      >
         Dokładna, ponumerowana kolejność połączeń — dopasowana do liczby ogniw w Twoim pakiecie
         (4S/8S/16S lub inna parzysta liczba). Moduł 11, uzupełnienie A3/A4. Każdy krok ma miejsce
         na zdjęcie lub nagranie, gdy je dodasz.
@@ -70,6 +77,7 @@ export default function SekwencjaMontazuPage() {
               setPreset(Number(e.target.value))
             }
           }}
+          pomoc={<PomocPola ekran="sekwencja-montazu" pole="liczbaOgniw" />}
         >
           {PRESETY_LICZBY_OGNIW.map((n) => (
             <option key={n} value={n}>
@@ -88,7 +96,7 @@ export default function SekwencjaMontazuPage() {
             min={0}
             value={liczbaOgniwWlasna}
             onChange={(e) => setLiczbaOgniwWlasna(e.target.value)}
-            hint="Tylko parzysta liczba — układ dwurzędowy wymaga równego podziału."
+            pomoc={<PomocPola ekran="sekwencja-montazu" pole="wlasnaLiczba" params={{ min: MIN_OGNIW, max: MAX_OGNIW }} />}
           />
         )}
       </div>

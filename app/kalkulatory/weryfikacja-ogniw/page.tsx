@@ -5,12 +5,14 @@ import { calculateWeryfikacjaOgniw } from "@/lib/core/modules/montaz-baterii/wer
 import { CHECKLIST_ITEMS, OCZEKIWANA_LICZBA_OGNIW } from "@/lib/core/modules/montaz-baterii/weryfikacja-ogniw/constants"
 import type { NapiecieSystemu } from "@/lib/core/modules/montaz-baterii/weryfikacja-ogniw/input"
 import { Pole, PoleCheckbox, PoleSelect } from "@/components/ui/pole"
+import { PomocPola } from "@/components/ui/pomoc"
 import { ListaChecklist } from "@/components/wzorce/lista-checklist"
 import { WerdyktPanel, type WerdyktPoziom } from "@/components/werdykt"
 import { NawigacjaEkranu } from "@/components/nawigacja-ekranu"
 import { NaglowekEkranu } from "@/components/wzorce/naglowek-ekranu"
 import { WynikSzczegoly } from "@/components/wzorce/wynik-szczegoly"
 import { usePersistedDraft } from "@/lib/adapters/use-persisted-draft"
+import { MAX_ROZNICA_NAPIEC_V } from "@/lib/core/modules/montaz-baterii/weryfikacja-ogniw/constants"
 
 type FormularzStan = {
   napiecieSystemu: NapiecieSystemu
@@ -95,7 +97,11 @@ export default function WeryfikacjaOgniwPage() {
   return (
     <main className="mx-auto flex max-w-md flex-col gap-6 p-6">
       <NawigacjaEkranu href="/kalkulatory/weryfikacja-ogniw" />
-      <NaglowekEkranu tytul="Weryfikacja kompletności i kontrola wstępna ogniw">
+      <NaglowekEkranu
+        tytul="Weryfikacja kompletności i kontrola wstępna ogniw"
+        ekran="weryfikacja-ogniw"
+        parametry={{ maxRoznica: MAX_ROZNICA_NAPIEC_V }}
+      >
         Zanim ogniwa trafią do wspólnego pakietu, muszą przejść tę kontrolę — złe dobranie liczby
         ogniw albo zbyt duża różnica napięć między nimi to najczęstsza przyczyna problemów przy
         budowie własnego pakietu LiFePO4. Moduł 11, Ekran A1.
@@ -105,7 +111,7 @@ export default function WeryfikacjaOgniwPage() {
         label="Napięcie systemu"
         value={napiecieSystemu}
         onChange={(e) => zmienNapiecieSystemu(Number(e.target.value) as NapiecieSystemu)}
-        hint={`Oczekiwana liczba ogniw w szeregu: ${OCZEKIWANA_LICZBA_OGNIW[napiecieSystemu]}S`}
+        pomoc={<PomocPola ekran="weryfikacja-ogniw" pole="napiecieSystemu" />}
       >
         <option value={12}>12 V (4S)</option>
         <option value={24}>24 V (8S)</option>
@@ -120,7 +126,7 @@ export default function WeryfikacjaOgniwPage() {
         max={24}
         value={napieciaOgniwV.length}
         onChange={(e) => zmienLiczbeOgniw(Number(e.target.value))}
-        hint="Zmień, jeśli masz inną liczbę ogniw niż oczekiwana."
+        pomoc={<PomocPola ekran="weryfikacja-ogniw" pole="liczbaOgniw" />}
       />
 
       {napieciaOgniwV.length > 0 && (
@@ -137,6 +143,7 @@ export default function WeryfikacjaOgniwPage() {
                 step="0.001"
                 value={v || ""}
                 onChange={(e) => zmienNapiecieOgniwa(i, Number(e.target.value))}
+                pomoc={<PomocPola ekran="weryfikacja-ogniw" pole="napiecieOgniwa" params={{ maxRoznica: MAX_ROZNICA_NAPIEC_V }} />}
               />
             ))}
           </div>

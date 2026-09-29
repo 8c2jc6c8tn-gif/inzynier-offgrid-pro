@@ -4,10 +4,12 @@ import { useMemo } from "react"
 import { calculateGestoscElektrolitu } from "@/lib/core/modules/montaz-baterii/gestosc-elektrolitu/calculator"
 import { usePersistedDraft } from "@/lib/adapters/use-persisted-draft"
 import { Pole } from "@/components/ui/pole"
+import { PomocPola } from "@/components/ui/pomoc"
 import { WerdyktPanel, type WerdyktPoziom } from "@/components/werdykt"
 import { NawigacjaEkranu } from "@/components/nawigacja-ekranu"
 import { NaglowekEkranu } from "@/components/wzorce/naglowek-ekranu"
 import { WynikSzczegoly } from "@/components/wzorce/wynik-szczegoly"
+import { GESTOSC_PELNY_G_CM3, GESTOSC_POLOWA_G_CM3, GESTOSC_ROZLADOWANY_G_CM3 } from "@/lib/core/modules/montaz-baterii/gestosc-elektrolitu/constants"
 
 const ETYKIETY: Record<string, string> = {
   pelny: "Akumulator pełny",
@@ -41,7 +43,11 @@ export default function GestoscElektrolituPage() {
   return (
     <main className="mx-auto flex max-w-md flex-col gap-6 p-6">
       <NawigacjaEkranu href="/kalkulatory/gestosc-elektrolitu" />
-      <NaglowekEkranu tytul="Test pojemności i gęstości elektrolitu">
+      <NaglowekEkranu
+        tytul="Test pojemności i gęstości elektrolitu"
+        ekran="gestosc-elektrolitu"
+        parametry={{ pelny: GESTOSC_PELNY_G_CM3, polowa: GESTOSC_POLOWA_G_CM3, rozladowany: GESTOSC_ROZLADOWANY_G_CM3 }}
+      >
         Gęstość elektrolitu to bezpośredni wskaźnik stanu naładowania akumulatora kwasowego — to
         jego odpowiednik SoC z BMS, tylko mierzony ręcznie. Moduł 11, Ekran B9 (Ścieżka B —
         kwasowo-ołowiowa, tylko akumulatory z korkami).
@@ -56,7 +62,7 @@ export default function GestoscElektrolituPage() {
         step="0.01"
         value={gestosc}
         onChange={(e) => setGestosc(e.target.value)}
-        hint="Areometr. Referencje ze źródła: 1,28 = pełny, 1,20 = połowa, 1,12 = rozładowany."
+        pomoc={<PomocPola ekran="gestosc-elektrolitu" pole="gestosc" params={{ pelny: GESTOSC_PELNY_G_CM3, polowa: GESTOSC_POLOWA_G_CM3, rozladowany: GESTOSC_ROZLADOWANY_G_CM3 }} />}
       />
 
       {poziom === null ? (

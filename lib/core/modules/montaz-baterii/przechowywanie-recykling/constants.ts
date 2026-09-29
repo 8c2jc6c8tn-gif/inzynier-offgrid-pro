@@ -38,7 +38,3 @@ export const NARZEDZIA_DIAGNOSTYCZNE_FAKTY: FaktStopka[] = [
     tekst: "Zasilacz laboratoryjny do kontrolowanego balansowania/ratowania ogniw.",
   },
 ]
-
-export const MIGAWKA =
-  "Ogniwo, które nie pracuje, nie jest ogniwem 'wyłączonym' — złe przechowywanie (pełne " +
-  "naładowanie, mróz, wilgoć) starzeje je tak samo jak złe użytkowanie."

@@ -10,7 +10,3 @@
 export const ZALECENIE =
   "Zastosuj ładowarkę z trybem 'Repair' lub 'Desulfation' — proces może potrwać 24–48h i nie " +
   "zawsze się udaje przy zaawansowanym zasiarczeniu."
-
-export const MIGAWKA =
-  "Odsiarczanie to próba odwrócenia procesu chemicznego, który normalnie jest nieodwracalny — " +
-  "działa czasem przy wczesnym wykryciu, rzadko przy zaniedbanym akumulatorze."

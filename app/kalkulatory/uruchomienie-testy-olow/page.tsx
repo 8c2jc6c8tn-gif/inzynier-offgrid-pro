@@ -34,7 +34,7 @@ export default function UruchomienieTestyOlowPage() {
   return (
     <main className="mx-auto flex max-w-md flex-col gap-6 p-6">
       <NawigacjaEkranu href="/kalkulatory/uruchomienie-testy-olow" />
-      <NaglowekEkranu tytul="Pierwsze uruchomienie i testy">
+      <NaglowekEkranu tytul="Pierwsze uruchomienie i testy" ekran="uruchomienie-testy-olow">
         Moduł 11, Ekran B6 (Ścieżka B — kwasowo-ołowiowa).
       </NaglowekEkranu>
 
