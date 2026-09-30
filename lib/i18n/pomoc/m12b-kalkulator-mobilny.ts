@@ -175,6 +175,63 @@ export const pl = {
       },
     },
   },
+  "solar-vs-przedluzacz": {
+    migawka: {
+      oCoChodzi:
+        "Czasem nie opłaca się ciągnąć kabla — słońce jest za darmo. Tu sprawdzasz, co wyjdzie taniej w Twoim horyzoncie.",
+      jakDziala:
+        "Przedłużacz: koszt jednorazowy + co roku (zużycie × cena energii + opłaty stałe). Zestaw: koszt zakupu + co roku jego utrzymanie. Aplikacja sumuje oba przez wybraną liczbę lat i liczy, po ilu latach zwróci się dopłata do zestawu.",
+      poCo:
+        "Na działce daleko od sieci, przy małym zużyciu (weekendy), zestaw solarny często wygrywa. Przy dużym zużyciu i bliskim gniazdku — przedłużacz. Liczby decydują, nie przeczucie.",
+      fizyka:
+        "Zwrot = (koszt zestawu − koszt przedłużacza) ÷ (roczny koszt prądu z sieci − roczne utrzymanie zestawu). Koszt całkowity po n latach = inwestycja + n × koszt roczny. Bez inflacji.",
+    },
+    pola: {
+      przedluzacz: {
+        nazwa: "Koszt przedłużacza / linii [zł]",
+        cel: "Jednorazowy wydatek po stronie kabla.",
+        gdzie: "Wycena: kabel (ziemny przy układaniu w ziemi), wykop, osłona, gniazda i zabezpieczenia.",
+        zakres: "Z wyceny lub cennika sklepu.",
+      },
+      zuzycie: {
+        nazwa: "Zużycie energii w roku [kWh/rok]",
+        cel: "Ile prądu pobierzesz przez rok — z niego koszt energii z sieci.",
+        gdzie: "Suma z ekranów zużycia (np. „Zużycie per urządzenie”) × liczba dni pobytu w roku.",
+        zakres: "Twoje zużycie.",
+      },
+      cena: {
+        nazwa: "Cena energii z sieci [zł/kWh]",
+        cel: "Zamienia kWh na złotówki.",
+        gdzie: "Rachunek za prąd — cena brutto za kWh z opłatami zmiennymi; albo stawka umówiona z sąsiadem.",
+        zakres: "Z rachunku.",
+      },
+      oplaty: {
+        nazwa: "Stałe opłaty sieciowe [zł/rok] (opcjonalnie)",
+        cel:
+          "Opłaty niezależne od zużycia (abonament, opłata stała) — przy małym zużyciu potrafią być większe niż sama energia.",
+        gdzie: "Rachunek za prąd, pozycje stałe × liczba okresów w roku.",
+        zakres: "Puste = brak.",
+      },
+      zestaw: {
+        nazwa: "Koszt zestawu solarnego [zł]",
+        cel: "Jednorazowy wydatek po stronie słońca.",
+        gdzie: "Suma cen: panel, akumulator, regulator, przewody, montaż.",
+        zakres: "Z wyceny lub cennika.",
+      },
+      eksploatacja: {
+        nazwa: "Roczny koszt utrzymania zestawu [zł/rok] (opcjonalnie)",
+        cel: "Np. odkładane pieniądze na wymianę akumulatora po latach — cena akumulatora ÷ jego żywotność w latach.",
+        gdzie: "Karta akumulatora (żywotność) i jego cena.",
+        zakres: "Puste = brak.",
+      },
+      horyzont: {
+        nazwa: "Horyzont porównania [lat]",
+        cel: "Przez ile lat sumować koszty obu opcji.",
+        gdzie: "Jak długo planujesz korzystać z działki/miejsca.",
+        zakres: "Twój plan.",
+      },
+    },
+  },
 }
 
 export const en: Tlumaczenie<typeof pl> = {
@@ -346,6 +403,62 @@ export const en: Tlumaczenie<typeof pl> = {
       },
     },
   },
+  "solar-vs-przedluzacz": {
+    migawka: {
+      oCoChodzi:
+        "Sometimes running a cable is not worth it — the sun is free. Here you check what comes out cheaper over your horizon.",
+      jakDziala:
+        "Extension cord: one-off cost + every year (use × energy price + fixed charges). Set: purchase cost + its yearly upkeep. The app adds both over the chosen number of years and computes after how many years the extra outlay for the set pays back.",
+      poCo:
+        "On a plot far from the grid with low use (weekends), a solar set often wins. With high use and a socket nearby — the extension cord. Numbers decide, not gut feeling.",
+      fizyka:
+        "Payback = (set cost − cord cost) ÷ (yearly grid power cost − yearly set upkeep). Total cost after n years = investment + n × yearly cost. No inflation.",
+    },
+    pola: {
+      przedluzacz: {
+        nazwa: "Extension cord / line cost [PLN]",
+        cel: "The one-off expense on the cable side.",
+        gdzie: "Quote: cable (direct-burial if laid in the ground), trench, conduit, sockets and protection.",
+        zakres: "From a quote or shop price list.",
+      },
+      zuzycie: {
+        nazwa: "Energy use per year [kWh/year]",
+        cel: "How much power you will draw per year — the grid energy cost comes from it.",
+        gdzie: "Sum from the consumption screens (e.g. “Consumption per device”) × days of stay per year.",
+        zakres: "Your consumption.",
+      },
+      cena: {
+        nazwa: "Grid energy price [PLN/kWh]",
+        cel: "Turns kWh into money.",
+        gdzie: "Electricity bill — gross price per kWh with variable charges; or the rate agreed with a neighbour.",
+        zakres: "From the bill.",
+      },
+      oplaty: {
+        nazwa: "Fixed grid charges [PLN/year] (optional)",
+        cel: "Charges independent of use (subscription, fixed fee) — with low use they can exceed the energy itself.",
+        gdzie: "Electricity bill, fixed items × billing periods per year.",
+        zakres: "Empty = none.",
+      },
+      zestaw: {
+        nazwa: "Solar set cost [PLN]",
+        cel: "The one-off expense on the solar side.",
+        gdzie: "Sum of prices: panel, battery, charge controller, cables, mounting.",
+        zakres: "From a quote or price list.",
+      },
+      eksploatacja: {
+        nazwa: "Yearly upkeep of the set [PLN/year] (optional)",
+        cel: "E.g. money set aside to replace the battery after years — battery price ÷ its life in years.",
+        gdzie: "Battery datasheet (service life) and its price.",
+        zakres: "Empty = none.",
+      },
+      horyzont: {
+        nazwa: "Comparison horizon [years]",
+        cel: "Over how many years to add up the costs of both options.",
+        gdzie: "How long you plan to use the plot/place.",
+        zakres: "Your plan.",
+      },
+    },
+  },
 }
 
 export const ru: Tlumaczenie<typeof pl> = {
@@ -514,6 +627,65 @@ export const ru: Tlumaczenie<typeof pl> = {
         cel: "Сравнение: во сколько раз дороже кВт·ч от генератора.",
         gdzie: "Счёт за электричество (цена брутто за кВт·ч) или стоимость кВт·ч вашего набора PV с других экранов.",
         zakres: "Пусто = без сравнения.",
+      },
+    },
+  },
+  "solar-vs-przedluzacz": {
+    migawka: {
+      oCoChodzi:
+        "Иногда тянуть кабель невыгодно — солнце бесплатное. Здесь вы проверяете, что выйдет дешевле на вашем горизонте.",
+      jakDziala:
+        "Удлинитель: разовая стоимость + каждый год (потребление × цена энергии + постоянные платежи). Комплект: стоимость покупки + его годовое содержание. Приложение суммирует оба варианта за выбранное число лет и считает, через сколько лет окупится доплата за комплект.",
+      poCo:
+        "На участке далеко от сети при малом потреблении (выходные) солнечный комплект часто выигрывает. При большом потреблении и близкой розетке — удлинитель. Решают цифры, а не интуиция.",
+      fizyka:
+        "Окупаемость = (стоимость комплекта − стоимость удлинителя) ÷ (годовая стоимость электричества из сети − годовое содержание комплекта). Полная стоимость за n лет = вложение + n × годовые расходы. Без инфляции.",
+    },
+    pola: {
+      przedluzacz: {
+        nazwa: "Стоимость удлинителя / линии [зл]",
+        cel: "Разовый расход на стороне кабеля.",
+        gdzie: "Смета: кабель (подземного типа при прокладке в земле), траншея, защитная труба, розетки и защита.",
+        zakres: "Из сметы или прайса магазина.",
+      },
+      zuzycie: {
+        nazwa: "Потребление энергии в год [кВт·ч/год]",
+        cel: "Сколько электричества вы возьмёте за год — из этого стоимость энергии из сети.",
+        gdzie: "Сумма с экранов потребления (напр. «Потребление по устройствам») × число дней пребывания в году.",
+        zakres: "Ваше потребление.",
+      },
+      cena: {
+        nazwa: "Цена электроэнергии из сети [зл/кВт·ч]",
+        cel: "Переводит кВт·ч в деньги.",
+        gdzie:
+          "Счёт за электричество — цена брутто за кВт·ч с переменными платежами; или ставка, согласованная с соседом.",
+        zakres: "Из счёта.",
+      },
+      oplaty: {
+        nazwa: "Постоянные сетевые платежи [зл/год] (необязательно)",
+        cel:
+          "Платежи, не зависящие от потребления (абонентская плата) — при малом потреблении могут превышать саму энергию.",
+        gdzie: "Счёт за электричество, постоянные позиции × число периодов в году.",
+        zakres: "Пусто = нет.",
+      },
+      zestaw: {
+        nazwa: "Стоимость солнечного комплекта [зл]",
+        cel: "Разовый расход на солнечной стороне.",
+        gdzie: "Сумма цен: панель, аккумулятор, контроллер, провода, монтаж.",
+        zakres: "Из сметы или прайса.",
+      },
+      eksploatacja: {
+        nazwa: "Годовые расходы на содержание комплекта [зл/год] (необязательно)",
+        cel:
+          "Напр. деньги, откладываемые на замену аккумулятора через годы — цена аккумулятора ÷ его срок службы в годах.",
+        gdzie: "Паспорт аккумулятора (срок службы) и его цена.",
+        zakres: "Пусто = нет.",
+      },
+      horyzont: {
+        nazwa: "Горизонт сравнения [лет]",
+        cel: "За сколько лет суммировать расходы обоих вариантов.",
+        gdzie: "Как долго вы планируете пользоваться участком/местом.",
+        zakres: "Ваш план.",
       },
     },
   },

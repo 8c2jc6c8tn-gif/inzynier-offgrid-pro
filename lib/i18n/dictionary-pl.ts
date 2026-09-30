@@ -1198,6 +1198,10 @@ export const dictionaryPl = {
   "AP-DROGIE-PALIWO": "Energia z agregatu to drogie paliwo. Używaj go tylko do doładowania akumulatora albo do krótkiej pracy dużych odbiorników — nie jako stałe źródło.",
   "AP-PONAD-DOBE": "Doba ma 24 godziny — wpisz liczbę godzin pracy na dobę od 0 do 24.",
   "AP-ZALOZENIE-STALE-OBCIAZENIE": "Stałe obciążenie i stałe zużycie paliwa przez cały czas pracy — tak, jak je wpisałeś z karty agregatu.",
+  "SP-NIGDY-SIE-NIE-ZWROCI": "Zestaw kosztuje więcej na start, a rocznie nie oszczędza nic (jego utrzymanie kosztuje tyle co prąd z przedłużacza albo więcej) — dopłata nigdy się nie zwróci.",
+  "SP-SPADEK-NAPIECIA-KABLA": "Długi przedłużacz to spadek napięcia i nagrzewanie kabla — przekrój dobierz do długości i obciążenia (Moduł 5), a kabel w ziemi układaj jako ziemny, w osłonie.",
+  "SP-ZALOZENIE-BEZ-INFLACJI": "Bez inflacji i zmian cen energii — dzisiejsze ceny przez cały horyzont.",
+  "SP-ZALOZENIE-ZESTAW-POKRYWA-ZUZYCIE": "Zestaw solarny pokrywa całe wpisane zużycie — dobór jego mocy i pojemności sprawdź na innych ekranach Modułu 12.",
   // end of M12 30.09.2026 block
   "LVD-BRAK-OCHRONY-OLOWIOWY": "Akumulator kwasowy/AGM bez dozownika napięcia, a odbiornik nie ma własnego zabezpieczenia — odbiornik rozładuje akumulator do zera. Głębokie rozładowanie trwale niszczy akumulator ołowiowy (zasiarczenie). Zamontuj dozownik (LVD) z progiem podanym wyżej.",
   "LVD-PROG-KWASOWY-BRAK-W-ZRODLE": "Dla akumulatora kwasowego (zalewowego) nie podajemy progu — źródło daje go tylko dla AGM i LiFePO4. Sprawdź napięcie odcięcia w karcie producenta akumulatora.",

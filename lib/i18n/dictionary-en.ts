@@ -1186,6 +1186,10 @@ export const dictionaryEn = {
   "AP-DROGIE-PALIWO": "Energy from a generator means expensive fuel. Use it only to top up the battery or to run large loads briefly — not as a permanent source.",
   "AP-PONAD-DOBE": "A day has 24 hours — enter the running hours per day between 0 and 24.",
   "AP-ZALOZENIE-STALE-OBCIAZENIE": "Constant load and constant fuel consumption throughout the running time — as you entered them from the generator datasheet.",
+  "SP-NIGDY-SIE-NIE-ZWROCI": "The set costs more up front and saves nothing per year (its upkeep costs as much as the grid power or more) — the extra outlay never pays back.",
+  "SP-SPADEK-NAPIECIA-KABLA": "A long extension cord means voltage drop and cable heating — size the cross-section for the length and load (Module 5), and lay a buried cable as a direct-burial type, in a conduit.",
+  "SP-ZALOZENIE-BEZ-INFLACJI": "No inflation or energy price changes — today's prices over the whole horizon.",
+  "SP-ZALOZENIE-ZESTAW-POKRYWA-ZUZYCIE": "The solar set covers the whole entered consumption — check its power and capacity on other Module 12 screens.",
   // end of M12 30.09.2026 block
   "LVD-BRAK-OCHRONY-OLOWIOWY": "A lead-acid/AGM battery without a low voltage disconnect, and the load has no protection of its own — the load will drain the battery to zero. Deep discharge permanently damages a lead-acid battery (sulphation). Fit a low voltage disconnect (LVD) with the threshold given above.",
   "LVD-PROG-KWASOWY-BRAK-W-ZRODLE": "No threshold is given for a flooded lead-acid battery — the source gives it only for AGM and LiFePO4. Check the cut-off voltage in the battery manufacturer's datasheet.",

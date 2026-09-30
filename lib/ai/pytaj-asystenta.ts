@@ -87,6 +87,7 @@ import { dniBezSloncaTool } from "./tools/dni-bez-slonca-tool"
 import { akumulatorSamochodowyTool } from "./tools/akumulator-samochodowy-tool"
 import { mamAkumulatorTool } from "./tools/mam-akumulator-tool"
 import { agregatPaliwoTool } from "./tools/agregat-paliwo-tool"
+import { solarVsPrzedluzaczTool } from "./tools/solar-vs-przedluzacz-tool"
 import { ochronaPrzedRozladowaniemTool } from "./tools/ochrona-przed-rozladowaniem-tool"
 import { wilgocMaleInstalacjeTool } from "./tools/wilgoc-male-instalacje-tool"
 import { uziemienieMaleInstalacjeTool } from "./tools/uziemienie-male-instalacje-tool"
@@ -398,6 +399,7 @@ const NARZEDZIA: Array<AiToolDefinition<any, any>> = [
   akumulatorSamochodowyTool,
   mamAkumulatorTool,
   agregatPaliwoTool,
+  solarVsPrzedluzaczTool,
   ochronaPrzedRozladowaniemTool,
   wilgocMaleInstalacjeTool,
   uziemienieMaleInstalacjeTool,
