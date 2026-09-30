@@ -1180,6 +1180,9 @@ export const dictionaryEn = {
   "AS-PONAD-UZYTECZNA": "You plan {planowany} h, but the usable share you entered runs out after about {czas} h. Running longer means a deeper discharge than you assumed — a shorter battery life.",
   "AS-ZALOZENIE-MOC-Z-AKUMULATORA": "Power is the draw from the battery. For 230 V devices on an inverter, add its losses (enter a power higher by the inverter losses).",
   "AS-ZALOZENIE-BEZ-TEMPERATURY": "No temperature correction — in frost the battery delivers less, so the real runtime will be shorter.",
+  "MA-PRAD-URZADZENIA-PONAD-MAKS": "{nazwa} draws about {prad} A, while the battery (BMS) delivers at most {maks} A continuously — it may cut the power or overheat the connections. Check the battery datasheet before connecting.",
+  "MA-PRAD-RAZEM-PONAD-MAKS": "All devices together draw about {prad} A — more than the {maks} A the battery delivers continuously. Do not switch them on at the same time.",
+  "MA-ZALOZENIE-PELNY-AKUMULATOR": "Starting from a fully charged battery, with no charging along the way (e.g. from a panel).",
   // end of M12 30.09.2026 block
   "LVD-BRAK-OCHRONY-OLOWIOWY": "A lead-acid/AGM battery without a low voltage disconnect, and the load has no protection of its own — the load will drain the battery to zero. Deep discharge permanently damages a lead-acid battery (sulphation). Fit a low voltage disconnect (LVD) with the threshold given above.",
   "LVD-PROG-KWASOWY-BRAK-W-ZRODLE": "No threshold is given for a flooded lead-acid battery — the source gives it only for AGM and LiFePO4. Check the cut-off voltage in the battery manufacturer's datasheet.",

@@ -1192,6 +1192,9 @@ export const dictionaryPl = {
   "AS-PONAD-UZYTECZNA": "Planujesz {planowany} h, a wpisana część użyteczna pojemności skończy się po ok. {czas} h. Dalsza praca to głębsze rozładowanie niż zakładasz — krótsze życie akumulatora.",
   "AS-ZALOZENIE-MOC-Z-AKUMULATORA": "Moc to pobór z akumulatora. Przy urządzeniach 230 V przez przetwornicę dolicz jej straty (wpisz moc większą o straty przetwornicy).",
   "AS-ZALOZENIE-BEZ-TEMPERATURY": "Bez korekty na temperaturę — w mrozie akumulator oddaje mniej, więc realny czas będzie krótszy.",
+  "MA-PRAD-URZADZENIA-PONAD-MAKS": "{nazwa} pobiera ok. {prad} A, a akumulator (BMS) oddaje najwyżej {maks} A ciągle — może wyłączyć zasilanie albo przegrzać połączenia. Sprawdź kartę akumulatora zanim podłączysz.",
+  "MA-PRAD-RAZEM-PONAD-MAKS": "Wszystkie urządzenia naraz pobierają ok. {prad} A — więcej niż {maks} A, które akumulator oddaje ciągle. Nie włączaj ich jednocześnie.",
+  "MA-ZALOZENIE-PELNY-AKUMULATOR": "Start z w pełni naładowanego akumulatora, bez doładowania w trakcie (np. panelem).",
   // end of M12 30.09.2026 block
   "LVD-BRAK-OCHRONY-OLOWIOWY": "Akumulator kwasowy/AGM bez dozownika napięcia, a odbiornik nie ma własnego zabezpieczenia — odbiornik rozładuje akumulator do zera. Głębokie rozładowanie trwale niszczy akumulator ołowiowy (zasiarczenie). Zamontuj dozownik (LVD) z progiem podanym wyżej.",
   "LVD-PROG-KWASOWY-BRAK-W-ZRODLE": "Dla akumulatora kwasowego (zalewowego) nie podajemy progu — źródło daje go tylko dla AGM i LiFePO4. Sprawdź napięcie odcięcia w karcie producenta akumulatora.",

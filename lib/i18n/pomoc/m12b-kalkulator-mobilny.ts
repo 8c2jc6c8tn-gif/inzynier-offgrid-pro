@@ -56,6 +56,74 @@ export const pl = {
       },
     },
   },
+  "mam-akumulator": {
+    migawka: {
+      oCoChodzi:
+        "Sprawdzasz, co faktycznie możesz podłączyć do akumulatora, który już masz — i jak długo każde urządzenie na nim popracuje.",
+      jakDziala:
+        "Aplikacja liczy energię do wykorzystania: pojemność × napięcie × dopuszczalna głębokość rozładowania × sprawność przetwornicy. Potem dzieli ją przez moc każdego urządzenia (czas pracy osobno) i przez sumę mocy (wszystko naraz). Jeśli podasz maksymalny prąd akumulatora, ostrzeże przed urządzeniem, które pobiera więcej.",
+      poCo:
+        "To odwrotność typowego pytania: zamiast „jaki akumulator kupić” — „co zrobię z tym, co mam”. Duże odbiorniki (czajnik, suszarka) szybko wyczerpią akumulator, a ich prąd może przekroczyć możliwości akumulatora albo BMS.",
+      fizyka:
+        "Energia E = C × U × DoD × η. Czas t = E / P. Prąd z akumulatora I = P / (U × η). Przykład ze źródła: 12 V 100 Ah, użyteczne 1,2 kWh — lodówka 50 W ok. 24 h, LED 20 W ok. 60 h, czajnik 1000 W ok. 1,2 h (prąd ok. 100 A).",
+    },
+    pola: {
+      chemia: {
+        nazwa: "Typ akumulatora",
+        cel: "Od typu zależy, jak głęboko wolno go rozładować — podpowiedź przy polu DoD.",
+        gdzie: "Na naklejce lub w karcie katalogowej: AGM, LiFePO4 (litowy), kwasowy zalewany (z korkami).",
+        zakres: "Jedna z trzech opcji.",
+      },
+      pojemnosc: {
+        nazwa: "Pojemność znamionowa [Ah]",
+        cel: "Ile ładunku mieści akumulator.",
+        gdzie: "Na naklejce, np. „100 Ah”.",
+        zakres: "Z naklejki lub karty katalogowej.",
+      },
+      napiecie: {
+        nazwa: "Napięcie akumulatora [V]",
+        cel: "Zamienia pojemność [Ah] na energię [Wh] i moc urządzeń na prąd.",
+        gdzie: "Na naklejce: 12 V, 24 V albo 48 V.",
+        zakres: "Zwykle 12, 24 albo 48 V.",
+      },
+      dod: {
+        nazwa: "Dopuszczalna głębokość rozładowania — DoD [%]",
+        cel:
+          "Jaką część pojemności wolno zużyć bez skracania życia akumulatora. Tylko tę część aplikacja bierze do obliczeń.",
+        gdzie: "Karta katalogowa akumulatora (liczba cykli przy danej głębokości rozładowania).",
+        zakres:
+          "Dla LiFePO4 typowo {min}–{max}%. Dla AGM i kwasowego — z karty katalogowej; aplikacja nie wybiera wartości za Ciebie.",
+      },
+      sprawnosc: {
+        nazwa: "Sprawność przetwornicy [%]",
+        cel:
+          "Urządzenia 230 V zasilane przez przetwornicę zabierają z akumulatora więcej, niż same pobierają. Straty przetwornicy skracają czas pracy.",
+        gdzie:
+          "Karta katalogowa przetwornicy (sprawność przy typowym obciążeniu). Urządzenia 12/24 V podłączone wprost — wpisz 100.",
+        zakres: "Z karty przetwornicy; 100 bez przetwornicy.",
+      },
+      maksPrad: {
+        nazwa: "Maksymalny prąd ciągły akumulatora [A] (opcjonalnie)",
+        cel:
+          "Porównanie z prądem każdego urządzenia — za duży prąd może wyłączyć BMS, przegrzać połączenia albo zniszczyć akumulator.",
+        gdzie: "Karta katalogowa akumulatora albo BMS („max continuous discharge current”).",
+        zakres: "Z karty; puste = bez oceny prądu.",
+      },
+      nazwa: {
+        nazwa: "Nazwa urządzenia",
+        cel: "Żebyś rozpoznał urządzenie na liście wyników.",
+        gdzie: "Dowolna nazwa, np. „lodówka”.",
+        zakres: "Dowolny tekst.",
+      },
+      moc: {
+        nazwa: "Moc urządzenia [W]",
+        cel: "Z mocy aplikacja liczy czas pracy i prąd.",
+        gdzie:
+          "Tabliczka znamionowa, instrukcja albo wyszukaj swój model w internecie. Dla lodówki ze sprężarką wpisz moc średnią, jeśli ją znasz.",
+        zakres: "Z tabliczki Twojego urządzenia.",
+      },
+    },
+  },
 }
 
 export const en: Tlumaczenie<typeof pl> = {
@@ -109,6 +177,73 @@ export const en: Tlumaczenie<typeof pl> = {
       },
     },
   },
+  "mam-akumulator": {
+    migawka: {
+      oCoChodzi:
+        "You check what you can actually connect to the battery you already have — and how long each device will run on it.",
+      jakDziala:
+        "The app computes the usable energy: capacity × voltage × allowed depth of discharge × inverter efficiency. Then it divides it by the power of each device (runtime on its own) and by the total power (everything at once). If you enter the battery's maximum current, it warns about a device that draws more.",
+      poCo:
+        "It is the reverse of the usual question: instead of “which battery to buy” — “what can I do with what I have”. Large loads (kettle, hair dryer) drain the battery fast, and their current may exceed what the battery or BMS can deliver.",
+      fizyka:
+        "Energy E = C × U × DoD × η. Time t = E / P. Battery current I = P / (U × η). Example from the source: 12 V 100 Ah, 1.2 kWh usable — 50 W fridge about 24 h, 20 W LED about 60 h, 1000 W kettle about 1.2 h (current about 100 A).",
+    },
+    pola: {
+      chemia: {
+        nazwa: "Battery type",
+        cel: "The type decides how deeply it may be discharged — see the hint at the DoD field.",
+        gdzie: "On the label or in the datasheet: AGM, LiFePO4 (lithium), flooded lead-acid (with caps).",
+        zakres: "One of three options.",
+      },
+      pojemnosc: {
+        nazwa: "Rated capacity [Ah]",
+        cel: "How much charge the battery holds.",
+        gdzie: "On the label, e.g. “100 Ah”.",
+        zakres: "From the label or datasheet.",
+      },
+      napiecie: {
+        nazwa: "Battery voltage [V]",
+        cel: "Turns capacity [Ah] into energy [Wh] and device power into current.",
+        gdzie: "On the label: 12 V, 24 V or 48 V.",
+        zakres: "Usually 12, 24 or 48 V.",
+      },
+      dod: {
+        nazwa: "Allowed depth of discharge — DoD [%]",
+        cel:
+          "Which part of the capacity may be used without shortening battery life. Only this part goes into the calculation.",
+        gdzie: "Battery datasheet (number of cycles at a given depth of discharge).",
+        zakres:
+          "For LiFePO4 typically {min}–{max}%. For AGM and flooded — from the datasheet; the app does not pick a value for you.",
+      },
+      sprawnosc: {
+        nazwa: "Inverter efficiency [%]",
+        cel:
+          "230 V devices powered through an inverter take more from the battery than they consume themselves. Inverter losses shorten the runtime.",
+        gdzie: "Inverter datasheet (efficiency at typical load). 12/24 V devices connected directly — enter 100.",
+        zakres: "From the inverter datasheet; 100 without an inverter.",
+      },
+      maksPrad: {
+        nazwa: "Maximum continuous battery current [A] (optional)",
+        cel:
+          "Compared with each device's current — too much current may trip the BMS, overheat connections or damage the battery.",
+        gdzie: "Battery or BMS datasheet (“max continuous discharge current”).",
+        zakres: "From the datasheet; empty = no current check.",
+      },
+      nazwa: {
+        nazwa: "Device name",
+        cel: "So you recognise the device in the results.",
+        gdzie: "Any name, e.g. “fridge”.",
+        zakres: "Any text.",
+      },
+      moc: {
+        nazwa: "Device power [W]",
+        cel: "The app uses the power to compute runtime and current.",
+        gdzie:
+          "Nameplate, manual or search for your model online. For a compressor fridge enter the average power if you know it.",
+        zakres: "From your device's nameplate.",
+      },
+    },
+  },
 }
 
 export const ru: Tlumaczenie<typeof pl> = {
@@ -159,6 +294,72 @@ export const ru: Tlumaczenie<typeof pl> = {
         cel: "Сравнение плана с результатом. Для стартерного план длиннее результата — красный стоп.",
         gdzie: "Сколько часов вы хотите питать устройства, например ночью на стоянке.",
         zakres: "Пусто — без оценки плана.",
+      },
+    },
+  },
+  "mam-akumulator": {
+    migawka: {
+      oCoChodzi:
+        "Вы проверяете, что реально можно подключить к уже имеющемуся аккумулятору — и сколько проработает на нём каждое устройство.",
+      jakDziala:
+        "Приложение считает доступную энергию: ёмкость × напряжение × допустимая глубина разряда × КПД инвертора. Затем делит её на мощность каждого устройства (время работы отдельно) и на сумму мощностей (всё сразу). Если указать максимальный ток аккумулятора, предупредит об устройстве, которое потребляет больше.",
+      poCo:
+        "Это обратный вопрос: не «какой аккумулятор купить», а «что я сделаю с тем, что есть». Мощные потребители (чайник, фен) быстро разряжают аккумулятор, а их ток может превысить возможности аккумулятора или BMS.",
+      fizyka:
+        "Энергия E = C × U × DoD × η. Время t = E / P. Ток аккумулятора I = P / (U × η). Пример из источника: 12 В 100 А·ч, доступно 1,2 кВт·ч — холодильник 50 Вт около 24 ч, LED 20 Вт около 60 ч, чайник 1000 Вт около 1,2 ч (ток около 100 А).",
+    },
+    pola: {
+      chemia: {
+        nazwa: "Тип аккумулятора",
+        cel: "От типа зависит, насколько глубоко его можно разряжать — подсказка у поля DoD.",
+        gdzie: "На наклейке или в паспорте: AGM, LiFePO4 (литиевый), заливной свинцово-кислотный (с пробками).",
+        zakres: "Один из трёх вариантов.",
+      },
+      pojemnosc: {
+        nazwa: "Номинальная ёмкость [А·ч]",
+        cel: "Сколько заряда вмещает аккумулятор.",
+        gdzie: "На наклейке, напр. «100 Ah».",
+        zakres: "С наклейки или из паспорта.",
+      },
+      napiecie: {
+        nazwa: "Напряжение аккумулятора [В]",
+        cel: "Переводит ёмкость [А·ч] в энергию [Вт·ч], а мощность устройств — в ток.",
+        gdzie: "На наклейке: 12 В, 24 В или 48 В.",
+        zakres: "Обычно 12, 24 или 48 В.",
+      },
+      dod: {
+        nazwa: "Допустимая глубина разряда — DoD [%]",
+        cel: "Какую часть ёмкости можно использовать без сокращения срока службы. Только эта часть идёт в расчёт.",
+        gdzie: "Паспорт аккумулятора (число циклов при данной глубине разряда).",
+        zakres:
+          "Для LiFePO4 обычно {min}–{max}%. Для AGM и заливного — из паспорта; приложение не выбирает значение за вас.",
+      },
+      sprawnosc: {
+        nazwa: "КПД инвертора [%]",
+        cel:
+          "Устройства 230 В через инвертор забирают из аккумулятора больше, чем потребляют сами. Потери инвертора сокращают время работы.",
+        gdzie: "Паспорт инвертора (КПД при типичной нагрузке). Устройства 12/24 В напрямую — введите 100.",
+        zakres: "Из паспорта инвертора; 100 без инвертора.",
+      },
+      maksPrad: {
+        nazwa: "Максимальный длительный ток аккумулятора [А] (необязательно)",
+        cel:
+          "Сравнение с током каждого устройства — слишком большой ток может отключить BMS, перегреть соединения или повредить аккумулятор.",
+        gdzie: "Паспорт аккумулятора или BMS («max continuous discharge current»).",
+        zakres: "Из паспорта; пусто = без проверки тока.",
+      },
+      nazwa: {
+        nazwa: "Название устройства",
+        cel: "Чтобы узнать устройство в списке результатов.",
+        gdzie: "Любое название, напр. «холодильник».",
+        zakres: "Любой текст.",
+      },
+      moc: {
+        nazwa: "Мощность устройства [Вт]",
+        cel: "По мощности приложение считает время работы и ток.",
+        gdzie:
+          "Табличка, инструкция или найдите свою модель в интернете. Для компрессорного холодильника введите среднюю мощность, если знаете.",
+        zakres: "С таблички вашего устройства.",
       },
     },
   },

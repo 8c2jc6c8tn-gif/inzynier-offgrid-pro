@@ -85,6 +85,7 @@ import { niezawodnoscEsp32Tool } from "./tools/niezawodnosc-esp32-tool"
 import { doborRegulatoraPwmMpptTool } from "./tools/dobor-regulatora-pwm-mppt-tool"
 import { dniBezSloncaTool } from "./tools/dni-bez-slonca-tool"
 import { akumulatorSamochodowyTool } from "./tools/akumulator-samochodowy-tool"
+import { mamAkumulatorTool } from "./tools/mam-akumulator-tool"
 import { ochronaPrzedRozladowaniemTool } from "./tools/ochrona-przed-rozladowaniem-tool"
 import { wilgocMaleInstalacjeTool } from "./tools/wilgoc-male-instalacje-tool"
 import { uziemienieMaleInstalacjeTool } from "./tools/uziemienie-male-instalacje-tool"
@@ -394,6 +395,7 @@ const NARZEDZIA: Array<AiToolDefinition<any, any>> = [
   doborRegulatoraPwmMpptTool,
   dniBezSloncaTool,
   akumulatorSamochodowyTool,
+  mamAkumulatorTool,
   ochronaPrzedRozladowaniemTool,
   wilgocMaleInstalacjeTool,
   uziemienieMaleInstalacjeTool,
