@@ -1211,6 +1211,12 @@ export const dictionaryPl = {
   "PU-PANEL-ZA-MALY": "Twój panel {posiadany} W jest za mały — przy wpisanym słońcu i uzysku potrzeba co najmniej {minimalna} W. Urządzenie będzie rozładowywać akumulator dzień po dniu.",
   "PU-POCHMURNE-DNI": "W pochmurne dni panel produkuje dużo mniej niż średnio — rozważ większy panel albo zapas w akumulatorze na kilka dni.",
   "PU-ZALOZENIE-BILANS-DOBOWY": "Bilans dobowy: panel oddaje w dzień tyle, ile urządzenie zużywa przez dobę. Praca nocą wymaga akumulatora, który zmagazynuje tę energię.",
+  "LPP-POWERBANK-NIE-LACZYC": "Nie łącz powerbanków solarnych ze sobą ani z innymi panelami — mają wbudowany regulator. Ładuj każdy osobno.",
+  "LPP-USB-NIE-LACZYC": "Wyjść USB paneli nie łączy się szeregowo ani równolegle — za nimi jest przetwornica. Podłącz każdy panel do osobnego urządzenia albo użyj paneli z wyjściem DC (MC4, XT60, Anderson).",
+  "LPP-ZLACZA-NIEZGODNE": "Złącze paneli nie pasuje do wejścia stacji, a nie masz adaptera. Nie przerabiaj wtyków na siłę — kup fabryczny adapter o właściwej biegunowości i prądzie.",
+  "LPP-ADAPTER-SPRAWDZ": "Łączysz przez adapter — przed podłączeniem sprawdź miernikiem biegunowość i upewnij się, że adapter wytrzyma prąd paneli.",
+  "LPP-ROZNE-PANELE": "Panele są różne: szeregowo prąd ogranicza najsłabszy panel, równolegle — najniższe napięcie. Tracisz część mocy; najlepiej łączyć ten sam model.",
+  "LPP-SPRAWDZ-NAPIECIE": "Złącza to nie wszystko: sprawdź napięcie (szeregowo się sumuje, w mrozie rośnie) i prąd (równolegle się sumuje) wobec limitów wejścia stacji — ekran „Panel do stacji zasilania”.",
   // end of M12 30.09.2026 block
   "LVD-BRAK-OCHRONY-OLOWIOWY": "Akumulator kwasowy/AGM bez dozownika napięcia, a odbiornik nie ma własnego zabezpieczenia — odbiornik rozładuje akumulator do zera. Głębokie rozładowanie trwale niszczy akumulator ołowiowy (zasiarczenie). Zamontuj dozownik (LVD) z progiem podanym wyżej.",
   "LVD-PROG-KWASOWY-BRAK-W-ZRODLE": "Dla akumulatora kwasowego (zalewowego) nie podajemy progu — źródło daje go tylko dla AGM i LiFePO4. Sprawdź napięcie odcięcia w karcie producenta akumulatora.",

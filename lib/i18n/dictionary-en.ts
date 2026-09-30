@@ -1199,6 +1199,12 @@ export const dictionaryEn = {
   "PU-PANEL-ZA-MALY": "Your {posiadany} W panel is too small — with the entered sun and yield at least {minimalna} W is needed. The device will drain the battery day after day.",
   "PU-POCHMURNE-DNI": "On cloudy days the panel produces much less than average — consider a bigger panel or a battery reserve for a few days.",
   "PU-ZALOZENIE-BILANS-DOBOWY": "Daily balance: the panel delivers during the day what the device uses over the whole day. Night operation needs a battery to store that energy.",
+  "LPP-POWERBANK-NIE-LACZYC": "Do not connect solar power banks to each other or to other panels — they have a built-in controller. Charge each one separately.",
+  "LPP-USB-NIE-LACZYC": "Panel USB outputs cannot be connected in series or parallel — there is a converter behind them. Connect each panel to a separate device or use panels with a DC output (MC4, XT60, Anderson).",
+  "LPP-ZLACZA-NIEZGODNE": "The panel connector does not match the station input and you have no adapter. Do not force or rewire the plugs — buy a factory adapter with the correct polarity and current rating.",
+  "LPP-ADAPTER-SPRAWDZ": "You connect through an adapter — before connecting, check polarity with a meter and make sure the adapter can carry the panels' current.",
+  "LPP-ROZNE-PANELE": "The panels differ: in series the weakest panel limits the current, in parallel the lowest voltage limits it. You lose part of the power; it is best to combine the same model.",
+  "LPP-SPRAWDZ-NAPIECIE": "Connectors are not everything: check voltage (adds up in series, rises in frost) and current (adds up in parallel) against the station input limits — the “Panel for a power station” screen.",
   // end of M12 30.09.2026 block
   "LVD-BRAK-OCHRONY-OLOWIOWY": "A lead-acid/AGM battery without a low voltage disconnect, and the load has no protection of its own — the load will drain the battery to zero. Deep discharge permanently damages a lead-acid battery (sulphation). Fit a low voltage disconnect (LVD) with the threshold given above.",
   "LVD-PROG-KWASOWY-BRAK-W-ZRODLE": "No threshold is given for a flooded lead-acid battery — the source gives it only for AGM and LiFePO4. Check the cut-off voltage in the battery manufacturer's datasheet.",

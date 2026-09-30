@@ -313,6 +313,13 @@ nie do audytu poprawności formularza webowego.
   że silnik nie odpali, i trwałe uszkodzenie akumulatora. Lista twardych stopów `Tresc_Modul_12` (E16).
   (M12/E16 — `lib/core/modules/kalkulator-mobilny/akumulator-samochodowy/warnings.ts`,
   `rozruchowyPonadUzyteczna`, kod `AS-ROZRUCHOWY-PONAD-UZYTECZNA`)
+- **[30.09.2026] Łączenie powerbanków solarnych (albo wyjść USB paneli) w szereg/równolegle** — mają wbudowany regulator
+  lub przetwornicę, nie można ich łączyć z innymi panelami (Biblia §12.12).
+  (M12/E10 — `lib/core/modules/kalkulator-mobilny/laczenie-paneli-przenosnych/warnings.ts`, `powerbankNieLaczyc`,
+  `usbNieLaczyc`, kody `LPP-POWERBANK-NIE-LACZYC`, `LPP-USB-NIE-LACZYC`)
+- **[30.09.2026] Łączenie paneli przenośnych o niezgodnych złączach bez adaptera** — lista twardych stopów
+  `Tresc_Modul_12` (E10). (M12/E10 — `lib/core/modules/kalkulator-mobilny/laczenie-paneli-przenosnych/warnings.ts`,
+  `zlaczaNiezgodne`, kod `LPP-ZLACZA-NIEZGODNE`)
 - **Bezpiecznik nie chroni kabla przed przeciążeniem (In > Iz)** — sprawdzany przekrój przechodzi obciążalność i
   spadek napięcia, ale bezpiecznik 1,25 × I jest większy niż obciążalność kabla (PN-IEC 60364-4-43, 433.2).
   [27.09.2026] (M12/E2, E15 — `lib/core/modules/kalkulator-mobilny/kable-bezpieczniki-male/warnings.ts`,

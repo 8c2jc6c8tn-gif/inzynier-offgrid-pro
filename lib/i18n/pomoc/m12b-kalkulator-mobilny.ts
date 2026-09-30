@@ -432,6 +432,55 @@ export const pl = {
       },
     },
   },
+  "laczenie-paneli-przenosnych": {
+    migawka: {
+      oCoChodzi: "Sprawdzasz, czy panele turystyczne da się połączyć ze sobą i z Twoją stacją zasilania.",
+      jakDziala:
+        "Aplikacja porównuje typ paneli i złącza. Powerbanków solarnych i wyjść USB nie łączy się — mają w środku regulator albo przetwornicę. Różne złącza wymagają fabrycznego adaptera. Różne panele połączyć można, ale z utratą mocy.",
+      poCo:
+        "Złe połączenie może uszkodzić wbudowany regulator albo wejście stacji. Złącza to pierwszy krok — napięcie i prąd sprawdzisz na ekranie „Panel do stacji zasilania”.",
+      fizyka:
+        "Szeregowo: napięcia się sumują, prąd = najmniejszy z paneli. Równolegle: prądy się sumują, napięcie = najniższe z paneli. Dlatego różne panele tracą część mocy.",
+    },
+    pola: {
+      typ: {
+        nazwa: "Typ panelu",
+        cel: "Powerbank solarny ma własny regulator — nie łączy się go z innymi panelami.",
+        gdzie: "Opis produktu: panel składany/mata ma tylko ogniwa i wtyk; powerbank ma akumulator i gniazda USB.",
+        zakres: "Wybierz z listy.",
+      },
+      liczba: {
+        nazwa: "Liczba paneli",
+        cel: "Przy jednym panelu sprawdzasz tylko zgodność złącza ze stacją.",
+        gdzie: "Ile paneli chcesz podłączyć naraz.",
+        zakres: "1 i więcej.",
+      },
+      takieSame: {
+        nazwa: "Ten sam model",
+        cel: "Różne panele w jednym łańcuchu tracą moc do najsłabszego.",
+        gdzie: "Porównaj tabliczki: Vmp, Imp i moc powinny być takie same.",
+        zakres: "Tak / nie.",
+      },
+      zlaczePaneli: {
+        nazwa: "Złącze wyjściowe paneli",
+        cel: "Musi pasować do wejścia stacji albo do adaptera.",
+        gdzie: "Końcówka kabla panelu; opis w instrukcji.",
+        zakres: "Wybierz z listy.",
+      },
+      zlaczeWejscia: {
+        nazwa: "Złącze wejścia PV",
+        cel: "Do niego podłączasz panele.",
+        gdzie: "Gniazdo „Solar/PV IN” na stacji albo zaciski regulatora; opis w instrukcji.",
+        zakres: "Wybierz z listy.",
+      },
+      adapter: {
+        nazwa: "Adapter między złączami",
+        cel: "Pozwala połączyć różne złącza — o ile ma właściwą biegunowość i wytrzyma prąd.",
+        gdzie: "Fabryczny adapter producenta stacji albo sprawdzony zamiennik z opisem prądu.",
+        zakres: "Tak / nie.",
+      },
+    },
+  },
 }
 
 export const en: Tlumaczenie<typeof pl> = {
@@ -861,6 +910,56 @@ export const en: Tlumaczenie<typeof pl> = {
       },
     },
   },
+  "laczenie-paneli-przenosnych": {
+    migawka: {
+      oCoChodzi: "You check whether camping panels can be connected together and to your power station.",
+      jakDziala:
+        "The app compares panel type and connectors. Solar power banks and USB outputs are not combined — they contain a controller or converter. Different connectors need a factory adapter. Different panels can be combined, but with a power loss.",
+      poCo:
+        "A wrong connection can damage a built-in controller or the station input. Connectors are the first step — check voltage and current on the “Panel for a power station” screen.",
+      fizyka:
+        "In series: voltages add up, current = the lowest of the panels. In parallel: currents add up, voltage = the lowest of the panels. That is why different panels lose part of the power.",
+    },
+    pola: {
+      typ: {
+        nazwa: "Panel type",
+        cel: "A solar power bank has its own controller — it is not combined with other panels.",
+        gdzie:
+          "Product description: a folding panel/blanket has only cells and a plug; a power bank has a battery and USB sockets.",
+        zakres: "Choose from the list.",
+      },
+      liczba: {
+        nazwa: "Number of panels",
+        cel: "With one panel you only check connector compatibility with the station.",
+        gdzie: "How many panels you want to connect at once.",
+        zakres: "1 or more.",
+      },
+      takieSame: {
+        nazwa: "Same model",
+        cel: "Different panels in one string lose power to the weakest one.",
+        gdzie: "Compare nameplates: Vmp, Imp and power should be the same.",
+        zakres: "Yes / no.",
+      },
+      zlaczePaneli: {
+        nazwa: "Panel output connector",
+        cel: "Must match the station input or an adapter.",
+        gdzie: "The end of the panel cable; described in the manual.",
+        zakres: "Choose from the list.",
+      },
+      zlaczeWejscia: {
+        nazwa: "PV input connector",
+        cel: "This is where you plug in the panels.",
+        gdzie: "The “Solar/PV IN” socket on the station or the controller terminals; described in the manual.",
+        zakres: "Choose from the list.",
+      },
+      adapter: {
+        nazwa: "Adapter between connectors",
+        cel: "Lets you join different connectors — if it has the right polarity and can carry the current.",
+        gdzie: "A factory adapter from the station maker or a proven replacement with a stated current rating.",
+        zakres: "Yes / no.",
+      },
+    },
+  },
 }
 
 export const ru: Tlumaczenie<typeof pl> = {
@@ -1287,6 +1386,56 @@ export const ru: Tlumaczenie<typeof pl> = {
         cel: "Сравнение с требуемой мощностью.",
         gdzie: "Табличка панели (Вт пик).",
         zakres: "Пусто = только подбор.",
+      },
+    },
+  },
+  "laczenie-paneli-przenosnych": {
+    migawka: {
+      oCoChodzi: "Вы проверяете, можно ли соединить туристические панели между собой и с вашей зарядной станцией.",
+      jakDziala:
+        "Приложение сравнивает тип панелей и разъёмы. Солнечные пауэрбанки и USB-выходы не соединяют — внутри у них контроллер или преобразователь. Разные разъёмы требуют заводского переходника. Разные панели соединить можно, но с потерей мощности.",
+      poCo:
+        "Неправильное соединение может повредить встроенный контроллер или вход станции. Разъёмы — первый шаг; напряжение и ток проверьте на экране «Панель для зарядной станции».",
+      fizyka:
+        "Последовательно: напряжения складываются, ток = наименьший из панелей. Параллельно: токи складываются, напряжение = наименьшее из панелей. Поэтому разные панели теряют часть мощности.",
+    },
+    pola: {
+      typ: {
+        nazwa: "Тип панели",
+        cel: "У солнечного пауэрбанка свой контроллер — его не соединяют с другими панелями.",
+        gdzie:
+          "Описание товара: складная панель/коврик — только элементы и штекер; пауэрбанк — аккумулятор и USB-гнёзда.",
+        zakres: "Выберите из списка.",
+      },
+      liczba: {
+        nazwa: "Количество панелей",
+        cel: "При одной панели проверяется только совместимость разъёма со станцией.",
+        gdzie: "Сколько панелей вы хотите подключить одновременно.",
+        zakres: "1 и больше.",
+      },
+      takieSame: {
+        nazwa: "Одна модель",
+        cel: "Разные панели в одной цепочке теряют мощность до уровня самой слабой.",
+        gdzie: "Сравните таблички: Vmp, Imp и мощность должны совпадать.",
+        zakres: "Да / нет.",
+      },
+      zlaczePaneli: {
+        nazwa: "Выходной разъём панелей",
+        cel: "Должен подходить к входу станции или к переходнику.",
+        gdzie: "Конец кабеля панели; описание в инструкции.",
+        zakres: "Выберите из списка.",
+      },
+      zlaczeWejscia: {
+        nazwa: "Разъём PV-входа",
+        cel: "К нему подключаются панели.",
+        gdzie: "Гнездо «Solar/PV IN» на станции или клеммы контроллера; описание в инструкции.",
+        zakres: "Выберите из списка.",
+      },
+      adapter: {
+        nazwa: "Переходник между разъёмами",
+        cel: "Позволяет соединить разные разъёмы — если у него правильная полярность и он выдержит ток.",
+        gdzie: "Заводской переходник производителя станции или проверенная замена с указанным током.",
+        zakres: "Да / нет.",
       },
     },
   },
