@@ -6,6 +6,7 @@ import {
   BETA_TYPOWA_MAX_PCT_NA_C,
   BETA_TYPOWA_MIN_PCT_NA_C,
   PROG_OSTRZEGAWCZY_UDZIAL_LIMITU,
+  TEMPERATURA_REFERENCYJNA_STC_C,
 } from "@/lib/core/modules/pv/stress-test-mppt/constants"
 import { usePersistedDraft } from "@/lib/adapters/use-persisted-draft"
 import { Pole } from "@/components/ui/pole"
@@ -100,7 +101,10 @@ export default function StressTestMpptPage() {
         tytul="Zimowy stress-test napięciowy MPPT"
         ekran="stress-test-mppt"
         wynik={result}
-        parametry={{ progOstrzezenia: Math.round(PROG_OSTRZEGAWCZY_UDZIAL_LIMITU * 100) }}
+        parametry={{
+          progOstrzezenia: Math.round(PROG_OSTRZEGAWCZY_UDZIAL_LIMITU * 100),
+          tStc: TEMPERATURA_REFERENCYJNA_STC_C,
+        }}
       >
         Panele PV zachowują się odwrotnie niż można by się spodziewać — im zimniej, tym WYŻSZE
         napięcie dają na biegu jałowym. Mroźny, słoneczny poranek to najbardziej niebezpieczny
