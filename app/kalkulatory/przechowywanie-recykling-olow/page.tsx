@@ -7,6 +7,7 @@ import {
 import { NawigacjaEkranu } from "@/components/nawigacja-ekranu"
 import { NaglowekEkranu } from "@/components/wzorce/naglowek-ekranu"
 import { SekcjaAkordeon } from "@/components/wzorce/sekcja-akordeon"
+import { useTranslate } from "@/lib/i18n/language-context"
 
 function ListaFaktow({ fakty }: { fakty: FaktStopka[] }) {
   return (
@@ -25,24 +26,24 @@ function ListaFaktow({ fakty }: { fakty: FaktStopka[] }) {
 }
 
 export default function PrzechowywanieRecyklingOlowPage() {
+  const t = useTranslate()
   return (
     <main className="mx-auto flex max-w-md flex-col gap-6 p-6">
       <NawigacjaEkranu href="/kalkulatory/przechowywanie-recykling-olow" />
-      <NaglowekEkranu tytul="Przechowywanie / recykling / narzędzia" ekran="przechowywanie-recykling-olow">
-        Moduł 11, Ekran B12 (Ścieżka B — kwasowo-ołowiowa). Trzy tematy poniżej uzupełniają się
-        nawzajem.
+      <NaglowekEkranu tytul={t("UI-PRZRECOLO-PRZECHOWYWANIE-RECYKLING-NAR")} ekran="przechowywanie-recykling-olow">
+        {t("UI-PRZRECOLO-MODUL-EKRAN-B12")}
       </NaglowekEkranu>
 
       <div className="flex flex-col gap-3">
-        <SekcjaAkordeon tytul="Przechowywanie" domyslnieOtwarta>
+        <SekcjaAkordeon tytul={t("UI-PRZRECOLO-PRZECHOWYWANIE")} domyslnieOtwarta>
           <ListaFaktow fakty={PRZECHOWYWANIE_FAKTY} />
         </SekcjaAkordeon>
 
-        <SekcjaAkordeon tytul="Recykling">
+        <SekcjaAkordeon tytul={t("UI-PRZRECOLO-RECYKLING")}>
           <ListaFaktow fakty={RECYKLING_FAKTY} />
         </SekcjaAkordeon>
 
-        <SekcjaAkordeon tytul="Narzędzia">
+        <SekcjaAkordeon tytul={t("UI-PRZRECOLO-NARZEDZIA")}>
           <ListaFaktow fakty={NARZEDZIA_FAKTY} />
         </SekcjaAkordeon>
       </div>

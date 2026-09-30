@@ -12,6 +12,7 @@ import { NaglowekEkranu } from "@/components/wzorce/naglowek-ekranu"
 import { WynikGlowny } from "@/components/wzorce/wynik-glowny"
 import { WynikSzczegoly } from "@/components/wzorce/wynik-szczegoly"
 import { DOMYSLNY_SPADEK_DC_PCT } from "@/lib/core/modules/okablowanie/dobor-przekroju-kabla/constants"
+import { useTranslate } from "@/lib/i18n/language-context"
 
 type FormularzStan = {
   pradA: string
@@ -40,6 +41,7 @@ const STAN_POCZATKOWY: FormularzStan = {
 }
 
 export default function DoborKabliBezpiecznikowOlowPage() {
+  const t = useTranslate()
   const [stan, setStan] = usePersistedDraft<FormularzStan>("dobor-kabli-bezpiecznikow-olow", STAN_POCZATKOWY)
   const {
     pradA,
@@ -119,9 +121,9 @@ export default function DoborKabliBezpiecznikowOlowPage() {
     green: "ok",
   }
   const verdictLabel: Record<typeof verdict, string> = {
-    invalid: "Nie da się policzyć",
-    incomplete: "Wypełnij dane obwodu",
-    red: "Zabronione — sprawdź ostrzeżenia poniżej",
+    invalid: t("UI-DOBKABBEZOLO-POLICZYC"),
+    incomplete: t("UI-DOBKABBEZOLO-WYPELNIJ-DANE-OBWODU"),
+    red: t("UI-DOBKABBEZOLO-ZABRONIONE-SPRAWDZ-OSTRZEZEN"),
     green: "Kabel i bezpiecznik dobrane poprawnie",
   }
 
@@ -129,17 +131,16 @@ export default function DoborKabliBezpiecznikowOlowPage() {
     <main className="mx-auto flex max-w-md flex-col gap-6 p-6">
       <NawigacjaEkranu href="/kalkulatory/dobor-kabli-bezpiecznikow-olow" />
       <NaglowekEkranu
-        tytul="Dobór kabli, bezpieczników i zabezpieczeń"
+        tytul={t("UI-DOBKABBEZOLO-DOBOR-KABLI-BEZPIECZNIKOW")}
         ekran="dobor-kabli-bezpiecznikow-olow"
         wynik={result}
       >
-        Dobór kabla nie zależy od chemii baterii, tylko od prądu i długości — ten sam silnik
-        obliczeniowy co w Module 5, tylko podstawiasz inne liczby. Moduł 11, Ekran B5.
+        {t("UI-DOBKABBEZOLO-DOBOR-KABLA-ZALEZY")}
       </NaglowekEkranu>
 
       <div className="flex flex-col gap-4">
         <Pole
-          label="Prąd ładowania/rozładowania"
+          label={t("UI-DOBKABBEZOLO-PRAD-LADOWANIA-ROZLADOWANIA")}
           unit="A"
           type="number"
           inputMode="decimal"
@@ -149,7 +150,7 @@ export default function DoborKabliBezpiecznikowOlowPage() {
           pomoc={<PomocPola ekran="dobor-kabli-bezpiecznikow-olow" pole="prad" />}
         />
         <Pole
-          label="Napięcie systemu"
+          label={t("UI-DOBKABBEZOLO-NAPIECIE-SYSTEMU")}
           unit="V"
           type="number"
           inputMode="decimal"
@@ -159,7 +160,7 @@ export default function DoborKabliBezpiecznikowOlowPage() {
           pomoc={<PomocPola ekran="dobor-kabli-bezpiecznikow-olow" pole="napiecie" />}
         />
         <Pole
-          label="Długość trasy kabla"
+          label={t("UI-DOBKABBEZOLO-DLUGOSC-TRASY-KABLA")}
           unit="m"
           type="number"
           inputMode="decimal"
@@ -169,27 +170,27 @@ export default function DoborKabliBezpiecznikowOlowPage() {
           pomoc={<PomocPola ekran="dobor-kabli-bezpiecznikow-olow" pole="dlugosc" />}
         />
         <PoleSelect
-          label="Materiał"
+          label={t("UI-DOBKABBEZOLO-MATERIAL")}
           value={material}
           onChange={(e) => setMaterial(e.target.value as Material)}
           pomoc={<PomocPola ekran="dobor-kabli-bezpiecznikow-olow" pole="material" />}
         >
-          <option value="Cu">Miedź (Cu)</option>
-          <option value="Al">Aluminium (Al)</option>
+          <option value="Cu">{t("UI-DOBKABBEZOLO-MIEDZ")}</option>
+          <option value="Al">{t("UI-DOBKABBEZOLO-ALUMINIUM")}</option>
         </PoleSelect>
         <PoleSelect
-          label="Sposób ułożenia"
+          label={t("UI-DOBKABBEZOLO-SPOSOB-ULOZENIA")}
           value={sposobUlozenia}
           onChange={(e) => setSposobUlozenia(e.target.value as SposobUlozenia)}
           pomoc={<PomocPola ekran="dobor-kabli-bezpiecznikow-olow" pole="ulozenie" />}
         >
-          <option value="swobodnie">Swobodnie / na ścianie</option>
-          <option value="w_peszlu">W peszlu</option>
-          <option value="w_ziemi">W ziemi</option>
-          <option value="w_wiazce">W wiązce</option>
+          <option value="swobodnie">{t("UI-DOBKABBEZOLO-SWOBODNIE-SCIANIE")}</option>
+          <option value="w_peszlu">{t("UI-DOBKABBEZOLO-PESZLU")}</option>
+          <option value="w_ziemi">{t("UI-DOBKABBEZOLO-ZIEMI")}</option>
+          <option value="w_wiazce">{t("UI-DOBKABBEZOLO-WIAZCE")}</option>
         </PoleSelect>
         <Pole
-          label="Temperatura otoczenia"
+          label={t("UI-DOBKABBEZOLO-TEMPERATURA-OTOCZENIA")}
           unit="°C"
           type="number"
           inputMode="decimal"
@@ -198,8 +199,8 @@ export default function DoborKabliBezpiecznikowOlowPage() {
           pomoc={<PomocPola ekran="dobor-kabli-bezpiecznikow-olow" pole="temperatura" />}
         />
         <Pole
-          label="Liczba kabli w wiązce"
-          unit="szt."
+          label={t("UI-DOBKABBEZOLO-LICZBA-KABLI-WIAZCE")}
+          unit={t("UI-J-SZT")}
           type="number"
           inputMode="decimal"
           min={0}
@@ -208,7 +209,7 @@ export default function DoborKabliBezpiecznikowOlowPage() {
           pomoc={<PomocPola ekran="dobor-kabli-bezpiecznikow-olow" pole="wiazka" />}
         />
         <Pole
-          label="Dopuszczalny spadek napięcia"
+          label={t("UI-DOBKABBEZOLO-DOPUSZCZALNY-SPADEK-NAPIECIA")}
           unit="%"
           type="number"
           inputMode="decimal"
@@ -218,7 +219,7 @@ export default function DoborKabliBezpiecznikowOlowPage() {
           pomoc={<PomocPola ekran="dobor-kabli-bezpiecznikow-olow" pole="spadek" params={{ spadekDc: DOMYSLNY_SPADEK_DC_PCT }} />}
         />
         <Pole
-          label="Prąd zwarciowy zestawu (opcjonalnie)"
+          label={t("UI-DOBKABBEZOLO-PRAD-ZWARCIOWY-ZESTAWU")}
           unit="A"
           type="number"
           inputMode="decimal"
@@ -228,7 +229,7 @@ export default function DoborKabliBezpiecznikowOlowPage() {
           pomoc={<PomocPola ekran="dobor-kabli-bezpiecznikow-olow" pole="pradZwarcia" />}
         />
         <Pole
-          label="Zdolność wyłączania (AIC) bezpiecznika (opcjonalnie)"
+          label={t("UI-DOBKABBEZOLO-ZDOLNOSC-WYLACZANIA-AIC")}
           unit="A"
           type="number"
           inputMode="decimal"
@@ -242,7 +243,7 @@ export default function DoborKabliBezpiecznikowOlowPage() {
       <WerdyktPanel poziom={verdictPoziom[verdict]} etykieta={verdictLabel[verdict]}>
         {verdict === "green" || verdict === "red" ? (
           <WynikGlowny>
-            Przekrój: {result.value.przekrojMm2} mm² · Bezpiecznik: {result.value.pradBezpiecznikaZalecanyA.toFixed(1)} A
+            {t("UI-DOBKABBEZOLO-PRZEKROJ-BEZPIECZNIK", { przekrojMm2: result.value.przekrojMm2, pradBezpiecznikaZalecanyA: result.value.pradBezpiecznikaZalecanyA.toFixed(1) })}
           </WynikGlowny>
         ) : null}
         <WynikSzczegoly assumptions={result.assumptions} warnings={result.warnings} formula={result.formula} />

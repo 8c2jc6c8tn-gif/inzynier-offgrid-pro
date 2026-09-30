@@ -13,6 +13,7 @@ import { useTranslate } from "@/lib/i18n/language-context"
 
 /** Schemat: kolejność łączenia ogniw w szereg (przykład 4S — minus jednego do plusa następnego). */
 function PolaczeniaSzeregoweIlustracja() {
+  const t = useTranslate()
   const cellXs = [55, 150, 245, 340]
   const cellW = 65
   const cellY = 44
@@ -24,7 +25,7 @@ function PolaczeniaSzeregoweIlustracja() {
       viewBox="0 0 440 160"
       className="w-full rounded-lg border bg-muted/30 text-foreground"
       role="img"
-      aria-label="Schemat kolejności łączenia czterech ogniw w szereg, minus jednego do plusa następnego"
+      aria-label={t("UI-POLELE-SCHEMAT-KOLEJNOSCI-LACZENIA")}
     >
       {cellXs.map((x, i) => (
         <g key={x}>
@@ -36,7 +37,7 @@ function PolaczeniaSzeregoweIlustracja() {
             −
           </text>
           <text x={x + cellW / 2} y={midY + 20} textAnchor="middle" className="fill-current text-[9px]">
-            Ogniwo {i + 1}
+            {t("UI-POLELE-OGNIWO", { p: i + 1 })}
           </text>
         </g>
       ))}
@@ -60,7 +61,7 @@ function PolaczeniaSzeregoweIlustracja() {
       {/* Główne terminale pakietu. */}
       <line x1="6" y1={midY} x2={cellXs[0]} y2={midY} className="stroke-current" strokeWidth="3" />
       <text x="6" y={midY - 22} textAnchor="start" className="fill-current text-[8px] font-medium">
-        Pakiet
+        {t("UI-POLELE-PAKIET")}
       </text>
       <text x="6" y={midY - 12} textAnchor="start" className="fill-current text-[8px] font-medium">
         (+)
@@ -81,10 +82,10 @@ function PolaczeniaSzeregoweIlustracja() {
       </text>
 
       <text x="220" y="128" textAnchor="middle" className="fill-muted-foreground text-[9px]">
-        Kolejność 1→2→3: minus ogniwa do plusa następnego.
+        {t("UI-POLELE-KOLEJNOSC-MINUS-OGNIWA")}
       </text>
       <text x="220" y="142" textAnchor="middle" className="fill-muted-foreground text-[9px]">
-        Szyny zbiorcze — dopiero potem.
+        {t("UI-POLELE-SZYNY-ZBIORCZE-DOPIERO")}
       </text>
     </svg>
   )
@@ -118,9 +119,8 @@ export default function PolaczeniaElektrycznePage() {
   return (
     <main className="mx-auto flex max-w-md flex-col gap-6 p-6">
       <NawigacjaEkranu href="/kalkulatory/polaczenia-elektryczne" />
-      <NaglowekEkranu tytul="Połączenia elektryczne i kolejność łączenia" ekran="polaczenia-elektryczne">
-        Kolejność łączenia ma znaczenie — przypadkowe zwarcie podczas montażu szeregu ogniw to
-        najczęstsza przyczyna wypadków przy budowie własnego pakietu. Moduł 11, Ekran A3.
+      <NaglowekEkranu tytul={t("UI-POLELE-POLACZENIA-ELEKTRYCZNE-KOLEJ")} ekran="polaczenia-elektryczne">
+        {t("UI-POLELE-KOLEJNOSC-LACZENIA-ZNACZENIE")}
       </NaglowekEkranu>
 
       <PolaczeniaSzeregoweIlustracja />
@@ -132,7 +132,7 @@ export default function PolaczeniaElektrycznePage() {
         numerowana
         renderLabel={(item, index) => (
           <>
-            <span className="font-medium">Krok {index + 1}. </span>
+            <span className="font-medium">{t("UI-POLELE-KROK", { p: index + 1 })} </span>
             {item.krok}
           </>
         )}
@@ -145,7 +145,7 @@ export default function PolaczeniaElektrycznePage() {
       </ul>
 
       {poziom ? (
-        <WerdyktPanel poziom={poziom} etykieta={poziom === "ok" ? "Połączenia zgodne z kolejnością" : undefined}>
+        <WerdyktPanel poziom={poziom} etykieta={poziom === "ok" ? t("UI-POLELE-POLACZENIA-ZGODNE-KOLEJNOSCI") : undefined}>
           {result.warnings.map((w) => (
             <p key={w.code} className="mt-1 text-small">
               {w.message ?? t(w.i18nKey ?? w.code, w.params)}
@@ -154,7 +154,7 @@ export default function PolaczeniaElektrycznePage() {
         </WerdyktPanel>
       ) : (
         <StanPusty
-          tytul={`Potwierdzono ${result.value.potwierdzoneWKolejnosci} / ${result.value.razem} kroków po kolei`}
+          tytul={t("UI-POLELE-POTWIERDZONO-KROKOW-KOLEI", { potwierdzoneWKolejnosci: result.value.potwierdzoneWKolejnosci, razem: result.value.razem })}
         />
       )}
     </main>
