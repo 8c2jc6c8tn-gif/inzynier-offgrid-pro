@@ -6,6 +6,7 @@
  * same `t()` as everything else. `pnpm check:i18n-guard` blocks new text written straight into JSX.
  */
 import * as dopiskiStarychEkranow from "./dopiski-starych-ekranow"
+import * as m09Esp32 from "./m09-esp32"
 import * as m12Uziemienie from "./m12-uziemienie"
 import * as m14Agregat from "./m14-agregat"
 import * as m14Bess from "./m14-bess"
@@ -22,7 +23,7 @@ import * as pulpit from "./pulpit"
 import * as pwa from "./pwa"
 import * as wspolne from "./wspolne"
 
-export const czesciUi = [wspolne, dopiskiStarychEkranow, m12Uziemienie, m14Agregat, m14Bess, m14Ekrany, m14Faq, m14Przejscie, m14PrzejscieEkrany, m14Przelacznik, m14Pv, m14Scenariusze, m14Sciezka, m14Zima, pulpit, pwa] as const
+export const czesciUi = [wspolne, dopiskiStarychEkranow, m09Esp32, m12Uziemienie, m14Agregat, m14Bess, m14Ekrany, m14Faq, m14Przejscie, m14PrzejscieEkrany, m14Przelacznik, m14Pv, m14Scenariusze, m14Sciezka, m14Zima, pulpit, pwa] as const
 
 export const uiPl = Object.assign({}, ...czesciUi.map((c) => c.pl)) as Record<string, string>
 export const uiEn = Object.assign({}, ...czesciUi.map((c) => c.en)) as Record<string, string>
