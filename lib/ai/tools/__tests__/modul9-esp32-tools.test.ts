@@ -5,9 +5,20 @@ import { zasilanieEsp32Tool } from "../zasilanie-esp32-tool"
 import { architekturaKomunikacjiTool } from "../architektura-komunikacji-tool"
 import { przydzialPinowTool } from "../przydzial-pinow-tool"
 import { niezawodnoscEsp32Tool } from "../niezawodnosc-esp32-tool"
+import { wyborPlytkiEsp32Tool } from "../wybor-plytki-esp32-tool"
+import { montazObudowaEsp32Tool } from "../montaz-obudowa-esp32-tool"
+import { katalogKomponentowEsp32Tool } from "../katalog-komponentow-esp32-tool"
 
 describe("narzędzia M9 — kontrakt 9.3 ('read', bez potwierdzenia)", () => {
-  it.each([zasilanieEsp32Tool, architekturaKomunikacjiTool, przydzialPinowTool, niezawodnoscEsp32Tool])("$name", (tool) => {
+  it.each([
+    zasilanieEsp32Tool,
+    architekturaKomunikacjiTool,
+    przydzialPinowTool,
+    niezawodnoscEsp32Tool,
+    wyborPlytkiEsp32Tool,
+    montazObudowaEsp32Tool,
+    katalogKomponentowEsp32Tool,
+  ])("$name", (tool) => {
     expect(tool.operationType).toBe("read")
     expect(tool.requiresConfirmation).toBe(false)
     expect(() => validateAiToolDefinition(tool)).not.toThrow()
@@ -69,5 +80,42 @@ describe("niezawodnoscEsp32Tool (M9/E6)", () => {
       otaRollback: true,
     })
     expect(w.ostrzezenia).toEqual([t("pl", "OTA-BEZ-PODPISU")])
+  })
+})
+
+describe("wyborPlytkiEsp32Tool (M9/E1)", () => {
+  it("praca na baterii → C3", async () => {
+    const w = await wyborPlytkiEsp32Tool.handler({ zasilanie: "bateria", duzoGpio: false, antenaZewnetrzna: false, mocObliczeniowa: false, szybkieAdc: false })
+    expect(w.rekomendacja).toEqual(["c3"])
+  })
+})
+
+describe("montazObudowaEsp32Tool (M9/E3)", () => {
+  it("wilgotne miejsce z IP20 → twardy stop PL (echo M4/E10)", async () => {
+    const w = await montazObudowaEsp32Tool.handler({
+      miejsce: "wilgotne",
+      ipKod: 20,
+      montaz: "din",
+      odstepOdSzynCm: 2,
+      wentylacja: true,
+      izolacjaOdCzesciPodNapieciem: true,
+    })
+    expect(w.ostrzezenia).toEqual([t("pl", "IP-PONIZEJ-WYMAGANEGO", { ip: 20, min: 55 })])
+  })
+})
+
+describe("katalogKomponentowEsp32Tool (M9/K2–K4)", () => {
+  it("liczy instancje i typy; odrzuca typ spoza katalogu", async () => {
+    const w = await katalogKomponentowEsp32Tool.handler({
+      katalog: "aktuatory",
+      instances: [
+        { id: "1", typeId: "ssr", etykieta: "Bojler", lokalizacja: "" },
+        { id: "2", typeId: "ssr", etykieta: "Grzałka", lokalizacja: "" },
+      ],
+    })
+    expect(w).toMatchObject({ status: "VALID", liczbaInstancji: 2, liczbaTypowUzytych: 1 })
+    expect(
+      katalogKomponentowEsp32Tool.inputSchema.safeParse({ katalog: "protokoly", instances: [{ id: "1", typeId: "ssr", etykieta: "x", lokalizacja: "" }] }).success,
+    ).toBe(false)
   })
 })

@@ -9,6 +9,69 @@ const TWOJ = "Twoja instalacja — aplikacja nie przyjmuje typowej wartości za 
 const KARTA = "Karta katalogowa przetwornicy."
 
 export const pl = {
+  "wybor-plytki-esp32": {
+    migawka: {
+      oCoChodzi: "Nie każdy ESP32 jest taki sam — wybierz płytkę pod swoje potrzeby (liczba czujników, zasilanie), a nie na odwrót.",
+      jakDziala: "Każdy wariant z tabeli ma cechę, którą wyróżnia go źródło: DevKit V1 — dużo GPIO, WROOM-32U — gniazdo anteny zewnętrznej, S3 — więcej mocy i szybsze ADC, C3 — małe zużycie (bateria), POE — zasilanie przez Ethernet. Liczę, ile Twoich potrzeb pokrywa każdy wariant, i polecam te z największą liczbą. Gdy żaden nie ma wszystkiego naraz — mówię to wprost.",
+      poCo: "Nie kupisz płytki, której zabraknie pinów albo która wyczerpie baterię w kilka dni.",
+      fizyka: "rekomendacja = wariant z największą liczbą pokrytych potrzeb.",
+    },
+    pola: {
+      zasilanie: { nazwa: "Zasilanie sterownika", cel: "Praca na baterii wskazuje wariant o małym zużyciu (C3), zasilanie przez Ethernet — wariant POE.", gdzie: "Twój projekt: czy sterownik ma stałe zasilanie (np. z magistrali przez przetwornicę), baterię, czy kabel sieciowy z PoE.", zakres: "Stałe / bateria / PoE." },
+    },
+  },
+  "montaz-obudowa-esp32": {
+    migawka: {
+      oCoChodzi: "ESP32 to elektronika — potrzebuje suchego, przewiewnego miejsca, z dala od tego, co grzeje i co jest pod napięciem.",
+      jakDziala: "Sprawdzam stopień IP obudowy wobec miejsca: w suchej rozdzielni wystarcza IP20; w miejscu wilgotnym poniżej IP55 to błąd (ten sam próg co ochrona baterii przed wilgocią, Moduł 4), a IP55–IP64 — ostrzeżenie z zaleceniem IP65. Ostrzegam też przy odstępie od szyn prądowych mniejszym niż {odstep} cm, braku wentylacji i braku izolacji od części pod napięciem.",
+      poCo: "Sterownik nie zawiedzie przez wilgoć, przegrzanie albo przebicie z sąsiedniej szyny.",
+      fizyka: "IP_obudowy ≥ IP_min; odstęp od szyn ≥ {odstep} cm.",
+    },
+    pola: {
+      miejsce: { nazwa: "Miejsce montażu", cel: "Od miejsca zależy wymagany stopień IP obudowy.", gdzie: "Gdzie stanie rozdzielnia ze sterownikiem: suche pomieszczenie czy miejsce wilgotne (garaż, komórka, piwnica).", zakres: "Suche / wilgotne." },
+      ipKod: { nazwa: "Stopień ochrony obudowy (IP)", cel: "Porównywany z wymaganym dla miejsca montażu.", gdzie: "Tabliczka albo karta katalogowa obudowy (np. „IP65”).", zakres: "IP20…IP68." },
+      montaz: { nazwa: "Sposób montażu", cel: "Zalecany jest montaż na szynie DIN albo płycie montażowej.", gdzie: "Twój projekt rozdzielni.", zakres: "Szyna DIN / płyta montażowa / inny." },
+      odstepOdSzynCm: { nazwa: "Odstęp od szyn prądowych [cm]", cel: "Porównywany z minimum {odstep} cm.", gdzie: "Zmierz odległość obudowy sterownika od najbliższej szyny albo toru prądowego.", zakres: "≥ 0 cm." },
+      wentylacja: { nazwa: "Wentylacja obudowy", cel: "Elektronika potrzebuje odprowadzenia ciepła — brak wentylacji to ostrzeżenie.", gdzie: "Czy obudowa albo rozdzielnia ma otwory, kratki lub wentylator.", zakres: "Tak / nie." },
+      izolacja: { nazwa: "Izolacja od części pod napięciem", cel: "ESP32 musi być oddzielony od elementów pod napięciem — brak to ostrzeżenie.", gdzie: "Przegroda, osłona albo osobna obudowa między sterownikiem a torami prądowymi.", zakres: "Tak / nie." },
+    },
+  },
+  "katalog-aktuatorow": {
+    migawka: {
+      oCoChodzi: "To są „ręce” systemu — przez nie ESP32 realnie coś włącza, wyłącza albo reguluje, nie tylko obserwuje.",
+      jakDziala: "Wybierasz typ z katalogu (pod listą widzisz technologię, kluczowe dane doboru i uwagę z Biblii), nadajesz etykietę i miejsce. Liczę, ile wyjść dodałeś i ilu różnych typów.",
+      poCo: "Masz jedną listę wyjść sterujących — podstawę do przydziału pinów i zasilania ESP32.",
+    },
+    pola: {
+      typ: { nazwa: "Typ wyjścia", cel: "Wybiera pozycję z katalogu — pod polem widać technologię, dane doboru i uwagę.", gdzie: "Co ESP32 ma załączać albo regulować.", zakres: "Lista katalogu." },
+      etykieta: { nazwa: "Etykieta wyjścia", cel: "Twoja nazwa tego egzemplarza — bez niej nie da się go dodać.", gdzie: "Dowolna, np. „SSR — grzałka bojlera”.", zakres: "Tekst, wymagany." },
+      lokalizacja: { nazwa: "Miejsce montażu", cel: "Tylko opis — gdzie element jest zamontowany.", gdzie: "Dowolne, np. „rozdzielnia”.", zakres: "Tekst, opcjonalny." },
+    },
+  },
+  "katalog-protokolow": {
+    migawka: {
+      oCoChodzi: "To sposoby, jak ESP32 „rozmawia” ze światem zewnętrznym — od kabla obok (RS485) po kilometry przez radio (LoRa).",
+      jakDziala: "Wybierasz protokół z katalogu (pod listą widzisz zastosowanie, kluczowe dane i uwagę z Biblii), nadajesz etykietę i miejsce. Liczę, ile łączy dodałeś i ilu różnych rodzajów. Połączenia z konkretnymi urządzeniami sprawdza ekran „Architektura komunikacji”.",
+      poCo: "Masz jedną listę łączy sterownika — wiesz, jakie transceivery i moduły trzeba kupić.",
+    },
+    pola: {
+      typ: { nazwa: "Protokół", cel: "Wybiera pozycję z katalogu — pod polem widać zastosowanie, dane i uwagę.", gdzie: "Instrukcja urządzenia, z którym ESP32 ma rozmawiać (rozdział o komunikacji).", zakres: "Lista katalogu." },
+      etykieta: { nazwa: "Etykieta łącza", cel: "Twoja nazwa tego łącza — bez niej nie da się go dodać.", gdzie: "Dowolna, np. „RS485 — falownik”.", zakres: "Tekst, wymagany." },
+      lokalizacja: { nazwa: "Dokąd prowadzi", cel: "Tylko opis — gdzie jest drugi koniec łącza.", gdzie: "Dowolne, np. „BMS w garażu”.", zakres: "Tekst, opcjonalny." },
+    },
+  },
+  "katalog-interfejsu-lokalnego": {
+    migawka: {
+      oCoChodzi: "To sposób, żeby dowiedzieć się, co się dzieje z systemem, nawet gdy telefon jest w drugim pokoju albo nie ma zasięgu.",
+      jakDziala: "Wybierasz element z katalogu (pod listą widzisz opcje, zastosowanie i uwagę z Biblii), nadajesz etykietę i miejsce. Liczę, ile elementów dodałeś i ilu różnych rodzajów.",
+      poCo: "Masz jedną listę wyświetlaczy, diod, przycisków i brzęczyków — podstawę do przydziału pinów ESP32.",
+    },
+    pola: {
+      typ: { nazwa: "Element interfejsu", cel: "Wybiera pozycję z katalogu — pod polem widać opcje, zastosowanie i uwagę.", gdzie: "Jak chcesz odczytywać stan systemu albo sterować nim na miejscu.", zakres: "Lista katalogu." },
+      etykieta: { nazwa: "Etykieta elementu", cel: "Twoja nazwa tego egzemplarza — bez niej nie da się go dodać.", gdzie: "Dowolna, np. „OLED — drzwi rozdzielni”.", zakres: "Tekst, wymagany." },
+      lokalizacja: { nazwa: "Miejsce montażu", cel: "Tylko opis — gdzie element jest zamontowany.", gdzie: "Dowolne, np. „korytarz”.", zakres: "Tekst, opcjonalny." },
+    },
+  },
   "architektura-komunikacji": {
     migawka: {
       oCoChodzi: "ESP32 to tłumacz między urządzeniami mówiącymi różnymi „językami” elektrycznymi — do każdego potrzebuje odpowiedniego adaptera. Zwykle: RS485 → falownik, CAN → BMS, Wi-Fi → aplikacja.",
@@ -83,6 +146,69 @@ const EN_YOURS = "Your installation — the app never assumes a typical value fo
 const EN_KARTA = "Converter datasheet."
 
 export const en: Tlumaczenie<typeof pl> = {
+  "wybor-plytki-esp32": {
+    migawka: {
+      oCoChodzi: "Not every ESP32 is the same — choose the board for your needs (number of sensors, power supply), not the other way round.",
+      jakDziala: "Each variant in the table has the feature the source highlights: DevKit V1 — many GPIOs, WROOM-32U — external antenna socket, S3 — more power and faster ADC, C3 — low consumption (battery), POE — power over Ethernet. I count how many of your needs each variant covers and recommend those with the most. When none has everything at once, I say so plainly.",
+      poCo: "You will not buy a board that runs out of pins or drains the battery in a few days.",
+      fizyka: "recommendation = variant covering the most needs.",
+    },
+    pola: {
+      zasilanie: { nazwa: "Controller power supply", cel: "Battery operation points to the low-consumption variant (C3), power over Ethernet — to the POE variant.", gdzie: "Your design: does the controller have a permanent supply (e.g. from the bus through a converter), a battery, or a network cable with PoE.", zakres: "Permanent / battery / PoE." },
+    },
+  },
+  "montaz-obudowa-esp32": {
+    migawka: {
+      oCoChodzi: "The ESP32 is electronics — it needs a dry, airy place, away from what heats up and what is live.",
+      jakDziala: "I check the enclosure IP rating against the place: in a dry distribution board IP20 is enough; in a damp place below IP55 is an error (the same threshold as battery moisture protection, Module 4), and IP55–IP64 is a warning recommending IP65. I also warn when the clearance from busbars is below {odstep} cm, when there is no ventilation and no isolation from live parts.",
+      poCo: "The controller will not fail because of moisture, overheating or a flashover from a nearby busbar.",
+      fizyka: "IP_enclosure ≥ IP_min; busbar clearance ≥ {odstep} cm.",
+    },
+    pola: {
+      miejsce: { nazwa: "Mounting place", cel: "The required enclosure IP rating depends on the place.", gdzie: "Where the board with the controller will stand: a dry room or a damp place (garage, shed, cellar).", zakres: "Dry / damp." },
+      ipKod: { nazwa: "Enclosure protection rating (IP)", cel: "Compared with the rating required for the mounting place.", gdzie: "Rating plate or datasheet of the enclosure (e.g. “IP65”).", zakres: "IP20…IP68." },
+      montaz: { nazwa: "Mounting method", cel: "Mounting on a DIN rail or a mounting plate is recommended.", gdzie: "Your distribution board design.", zakres: "DIN rail / mounting plate / other." },
+      odstepOdSzynCm: { nazwa: "Clearance from busbars [cm]", cel: "Compared with the {odstep} cm minimum.", gdzie: "Measure the distance from the controller enclosure to the nearest busbar or current path.", zakres: "≥ 0 cm." },
+      wentylacja: { nazwa: "Enclosure ventilation", cel: "Electronics need heat removal — no ventilation is a warning.", gdzie: "Does the enclosure or board have openings, grilles or a fan.", zakres: "Yes / no." },
+      izolacja: { nazwa: "Isolation from live parts", cel: "The ESP32 must be separated from live parts — none is a warning.", gdzie: "A barrier, cover or separate enclosure between the controller and current paths.", zakres: "Yes / no." },
+    },
+  },
+  "katalog-aktuatorow": {
+    migawka: {
+      oCoChodzi: "These are the “hands” of the system — through them the ESP32 actually switches on, off or regulates something, not just observes.",
+      jakDziala: "You pick a type from the catalogue (below the list you see the technology, key selection data and the note from the Bible), give it a label and a place. I count how many outputs you added and of how many types.",
+      poCo: "You have one list of control outputs — the basis for ESP32 pin assignment and power supply.",
+    },
+    pola: {
+      typ: { nazwa: "Output type", cel: "Selects a catalogue item — below the field you see the technology, selection data and note.", gdzie: "What the ESP32 should switch or regulate.", zakres: "Catalogue list." },
+      etykieta: { nazwa: "Output label", cel: "Your name for this unit — it cannot be added without it.", gdzie: "Any, e.g. “SSR — boiler heater”.", zakres: "Text, required." },
+      lokalizacja: { nazwa: "Mounting place", cel: "Description only — where the element is mounted.", gdzie: "Any, e.g. “distribution board”.", zakres: "Text, optional." },
+    },
+  },
+  "katalog-protokolow": {
+    migawka: {
+      oCoChodzi: "These are the ways the ESP32 “talks” to the outside world — from a cable next to it (RS485) to kilometres over radio (LoRa).",
+      jakDziala: "You pick a protocol from the catalogue (below the list you see its use, key data and the note from the Bible), give it a label and a place. I count how many links you added and of how many kinds. Connections to specific devices are checked on the “Communication architecture” screen.",
+      poCo: "You have one list of the controller's links — you know which transceivers and modules to buy.",
+    },
+    pola: {
+      typ: { nazwa: "Protocol", cel: "Selects a catalogue item — below the field you see its use, data and note.", gdzie: "Manual of the device the ESP32 should talk to (communication chapter).", zakres: "Catalogue list." },
+      etykieta: { nazwa: "Link label", cel: "Your name for this link — it cannot be added without it.", gdzie: "Any, e.g. “RS485 — inverter”.", zakres: "Text, required." },
+      lokalizacja: { nazwa: "Where it leads", cel: "Description only — where the other end of the link is.", gdzie: "Any, e.g. “BMS in the garage”.", zakres: "Text, optional." },
+    },
+  },
+  "katalog-interfejsu-lokalnego": {
+    migawka: {
+      oCoChodzi: "This is how you find out what is happening with the system even when the phone is in another room or there is no signal.",
+      jakDziala: "You pick an element from the catalogue (below the list you see the options, use and the note from the Bible), give it a label and a place. I count how many elements you added and of how many kinds.",
+      poCo: "You have one list of displays, LEDs, buttons and buzzers — the basis for ESP32 pin assignment.",
+    },
+    pola: {
+      typ: { nazwa: "Interface element", cel: "Selects a catalogue item — below the field you see the options, use and note.", gdzie: "How you want to read the system state or control it on site.", zakres: "Catalogue list." },
+      etykieta: { nazwa: "Element label", cel: "Your name for this unit — it cannot be added without it.", gdzie: "Any, e.g. “OLED — board door”.", zakres: "Text, required." },
+      lokalizacja: { nazwa: "Mounting place", cel: "Description only — where the element is mounted.", gdzie: "Any, e.g. “hallway”.", zakres: "Text, optional." },
+    },
+  },
   "architektura-komunikacji": {
     migawka: {
       oCoChodzi: "The ESP32 is a translator between devices speaking different electrical “languages” — it needs the right adapter for each. Typically: RS485 → inverter, CAN → BMS, Wi-Fi → app.",
@@ -157,6 +283,69 @@ const RU_YOURS = "Ваша установка — приложение не пр
 const RU_KARTA = "Паспорт преобразователя."
 
 export const ru: Tlumaczenie<typeof pl> = {
+  "wybor-plytki-esp32": {
+    migawka: {
+      oCoChodzi: "Не каждый ESP32 одинаков — выбирайте плату под свои задачи (число датчиков, питание), а не наоборот.",
+      jakDziala: "У каждого варианта в таблице есть свойство, которое выделяет источник: DevKit V1 — много GPIO, WROOM-32U — разъём внешней антенны, S3 — больше мощности и быстрее АЦП, C3 — малое потребление (батарея), POE — питание по Ethernet. Считаю, сколько ваших потребностей покрывает каждый вариант, и рекомендую варианты с наибольшим числом. Если ни один не имеет всего сразу — говорю об этом прямо.",
+      poCo: "Вы не купите плату, которой не хватит выводов или которая разрядит батарею за несколько дней.",
+      fizyka: "рекомендация = вариант с наибольшим числом покрытых потребностей.",
+    },
+    pola: {
+      zasilanie: { nazwa: "Питание контроллера", cel: "Работа от батареи указывает на вариант с малым потреблением (C3), питание по Ethernet — на вариант POE.", gdzie: "Ваш проект: у контроллера постоянное питание (например, от шины через преобразователь), батарея или сетевой кабель с PoE.", zakres: "Постоянное / батарея / PoE." },
+    },
+  },
+  "montaz-obudowa-esp32": {
+    migawka: {
+      oCoChodzi: "ESP32 — это электроника: ему нужно сухое, проветриваемое место подальше от того, что греется и находится под напряжением.",
+      jakDziala: "Проверяю степень IP корпуса относительно места: в сухом щите достаточно IP20; во влажном месте ниже IP55 — ошибка (тот же порог, что для защиты батареи от влаги, модуль 4), а IP55–IP64 — предупреждение с рекомендацией IP65. Также предупреждаю, если расстояние от токовых шин меньше {odstep} см, нет вентиляции и изоляции от частей под напряжением.",
+      poCo: "Контроллер не откажет из-за влаги, перегрева или пробоя с соседней шины.",
+      fizyka: "IP_корпуса ≥ IP_мин; расстояние от шин ≥ {odstep} см.",
+    },
+    pola: {
+      miejsce: { nazwa: "Место монтажа", cel: "От места зависит требуемая степень IP корпуса.", gdzie: "Где будет стоять щит с контроллером: сухое помещение или влажное место (гараж, сарай, подвал).", zakres: "Сухое / влажное." },
+      ipKod: { nazwa: "Степень защиты корпуса (IP)", cel: "Сравнивается с требуемой для места монтажа.", gdzie: "Табличка или даташит корпуса (например, «IP65»).", zakres: "IP20…IP68." },
+      montaz: { nazwa: "Способ монтажа", cel: "Рекомендуется монтаж на DIN-рейку или монтажную панель.", gdzie: "Ваш проект щита.", zakres: "DIN-рейка / монтажная панель / другой." },
+      odstepOdSzynCm: { nazwa: "Расстояние от токовых шин [см]", cel: "Сравнивается с минимумом {odstep} см.", gdzie: "Измерьте расстояние от корпуса контроллера до ближайшей шины или токового пути.", zakres: "≥ 0 см." },
+      wentylacja: { nazwa: "Вентиляция корпуса", cel: "Электронике нужен отвод тепла — отсутствие вентиляции даёт предупреждение.", gdzie: "Есть ли у корпуса или щита отверстия, решётки или вентилятор.", zakres: "Да / нет." },
+      izolacja: { nazwa: "Изоляция от частей под напряжением", cel: "ESP32 должен быть отделён от частей под напряжением — отсутствие даёт предупреждение.", gdzie: "Перегородка, кожух или отдельный корпус между контроллером и токовыми путями.", zakres: "Да / нет." },
+    },
+  },
+  "katalog-aktuatorow": {
+    migawka: {
+      oCoChodzi: "Это «руки» системы — через них ESP32 реально что-то включает, выключает или регулирует, а не только наблюдает.",
+      jakDziala: "Выбираете тип из каталога (под списком видны технология, ключевые данные подбора и примечание из Библии), задаёте метку и место. Считаю, сколько выходов вы добавили и скольких типов.",
+      poCo: "У вас один список управляющих выходов — основа для распределения выводов и питания ESP32.",
+    },
+    pola: {
+      typ: { nazwa: "Тип выхода", cel: "Выбирает позицию каталога — под полем видны технология, данные подбора и примечание.", gdzie: "Что ESP32 должен включать или регулировать.", zakres: "Список каталога." },
+      etykieta: { nazwa: "Метка выхода", cel: "Ваше название этого экземпляра — без него добавить нельзя.", gdzie: "Любое, например «SSR — ТЭН бойлера».", zakres: "Текст, обязательно." },
+      lokalizacja: { nazwa: "Место монтажа", cel: "Только описание — где установлен элемент.", gdzie: "Любое, например «щит».", zakres: "Текст, необязательно." },
+    },
+  },
+  "katalog-protokolow": {
+    migawka: {
+      oCoChodzi: "Это способы, которыми ESP32 «разговаривает» с внешним миром — от кабеля рядом (RS485) до километров по радио (LoRa).",
+      jakDziala: "Выбираете протокол из каталога (под списком видны применение, ключевые данные и примечание из Библии), задаёте метку и место. Считаю, сколько связей вы добавили и скольких видов. Соединения с конкретными устройствами проверяет экран «Архитектура связи».",
+      poCo: "У вас один список связей контроллера — вы знаете, какие трансиверы и модули купить.",
+    },
+    pola: {
+      typ: { nazwa: "Протокол", cel: "Выбирает позицию каталога — под полем видны применение, данные и примечание.", gdzie: "Инструкция устройства, с которым должен общаться ESP32 (раздел о связи).", zakres: "Список каталога." },
+      etykieta: { nazwa: "Метка связи", cel: "Ваше название этой связи — без него добавить нельзя.", gdzie: "Любое, например «RS485 — инвертор».", zakres: "Текст, обязательно." },
+      lokalizacja: { nazwa: "Куда ведёт", cel: "Только описание — где второй конец связи.", gdzie: "Любое, например «BMS в гараже».", zakres: "Текст, необязательно." },
+    },
+  },
+  "katalog-interfejsu-lokalnego": {
+    migawka: {
+      oCoChodzi: "Это способ узнать, что происходит с системой, даже когда телефон в другой комнате или нет связи.",
+      jakDziala: "Выбираете элемент из каталога (под списком видны варианты, применение и примечание из Библии), задаёте метку и место. Считаю, сколько элементов вы добавили и скольких видов.",
+      poCo: "У вас один список дисплеев, светодиодов, кнопок и зуммеров — основа для распределения выводов ESP32.",
+    },
+    pola: {
+      typ: { nazwa: "Элемент интерфейса", cel: "Выбирает позицию каталога — под полем видны варианты, применение и примечание.", gdzie: "Как вы хотите считывать состояние системы или управлять ею на месте.", zakres: "Список каталога." },
+      etykieta: { nazwa: "Метка элемента", cel: "Ваше название этого экземпляра — без него добавить нельзя.", gdzie: "Любое, например «OLED — дверца щита».", zakres: "Текст, обязательно." },
+      lokalizacja: { nazwa: "Место монтажа", cel: "Только описание — где установлен элемент.", gdzie: "Любое, например «коридор».", zakres: "Текст, необязательно." },
+    },
+  },
   "architektura-komunikacji": {
     migawka: {
       oCoChodzi: "ESP32 — переводчик между устройствами, говорящими на разных электрических «языках»: для каждого нужен свой адаптер. Обычно: RS485 → инвертор, CAN → BMS, Wi-Fi → приложение.",

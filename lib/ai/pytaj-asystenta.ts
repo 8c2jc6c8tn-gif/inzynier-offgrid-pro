@@ -82,6 +82,9 @@ import { zasilanieEsp32Tool } from "./tools/zasilanie-esp32-tool"
 import { architekturaKomunikacjiTool } from "./tools/architektura-komunikacji-tool"
 import { przydzialPinowTool } from "./tools/przydzial-pinow-tool"
 import { niezawodnoscEsp32Tool } from "./tools/niezawodnosc-esp32-tool"
+import { wyborPlytkiEsp32Tool } from "./tools/wybor-plytki-esp32-tool"
+import { montazObudowaEsp32Tool } from "./tools/montaz-obudowa-esp32-tool"
+import { katalogKomponentowEsp32Tool } from "./tools/katalog-komponentow-esp32-tool"
 import { doborRegulatoraPwmMpptTool } from "./tools/dobor-regulatora-pwm-mppt-tool"
 import { dniBezSloncaTool } from "./tools/dni-bez-slonca-tool"
 import { ochronaPrzedRozladowaniemTool } from "./tools/ochrona-przed-rozladowaniem-tool"
@@ -390,6 +393,9 @@ const NARZEDZIA: Array<AiToolDefinition<any, any>> = [
   architekturaKomunikacjiTool,
   przydzialPinowTool,
   niezawodnoscEsp32Tool,
+  wyborPlytkiEsp32Tool,
+  montazObudowaEsp32Tool,
+  katalogKomponentowEsp32Tool,
   doborRegulatoraPwmMpptTool,
   dniBezSloncaTool,
   ochronaPrzedRozladowaniemTool,
