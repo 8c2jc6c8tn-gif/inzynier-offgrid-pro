@@ -369,7 +369,7 @@ export const pl = {
       jakDziala:
         "Z temperatury i wilgotności powietrza aplikacja liczy punkt rosy (równanie Magnusa-Tetensa). Jeśli obudowa albo ogniwa są zimniejsze niż punkt rosy, na nich skrapla się woda. Sprawdza też stopień IP obudowy (w wilgoci minimum IP{minIp}).",
       poCo: "Nocą obudowa wychładza się szybciej niż powietrze — rano na elektronice pojawia się rosa, nawet w „suchym” garażu.",
-      fizyka: "Punkt rosy: T_d = b·α / (a − α), α = a·T/(b + T) + ln(RH/100); a = 17,27, b = 237,7 °C.",
+      fizyka: "Punkt rosy: T_d = b·α / (a − α), α = a·T/(b + T) + ln(RH/100); a = {magnusA}, b = {magnusB} °C.",
     },
     pola: {
       temperatura: {
@@ -1440,7 +1440,7 @@ export const en: Tlumaczenie<typeof pl> = {
       jakDziala:
         "From air temperature and humidity the app calculates the dew point (Magnus-Tetens equation). If the enclosure or cells are colder than the dew point, water condenses on them. It also checks the enclosure's IP rating (at least IP{minIp} in damp places).",
       poCo: "At night the enclosure cools faster than the air — in the morning dew appears on the electronics, even in a “dry” garage.",
-      fizyka: "Dew point: T_d = b·α / (a − α), α = a·T/(b + T) + ln(RH/100); a = 17.27, b = 237.7 °C.",
+      fizyka: "Dew point: T_d = b·α / (a − α), α = a·T/(b + T) + ln(RH/100); a = {magnusA}, b = {magnusB} °C.",
     },
     pola: {
       temperatura: {
@@ -2511,7 +2511,7 @@ export const ru: Tlumaczenie<typeof pl> = {
       jakDziala:
         "По температуре и влажности воздуха приложение считает точку росы (уравнение Магнуса-Тетенса). Если корпус или элементы холоднее точки росы, на них конденсируется вода. Проверяет также степень IP корпуса (во влажном месте не ниже IP{minIp}).",
       poCo: "Ночью корпус остывает быстрее воздуха — утром на электронике появляется роса, даже в «сухом» гараже.",
-      fizyka: "Точка росы: T_d = b·α / (a − α), α = a·T/(b + T) + ln(RH/100); a = 17,27, b = 237,7 °C.",
+      fizyka: "Точка росы: T_d = b·α / (a − α), α = a·T/(b + T) + ln(RH/100); a = {magnusA}, b = {magnusB} °C.",
     },
     pola: {
       temperatura: {

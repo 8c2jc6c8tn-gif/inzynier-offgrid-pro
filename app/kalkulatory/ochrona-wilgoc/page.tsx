@@ -12,7 +12,7 @@ import { NaglowekEkranu } from "@/components/wzorce/naglowek-ekranu"
 import { WynikGlowny } from "@/components/wzorce/wynik-glowny"
 import { WynikSzczegoly } from "@/components/wzorce/wynik-szczegoly"
 import { useTranslate } from "@/lib/i18n/language-context"
-import { MIN_IP_KOD_WILGOTNE } from "@/lib/core/modules/baterie/ochrona-wilgoc/constants"
+import { MAGNUS_A, MAGNUS_B, MIN_IP_KOD_WILGOTNE } from "@/lib/core/modules/baterie/ochrona-wilgoc/constants"
 
 type FormularzStan = {
   temperaturaOtoczeniaC: string
@@ -79,7 +79,7 @@ export default function OchronaWilgocPage() {
         tytul="Ochrona przed wilgocią i kondensacją"
         ekran="ochrona-wilgoc"
         wynik={result}
-        parametry={{ minIp: MIN_IP_KOD_WILGOTNE }}
+        parametry={{ minIp: MIN_IP_KOD_WILGOTNE, magnusA: MAGNUS_A, magnusB: MAGNUS_B }}
       >
         Mokry BMS i miedziane szyny to gotowy przepis na zwarcie — kondensacja to cichy zabójca
         elektroniki. Moduł 4, Ekran 10.
