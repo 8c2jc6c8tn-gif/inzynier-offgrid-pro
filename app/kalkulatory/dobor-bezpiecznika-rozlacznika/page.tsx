@@ -8,6 +8,7 @@ import { PomocPola } from "@/components/ui/pomoc"
 import { WerdyktPanel, type WerdyktPoziom } from "@/components/werdykt"
 import { NawigacjaEkranu } from "@/components/nawigacja-ekranu"
 import { NaglowekEkranu } from "@/components/wzorce/naglowek-ekranu"
+import { WSPOLCZYNNIK_MARGINESU_BEZPIECZNIKA } from "@/lib/core/modules/okablowanie/dobor-bezpiecznika-rozlacznika/constants"
 import { WynikGlowny } from "@/components/wzorce/wynik-glowny"
 import { WynikSzczegoly } from "@/components/wzorce/wynik-szczegoly"
 
@@ -65,7 +66,12 @@ export default function DoborBezpiecznikaRozlacznikaPage() {
   return (
     <main className="mx-auto flex max-w-md flex-col gap-6 p-6">
       <NawigacjaEkranu href="/kalkulatory/dobor-bezpiecznika-rozlacznika" />
-      <NaglowekEkranu tytul="Dobór bezpieczników i rozłączników" ekran="dobor-bezpiecznika-rozlacznika" wynik={result}>
+      <NaglowekEkranu
+        tytul="Dobór bezpieczników i rozłączników"
+        ekran="dobor-bezpiecznika-rozlacznika"
+        wynik={result}
+        parametry={{ margines: WSPOLCZYNNIK_MARGINESU_BEZPIECZNIKA }}
+      >
         Bezpiecznik to bezpieczna wkładka topikowa dla całej instalacji — ma przepalić się on,
         zanim przepali się kabel. Moduł 5, Ekran 6.
       </NaglowekEkranu>

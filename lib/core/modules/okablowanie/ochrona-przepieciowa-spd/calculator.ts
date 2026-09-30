@@ -1,4 +1,5 @@
 import type { Assumption, CalcResult, Warning } from "@/lib/core/calc-result"
+import { latexLiczba } from "@/lib/core/latex"
 import type { OchronaPrzepieciowaSpdInput } from "./input"
 import { validateInput } from "./validation"
 import {
@@ -10,14 +11,14 @@ import {
 } from "./warnings"
 import { MIN_ODLEGLOSC_OD_ZWODU_M, WSPOLCZYNNIK_MARGINESU_UC } from "./constants"
 
-export const CALCULATOR_VERSION = "1.0.0"
+export const CALCULATOR_VERSION = "1.0.1"
 
 export type OchronaPrzepieciowaSpdResult = {
   typWymagany: "Typ 1" | "Typ 2"
   ucMinimalneV: number
 }
 
-const FORMULA = "U_c \\ge V_{OC\\,max} \\times 1{,}25"
+const FORMULA = `U_c \\ge V_{OC\\,max} \\times ${latexLiczba(WSPOLCZYNNIK_MARGINESU_UC)}`
 
 function pusty(): OchronaPrzepieciowaSpdResult {
   return { typWymagany: "Typ 2", ucMinimalneV: 0 }

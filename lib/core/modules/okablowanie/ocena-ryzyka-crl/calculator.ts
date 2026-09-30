@@ -1,11 +1,12 @@
 // 🔎 TD21 (dlug-techniczny.md): 443.4 exception wording, Table 443.2 unused. Length cap: D54 (from the building outward).
 import type { Assumption, CalcResult, Warning } from "@/lib/core/calc-result"
+import { latexLiczba } from "@/lib/core/latex"
 import { CRL_PROG, F_ENV_BAZOWE, LP_DLUGOSC_MAX_KM, NG_NA_DZIEN_BURZOWY, WAGI_LP, WSPOLCZYNNIK_F } from "./constants"
 import type { OcenaRyzykaCrlInput, OdcinekCrl } from "./input"
 import { validateInput } from "./validation"
 import { brakLinii, przepieciaLaczeniowe, skutkiKrytyczne, spdWymagany, spdZalecany, stronaDcPoza } from "./warnings"
 
-export const CALCULATOR_VERSION = "1.1.0"
+export const CALCULATOR_VERSION = "1.1.1"
 
 type Dlugosci = Record<OdcinekCrl, number>
 /**
@@ -37,8 +38,8 @@ export type OcenaRyzykaCrlResult = {
 }
 
 const FORMULA =
-  "L_P = 2L_{PAL} + L_{PCL} + 0{,}4L_{PAH} + 0{,}2L_{PCH},\\quad CRL = \\frac{f_{env}}{L_P N_g},\\quad " +
-  "f_{env} = 85F \\text{ (wieś) } | 850F \\text{ (miasto)},\\quad CRL < 1000 \\Rightarrow SPD"
+  `L_P = ${WAGI_LP.napowietrznaNn}L_{PAL} + L_{PCL} + ${latexLiczba(WAGI_LP.napowietrznaSn)}L_{PAH} + ${latexLiczba(WAGI_LP.kablowaSn)}L_{PCH},\\quad CRL = \\frac{f_{env}}{L_P N_g},\\quad ` +
+  `f_{env} = ${F_ENV_BAZOWE.wiejskie}F \\text{ (wieś) } | ${F_ENV_BAZOWE.miejskie}F \\text{ (miasto)},\\quad CRL < ${CRL_PROG} \\Rightarrow SPD`
 
 /**
  * Moduł 5, Ekran 2 — "Czy SPD jest wymagany" per HD 60364-4-443:2016 443.4/443.5 (Załącznik A examples 1–4 as tests).

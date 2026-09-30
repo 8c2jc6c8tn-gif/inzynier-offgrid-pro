@@ -8428,6 +8428,18 @@ Tryb Audyt (czapka rewidenta). Warstwa „w pełni na końcu” z N.2 — wszyst
 - **Pułapka:** zamiana tekstu po dosłownym fragmencie ominie język, w którym zdanie ma inny szyk (tu: RU depozytu).
   Pilnuje test „te same `{parametry}` w PL/EN/RU” (`lib/i18n/__tests__/pomoc.test.ts`) — nie wyłączać.
 
+## Stałe silnika w `FORMULA` — wzór składany, nie przepisywany (30.09.2026)
+
+- Kontynuacja 8.4b pkt (3). Ciągi `FORMULA` 15 kalkulatorów składane szablonem ze stałych przez `latexLiczba()`
+  (`lib/core/latex.ts`, przecinek LaTeX `1{,}25`); wyniki obliczeń bez zmian, wersje kalkulatorów +patch.
+- Wyciągnięte stałe: współczynniki wind chill (`WIND_CHILL_A…D`, `WIND_CHILL_WYKLADNIK`) i
+  `WSPOLCZYNNIK_MARGINESU_BEZPIECZNIKA` (1,25 — reguła produktowa, osobna od K1 normy PV; `kable-bezpieczniki-male`
+  używa tej samej stałej, bo i tak woła ten kalkulator).
+- Depozyt: `k_dep` i `p` są okresami w danych, więc wzór bazowy symboliczny, a po rozstrzygnięciu daty dopisuje
+  wartości dla miesiąca (`formulaZeStawkami`) — nie liczba „z roku danych” jak w pomocy.
+- Strażnik: `lib/core/__tests__/formula-constants.test.ts` — żaden `calculator.ts` nie ma literału `\d{,}\d`, poza
+  jawną listą strukturalnych (½ w naporze, 3,6·10⁶ J/kWh). Liczby całkowite (np. 25 °C) guard nie łapie — przegląd.
+
 ## SW wariant C — etap 1 (29.09.2026, D59)
 
 - **Od 29.09: Service Worker = wzorzec standardu** — `app/sw.js/route.ts` (`force-static`) + `lib/pwa/sw-rdzen.js`

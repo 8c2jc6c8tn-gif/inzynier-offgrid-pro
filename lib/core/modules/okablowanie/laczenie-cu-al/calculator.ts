@@ -1,4 +1,5 @@
 import type { CalcResult, Warning } from "@/lib/core/calc-result"
+import { latexLiczba } from "@/lib/core/latex"
 import type { LaczenieCuAlInput } from "./input"
 import { validateInput } from "./validation"
 import {
@@ -10,7 +11,7 @@ import {
 } from "./warnings"
 import { ETYKIETY_MATERIALOW, kluczPary, WSPOLCZYNNIK_PRZEKROJU_AL_WZGLEDEM_CU } from "./constants"
 
-export const CALCULATOR_VERSION = "1.0.0"
+export const CALCULATOR_VERSION = "1.0.1"
 
 export type LaczenieCuAlResult = {
   /** null = para poza zakresem tabeli źródła. */
@@ -19,7 +20,7 @@ export type LaczenieCuAlResult = {
   wymaganyPrzekrojAlMm2: number
 }
 
-const FORMULA = "S_{Al} = S_{Cu} \\times 1{,}6"
+const FORMULA = `S_{Al} = S_{Cu} \\times ${latexLiczba(WSPOLCZYNNIK_PRZEKROJU_AL_WZGLEDEM_CU)}`
 
 function pusty(): LaczenieCuAlResult {
   return { bezpieczna: null, wymaganyPrzekrojAlMm2: 0 }

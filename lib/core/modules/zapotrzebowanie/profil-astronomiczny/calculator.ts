@@ -1,4 +1,5 @@
 import type { Assumption, CalcResult } from "@/lib/core/calc-result"
+import { latexLiczba } from "@/lib/core/latex"
 import type { ProfilAstronomicznyInput } from "./input"
 import { validateInput } from "./validation"
 import { energiaNocna, nocPolarnaLubDzienPolarny } from "./warnings"
@@ -6,7 +7,7 @@ import { DEKLINACJA_AMPLITUDA_DEG, DEKLINACJA_PRZESUNIECIE_DNI, DNI_W_ROKU } fro
 
 // 🔎 TD1 (dlug-techniczny.md): tylko część astronomiczna (Sekcja A/C). Profil godzinowych
 // współczynników zapotrzebowania (Sekcja B źródła) nie zbudowany — przykładowe, nie uniwersalne wartości.
-export const CALCULATOR_VERSION = "1.0.0"
+export const CALCULATOR_VERSION = "1.0.1"
 
 export type ProfilAstronomicznyResult = {
   dlugoscDniaH: number
@@ -16,7 +17,7 @@ export type ProfilAstronomicznyResult = {
 }
 
 const FORMULA =
-  "\\delta = 23{,}45° \\sin\\!\\left(\\dfrac{360}{365}(284+n)\\right) \\;\\; ; \\;\\; N = \\dfrac{2}{15}\\arccos(-\\tan\\varphi\\tan\\delta)"
+  `\\delta = ${latexLiczba(DEKLINACJA_AMPLITUDA_DEG)}° \\sin\\!\\left(\\dfrac{360}{${DNI_W_ROKU}}(${DEKLINACJA_PRZESUNIECIE_DNI}+n)\\right) \\;\\; ; \\;\\; N = \\dfrac{2}{15}\\arccos(-\\tan\\varphi\\tan\\delta)`
 
 function obliczDlugoscDniaH(szerokoscGeograficznaDeg: number, dzienRoku: number): number {
   const deklinacjaDeg =

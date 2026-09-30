@@ -1,17 +1,27 @@
 import type { Assumption, CalcResult } from "@/lib/core/calc-result"
+import { latexLiczba } from "@/lib/core/latex"
 import type { WindChillInput } from "./input"
 import { validateInput } from "./validation"
 import { pozaZakresemWzoru } from "./warnings"
-import { WIND_CHILL_MAX_TEMP_C, WIND_CHILL_MIN_PREDKOSC_KMH } from "./constants"
+import {
+  WIND_CHILL_A,
+  WIND_CHILL_B,
+  WIND_CHILL_C,
+  WIND_CHILL_D,
+  WIND_CHILL_MAX_TEMP_C,
+  WIND_CHILL_MIN_PREDKOSC_KMH,
+  WIND_CHILL_WYKLADNIK,
+} from "./constants"
 
-export const CALCULATOR_VERSION = "1.0.0"
+export const CALCULATOR_VERSION = "1.0.1"
 
 export type WindChillResult = {
   temperaturaOdczuwalnaC: number
 }
 
 const FORMULA =
-  "WC = 13{,}12 + 0{,}6215T - 11{,}37V^{0{,}16} + 0{,}3965TV^{0{,}16}"
+  `WC = ${latexLiczba(WIND_CHILL_A)} + ${latexLiczba(WIND_CHILL_B)}T - ${latexLiczba(WIND_CHILL_C)}V^{${latexLiczba(WIND_CHILL_WYKLADNIK)}} + ` +
+  `${latexLiczba(WIND_CHILL_D)}TV^{${latexLiczba(WIND_CHILL_WYKLADNIK)}}`
 
 /**
  * Moduł 7 "Stress-test zimowy" — "Wind Chill" (dawne 6.26→7.24,
@@ -74,9 +84,9 @@ export function calculateWindChill(input: WindChillInput): CalcResult<WindChillR
     }
   }
 
-  const vPow = Math.pow(predkoscWiatruKmh, 0.16)
+  const vPow = Math.pow(predkoscWiatruKmh, WIND_CHILL_WYKLADNIK)
   const temperaturaOdczuwalnaC =
-    13.12 + 0.6215 * temperaturaC - 11.37 * vPow + 0.3965 * temperaturaC * vPow
+    WIND_CHILL_A + WIND_CHILL_B * temperaturaC - WIND_CHILL_C * vPow + WIND_CHILL_D * temperaturaC * vPow
 
   return {
     value: { temperaturaOdczuwalnaC },

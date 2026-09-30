@@ -1,10 +1,11 @@
 import type { Assumption, CalcResult } from "@/lib/core/calc-result"
+import { latexLiczba } from "@/lib/core/latex"
 import type { BojlerCwuInput } from "./input"
 import { validateInput } from "./validation"
 import { bojlerZaMaly } from "./warnings"
 import { WSPOLCZYNNIK_KWH_NA_L_K } from "./constants"
 
-export const CALCULATOR_VERSION = "1.0.0"
+export const CALCULATOR_VERSION = "1.0.1"
 
 export type BojlerCwuResult = {
   energiaDobowaKwh: number
@@ -12,7 +13,7 @@ export type BojlerCwuResult = {
 }
 
 const FORMULA =
-  "E_{doba} = V_{CWU} \\times \\Delta T \\times 0{,}001163 \\;\\; ; \\;\\; t_{ładowania} = E_{doba} / P_{grzałki}"
+  `E_{doba} = V_{CWU} \\times \\Delta T \\times ${latexLiczba(WSPOLCZYNNIK_KWH_NA_L_K.toFixed(6))} \\;\\; ; \\;\\; t_{ładowania} = E_{doba} / P_{grzałki}`
 
 /**
  * Ekran 2, Moduł 2 "Zapotrzebowanie energetyczne" — "Inteligentny bojler C.W.U." (dawne 1.2,

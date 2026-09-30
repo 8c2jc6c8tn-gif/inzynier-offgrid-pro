@@ -1,17 +1,18 @@
 import type { Assumption, CalcResult, Warning } from "@/lib/core/calc-result"
+import { latexLiczba } from "@/lib/core/latex"
 import { DANE_ROZLICZEN, wartoscWDniu, type Rozliczenia } from "@/lib/core/dane/rozliczenia-pl-2026"
 import type { DepozytInput } from "./input"
 import { validateInput } from "./validation"
 import { decyzjaJednokierunkowa, poza123, utrataPrzyOdejsciu, wykorzystanoPonadDepozyt } from "./warnings"
 
-export const CALCULATOR_VERSION = "1.0.0"
+export const CALCULATOR_VERSION = "1.0.1"
 
 export type DepozytResult = {
   /** Value of the energy fed in: E × price [zł]. */
   wartoscEnergiiZl: number
-  /** Deposit for the month: value × 1,23 [zł]. */
+  /** Deposit for the month: value × statutory coefficient (data file) [zł]. */
   depozytZl: number
-  /** Maximum refund of the unused part: 20% (RCEm) / 30% (RCE) of the energy value [zł]. */
+  /** Maximum refund of the unused part: statutory share (RCEm / RCE, data file) of the energy value [zł]. */
   maksZwrotZl: number
   /** null when `wykorzystanoZl` is not given. */
   niewykorzystanoZl: number | null
@@ -22,8 +23,13 @@ export type DepozytResult = {
 }
 
 const FORMULA =
-  "W = E \\cdot c_{RCE}; \\ D = W \\cdot 1{,}23; \\ zwrot = \\min(D - wyk,\\ p \\cdot W),\\ p = 20\\%\\,(RCEm) / 30\\%\\,(RCE); \\ " +
+  "W = E \\cdot c_{RCE}; \\ D = W \\cdot k_{dep}; \\ zwrot = \\min(D - wyk,\\ p \\cdot W); \\ " +
   "umorzenie = D - wyk - zwrot; \\ w_{bil} = c_{RCE} / c_{kWh,brutto}"
+
+/** k_dep and p are dated statutory rates from the data file — shown with the values for the month, never retyped. */
+function formulaZeStawkami(wsp: number, zwrotStawka: number): string {
+  return `${FORMULA}; \\ k_{dep} = ${latexLiczba(wsp.toFixed(2))},\\ p = ${Math.round(zwrotStawka * 100)}\\%`
+}
 
 export function calculateDepozyt(input: DepozytInput, dane: Rozliczenia = DANE_ROZLICZEN): CalcResult<DepozytResult> {
   const pusty: DepozytResult = {
@@ -50,6 +56,7 @@ export function calculateDepozyt(input: DepozytInput, dane: Rozliczenia = DANE_R
   if (wsp === null || zwrotStawka === null) {
     return { ...base, value: pusty, status: "OUT_OF_SCOPE", assumptions: [], warnings: [poza123(input.dataMiesiaca)] }
   }
+  base.formula = formulaZeStawkami(wsp, zwrotStawka)
   if (input.energiaOddanaKwh === 0 || input.cenaRynkowaZlMwh === 0) {
     return { ...base, value: pusty, status: "INCOMPLETE", assumptions: [], warnings: [] }
   }

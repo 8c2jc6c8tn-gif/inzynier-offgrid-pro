@@ -1,12 +1,13 @@
 import type { Assumption, CalcResult, Status, Warning } from "@/lib/core/calc-result"
+import { latexLiczba } from "@/lib/core/latex"
 import { WSPOLCZYNNIK_KWH_NA_L_K } from "@/lib/core/modules/zapotrzebowanie/bojler-cwu/constants"
 import type { PreHeatInput } from "./input"
 import { brakNadwyzkiPv, copNiedodatni, grzanieNocaZBaterii, wartoscUjemna } from "./warnings"
 
-export const CALCULATOR_VERSION = "1.0.0"
+export const CALCULATOR_VERSION = "1.0.1"
 
 const FORMULA =
-  "Q_{dom} = C \\cdot \\Delta T,\\quad Q_{CWU} = V \\cdot \\Delta T_{CWU} \\cdot 0{,}001163,\\quad E_{el} = \\frac{Q_{dom} + Q_{CWU}}{COP},\\quad t_{bufor} = \\frac{Q_{dom}}{P_{strat}}"
+  `Q_{dom} = C \\cdot \\Delta T,\\quad Q_{CWU} = V \\cdot \\Delta T_{CWU} \\cdot ${latexLiczba(WSPOLCZYNNIK_KWH_NA_L_K.toFixed(6))},\\quad E_{el} = \\frac{Q_{dom} + Q_{CWU}}{COP},\\quad t_{bufor} = \\frac{Q_{dom}}{P_{strat}}`
 
 export type PreHeatResult = {
   /** Ciepło zmagazynowane w masie budynku [kWh]. */

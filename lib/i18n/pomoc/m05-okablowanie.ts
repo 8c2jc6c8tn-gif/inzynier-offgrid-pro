@@ -246,7 +246,7 @@ export const pl = {
       oCoChodzi:
         "Bezpiecznik to wkładka, która ma przepalić się zanim przepali się kabel — i musi umieć przerwać prąd zwarcia.",
       jakDziala:
-        "Aplikacja dobiera prąd bezpiecznika jako 1,25 × prąd obwodu i sprawdza zdolność łączeniową (AIC): musi być większa niż prąd zwarciowy w tym punkcie. AIC poniżej prądu zwarciowego to czerwony stop.",
+        "Aplikacja dobiera prąd bezpiecznika jako {margines} × prąd obwodu i sprawdza zdolność łączeniową (AIC): musi być większa niż prąd zwarciowy w tym punkcie. AIC poniżej prądu zwarciowego to czerwony stop.",
       poCo:
         "Bezpiecznik ze zbyt małym AIC przy zwarciu z baterii litowej może eksplodować zamiast przerwać obwód.",
     },
@@ -1062,7 +1062,7 @@ export const en: Tlumaczenie<typeof pl> = {
       oCoChodzi:
         "A fuse is a link that must blow before the cable burns — and it must be able to interrupt the short-circuit current.",
       jakDziala:
-        "The app sizes the fuse current as 1.25 × the circuit current and checks the breaking capacity (AIC): it must be higher than the short-circuit current at that point. AIC below the short-circuit current is a red stop.",
+        "The app sizes the fuse current as {margines} × the circuit current and checks the breaking capacity (AIC): it must be higher than the short-circuit current at that point. AIC below the short-circuit current is a red stop.",
       poCo: "A fuse with too low an AIC can explode instead of breaking the circuit on a lithium battery short circuit.",
     },
     pola: {
@@ -1867,7 +1867,7 @@ export const ru: Tlumaczenie<typeof pl> = {
       oCoChodzi:
         "Предохранитель — это вставка, которая должна перегореть раньше, чем сгорит кабель, — и она должна уметь разорвать ток короткого замыкания.",
       jakDziala:
-        "Приложение подбирает ток предохранителя как 1,25 × ток цепи и проверяет отключающую способность (AIC): она должна быть больше тока КЗ в этой точке. AIC ниже тока КЗ — красный стоп.",
+        "Приложение подбирает ток предохранителя как {margines} × ток цепи и проверяет отключающую способность (AIC): она должна быть больше тока КЗ в этой точке. AIC ниже тока КЗ — красный стоп.",
       poCo: "Предохранитель со слишком малой AIC при КЗ литиевой батареи может взорваться вместо того, чтобы разорвать цепь.",
     },
     pola: {

@@ -1,16 +1,18 @@
 import type { Assumption, CalcResult, Warning } from "@/lib/core/calc-result"
 import { isComputed } from "@/lib/core/calc-result"
+import { latexLiczba } from "@/lib/core/latex"
 import { calculateDoborBezpiecznikaRozlacznika } from "@/lib/core/modules/okablowanie/dobor-bezpiecznika-rozlacznika/calculator"
 import { calculateDoborPrzekrojuKabla } from "@/lib/core/modules/okablowanie/dobor-przekroju-kabla/calculator"
+import { WSPOLCZYNNIK_MARGINESU_BEZPIECZNIKA } from "@/lib/core/modules/okablowanie/dobor-bezpiecznika-rozlacznika/constants"
 import { PRZEKROJE_MM2 } from "@/lib/core/modules/okablowanie/dobor-przekroju-kabla/constants"
 import type { DoborPrzekrojuKablaInput } from "@/lib/core/modules/okablowanie/dobor-przekroju-kabla/input"
 import type { KableBezpiecznikiMaleInput } from "./input"
 import { brakPrzekrojuDlaKoordynacji, koordynacjaPodniosla, pojazdWibracje, przekrojPonizejMinimum } from "./warnings"
 
-export const CALCULATOR_VERSION = "1.0.0"
+export const CALCULATOR_VERSION = "1.0.1"
 
 const FORMULA =
-  "\\Delta U\\% = \\frac{I_B \\rho\\, 2L / S}{U} \\times 100 \\;\\; ; \\;\\; I_n = 1{,}25\\, I_B \\;\\; ; \\;\\; I_B \\le I_n \\le I_z"
+  `\\Delta U\\% = \\frac{I_B \\rho\\, 2L / S}{U} \\times 100 \\;\\; ; \\;\\; I_n = ${latexLiczba(WSPOLCZYNNIK_MARGINESU_BEZPIECZNIKA)}\\, I_B \\;\\; ; \\;\\; I_B \\le I_n \\le I_z`
 
 export type KableBezpiecznikiMaleResult = {
   /** Przekrój dobrany (auto) albo sprawdzany przez użytkownika [mm²]. 0 = brak. */
