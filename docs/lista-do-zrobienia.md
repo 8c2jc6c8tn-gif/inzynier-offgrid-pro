@@ -1316,7 +1316,7 @@ Pełne wyniki audytu: `docs/memory.md`, sekcja "Pełny audyt na polecenie właś
   mówi o obu. Sprawdzone w przeglądarce: desktop (popover, zakładki, wzór + założenia) i 375 px (panel, zakładki, „?”,
   zamykanie), konsola bez błędów. **Zostaje (3)** — osobny wpis niżej.
   ✅ **[30.09.2026, porządek listy]** 🔄 z 22:55 nieaktualne — scalone do `main` (PR #232, `claude/stopy-guard-84b`).
-- 🔲 (2026-09-29) **8.4b pkt (3) — liczby w tekstach „Fizyka” przez `params`, nie przepisane.** 146 z 345 tekstów
+- ✅ (2026-09-30, gałąź `claude/physics-constants-help-text-91a9b3`) ~~🔲 (2026-09-29) **8.4b pkt (3) — liczby w tekstach „Fizyka” przez `params`, nie przepisane.**~~ 146 z 345 tekstów
   `fizyka` w `lib/i18n/pomoc/*` ma cyfry; większość to struktura wzoru (`3600`, `/100`, `T = 5·R·C`) — zostaje.
   Kandydaci na przepisaną stałą silnika (przykłady z przeglądu 29.09): `0,4 %/°C` (M3 temperatura), `c_wody = 4186`,
   `0,001163 kWh/(l·K)`, `ρ = 1,225 kg/m³` (napór wiatru), `ρ_Cu ≈ 0,0175`, współczynniki wind chill, stawki ustawowe
@@ -1326,6 +1326,27 @@ Pełne wyniki audytu: `docs/memory.md`, sekcja "Pełny audyt na polecenie właś
   **Minusy:** ok. 1 sesja, sama treść w 3 językach. **Kolizje:** `lib/i18n/pomoc/*` i strony ekranów (atrybut
   `parametry`) — te same pliki co „Tłumaczenie etykiet stron na EN/RU”; robić po kolei, nie równolegle. Bezkolizyjne z SW
   etapem 1. **Kolejność:** po merge gałęzi `claude/stopy-guard-84b`.
+  ✅ **[30.09.2026] Zrobione.** Przegląd 59 tekstów „Fizyka” z cyframi (PL = EN = RU): 16 ekranów przepiętych na
+  `{nazwa}` + `parametry` we wszystkich trzech językach — ρ_Cu/ρ_Al (M5 E1, M3 straty DC), ρ powietrza (napór wiatru),
+  c_wody + 0,001163 (bojler, pre-heat), Magnus a/b (M4), Cooper 23,45/284/365 (profil astronomiczny), T_STC 25 °C
+  (stress-test MPPT, wpływ temperatury, panel do stacji), 0,4 %/°C + 70 °C (przepust powietrza), liczba ogniw 12 V (M12),
+  stawki ustawowe VAT/depozyt 1,23/zwrot 20 %/30 %/k = 3 (M14: rachunek C, depozyt, moc bierna, scenariusze) — te ostatnie
+  z pliku danych `rozliczenia-pl-2026` przez `stawkiDoPomocy()` (`components/siec/wspolne.tsx`). Tam, gdzie ten sam ekran
+  powtarzał stałą w „Jak działa” albo w „?” pola, przepięte też. Nowy test: te same `{parametry}` w PL/EN/RU
+  (`lib/i18n/__tests__/pomoc.test.ts`). **Zostały świadomie (wiedza, nie parametr silnika):** wzory ze stałymi
+  strukturalnymi (`3600`, `/100`, `8760`, `24 × 365`, `T = 5·R·C`, `3,6·10⁶`), przykłady liczbowe (test licznika,
+  napięcie systemowe, 1 Ah × 12 V), „12 mies.” depozytu i numery artykułów/norm (brak stałej w silniku), 2 V / 3,2 V na
+  ogniwo, „STC 25 °C” w nazwach pól (definicja STC). Wind chill — współczynniki są w `calculator.ts` inline, nie w
+  `constants.ts` → wpis niżej.
+- 🔲 (2026-09-30) **Stałe wpisane na sztywno w samym silniku (`FORMULA`/`calculator.ts`) — wyciągnąć do `constants.ts`.**
+  Znalezione przy 8.4b pkt (3): wind chill (`stress-test/wind-chill/calculator.ts`: 13,12 / 0,6215 / 11,37 / 0,3965 /
+  0,16 inline, tekst „Fizyka” też je przepisuje); ciągi `FORMULA` przepisują stałe zamiast je składać — depozyt
+  (`1{,}23`, `20\%/30\%`, a wartości idą z pliku danych i mogą się zmienić), pre-heat (`0{,}001163`), profil
+  astronomiczny (`23{,}45`, `284`), panel do stacji (`- 25`). Ryzyko: po zmianie stałej/danych wzór w „Fizyce” i pod
+  wynikiem pokaże starą liczbę. **Priorytet:** niski–średni (depozyt średni — stawka ustawowa). **Odblokowuje:** pełną
+  spójność wzorów z obliczeniem. **Plusy teraz:** kontekst świeży, lista gotowa. **Minusy:** zmiana w silniku → testy +
+  wersja kalkulatora (patch). **Kolizje:** pliki `lib/core/modules/**` wymienionych ekranów; bezkolizyjne z tłumaczeniem
+  etykiet stron. **Kolejność:** niezależne.
 - ✅ (2026-09-30, porządek listy: strażnik w `main` — PR #232; lista zapadkowa pusta — PR #233) ~~🔲~~ (2026-09-29) **Strażnik rejestru twardych stopów — teraz wymóg standardu (4.3 dopisek + 11.9).** Rozszerza wpis
   🔲 z 28.09 „Rejestr twardych stopów — dryf całego M5”: skrypt `scripts/check-stopy-guard.mjs` (każdy kod `level:
   "critical"` w `lib/core/modules/**/warnings.ts` ↔ wpis w `docs/rejestr-twardych-stopow.md`, jawna lista wyjątków

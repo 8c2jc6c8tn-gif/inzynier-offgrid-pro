@@ -41,7 +41,7 @@ export const pl = {
       oCoChodzi: "Bojler to jeden z największych „elastycznych” odbiorników w domu — można go grzać wtedy, gdy świeci słońce.",
       jakDziala: "Energia dobowa = litry C.W.U. × wzrost temperatury × ciepło właściwe wody; czas ładowania = energia ÷ moc grzałki.",
       poCo: "Wiesz, ile godzin grzałka musi pracować — i czy zmieści się w oknie produkcji PV.",
-      fizyka: "Q = m · c · ΔT, c_wody = 4186 J/(kg·K) → 0,001163 kWh/(l·K).",
+      fizyka: "Q = m · c · ΔT, c_wody = {cWody} J/(kg·K) → {kwhNaLK} kWh/(l·K).",
     },
     pola: {
       wolumen: { nazwa: "Dobowe zapotrzebowanie na C.W.U. [l/dobę]", cel: "Ile ciepłej wody zużywa dom na dobę.", gdzie: "Z ekranu „Liczba domowników” (liczba osób × litry na osobę) albo z wodomierza.", zakres: TWOJ },
@@ -81,7 +81,7 @@ export const pl = {
       oCoChodzi: "Profil dobowy to też to, kiedy jest ciemno — długość nocy zmienia się drastycznie między latem a zimą.",
       jakDziala: "Z szerokości geograficznej i dnia roku aplikacja liczy deklinację Słońca i długość dnia; noc = 24 h − dzień. Opcjonalnie liczy zużycie odbiornika pracującego tylko po zmroku.",
       poCo: "Oświetlenie i inne „nocne” odbiorniki w grudniu pracują kilka godzin dłużej niż w czerwcu — bateria musi to udźwignąć.",
-      fizyka: "δ = 23,45° · sin(360/365 · (284 + n)); N = (2/15) · arccos(−tan φ · tan δ).",
+      fizyka: "δ = {amplituda}° · sin(360/{dniRoku} · ({przesuniecie} + n)); N = (2/15) · arccos(−tan φ · tan δ).",
     },
     pola: {
       szerokosc: { nazwa: "Szerokość geograficzna [°]", cel: "Od niej zależy długość dnia i nocy.", gdzie: "Z mapy albo Modułu 1 (lokalizacja).", zakres: "−90…90° (Polska ok. 49–55°)." },
@@ -313,7 +313,7 @@ export const en: Tlumaczenie<typeof pl> = {
       oCoChodzi: "The water heater is one of the largest “flexible” loads in a house — it can be heated when the sun shines.",
       jakDziala: "Daily energy = litres of hot water × temperature rise × specific heat of water; charging time = energy ÷ heater power.",
       poCo: "You know how many hours the heater must run — and whether it fits into the PV production window.",
-      fizyka: "Q = m · c · ΔT, c_water = 4186 J/(kg·K) → 0.001163 kWh/(l·K).",
+      fizyka: "Q = m · c · ΔT, c_water = {cWody} J/(kg·K) → {kwhNaLK} kWh/(l·K).",
     },
     pola: {
       wolumen: { nazwa: "Daily hot water demand [l/day]", cel: "How much hot water the house uses per day.", gdzie: "From the “Number of occupants” screen (people × litres per person) or a water meter.", zakres: TWOJ_EN },
@@ -353,7 +353,7 @@ export const en: Tlumaczenie<typeof pl> = {
       oCoChodzi: "A daily profile is also about when it is dark — night length changes drastically between summer and winter.",
       jakDziala: "From latitude and day of year the app calculates the solar declination and day length; night = 24 h − day. Optionally it calculates the use of a load that runs only after dark.",
       poCo: "Lighting and other “night” loads run several hours longer in December than in June — the battery must carry that.",
-      fizyka: "δ = 23.45° · sin(360/365 · (284 + n)); N = (2/15) · arccos(−tan φ · tan δ).",
+      fizyka: "δ = {amplituda}° · sin(360/{dniRoku} · ({przesuniecie} + n)); N = (2/15) · arccos(−tan φ · tan δ).",
     },
     pola: {
       szerokosc: { nazwa: "Latitude [°]", cel: "Determines day and night length.", gdzie: "From a map or Module 1 (location).", zakres: "−90…90° (Poland approx. 49–55°)." },
@@ -585,7 +585,7 @@ export const ru: Tlumaczenie<typeof pl> = {
       oCoChodzi: "Бойлер — один из крупнейших «гибких» потребителей в доме: его можно греть, когда светит солнце.",
       jakDziala: "Суточная энергия = литры ГВС × нагрев × удельная теплоёмкость воды; время нагрева = энергия ÷ мощность ТЭНа.",
       poCo: "Вы знаете, сколько часов должен работать ТЭН — и укладывается ли это в окно выработки PV.",
-      fizyka: "Q = m · c · ΔT, c_воды = 4186 Дж/(кг·К) → 0,001163 кВт·ч/(л·К).",
+      fizyka: "Q = m · c · ΔT, c_воды = {cWody} Дж/(кг·К) → {kwhNaLK} кВт·ч/(л·К).",
     },
     pola: {
       wolumen: { nazwa: "Суточная потребность в ГВС [л/сут]", cel: "Сколько горячей воды дом расходует в сутки.", gdzie: "С экрана «Число жильцов» (люди × литры на человека) или по водомеру.", zakres: TWOJ_RU },
@@ -625,7 +625,7 @@ export const ru: Tlumaczenie<typeof pl> = {
       oCoChodzi: "Суточный профиль — это ещё и то, когда темно: длина ночи резко меняется между летом и зимой.",
       jakDziala: "По широте и дню года приложение рассчитывает склонение Солнца и длину дня; ночь = 24 ч − день. Дополнительно считает потребление прибора, работающего только в темноте.",
       poCo: "Освещение и другие «ночные» потребители в декабре работают на несколько часов дольше, чем в июне — батарея должна это выдержать.",
-      fizyka: "δ = 23,45° · sin(360/365 · (284 + n)); N = (2/15) · arccos(−tg φ · tg δ).",
+      fizyka: "δ = {amplituda}° · sin(360/{dniRoku} · ({przesuniecie} + n)); N = (2/15) · arccos(−tg φ · tg δ).",
     },
     pola: {
       szerokosc: { nazwa: "Географическая широта [°]", cel: "От неё зависит длина дня и ночи.", gdzie: "По карте или из Модуля 1 (местоположение).", zakres: "−90…90° (Польша ок. 49–55°)." },

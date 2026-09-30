@@ -11,7 +11,13 @@ import { NawigacjaEkranu } from "@/components/nawigacja-ekranu"
 import { NaglowekEkranu } from "@/components/wzorce/naglowek-ekranu"
 import { WynikGlowny } from "@/components/wzorce/wynik-glowny"
 import { WynikSzczegoly } from "@/components/wzorce/wynik-szczegoly"
-import { DOMYSLNY_SPADEK_AC_PCT, DOMYSLNY_SPADEK_DC_PCT, PROG_MARGINESU_ZALECANE_PCT } from "@/lib/core/modules/okablowanie/dobor-przekroju-kabla/constants"
+import {
+  DOMYSLNY_SPADEK_AC_PCT,
+  DOMYSLNY_SPADEK_DC_PCT,
+  PROG_MARGINESU_ZALECANE_PCT,
+  REZYSTYWNOSC_ALUMINIUM_OHM_MM2_NA_M,
+  REZYSTYWNOSC_MIEDZI_OHM_MM2_NA_M,
+} from "@/lib/core/modules/okablowanie/dobor-przekroju-kabla/constants"
 
 const LICZBA = (v: number) => v.toLocaleString("pl-PL", { maximumFractionDigits: 2 })
 
@@ -134,7 +140,11 @@ export default function DoborPrzekrojuKablaPage() {
         tytul="Dobór przekroju kabla"
         ekran="dobor-przekroju-kabla"
         wynik={result}
-        parametry={{ margines: PROG_MARGINESU_ZALECANE_PCT }}
+        parametry={{
+          margines: PROG_MARGINESU_ZALECANE_PCT,
+          rhoCu: REZYSTYWNOSC_MIEDZI_OHM_MM2_NA_M,
+          rhoAl: REZYSTYWNOSC_ALUMINIUM_OHM_MM2_NA_M,
+        }}
       >
         Prąd płynący długim kablem traci energię jak woda w długim wężu — im dłuższa droga i
         cieńsza rura, tym mniej ciśnienia (napięcia) zostaje na końcu. Moduł 5, Ekran 1.

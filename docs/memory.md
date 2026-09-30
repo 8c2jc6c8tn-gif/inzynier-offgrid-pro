@@ -8415,6 +8415,19 @@ Tryb Audyt (czapka rewidenta). Warstwa „w pełni na końcu” z N.2 — wszyst
 - Worktree bez własnego `node_modules` uruchamia vitest z katalogu nadrzędnego (rozwiązywanie modułów w górę drzewa),
   ale `pnpm typecheck` pada („tsc: not found”) — w nowym worktree najpierw `pnpm install --frozen-lockfile`.
 
+## 8.4b pkt (3) — liczby silnika w tekstach pomocy przez `parametry` (30.09.2026)
+
+- 16 ekranów: tekst `lib/i18n/pomoc/*` ma `{nazwa}`, strona podaje stałą z `constants.ts` w `parametry` (`NaglowekEkranu`)
+  albo `params` (`PomocPola`). Kryterium: liczba jest stałą silnika → parametr; stała strukturalna wzoru, przykład,
+  numer normy/artykułu, liczba bez stałej w silniku → zostaje w tekście. Pełna lista: `docs/lista-do-zrobienia.md`.
+- Stawki ustawowe M14 (VAT, depozyt, zwrot, k) nie są stałymi, tylko okresami w `rozliczenia-pl-2026.json` —
+  `stawkiDoPomocy()` (`components/siec/wspolne.tsx`) bierze wartość roku danych przez `wartoscNajdluzej` (jak silnik
+  mocy biernej, D36). Nowy tekst M14 cytujący stawkę → ten sam helper, nie liczba w tekście.
+- `podstaw()` zamienia `.` na przecinek w PL/RU tylko dla `number` albo tekstu w pełni dziesiętnego — ułamki z długim
+  rozwinięciem podawać przez `toFixed()` (np. `WSPOLCZYNNIK_KWH_NA_L_K.toFixed(6)` → „0,001163”).
+- **Pułapka:** zamiana tekstu po dosłownym fragmencie ominie język, w którym zdanie ma inny szyk (tu: RU depozytu).
+  Pilnuje test „te same `{parametry}` w PL/EN/RU” (`lib/i18n/__tests__/pomoc.test.ts`) — nie wyłączać.
+
 ## SW wariant C — etap 1 (29.09.2026, D59)
 
 - **Od 29.09: Service Worker = wzorzec standardu** — `app/sw.js/route.ts` (`force-static`) + `lib/pwa/sw-rdzen.js`

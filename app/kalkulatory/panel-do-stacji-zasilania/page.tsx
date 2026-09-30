@@ -2,7 +2,11 @@
 
 import { useMemo } from "react"
 import { calculatePanelDoStacjiZasilania } from "@/lib/core/modules/kalkulator-mobilny/panel-do-stacji-zasilania/calculator"
-import { BETA_TYPOWA_MAX_PCT_NA_C, BETA_TYPOWA_MIN_PCT_NA_C } from "@/lib/core/modules/pv/stress-test-mppt/constants"
+import {
+  BETA_TYPOWA_MAX_PCT_NA_C,
+  BETA_TYPOWA_MIN_PCT_NA_C,
+  TEMPERATURA_REFERENCYJNA_STC_C,
+} from "@/lib/core/modules/pv/stress-test-mppt/constants"
 import { usePersistedDraft } from "@/lib/adapters/use-persisted-draft"
 import { Pole } from "@/components/ui/pole"
 import { PomocPola } from "@/components/ui/pomoc"
@@ -72,6 +76,7 @@ export default function PanelDoStacjiZasilaniaPage() {
         tytul="Łączenie paneli ze stacją zasilania / powerbankiem"
         ekran="panel-do-stacji-zasilania"
         wynik={result}
+        parametry={{ tStc: TEMPERATURA_REFERENCYJNA_STC_C }}
       >
         Stacje zasilania mają niższe limity wejścia niż profesjonalne regulatory MPPT — panel dobrany pod „dorosłą”
         instalację łatwo je uszkodzi, zwłaszcza w mrozie. Moduł 12.
