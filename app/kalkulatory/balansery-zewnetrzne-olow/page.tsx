@@ -110,7 +110,7 @@ export default function BalanseryZewnetrzneOlowPage() {
         ? t("UI-BALZEWOLO-BRAK-WYMAGANEGO-BALANSERA")
         : result.value.wymaganyBalanser
           ? t("UI-BALZEWOLO-BALANSER-ZEWNETRZNY-PODLACZO")
-          : "Balanser niewymagany (pojedynczy akumulator)"
+          : t("UI-BALZEWOLO-NIEWYMAGANY")
 
   return (
     <main className="mx-auto flex max-w-md flex-col gap-6 p-6">

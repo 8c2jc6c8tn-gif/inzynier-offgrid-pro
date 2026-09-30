@@ -48,9 +48,9 @@ export default function RatowanieOgniwaPage() {
     result.status === "INVALID_INPUT"
       ? t("UI-RATOGN-POLICZYC-NAPIECIE-MOZE")
       : hasCritical
-        ? "Nie ratuj — zalecana utylizacja"
+        ? t("UI-RATOGN-NIE-RATUJ")
         : hasWarning
-          ? "Ratunek opcjonalny, nie zalecany"
+          ? t("UI-RATOGN-OPCJONALNY")
           : t("UI-RATOGN-RATUNEK-STANDARDOWA-PROCEDUR")
 
   return (

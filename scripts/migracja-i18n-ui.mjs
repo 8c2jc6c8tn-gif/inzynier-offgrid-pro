@@ -433,6 +433,28 @@ async function main() {
     if (manual.length) console.error("RĘCZNIE:\n" + manual.join("\n"))
     return
   }
+  if (cmd === "sprawdz") {
+    // Leftovers the guard cannot see: literals with a space-separated lowercase word, outside code positions
+    // and non-text attributes — printed for a human look (e.g. `lampa ${i + 1}`).
+    const NON_TEXT = /^(className|key|id|href|src|type|name|value|defaultValue|variant|size|ekran|pole|htmlFor|role|viewBox|d|points|textAnchor|inputMode|autoComplete|target|rel|fill|stroke|transform|xmlns|grupa|poziom|mode|side|align)$/
+    for (const file of [grupa, ...rest]) {
+      const src = readFileSync(file, "utf8")
+      const sf = ts.createSourceFile(file, src, ts.ScriptTarget.Latest, true, ts.ScriptKind.TSX)
+      const v = (n) => {
+        const txt = literalText(n)
+        if (txt !== null && !isCodePosition(n) && /\p{Ll}{3,}/u.test(txt) && !/^UI-/.test(txt) && !/^[\w.:/@#-]+$/.test(txt.trim())) {
+          const p = n.parent
+          const attr = p && ts.isJsxAttribute(p) ? p.name.getText(sf) : ""
+          const call = p && ts.isCallExpression(p) ? p.expression.getText(sf) : ""
+          if (!NON_TEXT.test(attr) && !/^(cn|clsx|usePersistedDraft|t|Number|parseFloat|toLocaleString|\w+\.toLocaleString|\w+\.includes|\w+\.startsWith|\w+\.replace|\w+\.split|\w+\.join)$/.test(call) && !/(^|\s)(flex|grid|text-|bg-|border|rounded|px-|py-|gap-|w-|h-|mt-|mb-|font-|min-|max-)/.test(txt))
+            console.log(`${file}:${sf.getLineAndCharacterOfPosition(n.getStart(sf)).line + 1}  ${JSON.stringify(txt)}`)
+        }
+        ts.forEachChild(n, v)
+      }
+      v(sf)
+    }
+    return
+  }
   if (cmd === "zastosuj") {
     const [trPath, ...files] = rest
     const tr = JSON.parse(readFileSync(trPath, "utf8"))

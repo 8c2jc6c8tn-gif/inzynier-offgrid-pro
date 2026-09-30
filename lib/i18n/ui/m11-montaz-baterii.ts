@@ -229,6 +229,10 @@ export const pl = {
   "UI-WERWSTOLO-WERYFIKACJA-KONTROLA-WSTEPNA": "Weryfikacja + kontrola wstępna",
   "UI-WERWSTOLO-KONTROLA-WSTEPNA-ZAKONCZONA": "Kontrola wstępna zakończona",
   "UI-WERWSTOLO-POTWIERDZONO-ELEMENTOW": "Potwierdzono {potwierdzone} / {razem} elementów",
+  "UI-BALZEWOLO-NIEWYMAGANY": "Balanser niewymagany (pojedynczy akumulator)",
+  "UI-DOBKABBEZOLO-DOBRANE-POPRAWNIE": "Kabel i bezpiecznik dobrane poprawnie",
+  "UI-RATOGN-NIE-RATUJ": "Nie ratuj — zalecana utylizacja",
+  "UI-RATOGN-OPCJONALNY": "Ratunek opcjonalny, nie zalecany",
 } as const
 
 type Klucz = keyof typeof pl
@@ -461,6 +465,10 @@ export const en: Record<Klucz, string> = {
   "UI-WERWSTOLO-WERYFIKACJA-KONTROLA-WSTEPNA": "Verification + initial inspection",
   "UI-WERWSTOLO-KONTROLA-WSTEPNA-ZAKONCZONA": "Initial inspection finished",
   "UI-WERWSTOLO-POTWIERDZONO-ELEMENTOW": "Confirmed {potwierdzone} / {razem} items",
+  "UI-BALZEWOLO-NIEWYMAGANY": "Balancer not required (single battery)",
+  "UI-DOBKABBEZOLO-DOBRANE-POPRAWNIE": "Cable and fuse sized correctly",
+  "UI-RATOGN-NIE-RATUJ": "Do not rescue — disposal recommended",
+  "UI-RATOGN-OPCJONALNY": "Rescue optional, not recommended",
 }
 
 export const ru: Record<Klucz, string> = {
@@ -693,4 +701,8 @@ export const ru: Record<Klucz, string> = {
   "UI-WERWSTOLO-WERYFIKACJA-KONTROLA-WSTEPNA": "Проверка + предварительный контроль",
   "UI-WERWSTOLO-KONTROLA-WSTEPNA-ZAKONCZONA": "Предварительный контроль завершён",
   "UI-WERWSTOLO-POTWIERDZONO-ELEMENTOW": "Подтверждено {potwierdzone} / {razem} пунктов",
+  "UI-BALZEWOLO-NIEWYMAGANY": "Балансир не требуется (один аккумулятор)",
+  "UI-DOBKABBEZOLO-DOBRANE-POPRAWNIE": "Кабель и предохранитель подобраны правильно",
+  "UI-RATOGN-NIE-RATUJ": "Не спасайте — рекомендуется утилизация",
+  "UI-RATOGN-OPCJONALNY": "Спасение возможно, но не рекомендуется",
 }

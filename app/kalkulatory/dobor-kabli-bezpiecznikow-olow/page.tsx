@@ -124,7 +124,7 @@ export default function DoborKabliBezpiecznikowOlowPage() {
     invalid: t("UI-DOBKABBEZOLO-POLICZYC"),
     incomplete: t("UI-DOBKABBEZOLO-WYPELNIJ-DANE-OBWODU"),
     red: t("UI-DOBKABBEZOLO-ZABRONIONE-SPRAWDZ-OSTRZEZEN"),
-    green: "Kabel i bezpiecznik dobrane poprawnie",
+    green: t("UI-DOBKABBEZOLO-DOBRANE-POPRAWNIE"),
   }
 
   return (
