@@ -1203,7 +1203,8 @@ Pełne wyniki audytu: `docs/memory.md`, sekcja "Pełny audyt na polecenie właś
   przy migracji etykiet: część tekstów na ekranach pochodzi ze stałych w `lib/core/**/constants.ts` (np. `label`
   opcji/technologii/protokołów: `OPCJE_IP_MALE_INSTALACJE`, `WYMAGANE_WYPOSAZENIE` demontażu pakietu,
   `DOMYSLNE_URZADZENIA_KRYTYCZNE` UPS, `CENA_STARTOWA_LABELS` i opisy w porównaniu technologii magazynów, opcje
-  zastosowania/priorytetu/odbiorników w napięciu systemowym, protokoły w komunikacji BMS, `BATTERY_TECHNOLOGIES`).
+  zastosowania/priorytetu/odbiorników w napięciu systemowym, protokoły w komunikacji BMS, `BATTERY_TECHNOLOGIES`;
+  także nazwy zmiennych we wzorach `formula`, np. „Pojemność × C_rate” w cold-c-rate).
   Strażnik UI ich nie widzi (nie są w JSX), więc w EN/RU nadal pokażą się po polsku. **Priorytet:** średni (widoczne
   w EN/RU). **Odblokowuje:** pełne EN/RU tych ekranów. **Jak:** stałe dostają kod (`UI-*` albo osobny klucz domenowy),
   ekran robi `t(kod)` — domena nie importuje z UI (`01-architektura`). **Plusy teraz:** mała liczba miejsc, łatwe do
