@@ -26,6 +26,16 @@ describe("help content (8.4, D34/D51)", () => {
     expect(klucze("en")).toEqual(klucze("pl"))
     expect(klucze("ru")).toEqual(klucze("pl"))
   })
+
+  it("every text has the same {params} in PL, EN and RU (8.4b — engine numbers, not retyped)", () => {
+    const parametry = (s: unknown) => [...String(s).matchAll(/\{(\w+)\}/g)].map((m) => m[1]).sort()
+    const en = new Map(liscie(pomoc.en))
+    const ru = new Map(liscie(pomoc.ru))
+    for (const [sciezka, wartosc] of liscie(pomoc.pl)) {
+      expect(parametry(en.get(sciezka)), `en: ${sciezka}`).toEqual(parametry(wartosc))
+      expect(parametry(ru.get(sciezka)), `ru: ${sciezka}`).toEqual(parametry(wartosc))
+    }
+  })
 })
 
 describe("check-pomoc-guard (D51)", () => {

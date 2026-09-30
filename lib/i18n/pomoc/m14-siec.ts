@@ -177,7 +177,7 @@ export const pl = {
       wartoscOddanej: {
         nazwa: "Wartość 1 kWh oddanej do sieci [zł/kWh]",
         cel: "Ile wart jest nadmiar energii oddany do sieci w net-billingu (trafia na depozyt). Zwykle dużo mniej niż kWh pobrana — dlatego liczy się autokonsumpcja.",
-        gdzie: "Z ekranu depozytu prosumenckiego (cena RCE/RCEm × 1,23). Jeśli nic nie oddajesz — wpisz 0.",
+        gdzie: "Z ekranu depozytu prosumenckiego (cena RCE/RCEm × {wspDepozytu}). Jeśli nic nie oddajesz — wpisz 0.",
         zakres: "Wynik z ekranu depozytu.",
       },
       zywotnosc: {
@@ -362,7 +362,7 @@ export const pl = {
         "Aplikacja sumuje energię w strefach (cenę sprzedaży wpisujesz z faktury — w firmie jest zawsze rynkowa), opłaty sieciowe zmienne i ogólnokrajowe, opłatę mocową od energii pobranej w dni robocze 7:00–22:00 oraz 12 × (moc umowna × składnik stały + abonament + opłata handlowa). Stawki dystrybucyjne 2026 są w aplikacji dla części operatorów.",
       poCo:
         "Żeby zobaczyć, które pozycje da się obniżyć: przesunięciem poboru (opłata mocowa), korektą mocy umownej, kompensacją mocy biernej albo własną produkcją.",
-      fizyka: "K_T = Σ E_z·(c_energia + c_sieć_zm + c_jakość + c_OZE + c_kogen) + E_mocowa·c_mocowa + 12·(P_u·c_sieć_st + c_abon + c_handl); brutto × 1,23.",
+      fizyka: "K_T = Σ E_z·(c_energia + c_sieć_zm + c_jakość + c_OZE + c_kogen) + E_mocowa·c_mocowa + 12·(P_u·c_sieć_st + c_abon + c_handl); brutto × {mnoznikVat}.",
     },
     pola: {},
   },
@@ -401,10 +401,10 @@ export const pl = {
       oCoChodzi:
         "Jak rozliczana jest energia oddana do sieci (net-metering, net-billing) i co dzieje się z depozytem, gdy rezygnujesz z umowy.",
       jakDziala:
-        "W net-billingu wartość energii oddanej (ilość × cena RCEm albo RCE) trafia na depozyt, powiększony o 1,23. Depozyt jest ważny 12 miesięcy; niewykorzystany zwracany jest najwyżej w 20% (RCEm) albo 30% (RCE), reszta przepada. Ujemna RCE liczy się jako 0. Aplikacja liczy depozyt, zwrot i realną wartość 1 kWh oddanej w porównaniu z kWh pobraną.",
+        "W net-billingu wartość energii oddanej (ilość × cena RCEm albo RCE) trafia na depozyt, powiększony o {wspDepozytu}. Depozyt jest ważny 12 miesięcy; niewykorzystany zwracany jest najwyżej w {zwrotRcem}% (RCEm) albo {zwrotRce}% (RCE), reszta przepada. Ujemna RCE liczy się jako 0. Aplikacja liczy depozyt, zwrot i realną wartość 1 kWh oddanej w porównaniu z kWh pobraną.",
       poCo:
         "Rozwiązanie umowy kończy rozliczenia — najpierw trzeba wykorzystać saldo. I widać, dlaczego w net-billingu opłaca się zużywać energię na miejscu, a nie oddawać.",
-      fizyka: "Ustawa o OZE (Dz.U. 2026 poz. 68): depozyt × 1,23 (art. 4c ust. 4), zwrot 20%/30% (art. 4 ust. 11a), umorzenie po 12 mies. (art. 4c ust. 6).",
+      fizyka: "Ustawa o OZE (Dz.U. 2026 poz. 68): depozyt × {wspDepozytu} (art. 4c ust. 4), zwrot {zwrotRcem}%/{zwrotRce}% (art. 4 ust. 11a), umorzenie po 12 mies. (art. 4c ust. 6).",
     },
     pola: {
       miesiac: {
@@ -421,7 +421,7 @@ export const pl = {
       },
       cena: {
         nazwa: "Cena rozliczenia (RCE albo RCEm)",
-        cel: "RCEm — średnia cena miesięczna; RCE — cena godzinowa. Przejście z RCEm na RCE jest jednokierunkowe. Od wyboru zależy też limit zwrotu (20% / 30%).",
+        cel: "RCEm — średnia cena miesięczna; RCE — cena godzinowa. Przejście z RCEm na RCE jest jednokierunkowe. Od wyboru zależy też limit zwrotu ({zwrotRcem}% / {zwrotRce}%).",
         gdzie: "Z umowy prosumenckiej albo rozliczenia sprzedawcy.",
         zakres: "RCE albo RCEm.",
       },
@@ -545,7 +545,7 @@ export const pl = {
       poCo:
         "Silniki, sprężarki i zasilacze impulsowe pobierają energię bierną, za którą operator może naliczać opłatę. Bateria kondensatorów często zwraca się szybko — ale przekompensowanie też kosztuje.",
       fizyka:
-        "tgφ = energia bierna / energia czynna. Wersja wzoru bez pierwiastka (spotykana w materiałach) zawyża opłatę ok. dwukrotnie. k = 3 na niskim napięciu.",
+        "tgφ = energia bierna / energia czynna. Wersja wzoru bez pierwiastka (spotykana w materiałach) zawyża opłatę ok. dwukrotnie. k = {k} na niskim napięciu.",
     },
     pola: {
       tgPhi: {
@@ -1066,7 +1066,7 @@ export const en: Tlumaczenie<typeof pl> = {
       wartoscOddanej: {
         nazwa: "Value of 1 kWh exported to the grid [PLN/kWh]",
         cel: "How much surplus energy exported in net-billing is worth (it goes to the deposit). Usually much less than a kWh drawn — which is why self-consumption matters.",
-        gdzie: "From the prosumer deposit screen (RCE/RCEm price × 1.23). If you export nothing — enter 0.",
+        gdzie: "From the prosumer deposit screen (RCE/RCEm price × {wspDepozytu}). If you export nothing — enter 0.",
         zakres: "The result from the deposit screen.",
       },
       zywotnosc: {
@@ -1250,7 +1250,7 @@ export const en: Tlumaczenie<typeof pl> = {
         "The app adds up energy in zones (you enter the sale price from the invoice — for businesses it is always market-based), variable and national charges, the capacity charge on energy drawn on working days 7:00–22:00, and 12 × (contracted power × fixed component + subscription + trading fee). The 2026 distribution rates are in the app for some operators.",
       poCo:
         "To see which items can be reduced: by shifting consumption (capacity charge), correcting contracted power, compensating reactive power or own generation.",
-      fizyka: "K_T = Σ E_z·(c_energy + c_net_var + c_quality + c_RES + c_cogen) + E_capacity·c_capacity + 12·(P_c·c_net_fix + c_sub + c_trade); gross × 1.23.",
+      fizyka: "K_T = Σ E_z·(c_energy + c_net_var + c_quality + c_RES + c_cogen) + E_capacity·c_capacity + 12·(P_c·c_net_fix + c_sub + c_trade); gross × {mnoznikVat}.",
     },
     pola: {},
   },
@@ -1288,10 +1288,10 @@ export const en: Tlumaczenie<typeof pl> = {
       oCoChodzi:
         "How energy exported to the grid is settled (net-metering, net-billing) and what happens to the deposit when you terminate the contract.",
       jakDziala:
-        "In net-billing the value of exported energy (quantity × RCEm or RCE price) goes to a deposit, increased by 1.23. The deposit is valid for 12 months; an unused deposit is refunded at most 20% (RCEm) or 30% (RCE), the rest expires. A negative RCE counts as 0. The app calculates the deposit, the refund and the real value of 1 kWh exported compared with a kWh drawn.",
+        "In net-billing the value of exported energy (quantity × RCEm or RCE price) goes to a deposit, increased by {wspDepozytu}. The deposit is valid for 12 months; an unused deposit is refunded at most {zwrotRcem}% (RCEm) or {zwrotRce}% (RCE), the rest expires. A negative RCE counts as 0. The app calculates the deposit, the refund and the real value of 1 kWh exported compared with a kWh drawn.",
       poCo:
         "Terminating the contract ends the settlements — the balance must be used first. It also shows why in net-billing it pays to use energy on site rather than export it.",
-      fizyka: "RES Act (Journal of Laws 2026 item 68): deposit × 1.23 (Art. 4c(4)), refund 20%/30% (Art. 4(11a)), expiry after 12 months (Art. 4c(6)).",
+      fizyka: "RES Act (Journal of Laws 2026 item 68): deposit × {wspDepozytu} (Art. 4c(4)), refund {zwrotRcem}%/{zwrotRce}% (Art. 4(11a)), expiry after 12 months (Art. 4c(6)).",
     },
     pola: {
       miesiac: {
@@ -1308,7 +1308,7 @@ export const en: Tlumaczenie<typeof pl> = {
       },
       cena: {
         nazwa: "Settlement price (RCE or RCEm)",
-        cel: "RCEm — average monthly price; RCE — hourly price. Switching from RCEm to RCE is one-way. The refund limit (20% / 30%) also depends on the choice.",
+        cel: "RCEm — average monthly price; RCE — hourly price. Switching from RCEm to RCE is one-way. The refund limit ({zwrotRcem}% / {zwrotRce}%) also depends on the choice.",
         gdzie: "From the prosumer contract or the seller's settlement.",
         zakres: "RCE or RCEm.",
       },
@@ -1432,7 +1432,7 @@ export const en: Tlumaczenie<typeof pl> = {
       poCo:
         "Motors, compressors and switch-mode power supplies draw reactive energy, which the operator may charge for. A capacitor bank often pays back quickly — but overcompensation also costs.",
       fizyka:
-        "tgφ = reactive energy / active energy. The version of the formula without the square root (found in some materials) overstates the charge about twofold. k = 3 at low voltage.",
+        "tgφ = reactive energy / active energy. The version of the formula without the square root (found in some materials) overstates the charge about twofold. k = {k} at low voltage.",
     },
     pola: {
       tgPhi: {
@@ -1951,7 +1951,7 @@ export const ru: Tlumaczenie<typeof pl> = {
       wartoscOddanej: {
         nazwa: "Стоимость 1 кВт·ч, отданного в сеть [зл/кВт·ч]",
         cel: "Сколько стоит излишек энергии, отданный в сеть при net-billing (идёт на депозит). Обычно намного меньше взятого кВт·ч — поэтому важно самопотребление.",
-        gdzie: "С экрана депозита просьюмера (цена RCE/RCEm × 1,23). Если ничего не отдаёте — введите 0.",
+        gdzie: "С экрана депозита просьюмера (цена RCE/RCEm × {wspDepozytu}). Если ничего не отдаёте — введите 0.",
         zakres: "Результат с экрана депозита.",
       },
       zywotnosc: {
@@ -2135,7 +2135,7 @@ export const ru: Tlumaczenie<typeof pl> = {
         "Приложение суммирует энергию по зонам (цену продажи вы вводите из счёта — для фирмы она всегда рыночная), переменные и общегосударственные платы, плату за мощность от энергии, взятой в рабочие дни 7:00–22:00, и 12 × (договорная мощность × постоянная составляющая + абонентская + торговая). Ставки распределения 2026 г. есть в приложении для части операторов.",
       poCo:
         "Чтобы увидеть, какие позиции можно снизить: переносом потребления (плата за мощность), корректировкой договорной мощности, компенсацией реактивной мощности или собственной выработкой.",
-      fizyka: "K_T = Σ E_z·(c_энергия + c_сеть_пер + c_качество + c_ВИЭ + c_коген) + E_мощн·c_мощн + 12·(P_д·c_сеть_пост + c_абон + c_торг); брутто × 1,23.",
+      fizyka: "K_T = Σ E_z·(c_энергия + c_сеть_пер + c_качество + c_ВИЭ + c_коген) + E_мощн·c_мощн + 12·(P_д·c_сеть_пост + c_абон + c_торг); брутто × {mnoznikVat}.",
     },
     pola: {},
   },
@@ -2173,10 +2173,10 @@ export const ru: Tlumaczenie<typeof pl> = {
       oCoChodzi:
         "Как рассчитывается энергия, отданная в сеть (net-metering, net-billing), и что происходит с депозитом при расторжении договора.",
       jakDziala:
-        "При net-billing стоимость отданной энергии (количество × цена RCEm или RCE) идёт на депозит, увеличенный на 1,23. Депозит действует 12 месяцев; неиспользованный возвращается максимум на 20% (RCEm) или 30% (RCE), остальное сгорает. Отрицательная RCE считается как 0. Приложение считает депозит, возврат и реальную стоимость 1 кВт·ч отданного по сравнению со взятым.",
+        "При net-billing стоимость отданной энергии (количество × цена RCEm или RCE) идёт на депозит, увеличенный на {wspDepozytu}. Депозит действует 12 месяцев; неиспользованный возвращается максимум на {zwrotRcem}% (RCEm) или {zwrotRce}% (RCE), остальное сгорает. Отрицательная RCE считается как 0. Приложение считает депозит, возврат и реальную стоимость 1 кВт·ч отданного по сравнению со взятым.",
       poCo:
         "Расторжение договора завершает расчёты — сначала нужно использовать сальдо. И видно, почему при net-billing выгодно потреблять энергию на месте, а не отдавать.",
-      fizyka: "Закон о ВИЭ (Dz.U. 2026 поз. 68): депозит × 1,23 (ст. 4c п. 4), возврат 20%/30% (ст. 4 п. 11a), списание через 12 мес. (ст. 4c п. 6).",
+      fizyka: "Закон о ВИЭ (Dz.U. 2026 поз. 68): депозит × {wspDepozytu} (ст. 4c п. 4), возврат {zwrotRcem}%/{zwrotRce}% (ст. 4 п. 11a), списание через 12 мес. (ст. 4c п. 6).",
     },
     pola: {
       miesiac: {
@@ -2193,7 +2193,7 @@ export const ru: Tlumaczenie<typeof pl> = {
       },
       cena: {
         nazwa: "Цена расчёта (RCE или RCEm)",
-        cel: "RCEm — средняя месячная цена; RCE — почасовая. Переход с RCEm на RCE односторонний. От выбора зависит и лимит возврата (20% / 30%).",
+        cel: "RCEm — средняя месячная цена; RCE — почасовая. Переход с RCEm на RCE односторонний. От выбора зависит и лимит возврата ({zwrotRcem}% / {zwrotRce}%).",
         gdzie: "Из договора просьюмера или расчёта продавца.",
         zakres: "RCE или RCEm.",
       },
@@ -2317,7 +2317,7 @@ export const ru: Tlumaczenie<typeof pl> = {
       poCo:
         "Двигатели, компрессоры и импульсные блоки питания потребляют реактивную энергию, за которую оператор может начислять плату. Конденсаторная батарея часто окупается быстро — но перекомпенсация тоже стоит денег.",
       fizyka:
-        "tgφ = реактивная энергия / активная энергия. Вариант формулы без корня (встречается в материалах) завышает плату примерно вдвое. k = 3 на низком напряжении.",
+        "tgφ = реактивная энергия / активная энергия. Вариант формулы без корня (встречается в материалах) завышает плату примерно вдвое. k = {k} на низком напряжении.",
     },
     pola: {
       tgPhi: {

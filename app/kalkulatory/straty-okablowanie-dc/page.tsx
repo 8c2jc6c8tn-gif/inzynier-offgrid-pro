@@ -10,7 +10,7 @@ import { NawigacjaEkranu } from "@/components/nawigacja-ekranu"
 import { NaglowekEkranu } from "@/components/wzorce/naglowek-ekranu"
 import { WynikGlowny } from "@/components/wzorce/wynik-glowny"
 import { WynikSzczegoly } from "@/components/wzorce/wynik-szczegoly"
-import { CEL_STRATY_MAX_PCT } from "@/lib/core/modules/pv/straty-okablowanie-dc/constants"
+import { CEL_STRATY_MAX_PCT, REZYSTYWNOSC_MIEDZI_OHM_MM2_NA_M } from "@/lib/core/modules/pv/straty-okablowanie-dc/constants"
 
 type FormularzStan = {
   dlugoscKablaM: string
@@ -62,7 +62,7 @@ export default function StratyOkablowanieDcPage() {
         tytul="Straty na okablowaniu DC"
         ekran="straty-okablowanie-dc"
         wynik={result}
-        parametry={{ cel: CEL_STRATY_MAX_PCT }}
+        parametry={{ cel: CEL_STRATY_MAX_PCT, rhoCu: REZYSTYWNOSC_MIEDZI_OHM_MM2_NA_M }}
       >
         Prąd płynący kablem zawsze trochę „grzeje” po drodze — to normalne, ale zbyt cienki kabel
         zamienia w ciepło więcej energii niż powinien. Moduł 3, Ekran 8.

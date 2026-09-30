@@ -10,7 +10,13 @@ import { NawigacjaEkranu } from "@/components/nawigacja-ekranu"
 import { NaglowekEkranu } from "@/components/wzorce/naglowek-ekranu"
 import { WynikGlowny } from "@/components/wzorce/wynik-glowny"
 import { WynikSzczegoly } from "@/components/wzorce/wynik-szczegoly"
-import { PROG_BEZPIECZNY_CM, PROG_KRYTYCZNY_CM } from "@/lib/core/modules/okablowanie/przepust-powietrza/constants"
+import {
+  PROG_BEZPIECZNY_CM,
+  PROG_KRYTYCZNY_CM,
+  TEMPERATURA_ODNIESIENIA_C,
+  TEMPERATURA_PRZY_SZCZELINIE_KRYTYCZNEJ_C,
+  WSPOLCZYNNIK_STRATY_PCT_PER_C,
+} from "@/lib/core/modules/okablowanie/przepust-powietrza/constants"
 
 type FormularzStan = { szczelinaCm: string }
 
@@ -53,7 +59,13 @@ export default function PrzepustPowietrzaPage() {
         tytul="Przepust powietrza pod panelami"
         ekran="przepust-powietrza"
         wynik={result}
-        parametry={{ progKrytyczny: PROG_KRYTYCZNY_CM, progBezpieczny: PROG_BEZPIECZNY_CM }}
+        parametry={{
+          progKrytyczny: PROG_KRYTYCZNY_CM,
+          progBezpieczny: PROG_BEZPIECZNY_CM,
+          tKrytyczna: TEMPERATURA_PRZY_SZCZELINIE_KRYTYCZNEJ_C,
+          tStc: TEMPERATURA_ODNIESIENIA_C,
+          strata: WSPOLCZYNNIK_STRATY_PCT_PER_C,
+        }}
       >
         Panele nagrzewają się jak dach samochodu w słońcu — im gorszy przepływ powietrza pod
         spodem, tym gorętsze i mniej wydajne. Moduł 5, Ekran 8.

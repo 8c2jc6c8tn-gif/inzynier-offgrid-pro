@@ -12,7 +12,7 @@ import { NaglowekEkranu } from "@/components/wzorce/naglowek-ekranu"
 import { SekcjaAkordeon } from "@/components/wzorce/sekcja-akordeon"
 import { WynikGlowny } from "@/components/wzorce/wynik-glowny"
 import { WynikSzczegoly } from "@/components/wzorce/wynik-szczegoly"
-import { liczba, liczbaLubNull, poziomWerdyktu, zl } from "@/components/siec/wspolne"
+import { liczba, liczbaLubNull, poziomWerdyktu, stawkiDoPomocy, zl } from "@/components/siec/wspolne"
 
 type Stan = {
   miesiac: string
@@ -51,6 +51,7 @@ export default function DepozytProsumenckiPage() {
         tytul="Net-metering, net-billing, depozyt — co tracę, odchodząc"
         ekran="depozyt-prosumencki"
         wynik={result}
+        parametry={stawkiDoPomocy()}
       >
         Jak rozliczana jest energia oddana do sieci i co dzieje się z depozytem, gdy rezygnujesz z umowy. M14 „Dom – sieć”,
         ekran D8.
@@ -111,7 +112,7 @@ export default function DepozytProsumenckiPage() {
           label="Cena rozliczenia"
           value={stan.system}
           onChange={(e) => ustaw("system", e.target.value as SystemCeny)}
-          pomoc={<PomocPola ekran="depozyt-prosumencki" pole="cena" />}
+          pomoc={<PomocPola ekran="depozyt-prosumencki" pole="cena" params={stawkiDoPomocy()} />}
         >
           <option value="rce">RCE — cena godzinowa</option>
           <option value="rcem">RCEm — cena miesięczna</option>

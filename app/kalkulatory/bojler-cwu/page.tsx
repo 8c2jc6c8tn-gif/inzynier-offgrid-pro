@@ -2,6 +2,10 @@
 
 import { useMemo } from "react"
 import { calculateBojlerCwu } from "@/lib/core/modules/zapotrzebowanie/bojler-cwu/calculator"
+import {
+  CIEPLO_WLASCIWE_WODY_J_KG_K,
+  WSPOLCZYNNIK_KWH_NA_L_K,
+} from "@/lib/core/modules/zapotrzebowanie/bojler-cwu/constants"
 import { usePersistedDraft } from "@/lib/adapters/use-persisted-draft"
 import { Pole } from "@/components/ui/pole"
 import { PomocPola } from "@/components/ui/pomoc"
@@ -54,7 +58,12 @@ export default function BojlerCwuPage() {
   return (
     <main className="mx-auto flex max-w-md flex-col gap-6 p-6">
       <NawigacjaEkranu href="/kalkulatory/bojler-cwu" />
-      <NaglowekEkranu tytul="Inteligentny bojler C.W.U." ekran="bojler-cwu" wynik={result}>
+      <NaglowekEkranu
+        tytul="Inteligentny bojler C.W.U."
+        ekran="bojler-cwu"
+        wynik={result}
+        parametry={{ cWody: CIEPLO_WLASCIWE_WODY_J_KG_K, kwhNaLK: WSPOLCZYNNIK_KWH_NA_L_K.toFixed(6) }}
+      >
         Bojler to jeden z największych „elastycznych” odbiorników w domu — dobowe zapotrzebowanie
         na energię i czas potrzebny na jego naładowanie, żeby zaplanować grzanie w oknie
         produkcji PV. Moduł 2, Ekran 2.

@@ -163,7 +163,7 @@ export const pl = {
       poCo:
         "Głębokie rozładowanie niszczy akumulatory ołowiowe (zasiarczenie) i może zablokować BMS akumulatora litowego. LVD ustawiony na właściwy próg to tania ochrona drogiego akumulatora.",
       fizyka:
-        "Napięcie spoczynkowe akumulatora spada wraz z rozładowaniem. Akumulator 12 V ołowiowy ma 6 ogniw po 2 V, LiFePO4 — 4 ogniwa po 3,2 V, dlatego progi się różnią.",
+        "Napięcie spoczynkowe akumulatora spada wraz z rozładowaniem. Akumulator 12 V ołowiowy ma {ogniwaOlow} ogniw po 2 V, LiFePO4 — {ogniwaLfp} ogniwa po 3,2 V, dlatego progi się różnią.",
     },
     pola: {
       typ: {
@@ -185,11 +185,11 @@ export const pl = {
       oCoChodzi:
         "Stacje zasilania i powerbanki mają niższe limity wejścia solarnego niż profesjonalne regulatory MPPT. Panel dobrany „na oko” łatwo je uszkodzi — zwłaszcza zimą, bo na mrozie napięcie panelu rośnie.",
       jakDziala:
-        "Aplikacja liczy najwyższe napięcie paneli w najzimniejszy poranek: Voc × (1 + β × (T_min − 25 °C)) × liczba paneli w szeregu, i porównuje z limitem napięcia stacji. Osobno liczy prąd: Isc × liczba gałęzi równoległych — i porównuje z limitem prądu stacji. Przekroczenie napięcia to czerwony stop.",
+        "Aplikacja liczy najwyższe napięcie paneli w najzimniejszy poranek: Voc × (1 + β × (T_min − {tStc} °C)) × liczba paneli w szeregu, i porównuje z limitem napięcia stacji. Osobno liczy prąd: Isc × liczba gałęzi równoległych — i porównuje z limitem prądu stacji. Przekroczenie napięcia to czerwony stop.",
       poCo:
         "Za wysokie napięcie z panelu uszkadza wejście stacji natychmiast i zwykle bez gwarancji. Zbyt duży prąd zwykle jest tylko ograniczany, ale warto wiedzieć, że część mocy się zmarnuje.",
       fizyka:
-        "Napięcie ogniwa krzemowego rośnie, gdy temperatura spada (współczynnik β jest ujemny). Karta panelu podaje Voc przy 25 °C (STC), więc w mroźny słoneczny poranek napięcie jest wyższe niż na tabliczce.",
+        "Napięcie ogniwa krzemowego rośnie, gdy temperatura spada (współczynnik β jest ujemny). Karta panelu podaje Voc przy {tStc} °C (STC), więc w mroźny słoneczny poranek napięcie jest wyższe niż na tabliczce.",
     },
     pola: {
       voc: {
@@ -708,7 +708,7 @@ export const en: Tlumaczenie<typeof pl> = {
       poCo:
         "Deep discharge destroys lead-acid batteries (sulphation) and can lock the BMS of a lithium battery. An LVD set to the right threshold is cheap protection for an expensive battery.",
       fizyka:
-        "The battery's rest voltage falls as it discharges. A 12 V lead-acid battery has 6 cells of 2 V, LiFePO4 — 4 cells of 3.2 V, which is why the thresholds differ.",
+        "The battery's rest voltage falls as it discharges. A 12 V lead-acid battery has {ogniwaOlow} cells of 2 V, LiFePO4 — {ogniwaLfp} cells of 3.2 V, which is why the thresholds differ.",
     },
     pola: {
       typ: {
@@ -730,11 +730,11 @@ export const en: Tlumaczenie<typeof pl> = {
       oCoChodzi:
         "Power stations and power banks have lower solar input limits than professional MPPT controllers. A panel chosen “by eye” can easily damage them — especially in winter, because panel voltage rises in the cold.",
       jakDziala:
-        "The app calculates the highest panel voltage on the coldest morning: Voc × (1 + β × (T_min − 25 °C)) × number of panels in series, and compares it with the station's voltage limit. Separately it calculates the current: Isc × number of parallel strings — and compares it with the station's current limit. Exceeding the voltage is a red stop.",
+        "The app calculates the highest panel voltage on the coldest morning: Voc × (1 + β × (T_min − {tStc} °C)) × number of panels in series, and compares it with the station's voltage limit. Separately it calculates the current: Isc × number of parallel strings — and compares it with the station's current limit. Exceeding the voltage is a red stop.",
       poCo:
         "Too high a panel voltage damages the station input immediately and usually without warranty. Too much current is usually just limited, but it is worth knowing that part of the power will be wasted.",
       fizyka:
-        "The voltage of a silicon cell rises as temperature falls (the coefficient β is negative). The panel datasheet gives Voc at 25 °C (STC), so on a frosty sunny morning the voltage is higher than on the nameplate.",
+        "The voltage of a silicon cell rises as temperature falls (the coefficient β is negative). The panel datasheet gives Voc at {tStc} °C (STC), so on a frosty sunny morning the voltage is higher than on the nameplate.",
     },
     pola: {
       voc: {
@@ -1252,7 +1252,7 @@ export const ru: Tlumaczenie<typeof pl> = {
       poCo:
         "Глубокий разряд разрушает свинцовые аккумуляторы (сульфатация) и может заблокировать BMS литиевого аккумулятора. Правильно настроенный LVD — дешёвая защита дорогого аккумулятора.",
       fizyka:
-        "Напряжение покоя аккумулятора падает по мере разряда. Свинцовый аккумулятор 12 В имеет 6 элементов по 2 В, LiFePO4 — 4 элемента по 3,2 В, поэтому пороги различаются.",
+        "Напряжение покоя аккумулятора падает по мере разряда. Свинцовый аккумулятор 12 В имеет {ogniwaOlow} элементов по 2 В, LiFePO4 — {ogniwaLfp} элемента по 3,2 В, поэтому пороги различаются.",
     },
     pola: {
       typ: {
@@ -1274,11 +1274,11 @@ export const ru: Tlumaczenie<typeof pl> = {
       oCoChodzi:
         "Портативные электростанции и пауэрбанки имеют более низкие пределы солнечного входа, чем профессиональные контроллеры MPPT. Панель, подобранная «на глаз», легко их повредит — особенно зимой, потому что на морозе напряжение панели растёт.",
       jakDziala:
-        "Приложение считает наибольшее напряжение панелей в самое холодное утро: Voc × (1 + β × (T_min − 25 °C)) × число панелей последовательно, и сравнивает с пределом напряжения станции. Отдельно считает ток: Isc × число параллельных веток — и сравнивает с пределом тока станции. Превышение напряжения — красный стоп.",
+        "Приложение считает наибольшее напряжение панелей в самое холодное утро: Voc × (1 + β × (T_min − {tStc} °C)) × число панелей последовательно, и сравнивает с пределом напряжения станции. Отдельно считает ток: Isc × число параллельных веток — и сравнивает с пределом тока станции. Превышение напряжения — красный стоп.",
       poCo:
         "Слишком высокое напряжение панели повреждает вход станции сразу и обычно без гарантии. Слишком большой ток обычно просто ограничивается, но стоит знать, что часть мощности пропадёт.",
       fizyka:
-        "Напряжение кремниевого элемента растёт при понижении температуры (коэффициент β отрицательный). Документация панели даёт Voc при 25 °C (STC), поэтому морозным солнечным утром напряжение выше, чем на табличке.",
+        "Напряжение кремниевого элемента растёт при понижении температуры (коэффициент β отрицательный). Документация панели даёт Voc при {tStc} °C (STC), поэтому морозным солнечным утром напряжение выше, чем на табличке.",
     },
     pola: {
       voc: {
