@@ -1190,6 +1190,25 @@ Pełne wyniki audytu: `docs/memory.md`, sekcja "Pełny audyt na polecenie właś
   zmigrowanym ekranie obniż jego liczbę albo usuń go z listy (strażnik to wymusza). **Plusy teraz:** każdy moduł to
   zamknięta całość do testu w EN/RU. **Minusy:** duży wolumen tłumaczeń do przeglądu merytorycznego RU/EN. **Kolejność:**
   moduł po module, najpierw ekrany z największą liczbą (M5, M3).
+  → **[30.09.2026] 🔄 w toku — gałąź `claude/translate-screen-labels-en-ru-2f94e0`** (sesja „Tłumaczenie etykiet
+  ekranów EN/RU”). Zrobione: M11 (23 strony, `m11-montaz-baterii.ts`), M8 (10, `m08-bezpieczenstwo.ts`), M12 (12,
+  `m12-mobilny.ts`), M4 baterie (33, `m04-baterie.ts`). Narzędzie: `scripts/migracja-i18n-ui.mjs`
+  (`wyciagnij` → tłumaczenia JSON → `zastosuj` → `sprawdz`; opis w nagłówku pliku, usunąć, gdy lista zapadkowa będzie
+  pusta). **Zajęte do merge punktu „Stałe fizyczne w tekstach pomocy”** (inna sesja): dobor-przekroju-kabla,
+  straty-okablowanie-dc, przepust-powietrza, ochrona-wilgoc, napor-wiatru, bojler-cwu, pre-heat, profil-astronomiczny,
+  stress-test-mppt, wplyw-temperatury, panel-do-stacji-zasilania, ochrona-przed-rozladowaniem, rachunek-firma,
+  depozyt-prosumencki, moc-bierna, sciezka-przejscia, scenariusze. **Następny krok:** kolejne moduły (M5, M3, M2…) z
+  pominięciem zajętych plików; stan liczbowy — `node scripts/check-i18n-ui-guard.mjs`.
+- 🔲 (2026-09-30) **Polskie teksty ze stałych silnika wyświetlane na ekranach (luka i18n poza strażnikiem).** Wyszło
+  przy migracji etykiet: część tekstów na ekranach pochodzi ze stałych w `lib/core/**/constants.ts` (np. `label`
+  opcji/technologii/protokołów: `OPCJE_IP_MALE_INSTALACJE`, `WYMAGANE_WYPOSAZENIE` demontażu pakietu,
+  `DOMYSLNE_URZADZENIA_KRYTYCZNE` UPS, `CENA_STARTOWA_LABELS` i opisy w porównaniu technologii magazynów, opcje
+  zastosowania/priorytetu/odbiorników w napięciu systemowym, protokoły w komunikacji BMS, `BATTERY_TECHNOLOGIES`).
+  Strażnik UI ich nie widzi (nie są w JSX), więc w EN/RU nadal pokażą się po polsku. **Priorytet:** średni (widoczne
+  w EN/RU). **Odblokowuje:** pełne EN/RU tych ekranów. **Jak:** stałe dostają kod (`UI-*` albo osobny klucz domenowy),
+  ekran robi `t(kod)` — domena nie importuje z UI (`01-architektura`). **Plusy teraz:** mała liczba miejsc, łatwe do
+  wyliczenia grepem `label:` w `lib/core`. **Minusy:** dotyka stałych silnika i ich testów. **Kolizje:** z migracją
+  etykiet (te same ekrany) — robić po niej. **Kolejność:** po wpisie „Tłumaczenie samych stron”.
 - ✅ (2026-09-29) **Opisy narzędzi AI — domknięcie luk (pytanie właściciela: „czy są rozbudowane opisy funkcji dla AI”).**
   Stan 29.09.2026: 183 narzędzia w rejestrze, 181 ma `.describe()` na polach wejścia, 156 ma w `description` zdanie
   „Użyj, gdy…” (kiedy model ma je wywołać) — **27 go nie ma** (m.in. blackout, analiza-spof, typ-montazu, klapy-pozarowe,

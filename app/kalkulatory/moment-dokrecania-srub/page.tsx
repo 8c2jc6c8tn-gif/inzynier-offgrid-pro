@@ -18,6 +18,7 @@ import { NawigacjaEkranu } from "@/components/nawigacja-ekranu"
 import { NaglowekEkranu } from "@/components/wzorce/naglowek-ekranu"
 import { ListaChecklist } from "@/components/wzorce/lista-checklist"
 import { StanPusty } from "@/components/ui/stany"
+import { useTranslate } from "@/lib/i18n/language-context"
 
 type FormularzStan = {
   potwierdzoneIds: string[]
@@ -30,6 +31,7 @@ const STAN_POCZATKOWY: FormularzStan = {
 }
 
 export default function MomentDokrecaniaSrubPage() {
+  const t = useTranslate()
   const [stan, setStan] = usePersistedDraft<FormularzStan>("moment-dokrecania-srub", STAN_POCZATKOWY)
   const { potwierdzoneIds, typOgniwaId } = stan
 
@@ -72,13 +74,12 @@ export default function MomentDokrecaniaSrubPage() {
   return (
     <main className="mx-auto flex max-w-md flex-col gap-6 p-6">
       <NawigacjaEkranu href="/kalkulatory/moment-dokrecania-srub" />
-      <NaglowekEkranu tytul="Moment dokręcania śrub" ekran="moment-dokrecania-srub">
-        Śruba to sprężyna — musisz ją naciągnąć dokładnie tyle, ile trzeba, żeby docisnęła
-        końcówkę kablową, ani trochę więcej. Moduł 4, Ekran 11.
+      <NaglowekEkranu tytul={t("UI-MOMDOKSRU-MOMENT-DOKRECANIA-SRUB")} ekran="moment-dokrecania-srub">
+        {t("UI-MOMDOKSRU-SRUBA-SPREZYNA-MUSISZ")}
       </NaglowekEkranu>
 
       <PoleSelect
-        label="Typ / pojemność ogniwa"
+        label={t("UI-MOMDOKSRU-TYP-POJEMNOSC-OGNIWA")}
         value={typOgniwaId}
         onChange={(e) => setTypOgniwaId(e.target.value)}
         pomoc={<PomocPola ekran="moment-dokrecania-srub" pole="typ" />}
@@ -101,7 +102,7 @@ export default function MomentDokrecaniaSrubPage() {
         renderLabel={(item) => (
           <>
             <span className="block font-medium">{item.element}</span>
-            <span className="block text-muted-foreground">Moment: {item.moment}</span>
+            <span className="block text-muted-foreground">{t("UI-MOMDOKSRU-MOMENT", { moment: item.moment })}</span>
             {item.uwaga !== "—" && (
               <span className="block text-caption text-muted-foreground">{item.uwaga}</span>
             )}
@@ -116,9 +117,9 @@ export default function MomentDokrecaniaSrubPage() {
       </ul>
 
       {result.status === "VALID" ? (
-        <WerdyktPanel poziom="ok" etykieta="Wszystkie kroki potwierdzone" />
+        <WerdyktPanel poziom="ok" etykieta={t("UI-MOMDOKSRU-WSZYSTKIE-KROKI-POTWIERDZONE")} />
       ) : (
-        <StanPusty tytul={`Potwierdzono ${result.value.potwierdzone} / ${result.value.razem} kroków`} />
+        <StanPusty tytul={t("UI-MOMDOKSRU-POTWIERDZONO-KROKOW", { potwierdzone: result.value.potwierdzone, razem: result.value.razem })} />
       )}
     </main>
   )

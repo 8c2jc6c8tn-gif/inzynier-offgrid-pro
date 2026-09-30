@@ -55,19 +55,18 @@ export default function KomunikacjaBmsPage() {
   return (
     <main className="mx-auto flex max-w-md flex-col gap-6 p-6">
       <NawigacjaEkranu href="/kalkulatory/komunikacja-bms" />
-      <NaglowekEkranu tytul="Komunikacja BMS — CAN/RS485/Modbus" ekran="komunikacja-bms">
-        BMS i falownik muszą „mówić tym samym językiem” — bez tego falownik nie wie, ile realnie
-        ma baterii, i musi zgadywać. Moduł 4, Ekran 20.
+      <NaglowekEkranu tytul={t("UI-KOMBMS-KOMUNIKACJA-BMS-CAN")} ekran="komunikacja-bms">
+        {t("UI-KOMBMS-BMS-FALOWNIK-MUSZA")}
       </NaglowekEkranu>
 
       <div className="flex flex-col gap-4">
         <PoleSelect
-          label="Protokół BMS"
+          label={t("UI-KOMBMS-PROTOKOL-BMS")}
           value={protokolBms}
           onChange={(e) => setProtokolBms(e.target.value)}
           pomoc={<PomocPola ekran="komunikacja-bms" pole="protokolBms" />}
         >
-          <option value="">— wybierz —</option>
+          <option value="">{t("UI-WYBIERZ")}</option>
           {PROTOKOLY.map((p) => (
             <option key={p.id} value={p.id}>
               {p.label}
@@ -75,12 +74,12 @@ export default function KomunikacjaBmsPage() {
           ))}
         </PoleSelect>
         <PoleSelect
-          label="Protokół falownika/ładowarki"
+          label={t("UI-KOMBMS-PROTOKOL-FALOWNIKA-LADOWARKI")}
           value={protokolFalownika}
           onChange={(e) => setProtokolFalownika(e.target.value)}
           pomoc={<PomocPola ekran="komunikacja-bms" pole="protokolFalownika" />}
         >
-          <option value="">— wybierz —</option>
+          <option value="">{t("UI-WYBIERZ")}</option>
           {PROTOKOLY.map((p) => (
             <option key={p.id} value={p.id}>
               {p.label}
@@ -91,7 +90,7 @@ export default function KomunikacjaBmsPage() {
 
       {result.status === "INCOMPLETE" ? (
         <p className="text-small text-muted-foreground">
-          Wybierz protokół obu urządzeń, żeby sprawdzić zgodność.
+          {t("UI-KOMBMS-WYBIERZ-PROTOKOL-OBU")}
         </p>
       ) : (
         poziom !== null && (
@@ -99,10 +98,10 @@ export default function KomunikacjaBmsPage() {
             poziom={poziom}
             etykieta={
               result.status === "OUT_OF_SCOPE"
-                ? "Nie da się ocenić automatycznie"
+                ? t("UI-KOMBMS-OCENIC-AUTOMATYCZNIE")
                 : result.value.zgodne
-                  ? "Zgodne — komunikacja bezpośrednia"
-                  : "Potrzebny konwerter protokołu"
+                  ? t("UI-KOMBMS-ZGODNE-KOMUNIKACJA-BEZPOSRED")
+                  : t("UI-KOMBMS-POTRZEBNY-KONWERTER-PROTOKOL")
             }
           >
             {result.warnings.map((w) => (

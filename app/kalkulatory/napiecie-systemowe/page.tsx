@@ -285,21 +285,18 @@ export default function NapiecieSystemowePage() {
     <main className="mx-auto flex max-w-2xl flex-col gap-6 p-6">
       <NawigacjaEkranu href="/kalkulatory/napiecie-systemowe" />
       <NaglowekEkranu
-        tytul="Doradca doboru napięcia systemowego"
+        tytul={t("UI-NAPSYS-DORADCA-DOBORU-NAPIECIA")}
         ekran="napiecie-systemowe"
         wynik={result}
         parametry={{ prog12: PROG_12V_MAX_W, prog48: PROG_48V_MIN_W }}
       >
-        Nie wybieramy napięcia na podstawie ceny BMS-a — wybieramy je na podstawie maksymalnego
-        jednorazowego poboru mocy, dziennego zużycia energii i kontekstu zastosowania. Wyższe
-        napięcie = mniejszy prąd przy tej samej mocy = cieńsze, tańsze i bezpieczniejsze kable.
-        Moduł 4, Ekran 2.
+        {t("UI-NAPSYS-WYBIERAMY-NAPIECIA-PODSTAWIE")}
       </NaglowekEkranu>
 
       {/* Rdzeń — pole ręczne + wynik */}
       <div className={SEKCJA_KLASY}>
         <Pole
-          label="Obciążenie szczytowe (opcjonalnie — nadpisuje sumę z kreatora niżej)"
+          label={t("UI-NAPSYS-OBCIAZENIE-SZCZYTOWE-OPCJONA")}
           unit="W"
           type="number"
           inputMode="decimal"
@@ -311,17 +308,15 @@ export default function NapiecieSystemowePage() {
 
         {poziom === null ? (
           <p className="text-small text-muted-foreground">
-            Wpisz obciążenie szczytowe albo zaznacz odbiorniki w Etapie B, żeby zobaczyć rekomendację.
+            {t("UI-NAPSYS-WPISZ-OBCIAZENIE-SZCZYTOWE")}
           </p>
         ) : (
-          <WerdyktPanel poziom={poziom} etykieta={poziom === "blad" ? "Nie da się policzyć — sprawdź dane" : "Rekomendowane napięcie systemowe"}>
+          <WerdyktPanel poziom={poziom} etykieta={poziom === "blad" ? t("UI-NAPSYS-POLICZYC-SPRAWDZ-DANE") : t("UI-NAPSYS-REKOMENDOWANE-NAPIECIE-SYSTE")}>
             {poziom !== "blad" && (
               <>
                 <WynikGlowny>{result.value.napiecieRekomendowaneV} V</WynikGlowny>
                 <p className="mt-3 text-small">
-                  Moc szczytowa: {result.value.mocSzczytowaCalkowitaW.toFixed(0)} W → prąd:{" "}
-                  {result.value.pradPrzy12VA.toFixed(0)} A @12V · {result.value.pradPrzy24VA.toFixed(0)} A @24V ·{" "}
-                  {result.value.pradPrzy48VA.toFixed(0)} A @48V.
+                  {t("UI-NAPSYS-MOC-SZCZYTOWA-PRAD", { mocSzczytowaCalkowitaW: result.value.mocSzczytowaCalkowitaW.toFixed(0), pradPrzy12VA: result.value.pradPrzy12VA.toFixed(0), pradPrzy24VA: result.value.pradPrzy24VA.toFixed(0), pradPrzy48VA: result.value.pradPrzy48VA.toFixed(0) })}
                 </p>
               </>
             )}
@@ -332,15 +327,15 @@ export default function NapiecieSystemowePage() {
 
       {/* Etap A — kontekst */}
       <details className={SEKCJA_KLASY} open>
-        <summary className={`cursor-pointer ${SEKCJA_TYTUL_KLASY}`}>Etap A — kontekst zastosowania</summary>
+        <summary className={`cursor-pointer ${SEKCJA_TYTUL_KLASY}`}>{t("UI-NAPSYS-ETAP-KONTEKST-ZASTOSOWANIA")}</summary>
         <div className="mt-4 flex flex-col gap-4">
           <PoleSelect
-            label="Gdzie będzie używany ten system?"
+            label={t("UI-NAPSYS-GDZIE-BEDZIE-UZYWANY")}
             value={zastosowanie}
             onChange={(e) => setZastosowanie(e.target.value as Zastosowanie | "")}
             pomoc={<PomocPola ekran="napiecie-systemowe" pole="zastosowanie" />}
           >
-            <option value="">— wybierz —</option>
+            <option value="">{t("UI-WYBIERZ")}</option>
             {ZASTOSOWANIA.map((z) => (
               <option key={z.id} value={z.id}>
                 {z.label}
@@ -350,12 +345,12 @@ export default function NapiecieSystemowePage() {
           {zastosowanie !== "" && <p className="text-caption text-muted-foreground">{ZASTOSOWANIA.find((z) => z.id === zastosowanie)?.filozofia}</p>}
 
           <PoleSelect
-            label="Co jest dla Ciebie ważniejsze?"
+            label={t("UI-NAPSYS-CIEBIE-WAZNIEJSZE")}
             value={priorytet}
             onChange={(e) => setPriorytet(e.target.value as Priorytet | "")}
             pomoc={<PomocPola ekran="napiecie-systemowe" pole="priorytet" />}
           >
-            <option value="">— wybierz —</option>
+            <option value="">{t("UI-WYBIERZ")}</option>
             {PRIORYTETY.map((p) => (
               <option key={p.id} value={p.id}>
                 {p.label}
@@ -365,14 +360,14 @@ export default function NapiecieSystemowePage() {
 
           <PoleCheckbox
             id="ogrzewanie-nie-dotyczy"
-            label="Ogrzewanie elektryczne nie dotyczy tego systemu"
-            hint="np. kamper, łódź, domek sezonowy, ogrzewanie na paliwo stałe/gaz"
+            label={t("UI-NAPSYS-OGRZEWANIE-ELEKTRYCZNE-DOTYC")}
+            hint={t("UI-NAPSYS-KAMPER-LODZ-DOMEK")}
             checked={ogrzewanieNieDotyczy}
             onChange={() => setOgrzewanieNieDotyczy((v) => !v)}
           />
           {!ogrzewanieNieDotyczy && (
             <Pole
-              label="Szczytowa moc ogrzewania elektrycznego"
+              label={t("UI-NAPSYS-SZCZYTOWA-MOC-OGRZEWANIA")}
               unit="W"
               type="number"
               inputMode="decimal"
@@ -387,7 +382,7 @@ export default function NapiecieSystemowePage() {
 
       {/* Etap B — kreator odbiorników */}
       <details className={SEKCJA_KLASY}>
-        <summary className={`cursor-pointer ${SEKCJA_TYTUL_KLASY}`}>Etap B — kreator odbiorników i analiza jednoczesności</summary>
+        <summary className={`cursor-pointer ${SEKCJA_TYTUL_KLASY}`}>{t("UI-NAPSYS-ETAP-KREATOR-ODBIORNIKOW")}</summary>
         <div className="mt-4 flex flex-col gap-5">
           {kategorie.map(([kategoria, pozycje]) => (
             <div key={kategoria} className="flex flex-col gap-2">
@@ -414,7 +409,7 @@ export default function NapiecieSystemowePage() {
                         <input
                           type="number"
                           inputMode="decimal"
-                          aria-label={`Moc — ${o.label}`}
+                          aria-label={t("UI-NAPSYS-MOC", { label: o.label })}
                           className="w-16 min-h-9 shrink-0 rounded-md border border-input bg-background px-2 text-small"
                           value={stan.mocW}
                           onChange={(e) => aktualizujOdbiornik(o.id, "mocW", e.target.value)}
@@ -423,19 +418,19 @@ export default function NapiecieSystemowePage() {
                         <input
                           type="number"
                           inputMode="decimal"
-                          aria-label={`Czas pracy jednorazowo — ${o.label}`}
+                          aria-label={t("UI-NAPSYS-CZAS-PRACY-JEDNORAZOWO", { label: o.label })}
                           className="w-14 min-h-9 shrink-0 rounded-md border border-input bg-background px-2 text-small"
                           value={stan.czasWartosc}
                           onChange={(e) => aktualizujOdbiornik(o.id, "czasWartosc", e.target.value)}
                         />
                         <select
-                          aria-label={`Jednostka czasu — ${o.label}`}
+                          aria-label={t("UI-NAPSYS-JEDNOSTKA-CZASU", { label: o.label })}
                           className="shrink-0 min-h-9 rounded-md border border-input bg-background px-1 text-caption"
                           value={stan.czasJednostka}
                           onChange={(e) => zmienJednostkeCzasu(o.id, e.target.value as JednostkaCzasu)}
                         >
                           <option value="min">min</option>
-                          <option value="h">godz.</option>
+                          <option value="h">{t("UI-NAPSYS-GODZ")}</option>
                         </select>
                         <PomocPola ekran="napiecie-systemowe" pole="wierszOdbiornika" />
                       </div>
@@ -447,7 +442,7 @@ export default function NapiecieSystemowePage() {
           ))}
 
           <Pole
-            label="Planowana moc ciągła falownika (opcjonalnie — do sprawdzenia konfliktu jednoczesności)"
+            label={t("UI-NAPSYS-PLANOWANA-MOC-CIAGLA")}
             unit="W"
             type="number"
             inputMode="decimal"
@@ -460,16 +455,15 @@ export default function NapiecieSystemowePage() {
           {result.value.jednoczesnosc && (
             <div className="rounded-md border p-3 text-small">
               <p>
-                Suma bazowa (ciągła): {result.value.jednoczesnosc.sumaBazowaW.toFixed(0)} W · suma przełączalnych (worst case):{" "}
-                {result.value.jednoczesnosc.sumaPrzelaczalneWorstCaseW.toFixed(0)} W · razem:{" "}
+                {t("UI-NAPSYS-SUMA-BAZOWA-CIAGLA", { sumaBazowaW: result.value.jednoczesnosc.sumaBazowaW.toFixed(0), sumaPrzelaczalneWorstCaseW: result.value.jednoczesnosc.sumaPrzelaczalneWorstCaseW.toFixed(0) })}
                 <strong>{result.value.jednoczesnosc.sumaWorstCaseW.toFixed(0)} W</strong>
               </p>
               {result.value.jednoczesnosc.limitPodano && (
                 <p className="mt-1">
                   {result.value.jednoczesnosc.konflikt ? (
-                    <WerdyktBadge poziom={result.value.jednoczesnosc.wagaOstrzezenia === "critical" ? "blad" : "uwaga"} etykieta="Konflikt jednoczesności" />
+                    <WerdyktBadge poziom={result.value.jednoczesnosc.wagaOstrzezenia === "critical" ? "blad" : "uwaga"} etykieta={t("UI-NAPSYS-KONFLIKT-JEDNOCZESNOSCI")} />
                   ) : (
-                    <WerdyktBadge poziom="ok" etykieta="Bez konfliktu przy tym limicie" />
+                    <WerdyktBadge poziom="ok" etykieta={t("UI-NAPSYS-BEZ-KONFLIKTU-TYM")} />
                   )}
                 </p>
               )}
@@ -480,12 +474,12 @@ export default function NapiecieSystemowePage() {
 
       {/* Etap C — echo dobor-przekroju-kabla */}
       <details className={SEKCJA_KLASY}>
-        <summary className={`cursor-pointer ${SEKCJA_TYTUL_KLASY}`}>Etap C — porównanie przekroju kabla i strat (12V / 24V / 48V)</summary>
+        <summary className={`cursor-pointer ${SEKCJA_TYTUL_KLASY}`}>{t("UI-NAPSYS-ETAP-POROWNANIE-PRZEKROJU")}</summary>
         <div className="mt-4 flex flex-col gap-4">
           <div className="grid grid-cols-2 gap-3">
             <Pole
               id="dlugosc-trasy"
-              label="Długość trasy (w jedną stronę)"
+              label={t("UI-NAPSYS-DLUGOSC-TRASY-JEDNA")}
               unit="m"
               type="number"
               inputMode="decimal"
@@ -496,7 +490,7 @@ export default function NapiecieSystemowePage() {
             />
             <Pole
               id="temperatura-otoczenia"
-              label="Temperatura otoczenia"
+              label={t("UI-NAPSYS-TEMPERATURA-OTOCZENIA")}
               unit="°C"
               type="number"
               inputMode="decimal"
@@ -505,28 +499,28 @@ export default function NapiecieSystemowePage() {
               pomoc={<PomocPola ekran="napiecie-systemowe" pole="temperatura" />}
             />
             <PoleSelect
-              label="Materiał"
+              label={t("UI-NAPSYS-MATERIAL")}
               value={material}
               onChange={(e) => setMaterial(e.target.value as Material)}
               pomoc={<PomocPola ekran="napiecie-systemowe" pole="material" />}
             >
-              <option value="Cu">Miedź (Cu)</option>
-              <option value="Al">Aluminium (Al)</option>
+              <option value="Cu">{t("UI-NAPSYS-MIEDZ")}</option>
+              <option value="Al">{t("UI-NAPSYS-ALUMINIUM")}</option>
             </PoleSelect>
             <PoleSelect
-              label="Sposób ułożenia"
+              label={t("UI-NAPSYS-SPOSOB-ULOZENIA")}
               value={sposobUlozenia}
               onChange={(e) => setSposobUlozenia(e.target.value as SposobUlozenia)}
               pomoc={<PomocPola ekran="napiecie-systemowe" pole="ulozenie" />}
             >
-              <option value="swobodnie">Swobodnie / na ścianie</option>
-              <option value="w_peszlu">W peszlu / rurze</option>
-              <option value="w_ziemi">W ziemi</option>
-              <option value="w_wiazce">W wiązce</option>
+              <option value="swobodnie">{t("UI-NAPSYS-SWOBODNIE-SCIANIE")}</option>
+              <option value="w_peszlu">{t("UI-NAPSYS-PESZLU-RURZE")}</option>
+              <option value="w_ziemi">{t("UI-NAPSYS-ZIEMI")}</option>
+              <option value="w_wiazce">{t("UI-NAPSYS-WIAZCE")}</option>
             </PoleSelect>
             <Pole
               id="liczba-kabli-wiazce"
-              label="Liczba kabli w wiązce"
+              label={t("UI-NAPSYS-LICZBA-KABLI-WIAZCE")}
               type="number"
               inputMode="numeric"
               min={1}
@@ -536,7 +530,7 @@ export default function NapiecieSystemowePage() {
             />
             <Pole
               id="dopuszczalny-spadek"
-              label="Dopuszczalny spadek napięcia"
+              label={t("UI-NAPSYS-DOPUSZCZALNY-SPADEK-NAPIECIA")}
               unit="%"
               type="number"
               inputMode="decimal"
@@ -561,19 +555,19 @@ export default function NapiecieSystemowePage() {
                 <tbody className="[&_td]:py-1">
                   {(["v12", "v24", "v48"] as const).map(() => null)}
                   <tr>
-                    <td className="text-muted-foreground">Przekrój</td>
+                    <td className="text-muted-foreground">{t("UI-NAPSYS-PRZEKROJ")}</td>
                     {(["v12", "v24", "v48"] as const).map((k) => (
-                      <td key={k}>{result.value.kable![k].przekrojMm2 > 0 ? `${result.value.kable![k].przekrojMm2} mm²` : "brak"}</td>
+                      <td key={k}>{result.value.kable![k].przekrojMm2 > 0 ? `${result.value.kable![k].przekrojMm2} mm²` : t("UI-NAPSYS-BRAK")}</td>
                     ))}
                   </tr>
                   <tr>
-                    <td className="text-muted-foreground">Spadek napięcia</td>
+                    <td className="text-muted-foreground">{t("UI-NAPSYS-SPADEK-NAPIECIA")}</td>
                     {(["v12", "v24", "v48"] as const).map((k) => (
                       <td key={k}>{result.value.kable![k].przekrojMm2 > 0 ? `${result.value.kable![k].spadekNapieciaPct.toFixed(2)}%` : "—"}</td>
                     ))}
                   </tr>
                   <tr>
-                    <td className="text-muted-foreground">Strata roczna</td>
+                    <td className="text-muted-foreground">{t("UI-NAPSYS-STRATA-ROCZNA")}</td>
                     {(["v12", "v24", "v48"] as const).map((k) => (
                       <td key={k}>{result.value.kable![k].przekrojMm2 > 0 ? `${result.value.kable![k].strataRocznaKwh.toFixed(1)} kWh` : "—"}</td>
                     ))}
@@ -596,10 +590,10 @@ export default function NapiecieSystemowePage() {
 
       {/* Etap E — kosztorysy */}
       <details className={SEKCJA_KLASY}>
-        <summary className={`cursor-pointer ${SEKCJA_TYTUL_KLASY}`}>Etap E — kosztorysy (ta sama docelowa pojemność, ceny edytowalne)</summary>
+        <summary className={`cursor-pointer ${SEKCJA_TYTUL_KLASY}`}>{t("UI-NAPSYS-ETAP-KOSZTORYSY-SAMA")}</summary>
         <div className="mt-4 flex flex-col gap-4">
           <Pole
-            label="Docelowa pojemność energetyczna banku"
+            label={t("UI-NAPSYS-DOCELOWA-POJEMNOSC-ENERGETYC")}
             unit="kWh"
             type="number"
             inputMode="decimal"
@@ -609,7 +603,7 @@ export default function NapiecieSystemowePage() {
             pomoc={<PomocPola ekran="napiecie-systemowe" pole="pojemnoscBanku" />}
           />
           <Pole
-            label="Liczba linii oświetlenia 24V (tylko jeśli budujesz system 48V)"
+            label={t("UI-NAPSYS-LICZBA-LINII-OSWIETLENIA")}
             type="number"
             inputMode="numeric"
             min={0}
@@ -619,31 +613,31 @@ export default function NapiecieSystemowePage() {
           />
 
           <details>
-            <summary className="cursor-pointer text-caption text-muted-foreground">Własne ceny (domyślne z materiału źródłowego, edytowalne)</summary>
+            <summary className="cursor-pointer text-caption text-muted-foreground">{t("UI-NAPSYS-WLASNE-CENY-DOMYSLNE")}</summary>
             <div className="mt-3 grid grid-cols-2 gap-3">
               {(
                 [
-                  ["cenaOgniwaZl", "Cena ogniwa EVE 314Ah"],
-                  ["cenaBms4sZl", "BMS 4S 200A"],
-                  ["cenaBms8sZl", "BMS 8S 200A"],
-                  ["cenaBms16sZl", "BMS 16S 200A"],
-                  ["cenaFalownika12vZl", "Falownik 12V"],
-                  ["cenaFalownika24vZl", "Falownik 24V"],
-                  ["cenaFalownika48vZl", "Falownik 48V"],
-                  ["cenaPrzewodow12vZl", "Przewody 12V"],
-                  ["cenaPrzewodow24vZl", "Przewody 24V"],
-                  ["cenaPrzewodow48vZl", "Przewody 48V"],
-                  ["cenaBezpiecznika12vZl", "Bezpiecznik 12V"],
-                  ["cenaBezpiecznika24vZl", "Bezpiecznik 24V"],
-                  ["cenaBezpiecznika48vZl", "Bezpiecznik 48V"],
-                  ["cenaPrzetwornicyDcDcZl", "Przetwornica DC-DC 48V→24V"],
+                  ["cenaOgniwaZl", "UI-NAPSYS-CENA-OGNIWA-EVE", ""],
+                  ["cenaBms4sZl", "UI-NAPSYS-CENA-BMS", "4S"],
+                  ["cenaBms8sZl", "UI-NAPSYS-CENA-BMS", "8S"],
+                  ["cenaBms16sZl", "UI-NAPSYS-CENA-BMS", "16S"],
+                  ["cenaFalownika12vZl", "UI-NAPSYS-CENA-FALOWNIK", "12V"],
+                  ["cenaFalownika24vZl", "UI-NAPSYS-CENA-FALOWNIK", "24V"],
+                  ["cenaFalownika48vZl", "UI-NAPSYS-CENA-FALOWNIK", "48V"],
+                  ["cenaPrzewodow12vZl", "UI-NAPSYS-CENA-PRZEWODY", "12V"],
+                  ["cenaPrzewodow24vZl", "UI-NAPSYS-CENA-PRZEWODY", "24V"],
+                  ["cenaPrzewodow48vZl", "UI-NAPSYS-CENA-PRZEWODY", "48V"],
+                  ["cenaBezpiecznika12vZl", "UI-NAPSYS-CENA-BEZPIECZNIK", "12V"],
+                  ["cenaBezpiecznika24vZl", "UI-NAPSYS-CENA-BEZPIECZNIK", "24V"],
+                  ["cenaBezpiecznika48vZl", "UI-NAPSYS-CENA-BEZPIECZNIK", "48V"],
+                  ["cenaPrzetwornicyDcDcZl", "UI-NAPSYS-CENA-PRZETWORNICA", ""],
                 ] as const
-              ).map(([klucz, etykieta]) => (
+              ).map(([klucz, etykieta, u]) => (
                 <Pole
                   key={klucz}
                   id={`cena-${klucz}`}
-                  label={etykieta}
-                  unit="zł"
+                  label={t(etykieta, { u })}
+                  unit={t("UI-J-ZL")}
                   type="number"
                   inputMode="decimal"
                   min={0}
@@ -668,47 +662,47 @@ export default function NapiecieSystemowePage() {
                 </thead>
                 <tbody className="[&_td]:py-1">
                   <tr>
-                    <td className="text-muted-foreground">Ogniwa</td>
+                    <td className="text-muted-foreground">{t("UI-NAPSYS-OGNIWA")}</td>
                     {(["v12", "v24", "v48"] as const).map((k) => (
                       <td key={k}>
-                        {result.value.kosztorysy![k].liczbaOgniwLacznie} szt. ({result.value.kosztorysy![k].kosztOgniwZl.toFixed(0)} zł)
+                        {t("UI-NAPSYS-SZT", { liczbaOgniwLacznie: result.value.kosztorysy![k].liczbaOgniwLacznie, kosztOgniwZl: result.value.kosztorysy![k].kosztOgniwZl.toFixed(0) })}
                       </td>
                     ))}
                   </tr>
                   <tr>
                     <td className="text-muted-foreground">BMS</td>
                     {(["v12", "v24", "v48"] as const).map((k) => (
-                      <td key={k}>{result.value.kosztorysy![k].kosztBmsZl.toFixed(0)} zł</td>
+                      <td key={k}>{t("UI-NAPSYS-ZL", { kosztBmsZl: result.value.kosztorysy![k].kosztBmsZl.toFixed(0) })}</td>
                     ))}
                   </tr>
                   <tr>
-                    <td className="text-muted-foreground">Falownik</td>
+                    <td className="text-muted-foreground">{t("UI-NAPSYS-FALOWNIK")}</td>
                     {(["v12", "v24", "v48"] as const).map((k) => (
-                      <td key={k}>{result.value.kosztorysy![k].kosztFalownikaZl.toFixed(0)} zł</td>
+                      <td key={k}>{t("UI-NAPSYS-ZL-2", { kosztFalownikaZl: result.value.kosztorysy![k].kosztFalownikaZl.toFixed(0) })}</td>
                     ))}
                   </tr>
                   <tr>
-                    <td className="text-muted-foreground">Przewody</td>
+                    <td className="text-muted-foreground">{t("UI-NAPSYS-PRZEWODY")}</td>
                     {(["v12", "v24", "v48"] as const).map((k) => (
-                      <td key={k}>{result.value.kosztorysy![k].kosztPrzewodowZl.toFixed(0)} zł</td>
+                      <td key={k}>{t("UI-NAPSYS-ZL-3", { kosztPrzewodowZl: result.value.kosztorysy![k].kosztPrzewodowZl.toFixed(0) })}</td>
                     ))}
                   </tr>
                   <tr>
-                    <td className="text-muted-foreground">Bezpieczniki</td>
+                    <td className="text-muted-foreground">{t("UI-NAPSYS-BEZPIECZNIKI")}</td>
                     {(["v12", "v24", "v48"] as const).map((k) => (
-                      <td key={k}>{result.value.kosztorysy![k].kosztBezpiecznikowZl.toFixed(0)} zł</td>
+                      <td key={k}>{t("UI-NAPSYS-ZL-4", { kosztBezpiecznikowZl: result.value.kosztorysy![k].kosztBezpiecznikowZl.toFixed(0) })}</td>
                     ))}
                   </tr>
                   <tr>
-                    <td className="text-muted-foreground">Przetwornice DC-DC</td>
+                    <td className="text-muted-foreground">{t("UI-NAPSYS-PRZETWORNICE")}</td>
                     {(["v12", "v24", "v48"] as const).map((k) => (
-                      <td key={k}>{result.value.kosztorysy![k].kosztPrzetwornicZl.toFixed(0)} zł</td>
+                      <td key={k}>{t("UI-NAPSYS-ZL-5", { kosztPrzetwornicZl: result.value.kosztorysy![k].kosztPrzetwornicZl.toFixed(0) })}</td>
                     ))}
                   </tr>
                   <tr className="font-semibold">
                     <td>RAZEM</td>
                     {(["v12", "v24", "v48"] as const).map((k) => (
-                      <td key={k}>{result.value.kosztorysy![k].razemZl.toFixed(0)} zł</td>
+                      <td key={k}>{t("UI-NAPSYS-ZL-6", { razemZl: result.value.kosztorysy![k].razemZl.toFixed(0) })}</td>
                     ))}
                   </tr>
                 </tbody>
@@ -720,23 +714,20 @@ export default function NapiecieSystemowePage() {
 
       {/* Etap H — pułapka konwersji */}
       <details className={SEKCJA_KLASY}>
-        <summary className={`cursor-pointer ${SEKCJA_TYTUL_KLASY}`}>Etap H — pułapka konwersji 24V → 48V</summary>
+        <summary className={`cursor-pointer ${SEKCJA_TYTUL_KLASY}`}>{t("UI-NAPSYS-ETAP-PULAPKA-KONWERSJI")}</summary>
         <div className="mt-4 flex flex-col gap-3 text-small">
           <p>
-            Nie da się „po prostu” połączyć dwóch gotowych pakietów 24V szeregowo, żeby uzyskać 48V. Każdy pakiet ma własny BMS, który nie komunikuje się z
-            drugim — różnice napięć/rezystancji między pakietami powodują przepływ wyrównawczy, nierówne obciążenie i przedwczesne zużycie. Prawidłowe
-            rozwiązanie: zbuduj pakiet 48V od podstaw (16 ogniw, jeden BMS 16S).
+            {t("UI-NAPSYS-PROSTU-POLACZYC-DWOCH")}
           </p>
           <PoleCheckbox
             id="planowana-konwersja"
-            label="Planuję przejście z istniejącego systemu 24V na 48V"
+            label={t("UI-NAPSYS-PLANUJE-PRZEJSCIE-ISTNIEJACE")}
             checked={planowanaKonwersja24Do48}
             onChange={() => setPlanowanaKonwersja24Do48((v) => !v)}
           />
           {result.value.kosztKonwersji24Do48Zl !== null && (
             <p className="rounded-md border p-3">
-              Szacowany koszt przejścia (BMS 16S + falownik 48V + przewody, z cen w Etapie E): <strong>{result.value.kosztKonwersji24Do48Zl.toFixed(0)} zł</strong>{" "}
-              (plus robocizna). Ogniwa możesz użyć ponownie — po rozbalansowaniu i przełożeniu do nowej konfiguracji 16S.
+              {t("UI-NAPSYS-SZACOWANY-KOSZT-PRZEJSCIA")} <strong>{t("UI-NAPSYS-ZL-7", { kosztKonwersji24Do48Zl: result.value.kosztKonwersji24Do48Zl.toFixed(0) })}</strong>{t("UI-NAPSYS-PLUS-ROBOCIZNA-OGNIWA")}
             </p>
           )}
         </div>

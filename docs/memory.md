@@ -8476,3 +8476,19 @@ Tryb Audyt (czapka rewidenta). Warstwa „w pełni na końcu” z N.2 — wszyst
   `public/` 1,41 / 1,05 MB. Największe: chunk tekstów/słowników ładowany na każdej stronie 1,17 MB, MapLibre 1,0 MB,
   drugi chunk tekstów 0,73 MB, worker MapLibre 0,5 MB, zod 0,4 MB (ekrany M14 — potrzebny offline). Budżet pierwszego
   pobrania: **D61 — wariant A**, obecny stan przyjęty, nic dalej nie ciąć (B tylko przy sygnale o słabym łączu).
+
+## Migracja etykiet starych ekranów na `UI-*` — narzędzie i pułapki (30.09.2026)
+
+- **Narzędzie:** `scripts/migracja-i18n-ui.mjs` (jednorazowe, AST TypeScript): `wyciagnij <grupa> <pliki…>` wypisuje
+  `{klucz: tekst PL}`, `zastosuj <grupa> <tlumaczenia.json> <pliki…>` przepisuje strony na `t(...)`, tworzy
+  `lib/i18n/ui/<grupa>.ts`, dopisuje import w `index.ts` i obniża listę zapadkową; `sprawdz <pliki…>` pokazuje literały
+  bez polskich liter do przejrzenia. Teksty identyczne z `wspolne.ts` dostają klucz wspólny. Usunąć, gdy lista
+  zapadkowa będzie pusta.
+- **Pułapka 1 — strażnik nie widzi tekstów bez polskich liter** poza JSX (np. „Przewody prowadzone w peszlu” w stałej
+  modułu): po `zastosuj` zawsze `sprawdz` i ręczny przegląd.
+- **Pułapka 2 — teksty w stałych poza komponentem:** narzędzie wstawia tam klucz jako string i wypisuje „RĘCZNIE:” —
+  trzeba dodać `t(...)` w miejscu renderu (inaczej ekran pokaże surowe `UI-…`). Po każdej partii grep `"UI-` poza `t(`.
+- **Pułapka 3 — zmienna `t` w `.map((t) => …)`** przesłania `useTranslate()`; przed migracją zmienić nazwę (`tech`).
+- **Pułapka 4 — `getStart()` na JsxText już pomija białe znaki;** ręczne przesunięcie ucinało pierwsze litery słów.
+- **Rozmiar:** każda partia powiększa chunk tekstów ładowany na każdej stronie (D61 — przyjęty stan, obserwować).
+- Teksty ze stałych `lib/core` renderowane na ekranach — osobny wpis w `docs/lista-do-zrobienia.md` (30.09.2026).
