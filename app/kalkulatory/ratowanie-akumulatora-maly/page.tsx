@@ -12,6 +12,7 @@ import { WerdyktPanel } from "@/components/werdykt"
 import { NawigacjaEkranu } from "@/components/nawigacja-ekranu"
 import { NaglowekEkranu } from "@/components/wzorce/naglowek-ekranu"
 import { WynikSzczegoly } from "@/components/wzorce/wynik-szczegoly"
+import { useTranslate } from "@/lib/i18n/language-context"
 
 type FormularzStan = {
   chemia: ChemiaRatowania | ""
@@ -21,12 +22,13 @@ type FormularzStan = {
 const STAN_POCZATKOWY: FormularzStan = { chemia: "", napiecieSpoczynkoweV: "" }
 
 const NAZWY_PROCEDUR: Record<string, string> = {
-  "M11/A9": "Ratowanie głęboko rozładowanego ogniwa (LiFePO4)",
-  "M11/B10": "Ocena zużycia — siarczanowanie",
-  "M11/B11": "Ratowanie zasiarczonego akumulatora",
+  "M11/A9": "UI-RATAKUMAL-RATOWANIE-GLEBOKO-ROZLADOWAN",
+  "M11/B10": "UI-RATAKUMAL-OCENA-ZUZYCIA-SIARCZANOWANIE",
+  "M11/B11": "UI-RATAKUMAL-RATOWANIE-ZASIARCZONEGO",
 }
 
 export default function RatowanieAkumulatoraMalyPage() {
+  const t = useTranslate()
   const [stan, setStan] = usePersistedDraft<FormularzStan>("ratowanie-akumulatora-maly", STAN_POCZATKOWY)
 
   const result = useMemo(
@@ -42,29 +44,29 @@ export default function RatowanieAkumulatoraMalyPage() {
     <main className="mx-auto flex max-w-md flex-col gap-6 p-6">
       <NawigacjaEkranu href="/kalkulatory/ratowanie-akumulatora-maly" />
       <NaglowekEkranu
-        tytul="Ratowanie rozładowanego akumulatora — mała instalacja"
+        tytul={t("UI-RATAKUMAL-RATOWANIE-ROZLADOWANEGO-AKUM")}
         ekran="ratowanie-akumulatora-maly"
         wynik={result}
         parametry={{ prog: PROG_KRYTYCZNEGO_ROZLADOWANIA_OLOW_12V }}
       >
-        Wybierz typ akumulatora — poprowadzimy Cię do pełnej procedury ratowania w sekcji Montaż baterii. Moduł 12.
+        {t("UI-RATAKUMAL-WYBIERZ-TYP-AKUMULATORA")}
       </NaglowekEkranu>
 
       <div className="flex flex-col gap-4">
         <PoleSelect
-          label="Typ akumulatora"
+          label={t("UI-RATAKUMAL-TYP-AKUMULATORA")}
           value={stan.chemia}
           onChange={(e) => setStan((prev) => ({ ...prev, chemia: e.target.value as FormularzStan["chemia"] }))}
           pomoc={<PomocPola ekran="ratowanie-akumulatora-maly" pole="typ" />}
         >
-          <option value="">— wybierz —</option>
+          <option value="">{t("UI-WYBIERZ")}</option>
           <option value="AGM">AGM</option>
-          <option value="kwasowy">Kwasowy (zalewowy)</option>
-          <option value="LiFePO4">LiFePO4</option>
+          <option value="kwasowy">{t("UI-RATAKUMAL-KWASOWY-ZALEWOWY")}</option>
+          <option value={t("UI-RATAKUMAL-LIFEPO4")}>{t("UI-RATAKUMAL-LIFEPO4")}</option>
         </PoleSelect>
         {stan.chemia !== "LiFePO4" && (
           <Pole
-            label="Napięcie spoczynkowe (opcjonalnie)"
+            label={t("UI-RATAKUMAL-NAPIECIE-SPOCZYNKOWE-OPCJONA")}
             unit="V"
             type="number"
             inputMode="decimal"
@@ -77,18 +79,18 @@ export default function RatowanieAkumulatoraMalyPage() {
       </div>
 
       {result.status === "INVALID_INPUT" ? (
-        <WerdyktPanel poziom="blad" etykieta="Nie da się ocenić — sprawdź wpisane dane">
+        <WerdyktPanel poziom="blad" etykieta={t("UI-RATAKUMAL-OCENIC-SPRAWDZ-WPISANE")}>
           <WynikSzczegoly assumptions={[]} warnings={result.warnings} />
         </WerdyktPanel>
       ) : result.status === "INCOMPLETE" ? (
-        <p className="text-small text-muted-foreground">Wybierz typ akumulatora.</p>
+        <p className="text-small text-muted-foreground">{t("UI-RATAKUMAL-WYBIERZ-TYP-AKUMULATORA-2")}</p>
       ) : (
-        <WerdyktPanel poziom={result.value.krytycznieRozladowany ? "uwaga" : "ok"} etykieta="Pełna procedura ratowania">
+        <WerdyktPanel poziom={result.value.krytycznieRozladowany ? "uwaga" : "ok"} etykieta={t("UI-RATAKUMAL-PELNA-PROCEDURA-RATOWANIA")}>
           <ol className="mt-1 list-decimal pl-5 text-small">
             {result.value.procedury.map((p) => (
               <li key={p.ekran}>
                 <Link href={p.href} className="underline">
-                  {NAZWY_PROCEDUR[p.ekran] ?? p.ekran}
+                  {NAZWY_PROCEDUR[p.ekran] ? t(NAZWY_PROCEDUR[p.ekran]!) : p.ekran}
                 </Link>
               </li>
             ))}

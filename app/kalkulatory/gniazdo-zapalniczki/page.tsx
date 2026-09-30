@@ -47,27 +47,26 @@ export default function GniazdoZapalniczkiPage() {
     <main className="mx-auto flex max-w-md flex-col gap-6 p-6">
       <NawigacjaEkranu href="/kalkulatory/gniazdo-zapalniczki" />
       <NaglowekEkranu
-        tytul="Gniazdo zapalniczki — co można podłączyć"
+        tytul={t("UI-GNIZAP-GNIAZDO-ZAPALNICZKI-MOZNA")}
         ekran="gniazdo-zapalniczki"
         wynik={result}
       >
-        Gniazdo zapalniczki ma własny, niewielki bezpiecznik. Lodówka turystyczna zwykle tak, kompresor do opon na granicy,
-        sprzęt powyżej ok. 180 W raczej nie. Moduł 12.
+        {t("UI-GNIZAP-GNIAZDO-ZAPALNICZKI-WLASNY")}
       </NaglowekEkranu>
 
       <div className="flex flex-col gap-4">
         <PoleSelect
-          label="Napięcie instalacji pojazdu"
+          label={t("UI-GNIZAP-NAPIECIE-INSTALACJI-POJAZDU")}
           value={stan.napiecieV}
           onChange={(e) => setStan((prev) => ({ ...prev, napiecieV: Number(e.target.value) as FormularzStan["napiecieV"] }))}
           pomoc={<PomocPola ekran="gniazdo-zapalniczki" pole="napiecie" />}
         >
-          <option value={0}>— wybierz —</option>
-          <option value={12}>12 V (samochód osobowy, kamper)</option>
-          <option value={24}>24 V (ciężarówka, autobus)</option>
+          <option value={0}>{t("UI-WYBIERZ")}</option>
+          <option value={12}>{t("UI-GNIZAP-SAMOCHOD-OSOBOWY-KAMPER")}</option>
+          <option value={24}>{t("UI-GNIZAP-CIEZAROWKA-AUTOBUS")}</option>
         </PoleSelect>
         <Pole
-          label="Bezpiecznik gniazda"
+          label={t("UI-GNIZAP-BEZPIECZNIK-GNIAZDA")}
           unit="A"
           type="number"
           inputMode="decimal"
@@ -79,7 +78,7 @@ export default function GniazdoZapalniczkiPage() {
       </div>
 
       <div className="flex flex-col gap-2">
-        <p className="text-small font-medium">Urządzenia włączone jednocześnie (także przez rozgałęźnik)</p>
+        <p className="text-small font-medium">{t("UI-GNIZAP-URZADZENIA-WLACZONE-JEDNOCZE")}</p>
         <p className="flex items-center gap-3 text-caption text-muted-foreground">
           <span className="flex items-center gap-1">
             {t("UI-GZ-NAZWA")} <PomocPola ekran="gniazdo-zapalniczki" pole="nazwaUrzadzenia" />
@@ -92,11 +91,11 @@ export default function GniazdoZapalniczkiPage() {
           {stan.urzadzenia.map((u, i) => (
             <li key={u.id} className="flex flex-wrap items-center gap-2">
               <input
-                placeholder="Nazwa urządzenia"
+                placeholder={t("UI-GNIZAP-NAZWA-URZADZENIA")}
                 value={u.nazwa}
                 onChange={(e) => aktualizuj(u.id, { nazwa: e.target.value })}
                 className="min-h-10 min-w-24 flex-1 rounded-md border border-input bg-background px-2"
-                aria-label={`Nazwa — urządzenie ${i + 1}`}
+                aria-label={t("UI-GNIZAP-NAZWA-URZADZENIE", { p: i + 1 })}
               />
               <input
                 type="number"
@@ -105,15 +104,15 @@ export default function GniazdoZapalniczkiPage() {
                 value={u.mocW || ""}
                 onChange={(e) => aktualizuj(u.id, { mocW: Number(e.target.value) })}
                 className="min-h-10 w-20 rounded-md border border-input bg-background px-2"
-                aria-label={`Moc [W] — ${u.nazwa || `urządzenie ${i + 1}`}`}
+                aria-label={t("UI-GNIZAP-MOC", { p: u.nazwa || t("UI-GNIZAP-URZADZENIE-N", { n: i + 1 }) })}
               />
               <button
                 type="button"
                 onClick={() => setStan((prev) => ({ ...prev, urzadzenia: prev.urzadzenia.filter((x) => x.id !== u.id) }))}
                 className="text-caption text-muted-foreground underline"
-                aria-label={`Usuń ${u.nazwa || `urządzenie ${i + 1}`}`}
+                aria-label={t("UI-GNIZAP-USUN-2", { p: u.nazwa || t("UI-GNIZAP-URZADZENIE-N", { n: i + 1 }) })}
               >
-                Usuń
+                {t("UI-GNIZAP-USUN")}
               </button>
             </li>
           ))}
@@ -123,21 +122,21 @@ export default function GniazdoZapalniczkiPage() {
           onClick={() => setStan((prev) => ({ ...prev, urzadzenia: [...prev.urzadzenia, { id: crypto.randomUUID(), nazwa: "", mocW: 0 }] }))}
           className="min-h-11 self-start rounded-md border px-4 text-small font-medium hover:bg-muted"
         >
-          + Dodaj urządzenie
+          {t("UI-GNIZAP-DODAJ-URZADZENIE")}
         </button>
       </div>
 
       {result.status === "INVALID_INPUT" ? (
-        <WerdyktPanel poziom="blad" etykieta="Nie da się policzyć — sprawdź wpisane dane">
+        <WerdyktPanel poziom="blad" etykieta={t("UI-GNIZAP-POLICZYC-SPRAWDZ-WPISANE")}>
           <WynikSzczegoly assumptions={[]} warnings={result.warnings} />
         </WerdyktPanel>
       ) : result.status === "INCOMPLETE" ? (
-        <p className="text-small text-muted-foreground">Wybierz napięcie, wpisz bezpiecznik i dodaj urządzenie z mocą.</p>
+        <p className="text-small text-muted-foreground">{t("UI-GNIZAP-WYBIERZ-NAPIECIE-WPISZ")}</p>
       ) : (
-        <WerdyktPanel poziom={hasCritical ? "blad" : "ok"} etykieta={hasCritical ? "Gniazdo przeciążone" : "Gniazdo wytrzyma"}>
+        <WerdyktPanel poziom={hasCritical ? "blad" : "ok"} etykieta={hasCritical ? t("UI-GNIZAP-GNIAZDO-PRZECIAZONE") : t("UI-GNIZAP-GNIAZDO-WYTRZYMA")}>
           <WynikGlowny>{f1(result.value.pradA)} A</WynikGlowny>
           <p className="mt-1 text-small">
-            {f0(result.value.sumaMocyW)} W z {f0(result.value.mocMaxW)} W dostępnych · {f0(result.value.obciazeniePct)}% bezpiecznika
+            {t("UI-GNIZAP-DOSTEPNYCH-BEZPIECZNIKA", { sumaMocyW: f0(result.value.sumaMocyW), mocMaxW: f0(result.value.mocMaxW), obciazeniePct: f0(result.value.obciazeniePct) })}
           </p>
           <WynikSzczegoly assumptions={result.assumptions} warnings={result.warnings} formula={result.formula} />
         </WerdyktPanel>
