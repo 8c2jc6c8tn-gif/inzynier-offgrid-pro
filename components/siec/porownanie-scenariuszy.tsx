@@ -21,7 +21,7 @@ import { type StanRachunku, kluczRachunku, wejscieRachunku } from "./formularz-r
 import { POCZATKOWY_WZROSTU, PoleWzrostuCen, type StanWzrostuCen, trybZeStanu } from "./pole-wzrostu-cen"
 import { type StanPvMagazynu, kluczPv } from "./pv-magazyn"
 import { uzyskZeStanu } from "./uzysk-pv"
-import { liczbaLubNull, poziomWerdyktu, zl } from "./wspolne"
+import { liczbaLubNull, poziomWerdyktu, stawkiDoPomocy, zl } from "./wspolne"
 import { useZuzycieMiesieczne } from "./zuzycie-miesieczne"
 import { useTranslate } from "@/lib/i18n/language-context"
 
@@ -234,7 +234,7 @@ export function PorownanieScenariuszy({ segment }: { segment: Segment }) {
             inputMode="decimal"
             value={stan.wartoscNadwyzki}
             onChange={(e) => ustaw({ wartoscNadwyzki: e.target.value })}
-            pomoc={<PomocPola ekran="siec-scenariusze" pole="wartoscOddanej" />}
+            pomoc={<PomocPola ekran="siec-scenariusze" pole="wartoscOddanej" params={stawkiDoPomocy()} />}
           />
           <Pole
             label={t("UI-SCEN-ZYWOTNOSC")}

@@ -7,6 +7,7 @@ import {
   GAMMA_TYPOWA_MIN_PCT_NA_C,
   PRZYROST_TEMPERATURY_TYPOWY_MAX_C,
   PRZYROST_TEMPERATURY_TYPOWY_MIN_C,
+  TEMPERATURA_REFERENCYJNA_STC_C,
 } from "@/lib/core/modules/pv/wplyw-temperatury/constants"
 import { usePersistedDraft } from "@/lib/adapters/use-persisted-draft"
 import { Pole } from "@/components/ui/pole"
@@ -63,7 +64,12 @@ export default function WplywTemperaturyPage() {
   return (
     <main className="mx-auto flex max-w-md flex-col gap-6 p-6">
       <NawigacjaEkranu href="/kalkulatory/wplyw-temperatury" />
-      <NaglowekEkranu tytul="Wpływ temperatury na wydajność" ekran="wplyw-temperatury" wynik={result}>
+      <NaglowekEkranu
+        tytul="Wpływ temperatury na wydajność"
+        ekran="wplyw-temperatury"
+        wynik={result}
+        parametry={{ tStc: TEMPERATURA_REFERENCYJNA_STC_C }}
+      >
         Panele nie lubią upałów — paradoksalnie, najzimniejszy słoneczny dzień daje więcej mocy
         niż najgorętszy. Moduł 3, Ekran 18.
       </NaglowekEkranu>

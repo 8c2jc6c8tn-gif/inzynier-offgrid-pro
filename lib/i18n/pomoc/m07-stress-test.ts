@@ -175,9 +175,9 @@ export const pl = {
   "pre-heat": {
     migawka: {
       oCoChodzi: "Ładuj ciepło, zanim przyjdzie mróz — przegrzej dom i bojler w słoneczny dzień przed frontem.",
-      jakDziala: "Ciepło w budynku = pojemność cieplna × podniesienie temperatury; ciepło w bojlerze = litry × ΔT × 0,001163; energia elektryczna = suma ÷ COP; bufor czasowy = ciepło budynku ÷ straty.",
+      jakDziala: "Ciepło w budynku = pojemność cieplna × podniesienie temperatury; ciepło w bojlerze = litry × ΔT × {kwhNaLK}; energia elektryczna = suma ÷ COP; bufor czasowy = ciepło budynku ÷ straty.",
       poCo: "Wiesz, ile godzin mrozu „kupujesz” nadwyżką PV i czy ta nadwyżka wystarczy.",
-      fizyka: "Q_dom = C · ΔT; Q_CWU = V · ΔT_CWU · 0,001163; E_el = (Q_dom + Q_CWU) / COP; t = Q_dom / P_strat.",
+      fizyka: "Q_dom = C · ΔT; Q_CWU = V · ΔT_CWU · {kwhNaLK}; E_el = (Q_dom + Q_CWU) / COP; t = Q_dom / P_strat.",
     },
     pola: {
       pojemnoscCieplnaKwhK: { nazwa: "Pojemność cieplna budynku [kWh/K]", cel: "Ile ciepła budynek magazynuje na 1 K.", gdzie: "Moduł 6 „Pojemność cieplna budynku”.", zakres: TWOJ },
@@ -426,9 +426,9 @@ export const en: Tlumaczenie<typeof pl> = {
   "pre-heat": {
     migawka: {
       oCoChodzi: "Store heat before the frost arrives — overheat the house and water heater on a sunny day before the front.",
-      jakDziala: "Heat in the building = heat capacity × temperature rise; heat in the water heater = litres × ΔT × 0.001163; electrical energy = sum ÷ COP; time buffer = building heat ÷ losses.",
+      jakDziala: "Heat in the building = heat capacity × temperature rise; heat in the water heater = litres × ΔT × {kwhNaLK}; electrical energy = sum ÷ COP; time buffer = building heat ÷ losses.",
       poCo: "You know how many hours of frost you “buy” with PV surplus and whether the surplus is enough.",
-      fizyka: "Q_house = C · ΔT; Q_DHW = V · ΔT_DHW · 0.001163; E_el = (Q_house + Q_DHW) / COP; t = Q_house / P_loss.",
+      fizyka: "Q_house = C · ΔT; Q_DHW = V · ΔT_DHW · {kwhNaLK}; E_el = (Q_house + Q_DHW) / COP; t = Q_house / P_loss.",
     },
     pola: {
       pojemnoscCieplnaKwhK: { nazwa: "Building heat capacity [kWh/K]", cel: "How much heat the building stores per 1 K.", gdzie: "Module 6 “Building heat capacity”.", zakres: TWOJ_EN },
@@ -677,9 +677,9 @@ export const ru: Tlumaczenie<typeof pl> = {
   "pre-heat": {
     migawka: {
       oCoChodzi: "Запасайте тепло до мороза — перегрейте дом и бойлер в солнечный день перед фронтом.",
-      jakDziala: "Тепло в здании = теплоёмкость × подъём температуры; тепло в бойлере = литры × ΔT × 0,001163; электроэнергия = сумма ÷ COP; запас по времени = тепло здания ÷ теплопотери.",
+      jakDziala: "Тепло в здании = теплоёмкость × подъём температуры; тепло в бойлере = литры × ΔT × {kwhNaLK}; электроэнергия = сумма ÷ COP; запас по времени = тепло здания ÷ теплопотери.",
       poCo: "Вы знаете, сколько часов мороза «покупаете» избытком PV и хватит ли этого избытка.",
-      fizyka: "Q_дом = C · ΔT; Q_ГВС = V · ΔT_ГВС · 0,001163; E_эл = (Q_дом + Q_ГВС) / COP; t = Q_дом / P_потерь.",
+      fizyka: "Q_дом = C · ΔT; Q_ГВС = V · ΔT_ГВС · {kwhNaLK}; E_эл = (Q_дом + Q_ГВС) / COP; t = Q_дом / P_потерь.",
     },
     pola: {
       pojemnoscCieplnaKwhK: { nazwa: "Теплоёмкость здания [кВт·ч/К]", cel: "Сколько тепла здание запасает на 1 К.", gdzie: "Модуль 6 «Теплоёмкость здания».", zakres: TWOJ_RU },
