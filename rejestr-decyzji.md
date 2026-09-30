@@ -1,6 +1,6 @@
 # Rejestr decyzji — Inżynier Offgrid Pro
 
-**Wersja:** 1.36 | **Filar:** C | **Data utworzenia:** 04.09.2026 | **Ostatnia aktualizacja:** 30.09.2026 | **Status:** Stabilny (rosnący)
+**Wersja:** 1.37 | **Filar:** C | **Data utworzenia:** 04.09.2026 | **Ostatnia aktualizacja:** 30.09.2026 | **Status:** Stabilny (rosnący)
 **Powiązane dokumenty:** `00_Biblia.md`, `docs/memory.md`, `USTALENIA.md` (historyczny, Część II)
 
 TL;DR: D1, D2, D3… — decyzje **strategiczne/fundamentalne** (blokujące wiele innych rzeczy naraz, Krok 4 GOD BOOK), ponumerowane, nigdy nie kasowane, tylko unieważniane jawnie (F.5). **Nie duplikuje `docs/memory.md`**: tam żyje pełna, szczegółowa historia każdej sesji (setki drobnych decyzji implementacyjnych per ekran) — tu tylko decyzje, które zmieniły kierunek/regułę obowiązującą cały projekt. Gdy wpis niżej odsyła do `docs/memory.md`, tam jest pełne uzasadnienie i przykłady.
@@ -267,6 +267,15 @@ Treść:
 
 **D64 (30.09.2026) — Druga runda: 5 kolejnych stylów wyglądu do pracy (łącznie 12).** Koszt cofnięcia: tani (nadal tylko prototyp poza repo). Rozszerza D62/D63. Właściciel projektu przyjął całą drugą rundę z artefaktu https://claude.ai/artifact/JsYnhZYECTQtSTAPAj4kmL: **Różowe złoto**, **Pudrowy róż** (jasny), **Pomarańcz sygnałowy**, **Słoneczny poranek** (jasny) i **Zachód słońca**. **Pomarańcz sygnałowy** przyjęto mimo uwagi audytora (akcent bardzo blisko 🟡). Warunek wdrożenia: pomarańcz tylko na krawędziach, przyciskach i w nawigacji, pierścień wyniku neutralny, werdykt zawsze z ikoną i podpisem, test czytelności dla zaburzeń widzenia barw. Jeśli test nie przejdzie, styl wraca do właściciela. Trzecia runda (style eksperymentalne 14–20: Holograficzny, Kokpit HUD, Szkło, Brutalizm, Synthwave, Orbita, Neumorfizm) czeka na wybór. Część z nich świadomie łamie zakazy ze specyfikacji Premium właściciela: gradienty tęczowe, „szkło typu Vision Pro”, gamingowe neony. Przyjęcie takiego stylu = jawny wyjątek od tej specyfikacji, zapisywany przy wyborze. Reguły sekcji 7 `docs/opis-ekranow-dla-ai.md` (kolory werdyktu, `critical` widoczny) obowiązują bez wyjątku.
 
+**D65 (30.09.2026) — Runda eksperymentalna przyjęta w całości (łącznie 19 stylów); świadome wyjątki od specyfikacji Premium.** Koszt cofnięcia: tani (nadal tylko prototyp poza repo). Rozszerza D62–D64. Właściciel projektu przyjął style 14–20 z artefaktu https://claude.ai/artifact/JsYnhZYECTQtSTAPAj4kmL: **Holograficzny**, **Kokpit HUD**, **Szkło**, **Brutalizm**, **Synthwave**, **Orbita** i **Neumorfizm**. To jawne wyjątki od zakazów w jego specyfikacji Premium: Holograficzny łamie zakaz gradientów tęczowych, Szkło zakaz „szkła typu Vision Pro”, a Synthwave zakaz gamingowych neonów. Wyjątki dotyczą tylko tych stylów, a zakazy nadal obowiązują pozostałe. Warunki wdrożenia:
+- tęcza (Holograficzny) i neonowy róż (Synthwave) nigdy nie pojawiają się na karcie z werdyktem ani ostrzeżeniem;
+- Szkło ma wariant zapasowy bez rozmycia dla słabszych telefonów;
+- Neumorfizm dostaje obrysy pól (WCAG 1.4.11);
+- Kokpit HUD przechodzi test kontrastu turkusu względem 🟢 dla deuteranopii;
+- animacje (Holograficzny) wyłączają się przy `prefers-reduced-motion`.
+
+Czwarta runda (21–28: Notatnik inżyniera, Rozdzielnica, E-ink, OLED oszczędny, Płynny gradient, Terminal DOS, Marmur i złoto, Zen) czeka na wybór. Reguły sekcji 7 `docs/opis-ekranow-dla-ai.md` obowiązują każdy styl bez wyjątku.
+
 ## Założenia robocze (F.7 GOD BOOK)
 
 **Z1 (04.09.2026) — przyjęto:** ID modułów (H.2 GOD BOOK, M#) odpowiadają wprost numeracji "Moduł N" już używanej w całym projekcie (1–13), nie nowej, niezależnej numeracji. **Powód:** ta numeracja jest już stabilna, używana w kodzie, dokumentacji i UI od 29.08.2026 — wprowadzenie równoległej numeracji M# byłoby duplikatem, nie nowym bytem. **Na czym się opiera:** cała struktura `docs/rejestr-pokrycia.md`, `lib/pulpit/registry.ts`, `docs/pulpit-i-nawigacja.md`.
@@ -317,3 +326,4 @@ Treść:
 | 30.09.2026 | Dodano D62 (kierunek wyglądu: 3 style „Premium” do pracy, 2 „Warsztat” odrzucone jako za płaskie; 2 brakujące style do wyboru z nowych propozycji) — decyzja właściciela projektu. Wersja 1.33→1.34. |
 | 30.09.2026 | Dodano D63 (kolejne 4 style do pracy: Tytan, Las + mosiądz, Kreślarski, Noc polarna; łącznie 7; lista stylów otwarta, druga runda propozycji czeka na wybór) — decyzja właściciela projektu. Wersja 1.34→1.35. |
 | 30.09.2026 | Dodano D64 (druga runda: Różowe złoto, Pudrowy róż, Pomarańcz sygnałowy — z warunkiem testu vs 🟡, Słoneczny poranek, Zachód słońca; łącznie 12 stylów; runda eksperymentalna 14–20 czeka na wybór) — decyzja właściciela projektu. Wersja 1.35→1.36. |
+| 30.09.2026 | Dodano D65 (runda eksperymentalna 14–20 przyjęta w całości, łącznie 19 stylów; jawne wyjątki od zakazów specyfikacji Premium dla Holograficznego, Szkła i Synthwave, z warunkami wdrożenia; czwarta runda 21–28 czeka na wybór) — decyzja właściciela projektu. Wersja 1.36→1.37. |

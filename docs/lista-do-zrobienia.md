@@ -1456,3 +1456,9 @@ Pełne wyniki audytu: `docs/memory.md`, sekcja "Pełny audyt na polecenie właś
   (Holograficzny, Kokpit HUD, Szkło, Brutalizm, Synthwave, Orbita, Neumorfizm) czeka na wybór. **Uwaga wdrożeniowa:** przy 12+
   stylach tokeny muszą być generowane z jednej tabeli (styl → zestaw tokenów + kilka wariantów komponentów), a nie pisane
   ręcznie w `app/globals.css`. Każdy styl dostaje automatyczny test kontrastu werdyktów (WCAG), inaczej koszt utrzymania rośnie liniowo.
+  🔄 **[30.09.2026, D65] Runda eksperymentalna przyjęta w całości (łącznie 19 stylów).** Holograficzny, Kokpit HUD, Szkło,
+  Brutalizm, Synthwave, Orbita, Neumorfizm; warunki wdrożenia w D65. Czwarta runda (21–28: Notatnik inżyniera,
+  Rozdzielnica, E-ink, OLED oszczędny, Płynny gradient, Terminal DOS, Marmur i złoto, Zen) czeka na wybór.
+  **Do rozstrzygnięcia przed wdrożeniem:** jak podzielić listę w Ustawieniach (np. grupy: Premium / Jasne / Eksperymentalne /
+  Ukryte-sezonowe), żeby wybór spośród 20+ stylów był czytelny na telefonie. Wdrażać etapami: najpierw mechanizm i tabela
+  tokenów + kilka stylów, reszta partiami, bo każdy styl to test kontrastu i przegląd `/wzornik`.
