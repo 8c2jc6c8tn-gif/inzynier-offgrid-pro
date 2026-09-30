@@ -5,7 +5,7 @@
 export const pl = {
   "UI-PULPIT-PRESETY-TYTUL": "Co chcesz teraz zrobić?",
   "UI-PULPIT-PRESETY-OPIS":
-    "Zaznacz jedną lub kilka kategorii i zastosuj — pulpit pokaże tylko potrzebne moduły, w pasującej kolejności. Kilka kategorii = suma ich modułów. Kafle „Dom – sieć” i „Firma – sieć” zostają zawsze, na końcu. Wszystko da się potem zmienić niżej.",
+    "Zaznacz jedną lub kilka kategorii i zastosuj — pulpit pokaże tylko potrzebne moduły, w pasującej kolejności. Kilka kategorii = suma ich modułów. Kafle „Dom – sieć” i „Firma – sieć” zostają zawsze. Wszystko da się potem zmienić niżej.",
   "UI-PULPIT-PRESETY-ZASTOSUJ": "Zastosuj do pulpitu",
   "UI-PULPIT-PRESETY-ZASTOSOWANO": "Pulpit ustawiony. Ukryte moduły przywrócisz przyciskiem „Pokaż”.",
   "UI-PULPIT-PRESET-CALY-SYSTEM": "Cały system off-grid",
@@ -24,6 +24,9 @@ export const pl = {
   "UI-PULPIT-PRESET-ANALIZA-OPIS": "Stress-test z danymi, które go zasilają, i z AI; ukrywa okablowanie, bezpieczeństwo, elektronikę ESP32, montaż baterii, tryb mobilny i Live.",
   "UI-PULPIT-PRESET-AUTOMATYKA": "Automatyka i AI",
   "UI-PULPIT-PRESET-AUTOMATYKA-OPIS": "Elektronika ESP32, AI, tryb Live i bezpieczeństwo; resztę ukrywa.",
+  "UI-PULPIT-PRESET-SIEC": "Jestem podłączony do sieci",
+  "UI-PULPIT-PRESET-SIEC-OPIS":
+    "Na początku „Dom – sieć” i „Firma – sieć”, za nimi moduły potrzebne do przejścia na off-grid; ukrywa okablowanie, elektronikę ESP32, AI, montaż baterii, tryb mobilny i Live.",
 } as const
 
 type Klucz = keyof typeof pl
@@ -31,7 +34,7 @@ type Klucz = keyof typeof pl
 export const en: Record<Klucz, string> = {
   "UI-PULPIT-PRESETY-TYTUL": "What do you want to do now?",
   "UI-PULPIT-PRESETY-OPIS":
-    "Tick one or more categories and apply — the dashboard shows only the modules you need, in a matching order. Several categories = all their modules together. The “Home – grid” and “Business – grid” tiles always stay, at the end. You can change everything below later.",
+    "Tick one or more categories and apply — the dashboard shows only the modules you need, in a matching order. Several categories = all their modules together. The “Home – grid” and “Business – grid” tiles always stay. You can change everything below later.",
   "UI-PULPIT-PRESETY-ZASTOSUJ": "Apply to the dashboard",
   "UI-PULPIT-PRESETY-ZASTOSOWANO": "Dashboard set. Bring hidden modules back with “Show”.",
   "UI-PULPIT-PRESET-CALY-SYSTEM": "Whole off-grid system",
@@ -50,12 +53,15 @@ export const en: Record<Klucz, string> = {
   "UI-PULPIT-PRESET-ANALIZA-OPIS": "Stress test with the data that feeds it, and AI; hides cabling, safety, ESP32 electronics, battery assembly, mobile mode and Live.",
   "UI-PULPIT-PRESET-AUTOMATYKA": "Automation and AI",
   "UI-PULPIT-PRESET-AUTOMATYKA-OPIS": "ESP32 electronics, AI, Live mode and safety; hides the rest.",
+  "UI-PULPIT-PRESET-SIEC": "I am connected to the grid",
+  "UI-PULPIT-PRESET-SIEC-OPIS":
+    "“Home – grid” and “Business – grid” first, then the modules needed to go off-grid; hides cabling, ESP32 electronics, AI, battery assembly, mobile mode and Live.",
 }
 
 export const ru: Record<Klucz, string> = {
   "UI-PULPIT-PRESETY-TYTUL": "Что вы хотите сделать сейчас?",
   "UI-PULPIT-PRESETY-OPIS":
-    "Отметьте одну или несколько категорий и примените — на панели останутся только нужные модули в подходящем порядке. Несколько категорий = все их модули вместе. Плитки «Дом – сеть» и «Фирма – сеть» остаются всегда, в конце. Всё можно изменить ниже.",
+    "Отметьте одну или несколько категорий и примените — на панели останутся только нужные модули в подходящем порядке. Несколько категорий = все их модули вместе. Плитки «Дом – сеть» и «Фирма – сеть» остаются всегда. Всё можно изменить ниже.",
   "UI-PULPIT-PRESETY-ZASTOSUJ": "Применить к панели",
   "UI-PULPIT-PRESETY-ZASTOSOWANO": "Панель настроена. Скрытые модули вернёт кнопка «Показать».",
   "UI-PULPIT-PRESET-CALY-SYSTEM": "Вся автономная система",
@@ -74,4 +80,7 @@ export const ru: Record<Klucz, string> = {
   "UI-PULPIT-PRESET-ANALIZA-OPIS": "Стресс-тест с данными, которые его питают, и ИИ; скрывает кабели, безопасность, электронику ESP32, сборку батарей, мобильный режим и Live.",
   "UI-PULPIT-PRESET-AUTOMATYKA": "Автоматика и ИИ",
   "UI-PULPIT-PRESET-AUTOMATYKA-OPIS": "Электроника ESP32, ИИ, режим Live и безопасность; остальное скрывает.",
+  "UI-PULPIT-PRESET-SIEC": "Я подключён к сети",
+  "UI-PULPIT-PRESET-SIEC-OPIS":
+    "Сначала «Дом – сеть» и «Фирма – сеть», затем модули для перехода на автономное питание; скрывает кабели, электронику ESP32, ИИ, сборку батарей, мобильный режим и Live.",
 }

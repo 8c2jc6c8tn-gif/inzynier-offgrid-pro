@@ -1456,7 +1456,8 @@ Pełne wyniki audytu: `docs/memory.md`, sekcja "Pełny audyt na polecenie właś
   `docs/pulpit-i-nawigacja.md` §3, kafle M14 na końcu każdego, kilka zaznaczonych = unia w kolejności domyślnej (✅🤖).
   Teksty PL/EN/RU (`lib/i18n/ui/pulpit.ts`), test `lib/pulpit/__tests__/presety.test.ts`. Przy okazji (Y.2): lista w
   Ustawieniach pokazywała „15. Dom – sieć” — kafle M14 nie mają numeru (D39), numer zdjęty.
-- 🔲 (2026-09-30) **Pulpit — co zostało po presetach:** (1) dziewiąty preset „Jestem podłączony do sieci” (D39) —
+- 🔲 (2026-09-30) **Pulpit — co zostało po presetach:** **[30.09.2026, D62] pkt (1) ✅** — właściciel przyjął skład i
+  kolejność unii, preset zbudowany; otwarte zostają (2) i (3). (1) dziewiąty preset „Jestem podłączony do sieci” (D39) —
   **skład kafli do decyzji właściciela** (propozycja ✅🤖 do oceny: 15, 16, a za nimi moduły, z których M14 czyta:
   1, 2, 3, 4, 6, 7, 8); (2) ekran onboardingu przy pierwszym uruchomieniu (`backlog-poza-v1.md`); (3) animowana ikona
   kafli M14. **Priorytet:** niski. **Odblokowuje:** pełny §3 pulpitu. **Plusy teraz:** mechanizm presetów gotowy,

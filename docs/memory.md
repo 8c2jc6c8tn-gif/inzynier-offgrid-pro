@@ -8489,4 +8489,5 @@ Tryb Audyt (czapka rewidenta). Warstwa „w pełni na końcu” z N.2 — wszyst
   „Kafel 14” = Ustawienia) — numer tylko dla id < 14.
 - **Przecinek w liczbach założeń** — zadanie z indeksu po D54 było duplikatem wpisu zamkniętego 26.09; sprawdzone ponownie,
   nic do zrobienia (kropka tylko w `technicalMessage`).
-
+- **[30.09.2026, D62]** Właściciel przyjął obie propozycje ✅🤖: unia w kolejności domyślnej oraz dziewiąty preset `siec`
+  (M14 na początku, potem 1, 2, 3, 4, 6, 7, 8). Preset `siec` jest jedynym bez `[15, 16]` na końcu — test to rozróżnia.

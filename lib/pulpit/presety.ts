@@ -1,14 +1,14 @@
 /**
  * Dashboard presets ("profile pulpitu" — never "AI", docs/pulpit-i-nawigacja.md §6): a deterministic
  * mapping preset → visible tiles in order. Source: docs/pulpit-i-nawigacja.md §3 (eight working
- * presets). The two M14 tiles ("Dom – sieć", "Firma – sieć", ids 15/16) close every preset (D53, D54).
- * The ninth preset "Jestem podłączony do sieci" (D39) waits for the onboarding screen — its tile set is
- * not decided (backlog-poza-v1.md).
+ * presets). The two M14 tiles ("Dom – sieć", "Firma – sieć", ids 15/16) close every preset (D53, D54),
+ * except the ninth, "Jestem podłączony do sieci" (D39), which puts them first, followed by the modules
+ * M14 reads from (D62).
  */
 import { KAFLE } from "./registry"
 import type { PulpitState } from "./storage"
 
-/** M14 tiles at the end of every preset, "Dom – sieć" first (D53 pkt 2, D54 pkt 3). */
+/** M14 tiles, "Dom – sieć" first: last in the §3 presets (D53 pkt 2, D54 pkt 3), first in "siec" (D62). */
 const KAFLE_M14 = [15, 16] as const
 
 export type PresetPulpitu = {
@@ -35,13 +35,20 @@ export const PRESETY: PresetPulpitu[] = [
   preset("elektryka", "🧰", [1, 5, 3, 4, 8]),
   preset("analiza", "🧪", [1, 7, 2, 3, 4, 6, 10]),
   preset("automatyka", "🤖", [1, 9, 10, 13, 8]),
+  {
+    id: "siec",
+    nazwaKlucz: "UI-PULPIT-PRESET-SIEC",
+    opisKlucz: "UI-PULPIT-PRESET-SIEC-OPIS",
+    ikona: "🔌",
+    widoczne: [...KAFLE_M14, 1, 2, 3, 4, 6, 7, 8],
+  },
 ]
 
 /**
  * Dashboard state for the chosen presets. One preset → its own order. Several → union of their tiles
- * in the default order (§3: "suma zbiorów"; order of a union is not specified there — the default order
- * of §2 is the same rule "Pełne menu" uses, ✅🤖). Hidden tiles follow in the default order, so
- * "Pokaż" in the settings brings them back in a predictable place. No preset → default state.
+ * in the default order (§3: "suma zbiorów"; the same rule "Pełne menu" uses — D62). Hidden tiles follow
+ * in the default order, so "Pokaż" in the settings brings them back in a predictable place. No preset →
+ * default state.
  */
 export function stanZPresetow(ids: string[]): PulpitState {
   const wybrane = PRESETY.filter((p) => ids.includes(p.id))

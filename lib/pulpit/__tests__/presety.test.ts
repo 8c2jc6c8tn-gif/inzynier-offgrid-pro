@@ -6,14 +6,20 @@ import { KAFLE } from "../registry"
 const WSZYSTKIE = KAFLE.map((k) => k.id)
 
 describe("dashboard presets (docs/pulpit-i-nawigacja.md §3, D53, D54)", () => {
-  it("has the eight working presets, each with tile 1 first and the M14 tiles last", () => {
-    expect(PRESETY).toHaveLength(8)
-    for (const p of PRESETY) {
+  it("has the eight §3 presets, each with tile 1 first and the M14 tiles last", () => {
+    expect(PRESETY).toHaveLength(9)
+    for (const p of PRESETY.filter((x) => x.id !== "siec")) {
       expect(p.widoczne[0]).toBe(1)
       expect(p.widoczne.slice(-2)).toEqual([15, 16])
       expect(new Set(p.widoczne).size).toBe(p.widoczne.length)
       for (const id of p.widoczne) expect(WSZYSTKIE).toContain(id)
     }
+  })
+
+  it("grid preset puts M14 first, then the modules M14 reads from (D39, D62)", () => {
+    const stan = stanZPresetow(["siec"])
+    expect(stan.order.slice(0, 9)).toEqual([15, 16, 1, 2, 3, 4, 6, 7, 8])
+    expect(stan.hiddenIds).toEqual([5, 9, 10, 11, 12, 13])
   })
 
   it("keeps the §3 table order for a single preset (PV: 1, 3, 2, 4, 5, 7, 10)", () => {
