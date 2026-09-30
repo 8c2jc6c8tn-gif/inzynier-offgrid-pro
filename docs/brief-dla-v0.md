@@ -9,6 +9,11 @@ przez v0** (nie do kopiowania fragmentami w rozmowie) — to jest jedyne źród�
 projektowych tej paczki. Jeśli coś tu jest niejasne albo wygląda na sprzeczne z tym, co widać w
 kodzie, v0 powinien to zgłosić, nie zgadywać (ta sama zasada co dla AI w `CLAUDE.md`).
 
+**[30.09.2026]** Co faktycznie jest na każdym z 220 ekranów (pola, jednostki, wynik, werdykt,
+elementy graficzne) i anatomia ekranu: `docs/opis-ekranow-dla-ai.md`. Część liczb w tym briefie
+(np. „8 zaimplementowanych ekranów”, PWA poza zakresem) jest z 30.08.2026 i już nieaktualna — tam
+jest stan bieżący.
+
 ---
 
 ## 1. Co to za projekt
