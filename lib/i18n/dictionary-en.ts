@@ -1205,6 +1205,9 @@ export const dictionaryEn = {
   "LPP-ADAPTER-SPRAWDZ": "You connect through an adapter — before connecting, check polarity with a meter and make sure the adapter can carry the panels' current.",
   "LPP-ROZNE-PANELE": "The panels differ: in series the weakest panel limits the current, in parallel the lowest voltage limits it. You lose part of the power; it is best to combine the same model.",
   "LPP-SPRAWDZ-NAPIECIE": "Connectors are not everything: check voltage (adds up in series, rises in frost) and current (adds up in parallel) against the station input limits — the “Panel for a power station” screen.",
+  "PBA-ZA-MALA-MOC-POWERBANKU": "The device draws {urzadzenie} W and the power bank delivers at most {powerbank} W — it will not run it. For such a load you need a battery with a converter.",
+  "PBA-MOC-ZESTAWU-I-KOSZT": "The continuous power of a battery set is set by its converter (“Converters” screen); compare price and weight per 1 Wh on the “Station vs DIY set” screen.",
+  "PBA-ZALOZENIE-PELNE-NALADOWANIE": "Both options start fully charged; solar charging during use is not added.",
   // end of M12 30.09.2026 block
   "LVD-BRAK-OCHRONY-OLOWIOWY": "A lead-acid/AGM battery without a low voltage disconnect, and the load has no protection of its own — the load will drain the battery to zero. Deep discharge permanently damages a lead-acid battery (sulphation). Fit a low voltage disconnect (LVD) with the threshold given above.",
   "LVD-PROG-KWASOWY-BRAK-W-ZRODLE": "No threshold is given for a flooded lead-acid battery — the source gives it only for AGM and LiFePO4. Check the cut-off voltage in the battery manufacturer's datasheet.",

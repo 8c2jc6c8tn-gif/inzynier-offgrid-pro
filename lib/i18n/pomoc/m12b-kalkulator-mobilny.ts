@@ -481,6 +481,67 @@ export const pl = {
       },
     },
   },
+  "powerbank-vs-akumulator": {
+    migawka: {
+      oCoChodzi: "Powerbank to wygoda, ale zestaw z akumulatorem to pojemność i moc.",
+      jakDziala:
+        "Aplikacja sprawdza, czy powerbank ma dość mocy ciągłej dla urządzenia, i liczy, ile razy każda opcja je naładuje (albo zasili przez dobę): energia × sprawność ÷ energia na jedno użycie.",
+      poCo:
+        "Telefon czy lampka to zadanie dla powerbanku. Lodówka turystyczna zwykle przekracza moc wyjścia powerbanku — wtedy potrzebny jest akumulator z przetwornicą.",
+      fizyka:
+        "n = E × η ÷ E_użycia. Akumulator: E = Ah × V × część użyteczna. Warunek mocy: P_urządzenia ≤ P_wyjścia powerbanku.",
+    },
+    pola: {
+      mocUrzadzenia: {
+        nazwa: "Moc urządzenia [W]",
+        cel: "Porównanie z mocą wyjścia powerbanku.",
+        gdzie: "Zasilacz/ładowarka urządzenia (W) albo tabliczka.",
+        zakres: "Z tabliczki Twojego urządzenia.",
+      },
+      energiaUzycia: {
+        nazwa: "Energia na jedno użycie [Wh]",
+        cel: "Z niej wynika liczba naładowań albo dób.",
+        gdzie: "Akumulator urządzenia (Wh na obudowie laptopa/telefonu) albo moc × godziny pracy na dobę.",
+        zakres: "Z danych Twojego urządzenia.",
+      },
+      pbWh: {
+        nazwa: "Pojemność powerbanku [Wh]",
+        cel: "Energia zmagazynowana w powerbanku.",
+        gdzie: "Etykieta. Jeśli podano tylko mAh: Wh = mAh × napięcie z etykiety ÷ 1000.",
+        zakres: "Z etykiety.",
+      },
+      pbMoc: {
+        nazwa: "Maks. moc wyjścia powerbanku [W]",
+        cel: "Czy powerbank uciągnie urządzenie.",
+        gdzie: "Etykieta/instrukcja — moc ciągła wyjścia, którego użyjesz (USB-C PD, DC, 230 V).",
+        zakres: "Z etykiety.",
+      },
+      akAh: {
+        nazwa: "Pojemność akumulatora [Ah]",
+        cel: "Energia akumulatora.",
+        gdzie: "Tabliczka akumulatora.",
+        zakres: "Z tabliczki.",
+      },
+      akV: {
+        nazwa: "Napięcie akumulatora [V]",
+        cel: "Ah × V = Wh.",
+        gdzie: "Tabliczka akumulatora.",
+        zakres: "Z tabliczki.",
+      },
+      akUzyteczna: {
+        nazwa: "Część pojemności do wykorzystania [%]",
+        cel: "Akumulatora nie rozładowuje się do zera — ile wolno zużyć, zależy od chemii.",
+        gdzie: "Karta akumulatora (głębokość rozładowania).",
+        zakres: "Z karty; aplikacja nie zgaduje.",
+      },
+      sprawnosc: {
+        nazwa: "Sprawność przetwarzania [%]",
+        cel: "Przetwornice i kable tracą część energii po drodze do urządzenia.",
+        gdzie: "Karta przetwornicy/ładowarki.",
+        zakres: "Z kart urządzeń; aplikacja nie zgaduje.",
+      },
+    },
+  },
 }
 
 export const en: Tlumaczenie<typeof pl> = {
@@ -960,6 +1021,66 @@ export const en: Tlumaczenie<typeof pl> = {
       },
     },
   },
+  "powerbank-vs-akumulator": {
+    migawka: {
+      oCoChodzi: "A power bank is convenience, but a battery set is capacity and power.",
+      jakDziala:
+        "The app checks whether the power bank has enough continuous power for the device and counts how many times each option charges it (or runs it for a day): energy × efficiency ÷ energy per use.",
+      poCo:
+        "A phone or a lamp is a job for a power bank. A camping fridge usually exceeds a power bank's output — then you need a battery with a converter.",
+      fizyka: "n = E × η ÷ E_use. Battery: E = Ah × V × usable share. Power condition: P_device ≤ P_power bank output.",
+    },
+    pola: {
+      mocUrzadzenia: {
+        nazwa: "Device power [W]",
+        cel: "Compared with the power bank output.",
+        gdzie: "The device's power supply/charger (W) or nameplate.",
+        zakres: "From your device's nameplate.",
+      },
+      energiaUzycia: {
+        nazwa: "Energy per use [Wh]",
+        cel: "Gives the number of charges or days.",
+        gdzie: "The device battery (Wh on the laptop/phone case) or power × running hours per day.",
+        zakres: "From your device's data.",
+      },
+      pbWh: {
+        nazwa: "Power bank capacity [Wh]",
+        cel: "Energy stored in the power bank.",
+        gdzie: "Label. If only mAh is given: Wh = mAh × voltage on the label ÷ 1000.",
+        zakres: "From the label.",
+      },
+      pbMoc: {
+        nazwa: "Max power bank output [W]",
+        cel: "Whether the power bank can run the device.",
+        gdzie: "Label/manual — continuous power of the output you will use (USB-C PD, DC, 230 V).",
+        zakres: "From the label.",
+      },
+      akAh: {
+        nazwa: "Battery capacity [Ah]",
+        cel: "Battery energy.",
+        gdzie: "Battery nameplate.",
+        zakres: "From the nameplate.",
+      },
+      akV: {
+        nazwa: "Battery voltage [V]",
+        cel: "Ah × V = Wh.",
+        gdzie: "Battery nameplate.",
+        zakres: "From the nameplate.",
+      },
+      akUzyteczna: {
+        nazwa: "Usable share of capacity [%]",
+        cel: "A battery is not discharged to zero — how much you may use depends on the chemistry.",
+        gdzie: "Battery datasheet (depth of discharge).",
+        zakres: "From the datasheet; the app does not guess.",
+      },
+      sprawnosc: {
+        nazwa: "Conversion efficiency [%]",
+        cel: "Converters and cables lose some energy on the way to the device.",
+        gdzie: "Converter/charger datasheet.",
+        zakres: "From the datasheets; the app does not guess.",
+      },
+    },
+  },
 }
 
 export const ru: Tlumaczenie<typeof pl> = {
@@ -1436,6 +1557,67 @@ export const ru: Tlumaczenie<typeof pl> = {
         cel: "Позволяет соединить разные разъёмы — если у него правильная полярность и он выдержит ток.",
         gdzie: "Заводской переходник производителя станции или проверенная замена с указанным током.",
         zakres: "Да / нет.",
+      },
+    },
+  },
+  "powerbank-vs-akumulator": {
+    migawka: {
+      oCoChodzi: "Пауэрбанк — это удобство, а комплект с аккумулятором — ёмкость и мощность.",
+      jakDziala:
+        "Приложение проверяет, хватает ли пауэрбанку длительной мощности для устройства, и считает, сколько раз каждый вариант его зарядит (или обеспечит сутки работы): энергия × КПД ÷ энергия на одно использование.",
+      poCo:
+        "Телефон или лампа — задача для пауэрбанка. Туристический холодильник обычно превышает выходную мощность пауэрбанка — тогда нужен аккумулятор с преобразователем.",
+      fizyka:
+        "n = E × η ÷ E_исп. Аккумулятор: E = Ач × В × используемая часть. Условие мощности: P_устройства ≤ P_выхода пауэрбанка.",
+    },
+    pola: {
+      mocUrzadzenia: {
+        nazwa: "Мощность устройства [Вт]",
+        cel: "Сравнивается с выходной мощностью пауэрбанка.",
+        gdzie: "Блок питания/зарядка устройства (Вт) или табличка.",
+        zakres: "С таблички вашего устройства.",
+      },
+      energiaUzycia: {
+        nazwa: "Энергия на одно использование [Вт·ч]",
+        cel: "Даёт число зарядок или суток.",
+        gdzie: "Аккумулятор устройства (Вт·ч на корпусе ноутбука/телефона) или мощность × часы работы в сутки.",
+        zakres: "Из данных вашего устройства.",
+      },
+      pbWh: {
+        nazwa: "Ёмкость пауэрбанка [Вт·ч]",
+        cel: "Энергия, запасённая в пауэрбанке.",
+        gdzie: "Этикетка. Если указаны только мА·ч: Вт·ч = мА·ч × напряжение с этикетки ÷ 1000.",
+        zakres: "С этикетки.",
+      },
+      pbMoc: {
+        nazwa: "Макс. выходная мощность пауэрбанка [Вт]",
+        cel: "Потянет ли пауэрбанк устройство.",
+        gdzie: "Этикетка/инструкция — длительная мощность выхода, который вы используете (USB-C PD, DC, 230 В).",
+        zakres: "С этикетки.",
+      },
+      akAh: {
+        nazwa: "Ёмкость аккумулятора [Ач]",
+        cel: "Энергия аккумулятора.",
+        gdzie: "Табличка аккумулятора.",
+        zakres: "С таблички.",
+      },
+      akV: {
+        nazwa: "Напряжение аккумулятора [В]",
+        cel: "Ач × В = Вт·ч.",
+        gdzie: "Табличка аккумулятора.",
+        zakres: "С таблички.",
+      },
+      akUzyteczna: {
+        nazwa: "Используемая часть ёмкости [%]",
+        cel: "Аккумулятор не разряжают до нуля — сколько можно использовать, зависит от химии.",
+        gdzie: "Паспорт аккумулятора (глубина разряда).",
+        zakres: "Из паспорта; приложение не угадывает.",
+      },
+      sprawnosc: {
+        nazwa: "КПД преобразования [%]",
+        cel: "Преобразователи и кабели теряют часть энергии по пути к устройству.",
+        gdzie: "Паспорт преобразователя/зарядки.",
+        zakres: "Из паспортов; приложение не угадывает.",
       },
     },
   },

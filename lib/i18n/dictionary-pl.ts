@@ -1217,6 +1217,9 @@ export const dictionaryPl = {
   "LPP-ADAPTER-SPRAWDZ": "Łączysz przez adapter — przed podłączeniem sprawdź miernikiem biegunowość i upewnij się, że adapter wytrzyma prąd paneli.",
   "LPP-ROZNE-PANELE": "Panele są różne: szeregowo prąd ogranicza najsłabszy panel, równolegle — najniższe napięcie. Tracisz część mocy; najlepiej łączyć ten sam model.",
   "LPP-SPRAWDZ-NAPIECIE": "Złącza to nie wszystko: sprawdź napięcie (szeregowo się sumuje, w mrozie rośnie) i prąd (równolegle się sumuje) wobec limitów wejścia stacji — ekran „Panel do stacji zasilania”.",
+  "PBA-ZA-MALA-MOC-POWERBANKU": "Urządzenie pobiera {urzadzenie} W, a powerbank oddaje najwyżej {powerbank} W — nie uciągnie go. Do takiego odbiornika potrzebujesz akumulatora z przetwornicą.",
+  "PBA-MOC-ZESTAWU-I-KOSZT": "Moc ciągłą zestawu z akumulatorem wyznacza jego przetwornica (ekran „Przetwornice”), a cenę i masę na 1 Wh porównasz na ekranie „Stacja vs zestaw DIY”.",
+  "PBA-ZALOZENIE-PELNE-NALADOWANIE": "Obie opcje są na starcie w pełni naładowane; ładowanie ze słońca w trakcie nie jest doliczane.",
   // end of M12 30.09.2026 block
   "LVD-BRAK-OCHRONY-OLOWIOWY": "Akumulator kwasowy/AGM bez dozownika napięcia, a odbiornik nie ma własnego zabezpieczenia — odbiornik rozładuje akumulator do zera. Głębokie rozładowanie trwale niszczy akumulator ołowiowy (zasiarczenie). Zamontuj dozownik (LVD) z progiem podanym wyżej.",
   "LVD-PROG-KWASOWY-BRAK-W-ZRODLE": "Dla akumulatora kwasowego (zalewowego) nie podajemy progu — źródło daje go tylko dla AGM i LiFePO4. Sprawdź napięcie odcięcia w karcie producenta akumulatora.",
