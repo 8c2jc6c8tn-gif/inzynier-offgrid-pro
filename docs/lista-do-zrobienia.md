@@ -1440,3 +1440,8 @@ Pełne wyniki audytu: `docs/memory.md`, sekcja "Pełny audyt na polecenie właś
   ilustracja (waga precache, D61). **Kolizja:** sesja `large-tiles-presets-m14` wprowadza „presety pulpitu”
   (`lib/pulpit/presety.ts`, `app/ustawienia/page.tsx`, `app/page.tsx`) — styl wyglądu nazywać „Styl wyglądu”
   (`lib/wyglad/`), nie „preset”, a zmiany w Ustawieniach/pulpicie robić po scaleniu tamtej sesji.
+  🔄 **[30.09.2026, D62] 3 style Premium przyjęte do pracy, 2 Warsztat odrzucone („za płaskie”).** Do wyboru przez
+  właściciela 2 z 5 nowych propozycji w tym samym artefakcie: 4. Tytan (grafit + platyna), 5. Las + mosiądz,
+  6. Kreślarski (blueprint), 7. Noc polarna, 8. Beton + mosiądz. **Następny krok:** wybór 2 propozycji → wpis D →
+  wdrożenie tokenów 5 stylów w `app/globals.css` + wybór w Ustawieniach (`lib/wyglad/`) + `/wzornik`, pulpit i jeden
+  kalkulator do akceptacji. **Priorytet:** średni. **Kolizje:** bez zmian (patrz wyżej).
