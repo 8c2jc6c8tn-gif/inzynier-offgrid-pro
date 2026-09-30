@@ -263,9 +263,9 @@ export const pl = {
       oCoChodzi:
         "Panele zachowują się odwrotnie, niż można by się spodziewać — im zimniej, tym wyższe napięcie jałowe. Mroźny, słoneczny poranek to najgroźniejszy moment dla falownika, nie upał. Przekroczenie limitu MPPT to gwarantowane uszkodzenie sprzętu.",
       jakDziala:
-        "Aplikacja liczy napięcie stringu w najzimniejszy poranek: Voc × (1 + β × (T_min − 25 °C)) × liczba paneli, i porównuje z maksymalnym napięciem wejścia falownika. Powyżej limitu — czerwony stop; od {progOstrzezenia}% limitu — ostrzeżenie.",
+        "Aplikacja liczy napięcie stringu w najzimniejszy poranek: Voc × (1 + β × (T_min − {tStc} °C)) × liczba paneli, i porównuje z maksymalnym napięciem wejścia falownika. Powyżej limitu — czerwony stop; od {progOstrzezenia}% limitu — ostrzeżenie.",
       poCo: "To jeden z najważniejszych twardych stopów w aplikacji. Uszkodzenie wejścia DC od przepięcia zwykle nie jest objęte gwarancją.",
-      fizyka: "Voc_max = Voc_STC × (1 + β/100 × (T_min − 25)) × N. β jest ujemne, więc przy T_min poniżej 25 °C napięcie rośnie.",
+      fizyka: "Voc_max = Voc_STC × (1 + β/100 × (T_min − {tStc})) × N. β jest ujemne, więc przy T_min poniżej {tStc} °C napięcie rośnie.",
     },
     pola: {
       voc: {
@@ -307,7 +307,7 @@ export const pl = {
       jakDziala:
         "Aplikacja liczy siłę wiatru na panel: ½ × gęstość powietrza × prędkość² × powierzchnia × współczynnik oporu Cd, i balast potrzebny do jej zrównoważenia. Masę paneli i stelaża liczy tylko w 90% (PN-EN 1990). Porównuje wynik z planowanym balastem.",
       poCo: "Zerwany przez wiatr stelaż to zniszczone panele i realne zagrożenie dla ludzi. Balast „na oko” to częsty błąd.",
-      fizyka: "F = ½ · ρ · v² · A · Cd (ρ powietrza ≈ 1,225 kg/m³). Siła rośnie z kwadratem prędkości — dwa razy silniejszy wiatr to cztery razy większa siła.",
+      fizyka: "F = ½ · ρ · v² · A · Cd (ρ powietrza ≈ {rho} kg/m³). Siła rośnie z kwadratem prędkości — dwa razy silniejszy wiatr to cztery razy większa siła.",
     },
     pola: {
       predkosc: {
@@ -360,7 +360,7 @@ export const pl = {
         "Prąd płynący kablem zawsze trochę go grzeje — to normalne, ale zbyt cienki kabel zamienia w ciepło więcej energii, niż powinien.",
       jakDziala: "Aplikacja liczy rezystancję kabla (tam i z powrotem), stratę mocy I²R i jej udział w mocy stringu. Cel: straty poniżej {cel}%.",
       poCo: "Każdy procent strat to procent energii traconej przez całe życie instalacji — często taniej dać grubszy kabel.",
-      fizyka: "R = ρ · 2L / S; P_strat = I² · R (miedź ρ ≈ 0,0175 Ω·mm²/m).",
+      fizyka: "R = ρ · 2L / S; P_strat = I² · R (miedź ρ ≈ {rhoCu} Ω·mm²/m).",
     },
     pola: {
       dlugosc: {
@@ -575,9 +575,9 @@ export const pl = {
   "wplyw-temperatury": {
     migawka: {
       oCoChodzi: "Panele nie lubią upałów — paradoksalnie najzimniejszy słoneczny dzień daje więcej mocy niż najgorętszy.",
-      jakDziala: "Aplikacja liczy temperaturę panelu (otoczenie + przyrost od słońca) i spadek mocy: γ × (T_panelu − 25 °C).",
+      jakDziala: "Aplikacja liczy temperaturę panelu (otoczenie + przyrost od słońca) i spadek mocy: γ × (T_panelu − {tStc} °C).",
       poCo: "W upale panel może oddawać o kilkanaście procent mniej, niż ma na tabliczce — trzeba to uwzględnić w bilansie i doborze falownika.",
-      fizyka: "P = P_STC × (1 + γ/100 × (T_panelu − 25)). γ jest ujemne.",
+      fizyka: "P = P_STC × (1 + γ/100 × (T_panelu − {tStc})). γ jest ujemne.",
     },
     pola: {
       tOtoczenia: { nazwa: "Temperatura otoczenia [°C]", cel: "Punkt wyjścia do temperatury panelu.", gdzie: "Twoje warunki (np. upalny dzień).", zakres: "Twoje warunki." },
@@ -997,9 +997,9 @@ export const en: Tlumaczenie<typeof pl> = {
       oCoChodzi:
         "Panels behave opposite to what you might expect — the colder it is, the higher the open-circuit voltage. A frosty sunny morning is the most dangerous moment for the inverter, not a heatwave. Exceeding the MPPT limit means guaranteed equipment damage.",
       jakDziala:
-        "The app calculates the string voltage on the coldest morning: Voc × (1 + β × (T_min − 25 °C)) × number of panels, and compares it with the inverter's maximum input voltage. Above the limit — red stop; from {progOstrzezenia}% of the limit — a warning.",
+        "The app calculates the string voltage on the coldest morning: Voc × (1 + β × (T_min − {tStc} °C)) × number of panels, and compares it with the inverter's maximum input voltage. Above the limit — red stop; from {progOstrzezenia}% of the limit — a warning.",
       poCo: "This is one of the most important hard stops in the app. DC input damage from overvoltage is usually not covered by warranty.",
-      fizyka: "Voc_max = Voc_STC × (1 + β/100 × (T_min − 25)) × N. β is negative, so at T_min below 25 °C the voltage rises.",
+      fizyka: "Voc_max = Voc_STC × (1 + β/100 × (T_min − {tStc})) × N. β is negative, so at T_min below {tStc} °C the voltage rises.",
     },
     pola: {
       voc: { nazwa: "Panel Voc at STC (25 °C) [V]", cel: "The open-circuit voltage — the starting point of the calculation.", gdzie: "From the panel datasheet.", zakres: Z_KARTY_EN },
@@ -1016,7 +1016,7 @@ export const en: Tlumaczenie<typeof pl> = {
       jakDziala:
         "The app calculates the wind force on the panel: ½ × air density × speed² × area × drag coefficient Cd, and the ballast needed to balance it. It counts the panel and frame mass only at 90% (EN 1990). It compares the result with the planned ballast.",
       poCo: "A frame torn off by the wind means destroyed panels and a real danger to people. Ballast “by eye” is a common mistake.",
-      fizyka: "F = ½ · ρ · v² · A · Cd (air ρ ≈ 1.225 kg/m³). The force grows with the square of the speed — twice as strong a wind is four times the force.",
+      fizyka: "F = ½ · ρ · v² · A · Cd (air ρ ≈ {rho} kg/m³). The force grows with the square of the speed — twice as strong a wind is four times the force.",
     },
     pola: {
       predkosc: { nazwa: "Wind speed [m/s]", cel: "The force grows with the square of the speed.", gdzie: "The design speed for your location (e.g. from the wind standard or the “Golden mean” screen).", zakres: "Your location." },
@@ -1048,7 +1048,7 @@ export const en: Tlumaczenie<typeof pl> = {
       oCoChodzi: "Current flowing through a cable always heats it a little — that's normal, but a cable that is too thin turns more energy into heat than it should.",
       jakDziala: "The app calculates the cable resistance (there and back), the power loss I²R and its share of the string power. Target: losses below {cel}%.",
       poCo: "Every percent of losses is a percent of energy lost over the installation's whole life — a thicker cable is often cheaper.",
-      fizyka: "R = ρ · 2L / S; P_loss = I² · R (copper ρ ≈ 0.0175 Ω·mm²/m).",
+      fizyka: "R = ρ · 2L / S; P_loss = I² · R (copper ρ ≈ {rhoCu} Ω·mm²/m).",
     },
     pola: {
       dlugosc: { nazwa: "Cable length panel → inverter (one way) [m]", cel: "The app itself counts the route there and back.", gdzie: "Measure along the route.", zakres: "Your installation." },
@@ -1156,9 +1156,9 @@ export const en: Tlumaczenie<typeof pl> = {
   "wplyw-temperatury": {
     migawka: {
       oCoChodzi: "Panels don't like heat — paradoxically, the coldest sunny day gives more power than the hottest.",
-      jakDziala: "The app calculates the panel temperature (ambient + rise from the sun) and the power drop: γ × (T_panel − 25 °C).",
+      jakDziala: "The app calculates the panel temperature (ambient + rise from the sun) and the power drop: γ × (T_panel − {tStc} °C).",
       poCo: "In a heatwave a panel may deliver over ten percent less than its nameplate — this must be included in the balance and inverter sizing.",
-      fizyka: "P = P_STC × (1 + γ/100 × (T_panel − 25)). γ is negative.",
+      fizyka: "P = P_STC × (1 + γ/100 × (T_panel − {tStc})). γ is negative.",
     },
     pola: {
       tOtoczenia: { nazwa: "Ambient temperature [°C]", cel: "The starting point for the panel temperature.", gdzie: "Your conditions (e.g. a hot day).", zakres: "Your conditions." },
@@ -1538,9 +1538,9 @@ export const ru: Tlumaczenie<typeof pl> = {
       oCoChodzi:
         "Панели ведут себя наоборот ожиданиям — чем холоднее, тем выше напряжение холостого хода. Морозное солнечное утро — самый опасный момент для инвертора, а не жара. Превышение предела MPPT — гарантированное повреждение оборудования.",
       jakDziala:
-        "Приложение считает напряжение стринга в самое холодное утро: Voc × (1 + β × (T_min − 25 °C)) × число панелей и сравнивает с максимальным входным напряжением инвертора. Выше предела — красный стоп; от {progOstrzezenia}% предела — предупреждение.",
+        "Приложение считает напряжение стринга в самое холодное утро: Voc × (1 + β × (T_min − {tStc} °C)) × число панелей и сравнивает с максимальным входным напряжением инвертора. Выше предела — красный стоп; от {progOstrzezenia}% предела — предупреждение.",
       poCo: "Это один из важнейших жёстких стопов приложения. Повреждение входа DC от перенапряжения обычно не покрывается гарантией.",
-      fizyka: "Voc_max = Voc_STC × (1 + β/100 × (T_min − 25)) × N. β отрицательный, поэтому при T_min ниже 25 °C напряжение растёт.",
+      fizyka: "Voc_max = Voc_STC × (1 + β/100 × (T_min − {tStc})) × N. β отрицательный, поэтому при T_min ниже {tStc} °C напряжение растёт.",
     },
     pola: {
       voc: { nazwa: "Voc панели при STC (25 °C) [В]", cel: "Напряжение холостого хода — отправная точка расчёта.", gdzie: "Из документации панели.", zakres: Z_KARTY_RU },
@@ -1557,7 +1557,7 @@ export const ru: Tlumaczenie<typeof pl> = {
       jakDziala:
         "Приложение считает силу ветра на панель: ½ × плотность воздуха × скорость² × площадь × коэффициент сопротивления Cd — и балласт, нужный для её уравновешивания. Массу панелей и каркаса учитывает только на 90% (EN 1990). Сравнивает результат с планируемым балластом.",
       poCo: "Сорванный ветром каркас — это уничтоженные панели и реальная опасность для людей. Балласт «на глаз» — частая ошибка.",
-      fizyka: "F = ½ · ρ · v² · A · Cd (ρ воздуха ≈ 1,225 кг/м³). Сила растёт с квадратом скорости — вдвое сильнее ветер даёт вчетверо большую силу.",
+      fizyka: "F = ½ · ρ · v² · A · Cd (ρ воздуха ≈ {rho} кг/м³). Сила растёт с квадратом скорости — вдвое сильнее ветер даёт вчетверо большую силу.",
     },
     pola: {
       predkosc: { nazwa: "Скорость ветра [м/с]", cel: "Сила растёт с квадратом скорости.", gdzie: "Расчётная скорость для вашего места (например, из ветрового стандарта или экрана «Золотая середина»).", zakres: "Ваше место." },
@@ -1589,7 +1589,7 @@ export const ru: Tlumaczenie<typeof pl> = {
       oCoChodzi: "Ток в кабеле всегда немного его нагревает — это нормально, но слишком тонкий кабель превращает в тепло больше энергии, чем следует.",
       jakDziala: "Приложение считает сопротивление кабеля (туда и обратно), потери мощности I²R и их долю в мощности стринга. Цель: потери ниже {cel}%.",
       poCo: "Каждый процент потерь — это процент энергии, теряемой весь срок службы установки; более толстый кабель часто дешевле.",
-      fizyka: "R = ρ · 2L / S; P_потерь = I² · R (медь ρ ≈ 0,0175 Ом·мм²/м).",
+      fizyka: "R = ρ · 2L / S; P_потерь = I² · R (медь ρ ≈ {rhoCu} Ом·мм²/м).",
     },
     pola: {
       dlugosc: { nazwa: "Длина кабеля панель → инвертор (в одну сторону) [м]", cel: "Приложение само считает путь туда и обратно.", gdzie: "Измерьте по трассе.", zakres: "Ваша установка." },
@@ -1697,9 +1697,9 @@ export const ru: Tlumaczenie<typeof pl> = {
   "wplyw-temperatury": {
     migawka: {
       oCoChodzi: "Панели не любят жару — парадоксально, самый холодный солнечный день даёт больше мощности, чем самый жаркий.",
-      jakDziala: "Приложение считает температуру панели (окружающая + нагрев от солнца) и падение мощности: γ × (T_панели − 25 °C).",
+      jakDziala: "Приложение считает температуру панели (окружающая + нагрев от солнца) и падение мощности: γ × (T_панели − {tStc} °C).",
       poCo: "В жару панель может отдавать на десяток с лишним процентов меньше, чем указано на табличке, — это нужно учесть в балансе и подборе инвертора.",
-      fizyka: "P = P_STC × (1 + γ/100 × (T_панели − 25)). γ отрицательный.",
+      fizyka: "P = P_STC × (1 + γ/100 × (T_панели − {tStc})). γ отрицательный.",
     },
     pola: {
       tOtoczenia: { nazwa: "Температура окружающей среды [°C]", cel: "Отправная точка для температуры панели.", gdzie: "Ваши условия (например, жаркий день).", zakres: "Ваши условия." },

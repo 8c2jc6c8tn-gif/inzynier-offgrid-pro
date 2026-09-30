@@ -11,7 +11,7 @@ import { NawigacjaEkranu } from "@/components/nawigacja-ekranu"
 import { NaglowekEkranu } from "@/components/wzorce/naglowek-ekranu"
 import { WynikGlowny } from "@/components/wzorce/wynik-glowny"
 import { WynikSzczegoly } from "@/components/wzorce/wynik-szczegoly"
-import { liczba, liczbaLubNull, poziomWerdyktu, zl } from "@/components/siec/wspolne"
+import { liczba, liczbaLubNull, poziomWerdyktu, stawkiDoPomocy, zl } from "@/components/siec/wspolne"
 
 type Stan = {
   tgFi: string
@@ -59,7 +59,12 @@ export default function MocBiernaPage() {
   return (
     <main className="mx-auto flex max-w-md flex-col gap-6 p-6">
       <NawigacjaEkranu href="/kalkulatory/moc-bierna" />
-      <NaglowekEkranu tytul="Moc bierna — opłata i kompensacja" ekran="moc-bierna" wynik={result}>
+      <NaglowekEkranu
+        tytul="Moc bierna — opłata i kompensacja"
+        ekran="moc-bierna"
+        wynik={result}
+        parametry={stawkiDoPomocy()}
+      >
         Ile firma płaci za energię bierną ponad dopuszczalny tgφ₀ i czy opłaca się bateria kondensatorów. Wzór jak w
         taryfach OSD 2026 (z pierwiastkiem — wersja bez niego zawyża opłatę ok. dwukrotnie). M14 „Firma – sieć”, ekran F3.
       </NaglowekEkranu>

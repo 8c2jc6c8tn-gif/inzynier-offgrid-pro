@@ -3,6 +3,7 @@
 import { useMemo } from "react"
 import { calculatePreHeat } from "@/lib/core/modules/stress-test/pre-heat/calculator"
 import type { PreHeatInput, ZrodloEnergiiPreHeat } from "@/lib/core/modules/stress-test/pre-heat/input"
+import { WSPOLCZYNNIK_KWH_NA_L_K } from "@/lib/core/modules/zapotrzebowanie/bojler-cwu/constants"
 import { usePersistedDraft } from "@/lib/adapters/use-persisted-draft"
 import { Pole, PoleSelect } from "@/components/ui/pole"
 import { PomocPola } from "@/components/ui/pomoc"
@@ -55,7 +56,12 @@ export default function PreHeatPage() {
   return (
     <main className="mx-auto flex max-w-md flex-col gap-6 p-6">
       <NawigacjaEkranu href="/kalkulatory/pre-heat" />
-      <NaglowekEkranu tytul="Pre-Heat — ciepło na zapas" ekran="pre-heat" wynik={result}>
+      <NaglowekEkranu
+        tytul="Pre-Heat — ciepło na zapas"
+        ekran="pre-heat"
+        wynik={result}
+        parametry={{ kwhNaLK: WSPOLCZYNNIK_KWH_NA_L_K.toFixed(6) }}
+      >
         Ładuj ciepło, zanim przyjdzie mróz — przegrzej dom i bojler w słoneczny dzień przed frontem, a nie w trakcie, kiedy
         będzie już za późno i za drogo. Moduł 7, Ekran 18.
       </NaglowekEkranu>

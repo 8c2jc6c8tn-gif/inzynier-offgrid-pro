@@ -27,10 +27,12 @@ export function AsystentAi() {
   const [blad, setBlad] = useState<string | null>(null)
 
   useEffect(() => {
-    isAiAvailable().then((wynik) => {
-      setDostepny(wynik)
-      setSprawdzono(true)
-    })
+    isAiAvailable()
+      .then(setDostepny)
+      // Offline the server action cannot be reached: the assistant needs the network anyway, so it
+      // stays hidden (9.0 — degrade silently), instead of an unhandled rejection on every screen.
+      .catch(() => setDostepny(false))
+      .finally(() => setSprawdzono(true))
   }, [])
 
   if (!sprawdzono || !dostepny) return null

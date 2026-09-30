@@ -2,7 +2,7 @@
 
 import { useId, useMemo } from "react"
 import { calculateOchronaPrzedRozladowaniem } from "@/lib/core/modules/kalkulator-mobilny/ochrona-przed-rozladowaniem/calculator"
-import { PROG_ODCIECIA_12V } from "@/lib/core/modules/kalkulator-mobilny/ochrona-przed-rozladowaniem/constants"
+import { OGNIWA_NA_12V, PROG_ODCIECIA_12V } from "@/lib/core/modules/kalkulator-mobilny/ochrona-przed-rozladowaniem/constants"
 import type {
   ChemiaMalegoAkumulatora,
   OchronaPrzedRozladowaniemInput,
@@ -58,7 +58,12 @@ export default function OchronaPrzedRozladowaniemPage() {
         tytul="Ochrona przed rozładowaniem akumulatora"
         ekran="ochrona-przed-rozladowaniem"
         wynik={result}
-        parametry={{ progAgm: PROG_ODCIECIA_12V.AGM ?? "—", progLfp: PROG_ODCIECIA_12V.LiFePO4 ?? "—" }}
+        parametry={{
+          progAgm: PROG_ODCIECIA_12V.AGM ?? "—",
+          progLfp: PROG_ODCIECIA_12V.LiFePO4 ?? "—",
+          ogniwaOlow: OGNIWA_NA_12V.AGM,
+          ogniwaLfp: OGNIWA_NA_12V.LiFePO4,
+        }}
       >
         Dozownik napięcia (LVD) odłącza odbiornik, zanim rozładuje akumulator za głęboko. Moduł 12.
       </NaglowekEkranu>

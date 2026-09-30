@@ -226,9 +226,13 @@ media **4,2 MB** (z czego fonty `woff2` 632 KB, reszta MapLibre) + `public/` **1
    (`components/lokalizacja/widok-3d.tsx`, three.js ~0,9 MB) ma działać offline?
 3. Kandydaci do cięcia (w kolejności zysku, każdy osobno zmierzony):
    - chunki MapLibre — mapa i tak wymaga sieci (D22/D23) → wykluczyć (wykluczenie po zawartości, patrz 1.1.3);
+     **[30.09.2026] Błędne założenie — nie wykluczać.** D22 wymaga, żeby spacer GPS działał offline, a MapLibre
+     rysuje geometrię przez swój worker; sprawdzone na buildzie: bez workera offline znika obrys działki. Chunk
+     MapLibre i `public/maplibre/**` zostają w precache (D60, `docs/memory.md`);
    - pliki `maplibre-gl*-dev.*` w `.next/static/media` — dlaczego w buildzie produkcyjnym (`scripts/kopiuj-maplibre-worker.mjs`,
      import w `mapa-dzialki.tsx`)? Naprawa u źródła, nie tylko wykluczenie;
    - three.js — zależnie od odpowiedzi z pkt 2;
+     **[30.09.2026] Odpowiedź: tylko online (D60)** — wykluczony po treści (`__THREE__`), komunikat na ekranie 3.
    - HTML stron: 21–78 KB na stronę — sprawdzić, co jest inline w HTML (payload RSC? słowniki?). Standard (README
      wzorca, „Odchudzenie HTML”) wydzielił słowniki i18n z HTML → 33,9 → 2,7 MB. U nas słowniki są w chunku (580 KB,
      jeden raz), więc zysk będzie mniejszy — zmierzyć zanim cokolwiek się ruszy;

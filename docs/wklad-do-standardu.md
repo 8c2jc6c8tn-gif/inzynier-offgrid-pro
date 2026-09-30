@@ -1191,3 +1191,35 @@ zapis tego czekania jest asynchroniczny (`getRegistration()`, `caches.keys()`), 
 Propozycja: gotowa funkcja „czekaj na SW” w `docs/przyklady/pwa/` (nasza: `e2e/pomocnicze.mjs`, `czekajNaSw`).
 
 Status: 🔎 nowe
+
+[30.09.2026] KATEGORIA: BŁĄD — wykluczenie biblioteki z precache „bo ekran ma część online” zepsuło tryb offline tego ekranu
+
+Szczegóły: SW etap 1 (D59) wykluczył worker MapLibre z precache z uzasadnieniem „mapa i tak wymaga sieci” (podkład WMS).
+Ta sama mapa rysuje jednak offline geometrię spaceru GPS (D22) — a MapLibre przetwarza GeoJSON w workerze. Offline
+znikał obrys działki, zostawały same znaczniki HTML. Test e2e „każdy ekran otwiera się offline” przeszedł, bo sprawdzał
+tylko HTTP 200 + `<h1>`, nie treść mapy ani `pageerror`. Wykryte dopiero przy ręcznym pomiarze etapu 2 (sesja 30.09),
+naprawione, pilnuje test e2e z modelem działki w IndexedDB. W tym samym przebiegu: Server Action wołana przy montowaniu
+komponentu w layoucie (`isAiAvailable()`) bez `.catch` rzucała offline `TypeError: Failed to fetch` na **każdym**
+ekranie — też niewidoczne dla testu, który nie zbierał `pageerror`.
+
+Dlaczego warto zgłosić do new-app-standards: 5.8 każe odchudzać precache, a README wzorca podaje wykluczenia jako
+zwykły krok — łatwo wykluczyć zasób, który ekran używa także offline. Propozycja: (1) w 5.8 zdanie „przed wykluczeniem
+zasobu z precache sprawdź na buildzie produkcyjnym, offline, każdy ekran, który go ładuje — „ekran ma część online” ≠
+„zasób jest tylko online”; (2) w 10.9 test offline zbiera `pageerror` na każdej stronie (nie tylko status i `<h1>`);
+(3) w 9.0: sprawdzenie dostępności AI przez Server Action musi mieć `.catch` — offline to normalny stan appki.
+
+Status: 🔎 nowe
+
+[30.09.2026] KATEGORIA: DOBRA PRAKTYKA — test „te same `{parametry}` w każdym języku” dla tekstów pomocy
+
+Szczegóły: 8.4b pkt (3) — liczby silnika w tekstach „Fizyka”/„i” podawane przez `{nazwa}` + `parametry`, nie przepisane.
+Przy przepinaniu 16 ekranów M2–M14 jeden rosyjski tekst (depozyt prosumencki) miał inne brzmienie niż PL/EN, więc
+zamiana go ominęła — PL/EN pokazywały stawki z pliku danych, RU nadal wpisane na sztywno. Wyłapał to od razu test
+w `lib/i18n/__tests__/pomoc.test.ts`: dla każdej ścieżki tekstu zbiór `{…}` w EN i RU musi być równy PL.
+
+Dlaczego warto zgłosić do new-app-standards: 8.4b wymaga parametrów zamiast przepisanych liczb, ale nie mówi, jak
+pilnować, że wszystkie języki się przepięły — przepisana liczba w jednym języku to dokładnie ten dryf, któremu 8.4b
+ma zapobiegać, a wizualnie niewidoczny (liczba wygląda poprawnie, dopóki silnik jej nie zmieni). Propozycja: w 8.12
+(lub 10.x) zdanie „test i18n porównuje zbiór placeholderów każdego tekstu między językami” — kilka linii, zero kosztu.
+
+Status: 🔎 nowe

@@ -40,10 +40,21 @@ import { useObliczeniaWTle } from "@/lib/lokalizacja/use-obliczenia-w-tle"
 import { useOnline } from "@/lib/lokalizacja/use-online"
 import { PRZEPUSZCZALNOSC_KORONY_BEZLISTNEJ } from "@/lib/core/modules/lokalizacja/analiza-zacienienia/constants"
 
-const Widok3d = dynamic(() => import("@/components/lokalizacja/widok-3d"), {
-  ssr: false,
-  loading: () => <StanLadowania linie={6} />,
-})
+// three.js is not in the offline precache (owner's decision 30.09.2026, SW stage 2 — lib/pwa/precache-build.ts).
+// Offline, before the chunk was ever loaded, the import fails: a notice instead of an error screen —
+// the rest of the screen does not depend on it.
+const Widok3d = dynamic(
+  () => import("@/components/lokalizacja/widok-3d").catch(() => ({ default: Widok3dBezSieci })),
+  {
+    ssr: false,
+    loading: () => <StanLadowania linie={6} />,
+  },
+)
+
+function Widok3dBezSieci() {
+  const t = useTranslate()
+  return <StanPusty tytul={t("UI-PWA-3D-BRAK-TYTUL")}>{t("UI-PWA-3D-BRAK-OPIS")}</StanPusty>
+}
 
 type StanE3 = {
   prognoza: PrognozaSeed

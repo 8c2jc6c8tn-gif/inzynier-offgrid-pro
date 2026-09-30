@@ -18,7 +18,7 @@ export const pl = {
       poCo:
         "Za cienki kabel to ryzyko pożaru (przegrzanie izolacji) i straty energii przez lata. Za gruby — niepotrzebny koszt. Margines poniżej {margines}% aplikacja oznacza jako ciasny.",
       fizyka:
-        "Opór przewodu R = ρ · 2L / S (miedź ρ ≈ 0,0175 Ω·mm²/m, aluminium ≈ 0,0282). Spadek napięcia ΔU = I · R. Ciepło w kablu rośnie z kwadratem prądu, a oddawanie ciepła zależy od otoczenia — stąd współczynniki k₁ (temperatura) i k₂ (grupowanie).",
+        "Opór przewodu R = ρ · 2L / S (miedź ρ ≈ {rhoCu} Ω·mm²/m, aluminium ≈ {rhoAl}). Spadek napięcia ΔU = I · R. Ciepło w kablu rośnie z kwadratem prądu, a oddawanie ciepła zależy od otoczenia — stąd współczynniki k₁ (temperatura) i k₂ (grupowanie).",
     },
     pola: {
       prad: {
@@ -312,10 +312,10 @@ export const pl = {
       oCoChodzi:
         "Panele nagrzewają się jak dach samochodu w słońcu — im gorszy przepływ powietrza pod spodem, tym gorętsze i mniej wydajne.",
       jakDziala:
-        "Aplikacja ocenia szczelinę wentylacyjną pod panelami: poniżej {progKrytyczny} cm panel może osiągać ok. 70 °C i tracić kilkanaście procent mocy (0,4%/°C powyżej 25 °C), od {progBezpieczny} cm chłodzenie jest dobre. Zakres pośredni nie jest zgadywany — źródło nie podaje zależności.",
+        "Aplikacja ocenia szczelinę wentylacyjną pod panelami: poniżej {progKrytyczny} cm panel może osiągać ok. {tKrytyczna} °C i tracić kilkanaście procent mocy ({strata}%/°C powyżej {tStc} °C), od {progBezpieczny} cm chłodzenie jest dobre. Zakres pośredni nie jest zgadywany — źródło nie podaje zależności.",
       poCo:
         "Szczelina to darmowa moc: kilka centymetrów więcej przy montażu daje więcej energii przez całe życie instalacji.",
-      fizyka: "strata % = (T_panelu − 25 °C) × 0,4 %/°C. Moc ogniwa krzemowego spada, gdy rośnie temperatura.",
+      fizyka: "strata % = (T_panelu − {tStc} °C) × {strata} %/°C. Moc ogniwa krzemowego spada, gdy rośnie temperatura.",
     },
     pola: {
       szczelina: {
@@ -837,7 +837,7 @@ export const en: Tlumaczenie<typeof pl> = {
       poCo:
         "A cable that is too thin is a fire risk (overheated insulation) and wastes energy for years. Too thick — needless cost. The app marks a margin below {margines}% as tight.",
       fizyka:
-        "Conductor resistance R = ρ · 2L / S (copper ρ ≈ 0.0175 Ω·mm²/m, aluminium ≈ 0.0282). Voltage drop ΔU = I · R. Heat in a cable grows with the square of the current, and heat dissipation depends on the surroundings — hence the factors k₁ (temperature) and k₂ (grouping).",
+        "Conductor resistance R = ρ · 2L / S (copper ρ ≈ {rhoCu} Ω·mm²/m, aluminium ≈ {rhoAl}). Voltage drop ΔU = I · R. Heat in a cable grows with the square of the current, and heat dissipation depends on the surroundings — hence the factors k₁ (temperature) and k₂ (grouping).",
     },
     pola: {
       prad: {
@@ -1126,9 +1126,9 @@ export const en: Tlumaczenie<typeof pl> = {
       oCoChodzi:
         "Panels heat up like a car roof in the sun — the worse the airflow underneath, the hotter and less efficient they are.",
       jakDziala:
-        "The app assesses the ventilation gap under the panels: below {progKrytyczny} cm a panel can reach about 70 °C and lose over ten percent of its power (0.4%/°C above 25 °C); from {progBezpieczny} cm cooling is good. The intermediate range is not guessed — the source gives no relationship.",
+        "The app assesses the ventilation gap under the panels: below {progKrytyczny} cm a panel can reach about {tKrytyczna} °C and lose over ten percent of its power ({strata}%/°C above {tStc} °C); from {progBezpieczny} cm cooling is good. The intermediate range is not guessed — the source gives no relationship.",
       poCo: "The gap is free power: a few centimetres more at installation give more energy for the whole life of the system.",
-      fizyka: "loss % = (T_panel − 25 °C) × 0.4 %/°C. The power of a silicon cell falls as temperature rises.",
+      fizyka: "loss % = (T_panel − {tStc} °C) × {strata} %/°C. The power of a silicon cell falls as temperature rises.",
     },
     pola: {
       szczelina: {
@@ -1642,7 +1642,7 @@ export const ru: Tlumaczenie<typeof pl> = {
       poCo:
         "Слишком тонкий кабель — риск пожара (перегрев изоляции) и потери энергии годами. Слишком толстый — лишние расходы. Запас меньше {margines}% приложение отмечает как недостаточный.",
       fizyka:
-        "Сопротивление проводника R = ρ · 2L / S (медь ρ ≈ 0,0175 Ом·мм²/м, алюминий ≈ 0,0282). Падение напряжения ΔU = I · R. Тепло в кабеле растёт с квадратом тока, а теплоотдача зависит от окружения — отсюда коэффициенты k₁ (температура) и k₂ (группировка).",
+        "Сопротивление проводника R = ρ · 2L / S (медь ρ ≈ {rhoCu} Ом·мм²/м, алюминий ≈ {rhoAl}). Падение напряжения ΔU = I · R. Тепло в кабеле растёт с квадратом тока, а теплоотдача зависит от окружения — отсюда коэффициенты k₁ (температура) и k₂ (группировка).",
     },
     pola: {
       prad: {
@@ -1931,9 +1931,9 @@ export const ru: Tlumaczenie<typeof pl> = {
       oCoChodzi:
         "Панели нагреваются, как крыша автомобиля на солнце, — чем хуже поток воздуха под ними, тем они горячее и менее эффективны.",
       jakDziala:
-        "Приложение оценивает вентиляционный зазор под панелями: меньше {progKrytyczny} см панель может нагреваться примерно до 70 °C и терять более десяти процентов мощности (0,4%/°C выше 25 °C); от {progBezpieczny} см охлаждение хорошее. Промежуточный диапазон не угадывается — источник не даёт зависимости.",
+        "Приложение оценивает вентиляционный зазор под панелями: меньше {progKrytyczny} см панель может нагреваться примерно до {tKrytyczna} °C и терять более десяти процентов мощности ({strata}%/°C выше {tStc} °C); от {progBezpieczny} см охлаждение хорошее. Промежуточный диапазон не угадывается — источник не даёт зависимости.",
       poCo: "Зазор — бесплатная мощность: несколько сантиметров больше при монтаже дают больше энергии на весь срок службы.",
-      fizyka: "потери % = (T_панели − 25 °C) × 0,4 %/°C. Мощность кремниевого элемента падает с ростом температуры.",
+      fizyka: "потери % = (T_панели − {tStc} °C) × {strata} %/°C. Мощность кремниевого элемента падает с ростом температуры.",
     },
     pola: {
       szczelina: {

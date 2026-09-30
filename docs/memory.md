@@ -8415,6 +8415,19 @@ Tryb Audyt (czapka rewidenta). Warstwa „w pełni na końcu” z N.2 — wszyst
 - Worktree bez własnego `node_modules` uruchamia vitest z katalogu nadrzędnego (rozwiązywanie modułów w górę drzewa),
   ale `pnpm typecheck` pada („tsc: not found”) — w nowym worktree najpierw `pnpm install --frozen-lockfile`.
 
+## 8.4b pkt (3) — liczby silnika w tekstach pomocy przez `parametry` (30.09.2026)
+
+- 16 ekranów: tekst `lib/i18n/pomoc/*` ma `{nazwa}`, strona podaje stałą z `constants.ts` w `parametry` (`NaglowekEkranu`)
+  albo `params` (`PomocPola`). Kryterium: liczba jest stałą silnika → parametr; stała strukturalna wzoru, przykład,
+  numer normy/artykułu, liczba bez stałej w silniku → zostaje w tekście. Pełna lista: `docs/lista-do-zrobienia.md`.
+- Stawki ustawowe M14 (VAT, depozyt, zwrot, k) nie są stałymi, tylko okresami w `rozliczenia-pl-2026.json` —
+  `stawkiDoPomocy()` (`components/siec/wspolne.tsx`) bierze wartość roku danych przez `wartoscNajdluzej` (jak silnik
+  mocy biernej, D36). Nowy tekst M14 cytujący stawkę → ten sam helper, nie liczba w tekście.
+- `podstaw()` zamienia `.` na przecinek w PL/RU tylko dla `number` albo tekstu w pełni dziesiętnego — ułamki z długim
+  rozwinięciem podawać przez `toFixed()` (np. `WSPOLCZYNNIK_KWH_NA_L_K.toFixed(6)` → „0,001163”).
+- **Pułapka:** zamiana tekstu po dosłownym fragmencie ominie język, w którym zdanie ma inny szyk (tu: RU depozytu).
+  Pilnuje test „te same `{parametry}` w PL/EN/RU” (`lib/i18n/__tests__/pomoc.test.ts`) — nie wyłączać.
+
 ## SW wariant C — etap 1 (29.09.2026, D59)
 
 - **Od 29.09: Service Worker = wzorzec standardu** — `app/sw.js/route.ts` (`force-static`) + `lib/pwa/sw-rdzen.js`
@@ -8441,6 +8454,41 @@ Tryb Audyt (czapka rewidenta). Warstwa „w pełni na końcu” z N.2 — wszyst
   standardu); `/_vercel/insights` daje lokalnie 404 + błąd MIME w konsoli — oczekiwane, filtrowane.
 - **Pierwszy deploy:** stary SW serwuje strony z sieci, więc od razu wczytuje się nowy HTML; nowy SW instaluje się w tle
   i toast pojawia się bez dodatkowej nawigacji (sprawdzone: build `main` → build gałęzi na tym samym porcie).
+
+## Drobne zadania + SW etap 2 + 5.10/5.11 (30.09.2026, D60)
+
+- **`middleware.ts` → `proxy.ts`** (Next 16, przewodnik `node_modules/next/dist/docs/01-app/03-api-reference/03-file-conventions/proxy.md`):
+  zmiana nazwy pliku i funkcji, działanie bez zmian. Klasyfikacja 11.8: zmiana konwencji, nie zachowania. Jedyna różnica
+  techniczna: proxy zawsze w runtime Node.js (nie Edge) — kod używa tylko `crypto.randomUUID`, `@supabase/ssr`,
+  `NextResponse`, więc bez wpływu. `pnpm build`: ostrzeżenie o „middleware” zniknęło, w wyjściu `ƒ Proxy (Middleware)`.
+  W dokumentach historycznych nazwa `middleware.ts` zostaje (nie przepisujemy historii); kod wskazuje `proxy.ts`.
+- **`public/placeholder*` usunięte** (5 plików z szablonu) i zdjęte ich wykluczenie z precache.
+- **CI:** job `e2e-sw` w `.github/workflows/ci.yml` (`playwright install --with-deps chromium` + `pnpm test:e2e`,
+  osobny job, limit 30 min). Ruszy dopiero, gdy wróci GitHub Actions (1.10).
+- **5.10:** `lib/adapters/trwaly-magazyn.ts` (kopia wzorca), wołane z `IndexedDbStorageAdapter.setItem` — raz na
+  załadowanie strony, odmowa zapamiętana w `localStorage` (`trwaly-magazyn-odmowa`).
+- **5.11:** zdarzenia wersji bazy w `lib/adapters/indexeddb-storage-adapter.ts` (`naZdarzenieWersjiBazy`),
+  toast `components/pwa/baza-wersja-listener.tsx` (klucze `UI-PWA-BAZA-*`) w `app/layout.tsx`. **Od teraz wolno podbić
+  `DB_VERSION`** — stara karta dostanie toast „Odśwież tę kartę” zamiast cicho gubić autozapis.
+- **BŁĄD etapu 1 (dryf od D22, naprawiony wg Y.2):** worker MapLibre (`public/maplibre/**`) był wykluczony z precache
+  z uzasadnieniem „mapa i tak wymaga sieci”. D22 mówi odwrotnie: spacer GPS działa bez sieci. Skutek sprawdzony na
+  buildzie produkcyjnym: offline na Skanerze znikał obrys działki i budynku (zostawały same numerki punktów), bo
+  MapLibre przetwarza GeoJSON w workerze. Worker wrócił do precache (+0,5 MB); `media/maplibre-gl*` (~3,7 MB) nadal
+  poza precache — to nieużywane kopie emitowane przez bundler z `new URL(..., import.meta.url)` w bibliotece (mapa
+  używa kopii z `public/maplibre/` przez `setWorkerUrl`). Regresję pilnuje test e2e w `e2e/offline.test.mjs`.
+  **Lekcja:** zanim wykluczysz zasób z offline, sprawdź na buildzie, czy ekran naprawdę go nie używa bez sieci —
+  „ekran ma część online” ≠ „biblioteka jest tylko online”.
+- **D60 — widok 3D tylko online:** chunk three.js (~0,9 MB) poza precache, rozpoznawany po treści (`__THREE__`),
+  nie po nazwie z hashem (`czyChunkTylkoOnline`). Import w `analiza-zacienienia/page.tsx` ma `.catch` → komponent
+  z komunikatem `UI-PWA-3D-BRAK-*`, bez ekranu błędu.
+- **BŁĄD znaleziony przy okazji:** `components/asystent-ai.tsx` wołał Server Action `isAiAvailable()` bez `.catch` —
+  offline **każdy** ekran rzucał nieobsłużone `TypeError: Failed to fetch` (widoczne w e2e jako `pageerror`, wcześniej
+  niewychwycone, bo test offline nie sprawdzał `pageerror`). Teraz: offline asystent ukryty (9.0 — ciche zdegradowanie).
+- **Pomiar precache po etapie 2:** 540 wpisów, **20,85 MB surowo, ≈ 6,8 MB transferu** (gzip; Vercel wysyła brotli —
+  jeszcze mniej). Podział (surowo / gzip): HTML 239 stron 6,64 / 1,25 MB; chunki 12,2 / 3,9 MB; media 0,57 MB;
+  `public/` 1,41 / 1,05 MB. Największe: chunk tekstów/słowników ładowany na każdej stronie 1,17 MB, MapLibre 1,0 MB,
+  drugi chunk tekstów 0,73 MB, worker MapLibre 0,5 MB, zod 0,4 MB (ekrany M14 — potrzebny offline). Budżet pierwszego
+  pobrania: **D61 — wariant A**, obecny stan przyjęty, nic dalej nie ciąć (B tylko przy sygnale o słabym łączu).
 
 ## M9 blok 6 (30.09.2026) — E1, E3, Katalogi 2–4; M9 kompletny
 

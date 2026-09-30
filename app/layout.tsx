@@ -3,6 +3,7 @@ import type { Metadata, Viewport } from 'next'
 import { headers } from 'next/headers'
 import { Inter, Lato, Roboto, Source_Sans_3 } from 'next/font/google'
 import { AsystentAi } from '@/components/asystent-ai'
+import { BazaWersjaListener } from '@/components/pwa/baza-wersja-listener'
 import { Powiadomienia } from '@/components/pwa/powiadomienia'
 import { SwRejestracja } from '@/components/pwa/sw-rejestracja'
 import { LanguageProvider } from '@/lib/i18n/language-context'
@@ -59,7 +60,7 @@ export const viewport: Viewport = {
 // tego byłby widoczny błysk domyślnego wyglądu przy odświeżeniu strony (lib/theme/storage.ts,
 // lib/wyglad/storage.ts). Mapowanie grup kolorów zduplikowane tu w czystym JS celowo — ten skrypt
 // biegnie przed hydracją Reacta, nie może importować modułów TS.
-// CSP (middleware.ts, docs/standards/07-bezpieczenstwo.md 7.3) dopuszcza ten inline <script>
+// CSP (proxy.ts, docs/standards/07-bezpieczenstwo.md 7.3) dopuszcza ten inline <script>
 // przez nonce-per-request (atrybut `nonce` niżej) — nie hash, żeby nie kolidować z inline-
 // skryptami RSC streaming Next.js, które też potrzebują tego samego nonce'u.
 const WYGLAD_INIT_SCRIPT = `
@@ -134,7 +135,7 @@ export default async function RootLayout({
 }: Readonly<{
   children: React.ReactNode
 }>) {
-  // Nonce wygenerowany per żądanie w middleware.ts (docs/standards/07-bezpieczenstwo.md, 7.3) —
+  // Nonce wygenerowany per żądanie w proxy.ts (docs/standards/07-bezpieczenstwo.md, 7.3) —
   // dokładany do WŁASNYCH inline-skryptów tego layoutu; Next.js dokłada go automatycznie do
   // swoich własnych (RSC streaming), bo wykrywa go w nagłówku Content-Security-Policy.
   const nonce = (await headers()).get('x-nonce') ?? undefined
@@ -154,6 +155,8 @@ export default async function RootLayout({
           {children}
           <AsystentAi />
           <Powiadomienia />
+          {/* IndexedDB schema-version conflicts between tabs (standard 5.11) → reload toast. */}
+          <BazaWersjaListener />
           {/* Service worker (D59): registers itself in production only and offers updates as a toast. */}
           <SwRejestracja />
           {process.env.NODE_ENV === 'production' && <Analytics />}
