@@ -1511,3 +1511,5 @@ Pełne wyniki audytu: `docs/memory.md`, sekcja "Pełny audyt na polecenie właś
 
   **Otwarte:** mechanizm odblokowania grupy „Ukryte i sezonowe”, zdjęcia domów w pełnej jakości (licencja, D61), czcionka
   szeryfowa z cyrylicą. **Priorytet:** średni. **Kolizje:** Ustawienia/pulpit z sesją `large-tiles-presets-m14`.
+  **Dopisek D66:** style 1–3 = bazowe w wersji PRO; styl wersji darmowej do wyboru później (razem z decyzją freemium,
+  rozdz. 12 standardu). Tabela stylów dostaje pole dostępności, ale bez blokowania, dopóki freemium nie jest wdrożone.

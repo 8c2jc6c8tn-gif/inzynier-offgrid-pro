@@ -291,6 +291,12 @@ Warunki wdrożenia:
 
 Otwarte pytanie: czym „odblokowuje się” grupa Ukryte i sezonowe (np. przełącznik w Ustawieniach albo daty sezonowe). Wdrożenie etapami: najpierw mechanizm, tabela tokenów, grupy i kilka stylów, potem reszta partiami; każdy styl przechodzi automatyczny test kontrastu werdyktów.
 
+*Dopisek do D66 (30.09.2026, właściciel projektu):* style **1–3** (Grafit + złoto, Granat + miedź, Jasny architektoniczny) są **stylami bazowymi wersji PRO** (płatnej). Styl dla **wersji darmowej** zostanie wybrany później. Otwarte:
+- czy pozostałe 24 style wchodzą w PRO w całości, czy są dodatkiem;
+- który styl dostaje wersja darmowa.
+
+Obie sprawy należą do decyzji o modelu freemium (rozdz. 12 standardu), która nadal jest niewdrożona i czeka na właściciela (`docs/memory.md`). Konsekwencja techniczna już teraz: tabela stylów w `lib/wyglad/` ma pole dostępności (np. `tier`), ale egzekucja PRO powstaje dopiero z wdrożeniem freemium. Do tego czasu wszystkie style są dostępne.
+
 ## Założenia robocze (F.7 GOD BOOK)
 
 **Z1 (04.09.2026) — przyjęto:** ID modułów (H.2 GOD BOOK, M#) odpowiadają wprost numeracji "Moduł N" już używanej w całym projekcie (1–13), nie nowej, niezależnej numeracji. **Powód:** ta numeracja jest już stabilna, używana w kodzie, dokumentacji i UI od 29.08.2026 — wprowadzenie równoległej numeracji M# byłoby duplikatem, nie nowym bytem. **Na czym się opiera:** cała struktura `docs/rejestr-pokrycia.md`, `lib/pulpit/registry.ts`, `docs/pulpit-i-nawigacja.md`.
