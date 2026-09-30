@@ -1431,3 +1431,12 @@ Pełne wyniki audytu: `docs/memory.md`, sekcja "Pełny audyt na polecenie właś
   każdy ekran. **Kolizje:** każda sesja zmieniająca te pliki oraz wpis „Tłumaczenie etykiet stron na EN/RU” (inne
   pliki, ale te same ekrany do sprawdzenia wizualnego). **Kolejność:** najpierw prototyp w `/wzornik` + pulpit + jeden
   kalkulator, akceptacja właściciela, dopiero potem reszta.
+  🔄 **[30.09.2026] Kierunek rozszerzony przez właściciela: 5 stylów wyglądu na start** — 3 „Premium” (Grafit + złoto,
+  Granat + miedź, Jasny architektoniczny; wzór: obrazek nr 3 od właściciela) + 2 „Warsztat” (jasny, ciemny — obecne
+  kolory, gęstsze, dopracowane). Prototyp poza kodem (artefakt): https://claude.ai/artifact/JsYnhZYECTQtSTAPAj4kmL —
+  pulpit, kalkulator (baner twardego stopu poza akordeonem), raport. **Czeka na akceptację właściciela**, potem wpis D
+  w `rejestr-decyzji.md`. Otwarte pytania z prototypu: (1) czcionka szeryfowa z cyrylicą — Fraunces/Instrument Serif
+  jej nie mają (RU), w prototypie Source Serif 4; (2) miedź/złoto blisko 🟡 — czy przesunąć miedź; (3) zdjęcie domu vs
+  ilustracja (waga precache, D61). **Kolizja:** sesja `large-tiles-presets-m14` wprowadza „presety pulpitu”
+  (`lib/pulpit/presety.ts`, `app/ustawienia/page.tsx`, `app/page.tsx`) — styl wyglądu nazywać „Styl wyglądu”
+  (`lib/wyglad/`), nie „preset”, a zmiany w Ustawieniach/pulpicie robić po scaleniu tamtej sesji.
