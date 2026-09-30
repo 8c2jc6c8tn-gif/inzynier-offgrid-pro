@@ -1184,6 +1184,15 @@ export const dictionaryPl = {
   "IZOL-ZALOZENIE-CIEPLO-NIE-PRAD": "Oszczędność to ciepło (kWh ciepła), liczone z tych samych średnich miesięcznych co Ekran 1. Prąd zaoszczędzony przez pompę ciepła = ciepło ÷ COP.",
   "DBS-ZALOZENIE-BEZ-DOLADOWANIA": "Akumulator na starcie w pełni naładowany i przez cały ten czas bez żadnego doładowania (panel, alternator, sieć) — każdy słoneczny dzień wydłuża wynik.",
   "DBS-ZALOZENIE-BEZ-KOREKTY-TEMPERATURY": "Bez korekty na temperaturę — w mrozie akumulator oddaje mniej energii niż na tabliczce, więc zimą wynik będzie niższy (patrz Moduł 4: praca baterii w mrozie).",
+  // M12 — screens built 30.09.2026 (E4, E16, E35 and later)
+  "M12-WARTOSC-UJEMNA": "Wpisana wartość nie może być ujemna.",
+  "M12-PROCENT-POZA-ZAKRESEM": "Wartość procentowa musi być z przedziału 0–100%.",
+  "AS-ROZRUCHOWY-NIE-DO-GLEBOKIEGO": "Akumulator rozruchowy jest zbudowany pod krótki, mocny impuls przy rozruchu silnika, nie pod długie, powolne oddawanie prądu. Głębokie rozładowanie skraca jego życie — do zasilania urządzeń lepszy jest akumulator AGM albo żelowy.",
+  "AS-ROZRUCHOWY-PONAD-UZYTECZNA": "Planujesz {planowany} h, a akumulator rozruchowy dojdzie do granicy bezpiecznego rozładowania po ok. {czas} h. Dalej ryzykujesz, że nie odpalisz silnika, i trwale uszkodzisz akumulator. Skróć czas pracy, zmniejsz pobór albo użyj osobnego akumulatora do odbiorników.",
+  "AS-PONAD-UZYTECZNA": "Planujesz {planowany} h, a wpisana część użyteczna pojemności skończy się po ok. {czas} h. Dalsza praca to głębsze rozładowanie niż zakładasz — krótsze życie akumulatora.",
+  "AS-ZALOZENIE-MOC-Z-AKUMULATORA": "Moc to pobór z akumulatora. Przy urządzeniach 230 V przez przetwornicę dolicz jej straty (wpisz moc większą o straty przetwornicy).",
+  "AS-ZALOZENIE-BEZ-TEMPERATURY": "Bez korekty na temperaturę — w mrozie akumulator oddaje mniej, więc realny czas będzie krótszy.",
+  // end of M12 30.09.2026 block
   "LVD-BRAK-OCHRONY-OLOWIOWY": "Akumulator kwasowy/AGM bez dozownika napięcia, a odbiornik nie ma własnego zabezpieczenia — odbiornik rozładuje akumulator do zera. Głębokie rozładowanie trwale niszczy akumulator ołowiowy (zasiarczenie). Zamontuj dozownik (LVD) z progiem podanym wyżej.",
   "LVD-PROG-KWASOWY-BRAK-W-ZRODLE": "Dla akumulatora kwasowego (zalewowego) nie podajemy progu — źródło daje go tylko dla AGM i LiFePO4. Sprawdź napięcie odcięcia w karcie producenta akumulatora.",
   "WMI-WILGOC-CICHY-ZABOJCA": "Wilgoć to cichy zabójca instalacji elektrycznej — powoduje korozję, zwarcia i uszkodzenia elektroniki.",

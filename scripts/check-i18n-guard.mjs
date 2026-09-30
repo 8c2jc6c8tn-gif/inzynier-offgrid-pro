@@ -150,6 +150,7 @@ const MIGRATED_MODULES = [
   "lib/core/modules/kalkulator-mobilny/bezpieczenstwo-kamper",
   "lib/core/modules/kalkulator-mobilny/ladowanie-w-garazu",
   "lib/core/modules/kalkulator-mobilny/kable-bezpieczniki-male",
+  "lib/core/modules/kalkulator-mobilny/akumulator-samochodowy",
   "lib/core/modules/stress-test/wind-chill",
   "lib/core/modules/stress-test/obciazenie-dachu-sniegiem",
   "lib/core/modules/stress-test/sztywnienie-izolacji",

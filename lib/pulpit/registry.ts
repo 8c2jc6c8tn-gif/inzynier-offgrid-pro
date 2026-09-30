@@ -317,6 +317,7 @@ export const KAFLE: KafelEntry[] = [
       { href: "/kalkulatory/bufor-rozbudowe", label: "Planowanie rozbudowy małej instalacji" },
       { href: "/kalkulatory/wilgoc-male-instalacje", label: "Zabezpieczenia przeciwwilgociowe — mała instalacja (IP)" },
       { href: "/kalkulatory/uziemienie-male-instalacje", label: "Uziemienie małej instalacji (kamper, jacht)" },
+      { href: "/kalkulatory/akumulator-samochodowy", label: "Czas pracy na akumulatorze samochodowym" },
     ],
   },
   {

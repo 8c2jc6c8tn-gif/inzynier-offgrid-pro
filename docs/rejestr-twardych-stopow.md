@@ -308,6 +308,11 @@ nie do audytu poprawności formularza webowego.
   przepalenia bezpiecznika lub przegrzania przewodów instalacji pojazdu.
   [27.09.2026] (M12/E30 — `lib/core/modules/kalkulator-mobilny/gniazdo-zapalniczki/warnings.ts`,
   `przeciazenieGniazda`, kod `GZ-PRZECIAZENIE-GNIAZDA`)
+- **[30.09.2026] Planowane rozładowanie akumulatora rozruchowego ponad część użyteczną** — planowany czas pracy dłuższy
+  niż czas do granicy użytecznej pojemności (wpisuje user; Biblia §12.14: zwykle 30–50% dla rozruchowego) — ryzyko,
+  że silnik nie odpali, i trwałe uszkodzenie akumulatora. Lista twardych stopów `Tresc_Modul_12` (E16).
+  (M12/E16 — `lib/core/modules/kalkulator-mobilny/akumulator-samochodowy/warnings.ts`,
+  `rozruchowyPonadUzyteczna`, kod `AS-ROZRUCHOWY-PONAD-UZYTECZNA`)
 - **Bezpiecznik nie chroni kabla przed przeciążeniem (In > Iz)** — sprawdzany przekrój przechodzi obciążalność i
   spadek napięcia, ale bezpiecznik 1,25 × I jest większy niż obciążalność kabla (PN-IEC 60364-4-43, 433.2).
   [27.09.2026] (M12/E2, E15 — `lib/core/modules/kalkulator-mobilny/kable-bezpieczniki-male/warnings.ts`,

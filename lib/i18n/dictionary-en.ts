@@ -1172,6 +1172,15 @@ export const dictionaryEn = {
   "IZOL-ZALOZENIE-CIEPLO-NIE-PRAD": "The saving is heat (kWh of heat), calculated from the same monthly means as Screen 1. Electricity saved by a heat pump = heat ÷ COP.",
   "DBS-ZALOZENIE-BEZ-DOLADOWANIA": "The battery starts fully charged and gets no charging at all during this time (panel, alternator, grid) — every sunny day extends the result.",
   "DBS-ZALOZENIE-BEZ-KOREKTY-TEMPERATURY": "No temperature correction — in frost a battery delivers less energy than its rating, so in winter the result will be lower (see Module 4: batteries in frost).",
+  // M12 — screens built 30.09.2026 (E4, E16, E35 and later)
+  "M12-WARTOSC-UJEMNA": "The value entered cannot be negative.",
+  "M12-PROCENT-POZA-ZAKRESEM": "A percentage must be between 0 and 100%.",
+  "AS-ROZRUCHOWY-NIE-DO-GLEBOKIEGO": "A starter battery is built for a short, strong pulse when cranking the engine, not for a long, slow discharge. Deep discharge shortens its life — an AGM or gel battery is better for powering devices.",
+  "AS-ROZRUCHOWY-PONAD-UZYTECZNA": "You plan {planowany} h, but the starter battery reaches its safe discharge limit after about {czas} h. Beyond that you risk not being able to start the engine and permanently damaging the battery. Shorten the runtime, reduce the load or use a separate battery for the devices.",
+  "AS-PONAD-UZYTECZNA": "You plan {planowany} h, but the usable share you entered runs out after about {czas} h. Running longer means a deeper discharge than you assumed — a shorter battery life.",
+  "AS-ZALOZENIE-MOC-Z-AKUMULATORA": "Power is the draw from the battery. For 230 V devices on an inverter, add its losses (enter a power higher by the inverter losses).",
+  "AS-ZALOZENIE-BEZ-TEMPERATURY": "No temperature correction — in frost the battery delivers less, so the real runtime will be shorter.",
+  // end of M12 30.09.2026 block
   "LVD-BRAK-OCHRONY-OLOWIOWY": "A lead-acid/AGM battery without a low voltage disconnect, and the load has no protection of its own — the load will drain the battery to zero. Deep discharge permanently damages a lead-acid battery (sulphation). Fit a low voltage disconnect (LVD) with the threshold given above.",
   "LVD-PROG-KWASOWY-BRAK-W-ZRODLE": "No threshold is given for a flooded lead-acid battery — the source gives it only for AGM and LiFePO4. Check the cut-off voltage in the battery manufacturer's datasheet.",
   "WMI-WILGOC-CICHY-ZABOJCA": "Moisture is a silent killer of electrical installations — it causes corrosion, short circuits and damage to electronics.",
