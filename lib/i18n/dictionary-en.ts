@@ -1190,6 +1190,8 @@ export const dictionaryEn = {
   "SP-SPADEK-NAPIECIA-KABLA": "A long extension cord means voltage drop and cable heating — size the cross-section for the length and load (Module 5), and lay a buried cable as a direct-burial type, in a conduit.",
   "SP-ZALOZENIE-BEZ-INFLACJI": "No inflation or energy price changes — today's prices over the whole horizon.",
   "SP-ZALOZENIE-ZESTAW-POKRYWA-ZUZYCIE": "The solar set covers the whole entered consumption — check its power and capacity on other Module 12 screens.",
+  "SD-DIY-WYMAGA-WIEDZY": "A DIY set needs knowledge and work: a fuse at the battery, cable sizes matched to the current, solid connections. A badly built set is a fire risk — in a power station the manufacturer does this for you.",
+  "SD-ZALOZENIE-TYLKO-MAGAZYN": "Compares energy storage only (price and mass per usable Wh) — convenience, warranty, service and expandability are described in the overview, not in the numbers.",
   // end of M12 30.09.2026 block
   "LVD-BRAK-OCHRONY-OLOWIOWY": "A lead-acid/AGM battery without a low voltage disconnect, and the load has no protection of its own — the load will drain the battery to zero. Deep discharge permanently damages a lead-acid battery (sulphation). Fit a low voltage disconnect (LVD) with the threshold given above.",
   "LVD-PROG-KWASOWY-BRAK-W-ZRODLE": "No threshold is given for a flooded lead-acid battery — the source gives it only for AGM and LiFePO4. Check the cut-off voltage in the battery manufacturer's datasheet.",

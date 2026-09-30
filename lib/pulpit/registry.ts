@@ -321,6 +321,7 @@ export const KAFLE: KafelEntry[] = [
       { href: "/kalkulatory/mam-akumulator", label: "Mam akumulator — co mogę podłączyć?" },
       { href: "/kalkulatory/agregat-paliwo", label: "Agregat przenośny — ile paliwa na dobę" },
       { href: "/kalkulatory/solar-vs-przedluzacz", label: "Mały zestaw solarny czy przedłużacz?" },
+      { href: "/kalkulatory/stacja-vs-diy", label: "Stacja zasilania czy zestaw DIY?" },
     ],
   },
   {

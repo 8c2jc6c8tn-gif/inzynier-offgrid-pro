@@ -5,6 +5,7 @@ import { akumulatorSamochodowyTool } from "../akumulator-samochodowy-tool"
 import { mamAkumulatorTool } from "../mam-akumulator-tool"
 import { agregatPaliwoTool } from "../agregat-paliwo-tool"
 import { solarVsPrzedluzaczTool } from "../solar-vs-przedluzacz-tool"
+import { stacjaVsDiyTool } from "../stacja-vs-diy-tool"
 
 describe("akumulatorSamochodowyTool (M12/E16, dawne 8.14)", () => {
   it("kontrakt 9.3: 'read', bez potwierdzenia", () => {
@@ -99,5 +100,30 @@ describe("solarVsPrzedluzaczTool (M12/E29, dawne 8.56)", () => {
     expect(w.zwrotLat).toBe(0)
     expect(w.tanszy).toBe("zestaw")
     expect(w.ostrzezenia).toContain(t("pl", "SP-SPADEK-NAPIECIA-KABLA"))
+  })
+})
+
+describe("stacjaVsDiyTool (M12/E34, dawne 8.61)", () => {
+  it("kontrakt 9.3: 'read', bez potwierdzenia", () => {
+    expect(stacjaVsDiyTool.operationType).toBe("read")
+    expect(stacjaVsDiyTool.requiresConfirmation).toBe(false)
+    expect(() => validateAiToolDefinition(stacjaVsDiyTool)).not.toThrow()
+  })
+
+  it("przykład Biblii §12.49 (DoD 50%): DIY ok. 2× więcej energii za złotówkę", async () => {
+    const w = await stacjaVsDiyTool.handler({
+      cenaStacjiZl: 1200,
+      pojemnoscStacjiWh: 500,
+      uzytecznaStacjiPct: 100,
+      masaStacjiKg: 0,
+      cenaDiyZl: 700,
+      pojemnoscDiyAh: 100,
+      napiecieDiyV: 12,
+      dodDiyPct: 50,
+      masaDiyKg: 0,
+    })
+    expect(w.status).toBe("VALID")
+    expect(w.krotnoscDiy).toBeCloseTo(2.057, 3)
+    expect(w.ostrzezenia).toContain(t("pl", "SD-DIY-WYMAGA-WIEDZY"))
   })
 })

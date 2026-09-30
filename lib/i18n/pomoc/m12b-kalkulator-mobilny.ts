@@ -232,6 +232,74 @@ export const pl = {
       },
     },
   },
+  "stacja-vs-diy": {
+    migawka: {
+      oCoChodzi:
+        "Stacja to telefon, DIY to komputer: jedno wygodne, drugie wydajne. Tu porównujesz, ile płacisz za energię, którą naprawdę wykorzystasz.",
+      jakDziala:
+        "Dla stacji: pojemność producenta × część do wykorzystania. Dla DIY: pojemność akumulatora [Ah] × napięcie × dopuszczalna głębokość rozładowania. Cena ÷ energia = zł za 1 Wh. Opcjonalnie masa na 1 kWh.",
+      poCo:
+        "Stacja jest gotowa do pracy, ma gwarancję i serwis, ale płacisz więcej za każdą Wh. DIY jest tańszy i łatwiej go rozbudować, ale wymaga wiedzy (bezpieczniki, przewody) i pracy. Jeśli nie chcesz się bawić w kable — stacja. Jeśli lubisz majsterkować — DIY.",
+      fizyka:
+        "Energia akumulatora E = C [Ah] × U [V]. Użyteczna = E × DoD. Przykład ze źródła: stacja 500 Wh za 1200 zł to 2,4 zł/Wh; akumulator ołowiowy 100 Ah 12 V (przy DoD 50% ok. 600 Wh) z osprzętem za 700 zł to ok. 1,17 zł/Wh — ok. 2× więcej energii za te same pieniądze.",
+    },
+    pola: {
+      cenaStacji: {
+        nazwa: "Cena stacji [zł]",
+        cel: "Mianownik porównania — ile płacisz za gotowe urządzenie.",
+        gdzie: "Oferta sklepu.",
+        zakres: "Z oferty.",
+      },
+      pojemnoscStacji: {
+        nazwa: "Pojemność stacji [Wh]",
+        cel: "Ile energii mieści stacja wg producenta.",
+        gdzie: "Karta produktu (np. „512 Wh”).",
+        zakres: "Z karty produktu.",
+      },
+      uzytecznaStacji: {
+        nazwa: "Część pojemności stacji do wykorzystania [%]",
+        cel: "Nie cała energia z karty trafia do urządzeń (zabezpieczenia BMS, straty przetwornicy).",
+        gdzie: "Karta produktu lub testy stacji. Jeśli producent podaje już pojemność użyteczną — wpisz 100.",
+        zakres: "Z karty stacji; aplikacja nie zgaduje.",
+      },
+      masaStacji: {
+        nazwa: "Masa stacji [kg] (opcjonalnie)",
+        cel: "Porównanie mobilności — kilogramy na 1 kWh.",
+        gdzie: "Karta produktu.",
+        zakres: "Puste = bez porównania masy.",
+      },
+      cenaDiy: {
+        nazwa: "Cena elementów DIY [zł]",
+        cel: "Wszystko, co trzeba kupić, żeby zestaw działał jak stacja.",
+        gdzie: "Suma: akumulator, regulator ładowania, przetwornica, przewody, bezpieczniki, obudowa.",
+        zakres: "Z ofert sklepów.",
+      },
+      pojemnoscDiy: {
+        nazwa: "Pojemność akumulatora [Ah]",
+        cel: "Z niej i z napięcia wynika energia zestawu.",
+        gdzie: "Naklejka lub karta akumulatora.",
+        zakres: "Z karty akumulatora.",
+      },
+      napiecieDiy: {
+        nazwa: "Napięcie akumulatora [V]",
+        cel: "Zamienia Ah na Wh.",
+        gdzie: "Naklejka: 12, 24 albo 48 V.",
+        zakres: "Zwykle 12, 24 albo 48 V.",
+      },
+      dodDiy: {
+        nazwa: "Dopuszczalna głębokość rozładowania — DoD [%]",
+        cel: "Jaką część pojemności wolno zużyć bez skracania życia akumulatora.",
+        gdzie: "Karta akumulatora (cykle przy danej głębokości rozładowania).",
+        zakres: "Dla LiFePO4 typowo {min}–{max}%. Dla ołowiowych — z karty; aplikacja nie wybiera za Ciebie.",
+      },
+      masaDiy: {
+        nazwa: "Masa zestawu [kg] (opcjonalnie)",
+        cel: "Porównanie mobilności — kilogramy na 1 kWh.",
+        gdzie: "Suma mas z kart elementów (akumulator waży najwięcej).",
+        zakres: "Puste = bez porównania masy.",
+      },
+    },
+  },
 }
 
 export const en: Tlumaczenie<typeof pl> = {
@@ -456,6 +524,75 @@ export const en: Tlumaczenie<typeof pl> = {
         cel: "Over how many years to add up the costs of both options.",
         gdzie: "How long you plan to use the plot/place.",
         zakres: "Your plan.",
+      },
+    },
+  },
+  "stacja-vs-diy": {
+    migawka: {
+      oCoChodzi:
+        "A station is a phone, DIY is a computer: one convenient, the other efficient. Here you compare what you pay for the energy you can really use.",
+      jakDziala:
+        "For the station: manufacturer capacity × usable share. For DIY: battery capacity [Ah] × voltage × allowed depth of discharge. Price ÷ energy = PLN per 1 Wh. Optionally mass per 1 kWh.",
+      poCo:
+        "A station is ready to work and has warranty and service, but you pay more for every Wh. DIY is cheaper and easier to expand, but it needs knowledge (fuses, cables) and work. If you do not want to deal with cables — station. If you like tinkering — DIY.",
+      fizyka:
+        "Battery energy E = C [Ah] × U [V]. Usable = E × DoD. Example from the source: a 500 Wh station for 1200 PLN is 2.4 PLN/Wh; a 100 Ah 12 V lead-acid battery (about 600 Wh at 50% DoD) with accessories for 700 PLN is about 1.17 PLN/Wh — about 2× more energy for the same money.",
+    },
+    pola: {
+      cenaStacji: {
+        nazwa: "Station price [PLN]",
+        cel: "What you pay for the ready-made device.",
+        gdzie: "Shop offer.",
+        zakres: "From the offer.",
+      },
+      pojemnoscStacji: {
+        nazwa: "Station capacity [Wh]",
+        cel: "How much energy the station holds per the manufacturer.",
+        gdzie: "Product sheet (e.g. “512 Wh”).",
+        zakres: "From the product sheet.",
+      },
+      uzytecznaStacji: {
+        nazwa: "Usable share of station capacity [%]",
+        cel: "Not all the energy on the sheet reaches the devices (BMS limits, inverter losses).",
+        gdzie: "Product sheet or station tests. If the manufacturer already gives usable capacity — enter 100.",
+        zakres: "From the station sheet; the app does not guess.",
+      },
+      masaStacji: {
+        nazwa: "Station mass [kg] (optional)",
+        cel: "Mobility comparison — kilograms per 1 kWh.",
+        gdzie: "Product sheet.",
+        zakres: "Empty = no mass comparison.",
+      },
+      cenaDiy: {
+        nazwa: "DIY parts price [PLN]",
+        cel: "Everything you must buy for the set to work like a station.",
+        gdzie: "Sum: battery, charge controller, inverter, cables, fuses, enclosure.",
+        zakres: "From shop offers.",
+      },
+      pojemnoscDiy: {
+        nazwa: "Battery capacity [Ah]",
+        cel: "Together with voltage it gives the set's energy.",
+        gdzie: "Battery label or datasheet.",
+        zakres: "From the battery datasheet.",
+      },
+      napiecieDiy: {
+        nazwa: "Battery voltage [V]",
+        cel: "Turns Ah into Wh.",
+        gdzie: "Label: 12, 24 or 48 V.",
+        zakres: "Usually 12, 24 or 48 V.",
+      },
+      dodDiy: {
+        nazwa: "Allowed depth of discharge — DoD [%]",
+        cel: "Which part of the capacity may be used without shortening battery life.",
+        gdzie: "Battery datasheet (cycles at a given depth of discharge).",
+        zakres:
+          "For LiFePO4 typically {min}–{max}%. For lead-acid — from the datasheet; the app does not pick for you.",
+      },
+      masaDiy: {
+        nazwa: "Set mass [kg] (optional)",
+        cel: "Mobility comparison — kilograms per 1 kWh.",
+        gdzie: "Sum of masses from the parts' sheets (the battery weighs the most).",
+        zakres: "Empty = no mass comparison.",
       },
     },
   },
@@ -686,6 +823,74 @@ export const ru: Tlumaczenie<typeof pl> = {
         cel: "За сколько лет суммировать расходы обоих вариантов.",
         gdzie: "Как долго вы планируете пользоваться участком/местом.",
         zakres: "Ваш план.",
+      },
+    },
+  },
+  "stacja-vs-diy": {
+    migawka: {
+      oCoChodzi:
+        "Станция — это телефон, самоделка — компьютер: одно удобно, другое эффективно. Здесь вы сравниваете, сколько платите за реально доступную энергию.",
+      jakDziala:
+        "Для станции: ёмкость производителя × доступная часть. Для самодельного: ёмкость аккумулятора [А·ч] × напряжение × допустимая глубина разряда. Цена ÷ энергия = зл за 1 Вт·ч. Дополнительно масса на 1 кВт·ч.",
+      poCo:
+        "Станция готова к работе, есть гарантия и сервис, но каждый Вт·ч дороже. Самодельный комплект дешевле и легче расширяется, но требует знаний (предохранители, провода) и работы. Не хотите возиться с кабелями — станция. Любите мастерить — самоделка.",
+      fizyka:
+        "Энергия аккумулятора E = C [А·ч] × U [В]. Полезная = E × DoD. Пример из источника: станция 500 Вт·ч за 1200 зл — 2,4 зл/Вт·ч; свинцовый аккумулятор 100 А·ч 12 В (около 600 Вт·ч при DoD 50%) с оснасткой за 700 зл — около 1,17 зл/Вт·ч, т.е. примерно в 2 раза больше энергии за те же деньги.",
+    },
+    pola: {
+      cenaStacji: {
+        nazwa: "Цена станции [зл]",
+        cel: "Сколько вы платите за готовое устройство.",
+        gdzie: "Предложение магазина.",
+        zakres: "Из предложения.",
+      },
+      pojemnoscStacji: {
+        nazwa: "Ёмкость станции [Вт·ч]",
+        cel: "Сколько энергии вмещает станция по данным производителя.",
+        gdzie: "Карточка товара (напр. «512 Wh»).",
+        zakres: "Из карточки товара.",
+      },
+      uzytecznaStacji: {
+        nazwa: "Доступная часть ёмкости станции [%]",
+        cel: "Не вся энергия из карточки доходит до устройств (ограничения BMS, потери инвертора).",
+        gdzie: "Карточка товара или тесты станции. Если производитель уже указывает полезную ёмкость — введите 100.",
+        zakres: "Из карточки станции; приложение не угадывает.",
+      },
+      masaStacji: {
+        nazwa: "Масса станции [кг] (необязательно)",
+        cel: "Сравнение мобильности — килограммы на 1 кВт·ч.",
+        gdzie: "Карточка товара.",
+        zakres: "Пусто = без сравнения массы.",
+      },
+      cenaDiy: {
+        nazwa: "Цена элементов комплекта [зл]",
+        cel: "Всё, что нужно купить, чтобы комплект работал как станция.",
+        gdzie: "Сумма: аккумулятор, контроллер заряда, инвертор, провода, предохранители, корпус.",
+        zakres: "Из предложений магазинов.",
+      },
+      pojemnoscDiy: {
+        nazwa: "Ёмкость аккумулятора [А·ч]",
+        cel: "Вместе с напряжением даёт энергию комплекта.",
+        gdzie: "Наклейка или паспорт аккумулятора.",
+        zakres: "Из паспорта аккумулятора.",
+      },
+      napiecieDiy: {
+        nazwa: "Напряжение аккумулятора [В]",
+        cel: "Переводит А·ч в Вт·ч.",
+        gdzie: "Наклейка: 12, 24 или 48 В.",
+        zakres: "Обычно 12, 24 или 48 В.",
+      },
+      dodDiy: {
+        nazwa: "Допустимая глубина разряда — DoD [%]",
+        cel: "Какую часть ёмкости можно использовать без сокращения срока службы.",
+        gdzie: "Паспорт аккумулятора (циклы при данной глубине разряда).",
+        zakres: "Для LiFePO4 обычно {min}–{max}%. Для свинцовых — из паспорта; приложение не выбирает за вас.",
+      },
+      masaDiy: {
+        nazwa: "Масса комплекта [кг] (необязательно)",
+        cel: "Сравнение мобильности — килограммы на 1 кВт·ч.",
+        gdzie: "Сумма масс из паспортов элементов (больше всего весит аккумулятор).",
+        zakres: "Пусто = без сравнения массы.",
       },
     },
   },

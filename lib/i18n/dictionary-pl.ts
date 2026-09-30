@@ -1202,6 +1202,8 @@ export const dictionaryPl = {
   "SP-SPADEK-NAPIECIA-KABLA": "Długi przedłużacz to spadek napięcia i nagrzewanie kabla — przekrój dobierz do długości i obciążenia (Moduł 5), a kabel w ziemi układaj jako ziemny, w osłonie.",
   "SP-ZALOZENIE-BEZ-INFLACJI": "Bez inflacji i zmian cen energii — dzisiejsze ceny przez cały horyzont.",
   "SP-ZALOZENIE-ZESTAW-POKRYWA-ZUZYCIE": "Zestaw solarny pokrywa całe wpisane zużycie — dobór jego mocy i pojemności sprawdź na innych ekranach Modułu 12.",
+  "SD-DIY-WYMAGA-WIEDZY": "Zestaw DIY wymaga wiedzy i pracy: bezpiecznik przy akumulatorze, przekroje przewodów dobrane do prądu, pewne połączenia. Źle złożony zestaw to ryzyko pożaru — w stacji robi to za Ciebie producent.",
+  "SD-ZALOZENIE-TYLKO-MAGAZYN": "Porównanie samego magazynu energii (cena i masa na Wh użyteczną) — wygoda, gwarancja, serwis i możliwość rozbudowy są opisane w Migawce, nie w liczbach.",
   // end of M12 30.09.2026 block
   "LVD-BRAK-OCHRONY-OLOWIOWY": "Akumulator kwasowy/AGM bez dozownika napięcia, a odbiornik nie ma własnego zabezpieczenia — odbiornik rozładuje akumulator do zera. Głębokie rozładowanie trwale niszczy akumulator ołowiowy (zasiarczenie). Zamontuj dozownik (LVD) z progiem podanym wyżej.",
   "LVD-PROG-KWASOWY-BRAK-W-ZRODLE": "Dla akumulatora kwasowego (zalewowego) nie podajemy progu — źródło daje go tylko dla AGM i LiFePO4. Sprawdź napięcie odcięcia w karcie producenta akumulatora.",

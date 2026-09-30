@@ -88,6 +88,7 @@ import { akumulatorSamochodowyTool } from "./tools/akumulator-samochodowy-tool"
 import { mamAkumulatorTool } from "./tools/mam-akumulator-tool"
 import { agregatPaliwoTool } from "./tools/agregat-paliwo-tool"
 import { solarVsPrzedluzaczTool } from "./tools/solar-vs-przedluzacz-tool"
+import { stacjaVsDiyTool } from "./tools/stacja-vs-diy-tool"
 import { ochronaPrzedRozladowaniemTool } from "./tools/ochrona-przed-rozladowaniem-tool"
 import { wilgocMaleInstalacjeTool } from "./tools/wilgoc-male-instalacje-tool"
 import { uziemienieMaleInstalacjeTool } from "./tools/uziemienie-male-instalacje-tool"
@@ -400,6 +401,7 @@ const NARZEDZIA: Array<AiToolDefinition<any, any>> = [
   mamAkumulatorTool,
   agregatPaliwoTool,
   solarVsPrzedluzaczTool,
+  stacjaVsDiyTool,
   ochronaPrzedRozladowaniemTool,
   wilgocMaleInstalacjeTool,
   uziemienieMaleInstalacjeTool,
