@@ -3,6 +3,7 @@ import { t } from "@/lib/i18n/t"
 import { validateAiToolDefinition } from "../../types"
 import { akumulatorSamochodowyTool } from "../akumulator-samochodowy-tool"
 import { mamAkumulatorTool } from "../mam-akumulator-tool"
+import { agregatPaliwoTool } from "../agregat-paliwo-tool"
 
 describe("akumulatorSamochodowyTool (M12/E16, dawne 8.14)", () => {
   it("kontrakt 9.3: 'read', bez potwierdzenia", () => {
@@ -50,5 +51,29 @@ describe("mamAkumulatorTool (M12/E4, dawne 8.4)", () => {
     expect(w.status).toBe("VALID_WITH_WARNINGS")
     expect(w.urzadzenia.map((u) => u.czasH)).toEqual([24, 1.2])
     expect(w.ostrzezenia).toContain(t("pl", "MA-PRAD-URZADZENIA-PONAD-MAKS", { nazwa: "Czajnik", prad: 83, maks: 50 }))
+  })
+})
+
+describe("agregatPaliwoTool (M12/E35, dawne 8.62)", () => {
+  it("kontrakt 9.3: 'read', bez potwierdzenia", () => {
+    expect(agregatPaliwoTool.operationType).toBe("read")
+    expect(agregatPaliwoTool.requiresConfirmation).toBe(false)
+    expect(() => validateAiToolDefinition(agregatPaliwoTool)).not.toThrow()
+  })
+
+  it("przykład Biblii §12.50: 1,5 l/dobę; agregat w budynku → 🔴 w tekstach", async () => {
+    const w = await agregatPaliwoTool.handler({
+      mocAgregatuKw: 2,
+      obciazeniePct: 50,
+      zuzycieLH: 0.5,
+      godzinNaDobe: 3,
+      cenaZlL: 6.5,
+      kosztPorownawczyZlKwh: 0,
+      miejsceAgregatu: "wewnatrz-budynku",
+      podlaczenieAgregatu: null,
+    })
+    expect(w.status).toBe("VALID_WITH_WARNINGS")
+    expect(w.litrowNaDobe).toBeCloseTo(1.5, 12)
+    expect(w.ostrzezenia).toContain(t("pl", "AGREGAT-W-BUDYNKU-CZAD"))
   })
 })

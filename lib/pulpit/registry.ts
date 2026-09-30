@@ -319,6 +319,7 @@ export const KAFLE: KafelEntry[] = [
       { href: "/kalkulatory/uziemienie-male-instalacje", label: "Uziemienie małej instalacji (kamper, jacht)" },
       { href: "/kalkulatory/akumulator-samochodowy", label: "Czas pracy na akumulatorze samochodowym" },
       { href: "/kalkulatory/mam-akumulator", label: "Mam akumulator — co mogę podłączyć?" },
+      { href: "/kalkulatory/agregat-paliwo", label: "Agregat przenośny — ile paliwa na dobę" },
     ],
   },
   {

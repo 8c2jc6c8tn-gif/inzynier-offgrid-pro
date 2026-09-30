@@ -1195,6 +1195,9 @@ export const dictionaryPl = {
   "MA-PRAD-URZADZENIA-PONAD-MAKS": "{nazwa} pobiera ok. {prad} A, a akumulator (BMS) oddaje najwyżej {maks} A ciągle — może wyłączyć zasilanie albo przegrzać połączenia. Sprawdź kartę akumulatora zanim podłączysz.",
   "MA-PRAD-RAZEM-PONAD-MAKS": "Wszystkie urządzenia naraz pobierają ok. {prad} A — więcej niż {maks} A, które akumulator oddaje ciągle. Nie włączaj ich jednocześnie.",
   "MA-ZALOZENIE-PELNY-AKUMULATOR": "Start z w pełni naładowanego akumulatora, bez doładowania w trakcie (np. panelem).",
+  "AP-DROGIE-PALIWO": "Energia z agregatu to drogie paliwo. Używaj go tylko do doładowania akumulatora albo do krótkiej pracy dużych odbiorników — nie jako stałe źródło.",
+  "AP-PONAD-DOBE": "Doba ma 24 godziny — wpisz liczbę godzin pracy na dobę od 0 do 24.",
+  "AP-ZALOZENIE-STALE-OBCIAZENIE": "Stałe obciążenie i stałe zużycie paliwa przez cały czas pracy — tak, jak je wpisałeś z karty agregatu.",
   // end of M12 30.09.2026 block
   "LVD-BRAK-OCHRONY-OLOWIOWY": "Akumulator kwasowy/AGM bez dozownika napięcia, a odbiornik nie ma własnego zabezpieczenia — odbiornik rozładuje akumulator do zera. Głębokie rozładowanie trwale niszczy akumulator ołowiowy (zasiarczenie). Zamontuj dozownik (LVD) z progiem podanym wyżej.",
   "LVD-PROG-KWASOWY-BRAK-W-ZRODLE": "Dla akumulatora kwasowego (zalewowego) nie podajemy progu — źródło daje go tylko dla AGM i LiFePO4. Sprawdź napięcie odcięcia w karcie producenta akumulatora.",

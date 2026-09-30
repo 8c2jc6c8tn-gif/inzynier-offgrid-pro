@@ -124,6 +124,57 @@ export const pl = {
       },
     },
   },
+  "agregat-paliwo": {
+    migawka: {
+      oCoChodzi:
+        "Agregat to mały smok, który pije paliwo — trzeba wiedzieć, ile zje i ile kosztuje każda kilowatogodzina z niego.",
+      jakDziala:
+        "Zużycie paliwa z karty agregatu [l/h] × godziny pracy na dobę = litry na dobę. Litry × cena = koszt. Moc × obciążenie × godziny = energia oddana na dobę. Koszt ÷ energia = cena 1 kWh. Do tego pytania bezpieczeństwa: gdzie stoi agregat i jak jest podłączony.",
+      poCo:
+        "Agregat pracuje zwykle tylko wtedy, gdy akumulator jest niski. Wiedząc, ile kosztuje kWh z paliwa, łatwiej zdecydować, czy dołożyć panel albo akumulator zamiast palić benzynę.",
+      fizyka:
+        "Przykład ze źródła: agregat 2 kW przy obciążeniu 50% zużywa 0,5 l/h; przy 3 h/dobę spali 1,5 l (ok. 10 zł/dobę) i odda 2 × 0,5 × 3 = 3 kWh.",
+    },
+    pola: {
+      moc: {
+        nazwa: "Moc znamionowa agregatu [kW]",
+        cel: "Z mocy i obciążenia aplikacja liczy energię oddaną na dobę.",
+        gdzie: "Tabliczka lub karta agregatu — moc ciągła (znamionowa), nie maksymalna.",
+        zakres: "Z karty agregatu.",
+      },
+      obciazenie: {
+        nazwa: "Średnie obciążenie [%]",
+        cel: "Jaką część mocy znamionowej faktycznie pobierają odbiorniki i ładowarka w czasie pracy.",
+        gdzie: "Suma mocy tego, co podłączasz (ładowarka, odbiorniki) ÷ moc agregatu × 100.",
+        zakres: "0–100%.",
+      },
+      zuzycie: {
+        nazwa: "Zużycie paliwa [l/h]",
+        cel: "Podstawa wyniku — ile litrów agregat spala w godzinę przy wpisanym obciążeniu.",
+        gdzie:
+          "Karta katalogowa agregatu (zużycie przy danym obciążeniu, często podane dla 50% i 75%) albo własny pomiar: zatankuj do pełna, pracuj godzinę, dolej i zmierz.",
+        zakres: "Z karty agregatu przy Twoim obciążeniu — aplikacja nie zgaduje krzywej zużycia.",
+      },
+      godziny: {
+        nazwa: "Godziny pracy na dobę [h]",
+        cel: "Agregat nie pracuje cały czas — tylko gdy akumulator jest niski albo trzeba zasilić duży odbiornik.",
+        gdzie: "Twój plan lub obserwacja.",
+        zakres: "0–24 h.",
+      },
+      cena: {
+        nazwa: "Cena paliwa [zł/l]",
+        cel: "Zamienia litry na złotówki.",
+        gdzie: "Aktualna cena na stacji.",
+        zakres: "Aktualna cena.",
+      },
+      porownanie: {
+        nazwa: "Koszt 1 kWh z innego źródła [zł/kWh] (opcjonalnie)",
+        cel: "Porównanie: ile razy drożej kosztuje kWh z agregatu.",
+        gdzie: "Rachunek za prąd (cena brutto za kWh) albo koszt kWh z Twojego zestawu PV z innych ekranów.",
+        zakres: "Puste = bez porównania.",
+      },
+    },
+  },
 }
 
 export const en: Tlumaczenie<typeof pl> = {
@@ -244,6 +295,57 @@ export const en: Tlumaczenie<typeof pl> = {
       },
     },
   },
+  "agregat-paliwo": {
+    migawka: {
+      oCoChodzi:
+        "A generator is a small dragon that drinks fuel — you need to know how much it will eat and what every kilowatt-hour from it costs.",
+      jakDziala:
+        "Fuel consumption from the generator datasheet [l/h] × running hours per day = litres per day. Litres × price = cost. Power × load × hours = energy delivered per day. Cost ÷ energy = price of 1 kWh. Plus the safety questions: where the generator stands and how it is connected.",
+      poCo:
+        "A generator usually runs only when the battery is low. Knowing what a kWh from fuel costs makes it easier to decide whether to add a panel or a battery instead of burning petrol.",
+      fizyka:
+        "Example from the source: a 2 kW generator at 50% load uses 0.5 l/h; at 3 h/day it burns 1.5 l (about 10 PLN/day) and delivers 2 × 0.5 × 3 = 3 kWh.",
+    },
+    pola: {
+      moc: {
+        nazwa: "Generator rated power [kW]",
+        cel: "Power and load give the energy delivered per day.",
+        gdzie: "Generator nameplate or datasheet — continuous (rated) power, not maximum.",
+        zakres: "From the generator datasheet.",
+      },
+      obciazenie: {
+        nazwa: "Average load [%]",
+        cel: "Which part of the rated power the loads and charger actually draw while running.",
+        gdzie: "Total power of what you connect (charger, loads) ÷ generator power × 100.",
+        zakres: "0–100%.",
+      },
+      zuzycie: {
+        nazwa: "Fuel consumption [l/h]",
+        cel: "The basis of the result — how many litres the generator burns per hour at the entered load.",
+        gdzie:
+          "Generator datasheet (consumption at a given load, often listed for 50% and 75%) or your own measurement: fill up, run for an hour, top up and measure.",
+        zakres: "From the generator datasheet at your load — the app does not guess the consumption curve.",
+      },
+      godziny: {
+        nazwa: "Running hours per day [h]",
+        cel: "The generator does not run all the time — only when the battery is low or a large load must be powered.",
+        gdzie: "Your plan or observation.",
+        zakres: "0–24 h.",
+      },
+      cena: {
+        nazwa: "Fuel price [PLN/l]",
+        cel: "Turns litres into money.",
+        gdzie: "Current price at the filling station.",
+        zakres: "Current price.",
+      },
+      porownanie: {
+        nazwa: "Cost of 1 kWh from another source [PLN/kWh] (optional)",
+        cel: "Comparison: how many times more a kWh from the generator costs.",
+        gdzie: "Electricity bill (gross price per kWh) or the cost of a kWh from your PV set from other screens.",
+        zakres: "Empty = no comparison.",
+      },
+    },
+  },
 }
 
 export const ru: Tlumaczenie<typeof pl> = {
@@ -360,6 +462,58 @@ export const ru: Tlumaczenie<typeof pl> = {
         gdzie:
           "Табличка, инструкция или найдите свою модель в интернете. Для компрессорного холодильника введите среднюю мощность, если знаете.",
         zakres: "С таблички вашего устройства.",
+      },
+    },
+  },
+  "agregat-paliwo": {
+    migawka: {
+      oCoChodzi:
+        "Генератор — маленький дракон, который пьёт топливо: нужно знать, сколько он съест и сколько стоит каждый киловатт-час от него.",
+      jakDziala:
+        "Расход топлива из паспорта генератора [л/ч] × часы работы в сутки = литры в сутки. Литры × цена = стоимость. Мощность × нагрузка × часы = энергия за сутки. Стоимость ÷ энергия = цена 1 кВт·ч. Плюс вопросы безопасности: где стоит генератор и как он подключён.",
+      poCo:
+        "Генератор обычно работает только когда аккумулятор разряжен. Зная цену кВт·ч из топлива, проще решить, не добавить ли панель или аккумулятор вместо сжигания бензина.",
+      fizyka:
+        "Пример из источника: генератор 2 кВт при нагрузке 50% расходует 0,5 л/ч; при 3 ч/сутки сожжёт 1,5 л (около 10 зл/сутки) и отдаст 2 × 0,5 × 3 = 3 кВт·ч.",
+    },
+    pola: {
+      moc: {
+        nazwa: "Номинальная мощность генератора [кВт]",
+        cel: "По мощности и нагрузке считается энергия за сутки.",
+        gdzie: "Табличка или паспорт генератора — длительная (номинальная) мощность, не максимальная.",
+        zakres: "Из паспорта генератора.",
+      },
+      obciazenie: {
+        nazwa: "Средняя нагрузка [%]",
+        cel: "Какую часть номинальной мощности реально потребляют нагрузки и зарядное устройство.",
+        gdzie: "Сумма мощностей подключаемого (зарядное, нагрузки) ÷ мощность генератора × 100.",
+        zakres: "0–100%.",
+      },
+      zuzycie: {
+        nazwa: "Расход топлива [л/ч]",
+        cel: "Основа результата — сколько литров генератор сжигает за час при введённой нагрузке.",
+        gdzie:
+          "Паспорт генератора (расход при данной нагрузке, часто для 50% и 75%) или свой замер: заправьте до полного, поработайте час, долейте и измерьте.",
+        zakres: "Из паспорта генератора при вашей нагрузке — приложение не угадывает кривую расхода.",
+      },
+      godziny: {
+        nazwa: "Часы работы в сутки [ч]",
+        cel:
+          "Генератор работает не всё время — только когда аккумулятор разряжен или нужно запитать мощный потребитель.",
+        gdzie: "Ваш план или наблюдение.",
+        zakres: "0–24 ч.",
+      },
+      cena: {
+        nazwa: "Цена топлива [зл/л]",
+        cel: "Переводит литры в деньги.",
+        gdzie: "Текущая цена на заправке.",
+        zakres: "Текущая цена.",
+      },
+      porownanie: {
+        nazwa: "Стоимость 1 кВт·ч из другого источника [зл/кВт·ч] (необязательно)",
+        cel: "Сравнение: во сколько раз дороже кВт·ч от генератора.",
+        gdzie: "Счёт за электричество (цена брутто за кВт·ч) или стоимость кВт·ч вашего набора PV с других экранов.",
+        zakres: "Пусто = без сравнения.",
       },
     },
   },

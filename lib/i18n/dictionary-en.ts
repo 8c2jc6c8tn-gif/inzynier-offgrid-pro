@@ -1183,6 +1183,9 @@ export const dictionaryEn = {
   "MA-PRAD-URZADZENIA-PONAD-MAKS": "{nazwa} draws about {prad} A, while the battery (BMS) delivers at most {maks} A continuously — it may cut the power or overheat the connections. Check the battery datasheet before connecting.",
   "MA-PRAD-RAZEM-PONAD-MAKS": "All devices together draw about {prad} A — more than the {maks} A the battery delivers continuously. Do not switch them on at the same time.",
   "MA-ZALOZENIE-PELNY-AKUMULATOR": "Starting from a fully charged battery, with no charging along the way (e.g. from a panel).",
+  "AP-DROGIE-PALIWO": "Energy from a generator means expensive fuel. Use it only to top up the battery or to run large loads briefly — not as a permanent source.",
+  "AP-PONAD-DOBE": "A day has 24 hours — enter the running hours per day between 0 and 24.",
+  "AP-ZALOZENIE-STALE-OBCIAZENIE": "Constant load and constant fuel consumption throughout the running time — as you entered them from the generator datasheet.",
   // end of M12 30.09.2026 block
   "LVD-BRAK-OCHRONY-OLOWIOWY": "A lead-acid/AGM battery without a low voltage disconnect, and the load has no protection of its own — the load will drain the battery to zero. Deep discharge permanently damages a lead-acid battery (sulphation). Fit a low voltage disconnect (LVD) with the threshold given above.",
   "LVD-PROG-KWASOWY-BRAK-W-ZRODLE": "No threshold is given for a flooded lead-acid battery — the source gives it only for AGM and LiFePO4. Check the cut-off voltage in the battery manufacturer's datasheet.",

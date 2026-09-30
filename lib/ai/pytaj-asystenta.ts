@@ -86,6 +86,7 @@ import { doborRegulatoraPwmMpptTool } from "./tools/dobor-regulatora-pwm-mppt-to
 import { dniBezSloncaTool } from "./tools/dni-bez-slonca-tool"
 import { akumulatorSamochodowyTool } from "./tools/akumulator-samochodowy-tool"
 import { mamAkumulatorTool } from "./tools/mam-akumulator-tool"
+import { agregatPaliwoTool } from "./tools/agregat-paliwo-tool"
 import { ochronaPrzedRozladowaniemTool } from "./tools/ochrona-przed-rozladowaniem-tool"
 import { wilgocMaleInstalacjeTool } from "./tools/wilgoc-male-instalacje-tool"
 import { uziemienieMaleInstalacjeTool } from "./tools/uziemienie-male-instalacje-tool"
@@ -396,6 +397,7 @@ const NARZEDZIA: Array<AiToolDefinition<any, any>> = [
   dniBezSloncaTool,
   akumulatorSamochodowyTool,
   mamAkumulatorTool,
+  agregatPaliwoTool,
   ochronaPrzedRozladowaniemTool,
   wilgocMaleInstalacjeTool,
   uziemienieMaleInstalacjeTool,
