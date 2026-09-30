@@ -1075,7 +1075,7 @@ Pełne wyniki audytu: `docs/memory.md`, sekcja "Pełny audyt na polecenie właś
 - ✅ (2026-09-28) **M9 — blok 5: E2 zasilanie ESP32, E4 architektura komunikacji, E5 przydział pinów (częściowo), E6 niezawodność.** M9: 5/10, łącznie 190/314. Zostają: E1 wybór płytki (Wzorzec B — tabela porównawcza, możliwy), E3 montaż/obudowa (Wzorzec F — przewodnik), Katalogi 2–4 (Wzorzec H — jak Katalog 1). Szczegóły: `docs/memory.md` „M9 blok 5 (28.09.2026)”.
 - ⚠️ (2026-09-28) **Do weryfikacji przez właściciela — M9/E2, przykład źródła „magistrala 48 V → przetwornica MP1584”.** Hipoteza (nie z repo, z wiedzy o kartach katalogowych): MP1584 ma maks. napięcie wejściowe ok. 28 V, a magistrala 48 V LiFePO4 przy ładowaniu dochodzi do ok. 58 V — przykład źródła prowadziłby do uszkodzenia przetwornicy. W kodzie nie wpisano żadnego limitu konkretnej przetwornicy (user podaje go z karty), więc aplikacja nie powtarza błędu — ale treść źródła warto poprawić. Też do potwierdzenia (✅🤖): 🔴 dla przekroczenia napięcia wejściowego przetwornicy (źródło ma 🔴 tylko dla braku przetwornicy) i 🟡 dla CAN bez transceivera (M9/E4). **Priorytet:** średni. **Kolizje:** bezkolizyjne.
 - 🔲 (2026-09-28) **Lokalizacja nagrzewnicy typu webasto (na zewnątrz / w budynku) a rozruch na mrozie — przy M8/E1 albo ekranach ogrzewania (D28).** Właściciel (runda 3, przy E8): ryzyko rozruchu diesla zależy od tego, czy agregat albo webasto stoi na dworze, czy wewnątrz. W M7/E8 pokryte temperaturą miejsca agregatu i paliwa (D32); dla webasto — dopisać przy budowie M8/E1 lub w porównaniu kosztów ogrzewania (echo progów D32, nie nowe liczby). **Priorytet:** niski. **Odblokowuje:** spójność ostrzeżeń mrozowych. **Kolizje:** bezkolizyjne. **Kolejność:** przy M8/E1.
-- 🔲 (2026-09-28) **Chmurki „?” przy polach liczbowych — niezgodność ze standardem 8.4 na prawie wszystkich ekranach (do zrobienia w osobnej sesji).** Standard (`docs/standards/08-ui-ux.md`, 8.4, ostatni akapit): każdy parametr liczbowy na **każdym** ekranie ma mały znak `?` obok etykiety — popover z pełną nazwą, jednym zdaniem „do czego służy”, gdzie to znaleźć i typowym zakresem wartości. Komponent jest gotowy: `PomocPole` w `components/ui/chmurka.tsx`, podłączony przez prop `pomoc` w `Pole`/`PoleSelect` (`components/ui/pole.tsx`). **Stan 28.09.2026:** `pomoc=` używa 1 z 193 ekranów w `app/kalkulatory/` (tylko `dobor-przekroju-kabla`) + `/wzornik`; ok. 107 ekranów ma zamiast tego widoczną podpowiedź `hint` pod polem, reszta nic. Pola w listach budowanych ręcznie (`<input>` w `.map()` — np. M7/E6, M9/E4, M9/E5, M7/E19) nie idą przez `Pole`, więc też trzeba je objąć. Opis całego ekranu (nagłówek `NaglowekEkranu`, część ekranów także `MigawkaBox`) — **jest wszędzie**, luka dotyczy tylko „?” przy polach. Brak decyzji zwalniającej → dryf od standardu (GOD BOOK Y.2), nie świadomy wybór; ekrany z 28.09 (M7/M8/M9) powieliły istniejący wzorzec. **Warianty (do wyboru przez właściciela przed startem):** (A) mechanicznie — `?` przy każdym polu z treścią z obecnego `hint`, pola bez `hint` tylko pełna nazwa + jednostka; szybko, ale część chmurek uboga. (B) pełna treść wg 8.4 — nazwa, do czego służy, gdzie znaleźć, typowy zakres; zakresy **wyłącznie** ze źródeł/norm w repo, gdzie ich brak — „zakres z karty katalogowej” (Dyrektywa #1, bez zgadywania); moduł po module, PR na moduł. (C) **rekomendowane** — najpierw A na wszystkich ekranach (zamyka niezgodność), potem stopniowo B, zaczynając od ekranów z twardymi stopami (`docs/rejestr-twardych-stopow.md`). **Do rozważenia przy okazji:** czy `hint` zostaje obok `?` (dubluje treść) — wtedy decyzja właściciela; i18n treści chmurek (dziś strony mają teksty PL wprost, słowniki `lib/i18n` obejmują tylko komunikaty silników). **Weryfikacja:** Playwright — każde pole liczbowe ma `?` z dostępną nazwą (`aria-label`), brak poziomego przewijania przy 390 px; ewentualnie strażnik (skrypt/test) wykrywający `<Pole type="number">` bez `pomoc`. **Priorytet:** średni (użyteczność i zgodność ze standardem, nie bezpieczeństwo). **Kolizje:** wszystkie `app/kalkulatory/*/page.tsx` — nie prowadzić równolegle z sesją budującą nowe ekrany w tych samych plikach; nowe ekrany od tej chwili powinny od razu dostawać `pomoc`. **Kolejność:** najpierw decyzja A/B/C, potem partie po module. **[28.09.2026] Uwaga dla tej pracy:** komponent chmurki naprawiony — wcześniej (Tooltip) nie otwierał się na dotyk, więc na telefonie „?” nic nie robiło; teraz Popover (hover + tap). Weryfikację robić też z emulacją telefonu. → **[28.09.2026] DECYZJA WŁAŚCICIELA (D34): wariant B** — pełna treść wg 8.4 (pełna nazwa, do czego służy, gdzie znaleźć, typowy zakres; zakresy wyłącznie ze źródeł/norm w repo, a gdzie ich brak — „zakres z karty katalogowej”, Dyrektywa #1), moduł po module, PR na moduł. **Dodatkowo:** chmurki mają zawierać **bogaty opis wyjaśniający, jak i po co działa kalkulator** (nie tylko pole), zrozumiały dla laika. Wariantów A i C nie stosować. Realizacja w **osobnej sesji** — nie zaczynać przy innych zadaniach. Otwarte przy starcie tej sesji: czy `hint` zostaje obok `?`, i18n treści chmurek. → **[29.09.2026] Rozstrzygnięte (D51):** `hint` usunięty (treść do „?”), i18n od razu; realizacja 🔄 — wpis z 29.09 niżej.
+- ✅ (2026-09-30, porządek listy: zamknięte 29.09 — D51, PR #206) ~~🔲~~ (2026-09-28) **Chmurki „?” przy polach liczbowych — niezgodność ze standardem 8.4 na prawie wszystkich ekranach (do zrobienia w osobnej sesji).** Standard (`docs/standards/08-ui-ux.md`, 8.4, ostatni akapit): każdy parametr liczbowy na **każdym** ekranie ma mały znak `?` obok etykiety — popover z pełną nazwą, jednym zdaniem „do czego służy”, gdzie to znaleźć i typowym zakresem wartości. Komponent jest gotowy: `PomocPole` w `components/ui/chmurka.tsx`, podłączony przez prop `pomoc` w `Pole`/`PoleSelect` (`components/ui/pole.tsx`). **Stan 28.09.2026:** `pomoc=` używa 1 z 193 ekranów w `app/kalkulatory/` (tylko `dobor-przekroju-kabla`) + `/wzornik`; ok. 107 ekranów ma zamiast tego widoczną podpowiedź `hint` pod polem, reszta nic. Pola w listach budowanych ręcznie (`<input>` w `.map()` — np. M7/E6, M9/E4, M9/E5, M7/E19) nie idą przez `Pole`, więc też trzeba je objąć. Opis całego ekranu (nagłówek `NaglowekEkranu`, część ekranów także `MigawkaBox`) — **jest wszędzie**, luka dotyczy tylko „?” przy polach. Brak decyzji zwalniającej → dryf od standardu (GOD BOOK Y.2), nie świadomy wybór; ekrany z 28.09 (M7/M8/M9) powieliły istniejący wzorzec. **Warianty (do wyboru przez właściciela przed startem):** (A) mechanicznie — `?` przy każdym polu z treścią z obecnego `hint`, pola bez `hint` tylko pełna nazwa + jednostka; szybko, ale część chmurek uboga. (B) pełna treść wg 8.4 — nazwa, do czego służy, gdzie znaleźć, typowy zakres; zakresy **wyłącznie** ze źródeł/norm w repo, gdzie ich brak — „zakres z karty katalogowej” (Dyrektywa #1, bez zgadywania); moduł po module, PR na moduł. (C) **rekomendowane** — najpierw A na wszystkich ekranach (zamyka niezgodność), potem stopniowo B, zaczynając od ekranów z twardymi stopami (`docs/rejestr-twardych-stopow.md`). **Do rozważenia przy okazji:** czy `hint` zostaje obok `?` (dubluje treść) — wtedy decyzja właściciela; i18n treści chmurek (dziś strony mają teksty PL wprost, słowniki `lib/i18n` obejmują tylko komunikaty silników). **Weryfikacja:** Playwright — każde pole liczbowe ma `?` z dostępną nazwą (`aria-label`), brak poziomego przewijania przy 390 px; ewentualnie strażnik (skrypt/test) wykrywający `<Pole type="number">` bez `pomoc`. **Priorytet:** średni (użyteczność i zgodność ze standardem, nie bezpieczeństwo). **Kolizje:** wszystkie `app/kalkulatory/*/page.tsx` — nie prowadzić równolegle z sesją budującą nowe ekrany w tych samych plikach; nowe ekrany od tej chwili powinny od razu dostawać `pomoc`. **Kolejność:** najpierw decyzja A/B/C, potem partie po module. **[28.09.2026] Uwaga dla tej pracy:** komponent chmurki naprawiony — wcześniej (Tooltip) nie otwierał się na dotyk, więc na telefonie „?” nic nie robiło; teraz Popover (hover + tap). Weryfikację robić też z emulacją telefonu. → **[28.09.2026] DECYZJA WŁAŚCICIELA (D34): wariant B** — pełna treść wg 8.4 (pełna nazwa, do czego służy, gdzie znaleźć, typowy zakres; zakresy wyłącznie ze źródeł/norm w repo, a gdzie ich brak — „zakres z karty katalogowej”, Dyrektywa #1), moduł po module, PR na moduł. **Dodatkowo:** chmurki mają zawierać **bogaty opis wyjaśniający, jak i po co działa kalkulator** (nie tylko pole), zrozumiały dla laika. Wariantów A i C nie stosować. Realizacja w **osobnej sesji** — nie zaczynać przy innych zadaniach. Otwarte przy starcie tej sesji: czy `hint` zostaje obok `?`, i18n treści chmurek. → **[29.09.2026] Rozstrzygnięte (D51):** `hint` usunięty (treść do „?”), i18n od razu; realizacja 🔄 — wpis z 29.09 niżej. → ✅ **[30.09.2026, porządek listy]** realizacja zamknięta 29.09 (wpis ✅ „Chmurki „?” i migawka „i” na wszystkich ekranach” niżej, PR #206).
 - ✅ (2026-09-28) **Runda decyzji właściciela (sesja „lista do zrobienia po kolei”) — partia 1 wdrożona:** M3/E21 🔴 bez falownika wyspowego z AC-coupling (nowe pytanie tak/nie/nie wiem); M12/E22+E36 wodór — kwasowy 🔴, AGM 🟡; M12/E27 — pole „maks. napięcie ładowania instalacji” (górna granica z regulatora, nie stała 14,5/14,6 V). Rejestr twardych stopów i rejestr pokrycia zaktualizowane. Szczegóły: `docs/memory.md` „Sesja decyzji po kolei (28.09.2026)”.
 - ✅ (2026-09-28) **D29 — masa paneli + stelaża w równowadze EQU (M3/E9, E2, E6)** — decyzja właściciela 28.09: opcjonalne pole „masa paneli i stelaża [kg]” (z karty/wagi, nigdy domyślna), liczona jako siła utrzymująca z γG,inf = 0,90 (Tablica A1.2(A) — już w `lib/core/modules/pv/eurokod-0/rownowaga.ts`). Przesuw/wywracanie nadal poza zakresem (brak μ). **Priorytet:** wysoki (bezpieczeństwo konstrukcji). **Odblokowuje:** dokładniejszy (mniejszy) balast. **Plusy teraz:** dane i funkcja EQU gotowe; **minusy odkładania:** balast zawyżony (strona bezpieczna, więc bez ryzyka). **Kolizje:** `lib/core/modules/pv/{zloty-srodek,typ-montazu,napor-wiatru}/`, słowniki i18n. **Kolejność:** następna partia tej sesji. → **Zrobione (28.09.2026):** `balastProjektowyEquKg(F, g, G)` = max(0, γQ·F/(γG,inf·g) − G) — wynik to balast **dodatkowy** ponad masę paneli+stelaża (clamp 0), koszt balastu E9 i twardy stop E6 liczone od niego; pole opcjonalne z chmurką w E2 (dach płaski/grunt, stelaż regulowany), E6, E9 i w narzędziach AI („nigdy nie zgaduj”); założenie `ZS-ZALOZENIE-MASA-WLASNA` (z masą i γG) albo `…-POMINIETA` w każdym wyniku; wersje kalkulatorów E6/E9 → 1.2.0. Przesuw/wywracanie — nadal poza zakresem.
 - ⚠️ (2026-09-28) **M6/E8 — Rsi per kierunek strumienia ciepła (ściana/strop/podłoga)** — decyzja właściciela: tak, ale wartości z PN-EN ISO 6946, którą **właściciel dostarczy**. Do tego czasu Rsi = 0,13 dla wszystkich przegród (jawne założenie). **Priorytet:** niski (błąd rzędu kilku % κ). **Odblokowuje:** dokładność E8 dla stropów/podłóg. **Kolizje:** `lib/core/modules/ogrzewanie/pojemnosc-cieplna/`. **Kolejność:** po dostarczeniu normy.
@@ -1241,6 +1241,7 @@ Pełne wyniki audytu: `docs/memory.md`, sekcja "Pełny audyt na polecenie właś
   1. 🔲 **PR i merge D54** — commity `39f8748` + scalenie `3ad05a6` są na gałęzi
      `claude/nowy-rozdzial-biblia-kalkulator-to73by`, ale PR nie powstał (serwer GitHub w sesji zwracał 503). Następna
      sesja: sprawdź, czy gałąź jest już w `main`; jeśli nie — scal `main` do gałęzi, pełny pakiet kontroli, PR → merge.
+     ✅ **[30.09.2026]** Sprawdzone: `39f8748` i `3ad05a6` są w `main` (PR #216).
   2. ⚠️ **Decyzja właściciela — M9/E4 CAN bez transceivera:** dziś 🟡 (✅🤖), rekomendacja 🔴 jak RS485 (Biblia v2.0
      §9.28). Właściciel „jeszcze nie wie, czy będzie CAN” — nie pytać, dopóki sam nie wróci.
   3. ⚠️ **Do potwierdzenia (✅🤖) — M8/E4 propozycja chłodzenia/zamrażania ogniw** (D54 pkt 4c): propozycja AI bez
@@ -1261,6 +1262,17 @@ Pełne wyniki audytu: `docs/memory.md`, sekcja "Pełny audyt na polecenie właś
      (PN-EN 50565-1), szkic LED (karta taśmy), M6 obciążenie cieplne (PN-EN 12831).
   9. 🔲 **Bieżące prace kodowe** (wpisy wyżej): rejestr twardych stopów M5, resynchronizacja `mapa-wdrozenia.md`,
      kolejne ekrany M7/M12, kafle „duże” + presety onboardingu (M14), przecinek w liczbach założeń i18n.
+     ✅ **[30.09.2026]** Rejestr twardych stopów M5 — zrobione (PR #233, lista zapadkowa strażnika pusta).
+  **[30.09.2026, 15:40] Sesje równoległe — stan worktree (koordynacja, standard 15.22):**
+  - `claude/screens-without-involvement-e468f6` — **aktywna** (25 zmienionych plików): M9 ESP32, `lib/i18n/dictionary-*`,
+    `lib/i18n/pomoc/m09-esp32.ts`, `lib/ai/pytaj-asystenta.ts`, `docs/rejestr-twardych-stopow.md`, pliki strażnika stopów.
+  - `claude/large-tiles-presets-m14-eca5df` — aktywna (pkt 9: kafle „duże” + presety M14; `lib/pulpit/**`).
+  - `claude/physics-constants-help-text-91a9b3` (worktree `pwa-parallel-branch-work-4e99fd`) — 8.4b pkt (3):
+    `lib/i18n/pomoc/*` + atrybut `parametry` na stronach.
+  - `claude/translate-screen-labels-en-ru-2f94e0` — pkt 6: `lib/i18n/ui/*` + strony `app/kalkulatory/*`.
+  ⚠️ **Kolizja:** 8.4b pkt (3) i tłumaczenie etykiet dotykają tych samych stron — wpis 8.4b (3) każe robić je **po kolei,
+  nie równolegle**; `lib/i18n/pomoc/m09-esp32.ts` i `dictionary-*` współdzieli też sesja M9. Kto zacznie drugi —
+  najpierw scala `main` po merge pierwszego, moduł M9 zostawia sesji M9 do jej merge.
 
 - 🔲 (2026-09-29) **Powrót CI od 1.10.2026 (pozostałość sesji 29.09).** (1) Usunąć notę „⚠️ Do końca września 2026
   CI NIE DZIAŁA” z `CLAUDE.md` (sekcja „Stan repo”) i dopisać w `docs/memory.md`, że CI wróciło. (2) Pierwszy przebieg
@@ -1283,7 +1295,7 @@ Pełne wyniki audytu: `docs/memory.md`, sekcja "Pełny audyt na polecenie właś
   z szablonu (15.21, 15.23, 15.22); 9 wpisów `docs/wklad-do-standardu.md` → ✅. Dryf naprawiony od razu: autozapis
   scala stary szkic ze stanem początkowym (5.5), puste listy zapadkowe strażników usunięte (11.9). Szczegóły:
   `docs/memory.md`, „Synchronizacja ze standardem — Y.6 (29.09.2026, 19:00 UTC)”.
-- 🔲 (2026-09-29) **„i” przy tytule wg nowej 8.4b — dostosować `MigawkaInfo` (`components/ui/pomoc.tsx`).** Różnice:
+- ✅ (2026-09-30, porządek listy: (1)+(2) w `main` — PR #232; (3) osobny wpis niżej) ~~🔲~~ (2026-09-29) **„i” przy tytule wg nowej 8.4b — dostosować `MigawkaInfo` (`components/ui/pomoc.tsx`).** Różnice:
   (1) zakładka „Fizyka” pokazuje tylko `formula`, a 8.4b wymaga też `assumptions` bieżącego wyniku, tym samym
   komponentem co lista założeń pod wynikiem; (2) na telefonie „i” ma być panelem od dołu, dziś popover wszędzie
   (sprawdzić emulacją dotyku, jak chmurki 28.09); (3) 146 z 345 tekstów `fizyka` w `lib/i18n/pomoc/*` zawiera cyfry —
@@ -1303,6 +1315,7 @@ Pełne wyniki audytu: `docs/memory.md`, sekcja "Pełny audyt na polecenie właś
   (<640 px) `Chmurka` otwiera „i” **i „?”** jako panel od dołu (Base UI `Drawer`, przycisk „Zamknij” PL/EN/RU) — 8.4b
   mówi o obu. Sprawdzone w przeglądarce: desktop (popover, zakładki, wzór + założenia) i 375 px (panel, zakładki, „?”,
   zamykanie), konsola bez błędów. **Zostaje (3)** — osobny wpis niżej.
+  ✅ **[30.09.2026, porządek listy]** 🔄 z 22:55 nieaktualne — scalone do `main` (PR #232, `claude/stopy-guard-84b`).
 - 🔲 (2026-09-29) **8.4b pkt (3) — liczby w tekstach „Fizyka” przez `params`, nie przepisane.** 146 z 345 tekstów
   `fizyka` w `lib/i18n/pomoc/*` ma cyfry; większość to struktura wzoru (`3600`, `/100`, `T = 5·R·C`) — zostaje.
   Kandydaci na przepisaną stałą silnika (przykłady z przeglądu 29.09): `0,4 %/°C` (M3 temperatura), `c_wody = 4186`,
@@ -1313,7 +1326,7 @@ Pełne wyniki audytu: `docs/memory.md`, sekcja "Pełny audyt na polecenie właś
   **Minusy:** ok. 1 sesja, sama treść w 3 językach. **Kolizje:** `lib/i18n/pomoc/*` i strony ekranów (atrybut
   `parametry`) — te same pliki co „Tłumaczenie etykiet stron na EN/RU”; robić po kolei, nie równolegle. Bezkolizyjne z SW
   etapem 1. **Kolejność:** po merge gałęzi `claude/stopy-guard-84b`.
-- 🔲 (2026-09-29) **Strażnik rejestru twardych stopów — teraz wymóg standardu (4.3 dopisek + 11.9).** Rozszerza wpis
+- ✅ (2026-09-30, porządek listy: strażnik w `main` — PR #232; lista zapadkowa pusta — PR #233) ~~🔲~~ (2026-09-29) **Strażnik rejestru twardych stopów — teraz wymóg standardu (4.3 dopisek + 11.9).** Rozszerza wpis
   🔲 z 28.09 „Rejestr twardych stopów — dryf całego M5”: skrypt `scripts/check-stopy-guard.mjs` (każdy kod `level:
   "critical"` w `lib/core/modules/**/warnings.ts` ↔ wpis w `docs/rejestr-twardych-stopow.md`, jawna lista wyjątków
   typu walidacja danych), w pakiecie przed merge i w `ci.yml`. Lista zapadkowa **jednorazowo** przy wprowadzeniu,
@@ -1344,6 +1357,9 @@ Pełne wyniki audytu: `docs/memory.md`, sekcja "Pełny audyt na polecenie właś
   🔄 **[29.09.2026, 22:55] W trakcie** — gałąź `claude/pwa-parallel-branch-work-4e99fd` (worktree
   `.claude/worktrees/pwa-parallel-branch-work-4e99fd`). Inne sesje: nie ruszać `docs/rejestr-twardych-stopow.md`
   do merge tej gałęzi. Uzupełnianie M5 i dalszych modułów — po merge SW etapu 1 (decyzja właściciela).
+  ✅ **[30.09.2026, porządek listy]** 🔄 nieaktualne — rejestr uzupełniony i zacienienie obniżone do 🟡 scalone do
+  `main` (PR #233, `claude/rejestr-stopow-51`); `scripts/stopy-guard-baseline.json` = `[]`. Blokada
+  `docs/rejestr-twardych-stopow.md` zdjęta.
 - ⚠️ (2026-09-29) **Routine cyklu Y.6 nie istnieje** (`trig_01892Z45ThAi2T56PJRjQQAh` → not found). Kolejne sprawdzenie
   tylko na starcie sesji albo po odtworzeniu Routine — decyzja właściciela (co 12 h wg cyklu adaptacyjnego).
 - ✅ (2026-09-29) **Y.11 pkt 1b — twarde polskie teksty w JSX ekranów zmienionych 29.09** (raport:
@@ -1374,7 +1390,7 @@ Pełne wyniki audytu: `docs/memory.md`, sekcja "Pełny audyt na polecenie właś
   `new-app-standards` @ `af63da7`).
 - ✅ (2026-09-29) **`middleware.ts` — `/sw.js`, `/register-sw.js`, `/manifest.webmanifest` wykluczone z `matcher`**
   (raport SW, pkt 12). Sprawdzone na `pnpm build` + `pnpm start`: strony mają CSP, trzy pliki PWA omijają middleware.
-- 🔲 (2026-09-29) **SW wariant C — etap 1: wzorzec standardu** (`docs/plan-migracji-sw-wariant-c.md`, sekcje 0–2).
+- ✅ (2026-09-30, porządek listy: w `main` — PR #231) ~~🔲~~ (2026-09-29) **SW wariant C — etap 1: wzorzec standardu** (`docs/plan-migracji-sw-wariant-c.md`, sekcje 0–2).
   Na starcie zapytać właściciela o C-1 (`sonner`), C-2 (`playwright` w devDependencies), C-3 (precache ~230 tras
   dynamicznych). **Priorytet:** wysoki (5.3 — nieodwiedzony ekran nie działa offline w terenie). **Odblokowuje:**
   offline każdego ekranu, aktualizacje SW z toastem (5.9), testy SW (10.8/10.9), etap 2, 5.11 (ten sam toast).
@@ -1390,7 +1406,8 @@ Pełne wyniki audytu: `docs/memory.md`, sekcja "Pełny audyt na polecenie właś
   usunięte. Testy: 26 jednostkowych (`lib/pwa/__tests__`), e2e `pnpm test:e2e` zielone (238 ekranów offline przy ubitym
   serwerze, toast i jedno przeładowanie na dwóch buildach, wyłącznik). Precache **21,3 MB** (539 wpisów). Szczegóły:
   `docs/memory.md` „SW wariant C — etap 1”, raport `docs/audyt-sw-vs-wzorzec-pwa.md` „Stan po etapie 1”.
-- 🔲 (2026-09-29) **SW wariant C — etap 2: pomiar i odchudzenie precache** (plan, sekcja 3). **Priorytet:** średni
+  ✅ **[30.09.2026, porządek listy]** 🔄 z 22:45 nieaktualne — scalone do `main` (PR #231); blokada plików SW zdjęta.
+- ✅ (2026-09-30, porządek listy: D60 + budżet wariant A — D61, PR #235) ~~🔲~~ (2026-09-29) **SW wariant C — etap 2: pomiar i odchudzenie precache** (plan, sekcja 3). **Priorytet:** średni
   (wysoki, jeśli pomiar etapu 1 przekroczy budżet). **Odblokowuje:** rozsądny pierwszy download na słabym łączu.
   **Kolizje:** `lib/pwa/precache-build.ts`, `scripts/kopiuj-maplibre-worker.mjs`, `components/lokalizacja/*`.
   **Kolejność:** dopiero po merge etapu 1 (potrzebne jego liczby); decyzja o budżecie i o widoku 3D offline —
@@ -1403,25 +1420,25 @@ Pełne wyniki audytu: `docs/memory.md`, sekcja "Pełny audyt na polecenie właś
   naprawione, worker z powrotem w precache (+0,5 MB), test e2e pilnuje. Przy okazji naprawiony nieobsłużony błąd
   asystenta AI offline na każdym ekranie. Precache: **20,85 MB surowo / ≈ 6,8 MB transferu (gzip)**. Zostaje:
   budżet pierwszego pobrania — osobny wpis ⚠️ niżej. Szczegóły: `docs/memory.md` „Drobne zadania + SW etap 2”.
-- 🔲 (2026-09-29) **5.10 — `navigator.storage.persist()` z zapamiętaniem odmowy** (raport SW, pkt 15; wzorzec
+- ✅ (2026-09-30) ~~🔲~~ (2026-09-29) **5.10 — `navigator.storage.persist()` z zapamiętaniem odmowy** (raport SW, pkt 15; wzorzec
   `docs/przyklady/pwa/trwaly-magazyn.ts`). Bez tego szkice autosave mogą zostać skasowane przez przeglądarkę.
   **Priorytet:** średni. **Kolizje:** `lib/adapters/indexeddb-storage-adapter.ts`, `use-persisted-draft.ts`.
   Niezależne od decyzji SW.
   ✅ **[30.09.2026] Zrobione** — `lib/adapters/trwaly-magazyn.ts` (kopia wzorca), wołane z `setItem` adaptera
   IndexedDB; 5 testów jednostkowych.
-- 🔲 (2026-09-29) **5.11 — obsługa kolizji wersji IndexedDB między kartami** (raport SW, pkt 16; wzorzec
+- ✅ (2026-09-30) ~~🔲~~ (2026-09-29) **5.11 — obsługa kolizji wersji IndexedDB między kartami** (raport SW, pkt 16; wzorzec
   `indexeddb-baza.ts` + `baza-wersja-listener.tsx`). Dziś `DB_VERSION = 1` — uśpione. **Priorytet:** musi wejść
   **przed** pierwszym podbiciem `DB_VERSION`. **Kolizje:** jak 5.10 — robić w jednej sesji. Toast wymaga tego samego
   komponentu co toast aktualizacji SW — wybrano C, więc robić po etapie 1 SW.
   → **[29.09.2026] Odblokowane** — host toastów `sonner` jest w `app/layout.tsx` (`components/pwa/powiadomienia.tsx`).
   ✅ **[30.09.2026] Zrobione** — `naZdarzenieWersjiBazy` w `lib/adapters/indexeddb-storage-adapter.ts`, toast
   `components/pwa/baza-wersja-listener.tsx` (PL/EN/RU), 5 testów. Podbicie `DB_VERSION` jest od teraz bezpieczne.
-- 🔲 (2026-09-29) **Usunąć nieużywane `public/placeholder*` (5 plików z szablonu).** Wyszło przy D59: nigdzie w `app/`,
+- ✅ (2026-09-30) ~~🔲~~ (2026-09-29) **Usunąć nieużywane `public/placeholder*` (5 plików z szablonu).** Wyszło przy D59: nigdzie w `app/`,
   `components/`, `lib/` nieużywane; dziś tylko wykluczone z precache (`lib/pwa/precache-build.ts`). Po usunięciu zdjąć
   wykluczenie. **Priorytet:** niski. **Odblokowuje:** nic. **Plusy teraz:** 5 minut. **Minusy:** brak.
   **Kolizje:** `lib/pwa/precache-build.ts` (etap 2 SW) — robić razem z etapem 2 albo po nim.
   ✅ **[30.09.2026] Zrobione** — 5 plików usuniętych, wykluczenie z `precache-build.ts` zdjęte.
-- 🔲 (2026-09-29) **Next 16: `middleware.ts` → `proxy.ts`.** `pnpm build` ostrzega: konwencja „middleware” jest
+- ✅ (2026-09-30) ~~🔲~~ (2026-09-29) **Next 16: `middleware.ts` → `proxy.ts`.** `pnpm build` ostrzega: konwencja „middleware” jest
   przestarzała, nowa nazwa „proxy” (build nadal działa). Przed zmianą przeczytać przewodnik w
   `node_modules/next/dist/docs/` (standard 11.8 — klasyfikacja zmiany). **Priorytet:** niski, przed kolejnym majorem
   Next. **Kolizje:** `middleware.ts` (CSP, bramka Supabase 18.1, `matcher` plików SW) — nie równolegle z 18.x.
