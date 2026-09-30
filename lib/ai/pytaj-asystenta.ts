@@ -94,6 +94,7 @@ import { panelDlaUrzadzeniaTool } from "./tools/panel-dla-urzadzenia-tool"
 import { laczeniePaneliPrzenosnychTool } from "./tools/laczenie-paneli-przenosnych-tool"
 import { powerbankVsAkumulatorTool } from "./tools/powerbank-vs-akumulator-tool"
 import { blackoutMinimumTool } from "./tools/blackout-minimum-tool"
+import { akumulatorKamperaTool } from "./tools/akumulator-kampera-tool"
 import { ochronaPrzedRozladowaniemTool } from "./tools/ochrona-przed-rozladowaniem-tool"
 import { wilgocMaleInstalacjeTool } from "./tools/wilgoc-male-instalacje-tool"
 import { uziemienieMaleInstalacjeTool } from "./tools/uziemienie-male-instalacje-tool"
@@ -412,6 +413,7 @@ const NARZEDZIA: Array<AiToolDefinition<any, any>> = [
   laczeniePaneliPrzenosnychTool,
   powerbankVsAkumulatorTool,
   blackoutMinimumTool,
+  akumulatorKamperaTool,
   ochronaPrzedRozladowaniemTool,
   wilgocMaleInstalacjeTool,
   uziemienieMaleInstalacjeTool,

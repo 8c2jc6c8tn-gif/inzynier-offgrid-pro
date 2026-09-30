@@ -604,6 +604,105 @@ export const pl = {
       },
     },
   },
+  "akumulator-kampera": {
+    migawka: {
+      oCoChodzi: "Akumulator to serce kampera — a w pojeździe liczy się każdy kilogram.",
+      jakDziala:
+        "Wpisz zapotrzebowanie i dane konkretnych akumulatorów z kart. Aplikacja liczy, ile sztuk każdej technologii pokryje potrzeby przez zadaną liczbę dób, ile to waży i kosztuje, oraz koszt 1 kWh w całym życiu akumulatora.",
+      poCo:
+        "AGM jest tańszy na start, ale cięższy, pozwala zużyć mniejszą część pojemności i wytrzymuje mniej cykli. Koszt kWh w całym życiu i masa zwykle przesądzają. Pełne porównanie technologii: Moduł 4, Ekran 30.",
+      fizyka:
+        "E = zapotrzebowanie × doby. Sztuk = ⌈E ÷ (Ah × V × DoD)⌉. Koszt kWh = cena ÷ (Ah × V × DoD × cykle ÷ 1000).",
+    },
+    pola: {
+      zapotrzebowanie: {
+        nazwa: "Zapotrzebowanie na dobę [Wh]",
+        cel: "Ile energii kamper zużywa w dobie.",
+        gdzie: "Kalkulator „na weekend” (Moduł 12, Ekran 5) albo licznik w stacji/BMS.",
+        zakres: "Z Twojego profilu zużycia.",
+      },
+      dni: {
+        nazwa: "Doby bez ładowania",
+        cel: "Na ile dób postoju bez słońca i jazdy ma starczyć akumulator.",
+        gdzie: "Twój styl podróżowania.",
+        zakres: "Twoja decyzja.",
+      },
+      napiecie: {
+        nazwa: "Napięcie instalacji [V]",
+        cel: "Ah × V = Wh.",
+        gdzie: "Instalacja kampera (zwykle z tabliczki akumulatora).",
+        zakres: "Z tabliczki.",
+      },
+      zapasMasy: {
+        nazwa: "Zapas ładowności [kg] (opcjonalnie)",
+        cel: "Sprawdza, czy akumulatory nie przekroczą ładowności pojazdu.",
+        gdzie:
+          "Dowód rejestracyjny: dopuszczalna masa całkowita minus masa pojazdu z wyposażeniem, pasażerami i bagażem.",
+        zakres: "Puste = nie sprawdzaj.",
+      },
+      agmAh: {
+        nazwa: "AGM: pojemność [Ah]",
+        cel: "Energia jednej sztuki.",
+        gdzie: "Tabliczka/karta akumulatora.",
+        zakres: "Z karty.",
+      },
+      agmCena: {
+        nazwa: "AGM: cena [zł]",
+        cel: "Koszt zakupu i koszt kWh.",
+        gdzie: "Oferta sklepu.",
+        zakres: "Twoja oferta.",
+      },
+      agmMasa: {
+        nazwa: "AGM: masa [kg]",
+        cel: "Masa całego zestawu.",
+        gdzie: "Karta akumulatora.",
+        zakres: "Z karty.",
+      },
+      agmDod: {
+        nazwa: "AGM: dopuszczalna głębokość rozładowania [%]",
+        cel: "Jaką część pojemności wolno zużyć.",
+        gdzie: "Karta akumulatora. Moduł 4 podaje dla AGM {cykleAgm} cykli — to podpowiedź, nie dane Twojego modelu.",
+        zakres: "Z karty; aplikacja nie zgaduje.",
+      },
+      agmCykle: {
+        nazwa: "AGM: liczba cykli",
+        cel: "Ile razy akumulator odda energię, zanim się zużyje.",
+        gdzie: "Karta akumulatora — dla wpisanej głębokości rozładowania.",
+        zakres: "Z karty; aplikacja nie zgaduje.",
+      },
+      lfpAh: {
+        nazwa: "LiFePO4: pojemność [Ah]",
+        cel: "Energia jednej sztuki.",
+        gdzie: "Tabliczka/karta akumulatora.",
+        zakres: "Z karty.",
+      },
+      lfpCena: {
+        nazwa: "LiFePO4: cena [zł]",
+        cel: "Koszt zakupu i koszt kWh.",
+        gdzie: "Oferta sklepu.",
+        zakres: "Twoja oferta.",
+      },
+      lfpMasa: {
+        nazwa: "LiFePO4: masa [kg]",
+        cel: "Masa całego zestawu.",
+        gdzie: "Karta akumulatora.",
+        zakres: "Z karty.",
+      },
+      lfpDod: {
+        nazwa: "LiFePO4: dopuszczalna głębokość rozładowania [%]",
+        cel: "Jaką część pojemności wolno zużyć.",
+        gdzie:
+          "Karta akumulatora. Moduł 4 podaje dla LiFePO4 {cykleLfp} cykli — to podpowiedź, nie dane Twojego modelu.",
+        zakres: "Z karty; aplikacja nie zgaduje.",
+      },
+      lfpCykle: {
+        nazwa: "LiFePO4: liczba cykli",
+        cel: "Ile razy akumulator odda energię, zanim się zużyje.",
+        gdzie: "Karta akumulatora — dla wpisanej głębokości rozładowania.",
+        zakres: "Z karty; aplikacja nie zgaduje.",
+      },
+    },
+  },
 }
 
 export const en: Tlumaczenie<typeof pl> = {
@@ -1202,6 +1301,103 @@ export const en: Tlumaczenie<typeof pl> = {
         cel: "Checks how many hours it lasts.",
         gdzie: "Battery nameplate.",
         zakres: "Empty = sizing only.",
+      },
+    },
+  },
+  "akumulator-kampera": {
+    migawka: {
+      oCoChodzi: "The battery is the heart of a camper — and in a vehicle every kilogram counts.",
+      jakDziala:
+        "Enter the demand and the data of specific batteries from their datasheets. The app computes how many units of each technology cover the needs for the given number of days, what that weighs and costs, and the cost of 1 kWh over the battery's lifetime.",
+      poCo:
+        "AGM is cheaper up front but heavier, lets you use a smaller share of its capacity and lasts fewer cycles. The lifetime kWh cost and the weight usually decide. Full technology comparison: Module 4, Screen 30.",
+      fizyka: "E = demand × days. Units = ⌈E ÷ (Ah × V × DoD)⌉. kWh cost = price ÷ (Ah × V × DoD × cycles ÷ 1000).",
+    },
+    pola: {
+      zapotrzebowanie: {
+        nazwa: "Daily demand [Wh]",
+        cel: "How much energy the camper uses per day.",
+        gdzie: "The “weekend” calculator (Module 12, Screen 5) or the meter in the station/BMS.",
+        zakres: "From your usage profile.",
+      },
+      dni: {
+        nazwa: "Days without charging",
+        cel: "How many days parked without sun or driving the battery must last.",
+        gdzie: "Your travel style.",
+        zakres: "Your decision.",
+      },
+      napiecie: {
+        nazwa: "System voltage [V]",
+        cel: "Ah × V = Wh.",
+        gdzie: "The camper system (usually from the battery nameplate).",
+        zakres: "From the nameplate.",
+      },
+      zapasMasy: {
+        nazwa: "Payload reserve [kg] (optional)",
+        cel: "Checks the batteries do not exceed the vehicle payload.",
+        gdzie:
+          "Registration document: gross vehicle weight minus the weight of the vehicle with equipment, passengers and luggage.",
+        zakres: "Empty = do not check.",
+      },
+      agmAh: {
+        nazwa: "AGM: capacity [Ah]",
+        cel: "Energy of one unit.",
+        gdzie: "Battery nameplate/datasheet.",
+        zakres: "From the datasheet.",
+      },
+      agmCena: {
+        nazwa: "AGM: price [PLN]",
+        cel: "Purchase cost and kWh cost.",
+        gdzie: "Shop offer.",
+        zakres: "Your offer.",
+      },
+      agmMasa: {
+        nazwa: "AGM: weight [kg]",
+        cel: "Weight of the whole bank.",
+        gdzie: "Battery datasheet.",
+        zakres: "From the datasheet.",
+      },
+      agmDod: {
+        nazwa: "AGM: allowed depth of discharge [%]",
+        cel: "What share of the capacity you may use.",
+        gdzie: "Battery datasheet. Module 4 gives {cykleAgm} cycles for AGM — a hint, not your model's data.",
+        zakres: "From the datasheet; the app does not guess.",
+      },
+      agmCykle: {
+        nazwa: "AGM: number of cycles",
+        cel: "How many times the battery delivers energy before it wears out.",
+        gdzie: "Battery datasheet — for the entered depth of discharge.",
+        zakres: "From the datasheet; the app does not guess.",
+      },
+      lfpAh: {
+        nazwa: "LiFePO4: capacity [Ah]",
+        cel: "Energy of one unit.",
+        gdzie: "Battery nameplate/datasheet.",
+        zakres: "From the datasheet.",
+      },
+      lfpCena: {
+        nazwa: "LiFePO4: price [PLN]",
+        cel: "Purchase cost and kWh cost.",
+        gdzie: "Shop offer.",
+        zakres: "Your offer.",
+      },
+      lfpMasa: {
+        nazwa: "LiFePO4: weight [kg]",
+        cel: "Weight of the whole bank.",
+        gdzie: "Battery datasheet.",
+        zakres: "From the datasheet.",
+      },
+      lfpDod: {
+        nazwa: "LiFePO4: allowed depth of discharge [%]",
+        cel: "What share of the capacity you may use.",
+        gdzie: "Battery datasheet. Module 4 gives {cykleLfp} cycles for LiFePO4 — a hint, not your model's data.",
+        zakres: "From the datasheet; the app does not guess.",
+      },
+      lfpCykle: {
+        nazwa: "LiFePO4: number of cycles",
+        cel: "How many times the battery delivers energy before it wears out.",
+        gdzie: "Battery datasheet — for the entered depth of discharge.",
+        zakres: "From the datasheet; the app does not guess.",
       },
     },
   },
@@ -1804,6 +2000,105 @@ export const ru: Tlumaczenie<typeof pl> = {
         cel: "Проверяет, на сколько часов его хватит.",
         gdzie: "Табличка аккумулятора.",
         zakres: "Пусто = только подбор.",
+      },
+    },
+  },
+  "akumulator-kampera": {
+    migawka: {
+      oCoChodzi: "Аккумулятор — сердце кемпера, а в автомобиле важен каждый килограмм.",
+      jakDziala:
+        "Введите потребность и данные конкретных аккумуляторов из паспортов. Приложение считает, сколько штук каждой технологии покроют потребности на заданное число суток, сколько это весит и стоит, и стоимость 1 кВт·ч за весь срок службы.",
+      poCo:
+        "AGM дешевле на старте, но тяжелее, позволяет использовать меньшую часть ёмкости и выдерживает меньше циклов. Обычно решают стоимость кВт·ч за срок службы и масса. Полное сравнение технологий: Модуль 4, экран 30.",
+      fizyka:
+        "E = потребность × сутки. Штук = ⌈E ÷ (Ач × В × DoD)⌉. Стоимость кВт·ч = цена ÷ (Ач × В × DoD × циклы ÷ 1000).",
+    },
+    pola: {
+      zapotrzebowanie: {
+        nazwa: "Потребность в сутки [Вт·ч]",
+        cel: "Сколько энергии кемпер расходует за сутки.",
+        gdzie: "Калькулятор «на выходные» (Модуль 12, экран 5) или счётчик станции/BMS.",
+        zakres: "Из вашего профиля потребления.",
+      },
+      dni: {
+        nazwa: "Суток без зарядки",
+        cel: "На сколько суток стоянки без солнца и езды должно хватить аккумулятора.",
+        gdzie: "Ваш стиль путешествий.",
+        zakres: "Ваше решение.",
+      },
+      napiecie: {
+        nazwa: "Напряжение системы [В]",
+        cel: "Ач × В = Вт·ч.",
+        gdzie: "Система кемпера (обычно с таблички аккумулятора).",
+        zakres: "С таблички.",
+      },
+      zapasMasy: {
+        nazwa: "Запас грузоподъёмности [кг] (необязательно)",
+        cel: "Проверяет, не превысят ли аккумуляторы грузоподъёмность.",
+        gdzie: "Техпаспорт: разрешённая полная масса минус масса машины с оборудованием, пассажирами и багажом.",
+        zakres: "Пусто = не проверять.",
+      },
+      agmAh: {
+        nazwa: "AGM: ёмкость [Ач]",
+        cel: "Энергия одной штуки.",
+        gdzie: "Табличка/паспорт аккумулятора.",
+        zakres: "Из паспорта.",
+      },
+      agmCena: {
+        nazwa: "AGM: цена [зл]",
+        cel: "Стоимость покупки и стоимость кВт·ч.",
+        gdzie: "Предложение магазина.",
+        zakres: "Ваше предложение.",
+      },
+      agmMasa: {
+        nazwa: "AGM: масса [кг]",
+        cel: "Масса всего комплекта.",
+        gdzie: "Паспорт аккумулятора.",
+        zakres: "Из паспорта.",
+      },
+      agmDod: {
+        nazwa: "AGM: допустимая глубина разряда [%]",
+        cel: "Какую часть ёмкости можно использовать.",
+        gdzie:
+          "Паспорт аккумулятора. Модуль 4 указывает для AGM {cykleAgm} циклов — это подсказка, а не данные вашей модели.",
+        zakres: "Из паспорта; приложение не угадывает.",
+      },
+      agmCykle: {
+        nazwa: "AGM: число циклов",
+        cel: "Сколько раз аккумулятор отдаст энергию, прежде чем износится.",
+        gdzie: "Паспорт аккумулятора — для введённой глубины разряда.",
+        zakres: "Из паспорта; приложение не угадывает.",
+      },
+      lfpAh: {
+        nazwa: "LiFePO4: ёмкость [Ач]",
+        cel: "Энергия одной штуки.",
+        gdzie: "Табличка/паспорт аккумулятора.",
+        zakres: "Из паспорта.",
+      },
+      lfpCena: {
+        nazwa: "LiFePO4: цена [зл]",
+        cel: "Стоимость покупки и стоимость кВт·ч.",
+        gdzie: "Предложение магазина.",
+        zakres: "Ваше предложение.",
+      },
+      lfpMasa: {
+        nazwa: "LiFePO4: масса [кг]",
+        cel: "Масса всего комплекта.",
+        gdzie: "Паспорт аккумулятора.",
+        zakres: "Из паспорта.",
+      },
+      lfpDod: {
+        nazwa: "LiFePO4: допустимая глубина разряда [%]",
+        cel: "Какую часть ёмкости можно использовать.",
+        gdzie:
+          "Паспорт аккумулятора. Модуль 4 указывает для LiFePO4 {cykleLfp} циклов — это подсказка, а не данные вашей модели.",
+        zakres: "Из паспорта; приложение не угадывает.",
+      },
+      lfpCykle: {
+        nazwa: "LiFePO4: число циклов",
+        cel: "Сколько раз аккумулятор отдаст энергию, прежде чем износится.",
+        gdzie: "Паспорт аккумулятора — для введённой глубины разряда.",
+        zakres: "Из паспорта; приложение не угадывает.",
       },
     },
   },

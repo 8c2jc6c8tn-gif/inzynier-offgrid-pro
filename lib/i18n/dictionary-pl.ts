@@ -1223,6 +1223,10 @@ export const dictionaryPl = {
   "BM-AKUMULATOR-ZA-MALY": "Twój akumulator {posiadany} Ah to za mało — potrzeba co najmniej {minimalny} Ah. Starczy na ok. {godzin} h; ogranicz odbiorniki albo dołóż pojemność.",
   "BM-ROZRUCH-PRZETWORNICY": "Minimalna przetwornica to suma mocy pracy. Lodówka i pompy przy starcie pobierają kilka razy więcej — dobierz zapas na rozruch na ekranie „Przetwornice”.",
   "BM-ZALOZENIE-BEZ-LADOWANIA": "Akumulator na starcie pełny; przez cały blackout bez ładowania (bez sieci, słońca i agregatu). Odbiorniki pracują średnio tyle godzin na dobę, ile wpisano.",
+  "AKK-AGM-ZA-GLEBOKO": "Planujesz rozładowywać AGM do {dod}% — głębiej niż {ref}%, przy których podaje się typową liczbę cykli. AGM w kamperze szybko padnie przy głębokim rozładowaniu; sprawdź liczbę cykli dla tej głębokości w karcie.",
+  "AKK-PRZEKROCZONA-MASA-AGM": "Akumulatory AGM ważą razem {masa} kg — więcej niż zapas ładowności {zapas} kg.",
+  "AKK-PRZEKROCZONA-MASA-LFP": "Akumulatory LiFePO4 ważą razem {masa} kg — więcej niż zapas ładowności {zapas} kg.",
+  "AKK-ZALOZENIE-PELNE-CYKLE": "Koszt kWh zakłada, że akumulator przejdzie wszystkie cykle z karty przy wpisanej głębokości rozładowania (bez starzenia kalendarzowego i złej obsługi).",
   // end of M12 30.09.2026 block
   "LVD-BRAK-OCHRONY-OLOWIOWY": "Akumulator kwasowy/AGM bez dozownika napięcia, a odbiornik nie ma własnego zabezpieczenia — odbiornik rozładuje akumulator do zera. Głębokie rozładowanie trwale niszczy akumulator ołowiowy (zasiarczenie). Zamontuj dozownik (LVD) z progiem podanym wyżej.",
   "LVD-PROG-KWASOWY-BRAK-W-ZRODLE": "Dla akumulatora kwasowego (zalewowego) nie podajemy progu — źródło daje go tylko dla AGM i LiFePO4. Sprawdź napięcie odcięcia w karcie producenta akumulatora.",

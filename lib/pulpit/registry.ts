@@ -327,6 +327,7 @@ export const KAFLE: KafelEntry[] = [
       { href: "/kalkulatory/laczenie-paneli-przenosnych", label: "Łączenie paneli przenośnych" },
       { href: "/kalkulatory/powerbank-vs-akumulator", label: "Powerbank solarny czy mały akumulator" },
       { href: "/kalkulatory/blackout-minimum", label: "Blackout w domu — minimum do przeżycia" },
+      { href: "/kalkulatory/akumulator-kampera", label: "Akumulator do kampera: AGM czy LiFePO4" },
     ],
   },
   {

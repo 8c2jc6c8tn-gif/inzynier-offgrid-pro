@@ -1211,6 +1211,10 @@ export const dictionaryEn = {
   "BM-AKUMULATOR-ZA-MALY": "Your {posiadany} Ah battery is not enough — at least {minimalny} Ah is needed. It will last about {godzin} h; cut the loads or add capacity.",
   "BM-ROZRUCH-PRZETWORNICY": "The minimum converter is the sum of running powers. A fridge and pumps draw several times more at start — size the start-up margin on the “Converters” screen.",
   "BM-ZALOZENIE-BEZ-LADOWANIA": "The battery starts full; no charging during the whole blackout (no grid, sun or generator). Loads run on average as many hours per day as entered.",
+  "AKK-AGM-ZA-GLEBOKO": "You plan to discharge the AGM to {dod}% — deeper than the {ref}% at which the typical cycle count is given. An AGM in a camper dies quickly when deeply discharged; check the cycle count for this depth in the datasheet.",
+  "AKK-PRZEKROCZONA-MASA-AGM": "The AGM batteries weigh {masa} kg in total — more than the {zapas} kg payload reserve.",
+  "AKK-PRZEKROCZONA-MASA-LFP": "The LiFePO4 batteries weigh {masa} kg in total — more than the {zapas} kg payload reserve.",
+  "AKK-ZALOZENIE-PELNE-CYKLE": "The kWh cost assumes the battery completes all datasheet cycles at the entered depth of discharge (no calendar ageing or misuse).",
   // end of M12 30.09.2026 block
   "LVD-BRAK-OCHRONY-OLOWIOWY": "A lead-acid/AGM battery without a low voltage disconnect, and the load has no protection of its own — the load will drain the battery to zero. Deep discharge permanently damages a lead-acid battery (sulphation). Fit a low voltage disconnect (LVD) with the threshold given above.",
   "LVD-PROG-KWASOWY-BRAK-W-ZRODLE": "No threshold is given for a flooded lead-acid battery — the source gives it only for AGM and LiFePO4. Check the cut-off voltage in the battery manufacturer's datasheet.",
