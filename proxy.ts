@@ -1,12 +1,15 @@
 /**
  * docs/standards/18-logowanie.md, 18.1 — konto wymagane od pierwszego uruchomienia. Egzekwowane
- * tutaj, nie w layoutach: middleware biegnie przed renderowaniem, więc żadna trasa nie "mignie"
+ * tutaj, nie w layoutach: proxy (dawniej middleware, Next 16) biegnie przed renderowaniem, więc żadna trasa nie "mignie"
  * niezalogowanemu userowi przed przekierowaniem.
  *
  * Szkielet (15.09.2026, patrz docs/memory.md) — projekt jeszcze nie ma prawdziwego projektu
  * Supabase. Dopóki `.env.local` nie ma realnych wartości, ta bramka jest wyłączona i apka
  * działa dokładnie jak dotąd (bez wymogu konta) — jawnie, nie po cichu, żeby nikt nie pomyślał,
- * że logowanie już działa, tylko dlatego że middleware istnieje.
+ * że logowanie już działa, tylko dlatego że proxy istnieje.
+ *
+ * Nazwa pliku i funkcji: `proxy` (Next 16 — konwencja `middleware` przestarzała, działanie to samo;
+ * proxy zawsze biegnie w runtime Node.js, nie Edge — kod niżej używa tylko API dostępnych w obu).
  *
  * Content-Security-Policy z nonce-per-request — docs/standards/07-bezpieczenstwo.md, 7.3
  * (korekta 16.09.2026: hash-based CSP jest architektonicznie niekompatybilny z Next.js App
@@ -72,14 +75,14 @@ function buildCsp(nonce: string): string {
 
 // Dokłada nonce (request header, dla Server Componentów przez headers()) i CSP (response
 // header, dla przeglądarki) do już zbudowanej odpowiedzi — wywoływane na KAŻDEJ ścieżce
-// zwrotu middleware, żeby żadna odpowiedź nie ominęła CSP.
+// zwrotu proxy, żeby żadna odpowiedź nie ominęła CSP.
 function zastosujCsp(request: NextRequest, response: NextResponse, nonce: string): NextResponse {
   response.headers.set("x-nonce", nonce)
   response.headers.set("Content-Security-Policy", buildCsp(nonce))
   return response
 }
 
-export async function middleware(request: NextRequest) {
+export async function proxy(request: NextRequest) {
   const nonce = crypto.randomUUID()
   const requestHeaders = new Headers(request.headers)
   requestHeaders.set("x-nonce", nonce)
@@ -119,7 +122,7 @@ export async function middleware(request: NextRequest) {
   return zastosujCsp(request, response, nonce)
 }
 
-// PWA files (`/sw.js`, `/manifest.webmanifest`) bypass the middleware: with
+// PWA files (`/sw.js`, `/manifest.webmanifest`) bypass the proxy: with
 // Supabase configured, a logged-out browser would otherwise get a redirect to /auth/login instead
 // of the worker script, so registration and every SW update check would fail
 // (docs/audyt-sw-vs-wzorzec-pwa.md, item 12). Consequence: the SW script response carries no CSP

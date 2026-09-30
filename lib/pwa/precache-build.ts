@@ -17,18 +17,22 @@ import { zbudujWpisyPrecache, type WpisPrecache } from '@/lib/pwa/precache'
  * `/` separated). Each exclusion = that file does not work offline.
  */
 export function czyWykluczonyStatyczny(sciezka: string): boolean {
-  // The map needs the network anyway (D22/D23: Geoportal WMS base layer).
-  // Includes the `-dev` builds of MapLibre that end up in the production
-  // output (~2.5 MB) — why they are there at all: stage 2.
+  // MapLibre's own copies of its worker (incl. `-dev` builds, ~3.7 MB), emitted
+  // by the bundler from the library's `new URL(..., import.meta.url)`. Never
+  // loaded: the map uses the copy in public/maplibre/ (setWorkerUrl in
+  // components/lokalizacja/mapa-dzialki.tsx), which IS precached — the map
+  // works offline for the GPS walk (D22, 5.3; stage 2, 30.09.2026).
   return /^media\/maplibre-gl/.test(sciezka)
 }
 
-export function czyWykluczonyPubliczny(sciezka: string): boolean {
-  // Map worker files — online only, see above.
-  if (sciezka.startsWith('maplibre/')) return true
-  // Template leftovers, referenced nowhere in app/, components/, lib/ (29.09.2026).
-  if (/^placeholder/.test(sciezka)) return true
-  return false
+/**
+ * Chunks left out by content, not by name (the hash changes every build).
+ * three.js (3D view on the shading screen, components/lokalizacja/widok-3d.tsx,
+ * ~0.9 MB): online only — owner's decision 30.09.2026 (SW stage 2). three.js
+ * always defines `__THREE__` in its core; the app code never mentions it.
+ */
+export function czyChunkTylkoOnline(sciezka: string, tresc: string): boolean {
+  return sciezka.endsWith('.js') && tresc.includes('__THREE__')
 }
 
 function plikiRekurencyjnie(katalog: string, prefiks = ''): string[] {
@@ -49,10 +53,12 @@ export function wczytajWpisyPrecache(korzen: string = process.cwd()): WpisPrecac
     string,
     string
   >
-  const plikiStatyczne = plikiRekurencyjnie(path.join(next, 'static')).filter((p) => !czyWykluczonyStatyczny(p))
-  const plikiPubliczne = plikiRekurencyjnie(publiczny)
-    .filter((p) => !czyWykluczonyPubliczny(p))
-    .map((sciezka) => ({
+  const plikiStatyczne = plikiRekurencyjnie(path.join(next, 'static')).filter(
+    (p) =>
+      !czyWykluczonyStatyczny(p) &&
+      !(p.endsWith('.js') && czyChunkTylkoOnline(p, fs.readFileSync(path.join(next, 'static', p), 'utf8'))),
+  )
+  const plikiPubliczne = plikiRekurencyjnie(publiczny).map((sciezka) => ({
       sciezka,
       hash: createHash('sha256')
         .update(fs.readFileSync(path.join(publiczny, sciezka)))

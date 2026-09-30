@@ -51,6 +51,30 @@ jobs:
       - run: pnpm test
       - run: pnpm build
 
+  # docs/standards/10-testy.md 10.8/10.9 + D59 — testy Service Workera w prawdziwej przeglądarce na
+  # buildzie produkcyjnym (nigdy na `dev`: błąd precache wychodzi tylko tam, 5.8). Osobny job, bo
+  # `pnpm test:e2e` sam robi trzy buildy (~3–5 min) — nie wydłuża sygnału z `quality`. Chromium z
+  # tej samej wersji pakietu `playwright` co w pnpm-lock.yaml (`--with-deps`: biblioteki systemowe).
+  e2e-sw:
+    name: E2E Service Worker (10.8, 10.9)
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: pnpm/action-setup@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: pnpm
+
+      - run: pnpm install --frozen-lockfile
+
+      - run: pnpm exec playwright install --with-deps chromium
+
+      - run: pnpm test:e2e
+
   dependency-audit:
     name: Dependency vulnerability audit (11.5)
     runs-on: ubuntu-latest

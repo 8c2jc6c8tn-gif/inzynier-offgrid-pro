@@ -1,7 +1,7 @@
 // @vitest-environment node
 import { describe, expect, it } from 'vitest'
 import { REV_NIEZMIENNY, zbudujWpisyPrecache, type WejsciePrecache } from '../precache'
-import { czyWykluczonyPubliczny, czyWykluczonyStatyczny } from '../precache-build'
+import { czyChunkTylkoOnline, czyWykluczonyStatyczny } from '../precache-build'
 
 const wejscie = (zmiany: Partial<WejsciePrecache> = {}): WejsciePrecache => ({
   buildId: 'B1',
@@ -46,13 +46,15 @@ describe('zbudujWpisyPrecache', () => {
 })
 
 describe('exclusions (lib/pwa/precache-build.ts)', () => {
-  it('map files (online only) and template placeholders stay out; everything else goes in', () => {
+  it("MapLibre's unused bundler copies stay out; everything else goes in", () => {
     expect(czyWykluczonyStatyczny('media/maplibre-gl-dev.abc.js')).toBe(true)
     expect(czyWykluczonyStatyczny('media/font.woff2')).toBe(false)
     expect(czyWykluczonyStatyczny('chunks/a.js')).toBe(false)
-    expect(czyWykluczonyPubliczny('maplibre/maplibre-gl-worker.mjs')).toBe(true)
-    expect(czyWykluczonyPubliczny('placeholder-logo.svg')).toBe(true)
-    expect(czyWykluczonyPubliczny('icon.svg')).toBe(false)
-    expect(czyWykluczonyPubliczny('maskotki-bob/modul-03.webp')).toBe(false)
+  })
+
+  it('three.js chunk (3D view, online only) is recognised by content, not by name', () => {
+    expect(czyChunkTylkoOnline('chunks/1608abc.js', 'x;window.__THREE__="186";y')).toBe(true)
+    expect(czyChunkTylkoOnline('chunks/0a83abc.js', 'maplibre worker code')).toBe(false)
+    expect(czyChunkTylkoOnline('chunks/a.css', '__THREE__')).toBe(false)
   })
 })

@@ -1249,6 +1249,8 @@ Pełne wyniki audytu: `docs/memory.md`, sekcja "Pełny audyt na polecenie właś
   = naprawić od razu, nie odkładać. **Priorytet:** wysoki, 1.10.2026. **Kolizje:** brak.
   (3) **[29.09.2026, D59]** Dodać job e2e SW do `ci.yml`: `pnpm exec playwright install --with-deps chromium`, potem
   `pnpm test:e2e` (sam robi trzy buildy, ~3–5 min). Kolizja: `.github/workflows/ci.yml`.
+  → **[30.09.2026] Pkt (3) zrobiony** — job `e2e-sw` w `ci.yml` (osobny, limit 30 min). Pkt (1) i (2) zostają na 1.10:
+  pierwszy przebieg na `main` sprawdzi też nowy job.
 - 🔲 (2026-09-29) **Prognozy M10 — Δt przy podłączaniu realnych danych (TD7).** Silnik `ai/prognozy` 1.1.0 zakłada
   stały krok `KROK_PROBKOWANIA_H = 3` (decyzja A). Gdy ekran dostanie prawdziwe źródło (symulacja SoC, pogoda, dane live),
   sprawdzić krok próbkowania tego źródła: inny niż 3 h → krok jako jawne pole wejścia silnika (+ test), nie cicha
@@ -1375,23 +1377,48 @@ Pełne wyniki audytu: `docs/memory.md`, sekcja "Pełny audyt na polecenie właś
   właściciel.
   → **[29.09.2026] Odblokowane** — etap 1 scalony, pomiar wyjściowy: 21,3 MB / 539 wpisów (`pnpm test:e2e` wypisuje
   rozmiar). Następny krok: 10 największych wpisów, pytanie o budżet i widok 3D (plan, sekcja 3).
+  → **[30.09.2026] Częściowo zrobione (D60).** Widok 3D: decyzja właściciela „tylko online” — chunk three.js
+  (~0,9 MB) poza precache, na ekranie 3 offline komunikat zamiast widoku. Przy pomiarze wyszedł **błąd etapu 1**:
+  worker MapLibre wykluczony, więc offline na Skanerze znikał obrys działki (D22 wymaga spaceru GPS bez sieci) —
+  naprawione, worker z powrotem w precache (+0,5 MB), test e2e pilnuje. Przy okazji naprawiony nieobsłużony błąd
+  asystenta AI offline na każdym ekranie. Precache: **20,85 MB surowo / ≈ 6,8 MB transferu (gzip)**. Zostaje:
+  budżet pierwszego pobrania — osobny wpis ⚠️ niżej. Szczegóły: `docs/memory.md` „Drobne zadania + SW etap 2”.
 - 🔲 (2026-09-29) **5.10 — `navigator.storage.persist()` z zapamiętaniem odmowy** (raport SW, pkt 15; wzorzec
   `docs/przyklady/pwa/trwaly-magazyn.ts`). Bez tego szkice autosave mogą zostać skasowane przez przeglądarkę.
   **Priorytet:** średni. **Kolizje:** `lib/adapters/indexeddb-storage-adapter.ts`, `use-persisted-draft.ts`.
   Niezależne od decyzji SW.
+  ✅ **[30.09.2026] Zrobione** — `lib/adapters/trwaly-magazyn.ts` (kopia wzorca), wołane z `setItem` adaptera
+  IndexedDB; 5 testów jednostkowych.
 - 🔲 (2026-09-29) **5.11 — obsługa kolizji wersji IndexedDB między kartami** (raport SW, pkt 16; wzorzec
   `indexeddb-baza.ts` + `baza-wersja-listener.tsx`). Dziś `DB_VERSION = 1` — uśpione. **Priorytet:** musi wejść
   **przed** pierwszym podbiciem `DB_VERSION`. **Kolizje:** jak 5.10 — robić w jednej sesji. Toast wymaga tego samego
   komponentu co toast aktualizacji SW — wybrano C, więc robić po etapie 1 SW.
   → **[29.09.2026] Odblokowane** — host toastów `sonner` jest w `app/layout.tsx` (`components/pwa/powiadomienia.tsx`).
+  ✅ **[30.09.2026] Zrobione** — `naZdarzenieWersjiBazy` w `lib/adapters/indexeddb-storage-adapter.ts`, toast
+  `components/pwa/baza-wersja-listener.tsx` (PL/EN/RU), 5 testów. Podbicie `DB_VERSION` jest od teraz bezpieczne.
 - 🔲 (2026-09-29) **Usunąć nieużywane `public/placeholder*` (5 plików z szablonu).** Wyszło przy D59: nigdzie w `app/`,
   `components/`, `lib/` nieużywane; dziś tylko wykluczone z precache (`lib/pwa/precache-build.ts`). Po usunięciu zdjąć
   wykluczenie. **Priorytet:** niski. **Odblokowuje:** nic. **Plusy teraz:** 5 minut. **Minusy:** brak.
   **Kolizje:** `lib/pwa/precache-build.ts` (etap 2 SW) — robić razem z etapem 2 albo po nim.
+  ✅ **[30.09.2026] Zrobione** — 5 plików usuniętych, wykluczenie z `precache-build.ts` zdjęte.
 - 🔲 (2026-09-29) **Next 16: `middleware.ts` → `proxy.ts`.** `pnpm build` ostrzega: konwencja „middleware” jest
   przestarzała, nowa nazwa „proxy” (build nadal działa). Przed zmianą przeczytać przewodnik w
   `node_modules/next/dist/docs/` (standard 11.8 — klasyfikacja zmiany). **Priorytet:** niski, przed kolejnym majorem
   Next. **Kolizje:** `middleware.ts` (CSP, bramka Supabase 18.1, `matcher` plików SW) — nie równolegle z 18.x.
+  ✅ **[30.09.2026] Zrobione** — `proxy.ts` (plik + nazwa funkcji), odwołania w komentarzach kodu poprawione;
+  build bez ostrzeżenia, e2e SW zielone (CSP i `matcher` bez zmian).
+- ⚠️ (2026-09-30) **Budżet pierwszego pobrania aplikacji (SW etap 2, dokończenie) — decyzja właściciela.** Dziś
+  20,85 MB surowo, **≈ 6,8 MB realnego transferu** (gzip, 540 wpisów), pobierane raz w tle po pierwszej wizycie;
+  chunki (`rev: 'i'`) nie są pobierane ponownie przy kolejnych wersjach, tylko zmienione. Opcje: (A) przyjąć obecny
+  stan (≈ 7 MB transferu), dalej nic nie ciąć; (B) budżet ~5 MB transferu — wydzielenie słowników/tekstów pomocy per
+  język z dwóch chunków ładowanych na każdej stronie (1,17 + 0,73 MB surowo, 3 języki naraz), zysk szacunkowy ~1–1,5 MB
+  transferu, 1 sesja, dotyka `lib/i18n/**` (kolizja z sesjami tłumaczeń); (C) budżet ~2–3 MB — (B) + precache tylko
+  części ekranów przy instalacji, reszta w tle/przy pierwszym otwarciu, **zmienia D59 C-3 i 5.3** (nieodwiedzony ekran
+  mógłby nie działać offline). Rekomendacja: A teraz, B dopiero gdy pojawi się sygnał z terenu o słabym łączu.
+  **Priorytet:** niski przy A, średni przy B. **Kolizje:** B — `lib/i18n/**`; C — `lib/pwa/precache.ts`, D59.
+  **Kolejność:** po decyzji; B przed C.
+  ✅ **[30.09.2026] Decyzja właściciela: wariant A** (D61) — obecny stan (≈ 6,8 MB transferu) przyjęty, dalej nic nie
+  ciąć. B wraca dopiero przy sygnale z terenu o słabym łączu.
 - ✅ (2026-09-30) **Opis ekranów dla AI projektującego wygląd** — `docs/opis-ekranow-dla-ai.md`: anatomia ekranu,
   kontrakt wyniku, wzorce A–H z liczbami, ekrany nietypowe, reguły nie do złamania, diagnoza „nieprzejrzystości”,
   załącznik z katalogiem 220 ekranów (wygenerowany z kodu stron). Odsyłacz dopisany w `docs/brief-dla-v0.md`.

@@ -5,7 +5,7 @@
  * do per-request nonce'u, a hash-based CSP dla inline scriptów jest architektonicznie
  * niekompatybilny z Next.js App Router (RSC streaming generuje własne inline-skrypty z treścią
  * inną per żądanie — żaden statyczny hash ich nie obejmie, potwierdzony błąd produkcyjny
- * 16.09.2026, patrz docs/memory.md). CSP z nonce-per-request jest ustawiana w `middleware.ts`.
+ * 16.09.2026, patrz docs/memory.md). CSP z nonce-per-request jest ustawiana w `proxy.ts`.
  */
 const securityHeaders = [
   { key: "X-Frame-Options", value: "DENY" },
