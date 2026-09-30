@@ -1215,6 +1215,9 @@ export const dictionaryEn = {
   "AKK-PRZEKROCZONA-MASA-AGM": "The AGM batteries weigh {masa} kg in total — more than the {zapas} kg payload reserve.",
   "AKK-PRZEKROCZONA-MASA-LFP": "The LiFePO4 batteries weigh {masa} kg in total — more than the {zapas} kg payload reserve.",
   "AKK-ZALOZENIE-PELNE-CYKLE": "The kWh cost assumes the battery completes all datasheet cycles at the entered depth of discharge (no calendar ageing or misuse).",
+  "DK-PANEL-SIE-NIE-MIESCI": "The panel does not fit on any free section of the roof. Choose a smaller panel, reduce the margin or move a skylight.",
+  "DK-SPRAWDZ-MOCOWANIE": "The result says what fits. Separately check roof load capacity, mounting (adhesive/spoilers), the cable gland and whether panels shade each other or are shaded by the A/C unit.",
+  "DK-ZALOZENIE-JEDEN-MODEL": "All panels are the same model; one orientation per section (the better one). A mixed layout within a section can sometimes fit more.",
   // end of M12 30.09.2026 block
   "LVD-BRAK-OCHRONY-OLOWIOWY": "A lead-acid/AGM battery without a low voltage disconnect, and the load has no protection of its own — the load will drain the battery to zero. Deep discharge permanently damages a lead-acid battery (sulphation). Fit a low voltage disconnect (LVD) with the threshold given above.",
   "LVD-PROG-KWASOWY-BRAK-W-ZRODLE": "No threshold is given for a flooded lead-acid battery — the source gives it only for AGM and LiFePO4. Check the cut-off voltage in the battery manufacturer's datasheet.",

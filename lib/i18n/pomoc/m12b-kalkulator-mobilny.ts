@@ -703,6 +703,67 @@ export const pl = {
       },
     },
   },
+  "panele-dach-kampera": {
+    migawka: {
+      oCoChodzi: "Dach kampera to mała elektrownia — ale dzielą go klimatyzator, świetliki i anteny.",
+      jakDziala:
+        "Zmierz wolne odcinki dachu między przeszkodami (wzdłuż pojazdu). Na każdym aplikacja układa siatkę paneli z marginesem i odstępami, w lepszej z dwóch orientacji, i sumuje moc.",
+      poCo:
+        "Dzielenie powierzchni dachu przez powierzchnię panelu zawyża wynik — panel nie może leżeć nad świetlikiem. Tu liczy się każdy odcinek osobno.",
+      fizyka:
+        "Paneli w rzędzie = ⌊(dostępna długość + odstęp) ÷ (bok panelu + odstęp)⌋. Dostępna = odcinek − 2 × margines. Na odcinku: rzędy wzdłuż × rzędy w poprzek.",
+    },
+    pola: {
+      szerokosc: {
+        nazwa: "Szerokość dachu [m]",
+        cel: "Ile rzędów zmieści się w poprzek.",
+        gdzie: "Zmierz płaską część dachu (bez zaokrąglonych krawędzi).",
+        zakres: "Twój pomiar.",
+      },
+      margines: {
+        nazwa: "Odstęp od krawędzi i przeszkód [m]",
+        cel: "Miejsce na mocowania, spoilery i dostęp do świetlików.",
+        gdzie: "Instrukcja mocowań paneli / producent kampera.",
+        zakres: "Z instrukcji; aplikacja nie zgaduje.",
+      },
+      odstep: {
+        nazwa: "Odstęp między panelami [m]",
+        cel: "Miejsce na mocowania i wentylację.",
+        gdzie: "Instrukcja mocowań.",
+        zakres: "Z instrukcji.",
+      },
+      odcinekNazwa: {
+        nazwa: "Nazwa odcinka",
+        cel: "Żeby wiedzieć, który fragment dachu to który.",
+        gdzie: "Dowolny opis, np. „przód do świetlika”.",
+        zakres: "Tekst.",
+      },
+      odcinekDl: {
+        nazwa: "Długość odcinka [m]",
+        cel: "Wolny fragment dachu wzdłuż pojazdu, bez przeszkód.",
+        gdzie: "Zmierz od krawędzi (albo przeszkody) do następnej przeszkody (albo krawędzi).",
+        zakres: "Twój pomiar.",
+      },
+      panelDl: {
+        nazwa: "Długość panelu [m]",
+        cel: "Wymiar panelu.",
+        gdzie: "Karta panelu.",
+        zakres: "Z karty.",
+      },
+      panelSz: {
+        nazwa: "Szerokość panelu [m]",
+        cel: "Wymiar panelu.",
+        gdzie: "Karta panelu.",
+        zakres: "Z karty.",
+      },
+      panelMoc: {
+        nazwa: "Moc panelu [W]",
+        cel: "Łączna moc na dachu.",
+        gdzie: "Tabliczka/karta panelu (Wp).",
+        zakres: "Z karty.",
+      },
+    },
+  },
 }
 
 export const en: Tlumaczenie<typeof pl> = {
@@ -1398,6 +1459,67 @@ export const en: Tlumaczenie<typeof pl> = {
         cel: "How many times the battery delivers energy before it wears out.",
         gdzie: "Battery datasheet — for the entered depth of discharge.",
         zakres: "From the datasheet; the app does not guess.",
+      },
+    },
+  },
+  "panele-dach-kampera": {
+    migawka: {
+      oCoChodzi: "A camper roof is a small power plant — but it is split by the A/C unit, skylights and antennas.",
+      jakDziala:
+        "Measure the free roof sections between obstacles (along the vehicle). On each, the app lays out a grid of panels with a margin and gaps, in the better of two orientations, and adds up the power.",
+      poCo:
+        "Dividing the roof area by the panel area overstates the result — a panel cannot sit over a skylight. Here each section is counted separately.",
+      fizyka:
+        "Panels in a row = ⌊(available length + gap) ÷ (panel side + gap)⌋. Available = section − 2 × margin. Per section: rows along × rows across.",
+    },
+    pola: {
+      szerokosc: {
+        nazwa: "Roof width [m]",
+        cel: "How many rows fit across.",
+        gdzie: "Measure the flat part of the roof (without rounded edges).",
+        zakres: "Your measurement.",
+      },
+      margines: {
+        nazwa: "Clearance from edges and obstacles [m]",
+        cel: "Room for mounts, spoilers and skylight access.",
+        gdzie: "Panel mounting instructions / camper maker.",
+        zakres: "From the instructions; the app does not guess.",
+      },
+      odstep: {
+        nazwa: "Gap between panels [m]",
+        cel: "Room for mounts and ventilation.",
+        gdzie: "Mounting instructions.",
+        zakres: "From the instructions.",
+      },
+      odcinekNazwa: {
+        nazwa: "Section name",
+        cel: "To know which part of the roof is which.",
+        gdzie: "Any description, e.g. “front to skylight”.",
+        zakres: "Text.",
+      },
+      odcinekDl: {
+        nazwa: "Section length [m]",
+        cel: "A free stretch of roof along the vehicle, without obstacles.",
+        gdzie: "Measure from the edge (or obstacle) to the next obstacle (or edge).",
+        zakres: "Your measurement.",
+      },
+      panelDl: {
+        nazwa: "Panel length [m]",
+        cel: "Panel dimension.",
+        gdzie: "Panel datasheet.",
+        zakres: "From the datasheet.",
+      },
+      panelSz: {
+        nazwa: "Panel width [m]",
+        cel: "Panel dimension.",
+        gdzie: "Panel datasheet.",
+        zakres: "From the datasheet.",
+      },
+      panelMoc: {
+        nazwa: "Panel power [W]",
+        cel: "Total power on the roof.",
+        gdzie: "Panel nameplate/datasheet (Wp).",
+        zakres: "From the datasheet.",
       },
     },
   },
@@ -2099,6 +2221,67 @@ export const ru: Tlumaczenie<typeof pl> = {
         cel: "Сколько раз аккумулятор отдаст энергию, прежде чем износится.",
         gdzie: "Паспорт аккумулятора — для введённой глубины разряда.",
         zakres: "Из паспорта; приложение не угадывает.",
+      },
+    },
+  },
+  "panele-dach-kampera": {
+    migawka: {
+      oCoChodzi: "Крыша кемпера — маленькая электростанция, но её делят кондиционер, люки и антенны.",
+      jakDziala:
+        "Измерьте свободные участки крыши между препятствиями (вдоль машины). На каждом приложение раскладывает сетку панелей с отступом и зазорами в лучшей из двух ориентаций и суммирует мощность.",
+      poCo:
+        "Деление площади крыши на площадь панели завышает результат — панель не может лежать над люком. Здесь каждый участок считается отдельно.",
+      fizyka:
+        "Панелей в ряду = ⌊(доступная длина + зазор) ÷ (сторона панели + зазор)⌋. Доступная = участок − 2 × отступ. На участке: ряды вдоль × ряды поперёк.",
+    },
+    pola: {
+      szerokosc: {
+        nazwa: "Ширина крыши [м]",
+        cel: "Сколько рядов поместится поперёк.",
+        gdzie: "Измерьте плоскую часть крыши (без скруглённых краёв).",
+        zakres: "Ваше измерение.",
+      },
+      margines: {
+        nazwa: "Отступ от краёв и препятствий [м]",
+        cel: "Место для креплений, спойлеров и доступа к люкам.",
+        gdzie: "Инструкция креплений панелей / производитель кемпера.",
+        zakres: "Из инструкции; приложение не угадывает.",
+      },
+      odstep: {
+        nazwa: "Зазор между панелями [м]",
+        cel: "Место для креплений и вентиляции.",
+        gdzie: "Инструкция креплений.",
+        zakres: "Из инструкции.",
+      },
+      odcinekNazwa: {
+        nazwa: "Название участка",
+        cel: "Чтобы знать, какой это участок крыши.",
+        gdzie: "Любое описание, напр. «перед до люка».",
+        zakres: "Текст.",
+      },
+      odcinekDl: {
+        nazwa: "Длина участка [м]",
+        cel: "Свободный отрезок крыши вдоль машины, без препятствий.",
+        gdzie: "Измерьте от края (или препятствия) до следующего препятствия (или края).",
+        zakres: "Ваше измерение.",
+      },
+      panelDl: {
+        nazwa: "Длина панели [м]",
+        cel: "Размер панели.",
+        gdzie: "Паспорт панели.",
+        zakres: "Из паспорта.",
+      },
+      panelSz: {
+        nazwa: "Ширина панели [м]",
+        cel: "Размер панели.",
+        gdzie: "Паспорт панели.",
+        zakres: "Из паспорта.",
+      },
+      panelMoc: {
+        nazwa: "Мощность панели [Вт]",
+        cel: "Суммарная мощность на крыше.",
+        gdzie: "Табличка/паспорт панели (Вт пик).",
+        zakres: "Из паспорта.",
       },
     },
   },

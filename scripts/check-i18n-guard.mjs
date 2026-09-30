@@ -161,6 +161,7 @@ const MIGRATED_MODULES = [
   "lib/core/modules/kalkulator-mobilny/powerbank-vs-akumulator",
   "lib/core/modules/kalkulator-mobilny/blackout-minimum",
   "lib/core/modules/kalkulator-mobilny/akumulator-kampera",
+  "lib/core/modules/kalkulator-mobilny/panele-dach-kampera",
   "lib/core/modules/stress-test/wind-chill",
   "lib/core/modules/stress-test/obciazenie-dachu-sniegiem",
   "lib/core/modules/stress-test/sztywnienie-izolacji",

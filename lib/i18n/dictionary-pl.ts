@@ -1227,6 +1227,9 @@ export const dictionaryPl = {
   "AKK-PRZEKROCZONA-MASA-AGM": "Akumulatory AGM ważą razem {masa} kg — więcej niż zapas ładowności {zapas} kg.",
   "AKK-PRZEKROCZONA-MASA-LFP": "Akumulatory LiFePO4 ważą razem {masa} kg — więcej niż zapas ładowności {zapas} kg.",
   "AKK-ZALOZENIE-PELNE-CYKLE": "Koszt kWh zakłada, że akumulator przejdzie wszystkie cykle z karty przy wpisanej głębokości rozładowania (bez starzenia kalendarzowego i złej obsługi).",
+  "DK-PANEL-SIE-NIE-MIESCI": "Panel nie mieści się na żadnym wolnym odcinku dachu. Wybierz mniejszy panel, zmniejsz margines albo przesuń świetlik.",
+  "DK-SPRAWDZ-MOCOWANIE": "Wynik mówi, co się zmieści. Osobno sprawdź nośność dachu, mocowanie (klej/spoilery), przepust kablowy i czy panele nie zacieniają się nawzajem ani przez klimatyzator.",
+  "DK-ZALOZENIE-JEDEN-MODEL": "Wszystkie panele to ten sam model; na każdym odcinku jedna orientacja (lepsza). Mieszane ułożenie w jednym odcinku może czasem zmieścić więcej.",
   // end of M12 30.09.2026 block
   "LVD-BRAK-OCHRONY-OLOWIOWY": "Akumulator kwasowy/AGM bez dozownika napięcia, a odbiornik nie ma własnego zabezpieczenia — odbiornik rozładuje akumulator do zera. Głębokie rozładowanie trwale niszczy akumulator ołowiowy (zasiarczenie). Zamontuj dozownik (LVD) z progiem podanym wyżej.",
   "LVD-PROG-KWASOWY-BRAK-W-ZRODLE": "Dla akumulatora kwasowego (zalewowego) nie podajemy progu — źródło daje go tylko dla AGM i LiFePO4. Sprawdź napięcie odcięcia w karcie producenta akumulatora.",

@@ -328,6 +328,7 @@ export const KAFLE: KafelEntry[] = [
       { href: "/kalkulatory/powerbank-vs-akumulator", label: "Powerbank solarny czy mały akumulator" },
       { href: "/kalkulatory/blackout-minimum", label: "Blackout w domu — minimum do przeżycia" },
       { href: "/kalkulatory/akumulator-kampera", label: "Akumulator do kampera: AGM czy LiFePO4" },
+      { href: "/kalkulatory/panele-dach-kampera", label: "Ile paneli na dachu kampera" },
     ],
   },
   {
