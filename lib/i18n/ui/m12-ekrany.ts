@@ -224,6 +224,17 @@ export const pl = {
   "UI-M12-DK-WYNIK": "{n} paneli · {w} W",
   "UI-M12-DK-WIERSZ-WZDLUZ": "Odcinek {n}: {wzdluz} × {poprzek} = {paneli} szt. (dłuższy bok wzdłuż dachu)",
   "UI-M12-DK-WIERSZ-POPRZEK": "Odcinek {n}: {wzdluz} × {poprzek} = {paneli} szt. (dłuższy bok w poprzek dachu)",
+  "UI-M12-PK-TYTUL": "Panel do kampera: elastyczny czy sztywny",
+  "UI-M12-PK-OPIS": "Moc na kilogram, cena za wat i za rok gwarancji — dla konkretnych modeli. Moduł 12, Ekran 18.",
+  "UI-M12-PK-ELASTYCZNY": "Panel elastyczny",
+  "UI-M12-PK-SZTYWNY": "Panel sztywny",
+  "UI-M12-PK-GWARANCJA": "Gwarancja mocy",
+  "UI-M12-PK-BEZ-SZCZELINY": "Elastyczny przyklejony płasko, bez szczeliny wentylacyjnej?",
+  "UI-M12-PK-W-OK": "Porównanie paneli",
+  "UI-M12-PK-W-UWAGA": "Porównanie — uwaga na montaż",
+  "UI-M12-PK-WIERSZ-ELASTYCZNY": "Elastyczny: {wkg} W/kg · {zlw} zł/W · {zlwrok} zł/W na rok",
+  "UI-M12-PK-WIERSZ-SZTYWNY": "Sztywny: {wkg} W/kg · {zlw} zł/W · {zlwrok} zł/W na rok",
+  "UI-M12-PK-LINK-TEMPERATURA": "Policz stratę z nagrzewania: Wpływ temperatury na wydajność →",
 }
 
 export const en: Record<keyof typeof pl, string> = {
@@ -448,6 +459,18 @@ export const en: Record<keyof typeof pl, string> = {
   "UI-M12-DK-WYNIK": "{n} panels · {w} W",
   "UI-M12-DK-WIERSZ-WZDLUZ": "Section {n}: {wzdluz} × {poprzek} = {paneli} pcs (long side along the roof)",
   "UI-M12-DK-WIERSZ-POPRZEK": "Section {n}: {wzdluz} × {poprzek} = {paneli} pcs (long side across the roof)",
+  "UI-M12-PK-TYTUL": "Camper panel: flexible or rigid",
+  "UI-M12-PK-OPIS":
+    "Power per kilogram, price per watt and per warranty year — for specific models. Module 12, Screen 18.",
+  "UI-M12-PK-ELASTYCZNY": "Flexible panel",
+  "UI-M12-PK-SZTYWNY": "Rigid panel",
+  "UI-M12-PK-GWARANCJA": "Power warranty",
+  "UI-M12-PK-BEZ-SZCZELINY": "Flexible glued flat, without a ventilation gap?",
+  "UI-M12-PK-W-OK": "Panel comparison",
+  "UI-M12-PK-W-UWAGA": "Comparison — mind the mounting",
+  "UI-M12-PK-WIERSZ-ELASTYCZNY": "Flexible: {wkg} W/kg · {zlw} PLN/W · {zlwrok} PLN/W per year",
+  "UI-M12-PK-WIERSZ-SZTYWNY": "Rigid: {wkg} W/kg · {zlw} PLN/W · {zlwrok} PLN/W per year",
+  "UI-M12-PK-LINK-TEMPERATURA": "Calculate the heat loss: Effect of temperature on output →",
 }
 
 export const ru: Record<keyof typeof pl, string> = {
@@ -672,4 +695,16 @@ export const ru: Record<keyof typeof pl, string> = {
   "UI-M12-DK-WYNIK": "{n} панелей · {w} Вт",
   "UI-M12-DK-WIERSZ-WZDLUZ": "Участок {n}: {wzdluz} × {poprzek} = {paneli} шт. (длинная сторона вдоль крыши)",
   "UI-M12-DK-WIERSZ-POPRZEK": "Участок {n}: {wzdluz} × {poprzek} = {paneli} шт. (длинная сторона поперёк крыши)",
+  "UI-M12-PK-TYTUL": "Панель для кемпера: гибкая или жёсткая",
+  "UI-M12-PK-OPIS":
+    "Мощность на килограмм, цена за ватт и за год гарантии — для конкретных моделей. Модуль 12, экран 18.",
+  "UI-M12-PK-ELASTYCZNY": "Гибкая панель",
+  "UI-M12-PK-SZTYWNY": "Жёсткая панель",
+  "UI-M12-PK-GWARANCJA": "Гарантия мощности",
+  "UI-M12-PK-BEZ-SZCZELINY": "Гибкая приклеена плоско, без вентиляционного зазора?",
+  "UI-M12-PK-W-OK": "Сравнение панелей",
+  "UI-M12-PK-W-UWAGA": "Сравнение — внимание к монтажу",
+  "UI-M12-PK-WIERSZ-ELASTYCZNY": "Гибкая: {wkg} Вт/кг · {zlw} зл/Вт · {zlwrok} зл/Вт в год",
+  "UI-M12-PK-WIERSZ-SZTYWNY": "Жёсткая: {wkg} Вт/кг · {zlw} зл/Вт · {zlwrok} зл/Вт в год",
+  "UI-M12-PK-LINK-TEMPERATURA": "Посчитайте потерю от нагрева: Влияние температуры на выработку →",
 }

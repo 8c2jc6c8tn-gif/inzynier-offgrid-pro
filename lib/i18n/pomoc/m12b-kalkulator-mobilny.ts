@@ -764,6 +764,49 @@ export const pl = {
       },
     },
   },
+  "panel-kampera": {
+    migawka: {
+      oCoChodzi: "Panel na dachu to jak kapelusz dla kampera — musi pasować i dawać moc.",
+      jakDziala:
+        "Wpisz dane dwóch konkretnych paneli z kart. Aplikacja liczy moc na kilogram (liczy się masa pojazdu), cenę za wat i cenę za wat na rok gwarancji (trwałość).",
+      poCo:
+        "Elastyczny jest lekki i pasuje do zaokrąglonego dachu, ale gorzej się chłodzi i zwykle krócej wytrzymuje. Sztywny jest cięższy, ale trwalszy i lepiej wentylowany od spodu.",
+      fizyka:
+        "W/kg = P ÷ m. zł/W = cena ÷ P. zł/(W·rok) = cena ÷ (P × lata gwarancji). Strata z nagrzewania = współczynnik temperaturowy × wzrost temperatury ogniw (Moduł 3).",
+    },
+    pola: {
+      moc: {
+        nazwa: "Moc [W]",
+        cel: "Moc panelu w STC.",
+        gdzie: "Tabliczka/karta panelu (Wp).",
+        zakres: "Z karty.",
+      },
+      masa: {
+        nazwa: "Masa [kg]",
+        cel: "Moc na kilogram.",
+        gdzie: "Karta panelu.",
+        zakres: "Z karty.",
+      },
+      cena: {
+        nazwa: "Cena [zł]",
+        cel: "Cena za wat.",
+        gdzie: "Oferta sklepu.",
+        zakres: "Twoja oferta.",
+      },
+      gwarancja: {
+        nazwa: "Gwarancja mocy [lat]",
+        cel: "Miara trwałości — ile lat producent gwarantuje moc.",
+        gdzie: "Karta panelu / warunki gwarancji.",
+        zakres: "Z karty.",
+      },
+      bezSzczeliny: {
+        nazwa: "Montaż elastycznego bez szczeliny",
+        cel: "Przyklejony płasko panel nie oddaje ciepła od spodu.",
+        gdzie: "Twój plan montażu: klej na całej powierzchni = tak; na profilach/ramie = nie.",
+        zakres: "Tak / nie.",
+      },
+    },
+  },
 }
 
 export const en: Tlumaczenie<typeof pl> = {
@@ -1520,6 +1563,49 @@ export const en: Tlumaczenie<typeof pl> = {
         cel: "Total power on the roof.",
         gdzie: "Panel nameplate/datasheet (Wp).",
         zakres: "From the datasheet.",
+      },
+    },
+  },
+  "panel-kampera": {
+    migawka: {
+      oCoChodzi: "A roof panel is like a hat for a camper — it must fit and deliver power.",
+      jakDziala:
+        "Enter the data of two specific panels from their datasheets. The app computes power per kilogram (vehicle weight matters), price per watt and price per watt per warranty year (durability).",
+      poCo:
+        "A flexible panel is light and fits a curved roof but cools worse and usually lasts less. A rigid one is heavier but more durable and better ventilated from below.",
+      fizyka:
+        "W/kg = P ÷ m. PLN/W = price ÷ P. PLN/(W·year) = price ÷ (P × warranty years). Heat loss = temperature coefficient × cell temperature rise (Module 3).",
+    },
+    pola: {
+      moc: {
+        nazwa: "Power [W]",
+        cel: "Panel power at STC.",
+        gdzie: "Panel nameplate/datasheet (Wp).",
+        zakres: "From the datasheet.",
+      },
+      masa: {
+        nazwa: "Weight [kg]",
+        cel: "Power per kilogram.",
+        gdzie: "Panel datasheet.",
+        zakres: "From the datasheet.",
+      },
+      cena: {
+        nazwa: "Price [PLN]",
+        cel: "Price per watt.",
+        gdzie: "Shop offer.",
+        zakres: "Your offer.",
+      },
+      gwarancja: {
+        nazwa: "Power warranty [years]",
+        cel: "A measure of durability — how many years the maker guarantees the power.",
+        gdzie: "Panel datasheet / warranty terms.",
+        zakres: "From the datasheet.",
+      },
+      bezSzczeliny: {
+        nazwa: "Flexible mounted without a gap",
+        cel: "A panel glued flat cannot shed heat from below.",
+        gdzie: "Your mounting plan: adhesive over the whole surface = yes; on profiles/frame = no.",
+        zakres: "Yes / no.",
       },
     },
   },
@@ -2282,6 +2368,49 @@ export const ru: Tlumaczenie<typeof pl> = {
         cel: "Суммарная мощность на крыше.",
         gdzie: "Табличка/паспорт панели (Вт пик).",
         zakres: "Из паспорта.",
+      },
+    },
+  },
+  "panel-kampera": {
+    migawka: {
+      oCoChodzi: "Панель на крыше — как шляпа для кемпера: должна подходить и давать мощность.",
+      jakDziala:
+        "Введите данные двух конкретных панелей из паспортов. Приложение считает мощность на килограмм (масса машины важна), цену за ватт и цену за ватт на год гарантии (долговечность).",
+      poCo:
+        "Гибкая лёгкая и подходит к скруглённой крыше, но хуже охлаждается и обычно служит меньше. Жёсткая тяжелее, но долговечнее и лучше вентилируется снизу.",
+      fizyka:
+        "Вт/кг = P ÷ m. зл/Вт = цена ÷ P. зл/(Вт·год) = цена ÷ (P × годы гарантии). Потеря от нагрева = температурный коэффициент × рост температуры элементов (Модуль 3).",
+    },
+    pola: {
+      moc: {
+        nazwa: "Мощность [Вт]",
+        cel: "Мощность панели при STC.",
+        gdzie: "Табличка/паспорт панели (Вт пик).",
+        zakres: "Из паспорта.",
+      },
+      masa: {
+        nazwa: "Масса [кг]",
+        cel: "Мощность на килограмм.",
+        gdzie: "Паспорт панели.",
+        zakres: "Из паспорта.",
+      },
+      cena: {
+        nazwa: "Цена [зл]",
+        cel: "Цена за ватт.",
+        gdzie: "Предложение магазина.",
+        zakres: "Ваше предложение.",
+      },
+      gwarancja: {
+        nazwa: "Гарантия мощности [лет]",
+        cel: "Мера долговечности — сколько лет производитель гарантирует мощность.",
+        gdzie: "Паспорт панели / условия гарантии.",
+        zakres: "Из паспорта.",
+      },
+      bezSzczeliny: {
+        nazwa: "Монтаж гибкой без зазора",
+        cel: "Приклеенная плоско панель не отводит тепло снизу.",
+        gdzie: "Ваш план монтажа: клей по всей поверхности = да; на профилях/раме = нет.",
+        zakres: "Да / нет.",
       },
     },
   },
