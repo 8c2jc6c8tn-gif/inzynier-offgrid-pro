@@ -1,7 +1,6 @@
 import type { Warning } from "@/lib/core/calc-result"
-import { procentPozaZakresem, ujemneWartosci } from "../wspolne/walidacja"
+import { godzinyPonadDobe, procentPozaZakresem, ujemneWartosci } from "../wspolne/walidacja"
 import type { AgregatPaliwoInput } from "./input"
-import { ponadDobe } from "./warnings"
 
 export function validateInput(input: AgregatPaliwoInput): { errors: Warning[] } {
   return {
@@ -14,7 +13,7 @@ export function validateInput(input: AgregatPaliwoInput): { errors: Warning[] } 
         kosztPorownawczyZlKwh: input.kosztPorownawczyZlKwh,
       }),
       ...procentPozaZakresem("obciazeniePct", input.obciazeniePct),
-      ...(input.godzinNaDobe > 24 ? [ponadDobe(input.godzinNaDobe)] : []),
+      ...godzinyPonadDobe("godzinNaDobe", input.godzinNaDobe),
     ],
   }
 }

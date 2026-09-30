@@ -300,6 +300,92 @@ export const pl = {
       },
     },
   },
+  weekend: {
+    migawka: {
+      oCoChodzi: "Jedziesz na działkę na dwa, trzy dni i chcesz wiedzieć, czy Twój zestaw da radę.",
+      jakDziala:
+        "Aplikacja sumuje zużycie na dobę: moc × godziny pracy każdego urządzenia (a te „na osobę” — razy liczba osób). Mnoży przez liczbę dni i porównuje z energią akumulatora (pojemność × napięcie × dopuszczalna głębokość rozładowania). Jeśli dodasz panel, doliczy jego średnią produkcję co dobę.",
+      poCo:
+        "Pochmurny weekend to realny scenariusz — sprawdzasz, czy sam akumulator wystarczy bez słońca, a jeśli nie, czy panel nadrobi brak. Grzałki, czajniki i suszarki szybko przekreślą każdy mały zestaw.",
+      fizyka:
+        "Zużycie doby E = Σ P × h. Akumulator E = C × U × DoD. Panel na dobę = P × godziny pełnego słońca × sprawność toru. Bilans pobytu = akumulator + dni × panel − dni × zużycie.",
+    },
+    pola: {
+      dni: {
+        nazwa: "Liczba dni pobytu",
+        cel: "Przez tyle dób sumuje się zużycie.",
+        gdzie: "Twój plan wyjazdu.",
+        zakres: "Zwykle 2–3 dni na weekend.",
+      },
+      osoby: {
+        nazwa: "Liczba osób",
+        cel: "Mnoży urządzenia oznaczone „osobno dla każdej osoby”.",
+        gdzie: "Ile osób jedzie.",
+        zakres: "Twoja liczba.",
+      },
+      nazwa: {
+        nazwa: "Nazwa urządzenia",
+        cel: "Żebyś rozpoznał urządzenie na liście.",
+        gdzie: "Dowolna nazwa.",
+        zakres: "Dowolny tekst.",
+      },
+      moc: {
+        nazwa: "Moc urządzenia [W]",
+        cel: "Z mocy i godzin pracy wynika zużycie.",
+        gdzie: "Tabliczka znamionowa, instrukcja albo wyszukaj swój model w internecie.",
+        zakres: "Z tabliczki Twojego urządzenia.",
+      },
+      godziny: {
+        nazwa: "Godziny pracy na dobę [h]",
+        cel: "Ile godzin dziennie urządzenie jest włączone.",
+        gdzie: "Twoje przyzwyczajenia — np. oświetlenie wieczorem 4–5 h.",
+        zakres: "0–24 h.",
+      },
+      naOsobe: {
+        nazwa: "Osobno dla każdej osoby",
+        cel:
+          "Zaznacz, jeśli każda osoba ma swoje (np. telefon do ładowania) — zużycie zostanie pomnożone przez liczbę osób.",
+        gdzie: "—",
+        zakres: "Tak/nie.",
+      },
+      pojemnosc: {
+        nazwa: "Pojemność akumulatora [Ah]",
+        cel: "Z niej wynika energia akumulatora.",
+        gdzie: "Naklejka akumulatora.",
+        zakres: "Z naklejki.",
+      },
+      napiecie: {
+        nazwa: "Napięcie akumulatora [V]",
+        cel: "Zamienia Ah na Wh.",
+        gdzie: "Naklejka: 12 albo 24 V.",
+        zakres: "Zwykle 12 albo 24 V.",
+      },
+      dod: {
+        nazwa: "Dopuszczalna głębokość rozładowania — DoD [%]",
+        cel: "Tylko tę część pojemności aplikacja bierze do obliczeń.",
+        gdzie: "Karta akumulatora.",
+        zakres: "Dla LiFePO4 typowo {min}–{max}%. Dla ołowiowych — z karty; aplikacja nie wybiera za Ciebie.",
+      },
+      mocPanelu: {
+        nazwa: "Moc panelu [W] (opcjonalnie)",
+        cel: "Doładowanie w ciągu dnia.",
+        gdzie: "Tabliczka panelu (Wp).",
+        zakres: "Puste = bez panelu.",
+      },
+      godzinSlonca: {
+        nazwa: "Równoważne godziny pełnego słońca [h/dobę]",
+        cel: "Ile godzin panel pracowałby z pełną mocą — przelicza moc na energię dobową.",
+        gdzie: "Moduł 1 (klimat i lokalizacja) albo mapa nasłonecznienia dla Twojego miesiąca.",
+        zakres: "Z danych dla Twojej lokalizacji i miesiąca.",
+      },
+      sprawnosc: {
+        nazwa: "Sprawność toru panel → akumulator [%]",
+        cel: "Straty w regulatorze, kablach i przy ładowaniu.",
+        gdzie: "Karta regulatora (sprawność) i akumulatora (sprawność ładowania).",
+        zakres: "Z kart urządzeń; aplikacja nie zgaduje.",
+      },
+    },
+  },
 }
 
 export const en: Tlumaczenie<typeof pl> = {
@@ -593,6 +679,93 @@ export const en: Tlumaczenie<typeof pl> = {
         cel: "Mobility comparison — kilograms per 1 kWh.",
         gdzie: "Sum of masses from the parts' sheets (the battery weighs the most).",
         zakres: "Empty = no mass comparison.",
+      },
+    },
+  },
+  weekend: {
+    migawka: {
+      oCoChodzi: "You are going to the plot for two or three days and want to know if your set will cope.",
+      jakDziala:
+        "The app adds up daily consumption: power × running hours of each device (and the “per person” ones — times the number of people). It multiplies by the number of days and compares with the battery energy (capacity × voltage × allowed depth of discharge). If you add a panel, it adds its average daily production.",
+      poCo:
+        "A cloudy weekend is a real scenario — you check whether the battery alone lasts without sun and, if not, whether the panel makes up for it. Heaters, kettles and hair dryers quickly rule out any small set.",
+      fizyka:
+        "Daily use E = Σ P × h. Battery E = C × U × DoD. Panel per day = P × full-sun hours × path efficiency. Stay balance = battery + days × panel − days × use.",
+    },
+    pola: {
+      dni: {
+        nazwa: "Days of stay",
+        cel: "Consumption is summed over this many days.",
+        gdzie: "Your trip plan.",
+        zakres: "Usually 2–3 days for a weekend.",
+      },
+      osoby: {
+        nazwa: "Number of people",
+        cel: "Multiplies the devices marked “separately for each person”.",
+        gdzie: "How many people are going.",
+        zakres: "Your number.",
+      },
+      nazwa: {
+        nazwa: "Device name",
+        cel: "So you recognise the device on the list.",
+        gdzie: "Any name.",
+        zakres: "Any text.",
+      },
+      moc: {
+        nazwa: "Device power [W]",
+        cel: "Power and running hours give the consumption.",
+        gdzie: "Nameplate, manual or search for your model online.",
+        zakres: "From your device's nameplate.",
+      },
+      godziny: {
+        nazwa: "Running hours per day [h]",
+        cel: "How many hours a day the device is on.",
+        gdzie: "Your habits — e.g. lighting in the evening 4–5 h.",
+        zakres: "0–24 h.",
+      },
+      naOsobe: {
+        nazwa: "Separately for each person",
+        cel:
+          "Tick if each person has their own (e.g. a phone to charge) — consumption is multiplied by the number of people.",
+        gdzie: "—",
+        zakres: "Yes/no.",
+      },
+      pojemnosc: {
+        nazwa: "Battery capacity [Ah]",
+        cel: "Gives the battery energy.",
+        gdzie: "Battery label.",
+        zakres: "From the label.",
+      },
+      napiecie: {
+        nazwa: "Battery voltage [V]",
+        cel: "Turns Ah into Wh.",
+        gdzie: "Label: 12 or 24 V.",
+        zakres: "Usually 12 or 24 V.",
+      },
+      dod: {
+        nazwa: "Allowed depth of discharge — DoD [%]",
+        cel: "Only this part of the capacity goes into the calculation.",
+        gdzie: "Battery datasheet.",
+        zakres:
+          "For LiFePO4 typically {min}–{max}%. For lead-acid — from the datasheet; the app does not pick for you.",
+      },
+      mocPanelu: {
+        nazwa: "Panel power [W] (optional)",
+        cel: "Recharging during the day.",
+        gdzie: "Panel nameplate (Wp).",
+        zakres: "Empty = no panel.",
+      },
+      godzinSlonca: {
+        nazwa: "Equivalent full-sun hours [h/day]",
+        cel: "How many hours the panel would run at full power — turns power into daily energy.",
+        gdzie: "Module 1 (climate and location) or an insolation map for your month.",
+        zakres: "From data for your location and month.",
+      },
+      sprawnosc: {
+        nazwa: "Panel → battery path efficiency [%]",
+        cel: "Losses in the controller, cables and charging.",
+        gdzie: "Controller datasheet (efficiency) and battery datasheet (charge efficiency).",
+        zakres: "From the datasheets; the app does not guess.",
       },
     },
   },
@@ -891,6 +1064,91 @@ export const ru: Tlumaczenie<typeof pl> = {
         cel: "Сравнение мобильности — килограммы на 1 кВт·ч.",
         gdzie: "Сумма масс из паспортов элементов (больше всего весит аккумулятор).",
         zakres: "Пусто = без сравнения массы.",
+      },
+    },
+  },
+  weekend: {
+    migawka: {
+      oCoChodzi: "Вы едете на дачу на два-три дня и хотите знать, справится ли ваш комплект.",
+      jakDziala:
+        "Приложение суммирует потребление за сутки: мощность × часы работы каждого устройства (а устройства «на человека» — умножает на число людей). Умножает на число дней и сравнивает с энергией аккумулятора (ёмкость × напряжение × допустимая глубина разряда). Если добавить панель, прибавит её среднюю суточную выработку.",
+      poCo:
+        "Пасмурные выходные — реальный сценарий: вы проверяете, хватит ли одного аккумулятора без солнца, а если нет — восполнит ли нехватку панель. Обогреватели, чайники и фены быстро перечеркнут любой малый комплект.",
+      fizyka:
+        "Потребление за сутки E = Σ P × h. Аккумулятор E = C × U × DoD. Панель за сутки = P × часы полного солнца × КПД цепи. Баланс пребывания = аккумулятор + дни × панель − дни × потребление.",
+    },
+    pola: {
+      dni: {
+        nazwa: "Число дней пребывания",
+        cel: "Потребление суммируется за столько суток.",
+        gdzie: "Ваш план поездки.",
+        zakres: "Обычно 2–3 дня на выходные.",
+      },
+      osoby: {
+        nazwa: "Число человек",
+        cel: "Умножает устройства, отмеченные «отдельно на каждого человека».",
+        gdzie: "Сколько человек едет.",
+        zakres: "Ваше число.",
+      },
+      nazwa: {
+        nazwa: "Название устройства",
+        cel: "Чтобы узнать устройство в списке.",
+        gdzie: "Любое название.",
+        zakres: "Любой текст.",
+      },
+      moc: {
+        nazwa: "Мощность устройства [Вт]",
+        cel: "Мощность и часы работы дают потребление.",
+        gdzie: "Табличка, инструкция или найдите свою модель в интернете.",
+        zakres: "С таблички вашего устройства.",
+      },
+      godziny: {
+        nazwa: "Часы работы в сутки [ч]",
+        cel: "Сколько часов в день устройство включено.",
+        gdzie: "Ваши привычки — напр. освещение вечером 4–5 ч.",
+        zakres: "0–24 ч.",
+      },
+      naOsobe: {
+        nazwa: "Отдельно на каждого человека",
+        cel: "Отметьте, если у каждого своё (напр. телефон для зарядки) — потребление умножится на число людей.",
+        gdzie: "—",
+        zakres: "Да/нет.",
+      },
+      pojemnosc: {
+        nazwa: "Ёмкость аккумулятора [А·ч]",
+        cel: "Даёт энергию аккумулятора.",
+        gdzie: "Наклейка аккумулятора.",
+        zakres: "С наклейки.",
+      },
+      napiecie: {
+        nazwa: "Напряжение аккумулятора [В]",
+        cel: "Переводит А·ч в Вт·ч.",
+        gdzie: "Наклейка: 12 или 24 В.",
+        zakres: "Обычно 12 или 24 В.",
+      },
+      dod: {
+        nazwa: "Допустимая глубина разряда — DoD [%]",
+        cel: "Только эта часть ёмкости идёт в расчёт.",
+        gdzie: "Паспорт аккумулятора.",
+        zakres: "Для LiFePO4 обычно {min}–{max}%. Для свинцовых — из паспорта; приложение не выбирает за вас.",
+      },
+      mocPanelu: {
+        nazwa: "Мощность панели [Вт] (необязательно)",
+        cel: "Подзарядка в течение дня.",
+        gdzie: "Табличка панели (Вт пик).",
+        zakres: "Пусто = без панели.",
+      },
+      godzinSlonca: {
+        nazwa: "Эквивалентные часы полного солнца [ч/сутки]",
+        cel: "Сколько часов панель работала бы на полной мощности — переводит мощность в суточную энергию.",
+        gdzie: "Модуль 1 (климат и местоположение) или карта инсоляции для вашего месяца.",
+        zakres: "Из данных для вашего места и месяца.",
+      },
+      sprawnosc: {
+        nazwa: "КПД цепи панель → аккумулятор [%]",
+        cel: "Потери в контроллере, кабелях и при зарядке.",
+        gdzie: "Паспорт контроллера (КПД) и аккумулятора (КПД заряда).",
+        zakres: "Из паспортов; приложение не угадывает.",
       },
     },
   },

@@ -6,6 +6,7 @@ import { mamAkumulatorTool } from "../mam-akumulator-tool"
 import { agregatPaliwoTool } from "../agregat-paliwo-tool"
 import { solarVsPrzedluzaczTool } from "../solar-vs-przedluzacz-tool"
 import { stacjaVsDiyTool } from "../stacja-vs-diy-tool"
+import { weekendTool } from "../weekend-tool"
 
 describe("akumulatorSamochodowyTool (M12/E16, dawne 8.14)", () => {
   it("kontrakt 9.3: 'read', bez potwierdzenia", () => {
@@ -125,5 +126,29 @@ describe("stacjaVsDiyTool (M12/E34, dawne 8.61)", () => {
     expect(w.status).toBe("VALID")
     expect(w.krotnoscDiy).toBeCloseTo(2.057, 3)
     expect(w.ostrzezenia).toContain(t("pl", "SD-DIY-WYMAGA-WIEDZY"))
+  })
+})
+
+describe("weekendTool (M12/E5, dawne 8.5)", () => {
+  it("kontrakt 9.3: 'read', bez potwierdzenia", () => {
+    expect(weekendTool.operationType).toBe("read")
+    expect(weekendTool.requiresConfirmation).toBe(false)
+    expect(() => validateAiToolDefinition(weekendTool)).not.toThrow()
+  })
+
+  it("800 Wh/dobę, 12 V 80 Ah, DoD 100%, 2 dni → 1,2 doby i 🟡 jako tekst PL", async () => {
+    const w = await weekendTool.handler({
+      dni: 2,
+      osoby: 1,
+      urzadzenia: [{ nazwa: "Razem", mocW: 800, godzinNaDobe: 1, naOsobe: false }],
+      pojemnoscAh: 80,
+      napiecieV: 12,
+      dodPct: 100,
+      mocPaneluW: 0,
+      godzinSlonca: 0,
+      sprawnoscToruPct: 0,
+    })
+    expect(w.dniBezSlonca).toBeCloseTo(1.2, 12)
+    expect(w.ostrzezenia).toContain(t("pl", "WK-BRAK-NA-POCHMURNY-POBYT", { dniAkum: 1.2, dni: 2 }))
   })
 })

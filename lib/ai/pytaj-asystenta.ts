@@ -89,6 +89,7 @@ import { mamAkumulatorTool } from "./tools/mam-akumulator-tool"
 import { agregatPaliwoTool } from "./tools/agregat-paliwo-tool"
 import { solarVsPrzedluzaczTool } from "./tools/solar-vs-przedluzacz-tool"
 import { stacjaVsDiyTool } from "./tools/stacja-vs-diy-tool"
+import { weekendTool } from "./tools/weekend-tool"
 import { ochronaPrzedRozladowaniemTool } from "./tools/ochrona-przed-rozladowaniem-tool"
 import { wilgocMaleInstalacjeTool } from "./tools/wilgoc-male-instalacje-tool"
 import { uziemienieMaleInstalacjeTool } from "./tools/uziemienie-male-instalacje-tool"
@@ -402,6 +403,7 @@ const NARZEDZIA: Array<AiToolDefinition<any, any>> = [
   agregatPaliwoTool,
   solarVsPrzedluzaczTool,
   stacjaVsDiyTool,
+  weekendTool,
   ochronaPrzedRozladowaniemTool,
   wilgocMaleInstalacjeTool,
   uziemienieMaleInstalacjeTool,

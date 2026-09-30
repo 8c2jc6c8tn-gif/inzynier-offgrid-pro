@@ -32,3 +32,17 @@ export function procentPozaZakresem(pole: string, wartosc: number): Warning[] {
     },
   ]
 }
+
+/** Hours per day outside [0, 24]. */
+export function godzinyPonadDobe(pole: string, wartosc: number): Warning[] {
+  if (wartosc <= 24) return []
+  return [
+    {
+      code: "M12-GODZINY-PONAD-DOBE",
+      level: "critical",
+      i18nKey: "M12-GODZINY-PONAD-DOBE",
+      technicalMessage: `${pole} = ${wartosc}, oczekiwano <= 24`,
+      field: pole,
+    },
+  ]
+}

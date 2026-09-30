@@ -45,6 +45,6 @@ describe("calculateAgregatPaliwo (M12/E35, dawne 8.62)", () => {
   it("ponad 24 h na dobę i obciążenie 120% → INVALID_INPUT", () => {
     const w = calculateAgregatPaliwo({ ...BAZA, godzinNaDobe: 25, obciazeniePct: 120 })
     expect(w.status).toBe("INVALID_INPUT")
-    expect(w.warnings.map((x) => x.code).sort()).toEqual(["AP-PONAD-DOBE", "M12-PROCENT-POZA-ZAKRESEM"])
+    expect(w.warnings.map((x) => x.code).sort()).toEqual(["M12-GODZINY-PONAD-DOBE", "M12-PROCENT-POZA-ZAKRESEM"])
   })
 })

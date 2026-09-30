@@ -9,14 +9,3 @@ export function drogiePaliwo(): Warning {
     technicalMessage: "always shown (Biblia §12.50)",
   }
 }
-
-/** More hours per day than a day has. */
-export function ponadDobe(godzinNaDobe: number): Warning {
-  return {
-    code: "AP-PONAD-DOBE",
-    level: "critical",
-    i18nKey: "AP-PONAD-DOBE",
-    technicalMessage: `godzinNaDobe = ${godzinNaDobe} > 24`,
-    field: "godzinNaDobe",
-  }
-}
