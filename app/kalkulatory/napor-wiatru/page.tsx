@@ -2,7 +2,7 @@
 
 import { useMemo } from "react"
 import { calculateNaporWiatru } from "@/lib/core/modules/pv/napor-wiatru/calculator"
-import { CD_TYPOWY_MAX, CD_TYPOWY_MIN } from "@/lib/core/modules/pv/napor-wiatru/constants"
+import { CD_TYPOWY_MAX, CD_TYPOWY_MIN, GESTOSC_POWIETRZA_KG_M3 } from "@/lib/core/modules/pv/napor-wiatru/constants"
 import { usePersistedDraft } from "@/lib/adapters/use-persisted-draft"
 import { Pole } from "@/components/ui/pole"
 import { PomocPola } from "@/components/ui/pomoc"
@@ -65,7 +65,12 @@ export default function NaporWiatruPage() {
   return (
     <main className="mx-auto flex max-w-md flex-col gap-6 p-6">
       <NawigacjaEkranu href="/kalkulatory/napor-wiatru" />
-      <NaglowekEkranu tytul="Aerodynamika — napór wiatru" ekran="napor-wiatru" wynik={result}>
+      <NaglowekEkranu
+        tytul="Aerodynamika — napór wiatru"
+        ekran="napor-wiatru"
+        wynik={result}
+        parametry={{ rho: GESTOSC_POWIETRZA_KG_M3 }}
+      >
         Panel działa trochę jak żagiel — wiatr może go pchać, ale też może pod niego „zajrzeć” i
         ciągnąć do góry jak skrzydło samolotu. Moduł 3, Ekran 6.
       </NaglowekEkranu>

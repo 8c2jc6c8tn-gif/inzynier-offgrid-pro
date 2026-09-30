@@ -1,7 +1,7 @@
 "use client"
 
 import type { ReactNode } from "react"
-import { DANE_ROZLICZEN, type Grupa, type OsdId, type Strefa } from "@/lib/core/dane/rozliczenia-pl-2026"
+import { DANE_ROZLICZEN, type Grupa, type OsdId, type Strefa, wartoscNajdluzej } from "@/lib/core/dane/rozliczenia-pl-2026"
 import type { KodSkladnika } from "@/lib/core/modules/siec/rachunek-za-prad/calculator"
 import type { Status } from "@/lib/core/calc-result"
 import type { Warning } from "@/lib/core/calc-result"
@@ -36,6 +36,25 @@ export const ETYKIETA_SKLADNIKA: Record<KodSkladnika, string> = {
 
 export const GRUPY_DOM: Grupa[] = ["G11", "G12", "G12w"]
 export const GRUPY_FIRMA: Grupa[] = ["C11", "C12a", "C12b", "C21", "C22a", "C22b"]
+
+/**
+ * Statutory rates quoted in the help texts (8.4b: numbers come from the data file, never retyped
+ * in three languages). Value of the data year, picked the same way as the engines without a date (D36).
+ */
+export function stawkiDoPomocy(): Record<string, string | number> {
+  const rok = Number(DANE_ROZLICZEN.stanNa.slice(0, 4))
+  const w = (o: { okresy: { odDnia: string; doDnia: string | null; wartosc: number }[] }) => wartoscNajdluzej(o.okresy, rok)
+  const pct = (v: number | null) => (v === null ? "—" : Math.round(v * 100))
+  const vat = w(DANE_ROZLICZEN.krajowe.vat)
+  const p = DANE_ROZLICZEN.prosument
+  return {
+    mnoznikVat: vat === null ? "—" : (1 + vat).toFixed(2),
+    wspDepozytu: w(p.wspolczynnikDepozytu)?.toFixed(2) ?? "—",
+    zwrotRcem: pct(w(p.zwrotDepozytuMaksRcem)),
+    zwrotRce: pct(w(p.zwrotDepozytuMaksRce)),
+    k: w(DANE_ROZLICZEN.mocBierna.krotnoscKNn) ?? "—",
+  }
+}
 
 export function czyOsdMaStawki(osd: OsdId): boolean {
   return (DANE_ROZLICZEN.osd.find((o) => o.id === osd)?.okresy.length ?? 0) > 0

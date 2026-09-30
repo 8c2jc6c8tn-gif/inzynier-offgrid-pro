@@ -2,6 +2,11 @@
 
 import { useMemo } from "react"
 import { calculateProfilAstronomiczny } from "@/lib/core/modules/zapotrzebowanie/profil-astronomiczny/calculator"
+import {
+  DEKLINACJA_AMPLITUDA_DEG,
+  DEKLINACJA_PRZESUNIECIE_DNI,
+  DNI_W_ROKU,
+} from "@/lib/core/modules/zapotrzebowanie/profil-astronomiczny/constants"
 import { usePersistedDraft } from "@/lib/adapters/use-persisted-draft"
 import { Pole } from "@/components/ui/pole"
 import { PomocPola } from "@/components/ui/pomoc"
@@ -54,6 +59,11 @@ export default function ProfilAstronomicznyPage() {
         tytul="Profil dobowy + astronomiczny dzień/noc"
         ekran="profil-astronomiczny"
         wynik={result}
+        parametry={{
+          amplituda: DEKLINACJA_AMPLITUDA_DEG,
+          przesuniecie: DEKLINACJA_PRZESUNIECIE_DNI,
+          dniRoku: DNI_W_ROKU,
+        }}
       >
         Profil dobowy to nie tylko „kiedy używasz najwięcej prądu” — to też kiedy jest ciemno, bo
         od tego zależy, jak długo pracują urządzenia świecące, a to zmienia się drastycznie między
