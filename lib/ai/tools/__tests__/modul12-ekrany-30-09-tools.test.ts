@@ -7,6 +7,7 @@ import { agregatPaliwoTool } from "../agregat-paliwo-tool"
 import { solarVsPrzedluzaczTool } from "../solar-vs-przedluzacz-tool"
 import { stacjaVsDiyTool } from "../stacja-vs-diy-tool"
 import { weekendTool } from "../weekend-tool"
+import { panelDlaUrzadzeniaTool } from "../panel-dla-urzadzenia-tool"
 
 describe("akumulatorSamochodowyTool (M12/E16, dawne 8.14)", () => {
   it("kontrakt 9.3: 'read', bez potwierdzenia", () => {
@@ -150,5 +151,19 @@ describe("weekendTool (M12/E5, dawne 8.5)", () => {
     })
     expect(w.dniBezSlonca).toBeCloseTo(1.2, 12)
     expect(w.ostrzezenia).toContain(t("pl", "WK-BRAK-NA-POCHMURNY-POBYT", { dniAkum: 1.2, dni: 2 }))
+  })
+})
+
+describe("panelDlaUrzadzeniaTool (M12/E6, dawne 8.6)", () => {
+  it("kontrakt 9.3: 'read', bez potwierdzenia", () => {
+    expect(panelDlaUrzadzeniaTool.operationType).toBe("read")
+    expect(panelDlaUrzadzeniaTool.requiresConfirmation).toBe(false)
+    expect(() => validateAiToolDefinition(panelDlaUrzadzeniaTool)).not.toThrow()
+  })
+
+  it("50 W × 8 h, 4 h słońca, 70%, panel 100 W → min. 142,9 W i 🟡 jako tekst PL", async () => {
+    const w = await panelDlaUrzadzeniaTool.handler({ mocUrzadzeniaW: 50, godzinPracy: 8, godzinSlonca: 4, uzyskPct: 70, posiadanyPanelW: 100 })
+    expect(w.minimalnaMocPaneluW).toBeCloseTo(400 / 2.8, 12)
+    expect(w.ostrzezenia).toContain(t("pl", "PU-PANEL-ZA-MALY", { posiadany: 100, minimalna: 143 }))
   })
 })

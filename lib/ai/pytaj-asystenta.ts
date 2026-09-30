@@ -90,6 +90,7 @@ import { agregatPaliwoTool } from "./tools/agregat-paliwo-tool"
 import { solarVsPrzedluzaczTool } from "./tools/solar-vs-przedluzacz-tool"
 import { stacjaVsDiyTool } from "./tools/stacja-vs-diy-tool"
 import { weekendTool } from "./tools/weekend-tool"
+import { panelDlaUrzadzeniaTool } from "./tools/panel-dla-urzadzenia-tool"
 import { ochronaPrzedRozladowaniemTool } from "./tools/ochrona-przed-rozladowaniem-tool"
 import { wilgocMaleInstalacjeTool } from "./tools/wilgoc-male-instalacje-tool"
 import { uziemienieMaleInstalacjeTool } from "./tools/uziemienie-male-instalacje-tool"
@@ -404,6 +405,7 @@ const NARZEDZIA: Array<AiToolDefinition<any, any>> = [
   solarVsPrzedluzaczTool,
   stacjaVsDiyTool,
   weekendTool,
+  panelDlaUrzadzeniaTool,
   ochronaPrzedRozladowaniemTool,
   wilgocMaleInstalacjeTool,
   uziemienieMaleInstalacjeTool,

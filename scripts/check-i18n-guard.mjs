@@ -156,6 +156,7 @@ const MIGRATED_MODULES = [
   "lib/core/modules/kalkulator-mobilny/solar-vs-przedluzacz",
   "lib/core/modules/kalkulator-mobilny/stacja-vs-diy",
   "lib/core/modules/kalkulator-mobilny/weekend",
+  "lib/core/modules/kalkulator-mobilny/panel-dla-urzadzenia",
   "lib/core/modules/stress-test/wind-chill",
   "lib/core/modules/stress-test/obciazenie-dachu-sniegiem",
   "lib/core/modules/stress-test/sztywnienie-izolacji",

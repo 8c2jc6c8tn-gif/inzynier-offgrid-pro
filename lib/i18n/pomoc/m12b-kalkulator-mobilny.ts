@@ -386,6 +386,52 @@ export const pl = {
       },
     },
   },
+  "panel-dla-urzadzenia": {
+    migawka: {
+      oCoChodzi: "Liczysz panel tylko do jednego urządzenia, nie do całego domu.",
+      jakDziala:
+        "Zużycie na dobę = moc × godziny pracy. Panel musi to oddać w ciągu dnia: moc panelu = zużycie ÷ (godziny pełnego słońca × uzysk). Jeśli wpiszesz panel, który masz, aplikacja porówna go z wynikiem.",
+      poCo:
+        "Za mały panel oznacza, że urządzenie z każdym dniem rozładowuje akumulator coraz bardziej. Wynik to minimum dla średniego dnia — pochmurne dni wymagają zapasu.",
+      fizyka:
+        "E = P × h. P_panel = E ÷ (h_słońca × uzysk). Przykład ze źródła: lodówka 50 W × 8 h = 400 Wh; panel 150 W przy uzysku 70% odda to w ok. 3,8 h pełnego słońca.",
+    },
+    pola: {
+      moc: {
+        nazwa: "Moc urządzenia [W]",
+        cel: "Z mocy i czasu pracy wynika zużycie.",
+        gdzie:
+          "Tabliczka, instrukcja albo wyszukaj swój model. Dla lodówki ze sprężarką — moc średnia albo moc × czas pracy sprężarki.",
+        zakres: "Z tabliczki Twojego urządzenia.",
+      },
+      godzinPracy: {
+        nazwa: "Czas pracy na dobę [h]",
+        cel: "Ile godzin dziennie urządzenie faktycznie pobiera prąd.",
+        gdzie: "Twoje użytkowanie albo czas pracy sprężarki (lodówka pracuje cyklicznie).",
+        zakres: "0–24 h.",
+      },
+      godzinSlonca: {
+        nazwa: "Równoważne godziny pełnego słońca [h/dobę]",
+        cel: "Przelicza moc panelu na energię dobową.",
+        gdzie: "Moduł 1 (klimat i lokalizacja) albo mapa nasłonecznienia dla Twojego miesiąca.",
+        zakres: "Z danych dla Twojej lokalizacji i miesiąca.",
+      },
+      uzysk: {
+        nazwa: "Uzysk z mocy nominalnej panelu [%]",
+        cel:
+          "Panel rzadko oddaje pełną moc z tabliczki: temperatura, regulator, kable. Ta część mocy trafia realnie do urządzenia.",
+        gdzie:
+          "Karta panelu (współczynnik temperaturowy) i regulatora (sprawność). Źródło podaje przykład 70% — to przykład, nie reguła.",
+        zakres: "Z kart urządzeń; aplikacja nie zgaduje.",
+      },
+      posiadany: {
+        nazwa: "Moc panelu, który masz [W] (opcjonalnie)",
+        cel: "Porównanie z wymaganą mocą.",
+        gdzie: "Tabliczka panelu (Wp).",
+        zakres: "Puste = tylko dobór.",
+      },
+    },
+  },
 }
 
 export const en: Tlumaczenie<typeof pl> = {
@@ -769,6 +815,52 @@ export const en: Tlumaczenie<typeof pl> = {
       },
     },
   },
+  "panel-dla-urzadzenia": {
+    migawka: {
+      oCoChodzi: "You size a panel for one device only, not for the whole house.",
+      jakDziala:
+        "Daily use = power × running hours. The panel must deliver it during the day: panel power = use ÷ (full-sun hours × yield). If you enter the panel you have, the app compares it with the result.",
+      poCo:
+        "A panel that is too small means the device drains the battery a bit more every day. The result is the minimum for an average day — cloudy days need a reserve.",
+      fizyka:
+        "E = P × h. P_panel = E ÷ (sun hours × yield). Example from the source: a 50 W fridge × 8 h = 400 Wh; a 150 W panel at 70% yield delivers it in about 3.8 full-sun hours.",
+    },
+    pola: {
+      moc: {
+        nazwa: "Device power [W]",
+        cel: "Power and running time give the consumption.",
+        gdzie:
+          "Nameplate, manual or search for your model. For a compressor fridge — average power or power × compressor running time.",
+        zakres: "From your device's nameplate.",
+      },
+      godzinPracy: {
+        nazwa: "Running time per day [h]",
+        cel: "How many hours a day the device actually draws power.",
+        gdzie: "Your usage or compressor running time (a fridge cycles).",
+        zakres: "0–24 h.",
+      },
+      godzinSlonca: {
+        nazwa: "Equivalent full-sun hours [h/day]",
+        cel: "Turns panel power into daily energy.",
+        gdzie: "Module 1 (climate and location) or an insolation map for your month.",
+        zakres: "From data for your location and month.",
+      },
+      uzysk: {
+        nazwa: "Yield of the panel's rated power [%]",
+        cel:
+          "A panel rarely delivers its full nameplate power: temperature, controller, cables. This share really reaches the device.",
+        gdzie:
+          "Panel datasheet (temperature coefficient) and controller datasheet (efficiency). The source gives 70% as an example — an example, not a rule.",
+        zakres: "From the datasheets; the app does not guess.",
+      },
+      posiadany: {
+        nazwa: "Power of the panel you have [W] (optional)",
+        cel: "Comparison with the required power.",
+        gdzie: "Panel nameplate (Wp).",
+        zakres: "Empty = sizing only.",
+      },
+    },
+  },
 }
 
 export const ru: Tlumaczenie<typeof pl> = {
@@ -1149,6 +1241,52 @@ export const ru: Tlumaczenie<typeof pl> = {
         cel: "Потери в контроллере, кабелях и при зарядке.",
         gdzie: "Паспорт контроллера (КПД) и аккумулятора (КПД заряда).",
         zakres: "Из паспортов; приложение не угадывает.",
+      },
+    },
+  },
+  "panel-dla-urzadzenia": {
+    migawka: {
+      oCoChodzi: "Вы подбираете панель только для одного устройства, а не для всего дома.",
+      jakDziala:
+        "Потребление за сутки = мощность × часы работы. Панель должна отдать это днём: мощность панели = потребление ÷ (часы полного солнца × выработка). Если ввести имеющуюся панель, приложение сравнит её с результатом.",
+      poCo:
+        "Слишком маленькая панель означает, что устройство с каждым днём всё сильнее разряжает аккумулятор. Результат — минимум для среднего дня; пасмурные дни требуют запаса.",
+      fizyka:
+        "E = P × h. P_панели = E ÷ (часы солнца × выработка). Пример из источника: холодильник 50 Вт × 8 ч = 400 Вт·ч; панель 150 Вт при выработке 70% отдаст это примерно за 3,8 ч полного солнца.",
+    },
+    pola: {
+      moc: {
+        nazwa: "Мощность устройства [Вт]",
+        cel: "Мощность и время работы дают потребление.",
+        gdzie:
+          "Табличка, инструкция или найдите свою модель. Для компрессорного холодильника — средняя мощность или мощность × время работы компрессора.",
+        zakres: "С таблички вашего устройства.",
+      },
+      godzinPracy: {
+        nazwa: "Время работы в сутки [ч]",
+        cel: "Сколько часов в день устройство реально потребляет ток.",
+        gdzie: "Ваше использование или время работы компрессора (холодильник работает циклами).",
+        zakres: "0–24 ч.",
+      },
+      godzinSlonca: {
+        nazwa: "Эквивалентные часы полного солнца [ч/сутки]",
+        cel: "Переводит мощность панели в суточную энергию.",
+        gdzie: "Модуль 1 (климат и местоположение) или карта инсоляции для вашего месяца.",
+        zakres: "Из данных для вашего места и месяца.",
+      },
+      uzysk: {
+        nazwa: "Выработка от номинальной мощности панели [%]",
+        cel:
+          "Панель редко отдаёт полную мощность с таблички: температура, контроллер, кабели. Эта часть реально доходит до устройства.",
+        gdzie:
+          "Паспорт панели (температурный коэффициент) и контроллера (КПД). Источник приводит 70% как пример — это пример, а не правило.",
+        zakres: "Из паспортов; приложение не угадывает.",
+      },
+      posiadany: {
+        nazwa: "Мощность имеющейся панели [Вт] (необязательно)",
+        cel: "Сравнение с требуемой мощностью.",
+        gdzie: "Табличка панели (Вт пик).",
+        zakres: "Пусто = только подбор.",
       },
     },
   },

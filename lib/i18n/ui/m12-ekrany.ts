@@ -118,6 +118,18 @@ export const pl = {
   "UI-M12-WK-DOBA": "{wh} Wh/dobę",
   "UI-M12-WK-SZCZEGOLY": "Pobyt: {pobyt} Wh · akumulator: {akum} Wh ({dni} doby bez słońca)",
   "UI-M12-WK-PANEL-WYNIK": "Panel: ok. {wh} Wh/dobę · na koniec pobytu zostanie {bilans} Wh",
+  "UI-M12-PU-TYTUL": "Panel dla jednego urządzenia",
+  "UI-M12-PU-OPIS":
+    "Jaki panel pokryje dobowe zużycie jednego urządzenia — lodówki, pompy, oświetlenia. Moduł 12, Ekran 6.",
+  "UI-M12-PU-MOC": "Moc urządzenia",
+  "UI-M12-PU-GODZIN-PRACY": "Czas pracy na dobę",
+  "UI-M12-PU-UZYSK": "Uzysk z mocy nominalnej panelu",
+  "UI-M12-PU-POSIADANY": "Panel, który już masz (opcjonalnie)",
+  "UI-M12-PU-W-OK": "Minimalna moc panelu",
+  "UI-M12-PU-W-UWAGA": "Twój panel jest za mały",
+  "UI-M12-PU-WYNIK": "min. {w} W",
+  "UI-M12-PU-SZCZEGOLY": "Zużycie: {wh} Wh/dobę",
+  "UI-M12-PU-POSIADANY-WYNIK": "Twój panel da ok. {wh} Wh/dobę",
 }
 
 export const en: Record<keyof typeof pl, string> = {
@@ -237,6 +249,18 @@ export const en: Record<keyof typeof pl, string> = {
   "UI-M12-WK-DOBA": "{wh} Wh/day",
   "UI-M12-WK-SZCZEGOLY": "Stay: {pobyt} Wh · battery: {akum} Wh ({dni} days without sun)",
   "UI-M12-WK-PANEL-WYNIK": "Panel: about {wh} Wh/day · at the end of the stay {bilans} Wh will remain",
+  "UI-M12-PU-TYTUL": "Panel for a single device",
+  "UI-M12-PU-OPIS":
+    "Which panel covers the daily use of a single device — a fridge, a pump, lighting. Module 12, Screen 6.",
+  "UI-M12-PU-MOC": "Device power",
+  "UI-M12-PU-GODZIN-PRACY": "Running time per day",
+  "UI-M12-PU-UZYSK": "Yield of the panel's rated power",
+  "UI-M12-PU-POSIADANY": "The panel you already have (optional)",
+  "UI-M12-PU-W-OK": "Minimum panel power",
+  "UI-M12-PU-W-UWAGA": "Your panel is too small",
+  "UI-M12-PU-WYNIK": "min. {w} W",
+  "UI-M12-PU-SZCZEGOLY": "Consumption: {wh} Wh/day",
+  "UI-M12-PU-POSIADANY-WYNIK": "Your panel gives about {wh} Wh/day",
 }
 
 export const ru: Record<keyof typeof pl, string> = {
@@ -356,4 +380,16 @@ export const ru: Record<keyof typeof pl, string> = {
   "UI-M12-WK-DOBA": "{wh} Вт·ч/сутки",
   "UI-M12-WK-SZCZEGOLY": "Пребывание: {pobyt} Вт·ч · аккумулятор: {akum} Вт·ч ({dni} сут. без солнца)",
   "UI-M12-WK-PANEL-WYNIK": "Панель: около {wh} Вт·ч/сутки · к концу пребывания останется {bilans} Вт·ч",
+  "UI-M12-PU-TYTUL": "Панель для одного устройства",
+  "UI-M12-PU-OPIS":
+    "Какая панель покроет суточное потребление одного устройства — холодильника, насоса, освещения. Модуль 12, экран 6.",
+  "UI-M12-PU-MOC": "Мощность устройства",
+  "UI-M12-PU-GODZIN-PRACY": "Время работы в сутки",
+  "UI-M12-PU-UZYSK": "Выработка от номинальной мощности панели",
+  "UI-M12-PU-POSIADANY": "Панель, которая у вас уже есть (необязательно)",
+  "UI-M12-PU-W-OK": "Минимальная мощность панели",
+  "UI-M12-PU-W-UWAGA": "Ваша панель слишком мала",
+  "UI-M12-PU-WYNIK": "мин. {w} Вт",
+  "UI-M12-PU-SZCZEGOLY": "Потребление: {wh} Вт·ч/сутки",
+  "UI-M12-PU-POSIADANY-WYNIK": "Ваша панель даст около {wh} Вт·ч/сутки",
 }

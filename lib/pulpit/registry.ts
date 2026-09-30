@@ -323,6 +323,7 @@ export const KAFLE: KafelEntry[] = [
       { href: "/kalkulatory/solar-vs-przedluzacz", label: "Mały zestaw solarny czy przedłużacz?" },
       { href: "/kalkulatory/stacja-vs-diy", label: "Stacja zasilania czy zestaw DIY?" },
       { href: "/kalkulatory/weekend", label: "Kalkulator na weekend" },
+      { href: "/kalkulatory/panel-dla-urzadzenia", label: "Panel dla jednego urządzenia" },
     ],
   },
   {

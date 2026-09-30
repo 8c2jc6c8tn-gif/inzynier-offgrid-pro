@@ -1208,6 +1208,9 @@ export const dictionaryPl = {
   "WK-BRAK-NAWET-Z-PANELEM": "Nawet ze średnią produkcją panelu zabraknie ok. {wh} Wh do końca pobytu. Większy panel, większy akumulator albo mniejsze zużycie.",
   "WK-ZALOZENIE-PELNY-NA-START": "Na start pobytu akumulator jest w pełni naładowany.",
   "WK-ZALOZENIE-PANEL-SREDNIA": "Panel produkuje co dobę średnio tyle, ile wynika z wpisanych godzin słońca — w pochmurne dni będzie mniej.",
+  "PU-PANEL-ZA-MALY": "Twój panel {posiadany} W jest za mały — przy wpisanym słońcu i uzysku potrzeba co najmniej {minimalna} W. Urządzenie będzie rozładowywać akumulator dzień po dniu.",
+  "PU-POCHMURNE-DNI": "W pochmurne dni panel produkuje dużo mniej niż średnio — rozważ większy panel albo zapas w akumulatorze na kilka dni.",
+  "PU-ZALOZENIE-BILANS-DOBOWY": "Bilans dobowy: panel oddaje w dzień tyle, ile urządzenie zużywa przez dobę. Praca nocą wymaga akumulatora, który zmagazynuje tę energię.",
   // end of M12 30.09.2026 block
   "LVD-BRAK-OCHRONY-OLOWIOWY": "Akumulator kwasowy/AGM bez dozownika napięcia, a odbiornik nie ma własnego zabezpieczenia — odbiornik rozładuje akumulator do zera. Głębokie rozładowanie trwale niszczy akumulator ołowiowy (zasiarczenie). Zamontuj dozownik (LVD) z progiem podanym wyżej.",
   "LVD-PROG-KWASOWY-BRAK-W-ZRODLE": "Dla akumulatora kwasowego (zalewowego) nie podajemy progu — źródło daje go tylko dla AGM i LiFePO4. Sprawdź napięcie odcięcia w karcie producenta akumulatora.",

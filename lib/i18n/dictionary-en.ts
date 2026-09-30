@@ -1196,6 +1196,9 @@ export const dictionaryEn = {
   "WK-BRAK-NAWET-Z-PANELEM": "Even with the panel's average production you will be about {wh} Wh short by the end of the stay. A bigger panel, a bigger battery or lower consumption.",
   "WK-ZALOZENIE-PELNY-NA-START": "The battery is fully charged at the start of the stay.",
   "WK-ZALOZENIE-PANEL-SREDNIA": "The panel produces the average implied by the entered sun hours every day — on cloudy days it will be less.",
+  "PU-PANEL-ZA-MALY": "Your {posiadany} W panel is too small — with the entered sun and yield at least {minimalna} W is needed. The device will drain the battery day after day.",
+  "PU-POCHMURNE-DNI": "On cloudy days the panel produces much less than average — consider a bigger panel or a battery reserve for a few days.",
+  "PU-ZALOZENIE-BILANS-DOBOWY": "Daily balance: the panel delivers during the day what the device uses over the whole day. Night operation needs a battery to store that energy.",
   // end of M12 30.09.2026 block
   "LVD-BRAK-OCHRONY-OLOWIOWY": "A lead-acid/AGM battery without a low voltage disconnect, and the load has no protection of its own — the load will drain the battery to zero. Deep discharge permanently damages a lead-acid battery (sulphation). Fit a low voltage disconnect (LVD) with the threshold given above.",
   "LVD-PROG-KWASOWY-BRAK-W-ZRODLE": "No threshold is given for a flooded lead-acid battery — the source gives it only for AGM and LiFePO4. Check the cut-off voltage in the battery manufacturer's datasheet.",
