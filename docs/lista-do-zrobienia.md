@@ -1241,6 +1241,9 @@ Pełne wyniki audytu: `docs/memory.md`, sekcja "Pełny audyt na polecenie właś
      (PN-EN 50565-1), szkic LED (karta taśmy), M6 obciążenie cieplne (PN-EN 12831).
   9. 🔲 **Bieżące prace kodowe** (wpisy wyżej): rejestr twardych stopów M5, resynchronizacja `mapa-wdrozenia.md`,
      kolejne ekrany M7/M12, kafle „duże” + presety onboardingu (M14), przecinek w liczbach założeń i18n.
+     → **[30.09.2026]** Kafle „duże” + 8 presetów ✅ (wpis niżej). Przecinek w liczbach założeń — był już zamknięty
+     26.09 (wpis ✅ „Przecinki w liczbach w tekstach założeń”); ponowna kontrola 30.09: parametry założeń idą przez
+     `t()` jako liczby, kropka zostaje tylko w `technicalMessage` (tekst dla programisty, nie UI) — nic do zrobienia.
 
 - 🔲 (2026-09-29) **Powrót CI od 1.10.2026 (pozostałość sesji 29.09).** (1) Usunąć notę „⚠️ Do końca września 2026
   CI NIE DZIAŁA” z `CLAUDE.md` (sekcja „Stan repo”) i dopisać w `docs/memory.md`, że CI wróciło. (2) Pierwszy przebieg
@@ -1431,3 +1434,15 @@ Pełne wyniki audytu: `docs/memory.md`, sekcja "Pełny audyt na polecenie właś
   każdy ekran. **Kolizje:** każda sesja zmieniająca te pliki oraz wpis „Tłumaczenie etykiet stron na EN/RU” (inne
   pliki, ale te same ekrany do sprawdzenia wizualnego). **Kolejność:** najpierw prototyp w `/wzornik` + pulpit + jeden
   kalkulator, akceptacja właściciela, dopiero potem reszta.
+- ✅ (2026-09-30) **Kafle „duże” M14 + presety pulpitu (TD22 pkt 5, D53/D54).** Kafle „Dom – sieć” / „Firma – sieć”
+  zajmują dwie kolumny siatki pulpitu, z opisem. W Ustawieniach sekcja „Co chcesz teraz zrobić?”: 8 presetów z
+  `docs/pulpit-i-nawigacja.md` §3, kafle M14 na końcu każdego, kilka zaznaczonych = unia w kolejności domyślnej (✅🤖).
+  Teksty PL/EN/RU (`lib/i18n/ui/pulpit.ts`), test `lib/pulpit/__tests__/presety.test.ts`. Przy okazji (Y.2): lista w
+  Ustawieniach pokazywała „15. Dom – sieć” — kafle M14 nie mają numeru (D39), numer zdjęty.
+- 🔲 (2026-09-30) **Pulpit — co zostało po presetach:** (1) dziewiąty preset „Jestem podłączony do sieci” (D39) —
+  **skład kafli do decyzji właściciela** (propozycja ✅🤖 do oceny: 15, 16, a za nimi moduły, z których M14 czyta:
+  1, 2, 3, 4, 6, 7, 8); (2) ekran onboardingu przy pierwszym uruchomieniu (`backlog-poza-v1.md`); (3) animowana ikona
+  kafli M14. **Priorytet:** niski. **Odblokowuje:** pełny §3 pulpitu. **Plusy teraz:** mechanizm presetów gotowy,
+  dziewiąty to jedna linia w `lib/pulpit/presety.ts`; **minusy:** bez decyzji o składzie byłby zgadywaniem.
+  **Kolizje:** `lib/pulpit/registry.ts` (każda sesja dodająca ekrany/kafle), `app/ustawienia/page.tsx`.
+  **Kolejność:** decyzja (1) → kod (1) → (2) razem z onboardingiem.

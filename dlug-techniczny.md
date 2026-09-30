@@ -1,6 +1,6 @@
 # Dług techniczny — Inżynier Offgrid Pro
 
-**Wersja:** 2.6 | **Filar:** C | **Data utworzenia:** 04.09.2026 | **Ostatnia aktualizacja:** 29.09.2026 | **Status:** Stabilny (rosnący)
+**Wersja:** 2.7 | **Filar:** C | **Data utworzenia:** 04.09.2026 | **Ostatnia aktualizacja:** 30.09.2026 | **Status:** Stabilny (rosnący)
 **Powiązane dokumenty:** `00_Biblia.md`, `docs/rejestr-pokrycia.md`, `backlog-poza-v1.md`
 
 TL;DR: Rejestr świadomych uproszczeń kodu względem specyfikacji źródła (Część X.4 GOD BOOK) — ekrany zbudowane **częściowo**, gdzie zbudowana część jest kompletna i poprawna, ale źródło opisuje więcej niż jest dziś zaimplementowane. Różni się od `backlog-poza-v1.md`: tam są całe ekrany niezbudowane, tu są ekrany **częściowo** zbudowane z jawnie oznaczoną brakującą resztą. **To jest indeks, nie kopia** — każdy wpis TD# odpowiada spójnemu markerowi `🔎 TD#` w kodzie źródłowym (GOD BOOK X.4, rozszerzenie 04.09.2026, wersja 2.8); audyt (Część N) sprawdza zgodność w obie strony przez `grep -rn "🔎 TD"`.
@@ -68,7 +68,7 @@ TL;DR: Rejestr świadomych uproszczeń kodu względem specyfikacji źródła (Cz
   ważonej, różnica rzędu 0,0001 zł/kWh w styczniu), z informacją;~~ **[28.09.2026] zamknięte:** D1/F1 bierze zużycie miesięczne z D3/F6 (12 miesięcy), gdy jest wpisane — bez niego nadal wartość obowiązująca najdłużej, z informacją; datą rozliczenia jest 31.12 wpisanego roku; (4) F4 w wariancie
   „suma 10 największych nadwyżek” UI nie ma pól na 10 wartości — liczone górne oszacowanie 10 × maks., z ostrzeżeniem (silnik
   przyjmuje listę); (5) kafle „Dom – sieć” / „Firma – sieć” są zwykłej wielkości z ikoną emoji, nie „duże” (D39), a presety
-  onboardingu (8 + „Jestem podłączony do sieci”) nie istnieją jeszcze w kodzie. Markery: `🔎 TD22` w
+  onboardingu (8 + „Jestem podłączony do sieci”) nie istnieją jeszcze w kodzie. **[30.09.2026] pkt (5) zamknięty częściowo:** kafle M14 są „duże” (dwie kolumny siatki pulpitu, z opisem — `duzy` w `lib/pulpit/registry.ts`), a 8 presetów z §3 `docs/pulpit-i-nawigacja.md` działa w Ustawieniach (`lib/pulpit/presety.ts`, kafle M14 na końcu każdego, D53/D54). Zostaje: animowana ikona kafli M14 oraz preset „Jestem podłączony do sieci” razem z ekranem onboardingu (`backlog-poza-v1.md` — skład kafli nieustalony). Markery: `🔎 TD22` w
   `lib/core/modules/siec/porownanie-taryf/input.ts`, `components/siec/formularz-rachunku.tsx`,
   `app/kalkulatory/moc-umowna/page.tsx`.
 - **TD23 (28.09.2026) — moduł: M14, część Przejście (D4–D7, D10, F6–F8), co skrócono:** (1) bilans wyspy jest miesięczny
@@ -113,3 +113,4 @@ TL;DR: Rejestr świadomych uproszczeń kodu względem specyfikacji źródła (Cz
 | 28.09.2026 | Dodano TD22 (M14, część Sieć — strefy wpisywane przez użytkownika, porównanie bez nadpisań z faktury, brak pola zużycia miesięcznego w UI, górne oszacowanie F4, kafle bez presetów) z markerami `🔎 TD22` w kodzie. Wersja 2.3→2.4. |
 | 28.09.2026 | TD22 (3) zamknięty częściowo (zużycie miesięczne z D3/F6 zasila D1/F1). Dodano TD23 (M14, część Przejście — bilans miesięczny zamiast M7, autokonsumpcja bez W4, agregat D7 z osobnych pól, stawka przyłączeniowa od użytkownika, strumienie BESS z wpisów) z markerami `🔎 TD23`. Wersja 2.4→2.5. |
 | 29.09.2026 | TD21 pkt (3) zamknięty decyzją D54 (CRL od budynku na zewnątrz); TD20: Rsi = 0,13 ze źródeł do czasu PKN (D54 pkt 5). Wersja 2.5→2.6. |
+| 30.09.2026 | TD22 pkt (5) zamknięty częściowo: duże kafle M14 i 8 presetów pulpitu w Ustawieniach; zostaje animowana ikona i dziewiąty preset z onboardingiem. Wersja 2.6→2.7. |

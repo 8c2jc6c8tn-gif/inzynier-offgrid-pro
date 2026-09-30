@@ -8476,3 +8476,17 @@ Tryb Audyt (czapka rewidenta). Warstwa „w pełni na końcu” z N.2 — wszyst
   `public/` 1,41 / 1,05 MB. Największe: chunk tekstów/słowników ładowany na każdej stronie 1,17 MB, MapLibre 1,0 MB,
   drugi chunk tekstów 0,73 MB, worker MapLibre 0,5 MB, zod 0,4 MB (ekrany M14 — potrzebny offline). Budżet pierwszego
   pobrania: **D61 — wariant A**, obecny stan przyjęty, nic dalej nie ciąć (B tylko przy sygnale o słabym łączu).
+
+## Duże kafle M14 + presety pulpitu (30.09.2026)
+
+- **Duży kafel** = `duzy: true` w `KafelEntry` (`lib/pulpit/registry.ts`): `col-span-2` w siatce pulpitu + opis pod nazwą.
+  Tylko kafle M14 (id 15/16, D35). Siatka ma min. 2 kolumny, więc duży kafel nigdy nie wychodzi poza ekran telefonu.
+- **Presety** (`lib/pulpit/presety.ts`) — dane 1:1 z tabeli §3 `docs/pulpit-i-nawigacja.md` + `[15, 16]` na końcu (D53/D54).
+  `stanZPresetow(ids)` zwraca zwykły `PulpitState` — nie ma nowego klucza `localStorage` ani migracji. Kilka presetów =
+  unia w kolejności domyślnej (✅🤖, §3 nie określa kolejności unii). Zaznaczenie nie jest zapamiętywane (jednorazowe
+  „Zastosuj”). Dziewiąty preset „Jestem podłączony do sieci” czeka na decyzję o składzie (lista zadań 30.09).
+- **Y.2 (naprawione od razu):** Ustawienia pokazywały „15. Dom – sieć” / „16. Firma – sieć” mimo D39 (kafle M14 bez numeru,
+  „Kafel 14” = Ustawienia) — numer tylko dla id < 14.
+- **Przecinek w liczbach założeń** — zadanie z indeksu po D54 było duplikatem wpisu zamkniętego 26.09; sprawdzone ponownie,
+  nic do zrobienia (kropka tylko w `technicalMessage`).
+
