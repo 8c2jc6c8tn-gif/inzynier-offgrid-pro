@@ -132,4 +132,4 @@ Pomiar na buildzie produkcyjnym (540 wpisów): **20,85 MB surowo, ≈ 6,8 MB tra
 Wykluczone z precache (każde = nie działa offline): `/auth/login` (D59), `media/maplibre-gl*` (nieużywane kopie
 bundlera), chunk three.js — widok 3D tylko online (D60). **Worker MapLibre wrócił do precache** — etap 1 wykluczył go
 błędnie, co offline psuło spacer GPS na Skanerze (D22); szczegóły `docs/memory.md`. Budżet pierwszego pobrania —
-decyzja właściciela otwarta (`docs/lista-do-zrobienia.md`, wpis ⚠️ z 30.09).
+D61: wariant A, obecny stan przyjęty.

@@ -8475,4 +8475,4 @@ Tryb Audyt (czapka rewidenta). Warstwa „w pełni na końcu” z N.2 — wszyst
   jeszcze mniej). Podział (surowo / gzip): HTML 239 stron 6,64 / 1,25 MB; chunki 12,2 / 3,9 MB; media 0,57 MB;
   `public/` 1,41 / 1,05 MB. Największe: chunk tekstów/słowników ładowany na każdej stronie 1,17 MB, MapLibre 1,0 MB,
   drugi chunk tekstów 0,73 MB, worker MapLibre 0,5 MB, zod 0,4 MB (ekrany M14 — potrzebny offline). Budżet pierwszego
-  pobrania: pytanie otwarte do właściciela (`docs/lista-do-zrobienia.md`).
+  pobrania: **D61 — wariant A**, obecny stan przyjęty, nic dalej nie ciąć (B tylko przy sygnale o słabym łączu).

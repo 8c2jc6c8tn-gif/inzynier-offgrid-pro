@@ -1,6 +1,6 @@
 # Rejestr decyzji — Inżynier Offgrid Pro
 
-**Wersja:** 1.32 | **Filar:** C | **Data utworzenia:** 04.09.2026 | **Ostatnia aktualizacja:** 30.09.2026 | **Status:** Stabilny (rosnący)
+**Wersja:** 1.33 | **Filar:** C | **Data utworzenia:** 04.09.2026 | **Ostatnia aktualizacja:** 30.09.2026 | **Status:** Stabilny (rosnący)
 **Powiązane dokumenty:** `00_Biblia.md`, `docs/memory.md`, `USTALENIA.md` (historyczny, Część II)
 
 TL;DR: D1, D2, D3… — decyzje **strategiczne/fundamentalne** (blokujące wiele innych rzeczy naraz, Krok 4 GOD BOOK), ponumerowane, nigdy nie kasowane, tylko unieważniane jawnie (F.5). **Nie duplikuje `docs/memory.md`**: tam żyje pełna, szczegółowa historia każdej sesji (setki drobnych decyzji implementacyjnych per ekran) — tu tylko decyzje, które zmieniły kierunek/regułę obowiązującą cały projekt. Gdy wpis niżej odsyła do `docs/memory.md`, tam jest pełne uzasadnienie i przykłady.
@@ -259,6 +259,8 @@ Treść:
 
 **D60 (30.09.2026) — SW wariant C, etap 2: widok 3D (three.js) tylko online; mapa Skanera zostaje offline.** Koszt cofnięcia: tani (jedna funkcja `czyChunkTylkoOnline` w `lib/pwa/precache-build.ts`). Decyzja właściciela projektu (30.09.2026: „nie wiem ile 3D będzie ważyło, myślę że jest potrzebne online”). Pomiar: three.js + React Three Fiber to jeden chunk ~0,9 MB, ładowany wyłącznie przez `components/lokalizacja/widok-3d.tsx` (Ekran 3, Analiza zacienienia) — wykluczony z precache po treści (znacznik `__THREE__`), nie po nazwie z hashem. Offline, zanim widok 3D był kiedykolwiek pobrany, ekran pokazuje komunikat „Widok 3D wymaga internetu” zamiast widoku; reszta ekranu działa. **Mapa nie jest objęta tą decyzją:** D22 wprost wymaga, żeby spacer GPS działał bez sieci, a MapLibre przetwarza geometrię w swoim workerze — worker (`public/maplibre/`, ~0,5 MB) wraca do precache (etap 1 go wykluczył na podstawie błędnego odczytania D22 jako „mapa tylko online” — naprawione jako dryf, Y.2, `docs/memory.md`). Budżet pierwszego pobrania — **nierozstrzygnięty**, pytanie otwarte do właściciela z liczbami (`docs/lista-do-zrobienia.md`).
 
+**D61 (30.09.2026) — Budżet pierwszego pobrania aplikacji: wariant A (obecny stan przyjęty).** Koszt cofnięcia: tani (brak zmian w kodzie). Decyzja właściciela projektu („budżet wariant A”) z opcji przedstawionych po pomiarze etapu 2 SW (D60): precache 20,85 MB surowo / ≈ 6,8 MB transferu gzip, pobierane raz w tle po pierwszej wizycie — akceptowane, dalsze cięcie nie jest planowane. Wariant B (słowniki per język, ~1–1,5 MB mniej transferu) wraca dopiero przy sygnale z terenu o słabym łączu; wariant C (część ekranów poza precache) odrzucony — łamałby D59 C-3 i 5.3.
+
 ## Założenia robocze (F.7 GOD BOOK)
 
 **Z1 (04.09.2026) — przyjęto:** ID modułów (H.2 GOD BOOK, M#) odpowiadają wprost numeracji "Moduł N" już używanej w całym projekcie (1–13), nie nowej, niezależnej numeracji. **Powód:** ta numeracja jest już stabilna, używana w kodzie, dokumentacji i UI od 29.08.2026 — wprowadzenie równoległej numeracji M# byłoby duplikatem, nie nowym bytem. **Na czym się opiera:** cała struktura `docs/rejestr-pokrycia.md`, `lib/pulpit/registry.ts`, `docs/pulpit-i-nawigacja.md`.
@@ -305,3 +307,4 @@ Treść:
 | 29.09.2026 | Dodano D58 (teksty ekranów przez klucze `UI-*` PL/EN/RU + strażnik i18n na warstwie UI z listą zapadkową; audyt Y.11 pkt 1b, „A + B”) — decyzja właściciela projektu. Wersja 1.29→1.30. |
 | 29.09.2026 | Dodano D59 (SW wariant C, etap 1: `sonner`, `playwright` w devDependencies, precache wszystkich stron — rekomendacje planu przyjęte poleceniem „rób dalej nie pytając”). Wersja 1.30→1.31. |
 | 30.09.2026 | Dodano D60 (SW etap 2: widok 3D tylko online, worker mapy z powrotem w precache — spacer GPS offline wg D22) — decyzja właściciela projektu. Wersja 1.31→1.32. |
+| 30.09.2026 | Dodano D61 (budżet pierwszego pobrania: wariant A — obecne ≈ 6,8 MB transferu przyjęte) — decyzja właściciela projektu. Wersja 1.32→1.33. |

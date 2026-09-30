@@ -1417,3 +1417,17 @@ Pełne wyniki audytu: `docs/memory.md`, sekcja "Pełny audyt na polecenie właś
   mógłby nie działać offline). Rekomendacja: A teraz, B dopiero gdy pojawi się sygnał z terenu o słabym łączu.
   **Priorytet:** niski przy A, średni przy B. **Kolizje:** B — `lib/i18n/**`; C — `lib/pwa/precache.ts`, D59.
   **Kolejność:** po decyzji; B przed C.
+  ✅ **[30.09.2026] Decyzja właściciela: wariant A** (D61) — obecny stan (≈ 6,8 MB transferu) przyjęty, dalej nic nie
+  ciąć. B wraca dopiero przy sygnale z terenu o słabym łączu.
+- ✅ (2026-09-30) **Opis ekranów dla AI projektującego wygląd** — `docs/opis-ekranow-dla-ai.md`: anatomia ekranu,
+  kontrakt wyniku, wzorce A–H z liczbami, ekrany nietypowe, reguły nie do złamania, diagnoza „nieprzejrzystości”,
+  załącznik z katalogiem 220 ekranów (wygenerowany z kodu stron). Odsyłacz dopisany w `docs/brief-dla-v0.md`.
+- 🔲 (2026-09-30) **Tryb wyglądu „Premium” (na sprzedaż) obok obecnego „Warsztat”** — kierunek zaproponowany
+  właścicielowi (sekcja 8 `docs/opis-ekranow-dla-ai.md`): paleta grafit/granat + akcent złoty, szeryfowe nagłówki,
+  wynik jako bohater ekranu, szczegóły rozwijane (bez chowania `critical`), karta „Twój system” na pulpicie, raport
+  PDF dla klienta. **Priorytet:** średni (czeka na wybór kierunku przez właściciela). **Odblokowuje:** wersję „na
+  sprzedaż”. **Plusy teraz:** zmiana w tokenach i ~5 wspólnych komponentach obejmuje wszystkie ekrany. **Minusy:**
+  dotyka `app/globals.css`, `components/werdykt.tsx`, `components/wzorce/*`, `lib/wyglad/` — współdzielone przez
+  każdy ekran. **Kolizje:** każda sesja zmieniająca te pliki oraz wpis „Tłumaczenie etykiet stron na EN/RU” (inne
+  pliki, ale te same ekrany do sprawdzenia wizualnego). **Kolejność:** najpierw prototyp w `/wzornik` + pulpit + jeden
+  kalkulator, akceptacja właściciela, dopiero potem reszta.
