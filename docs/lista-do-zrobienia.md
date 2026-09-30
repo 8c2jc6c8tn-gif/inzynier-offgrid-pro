@@ -1462,3 +1462,14 @@ Pełne wyniki audytu: `docs/memory.md`, sekcja "Pełny audyt na polecenie właś
   **Do rozstrzygnięcia przed wdrożeniem:** jak podzielić listę w Ustawieniach (np. grupy: Premium / Jasne / Eksperymentalne /
   Ukryte-sezonowe), żeby wybór spośród 20+ stylów był czytelny na telefonie. Wdrażać etapami: najpierw mechanizm i tabela
   tokenów + kilka stylów, reszta partiami, bo każdy styl to test kontrastu i przegląd `/wzornik`.
+  🔄 **[30.09.2026, D66] Czwarta runda przyjęta, łącznie 27 stylów w 4 grupach (Premium 10 / Jasne 7 / Eksperymentalne 8 /
+  Ukryte i sezonowe 2), przydział w D66.** Wybór stylów zamknięty, faza projektowa zakończona. **Następny krok (implementacja,
+  najlepiej w nowej sesji po `/compact`):**
+  1. Tabela stylów w `lib/wyglad/` (styl → grupa, tokeny, warianty komponentów) i jej walidacja.
+  2. Test kontrastu werdyktów dla każdego stylu (Vitest).
+  3. Wybór stylu w Ustawieniach, pogrupowany, po scaleniu sesji `large-tiles-presets-m14`.
+  4. Pierwsza partia stylów: 1–3 + Rozdzielnica + OLED oszczędny.
+  5. Dalsze partie.
+
+  **Otwarte:** mechanizm odblokowania grupy „Ukryte i sezonowe”, zdjęcia domów w pełnej jakości (licencja, D61), czcionka
+  szeryfowa z cyrylicą. **Priorytet:** średni. **Kolizje:** Ustawienia/pulpit z sesją `large-tiles-presets-m14`.

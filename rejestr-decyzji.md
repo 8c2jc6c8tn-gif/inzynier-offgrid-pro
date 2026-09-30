@@ -1,6 +1,6 @@
 # Rejestr decyzji — Inżynier Offgrid Pro
 
-**Wersja:** 1.37 | **Filar:** C | **Data utworzenia:** 04.09.2026 | **Ostatnia aktualizacja:** 30.09.2026 | **Status:** Stabilny (rosnący)
+**Wersja:** 1.38 | **Filar:** C | **Data utworzenia:** 04.09.2026 | **Ostatnia aktualizacja:** 30.09.2026 | **Status:** Stabilny (rosnący)
 **Powiązane dokumenty:** `00_Biblia.md`, `docs/memory.md`, `USTALENIA.md` (historyczny, Część II)
 
 TL;DR: D1, D2, D3… — decyzje **strategiczne/fundamentalne** (blokujące wiele innych rzeczy naraz, Krok 4 GOD BOOK), ponumerowane, nigdy nie kasowane, tylko unieważniane jawnie (F.5). **Nie duplikuje `docs/memory.md`**: tam żyje pełna, szczegółowa historia każdej sesji (setki drobnych decyzji implementacyjnych per ekran) — tu tylko decyzje, które zmieniły kierunek/regułę obowiązującą cały projekt. Gdy wpis niżej odsyła do `docs/memory.md`, tam jest pełne uzasadnienie i przykłady.
@@ -276,6 +276,21 @@ Treść:
 
 Czwarta runda (21–28: Notatnik inżyniera, Rozdzielnica, E-ink, OLED oszczędny, Płynny gradient, Terminal DOS, Marmur i złoto, Zen) czeka na wybór. Reguły sekcji 7 `docs/opis-ekranow-dla-ai.md` obowiązują każdy styl bez wyjątku.
 
+**D66 (30.09.2026) — Czwarta runda przyjęta w całości (łącznie 27 stylów) i podział stylów na 4 grupy w Ustawieniach.** Koszt cofnięcia: tani (nadal tylko prototyp poza repo; przydział do grup to jedna tabela). Rozszerza D62–D65. Właściciel projektu przyjął style 21–28 z artefaktu https://claude.ai/artifact/JsYnhZYECTQtSTAPAj4kmL: **Notatnik inżyniera**, **Rozdzielnica**, **E-ink**, **OLED oszczędny**, **Płynny gradient**, **Terminal DOS**, **Marmur i złoto** i **Zen**. Jedynym odrzuconym stylem pozostaje „Beton + mosiądz”. Przyjęto też podział listy w Ustawieniach na grupy. Przydział stylów jest propozycją AI i właściciel może go zmienić:
+- **Premium** (10): Grafit + złoto, Granat + miedź, Tytan, Las + mosiądz, Kreślarski, Noc polarna, Różowe złoto, Pomarańcz sygnałowy, Zachód słońca, OLED oszczędny.
+- **Jasne** (7): Jasny architektoniczny, Pudrowy róż, Słoneczny poranek, Rozdzielnica, E-ink, Marmur i złoto, Zen.
+- **Eksperymentalne** (8): Holograficzny, Kokpit HUD, Szkło, Brutalizm, Orbita, Neumorfizm, Notatnik inżyniera, Płynny gradient.
+- **Ukryte i sezonowe** (2): Synthwave, Terminal DOS.
+
+Warunki wdrożenia:
+- Terminal DOS: wynik biały, nigdy żółty (🟡); test kontrastu 🔴 na niebieskim tle.
+- Notatnik inżyniera: pismo odręczne (Caveat, ma cyrylicę) tylko w nagłówkach i wyniku; liczby w tabelach i formularzach w Inter.
+- Płynny gradient: tło ruchome tylko na pulpicie, na kalkulatorach nieruchome.
+- E-ink: to styl wyglądu, nie wsparcie czytników e-ink.
+- Zen i Neumorfizm: obrysy pól (WCAG 1.4.11).
+
+Otwarte pytanie: czym „odblokowuje się” grupa Ukryte i sezonowe (np. przełącznik w Ustawieniach albo daty sezonowe). Wdrożenie etapami: najpierw mechanizm, tabela tokenów, grupy i kilka stylów, potem reszta partiami; każdy styl przechodzi automatyczny test kontrastu werdyktów.
+
 ## Założenia robocze (F.7 GOD BOOK)
 
 **Z1 (04.09.2026) — przyjęto:** ID modułów (H.2 GOD BOOK, M#) odpowiadają wprost numeracji "Moduł N" już używanej w całym projekcie (1–13), nie nowej, niezależnej numeracji. **Powód:** ta numeracja jest już stabilna, używana w kodzie, dokumentacji i UI od 29.08.2026 — wprowadzenie równoległej numeracji M# byłoby duplikatem, nie nowym bytem. **Na czym się opiera:** cała struktura `docs/rejestr-pokrycia.md`, `lib/pulpit/registry.ts`, `docs/pulpit-i-nawigacja.md`.
@@ -327,3 +342,4 @@ Czwarta runda (21–28: Notatnik inżyniera, Rozdzielnica, E-ink, OLED oszczędn
 | 30.09.2026 | Dodano D63 (kolejne 4 style do pracy: Tytan, Las + mosiądz, Kreślarski, Noc polarna; łącznie 7; lista stylów otwarta, druga runda propozycji czeka na wybór) — decyzja właściciela projektu. Wersja 1.34→1.35. |
 | 30.09.2026 | Dodano D64 (druga runda: Różowe złoto, Pudrowy róż, Pomarańcz sygnałowy — z warunkiem testu vs 🟡, Słoneczny poranek, Zachód słońca; łącznie 12 stylów; runda eksperymentalna 14–20 czeka na wybór) — decyzja właściciela projektu. Wersja 1.35→1.36. |
 | 30.09.2026 | Dodano D65 (runda eksperymentalna 14–20 przyjęta w całości, łącznie 19 stylów; jawne wyjątki od zakazów specyfikacji Premium dla Holograficznego, Szkła i Synthwave, z warunkami wdrożenia; czwarta runda 21–28 czeka na wybór) — decyzja właściciela projektu. Wersja 1.36→1.37. |
+| 30.09.2026 | Dodano D66 (czwarta runda 21–28 przyjęta w całości, łącznie 27 stylów; podział na grupy Premium / Jasne / Eksperymentalne / Ukryte i sezonowe; warunki wdrożenia) — decyzja właściciela projektu. Wersja 1.37→1.38. |
