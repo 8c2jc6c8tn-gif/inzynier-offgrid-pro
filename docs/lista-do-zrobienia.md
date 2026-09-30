@@ -1451,3 +1451,8 @@ Pełne wyniki audytu: `docs/memory.md`, sekcja "Pełny audyt na polecenie właś
   drugiej rundy → dopisek do D63 → wdrożenie tokenów stylów w `app/globals.css` + wybór w Ustawieniach (`lib/wyglad/`),
   kontrola kontrastu werdyktów dla każdego stylu (szczególnie Las), potem `/wzornik`, pulpit i jeden kalkulator do akceptacji.
   Priorytet: średni. Kolizja i kolejność bez zmian: Ustawienia/pulpit dopiero po scaleniu sesji `large-tiles-presets-m14`.
+  🔄 **[30.09.2026, D64] Druga runda przyjęta w całości: Różowe złoto, Pudrowy róż, Pomarańcz sygnałowy, Słoneczny poranek,
+  Zachód słońca (łącznie 12 stylów).** Pomarańcz z warunkiem testu czytelności względem 🟡. Runda eksperymentalna 14–20
+  (Holograficzny, Kokpit HUD, Szkło, Brutalizm, Synthwave, Orbita, Neumorfizm) czeka na wybór. **Uwaga wdrożeniowa:** przy 12+
+  stylach tokeny muszą być generowane z jednej tabeli (styl → zestaw tokenów + kilka wariantów komponentów), a nie pisane
+  ręcznie w `app/globals.css`. Każdy styl dostaje automatyczny test kontrastu werdyktów (WCAG), inaczej koszt utrzymania rośnie liniowo.
