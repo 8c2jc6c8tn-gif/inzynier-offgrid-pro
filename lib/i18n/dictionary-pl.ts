@@ -1220,6 +1220,9 @@ export const dictionaryPl = {
   "PBA-ZA-MALA-MOC-POWERBANKU": "Urządzenie pobiera {urzadzenie} W, a powerbank oddaje najwyżej {powerbank} W — nie uciągnie go. Do takiego odbiornika potrzebujesz akumulatora z przetwornicą.",
   "PBA-MOC-ZESTAWU-I-KOSZT": "Moc ciągłą zestawu z akumulatorem wyznacza jego przetwornica (ekran „Przetwornice”), a cenę i masę na 1 Wh porównasz na ekranie „Stacja vs zestaw DIY”.",
   "PBA-ZALOZENIE-PELNE-NALADOWANIE": "Obie opcje są na starcie w pełni naładowane; ładowanie ze słońca w trakcie nie jest doliczane.",
+  "BM-AKUMULATOR-ZA-MALY": "Twój akumulator {posiadany} Ah to za mało — potrzeba co najmniej {minimalny} Ah. Starczy na ok. {godzin} h; ogranicz odbiorniki albo dołóż pojemność.",
+  "BM-ROZRUCH-PRZETWORNICY": "Minimalna przetwornica to suma mocy pracy. Lodówka i pompy przy starcie pobierają kilka razy więcej — dobierz zapas na rozruch na ekranie „Przetwornice”.",
+  "BM-ZALOZENIE-BEZ-LADOWANIA": "Akumulator na starcie pełny; przez cały blackout bez ładowania (bez sieci, słońca i agregatu). Odbiorniki pracują średnio tyle godzin na dobę, ile wpisano.",
   // end of M12 30.09.2026 block
   "LVD-BRAK-OCHRONY-OLOWIOWY": "Akumulator kwasowy/AGM bez dozownika napięcia, a odbiornik nie ma własnego zabezpieczenia — odbiornik rozładuje akumulator do zera. Głębokie rozładowanie trwale niszczy akumulator ołowiowy (zasiarczenie). Zamontuj dozownik (LVD) z progiem podanym wyżej.",
   "LVD-PROG-KWASOWY-BRAK-W-ZRODLE": "Dla akumulatora kwasowego (zalewowego) nie podajemy progu — źródło daje go tylko dla AGM i LiFePO4. Sprawdź napięcie odcięcia w karcie producenta akumulatora.",

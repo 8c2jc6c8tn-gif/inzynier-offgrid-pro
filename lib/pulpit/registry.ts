@@ -326,6 +326,7 @@ export const KAFLE: KafelEntry[] = [
       { href: "/kalkulatory/panel-dla-urzadzenia", label: "Panel dla jednego urządzenia" },
       { href: "/kalkulatory/laczenie-paneli-przenosnych", label: "Łączenie paneli przenośnych" },
       { href: "/kalkulatory/powerbank-vs-akumulator", label: "Powerbank solarny czy mały akumulator" },
+      { href: "/kalkulatory/blackout-minimum", label: "Blackout w domu — minimum do przeżycia" },
     ],
   },
   {

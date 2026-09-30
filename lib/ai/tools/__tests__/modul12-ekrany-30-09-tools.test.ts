@@ -10,6 +10,7 @@ import { weekendTool } from "../weekend-tool"
 import { panelDlaUrzadzeniaTool } from "../panel-dla-urzadzenia-tool"
 import { laczeniePaneliPrzenosnychTool } from "../laczenie-paneli-przenosnych-tool"
 import { powerbankVsAkumulatorTool } from "../powerbank-vs-akumulator-tool"
+import { blackoutMinimumTool } from "../blackout-minimum-tool"
 
 describe("akumulatorSamochodowyTool (M12/E16, dawne 8.14)", () => {
   it("kontrakt 9.3: 'read', bez potwierdzenia", () => {

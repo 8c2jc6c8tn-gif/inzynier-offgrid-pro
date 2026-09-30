@@ -159,6 +159,7 @@ const MIGRATED_MODULES = [
   "lib/core/modules/kalkulator-mobilny/panel-dla-urzadzenia",
   "lib/core/modules/kalkulator-mobilny/laczenie-paneli-przenosnych",
   "lib/core/modules/kalkulator-mobilny/powerbank-vs-akumulator",
+  "lib/core/modules/kalkulator-mobilny/blackout-minimum",
   "lib/core/modules/stress-test/wind-chill",
   "lib/core/modules/stress-test/obciazenie-dachu-sniegiem",
   "lib/core/modules/stress-test/sztywnienie-izolacji",

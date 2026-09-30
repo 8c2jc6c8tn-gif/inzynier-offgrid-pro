@@ -542,6 +542,68 @@ export const pl = {
       },
     },
   },
+  "blackout-minimum": {
+    migawka: {
+      oCoChodzi:
+        "Blackout to egzamin — trzeba wiedzieć, co ratować w pierwszej kolejności. To nie projekt off-gridu, tylko minimum, żeby przetrwać awarię sieci bez paniki.",
+      jakDziala:
+        "Wpisz tylko odbiorniki krytyczne (np. 1. lodówka, 2. router, 3. oświetlenie, 4. ładowarki) i czas awarii. Aplikacja liczy energię, minimalny akumulator i moc przetwornicy; pokazuje też energię na 12, 24 i 48 h.",
+      poCo:
+        "Każdy dodatkowy odbiornik to większy i droższy zestaw. Lista priorytetów pozwala świadomie zdecydować, co wyłączyć, gdy awaria się przedłuża.",
+      fizyka:
+        "E_doba = Σ P × h. E = E_doba × T ÷ 24. Akumulator = E ÷ (η × U × część użyteczna). Przetwornica ≥ Σ P (plus zapas na rozruch — ekran Przetwornice).",
+    },
+    pola: {
+      nazwa: {
+        nazwa: "Nazwa odbiornika",
+        cel: "Żeby lista priorytetów była czytelna.",
+        gdzie: "Dowolna nazwa; wpisuj od najważniejszego.",
+        zakres: "Tekst.",
+      },
+      moc: {
+        nazwa: "Moc [W]",
+        cel: "Energia i minimalna moc przetwornicy.",
+        gdzie: "Tabliczka urządzenia albo pomiar watomierzem.",
+        zakres: "Z tabliczki Twojego urządzenia.",
+      },
+      godziny: {
+        nazwa: "Czas pracy na dobę [h]",
+        cel: "Średnio w dobie — lodówka pracuje cyklicznie, router całą dobę.",
+        gdzie: "Twoje użytkowanie; dla lodówki — czas pracy sprężarki (watomierz przez dobę).",
+        zakres: "0–24 h.",
+      },
+      czas: {
+        nazwa: "Czas blackoutu [h]",
+        cel: "Na ile godzin ma starczyć zestaw.",
+        gdzie: "Twoje doświadczenie z awariami w okolicy; źródło pokazuje warianty 12, 24 i 48 h.",
+        zakres: "Twoja decyzja.",
+      },
+      napiecie: {
+        nazwa: "Napięcie akumulatora [V]",
+        cel: "Przelicza energię na Ah.",
+        gdzie: "Tabliczka akumulatora.",
+        zakres: "Z tabliczki.",
+      },
+      uzyteczna: {
+        nazwa: "Część pojemności do wykorzystania [%]",
+        cel: "Akumulatora nie rozładowuje się do zera.",
+        gdzie: "Karta akumulatora (głębokość rozładowania).",
+        zakres: "Z karty; aplikacja nie zgaduje.",
+      },
+      sprawnosc: {
+        nazwa: "Sprawność przetwornicy [%]",
+        cel: "Straty przy zamianie 12/24 V na 230 V.",
+        gdzie: "Karta przetwornicy. Jeśli wszystko zasilasz bezpośrednio z 12 V — wpisz 100.",
+        zakres: "Z karty; aplikacja nie zgaduje.",
+      },
+      posiadany: {
+        nazwa: "Akumulator, który masz [Ah] (opcjonalnie)",
+        cel: "Sprawdza, na ile godzin starczy.",
+        gdzie: "Tabliczka akumulatora.",
+        zakres: "Puste = tylko dobór.",
+      },
+    },
+  },
 }
 
 export const en: Tlumaczenie<typeof pl> = {
@@ -1078,6 +1140,68 @@ export const en: Tlumaczenie<typeof pl> = {
         cel: "Converters and cables lose some energy on the way to the device.",
         gdzie: "Converter/charger datasheet.",
         zakres: "From the datasheets; the app does not guess.",
+      },
+    },
+  },
+  "blackout-minimum": {
+    migawka: {
+      oCoChodzi:
+        "A blackout is a test — you need to know what to save first. This is not an off-grid design, just the minimum to get through a grid failure without panic.",
+      jakDziala:
+        "Enter only critical loads (e.g. 1. fridge, 2. router, 3. lighting, 4. chargers) and the outage time. The app computes the energy, the minimum battery and the converter power; it also shows the energy for 12, 24 and 48 h.",
+      poCo:
+        "Every extra load means a bigger and more expensive kit. A priority list lets you decide consciously what to switch off when the outage drags on.",
+      fizyka:
+        "E_day = Σ P × h. E = E_day × T ÷ 24. Battery = E ÷ (η × U × usable share). Converter ≥ Σ P (plus start-up margin — Converters screen).",
+    },
+    pola: {
+      nazwa: {
+        nazwa: "Load name",
+        cel: "Keeps the priority list readable.",
+        gdzie: "Any name; enter from the most important.",
+        zakres: "Text.",
+      },
+      moc: {
+        nazwa: "Power [W]",
+        cel: "Energy and the minimum converter power.",
+        gdzie: "Device nameplate or a plug-in power meter.",
+        zakres: "From your device's nameplate.",
+      },
+      godziny: {
+        nazwa: "Running time per day [h]",
+        cel: "Average per day — a fridge cycles, a router runs all day.",
+        gdzie: "Your usage; for a fridge — compressor running time (power meter over a day).",
+        zakres: "0–24 h.",
+      },
+      czas: {
+        nazwa: "Blackout duration [h]",
+        cel: "How many hours the kit must last.",
+        gdzie: "Your experience with outages in the area; the source shows 12, 24 and 48 h variants.",
+        zakres: "Your decision.",
+      },
+      napiecie: {
+        nazwa: "Battery voltage [V]",
+        cel: "Converts energy to Ah.",
+        gdzie: "Battery nameplate.",
+        zakres: "From the nameplate.",
+      },
+      uzyteczna: {
+        nazwa: "Usable share of capacity [%]",
+        cel: "A battery is not discharged to zero.",
+        gdzie: "Battery datasheet (depth of discharge).",
+        zakres: "From the datasheet; the app does not guess.",
+      },
+      sprawnosc: {
+        nazwa: "Converter efficiency [%]",
+        cel: "Losses when turning 12/24 V into 230 V.",
+        gdzie: "Converter datasheet. If everything runs directly from 12 V — enter 100.",
+        zakres: "From the datasheet; the app does not guess.",
+      },
+      posiadany: {
+        nazwa: "Battery you have [Ah] (optional)",
+        cel: "Checks how many hours it lasts.",
+        gdzie: "Battery nameplate.",
+        zakres: "Empty = sizing only.",
       },
     },
   },
@@ -1618,6 +1742,68 @@ export const ru: Tlumaczenie<typeof pl> = {
         cel: "Преобразователи и кабели теряют часть энергии по пути к устройству.",
         gdzie: "Паспорт преобразователя/зарядки.",
         zakres: "Из паспортов; приложение не угадывает.",
+      },
+    },
+  },
+  "blackout-minimum": {
+    migawka: {
+      oCoChodzi:
+        "Блэкаут — это экзамен: нужно знать, что спасать в первую очередь. Это не проект автономной системы, а минимум, чтобы пережить отключение сети без паники.",
+      jakDziala:
+        "Введите только критичные нагрузки (напр. 1. холодильник, 2. роутер, 3. освещение, 4. зарядки) и время отключения. Приложение считает энергию, минимальный аккумулятор и мощность преобразователя; показывает также энергию на 12, 24 и 48 ч.",
+      poCo:
+        "Каждая дополнительная нагрузка — это больший и более дорогой комплект. Список приоритетов помогает осознанно решить, что отключить, если авария затягивается.",
+      fizyka:
+        "E_сут = Σ P × h. E = E_сут × T ÷ 24. Аккумулятор = E ÷ (η × U × используемая часть). Преобразователь ≥ Σ P (плюс запас на пуск — экран «Преобразователи»).",
+    },
+    pola: {
+      nazwa: {
+        nazwa: "Название нагрузки",
+        cel: "Чтобы список приоритетов был понятен.",
+        gdzie: "Любое название; вводите от самого важного.",
+        zakres: "Текст.",
+      },
+      moc: {
+        nazwa: "Мощность [Вт]",
+        cel: "Энергия и минимальная мощность преобразователя.",
+        gdzie: "Табличка устройства или измерение ваттметром.",
+        zakres: "С таблички вашего устройства.",
+      },
+      godziny: {
+        nazwa: "Время работы в сутки [ч]",
+        cel: "В среднем за сутки — холодильник работает циклами, роутер круглосуточно.",
+        gdzie: "Ваше использование; для холодильника — время работы компрессора (ваттметр на сутки).",
+        zakres: "0–24 ч.",
+      },
+      czas: {
+        nazwa: "Длительность блэкаута [ч]",
+        cel: "На сколько часов должно хватить комплекта.",
+        gdzie: "Ваш опыт отключений в округе; источник показывает варианты 12, 24 и 48 ч.",
+        zakres: "Ваше решение.",
+      },
+      napiecie: {
+        nazwa: "Напряжение аккумулятора [В]",
+        cel: "Переводит энергию в Ач.",
+        gdzie: "Табличка аккумулятора.",
+        zakres: "С таблички.",
+      },
+      uzyteczna: {
+        nazwa: "Используемая часть ёмкости [%]",
+        cel: "Аккумулятор не разряжают до нуля.",
+        gdzie: "Паспорт аккумулятора (глубина разряда).",
+        zakres: "Из паспорта; приложение не угадывает.",
+      },
+      sprawnosc: {
+        nazwa: "КПД преобразователя [%]",
+        cel: "Потери при преобразовании 12/24 В в 230 В.",
+        gdzie: "Паспорт преобразователя. Если всё питается напрямую от 12 В — введите 100.",
+        zakres: "Из паспорта; приложение не угадывает.",
+      },
+      posiadany: {
+        nazwa: "Имеющийся аккумулятор [Ач] (необязательно)",
+        cel: "Проверяет, на сколько часов его хватит.",
+        gdzie: "Табличка аккумулятора.",
+        zakres: "Пусто = только подбор.",
       },
     },
   },

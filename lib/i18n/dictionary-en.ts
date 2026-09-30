@@ -1208,6 +1208,9 @@ export const dictionaryEn = {
   "PBA-ZA-MALA-MOC-POWERBANKU": "The device draws {urzadzenie} W and the power bank delivers at most {powerbank} W — it will not run it. For such a load you need a battery with a converter.",
   "PBA-MOC-ZESTAWU-I-KOSZT": "The continuous power of a battery set is set by its converter (“Converters” screen); compare price and weight per 1 Wh on the “Station vs DIY set” screen.",
   "PBA-ZALOZENIE-PELNE-NALADOWANIE": "Both options start fully charged; solar charging during use is not added.",
+  "BM-AKUMULATOR-ZA-MALY": "Your {posiadany} Ah battery is not enough — at least {minimalny} Ah is needed. It will last about {godzin} h; cut the loads or add capacity.",
+  "BM-ROZRUCH-PRZETWORNICY": "The minimum converter is the sum of running powers. A fridge and pumps draw several times more at start — size the start-up margin on the “Converters” screen.",
+  "BM-ZALOZENIE-BEZ-LADOWANIA": "The battery starts full; no charging during the whole blackout (no grid, sun or generator). Loads run on average as many hours per day as entered.",
   // end of M12 30.09.2026 block
   "LVD-BRAK-OCHRONY-OLOWIOWY": "A lead-acid/AGM battery without a low voltage disconnect, and the load has no protection of its own — the load will drain the battery to zero. Deep discharge permanently damages a lead-acid battery (sulphation). Fit a low voltage disconnect (LVD) with the threshold given above.",
   "LVD-PROG-KWASOWY-BRAK-W-ZRODLE": "No threshold is given for a flooded lead-acid battery — the source gives it only for AGM and LiFePO4. Check the cut-off voltage in the battery manufacturer's datasheet.",

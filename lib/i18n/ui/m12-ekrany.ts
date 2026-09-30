@@ -170,6 +170,21 @@ export const pl = {
   "UI-M12-PBA-W-UWAGA": "Powerbank nie uciągnie urządzenia",
   "UI-M12-PBA-WYNIK": "Powerbank: {pb} × · akumulator: {ak} ×",
   "UI-M12-PBA-SZCZEGOLY": "Energia do urządzenia: powerbank {pb} Wh, akumulator {ak} Wh",
+  "UI-M12-BM-TYTUL": "Blackout w domu — minimum do przeżycia",
+  "UI-M12-BM-OPIS":
+    "Najmniejszy zestaw, który utrzyma tylko najważniejsze odbiorniki przez awarię sieci. Moduł 12, Ekran 13.",
+  "UI-M12-BM-ODBIORNIKI": "Odbiorniki krytyczne (w kolejności ważności)",
+  "UI-M12-BM-NAZWA-PRZYKLAD": "np. lodówka, router, oświetlenie",
+  "UI-M12-BM-CZAS": "Przewidywany czas blackoutu",
+  "UI-M12-BM-ZESTAW": "Akumulator i przetwornica",
+  "UI-M12-BM-SPRAWNOSC": "Sprawność przetwornicy",
+  "UI-M12-BM-POSIADANY": "Akumulator, który już masz (opcjonalnie)",
+  "UI-M12-BM-W-OK": "Minimalny zestaw",
+  "UI-M12-BM-W-UWAGA": "Twój akumulator nie wystarczy",
+  "UI-M12-BM-WYNIK": "min. {ah} Ah + przetwornica min. {w} W",
+  "UI-M12-BM-SZCZEGOLY": "Zużycie: {doba} Wh/dobę · na blackout: {wh} Wh",
+  "UI-M12-BM-REFERENCYJNE": "Energia na 12 h: {a} Wh · 24 h: {b} Wh · 48 h: {c} Wh",
+  "UI-M12-BM-POSIADANY-WYNIK": "Twój akumulator starczy na ok. {h} h",
 }
 
 export const en: Record<keyof typeof pl, string> = {
@@ -341,6 +356,21 @@ export const en: Record<keyof typeof pl, string> = {
   "UI-M12-PBA-W-UWAGA": "The power bank cannot run the device",
   "UI-M12-PBA-WYNIK": "Power bank: {pb} × · battery: {ak} ×",
   "UI-M12-PBA-SZCZEGOLY": "Energy to the device: power bank {pb} Wh, battery {ak} Wh",
+  "UI-M12-BM-TYTUL": "Home blackout — the survival minimum",
+  "UI-M12-BM-OPIS":
+    "The smallest kit that keeps only the most important loads running through a grid failure. Module 12, Screen 13.",
+  "UI-M12-BM-ODBIORNIKI": "Critical loads (in order of importance)",
+  "UI-M12-BM-NAZWA-PRZYKLAD": "e.g. fridge, router, lighting",
+  "UI-M12-BM-CZAS": "Expected blackout duration",
+  "UI-M12-BM-ZESTAW": "Battery and converter",
+  "UI-M12-BM-SPRAWNOSC": "Converter efficiency",
+  "UI-M12-BM-POSIADANY": "The battery you already have (optional)",
+  "UI-M12-BM-W-OK": "Minimum kit",
+  "UI-M12-BM-W-UWAGA": "Your battery is not enough",
+  "UI-M12-BM-WYNIK": "min. {ah} Ah + converter min. {w} W",
+  "UI-M12-BM-SZCZEGOLY": "Consumption: {doba} Wh/day · for the blackout: {wh} Wh",
+  "UI-M12-BM-REFERENCYJNE": "Energy for 12 h: {a} Wh · 24 h: {b} Wh · 48 h: {c} Wh",
+  "UI-M12-BM-POSIADANY-WYNIK": "Your battery lasts about {h} h",
 }
 
 export const ru: Record<keyof typeof pl, string> = {
@@ -512,4 +542,19 @@ export const ru: Record<keyof typeof pl, string> = {
   "UI-M12-PBA-W-UWAGA": "Пауэрбанк не потянет устройство",
   "UI-M12-PBA-WYNIK": "Пауэрбанк: {pb} × · аккумулятор: {ak} ×",
   "UI-M12-PBA-SZCZEGOLY": "Энергия до устройства: пауэрбанк {pb} Вт·ч, аккумулятор {ak} Вт·ч",
+  "UI-M12-BM-TYTUL": "Блэкаут дома — минимум для выживания",
+  "UI-M12-BM-OPIS":
+    "Самый маленький комплект, который поддержит только важнейшие нагрузки во время отключения сети. Модуль 12, экран 13.",
+  "UI-M12-BM-ODBIORNIKI": "Критичные нагрузки (по важности)",
+  "UI-M12-BM-NAZWA-PRZYKLAD": "напр. холодильник, роутер, освещение",
+  "UI-M12-BM-CZAS": "Ожидаемая длительность блэкаута",
+  "UI-M12-BM-ZESTAW": "Аккумулятор и преобразователь",
+  "UI-M12-BM-SPRAWNOSC": "КПД преобразователя",
+  "UI-M12-BM-POSIADANY": "Аккумулятор, который у вас уже есть (необязательно)",
+  "UI-M12-BM-W-OK": "Минимальный комплект",
+  "UI-M12-BM-W-UWAGA": "Вашего аккумулятора не хватит",
+  "UI-M12-BM-WYNIK": "мин. {ah} Ач + преобразователь мин. {w} Вт",
+  "UI-M12-BM-SZCZEGOLY": "Потребление: {doba} Вт·ч/сутки · на блэкаут: {wh} Вт·ч",
+  "UI-M12-BM-REFERENCYJNE": "Энергия на 12 ч: {a} Вт·ч · 24 ч: {b} Вт·ч · 48 ч: {c} Вт·ч",
+  "UI-M12-BM-POSIADANY-WYNIK": "Вашего аккумулятора хватит примерно на {h} ч",
 }
