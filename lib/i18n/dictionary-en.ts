@@ -1264,6 +1264,10 @@ export const dictionaryEn = {
   "KZ-ZALOZENIE-ROWNOMIERNY-POBOR": "Daily consumption spread evenly over the backup time (E × T ÷ 24); battery full at the start, no charging during backup.",
   "LKK-GASNICA-MIERNIK": "Do not forget a fire extinguisher and a voltage meter — they are the basis of safety for any system on a trip.",
   "LKK-ZALOZENIE-WIELKOSCI-Z-KALKULATOROW": "The list does not give battery capacity or panel power — size them in the calculators linked next to the items (e.g. “weekend” for the number of days). Quantities: one charger per phone, one torch per person.",
+  "DG-ODLACZ-ZASILANIE": "A burning smell, melted insulation or discolouration mean overheating with a fire risk. Disconnect the battery immediately (isolator switch or remove the negative clamp) and do not switch the system on until the cause is removed.",
+  "DG-BEZPIECZNE-POMIARY": "While measuring, never short wires or terminals — a battery short circuit risks fire and burns. Remove jewellery, use insulated tools; touch-test only disconnected parts.",
+  "DG-NIE-ZNALEZIONO": "All simple steps came out fine — the cause lies outside this guide (e.g. a faulty controller, BMS, inverter). Contact an electrician or the manufacturer's service.",
+  "DG-ZALOZENIE-KROKI-EKSPERCKIE": "Step order: from the most common and simplest cause to rarer ones. Steps based on installer practice ✅🤖 (the source gives the symptoms and a sample order), without numeric thresholds — numbers are in the linked calculators.",
   // end of M12 30.09.2026 block
   "LVD-BRAK-OCHRONY-OLOWIOWY": "A lead-acid/AGM battery without a low voltage disconnect, and the load has no protection of its own — the load will drain the battery to zero. Deep discharge permanently damages a lead-acid battery (sulphation). Fit a low voltage disconnect (LVD) with the threshold given above.",
   "LVD-PROG-KWASOWY-BRAK-W-ZRODLE": "No threshold is given for a flooded lead-acid battery — the source gives it only for AGM and LiFePO4. Check the cut-off voltage in the battery manufacturer's datasheet.",

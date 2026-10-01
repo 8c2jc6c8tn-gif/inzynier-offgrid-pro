@@ -326,6 +326,7 @@ nie do audytu poprawności formularza webowego.
   LiFePO4 14,2–14,6 V, AGM 14,4–14,8 V, kwasowy 14,8–15,0 V (dla 12 V, skalowane × U/12); za wysokie napięcie
   niszczy ogniwa. (M12/E20 — `lib/core/modules/kalkulator-mobilny/alternator-vs-panele/warnings.ts`,
   `napiecieZaWysokie`, kod `AL-NAPIECIE-ZA-WYSOKIE`)
+- **Przegrzewanie małej instalacji z objawami spalenia — odłącz zasilanie** (`DG-ODLACZ-ZASILANIE`, `lib/core/modules/kalkulator-mobilny/szybka-diagnoza/warnings.ts`, M12/E25). Wyzwalacz: w przewodniku diagnostycznym objaw „przegrzewanie”, krok „spalenizna / stopiona izolacja / przebarwienia / dym” = „tu jest problem”. Uzasadnienie: przegrzany odcinek z uszkodzoną izolacją grozi pożarem i zwarciem akumulatora — jedyna bezpieczna czynność to odłączenie zasilania przed dalszą diagnozą. Źródło: Biblia §12.38 („Ostrzega przed niebezpiecznymi próbami naprawy”, „grozi pożarem”) + krok ekspercki ✅🤖 (decyzja właściciela 30.09.2026 „Dopisz kroki jako ekspert”). Poziom do ewentualnej weryfikacji właściciela.
 - **Bezpiecznik nie chroni kabla przed przeciążeniem (In > Iz)** — sprawdzany przekrój przechodzi obciążalność i
   spadek napięcia, ale bezpiecznik 1,25 × I jest większy niż obciążalność kabla (PN-IEC 60364-4-43, 433.2).
   [27.09.2026] (M12/E2, E15 — `lib/core/modules/kalkulator-mobilny/kable-bezpieczniki-male/warnings.ts`,

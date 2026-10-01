@@ -373,6 +373,88 @@ export const pl = {
   "UI-M12-LKK-P-LADOWANIE-Z-AUTA": "Kabel / ładowarka DC/DC do ładowania z auta",
   "UI-M12-LKK-P-POWERBANK": "Powerbank",
   "UI-M12-LKK-P-RADIO": "Radio z zasilaniem 12 V lub USB",
+  "UI-M12-DG-TYTUL": "Szybka diagnoza problemów",
+  "UI-M12-DG-OPIS":
+    "Zamiast zgadywać — przewodnik krok po kroku pokazuje, gdzie patrzeć, gdy instalacja przestała działać. Moduł 12, Ekran 25.",
+  "UI-M12-DG-OBJAW": "Co się dzieje?",
+  "UI-M12-DG-OBJAW-BRAK-PRADU": "Brak prądu mimo naładowanego akumulatora",
+  "UI-M12-DG-OBJAW-NISKIE-NAPIECIE": "Niskie napięcie / urządzenia się wyłączają",
+  "UI-M12-DG-OBJAW-PRZEGRZEWANIE": "Coś się przegrzewa",
+  "UI-M12-DG-OBJAW-NIE-LADUJE": "Akumulator nie ładuje się z panelu",
+  "UI-M12-DG-ODP-OK": "W porządku",
+  "UI-M12-DG-ODP-PROBLEM": "Tu jest problem",
+  "UI-M12-DG-ZMIEN": "zmień",
+  "UI-M12-DG-W-PRZYCZYNA": "Prawdopodobna przyczyna",
+  "UI-M12-DG-W-BRAK": "Nie znaleziono przyczyny",
+  "UI-M12-DG-PRZEJDZ": "Przejdź do kalkulatora, który pomoże to naprawić",
+  "UI-M12-DG-K-NAPIECIE-AKUMULATORA":
+    "Zmierz miernikiem napięcie na zaciskach akumulatora. Czy jest zgodne ze stanem „naładowany” dla Twojej chemii (karta akumulatora)?",
+  "UI-M12-DG-P-NAPIECIE-AKUMULATORA":
+    "Akumulator jest rozładowany albo uszkodzony mimo wskazań — naładuj go i sprawdź ponownie; jeśli napięcie nie wraca, akumulator może wymagać ratowania lub wymiany.",
+  "UI-M12-DG-K-BEZPIECZNIK-GLOWNY":
+    "Sprawdź bezpiecznik główny przy akumulatorze (wyjmij i obejrzyj albo zmierz ciągłość). Czy jest cały?",
+  "UI-M12-DG-P-BEZPIECZNIK-GLOWNY":
+    "Przepalony bezpiecznik główny. Zanim wymienisz, znajdź przyczynę (zwarcie, przeciążenie) i wstaw bezpiecznik o tej samej wartości — nigdy większy ani „drut”.",
+  "UI-M12-DG-K-ZLACZA": "Obejrzyj złącza i zaciski: czy są dokręcone, bez luzu, korozji i nadtopień?",
+  "UI-M12-DG-P-ZLACZA":
+    "Luźny lub skorodowany styk przerywa obwód. Odłącz zasilanie, oczyść i dokręć złącze albo wymień końcówkę.",
+  "UI-M12-DG-K-LVD":
+    "Czy nie zadziałało zabezpieczenie podnapięciowe (dozownik LVD, BMS) — kontrolka, komunikat w aplikacji BMS, odłączone wyjście regulatora?",
+  "UI-M12-DG-P-LVD":
+    "Zadziałała ochrona przed rozładowaniem — odbiorniki są odcięte celowo. Naładuj akumulator; jeśli wyłącza się za wcześnie, sprawdź próg wyłączenia.",
+  "UI-M12-DG-K-NAPIECIE-ODBIORNIKA":
+    "Zmierz napięcie na zaciskach odbiornika, gdy jest włączony. Czy jest zbliżone do napięcia akumulatora?",
+  "UI-M12-DG-P-NAPIECIE-ODBIORNIKA":
+    "Przerwa albo duży spadek napięcia na przewodzie między akumulatorem a odbiornikiem — sprawdź przewód, wyłączniki po drodze i przekrój.",
+  "UI-M12-DG-K-NAPIECIE-SPOCZYNKOWE":
+    "Odłącz odbiorniki i ładowanie, odczekaj kilka godzin i zmierz napięcie spoczynkowe. Czy odpowiada naładowanemu akumulatorowi (karta akumulatora)?",
+  "UI-M12-DG-P-NAPIECIE-SPOCZYNKOWE":
+    "Akumulator jest po prostu rozładowany — zużywasz więcej, niż ładujesz. Sprawdź bilans energii i ładowanie.",
+  "UI-M12-DG-K-LADOWANIE-W-DZIEN":
+    "Czy w słoneczny dzień regulator pokazuje ładowanie (kontrolka, prąd ładowania > 0)?",
+  "UI-M12-DG-P-LADOWANIE-W-DZIEN":
+    "Ładowanie nie działa — przejdź objaw „akumulator nie ładuje się z panelu” albo sprawdź, czy regulator pasuje do panelu i akumulatora.",
+  "UI-M12-DG-K-SPADEK-NA-PRZEWODZIE":
+    "Zmierz napięcie jednocześnie (albo szybko po sobie) przy akumulatorze i przy odbiorniku pod obciążeniem. Czy różnica jest mała?",
+  "UI-M12-DG-P-SPADEK-NA-PRZEWODZIE":
+    "Za duży spadek napięcia na przewodzie — przekrój za mały albo przewód za długi. Policz przekrój w kalkulatorze kabli.",
+  "UI-M12-DG-K-SPADEK-POD-OBCIAZENIEM":
+    "Czy napięcie akumulatora trzyma się po włączeniu niewielkiego obciążenia (nie „leci” od razu w dół)?",
+  "UI-M12-DG-P-SPADEK-POD-OBCIAZENIEM":
+    "Akumulator stracił pojemność (zasiarczenie, zużycie) — sprawdź możliwość ratowania albo zaplanuj wymianę.",
+  "UI-M12-DG-K-SPALENIZNA": "Czy czuć spaleniznę, widać stopioną izolację, przebarwienia albo dym?",
+  "UI-M12-DG-P-SPALENIZNA":
+    "Przegrzanie z ryzykiem pożaru — odłącz zasilanie i nie włączaj instalacji do czasu naprawy uszkodzonego odcinka.",
+  "UI-M12-DG-K-CIEPLE-ZLACZE":
+    "Po odłączeniu zasilania sprawdź dłonią albo termometrem złącza i zaciski. Czy żadne nie jest wyraźnie cieplejsze od przewodu?",
+  "UI-M12-DG-P-CIEPLE-ZLACZE":
+    "Ciepłe złącze = luźny lub skorodowany styk o dużej rezystancji. Oczyść, dokręć albo wymień końcówkę.",
+  "UI-M12-DG-K-CIEPLY-PRZEWOD": "Czy przewód pozostaje chłodny na całej długości pod obciążeniem?",
+  "UI-M12-DG-P-CIEPLY-PRZEWOD":
+    "Przewód nagrzewa się na całej długości — przekrój za mały do prądu. Wymień na większy przekrój (kalkulator kabli).",
+  "UI-M12-DG-K-PRZECIAZENIE":
+    "Czy suma mocy włączonych odbiorników mieści się w mocy znamionowej przetwornicy/regulatora (karta urządzenia)?",
+  "UI-M12-DG-P-PRZECIAZENIE":
+    "Przetwornica lub regulator jest przeciążony — ogranicz liczbę jednocześnie włączonych odbiorników albo dobierz mocniejsze urządzenie.",
+  "UI-M12-DG-K-WENTYLACJA":
+    "Czy regulator, przetwornica i akumulator mają wolną przestrzeń i przewiew (nie są przykryte, nie stoją w słońcu)?",
+  "UI-M12-DG-P-WENTYLACJA":
+    "Brak chłodzenia — urządzenie nie oddaje ciepła. Zapewnij przewiew i cień; sprawdź wentylator przetwornicy.",
+  "UI-M12-DG-K-NAPIECIE-PANELU":
+    "Odłącz panel od regulatora i zmierz jego napięcie w słońcu. Czy jest zbliżone do Voc z tabliczki panelu?",
+  "UI-M12-DG-P-NAPIECIE-PANELU":
+    "Panel nie daje napięcia — uszkodzony panel, przerwany przewód albo źle połączone złącza (MC4, polaryzacja).",
+  "UI-M12-DG-K-BEZPIECZNIK-PANELU":
+    "Sprawdź bezpiecznik/wyłącznik między panelem a regulatorem oraz między regulatorem a akumulatorem. Czy są całe i załączone?",
+  "UI-M12-DG-P-BEZPIECZNIK-PANELU":
+    "Przepalony bezpiecznik albo wyłączony wyłącznik w torze ładowania — znajdź przyczynę i wymień na tę samą wartość.",
+  "UI-M12-DG-K-USTAWIENIA-REGULATORA":
+    "Czy typ akumulatora i napięcia ładowania ustawione w regulatorze pasują do Twojego akumulatora?",
+  "UI-M12-DG-P-USTAWIENIA-REGULATORA":
+    "Złe ustawienia regulatora — akumulator ładuje się za słabo albo wcale. Ustaw profil zgodny z chemią akumulatora.",
+  "UI-M12-DG-K-MROZ-BMS": "Czy akumulator jest ciepły (powyżej zera)? Przy LiFePO4 w mrozie BMS blokuje ładowanie.",
+  "UI-M12-DG-P-MROZ-BMS":
+    "Ładowanie zablokowane przez mróz — ogrzej akumulator albo użyj modelu z grzałką; nie omijaj blokady BMS.",
 }
 
 export const en: Record<keyof typeof pl, string> = {
@@ -747,6 +829,88 @@ export const en: Record<keyof typeof pl, string> = {
   "UI-M12-LKK-P-LADOWANIE-Z-AUTA": "Cable / DC/DC charger for charging from the car",
   "UI-M12-LKK-P-POWERBANK": "Power bank",
   "UI-M12-LKK-P-RADIO": "Radio powered from 12 V or USB",
+  "UI-M12-DG-TYTUL": "Quick troubleshooting",
+  "UI-M12-DG-OPIS":
+    "Instead of guessing — a step-by-step guide shows where to look when the system stops working. Module 12, Screen 25.",
+  "UI-M12-DG-OBJAW": "What is happening?",
+  "UI-M12-DG-OBJAW-BRAK-PRADU": "No power despite a charged battery",
+  "UI-M12-DG-OBJAW-NISKIE-NAPIECIE": "Low voltage / devices switch off",
+  "UI-M12-DG-OBJAW-PRZEGRZEWANIE": "Something overheats",
+  "UI-M12-DG-OBJAW-NIE-LADUJE": "The battery does not charge from the panel",
+  "UI-M12-DG-ODP-OK": "Fine",
+  "UI-M12-DG-ODP-PROBLEM": "Problem here",
+  "UI-M12-DG-ZMIEN": "change",
+  "UI-M12-DG-W-PRZYCZYNA": "Likely cause",
+  "UI-M12-DG-W-BRAK": "No cause found",
+  "UI-M12-DG-PRZEJDZ": "Go to the calculator that helps fix it",
+  "UI-M12-DG-K-NAPIECIE-AKUMULATORA":
+    "Measure the voltage at the battery terminals with a meter. Does it match the “charged” state for your chemistry (battery datasheet)?",
+  "UI-M12-DG-P-NAPIECIE-AKUMULATORA":
+    "The battery is discharged or damaged despite the readings — charge it and check again; if the voltage does not recover, the battery may need recovery or replacement.",
+  "UI-M12-DG-K-BEZPIECZNIK-GLOWNY":
+    "Check the main fuse at the battery (remove and inspect, or test continuity). Is it intact?",
+  "UI-M12-DG-P-BEZPIECZNIK-GLOWNY":
+    "Blown main fuse. Before replacing it, find the cause (short circuit, overload) and fit a fuse of the same rating — never a bigger one or a wire.",
+  "UI-M12-DG-K-ZLACZA": "Inspect connectors and terminals: are they tight, without play, corrosion or melting?",
+  "UI-M12-DG-P-ZLACZA":
+    "A loose or corroded contact breaks the circuit. Disconnect power, clean and tighten the connector or replace the lug.",
+  "UI-M12-DG-K-LVD":
+    "Has the low-voltage protection (LVD, BMS) tripped — an indicator, a message in the BMS app, the controller load output switched off?",
+  "UI-M12-DG-P-LVD":
+    "The discharge protection has tripped — loads are cut off on purpose. Charge the battery; if it switches off too early, check the cut-off threshold.",
+  "UI-M12-DG-K-NAPIECIE-ODBIORNIKA":
+    "Measure the voltage at the load terminals while it is on. Is it close to the battery voltage?",
+  "UI-M12-DG-P-NAPIECIE-ODBIORNIKA":
+    "A break or a large voltage drop on the cable between battery and load — check the cable, switches on the way and the cross-section.",
+  "UI-M12-DG-K-NAPIECIE-SPOCZYNKOWE":
+    "Disconnect loads and charging, wait a few hours and measure the resting voltage. Does it match a charged battery (battery datasheet)?",
+  "UI-M12-DG-P-NAPIECIE-SPOCZYNKOWE":
+    "The battery is simply discharged — you use more than you charge. Check the energy balance and charging.",
+  "UI-M12-DG-K-LADOWANIE-W-DZIEN":
+    "On a sunny day, does the controller show charging (indicator, charging current > 0)?",
+  "UI-M12-DG-P-LADOWANIE-W-DZIEN":
+    "Charging does not work — go through the “battery does not charge from the panel” symptom or check that the controller matches the panel and battery.",
+  "UI-M12-DG-K-SPADEK-NA-PRZEWODZIE":
+    "Measure the voltage at the battery and at the load under load at the same time (or quickly one after the other). Is the difference small?",
+  "UI-M12-DG-P-SPADEK-NA-PRZEWODZIE":
+    "Too large a voltage drop on the cable — the cross-section is too small or the cable too long. Calculate the size in the cable calculator.",
+  "UI-M12-DG-K-SPADEK-POD-OBCIAZENIEM":
+    "Does the battery voltage hold after switching on a small load (not dropping straight away)?",
+  "UI-M12-DG-P-SPADEK-POD-OBCIAZENIEM":
+    "The battery has lost capacity (sulphation, wear) — check whether it can be recovered or plan a replacement.",
+  "UI-M12-DG-K-SPALENIZNA": "Is there a burning smell, melted insulation, discolouration or smoke?",
+  "UI-M12-DG-P-SPALENIZNA":
+    "Overheating with a fire risk — disconnect power and do not switch the system on until the damaged section is repaired.",
+  "UI-M12-DG-K-CIEPLE-ZLACZE":
+    "After disconnecting power, check connectors and terminals by hand or with a thermometer. Is none noticeably warmer than the cable?",
+  "UI-M12-DG-P-CIEPLE-ZLACZE":
+    "A warm connector = a loose or corroded contact with high resistance. Clean, tighten or replace the lug.",
+  "UI-M12-DG-K-CIEPLY-PRZEWOD": "Does the cable stay cool along its whole length under load?",
+  "UI-M12-DG-P-CIEPLY-PRZEWOD":
+    "The cable heats up along its whole length — the cross-section is too small for the current. Replace it with a larger size (cable calculator).",
+  "UI-M12-DG-K-PRZECIAZENIE":
+    "Does the total power of the loads that are on fit within the rated power of the inverter/controller (datasheet)?",
+  "UI-M12-DG-P-PRZECIAZENIE":
+    "The inverter or controller is overloaded — reduce the number of loads running at once or choose a stronger device.",
+  "UI-M12-DG-K-WENTYLACJA":
+    "Do the controller, inverter and battery have free space and airflow (not covered, not in the sun)?",
+  "UI-M12-DG-P-WENTYLACJA":
+    "No cooling — the device cannot shed heat. Provide airflow and shade; check the inverter fan.",
+  "UI-M12-DG-K-NAPIECIE-PANELU":
+    "Disconnect the panel from the controller and measure its voltage in the sun. Is it close to the Voc on the panel nameplate?",
+  "UI-M12-DG-P-NAPIECIE-PANELU":
+    "The panel gives no voltage — a damaged panel, a broken cable or badly joined connectors (MC4, polarity).",
+  "UI-M12-DG-K-BEZPIECZNIK-PANELU":
+    "Check the fuse/breaker between panel and controller and between controller and battery. Are they intact and on?",
+  "UI-M12-DG-P-BEZPIECZNIK-PANELU":
+    "A blown fuse or a switched-off breaker in the charging path — find the cause and replace it with the same rating.",
+  "UI-M12-DG-K-USTAWIENIA-REGULATORA":
+    "Do the battery type and charging voltages set in the controller match your battery?",
+  "UI-M12-DG-P-USTAWIENIA-REGULATORA":
+    "Wrong controller settings — the battery charges too weakly or not at all. Set the profile that matches the battery chemistry.",
+  "UI-M12-DG-K-MROZ-BMS": "Is the battery warm (above freezing)? With LiFePO4 in frost the BMS blocks charging.",
+  "UI-M12-DG-P-MROZ-BMS":
+    "Charging blocked by frost — warm the battery or use a model with a heater; do not bypass the BMS block.",
 }
 
 export const ru: Record<keyof typeof pl, string> = {
@@ -1121,4 +1285,85 @@ export const ru: Record<keyof typeof pl, string> = {
   "UI-M12-LKK-P-LADOWANIE-Z-AUTA": "Кабель / DC/DC-зарядка для зарядки от машины",
   "UI-M12-LKK-P-POWERBANK": "Пауэрбанк",
   "UI-M12-LKK-P-RADIO": "Радио с питанием 12 В или USB",
+  "UI-M12-DG-TYTUL": "Быстрая диагностика",
+  "UI-M12-DG-OPIS":
+    "Вместо догадок — пошаговое руководство показывает, куда смотреть, когда установка перестала работать. Модуль 12, экран 25.",
+  "UI-M12-DG-OBJAW": "Что происходит?",
+  "UI-M12-DG-OBJAW-BRAK-PRADU": "Нет питания при заряженном аккумуляторе",
+  "UI-M12-DG-OBJAW-NISKIE-NAPIECIE": "Низкое напряжение / устройства отключаются",
+  "UI-M12-DG-OBJAW-PRZEGRZEWANIE": "Что-то перегревается",
+  "UI-M12-DG-OBJAW-NIE-LADUJE": "Аккумулятор не заряжается от панели",
+  "UI-M12-DG-ODP-OK": "В порядке",
+  "UI-M12-DG-ODP-PROBLEM": "Здесь проблема",
+  "UI-M12-DG-ZMIEN": "изменить",
+  "UI-M12-DG-W-PRZYCZYNA": "Вероятная причина",
+  "UI-M12-DG-W-BRAK": "Причина не найдена",
+  "UI-M12-DG-PRZEJDZ": "Перейти к калькулятору, который поможет исправить",
+  "UI-M12-DG-K-NAPIECIE-AKUMULATORA":
+    "Измерьте вольтметром напряжение на клеммах аккумулятора. Соответствует ли оно состоянию «заряжен» для вашей химии (паспорт аккумулятора)?",
+  "UI-M12-DG-P-NAPIECIE-AKUMULATORA":
+    "Аккумулятор разряжен или повреждён, несмотря на показания, — зарядите и проверьте снова; если напряжение не восстанавливается, аккумулятор может требовать восстановления или замены.",
+  "UI-M12-DG-K-BEZPIECZNIK-GLOWNY":
+    "Проверьте главный предохранитель у аккумулятора (выньте и осмотрите или прозвоните). Он цел?",
+  "UI-M12-DG-P-BEZPIECZNIK-GLOWNY":
+    "Сгорел главный предохранитель. Перед заменой найдите причину (КЗ, перегрузка) и поставьте предохранитель того же номинала — никогда не больше и не «жучок».",
+  "UI-M12-DG-K-ZLACZA": "Осмотрите разъёмы и клеммы: затянуты ли они, без люфта, коррозии и оплавлений?",
+  "UI-M12-DG-P-ZLACZA":
+    "Ослабленный или окисленный контакт разрывает цепь. Отключите питание, зачистите и затяните разъём или замените наконечник.",
+  "UI-M12-DG-K-LVD":
+    "Не сработала ли защита от низкого напряжения (LVD, BMS) — индикатор, сообщение в приложении BMS, отключённый выход контроллера?",
+  "UI-M12-DG-P-LVD":
+    "Сработала защита от разряда — нагрузки отключены намеренно. Зарядите аккумулятор; если отключается слишком рано, проверьте порог отключения.",
+  "UI-M12-DG-K-NAPIECIE-ODBIORNIKA":
+    "Измерьте напряжение на клеммах нагрузки при её работе. Оно близко к напряжению аккумулятора?",
+  "UI-M12-DG-P-NAPIECIE-ODBIORNIKA":
+    "Обрыв или большое падение напряжения на проводе между аккумулятором и нагрузкой — проверьте провод, выключатели по пути и сечение.",
+  "UI-M12-DG-K-NAPIECIE-SPOCZYNKOWE":
+    "Отключите нагрузки и зарядку, подождите несколько часов и измерьте напряжение покоя. Соответствует ли оно заряженному аккумулятору (паспорт)?",
+  "UI-M12-DG-P-NAPIECIE-SPOCZYNKOWE":
+    "Аккумулятор просто разряжен — вы тратите больше, чем заряжаете. Проверьте энергобаланс и зарядку.",
+  "UI-M12-DG-K-LADOWANIE-W-DZIEN": "В солнечный день показывает ли контроллер зарядку (индикатор, ток заряда > 0)?",
+  "UI-M12-DG-P-LADOWANIE-W-DZIEN":
+    "Зарядка не работает — пройдите симптом «аккумулятор не заряжается от панели» или проверьте, подходит ли контроллер к панели и аккумулятору.",
+  "UI-M12-DG-K-SPADEK-NA-PRZEWODZIE":
+    "Измерьте напряжение у аккумулятора и у нагрузки под нагрузкой одновременно (или быстро подряд). Разница небольшая?",
+  "UI-M12-DG-P-SPADEK-NA-PRZEWODZIE":
+    "Слишком большое падение напряжения на проводе — сечение мало или провод слишком длинный. Рассчитайте сечение в калькуляторе кабелей.",
+  "UI-M12-DG-K-SPADEK-POD-OBCIAZENIEM":
+    "Держится ли напряжение аккумулятора после включения небольшой нагрузки (не «падает» сразу)?",
+  "UI-M12-DG-P-SPADEK-POD-OBCIAZENIEM":
+    "Аккумулятор потерял ёмкость (сульфатация, износ) — проверьте возможность восстановления или запланируйте замену.",
+  "UI-M12-DG-K-SPALENIZNA": "Чувствуется запах гари, видна оплавленная изоляция, потемнение или дым?",
+  "UI-M12-DG-P-SPALENIZNA":
+    "Перегрев с риском пожара — отключите питание и не включайте установку до ремонта повреждённого участка.",
+  "UI-M12-DG-K-CIEPLE-ZLACZE":
+    "После отключения питания проверьте рукой или термометром разъёмы и клеммы. Ни один не теплее провода заметно?",
+  "UI-M12-DG-P-CIEPLE-ZLACZE":
+    "Тёплый разъём = ослабленный или окисленный контакт с большим сопротивлением. Зачистите, затяните или замените наконечник.",
+  "UI-M12-DG-K-CIEPLY-PRZEWOD": "Остаётся ли провод холодным по всей длине под нагрузкой?",
+  "UI-M12-DG-P-CIEPLY-PRZEWOD":
+    "Провод нагревается по всей длине — сечение мало для тока. Замените на большее сечение (калькулятор кабелей).",
+  "UI-M12-DG-K-PRZECIAZENIE":
+    "Укладывается ли суммарная мощность включённых нагрузок в номинальную мощность инвертора/контроллера (паспорт)?",
+  "UI-M12-DG-P-PRZECIAZENIE":
+    "Инвертор или контроллер перегружен — уменьшите число одновременно включённых нагрузок или подберите более мощное устройство.",
+  "UI-M12-DG-K-WENTYLACJA":
+    "Есть ли у контроллера, инвертора и аккумулятора свободное место и приток воздуха (не накрыты, не на солнце)?",
+  "UI-M12-DG-P-WENTYLACJA":
+    "Нет охлаждения — устройство не отводит тепло. Обеспечьте приток воздуха и тень; проверьте вентилятор инвертора.",
+  "UI-M12-DG-K-NAPIECIE-PANELU":
+    "Отключите панель от контроллера и измерьте её напряжение на солнце. Близко ли оно к Voc с таблички?",
+  "UI-M12-DG-P-NAPIECIE-PANELU":
+    "Панель не даёт напряжения — повреждённая панель, оборванный провод или плохо соединённые разъёмы (MC4, полярность).",
+  "UI-M12-DG-K-BEZPIECZNIK-PANELU":
+    "Проверьте предохранитель/выключатель между панелью и контроллером и между контроллером и аккумулятором. Они целы и включены?",
+  "UI-M12-DG-P-BEZPIECZNIK-PANELU":
+    "Сгоревший предохранитель или выключенный автомат в цепи заряда — найдите причину и замените на тот же номинал.",
+  "UI-M12-DG-K-USTAWIENIA-REGULATORA":
+    "Соответствуют ли тип аккумулятора и напряжения заряда в настройках контроллера вашему аккумулятору?",
+  "UI-M12-DG-P-USTAWIENIA-REGULATORA":
+    "Неверные настройки контроллера — аккумулятор заряжается слабо или вовсе нет. Установите профиль под химию аккумулятора.",
+  "UI-M12-DG-K-MROZ-BMS": "Тёплый ли аккумулятор (выше нуля)? У LiFePO4 на морозе BMS блокирует зарядку.",
+  "UI-M12-DG-P-MROZ-BMS":
+    "Зарядка заблокирована морозом — согрейте аккумулятор или используйте модель с подогревом; не обходите блокировку BMS.",
 }

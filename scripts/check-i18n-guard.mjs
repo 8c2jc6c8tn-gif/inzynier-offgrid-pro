@@ -167,6 +167,7 @@ const MIGRATED_MODULES = [
   "lib/core/modules/kalkulator-mobilny/przetwornice",
   "lib/core/modules/kalkulator-mobilny/kreator-malego-odbiornika",
   "lib/core/modules/kalkulator-mobilny/lista-kemping",
+  "lib/core/modules/kalkulator-mobilny/szybka-diagnoza",
   "lib/core/modules/stress-test/wind-chill",
   "lib/core/modules/stress-test/obciazenie-dachu-sniegiem",
   "lib/core/modules/stress-test/sztywnienie-izolacji",

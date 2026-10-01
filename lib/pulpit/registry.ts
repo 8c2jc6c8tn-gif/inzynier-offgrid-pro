@@ -341,6 +341,7 @@ export const KAFLE: KafelEntry[] = [
       { href: "/kalkulatory/przetwornice", label: "Przetwornice i falowniki" },
       { href: "/kalkulatory/kreator-malego-odbiornika", label: "Kreator zasilania małego odbiornika" },
       { href: "/kalkulatory/lista-kemping", label: "Lista kontrolna na kemping" },
+      { href: "/kalkulatory/szybka-diagnoza", label: "Szybka diagnoza problemów" },
     ],
   },
   {

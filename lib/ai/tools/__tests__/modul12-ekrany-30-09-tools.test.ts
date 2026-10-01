@@ -18,6 +18,7 @@ import { alternatorVsPaneleTool } from "../alternator-vs-panele-tool"
 import { przetwornicaTool } from "../przetwornice-tool"
 import { kreatorMalegoOdbiornikaTool } from "../kreator-malego-odbiornika-tool"
 import { listaKempingTool } from "../lista-kemping-tool"
+import { szybkaDiagnozaTool } from "../szybka-diagnoza-tool"
 
 describe("akumulatorSamochodowyTool (M12/E16, dawne 8.14)", () => {
   it("kontrakt 9.3: 'read', bez potwierdzenia", () => {
@@ -251,5 +252,20 @@ describe("listaKempingTool (M12/E24, dawne 8.47)", () => {
     expect(w.konieczne).toContain(`${t("pl", "UI-M12-LKK-P-LADOWARKI-USB")} × 3`)
     expect(w.konieczne).toContain(t("pl", "UI-M12-LKK-P-OSLONA-ZIMA"))
     expect(w.ostrzezenia).toContain(t("pl", "LKK-GASNICA-MIERNIK"))
+  })
+})
+
+describe("szybkaDiagnozaTool (M12/E25, dawne 8.50)", () => {
+  it("kontrakt 9.3: 'read', bez potwierdzenia", () => {
+    expect(szybkaDiagnozaTool.operationType).toBe("read")
+    expect(szybkaDiagnozaTool.requiresConfirmation).toBe(false)
+    expect(() => validateAiToolDefinition(szybkaDiagnozaTool)).not.toThrow()
+  })
+
+  it("brak prądu: start → polecenie pomiaru akumulatora; bezpiecznik 'problem' → przyczyna PL", async () => {
+    const start = await szybkaDiagnozaTool.handler({ objaw: "brak-pradu", odpowiedzi: {} })
+    expect(start.aktualnyKrok).toEqual({ id: "napiecie-akumulatora", polecenie: t("pl", "UI-M12-DG-K-NAPIECIE-AKUMULATORA") })
+    const w = await szybkaDiagnozaTool.handler({ objaw: "brak-pradu", odpowiedzi: { "napiecie-akumulatora": "ok", "bezpiecznik-glowny": "problem" } })
+    expect(w.przyczyna?.opis).toBe(t("pl", "UI-M12-DG-P-BEZPIECZNIK-GLOWNY"))
   })
 })

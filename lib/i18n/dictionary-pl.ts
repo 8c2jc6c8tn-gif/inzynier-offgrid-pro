@@ -1276,6 +1276,10 @@ export const dictionaryPl = {
   "KZ-ZALOZENIE-ROWNOMIERNY-POBOR": "Zużycie doby rozłożone równomiernie na czas podtrzymania (E × T ÷ 24); akumulator naładowany na starcie, bez ładowania w trakcie.",
   "LKK-GASNICA-MIERNIK": "Nie zapomnij o gaśnicy i mierniku napięcia — to podstawa bezpieczeństwa każdej instalacji na wyjeździe.",
   "LKK-ZALOZENIE-WIELKOSCI-Z-KALKULATOROW": "Lista nie podaje pojemności akumulatora ani mocy panelu — dobierzesz je w kalkulatorach podlinkowanych przy pozycjach (np. „na weekend” dla liczby dni). Ilości: jedna ładowarka na telefon, jedna latarka na osobę.",
+  "DG-ODLACZ-ZASILANIE": "Zapach spalenizny, stopiona izolacja albo przebarwienia oznaczają przegrzanie grożące pożarem. Natychmiast odłącz akumulator (rozłącznik albo zdejmij klemę minusową) i nie włączaj instalacji, dopóki przyczyna nie zostanie usunięta.",
+  "DG-BEZPIECZNE-POMIARY": "Podczas pomiarów nie zwieraj przewodów ani zacisków — zwarcie akumulatora grozi pożarem i poparzeniem. Zdejmij biżuterię, używaj izolowanych narzędzi; dotykiem sprawdzaj tylko odłączone elementy.",
+  "DG-NIE-ZNALEZIONO": "Wszystkie proste kroki wypadły dobrze — przyczyna leży poza tym przewodnikiem (np. uszkodzony regulator, BMS, przetwornica). Skontaktuj się z elektrykiem albo serwisem producenta.",
+  "DG-ZALOZENIE-KROKI-EKSPERCKIE": "Kolejność kroków: od najczęstszej i najprostszej przyczyny do rzadszej. Kroki ułożone na podstawie praktyki instalatorskiej ✅🤖 (źródło podaje objawy i przykładową kolejność), bez progów liczbowych — liczby dobierzesz w podlinkowanych kalkulatorach.",
   // end of M12 30.09.2026 block
   "LVD-BRAK-OCHRONY-OLOWIOWY": "Akumulator kwasowy/AGM bez dozownika napięcia, a odbiornik nie ma własnego zabezpieczenia — odbiornik rozładuje akumulator do zera. Głębokie rozładowanie trwale niszczy akumulator ołowiowy (zasiarczenie). Zamontuj dozownik (LVD) z progiem podanym wyżej.",
   "LVD-PROG-KWASOWY-BRAK-W-ZRODLE": "Dla akumulatora kwasowego (zalewowego) nie podajemy progu — źródło daje go tylko dla AGM i LiFePO4. Sprawdź napięcie odcięcia w karcie producenta akumulatora.",

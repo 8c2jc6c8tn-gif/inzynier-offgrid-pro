@@ -104,6 +104,7 @@ import { alternatorVsPaneleTool } from "./tools/alternator-vs-panele-tool"
 import { przetwornicaTool } from "./tools/przetwornice-tool"
 import { kreatorMalegoOdbiornikaTool } from "./tools/kreator-malego-odbiornika-tool"
 import { listaKempingTool } from "./tools/lista-kemping-tool"
+import { szybkaDiagnozaTool } from "./tools/szybka-diagnoza-tool"
 import { ochronaPrzedRozladowaniemTool } from "./tools/ochrona-przed-rozladowaniem-tool"
 import { wilgocMaleInstalacjeTool } from "./tools/wilgoc-male-instalacje-tool"
 import { uziemienieMaleInstalacjeTool } from "./tools/uziemienie-male-instalacje-tool"
@@ -432,6 +433,7 @@ const NARZEDZIA: Array<AiToolDefinition<any, any>> = [
   przetwornicaTool,
   kreatorMalegoOdbiornikaTool,
   listaKempingTool,
+  szybkaDiagnozaTool,
   ochronaPrzedRozladowaniemTool,
   wilgocMaleInstalacjeTool,
   uziemienieMaleInstalacjeTool,

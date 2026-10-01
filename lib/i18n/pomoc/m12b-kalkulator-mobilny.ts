@@ -1104,6 +1104,24 @@ export const pl = {
       },
     },
   },
+  "szybka-diagnoza": {
+    migawka: {
+      oCoChodzi: "To odwrotność reszty aplikacji — zamiast projektować od zera, pomaga znaleźć, co już się zepsuło.",
+      jakDziala:
+        "Wybierz objaw. Aplikacja pokazuje po kolei kroki sprawdzające — od najczęstszej przyczyny. Odpowiadasz „w porządku” albo „tu jest problem”; pierwszy problem to prawdopodobna przyczyna, z odnośnikiem do kalkulatora, który pomoże ją usunąć.",
+      poCo: "Szukanie usterki na chybił trafił trwa długo i bywa niebezpieczne. Kolejność kroków oszczędza czas.",
+      fizyka:
+        "Kroki to pytania tak/nie bez progów liczbowych — wartości (napięcie naładowanego akumulatora, przekrój) bierzesz z karty akumulatora i z kalkulatorów.",
+    },
+    pola: {
+      objaw: {
+        nazwa: "Objaw",
+        cel: "Wybiera drzewo kroków diagnostycznych.",
+        gdzie: "To, co widzisz: brak prądu, niskie napięcie, przegrzewanie, brak ładowania.",
+        zakres: "Zmiana objawu czyści odpowiedzi.",
+      },
+    },
+  },
 }
 
 export const en: Tlumaczenie<typeof pl> = {
@@ -2199,6 +2217,25 @@ export const en: Tlumaczenie<typeof pl> = {
         cel: "Each ticked item adds its own entries (e.g. panel → controller).",
         gdzie: "Your trip plan.",
         zakres: "Tick any.",
+      },
+    },
+  },
+  "szybka-diagnoza": {
+    migawka: {
+      oCoChodzi:
+        "The opposite of the rest of the app — instead of designing from scratch, it helps find what has already broken.",
+      jakDziala:
+        "Choose a symptom. The app shows the check steps one by one — from the most common cause. You answer “fine” or “problem here”; the first problem is the likely cause, with a link to the calculator that helps fix it.",
+      poCo: "Hunting a fault at random takes long and can be dangerous. The step order saves time.",
+      fizyka:
+        "Steps are yes/no questions without numeric thresholds — values (charged battery voltage, cable size) come from the battery datasheet and the calculators.",
+    },
+    pola: {
+      objaw: {
+        nazwa: "Symptom",
+        cel: "Selects the tree of diagnostic steps.",
+        gdzie: "What you see: no power, low voltage, overheating, no charging.",
+        zakres: "Changing the symptom clears the answers.",
       },
     },
   },
@@ -3301,6 +3338,25 @@ export const ru: Tlumaczenie<typeof pl> = {
         cel: "Каждая отмеченная техника добавляет свои пункты (напр. панель → контроллер).",
         gdzie: "Ваш план поездки.",
         zakres: "Отметьте любые.",
+      },
+    },
+  },
+  "szybka-diagnoza": {
+    migawka: {
+      oCoChodzi:
+        "Противоположность остальному приложению — вместо проектирования с нуля помогает найти то, что уже сломалось.",
+      jakDziala:
+        "Выберите симптом. Приложение показывает шаги проверки по очереди — от самой частой причины. Вы отвечаете «в порядке» или «здесь проблема»; первая проблема — вероятная причина, со ссылкой на калькулятор, который поможет её устранить.",
+      poCo: "Поиск неисправности наугад долог и бывает опасен. Порядок шагов экономит время.",
+      fizyka:
+        "Шаги — вопросы да/нет без числовых порогов; значения (напряжение заряженного аккумулятора, сечение) берутся из паспорта аккумулятора и калькуляторов.",
+    },
+    pola: {
+      objaw: {
+        nazwa: "Симптом",
+        cel: "Выбирает дерево диагностических шагов.",
+        gdzie: "Что вы видите: нет питания, низкое напряжение, перегрев, нет зарядки.",
+        zakres: "Смена симптома очищает ответы.",
       },
     },
   },
