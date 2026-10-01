@@ -56,18 +56,17 @@ export default function SprawnoscInwerteraPage() {
     <main className="mx-auto flex max-w-md flex-col gap-6 p-6">
       <NawigacjaEkranu href="/kalkulatory/sprawnosc-inwertera-niskie-obciazenie" />
       <NaglowekEkranu
-        tytul="Sprawność inwertera przy niskim obciążeniu"
+        tytul={t("UI-SPRINWNISOBC-SPRAWNOSC-INWERTERA-NISKIM")}
         ekran="sprawnosc-inwertera-niskie-obciazenie"
         wynik={result}
         parametry={{ prog: PROG_NISKIEGO_OBCIAZENIA_PCT, optMin: ZAKRES_OPTYMALNY_MIN_PCT, optMax: ZAKRES_OPTYMALNY_MAX_PCT }}
       >
-        Za duży falownik względem realnego obciążenia to trochę jak jazda autem na najwyższym
-        biegu w mieście — silnik pracuje, ale nieefektywnie. Moduł 2, Ekran 10.
+        {t("UI-SPRINWNISOBC-DUZY-FALOWNIK-WZGLEDEM")}
       </NaglowekEkranu>
 
       <div className="flex flex-col gap-4">
         <Pole
-          label="Bieżące zapotrzebowanie"
+          label={t("UI-SPRINWNISOBC-BIEZACE-ZAPOTRZEBOWANIE")}
           unit="W"
           type="number"
           inputMode="decimal"
@@ -77,7 +76,7 @@ export default function SprawnoscInwerteraPage() {
           pomoc={<PomocPola ekran="sprawnosc-inwertera-niskie-obciazenie" pole="zapotrzebowanie" />}
         />
         <Pole
-          label="Znamionowa moc falownika"
+          label={t("UI-SPRINWNISOBC-ZNAMIONOWA-MOC-FALOWNIKA")}
           unit="W"
           type="number"
           inputMode="decimal"
@@ -87,7 +86,7 @@ export default function SprawnoscInwerteraPage() {
           pomoc={<PomocPola ekran="sprawnosc-inwertera-niskie-obciazenie" pole="mocFalownika" />}
         />
         <Pole
-          label="Sprawność falownika przy tym obciążeniu"
+          label={t("UI-SPRINWNISOBC-SPRAWNOSC-FALOWNIKA-TYM")}
           unit="%"
           type="number"
           inputMode="decimal"
@@ -100,17 +99,16 @@ export default function SprawnoscInwerteraPage() {
       </div>
 
       {result.status === "INVALID_INPUT" ? (
-        <WerdyktPanel poziom="blad" etykieta="Nie da się policzyć — sprawdź wpisane dane">
+        <WerdyktPanel poziom="blad" etykieta={t("UI-SPRINWNISOBC-POLICZYC-SPRAWDZ-WPISANE")}>
           <WynikSzczegoly assumptions={[]} warnings={result.warnings} />
         </WerdyktPanel>
       ) : result.status === "INCOMPLETE" ? (
-        <p className="text-small text-muted-foreground">Wypełnij wszystkie pola, żeby zobaczyć wynik.</p>
+        <p className="text-small text-muted-foreground">{t("UI-SPRINWNISOBC-WYPELNIJ-WSZYSTKIE-POLA")}</p>
       ) : (
-        <WerdyktPanel poziom={poziom} etykieta="Rzeczywiste zużycie z baterii">
+        <WerdyktPanel poziom={poziom} etykieta={t("UI-SPRINWNISOBC-RZECZYWISTE-ZUZYCIE-BATERII")}>
           <WynikGlowny>{result.value.realneZuzycieW.toFixed(0)} W</WynikGlowny>
           <p className="mt-1 text-small text-muted-foreground">
-            Obciążenie falownika: {result.value.obciazenieFalownikaPct.toFixed(1)}% · strata na
-            sprawności: +{result.value.strataPct.toFixed(1)}%
+            {t("UI-SPRINWNISOBC-OBCIAZENIE-FALOWNIKA-STRATA", { obciazenieFalownikaPct: result.value.obciazenieFalownikaPct.toFixed(1), strataPct: result.value.strataPct.toFixed(1) })}
           </p>
           {result.warnings.map((w) => (
             <p key={w.code} className="mt-1 text-small">

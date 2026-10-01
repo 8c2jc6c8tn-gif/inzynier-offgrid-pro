@@ -15,10 +15,10 @@ import { EFFICIENCY_DEFAULT, EFFICIENCY_MAX, EFFICIENCY_MIN } from "@/lib/core/m
 type Mode = KalkulatoryPomocniczeInput["mode"]
 
 const MODE_LABELS: Record<Mode, string> = {
-  "watt-to-amp": "Moc → Prąd (W → A)",
-  "ah-to-wh": "Ah → Wh",
-  "wh-to-ah": "Wh → Ah",
-  runtime: "Szacowany czas pracy z baterii",
+  "watt-to-amp": "UI-POM-MOC-PRAD",
+  "ah-to-wh": "UI-POM-AH-WH",
+  "wh-to-ah": "UI-POM-WH-AH",
+  runtime: "UI-POM-SZACOWANY-CZAS-PRACY",
 }
 
 type FormularzStan = {
@@ -92,20 +92,19 @@ export default function KalkulatoryPomocniczePage() {
   return (
     <main className="mx-auto flex max-w-md flex-col gap-6 p-6">
       <NawigacjaEkranu href="/kalkulatory/pomocnicze" />
-      <NaglowekEkranu tytul="Kalkulatory pomocnicze" ekran="pomocnicze" wynik={result}>
-        To Twój podręczny „kalkulator kieszonkowy” do szybkich przeliczeń w terenie, bez
-        przechodzenia przez pełny proces projektowy. Moduł 2, Ekran 16.
+      <NaglowekEkranu tytul={t("UI-POM-KALKULATORY-POMOCNICZE")} ekran="pomocnicze" wynik={result}>
+        {t("UI-POM-PODRECZNY-KALKULATOR-KIESZON")}
       </NaglowekEkranu>
 
       <PoleSelect
-        label="Tryb"
+        label={t("UI-POM-TRYB")}
         value={mode}
         onChange={(e) => setMode(e.target.value as Mode)}
         pomoc={<PomocPola ekran="pomocnicze" pole="tryb" />}
       >
         {Object.entries(MODE_LABELS).map(([value, label]) => (
           <option key={value} value={value}>
-            {label}
+            {t(label)}
           </option>
         ))}
       </PoleSelect>
@@ -113,7 +112,7 @@ export default function KalkulatoryPomocniczePage() {
       <div className="flex flex-col gap-4">
         {(mode === "watt-to-amp" || mode === "runtime") && (
           <Pole
-            label="Moc urządzenia"
+            label={t("UI-POM-MOC-URZADZENIA")}
             unit="W"
             type="number"
             inputMode="decimal"
@@ -124,7 +123,7 @@ export default function KalkulatoryPomocniczePage() {
         )}
         {(mode === "watt-to-amp" || mode === "ah-to-wh" || mode === "wh-to-ah" || mode === "runtime") && (
           <Pole
-            label="Napięcie systemu"
+            label={t("UI-POM-NAPIECIE-SYSTEMU")}
             unit="V"
             type="number"
             inputMode="decimal"
@@ -135,7 +134,7 @@ export default function KalkulatoryPomocniczePage() {
         )}
         {(mode === "ah-to-wh" || mode === "runtime") && (
           <Pole
-            label="Pojemność"
+            label={t("UI-POM-POJEMNOSC")}
             unit="Ah"
             type="number"
             inputMode="decimal"
@@ -146,7 +145,7 @@ export default function KalkulatoryPomocniczePage() {
         )}
         {mode === "wh-to-ah" && (
           <Pole
-            label="Energia"
+            label={t("UI-POM-ENERGIA")}
             unit="Wh"
             type="number"
             inputMode="decimal"
@@ -157,7 +156,7 @@ export default function KalkulatoryPomocniczePage() {
         )}
         {(mode === "watt-to-amp" || mode === "runtime") && (
           <Pole
-            label="Sprawność układu (opcjonalnie, domyślnie 0,92)"
+            label={t("UI-POM-SPRAWNOSC-UKLADU-OPCJONALNIE")}
             unit="0–1"
             type="number"
             inputMode="decimal"
@@ -170,7 +169,7 @@ export default function KalkulatoryPomocniczePage() {
 
       <WerdyktPanel poziom={poziom}>
         {result.status === "INVALID_INPUT" ? (
-          <p className="mt-1">Nie da się policzyć — sprawdź dane wejściowe poniżej.</p>
+          <p className="mt-1">{t("UI-POM-POLICZYC-SPRAWDZ-DANE")}</p>
         ) : (
           <p className="mt-1 text-h1 font-semibold">
             {Number.isFinite(result.value) ? result.value.toFixed(3) : "—"} {result.unit}
@@ -180,7 +179,7 @@ export default function KalkulatoryPomocniczePage() {
         {result.assumptions.length > 0 && (
           <ul className="mt-2 text-small opacity-90">
             {result.assumptions.map((a, i) => (
-              <li key={typeof a === "string" ? a : a.kod + i}>Założenie: {typeof a === "string" ? a : t(a.kod, a.params)}</li>
+              <li key={typeof a === "string" ? a : a.kod + i}>{t("UI-POM-ZALOZENIE")} {typeof a === "string" ? a : t(a.kod, a.params)}</li>
             ))}
           </ul>
         )}

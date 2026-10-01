@@ -393,7 +393,7 @@ export const en: Record<Klucz, string> = {
   "UI-DOBBEZROZ-BEZPIECZNIK-BEZPIECZNA-WKLAD":
     "A fuse is the safe fusible link for the whole installation — it must blow before the cable burns. Module 5, Screen 6.",
   "UI-DOBBEZROZ-WPISZ-PRAD-ZNAMIONOWY": "Enter the rated current of the circuit to see the verdict.",
-  "UI-DOBBEZROZ-ZALECANY-PRAD-ZNAMIONOWY": "Recommended fuse rated current (1,25 × circuit current)",
+  "UI-DOBBEZROZ-ZALECANY-PRAD-ZNAMIONOWY": "Recommended fuse rated current (1.25 × circuit current)",
   "UI-DOBBEZROZ-POLICZYC-SPRAWDZ-WPISANE": "Can't calculate — check the entered data",
   "UI-DOBBEZROZ-ZABRONIONA-KOMBINACJA-DOBIER": "Forbidden combination — choose a fuse with a higher breaking capacity",
   "UI-DOBBEZROZ-DOBOR-BEZPIECZNIKOW-ROZLACZN": "Selecting fuses and disconnectors",
@@ -577,7 +577,7 @@ export const en: Record<Klucz, string> = {
   "UI-POMPOW-REZYSTANCJA-IZOLACJI-WYMAGAN": "Insulation resistance (required > 1 MΩ)",
   "UI-POMPOW-CEL-UZIEMIENIA": "Purpose of earthing",
   "UI-POMPOW-REZYSTANCJA-UZIEMIENIA": "Earthing resistance",
-  "UI-POMPOW-CZAS-ZADZIALANIA-RCD": "RCD tripping time (required < 0,4 s)",
+  "UI-POMPOW-CZAS-ZADZIALANIA-RCD": "RCD tripping time (required < 0.4 s)",
   "UI-POMPOW-TEST-ZWARCIOWY-PETLI": "Fault loop test confirmed (protective device tripped)",
   "UI-POMPOW-TERMOWIZJA-POLACZEN-POTWIERD": "Thermal imaging of connections confirmed (no hot spots under load)",
   "UI-PROUZI-ZIEMIA-KABEL-JESLI":

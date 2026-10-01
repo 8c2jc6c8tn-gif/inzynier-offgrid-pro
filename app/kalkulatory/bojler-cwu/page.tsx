@@ -14,6 +14,7 @@ import { NawigacjaEkranu } from "@/components/nawigacja-ekranu"
 import { NaglowekEkranu } from "@/components/wzorce/naglowek-ekranu"
 import { WynikGlowny } from "@/components/wzorce/wynik-glowny"
 import { WynikSzczegoly } from "@/components/wzorce/wynik-szczegoly"
+import { useTranslate } from "@/lib/i18n/language-context"
 
 type FormularzStan = {
   wolumenCwuLDoba: string
@@ -30,6 +31,7 @@ const STAN_POCZATKOWY: FormularzStan = {
 }
 
 export default function BojlerCwuPage() {
+  const t = useTranslate()
   const [stan, setStan] = usePersistedDraft<FormularzStan>("bojler-cwu", STAN_POCZATKOWY)
   const { wolumenCwuLDoba, deltaTK, mocGrzalkiKw, pojemnoscBojleraL } = stan
 
@@ -59,20 +61,18 @@ export default function BojlerCwuPage() {
     <main className="mx-auto flex max-w-md flex-col gap-6 p-6">
       <NawigacjaEkranu href="/kalkulatory/bojler-cwu" />
       <NaglowekEkranu
-        tytul="Inteligentny bojler C.W.U."
+        tytul={t("UI-BOJCWU-INTELIGENTNY-BOJLER")}
         ekran="bojler-cwu"
         wynik={result}
         parametry={{ cWody: CIEPLO_WLASCIWE_WODY_J_KG_K, kwhNaLK: WSPOLCZYNNIK_KWH_NA_L_K.toFixed(6) }}
       >
-        Bojler to jeden z największych „elastycznych” odbiorników w domu — dobowe zapotrzebowanie
-        na energię i czas potrzebny na jego naładowanie, żeby zaplanować grzanie w oknie
-        produkcji PV. Moduł 2, Ekran 2.
+        {t("UI-BOJCWU-BOJLER-JEDEN-NAJWIEKSZYCH")}
       </NaglowekEkranu>
 
       <div className="flex flex-col gap-4">
         <Pole
-          label="Dobowe zapotrzebowanie na C.W.U."
-          unit="l/dobę"
+          label={t("UI-BOJCWU-DOBOWE-ZAPOTRZEBOWANIE")}
+          unit={t("UI-BOJCWU-DOBE")}
           type="number"
           inputMode="decimal"
           min={0}
@@ -81,7 +81,7 @@ export default function BojlerCwuPage() {
           pomoc={<PomocPola ekran="bojler-cwu" pole="wolumen" />}
         />
         <Pole
-          label="Wzrost temperatury wody (zimna → C.W.U.)"
+          label={t("UI-BOJCWU-WZROST-TEMPERATURY-WODY")}
           unit="K"
           type="number"
           inputMode="decimal"
@@ -91,7 +91,7 @@ export default function BojlerCwuPage() {
           pomoc={<PomocPola ekran="bojler-cwu" pole="deltaT" />}
         />
         <Pole
-          label="Moc grzałki"
+          label={t("UI-BOJCWU-MOC-GRZALKI")}
           unit="kW"
           type="number"
           inputMode="decimal"
@@ -101,7 +101,7 @@ export default function BojlerCwuPage() {
           pomoc={<PomocPola ekran="bojler-cwu" pole="mocGrzalki" />}
         />
         <Pole
-          label="Pojemność zbiornika bojlera"
+          label={t("UI-BOJCWU-POJEMNOSC-ZBIORNIKA-BOJLERA")}
           unit="l"
           type="number"
           inputMode="decimal"
@@ -113,19 +113,19 @@ export default function BojlerCwuPage() {
       </div>
 
       {result.status === "INVALID_INPUT" ? (
-        <WerdyktPanel poziom="blad" etykieta="Nie da się policzyć — sprawdź wpisane dane">
+        <WerdyktPanel poziom="blad" etykieta={t("UI-BOJCWU-POLICZYC-SPRAWDZ-WPISANE")}>
           <WynikSzczegoly assumptions={[]} warnings={result.warnings} />
         </WerdyktPanel>
       ) : result.status === "INCOMPLETE" ? (
-        <p className="text-small text-muted-foreground">Wypełnij wszystkie pola, żeby zobaczyć wynik.</p>
+        <p className="text-small text-muted-foreground">{t("UI-BOJCWU-WYPELNIJ-WSZYSTKIE-POLA")}</p>
       ) : (
         <WerdyktPanel
           poziom={result.status === "VALID_WITH_WARNINGS" ? "uwaga" : "ok"}
-          etykieta="Dobowe zapotrzebowanie na energię"
+          etykieta={t("UI-BOJCWU-DOBOWE-ZAPOTRZEBOWANIE-ENERG")}
         >
-          <WynikGlowny>{result.value.energiaDobowaKwh.toFixed(1)} kWh/dobę</WynikGlowny>
+          <WynikGlowny>{t("UI-BOJCWU-KWH-DOBE", { energiaDobowaKwh: result.value.energiaDobowaKwh.toFixed(1) })}</WynikGlowny>
           <p className="mt-2 text-small">
-            Czas ładowania przy tej mocy grzałki: ok. {result.value.czasLadowaniaH.toFixed(1)} h/dobę.
+            {t("UI-BOJCWU-CZAS-LADOWANIA-TEJ", { czasLadowaniaH: result.value.czasLadowaniaH.toFixed(1) })}
           </p>
           <WynikSzczegoly assumptions={result.assumptions} warnings={result.warnings} formula={result.formula} />
         </WerdyktPanel>

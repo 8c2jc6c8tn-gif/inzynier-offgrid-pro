@@ -59,33 +59,30 @@ export default function DniAutonomiiPage() {
   return (
     <main className="mx-auto flex max-w-md flex-col gap-6 p-6">
       <NawigacjaEkranu href="/kalkulatory/dni-autonomii" />
-      <NaglowekEkranu tytul="Dni autonomii" ekran="dni-autonomii">
-        Im więcej dni bez słońca system ma wytrzymać wyłącznie na baterii, tym większy (i droższy)
-        musi być magazyn energii. Wartość stąd docelowo zasila Moduł 4, Ekran 1 (dobór pojemności
-        baterii). Moduł 2, Ekran 7.
+      <NaglowekEkranu tytul={t("UI-DNIAUT-DNI-AUTONOMII")} ekran="dni-autonomii">
+        {t("UI-DNIAUT-WIECEJ-DNI-BEZ")}
       </NaglowekEkranu>
 
       <div className="flex flex-col gap-4">
         <PoleSelect
-          label="Dni autonomii"
+          label={t("UI-DNIAUT-DNI-AUTONOMII")}
           value={dniAutonomii}
           onChange={(e) => setDniAutonomii(Number(e.target.value) as DniAutonomiiInput["dniAutonomii"])}
           pomoc={<PomocPola ekran="dni-autonomii" pole="dni" params={{ opcje: OPCJE_DNI_AUTONOMII.join(", ") }} />}
         >
-          <option value={0}>— wybierz —</option>
+          <option value={0}>{t("UI-WYBIERZ")}</option>
           {OPCJE_DNI_AUTONOMII.map((opcja) => (
             <option key={opcja} value={opcja}>
-              {opcja} {opcja === 1 ? "dzień" : "dni"}
+              {opcja} {opcja === 1 ? t("UI-DNIAUT-DZIEN") : t("UI-J-DNI")}
             </option>
           ))}
         </PoleSelect>
 
         <p className="text-small text-muted-foreground">
-          Opcjonalnie — podgląd na żywo szacunkowego wpływu na wielkość magazynu (te same dane co
-          Moduł 4, Ekran 1):
+          {t("UI-DNIAUT-OPCJONALNIE-PODGLAD-ZYWO")}
         </p>
         <Pole
-          label="Zapotrzebowanie dobowe"
+          label={t("UI-DNIAUT-ZAPOTRZEBOWANIE-DOBOWE")}
           unit="kWh"
           type="number"
           inputMode="decimal"
@@ -95,7 +92,7 @@ export default function DniAutonomiiPage() {
           pomoc={<PomocPola ekran="dni-autonomii" pole="zapotrzebowanie" />}
         />
         <Pole
-          label="Sprawność falownika"
+          label={t("UI-DNIAUT-SPRAWNOSC-FALOWNIKA")}
           unit="%"
           type="number"
           inputMode="decimal"
@@ -106,7 +103,7 @@ export default function DniAutonomiiPage() {
           pomoc={<PomocPola ekran="dni-autonomii" pole="sprawnosc" />}
         />
         <Pole
-          label="DoD (głębokość rozładowania)"
+          label={t("UI-DNIAUT-DOD-GLEBOKOSC-ROZLADOWANIA")}
           unit="%"
           type="number"
           inputMode="decimal"
@@ -119,13 +116,13 @@ export default function DniAutonomiiPage() {
       </div>
 
       {result.status === "INCOMPLETE" ? (
-        <p className="text-small text-muted-foreground">Wybierz dni autonomii, żeby zobaczyć wynik.</p>
+        <p className="text-small text-muted-foreground">{t("UI-DNIAUT-WYBIERZ-DNI-AUTONOMII")}</p>
       ) : result.status === "INVALID_INPUT" ? (
-        <p className="text-small text-werdykt-blad">Sprawdź wpisane opcjonalne dane — coś jest poza zakresem.</p>
+        <p className="text-small text-werdykt-blad">{t("UI-DNIAUT-SPRAWDZ-WPISANE-OPCJONALNE")}</p>
       ) : (
-        <WerdyktPanel poziom="ok" etykieta="Wybrane dni autonomii">
+        <WerdyktPanel poziom="ok" etykieta={t("UI-DNIAUT-WYBRANE-DNI-AUTONOMII")}>
           <WynikGlowny>
-            {result.value.dniAutonomii} {result.value.dniAutonomii === 1 ? "dzień" : "dni"}
+            {result.value.dniAutonomii} {result.value.dniAutonomii === 1 ? t("UI-DNIAUT-DZIEN") : t("UI-J-DNI")}
           </WynikGlowny>
           {result.warnings.map((w) => (
             <p key={w.code} className="mt-2 text-small">

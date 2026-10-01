@@ -9,8 +9,10 @@ import { WerdyktPanel, poziomZStatusu } from "@/components/werdykt"
 import { WynikGlowny } from "@/components/wzorce/wynik-glowny"
 import { WynikSzczegoly } from "@/components/wzorce/wynik-szczegoly"
 import { StanPusty } from "@/components/ui/stany"
+import { useTranslate } from "@/lib/i18n/language-context"
 
 function PrzyciskWpiszSume({ sumaStandbyW, onClick }: { sumaStandbyW: number; onClick: () => void }) {
+  const t = useTranslate()
   if (sumaStandbyW <= 0) return null
   return (
     <button
@@ -18,7 +20,7 @@ function PrzyciskWpiszSume({ sumaStandbyW, onClick }: { sumaStandbyW: number; on
       onClick={onClick}
       className="self-start text-caption text-muted-foreground underline hover:text-foreground"
     >
-      Wpisz sumę z Katalogu + Pomiaru ({sumaStandbyW.toFixed(1)} W)
+      {t("UI-WAMENE-COMSYMTAB-WPISZ-SUME-KATALOGU", { sumaStandbyW: sumaStandbyW.toFixed(1) })}
     </button>
   )
 }
@@ -40,6 +42,7 @@ export function SymulacjeTab({
   onChangeWplywNaDobor: (v: WplywNaDoborInput) => void
   sumaStandbyW: number
 }) {
+  const t = useTranslate()
   const wynikAutonomia = useMemo(() => calculateAutonomiaStandby(autonomia), [autonomia])
   const wynikKoszt = useMemo(() => calculateKosztRocznyStandby(kosztRoczny), [kosztRoczny])
   const wynikDobor = useMemo(() => calculateWplywNaDobor(wplywNaDobor), [wplywNaDobor])
@@ -47,10 +50,10 @@ export function SymulacjeTab({
   return (
     <div className="flex flex-col gap-8">
       <section className="flex flex-col gap-3">
-        <h2 className="text-small font-semibold">Autonomia baterii przy poborze standby</h2>
+        <h2 className="text-small font-semibold">{t("UI-WAMENE-COMSYMTAB-AUTONOMIA-BATERII-POBORZE")}</h2>
         <PrzyciskWpiszSume sumaStandbyW={sumaStandbyW} onClick={() => onChangeAutonomia({ ...autonomia, standbyW: sumaStandbyW })} />
         <Pole
-          label="Pobór standby"
+          label={t("UI-WAMENE-COMSYMTAB-POBOR-STANDBY")}
           unit="W"
           type="number"
           inputMode="decimal"
@@ -59,7 +62,7 @@ export function SymulacjeTab({
           pomoc={<PomocPola ekran="wampiry-energetyczne" pole="standby" />}
         />
         <Pole
-          label="Pobór po redukcji (opcjonalnie)"
+          label={t("UI-WAMENE-COMSYMTAB-POBOR-REDUKCJI-OPCJONALNIE")}
           unit="W"
           type="number"
           inputMode="decimal"
@@ -68,7 +71,7 @@ export function SymulacjeTab({
           pomoc={<PomocPola ekran="wampiry-energetyczne" pole="standbyRedukcja" />}
         />
         <Pole
-          label="Pojemność użyteczna baterii"
+          label={t("UI-WAMENE-COMSYMTAB-POJEMNOSC-UZYTECZNA-BATERII")}
           unit="kWh"
           type="number"
           inputMode="decimal"
@@ -77,7 +80,7 @@ export function SymulacjeTab({
           pomoc={<PomocPola ekran="wampiry-energetyczne" pole="pojemnosc" />}
         />
         <Pole
-          label="DoD (głębokość rozładowania)"
+          label={t("UI-WAMENE-COMSYMTAB-DOD-GLEBOKOSC-ROZLADOWANIA")}
           unit="%"
           type="number"
           inputMode="decimal"
@@ -87,13 +90,13 @@ export function SymulacjeTab({
         />
 
         {wynikAutonomia.status === "INCOMPLETE" ? (
-          <StanPusty tytul="Wpisz pobór standby i pojemność użyteczną baterii." />
+          <StanPusty tytul={t("UI-WAMENE-COMSYMTAB-WPISZ-POBOR-STANDBY")} />
         ) : (
           <WerdyktPanel poziom={poziomZStatusu(wynikAutonomia.status)}>
             <WynikGlowny>{wynikAutonomia.value.godzinyDoWyczerpania.toFixed(1)} h</WynikGlowny>
             {wynikAutonomia.value.godzinyDoWyczerpaniaZredukowany !== null && (
               <p className="mt-1 text-small">
-                Po redukcji: {wynikAutonomia.value.godzinyDoWyczerpaniaZredukowany.toFixed(1)} h
+                {t("UI-WAMENE-COMSYMTAB-REDUKCJI", { godzinyDoWyczerpaniaZredukowany: wynikAutonomia.value.godzinyDoWyczerpaniaZredukowany.toFixed(1) })}
               </p>
             )}
             <WynikSzczegoly assumptions={wynikAutonomia.assumptions} warnings={wynikAutonomia.warnings} formula={wynikAutonomia.formula} />
@@ -102,10 +105,10 @@ export function SymulacjeTab({
       </section>
 
       <section className="flex flex-col gap-3 border-t pt-6">
-        <h2 className="text-small font-semibold">Roczny koszt poboru standby</h2>
+        <h2 className="text-small font-semibold">{t("UI-WAMENE-COMSYMTAB-ROCZNY-KOSZT-POBORU")}</h2>
         <PrzyciskWpiszSume sumaStandbyW={sumaStandbyW} onClick={() => onChangeKosztRoczny({ ...kosztRoczny, standbyW: sumaStandbyW })} />
         <Pole
-          label="Pobór standby"
+          label={t("UI-WAMENE-COMSYMTAB-POBOR-STANDBY")}
           unit="W"
           type="number"
           inputMode="decimal"
@@ -114,8 +117,8 @@ export function SymulacjeTab({
           pomoc={<PomocPola ekran="wampiry-energetyczne" pole="standby" />}
         />
         <Pole
-          label="Cena energii"
-          unit="zł/kWh"
+          label={t("UI-WAMENE-COMSYMTAB-CENA-ENERGII")}
+          unit={t("UI-J-ZL-KWH")}
           type="number"
           inputMode="decimal"
           value={kosztRoczny.cenaEnergiiZlZaKwh || ""}
@@ -123,7 +126,7 @@ export function SymulacjeTab({
           pomoc={<PomocPola ekran="wampiry-energetyczne" pole="cenaEnergii" />}
         />
         <Pole
-          label="Całkowite roczne zużycie domu (opcjonalnie)"
+          label={t("UI-WAMENE-COMSYMTAB-CALKOWITE-ROCZNE-ZUZYCIE")}
           unit="kWh"
           type="number"
           inputMode="decimal"
@@ -133,13 +136,13 @@ export function SymulacjeTab({
         />
 
         {wynikKoszt.status === "INCOMPLETE" ? (
-          <StanPusty tytul="Wpisz pobór standby i cenę energii." />
+          <StanPusty tytul={t("UI-WAMENE-COMSYMTAB-WPISZ-POBOR-STANDBY-2")} />
         ) : (
           <WerdyktPanel poziom={poziomZStatusu(wynikKoszt.status)}>
-            <WynikGlowny>{wynikKoszt.value.kosztRocznyZl.toFixed(0)} zł/rok</WynikGlowny>
+            <WynikGlowny>{t("UI-WAMENE-COMSYMTAB-ROK", { kosztRocznyZl: wynikKoszt.value.kosztRocznyZl.toFixed(0) })}</WynikGlowny>
             <p className="mt-1 text-small">
-              {wynikKoszt.value.energiaRocznaKwh.toFixed(0)} kWh/rok
-              {wynikKoszt.value.udzialProcentowy !== null && ` · ${wynikKoszt.value.udzialProcentowy.toFixed(1)}% całkowitego zużycia`}
+              {t("UI-WAMENE-COMSYMTAB-KWH-ROK", { energiaRocznaKwh: wynikKoszt.value.energiaRocznaKwh.toFixed(0) })}
+              {wynikKoszt.value.udzialProcentowy !== null && ` ${t("UI-WAMENE-COMSYMTAB-CALKOWITEGO-ZUZYCIA", { udzialProcentowy: wynikKoszt.value.udzialProcentowy.toFixed(1) })}`}
             </p>
             <WynikSzczegoly assumptions={wynikKoszt.assumptions} warnings={wynikKoszt.warnings} formula={wynikKoszt.formula} />
           </WerdyktPanel>
@@ -147,10 +150,10 @@ export function SymulacjeTab({
       </section>
 
       <section className="flex flex-col gap-3 border-t pt-6">
-        <h2 className="text-small font-semibold">Wpływ eliminacji standby na dobór systemu</h2>
+        <h2 className="text-small font-semibold">{t("UI-WAMENE-COMSYMTAB-WPLYW-ELIMINACJI-STANDBY")}</h2>
         <Pole
-          label="Dobowa energia standby"
-          unit="kWh/dobę"
+          label={t("UI-WAMENE-COMSYMTAB-DOBOWA-ENERGIA-STANDBY")}
+          unit={t("UI-J-KWH-DOBA")}
           type="number"
           inputMode="decimal"
           value={wplywNaDobor.standbyDobowaKwh || ""}
@@ -158,7 +161,7 @@ export function SymulacjeTab({
           pomoc={<PomocPola ekran="wampiry-energetyczne" pole="standbyDobowa" />}
         />
         <Pole
-          label="Planowana eliminacja standby"
+          label={t("UI-WAMENE-COMSYMTAB-PLANOWANA-ELIMINACJA-STANDBY")}
           unit="%"
           type="number"
           inputMode="decimal"
@@ -167,7 +170,7 @@ export function SymulacjeTab({
           pomoc={<PomocPola ekran="wampiry-energetyczne" pole="eliminacja" />}
         />
         <Pole
-          label="Dni autonomii"
+          label={t("UI-WAMENE-COMSYMTAB-DNI-AUTONOMII")}
           type="number"
           inputMode="decimal"
           value={wplywNaDobor.dniAutonomii || ""}
@@ -175,7 +178,7 @@ export function SymulacjeTab({
           pomoc={<PomocPola ekran="wampiry-energetyczne" pole="dniAutonomii" />}
         />
         <Pole
-          label="Sprawność falownika"
+          label={t("UI-WAMENE-COMSYMTAB-SPRAWNOSC-FALOWNIKA")}
           unit="%"
           type="number"
           inputMode="decimal"
@@ -184,7 +187,7 @@ export function SymulacjeTab({
           pomoc={<PomocPola ekran="wampiry-energetyczne" pole="sprawnosc" />}
         />
         <Pole
-          label="DoD (głębokość rozładowania)"
+          label={t("UI-WAMENE-COMSYMTAB-DOD-GLEBOKOSC-ROZLADOWANIA")}
           unit="%"
           type="number"
           inputMode="decimal"
@@ -194,11 +197,11 @@ export function SymulacjeTab({
         />
 
         {wynikDobor.status === "INCOMPLETE" ? (
-          <StanPusty tytul="Wpisz dobową energię standby i procent planowanej eliminacji." />
+          <StanPusty tytul={t("UI-WAMENE-COMSYMTAB-WPISZ-DOBOWA-ENERGIE")} />
         ) : (
           <WerdyktPanel poziom={poziomZStatusu(wynikDobor.status)}>
-            <WynikGlowny>{wynikDobor.value.redukcjaPojemnosciKwh.toFixed(2)} kWh mniej</WynikGlowny>
-            <p className="mt-1 text-small">Redukcja poboru: {wynikDobor.value.redukcjaDobowaKwh.toFixed(2)} kWh/dobę</p>
+            <WynikGlowny>{t("UI-WAMENE-COMSYMTAB-KWH-MNIEJ", { redukcjaPojemnosciKwh: wynikDobor.value.redukcjaPojemnosciKwh.toFixed(2) })}</WynikGlowny>
+            <p className="mt-1 text-small">{t("UI-WAMENE-COMSYMTAB-REDUKCJA-POBORU-KWH", { redukcjaDobowaKwh: wynikDobor.value.redukcjaDobowaKwh.toFixed(2) })}</p>
             <WynikSzczegoly assumptions={wynikDobor.assumptions} warnings={wynikDobor.warnings} formula={wynikDobor.formula} />
           </WerdyktPanel>
         )}

@@ -9,6 +9,7 @@ import { WerdyktPanel, poziomZStatusu } from "@/components/werdykt"
 import { WynikGlowny } from "@/components/wzorce/wynik-glowny"
 import { WynikSzczegoly } from "@/components/wzorce/wynik-szczegoly"
 import { StanPusty } from "@/components/ui/stany"
+import { useTranslate } from "@/lib/i18n/language-context"
 
 export function AutomatyzacjaTab({
   input,
@@ -19,14 +20,13 @@ export function AutomatyzacjaTab({
   onChange: (v: ScenariuszAutomatyzacjiInput) => void
   sumaStandbyW: number
 }) {
+  const t = useTranslate()
   const result = useMemo(() => calculateScenariuszAutomatyzacji(input), [input])
 
   return (
     <div className="flex flex-col gap-4">
       <p className="text-small text-muted-foreground">
-        Porównaj standby w normalnym trybie ze standby w wybranym scenariuszu automatyzacji (nocny tryb
-        czuwania, nieobecność, praca z domu, weekend, urlop) — to jeden generyczny silnik dla wszystkich tych
-        scenariuszy, nie osobny kalkulator na każdy z nich.
+        {t("UI-WAMENE-COMAUTTAB-POROWNAJ-STANDBY-NORMALNYM")}
       </p>
 
       {sumaStandbyW > 0 && (
@@ -35,12 +35,12 @@ export function AutomatyzacjaTab({
           onClick={() => onChange({ ...input, standbyReferencyjnyW: sumaStandbyW })}
           className="self-start text-caption text-muted-foreground underline hover:text-foreground"
         >
-          Wpisz jako referencyjny sumę z Katalogu + Pomiaru ({sumaStandbyW.toFixed(1)} W)
+          {t("UI-WAMENE-COMAUTTAB-WPISZ-JAKO-REFERENCYJNY", { sumaStandbyW: sumaStandbyW.toFixed(1) })}
         </button>
       )}
 
       <Pole
-        label="Standby referencyjny (tryb normalny)"
+        label={t("UI-WAMENE-COMAUTTAB-STANDBY-REFERENCYJNY-TRYB")}
         unit="W"
         type="number"
         inputMode="decimal"
@@ -49,7 +49,7 @@ export function AutomatyzacjaTab({
         pomoc={<PomocPola ekran="wampiry-energetyczne" pole="standbyRef" />}
       />
       <Pole
-        label="Standby w scenariuszu"
+        label={t("UI-WAMENE-COMAUTTAB-STANDBY-SCENARIUSZU")}
         unit="W"
         type="number"
         inputMode="decimal"
@@ -59,23 +59,22 @@ export function AutomatyzacjaTab({
       />
 
       {result.status === "INCOMPLETE" ? (
-        <StanPusty tytul="Wpisz standby referencyjny i standby w wybranym scenariuszu." />
+        <StanPusty tytul={t("UI-WAMENE-COMAUTTAB-WPISZ-STANDBY-REFERENCYJNY")} />
       ) : (
         <WerdyktPanel poziom={poziomZStatusu(result.status)}>
-          <WynikGlowny>{result.value.redukcjaDobowaKwh.toFixed(2)} kWh/dobę mniej</WynikGlowny>
-          <p className="mt-1 text-small">Redukcja poboru: {result.value.redukcjaW.toFixed(1)} W</p>
+          <WynikGlowny>{t("UI-WAMENE-COMAUTTAB-KWH-DOBE-MNIEJ", { redukcjaDobowaKwh: result.value.redukcjaDobowaKwh.toFixed(2) })}</WynikGlowny>
+          <p className="mt-1 text-small">{t("UI-WAMENE-COMAUTTAB-REDUKCJA-POBORU", { redukcjaW: result.value.redukcjaW.toFixed(1) })}</p>
           <WynikSzczegoly assumptions={result.assumptions} warnings={result.warnings} formula={result.formula} />
         </WerdyktPanel>
       )}
 
       <div className="rounded-md border border-dashed p-3 text-caption text-muted-foreground">
         <p>
-          Redukcja poboru falownika nocą — patrz ekran{" "}
-          <span className="font-medium">Pobór własny falownika</span> (Moduł 2), bez powielania tej logiki tutaj.
+          {t("UI-WAMENE-COMAUTTAB-REDUKCJA-POBORU-FALOWNIKA")}
+          <span className="font-medium">{t("UI-WAMENE-COMAUTTAB-POBOR-WLASNY-FALOWNIKA")}</span> {t("UI-WAMENE-COMAUTTAB-MODUL-BEZ-POWIELANIA")}
         </p>
         <p className="mt-2">
-          Detekcja urządzeń always-on, integracja z API smart-plugów i harmonogram wg obecności wymagają realnej
-          integracji sprzętowej — poza zakresem tego kalkulatora offline-first.
+          {t("UI-WAMENE-COMAUTTAB-DETEKCJA-URZADZEN-ALWAYS")}
         </p>
       </div>
     </div>

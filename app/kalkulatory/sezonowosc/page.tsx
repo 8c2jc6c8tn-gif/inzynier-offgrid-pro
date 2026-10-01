@@ -11,11 +11,12 @@ import { NawigacjaEkranu } from "@/components/nawigacja-ekranu"
 import { NaglowekEkranu } from "@/components/wzorce/naglowek-ekranu"
 import { WynikGlowny } from "@/components/wzorce/wynik-glowny"
 import { WynikSzczegoly } from "@/components/wzorce/wynik-szczegoly"
+import { useTranslate } from "@/lib/i18n/language-context"
 
 const ETYKIETY_TYPU: Record<TypSezonowosci, string> = {
-  caloroczny: "Całoroczny",
-  sezonowy: "Sezonowy (tylko w wybranych miesiącach)",
-  weekendowy: "Weekendowy",
+  caloroczny: "UI-SEZ-CALOROCZNY",
+  sezonowy: "UI-SEZ-SEZONOWY-TYLKO-WYBRANYCH",
+  weekendowy: "UI-SEZ-WEEKENDOWY",
 }
 
 type FormularzStan = {
@@ -37,6 +38,7 @@ const STAN_POCZATKOWY: FormularzStan = {
 }
 
 export default function SezonowoscPage() {
+  const t = useTranslate()
   const [stan, setStan] = usePersistedDraft<FormularzStan>("sezonowosc", STAN_POCZATKOWY)
   const { zapotrzebowanieKwhDoba, typ, miesiacOd, miesiacDo, aktualnyMiesiac, czyWeekend } = stan
 
@@ -72,15 +74,14 @@ export default function SezonowoscPage() {
   return (
     <main className="mx-auto flex max-w-md flex-col gap-6 p-6">
       <NawigacjaEkranu href="/kalkulatory/sezonowosc" />
-      <NaglowekEkranu tytul="Sezonowość i tryb wakacyjny" ekran="sezonowosc" wynik={result}>
-        Nie każde urządzenie pracuje cały rok — dobry bilans uwzględnia, że klimatyzacja zimą stoi
-        wyłączona, a odśnieżarka latem w ogóle nie istnieje. Moduł 2, Ekran 6.
+      <NaglowekEkranu tytul={t("UI-SEZ-SEZONOWOSC-TRYB-WAKACYJNY")} ekran="sezonowosc" wynik={result}>
+        {t("UI-SEZ-KAZDE-URZADZENIE-PRACUJE")}
       </NaglowekEkranu>
 
       <div className="flex flex-col gap-4">
         <Pole
-          label="Zapotrzebowanie urządzenia (w okresie aktywności)"
-          unit="kWh/dobę"
+          label={t("UI-SEZ-ZAPOTRZEBOWANIE-URZADZENIA-O")}
+          unit={t("UI-J-KWH-DOBA")}
           type="number"
           inputMode="decimal"
           min={0}
@@ -89,14 +90,14 @@ export default function SezonowoscPage() {
           pomoc={<PomocPola ekran="sezonowosc" pole="energia" />}
         />
         <PoleSelect
-          label="Typ sezonowości"
+          label={t("UI-SEZ-TYP-SEZONOWOSCI")}
           value={typ}
           onChange={(e) => setTyp(e.target.value as TypSezonowosci)}
           pomoc={<PomocPola ekran="sezonowosc" pole="typ" />}
         >
-          {(Object.keys(ETYKIETY_TYPU) as TypSezonowosci[]).map((t) => (
-            <option key={t} value={t}>
-              {ETYKIETY_TYPU[t]}
+          {(Object.keys(ETYKIETY_TYPU) as TypSezonowosci[]).map((typSez) => (
+            <option key={typSez} value={typSez}>
+              {t(ETYKIETY_TYPU[typSez])}
             </option>
           ))}
         </PoleSelect>
@@ -104,7 +105,7 @@ export default function SezonowoscPage() {
         {typ === "sezonowy" && (
           <>
             <Pole
-              label="Miesiąc początku sezonu"
+              label={t("UI-SEZ-MIESIAC-POCZATKU-SEZONU")}
               unit="1-12"
               type="number"
               inputMode="numeric"
@@ -115,7 +116,7 @@ export default function SezonowoscPage() {
               pomoc={<PomocPola ekran="sezonowosc" pole="miesiacOd" />}
             />
             <Pole
-              label="Miesiąc końca sezonu"
+              label={t("UI-SEZ-MIESIAC-KONCA-SEZONU")}
               unit="1-12"
               type="number"
               inputMode="numeric"
@@ -126,7 +127,7 @@ export default function SezonowoscPage() {
               pomoc={<PomocPola ekran="sezonowosc" pole="miesiacDo" />}
             />
             <Pole
-              label="Sprawdzany miesiąc"
+              label={t("UI-SEZ-SPRAWDZANY-MIESIAC")}
               unit="1-12"
               type="number"
               inputMode="numeric"
@@ -142,7 +143,7 @@ export default function SezonowoscPage() {
         {typ === "weekendowy" && (
           <PoleCheckbox
             id="czy-weekend"
-            label="Sprawdzany dzień to weekend"
+            label={t("UI-SEZ-SPRAWDZANY-DZIEN-WEEKEND")}
             checked={czyWeekend}
             onChange={(e) => setCzyWeekend(e.target.checked)}
           />
@@ -150,12 +151,12 @@ export default function SezonowoscPage() {
       </div>
 
       {result.status === "INCOMPLETE" ? (
-        <p className="text-small text-muted-foreground">Wypełnij wszystkie pola, żeby zobaczyć wynik.</p>
+        <p className="text-small text-muted-foreground">{t("UI-SEZ-WYPELNIJ-WSZYSTKIE-POLA")}</p>
       ) : result.status === "INVALID_INPUT" ? (
-        <p className="text-small text-werdykt-blad">Sprawdź wpisane dane — miesiąc musi być z przedziału 1–12.</p>
+        <p className="text-small text-werdykt-blad">{t("UI-SEZ-SPRAWDZ-WPISANE-DANE")}</p>
       ) : (
-        <WerdyktPanel poziom="ok" etykieta={result.value.aktywne ? "Aktywne w tym okresie" : "Nieaktywne w tym okresie"}>
-          <WynikGlowny>{result.value.zapotrzebowanieWliczoneKwhDoba.toFixed(2)} kWh/dobę</WynikGlowny>
+        <WerdyktPanel poziom="ok" etykieta={result.value.aktywne ? t("UI-SEZ-AKTYWNE-TYM-OKRESIE") : t("UI-SEZ-NIEAKTYWNE-TYM-OKRESIE")}>
+          <WynikGlowny>{t("UI-SEZ-KWH-DOBE", { zapotrzebowanieWliczoneKwhDoba: result.value.zapotrzebowanieWliczoneKwhDoba.toFixed(2) })}</WynikGlowny>
           <WynikSzczegoly assumptions={result.assumptions} warnings={result.warnings} formula={result.formula} />
         </WerdyktPanel>
       )}

@@ -9,6 +9,7 @@ import { WerdyktPanel } from "@/components/werdykt"
 import { NawigacjaEkranu } from "@/components/nawigacja-ekranu"
 import { NaglowekEkranu } from "@/components/wzorce/naglowek-ekranu"
 import { WynikSzczegoly } from "@/components/wzorce/wynik-szczegoly"
+import { useTranslate } from "@/lib/i18n/language-context"
 
 type FormularzStan = {
   mocL1W: string
@@ -23,6 +24,7 @@ const STAN_POCZATKOWY: FormularzStan = {
 }
 
 export default function ArchitekturaFazowaPage() {
+  const t = useTranslate()
   const [stan, setStan] = usePersistedDraft<FormularzStan>("architektura-fazowa", STAN_POCZATKOWY)
   const { mocL1W, mocL2W, mocL3W } = stan
 
@@ -52,14 +54,13 @@ export default function ArchitekturaFazowaPage() {
   return (
     <main className="mx-auto flex max-w-md flex-col gap-6 p-6">
       <NawigacjaEkranu href="/kalkulatory/architektura-fazowa" />
-      <NaglowekEkranu tytul="Architektura 1-fazowa / 3-fazowa" ekran="architektura-fazowa" wynik={result}>
-        W systemie 3-fazowym nie liczy się tylko suma mocy — liczy się, jak równo jest rozłożona
-        między trzy fazy, bo każda ma swój własny limit. Moduł 2, Ekran 14.
+      <NaglowekEkranu tytul={t("UI-ARCFAZ-ARCHITEKTURA-FAZOWA-FAZOWA")} ekran="architektura-fazowa" wynik={result}>
+        {t("UI-ARCFAZ-SYSTEMIE-FAZOWYM-LICZY")}
       </NaglowekEkranu>
 
       <div className="flex flex-col gap-4">
         <Pole
-          label="Obciążenie L1"
+          label={t("UI-ARCFAZ-OBCIAZENIE")}
           unit="W"
           type="number"
           inputMode="decimal"
@@ -69,7 +70,7 @@ export default function ArchitekturaFazowaPage() {
           pomoc={<PomocPola ekran="architektura-fazowa" pole="l1" />}
         />
         <Pole
-          label="Obciążenie L2"
+          label={t("UI-ARCFAZ-OBCIAZENIE-2")}
           unit="W"
           type="number"
           inputMode="decimal"
@@ -79,7 +80,7 @@ export default function ArchitekturaFazowaPage() {
           pomoc={<PomocPola ekran="architektura-fazowa" pole="l2" />}
         />
         <Pole
-          label="Obciążenie L3"
+          label={t("UI-ARCFAZ-OBCIAZENIE-3")}
           unit="W"
           type="number"
           inputMode="decimal"
@@ -91,22 +92,19 @@ export default function ArchitekturaFazowaPage() {
       </div>
 
       {result.status === "INVALID_INPUT" ? (
-        <WerdyktPanel poziom="blad" etykieta="Nie da się policzyć — sprawdź wpisane dane">
+        <WerdyktPanel poziom="blad" etykieta={t("UI-ARCFAZ-POLICZYC-SPRAWDZ-WPISANE")}>
           <WynikSzczegoly assumptions={[]} warnings={result.warnings} />
         </WerdyktPanel>
       ) : result.status === "INCOMPLETE" ? (
-        <p className="text-small text-muted-foreground">Wpisz obciążenie przynajmniej jednej fazy.</p>
+        <p className="text-small text-muted-foreground">{t("UI-ARCFAZ-WPISZ-OBCIAZENIE-PRZYNAJMNIE")}</p>
       ) : (
-        <WerdyktPanel poziom="ok" etykieta="Rozkład obciążenia faz">
-          <p className="text-h1 font-semibold">{result.value.sumaW.toFixed(0)} W łącznie</p>
+        <WerdyktPanel poziom="ok" etykieta={t("UI-ARCFAZ-ROZKLAD-OBCIAZENIA-FAZ")}>
+          <p className="text-h1 font-semibold">{t("UI-ARCFAZ-LACZNIE", { sumaW: result.value.sumaW.toFixed(0) })}</p>
           <p className="mt-1 text-small text-muted-foreground">
-            Najbardziej obciążona faza: {result.value.maxFazaW.toFixed(0)} W · najmniej:{" "}
-            {result.value.minFazaW.toFixed(0)} W · asymetria: {result.value.asymetriaPct.toFixed(1)}%
+            {t("UI-ARCFAZ-NAJBARDZIEJ-OBCIAZONA-FAZA", { maxFazaW: result.value.maxFazaW.toFixed(0), minFazaW: result.value.minFazaW.toFixed(0), asymetriaPct: result.value.asymetriaPct.toFixed(1) })}
           </p>
           <p className="mt-2 text-small text-muted-foreground">
-            Źródło nie podaje liczbowego progu &quot;znacznej&quot; asymetrii — oceń sam, czy warto
-            przepiąć część obwodów na mniej obciążoną fazę. Przykład źródła (L1 dwukrotnie
-            bardziej obciążona niż L2/L3) uznano za problem wart korekty.
+            {t("UI-ARCFAZ-ZRODLO-PODAJE-LICZBOWEGO")}
           </p>
           <WynikSzczegoly assumptions={result.assumptions} formula={result.formula} />
         </WerdyktPanel>
