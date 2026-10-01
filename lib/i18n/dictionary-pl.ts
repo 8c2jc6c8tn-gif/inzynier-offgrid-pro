@@ -1558,6 +1558,11 @@ export const dictionaryPl = {
   "ALT-KOCIOL-OSOBNY-EKRAN": "Kocioł elektryczny ma osobny ekran z porównaniem kosztu względem pompy ciepła — przejdź do niego linkiem poniżej.",
   "ALT-ZALOZENIE-KOMINEK": "Moc nominalna kominka przy ciągłym paleniu; podział woda/pomieszczenie wg udziału z karty. Pokrycie liczone z mocy do wody (trafia do instalacji) oraz osobno z całej mocy.",
   "ALT-ZALOZENIE-PCM": "Liczone tylko ciepło utajone przy pełnym stopieniu (V × ρ × L); ciepło jawne PCM pominięte. Bufor wodny: 1 l ≈ 1 kg, ciepło właściwe wody, wpisana różnica temperatur.",
+  "DEFM-WARTOSC-UJEMNA": "Wpisana wartość nie może być ujemna.",
+  "DEFM-MIESIACE-NIE-12": "Deficyty trzeba podać dla 12 miesięcy (styczeń–grudzień).",
+  "DEFM-PALIWO-PONAD-ZAPAS": "W miesiącu nr {miesiac} agregat przepracuje ok. {godziny} h i zużyje ok. {litry} l paliwa — więcej niż wpisany zapas {zapas} l. Sprawdź zapas paliwa i plan dostaw.",
+  "DEFM-SPRAWDZ-ZAPAS": "Najdłużej agregat pracuje w miesiącu nr {miesiac}: ok. {godziny} h, ok. {litry} l paliwa — sprawdź zapas paliwa (wpisz go, żeby aplikacja porównała miesiąc po miesiącu).",
+  "DEFM-ZALOZENIE-WPISANE-DEFICYTY": "Deficyty miesięczne wpisujesz Ty (np. produkcja z Modułu 3 minus zapotrzebowanie z Modułu 2) — symulacja dzień po dniu (Ekran 1) jeszcze ich nie podaje. Agregat ładuje dokładnie brakującą energię, bez strat ładowania baterii.",
 } as const
 
 export type KluczTlumaczenia = keyof typeof dictionaryPl

@@ -197,6 +197,7 @@ const MIGRATED_MODULES = [
   "lib/core/modules/stress-test/bez-rekuperacji",
   "lib/core/modules/stress-test/pre-heat",
   "lib/core/modules/stress-test/awaria-stringa-zima",
+  "lib/core/modules/stress-test/deficyty-miesieczne",
   "lib/core/modules/zapotrzebowanie/urzadzenia-zmienne",
   "lib/core/modules/zapotrzebowanie/sprawnosc-inwertera-niskie-obciazenie",
   "lib/core/modules/zapotrzebowanie/architektura-fazowa",

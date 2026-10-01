@@ -1546,4 +1546,9 @@ export const dictionaryEn = {
   "ALT-KOCIOL-OSOBNY-EKRAN": "The electric boiler has its own screen comparing its cost with a heat pump — follow the link below.",
   "ALT-ZALOZENIE-KOMINEK": "Nominal fireplace power at continuous firing; water/room split by the share from the data sheet. Coverage is computed from the water output (goes to the system) and separately from the total power.",
   "ALT-ZALOZENIE-PCM": "Only latent heat at full melting is counted (V × ρ × L); PCM sensible heat is ignored. Water buffer: 1 l ≈ 1 kg, water specific heat, the entered temperature difference.",
+  "DEFM-WARTOSC-UJEMNA": "The value entered cannot be negative.",
+  "DEFM-MIESIACE-NIE-12": "Shortfalls must be given for 12 months (January–December).",
+  "DEFM-PALIWO-PONAD-ZAPAS": "In month no. {miesiac} the generator runs about {godziny} h and uses about {litry} l of fuel — more than the entered stock of {zapas} l. Check the fuel stock and delivery plan.",
+  "DEFM-SPRAWDZ-ZAPAS": "The generator runs longest in month no. {miesiac}: about {godziny} h, about {litry} l of fuel — check the fuel stock (enter it and the app compares month by month).",
+  "DEFM-ZALOZENIE-WPISANE-DEFICYTY": "You enter the monthly shortfalls (e.g. Module 3 production minus Module 2 demand) — the day-by-day simulation (Screen 1) does not provide them yet. The generator supplies exactly the missing energy, without battery charging losses.",
 } satisfies Record<KluczTlumaczenia, string>

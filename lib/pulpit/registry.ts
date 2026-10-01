@@ -228,6 +228,7 @@ export const KAFLE: KafelEntry[] = [
       { href: "/kalkulatory/pre-heat", label: "Pre-Heat — ciepło na zapas przed mrozem" },
       { href: "/kalkulatory/bez-rekuperacji", label: "Rekuperacja zamarzła — straty bez odzysku" },
       { href: "/kalkulatory/awaria-stringa-zima", label: "Awaria stringa PV zimą" },
+      { href: "/kalkulatory/deficyty-miesieczne", label: "Deficyty miesięczne i agregat" },
     ],
   },
   {
