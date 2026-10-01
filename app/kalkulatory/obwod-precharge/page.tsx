@@ -14,6 +14,7 @@ import { NawigacjaEkranu } from "@/components/nawigacja-ekranu"
 import { NaglowekEkranu } from "@/components/wzorce/naglowek-ekranu"
 import { WynikGlowny } from "@/components/wzorce/wynik-glowny"
 import { WynikSzczegoly } from "@/components/wzorce/wynik-szczegoly"
+import { useTranslate } from "@/lib/i18n/language-context"
 
 type FormularzStan = {
   pojemnoscFalownikaUf: string
@@ -26,6 +27,7 @@ const STAN_POCZATKOWY: FormularzStan = {
 }
 
 export default function ObwodPrechargePage() {
+  const t = useTranslate()
   const [stan, setStan] = usePersistedDraft<FormularzStan>("obwod-precharge", STAN_POCZATKOWY)
   const { pojemnoscFalownikaUf, rezystancjaPreChargeOhm } = stan
 
@@ -50,14 +52,13 @@ export default function ObwodPrechargePage() {
   return (
     <main className="mx-auto flex max-w-md flex-col gap-6 p-6">
       <NawigacjaEkranu href="/kalkulatory/obwod-precharge" />
-      <NaglowekEkranu tytul="Obwód Pre-Charge" ekran="obwod-precharge" wynik={result}>
-        Kondensatory falownika w pierwszej chwili zachowują się jak zwarcie — pre-charge to
-        łagodne „obudzenie” ich prądem, zanim puścisz pełną moc. Moduł 4, Ekran 7.
+      <NaglowekEkranu tytul={t("UI-OBWPRE-OBWOD-PRE-CHARGE")} ekran="obwod-precharge" wynik={result}>
+        {t("UI-OBWPRE-KONDENSATORY-FALOWNIKA-PIERW")}
       </NaglowekEkranu>
 
       <div className="flex flex-col gap-4">
         <Pole
-          label="Pojemność wejściowa DC falownika"
+          label={t("UI-OBWPRE-POJEMNOSC-WEJSCIOWA-FALOWNIK")}
           unit="µF"
           type="number"
           inputMode="decimal"
@@ -67,7 +68,7 @@ export default function ObwodPrechargePage() {
           pomoc={<PomocPola ekran="obwod-precharge" pole="pojemnosc" />}
         />
         <Pole
-          label="Rezystor wstępny (pre-charge)"
+          label={t("UI-OBWPRE-REZYSTOR-WSTEPNY-PRE")}
           unit="Ω"
           type="number"
           inputMode="decimal"
@@ -79,16 +80,16 @@ export default function ObwodPrechargePage() {
       </div>
 
       {result.status === "INVALID_INPUT" ? (
-        <WerdyktPanel poziom="blad" etykieta="Nie da się policzyć — sprawdź wpisane dane">
+        <WerdyktPanel poziom="blad" etykieta={t("UI-OBWPRE-POLICZYC-SPRAWDZ-WPISANE")}>
           <WynikSzczegoly assumptions={[]} warnings={result.warnings} />
         </WerdyktPanel>
       ) : result.status === "INCOMPLETE" ? (
-        <p className="text-small text-muted-foreground">Wpisz oba pola, żeby zobaczyć czas pre-charge.</p>
+        <p className="text-small text-muted-foreground">{t("UI-OBWPRE-WPISZ-OBA-POLA")}</p>
       ) : (
-        <WerdyktPanel poziom="uwaga" etykieta="Czas wstępnego ładowania">
+        <WerdyktPanel poziom="uwaga" etykieta={t("UI-OBWPRE-CZAS-WSTEPNEGO-LADOWANIA")}>
           <WynikGlowny>{result.value.czasPreChargeS.toLocaleString("pl-PL")} s</WynikGlowny>
           <p className="mt-1 text-small">
-            Poczekaj, aż zgaśnie dioda falownika, dopiero potem załącz główny bezpiecznik/stycznik.
+            {t("UI-OBWPRE-POCZEKAJ-ZGASNIE-DIODA")}
           </p>
           <WynikSzczegoly assumptions={result.assumptions} formula={result.formula} />
         </WerdyktPanel>

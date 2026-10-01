@@ -12,6 +12,7 @@ import { NawigacjaEkranu } from "@/components/nawigacja-ekranu"
 import { NaglowekEkranu } from "@/components/wzorce/naglowek-ekranu"
 import { WynikGlowny } from "@/components/wzorce/wynik-glowny"
 import { WynikSzczegoly } from "@/components/wzorce/wynik-szczegoly"
+import { useTranslate } from "@/lib/i18n/language-context"
 
 type FormularzStan = {
   typPaliwa: PaliwoStale | ""
@@ -28,6 +29,7 @@ const STAN_POCZATKOWY: FormularzStan = {
 }
 
 export default function DogrzewaniePaliwemStalymPage() {
+  const t = useTranslate()
   const [stan, setStan] = usePersistedDraft<FormularzStan>("dogrzewanie-paliwem-stalym", STAN_POCZATKOWY)
   const { typPaliwa, odlegloscOdMaterialowPalnychCm, maNawiewPowietrzaDoSpalania, maCzujnikCo } = stan
 
@@ -60,29 +62,28 @@ export default function DogrzewaniePaliwemStalymPage() {
     <main className="mx-auto flex max-w-md flex-col gap-6 p-6">
       <NawigacjaEkranu href="/kalkulatory/dogrzewanie-paliwem-stalym" />
       <NaglowekEkranu
-        tytul="Bezpieczeństwo pożarowe — dogrzewanie paliwem stałym"
+        tytul={t("UI-DOGPALSTA-BEZPIECZENSTWO-POZAROWE-DOGR")}
         ekran="dogrzewanie-paliwem-stalym"
         parametry={{ minOdleglosc: MIN_ODLEGLOSC_OD_MATERIALOW_PALNYCH_CM }}
         wynik={result}
       >
-        Otwarty ogień w domu to realna odpowiedzialność — spalanie zużywa tlen z pomieszczenia i
-        produkuje czad, który nie ma zapachu i zabija we śnie. Moduł 8, Ekran 2.
+        {t("UI-DOGPALSTA-OTWARTY-OGIEN-DOMU")}
       </NaglowekEkranu>
 
       <div className="flex flex-col gap-4">
         <PoleSelect
-          label="Typ paliwa"
+          label={t("UI-DOGPALSTA-TYP-PALIWA")}
           value={typPaliwa}
           onChange={(e) => setTypPaliwa(e.target.value as PaliwoStale)}
           pomoc={<PomocPola ekran="dogrzewanie-paliwem-stalym" pole="paliwo" />}
         >
-          <option value="">— wybierz —</option>
-          <option value="drewno">Drewno</option>
-          <option value="pellet">Pellet</option>
-          <option value="wegiel">Węgiel</option>
+          <option value="">{t("UI-WYBIERZ")}</option>
+          <option value="drewno">{t("UI-DOGPALSTA-DREWNO")}</option>
+          <option value="pellet">{t("UI-DOGPALSTA-PELLET")}</option>
+          <option value="wegiel">{t("UI-DOGPALSTA-WEGIEL")}</option>
         </PoleSelect>
         <Pole
-          label="Odległość od materiałów palnych"
+          label={t("UI-DOGPALSTA-ODLEGLOSC-MATERIALOW-PALNYCH")}
           unit="cm"
           type="number"
           inputMode="decimal"
@@ -93,28 +94,28 @@ export default function DogrzewaniePaliwemStalymPage() {
         />
         <PoleCheckbox
           id="ma-nawiew"
-          label="Jest osobny nawiew powietrza do spalania"
+          label={t("UI-DOGPALSTA-OSOBNY-NAWIEW-POWIETRZA")}
           checked={maNawiewPowietrzaDoSpalania}
           onChange={(e) => setMaNawiewPowietrzaDoSpalania(e.target.checked)}
         />
         <PoleCheckbox
           id="ma-czujnik-co"
-          label="Jest czujnik czadu (CO) w pomieszczeniu"
+          label={t("UI-DOGPALSTA-CZUJNIK-CZADU-POMIESZCZENIU")}
           checked={maCzujnikCo}
           onChange={(e) => setMaCzujnikCo(e.target.checked)}
         />
       </div>
 
       {result.status === "INVALID_INPUT" ? (
-        <WerdyktPanel poziom="blad" etykieta="Nie da się policzyć — sprawdź wpisane dane">
+        <WerdyktPanel poziom="blad" etykieta={t("UI-DOGPALSTA-POLICZYC-SPRAWDZ-WPISANE")}>
           <WynikSzczegoly assumptions={[]} warnings={result.warnings} />
         </WerdyktPanel>
       ) : result.status === "INCOMPLETE" ? (
-        <p className="text-small text-muted-foreground">Wypełnij wszystkie pola, żeby zobaczyć wynik.</p>
+        <p className="text-small text-muted-foreground">{t("UI-DOGPALSTA-WYPELNIJ-WSZYSTKIE-POLA")}</p>
       ) : (
-        <WerdyktPanel poziom={hasCritical ? "blad" : "ok"} etykieta={hasCritical ? "Wykryto braki bezpieczeństwa" : "Instalacja zgodna z minimalnymi wymaganiami"}>
+        <WerdyktPanel poziom={hasCritical ? "blad" : "ok"} etykieta={hasCritical ? t("UI-DOGPALSTA-WYKRYTO-BRAKI-BEZPIECZENSTWA") : t("UI-DOGPALSTA-INSTALACJA-ZGODNA-MINIMALNYM")}>
           <WynikGlowny>{result.value.marginesOdlegloscCm >= 0 ? "+" : ""}{result.value.marginesOdlegloscCm.toFixed(0)} cm</WynikGlowny>
-          <p className="mt-2 text-small">Margines względem minimalnej odległości (40 cm).</p>
+          <p className="mt-2 text-small">{t("UI-DOGPALSTA-MARGINES-WZGLEDEM-MINIMALNEJ")}</p>
           <WynikSzczegoly assumptions={result.assumptions} warnings={result.warnings} formula={result.formula} />
         </WerdyktPanel>
       )}

@@ -14,9 +14,9 @@ import { WynikSzczegoly } from "@/components/wzorce/wynik-szczegoly"
 import { useTranslate } from "@/lib/i18n/language-context"
 
 const ETYKIETY_FAZY: Record<string, string> = {
-  CC: "Faza CC (stały prąd)",
-  "CV-koncowka": "Faza CV — końcówka ładowania",
-  zakonczone: "Ładowanie zakończone",
+  CC: "UI-KONLAD-FAZA-STALY-PRAD",
+  "CV-koncowka": "UI-KONLAD-FAZA-KONCOWKA-LADOWANIA",
+  zakonczone: "UI-KONLAD-LADOWANIE-ZAKONCZONE",
 }
 
 type FormularzStan = {
@@ -80,17 +80,16 @@ export default function KoniecLadowaniaPage() {
     <main className="mx-auto flex max-w-md flex-col gap-6 p-6">
       <NawigacjaEkranu href="/kalkulatory/koniec-ladowania" />
       <NaglowekEkranu
-        tytul="Algorytm końca ładowania (Tail Current / Absorption)"
+        tytul={t("UI-KONLAD-ALGORYTM-KONCA-LADOWANIA")}
         ekran="koniec-ladowania"
         wynik={result}
       >
-        To jak napełnianie butelki — ciśnienie już jest, ale trzeba chwilę odczekać, żeby woda
-        dotarła do samego końca. Moduł 4, Ekran 13.
+        {t("UI-KONLAD-NAPELNIANIE-BUTELKI-CISNIENI")}
       </NaglowekEkranu>
 
       <div className="flex flex-col gap-4">
         <Pole
-          label="Pojemność baterii"
+          label={t("UI-KONLAD-POJEMNOSC-BATERII")}
           unit="Ah"
           type="number"
           inputMode="decimal"
@@ -99,7 +98,7 @@ export default function KoniecLadowaniaPage() {
           pomoc={<PomocPola ekran="koniec-ladowania" pole="pojemnosc" />}
         />
         <Pole
-          label="Napięcie absorpcji"
+          label={t("UI-KONLAD-NAPIECIE-ABSORPCJI")}
           unit="V"
           type="number"
           inputMode="decimal"
@@ -108,7 +107,7 @@ export default function KoniecLadowaniaPage() {
           pomoc={<PomocPola ekran="koniec-ladowania" pole="napiecieAbsorpcji" />}
         />
         <Pole
-          label="Próg prądu końcowego"
+          label={t("UI-KONLAD-PROG-PRADU-KONCOWEGO-2")}
           unit="C"
           type="number"
           inputMode="decimal"
@@ -117,7 +116,7 @@ export default function KoniecLadowaniaPage() {
           pomoc={<PomocPola ekran="koniec-ladowania" pole="progKoncowy" params={{ progC: PRZYKLADOWY_PROG_KONCOWY_C }} />}
         />
         <Pole
-          label="Aktualny prąd (live)"
+          label={t("UI-KONLAD-AKTUALNY-PRAD-LIVE")}
           unit="A"
           type="number"
           inputMode="decimal"
@@ -126,7 +125,7 @@ export default function KoniecLadowaniaPage() {
           pomoc={<PomocPola ekran="koniec-ladowania" pole="prad" />}
         />
         <Pole
-          label="Aktualne napięcie (live)"
+          label={t("UI-KONLAD-AKTUALNE-NAPIECIE-LIVE")}
           unit="V"
           type="number"
           inputMode="decimal"
@@ -138,13 +137,13 @@ export default function KoniecLadowaniaPage() {
 
       {result.status === "INCOMPLETE" ? (
         <p className="text-small text-muted-foreground">
-          Wypełnij dane, żeby zobaczyć etap ładowania.
+          {t("UI-KONLAD-WYPELNIJ-DANE-ZEBY")}
         </p>
       ) : (
         poziom !== null && (
-          <WerdyktPanel poziom={poziom} etykieta={ETYKIETY_FAZY[result.value.faza]}>
+          <WerdyktPanel poziom={poziom} etykieta={t(ETYKIETY_FAZY[result.value.faza]!)}>
             <WynikGlowny>
-              Próg prądu końcowego: {result.value.pradKoncowyA.toLocaleString("pl-PL", { maximumFractionDigits: 1 })} A
+              {t("UI-KONLAD-PROG-PRADU-KONCOWEGO", { pradKoncowyA: result.value.pradKoncowyA.toLocaleString("pl-PL", { maximumFractionDigits: 1 }) })}
             </WynikGlowny>
             {result.warnings.map((w) => (
               <p key={w.code} className="mt-2 text-small">

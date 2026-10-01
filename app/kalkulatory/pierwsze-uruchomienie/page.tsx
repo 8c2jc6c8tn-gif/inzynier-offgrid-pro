@@ -12,6 +12,7 @@ import { NawigacjaEkranu } from "@/components/nawigacja-ekranu"
 import { NaglowekEkranu } from "@/components/wzorce/naglowek-ekranu"
 import { WynikSzczegoly } from "@/components/wzorce/wynik-szczegoly"
 import { CZAS_TESTU_MIN, TEST_LADOWANIA_C_RATE } from "@/lib/core/modules/montaz-baterii/pierwsze-uruchomienie/constants"
+import { useTranslate } from "@/lib/i18n/language-context"
 
 type FormularzStan = {
   pojemnoscAh: number
@@ -26,6 +27,7 @@ const STAN_POCZATKOWY: FormularzStan = {
 }
 
 export default function PierwszeUruchomieniePage() {
+  const t = useTranslate()
   const [stan, setStan] = usePersistedDraft<FormularzStan>("pierwsze-uruchomienie", STAN_POCZATKOWY)
   const { pojemnoscAh, napiecieNajwyzszegoOgniwaV, potwierdzoneIds } = stan
 
@@ -61,26 +63,24 @@ export default function PierwszeUruchomieniePage() {
 
   const etykieta =
     result.status === "INVALID_INPUT"
-      ? "Nie da się policzyć — sprawdź wpisane dane"
+      ? t("UI-PIEURU-POLICZYC-SPRAWDZ-WPISANE")
       : result.status === "VALID"
-        ? "Test zakończony — pakiet gotowy do pełnego obciążenia"
-        : "Test w toku — kontynuuj ładowanie małym prądem"
+        ? t("UI-PIEURU-TEST-ZAKONCZONY-PAKIET")
+        : t("UI-PIEURU-TEST-TOKU-KONTYNUUJ")
 
   return (
     <main className="mx-auto flex max-w-md flex-col gap-6 p-6">
       <NawigacjaEkranu href="/kalkulatory/pierwsze-uruchomienie" />
       <NaglowekEkranu
-        tytul="Pierwsze uruchomienie i test balansowania"
+        tytul={t("UI-PIEURU-PIERWSZE-URUCHOMIENIE-TEST")}
         ekran="pierwsze-uruchomienie" wynik={result}
         parametry={{ cRate: TEST_LADOWANIA_C_RATE, czas: CZAS_TESTU_MIN, prog: PROG_TOP_BALANCING_V }}
       >
-        Pierwsze ładowanie to nie jest &bdquo;włącz i zapomnij&rdquo; — to moment, kiedy BMS uczy
-        się Twojego pakietu i wyrównuje różnice między ogniwami z fabryki. Moduł 11, Ekran A5
-        (ścieżka LiFePO4).
+        {t("UI-PIEURU-PIERWSZE-LADOWANIE-WLACZ")}
       </NaglowekEkranu>
 
       <Pole
-        label="Pojemność pakietu"
+        label={t("UI-PIEURU-POJEMNOSC-PAKIETU")}
         unit="Ah"
         type="number"
         inputMode="decimal"
@@ -92,12 +92,12 @@ export default function PierwszeUruchomieniePage() {
 
       {pojemnoscAh > 0 && (
         <p className="text-small">
-          Ładuj prądem testowym <strong>{result.value.pradTestowyA} A</strong> przez 30 minut.
+          {t("UI-PIEURU-LADUJ-PRADEM-TESTOWYM")} <strong>{result.value.pradTestowyA} A</strong> {t("UI-PIEURU-MINUT")}
         </p>
       )}
 
       <Pole
-        label="Napięcie najwyżej naładowanego ogniwa"
+        label={t("UI-PIEURU-NAPIECIE-NAJWYZEJ-NALADOWANE")}
         unit="V"
         type="number"
         inputMode="decimal"
@@ -116,7 +116,7 @@ export default function PierwszeUruchomieniePage() {
       />
 
       {poziom === null ? (
-        <p className="text-small text-muted-foreground">Wpisz pojemność pakietu, żeby zobaczyć werdykt.</p>
+        <p className="text-small text-muted-foreground">{t("UI-PIEURU-WPISZ-POJEMNOSC-PAKIETU")}</p>
       ) : (
         <WerdyktPanel poziom={poziom} etykieta={etykieta}>
           <WynikSzczegoly assumptions={result.assumptions} warnings={result.warnings} />

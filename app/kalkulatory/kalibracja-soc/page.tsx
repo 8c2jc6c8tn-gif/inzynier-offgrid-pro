@@ -44,17 +44,16 @@ export default function KalibracjaSocPage() {
     <main className="mx-auto flex max-w-md flex-col gap-6 p-6">
       <NawigacjaEkranu href="/kalkulatory/kalibracja-soc" />
       <NaglowekEkranu
-        tytul="Kalibracja i dokładność SoC"
+        tytul={t("UI-KALSOC-KALIBRACJA-DOKLADNOSC-SOC")}
         ekran="kalibracja-soc"
         parametry={{ progDni: PROG_KALIBRACJI_DNI }}
       >
-        Liczenie prądu w BMS to ciągły szacunek, nie dokładny pomiar — od czasu do czasu trzeba go
-        „zresetować” pełnym naładowaniem, żeby błąd się nie kumulował. Moduł 4, Ekran 28.
+        {t("UI-KALSOC-LICZENIE-PRADU-BMS")}
       </NaglowekEkranu>
 
       <Pole
-        label="Dni od ostatniego pełnego naładowania"
-        unit="dni"
+        label={t("UI-KALSOC-DNI-OSTATNIEGO-PELNEGO")}
+        unit={t("UI-J-DNI")}
         type="number"
         inputMode="numeric"
         min={0}
@@ -64,13 +63,13 @@ export default function KalibracjaSocPage() {
       />
 
       {result.status === "INVALID_INPUT" ? (
-        <p className="text-small text-werdykt-blad">Liczba dni nie może być ujemna.</p>
+        <p className="text-small text-werdykt-blad">{t("UI-KALSOC-LICZBA-DNI-MOZE")}</p>
       ) : result.status === "INCOMPLETE" ? (
-        <p className="text-small text-muted-foreground">Wpisz liczbę dni, żeby zobaczyć rekomendację.</p>
+        <p className="text-small text-muted-foreground">{t("UI-KALSOC-WPISZ-LICZBE-DNI")}</p>
       ) : (
         <WerdyktPanel
           poziom={result.value.kalibracjaRekomendowana ? "uwaga" : "ok"}
-          etykieta={result.value.kalibracjaRekomendowana ? "Rekomendowana kalibracja" : "Kalibracja niepotrzebna"}
+          etykieta={result.value.kalibracjaRekomendowana ? t("UI-KALSOC-REKOMENDOWANA-KALIBRACJA") : t("UI-KALSOC-KALIBRACJA-NIEPOTRZEBNA")}
         >
           {result.warnings.map((w) => (
             <p key={w.code} className="mt-1 text-small">

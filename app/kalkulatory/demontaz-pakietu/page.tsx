@@ -14,9 +14,11 @@ import { NawigacjaEkranu } from "@/components/nawigacja-ekranu"
 import { NaglowekEkranu } from "@/components/wzorce/naglowek-ekranu"
 import { WynikSzczegoly } from "@/components/wzorce/wynik-szczegoly"
 import { MAX_ZALECANE_NAPIECIE_OGNIWA_V } from "@/lib/core/modules/montaz-baterii/demontaz-pakietu/constants"
+import { useTranslate } from "@/lib/i18n/language-context"
 
 /** Schemat: ten sam szereg co przy montażu, rozpinany od końca o najwyższym potencjale. */
 function DemontazIlustracja() {
+  const t = useTranslate()
   const cellXs = [55, 150, 245, 340]
   const cellW = 65
   const cellY = 44
@@ -28,7 +30,7 @@ function DemontazIlustracja() {
       viewBox="0 0 440 160"
       className="w-full rounded-lg border bg-muted/30 text-foreground"
       role="img"
-      aria-label="Schemat demontażu: rozpinanie szeregu ogniw zaczyna się od końca pakietu o najwyższym potencjale"
+      aria-label={t("UI-DEMPAK-SCHEMAT-DEMONTAZU-ROZPINANIE")}
     >
       {cellXs.map((x, i) => (
         <g key={x}>
@@ -40,7 +42,7 @@ function DemontazIlustracja() {
             −
           </text>
           <text x={x + cellW / 2} y={midY + 20} textAnchor="middle" className="fill-current text-[9px]">
-            Ogniwo {i + 1}
+            {t("UI-DEMPAK-OGNIWO", { p: i + 1 })}
           </text>
         </g>
       ))}
@@ -70,17 +72,17 @@ function DemontazIlustracja() {
         1
       </text>
       <text x="6" y={midY - 24} textAnchor="start" className="fill-red-500 text-[8px] font-semibold">
-        Zacznij tu
+        {t("UI-DEMPAK-ZACZNIJ")}
       </text>
       <text x="6" y={midY - 14} textAnchor="start" className="fill-red-500 text-[8px] font-semibold">
-        (Pakiet +)
+        {t("UI-DEMPAK-PAKIET")}
       </text>
 
       <text x="220" y="128" textAnchor="middle" className="fill-muted-foreground text-[9px]">
-        Rozpinanie zaczyna się od końca o najwyższym potencjale (Pakiet +),
+        {t("UI-DEMPAK-ROZPINANIE-ZACZYNA-KONCA")}
       </text>
       <text x="220" y="142" textAnchor="middle" className="fill-muted-foreground text-[9px]">
-        dokładna odwrotność kolejności montażu.
+        {t("UI-DEMPAK-DOKLADNA-ODWROTNOSC-KOLEJNOS")}
       </text>
     </svg>
   )
@@ -99,6 +101,7 @@ const STAN_POCZATKOWY: FormularzStan = {
 }
 
 export default function DemontazPakietuPage() {
+  const t = useTranslate()
   const [stan, setStan] = usePersistedDraft<FormularzStan>("demontaz-pakietu", STAN_POCZATKOWY)
   const { napiecieSystemu, napieciePakietuV, potwierdzoneIds } = stan
 
@@ -141,15 +144,14 @@ export default function DemontazPakietuPage() {
   return (
     <main className="mx-auto flex max-w-md flex-col gap-6 p-6">
       <NawigacjaEkranu href="/kalkulatory/demontaz-pakietu" />
-      <NaglowekEkranu tytul="Demontaż pakietu" ekran="demontaz-pakietu" wynik={result}>
-        Ta kolejność nie jest sugestią — to dokładna odwrotność kolejności montażu, i każde
-        odstępstwo zwiększa ryzyko zwarcia w rękach. {WYMAGANE_WYPOSAZENIE} Moduł 11, Ekran A6.
+      <NaglowekEkranu tytul={t("UI-DEMPAK-DEMONTAZ-PAKIETU")} ekran="demontaz-pakietu" wynik={result}>
+        {t("UI-DEMPAK-KOLEJNOSC-SUGESTIA-DOKLADNA", { WYMAGANE_WYPOSAZENIE })}
       </NaglowekEkranu>
 
       <DemontazIlustracja />
 
       <PoleSelect
-        label="Napięcie systemu"
+        label={t("UI-DEMPAK-NAPIECIE-SYSTEMU")}
         value={napiecieSystemu}
         onChange={(e) => setNapiecieSystemu(Number(e.target.value) as NapiecieSystemu)}
         pomoc={<PomocPola ekran="demontaz-pakietu" pole="napiecieSystemu" />}
@@ -160,7 +162,7 @@ export default function DemontazPakietuPage() {
       </PoleSelect>
 
       <Pole
-        label="Zmierzone napięcie pakietu"
+        label={t("UI-DEMPAK-ZMIERZONE-NAPIECIE-PAKIETU")}
         unit="V"
         type="number"
         inputMode="decimal"
@@ -171,7 +173,7 @@ export default function DemontazPakietuPage() {
 
       {result.status !== "INVALID_INPUT" && (
         <p className="text-small text-muted-foreground">
-          Napięcie na ogniwo: <span className="font-medium text-foreground">{result.value.napiecieOgniwaV.toFixed(2)} V</span>
+          {t("UI-DEMPAK-NAPIECIE-OGNIWO")} <span className="font-medium text-foreground">{result.value.napiecieOgniwaV.toFixed(2)} V</span>
         </p>
       )}
 
@@ -182,7 +184,7 @@ export default function DemontazPakietuPage() {
         numerowana
         renderLabel={(item, index) => (
           <>
-            <span className="font-medium">Krok {index + 1}. </span>
+            <span className="font-medium">{t("UI-DEMPAK-KROK", { p: index + 1 })} </span>
             {item.krok}
           </>
         )}
@@ -195,21 +197,21 @@ export default function DemontazPakietuPage() {
       </ul>
 
       {result.status === "INVALID_INPUT" ? (
-        <WerdyktPanel poziom="blad" etykieta="Nie da się policzyć — sprawdź napięcie pakietu">
+        <WerdyktPanel poziom="blad" etykieta={t("UI-DEMPAK-POLICZYC-SPRAWDZ-NAPIECIE")}>
           <WynikSzczegoly assumptions={[]} warnings={result.warnings} />
         </WerdyktPanel>
       ) : poziom === null ? (
         <p className="text-small text-muted-foreground">
-          Potwierdzono {result.value.potwierdzoneWKolejnosci} / {result.value.razem} kroków po kolei.
+          {t("UI-DEMPAK-POTWIERDZONO-KROKOW-KOLEI", { potwierdzoneWKolejnosci: result.value.potwierdzoneWKolejnosci, razem: result.value.razem })}
         </p>
       ) : (
         <WerdyktPanel
           poziom={poziom}
           etykieta={
             hasCritical
-              ? "Zabronione — pakiet wciąż naładowany"
+              ? t("UI-DEMPAK-ZABRONIONE-PAKIET-WCIAZ")
               : poziom === "ok"
-                ? "Bezpieczny do demontażu"
+                ? t("UI-DEMPAK-BEZPIECZNY-DEMONTAZU")
                 : undefined
           }
         >

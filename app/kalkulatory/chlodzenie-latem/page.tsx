@@ -55,16 +55,15 @@ export default function ChlodzenieLatemPage() {
     <main className="mx-auto flex max-w-md flex-col gap-6 p-6">
       <NawigacjaEkranu href="/kalkulatory/chlodzenie-latem" />
       <NaglowekEkranu
-        tytul="Chłodzenie baterii latem"
+        tytul={t("UI-CHLLAT-CHLODZENIE-BATERII-LATEM")}
         ekran="chlodzenie-latem" wynik={result}
         parametry={{ tMin: ZAKRES_PRACY_MIN_C, tMax: ZAKRES_PRACY_MAX_C }}
       >
-        Bateria to nie piec — wysoka temperatura nie tylko chwilowo obniża wydajność, ale trwale
-        przyspiesza starzenie ogniw. Moduł 4, Ekran 27.
+        {t("UI-CHLLAT-BATERIA-PIEC-WYSOKA")}
       </NaglowekEkranu>
 
       <Pole
-        label="Temperatura ogniw"
+        label={t("UI-CHLLAT-TEMPERATURA-OGNIW")}
         unit="°C"
         type="number"
         inputMode="decimal"
@@ -75,7 +74,7 @@ export default function ChlodzenieLatemPage() {
 
       {result.status === "INCOMPLETE" ? (
         <p className="text-small text-muted-foreground">
-          Wpisz temperaturę ogniw, żeby zobaczyć ocenę.
+          {t("UI-CHLLAT-WPISZ-TEMPERATURE-OGNIW")}
         </p>
       ) : (
         poziom !== null && (
@@ -83,10 +82,10 @@ export default function ChlodzenieLatemPage() {
             poziom={poziom}
             etykieta={
               poziom === "ok"
-                ? "W dopuszczalnym zakresie"
+                ? t("UI-CHLLAT-DOPUSZCZALNYM-ZAKRESIE")
                 : hasCritical
-                  ? "Powyżej dopuszczalnej temperatury"
-                  : "Poniżej dopuszczalnego zakresu"
+                  ? t("UI-CHLLAT-POWYZEJ-DOPUSZCZALNEJ-TEMPER")
+                  : t("UI-CHLLAT-PONIZEJ-DOPUSZCZALNEGO-ZAKRE")
             }
           >
             {result.warnings.map((w) => (

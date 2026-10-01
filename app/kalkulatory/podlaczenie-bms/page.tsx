@@ -12,20 +12,22 @@ import { NawigacjaEkranu } from "@/components/nawigacja-ekranu"
 import { NaglowekEkranu } from "@/components/wzorce/naglowek-ekranu"
 import { WynikGlowny } from "@/components/wzorce/wynik-glowny"
 import { WynikSzczegoly } from "@/components/wzorce/wynik-szczegoly"
+import { useTranslate } from "@/lib/i18n/language-context"
 
 /** Schemat: kolejność podłączania BMS — wtyczka balansująca, potem B−, potem pre-charge do P−. */
 function PodlaczenieBmsIlustracja() {
+  const t = useTranslate()
   return (
     <svg
       viewBox="0 0 440 210"
       className="w-full rounded-lg border bg-muted/30 text-foreground"
       role="img"
-      aria-label="Schemat podłączenia BMS: wtyczka balansująca do ogniw, przewód B- do minusa pakietu, przewód P- przez rezystor pre-charge do falownika"
+      aria-label={t("UI-PODBMS-SCHEMAT-PODLACZENIA-BMS")}
     >
       {/* Pakiet ogniw */}
       <rect x="16" y="76" width="96" height="48" rx="4" className="fill-indigo-400/60 stroke-current" />
       <text x="64" y="104" textAnchor="middle" className="fill-current text-[10px] font-medium">
-        Pakiet ogniw
+        {t("UI-PODBMS-PAKIET-OGNIW")}
       </text>
       <text x="26" y="72" className="fill-current text-[10px] font-semibold">
         +
@@ -43,7 +45,7 @@ function PodlaczenieBmsIlustracja() {
       {/* Falownik */}
       <rect x="336" y="76" width="88" height="48" rx="4" className="fill-emerald-400/60 stroke-current" />
       <text x="380" y="104" textAnchor="middle" className="fill-current text-[10px] font-medium">
-        Falownik
+        {t("UI-PODBMS-FALOWNIK")}
       </text>
 
       {/* 1: wtyczka balansująca — kilka cienkich przewodów od góry pakietu do BMS */}
@@ -63,7 +65,7 @@ function PodlaczenieBmsIlustracja() {
         1
       </text>
       <text x="150" y="38" textAnchor="middle" className="fill-current text-[8px] font-medium">
-        Wtyczka balansująca
+        {t("UI-PODBMS-WTYCZKA-BALANSUJACA")}
       </text>
 
       {/* 2: B- od minusa pakietu do BMS */}
@@ -73,7 +75,7 @@ function PodlaczenieBmsIlustracja() {
         2
       </text>
       <text x="146" y="150" textAnchor="middle" className="fill-current text-[8px] font-medium">
-        B− do minusa pakietu
+        {t("UI-PODBMS-MINUSA-PAKIETU")}
       </text>
 
       {/* Rezystor pre-charge symbol między BMS a Falownikiem (linia P-) */}
@@ -87,17 +89,17 @@ function PodlaczenieBmsIlustracja() {
         3
       </text>
       <text x="298" y="150" textAnchor="middle" className="fill-current text-[8px] font-medium">
-        P− przez R pre-charge
+        {t("UI-PODBMS-PRE-CHARGE")}
       </text>
 
       {/* Główny plus, bezpośrednio z pakietu do falownika (nad BMS) */}
       <path d="M 64 76 L 64 24 L 380 24 L 380 76" className="fill-none stroke-current" strokeWidth="2" />
       <text x="220" y="18" textAnchor="middle" className="fill-current text-[8px] font-medium">
-        Główny plus (+) — bezpośrednio, bez BMS
+        {t("UI-PODBMS-GLOWNY-PLUS-BEZPOSREDNIO")}
       </text>
 
       <text x="220" y="192" textAnchor="middle" className="fill-muted-foreground text-[9px]">
-        Kolejność 1→2→3. Główny bezpiecznik załączany dopiero po pre-charge.
+        {t("UI-PODBMS-KOLEJNOSC-GLOWNY-BEZPIECZNIK")}
       </text>
     </svg>
   )
@@ -116,6 +118,7 @@ const STAN_POCZATKOWY: FormularzStan = {
 }
 
 export default function PodlaczenieBmsPage() {
+  const t = useTranslate()
   const [stan, setStan] = usePersistedDraft<FormularzStan>("podlaczenie-bms", STAN_POCZATKOWY)
   const { pojemnoscFalownikaUf, rezystancjaPreChargeOhm, potwierdzoneIds } = stan
 
@@ -158,16 +161,15 @@ export default function PodlaczenieBmsPage() {
   return (
     <main className="mx-auto flex max-w-md flex-col gap-6 p-6">
       <NawigacjaEkranu href="/kalkulatory/podlaczenie-bms" />
-      <NaglowekEkranu tytul="Podłączenie BMS" ekran="podlaczenie-bms" wynik={result}>
-        Zanim główny bezpiecznik/stycznik pójdzie w górę, kondensatory wejściowe falownika muszą
-        się najpierw naładować przez rezystor — inaczej zaiskrzy. Moduł 11, Ekran A4.
+      <NaglowekEkranu tytul={t("UI-PODBMS-PODLACZENIE-BMS")} ekran="podlaczenie-bms" wynik={result}>
+        {t("UI-PODBMS-ZANIM-GLOWNY-BEZPIECZNIK")}
       </NaglowekEkranu>
 
       <PodlaczenieBmsIlustracja />
 
       <div className="flex flex-col gap-4">
         <Pole
-          label="Pojemność wejściowa DC falownika"
+          label={t("UI-PODBMS-POJEMNOSC-WEJSCIOWA-FALOWNIK")}
           unit="µF"
           type="number"
           inputMode="decimal"
@@ -176,7 +178,7 @@ export default function PodlaczenieBmsPage() {
           pomoc={<PomocPola ekran="podlaczenie-bms" pole="pojemnosc" />}
         />
         <Pole
-          label="Rezystor wstępny (pre-charge)"
+          label={t("UI-PODBMS-REZYSTOR-WSTEPNY-PRE")}
           unit="Ω"
           type="number"
           inputMode="decimal"
@@ -187,10 +189,10 @@ export default function PodlaczenieBmsPage() {
       </div>
 
       {result.status !== "INVALID_INPUT" && (
-        <WerdyktPanel poziom="uwaga" etykieta="Czas pre-charge">
+        <WerdyktPanel poziom="uwaga" etykieta={t("UI-PODBMS-CZAS-PRE-CHARGE")}>
           <WynikGlowny>{result.value.czasPreChargeS.toLocaleString("pl-PL")} s</WynikGlowny>
           <p className="mt-1 text-small">
-            Trzymaj rezystor podłączony co najmniej tyle — dopiero potem załącz główny bezpiecznik.
+            {t("UI-PODBMS-TRZYMAJ-REZYSTOR-PODLACZONY")}
           </p>
           <WynikSzczegoly assumptions={result.assumptions} formula={result.formula} />
         </WerdyktPanel>
@@ -203,7 +205,7 @@ export default function PodlaczenieBmsPage() {
         numerowana
         renderLabel={(item, index) => (
           <>
-            <span className="font-medium">Krok {index + 1}. </span>
+            <span className="font-medium">{t("UI-PODBMS-KROK", { p: index + 1 })} </span>
             {item.krok}
           </>
         )}
@@ -216,16 +218,16 @@ export default function PodlaczenieBmsPage() {
       </ul>
 
       {result.status === "INVALID_INPUT" ? (
-        <WerdyktPanel poziom="blad" etykieta="Nie da się policzyć — sprawdź wpisane dane">
+        <WerdyktPanel poziom="blad" etykieta={t("UI-PODBMS-POLICZYC-SPRAWDZ-WPISANE")}>
           <WynikSzczegoly assumptions={[]} warnings={result.warnings} />
         </WerdyktPanel>
       ) : poziom !== null && poziom !== "blad" ? (
-        <WerdyktPanel poziom={poziom} etykieta={poziom === "ok" ? "BMS podłączony poprawnie" : undefined}>
+        <WerdyktPanel poziom={poziom} etykieta={poziom === "ok" ? t("UI-PODBMS-BMS-PODLACZONY-POPRAWNIE") : undefined}>
           <WynikSzczegoly assumptions={result.assumptions} warnings={result.warnings} />
         </WerdyktPanel>
       ) : (
         <p className="text-small text-muted-foreground">
-          Potwierdzono {result.value.potwierdzoneWKolejnosci} / {result.value.razem} kroków po kolei.
+          {t("UI-PODBMS-POTWIERDZONO-KROKOW-KOLEI", { potwierdzoneWKolejnosci: result.value.potwierdzoneWKolejnosci, razem: result.value.razem })}
         </p>
       )}
     </main>

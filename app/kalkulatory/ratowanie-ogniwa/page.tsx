@@ -10,6 +10,7 @@ import { NawigacjaEkranu } from "@/components/nawigacja-ekranu"
 import { NaglowekEkranu } from "@/components/wzorce/naglowek-ekranu"
 import { WynikSzczegoly } from "@/components/wzorce/wynik-szczegoly"
 import { NAPIECIE_ZASILACZA_RATUNKOWEGO_V, PRAD_LADOWANIA_RATUNKOWEGO_A, PROG_BEZPIECZNEGO_RATUNKU_V } from "@/lib/core/modules/montaz-baterii/ratowanie-ogniwa/constants"
+import { useTranslate } from "@/lib/i18n/language-context"
 
 type FormularzStan = {
   napiecieOgniwaV: string
@@ -20,6 +21,7 @@ const STAN_POCZATKOWY: FormularzStan = {
 }
 
 export default function RatowanieOgniwaPage() {
+  const t = useTranslate()
   const [stan, setStan] = usePersistedDraft<FormularzStan>("ratowanie-ogniwa", STAN_POCZATKOWY)
   const { napiecieOgniwaV } = stan
   const setNapiecieOgniwaV = (a: string | ((p: string) => string)) =>
@@ -44,28 +46,26 @@ export default function RatowanieOgniwaPage() {
 
   const etykieta =
     result.status === "INVALID_INPUT"
-      ? "Nie da się policzyć — napięcie nie może być ujemne"
+      ? t("UI-RATOGN-POLICZYC-NAPIECIE-MOZE")
       : hasCritical
-        ? "Nie ratuj — zalecana utylizacja"
+        ? t("UI-RATOGN-NIE-RATUJ")
         : hasWarning
-          ? "Ratunek opcjonalny, nie zalecany"
-          : "Ratunek standardową procedurą"
+          ? t("UI-RATOGN-OPCJONALNY")
+          : t("UI-RATOGN-RATUNEK-STANDARDOWA-PROCEDUR")
 
   return (
     <main className="mx-auto flex max-w-md flex-col gap-6 p-6">
       <NawigacjaEkranu href="/kalkulatory/ratowanie-ogniwa" />
       <NaglowekEkranu
-        tytul="Ratowanie głęboko rozładowanego ogniwa"
+        tytul={t("UI-RATOGN-RATOWANIE-GLEBOKO-ROZLADOWAN")}
         ekran="ratowanie-ogniwa" wynik={result}
         parametry={{ progRatunku: PROG_BEZPIECZNEGO_RATUNKU_V, prad: PRAD_LADOWANIA_RATUNKOWEGO_A, napiecieZasilacza: NAPIECIE_ZASILACZA_RATUNKOWEGO_V }}
       >
-        Głębokie rozładowanie to klinicznie „śmierć” ogniwa — czasem da się je obudzić, ale zwykle
-        to już nieodwracalne uszkodzenie, i próba ratunku ma swoje realne ryzyko. Moduł 11, Ekran
-        A9.
+        {t("UI-RATOGN-GLEBOKIE-ROZLADOWANIE-KLINIC")}
       </NaglowekEkranu>
 
       <Pole
-        label="Zmierzone napięcie ogniwa"
+        label={t("UI-RATOGN-ZMIERZONE-NAPIECIE-OGNIWA")}
         unit="V"
         type="number"
         inputMode="decimal"
@@ -77,7 +77,7 @@ export default function RatowanieOgniwaPage() {
       />
 
       {poziom === null ? (
-        <p className="text-small text-muted-foreground">Wpisz zmierzone napięcie, żeby zobaczyć werdykt.</p>
+        <p className="text-small text-muted-foreground">{t("UI-RATOGN-WPISZ-ZMIERZONE-NAPIECIE")}</p>
       ) : (
         <WerdyktPanel poziom={poziom} etykieta={etykieta}>
           <WynikSzczegoly assumptions={result.assumptions} warnings={result.warnings} />

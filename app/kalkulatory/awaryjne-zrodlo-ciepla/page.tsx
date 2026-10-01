@@ -11,6 +11,7 @@ import { NawigacjaEkranu } from "@/components/nawigacja-ekranu"
 import { NaglowekEkranu } from "@/components/wzorce/naglowek-ekranu"
 import { WynikGlowny } from "@/components/wzorce/wynik-glowny"
 import { WynikSzczegoly } from "@/components/wzorce/wynik-szczegoly"
+import { useTranslate } from "@/lib/i18n/language-context"
 
 type PoleLiczbowe = Exclude<keyof AwaryjneZrodloCieplaInput, "typZrodla" | "plaszczWodny">
 type FormularzStan = { typZrodla: TypZrodlaCiepla | ""; plaszczWodny: boolean } & Record<PoleLiczbowe, string>
@@ -31,6 +32,7 @@ const f0 = (x: number) => x.toLocaleString("pl-PL", { maximumFractionDigits: 0 }
 const f1 = (x: number) => x.toLocaleString("pl-PL", { maximumFractionDigits: 1 })
 
 export default function AwaryjneZrodloCieplaPage() {
+  const t = useTranslate()
   const [stan, setStan] = usePersistedDraft<FormularzStan>("awaryjne-zrodlo-ciepla", STAN_POCZATKOWY)
   const ustaw = (pole: PoleLiczbowe) => (e: React.ChangeEvent<HTMLInputElement>) =>
     setStan((prev) => ({ ...prev, [pole]: e.target.value }))
@@ -54,25 +56,24 @@ export default function AwaryjneZrodloCieplaPage() {
   return (
     <main className="mx-auto flex max-w-md flex-col gap-6 p-6">
       <NawigacjaEkranu href="/kalkulatory/awaryjne-zrodlo-ciepla" />
-      <NaglowekEkranu tytul="Awaryjne źródło ciepła" ekran="awaryjne-zrodlo-ciepla" wynik={result}>
-        Ogień to najstarsze źródło ciepła — w off-gridzie wraca jako sensowna rezerwa, o ile jest bezpiecznie zintegrowany z
-        resztą systemu. Ile ciepła da kominek i ile drewna zje. Moduł 8, Ekran 1.
+      <NaglowekEkranu tytul={t("UI-AWAZROCIE-AWARYJNE-ZRODLO-CIEPLA")} ekran="awaryjne-zrodlo-ciepla" wynik={result}>
+        {t("UI-AWAZROCIE-OGIEN-NAJSTARSZE-ZRODLO")}
       </NaglowekEkranu>
 
       <div className="flex flex-col gap-4">
         <PoleSelect
-          label="Typ źródła"
+          label={t("UI-AWAZROCIE-TYP-ZRODLA")}
           value={stan.typZrodla}
           onChange={(e) => setStan((prev) => ({ ...prev, typZrodla: e.target.value as FormularzStan["typZrodla"] }))}
           pomoc={<PomocPola ekran="awaryjne-zrodlo-ciepla" pole="typ" />}
         >
-          <option value="">— wybierz —</option>
-          <option value="kominek">Kominek</option>
-          <option value="koza">Koza</option>
-          <option value="piec">Piec na drewno</option>
+          <option value="">{t("UI-WYBIERZ")}</option>
+          <option value="kominek">{t("UI-AWAZROCIE-KOMINEK")}</option>
+          <option value="koza">{t("UI-AWAZROCIE-KOZA")}</option>
+          <option value="piec">{t("UI-AWAZROCIE-PIEC-DREWNO")}</option>
         </PoleSelect>
         <Pole
-          label="Moc cieplna (z karty)"
+          label={t("UI-AWAZROCIE-MOC-CIEPLNA-KARTY")}
           unit="kW"
           type="number"
           inputMode="decimal"
@@ -82,7 +83,7 @@ export default function AwaryjneZrodloCieplaPage() {
           pomoc={<PomocPola ekran="awaryjne-zrodlo-ciepla" pole="moc" />}
         />
         <Pole
-          label="Czas palenia w dobie"
+          label={t("UI-AWAZROCIE-CZAS-PALENIA-DOBIE")}
           unit="h"
           type="number"
           inputMode="decimal"
@@ -94,14 +95,14 @@ export default function AwaryjneZrodloCieplaPage() {
         />
         <PoleCheckbox
           id="zrodlo-plaszcz-wodny"
-          label="Płaszcz wodny podłączony do bufora / C.O."
+          label={t("UI-AWAZROCIE-PLASZCZ-WODNY-PODLACZONY")}
           checked={stan.plaszczWodny}
           onChange={(e) => setStan((prev) => ({ ...prev, plaszczWodny: e.target.checked }))}
         />
         {stan.plaszczWodny && (
           <>
             <Pole
-              label="Moc do wody (z karty)"
+              label={t("UI-AWAZROCIE-MOC-WODY-KARTY")}
               unit="kW"
               type="number"
               inputMode="decimal"
@@ -111,8 +112,8 @@ export default function AwaryjneZrodloCieplaPage() {
               pomoc={<PomocPola ekran="awaryjne-zrodlo-ciepla" pole="mocWoda" />}
             />
             <Pole
-              label="Zapotrzebowanie na ciepło w mroźny dzień"
-              unit="kWh/dobę"
+              label={t("UI-AWAZROCIE-ZAPOTRZEBOWANIE-CIEPLO-MROZN")}
+              unit={t("UI-J-KWH-DOBA")}
               type="number"
               inputMode="decimal"
               min={0}
@@ -125,9 +126,9 @@ export default function AwaryjneZrodloCieplaPage() {
       </div>
 
       <div className="flex flex-col gap-4">
-        <p className="text-small font-medium">Paliwo (opcjonalnie)</p>
+        <p className="text-small font-medium">{t("UI-AWAZROCIE-PALIWO-OPCJONALNIE")}</p>
         <Pole
-          label="Sprawność urządzenia"
+          label={t("UI-AWAZROCIE-SPRAWNOSC-URZADZENIA")}
           unit="%"
           type="number"
           inputMode="decimal"
@@ -138,7 +139,7 @@ export default function AwaryjneZrodloCieplaPage() {
           pomoc={<PomocPola ekran="awaryjne-zrodlo-ciepla" pole="sprawnosc" />}
         />
         <Pole
-          label="Wartość opałowa paliwa"
+          label={t("UI-AWAZROCIE-WARTOSC-OPALOWA-PALIWA")}
           unit="kWh/kg"
           type="number"
           inputMode="decimal"
@@ -150,24 +151,24 @@ export default function AwaryjneZrodloCieplaPage() {
       </div>
 
       {result.status === "INVALID_INPUT" ? (
-        <WerdyktPanel poziom="blad" etykieta="Nie da się policzyć — sprawdź wpisane dane">
+        <WerdyktPanel poziom="blad" etykieta={t("UI-AWAZROCIE-POLICZYC-SPRAWDZ-WPISANE")}>
           <WynikSzczegoly assumptions={[]} warnings={result.warnings} />
         </WerdyktPanel>
       ) : result.status === "INCOMPLETE" ? (
-        <p className="text-small text-muted-foreground">Wybierz typ źródła i wpisz moc oraz czas palenia.</p>
+        <p className="text-small text-muted-foreground">{t("UI-AWAZROCIE-WYBIERZ-TYP-ZRODLA")}</p>
       ) : (
-        <WerdyktPanel poziom="ok" etykieta="Awaryjne źródło ciepła">
+        <WerdyktPanel poziom="ok" etykieta={t("UI-AWAZROCIE-AWARYJNE-ZRODLO-CIEPLA")}>
           {pokrycieProc !== null ? (
-            <WynikGlowny>{f0(pokrycieProc)}% zapotrzebowania</WynikGlowny>
+            <WynikGlowny>{t("UI-AWAZROCIE-ZAPOTRZEBOWANIA", { pokrycieProc: f0(pokrycieProc) })}</WynikGlowny>
           ) : (
-            cieploDobaKwh !== null && <WynikGlowny>{f1(cieploDobaKwh)} kWh ciepła / dobę</WynikGlowny>
+            cieploDobaKwh !== null && <WynikGlowny>{t("UI-AWAZROCIE-KWH-CIEPLA-DOBE", { cieploDobaKwh: f1(cieploDobaKwh) })}</WynikGlowny>
           )}
           <ul className="mt-2 flex flex-col gap-1 text-small">
-            {cieploDobaKwh !== null && <li>Ciepło z urządzenia: {f1(cieploDobaKwh)} kWh/dobę</li>}
-            {cieploDoInstalacjiKwh !== null && <li>Do instalacji (płaszcz): {f1(cieploDoInstalacjiKwh)} kWh/dobę</li>}
+            {cieploDobaKwh !== null && <li>{t("UI-AWAZROCIE-CIEPLO-URZADZENIA-KWH", { cieploDobaKwh: f1(cieploDobaKwh) })}</li>}
+            {cieploDoInstalacjiKwh !== null && <li>{t("UI-AWAZROCIE-INSTALACJI-PLASZCZ-KWH", { cieploDoInstalacjiKwh: f1(cieploDoInstalacjiKwh) })}</li>}
             {paliwoKgDoba !== null && (
               <li>
-                Paliwo: {f1(paliwoKgDoba)} kg/dobę · {f0(paliwoKgDoba * 7)} kg/tydzień
+                {t("UI-AWAZROCIE-PALIWO-DOBE-TYDZIEN", { paliwoKgDoba: f1(paliwoKgDoba), p: f0(paliwoKgDoba * 7) })}
               </li>
             )}
           </ul>

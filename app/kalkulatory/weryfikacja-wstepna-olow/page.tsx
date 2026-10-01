@@ -9,6 +9,7 @@ import { NaglowekEkranu } from "@/components/wzorce/naglowek-ekranu"
 import { ListaChecklist } from "@/components/wzorce/lista-checklist"
 import { StanPusty } from "@/components/ui/stany"
 import { usePersistedDraft } from "@/lib/adapters/use-persisted-draft"
+import { useTranslate } from "@/lib/i18n/language-context"
 
 type FormularzStan = {
   potwierdzoneIds: string[]
@@ -19,6 +20,7 @@ const STAN_POCZATKOWY: FormularzStan = {
 }
 
 export default function WeryfikacjaWstepnaOlowPage() {
+  const t = useTranslate()
   const [stan, setStan] = usePersistedDraft<FormularzStan>("weryfikacja-wstepna-olow", STAN_POCZATKOWY)
   const { potwierdzoneIds } = stan
 
@@ -45,8 +47,8 @@ export default function WeryfikacjaWstepnaOlowPage() {
   return (
     <main className="mx-auto flex max-w-md flex-col gap-6 p-6">
       <NawigacjaEkranu href="/kalkulatory/weryfikacja-wstepna-olow" />
-      <NaglowekEkranu tytul="Weryfikacja + kontrola wstępna" ekran="weryfikacja-wstepna-olow">
-        Moduł 11, Ekran B1 (Ścieżka B — kwasowo-ołowiowa).
+      <NaglowekEkranu tytul={t("UI-WERWSTOLO-WERYFIKACJA-KONTROLA-WSTEPNA")} ekran="weryfikacja-wstepna-olow">
+        {t("UI-WERWSTOLO-MODUL-EKRAN-SCIEZKA")}
       </NaglowekEkranu>
 
       <ListaChecklist
@@ -64,9 +66,9 @@ export default function WeryfikacjaWstepnaOlowPage() {
       />
 
       {result.status === "VALID" ? (
-        <WerdyktPanel poziom="ok" etykieta="Kontrola wstępna zakończona" />
+        <WerdyktPanel poziom="ok" etykieta={t("UI-WERWSTOLO-KONTROLA-WSTEPNA-ZAKONCZONA")} />
       ) : (
-        <StanPusty tytul={`Potwierdzono ${result.value.potwierdzone} / ${result.value.razem} elementów`} />
+        <StanPusty tytul={t("UI-WERWSTOLO-POTWIERDZONO-ELEMENTOW", { potwierdzone: result.value.potwierdzone, razem: result.value.razem })} />
       )}
     </main>
   )

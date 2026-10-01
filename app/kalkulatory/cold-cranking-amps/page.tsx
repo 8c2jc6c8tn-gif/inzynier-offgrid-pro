@@ -10,6 +10,7 @@ import { NawigacjaEkranu } from "@/components/nawigacja-ekranu"
 import { NaglowekEkranu } from "@/components/wzorce/naglowek-ekranu"
 import { WynikGlowny } from "@/components/wzorce/wynik-glowny"
 import { WynikSzczegoly } from "@/components/wzorce/wynik-szczegoly"
+import { useTranslate } from "@/lib/i18n/language-context"
 
 type FormularzStan = {
   napiecieOtwartegoObwoduV: string
@@ -26,6 +27,7 @@ const STAN_POCZATKOWY: FormularzStan = {
 }
 
 export default function ColdCrankingAmpsPage() {
+  const t = useTranslate()
   const [stan, setStan] = usePersistedDraft<FormularzStan>("cold-cranking-amps", STAN_POCZATKOWY)
   const { napiecieOtwartegoObwoduV, pradRozruchowyA, rezystancjaWewnetrznaMOhm, minimalneNapiecieFalownikaV } = stan
 
@@ -64,18 +66,16 @@ export default function ColdCrankingAmpsPage() {
     <main className="mx-auto flex max-w-md flex-col gap-6 p-6">
       <NawigacjaEkranu href="/kalkulatory/cold-cranking-amps" />
       <NaglowekEkranu
-        tytul="Cold Cranking Amps — zimny start dużych odbiorników"
+        tytul={t("UI-COLCRAAMP-COLD-CRANKING-AMPS")}
         ekran="cold-cranking-amps"
         wynik={result}
       >
-        Zimna bateria to leniwa chemia — reakcje chemiczne wewnątrz zwalniają, więc bateria
-        chwilowo „nie nadąża” z dostarczeniem prądu rozruchowego, nawet jeśli ma dużo energii.
-        Moduł 4, Ekran 15.
+        {t("UI-COLCRAAMP-ZIMNA-BATERIA-LENIWA")}
       </NaglowekEkranu>
 
       <div className="flex flex-col gap-4">
         <Pole
-          label="Napięcie pakietu bez obciążenia"
+          label={t("UI-COLCRAAMP-NAPIECIE-PAKIETU-BEZ")}
           unit="V"
           type="number"
           inputMode="decimal"
@@ -85,7 +85,7 @@ export default function ColdCrankingAmpsPage() {
           pomoc={<PomocPola ekran="cold-cranking-amps" pole="napiecie" />}
         />
         <Pole
-          label="Prąd rozruchowy odbiornika"
+          label={t("UI-COLCRAAMP-PRAD-ROZRUCHOWY-ODBIORNIKA")}
           unit="A"
           type="number"
           inputMode="decimal"
@@ -95,7 +95,7 @@ export default function ColdCrankingAmpsPage() {
           pomoc={<PomocPola ekran="cold-cranking-amps" pole="pradRozruchu" />}
         />
         <Pole
-          label="Rezystancja wewnętrzna pakietu"
+          label={t("UI-COLCRAAMP-REZYSTANCJA-WEWNETRZNA-PAKIE")}
           unit="mΩ"
           type="number"
           inputMode="decimal"
@@ -105,7 +105,7 @@ export default function ColdCrankingAmpsPage() {
           pomoc={<PomocPola ekran="cold-cranking-amps" pole="rezystancja" />}
         />
         <Pole
-          label="Minimalne napięcie pracy falownika"
+          label={t("UI-COLCRAAMP-MINIMALNE-NAPIECIE-PRACY")}
           unit="V"
           type="number"
           inputMode="decimal"
@@ -117,15 +117,15 @@ export default function ColdCrankingAmpsPage() {
       </div>
 
       {result.status === "INVALID_INPUT" ? (
-        <WerdyktPanel poziom="blad" etykieta="Nie da się policzyć — sprawdź wpisane dane">
+        <WerdyktPanel poziom="blad" etykieta={t("UI-COLCRAAMP-POLICZYC-SPRAWDZ-WPISANE")}>
           <WynikSzczegoly assumptions={[]} warnings={result.warnings} />
         </WerdyktPanel>
       ) : poziom === null ? (
-        <p className="text-small text-muted-foreground">Wypełnij wszystkie pola, żeby zobaczyć wynik.</p>
+        <p className="text-small text-muted-foreground">{t("UI-COLCRAAMP-WYPELNIJ-WSZYSTKIE-POLA")}</p>
       ) : (
         <WerdyktPanel
           poziom={poziom}
-          etykieta={poziom === "ok" ? "Falownik utrzyma napięcie pracy" : "Falownik się wyłączy"}
+          etykieta={poziom === "ok" ? t("UI-COLCRAAMP-FALOWNIK-UTRZYMA-NAPIECIE") : t("UI-COLCRAAMP-FALOWNIK-WYLACZY")}
         >
           <WynikGlowny>{result.value.vSagV.toFixed(1)} V</WynikGlowny>
           <WynikSzczegoly assumptions={result.assumptions} warnings={result.warnings} formula={result.formula} />

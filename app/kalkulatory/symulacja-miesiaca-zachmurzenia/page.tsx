@@ -11,6 +11,7 @@ import { NawigacjaEkranu } from "@/components/nawigacja-ekranu"
 import { NaglowekEkranu } from "@/components/wzorce/naglowek-ekranu"
 import { WynikGlowny } from "@/components/wzorce/wynik-glowny"
 import { WynikSzczegoly } from "@/components/wzorce/wynik-szczegoly"
+import { useTranslate } from "@/lib/i18n/language-context"
 
 type FormularzStan = {
   pojemnoscUzytecznaKwh: string
@@ -37,6 +38,7 @@ function formatujGodzine(godzinaW24h: number): string {
 }
 
 export default function SymulacjaMiesiacaZachmurzeniaPage() {
+  const t = useTranslate()
   const [stan, setStan] = usePersistedDraft<FormularzStan>("symulacja-miesiaca-zachmurzenia", STAN_POCZATKOWY)
 
   function setPole<K extends keyof FormularzStan>(pole: K, wartosc: string) {
@@ -78,17 +80,16 @@ export default function SymulacjaMiesiacaZachmurzeniaPage() {
     <main className="mx-auto flex max-w-md flex-col gap-6 p-6">
       <NawigacjaEkranu href="/kalkulatory/symulacja-miesiaca-zachmurzenia" />
       <NaglowekEkranu
-        tytul="Symulacja miesiąca zachmurzenia (No-Sun Scenario)"
+        tytul={t("UI-SYMMIEZAC-SYMULACJA-MIESIACA-ZACHMURZE")}
         ekran="symulacja-miesiaca-zachmurzenia"
         wynik={result}
       >
-        Projektujesz system nie na średnią pogodę, tylko na najgorszy realistyczny tydzień w roku
-        — to jest istota prawdziwego off-gridu. Moduł 4, Ekran 33.
+        {t("UI-SYMMIEZAC-PROJEKTUJESZ-SYSTEM-SREDNIA")}
       </NaglowekEkranu>
 
       <div className="flex flex-col gap-4">
         <Pole
-          label="Pojemność użyteczna baterii"
+          label={t("UI-SYMMIEZAC-POJEMNOSC-UZYTECZNA-BATERII")}
           unit="kWh"
           type="number"
           inputMode="decimal"
@@ -98,7 +99,7 @@ export default function SymulacjaMiesiacaZachmurzeniaPage() {
           pomoc={<PomocPola ekran="symulacja-miesiaca-zachmurzenia" pole="pojemnosc" />}
         />
         <Pole
-          label="SoC na początku scenariusza"
+          label={t("UI-SYMMIEZAC-SOC-POCZATKU-SCENARIUSZA")}
           unit="%"
           type="number"
           inputMode="decimal"
@@ -109,8 +110,8 @@ export default function SymulacjaMiesiacaZachmurzeniaPage() {
           pomoc={<PomocPola ekran="symulacja-miesiaca-zachmurzenia" pole="socStart" />}
         />
         <Pole
-          label="Zapotrzebowanie dobowe"
-          unit="kWh/dzień"
+          label={t("UI-SYMMIEZAC-ZAPOTRZEBOWANIE-DOBOWE")}
+          unit={t("UI-SYMMIEZAC-KWH-DZIEN")}
           type="number"
           inputMode="decimal"
           min={0}
@@ -119,8 +120,8 @@ export default function SymulacjaMiesiacaZachmurzeniaPage() {
           pomoc={<PomocPola ekran="symulacja-miesiaca-zachmurzenia" pole="zapotrzebowanie" />}
         />
         <Pole
-          label="Nominalna produkcja dobowa PV (dzień słoneczny)"
-          unit="kWh/dzień"
+          label={t("UI-SYMMIEZAC-NOMINALNA-PRODUKCJA-DOBOWA")}
+          unit={t("UI-SYMMIEZAC-KWH-DZIEN")}
           type="number"
           inputMode="decimal"
           min={0}
@@ -129,7 +130,7 @@ export default function SymulacjaMiesiacaZachmurzeniaPage() {
           pomoc={<PomocPola ekran="symulacja-miesiaca-zachmurzenia" pole="produkcja" />}
         />
         <Pole
-          label="Poziom zachmurzenia (% produkcji nominalnej)"
+          label={t("UI-SYMMIEZAC-POZIOM-ZACHMURZENIA-PRODUKCJ")}
           unit="%"
           type="number"
           inputMode="decimal"
@@ -140,8 +141,8 @@ export default function SymulacjaMiesiacaZachmurzeniaPage() {
           pomoc={<PomocPola ekran="symulacja-miesiaca-zachmurzenia" pole="zachmurzenie" />}
         />
         <Pole
-          label="Liczba dni scenariusza"
-          unit="dni"
+          label={t("UI-SYMMIEZAC-LICZBA-DNI-SCENARIUSZA")}
+          unit={t("UI-J-DNI")}
           type="number"
           inputMode="numeric"
           min={0}
@@ -153,31 +154,31 @@ export default function SymulacjaMiesiacaZachmurzeniaPage() {
       </div>
 
       {result.status === "INVALID_INPUT" ? (
-        <WerdyktPanel poziom="blad" etykieta="Nie da się policzyć — sprawdź wpisane dane">
+        <WerdyktPanel poziom="blad" etykieta={t("UI-SYMMIEZAC-POLICZYC-SPRAWDZ-WPISANE")}>
           <WynikSzczegoly assumptions={[]} warnings={result.warnings} />
         </WerdyktPanel>
       ) : result.status === "INCOMPLETE" ? (
-        <p className="text-small text-muted-foreground">Wypełnij wszystkie pola, żeby zobaczyć symulację.</p>
+        <p className="text-small text-muted-foreground">{t("UI-SYMMIEZAC-WYPELNIJ-WSZYSTKIE-POLA")}</p>
       ) : (
         <WerdyktPanel
           poziom={poziom}
-          etykieta={result.value.przetrwaCalyScenariusz ? "Przetrwa cały scenariusz" : "System padnie przed końcem scenariusza"}
+          etykieta={result.value.przetrwaCalyScenariusz ? t("UI-SYMMIEZAC-PRZETRWA-CALY-SCENARIUSZ") : t("UI-SYMMIEZAC-SYSTEM-PADNIE-PRZED")}
         >
           <WynikGlowny>
             {result.value.przetrwaCalyScenariusz
-              ? "Brak blackoutu"
-              : `Padnie ${result.value.dzienPadnieSystem}. dnia o ${formatujGodzine(result.value.godzinaPadnieSystemW24H ?? 0)}`}
+              ? t("UI-SYMMIEZAC-BRAK-BLACKOUTU")
+              : t("UI-SYMMIEZAC-PADNIE-DNIA", { dzienPadnieSystem: result.value.dzienPadnieSystem ?? "—", p: formatujGodzine(result.value.godzinaPadnieSystemW24H ?? 0) })}
           </WynikGlowny>
           {!result.value.przetrwaCalyScenariusz && (
             <p className="mt-1 text-small">
-              Aby przetrwać bez agregatu, potrzebujesz dodatkowych{" "}
-              <strong>{result.value.energiaBrakujacaKwh.toFixed(1)} kWh</strong> pojemności baterii.
+              {t("UI-SYMMIEZAC-ABY-PRZETRWAC-BEZ")}
+              <strong>{result.value.energiaBrakujacaKwh.toFixed(1)} kWh</strong> {t("UI-SYMMIEZAC-POJEMNOSCI-BATERII")}
             </p>
           )}
           <p className="mt-1 text-small">
             {result.value.dobowyDeficytKwh > 0
-              ? `Deficyt energii: ${result.value.dobowyDeficytKwh.toFixed(1)} kWh/dzień.`
-              : `Nadwyżka energii nawet w tym scenariuszu: ${Math.abs(result.value.dobowyDeficytKwh).toFixed(1)} kWh/dzień.`}
+              ? t("UI-SYMMIEZAC-DEFICYT-ENERGII-KWH", { dobowyDeficytKwh: result.value.dobowyDeficytKwh.toFixed(1) })
+              : t("UI-SYMMIEZAC-NADWYZKA-ENERGII-NAWET", { p: Math.abs(result.value.dobowyDeficytKwh).toFixed(1) })}
           </p>
           <WynikSzczegoly assumptions={result.assumptions} warnings={result.warnings} formula={result.formula} />
         </WerdyktPanel>

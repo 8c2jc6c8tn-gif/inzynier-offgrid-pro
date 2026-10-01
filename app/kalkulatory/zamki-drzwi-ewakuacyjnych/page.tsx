@@ -66,35 +66,34 @@ export default function ZamkiDrzwiEwakuacyjnychPage() {
   return (
     <main className="mx-auto flex max-w-md flex-col gap-6 p-6">
       <NawigacjaEkranu href="/kalkulatory/zamki-drzwi-ewakuacyjnych" />
-      <NaglowekEkranu tytul="Zamki drzwi ewakuacyjnych" ekran="zamki-drzwi-ewakuacyjnych" wynik={result}>
-        W pożarze nie może być zablokowanych drzwi — dobra zasada projektowa to „fail-safe”: brak prądu = drzwi otwarte,
-        nigdy odwrotnie. Moduł 8, Ekran 3.
+      <NaglowekEkranu tytul={t("UI-ZAMDRZEWA-ZAMKI-DRZWI-EWAKUACYJNYCH")} ekran="zamki-drzwi-ewakuacyjnych" wynik={result}>
+        {t("UI-ZAMDRZEWA-POZARZE-MOZE-BYC")}
       </NaglowekEkranu>
 
       <div className="flex flex-col gap-4">
         <PoleSelect
-          label="Typ zamka"
+          label={t("UI-ZAMDRZEWA-TYP-ZAMKA")}
           value={stan.typZamka}
           onChange={(e) => setStan((prev) => ({ ...prev, typZamka: e.target.value as FormularzStan["typZamka"] }))}
           pomoc={<PomocPola ekran="zamki-drzwi-ewakuacyjnych" pole="typ" />}
         >
-          <option value="">— wybierz —</option>
-          <option value="elektromagnetyczny">Zwora elektromagnetyczna</option>
-          <option value="elektrozaczep">Elektrozaczep</option>
-          <option value="silownik">Siłownik drzwi</option>
+          <option value="">{t("UI-WYBIERZ")}</option>
+          <option value="elektromagnetyczny">{t("UI-ZAMDRZEWA-ZWORA-ELEKTROMAGNETYCZNA")}</option>
+          <option value="elektrozaczep">{t("UI-ZAMDRZEWA-ELEKTROZACZEP")}</option>
+          <option value="silownik">{t("UI-ZAMDRZEWA-SILOWNIK-DRZWI")}</option>
         </PoleSelect>
         <PoleSelect
-          label="Co robi zamek przy zaniku prądu?"
+          label={t("UI-ZAMDRZEWA-ROBI-ZAMEK-ZANIKU")}
           value={stan.zachowaniePrzyZanikuZasilania}
           onChange={(e) =>
             setStan((prev) => ({ ...prev, zachowaniePrzyZanikuZasilania: e.target.value as FormularzStan["zachowaniePrzyZanikuZasilania"] }))
           }
           pomoc={<PomocPola ekran="zamki-drzwi-ewakuacyjnych" pole="zanikPradu" />}
         >
-          <option value="">— wybierz —</option>
-          <option value="otwiera">Otwiera drzwi (fail-safe)</option>
-          <option value="blokuje">Blokuje drzwi (fail-secure)</option>
-          <option value="nie-wiem">Nie wiem</option>
+          <option value="">{t("UI-WYBIERZ")}</option>
+          <option value="otwiera">{t("UI-ZAMDRZEWA-OTWIERA-DRZWI-FAIL")}</option>
+          <option value="blokuje">{t("UI-ZAMDRZEWA-BLOKUJE-DRZWI-FAIL")}</option>
+          <option value="nie-wiem">{t("UI-NIE-WIEM")}</option>
         </PoleSelect>
         {FLAGI.map(({ pole, label, hint }) => (
           <PoleCheckbox
@@ -110,16 +109,16 @@ export default function ZamkiDrzwiEwakuacyjnychPage() {
       </div>
 
       {result.status === "INCOMPLETE" ? (
-        <p className="text-small text-muted-foreground">Wybierz typ zamka i jego zachowanie przy zaniku prądu.</p>
+        <p className="text-small text-muted-foreground">{t("UI-ZAMDRZEWA-WYBIERZ-TYP-ZAMKA")}</p>
       ) : (
         <WerdyktPanel
           poziom={poziom}
           etykieta={
-            hasCritical ? "Drzwi mogą zostać zablokowane" : hasWarning ? "Są braki w logice zwalniania" : "Droga ewakuacyjna zabezpieczona"
+            hasCritical ? t("UI-ZAMDRZEWA-DRZWI-MOGA-ZOSTAC") : hasWarning ? t("UI-ZAMDRZEWA-BRAKI-LOGICE-ZWALNIANIA") : t("UI-ZAMDRZEWA-DROGA-EWAKUACYJNA-ZABEZPIECZ")
           }
         >
-          <WynikGlowny>{result.value.failSafe ? "Fail-safe" : "Nie fail-safe"}</WynikGlowny>
-          <p className="mt-2 text-small">Braki: {result.value.liczbaBrakow}</p>
+          <WynikGlowny>{result.value.failSafe ? t("UI-ZAMDRZEWA-FAIL-SAFE") : t("UI-ZAMDRZEWA-FAIL-SAFE-2")}</WynikGlowny>
+          <p className="mt-2 text-small">{t("UI-ZAMDRZEWA-BRAKI", { liczbaBrakow: result.value.liczbaBrakow })}</p>
           <WynikSzczegoly assumptions={result.assumptions} warnings={result.warnings} formula={result.formula} />
         </WerdyktPanel>
       )}

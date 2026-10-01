@@ -11,6 +11,7 @@ import { WerdyktPanel, type WerdyktPoziom } from "@/components/werdykt"
 import { NawigacjaEkranu } from "@/components/nawigacja-ekranu"
 import { NaglowekEkranu } from "@/components/wzorce/naglowek-ekranu"
 import { WynikSzczegoly } from "@/components/wzorce/wynik-szczegoly"
+import { useTranslate } from "@/lib/i18n/language-context"
 
 type GalazForm = { id: string; dlugoscM: string; przekrojMm2: string }
 
@@ -31,6 +32,7 @@ const STAN_POCZATKOWY: FormularzStan = {
 }
 
 export default function SzynyZbiorczeMiedzypakietowePage() {
+  const t = useTranslate()
   const [stan, setStan] = usePersistedDraft<FormularzStan>("szyny-zbiorcze-miedzypakietowe", STAN_POCZATKOWY)
   const { pradCalkowityA, material, galezie } = stan
 
@@ -87,27 +89,25 @@ export default function SzynyZbiorczeMiedzypakietowePage() {
     green: "ok",
   }
   const verdictLabel: Record<typeof verdict, string> = {
-    invalid: "Nie da się policzyć",
-    incomplete: "Wypełnij prąd całkowity i dane wszystkich gałęzi",
-    green: "Rozpływ prądu policzony",
+    invalid: t("UI-SZYZBIMIE-POLICZYC"),
+    incomplete: t("UI-SZYZBIMIE-WYPELNIJ-PRAD-CALKOWITY"),
+    green: t("UI-SZYZBIMIE-ROZPLYW-PRADU-POLICZONY"),
   }
 
   return (
     <main className="mx-auto flex max-w-md flex-col gap-6 p-6">
       <NawigacjaEkranu href="/kalkulatory/szyny-zbiorcze-miedzypakietowe" />
       <NaglowekEkranu
-        tytul="Szyny zbiorcze i połączenia międzypakietowe"
+        tytul={t("UI-SZYZBIMIE-SZYNY-ZBIORCZE-POLACZENIA")}
         ekran="szyny-zbiorcze-miedzypakietowe"
         wynik={result}
       >
-        Elektrony, jak wszystko leniwe, płyną tam, gdzie jest im łatwiej — nierówne długości
-        kabli czy niesymetryczne podłączenie zawsze prowadzi do nierównego obciążenia. Moduł 4,
-        Ekran 25.
+        {t("UI-SZYZBIMIE-ELEKTRONY-WSZYSTKO-LENIWE")}
       </NaglowekEkranu>
 
       <div className="flex flex-col gap-4">
         <Pole
-          label="Prąd całkowity rozpływający się między gałęziami"
+          label={t("UI-SZYZBIMIE-PRAD-CALKOWITY-ROZPLYWAJACY")}
           unit="A"
           type="number"
           inputMode="decimal"
@@ -117,13 +117,13 @@ export default function SzynyZbiorczeMiedzypakietowePage() {
           pomoc={<PomocPola ekran="szyny-zbiorcze-miedzypakietowe" pole="pradCalkowity" />}
         />
         <PoleSelect
-          label="Materiał przewodów"
+          label={t("UI-SZYZBIMIE-MATERIAL-PRZEWODOW")}
           value={material}
           onChange={(e) => setMaterial(e.target.value as Material)}
           pomoc={<PomocPola ekran="szyny-zbiorcze-miedzypakietowe" pole="material" />}
         >
-          <option value="Cu">Miedź (Cu)</option>
-          <option value="Al">Aluminium (Al)</option>
+          <option value="Cu">{t("UI-SZYZBIMIE-MIEDZ")}</option>
+          <option value="Al">{t("UI-SZYZBIMIE-ALUMINIUM")}</option>
         </PoleSelect>
       </div>
 
@@ -131,20 +131,20 @@ export default function SzynyZbiorczeMiedzypakietowePage() {
         {galezie.map((g, i) => (
           <div key={g.id} className="flex flex-col gap-2 rounded-lg border p-3">
             <div className="flex items-center justify-between">
-              <span className="text-small font-medium">Gałąź {i + 1}</span>
+              <span className="text-small font-medium">{t("UI-SZYZBIMIE-GALAZ", { p: i + 1 })}</span>
               {galezie.length > 2 && (
                 <button
                   type="button"
                   onClick={() => usunGalaz(g.id)}
                   className="text-caption text-muted-foreground underline"
                 >
-                  Usuń
+                  {t("UI-SZYZBIMIE-USUN")}
                 </button>
               )}
             </div>
             <Pole
               id={`dlugosc-${g.id}`}
-              label="Długość odcinka do wspólnej szyny"
+              label={t("UI-SZYZBIMIE-DLUGOSC-ODCINKA-WSPOLNEJ")}
               unit="m"
               type="number"
               inputMode="decimal"
@@ -155,7 +155,7 @@ export default function SzynyZbiorczeMiedzypakietowePage() {
             />
             <Pole
               id={`przekroj-${g.id}`}
-              label="Przekrój przewodu"
+              label={t("UI-SZYZBIMIE-PRZEKROJ-PRZEWODU")}
               unit="mm²"
               type="number"
               inputMode="decimal"
@@ -167,7 +167,7 @@ export default function SzynyZbiorczeMiedzypakietowePage() {
           </div>
         ))}
         <button type="button" onClick={dodajGalaz} className="text-small text-muted-foreground underline">
-          + Dodaj gałąź
+          {t("UI-SZYZBIMIE-DODAJ-GALAZ")}
         </button>
       </div>
 
@@ -176,7 +176,7 @@ export default function SzynyZbiorczeMiedzypakietowePage() {
           <ul className="flex flex-col gap-1 text-small">
             {result.value.galezie.map((g, i) => (
               <li key={g.id}>
-                Gałąź {i + 1}: {g.pradA.toFixed(1)} A ({g.udzialPct.toFixed(1)}%), R = {(g.rezystancjaOhm * 1000).toFixed(2)} mΩ
+                {t("UI-SZYZBIMIE-GALAZ-2", { p: i + 1, pradA: g.pradA.toFixed(1), udzialPct: g.udzialPct.toFixed(1), p2: (g.rezystancjaOhm * 1000).toFixed(2) })}
               </li>
             ))}
           </ul>

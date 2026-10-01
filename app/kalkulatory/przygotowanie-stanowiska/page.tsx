@@ -9,6 +9,7 @@ import { NawigacjaEkranu } from "@/components/nawigacja-ekranu"
 import { NaglowekEkranu } from "@/components/wzorce/naglowek-ekranu"
 import { ListaChecklist } from "@/components/wzorce/lista-checklist"
 import { StanPusty } from "@/components/ui/stany"
+import { useTranslate } from "@/lib/i18n/language-context"
 
 type FormularzStan = {
   potwierdzoneIds: string[]
@@ -19,6 +20,7 @@ const STAN_POCZATKOWY: FormularzStan = {
 }
 
 export default function PrzygotowanieStanowiskaPage() {
+  const t = useTranslate()
   const [stan, setStan] = usePersistedDraft<FormularzStan>("przygotowanie-stanowiska", STAN_POCZATKOWY)
   const { potwierdzoneIds } = stan
   const setPotwierdzoneIds = (a: string[] | ((p: string[]) => string[])) =>
@@ -36,9 +38,8 @@ export default function PrzygotowanieStanowiskaPage() {
   return (
     <main className="mx-auto flex max-w-md flex-col gap-6 p-6">
       <NawigacjaEkranu href="/kalkulatory/przygotowanie-stanowiska" />
-      <NaglowekEkranu tytul="Przygotowanie stanowiska i narzędzi" ekran="przygotowanie-stanowiska">
-        Zanim zaczniesz montaż pakietu — stanowisko i narzędzia muszą być gotowe. Moduł 11,
-        Ekran A7 (ścieżka LiFePO4).
+      <NaglowekEkranu tytul={t("UI-PRZSTA-PRZYGOTOWANIE-STANOWISKA-NAR")} ekran="przygotowanie-stanowiska">
+        {t("UI-PRZSTA-ZANIM-ZACZNIESZ-MONTAZ")}
       </NaglowekEkranu>
 
       <ListaChecklist
@@ -49,9 +50,9 @@ export default function PrzygotowanieStanowiskaPage() {
       />
 
       {result.status === "VALID" ? (
-        <WerdyktPanel poziom="ok" etykieta="Stanowisko gotowe do montażu" />
+        <WerdyktPanel poziom="ok" etykieta={t("UI-PRZSTA-STANOWISKO-GOTOWE-MONTAZU")} />
       ) : (
-        <StanPusty tytul={`Potwierdzono ${result.value.potwierdzone} / ${result.value.razem} elementów`} />
+        <StanPusty tytul={t("UI-PRZSTA-POTWIERDZONO-ELEMENTOW", { potwierdzone: result.value.potwierdzone, razem: result.value.razem })} />
       )}
     </main>
   )

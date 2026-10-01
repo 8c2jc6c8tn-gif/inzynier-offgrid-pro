@@ -19,6 +19,7 @@ import { NawigacjaEkranu } from "@/components/nawigacja-ekranu"
 import { NaglowekEkranu } from "@/components/wzorce/naglowek-ekranu"
 import { WynikGlowny } from "@/components/wzorce/wynik-glowny"
 import { WynikSzczegoly } from "@/components/wzorce/wynik-szczegoly"
+import { useTranslate } from "@/lib/i18n/language-context"
 
 type FormularzStan = {
   miejsce: MiejsceMalejInstalacji | ""
@@ -29,21 +30,22 @@ type FormularzStan = {
 const STAN_POCZATKOWY: FormularzStan = { miejsce: "", narazone: "", ipKod: 0 }
 
 const MIEJSCA: { id: MiejsceMalejInstalacji; label: string }[] = [
-  { id: "garaz", label: "Garaż" },
-  { id: "piwnica", label: "Piwnica" },
-  { id: "namiot", label: "Namiot" },
-  { id: "jacht", label: "Jacht / łódź" },
+  { id: "garaz", label: "UI-WILMALINS-GARAZ" },
+  { id: "piwnica", label: "UI-WILMALINS-PIWNICA" },
+  { id: "namiot", label: "UI-WILMALINS-NAMIOT" },
+  { id: "jacht", label: "UI-WILMALINS-JACHT-LODZ" },
 ]
 
 /** Lista osłon — brzmienie z Biblii §12.34. */
 const OPIS_ZALECENIA: Record<ZalecenieWilgoc, string> = {
-  "obudowy-ip": "Obudowy urządzeń o odpowiednim stopniu IP",
-  "puszki-z-uszczelka": "Puszki i złącza z uszczelką",
-  "przewody-w-peszlu": "Przewody prowadzone w peszlu",
-  "osuszacz-pochlaniacz": "Osuszacz albo pochłaniacz wilgoci w pomieszczeniu",
+  "obudowy-ip": "UI-WILMALINS-OBUDOWY-URZADZEN-ODPOWIEDNIM",
+  "puszki-z-uszczelka": "UI-WILMALINS-PUSZKI-ZLACZA-USZCZELKA",
+  "przewody-w-peszlu": "UI-WILMALINS-PRZEWODY-PESZLU",
+  "osuszacz-pochlaniacz": "UI-WILMALINS-OSUSZACZ-ALBO-POCHLANIACZ",
 }
 
 export default function WilgocMaleInstalacjePage() {
+  const t = useTranslate()
   const [stan, setStan] = usePersistedDraft<FormularzStan>("wilgoc-male-instalacje", STAN_POCZATKOWY)
 
   const result = useMemo(
@@ -67,52 +69,51 @@ export default function WilgocMaleInstalacjePage() {
     <main className="mx-auto flex max-w-md flex-col gap-6 p-6">
       <NawigacjaEkranu href="/kalkulatory/wilgoc-male-instalacje" />
       <NaglowekEkranu
-        tytul="Zabezpieczenia przeciwwilgociowe — mała instalacja"
+        tytul={t("UI-WILMALINS-ZABEZPIECZENIA-PRZECIWWILGOC")}
         ekran="wilgoc-male-instalacje"
         wynik={result}
       >
-        Garaż, piwnica, namiot albo jacht: sprawdza, czy obudowa ma wystarczający stopień ochrony IP, i podaje, jakie osłony
-        zastosować. Moduł 12, Ekran 23 (uproszczona wersja Modułu 4, Ekran 10).
+        {t("UI-WILMALINS-GARAZ-PIWNICA-NAMIOT")}
       </NaglowekEkranu>
       
 
       <div className="flex flex-col gap-4">
         <PoleSelect
-          label="Gdzie stoi instalacja"
+          label={t("UI-WILMALINS-GDZIE-STOI-INSTALACJA")}
           value={stan.miejsce}
           onChange={(e) => setStan((prev) => ({ ...prev, miejsce: e.target.value as FormularzStan["miejsce"] }))}
           pomoc={<PomocPola ekran="wilgoc-male-instalacje" pole="miejsce" />}
         >
-          <option value="">— wybierz —</option>
+          <option value="">{t("UI-WYBIERZ")}</option>
           {MIEJSCA.map((m) => (
             <option key={m.id} value={m.id}>
-              {m.label}
+              {t(m.label)}
             </option>
           ))}
         </PoleSelect>
         {podwyzszoneRyzyko ? (
           <p className="text-small text-muted-foreground">
-            Namiot i jacht są zawsze traktowane jako narażone na wilgoć — pytanie o wilgoć tu nie dotyczy.
+            {t("UI-WILMALINS-NAMIOT-JACHT-ZAWSZE")}
           </p>
         ) : (
           <PoleSelect
-            label="Czy to miejsce jest narażone na wilgoć?"
+            label={t("UI-WILMALINS-MIEJSCE-NARAZONE-WILGOC")}
             value={stan.narazone}
             onChange={(e) => setStan((prev) => ({ ...prev, narazone: e.target.value as FormularzStan["narazone"] }))}
             pomoc={<PomocPola ekran="wilgoc-male-instalacje" pole="wilgoc" />}
           >
-            <option value="">— wybierz —</option>
-            <option value="tak">Tak</option>
-            <option value="nie">Nie, jest sucho</option>
+            <option value="">{t("UI-WYBIERZ")}</option>
+            <option value="tak">{t("UI-TAK-DUZE")}</option>
+            <option value="nie">{t("UI-WILMALINS-SUCHO")}</option>
           </PoleSelect>
         )}
         <PoleSelect
-          label="Stopień ochrony obudowy (IP)"
+          label={t("UI-WILMALINS-STOPIEN-OCHRONY-OBUDOWY")}
           value={stan.ipKod}
           onChange={(e) => setStan((prev) => ({ ...prev, ipKod: Number(e.target.value) }))}
           pomoc={<PomocPola ekran="wilgoc-male-instalacje" pole="ip" />}
         >
-          <option value={0}>— wybierz —</option>
+          <option value={0}>{t("UI-WYBIERZ")}</option>
           {OPCJE_IP_MALE_INSTALACJE.map((o) => (
             <option key={o.kod} value={o.kod}>
               {o.label}
@@ -122,27 +123,27 @@ export default function WilgocMaleInstalacjePage() {
       </div>
 
       {result.status === "INCOMPLETE" ? (
-        <p className="text-small text-muted-foreground">Wybierz miejsce, odpowiedz na pytanie o wilgoć (nie dotyczy namiotu i jachtu) i wybierz stopień IP.</p>
+        <p className="text-small text-muted-foreground">{t("UI-WILMALINS-WYBIERZ-MIEJSCE-ODPOWIEDZ")}</p>
       ) : (
         <WerdyktPanel
           poziom={hasCritical ? "blad" : hasWarning ? "uwaga" : "ok"}
           etykieta={
             hasCritical
-              ? "Obudowa za słaba na wilgoć"
+              ? t("UI-WILMALINS-OBUDOWA-SLABA-WILGOC")
               : hasWarning
-                ? `Obudowa dopuszczalna — zalecane ${zalecaneIp}`
+                ? t("UI-WILMALINS-OBUDOWA-DOPUSZCZALNA-ZALECAN", { zalecaneIp })
                 : minimalneIp === null
-                  ? "Miejsce suche"
-                  : "Obudowa wystarczająca"
+                  ? t("UI-WILMALINS-MIEJSCE-SUCHE")
+                  : t("UI-WILMALINS-OBUDOWA-WYSTARCZAJACA")
           }
         >
-          <WynikGlowny>{minimalneIp === null ? "próg IP nie dotyczy" : `minimum IP${minimalneIp}`}</WynikGlowny>
+          <WynikGlowny>{minimalneIp === null ? t("UI-WILMALINS-PROG-DOTYCZY") : t("UI-WILMALINS-MINIMUM", { minimalneIp })}</WynikGlowny>
           {zalecenia.length > 0 && (
             <>
-              <p className="mt-2 text-small font-medium">Zalecane osłony:</p>
+              <p className="mt-2 text-small font-medium">{t("UI-WILMALINS-ZALECANE-OSLONY")}</p>
               <ul className="list-disc pl-5 text-small">
                 {zalecenia.map((z) => (
-                  <li key={z}>{OPIS_ZALECENIA[z]}</li>
+                  <li key={z}>{t(OPIS_ZALECENIA[z])}</li>
                 ))}
               </ul>
             </>
@@ -152,9 +153,9 @@ export default function WilgocMaleInstalacjePage() {
       )}
 
       <p className="text-small text-muted-foreground">
-        Czy na obudowie będzie się skraplać woda (punkt rosy)? Policz to w pełnym kalkulatorze:{" "}
+        {t("UI-WILMALINS-OBUDOWIE-BEDZIE-SKRAPLAC")}
         <Link href="/kalkulatory/ochrona-wilgoc" className="underline">
-          Moduł 4 — Ochrona przed wilgocią i kondensacją
+          {t("UI-WILMALINS-MODUL-OCHRONA-PRZED")}
         </Link>
         .
       </p>

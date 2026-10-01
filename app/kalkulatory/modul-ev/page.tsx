@@ -51,15 +51,14 @@ export default function ModulEvPage() {
   return (
     <main className="mx-auto flex max-w-md flex-col gap-6 p-6">
       <NawigacjaEkranu href="/kalkulatory/modul-ev" />
-      <NaglowekEkranu tytul="Moduł EV — ładowanie samochodu elektrycznego" ekran="modul-ev">
-        EV to dodatkowy „odbiornik” o dużym apetycie — trzeba go policzyć osobno, bo potrafi zjeść
-        całą nadwyżkę produkcji. Moduł 4, Ekran 4.
+      <NaglowekEkranu tytul={t("UI-MODEV-MODUL-LADOWANIE-SAMOCHODU")} ekran="modul-ev">
+        {t("UI-MODEV-DODATKOWY-ODBIORNIK-DUZYM")}
       </NaglowekEkranu>
 
       <div className="flex flex-col gap-4">
         <Pole
-          label="Dobowe zapotrzebowanie na ładowanie EV"
-          unit="kWh/dobę"
+          label={t("UI-MODEV-DOBOWE-ZAPOTRZEBOWANIE-LADOW")}
+          unit={t("UI-J-KWH-DOBA")}
           type="number"
           inputMode="decimal"
           min={0}
@@ -68,8 +67,8 @@ export default function ModulEvPage() {
           pomoc={<PomocPola ekran="modul-ev" pole="zapotrzebowanieEv" />}
         />
         <Pole
-          label="Nadwyżka produkcji PV latem"
-          unit="kWh/dobę"
+          label={t("UI-MODEV-NADWYZKA-PRODUKCJI-LATEM")}
+          unit={t("UI-J-KWH-DOBA")}
           type="number"
           inputMode="decimal"
           min={0}
@@ -78,8 +77,8 @@ export default function ModulEvPage() {
           pomoc={<PomocPola ekran="modul-ev" pole="nadwyzkaLato" />}
         />
         <Pole
-          label="Nadwyżka produkcji PV zimą"
-          unit="kWh/dobę"
+          label={t("UI-MODEV-NADWYZKA-PRODUKCJI-ZIMA")}
+          unit={t("UI-J-KWH-DOBA")}
           type="number"
           inputMode="decimal"
           min={0}
@@ -90,19 +89,19 @@ export default function ModulEvPage() {
       </div>
 
       {result.status === "INVALID_INPUT" ? (
-        <p className="text-small text-werdykt-blad">Sprawdź wpisane dane — wartości nie mogą być ujemne.</p>
+        <p className="text-small text-werdykt-blad">{t("UI-MODEV-SPRAWDZ-WPISANE-DANE")}</p>
       ) : result.status === "INCOMPLETE" ? (
-        <p className="text-small text-muted-foreground">Wypełnij wszystkie pola, żeby zobaczyć wynik.</p>
+        <p className="text-small text-muted-foreground">{t("UI-MODEV-WYPELNIJ-WSZYSTKIE-POLA")}</p>
       ) : (
         <WerdyktPanel
           poziom={result.value.pokryteLatem && result.value.pokryteZima ? "ok" : "uwaga"}
-          etykieta="Pokrycie ładowania EV nadwyżką PV"
+          etykieta={t("UI-MODEV-POKRYCIE-LADOWANIA-NADWYZKA")}
         >
           <WynikGlowny>
-            {result.value.pokryteLatem ? "Latem: pokryte" : `Latem: brak ${result.value.brakLatemKwh.toFixed(1)} kWh`}
+            {result.value.pokryteLatem ? t("UI-MODEV-LATEM-POKRYTE") : t("UI-MODEV-LATEM-BRAK-KWH", { brakLatemKwh: result.value.brakLatemKwh.toFixed(1) })}
           </WynikGlowny>
           <p className="mt-1 text-body">
-            {result.value.pokryteZima ? "Zimą: pokryte" : `Zimą: brak ${result.value.brakZimaKwh.toFixed(1)} kWh`}
+            {result.value.pokryteZima ? t("UI-MODEV-ZIMA-POKRYTE") : t("UI-MODEV-ZIMA-BRAK-KWH", { brakZimaKwh: result.value.brakZimaKwh.toFixed(1) })}
           </p>
           {result.warnings.map((w, i) => (
             <p key={i} className="mt-2 text-small">

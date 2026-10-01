@@ -6,17 +6,19 @@ import {
 import { NawigacjaEkranu } from "@/components/nawigacja-ekranu"
 import { NaglowekEkranu } from "@/components/wzorce/naglowek-ekranu"
 import { SekcjaAkordeon } from "@/components/wzorce/sekcja-akordeon"
+import { useTranslate } from "@/lib/i18n/language-context"
 
 export default function PrzechowywanieRecyklingPage() {
+  const t = useTranslate()
   return (
     <main className="mx-auto flex max-w-md flex-col gap-6 p-6">
       <NawigacjaEkranu href="/kalkulatory/przechowywanie-recykling" />
-      <NaglowekEkranu tytul="Przechowywanie / recykling / narzędzia diagnostyczne" ekran="przechowywanie-recykling">
-        Moduł 11, Ekran A10 (Ścieżka A — LiFePO4). Trzy tematy poniżej uzupełniają się nawzajem.
+      <NaglowekEkranu tytul={t("UI-PRZREC-PRZECHOWYWANIE-RECYKLING-NAR")} ekran="przechowywanie-recykling">
+        {t("UI-PRZREC-MODUL-EKRAN-A10")}
       </NaglowekEkranu>
 
       <div className="flex flex-col gap-3">
-        <SekcjaAkordeon tytul="Przechowywanie" domyslnieOtwarta>
+        <SekcjaAkordeon tytul={t("UI-PRZREC-PRZECHOWYWANIE")} domyslnieOtwarta>
           <ul className="flex flex-col gap-2">
             {PRZECHOWYWANIE_FAKTY.map((fakt) => (
               <li key={fakt.id} className="text-small text-muted-foreground">
@@ -26,7 +28,7 @@ export default function PrzechowywanieRecyklingPage() {
           </ul>
         </SekcjaAkordeon>
 
-        <SekcjaAkordeon tytul="Recykling">
+        <SekcjaAkordeon tytul={t("UI-PRZREC-RECYKLING")}>
           <ul className="flex flex-col gap-2">
             {RECYKLING_FAKTY.map((fakt) => (
               <li key={fakt.id} className="text-small text-muted-foreground">
@@ -36,7 +38,7 @@ export default function PrzechowywanieRecyklingPage() {
           </ul>
         </SekcjaAkordeon>
 
-        <SekcjaAkordeon tytul="Narzędzia diagnostyczne">
+        <SekcjaAkordeon tytul={t("UI-PRZREC-NARZEDZIA-DIAGNOSTYCZNE")}>
           <ul className="flex flex-col gap-2">
             {NARZEDZIA_DIAGNOSTYCZNE_FAKTY.map((fakt) => (
               <li key={fakt.id} className="text-small text-muted-foreground">
