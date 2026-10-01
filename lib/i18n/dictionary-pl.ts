@@ -1530,6 +1530,11 @@ export const dictionaryPl = {
   "ZAS-NIEOGRZEWANE": "Zasobnik w nieogrzewanym pomieszczeniu (garaż, piwnica) traci znacznie więcej ciepła — teraz {strata} kWh/dobę. Przenieś go do ogrzewanej części domu albo dołóż izolację.",
   "ZAS-CYRKULACJA-UPROSZCZENIE": "Straty rur cyrkulacji liczone tylko w godzinach pracy pompy, przy rurze w temperaturze C.W.U.; ciepło oddane przez rury stygnące po wyłączeniu pompy pominięte. Nieizolowane rury cyrkulacji to grzejnik, którego nie chcesz.",
   "ZAS-ZALOZENIE-UA-Z-KARTY": "Strata postojowa UA [W/K] z karty zasobnika — obejmuje już izolację, przyłącza, dno i pokrywę. Strata = UA × (temperatura wody − temperatura otoczenia) × 24 h.",
+  "GRZ-TEMPERATURA-POZA-ZAKRESEM": "Temperatura docelowa musi być wyższa niż startowa.",
+  "GRZ-PONAD-FALOWNIK": "Grzałka {grzalka} kW to duże obciążenie — większe niż moc ciągła falownika ({falownik} kW). Sprawdź, czy falownik ją udźwignie (razem z innymi odbiornikami włączonymi w tym czasie) albo wybierz mniejszą grzałkę.",
+  "GRZ-Z-BATERII": "Grzałka o stałej mocy pobiera swoją moc niezależnie od słońca — {kwh} kWh weźmie z baterii. Zimą lepiej dogrzewać pompą ciepła albo użyć regulatora nadwyżki PV.",
+  "GRZ-PV-STALA": "Nadwyżka PV przyjęta jako stała przez cały czas grzania — w rzeczywistości zmienia się z chmurami i porą dnia.",
+  "GRZ-ZALOZENIE-OPOROWA": "Grzałka oporowa zamienia 1 kWh prądu w 1 kWh ciepła; straty zasobnika w czasie grzania pominięte (Ekran 17).",
 } as const
 
 export type KluczTlumaczenia = keyof typeof dictionaryPl

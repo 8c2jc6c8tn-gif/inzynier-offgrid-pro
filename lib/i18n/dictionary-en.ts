@@ -1518,4 +1518,9 @@ export const dictionaryEn = {
   "ZAS-NIEOGRZEWANE": "A tank in an unheated room (garage, basement) loses much more heat — now {strata} kWh/day. Move it into the heated part of the house or add insulation.",
   "ZAS-CYRKULACJA-UPROSZCZENIE": "Circulation pipe losses are counted only while the pump runs, with the pipe at hot-water temperature; the heat released by pipes cooling after the pump stops is left out. Uninsulated circulation pipes are a radiator you do not want.",
   "ZAS-ZALOZENIE-UA-Z-KARTY": "Standing loss UA [W/K] from the tank datasheet — it already covers insulation, connections, bottom and lid. Loss = UA × (water temperature − ambient temperature) × 24 h.",
+  "GRZ-TEMPERATURA-POZA-ZAKRESEM": "The target temperature must be higher than the starting one.",
+  "GRZ-PONAD-FALOWNIK": "A {grzalka} kW heater is a large load — larger than the inverter's continuous power ({falownik} kW). Check whether the inverter can carry it (together with other loads on at the same time) or choose a smaller heater.",
+  "GRZ-Z-BATERII": "A fixed-power heater draws its power regardless of the sun — it will take {kwh} kWh from the battery. In winter it is better to top up with a heat pump or use a PV surplus controller.",
+  "GRZ-PV-STALA": "The PV surplus is taken as constant for the whole heating time — in reality it changes with clouds and time of day.",
+  "GRZ-ZALOZENIE-OPOROWA": "A resistive heater turns 1 kWh of electricity into 1 kWh of heat; tank losses during heating are left out (Screen 17).",
 } satisfies Record<KluczTlumaczenia, string>

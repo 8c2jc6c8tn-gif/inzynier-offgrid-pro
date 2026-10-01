@@ -200,6 +200,7 @@ export const KAFLE: KafelEntry[] = [
       { href: "/kalkulatory/dystrybucja-ciepla", label: "Dystrybucja ciepła — wybór systemu" },
       { href: "/kalkulatory/sterowanie-strefowe", label: "Sterowanie strefowe" },
       { href: "/kalkulatory/zasobnik-cwu", label: "System C.W.U. — zasobnik i cyrkulacja" },
+      { href: "/kalkulatory/grzalka-cwu", label: "Grzałki elektryczne do C.W.U." },
     ],
   },
   {

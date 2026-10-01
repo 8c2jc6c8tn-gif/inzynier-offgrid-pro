@@ -234,6 +234,58 @@ export const pl = {
       }
     }
   },
+  "grzalka-cwu": {
+    "migawka": {
+      "oCoChodzi": "Grzałka elektryczna to prosty i tani sposób na ciepłą wodę, ale bardzo „głodny” — latem grzanie z nadwyżki PV jest praktycznie darmowe, zimą lepiej dogrzewać pompą ciepła, bo grzałka szybko wyczerpuje baterię.",
+      "jakDziala": "Wpisz pojemność zasobnika, temperatury i moc grzałki — aplikacja policzy energię i czas grzania. Z nadwyżką PV i sposobem sterowania pokaże, ile energii da słońce, a ile bateria; z mocą falownika — czy ją udźwignie.",
+      "poCo": "Grzałka to jeden z największych odbiorników w domu off-grid. Źle zaplanowana grzeje z baterii albo przeciąża falownik.",
+      "fizyka": "Q = V·ΔT·c (c = 4186 J/(kg·K)), t = Q / P. Stała moc: grzałka pobiera P niezależnie od słońca, brak z PV pokrywa bateria. Regulator PV: P_ef = min(P, P_PV), grzeje dłużej, 0 z baterii. Przykład źródła: 2 kW, 200 l, 10 → 50 °C → 9,3 kWh i 4,65 h (źródło: 9,2 kWh, 4,6 h). „Przy PV 3 kW — 3 h” nie zgadza się: grzałka 2 kW nie pobierze 3 kW."
+    },
+    "pola": {
+      "pojemnosc": {
+        "nazwa": "Pojemność zasobnika [l]",
+        "cel": "Ile wody grzałka musi podgrzać.",
+        "gdzie": "Tabliczka zasobnika (Ekran 17).",
+        "zakres": "Twoja instalacja."
+      },
+      "tStart": {
+        "nazwa": "Temperatura wody na starcie [°C]",
+        "cel": "Od tej temperatury liczona jest energia.",
+        "gdzie": "Zimna woda (np. 10 °C) albo temperatura po nocnym zużyciu.",
+        "zakres": "Twoja instalacja."
+      },
+      "tKoniec": {
+        "nazwa": "Temperatura docelowa [°C]",
+        "cel": "Do tej temperatury grzałka podgrzewa wodę.",
+        "gdzie": "Nastawa termostatu grzałki.",
+        "zakres": "Wyższa niż startowa."
+      },
+      "moc": {
+        "nazwa": "Moc grzałki [kW]",
+        "cel": "Wyznacza czas grzania i obciążenie falownika.",
+        "gdzie": "Tabliczka grzałki.",
+        "zakres": "Karta katalogowa urządzenia."
+      },
+      "mocPv": {
+        "nazwa": "Nadwyżka PV w czasie grzania [kW]",
+        "cel": "Moc z paneli, która zostaje po zasileniu reszty domu.",
+        "gdzie": "Moduł 3 (produkcja PV) albo odczyt z falownika w słoneczne południe.",
+        "zakres": "Puste = nie liczymy udziału PV."
+      },
+      "sterowanie": {
+        "nazwa": "Sterowanie grzałką",
+        "cel": "Stała moc grzeje pełną mocą (brak z PV bierze z baterii); regulator nadwyżki dopasowuje moc do słońca.",
+        "gdzie": "Twoja instalacja — termostat albo sterownik nadwyżki PV.",
+        "zakres": "Potrzebne tylko z nadwyżką PV."
+      },
+      "falownik": {
+        "nazwa": "Moc ciągła falownika [kW]",
+        "cel": "Sprawdzenie, czy falownik udźwignie grzałkę.",
+        "gdzie": "Karta falownika (moc znamionowa ciągła, nie szczytowa).",
+        "zakres": "Puste = bez sprawdzenia."
+      }
+    }
+  },
 }
 
 const EN_SHEET = "The device datasheet — the app never assumes a typical value for you."
@@ -466,6 +518,58 @@ export const en: Tlumaczenie<typeof pl> = {
       }
     }
   },
+  "grzalka-cwu": {
+    "migawka": {
+      "oCoChodzi": "An electric heater is a simple and cheap way to get hot water, but very “hungry” — in summer heating from the PV surplus is practically free, in winter it is better to top up with a heat pump, because a heater drains the battery quickly.",
+      "jakDziala": "Enter the tank capacity, temperatures and heater power — the app computes the energy and heating time. With the PV surplus and the control type it shows how much comes from the sun and how much from the battery; with the inverter power — whether it can carry the heater.",
+      "poCo": "A heater is one of the largest loads in an off-grid home. Badly planned, it heats from the battery or overloads the inverter.",
+      "fizyka": "Q = V·ΔT·c (c = 4186 J/(kg·K)), t = Q / P. Fixed power: the heater draws P regardless of the sun, the battery covers what PV lacks. PV controller: P_ef = min(P, P_PV), heats longer, 0 from the battery. Source example: 2 kW, 200 l, 10 → 50 °C → 9.3 kWh and 4.65 h (source: 9.2 kWh, 4.6 h). “With 3 kW of PV — 3 h” does not hold: a 2 kW heater cannot draw 3 kW."
+    },
+    "pola": {
+      "pojemnosc": {
+        "nazwa": "Tank capacity [l]",
+        "cel": "How much water the heater must warm.",
+        "gdzie": "Tank nameplate (Screen 17).",
+        "zakres": "Your installation."
+      },
+      "tStart": {
+        "nazwa": "Starting water temperature [°C]",
+        "cel": "The energy is counted from this temperature.",
+        "gdzie": "Cold water (e.g. 10 °C) or the temperature after the night's use.",
+        "zakres": "Your installation."
+      },
+      "tKoniec": {
+        "nazwa": "Target temperature [°C]",
+        "cel": "The heater warms the water up to this temperature.",
+        "gdzie": "Heater thermostat setting.",
+        "zakres": "Higher than the starting one."
+      },
+      "moc": {
+        "nazwa": "Heater power [kW]",
+        "cel": "Sets the heating time and the inverter load.",
+        "gdzie": "Heater nameplate.",
+        "zakres": "The device datasheet."
+      },
+      "mocPv": {
+        "nazwa": "PV surplus while heating [kW]",
+        "cel": "Panel power left after supplying the rest of the house.",
+        "gdzie": "Module 3 (PV production) or the inverter reading at a sunny noon.",
+        "zakres": "Empty = the PV share is not calculated."
+      },
+      "sterowanie": {
+        "nazwa": "Heater control",
+        "cel": "Fixed power heats at full power (what PV lacks comes from the battery); a surplus controller matches the power to the sun.",
+        "gdzie": "Your installation — a thermostat or a PV surplus controller.",
+        "zakres": "Needed only with a PV surplus."
+      },
+      "falownik": {
+        "nazwa": "Inverter continuous power [kW]",
+        "cel": "Checks whether the inverter can carry the heater.",
+        "gdzie": "Inverter datasheet (rated continuous power, not peak).",
+        "zakres": "Empty = no check."
+      }
+    }
+  },
 }
 
 const RU_SHEET = "Паспорт устройства — приложение не подставляет типовое значение за вас."
@@ -695,6 +799,58 @@ export const ru: Tlumaczenie<typeof pl> = {
         "cel": "Электроэнергия насоса в часы работы.",
         "gdzie": "Табличка / паспорт насоса (Экран 15).",
         "zakres": "Паспорт устройства."
+      }
+    }
+  },
+  "grzalka-cwu": {
+    "migawka": {
+      "oCoChodzi": "Электрический ТЭН — простой и дешёвый способ получить горячую воду, но очень «прожорливый»: летом нагрев от излишков PV практически бесплатен, зимой лучше догревать тепловым насосом, потому что ТЭН быстро разряжает батарею.",
+      "jakDziala": "Введите объём бойлера, температуры и мощность ТЭНа — приложение посчитает энергию и время нагрева. С излишком PV и способом управления покажет, сколько даст солнце, а сколько батарея; с мощностью инвертора — выдержит ли он.",
+      "poCo": "ТЭН — одна из самых больших нагрузок в автономном доме. При плохом планировании он греет от батареи или перегружает инвертор.",
+      "fizyka": "Q = V·ΔT·c (c = 4186 Дж/(кг·К)), t = Q / P. Постоянная мощность: ТЭН берёт P независимо от солнца, недостаток покрывает батарея. Регулятор PV: P_эф = min(P, P_PV), греет дольше, 0 из батареи. Пример источника: 2 кВт, 200 л, 10 → 50 °C → 9,3 кВт·ч и 4,65 ч (в источнике 9,2 кВт·ч, 4,6 ч). «При PV 3 кВт — 3 ч» не сходится: ТЭН 2 кВт не возьмёт 3 кВт."
+    },
+    "pola": {
+      "pojemnosc": {
+        "nazwa": "Объём бойлера [л]",
+        "cel": "Сколько воды должен нагреть ТЭН.",
+        "gdzie": "Табличка бойлера (Экран 17).",
+        "zakres": "Ваша установка."
+      },
+      "tStart": {
+        "nazwa": "Начальная температура воды [°C]",
+        "cel": "От этой температуры считается энергия.",
+        "gdzie": "Холодная вода (например, 10 °C) или температура после ночного расхода.",
+        "zakres": "Ваша установка."
+      },
+      "tKoniec": {
+        "nazwa": "Целевая температура [°C]",
+        "cel": "До этой температуры ТЭН греет воду.",
+        "gdzie": "Настройка термостата ТЭНа.",
+        "zakres": "Выше начальной."
+      },
+      "moc": {
+        "nazwa": "Мощность ТЭНа [кВт]",
+        "cel": "Определяет время нагрева и нагрузку на инвертор.",
+        "gdzie": "Табличка ТЭНа.",
+        "zakres": "Паспорт устройства."
+      },
+      "mocPv": {
+        "nazwa": "Излишек PV во время нагрева [кВт]",
+        "cel": "Мощность панелей, остающаяся после питания остального дома.",
+        "gdzie": "Модуль 3 (выработка PV) или показания инвертора в солнечный полдень.",
+        "zakres": "Пусто = доля PV не считается."
+      },
+      "sterowanie": {
+        "nazwa": "Управление ТЭНом",
+        "cel": "Постоянная мощность греет на полную (недостаток PV — из батареи); регулятор излишков подстраивает мощность под солнце.",
+        "gdzie": "Ваша установка — термостат или регулятор излишков PV.",
+        "zakres": "Нужно только при излишке PV."
+      },
+      "falownik": {
+        "nazwa": "Длительная мощность инвертора [кВт]",
+        "cel": "Проверка, выдержит ли инвертор ТЭН.",
+        "gdzie": "Паспорт инвертора (номинальная длительная, не пиковая).",
+        "zakres": "Пусто = без проверки."
       }
     }
   },

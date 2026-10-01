@@ -4,6 +4,7 @@ import { validateAiToolDefinition } from "../../types"
 import { dystrybucjaCieplaTool } from "../dystrybucja-ciepla-tool"
 import { sterowanieStrefoweTool } from "../sterowanie-strefowe-tool"
 import { zasobnikCwuTool } from "../zasobnik-cwu-tool"
+import { grzalkaCwuTool } from "../grzalka-cwu-tool"
 
 describe("dystrybucjaCieplaTool (M6/E13, dawne 5.13 + 5.17 + 5.18)", () => {
   it("kontrakt 9.3: 'read', bez potwierdzenia", () => {
@@ -75,5 +76,19 @@ describe("zasobnikCwuTool (M6/E17, dawne 5.19 + 5.20 + 5.21)", () => {
     })
     expect(w.strataPostojowaKwh).toBeCloseTo(1.2, 12)
     expect(w.ostrzezenia).toContain(t("pl", "ZAS-NIEOGRZEWANE", { strata: 1.2 }))
+  })
+})
+
+describe("grzalkaCwuTool (M6/E18, dawne 5.22)", () => {
+  it("kontrakt 9.3: 'read', bez potwierdzenia", () => {
+    expect(grzalkaCwuTool.operationType).toBe("read")
+    expect(grzalkaCwuTool.requiresConfirmation).toBe(false)
+    expect(() => validateAiToolDefinition(grzalkaCwuTool)).not.toThrow()
+  })
+
+  it("2 kW na falowniku 1,5 kW → 🟡 jako tekst PL", async () => {
+    const w = await grzalkaCwuTool.handler({ pojemnoscL: 200, tStartC: 10, tKoniecC: 50, mocGrzalkiKw: 2, mocPvKw: 0, sterowanie: null, mocFalownikaKw: 1.5 })
+    expect(w.czasH).toBeCloseTo(4.651, 3)
+    expect(w.ostrzezenia).toContain(t("pl", "GRZ-PONAD-FALOWNIK", { grzalka: 2, falownik: 1.5 }))
   })
 })
