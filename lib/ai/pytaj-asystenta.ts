@@ -255,6 +255,7 @@ import { kolektorGruntowyTool } from "./tools/kolektor-gruntowy-tool"
 import { alternatywneZrodlaCieplaTool } from "./tools/alternatywne-zrodla-ciepla-tool"
 import { deficytyMiesieczneTool } from "./tools/deficyty-miesieczne-tool"
 import { cykleOdszranianiaTool } from "./tools/cykle-odszraniania-tool"
+import { wentylacjaGrawitacyjnaTool } from "./tools/wentylacja-grawitacyjna-tool"
 import { toAnthropicTool } from "./to-anthropic-tool"
 import { validateAiToolDefinition, type AiToolDefinition } from "./types"
 
@@ -500,6 +501,7 @@ const NARZEDZIA: Array<AiToolDefinition<any, any>> = [
   alternatywneZrodlaCieplaTool,
   deficytyMiesieczneTool,
   cykleOdszranianiaTool,
+  wentylacjaGrawitacyjnaTool,
 ]
 for (const narzedzie of NARZEDZIA) validateAiToolDefinition(narzedzie)
 

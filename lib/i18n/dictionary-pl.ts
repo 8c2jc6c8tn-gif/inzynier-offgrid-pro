@@ -1567,6 +1567,7 @@ export const dictionaryPl = {
   "CYK-PONIZEJ-MIN-PRACY": "Przy {tZewn} °C pompa ciepła nie pracuje (minimum z karty: {tMin} °C) — dom grzeją wtedy grzałki awaryjne albo inne źródło. Policz ich moc i prąd osobno.",
   "CYK-POWYZEJ-ZAKRESU-SZRONIENIA": "Przy {tZewn} °C, powyżej typowego zakresu szronienia 5–{prog} °C ze źródła, defrost jest mało prawdopodobny — wynik liczy wpisany cykl, ale sprawdź, czy pompa w ogóle odszrania w tej temperaturze.",
   "CYK-ZALOZENIE-DOLICZONY": "Energia defrostu doliczona ponad normalne grzanie (pompa nadrabia ciepło, którego nie dostarczyła w czasie defrostu); ciepło pobrane z budynku na stopienie szronu pominięte. Cykl (odstęp, czas, moc) wpisujesz z karty albo z obserwacji — źródło nie podaje modelu szronienia w funkcji temperatury i wilgotności.",
+  "WGR-ZALOZENIE-WYMIANY": "Liczbę wymian powietrza wpisujesz Ty (test szczelności — Ekran 12 — albo pomiar) dla warunków tej doby: silniejszy wiatr i większa różnica temperatur zwiększają wymianę. Źródło nie podaje wzoru na ciąg kominowy z liczby kominów i nieszczelności. Porównanie z rekuperacją zakłada ten sam strumień powietrza.",
 } as const
 
 export type KluczTlumaczenia = keyof typeof dictionaryPl

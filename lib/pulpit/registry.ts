@@ -206,6 +206,7 @@ export const KAFLE: KafelEntry[] = [
       { href: "/kalkulatory/kolektor-gruntowy", label: "Kolektor gruntowy pompy ciepła" },
       { href: "/kalkulatory/alternatywne-zrodla-ciepla", label: "Alternatywne źródła ciepła (kominek, IR, maty, PCM)" },
       { href: "/kalkulatory/cykle-odszraniania", label: "Cykle odszraniania (defrost)" },
+      { href: "/kalkulatory/wentylacja-grawitacyjna", label: "Straty przez wentylację grawitacyjną" },
     ],
   },
   {

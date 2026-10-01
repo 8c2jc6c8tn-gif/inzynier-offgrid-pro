@@ -69,6 +69,64 @@ export const pl = {
       },
     },
   },
+  "wentylacja-grawitacyjna": {
+    "migawka": {
+      "oCoChodzi": "Ciepłe powietrze ucieka kominem samo z siebie — trzeba je powstrzymać, ale nie kosztem świeżego powietrza w domu.",
+      "jakDziala": "Wpisz kubaturę, liczbę wymian powietrza na dobę i temperatury. Aplikacja zamieni wymiany na strumień powietrza i policzy straty ciepła na dobę (i w okresie). Z pozostałymi stratami budynku — udział wentylacji; ze sprawnością rekuperatora — ile zostałoby przy tym samym strumieniu z odzyskiem ciepła.",
+      "poCo": "Wentylacja grawitacyjna to często największa pojedyncza strata starego domu — wiesz, czy rekuperacja ma sens, zanim wydasz pieniądze.",
+      "fizyka": "V̇ = n·V / 24 h; Φ = V̇·ρ·cp·ΔT (ρ = 1,2 kg/m³, cp = 1005 J/(kg·K) — jak Ekrany 3 i 12); z odzyskiem Φ·(1 − η). Przykład źródła „15% strat → 5% z rekuperacją” odpowiada sprawności ok. 70%."
+    },
+    "pola": {
+      "kubatura": {
+        "nazwa": "Kubatura ogrzewana [m³]",
+        "cel": "Objętość powietrza, które wentylacja wymienia.",
+        "gdzie": "Powierzchnia ogrzewana × wysokość pomieszczeń (Ekran 1/12).",
+        "zakres": "Twój budynek."
+      },
+      "wymiany": {
+        "nazwa": "Liczba wymian powietrza na dobę [1/doba]",
+        "cel": "Ile razy na dobę wymienia się całe powietrze domu.",
+        "gdzie": "Test szczelności (Ekran 12, wymiany na godzinę × 24) albo pomiar anemometrem na kratkach. Przy silnym wietrze i dużym mrozie wymian jest więcej.",
+        "zakres": "Twój budynek — wzoru na ciąg kominowy aplikacja nie ma."
+      },
+      "tWew": {
+        "nazwa": "Temperatura wewnątrz [°C]",
+        "cel": "Różnica temperatur napędza straty.",
+        "gdzie": "Temperatura, którą utrzymujesz zimą.",
+        "zakres": "Twoje ustawienie."
+      },
+      "tZewn": {
+        "nazwa": "Średnia temperatura zewnętrzna [°C]",
+        "cel": "Doba, dla której liczysz.",
+        "gdzie": "Dane klimatyczne (Moduł 1) albo średnie miesięczne z Ekranu 1.",
+        "zakres": "Twoja lokalizacja."
+      },
+      "szczelny": {
+        "nazwa": "Dom nowy, szczelny, bez wentylacji mechanicznej",
+        "cel": "Ostrzeżenie źródła: w szczelnym domu wentylacja grawitacyjna nie wymieni powietrza — ryzyko pleśni.",
+        "gdzie": "Nowe okna, membrany, dobry wynik testu szczelności.",
+        "zakres": "Tak / nie."
+      },
+      "pozostale": {
+        "nazwa": "Pozostałe straty ciepła budynku [W]",
+        "cel": "Z nimi liczony jest udział wentylacji w całkowitych stratach.",
+        "gdzie": "Strata przez przenikanie z Ekranu 1 przy tych samych temperaturach (bez wentylacji).",
+        "zakres": "Puste = bez udziału procentowego."
+      },
+      "sprawnosc": {
+        "nazwa": "Sprawność rekuperatora do porównania [%]",
+        "cel": "Ile strat zostałoby przy tym samym strumieniu z odzyskiem ciepła.",
+        "gdzie": "Karta rekuperatora (Ekran 3).",
+        "zakres": "0–100%. Puste = bez porównania."
+      },
+      "dni": {
+        "nazwa": "Liczba dni",
+        "cel": "Mnoży stratę doby na okres (np. miesiąc).",
+        "gdzie": "Liczba dni okresu o podobnej średniej temperaturze.",
+        "zakres": "Puste = tylko na dobę."
+      }
+    }
+  },
 }
 
 export const en: Tlumaczenie<typeof pl> = {
@@ -136,6 +194,64 @@ export const en: Tlumaczenie<typeof pl> = {
       },
     },
   },
+  "wentylacja-grawitacyjna": {
+    "migawka": {
+      "oCoChodzi": "Warm air escapes up the chimney on its own — you have to stop it, but not at the cost of fresh air in the house.",
+      "jakDziala": "Enter the volume, the air changes per day and the temperatures. The app turns air changes into an air flow and computes the heat loss per day (and over a period). With the building's other losses — the ventilation share; with a heat recovery efficiency — what would remain at the same flow with recovery.",
+      "poCo": "Stack ventilation is often the largest single loss of an old house — you know whether heat recovery makes sense before spending money.",
+      "fizyka": "V̇ = n·V / 24 h; Φ = V̇·ρ·cp·ΔT (ρ = 1.2 kg/m³, cp = 1005 J/(kg·K) — as Screens 3 and 12); with recovery Φ·(1 − η). The source example “15% of losses → 5% with recovery” corresponds to an efficiency of about 70%."
+    },
+    "pola": {
+      "kubatura": {
+        "nazwa": "Heated volume [m³]",
+        "cel": "Volume of air exchanged by ventilation.",
+        "gdzie": "Heated floor area × room height (Screen 1/12).",
+        "zakres": "Your building."
+      },
+      "wymiany": {
+        "nazwa": "Air changes per day [1/day]",
+        "cel": "How many times a day the whole air of the house is exchanged.",
+        "gdzie": "Airtightness test (Screen 12, air changes per hour × 24) or an anemometer at the grilles. Strong wind and hard frost mean more changes.",
+        "zakres": "Your building — the app has no formula for the stack effect."
+      },
+      "tWew": {
+        "nazwa": "Indoor temperature [°C]",
+        "cel": "The temperature difference drives the losses.",
+        "gdzie": "The temperature you keep in winter.",
+        "zakres": "Your setting."
+      },
+      "tZewn": {
+        "nazwa": "Mean outdoor temperature [°C]",
+        "cel": "The day you compute for.",
+        "gdzie": "Climate data (Module 1) or monthly means from Screen 1.",
+        "zakres": "Your location."
+      },
+      "szczelny": {
+        "nazwa": "New, airtight house without mechanical ventilation",
+        "cel": "Source warning: in an airtight house stack ventilation will not exchange the air — mould risk.",
+        "gdzie": "New windows, membranes, a good airtightness test result.",
+        "zakres": "Yes / no."
+      },
+      "pozostale": {
+        "nazwa": "Other heat losses of the building [W]",
+        "cel": "Gives the ventilation share of total losses.",
+        "gdzie": "Transmission loss from Screen 1 at the same temperatures (without ventilation).",
+        "zakres": "Empty = no percentage share."
+      },
+      "sprawnosc": {
+        "nazwa": "Heat recovery efficiency for comparison [%]",
+        "cel": "How much loss would remain at the same flow with heat recovery.",
+        "gdzie": "Heat recovery unit datasheet (Screen 3).",
+        "zakres": "0–100%. Empty = no comparison."
+      },
+      "dni": {
+        "nazwa": "Number of days",
+        "cel": "Multiplies the daily loss over a period (e.g. a month).",
+        "gdzie": "Days of a period with a similar mean temperature.",
+        "zakres": "Empty = per day only."
+      }
+    }
+  },
 }
 
 export const ru: Tlumaczenie<typeof pl> = {
@@ -202,5 +318,63 @@ export const ru: Tlumaczenie<typeof pl> = {
         zakres: "Пусто = не проверяется.",
       },
     },
+  },
+  "wentylacja-grawitacyjna": {
+    "migawka": {
+      "oCoChodzi": "Тёплый воздух сам уходит в дымоход — его нужно удержать, но не ценой свежего воздуха в доме.",
+      "jakDziala": "Введите объём, кратность воздухообмена в сутки и температуры. Приложение переведёт кратность в расход воздуха и посчитает теплопотери за сутки (и за период). С прочими потерями здания — долю вентиляции; с КПД рекуператора — что осталось бы при том же расходе с рекуперацией.",
+      "poCo": "Естественная вентиляция часто крупнейшая отдельная потеря старого дома — вы знаете, есть ли смысл в рекуперации, до трат.",
+      "fizyka": "V̇ = n·V / 24 ч; Φ = V̇·ρ·cp·ΔT (ρ = 1,2 кг/м³, cp = 1005 Дж/(кг·К) — как на Экранах 3 и 12); с рекуперацией Φ·(1 − η). Пример источника «15% потерь → 5% с рекуперацией» соответствует КПД около 70%."
+    },
+    "pola": {
+      "kubatura": {
+        "nazwa": "Отапливаемый объём [м³]",
+        "cel": "Объём воздуха, который обменивает вентиляция.",
+        "gdzie": "Отапливаемая площадь × высота помещений (Экран 1/12).",
+        "zakres": "Ваше здание."
+      },
+      "wymiany": {
+        "nazwa": "Кратность воздухообмена в сутки [1/сутки]",
+        "cel": "Сколько раз в сутки обменивается весь воздух дома.",
+        "gdzie": "Тест герметичности (Экран 12, обмены в час × 24) или анемометр на решётках. При сильном ветре и морозе обменов больше.",
+        "zakres": "Ваше здание — формулы тяги в приложении нет."
+      },
+      "tWew": {
+        "nazwa": "Температура внутри [°C]",
+        "cel": "Разница температур определяет потери.",
+        "gdzie": "Температура, которую вы держите зимой.",
+        "zakres": "Ваша настройка."
+      },
+      "tZewn": {
+        "nazwa": "Средняя наружная температура [°C]",
+        "cel": "Сутки, для которых считается.",
+        "gdzie": "Климатические данные (Модуль 1) или средние по месяцам с Экрана 1.",
+        "zakres": "Ваше местоположение."
+      },
+      "szczelny": {
+        "nazwa": "Новый герметичный дом без механической вентиляции",
+        "cel": "Предупреждение источника: в герметичном доме естественная вентиляция не обменяет воздух — риск плесени.",
+        "gdzie": "Новые окна, мембраны, хороший результат теста герметичности.",
+        "zakres": "Да / нет."
+      },
+      "pozostale": {
+        "nazwa": "Прочие теплопотери здания [Вт]",
+        "cel": "Из них считается доля вентиляции в общих потерях.",
+        "gdzie": "Потери теплопередачей с Экрана 1 при тех же температурах (без вентиляции).",
+        "zakres": "Пусто = без процентной доли."
+      },
+      "sprawnosc": {
+        "nazwa": "КПД рекуператора для сравнения [%]",
+        "cel": "Сколько потерь осталось бы при том же расходе с рекуперацией.",
+        "gdzie": "Паспорт рекуператора (Экран 3).",
+        "zakres": "0–100%. Пусто = без сравнения."
+      },
+      "dni": {
+        "nazwa": "Число дней",
+        "cel": "Умножает суточные потери на период (например, месяц).",
+        "gdzie": "Дни периода с похожей средней температурой.",
+        "zakres": "Пусто = только за сутки."
+      }
+    }
   },
 }
