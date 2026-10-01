@@ -342,6 +342,9 @@ export const KAFLE: KafelEntry[] = [
       { href: "/kalkulatory/kreator-malego-odbiornika", label: "Kreator zasilania małego odbiornika" },
       { href: "/kalkulatory/lista-kemping", label: "Lista kontrolna na kemping" },
       { href: "/kalkulatory/szybka-diagnoza", label: "Szybka diagnoza problemów" },
+      { href: "/kalkulatory/urzadzenia-medyczne", label: "Zasilanie urządzeń medycznych" },
+      { href: "/kalkulatory/urzadzenia-zabronione-falownik", label: "Urządzenia zabronione dla małego falownika" },
+      { href: "/kalkulatory/blackout-balkon", label: "Blackout w bloku — zestaw balkonowy" },
     ],
   },
   {

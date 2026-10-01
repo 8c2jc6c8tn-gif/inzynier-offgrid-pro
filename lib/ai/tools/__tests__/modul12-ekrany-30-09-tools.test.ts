@@ -19,6 +19,9 @@ import { przetwornicaTool } from "../przetwornice-tool"
 import { kreatorMalegoOdbiornikaTool } from "../kreator-malego-odbiornika-tool"
 import { listaKempingTool } from "../lista-kemping-tool"
 import { szybkaDiagnozaTool } from "../szybka-diagnoza-tool"
+import { urzadzeniaMedyczneTool } from "../urzadzenia-medyczne-tool"
+import { urzadzeniaZabronioneTool } from "../urzadzenia-zabronione-falownik-tool"
+import { blackoutBalkonTool } from "../blackout-balkon-tool"
 
 describe("akumulatorSamochodowyTool (M12/E16, dawne 8.14)", () => {
   it("kontrakt 9.3: 'read', bez potwierdzenia", () => {
@@ -267,5 +270,71 @@ describe("szybkaDiagnozaTool (M12/E25, dawne 8.50)", () => {
     expect(start.aktualnyKrok).toEqual({ id: "napiecie-akumulatora", polecenie: t("pl", "UI-M12-DG-K-NAPIECIE-AKUMULATORA") })
     const w = await szybkaDiagnozaTool.handler({ objaw: "brak-pradu", odpowiedzi: { "napiecie-akumulatora": "ok", "bezpiecznik-glowny": "problem" } })
     expect(w.przyczyna?.opis).toBe(t("pl", "UI-M12-DG-P-BEZPIECZNIK-GLOWNY"))
+  })
+})
+
+describe("urzadzeniaMedyczneTool (M12/E26, dawne 8.51)", () => {
+  it("kontrakt 9.3: 'read', bez potwierdzenia", () => {
+    expect(urzadzeniaMedyczneTool.operationType).toBe("read")
+    expect(urzadzeniaMedyczneTool.requiresConfirmation).toBe(false)
+    expect(() => validateAiToolDefinition(urzadzeniaMedyczneTool)).not.toThrow()
+  })
+
+  it("CPAP 60 W × 8 h, 100 Ah 80%, bez źródła zapasowego → 🟡 jako tekst PL", async () => {
+    const w = await urzadzeniaMedyczneTool.handler({
+      urzadzenie: "cpap",
+      mocW: 60,
+      godzinNaDobe: 8,
+      napiecieV: 12,
+      uzytecznaPct: 80,
+      przezFalownik: false,
+      sprawnoscFalownikaPct: 0,
+      posiadanyAh: 100,
+      maZapasoweZrodlo: false,
+    })
+    expect(w.dobyPosiadany).toBeCloseTo(2, 12)
+    expect(w.ostrzezenia).toContain(t("pl", "MED-BRAK-ZAPASOWEGO-ZRODLA"))
+  })
+})
+
+describe("urzadzeniaZabronioneTool (M12/E37, dawne 8.64)", () => {
+  it("kontrakt 9.3: 'read', bez potwierdzenia", () => {
+    expect(urzadzeniaZabronioneTool.operationType).toBe("read")
+    expect(urzadzeniaZabronioneTool.requiresConfirmation).toBe(false)
+    expect(() => validateAiToolDefinition(urzadzeniaZabronioneTool)).not.toThrow()
+  })
+
+  it("suszarka 1800 W na falowniku 1000/2000 W → zabronione, 🔴 jako tekst PL", async () => {
+    const w = await urzadzeniaZabronioneTool.handler({ mocFalownikaW: 1000, mocSzczytowaW: 2000, urzadzenia: [{ nazwa: "Suszarka", mocW: 1800, krotnoscRozruchu: 1 }] })
+    expect(w.oceny[0].ocena).toBe("zabronione")
+    expect(w.ostrzezenia).toContain(t("pl", "UZF-URZADZENIE-ZABRONIONE", { nazwa: "Suszarka", moc: 1800, rozruch: 1800, falownik: 1000, szczyt: 2000 }))
+  })
+})
+
+describe("blackoutBalkonTool (M12/E40, dawne 8.68)", () => {
+  it("kontrakt 9.3: 'read', bez potwierdzenia", () => {
+    expect(blackoutBalkonTool.operationType).toBe("read")
+    expect(blackoutBalkonTool.requiresConfirmation).toBe(false)
+    expect(() => validateAiToolDefinition(blackoutBalkonTool)).not.toThrow()
+  })
+
+  it("1040 Wh/dobę, stacja 1000 Wh na 24 h → brak 40 Wh, 🟡 jako tekst PL", async () => {
+    const w = await blackoutBalkonTool.handler({
+      odbiorniki: [
+        { nazwa: "Router", mocW: 10, godzinNaDobe: 24 },
+        { nazwa: "Lodówka", mocW: 100, godzinNaDobe: 8 },
+      ],
+      czasBlackoutuH: 24,
+      pojemnoscWh: 1000,
+      uzytecznaPct: 100,
+      sprawnoscFalownikaPct: 100,
+      dlugoscBalustradyM: 0,
+      szerokoscPaneluM: 0,
+      mocPaneluW: 0,
+      godzinSlonca: 0,
+      sprawnoscToruPct: 0,
+    })
+    expect(w.bilansWh).toBe(-40)
+    expect(w.ostrzezenia).toContain(t("pl", "BB-ZA-MALO-NA-BLACKOUT", { wh: 40, h: 23.1 }))
   })
 })

@@ -1122,6 +1122,200 @@ export const pl = {
       },
     },
   },
+  "urzadzenia-medyczne": {
+    migawka: {
+      oCoChodzi: "Tu nie chodzi o wygodę, tylko o zdrowie — zasilanie musi być pewne.",
+      jakDziala:
+        "Wpisz moc i czas pracy urządzenia oraz dane akumulatora. Aplikacja liczy akumulator na minimum {doby} doby bez ładowania i sprawdza, ile dób podtrzyma Twój. Brak drugiego niezależnego źródła zawsze daje ostrzeżenie.",
+      poCo:
+        "Zwykłe marginesy z innych kalkulatorów tu nie wystarczają — awaria może potrwać dłużej, a akumulator się starzeje.",
+      fizyka: "E_doba = P × h. C_min = E_doba × {doby} ÷ (U × u × η_falownika); bez falownika η = 1.",
+    },
+    pola: {
+      urzadzenie: {
+        nazwa: "Urządzenie",
+        cel: "Dla Twojej orientacji; obliczenie zależy od mocy i czasu pracy.",
+        gdzie: "Wybierz rodzaj sprzętu.",
+        zakres: "CPAP, koncentrator tlenu, inhalator, inne.",
+      },
+      moc: {
+        nazwa: "Moc urządzenia [W]",
+        cel: "Podstawa zużycia energii.",
+        gdzie: "Tabliczka urządzenia, instrukcja albo pomiar watomierzem (z nawilżaczem/grzaniem rury, jeśli używasz).",
+        zakres: "Z tabliczki; aplikacja nie podstawia typowych mocy.",
+      },
+      godziny: {
+        nazwa: "Godziny pracy na dobę [h]",
+        cel: "Zużycie energii na dobę.",
+        gdzie: "Zalecenie lekarza; zwykle cała noc.",
+        zakres: "0–24 h.",
+      },
+      napiecie: {
+        nazwa: "Napięcie akumulatora [V]",
+        cel: "Przelicza energię na Ah.",
+        gdzie: "Tabliczka akumulatora.",
+        zakres: "12, 24 albo 48 V.",
+      },
+      uzyteczna: {
+        nazwa: "Część użyteczna pojemności [%]",
+        cel: "Ile pojemności wolno zużyć.",
+        gdzie: "Karta akumulatora (DoD).",
+        zakres: "Z karty; aplikacja nie zgaduje.",
+      },
+      falownik: {
+        nazwa: "Przez falownik 230 V",
+        cel: "Falownik dodaje straty; zasilanie DC jest pewniejsze, jeśli producent je przewiduje.",
+        gdzie: "Instrukcja urządzenia (wejście DC, kabel samochodowy).",
+        zakres: "Tak / nie.",
+      },
+      sprawnoscFalownika: {
+        nazwa: "Sprawność falownika [%]",
+        cel: "Straty falownika powiększają potrzebny akumulator.",
+        gdzie: "Karta falownika (najlepiej z czystą sinusoidą).",
+        zakres: "Z karty; aplikacja nie zgaduje.",
+      },
+      posiadany: {
+        nazwa: "Posiadany akumulator [Ah] (opcjonalnie)",
+        cel: "Ile dób podtrzyma Twój akumulator.",
+        gdzie: "Tabliczka akumulatora.",
+        zakres: "Puste = nie sprawdzaj.",
+      },
+      zapas: {
+        nazwa: "Drugie niezależne źródło",
+        cel: "Redundancja — awaria jednego źródła nie może wyłączyć urządzenia.",
+        gdzie: "Drugi naładowany akumulator, powerbank zatwierdzony przez producenta, agregat.",
+        zakres: "Tak / nie; „nie wiem” traktowane jak „nie”.",
+      },
+    },
+  },
+  "urzadzenia-zabronione-falownik": {
+    migawka: {
+      oCoChodzi:
+        "Mały falownik nie udźwignie wszystkiego — urządzenia z silnikiem i grzałką przy starcie pobierają dużo więcej.",
+      jakDziala:
+        "Wpisz moc ciągłą i szczytową falownika z karty oraz urządzenia z mocą i krotnością rozruchu. Każde dostaje ocenę: OK, ryzykowne albo zabronione.",
+      poCo: "Zabronione urządzenie spali falownik albo będzie go wyłączać przy każdym starcie.",
+      fizyka:
+        "OK: P × k ≤ P_ciągła. Ryzykowne: P ≤ P_ciągła i P × k ≤ P_szczyt, ale P × k > P_ciągła (albo k nieznane). Zabronione: P > P_ciągła albo P × k > P_szczyt.",
+    },
+    pola: {
+      mocCiagla: {
+        nazwa: "Moc ciągła falownika [W]",
+        cel: "Ile falownik daje bez przerwy.",
+        gdzie: "Karta / tabliczka falownika (moc znamionowa, nie szczytowa).",
+        zakres: "Z karty.",
+      },
+      mocSzczytowa: {
+        nazwa: "Moc szczytowa falownika [W]",
+        cel: "Ile falownik wytrzyma chwilowo przy rozruchu.",
+        gdzie: "Karta falownika — peak / surge / przeciążalność (zwykle przez kilka sekund).",
+        zakres: "Z karty; aplikacja nie zgaduje.",
+      },
+      nazwa: {
+        nazwa: "Nazwa urządzenia",
+        cel: "Rozpoznanie urządzenia w ocenie.",
+        gdzie: "Dowolna; przyciski „+” dodają typowe ryzykowne urządzenia (tylko nazwy).",
+        zakres: "Tekst.",
+      },
+      moc: {
+        nazwa: "Moc urządzenia [W]",
+        cel: "Moc w czasie pracy.",
+        gdzie: "Tabliczka urządzenia.",
+        zakres: "Z tabliczki.",
+      },
+      krotnosc: {
+        nazwa: "Krotność rozruchu [×]",
+        cel: "Ile razy więcej urządzenie pobiera przy starcie.",
+        gdzie: "Karta urządzenia (prąd rozruchowy ÷ znamionowy) albo pomiar miernikiem z funkcją inrush.",
+        zakres: "Puste = nieznane → ocena „ryzykowne”.",
+      },
+    },
+  },
+  "blackout-balkon": {
+    migawka: {
+      oCoChodzi: "W bloku nie masz działki, ale masz balkon — to Twoja minielektrownia na czas awarii.",
+      jakDziala:
+        "Wpisz odbiorniki krytyczne, czas blackoutu, stację zasilania i — opcjonalnie — panele na balustradzie. Aplikacja liczy, ile godzin wytrzyma sama stacja, ile paneli zmieści się na balustradzie i czy razem wystarczy na cały blackout.",
+      poCo: "Stacja kupiona „na oko” często wystarcza na kilka godzin, a blackout trwa dłużej.",
+      fizyka:
+        "E_doba = Σ P × h. Magazyn = Wh × u × η. Panele: n = ⌊długość balustrady ÷ szerokość panelu⌋, E = n × P × h_słońca × η. Bilans = magazyn + panele × T/24 − E_doba × T/24.",
+    },
+    pola: {
+      nazwa: {
+        nazwa: "Nazwa odbiornika",
+        cel: "Tylko dla Twojej orientacji.",
+        gdzie: "Dowolna.",
+        zakres: "Tekst.",
+      },
+      moc: {
+        nazwa: "Moc [W]",
+        cel: "Składnik zużycia.",
+        gdzie: "Tabliczka urządzenia.",
+        zakres: "Z tabliczki.",
+      },
+      godziny: {
+        nazwa: "Godziny pracy na dobę [h]",
+        cel: "Zużycie energii odbiornika.",
+        gdzie: "Lodówka pracuje cyklicznie — wpisz realny czas pracy sprężarki; router 24 h.",
+        zakres: "0–24 h.",
+      },
+      czas: {
+        nazwa: "Czas blackoutu [h]",
+        cel: "Ile godzin chcesz przetrwać.",
+        gdzie: "Twoja ocena (np. 24 albo 48 h).",
+        zakres: "Godziny.",
+      },
+      pojemnosc: {
+        nazwa: "Pojemność stacji [Wh]",
+        cel: "Energia magazynu.",
+        gdzie: "Tabliczka stacji (Wh); dla akumulatora Ah × V.",
+        zakres: "Z tabliczki.",
+      },
+      uzyteczna: {
+        nazwa: "Część użyteczna [%]",
+        cel: "Ile energii wolno wykorzystać.",
+        gdzie: "Karta stacji / akumulatora.",
+        zakres: "Z karty; aplikacja nie zgaduje.",
+      },
+      sprawnoscFalownika: {
+        nazwa: "Sprawność falownika [%]",
+        cel: "Straty przy zamianie na 230 V.",
+        gdzie: "Karta stacji.",
+        zakres: "Z karty; aplikacja nie zgaduje.",
+      },
+      balustrada: {
+        nazwa: "Długość balustrady [m]",
+        cel: "Ile paneli zmieści się w rzędzie.",
+        gdzie: "Zmierz odcinek balustrady w słońcu.",
+        zakres: "Puste = bez paneli.",
+      },
+      szerokoscPanelu: {
+        nazwa: "Szerokość panelu [m]",
+        cel: "Wymiar wzdłuż balustrady.",
+        gdzie: "Karta panelu (wymiary).",
+        zakres: "Z karty.",
+      },
+      mocPanelu: {
+        nazwa: "Moc panelu [W]",
+        cel: "Energia z jednego panelu.",
+        gdzie: "Tabliczka panelu (Wp).",
+        zakres: "Z karty.",
+      },
+      godzinSlonca: {
+        nazwa: "Godziny pełnego słońca [h/dobę]",
+        cel: "Przelicza moc na energię.",
+        gdzie:
+          "Moduł 1 albo mapa nasłonecznienia — na balkonie uwzględnij orientację i zacienienie (panel pionowy daje mniej).",
+        zakres: "Z danych dla Twojego balkonu.",
+      },
+      sprawnosc: {
+        nazwa: "Sprawność toru panel → magazyn [%]",
+        cel: "Straty regulatora i ładowania.",
+        gdzie: "Karta stacji (wejście PV).",
+        zakres: "Z karty; aplikacja nie zgaduje.",
+      },
+    },
+  },
 }
 
 export const en: Tlumaczenie<typeof pl> = {
@@ -2236,6 +2430,198 @@ export const en: Tlumaczenie<typeof pl> = {
         cel: "Selects the tree of diagnostic steps.",
         gdzie: "What you see: no power, low voltage, overheating, no charging.",
         zakres: "Changing the symptom clears the answers.",
+      },
+    },
+  },
+  "urzadzenia-medyczne": {
+    migawka: {
+      oCoChodzi: "This is not about comfort but health — the power supply must be certain.",
+      jakDziala:
+        "Enter the device power and running time and the battery data. The app sizes the battery for at least {doby} days without charging and checks how many days yours lasts. No second independent source always gives a warning.",
+      poCo: "The usual margins of other calculators are not enough here — an outage may last longer and batteries age.",
+      fizyka: "E_day = P × h. C_min = E_day × {doby} ÷ (U × u × η_inverter); without an inverter η = 1.",
+    },
+    pola: {
+      urzadzenie: {
+        nazwa: "Device",
+        cel: "For your orientation; the result depends on power and running time.",
+        gdzie: "Choose the type of equipment.",
+        zakres: "CPAP, oxygen concentrator, nebuliser, other.",
+      },
+      moc: {
+        nazwa: "Device power [W]",
+        cel: "Basis of the energy use.",
+        gdzie: "Device nameplate, manual or a wattmeter reading (with humidifier/heated tube if you use them).",
+        zakres: "From the nameplate; the app does not insert typical powers.",
+      },
+      godziny: {
+        nazwa: "Running hours per day [h]",
+        cel: "Daily energy use.",
+        gdzie: "Doctor's recommendation; usually the whole night.",
+        zakres: "0–24 h.",
+      },
+      napiecie: {
+        nazwa: "Battery voltage [V]",
+        cel: "Converts energy to Ah.",
+        gdzie: "Battery nameplate.",
+        zakres: "12, 24 or 48 V.",
+      },
+      uzyteczna: {
+        nazwa: "Usable part of capacity [%]",
+        cel: "How much capacity may be used.",
+        gdzie: "Battery datasheet (DoD).",
+        zakres: "From the datasheet; the app does not guess.",
+      },
+      falownik: {
+        nazwa: "Through a 230 V inverter",
+        cel: "An inverter adds losses; DC supply is more reliable if the manufacturer provides for it.",
+        gdzie: "Device manual (DC input, car cable).",
+        zakres: "Yes / no.",
+      },
+      sprawnoscFalownika: {
+        nazwa: "Inverter efficiency [%]",
+        cel: "Inverter losses enlarge the battery needed.",
+        gdzie: "Inverter datasheet (preferably pure sine wave).",
+        zakres: "From the datasheet; the app does not guess.",
+      },
+      posiadany: {
+        nazwa: "Battery you have [Ah] (optional)",
+        cel: "How many days your battery lasts.",
+        gdzie: "Battery nameplate.",
+        zakres: "Empty = do not check.",
+      },
+      zapas: {
+        nazwa: "Second independent source",
+        cel: "Redundancy — failure of one source must not switch off the device.",
+        gdzie: "A second charged battery, a manufacturer-approved power bank, a generator.",
+        zakres: "Yes / no; “don't know” is treated as “no”.",
+      },
+    },
+  },
+  "urzadzenia-zabronione-falownik": {
+    migawka: {
+      oCoChodzi: "A small inverter cannot carry everything — motor and heater devices draw much more at start.",
+      jakDziala:
+        "Enter the inverter's continuous and peak power from the datasheet and the devices with power and start multiple. Each gets a rating: OK, risky or not allowed.",
+      poCo: "A forbidden device burns the inverter or trips it at every start.",
+      fizyka:
+        "OK: P × k ≤ P_cont. Risky: P ≤ P_cont and P × k ≤ P_peak, but P × k > P_cont (or k unknown). Not allowed: P > P_cont or P × k > P_peak.",
+    },
+    pola: {
+      mocCiagla: {
+        nazwa: "Inverter continuous power [W]",
+        cel: "What the inverter delivers non-stop.",
+        gdzie: "Inverter datasheet / nameplate (rated, not peak power).",
+        zakres: "From the datasheet.",
+      },
+      mocSzczytowa: {
+        nazwa: "Inverter peak power [W]",
+        cel: "What the inverter withstands briefly at start.",
+        gdzie: "Inverter datasheet — peak / surge / overload (usually for a few seconds).",
+        zakres: "From the datasheet; the app does not guess.",
+      },
+      nazwa: {
+        nazwa: "Device name",
+        cel: "Identifies the device in the rating.",
+        gdzie: "Any; the “+” buttons add typical risky devices (names only).",
+        zakres: "Text.",
+      },
+      moc: {
+        nazwa: "Device power [W]",
+        cel: "Power while running.",
+        gdzie: "Device nameplate.",
+        zakres: "From the nameplate.",
+      },
+      krotnosc: {
+        nazwa: "Start multiple [×]",
+        cel: "How many times more the device draws at start.",
+        gdzie: "Device datasheet (inrush ÷ rated current) or an inrush meter reading.",
+        zakres: "Empty = unknown → rated “risky”.",
+      },
+    },
+  },
+  "blackout-balkon": {
+    migawka: {
+      oCoChodzi: "In a flat you have no plot, but you have a balcony — your mini power plant for an outage.",
+      jakDziala:
+        "Enter the critical loads, the blackout time, the power station and — optionally — railing panels. The app computes how many hours the station alone lasts, how many panels fit on the railing and whether together they cover the whole blackout.",
+      poCo: "A station bought “by eye” often lasts a few hours, while a blackout lasts longer.",
+      fizyka:
+        "E_day = Σ P × h. Storage = Wh × u × η. Panels: n = ⌊railing length ÷ panel width⌋, E = n × P × h_sun × η. Balance = storage + panels × T/24 − E_day × T/24.",
+    },
+    pola: {
+      nazwa: {
+        nazwa: "Load name",
+        cel: "Only for your orientation.",
+        gdzie: "Any.",
+        zakres: "Text.",
+      },
+      moc: {
+        nazwa: "Power [W]",
+        cel: "Part of the consumption.",
+        gdzie: "Device nameplate.",
+        zakres: "From the nameplate.",
+      },
+      godziny: {
+        nazwa: "Running hours per day [h]",
+        cel: "Energy use of the load.",
+        gdzie: "A fridge runs in cycles — enter the real compressor time; router 24 h.",
+        zakres: "0–24 h.",
+      },
+      czas: {
+        nazwa: "Blackout time [h]",
+        cel: "How many hours you want to get through.",
+        gdzie: "Your estimate (e.g. 24 or 48 h).",
+        zakres: "Hours.",
+      },
+      pojemnosc: {
+        nazwa: "Station capacity [Wh]",
+        cel: "Storage energy.",
+        gdzie: "Station nameplate (Wh); for a battery Ah × V.",
+        zakres: "From the nameplate.",
+      },
+      uzyteczna: {
+        nazwa: "Usable part [%]",
+        cel: "How much energy may be used.",
+        gdzie: "Station / battery datasheet.",
+        zakres: "From the datasheet; the app does not guess.",
+      },
+      sprawnoscFalownika: {
+        nazwa: "Inverter efficiency [%]",
+        cel: "Losses converting to 230 V.",
+        gdzie: "Station datasheet.",
+        zakres: "From the datasheet; the app does not guess.",
+      },
+      balustrada: {
+        nazwa: "Railing length [m]",
+        cel: "How many panels fit in a row.",
+        gdzie: "Measure the sunny stretch of railing.",
+        zakres: "Empty = no panels.",
+      },
+      szerokoscPanelu: {
+        nazwa: "Panel width [m]",
+        cel: "Dimension along the railing.",
+        gdzie: "Panel datasheet (dimensions).",
+        zakres: "From the datasheet.",
+      },
+      mocPanelu: {
+        nazwa: "Panel power [W]",
+        cel: "Energy from one panel.",
+        gdzie: "Panel nameplate (Wp).",
+        zakres: "From the datasheet.",
+      },
+      godzinSlonca: {
+        nazwa: "Full-sun hours [h/day]",
+        cel: "Turns power into energy.",
+        gdzie:
+          "Module 1 or an insolation map — on a balcony account for orientation and shading (a vertical panel gives less).",
+        zakres: "From data for your balcony.",
+      },
+      sprawnosc: {
+        nazwa: "Panel → storage path efficiency [%]",
+        cel: "Controller and charging losses.",
+        gdzie: "Station datasheet (PV input).",
+        zakres: "From the datasheet; the app does not guess.",
       },
     },
   },
@@ -3357,6 +3743,201 @@ export const ru: Tlumaczenie<typeof pl> = {
         cel: "Выбирает дерево диагностических шагов.",
         gdzie: "Что вы видите: нет питания, низкое напряжение, перегрев, нет зарядки.",
         zakres: "Смена симптома очищает ответы.",
+      },
+    },
+  },
+  "urzadzenia-medyczne": {
+    migawka: {
+      oCoChodzi: "Речь не об удобстве, а о здоровье — питание должно быть надёжным.",
+      jakDziala:
+        "Введите мощность и время работы устройства и данные аккумулятора. Приложение подбирает аккумулятор минимум на {doby} суток без зарядки и проверяет, на сколько суток хватит вашего. Отсутствие второго независимого источника всегда даёт предупреждение.",
+      poCo:
+        "Обычных запасов из других калькуляторов здесь недостаточно — авария может длиться дольше, а аккумулятор стареет.",
+      fizyka: "E_сут = P × h. C_min = E_сут × {doby} ÷ (U × u × η_инвертора); без инвертора η = 1.",
+    },
+    pola: {
+      urzadzenie: {
+        nazwa: "Устройство",
+        cel: "Для вашего удобства; расчёт зависит от мощности и времени работы.",
+        gdzie: "Выберите тип техники.",
+        zakres: "CPAP, кислородный концентратор, ингалятор, другое.",
+      },
+      moc: {
+        nazwa: "Мощность устройства [Вт]",
+        cel: "Основа потребления энергии.",
+        gdzie:
+          "Табличка устройства, инструкция или замер ваттметром (с увлажнителем/подогревом трубки, если используете).",
+        zakres: "С таблички; приложение не подставляет типовые мощности.",
+      },
+      godziny: {
+        nazwa: "Часы работы в сутки [ч]",
+        cel: "Суточное потребление.",
+        gdzie: "Рекомендация врача; обычно вся ночь.",
+        zakres: "0–24 ч.",
+      },
+      napiecie: {
+        nazwa: "Напряжение аккумулятора [В]",
+        cel: "Переводит энергию в Ач.",
+        gdzie: "Табличка аккумулятора.",
+        zakres: "12, 24 или 48 В.",
+      },
+      uzyteczna: {
+        nazwa: "Используемая часть ёмкости [%]",
+        cel: "Сколько ёмкости можно использовать.",
+        gdzie: "Паспорт аккумулятора (DoD).",
+        zakres: "Из паспорта; приложение не угадывает.",
+      },
+      falownik: {
+        nazwa: "Через инвертор 230 В",
+        cel: "Инвертор добавляет потери; питание DC надёжнее, если производитель его предусматривает.",
+        gdzie: "Инструкция устройства (вход DC, автомобильный кабель).",
+        zakres: "Да / нет.",
+      },
+      sprawnoscFalownika: {
+        nazwa: "КПД инвертора [%]",
+        cel: "Потери инвертора увеличивают нужный аккумулятор.",
+        gdzie: "Паспорт инвертора (лучше с чистой синусоидой).",
+        zakres: "Из паспорта; приложение не угадывает.",
+      },
+      posiadany: {
+        nazwa: "Ваш аккумулятор [Ач] (необязательно)",
+        cel: "На сколько суток хватит вашего аккумулятора.",
+        gdzie: "Табличка аккумулятора.",
+        zakres: "Пусто = не проверять.",
+      },
+      zapas: {
+        nazwa: "Второй независимый источник",
+        cel: "Резервирование — отказ одного источника не должен отключить устройство.",
+        gdzie: "Второй заряженный аккумулятор, пауэрбанк, одобренный производителем, генератор.",
+        zakres: "Да / нет; «не знаю» считается как «нет».",
+      },
+    },
+  },
+  "urzadzenia-zabronione-falownik": {
+    migawka: {
+      oCoChodzi:
+        "Малый инвертор не выдержит всего — устройства с двигателем и нагревателем при пуске берут намного больше.",
+      jakDziala:
+        "Введите длительную и пиковую мощность инвертора из паспорта и устройства с мощностью и кратностью пуска. Каждое получает оценку: OK, рискованно или запрещено.",
+      poCo: "Запрещённое устройство сожжёт инвертор или будет отключать его при каждом пуске.",
+      fizyka:
+        "OK: P × k ≤ P_длит. Рискованно: P ≤ P_длит и P × k ≤ P_пик, но P × k > P_длит (или k неизвестна). Запрещено: P > P_длит или P × k > P_пик.",
+    },
+    pola: {
+      mocCiagla: {
+        nazwa: "Длительная мощность инвертора [Вт]",
+        cel: "Сколько инвертор даёт непрерывно.",
+        gdzie: "Паспорт / табличка инвертора (номинальная, не пиковая).",
+        zakres: "Из паспорта.",
+      },
+      mocSzczytowa: {
+        nazwa: "Пиковая мощность инвертора [Вт]",
+        cel: "Сколько инвертор выдерживает кратковременно при пуске.",
+        gdzie: "Паспорт инвертора — peak / surge / перегрузка (обычно несколько секунд).",
+        zakres: "Из паспорта; приложение не угадывает.",
+      },
+      nazwa: {
+        nazwa: "Название устройства",
+        cel: "Узнать устройство в оценке.",
+        gdzie: "Любое; кнопки «+» добавляют типовые рискованные устройства (только названия).",
+        zakres: "Текст.",
+      },
+      moc: {
+        nazwa: "Мощность устройства [Вт]",
+        cel: "Мощность в работе.",
+        gdzie: "Табличка устройства.",
+        zakres: "С таблички.",
+      },
+      krotnosc: {
+        nazwa: "Кратность пуска [×]",
+        cel: "Во сколько раз больше устройство берёт при пуске.",
+        gdzie: "Паспорт устройства (пусковой ÷ номинальный ток) или замер прибором с функцией inrush.",
+        zakres: "Пусто = неизвестно → оценка «рискованно».",
+      },
+    },
+  },
+  "blackout-balkon": {
+    migawka: {
+      oCoChodzi: "В многоэтажке нет участка, но есть балкон — ваша мини-электростанция на время аварии.",
+      jakDziala:
+        "Введите критические нагрузки, время блэкаута, зарядную станцию и — по желанию — панели на перилах. Приложение считает, сколько часов продержится одна станция, сколько панелей поместится на перилах и хватит ли вместе на весь блэкаут.",
+      poCo: "Станция, купленная «на глаз», часто держит несколько часов, а блэкаут длится дольше.",
+      fizyka:
+        "E_сут = Σ P × h. Накопитель = Вт·ч × u × η. Панели: n = ⌊длина перил ÷ ширина панели⌋, E = n × P × h_солнца × η. Баланс = накопитель + панели × T/24 − E_сут × T/24.",
+    },
+    pola: {
+      nazwa: {
+        nazwa: "Название нагрузки",
+        cel: "Только для вашего удобства.",
+        gdzie: "Любое.",
+        zakres: "Текст.",
+      },
+      moc: {
+        nazwa: "Мощность [Вт]",
+        cel: "Слагаемое потребления.",
+        gdzie: "Табличка устройства.",
+        zakres: "С таблички.",
+      },
+      godziny: {
+        nazwa: "Часы работы в сутки [ч]",
+        cel: "Потребление нагрузки.",
+        gdzie: "Холодильник работает циклами — укажите реальное время работы компрессора; роутер 24 ч.",
+        zakres: "0–24 ч.",
+      },
+      czas: {
+        nazwa: "Время блэкаута [ч]",
+        cel: "Сколько часов нужно продержаться.",
+        gdzie: "Ваша оценка (напр. 24 или 48 ч).",
+        zakres: "Часы.",
+      },
+      pojemnosc: {
+        nazwa: "Ёмкость станции [Вт·ч]",
+        cel: "Энергия накопителя.",
+        gdzie: "Табличка станции (Вт·ч); для аккумулятора Ач × В.",
+        zakres: "С таблички.",
+      },
+      uzyteczna: {
+        nazwa: "Используемая часть [%]",
+        cel: "Сколько энергии можно использовать.",
+        gdzie: "Паспорт станции / аккумулятора.",
+        zakres: "Из паспорта; приложение не угадывает.",
+      },
+      sprawnoscFalownika: {
+        nazwa: "КПД инвертора [%]",
+        cel: "Потери при преобразовании в 230 В.",
+        gdzie: "Паспорт станции.",
+        zakres: "Из паспорта; приложение не угадывает.",
+      },
+      balustrada: {
+        nazwa: "Длина перил [м]",
+        cel: "Сколько панелей поместится в ряд.",
+        gdzie: "Измерьте солнечный участок перил.",
+        zakres: "Пусто = без панелей.",
+      },
+      szerokoscPanelu: {
+        nazwa: "Ширина панели [м]",
+        cel: "Размер вдоль перил.",
+        gdzie: "Паспорт панели (размеры).",
+        zakres: "Из паспорта.",
+      },
+      mocPanelu: {
+        nazwa: "Мощность панели [Вт]",
+        cel: "Энергия от одной панели.",
+        gdzie: "Табличка панели (Вт пик).",
+        zakres: "Из паспорта.",
+      },
+      godzinSlonca: {
+        nazwa: "Часы полного солнца [ч/сутки]",
+        cel: "Переводит мощность в энергию.",
+        gdzie:
+          "Модуль 1 или карта инсоляции — на балконе учтите ориентацию и затенение (вертикальная панель даёт меньше).",
+        zakres: "Из данных для вашего балкона.",
+      },
+      sprawnosc: {
+        nazwa: "КПД пути панель → накопитель [%]",
+        cel: "Потери контроллера и заряда.",
+        gdzie: "Паспорт станции (вход PV).",
+        zakres: "Из паспорта; приложение не угадывает.",
       },
     },
   },
