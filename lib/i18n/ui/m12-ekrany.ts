@@ -563,7 +563,7 @@ export const pl = {
   "UI-M12-TA-LINK-RATOWANIE": "Ratowanie rozładowanego akumulatora →",
   "UI-M12-RB-TYTUL": "Raport bezpieczeństwa małej instalacji",
   "UI-M12-RB-OPIS":
-    "Sprawdź sześć punktów i zaznacz OK albo Błąd — raport pokaże słabe punkty i kroki naprawcze. Moduł 12, Ekran 14.",
+    "Sprawdź siedem punktów i zaznacz OK albo Błąd — raport pokaże słabe punkty i kroki naprawcze. Moduł 12, Ekran 14.",
   "UI-M12-RB-OK": "OK",
   "UI-M12-RB-BLAD": "Błąd",
   "UI-M12-RB-DOBIERZ": "Dobierz poprawnie →",
@@ -575,13 +575,15 @@ export const pl = {
   "UI-M12-RB-LICZNIKI": "OK: {ok} · błędy: {bledy} · niesprawdzone: {brak}",
   "UI-M12-RB-P-BEZPIECZNIK-AKUMULATORA": "Bezpiecznik przy akumulatorze",
   "UI-M12-RB-P-DOBOR-BEZPIECZNIKOW": "Dobór bezpieczników",
+  "UI-M12-RB-P-BEZPIECZNIK-A-PRZEWOD": "Bezpiecznik a przewód",
   "UI-M12-RB-P-PRZEKROJE-PRZEWODOW": "Przekroje przewodów",
   "UI-M12-RB-P-OCHRONA-ROZLADOWANIA": "Ochrona przed rozładowaniem",
   "UI-M12-RB-P-WENTYLACJA-AKUMULATORA": "Wentylacja akumulatora",
   "UI-M12-RB-P-POLACZENIA": "Połączenia",
   "UI-M12-RB-JAK-BEZPIECZNIK-AKUMULATORA": "Czy na plusie akumulatora, jak najbliżej zacisku, jest bezpiecznik?",
   "UI-M12-RB-JAK-DOBOR-BEZPIECZNIKOW":
-    "Czy każdy bezpiecznik jest większy od prądu odbiorników i nie większy niż obciążalność chronionego przewodu?",
+    "Czy każdy bezpiecznik jest większy od prądu odbiorników na swoim obwodzie?",
+  "UI-M12-RB-JAK-BEZPIECZNIK-A-PRZEWOD": "Czy żaden bezpiecznik nie jest większy niż obciążalność przewodu, który chroni?",
   "UI-M12-RB-JAK-PRZEKROJE-PRZEWODOW":
     "Czy przekroje sprawdziłeś kalkulatorem na prąd i spadek napięcia? Czy przewody nie są ciepłe pod obciążeniem?",
   "UI-M12-RB-JAK-OCHRONA-ROZLADOWANIA":
@@ -1154,7 +1156,7 @@ export const en: Record<keyof typeof pl, string> = {
   "UI-M12-TA-LINK-RATOWANIE": "Rescuing a discharged battery →",
   "UI-M12-RB-TYTUL": "Small installation safety report",
   "UI-M12-RB-OPIS":
-    "Check six points and mark OK or Fault — the report shows the weak points and repair steps. Module 12, Screen 14.",
+    "Check seven points and mark OK or Fault — the report shows the weak points and repair steps. Module 12, Screen 14.",
   "UI-M12-RB-OK": "OK",
   "UI-M12-RB-BLAD": "Fault",
   "UI-M12-RB-DOBIERZ": "Size it properly →",
@@ -1166,6 +1168,7 @@ export const en: Record<keyof typeof pl, string> = {
   "UI-M12-RB-LICZNIKI": "OK: {ok} · faults: {bledy} · not checked: {brak}",
   "UI-M12-RB-P-BEZPIECZNIK-AKUMULATORA": "Fuse at the battery",
   "UI-M12-RB-P-DOBOR-BEZPIECZNIKOW": "Fuse sizing",
+  "UI-M12-RB-P-BEZPIECZNIK-A-PRZEWOD": "Fuse vs cable",
   "UI-M12-RB-P-PRZEKROJE-PRZEWODOW": "Cable cross-sections",
   "UI-M12-RB-P-OCHRONA-ROZLADOWANIA": "Deep-discharge protection",
   "UI-M12-RB-P-WENTYLACJA-AKUMULATORA": "Battery ventilation",
@@ -1173,7 +1176,8 @@ export const en: Record<keyof typeof pl, string> = {
   "UI-M12-RB-JAK-BEZPIECZNIK-AKUMULATORA":
     "Is there a fuse on the battery positive, as close to the terminal as possible?",
   "UI-M12-RB-JAK-DOBOR-BEZPIECZNIKOW":
-    "Is each fuse above the load current and not above the ampacity of the cable it protects?",
+    "Is each fuse rated above the load current of its circuit?",
+  "UI-M12-RB-JAK-BEZPIECZNIK-A-PRZEWOD": "Is no fuse rated above the ampacity of the cable it protects?",
   "UI-M12-RB-JAK-PRZEKROJE-PRZEWODOW":
     "Did you check the cross-sections for current and voltage drop with a calculator? Are the cables not warm under load?",
   "UI-M12-RB-JAK-OCHRONA-ROZLADOWANIA":
@@ -1745,7 +1749,7 @@ export const ru: Record<keyof typeof pl, string> = {
   "UI-M12-TA-LINK-RATOWANIE": "Спасение разряженного аккумулятора →",
   "UI-M12-RB-TYTUL": "Отчёт о безопасности малой установки",
   "UI-M12-RB-OPIS":
-    "Проверьте шесть пунктов и отметьте «OK» или «Ошибка» — отчёт покажет слабые места и шаги исправления. Модуль 12, экран 14.",
+    "Проверьте семь пунктов и отметьте «OK» или «Ошибка» — отчёт покажет слабые места и шаги исправления. Модуль 12, экран 14.",
   "UI-M12-RB-OK": "OK",
   "UI-M12-RB-BLAD": "Ошибка",
   "UI-M12-RB-DOBIERZ": "Подобрать правильно →",
@@ -1757,13 +1761,15 @@ export const ru: Record<keyof typeof pl, string> = {
   "UI-M12-RB-LICZNIKI": "OK: {ok} · ошибки: {bledy} · не проверено: {brak}",
   "UI-M12-RB-P-BEZPIECZNIK-AKUMULATORA": "Предохранитель у аккумулятора",
   "UI-M12-RB-P-DOBOR-BEZPIECZNIKOW": "Подбор предохранителей",
+  "UI-M12-RB-P-BEZPIECZNIK-A-PRZEWOD": "Предохранитель и провод",
   "UI-M12-RB-P-PRZEKROJE-PRZEWODOW": "Сечения проводов",
   "UI-M12-RB-P-OCHRONA-ROZLADOWANIA": "Защита от разряда",
   "UI-M12-RB-P-WENTYLACJA-AKUMULATORA": "Вентиляция аккумулятора",
   "UI-M12-RB-P-POLACZENIA": "Соединения",
   "UI-M12-RB-JAK-BEZPIECZNIK-AKUMULATORA": "Есть ли предохранитель на плюсе аккумулятора как можно ближе к клемме?",
   "UI-M12-RB-JAK-DOBOR-BEZPIECZNIKOW":
-    "Каждый предохранитель больше тока нагрузки и не больше допустимого тока защищаемого провода?",
+    "Каждый предохранитель больше тока нагрузки своей цепи?",
+  "UI-M12-RB-JAK-BEZPIECZNIK-A-PRZEWOD": "Ни один предохранитель не больше допустимого тока защищаемого провода?",
   "UI-M12-RB-JAK-PRZEKROJE-PRZEWODOW":
     "Проверены ли сечения калькулятором по току и падению напряжения? Провода не тёплые под нагрузкой?",
   "UI-M12-RB-JAK-OCHRONA-ROZLADOWANIA":

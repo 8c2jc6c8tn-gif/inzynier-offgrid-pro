@@ -13,7 +13,8 @@ export const RaportBezpieczenstwaToolInput = z.object({
   odpowiedzi: z
     .object({
       "bezpiecznik-akumulatora": Odpowiedz.optional().describe("Bezpiecznik przy akumulatorze na plusie"),
-      "dobor-bezpiecznikow": Odpowiedz.optional().describe("Bezpieczniki dobrane do przekroju przewodów"),
+      "dobor-bezpiecznikow": Odpowiedz.optional().describe("Bezpieczniki większe od prądu odbiorników (nie wyzwalają przy normalnej pracy)"),
+      "bezpiecznik-a-przewod": Odpowiedz.optional().describe("Żaden bezpiecznik nie jest większy niż obciążalność chronionego przewodu"),
       "przekroje-przewodow": Odpowiedz.optional().describe("Przekroje przewodów sprawdzone na prąd i spadek napięcia"),
       "ochrona-rozladowania": Odpowiedz.optional().describe("Ochrona przed głębokim rozładowaniem (BMS / LVD / wyjście regulatora)"),
       "wentylacja-akumulatora": Odpowiedz.optional().describe("Wentylacja miejsca akumulatora"),
@@ -38,8 +39,8 @@ export type RaportBezpieczenstwaToolOutputT = z.infer<typeof RaportBezpieczenstw
 export const raportBezpieczenstwaMalyTool: AiToolDefinition<RaportBezpieczenstwaToolInputT, RaportBezpieczenstwaToolOutputT> = {
   name: "przygotuj_raport_bezpieczenstwa_malej_instalacji",
   description:
-    "Składa raport bezpieczeństwa małej instalacji (kamper, działka, balkon) z odpowiedzi OK / Błąd dla sześciu " +
-    "punktów: bezpiecznik przy akumulatorze, dobór bezpieczników, przekroje przewodów, ochrona przed rozładowaniem, " +
+    "Składa raport bezpieczeństwa małej instalacji (kamper, działka, balkon) z odpowiedzi OK / Błąd dla siedmiu " +
+    "punktów: bezpiecznik przy akumulatorze, dobór bezpieczników, bezpiecznik a przewód, przekroje przewodów, ochrona przed rozładowaniem, " +
     "wentylacja akumulatora, połączenia — z procentem bezpieczeństwa i krokami naprawczymi. " +
     "Użyj, gdy user pyta, czy jego mała instalacja jest bezpieczna, albo chce listę rzeczy do poprawy.",
   inputSchema: RaportBezpieczenstwaToolInput,
