@@ -28,7 +28,9 @@ export function brakWentylacji(): Warning {
 export function brakIzolacji(): Warning {
   return {
     code: "ESP-OBUDOWA-BEZ-IZOLACJI",
-    level: "warning",
+    // 🔴 D68 (owner decision 01.10.2026): no barrier between the ESP32 and live parts in the same enclosure =
+    // risk of electric shock and of the board being destroyed by a flashover.
+    level: "critical",
     i18nKey: "ESP-OBUDOWA-BEZ-IZOLACJI",
     technicalMessage: "izolacjaOdCzesciPodNapieciem = false (Tresc_Modul_9, Ekran 3)",
     field: "izolacjaOdCzesciPodNapieciem",

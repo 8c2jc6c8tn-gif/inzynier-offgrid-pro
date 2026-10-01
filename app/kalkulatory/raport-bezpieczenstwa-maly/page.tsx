@@ -23,6 +23,7 @@ const STAN_POCZATKOWY: FormularzStan = { odpowiedzi: {} }
 const POLE_POMOCY: Record<IdPunktuRaportu, PolePomocy<"raport-bezpieczenstwa-maly">> = {
   "bezpiecznik-akumulatora": "bezpiecznikAkumulatora",
   "dobor-bezpiecznikow": "doborBezpiecznikow",
+  "bezpiecznik-a-przewod": "bezpiecznikAPrzewod",
   "przekroje-przewodow": "przekrojePrzewodow",
   "ochrona-rozladowania": "ochronaRozladowania",
   "wentylacja-akumulatora": "wentylacjaAkumulatora",
