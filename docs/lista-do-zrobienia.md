@@ -1242,11 +1242,14 @@ Pełne wyniki audytu: `docs/memory.md`, sekcja "Pełny audyt na polecenie właś
      (PN-EN 50565-1), szkic LED (karta taśmy), M6 obciążenie cieplne (PN-EN 12831).
   9. 🔲 **Bieżące prace kodowe** (wpisy wyżej): rejestr twardych stopów M5, resynchronizacja `mapa-wdrozenia.md`,
      kolejne ekrany M7/M12, kafle „duże” + presety onboardingu (M14), przecinek w liczbach założeń i18n.
+     → **[30.09.2026]** Kafle „duże” + 8 presetów ✅ (wpis niżej). Przecinek w liczbach założeń — był już zamknięty
+     26.09 (wpis ✅ „Przecinki w liczbach w tekstach założeń”); ponowna kontrola 30.09: parametry założeń idą przez
+     `t()` jako liczby, kropka zostaje tylko w `technicalMessage` (tekst dla programisty, nie UI) — nic do zrobienia.
      ✅ **[30.09.2026]** Rejestr twardych stopów M5 — zrobione (PR #233, lista zapadkowa strażnika pusta).
   **[30.09.2026, 15:40] Sesje równoległe — stan worktree (koordynacja, standard 15.22):**
   - `claude/screens-without-involvement-e468f6` — **aktywna** (25 zmienionych plików): M9 ESP32, `lib/i18n/dictionary-*`,
     `lib/i18n/pomoc/m09-esp32.ts`, `lib/ai/pytaj-asystenta.ts`, `docs/rejestr-twardych-stopow.md`, pliki strażnika stopów.
-  - `claude/large-tiles-presets-m14-eca5df` — aktywna (pkt 9: kafle „duże” + presety M14; `lib/pulpit/**`).
+  - `claude/large-tiles-presets-m14-eca5df` — ~~aktywna~~ **[30.09.2026] zakończona** (pkt 9: kafle „duże” + presety M14; `lib/pulpit/**`).
   - `claude/physics-constants-help-text-91a9b3` (worktree `pwa-parallel-branch-work-4e99fd`) — 8.4b pkt (3):
     `lib/i18n/pomoc/*` + atrybut `parametry` na stronach.
   - `claude/translate-screen-labels-en-ru-2f94e0` — pkt 6: `lib/i18n/ui/*` + strony `app/kalkulatory/*`.
@@ -1469,6 +1472,19 @@ Pełne wyniki audytu: `docs/memory.md`, sekcja "Pełny audyt na polecenie właś
   każdy ekran. **Kolizje:** każda sesja zmieniająca te pliki oraz wpis „Tłumaczenie etykiet stron na EN/RU” (inne
   pliki, ale te same ekrany do sprawdzenia wizualnego). **Kolejność:** najpierw prototyp w `/wzornik` + pulpit + jeden
   kalkulator, akceptacja właściciela, dopiero potem reszta.
+- ✅ (2026-09-30) **Kafle „duże” M14 + presety pulpitu (TD22 pkt 5, D53/D54).** Kafle „Dom – sieć” / „Firma – sieć”
+  zajmują dwie kolumny siatki pulpitu, z opisem. W Ustawieniach sekcja „Co chcesz teraz zrobić?”: 8 presetów z
+  `docs/pulpit-i-nawigacja.md` §3, kafle M14 na końcu każdego, kilka zaznaczonych = unia w kolejności domyślnej (✅🤖).
+  Teksty PL/EN/RU (`lib/i18n/ui/pulpit.ts`), test `lib/pulpit/__tests__/presety.test.ts`. Przy okazji (Y.2): lista w
+  Ustawieniach pokazywała „15. Dom – sieć” — kafle M14 nie mają numeru (D39), numer zdjęty.
+- 🔲 (2026-09-30) **Pulpit — co zostało po presetach:** **[30.09.2026, D62] pkt (1) ✅** — właściciel przyjął skład i
+  kolejność unii, preset zbudowany; otwarte zostają (2) i (3). (1) dziewiąty preset „Jestem podłączony do sieci” (D39) —
+  **skład kafli do decyzji właściciela** (propozycja ✅🤖 do oceny: 15, 16, a za nimi moduły, z których M14 czyta:
+  1, 2, 3, 4, 6, 7, 8); (2) ekran onboardingu przy pierwszym uruchomieniu (`backlog-poza-v1.md`); (3) animowana ikona
+  kafli M14. **Priorytet:** niski. **Odblokowuje:** pełny §3 pulpitu. **Plusy teraz:** mechanizm presetów gotowy,
+  dziewiąty to jedna linia w `lib/pulpit/presety.ts`; **minusy:** bez decyzji o składzie byłby zgadywaniem.
+  **Kolizje:** `lib/pulpit/registry.ts` (każda sesja dodająca ekrany/kafle), `app/ustawienia/page.tsx`.
+  **Kolejność:** decyzja (1) → kod (1) → (2) razem z onboardingiem.
 - ✅ (2026-09-30) **M9 — blok 6: E1 wybór płytki (częściowo), E3 montaż i obudowa, Katalogi 2–4 (aktuatory, protokoły, interfejs lokalny).** M9: 10/10 — **moduł kompletny** (E1, E5 i Katalog 1 częściowo); łącznie 195/314. Wspólny silnik i komponent katalogów (`katalog-komponentow`), Katalog 1 deleguje do silnika (Dyrektywa #8). Szczegóły: `docs/memory.md` „M9 blok 6 (30.09.2026)”.
 - ⚠️ (2026-09-30) **Do potwierdzenia przez właściciela (✅🤖) — M9/E3 poziomy ostrzeżeń.** Źródło E3 nie ma 🔴; w kodzie 🟡: odstęp od szyn prądowych < 2 cm, brak wentylacji, brak izolacji ESP32 od części pod napięciem. Brak izolacji od części pod napięciem to kandydat na 🔴 (ryzyko porażenia/przebicia na elektronikę), ale bez decyzji właściciela nie podnosimy. IP w miejscu wilgotnym — echo istniejących progów (🔴 < IP55, 🟡 IP55–IP64), bez nowej decyzji. **Priorytet:** niski. **Odblokowuje:** potwierdzenie C.7. **Plusy teraz:** jedno zdanie decyzji. **Minusy:** brak. **Kolizje:** tylko `lib/core/modules/esp32/montaz-obudowa/` (+ rejestr stopów, jeśli 🔴). **Kolejność:** niezależne.
 - 🔲 (2026-09-30) **M9/E4 → link do Katalogu 3 (protokoły)** — źródło: „Link: prowadzi do katalogu protokołów komunikacji”. Katalog jest już zbudowany; brakuje odnośnika na ekranie `architektura-komunikacji` (plik ma stare polskie teksty w JSX — nowy tekst przez `t()`, klucz w `lib/i18n/ui/m09-esp32.ts`). **Priorytet:** niski. **Odblokowuje:** pełne E4 wg źródła. **Plusy:** 5 minut. **Minusy:** brak. **Kolizje:** migracja i18n starego ekranu E4, jeśli ktoś ją prowadzi równolegle. **Kolejność:** dowolna.
