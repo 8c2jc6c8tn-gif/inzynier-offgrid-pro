@@ -1523,4 +1523,8 @@ export const dictionaryEn = {
   "GRZ-Z-BATERII": "A fixed-power heater draws its power regardless of the sun — it will take {kwh} kWh from the battery. In winter it is better to top up with a heat pump or use a PV surplus controller.",
   "GRZ-PV-STALA": "The PV surplus is taken as constant for the whole heating time — in reality it changes with clouds and time of day.",
   "GRZ-ZALOZENIE-OPOROWA": "A resistive heater turns 1 kWh of electricity into 1 kWh of heat; tank losses during heating are left out (Screen 17).",
+  "OSL-OKAP-ZIMA": "A fixed overhang protects in summer, but in winter it takes away valuable free heat gains — at winter noon it covers {pct}% of the window. Consider a shorter overhang or a movable shade (external blinds, awning) instead of a fixed one.",
+  "OSL-TYLKO-GEOMETRIA": "Only the solar-noon geometry is computed, for a south-facing window and an overhang wider than the window. The app does not compute solar gains in kWh — that needs facade irradiance, the glazing g-value and a shading factor from a standard the app does not have (the same model as the windows screen, deferred). A horizontal overhang does not protect east and west windows — the sun is low there; a vertical or movable shade is needed.",
+  "OSL-SZEROKOSC-POZA-MODELEM": "The model works for latitudes from {min}° to {max}°N — there the noon sun is always to the south and above the horizon in winter.",
+  "OSL-ZALOZENIE-POLUDNIE": "Sun height at solstice noon: h = 90° − φ ± {delta}° (solar declination). The overhang's shadow reaches projection × tan h below the overhang.",
 } satisfies Record<KluczTlumaczenia, string>

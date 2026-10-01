@@ -286,6 +286,40 @@ export const pl = {
       }
     }
   },
+  "oslony-przeciwsloneczne": {
+    "migawka": {
+      "oCoChodzi": "Słońce latem to wróg (przegrzanie), zimą przyjaciel (darmowe ogrzewanie) — dobra osłona musi to rozróżniać, a nie blokować słońce przez cały rok jednakowo.",
+      "jakDziala": "Wpisz szerokość geograficzną (albo zostaw puste — weźmiemy ją z lokalizacji projektu), wysięg okapu, odstęp okapu nad oknem i wysokość okna. Aplikacja policzy wysokość słońca w południe w najdłuższy i najkrótszy dzień roku i jaka część okna będzie wtedy w cieniu.",
+      "poCo": "Dobrze dobrany okap zasłania okno południowe latem, a zimą wpuszcza słońce, które grzeje dom za darmo. Za długi okap zabiera zimowe zyski, za krótki nie chroni przed przegrzaniem.",
+      "fizyka": "Wysokość słońca w południe: h = 90° − φ ± 23,45° (przesilenie letnie +, zimowe −). Cień okapu o wysięgu P sięga P·tg h poniżej okapu; zacieniona część okna = (P·tg h − odstęp) ÷ wysokość okna, w granicach 0–100%. Zysków w kWh aplikacja nie liczy (potrzebna norma ze współczynnikami osłon i model okien — odłożony)."
+    },
+    "pola": {
+      "szerokosc": {
+        "nazwa": "Szerokość geograficzna [°N]",
+        "cel": "Wyznacza wysokość słońca latem i zimą.",
+        "gdzie": "Lokalizacja projektu (Moduł 1) albo mapa. Puste = z lokalizacji projektu.",
+        "zakres": "Model: ok. 23,5–66,5°N (Polska 49–55°N)."
+      },
+      "wysieg": {
+        "nazwa": "Wysięg okapu [m]",
+        "cel": "Jak daleko okap (balkon, daszek, pergola) wystaje przed ścianę.",
+        "gdzie": "Pomiar albo projekt.",
+        "zakres": "Twój budynek."
+      },
+      "odstep": {
+        "nazwa": "Odstęp okapu nad oknem [m]",
+        "cel": "Od spodu okapu do górnej krawędzi przeszklenia — cień musi go najpierw „przejść”.",
+        "gdzie": "Pomiar albo projekt.",
+        "zakres": "0 = okap tuż nad oknem."
+      },
+      "wysokosc": {
+        "nazwa": "Wysokość okna [m]",
+        "cel": "Wysokość przeszklenia, które ma być zacienione.",
+        "gdzie": "Pomiar albo zestawienie stolarki.",
+        "zakres": "Twój budynek."
+      }
+    }
+  },
 }
 
 const EN_SHEET = "The device datasheet — the app never assumes a typical value for you."
@@ -570,6 +604,40 @@ export const en: Tlumaczenie<typeof pl> = {
       }
     }
   },
+  "oslony-przeciwsloneczne": {
+    "migawka": {
+      "oCoChodzi": "The sun is an enemy in summer (overheating) and a friend in winter (free heating) — a good shade must tell them apart instead of blocking the sun the same way all year.",
+      "jakDziala": "Enter the latitude (or leave it empty — we take it from the project location), the overhang projection, the gap above the window and the window height. The app computes the noon sun height on the longest and shortest day of the year and what part of the window is then in shade.",
+      "poCo": "A well-sized overhang shades a south window in summer and lets in the winter sun that heats the house for free. Too long takes away winter gains, too short does not prevent overheating.",
+      "fizyka": "Noon sun height: h = 90° − φ ± 23.45° (summer solstice +, winter −). The shadow of an overhang with projection P reaches P·tan h below it; shaded part of the window = (P·tan h − gap) ÷ window height, within 0–100%. The app does not compute gains in kWh (it needs a standard with shading factors and the windows model — deferred)."
+    },
+    "pola": {
+      "szerokosc": {
+        "nazwa": "Latitude [°N]",
+        "cel": "Sets the sun height in summer and winter.",
+        "gdzie": "Project location (Module 1) or a map. Empty = from the project location.",
+        "zakres": "Model: approx. 23.5–66.5°N (Poland 49–55°N)."
+      },
+      "wysieg": {
+        "nazwa": "Overhang projection [m]",
+        "cel": "How far the overhang (balcony, canopy, pergola) sticks out from the wall.",
+        "gdzie": "Measurement or design.",
+        "zakres": "Your building."
+      },
+      "odstep": {
+        "nazwa": "Gap above the window [m]",
+        "cel": "From the underside of the overhang to the top edge of the glazing — the shadow must “cross” it first.",
+        "gdzie": "Measurement or design.",
+        "zakres": "0 = overhang right above the window."
+      },
+      "wysokosc": {
+        "nazwa": "Window height [m]",
+        "cel": "Height of the glazing to be shaded.",
+        "gdzie": "Measurement or window schedule.",
+        "zakres": "Your building."
+      }
+    }
+  },
 }
 
 const RU_SHEET = "Паспорт устройства — приложение не подставляет типовое значение за вас."
@@ -851,6 +919,40 @@ export const ru: Tlumaczenie<typeof pl> = {
         "cel": "Проверка, выдержит ли инвертор ТЭН.",
         "gdzie": "Паспорт инвертора (номинальная длительная, не пиковая).",
         "zakres": "Пусто = без проверки."
+      }
+    }
+  },
+  "oslony-przeciwsloneczne": {
+    "migawka": {
+      "oCoChodzi": "Солнце летом — враг (перегрев), зимой — друг (бесплатное отопление). Хорошая защита должна это различать, а не закрывать солнце весь год одинаково.",
+      "jakDziala": "Введите широту (или оставьте пусто — возьмём из местоположения проекта), вылет козырька, расстояние над окном и высоту окна. Приложение посчитает высоту солнца в полдень в самый длинный и самый короткий день года и какая часть окна будет в тени.",
+      "poCo": "Правильно подобранный козырёк затеняет южное окно летом и впускает зимнее солнце, которое бесплатно греет дом. Слишком длинный отнимает зимние теплопоступления, слишком короткий не защищает от перегрева.",
+      "fizyka": "Высота солнца в полдень: h = 90° − φ ± 23,45° (летнее солнцестояние +, зимнее −). Тень козырька с вылетом P опускается на P·tg h ниже него; затенённая часть окна = (P·tg h − зазор) ÷ высота окна, в пределах 0–100%. Теплопоступления в кВт·ч приложение не считает (нужна норма с коэффициентами защиты и модель окон — отложена)."
+    },
+    "pola": {
+      "szerokosc": {
+        "nazwa": "Географическая широта [° с. ш.]",
+        "cel": "Определяет высоту солнца летом и зимой.",
+        "gdzie": "Местоположение проекта (Модуль 1) или карта. Пусто = из местоположения проекта.",
+        "zakres": "Модель: ок. 23,5–66,5° с. ш. (Польша 49–55°)."
+      },
+      "wysieg": {
+        "nazwa": "Вылет козырька [м]",
+        "cel": "Насколько козырёк (балкон, навес, пергола) выступает от стены.",
+        "gdzie": "Замер или проект.",
+        "zakres": "Ваше здание."
+      },
+      "odstep": {
+        "nazwa": "Расстояние от козырька до окна [м]",
+        "cel": "От низа козырька до верхнего края остекления — тень сначала должна его «пройти».",
+        "gdzie": "Замер или проект.",
+        "zakres": "0 = козырёк сразу над окном."
+      },
+      "wysokosc": {
+        "nazwa": "Высота окна [м]",
+        "cel": "Высота остекления, которое нужно затенить.",
+        "gdzie": "Замер или спецификация окон.",
+        "zakres": "Ваше здание."
       }
     }
   },

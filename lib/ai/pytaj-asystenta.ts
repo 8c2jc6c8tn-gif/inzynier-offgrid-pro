@@ -249,6 +249,7 @@ import { dystrybucjaCieplaTool } from "./tools/dystrybucja-ciepla-tool"
 import { sterowanieStrefoweTool } from "./tools/sterowanie-strefowe-tool"
 import { zasobnikCwuTool } from "./tools/zasobnik-cwu-tool"
 import { grzalkaCwuTool } from "./tools/grzalka-cwu-tool"
+import { oslonyPrzeciwsloneczneTool } from "./tools/oslony-przeciwsloneczne-tool"
 import { toAnthropicTool } from "./to-anthropic-tool"
 import { validateAiToolDefinition, type AiToolDefinition } from "./types"
 
@@ -488,6 +489,7 @@ const NARZEDZIA: Array<AiToolDefinition<any, any>> = [
   sterowanieStrefoweTool,
   zasobnikCwuTool,
   grzalkaCwuTool,
+  oslonyPrzeciwsloneczneTool,
 ]
 for (const narzedzie of NARZEDZIA) validateAiToolDefinition(narzedzie)
 

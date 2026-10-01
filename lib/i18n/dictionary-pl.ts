@@ -1535,6 +1535,10 @@ export const dictionaryPl = {
   "GRZ-Z-BATERII": "Grzałka o stałej mocy pobiera swoją moc niezależnie od słońca — {kwh} kWh weźmie z baterii. Zimą lepiej dogrzewać pompą ciepła albo użyć regulatora nadwyżki PV.",
   "GRZ-PV-STALA": "Nadwyżka PV przyjęta jako stała przez cały czas grzania — w rzeczywistości zmienia się z chmurami i porą dnia.",
   "GRZ-ZALOZENIE-OPOROWA": "Grzałka oporowa zamienia 1 kWh prądu w 1 kWh ciepła; straty zasobnika w czasie grzania pominięte (Ekran 17).",
+  "OSL-OKAP-ZIMA": "Stały okap chroni latem, ale zimą odbiera cenne darmowe zyski ciepła — w zimowe południe zasłania {pct}% okna. Rozważ krótszy okap albo osłonę ruchomą (żaluzje zewnętrzne, markiza) zamiast stałej.",
+  "OSL-TYLKO-GEOMETRIA": "Liczona tylko geometria w południe słoneczne dla okna skierowanego na południe i okapu szerszego niż okno. Zysków słonecznych w kWh aplikacja nie liczy — wymagają napromieniowania fasady, współczynnika g szyby i współczynnika osłony z normy, której nie ma w aplikacji (ten sam model co ekran okien, odłożony). Okap poziomy nie chroni okien wschodnich i zachodnich — tam słońce świeci nisko; potrzebna osłona pionowa albo ruchoma.",
+  "OSL-SZEROKOSC-POZA-MODELEM": "Model działa dla szerokości geograficznej od {min}° do {max}°N — tam słońce w południe jest zawsze na południu i zimą nad horyzontem.",
+  "OSL-ZALOZENIE-POLUDNIE": "Wysokość słońca w południe przesilenia: h = 90° − φ ± {delta}° (deklinacja Słońca). Cień okapu sięga wysięg × tg h poniżej okapu.",
 } as const
 
 export type KluczTlumaczenia = keyof typeof dictionaryPl

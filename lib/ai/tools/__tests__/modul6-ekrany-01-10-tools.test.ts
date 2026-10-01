@@ -5,6 +5,7 @@ import { dystrybucjaCieplaTool } from "../dystrybucja-ciepla-tool"
 import { sterowanieStrefoweTool } from "../sterowanie-strefowe-tool"
 import { zasobnikCwuTool } from "../zasobnik-cwu-tool"
 import { grzalkaCwuTool } from "../grzalka-cwu-tool"
+import { oslonyPrzeciwsloneczneTool } from "../oslony-przeciwsloneczne-tool"
 
 describe("dystrybucjaCieplaTool (M6/E13, dawne 5.13 + 5.17 + 5.18)", () => {
   it("kontrakt 9.3: 'read', bez potwierdzenia", () => {
@@ -90,5 +91,19 @@ describe("grzalkaCwuTool (M6/E18, dawne 5.22)", () => {
     const w = await grzalkaCwuTool.handler({ pojemnoscL: 200, tStartC: 10, tKoniecC: 50, mocGrzalkiKw: 2, mocPvKw: 0, sterowanie: null, mocFalownikaKw: 1.5 })
     expect(w.czasH).toBeCloseTo(4.651, 3)
     expect(w.ostrzezenia).toContain(t("pl", "GRZ-PONAD-FALOWNIK", { grzalka: 2, falownik: 1.5 }))
+  })
+})
+
+describe("oslonyPrzeciwsloneczneTool (M6/E19, dawne 5.25)", () => {
+  it("kontrakt 9.3: 'read', bez potwierdzenia", () => {
+    expect(oslonyPrzeciwsloneczneTool.operationType).toBe("read")
+    expect(oslonyPrzeciwsloneczneTool.requiresConfirmation).toBe(false)
+    expect(() => validateAiToolDefinition(oslonyPrzeciwsloneczneTool)).not.toThrow()
+  })
+
+  it("okap 2 m tuż nad oknem na 52°N → 🟡 zimowy cień jako tekst PL", async () => {
+    const w = await oslonyPrzeciwsloneczneTool.handler({ szerokoscDeg: 52, wysiegM: 2, odstepM: 0, wysokoscOknaM: 1.5 })
+    expect(w.zacienienieLatoPct).toBe(100)
+    expect(w.ostrzezenia).toContain(t("pl", "OSL-OKAP-ZIMA", { pct: Math.round(w.zacienienieZimaPct) }))
   })
 })

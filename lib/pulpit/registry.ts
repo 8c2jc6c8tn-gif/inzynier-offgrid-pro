@@ -201,6 +201,7 @@ export const KAFLE: KafelEntry[] = [
       { href: "/kalkulatory/sterowanie-strefowe", label: "Sterowanie strefowe" },
       { href: "/kalkulatory/zasobnik-cwu", label: "System C.W.U. — zasobnik i cyrkulacja" },
       { href: "/kalkulatory/grzalka-cwu", label: "Grzałki elektryczne do C.W.U." },
+      { href: "/kalkulatory/oslony-przeciwsloneczne", label: "Ochrona przed przegrzaniem latem — okap" },
     ],
   },
   {
