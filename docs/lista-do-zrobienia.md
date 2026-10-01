@@ -1301,6 +1301,10 @@ Pełne wyniki audytu: `docs/memory.md`, sekcja "Pełny audyt na polecenie właś
   #238), które nie mieszczą się w `paths-ignore`. PR #243 (same `.md`) poprawnie bez CI. Do sprawdzenia przez właściciela:
   zakładka Actions / Billing konta (czy limit odnowił się 1.10 i czy nie ma blokady płatności), potem ponowny push
   na `main` albo `workflow_dispatch`. Do wyjaśnienia merge nadal na pełnym pakiecie lokalnym. **Priorytet:** wysoki.
+  ⚠️ **[01.10.2026, 18:50] Billing wykluczony.** Zrzut właściciela: Actions 0 min / 2000 min, $0 — limit nie jest
+  przyczyną. PR #246 (kod, poza `paths-ignore`) i jego merge na `main` nadal **0 uruchomień**; workflow `CI` `active`.
+  Następny krok właściciela: repo → Settings → Actions → General → „Actions permissions” (czy nie „Disable actions”
+  albo lista dozwolonych akcji bez `pnpm/action-setup`) oraz zakładka Actions (baner o blokadzie konta/weryfikacji).
 - 🔲 (2026-09-29) **Prognozy M10 — Δt przy podłączaniu realnych danych (TD7).** Silnik `ai/prognozy` 1.1.0 zakłada
   stały krok `KROK_PROBKOWANIA_H = 3` (decyzja A). Gdy ekran dostanie prawdziwe źródło (symulacja SoC, pogoda, dane live),
   sprawdzić krok próbkowania tego źródła: inny niż 3 h → krok jako jawne pole wejścia silnika (+ test), nie cicha
