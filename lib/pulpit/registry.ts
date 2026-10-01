@@ -197,6 +197,7 @@ export const KAFLE: KafelEntry[] = [
       { href: "/kalkulatory/wentylacja-odzysk-ciepla", label: "System wentylacji z odzyskiem ciepła" },
       { href: "/kalkulatory/ryzyko-zamarzniecia-dolnego-zrodla", label: "Ryzyko zamarznięcia dolnego źródła" },
       { href: "/kalkulatory/halas-i-wibracje", label: "Hałas i wibracje pompy ciepła" },
+      { href: "/kalkulatory/dystrybucja-ciepla", label: "Dystrybucja ciepła — wybór systemu" },
     ],
   },
   {

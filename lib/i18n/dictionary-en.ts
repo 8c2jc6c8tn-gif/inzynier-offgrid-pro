@@ -1500,4 +1500,13 @@ export const dictionaryEn = {
   "MIGAWKA-UI-ZALOZENIA": "Assumptions of the current result",
   "POMOC-UI-ZAMKNIJ": "Close",
   "WYNIK-UI-ZALOZENIE": "Assumption",
+  "M6-WARTOSC-UJEMNA": "The entered value cannot be negative.",
+  "M6-GODZINY-POZA-ZAKRESEM": "A day has 24 hours — enter hours per day from 0 to 24.",
+  "M6-PROCENT-POZA-ZAKRESEM": "A percentage must be within 0–100%.",
+  "M6-COP-POZA-ZAKRESEM": "COP cannot be below 1 — even a resistive heater turns 1 kWh of electricity into 1 kWh of heat. Enter the value from the datasheet.",
+  "DYS-GRZEJNIKI-WYSOKOTEMP-POMPA": "Do not fit ordinary (high-temperature, {standard}) radiators on a heat pump — they need a high supply temperature and drastically lower the COP. Choose underfloor heating or larger low-temperature radiators ({nisko}).",
+  "DYS-PODLOGOWE-BEZWLADNOSC": "Underfloor heating has a large thermal inertia — it does not react quickly to changes. In a low-inertia house it may overheat the rooms (see Screen 8 — thermal capacity).",
+  "DYS-COP-TYLKO-POMPA": "The COP comparison applies to a heat pump. With another source (boiler, stove) the supply temperature does not change energy use in the same way — the screen only shows the system match.",
+  "DYS-COP-NIE-WYZSZY": "The COP at the lower supply temperature ({cop}) is not higher than with standard radiators ({copOdn}) — check that both values come from the same datasheet at the same outdoor temperature.",
+  "DYS-ZALOZENIE-COP-Z-KARTY": "Both COPs come from the same pump's datasheet at the same outdoor temperature — they differ only in the supply temperature.",
 } satisfies Record<KluczTlumaczenia, string>

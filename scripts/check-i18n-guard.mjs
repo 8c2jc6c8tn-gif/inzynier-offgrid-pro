@@ -111,6 +111,8 @@ const MIGRATED_MODULES = [
   "lib/core/modules/ogrzewanie/pompy-cyrkulacyjne",
   "lib/core/modules/ogrzewanie/ryzyko-niskiego-napiecia",
   "lib/core/modules/ogrzewanie/wentylacja-odzysk-ciepla",
+  "lib/core/modules/ogrzewanie/wspolne",
+  "lib/core/modules/ogrzewanie/dystrybucja-ciepla",
   "lib/core/modules/montaz-baterii/balansery-zewnetrzne-olow",
   "lib/core/modules/montaz-baterii/demontaz-pakietu",
   "lib/core/modules/montaz-baterii/gestosc-elektrolitu",

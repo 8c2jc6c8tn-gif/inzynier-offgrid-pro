@@ -1512,6 +1512,15 @@ export const dictionaryPl = {
   "MIGAWKA-UI-ZALOZENIA": "Założenia bieżącego wyniku",
   "POMOC-UI-ZAMKNIJ": "Zamknij",
   "WYNIK-UI-ZALOZENIE": "Założenie",
+  "M6-WARTOSC-UJEMNA": "Wpisana wartość nie może być ujemna.",
+  "M6-GODZINY-POZA-ZAKRESEM": "Doba ma 24 godziny — wpisz liczbę godzin na dobę od 0 do 24.",
+  "M6-PROCENT-POZA-ZAKRESEM": "Wartość procentowa musi mieścić się w zakresie 0–100%.",
+  "M6-COP-POZA-ZAKRESEM": "COP nie może być mniejszy niż 1 — nawet grzałka zamienia 1 kWh prądu w 1 kWh ciepła. Wpisz wartość z karty urządzenia.",
+  "DYS-GRZEJNIKI-WYSOKOTEMP-POMPA": "Nie montuj zwykłych (wysokotemperaturowych, {standard}) grzejników przy pompie ciepła — wymagają wysokiej temperatury zasilania i drastycznie obniżą COP. Wybierz ogrzewanie podłogowe albo większe grzejniki niskotemperaturowe ({nisko}).",
+  "DYS-PODLOGOWE-BEZWLADNOSC": "Ogrzewanie podłogowe ma dużą bezwładność — nie reaguje szybko na zmiany. W domu o niskiej bezwładności może przegrzewać pomieszczenia (sprawdź Ekran 8 — pojemność cieplna).",
+  "DYS-COP-TYLKO-POMPA": "Porównanie COP dotyczy pompy ciepła. Przy innym źródle (kocioł, kominek) temperatura zasilania nie zmienia tak zużycia energii — ekran pokazuje tylko dopasowanie systemu.",
+  "DYS-COP-NIE-WYZSZY": "COP przy niższej temperaturze zasilania ({cop}) nie jest wyższy niż przy grzejnikach standardowych ({copOdn}) — sprawdź, czy obie wartości są z tej samej karty i przy tej samej temperaturze zewnętrznej.",
+  "DYS-ZALOZENIE-COP-Z-KARTY": "Oba COP z karty tej samej pompy, przy tej samej temperaturze zewnętrznej — różnią się tylko temperaturą zasilania.",
 } as const
 
 export type KluczTlumaczenia = keyof typeof dictionaryPl
