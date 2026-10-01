@@ -1,4 +1,5 @@
 import type { Assumption, CalcResult, Warning } from "@/lib/core/calc-result"
+import { latexLiczba } from "@/lib/core/latex"
 import type { PrzepustPowietrzaInput } from "./input"
 import { validateInput } from "./validation"
 import { szczelinaBezpieczna, szczelinaKrytyczna, szczelinaPosrednia } from "./warnings"
@@ -10,7 +11,7 @@ import {
   WSPOLCZYNNIK_STRATY_PCT_PER_C,
 } from "./constants"
 
-export const CALCULATOR_VERSION = "1.0.0"
+export const CALCULATOR_VERSION = "1.0.1"
 
 export type PrzepustPowietrzaResult = {
   klasyfikacja: "krytyczna" | "posrednia" | "bezpieczna"
@@ -18,7 +19,7 @@ export type PrzepustPowietrzaResult = {
   strataOrientacyjnaPct: number | null
 }
 
-const FORMULA = "strata_{\\%} = (T_{panelu} - T_{STC}) \\times 0{,}4\\%/°C"
+const FORMULA = `strata_{\\%} = (T_{panelu} - T_{STC}) \\times ${latexLiczba(WSPOLCZYNNIK_STRATY_PCT_PER_C)}\\%/°C`
 
 function pusty(): PrzepustPowietrzaResult {
   return { klasyfikacja: "bezpieczna", strataOrientacyjnaPct: null }

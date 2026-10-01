@@ -1348,7 +1348,7 @@ Pełne wyniki audytu: `docs/memory.md`, sekcja "Pełny audyt na polecenie właś
   napięcie systemowe, 1 Ah × 12 V), „12 mies.” depozytu i numery artykułów/norm (brak stałej w silniku), 2 V / 3,2 V na
   ogniwo, „STC 25 °C” w nazwach pól (definicja STC). Wind chill — współczynniki są w `calculator.ts` inline, nie w
   `constants.ts` → wpis niżej.
-- 🔲 (2026-09-30) **Stałe wpisane na sztywno w samym silniku (`FORMULA`/`calculator.ts`) — wyciągnąć do `constants.ts`.**
+- ✅ (2026-09-30, gałąź `claude/engine-constants-formula`: 15 kalkulatorów składa `FORMULA` ze stałych przez `latexLiczba()` (`lib/core/latex.ts`), depozyt — stawki z danych dla miesiąca w samym wzorze; nowe stałe: współczynniki wind chill, `WSPOLCZYNNIK_MARGINESU_BEZPIECZNIKA`; „Fizyka” wind chill i „Jak działa” bezpiecznika przez `parametry`; strażnik `lib/core/__tests__/formula-constants.test.ts`) ~~🔲~~ (2026-09-30) **Stałe wpisane na sztywno w samym silniku (`FORMULA`/`calculator.ts`) — wyciągnąć do `constants.ts`.**
   Znalezione przy 8.4b pkt (3): wind chill (`stress-test/wind-chill/calculator.ts`: 13,12 / 0,6215 / 11,37 / 0,3965 /
   0,16 inline, tekst „Fizyka” też je przepisuje); ciągi `FORMULA` przepisują stałe zamiast je składać — depozyt
   (`1{,}23`, `20\%/30\%`, a wartości idą z pliku danych i mogą się zmienić), pre-heat (`0{,}001163`), profil

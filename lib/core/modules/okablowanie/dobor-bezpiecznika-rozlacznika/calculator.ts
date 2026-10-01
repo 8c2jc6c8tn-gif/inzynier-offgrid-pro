@@ -1,9 +1,11 @@
 import type { Assumption, CalcResult, Warning } from "@/lib/core/calc-result"
+import { latexLiczba } from "@/lib/core/latex"
 import type { DoborBezpiecznikaRozlacznikaInput } from "./input"
 import { validateInput } from "./validation"
 import { aicPonizejPraduZwarciowego } from "./warnings"
+import { WSPOLCZYNNIK_MARGINESU_BEZPIECZNIKA } from "./constants"
 
-export const CALCULATOR_VERSION = "1.0.1"
+export const CALCULATOR_VERSION = "1.0.2"
 
 export type DoborBezpiecznikaRozlacznikaResult = {
   pradBezpiecznikaZalecanyA: number
@@ -11,7 +13,7 @@ export type DoborBezpiecznikaRozlacznikaResult = {
   aicWystarczajace: boolean | null
 }
 
-const FORMULA = "I_{bezpiecznik} = 1{,}25 \\times I"
+const FORMULA = `I_{bezpiecznik} = ${latexLiczba(WSPOLCZYNNIK_MARGINESU_BEZPIECZNIKA)} \\times I`
 
 /**
  * Margines doboru bezpieczników/rozłączników ogólnych obwodów instalacji względem prądu
@@ -19,7 +21,7 @@ const FORMULA = "I_{bezpiecznik} = 1{,}25 \\times I"
  * niezależna od normy PV HD 60364-7-712.
  */
 function obliczPradBezpiecznikaOgolnegoA(pradZnamionowyA: number): number {
-  return 1.25 * pradZnamionowyA
+  return WSPOLCZYNNIK_MARGINESU_BEZPIECZNIKA * pradZnamionowyA
 }
 
 /**

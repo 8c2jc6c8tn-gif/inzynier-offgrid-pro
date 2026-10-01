@@ -1,14 +1,14 @@
 import type { Assumption, CalcResult, Warning } from "@/lib/core/calc-result"
 import { obliczNapiecieStringuZimowego } from "@/lib/core/modules/pv/stress-test-mppt/calculator"
-import { PROG_OSTRZEGAWCZY_UDZIAL_LIMITU } from "@/lib/core/modules/pv/stress-test-mppt/constants"
+import { PROG_OSTRZEGAWCZY_UDZIAL_LIMITU, TEMPERATURA_REFERENCYJNA_STC_C } from "@/lib/core/modules/pv/stress-test-mppt/constants"
 import type { PanelDoStacjiZasilaniaInput } from "./input"
 import { validateInput } from "./validation"
 import { bliskoLimituNapiecia, polaryzacjaInfo, pradPowyzejLimitu, przekroczoneNapiecieWejscia } from "./warnings"
 
-export const CALCULATOR_VERSION = "1.0.0"
+export const CALCULATOR_VERSION = "1.0.1"
 
 const FORMULA =
-  "V_{oc,zima} = n_s \\times V_{oc} \\times (1 + \\beta (T_{min} - 25)) \\le U_{max,wej} \\;\\; ; \\;\\; I_{sc} \\times n_p \\le I_{max,wej}"
+  `V_{oc,zima} = n_s \\times V_{oc} \\times (1 + \\beta (T_{min} - ${TEMPERATURA_REFERENCYJNA_STC_C})) \\le U_{max,wej} \\;\\; ; \\;\\; I_{sc} \\times n_p \\le I_{max,wej}`
 
 export type PanelDoStacjiZasilaniaResult = {
   /** Napięcie jałowe całego łańcucha w najniższej temperaturze [V]. */

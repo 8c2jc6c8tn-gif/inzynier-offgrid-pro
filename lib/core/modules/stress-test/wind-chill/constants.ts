@@ -8,3 +8,10 @@
  */
 export const WIND_CHILL_MAX_TEMP_C = 10
 export const WIND_CHILL_MIN_PREDKOSC_KMH = 4.8
+
+/** Coefficients of the metric NWS/Environment Canada (2001) formula: WC = A + B·T − C·V^e + D·T·V^e. */
+export const WIND_CHILL_A = 13.12
+export const WIND_CHILL_B = 0.6215
+export const WIND_CHILL_C = 11.37
+export const WIND_CHILL_D = 0.3965
+export const WIND_CHILL_WYKLADNIK = 0.16

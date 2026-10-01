@@ -1,11 +1,12 @@
 import type { Assumption, CalcResult } from "@/lib/core/calc-result"
+import { latexLiczba } from "@/lib/core/latex"
 import type { AgregatPradotworczyInput } from "./input"
 import { validateInput } from "./validation"
 import { brakWyjsciaSterujacego, maWyjscieSterujace } from "./warnings"
 import { OPTYMALNE_OBCIAZENIE_PCT } from "./constants"
 import { maOdpowiedzBezpieczenstwa, ocenBezpieczenstwoAgregatu } from "./bezpieczenstwo"
 
-export const CALCULATOR_VERSION = "1.1.0"
+export const CALCULATOR_VERSION = "1.1.1"
 
 export type AgregatPradotworczyResult = {
   godzinyPracy: number
@@ -14,7 +15,7 @@ export type AgregatPradotworczyResult = {
 }
 
 const FORMULA =
-  "t_{h} = deficyt / (P_{agregat} \\times 0{,}8); \\ paliwo = t_{h} \\times zużycie_{l/h}; \\ koszt = paliwo \\times cena_{zł/l}"
+  `t_{h} = deficyt / (P_{agregat} \\times ${latexLiczba(OPTYMALNE_OBCIAZENIE_PCT / 100)}); \\ paliwo = t_{h} \\times zużycie_{l/h}; \\ koszt = paliwo \\times cena_{zł/l}`
 
 /**
  * Ekran 17, Moduł 2 "Zapotrzebowanie energetyczne" — "Agregat prądotwórczy – definicja i logika

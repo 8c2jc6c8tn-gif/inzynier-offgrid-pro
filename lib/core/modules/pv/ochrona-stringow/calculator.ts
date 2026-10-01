@@ -1,4 +1,5 @@
 import type { Assumption, CalcResult, Warning } from "@/lib/core/calc-result"
+import { latexLiczba } from "@/lib/core/latex"
 import type { OchronaStringowInput } from "./input"
 import { validateInput } from "./validation"
 import {
@@ -19,7 +20,7 @@ import {
 // HD 60364-7-712: napięcie wsteczne ≥2×U_OC_MAX, prąd ≥1,1×I_SC_MAX) świadomie NIE zbudowana —
 // poza wąskim zakresem korekty 06-07.09.2026, mimo że tytuł źródłowy ekranu ją wymienia wprost.
 
-export const CALCULATOR_VERSION = "2.0.0"
+export const CALCULATOR_VERSION = "2.0.1"
 
 export type OchronaStringowResult = {
   /** Prąd maksymalny zwarciowy stringu (I_SC_MAX), Załącznik B.2. */
@@ -40,8 +41,8 @@ export type OchronaStringowResult = {
 }
 
 const FORMULA =
-  "I_{SC\\,MAX} = K_1 \\times I_{SC\\,STC} \\;;\\; 1{,}1\\,I_{SC\\,MAX} \\le I_n \\le I_{MOD\\_MAX\\_OCPR} \\;;\\; " +
-  "1{,}35\\,I_{MOD\\_MAX\\_OCPR} < (N_s-1) I_{SC\\,MAX} \\Rightarrow \\text{ochrona obowiązkowa}"
+  `I_{SC\\,MAX} = K_1 \\times I_{SC\\,STC} \\;;\\; ${latexLiczba(WSPOLCZYNNIK_MARGINESU_DOLNEGO)}\\,I_{SC\\,MAX} \\le I_n \\le I_{MOD\\_MAX\\_OCPR} \\;;\\; ` +
+  `${latexLiczba(WSPOLCZYNNIK_TESTU_OBOWIAZKOWOSCI)}\\,I_{MOD\\_MAX\\_OCPR} < (N_s-1) I_{SC\\,MAX} \\Rightarrow \\text{ochrona obowiązkowa}`
 
 function pusty(): OchronaStringowResult {
   return {

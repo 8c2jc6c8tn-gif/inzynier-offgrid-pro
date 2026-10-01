@@ -11,7 +11,15 @@ import { WynikGlowny } from "@/components/wzorce/wynik-glowny"
 import { WynikSzczegoly } from "@/components/wzorce/wynik-szczegoly"
 import { useTranslate } from "@/lib/i18n/language-context"
 import { usePersistedDraft } from "@/lib/adapters/use-persisted-draft"
-import { WIND_CHILL_MAX_TEMP_C, WIND_CHILL_MIN_PREDKOSC_KMH } from "@/lib/core/modules/stress-test/wind-chill/constants"
+import {
+  WIND_CHILL_A,
+  WIND_CHILL_B,
+  WIND_CHILL_C,
+  WIND_CHILL_D,
+  WIND_CHILL_MAX_TEMP_C,
+  WIND_CHILL_MIN_PREDKOSC_KMH,
+  WIND_CHILL_WYKLADNIK,
+} from "@/lib/core/modules/stress-test/wind-chill/constants"
 
 type FormularzStan = {
   temperaturaC: string
@@ -56,7 +64,15 @@ export default function WindChillPage() {
         tytul="Wind Chill — temperatura odczuwalna"
         ekran="wind-chill"
         wynik={result}
-        parametry={{ maxT: WIND_CHILL_MAX_TEMP_C, minV: WIND_CHILL_MIN_PREDKOSC_KMH }}
+        parametry={{
+          maxT: WIND_CHILL_MAX_TEMP_C,
+          minV: WIND_CHILL_MIN_PREDKOSC_KMH,
+          wcA: WIND_CHILL_A,
+          wcB: WIND_CHILL_B,
+          wcC: WIND_CHILL_C,
+          wcD: WIND_CHILL_D,
+          wcE: WIND_CHILL_WYKLADNIK,
+        }}
       >
         Wiatr wywiewa ciepło z domu nawet wtedy, gdy termometr nie pokazuje wcale tak niskiej
         temperatury — liczy się nie tylko stopień, ale i to, jak mocno wieje. Moduł 7.

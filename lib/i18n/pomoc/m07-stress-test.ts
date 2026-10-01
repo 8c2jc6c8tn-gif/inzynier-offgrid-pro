@@ -246,7 +246,7 @@ export const pl = {
       oCoChodzi: "Wiatr wywiewa ciepło z domu nawet wtedy, gdy termometr nie pokazuje wcale tak niskiej temperatury.",
       jakDziala: "Temperatura odczuwalna ze wzoru NWS/Environment Canada (2001). Wzór obowiązuje dla temperatury ≤ {maxT} °C i wiatru ≥ {minV} km/h.",
       poCo: "Uświadamia, że straty ciepła w wietrzną noc są większe, niż sugeruje sam termometr.",
-      fizyka: "WC = 13,12 + 0,6215·T − 11,37·V^0,16 + 0,3965·T·V^0,16.",
+      fizyka: "WC = {wcA} + {wcB}·T − {wcC}·V^{wcE} + {wcD}·T·V^{wcE}.",
     },
     pola: {
       temp: { nazwa: "Temperatura powietrza [°C]", cel: "Temperatura z termometru.", gdzie: "Prognoza pogody albo stacja lokalna.", zakres: "Wzór ma sens do {maxT} °C." },
@@ -497,7 +497,7 @@ export const en: Tlumaczenie<typeof pl> = {
       oCoChodzi: "Wind carries heat away from the house even when the thermometer does not show such a low temperature.",
       jakDziala: "Wind chill from the NWS/Environment Canada (2001) formula. The formula applies for temperature ≤ {maxT} °C and wind ≥ {minV} km/h.",
       poCo: "Shows that heat loss on a windy night is greater than the thermometer alone suggests.",
-      fizyka: "WC = 13.12 + 0.6215·T − 11.37·V^0.16 + 0.3965·T·V^0.16.",
+      fizyka: "WC = {wcA} + {wcB}·T − {wcC}·V^{wcE} + {wcD}·T·V^{wcE}.",
     },
     pola: {
       temp: { nazwa: "Air temperature [°C]", cel: "Thermometer temperature.", gdzie: "Weather forecast or local station.", zakres: "The formula applies up to {maxT} °C." },
@@ -748,7 +748,7 @@ export const ru: Tlumaczenie<typeof pl> = {
       oCoChodzi: "Ветер выдувает тепло из дома, даже когда термометр показывает не такую уж низкую температуру.",
       jakDziala: "Ощущаемая температура по формуле NWS/Environment Canada (2001). Формула действует при температуре ≤ {maxT} °C и ветре ≥ {minV} км/ч.",
       poCo: "Показывает, что теплопотери ветреной ночью больше, чем подсказывает один термометр.",
-      fizyka: "WC = 13,12 + 0,6215·T − 11,37·V^0,16 + 0,3965·T·V^0,16.",
+      fizyka: "WC = {wcA} + {wcB}·T − {wcC}·V^{wcE} + {wcD}·T·V^{wcE}.",
     },
     pola: {
       temp: { nazwa: "Температура воздуха [°C]", cel: "Температура по термометру.", gdzie: "Прогноз погоды или местная станция.", zakres: "Формула имеет смысл до {maxT} °C." },

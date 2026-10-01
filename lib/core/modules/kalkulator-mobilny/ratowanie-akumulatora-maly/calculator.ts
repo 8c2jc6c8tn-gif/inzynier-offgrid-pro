@@ -1,11 +1,12 @@
 import type { CalcResult, Warning } from "@/lib/core/calc-result"
+import { latexLiczba } from "@/lib/core/latex"
 import { PROCEDURY, PROG_KRYTYCZNEGO_ROZLADOWANIA_OLOW_12V } from "./constants"
 import type { RatowanieAkumulatoraMalyInput } from "./input"
 import { krytycznieRozladowany, lifepo4ZmierzOgniwa, napiecieUjemne } from "./warnings"
 
-export const CALCULATOR_VERSION = "1.0.0"
+export const CALCULATOR_VERSION = "1.0.1"
 
-const FORMULA = "U_{spocz} < 10{,}5\\,V \\Rightarrow \\text{krytycznie rozładowany (AGM/kwasowy 12 V)}"
+const FORMULA = `U_{spocz} < ${latexLiczba(PROG_KRYTYCZNEGO_ROZLADOWANIA_OLOW_12V)}\\,V \\Rightarrow \\text{krytycznie rozładowany (AGM/kwasowy 12 V)}`
 
 export type RatowanieAkumulatoraMalyResult = {
   /** Procedury Modułu 11 do wykonania, w kolejności. */
