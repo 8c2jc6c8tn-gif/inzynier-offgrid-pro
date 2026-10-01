@@ -173,6 +173,7 @@ const MIGRATED_MODULES = [
   "lib/core/modules/kalkulator-mobilny/blackout-balkon",
   "lib/core/modules/kalkulator-mobilny/szablony-zestawow",
   "lib/core/modules/kalkulator-mobilny/test-akumulatora",
+  "lib/core/modules/kalkulator-mobilny/raport-bezpieczenstwa-maly",
   "lib/core/modules/stress-test/wind-chill",
   "lib/core/modules/stress-test/obciazenie-dachu-sniegiem",
   "lib/core/modules/stress-test/sztywnienie-izolacji",

@@ -347,6 +347,7 @@ export const KAFLE: KafelEntry[] = [
       { href: "/kalkulatory/blackout-balkon", label: "Blackout w bloku — zestaw balkonowy" },
       { href: "/kalkulatory/szablony-zestawow", label: "Gotowe szablony zestawów" },
       { href: "/kalkulatory/test-akumulatora", label: "Czy mój akumulator jest jeszcze dobry?" },
+      { href: "/kalkulatory/raport-bezpieczenstwa-maly", label: "Raport bezpieczeństwa małej instalacji" },
     ],
   },
   {

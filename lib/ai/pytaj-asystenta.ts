@@ -110,6 +110,7 @@ import { urzadzeniaZabronioneTool } from "./tools/urzadzenia-zabronione-falownik
 import { blackoutBalkonTool } from "./tools/blackout-balkon-tool"
 import { szablonyZestawowTool } from "./tools/szablony-zestawow-tool"
 import { testAkumulatoraTool } from "./tools/test-akumulatora-tool"
+import { raportBezpieczenstwaMalyTool } from "./tools/raport-bezpieczenstwa-maly-tool"
 import { ochronaPrzedRozladowaniemTool } from "./tools/ochrona-przed-rozladowaniem-tool"
 import { wilgocMaleInstalacjeTool } from "./tools/wilgoc-male-instalacje-tool"
 import { uziemienieMaleInstalacjeTool } from "./tools/uziemienie-male-instalacje-tool"
@@ -444,6 +445,7 @@ const NARZEDZIA: Array<AiToolDefinition<any, any>> = [
   blackoutBalkonTool,
   szablonyZestawowTool,
   testAkumulatoraTool,
+  raportBezpieczenstwaMalyTool,
   ochronaPrzedRozladowaniemTool,
   wilgocMaleInstalacjeTool,
   uziemienieMaleInstalacjeTool,

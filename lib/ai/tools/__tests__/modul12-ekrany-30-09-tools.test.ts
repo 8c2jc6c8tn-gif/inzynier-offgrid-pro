@@ -24,6 +24,7 @@ import { urzadzeniaZabronioneTool } from "../urzadzenia-zabronione-falownik-tool
 import { blackoutBalkonTool } from "../blackout-balkon-tool"
 import { szablonyZestawowTool } from "../szablony-zestawow-tool"
 import { testAkumulatoraTool } from "../test-akumulatora-tool"
+import { raportBezpieczenstwaMalyTool } from "../raport-bezpieczenstwa-maly-tool"
 
 describe("akumulatorSamochodowyTool (M12/E16, dawne 8.14)", () => {
   it("kontrakt 9.3: 'read', bez potwierdzenia", () => {
@@ -386,5 +387,28 @@ describe("testAkumulatoraTool (M12/E33, dawne 8.60)", () => {
     })
     expect(w.stan).toBe("uszkodzony")
     expect(w.ostrzezenia).toContain(t("pl", "TA-PONIZEJ-PROGU-WYRZUCENIA", { napiecie: 10.4, prog: 10.5 }))
+  })
+})
+
+describe("raportBezpieczenstwaMalyTool (M12/E14, dawne 8.22)", () => {
+  it("kontrakt 9.3: 'read', bez potwierdzenia", () => {
+    expect(raportBezpieczenstwaMalyTool.operationType).toBe("read")
+    expect(raportBezpieczenstwaMalyTool.requiresConfirmation).toBe(false)
+    expect(() => validateAiToolDefinition(raportBezpieczenstwaMalyTool)).not.toThrow()
+  })
+
+  it("brak bezpiecznika przy akumulatorze → 🔴 jako tekst PL, 5 OK z 6", async () => {
+    const w = await raportBezpieczenstwaMalyTool.handler({
+      odpowiedzi: {
+        "bezpiecznik-akumulatora": "blad",
+        "dobor-bezpiecznikow": "ok",
+        "przekroje-przewodow": "ok",
+        "ochrona-rozladowania": "ok",
+        "wentylacja-akumulatora": "ok",
+        polaczenia: "ok",
+      },
+    })
+    expect(w.liczbaOk).toBe(5)
+    expect(w.ostrzezenia).toContain(t("pl", "RB-BRAK-BEZPIECZNIKA-AKUMULATORA"))
   })
 })

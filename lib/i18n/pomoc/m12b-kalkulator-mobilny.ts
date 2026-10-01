@@ -1432,6 +1432,55 @@ export const pl = {
       },
     },
   },
+  "raport-bezpieczenstwa-maly": {
+    migawka: {
+      oCoChodzi: "Bezpieczeństwo to podstawa. Raport pokazuje, gdzie są słabe punkty.",
+      jakDziala:
+        "Przejdź sześć punktów z Biblii (bezpiecznik przy akumulatorze, dobór bezpieczników, przewody, ochrona przed rozładowaniem, wentylacja, połączenia) i zaznacz OK albo Błąd. Przy każdym błędzie dostajesz krok naprawczy i link do kalkulatora.",
+      poCo:
+        "W małych instalacjach najczęstszą przyczyną pożaru jest brak bezpiecznika przy akumulatorze i luźny styk — nie sam akumulator.",
+      fizyka:
+        "Bezpieczeństwo = OK ÷ wszystkie punkty × 100%. Niesprawdzony punkt nie liczy się jako OK. Brak bezpiecznika przy akumulatorze = stop 🔴.",
+    },
+    pola: {
+      bezpiecznikAkumulatora: {
+        nazwa: "Bezpiecznik przy akumulatorze",
+        cel: "Chroni przewód od akumulatora przed zwarciem.",
+        gdzie: "Plus akumulatora — bezpiecznik jak najbliżej zacisku.",
+        zakres: "OK / Błąd.",
+      },
+      doborBezpiecznikow: {
+        nazwa: "Dobór bezpieczników",
+        cel: "Bezpiecznik ma chronić przewód, nie tylko odbiornik.",
+        gdzie: "Porównaj prąd bezpiecznika z obciążalnością przewodu.",
+        zakres: "OK / Błąd.",
+      },
+      przekrojePrzewodow: {
+        nazwa: "Przekroje przewodów",
+        cel: "Za cienki przewód grzeje się i obniża napięcie.",
+        gdzie: "Kalkulator kabli i bezpieczników małej instalacji.",
+        zakres: "OK / Błąd.",
+      },
+      ochronaRozladowania: {
+        nazwa: "Ochrona przed rozładowaniem",
+        cel: "Głębokie rozładowanie niszczy akumulator.",
+        gdzie: "BMS, LVD albo wyjście obciążenia regulatora.",
+        zakres: "OK / Błąd.",
+      },
+      wentylacjaAkumulatora: {
+        nazwa: "Wentylacja akumulatora",
+        cel: "Wodór z ołowiowego, przegrzanie LiFePO4.",
+        gdzie: "Miejsce montażu akumulatora.",
+        zakres: "OK / Błąd.",
+      },
+      polaczenia: {
+        nazwa: "Połączenia",
+        cel: "Luźny styk grzeje się — częsta przyczyna pożaru.",
+        gdzie: "Wszystkie końcówki i zaciski.",
+        zakres: "OK / Błąd.",
+      },
+    },
+  },
 }
 
 export const en: Tlumaczenie<typeof pl> = {
@@ -2853,6 +2902,55 @@ export const en: Tlumaczenie<typeof pl> = {
         cel: "Reference for a new battery.",
         gdzie: "Manufacturer's datasheet.",
         zakres: "Empty = no reference (unclear result).",
+      },
+    },
+  },
+  "raport-bezpieczenstwa-maly": {
+    migawka: {
+      oCoChodzi: "Safety comes first. The report shows where the weak points are.",
+      jakDziala:
+        "Go through the six points from the Bible (battery fuse, fuse sizing, cables, discharge protection, ventilation, connections) and mark OK or Fault. Each fault gives a repair step and a link to a calculator.",
+      poCo:
+        "In small installations the most common fire cause is a missing battery fuse and a loose contact — not the battery itself.",
+      fizyka:
+        "Safety = OK ÷ all points × 100%. An unchecked point does not count as OK. No fuse at the battery = stop 🔴.",
+    },
+    pola: {
+      bezpiecznikAkumulatora: {
+        nazwa: "Fuse at the battery",
+        cel: "Protects the battery cable from a short circuit.",
+        gdzie: "Battery positive — fuse as close to the terminal as possible.",
+        zakres: "OK / Fault.",
+      },
+      doborBezpiecznikow: {
+        nazwa: "Fuse sizing",
+        cel: "A fuse must protect the cable, not only the load.",
+        gdzie: "Compare the fuse rating with the cable ampacity.",
+        zakres: "OK / Fault.",
+      },
+      przekrojePrzewodow: {
+        nazwa: "Cable cross-sections",
+        cel: "A too-thin cable heats up and lowers the voltage.",
+        gdzie: "Small installation cables and fuses calculator.",
+        zakres: "OK / Fault.",
+      },
+      ochronaRozladowania: {
+        nazwa: "Deep-discharge protection",
+        cel: "Deep discharge destroys the battery.",
+        gdzie: "BMS, LVD or the controller's load output.",
+        zakres: "OK / Fault.",
+      },
+      wentylacjaAkumulatora: {
+        nazwa: "Battery ventilation",
+        cel: "Hydrogen from lead-acid, overheating of LiFePO4.",
+        gdzie: "Where the battery is mounted.",
+        zakres: "OK / Fault.",
+      },
+      polaczenia: {
+        nazwa: "Connections",
+        cel: "A loose contact heats up — a common fire cause.",
+        gdzie: "All lugs and terminals.",
+        zakres: "OK / Fault.",
       },
     },
   },
@@ -4284,6 +4382,55 @@ export const ru: Tlumaczenie<typeof pl> = {
         cel: "Ориентир для нового аккумулятора.",
         gdzie: "Паспорт производителя.",
         zakres: "Пусто = нет ориентира (результат неясен).",
+      },
+    },
+  },
+  "raport-bezpieczenstwa-maly": {
+    migawka: {
+      oCoChodzi: "Безопасность — основа. Отчёт показывает слабые места.",
+      jakDziala:
+        "Пройдите шесть пунктов из Библии (предохранитель у аккумулятора, подбор предохранителей, провода, защита от разряда, вентиляция, соединения) и отметьте «OK» или «Ошибка». Для каждой ошибки — шаг исправления и ссылка на калькулятор.",
+      poCo:
+        "В малых установках чаще всего пожар вызывают отсутствие предохранителя у аккумулятора и слабый контакт, а не сам аккумулятор.",
+      fizyka:
+        "Безопасность = OK ÷ все пункты × 100%. Непроверенный пункт не считается OK. Нет предохранителя у аккумулятора = стоп 🔴.",
+    },
+    pola: {
+      bezpiecznikAkumulatora: {
+        nazwa: "Предохранитель у аккумулятора",
+        cel: "Защищает провод от аккумулятора от замыкания.",
+        gdzie: "Плюс аккумулятора — предохранитель как можно ближе к клемме.",
+        zakres: "OK / Ошибка.",
+      },
+      doborBezpiecznikow: {
+        nazwa: "Подбор предохранителей",
+        cel: "Предохранитель защищает провод, а не только нагрузку.",
+        gdzie: "Сравните номинал с допустимым током провода.",
+        zakres: "OK / Ошибка.",
+      },
+      przekrojePrzewodow: {
+        nazwa: "Сечения проводов",
+        cel: "Слишком тонкий провод греется и снижает напряжение.",
+        gdzie: "Калькулятор кабелей и предохранителей малой установки.",
+        zakres: "OK / Ошибка.",
+      },
+      ochronaRozladowania: {
+        nazwa: "Защита от разряда",
+        cel: "Глубокий разряд губит аккумулятор.",
+        gdzie: "BMS, LVD или выход нагрузки контроллера.",
+        zakres: "OK / Ошибка.",
+      },
+      wentylacjaAkumulatora: {
+        nazwa: "Вентиляция аккумулятора",
+        cel: "Водород от свинцового, перегрев LiFePO4.",
+        gdzie: "Место установки аккумулятора.",
+        zakres: "OK / Ошибка.",
+      },
+      polaczenia: {
+        nazwa: "Соединения",
+        cel: "Слабый контакт греется — частая причина пожара.",
+        gdzie: "Все наконечники и клеммы.",
+        zakres: "OK / Ошибка.",
       },
     },
   },

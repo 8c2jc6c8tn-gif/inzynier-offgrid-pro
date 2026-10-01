@@ -561,6 +561,35 @@ export const pl = {
   "UI-M12-TA-WZROST": "Względem karty: {pct}%",
   "UI-M12-TA-LINK-SOH": "Pełna diagnostyka per ogniwo (Moduł 4) →",
   "UI-M12-TA-LINK-RATOWANIE": "Ratowanie rozładowanego akumulatora →",
+  "UI-M12-RB-TYTUL": "Raport bezpieczeństwa małej instalacji",
+  "UI-M12-RB-OPIS":
+    "Sprawdź sześć punktów i zaznacz OK albo Błąd — raport pokaże słabe punkty i kroki naprawcze. Moduł 12, Ekran 14.",
+  "UI-M12-RB-OK": "OK",
+  "UI-M12-RB-BLAD": "Błąd",
+  "UI-M12-RB-DOBIERZ": "Dobierz poprawnie →",
+  "UI-M12-RB-ZACZNIJ": "Zaznacz OK albo Błąd przy co najmniej jednym punkcie.",
+  "UI-M12-RB-W-OK": "Sprawdzone punkty bez błędów",
+  "UI-M12-RB-W-UWAGA": "Instalacja wymaga poprawek",
+  "UI-M12-RB-W-KRYTYCZNY": "Niebezpieczne — popraw przed użyciem",
+  "UI-M12-RB-WYNIK": "Instalacja jest w {pct}% bezpieczna",
+  "UI-M12-RB-LICZNIKI": "OK: {ok} · błędy: {bledy} · niesprawdzone: {brak}",
+  "UI-M12-RB-P-BEZPIECZNIK-AKUMULATORA": "Bezpiecznik przy akumulatorze",
+  "UI-M12-RB-P-DOBOR-BEZPIECZNIKOW": "Dobór bezpieczników",
+  "UI-M12-RB-P-PRZEKROJE-PRZEWODOW": "Przekroje przewodów",
+  "UI-M12-RB-P-OCHRONA-ROZLADOWANIA": "Ochrona przed rozładowaniem",
+  "UI-M12-RB-P-WENTYLACJA-AKUMULATORA": "Wentylacja akumulatora",
+  "UI-M12-RB-P-POLACZENIA": "Połączenia",
+  "UI-M12-RB-JAK-BEZPIECZNIK-AKUMULATORA": "Czy na plusie akumulatora, jak najbliżej zacisku, jest bezpiecznik?",
+  "UI-M12-RB-JAK-DOBOR-BEZPIECZNIKOW":
+    "Czy każdy bezpiecznik jest większy od prądu odbiorników i nie większy niż obciążalność chronionego przewodu?",
+  "UI-M12-RB-JAK-PRZEKROJE-PRZEWODOW":
+    "Czy przekroje sprawdziłeś kalkulatorem na prąd i spadek napięcia? Czy przewody nie są ciepłe pod obciążeniem?",
+  "UI-M12-RB-JAK-OCHRONA-ROZLADOWANIA":
+    "Czy coś odetnie odbiorniki przed głębokim rozładowaniem (BMS, LVD, wyjście obciążenia regulatora)?",
+  "UI-M12-RB-JAK-WENTYLACJA-AKUMULATORA":
+    "Czy akumulator ma przepływ powietrza i nie stoi przy źródle iskier ani ciepła?",
+  "UI-M12-RB-JAK-POLACZENIA":
+    "Czy końcówki są zaciśnięte (nie skręcane), dokręcone i bez śladów przegrzania lub korozji?",
 }
 
 export const en: Record<keyof typeof pl, string> = {
@@ -1123,6 +1152,35 @@ export const en: Record<keyof typeof pl, string> = {
   "UI-M12-TA-WZROST": "Versus the datasheet: {pct}%",
   "UI-M12-TA-LINK-SOH": "Full per-cell diagnostics (Module 4) →",
   "UI-M12-TA-LINK-RATOWANIE": "Rescuing a discharged battery →",
+  "UI-M12-RB-TYTUL": "Small installation safety report",
+  "UI-M12-RB-OPIS":
+    "Check six points and mark OK or Fault — the report shows the weak points and repair steps. Module 12, Screen 14.",
+  "UI-M12-RB-OK": "OK",
+  "UI-M12-RB-BLAD": "Fault",
+  "UI-M12-RB-DOBIERZ": "Size it properly →",
+  "UI-M12-RB-ZACZNIJ": "Mark OK or Fault for at least one point.",
+  "UI-M12-RB-W-OK": "Checked points without faults",
+  "UI-M12-RB-W-UWAGA": "The installation needs fixes",
+  "UI-M12-RB-W-KRYTYCZNY": "Dangerous — fix before use",
+  "UI-M12-RB-WYNIK": "The installation is {pct}% safe",
+  "UI-M12-RB-LICZNIKI": "OK: {ok} · faults: {bledy} · not checked: {brak}",
+  "UI-M12-RB-P-BEZPIECZNIK-AKUMULATORA": "Fuse at the battery",
+  "UI-M12-RB-P-DOBOR-BEZPIECZNIKOW": "Fuse sizing",
+  "UI-M12-RB-P-PRZEKROJE-PRZEWODOW": "Cable cross-sections",
+  "UI-M12-RB-P-OCHRONA-ROZLADOWANIA": "Deep-discharge protection",
+  "UI-M12-RB-P-WENTYLACJA-AKUMULATORA": "Battery ventilation",
+  "UI-M12-RB-P-POLACZENIA": "Connections",
+  "UI-M12-RB-JAK-BEZPIECZNIK-AKUMULATORA":
+    "Is there a fuse on the battery positive, as close to the terminal as possible?",
+  "UI-M12-RB-JAK-DOBOR-BEZPIECZNIKOW":
+    "Is each fuse above the load current and not above the ampacity of the cable it protects?",
+  "UI-M12-RB-JAK-PRZEKROJE-PRZEWODOW":
+    "Did you check the cross-sections for current and voltage drop with a calculator? Are the cables not warm under load?",
+  "UI-M12-RB-JAK-OCHRONA-ROZLADOWANIA":
+    "Will something cut the loads before a deep discharge (BMS, LVD, controller load output)?",
+  "UI-M12-RB-JAK-WENTYLACJA-AKUMULATORA": "Does the battery have airflow and stand away from sparks and heat?",
+  "UI-M12-RB-JAK-POLACZENIA":
+    "Are the lugs crimped (not twisted), tightened and free of overheating or corrosion marks?",
 }
 
 export const ru: Record<keyof typeof pl, string> = {
@@ -1685,4 +1743,31 @@ export const ru: Record<keyof typeof pl, string> = {
   "UI-M12-TA-WZROST": "Относительно паспорта: {pct}%",
   "UI-M12-TA-LINK-SOH": "Полная диагностика по элементам (модуль 4) →",
   "UI-M12-TA-LINK-RATOWANIE": "Спасение разряженного аккумулятора →",
+  "UI-M12-RB-TYTUL": "Отчёт о безопасности малой установки",
+  "UI-M12-RB-OPIS":
+    "Проверьте шесть пунктов и отметьте «OK» или «Ошибка» — отчёт покажет слабые места и шаги исправления. Модуль 12, экран 14.",
+  "UI-M12-RB-OK": "OK",
+  "UI-M12-RB-BLAD": "Ошибка",
+  "UI-M12-RB-DOBIERZ": "Подобрать правильно →",
+  "UI-M12-RB-ZACZNIJ": "Отметьте «OK» или «Ошибка» хотя бы у одного пункта.",
+  "UI-M12-RB-W-OK": "Проверенные пункты без ошибок",
+  "UI-M12-RB-W-UWAGA": "Установка требует исправлений",
+  "UI-M12-RB-W-KRYTYCZNY": "Опасно — исправьте перед использованием",
+  "UI-M12-RB-WYNIK": "Установка безопасна на {pct}%",
+  "UI-M12-RB-LICZNIKI": "OK: {ok} · ошибки: {bledy} · не проверено: {brak}",
+  "UI-M12-RB-P-BEZPIECZNIK-AKUMULATORA": "Предохранитель у аккумулятора",
+  "UI-M12-RB-P-DOBOR-BEZPIECZNIKOW": "Подбор предохранителей",
+  "UI-M12-RB-P-PRZEKROJE-PRZEWODOW": "Сечения проводов",
+  "UI-M12-RB-P-OCHRONA-ROZLADOWANIA": "Защита от разряда",
+  "UI-M12-RB-P-WENTYLACJA-AKUMULATORA": "Вентиляция аккумулятора",
+  "UI-M12-RB-P-POLACZENIA": "Соединения",
+  "UI-M12-RB-JAK-BEZPIECZNIK-AKUMULATORA": "Есть ли предохранитель на плюсе аккумулятора как можно ближе к клемме?",
+  "UI-M12-RB-JAK-DOBOR-BEZPIECZNIKOW":
+    "Каждый предохранитель больше тока нагрузки и не больше допустимого тока защищаемого провода?",
+  "UI-M12-RB-JAK-PRZEKROJE-PRZEWODOW":
+    "Проверены ли сечения калькулятором по току и падению напряжения? Провода не тёплые под нагрузкой?",
+  "UI-M12-RB-JAK-OCHRONA-ROZLADOWANIA":
+    "Отключит ли что-то нагрузки до глубокого разряда (BMS, LVD, выход нагрузки контроллера)?",
+  "UI-M12-RB-JAK-WENTYLACJA-AKUMULATORA": "Есть ли у аккумулятора приток воздуха, стоит ли он вдали от искр и тепла?",
+  "UI-M12-RB-JAK-POLACZENIA": "Наконечники обжаты (не скрутки), затянуты, без следов перегрева и коррозии?",
 }
