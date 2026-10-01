@@ -1389,6 +1389,49 @@ export const pl = {
       },
     },
   },
+  "test-akumulatora": {
+    migawka: {
+      oCoChodzi: "Nie musisz być elektronikiem, żeby sprawdzić, czy akumulator jeszcze żyje.",
+      jakDziala:
+        "Zmierz napięcie po {h} h spoczynku, potem pod znanym obciążeniem (np. żarówka). Ze spadku napięcia aplikacja liczy rezystancję wewnętrzną i porównuje ją z kartą katalogową.",
+      poCo:
+        "Zużyty akumulator ma wysoką rezystancję — pod obciążeniem napięcie mu „siada”, choć w spoczynku wygląda dobrze.",
+      fizyka:
+        "I = P ÷ U_obc. R = (U_spocz − U_obc) ÷ I. Wzrost = (R − R_karta) ÷ R_karta; ≥ 50% (próg z Modułu 4) = do wymiany. Ołów 12 V: ≤ 10,5 V w spoczynku = do wyrzucenia (Biblia), przeliczane przez liczbę ogniw 2 V.",
+    },
+    pola: {
+      znamionowe: {
+        nazwa: "Napięcie znamionowe [V]",
+        cel: "Przelicza próg 10,5 V dla akumulatora 12 V na inne napięcia.",
+        gdzie: "Tabliczka akumulatora (12, 24 V).",
+        zakres: "Napięcie znamionowe.",
+      },
+      spoczynkowe: {
+        nazwa: "Napięcie spoczynkowe [V]",
+        cel: "Pierwszy, najprostszy sygnał stanu.",
+        gdzie: "Miernik na zaciskach, po min. {h} h bez obciążenia i ładowania.",
+        zakres: "Z pomiaru.",
+      },
+      mocObciazenia: {
+        nazwa: "Moc obciążenia testowego [W]",
+        cel: "Daje prąd testu I = P ÷ U.",
+        gdzie: "Tabliczka obciążenia (np. żarówka 12 V).",
+        zakres: "Puste = bez testu obciążeniowego.",
+      },
+      podObciazeniem: {
+        nazwa: "Napięcie pod obciążeniem [V]",
+        cel: "Spadek napięcia daje rezystancję wewnętrzną.",
+        gdzie: "Miernik na zaciskach po kilku sekundach pracy obciążenia.",
+        zakres: "Niższe niż spoczynkowe.",
+      },
+      rezystancjaKarta: {
+        nazwa: "Rezystancja wewnętrzna z karty [mΩ]",
+        cel: "Odniesienie dla nowego akumulatora.",
+        gdzie: "Karta katalogowa producenta.",
+        zakres: "Puste = brak odniesienia (wynik niejasny).",
+      },
+    },
+  },
 }
 
 export const en: Tlumaczenie<typeof pl> = {
@@ -2768,6 +2811,48 @@ export const en: Tlumaczenie<typeof pl> = {
         cel: "Controller, cable and charging losses.",
         gdzie: "Controller and battery datasheets.",
         zakres: "From the datasheets; the app does not guess.",
+      },
+    },
+  },
+  "test-akumulatora": {
+    migawka: {
+      oCoChodzi: "You do not need to be an electronics expert to check whether a battery is still alive.",
+      jakDziala:
+        "Measure the voltage after {h} h of rest, then under a known load (e.g. a bulb). From the voltage drop the app computes the internal resistance and compares it with the datasheet.",
+      poCo: "A worn battery has high resistance — under load its voltage “sags”, even though it looks fine at rest.",
+      fizyka:
+        "I = P ÷ U_load. R = (U_rest − U_load) ÷ I. Growth = (R − R_sheet) ÷ R_sheet; ≥ 50% (Module 4 threshold) = replace. Lead 12 V: ≤ 10.5 V at rest = discard (Bible), scaled by the number of 2 V cells.",
+    },
+    pola: {
+      znamionowe: {
+        nazwa: "Nominal voltage [V]",
+        cel: "Scales the 10.5 V threshold of a 12 V battery to other voltages.",
+        gdzie: "Battery nameplate (12, 24 V).",
+        zakres: "Nominal voltage.",
+      },
+      spoczynkowe: {
+        nazwa: "Rest voltage [V]",
+        cel: "The first, simplest sign of the state.",
+        gdzie: "Meter on the terminals, after at least {h} h without load and charging.",
+        zakres: "From the measurement.",
+      },
+      mocObciazenia: {
+        nazwa: "Test load power [W]",
+        cel: "Gives the test current I = P ÷ U.",
+        gdzie: "Load nameplate (e.g. a 12 V bulb).",
+        zakres: "Empty = no load test.",
+      },
+      podObciazeniem: {
+        nazwa: "Voltage under load [V]",
+        cel: "The voltage drop gives the internal resistance.",
+        gdzie: "Meter on the terminals after a few seconds of load.",
+        zakres: "Lower than at rest.",
+      },
+      rezystancjaKarta: {
+        nazwa: "Datasheet internal resistance [mΩ]",
+        cel: "Reference for a new battery.",
+        gdzie: "Manufacturer's datasheet.",
+        zakres: "Empty = no reference (unclear result).",
       },
     },
   },
@@ -4156,6 +4241,49 @@ export const ru: Tlumaczenie<typeof pl> = {
         cel: "Потери контроллера, кабелей и заряда.",
         gdzie: "Паспорта контроллера и аккумулятора.",
         zakres: "Из паспортов; приложение не угадывает.",
+      },
+    },
+  },
+  "test-akumulatora": {
+    migawka: {
+      oCoChodzi: "Не нужно быть электронщиком, чтобы проверить, жив ли ещё аккумулятор.",
+      jakDziala:
+        "Измерьте напряжение после {h} ч покоя, затем под известной нагрузкой (например, лампой). По просадке напряжения приложение считает внутреннее сопротивление и сравнивает его с паспортом.",
+      poCo:
+        "У изношенного аккумулятора высокое сопротивление — под нагрузкой напряжение «проседает», хотя в покое всё выглядит нормально.",
+      fizyka:
+        "I = P ÷ U_нагр. R = (U_покой − U_нагр) ÷ I. Рост = (R − R_пасп) ÷ R_пасп; ≥ 50% (порог модуля 4) = замена. Свинец 12 В: ≤ 10,5 В в покое = утилизация (Библия), пересчёт по числу элементов 2 В.",
+    },
+    pola: {
+      znamionowe: {
+        nazwa: "Номинальное напряжение [В]",
+        cel: "Пересчитывает порог 10,5 В для 12 В на другие напряжения.",
+        gdzie: "Табличка аккумулятора (12, 24 В).",
+        zakres: "Номинальное напряжение.",
+      },
+      spoczynkowe: {
+        nazwa: "Напряжение покоя [В]",
+        cel: "Первый, самый простой признак состояния.",
+        gdzie: "Мультиметр на клеммах, не раньше чем через {h} ч без нагрузки и заряда.",
+        zakres: "По измерению.",
+      },
+      mocObciazenia: {
+        nazwa: "Мощность тестовой нагрузки [Вт]",
+        cel: "Даёт ток теста I = P ÷ U.",
+        gdzie: "Табличка нагрузки (например, лампа 12 В).",
+        zakres: "Пусто = без нагрузочного теста.",
+      },
+      podObciazeniem: {
+        nazwa: "Напряжение под нагрузкой [В]",
+        cel: "Просадка напряжения даёт внутреннее сопротивление.",
+        gdzie: "Мультиметр на клеммах через несколько секунд работы нагрузки.",
+        zakres: "Ниже, чем в покое.",
+      },
+      rezystancjaKarta: {
+        nazwa: "Внутреннее сопротивление по паспорту [мОм]",
+        cel: "Ориентир для нового аккумулятора.",
+        gdzie: "Паспорт производителя.",
+        zakres: "Пусто = нет ориентира (результат неясен).",
       },
     },
   },

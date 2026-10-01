@@ -1284,6 +1284,13 @@ export const dictionaryEn = {
   "BB-ZALOZENIE-SREDNIE-SLONCE": "Panel energy during the blackout is averaged: daily × blackout time ÷ 24. A short blackout at night gets no sun at all.",
   "SZ-ZALOZENIE-PUNKT-STARTOWY": "A template is only a starting point — a list of typical loads. You enter the powers and times; remove what you do not have, add what is missing.",
   "SZ-ZALOZENIE-PANEL-NA-DOBE": "The panel is sized to deliver the daily use in average sun — then a one-day battery is enough. On cloudy days you need a battery for the whole stay.",
+  "TA-OBCIAZENIE-NIE-NIZSZE": "The voltage under load must be lower than at rest — check the measurement (was the load on, was the battery not being charged).",
+  "TA-PONIZEJ-PROGU-WYRZUCENIA": "The rest voltage {napiecie} V is at or below {prog} V — such a lead-acid battery usually needs replacing. Recovery attempt: the “Rescuing a discharged battery” screen.",
+  "TA-REZYSTANCJA-WZROSLA": "Internal resistance {r} mΩ is +{wzrost}% over the datasheet ({karta} mΩ) — above the {prog}% threshold. The battery has degraded; first check the terminals and cables (they add resistance too), then plan a replacement.",
+  "TA-BRAK-ODNIESIENIA": "Result unclear — no load test or no datasheet resistance to compare with. Enter them or have a capacity test done in a workshop.",
+  "TA-LIFEPO4-PLASKA-KRZYWA": "LiFePO4 has a flat voltage curve — the rest voltage says almost nothing about its state. Rely on the load test, BMS data or a capacity test.",
+  "TA-ZALOZENIE-SPOCZYNEK": "Rest voltage measured after at least {h} h without load and without charging — earlier it reads too high or too low.",
+  "TA-ZALOZENIE-POMIAR-NA-ZACISKACH": "Resistance computed from a measurement at the battery terminals — measuring further away adds the cables and contacts.",
   // end of M12 30.09.2026 block
   "LVD-BRAK-OCHRONY-OLOWIOWY": "A lead-acid/AGM battery without a low voltage disconnect, and the load has no protection of its own — the load will drain the battery to zero. Deep discharge permanently damages a lead-acid battery (sulphation). Fit a low voltage disconnect (LVD) with the threshold given above.",
   "LVD-PROG-KWASOWY-BRAK-W-ZRODLE": "No threshold is given for a flooded lead-acid battery — the source gives it only for AGM and LiFePO4. Check the cut-off voltage in the battery manufacturer's datasheet.",

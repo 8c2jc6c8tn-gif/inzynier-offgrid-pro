@@ -1296,6 +1296,13 @@ export const dictionaryPl = {
   "BB-ZALOZENIE-SREDNIE-SLONCE": "Energia z paneli w czasie blackoutu liczona średnio: dobowa × czas blackoutu ÷ 24. Krótki blackout nocą nie dostanie słońca wcale.",
   "SZ-ZALOZENIE-PUNKT-STARTOWY": "Szablon to tylko punkt startowy — lista typowych odbiorników. Moce i czasy wpisujesz Ty; usuń, czego nie masz, dodaj, czego brakuje.",
   "SZ-ZALOZENIE-PANEL-NA-DOBE": "Panel dobrany tak, by przy średnim słońcu oddać dobowe zużycie — wtedy wystarcza akumulator na jedną dobę. W pochmurne dni potrzebny akumulator na cały pobyt.",
+  "TA-OBCIAZENIE-NIE-NIZSZE": "Napięcie pod obciążeniem musi być niższe niż spoczynkowe — sprawdź pomiar (czy obciążenie było włączone, czy akumulator nie był ładowany).",
+  "TA-PONIZEJ-PROGU-WYRZUCENIA": "Napięcie spoczynkowe {napiecie} V jest na lub poniżej {prog} V — taki akumulator ołowiowy zwykle nadaje się do wymiany. Próba ratowania: ekran „Ratowanie rozładowanego akumulatora”.",
+  "TA-REZYSTANCJA-WZROSLA": "Rezystancja wewnętrzna {r} mΩ to +{wzrost}% względem karty ({karta} mΩ) — przekroczony próg {prog}%. Akumulator stracił sprawność; najpierw sprawdź zaciski i kable (też dodają rezystancję), potem zaplanuj wymianę.",
+  "TA-BRAK-ODNIESIENIA": "Wynik niejasny — brak testu obciążeniowego albo rezystancji z karty do porównania. Wpisz je albo zleć test pojemności w warsztacie.",
+  "TA-LIFEPO4-PLASKA-KRZYWA": "LiFePO4 ma płaską krzywą napięcia — napięcie spoczynkowe prawie nic nie mówi o stanie. Licz na test obciążeniowy, dane z BMS albo test pojemności.",
+  "TA-ZALOZENIE-SPOCZYNEK": "Napięcie spoczynkowe mierzone po co najmniej {h} h bez obciążenia i bez ładowania — wcześniej jest zawyżone lub zaniżone.",
+  "TA-ZALOZENIE-POMIAR-NA-ZACISKACH": "Rezystancja liczona z pomiaru na zaciskach akumulatora — mierząc dalej, doliczasz kable i styki.",
   // end of M12 30.09.2026 block
   "LVD-BRAK-OCHRONY-OLOWIOWY": "Akumulator kwasowy/AGM bez dozownika napięcia, a odbiornik nie ma własnego zabezpieczenia — odbiornik rozładuje akumulator do zera. Głębokie rozładowanie trwale niszczy akumulator ołowiowy (zasiarczenie). Zamontuj dozownik (LVD) z progiem podanym wyżej.",
   "LVD-PROG-KWASOWY-BRAK-W-ZRODLE": "Dla akumulatora kwasowego (zalewowego) nie podajemy progu — źródło daje go tylko dla AGM i LiFePO4. Sprawdź napięcie odcięcia w karcie producenta akumulatora.",

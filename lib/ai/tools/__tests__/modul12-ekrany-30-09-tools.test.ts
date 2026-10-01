@@ -23,6 +23,7 @@ import { urzadzeniaMedyczneTool } from "../urzadzenia-medyczne-tool"
 import { urzadzeniaZabronioneTool } from "../urzadzenia-zabronione-falownik-tool"
 import { blackoutBalkonTool } from "../blackout-balkon-tool"
 import { szablonyZestawowTool } from "../szablony-zestawow-tool"
+import { testAkumulatoraTool } from "../test-akumulatora-tool"
 
 describe("akumulatorSamochodowyTool (M12/E16, dawne 8.14)", () => {
   it("kontrakt 9.3: 'read', bez potwierdzenia", () => {
@@ -364,5 +365,26 @@ describe("szablonyZestawowTool (M12/E3, dawne 8.3 + 8.16)", () => {
     expect(w.minimalnyPanelW).toBe(360)
     expect(w.pradRegulatoraA).toBe(30)
     expect(w.zalozenia).toContain(t("pl", "SZ-ZALOZENIE-PANEL-NA-DOBE"))
+  })
+})
+
+describe("testAkumulatoraTool (M12/E33, dawne 8.60)", () => {
+  it("kontrakt 9.3: 'read', bez potwierdzenia", () => {
+    expect(testAkumulatoraTool.operationType).toBe("read")
+    expect(testAkumulatoraTool.requiresConfirmation).toBe(false)
+    expect(() => validateAiToolDefinition(testAkumulatoraTool)).not.toThrow()
+  })
+
+  it("ołów 12 V, 10,4 V w spoczynku → uszkodzony, 🟡 jako tekst PL", async () => {
+    const w = await testAkumulatoraTool.handler({
+      chemia: "olow",
+      napiecieZnamionoweV: 12,
+      napiecieSpoczynkoweV: 10.4,
+      mocObciazeniaW: 0,
+      napiecieObciazenieV: 0,
+      rezystancjaKartaMOhm: 0,
+    })
+    expect(w.stan).toBe("uszkodzony")
+    expect(w.ostrzezenia).toContain(t("pl", "TA-PONIZEJ-PROGU-WYRZUCENIA", { napiecie: 10.4, prog: 10.5 }))
   })
 })
