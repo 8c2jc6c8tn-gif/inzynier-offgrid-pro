@@ -1263,6 +1263,8 @@ Pełne wyniki audytu: `docs/memory.md`, sekcja "Pełny audyt na polecenie właś
   `pnpm test:e2e` (sam robi trzy buildy, ~3–5 min). Kolizja: `.github/workflows/ci.yml`.
   → **[30.09.2026] Pkt (3) zrobiony** — job `e2e-sw` w `ci.yml` (osobny, limit 30 min). Pkt (1) i (2) zostają na 1.10:
   pierwszy przebieg na `main` sprawdzi też nowy job.
+  → **[01.10.2026] Pkt (1) zrobiony** — nota usunięta z `CLAUDE.md` (sekcja „Stan repo” i zdanie o merge), wpis w
+  `docs/memory.md`. Pkt (2) zostaje: pierwszy przebieg CI na `main` po scaleniu PR ze stylami wyglądu (D62–D66).
 - 🔲 (2026-09-29) **Prognozy M10 — Δt przy podłączaniu realnych danych (TD7).** Silnik `ai/prognozy` 1.1.0 zakłada
   stały krok `KROK_PROBKOWANIA_H = 3` (decyzja A). Gdy ekran dostanie prawdziwe źródło (symulacja SoC, pogoda, dane live),
   sprawdzić krok próbkowania tego źródła: inny niż 3 h → krok jako jawne pole wejścia silnika (+ test), nie cicha

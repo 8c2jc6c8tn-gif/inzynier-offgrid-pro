@@ -6291,6 +6291,12 @@ nie sprawdzać check-runów/workflow runs, nie diagnozować braku CI — merge n
 lokalnym (typecheck, lint, check:i18n-guard, test, build, audit:gate). Nota operacyjna także w
 `CLAUDE.md` (sekcja "Stan repo") — usunąć ją od 1.10.2026, gdy CI wróci.
 
+**[01.10.2026] CI wróciło (koniec okresu z wpisu wyżej).** Nota „CI NIE DZIAŁA” usunięta z `CLAUDE.md` na polecenie
+właściciela projektu. Od teraz merge na zielonym CI, jak przed 24.09. Pierwszy przebieg na `main` trzeba sprawdzić
+ręcznie: krok `check:ai-tools-guard` i job `e2e-sw` jeszcze nigdy nie ruszyły w GitHub Actions (`docs/lista-do-zrobienia.md`,
+wpis „Powrót CI od 1.10.2026”). Pułapka z tego dnia: przy wyczerpanym limicie GraphQL `gh pr create` nie działa, a
+`gh api` (REST) działa.
+
 ## TD16 naprawiony — model Muneera w Ekranie 4 Modułu 1 (24.09.2026)
 
 Decyzja właściciela: wariant (a). Źródło równań: raport JRC EUR 26075 EN (Gracia Amillo, Huld,
