@@ -14,7 +14,8 @@ import { liczba } from "@/lib/lokalizacja/model-dzialki"
 import { useLokalizacjaProjektu } from "@/lib/lokalizacja/use-lokalizacja-projektu"
 import { useObliczeniaWTle } from "@/lib/lokalizacja/use-obliczenia-w-tle"
 
-export const MIESIACE = ["sty", "lut", "mar", "kwi", "maj", "cze", "lip", "sie", "wrz", "paź", "lis", "gru"]
+/** Short month names — `UI-MIESIAC-SKR-*` keys, render through `t()`. */
+export const MIESIACE = Array.from({ length: 12 }, (_, i) => `UI-MIESIAC-SKR-${i + 1}`)
 export const f0 = (x: number) => x.toLocaleString("pl-PL", { maximumFractionDigits: 0 })
 export const f1 = (x: number) => x.toLocaleString("pl-PL", { maximumFractionDigits: 1 })
 export const f2 = (x: number) => x.toLocaleString("pl-PL", { maximumFractionDigits: 2 })
@@ -33,7 +34,7 @@ export function poziomZOstrzezen(warnings: Warning[]): WerdyktPoziom {
 export function BledyDanych({ warnings }: { warnings: Warning[] }) {
   const t = useTranslate()
   return (
-    <WerdyktPanel poziom="blad" etykieta="Sprawdź dane">
+    <WerdyktPanel poziom="blad" etykieta={t("UI-TYPMON-COMWSP-SPRAWDZ-DANE")}>
       <ul className="mt-2 space-y-1 text-small">
         {warnings.map((w, i) => (
           <li key={w.code + i}>{w.message ?? t(w.i18nKey ?? w.code, w.params)}</li>
@@ -56,32 +57,33 @@ export function wiatrZSeeda(s: WiatrSeed, wysokoscPvgis: number | undefined) {
 }
 
 const OPIS_TERENU: Record<KategoriaTerenu, string> = {
-  "0": "0 — morze, brzeg otwarty na morze",
-  I: "I — jeziora, teren płaski bez przeszkód",
-  II: "II — niska roślinność, pojedyncze drzewa/budynki daleko od siebie",
-  III: "III — wieś, przedmieścia, las, regularna zabudowa",
-  IV: "IV — miasto (min. 15% zabudowy wyższej niż 15 m)",
+  "0": "UI-TYPMON-COMWSP-MORZE",
+  I: "UI-TYPMON-COMWSP-JEZIORA-TEREN-PLASKI",
+  II: "UI-TYPMON-COMWSP-NISKA-ROSLINNOSC-POJEDYNCZE",
+  III: "UI-TYPMON-COMWSP-III-WIES-PRZEDMIESCIA",
+  IV: "UI-TYPMON-COMWSP-MIASTO-MIN-ZABUDOWY",
 }
 
 /** Pola wiatru PN-EN 1991-1-4 — te same co M3/E9 (strefa NA.1, teren NA.3, φ z 7.3). */
 export function PolaWiatru({ s, ustaw, wysokoscPvgis }: { s: WiatrSeed; ustaw: (p: keyof WiatrSeed, v: string) => void; wysokoscPvgis?: number }) {
+  const t = useTranslate()
   return (
     <section className="flex flex-col gap-3">
-      <h3 className="font-semibold">Wiatr w miejscu montażu</h3>
+      <h3 className="font-semibold">{t("UI-TYPMON-COMWSP-WIATR-MIEJSCU-MONTAZU")}</h3>
       <div className="grid gap-3 sm:grid-cols-2">
         <PoleSelect
-          label="Strefa wiatrowa"
+          label={t("UI-TYPMON-COMWSP-STREFA-WIATROWA")}
           value={s.strefa}
           onChange={(e) => ustaw("strefa", e.target.value)}
           pomoc={<PomocPola ekran="typ-montazu-pola" pole="strefa" />}
         >
-          <option value="">— wybierz —</option>
-          <option value="1">Strefa 1</option>
-          <option value="2">Strefa 2</option>
-          <option value="3">Strefa 3</option>
+          <option value="">{t("UI-WYBIERZ")}</option>
+          <option value="1">{t("UI-TYPMON-COMWSP-STREFA")}</option>
+          <option value="2">{t("UI-TYPMON-COMWSP-STREFA-2")}</option>
+          <option value="3">{t("UI-TYPMON-COMWSP-STREFA-3")}</option>
         </PoleSelect>
         <Pole
-          label="Wysokość terenu n.p.m."
+          label={t("UI-TYPMON-COMWSP-WYSOKOSC-TERENU")}
           unit="m"
           type="number"
           inputMode="decimal"
@@ -92,20 +94,20 @@ export function PolaWiatru({ s, ustaw, wysokoscPvgis }: { s: WiatrSeed; ustaw: (
         />
       </div>
       <PoleSelect
-        label="Teren wokół (kategoria terenu)"
+        label={t("UI-TYPMON-COMWSP-TEREN-WOKOL-KATEGORIA")}
         value={s.kategoria}
         onChange={(e) => ustaw("kategoria", e.target.value)}
         pomoc={<PomocPola ekran="typ-montazu-pola" pole="teren" />}
       >
-        <option value="">— wybierz —</option>
+        <option value="">{t("UI-WYBIERZ")}</option>
         {KATEGORIE_TERENU.map((k) => (
           <option key={k} value={k}>
-            {OPIS_TERENU[k]}
+            {t(OPIS_TERENU[k])}
           </option>
         ))}
       </PoleSelect>
       <Pole
-        label="Zabudowa pod stelażem φ"
+        label={t("UI-TYPMON-COMWSP-ZABUDOWA-POD-STELAZEM")}
         type="number"
         inputMode="decimal"
         min={0}
@@ -133,16 +135,17 @@ export function stelazZSeeda(s: StelazSeed) {
 }
 
 /** Result suffix: the ballast is on top of the entered panels + frame weight (D29). */
-export function dopiskMasyWlasnej(s: StelazSeed): string {
+export function dopiskMasyWlasnej(s: StelazSeed, t: (kod: string, params?: Record<string, string | number>) => string): string {
   const masa = n(s.masaPaneliStelazaKg ?? "")
-  return masa === null ? "" : ` ponad ciężar paneli i stelaża (${masa.toLocaleString("pl-PL")} kg)`
+  return masa === null ? "" : " " + t("UI-TYPMON-COMWSP-PONAD-CIEZAR", { masa: masa.toLocaleString("pl-PL") })
 }
 
 export function PolaStelaza({ s, ustaw, poleKrawedzi }: { s: StelazSeed; ustaw: (p: keyof StelazSeed, v: string) => void; poleKrawedzi: "krawedzRegulowany" | "krawedzDachPlaski" }) {
+  const t = useTranslate()
   return (
     <div className="grid gap-3 sm:grid-cols-3">
       <Pole
-        label="Długość wzdłuż spadku L"
+        label={t("UI-TYPMON-COMWSP-DLUGOSC-WZDLUZ-SPADKU")}
         unit="m"
         type="number"
         inputMode="decimal"
@@ -152,7 +155,7 @@ export function PolaStelaza({ s, ustaw, poleKrawedzi }: { s: StelazSeed; ustaw: 
         pomoc={<PomocPola ekran="typ-montazu-pola" pole="dlugoscL" />}
       />
       <Pole
-        label="Szerokość stelaża"
+        label={t("UI-TYPMON-COMWSP-SZEROKOSC-STELAZA")}
         unit="m"
         type="number"
         inputMode="decimal"
@@ -162,7 +165,7 @@ export function PolaStelaza({ s, ustaw, poleKrawedzi }: { s: StelazSeed; ustaw: 
         pomoc={<PomocPola ekran="typ-montazu-pola" pole="szerokosc" />}
       />
       <Pole
-        label="Dolna krawędź nad terenem"
+        label={t("UI-TYPMON-COMWSP-DOLNA-KRAWEDZ-NAD")}
         unit="m"
         type="number"
         inputMode="decimal"
@@ -172,7 +175,7 @@ export function PolaStelaza({ s, ustaw, poleKrawedzi }: { s: StelazSeed; ustaw: 
         pomoc={<PomocPola ekran="typ-montazu-pola" pole={poleKrawedzi} />}
       />
       <Pole
-        label="Masa paneli i stelaża (opcjonalnie)"
+        label={t("UI-TYPMON-COMWSP-MASA-PANELI-STELAZA")}
         unit="kg"
         type="number"
         inputMode="decimal"
@@ -218,10 +221,11 @@ export function useTabelaNapromieniowania(azymutTekst: string) {
 }
 
 export function PoleAzymutu({ wartosc, ustaw, tab }: { wartosc: string; ustaw: (v: string) => void; tab: ReturnType<typeof useTabelaNapromieniowania> }) {
+  const t = useTranslate()
   return (
     <section className="flex flex-col gap-3">
       <Pole
-        label="Azymut paneli"
+        label={t("UI-TYPMON-COMWSP-AZYMUT-PANELI")}
         unit="°"
         type="number"
         inputMode="decimal"
@@ -232,10 +236,10 @@ export function PoleAzymutu({ wartosc, ustaw, tab }: { wartosc: string; ustaw: (
         pomoc={<PomocPola ekran="typ-montazu-pola" pole="azymut" />}
       />
       <Button className="min-h-11" disabled={!tab.mozna} onClick={tab.policz}>
-        {tab.liczy ? "Liczę nasłonecznienie dla kątów 0–90°…" : "Policz nasłonecznienie"}
+        {tab.liczy ? t("UI-TYPMON-COMWSP-LICZE-NASLONECZNIENIE-KATOW") : t("UI-TYPMON-COMWSP-POLICZ-NASLONECZNIENIE")}
       </Button>
       {tab.blad && <p className="text-small text-werdykt-blad-foreground">{tab.blad}</p>}
-      {tab.nieaktualna && !tab.liczy && <StanPusty tytul="Zmieniła się lokalizacja lub azymut — policz ponownie." />}
+      {tab.nieaktualna && !tab.liczy && <StanPusty tytul={t("UI-TYPMON-COMWSP-ZMIENILA-LOKALIZACJA-AZYMUT")} />}
     </section>
   )
 }
