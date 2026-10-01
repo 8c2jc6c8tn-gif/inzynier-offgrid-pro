@@ -51,7 +51,7 @@ Obraz obejmuje koszty, opłacalność, dobór PV i magazynu, zimę oraz ryzyka. 
   - w kodzie to jeden ekran z parametrem segmentu `dom | firma` (echo, D12/D20);
   - wchodzi się do nich z obu kafli;
   - treść różni się tylko tam, gdzie prawo odróżnia konsumenta od przedsiębiorcy.
-- **Pozycja kafli na pulpicie (D39):** na końcu domyślnej kolejności, za kaflem 13. Później dojdzie preset onboardingu „Jestem podłączony do sieci”, który wysuwa je na początek. „Kafel 14” to Ustawienia (D9), więc kafle M14 nazywamy nazwą albo M14-D / M14-F, nie numerem.
+- **Pozycja kafli na pulpicie (D39):** na końcu domyślnej kolejności, za kaflem 13. Później dojdzie preset onboardingu „Jestem podłączony do sieci”, który wysuwa je na początek. **[30.09.2026, D62]** Preset jest (Ustawienia): M14-D, M14-F, potem 1, 2, 3, 4, 6, 7, 8; kafle M14 są „duże” (dwie kolumny pulpitu). „Kafel 14” to Ustawienia (D9), więc kafle M14 nazywamy nazwą albo M14-D / M14-F, nie numerem.
 
 ## Kluczowe zasady i wzory
 

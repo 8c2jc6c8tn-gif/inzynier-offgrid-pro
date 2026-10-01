@@ -18,6 +18,8 @@ export type KafelEntry = {
   opis: string
   ikona: string
   ekrany: EkranEntry[]
+  /** Wide tile on the dashboard (two grid columns, description shown) — the two M14 chapters (D35). */
+  duzy?: boolean
 }
 
 export const KAFLE: KafelEntry[] = [
@@ -338,6 +340,7 @@ export const KAFLE: KafelEntry[] = [
   {
     id: 15,
     nazwa: "Dom – sieć",
+    duzy: true,
     opis: "Rachunek za prąd, taryfa G, prosument — a potem opcja przejścia na off-grid.",
     ikona: "🏠",
     ekrany: [
@@ -361,6 +364,7 @@ export const KAFLE: KafelEntry[] = [
   {
     id: 16,
     nazwa: "Firma – sieć",
+    duzy: true,
     opis: "Rachunek w taryfach C, moc bierna, moc umowna, opłata mocowa — a potem opcja przejścia na off-grid.",
     ikona: "🏭",
     ekrany: [

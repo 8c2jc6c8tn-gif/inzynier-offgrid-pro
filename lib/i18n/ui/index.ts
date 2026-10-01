@@ -19,10 +19,11 @@ import * as m14Pv from "./m14-pv"
 import * as m14Scenariusze from "./m14-scenariusze"
 import * as m14Sciezka from "./m14-sciezka"
 import * as m14Zima from "./m14-zima"
+import * as pulpit from "./pulpit"
 import * as pwa from "./pwa"
 import * as wspolne from "./wspolne"
 
-export const czesciUi = [wspolne, dopiskiStarychEkranow, m09Esp32, m12Uziemienie, m14Agregat, m14Bess, m14Ekrany, m14Faq, m14Przejscie, m14PrzejscieEkrany, m14Przelacznik, m14Pv, m14Scenariusze, m14Sciezka, m14Zima, pwa] as const
+export const czesciUi = [wspolne, dopiskiStarychEkranow, m09Esp32, m12Uziemienie, m14Agregat, m14Bess, m14Ekrany, m14Faq, m14Przejscie, m14PrzejscieEkrany, m14Przelacznik, m14Pv, m14Scenariusze, m14Sciezka, m14Zima, pulpit, pwa] as const
 
 export const uiPl = Object.assign({}, ...czesciUi.map((c) => c.pl)) as Record<string, string>
 export const uiEn = Object.assign({}, ...czesciUi.map((c) => c.en)) as Record<string, string>
