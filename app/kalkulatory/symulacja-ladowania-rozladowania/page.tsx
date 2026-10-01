@@ -14,6 +14,7 @@ import { NawigacjaEkranu } from "@/components/nawigacja-ekranu"
 import { NaglowekEkranu } from "@/components/wzorce/naglowek-ekranu"
 import { WynikGlowny } from "@/components/wzorce/wynik-glowny"
 import { WynikSzczegoly } from "@/components/wzorce/wynik-szczegoly"
+import { useTranslate } from "@/lib/i18n/language-context"
 
 type FormularzStan = {
   pojemnoscUzytecznaKwh: string
@@ -34,6 +35,7 @@ const STAN_POCZATKOWY: FormularzStan = {
 }
 
 export default function SymulacjaLadowaniaRozladowaniaPage() {
+  const t = useTranslate()
   const [stan, setStan] = usePersistedDraft<FormularzStan>("symulacja-ladowania-rozladowania", STAN_POCZATKOWY)
 
   function setPole<K extends keyof FormularzStan>(pole: K, wartosc: string) {
@@ -68,17 +70,16 @@ export default function SymulacjaLadowaniaRozladowaniaPage() {
     <main className="mx-auto flex max-w-md flex-col gap-6 p-6">
       <NawigacjaEkranu href="/kalkulatory/symulacja-ladowania-rozladowania" />
       <NaglowekEkranu
-        tytul="Symulacja czasu ładowania/rozładowania"
+        tytul={t("UI-SYMLADROZ-SYMULACJA-CZASU-LADOWANIA")}
         ekran="symulacja-ladowania-rozladowania"
         wynik={result}
       >
-        Pokazuje, czy Twoja bateria i produkcja PV są w ogóle zsynchronizowane z Twoim zużyciem —
-        czy zdąży naładować się w ciągu dnia i czy przetrwa do rana. Moduł 4, Ekran 3.
+        {t("UI-SYMLADROZ-POKAZUJE-BATERIA-PRODUKCJA")}
       </NaglowekEkranu>
 
       <div className="flex flex-col gap-4">
         <Pole
-          label="Pojemność użyteczna baterii"
+          label={t("UI-SYMLADROZ-POJEMNOSC-UZYTECZNA-BATERII")}
           unit="kWh"
           type="number"
           inputMode="decimal"
@@ -88,7 +89,7 @@ export default function SymulacjaLadowaniaRozladowaniaPage() {
           pomoc={<PomocPola ekran="symulacja-ladowania-rozladowania" pole="pojemnosc" />}
         />
         <Pole
-          label="SoC na początku dnia"
+          label={t("UI-SYMLADROZ-SOC-POCZATKU-DNIA")}
           unit="%"
           type="number"
           inputMode="decimal"
@@ -99,7 +100,7 @@ export default function SymulacjaLadowaniaRozladowaniaPage() {
           pomoc={<PomocPola ekran="symulacja-ladowania-rozladowania" pole="socStart" />}
         />
         <Pole
-          label="Średnia moc ładowania z PV"
+          label={t("UI-SYMLADROZ-SREDNIA-MOC-LADOWANIA")}
           unit="kW"
           type="number"
           inputMode="decimal"
@@ -109,8 +110,8 @@ export default function SymulacjaLadowaniaRozladowaniaPage() {
           pomoc={<PomocPola ekran="symulacja-ladowania-rozladowania" pole="mocLadowania" />}
         />
         <Pole
-          label="Długość okna ładowania (naświetlenia)"
-          unit="godz."
+          label={t("UI-SYMLADROZ-DLUGOSC-OKNA-LADOWANIA")}
+          unit={t("UI-SYMLADROZ-GODZ-2")}
           type="number"
           inputMode="decimal"
           min={0}
@@ -120,7 +121,7 @@ export default function SymulacjaLadowaniaRozladowaniaPage() {
           pomoc={<PomocPola ekran="symulacja-ladowania-rozladowania" pole="oknoLadowania" />}
         />
         <Pole
-          label="Średnia moc rozładowania w nocy"
+          label={t("UI-SYMLADROZ-SREDNIA-MOC-ROZLADOWANIA")}
           unit="kW"
           type="number"
           inputMode="decimal"
@@ -130,7 +131,7 @@ export default function SymulacjaLadowaniaRozladowaniaPage() {
           pomoc={<PomocPola ekran="symulacja-ladowania-rozladowania" pole="mocNoc" />}
         />
         <Pole
-          label="Próg ostrzegawczy SoC"
+          label={t("UI-SYMLADROZ-PROG-OSTRZEGAWCZY-SOC")}
           unit="%"
           type="number"
           inputMode="decimal"
@@ -143,29 +144,29 @@ export default function SymulacjaLadowaniaRozladowaniaPage() {
       </div>
 
       {result.status === "INVALID_INPUT" ? (
-        <WerdyktPanel poziom="blad" etykieta="Nie da się policzyć — sprawdź wpisane dane">
+        <WerdyktPanel poziom="blad" etykieta={t("UI-SYMLADROZ-POLICZYC-SPRAWDZ-WPISANE")}>
           <WynikSzczegoly assumptions={[]} warnings={result.warnings} />
         </WerdyktPanel>
       ) : result.status === "INCOMPLETE" ? (
-        <p className="text-small text-muted-foreground">Wypełnij wszystkie pola, żeby zobaczyć symulację.</p>
+        <p className="text-small text-muted-foreground">{t("UI-SYMLADROZ-WYPELNIJ-WSZYSTKIE-POLA")}</p>
       ) : (
         <WerdyktPanel
           poziom={poziom}
-          etykieta={result.value.przetrwaCalaNoc ? "Przetrwa całą noc" : "Nie przetrwa do rana"}
+          etykieta={result.value.przetrwaCalaNoc ? t("UI-SYMLADROZ-PRZETRWA-CALA-NOC") : t("UI-SYMLADROZ-PRZETRWA-RANA")}
         >
           <WynikGlowny>
             {Number.isFinite(result.value.godzinDoPelna)
-              ? `Pełna po ${result.value.godzinDoPelna.toFixed(1)} godz.`
-              : "Nie naładuje się dziś"}
+              ? t("UI-SYMLADROZ-PELNA-GODZ", { godzinDoPelna: result.value.godzinDoPelna.toFixed(1) })
+              : t("UI-SYMLADROZ-NALADUJE-DZIS")}
           </WynikGlowny>
           <p className="mt-1 text-small">
             {result.value.zdazyNaladowacPrzedZachodem
-              ? "Zdąży naładować się w pełni przed zachodem słońca."
-              : `Do zachodu SoC osiągnie tylko ${result.value.socOZachodzieSlonca.toFixed(0)}%.`}
+              ? t("UI-SYMLADROZ-ZDAZY-NALADOWAC-PELNI")
+              : t("UI-SYMLADROZ-ZACHODU-SOC-OSIAGNIE", { socOZachodzieSlonca: result.value.socOZachodzieSlonca.toFixed(0) })}
           </p>
           <p className="mt-1 text-small">
-            Próg {stan.socProgPct}% SoC osiągnie po{" "}
-            <strong>{result.value.godzinDoProguWNocy.toFixed(1)} godz.</strong> od zachodu słońca.
+            {t("UI-SYMLADROZ-PROG-SOC-OSIAGNIE", { socProgPct: stan.socProgPct })}
+            <strong>{t("UI-SYMLADROZ-GODZ", { godzinDoProguWNocy: result.value.godzinDoProguWNocy.toFixed(1) })}</strong> {t("UI-SYMLADROZ-ZACHODU-SLONCA")}
           </p>
           <WynikSzczegoly assumptions={result.assumptions} warnings={result.warnings} formula={result.formula} />
         </WerdyktPanel>

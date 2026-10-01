@@ -53,14 +53,13 @@ export default function TrybUproszczonyPage() {
   return (
     <main className="mx-auto flex max-w-md flex-col gap-6 p-6">
       <NawigacjaEkranu href="/kalkulatory/tryb-uproszczony" />
-      <NaglowekEkranu tytul="Tryb uproszczony" ekran="tryb-uproszczony" wynik={result}>
-        To wejście dla kogoś, kto nie chce przechodzić przez pełny proces projektowy — szybka
-        odpowiedź na jedno pytanie. Moduł 12, Ekran 1.
+      <NaglowekEkranu tytul={t("UI-TRYUPR-TRYB-UPROSZCZONY")} ekran="tryb-uproszczony" wynik={result}>
+        {t("UI-TRYUPR-WEJSCIE-KOGOS-KTO")}
       </NaglowekEkranu>
 
       <div className="flex flex-col gap-4">
         <Pole
-          label="Pojemność akumulatora"
+          label={t("UI-TRYUPR-POJEMNOSC-AKUMULATORA")}
           unit="Ah"
           type="number"
           inputMode="decimal"
@@ -69,7 +68,7 @@ export default function TrybUproszczonyPage() {
           pomoc={<PomocPola ekran="tryb-uproszczony" pole="pojemnosc" />}
         />
         <Pole
-          label="Napięcie"
+          label={t("UI-TRYUPR-NAPIECIE")}
           unit="V"
           type="number"
           inputMode="decimal"
@@ -78,7 +77,7 @@ export default function TrybUproszczonyPage() {
           pomoc={<PomocPola ekran="tryb-uproszczony" pole="napiecie" />}
         />
         <Pole
-          label="Moc odbiornika"
+          label={t("UI-TRYUPR-MOC-ODBIORNIKA")}
           unit="W"
           type="number"
           inputMode="decimal"
@@ -90,7 +89,7 @@ export default function TrybUproszczonyPage() {
 
       <WerdyktPanel poziom={result.status === "INVALID_INPUT" ? "blad" : "ok"}>
         {result.status === "INVALID_INPUT" ? (
-          <p className="mt-1">Nie da się policzyć — sprawdź dane wejściowe powyżej.</p>
+          <p className="mt-1">{t("UI-TRYUPR-POLICZYC-SPRAWDZ-DANE")}</p>
         ) : (
           <p className="mt-1 text-h1 font-semibold">
             {result.value.toFixed(1)} {result.unit}
@@ -100,7 +99,7 @@ export default function TrybUproszczonyPage() {
         {result.assumptions.length > 0 && (
           <ul className="mt-2 text-small opacity-90">
             {result.assumptions.map((a, i) => (
-              <li key={typeof a === "string" ? a : a.kod + i}>Założenie: {typeof a === "string" ? a : t(a.kod, a.params)}</li>
+              <li key={typeof a === "string" ? a : a.kod + i}>{t("UI-TRYUPR-ZALOZENIE")} {typeof a === "string" ? a : t(a.kod, a.params)}</li>
             ))}
           </ul>
         )}

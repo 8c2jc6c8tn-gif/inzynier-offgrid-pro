@@ -13,6 +13,7 @@ import { NaglowekEkranu } from "@/components/wzorce/naglowek-ekranu"
 import { WynikSzczegoly } from "@/components/wzorce/wynik-szczegoly"
 import { usePersistedDraft } from "@/lib/adapters/use-persisted-draft"
 import { MAX_ROZNICA_NAPIEC_V } from "@/lib/core/modules/montaz-baterii/weryfikacja-ogniw/constants"
+import { useTranslate } from "@/lib/i18n/language-context"
 
 type FormularzStan = {
   napiecieSystemu: NapiecieSystemu
@@ -29,6 +30,7 @@ const STAN_POCZATKOWY: FormularzStan = {
 }
 
 export default function WeryfikacjaOgniwPage() {
+  const t = useTranslate()
   const [stan, setStan] = usePersistedDraft<FormularzStan>("weryfikacja-ogniw", STAN_POCZATKOWY)
   const { napiecieSystemu, napieciaOgniwV, bmsMaBalancer, potwierdzoneIds } = stan
 
@@ -87,28 +89,26 @@ export default function WeryfikacjaOgniwPage() {
 
   const etykieta =
     result.status === "INVALID_INPUT"
-      ? "Nie da się policzyć — sprawdź wpisane napięcia"
+      ? t("UI-WEROGN-POLICZYC-SPRAWDZ-WPISANE")
       : hasCritical
-        ? "Zabronione — nie łącz ogniw w pakiet"
+        ? t("UI-WEROGN-ZABRONIONE-LACZ-OGNIW")
         : hasWarning
-          ? "Dopuszczalne, sprawdź ostrzeżenia"
-          : "Gotowe do montażu"
+          ? t("UI-WEROGN-DOPUSZCZALNE-SPRAWDZ-OSTRZEZ")
+          : t("UI-WEROGN-GOTOWE-MONTAZU")
 
   return (
     <main className="mx-auto flex max-w-md flex-col gap-6 p-6">
       <NawigacjaEkranu href="/kalkulatory/weryfikacja-ogniw" />
       <NaglowekEkranu
-        tytul="Weryfikacja kompletności i kontrola wstępna ogniw"
+        tytul={t("UI-WEROGN-WERYFIKACJA-KOMPLETNOSCI-KON")}
         ekran="weryfikacja-ogniw" wynik={result}
         parametry={{ maxRoznica: MAX_ROZNICA_NAPIEC_V }}
       >
-        Zanim ogniwa trafią do wspólnego pakietu, muszą przejść tę kontrolę — złe dobranie liczby
-        ogniw albo zbyt duża różnica napięć między nimi to najczęstsza przyczyna problemów przy
-        budowie własnego pakietu LiFePO4. Moduł 11, Ekran A1.
+        {t("UI-WEROGN-ZANIM-OGNIWA-TRAFIA")}
       </NaglowekEkranu>
 
       <PoleSelect
-        label="Napięcie systemu"
+        label={t("UI-WEROGN-NAPIECIE-SYSTEMU")}
         value={napiecieSystemu}
         onChange={(e) => zmienNapiecieSystemu(Number(e.target.value) as NapiecieSystemu)}
         pomoc={<PomocPola ekran="weryfikacja-ogniw" pole="napiecieSystemu" />}
@@ -119,7 +119,7 @@ export default function WeryfikacjaOgniwPage() {
       </PoleSelect>
 
       <Pole
-        label="Liczba ogniw w pakiecie"
+        label={t("UI-WEROGN-LICZBA-OGNIW-PAKIECIE")}
         type="number"
         inputMode="numeric"
         min={0}
@@ -131,7 +131,7 @@ export default function WeryfikacjaOgniwPage() {
 
       {napieciaOgniwV.length > 0 && (
         <div className="flex flex-col gap-2">
-          <span className="text-small font-medium">Napięcie każdego ogniwa</span>
+          <span className="text-small font-medium">{t("UI-WEROGN-NAPIECIE-KAZDEGO-OGNIWA")}</span>
           <div className="grid grid-cols-4 gap-2">
             {napieciaOgniwV.map((v, i) => (
               <Pole
@@ -152,7 +152,7 @@ export default function WeryfikacjaOgniwPage() {
 
       <PoleCheckbox
         id="bms-balancer"
-        label="BMS ma przewody balansujące (balancer)"
+        label={t("UI-WEROGN-BMS-PRZEWODY-BALANSUJACE")}
         checked={bmsMaBalancer}
         onChange={(e) => setBmsMaBalancer(e.target.checked)}
       />
@@ -165,13 +165,12 @@ export default function WeryfikacjaOgniwPage() {
       />
 
       {poziom === null ? (
-        <p className="text-small text-muted-foreground">Wpisz napięcia wszystkich ogniw, żeby zobaczyć werdykt.</p>
+        <p className="text-small text-muted-foreground">{t("UI-WEROGN-WPISZ-NAPIECIA-WSZYSTKICH")}</p>
       ) : (
         <WerdyktPanel poziom={poziom} etykieta={etykieta}>
           {result.status !== "INVALID_INPUT" && result.value.liczbaOgniw > 0 && (
             <p className="mt-1 text-small">
-              Rozstęp napięć: {result.value.minNapiecieV.toFixed(3)}–{result.value.maxNapiecieV.toFixed(3)} V
-              (różnica {result.value.roznicaNapiecV.toFixed(3)} V)
+              {t("UI-WEROGN-ROZSTEP-NAPIEC-ROZNICA", { minNapiecieV: result.value.minNapiecieV.toFixed(3), maxNapiecieV: result.value.maxNapiecieV.toFixed(3), roznicaNapiecV: result.value.roznicaNapiecV.toFixed(3) })}
             </p>
           )}
           <WynikSzczegoly assumptions={result.assumptions} warnings={result.warnings} />

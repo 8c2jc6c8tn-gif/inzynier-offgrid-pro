@@ -12,6 +12,7 @@ import { NawigacjaEkranu } from "@/components/nawigacja-ekranu"
 import { NaglowekEkranu } from "@/components/wzorce/naglowek-ekranu"
 import { WynikGlowny } from "@/components/wzorce/wynik-glowny"
 import { WynikSzczegoly } from "@/components/wzorce/wynik-szczegoly"
+import { useTranslate } from "@/lib/i18n/language-context"
 
 const initialItems: UrzadzenieKrytyczne[] = DOMYSLNE_URZADZENIA_KRYTYCZNE.map((def) => ({
   id: def.id,
@@ -38,6 +39,7 @@ const STAN_POCZATKOWY: FormularzStan = {
 }
 
 export default function UpsKrytycznyPage() {
+  const t = useTranslate()
   const [stan, setStan] = usePersistedDraft<FormularzStan>("ups-krytyczny", STAN_POCZATKOWY)
   const { urzadzenia, pojemnoscAh, napiecieV } = stan
 
@@ -77,10 +79,8 @@ export default function UpsKrytycznyPage() {
   return (
     <main className="mx-auto flex max-w-md flex-col gap-6 p-6">
       <NawigacjaEkranu href="/kalkulatory/ups-krytyczny" />
-      <NaglowekEkranu tytul="UPS krytyczny — dobór sprzętowy" ekran="ups-krytyczny" wynik={result}>
-        W pożarze często pada normalne zasilanie — UPS daje systemowi te kluczowe minuty na
-        wykonanie sekwencji bezpieczeństwa, zamiast zamilknąć w najgorszym momencie. Moduł 8,
-        Ekran 6.
+      <NaglowekEkranu tytul={t("UI-UPSKRY-UPS-KRYTYCZNY-DOBOR")} ekran="ups-krytyczny" wynik={result}>
+        {t("UI-UPSKRY-POZARZE-CZESTO-PADA")}
       </NaglowekEkranu>
 
       <ul className="flex flex-col gap-3">
@@ -96,7 +96,7 @@ export default function UpsKrytycznyPage() {
             <label htmlFor={`urzadzenie-${u.id}`} className="flex-1 text-small font-medium">
               {u.label}
               <span className="block text-caption font-normal text-muted-foreground">
-                brak wartości domyślnej — wpisz ręcznie
+                {t("UI-UPSKRY-BRAK-WARTOSCI-DOMYSLNEJ")}
               </span>
             </label>
             <input
@@ -106,7 +106,7 @@ export default function UpsKrytycznyPage() {
               value={u.powerW}
               disabled={!u.selected}
               onChange={(e) => updatePower(u.id, Number(e.target.value))}
-              aria-label={`Moc — ${u.label}`}
+              aria-label={t("UI-UPSKRY-MOC", { label: u.label })}
             />
             <span className="w-4 text-caption text-muted-foreground">W</span>
             <PomocPola ekran="ups-krytyczny" pole="mocUrzadzenia" />
@@ -116,7 +116,7 @@ export default function UpsKrytycznyPage() {
 
       <div className="flex flex-col gap-4">
         <Pole
-          label="Pojemność akumulatora UPS"
+          label={t("UI-UPSKRY-POJEMNOSC-AKUMULATORA-UPS")}
           unit="Ah"
           type="number"
           inputMode="decimal"
@@ -126,7 +126,7 @@ export default function UpsKrytycznyPage() {
           pomoc={<PomocPola ekran="ups-krytyczny" pole="pojemnosc" />}
         />
         <Pole
-          label="Napięcie systemu UPS"
+          label={t("UI-UPSKRY-NAPIECIE-SYSTEMU-UPS")}
           unit="V"
           type="number"
           inputMode="decimal"
@@ -138,17 +138,17 @@ export default function UpsKrytycznyPage() {
       </div>
 
       {result.status === "INVALID_INPUT" ? (
-        <WerdyktPanel poziom="blad" etykieta="Nie da się policzyć — sprawdź zaznaczone pozycje">
+        <WerdyktPanel poziom="blad" etykieta={t("UI-UPSKRY-POLICZYC-SPRAWDZ-ZAZNACZONE")}>
           <WynikSzczegoly assumptions={[]} warnings={result.warnings} />
         </WerdyktPanel>
       ) : result.status === "INCOMPLETE" ? (
         <p className="text-small text-muted-foreground">
-          Zaznacz przynajmniej jedno urządzenie z mocą i wypełnij pojemność/napięcie, żeby zobaczyć wynik.
+          {t("UI-UPSKRY-ZAZNACZ-PRZYNAJMNIEJ-JEDNO")}
         </p>
       ) : (
-        <WerdyktPanel poziom={hasWarning ? "uwaga" : "ok"} etykieta="Czas podtrzymania">
+        <WerdyktPanel poziom={hasWarning ? "uwaga" : "ok"} etykieta={t("UI-UPSKRY-CZAS-PODTRZYMANIA")}>
           <WynikGlowny>{result.value.czasPodtrzymaniaH.toFixed(2)} h</WynikGlowny>
-          <p className="mt-2 text-small">Łączny pobór mocy: {result.value.laczonyPoborW.toFixed(0)} W.</p>
+          <p className="mt-2 text-small">{t("UI-UPSKRY-LACZNY-POBOR-MOCY", { laczonyPoborW: result.value.laczonyPoborW.toFixed(0) })}</p>
           <WynikSzczegoly assumptions={result.assumptions} warnings={result.warnings} formula={result.formula} />
         </WerdyktPanel>
       )}

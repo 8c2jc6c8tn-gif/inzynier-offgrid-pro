@@ -10,6 +10,7 @@ import { NawigacjaEkranu } from "@/components/nawigacja-ekranu"
 import { NaglowekEkranu } from "@/components/wzorce/naglowek-ekranu"
 import { WynikGlowny } from "@/components/wzorce/wynik-glowny"
 import { WynikSzczegoly } from "@/components/wzorce/wynik-szczegoly"
+import { useTranslate } from "@/lib/i18n/language-context"
 
 type FormularzStan = {
   produkcjaPvDostepnaTeraz: boolean
@@ -32,13 +33,14 @@ const STAN_POCZATKOWY: FormularzStan = {
 }
 
 const ETYKIETA_ZRODLA: Record<string, string> = {
-  PV: "Ładowanie z paneli PV",
-  AGREGAT: "Ładowanie z agregatu prądotwórczego",
-  SIEC: "Doładowanie z sieci (tania taryfa)",
-  BRAK: "Brak aktywnego źródła ładowania",
+  PV: "UI-HIELAD-LADOWANIE-PANELI",
+  AGREGAT: "UI-HIELAD-LADOWANIE-AGREGATU-PRADOTWOR",
+  SIEC: "UI-HIELAD-DOLADOWANIE-SIECI-TANIA",
+  BRAK: "UI-HIELAD-BRAK-AKTYWNEGO-ZRODLA",
 }
 
 export default function HierarchiaLadowaniaPage() {
+  const t = useTranslate()
   const [stan, setStan] = usePersistedDraft<FormularzStan>("hierarchia-ladowania", STAN_POCZATKOWY)
 
   function setPole<K extends keyof FormularzStan>(pole: K, wartosc: FormularzStan[K]) {
@@ -83,23 +85,22 @@ export default function HierarchiaLadowaniaPage() {
     <main className="mx-auto flex max-w-md flex-col gap-6 p-6">
       <NawigacjaEkranu href="/kalkulatory/hierarchia-ladowania" />
       <NaglowekEkranu
-        tytul="Hierarchia ładowania (PV > Agregat > Sieć)"
+        tytul={t("UI-HIELAD-HIERARCHIA-LADOWANIA-AGREGAT")}
         ekran="hierarchia-ladowania"
         wynik={result}
       >
-        Mądry system czeka na darmowe paliwo ze słońca, zamiast od razu sięgać po drogi agregat.
-        Moduł 4, Ekran 32.
+        {t("UI-HIELAD-MADRY-SYSTEM-CZEKA")}
       </NaglowekEkranu>
 
       <div className="flex flex-col gap-4">
         <PoleCheckbox
           id="produkcja-pv-teraz"
-          label="Jest teraz produkcja z PV"
+          label={t("UI-HIELAD-TERAZ-PRODUKCJA")}
           checked={produkcjaPvDostepnaTeraz}
           onChange={(e) => setPole("produkcjaPvDostepnaTeraz", e.target.checked)}
         />
         <Pole
-          label="Aktualny SoC baterii"
+          label={t("UI-HIELAD-AKTUALNY-SOC-BATERII")}
           unit="%"
           type="number"
           inputMode="decimal"
@@ -110,7 +111,7 @@ export default function HierarchiaLadowaniaPage() {
           pomoc={<PomocPola ekran="hierarchia-ladowania" pole="soc" />}
         />
         <Pole
-          label="Próg krytyczny SoC (od którego rozważany jest agregat)"
+          label={t("UI-HIELAD-PROG-KRYTYCZNY-SOC")}
           unit="%"
           type="number"
           inputMode="decimal"
@@ -122,42 +123,42 @@ export default function HierarchiaLadowaniaPage() {
         />
         <PoleCheckbox
           id="prognoza-slonca-jutro"
-          label="Prognoza przewiduje produkcję PV jutro"
-          hint="Docelowo auto z Modułu 10 (Prognozy)."
+          label={t("UI-HIELAD-PROGNOZA-PRZEWIDUJE-PRODUKCJ")}
+          hint={t("UI-HIELAD-DOCELOWO-AUTO-MODULU")}
           checked={prognozaSloncaJutro}
           onChange={(e) => setPole("prognozaSloncaJutro", e.target.checked)}
         />
         <PoleCheckbox
           id="agregat-dostepny"
-          label="Agregat prądotwórczy jest dostępny i sprawny"
+          label={t("UI-HIELAD-AGREGAT-PRADOTWORCZY-DOSTEPN")}
           checked={agregatDostepny}
           onChange={(e) => setPole("agregatDostepny", e.target.checked)}
         />
         <PoleCheckbox
           id="siec-dostepna"
-          label="Podłączenie do sieci energetycznej jest dostępne"
+          label={t("UI-HIELAD-PODLACZENIE-SIECI-ENERGETYCZ")}
           checked={siecDostepna}
           onChange={(e) => setPole("siecDostepna", e.target.checked)}
         />
         <PoleCheckbox
           id="tania-taryfa-nocna"
-          label="Teraz obowiązuje tania taryfa nocna"
+          label={t("UI-HIELAD-TERAZ-OBOWIAZUJE-TANIA")}
           checked={taniaTaryfaNocna}
           onChange={(e) => setPole("taniaTaryfaNocna", e.target.checked)}
         />
       </div>
 
       {result.status === "INVALID_INPUT" ? (
-        <WerdyktPanel poziom="blad" etykieta="Nie da się policzyć — sprawdź wpisane dane">
+        <WerdyktPanel poziom="blad" etykieta={t("UI-HIELAD-POLICZYC-SPRAWDZ-WPISANE")}>
           <WynikSzczegoly assumptions={[]} warnings={result.warnings} />
         </WerdyktPanel>
       ) : result.status === "INCOMPLETE" ? (
         <p className="text-small text-muted-foreground">
-          Wpisz aktualny SoC i próg krytyczny, żeby zobaczyć wybór źródła.
+          {t("UI-HIELAD-WPISZ-AKTUALNY-SOC")}
         </p>
       ) : (
-        <WerdyktPanel poziom={poziom} etykieta={ETYKIETA_ZRODLA[result.value.zrodlo]}>
-          <WynikGlowny>{ETYKIETA_ZRODLA[result.value.zrodlo]}</WynikGlowny>
+        <WerdyktPanel poziom={poziom} etykieta={t(ETYKIETA_ZRODLA[result.value.zrodlo]!)}>
+          <WynikGlowny>{t(ETYKIETA_ZRODLA[result.value.zrodlo]!)}</WynikGlowny>
           <WynikSzczegoly assumptions={result.assumptions} warnings={result.warnings} formula={result.formula} />
         </WerdyktPanel>
       )}

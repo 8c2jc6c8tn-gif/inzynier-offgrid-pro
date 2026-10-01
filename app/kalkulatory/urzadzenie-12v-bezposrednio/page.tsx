@@ -15,6 +15,7 @@ import { NawigacjaEkranu } from "@/components/nawigacja-ekranu"
 import { NaglowekEkranu } from "@/components/wzorce/naglowek-ekranu"
 import { WynikGlowny } from "@/components/wzorce/wynik-glowny"
 import { WynikSzczegoly } from "@/components/wzorce/wynik-szczegoly"
+import { useTranslate } from "@/lib/i18n/language-context"
 
 type FormularzStan = {
   napiecieSystemuV: Urzadzenie12vBezposrednioInput["napiecieSystemuV"]
@@ -36,6 +37,7 @@ const STAN_POCZATKOWY: FormularzStan = {
 const f1 = (x: number) => x.toLocaleString("pl-PL", { minimumFractionDigits: 1, maximumFractionDigits: 1 })
 
 export default function Urzadzenie12vBezposrednioPage() {
+  const t = useTranslate()
   const [stan, setStan] = usePersistedDraft<FormularzStan>("urzadzenie-12v-bezposrednio", STAN_POCZATKOWY)
   const idStabilizator = useId()
   const maksLadowania = stan.maksNapiecieLadowaniaV ?? ""
@@ -59,29 +61,28 @@ export default function Urzadzenie12vBezposrednioPage() {
     <main className="mx-auto flex max-w-md flex-col gap-6 p-6">
       <NawigacjaEkranu href="/kalkulatory/urzadzenie-12v-bezposrednio" />
       <NaglowekEkranu
-        tytul="Czy mogę podłączyć urządzenie 12 V bezpośrednio?"
+        tytul={t("UI-URZ12VBEZ-MOGE-PODLACZYC-URZADZENIE")}
         ekran="urzadzenie-12v-bezposrednio"
         wynik={result}
       >
-        „12 V” na akumulatorze to uproszczenie — realnie od ok. 11 V do napięcia ładowania (ok. 14,5 V i więcej). Nie
-        każde urządzenie to wytrzyma. Moduł 12.
+        {t("UI-URZ12VBEZ-AKUMULATORZE-UPROSZCZENIE-RE")}
       </NaglowekEkranu>
 
       <div className="flex flex-col gap-4">
         <PoleSelect
-          label="Napięcie instalacji (akumulatora)"
+          label={t("UI-URZ12VBEZ-NAPIECIE-INSTALACJI-AKUMULAT")}
           value={stan.napiecieSystemuV}
           onChange={(e) =>
             setStan((prev) => ({ ...prev, napiecieSystemuV: Number(e.target.value) as FormularzStan["napiecieSystemuV"] }))
           }
           pomoc={<PomocPola ekran="urzadzenie-12v-bezposrednio" pole="napiecieInstalacji" />}
         >
-          <option value={0}>— wybierz —</option>
+          <option value={0}>{t("UI-WYBIERZ")}</option>
           <option value={12}>12 V</option>
           <option value={24}>24 V</option>
         </PoleSelect>
         <Pole
-          label="Napięcie urządzenia"
+          label={t("UI-URZ12VBEZ-NAPIECIE-URZADZENIA")}
           unit="V"
           type="number"
           inputMode="decimal"
@@ -91,7 +92,7 @@ export default function Urzadzenie12vBezposrednioPage() {
           pomoc={<PomocPola ekran="urzadzenie-12v-bezposrednio" pole="napiecieUrzadzenia" />}
         />
         <Pole
-          label="Tolerancja napięcia urządzenia"
+          label={t("UI-URZ12VBEZ-TOLERANCJA-NAPIECIA-URZADZEN")}
           unit="± %"
           type="number"
           inputMode="decimal"
@@ -101,7 +102,7 @@ export default function Urzadzenie12vBezposrednioPage() {
           pomoc={<PomocPola ekran="urzadzenie-12v-bezposrednio" pole="tolerancja" />}
         />
         <Pole
-          label="Maks. napięcie ładowania instalacji"
+          label={t("UI-URZ12VBEZ-MAKS-NAPIECIE-LADOWANIA")}
           unit="V"
           type="number"
           inputMode="decimal"
@@ -118,28 +119,28 @@ export default function Urzadzenie12vBezposrednioPage() {
         />
         <PoleCheckbox
           id={idStabilizator}
-          label="Zasilam przez stabilizator lub przetwornicę DC-DC"
+          label={t("UI-URZ12VBEZ-ZASILAM-STABILIZATOR-PRZETWO")}
           checked={stan.przezStabilizator}
           onChange={(e) => setStan((prev) => ({ ...prev, przezStabilizator: e.target.checked }))}
         />
       </div>
 
       {result.status === "INVALID_INPUT" ? (
-        <WerdyktPanel poziom="blad" etykieta="Nie da się policzyć — sprawdź wpisane dane">
+        <WerdyktPanel poziom="blad" etykieta={t("UI-URZ12VBEZ-POLICZYC-SPRAWDZ-WPISANE")}>
           <WynikSzczegoly assumptions={[]} warnings={result.warnings} />
         </WerdyktPanel>
       ) : result.status === "INCOMPLETE" ? (
-        <p className="text-small text-muted-foreground">Wypełnij wszystkie pola, żeby zobaczyć wynik.</p>
+        <p className="text-small text-muted-foreground">{t("UI-URZ12VBEZ-WYPELNIJ-WSZYSTKIE-POLA")}</p>
       ) : (
         <WerdyktPanel
           poziom={hasCritical ? "blad" : "ok"}
-          etykieta={hasCritical ? "Nie podłączaj wprost" : stan.przezStabilizator ? "Przez stabilizator" : "Można podłączyć wprost"}
+          etykieta={hasCritical ? t("UI-URZ12VBEZ-PODLACZAJ-WPROST") : stan.przezStabilizator ? t("UI-URZ12VBEZ-STABILIZATOR") : t("UI-URZ12VBEZ-MOZNA-PODLACZYC-WPROST")}
         >
           <WynikGlowny>
             {f1(v.urzadzenieMinV)}–{f1(v.urzadzenieMaxV)} V
           </WynikGlowny>
           <p className="mt-1 text-small">
-            Urządzenie znosi {f1(v.urzadzenieMinV)}–{f1(v.urzadzenieMaxV)} V · akumulator daje {f1(v.akuMinV)}–{f1(v.akuMaxV)} V
+            {t("UI-URZ12VBEZ-URZADZENIE-ZNOSI-AKUMULATOR", { urzadzenieMinV: f1(v.urzadzenieMinV), urzadzenieMaxV: f1(v.urzadzenieMaxV), akuMinV: f1(v.akuMinV), akuMaxV: f1(v.akuMaxV) })}
           </p>
           <WynikSzczegoly assumptions={result.assumptions} warnings={result.warnings} formula={result.formula} />
         </WerdyktPanel>

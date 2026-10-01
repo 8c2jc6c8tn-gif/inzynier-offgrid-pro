@@ -12,6 +12,7 @@ import { NawigacjaEkranu } from "@/components/nawigacja-ekranu"
 import { NaglowekEkranu } from "@/components/wzorce/naglowek-ekranu"
 import { WynikGlowny } from "@/components/wzorce/wynik-glowny"
 import { WynikSzczegoly } from "@/components/wzorce/wynik-szczegoly"
+import { useTranslate } from "@/lib/i18n/language-context"
 
 type FormularzStan = {
   srodek: SrodekGasniczy | ""
@@ -31,15 +32,16 @@ const STAN_POCZATKOWY: FormularzStan = {
 
 /** Sekwencja dowódcy akcji AI — 1:1 ze źródła (Tresc_Modul_8, Ekran 4, B.2; Biblia v2.0 §8.9). */
 const SEKWENCJA = [
-  "Odłącz zasilanie PV i baterii w zagrożonej strefie.",
-  "Wyłącz wentylację mechaniczną i zamknij klapy pożarowe.",
-  "Zwolnij zamki drzwi ewakuacyjnych.",
-  "Uruchom oświetlenie ewakuacyjne i zewnętrzne.",
-  "Odłącz zbędne obwody, żeby nie zasilały ognia.",
-  "Uruchom moduł gaśniczy.",
+  "UI-MODGAS-ODLACZ-ZASILANIE-BATERII",
+  "UI-MODGAS-WYLACZ-WENTYLACJE-MECHANICZN",
+  "UI-MODGAS-ZWOLNIJ-ZAMKI",
+  "UI-MODGAS-URUCHOM-OSWIETLENIE-EWAKUACY",
+  "UI-MODGAS-ODLACZ-ZBEDNE-OBWODY",
+  "UI-MODGAS-URUCHOM-MODUL-GASNICZY",
 ]
 
 export default function ModulGasniczyPage() {
+  const t = useTranslate()
   const [stan, setStan] = usePersistedDraft<FormularzStan>("modul-gasniczy", STAN_POCZATKOWY)
   const ustaw = <K extends keyof FormularzStan>(pole: K, v: FormularzStan[K]) => setStan((prev) => ({ ...prev, [pole]: v }))
 
@@ -61,44 +63,43 @@ export default function ModulGasniczyPage() {
     <main className="mx-auto flex max-w-md flex-col gap-6 p-6">
       <NawigacjaEkranu href="/kalkulatory/modul-gasniczy" />
       <NaglowekEkranu
-        tytul="Moduł gaśniczy"
+        tytul={t("UI-MODGAS-MODUL-GASNICZY")}
         ekran="modul-gasniczy"
         parametry={{ minCzujnikow: MIN_CZUJNIKOW_POTWIERDZENIA }}
         wynik={result}
       >
-        Człowiek może nie zdążyć pomyśleć we właściwej kolejności podczas pożaru — system realizuje sprawdzoną sekwencję
-        kroków w ciągu sekund. Moduł 8, Ekran 4.
+        {t("UI-MODGAS-CZLOWIEK-MOZE-ZDAZYC")}
       </NaglowekEkranu>
 
       <div className="flex flex-col gap-4">
         <PoleSelect
-          label="Środek gaśniczy"
+          label={t("UI-MODGAS-SRODEK-GASNICZY")}
           value={stan.srodek}
           onChange={(e) => ustaw("srodek", e.target.value as FormularzStan["srodek"])}
           pomoc={<PomocPola ekran="modul-gasniczy" pole="srodek" />}
         >
-          <option value="">— wybierz —</option>
-          <option value="mgla-wodna">Mgła wodna</option>
-          <option value="specjalny-magazyn-energii">Środek do magazynów energii</option>
-          <option value="gaz-obojetny">Gaz obojętny</option>
-          <option value="aerozol">Aerozol</option>
-          <option value="proszek">Proszek</option>
+          <option value="">{t("UI-WYBIERZ")}</option>
+          <option value="mgla-wodna">{t("UI-MODGAS-MGLA-WODNA")}</option>
+          <option value="specjalny-magazyn-energii">{t("UI-MODGAS-SRODEK-MAGAZYNOW-ENERGII")}</option>
+          <option value="gaz-obojetny">{t("UI-MODGAS-GAZ-OBOJETNY")}</option>
+          <option value="aerozol">{t("UI-MODGAS-AEROZOL")}</option>
+          <option value="proszek">{t("UI-MODGAS-PROSZEK")}</option>
           <option value="co2">CO2</option>
         </PoleSelect>
         <PoleSelect
-          label="Magazyn energii w strefie gaśniczej"
+          label={t("UI-MODGAS-MAGAZYN-ENERGII-STREFIE")}
           value={stan.magazynWStrefie}
           onChange={(e) => ustaw("magazynWStrefie", e.target.value as FormularzStan["magazynWStrefie"])}
           pomoc={<PomocPola ekran="modul-gasniczy" pole="magazyn" />}
         >
-          <option value="">— wybierz —</option>
-          <option value="brak">Brak magazynu w strefie</option>
-          <option value="lifepo4">LiFePO4</option>
-          <option value="inna">Inna chemia</option>
+          <option value="">{t("UI-WYBIERZ")}</option>
+          <option value="brak">{t("UI-MODGAS-BRAK-MAGAZYNU-STREFIE")}</option>
+          <option value="lifepo4">{t("UI-MODGAS-LIFEPO4")}</option>
+          <option value="inna">{t("UI-MODGAS-INNA-CHEMIA")}</option>
         </PoleSelect>
         <Pole
-          label="Czujniki potwierdzające alarm"
-          unit="szt."
+          label={t("UI-MODGAS-CZUJNIKI-POTWIERDZAJACE-ALAR")}
+          unit={t("UI-J-SZT")}
           type="number"
           inputMode="numeric"
           min={1}
@@ -109,47 +110,47 @@ export default function ModulGasniczyPage() {
         />
         <PoleCheckbox
           id="gasz-odciecie-wentylacji"
-          label="Gaszenie odcina wentylację i zamyka klapy"
+          label={t("UI-MODGAS-GASZENIE-ODCINA-WENTYLACJE")}
           checked={stan.odcinaWentylacjeIKlapy}
           onChange={(e) => ustaw("odcinaWentylacjeIKlapy", e.target.checked)}
         />
         <PoleSelect
-          label="Stan modułu"
+          label={t("UI-MODGAS-STAN-MODULU")}
           value={stan.stanModulu}
           onChange={(e) => ustaw("stanModulu", e.target.value as FormularzStan["stanModulu"])}
           pomoc={<PomocPola ekran="modul-gasniczy" pole="stanModulu" />}
         >
-          <option value="">— wybierz —</option>
-          <option value="sprawny">Sprawny (naładowany)</option>
-          <option value="rozladowany">Rozładowany</option>
+          <option value="">{t("UI-WYBIERZ")}</option>
+          <option value="sprawny">{t("UI-MODGAS-SPRAWNY-NALADOWANY")}</option>
+          <option value="rozladowany">{t("UI-MODGAS-ROZLADOWANY")}</option>
         </PoleSelect>
       </div>
 
       {result.status === "INVALID_INPUT" ? (
-        <WerdyktPanel poziom="blad" etykieta="Nie da się ocenić — sprawdź wpisane dane">
+        <WerdyktPanel poziom="blad" etykieta={t("UI-MODGAS-OCENIC-SPRAWDZ-WPISANE")}>
           <WynikSzczegoly assumptions={[]} warnings={result.warnings} />
         </WerdyktPanel>
       ) : result.status === "INCOMPLETE" ? (
-        <p className="text-small text-muted-foreground">Wypełnij wszystkie pola, żeby zobaczyć ocenę.</p>
+        <p className="text-small text-muted-foreground">{t("UI-MODGAS-WYPELNIJ-WSZYSTKIE-POLA")}</p>
       ) : (
         <WerdyktPanel
           poziom={hasCritical ? "blad" : hasWarning ? "uwaga" : "ok"}
-          etykieta={hasCritical ? "Gaszenie może nie zadziałać" : hasWarning ? "Są braki w konfiguracji" : "Konfiguracja zgodna"}
+          etykieta={hasCritical ? t("UI-MODGAS-GASZENIE-MOZE-ZADZIALAC") : hasWarning ? t("UI-MODGAS-BRAKI-KONFIGURACJI") : t("UI-MODGAS-KONFIGURACJA-ZGODNA")}
         >
-          <WynikGlowny>Braki: {result.value.liczbaBrakow}</WynikGlowny>
+          <WynikGlowny>{t("UI-MODGAS-BRAKI", { liczbaBrakow: result.value.liczbaBrakow })}</WynikGlowny>
           <WynikSzczegoly assumptions={result.assumptions} warnings={result.warnings} formula={result.formula} />
         </WerdyktPanel>
       )}
 
       <section className="flex flex-col gap-2">
-        <h2 className="text-body font-medium">Kolejność działań po wykryciu pożaru</h2>
+        <h2 className="text-body font-medium">{t("UI-MODGAS-KOLEJNOSC-DZIALAN-WYKRYCIU")}</h2>
         <ol className="list-decimal pl-5 text-small">
           {SEKWENCJA.map((krok) => (
-            <li key={krok}>{krok}</li>
+            <li key={krok}>{t(krok)}</li>
           ))}
         </ol>
         <p className="text-caption text-muted-foreground">
-          Kolejność ma znaczenie — wykonuje ją sterownik (Moduł 9), ten ekran tylko ją pokazuje.
+          {t("UI-MODGAS-KOLEJNOSC-ZNACZENIE-WYKONUJE")}
         </p>
       </section>
     </main>

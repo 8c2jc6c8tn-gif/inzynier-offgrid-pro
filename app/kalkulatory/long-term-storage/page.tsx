@@ -75,17 +75,16 @@ export default function LongTermStoragePage() {
     <main className="mx-auto flex max-w-md flex-col gap-6 p-6">
       <NawigacjaEkranu href="/kalkulatory/long-term-storage" />
       <NaglowekEkranu
-        tytul="Tryb Long Term Storage (odstawienie na zimę)"
+        tytul={t("UI-LONTERSTO-TRYB-LONG-TERM")}
         ekran="long-term-storage" wynik={result}
         parametry={{ socMin: SOC_ZALECANY_MIN_PCT, socMax: SOC_ZALECANY_MAX_PCT, tMin: TEMPERATURA_MIN_BEZPIECZNA_C }}
       >
-        Bateria odstawiona na dłużej nie lubi być ani przesuszona, ani przelana — a mróz poniżej
-        pewnej granicy uszkadza ogniwa nawet bez ładowania. Moduł 4, Ekran 16.
+        {t("UI-LONTERSTO-BATERIA-ODSTAWIONA-DLUZEJ")}
       </NaglowekEkranu>
 
       <div className="flex flex-col gap-4">
         <Pole
-          label="Docelowy SoC przed odstawieniem"
+          label={t("UI-LONTERSTO-DOCELOWY-SOC-PRZED")}
           unit="%"
           type="number"
           inputMode="numeric"
@@ -96,7 +95,7 @@ export default function LongTermStoragePage() {
           pomoc={<PomocPola ekran="long-term-storage" pole="soc" params={{ socMin: SOC_ZALECANY_MIN_PCT, socMax: SOC_ZALECANY_MAX_PCT, tMin: TEMPERATURA_MIN_BEZPIECZNA_C }} />}
         />
         <Pole
-          label="Najniższa spodziewana temperatura przechowywania"
+          label={t("UI-LONTERSTO-NAJNIZSZA-SPODZIEWANA-TEMPER")}
           unit="°C"
           type="number"
           inputMode="decimal"
@@ -116,19 +115,19 @@ export default function LongTermStoragePage() {
       {result.status === "INCOMPLETE" && result.warnings.length === 0 && (
         <p className="text-small text-muted-foreground">
           {socDocelowyPct === "" || temperaturaMinC === ""
-            ? "Wpisz SoC i temperaturę, żeby zobaczyć ocenę."
-            : `Potwierdzono ${result.value.potwierdzoneCzynnosci} / ${result.value.razemCzynnosci} czynności.`}
+            ? t("UI-LONTERSTO-WPISZ-SOC-TEMPERATURE")
+            : t("UI-LONTERSTO-POTWIERDZONO-CZYNNOSCI", { potwierdzoneCzynnosci: result.value.potwierdzoneCzynnosci, razemCzynnosci: result.value.razemCzynnosci })}
         </p>
       )}
 
       {result.status === "INVALID_INPUT" ? (
-        <WerdyktPanel poziom="blad" etykieta="Nie da się ocenić — sprawdź wpisane dane">
+        <WerdyktPanel poziom="blad" etykieta={t("UI-LONTERSTO-OCENIC-SPRAWDZ-WPISANE")}>
           <WynikSzczegoly assumptions={[]} warnings={result.warnings} />
         </WerdyktPanel>
       ) : (
         poziom !== null &&
         poziom !== "blad" && (
-          <WerdyktPanel poziom={poziom} etykieta={poziom === "ok" ? "Gotowe do odstawienia" : undefined}>
+          <WerdyktPanel poziom={poziom} etykieta={poziom === "ok" ? t("UI-LONTERSTO-GOTOWE-ODSTAWIENIA") : undefined}>
             {result.warnings.map((w) => (
               <p key={w.code} className="mt-1 text-small">
                 {w.message ?? t(w.i18nKey ?? w.code, w.params)}

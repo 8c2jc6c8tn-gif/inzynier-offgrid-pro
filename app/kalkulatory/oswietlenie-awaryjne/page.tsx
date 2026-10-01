@@ -19,9 +19,9 @@ type FormularzStan = { zasilanie: ZasilanieLamp | ""; lampy: LampaWiersz[]; oswi
 const STAN_POCZATKOWY: FormularzStan = { zasilanie: "", lampy: [], oswietlenieZewnetrzne: false }
 
 const STANY: { id: StanLampy; label: string }[] = [
-  { id: "nietestowana", label: "Nietestowana" },
-  { id: "sprawna", label: "Sprawna" },
-  { id: "niesprawna", label: "Niesprawna" },
+  { id: "nietestowana", label: "UI-OSWAWA-NIETESTOWANA" },
+  { id: "sprawna", label: "UI-OSWAWA-SPRAWNA" },
+  { id: "niesprawna", label: "UI-OSWAWA-NIESPRAWNA" },
 ]
 
 const pole = "min-h-10 rounded-md border border-input bg-background px-2"
@@ -50,24 +50,24 @@ export default function OswietlenieAwaryjnePage() {
   return (
     <main className="mx-auto flex max-w-md flex-col gap-6 p-6">
       <NawigacjaEkranu href="/kalkulatory/oswietlenie-awaryjne" />
-      <NaglowekEkranu tytul="Oświetlenie awaryjne" ekran="oswietlenie-awaryjne" wynik={result}>
-        W dymie nie widać drogi — awaria lampy na trasie ewakuacji musi być widoczna, zanim będzie potrzebna. Moduł 8, Ekran 7.
+      <NaglowekEkranu tytul={t("UI-OSWAWA-OSWIETLENIE-AWARYJNE")} ekran="oswietlenie-awaryjne" wynik={result}>
+        {t("UI-OSWAWA-DYMIE-WIDAC-DROGI")}
       </NaglowekEkranu>
 
       <PoleSelect
-        label="Zasilanie lamp"
+        label={t("UI-OSWAWA-ZASILANIE-LAMP")}
         value={stan.zasilanie}
         onChange={(e) => setStan((prev) => ({ ...prev, zasilanie: e.target.value as FormularzStan["zasilanie"] }))}
         pomoc={<PomocPola ekran="oswietlenie-awaryjne" pole="zasilanie" />}
       >
-        <option value="">— wybierz —</option>
+        <option value="">{t("UI-WYBIERZ")}</option>
         <option value="ups">Z UPS</option>
-        <option value="wlasne-akumulatory">Własne akumulatory w lampach</option>
+        <option value="wlasne-akumulatory">{t("UI-OSWAWA-WLASNE-AKUMULATORY-LAMPACH")}</option>
       </PoleSelect>
 
       <div className="flex flex-col gap-2">
-        <p className="text-small font-medium">Lampy na drogach ewakuacji</p>
-        <p className="text-caption text-muted-foreground">Stan z ostatniego testu. Bez testu — „nietestowana”.</p>
+        <p className="text-small font-medium">{t("UI-OSWAWA-LAMPY-DROGACH-EWAKUACJI")}</p>
+        <p className="text-caption text-muted-foreground">{t("UI-OSWAWA-STAN-OSTATNIEGO-TESTU")}</p>
         <p className="flex items-center gap-3 text-caption text-muted-foreground">
           <span className="flex items-center gap-1">
             {t("UI-OSW-MIEJSCE")} <PomocPola ekran="oswietlenie-awaryjne" pole="miejsce" />
@@ -78,25 +78,25 @@ export default function OswietlenieAwaryjnePage() {
         </p>
         <ul className="flex flex-col gap-3">
           {stan.lampy.map((l, i) => {
-            const opis = l.nazwa || `lampa ${i + 1}`
+            const opis = l.nazwa || t("UI-OSWAWA-LAMPA-N", { n: i + 1 })
             return (
               <li key={l.id} className="flex flex-wrap items-center gap-2">
                 <input
-                  placeholder="Miejsce"
+                  placeholder={t("UI-OSWAWA-MIEJSCE")}
                   value={l.nazwa}
                   onChange={(e) => aktualizuj(l.id, { nazwa: e.target.value })}
                   className={`${pole} min-w-24 flex-1`}
-                  aria-label={`Miejsce — lampa ${i + 1}`}
+                  aria-label={t("UI-OSWAWA-MIEJSCE-LAMPA", { p: i + 1 })}
                 />
                 <select
                   value={l.stan}
                   onChange={(e) => aktualizuj(l.id, { stan: e.target.value as StanLampy })}
                   className={pole}
-                  aria-label={`Stan — ${opis}`}
+                  aria-label={t("UI-OSWAWA-STAN", { opis })}
                 >
                   {STANY.map((s) => (
                     <option key={s.id} value={s.id}>
-                      {s.label}
+                      {t(s.label)}
                     </option>
                   ))}
                 </select>
@@ -104,9 +104,9 @@ export default function OswietlenieAwaryjnePage() {
                   type="button"
                   onClick={() => setStan((prev) => ({ ...prev, lampy: prev.lampy.filter((x) => x.id !== l.id) }))}
                   className="text-caption text-muted-foreground underline"
-                  aria-label={`Usuń ${opis}`}
+                  aria-label={t("UI-OSWAWA-USUN-2", { opis })}
                 >
-                  Usuń
+                  {t("UI-OSWAWA-USUN")}
                 </button>
               </li>
             )
@@ -119,33 +119,33 @@ export default function OswietlenieAwaryjnePage() {
           }
           className="min-h-11 self-start rounded-md border px-4 text-small font-medium hover:bg-muted"
         >
-          + Dodaj lampę
+          {t("UI-OSWAWA-DODAJ-LAMPE")}
         </button>
       </div>
 
       <PoleCheckbox
         id="osw-zewnetrzne"
-        label="Oświetlenie zewnętrzne dla służb włącza się po alarmie"
+        label={t("UI-OSWAWA-OSWIETLENIE-ZEWNETRZNE-SLUZB")}
         checked={stan.oswietlenieZewnetrzne}
         onChange={(e) => setStan((prev) => ({ ...prev, oswietlenieZewnetrzne: e.target.checked }))}
       />
 
       {result.status === "INCOMPLETE" ? (
-        <p className="text-small text-muted-foreground">Wybierz zasilanie i dodaj co najmniej jedną lampę.</p>
+        <p className="text-small text-muted-foreground">{t("UI-OSWAWA-WYBIERZ-ZASILANIE-DODAJ")}</p>
       ) : (
         <WerdyktPanel
           poziom={hasCritical ? "blad" : hasWarning ? "uwaga" : "ok"}
-          etykieta={hasCritical ? "Niesprawna lampa na trasie ewakuacji" : hasWarning ? "Nie wszystkie lampy przetestowane" : "Oświetlenie ewakuacyjne sprawne"}
+          etykieta={hasCritical ? t("UI-OSWAWA-NIESPRAWNA-LAMPA-TRASIE") : hasWarning ? t("UI-OSWAWA-WSZYSTKIE-LAMPY-PRZETESTOWAN") : t("UI-OSWAWA-OSWIETLENIE-EWAKUACYJNE-SPRA")}
         >
           <WynikGlowny>
-            {sprawne} z {sprawne + niesprawne + nietestowane} sprawnych
+            {t("UI-OSWAWA-SPRAWNYCH", { sprawne, p: sprawne + niesprawne + nietestowane })}
           </WynikGlowny>
           <WynikSzczegoly assumptions={result.assumptions} warnings={result.warnings} formula={result.formula} />
         </WerdyktPanel>
       )}
 
       <p className="text-caption text-muted-foreground">
-        Adaptacyjna trasa ewakuacji (omijanie ognia i dymu) wymaga mapy budynku i czujników na żywo — jeszcze nie w aplikacji.
+        {t("UI-OSWAWA-ADAPTACYJNA-TRASA-EWAKUACJI")}
       </p>
     </main>
   )

@@ -17,6 +17,7 @@ import { NawigacjaEkranu } from "@/components/nawigacja-ekranu"
 import { NaglowekEkranu } from "@/components/wzorce/naglowek-ekranu"
 import { WynikGlowny } from "@/components/wzorce/wynik-glowny"
 import { WynikSzczegoly } from "@/components/wzorce/wynik-szczegoly"
+import { useTranslate } from "@/lib/i18n/language-context"
 
 type FormularzStan = {
   zapotrzebowanieDoboweKwh: string
@@ -33,6 +34,7 @@ const STAN_POCZATKOWY: FormularzStan = {
 }
 
 export default function DoborPojemnosciBateriiPage() {
+  const t = useTranslate()
   const [stan, setStan] = usePersistedDraft<FormularzStan>("dobor-pojemnosci-baterii", STAN_POCZATKOWY)
   const { zapotrzebowanieDoboweKwh, dniAutonomii, sprawnoscFalownikaPct, dodPct } = stan
 
@@ -74,14 +76,13 @@ export default function DoborPojemnosciBateriiPage() {
   return (
     <main className="mx-auto flex max-w-md flex-col gap-6 p-6">
       <NawigacjaEkranu href="/kalkulatory/dobor-pojemnosci-baterii" />
-      <NaglowekEkranu tytul="Dobór pojemności baterii" ekran="dobor-pojemnosci-baterii" wynik={result}>
-        Bateria nigdy nie jest w 100% „użyteczna” — część pojemności to bufor bezpieczeństwa,
-        żeby nie skracać jej życia głębokim rozładowywaniem. Moduł 4, Ekran 1.
+      <NaglowekEkranu tytul={t("UI-DOBPOJBAT-DOBOR-POJEMNOSCI-BATERII")} ekran="dobor-pojemnosci-baterii" wynik={result}>
+        {t("UI-DOBPOJBAT-BATERIA-NIGDY-100")}
       </NaglowekEkranu>
 
       <div className="flex flex-col gap-4">
         <Pole
-          label="Zapotrzebowanie dobowe"
+          label={t("UI-DOBPOJBAT-ZAPOTRZEBOWANIE-DOBOWE")}
           unit="kWh"
           type="number"
           inputMode="decimal"
@@ -91,8 +92,8 @@ export default function DoborPojemnosciBateriiPage() {
           pomoc={<PomocPola ekran="dobor-pojemnosci-baterii" pole="zapotrzebowanie" />}
         />
         <Pole
-          label="Dni autonomii"
-          unit="dni"
+          label={t("UI-DOBPOJBAT-DNI-AUTONOMII")}
+          unit={t("UI-J-DNI")}
           type="number"
           inputMode="decimal"
           min={0}
@@ -101,7 +102,7 @@ export default function DoborPojemnosciBateriiPage() {
           pomoc={<PomocPola ekran="dobor-pojemnosci-baterii" pole="dniAutonomii" />}
         />
         <Pole
-          label="Sprawność falownika"
+          label={t("UI-DOBPOJBAT-SPRAWNOSC-FALOWNIKA")}
           unit="%"
           type="number"
           inputMode="decimal"
@@ -112,7 +113,7 @@ export default function DoborPojemnosciBateriiPage() {
           pomoc={<PomocPola ekran="dobor-pojemnosci-baterii" pole="sprawnosc" params={{ sprawnosc: SPRAWNOSC_FALOWNIKA_SUGEROWANA_PCT }} />}
         />
         <Pole
-          label="DoD (głębokość rozładowania)"
+          label={t("UI-DOBPOJBAT-DOD-GLEBOKOSC-ROZLADOWANIA")}
           unit="%"
           type="number"
           inputMode="decimal"
@@ -125,26 +126,25 @@ export default function DoborPojemnosciBateriiPage() {
       </div>
 
       {result.status === "INVALID_INPUT" ? (
-        <WerdyktPanel poziom="blad" etykieta="Nie da się policzyć — sprawdź wpisane dane">
+        <WerdyktPanel poziom="blad" etykieta={t("UI-DOBPOJBAT-POLICZYC-SPRAWDZ-WPISANE")}>
           <WynikSzczegoly assumptions={[]} warnings={result.warnings} />
         </WerdyktPanel>
       ) : result.status === "INCOMPLETE" ? (
-        <p className="text-small text-muted-foreground">Wypełnij wszystkie pola, żeby zobaczyć wynik.</p>
+        <p className="text-small text-muted-foreground">{t("UI-DOBPOJBAT-WYPELNIJ-WSZYSTKIE-POLA")}</p>
       ) : (
-        <WerdyktPanel poziom="ok" etykieta="Wymagana pojemność użyteczna">
+        <WerdyktPanel poziom="ok" etykieta={t("UI-DOBPOJBAT-WYMAGANA-POJEMNOSC-UZYTECZNA")}>
           <WynikGlowny>{result.value.pojemnoscUzytecznaKwh.toFixed(1)} kWh</WynikGlowny>
           {bufor?.pojemnoscPoczatkowaZBuforemKwh !== undefined &&
           bufor.pojemnoscUzytecznaDzisKwh === result.value.pojemnoscUzytecznaKwh ? (
             <p className="mt-1 text-small">
-              Z uwzględnieniem starzenia ogniw na {bufor.buforHoryzontLata} lat (Ekran 6):{" "}
-              <strong>{bufor.pojemnoscPoczatkowaZBuforemKwh.toFixed(1)} kWh</strong> pojemności
-              początkowej do zamówienia.
+              {t("UI-DOBPOJBAT-UWZGLEDNIENIEM-STARZENIA-OGN", { buforHoryzontLata: bufor.buforHoryzontLata ?? "—" })}
+              <strong>{bufor.pojemnoscPoczatkowaZBuforemKwh.toFixed(1)} kWh</strong> {t("UI-DOBPOJBAT-POJEMNOSCI-POCZATKOWEJ-ZAMOW")}
             </p>
           ) : (
             <p className="mt-1 text-small text-muted-foreground">
-              To pojemność potrzebna dziś, bez bufora na starzenie ogniw — patrz{" "}
+              {t("UI-DOBPOJBAT-POJEMNOSC-POTRZEBNA-DZIS")}
               <Link href="/kalkulatory/starzenie-degradacja" className="underline">
-                Ekran 6, Starzenie i degradacja
+                {t("UI-DOBPOJBAT-EKRAN-STARZENIE-DEGRADACJA")}
               </Link>
               .
             </p>

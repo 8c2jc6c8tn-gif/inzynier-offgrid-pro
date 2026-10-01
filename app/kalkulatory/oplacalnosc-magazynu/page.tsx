@@ -70,18 +70,17 @@ export default function OplacalnoscMagazynuPage() {
     <main className="mx-auto flex max-w-md flex-col gap-6 p-6">
       <NawigacjaEkranu href="/kalkulatory/oplacalnosc-magazynu" />
       <NaglowekEkranu
-        tytul="Analiza opłacalności magazynu (True Cost of Storage)"
+        tytul={t("UI-OPLMAG-ANALIZA-OPLACALNOSCI-MAGAZYN")}
         ekran="oplacalnosc-magazynu"
         wynik={result}
       >
-        Bateria to skarbonka energii, ale sama też kosztuje — dopiero policzenie kosztu za każdą
-        oddaną kWh pokazuje, czy się faktycznie opłaca. Moduł 4, Ekran 23.
+        {t("UI-OPLMAG-BATERIA-SKARBONKA-ENERGII")}
       </NaglowekEkranu>
 
       <div className="flex flex-col gap-4">
         <Pole
-          label="Cena baterii"
-          unit="zł"
+          label={t("UI-OPLMAG-CENA-BATERII")}
+          unit={t("UI-J-ZL")}
           type="number"
           inputMode="decimal"
           value={cenaBateriiZl}
@@ -89,7 +88,7 @@ export default function OplacalnoscMagazynuPage() {
           pomoc={<PomocPola ekran="oplacalnosc-magazynu" pole="cena" />}
         />
         <Pole
-          label="Pojemność użyteczna"
+          label={t("UI-OPLMAG-POJEMNOSC-UZYTECZNA")}
           unit="kWh"
           type="number"
           inputMode="decimal"
@@ -98,7 +97,7 @@ export default function OplacalnoscMagazynuPage() {
           pomoc={<PomocPola ekran="oplacalnosc-magazynu" pole="pojemnosc" />}
         />
         <Pole
-          label="Liczba cykli życia przy wybranym DoD"
+          label={t("UI-OPLMAG-LICZBA-CYKLI-ZYCIA")}
           type="number"
           inputMode="numeric"
           value={liczbaCykli}
@@ -106,7 +105,7 @@ export default function OplacalnoscMagazynuPage() {
           pomoc={<PomocPola ekran="oplacalnosc-magazynu" pole="cykle" />}
         />
         <Pole
-          label="Sprawność magazynu"
+          label={t("UI-OPLMAG-SPRAWNOSC-MAGAZYNU")}
           unit="%"
           type="number"
           inputMode="numeric"
@@ -117,8 +116,8 @@ export default function OplacalnoscMagazynuPage() {
           pomoc={<PomocPola ekran="oplacalnosc-magazynu" pole="sprawnosc" />}
         />
         <Pole
-          label="Koszt alternatywy (agregat/sieć) — opcjonalnie"
-          unit="zł/kWh"
+          label={t("UI-OPLMAG-KOSZT-ALTERNATYWY-AGREGAT")}
+          unit={t("UI-J-ZL-KWH")}
           type="number"
           inputMode="decimal"
           value={kosztAlternatywyZlZaKwh}
@@ -129,22 +128,21 @@ export default function OplacalnoscMagazynuPage() {
 
       {result.status === "INCOMPLETE" ? (
         <p className="text-small text-muted-foreground">
-          Wypełnij dane, żeby zobaczyć koszt energii z magazynu.
+          {t("UI-OPLMAG-WYPELNIJ-DANE-ZEBY")}
         </p>
       ) : result.status === "INVALID_INPUT" ? (
-        <WerdyktPanel poziom="blad" etykieta="Nie da się policzyć — sprawdź wpisane dane">
+        <WerdyktPanel poziom="blad" etykieta={t("UI-OPLMAG-POLICZYC-SPRAWDZ-WPISANE")}>
           <WynikSzczegoly assumptions={[]} warnings={result.warnings} />
         </WerdyktPanel>
       ) : (
         poziom !== null &&
         poziom !== "blad" && (
-          <WerdyktPanel poziom={poziom} etykieta="Koszt energii z magazynu">
+          <WerdyktPanel poziom={poziom} etykieta={t("UI-OPLMAG-KOSZT-ENERGII-MAGAZYNU")}>
             <WynikGlowny>
-              {result.value.kosztZaKwh.toLocaleString("pl-PL", { maximumFractionDigits: 2 })} zł/kWh
+              {t("UI-OPLMAG-KWH", { kosztZaKwh: result.value.kosztZaKwh.toLocaleString("pl-PL", { maximumFractionDigits: 2 }) })}
             </WynikGlowny>
             <p className="mt-1 text-small">
-              Całkowita energia oddana przez baterię w ciągu życia:{" "}
-              {result.value.energiaCalkowitaZyciaKwh.toLocaleString("pl-PL", { maximumFractionDigits: 0 })} kWh.
+              {t("UI-OPLMAG-CALKOWITA-ENERGIA-ODDANA", { energiaCalkowitaZyciaKwh: result.value.energiaCalkowitaZyciaKwh.toLocaleString("pl-PL", { maximumFractionDigits: 0 }) })}
             </p>
             {result.warnings.map((w) => (
               <p key={w.code} className="mt-2 text-small">

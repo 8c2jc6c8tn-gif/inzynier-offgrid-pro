@@ -11,6 +11,7 @@ import { NawigacjaEkranu } from "@/components/nawigacja-ekranu"
 import { NaglowekEkranu } from "@/components/wzorce/naglowek-ekranu"
 import { WynikGlowny } from "@/components/wzorce/wynik-glowny"
 import { WynikSzczegoly } from "@/components/wzorce/wynik-szczegoly"
+import { useTranslate } from "@/lib/i18n/language-context"
 
 type Flagi = "odbieraAlarm" | "odbieraAwarie" | "odbieraRozbrojenie" | "logujeZdarzenia"
 type FormularzStan = { interfejs: InterfejsCentrali | ""; stanCentrali: StanCentrali | "" } & Record<Flagi, boolean>
@@ -25,13 +26,14 @@ const STAN_POCZATKOWY: FormularzStan = {
 }
 
 const FLAGI: { pole: Flagi; label: string }[] = [
-  { pole: "odbieraAlarm", label: "Sterownik odbiera sygnał alarmu" },
-  { pole: "odbieraAwarie", label: "Sterownik odbiera sygnał awarii centrali" },
-  { pole: "odbieraRozbrojenie", label: "Sterownik odbiera sygnał rozbrojenia" },
-  { pole: "logujeZdarzenia", label: "Zdarzenia są logowane" },
+  { pole: "odbieraAlarm", label: "UI-CENSSP-STEROWNIK-ODBIERA-SYGNAL" },
+  { pole: "odbieraAwarie", label: "UI-CENSSP-STEROWNIK-ODBIERA-SYGNAL-2" },
+  { pole: "odbieraRozbrojenie", label: "UI-CENSSP-STEROWNIK-ODBIERA-SYGNAL-3" },
+  { pole: "logujeZdarzenia", label: "UI-CENSSP-ZDARZENIA-LOGOWANE" },
 ]
 
 export default function CentralaSspPage() {
+  const t = useTranslate()
   const [stan, setStan] = usePersistedDraft<FormularzStan>("centrala-ssp", STAN_POCZATKOWY)
 
   const result = useMemo(
@@ -49,37 +51,36 @@ export default function CentralaSspPage() {
   return (
     <main className="mx-auto flex max-w-md flex-col gap-6 p-6">
       <NawigacjaEkranu href="/kalkulatory/centrala-ssp" />
-      <NaglowekEkranu tytul="Centrala sygnalizacji pożaru — wejścia" ekran="centrala-ssp" wynik={result}>
-        Centrala pożarowa to serce ochrony — sterownik musi z nią „rozmawiać” bez zakłóceń, bo od niej zależy, czy reszta
-        systemu w ogóle dowie się o zagrożeniu. Moduł 8, Ekran 5.
+      <NaglowekEkranu tytul={t("UI-CENSSP-CENTRALA-SYGNALIZACJI-POZARU")} ekran="centrala-ssp" wynik={result}>
+        {t("UI-CENSSP-CENTRALA-POZAROWA-SERCE")}
       </NaglowekEkranu>
 
       <div className="flex flex-col gap-4">
         <PoleSelect
-          label="Połączenie z centralą"
+          label={t("UI-CENSSP-POLACZENIE-CENTRALA")}
           value={stan.interfejs}
           onChange={(e) => setStan((prev) => ({ ...prev, interfejs: e.target.value as FormularzStan["interfejs"] }))}
           pomoc={<PomocPola ekran="centrala-ssp" pole="polaczenie" />}
         >
-          <option value="">— wybierz —</option>
-          <option value="styki">Styki bezpotencjałowe</option>
+          <option value="">{t("UI-WYBIERZ")}</option>
+          <option value="styki">{t("UI-CENSSP-STYKI-BEZPOTENCJALOWE")}</option>
           <option value="rs485">RS485</option>
         </PoleSelect>
         <PoleSelect
-          label="Stan centrali"
+          label={t("UI-CENSSP-STAN-CENTRALI")}
           value={stan.stanCentrali}
           onChange={(e) => setStan((prev) => ({ ...prev, stanCentrali: e.target.value as FormularzStan["stanCentrali"] }))}
           pomoc={<PomocPola ekran="centrala-ssp" pole="stan" />}
         >
-          <option value="">— wybierz —</option>
-          <option value="dozor">Dozór (sprawna)</option>
-          <option value="awaria">Zgłasza awarię</option>
+          <option value="">{t("UI-WYBIERZ")}</option>
+          <option value="dozor">{t("UI-CENSSP-DOZOR-SPRAWNA")}</option>
+          <option value="awaria">{t("UI-CENSSP-ZGLASZA-AWARIE")}</option>
         </PoleSelect>
         {FLAGI.map(({ pole, label }) => (
           <PoleCheckbox
             key={pole}
             id={`ssp-${pole}`}
-            label={label}
+            label={t(label)}
             checked={stan[pole]}
             onChange={(e) => setStan((prev) => ({ ...prev, [pole]: e.target.checked }))}
           />
@@ -87,13 +88,13 @@ export default function CentralaSspPage() {
       </div>
 
       {result.status === "INCOMPLETE" ? (
-        <p className="text-small text-muted-foreground">Wybierz połączenie i stan centrali.</p>
+        <p className="text-small text-muted-foreground">{t("UI-CENSSP-WYBIERZ-POLACZENIE-STAN")}</p>
       ) : (
         <WerdyktPanel
           poziom={hasCritical ? "blad" : hasWarning ? "uwaga" : "ok"}
-          etykieta={hasCritical ? "Centrala niesprawna" : hasWarning ? "System może nie dowiedzieć się o zagrożeniu" : "Integracja kompletna"}
+          etykieta={hasCritical ? t("UI-CENSSP-CENTRALA-NIESPRAWNA") : hasWarning ? t("UI-CENSSP-SYSTEM-MOZE-DOWIEDZIEC") : t("UI-CENSSP-INTEGRACJA-KOMPLETNA")}
         >
-          <WynikGlowny>Braki: {result.value.liczbaBrakow}</WynikGlowny>
+          <WynikGlowny>{t("UI-CENSSP-BRAKI", { liczbaBrakow: result.value.liczbaBrakow })}</WynikGlowny>
           <WynikSzczegoly assumptions={result.assumptions} warnings={result.warnings} formula={result.formula} />
         </WerdyktPanel>
       )}

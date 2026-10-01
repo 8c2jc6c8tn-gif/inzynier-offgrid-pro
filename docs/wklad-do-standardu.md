@@ -1210,6 +1210,25 @@ zasobu z precache sprawdź na buildzie produkcyjnym, offline, każdy ekran, któ
 
 Status: 🔎 nowe
 
+[30.09.2026] KATEGORIA: DOBRA PRAKTYKA + BŁĄD — migracja tekstów starych ekranów na klucze i luki strażnika i18n UI
+
+Szczegóły: Lista zapadkowa strażnika UI (17.1a) miała 248 plików / 3711 tekstów. Ręczna migracja plik po pliku była
+nierealna, więc powstał jednorazowy skrypt AST (`scripts/migracja-i18n-ui.mjs`: wyciągnij teksty → tłumaczenia w JSON →
+zastosuj: przepisz JSX na `t()`, utwórz plik grupy kluczy, obniż listę zapadkową → sprawdź podejrzane literały).
+Partia ~400 tekstów to ~30 minut zamiast dni. Po drodze trzy luki, których strażnik nie łapie: (1) teksty bez polskich
+znaków diakrytycznych w stałych modułu (np. „Przewody prowadzone w peszlu”) — heurystyka „polskie litery” je pomija;
+(2) teksty ze stałych domeny (`lib/core/**/constants.ts`, `label` opcji) renderowane wprost na ekranie — poza zasięgiem
+strażnika UI, w EN/RU zostają po polsku; (3) klucz wstawiony do stałej poza komponentem bez `t()` przy renderze —
+ekran pokazuje surowe `UI-…`, typecheck tego nie widzi (to nadal `string`).
+
+Dlaczego warto zgłosić do new-app-standards: każdy projekt rodziny, który zaczynał bez i18n, ma tę samą listę
+zapadkową do spłaty. Propozycja: (1) w 17.1a wzmianka, że migrację robi się narzędziem AST partiami (moduł po module),
+z krokiem „sprawdź” po zastosowaniu; (2) strażnik dodatkowo zgłasza literały w tablicach/rekordach stałych na stronach
+(nie tylko teksty z polskimi literami); (3) reguła, że etykiety stałych domeny to kody tłumaczone w UI, nie gotowe
+zdania PL; (4) test/strażnik szukający surowych `"UI-` przekazywanych do JSX bez `t()`.
+
+Status: 🔎 nowe
+
 [30.09.2026] KATEGORIA: DOBRA PRAKTYKA — test „te same `{parametry}` w każdym języku” dla tekstów pomocy
 
 Szczegóły: 8.4b pkt (3) — liczby silnika w tekstach „Fizyka”/„i” podawane przez `{nazwa}` + `parametry`, nie przepisane.

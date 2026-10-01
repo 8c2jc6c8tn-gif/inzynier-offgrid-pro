@@ -13,6 +13,7 @@ import { WynikSzczegoly } from "@/components/wzorce/wynik-szczegoly"
 import { KrokZMedia } from "@/components/wzorce/krok-z-media"
 import { StanPusty } from "@/components/ui/stany"
 import { MAX_OGNIW, MIN_OGNIW } from "@/lib/core/modules/montaz-baterii/sekwencja-montazu/constants"
+import { useTranslate } from "@/lib/i18n/language-context"
 
 type FormularzStan = {
   preset: number
@@ -27,6 +28,7 @@ const STAN_POCZATKOWY: FormularzStan = {
 }
 
 export default function SekwencjaMontazuPage() {
+  const t = useTranslate()
   const [stan, setStan] = usePersistedDraft<FormularzStan>("sekwencja-montazu", STAN_POCZATKOWY)
   const { preset, wlasna, liczbaOgniwWlasna } = stan
 
@@ -55,19 +57,17 @@ export default function SekwencjaMontazuPage() {
     <main className="mx-auto flex max-w-md flex-col gap-6 p-6">
       <NawigacjaEkranu href="/kalkulatory/sekwencja-montazu" />
       <NaglowekEkranu
-        tytul="Sekwencja montażu pakietu (busbary + BMS)"
+        tytul={t("UI-SEKMON-SEKWENCJA-MONTAZU-PAKIETU")}
         ekran="sekwencja-montazu"
         wynik={result}
         parametry={{ min: MIN_OGNIW, max: MAX_OGNIW }}
       >
-        Dokładna, ponumerowana kolejność połączeń — dopasowana do liczby ogniw w Twoim pakiecie
-        (4S/8S/16S lub inna parzysta liczba). Moduł 11, uzupełnienie A3/A4. Każdy krok ma miejsce
-        na zdjęcie lub nagranie, gdy je dodasz.
+        {t("UI-SEKMON-DOKLADNA-PONUMEROWANA-KOLEJN")}
       </NaglowekEkranu>
 
       <div className="flex flex-col gap-4">
         <PoleSelect
-          label="Liczba ogniw w szeregu"
+          label={t("UI-SEKMON-LICZBA-OGNIW-SZEREGU")}
           value={wlasna ? "custom" : String(preset)}
           onChange={(e) => {
             if (e.target.value === "custom") {
@@ -81,16 +81,16 @@ export default function SekwencjaMontazuPage() {
         >
           {PRESETY_LICZBY_OGNIW.map((n) => (
             <option key={n} value={n}>
-              {n}S ({(n * 3.2).toFixed(1)} V nominalnie)
+              {t("UI-SEKMON-NOMINALNIE", { n, p: (n * 3.2).toFixed(1) })}
             </option>
           ))}
-          <option value="custom">Inna liczba…</option>
+          <option value="custom">{t("UI-SEKMON-INNA-LICZBA")}</option>
         </PoleSelect>
 
         {wlasna && (
           <Pole
-            label="Własna liczba ogniw"
-            unit="szt."
+            label={t("UI-SEKMON-WLASNA-LICZBA-OGNIW")}
+            unit={t("UI-J-SZT")}
             type="number"
             inputMode="numeric"
             min={0}
@@ -105,16 +105,16 @@ export default function SekwencjaMontazuPage() {
         <>
           <div className="flex flex-col gap-2">
             <h2 className="text-small font-semibold text-muted-foreground">
-              Krok 1 — Połączenia busbarów ({result.value.polaczeniaBusbarow.length})
+              {t("UI-SEKMON-KROK-POLACZENIA-BUSBAROW", { length: result.value.polaczeniaBusbarow.length })}
             </h2>
             <ol className="flex flex-col gap-2">
               {result.value.polaczeniaBusbarow.map((p) => (
                 <KrokZMedia
                   key={p.numer}
                   numer={p.numer}
-                  tytul={`Plus ogniwa ${p.zOgniwa} → minus ogniwa ${p.doOgniwa}`}
+                  tytul={t("UI-SEKMON-PLUS-OGNIWA-MINUS", { zOgniwa: p.zOgniwa, doOgniwa: p.doOgniwa })}
                 >
-                  {p.miedzyRzedami && "Połączenie przechodzi między rzędami (dłuższy busbar)."}
+                  {p.miedzyRzedami && t("UI-SEKMON-POLACZENIE-PRZECHODZI-MIEDZY")}
                 </KrokZMedia>
               ))}
             </ol>
@@ -122,19 +122,19 @@ export default function SekwencjaMontazuPage() {
 
           <div className="flex flex-col gap-2">
             <h2 className="text-small font-semibold text-muted-foreground">
-              Krok 2 — Okablowanie BMS ({result.value.okablowanieBms.length} przewodów, w kolejności rosnącej)
+              {t("UI-SEKMON-KROK-OKABLOWANIE-BMS", { length: result.value.okablowanieBms.length })}
             </h2>
             <ol className="flex flex-col gap-2">
               {result.value.okablowanieBms.map((w) => (
                 <KrokZMedia key={w.numer} numer={w.numer} tytul={`${w.etykieta} → ${w.punkt}`}>
-                  Napięcie nominalne względem B0: {w.napiecieNominalneV.toFixed(1)} V
+                  {t("UI-SEKMON-NAPIECIE-NOMINALNE-WZGLEDEM", { napiecieNominalneV: w.napiecieNominalneV.toFixed(1) })}
                 </KrokZMedia>
               ))}
             </ol>
           </div>
         </>
       ) : (
-        <StanPusty tytul="Wybierz liczbę ogniw, żeby zobaczyć wygenerowaną sekwencję" />
+        <StanPusty tytul={t("UI-SEKMON-WYBIERZ-LICZBE-OGNIW")} />
       )}
 
       {poziom && (
@@ -142,7 +142,7 @@ export default function SekwencjaMontazuPage() {
           poziom={poziom}
           etykieta={
             poziom === "ok"
-              ? `Pakiet ${liczbaOgniw}S — ${result.value.napiecieCalkowiteNominalneV.toFixed(1)} V nominalnie`
+              ? t("UI-SEKMON-PAKIET-NOMINALNIE", { liczbaOgniw, napiecieCalkowiteNominalneV: result.value.napiecieCalkowiteNominalneV.toFixed(1) })
               : undefined
           }
         >

@@ -22,11 +22,11 @@ const POZIOM_ZE_STREFY: Record<string, WerdyktPoziom> = {
 }
 
 const ETYKIETA_ZE_STREFY: Record<string, string> = {
-  blokada: "Ładowanie zablokowane — za zimno",
-  "limit-01c": "Ładowanie ograniczone do 0,1C",
-  "limit-02c": "Ładowanie ograniczone do 0,2C",
-  "luka-zrodla": "Zakres nieokreślony w źródle",
-  "pelny-prad": "Brak ograniczenia od strony temperatury",
+  blokada: "UI-COLCRAT-LADOWANIE-ZABLOKOWANE-ZIMNO",
+  "limit-01c": "UI-COLCRAT-LADOWANIE-OGRANICZONE",
+  "limit-02c": "UI-COLCRAT-LADOWANIE-OGRANICZONE-2",
+  "luka-zrodla": "UI-COLCRAT-ZAKRES-NIEOKRESLONY-ZRODLE",
+  "pelny-prad": "UI-COLCRAT-BRAK-OGRANICZENIA",
 }
 
 type FormularzStan = {
@@ -66,19 +66,17 @@ export default function ColdCRatePage() {
     <main className="mx-auto flex max-w-md flex-col gap-6 p-6">
       <NawigacjaEkranu href="/kalkulatory/cold-c-rate" />
       <NaglowekEkranu
-        tytul="Ograniczenie prądu ładowania w mrozie"
+        tytul={t("UI-COLCRAT-OGRANICZENIE-PRADU-LADOWANIA")}
         ekran="cold-c-rate"
         wynik={result}
         parametry={{ blokada: PROG_BLOKADY_C, limit02: PROG_LIMITU_02C, luka: PROG_LUKI_GORNY_C, pelny: PROG_PELNEGO_PRADU_C, cZimno: LIMIT_C_RATE_ZIMNO, cChlodno: LIMIT_C_RATE_CHLODNO }}
       >
-        W lodówce miód ledwo płynie. W baterii jony litu też poruszają się wolniej na mrozie —
-        ładowanie zbyt szybkie w zimnie trwale uszkadza ogniwa (osadzanie litu metalicznego).
-        Moduł 4, Ekran 12.
+        {t("UI-COLCRAT-LODOWCE-MIOD-LEDWO")}
       </NaglowekEkranu>
 
       <div className="flex flex-col gap-4">
         <Pole
-          label="Temperatura ogniwa"
+          label={t("UI-COLCRAT-TEMPERATURA-OGNIWA")}
           unit="°C"
           type="number"
           inputMode="decimal"
@@ -88,7 +86,7 @@ export default function ColdCRatePage() {
           pomoc={<PomocPola ekran="cold-c-rate" pole="temperatura" params={{ blokada: PROG_BLOKADY_C, limit02: PROG_LIMITU_02C, luka: PROG_LUKI_GORNY_C, pelny: PROG_PELNEGO_PRADU_C, cZimno: LIMIT_C_RATE_ZIMNO, cChlodno: LIMIT_C_RATE_CHLODNO }} />}
         />
         <Pole
-          label="Pojemność pakietu"
+          label={t("UI-COLCRAT-POJEMNOSC-PAKIETU")}
           unit="Ah"
           type="number"
           inputMode="decimal"
@@ -100,15 +98,15 @@ export default function ColdCRatePage() {
       </div>
 
       {result.status === "INVALID_INPUT" ? (
-        <WerdyktPanel poziom="blad" etykieta="Nie da się policzyć — sprawdź wpisane dane">
+        <WerdyktPanel poziom="blad" etykieta={t("UI-COLCRAT-POLICZYC-SPRAWDZ-WPISANE")}>
           <WynikSzczegoly assumptions={[]} warnings={result.warnings} />
         </WerdyktPanel>
       ) : result.status === "INCOMPLETE" ? (
-        <p className="text-small text-muted-foreground">Wpisz temperaturę i pojemność, żeby zobaczyć limit.</p>
+        <p className="text-small text-muted-foreground">{t("UI-COLCRAT-WPISZ-TEMPERATURE-POJEMNOSC")}</p>
       ) : (
         <WerdyktPanel
           poziom={POZIOM_ZE_STREFY[result.value.strefa]}
-          etykieta={ETYKIETA_ZE_STREFY[result.value.strefa]}
+          etykieta={t(ETYKIETA_ZE_STREFY[result.value.strefa]!)}
         >
           {result.value.maxPradA !== null && (
             <WynikGlowny>{result.value.maxPradA.toLocaleString("pl-PL")} A</WynikGlowny>
