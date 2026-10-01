@@ -331,6 +331,7 @@ export const KAFLE: KafelEntry[] = [
       { href: "/kalkulatory/panele-dach-kampera", label: "Ile paneli na dachu kampera" },
       { href: "/kalkulatory/panel-kampera", label: "Panel do kampera: elastyczny czy sztywny" },
       { href: "/kalkulatory/alternator-vs-panele", label: "Ładowanie z alternatora czy z paneli" },
+      { href: "/kalkulatory/przetwornice", label: "Przetwornice i falowniki" },
     ],
   },
   {

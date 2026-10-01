@@ -15,6 +15,7 @@ import { akumulatorKamperaTool } from "../akumulator-kampera-tool"
 import { paneleDachKamperaTool } from "../panele-dach-kampera-tool"
 import { panelKamperaTool } from "../panel-kampera-tool"
 import { alternatorVsPaneleTool } from "../alternator-vs-panele-tool"
+import { przetwornicaTool } from "../przetwornice-tool"
 
 describe("akumulatorSamochodowyTool (M12/E16, dawne 8.14)", () => {
   it("kontrakt 9.3: 'read', bez potwierdzenia", () => {
@@ -172,5 +173,30 @@ describe("panelDlaUrzadzeniaTool (M12/E6, dawne 8.6)", () => {
     const w = await panelDlaUrzadzeniaTool.handler({ mocUrzadzeniaW: 50, godzinPracy: 8, godzinSlonca: 4, uzyskPct: 70, posiadanyPanelW: 100 })
     expect(w.minimalnaMocPaneluW).toBeCloseTo(400 / 2.8, 12)
     expect(w.ostrzezenia).toContain(t("pl", "PU-PANEL-ZA-MALY", { posiadany: 100, minimalna: 143 }))
+  })
+})
+
+describe("przetwornicaTool (M12/E8, dawne 8.9 + 8.41 + 8.42)", () => {
+  it("kontrakt 9.3: 'read', bez potwierdzenia", () => {
+    expect(przetwornicaTool.operationType).toBe("read")
+    expect(przetwornicaTool.requiresConfirmation).toBe(false)
+    expect(() => validateAiToolDefinition(przetwornicaTool)).not.toThrow()
+  })
+
+  it("falownik 1000 W przy sumie 800 W × 1,5 → 🟡 jako tekst PL", async () => {
+    const w = await przetwornicaTool.handler({
+      tryb: "falownik",
+      napiecieAkumulatoraV: 12,
+      sprawnoscPct: 90,
+      napiecieUrzadzeniaV: 0,
+      mocUrzadzeniaW: 0,
+      pradPrzetwornicyA: 0,
+      urzadzenia: [{ nazwa: "Lodówka", mocW: 800, krotnoscRozruchu: 1 }],
+      zapasMocy: 1.5,
+      mocFalownikaW: 1000,
+      mocSzczytowaFalownikaW: 2000,
+    })
+    expect(w.minimalnaMocFalownikaW).toBe(1200)
+    expect(w.ostrzezenia).toContain(t("pl", "PRZ-FALOWNIK-ZA-SLABY", { posiadany: 1000, minimalna: 1200 }))
   })
 })

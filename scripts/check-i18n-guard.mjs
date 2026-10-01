@@ -164,6 +164,7 @@ const MIGRATED_MODULES = [
   "lib/core/modules/kalkulator-mobilny/panele-dach-kampera",
   "lib/core/modules/kalkulator-mobilny/panel-kampera",
   "lib/core/modules/kalkulator-mobilny/alternator-vs-panele",
+  "lib/core/modules/kalkulator-mobilny/przetwornice",
   "lib/core/modules/stress-test/wind-chill",
   "lib/core/modules/stress-test/obciazenie-dachu-sniegiem",
   "lib/core/modules/stress-test/sztywnienie-izolacji",

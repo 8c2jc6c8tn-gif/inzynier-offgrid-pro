@@ -892,6 +892,85 @@ export const pl = {
       },
     },
   },
+  przetwornice: {
+    migawka: {
+      oCoChodzi: "Przetwornica dopasowuje napięcie do urządzenia — bez niej spalisz sprzęt albo nic nie zadziała.",
+      jakDziala:
+        "Wybierz rodzaj: ładowarka USB 5 V, przetwornica DC/DC (np. 12→24 V) albo falownik 230 V. Aplikacja liczy prąd po stronie urządzenia, prąd z akumulatora, a dla falownika minimalną moc ciągłą (suma × zapas) i szczyt przy rozruchu.",
+      poCo:
+        "Za słaba przetwornica się przegrzeje albo wyłączy; urządzenie z silnikiem (lodówka, pompa, narzędzie) przy starcie pobiera kilka razy więcej niż w pracy.",
+      fizyka:
+        "I_wy = P ÷ U_wy. I_akum = P ÷ (U_akum × η). Falownik: P_min = zapas × ΣP; szczyt = ΣP + największe P × (krotność − 1).",
+    },
+    pola: {
+      napiecieAkumulatora: {
+        nazwa: "Napięcie akumulatora [V]",
+        cel: "Wejście przetwornicy — od niego zależy prąd pobierany z akumulatora.",
+        gdzie: "Tabliczka akumulatora (12, 24, 48 V).",
+        zakres: "Z tabliczki.",
+      },
+      sprawnosc: {
+        nazwa: "Sprawność [%]",
+        cel: "Straty w przetwornicy — przez nie z akumulatora płynie więcej, niż dostaje urządzenie.",
+        gdzie: "Karta katalogowa przetwornicy/falownika.",
+        zakres: "Z karty; aplikacja nie zgaduje.",
+      },
+      napiecieUrzadzenia: {
+        nazwa: "Napięcie urządzenia [V]",
+        cel: "Wyjście przetwornicy DC/DC.",
+        gdzie: "Tabliczka albo zasilacz urządzenia.",
+        zakres: "Z tabliczki.",
+      },
+      mocUrzadzenia: {
+        nazwa: "Moc urządzenia [W]",
+        cel: "Z niej liczony prąd wyjściowy i pobór z akumulatora.",
+        gdzie: "Tabliczka urządzenia albo zasilacza (W, albo V × A).",
+        zakres: "Z tabliczki.",
+      },
+      pradPrzetwornicy: {
+        nazwa: "Prąd wyjściowy przetwornicy [A] (opcjonalnie)",
+        cel: "Sprawdzenie, czy Twoja przetwornica/ładowarka nie będzie przeciążona.",
+        gdzie: "Tabliczka przetwornicy albo ładowarki USB (np. 2,4 A, 3 A).",
+        zakres: "Puste = nie sprawdzaj.",
+      },
+      nazwa: {
+        nazwa: "Nazwa urządzenia",
+        cel: "Tylko dla Twojej orientacji.",
+        gdzie: "Dowolna.",
+        zakres: "Tekst.",
+      },
+      moc: {
+        nazwa: "Moc znamionowa [W]",
+        cel: "Składnik sumy mocy pracujących jednocześnie.",
+        gdzie: "Tabliczka urządzenia.",
+        zakres: "Z tabliczki.",
+      },
+      krotnosc: {
+        nazwa: "Krotność rozruchu [×]",
+        cel: "Ile razy więcej urządzenie pobiera przy starcie (sprężarka, silnik).",
+        gdzie: "Karta urządzenia (prąd rozruchowy ÷ prąd znamionowy) albo pomiar miernikiem z funkcją inrush.",
+        zakres: "Puste = bez rozruchu (1×). Aplikacja nie zgaduje.",
+      },
+      zapas: {
+        nazwa: "Zapas mocy [×]",
+        cel: "Falownik nie powinien pracować stale na 100% mocy.",
+        gdzie: "Biblia projektu podaje {zapasMin}–{zapasMax}× sumy obciążeń; wybierz sam.",
+        zakres: "Mnożnik, np. {zapasMin}.",
+      },
+      mocFalownika: {
+        nazwa: "Moc ciągła falownika [W] (opcjonalnie)",
+        cel: "Sprawdzenie, czy Twój falownik wystarczy.",
+        gdzie: "Karta falownika — moc ciągła (nie szczytowa).",
+        zakres: "Puste = nie sprawdzaj.",
+      },
+      szczytFalownika: {
+        nazwa: "Moc szczytowa falownika [W] (opcjonalnie)",
+        cel: "Sprawdzenie, czy falownik uniesie rozruch silnika.",
+        gdzie: "Karta falownika — moc szczytowa / surge (zwykle przez kilka sekund).",
+        zakres: "Puste = tylko przypomnienie.",
+      },
+    },
+  },
 }
 
 export const en: Tlumaczenie<typeof pl> = {
@@ -1776,6 +1855,85 @@ export const en: Tlumaczenie<typeof pl> = {
         cel: "The level you charge from.",
         gdzie: "BMS or battery monitor reading.",
         zakres: "0–100%.",
+      },
+    },
+  },
+  przetwornice: {
+    migawka: {
+      oCoChodzi: "A converter matches the voltage to the device — without it you burn the equipment or nothing works.",
+      jakDziala:
+        "Choose the type: USB 5 V charger, DC/DC converter (e.g. 12→24 V) or 230 V inverter. The app computes the device-side current, the battery current and, for an inverter, the minimum continuous power (total × margin) and the starting peak.",
+      poCo:
+        "Too weak a converter overheats or shuts down; a motor device (fridge, pump, tool) draws several times more at start than while running.",
+      fizyka:
+        "I_out = P ÷ U_out. I_batt = P ÷ (U_batt × η). Inverter: P_min = margin × ΣP; peak = ΣP + largest P × (multiple − 1).",
+    },
+    pola: {
+      napiecieAkumulatora: {
+        nazwa: "Battery voltage [V]",
+        cel: "Converter input — sets the current drawn from the battery.",
+        gdzie: "Battery nameplate (12, 24, 48 V).",
+        zakres: "From the nameplate.",
+      },
+      sprawnosc: {
+        nazwa: "Efficiency [%]",
+        cel: "Converter losses — more flows from the battery than the device receives.",
+        gdzie: "Converter/inverter datasheet.",
+        zakres: "From the datasheet; the app does not guess.",
+      },
+      napiecieUrzadzenia: {
+        nazwa: "Device voltage [V]",
+        cel: "Output of the DC/DC converter.",
+        gdzie: "Nameplate or power adapter of the device.",
+        zakres: "From the nameplate.",
+      },
+      mocUrzadzenia: {
+        nazwa: "Device power [W]",
+        cel: "Used to compute the output current and the battery draw.",
+        gdzie: "Nameplate of the device or adapter (W, or V × A).",
+        zakres: "From the nameplate.",
+      },
+      pradPrzetwornicy: {
+        nazwa: "Converter output current [A] (optional)",
+        cel: "Checks that your converter/charger will not be overloaded.",
+        gdzie: "Nameplate of the converter or USB charger (e.g. 2.4 A, 3 A).",
+        zakres: "Empty = do not check.",
+      },
+      nazwa: {
+        nazwa: "Device name",
+        cel: "Only for your orientation.",
+        gdzie: "Any.",
+        zakres: "Text.",
+      },
+      moc: {
+        nazwa: "Rated power [W]",
+        cel: "Part of the total power running at the same time.",
+        gdzie: "Device nameplate.",
+        zakres: "From the nameplate.",
+      },
+      krotnosc: {
+        nazwa: "Start surge multiple [×]",
+        cel: "How many times more the device draws at start (compressor, motor).",
+        gdzie: "Device datasheet (inrush current ÷ rated current) or a meter with an inrush function.",
+        zakres: "Empty = no surge (1×). The app does not guess.",
+      },
+      zapas: {
+        nazwa: "Power margin [×]",
+        cel: "An inverter should not run at 100% continuously.",
+        gdzie: "The project Bible gives {zapasMin}–{zapasMax}× the total load; choose yourself.",
+        zakres: "Multiplier, e.g. {zapasMin}.",
+      },
+      mocFalownika: {
+        nazwa: "Inverter continuous power [W] (optional)",
+        cel: "Checks that your inverter is enough.",
+        gdzie: "Inverter datasheet — continuous (not peak) power.",
+        zakres: "Empty = do not check.",
+      },
+      szczytFalownika: {
+        nazwa: "Inverter surge power [W] (optional)",
+        cel: "Checks that the inverter can handle a motor start.",
+        gdzie: "Inverter datasheet — peak / surge power (usually for a few seconds).",
+        zakres: "Empty = reminder only.",
       },
     },
   },
@@ -2666,6 +2824,86 @@ export const ru: Tlumaczenie<typeof pl> = {
         cel: "С какого уровня вы заряжаете.",
         gdzie: "Показание BMS или монитора батареи.",
         zakres: "0–100%.",
+      },
+    },
+  },
+  przetwornice: {
+    migawka: {
+      oCoChodzi:
+        "Преобразователь согласует напряжение с устройством — без него вы сожжёте технику или ничего не заработает.",
+      jakDziala:
+        "Выберите тип: USB-зарядка 5 В, DC/DC-преобразователь (напр. 12→24 В) или инвертор 230 В. Приложение считает ток на стороне устройства, ток от аккумулятора, а для инвертора — минимальную длительную мощность (сумма × запас) и пик при пуске.",
+      poCo:
+        "Слишком слабый преобразователь перегреется или отключится; устройство с двигателем (холодильник, насос, инструмент) при пуске берёт в несколько раз больше, чем в работе.",
+      fizyka:
+        "I_вых = P ÷ U_вых. I_акб = P ÷ (U_акб × η). Инвертор: P_min = запас × ΣP; пик = ΣP + наибольшая P × (кратность − 1).",
+    },
+    pola: {
+      napiecieAkumulatora: {
+        nazwa: "Напряжение аккумулятора [В]",
+        cel: "Вход преобразователя — от него зависит ток от аккумулятора.",
+        gdzie: "Табличка аккумулятора (12, 24, 48 В).",
+        zakres: "С таблички.",
+      },
+      sprawnosc: {
+        nazwa: "КПД [%]",
+        cel: "Потери в преобразователе — от аккумулятора течёт больше, чем получает устройство.",
+        gdzie: "Паспорт преобразователя/инвертора.",
+        zakres: "Из паспорта; приложение не угадывает.",
+      },
+      napiecieUrzadzenia: {
+        nazwa: "Напряжение устройства [В]",
+        cel: "Выход DC/DC-преобразователя.",
+        gdzie: "Табличка или блок питания устройства.",
+        zakres: "С таблички.",
+      },
+      mocUrzadzenia: {
+        nazwa: "Мощность устройства [Вт]",
+        cel: "По ней считаются выходной ток и потребление от аккумулятора.",
+        gdzie: "Табличка устройства или блока питания (Вт, или В × А).",
+        zakres: "С таблички.",
+      },
+      pradPrzetwornicy: {
+        nazwa: "Выходной ток преобразователя [А] (необязательно)",
+        cel: "Проверка, не будет ли ваш преобразователь/зарядка перегружен.",
+        gdzie: "Табличка преобразователя или USB-зарядки (напр. 2,4 А, 3 А).",
+        zakres: "Пусто = не проверять.",
+      },
+      nazwa: {
+        nazwa: "Название устройства",
+        cel: "Только для вашего удобства.",
+        gdzie: "Любое.",
+        zakres: "Текст.",
+      },
+      moc: {
+        nazwa: "Номинальная мощность [Вт]",
+        cel: "Слагаемое суммы мощностей, работающих одновременно.",
+        gdzie: "Табличка устройства.",
+        zakres: "С таблички.",
+      },
+      krotnosc: {
+        nazwa: "Кратность пуска [×]",
+        cel: "Во сколько раз больше устройство берёт при пуске (компрессор, двигатель).",
+        gdzie: "Паспорт устройства (пусковой ток ÷ номинальный) или прибор с функцией inrush.",
+        zakres: "Пусто = без пуска (1×). Приложение не угадывает.",
+      },
+      zapas: {
+        nazwa: "Запас мощности [×]",
+        cel: "Инвертор не должен постоянно работать на 100% мощности.",
+        gdzie: "Библия проекта даёт {zapasMin}–{zapasMax}× суммы нагрузок; выберите сами.",
+        zakres: "Множитель, напр. {zapasMin}.",
+      },
+      mocFalownika: {
+        nazwa: "Длительная мощность инвертора [Вт] (необязательно)",
+        cel: "Проверка, хватит ли вашего инвертора.",
+        gdzie: "Паспорт инвертора — длительная (не пиковая) мощность.",
+        zakres: "Пусто = не проверять.",
+      },
+      szczytFalownika: {
+        nazwa: "Пиковая мощность инвертора [Вт] (необязательно)",
+        cel: "Проверка, выдержит ли инвертор пуск двигателя.",
+        gdzie: "Паспорт инвертора — пиковая / surge мощность (обычно несколько секунд).",
+        zakres: "Пусто = только напоминание.",
       },
     },
   },
