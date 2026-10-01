@@ -1252,3 +1252,13 @@ Dlaczego warto zgłosić do new-app-standards: to samo czekanie na proces tła r
 testy, dev server). Propozycja do 15.x: „czekaj na PID (`wait <pid>` / `kill -0 <pid>`) albo na plik-znacznik, nie na
 `pgrep -f` z tekstem występującym we własnym poleceniu”.
 Status: 🔎 nowe
+
+[01.10.2026] PUŁAPKA — porównanie gałęzi z `main` w płytkim klonie daje fałszywe „setki niescalonych commitów”
+Szczegóły: sesja w chmurze dostała płytki klon (`git rev-parse --is-shallow-repository` = `true`, 173 z 743 commitów
+`main`). `git rev-list main..gałąź` i `git cherry` pokazały 300–570 „niescalonych” commitów na każdej starej gałęzi,
+choć po `git fetch --unshallow` 52 z 56 gałęzi miało zero łatek spoza `main`. Na tej podstawie łatwo zaraportować
+właścicielowi rozjazd, którego nie ma, albo scalić stare gałęzie „na wszelki wypadek” i cofnąć dokumenty.
+Dlaczego warto zgłosić do new-app-standards: przegląd niescalonych gałęzi na starcie sesji (15.23) robi każda sesja
+AI w każdym projekcie rodziny. Propozycja do 15.23: „przed porównaniem gałęzi sprawdź `--is-shallow-repository`;
+`true` → `git fetch --unshallow`”.
+Status: 🔎 nowe

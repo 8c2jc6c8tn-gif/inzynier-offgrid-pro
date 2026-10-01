@@ -7570,6 +7570,14 @@ whitepaper, Boryń/Olesz, ELEKTRA) mają tekst natywny na każdej stronie — OC
   - 15 pozostałych `claude/*` nie ma żadnego commita spoza `main`.
 - **Dlaczego nie usunięte:** sesja w chmurze nie może kasować gałęzi zdalnych (proxy git zwraca HTTP 403 na push
   inny niż do gałęzi sesji). Właściciel może je usunąć ręcznie: GitHub → repo → *Branches* → ikona kosza.
+- **[01.10.2026] Ponowna kontrola: 56 gałęzi poza `main`, wszystkie śmieci, żadna do scalenia.** 52 nie mają żadnej
+  łatki spoza `main` (`git cherry`), w tym 26 nowych z 28.09–1.10 (PR scalone; `claude/engine-constants-formula` = #241).
+  4 mają łatki spoza `main`, ale ich treść weszła inną drogą — scalenie **cofnęłoby** dokumenty: trzy z listy wyżej +
+  `claude/screen-fixes-new-documents-80kzcm` (to samo co `bcf74de` w `main`, odczyt IEC 62109-1). Brak otwartych PR.
+  Usunięcie i tagi archiwalne nadal blokowane (HTTP 403). **Pułapka:** klon sesji bywa płytki (`git rev-parse
+  --is-shallow-repository` = `true`) — wtedy każda stara gałąź pokazuje setki „niescalonych” commitów; przed
+  porównaniem gałęzi zawsze `git fetch --unshallow`. Dla właściciela: ustawienie repo *Automatically delete head
+  branches* (Settings → General) usuwa gałąź sama po merge PR.
 
 ## Ekrany odblokowane przez normy z 27.09 (27.09.2026)
 
