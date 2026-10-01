@@ -2,12 +2,12 @@ import type { Warning } from "@/lib/core/calc-result"
 
 /**
  * Source warning (5.32): without power the circulation pump stops — with no gravity cooling the water jacket
- * overheats. ✅🤖 level 🟡 (the source calls it a warning, not a hard stop) — candidate 🔴 for the owner.
+ * overheats and can boil and burst. 🔴 by owner decision D69 (01.10.2026; the source only calls it a warning).
  */
 export function kominekPrzegrzanieBezPradu(): Warning {
   return {
     code: "ALT-KOMINEK-PRZEGRZANIE",
-    level: "warning",
+    level: "critical",
     i18nKey: "ALT-KOMINEK-PRZEGRZANIE",
     technicalMessage: "kominek z płaszczem wodnym bez zabezpieczenia przed przegrzaniem przy braku prądu (schładzanie grawitacyjne)",
     field: "kominekZabezpieczenieBezPradu",

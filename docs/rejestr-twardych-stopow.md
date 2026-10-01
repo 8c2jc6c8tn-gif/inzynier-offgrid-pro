@@ -345,6 +345,7 @@ nie do audytu poprawności formularza webowego.
 
 
 ## Cieplne / systemowe
+- **[01.10.2026, D69] Kominek z płaszczem wodnym bez schładzania grawitacyjnego / wężownicy przy braku prądu** (`ALT-KOMINEK-PRZEGRZANIE`, `lib/core/modules/ogrzewanie/alternatywne-zrodla-ciepla/warnings.ts`, `kominekPrzegrzanieBezPradu`, M6 ekran 2A, dawne 5.32). Uzasadnienie: bez prądu pompa obiegowa staje, woda w płaszczu się zagotuje — przegrzanie i rozszczelnienie instalacji. Źródło poziomu: decyzja właściciela D69 (źródło: „ostrzeżenie”).
 
 - **Napięcie systemu off-grid poniżej minimalnego napięcia pracy pompy ciepła** — przy
   rozładowanej baterii pompa wyłącza się dokładnie w najgorszym możliwym momencie (mróz +

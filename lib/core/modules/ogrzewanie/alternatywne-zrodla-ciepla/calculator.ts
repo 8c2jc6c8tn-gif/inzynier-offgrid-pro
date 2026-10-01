@@ -4,7 +4,7 @@ import type { AlternatywneZrodlaCieplaInput } from "./input"
 import { validateInput } from "./validation"
 import { irNieZastapiOgrzewania, kociolOsobnyEkran, kominekPrzegrzanieBezPradu, matyStropNieizolowany, pcmDrozszyOdWody } from "./warnings"
 
-export const CALCULATOR_VERSION = "1.0.0"
+export const CALCULATOR_VERSION = "1.1.0"
 
 const FORMULA =
   "P_{woda} = P \\cdot u, \\quad E_{IR} = P \\cdot t, \\quad P_{maty} = q \\cdot A, \\quad Q_{PCM} = V \\rho L, \\quad V_{wody} = \\dfrac{Q_{PCM}}{c_w \\Delta T}"
