@@ -1563,6 +1563,11 @@ Pełne wyniki audytu: `docs/memory.md`, sekcja "Pełny audyt na polecenie właś
   jako bohater, ramki/gradienty kart) — przegląd w `/wzornik`, pulpit i jeden kalkulator do akceptacji właściciela;
   decyzja o odblokowaniu grupy ukrytej; freemium (`dostepnosc`). **Kolejność:** akceptacja wyglądu partii 1 przed
   kolejnymi partiami. **Kolizje:** `lib/wyglad/`, `app/layout.tsx`, `app/globals.css`, `app/ustawienia/page.tsx`.
+  🔄 **[01.10.2026] Krok 5 zrobiony (gałąź `work/styles2`):** wszystkie 27 stylów w tabeli (22 nowe), każdy przechodzi
+  test kontrastu, warunki D65–D67 sprawdzane testami (symulacja deuteranopii/protanopii dla Pomarańczu i Kokpitu HUD,
+  tęcza/neon nigdy na werdyktach, szkło bez rozmycia na słabych urządzeniach, ruch tła tylko na pulpicie). Żaden styl nie
+  odpadł; odstępstwa od prototypu i wybory ✅🤖: `docs/memory.md`. **Zostaje:** akceptacja wyglądu przez właściciela
+  (pulpit + jeden kalkulator), użycie `data-karta`/`bg-card` w kolejnych komponentach, freemium.
 - ✅ (2026-09-30) **Kafle „duże” M14 + presety pulpitu (TD22 pkt 5, D53/D54).** Kafle „Dom – sieć” / „Firma – sieć”
   zajmują dwie kolumny siatki pulpitu, z opisem. W Ustawieniach sekcja „Co chcesz teraz zrobić?”: 8 presetów z
   `docs/pulpit-i-nawigacja.md` §3, kafle M14 na końcu każdego, kilka zaznaczonych = unia w kolejności domyślnej (✅🤖).
