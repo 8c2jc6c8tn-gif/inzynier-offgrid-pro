@@ -247,7 +247,12 @@ export const KAFLE: KafelEntry[] = [
     opis: "Czujniki, sterowanie, komunikacja.",
     ikona: "🧰",
     ekrany: [
+      { href: "/kalkulatory/wybor-plytki-esp32", label: "Wybór płytki ESP32" },
+      { href: "/kalkulatory/montaz-obudowa-esp32", label: "Montaż i obudowa ESP32" },
       { href: "/kalkulatory/katalog-czujnikow", label: "Katalog czujników" },
+      { href: "/kalkulatory/katalog-aktuatorow", label: "Katalog aktuatorów" },
+      { href: "/kalkulatory/katalog-protokolow", label: "Katalog protokołów komunikacji" },
+      { href: "/kalkulatory/katalog-interfejsu-lokalnego", label: "Katalog interfejsu lokalnego" },
       { href: "/kalkulatory/zasilanie-esp32", label: "Zasilanie ESP32 z magistrali" },
       { href: "/kalkulatory/architektura-komunikacji", label: "Architektura komunikacji ESP32" },
       { href: "/kalkulatory/przydzial-pinow", label: "Przydział pinów GPIO" },

@@ -8489,3 +8489,20 @@ Tryb Audyt (czapka rewidenta). Warstwa „w pełni na końcu” z N.2 — wszyst
   `public/` 1,41 / 1,05 MB. Największe: chunk tekstów/słowników ładowany na każdej stronie 1,17 MB, MapLibre 1,0 MB,
   drugi chunk tekstów 0,73 MB, worker MapLibre 0,5 MB, zod 0,4 MB (ekrany M14 — potrzebny offline). Budżet pierwszego
   pobrania: **D61 — wariant A**, obecny stan przyjęty, nic dalej nie ciąć (B tylko przy sygnale o słabym łączu).
+
+## M9 blok 6 (30.09.2026) — E1, E3, Katalogi 2–4; M9 kompletny
+
+- **E1 wybór płytki** (`esp32/wybor-plytki/`): dopasowanie po cechach z opisu wariantów w źródle (B), nie po liczbie
+  czujników — próg „do 10 czujników” i „3× mniejszy pobór” z przykładu C to ilustracja (Dyrektywa #1). Brak jednej
+  płytki z wszystkimi cechami → ℹ️ (status bez zmian, Dyrektywa #6). Zasilanie stałe bez potrzeb → ℹ️, brak rekomendacji.
+- **E3 montaż i obudowa** (`esp32/montaz-obudowa/`): kontrola IP to czyste echo — `ipPonizejWymaganego` (M4/E10) i
+  `wilgocZalecaneIp65` (M12/E23) z ich stałymi; wpis w rejestrze stopów uzupełniony o M9/E3. Pytania tak/nie jako
+  `PoleSelect` z pustą opcją (checkbox dawałby fałszywe „nie” = ostrzeżenie od progu). Ujemny odstęp → `ESP-ODSTEP-UJEMNY`
+  — **pułapka:** wzorzec `*-UJEMNY` w `scripts/stopy-guard-wyjatki.json` nie złapał kodu wieloczłonowego, trzeba było
+  dopisać kod jawnie.
+- **Katalogi 2–4**: jeden silnik `esp32/katalog-komponentow/` (ids w `constants.ts`, treść w `lib/i18n/ui/m09-esp32.ts`
+  jako `UI-M9-<id>-N/T/D/U`), jeden komponent `components/wzorce/katalog-komponentow.tsx` (stan w stronie przez
+  `usePersistedDraft`), jedno narzędzie AI z enum katalogu. Katalog 1 deleguje obliczenie do tego silnika (bez zmiany
+  wyniku). **Id instancji** liczone z listy (`max+1`), nie z licznika modułu — **błąd naprawiony w Katalogu 1:** licznik
+  `nextId` startował od 1 po każdym przeładowaniu, więc po odtworzeniu szkicu dawał zduplikowany `id` (klucz React,
+  „Usuń” kasowało dwie pozycje naraz).
