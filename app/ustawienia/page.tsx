@@ -7,6 +7,7 @@ import { KontoSekcja } from "@/components/konto-sekcja"
 import { JezykWybor } from "@/components/jezyk-wybor"
 import { CzcionkaEdytor } from "@/components/czcionka-edytor"
 import { KolorGrupaEdytor } from "@/components/kolor-grupa-edytor"
+import { StylWygladuWybor } from "@/components/styl-wygladu-wybor"
 import { ThemeToggle } from "@/components/theme-toggle"
 import { useTranslate } from "@/lib/i18n/language-context"
 import { PRESETY, stanZPresetow } from "@/lib/pulpit/presety"
@@ -191,6 +192,8 @@ export default function UstawieniaPage() {
           </div>
           <ThemeToggle />
         </div>
+
+        <StylWygladuWybor />
 
         <div>
           <h3 className="mb-2 text-small font-semibold">Kolory</h3>

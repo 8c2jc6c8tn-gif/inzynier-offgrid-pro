@@ -8,9 +8,15 @@
  * `app/globals.css`, więc user zmienia jeden kolor bazowy, nie komplet trzech wartości.
  * To jest "grupowa" zmiana w drugim sensie: jedna grupa (np. "sukces") = jeden suwak, ale
  * wpływa jednocześnie na tło/obramowanie/tekst każdego miejsca w apce, które używa tego tokenu.
+ *
+ * The appearance style (`./style.ts`, D63–D67) lives in the same state: the style provides the base
+ * tokens through `data-styl` on <html>; the user's colour overrides (inline style) win over it.
  */
 
 import { consoleReporter } from "@/lib/core/reporter"
+import { getSnapshot as trybMotywu, zastosujTryb } from "@/lib/theme/storage"
+import { jestHeksem, luminancja } from "./kolor"
+import { jestStylem, znajdzStyl, type StylId } from "./style"
 
 export type GrupaKolorow = "tlo" | "karty" | "tekst" | "akcent" | "sukces" | "uwaga" | "blad"
 
@@ -49,15 +55,21 @@ export type WygladState = {
   kolory: Partial<Record<GrupaKolorow, string>>
   czcionka: CzcionkaId
   waga: WagaTekstu
+  /** Appearance style from `./style.ts`; `null` = the default look (follows the light/dark theme). */
+  styl: StylId | null
+  /** Show the „Ukryte i sezonowe” group in the style picker (D67, open question — ✅🤖 toggle). */
+  pokazUkryteStyle: boolean
 }
 
 const STORAGE_KEY = "offgrid.wyglad.v1"
 const CHANGE_EVENT = "offgrid-wyglad-change"
 
-const DOMYSLNY_STAN: WygladState = { kolory: {}, czcionka: "inter", waga: "normalna" }
-
-function jestHeksem(value: unknown): value is string {
-  return typeof value === "string" && /^#[0-9a-fA-F]{6}$/.test(value)
+const DOMYSLNY_STAN: WygladState = {
+  kolory: {},
+  czcionka: "inter",
+  waga: "normalna",
+  styl: null,
+  pokazUkryteStyle: false,
 }
 
 function jestCzcionka(value: unknown): value is CzcionkaId {
@@ -79,6 +91,9 @@ function parsujStan(raw: string | null): WygladState {
       kolory,
       czcionka: jestCzcionka(parsed.czcionka) ? parsed.czcionka : "inter",
       waga: parsed.waga === "pogrubiona" ? "pogrubiona" : "normalna",
+      // An id no longer in the table (renamed/removed style) falls back to the default look.
+      styl: jestStylem(parsed.styl) ? parsed.styl : null,
+      pokazUkryteStyle: parsed.pokazUkryteStyle === true,
     }
   } catch (err) {
     consoleReporter.reportError({
@@ -128,15 +143,6 @@ export function subscribe(callback: () => void): () => void {
   }
 }
 
-/** Luminancja względna (WCAG) z hex — do doboru czytelnego tekstu na kolorze akcentu. */
-function luminancjaHex(hex: string): number {
-  const r = parseInt(hex.slice(1, 3), 16) / 255
-  const g = parseInt(hex.slice(3, 5), 16) / 255
-  const b = parseInt(hex.slice(5, 7), 16) / 255
-  const kanal = (c: number) => (c <= 0.03928 ? c / 12.92 : ((c + 0.055) / 1.055) ** 2.4)
-  return 0.2126 * kanal(r) + 0.7152 * kanal(g) + 0.0722 * kanal(b)
-}
-
 export function zastosujWyglad(state: WygladState): void {
   if (typeof document === "undefined") return
   const root = document.documentElement
@@ -147,7 +153,7 @@ export function zastosujWyglad(state: WygladState): void {
     if (wartosc) {
       for (const zmienna of zmienne) root.style.setProperty(zmienna, wartosc)
       if (grupa.id === "akcent") {
-        const jasny = luminancjaHex(wartosc) > 0.4
+        const jasny = luminancja(wartosc) > 0.4
         root.style.setProperty("--primary-foreground", jasny ? "#0a0a0a" : "#fafafa")
       }
     } else {
@@ -160,6 +166,18 @@ export function zastosujWyglad(state: WygladState): void {
   root.style.setProperty("--font-sans-user", `var(${czcionka.zmienna})`)
 
   root.classList.toggle("czcionka-pogrubiona", state.waga === "pogrubiona")
+
+  // Style: its tokens come from the generated stylesheet (`./style.ts`) keyed by `data-styl`; the
+  // light/dark class it needs is resolved by `zastosujTryb` (lib/theme) from `data-schemat-stylu`.
+  const styl = znajdzStyl(state.styl)
+  if (styl) {
+    root.dataset.styl = styl.id
+    root.dataset.schematStylu = styl.schemat === "ciemny" ? "dark" : "light"
+  } else {
+    delete root.dataset.styl
+    delete root.dataset.schematStylu
+  }
+  zastosujTryb(trybMotywu())
 }
 
 function zapisz(state: WygladState): void {
@@ -210,4 +228,12 @@ export function ustawCzcionke(czcionka: CzcionkaId): void {
 
 export function ustawWage(waga: WagaTekstu): void {
   zapisz({ ...getSnapshot(), waga })
+}
+
+export function ustawStyl(styl: StylId | null): void {
+  zapisz({ ...getSnapshot(), styl })
+}
+
+export function ustawPokazUkryteStyle(pokaz: boolean): void {
+  zapisz({ ...getSnapshot(), pokazUkryteStyle: pokaz })
 }

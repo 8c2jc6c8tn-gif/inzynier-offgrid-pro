@@ -23,6 +23,7 @@ import * as m01 from "./m01-lokalizacja"
 import * as m09 from "./m09-esp32"
 import * as m10 from "./m10-prognozy"
 import * as m13 from "./m13-live"
+import * as ustawienia from "./ustawienia"
 
 const pomocPl = {
   ...m12.pl,
@@ -40,6 +41,7 @@ const pomocPl = {
   ...m09.pl,
   ...m10.pl,
   ...m13.pl,
+  ...ustawienia.pl,
 } satisfies Record<string, PomocEkranu | PomocGrupy>
 
 export type PomocWszystko = typeof pomocPl
@@ -53,9 +55,9 @@ export type EkranPomocy = {
 
 export const pomoc: Record<Language, PomocWszystko> = {
   pl: pomocPl,
-  en: { ...m12.en, ...m12b.en, ...m14.en, ...m08.en, ...m05.en, ...m04.en, ...m11.en, ...m03.en, ...m02.en, ...m07.en, ...m06.en, ...m01.en, ...m09.en, ...m10.en, ...m13.en },
-  ru: { ...m12.ru, ...m12b.ru, ...m14.ru, ...m08.ru, ...m05.ru, ...m04.ru, ...m11.ru, ...m03.ru, ...m02.ru, ...m07.ru, ...m06.ru, ...m01.ru, ...m09.ru, ...m10.ru, ...m13.ru },
+  en: { ...m12.en, ...m12b.en, ...m14.en, ...m08.en, ...m05.en, ...m04.en, ...m11.en, ...m03.en, ...m02.en, ...m07.en, ...m06.en, ...m01.en, ...m09.en, ...m10.en, ...m13.en, ...ustawienia.en },
+  ru: { ...m12.ru, ...m12b.ru, ...m14.ru, ...m08.ru, ...m05.ru, ...m04.ru, ...m11.ru, ...m03.ru, ...m02.ru, ...m07.ru, ...m06.ru, ...m01.ru, ...m09.ru, ...m10.ru, ...m13.ru, ...ustawienia.ru },
 }
 
 /** Module parts, exposed for the duplicate-key test (a spread silently overwrites a repeated screen id). */
-export const czesciPomocy: Record<string, object>[] = [m12.pl, m12b.pl, m14.pl, m08.pl, m05.pl, m04.pl, m11.pl, m03.pl, m02.pl, m07.pl, m06.pl, m01.pl, m09.pl, m10.pl, m13.pl]
+export const czesciPomocy: Record<string, object>[] = [m12.pl, m12b.pl, m14.pl, m08.pl, m05.pl, m04.pl, m11.pl, m03.pl, m02.pl, m07.pl, m06.pl, m01.pl, m09.pl, m10.pl, m13.pl, ustawienia.pl]

@@ -7,6 +7,7 @@ import { Pole, PoleCheckbox, PoleSelect } from "@/components/ui/pole"
 import { StanBledu, StanLadowania, StanPusty } from "@/components/ui/stany"
 import { CzcionkaEdytor } from "@/components/czcionka-edytor"
 import { KolorGrupaEdytor } from "@/components/kolor-grupa-edytor"
+import { StylWygladuWybor } from "@/components/styl-wygladu-wybor"
 import { ThemeToggle } from "@/components/theme-toggle"
 import { WerdyktBadge, WerdyktPanel } from "@/components/werdykt"
 import { KAFLE, USTAWIENIA_KAFEL } from "@/lib/pulpit/registry"
@@ -100,6 +101,11 @@ export default function WzornikPage() {
             edytor poniżej i w Ustawieniach. Można doprecyzować odcień ręcznie tam.
           </p>
         </Sekcja>
+
+        {/* Appearance style (D67): the same picker as in the settings, to preview every element in a style. */}
+        <section className="flex flex-col gap-3 border-t pt-6">
+          <StylWygladuWybor />
+        </section>
 
         <Sekcja tytul="Personalizacja kolorów" opis="Pojedynczo albo grupowo (zaznacz kilka, zastosuj jeden kolor naraz).">
           <KolorGrupaEdytor />
