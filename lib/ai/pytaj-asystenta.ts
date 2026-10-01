@@ -108,6 +108,7 @@ import { szybkaDiagnozaTool } from "./tools/szybka-diagnoza-tool"
 import { urzadzeniaMedyczneTool } from "./tools/urzadzenia-medyczne-tool"
 import { urzadzeniaZabronioneTool } from "./tools/urzadzenia-zabronione-falownik-tool"
 import { blackoutBalkonTool } from "./tools/blackout-balkon-tool"
+import { szablonyZestawowTool } from "./tools/szablony-zestawow-tool"
 import { ochronaPrzedRozladowaniemTool } from "./tools/ochrona-przed-rozladowaniem-tool"
 import { wilgocMaleInstalacjeTool } from "./tools/wilgoc-male-instalacje-tool"
 import { uziemienieMaleInstalacjeTool } from "./tools/uziemienie-male-instalacje-tool"
@@ -440,6 +441,7 @@ const NARZEDZIA: Array<AiToolDefinition<any, any>> = [
   urzadzeniaMedyczneTool,
   urzadzeniaZabronioneTool,
   blackoutBalkonTool,
+  szablonyZestawowTool,
   ochronaPrzedRozladowaniemTool,
   wilgocMaleInstalacjeTool,
   uziemienieMaleInstalacjeTool,

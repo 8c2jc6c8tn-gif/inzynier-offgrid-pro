@@ -171,6 +171,7 @@ const MIGRATED_MODULES = [
   "lib/core/modules/kalkulator-mobilny/urzadzenia-medyczne",
   "lib/core/modules/kalkulator-mobilny/urzadzenia-zabronione-falownik",
   "lib/core/modules/kalkulator-mobilny/blackout-balkon",
+  "lib/core/modules/kalkulator-mobilny/szablony-zestawow",
   "lib/core/modules/stress-test/wind-chill",
   "lib/core/modules/stress-test/obciazenie-dachu-sniegiem",
   "lib/core/modules/stress-test/sztywnienie-izolacji",

@@ -1294,6 +1294,8 @@ export const dictionaryPl = {
   "BB-BEZ-KLIMATYZACJI": "Nie licz na klimatyzację, czajnik ani grzejnik w czasie blackoutu — zestaw balkonowy utrzyma tylko lodówkę, router, światło i telefony.",
   "BB-MONTAZ-NA-BALKONIE": "Panel na balustradzie musi być pewnie przykręcony (wiatr!) i nie może wystawać poza obrys balkonu. Sprawdź regulamin wspólnoty lub spółdzielni — elewacja często wymaga zgody zarządcy.",
   "BB-ZALOZENIE-SREDNIE-SLONCE": "Energia z paneli w czasie blackoutu liczona średnio: dobowa × czas blackoutu ÷ 24. Krótki blackout nocą nie dostanie słońca wcale.",
+  "SZ-ZALOZENIE-PUNKT-STARTOWY": "Szablon to tylko punkt startowy — lista typowych odbiorników. Moce i czasy wpisujesz Ty; usuń, czego nie masz, dodaj, czego brakuje.",
+  "SZ-ZALOZENIE-PANEL-NA-DOBE": "Panel dobrany tak, by przy średnim słońcu oddać dobowe zużycie — wtedy wystarcza akumulator na jedną dobę. W pochmurne dni potrzebny akumulator na cały pobyt.",
   // end of M12 30.09.2026 block
   "LVD-BRAK-OCHRONY-OLOWIOWY": "Akumulator kwasowy/AGM bez dozownika napięcia, a odbiornik nie ma własnego zabezpieczenia — odbiornik rozładuje akumulator do zera. Głębokie rozładowanie trwale niszczy akumulator ołowiowy (zasiarczenie). Zamontuj dozownik (LVD) z progiem podanym wyżej.",
   "LVD-PROG-KWASOWY-BRAK-W-ZRODLE": "Dla akumulatora kwasowego (zalewowego) nie podajemy progu — źródło daje go tylko dla AGM i LiFePO4. Sprawdź napięcie odcięcia w karcie producenta akumulatora.",

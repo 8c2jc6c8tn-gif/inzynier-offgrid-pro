@@ -1316,6 +1316,79 @@ export const pl = {
       },
     },
   },
+  "szablony-zestawow": {
+    migawka: {
+      oCoChodzi:
+        "Zamiast zaczynać od pustej kartki, wybierz typowy zestaw: kamper, jacht, domek, warsztat albo kemping.",
+      jakDziala:
+        "Szablon wczytuje nazwy typowych odbiorników. Ty wpisujesz ich moce i czasy, napięcie, DoD i słońce — aplikacja liczy zużycie, szczyt, akumulator na pobyt i na dobę, panel i minimalny prąd regulatora.",
+      poCo: "Najczęstszy błąd to zapomniany odbiornik — szablon przypomina, o czym pomyśleć.",
+      fizyka:
+        "E_d = Σ P × h (× osoby). C_pobyt = E_d × dni ÷ (U × DoD), C_doba = E_d ÷ (U × DoD). P_PV = E_d ÷ (h_słońca × η), I_reg = P_PV ÷ U.",
+    },
+    pola: {
+      dni: {
+        nazwa: "Liczba dni",
+        cel: "Długość pobytu — akumulator na cały pobyt bez słońca.",
+        gdzie: "Twój plan wyjazdu.",
+        zakres: "Dni.",
+      },
+      osoby: {
+        nazwa: "Liczba osób",
+        cel: "Mnoży odbiorniki liczone „na osobę” (telefony, ładowarki).",
+        gdzie: "Twój plan.",
+        zakres: "Osoby.",
+      },
+      nazwa: {
+        nazwa: "Nazwa odbiornika",
+        cel: "Tylko dla Twojej orientacji.",
+        gdzie: "Z szablonu albo własna.",
+        zakres: "Tekst.",
+      },
+      moc: {
+        nazwa: "Moc [W]",
+        cel: "Składnik zużycia i szczytu.",
+        gdzie: "Tabliczka urządzenia.",
+        zakres: "Z tabliczki; aplikacja nie zgaduje.",
+      },
+      godziny: {
+        nazwa: "Godziny pracy na dobę [h]",
+        cel: "Zużycie energii odbiornika.",
+        gdzie: "Lodówka pracuje cyklicznie — wpisz realny czas pracy sprężarki.",
+        zakres: "0–24 h.",
+      },
+      naOsobe: {
+        nazwa: "Na osobę",
+        cel: "Odbiornik liczony osobno dla każdej osoby.",
+        gdzie: "Np. telefon każdego uczestnika.",
+        zakres: "Tak / nie.",
+      },
+      napiecie: {
+        nazwa: "Napięcie akumulatora [V]",
+        cel: "Przelicza Wh na Ah i moc panelu na prąd regulatora.",
+        gdzie: "Tabliczka akumulatora / system (12, 24 V).",
+        zakres: "Napięcie znamionowe.",
+      },
+      dod: {
+        nazwa: "Część użyteczna (DoD) [%]",
+        cel: "Ile energii akumulatora wolno wykorzystać.",
+        gdzie: "Karta katalogowa akumulatora.",
+        zakres: "Z karty; aplikacja nie zgaduje.",
+      },
+      godzinSlonca: {
+        nazwa: "Godziny pełnego słońca [h/dobę]",
+        cel: "Dobór mocy panelu.",
+        gdzie: "Moduł 1 albo mapa nasłonecznienia dla miejsca i miesiąca.",
+        zakres: "0 = bez panelu.",
+      },
+      sprawnosc: {
+        nazwa: "Sprawność toru panel → akumulator [%]",
+        cel: "Straty regulatora, kabli i ładowania.",
+        gdzie: "Karty regulatora i akumulatora.",
+        zakres: "Z kart; aplikacja nie zgaduje.",
+      },
+    },
+  },
 }
 
 export const en: Tlumaczenie<typeof pl> = {
@@ -2622,6 +2695,79 @@ export const en: Tlumaczenie<typeof pl> = {
         cel: "Controller and charging losses.",
         gdzie: "Station datasheet (PV input).",
         zakres: "From the datasheet; the app does not guess.",
+      },
+    },
+  },
+  "szablony-zestawow": {
+    migawka: {
+      oCoChodzi:
+        "Instead of starting from a blank page, pick a typical kit: camper van, yacht, cabin, workshop or camping.",
+      jakDziala:
+        "The template loads the names of typical devices. You enter their powers and times, voltage, DoD and sun — the app computes use, peak, battery for the stay and per day, the panel and the minimum controller current.",
+      poCo: "The most common mistake is a forgotten device — the template reminds you what to think about.",
+      fizyka:
+        "E_d = Σ P × h (× people). C_stay = E_d × days ÷ (U × DoD), C_day = E_d ÷ (U × DoD). P_PV = E_d ÷ (h_sun × η), I_ctrl = P_PV ÷ U.",
+    },
+    pola: {
+      dni: {
+        nazwa: "Number of days",
+        cel: "Length of the stay — battery for the whole stay without sun.",
+        gdzie: "Your trip plan.",
+        zakres: "Days.",
+      },
+      osoby: {
+        nazwa: "Number of people",
+        cel: "Multiplies devices counted “per person” (phones, chargers).",
+        gdzie: "Your plan.",
+        zakres: "People.",
+      },
+      nazwa: {
+        nazwa: "Device name",
+        cel: "Only for your orientation.",
+        gdzie: "From the template or your own.",
+        zakres: "Text.",
+      },
+      moc: {
+        nazwa: "Power [W]",
+        cel: "Part of the use and the peak.",
+        gdzie: "Device nameplate.",
+        zakres: "From the nameplate; the app does not guess.",
+      },
+      godziny: {
+        nazwa: "Running hours per day [h]",
+        cel: "Energy use of the device.",
+        gdzie: "A fridge runs in cycles — enter the real compressor time.",
+        zakres: "0–24 h.",
+      },
+      naOsobe: {
+        nazwa: "Per person",
+        cel: "Device counted separately for each person.",
+        gdzie: "E.g. each participant's phone.",
+        zakres: "Yes / no.",
+      },
+      napiecie: {
+        nazwa: "Battery voltage [V]",
+        cel: "Converts Wh to Ah and panel power to controller current.",
+        gdzie: "Battery nameplate / system (12, 24 V).",
+        zakres: "Nominal voltage.",
+      },
+      dod: {
+        nazwa: "Usable share (DoD) [%]",
+        cel: "How much battery energy may be used.",
+        gdzie: "Battery datasheet.",
+        zakres: "From the datasheet; the app does not guess.",
+      },
+      godzinSlonca: {
+        nazwa: "Peak sun hours [h/day]",
+        cel: "Sizing the panel power.",
+        gdzie: "Module 1 or a solar map for the place and month.",
+        zakres: "0 = no panel.",
+      },
+      sprawnosc: {
+        nazwa: "Panel → battery path efficiency [%]",
+        cel: "Controller, cable and charging losses.",
+        gdzie: "Controller and battery datasheets.",
+        zakres: "From the datasheets; the app does not guess.",
       },
     },
   },
@@ -3938,6 +4084,78 @@ export const ru: Tlumaczenie<typeof pl> = {
         cel: "Потери контроллера и заряда.",
         gdzie: "Паспорт станции (вход PV).",
         zakres: "Из паспорта; приложение не угадывает.",
+      },
+    },
+  },
+  "szablony-zestawow": {
+    migawka: {
+      oCoChodzi: "Вместо чистого листа выберите типичный комплект: автодом, яхта, домик, мастерская или кемпинг.",
+      jakDziala:
+        "Шаблон загружает названия типичных потребителей. Вы вводите их мощности и время, напряжение, DoD и солнце — приложение считает потребление, пик, аккумулятор на пребывание и на сутки, панель и минимальный ток контроллера.",
+      poCo: "Самая частая ошибка — забытый потребитель; шаблон напоминает, о чём подумать.",
+      fizyka:
+        "E_d = Σ P × h (× люди). C_пребыв = E_d × дни ÷ (U × DoD), C_сутки = E_d ÷ (U × DoD). P_PV = E_d ÷ (h_солнца × η), I_контр = P_PV ÷ U.",
+    },
+    pola: {
+      dni: {
+        nazwa: "Количество дней",
+        cel: "Длительность пребывания — аккумулятор на всё время без солнца.",
+        gdzie: "Ваш план поездки.",
+        zakres: "Дни.",
+      },
+      osoby: {
+        nazwa: "Количество человек",
+        cel: "Умножает потребители «на человека» (телефоны, зарядки).",
+        gdzie: "Ваш план.",
+        zakres: "Люди.",
+      },
+      nazwa: {
+        nazwa: "Название потребителя",
+        cel: "Только для вашей ориентации.",
+        gdzie: "Из шаблона или своё.",
+        zakres: "Текст.",
+      },
+      moc: {
+        nazwa: "Мощность [Вт]",
+        cel: "Часть потребления и пика.",
+        gdzie: "Табличка устройства.",
+        zakres: "С таблички; приложение не угадывает.",
+      },
+      godziny: {
+        nazwa: "Часы работы в сутки [ч]",
+        cel: "Потребление энергии устройством.",
+        gdzie: "Холодильник работает циклично — введите реальное время работы компрессора.",
+        zakres: "0–24 ч.",
+      },
+      naOsobe: {
+        nazwa: "На человека",
+        cel: "Потребитель считается отдельно для каждого человека.",
+        gdzie: "Например, телефон каждого участника.",
+        zakres: "Да / нет.",
+      },
+      napiecie: {
+        nazwa: "Напряжение аккумулятора [В]",
+        cel: "Переводит Вт·ч в А·ч и мощность панели в ток контроллера.",
+        gdzie: "Табличка аккумулятора / система (12, 24 В).",
+        zakres: "Номинальное напряжение.",
+      },
+      dod: {
+        nazwa: "Полезная часть (DoD) [%]",
+        cel: "Сколько энергии аккумулятора можно использовать.",
+        gdzie: "Паспорт аккумулятора.",
+        zakres: "Из паспорта; приложение не угадывает.",
+      },
+      godzinSlonca: {
+        nazwa: "Часы полного солнца [ч/сутки]",
+        cel: "Подбор мощности панели.",
+        gdzie: "Модуль 1 или карта инсоляции для места и месяца.",
+        zakres: "0 = без панели.",
+      },
+      sprawnosc: {
+        nazwa: "КПД пути панель → аккумулятор [%]",
+        cel: "Потери контроллера, кабелей и заряда.",
+        gdzie: "Паспорта контроллера и аккумулятора.",
+        zakres: "Из паспортов; приложение не угадывает.",
       },
     },
   },

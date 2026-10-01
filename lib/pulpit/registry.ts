@@ -345,6 +345,7 @@ export const KAFLE: KafelEntry[] = [
       { href: "/kalkulatory/urzadzenia-medyczne", label: "Zasilanie urządzeń medycznych" },
       { href: "/kalkulatory/urzadzenia-zabronione-falownik", label: "Urządzenia zabronione dla małego falownika" },
       { href: "/kalkulatory/blackout-balkon", label: "Blackout w bloku — zestaw balkonowy" },
+      { href: "/kalkulatory/szablony-zestawow", label: "Gotowe szablony zestawów" },
     ],
   },
   {

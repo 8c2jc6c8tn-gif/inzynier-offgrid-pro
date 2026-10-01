@@ -1282,6 +1282,8 @@ export const dictionaryEn = {
   "BB-BEZ-KLIMATYZACJI": "Do not count on air conditioning, a kettle or a heater during a blackout — a balcony kit only keeps the fridge, router, light and phones going.",
   "BB-MONTAZ-NA-BALKONIE": "A railing panel must be firmly bolted (wind!) and must not stick out beyond the balcony. Check the building rules — the facade often needs the manager's consent.",
   "BB-ZALOZENIE-SREDNIE-SLONCE": "Panel energy during the blackout is averaged: daily × blackout time ÷ 24. A short blackout at night gets no sun at all.",
+  "SZ-ZALOZENIE-PUNKT-STARTOWY": "A template is only a starting point — a list of typical loads. You enter the powers and times; remove what you do not have, add what is missing.",
+  "SZ-ZALOZENIE-PANEL-NA-DOBE": "The panel is sized to deliver the daily use in average sun — then a one-day battery is enough. On cloudy days you need a battery for the whole stay.",
   // end of M12 30.09.2026 block
   "LVD-BRAK-OCHRONY-OLOWIOWY": "A lead-acid/AGM battery without a low voltage disconnect, and the load has no protection of its own — the load will drain the battery to zero. Deep discharge permanently damages a lead-acid battery (sulphation). Fit a low voltage disconnect (LVD) with the threshold given above.",
   "LVD-PROG-KWASOWY-BRAK-W-ZRODLE": "No threshold is given for a flooded lead-acid battery — the source gives it only for AGM and LiFePO4. Check the cut-off voltage in the battery manufacturer's datasheet.",

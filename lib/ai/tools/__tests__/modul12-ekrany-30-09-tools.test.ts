@@ -22,6 +22,7 @@ import { szybkaDiagnozaTool } from "../szybka-diagnoza-tool"
 import { urzadzeniaMedyczneTool } from "../urzadzenia-medyczne-tool"
 import { urzadzeniaZabronioneTool } from "../urzadzenia-zabronione-falownik-tool"
 import { blackoutBalkonTool } from "../blackout-balkon-tool"
+import { szablonyZestawowTool } from "../szablony-zestawow-tool"
 
 describe("akumulatorSamochodowyTool (M12/E16, dawne 8.14)", () => {
   it("kontrakt 9.3: 'read', bez potwierdzenia", () => {
@@ -336,5 +337,32 @@ describe("blackoutBalkonTool (M12/E40, dawne 8.68)", () => {
     })
     expect(w.bilansWh).toBe(-40)
     expect(w.ostrzezenia).toContain(t("pl", "BB-ZA-MALO-NA-BLACKOUT", { wh: 40, h: 23.1 }))
+  })
+})
+
+describe("szablonyZestawowTool (M12/E3, dawne 8.3 + 8.16)", () => {
+  it("kontrakt 9.3: 'read', bez potwierdzenia", () => {
+    expect(szablonyZestawowTool.operationType).toBe("read")
+    expect(szablonyZestawowTool.requiresConfirmation).toBe(false)
+    expect(() => validateAiToolDefinition(szablonyZestawowTool)).not.toThrow()
+  })
+
+  it("kamper 1800 Wh/dobę, 12 V, DoD 100%, 5 h × 100% → 150 Ah/dobę, 360 W, 30 A", async () => {
+    const w = await szablonyZestawowTool.handler({
+      szablon: "kamper",
+      dni: 2,
+      osoby: 1,
+      urzadzenia: [{ nazwa: "Lodówka", mocW: 75, godzinNaDobe: 24, naOsobe: false }],
+      napiecieV: 12,
+      dodPct: 100,
+      godzinSlonca: 5,
+      sprawnoscToruPct: 100,
+    })
+    expect(w.status).toBe("VALID")
+    expect(w.minimalnyAhDoba).toBe(150)
+    expect(w.minimalnyAhPobyt).toBe(300)
+    expect(w.minimalnyPanelW).toBe(360)
+    expect(w.pradRegulatoraA).toBe(30)
+    expect(w.zalozenia).toContain(t("pl", "SZ-ZALOZENIE-PANEL-NA-DOBE"))
   })
 })
