@@ -8547,3 +8547,23 @@ Tryb Audyt (czapka rewidenta). Warstwa „w pełni na końcu” z N.2 — wszyst
   wyniku). **Id instancji** liczone z listy (`max+1`), nie z licznika modułu — **błąd naprawiony w Katalogu 1:** licznik
   `nextId` startował od 1 po każdym przeładowaniu, więc po odtworzeniu szkicu dawał zduplikowany `id` (klucz React,
   „Usuń” kasowało dwie pozycje naraz).
+
+## M12 — ostatnia partia ekranów (01.10.2026, gałąź `claude/ekrany-m12-8ac1e6`)
+
+- **Stan:** M12 40/42 `done` (E41 i asystent głosowy 12.41 zablokowane jak wcześniej). Partia: E8, E12, E24, E25, E26,
+  E37, E40, E3, E33, E14 — każdy z silnikiem, testami, narzędziem AI „Użyj, gdy”, PL/EN/RU, pomocą „?”/„i”.
+- **Decyzje właściciela w tej partii:** E26 — minimum 2 doby autonomii dla sprzętu medycznego jako 🟡 (nie 🔴),
+  zapasowe źródło rekomendowane zawsze; E25 — kroki diagnozy dopisane eksperckie ✅🤖.
+- **E33 bez tabeli napięć:** źródło każe „porównać z tabelą dla typu akumulatora”, ale jej nie podaje. Zamiast zgadywać
+  progi SoC ekran liczy rezystancję wewnętrzną R = ΔU / I z testu znanym obciążeniem i porównuje z kartą progiem 50%
+  z M4 (`soh-per-ogniwo`) — reużyta stała, nie nowa liczba. Jedyny próg napięciowy: 10,5 V (ołów 12 V), przeliczany
+  przez liczbę ogniw 2 V.
+- **Niespójne przykłady źródła (opisane w komentarzach silników, wynik liczony wzorem):** §12.9 „24 V→12 V 10 A → 11 A”
+  (≈ 5,6 A); bramka §12.24.4/§12.55 40 Wh vs 11,1 Wh; LED §12.24.1 i CPAP §12.39 zgadzają się tylko przy sprawności 80%;
+  §12.3 „1,8 kWh → 100 Ah” wymaga panelu doładowującego (1800 / 12 = 150 Ah nawet przy DoD 100%); §12.56 nieodtwarzalny;
+  §12.48 „12,6 → 12,0 V przy 50 W = lekka utrata” daje R ≈ 144 mΩ — to akumulator do wymiany albo zły styk.
+- **Pułapka (narzędzia):** pętla `until ! pgrep -f "<skrypt>"` w tle łapie samą siebie (jej wiersz poleceń zawiera
+  szukany tekst) i nigdy się nie kończy. Czekać na PID (`wait`/`kill -0 <pid>`) albo `pgrep -f` ze wzorcem, który nie
+  występuje w poleceniu czekającym.
+- **Pułapka (testy):** granica progu liczona ze spadku napięcia (12,6 − 12,0) nie daje dokładnie 0,6 w zmiennoprzecinkowych
+  — test „dokładnie na progu 50%” wychodzi 49,999…%. Testy graniczne ustawiać wyraźnie po obu stronach progu.

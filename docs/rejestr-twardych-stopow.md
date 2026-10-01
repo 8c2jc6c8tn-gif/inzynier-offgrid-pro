@@ -310,6 +310,25 @@ nie do audytu poprawności formularza webowego.
   przepalenia bezpiecznika lub przegrzania przewodów instalacji pojazdu.
   [27.09.2026] (M12/E30 — `lib/core/modules/kalkulator-mobilny/gniazdo-zapalniczki/warnings.ts`,
   `przeciazenieGniazda`, kod `GZ-PRZECIAZENIE-GNIAZDA`)
+- **[30.09.2026] Planowane rozładowanie akumulatora rozruchowego ponad część użyteczną** — planowany czas pracy dłuższy
+  niż czas do granicy użytecznej pojemności (wpisuje user; Biblia §12.14: zwykle 30–50% dla rozruchowego) — ryzyko,
+  że silnik nie odpali, i trwałe uszkodzenie akumulatora. Lista twardych stopów `Tresc_Modul_12` (E16).
+  (M12/E16 — `lib/core/modules/kalkulator-mobilny/akumulator-samochodowy/warnings.ts`,
+  `rozruchowyPonadUzyteczna`, kod `AS-ROZRUCHOWY-PONAD-UZYTECZNA`)
+- **[30.09.2026] Łączenie powerbanków solarnych (albo wyjść USB paneli) w szereg/równolegle** — mają wbudowany regulator
+  lub przetwornicę, nie można ich łączyć z innymi panelami (Biblia §12.12).
+  (M12/E10 — `lib/core/modules/kalkulator-mobilny/laczenie-paneli-przenosnych/warnings.ts`, `powerbankNieLaczyc`,
+  `usbNieLaczyc`, kody `LPP-POWERBANK-NIE-LACZYC`, `LPP-USB-NIE-LACZYC`)
+- **[30.09.2026] Łączenie paneli przenośnych o niezgodnych złączach bez adaptera** — lista twardych stopów
+  `Tresc_Modul_12` (E10). (M12/E10 — `lib/core/modules/kalkulator-mobilny/laczenie-paneli-przenosnych/warnings.ts`,
+  `zlaczaNiezgodne`, kod `LPP-ZLACZA-NIEZGODNE`)
+- **[30.09.2026] Napięcie ładowania z prostownika/alternatora/DC-DC powyżej okna dla typu akumulatora** — Biblia §12.31:
+  LiFePO4 14,2–14,6 V, AGM 14,4–14,8 V, kwasowy 14,8–15,0 V (dla 12 V, skalowane × U/12); za wysokie napięcie
+  niszczy ogniwa. (M12/E20 — `lib/core/modules/kalkulator-mobilny/alternator-vs-panele/warnings.ts`,
+  `napiecieZaWysokie`, kod `AL-NAPIECIE-ZA-WYSOKIE`)
+- **Przegrzewanie małej instalacji z objawami spalenia — odłącz zasilanie** (`DG-ODLACZ-ZASILANIE`, `lib/core/modules/kalkulator-mobilny/szybka-diagnoza/warnings.ts`, M12/E25). Wyzwalacz: w przewodniku diagnostycznym objaw „przegrzewanie”, krok „spalenizna / stopiona izolacja / przebarwienia / dym” = „tu jest problem”. Uzasadnienie: przegrzany odcinek z uszkodzoną izolacją grozi pożarem i zwarciem akumulatora — jedyna bezpieczna czynność to odłączenie zasilania przed dalszą diagnozą. Źródło: Biblia §12.38 („Ostrzega przed niebezpiecznymi próbami naprawy”, „grozi pożarem”) + krok ekspercki ✅🤖 (decyzja właściciela 30.09.2026 „Dopisz kroki jako ekspert”). Poziom do ewentualnej weryfikacji właściciela.
+- **Urządzenie przekracza moc ciągłą lub szczytową małego falownika** (`UZF-URZADZENIE-ZABRONIONE`, `lib/core/modules/kalkulator-mobilny/urzadzenia-zabronione-falownik/warnings.ts`, M12/E37). Wyzwalacz: moc pracy urządzenia > moc ciągła falownika albo moc × krotność rozruchu > moc szczytowa falownika (obie z karty, wpisuje użytkownik). Uzasadnienie: falownik pracujący ponad moc ciągłą przegrzewa się, a rozruch ponad szczyt uszkadza stopień mocy albo wyzwala zabezpieczenie przy każdym starcie. Źródło: Biblia §12.52 („Suszarka 1800W podłączona do falownika 1000W spali go przy starcie”), Tresc E37 (tytuł „urządzenia zabronione”, progi „udźwignie / nie udźwignie”).
+- **Brak bezpiecznika przy akumulatorze małej instalacji** (`RB-BRAK-BEZPIECZNIKA-AKUMULATORA`, `lib/core/modules/kalkulator-mobilny/raport-bezpieczenstwa-maly/warnings.ts`, M12/E14). Wyzwalacz: użytkownik zaznacza „Błąd” przy punkcie „bezpiecznik przy akumulatorze” w raporcie bezpieczeństwa. Uzasadnienie: przewód od akumulatora bez zabezpieczenia przy zacisku przy zwarciu przewodzi pełny prąd zwarciowy akumulatora (setki–tysiące A) aż do stopienia izolacji — źródło pożaru. Źródło: Biblia §12.22 („Brak bezpiecznika przy akumulatorze! To niebezpieczne – zwarcie może spowodować pożar.”).
 - **Bezpiecznik nie chroni kabla przed przeciążeniem (In > Iz)** — sprawdzany przekrój przechodzi obciążalność i
   spadek napięcia, ale bezpiecznik 1,25 × I jest większy niż obciążalność kabla (PN-IEC 60364-4-43, 433.2).
   [27.09.2026] (M12/E2, E15 — `lib/core/modules/kalkulator-mobilny/kable-bezpieczniki-male/warnings.ts`,

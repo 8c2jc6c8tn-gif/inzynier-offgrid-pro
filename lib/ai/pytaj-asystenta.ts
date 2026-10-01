@@ -87,6 +87,30 @@ import { montazObudowaEsp32Tool } from "./tools/montaz-obudowa-esp32-tool"
 import { katalogKomponentowEsp32Tool } from "./tools/katalog-komponentow-esp32-tool"
 import { doborRegulatoraPwmMpptTool } from "./tools/dobor-regulatora-pwm-mppt-tool"
 import { dniBezSloncaTool } from "./tools/dni-bez-slonca-tool"
+import { akumulatorSamochodowyTool } from "./tools/akumulator-samochodowy-tool"
+import { mamAkumulatorTool } from "./tools/mam-akumulator-tool"
+import { agregatPaliwoTool } from "./tools/agregat-paliwo-tool"
+import { solarVsPrzedluzaczTool } from "./tools/solar-vs-przedluzacz-tool"
+import { stacjaVsDiyTool } from "./tools/stacja-vs-diy-tool"
+import { weekendTool } from "./tools/weekend-tool"
+import { panelDlaUrzadzeniaTool } from "./tools/panel-dla-urzadzenia-tool"
+import { laczeniePaneliPrzenosnychTool } from "./tools/laczenie-paneli-przenosnych-tool"
+import { powerbankVsAkumulatorTool } from "./tools/powerbank-vs-akumulator-tool"
+import { blackoutMinimumTool } from "./tools/blackout-minimum-tool"
+import { akumulatorKamperaTool } from "./tools/akumulator-kampera-tool"
+import { paneleDachKamperaTool } from "./tools/panele-dach-kampera-tool"
+import { panelKamperaTool } from "./tools/panel-kampera-tool"
+import { alternatorVsPaneleTool } from "./tools/alternator-vs-panele-tool"
+import { przetwornicaTool } from "./tools/przetwornice-tool"
+import { kreatorMalegoOdbiornikaTool } from "./tools/kreator-malego-odbiornika-tool"
+import { listaKempingTool } from "./tools/lista-kemping-tool"
+import { szybkaDiagnozaTool } from "./tools/szybka-diagnoza-tool"
+import { urzadzeniaMedyczneTool } from "./tools/urzadzenia-medyczne-tool"
+import { urzadzeniaZabronioneTool } from "./tools/urzadzenia-zabronione-falownik-tool"
+import { blackoutBalkonTool } from "./tools/blackout-balkon-tool"
+import { szablonyZestawowTool } from "./tools/szablony-zestawow-tool"
+import { testAkumulatoraTool } from "./tools/test-akumulatora-tool"
+import { raportBezpieczenstwaMalyTool } from "./tools/raport-bezpieczenstwa-maly-tool"
 import { ochronaPrzedRozladowaniemTool } from "./tools/ochrona-przed-rozladowaniem-tool"
 import { wilgocMaleInstalacjeTool } from "./tools/wilgoc-male-instalacje-tool"
 import { uziemienieMaleInstalacjeTool } from "./tools/uziemienie-male-instalacje-tool"
@@ -398,6 +422,30 @@ const NARZEDZIA: Array<AiToolDefinition<any, any>> = [
   katalogKomponentowEsp32Tool,
   doborRegulatoraPwmMpptTool,
   dniBezSloncaTool,
+  akumulatorSamochodowyTool,
+  mamAkumulatorTool,
+  agregatPaliwoTool,
+  solarVsPrzedluzaczTool,
+  stacjaVsDiyTool,
+  weekendTool,
+  panelDlaUrzadzeniaTool,
+  laczeniePaneliPrzenosnychTool,
+  powerbankVsAkumulatorTool,
+  blackoutMinimumTool,
+  akumulatorKamperaTool,
+  paneleDachKamperaTool,
+  panelKamperaTool,
+  alternatorVsPaneleTool,
+  przetwornicaTool,
+  kreatorMalegoOdbiornikaTool,
+  listaKempingTool,
+  szybkaDiagnozaTool,
+  urzadzeniaMedyczneTool,
+  urzadzeniaZabronioneTool,
+  blackoutBalkonTool,
+  szablonyZestawowTool,
+  testAkumulatoraTool,
+  raportBezpieczenstwaMalyTool,
   ochronaPrzedRozladowaniemTool,
   wilgocMaleInstalacjeTool,
   uziemienieMaleInstalacjeTool,

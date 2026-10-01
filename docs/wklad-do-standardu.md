@@ -1242,3 +1242,13 @@ ma zapobiegać, a wizualnie niewidoczny (liczba wygląda poprawnie, dopóki siln
 (lub 10.x) zdanie „test i18n porównuje zbiór placeholderów każdego tekstu między językami” — kilka linii, zero kosztu.
 
 Status: 🔎 nowe
+
+[01.10.2026] BŁĄD — pętla czekania `until ! pgrep -f "<skrypt>"` łapie samą siebie i nigdy się nie kończy
+Szczegóły: sesja AI czekała w tle na zakończenie skryptu kontroli pętlą `until ! pgrep -f "sprawdz.sh …"; do sleep …; done`.
+`pgrep -f` dopasowuje pełny wiersz poleceń — także powłoki, w której ta pętla działa (jej tekst zawiera szukany wzorzec),
+więc warunek nigdy nie stał się prawdziwy. Kolejne kroki (rejestracja ekranu) czekały w nieskończoność; trzeba było
+zabić procesy ręcznie.
+Dlaczego warto zgłosić do new-app-standards: to samo czekanie na proces tła robi AI w każdym projekcie rodziny (build,
+testy, dev server). Propozycja do 15.x: „czekaj na PID (`wait <pid>` / `kill -0 <pid>`) albo na plik-znacznik, nie na
+`pgrep -f` z tekstem występującym we własnym poleceniu”.
+Status: 🔎 nowe
