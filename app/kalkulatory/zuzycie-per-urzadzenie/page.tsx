@@ -15,6 +15,7 @@ import { NawigacjaEkranu } from "@/components/nawigacja-ekranu"
 import { NaglowekEkranu } from "@/components/wzorce/naglowek-ekranu"
 import { WynikGlowny } from "@/components/wzorce/wynik-glowny"
 import { WynikSzczegoly } from "@/components/wzorce/wynik-szczegoly"
+import { useTranslate } from "@/lib/i18n/language-context"
 
 type FormularzStan = { urzadzenia: PozycjaZuzycia[] }
 
@@ -34,6 +35,7 @@ const pole = (x: number) => (x === 0 ? "" : String(x))
 const LISTA_PRZYKLADOW = "zuzycie-przykladowe-urzadzenia"
 
 export default function ZuzyciePerUrzadzeniePage() {
+  const t = useTranslate()
   const [stan, setStan] = usePersistedDraft<FormularzStan>("zuzycie-per-urzadzenie", STAN_POCZATKOWY)
   const urzadzenia = stan.urzadzenia
 
@@ -46,23 +48,19 @@ export default function ZuzyciePerUrzadzeniePage() {
   return (
     <main className="mx-auto flex max-w-md flex-col gap-6 p-6">
       <NawigacjaEkranu href="/kalkulatory/zuzycie-per-urzadzenie" />
-      <NaglowekEkranu tytul="Zużycie energii per urządzenie" ekran="zuzycie-per-urzadzenie" wynik={result}>
-        Moc × czas pracy — a dla lodówki czy klimatyzatora jeszcze × współczynnik pracy sprężarki, bo nie pracuje ona bez
-        przerwy. Moduł 12.
+      <NaglowekEkranu tytul={t("UI-ZUZPERURZ-ZUZYCIE-ENERGII-PER")} ekran="zuzycie-per-urzadzenie" wynik={result}>
+        {t("UI-ZUZPERURZ-MOC-CZAS-PRACY")}
       </NaglowekEkranu>
 
       <p className="rounded-md border p-3 text-small">
-        Wpisz moc <strong>swojego</strong> urządzenia — z tabliczki znamionowej, instrukcji albo wyszukaj w internecie, ile
-        pobiera Twój model. Wpisujesz to tylko raz, aplikacja zapamięta listę na tym urządzeniu, więc warto poświęcić 10–15
-        minut na dokładne wypełnienie. Przykłady niżej to tylko średnie dla typowych urządzeń — Twój model może pobierać
-        wielokrotnie mniej albo więcej.
+        {t("UI-ZUZPERURZ-WPISZ-MOC")} <strong>{t("UI-ZUZPERURZ-SWOJEGO")}</strong> {t("UI-ZUZPERURZ-URZADZENIA-TABLICZKI-ZNAMION")}
       </p>
       <details className="text-small">
-        <summary className="cursor-pointer font-medium">Przykładowe średnie moce typowych urządzeń</summary>
+        <summary className="cursor-pointer font-medium">{t("UI-ZUZPERURZ-PRZYKLADOWE-SREDNIE-MOCE")}</summary>
         <ul className="mt-2 flex flex-col gap-1 text-muted-foreground">
           {PRZYKLADOWE_URZADZENIA.map((p) => (
             <li key={p.nazwa}>
-              {p.nazwa}: ok. {f0(p.mocW)} W{p.cykliczne ? " (pracuje cyklicznie)" : ""}
+              {p.nazwa}: ok. {f0(p.mocW)} W{p.cykliczne ? ` ${t("UI-ZUZPERURZ-PRACUJE-CYKLICZNIE")}` : ""}
             </li>
           ))}
         </ul>
@@ -79,8 +77,8 @@ export default function ZuzyciePerUrzadzeniePage() {
           return (
             <li key={u.id} className="flex flex-col gap-3 rounded-md border p-3">
               <Pole
-                label={`Urządzenie ${i + 1}`}
-                placeholder="np. lodówka turystyczna"
+                label={t("UI-ZUZPERURZ-URZADZENIE", { p: i + 1 })}
+                placeholder={t("UI-ZUZPERURZ-LODOWKA-TURYSTYCZNA")}
                 list={LISTA_PRZYKLADOW}
                 value={u.nazwa}
                 onChange={(e) => aktualizuj(u.id, { nazwa: e.target.value })}
@@ -88,22 +86,22 @@ export default function ZuzyciePerUrzadzeniePage() {
               />
               {przyklad && (
                 <p className="text-caption text-muted-foreground">
-                  Przykładowa średnia: ok. {f0(przyklad.mocW)} W — to nie jest moc Twojego modelu. Sprawdź ją i wpisz niżej.
+                  {t("UI-ZUZPERURZ-PRZYKLADOWA-SREDNIA-MOC", { mocW: f0(przyklad.mocW) })}
                 </p>
               )}
               <div className="grid grid-cols-2 gap-3">
-                <Pole label="Moc" unit="W" type="number" inputMode="decimal" min={0} value={pole(u.mocW)} onChange={(e) => aktualizuj(u.id, { mocW: Number(e.target.value) })} pomoc={<PomocPola ekran="zuzycie-per-urzadzenie" pole="moc" />} />
-                <Pole label="Włączone" unit="h/dobę" type="number" inputMode="decimal" min={0} max={24} value={pole(u.godzinNaDobe)} onChange={(e) => aktualizuj(u.id, { godzinNaDobe: Number(e.target.value) })} pomoc={<PomocPola ekran="zuzycie-per-urzadzenie" pole="godziny" />} />
+                <Pole label={t("UI-ZUZPERURZ-MOC")} unit="W" type="number" inputMode="decimal" min={0} value={pole(u.mocW)} onChange={(e) => aktualizuj(u.id, { mocW: Number(e.target.value) })} pomoc={<PomocPola ekran="zuzycie-per-urzadzenie" pole="moc" />} />
+                <Pole label={t("UI-ZUZPERURZ-WLACZONE")} unit={t("UI-ZUZPERURZ-DOBE")} type="number" inputMode="decimal" min={0} max={24} value={pole(u.godzinNaDobe)} onChange={(e) => aktualizuj(u.id, { godzinNaDobe: Number(e.target.value) })} pomoc={<PomocPola ekran="zuzycie-per-urzadzenie" pole="godziny" />} />
               </div>
               <PoleCheckbox
                 id={`${u.id}-cykliczne`}
-                label="Pracuje cyklicznie (sprężarka — lodówka, klimatyzator)"
+                label={t("UI-ZUZPERURZ-PRACUJE-CYKLICZNIE-SPREZARKA")}
                 checked={u.cykliczne}
                 onChange={(e) => aktualizuj(u.id, { cykliczne: e.target.checked })}
               />
               {u.cykliczne && (
                 <Pole
-                  label="Współczynnik pracy sprężarki"
+                  label={t("UI-ZUZPERURZ-WSPOLCZYNNIK-PRACY-SPREZARKI")}
                   unit="%"
                   type="number"
                   inputMode="decimal"
@@ -118,9 +116,9 @@ export default function ZuzyciePerUrzadzeniePage() {
                 type="button"
                 onClick={() => setStan((prev) => ({ urzadzenia: prev.urzadzenia.filter((x) => x.id !== u.id) }))}
                 className="self-start text-caption text-muted-foreground underline"
-                aria-label={`Usuń ${u.nazwa || `urządzenie ${i + 1}`}`}
+                aria-label={t("UI-ZUZPERURZ-USUN-2", { p: u.nazwa || t("UI-ZUZPERURZ-URZADZENIE-N", { n: i + 1 }) })}
               >
-                Usuń
+                {t("UI-ZUZPERURZ-USUN")}
               </button>
             </li>
           )
@@ -132,24 +130,24 @@ export default function ZuzyciePerUrzadzeniePage() {
         onClick={() => setStan((prev) => ({ urzadzenia: [...prev.urzadzenia, nowaPozycja()] }))}
         className="min-h-11 self-start rounded-md border px-4 text-small font-medium hover:bg-muted"
       >
-        + Dodaj urządzenie
+        {t("UI-ZUZPERURZ-DODAJ-URZADZENIE")}
       </button>
 
       {result.status === "INVALID_INPUT" ? (
-        <WerdyktPanel poziom="blad" etykieta="Nie da się policzyć — sprawdź wpisane dane">
+        <WerdyktPanel poziom="blad" etykieta={t("UI-ZUZPERURZ-POLICZYC-SPRAWDZ-WPISANE")}>
           <WynikSzczegoly assumptions={[]} warnings={result.warnings} />
         </WerdyktPanel>
       ) : result.status === "INCOMPLETE" ? (
         <p className="text-small text-muted-foreground">
-          Dodaj urządzenie z mocą i czasem pracy (a dla cyklicznych — ze współczynnikiem pracy), żeby zobaczyć zużycie.
+          {t("UI-ZUZPERURZ-DODAJ-URZADZENIE-MOCA")}
         </p>
       ) : (
-        <WerdyktPanel poziom="ok" etykieta="Zużycie na dobę">
+        <WerdyktPanel poziom="ok" etykieta={t("UI-ZUZPERURZ-ZUZYCIE-DOBE")}>
           <WynikGlowny>{f0(result.value.sumaWh)} Wh</WynikGlowny>
           <ul className="mt-1 text-small">
             {result.value.urzadzenia.map((u, i) => (
               <li key={u.id}>
-                {u.nazwa || `Urządzenie ${i + 1}`}: {f0(u.zuzycieWh)} Wh
+                {u.nazwa || t("UI-ZUZPERURZ-URZADZENIE", { p: i + 1 })}: {f0(u.zuzycieWh)} Wh
               </li>
             ))}
           </ul>

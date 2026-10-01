@@ -9,6 +9,7 @@ import { NawigacjaEkranu } from "@/components/nawigacja-ekranu"
 import { NaglowekEkranu } from "@/components/wzorce/naglowek-ekranu"
 import { ListaChecklist } from "@/components/wzorce/lista-checklist"
 import { StanPusty } from "@/components/ui/stany"
+import { useTranslate } from "@/lib/i18n/language-context"
 
 type FormularzStan = {
   potwierdzoneIds: string[]
@@ -19,6 +20,7 @@ const STAN_POCZATKOWY: FormularzStan = {
 }
 
 export default function BezpieczenstwoKwasPage() {
+  const t = useTranslate()
   const [stan, setStan] = usePersistedDraft<FormularzStan>("bezpieczenstwo-kwas", STAN_POCZATKOWY)
   const { potwierdzoneIds } = stan
 
@@ -38,8 +40,8 @@ export default function BezpieczenstwoKwasPage() {
   return (
     <main className="mx-auto flex max-w-md flex-col gap-6 p-6">
       <NawigacjaEkranu href="/kalkulatory/bezpieczenstwo-kwas" />
-      <NaglowekEkranu tytul="Bezpieczeństwo pracy z kwasem" ekran="bezpieczenstwo-kwas">
-        Moduł 11, Ekran B8 (Ścieżka B — kwasowo-ołowiowa).
+      <NaglowekEkranu tytul={t("UI-BEZKWA-BEZPIECZENSTWO-PRACY-KWASEM")} ekran="bezpieczenstwo-kwas">
+        {t("UI-BEZKWA-MODUL-EKRAN-SCIEZKA")}
       </NaglowekEkranu>
 
       <ListaChecklist
@@ -63,9 +65,9 @@ export default function BezpieczenstwoKwasPage() {
       </ul>
 
       {result.status === "VALID" ? (
-        <WerdyktPanel poziom="ok" etykieta="Wyposażenie ochronne i procedury gotowe" />
+        <WerdyktPanel poziom="ok" etykieta={t("UI-BEZKWA-WYPOSAZENIE-OCHRONNE-PROCEDU")} />
       ) : (
-        <StanPusty tytul={`Potwierdzono ${result.value.potwierdzone} / ${result.value.razem} elementów`} />
+        <StanPusty tytul={t("UI-BEZKWA-POTWIERDZONO-ELEMENTOW", { potwierdzone: result.value.potwierdzone, razem: result.value.razem })} />
       )}
     </main>
   )

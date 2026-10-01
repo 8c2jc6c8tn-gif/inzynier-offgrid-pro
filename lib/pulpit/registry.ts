@@ -18,6 +18,8 @@ export type KafelEntry = {
   opis: string
   ikona: string
   ekrany: EkranEntry[]
+  /** Wide tile on the dashboard (two grid columns, description shown) — the two M14 chapters (D35). */
+  duzy?: boolean
 }
 
 export const KAFLE: KafelEntry[] = [
@@ -247,7 +249,12 @@ export const KAFLE: KafelEntry[] = [
     opis: "Czujniki, sterowanie, komunikacja.",
     ikona: "🧰",
     ekrany: [
+      { href: "/kalkulatory/wybor-plytki-esp32", label: "Wybór płytki ESP32" },
+      { href: "/kalkulatory/montaz-obudowa-esp32", label: "Montaż i obudowa ESP32" },
       { href: "/kalkulatory/katalog-czujnikow", label: "Katalog czujników" },
+      { href: "/kalkulatory/katalog-aktuatorow", label: "Katalog aktuatorów" },
+      { href: "/kalkulatory/katalog-protokolow", label: "Katalog protokołów komunikacji" },
+      { href: "/kalkulatory/katalog-interfejsu-lokalnego", label: "Katalog interfejsu lokalnego" },
       { href: "/kalkulatory/zasilanie-esp32", label: "Zasilanie ESP32 z magistrali" },
       { href: "/kalkulatory/architektura-komunikacji", label: "Architektura komunikacji ESP32" },
       { href: "/kalkulatory/przydzial-pinow", label: "Przydział pinów GPIO" },
@@ -333,6 +340,7 @@ export const KAFLE: KafelEntry[] = [
   {
     id: 15,
     nazwa: "Dom – sieć",
+    duzy: true,
     opis: "Rachunek za prąd, taryfa G, prosument — a potem opcja przejścia na off-grid.",
     ikona: "🏠",
     ekrany: [
@@ -356,6 +364,7 @@ export const KAFLE: KafelEntry[] = [
   {
     id: 16,
     nazwa: "Firma – sieć",
+    duzy: true,
     opis: "Rachunek w taryfach C, moc bierna, moc umowna, opłata mocowa — a potem opcja przejścia na off-grid.",
     ikona: "🏭",
     ekrany: [

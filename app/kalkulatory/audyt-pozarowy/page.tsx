@@ -5,6 +5,7 @@ import { NawigacjaEkranu } from "@/components/nawigacja-ekranu"
 import { NaglowekEkranu } from "@/components/wzorce/naglowek-ekranu"
 import { ListaOdczytowa, type PozycjaOdczytowa } from "@/components/wzorce/panel-odczytowy"
 import { ZalozeniaLista } from "@/components/zalozenia-lista"
+import { useTranslate } from "@/lib/i18n/language-context"
 
 const STATUS_NA_POZIOM: Record<(typeof SAMPLE_AUDIT_ITEMS)[number]["status"], WerdyktPoziom> = {
   ok: "ok",
@@ -13,6 +14,7 @@ const STATUS_NA_POZIOM: Record<(typeof SAMPLE_AUDIT_ITEMS)[number]["status"], We
 }
 
 export default function AudytPozarowyPage() {
+  const t = useTranslate()
   const result = calculateAuditPozarowy(SAMPLE_AUDIT_ITEMS)
 
   const poziom: WerdyktPoziom =
@@ -32,16 +34,14 @@ export default function AudytPozarowyPage() {
   return (
     <main className="mx-auto flex max-w-md flex-col gap-6 p-6">
       <NawigacjaEkranu href="/kalkulatory/audyt-pozarowy" />
-      <NaglowekEkranu tytul="Autonomiczny audyt bezpieczeństwa pożarowego" ekran="audyt-pozarowy" wynik={result}>
-        AI regularnie sprawdza, czy w razie pożaru wszystko zadziała tak, jak powinno — żeby nie
-        odkryć zepsutego czujnika dopiero w trakcie prawdziwego pożaru. Moduł 8, Ekran 11.
+      <NaglowekEkranu tytul={t("UI-AUDPOZ-AUTONOMICZNY-AUDYT-BEZPIECZE")} ekran="audyt-pozarowy" wynik={result}>
+        {t("UI-AUDPOZ-REGULARNIE-SPRAWDZA-RAZIE")}
       </NaglowekEkranu>
 
       <WerdyktPanel poziom={poziom}>
-        <p className="mt-1 text-h1 font-semibold">{result.value.procentGotowosci}% gotowości</p>
+        <p className="mt-1 text-h1 font-semibold">{t("UI-AUDPOZ-GOTOWOSCI", { procentGotowosci: result.value.procentGotowosci })}</p>
         <p className="mt-1 text-small">
-          {result.value.liczbaOk} OK, {result.value.liczbaOstrzezen} do sprawdzenia,{" "}
-          {result.value.liczbaKrytycznych} krytycznych — z {result.value.razem} elementów.
+          {t("UI-AUDPOZ-SPRAWDZENIA-KRYTYCZNYCH-ELEM", { liczbaOk: result.value.liczbaOk, liczbaOstrzezen: result.value.liczbaOstrzezen, liczbaKrytycznych: result.value.liczbaKrytycznych, razem: result.value.razem })}
         </p>
       </WerdyktPanel>
 
@@ -49,8 +49,7 @@ export default function AudytPozarowyPage() {
 
       <ZalozeniaLista assumptions={result.assumptions} />
       <p className="text-caption text-muted-foreground">
-        To ekran wyłącznie do odczytu — nie ma tu pól do
-        wypełnienia, tylko wyniki innych systemów.
+        {t("UI-AUDPOZ-EKRAN-WYLACZNIE-ODCZYTU")}
       </p>
     </main>
   )

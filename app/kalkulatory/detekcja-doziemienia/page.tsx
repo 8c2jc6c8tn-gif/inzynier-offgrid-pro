@@ -43,10 +43,8 @@ export default function DetekcjaDoziemieniaPage() {
   return (
     <main className="mx-auto flex max-w-md flex-col gap-6 p-6">
       <NawigacjaEkranu href="/kalkulatory/detekcja-doziemienia" />
-      <NaglowekEkranu tytul="Detekcja doziemienia (Ground Fault & IMD)" ekran="detekcja-doziemienia">
-        Prąd stały (DC) trzyma ofiarę porażenia mocniej niż zmienny (AC) — mięśnie nie mogą się
-        „puścić” tak jak przy AC. Dlatego detekcja doziemienia w DC jest tak krytyczna. Moduł 4,
-        Ekran 29.
+      <NaglowekEkranu tytul={t("UI-DETDOZ-DETEKCJA-DOZIEMIENIA-GROUND")} ekran="detekcja-doziemienia">
+        {t("UI-DETDOZ-PRAD-STALY-TRZYMA")}
       </NaglowekEkranu>
 
       <div className="flex flex-col gap-3">
@@ -54,17 +52,17 @@ export default function DetekcjaDoziemieniaPage() {
           id="ma-imd"
           checked={maMonitorIzolacji}
           onChange={(e) => setMaMonitorIzolacji(e.target.checked)}
-          label="Zainstalowano monitor izolacji (IMD)"
+          label={t("UI-DETDOZ-ZAINSTALOWANO-MONITOR-IZOLAC")}
         />
         <PoleCheckbox
           id="ma-roznicowke"
           checked={maRoznicowkeDc}
           onChange={(e) => setMaRoznicowkeDc(e.target.checked)}
-          label="Zainstalowano różnicówkę DC"
+          label={t("UI-DETDOZ-ZAINSTALOWANO-ROZNICOWKE")}
         />
       </div>
 
-      <WerdyktPanel poziom={poziom} etykieta={result.value.zabezpieczony ? "Zabezpieczone" : "Brak zabezpieczenia"}>
+      <WerdyktPanel poziom={poziom} etykieta={result.value.zabezpieczony ? t("UI-DETDOZ-ZABEZPIECZONE") : t("UI-DETDOZ-BRAK-ZABEZPIECZENIA")}>
         {result.warnings.map((w) => (
           <p key={w.code} className="mt-1 text-small">
             {w.message ?? t(w.i18nKey ?? w.code, w.params)}

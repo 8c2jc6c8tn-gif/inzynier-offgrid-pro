@@ -1,6 +1,6 @@
 # Rejestr decyzji — Inżynier Offgrid Pro
 
-**Wersja:** 1.33 | **Filar:** C | **Data utworzenia:** 04.09.2026 | **Ostatnia aktualizacja:** 30.09.2026 | **Status:** Stabilny (rosnący)
+**Wersja:** 1.39 | **Filar:** C | **Data utworzenia:** 04.09.2026 | **Ostatnia aktualizacja:** 30.09.2026 | **Status:** Stabilny (rosnący)
 **Powiązane dokumenty:** `00_Biblia.md`, `docs/memory.md`, `USTALENIA.md` (historyczny, Część II)
 
 TL;DR: D1, D2, D3… — decyzje **strategiczne/fundamentalne** (blokujące wiele innych rzeczy naraz, Krok 4 GOD BOOK), ponumerowane, nigdy nie kasowane, tylko unieważniane jawnie (F.5). **Nie duplikuje `docs/memory.md`**: tam żyje pełna, szczegółowa historia każdej sesji (setki drobnych decyzji implementacyjnych per ekran) — tu tylko decyzje, które zmieniły kierunek/regułę obowiązującą cały projekt. Gdy wpis niżej odsyła do `docs/memory.md`, tam jest pełne uzasadnienie i przykłady.
@@ -261,6 +261,44 @@ Treść:
 
 **D61 (30.09.2026) — Budżet pierwszego pobrania aplikacji: wariant A (obecny stan przyjęty).** Koszt cofnięcia: tani (brak zmian w kodzie). Decyzja właściciela projektu („budżet wariant A”) z opcji przedstawionych po pomiarze etapu 2 SW (D60): precache 20,85 MB surowo / ≈ 6,8 MB transferu gzip, pobierane raz w tle po pierwszej wizycie — akceptowane, dalsze cięcie nie jest planowane. Wariant B (słowniki per język, ~1–1,5 MB mniej transferu) wraca dopiero przy sygnale z terenu o słabym łączu; wariant C (część ekranów poza precache) odrzucony — łamałby D59 C-3 i 5.3.
 
+**D62 (30.09.2026) — Presety pulpitu: kilka zaznaczonych = unia w kolejności domyślnej; dziewiąty preset „Jestem podłączony do sieci” = kafle M14 na początku, potem 1, 2, 3, 4, 6, 7, 8.** Koszt cofnięcia: tani (dane w `lib/pulpit/presety.ts` + test). Decyzja właściciela projektu z 30.09.2026 („zgadzam się i tam i tam”) na dwie propozycje AI: (1) `docs/pulpit-i-nawigacja.md` §3 każe sumować kafle kilku presetów, ale nie określa kolejności — przyjęta kolejność domyślna z §2 (ta sama reguła co „Pełne menu”); pojedynczy preset zachowuje kolejność z tabeli; (2) skład presetu z D39 — „Dom – sieć”, „Firma – sieć”, a za nimi moduły, z których M14 czyta dane (§2: 1–4 i 6–8); ukryte: 5, 9–13. Presety działają w Ustawieniach; ekran onboardingu przy pierwszym uruchomieniu nadal w `backlog-poza-v1.md`.
+
+**D63 (30.09.2026) — Kierunek wyglądu: 3 style „Premium” przyjęte do pracy, 2 style „Warsztat” odrzucone.** Koszt cofnięcia: tani (na razie brak zmian w kodzie — tylko prototyp poza repo). Decyzja właściciela projektu („1,2,3 mi się podobają, zostawiamy i bierzemy w pracę, pozostałe są za płaskie”) po obejrzeniu prototypu (artefakt https://claude.ai/artifact/JsYnhZYECTQtSTAPAj4kmL, wzór: makieta właściciela nr 3): **Grafit + złoto**, **Granat + miedź**, **Jasny architektoniczny** idą do wdrożenia jako „Style wyglądu” (tokeny + kilka wariantów komponentów, `docs/opis-ekranow-dla-ai.md` sekcja 8). **Warsztat jasny/ciemny** (obecne kolory, tylko zagęszczone) odrzucone jako „za płaskie”. Docelowo 5 stylów na start — brakujące 2 do wyboru spośród nowych propozycji (ten sam artefakt). Otwarte, nierozstrzygnięte przez tę decyzję: czcionka szeryfowa z cyrylicą (Fraunces/Instrument Serif jej nie mają), miedź/złoto a 🟡, zieleń jako akcent w „Monitoruj” a 🟢, zdjęcia domów w pełnej jakości (licencja, waga precache — D61), liczby szeryfowe vs Inter. Reguły z `docs/opis-ekranow-dla-ai.md` sekcja 7 (kolory werdyktu święte, `critical` nigdy schowany) obowiązują każdy styl bez wyjątku.
+
+**D64 (30.09.2026) — Kolejne 4 style wyglądu przyjęte do pracy; lista stylów otwarta.** Koszt cofnięcia: tani (nadal tylko prototyp poza repo). Rozszerza D63. Właściciel projektu wybrał z propozycji w artefakcie https://claude.ai/artifact/JsYnhZYECTQtSTAPAj4kmL cztery style zamiast dwóch: **Tytan** (grafit + platyna), **Las + mosiądz**, **Kreślarski** (blueprint) i **Noc polarna**. Razem z trzema stylami z D63 to 7 stylów w pracy. „Beton + mosiądz” nie został wybrany. Liczba stylów na start nie jest już ograniczona do 5 („będzie więcej stylów do wyboru”). Druga runda propozycji w tym samym artefakcie czeka na wybór: Różowe złoto, Pudrowy róż (jasny), Pomarańcz sygnałowy, Słoneczny poranek (jasny), Zachód słońca. Uwaga audytora zapisana przy decyzji: „Las” ma najsłabszy kontrast 🟢 na tle, a „Pomarańcz sygnałowy” najwyższe ryzyko pomylenia z 🟡. Każdy przyjęty styl musi przejść kontrolę kontrastu werdyktów (WCAG) przed wdrożeniem. Wszystkie otwarte kwestie z D63 pozostają otwarte.
+
+**D65 (30.09.2026) — Druga runda: 5 kolejnych stylów wyglądu do pracy (łącznie 12).** Koszt cofnięcia: tani (nadal tylko prototyp poza repo). Rozszerza D63/D64. Właściciel projektu przyjął całą drugą rundę z artefaktu https://claude.ai/artifact/JsYnhZYECTQtSTAPAj4kmL: **Różowe złoto**, **Pudrowy róż** (jasny), **Pomarańcz sygnałowy**, **Słoneczny poranek** (jasny) i **Zachód słońca**. **Pomarańcz sygnałowy** przyjęto mimo uwagi audytora (akcent bardzo blisko 🟡). Warunek wdrożenia: pomarańcz tylko na krawędziach, przyciskach i w nawigacji, pierścień wyniku neutralny, werdykt zawsze z ikoną i podpisem, test czytelności dla zaburzeń widzenia barw. Jeśli test nie przejdzie, styl wraca do właściciela. Trzecia runda (style eksperymentalne 14–20: Holograficzny, Kokpit HUD, Szkło, Brutalizm, Synthwave, Orbita, Neumorfizm) czeka na wybór. Część z nich świadomie łamie zakazy ze specyfikacji Premium właściciela: gradienty tęczowe, „szkło typu Vision Pro”, gamingowe neony. Przyjęcie takiego stylu = jawny wyjątek od tej specyfikacji, zapisywany przy wyborze. Reguły sekcji 7 `docs/opis-ekranow-dla-ai.md` (kolory werdyktu, `critical` widoczny) obowiązują bez wyjątku.
+
+**D66 (30.09.2026) — Runda eksperymentalna przyjęta w całości (łącznie 19 stylów); świadome wyjątki od specyfikacji Premium.** Koszt cofnięcia: tani (nadal tylko prototyp poza repo). Rozszerza D63–D65. Właściciel projektu przyjął style 14–20 z artefaktu https://claude.ai/artifact/JsYnhZYECTQtSTAPAj4kmL: **Holograficzny**, **Kokpit HUD**, **Szkło**, **Brutalizm**, **Synthwave**, **Orbita** i **Neumorfizm**. To jawne wyjątki od zakazów w jego specyfikacji Premium: Holograficzny łamie zakaz gradientów tęczowych, Szkło zakaz „szkła typu Vision Pro”, a Synthwave zakaz gamingowych neonów. Wyjątki dotyczą tylko tych stylów, a zakazy nadal obowiązują pozostałe. Warunki wdrożenia:
+- tęcza (Holograficzny) i neonowy róż (Synthwave) nigdy nie pojawiają się na karcie z werdyktem ani ostrzeżeniem;
+- Szkło ma wariant zapasowy bez rozmycia dla słabszych telefonów;
+- Neumorfizm dostaje obrysy pól (WCAG 1.4.11);
+- Kokpit HUD przechodzi test kontrastu turkusu względem 🟢 dla deuteranopii;
+- animacje (Holograficzny) wyłączają się przy `prefers-reduced-motion`.
+
+Czwarta runda (21–28: Notatnik inżyniera, Rozdzielnica, E-ink, OLED oszczędny, Płynny gradient, Terminal DOS, Marmur i złoto, Zen) czeka na wybór. Reguły sekcji 7 `docs/opis-ekranow-dla-ai.md` obowiązują każdy styl bez wyjątku.
+
+**D67 (30.09.2026) — Czwarta runda przyjęta w całości (łącznie 27 stylów) i podział stylów na 4 grupy w Ustawieniach.** Koszt cofnięcia: tani (nadal tylko prototyp poza repo; przydział do grup to jedna tabela). Rozszerza D63–D66. Właściciel projektu przyjął style 21–28 z artefaktu https://claude.ai/artifact/JsYnhZYECTQtSTAPAj4kmL: **Notatnik inżyniera**, **Rozdzielnica**, **E-ink**, **OLED oszczędny**, **Płynny gradient**, **Terminal DOS**, **Marmur i złoto** i **Zen**. Jedynym odrzuconym stylem pozostaje „Beton + mosiądz”. Przyjęto też podział listy w Ustawieniach na grupy. Przydział stylów jest propozycją AI i właściciel może go zmienić:
+- **Premium** (10): Grafit + złoto, Granat + miedź, Tytan, Las + mosiądz, Kreślarski, Noc polarna, Różowe złoto, Pomarańcz sygnałowy, Zachód słońca, OLED oszczędny.
+- **Jasne** (7): Jasny architektoniczny, Pudrowy róż, Słoneczny poranek, Rozdzielnica, E-ink, Marmur i złoto, Zen.
+- **Eksperymentalne** (8): Holograficzny, Kokpit HUD, Szkło, Brutalizm, Orbita, Neumorfizm, Notatnik inżyniera, Płynny gradient.
+- **Ukryte i sezonowe** (2): Synthwave, Terminal DOS.
+
+Warunki wdrożenia:
+- Terminal DOS: wynik biały, nigdy żółty (🟡); test kontrastu 🔴 na niebieskim tle.
+- Notatnik inżyniera: pismo odręczne (Caveat, ma cyrylicę) tylko w nagłówkach i wyniku; liczby w tabelach i formularzach w Inter.
+- Płynny gradient: tło ruchome tylko na pulpicie, na kalkulatorach nieruchome.
+- E-ink: to styl wyglądu, nie wsparcie czytników e-ink.
+- Zen i Neumorfizm: obrysy pól (WCAG 1.4.11).
+
+Otwarte pytanie: czym „odblokowuje się” grupa Ukryte i sezonowe (np. przełącznik w Ustawieniach albo daty sezonowe). Wdrożenie etapami: najpierw mechanizm, tabela tokenów, grupy i kilka stylów, potem reszta partiami; każdy styl przechodzi automatyczny test kontrastu werdyktów.
+
+*Dopisek do D67 (30.09.2026, właściciel projektu):* style **1–3** (Grafit + złoto, Granat + miedź, Jasny architektoniczny) są **stylami bazowymi wersji PRO** (płatnej). Styl dla **wersji darmowej** zostanie wybrany później. Otwarte:
+- czy pozostałe 24 style wchodzą w PRO w całości, czy są dodatkiem;
+- który styl dostaje wersja darmowa.
+
+Obie sprawy należą do decyzji o modelu freemium (rozdz. 12 standardu), która nadal jest niewdrożona i czeka na właściciela (`docs/memory.md`). Konsekwencja techniczna już teraz: tabela stylów w `lib/wyglad/` ma pole dostępności (np. `tier`), ale egzekucja PRO powstaje dopiero z wdrożeniem freemium. Do tego czasu wszystkie style są dostępne.
+
 ## Założenia robocze (F.7 GOD BOOK)
 
 **Z1 (04.09.2026) — przyjęto:** ID modułów (H.2 GOD BOOK, M#) odpowiadają wprost numeracji "Moduł N" już używanej w całym projekcie (1–13), nie nowej, niezależnej numeracji. **Powód:** ta numeracja jest już stabilna, używana w kodzie, dokumentacji i UI od 29.08.2026 — wprowadzenie równoległej numeracji M# byłoby duplikatem, nie nowym bytem. **Na czym się opiera:** cała struktura `docs/rejestr-pokrycia.md`, `lib/pulpit/registry.ts`, `docs/pulpit-i-nawigacja.md`.
@@ -308,3 +346,10 @@ Treść:
 | 29.09.2026 | Dodano D59 (SW wariant C, etap 1: `sonner`, `playwright` w devDependencies, precache wszystkich stron — rekomendacje planu przyjęte poleceniem „rób dalej nie pytając”). Wersja 1.30→1.31. |
 | 30.09.2026 | Dodano D60 (SW etap 2: widok 3D tylko online, worker mapy z powrotem w precache — spacer GPS offline wg D22) — decyzja właściciela projektu. Wersja 1.31→1.32. |
 | 30.09.2026 | Dodano D61 (budżet pierwszego pobrania: wariant A — obecne ≈ 6,8 MB transferu przyjęte) — decyzja właściciela projektu. Wersja 1.32→1.33. |
+| 30.09.2026 | Dodano D62 (presety pulpitu: unia w kolejności domyślnej, skład presetu „Jestem podłączony do sieci”) — decyzja właściciela projektu. Wersja 1.33→1.34. |
+| 30.09.2026 | Dodano D63 (kierunek wyglądu: 3 style „Premium” do pracy, 2 „Warsztat” odrzucone jako za płaskie; 2 brakujące style do wyboru z nowych propozycji) — decyzja właściciela projektu. Wersja 1.34→1.35. |
+| 30.09.2026 | Dodano D64 (kolejne 4 style do pracy: Tytan, Las + mosiądz, Kreślarski, Noc polarna; łącznie 7; lista stylów otwarta, druga runda propozycji czeka na wybór) — decyzja właściciela projektu. Wersja 1.35→1.36. |
+| 30.09.2026 | Dodano D65 (druga runda: Różowe złoto, Pudrowy róż, Pomarańcz sygnałowy — z warunkiem testu vs 🟡, Słoneczny poranek, Zachód słońca; łącznie 12 stylów; runda eksperymentalna 14–20 czeka na wybór) — decyzja właściciela projektu. Wersja 1.36→1.37. |
+| 30.09.2026 | Dodano D66 (runda eksperymentalna 14–20 przyjęta w całości, łącznie 19 stylów; jawne wyjątki od zakazów specyfikacji Premium dla Holograficznego, Szkła i Synthwave, z warunkami wdrożenia; czwarta runda 21–28 czeka na wybór) — decyzja właściciela projektu. Wersja 1.37→1.38. |
+| 30.09.2026 | Dodano D67 (czwarta runda 21–28 przyjęta w całości, łącznie 27 stylów; podział na grupy Premium / Jasne / Eksperymentalne / Ukryte i sezonowe; warunki wdrożenia) — decyzja właściciela projektu. Wersja 1.38→1.39. |
+| 01.10.2026 | Kolizja numeracji (przypadek H.3): sesja presetów pulpitu scaliła D62 pierwsza, więc decyzje o stylach wyglądu przenumerowane z D62–D66 na D63–D67 (z wersjami 1.35–1.39). Treść bez zmian. |

@@ -12,8 +12,6 @@ import { PomocPola } from "@/components/ui/pomoc"
 import { NaglowekEkranu } from "@/components/wzorce/naglowek-ekranu"
 import { BudowniczyListy, PrzyciskUsun } from "@/components/wzorce/budowniczy-listy"
 
-let nextId = 1
-
 type FormularzStan = {
   instances: SensorInstance[]
   typeId: string
@@ -51,9 +49,15 @@ export default function KatalogCzujnikowPage() {
 
   function addInstance() {
     if (!etykieta.trim()) return
+    // Ids survive reloads (persisted draft), so the next one is derived from the list, not a module counter.
     setInstances((prev) => [
       ...prev,
-      { id: String(nextId++), typeId, etykieta: etykieta.trim(), lokalizacja: lokalizacja.trim() },
+      {
+        id: String(Math.max(0, ...prev.map((i) => Number(i.id) || 0)) + 1),
+        typeId,
+        etykieta: etykieta.trim(),
+        lokalizacja: lokalizacja.trim(),
+      },
     ])
     setEtykieta("")
     setLokalizacja("")

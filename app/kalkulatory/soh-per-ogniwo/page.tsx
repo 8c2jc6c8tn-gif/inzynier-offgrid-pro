@@ -62,18 +62,17 @@ export default function SohPerOgniwoPage() {
     <main className="mx-auto flex max-w-md flex-col gap-6 p-6">
       <NawigacjaEkranu href="/kalkulatory/soh-per-ogniwo" />
       <NaglowekEkranu
-        tytul="SoH — diagnostyka per ogniwo"
+        tytul={t("UI-SOHPEROGN-SOH-DIAGNOSTYKA-PER")}
         ekran="soh-per-ogniwo"
         wynik={result}
         parametry={{ progWzrostu: PROG_KRYTYCZNY_WZROSTU_PCT }}
       >
-        Rosnąca rezystancja jednego ogniwa to jak zatkane naczynie krwionośne — reszta układu
-        musi pracować ciężej, żeby to skompensować. Moduł 4, Ekran 14.
+        {t("UI-SOHPEROGN-ROSNACA-REZYSTANCJA-JEDNEGO")}
       </NaglowekEkranu>
 
       <div className="flex flex-col gap-4">
         <Pole
-          label="Rezystancja wewnętrzna fabryczna (nowe ogniwo)"
+          label={t("UI-SOHPEROGN-REZYSTANCJA-WEWNETRZNA-FABRY")}
           unit="mΩ"
           type="number"
           inputMode="decimal"
@@ -82,7 +81,7 @@ export default function SohPerOgniwoPage() {
           pomoc={<PomocPola ekran="soh-per-ogniwo" pole="rFabryczna" />}
         />
         <Pole
-          label="Rezystancja wewnętrzna aktualna"
+          label={t("UI-SOHPEROGN-REZYSTANCJA-WEWNETRZNA-AKTUA")}
           unit="mΩ"
           type="number"
           inputMode="decimal"
@@ -94,15 +93,15 @@ export default function SohPerOgniwoPage() {
 
       {result.status === "INCOMPLETE" ? (
         <p className="text-small text-muted-foreground">
-          Wypełnij dane, żeby zobaczyć ocenę stanu ogniwa.
+          {t("UI-SOHPEROGN-WYPELNIJ-DANE-ZEBY")}
         </p>
       ) : (
         poziom !== null && (
-          <WerdyktPanel poziom={poziom} etykieta={result.value.doWymiany ? "Ogniwo do wymiany" : "Ogniwo OK"}>
+          <WerdyktPanel poziom={poziom} etykieta={result.value.doWymiany ? t("UI-SOHPEROGN-OGNIWO-WYMIANY") : t("UI-SOHPEROGN-OGNIWO")}>
             <WynikGlowny>
-              +{result.value.wzrostPct.toLocaleString("pl-PL", { maximumFractionDigits: 0 })}% względem fabrycznej
+              {t("UI-SOHPEROGN-WZGLEDEM-FABRYCZNEJ", { wzrostPct: result.value.wzrostPct.toLocaleString("pl-PL", { maximumFractionDigits: 0 }) })}
             </WynikGlowny>
-            <p className="mt-1 text-small">Próg krytyczny: {PROG_KRYTYCZNY_WZROSTU_PCT}%.</p>
+            <p className="mt-1 text-small">{t("UI-SOHPEROGN-PROG-KRYTYCZNY", { PROG_KRYTYCZNY_WZROSTU_PCT })}</p>
             {result.warnings.map((w) => (
               <p key={w.code} className="mt-2 text-small">
                 {w.message ?? t(w.i18nKey ?? w.code, w.params)}

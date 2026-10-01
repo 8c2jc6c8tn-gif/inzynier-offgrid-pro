@@ -18,10 +18,10 @@ import { WynikSzczegoly } from "@/components/wzorce/wynik-szczegoly"
 import { useTranslate } from "@/lib/i18n/language-context"
 
 const ETYKIETY_ZRODLA: Record<string, string> = {
-  "brak-potrzeby": "Grzanie niepotrzebne",
-  pv: "Grzanie z PV",
-  bateria: "Grzanie z baterii",
-  wstrzymane: "Grzanie wstrzymane",
+  "brak-potrzeby": "UI-GRZBMSMRO-GRZANIE-NIEPOTRZEBNE",
+  pv: "UI-GRZBMSMRO-GRZANIE-Z-PV",
+  bateria: "UI-GRZBMSMRO-GRZANIE-Z-BATERII",
+  wstrzymane: "UI-GRZBMSMRO-GRZANIE-WSTRZYMANE",
 }
 
 type FormularzStan = {
@@ -87,27 +87,26 @@ export default function GrzalkiBmsMrozPage() {
   }
 
   const werdyktEtykieta: Record<Exclude<typeof werdykt, "incomplete" | "out-of-scope">, string> = {
-    invalid: "Nie da się ocenić — sprawdź wpisane dane",
-    red: "Grzanie wstrzymane — ładowanie zablokowane",
-    yellow: "Grzanie z baterii",
-    green: ETYKIETY_ZRODLA[result.value.zrodloGrzania] ?? "Zalecane",
+    invalid: t("UI-GRZBMSMRO-OCENIC-SPRAWDZ-WPISANE"),
+    red: t("UI-GRZBMSMRO-GRZANIE-WSTRZYMANE-LADOWANIE"),
+    yellow: t("UI-GRZBMSMRO-GRZANIE-Z-BATERII"),
+    green: t(ETYKIETY_ZRODLA[result.value.zrodloGrzania] ?? "UI-GRZBMSMRO-ZALECANE"),
   }
 
   return (
     <main className="mx-auto flex max-w-md flex-col gap-6 p-6">
       <NawigacjaEkranu href="/kalkulatory/grzalki-bms-mroz" />
       <NaglowekEkranu
-        tytul="Grzałki BMS i ochrona przed mrozem"
+        tytul={t("UI-GRZBMSMRO-GRZALKI-BMS-OCHRONA")}
         ekran="grzalki-bms-mroz" wynik={result}
         parametry={{ progTemp: PROG_TEMPERATURY_GRZANIA_C, progSoc: PROG_SOC_WSTRZYMANIA_PCT }}
       >
-        Nie marnuj prądu z baterii na grzanie, jeśli za chwilę słońce zrobi to za darmo — system
-        sam to policzy i wybierze mądrzejszy moment. Moduł 4, Ekran 5.
+        {t("UI-GRZBMSMRO-MARNUJ-PRADU-BATERII")}
       </NaglowekEkranu>
 
       <div className="flex flex-col gap-4">
         <Pole
-          label="Najniższa spodziewana temperatura przy baterii"
+          label={t("UI-GRZBMSMRO-NAJNIZSZA-SPODZIEWANA-TEMPER")}
           unit="°C"
           type="number"
           inputMode="decimal"
@@ -116,7 +115,7 @@ export default function GrzalkiBmsMrozPage() {
           pomoc={<PomocPola ekran="grzalki-bms-mroz" pole="temperatura" params={{ progTemp: PROG_TEMPERATURY_GRZANIA_C, progSoc: PROG_SOC_WSTRZYMANIA_PCT }} />}
         />
         <Pole
-          label="Bieżący SoC baterii"
+          label={t("UI-GRZBMSMRO-BIEZACY-SOC-BATERII")}
           unit="%"
           type="number"
           inputMode="numeric"
@@ -127,28 +126,25 @@ export default function GrzalkiBmsMrozPage() {
           pomoc={<PomocPola ekran="grzalki-bms-mroz" pole="soc" params={{ progTemp: PROG_TEMPERATURY_GRZANIA_C, progSoc: PROG_SOC_WSTRZYMANIA_PCT }} />}
         />
         <PoleSelect
-          label="Czy w tej chwili jest produkcja PV"
+          label={t("UI-GRZBMSMRO-TEJ-CHWILI-PRODUKCJA")}
           value={produkcjaPv}
           onChange={(e) => setProdukcjaPv(e.target.value as ProdukcjaPv)}
           pomoc={<PomocPola ekran="grzalki-bms-mroz" pole="pv" />}
         >
-          <option value="">— wybierz —</option>
-          <option value="tak">Tak</option>
-          <option value="nie">Nie</option>
+          <option value="">{t("UI-WYBIERZ")}</option>
+          <option value="tak">{t("UI-TAK-DUZE")}</option>
+          <option value="nie">{t("UI-NIE-DUZE")}</option>
         </PoleSelect>
       </div>
 
       {werdykt === "incomplete" ? (
         <p className="text-small text-muted-foreground">
-          Wypełnij dane, żeby zobaczyć, skąd BMS weźmie prąd na grzanie.
+          {t("UI-GRZBMSMRO-WYPELNIJ-DANE-ZEBY")}
         </p>
       ) : werdykt === "out-of-scope" ? (
-        <WerdyktPanel poziom="uwaga" etykieta="Granica nierozstrzygnięta w źródle">
+        <WerdyktPanel poziom="uwaga" etykieta={t("UI-GRZBMSMRO-GRANICA-NIEROZSTRZYGNIETA-ZR")}>
           <p className="text-small">
-            Przy SoC dokładnie {PROG_SOC_WSTRZYMANIA_PCT}% źródło nie rozstrzyga, czy grzanie z
-            baterii jest jeszcze dozwolone, czy już wstrzymane (podaje osobno „powyżej” i
-            „poniżej” progu, nie „na progu”). Zmień SoC choć trochę w górę lub w dół, żeby
-            zobaczyć jednoznaczną ocenę.
+            {t("UI-GRZBMSMRO-SOC-DOKLADNIE-ZRODLO", { PROG_SOC_WSTRZYMANIA_PCT })}
           </p>
         </WerdyktPanel>
       ) : (
@@ -164,7 +160,7 @@ export default function GrzalkiBmsMrozPage() {
 
       <div className="rounded-lg border bg-muted/30 p-4 text-caption text-muted-foreground">
         <p className="font-medium text-foreground">
-          Dodatkowy bilans energii na grzanie (nie liczony automatycznie)
+          {t("UI-GRZBMSMRO-DODATKOWY-BILANS-ENERGII")}
         </p>
         <ul className="mt-2 flex flex-col gap-1">
           {PRZYKLADY_BILANSU_GRZANIA.map((tekst) => (

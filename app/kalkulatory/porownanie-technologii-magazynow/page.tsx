@@ -15,15 +15,15 @@ import { useTranslate } from "@/lib/i18n/language-context"
 type Tech = ReturnType<typeof calculatePorownanieTechnologii>["value"][number]
 
 const KOLUMNY: Kolumna<Tech>[] = [
-  { naglowek: "Technologia", render: (t) => <span className="font-medium">{t.label}</span> },
-  { naglowek: "Cena startowa", render: (t) => CENA_STARTOWA_LABELS[t.cenaStartowa] },
-  { naglowek: "Cykle (przy DoD)", render: (t) => t.cyklePrzyDodOpis },
-  { naglowek: "Sprawność", render: (t) => (t.sprawnoscPct === null ? "—" : `${t.sprawnoscPct}%`) },
-  { naglowek: "Waga/kWh", render: (t) => t.wagaKgPerKwhOpis },
-  { naglowek: "Obsługa", render: (t) => t.obsluga },
+  { naglowek: "UI-PORTECMAG-TECHNOLOGIA", render: (tech) => <span className="font-medium">{tech.label}</span> },
+  { naglowek: "UI-PORTECMAG-CENA-STARTOWA", render: (tech) => CENA_STARTOWA_LABELS[tech.cenaStartowa] },
+  { naglowek: "UI-PORTECMAG-CYKLE-DOD", render: (tech) => tech.cyklePrzyDodOpis },
+  { naglowek: "UI-PORTECMAG-SPRAWNOSC", render: (tech) => (tech.sprawnoscPct === null ? "—" : `${tech.sprawnoscPct}%`) },
+  { naglowek: "UI-PORTECMAG-WAGA-KWH", render: (tech) => tech.wagaKgPerKwhOpis },
+  { naglowek: "UI-PORTECMAG-OBSLUGA", render: (tech) => tech.obsluga },
   {
-    naglowek: "Energia w cyklu życia",
-    render: (t) => `${t.energiaCalkowitaKwh.toLocaleString("pl-PL")} kWh`,
+    naglowek: "UI-PORTECMAG-ENERGIA-CYKLU-ZYCIA",
+    render: (tech) => `${tech.energiaCalkowitaKwh.toLocaleString("pl-PL")} kWh`,
     liczbowa: true,
   },
 ]
@@ -58,21 +58,20 @@ export default function PorownanieTechnologiiMagazynowPage() {
     <main className="mx-auto flex max-w-2xl flex-col gap-6 p-6">
       <NawigacjaEkranu href="/kalkulatory/porownanie-technologii-magazynow" />
       <NaglowekEkranu
-        tytul="Porównanie technologii magazynów"
+        tytul={t("UI-PORTECMAG-POROWNANIE-TECHNOLOGII-MAGAZ")}
         ekran="porownanie-technologii-magazynow"
         wynik={result}
       >
-        Cena zakupu to nie to samo co koszt w całym cyklu życia — trzeba doliczyć wagę
-        (konstrukcja podłogi), obsługę i realną liczbę cykli. Moduł 4, Ekran 30.
+        {t("UI-PORTECMAG-CENA-ZAKUPU-SAMO")}
       </NaglowekEkranu>
 
       <Pole
-        label="Planowana pojemność magazynu (opcjonalnie)"
+        label={t("UI-PORTECMAG-PLANOWANA-POJEMNOSC-MAGAZYNU")}
         unit="kWh"
         type="number"
         inputMode="decimal"
         className="max-w-xs"
-        placeholder="np. 45 — bez wpisania: porównanie na 1 kWh"
+        placeholder={t("UI-PORTECMAG-BEZ-WPISANIA-POROWNANIE")}
         value={pojemnoscKwh}
         onChange={(e) => setPojemnoscKwh(e.target.value)}
         pomoc={<PomocPola ekran="porownanie-technologii-magazynow" pole="pojemnosc" />}
@@ -81,13 +80,13 @@ export default function PorownanieTechnologiiMagazynowPage() {
       {isInvalid ? (
         <WerdyktPanel poziom="blad" etykieta={blad && (blad.message ?? t(blad.i18nKey ?? blad.code, blad.params))} />
       ) : (
-        <KartaPorownawcza kolumny={KOLUMNY} wiersze={result.value} minWidth={640} />
+        <KartaPorownawcza kolumny={KOLUMNY.map((k) => ({ ...k, naglowek: t(k.naglowek) }))} wiersze={result.value} minWidth={640} />
       )}
 
       {result.assumptions.length > 0 && (
         <ul className="text-small text-muted-foreground">
           {result.assumptions.map((a, i) => (
-            <li key={typeof a === "string" ? a : a.kod + i}>Założenie: {typeof a === "string" ? a : t(a.kod, a.params)}</li>
+            <li key={typeof a === "string" ? a : a.kod + i}>{t("UI-PORTECMAG-ZALOZENIE")} {typeof a === "string" ? a : t(a.kod, a.params)}</li>
           ))}
         </ul>
       )}

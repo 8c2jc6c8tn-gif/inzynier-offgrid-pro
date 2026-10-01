@@ -12,6 +12,7 @@ import { NawigacjaEkranu } from "@/components/nawigacja-ekranu"
 import { NaglowekEkranu } from "@/components/wzorce/naglowek-ekranu"
 import { WynikSzczegoly } from "@/components/wzorce/wynik-szczegoly"
 import { DOCISK_MAX_KGF, DOCISK_MIN_KGF } from "@/lib/core/modules/baterie/pozycjonowanie-ogniw/constants"
+import { useTranslate } from "@/lib/i18n/language-context"
 
 type FormularzStan = {
   dociskKgf: number
@@ -24,6 +25,7 @@ const STAN_POCZATKOWY: FormularzStan = {
 }
 
 export default function MontazMechanicznyPage() {
+  const t = useTranslate()
   const [stan, setStan] = usePersistedDraft<FormularzStan>("montaz-mechaniczny", STAN_POCZATKOWY)
   const { dociskKgf, potwierdzoneIds } = stan
 
@@ -58,27 +60,25 @@ export default function MontazMechanicznyPage() {
 
   const etykieta =
     result.status === "INVALID_INPUT"
-      ? "Nie da się policzyć — sprawdź wpisany docisk"
+      ? t("UI-MONMEC-POLICZYC-SPRAWDZ-WPISANY")
       : result.status === "VALID_WITH_WARNINGS"
-        ? "Docisk poza zalecanym zakresem — sprawdź ostrzeżenia"
-        : "Gotowe do montażu elektrycznego (Ekran A3)"
+        ? t("UI-MONMEC-DOCISK-POZA-ZALECANYM")
+        : t("UI-MONMEC-GOTOWE-MONTAZU-ELEKTRYCZNEGO")
 
   return (
     <main className="mx-auto flex max-w-md flex-col gap-6 p-6">
       <NawigacjaEkranu href="/kalkulatory/montaz-mechaniczny" />
       <NaglowekEkranu
-        tytul="Montaż mechaniczny i separacja ogniw"
+        tytul={t("UI-MONMEC-MONTAZ-MECHANICZNY-SEPARACJA")}
         ekran="montaz-mechaniczny" wynik={result}
         parametry={{ dociskMin: DOCISK_MIN_KGF, dociskMax: DOCISK_MAX_KGF }}
       >
-        Zanim ogniwa zostaną połączone elektrycznie — sprawdź docisk i separację. Docisk poza
-        zakresem to ryzyko utraty kontaktu wewnętrznego albo uszkodzenia mechanicznego ogniw, ten
-        sam próg co Moduł 4/Ekran 21. Moduł 11, Ekran A2 (ścieżka LiFePO4).
+        {t("UI-MONMEC-ZANIM-OGNIWA-ZOSTANA")}
       </NaglowekEkranu>
 
       <Pole
-        label="Docisk ogniw pryzmatycznych"
-        unit="kgf"
+        label={t("UI-MONMEC-DOCISK-OGNIW-PRYZMATYCZNYCH")}
+        unit={t("UI-MONMEC-KGF")}
         type="number"
         inputMode="decimal"
         min={0}
@@ -95,7 +95,7 @@ export default function MontazMechanicznyPage() {
       />
 
       {poziom === null ? (
-        <p className="text-small text-muted-foreground">Wpisz zmierzony docisk, żeby zobaczyć werdykt.</p>
+        <p className="text-small text-muted-foreground">{t("UI-MONMEC-WPISZ-ZMIERZONY-DOCISK")}</p>
       ) : (
         <WerdyktPanel poziom={poziom} etykieta={etykieta}>
           <WynikSzczegoly assumptions={result.assumptions} warnings={result.warnings} />

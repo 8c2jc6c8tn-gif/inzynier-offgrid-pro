@@ -1190,6 +1190,26 @@ Pełne wyniki audytu: `docs/memory.md`, sekcja "Pełny audyt na polecenie właś
   zmigrowanym ekranie obniż jego liczbę albo usuń go z listy (strażnik to wymusza). **Plusy teraz:** każdy moduł to
   zamknięta całość do testu w EN/RU. **Minusy:** duży wolumen tłumaczeń do przeglądu merytorycznego RU/EN. **Kolejność:**
   moduł po module, najpierw ekrany z największą liczbą (M5, M3).
+  → **[30.09.2026] 🔄 w toku — gałąź `claude/translate-screen-labels-en-ru-2f94e0`** (sesja „Tłumaczenie etykiet
+  ekranów EN/RU”). Zrobione: M11 (23 strony, `m11-montaz-baterii.ts`), M8 (10, `m08-bezpieczenstwo.ts`), M12 (12,
+  `m12-mobilny.ts`), M4 baterie (33, `m04-baterie.ts`). Narzędzie: `scripts/migracja-i18n-ui.mjs`
+  (`wyciagnij` → tłumaczenia JSON → `zastosuj` → `sprawdz`; opis w nagłówku pliku, usunąć, gdy lista zapadkowa będzie
+  pusta). **Zajęte do merge punktu „Stałe fizyczne w tekstach pomocy”** (inna sesja): dobor-przekroju-kabla,
+  straty-okablowanie-dc, przepust-powietrza, ochrona-wilgoc, napor-wiatru, bojler-cwu, pre-heat, profil-astronomiczny,
+  stress-test-mppt, wplyw-temperatury, panel-do-stacji-zasilania, ochrona-przed-rozladowaniem, rachunek-firma,
+  depozyt-prosumencki, moc-bierna, sciezka-przejscia, scenariusze. **Następny krok:** kolejne moduły (M5, M3, M2…) z
+  pominięciem zajętych plików; stan liczbowy — `node scripts/check-i18n-ui-guard.mjs`.
+- 🔲 (2026-09-30) **Polskie teksty ze stałych silnika wyświetlane na ekranach (luka i18n poza strażnikiem).** Wyszło
+  przy migracji etykiet: część tekstów na ekranach pochodzi ze stałych w `lib/core/**/constants.ts` (np. `label`
+  opcji/technologii/protokołów: `OPCJE_IP_MALE_INSTALACJE`, `WYMAGANE_WYPOSAZENIE` demontażu pakietu,
+  `DOMYSLNE_URZADZENIA_KRYTYCZNE` UPS, `CENA_STARTOWA_LABELS` i opisy w porównaniu technologii magazynów, opcje
+  zastosowania/priorytetu/odbiorników w napięciu systemowym, protokoły w komunikacji BMS, `BATTERY_TECHNOLOGIES`;
+  także nazwy zmiennych we wzorach `formula`, np. „Pojemność × C_rate” w cold-c-rate).
+  Strażnik UI ich nie widzi (nie są w JSX), więc w EN/RU nadal pokażą się po polsku. **Priorytet:** średni (widoczne
+  w EN/RU). **Odblokowuje:** pełne EN/RU tych ekranów. **Jak:** stałe dostają kod (`UI-*` albo osobny klucz domenowy),
+  ekran robi `t(kod)` — domena nie importuje z UI (`01-architektura`). **Plusy teraz:** mała liczba miejsc, łatwe do
+  wyliczenia grepem `label:` w `lib/core`. **Minusy:** dotyka stałych silnika i ich testów. **Kolizje:** z migracją
+  etykiet (te same ekrany) — robić po niej. **Kolejność:** po wpisie „Tłumaczenie samych stron”.
 - ✅ (2026-09-29) **Opisy narzędzi AI — domknięcie luk (pytanie właściciela: „czy są rozbudowane opisy funkcji dla AI”).**
   Stan 29.09.2026: 183 narzędzia w rejestrze, 181 ma `.describe()` na polach wejścia, 156 ma w `description` zdanie
   „Użyj, gdy…” (kiedy model ma je wywołać) — **27 go nie ma** (m.in. blackout, analiza-spof, typ-montazu, klapy-pozarowe,
@@ -1242,11 +1262,14 @@ Pełne wyniki audytu: `docs/memory.md`, sekcja "Pełny audyt na polecenie właś
      (PN-EN 50565-1), szkic LED (karta taśmy), M6 obciążenie cieplne (PN-EN 12831).
   9. 🔲 **Bieżące prace kodowe** (wpisy wyżej): rejestr twardych stopów M5, resynchronizacja `mapa-wdrozenia.md`,
      kolejne ekrany M7/M12, kafle „duże” + presety onboardingu (M14), przecinek w liczbach założeń i18n.
+     → **[30.09.2026]** Kafle „duże” + 8 presetów ✅ (wpis niżej). Przecinek w liczbach założeń — był już zamknięty
+     26.09 (wpis ✅ „Przecinki w liczbach w tekstach założeń”); ponowna kontrola 30.09: parametry założeń idą przez
+     `t()` jako liczby, kropka zostaje tylko w `technicalMessage` (tekst dla programisty, nie UI) — nic do zrobienia.
      ✅ **[30.09.2026]** Rejestr twardych stopów M5 — zrobione (PR #233, lista zapadkowa strażnika pusta).
   **[30.09.2026, 15:40] Sesje równoległe — stan worktree (koordynacja, standard 15.22):**
   - `claude/screens-without-involvement-e468f6` — **aktywna** (25 zmienionych plików): M9 ESP32, `lib/i18n/dictionary-*`,
     `lib/i18n/pomoc/m09-esp32.ts`, `lib/ai/pytaj-asystenta.ts`, `docs/rejestr-twardych-stopow.md`, pliki strażnika stopów.
-  - `claude/large-tiles-presets-m14-eca5df` — aktywna (pkt 9: kafle „duże” + presety M14; `lib/pulpit/**`).
+  - `claude/large-tiles-presets-m14-eca5df` — ~~aktywna~~ **[30.09.2026] zakończona** (pkt 9: kafle „duże” + presety M14; `lib/pulpit/**`).
   - `claude/physics-constants-help-text-91a9b3` (worktree `pwa-parallel-branch-work-4e99fd`) — 8.4b pkt (3):
     `lib/i18n/pomoc/*` + atrybut `parametry` na stronach.
   - `claude/translate-screen-labels-en-ru-2f94e0` — pkt 6: `lib/i18n/ui/*` + strony `app/kalkulatory/*`.
@@ -1263,6 +1286,13 @@ Pełne wyniki audytu: `docs/memory.md`, sekcja "Pełny audyt na polecenie właś
   `pnpm test:e2e` (sam robi trzy buildy, ~3–5 min). Kolizja: `.github/workflows/ci.yml`.
   → **[30.09.2026] Pkt (3) zrobiony** — job `e2e-sw` w `ci.yml` (osobny, limit 30 min). Pkt (1) i (2) zostają na 1.10:
   pierwszy przebieg na `main` sprawdzi też nowy job.
+  → **[01.10.2026] Pkt (1) zrobiony** — nota usunięta z `CLAUDE.md` (sekcja „Stan repo” i zdanie o merge), wpis w
+  `docs/memory.md`. Pkt (2) zostaje: pierwszy przebieg CI na `main` po scaleniu PR ze stylami wyglądu (D63–D67).
+  ⚠️ **[01.10.2026, 11:15] Pkt (2): CI nadal nie startuje.** Workflow `CI` jest `active`, Actions `enabled`, repo
+  publiczne, ale `actions/runs` = **0 uruchomień w całej historii**, mimo że dziś na `main` weszły PR z kodem (#237,
+  #238), które nie mieszczą się w `paths-ignore`. PR #243 (same `.md`) poprawnie bez CI. Do sprawdzenia przez właściciela:
+  zakładka Actions / Billing konta (czy limit odnowił się 1.10 i czy nie ma blokady płatności), potem ponowny push
+  na `main` albo `workflow_dispatch`. Do wyjaśnienia merge nadal na pełnym pakiecie lokalnym. **Priorytet:** wysoki.
 - 🔲 (2026-09-29) **Prognozy M10 — Δt przy podłączaniu realnych danych (TD7).** Silnik `ai/prognozy` 1.1.0 zakłada
   stały krok `KROK_PROBKOWANIA_H = 3` (decyzja A). Gdy ekran dostanie prawdziwe źródło (symulacja SoC, pogoda, dane live),
   sprawdzić krok próbkowania tego źródła: inny niż 3 h → krok jako jawne pole wejścia silnika (+ test), nie cicha
@@ -1469,3 +1499,64 @@ Pełne wyniki audytu: `docs/memory.md`, sekcja "Pełny audyt na polecenie właś
   każdy ekran. **Kolizje:** każda sesja zmieniająca te pliki oraz wpis „Tłumaczenie etykiet stron na EN/RU” (inne
   pliki, ale te same ekrany do sprawdzenia wizualnego). **Kolejność:** najpierw prototyp w `/wzornik` + pulpit + jeden
   kalkulator, akceptacja właściciela, dopiero potem reszta.
+  🔄 **[30.09.2026] Kierunek rozszerzony przez właściciela: 5 stylów wyglądu na start** — 3 „Premium” (Grafit + złoto,
+  Granat + miedź, Jasny architektoniczny; wzór: obrazek nr 3 od właściciela) + 2 „Warsztat” (jasny, ciemny — obecne
+  kolory, gęstsze, dopracowane). Prototyp poza kodem (artefakt): https://claude.ai/artifact/JsYnhZYECTQtSTAPAj4kmL —
+  pulpit, kalkulator (baner twardego stopu poza akordeonem), raport. **Czeka na akceptację właściciela**, potem wpis D
+  w `rejestr-decyzji.md`. Otwarte pytania z prototypu: (1) czcionka szeryfowa z cyrylicą — Fraunces/Instrument Serif
+  jej nie mają (RU), w prototypie Source Serif 4; (2) miedź/złoto blisko 🟡 — czy przesunąć miedź; (3) zdjęcie domu vs
+  ilustracja (waga precache, D61). **Kolizja:** sesja `large-tiles-presets-m14` wprowadza „presety pulpitu”
+  (`lib/pulpit/presety.ts`, `app/ustawienia/page.tsx`, `app/page.tsx`) — styl wyglądu nazywać „Styl wyglądu”
+  (`lib/wyglad/`), nie „preset”, a zmiany w Ustawieniach/pulpicie robić po scaleniu tamtej sesji.
+  🔄 **[30.09.2026, D63] 3 style Premium przyjęte do pracy, 2 Warsztat odrzucone („za płaskie”).** Do wyboru przez
+  właściciela 2 z 5 nowych propozycji w tym samym artefakcie: 4. Tytan (grafit + platyna), 5. Las + mosiądz,
+  6. Kreślarski (blueprint), 7. Noc polarna, 8. Beton + mosiądz. **Następny krok:** wybór 2 propozycji → wpis D →
+  wdrożenie tokenów 5 stylów w `app/globals.css` + wybór w Ustawieniach (`lib/wyglad/`) + `/wzornik`, pulpit i jeden
+  kalkulator do akceptacji. **Priorytet:** średni. **Kolizje:** bez zmian (patrz wyżej).
+  🔄 **[30.09.2026, D64] Wybrane kolejne 4 style: Tytan, Las + mosiądz, Kreślarski, Noc polarna (łącznie 7 w pracy).**
+  Lista stylów otwarta. Druga runda w tym samym artefakcie czeka na wybór: 9. Różowe złoto, 10. Pudrowy róż,
+  11. Pomarańcz sygnałowy (⚠️ blisko 🟡), 12. Słoneczny poranek, 13. Zachód słońca. **Następny krok:** wybór z
+  drugiej rundy → dopisek do D64 → wdrożenie tokenów stylów w `app/globals.css` + wybór w Ustawieniach (`lib/wyglad/`),
+  kontrola kontrastu werdyktów dla każdego stylu (szczególnie Las), potem `/wzornik`, pulpit i jeden kalkulator do akceptacji.
+  Priorytet: średni. Kolizja i kolejność bez zmian: Ustawienia/pulpit dopiero po scaleniu sesji `large-tiles-presets-m14`.
+  🔄 **[30.09.2026, D65] Druga runda przyjęta w całości: Różowe złoto, Pudrowy róż, Pomarańcz sygnałowy, Słoneczny poranek,
+  Zachód słońca (łącznie 12 stylów).** Pomarańcz z warunkiem testu czytelności względem 🟡. Runda eksperymentalna 14–20
+  (Holograficzny, Kokpit HUD, Szkło, Brutalizm, Synthwave, Orbita, Neumorfizm) czeka na wybór. **Uwaga wdrożeniowa:** przy 12+
+  stylach tokeny muszą być generowane z jednej tabeli (styl → zestaw tokenów + kilka wariantów komponentów), a nie pisane
+  ręcznie w `app/globals.css`. Każdy styl dostaje automatyczny test kontrastu werdyktów (WCAG), inaczej koszt utrzymania rośnie liniowo.
+  🔄 **[30.09.2026, D66] Runda eksperymentalna przyjęta w całości (łącznie 19 stylów).** Holograficzny, Kokpit HUD, Szkło,
+  Brutalizm, Synthwave, Orbita, Neumorfizm; warunki wdrożenia w D66. Czwarta runda (21–28: Notatnik inżyniera,
+  Rozdzielnica, E-ink, OLED oszczędny, Płynny gradient, Terminal DOS, Marmur i złoto, Zen) czeka na wybór.
+  **Do rozstrzygnięcia przed wdrożeniem:** jak podzielić listę w Ustawieniach (np. grupy: Premium / Jasne / Eksperymentalne /
+  Ukryte-sezonowe), żeby wybór spośród 20+ stylów był czytelny na telefonie. Wdrażać etapami: najpierw mechanizm i tabela
+  tokenów + kilka stylów, reszta partiami, bo każdy styl to test kontrastu i przegląd `/wzornik`.
+  🔄 **[30.09.2026, D67] Czwarta runda przyjęta, łącznie 27 stylów w 4 grupach (Premium 10 / Jasne 7 / Eksperymentalne 8 /
+  Ukryte i sezonowe 2), przydział w D67.** Wybór stylów zamknięty, faza projektowa zakończona. **Następny krok (implementacja,
+  najlepiej w nowej sesji po `/compact`):**
+  1. Tabela stylów w `lib/wyglad/` (styl → grupa, tokeny, warianty komponentów) i jej walidacja.
+  2. Test kontrastu werdyktów dla każdego stylu (Vitest).
+  3. Wybór stylu w Ustawieniach, pogrupowany, po scaleniu sesji `large-tiles-presets-m14`.
+  4. Pierwsza partia stylów: 1–3 + Rozdzielnica + OLED oszczędny.
+  5. Dalsze partie.
+
+  **Otwarte:** mechanizm odblokowania grupy „Ukryte i sezonowe”, zdjęcia domów w pełnej jakości (licencja, D61), czcionka
+  szeryfowa z cyrylicą. **Priorytet:** średni. **Kolizje:** Ustawienia/pulpit z sesją `large-tiles-presets-m14`.
+  **Dopisek D67:** style 1–3 = bazowe w wersji PRO; styl wersji darmowej do wyboru później (razem z decyzją freemium,
+  rozdz. 12 standardu). Tabela stylów dostaje pole dostępności, ale bez blokowania, dopóki freemium nie jest wdrożone.
+- ✅ (2026-09-30) **Kafle „duże” M14 + presety pulpitu (TD22 pkt 5, D53/D54).** Kafle „Dom – sieć” / „Firma – sieć”
+  zajmują dwie kolumny siatki pulpitu, z opisem. W Ustawieniach sekcja „Co chcesz teraz zrobić?”: 8 presetów z
+  `docs/pulpit-i-nawigacja.md` §3, kafle M14 na końcu każdego, kilka zaznaczonych = unia w kolejności domyślnej (✅🤖).
+  Teksty PL/EN/RU (`lib/i18n/ui/pulpit.ts`), test `lib/pulpit/__tests__/presety.test.ts`. Przy okazji (Y.2): lista w
+  Ustawieniach pokazywała „15. Dom – sieć” — kafle M14 nie mają numeru (D39), numer zdjęty.
+- 🔲 (2026-09-30) **Pulpit — co zostało po presetach:** **[30.09.2026, D62] pkt (1) ✅** — właściciel przyjął skład i
+  kolejność unii, preset zbudowany; otwarte zostają (2) i (3). (1) dziewiąty preset „Jestem podłączony do sieci” (D39) —
+  **skład kafli do decyzji właściciela** (propozycja ✅🤖 do oceny: 15, 16, a za nimi moduły, z których M14 czyta:
+  1, 2, 3, 4, 6, 7, 8); (2) ekran onboardingu przy pierwszym uruchomieniu (`backlog-poza-v1.md`); (3) animowana ikona
+  kafli M14. **Priorytet:** niski. **Odblokowuje:** pełny §3 pulpitu. **Plusy teraz:** mechanizm presetów gotowy,
+  dziewiąty to jedna linia w `lib/pulpit/presety.ts`; **minusy:** bez decyzji o składzie byłby zgadywaniem.
+  **Kolizje:** `lib/pulpit/registry.ts` (każda sesja dodająca ekrany/kafle), `app/ustawienia/page.tsx`.
+  **Kolejność:** decyzja (1) → kod (1) → (2) razem z onboardingiem.
+- ✅ (2026-09-30) **M9 — blok 6: E1 wybór płytki (częściowo), E3 montaż i obudowa, Katalogi 2–4 (aktuatory, protokoły, interfejs lokalny).** M9: 10/10 — **moduł kompletny** (E1, E5 i Katalog 1 częściowo); łącznie 195/314. Wspólny silnik i komponent katalogów (`katalog-komponentow`), Katalog 1 deleguje do silnika (Dyrektywa #8). Szczegóły: `docs/memory.md` „M9 blok 6 (30.09.2026)”.
+- ⚠️ (2026-09-30) **Do potwierdzenia przez właściciela (✅🤖) — M9/E3 poziomy ostrzeżeń.** Źródło E3 nie ma 🔴; w kodzie 🟡: odstęp od szyn prądowych < 2 cm, brak wentylacji, brak izolacji ESP32 od części pod napięciem. Brak izolacji od części pod napięciem to kandydat na 🔴 (ryzyko porażenia/przebicia na elektronikę), ale bez decyzji właściciela nie podnosimy. IP w miejscu wilgotnym — echo istniejących progów (🔴 < IP55, 🟡 IP55–IP64), bez nowej decyzji. **Priorytet:** niski. **Odblokowuje:** potwierdzenie C.7. **Plusy teraz:** jedno zdanie decyzji. **Minusy:** brak. **Kolizje:** tylko `lib/core/modules/esp32/montaz-obudowa/` (+ rejestr stopów, jeśli 🔴). **Kolejność:** niezależne.
+- 🔲 (2026-09-30) **M9/E4 → link do Katalogu 3 (protokoły)** — źródło: „Link: prowadzi do katalogu protokołów komunikacji”. Katalog jest już zbudowany; brakuje odnośnika na ekranie `architektura-komunikacji` (plik ma stare polskie teksty w JSX — nowy tekst przez `t()`, klucz w `lib/i18n/ui/m09-esp32.ts`). **Priorytet:** niski. **Odblokowuje:** pełne E4 wg źródła. **Plusy:** 5 minut. **Minusy:** brak. **Kolizje:** migracja i18n starego ekranu E4, jeśli ktoś ją prowadzi równolegle. **Kolejność:** dowolna.
+- 🔲 (2026-09-30) **Dalej w sesji „ekrany bez właściciela”: M12** (E4, E5, E6, E8, E10, E12, E13, E19, E20, E29, E40, E7, E17, E18, E34, na końcu E14), potem **M6** (E13, E16–E20, 5.42, ekran porównawczy 2A). Pułapki do jawnego opisania (Dyrektywa #5): M12/E6 — 50 W × 24 h → panel 150 W zakłada 8 h pełnego słońca; M12/E5 — przykład się nie bilansuje. **Priorytet:** średni. **Odblokowuje:** postęp M12/M6. **Kolizje:** `lib/pulpit/registry.ts`, `lib/i18n/ui/index.ts` (dopisywanie — łatwe scalenie). **Kolejność:** M12 przed M6.

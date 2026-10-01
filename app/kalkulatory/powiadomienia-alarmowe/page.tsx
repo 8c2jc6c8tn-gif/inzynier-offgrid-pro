@@ -10,6 +10,7 @@ import { NawigacjaEkranu } from "@/components/nawigacja-ekranu"
 import { NaglowekEkranu } from "@/components/wzorce/naglowek-ekranu"
 import { WynikGlowny } from "@/components/wzorce/wynik-glowny"
 import { WynikSzczegoly } from "@/components/wzorce/wynik-szczegoly"
+import { useTranslate } from "@/lib/i18n/language-context"
 
 type Flagi = "maSyrene" | "maKamery" | "autoWezwanieSluzb" | "zgodaNaWezwanieSluzb"
 type FormularzStan = { liczbaKontaktow: string } & Record<Flagi, boolean>
@@ -24,17 +25,18 @@ const STAN_POCZATKOWY: FormularzStan = {
 }
 
 const FLAGI: { pole: Flagi; label: string; hint?: string }[] = [
-  { pole: "maSyrene", label: "Jest syrena / sygnalizator zewnętrzny" },
-  { pole: "maKamery", label: "Są kamery monitoringu (nagrywanie po alarmie)" },
-  { pole: "autoWezwanieSluzb", label: "Automatyczne wezwanie służb włączone" },
+  { pole: "maSyrene", label: "UI-POWALA-SYRENA-SYGNALIZATOR-ZEWNETRZ" },
+  { pole: "maKamery", label: "UI-POWALA-KAMERY-MONITORINGU-NAGRYWANI" },
+  { pole: "autoWezwanieSluzb", label: "UI-POWALA-AUTOMATYCZNE-WEZWANIE-SLUZB" },
   {
     pole: "zgodaNaWezwanieSluzb",
-    label: "Wyrażam wyraźną zgodę na automatyczne wezwanie służb",
-    hint: "Bez tej zgody system nigdy sam nie wezwie służb.",
+    label: "UI-POWALA-WYRAZAM-WYRAZNA-ZGODE",
+    hint: "UI-POWALA-BEZ-TEJ-ZGODY",
   },
 ]
 
 export default function PowiadomieniaAlarmowePage() {
+  const t = useTranslate()
   const [stan, setStan] = usePersistedDraft<FormularzStan>("powiadomienia-alarmowe", STAN_POCZATKOWY)
 
   const result = useMemo(
@@ -51,15 +53,14 @@ export default function PowiadomieniaAlarmowePage() {
   return (
     <main className="mx-auto flex max-w-md flex-col gap-6 p-6">
       <NawigacjaEkranu href="/kalkulatory/powiadomienia-alarmowe" />
-      <NaglowekEkranu tytul="Syrena, powiadomienia i służby" ekran="powiadomienia-alarmowe" wynik={result}>
-        System nie tylko wykrywa zagrożenie, ale może też wezwać pomoc — ostatnia deska ratunku, gdy nikogo nie ma w domu.
-        Moduł 8, Ekran 10.
+      <NaglowekEkranu tytul={t("UI-POWALA-SYRENA-POWIADOMIENIA-SLUZBY")} ekran="powiadomienia-alarmowe" wynik={result}>
+        {t("UI-POWALA-SYSTEM-TYLKO-WYKRYWA")}
       </NaglowekEkranu>
 
       <div className="flex flex-col gap-4">
         <Pole
-          label="Kontakty alarmowe"
-          unit="szt."
+          label={t("UI-POWALA-KONTAKTY-ALARMOWE")}
+          unit={t("UI-J-SZT")}
           type="number"
           inputMode="numeric"
           min={0}
@@ -72,8 +73,8 @@ export default function PowiadomieniaAlarmowePage() {
           <PoleCheckbox
             key={pole}
             id={`alarm-${pole}`}
-            label={label}
-            hint={hint}
+            label={t(label)}
+            hint={hint && t(hint)}
             checked={stan[pole]}
             onChange={(e) => setStan((prev) => ({ ...prev, [pole]: e.target.checked }))}
           />
@@ -81,18 +82,18 @@ export default function PowiadomieniaAlarmowePage() {
       </div>
 
       {result.status === "INVALID_INPUT" ? (
-        <WerdyktPanel poziom="blad" etykieta="Nie da się ocenić — sprawdź wpisane dane">
+        <WerdyktPanel poziom="blad" etykieta={t("UI-POWALA-OCENIC-SPRAWDZ-WPISANE")}>
           <WynikSzczegoly assumptions={[]} warnings={result.warnings} />
         </WerdyktPanel>
       ) : result.status === "INCOMPLETE" ? (
-        <p className="text-small text-muted-foreground">Wpisz liczbę kontaktów alarmowych (może być 0).</p>
+        <p className="text-small text-muted-foreground">{t("UI-POWALA-WPISZ-LICZBE-KONTAKTOW")}</p>
       ) : (
         <WerdyktPanel
           poziom={hasCritical ? "blad" : hasWarning ? "uwaga" : "ok"}
-          etykieta={hasCritical ? "Wezwanie służb bez zgody — wyłączone" : hasWarning ? "Są braki w powiadamianiu" : "Powiadamianie skonfigurowane"}
+          etykieta={hasCritical ? t("UI-POWALA-WEZWANIE-SLUZB-BEZ") : hasWarning ? t("UI-POWALA-BRAKI-POWIADAMIANIU") : t("UI-POWALA-POWIADAMIANIE-SKONFIGUROWANE")}
         >
-          <WynikGlowny>{result.value.autoWezwanieAktywne ? "Auto-wezwanie służb: aktywne" : "Auto-wezwanie służb: nieaktywne"}</WynikGlowny>
-          <p className="mt-2 text-small">Braki: {result.value.liczbaBrakow}</p>
+          <WynikGlowny>{result.value.autoWezwanieAktywne ? t("UI-POWALA-AUTO-WEZWANIE-SLUZB") : t("UI-POWALA-AUTO-WEZWANIE-SLUZB-2")}</WynikGlowny>
+          <p className="mt-2 text-small">{t("UI-POWALA-BRAKI", { liczbaBrakow: result.value.liczbaBrakow })}</p>
           <WynikSzczegoly assumptions={result.assumptions} warnings={result.warnings} formula={result.formula} />
         </WerdyktPanel>
       )}

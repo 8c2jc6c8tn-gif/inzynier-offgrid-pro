@@ -51,7 +51,7 @@ numeracja już koduje logiczną kolejność.
 | 12 | Szybki kalkulator / tryb mobilny | w większości samodzielny |
 | 13 | Tryb Live | monitoring tego, co już zbudowane — ma sens na końcu |
 
-**[28.09.2026, audyt końcowy N.3]** Za kaflem 13 stoją dwa kafle M14: „Dom – sieć” i „Firma – sieć” (D39). Czytają z 1–4 i 6–8. Nie mają numeru kafla, bo „Kafel 14” to Ustawienia (D9). Tabela wyżej zostaje bez zmian jako stan z 30.08.2026. **[28.09.2026]** W `lib/pulpit/registry.ts` mają wewnętrzne id 15 i 16 (tylko techniczne — w UI nazwa), na końcu kolejności; zapisany wcześniej układ pulpitu dostaje je na końcu (`parsujStan`). Wygląd „duży kafel” i animowana ikona — jeszcze nie (TD22).
+**[28.09.2026, audyt końcowy N.3]** Za kaflem 13 stoją dwa kafle M14: „Dom – sieć” i „Firma – sieć” (D39). Czytają z 1–4 i 6–8. Nie mają numeru kafla, bo „Kafel 14” to Ustawienia (D9). Tabela wyżej zostaje bez zmian jako stan z 30.08.2026. **[28.09.2026]** W `lib/pulpit/registry.ts` mają wewnętrzne id 15 i 16 (tylko techniczne — w UI nazwa), na końcu kolejności; zapisany wcześniej układ pulpitu dostaje je na końcu (`parsujStan`). Wygląd „duży kafel” i animowana ikona — jeszcze nie (TD22). **[30.09.2026]** „Duży kafel” jest: dwie kolumny siatki pulpitu, z opisem pod nazwą (`duzy` w rejestrze). Animowana ikona — nadal nie.
 
 **Ważne — to jest niezależne od `ZASADY_APLIKACJI.md` §14** ("kolejność budowy"). §14 opisuje, w
 jakiej kolejności *my* implementujemy kod; kolejność kafli opisuje, co domyślnie widzi *user* na
@@ -81,7 +81,7 @@ Przy każdej kategorii krótkie zdanie, co ona włącza/wyłącza. Po wyborze: p
 | 🧪 Analiza / stress-test | 1, 7, 2, 3, 4, 6, 10 | 5, 8, 9, 11, 12, 13 |
 | 🤖 Automatyka i AI | 1, 9, 10, 13, 8 | 2, 3, 4, 5, 6, 7, 11, 12 |
 
-**[28.09.2026, audyt końcowy N.3]** Dziewiąty preset, „Jestem podłączony do sieci” (D39), wysuwa kafle M14 na początek. Skład jego widocznych kafli nie jest jeszcze ustalony. Powstanie razem z ekranem onboardingu (`backlog-poza-v1.md`). Kafle M14 w ośmiu presetach wyżej: ~~ukryte, dopóki właściciel nie zdecyduje inaczej (✅🤖)~~ **[29.09.2026, D53] widoczne we wszystkich ośmiu presetach** — decyzja właściciela: „nie muszą być ukryte, to ważna funkcja”. Miejsce: na końcu listy widocznych kafli danego presetu, w kolejności „Dom – sieć”, „Firma – sieć” (~~✅🤖 — właściciel nie wskazał pozycji~~ **[29.09.2026, D54] potwierdzone przez właściciela: „może zostać”**). Tabela wyżej zostaje bez zmian (numery 1–13); kafle M14 dochodzą do kolumny „Widoczne” każdego wiersza. Wejdzie do kodu razem z ekranem onboardingu.
+**[28.09.2026, audyt końcowy N.3]** Dziewiąty preset, „Jestem podłączony do sieci” (D39), wysuwa kafle M14 na początek. Skład jego widocznych kafli nie jest jeszcze ustalony. **[30.09.2026, D62] ustalony:** M14-D, M14-F, 1, 2, 3, 4, 6, 7, 8. Powstanie razem z ekranem onboardingu (`backlog-poza-v1.md`). Kafle M14 w ośmiu presetach wyżej: ~~ukryte, dopóki właściciel nie zdecyduje inaczej (✅🤖)~~ **[29.09.2026, D53] widoczne we wszystkich ośmiu presetach** — decyzja właściciela: „nie muszą być ukryte, to ważna funkcja”. Miejsce: na końcu listy widocznych kafli danego presetu, w kolejności „Dom – sieć”, „Firma – sieć” (~~✅🤖 — właściciel nie wskazał pozycji~~ **[29.09.2026, D54] potwierdzone przez właściciela: „może zostać”**). Tabela wyżej zostaje bez zmian (numery 1–13); kafle M14 dochodzą do kolumny „Widoczne” każdego wiersza. Wejdzie do kodu razem z ekranem onboardingu. **[30.09.2026]** W kodzie przed onboardingiem: 8 presetów (z kaflami M14 na końcu) w Ustawieniach, sekcja „Co chcesz teraz zrobić?” — `lib/pulpit/presety.ts`. Kilka zaznaczonych = unia; kolejność unii = kolejność domyślna z §2 (ta sama reguła co „Pełne menu”, D62). Pojedynczy preset = kolejność z tabeli. **[30.09.2026, D62]** Dziewiąty preset „Jestem podłączony do sieci”: „Dom – sieć”, „Firma – sieć”, potem 1, 2, 3, 4, 6, 7, 8; ukryte 5, 9–13 — też w Ustawieniach.
 
 Kafel 1 (Lokalizacja) jest widoczny w każdym presecie — to fundament danych dla każdej ścieżki
 projektowej, niezależnie od tego, nad czym user akurat pracuje. Kafel 14 (Ustawienia) nie jest
@@ -135,9 +135,11 @@ komponent (`AdaptiveMenu`, 08.11) na swoim poziomie, nie osobną implementację:
 - 8 presetów z sekcji 3 to wersja robocza — do przejrzenia i skorygowania przez autora. **Ekran
   onboardingu ("Co chcesz teraz zrobić?") jeszcze nie zaimplementowany** — v1 pulpitu startuje
   zawsze z pełną, domyślną kolejnością wszystkich 13 kafli, presety trzeba zastosować ręcznie w
-  Ustawieniach dopóki onboarding nie powstanie.
+  Ustawieniach dopóki onboarding nie powstanie. **[30.09.2026]** Presety w Ustawieniach już są (§3).
 - Semantyka "Trybu pracy" przy wielu zaznaczonych kategoriach (unia zbiorów) — założenie robocze,
-  do potwierdzenia. Nie zaimplementowane — v1 ma tylko pojedyncze pokaż/ukryj per kafel.
+  do potwierdzenia. Nie zaimplementowane — v1 ma tylko pojedyncze pokaż/ukryj per kafel. **[30.09.2026]** Unia
+  zaimplementowana jako jednorazowe „Zastosuj” w Ustawieniach (zaznaczenie nie jest zapamiętywane, bez „Trybu pracy”
+  w pasku górnym).
   Kompanuje presetów (`docs/rejestr-pokrycia.md`, "Otwarte sprawy") — do zrobienia.
 - Konkretne presety per moduł (sekcja 5) — odłożone do momentu, gdy dany moduł ma zaimplementowane
   wystarczająco dużo ekranów, żeby preset miał sens.

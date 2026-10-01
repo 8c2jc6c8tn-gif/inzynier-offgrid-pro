@@ -83,18 +83,17 @@ export default function SecondLifePage() {
     <main className="mx-auto flex max-w-md flex-col gap-6 p-6">
       <NawigacjaEkranu href="/kalkulatory/second-life" />
       <NaglowekEkranu
-        tytul="Analiza Second-Life (baterie z EV)"
+        tytul={t("UI-SECLIF-ANALIZA-SECOND-LIFE")}
         ekran="second-life"
         wynik={result}
         parametry={{ degRok: DEGRADACJA_ROCZNA_PCT, degKm: DEGRADACJA_NA_10000KM_PCT }}
       >
-        Kupujesz kota w worku — bateria z rozbiórki EV może być świetną okazją albo drogim
-        rozczarowaniem, zależnie od realnego stanu, nie deklarowanego. Moduł 4, Ekran 17.
+        {t("UI-SECLIF-KUPUJESZ-KOTA-WORKU")}
       </NaglowekEkranu>
 
       <div className="flex flex-col gap-4">
         <Pole
-          label="Deklarowana pojemność"
+          label={t("UI-SECLIF-DEKLAROWANA-POJEMNOSC")}
           unit="kWh"
           type="number"
           inputMode="decimal"
@@ -103,8 +102,8 @@ export default function SecondLifePage() {
           pomoc={<PomocPola ekran="second-life" pole="pojemnosc" />}
         />
         <Pole
-          label="Cena zakupu"
-          unit="zł"
+          label={t("UI-SECLIF-CENA-ZAKUPU")}
+          unit={t("UI-J-ZL")}
           type="number"
           inputMode="decimal"
           value={cenaZakupuZl}
@@ -112,19 +111,19 @@ export default function SecondLifePage() {
           pomoc={<PomocPola ekran="second-life" pole="cena" />}
         />
         <PoleSelect
-          label="Metoda szacunku SoH"
+          label={t("UI-SECLIF-METODA-SZACUNKU-SOH")}
           value={metodaSzacunku}
           onChange={(e) => setMetodaSzacunku(e.target.value as MetodaSzacunkuSoh)}
           pomoc={<PomocPola ekran="second-life" pole="metoda" />}
         >
-          <option value="">— wybierz —</option>
-          <option value="wiek">Z wieku baterii</option>
-          <option value="przebieg">Z przebiegu pojazdu</option>
+          <option value="">{t("UI-WYBIERZ")}</option>
+          <option value="wiek">{t("UI-SECLIF-WIEKU-BATERII")}</option>
+          <option value="przebieg">{t("UI-SECLIF-PRZEBIEGU-POJAZDU")}</option>
         </PoleSelect>
         {metodaSzacunku === "wiek" && (
           <Pole
-            label="Wiek baterii"
-            unit="lata"
+            label={t("UI-SECLIF-WIEK-BATERII")}
+            unit={t("UI-SECLIF-LATA")}
             type="number"
             inputMode="numeric"
             value={wiekLata}
@@ -134,7 +133,7 @@ export default function SecondLifePage() {
         )}
         {metodaSzacunku === "przebieg" && (
           <Pole
-            label="Przebieg pojazdu"
+            label={t("UI-SECLIF-PRZEBIEG-POJAZDU")}
             unit="km"
             type="number"
             inputMode="numeric"
@@ -144,8 +143,8 @@ export default function SecondLifePage() {
           />
         )}
         <Pole
-          label="Cena nowej baterii LiFePO4 — opcjonalnie"
-          unit="zł/kWh"
+          label={t("UI-SECLIF-CENA-NOWEJ-BATERII")}
+          unit={t("UI-J-ZL-KWH")}
           type="number"
           inputMode="decimal"
           value={cenaNowejLiFePO4ZlZaKwh}
@@ -156,21 +155,21 @@ export default function SecondLifePage() {
 
       {result.status === "INCOMPLETE" ? (
         <p className="text-small text-muted-foreground">
-          Wypełnij dane, żeby zobaczyć szacowany SoH i koszt za kWh.
+          {t("UI-SECLIF-WYPELNIJ-DANE-ZEBY")}
         </p>
       ) : result.status === "INVALID_INPUT" ? (
-        <WerdyktPanel poziom="blad" etykieta="Nie da się policzyć — sprawdź wpisane dane">
+        <WerdyktPanel poziom="blad" etykieta={t("UI-SECLIF-POLICZYC-SPRAWDZ-WPISANE")}>
           <WynikSzczegoly assumptions={[]} warnings={result.warnings} />
         </WerdyktPanel>
       ) : (
         poziom !== null &&
         poziom !== "blad" && (
-          <WerdyktPanel poziom={poziom} etykieta={`Szacowany SoH: ${result.value.sohSzacowanyPct.toFixed(0)}%`}>
+          <WerdyktPanel poziom={poziom} etykieta={t("UI-SECLIF-SZACOWANY-SOH", { sohSzacowanyPct: result.value.sohSzacowanyPct.toFixed(0) })}>
             <WynikGlowny>
-              {result.value.kosztZaKwh.toLocaleString("pl-PL", { maximumFractionDigits: 0 })} zł/kWh
+              {t("UI-SECLIF-KWH", { kosztZaKwh: result.value.kosztZaKwh.toLocaleString("pl-PL", { maximumFractionDigits: 0 }) })}
             </WynikGlowny>
             <p className="mt-1 text-small">
-              Pojemność użyteczna: {result.value.pojemnoscUzytecznaKwh.toLocaleString("pl-PL", { maximumFractionDigits: 1 })} kWh.
+              {t("UI-SECLIF-POJEMNOSC-UZYTECZNA-KWH", { pojemnoscUzytecznaKwh: result.value.pojemnoscUzytecznaKwh.toLocaleString("pl-PL", { maximumFractionDigits: 1 }) })}
             </p>
             {result.warnings.map((w) => (
               <p key={w.code} className="mt-2 text-small">

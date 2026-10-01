@@ -17,6 +17,7 @@ import { NawigacjaEkranu } from "@/components/nawigacja-ekranu"
 import { NaglowekEkranu } from "@/components/wzorce/naglowek-ekranu"
 import { WynikGlowny } from "@/components/wzorce/wynik-glowny"
 import { WynikSzczegoly } from "@/components/wzorce/wynik-szczegoly"
+import { useTranslate } from "@/lib/i18n/language-context"
 
 type FormularzStan = {
   pojemnoscUzytecznaDzisKwh: string
@@ -31,6 +32,7 @@ const STAN_POCZATKOWY: FormularzStan = {
 }
 
 export default function StarzenieDegradacjaPage() {
+  const t = useTranslate()
   const [stan, setStan] = usePersistedDraft<FormularzStan>("starzenie-degradacja", STAN_POCZATKOWY)
   const { pojemnoscUzytecznaDzisKwh, horyzontLata, degradacjaRocznaPct } = stan
 
@@ -81,14 +83,13 @@ export default function StarzenieDegradacjaPage() {
   return (
     <main className="mx-auto flex max-w-md flex-col gap-6 p-6">
       <NawigacjaEkranu href="/kalkulatory/starzenie-degradacja" />
-      <NaglowekEkranu tytul="Starzenie i degradacja ogniw" ekran="starzenie-degradacja" wynik={result}>
-        Kupujesz baterię nie na dziś, tylko na cały okres jej życia — trzeba od razu doliczyć
-        zapas na to, że będzie „słabnąć”. Moduł 4, Ekran 6.
+      <NaglowekEkranu tytul={t("UI-STADEG-STARZENIE-DEGRADACJA-OGNIW")} ekran="starzenie-degradacja" wynik={result}>
+        {t("UI-STADEG-KUPUJESZ-BATERIE-DZIS")}
       </NaglowekEkranu>
 
       <div className="flex flex-col gap-4">
         <Pole
-          label="Pojemność użyteczna potrzebna dziś"
+          label={t("UI-STADEG-POJEMNOSC-UZYTECZNA-POTRZEBN")}
           unit="kWh"
           type="number"
           inputMode="decimal"
@@ -99,18 +100,18 @@ export default function StarzenieDegradacjaPage() {
         />
 
         <PoleSelect
-          label="Horyzont projektowy"
+          label={t("UI-STADEG-HORYZONT-PROJEKTOWY")}
           value={horyzontLata}
           onChange={(e) => setHoryzontLata(Number(e.target.value) as HoryzontLata)}
           pomoc={<PomocPola ekran="starzenie-degradacja" pole="horyzont" />}
         >
-          <option value={5}>5 lat</option>
-          <option value={10}>10 lat</option>
-          <option value={15}>15 lat</option>
+          <option value={5}>{t("UI-STADEG-LAT")}</option>
+          <option value={10}>{t("UI-STADEG-LAT-2")}</option>
+          <option value={15}>{t("UI-STADEG-LAT-3")}</option>
         </PoleSelect>
 
         <Pole
-          label="Roczny spadek pojemności"
+          label={t("UI-STADEG-ROCZNY-SPADEK-POJEMNOSCI")}
           unit="%"
           type="number"
           inputMode="decimal"
@@ -123,22 +124,21 @@ export default function StarzenieDegradacjaPage() {
       </div>
 
       {result.status === "INVALID_INPUT" ? (
-        <WerdyktPanel poziom="blad" etykieta="Nie da się policzyć — sprawdź wpisane dane">
+        <WerdyktPanel poziom="blad" etykieta={t("UI-STADEG-POLICZYC-SPRAWDZ-WPISANE")}>
           <WynikSzczegoly assumptions={[]} warnings={result.warnings} />
         </WerdyktPanel>
       ) : result.status === "INCOMPLETE" ? (
-        <p className="text-small text-muted-foreground">Wypełnij wszystkie pola, żeby zobaczyć wynik.</p>
+        <p className="text-small text-muted-foreground">{t("UI-STADEG-WYPELNIJ-WSZYSTKIE-POLA")}</p>
       ) : (
-        <WerdyktPanel poziom="ok" etykieta="Wymagana pojemność początkowa">
+        <WerdyktPanel poziom="ok" etykieta={t("UI-STADEG-WYMAGANA-POJEMNOSC-POCZATKOW")}>
           <WynikGlowny>{result.value.pojemnoscPoczatkowaKwh.toFixed(1)} kWh</WynikGlowny>
           <p className="mt-1 text-small">
-            Po {horyzontLata} latach zostanie ok.{" "}
-            {(result.value.ulamekPozostalyPoHoryzoncie * 100).toFixed(0)}% pojemności początkowej.
+            {t("UI-STADEG-LATACH-ZOSTANIE-POJEMNOSCI", { horyzontLata, p: (result.value.ulamekPozostalyPoHoryzoncie * 100).toFixed(0) })}
           </p>
           <p className="mt-1 text-small text-muted-foreground">
-            Ten wynik jest teraz widoczny też na{" "}
+            {t("UI-STADEG-TEN-WYNIK-TERAZ")}
             <Link href="/kalkulatory/dobor-pojemnosci-baterii" className="underline">
-              Ekranie 1, Dobór pojemności baterii
+              {t("UI-STADEG-EKRANIE-DOBOR-POJEMNOSCI")}
             </Link>
             .
           </p>

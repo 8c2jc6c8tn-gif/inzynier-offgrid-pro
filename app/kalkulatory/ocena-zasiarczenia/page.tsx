@@ -9,6 +9,7 @@ import { WerdyktPanel } from "@/components/werdykt"
 import { NawigacjaEkranu } from "@/components/nawigacja-ekranu"
 import { NaglowekEkranu } from "@/components/wzorce/naglowek-ekranu"
 import { WynikSzczegoly } from "@/components/wzorce/wynik-szczegoly"
+import { useTranslate } from "@/lib/i18n/language-context"
 
 type FormularzStan = {
   obserwowaneObjawyIds: string[]
@@ -19,6 +20,7 @@ const STAN_POCZATKOWY: FormularzStan = {
 }
 
 export default function OcenaZasiarczeniaPage() {
+  const t = useTranslate()
   const [stan, setStan] = usePersistedDraft<FormularzStan>("ocena-zasiarczenia", STAN_POCZATKOWY)
   const { obserwowaneObjawyIds } = stan
 
@@ -42,9 +44,8 @@ export default function OcenaZasiarczeniaPage() {
   return (
     <main className="mx-auto flex max-w-md flex-col gap-6 p-6">
       <NawigacjaEkranu href="/kalkulatory/ocena-zasiarczenia" />
-      <NaglowekEkranu tytul="Ocena zużycia — siarczanowanie" ekran="ocena-zasiarczenia" wynik={result}>
-        Zaznacz objawy, które faktycznie obserwujesz na akumulatorze. Moduł 11, Ekran B10 (Ścieżka
-        B — kwasowo-ołowiowa).
+      <NaglowekEkranu tytul={t("UI-OCEZAS-OCENA-ZUZYCIA-SIARCZANOWANIE")} ekran="ocena-zasiarczenia" wynik={result}>
+        {t("UI-OCEZAS-ZAZNACZ-OBJAWY-KTORE")}
       </NaglowekEkranu>
 
       <div className="flex flex-col gap-3">
@@ -60,11 +61,11 @@ export default function OcenaZasiarczeniaPage() {
       </div>
 
       {result.value.liczbaObjawow > 0 ? (
-        <WerdyktPanel poziom="uwaga" etykieta="Możliwe zasiarczenie">
+        <WerdyktPanel poziom="uwaga" etykieta={t("UI-OCEZAS-MOZLIWE-ZASIARCZENIE")}>
           <WynikSzczegoly assumptions={result.assumptions} warnings={result.warnings} />
         </WerdyktPanel>
       ) : (
-        <WerdyktPanel poziom="ok" etykieta="Brak zaobserwowanych objawów zasiarczenia" />
+        <WerdyktPanel poziom="ok" etykieta={t("UI-OCEZAS-BRAK-ZAOBSERWOWANYCH-OBJAWOW")} />
       )}
     </main>
   )
