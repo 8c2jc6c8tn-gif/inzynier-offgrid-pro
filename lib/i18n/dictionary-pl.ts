@@ -1539,6 +1539,11 @@ export const dictionaryPl = {
   "OSL-TYLKO-GEOMETRIA": "Liczona tylko geometria w południe słoneczne dla okna skierowanego na południe i okapu szerszego niż okno. Zysków słonecznych w kWh aplikacja nie liczy — wymagają napromieniowania fasady, współczynnika g szyby i współczynnika osłony z normy, której nie ma w aplikacji (ten sam model co ekran okien, odłożony). Okap poziomy nie chroni okien wschodnich i zachodnich — tam słońce świeci nisko; potrzebna osłona pionowa albo ruchoma.",
   "OSL-SZEROKOSC-POZA-MODELEM": "Model działa dla szerokości geograficznej od {min}° do {max}°N — tam słońce w południe jest zawsze na południu i zimą nad horyzontem.",
   "OSL-ZALOZENIE-POLUDNIE": "Wysokość słońca w południe przesilenia: h = 90° − φ ± {delta}° (deklinacja Słońca). Cień okapu sięga wysięg × tg h poniżej okapu.",
+  "WPOR-DNI-POZA-ZAKRESEM": "Sezon grzewczy nie może mieć więcej niż 366 dni.",
+  "WPOR-NATURALNA-SZCZELNY-DOM": "Wentylacja naturalna w nowym, szczelnym domu to prosta droga do pleśni — bez nieszczelności ciąg grawitacyjny nie wymieni powietrza (sprawdź test szczelności, Ekran 12).",
+  "WPOR-MECHANICZNA-NIE-OSZCZEDZA": "Wentylatory zużyją więcej prądu, niż rekuperacja oszczędzi na ogrzewaniu — bilans {netto} kWh/dobę. Sprawdź pobór wentylatorów i sprawność odzysku albo policz dla zimniejszej doby.",
+  "WPOR-BEZ-COP": "Ogrzewanie nieelektryczne (COP nie wpisany) — pokazujemy oszczędność ciepła i prąd wentylatorów osobno; bilansu prądu nie liczymy.",
+  "WPOR-ZALOZENIE-DOBA": "Liczone dla jednej doby o wpisanej średniej temperaturze zewnętrznej; wynik sezonowy = doba × dni sezonu (zimniejsze i cieplejsze dni się uśredniają tylko wtedy, gdy wpiszesz średnią sezonu).",
 } as const
 
 export type KluczTlumaczenia = keyof typeof dictionaryPl

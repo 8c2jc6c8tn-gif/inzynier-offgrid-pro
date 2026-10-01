@@ -1527,4 +1527,9 @@ export const dictionaryEn = {
   "OSL-TYLKO-GEOMETRIA": "Only the solar-noon geometry is computed, for a south-facing window and an overhang wider than the window. The app does not compute solar gains in kWh — that needs facade irradiance, the glazing g-value and a shading factor from a standard the app does not have (the same model as the windows screen, deferred). A horizontal overhang does not protect east and west windows — the sun is low there; a vertical or movable shade is needed.",
   "OSL-SZEROKOSC-POZA-MODELEM": "The model works for latitudes from {min}° to {max}°N — there the noon sun is always to the south and above the horizon in winter.",
   "OSL-ZALOZENIE-POLUDNIE": "Sun height at solstice noon: h = 90° − φ ± {delta}° (solar declination). The overhang's shadow reaches projection × tan h below the overhang.",
+  "WPOR-DNI-POZA-ZAKRESEM": "A heating season cannot be longer than 366 days.",
+  "WPOR-NATURALNA-SZCZELNY-DOM": "Natural ventilation in a new, airtight house is a straight road to mould — without leaks the stack effect will not exchange the air (check the airtightness test, Screen 12).",
+  "WPOR-MECHANICZNA-NIE-OSZCZEDZA": "The fans will use more electricity than recovery saves on heating — balance {netto} kWh/day. Check the fan power and recovery efficiency, or compute for a colder day.",
+  "WPOR-BEZ-COP": "Non-electric heating (no COP entered) — the heat saving and fan electricity are shown separately; no electricity balance.",
+  "WPOR-ZALOZENIE-DOBA": "Computed for one day at the entered mean outdoor temperature; the season result = day × season days (colder and warmer days average out only if you enter the season mean).",
 } satisfies Record<KluczTlumaczenia, string>

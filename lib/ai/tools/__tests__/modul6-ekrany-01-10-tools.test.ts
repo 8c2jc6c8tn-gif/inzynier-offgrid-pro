@@ -6,6 +6,7 @@ import { sterowanieStrefoweTool } from "../sterowanie-strefowe-tool"
 import { zasobnikCwuTool } from "../zasobnik-cwu-tool"
 import { grzalkaCwuTool } from "../grzalka-cwu-tool"
 import { oslonyPrzeciwsloneczneTool } from "../oslony-przeciwsloneczne-tool"
+import { wentylacjaPorownanieTool } from "../wentylacja-porownanie-tool"
 
 describe("dystrybucjaCieplaTool (M6/E13, dawne 5.13 + 5.17 + 5.18)", () => {
   it("kontrakt 9.3: 'read', bez potwierdzenia", () => {
@@ -105,5 +106,31 @@ describe("oslonyPrzeciwsloneczneTool (M6/E19, dawne 5.25)", () => {
     const w = await oslonyPrzeciwsloneczneTool.handler({ szerokoscDeg: 52, wysiegM: 2, odstepM: 0, wysokoscOknaM: 1.5 })
     expect(w.zacienienieLatoPct).toBe(100)
     expect(w.ostrzezenia).toContain(t("pl", "OSL-OKAP-ZIMA", { pct: Math.round(w.zacienienieZimaPct) }))
+  })
+})
+
+describe("wentylacjaPorownanieTool (M6/E20, dawne 5.26)", () => {
+  it("kontrakt 9.3: 'read', bez potwierdzenia", () => {
+    expect(wentylacjaPorownanieTool.operationType).toBe("read")
+    expect(wentylacjaPorownanieTool.requiresConfirmation).toBe(false)
+    expect(() => validateAiToolDefinition(wentylacjaPorownanieTool)).not.toThrow()
+  })
+
+  it("pompa COP 4 i wentylatory 100 W przy 50 m³/h → 🟡 wentylatory zjadają zysk jako tekst PL", async () => {
+    const w = await wentylacjaPorownanieTool.handler({
+      tWewC: 20,
+      tZewnC: 0,
+      strumienNaturalnyM3H: 50,
+      strumienMechanicznyM3H: 50,
+      sprawnoscOdzyskuPct: 80,
+      mocWentylatorowW: 100,
+      copOgrzewania: 4,
+      dniSezonu: 0,
+      cenaPraduZlKwh: 0,
+      doplataZl: 0,
+      szczelnyDom: false,
+    })
+    expect(w.oszczednoscNettoKwh).toBeLessThan(0)
+    expect(w.ostrzezenia).toContain(t("pl", "WPOR-MECHANICZNA-NIE-OSZCZEDZA", { netto: Math.round(w.oszczednoscNettoKwh! * 100) / 100 }))
   })
 })

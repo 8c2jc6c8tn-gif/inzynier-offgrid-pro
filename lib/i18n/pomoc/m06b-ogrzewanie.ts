@@ -320,6 +320,82 @@ export const pl = {
       }
     }
   },
+  "wentylacja-porownanie": {
+    "migawka": {
+      "oCoChodzi": "Oddychać trzeba, ale bez rekuperacji to oddychanie zimą słono kosztuje — pytanie nie brzmi „czy wentylować”, tylko „jak zrobić to najtaniej”.",
+      "jakDziala": "Wpisz temperatury, strumień powietrza wentylacji naturalnej i mechanicznej, sprawność odzysku i pobór wentylatorów. Aplikacja policzy straty ciepła obu wariantów na dobę, a z COP ogrzewania — ile prądu netto oszczędza rekuperacja po odjęciu wentylatorów. Z dniami sezonu, ceną prądu i dopłatą — zwrot.",
+      "poCo": "W off-gridzie wentylatory pracują całą dobę z baterii — rekuperacja musi oszczędzić na ogrzewaniu więcej, niż sama zużywa.",
+      "fizyka": "Q = V̇·(1 − η)·ρ·cp·ΔT·24 h (ρ = 1,2 kg/m³, cp = 1005 J/(kg·K) — jak Ekrany 3 i 12). Netto = (Q_nat − Q_mech) ÷ COP − P_went·24 h. Przykład źródła „8 − 3 − 0,5 = 4,5 kWh/dobę” odejmuje ciepło od prądu 1:1 — to prawda tylko przy COP = 1; „1600 kWh rocznie” = 4,5 × 365 dni zimowej doby."
+    },
+    "pola": {
+      "tWew": {
+        "nazwa": "Temperatura wewnątrz [°C]",
+        "cel": "Różnica temperatur napędza straty wentylacji.",
+        "gdzie": "Temperatura, którą utrzymujesz zimą.",
+        "zakres": "Twoje ustawienie."
+      },
+      "tZewn": {
+        "nazwa": "Średnia temperatura zewnętrzna [°C]",
+        "cel": "Doba, dla której liczysz (np. średnia sezonu albo typowa zimowa doba).",
+        "gdzie": "Dane klimatyczne lokalizacji (Moduł 1) albo średnie miesięczne z Ekranu 1.",
+        "zakres": "Twoja lokalizacja."
+      },
+      "strumienNat": {
+        "nazwa": "Strumień powietrza wentylacji naturalnej [m³/h]",
+        "cel": "Ile powietrza wymienia wentylacja grawitacyjna.",
+        "gdzie": "Liczba wymian × kubatura (Ekran 12 — test szczelności) albo pomiar anemometrem na kratkach.",
+        "zakres": "Twój budynek — wzoru na ciąg kominowy aplikacja nie ma."
+      },
+      "szczelny": {
+        "nazwa": "Dom nowy, szczelny",
+        "cel": "Ostrzeżenie źródła: w szczelnym domu wentylacja naturalna nie działa i grozi pleśnią.",
+        "gdzie": "Nowe okna, membrany, dobry wynik testu szczelności.",
+        "zakres": "Tak / nie."
+      },
+      "strumienMech": {
+        "nazwa": "Strumień powietrza wentylacji mechanicznej [m³/h]",
+        "cel": "Wydajność centrali w normalnej pracy.",
+        "gdzie": "Projekt wentylacji / nastawa centrali (Ekran 3).",
+        "zakres": "Twoja instalacja."
+      },
+      "sprawnosc": {
+        "nazwa": "Sprawność odzysku ciepła [%]",
+        "cel": "Jaka część ciepła z powietrza wywiewanego wraca do domu.",
+        "gdzie": "Karta rekuperatora.",
+        "zakres": "0–100% — wartość z karty."
+      },
+      "wentylatory": {
+        "nazwa": "Pobór wentylatorów [W]",
+        "cel": "Prąd zużywany przez centralę całą dobę.",
+        "gdzie": "Karta centrali (pobór przy Twoim strumieniu).",
+        "zakres": "Karta katalogowa urządzenia."
+      },
+      "cop": {
+        "nazwa": "COP ogrzewania",
+        "cel": "Zamienia zaoszczędzone ciepło na zaoszczędzony prąd.",
+        "gdzie": "1 = grzałka/kocioł elektryczny; pompa ciepła — karta (Ekran 5).",
+        "zakres": "≥ 1. Puste = ogrzewanie nieelektryczne — bez bilansu prądu."
+      },
+      "dni": {
+        "nazwa": "Dni sezonu grzewczego",
+        "cel": "Mnoży oszczędność doby na sezon.",
+        "gdzie": "Liczba dni z ogrzewaniem w Twojej lokalizacji.",
+        "zakres": "Do 366. Puste = bez wyniku sezonowego."
+      },
+      "cena": {
+        "nazwa": "Cena prądu [zł/kWh]",
+        "cel": "Zamienia kWh na złotówki.",
+        "gdzie": "Rachunek albo koszt kWh z Twojego systemu.",
+        "zakres": "Puste = bez zł i zwrotu."
+      },
+      "doplata": {
+        "nazwa": "Dopłata za rekuperację [zł]",
+        "cel": "Różnica kosztu instalacji względem wentylacji naturalnej.",
+        "gdzie": "Oferty instalatorów.",
+        "zakres": "Puste = bez zwrotu."
+      }
+    }
+  },
 }
 
 const EN_SHEET = "The device datasheet — the app never assumes a typical value for you."
@@ -638,6 +714,82 @@ export const en: Tlumaczenie<typeof pl> = {
       }
     }
   },
+  "wentylacja-porownanie": {
+    "migawka": {
+      "oCoChodzi": "You have to breathe, but without heat recovery breathing in winter is expensive — the question is not “whether to ventilate” but “how to do it most cheaply”.",
+      "jakDziala": "Enter the temperatures, the natural and mechanical air flows, the recovery efficiency and the fan power. The app computes the daily heat loss of both options and, with the heating COP, how much net electricity recovery saves after the fans. With season days, electricity price and extra cost — the payback.",
+      "poCo": "Off-grid the fans run all day from the battery — heat recovery must save more on heating than it uses itself.",
+      "fizyka": "Q = V̇·(1 − η)·ρ·cp·ΔT·24 h (ρ = 1.2 kg/m³, cp = 1005 J/(kg·K) — as Screens 3 and 12). Net = (Q_nat − Q_mech) ÷ COP − P_fans·24 h. The source example “8 − 3 − 0.5 = 4.5 kWh/day” subtracts heat from electricity 1:1 — true only at COP = 1; “1600 kWh a year” = 4.5 × 365 days of a winter day."
+    },
+    "pola": {
+      "tWew": {
+        "nazwa": "Indoor temperature [°C]",
+        "cel": "The temperature difference drives ventilation losses.",
+        "gdzie": "The temperature you keep in winter.",
+        "zakres": "Your setting."
+      },
+      "tZewn": {
+        "nazwa": "Mean outdoor temperature [°C]",
+        "cel": "The day you compute for (e.g. season mean or a typical winter day).",
+        "gdzie": "Climate data of the location (Module 1) or monthly means from Screen 1.",
+        "zakres": "Your location."
+      },
+      "strumienNat": {
+        "nazwa": "Natural ventilation air flow [m³/h]",
+        "cel": "How much air the stack ventilation exchanges.",
+        "gdzie": "Air changes × volume (Screen 12 — airtightness test) or an anemometer at the grilles.",
+        "zakres": "Your building — the app has no formula for the stack effect."
+      },
+      "szczelny": {
+        "nazwa": "New, airtight house",
+        "cel": "Source warning: in an airtight house natural ventilation does not work and risks mould.",
+        "gdzie": "New windows, membranes, a good airtightness test result.",
+        "zakres": "Yes / no."
+      },
+      "strumienMech": {
+        "nazwa": "Mechanical ventilation air flow [m³/h]",
+        "cel": "Unit output in normal operation.",
+        "gdzie": "Ventilation design / unit setting (Screen 3).",
+        "zakres": "Your installation."
+      },
+      "sprawnosc": {
+        "nazwa": "Heat recovery efficiency [%]",
+        "cel": "What part of the exhaust air heat returns to the house.",
+        "gdzie": "Heat recovery unit datasheet.",
+        "zakres": "0–100% — the datasheet value."
+      },
+      "wentylatory": {
+        "nazwa": "Fan power [W]",
+        "cel": "Electricity used by the unit all day.",
+        "gdzie": "Unit datasheet (power at your air flow).",
+        "zakres": "The device datasheet."
+      },
+      "cop": {
+        "nazwa": "Heating COP",
+        "cel": "Turns the heat saved into electricity saved.",
+        "gdzie": "1 = electric heater/boiler; heat pump — datasheet (Screen 5).",
+        "zakres": "≥ 1. Empty = non-electric heating — no electricity balance."
+      },
+      "dni": {
+        "nazwa": "Heating season days",
+        "cel": "Multiplies the daily saving to the season.",
+        "gdzie": "Number of heating days at your location.",
+        "zakres": "Up to 366. Empty = no season result."
+      },
+      "cena": {
+        "nazwa": "Electricity price [PLN/kWh]",
+        "cel": "Turns kWh into money.",
+        "gdzie": "Bill or the cost of a kWh from your system.",
+        "zakres": "Empty = no PLN and payback."
+      },
+      "doplata": {
+        "nazwa": "Extra cost of heat recovery [PLN]",
+        "cel": "Installation cost difference against natural ventilation.",
+        "gdzie": "Installer quotes.",
+        "zakres": "Empty = no payback."
+      }
+    }
+  },
 }
 
 const RU_SHEET = "Паспорт устройства — приложение не подставляет типовое значение за вас."
@@ -953,6 +1105,82 @@ export const ru: Tlumaczenie<typeof pl> = {
         "cel": "Высота остекления, которое нужно затенить.",
         "gdzie": "Замер или спецификация окон.",
         "zakres": "Ваше здание."
+      }
+    }
+  },
+  "wentylacja-porownanie": {
+    "migawka": {
+      "oCoChodzi": "Дышать нужно, но без рекуперации дыхание зимой обходится дорого — вопрос не «вентилировать ли», а «как сделать это дешевле всего».",
+      "jakDziala": "Введите температуры, расходы воздуха естественной и механической вентиляции, КПД рекуперации и потребление вентиляторов. Приложение посчитает суточные теплопотери обоих вариантов, а с COP отопления — сколько электроэнергии нетто экономит рекуперация за вычетом вентиляторов. С днями сезона, ценой и доплатой — окупаемость.",
+      "poCo": "В автономной системе вентиляторы работают круглосуточно от батареи — рекуперация должна экономить на отоплении больше, чем потребляет сама.",
+      "fizyka": "Q = V̇·(1 − η)·ρ·cp·ΔT·24 ч (ρ = 1,2 кг/м³, cp = 1005 Дж/(кг·К) — как на Экранах 3 и 12). Нетто = (Q_ест − Q_мех) ÷ COP − P_вент·24 ч. Пример источника «8 − 3 − 0,5 = 4,5 кВт·ч/сутки» вычитает тепло из электроэнергии 1:1 — верно только при COP = 1; «1600 кВт·ч в год» = 4,5 × 365 дней зимних суток."
+    },
+    "pola": {
+      "tWew": {
+        "nazwa": "Температура внутри [°C]",
+        "cel": "Разница температур определяет вентиляционные потери.",
+        "gdzie": "Температура, которую вы держите зимой.",
+        "zakres": "Ваша настройка."
+      },
+      "tZewn": {
+        "nazwa": "Средняя наружная температура [°C]",
+        "cel": "Сутки, для которых считается (средняя сезона или типичные зимние).",
+        "gdzie": "Климатические данные (Модуль 1) или средние по месяцам с Экрана 1.",
+        "zakres": "Ваше местоположение."
+      },
+      "strumienNat": {
+        "nazwa": "Расход воздуха естественной вентиляции [м³/ч]",
+        "cel": "Сколько воздуха обменивает гравитационная вентиляция.",
+        "gdzie": "Кратность × объём (Экран 12 — тест герметичности) или анемометр на решётках.",
+        "zakres": "Ваше здание — формулы тяги в приложении нет."
+      },
+      "szczelny": {
+        "nazwa": "Новый герметичный дом",
+        "cel": "Предупреждение источника: в герметичном доме естественная вентиляция не работает и грозит плесенью.",
+        "gdzie": "Новые окна, мембраны, хороший результат теста герметичности.",
+        "zakres": "Да / нет."
+      },
+      "strumienMech": {
+        "nazwa": "Расход воздуха механической вентиляции [м³/ч]",
+        "cel": "Производительность установки в обычном режиме.",
+        "gdzie": "Проект вентиляции / настройка установки (Экран 3).",
+        "zakres": "Ваша установка."
+      },
+      "sprawnosc": {
+        "nazwa": "КПД рекуперации [%]",
+        "cel": "Какая часть тепла вытяжного воздуха возвращается в дом.",
+        "gdzie": "Паспорт рекуператора.",
+        "zakres": "0–100% — значение из паспорта."
+      },
+      "wentylatory": {
+        "nazwa": "Потребление вентиляторов [Вт]",
+        "cel": "Электроэнергия установки круглые сутки.",
+        "gdzie": "Паспорт установки (потребление при вашем расходе).",
+        "zakres": "Паспорт устройства."
+      },
+      "cop": {
+        "nazwa": "COP отопления",
+        "cel": "Переводит сэкономленное тепло в сэкономленную электроэнергию.",
+        "gdzie": "1 = ТЭН/электрокотёл; тепловой насос — паспорт (Экран 5).",
+        "zakres": "≥ 1. Пусто = неэлектрическое отопление — без баланса."
+      },
+      "dni": {
+        "nazwa": "Дни отопительного сезона",
+        "cel": "Умножает суточную экономию на сезон.",
+        "gdzie": "Число дней с отоплением в вашем месте.",
+        "zakres": "До 366. Пусто = без сезонного результата."
+      },
+      "cena": {
+        "nazwa": "Цена электроэнергии [зл/кВт·ч]",
+        "cel": "Переводит кВт·ч в деньги.",
+        "gdzie": "Счёт или стоимость кВт·ч вашей системы.",
+        "zakres": "Пусто = без злотых и окупаемости."
+      },
+      "doplata": {
+        "nazwa": "Доплата за рекуперацию [зл]",
+        "cel": "Разница в стоимости установки по сравнению с естественной вентиляцией.",
+        "gdzie": "Предложения монтажников.",
+        "zakres": "Пусто = без окупаемости."
       }
     }
   },
