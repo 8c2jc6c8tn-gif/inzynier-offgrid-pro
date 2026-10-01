@@ -48,14 +48,13 @@ export default function MocPozornaCosfiPage() {
   return (
     <main className="mx-auto flex max-w-md flex-col gap-6 p-6">
       <NawigacjaEkranu href="/kalkulatory/moc-pozorna-cosfi" />
-      <NaglowekEkranu tytul="Moc pozorna (cos φ)" ekran="moc-pozorna-cosfi">
-        Waty na tabliczce znamionowej to nie cała historia — silniki i sprężarki obciążają
-        falownik mocą pozorną (VA), nie tylko czynną (W). Moduł 2, Ekran 8.
+      <NaglowekEkranu tytul={t("UI-MOCPOZCOS-MOC-POZORNA-COS")} ekran="moc-pozorna-cosfi">
+        {t("UI-MOCPOZCOS-WATY-TABLICZCE-ZNAMIONOWEJ")}
       </NaglowekEkranu>
 
       <div className="flex flex-col gap-4">
         <Pole
-          label="Moc czynna urządzenia"
+          label={t("UI-MOCPOZCOS-MOC-CZYNNA-URZADZENIA")}
           unit="W"
           type="number"
           inputMode="decimal"
@@ -64,7 +63,7 @@ export default function MocPozornaCosfiPage() {
           pomoc={<PomocPola ekran="moc-pozorna-cosfi" pole="moc" />}
         />
         <Pole
-          label="Współczynnik mocy (cos φ)"
+          label={t("UI-MOCPOZCOS-WSPOLCZYNNIK-MOCY-COS")}
           type="number"
           inputMode="decimal"
           min={0}
@@ -77,12 +76,12 @@ export default function MocPozornaCosfiPage() {
 
       {result.status === "INCOMPLETE" ? (
         <p className="text-small text-muted-foreground">
-          Wypełnij dane, żeby zobaczyć moc pozorną.
+          {t("UI-MOCPOZCOS-WYPELNIJ-DANE-ZEBY")}
         </p>
       ) : result.status === "INVALID_INPUT" ? (
-        <p className="text-small text-werdykt-blad">Sprawdź wpisane dane (cos φ musi być z przedziału 0–1).</p>
+        <p className="text-small text-werdykt-blad">{t("UI-MOCPOZCOS-SPRAWDZ-WPISANE-DANE")}</p>
       ) : (
-        <WerdyktPanel poziom="ok" etykieta="Moc pozorna">
+        <WerdyktPanel poziom="ok" etykieta={t("UI-MOCPOZCOS-MOC-POZORNA")}>
           <WynikGlowny>
             {result.value.mocPozornaVA.toLocaleString("pl-PL", { maximumFractionDigits: 0 })} VA
           </WynikGlowny>

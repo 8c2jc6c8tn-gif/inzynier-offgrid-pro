@@ -1,3 +1,5 @@
+"use client"
+
 import {
   NARZEDZIA_DIAGNOSTYCZNE_FAKTY,
   PRZECHOWYWANIE_FAKTY,

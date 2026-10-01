@@ -10,6 +10,7 @@ import { NawigacjaEkranu } from "@/components/nawigacja-ekranu"
 import { NaglowekEkranu } from "@/components/wzorce/naglowek-ekranu"
 import { WynikGlowny } from "@/components/wzorce/wynik-glowny"
 import { WynikSzczegoly } from "@/components/wzorce/wynik-szczegoly"
+import { useTranslate } from "@/lib/i18n/language-context"
 
 type FormularzStan = {
   napiecieBateriiV: string
@@ -28,6 +29,7 @@ const STAN_POCZATKOWY: FormularzStan = {
 }
 
 export default function AnalizaZwarciowaPage() {
+  const t = useTranslate()
   const [stan, setStan] = usePersistedDraft<FormularzStan>("analiza-zwarciowa", STAN_POCZATKOWY)
   const { napiecieBateriiV, rezystancjaWewnetrznaBateriiOhm, iscPanelaA, liczbaStringowRownoleglych, aicZabezpieczeniaA } = stan
 
@@ -69,24 +71,22 @@ export default function AnalizaZwarciowaPage() {
   }
 
   const verdictLabel: Record<typeof verdict, string> = {
-    invalid: "Nie da się policzyć",
-    incomplete: "Wypełnij wszystkie pola",
-    red: "Zabronione — zdolność wyłączania za niska",
-    green: "Prąd zwarciowy policzony",
+    invalid: t("UI-ANAZWA-POLICZYC"),
+    incomplete: t("UI-ANAZWA-WYPELNIJ-WSZYSTKIE-POLA"),
+    red: t("UI-ANAZWA-ZABRONIONE-ZDOLNOSC-WYLACZAN"),
+    green: t("UI-ANAZWA-PRAD-ZWARCIOWY-POLICZONY"),
   }
 
   return (
     <main className="mx-auto flex max-w-md flex-col gap-6 p-6">
       <NawigacjaEkranu href="/kalkulatory/analiza-zwarciowa" />
-      <NaglowekEkranu tytul="Analiza zwarciowa" ekran="analiza-zwarciowa" wynik={result}>
-        Zwarcie to jak wybuch — trzeba wiedzieć, ile energii popłynie, zanim bezpiecznik zdąży
-        przerwać obwód. Moduł 5, Ekran 12 — punkt odniesienia dla doboru bezpieczników,
-        wyłączników DC i selektywności w innych ekranach tego modułu.
+      <NaglowekEkranu tytul={t("UI-ANAZWA-ANALIZA-ZWARCIOWA")} ekran="analiza-zwarciowa" wynik={result}>
+        {t("UI-ANAZWA-ZWARCIE-WYBUCH-TRZEBA")}
       </NaglowekEkranu>
 
       <div className="flex flex-col gap-4">
         <Pole
-          label="Napięcie baterii"
+          label={t("UI-ANAZWA-NAPIECIE-BATERII")}
           unit="V"
           type="number"
           inputMode="decimal"
@@ -96,7 +96,7 @@ export default function AnalizaZwarciowaPage() {
           pomoc={<PomocPola ekran="analiza-zwarciowa" pole="napiecie" />}
         />
         <Pole
-          label="Rezystancja wewnętrzna pakietu"
+          label={t("UI-ANAZWA-REZYSTANCJA-WEWNETRZNA-PAKIE")}
           unit="Ω"
           type="number"
           inputMode="decimal"
@@ -106,7 +106,7 @@ export default function AnalizaZwarciowaPage() {
           pomoc={<PomocPola ekran="analiza-zwarciowa" pole="rezystancja" />}
         />
         <Pole
-          label="Prąd zwarciowy panelu (Isc)"
+          label={t("UI-ANAZWA-PRAD-ZWARCIOWY-PANELU")}
           unit="A"
           type="number"
           inputMode="decimal"
@@ -116,8 +116,8 @@ export default function AnalizaZwarciowaPage() {
           pomoc={<PomocPola ekran="analiza-zwarciowa" pole="isc" />}
         />
         <Pole
-          label="Liczba stringów PV równoległych"
-          unit="szt."
+          label={t("UI-ANAZWA-LICZBA-STRINGOW-ROWNOLEGLYCH")}
+          unit={t("UI-J-SZT")}
           type="number"
           inputMode="numeric"
           min={0}
@@ -126,7 +126,7 @@ export default function AnalizaZwarciowaPage() {
           pomoc={<PomocPola ekran="analiza-zwarciowa" pole="stringi" />}
         />
         <Pole
-          label="AIC sprawdzanego zabezpieczenia (opcjonalnie)"
+          label={t("UI-ANAZWA-AIC-SPRAWDZANEGO-ZABEZPIECZE")}
           unit="A"
           type="number"
           inputMode="decimal"
@@ -140,13 +140,12 @@ export default function AnalizaZwarciowaPage() {
       <WerdyktPanel poziom={verdictPoziom[verdict]} etykieta={verdictLabel[verdict]}>
         {verdict !== "invalid" && verdict !== "incomplete" && (
           <WynikGlowny>
-            I_zw maks. = {result.value.pradZwarciowyMaksymalnyA.toLocaleString("pl-PL")} A
+            {t("UI-ANAZWA-MAKS", { pradZwarciowyMaksymalnyA: result.value.pradZwarciowyMaksymalnyA.toLocaleString("pl-PL") })}
           </WynikGlowny>
         )}
         {verdict !== "invalid" && verdict !== "incomplete" && (
           <p className="mt-1 text-small text-muted-foreground">
-            Bateria: {result.value.pradZwarciowyBateriaA.toLocaleString("pl-PL")} A · PV:{" "}
-            {result.value.pradZwarciowyPvA.toLocaleString("pl-PL")} A
+            {t("UI-ANAZWA-BATERIA", { pradZwarciowyBateriaA: result.value.pradZwarciowyBateriaA.toLocaleString("pl-PL"), pradZwarciowyPvA: result.value.pradZwarciowyPvA.toLocaleString("pl-PL") })}
           </p>
         )}
         <WynikSzczegoly assumptions={result.assumptions} warnings={result.warnings} formula={result.formula} />

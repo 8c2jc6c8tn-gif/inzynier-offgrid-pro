@@ -11,6 +11,7 @@ import { WerdyktPanel, type WerdyktPoziom } from "@/components/werdykt"
 import { NawigacjaEkranu } from "@/components/nawigacja-ekranu"
 import { NaglowekEkranu } from "@/components/wzorce/naglowek-ekranu"
 import { WynikSzczegoly } from "@/components/wzorce/wynik-szczegoly"
+import { useTranslate } from "@/lib/i18n/language-context"
 
 const MATERIALY = Object.keys(ETYKIETY_MATERIALOW) as Material[]
 const SRODOWISKA = Object.keys(ETYKIETY_SRODOWISK) as Srodowisko[]
@@ -34,6 +35,7 @@ const STAN_POCZATKOWY: FormularzStan = {
 }
 
 export default function LaczenieCuAlPage() {
+  const t = useTranslate()
   const [stan, setStan] = usePersistedDraft<FormularzStan>("laczenie-cu-al", STAN_POCZATKOWY)
   const { material1, material2, srodowisko, maZlaczkeBimetaliczna, maPodkladkeISmar, przekrojCuMm2 } = stan
 
@@ -92,34 +94,33 @@ export default function LaczenieCuAlPage() {
   }
 
   const verdictLabel: Record<typeof verdict, string> = {
-    invalid: "Nie da się policzyć",
-    incomplete: "Wybierz oba materiały",
-    "poza-zakresem": "Ta para/środowisko nie jest oceniane w źródle",
-    red: "Zabronione — korozja galwaniczna",
-    green: "Połączenie bezpieczne",
+    invalid: t("UI-LACCUAL-POLICZYC"),
+    incomplete: t("UI-LACCUAL-WYBIERZ-OBA-MATERIALY"),
+    "poza-zakresem": t("UI-LACCUAL-PARA-SRODOWISKO-OCENIANE"),
+    red: t("UI-LACCUAL-ZABRONIONE-KOROZJA-GALWANICZNA"),
+    green: t("UI-LACCUAL-POLACZENIE-BEZPIECZNE"),
   }
 
   return (
     <main className="mx-auto flex max-w-md flex-col gap-6 p-6">
       <NawigacjaEkranu href="/kalkulatory/laczenie-cu-al" />
       <NaglowekEkranu
-        tytul="Łączenie Cu-Al i ochrona przed korozją"
+        tytul={t("UI-LACCUAL-LACZENIE-OCHRONA-PRZED")}
         ekran="laczenie-cu-al"
         wynik={result}
         parametry={{ wspAl: WSPOLCZYNNIK_PRZEKROJU_AL_WZGLEDEM_CU }}
       >
-        Miedź i aluminium w wilgoci nie znoszą bezpośredniego kontaktu — trzeba je rozdzielić
-        barierą, inaczej rdzewieją tam, gdzie się stykają. Moduł 5, Ekran 4.
+        {t("UI-LACCUAL-MIEDZ-ALUMINIUM-WILGOCI")}
       </NaglowekEkranu>
 
       <div className="flex flex-col gap-4">
         <PoleSelect
-          label="Materiał przewodu 1"
+          label={t("UI-LACCUAL-MATERIAL-PRZEWODU")}
           value={material1}
           onChange={(e) => setMaterial1(e.target.value as Material)}
           pomoc={<PomocPola ekran="laczenie-cu-al" pole="material1" />}
         >
-          <option value="">— wybierz —</option>
+          <option value="">{t("UI-WYBIERZ")}</option>
           {MATERIALY.map((m) => (
             <option key={m} value={m}>
               {ETYKIETY_MATERIALOW[m]}
@@ -127,12 +128,12 @@ export default function LaczenieCuAlPage() {
           ))}
         </PoleSelect>
         <PoleSelect
-          label="Materiał przewodu 2"
+          label={t("UI-LACCUAL-MATERIAL-PRZEWODU-2")}
           value={material2}
           onChange={(e) => setMaterial2(e.target.value as Material)}
           pomoc={<PomocPola ekran="laczenie-cu-al" pole="material2" />}
         >
-          <option value="">— wybierz —</option>
+          <option value="">{t("UI-WYBIERZ")}</option>
           {MATERIALY.map((m) => (
             <option key={m} value={m}>
               {ETYKIETY_MATERIALOW[m]}
@@ -140,7 +141,7 @@ export default function LaczenieCuAlPage() {
           ))}
         </PoleSelect>
         <PoleSelect
-          label="Środowisko"
+          label={t("UI-LACCUAL-SRODOWISKO")}
           value={srodowisko}
           onChange={(e) => setSrodowisko(e.target.value as Srodowisko)}
           pomoc={<PomocPola ekran="laczenie-cu-al" pole="srodowisko" />}
@@ -155,7 +156,7 @@ export default function LaczenieCuAlPage() {
         {paraCuAl && (
           <PoleCheckbox
             id="ma-zlaczke-bimetaliczna"
-            label="Zastosowana złączka bimetaliczna + pasta antykorozyjna"
+            label={t("UI-LACCUAL-ZASTOSOWANA-ZLACZKA-BIMETALI")}
             checked={maZlaczkeBimetaliczna}
             onChange={(e) => setMaZlaczkeBimetaliczna(e.target.checked)}
           />
@@ -163,14 +164,14 @@ export default function LaczenieCuAlPage() {
         {paraStalOcynkCu && (
           <PoleCheckbox
             id="ma-podkladke-i-smar"
-            label="Zastosowana podkładka i smar"
+            label={t("UI-LACCUAL-ZASTOSOWANA-PODKLADKA-SMAR")}
             checked={maPodkladkeISmar}
             onChange={(e) => setMaPodkladkeISmar(e.target.checked)}
           />
         )}
 
         <Pole
-          label="Przekrój Cu (opcjonalnie — przelicznik na Al)"
+          label={t("UI-LACCUAL-PRZEKROJ-OPCJONALNIE-PRZELIC")}
           unit="mm²"
           type="number"
           inputMode="decimal"
@@ -183,7 +184,7 @@ export default function LaczenieCuAlPage() {
 
       <WerdyktPanel poziom={verdictPoziom[verdict]} etykieta={verdictLabel[verdict]}>
         {result.value.wymaganyPrzekrojAlMm2 > 0 && (
-          <p className="font-medium">Wymagany przekrój Al: {result.value.wymaganyPrzekrojAlMm2.toFixed(1)} mm²</p>
+          <p className="font-medium">{t("UI-LACCUAL-WYMAGANY-PRZEKROJ", { wymaganyPrzekrojAlMm2: result.value.wymaganyPrzekrojAlMm2.toFixed(1) })}</p>
         )}
         <WynikSzczegoly assumptions={result.assumptions} warnings={result.warnings} formula={result.formula} />
       </WerdyktPanel>

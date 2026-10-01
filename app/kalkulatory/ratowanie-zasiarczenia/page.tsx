@@ -1,3 +1,5 @@
+"use client"
+
 import { ZALECENIE } from "@/lib/core/modules/montaz-baterii/ratowanie-zasiarczenia/constants"
 import { NawigacjaEkranu } from "@/components/nawigacja-ekranu"
 import { NaglowekEkranu } from "@/components/wzorce/naglowek-ekranu"

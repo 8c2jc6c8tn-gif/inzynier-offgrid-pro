@@ -108,31 +108,30 @@ export function SekcjaCrl() {
 
   return (
     <section className="flex flex-col gap-4 rounded-lg border p-4">
-      <h2 className="font-semibold">Czy SPD jest w ogóle wymagany? (HD 60364-4-443)</h2>
+      <h2 className="font-semibold">{t("UI-OCHPRZSPD-SEKCRL-SPD-OGOLE-WYMAGANY")}</h2>
       <p className="text-small text-muted-foreground">
-        Norma liczy ryzyko od linii, które zasilają budynek: im dłuższa linia napowietrzna i im więcej burz, tym mniejszy wskaźnik
-        CRL. Poniżej 1000 — ochrona obowiązkowa. Dom w pełni off-grid bez żadnej linii: zostaw długości puste.
+        {t("UI-OCHPRZSPD-SEKCRL-NORMA-LICZY-RYZYKO")}
       </p>
       <PoleCheckbox
         id="crl-skutki"
-        label="Przepięcie zagroziłoby życiu, usługom publicznym, działalności gospodarczej (także gospodarstwu) albo wielu osobom"
+        label={t("UI-OCHPRZSPD-SEKCRL-PRZEPIECIE-ZAGROZILOBY-ZYCIU")}
         checked={stan.skutkiKrytyczne}
         onChange={(e) => ustaw({ skutkiKrytyczne: e.target.checked })}
       />
       <PoleSelect
-        label="Otoczenie"
+        label={t("UI-OCHPRZSPD-SEKCRL-OTOCZENIE")}
         value={stan.srodowisko}
         onChange={(e) => ustaw({ srodowisko: e.target.value as SrodowiskoCrl | "" })}
         pomoc={<PomocPola ekran="spd-crl" pole="otoczenie" />}
       >
-        <option value="">— wybierz —</option>
-        <option value="wiejskie">Wiejskie lub podmiejskie (mało budynków)</option>
-        <option value="miejskie">Miejskie</option>
+        <option value="">{t("UI-WYBIERZ")}</option>
+        <option value="wiejskie">{t("UI-OCHPRZSPD-SEKCRL-WIEJSKIE-PODMIEJSKIE-MALO")}</option>
+        <option value="miejskie">{t("UI-OCHPRZSPD-SEKCRL-MIEJSKIE")}</option>
       </PoleSelect>
       <div className="grid gap-3 sm:grid-cols-2">
         <Pole
-          label="Gęstość wyładowań Ng"
-          unit="1/(km²·rok)"
+          label={t("UI-OCHPRZSPD-SEKCRL-GESTOSC-WYLADOWAN")}
+          unit={t("UI-OCHPRZSPD-SEKCRL-ROK")}
           type="number"
           inputMode="decimal"
           min={0}
@@ -141,8 +140,8 @@ export function SekcjaCrl() {
           pomoc={<PomocPola ekran="spd-crl" pole="ng" />}
         />
         <Pole
-          label="albo dni burzowe w roku Td"
-          unit="dni"
+          label={t("UI-OCHPRZSPD-SEKCRL-ALBO-DNI-BURZOWE")}
+          unit={t("UI-J-DNI")}
           type="number"
           inputMode="decimal"
           min={0}
@@ -150,12 +149,12 @@ export function SekcjaCrl() {
           onChange={(e) => ustaw({ td: e.target.value })}
           pomoc={<PomocPola ekran="spd-crl" pole="td" params={{ lpMax: LP_DLUGOSC_MAX_KM, ngNaDzien: NG_NA_DZIEN_BURZOWY }} />}
         />
-        {dlugosc("napowietrznaNn", "Linia napowietrzna nn")}
-        {dlugosc("kablowaNn", "Kabel ziemny nn")}
-        {dlugosc("napowietrznaSn", "Linia napowietrzna SN")}
-        {dlugosc("kablowaSn", "Kabel ziemny SN")}
+        {dlugosc("napowietrznaNn", t("UI-OCHPRZSPD-SEKCRL-LINIA-NAPOWIETRZNA-NN"))}
+        {dlugosc("kablowaNn", t("UI-OCHPRZSPD-SEKCRL-KABEL-ZIEMNY-NN"))}
+        {dlugosc("napowietrznaSn", t("UI-OCHPRZSPD-SEKCRL-LINIA-NAPOWIETRZNA-SN"))}
+        {dlugosc("kablowaSn", t("UI-OCHPRZSPD-SEKCRL-KABEL-ZIEMNY-SN"))}
         <Pole
-          label="Odległość do pierwszego SPD w sieci (opcjonalnie)"
+          label={t("UI-OCHPRZSPD-SEKCRL-ODLEGLOSC-PIERWSZEGO-SPD")}
           unit="km"
           type="number"
           inputMode="decimal"
@@ -180,26 +179,26 @@ export function SekcjaCrl() {
       </PoleSelect>
       <PoleCheckbox
         id="crl-niepelne"
-        label="Nie znam wszystkich długości sieci (reszta do 1 km liczona jako linia napowietrzna nn)"
+        label={t("UI-OCHPRZSPD-SEKCRL-ZNAM-WSZYSTKICH-DLUGOSCI")}
         checked={stan.dlugosciNiepelne}
         onChange={(e) => ustaw({ dlugosciNiepelne: e.target.checked })}
       />
 
-      {wynik.status === "INCOMPLETE" && <p className="text-small text-muted-foreground">Wybierz otoczenie i wpisz Ng albo dni burzowe.</p>}
+      {wynik.status === "INCOMPLETE" && <p className="text-small text-muted-foreground">{t("UI-OCHPRZSPD-SEKCRL-WYBIERZ-OTOCZENIE-WPISZ")}</p>}
       {wynik.status === "INVALID_INPUT" && (
-        <WerdyktPanel poziom="blad" etykieta="Sprawdź dane">
+        <WerdyktPanel poziom="blad" etykieta={t("UI-OCHPRZSPD-SEKCRL-SPRAWDZ-DANE")}>
           <WynikSzczegoly assumptions={[]} warnings={wynik.warnings} formula={wynik.formula} />
         </WerdyktPanel>
       )}
       {v && (
         <WerdyktPanel
           poziom={v.spdWymagany ? "uwaga" : "ok"}
-          etykieta={v.spdWymagany ? "Ochrona przeciwprzepięciowa wymagana" : "Norma nie wymaga SPD od strony sieci"}
+          etykieta={v.spdWymagany ? t("UI-OCHPRZSPD-SEKCRL-OCHRONA-PRZECIWPRZEPIECIOWA-") : t("UI-OCHPRZSPD-SEKCRL-NORMA-WYMAGA-SPD")}
         >
-          <WynikGlowny>{v.crl === null ? (v.powod === "brak-linii" ? "Brak linii zasilających" : "Wymagana z mocy 443.4") : `CRL = ${f1(v.crl)}`}</WynikGlowny>
+          <WynikGlowny>{v.crl === null ? (v.powod === "brak-linii" ? t("UI-OCHPRZSPD-SEKCRL-BRAK-LINII-ZASILAJACYCH") : t("UI-OCHPRZSPD-SEKCRL-WYMAGANA-MOCY-443")) : `CRL = ${f1(v.crl)}`}</WynikGlowny>
           <p className="mt-1 text-small">
-            L<sub>P</sub> = {f2(v.lpKm)} km{v.fEnv !== null && <>, f<sub>env</sub> = {v.fEnv}</>}
-            {v.ngUzyte !== null && <>, N<sub>g</sub> = {f2(v.ngUzyte)}</>}. Próg: CRL &lt; 1000 → SPD obowiązkowy.
+            L<sub>P</sub> = {f2(v.lpKm)} km{v.fEnv !== null && <>, f<sub>{t("UI-OCHPRZSPD-SEKCRL-ENV")}</sub> = {v.fEnv}</>}
+            {v.ngUzyte !== null && <>, N<sub>g</sub> = {f2(v.ngUzyte)}</>}{t("UI-OCHPRZSPD-SEKCRL-PROG-CRL-1000")}
           </p>
           {!v.spdWymagany && v.powod === "crl" && (
             <p className="mt-1 text-small">

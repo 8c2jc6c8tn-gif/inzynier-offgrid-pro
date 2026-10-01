@@ -17,12 +17,14 @@ import {
   TEMPERATURA_PRZY_SZCZELINIE_KRYTYCZNEJ_C,
   WSPOLCZYNNIK_STRATY_PCT_PER_C,
 } from "@/lib/core/modules/okablowanie/przepust-powietrza/constants"
+import { useTranslate } from "@/lib/i18n/language-context"
 
 type FormularzStan = { szczelinaCm: string }
 
 const STAN_POCZATKOWY: FormularzStan = { szczelinaCm: "" }
 
 export default function PrzepustPowietrzaPage() {
+  const t = useTranslate()
   const [stan, setStan] = usePersistedDraft<FormularzStan>("przepust-powietrza", STAN_POCZATKOWY)
   const { szczelinaCm } = stan
 
@@ -43,20 +45,20 @@ export default function PrzepustPowietrzaPage() {
   }
 
   const verdictLabel: Record<typeof verdict, string> = {
-    invalid: "Nie da się policzyć",
-    incomplete: "Wpisz planowaną szczelinę wentylacyjną",
-    red: "Za mała szczelina — realna strata mocy latem",
+    invalid: t("UI-PRZPOW-POLICZYC"),
+    incomplete: t("UI-PRZPOW-WPISZ-PLANOWANA-SZCZELINE"),
+    red: t("UI-PRZPOW-MALA-SZCZELINA-REALNA"),
     green:
       result.value.klasyfikacja === "posrednia"
-        ? "Brak danych dla tego zakresu — zalecane min. 15 cm"
-        : "Szczelina wystarczająca",
+        ? t("UI-PRZPOW-BRAK-DANYCH-ZAKRESU")
+        : t("UI-PRZPOW-SZCZELINA-WYSTARCZAJACA"),
   }
 
   return (
     <main className="mx-auto flex max-w-md flex-col gap-6 p-6">
       <NawigacjaEkranu href="/kalkulatory/przepust-powietrza" />
       <NaglowekEkranu
-        tytul="Przepust powietrza pod panelami"
+        tytul={t("UI-PRZPOW-PRZEPUST-POWIETRZA-POD")}
         ekran="przepust-powietrza"
         wynik={result}
         parametry={{
@@ -67,12 +69,11 @@ export default function PrzepustPowietrzaPage() {
           strata: WSPOLCZYNNIK_STRATY_PCT_PER_C,
         }}
       >
-        Panele nagrzewają się jak dach samochodu w słońcu — im gorszy przepływ powietrza pod
-        spodem, tym gorętsze i mniej wydajne. Moduł 5, Ekran 8.
+        {t("UI-PRZPOW-PANELE-NAGRZEWAJA-DACH")}
       </NaglowekEkranu>
 
       <Pole
-        label="Planowana szczelina wentylacyjna pod panelami"
+        label={t("UI-PRZPOW-PLANOWANA-SZCZELINA-WENTYLAC")}
         unit="cm"
         type="number"
         inputMode="decimal"
@@ -84,7 +85,7 @@ export default function PrzepustPowietrzaPage() {
 
       <WerdyktPanel poziom={verdictPoziom[verdict]} etykieta={verdictLabel[verdict]}>
         {verdict !== "invalid" && verdict !== "incomplete" && result.value.strataOrientacyjnaPct !== null && (
-          <WynikGlowny>~{result.value.strataOrientacyjnaPct.toFixed(0)}% straty mocy (orientacyjnie)</WynikGlowny>
+          <WynikGlowny>{t("UI-PRZPOW-STRATY-MOCY-ORIENTACYJNIE", { strataOrientacyjnaPct: result.value.strataOrientacyjnaPct.toFixed(0) })}</WynikGlowny>
         )}
         <WynikSzczegoly assumptions={result.assumptions} warnings={result.warnings} formula={result.formula} />
       </WerdyktPanel>

@@ -8606,3 +8606,20 @@ Tryb Audyt (czapka rewidenta). Warstwa „w pełni na końcu” z N.2 — wszyst
   miał liczby Inter 300 — nie dodano wagi 300 (byłaby preładowana na każdej stronie), liczby zostają bezszeryfowe.
 - **Grupa „Ukryte i sezonowe”:** przełącznik w Ustawieniach (`pokazUkryteStyle` w `offgrid.wyglad.v1`) ✅🤖 — pytanie
   otwarte D67 (przełącznik vs daty sezonowe) do potwierdzenia przez właściciela.
+
+## D58 — migracja kolejnych modułów + pułapka „useTranslate w Server Component” (01.10.2026, gałąź `work/i18n`)
+
+- **Stan:** lista zapadkowa 168 → 82 plików (M5, M2, M7, M9, pojedyncze M4/M10/M12/M13, ekrany sieci D*/F*). Szczegóły
+  i to, co zostało: `docs/lista-do-zrobienia.md`, wpis „Tłumaczenie samych stron”.
+- **Pułapka (błąd naprawiony):** strona bez `"use client"`, która woła `useTranslate()`, zwraca **HTTP 500**
+  („Attempted to call useTranslate() from the server”). `typecheck`, `lint`, strażnicy i Vitest tego nie widzą —
+  wyszło dopiero na `next dev` + `curl`. Narzędzie `scripts/migracja-i18n-ui.mjs` dopisuje hook bez sprawdzania
+  dyrektywy, więc tak trafiło na `main` 5 ekranów M4/M8 (matryca-alarmow-bms, audyt-pozarowy,
+  przechowywanie-recykling, przechowywanie-recykling-olow, ratowanie-zasiarczenia) i 3 z M5 tej gałęzi (separacja-emc,
+  trasy-kablowe, selektywnosc-zabezpieczen); prognozy i tryb-live przy migracji. Wszystkie dostały `"use client"`.
+  Kontrola po każdej partii: `grep -rl "useTranslate()" app --include=page.tsx | xargs grep -L '"use client"'` musi
+  być puste. Kandydat na strażnika (zgłoszone w `docs/wklad-do-standardu.md`).
+- **Konwencje tej partii:** liczby dziesiętne w EN z kropką (PL/RU przecinek — tak jak `formatujParametr`); jednostki
+  w RU cyrylicą jak w `dictionary-ru.ts` (кВт·ч, А, В, Вт, мм², Ом, зл); symbole techniczne w listach opcji (CAN,
+  Wi-Fi, UART, PWM, jednostki „kWh”, „%”) zostają bez klucza — render `x.startsWith("UI-") ? t(x) : x`.
+  Treść pisma reklamacyjnego (`test-licznika`) celowo zostaje po polsku (adresat: polski OSD).

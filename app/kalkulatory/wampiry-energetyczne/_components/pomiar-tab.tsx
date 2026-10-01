@@ -8,6 +8,7 @@ import { WynikGlowny } from "@/components/wzorce/wynik-glowny"
 import { WynikSzczegoly } from "@/components/wzorce/wynik-szczegoly"
 import { StanPusty } from "@/components/ui/stany"
 import { PomocPola } from "@/components/ui/pomoc"
+import { useTranslate } from "@/lib/i18n/language-context"
 
 export function PomiarTab({
   input,
@@ -18,6 +19,7 @@ export function PomiarTab({
   onChange: (pozycje: PomiarPozycja[]) => void
   result: CalcResult<PomiarMocyJalowejResult>
 }) {
+  const t = useTranslate()
   function dodaj() {
     onChange([...input.pozycje, { id: crypto.randomUUID(), nazwa: "", mocJalowaW: 0 }])
   }
@@ -33,8 +35,7 @@ export function PomiarTab({
   return (
     <div className="flex flex-col gap-4">
       <p className="text-small text-muted-foreground">
-        Zmierzyłeś realny pobór jałowy ładowarki, zasilacza, przekaźnika lub sterownika miernikiem? Wpisz go
-        tutaj — te wartości nie mają domyślnej mocy, bo są z definicji specyficzne dla Twojego sprzętu.
+        {t("UI-WAMENE-COMPOMTAB-ZMIERZYLES-REALNY-POBOR")}
       </p>
 
       <ul className="flex flex-col gap-2">
@@ -42,7 +43,7 @@ export function PomiarTab({
           <li key={p.id} className="flex flex-wrap items-center gap-2 rounded-md border p-3 text-small">
             <input
               type="text"
-              placeholder="Nazwa urządzenia"
+              placeholder={t("UI-WAMENE-COMPOMTAB-NAZWA-URZADZENIA")}
               value={p.nazwa}
               onChange={(e) => aktualizuj(p.id, { nazwa: e.target.value })}
               className="min-h-10 flex-1 min-w-24 rounded-md border border-input bg-background px-2"
@@ -55,16 +56,16 @@ export function PomiarTab({
               value={p.mocJalowaW || ""}
               onChange={(e) => aktualizuj(p.id, { mocJalowaW: Number(e.target.value) })}
               className="min-h-10 w-20 rounded-md border border-input bg-background px-2"
-              aria-label={`Zmierzona moc jałowa — ${p.nazwa || "pozycja"}`}
+              aria-label={t("UI-WAMENE-COMPOMTAB-ZMIERZONA-MOC-JALOWA", { p: p.nazwa || "pozycja" })}
             />
             <PomocPola ekran="wampiry-energetyczne" pole="mocJalowa" />
             <button
               type="button"
               onClick={() => usun(p.id)}
               className="text-caption text-muted-foreground underline"
-              aria-label={`Usuń ${p.nazwa || "pozycję"}`}
+              aria-label={t("UI-WAMENE-COMPOMTAB-USUN-2", { p: p.nazwa || t("UI-WAMENE-COMPOMTAB-POZYCJE") })}
             >
-              Usuń
+              {t("UI-WAMENE-COMPOMTAB-USUN")}
             </button>
           </li>
         ))}
@@ -75,16 +76,16 @@ export function PomiarTab({
         onClick={dodaj}
         className="min-h-11 self-start rounded-md border px-4 text-small font-medium hover:bg-muted"
       >
-        + Dodaj pomiar
+        {t("UI-WAMENE-COMPOMTAB-DODAJ-POMIAR")}
       </button>
 
       {result.status === "INCOMPLETE" ? (
-        <StanPusty tytul="Dodaj przynajmniej jeden zmierzony pobór jałowy." />
+        <StanPusty tytul={t("UI-WAMENE-COMPOMTAB-DODAJ-PRZYNAJMNIEJ-JEDEN")} />
       ) : (
         <WerdyktPanel poziom={poziomZStatusu(result.status)}>
           <WynikGlowny>{result.value.sumaW.toFixed(1)} W</WynikGlowny>
           <p className="mt-1 text-small">
-            {result.value.energiaDobowaKwh.toFixed(2)} kWh/dobę · {result.value.energiaRocznaKwh.toFixed(0)} kWh/rok
+            {t("UI-WAMENE-COMPOMTAB-KWH-DOBE-KWH", { energiaDobowaKwh: result.value.energiaDobowaKwh.toFixed(2), energiaRocznaKwh: result.value.energiaRocznaKwh.toFixed(0) })}
           </p>
           <WynikSzczegoly assumptions={result.assumptions} warnings={result.warnings} formula={result.formula} />
         </WerdyktPanel>

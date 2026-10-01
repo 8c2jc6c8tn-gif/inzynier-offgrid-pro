@@ -11,6 +11,7 @@ import { NawigacjaEkranu } from "@/components/nawigacja-ekranu"
 import { NaglowekEkranu } from "@/components/wzorce/naglowek-ekranu"
 import { WynikGlowny } from "@/components/wzorce/wynik-glowny"
 import { WynikSzczegoly } from "@/components/wzorce/wynik-szczegoly"
+import { useTranslate } from "@/lib/i18n/language-context"
 
 type FormularzStan = Record<keyof BezRekuperacjiInput, string>
 
@@ -24,12 +25,12 @@ const STAN_POCZATKOWY: FormularzStan = {
 }
 
 const POLA: { pole: keyof BezRekuperacjiInput; label: string; unit: string }[] = [
-  { pole: "strumienM3H", label: "Wydajność centrali", unit: "m³/h" },
-  { pole: "sprawnoscOdzyskuPct", label: "Sprawność odzysku", unit: "%" },
-  { pole: "tempWewnC", label: "Temperatura wewnątrz", unit: "°C" },
-  { pole: "tempZewnC", label: "Najniższa temperatura na zewnątrz", unit: "°C" },
-  { pole: "tempZamarzaniaWymiennikaC", label: "Granica zamarzania wymiennika (instrukcja)", unit: "°C" },
-  { pole: "tempZaNagrzewnicaC", label: "Temperatura za nagrzewnicą wstępną (instrukcja)", unit: "°C" },
+  { pole: "strumienM3H", label: "UI-BEZREK-WYDAJNOSC-CENTRALI", unit: "m³/h" },
+  { pole: "sprawnoscOdzyskuPct", label: "UI-BEZREK-SPRAWNOSC-ODZYSKU", unit: "%" },
+  { pole: "tempWewnC", label: "UI-BEZREK-TEMPERATURA-WEWNATRZ", unit: "°C" },
+  { pole: "tempZewnC", label: "UI-BEZREK-NAJNIZSZA-TEMPERATURA-ZEWNAT", unit: "°C" },
+  { pole: "tempZamarzaniaWymiennikaC", label: "UI-BEZREK-GRANICA-ZAMARZANIA-WYMIENNIK", unit: "°C" },
+  { pole: "tempZaNagrzewnicaC", label: "UI-BEZREK-TEMPERATURA-NAGRZEWNICA-WSTE", unit: "°C" },
 ]
 
 const liczba = (v: string) => (v === "" ? null : Number(v))
@@ -37,6 +38,7 @@ const f2 = (x: number) => x.toLocaleString("pl-PL", { maximumFractionDigits: 2 }
 const f0 = (x: number) => x.toLocaleString("pl-PL", { maximumFractionDigits: 0 })
 
 export default function BezRekuperacjiPage() {
+  const t = useTranslate()
   const [stan, setStan] = usePersistedDraft<FormularzStan>("bez-rekuperacji", STAN_POCZATKOWY)
   const result = useMemo(
     () => calculateBezRekuperacji(Object.fromEntries(Object.entries(stan).map(([k, v]) => [k, liczba(v)])) as BezRekuperacjiInput),
@@ -48,16 +50,15 @@ export default function BezRekuperacjiPage() {
   return (
     <main className="mx-auto flex max-w-md flex-col gap-6 p-6">
       <NawigacjaEkranu href="/kalkulatory/bez-rekuperacji" />
-      <NaglowekEkranu tytul="Rekuperacja zamarzła" ekran="bez-rekuperacji" wynik={result}>
-        Wentylacja to płuca domu — gdy rekuperator zamarznie, dom traci ciepło albo zaczyna się „dusić”. Ile to kosztuje i
-        jak mocnej nagrzewnicy trzeba. Moduł 7, Ekran 20.
+      <NaglowekEkranu tytul={t("UI-BEZREK-REKUPERACJA-ZAMARZLA")} ekran="bez-rekuperacji" wynik={result}>
+        {t("UI-BEZREK-WENTYLACJA-PLUCA-DOMU")}
       </NaglowekEkranu>
 
       <div className="flex flex-col gap-4">
         {POLA.map(({ pole, label, unit }) => (
           <Pole
             key={pole}
-            label={label}
+            label={t(label)}
             unit={unit}
             type="number"
             inputMode="decimal"
@@ -69,17 +70,17 @@ export default function BezRekuperacjiPage() {
       </div>
 
       {result.status === "INVALID_INPUT" ? (
-        <WerdyktPanel poziom="blad" etykieta="Nie da się policzyć — sprawdź wpisane dane">
+        <WerdyktPanel poziom="blad" etykieta={t("UI-BEZREK-POLICZYC-SPRAWDZ-WPISANE")}>
           <WynikSzczegoly assumptions={[]} warnings={result.warnings} />
         </WerdyktPanel>
       ) : result.status === "INCOMPLETE" ? (
-        <p className="text-small text-muted-foreground">Wpisz wydajność, sprawność i obie temperatury.</p>
+        <p className="text-small text-muted-foreground">{t("UI-BEZREK-WPISZ-WYDAJNOSC-SPRAWNOSC")}</p>
       ) : (
-        <WerdyktPanel poziom={hasWarning ? "uwaga" : "ok"} etykieta={hasWarning ? "Wymiennik może zamarznąć" : "Skutki pracy bez odzysku"}>
-          {dodatkowaStrataKw !== null && <WynikGlowny>+{f2(dodatkowaStrataKw)} kW strat bez odzysku</WynikGlowny>}
+        <WerdyktPanel poziom={hasWarning ? "uwaga" : "ok"} etykieta={hasWarning ? t("UI-BEZREK-WYMIENNIK-MOZE-ZAMARZNAC") : t("UI-BEZREK-SKUTKI-PRACY-BEZ")}>
+          {dodatkowaStrataKw !== null && <WynikGlowny>{t("UI-BEZREK-STRAT-BEZ-ODZYSKU", { dodatkowaStrataKw: f2(dodatkowaStrataKw) })}</WynikGlowny>}
           <ul className="mt-2 flex flex-col gap-1 text-small">
-            {dodatkowaEnergiaKwhDoba !== null && <li>Na dobę: +{f2(dodatkowaEnergiaKwhDoba)} kWh ciepła</li>}
-            {mocNagrzewnicyW !== null && <li>Nagrzewnica wstępna: {f0(mocNagrzewnicyW)} W</li>}
+            {dodatkowaEnergiaKwhDoba !== null && <li>{t("UI-BEZREK-DOBE-KWH-CIEPLA", { dodatkowaEnergiaKwhDoba: f2(dodatkowaEnergiaKwhDoba) })}</li>}
+            {mocNagrzewnicyW !== null && <li>{t("UI-BEZREK-NAGRZEWNICA-WSTEPNA", { mocNagrzewnicyW: f0(mocNagrzewnicyW) })}</li>}
           </ul>
           <WynikSzczegoly assumptions={result.assumptions} warnings={result.warnings} formula={result.formula} />
         </WerdyktPanel>

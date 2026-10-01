@@ -9,6 +9,7 @@ import { NawigacjaEkranu } from "@/components/nawigacja-ekranu"
 import { NaglowekEkranu } from "@/components/wzorce/naglowek-ekranu"
 import { ListaChecklist } from "@/components/wzorce/lista-checklist"
 import { StanPusty } from "@/components/ui/stany"
+import { useTranslate } from "@/lib/i18n/language-context"
 
 type FormularzStan = {
   oznaczoneIds: string[]
@@ -19,6 +20,7 @@ const STAN_POCZATKOWY: FormularzStan = {
 }
 
 export default function OznakowanieObwodowPage() {
+  const t = useTranslate()
   const [stan, setStan] = usePersistedDraft<FormularzStan>("oznakowanie-obwodow", STAN_POCZATKOWY)
   const { oznaczoneIds } = stan
 
@@ -41,8 +43,8 @@ export default function OznakowanieObwodowPage() {
   return (
     <main className="mx-auto flex max-w-md flex-col gap-6 p-6">
       <NawigacjaEkranu href="/kalkulatory/oznakowanie-obwodow" />
-      <NaglowekEkranu tytul="Oznakowanie obwodów" ekran="oznakowanie-obwodow">
-        Za 5 lat zapomnisz, co jest czym. Etykieta to pamięć twojego systemu. Moduł 5, Ekran 20.
+      <NaglowekEkranu tytul={t("UI-OZNOBW-OZNAKOWANIE-OBWODOW")} ekran="oznakowanie-obwodow">
+        {t("UI-OZNOBW-LAT-ZAPOMNISZ-CZYM")}
       </NaglowekEkranu>
 
       <ListaChecklist
@@ -52,20 +54,19 @@ export default function OznakowanieObwodowPage() {
         renderLabel={(item) => (
           <>
             <span className="block font-medium">{item.nazwa}</span>
-            <span className="block text-muted-foreground">Kod wg PN-EN 60445: {item.kodOznaczenia}</span>
+            <span className="block text-muted-foreground">{t("UI-OZNOBW-KOD-60445", { kodOznaczenia: item.kodOznaczenia })}</span>
           </>
         )}
       />
 
       <p className="text-small text-muted-foreground">
-        Kolorystyka żył (np. żółto-zielony PE, niebieski N) normuje osobna norma (IEC 60446), której
-        nie mamy dziś w projekcie — tu podane są tylko kody alfanumeryczne z PN-EN 60445.
+        {t("UI-OZNOBW-KOLORYSTYKA-ZYL-ZOLTO")}
       </p>
 
       {poziom ? (
-        <WerdyktPanel poziom={poziom} etykieta="Wszystkie obwody oznaczone" />
+        <WerdyktPanel poziom={poziom} etykieta={t("UI-OZNOBW-WSZYSTKIE-OBWODY-OZNACZONE")} />
       ) : (
-        <StanPusty tytul={`Oznaczono ${result.value.oznaczone} / ${result.value.razem} obwodów`} />
+        <StanPusty tytul={t("UI-OZNOBW-OZNACZONO-OBWODOW", { oznaczone: result.value.oznaczone, razem: result.value.razem })} />
       )}
     </main>
   )

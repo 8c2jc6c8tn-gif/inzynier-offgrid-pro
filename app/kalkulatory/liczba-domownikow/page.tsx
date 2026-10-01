@@ -12,6 +12,7 @@ import { NaglowekEkranu } from "@/components/wzorce/naglowek-ekranu"
 import { WynikGlowny } from "@/components/wzorce/wynik-glowny"
 import { WynikSzczegoly } from "@/components/wzorce/wynik-szczegoly"
 import { CWU_MAX_L_NA_OSOBE, CWU_MIN_L_NA_OSOBE } from "@/lib/core/modules/zapotrzebowanie/liczba-domownikow/constants"
+import { useTranslate } from "@/lib/i18n/language-context"
 
 type FormularzStan = {
   liczbaDomownikow: string
@@ -22,6 +23,7 @@ const STAN_POCZATKOWY: FormularzStan = {
 }
 
 export default function LiczbaDomownikowPage() {
+  const t = useTranslate()
   const [stan, setStan] = usePersistedDraft<FormularzStan>("liczba-domownikow", STAN_POCZATKOWY)
   const { liczbaDomownikow } = stan
 
@@ -48,16 +50,15 @@ export default function LiczbaDomownikowPage() {
     <main className="mx-auto flex max-w-md flex-col gap-6 p-6">
       <NawigacjaEkranu href="/kalkulatory/liczba-domownikow" />
       <NaglowekEkranu
-        tytul="Liczba domowników"
+        tytul={t("UI-LICDOM-LICZBA-DOMOWNIKOW")}
         ekran="liczba-domownikow" wynik={result}
         parametry={{ cwuMin: CWU_MIN_L_NA_OSOBE, cwuMax: CWU_MAX_L_NA_OSOBE }}
       >
-        To jest lista rzeczy, bez których dom przestaje być bezpieczny do mieszkania — zasila
-        automatycznie zapotrzebowanie na C.W.U. i profil zużycia wody. Moduł 2, Ekran 4.
+        {t("UI-LICDOM-LISTA-RZECZY-BEZ")}
       </NaglowekEkranu>
 
       <Pole
-        label="Liczba domowników"
+        label={t("UI-LICDOM-LICZBA-DOMOWNIKOW")}
         unit="os."
         type="number"
         inputMode="numeric"
@@ -71,14 +72,14 @@ export default function LiczbaDomownikowPage() {
 
       {result.status === "INVALID_INPUT" ? (
         <p className="text-small text-werdykt-blad">
-          Liczba domowników musi być z zakresu {MIN_DOMOWNIKOW}–{MAX_DOMOWNIKOW}.
+          {t("UI-LICDOM-LICZBA-DOMOWNIKOW-MUSI", { MIN_DOMOWNIKOW, MAX_DOMOWNIKOW })}
         </p>
       ) : result.status === "INCOMPLETE" ? (
-        <p className="text-small text-muted-foreground">Wybierz liczbę domowników, żeby zobaczyć wynik.</p>
+        <p className="text-small text-muted-foreground">{t("UI-LICDOM-WYBIERZ-LICZBE-DOMOWNIKOW")}</p>
       ) : (
-        <WerdyktPanel poziom="ok" etykieta="Dobowe zapotrzebowanie na C.W.U.">
+        <WerdyktPanel poziom="ok" etykieta={t("UI-LICDOM-DOBOWE-ZAPOTRZEBOWANIE")}>
           <WynikGlowny>
-            {result.value.cwuMinLDoba}–{result.value.cwuMaxLDoba} l/dobę
+            {t("UI-LICDOM-DOBE", { cwuMinLDoba: result.value.cwuMinLDoba, cwuMaxLDoba: result.value.cwuMaxLDoba })}
           </WynikGlowny>
           <WynikSzczegoly assumptions={result.assumptions} warnings={result.warnings} />
         </WerdyktPanel>

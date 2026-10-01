@@ -16,6 +16,7 @@ import { NaglowekEkranu } from "@/components/wzorce/naglowek-ekranu"
 import { WynikGlowny } from "@/components/wzorce/wynik-glowny"
 import { WynikSzczegoly } from "@/components/wzorce/wynik-szczegoly"
 import { ZAPAS_RURY_WODNEJ_POD_STREFA_CM } from "@/lib/core/modules/stress-test/ryzyko-zamarzniecia/constants"
+import { useTranslate } from "@/lib/i18n/language-context"
 
 type FormularzStan = {
   glebokoscPrzemarzaniaCm: string
@@ -26,16 +27,17 @@ type FormularzStan = {
 const STAN_POCZATKOWY: FormularzStan = { glebokoscPrzemarzaniaCm: "", instalacje: [], metodaRozmrazania: "nie-dotyczy" }
 
 const TYPY: { id: TypInstalacjiGruntowej; label: string }[] = [
-  { id: "kabel", label: "Kabel ziemny" },
-  { id: "rura-wodna", label: "Rura wodna" },
-  { id: "uziom", label: "Uziom" },
-  { id: "inne", label: "Inne" },
+  { id: "kabel", label: "UI-RYZZAM-KABEL-ZIEMNY" },
+  { id: "rura-wodna", label: "UI-RYZZAM-RURA-WODNA" },
+  { id: "uziom", label: "UI-RYZZAM-UZIOM" },
+  { id: "inne", label: "UI-RYZZAM-INNE" },
 ]
 
 const f0 = (x: number) => x.toLocaleString("pl-PL", { maximumFractionDigits: 0 })
 const pole = "min-h-10 rounded-md border border-input bg-background px-2"
 
 export default function RyzykoZamarznieciaPage() {
+  const t = useTranslate()
   const [stan, setStan] = usePersistedDraft<FormularzStan>("ryzyko-zamarzniecia", STAN_POCZATKOWY)
 
   function aktualizuj(id: string, zmiana: Partial<InstalacjaGruntowa>) {
@@ -58,16 +60,16 @@ export default function RyzykoZamarznieciaPage() {
     <main className="mx-auto flex max-w-md flex-col gap-6 p-6">
       <NawigacjaEkranu href="/kalkulatory/ryzyko-zamarzniecia" />
       <NaglowekEkranu
-        tytul="Ryzyko zamarznięcia — grunt"
+        tytul={t("UI-RYZZAM-RYZYKO-ZAMARZNIECIA-GRUNT")}
         ekran="ryzyko-zamarzniecia"
         wynik={result}
         parametry={{ zapas: ZAPAS_RURY_WODNEJ_POD_STREFA_CM }}
       >
-        Czy kable, rury i uziomy leżą poniżej strefy przemarzania, i jak bezpiecznie rozmrozić rurę. Moduł 7.
+        {t("UI-RYZZAM-KABLE-RURY-UZIOMY")}
       </NaglowekEkranu>
 
       <Pole
-        label="Głębokość przemarzania gruntu"
+        label={t("UI-RYZZAM-GLEBOKOSC-PRZEMARZANIA-GRUNT")}
         unit="cm"
         type="number"
         inputMode="decimal"
@@ -78,30 +80,30 @@ export default function RyzykoZamarznieciaPage() {
       />
 
       <div className="flex flex-col gap-2">
-        <p className="text-small font-medium">Co leży w gruncie</p>
-        <p className="text-caption text-muted-foreground">Głębokość do wierzchu kabla, rury lub uziomu.</p>
+        <p className="text-small font-medium">{t("UI-RYZZAM-LEZY-GRUNCIE")}</p>
+        <p className="text-caption text-muted-foreground">{t("UI-RYZZAM-GLEBOKOSC-WIERZCHU-KABLA")}</p>
         <ul className="flex flex-col gap-3">
           {stan.instalacje.map((e, i) => {
             const opis = e.nazwa || `instalacja ${i + 1}`
             return (
               <li key={e.id} className="flex flex-wrap items-center gap-2">
                 <input
-                  placeholder="Nazwa"
+                  placeholder={t("UI-RYZZAM-NAZWA")}
                   value={e.nazwa}
                   onChange={(ev) => aktualizuj(e.id, { nazwa: ev.target.value })}
                   className={`${pole} min-w-24 flex-1`}
-                  aria-label={`Nazwa — instalacja ${i + 1}`}
+                  aria-label={t("UI-RYZZAM-NAZWA-INSTALACJA", { p: i + 1 })}
                 />
                 <PomocPola ekran="ryzyko-zamarzniecia" pole="nazwa" />
                 <select
                   value={e.typ}
                   onChange={(ev) => aktualizuj(e.id, { typ: ev.target.value as TypInstalacjiGruntowej })}
                   className={pole}
-                  aria-label={`Typ — ${opis}`}
+                  aria-label={t("UI-RYZZAM-TYP", { opis })}
                 >
-                  {TYPY.map((t) => (
-                    <option key={t.id} value={t.id}>
-                      {t.label}
+                  {TYPY.map((typ) => (
+                    <option key={typ.id} value={typ.id}>
+                      {t(typ.label)}
                     </option>
                   ))}
                 </select>
@@ -114,16 +116,16 @@ export default function RyzykoZamarznieciaPage() {
                   value={e.glebokoscCm ?? ""}
                   onChange={(ev) => aktualizuj(e.id, { glebokoscCm: ev.target.value === "" ? null : Number(ev.target.value) })}
                   className={`${pole} w-20`}
-                  aria-label={`Głębokość ułożenia [cm] — ${opis}`}
+                  aria-label={t("UI-RYZZAM-GLEBOKOSC-ULOZENIA", { opis })}
                 />
                 <PomocPola ekran="ryzyko-zamarzniecia" pole="glebokosc" />
                 <button
                   type="button"
                   onClick={() => setStan((prev) => ({ ...prev, instalacje: prev.instalacje.filter((x) => x.id !== e.id) }))}
                   className="text-caption text-muted-foreground underline"
-                  aria-label={`Usuń ${opis}`}
+                  aria-label={t("UI-RYZZAM-USUN-2", { opis })}
                 >
-                  Usuń
+                  {t("UI-RYZZAM-USUN")}
                 </button>
               </li>
             )
@@ -139,42 +141,42 @@ export default function RyzykoZamarznieciaPage() {
           }
           className="min-h-11 self-start rounded-md border px-4 text-small font-medium hover:bg-muted"
         >
-          + Dodaj instalację
+          {t("UI-RYZZAM-DODAJ-INSTALACJE")}
         </button>
       </div>
 
       <PoleSelect
-        label="Jak rozmrozisz zamarzniętą rurę?"
+        label={t("UI-RYZZAM-ROZMROZISZ-ZAMARZNIETA-RURE")}
         value={stan.metodaRozmrazania}
         onChange={(e) => setStan((prev) => ({ ...prev, metodaRozmrazania: e.target.value as MetodaRozmrazania }))}
         pomoc={<PomocPola ekran="ryzyko-zamarzniecia" pole="rozmrazanie" />}
       >
-        <option value="nie-dotyczy">Nie dotyczy</option>
-        <option value="kabel-grzewczy">Kabel grzewczy</option>
-        <option value="otwarty-ogien">Otwarty ogień / palnik</option>
+        <option value="nie-dotyczy">{t("UI-RYZZAM-DOTYCZY")}</option>
+        <option value="kabel-grzewczy">{t("UI-RYZZAM-KABEL-GRZEWCZY")}</option>
+        <option value="otwarty-ogien">{t("UI-RYZZAM-OTWARTY-OGIEN-PALNIK")}</option>
       </PoleSelect>
 
       {result.status === "INVALID_INPUT" ? (
-        <WerdyktPanel poziom="blad" etykieta="Nie da się policzyć — sprawdź wpisane dane">
+        <WerdyktPanel poziom="blad" etykieta={t("UI-RYZZAM-POLICZYC-SPRAWDZ-WPISANE")}>
           <WynikSzczegoly assumptions={[]} warnings={result.warnings} />
         </WerdyktPanel>
       ) : result.status === "INCOMPLETE" ? (
-        <p className="text-small text-muted-foreground">Wpisz głębokość przemarzania i dodaj co najmniej jedną instalację.</p>
+        <p className="text-small text-muted-foreground">{t("UI-RYZZAM-WPISZ-GLEBOKOSC-PRZEMARZANIA")}</p>
       ) : (
         <WerdyktPanel
           poziom={hasCritical ? "blad" : hasWarning ? "uwaga" : "ok"}
-          etykieta={hasCritical ? "Instalacja zagrożona mrozem" : hasWarning ? "Za mały zapas pod strefą" : "Poniżej strefy przemarzania"}
+          etykieta={hasCritical ? t("UI-RYZZAM-INSTALACJA-ZAGROZONA-MROZEM") : hasWarning ? t("UI-RYZZAM-MALY-ZAPAS-POD") : t("UI-RYZZAM-PONIZEJ-STREFY-PRZEMARZANIA")}
         >
           {result.value.oceny.length > 0 && (
             <>
               <WynikGlowny>
-                {result.value.liczbaWStrefie} z {result.value.oceny.length} w strefie przemarzania
+                {t("UI-RYZZAM-STREFIE-PRZEMARZANIA", { liczbaWStrefie: result.value.liczbaWStrefie, length: result.value.oceny.length })}
               </WynikGlowny>
               <ul className="mt-2 flex flex-col gap-1 text-small">
                 {result.value.oceny.map((o) => (
                   <li key={o.id}>
                     {o.zapasCm === null ? "ℹ️" : o.wStrefiePrzemarzania ? "🔴" : o.zapasCm < 0 ? "🟡" : "✅"} {o.nazwa}
-                    {o.zapasCm === null ? " — brak głębokości" : ` — wymagane ≥ ${f0(o.wymaganaCm)} cm, zapas ${f0(o.zapasCm)} cm`}
+                    {o.zapasCm === null ? ` ${t("UI-RYZZAM-BRAK-GLEBOKOSCI")}` : ` ${t("UI-RYZZAM-WYMAGANE-ZAPAS", { wymaganaCm: f0(o.wymaganaCm), zapasCm: f0(o.zapasCm) })}`}
                   </li>
                 ))}
               </ul>

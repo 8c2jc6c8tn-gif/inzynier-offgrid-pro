@@ -11,6 +11,7 @@ import { NawigacjaEkranu } from "@/components/nawigacja-ekranu"
 import { NaglowekEkranu } from "@/components/wzorce/naglowek-ekranu"
 import { WynikGlowny } from "@/components/wzorce/wynik-glowny"
 import { WynikSzczegoly } from "@/components/wzorce/wynik-szczegoly"
+import { useTranslate } from "@/lib/i18n/language-context"
 
 type FormularzStan = Record<keyof AwariaStringaZimaInput, string>
 
@@ -24,18 +25,19 @@ const STAN_POCZATKOWY: FormularzStan = {
 }
 
 const POLA: { pole: keyof AwariaStringaZimaInput; label: string; unit: string }[] = [
-  { pole: "produkcjaCalkowitaKwhDoba", label: "Produkcja instalacji w najgorszym miesiącu", unit: "kWh/dobę" },
-  { pole: "produkcjaStringuKwhDoba", label: "Produkcja stringu, który ulega awarii", unit: "kWh/dobę" },
-  { pole: "zapotrzebowanieKwhDoba", label: "Zapotrzebowanie w tym miesiącu", unit: "kWh/dobę" },
-  { pole: "pojemnoscBateriiKwh", label: "Pojemność baterii (opcjonalnie)", unit: "kWh" },
-  { pole: "dodPct", label: "Użyteczna głębokość rozładowania", unit: "%" },
-  { pole: "sprawnoscFalownikaPct", label: "Sprawność falownika", unit: "%" },
+  { pole: "produkcjaCalkowitaKwhDoba", label: "UI-AWASTRZIM-PRODUKCJA-INSTALACJI-NAJGORS", unit: "UI-J-KWH-DOBA" },
+  { pole: "produkcjaStringuKwhDoba", label: "UI-AWASTRZIM-PRODUKCJA-STRINGU-KTORY", unit: "UI-J-KWH-DOBA" },
+  { pole: "zapotrzebowanieKwhDoba", label: "UI-AWASTRZIM-ZAPOTRZEBOWANIE-TYM-MIESIACU", unit: "UI-J-KWH-DOBA" },
+  { pole: "pojemnoscBateriiKwh", label: "UI-AWASTRZIM-POJEMNOSC-BATERII-OPCJONALNI", unit: "kWh" },
+  { pole: "dodPct", label: "UI-AWASTRZIM-UZYTECZNA-GLEBOKOSC-ROZLADOW", unit: "%" },
+  { pole: "sprawnoscFalownikaPct", label: "UI-AWASTRZIM-SPRAWNOSC-FALOWNIKA", unit: "%" },
 ]
 
 const liczba = (v: string) => (v === "" ? null : Number(v))
 const f1 = (x: number) => x.toLocaleString("pl-PL", { maximumFractionDigits: 1 })
 
 export default function AwariaStringaZimaPage() {
+  const t = useTranslate()
   const [stan, setStan] = usePersistedDraft<FormularzStan>("awaria-stringa-zima", STAN_POCZATKOWY)
   const result = useMemo(
     () => calculateAwariaStringaZima(Object.fromEntries(Object.entries(stan).map(([k, v]) => [k, liczba(v)])) as AwariaStringaZimaInput),
@@ -47,17 +49,16 @@ export default function AwariaStringaZimaPage() {
   return (
     <main className="mx-auto flex max-w-md flex-col gap-6 p-6">
       <NawigacjaEkranu href="/kalkulatory/awaria-stringa-zima" />
-      <NaglowekEkranu tytul="Awaria stringa PV zimą" ekran="awaria-stringa-zima" wynik={result}>
-        Jeden chory string, który latem byłby drobnym problemem, w styczniu może oznaczać, że dom nie przetrwa nocy bez
-        agregatu. Moduł 7, Ekran 26.
+      <NaglowekEkranu tytul={t("UI-AWASTRZIM-AWARIA-STRINGA-ZIMA")} ekran="awaria-stringa-zima" wynik={result}>
+        {t("UI-AWASTRZIM-JEDEN-CHORY-STRING")}
       </NaglowekEkranu>
 
       <div className="flex flex-col gap-4">
         {POLA.map(({ pole, label, unit }) => (
           <Pole
             key={pole}
-            label={label}
-            unit={unit}
+            label={t(label)}
+            unit={unit.startsWith("UI-") ? t(unit) : unit}
             type="number"
             inputMode="decimal"
             min={0}
@@ -69,19 +70,19 @@ export default function AwariaStringaZimaPage() {
       </div>
 
       {result.status === "INVALID_INPUT" ? (
-        <WerdyktPanel poziom="blad" etykieta="Nie da się policzyć — sprawdź wpisane dane">
+        <WerdyktPanel poziom="blad" etykieta={t("UI-AWASTRZIM-POLICZYC-SPRAWDZ-WPISANE")}>
           <WynikSzczegoly assumptions={[]} warnings={result.warnings} />
         </WerdyktPanel>
       ) : result.status === "INCOMPLETE" ? (
-        <p className="text-small text-muted-foreground">Wpisz produkcję instalacji, stringu i zapotrzebowanie.</p>
+        <p className="text-small text-muted-foreground">{t("UI-AWASTRZIM-WPISZ-PRODUKCJE-INSTALACJI")}</p>
       ) : (
-        <WerdyktPanel poziom={deficyt ? "uwaga" : "ok"} etykieta={deficyt ? "Bez agregatu system nie przetrwa" : "Pozostałe stringi wystarczą"}>
+        <WerdyktPanel poziom={deficyt ? "uwaga" : "ok"} etykieta={deficyt ? t("UI-AWASTRZIM-BEZ-AGREGATU-SYSTEM") : t("UI-AWASTRZIM-POZOSTALE-STRINGI-WYSTARCZA")}>
           {deficytDobowyKwh !== null && (
-            <WynikGlowny>{deficyt ? `Deficyt ${f1(deficytDobowyKwh)} kWh/dobę` : `Zapas ${f1(-deficytDobowyKwh)} kWh/dobę`}</WynikGlowny>
+            <WynikGlowny>{deficyt ? t("UI-AWASTRZIM-DEFICYT-KWH-DOBE", { deficytDobowyKwh: f1(deficytDobowyKwh) }) : t("UI-AWASTRZIM-ZAPAS-KWH-DOBE", { p: f1(-deficytDobowyKwh) })}</WynikGlowny>
           )}
           <ul className="mt-2 flex flex-col gap-1 text-small">
-            {produkcjaPoAwariiKwhDoba !== null && <li>Produkcja po awarii: {f1(produkcjaPoAwariiKwhDoba)} kWh/dobę</li>}
-            {dniNaBaterii !== null && <li>Bateria wystarczy na: {f1(dniNaBaterii)} dnia</li>}
+            {produkcjaPoAwariiKwhDoba !== null && <li>{t("UI-AWASTRZIM-PRODUKCJA-AWARII-KWH", { produkcjaPoAwariiKwhDoba: f1(produkcjaPoAwariiKwhDoba) })}</li>}
+            {dniNaBaterii !== null && <li>{t("UI-AWASTRZIM-BATERIA-WYSTARCZY-DNIA", { dniNaBaterii: f1(dniNaBaterii) })}</li>}
           </ul>
           <WynikSzczegoly assumptions={result.assumptions} warnings={result.warnings} formula={result.formula} />
         </WerdyktPanel>

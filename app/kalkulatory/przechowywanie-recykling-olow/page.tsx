@@ -1,3 +1,5 @@
+"use client"
+
 import {
   NARZEDZIA_FAKTY,
   PRZECHOWYWANIE_FAKTY,

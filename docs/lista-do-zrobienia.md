@@ -1199,6 +1199,14 @@ Pełne wyniki audytu: `docs/memory.md`, sekcja "Pełny audyt na polecenie właś
   stress-test-mppt, wplyw-temperatury, panel-do-stacji-zasilania, ochrona-przed-rozladowaniem, rachunek-firma,
   depozyt-prosumencki, moc-bierna, sciezka-przejscia, scenariusze. **Następny krok:** kolejne moduły (M5, M3, M2…) z
   pominięciem zajętych plików; stan liczbowy — `node scripts/check-i18n-ui-guard.mjs`.
+  → **[01.10.2026] 🔄 w toku — gałąź `work/i18n`.** Lista zapadkowa **168 → 82 plików** (2728 → 1503 tekstów).
+  Zrobione: M5 (30 plików, `m05-elektryka.ts`), M2 (23, `m02-zapotrzebowanie.ts`), M7 (15, `m07-zima.ts`), M9 (5,
+  `m09-ekrany.ts`), pojedyncze ekrany M4/M10/M12/M13 (5, `ekrany-rozne.ts`), ekrany sieci D*/F* (9,
+  `m15-m16-siec.ts`). `test-licznika` zostaje z 2 tekstami celowo — treść pisma reklamacyjnego do polskiego OSD jest
+  zawsze po polsku. Przy okazji naprawione 8 ekranów bez `"use client"` wołających `useTranslate()` (HTTP 500,
+  `docs/memory.md`). **Zostało:** M3 (31 plików, ~610 tekstów), M1 (4), M6 ogrzewanie (15 — pominięte, bo równolegle
+  trwa praca nad nowymi ekranami M6; robić po jej merge), `app/` poza kalkulatorami, `components/**`.
+  **Kolizje:** M6 — sesja nowych ekranów ogrzewania; M3 — dowolna sesja zmieniająca ekrany PV.
 - 🔲 (2026-09-30) **Polskie teksty ze stałych silnika wyświetlane na ekranach (luka i18n poza strażnikiem).** Wyszło
   przy migracji etykiet: część tekstów na ekranach pochodzi ze stałych w `lib/core/**/constants.ts` (np. `label`
   opcji/technologii/protokołów: `OPCJE_IP_MALE_INSTALACJE`, `WYMAGANE_WYPOSAZENIE` demontażu pakietu,

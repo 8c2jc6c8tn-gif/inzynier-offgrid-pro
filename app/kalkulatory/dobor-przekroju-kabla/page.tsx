@@ -18,6 +18,7 @@ import {
   REZYSTYWNOSC_ALUMINIUM_OHM_MM2_NA_M,
   REZYSTYWNOSC_MIEDZI_OHM_MM2_NA_M,
 } from "@/lib/core/modules/okablowanie/dobor-przekroju-kabla/constants"
+import { useTranslate } from "@/lib/i18n/language-context"
 
 const LICZBA = (v: number) => v.toLocaleString("pl-PL", { maximumFractionDigits: 2 })
 
@@ -48,6 +49,7 @@ const STAN_POCZATKOWY: FormularzStan = {
 }
 
 export default function DoborPrzekrojuKablaPage() {
+  const t = useTranslate()
   const [stan, setStan] = usePersistedDraft<FormularzStan>("dobor-przekroju-kabla", STAN_POCZATKOWY)
   const {
     pradA,
@@ -127,17 +129,17 @@ export default function DoborPrzekrojuKablaPage() {
   }
 
   const werdyktEtykieta: Record<Exclude<typeof werdykt, "incomplete">, string> = {
-    invalid: "Nie da się policzyć — sprawdź wpisane dane",
-    red: "Zabronione",
-    yellow: "Dopuszczalne, ale na granicy",
-    green: "Zalecane",
+    invalid: t("UI-DOBPRZKAB-POLICZYC-SPRAWDZ-WPISANE"),
+    red: t("UI-DOBPRZKAB-ZABRONIONE"),
+    yellow: t("UI-DOBPRZKAB-DOPUSZCZALNE-NA-GRANICY"),
+    green: t("UI-DOBPRZKAB-ZALECANE"),
   }
 
   return (
     <main className="mx-auto flex max-w-md flex-col gap-6 p-6">
       <NawigacjaEkranu href="/kalkulatory/dobor-przekroju-kabla" />
       <NaglowekEkranu
-        tytul="Dobór przekroju kabla"
+        tytul={t("UI-DOBPRZKAB-DOBOR-PRZEKROJU-KABLA")}
         ekran="dobor-przekroju-kabla"
         wynik={result}
         parametry={{
@@ -146,13 +148,12 @@ export default function DoborPrzekrojuKablaPage() {
           rhoAl: REZYSTYWNOSC_ALUMINIUM_OHM_MM2_NA_M,
         }}
       >
-        Prąd płynący długim kablem traci energię jak woda w długim wężu — im dłuższa droga i
-        cieńsza rura, tym mniej ciśnienia (napięcia) zostaje na końcu. Moduł 5, Ekran 1.
+        {t("UI-DOBPRZKAB-PRAD-PLYNACY-DLUGIM")}
       </NaglowekEkranu>
 
       <div className="flex flex-col gap-4">
         <Pole
-          label="Prąd roboczy obwodu (I)"
+          label={t("UI-DOBPRZKAB-PRAD-ROBOCZY-OBWODU")}
           unit="A"
           type="number"
           inputMode="decimal"
@@ -162,7 +163,7 @@ export default function DoborPrzekrojuKablaPage() {
           pomoc={<PomocPola ekran="dobor-przekroju-kabla" pole="prad" />}
         />
         <Pole
-          label="Napięcie systemowe (U)"
+          label={t("UI-DOBPRZKAB-NAPIECIE-SYSTEMOWE")}
           unit="V"
           type="number"
           inputMode="decimal"
@@ -172,7 +173,7 @@ export default function DoborPrzekrojuKablaPage() {
           pomoc={<PomocPola ekran="dobor-przekroju-kabla" pole="napiecie" />}
         />
         <Pole
-          label="Długość trasy (L, jedna strona)"
+          label={t("UI-DOBPRZKAB-DLUGOSC-TRASY-JEDNA")}
           unit="m"
           type="number"
           inputMode="decimal"
@@ -182,29 +183,29 @@ export default function DoborPrzekrojuKablaPage() {
           pomoc={<PomocPola ekran="dobor-przekroju-kabla" pole="dlugosc" />}
         />
         <PoleSelect
-          label="Materiał przewodnika"
+          label={t("UI-DOBPRZKAB-MATERIAL-PRZEWODNIKA")}
           value={material}
           onChange={(e) => setMaterial(e.target.value as Material)}
           pomoc={<PomocPola ekran="dobor-przekroju-kabla" pole="material" />}
         >
-          <option value="Cu">Miedź (Cu)</option>
-          <option value="Al">Aluminium (Al)</option>
+          <option value="Cu">{t("UI-DOBPRZKAB-MIEDZ")}</option>
+          <option value="Al">{t("UI-DOBPRZKAB-ALUMINIUM")}</option>
         </PoleSelect>
         <PoleSelect
-          label="Sposób ułożenia"
+          label={t("UI-DOBPRZKAB-SPOSOB-ULOZENIA")}
           value={sposobUlozenia}
           onChange={(e) => setSposobUlozenia(e.target.value as SposobUlozenia)}
           pomoc={<PomocPola ekran="dobor-przekroju-kabla" pole="ulozenie" />}
         >
-          <option value="swobodnie">Swobodnie (na ścianie, w powietrzu)</option>
-          <option value="w_peszlu">W peszlu / rurze instalacyjnej</option>
-          <option value="w_ziemi">W ziemi</option>
-          <option value="w_wiazce">W wiązce z innymi kablami</option>
+          <option value="swobodnie">{t("UI-DOBPRZKAB-SWOBODNIE-SCIANIE-POWIETRZU")}</option>
+          <option value="w_peszlu">{t("UI-DOBPRZKAB-PESZLU-RURZE-INSTALACYJNEJ")}</option>
+          <option value="w_ziemi">{t("UI-DOBPRZKAB-ZIEMI")}</option>
+          <option value="w_wiazce">{t("UI-DOBPRZKAB-WIAZCE-INNYMI-KABLAMI")}</option>
         </PoleSelect>
         {(sposobUlozenia === "w_wiazce" || sposobUlozenia === "w_peszlu" || sposobUlozenia === "w_ziemi") && (
           <Pole
-            label="Liczba kabli w wiązce (jeśli dotyczy)"
-            unit="szt."
+            label={t("UI-DOBPRZKAB-LICZBA-KABLI-WIAZCE")}
+            unit={t("UI-J-SZT")}
             type="number"
             inputMode="numeric"
             min={0}
@@ -214,7 +215,7 @@ export default function DoborPrzekrojuKablaPage() {
           />
         )}
         <Pole
-          label="Temperatura otoczenia"
+          label={t("UI-DOBPRZKAB-TEMPERATURA-OTOCZENIA")}
           unit="°C"
           type="number"
           inputMode="decimal"
@@ -223,7 +224,7 @@ export default function DoborPrzekrojuKablaPage() {
           pomoc={<PomocPola ekran="dobor-przekroju-kabla" pole="temperatura" />}
         />
         <Pole
-          label="Dopuszczalny spadek napięcia"
+          label={t("UI-DOBPRZKAB-DOPUSZCZALNY-SPADEK-NAPIECIA")}
           unit="%"
           type="number"
           inputMode="decimal"
@@ -235,13 +236,13 @@ export default function DoborPrzekrojuKablaPage() {
 
         <PoleCheckbox
           id="sprawdz-wlasny-przekroj"
-          label="Sprawdź mój własny przekrój zamiast dobierać automatycznie"
+          label={t("UI-DOBPRZKAB-SPRAWDZ-MOJ-WLASNY")}
           checked={sprawdzamWlasny}
           onChange={(e) => setSprawdzamWlasny(e.target.checked)}
         />
         {sprawdzamWlasny && (
           <Pole
-            label="Przekrój do sprawdzenia"
+            label={t("UI-DOBPRZKAB-PRZEKROJ-SPRAWDZENIA")}
             unit="mm²"
             type="number"
             inputMode="decimal"
@@ -254,24 +255,21 @@ export default function DoborPrzekrojuKablaPage() {
       </div>
 
       {werdykt === "incomplete" ? (
-        <p className="text-small text-muted-foreground">Wypełnij wszystkie pola, żeby zobaczyć dobór przekroju.</p>
+        <p className="text-small text-muted-foreground">{t("UI-DOBPRZKAB-WYPELNIJ-WSZYSTKIE-POLA")}</p>
       ) : (
         <WerdyktPanel poziom={werdyktPoziom[werdykt]} etykieta={werdyktEtykieta[werdykt]}>
           {werdykt !== "invalid" && (
             <>
               <WynikGlowny>{result.value.przekrojMm2} mm²</WynikGlowny>
               <p className="mt-1 text-small">
-                Obciążalność efektywna: {LICZBA(result.value.obciazalnoscEfektywnaA)} A · spadek napięcia:{" "}
-                {LICZBA(result.value.spadekNapieciaPct)}%.
+                {t("UI-DOBPRZKAB-OBCIAZALNOSC-EFEKTYWNA-SPADE", { obciazalnoscEfektywnaA: LICZBA(result.value.obciazalnoscEfektywnaA), spadekNapieciaPct: LICZBA(result.value.spadekNapieciaPct) })}
               </p>
               <p className="mt-1 text-small">
-                Margines obciążalności: {LICZBA(result.value.marginesObciazalnosciPct)}% · margines spadku
-                napięcia: {LICZBA(result.value.marginesSpadkuPct)}%.
+                {t("UI-DOBPRZKAB-MARGINES-OBCIAZALNOSCI-MARGI", { marginesObciazalnosciPct: LICZBA(result.value.marginesObciazalnosciPct), marginesSpadkuPct: LICZBA(result.value.marginesSpadkuPct) })}
               </p>
               {result.value.strataRocznaKwh > 0 && (
                 <p className="mt-1 text-small">
-                  Orientacyjna roczna strata energii w kablu (praca ciągła): {LICZBA(result.value.strataRocznaKwh)}{" "}
-                  kWh/rok.
+                  {t("UI-DOBPRZKAB-ORIENTACYJNA-ROCZNA-STRATA", { strataRocznaKwh: LICZBA(result.value.strataRocznaKwh) })}
                 </p>
               )}
             </>

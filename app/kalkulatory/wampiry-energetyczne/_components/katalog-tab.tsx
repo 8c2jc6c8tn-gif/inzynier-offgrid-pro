@@ -9,6 +9,7 @@ import { WynikGlowny } from "@/components/wzorce/wynik-glowny"
 import { WynikSzczegoly } from "@/components/wzorce/wynik-szczegoly"
 import { StanPusty } from "@/components/ui/stany"
 import { PomocPola } from "@/components/ui/pomoc"
+import { useTranslate } from "@/lib/i18n/language-context"
 
 const INLINE_INPUT_KLASY =
   "w-24 min-h-11 rounded-md border border-input bg-background px-2 text-body outline-none transition-colors " +
@@ -24,6 +25,7 @@ export function KatalogTab({
   onChange: (items: StandbyDeviceItem[]) => void
   result: CalcResult<KatalogUrzadzenResult>
 }) {
+  const t = useTranslate()
   function toggleSelected(id: string) {
     onChange(input.items.map((item) => (item.id === id ? { ...item, selected: !item.selected } : item)))
   }
@@ -35,8 +37,7 @@ export function KatalogTab({
   return (
     <div className="flex flex-col gap-4">
       <p className="text-small text-muted-foreground">
-        Zaznacz urządzenia, które w Twoim domu stale pobierają moc w trybie czuwania. Domyślne moce to środek
-        zakresu ze źródła — edytuj, jeśli znasz realną wartość swojego modelu.
+        {t("UI-WAMENE-COMKATTAB-ZAZNACZ-URZADZENIA-KTORE")}
       </p>
 
       <ul className="flex flex-col gap-3">
@@ -55,7 +56,7 @@ export function KatalogTab({
                 {item.label}
                 {def && (
                   <span className="block text-caption font-normal text-muted-foreground">
-                    zakres źródła: {def.minPowerW}–{def.maxPowerW} W
+                    {t("UI-WAMENE-COMKATTAB-ZAKRES-ZRODLA", { minPowerW: def.minPowerW, maxPowerW: def.maxPowerW })}
                   </span>
                 )}
               </label>
@@ -66,7 +67,7 @@ export function KatalogTab({
                 value={item.powerW}
                 disabled={!item.selected}
                 onChange={(e) => updatePower(item.id, Number(e.target.value))}
-                aria-label={`Moc czuwania — ${item.label}`}
+                aria-label={t("UI-WAMENE-COMKATTAB-MOC-CZUWANIA", { label: item.label })}
               />
               <span className="w-4 text-caption text-muted-foreground">W</span>
               <PomocPola ekran="wampiry-energetyczne" pole="mocCzuwania" />
@@ -76,12 +77,12 @@ export function KatalogTab({
       </ul>
 
       {result.status === "INCOMPLETE" ? (
-        <StanPusty tytul="Zaznacz przynajmniej jedno urządzenie z katalogu." />
+        <StanPusty tytul={t("UI-WAMENE-COMKATTAB-ZAZNACZ-PRZYNAJMNIEJ-JEDNO")} />
       ) : (
         <WerdyktPanel poziom={poziomZStatusu(result.status)}>
           <WynikGlowny>{result.value.sumaW.toFixed(1)} W</WynikGlowny>
           <p className="mt-1 text-small">
-            {result.value.energiaDobowaKwh.toFixed(2)} kWh/dobę · {result.value.energiaRocznaKwh.toFixed(0)} kWh/rok
+            {t("UI-WAMENE-COMKATTAB-KWH-DOBE-KWH", { energiaDobowaKwh: result.value.energiaDobowaKwh.toFixed(2), energiaRocznaKwh: result.value.energiaRocznaKwh.toFixed(0) })}
           </p>
           <WynikSzczegoly assumptions={result.assumptions} warnings={result.warnings} formula={result.formula} />
         </WerdyktPanel>

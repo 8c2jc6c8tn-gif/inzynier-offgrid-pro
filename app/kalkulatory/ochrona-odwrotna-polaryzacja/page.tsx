@@ -11,6 +11,7 @@ import { WerdyktPanel, type WerdyktPoziom } from "@/components/werdykt"
 import { NawigacjaEkranu } from "@/components/nawigacja-ekranu"
 import { NaglowekEkranu } from "@/components/wzorce/naglowek-ekranu"
 import { WynikSzczegoly } from "@/components/wzorce/wynik-szczegoly"
+import { useTranslate } from "@/lib/i18n/language-context"
 
 type FormularzStan = {
   miejsceObwodu: MiejsceObwodu | ""
@@ -23,6 +24,7 @@ const STAN_POCZATKOWY: FormularzStan = {
 }
 
 export default function OchronaOdwrotnaPolaryzacjaPage() {
+  const t = useTranslate()
   const [stan, setStan] = usePersistedDraft<FormularzStan>("ochrona-odwrotna-polaryzacja", STAN_POCZATKOWY)
   const { miejsceObwodu, typOchrony } = stan
 
@@ -49,45 +51,44 @@ export default function OchronaOdwrotnaPolaryzacjaPage() {
 
   const verdictPoziom: Record<typeof verdict, WerdyktPoziom> = { incomplete: "ok", red: "blad", green: "ok" }
   const verdictLabel: Record<typeof verdict, string> = {
-    incomplete: "Wybierz typ ochrony",
-    red: "Zabronione — brak ochrony przed odwrotną polaryzacją",
-    green: "Ochrona zastosowana",
+    incomplete: t("UI-OCHODWPOL-WYBIERZ-TYP-OCHRONY"),
+    red: t("UI-OCHODWPOL-ZABRONIONE-BRAK-OCHRONY"),
+    green: t("UI-OCHODWPOL-OCHRONA-ZASTOSOWANA"),
   }
 
   return (
     <main className="mx-auto flex max-w-md flex-col gap-6 p-6">
       <NawigacjaEkranu href="/kalkulatory/ochrona-odwrotna-polaryzacja" />
       <NaglowekEkranu
-        tytul="Ochrona przed odwrotną polaryzacją"
+        tytul={t("UI-OCHODWPOL-OCHRONA-PRZED-ODWROTNA")}
         ekran="ochrona-odwrotna-polaryzacja"
         wynik={result}
       >
-        Plus z minusem to jak ogień z benzyną. Zabezpieczenie to blokada, która nie pozwala na
-        pomyłkę. Moduł 5, Ekran 15.
+        {t("UI-OCHODWPOL-PLUS-MINUSEM-OGIEN")}
       </NaglowekEkranu>
 
       <div className="flex flex-col gap-4">
         <PoleSelect
-          label="Miejsce obwodu"
+          label={t("UI-OCHODWPOL-MIEJSCE-OBWODU")}
           value={miejsceObwodu}
           onChange={(e) => setMiejsceObwodu(e.target.value as MiejsceObwodu)}
           pomoc={<PomocPola ekran="ochrona-odwrotna-polaryzacja" pole="miejsce" />}
         >
-          <option value="">— wybierz —</option>
-          <option value="bateria">Bateria</option>
-          <option value="panele">Panele / string PV</option>
-          <option value="falownik">Falownik</option>
+          <option value="">{t("UI-WYBIERZ")}</option>
+          <option value="bateria">{t("UI-OCHODWPOL-BATERIA")}</option>
+          <option value="panele">{t("UI-OCHODWPOL-PANELE-STRING")}</option>
+          <option value="falownik">{t("UI-OCHODWPOL-FALOWNIK")}</option>
         </PoleSelect>
         <PoleSelect
-          label="Zastosowana ochrona"
+          label={t("UI-OCHODWPOL-ZASTOSOWANA-OCHRONA")}
           value={typOchrony}
           onChange={(e) => setTypOchrony(e.target.value as TypOchrony)}
           pomoc={<PomocPola ekran="ochrona-odwrotna-polaryzacja" pole="ochrona" />}
         >
-          <option value="">— wybierz —</option>
-          <option value="brak">Brak</option>
-          <option value="dioda-blokujaca">Dioda blokująca</option>
-          <option value="wylacznik-blokada-mechaniczna">Wyłącznik z blokadą mechaniczną</option>
+          <option value="">{t("UI-WYBIERZ")}</option>
+          <option value="brak">{t("UI-OCHODWPOL-BRAK")}</option>
+          <option value="dioda-blokujaca">{t("UI-OCHODWPOL-DIODA-BLOKUJACA")}</option>
+          <option value="wylacznik-blokada-mechaniczna">{t("UI-OCHODWPOL-WYLACZNIK-BLOKADA-MECHANICZN")}</option>
         </PoleSelect>
       </div>
 

@@ -56,9 +56,8 @@ export default function GlownaSzynaWyrownawczaPage() {
   return (
     <main className="mx-auto flex max-w-md flex-col gap-6 p-6">
       <NawigacjaEkranu href="/kalkulatory/glowna-szyna-wyrownawcza" />
-      <NaglowekEkranu tytul="Główna Szyna Wyrównawcza (GSW)" ekran="glowna-szyna-wyrownawcza">
-        Jeśli dotkniesz dwóch metalowych rzeczy o różnym potencjale, popłynie przez ciebie prąd —
-        GSW wyrównuje potencjały, więc nic nie „kopie”. Moduł 5, Ekran 10.
+      <NaglowekEkranu tytul={t("UI-GLOSZYWYR-GLOWNA-SZYNA-WYROWNAWCZA")} ekran="glowna-szyna-wyrownawcza">
+        {t("UI-GLOSZYWYR-JESLI-DOTKNIESZ-DWOCH")}
       </NaglowekEkranu>
 
       <ListaChecklist
@@ -68,20 +67,20 @@ export default function GlownaSzynaWyrownawczaPage() {
         renderLabel={(item) => (
           <>
             <span className="block font-medium">{item.element}</span>
-            <span className="block text-muted-foreground">Min. przekrój: {item.minPrzekrojMm2} mm²</span>
+            <span className="block text-muted-foreground">{t("UI-GLOSZYWYR-MIN-PRZEKROJ", { minPrzekrojMm2: item.minPrzekrojMm2 })}</span>
           </>
         )}
       />
 
       <PoleCheckbox
         id="uzywana-jako-przylacze"
-        label="GSW jest używana jako punkt przyłączeniowy dla odbiorników"
+        label={t("UI-GLOSZYWYR-GSW-UZYWANA-JAKO")}
         checked={uzywanaJakoPrzylaczeOdbiornikow}
         onChange={(e) => setUzywanaJakoPrzylaczeOdbiornikow(e.target.checked)}
       />
 
       {poziom ? (
-        <WerdyktPanel poziom={poziom} etykieta={poziom === "ok" ? "GSW skompletowana poprawnie" : undefined}>
+        <WerdyktPanel poziom={poziom} etykieta={poziom === "ok" ? t("UI-GLOSZYWYR-GSW-SKOMPLETOWANA-POPRAWNIE") : undefined}>
           {result.warnings.map((w) => (
             <p key={w.code} className="mt-1 text-small">
               {w.message ?? t(w.i18nKey ?? w.code, w.params)}
@@ -89,7 +88,7 @@ export default function GlownaSzynaWyrownawczaPage() {
           ))}
         </WerdyktPanel>
       ) : (
-        <StanPusty tytul={`Potwierdzono ${result.value.potwierdzone} / ${result.value.razem} elementów`} />
+        <StanPusty tytul={t("UI-GLOSZYWYR-POTWIERDZONO-ELEMENTOW", { potwierdzone: result.value.potwierdzone, razem: result.value.razem })} />
       )}
     </main>
   )

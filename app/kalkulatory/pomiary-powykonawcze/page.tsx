@@ -12,6 +12,7 @@ import { NaglowekEkranu } from "@/components/wzorce/naglowek-ekranu"
 import { WynikGlowny } from "@/components/wzorce/wynik-glowny"
 import { WynikSzczegoly } from "@/components/wzorce/wynik-szczegoly"
 import { MAX_CZAS_ZADZIALANIA_RCD_S, MIN_REZYSTANCJA_IZOLACJI_MOHM } from "@/lib/core/modules/okablowanie/pomiary-powykonawcze/constants"
+import { useTranslate } from "@/lib/i18n/language-context"
 
 type FormularzStan = {
   ciagloscPotwierdzona: boolean
@@ -34,6 +35,7 @@ const STAN_POCZATKOWY: FormularzStan = {
 }
 
 export default function PomiaryPowykonawczePage() {
+  const t = useTranslate()
   const [stan, setStan] = usePersistedDraft<FormularzStan>("pomiary-powykonawcze", STAN_POCZATKOWY)
   const {
     ciagloscPotwierdzona,
@@ -97,34 +99,33 @@ export default function PomiaryPowykonawczePage() {
   }
 
   const verdictLabel: Record<typeof verdict, string> = {
-    invalid: "Nie da się policzyć",
-    incomplete: "Wypełnij testy powykonawcze",
-    red: "Brak formalnego odbioru — co najmniej jeden test poza progiem",
-    green: "Wszystkie testy w normie — formalny odbiór możliwy",
+    invalid: t("UI-POMPOW-POLICZYC"),
+    incomplete: t("UI-POMPOW-WYPELNIJ-TESTY-POWYKONAWCZE"),
+    red: t("UI-POMPOW-BRAK-FORMALNEGO-ODBIORU"),
+    green: t("UI-POMPOW-WSZYSTKIE-TESTY-NORMIE"),
   }
 
   return (
     <main className="mx-auto flex max-w-md flex-col gap-6 p-6">
       <NawigacjaEkranu href="/kalkulatory/pomiary-powykonawcze" />
       <NaglowekEkranu
-        tytul="Pomiary i testy powykonawcze"
+        tytul={t("UI-POMPOW-POMIARY-TESTY-POWYKONAWCZE")}
         ekran="pomiary-powykonawcze"
         wynik={result}
         parametry={{ minIzolacja: MIN_REZYSTANCJA_IZOLACJI_MOHM, maxRcd: MAX_CZAS_ZADZIALANIA_RCD_S }}
       >
-        Ostatni krok przed odbiorem instalacji — sześć testów, każdy z twardym progiem. Dowolny
-        wynik poza progiem oznacza brak formalnego odbioru. Moduł 5, Ekran 29.
+        {t("UI-POMPOW-OSTATNI-KROK-PRZED")}
       </NaglowekEkranu>
 
       <div className="flex flex-col gap-4">
         <PoleCheckbox
           id="ciaglosc-potwierdzona"
-          label="Ciągłość przewodów ochronnych potwierdzona (wszystkie połączone z GSW)"
+          label={t("UI-POMPOW-CIAGLOSC-PRZEWODOW-OCHRONNYC")}
           checked={ciagloscPotwierdzona}
           onChange={(e) => setCiagloscPotwierdzona(e.target.checked)}
         />
         <Pole
-          label="Rezystancja izolacji (wymagane > 1 MΩ)"
+          label={t("UI-POMPOW-REZYSTANCJA-IZOLACJI-WYMAGAN")}
           unit="MΩ"
           type="number"
           inputMode="decimal"
@@ -134,16 +135,16 @@ export default function PomiaryPowykonawczePage() {
           pomoc={<PomocPola ekran="pomiary-powykonawcze" pole="izolacja" params={{ minIzolacja: MIN_REZYSTANCJA_IZOLACJI_MOHM }} />}
         />
         <PoleSelect
-          label="Cel uziemienia"
+          label={t("UI-POMPOW-CEL-UZIEMIENIA")}
           value={celUziemienia}
           onChange={(e) => setCelUziemienia(e.target.value as CelUziemienia)}
           pomoc={<PomocPola ekran="pomiary-powykonawcze" pole="celUziemienia" />}
         >
-          <option value="odgromowa">Odgromowe (próg 10 Ω)</option>
-          <option value="ochronna">Ochronne (próg 30 Ω)</option>
+          <option value="odgromowa">{t("UI-POMPOW-ODGROMOWE-PROG")}</option>
+          <option value="ochronna">{t("UI-POMPOW-OCHRONNE-PROG")}</option>
         </PoleSelect>
         <Pole
-          label="Rezystancja uziemienia"
+          label={t("UI-POMPOW-REZYSTANCJA-UZIEMIENIA")}
           unit="Ω"
           type="number"
           inputMode="decimal"
@@ -153,7 +154,7 @@ export default function PomiaryPowykonawczePage() {
           pomoc={<PomocPola ekran="pomiary-powykonawcze" pole="uziemienie" />}
         />
         <Pole
-          label="Czas zadziałania RCD (wymagane < 0,4 s)"
+          label={t("UI-POMPOW-CZAS-ZADZIALANIA-RCD")}
           unit="s"
           type="number"
           inputMode="decimal"
@@ -164,13 +165,13 @@ export default function PomiaryPowykonawczePage() {
         />
         <PoleCheckbox
           id="test-zwarciowy-potwierdzony"
-          label="Test zwarciowy pętli potwierdzony (zabezpieczenie zadziałało)"
+          label={t("UI-POMPOW-TEST-ZWARCIOWY-PETLI")}
           checked={testZwarciowyPotwierdzony}
           onChange={(e) => setTestZwarciowyPotwierdzony(e.target.checked)}
         />
         <PoleCheckbox
           id="termowizja-potwierdzona"
-          label="Termowizja połączeń potwierdzona (brak gorących punktów pod obciążeniem)"
+          label={t("UI-POMPOW-TERMOWIZJA-POLACZEN-POTWIERD")}
           checked={termowizjaPotwierdzona}
           onChange={(e) => setTermowizjaPotwierdzona(e.target.checked)}
         />
@@ -179,7 +180,7 @@ export default function PomiaryPowykonawczePage() {
       <WerdyktPanel poziom={verdictPoziom[verdict]} etykieta={verdictLabel[verdict]}>
         {verdict !== "invalid" && verdict !== "incomplete" && (
           <WynikGlowny>
-            {result.value.testowPrzeszlo} / {result.value.testowLacznie} testów w normie
+            {t("UI-POMPOW-TESTOW-NORMIE", { testowPrzeszlo: result.value.testowPrzeszlo, testowLacznie: result.value.testowLacznie })}
           </WynikGlowny>
         )}
         <WynikSzczegoly assumptions={result.assumptions} warnings={result.warnings} formula={result.formula} />

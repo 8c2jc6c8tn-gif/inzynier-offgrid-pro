@@ -13,8 +13,9 @@ import { NaglowekEkranu } from "@/components/wzorce/naglowek-ekranu"
 import { WynikGlowny } from "@/components/wzorce/wynik-glowny"
 import { WynikSzczegoly } from "@/components/wzorce/wynik-szczegoly"
 import { GRUPY_FIRMA, PoleOsd, liczba, nadpisanie, poziomWerdyktu, zl } from "@/components/siec/wspolne"
+import { useTranslate } from "@/lib/i18n/language-context"
 
-const MIESIACE = ["sty", "lut", "mar", "kwi", "maj", "cze", "lip", "sie", "wrz", "paź", "lis", "gru"]
+const MIESIACE = ["UI-MIES-01", "UI-MIES-02", "UI-MIES-03", "UI-MIES-04", "UI-MIES-05", "UI-MIES-06", "UI-MIES-07", "UI-MIES-08", "UI-MIES-09", "UI-MIES-10", "UI-MIES-11", "UI-MIES-12"]
 
 type Stan = {
   osd: OsdId
@@ -26,6 +27,7 @@ type Stan = {
 }
 
 export default function MocUmownaPage() {
+  const t = useTranslate()
   const [stan, setStan] = usePersistedDraft<Stan>("siec-moc-umowna", {
     osd: "tauron",
     grupa: "C21",
@@ -56,15 +58,14 @@ export default function MocUmownaPage() {
   return (
     <main className="mx-auto flex max-w-md flex-col gap-6 p-6">
       <NawigacjaEkranu href="/kalkulatory/moc-umowna" />
-      <NaglowekEkranu tytul="Moc umowna — przekroczenia i optymalny poziom" ekran="moc-umowna" wynik={result}>
-        Ile kosztują przekroczenia mocy umownej i przy jakiej mocy umownej suma opłaty stałej i przekroczeń jest najniższa.
-        Zasady opłaty jak w taryfach OSD 2026. M14 „Firma – sieć”, ekran F4.
+      <NaglowekEkranu tytul={t("UI-MOCUMO-MOC-UMOWNA-PRZEKROCZENIA")} ekran="moc-umowna" wynik={result}>
+        {t("UI-MOCUMO-ILE-KOSZTUJA-PRZEKROCZENIA")}
       </NaglowekEkranu>
 
       <div className="flex flex-col gap-4">
         <PoleOsd value={stan.osd} onChange={(osd) => ustaw("osd", osd)} />
         <PoleSelect
-          label="Grupa taryfowa"
+          label={t("UI-MOCUMO-GRUPA-TARYFOWA")}
           value={stan.grupa}
           onChange={(e) => ustaw("grupa", e.target.value as Grupa)}
           pomoc={<PomocPola ekran="moc-umowna" pole="grupa" />}
@@ -76,7 +77,7 @@ export default function MocUmownaPage() {
           ))}
         </PoleSelect>
         <Pole
-          label="Obecna moc umowna"
+          label={t("UI-MOCUMO-OBECNA-MOC-UMOWNA")}
           unit="kW"
           type="number"
           inputMode="decimal"
@@ -85,8 +86,8 @@ export default function MocUmownaPage() {
           pomoc={<PomocPola ekran="moc-umowna" pole="moc" />}
         />
         <Pole
-          label="Składnik stały stawki sieciowej (opcjonalnie, z faktury)"
-          unit="zł/kW/mies."
+          label={t("UI-MOCUMO-SKLADNIK-STALY-STAWKI")}
+          unit={t("UI-MOCUMO-MIES")}
           type="number"
           inputMode="decimal"
           value={stan.stala}
@@ -94,20 +95,20 @@ export default function MocUmownaPage() {
           pomoc={<PomocPola ekran="moc-umowna" pole="skladnikStaly" />}
         />
         <PoleSelect
-          label="Jak licznik mierzy przekroczenia"
+          label={t("UI-MOCUMO-LICZNIK-MIERZY-PRZEKROCZENIA")}
           value={stan.wariant}
           onChange={(e) => ustaw("wariant", e.target.value as WariantPomiaru)}
           pomoc={<PomocPola ekran="moc-umowna" pole="pomiar" />}
         >
-          <option value="suma10">suma 10 największych nadwyżek (pomiar 15-minutowy)</option>
-          <option value="10xmax">10 × największa nadwyżka</option>
+          <option value="suma10">{t("UI-MOCUMO-SUMA-NAJWIEKSZYCH-NADWYZEK")}</option>
+          <option value="10xmax">{t("UI-MOCUMO-NAJWIEKSZA-NADWYZKA")}</option>
         </PoleSelect>
         <fieldset className="grid grid-cols-3 gap-3 rounded-md border p-3">
-          <legend className="px-1 text-small font-medium">Maksymalna moc w miesiącu [kW] (z faktur)</legend>
+          <legend className="px-1 text-small font-medium">{t("UI-MOCUMO-MAKSYMALNA-MOC-MIESIACU")}</legend>
           {MIESIACE.map((m, i) => (
             <Pole
               key={m}
-              label={m}
+              label={t(m)}
               type="number"
               inputMode="decimal"
               value={stan.maksy[i] ?? ""}
@@ -119,26 +120,26 @@ export default function MocUmownaPage() {
       </div>
 
       {result.status === "INVALID_INPUT" ? (
-        <WerdyktPanel poziom="blad" etykieta="Nie da się policzyć — sprawdź wpisane dane">
+        <WerdyktPanel poziom="blad" etykieta={t("UI-MOCUMO-POLICZYC-SPRAWDZ-WPISANE")}>
           <WynikSzczegoly assumptions={[]} warnings={result.warnings} />
         </WerdyktPanel>
       ) : result.status === "INCOMPLETE" ? (
         result.warnings.length > 0 ? (
-          <WerdyktPanel poziom="uwaga" etykieta="Brakuje danych">
+          <WerdyktPanel poziom="uwaga" etykieta={t("UI-MOCUMO-BRAKUJE-DANYCH")}>
             <WynikSzczegoly assumptions={[]} warnings={result.warnings} />
           </WerdyktPanel>
         ) : (
-          <p className="text-small text-muted-foreground">Wpisz moc umowną i maksima z miesięcy.</p>
+          <p className="text-small text-muted-foreground">{t("UI-MOCUMO-WPISZ-MOC-UMOWNA")}</p>
         )
       ) : (
-        <WerdyktPanel poziom={poziom ?? "uwaga"} etykieta="Koszt mocy umownej w roku">
-          <WynikGlowny>{zl(v.kosztRazemRokZl)} netto / rok</WynikGlowny>
+        <WerdyktPanel poziom={poziom ?? "uwaga"} etykieta={t("UI-MOCUMO-KOSZT-MOCY-UMOWNEJ")}>
+          <WynikGlowny>{t("UI-MOCUMO-NETTO-ROK", { kosztRazemRokZl: zl(v.kosztRazemRokZl) })}</WynikGlowny>
           <p className="mt-1 text-small">
-            Opłata stała {zl(v.kosztStalyRokZl)} + przekroczenia {zl(v.oplataPrzekroczenRokZl)}.
+            {t("UI-MOCUMO-OPLATA-STALA-PRZEKROCZENIA", { kosztStalyRokZl: zl(v.kosztStalyRokZl), oplataPrzekroczenRokZl: zl(v.oplataPrzekroczenRokZl) })}
           </p>
           <p className="mt-1 text-small font-medium">
-            Najniższy koszt przy {v.optymalnaMocKw} kW: {zl(v.kosztOptymalnyRokZl)} / rok
-            {v.kosztOptymalnyRokZl < v.kosztRazemRokZl && <> (mniej o {zl(v.kosztRazemRokZl - v.kosztOptymalnyRokZl)})</>}.
+            {t("UI-MOCUMO-NAJNIZSZY-KOSZT-ROK", { optymalnaMocKw: v.optymalnaMocKw, kosztOptymalnyRokZl: zl(v.kosztOptymalnyRokZl) })}
+            {v.kosztOptymalnyRokZl < v.kosztRazemRokZl && <> {t("UI-MOCUMO-MNIEJ", { p: zl(v.kosztRazemRokZl - v.kosztOptymalnyRokZl) })}</>}.
           </p>
           <WynikSzczegoly assumptions={result.assumptions} warnings={result.warnings} formula={result.formula} />
         </WerdyktPanel>

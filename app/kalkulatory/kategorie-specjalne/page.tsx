@@ -58,13 +58,12 @@ export default function KategorieSpecjalnePage() {
   return (
     <main className="mx-auto flex max-w-md flex-col gap-6 p-6">
       <NawigacjaEkranu href="/kalkulatory/kategorie-specjalne" />
-      <NaglowekEkranu tytul="Kategorie specjalne" ekran="kategorie-specjalne" wynik={result}>
-        Zamiast zaczynać od pustej listy, wybierasz swój profil i dostajesz gotowy punkt startowy
-        dopasowany do typowych urządzeń w tej kategorii. Moduł 2, Ekran 15.
+      <NaglowekEkranu tytul={t("UI-KATSPE-KATEGORIE-SPECJALNE")} ekran="kategorie-specjalne" wynik={result}>
+        {t("UI-KATSPE-ZAMIAST-ZACZYNAC-PUSTEJ")}
       </NaglowekEkranu>
 
       <PoleSelect
-        label="Kategoria"
+        label={t("UI-KATSPE-KATEGORIA")}
         value={kategoria}
         onChange={(e) => setKategoria(e.target.value as Kategoria)}
         pomoc={<PomocPola ekran="kategorie-specjalne" pole="kategoria" />}
@@ -78,7 +77,7 @@ export default function KategorieSpecjalnePage() {
 
       {kategoria === "warsztat" && pozycje.length === 0 && (
         <div className="rounded-md border border-dashed p-3 text-small text-muted-foreground">
-          Typowe urządzenia w tej kategorii:{" "}
+          {t("UI-KATSPE-TYPOWE-URZADZENIA-TEJ")}
           {PRZYKLADOWE_URZADZENIA_WARSZTAT.map((nazwa) => (
             <button
               key={nazwa}
@@ -89,7 +88,7 @@ export default function KategorieSpecjalnePage() {
               + {nazwa}
             </button>
           ))}
-          <p className="mt-2 text-caption">Moc nie jest podana w źródle — wpisz ją ręcznie po dodaniu.</p>
+          <p className="mt-2 text-caption">{t("UI-KATSPE-MOC-PODANA-ZRODLE")}</p>
         </div>
       )}
 
@@ -98,7 +97,7 @@ export default function KategorieSpecjalnePage() {
           <li key={p.id} className="flex flex-wrap items-center gap-2 rounded-md border p-3 text-small">
             <input
               type="text"
-              placeholder="Nazwa urządzenia"
+              placeholder={t("UI-KATSPE-NAZWA-URZADZENIA")}
               value={p.nazwa}
               onChange={(e) => aktualizuj(p.id, { nazwa: e.target.value })}
               className="min-h-10 flex-1 min-w-24 rounded-md border border-input bg-background px-2"
@@ -111,7 +110,7 @@ export default function KategorieSpecjalnePage() {
               value={p.mocW || ""}
               onChange={(e) => aktualizuj(p.id, { mocW: Number(e.target.value) })}
               className="min-h-10 w-20 rounded-md border border-input bg-background px-2"
-              aria-label={`Moc — ${p.nazwa || "urządzenie"}`}
+              aria-label={t("UI-KATSPE-MOC", { p: p.nazwa || t("UI-KATSPE-URZADZENIE") })}
             />
             <PomocPola ekran="kategorie-specjalne" pole="moc" />
             <input
@@ -121,16 +120,16 @@ export default function KategorieSpecjalnePage() {
               value={p.czasMin || ""}
               onChange={(e) => aktualizuj(p.id, { czasMin: Number(e.target.value) })}
               className="min-h-10 w-20 rounded-md border border-input bg-background px-2"
-              aria-label={`Czas pracy — ${p.nazwa || "urządzenie"}`}
+              aria-label={t("UI-KATSPE-CZAS-PRACY", { p: p.nazwa || t("UI-KATSPE-URZADZENIE") })}
             />
             <PomocPola ekran="kategorie-specjalne" pole="czas" />
             <button
               type="button"
               onClick={() => usunPozycje(p.id)}
               className="text-caption text-muted-foreground underline"
-              aria-label={`Usuń ${p.nazwa || "pozycję"}`}
+              aria-label={t("UI-KATSPE-USUN-2", { p: p.nazwa || t("UI-KATSPE-POZYCJE") })}
             >
-              Usuń
+              {t("UI-KATSPE-USUN")}
             </button>
           </li>
         ))}
@@ -141,17 +140,17 @@ export default function KategorieSpecjalnePage() {
         onClick={() => dodajPozycje()}
         className="min-h-11 self-start rounded-md border px-4 text-small font-medium hover:bg-muted"
       >
-        + Dodaj urządzenie
+        {t("UI-KATSPE-DODAJ-URZADZENIE")}
       </button>
 
       {result.status === "INVALID_INPUT" ? (
-        <WerdyktPanel poziom="blad" etykieta="Nie da się policzyć — sprawdź wpisane dane">
+        <WerdyktPanel poziom="blad" etykieta={t("UI-KATSPE-POLICZYC-SPRAWDZ-WPISANE")}>
           <WynikSzczegoly assumptions={[]} warnings={result.warnings} />
         </WerdyktPanel>
       ) : result.status === "INCOMPLETE" ? (
-        <p className="text-small text-muted-foreground">Dodaj przynajmniej jedno urządzenie.</p>
+        <p className="text-small text-muted-foreground">{t("UI-KATSPE-DODAJ-PRZYNAJMNIEJ-JEDNO")}</p>
       ) : (
-        <WerdyktPanel poziom="ok" etykieta="Zapotrzebowanie dobowe tej kategorii">
+        <WerdyktPanel poziom="ok" etykieta={t("UI-KATSPE-ZAPOTRZEBOWANIE-DOBOWE-TEJ")}>
           <WynikGlowny>{(result.value.energiaWh / 1000).toFixed(2)} kWh</WynikGlowny>
           {result.warnings.map((w) => (
             <p key={w.code} className="mt-1 text-small">

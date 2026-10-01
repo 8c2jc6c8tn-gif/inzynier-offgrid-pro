@@ -11,6 +11,7 @@ import { Pole, PoleSelect } from "@/components/ui/pole"
 import { PomocPola } from "@/components/ui/pomoc"
 import { NaglowekEkranu } from "@/components/wzorce/naglowek-ekranu"
 import { BudowniczyListy, PrzyciskUsun } from "@/components/wzorce/budowniczy-listy"
+import { useTranslate } from "@/lib/i18n/language-context"
 
 type FormularzStan = {
   instances: SensorInstance[]
@@ -27,6 +28,7 @@ const STAN_POCZATKOWY: FormularzStan = {
 }
 
 export default function KatalogCzujnikowPage() {
+  const t = useTranslate()
   const [stan, setStan] = usePersistedDraft<FormularzStan>("katalog-czujnikow", STAN_POCZATKOWY)
   const { instances, typeId, etykieta, lokalizacja } = stan
 
@@ -45,7 +47,7 @@ export default function KatalogCzujnikowPage() {
   const setLokalizacja = (a: string | ((p: string) => string)) => setPole("lokalizacja", a)
 
   const result = useMemo(() => calculateKatalogCzujnikow({ instances }), [instances])
-  const selectedType = SENSOR_TYPES.find((t) => t.id === typeId)!
+  const selectedType = SENSOR_TYPES.find((typ) => typ.id === typeId)!
 
   function addInstance() {
     if (!etykieta.trim()) return
@@ -70,18 +72,18 @@ export default function KatalogCzujnikowPage() {
   return (
     <main className="mx-auto flex max-w-md flex-col gap-6 p-6">
       <NawigacjaEkranu href="/kalkulatory/katalog-czujnikow" />
-      <NaglowekEkranu tytul="Katalog czujników" ekran="katalog-czujnikow">{MIGAWKA_KATALOGU} Moduł 9, Katalog 1.</NaglowekEkranu>
+      <NaglowekEkranu tytul={t("UI-KATCZU-KATALOG-CZUJNIKOW")} ekran="katalog-czujnikow">{t("UI-KATCZU-MODUL-KATALOG", { MIGAWKA_KATALOGU })}</NaglowekEkranu>
 
       <BudowniczyListy
         pozycje={instances}
-        pustyTekst="Nie dodano jeszcze żadnego czujnika."
-        podsumowanie={`Dodane: ${result.value.liczbaInstancji} (typów: ${result.value.liczbaTypowUzytych})`}
+        pustyTekst={t("UI-KATCZU-DODANO-JESZCZE-ZADNEGO")}
+        podsumowanie={t("UI-KATCZU-DODANE-TYPOW", { liczbaInstancji: result.value.liczbaInstancji, liczbaTypowUzytych: result.value.liczbaTypowUzytych })}
         formularz={
           <>
-            <PoleSelect label="Typ czujnika" value={typeId} onChange={(e) => setTypeId(e.target.value)} pomoc={<PomocPola ekran="katalog-czujnikow" pole="typ" />}>
-              {SENSOR_TYPES.map((t) => (
-                <option key={t.id} value={t.id}>
-                  {t.pozycja}
+            <PoleSelect label={t("UI-KATCZU-TYP-CZUJNIKA")} value={typeId} onChange={(e) => setTypeId(e.target.value)} pomoc={<PomocPola ekran="katalog-czujnikow" pole="typ" />}>
+              {SENSOR_TYPES.map((typ) => (
+                <option key={typ.id} value={typ.id}>
+                  {typ.pozycja}
                 </option>
               ))}
             </PoleSelect>
@@ -90,26 +92,26 @@ export default function KatalogCzujnikowPage() {
             </p>
 
             <Pole
-              label="Etykieta"
+              label={t("UI-KATCZU-ETYKIETA")}
               value={etykieta}
               onChange={(e) => setEtykieta(e.target.value)}
-              placeholder="np. Czujnik dymu — sypialnia"
+              placeholder={t("UI-KATCZU-CZUJNIK-DYMU-SYPIALNIA")}
               pomoc={<PomocPola ekran="katalog-czujnikow" pole="etykieta" />}
             />
             <Pole
-              label="Lokalizacja (opcjonalnie)"
+              label={t("UI-KATCZU-LOKALIZACJA-OPCJONALNIE")}
               value={lokalizacja}
               onChange={(e) => setLokalizacja(e.target.value)}
               pomoc={<PomocPola ekran="katalog-czujnikow" pole="lokalizacja" />}
             />
 
             <Button type="button" onClick={addInstance} disabled={!etykieta.trim()}>
-              Dodaj czujnik
+              {t("UI-KATCZU-DODAJ-CZUJNIK")}
             </Button>
           </>
         }
         renderPozycja={(instance) => {
-          const type = SENSOR_TYPES.find((t) => t.id === instance.typeId)!
+          const type = SENSOR_TYPES.find((typ) => typ.id === instance.typeId)!
           return (
             <div className="flex items-center justify-between gap-3 rounded-md border p-3 text-small">
               <div>
