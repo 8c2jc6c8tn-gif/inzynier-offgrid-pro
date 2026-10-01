@@ -99,6 +99,7 @@ import { paneleDachKamperaTool } from "./tools/panele-dach-kampera-tool"
 import { panelKamperaTool } from "./tools/panel-kampera-tool"
 import { alternatorVsPaneleTool } from "./tools/alternator-vs-panele-tool"
 import { przetwornicaTool } from "./tools/przetwornice-tool"
+import { kreatorMalegoOdbiornikaTool } from "./tools/kreator-malego-odbiornika-tool"
 import { ochronaPrzedRozladowaniemTool } from "./tools/ochrona-przed-rozladowaniem-tool"
 import { wilgocMaleInstalacjeTool } from "./tools/wilgoc-male-instalacje-tool"
 import { uziemienieMaleInstalacjeTool } from "./tools/uziemienie-male-instalacje-tool"
@@ -422,6 +423,7 @@ const NARZEDZIA: Array<AiToolDefinition<any, any>> = [
   panelKamperaTool,
   alternatorVsPaneleTool,
   przetwornicaTool,
+  kreatorMalegoOdbiornikaTool,
   ochronaPrzedRozladowaniemTool,
   wilgocMaleInstalacjeTool,
   uziemienieMaleInstalacjeTool,

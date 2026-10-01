@@ -16,6 +16,7 @@ import { paneleDachKamperaTool } from "../panele-dach-kampera-tool"
 import { panelKamperaTool } from "../panel-kampera-tool"
 import { alternatorVsPaneleTool } from "../alternator-vs-panele-tool"
 import { przetwornicaTool } from "../przetwornice-tool"
+import { kreatorMalegoOdbiornikaTool } from "../kreator-malego-odbiornika-tool"
 
 describe("akumulatorSamochodowyTool (M12/E16, dawne 8.14)", () => {
   it("kontrakt 9.3: 'read', bez potwierdzenia", () => {
@@ -198,5 +199,31 @@ describe("przetwornicaTool (M12/E8, dawne 8.9 + 8.41 + 8.42)", () => {
     })
     expect(w.minimalnaMocFalownikaW).toBe(1200)
     expect(w.ostrzezenia).toContain(t("pl", "PRZ-FALOWNIK-ZA-SLABY", { posiadany: 1000, minimalna: 1200 }))
+  })
+})
+
+describe("kreatorMalegoOdbiornikaTool (M12/E12, Biblia §12.24)", () => {
+  it("kontrakt 9.3: 'read', bez potwierdzenia", () => {
+    expect(kreatorMalegoOdbiornikaTool.operationType).toBe("read")
+    expect(kreatorMalegoOdbiornikaTool.requiresConfirmation).toBe(false)
+    expect(() => validateAiToolDefinition(kreatorMalegoOdbiornikaTool)).not.toThrow()
+  })
+
+  it("alarm 25 W na 24 h, akumulator 20 Ah 12 V → 🟡 jako tekst PL", async () => {
+    const w = await kreatorMalegoOdbiornikaTool.handler({
+      scenariusz: "alarm",
+      skladniki: [{ nazwa: "Centrala", mocW: 25, godzinNaDobe: 24, krotnoscRozruchu: 0 }],
+      czasPodtrzymaniaH: 24,
+      napiecieV: 12,
+      uzytecznaPct: 100,
+      przezFalownik: false,
+      sprawnoscFalownikaPct: 0,
+      posiadanyAh: 20,
+      mocPaneluW: 0,
+      godzinSlonca: 0,
+      sprawnoscToruPct: 0,
+    })
+    expect(w.minimalnyAh).toBe(50)
+    expect(w.ostrzezenia).toContain(t("pl", "KZ-AKUMULATOR-ZA-MALY", { posiadany: 20, minimalny: 50, h: 9.6 }))
   })
 })

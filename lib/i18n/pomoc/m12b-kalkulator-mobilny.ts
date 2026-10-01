@@ -971,6 +971,102 @@ export const pl = {
       },
     },
   },
+  "kreator-malego-odbiornika": {
+    migawka: {
+      oCoChodzi: "Jeden kreator dla małych odbiorników: światło awaryjne, alarm, brama, router, pompa, kocioł i inne.",
+      jakDziala:
+        "Wybierz scenariusz i wczytaj typowe składniki (same nazwy) albo dodaj własne. Wpisz moc i godziny pracy każdego składnika, wymagany czas podtrzymania i dane akumulatora — aplikacja policzy minimalny akumulator, falownik i opcjonalnie bilans z panelem.",
+      poCo: "Zbyt mały akumulator padnie przed końcem awarii; silnik bez zapasu w falowniku nie wystartuje.",
+      fizyka:
+        "E_doba = Σ P × h. E_T = E_doba × T ÷ 24. C_min = E_T ÷ (U × u × η_falownika); bez falownika η = 1. Panel: E = P × h_słońca × η.",
+    },
+    pola: {
+      scenariusz: {
+        nazwa: "Scenariusz",
+        cel: "Podpowiada typowe składniki i dodaje notę dla tego zastosowania.",
+        gdzie: "Wybierz z listy najbliższy Twojemu odbiornikowi.",
+        zakres: "Lista 16 scenariuszy; możesz też nic nie wybierać.",
+      },
+      nazwa: {
+        nazwa: "Nazwa składnika",
+        cel: "Tylko dla Twojej orientacji.",
+        gdzie: "Dowolna.",
+        zakres: "Tekst.",
+      },
+      moc: {
+        nazwa: "Moc [W]",
+        cel: "Składnik zużycia i mocy falownika.",
+        gdzie: "Tabliczka urządzenia albo zasilacza.",
+        zakres: "Z tabliczki; aplikacja nie podstawia typowych mocy.",
+      },
+      godziny: {
+        nazwa: "Godziny pracy na dobę [h]",
+        cel: "Zużycie energii składnika.",
+        gdzie: "Ciągła praca = 24. Brama: liczba cykli × czas cyklu w sekundach ÷ 3600.",
+        zakres: "0–24 h.",
+      },
+      krotnosc: {
+        nazwa: "Krotność rozruchu [×]",
+        cel: "Szczyt mocy przy starcie silnika (pompa, brama, sprężarka).",
+        gdzie: "Karta urządzenia albo pomiar miernikiem z funkcją inrush.",
+        zakres: "Puste = bez rozruchu (1×).",
+      },
+      czas: {
+        nazwa: "Wymagany czas podtrzymania [h]",
+        cel: "Jak długo odbiornik ma pracować bez sieci i bez ładowania.",
+        gdzie: "Twoja ocena najdłuższej awarii.",
+        zakres: "Godziny, np. 24 albo 48.",
+      },
+      napiecie: {
+        nazwa: "Napięcie akumulatora [V]",
+        cel: "Przelicza energię na Ah.",
+        gdzie: "Tabliczka akumulatora.",
+        zakres: "12, 24 albo 48 V.",
+      },
+      uzyteczna: {
+        nazwa: "Część użyteczna pojemności [%]",
+        cel: "Ile pojemności wolno zużyć bez szkody dla akumulatora.",
+        gdzie: "Karta akumulatora (DoD).",
+        zakres: "Z karty; aplikacja nie zgaduje.",
+      },
+      falownik: {
+        nazwa: "Falownik 230 V",
+        cel: "Falownik dodaje straty i musi unieść rozruch.",
+        gdzie: "Czy odbiorniki są na 230 V, czy na 12/24 V.",
+        zakres: "Tak / nie.",
+      },
+      sprawnoscFalownika: {
+        nazwa: "Sprawność falownika [%]",
+        cel: "Straty falownika powiększają potrzebny akumulator.",
+        gdzie: "Karta falownika.",
+        zakres: "Z karty; aplikacja nie zgaduje.",
+      },
+      posiadany: {
+        nazwa: "Posiadany akumulator [Ah] (opcjonalnie)",
+        cel: "Ile godzin podtrzyma Twój akumulator.",
+        gdzie: "Tabliczka akumulatora.",
+        zakres: "Puste = nie sprawdzaj.",
+      },
+      mocPanelu: {
+        nazwa: "Moc panelu [W] (opcjonalnie)",
+        cel: "Czy panel pokryje dobowe zużycie.",
+        gdzie: "Tabliczka panelu (Wp).",
+        zakres: "Puste = bez panelu.",
+      },
+      godzinSlonca: {
+        nazwa: "Równoważne godziny pełnego słońca [h/dobę]",
+        cel: "Przelicza moc panelu na energię.",
+        gdzie: "Moduł 1 albo mapa nasłonecznienia dla miejsca i miesiąca (zimą mniej).",
+        zakres: "Z danych dla Twojej lokalizacji.",
+      },
+      sprawnosc: {
+        nazwa: "Sprawność toru panel → akumulator [%]",
+        cel: "Straty regulatora, kabli i ładowania.",
+        gdzie: "Karty regulatora i akumulatora.",
+        zakres: "Z kart; aplikacja nie zgaduje.",
+      },
+    },
+  },
 }
 
 export const en: Tlumaczenie<typeof pl> = {
@@ -1934,6 +2030,102 @@ export const en: Tlumaczenie<typeof pl> = {
         cel: "Checks that the inverter can handle a motor start.",
         gdzie: "Inverter datasheet — peak / surge power (usually for a few seconds).",
         zakres: "Empty = reminder only.",
+      },
+    },
+  },
+  "kreator-malego-odbiornika": {
+    migawka: {
+      oCoChodzi: "One wizard for small loads: emergency light, alarm, gate, router, pump, boiler and more.",
+      jakDziala:
+        "Choose a scenario and load the typical components (names only) or add your own. Enter the power and running hours of each component, the required backup time and the battery data — the app computes the minimum battery, inverter and optionally the balance with a panel.",
+      poCo: "Too small a battery dies before the outage ends; a motor without inverter headroom will not start.",
+      fizyka:
+        "E_day = Σ P × h. E_T = E_day × T ÷ 24. C_min = E_T ÷ (U × u × η_inverter); without an inverter η = 1. Panel: E = P × h_sun × η.",
+    },
+    pola: {
+      scenariusz: {
+        nazwa: "Scenario",
+        cel: "Suggests typical components and adds a note for this use.",
+        gdzie: "Choose the one closest to your load.",
+        zakres: "List of 16 scenarios; you can also choose none.",
+      },
+      nazwa: {
+        nazwa: "Component name",
+        cel: "Only for your orientation.",
+        gdzie: "Any.",
+        zakres: "Text.",
+      },
+      moc: {
+        nazwa: "Power [W]",
+        cel: "Part of the consumption and of the inverter power.",
+        gdzie: "Nameplate of the device or adapter.",
+        zakres: "From the nameplate; the app does not insert typical powers.",
+      },
+      godziny: {
+        nazwa: "Running hours per day [h]",
+        cel: "Energy use of the component.",
+        gdzie: "Continuous = 24. Gate: number of cycles × cycle time in seconds ÷ 3600.",
+        zakres: "0–24 h.",
+      },
+      krotnosc: {
+        nazwa: "Start surge multiple [×]",
+        cel: "Power peak at motor start (pump, gate, compressor).",
+        gdzie: "Device datasheet or a meter with an inrush function.",
+        zakres: "Empty = no surge (1×).",
+      },
+      czas: {
+        nazwa: "Required backup time [h]",
+        cel: "How long the load must run without grid and without charging.",
+        gdzie: "Your estimate of the longest outage.",
+        zakres: "Hours, e.g. 24 or 48.",
+      },
+      napiecie: {
+        nazwa: "Battery voltage [V]",
+        cel: "Converts energy to Ah.",
+        gdzie: "Battery nameplate.",
+        zakres: "12, 24 or 48 V.",
+      },
+      uzyteczna: {
+        nazwa: "Usable part of capacity [%]",
+        cel: "How much capacity may be used without harming the battery.",
+        gdzie: "Battery datasheet (DoD).",
+        zakres: "From the datasheet; the app does not guess.",
+      },
+      falownik: {
+        nazwa: "230 V inverter",
+        cel: "An inverter adds losses and must handle the start surge.",
+        gdzie: "Whether the loads are 230 V or 12/24 V.",
+        zakres: "Yes / no.",
+      },
+      sprawnoscFalownika: {
+        nazwa: "Inverter efficiency [%]",
+        cel: "Inverter losses enlarge the battery needed.",
+        gdzie: "Inverter datasheet.",
+        zakres: "From the datasheet; the app does not guess.",
+      },
+      posiadany: {
+        nazwa: "Battery you have [Ah] (optional)",
+        cel: "How many hours your battery will hold.",
+        gdzie: "Battery nameplate.",
+        zakres: "Empty = do not check.",
+      },
+      mocPanelu: {
+        nazwa: "Panel power [W] (optional)",
+        cel: "Whether the panel covers the daily use.",
+        gdzie: "Panel nameplate (Wp).",
+        zakres: "Empty = no panel.",
+      },
+      godzinSlonca: {
+        nazwa: "Equivalent full-sun hours [h/day]",
+        cel: "Turns panel power into energy.",
+        gdzie: "Module 1 or an insolation map for the place and month (less in winter).",
+        zakres: "From data for your location.",
+      },
+      sprawnosc: {
+        nazwa: "Panel → battery path efficiency [%]",
+        cel: "Controller, cable and charging losses.",
+        gdzie: "Controller and battery datasheets.",
+        zakres: "From the datasheets; the app does not guess.",
       },
     },
   },
@@ -2904,6 +3096,102 @@ export const ru: Tlumaczenie<typeof pl> = {
         cel: "Проверка, выдержит ли инвертор пуск двигателя.",
         gdzie: "Паспорт инвертора — пиковая / surge мощность (обычно несколько секунд).",
         zakres: "Пусто = только напоминание.",
+      },
+    },
+  },
+  "kreator-malego-odbiornika": {
+    migawka: {
+      oCoChodzi: "Один мастер для малых нагрузок: аварийный свет, сигнализация, ворота, роутер, насос, котёл и другое.",
+      jakDziala:
+        "Выберите сценарий и загрузите типовые компоненты (только названия) или добавьте свои. Введите мощность и часы работы каждого компонента, нужное время резерва и данные аккумулятора — приложение рассчитает минимальный аккумулятор, инвертор и, по желанию, баланс с панелью.",
+      poCo: "Слишком малый аккумулятор сядет до конца аварии; двигатель без запаса инвертора не запустится.",
+      fizyka:
+        "E_сут = Σ P × h. E_T = E_сут × T ÷ 24. C_min = E_T ÷ (U × u × η_инвертора); без инвертора η = 1. Панель: E = P × h_солнца × η.",
+    },
+    pola: {
+      scenariusz: {
+        nazwa: "Сценарий",
+        cel: "Подсказывает типовые компоненты и добавляет примечание для этого применения.",
+        gdzie: "Выберите ближайший к вашей нагрузке.",
+        zakres: "Список из 16 сценариев; можно ничего не выбирать.",
+      },
+      nazwa: {
+        nazwa: "Название компонента",
+        cel: "Только для вашего удобства.",
+        gdzie: "Любое.",
+        zakres: "Текст.",
+      },
+      moc: {
+        nazwa: "Мощность [Вт]",
+        cel: "Слагаемое потребления и мощности инвертора.",
+        gdzie: "Табличка устройства или блока питания.",
+        zakres: "С таблички; приложение не подставляет типовые мощности.",
+      },
+      godziny: {
+        nazwa: "Часы работы в сутки [ч]",
+        cel: "Потребление энергии компонентом.",
+        gdzie: "Непрерывно = 24. Ворота: число циклов × время цикла в секундах ÷ 3600.",
+        zakres: "0–24 ч.",
+      },
+      krotnosc: {
+        nazwa: "Кратность пуска [×]",
+        cel: "Пик мощности при пуске двигателя (насос, ворота, компрессор).",
+        gdzie: "Паспорт устройства или прибор с функцией inrush.",
+        zakres: "Пусто = без пуска (1×).",
+      },
+      czas: {
+        nazwa: "Нужное время резерва [ч]",
+        cel: "Сколько нагрузка должна работать без сети и без зарядки.",
+        gdzie: "Ваша оценка самой долгой аварии.",
+        zakres: "Часы, напр. 24 или 48.",
+      },
+      napiecie: {
+        nazwa: "Напряжение аккумулятора [В]",
+        cel: "Переводит энергию в Ач.",
+        gdzie: "Табличка аккумулятора.",
+        zakres: "12, 24 или 48 В.",
+      },
+      uzyteczna: {
+        nazwa: "Используемая часть ёмкости [%]",
+        cel: "Сколько ёмкости можно использовать без вреда для аккумулятора.",
+        gdzie: "Паспорт аккумулятора (DoD).",
+        zakres: "Из паспорта; приложение не угадывает.",
+      },
+      falownik: {
+        nazwa: "Инвертор 230 В",
+        cel: "Инвертор добавляет потери и должен выдержать пуск.",
+        gdzie: "Нагрузки на 230 В или на 12/24 В.",
+        zakres: "Да / нет.",
+      },
+      sprawnoscFalownika: {
+        nazwa: "КПД инвертора [%]",
+        cel: "Потери инвертора увеличивают нужный аккумулятор.",
+        gdzie: "Паспорт инвертора.",
+        zakres: "Из паспорта; приложение не угадывает.",
+      },
+      posiadany: {
+        nazwa: "Ваш аккумулятор [Ач] (необязательно)",
+        cel: "Сколько часов продержит ваш аккумулятор.",
+        gdzie: "Табличка аккумулятора.",
+        zakres: "Пусто = не проверять.",
+      },
+      mocPanelu: {
+        nazwa: "Мощность панели [Вт] (необязательно)",
+        cel: "Покроет ли панель суточное потребление.",
+        gdzie: "Табличка панели (Вт пик).",
+        zakres: "Пусто = без панели.",
+      },
+      godzinSlonca: {
+        nazwa: "Эквивалентные часы полного солнца [ч/сутки]",
+        cel: "Переводит мощность панели в энергию.",
+        gdzie: "Модуль 1 или карта инсоляции для места и месяца (зимой меньше).",
+        zakres: "Из данных для вашего места.",
+      },
+      sprawnosc: {
+        nazwa: "КПД пути панель → аккумулятор [%]",
+        cel: "Потери контроллера, кабелей и заряда.",
+        gdzie: "Паспорта контроллера и аккумулятора.",
+        zakres: "Из паспортов; приложение не угадывает.",
       },
     },
   },

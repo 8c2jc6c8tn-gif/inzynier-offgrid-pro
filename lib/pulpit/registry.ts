@@ -332,6 +332,7 @@ export const KAFLE: KafelEntry[] = [
       { href: "/kalkulatory/panel-kampera", label: "Panel do kampera: elastyczny czy sztywny" },
       { href: "/kalkulatory/alternator-vs-panele", label: "Ładowanie z alternatora czy z paneli" },
       { href: "/kalkulatory/przetwornice", label: "Przetwornice i falowniki" },
+      { href: "/kalkulatory/kreator-malego-odbiornika", label: "Kreator zasilania małego odbiornika" },
     ],
   },
   {
