@@ -10,6 +10,7 @@ import { WerdyktPanel, type WerdyktPoziom } from "@/components/werdykt"
 import { NawigacjaEkranu } from "@/components/nawigacja-ekranu"
 import { NaglowekEkranu } from "@/components/wzorce/naglowek-ekranu"
 import { WynikSzczegoly } from "@/components/wzorce/wynik-szczegoly"
+import { useTranslate } from "@/lib/i18n/language-context"
 
 type FormularzStan = {
   ukladSieci: UkladSieci | ""
@@ -26,6 +27,7 @@ const STAN_POCZATKOWY: FormularzStan = {
 }
 
 export default function UziemienieFunkcjonalneOchronnePage() {
+  const t = useTranslate()
   const [stan, setStan] = usePersistedDraft<FormularzStan>("uziemienie-funkcjonalne-ochronne", STAN_POCZATKOWY)
   const { ukladSieci, falownikWymagaUkladuIt, biegunDcUziemiony, obudowaPolaczonaZGsw } = stan
 
@@ -59,30 +61,29 @@ export default function UziemienieFunkcjonalneOchronnePage() {
 
   const verdictPoziom: Record<typeof verdict, WerdyktPoziom> = { red: "blad", green: "ok" }
   const verdictLabel: Record<typeof verdict, string> = {
-    red: "Wymaga korekty — sprawdź ostrzeżenia poniżej",
-    green: "Uziemienie zgodne z wymaganiami",
+    red: t("UI-UZIFUNOCH-WYMAGA-KOREKTY-SPRAWDZ"),
+    green: t("UI-UZIFUNOCH-UZIEMIENIE-ZGODNE"),
   }
 
   return (
     <main className="mx-auto flex max-w-md flex-col gap-6 p-6">
       <NawigacjaEkranu href="/kalkulatory/uziemienie-funkcjonalne-ochronne" />
       <NaglowekEkranu
-        tytul="Uziemienie funkcjonalne vs ochronne"
+        tytul={t("UI-UZIFUNOCH-UZIEMIENIE-FUNKCJONALNE-OCHR")}
         ekran="uziemienie-funkcjonalne-ochronne"
         wynik={result}
       >
-        Ochronne to poduszka powietrzna dla ciebie. Funkcjonalne to stabilizator dla elektroniki.
-        Oba muszą być, ale nie zawsze razem. Moduł 5, Ekran 11.
+        {t("UI-UZIFUNOCH-OCHRONNE-PODUSZKA-POWIETRZNA")}
       </NaglowekEkranu>
 
       <div className="flex flex-col gap-4">
         <PoleSelect
-          label="Układ sieci (informacyjnie)"
+          label={t("UI-UZIFUNOCH-UKLAD-SIECI-INFORMACYJNIE")}
           value={ukladSieci}
           onChange={(e) => setUkladSieci(e.target.value as UkladSieci)}
           pomoc={<PomocPola ekran="uziemienie-funkcjonalne-ochronne" pole="uklad" />}
         >
-          <option value="">— wybierz —</option>
+          <option value="">{t("UI-WYBIERZ")}</option>
           <option value="TN-S">TN-S</option>
           <option value="TN-C-S">TN-C-S</option>
           <option value="TT">TT</option>
@@ -90,19 +91,19 @@ export default function UziemienieFunkcjonalneOchronnePage() {
         </PoleSelect>
         <PoleCheckbox
           id="falownik-it"
-          label="Falownik wymaga/pracuje w układzie izolowanym (IT) wg dokumentacji producenta"
+          label={t("UI-UZIFUNOCH-FALOWNIK-WYMAGA-PRACUJE")}
           checked={falownikWymagaUkladuIt}
           onChange={(e) => setFalownikWymagaUkladuIt(e.target.checked)}
         />
         <PoleCheckbox
           id="biegun-dc-uziemiony"
-          label="Biegun DC jest uziemiony w tej instalacji"
+          label={t("UI-UZIFUNOCH-BIEGUN-UZIEMIONY-TEJ")}
           checked={biegunDcUziemiony}
           onChange={(e) => setBiegunDcUziemiony(e.target.checked)}
         />
         <PoleCheckbox
           id="obudowa-gsw"
-          label="Obudowa falownika (uziemienie ochronne) połączona z GSW"
+          label={t("UI-UZIFUNOCH-OBUDOWA-FALOWNIKA-UZIEMIENIE")}
           checked={obudowaPolaczonaZGsw}
           onChange={(e) => setObudowaPolaczonaZGsw(e.target.checked)}
         />

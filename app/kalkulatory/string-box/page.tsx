@@ -10,6 +10,7 @@ import { WerdyktPanel, type WerdyktPoziom } from "@/components/werdykt"
 import { NawigacjaEkranu } from "@/components/nawigacja-ekranu"
 import { NaglowekEkranu } from "@/components/wzorce/naglowek-ekranu"
 import { WynikSzczegoly } from "@/components/wzorce/wynik-szczegoly"
+import { useTranslate } from "@/lib/i18n/language-context"
 
 type FormularzStan = {
   liczbaStringow: number
@@ -26,6 +27,7 @@ const STAN_POCZATKOWY: FormularzStan = {
 }
 
 export default function StringBoxPage() {
+  const t = useTranslate()
   const [stan, setStan] = usePersistedDraft<FormularzStan>("string-box", STAN_POCZATKOWY)
   const { liczbaStringow, liczbaWejscSkrzynki, bezpiecznikStringowyA, maSkrzynkeIp66 } = stan
 
@@ -69,25 +71,24 @@ export default function StringBoxPage() {
 
   const etykieta =
     result.status === "INVALID_INPUT"
-      ? "Nie da się policzyć — sprawdź wpisane dane"
+      ? t("UI-STRBOX-POLICZYC-SPRAWDZ-WPISANE")
       : hasCritical
-        ? "Zabronione — string box nie spełnia wymogów bezpieczeństwa"
-        : "String box gotowy do montażu"
+        ? t("UI-STRBOX-ZABRONIONE-STRING-BOX")
+        : t("UI-STRBOX-STRING-BOX-GOTOWY")
 
   return (
     <main className="mx-auto flex max-w-md flex-col gap-6 p-6">
       <NawigacjaEkranu href="/kalkulatory/string-box" />
       <NaglowekEkranu
-        tytul="String Box / Array Box"
+        tytul={t("UI-STRBOX-STRING-BOX-ARRAY")}
         ekran="string-box" wynik={result}
         parametry={{ bezpMin: BEZPIECZNIK_STRINGOWY_MIN_A, bezpMax: BEZPIECZNIK_STRINGOWY_MAX_A }}
       >
-        String box to węzeł, w którym kable z paneli spotykają się w uporządkowany sposób — bez
-        tego masz plątaninę i ryzyko pożaru. Moduł 5, Ekran 22.
+        {t("UI-STRBOX-STRING-BOX-WEZEL")}
       </NaglowekEkranu>
 
       <Pole
-        label="Liczba stringów"
+        label={t("UI-STRBOX-LICZBA-STRINGOW")}
         type="number"
         inputMode="numeric"
         min={0}
@@ -97,7 +98,7 @@ export default function StringBoxPage() {
       />
 
       <Pole
-        label="Liczba wejść DC skrzynki"
+        label={t("UI-STRBOX-LICZBA-WEJSC-SKRZYNKI")}
         type="number"
         inputMode="numeric"
         min={0}
@@ -107,7 +108,7 @@ export default function StringBoxPage() {
       />
 
       <Pole
-        label="Bezpiecznik stringowy"
+        label={t("UI-STRBOX-BEZPIECZNIK-STRINGOWY")}
         unit="A"
         type="number"
         inputMode="decimal"
@@ -119,13 +120,13 @@ export default function StringBoxPage() {
 
       <PoleCheckbox
         id="skrzynka-ip66"
-        label="Skrzynka ma stopień ochrony IP66"
+        label={t("UI-STRBOX-SKRZYNKA-STOPIEN-OCHRONY")}
         checked={maSkrzynkeIp66}
         onChange={(e) => setMaSkrzynkeIp66(e.target.checked)}
       />
 
       {poziom === null ? (
-        <p className="text-small text-muted-foreground">Wpisz liczbę stringów, żeby zobaczyć werdykt.</p>
+        <p className="text-small text-muted-foreground">{t("UI-STRBOX-WPISZ-LICZBE-STRINGOW")}</p>
       ) : (
         <WerdyktPanel poziom={poziom} etykieta={etykieta}>
           <WynikSzczegoly assumptions={result.assumptions} warnings={result.warnings} />

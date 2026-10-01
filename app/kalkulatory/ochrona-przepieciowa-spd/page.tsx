@@ -12,6 +12,7 @@ import { WynikGlowny } from "@/components/wzorce/wynik-glowny"
 import { WynikSzczegoly } from "@/components/wzorce/wynik-szczegoly"
 import { SekcjaCrl } from "./sekcja-crl"
 import { MIN_ODLEGLOSC_OD_ZWODU_M, WSPOLCZYNNIK_MARGINESU_UC } from "@/lib/core/modules/okablowanie/ochrona-przepieciowa-spd/constants"
+import { useTranslate } from "@/lib/i18n/language-context"
 
 type FormularzStan = {
   vocMaxStringuV: string
@@ -32,6 +33,7 @@ const STAN_POCZATKOWY: FormularzStan = {
 }
 
 export default function OchronaPrzepieciowaSpdPage() {
+  const t = useTranslate()
   const [stan, setStan] = usePersistedDraft<FormularzStan>("ochrona-przepieciowa-spd", STAN_POCZATKOWY)
   const { vocMaxStringuV, maInstalacjeOdgromowa, odlegloscOdZwoduM, maZainstalowanySpdTyp1, ucSpdV, uziemienieViaGsw } = stan
 
@@ -77,28 +79,27 @@ export default function OchronaPrzepieciowaSpdPage() {
   }
 
   const verdictLabel: Record<typeof verdict, string> = {
-    invalid: "Nie da się policzyć",
-    incomplete: "Wypełnij wszystkie pola",
-    red: "Zabronione — ochrona przeciwprzepięciowa niekompletna",
-    green: "SPD dobrany poprawnie",
+    invalid: t("UI-OCHPRZSPD-POLICZYC"),
+    incomplete: t("UI-OCHPRZSPD-WYPELNIJ-WSZYSTKIE-POLA"),
+    red: t("UI-OCHPRZSPD-ZABRONIONE-OCHRONA-PRZECIWPR"),
+    green: t("UI-OCHPRZSPD-SPD-DOBRANY-POPRAWNIE"),
   }
 
   return (
     <main className="mx-auto flex max-w-md flex-col gap-6 p-6">
       <NawigacjaEkranu href="/kalkulatory/ochrona-przepieciowa-spd" />
       <NaglowekEkranu
-        tytul="Ochrona przeciwprzepięciowa (SPD)"
+        tytul={t("UI-OCHPRZSPD-OCHRONA-PRZECIWPRZEPIECIOWA-")}
         ekran="ochrona-przepieciowa-spd"
         wynik={result}
         parametry={{ marginesUc: WSPOLCZYNNIK_MARGINESU_UC, minOdleglosc: MIN_ODLEGLOSC_OD_ZWODU_M }}
       >
-        Piorun nie musi trafić w panel — wystarczy, że uderzy w pobliżu, a w kablach indukuje się
-        napięcie, które niszczy elektronikę. Moduł 5, Ekran 2.
+        {t("UI-OCHPRZSPD-PIORUN-MUSI-TRAFIC")}
       </NaglowekEkranu>
 
       <div className="flex flex-col gap-4">
         <Pole
-          label="Napięcie robocze stringu PV (Voc max, zimowe)"
+          label={t("UI-OCHPRZSPD-NAPIECIE-ROBOCZE-STRINGU")}
           unit="V"
           type="number"
           inputMode="decimal"
@@ -109,14 +110,14 @@ export default function OchronaPrzepieciowaSpdPage() {
         />
         <PoleCheckbox
           id="ma-instalacje-odgromowa"
-          label="Budynek ma instalację odgromową"
+          label={t("UI-OCHPRZSPD-BUDYNEK-INSTALACJE-ODGROMOWA")}
           checked={maInstalacjeOdgromowa}
           onChange={(e) => setMaInstalacjeOdgromowa(e.target.checked)}
         />
         {maInstalacjeOdgromowa && (
           <>
             <Pole
-              label="Odległość paneli od zwodu piorunochronu"
+              label={t("UI-OCHPRZSPD-ODLEGLOSC-PANELI-ZWODU")}
               unit="m"
               type="number"
               inputMode="decimal"
@@ -127,14 +128,14 @@ export default function OchronaPrzepieciowaSpdPage() {
             />
             <PoleCheckbox
               id="ma-spd-typ1"
-              label="Zainstalowany jest SPD Typu 1 na wejściu do budynku"
+              label={t("UI-OCHPRZSPD-ZAINSTALOWANY-SPD-TYPU")}
               checked={maZainstalowanySpdTyp1}
               onChange={(e) => setMaZainstalowanySpdTyp1(e.target.checked)}
             />
           </>
         )}
         <Pole
-          label="Napięcie trwałej pracy (Uc) rozważanego SPD"
+          label={t("UI-OCHPRZSPD-NAPIECIE-TRWALEJ-PRACY")}
           unit="V"
           type="number"
           inputMode="decimal"
@@ -145,7 +146,7 @@ export default function OchronaPrzepieciowaSpdPage() {
         />
         <PoleCheckbox
           id="uziemienie-gsw"
-          label="SPD uziemiony przez wspólną Główną Szynę Wyrównawczą (GSW)"
+          label={t("UI-OCHPRZSPD-SPD-UZIEMIONY-WSPOLNA")}
           checked={uziemienieViaGsw}
           onChange={(e) => setUziemienieViaGsw(e.target.checked)}
         />

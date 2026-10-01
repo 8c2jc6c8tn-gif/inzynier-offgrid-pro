@@ -11,6 +11,7 @@ import { NawigacjaEkranu } from "@/components/nawigacja-ekranu"
 import { NaglowekEkranu } from "@/components/wzorce/naglowek-ekranu"
 import { WynikGlowny } from "@/components/wzorce/wynik-glowny"
 import { WynikSzczegoly } from "@/components/wzorce/wynik-szczegoly"
+import { useTranslate } from "@/lib/i18n/language-context"
 
 type FormularzStan = {
   producentZenski: string
@@ -20,6 +21,7 @@ type FormularzStan = {
 const STAN_POCZATKOWY: FormularzStan = { producentZenski: "", producentMeski: "" }
 
 export default function ZlaczaMc4Page() {
+  const t = useTranslate()
   const [stan, setStan] = usePersistedDraft<FormularzStan>("zlacza-mc4", STAN_POCZATKOWY)
   const { producentZenski, producentMeski } = stan
 
@@ -44,28 +46,27 @@ export default function ZlaczaMc4Page() {
   }
 
   const verdictLabel: Record<typeof verdict, string> = {
-    invalid: "Nie da się policzyć",
-    incomplete: "Wybierz producenta po obu stronach",
-    red: "Zabronione — ryzyko łukowania i pożaru",
-    green: result.value.zgodne ? "Złącza zgodne" : "Zgodności nie da się potwierdzić",
+    invalid: t("UI-ZLAMC4-POLICZYC"),
+    incomplete: t("UI-ZLAMC4-WYBIERZ-PRODUCENTA-OBU"),
+    red: t("UI-ZLAMC4-ZABRONIONE-RYZYKO-LUKOWANIA"),
+    green: result.value.zgodne ? t("UI-ZLAMC4-ZLACZA-ZGODNE") : t("UI-ZLAMC4-ZGODNOSCI-POTWIERDZIC"),
   }
 
   return (
     <main className="mx-auto flex max-w-md flex-col gap-6 p-6">
       <NawigacjaEkranu href="/kalkulatory/zlacza-mc4" />
-      <NaglowekEkranu tytul="Złącza MC4" ekran="zlacza-mc4" wynik={result}>
-        MC4 wygląda uniwersalnie, ale styki różnych producentów nie zawsze pasują idealnie — luźny
-        styk pod prądem robi łuk elektryczny, a to już realny pożar. Moduł 5, Ekran 5.
+      <NaglowekEkranu tytul={t("UI-ZLAMC4-ZLACZA-MC4")} ekran="zlacza-mc4" wynik={result}>
+        {t("UI-ZLAMC4-MC4-WYGLADA-UNIWERSALNIE")}
       </NaglowekEkranu>
 
       <div className="flex flex-col gap-4">
         <PoleSelect
-          label="Złączka żeńska — producent/rodzina"
+          label={t("UI-ZLAMC4-ZLACZKA-ZENSKA-PRODUCENT")}
           value={producentZenski}
           onChange={(e) => setPole("producentZenski", e.target.value)}
           pomoc={<PomocPola ekran="zlacza-mc4" pole="zenska" />}
         >
-          <option value="">— wybierz —</option>
+          <option value="">{t("UI-WYBIERZ")}</option>
           {PRODUCENCI_MC4.map((p) => (
             <option key={p} value={p}>
               {p}
@@ -73,12 +74,12 @@ export default function ZlaczaMc4Page() {
           ))}
         </PoleSelect>
         <PoleSelect
-          label="Złączka męska — producent/rodzina"
+          label={t("UI-ZLAMC4-ZLACZKA-MESKA-PRODUCENT")}
           value={producentMeski}
           onChange={(e) => setPole("producentMeski", e.target.value)}
           pomoc={<PomocPola ekran="zlacza-mc4" pole="meska" />}
         >
-          <option value="">— wybierz —</option>
+          <option value="">{t("UI-WYBIERZ")}</option>
           {PRODUCENCI_MC4.map((p) => (
             <option key={p} value={p}>
               {p}
@@ -89,7 +90,7 @@ export default function ZlaczaMc4Page() {
 
       <WerdyktPanel poziom={verdictPoziom[verdict]} etykieta={verdictLabel[verdict]}>
         {verdict !== "invalid" && verdict !== "incomplete" && (
-          <WynikGlowny>{result.value.zgodne ? "Komplet od jednego producenta" : "Nie łącz różnych producentów"}</WynikGlowny>
+          <WynikGlowny>{result.value.zgodne ? t("UI-ZLAMC4-KOMPLET-JEDNEGO-PRODUCENTA") : t("UI-ZLAMC4-LACZ-ROZNYCH-PRODUCENTOW")}</WynikGlowny>
         )}
         <WynikSzczegoly assumptions={result.assumptions} warnings={result.warnings} formula={result.formula} />
       </WerdyktPanel>

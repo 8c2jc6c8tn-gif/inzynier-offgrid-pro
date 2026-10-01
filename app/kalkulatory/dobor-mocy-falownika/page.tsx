@@ -11,6 +11,7 @@ import { NaglowekEkranu } from "@/components/wzorce/naglowek-ekranu"
 import { WynikGlowny } from "@/components/wzorce/wynik-glowny"
 import { WynikSzczegoly } from "@/components/wzorce/wynik-szczegoly"
 import { DOMYSLNY_WSPOLCZYNNIK_JEDNOCZESNOSCI } from "@/lib/core/modules/okablowanie/dobor-mocy-falownika/constants"
+import { useTranslate } from "@/lib/i18n/language-context"
 
 type FormularzStan = {
   mocSzczytowaW: string
@@ -27,6 +28,7 @@ const STAN_POCZATKOWY: FormularzStan = {
 }
 
 export default function DoborMocyFalownikaPage() {
+  const t = useTranslate()
   const [stan, setStan] = usePersistedDraft<FormularzStan>("dobor-mocy-falownika", STAN_POCZATKOWY)
   const { mocSzczytowaW, mocPozornaVa, wspolczynnikJednoczesnosci, mocFalownikaWybranaW } = stan
 
@@ -65,29 +67,27 @@ export default function DoborMocyFalownikaPage() {
   }
 
   const verdictLabel: Record<typeof verdict, string> = {
-    invalid: "Nie da się policzyć",
-    incomplete: "Wypełnij moc szczytową i współczynnik jednoczesności",
-    red: "Falownik za słaby — ryzyko wyłączeń przy rozruchach",
-    green: "Moc falownika dobrana poprawnie",
+    invalid: t("UI-DOBMOCFAL-POLICZYC"),
+    incomplete: t("UI-DOBMOCFAL-WYPELNIJ-MOC-SZCZYTOWA"),
+    red: t("UI-DOBMOCFAL-FALOWNIK-SLABY-RYZYKO"),
+    green: t("UI-DOBMOCFAL-MOC-DOBRANA-POPRAWNIE"),
   }
 
   return (
     <main className="mx-auto flex max-w-md flex-col gap-6 p-6">
       <NawigacjaEkranu href="/kalkulatory/dobor-mocy-falownika" />
       <NaglowekEkranu
-        tytul="Dobór mocy falownika"
+        tytul={t("UI-DOBMOCFAL-DOBOR-MOCY-FALOWNIKA")}
         ekran="dobor-mocy-falownika"
         wynik={result}
         parametry={{ wspJednoczesnosci: DOMYSLNY_WSPOLCZYNNIK_JEDNOCZESNOSCI }}
       >
-        Falownik musi wytrzymać nie tylko normalną pracę, ale ten ułamek sekundy, gdy silnik
-        lodówki czy pompy rusza z miejsca — wtedy pobiera nawet 5-7× więcej prądu niż normalnie.
-        Moduł 5, Ekran 7.
+        {t("UI-DOBMOCFAL-FALOWNIK-MUSI-WYTRZYMAC")}
       </NaglowekEkranu>
 
       <div className="flex flex-col gap-4">
         <Pole
-          label="Moc szczytowa odbiorników"
+          label={t("UI-DOBMOCFAL-MOC-SZCZYTOWA-ODBIORNIKOW")}
           unit="W"
           type="number"
           inputMode="decimal"
@@ -97,7 +97,7 @@ export default function DoborMocyFalownikaPage() {
           pomoc={<PomocPola ekran="dobor-mocy-falownika" pole="mocSzczytowa" />}
         />
         <Pole
-          label="Moc pozorna odbiorników (opcjonalnie)"
+          label={t("UI-DOBMOCFAL-MOC-POZORNA-ODBIORNIKOW")}
           unit="VA"
           type="number"
           inputMode="decimal"
@@ -107,7 +107,7 @@ export default function DoborMocyFalownikaPage() {
           pomoc={<PomocPola ekran="dobor-mocy-falownika" pole="mocPozorna" />}
         />
         <Pole
-          label="Współczynnik jednoczesności"
+          label={t("UI-DOBMOCFAL-WSPOLCZYNNIK-JEDNOCZESNOSCI")}
           unit=""
           type="number"
           inputMode="decimal"
@@ -118,7 +118,7 @@ export default function DoborMocyFalownikaPage() {
           pomoc={<PomocPola ekran="dobor-mocy-falownika" pole="wspolczynnik" params={{ wspJednoczesnosci: DOMYSLNY_WSPOLCZYNNIK_JEDNOCZESNOSCI }} />}
         />
         <Pole
-          label="Moc rozważanego falownika (opcjonalnie, do sprawdzenia)"
+          label={t("UI-DOBMOCFAL-MOC-ROZWAZANEGO-FALOWNIKA")}
           unit="W"
           type="number"
           inputMode="decimal"
@@ -131,7 +131,7 @@ export default function DoborMocyFalownikaPage() {
 
       <WerdyktPanel poziom={verdictPoziom[verdict]} etykieta={verdictLabel[verdict]}>
         {verdict !== "invalid" && verdict !== "incomplete" && (
-          <WynikGlowny>Zalecana moc falownika: {Math.round(result.value.mocFalownikaZalecanaW)} W</WynikGlowny>
+          <WynikGlowny>{t("UI-DOBMOCFAL-ZALECANA-MOC-FALOWNIKA", { moc: Math.round(result.value.mocFalownikaZalecanaW) })}</WynikGlowny>
         )}
         <WynikSzczegoly assumptions={result.assumptions} warnings={result.warnings} formula={result.formula} />
       </WerdyktPanel>

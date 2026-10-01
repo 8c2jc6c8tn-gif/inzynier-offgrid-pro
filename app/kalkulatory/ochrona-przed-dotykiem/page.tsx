@@ -9,11 +9,13 @@ import { NawigacjaEkranu } from "@/components/nawigacja-ekranu"
 import { NaglowekEkranu } from "@/components/wzorce/naglowek-ekranu"
 import { ListaChecklist } from "@/components/wzorce/lista-checklist"
 import { StanPusty } from "@/components/ui/stany"
+import { useTranslate } from "@/lib/i18n/language-context"
 
 type FormularzStan = { potwierdzoneIds: string[] }
 const STAN_POCZATKOWY: FormularzStan = { potwierdzoneIds: [] }
 
 export default function OchronaPrzedDotykiemPage() {
+  const t = useTranslate()
   const [stan, setStan] = usePersistedDraft<FormularzStan>("ochrona-przed-dotykiem", STAN_POCZATKOWY)
   const { potwierdzoneIds } = stan
   const setPotwierdzoneIds = (a: string[] | ((p: string[]) => string[])) =>
@@ -33,9 +35,8 @@ export default function OchronaPrzedDotykiemPage() {
   return (
     <main className="mx-auto flex max-w-md flex-col gap-6 p-6">
       <NawigacjaEkranu href="/kalkulatory/ochrona-przed-dotykiem" />
-      <NaglowekEkranu tytul="Ochrona przed dotykiem" ekran="ochrona-przed-dotykiem">
-        Prąd nie wybacza. Jak dotkniesz nieosłoniętego plusa, nie zdążysz zareagować. Osłony i
-        szybkie wyłączniki to twoje bezpieczeństwo. Moduł 5, Ekran 17.
+      <NaglowekEkranu tytul={t("UI-OCHPRZDOT-OCHRONA-PRZED-DOTYKIEM")} ekran="ochrona-przed-dotykiem">
+        {t("UI-OCHPRZDOT-PRAD-WYBACZA-DOTKNIESZ")}
       </NaglowekEkranu>
 
       <ListaChecklist
@@ -51,9 +52,9 @@ export default function OchronaPrzedDotykiemPage() {
       />
 
       {poziom ? (
-        <WerdyktPanel poziom={poziom} etykieta="Oba mechanizmy ochrony potwierdzone" />
+        <WerdyktPanel poziom={poziom} etykieta={t("UI-OCHPRZDOT-OBA-MECHANIZMY-OCHRONY")} />
       ) : (
-        <StanPusty tytul={`Potwierdzono ${result.value.potwierdzone} / ${result.value.razem} mechanizmów`} />
+        <StanPusty tytul={t("UI-OCHPRZDOT-POTWIERDZONO-MECHANIZMOW", { potwierdzone: result.value.potwierdzone, razem: result.value.razem })} />
       )}
     </main>
   )

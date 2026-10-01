@@ -12,6 +12,7 @@ import { NaglowekEkranu } from "@/components/wzorce/naglowek-ekranu"
 import { WynikGlowny } from "@/components/wzorce/wynik-glowny"
 import { WynikSzczegoly } from "@/components/wzorce/wynik-szczegoly"
 import { PROG_OCHRONA_OSOB_MA, PROG_OCHRONA_POZAROWA_MA } from "@/lib/core/modules/okablowanie/wylaczniki-rcd/constants"
+import { useTranslate } from "@/lib/i18n/language-context"
 
 type FormularzStan = {
   falownikHybrydowy: boolean
@@ -30,6 +31,7 @@ const STAN_POCZATKOWY: FormularzStan = {
 }
 
 export default function WylacznikiRcdPage() {
+  const t = useTranslate()
   const [stan, setStan] = usePersistedDraft<FormularzStan>("wylaczniki-rcd", STAN_POCZATKOWY)
   const { falownikHybrydowy, odbiornikiZSilnikami, zainstalowanyTyp, celOchrony, progMa } = stan
 
@@ -73,60 +75,59 @@ export default function WylacznikiRcdPage() {
   }
 
   const verdictLabel: Record<typeof verdict, string> = {
-    invalid: "Nie da się policzyć",
-    incomplete: "Wypełnij wszystkie pola",
-    red: "Zabronione — RCD nie spełnia wymagań",
-    green: "RCD dobrany poprawnie",
+    invalid: t("UI-WYLRCD-POLICZYC"),
+    incomplete: t("UI-WYLRCD-WYPELNIJ-WSZYSTKIE-POLA"),
+    red: t("UI-WYLRCD-ZABRONIONE-RCD-SPELNIA"),
+    green: t("UI-WYLRCD-RCD-DOBRANY-POPRAWNIE"),
   }
 
   return (
     <main className="mx-auto flex max-w-md flex-col gap-6 p-6">
       <NawigacjaEkranu href="/kalkulatory/wylaczniki-rcd" />
       <NaglowekEkranu
-        tytul="Wyłączniki RCD"
+        tytul={t("UI-WYLRCD-WYLACZNIKI-RCD")}
         ekran="wylaczniki-rcd"
         wynik={result}
         parametry={{ progOsob: PROG_OCHRONA_OSOB_MA, progPozar: PROG_OCHRONA_POZAROWA_MA }}
       >
-        RCD to strażnik, który wyczuwa, że prąd ucieka tam, gdzie nie powinien — np. do twojego
-        ciała — i wyłącza w ułamku sekundy. Moduł 5, Ekran 16.
+        {t("UI-WYLRCD-RCD-STRAZNIK-KTORY")}
       </NaglowekEkranu>
 
       <div className="flex flex-col gap-4">
         <PoleCheckbox
           id="falownik-hybrydowy"
-          label="Falownik generuje składową stałą (typowe dla hybrydowych)"
+          label={t("UI-WYLRCD-FALOWNIK-GENERUJE-SKLADOWA")}
           checked={falownikHybrydowy}
           onChange={(e) => setFalownikHybrydowy(e.target.checked)}
         />
         <PoleCheckbox
           id="odbiorniki-z-silnikami"
-          label="W obwodzie są odbiorniki z silnikami"
+          label={t("UI-WYLRCD-OBWODZIE-ODBIORNIKI-SILNIKAM")}
           checked={odbiornikiZSilnikami}
           onChange={(e) => setOdbiornikiZSilnikami(e.target.checked)}
         />
         <PoleSelect
-          label="Zainstalowany typ RCD"
+          label={t("UI-WYLRCD-ZAINSTALOWANY-TYP-RCD")}
           value={zainstalowanyTyp}
           onChange={(e) => setZainstalowanyTyp(e.target.value as TypRcd)}
           pomoc={<PomocPola ekran="wylaczniki-rcd" pole="typ" />}
         >
-          <option value="">— wybierz —</option>
-          <option value="AC">Typ AC</option>
-          <option value="A">Typ A</option>
-          <option value="B">Typ B</option>
+          <option value="">{t("UI-WYBIERZ")}</option>
+          <option value="AC">{t("UI-WYLRCD-TYP")}</option>
+          <option value="A">{t("UI-WYLRCD-TYP-2")}</option>
+          <option value="B">{t("UI-WYLRCD-TYP-3")}</option>
         </PoleSelect>
         <PoleSelect
-          label="Cel ochrony tego obwodu"
+          label={t("UI-WYLRCD-CEL-OCHRONY-TEGO")}
           value={celOchrony}
           onChange={(e) => setCelOchrony(e.target.value as CelOchrony)}
           pomoc={<PomocPola ekran="wylaczniki-rcd" pole="cel" params={{ progOsob: PROG_OCHRONA_OSOB_MA, progPozar: PROG_OCHRONA_POZAROWA_MA }} />}
         >
-          <option value="osob">Ochrona osób (30 mA)</option>
-          <option value="pozarowa">Ochrona przeciwpożarowa (300 mA)</option>
+          <option value="osob">{t("UI-WYLRCD-OCHRONA-OSOB")}</option>
+          <option value="pozarowa">{t("UI-WYLRCD-OCHRONA-PRZECIWPOZAROWA-300")}</option>
         </PoleSelect>
         <Pole
-          label="Prąd różnicowy zainstalowanego RCD"
+          label={t("UI-WYLRCD-PRAD-ROZNICOWY-ZAINSTALOWANE")}
           unit="mA"
           type="number"
           inputMode="decimal"
@@ -139,7 +140,7 @@ export default function WylacznikiRcdPage() {
 
       <WerdyktPanel poziom={verdictPoziom[verdict]} etykieta={verdictLabel[verdict]}>
         {verdict !== "invalid" && verdict !== "incomplete" && (
-          <WynikGlowny>Wymagany próg: {result.value.progWymaganyMa} mA</WynikGlowny>
+          <WynikGlowny>{t("UI-WYLRCD-WYMAGANY-PROG", { progWymaganyMa: result.value.progWymaganyMa })}</WynikGlowny>
         )}
         <WynikSzczegoly assumptions={result.assumptions} warnings={result.warnings} formula={result.formula} />
       </WerdyktPanel>

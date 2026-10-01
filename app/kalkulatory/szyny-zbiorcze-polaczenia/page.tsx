@@ -9,11 +9,13 @@ import { NawigacjaEkranu } from "@/components/nawigacja-ekranu"
 import { NaglowekEkranu } from "@/components/wzorce/naglowek-ekranu"
 import { ListaChecklist } from "@/components/wzorce/lista-checklist"
 import { StanPusty } from "@/components/ui/stany"
+import { useTranslate } from "@/lib/i18n/language-context"
 
 type FormularzStan = { potwierdzoneIds: string[] }
 const STAN_POCZATKOWY: FormularzStan = { potwierdzoneIds: [] }
 
 export default function SzynyZbiorczePolaczeniaPage() {
+  const t = useTranslate()
   const [stan, setStan] = usePersistedDraft<FormularzStan>("szyny-zbiorcze-polaczenia", STAN_POCZATKOWY)
   const { potwierdzoneIds } = stan
   const setPotwierdzoneIds = (a: string[] | ((p: string[]) => string[])) =>
@@ -33,9 +35,8 @@ export default function SzynyZbiorczePolaczeniaPage() {
   return (
     <main className="mx-auto flex max-w-md flex-col gap-6 p-6">
       <NawigacjaEkranu href="/kalkulatory/szyny-zbiorcze-polaczenia" />
-      <NaglowekEkranu tytul="Szyny zbiorcze i połączenia" ekran="szyny-zbiorcze-polaczenia">
-        Śruba to sprężyna. Za słabo dokręcona — iskrzy. Za mocno — pęka gwint. Trzeba trafić w
-        idealny moment, i to inny dla aluminium niż dla miedzi. Moduł 5, Ekran 3.
+      <NaglowekEkranu tytul={t("UI-SZYZBIPOL-SZYNY-ZBIORCZE-POLACZENIA")} ekran="szyny-zbiorcze-polaczenia">
+        {t("UI-SZYZBIPOL-SRUBA-SPREZYNA-SLABO")}
       </NaglowekEkranu>
 
       <ListaChecklist
@@ -45,21 +46,19 @@ export default function SzynyZbiorczePolaczeniaPage() {
         renderLabel={(item) => (
           <>
             <span className="block font-medium">{item.krok}</span>
-            <span className="block text-muted-foreground">Wartość docelowa: {item.wartoscDocelowa}</span>
+            <span className="block text-muted-foreground">{t("UI-SZYZBIPOL-WARTOSC-DOCELOWA", { wartoscDocelowa: item.wartoscDocelowa })}</span>
           </>
         )}
       />
 
       <p className="text-small text-muted-foreground">
-        Zdjęcie połączenia jest opcjonalne (dokumentacja montażu) i nie jest wymagane do odbioru —
-        nie ma go w tej checkliście. Dobór przekroju szyny wg wytrzymałości zwarciowej wymaga
-        normy/tabeli, której źródło nie podaje — nie jest tu liczony.
+        {t("UI-SZYZBIPOL-ZDJECIE-POLACZENIA-OPCJONALN")}
       </p>
 
       {poziom ? (
-        <WerdyktPanel poziom={poziom} etykieta="Wszystkie kroki potwierdzone" />
+        <WerdyktPanel poziom={poziom} etykieta={t("UI-SZYZBIPOL-WSZYSTKIE-KROKI-POTWIERDZONE")} />
       ) : (
-        <StanPusty tytul={`Potwierdzono ${result.value.potwierdzone} / ${result.value.razem} kroków`} />
+        <StanPusty tytul={t("UI-SZYZBIPOL-POTWIERDZONO-KROKOW", { potwierdzone: result.value.potwierdzone, razem: result.value.razem })} />
       )}
     </main>
   )
