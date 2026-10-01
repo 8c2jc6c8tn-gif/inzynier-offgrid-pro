@@ -33,7 +33,7 @@ describe("calculateAlternatywneZrodlaCiepla (M6/2A, dawne 5.32–5.36)", () => {
 
   it("🟡 kominek bez zabezpieczenia przed przegrzaniem przy braku prądu", () => {
     const w = calculateAlternatywneZrodlaCiepla({ ...BAZA, zrodlo: "kominek", kominekMocKw: 10, kominekDoWodyPct: 70 })
-    expect(w.warnings.map((x) => [x.code, x.level])).toEqual([["ALT-KOMINEK-PRZEGRZANIE", "warning"]])
+    expect(w.warnings.map((x) => [x.code, x.level])).toEqual([["ALT-KOMINEK-PRZEGRZANIE", "critical"]])
     expect(w.value.pokrycieZapotrzebowaniaPct).toBeNull()
   })
 

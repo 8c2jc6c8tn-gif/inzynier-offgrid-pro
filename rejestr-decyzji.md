@@ -1,6 +1,6 @@
 # Rejestr decyzji — Inżynier Offgrid Pro
 
-**Wersja:** 1.40 | **Filar:** C | **Data utworzenia:** 04.09.2026 | **Ostatnia aktualizacja:** 01.10.2026 | **Status:** Stabilny (rosnący)
+**Wersja:** 1.41 | **Filar:** C | **Data utworzenia:** 04.09.2026 | **Ostatnia aktualizacja:** 01.10.2026 | **Status:** Stabilny (rosnący)
 **Powiązane dokumenty:** `00_Biblia.md`, `docs/memory.md`, `USTALENIA.md` (historyczny, Część II)
 
 TL;DR: D1, D2, D3… — decyzje **strategiczne/fundamentalne** (blokujące wiele innych rzeczy naraz, Krok 4 GOD BOOK), ponumerowane, nigdy nie kasowane, tylko unieważniane jawnie (F.5). **Nie duplikuje `docs/memory.md`**: tam żyje pełna, szczegółowa historia każdej sesji (setki drobnych decyzji implementacyjnych per ekran) — tu tylko decyzje, które zmieniły kierunek/regułę obowiązującą cały projekt. Gdy wpis niżej odsyła do `docs/memory.md`, tam jest pełne uzasadnienie i przykłady.
@@ -306,6 +306,14 @@ Obie sprawy należą do decyzji o modelu freemium (rozdz. 12 standardu), która 
 - (4) **M9/E3 montaż i obudowa:** brak izolacji ESP32 od części pod napięciem = 🔴 `ESP-OBUDOWA-BEZ-IZOLACJI` (ryzyko porażenia i zniszczenia elektroniki przebiciem). Kalkulator 1.0.0 → 1.1.0. Odstęp od szyn < 2 cm i brak wentylacji zostają 🟡.
 - (5) **M8/E4 gaszenie LiFePO4:** propozycja chłodzenia/zamrażania ogniw (D54 pkt 4c) zostaje w obecnej formie — jako uzupełnienie, bez parametrów liczbowych, dobierane z producentem magazynu. ✅🤖 → ✅.
 
+**D69 (01.10.2026) — Potwierdzenia stylów wyglądu (partia 1) i ekranów M6; kominek bez schładzania grawitacyjnego = 🔴.** Koszt cofnięcia: tani. Decyzja właściciela projektu („7. Przełącznik. 8. Tak. 9. Tak 10. Tak 11. Czerwony 12. Tak” — przyjęcie rekomendacji audytora z wątku 01.10.2026):
+- (7) Grupa „Ukryte i sezonowe” odblokowuje się **przełącznikiem w Ustawieniach** (nie datami sezonowymi) — zamyka otwarte pytanie D67.
+- (8) Styl wyglądu narzuca swój tryb jasny/ciemny; przełącznik motywu działa tylko w stylu domyślnym.
+- (9) Przyciemnione kolory werdyktów w stylach jasnych, ciemniejszy akcent Jasnego architektonicznego i obrysy pól ≥ 3:1 (wymuszone testem kontrastu WCAG) — przyjęte.
+- (10) Czcionka szeryfowa stylów: **Source Serif 4** (ma cyrylicę) — zamyka pytanie o czcionkę z D63.
+- (11) M6 ekran 2A: kominek z płaszczem wodnym bez schładzania grawitacyjnego / wężownicy przy braku prądu = 🔴 `ALT-KOMINEK-PRZEGRZANIE` (kalkulator 1.0.0 → 1.1.0).
+- (12) M6: uproszczenia E16 (stan ustalony — górna granica), E17 (cyrkulacja bez stygnięcia poza godzinami pracy), E18 (stała moc PV), E19 (🟡 przy każdym zacienieniu w południe przesilenia), 5.42 (widełki źródła jako progi 🟡, głębokość przemarzania od użytkownika) — przyjęte. ✅🤖 → ✅.
+
 ## Założenia robocze (F.7 GOD BOOK)
 
 **Z1 (04.09.2026) — przyjęto:** ID modułów (H.2 GOD BOOK, M#) odpowiadają wprost numeracji "Moduł N" już używanej w całym projekcie (1–13), nie nowej, niezależnej numeracji. **Powód:** ta numeracja jest już stabilna, używana w kodzie, dokumentacji i UI od 29.08.2026 — wprowadzenie równoległej numeracji M# byłoby duplikatem, nie nowym bytem. **Na czym się opiera:** cała struktura `docs/rejestr-pokrycia.md`, `lib/pulpit/registry.ts`, `docs/pulpit-i-nawigacja.md`.
@@ -361,3 +369,4 @@ Obie sprawy należą do decyzji o modelu freemium (rozdz. 12 standardu), która 
 | 30.09.2026 | Dodano D67 (czwarta runda 21–28 przyjęta w całości, łącznie 27 stylów; podział na grupy Premium / Jasne / Eksperymentalne / Ukryte i sezonowe; warunki wdrożenia) — decyzja właściciela projektu. Wersja 1.38→1.39. |
 | 01.10.2026 | Kolizja numeracji (przypadek H.3): sesja presetów pulpitu scaliła D62 pierwsza, więc decyzje o stylach wyglądu przenumerowane z D62–D66 na D63–D67 (z wersjami 1.35–1.39). Treść bez zmian. |
 | 01.10.2026 | Dodano D68 (potwierdzenia M12/E33, E3, E25, M8/E4; 🔴 bezpiecznik większy niż przewód w M12/E14 i brak izolacji ESP32 w M9/E3) — decyzja właściciela projektu. Wersja 1.39→1.40. |
+| 01.10.2026 | Dodano D69 (potwierdzenia stylów partii 1 i uproszczeń M6; przełącznik grupy ukrytej; Source Serif 4; 🔴 kominek bez schładzania grawitacyjnego) — decyzja właściciela projektu. Wersja 1.40→1.41. |
