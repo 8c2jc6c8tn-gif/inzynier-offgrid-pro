@@ -11,6 +11,7 @@ import { NawigacjaEkranu } from "@/components/nawigacja-ekranu"
 import { NaglowekEkranu } from "@/components/wzorce/naglowek-ekranu"
 import { WynikGlowny } from "@/components/wzorce/wynik-glowny"
 import { WynikSzczegoly } from "@/components/wzorce/wynik-szczegoly"
+import { useTranslate } from "@/lib/i18n/language-context"
 
 type FormularzStan = Record<keyof BlackoutInput, string>
 
@@ -25,13 +26,13 @@ const STAN_POCZATKOWY: FormularzStan = {
 }
 
 const POLA: { pole: keyof BlackoutInput; label: string; unit: string }[] = [
-  { pole: "pojemnoscKwh", label: "Pojemność baterii (znamionowa)", unit: "kWh" },
-  { pole: "socStartPct", label: "SoC na początku", unit: "%" },
-  { pole: "socMinPct", label: "Krytyczne minimum SoC", unit: "%" },
-  { pole: "sprawnoscFalownikaPct", label: "Sprawność falownika", unit: "%" },
-  { pole: "zuzycieDoboweKwh", label: "Zużycie dobowe w mrozie", unit: "kWh/dobę" },
-  { pole: "dniScenariusza", label: "Dni bez słońca", unit: "dni" },
-  { pole: "agregatKwhDoba", label: "Energia z agregatu (opcjonalnie)", unit: "kWh/dobę" },
+  { pole: "pojemnoscKwh", label: "UI-BLA-POJEMNOSC-BATERII-ZNAMIONOWA", unit: "kWh" },
+  { pole: "socStartPct", label: "UI-BLA-SOC-POCZATKU", unit: "%" },
+  { pole: "socMinPct", label: "UI-BLA-KRYTYCZNE-MINIMUM-SOC", unit: "%" },
+  { pole: "sprawnoscFalownikaPct", label: "UI-BLA-SPRAWNOSC-FALOWNIKA", unit: "%" },
+  { pole: "zuzycieDoboweKwh", label: "UI-BLA-ZUZYCIE-DOBOWE-MROZIE", unit: "UI-J-KWH-DOBA" },
+  { pole: "dniScenariusza", label: "UI-BLA-DNI-BEZ-SLONCA", unit: "UI-J-DNI" },
+  { pole: "agregatKwhDoba", label: "UI-BLA-ENERGIA-AGREGATU-OPCJONALNIE", unit: "UI-J-KWH-DOBA" },
 ]
 
 const liczba = (v: string) => (v === "" ? null : Number(v))
@@ -39,6 +40,7 @@ const f1 = (x: number) => x.toLocaleString("pl-PL", { maximumFractionDigits: 1 }
 const f0 = (x: number) => x.toLocaleString("pl-PL", { maximumFractionDigits: 0 })
 
 export default function BlackoutPage() {
+  const t = useTranslate()
   const [stan, setStan] = usePersistedDraft<FormularzStan>("blackout", STAN_POCZATKOWY)
 
   const result = useMemo(
@@ -54,17 +56,16 @@ export default function BlackoutPage() {
   return (
     <main className="mx-auto flex max-w-md flex-col gap-6 p-6">
       <NawigacjaEkranu href="/kalkulatory/blackout" />
-      <NaglowekEkranu tytul="Blackout — dni bez słońca" ekran="blackout" wynik={result}>
-        Test najgorszego koszmaru: dwa tygodnie bez słońca w mrozie. Jeśli system przeżyje ten scenariusz, przeżyje właściwie
-        wszystko inne. Moduł 7, Ekran 4.
+      <NaglowekEkranu tytul={t("UI-BLA-BLACKOUT-DNI-BEZ")} ekran="blackout" wynik={result}>
+        {t("UI-BLA-TEST-NAJGORSZEGO-KOSZMARU")}
       </NaglowekEkranu>
 
       <div className="flex flex-col gap-4">
         {POLA.map(({ pole, label, unit }) => (
           <Pole
             key={pole}
-            label={label}
-            unit={unit}
+            label={t(label)}
+            unit={unit.startsWith("UI-") ? t(unit) : unit}
             type="number"
             inputMode="decimal"
             min={0}
@@ -76,18 +77,18 @@ export default function BlackoutPage() {
       </div>
 
       {result.status === "INVALID_INPUT" ? (
-        <WerdyktPanel poziom="blad" etykieta="Nie da się policzyć — sprawdź wpisane dane">
+        <WerdyktPanel poziom="blad" etykieta={t("UI-BLA-POLICZYC-SPRAWDZ-WPISANE")}>
           <WynikSzczegoly assumptions={[]} warnings={result.warnings} />
         </WerdyktPanel>
       ) : result.status === "INCOMPLETE" ? (
-        <p className="text-small text-muted-foreground">Wpisz pojemność, SoC, sprawność, zużycie i liczbę dni.</p>
+        <p className="text-small text-muted-foreground">{t("UI-BLA-WPISZ-POJEMNOSC-SOC")}</p>
       ) : (
-        <WerdyktPanel poziom={padnie ? "uwaga" : "ok"} etykieta={padnie ? `System padnie ${dzienAwarii}. dnia` : "System przetrwa scenariusz"}>
-          <WynikGlowny>{dniPrzetrwania === null ? "Agregat pokrywa zużycie" : `${f1(dniPrzetrwania)} dnia na baterii`}</WynikGlowny>
+        <WerdyktPanel poziom={padnie ? "uwaga" : "ok"} etykieta={padnie ? t("UI-BLA-SYSTEM-PADNIE-DNIA", { dzienAwarii }) : t("UI-BLA-SYSTEM-PRZETRWA-SCENARIUSZ")}>
+          <WynikGlowny>{dniPrzetrwania === null ? t("UI-BLA-AGREGAT-POKRYWA-ZUZYCIE") : t("UI-BLA-DNIA-BATERII", { dniPrzetrwania: f1(dniPrzetrwania) })}</WynikGlowny>
           <ul className="mt-2 flex flex-col gap-1 text-small">
-            {energiaDostepnaKwh !== null && <li>Energia do minimum: {f1(energiaDostepnaKwh)} kWh</li>}
-            {padnie && dodatkowaPojemnoscKwh !== null && <li>Brakuje: {f0(Math.ceil(dodatkowaPojemnoscKwh))} kWh baterii</li>}
-            {padnie && redukcjaZuzyciaPct !== null && <li>albo ograniczenie zużycia o {f0(Math.ceil(redukcjaZuzyciaPct))}%</li>}
+            {energiaDostepnaKwh !== null && <li>{t("UI-BLA-ENERGIA-MINIMUM-KWH", { energiaDostepnaKwh: f1(energiaDostepnaKwh) })}</li>}
+            {padnie && dodatkowaPojemnoscKwh !== null && <li>{t("UI-BLA-BRAKUJE-KWH-BATERII", { p: f0(Math.ceil(dodatkowaPojemnoscKwh)) })}</li>}
+            {padnie && redukcjaZuzyciaPct !== null && <li>{t("UI-BLA-ALBO-OGRANICZENIE-ZUZYCIA", { p: f0(Math.ceil(redukcjaZuzyciaPct)) })}</li>}
           </ul>
           <WynikSzczegoly assumptions={result.assumptions} warnings={result.warnings} formula={result.formula} />
         </WerdyktPanel>

@@ -10,6 +10,7 @@ import { NawigacjaEkranu } from "@/components/nawigacja-ekranu"
 import { NaglowekEkranu } from "@/components/wzorce/naglowek-ekranu"
 import { WynikGlowny } from "@/components/wzorce/wynik-glowny"
 import { WynikSzczegoly } from "@/components/wzorce/wynik-szczegoly"
+import { useTranslate } from "@/lib/i18n/language-context"
 
 type FormularzStan = {
   dlugoscKablaM: string
@@ -32,6 +33,7 @@ const f0 = (x: number) => x.toLocaleString("pl-PL", { maximumFractionDigits: 0 }
 const f2 = (x: number) => x.toLocaleString("pl-PL", { minimumFractionDigits: 2, maximumFractionDigits: 2 })
 
 export default function GrzalkiDachowePage() {
+  const t = useTranslate()
   const [stan, setStan] = usePersistedDraft<FormularzStan>("grzalki-dachowe", STAN_POCZATKOWY)
   const ustaw = (pole: keyof FormularzStan) => (e: React.ChangeEvent<HTMLInputElement>) =>
     setStan((prev) => ({ ...prev, [pole]: e.target.value }))
@@ -52,13 +54,13 @@ export default function GrzalkiDachowePage() {
   return (
     <main className="mx-auto flex max-w-md flex-col gap-6 p-6">
       <NawigacjaEkranu href="/kalkulatory/grzalki-dachowe" />
-      <NaglowekEkranu tytul="Grzałki dachowe i rynnowe" ekran="grzalki-dachowe" wynik={result}>
-        Ile mocy i energii zjedzą kable grzewcze przeciw zatorom lodowym w rynnach i koszach dachu. Moduł 7.
+      <NaglowekEkranu tytul={t("UI-GRZDAC-GRZALKI-DACHOWE-RYNNOWE")} ekran="grzalki-dachowe" wynik={result}>
+        {t("UI-GRZDAC-ILE-MOCY-ENERGII")}
       </NaglowekEkranu>
 
       <div className="flex flex-col gap-4">
         <Pole
-          label="Łączna długość kabla grzewczego"
+          label={t("UI-GRZDAC-LACZNA-DLUGOSC-KABLA")}
           unit="m"
           type="number"
           inputMode="decimal"
@@ -68,7 +70,7 @@ export default function GrzalkiDachowePage() {
           pomoc={<PomocPola ekran="grzalki-dachowe" pole="dlugosc" />}
         />
         <Pole
-          label="Moc kabla na metr"
+          label={t("UI-GRZDAC-MOC-KABLA-METR")}
           unit="W/m"
           type="number"
           inputMode="decimal"
@@ -78,7 +80,7 @@ export default function GrzalkiDachowePage() {
           pomoc={<PomocPola ekran="grzalki-dachowe" pole="mocNaMetr" />}
         />
         <Pole
-          label="Czas pracy na dobę"
+          label={t("UI-GRZDAC-CZAS-PRACY-DOBE")}
           unit="h"
           type="number"
           inputMode="decimal"
@@ -89,7 +91,7 @@ export default function GrzalkiDachowePage() {
           pomoc={<PomocPola ekran="grzalki-dachowe" pole="czas" />}
         />
         <Pole
-          label="Moc elektryczna pompy ciepła (opcjonalnie)"
+          label={t("UI-GRZDAC-MOC-ELEKTRYCZNA-POMPY")}
           unit="W"
           type="number"
           inputMode="decimal"
@@ -99,7 +101,7 @@ export default function GrzalkiDachowePage() {
           pomoc={<PomocPola ekran="grzalki-dachowe" pole="mocPompy" />}
         />
         <Pole
-          label="Wolny zapas mocy falownika (opcjonalnie)"
+          label={t("UI-GRZDAC-WOLNY-ZAPAS-MOCY")}
           unit="W"
           type="number"
           inputMode="decimal"
@@ -111,18 +113,18 @@ export default function GrzalkiDachowePage() {
       </div>
 
       {result.status === "INVALID_INPUT" ? (
-        <WerdyktPanel poziom="blad" etykieta="Nie da się policzyć — sprawdź wpisane dane">
+        <WerdyktPanel poziom="blad" etykieta={t("UI-GRZDAC-POLICZYC-SPRAWDZ-WPISANE")}>
           <WynikSzczegoly assumptions={[]} warnings={result.warnings} />
         </WerdyktPanel>
       ) : result.status === "INCOMPLETE" ? (
-        <p className="text-small text-muted-foreground">Wpisz długość kabla, moc na metr i czas pracy.</p>
+        <p className="text-small text-muted-foreground">{t("UI-GRZDAC-WPISZ-DLUGOSC-KABLA")}</p>
       ) : (
         <WerdyktPanel
           poziom={hasWarning ? "uwaga" : "ok"}
-          etykieta={hasWarning ? "Grzałki mocno obciążą system" : "Obciążenie grzałek"}
+          etykieta={hasWarning ? t("UI-GRZDAC-GRZALKI-MOCNO-OBCIAZA") : t("UI-GRZDAC-OBCIAZENIE-GRZALEK")}
         >
           <WynikGlowny>{f0(result.value.mocW)} W</WynikGlowny>
-          <p className="mt-1 text-small">{f2(result.value.energiaKwhDoba)} kWh na dobę pracy</p>
+          <p className="mt-1 text-small">{t("UI-GRZDAC-KWH-DOBE-PRACY", { energiaKwhDoba: f2(result.value.energiaKwhDoba) })}</p>
           <WynikSzczegoly assumptions={result.assumptions} warnings={result.warnings} formula={result.formula} />
         </WerdyktPanel>
       )}

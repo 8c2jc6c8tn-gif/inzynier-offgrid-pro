@@ -49,9 +49,8 @@ export default function ProceduraBlackStartPage() {
   return (
     <main className="mx-auto flex max-w-md flex-col gap-6 p-6">
       <NawigacjaEkranu href="/kalkulatory/procedura-black-start" />
-      <NaglowekEkranu tytul="Procedura Black Start" ekran="procedura-black-start">
-        To jak rozruch samochodu po nocy na mrozie — trzeba wiedzieć dokładnie, co i w jakiej
-        kolejności przekręcić, żeby zapalić. Moduł 7, Ekran 5.
+      <NaglowekEkranu tytul={t("UI-PROBLASTA-PROCEDURA-BLACK-START")} ekran="procedura-black-start">
+        {t("UI-PROBLASTA-ROZRUCH-SAMOCHODU-NOCY")}
       </NaglowekEkranu>
 
       <ListaChecklist
@@ -61,7 +60,7 @@ export default function ProceduraBlackStartPage() {
         numerowana
         renderLabel={(item, index) => (
           <>
-            <span className="font-medium">Krok {index + 1}. </span>
+            <span className="font-medium">{t("UI-PROBLASTA-KROK", { p: index + 1 })} </span>
             {item.krok}
           </>
         )}
@@ -74,7 +73,7 @@ export default function ProceduraBlackStartPage() {
       </ul>
 
       {poziom ? (
-        <WerdyktPanel poziom={poziom} etykieta={poziom === "ok" ? "Procedura zakończona" : undefined}>
+        <WerdyktPanel poziom={poziom} etykieta={poziom === "ok" ? t("UI-PROBLASTA-PROCEDURA-ZAKONCZONA") : undefined}>
           {result.warnings.map((w) => (
             <p key={w.code} className="mt-1 text-small">
               {w.message ?? t(w.i18nKey ?? w.code, w.params)}
@@ -83,7 +82,7 @@ export default function ProceduraBlackStartPage() {
         </WerdyktPanel>
       ) : (
         <StanPusty
-          tytul={`Potwierdzono ${result.value.potwierdzoneWKolejnosci} / ${result.value.razem} kroków po kolei`}
+          tytul={t("UI-PROBLASTA-POTWIERDZONO-KROKOW-KOLEI", { potwierdzoneWKolejnosci: result.value.potwierdzoneWKolejnosci, razem: result.value.razem })}
         />
       )}
     </main>

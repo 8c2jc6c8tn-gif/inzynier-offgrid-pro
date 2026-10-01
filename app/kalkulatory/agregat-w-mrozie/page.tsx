@@ -17,6 +17,7 @@ import {
   type BezpieczenstwoAgregatuStan,
 } from "@/components/agregat/pola-bezpieczenstwa-agregatu"
 import { DIESEL_ROZRUCH_MROZ_C, DIESEL_ZWYKLY_RYZYKO_C, DIESEL_ZWYKLY_WYSOKIE_RYZYKO_C, DLUGI_POSTOJ_DNI } from "@/lib/core/modules/stress-test/agregat-w-mrozie/constants"
+import { useTranslate } from "@/lib/i18n/language-context"
 
 type PoleLiczbowe = Exclude<keyof AgregatWMrozieInput, "paliwo" | keyof BezpieczenstwoAgregatuStan>
 type FormularzStan = { paliwo: PaliwoAgregatu | "" } & BezpieczenstwoAgregatuStan & Record<PoleLiczbowe, string>
@@ -38,6 +39,7 @@ const liczba = (v: string) => (v === "" ? null : Number(v))
 const f0 = (x: number) => x.toLocaleString("pl-PL", { maximumFractionDigits: 0 })
 
 export default function AgregatWMroziePage() {
+  const t = useTranslate()
   const [stan, setStan] = usePersistedDraft<FormularzStan>("agregat-w-mrozie", STAN_POCZATKOWY)
   const ustaw = (pole: PoleLiczbowe) => (e: React.ChangeEvent<HTMLInputElement>) =>
     setStan((prev) => ({ ...prev, [pole]: e.target.value }))
@@ -65,29 +67,29 @@ export default function AgregatWMroziePage() {
     <main className="mx-auto flex max-w-md flex-col gap-6 p-6">
       <NawigacjaEkranu href="/kalkulatory/agregat-w-mrozie" />
       <NaglowekEkranu
-        tytul="Agregat w mrozie"
+        tytul={t("UI-AGRWMRO-AGREGAT-MROZIE")}
         ekran="agregat-w-mrozie"
         wynik={result}
         parametry={{ postoj: DLUGI_POSTOJ_DNI }}
       >
-        Rozruch na zimno, długa praca i długi postój — ile paliwa i oleju zje agregat w zimowym scenariuszu. Moduł 7.
+        {t("UI-AGRWMRO-ROZRUCH-ZIMNO-DLUGA")}
       </NaglowekEkranu>
 
       <div className="flex flex-col gap-4">
         <PoleSelect
-          label="Paliwo"
+          label={t("UI-AGRWMRO-PALIWO")}
           value={stan.paliwo}
           onChange={(e) => setStan((prev) => ({ ...prev, paliwo: e.target.value as FormularzStan["paliwo"] }))}
           pomoc={<PomocPola ekran="agregat-w-mrozie" pole="paliwo" params={{ ryzyko: DIESEL_ZWYKLY_RYZYKO_C, wysokie: DIESEL_ZWYKLY_WYSOKIE_RYZYKO_C, rozruch: DIESEL_ROZRUCH_MROZ_C }} />}
         >
-          <option value="">— wybierz —</option>
-          <option value="diesel-zwykly">Olej napędowy zwykły</option>
-          <option value="diesel-arktyczny">Olej napędowy arktyczny</option>
-          <option value="benzyna">Benzyna</option>
-          <option value="inne">Inne (LPG, gaz ziemny)</option>
+          <option value="">{t("UI-WYBIERZ")}</option>
+          <option value="diesel-zwykly">{t("UI-AGRWMRO-OLEJ-NAPEDOWY-ZWYKLY")}</option>
+          <option value="diesel-arktyczny">{t("UI-AGRWMRO-OLEJ-NAPEDOWY-ARKTYCZNY")}</option>
+          <option value="benzyna">{t("UI-AGRWMRO-BENZYNA")}</option>
+          <option value="inne">{t("UI-AGRWMRO-INNE-LPG-GAZ")}</option>
         </PoleSelect>
         <Pole
-          label="Najniższa temperatura przy agregacie"
+          label={t("UI-AGRWMRO-NAJNIZSZA-TEMPERATURA-AGREGA")}
           unit="°C"
           type="number"
           inputMode="decimal"
@@ -98,9 +100,9 @@ export default function AgregatWMroziePage() {
       </div>
 
       <div className="flex flex-col gap-4">
-        <p className="text-small font-medium">Praca w scenariuszu (np. tydzień blackoutu)</p>
+        <p className="text-small font-medium">{t("UI-AGRWMRO-PRACA-SCENARIUSZU-TYDZIEN")}</p>
         <Pole
-          label="Łączny czas pracy"
+          label={t("UI-AGRWMRO-LACZNY-CZAS-PRACY")}
           unit="h"
           type="number"
           inputMode="decimal"
@@ -110,7 +112,7 @@ export default function AgregatWMroziePage() {
           pomoc={<PomocPola ekran="agregat-w-mrozie" pole="czasPracy" />}
         />
         <Pole
-          label="Maks. praca ciągła wg producenta"
+          label={t("UI-AGRWMRO-MAKS-PRACA-CIAGLA")}
           unit="h"
           type="number"
           inputMode="decimal"
@@ -120,7 +122,7 @@ export default function AgregatWMroziePage() {
           pomoc={<PomocPola ekran="agregat-w-mrozie" pole="maxCiagla" />}
         />
         <Pole
-          label="Wymagana przerwa"
+          label={t("UI-AGRWMRO-WYMAGANA-PRZERWA")}
           unit="h"
           type="number"
           inputMode="decimal"
@@ -130,7 +132,7 @@ export default function AgregatWMroziePage() {
           pomoc={<PomocPola ekran="agregat-w-mrozie" pole="przerwa" />}
         />
         <Pole
-          label="Zużycie paliwa"
+          label={t("UI-AGRWMRO-ZUZYCIE-PALIWA")}
           unit="l/h"
           type="number"
           inputMode="decimal"
@@ -140,7 +142,7 @@ export default function AgregatWMroziePage() {
           pomoc={<PomocPola ekran="agregat-w-mrozie" pole="zuzycie" />}
         />
         <Pole
-          label="Wymiana oleju co"
+          label={t("UI-AGRWMRO-WYMIANA-OLEJU")}
           unit="h"
           type="number"
           inputMode="decimal"
@@ -152,8 +154,8 @@ export default function AgregatWMroziePage() {
       </div>
 
       <Pole
-        label="Dni postoju bez uruchamiania"
-        unit="dni"
+        label={t("UI-AGRWMRO-DNI-POSTOJU-BEZ")}
+        unit={t("UI-J-DNI")}
         type="number"
         inputMode="numeric"
         min={0}
@@ -169,27 +171,27 @@ export default function AgregatWMroziePage() {
       />
 
       {result.status === "INVALID_INPUT" ? (
-        <WerdyktPanel poziom="blad" etykieta="Nie da się policzyć — sprawdź wpisane dane">
+        <WerdyktPanel poziom="blad" etykieta={t("UI-AGRWMRO-POLICZYC-SPRAWDZ-WPISANE")}>
           <WynikSzczegoly assumptions={[]} warnings={result.warnings} />
         </WerdyktPanel>
       ) : result.status === "INCOMPLETE" ? (
-        <p className="text-small text-muted-foreground">Wpisz czas pracy w scenariuszu, albo temperaturę z rodzajem paliwa lub dniami postoju, albo odpowiedz na pytania o bezpieczeństwo.</p>
+        <p className="text-small text-muted-foreground">{t("UI-AGRWMRO-WPISZ-CZAS-PRACY")}</p>
       ) : (
         <WerdyktPanel
           poziom={hasCritical ? "blad" : hasWarning ? "uwaga" : "ok"}
           etykieta={
             hasCritical
-              ? "Poważne zagrożenie — sprawdź czerwone ostrzeżenia"
+              ? t("UI-AGRWMRO-POWAZNE-ZAGROZENIE-SPRAWDZ")
               : hasWarning
-                ? "Agregat może nie wystartować"
-                : "Agregat w scenariuszu zimowym"
+                ? t("UI-AGRWMRO-AGREGAT-MOZE-WYSTARTOWAC")
+                : t("UI-AGRWMRO-AGREGAT-SCENARIUSZU-ZIMOWYM")
           }
         >
-          {paliwoL !== null && <WynikGlowny>{f0(paliwoL)} l paliwa</WynikGlowny>}
+          {paliwoL !== null && <WynikGlowny>{t("UI-AGRWMRO-PALIWA", { paliwoL: f0(paliwoL) })}</WynikGlowny>}
           <ul className="mt-2 flex flex-col gap-1 text-small">
-            {wymianyOleju !== null && <li>Wymiany oleju: {wymianyOleju}</li>}
-            {liczbaPrzerw !== null && <li>Przerwy: {liczbaPrzerw}</li>}
-            {czasKalendarzowyH !== null && <li>Praca z przerwami: {f0(czasKalendarzowyH)} h</li>}
+            {wymianyOleju !== null && <li>{t("UI-AGRWMRO-WYMIANY-OLEJU", { wymianyOleju })}</li>}
+            {liczbaPrzerw !== null && <li>{t("UI-AGRWMRO-PRZERWY", { liczbaPrzerw })}</li>}
+            {czasKalendarzowyH !== null && <li>{t("UI-AGRWMRO-PRACA-PRZERWAMI", { czasKalendarzowyH: f0(czasKalendarzowyH) })}</li>}
           </ul>
           <WynikSzczegoly assumptions={result.assumptions} warnings={result.warnings} formula={result.formula} />
         </WerdyktPanel>

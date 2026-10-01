@@ -10,6 +10,7 @@ import { NaglowekEkranu } from "@/components/wzorce/naglowek-ekranu"
 import { WynikGlowny } from "@/components/wzorce/wynik-glowny"
 import { WynikSzczegoly } from "@/components/wzorce/wynik-szczegoly"
 import { PomocPola } from "@/components/ui/pomoc"
+import { useTranslate } from "@/lib/i18n/language-context"
 
 type Wiersz = KomponentSystemu & { id: string }
 type FormularzStan = { komponenty: Wiersz[] }
@@ -18,18 +19,19 @@ const STAN_POCZATKOWY: FormularzStan = { komponenty: [] }
 
 const TYPY: { id: TypKomponentu; label: string }[] = [
   { id: "bms", label: "BMS" },
-  { id: "falownik", label: "Falownik" },
-  { id: "bezpiecznik-glowny", label: "Bezpiecznik główny" },
-  { id: "mppt", label: "Regulator MPPT" },
-  { id: "pompa-ciepla", label: "Pompa ciepła" },
-  { id: "pompa", label: "Pompa (woda, obieg)" },
-  { id: "czujnik", label: "Czujnik" },
-  { id: "inne", label: "Inne" },
+  { id: "falownik", label: "UI-ANASPO-FALOWNIK" },
+  { id: "bezpiecznik-glowny", label: "UI-ANASPO-BEZPIECZNIK-GLOWNY" },
+  { id: "mppt", label: "UI-ANASPO-REGULATOR-MPPT" },
+  { id: "pompa-ciepla", label: "UI-ANASPO-POMPA-CIEPLA" },
+  { id: "pompa", label: "UI-ANASPO-POMPA-WODA-OBIEG" },
+  { id: "czujnik", label: "UI-ANASPO-CZUJNIK" },
+  { id: "inne", label: "UI-ANASPO-INNE" },
 ]
 
 const pole = "min-h-10 rounded-md border border-input bg-background px-2"
 
 export default function AnalizaSpofPage() {
+  const t = useTranslate()
   const [stan, setStan] = usePersistedDraft<FormularzStan>("analiza-spof", STAN_POCZATKOWY)
 
   function aktualizuj(id: string, zmiana: Partial<Wiersz>) {
@@ -42,14 +44,14 @@ export default function AnalizaSpofPage() {
   return (
     <main className="mx-auto flex max-w-md flex-col gap-6 p-6">
       <NawigacjaEkranu href="/kalkulatory/analiza-spof" />
-      <NaglowekEkranu tytul="Analiza SPOF — pojedyncze punkty awarii" ekran="analiza-spof" wynik={result}>
-        Jeden element może pociągnąć cały system na dno — trzeba go znaleźć, zanim znajdzie go zima. Moduł 7, Ekran 10.
+      <NaglowekEkranu tytul={t("UI-ANASPO-ANALIZA-SPOF-POJEDYNCZE")} ekran="analiza-spof" wynik={result}>
+        {t("UI-ANASPO-JEDEN-ELEMENT-MOZE")}
       </NaglowekEkranu>
 
       <div className="flex flex-col gap-2">
-        <p className="text-small font-medium">Komponenty systemu</p>
+        <p className="text-small font-medium">{t("UI-ANASPO-KOMPONENTY-SYSTEMU")}</p>
         <p className="text-caption text-muted-foreground">
-          Zaznacz „redundancja”, jeśli jest drugi egzemplarz, obejście, zapas na półce albo źródło awaryjne.
+          {t("UI-ANASPO-ZAZNACZ-REDUNDANCJA-JESLI")}
         </p>
         <ul className="flex flex-col gap-3">
           {stan.komponenty.map((k, i) => {
@@ -57,22 +59,22 @@ export default function AnalizaSpofPage() {
             return (
               <li key={k.id} className="flex flex-wrap items-center gap-2">
                 <input
-                  placeholder="Nazwa"
+                  placeholder={t("UI-ANASPO-NAZWA")}
                   value={k.nazwa}
                   onChange={(e) => aktualizuj(k.id, { nazwa: e.target.value })}
                   className={`${pole} min-w-24 flex-1`}
-                  aria-label={`Nazwa — komponent ${i + 1}`}
+                  aria-label={t("UI-ANASPO-NAZWA-KOMPONENT", { p: i + 1 })}
                 />
                 <PomocPola ekran="analiza-spof" pole="nazwa" />
                 <select
                   value={k.typ}
                   onChange={(e) => aktualizuj(k.id, { typ: e.target.value as TypKomponentu })}
                   className={pole}
-                  aria-label={`Typ — ${opis}`}
+                  aria-label={t("UI-ANASPO-TYP", { opis })}
                 >
-                  {TYPY.map((t) => (
-                    <option key={t.id} value={t.id}>
-                      {t.label}
+                  {TYPY.map((typ) => (
+                    <option key={typ.id} value={typ.id}>
+                      {t(typ.label)}
                     </option>
                   ))}
                 </select>
@@ -83,18 +85,18 @@ export default function AnalizaSpofPage() {
                     checked={k.maRedundancje}
                     onChange={(e) => aktualizuj(k.id, { maRedundancje: e.target.checked })}
                     className="h-5 w-5 accent-primary"
-                    aria-label={`Redundancja — ${opis}`}
+                    aria-label={t("UI-ANASPO-REDUNDANCJA-2", { opis })}
                   />
-                  redundancja
+                  {t("UI-ANASPO-REDUNDANCJA")}
                 </label>
                 <PomocPola ekran="analiza-spof" pole="redundancja" />
                 <button
                   type="button"
                   onClick={() => setStan((prev) => ({ komponenty: prev.komponenty.filter((x) => x.id !== k.id) }))}
                   className="text-caption text-muted-foreground underline"
-                  aria-label={`Usuń ${opis}`}
+                  aria-label={t("UI-ANASPO-USUN-2", { opis })}
                 >
-                  Usuń
+                  {t("UI-ANASPO-USUN")}
                 </button>
               </li>
             )
@@ -107,16 +109,16 @@ export default function AnalizaSpofPage() {
           }
           className="min-h-11 self-start rounded-md border px-4 text-small font-medium hover:bg-muted"
         >
-          + Dodaj komponent
+          {t("UI-ANASPO-DODAJ-KOMPONENT")}
         </button>
       </div>
 
       {result.status === "INCOMPLETE" ? (
-        <p className="text-small text-muted-foreground">Dodaj komponenty systemu.</p>
+        <p className="text-small text-muted-foreground">{t("UI-ANASPO-DODAJ-KOMPONENTY-SYSTEMU")}</p>
       ) : (
         <WerdyktPanel
           poziom={hasCritical ? "blad" : result.value.liczbaSpof > 0 ? "uwaga" : "ok"}
-          etykieta={hasCritical ? "Krytyczny pojedynczy punkt awarii" : result.value.liczbaSpof > 0 ? "Są pojedyncze punkty awarii" : "Brak pojedynczych punktów awarii"}
+          etykieta={hasCritical ? t("UI-ANASPO-KRYTYCZNY-POJEDYNCZY-PUNKT") : result.value.liczbaSpof > 0 ? t("UI-ANASPO-POJEDYNCZE-PUNKTY-AWARII") : t("UI-ANASPO-BRAK-POJEDYNCZYCH-PUNKTOW")}
         >
           <WynikGlowny>
             SPOF: {result.value.liczbaSpof} z {result.value.liczbaKomponentow}
