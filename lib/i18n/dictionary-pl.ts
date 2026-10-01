@@ -1274,6 +1274,8 @@ export const dictionaryPl = {
   "KZ-UWAGA-LODOWKA": "Lodówka pracuje cyklicznie — wpisz realne godziny pracy sprężarki, nie 24 h. Sprężarka przy starcie pobiera kilka razy więcej — falownik musi mieć zapas mocy szczytowej. Latem bez zasilania lodówka szybko traci chłód.",
   "KZ-UWAGA-BRAMA-GARAZOWA": "Testuj awaryjne otwieranie bramy przed brakiem prądu, a nie w trakcie. Sprawdź też ręczne odblokowanie napędu.",
   "KZ-ZALOZENIE-ROWNOMIERNY-POBOR": "Zużycie doby rozłożone równomiernie na czas podtrzymania (E × T ÷ 24); akumulator naładowany na starcie, bez ładowania w trakcie.",
+  "LKK-GASNICA-MIERNIK": "Nie zapomnij o gaśnicy i mierniku napięcia — to podstawa bezpieczeństwa każdej instalacji na wyjeździe.",
+  "LKK-ZALOZENIE-WIELKOSCI-Z-KALKULATOROW": "Lista nie podaje pojemności akumulatora ani mocy panelu — dobierzesz je w kalkulatorach podlinkowanych przy pozycjach (np. „na weekend” dla liczby dni). Ilości: jedna ładowarka na telefon, jedna latarka na osobę.",
   // end of M12 30.09.2026 block
   "LVD-BRAK-OCHRONY-OLOWIOWY": "Akumulator kwasowy/AGM bez dozownika napięcia, a odbiornik nie ma własnego zabezpieczenia — odbiornik rozładuje akumulator do zera. Głębokie rozładowanie trwale niszczy akumulator ołowiowy (zasiarczenie). Zamontuj dozownik (LVD) z progiem podanym wyżej.",
   "LVD-PROG-KWASOWY-BRAK-W-ZRODLE": "Dla akumulatora kwasowego (zalewowego) nie podajemy progu — źródło daje go tylko dla AGM i LiFePO4. Sprawdź napięcie odcięcia w karcie producenta akumulatora.",

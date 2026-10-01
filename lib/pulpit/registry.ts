@@ -340,6 +340,7 @@ export const KAFLE: KafelEntry[] = [
       { href: "/kalkulatory/alternator-vs-panele", label: "Ładowanie z alternatora czy z paneli" },
       { href: "/kalkulatory/przetwornice", label: "Przetwornice i falowniki" },
       { href: "/kalkulatory/kreator-malego-odbiornika", label: "Kreator zasilania małego odbiornika" },
+      { href: "/kalkulatory/lista-kemping", label: "Lista kontrolna na kemping" },
     ],
   },
   {

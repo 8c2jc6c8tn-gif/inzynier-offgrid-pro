@@ -17,6 +17,7 @@ import { panelKamperaTool } from "../panel-kampera-tool"
 import { alternatorVsPaneleTool } from "../alternator-vs-panele-tool"
 import { przetwornicaTool } from "../przetwornice-tool"
 import { kreatorMalegoOdbiornikaTool } from "../kreator-malego-odbiornika-tool"
+import { listaKempingTool } from "../lista-kemping-tool"
 
 describe("akumulatorSamochodowyTool (M12/E16, dawne 8.14)", () => {
   it("kontrakt 9.3: 'read', bez potwierdzenia", () => {
@@ -225,5 +226,30 @@ describe("kreatorMalegoOdbiornikaTool (M12/E12, Biblia §12.24)", () => {
     })
     expect(w.minimalnyAh).toBe(50)
     expect(w.ostrzezenia).toContain(t("pl", "KZ-AKUMULATOR-ZA-MALY", { posiadany: 20, minimalny: 50, h: 9.6 }))
+  })
+})
+
+describe("listaKempingTool (M12/E24, dawne 8.47)", () => {
+  it("kontrakt 9.3: 'read', bez potwierdzenia", () => {
+    expect(listaKempingTool.operationType).toBe("read")
+    expect(listaKempingTool.requiresConfirmation).toBe(false)
+    expect(() => validateAiToolDefinition(listaKempingTool)).not.toThrow()
+  })
+
+  it("2 osoby, 3 telefony, zima → ładowarki × 3, osłona zimowa, 🟡 gaśnica/miernik jako tekst PL", async () => {
+    const w = await listaKempingTool.handler({
+      osoby: 2,
+      sezon: "zima",
+      telefony: 3,
+      maPanel: false,
+      maUrzadzenia230: false,
+      maLodowke: false,
+      maOswietlenie: false,
+      maRadio: false,
+      zaznaczoneIds: [],
+    })
+    expect(w.konieczne).toContain(`${t("pl", "UI-M12-LKK-P-LADOWARKI-USB")} × 3`)
+    expect(w.konieczne).toContain(t("pl", "UI-M12-LKK-P-OSLONA-ZIMA"))
+    expect(w.ostrzezenia).toContain(t("pl", "LKK-GASNICA-MIERNIK"))
   })
 })

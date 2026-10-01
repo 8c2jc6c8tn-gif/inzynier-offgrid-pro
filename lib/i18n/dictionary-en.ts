@@ -1262,6 +1262,8 @@ export const dictionaryEn = {
   "KZ-UWAGA-LODOWKA": "A fridge runs in cycles — enter the real compressor running hours, not 24 h. The compressor draws several times more at start — the inverter needs surge headroom. In summer a fridge without power loses its cold quickly.",
   "KZ-UWAGA-BRAMA-GARAZOWA": "Test the emergency gate opening before a power cut, not during one. Also check the manual release of the drive.",
   "KZ-ZALOZENIE-ROWNOMIERNY-POBOR": "Daily consumption spread evenly over the backup time (E × T ÷ 24); battery full at the start, no charging during backup.",
+  "LKK-GASNICA-MIERNIK": "Do not forget a fire extinguisher and a voltage meter — they are the basis of safety for any system on a trip.",
+  "LKK-ZALOZENIE-WIELKOSCI-Z-KALKULATOROW": "The list does not give battery capacity or panel power — size them in the calculators linked next to the items (e.g. “weekend” for the number of days). Quantities: one charger per phone, one torch per person.",
   // end of M12 30.09.2026 block
   "LVD-BRAK-OCHRONY-OLOWIOWY": "A lead-acid/AGM battery without a low voltage disconnect, and the load has no protection of its own — the load will drain the battery to zero. Deep discharge permanently damages a lead-acid battery (sulphation). Fit a low voltage disconnect (LVD) with the threshold given above.",
   "LVD-PROG-KWASOWY-BRAK-W-ZRODLE": "No threshold is given for a flooded lead-acid battery — the source gives it only for AGM and LiFePO4. Check the cut-off voltage in the battery manufacturer's datasheet.",

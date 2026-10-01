@@ -1067,6 +1067,43 @@ export const pl = {
       },
     },
   },
+  "lista-kemping": {
+    migawka: {
+      oCoChodzi: "Kemping to przygoda, ale prąd nie bierze się znikąd — trzeba go zabrać ze sobą.",
+      jakDziala:
+        "Wpisz liczbę osób, sezon, telefony i zaznacz, jaki sprzęt bierzesz. Aplikacja ułoży listę rzeczy związanych z zasilaniem, podzieloną na konieczne i opcjonalne, do odhaczania przy pakowaniu.",
+      poCo:
+        "Najczęściej brakuje drobiazgów: bezpiecznika zapasowego, miernika, taśmy. Gaśnica i miernik to podstawa bezpieczeństwa.",
+      fizyka:
+        "Lista nie liczy pojemności ani mocy — przy pozycjach są odnośniki do kalkulatorów, w których je dobierzesz.",
+    },
+    pola: {
+      osoby: {
+        nazwa: "Liczba osób",
+        cel: "Liczba latarek czołowych.",
+        gdzie: "Twój plan wyjazdu.",
+        zakres: "Liczba całkowita.",
+      },
+      sezon: {
+        nazwa: "Sezon",
+        cel: "Zimą dochodzi osłona termiczna akumulatora, latem osłona przed słońcem.",
+        gdzie: "Termin wyjazdu.",
+        zakres: "Lato / wiosna-jesień / zima.",
+      },
+      telefony: {
+        nazwa: "Telefony i tablety",
+        cel: "Liczba ładowarek USB 12 V.",
+        gdzie: "Policz urządzenia, które będziesz ładować na miejscu.",
+        zakres: "Liczba całkowita; 0 = bez ładowarek.",
+      },
+      profil: {
+        nazwa: "Co zabierasz",
+        cel: "Każdy zaznaczony sprzęt dodaje swoje pozycje (np. panel → regulator).",
+        gdzie: "Twój plan wyjazdu.",
+        zakres: "Zaznacz dowolne.",
+      },
+    },
+  },
 }
 
 export const en: Tlumaczenie<typeof pl> = {
@@ -2126,6 +2163,42 @@ export const en: Tlumaczenie<typeof pl> = {
         cel: "Controller, cable and charging losses.",
         gdzie: "Controller and battery datasheets.",
         zakres: "From the datasheets; the app does not guess.",
+      },
+    },
+  },
+  "lista-kemping": {
+    migawka: {
+      oCoChodzi: "Camping is an adventure, but power does not come from nowhere — you have to bring it with you.",
+      jakDziala:
+        "Enter the number of people, the season, the phones and tick the gear you take. The app builds a list of power-related items, split into must-have and optional, to tick off while packing.",
+      poCo:
+        "Small things are most often missing: a spare fuse, a meter, tape. A fire extinguisher and a meter are the basis of safety.",
+      fizyka: "The list does not compute capacity or power — the items link to calculators where you size them.",
+    },
+    pola: {
+      osoby: {
+        nazwa: "Number of people",
+        cel: "Number of head torches.",
+        gdzie: "Your trip plan.",
+        zakres: "Whole number.",
+      },
+      sezon: {
+        nazwa: "Season",
+        cel: "In winter a thermal battery cover is added, in summer a sun cover.",
+        gdzie: "Trip date.",
+        zakres: "Summer / spring-autumn / winter.",
+      },
+      telefony: {
+        nazwa: "Phones and tablets",
+        cel: "Number of 12 V USB chargers.",
+        gdzie: "Count the devices you will charge on site.",
+        zakres: "Whole number; 0 = no chargers.",
+      },
+      profil: {
+        nazwa: "What you take",
+        cel: "Each ticked item adds its own entries (e.g. panel → controller).",
+        gdzie: "Your trip plan.",
+        zakres: "Tick any.",
       },
     },
   },
@@ -3192,6 +3265,42 @@ export const ru: Tlumaczenie<typeof pl> = {
         cel: "Потери контроллера, кабелей и заряда.",
         gdzie: "Паспорта контроллера и аккумулятора.",
         zakres: "Из паспортов; приложение не угадывает.",
+      },
+    },
+  },
+  "lista-kemping": {
+    migawka: {
+      oCoChodzi: "Кемпинг — это приключение, но электричество не берётся из ниоткуда — его нужно взять с собой.",
+      jakDziala:
+        "Введите число людей, сезон, телефоны и отметьте, какую технику берёте. Приложение составит список вещей для питания, разделённый на обязательные и по желанию, с отметками при сборах.",
+      poCo:
+        "Чаще всего не хватает мелочей: запасного предохранителя, мультиметра, изоленты. Огнетушитель и вольтметр — основа безопасности.",
+      fizyka: "Список не считает ёмкость и мощность — у пунктов есть ссылки на калькуляторы, где вы их подберёте.",
+    },
+    pola: {
+      osoby: {
+        nazwa: "Число людей",
+        cel: "Число налобных фонарей.",
+        gdzie: "Ваш план поездки.",
+        zakres: "Целое число.",
+      },
+      sezon: {
+        nazwa: "Сезон",
+        cel: "Зимой добавляется термочехол аккумулятора, летом — защита от солнца.",
+        gdzie: "Дата поездки.",
+        zakres: "Лето / весна-осень / зима.",
+      },
+      telefony: {
+        nazwa: "Телефоны и планшеты",
+        cel: "Число USB-зарядок 12 В.",
+        gdzie: "Посчитайте устройства, которые будете заряжать на месте.",
+        zakres: "Целое число; 0 = без зарядок.",
+      },
+      profil: {
+        nazwa: "Что вы берёте",
+        cel: "Каждая отмеченная техника добавляет свои пункты (напр. панель → контроллер).",
+        gdzie: "Ваш план поездки.",
+        zakres: "Отметьте любые.",
       },
     },
   },
