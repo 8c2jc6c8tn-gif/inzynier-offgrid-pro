@@ -1,3 +1,5 @@
+"use client"
+
 import { MATRYCA_ALARMOW, PRZYKLADOWY_KOMUNIKAT } from "@/lib/core/modules/baterie/matryca-alarmow-bms/constants"
 import { NawigacjaEkranu } from "@/components/nawigacja-ekranu"
 import { NaglowekEkranu } from "@/components/wzorce/naglowek-ekranu"

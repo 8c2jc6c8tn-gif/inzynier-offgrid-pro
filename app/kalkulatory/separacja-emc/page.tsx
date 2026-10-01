@@ -1,3 +1,5 @@
+"use client"
+
 import { SEPARACJA_EMC_RULES } from "@/lib/core/modules/okablowanie/separacja-emc/constants"
 import { NawigacjaEkranu } from "@/components/nawigacja-ekranu"
 import { NaglowekEkranu } from "@/components/wzorce/naglowek-ekranu"

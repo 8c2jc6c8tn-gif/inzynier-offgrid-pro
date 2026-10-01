@@ -1,3 +1,5 @@
+"use client"
+
 import { PRZYKLAD, ZASADY } from "@/lib/core/modules/okablowanie/selektywnosc-zabezpieczen/constants"
 import { NawigacjaEkranu } from "@/components/nawigacja-ekranu"
 import { NaglowekEkranu } from "@/components/wzorce/naglowek-ekranu"

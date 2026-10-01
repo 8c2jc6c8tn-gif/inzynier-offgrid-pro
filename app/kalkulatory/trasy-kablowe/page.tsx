@@ -1,3 +1,5 @@
+"use client"
+
 import { TRASY_KABLOWE_RULES } from "@/lib/core/modules/okablowanie/trasy-kablowe/constants"
 import { NawigacjaEkranu } from "@/components/nawigacja-ekranu"
 import { NaglowekEkranu } from "@/components/wzorce/naglowek-ekranu"
