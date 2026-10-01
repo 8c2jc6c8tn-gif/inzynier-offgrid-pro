@@ -131,10 +131,10 @@ function KartaZrodla({ z, i, ustaw, usun }: { z: ZrodloSeed; i: number; ustaw: (
         {pole("cenaZl", "Cena", sposob === "prad" ? t("UI-J-ZL-KWH") : t("UI-KOSOGR-ZL", { jednostka: z.jednostka }))}
         {sposob === "paliwo" && pole("wartoscOpalowaKwh", t("UI-KOSOGR-WARTOSC-OPALOWA"), `kWh/${z.jednostka}`)}
         {sposob === "paliwo" && pole("sprawnoscPct", t("UI-KOSOGR-SPRAWNOSC-URZADZENIA"), "%")}
-        {sposob === "karta" && pole("mocGrzewczaKw", "Moc grzewcza", "kW")}
+        {sposob === "karta" && pole("mocGrzewczaKw", t("UI-KOSOGR-MOC-GRZEWCZA"), "kW")}
         {sposob === "karta" && pole("zuzyciePaliwaNaH", t("UI-KOSOGR-ZUZYCIE-PALIWA-TEJ"), `${z.jednostka}/h`)}
         {z.rodzaj === "pompa-ciepla" && pole("cop", t("UI-KOSOGR-COP-SREDNI-SEZONIE"))}
-        {sposob === "paliwo" && pole("mocGrzewczaKw", "Moc grzewcza (opcjonalnie)", "kW")}
+        {sposob === "paliwo" && pole("mocGrzewczaKw", t("UI-KOSOGR-MOC-GRZEWCZA-OPCJONALNIE"), "kW")}
         {sposob !== "prad" && pole("poborPraduW", t("UI-KOSOGR-POBOR-PRADU-PRACY"), "W")}
         {pole("kosztInwestycjiZl", t("UI-KOSOGR-KOSZT-ZAKUPU-MONTAZU"), t("UI-J-ZL"))}
         {pole("kosztSerwisuRocznyZl", t("UI-KOSOGR-SERWIS-PRZEGLADY-ROCZNIE"), t("UI-J-ZL"))}
@@ -174,7 +174,7 @@ export default function KosztyOgrzewaniaPage() {
     },
     {
       naglowek: t("UI-KOSOGR-PRAD-SEZON"),
-      render: (r) => (r.energiaElektrycznaSezonKwh === null ? "nie policzono" : `${f0(r.energiaElektrycznaSezonKwh)} kWh`),
+      render: (r) => (r.energiaElektrycznaSezonKwh === null ? t("UI-KOSOGR-NIE-POLICZONO") : `${f0(r.energiaElektrycznaSezonKwh)} kWh`),
       liczbowa: true,
     },
     { naglowek: t("UI-KOSOGR-SEZON-SERWISEM"), render: (r) => t("UI-KOSOGR-ZL-2", { kosztRocznyZSerwisemZl: f0(r.kosztRocznyZSerwisemZl) }), liczbowa: true },

@@ -11,6 +11,7 @@ import { NaglowekEkranu } from "@/components/wzorce/naglowek-ekranu"
 import { WynikGlowny } from "@/components/wzorce/wynik-glowny"
 import { WynikSzczegoly } from "@/components/wzorce/wynik-szczegoly"
 import { LICZBA_SEKCJI_DIOD_BOCZNIKUJACYCH } from "@/lib/core/modules/pv/zacienienie-diody-bocznikujace/constants"
+import { useTranslate } from "@/lib/i18n/language-context"
 
 type FormularzStan = {
   mocPaneluNominalnaW: string
@@ -25,6 +26,7 @@ const STAN_POCZATKOWY: FormularzStan = {
 }
 
 export default function ZacienienieDiodyBocznikujacePage() {
+  const t = useTranslate()
   const [stan, setStan] = usePersistedDraft<FormularzStan>("zacienienie-diody-bocznikujace", STAN_POCZATKOWY)
   const { mocPaneluNominalnaW, liczbaZacienionychSekcji, liczbaPaneliWStringu } = stan
 
@@ -58,17 +60,16 @@ export default function ZacienienieDiodyBocznikujacePage() {
     <main className="mx-auto flex max-w-md flex-col gap-6 p-6">
       <NawigacjaEkranu href="/kalkulatory/zacienienie-diody-bocznikujace" />
       <NaglowekEkranu
-        tytul="Zacienienie i diody bocznikujące"
+        tytul={t("UI-ZACDIOBOC-ZACIENIENIE-DIODY-BOCZNIKUJA")}
         ekran="zacienienie-diody-bocznikujace"
         wynik={result}
       >
-        Jeden cień potrafi „położyć” cały string, nie tylko zacieniony panel — to jak korek na
-        jednym pasie, który spowalnia cały ruch, nie tylko ten jeden samochód. Moduł 3, Ekran 13.
+        {t("UI-ZACDIOBOC-JEDEN-CIEN-POTRAFI")}
       </NaglowekEkranu>
 
       <div className="flex flex-col gap-4">
         <Pole
-          label="Moc znamionowa panelu (STC)"
+          label={t("UI-ZACDIOBOC-MOC-ZNAMIONOWA-PANELU")}
           unit="W"
           type="number"
           inputMode="decimal"
@@ -78,7 +79,7 @@ export default function ZacienienieDiodyBocznikujacePage() {
           pomoc={<PomocPola ekran="zacienienie-diody-bocznikujace" pole="moc" />}
         />
         <Pole
-          label="Liczba zacienionych sekcji panelu"
+          label={t("UI-ZACDIOBOC-LICZBA-ZACIENIONYCH-SEKCJI")}
           unit="/ 3"
           type="number"
           inputMode="numeric"
@@ -90,8 +91,8 @@ export default function ZacienienieDiodyBocznikujacePage() {
           pomoc={<PomocPola ekran="zacienienie-diody-bocznikujace" pole="sekcje" params={{ sekcje: LICZBA_SEKCJI_DIOD_BOCZNIKUJACYCH }} />}
         />
         <Pole
-          label="Liczba paneli w stringu (szeregowo)"
-          unit="szt."
+          label={t("UI-ZACDIOBOC-LICZBA-PANELI-STRINGU")}
+          unit={t("UI-J-SZT")}
           type="number"
           inputMode="numeric"
           min={0}
@@ -102,17 +103,16 @@ export default function ZacienienieDiodyBocznikujacePage() {
       </div>
 
       {result.status === "INVALID_INPUT" ? (
-        <WerdyktPanel poziom="blad" etykieta="Nie da się policzyć — sprawdź wpisane dane">
+        <WerdyktPanel poziom="blad" etykieta={t("UI-ZACDIOBOC-POLICZYC-SPRAWDZ-WPISANE")}>
           <WynikSzczegoly assumptions={[]} warnings={result.warnings} />
         </WerdyktPanel>
       ) : result.status === "INCOMPLETE" ? (
-        <p className="text-small text-muted-foreground">Wypełnij wszystkie pola, żeby zobaczyć wynik.</p>
+        <p className="text-small text-muted-foreground">{t("UI-ZACDIOBOC-WYPELNIJ-WSZYSTKIE-POLA")}</p>
       ) : (
-        <WerdyktPanel poziom={hasCritical ? "blad" : hasWarning ? "uwaga" : "ok"} etykieta="Strata mocy zacienionego panelu">
+        <WerdyktPanel poziom={hasCritical ? "blad" : hasWarning ? "uwaga" : "ok"} etykieta={t("UI-ZACDIOBOC-STRATA-MOCY-ZACIENIONEGO")}>
           <WynikGlowny>{result.value.strataPaneluPct.toFixed(1)}%</WynikGlowny>
           <p className="mt-2 text-small">
-            Moc rzeczywista panelu: {result.value.mocPaneluRzeczywistaW.toFixed(0)} W (z{" "}
-            {Number(mocPaneluNominalnaW || 0).toFixed(0)} W znamionowej).
+            {t("UI-ZACDIOBOC-MOC-RZECZYWISTA-PANELU", { mocPaneluRzeczywistaW: result.value.mocPaneluRzeczywistaW.toFixed(0), p: Number(mocPaneluNominalnaW || 0).toFixed(0) })}
           </p>
           <WynikSzczegoly assumptions={result.assumptions} warnings={result.warnings} formula={result.formula} />
         </WerdyktPanel>

@@ -36,19 +36,17 @@ export default function PowlokiAntyrefleksyjnePage() {
     <main className="mx-auto flex max-w-md flex-col gap-6 p-6">
       <NawigacjaEkranu href="/kalkulatory/powloki-antyrefleksyjne" />
       <NaglowekEkranu
-        tytul="Powłoki antyrefleksyjne"
+        tytul={t("UI-POWANT-POWLOKI-ANTYREFLEKSYJNE")}
         ekran="powloki-antyrefleksyjne"
         wynik={result}
         parametry={{ wzrostMin: WZROST_UZYSKU_MIN_PCT, wzrostMax: WZROST_UZYSKU_MAX_PCT }}
       >
-        Powłoka antyrefleksyjna (i teksturowane szkło) zmniejsza odbicie światła od powierzchni panelu,
-        więc więcej energii dociera do ogniw — typowo +{WZROST_UZYSKU_MIN_PCT}–{WZROST_UZYSKU_MAX_PCT}%
-        uzysku rocznie. Moduł 3, Ekran 23.
+        {t("UI-POWANT-POWLOKA-ANTYREFLEKSYJNA-TEKS", { WZROST_UZYSKU_MIN_PCT, WZROST_UZYSKU_MAX_PCT })}
       </NaglowekEkranu>
 
       <Pole
-        label="Roczny uzysk instalacji (bez powłoki)"
-        unit="kWh/rok"
+        label={t("UI-POWANT-ROCZNY-UZYSK-INSTALACJI")}
+        unit={t("UI-J-KWH-ROK")}
         type="number"
         inputMode="decimal"
         min={0}
@@ -58,17 +56,17 @@ export default function PowlokiAntyrefleksyjnePage() {
       />
 
       {result.status === "INVALID_INPUT" ? (
-        <WerdyktPanel poziom="blad" etykieta="Nie da się policzyć — sprawdź wpisane dane">
+        <WerdyktPanel poziom="blad" etykieta={t("UI-POWANT-POLICZYC-SPRAWDZ-WPISANE")}>
           <WynikSzczegoly assumptions={[]} warnings={result.warnings} />
         </WerdyktPanel>
       ) : result.status === "INCOMPLETE" ? (
         <p className="text-small text-muted-foreground">
-          Wpisz roczny uzysk, żeby przeliczyć {WZROST_UZYSKU_MIN_PCT}–{WZROST_UZYSKU_MAX_PCT}% na kWh.
+          {t("UI-POWANT-WPISZ-ROCZNY-UZYSK", { WZROST_UZYSKU_MIN_PCT, WZROST_UZYSKU_MAX_PCT })}
         </p>
       ) : (
-        <WerdyktPanel poziom="ok" etykieta="Dodatkowy uzysk dzięki powłoce">
+        <WerdyktPanel poziom="ok" etykieta={t("UI-POWANT-DODATKOWY-UZYSK-DZIEKI")}>
           <WynikGlowny>
-            +{formatKwh(result.value.zyskMinKwh)}–{formatKwh(result.value.zyskMaxKwh)} kWh/rok
+            {t("UI-POWANT-KWH-ROK", { zyskMinKwh: formatKwh(result.value.zyskMinKwh), zyskMaxKwh: formatKwh(result.value.zyskMaxKwh) })}
           </WynikGlowny>
           {result.warnings.map((w) => (
             <p key={w.code} className="mt-1 text-small">

@@ -359,6 +359,9 @@ export const pl = {
   "UI-OPTIZO-NA": "Na",
   "UI-POJCIE-DO-PO": "Do {tg} °C po",
   "UI-ZAPCOCWU-OK": "— ok.",
+  "UI-KOSOGR-MOC-GRZEWCZA": "Moc grzewcza",
+  "UI-KOSOGR-MOC-GRZEWCZA-OPCJONALNIE": "Moc grzewcza (opcjonalnie)",
+  "UI-KOSOGR-NIE-POLICZONO": "nie policzono",
 } as const
 
 type Klucz = keyof typeof pl
@@ -723,6 +726,9 @@ export const en: Record<Klucz, string> = {
   "UI-OPTIZO-NA": "On",
   "UI-POJCIE-DO-PO": "Down to {tg} °C after",
   "UI-ZAPCOCWU-OK": "— approx.",
+  "UI-KOSOGR-MOC-GRZEWCZA": "Heating power",
+  "UI-KOSOGR-MOC-GRZEWCZA-OPCJONALNIE": "Heating power (optional)",
+  "UI-KOSOGR-NIE-POLICZONO": "not calculated",
 }
 
 export const ru: Record<Klucz, string> = {
@@ -1083,4 +1089,7 @@ export const ru: Record<Klucz, string> = {
   "UI-OPTIZO-NA": "На",
   "UI-POJCIE-DO-PO": "До {tg} °C через",
   "UI-ZAPCOCWU-OK": "— около",
+  "UI-KOSOGR-MOC-GRZEWCZA": "Тепловая мощность",
+  "UI-KOSOGR-MOC-GRZEWCZA-OPCJONALNIE": "Тепловая мощность (необязательно)",
+  "UI-KOSOGR-NIE-POLICZONO": "не рассчитано",
 }
