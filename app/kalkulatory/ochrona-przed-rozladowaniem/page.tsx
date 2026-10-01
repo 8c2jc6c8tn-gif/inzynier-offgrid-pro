@@ -15,6 +15,7 @@ import { NawigacjaEkranu } from "@/components/nawigacja-ekranu"
 import { NaglowekEkranu } from "@/components/wzorce/naglowek-ekranu"
 import { WynikGlowny } from "@/components/wzorce/wynik-glowny"
 import { WynikSzczegoly } from "@/components/wzorce/wynik-szczegoly"
+import { useTranslate } from "@/lib/i18n/language-context"
 
 type FormularzStan = {
   chemia: ChemiaMalegoAkumulatora | ""
@@ -33,6 +34,7 @@ const STAN_POCZATKOWY: FormularzStan = {
 const f2 = (x: number) => x.toLocaleString("pl-PL", { minimumFractionDigits: 1, maximumFractionDigits: 2 })
 
 export default function OchronaPrzedRozladowaniemPage() {
+  const t = useTranslate()
   const [stan, setStan] = usePersistedDraft<FormularzStan>("ochrona-przed-rozladowaniem", STAN_POCZATKOWY)
   const idDozownik = useId()
   const idZabezpieczenie = useId()
@@ -55,7 +57,7 @@ export default function OchronaPrzedRozladowaniemPage() {
     <main className="mx-auto flex max-w-md flex-col gap-6 p-6">
       <NawigacjaEkranu href="/kalkulatory/ochrona-przed-rozladowaniem" />
       <NaglowekEkranu
-        tytul="Ochrona przed rozładowaniem akumulatora"
+        tytul={t("UI-OCHPRZROZ-OCHRONA-PRZED-ROZLADOWANIEM")}
         ekran="ochrona-przed-rozladowaniem"
         wynik={result}
         parametry={{
@@ -65,23 +67,23 @@ export default function OchronaPrzedRozladowaniemPage() {
           ogniwaLfp: OGNIWA_NA_12V.LiFePO4,
         }}
       >
-        Dozownik napięcia (LVD) odłącza odbiornik, zanim rozładuje akumulator za głęboko. Moduł 12.
+        {t("UI-OCHPRZROZ-DOZOWNIK-NAPIECIA-LVD")}
       </NaglowekEkranu>
 
       <div className="flex flex-col gap-4">
         <PoleSelect
-          label="Typ akumulatora"
+          label={t("UI-OCHPRZROZ-TYP-AKUMULATORA")}
           value={stan.chemia}
           onChange={(e) => setStan((prev) => ({ ...prev, chemia: e.target.value as FormularzStan["chemia"] }))}
           pomoc={<PomocPola ekran="ochrona-przed-rozladowaniem" pole="typ" />}
         >
-          <option value="">— wybierz —</option>
+          <option value="">{t("UI-WYBIERZ")}</option>
           <option value="AGM">AGM</option>
-          <option value="kwasowy">Kwasowy (zalewowy)</option>
-          <option value="LiFePO4">LiFePO4</option>
+          <option value="kwasowy">{t("UI-OCHPRZROZ-KWASOWY-ZALEWOWY")}</option>
+          <option value={t("UI-OCHPRZROZ-LIFEPO4")}>{t("UI-OCHPRZROZ-LIFEPO4")}</option>
         </PoleSelect>
         <PoleSelect
-          label="Napięcie znamionowe"
+          label={t("UI-OCHPRZROZ-NAPIECIE-ZNAMIONOWE")}
           value={stan.napiecieZnamionoweV}
           onChange={(e) =>
             setStan((prev) => ({
@@ -91,37 +93,37 @@ export default function OchronaPrzedRozladowaniemPage() {
           }
           pomoc={<PomocPola ekran="ochrona-przed-rozladowaniem" pole="napiecie" />}
         >
-          <option value={0}>— wybierz —</option>
+          <option value={0}>{t("UI-WYBIERZ")}</option>
           <option value={12}>12 V</option>
           <option value={24}>24 V</option>
           <option value={48}>48 V</option>
         </PoleSelect>
         <PoleCheckbox
           id={idDozownik}
-          label="Mam dozownik napięcia (LVD)"
+          label={t("UI-OCHPRZROZ-MAM-DOZOWNIK-NAPIECIA")}
           checked={stan.maDozownik}
           onChange={(e) => setStan((prev) => ({ ...prev, maDozownik: e.target.checked }))}
         />
         <PoleCheckbox
           id={idZabezpieczenie}
-          label="Odbiornik sam odcina się przy niskim napięciu"
-          hint="Np. lodówka turystyczna z wbudowaną ochroną akumulatora."
+          label={t("UI-OCHPRZROZ-ODBIORNIK-SAM-ODCINA")}
+          hint={t("UI-OCHPRZROZ-LODOWKA-TURYSTYCZNA-WBUDOWAN")}
           checked={stan.odbiornikMaWlasneZabezpieczenie}
           onChange={(e) => setStan((prev) => ({ ...prev, odbiornikMaWlasneZabezpieczenie: e.target.checked }))}
         />
       </div>
 
       {result.status === "INCOMPLETE" ? (
-        <p className="text-small text-muted-foreground">Wybierz typ i napięcie akumulatora, żeby zobaczyć próg odcięcia.</p>
+        <p className="text-small text-muted-foreground">{t("UI-OCHPRZROZ-WYBIERZ-TYP-NAPIECIE")}</p>
       ) : (
         <WerdyktPanel
           poziom={hasCritical ? "blad" : "ok"}
-          etykieta={hasCritical ? "Akumulator bez ochrony" : "Próg odcięcia dozownika"}
+          etykieta={hasCritical ? t("UI-OCHPRZROZ-AKUMULATOR-BEZ-OCHRONY") : t("UI-OCHPRZROZ-PROG-ODCIECIA-DOZOWNIKA")}
         >
-          <WynikGlowny>{progOdcieciaV === null ? "wg karty producenta" : `${f2(progOdcieciaV)} V`}</WynikGlowny>
+          <WynikGlowny>{progOdcieciaV === null ? t("UI-OCHPRZROZ-KARTY-PRODUCENTA") : `${f2(progOdcieciaV)} V`}</WynikGlowny>
           {progNaOgniwoV !== null && (
             <p className="mt-1 text-small">
-              {f2(progNaOgniwoV)} V na ogniwo · {liczbaOgniw} ogniw w szeregu
+              {t("UI-OCHPRZROZ-OGNIWO-OGNIW-SZEREGU", { progNaOgniwoV: f2(progNaOgniwoV), liczbaOgniw })}
             </p>
           )}
           <WynikSzczegoly assumptions={result.assumptions} warnings={result.warnings} formula={result.formula} />

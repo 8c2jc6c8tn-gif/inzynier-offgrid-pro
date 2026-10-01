@@ -76,18 +76,17 @@ export default function OchronaWilgocPage() {
     <main className="mx-auto flex max-w-md flex-col gap-6 p-6">
       <NawigacjaEkranu href="/kalkulatory/ochrona-wilgoc" />
       <NaglowekEkranu
-        tytul="Ochrona przed wilgocią i kondensacją"
+        tytul={t("UI-OCHWIL-OCHRONA-PRZED-WILGOCIA")}
         ekran="ochrona-wilgoc"
         wynik={result}
         parametry={{ minIp: MIN_IP_KOD_WILGOTNE, magnusA: MAGNUS_A, magnusB: MAGNUS_B }}
       >
-        Mokry BMS i miedziane szyny to gotowy przepis na zwarcie — kondensacja to cichy zabójca
-        elektroniki. Moduł 4, Ekran 10.
+        {t("UI-OCHWIL-MOKRY-BMS-MIEDZIANE")}
       </NaglowekEkranu>
 
       <div className="flex flex-col gap-4">
         <Pole
-          label="Temperatura otoczenia"
+          label={t("UI-OCHWIL-TEMPERATURA-OTOCZENIA")}
           unit="°C"
           type="number"
           inputMode="decimal"
@@ -96,7 +95,7 @@ export default function OchronaWilgocPage() {
           pomoc={<PomocPola ekran="ochrona-wilgoc" pole="temperatura" />}
         />
         <Pole
-          label="Wilgotność względna"
+          label={t("UI-OCHWIL-WILGOTNOSC-WZGLEDNA")}
           unit="%"
           type="number"
           inputMode="numeric"
@@ -107,7 +106,7 @@ export default function OchronaWilgocPage() {
           pomoc={<PomocPola ekran="ochrona-wilgoc" pole="wilgotnosc" />}
         />
         <Pole
-          label="Temperatura obudowy / ogniw"
+          label={t("UI-OCHWIL-TEMPERATURA-OBUDOWY-OGNIW")}
           unit="°C"
           type="number"
           inputMode="decimal"
@@ -116,12 +115,12 @@ export default function OchronaWilgocPage() {
           pomoc={<PomocPola ekran="ochrona-wilgoc" pole="temperaturaObudowy" />}
         />
         <PoleSelect
-          label="Kod IP obudowy"
+          label={t("UI-OCHWIL-KOD-OBUDOWY")}
           value={ipKod}
           onChange={(e) => setIpKod(e.target.value)}
           pomoc={<PomocPola ekran="ochrona-wilgoc" pole="ip" params={{ minIp: MIN_IP_KOD_WILGOTNE }} />}
         >
-          <option value="">— wybierz —</option>
+          <option value="">{t("UI-WYBIERZ")}</option>
           {OPCJE_IP.map((o) => (
             <option key={o.kod} value={o.kod}>
               {o.label}
@@ -132,13 +131,13 @@ export default function OchronaWilgocPage() {
           id="srodowisko-wilgotne"
           checked={srodowiskoWilgotne}
           onChange={(e) => setSrodowiskoWilgotne(e.target.checked)}
-          label="Miejsce narażone na wilgoć (garaż, komora zewnętrzna)"
+          label={t("UI-OCHWIL-MIEJSCE-NARAZONE-WILGOC")}
         />
       </div>
 
       {result.status === "INCOMPLETE" ? (
         <p className="text-small text-muted-foreground">
-          Wypełnij dane, żeby zobaczyć ocenę ryzyka kondensacji.
+          {t("UI-OCHWIL-WYPELNIJ-DANE-ZEBY")}
         </p>
       ) : (
         poziom !== null && (
@@ -146,16 +145,16 @@ export default function OchronaWilgocPage() {
             poziom={poziom}
             etykieta={
               result.status === "INVALID_INPUT"
-                ? "Nie da się ocenić — sprawdź wpisane dane"
+                ? t("UI-OCHWIL-OCENIC-SPRAWDZ-WPISANE")
                 : hasCritical
-                  ? "Obudowa poniżej wymaganego IP"
+                  ? t("UI-OCHWIL-OBUDOWA-PONIZEJ-WYMAGANEGO")
                   : result.value.ryzykoKondensacji
-                    ? "Ryzyko kondensacji"
-                    : "Bez ryzyka kondensacji"
+                    ? t("UI-OCHWIL-RYZYKO-KONDENSACJI")
+                    : t("UI-OCHWIL-BEZ-RYZYKA-KONDENSACJI")
             }
           >
             {result.status !== "INVALID_INPUT" && (
-              <WynikGlowny>Punkt rosy: {result.value.punktRosyC.toLocaleString("pl-PL", { maximumFractionDigits: 1 })}°C</WynikGlowny>
+              <WynikGlowny>{t("UI-OCHWIL-PUNKT-ROSY", { punktRosyC: result.value.punktRosyC.toLocaleString("pl-PL", { maximumFractionDigits: 1 }) })}</WynikGlowny>
             )}
             {result.warnings.map((w) => (
               <p key={w.code} className="mt-2 text-small">
