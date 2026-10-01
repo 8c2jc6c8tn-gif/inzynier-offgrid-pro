@@ -807,6 +807,91 @@ export const pl = {
       },
     },
   },
+  "alternator-vs-panele": {
+    migawka: {
+      oCoChodzi: "Jedziesz albo stoisz — ładowanie trzeba dobrać do stylu podróżowania.",
+      jakDziala:
+        "Alternator ładuje dużym prądem, ale tylko w czasie jazdy; panele słabiej, ale przez cały dzień postoju. Aplikacja liczy energię z obu na dobę, sumę wobec zapotrzebowania, czas ładowania i sprawdza napięcie ładowania dla typu akumulatora.",
+      poCo:
+        "Za wysokie napięcie ładowania niszczy ogniwa, za niskie nie naładuje akumulatora do pełna. LiFePO4 z alternatora ładuje się przez ładowarkę DC/DC.",
+      fizyka:
+        "E_alt = I × U × h_jazdy. E_PV = P × h_słońca × η. Czas do pełna ≈ Ah × (1 − SoC) ÷ I. Okno napięcia ładowania zależy od chemii (Biblia §12.31), dla 24/48 V × 2/× 4 — wynik pokazuje okno dla Twojego akumulatora.",
+    },
+    pola: {
+      napiecie: {
+        nazwa: "Napięcie akumulatora [V]",
+        cel: "Przelicza prąd na energię i skaluje okno napięcia ładowania.",
+        gdzie: "Tabliczka akumulatora (12, 24, 48 V).",
+        zakres: "Z tabliczki.",
+      },
+      godzinJazdy: {
+        nazwa: "Czas jazdy na dobę [h]",
+        cel: "Tylko wtedy alternator ładuje.",
+        gdzie: "Twój plan podróży.",
+        zakres: "0–24 h.",
+      },
+      prad: {
+        nazwa: "Prąd ładowania [A]",
+        cel: "Ile amperów realnie płynie do akumulatora podczas jazdy.",
+        gdzie: "Prąd znamionowy ładowarki DC/DC albo pomiar cęgami podczas jazdy.",
+        zakres: "Z karty ładowarki albo pomiaru; aplikacja nie zgaduje.",
+      },
+      mocPanelu: {
+        nazwa: "Moc paneli [W]",
+        cel: "Energia z paneli.",
+        gdzie: "Tabliczka paneli (Wp).",
+        zakres: "Z karty.",
+      },
+      godzinSlonca: {
+        nazwa: "Równoważne godziny pełnego słońca [h/dobę]",
+        cel: "Przelicza moc paneli na energię.",
+        gdzie: "Moduł 1 albo mapa nasłonecznienia dla miejsca i miesiąca.",
+        zakres: "Z danych dla Twojej lokalizacji.",
+      },
+      sprawnosc: {
+        nazwa: "Sprawność toru panel → akumulator [%]",
+        cel: "Straty regulatora, kabli i ładowania.",
+        gdzie: "Karty regulatora i akumulatora.",
+        zakres: "Z kart; aplikacja nie zgaduje.",
+      },
+      zapotrzebowanie: {
+        nazwa: "Zapotrzebowanie na dobę [Wh] (opcjonalnie)",
+        cel: "Porównanie z sumą z obu źródeł.",
+        gdzie: "Kalkulator „na weekend” (Ekran 5) albo licznik BMS.",
+        zakres: "Puste = bez porównania.",
+      },
+      typ: {
+        nazwa: "Typ akumulatora (opcjonalnie)",
+        cel: "Każda chemia potrzebuje innego napięcia ładowania.",
+        gdzie: "Tabliczka akumulatora.",
+        zakres: "Wybierz z listy.",
+      },
+      dcdc: {
+        nazwa: "Ładowarka DC/DC",
+        cel: "Dopasowuje napięcie i ogranicza prąd z alternatora.",
+        gdzie: "Twoja instalacja: urządzenie między akumulatorem rozruchowym a użytkowym.",
+        zakres: "Tak / nie.",
+      },
+      napiecieLadowania: {
+        nazwa: "Napięcie ładowania [V] (opcjonalnie)",
+        cel: "Sprawdzenie z oknem dla typu akumulatora.",
+        gdzie: "Karta/ustawienie prostownika, ładowarki DC/DC albo pomiar na zaciskach podczas jazdy.",
+        zakres: "Puste = nie sprawdzaj.",
+      },
+      pojemnosc: {
+        nazwa: "Pojemność [Ah] (opcjonalnie)",
+        cel: "Czas ładowania do pełna.",
+        gdzie: "Tabliczka akumulatora.",
+        zakres: "Puste = bez czasu ładowania.",
+      },
+      soc: {
+        nazwa: "Stan naładowania na start [%]",
+        cel: "Od jakiego poziomu ładujesz.",
+        gdzie: "Wskazanie BMS albo monitora baterii.",
+        zakres: "0–100%.",
+      },
+    },
+  },
 }
 
 export const en: Tlumaczenie<typeof pl> = {
@@ -1606,6 +1691,91 @@ export const en: Tlumaczenie<typeof pl> = {
         cel: "A panel glued flat cannot shed heat from below.",
         gdzie: "Your mounting plan: adhesive over the whole surface = yes; on profiles/frame = no.",
         zakres: "Yes / no.",
+      },
+    },
+  },
+  "alternator-vs-panele": {
+    migawka: {
+      oCoChodzi: "You drive or you stay — charging must match your travel style.",
+      jakDziala:
+        "The alternator charges at a high current but only while driving; panels charge weaker but all day while parked. The app computes daily energy from both, the sum against demand, the charging time, and checks the charging voltage for the battery type.",
+      poCo:
+        "Too high a charging voltage destroys cells, too low never fully charges the battery. LiFePO4 is charged from the alternator through a DC/DC charger.",
+      fizyka:
+        "E_alt = I × U × h_drive. E_PV = P × h_sun × η. Time to full ≈ Ah × (1 − SoC) ÷ I. The charging voltage window depends on the chemistry (Bible §12.31), for 24/48 V × 2/× 4 — the result shows the window for your battery.",
+    },
+    pola: {
+      napiecie: {
+        nazwa: "Battery voltage [V]",
+        cel: "Turns current into energy and scales the charging voltage window.",
+        gdzie: "Battery nameplate (12, 24, 48 V).",
+        zakres: "From the nameplate.",
+      },
+      godzinJazdy: {
+        nazwa: "Driving time per day [h]",
+        cel: "The alternator charges only then.",
+        gdzie: "Your travel plan.",
+        zakres: "0–24 h.",
+      },
+      prad: {
+        nazwa: "Charging current [A]",
+        cel: "How many amps really flow into the battery while driving.",
+        gdzie: "Rated current of the DC/DC charger or a clamp-meter reading while driving.",
+        zakres: "From the charger datasheet or a measurement; the app does not guess.",
+      },
+      mocPanelu: {
+        nazwa: "Panel power [W]",
+        cel: "Energy from the panels.",
+        gdzie: "Panel nameplate (Wp).",
+        zakres: "From the datasheet.",
+      },
+      godzinSlonca: {
+        nazwa: "Equivalent full-sun hours [h/day]",
+        cel: "Turns panel power into energy.",
+        gdzie: "Module 1 or an insolation map for the place and month.",
+        zakres: "From data for your location.",
+      },
+      sprawnosc: {
+        nazwa: "Panel → battery path efficiency [%]",
+        cel: "Controller, cable and charging losses.",
+        gdzie: "Controller and battery datasheets.",
+        zakres: "From the datasheets; the app does not guess.",
+      },
+      zapotrzebowanie: {
+        nazwa: "Daily demand [Wh] (optional)",
+        cel: "Compared with the sum of both sources.",
+        gdzie: "The “weekend” calculator (Screen 5) or the BMS meter.",
+        zakres: "Empty = no comparison.",
+      },
+      typ: {
+        nazwa: "Battery type (optional)",
+        cel: "Each chemistry needs a different charging voltage.",
+        gdzie: "Battery nameplate.",
+        zakres: "Choose from the list.",
+      },
+      dcdc: {
+        nazwa: "DC/DC charger",
+        cel: "Matches the voltage and limits the current from the alternator.",
+        gdzie: "Your system: the device between the starter and leisure batteries.",
+        zakres: "Yes / no.",
+      },
+      napiecieLadowania: {
+        nazwa: "Charging voltage [V] (optional)",
+        cel: "Checked against the window for the battery type.",
+        gdzie: "Datasheet/setting of the charger or DC/DC, or a reading at the terminals while driving.",
+        zakres: "Empty = do not check.",
+      },
+      pojemnosc: {
+        nazwa: "Capacity [Ah] (optional)",
+        cel: "Charging time to full.",
+        gdzie: "Battery nameplate.",
+        zakres: "Empty = no charging time.",
+      },
+      soc: {
+        nazwa: "Starting state of charge [%]",
+        cel: "The level you charge from.",
+        gdzie: "BMS or battery monitor reading.",
+        zakres: "0–100%.",
       },
     },
   },
@@ -2411,6 +2581,91 @@ export const ru: Tlumaczenie<typeof pl> = {
         cel: "Приклеенная плоско панель не отводит тепло снизу.",
         gdzie: "Ваш план монтажа: клей по всей поверхности = да; на профилях/раме = нет.",
         zakres: "Да / нет.",
+      },
+    },
+  },
+  "alternator-vs-panele": {
+    migawka: {
+      oCoChodzi: "Едете или стоите — зарядку нужно подобрать к стилю путешествий.",
+      jakDziala:
+        "Генератор заряжает большим током, но только во время езды; панели слабее, но весь день стоянки. Приложение считает энергию от обоих источников за сутки, сумму относительно потребности, время зарядки и проверяет напряжение заряда для типа аккумулятора.",
+      poCo:
+        "Слишком высокое напряжение заряда разрушает элементы, слишком низкое не зарядит аккумулятор полностью. LiFePO4 от генератора заряжают через DC/DC-зарядку.",
+      fizyka:
+        "E_ген = I × U × h_езды. E_PV = P × h_солнца × η. Время до полного ≈ Ач × (1 − SoC) ÷ I. Окно напряжения заряда зависит от химии (Библия §12.31), для 24/48 В × 2/× 4 — результат показывает окно для вашего аккумулятора.",
+    },
+    pola: {
+      napiecie: {
+        nazwa: "Напряжение аккумулятора [В]",
+        cel: "Переводит ток в энергию и масштабирует окно напряжения заряда.",
+        gdzie: "Табличка аккумулятора (12, 24, 48 В).",
+        zakres: "С таблички.",
+      },
+      godzinJazdy: {
+        nazwa: "Время езды в сутки [ч]",
+        cel: "Генератор заряжает только тогда.",
+        gdzie: "Ваш план поездки.",
+        zakres: "0–24 ч.",
+      },
+      prad: {
+        nazwa: "Ток заряда [А]",
+        cel: "Сколько ампер реально идёт в аккумулятор во время езды.",
+        gdzie: "Номинальный ток DC/DC-зарядки или замер клещами во время езды.",
+        zakres: "Из паспорта зарядки или замера; приложение не угадывает.",
+      },
+      mocPanelu: {
+        nazwa: "Мощность панелей [Вт]",
+        cel: "Энергия от панелей.",
+        gdzie: "Табличка панелей (Вт пик).",
+        zakres: "Из паспорта.",
+      },
+      godzinSlonca: {
+        nazwa: "Эквивалентные часы полного солнца [ч/сутки]",
+        cel: "Переводит мощность панелей в энергию.",
+        gdzie: "Модуль 1 или карта инсоляции для места и месяца.",
+        zakres: "Из данных для вашего места.",
+      },
+      sprawnosc: {
+        nazwa: "КПД пути панель → аккумулятор [%]",
+        cel: "Потери контроллера, кабелей и заряда.",
+        gdzie: "Паспорта контроллера и аккумулятора.",
+        zakres: "Из паспортов; приложение не угадывает.",
+      },
+      zapotrzebowanie: {
+        nazwa: "Потребность в сутки [Вт·ч] (необязательно)",
+        cel: "Сравнение с суммой от обоих источников.",
+        gdzie: "Калькулятор «на выходные» (экран 5) или счётчик BMS.",
+        zakres: "Пусто = без сравнения.",
+      },
+      typ: {
+        nazwa: "Тип аккумулятора (необязательно)",
+        cel: "Каждой химии нужно своё напряжение заряда.",
+        gdzie: "Табличка аккумулятора.",
+        zakres: "Выберите из списка.",
+      },
+      dcdc: {
+        nazwa: "DC/DC-зарядка",
+        cel: "Согласует напряжение и ограничивает ток от генератора.",
+        gdzie: "Ваша система: устройство между стартерным и бытовым аккумулятором.",
+        zakres: "Да / нет.",
+      },
+      napiecieLadowania: {
+        nazwa: "Напряжение заряда [В] (необязательно)",
+        cel: "Проверка по окну для типа аккумулятора.",
+        gdzie: "Паспорт/настройка зарядки или DC/DC, либо замер на клеммах во время езды.",
+        zakres: "Пусто = не проверять.",
+      },
+      pojemnosc: {
+        nazwa: "Ёмкость [Ач] (необязательно)",
+        cel: "Время зарядки до полного.",
+        gdzie: "Табличка аккумулятора.",
+        zakres: "Пусто = без времени зарядки.",
+      },
+      soc: {
+        nazwa: "Начальный уровень заряда [%]",
+        cel: "С какого уровня вы заряжаете.",
+        gdzie: "Показание BMS или монитора батареи.",
+        zakres: "0–100%.",
       },
     },
   },

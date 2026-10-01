@@ -97,6 +97,7 @@ import { blackoutMinimumTool } from "./tools/blackout-minimum-tool"
 import { akumulatorKamperaTool } from "./tools/akumulator-kampera-tool"
 import { paneleDachKamperaTool } from "./tools/panele-dach-kampera-tool"
 import { panelKamperaTool } from "./tools/panel-kampera-tool"
+import { alternatorVsPaneleTool } from "./tools/alternator-vs-panele-tool"
 import { ochronaPrzedRozladowaniemTool } from "./tools/ochrona-przed-rozladowaniem-tool"
 import { wilgocMaleInstalacjeTool } from "./tools/wilgoc-male-instalacje-tool"
 import { uziemienieMaleInstalacjeTool } from "./tools/uziemienie-male-instalacje-tool"
@@ -418,6 +419,7 @@ const NARZEDZIA: Array<AiToolDefinition<any, any>> = [
   akumulatorKamperaTool,
   paneleDachKamperaTool,
   panelKamperaTool,
+  alternatorVsPaneleTool,
   ochronaPrzedRozladowaniemTool,
   wilgocMaleInstalacjeTool,
   uziemienieMaleInstalacjeTool,

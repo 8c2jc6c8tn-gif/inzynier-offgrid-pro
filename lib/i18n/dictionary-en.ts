@@ -1221,6 +1221,11 @@ export const dictionaryEn = {
   "PK-ELASTYCZNY-BEZ-WENTYLACJI": "A flexible panel glued flat to the roof without a ventilation gap overheats, loses output and ages faster. If you can, leave a gap or choose a rigid framed panel.",
   "PK-SPRAWDZ-TEMPERATURE": "How much power you lose to heat depends on the temperature coefficient in the panel datasheet — calculate it on the “Effect of temperature on output” screen (Module 3).",
   "PK-ZALOZENIE-GWARANCJA-TRWALOSC": "Durability is measured by the maker's power warranty — real service life may differ, especially with poor mounting.",
+  "AL-NAPIECIE-ZA-WYSOKIE": "The charging voltage of {napiecie} V exceeds the {max} V allowed for this battery type. Too high a voltage will destroy the cells — do not charge; change the setting or use a charger made for this chemistry.",
+  "AL-NAPIECIE-ZA-NISKIE": "The charging voltage of {napiecie} V is below the {min} V this battery type needs — it will never be fully charged.",
+  "AL-LIFEPO4-BEZ-DCDC": "An alternator will not fully charge LiFePO4 without a DC/DC charger, and the high current LiFePO4 draws can overload the alternator and the vehicle wiring. Use a DC/DC charger.",
+  "AL-BRAK-POKRYCIA": "Driving and panels together do not cover the demand — about {wh} Wh per day is missing. Drive longer, add a panel or cut consumption.",
+  "AL-ZALOZENIE-STALY-PRAD": "The alternator charges at a constant current for the whole drive; the final charging phase (current tapering near full) is not counted, so the real time to full is longer.",
   // end of M12 30.09.2026 block
   "LVD-BRAK-OCHRONY-OLOWIOWY": "A lead-acid/AGM battery without a low voltage disconnect, and the load has no protection of its own — the load will drain the battery to zero. Deep discharge permanently damages a lead-acid battery (sulphation). Fit a low voltage disconnect (LVD) with the threshold given above.",
   "LVD-PROG-KWASOWY-BRAK-W-ZRODLE": "No threshold is given for a flooded lead-acid battery — the source gives it only for AGM and LiFePO4. Check the cut-off voltage in the battery manufacturer's datasheet.",

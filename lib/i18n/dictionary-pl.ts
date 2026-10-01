@@ -1233,6 +1233,11 @@ export const dictionaryPl = {
   "PK-ELASTYCZNY-BEZ-WENTYLACJI": "Panel elastyczny przyklejony płasko do dachu, bez szczeliny wentylacyjnej, przegrzewa się i traci wydajność, a szybciej się starzeje. Jeśli możesz — zostaw szczelinę albo wybierz panel sztywny na ramie.",
   "PK-SPRAWDZ-TEMPERATURE": "Ile mocy stracisz przez nagrzanie, zależy od współczynnika temperaturowego z karty panelu — policz to na ekranie „Wpływ temperatury na wydajność” (Moduł 3).",
   "PK-ZALOZENIE-GWARANCJA-TRWALOSC": "Trwałość mierzona gwarancją mocy producenta — realna żywotność może być inna, zwłaszcza przy złym montażu.",
+  "AL-NAPIECIE-ZA-WYSOKIE": "Napięcie ładowania {napiecie} V przekracza {max} V dopuszczalne dla tego typu akumulatora. Za wysokie napięcie zniszczy ogniwa — nie ładuj, zmień ustawienie albo ładowarkę na właściwą dla tej chemii.",
+  "AL-NAPIECIE-ZA-NISKIE": "Napięcie ładowania {napiecie} V jest niższe niż {min} V potrzebne temu typowi akumulatora — nie naładujesz go do pełna.",
+  "AL-LIFEPO4-BEZ-DCDC": "Alternator nie naładuje LiFePO4 do pełna bez ładowarki DC/DC, a duży prąd pobierany przez LiFePO4 może przeciążyć alternator i instalację auta. Zastosuj ładowarkę DC/DC.",
+  "AL-BRAK-POKRYCIA": "Jazda i panele razem nie pokrywają zapotrzebowania — brakuje ok. {wh} Wh na dobę. Jedź dłużej, dołóż panel albo ogranicz zużycie.",
+  "AL-ZALOZENIE-STALY-PRAD": "Alternator ładuje stałym prądem przez cały czas jazdy; końcowa faza ładowania (spadek prądu przy pełnym akumulatorze) nie jest liczona, więc realny czas do pełna jest dłuższy.",
   // end of M12 30.09.2026 block
   "LVD-BRAK-OCHRONY-OLOWIOWY": "Akumulator kwasowy/AGM bez dozownika napięcia, a odbiornik nie ma własnego zabezpieczenia — odbiornik rozładuje akumulator do zera. Głębokie rozładowanie trwale niszczy akumulator ołowiowy (zasiarczenie). Zamontuj dozownik (LVD) z progiem podanym wyżej.",
   "LVD-PROG-KWASOWY-BRAK-W-ZRODLE": "Dla akumulatora kwasowego (zalewowego) nie podajemy progu — źródło daje go tylko dla AGM i LiFePO4. Sprawdź napięcie odcięcia w karcie producenta akumulatora.",

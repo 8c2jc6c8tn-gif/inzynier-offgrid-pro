@@ -320,6 +320,10 @@ nie do audytu poprawności formularza webowego.
 - **[30.09.2026] Łączenie paneli przenośnych o niezgodnych złączach bez adaptera** — lista twardych stopów
   `Tresc_Modul_12` (E10). (M12/E10 — `lib/core/modules/kalkulator-mobilny/laczenie-paneli-przenosnych/warnings.ts`,
   `zlaczaNiezgodne`, kod `LPP-ZLACZA-NIEZGODNE`)
+- **[30.09.2026] Napięcie ładowania z prostownika/alternatora/DC-DC powyżej okna dla typu akumulatora** — Biblia §12.31:
+  LiFePO4 14,2–14,6 V, AGM 14,4–14,8 V, kwasowy 14,8–15,0 V (dla 12 V, skalowane × U/12); za wysokie napięcie
+  niszczy ogniwa. (M12/E20 — `lib/core/modules/kalkulator-mobilny/alternator-vs-panele/warnings.ts`,
+  `napiecieZaWysokie`, kod `AL-NAPIECIE-ZA-WYSOKIE`)
 - **Bezpiecznik nie chroni kabla przed przeciążeniem (In > Iz)** — sprawdzany przekrój przechodzi obciążalność i
   spadek napięcia, ale bezpiecznik 1,25 × I jest większy niż obciążalność kabla (PN-IEC 60364-4-43, 433.2).
   [27.09.2026] (M12/E2, E15 — `lib/core/modules/kalkulator-mobilny/kable-bezpieczniki-male/warnings.ts`,
