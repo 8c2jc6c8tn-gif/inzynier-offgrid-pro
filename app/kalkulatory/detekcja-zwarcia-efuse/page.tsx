@@ -62,15 +62,13 @@ export default function DetekcjaZwarciaEFusePage() {
   return (
     <main className="mx-auto flex max-w-md flex-col gap-6 p-6">
       <NawigacjaEkranu href="/kalkulatory/detekcja-zwarcia-efuse" />
-      <NaglowekEkranu tytul="Detekcja zwarcia i e-Fuse" ekran="detekcja-zwarcia-efuse" wynik={result}>
-        Zwykły bezpiecznik wyłącza zwarcie w ok. 10 ms — elektroniczny e-Fuse w mniej niż 100 µs.
-        Przy bardzo wysokich prądach zwarciowych ta różnica decyduje, czy tranzystory BMS
-        przetrwają. Moduł 4, Ekran 9.
+      <NaglowekEkranu tytul={t("UI-DETZWAEFU-DETEKCJA-ZWARCIA-FUSE")} ekran="detekcja-zwarcia-efuse" wynik={result}>
+        {t("UI-DETZWAEFU-ZWYKLY-BEZPIECZNIK-WYLACZA")}
       </NaglowekEkranu>
 
       <div className="flex flex-col gap-4">
         <Pole
-          label="Napięcie baterii"
+          label={t("UI-DETZWAEFU-NAPIECIE-BATERII")}
           unit="V"
           type="number"
           inputMode="decimal"
@@ -79,7 +77,7 @@ export default function DetekcjaZwarciaEFusePage() {
           pomoc={<PomocPola ekran="detekcja-zwarcia-efuse" pole="napiecie" />}
         />
         <Pole
-          label="Rezystancja wewnętrzna pakietu"
+          label={t("UI-DETZWAEFU-REZYSTANCJA-WEWNETRZNA-PAKIE")}
           unit="Ω"
           type="number"
           inputMode="decimal"
@@ -88,7 +86,7 @@ export default function DetekcjaZwarciaEFusePage() {
           pomoc={<PomocPola ekran="detekcja-zwarcia-efuse" pole="rezystancja" />}
         />
         <Pole
-          label="Zdolność łączeniowa tranzystorów BMS"
+          label={t("UI-DETZWAEFU-ZDOLNOSC-LACZENIOWA-TRANZYST")}
           unit="A"
           type="number"
           inputMode="decimal"
@@ -100,7 +98,7 @@ export default function DetekcjaZwarciaEFusePage() {
 
       {result.status === "INCOMPLETE" ? (
         <p className="text-small text-muted-foreground">
-          Wypełnij dane, żeby sprawdzić, czy potrzebna jest funkcja e-Fuse.
+          {t("UI-DETZWAEFU-WYPELNIJ-DANE-ZEBY")}
         </p>
       ) : (
         poziom !== null && (
@@ -108,10 +106,10 @@ export default function DetekcjaZwarciaEFusePage() {
             poziom={poziom}
             etykieta={
               result.status === "INVALID_INPUT"
-                ? "Nie da się policzyć — sprawdź wpisane dane"
+                ? t("UI-DETZWAEFU-POLICZYC-SPRAWDZ-WPISANE")
                 : result.value.wymaganyEFuse
-                  ? "Wymagana funkcja e-Fuse"
-                  : "Zdolność łączeniowa wystarcza"
+                  ? t("UI-DETZWAEFU-WYMAGANA-FUNKCJA-FUSE")
+                  : t("UI-DETZWAEFU-ZDOLNOSC-LACZENIOWA-WYSTARCZ")
             }
           >
             {result.status !== "INVALID_INPUT" && (

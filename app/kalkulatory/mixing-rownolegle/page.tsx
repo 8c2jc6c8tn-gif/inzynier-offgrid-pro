@@ -94,42 +94,41 @@ export default function MixingRownoleglePage() {
   }
 
   const werdyktEtykieta: Record<Exclude<typeof werdykt, "incomplete">, string> = {
-    invalid: "Nie da się ocenić — sprawdź wpisane dane",
+    invalid: t("UI-MIXROW-OCENIC-SPRAWDZ-WPISANE"),
     red: "Zabronione",
     yellow: "Dopuszczalne",
-    green: "Bezpieczne do połączenia",
+    green: t("UI-MIXROW-BEZPIECZNE-POLACZENIA"),
   }
 
   return (
     <main className="mx-auto flex max-w-md flex-col gap-6 p-6">
       <NawigacjaEkranu href="/kalkulatory/mixing-rownolegle" />
       <NaglowekEkranu
-        tytul="Łączenie równoległe różnych baterii (Mixing)"
+        tytul={t("UI-MIXROW-LACZENIE-ROWNOLEGLE-ROZNYCH")}
         ekran="mixing-rownolegle"
         wynik={result}
         parametry={{ progRoznicy: PROG_ROZNICY_NAPIEC_V }}
       >
-        To jak zaprzęgnięcie konia pociągowego z kucykiem do tego samego wozu — jeden ciągnie
-        więcej i szybciej się wykończy. Moduł 4, Ekran 18.
+        {t("UI-MIXROW-ZAPRZEGNIECIE-KONIA-POCIAGOW")}
       </NaglowekEkranu>
 
       <div className="flex flex-col gap-4 rounded-lg border p-4">
-        <p className="text-small font-medium">Bateria 1</p>
+        <p className="text-small font-medium">{t("UI-MIXROW-BATERIA")}</p>
         <PoleSelect
-          label="Chemia ogniw"
+          label={t("UI-MIXROW-CHEMIA-OGNIW")}
           value={chemia1}
           onChange={(e) => setChemia1(e.target.value)}
           pomoc={<PomocPola ekran="mixing-rownolegle" pole="chemia" />}
         >
-          <option value="">— wybierz —</option>
-          {BATTERY_TECHNOLOGIES.map((t) => (
-            <option key={t.id} value={t.id}>
-              {t.label}
+          <option value="">{t("UI-WYBIERZ")}</option>
+          {BATTERY_TECHNOLOGIES.map((tech) => (
+            <option key={tech.id} value={tech.id}>
+              {tech.label}
             </option>
           ))}
         </PoleSelect>
         <Pole
-          label="Napięcie nominalne"
+          label={t("UI-MIXROW-NAPIECIE-NOMINALNE")}
           unit="V"
           type="number"
           inputMode="decimal"
@@ -138,7 +137,7 @@ export default function MixingRownoleglePage() {
           pomoc={<PomocPola ekran="mixing-rownolegle" pole="napiecie" params={{ progRoznicy: PROG_ROZNICY_NAPIEC_V }} />}
         />
         <Pole
-          label="Rezystancja wewnętrzna"
+          label={t("UI-MIXROW-REZYSTANCJA-WEWNETRZNA")}
           unit="mΩ"
           type="number"
           inputMode="decimal"
@@ -149,22 +148,22 @@ export default function MixingRownoleglePage() {
       </div>
 
       <div className="flex flex-col gap-4 rounded-lg border p-4">
-        <p className="text-small font-medium">Bateria 2</p>
+        <p className="text-small font-medium">{t("UI-MIXROW-BATERIA-2")}</p>
         <PoleSelect
-          label="Chemia ogniw"
+          label={t("UI-MIXROW-CHEMIA-OGNIW")}
           value={chemia2}
           onChange={(e) => setChemia2(e.target.value)}
           pomoc={<PomocPola ekran="mixing-rownolegle" pole="chemia" />}
         >
-          <option value="">— wybierz —</option>
-          {BATTERY_TECHNOLOGIES.map((t) => (
-            <option key={t.id} value={t.id}>
-              {t.label}
+          <option value="">{t("UI-WYBIERZ")}</option>
+          {BATTERY_TECHNOLOGIES.map((tech) => (
+            <option key={tech.id} value={tech.id}>
+              {tech.label}
             </option>
           ))}
         </PoleSelect>
         <Pole
-          label="Napięcie nominalne"
+          label={t("UI-MIXROW-NAPIECIE-NOMINALNE")}
           unit="V"
           type="number"
           inputMode="decimal"
@@ -173,7 +172,7 @@ export default function MixingRownoleglePage() {
           pomoc={<PomocPola ekran="mixing-rownolegle" pole="napiecie" params={{ progRoznicy: PROG_ROZNICY_NAPIEC_V }} />}
         />
         <Pole
-          label="Rezystancja wewnętrzna"
+          label={t("UI-MIXROW-REZYSTANCJA-WEWNETRZNA")}
           unit="mΩ"
           type="number"
           inputMode="decimal"
@@ -185,7 +184,7 @@ export default function MixingRownoleglePage() {
 
       {werdykt === "incomplete" ? (
         <p className="text-small text-muted-foreground">
-          Wypełnij dane obu baterii, żeby zobaczyć ocenę połączenia równoległego.
+          {t("UI-MIXROW-WYPELNIJ-DANE-OBU")}
         </p>
       ) : (
         <WerdyktPanel poziom={werdyktPoziom[werdykt]} etykieta={werdyktEtykieta[werdykt]}>
@@ -195,15 +194,10 @@ export default function MixingRownoleglePage() {
                 {result.value.iWyrownawczyA.toLocaleString("pl-PL", { maximumFractionDigits: 1 })} A
               </WynikGlowny>
               <p className="mt-1 text-small">
-                Prąd wyrównawczy w chwili połączenia, przy różnicy napięć{" "}
-                {result.value.roznicaNapiecV.toLocaleString("pl-PL", { maximumFractionDigits: 2 })} V
-                (próg: {PROG_ROZNICY_NAPIEC_V} V).
+                {t("UI-MIXROW-PRAD-WYROWNAWCZY-CHWILI", { roznicaNapiecV: result.value.roznicaNapiecV.toLocaleString("pl-PL", { maximumFractionDigits: 2 }), PROG_ROZNICY_NAPIEC_V })}
               </p>
               <p className="mt-2 text-small">
-                Udział w prądzie obciążenia: bateria 1 —{" "}
-                {result.value.udzialPradu1Pct.toLocaleString("pl-PL", { maximumFractionDigits: 0 })}%, bateria 2 —{" "}
-                {result.value.udzialPradu2Pct.toLocaleString("pl-PL", { maximumFractionDigits: 0 })}% (bateria o
-                niższej rezystancji przejmuje większość prądu).
+                {t("UI-MIXROW-UDZIAL-PRADZIE-OBCIAZENIA", { udzialPradu1Pct: result.value.udzialPradu1Pct.toLocaleString("pl-PL", { maximumFractionDigits: 0 }), udzialPradu2Pct: result.value.udzialPradu2Pct.toLocaleString("pl-PL", { maximumFractionDigits: 0 }) })}
               </p>
             </>
           )}

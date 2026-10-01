@@ -9,6 +9,7 @@ import { NawigacjaEkranu } from "@/components/nawigacja-ekranu"
 import { NaglowekEkranu } from "@/components/wzorce/naglowek-ekranu"
 import { ListaChecklist } from "@/components/wzorce/lista-checklist"
 import { StanPusty } from "@/components/ui/stany"
+import { useTranslate } from "@/lib/i18n/language-context"
 
 type FormularzStan = {
   potwierdzoneIds: string[]
@@ -19,6 +20,7 @@ const STAN_POCZATKOWY: FormularzStan = {
 }
 
 export default function MontazMechanicznyOlowPage() {
+  const t = useTranslate()
   const [stan, setStan] = usePersistedDraft<FormularzStan>("montaz-mechaniczny-olow", STAN_POCZATKOWY)
   const { potwierdzoneIds } = stan
 
@@ -42,8 +44,8 @@ export default function MontazMechanicznyOlowPage() {
   return (
     <main className="mx-auto flex max-w-md flex-col gap-6 p-6">
       <NawigacjaEkranu href="/kalkulatory/montaz-mechaniczny-olow" />
-      <NaglowekEkranu tytul="Montaż mechaniczny + mocowanie/wentylacja" ekran="montaz-mechaniczny-olow">
-        Moduł 11, Ekran B2 (Ścieżka B — kwasowo-ołowiowa).
+      <NaglowekEkranu tytul={t("UI-MONMECOLO-MONTAZ-MECHANICZNY-MOCOWANIE")} ekran="montaz-mechaniczny-olow">
+        {t("UI-MONMECOLO-MODUL-EKRAN-SCIEZKA")}
       </NaglowekEkranu>
 
       <ListaChecklist
@@ -67,9 +69,9 @@ export default function MontazMechanicznyOlowPage() {
       </ul>
 
       {result.status === "VALID" ? (
-        <WerdyktPanel poziom="ok" etykieta="Montaż mechaniczny gotowy" />
+        <WerdyktPanel poziom="ok" etykieta={t("UI-MONMECOLO-MONTAZ-MECHANICZNY-GOTOWY")} />
       ) : (
-        <StanPusty tytul={`Potwierdzono ${result.value.potwierdzone} / ${result.value.razem} elementów`} />
+        <StanPusty tytul={t("UI-MONMECOLO-POTWIERDZONO-ELEMENTOW", { potwierdzone: result.value.potwierdzone, razem: result.value.razem })} />
       )}
     </main>
   )

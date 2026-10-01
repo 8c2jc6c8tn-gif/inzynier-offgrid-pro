@@ -59,23 +59,22 @@ export default function TopologiaBmsPage() {
   return (
     <main className="mx-auto flex max-w-md flex-col gap-6 p-6">
       <NawigacjaEkranu href="/kalkulatory/topologia-bms" />
-      <NaglowekEkranu tytul="Topologia BMS (Common Port vs Separate Port)" ekran="topologia-bms">
-        Jak masz jedną rurę do wody i ścieków, to w końcu się zapcha — czasem lepiej rozdzielić
-        drogi ładowania i rozładowania. Moduł 4, Ekran 26.
+      <NaglowekEkranu tytul={t("UI-TOPBMS-TOPOLOGIA-BMS-COMMON")} ekran="topologia-bms">
+        {t("UI-TOPBMS-MASZ-JEDNA-RURE")}
       </NaglowekEkranu>
 
       <div className="flex flex-col gap-3">
-        {TOPOLOGIE.map((t) => (
-          <div key={t.id} className="rounded-lg border p-4">
-            <p className="text-small font-medium">{t.nazwa}</p>
-            <p className="mt-1 text-small text-muted-foreground">{t.opis}</p>
+        {TOPOLOGIE.map((tech) => (
+          <div key={tech.id} className="rounded-lg border p-4">
+            <p className="text-small font-medium">{tech.nazwa}</p>
+            <p className="mt-1 text-small text-muted-foreground">{tech.opis}</p>
           </div>
         ))}
       </div>
 
       <div className="flex flex-col gap-4">
         <Pole
-          label="Prąd znamionowy Common Port wybranego BMS"
+          label={t("UI-TOPBMS-PRAD-ZNAMIONOWY-COMMON")}
           unit="A"
           type="number"
           inputMode="decimal"
@@ -84,7 +83,7 @@ export default function TopologiaBmsPage() {
           pomoc={<PomocPola ekran="topologia-bms" pole="pradCommon" />}
         />
         <Pole
-          label="Szczytowy prąd rozruchu falownika"
+          label={t("UI-TOPBMS-SZCZYTOWY-PRAD-ROZRUCHU")}
           unit="A"
           type="number"
           inputMode="decimal"
@@ -96,13 +95,13 @@ export default function TopologiaBmsPage() {
 
       {result.status === "INCOMPLETE" ? (
         <p className="text-small text-muted-foreground">
-          Wypełnij oba pola, żeby sprawdzić, czy Common Port wystarczy.
+          {t("UI-TOPBMS-WYPELNIJ-OBA-POLA")}
         </p>
       ) : (
         poziom !== null && (
           <WerdyktPanel
             poziom={poziom}
-            etykieta={result.value.commonPortWystarcza ? "Common Port wystarczy" : "Wybierz Separate Port"}
+            etykieta={result.value.commonPortWystarcza ? t("UI-TOPBMS-COMMON-PORT-WYSTARCZY") : t("UI-TOPBMS-WYBIERZ-SEPARATE-PORT")}
           >
             {result.warnings.map((w) => (
               <p key={w.code} className="mt-1 text-small">

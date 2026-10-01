@@ -8489,3 +8489,51 @@ Tryb Audyt (czapka rewidenta). Warstwa „w pełni na końcu” z N.2 — wszyst
   `public/` 1,41 / 1,05 MB. Największe: chunk tekstów/słowników ładowany na każdej stronie 1,17 MB, MapLibre 1,0 MB,
   drugi chunk tekstów 0,73 MB, worker MapLibre 0,5 MB, zod 0,4 MB (ekrany M14 — potrzebny offline). Budżet pierwszego
   pobrania: **D61 — wariant A**, obecny stan przyjęty, nic dalej nie ciąć (B tylko przy sygnale o słabym łączu).
+
+## Migracja etykiet starych ekranów na `UI-*` — narzędzie i pułapki (30.09.2026)
+
+- **Narzędzie:** `scripts/migracja-i18n-ui.mjs` (jednorazowe, AST TypeScript): `wyciagnij <grupa> <pliki…>` wypisuje
+  `{klucz: tekst PL}`, `zastosuj <grupa> <tlumaczenia.json> <pliki…>` przepisuje strony na `t(...)`, tworzy
+  `lib/i18n/ui/<grupa>.ts`, dopisuje import w `index.ts` i obniża listę zapadkową; `sprawdz <pliki…>` pokazuje literały
+  bez polskich liter do przejrzenia. Teksty identyczne z `wspolne.ts` dostają klucz wspólny. Usunąć, gdy lista
+  zapadkowa będzie pusta.
+- **Pułapka 1 — strażnik nie widzi tekstów bez polskich liter** poza JSX (np. „Przewody prowadzone w peszlu” w stałej
+  modułu): po `zastosuj` zawsze `sprawdz` i ręczny przegląd.
+- **Pułapka 2 — teksty w stałych poza komponentem:** narzędzie wstawia tam klucz jako string i wypisuje „RĘCZNIE:” —
+  trzeba dodać `t(...)` w miejscu renderu (inaczej ekran pokaże surowe `UI-…`). Po każdej partii grep `"UI-` poza `t(`.
+- **Pułapka 3 — zmienna `t` w `.map((t) => …)`** przesłania `useTranslate()`; przed migracją zmienić nazwę (`tech`).
+- **Pułapka 4 — `getStart()` na JsxText już pomija białe znaki;** ręczne przesunięcie ucinało pierwsze litery słów.
+- **Rozmiar:** każda partia powiększa chunk tekstów ładowany na każdej stronie (D61 — przyjęty stan, obserwować).
+- Teksty ze stałych `lib/core` renderowane na ekranach — osobny wpis w `docs/lista-do-zrobienia.md` (30.09.2026).
+
+## Duże kafle M14 + presety pulpitu (30.09.2026)
+
+- **Duży kafel** = `duzy: true` w `KafelEntry` (`lib/pulpit/registry.ts`): `col-span-2` w siatce pulpitu + opis pod nazwą.
+  Tylko kafle M14 (id 15/16, D35). Siatka ma min. 2 kolumny, więc duży kafel nigdy nie wychodzi poza ekran telefonu.
+- **Presety** (`lib/pulpit/presety.ts`) — dane 1:1 z tabeli §3 `docs/pulpit-i-nawigacja.md` + `[15, 16]` na końcu (D53/D54).
+  `stanZPresetow(ids)` zwraca zwykły `PulpitState` — nie ma nowego klucza `localStorage` ani migracji. Kilka presetów =
+  unia w kolejności domyślnej (✅🤖, §3 nie określa kolejności unii). Zaznaczenie nie jest zapamiętywane (jednorazowe
+  „Zastosuj”). Dziewiąty preset „Jestem podłączony do sieci” czeka na decyzję o składzie (lista zadań 30.09).
+- **Y.2 (naprawione od razu):** Ustawienia pokazywały „15. Dom – sieć” / „16. Firma – sieć” mimo D39 (kafle M14 bez numeru,
+  „Kafel 14” = Ustawienia) — numer tylko dla id < 14.
+- **Przecinek w liczbach założeń** — zadanie z indeksu po D54 było duplikatem wpisu zamkniętego 26.09; sprawdzone ponownie,
+  nic do zrobienia (kropka tylko w `technicalMessage`).
+- **[30.09.2026, D62]** Właściciel przyjął obie propozycje ✅🤖: unia w kolejności domyślnej oraz dziewiąty preset `siec`
+  (M14 na początku, potem 1, 2, 3, 4, 6, 7, 8). Preset `siec` jest jedynym bez `[15, 16]` na końcu — test to rozróżnia.
+
+## M9 blok 6 (30.09.2026) — E1, E3, Katalogi 2–4; M9 kompletny
+
+- **E1 wybór płytki** (`esp32/wybor-plytki/`): dopasowanie po cechach z opisu wariantów w źródle (B), nie po liczbie
+  czujników — próg „do 10 czujników” i „3× mniejszy pobór” z przykładu C to ilustracja (Dyrektywa #1). Brak jednej
+  płytki z wszystkimi cechami → ℹ️ (status bez zmian, Dyrektywa #6). Zasilanie stałe bez potrzeb → ℹ️, brak rekomendacji.
+- **E3 montaż i obudowa** (`esp32/montaz-obudowa/`): kontrola IP to czyste echo — `ipPonizejWymaganego` (M4/E10) i
+  `wilgocZalecaneIp65` (M12/E23) z ich stałymi; wpis w rejestrze stopów uzupełniony o M9/E3. Pytania tak/nie jako
+  `PoleSelect` z pustą opcją (checkbox dawałby fałszywe „nie” = ostrzeżenie od progu). Ujemny odstęp → `ESP-ODSTEP-UJEMNY`
+  — **pułapka:** wzorzec `*-UJEMNY` w `scripts/stopy-guard-wyjatki.json` nie złapał kodu wieloczłonowego, trzeba było
+  dopisać kod jawnie.
+- **Katalogi 2–4**: jeden silnik `esp32/katalog-komponentow/` (ids w `constants.ts`, treść w `lib/i18n/ui/m09-esp32.ts`
+  jako `UI-M9-<id>-N/T/D/U`), jeden komponent `components/wzorce/katalog-komponentow.tsx` (stan w stronie przez
+  `usePersistedDraft`), jedno narzędzie AI z enum katalogu. Katalog 1 deleguje obliczenie do tego silnika (bez zmiany
+  wyniku). **Id instancji** liczone z listy (`max+1`), nie z licznika modułu — **błąd naprawiony w Katalogu 1:** licznik
+  `nextId` startował od 1 po każdym przeładowaniu, więc po odtworzeniu szkicu dawał zduplikowany `id` (klucz React,
+  „Usuń” kasowało dwie pozycje naraz).

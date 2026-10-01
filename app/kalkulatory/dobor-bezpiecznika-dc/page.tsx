@@ -11,6 +11,7 @@ import { NaglowekEkranu } from "@/components/wzorce/naglowek-ekranu"
 import { WynikGlowny } from "@/components/wzorce/wynik-glowny"
 import { WynikSzczegoly } from "@/components/wzorce/wynik-szczegoly"
 import { MIN_AIC_LIFEPO4_A } from "@/lib/core/modules/baterie/dobor-bezpiecznika-dc/constants"
+import { useTranslate } from "@/lib/i18n/language-context"
 
 type FormularzStan = {
   napiecieBateriiV: string
@@ -25,6 +26,7 @@ const STAN_POCZATKOWY: FormularzStan = {
 }
 
 export default function DoborBezpiecznikaDcPage() {
+  const t = useTranslate()
   const [stan, setStan] = usePersistedDraft<FormularzStan>("dobor-bezpiecznika-dc", STAN_POCZATKOWY)
   const { napiecieBateriiV, rezystancjaWewnetrznaOhm, aicBezpiecznikaA } = stan
 
@@ -68,9 +70,9 @@ export default function DoborBezpiecznikaDcPage() {
   }
 
   const verdictLabel: Record<typeof verdict, string> = {
-    invalid: "Nie da się policzyć",
+    invalid: t("UI-DOBBEZDC-POLICZYC"),
     red: "Zabronione",
-    yellow: "Dopuszczalne, ale poniżej zalecanego minimum",
+    yellow: t("UI-DOBBEZDC-DOPUSZCZALNE-PONIZEJ-ZALECAN"),
     green: "Zalecane",
   }
 
@@ -78,18 +80,17 @@ export default function DoborBezpiecznikaDcPage() {
     <main className="mx-auto flex max-w-md flex-col gap-6 p-6">
       <NawigacjaEkranu href="/kalkulatory/dobor-bezpiecznika-dc" />
       <NaglowekEkranu
-        tytul="Dobór bezpiecznika DC"
+        tytul={t("UI-DOBBEZDC-DOBOR-BEZPIECZNIKA")}
         ekran="dobor-bezpiecznika-dc"
         wynik={result}
         parametry={{ minAic: MIN_AIC_LIFEPO4_A }}
       >
-        Bezpiecznik musi umieć ugasić pożar elektryczny, a nie tylko się przepalić — źle dobrany
-        pod względem AIC sam staje się źródłem łuku elektrycznego. Moduł 4, Ekran 24.
+        {t("UI-DOBBEZDC-BEZPIECZNIK-MUSI-UMIEC")}
       </NaglowekEkranu>
 
       <div className="flex flex-col gap-4">
         <Pole
-          label="Napięcie baterii"
+          label={t("UI-DOBBEZDC-NAPIECIE-BATERII")}
           unit="V"
           type="number"
           inputMode="decimal"
@@ -98,7 +99,7 @@ export default function DoborBezpiecznikaDcPage() {
           pomoc={<PomocPola ekran="dobor-bezpiecznika-dc" pole="napiecie" />}
         />
         <Pole
-          label="Rezystancja wewnętrzna pakietu"
+          label={t("UI-DOBBEZDC-REZYSTANCJA-WEWNETRZNA-PAKIE")}
           unit="Ω"
           type="number"
           inputMode="decimal"
@@ -107,7 +108,7 @@ export default function DoborBezpiecznikaDcPage() {
           pomoc={<PomocPola ekran="dobor-bezpiecznika-dc" pole="rezystancja" />}
         />
         <Pole
-          label="AIC wybranego bezpiecznika"
+          label={t("UI-DOBBEZDC-AIC-WYBRANEGO-BEZPIECZNIKA")}
           unit="A"
           type="number"
           inputMode="decimal"

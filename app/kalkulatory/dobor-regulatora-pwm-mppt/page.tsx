@@ -56,17 +56,17 @@ export default function DoborRegulatoraPwmMpptPage() {
     <main className="mx-auto flex max-w-md flex-col gap-6 p-6">
       <NawigacjaEkranu href="/kalkulatory/dobor-regulatora-pwm-mppt" />
       <NaglowekEkranu
-        tytul="Dobór regulatora PWM vs MPPT"
+        tytul={t("UI-DOBREGPWMMPP-DOBOR-REGULATORA-PWM")}
         ekran="dobor-regulatora-pwm-mppt"
         wynik={result}
         parametry={{ progMppt: PROG_MOC_MPPT_OPLACALNY_W }}
       >
-        PWM to tani robotnik, MPPT to inżynier — do dużych zysków zatrudnij inżyniera. Moduł 12.
+        {t("UI-DOBREGPWMMPP-PWM-TANI-ROBOTNIK")}
       </NaglowekEkranu>
 
       <div className="flex flex-col gap-4">
         <Pole
-          label="Moc paneli"
+          label={t("UI-DOBREGPWMMPP-MOC-PANELI")}
           unit="W"
           type="number"
           inputMode="decimal"
@@ -76,7 +76,7 @@ export default function DoborRegulatoraPwmMpptPage() {
           pomoc={<PomocPola ekran="dobor-regulatora-pwm-mppt" pole="moc" params={{ progMppt: PROG_MOC_MPPT_OPLACALNY_W }} />}
         />
         <Pole
-          label="Napięcie paneli (klasa)"
+          label={t("UI-DOBREGPWMMPP-NAPIECIE-PANELI-KLASA")}
           unit="V"
           type="number"
           inputMode="decimal"
@@ -86,7 +86,7 @@ export default function DoborRegulatoraPwmMpptPage() {
           pomoc={<PomocPola ekran="dobor-regulatora-pwm-mppt" pole="napieciePanelu" />}
         />
         <Pole
-          label="Napięcie systemowe akumulatora"
+          label={t("UI-DOBREGPWMMPP-NAPIECIE-SYSTEMOWE-AKUMULATO")}
           unit="V"
           type="number"
           inputMode="decimal"
@@ -98,15 +98,15 @@ export default function DoborRegulatoraPwmMpptPage() {
       </div>
 
       {result.status === "INVALID_INPUT" ? (
-        <WerdyktPanel poziom="blad" etykieta="Nie da się policzyć — sprawdź wpisane dane">
+        <WerdyktPanel poziom="blad" etykieta={t("UI-DOBREGPWMMPP-POLICZYC-SPRAWDZ-WPISANE")}>
           <WynikSzczegoly assumptions={[]} warnings={result.warnings} />
         </WerdyktPanel>
       ) : result.status === "INCOMPLETE" ? (
-        <p className="text-small text-muted-foreground">Wypełnij wszystkie pola, żeby zobaczyć rekomendację.</p>
+        <p className="text-small text-muted-foreground">{t("UI-DOBREGPWMMPP-WYPELNIJ-WSZYSTKIE-POLA")}</p>
       ) : (
         <WerdyktPanel
           poziom={poziom}
-          etykieta={result.value.niezgodnoscNapiec ? "PWM niekompatybilny" : "Rekomendacja"}
+          etykieta={result.value.niezgodnoscNapiec ? t("UI-DOBREGPWMMPP-PWM-NIEKOMPATYBILNY") : t("UI-DOBREGPWMMPP-REKOMENDACJA")}
         >
           <WynikGlowny>{result.value.regulator}</WynikGlowny>
           {result.warnings.map((w) => (

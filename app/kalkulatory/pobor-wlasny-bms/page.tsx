@@ -16,6 +16,7 @@ import { NawigacjaEkranu } from "@/components/nawigacja-ekranu"
 import { NaglowekEkranu } from "@/components/wzorce/naglowek-ekranu"
 import { WynikGlowny } from "@/components/wzorce/wynik-glowny"
 import { WynikSzczegoly } from "@/components/wzorce/wynik-szczegoly"
+import { useTranslate } from "@/lib/i18n/language-context"
 
 type FormularzStan = {
   poborCiagleW: string
@@ -28,6 +29,7 @@ const STAN_POCZATKOWY: FormularzStan = {
 }
 
 export default function PoborWlasnyBmsPage() {
+  const t = useTranslate()
   const [stan, setStan] = usePersistedDraft<FormularzStan>("pobor-wlasny-bms", STAN_POCZATKOWY)
   const { poborCiagleW, poborUspienieW } = stan
 
@@ -52,14 +54,13 @@ export default function PoborWlasnyBmsPage() {
   return (
     <main className="mx-auto flex max-w-md flex-col gap-6 p-6">
       <NawigacjaEkranu href="/kalkulatory/pobor-wlasny-bms" />
-      <NaglowekEkranu tytul="Pobór własny BMS i tryb uśpienia" ekran="pobor-wlasny-bms" wynik={result}>
-        BMS to też odbiornik prądu, nawet gdy „nic nie robi” — w małych off-gridach ten stały
-        pobór potrafi być zaskakująco dużą częścią bilansu. Moduł 4, Ekran 22.
+      <NaglowekEkranu tytul={t("UI-POBWLABMS-POBOR-WLASNY-BMS")} ekran="pobor-wlasny-bms" wynik={result}>
+        {t("UI-POBWLABMS-BMS-TEZ-ODBIORNIK")}
       </NaglowekEkranu>
 
       <div className="flex flex-col gap-4">
         <Pole
-          label="Pobór w trybie pracy ciągłej"
+          label={t("UI-POBWLABMS-POBOR-TRYBIE-PRACY")}
           unit="W"
           type="number"
           inputMode="decimal"
@@ -69,7 +70,7 @@ export default function PoborWlasnyBmsPage() {
           pomoc={<PomocPola ekran="pobor-wlasny-bms" pole="ciagle" params={{ ciagleMin: POBOR_CIAGLE_TYPOWY_MIN_W, ciagleMax: POBOR_CIAGLE_TYPOWY_MAX_W }} />}
         />
         <Pole
-          label="Pobór w trybie uśpienia (deep sleep)"
+          label={t("UI-POBWLABMS-POBOR-TRYBIE-USPIENIA")}
           unit="W"
           type="number"
           inputMode="decimal"
@@ -81,18 +82,16 @@ export default function PoborWlasnyBmsPage() {
       </div>
 
       {result.status === "INVALID_INPUT" ? (
-        <WerdyktPanel poziom="blad" etykieta="Nie da się policzyć — sprawdź wpisane dane">
+        <WerdyktPanel poziom="blad" etykieta={t("UI-POBWLABMS-POLICZYC-SPRAWDZ-WPISANE")}>
           <WynikSzczegoly assumptions={[]} warnings={result.warnings} />
         </WerdyktPanel>
       ) : result.status === "INCOMPLETE" ? (
-        <p className="text-small text-muted-foreground">Wypełnij oba pola, żeby zobaczyć wynik.</p>
+        <p className="text-small text-muted-foreground">{t("UI-POBWLABMS-WYPELNIJ-OBA-POLA")}</p>
       ) : (
-        <WerdyktPanel poziom="ok" etykieta="Roczna strata przy pracy ciągłej">
+        <WerdyktPanel poziom="ok" etykieta={t("UI-POBWLABMS-ROCZNA-STRATA-PRACY")}>
           <WynikGlowny>{result.value.strataRocznaCiagleKwh.toLocaleString("pl-PL")} kWh</WynikGlowny>
           <p className="mt-1 text-small">
-            W trybie uśpienia: {result.value.strataDoboweUspienieKwh.toLocaleString("pl-PL")} kWh/dobę
-            (ok. {result.value.strataRocznaUspienieKwh.toLocaleString("pl-PL")} kWh/rok) — oszczędność ok.{" "}
-            {result.value.oszczednoscRocznaKwh.toLocaleString("pl-PL")} kWh/rok.
+            {t("UI-POBWLABMS-TRYBIE-USPIENIA-KWH", { strataDoboweUspienieKwh: result.value.strataDoboweUspienieKwh.toLocaleString("pl-PL"), strataRocznaUspienieKwh: result.value.strataRocznaUspienieKwh.toLocaleString("pl-PL"), oszczednoscRocznaKwh: result.value.oszczednoscRocznaKwh.toLocaleString("pl-PL") })}
           </p>
           <WynikSzczegoly assumptions={result.assumptions} formula={result.formula} />
         </WerdyktPanel>

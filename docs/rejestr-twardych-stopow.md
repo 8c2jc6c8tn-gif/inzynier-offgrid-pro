@@ -58,6 +58,8 @@ nie do audytu poprawności formularza webowego.
   (`lib/core/modules/kalkulator-mobilny/wilgoc-male-instalacje/`) — garaż/piwnica/namiot/jacht.
   **[28.09.2026, D44]** W M12/E23 namiot i jacht narażone na wilgoć mają wyższy próg: poniżej **IP65** 🔴
   (`namiotJachtPonizejIp65`, kod `WMI-NAMIOT-JACHT-PONIZEJ-IP65`, zastępuje tam stop IP55 — jeden stop na miejsce).
+  **[30.09.2026]** Echo także w M9/E3 (`lib/core/modules/esp32/montaz-obudowa/`) — obudowa ESP32 w miejscu wilgotnym
+  (garaż, komórka, piwnica); ten sam kod i próg IP55, bez nowego progu (IP55–IP64 🟡 zalecane IP65, echo M12/E23).
   Próg to praktyka właściciela („większe ryzyko”), nie norma; namiot/jacht zawsze traktowane jako wilgotne (stop nie zależy
   od odpowiedzi o wilgoci). IP55–IP64 w miejscu z wilgocią (garaż, piwnica) oraz IP65–IP66 w namiocie/na jachcie → tylko 🟡, nie stop.
 - **Prąd zwarciowy pakietu przekracza zdolność łączeniową tranzystorów BMS** — zwykły

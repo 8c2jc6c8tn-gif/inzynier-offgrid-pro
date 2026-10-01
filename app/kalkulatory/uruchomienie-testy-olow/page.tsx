@@ -9,11 +9,13 @@ import { NawigacjaEkranu } from "@/components/nawigacja-ekranu"
 import { NaglowekEkranu } from "@/components/wzorce/naglowek-ekranu"
 import { ListaChecklist } from "@/components/wzorce/lista-checklist"
 import { StanPusty } from "@/components/ui/stany"
+import { useTranslate } from "@/lib/i18n/language-context"
 
 type FormularzStan = { potwierdzoneIds: string[] }
 const STAN_POCZATKOWY: FormularzStan = { potwierdzoneIds: [] }
 
 export default function UruchomienieTestyOlowPage() {
+  const t = useTranslate()
   const [stan, setStan] = usePersistedDraft<FormularzStan>("uruchomienie-testy-olow", STAN_POCZATKOWY)
   const { potwierdzoneIds } = stan
   const setPotwierdzoneIds = (a: string[] | ((p: string[]) => string[])) =>
@@ -34,8 +36,8 @@ export default function UruchomienieTestyOlowPage() {
   return (
     <main className="mx-auto flex max-w-md flex-col gap-6 p-6">
       <NawigacjaEkranu href="/kalkulatory/uruchomienie-testy-olow" />
-      <NaglowekEkranu tytul="Pierwsze uruchomienie i testy" ekran="uruchomienie-testy-olow">
-        Moduł 11, Ekran B6 (Ścieżka B — kwasowo-ołowiowa).
+      <NaglowekEkranu tytul={t("UI-URUTESOLO-PIERWSZE-URUCHOMIENIE-TESTY")} ekran="uruchomienie-testy-olow">
+        {t("UI-URUTESOLO-MODUL-EKRAN-SCIEZKA")}
       </NaglowekEkranu>
 
       <ListaChecklist
@@ -53,9 +55,9 @@ export default function UruchomienieTestyOlowPage() {
       />
 
       {result.status === "VALID" ? (
-        <WerdyktPanel poziom="ok" etykieta="Pierwsze uruchomienie zakończone" />
+        <WerdyktPanel poziom="ok" etykieta={t("UI-URUTESOLO-PIERWSZE-URUCHOMIENIE-ZAKONC")} />
       ) : (
-        <StanPusty tytul={`Potwierdzono ${result.value.potwierdzone} / ${result.value.razem} elementów`} />
+        <StanPusty tytul={t("UI-URUTESOLO-POTWIERDZONO-ELEMENTOW", { potwierdzone: result.value.potwierdzone, razem: result.value.razem })} />
       )}
     </main>
   )

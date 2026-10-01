@@ -53,17 +53,16 @@ export default function SlabeOgniwoPage() {
     <main className="mx-auto flex max-w-md flex-col gap-6 p-6">
       <NawigacjaEkranu href="/kalkulatory/slabe-ogniwo" />
       <NaglowekEkranu
-        tytul="Symulacja Słabego Ogniwa (Cell Drift & Balancing)"
+        tytul={t("UI-SLAOGN-SYMULACJA-SLABEGO-OGNIWA")}
         ekran="slabe-ogniwo"
         wynik={result}
       >
-        To jak pociągnięcie za hamulec w całym pociągu, bo jeden wagon się zepsuł — jedno słabe
-        ogniwo ogranicza cały pakiet. Moduł 4, Ekran 8.
+        {t("UI-SLAOGN-POCIAGNIECIE-HAMULEC-CALYM")}
       </NaglowekEkranu>
 
       <div className="flex flex-col gap-4">
         <Pole
-          label="Pojemność znamionowa ogniwa"
+          label={t("UI-SLAOGN-POJEMNOSC-ZNAMIONOWA-OGNIWA")}
           unit="Ah"
           type="number"
           inputMode="decimal"
@@ -72,7 +71,7 @@ export default function SlabeOgniwoPage() {
           pomoc={<PomocPola ekran="slabe-ogniwo" pole="pojemnosc" />}
         />
         <Pole
-          label="Tolerancja fabryczna"
+          label={t("UI-SLAOGN-TOLERANCJA-FABRYCZNA")}
           unit="%"
           type="number"
           inputMode="numeric"
@@ -86,14 +85,14 @@ export default function SlabeOgniwoPage() {
 
       {result.status === "INCOMPLETE" ? (
         <p className="text-small text-muted-foreground">
-          Wypełnij dane, żeby zobaczyć pojemność użyteczną pakietu.
+          {t("UI-SLAOGN-WYPELNIJ-DANE-ZEBY")}
         </p>
       ) : result.status === "INVALID_INPUT" ? (
-        <WerdyktPanel poziom="blad" etykieta="Nie da się policzyć — sprawdź wpisane dane">
+        <WerdyktPanel poziom="blad" etykieta={t("UI-SLAOGN-POLICZYC-SPRAWDZ-WPISANE")}>
           <WynikSzczegoly assumptions={[]} warnings={result.warnings} />
         </WerdyktPanel>
       ) : (
-        <WerdyktPanel poziom="uwaga" etykieta="Pojemność użyteczna pakietu (najgorszy przypadek)">
+        <WerdyktPanel poziom="uwaga" etykieta={t("UI-SLAOGN-POJEMNOSC-UZYTECZNA-PAKIETU")}>
           <WynikGlowny>
             {result.value.pojemnoscNajslabszegoAh.toLocaleString("pl-PL", { maximumFractionDigits: 1 })} Ah
           </WynikGlowny>

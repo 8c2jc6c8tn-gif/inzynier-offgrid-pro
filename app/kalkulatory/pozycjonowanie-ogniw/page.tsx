@@ -60,15 +60,14 @@ export default function PozycjonowanieOgniwPage() {
   return (
     <main className="mx-auto flex max-w-md flex-col gap-6 p-6">
       <NawigacjaEkranu href="/kalkulatory/pozycjonowanie-ogniw" />
-      <NaglowekEkranu tytul="Pozycjonowanie ogniw (kompresja/spuchnięcie)" ekran="pozycjonowanie-ogniw">
-        Ogniwa lubią być trzymane stabilnie, ale nie jak w imadle — muszą mieć trochę przestrzeni
-        na naturalne „oddychanie” podczas pracy. Moduł 4, Ekran 21.
+      <NaglowekEkranu tytul={t("UI-POZOGN-POZYCJONOWANIE-OGNIW-KOMPRES")} ekran="pozycjonowanie-ogniw">
+        {t("UI-POZOGN-OGNIWA-LUBIA-BYC")}
       </NaglowekEkranu>
 
       <div className="flex flex-col gap-4">
         <Pole
-          label="Zastosowany docisk na pakiet"
-          unit="kgf"
+          label={t("UI-POZOGN-ZASTOSOWANY-DOCISK-PAKIET")}
+          unit={t("UI-POZOGN-KGF")}
           type="number"
           inputMode="decimal"
           value={dociskKgf}
@@ -79,13 +78,13 @@ export default function PozycjonowanieOgniwPage() {
           id="luz-peczenie"
           checked={luzNaPeczenie}
           onChange={(e) => setLuzNaPeczenie(e.target.checked)}
-          label="Zostawiono min. 1 mm luzu na pęcznienie (ogniwa rosną 1-2% podczas ładowania)"
+          label={t("UI-POZOGN-ZOSTAWIONO-MIN-LUZU")}
         />
       </div>
 
       {result.status === "INCOMPLETE" ? (
         <p className="text-small text-muted-foreground">
-          Wpisz zastosowany docisk, żeby zobaczyć ocenę.
+          {t("UI-POZOGN-WPISZ-ZASTOSOWANY-DOCISK")}
         </p>
       ) : (
         poziom !== null && (
@@ -93,12 +92,12 @@ export default function PozycjonowanieOgniwPage() {
             poziom={poziom}
             etykieta={
               result.status === "INVALID_INPUT"
-                ? "Nie da się ocenić — sprawdź wpisane dane"
+                ? t("UI-POZOGN-OCENIC-SPRAWDZ-WPISANE")
                 : poziom === "ok"
-                  ? "Docisk prawidłowy"
+                  ? t("UI-POZOGN-DOCISK-PRAWIDLOWY")
                   : hasCritical
-                    ? "Docisk poza zakresem"
-                    : "Brakuje potwierdzenia luzu"
+                    ? t("UI-POZOGN-DOCISK-POZA-ZAKRESEM")
+                    : t("UI-POZOGN-BRAKUJE-POTWIERDZENIA-LUZU")
             }
           >
             {result.warnings.map((w) => (
