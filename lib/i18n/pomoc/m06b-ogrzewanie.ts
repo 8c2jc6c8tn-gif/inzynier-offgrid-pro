@@ -448,6 +448,106 @@ export const pl = {
       }
     }
   },
+  "alternatywne-zrodla-ciepla": {
+    "migawka": {
+      "oCoChodzi": "Pompa ciepła to nie jedyna droga. Kominek z płaszczem, promienniki IR, maty kapilarne czy magazyn PCM mogą ją uzupełnić — każde ma swoje miejsce i swoją pułapkę.",
+      "jakDziala": "Wybierz kartę źródła. Kominek: moc i udział do wody → ile kW trafi do instalacji, ile do salonu i jaką część zapotrzebowania pokryje. IR: moc × godziny → kWh na dobę. Maty: W/m² × m² → moc grzewcza i pokrycie. PCM: objętość × gęstość × ciepło topnienia → kWh i równoważnik bufora wodnego. Kocioł elektryczny ma osobny ekran.",
+      "poCo": "W off-gridzie każde źródło ciepła to inny koszt prądu i inne ryzyko przy jego braku — kominek bez schładzania grawitacyjnego przegrzeje się właśnie wtedy, gdy padnie zasilanie pompy obiegowej.",
+      "fizyka": "Kominek: P_woda = P × udział. IR: E = P × t. Maty: P = q × A. PCM: Q = V × ρ × L (ciepło utajone), bufor wodny o tej samej energii V_w = Q / (c_w × ΔT). Przykład źródła „100 l PCM × 200 kJ/kg ≈ 300 l wody” wychodzi przy gęstości 1 kg/l i ΔT ≈ 16 K — źródło tych danych nie podaje."
+    },
+    "pola": {
+      "zrodlo": {
+        "nazwa": "Źródło ciepła",
+        "cel": "Wybiera kartę z danymi i obliczeniem tego źródła.",
+        "gdzie": "To, co rozważasz jako uzupełnienie albo alternatywę pompy.",
+        "zakres": "Kominek / kocioł elektryczny / IR / maty / PCM."
+      },
+      "zapotrzebowanie": {
+        "nazwa": "Zapotrzebowanie w mroźny dzień [kW]",
+        "cel": "Do policzenia, jaką część potrzeb pokryje kominek albo maty.",
+        "gdzie": "Ekran 2 (zapotrzebowanie na ciepło).",
+        "zakres": "Opcjonalne; puste = bez pokrycia %."
+      },
+      "kominekMoc": {
+        "nazwa": "Moc kominka [kW]",
+        "cel": "Moc nominalna przy paleniu.",
+        "gdzie": "Karta kominka.",
+        "zakres": "Z karty producenta."
+      },
+      "kominekUdzial": {
+        "nazwa": "Udział mocy do wody [%]",
+        "cel": "Część mocy oddawana przez płaszcz wodny do instalacji.",
+        "gdzie": "Karta kominka (moc do wody / moc całkowita).",
+        "zakres": "0–100%; przykład źródła: 70%."
+      },
+      "kominekZabezp": {
+        "nazwa": "Zabezpieczenie przy braku prądu",
+        "cel": "Bez prądu pompa obiegowa stoi — płaszcz musi oddać ciepło grawitacyjnie albo przez wężownicę schładzającą.",
+        "gdzie": "Projekt podłączenia kominka do bufora.",
+        "zakres": "Tak / nie; brak → ostrzeżenie."
+      },
+      "irMoc": {
+        "nazwa": "Moc paneli IR [W]",
+        "cel": "Moc elektryczna = moc grzewcza promiennika.",
+        "gdzie": "Karta panelu (suma paneli).",
+        "zakres": "Przykład źródła: 600 W w łazience."
+      },
+      "irGodzin": {
+        "nazwa": "Czas pracy [h/dobę]",
+        "cel": "Mnoży moc na energię dobową.",
+        "gdzie": "Twój plan użytkowania.",
+        "zakres": "0–24 h."
+      },
+      "irPodstawowe": {
+        "nazwa": "IR jako ogrzewanie podstawowe",
+        "cel": "Źródło ostrzega, że IR to ogrzewanie punktowe.",
+        "gdzie": "Twój plan ogrzewania.",
+        "zakres": "Tak / nie; tak → ostrzeżenie."
+      },
+      "matyQ": {
+        "nazwa": "Moc jednostkowa mat [W/m²]",
+        "cel": "Moc z m² przy Twojej temperaturze zasilania.",
+        "gdzie": "Karta mat (tabela mocy dla temperatury zasilania).",
+        "zakres": "Przykład źródła: 60 W/m² przy 30 °C."
+      },
+      "matyA": {
+        "nazwa": "Powierzchnia aktywna [m²]",
+        "cel": "Powierzchnia sufitu/ścian pokryta matami.",
+        "gdzie": "Projekt rozmieszczenia mat.",
+        "zakres": "Twoja wartość."
+      },
+      "matyStrop": {
+        "nazwa": "Strop nieizolowany",
+        "cel": "Maty pod nieizolowanym stropem grzeją strop zamiast pokoju.",
+        "gdzie": "Przekrój stropu.",
+        "zakres": "Tak / nie; tak → ostrzeżenie."
+      },
+      "pcmV": {
+        "nazwa": "Objętość PCM [l]",
+        "cel": "Ilość materiału zmiennofazowego.",
+        "gdzie": "Projekt / oferta akumulatora PCM.",
+        "zakres": "Przykład źródła: 100 l."
+      },
+      "pcmGestosc": {
+        "nazwa": "Gęstość PCM [kg/l]",
+        "cel": "Przelicza objętość na masę.",
+        "gdzie": "Karta materiału.",
+        "zakres": "Z karty materiału — źródło jej nie podaje."
+      },
+      "pcmL": {
+        "nazwa": "Ciepło topnienia [kJ/kg]",
+        "cel": "Energia pochłaniana przy topnieniu 1 kg.",
+        "gdzie": "Karta materiału.",
+        "zakres": "Przykład źródła: 200 kJ/kg."
+      },
+      "pcmDt": {
+        "nazwa": "ΔT bufora wodnego [K]",
+        "cel": "Do porównania z buforem wodnym tej samej energii.",
+        "gdzie": "Użyteczny zakres temperatur bufora (Ekran 14).",
+        "zakres": "Opcjonalne; puste = bez porównania."
+      }
+    }
+  },
 }
 
 const EN_SHEET = "The device datasheet — the app never assumes a typical value for you."
@@ -894,6 +994,106 @@ export const en: Tlumaczenie<typeof pl> = {
       }
     }
   },
+  "alternatywne-zrodla-ciepla": {
+    "migawka": {
+      "oCoChodzi": "A heat pump is not the only way. A water-jacket fireplace, IR panels, capillary mats or PCM storage can supplement it — each has its place and its trap.",
+      "jakDziala": "Pick a source card. Fireplace: power and water share → how many kW reach the system, how many the living room, and what part of the demand it covers. IR: power × hours → kWh a day. Mats: W/m² × m² → heating output and coverage. PCM: volume × density × latent heat → kWh and the water buffer equivalent. The electric boiler has its own screen.",
+      "poCo": "Off-grid, every heat source means a different electricity cost and a different risk when power fails — a fireplace without gravity cooling overheats exactly when the circulation pump loses power.",
+      "fizyka": "Fireplace: P_water = P × share. IR: E = P × t. Mats: P = q × A. PCM: Q = V × ρ × L (latent heat), water buffer of the same energy V_w = Q / (c_w × ΔT). The source's \"100 l PCM × 200 kJ/kg ≈ 300 l of water\" holds at a density of 1 kg/l and ΔT ≈ 16 K — the source gives neither."
+    },
+    "pola": {
+      "zrodlo": {
+        "nazwa": "Heat source",
+        "cel": "Selects the card with this source's data and calculation.",
+        "gdzie": "What you are considering as a supplement or alternative to the heat pump.",
+        "zakres": "Fireplace / electric boiler / IR / mats / PCM."
+      },
+      "zapotrzebowanie": {
+        "nazwa": "Demand on a frosty day [kW]",
+        "cel": "To compute what part of the demand the fireplace or mats cover.",
+        "gdzie": "Screen 2 (heat demand).",
+        "zakres": "Optional; empty = no coverage %."
+      },
+      "kominekMoc": {
+        "nazwa": "Fireplace power [kW]",
+        "cel": "Nominal power when firing.",
+        "gdzie": "Fireplace data sheet.",
+        "zakres": "From the manufacturer's data sheet."
+      },
+      "kominekUdzial": {
+        "nazwa": "Share of power to water [%]",
+        "cel": "The part of the power the water jacket passes to the system.",
+        "gdzie": "Fireplace data sheet (water output / total output).",
+        "zakres": "0–100%; source example: 70%."
+      },
+      "kominekZabezp": {
+        "nazwa": "Power-cut protection",
+        "cel": "Without power the circulation pump stops — the jacket must shed heat by gravity or through a cooling coil.",
+        "gdzie": "Design of the fireplace-to-buffer connection.",
+        "zakres": "Yes / no; no → warning."
+      },
+      "irMoc": {
+        "nazwa": "IR panel power [W]",
+        "cel": "Electrical power = heating power of the panel.",
+        "gdzie": "Panel data sheet (sum of panels).",
+        "zakres": "Source example: 600 W in a bathroom."
+      },
+      "irGodzin": {
+        "nazwa": "Running time [h/day]",
+        "cel": "Turns power into daily energy.",
+        "gdzie": "Your usage plan.",
+        "zakres": "0–24 h."
+      },
+      "irPodstawowe": {
+        "nazwa": "IR as the main heating",
+        "cel": "The source warns that IR is spot heating.",
+        "gdzie": "Your heating plan.",
+        "zakres": "Yes / no; yes → warning."
+      },
+      "matyQ": {
+        "nazwa": "Mat output per m² [W/m²]",
+        "cel": "Output per m² at your supply temperature.",
+        "gdzie": "Mat data sheet (output table for the supply temperature).",
+        "zakres": "Source example: 60 W/m² at 30 °C."
+      },
+      "matyA": {
+        "nazwa": "Active area [m²]",
+        "cel": "Ceiling/wall area covered with mats.",
+        "gdzie": "Mat layout design.",
+        "zakres": "Your value."
+      },
+      "matyStrop": {
+        "nazwa": "Uninsulated slab",
+        "cel": "Mats under an uninsulated slab heat the slab instead of the room.",
+        "gdzie": "Slab cross-section.",
+        "zakres": "Yes / no; yes → warning."
+      },
+      "pcmV": {
+        "nazwa": "PCM volume [l]",
+        "cel": "Amount of phase-change material.",
+        "gdzie": "PCM storage design / quote.",
+        "zakres": "Source example: 100 l."
+      },
+      "pcmGestosc": {
+        "nazwa": "PCM density [kg/l]",
+        "cel": "Converts volume to mass.",
+        "gdzie": "Material data sheet.",
+        "zakres": "From the material data sheet — the source does not give it."
+      },
+      "pcmL": {
+        "nazwa": "Latent heat of melting [kJ/kg]",
+        "cel": "Energy absorbed when 1 kg melts.",
+        "gdzie": "Material data sheet.",
+        "zakres": "Source example: 200 kJ/kg."
+      },
+      "pcmDt": {
+        "nazwa": "Water buffer ΔT [K]",
+        "cel": "For comparison with a water buffer of the same energy.",
+        "gdzie": "Usable temperature range of the buffer (Screen 14).",
+        "zakres": "Optional; empty = no comparison."
+      }
+    }
+  },
 }
 
 const RU_SHEET = "Паспорт устройства — приложение не подставляет типовое значение за вас."
@@ -1337,6 +1537,106 @@ export const ru: Tlumaczenie<typeof pl> = {
         "cel": "Делит общую длину на число скважин.",
         "gdzie": "Предложение буровой компании / геологические условия.",
         "zakres": "Источник: 50–100 м."
+      }
+    }
+  },
+  "alternatywne-zrodla-ciepla": {
+    "migawka": {
+      "oCoChodzi": "Тепловой насос — не единственный путь. Камин с водяной рубашкой, ИК-панели, капиллярные маты или аккумулятор PCM могут его дополнить — у каждого своё место и своя ловушка.",
+      "jakDziala": "Выберите карточку источника. Камин: мощность и доля в воду → сколько кВт попадёт в систему, сколько в гостиную и какую часть потребности он покроет. ИК: мощность × часы → кВт·ч в сутки. Маты: Вт/м² × м² → тепловая мощность и покрытие. PCM: объём × плотность × теплота плавления → кВт·ч и эквивалент водяного буфера. Для электрокотла есть отдельный экран.",
+      "poCo": "В автономной системе каждый источник тепла — это разные затраты электроэнергии и разный риск при её отсутствии: камин без гравитационного охлаждения перегреется именно тогда, когда циркуляционный насос останется без питания.",
+      "fizyka": "Камин: P_вода = P × доля. ИК: E = P × t. Маты: P = q × A. PCM: Q = V × ρ × L (скрытая теплота), водяной буфер той же энергии V_в = Q / (c_в × ΔT). Пример источника «100 л PCM × 200 кДж/кг ≈ 300 л воды» сходится при плотности 1 кг/л и ΔT ≈ 16 K — источник этих данных не приводит."
+    },
+    "pola": {
+      "zrodlo": {
+        "nazwa": "Источник тепла",
+        "cel": "Выбирает карточку с данными и расчётом этого источника.",
+        "gdzie": "То, что вы рассматриваете как дополнение или альтернативу насосу.",
+        "zakres": "Камин / электрокотёл / ИК / маты / PCM."
+      },
+      "zapotrzebowanie": {
+        "nazwa": "Потребность в морозный день [кВт]",
+        "cel": "Для расчёта, какую часть потребности покроют камин или маты.",
+        "gdzie": "Экран 2 (потребность в тепле).",
+        "zakres": "Необязательно; пусто = без покрытия %."
+      },
+      "kominekMoc": {
+        "nazwa": "Мощность камина [кВт]",
+        "cel": "Номинальная мощность при топке.",
+        "gdzie": "Паспорт камина.",
+        "zakres": "Из паспорта производителя."
+      },
+      "kominekUdzial": {
+        "nazwa": "Доля мощности в воду [%]",
+        "cel": "Часть мощности, которую водяная рубашка передаёт в систему.",
+        "gdzie": "Паспорт камина (мощность в воду / полная мощность).",
+        "zakres": "0–100%; пример источника: 70%."
+      },
+      "kominekZabezp": {
+        "nazwa": "Защита при отключении электричества",
+        "cel": "Без электричества циркуляционный насос стоит — рубашка должна сбрасывать тепло гравитационно или через охлаждающий змеевик.",
+        "gdzie": "Проект подключения камина к буферу.",
+        "zakres": "Да / нет; нет → предупреждение."
+      },
+      "irMoc": {
+        "nazwa": "Мощность ИК-панелей [Вт]",
+        "cel": "Электрическая мощность = тепловая мощность панели.",
+        "gdzie": "Паспорт панели (сумма панелей).",
+        "zakres": "Пример источника: 600 Вт в ванной."
+      },
+      "irGodzin": {
+        "nazwa": "Время работы [ч/сутки]",
+        "cel": "Переводит мощность в суточную энергию.",
+        "gdzie": "Ваш план использования.",
+        "zakres": "0–24 ч."
+      },
+      "irPodstawowe": {
+        "nazwa": "ИК как основное отопление",
+        "cel": "Источник предупреждает, что ИК — точечный обогрев.",
+        "gdzie": "Ваш план отопления.",
+        "zakres": "Да / нет; да → предупреждение."
+      },
+      "matyQ": {
+        "nazwa": "Удельная мощность матов [Вт/м²]",
+        "cel": "Мощность с м² при вашей температуре подачи.",
+        "gdzie": "Паспорт матов (таблица мощности по температуре подачи).",
+        "zakres": "Пример источника: 60 Вт/м² при 30 °C."
+      },
+      "matyA": {
+        "nazwa": "Активная площадь [м²]",
+        "cel": "Площадь потолка/стен, покрытая матами.",
+        "gdzie": "Проект раскладки матов.",
+        "zakres": "Ваше значение."
+      },
+      "matyStrop": {
+        "nazwa": "Неутеплённое перекрытие",
+        "cel": "Маты под неутеплённым перекрытием греют перекрытие вместо комнаты.",
+        "gdzie": "Разрез перекрытия.",
+        "zakres": "Да / нет; да → предупреждение."
+      },
+      "pcmV": {
+        "nazwa": "Объём PCM [л]",
+        "cel": "Количество материала с фазовым переходом.",
+        "gdzie": "Проект / предложение аккумулятора PCM.",
+        "zakres": "Пример источника: 100 л."
+      },
+      "pcmGestosc": {
+        "nazwa": "Плотность PCM [кг/л]",
+        "cel": "Переводит объём в массу.",
+        "gdzie": "Паспорт материала.",
+        "zakres": "Из паспорта материала — источник её не приводит."
+      },
+      "pcmL": {
+        "nazwa": "Теплота плавления [кДж/кг]",
+        "cel": "Энергия, поглощаемая при плавлении 1 кг.",
+        "gdzie": "Паспорт материала.",
+        "zakres": "Пример источника: 200 кДж/кг."
+      },
+      "pcmDt": {
+        "nazwa": "ΔT водяного буфера [K]",
+        "cel": "Для сравнения с водяным буфером той же энергии.",
+        "gdzie": "Полезный диапазон температур буфера (Экран 14).",
+        "zakres": "Необязательно; пусто = без сравнения."
       }
     }
   },

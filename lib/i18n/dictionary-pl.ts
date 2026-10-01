@@ -1551,6 +1551,13 @@ export const dictionaryPl = {
   "KOL-WSKAZNIK-SPOZA-ZRODLA": "Wpisany wskaźnik {wartosc} jest poza zakresem {min}–{max} podanym w źródle — wynik liczony z Twojego wskaźnika; upewnij się, że pochodzi z projektu dla Twojego gruntu.",
   "KOL-SPIRALNY-BEZ-WSKAZNIKA": "Kolektor spiralny (koszowy) to rozwiązanie kompaktowe, gdy brakuje miejsca — źródło nie podaje wskaźnika do jego wymiarowania, więc nie liczymy wymiarów. Dobór według karty producenta.",
   "KOL-ZALOZENIE-MOC-POMPY": "Wskaźniki są liczone na moc pompy ciepła (jak w źródle), nie na moc pobieraną z gruntu P·(1 − 1/COP). Typ i wilgotność gruntu są zawarte we wskaźniku, który wpisujesz.",
+  "ALT-KOMINEK-PRZEGRZANIE": "Przy braku prądu pompa cyrkulacyjna nie działa — bez schładzania grawitacyjnego (albo wężownicy schładzającej) instalacja kominka się przegrzeje.",
+  "ALT-IR-PUNKTOWE": "IR to ogrzewanie punktowe. Nie zastąpi pełnego ogrzewania w mroźną noc.",
+  "ALT-MATY-STROP": "Sufit z matami musi być odpowiednio zaizolowany, inaczej grzejesz strop.",
+  "ALT-PCM-KOSZT": "PCM jest droższy od wody — stosuj go tam, gdzie brakuje miejsca.",
+  "ALT-KOCIOL-OSOBNY-EKRAN": "Kocioł elektryczny ma osobny ekran z porównaniem kosztu względem pompy ciepła — przejdź do niego linkiem poniżej.",
+  "ALT-ZALOZENIE-KOMINEK": "Moc nominalna kominka przy ciągłym paleniu; podział woda/pomieszczenie wg udziału z karty. Pokrycie liczone z mocy do wody (trafia do instalacji) oraz osobno z całej mocy.",
+  "ALT-ZALOZENIE-PCM": "Liczone tylko ciepło utajone przy pełnym stopieniu (V × ρ × L); ciepło jawne PCM pominięte. Bufor wodny: 1 l ≈ 1 kg, ciepło właściwe wody, wpisana różnica temperatur.",
 } as const
 
 export type KluczTlumaczenia = keyof typeof dictionaryPl

@@ -1539,4 +1539,11 @@ export const dictionaryEn = {
   "KOL-WSKAZNIK-SPOZA-ZRODLA": "The entered index {wartosc} is outside the source's {min}–{max} — the result uses your index; make sure it comes from a design for your soil.",
   "KOL-SPIRALNY-BEZ-WSKAZNIKA": "A spiral (basket) collector is a compact option when space is short — the source gives no sizing index, so no dimensions are computed. Size it from the manufacturer's data sheet.",
   "KOL-ZALOZENIE-MOC-POMPY": "The indices are applied to the heat pump power (as in the source), not to the ground extraction power P·(1 − 1/COP). Soil type and moisture are contained in the index you enter.",
+  "ALT-KOMINEK-PRZEGRZANIE": "During a power cut the circulation pump stops — without gravity cooling (or a cooling coil) the fireplace system will overheat.",
+  "ALT-IR-PUNKTOWE": "IR is spot heating. It will not replace full heating on a frosty night.",
+  "ALT-MATY-STROP": "A ceiling with mats must be properly insulated, otherwise you heat the floor slab above.",
+  "ALT-PCM-KOSZT": "PCM costs more than water — use it where space is short.",
+  "ALT-KOCIOL-OSOBNY-EKRAN": "The electric boiler has its own screen comparing its cost with a heat pump — follow the link below.",
+  "ALT-ZALOZENIE-KOMINEK": "Nominal fireplace power at continuous firing; water/room split by the share from the data sheet. Coverage is computed from the water output (goes to the system) and separately from the total power.",
+  "ALT-ZALOZENIE-PCM": "Only latent heat at full melting is counted (V × ρ × L); PCM sensible heat is ignored. Water buffer: 1 l ≈ 1 kg, water specific heat, the entered temperature difference.",
 } satisfies Record<KluczTlumaczenia, string>
