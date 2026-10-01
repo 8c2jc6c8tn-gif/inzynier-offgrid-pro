@@ -23,31 +23,32 @@ import { useTranslate } from "@/lib/i18n/language-context"
 import { KLUCZ_DRAFTU_OBCIAZENIA, wejscieObciazenia, type PrzegrodaSeed, type SeedObciazenia as Seed } from "@/lib/ogrzewanie/draft-obciazenia-cieplnego"
 
 const RZYMSKIE: Record<StrefaKlimatyczna, string> = { 1: "I", 2: "II", 3: "III", 4: "IV", 5: "V" }
-const MIESIACE = ["Styczeń", "Luty", "Marzec", "Kwiecień", "Maj", "Czerwiec", "Lipiec", "Sierpień", "Wrzesień", "Październik", "Listopad", "Grudzień"]
+const MIESIACE = Array.from({ length: 12 }, (_, i) => `UI-MIESIAC-${i + 1}`)
 
 const nowaPrzegroda = (nazwa: string): PrzegrodaSeed => ({ nazwa, powierzchniaM2: "", uWM2K: "", zewnetrzna: true, temperaturaPoDrugiejStronieC: "" })
 
-const STAN_POCZATKOWY: Seed = {
-  przegrody: [nowaPrzegroda("Ściany zewnętrzne"), nowaPrzegroda("Okna i drzwi"), nowaPrzegroda("Dach / strop")],
+const stanPoczatkowy = (t: (k: string) => string): Seed => ({
+  przegrody: [nowaPrzegroda(t("UI-OBCCIE-SCIANY-ZEWNETRZNE")), nowaPrzegroda(t("UI-OBCCIE-OKNA-DRZWI")), nowaPrzegroda(t("UI-OBCCIE-DACH-STROP"))],
   temperaturaWewnetrznaC: "",
   strefa: "",
   kubaturaM3: "",
   wymianyPowietrzaNaH: "",
   cop: "",
   miesiace: Array(12).fill(""),
-}
+})
 
 const f0 = (x: number) => x.toLocaleString("pl-PL", { maximumFractionDigits: 0 })
 const f1 = (x: number) => x.toLocaleString("pl-PL", { maximumFractionDigits: 1 })
 
 function KartaPrzegrody({ p, i, ustaw, usun }: { p: PrzegrodaSeed; i: number; ustaw: (z: Partial<PrzegrodaSeed>) => void; usun: () => void }) {
+  const t = useTranslate()
   return (
     <div className="flex flex-col gap-3 rounded-lg border p-3">
-      <Pole id={`przegroda-${i}-nazwa`} label="Nazwa" value={p.nazwa} onChange={(e) => ustaw({ nazwa: e.target.value })} pomoc={<PomocPola ekran="obciazenie-cieplne" pole="nazwa" />} />
+      <Pole id={`przegroda-${i}-nazwa`} label={t("UI-OBCCIE-NAZWA")} value={p.nazwa} onChange={(e) => ustaw({ nazwa: e.target.value })} pomoc={<PomocPola ekran="obciazenie-cieplne" pole="nazwa" />} />
       <div className="grid gap-3 sm:grid-cols-2">
         <Pole
           id={`przegroda-${i}-powierzchnia`}
-          label="Powierzchnia"
+          label={t("UI-OBCCIE-POWIERZCHNIA")}
           unit="m²"
           type="number"
           inputMode="decimal"
@@ -58,7 +59,7 @@ function KartaPrzegrody({ p, i, ustaw, usun }: { p: PrzegrodaSeed; i: number; us
         />
         <Pole
           id={`przegroda-${i}-u`}
-          label="Współczynnik U"
+          label={t("UI-OBCCIE-WSPOLCZYNNIK")}
           unit="W/(m²·K)"
           type="number"
           inputMode="decimal"
@@ -69,18 +70,18 @@ function KartaPrzegrody({ p, i, ustaw, usun }: { p: PrzegrodaSeed; i: number; us
         />
         <PoleSelect
           id={`przegroda-${i}-strona`}
-          label="Po drugiej stronie"
+          label={t("UI-OBCCIE-DRUGIEJ-STRONIE")}
           value={p.zewnetrzna ? "zewnatrz" : "inna"}
           onChange={(e) => ustaw({ zewnetrzna: e.target.value === "zewnatrz" })}
           pomoc={<PomocPola ekran="obciazenie-cieplne" pole="strona" />}
         >
-          <option value="zewnatrz">Powietrze zewnętrzne</option>
-          <option value="inna">Grunt / nieogrzewane pomieszczenie</option>
+          <option value="zewnatrz">{t("UI-OBCCIE-POWIETRZE-ZEWNETRZNE")}</option>
+          <option value="inna">{t("UI-OBCCIE-GRUNT-NIEOGRZEWANE-POMIESZCZ")}</option>
         </PoleSelect>
         {!p.zewnetrzna && (
           <Pole
             id={`przegroda-${i}-temp`}
-            label="Temperatura po drugiej stronie"
+            label={t("UI-OBCCIE-TEMPERATURA-DRUGIEJ-STRONIE")}
             unit="°C"
             type="number"
             inputMode="decimal"
@@ -91,7 +92,7 @@ function KartaPrzegrody({ p, i, ustaw, usun }: { p: PrzegrodaSeed; i: number; us
         )}
       </div>
       <Button variant="ghost" className="min-h-11 w-fit" onClick={usun}>
-        Usuń przegrodę
+        {t("UI-OBCCIE-USUN-PRZEGRODE")}
       </Button>
     </div>
   )
@@ -99,7 +100,7 @@ function KartaPrzegrody({ p, i, ustaw, usun }: { p: PrzegrodaSeed; i: number; us
 
 export default function ObciazenieCieplnePage() {
   const t = useTranslate()
-  const [stan, setStan] = usePersistedDraft<Seed>(KLUCZ_DRAFTU_OBCIAZENIA, STAN_POCZATKOWY)
+  const [stan, setStan] = usePersistedDraft<Seed>(KLUCZ_DRAFTU_OBCIAZENIA, stanPoczatkowy(t))
   const ustaw = <K extends keyof Seed>(k: K, v: Seed[K]) => setStan((s) => ({ ...s, [k]: v }))
   const ustawPrzegrode = (i: number, z: Partial<PrzegrodaSeed>) => setStan((s) => ({ ...s, przegrody: s.przegrody.map((p, j) => (j === i ? { ...p, ...z } : p)) }))
 
@@ -108,41 +109,39 @@ export default function ObciazenieCieplnePage() {
   const poziom: WerdyktPoziom = wynik.warnings.some((w) => w.level === "critical") ? "blad" : "uwaga"
 
   const kolumnyPrzegrod: Kolumna<StrataPrzegrody & { id: number }>[] = [
-    { naglowek: "Przegroda", render: (r) => <span className="font-medium">{r.nazwa}</span> },
+    { naglowek: t("UI-OBCCIE-PRZEGRODA"), render: (r) => <span className="font-medium">{r.nazwa}</span> },
     { naglowek: "U·A [W/K]", render: (r) => f1(r.htWK), liczbowa: true },
-    { naglowek: "Po drugiej stronie", render: (r) => `${f1(r.temperaturaPoDrugiejStronieC)} °C`, liczbowa: true },
-    { naglowek: "Strata [W]", render: (r) => f0(r.strataW), liczbowa: true },
-    { naglowek: "Udział", render: (r) => `${f0(r.udzialPct)}%`, liczbowa: true },
+    { naglowek: t("UI-OBCCIE-DRUGIEJ-STRONIE"), render: (r) => `${f1(r.temperaturaPoDrugiejStronieC)} °C`, liczbowa: true },
+    { naglowek: t("UI-OBCCIE-STRATA"), render: (r) => f0(r.strataW), liczbowa: true },
+    { naglowek: t("UI-OBCCIE-UDZIAL"), render: (r) => `${f0(r.udzialPct)}%`, liczbowa: true },
   ]
   const kolumnyMiesiecy: Kolumna<MiesiacCiepla & { id: number }>[] = [
-    { naglowek: "Miesiąc", render: (r) => MIESIACE[r.miesiac - 1] },
-    { naglowek: "Średnia temp.", render: (r) => `${f1(r.temperaturaSredniaC)} °C`, liczbowa: true },
-    { naglowek: "Ciepło [kWh]", render: (r) => f0(r.cieploKwh), liczbowa: true },
-    { naglowek: "Prąd [kWh]", render: (r) => (r.energiaElektrycznaKwh === null ? "—" : f0(r.energiaElektrycznaKwh)), liczbowa: true },
+    { naglowek: t("UI-OBCCIE-MIESIAC"), render: (r) => t(MIESIACE[r.miesiac - 1]) },
+    { naglowek: t("UI-OBCCIE-SREDNIA-TEMP"), render: (r) => `${f1(r.temperaturaSredniaC)} °C`, liczbowa: true },
+    { naglowek: t("UI-OBCCIE-CIEPLO-KWH"), render: (r) => f0(r.cieploKwh), liczbowa: true },
+    { naglowek: t("UI-OBCCIE-PRAD-KWH"), render: (r) => (r.energiaElektrycznaKwh === null ? "—" : f0(r.energiaElektrycznaKwh)), liczbowa: true },
   ]
 
   return (
     <main className="mx-auto flex max-w-2xl flex-col gap-6 p-6">
       <NawigacjaEkranu href="/kalkulatory/obciazenie-cieplne" />
-      <NaglowekEkranu tytul="Straty ciepła budynku" ekran="obciazenie-cieplne" wynik={wynik}>
-        Ile ciepła ucieka przez ściany, okna, dach i podłogę oraz z wymienianym powietrzem w najzimniejszy dzień — to moc,
-        którą musi dać ogrzewanie. W off-gridzie od tej liczby zależy, ile prądu albo paliwa potrzebujesz zimą. Moduł 6,
-        Ekran 1.
+      <NaglowekEkranu tytul={t("UI-OBCCIE-STRATY-CIEPLA-BUDYNKU")} ekran="obciazenie-cieplne" wynik={wynik}>
+        {t("UI-OBCCIE-ILE-CIEPLA-UCIEKA")}
       </NaglowekEkranu>
 
       <section className="flex flex-col gap-3">
-        <h2 className="font-semibold">1. Temperatury i powietrze</h2>
+        <h2 className="font-semibold">{t("UI-OBCCIE-TEMPERATURY-POWIETRZE")}</h2>
         <div className="grid gap-3 sm:grid-cols-2">
-          <PoleSelect label="Strefa klimatyczna" value={stan.strefa} onChange={(e) => ustaw("strefa", e.target.value)} pomoc={<PomocPola ekran="obciazenie-cieplne" pole="strefa" />}>
-            <option value="">— wybierz —</option>
+          <PoleSelect label={t("UI-OBCCIE-STREFA-KLIMATYCZNA")} value={stan.strefa} onChange={(e) => ustaw("strefa", e.target.value)} pomoc={<PomocPola ekran="obciazenie-cieplne" pole="strefa" />}>
+            <option value="">{t("UI-WYBIERZ")}</option>
             {STREFY_KLIMATYCZNE.map((s) => (
               <option key={s} value={s}>
-                Strefa {RZYMSKIE[s]} ({TEMPERATURA_OBLICZENIOWA_ZEWNETRZNA_C[s]} °C)
+                {t("UI-OBCCIE-STREFA", { p: RZYMSKIE[s], p2: TEMPERATURA_OBLICZENIOWA_ZEWNETRZNA_C[s] })}
               </option>
             ))}
           </PoleSelect>
           <Pole
-            label="Temperatura w domu"
+            label={t("UI-OBCCIE-TEMPERATURA-DOMU")}
             unit="°C"
             type="number"
             inputMode="decimal"
@@ -151,7 +150,7 @@ export default function ObciazenieCieplnePage() {
             pomoc={<PomocPola ekran="obciazenie-cieplne" pole="tempDom" />}
           />
           <Pole
-            label="Kubatura ogrzewana"
+            label={t("UI-OBCCIE-KUBATURA-OGRZEWANA")}
             unit="m³"
             type="number"
             inputMode="decimal"
@@ -161,7 +160,7 @@ export default function ObciazenieCieplnePage() {
             pomoc={<PomocPola ekran="obciazenie-cieplne" pole="kubatura" />}
           />
           <Pole
-            label="Wymiany powietrza"
+            label={t("UI-OBCCIE-WYMIANY-POWIETRZA")}
             unit="1/h"
             type="number"
             inputMode="decimal"
@@ -171,7 +170,7 @@ export default function ObciazenieCieplnePage() {
             pomoc={<PomocPola ekran="obciazenie-cieplne" pole="wymiany" />}
           />
           <Pole
-            label="COP ogrzewania (opcjonalnie)"
+            label={t("UI-OBCCIE-COP-OGRZEWANIA-OPCJONALNIE")}
             type="number"
             inputMode="decimal"
             min={0}
@@ -183,28 +182,27 @@ export default function ObciazenieCieplnePage() {
       </section>
 
       <section className="flex flex-col gap-3">
-        <h2 className="font-semibold">2. Przegrody</h2>
+        <h2 className="font-semibold">{t("UI-OBCCIE-PRZEGRODY")}</h2>
         {stan.przegrody.map((p, i) => (
           <KartaPrzegrody key={i} p={p} i={i} ustaw={(z) => ustawPrzegrode(i, z)} usun={() => setStan((s) => ({ ...s, przegrody: s.przegrody.filter((_, j) => j !== i) }))} />
         ))}
         <Button variant="outline" className="min-h-11 w-fit" onClick={() => setStan((s) => ({ ...s, przegrody: [...s.przegrody, nowaPrzegroda("")] }))}>
-          + Dodaj przegrodę
+          {t("UI-OBCCIE-DODAJ-PRZEGRODE")}
         </Button>
       </section>
 
       <section className="flex flex-col gap-3">
-        <h2 className="font-semibold">3. Miesiące (opcjonalnie)</h2>
+        <h2 className="font-semibold">{t("UI-OBCCIE-MIESIACE-OPCJONALNIE")}</h2>
         <p className="text-small text-muted-foreground">
-          Średnia temperatura miesięcy, dla których chcesz znać ilość ciepła — wstaw z danych PVGIS albo wpisz sam. Puste
-          miesiące są pomijane.
+          {t("UI-OBCCIE-SREDNIA-TEMPERATURA-MIESIECY")}
         </p>
-        <TemperaturyZPvgis onWstaw={(temperatury) => ustaw("miesiace", temperatury.map((t) => t.toFixed(1)))} />
+        <TemperaturyZPvgis onWstaw={(temperatury) => ustaw("miesiace", temperatury.map((temp) => temp.toFixed(1)))} />
         <div className="grid grid-cols-2 gap-3 sm:grid-cols-4">
           {MIESIACE.map((m, i) => (
             <Pole
               key={m}
               id={`miesiac-${i}`}
-              label={m}
+              label={t(m)}
               unit="°C"
               type="number"
               inputMode="decimal"
@@ -217,7 +215,7 @@ export default function ObciazenieCieplnePage() {
       </section>
 
       {wynik.status === "INVALID_INPUT" && (
-        <WerdyktPanel poziom="blad" etykieta="Sprawdź dane">
+        <WerdyktPanel poziom="blad" etykieta={t("UI-OBCCIE-SPRAWDZ-DANE")}>
           <ul className="mt-2 space-y-1 text-small">
             {wynik.warnings.map((w, i) => (
               <li key={w.code + i}>{w.message ?? t(w.i18nKey ?? w.code, w.params)}</li>
@@ -227,19 +225,17 @@ export default function ObciazenieCieplnePage() {
       )}
       {wynik.status === "INCOMPLETE" && (
         <p className="text-small text-muted-foreground">
-          Wybierz strefę, wpisz temperaturę w domu, kubaturę, wymiany powietrza oraz powierzchnię i U każdej przegrody (a dla
-          przegród przy gruncie lub nieogrzewanym pomieszczeniu — temperaturę po drugiej stronie).
+          {t("UI-OBCCIE-WYBIERZ-STREFE-WPISZ")}
         </p>
       )}
       {v && (
-        <WerdyktPanel poziom={poziom} etykieta={`Straty ciepła przy ${v.temperaturaZewnetrznaC} °C`}>
+        <WerdyktPanel poziom={poziom} etykieta={t("UI-OBCCIE-STRATY-CIEPLA", { temperaturaZewnetrznaC: v.temperaturaZewnetrznaC })}>
           <WynikGlowny>{f1(v.obciazenieW / 1000)} kW</WynikGlowny>
           <p className="mt-1 text-small">
-            Przez przegrody {f0(v.strataPrzenikanieW)} W, z wymienianym powietrzem {f0(v.strataWentylacjaW)} W. W najzimniejszą
-            dobę to <strong>{f0(v.cieploDobaObliczeniowaKwh)} kWh ciepła</strong>
+            {t("UI-OBCCIE-PRZEGRODY-WYMIENIANYM-POWIET", { strataPrzenikanieW: f0(v.strataPrzenikanieW), strataWentylacjaW: f0(v.strataWentylacjaW) })} <strong>{t("UI-OBCCIE-KWH-CIEPLA", { cieploDobaObliczeniowaKwh: f0(v.cieploDobaObliczeniowaKwh) })}</strong>
             {v.energiaElektrycznaDobaKwh !== null && (
               <>
-                {" "}— przy COP {stan.cop} ok. <strong>{f0(v.energiaElektrycznaDobaKwh)} kWh prądu</strong>
+                {" "}{t("UI-OBCCIE-COP", { cop: stan.cop })} <strong>{t("UI-OBCCIE-KWH-PRADU", { energiaElektrycznaDobaKwh: f0(v.energiaElektrycznaDobaKwh) })}</strong>
               </>
             )}
             .
@@ -249,23 +245,23 @@ export default function ObciazenieCieplnePage() {
           </div>
           {v.miesiace && (
             <div className="mt-3">
-              <p className="text-small font-medium">Ciepło w miesiącach: razem {f0(v.cieploSumaMiesiecyKwh!)} kWh</p>
+              <p className="text-small font-medium">{t("UI-OBCCIE-CIEPLO-MIESIACACH-RAZEM", { p: f0(v.cieploSumaMiesiecyKwh!) })}</p>
               <KartaPorownawcza kolumny={kolumnyMiesiecy} wiersze={v.miesiace.map((m) => ({ ...m, id: m.miesiac }))} minWidth={320} />
             </div>
           )}
           <WynikSzczegoly assumptions={wynik.assumptions} warnings={wynik.warnings} formula={wynik.formula} />
           <p className="mt-2 text-small">
-            Dalej:{" "}
+            {t("UI-OBCCIE-DALEJ")}{" "}
             <Link href="/kalkulatory/zapotrzebowanie-co-cwu" className="underline">
-              ciepło na dobę z C.W.U.
+              {t("UI-OBCCIE-CIEPLO-DOBE")}
             </Link>
             ,{" "}
             <Link href="/kalkulatory/koszty-ogrzewania" className="underline">
-              czym najtaniej grzać
+              {t("UI-OBCCIE-CZYM-NAJTANIEJ-GRZAC")}
             </Link>
             ,{" "}
             <Link href="/kalkulatory/liczba-paneli" className="underline">
-              ile paneli na zimę
+              {t("UI-OBCCIE-ILE-PANELI-ZIME")}
             </Link>
             .
           </p>

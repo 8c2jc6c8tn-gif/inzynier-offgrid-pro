@@ -11,6 +11,7 @@ import { NaglowekEkranu } from "@/components/wzorce/naglowek-ekranu"
 import { WynikGlowny } from "@/components/wzorce/wynik-glowny"
 import { WynikSzczegoly } from "@/components/wzorce/wynik-szczegoly"
 import { GODZINY_PRACY_CIAGLEJ_H, MOC_ELEKTRONICZNEJ_MAX_W, MOC_ELEKTRONICZNEJ_MIN_W, MOC_STALOOBROTOWEJ_MAX_W, MOC_STALOOBROTOWEJ_MIN_W } from "@/lib/core/modules/ogrzewanie/pompy-cyrkulacyjne/constants"
+import { useTranslate } from "@/lib/i18n/language-context"
 
 type FormularzStan = {
   mocObecnejPompyW: string
@@ -25,6 +26,7 @@ const STAN_POCZATKOWY: FormularzStan = {
 }
 
 export default function PompyCyrkulacyjnePage() {
+  const t = useTranslate()
   const [stan, setStan] = usePersistedDraft<FormularzStan>("pompy-cyrkulacyjne", STAN_POCZATKOWY)
   const { mocObecnejPompyW, mocNowejPompyW, godzinyPracyDobowoH } = stan
 
@@ -56,15 +58,13 @@ export default function PompyCyrkulacyjnePage() {
   return (
     <main className="mx-auto flex max-w-md flex-col gap-6 p-6">
       <NawigacjaEkranu href="/kalkulatory/pompy-cyrkulacyjne" />
-      <NaglowekEkranu tytul="Pompy cyrkulacyjne — dobór" ekran="pompy-cyrkulacyjne" wynik={result}>
-        W off-gridzie pompy cyrkulacyjne to cisi złodzieje energii — pracują 24/7 i łatwo je
-        zlekceważyć, a różnica między starym a nowym modelem to realne kilowatogodziny dziennie.
-        Moduł 6, Ekran 15.
+      <NaglowekEkranu tytul={t("UI-POMCYR-POMPY-CYRKULACYJNE-DOBOR")} ekran="pompy-cyrkulacyjne" wynik={result}>
+        {t("UI-POMCYR-OFF-GRIDZIE-POMPY")}
       </NaglowekEkranu>
 
       <div className="flex flex-col gap-4">
         <Pole
-          label="Moc obecnej pompy"
+          label={t("UI-POMCYR-MOC-OBECNEJ-POMPY")}
           unit="W"
           type="number"
           inputMode="decimal"
@@ -74,7 +74,7 @@ export default function PompyCyrkulacyjnePage() {
           pomoc={<PomocPola ekran="pompy-cyrkulacyjne" pole="mocObecna" params={{ min: MOC_STALOOBROTOWEJ_MIN_W, max: MOC_STALOOBROTOWEJ_MAX_W }} />}
         />
         <Pole
-          label="Moc rozważanej pompy elektronicznej (PWM)"
+          label={t("UI-POMCYR-MOC-ROZWAZANEJ-POMPY")}
           unit="W"
           type="number"
           inputMode="decimal"
@@ -84,7 +84,7 @@ export default function PompyCyrkulacyjnePage() {
           pomoc={<PomocPola ekran="pompy-cyrkulacyjne" pole="mocNowa" params={{ min: MOC_ELEKTRONICZNEJ_MIN_W, max: MOC_ELEKTRONICZNEJ_MAX_W }} />}
         />
         <Pole
-          label="Godziny pracy na dobę"
+          label={t("UI-POMCYR-GODZINY-PRACY-DOBE")}
           unit="h"
           type="number"
           inputMode="decimal"
@@ -97,18 +97,16 @@ export default function PompyCyrkulacyjnePage() {
       </div>
 
       {result.status === "INVALID_INPUT" ? (
-        <WerdyktPanel poziom="blad" etykieta="Nie da się policzyć — sprawdź wpisane dane">
+        <WerdyktPanel poziom="blad" etykieta={t("UI-POMCYR-POLICZYC-SPRAWDZ-WPISANE")}>
           <WynikSzczegoly assumptions={[]} warnings={result.warnings} />
         </WerdyktPanel>
       ) : result.status === "INCOMPLETE" ? (
-        <p className="text-small text-muted-foreground">Wypełnij wszystkie pola, żeby zobaczyć wynik.</p>
+        <p className="text-small text-muted-foreground">{t("UI-POMCYR-WYPELNIJ-WSZYSTKIE-POLA")}</p>
       ) : (
-        <WerdyktPanel poziom={hasWarning ? "uwaga" : "ok"} etykieta="Oszczędność dobowa">
+        <WerdyktPanel poziom={hasWarning ? "uwaga" : "ok"} etykieta={t("UI-POMCYR-OSZCZEDNOSC-DOBOWA")}>
           <WynikGlowny>{result.value.oszczednoscKwh.toFixed(2)} kWh</WynikGlowny>
           <p className="mt-2 text-small">
-            Obecna pompa: {result.value.energiaObecnaKwh.toFixed(2)} kWh/dobę · nowa pompa:{" "}
-            {result.value.energiaNowaKwh.toFixed(2)} kWh/dobę · oszczędność:{" "}
-            {result.value.oszczednoscPct.toFixed(0)}%.
+            {t("UI-POMCYR-OBECNA-POMPA-KWH", { energiaObecnaKwh: result.value.energiaObecnaKwh.toFixed(2), energiaNowaKwh: result.value.energiaNowaKwh.toFixed(2), oszczednoscPct: result.value.oszczednoscPct.toFixed(0) })}
           </p>
           <WynikSzczegoly assumptions={result.assumptions} warnings={result.warnings} formula={result.formula} />
         </WerdyktPanel>

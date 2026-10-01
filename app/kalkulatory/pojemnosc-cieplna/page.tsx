@@ -32,12 +32,12 @@ const nowaWarstwa = (nazwa: string, strona: StronaWarstwy = "jedna"): WarstwaSee
   strona,
   gruboscElementu: "",
 })
-const STAN_POCZATKOWY: Seed = {
-  warstwy: [nowaWarstwa("Ściany zewnętrzne"), nowaWarstwa("Stropy"), nowaWarstwa("Ścianki działowe", "obie")],
+const stanPoczatkowy = (t: (k: string) => string): Seed => ({
+  warstwy: [nowaWarstwa(t("UI-POJCIE-SCIANY-ZEWNETRZNE")), nowaWarstwa(t("UI-POJCIE-STROPY")), nowaWarstwa(t("UI-POJCIE-SCIANKI-DZIALOWE"), "obie")],
   temperaturaStartowa: "",
   temperaturaZewnetrzna: "",
   temperaturaGraniczna: "",
-}
+})
 
 const n = (s: string) => liczba(s) ?? null
 const f1 = (x: number) => x.toLocaleString("pl-PL", { maximumFractionDigits: 1 })
@@ -45,6 +45,7 @@ const f2 = (x: number) => x.toLocaleString("pl-PL", { minimumFractionDigits: 2, 
 const f0 = (x: number) => x.toLocaleString("pl-PL", { maximumFractionDigits: 0 })
 
 function KartaWarstwy({ w, i, ustaw, usun }: { w: WarstwaSeed; i: number; ustaw: (z: Partial<WarstwaSeed>) => void; usun: () => void }) {
+  const t = useTranslate()
   const pole = (klucz: "powierzchnia" | "grubosc" | "gestosc" | "cieplo" | "gruboscElementu", label: string, unit: string) => (
     <Pole
       id={`warstwa-${i}-${klucz}`}
@@ -60,27 +61,27 @@ function KartaWarstwy({ w, i, ustaw, usun }: { w: WarstwaSeed; i: number; ustaw:
   )
   return (
     <div className="flex flex-col gap-3 rounded-lg border p-3">
-      <Pole id={`warstwa-${i}-nazwa`} label="Warstwa / materiał" value={w.nazwa} onChange={(e) => ustaw({ nazwa: e.target.value })} pomoc={<PomocPola ekran="pojemnosc-cieplna" pole="nazwa" />} />
+      <Pole id={`warstwa-${i}-nazwa`} label={t("UI-POJCIE-WARSTWA-MATERIAL")} value={w.nazwa} onChange={(e) => ustaw({ nazwa: e.target.value })} pomoc={<PomocPola ekran="pojemnosc-cieplna" pole="nazwa" />} />
       <div className="grid gap-3 sm:grid-cols-2">
         {pole("powierzchnia", "Powierzchnia", "m²")}
-        {pole("grubosc", "Grubość", "cm")}
-        {pole("gestosc", "Gęstość ρ", "kg/m³")}
-        {pole("cieplo", "Ciepło właściwe c", "J/(kg·K)")}
+        {pole("grubosc", t("UI-POJCIE-GRUBOSC"), "cm")}
+        {pole("gestosc", t("UI-POJCIE-GESTOSC"), "kg/m³")}
+        {pole("cieplo", t("UI-POJCIE-CIEPLO-WLASCIWE"), "J/(kg·K)")}
         <PoleSelect
           id={`warstwa-${i}-strona`}
-          label="Położenie"
+          label={t("UI-POJCIE-POLOZENIE")}
           value={w.strona ?? "jedna"}
           onChange={(e) => ustaw({ strona: e.target.value as StronaWarstwy })}
           pomoc={<PomocPola ekran="pojemnosc-cieplna" pole="polozenie" />}
         >
-          <option value="jedna">Jedną stroną do wnętrza (ściana zewnętrzna, strop nad piwnicą)</option>
-          <option value="obie">Cała wewnątrz domu (ścianka działowa, strop między piętrami)</option>
-          <option value="za-izolacja">Za izolacją (np. zewnętrzna warstwa muru trójwarstwowego)</option>
+          <option value="jedna">{t("UI-POJCIE-JEDNA-STRONA-WNETRZA")}</option>
+          <option value="obie">{t("UI-POJCIE-CALA-WEWNATRZ-DOMU")}</option>
+          <option value="za-izolacja">{t("UI-POJCIE-IZOLACJA-ZEWNETRZNA-WARSTWA")}</option>
         </PoleSelect>
-        {pole("gruboscElementu", "Grubość całej przegrody (opcjonalnie)", "cm")}
+        {pole("gruboscElementu", t("UI-POJCIE-GRUBOSC-CALEJ-PRZEGRODY"), "cm")}
       </div>
       <Button variant="ghost" className="min-h-11 w-fit" onClick={usun}>
-        Usuń warstwę
+        {t("UI-POJCIE-USUN-WARSTWE")}
       </Button>
     </div>
   )
@@ -88,7 +89,7 @@ function KartaWarstwy({ w, i, ustaw, usun }: { w: WarstwaSeed; i: number; ustaw:
 
 export default function PojemnoscCieplnaPage() {
   const t = useTranslate()
-  const [stan, setStan] = usePersistedDraft<Seed>("pojemnosc-cieplna", STAN_POCZATKOWY)
+  const [stan, setStan] = usePersistedDraft<Seed>("pojemnosc-cieplna", stanPoczatkowy(t))
   const ustaw = (z: Partial<Seed>) => setStan((s) => ({ ...s, ...z }))
   const ustawWarstwe = (i: number, z: Partial<WarstwaSeed>) =>
     setStan((s) => ({ ...s, warstwy: s.warstwy.map((w, j) => (j === i ? { ...w, ...z } : w)) }))
@@ -138,42 +139,40 @@ export default function PojemnoscCieplnaPage() {
   const tg = n(stan.temperaturaGraniczna)
 
   const kolumny: Kolumna<UdzialWarstwy & { id: number }>[] = [
-    { naglowek: "Warstwa", render: (r) => <span className="font-medium">{r.nazwa}</span> },
-    { naglowek: "Czynna [cm]", render: (r) => (r.liczbaStron === 2 ? `2 × ${f1(r.gruboscCzynnaCm)}` : f1(r.gruboscCzynnaCm)), liczbowa: true },
+    { naglowek: t("UI-POJCIE-WARSTWA"), render: (r) => <span className="font-medium">{r.nazwa}</span> },
+    { naglowek: t("UI-POJCIE-CZYNNA"), render: (r) => (r.liczbaStron === 2 ? `2 × ${f1(r.gruboscCzynnaCm)}` : f1(r.gruboscCzynnaCm)), liczbowa: true },
     { naglowek: "C [kWh/K]", render: (r) => f2(r.pojemnoscKwhK), liczbowa: true },
-    { naglowek: "Udział [%]", render: (r) => f0(r.udzialPct), liczbowa: true },
+    { naglowek: t("UI-POJCIE-UDZIAL"), render: (r) => f0(r.udzialPct), liczbowa: true },
   ]
 
   return (
     <main className="mx-auto flex max-w-2xl flex-col gap-6 p-6">
       <NawigacjaEkranu href="/kalkulatory/pojemnosc-cieplna" />
-      <NaglowekEkranu tytul="Pojemność cieplna budynku" ekran="pojemnosc-cieplna" wynik={wynik}>
-        Ile ciepła magazynują ściany i stropy i jak szybko dom wychładza się po awarii ogrzewania — w tym ile czasu zostaje do
-        zamarznięcia instalacji. Moduł 6, Ekran 8.
+      <NaglowekEkranu tytul={t("UI-POJCIE-POJEMNOSC-CIEPLNA-BUDYNKU")} ekran="pojemnosc-cieplna" wynik={wynik}>
+        {t("UI-POJCIE-ILE-CIEPLA-MAGAZYNUJA")}
       </NaglowekEkranu>
 
       <section className="flex flex-col gap-3 rounded-lg border p-4">
-        <h2 className="font-semibold">1. Straty ciepła — z Ekranu 1</h2>
+        <h2 className="font-semibold">{t("UI-POJCIE-STRATY-CIEPLA-EKRANU")}</h2>
         {!ekran1.wczytano ? null : e1 === null ? (
           <p className="text-small text-muted-foreground">
-            Uzupełnij{" "}
+            {t("UI-POJCIE-UZUPELNIJ")}{" "}
             <Link href="/kalkulatory/obciazenie-cieplne" className="underline">
-              Ekran 1 „Straty ciepła budynku”
-            </Link>{" "}
-            — z niego bierze się współczynnik strat H, kubatura i temperatury.
+              {t("UI-POJCIE-EKRAN-STRATY-CIEPLA")}
+            </Link>{" "}{t("UI-POJCIE-NIEGO-BIERZE-WSPOLCZYNNIK")}
           </p>
         ) : (
           <p className="text-small">
-            H = {f0(e1.hZewnetrzneWK + e1.stratyDoInnychStref.reduce((s, x) => s + x.hWK, 0))} W/K (przegrody + wentylacja
-            {e1.kubaturaM3 !== null ? `, powietrze ${f0(e1.kubaturaM3)} m³` : ""}).{" "}
+            {t("UI-POJCIE-PRZEGRODY-WENTYLACJA", { p: f0(e1.hZewnetrzneWK + e1.stratyDoInnychStref.reduce((s, x) => s + x.hWK, 0)) })}
+            {e1.kubaturaM3 !== null ? t("UI-POJCIE-POWIETRZE", { kubaturaM3: f0(e1.kubaturaM3) }) : ""}).{" "}
             <Link href="/kalkulatory/obciazenie-cieplne" className="underline">
-              Zmień na Ekranie 1
+              {t("UI-POJCIE-ZMIEN-EKRANIE")}
             </Link>
           </p>
         )}
         <div className="grid gap-3 sm:grid-cols-3">
           <Pole
-            label="Temperatura w domu"
+            label={t("UI-POJCIE-TEMPERATURA-DOMU")}
             unit="°C"
             type="number"
             inputMode="decimal"
@@ -183,7 +182,7 @@ export default function PojemnoscCieplnaPage() {
             pomoc={<PomocPola ekran="pojemnosc-cieplna" pole="tempDom" />}
           />
           <Pole
-            label="Temperatura na zewnątrz"
+            label={t("UI-POJCIE-TEMPERATURA-ZEWNATRZ")}
             unit="°C"
             type="number"
             inputMode="decimal"
@@ -193,7 +192,7 @@ export default function PojemnoscCieplnaPage() {
             pomoc={<PomocPola ekran="pojemnosc-cieplna" pole="tempZew" />}
           />
           <Pole
-            label="Nie niżej niż (opcjonalnie)"
+            label={t("UI-POJCIE-NIZEJ-NIZ-OPCJONALNIE")}
             unit="°C"
             type="number"
             inputMode="decimal"
@@ -205,11 +204,9 @@ export default function PojemnoscCieplnaPage() {
       </section>
 
       <section className="flex flex-col gap-3">
-        <h2 className="font-semibold">2. Masa budynku</h2>
+        <h2 className="font-semibold">{t("UI-POJCIE-MASA-BUDYNKU")}</h2>
         <p className="text-small text-muted-foreground">
-          Wpisz warstwy, które magazynują ciepło: ciężkie (beton, cegła) akumulują dużo, lekkie (drewno, gips) mało. Gęstość i
-          ciepło właściwe weź z karty materiału — aplikacja nie ma ich tabeli. W ciągu doby ciepło oddaje tylko ok. 10 cm przy
-          powierzchni (EN ISO 13786) — dlatego ważne, czy przegroda ma izolację i czy stoi w środku domu.
+          {t("UI-POJCIE-WPISZ-WARSTWY-KTORE")}
         </p>
         {stan.warstwy.map((w, i) => (
           <KartaWarstwy
@@ -221,12 +218,12 @@ export default function PojemnoscCieplnaPage() {
           />
         ))}
         <Button variant="outline" className="min-h-11 w-fit" onClick={() => setStan((s) => ({ ...s, warstwy: [...s.warstwy, nowaWarstwa("")] }))}>
-          + Dodaj warstwę
+          {t("UI-POJCIE-DODAJ-WARSTWE")}
         </Button>
       </section>
 
       {wynik.status === "INVALID_INPUT" && (
-        <WerdyktPanel poziom="blad" etykieta="Sprawdź dane">
+        <WerdyktPanel poziom="blad" etykieta={t("UI-POJCIE-SPRAWDZ-DANE")}>
           <ul className="mt-2 space-y-1 text-small">
             {wynik.warnings.map((w, i) => (
               <li key={w.code + i}>{w.message ?? t(w.i18nKey ?? w.code, w.params)}</li>
@@ -236,25 +233,25 @@ export default function PojemnoscCieplnaPage() {
       )}
       {wynik.status === "INCOMPLETE" && e1 !== null && (
         <p className="text-small text-muted-foreground">
-          Wpisz powierzchnię, grubość, gęstość i ciepło właściwe każdej warstwy (albo usuń te, których nie liczysz).
+          {t("UI-POJCIE-WPISZ-POWIERZCHNIE-GRUBOSC")}
         </p>
       )}
       {v && (
-        <WerdyktPanel poziom="uwaga" etykieta="Przybliżenie (EN ISO 13786, Załącznik A)">
+        <WerdyktPanel poziom="uwaga" etykieta={t("UI-POJCIE-PRZYBLIZENIE-ISO-13786")}>
           <WynikGlowny>{f1(v.pojemnoscKwhK)} kWh/K</WynikGlowny>
           <p className="mt-1 text-small">
-            Stała czasowa τ = {f0(v.stalaCzasowaH)} h. Bez ogrzewania dom dąży do {f1(v.temperaturaRownowagiC)} °C.
-            {v.czasPierwszegoStopniaH !== null && <> Pierwszy 1 °C spadku po {f1(v.czasPierwszegoStopniaH)} h.</>}
+            {t("UI-POJCIE-STALA-CZASOWA-BEZ", { stalaCzasowaH: f0(v.stalaCzasowaH), temperaturaRownowagiC: f1(v.temperaturaRownowagiC) })}
+            {v.czasPierwszegoStopniaH !== null && <> {t("UI-POJCIE-PIERWSZY-SPADKU", { czasPierwszegoStopniaH: f1(v.czasPierwszegoStopniaH) })}</>}
             {tg !== null && v.czasDoGranicyH !== null && (
               <>
                 {" "}
-                Do {tg} °C po <strong>{f1(v.czasDoGranicyH)} h</strong> — realnie może to być krócej.
+                {t("UI-POJCIE-DO-PO", { tg })} <strong>{f1(v.czasDoGranicyH)} h</strong> {t("UI-POJCIE-REALNIE-MOZE-BYC")}
               </>
             )}
           </p>
           <p className="mt-2 text-small">{t("POJC-ZALACZNIK-A-PRZYBLIZENIE")}</p>
           <p className="mt-1 text-small text-muted-foreground">
-            Cała masa przegród: {f1(v.pojemnoscCalkowitaKwhK)} kWh/K — oddaje ciepło dopiero przy wychładzaniu trwającym wiele dni.
+            {t("UI-POJCIE-CALA-MASA-PRZEGROD", { pojemnoscCalkowitaKwhK: f1(v.pojemnoscCalkowitaKwhK) })}
           </p>
           <ul className="mt-3 grid grid-cols-3 gap-2 sm:grid-cols-5 text-center text-small">
             {v.przebieg.map((p) => (
@@ -267,7 +264,7 @@ export default function PojemnoscCieplnaPage() {
           <div className="mt-3">
             <KartaPorownawcza kolumny={kolumny} wiersze={v.warstwy.map((w, i) => ({ ...w, id: i }))} minWidth={340} />
           </div>
-          {v.pojemnoscPowietrzaKwhK > 0 && <p className="mt-2 text-small text-muted-foreground">Powietrze: {f2(v.pojemnoscPowietrzaKwhK)} kWh/K.</p>}
+          {v.pojemnoscPowietrzaKwhK > 0 && <p className="mt-2 text-small text-muted-foreground">{t("UI-POJCIE-POWIETRZE-KWH", { pojemnoscPowietrzaKwhK: f2(v.pojemnoscPowietrzaKwhK) })}</p>}
           <WynikSzczegoly assumptions={wynik.assumptions} warnings={wynik.warnings} formula={wynik.formula} />
         </WerdyktPanel>
       )}

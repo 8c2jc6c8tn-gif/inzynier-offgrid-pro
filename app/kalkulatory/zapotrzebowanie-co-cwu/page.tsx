@@ -18,7 +18,7 @@ import { useTranslate } from "@/lib/i18n/language-context"
 import { liczba } from "@/lib/lokalizacja/model-dzialki"
 import { KLUCZ_DRAFTU_OBCIAZENIA, wejscieObciazenia, type SeedObciazenia } from "@/lib/ogrzewanie/draft-obciazenia-cieplnego"
 
-const MIESIACE = ["Styczeń", "Luty", "Marzec", "Kwiecień", "Maj", "Czerwiec", "Lipiec", "Sierpień", "Wrzesień", "Październik", "Listopad", "Grudzień"]
+const MIESIACE = Array.from({ length: 12 }, (_, i) => `UI-MIESIAC-${i + 1}`)
 
 type Seed = { liczbaOsob: string; litry: string; tZimna: string; tCwu: string; copCwu: string }
 const STAN_POCZATKOWY: Seed = { liczbaOsob: "", litry: String(CWU_L_NA_OSOBE_ZRODLO_M6), tZimna: "", tCwu: "", copCwu: "" }
@@ -61,56 +61,51 @@ export default function ZapotrzebowanieCoCwuPage() {
   const najzimniejszy = v?.miesiace?.reduce((a, m) => (m.razemKwhDoba > a.razemKwhDoba ? m : a))
 
   const kolumny: Kolumna<MiesiacCoCwu & { id: number }>[] = [
-    { naglowek: "Miesiąc", render: (r) => MIESIACE[r.miesiac - 1] },
+    { naglowek: t("UI-ZAPCOCWU-MIESIAC"), render: (r) => t(MIESIACE[r.miesiac - 1]) },
     { naglowek: "C.O. [kWh/d]", render: (r) => f1(r.coKwhDoba), liczbowa: true },
     { naglowek: "C.W.U. [kWh/d]", render: (r) => f1(r.cwuKwhDoba), liczbowa: true },
-    { naglowek: "Razem [kWh/d]", render: (r) => f1(r.razemKwhDoba), liczbowa: true },
-    { naglowek: "Prąd [kWh/d]", render: (r) => (r.pradKwhDoba === null ? "—" : f1(r.pradKwhDoba)), liczbowa: true },
+    { naglowek: t("UI-ZAPCOCWU-RAZEM-KWH"), render: (r) => f1(r.razemKwhDoba), liczbowa: true },
+    { naglowek: t("UI-ZAPCOCWU-PRAD-KWH"), render: (r) => (r.pradKwhDoba === null ? "—" : f1(r.pradKwhDoba)), liczbowa: true },
   ]
 
   return (
     <main className="mx-auto flex max-w-2xl flex-col gap-6 p-6">
       <NawigacjaEkranu href="/kalkulatory/zapotrzebowanie-co-cwu" />
-      <NaglowekEkranu tytul="Zapotrzebowanie na C.O. i C.W.U." ekran="zapotrzebowanie-co-cwu" wynik={wynik}>
-        Ile ciepła dziennie potrzeba na ogrzewanie domu (C.O.) i na ciepłą wodę (C.W.U.) w każdym miesiącu. Ogrzewanie
-        bierze straty ciepła z Ekranu 1, ciepła woda liczy się z liczby osób. Moduł 6, Ekran 2.
+      <NaglowekEkranu tytul={t("UI-ZAPCOCWU-ZAPOTRZEBOWANIE")} ekran="zapotrzebowanie-co-cwu" wynik={wynik}>
+        {t("UI-ZAPCOCWU-ILE-CIEPLA-DZIENNIE")}
       </NaglowekEkranu>
 
       <section className="flex flex-col gap-2 rounded-lg border p-4">
-        <h2 className="font-semibold">1. Ogrzewanie (C.O.) — z Ekranu 1</h2>
+        <h2 className="font-semibold">{t("UI-ZAPCOCWU-OGRZEWANIE-EKRANU")}</h2>
         {!ekran1.wczytano ? null : !wynikE1?.value ? (
           <p className="text-small text-muted-foreground">
-            Najpierw policz{" "}
+            {t("UI-ZAPCOCWU-NAJPIERW-POLICZ")}{" "}
             <Link href="/kalkulatory/obciazenie-cieplne" className="underline">
-              straty ciepła budynku
-            </Link>{" "}
-            (Ekran 1) — stąd bierze się ciepło na ogrzewanie.
+              {t("UI-ZAPCOCWU-STRATY-CIEPLA-BUDYNKU")}
+            </Link>{" "}{t("UI-ZAPCOCWU-EKRAN-STAD-BIERZE")}
           </p>
         ) : !miesiaceE1 ? (
           <p className="text-small text-muted-foreground">
-            Straty ciepła są policzone ({f1(wynikE1.value.obciazenieW / 1000)} kW przy {wynikE1.value.temperaturaZewnetrznaC} °C), ale bez
-            miesięcy — na{" "}
+            {t("UI-ZAPCOCWU-STRATY-CIEPLA-POLICZONE", { p: f1(wynikE1.value.obciazenieW / 1000), temperaturaZewnetrznaC: wynikE1.value.temperaturaZewnetrznaC })}{" "}
             <Link href="/kalkulatory/obciazenie-cieplne" className="underline">
-              Ekranie 1
-            </Link>{" "}
-            wstaw temperatury z PVGIS albo wpisz je w sekcji „Miesiące”.
+              {t("UI-ZAPCOCWU-EKRANIE")}
+            </Link>{" "}{t("UI-ZAPCOCWU-WSTAW-TEMPERATURY-PVGIS")}
           </p>
         ) : (
           <p className="text-small">
-            Z Ekranu 1: {f1(wynikE1.value.obciazenieW / 1000)} kW strat przy {wynikE1.value.temperaturaZewnetrznaC} °C, ciepło w{" "}
-            {miesiaceE1.length} miesiącach{copCo !== null ? `, COP ogrzewania ${f1(copCo)}` : ""}.{" "}
+            {t("UI-ZAPCOCWU-EKRANU-STRAT-CIEPLO", { p: f1(wynikE1.value.obciazenieW / 1000), temperaturaZewnetrznaC: wynikE1.value.temperaturaZewnetrznaC, length: miesiaceE1.length })}{copCo !== null ? t("UI-ZAPCOCWU-COP-OGRZEWANIA", { copCo: f1(copCo) }) : ""}.{" "}
             <Link href="/kalkulatory/obciazenie-cieplne" className="underline">
-              Zmień na Ekranie 1
+              {t("UI-ZAPCOCWU-ZMIEN-EKRANIE")}
             </Link>
           </p>
         )}
       </section>
 
       <section className="flex flex-col gap-3">
-        <h2 className="font-semibold">2. Ciepła woda (C.W.U.)</h2>
+        <h2 className="font-semibold">{t("UI-ZAPCOCWU-CIEPLA-WODA")}</h2>
         <div className="grid gap-3 sm:grid-cols-2">
           <Pole
-            label="Liczba osób"
+            label={t("UI-ZAPCOCWU-LICZBA-OSOB")}
             type="number"
             inputMode="numeric"
             min={1}
@@ -120,8 +115,8 @@ export default function ZapotrzebowanieCoCwuPage() {
             pomoc={<PomocPola ekran="zapotrzebowanie-co-cwu" pole="osoby" />}
           />
           <Pole
-            label="Ciepła woda na osobę"
-            unit="l/dobę"
+            label={t("UI-ZAPCOCWU-CIEPLA-WODA-OSOBE")}
+            unit={t("UI-ZAPCOCWU-DOBE")}
             type="number"
             inputMode="decimal"
             min={0}
@@ -130,7 +125,7 @@ export default function ZapotrzebowanieCoCwuPage() {
             pomoc={<PomocPola ekran="zapotrzebowanie-co-cwu" pole="litry" params={{ l: CWU_L_NA_OSOBE_ZRODLO_M6 }} />}
           />
           <Pole
-            label="Temperatura zimnej wody"
+            label={t("UI-ZAPCOCWU-TEMPERATURA-ZIMNEJ-WODY")}
             unit="°C"
             type="number"
             inputMode="decimal"
@@ -139,7 +134,7 @@ export default function ZapotrzebowanieCoCwuPage() {
             pomoc={<PomocPola ekran="zapotrzebowanie-co-cwu" pole="tZimna" />}
           />
           <Pole
-            label="Temperatura ciepłej wody"
+            label={t("UI-ZAPCOCWU-TEMPERATURA-CIEPLEJ-WODY")}
             unit="°C"
             type="number"
             inputMode="decimal"
@@ -148,7 +143,7 @@ export default function ZapotrzebowanieCoCwuPage() {
             pomoc={<PomocPola ekran="zapotrzebowanie-co-cwu" pole="tCiepla" />}
           />
           <Pole
-            label="COP podgrzewania wody (opcjonalnie)"
+            label={t("UI-ZAPCOCWU-COP-PODGRZEWANIA-WODY")}
             type="number"
             inputMode="decimal"
             min={0}
@@ -160,7 +155,7 @@ export default function ZapotrzebowanieCoCwuPage() {
       </section>
 
       {wynik.status === "INVALID_INPUT" && (
-        <WerdyktPanel poziom="blad" etykieta="Sprawdź dane">
+        <WerdyktPanel poziom="blad" etykieta={t("UI-ZAPCOCWU-SPRAWDZ-DANE")}>
           <ul className="mt-2 space-y-1 text-small">
             {wynik.warnings.map((w, i) => (
               <li key={w.code + i}>{w.message ?? t(w.i18nKey ?? w.code, w.params)}</li>
@@ -169,46 +164,46 @@ export default function ZapotrzebowanieCoCwuPage() {
         </WerdyktPanel>
       )}
       {wynik.status === "INCOMPLETE" && (
-        <p className="text-small text-muted-foreground">Wpisz liczbę osób, litry na osobę oraz temperaturę zimnej i ciepłej wody.</p>
+        <p className="text-small text-muted-foreground">{t("UI-ZAPCOCWU-WPISZ-LICZBE-OSOB")}</p>
       )}
       {v && (
         <WerdyktPanel
           poziom={poziom}
-          etykieta={najzimniejszy ? `Najwięcej ciepła: ${MIESIACE[najzimniejszy.miesiac - 1]}` : "Ciepła woda na dobę"}
+          etykieta={najzimniejszy ? t("UI-ZAPCOCWU-NAJWIECEJ-CIEPLA", { p: t(MIESIACE[najzimniejszy.miesiac - 1]) }) : t("UI-ZAPCOCWU-CIEPLA-WODA-DOBE-2")}
         >
-          <WynikGlowny>{f1(najzimniejszy ? najzimniejszy.razemKwhDoba : v.cwuKwhDoba)} kWh/dobę</WynikGlowny>
+          <WynikGlowny>{t("UI-ZAPCOCWU-KWH-DOBE", { p: f1(najzimniejszy ? najzimniejszy.razemKwhDoba : v.cwuKwhDoba) })}</WynikGlowny>
           <p className="mt-1 text-small">
             {najzimniejszy && (
               <>
-                C.O. {f1(najzimniejszy.coKwhDoba)} kWh + C.W.U. {f1(najzimniejszy.cwuKwhDoba)} kWh na dobę
+                {t("UI-ZAPCOCWU-KWH-KWH-DOBE", { coKwhDoba: f1(najzimniejszy.coKwhDoba), cwuKwhDoba: f1(najzimniejszy.cwuKwhDoba) })}
                 {najzimniejszy.pradKwhDoba !== null && (
                   <>
-                    {" "}— ok. <strong>{f1(najzimniejszy.pradKwhDoba)} kWh prądu</strong>
+                    {" "}{t("UI-ZAPCOCWU-OK")} <strong>{t("UI-ZAPCOCWU-KWH-PRADU", { pradKwhDoba: f1(najzimniejszy.pradKwhDoba) })}</strong>
                   </>
                 )}
                 .{" "}
               </>
             )}
-            Ciepła woda: {f0(v.cwuLitrowDoba)} l na dobę podgrzane o {f1(v.deltaTK)} K = {f1(v.cwuKwhDoba)} kWh ciepła każdego dnia
-            {v.cwuPradKwhDoba !== null && <> (ok. {f1(v.cwuPradKwhDoba)} kWh prądu)</>}.
+            {t("UI-ZAPCOCWU-CIEPLA-WODA-DOBE", { cwuLitrowDoba: f0(v.cwuLitrowDoba), deltaTK: f1(v.deltaTK), cwuKwhDoba: f1(v.cwuKwhDoba) })}
+            {v.cwuPradKwhDoba !== null && <> {t("UI-ZAPCOCWU-KWH-PRADU-2", { cwuPradKwhDoba: f1(v.cwuPradKwhDoba) })}</>}.
           </p>
           {v.miesiace && (
             <div className="mt-3">
               <p className="text-small font-medium">
-                Razem w tych miesiącach: C.O. {f0(v.coSumaKwh!)} kWh, C.W.U. {f0(v.cwuSumaMiesiecyKwh!)} kWh
+                {t("UI-ZAPCOCWU-RAZEM-TYCH-MIESIACACH", { p: f0(v.coSumaKwh!), p2: f0(v.cwuSumaMiesiecyKwh!) })}
               </p>
               <KartaPorownawcza kolumny={kolumny} wiersze={v.miesiace.map((m) => ({ ...m, id: m.miesiac }))} minWidth={320} />
             </div>
           )}
           <WynikSzczegoly assumptions={wynik.assumptions} warnings={wynik.warnings} formula={wynik.formula} />
           <p className="mt-2 text-small">
-            Dalej:{" "}
+            {t("UI-ZAPCOCWU-DALEJ")}{" "}
             <Link href="/kalkulatory/bojler-cwu" className="underline">
-              bojler C.W.U. (czas grzania)
+              {t("UI-ZAPCOCWU-BOJLER-CZAS-GRZANIA")}
             </Link>
             ,{" "}
             <Link href="/kalkulatory/koszty-ogrzewania" className="underline">
-              czym najtaniej grzać
+              {t("UI-ZAPCOCWU-CZYM-NAJTANIEJ-GRZAC")}
             </Link>
             .
           </p>

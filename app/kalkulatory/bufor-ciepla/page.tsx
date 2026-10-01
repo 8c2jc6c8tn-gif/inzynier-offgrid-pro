@@ -11,6 +11,7 @@ import { NaglowekEkranu } from "@/components/wzorce/naglowek-ekranu"
 import { WynikGlowny } from "@/components/wzorce/wynik-glowny"
 import { WynikSzczegoly } from "@/components/wzorce/wynik-szczegoly"
 import { ZALECANA_POJEMNOSC_L_NA_KW } from "@/lib/core/modules/ogrzewanie/bufor-ciepla/constants"
+import { useTranslate } from "@/lib/i18n/language-context"
 
 type FormularzStan = {
   mocPompyKw: string
@@ -23,6 +24,7 @@ const STAN_POCZATKOWY: FormularzStan = {
 }
 
 export default function BuforCieplaPage() {
+  const t = useTranslate()
   const [stan, setStan] = usePersistedDraft<FormularzStan>("bufor-ciepla", STAN_POCZATKOWY)
   const { mocPompyKw, pojemnoscBuforaL } = stan
 
@@ -49,14 +51,13 @@ export default function BuforCieplaPage() {
   return (
     <main className="mx-auto flex max-w-md flex-col gap-6 p-6">
       <NawigacjaEkranu href="/kalkulatory/bufor-ciepla" />
-      <NaglowekEkranu tytul="Bufor ciepła — dobór pojemności" ekran="bufor-ciepla" wynik={result} parametry={{ lkw: ZALECANA_POJEMNOSC_L_NA_KW }}>
-        Bufor to termos dla ciepła — gromadzi je, gdy jest „tanio” (słońce świeci), i oddaje, gdy
-        jest „drogo” (noc, chmury). Moduł 6, Ekran 14.
+      <NaglowekEkranu tytul={t("UI-BUFCIE-BUFOR-CIEPLA-DOBOR")} ekran="bufor-ciepla" wynik={result} parametry={{ lkw: ZALECANA_POJEMNOSC_L_NA_KW }}>
+        {t("UI-BUFCIE-BUFOR-TERMOS-CIEPLA")}
       </NaglowekEkranu>
 
       <div className="flex flex-col gap-4">
         <Pole
-          label="Moc pompy ciepła"
+          label={t("UI-BUFCIE-MOC-POMPY-CIEPLA")}
           unit="kW"
           type="number"
           inputMode="decimal"
@@ -66,7 +67,7 @@ export default function BuforCieplaPage() {
           pomoc={<PomocPola ekran="bufor-ciepla" pole="moc" />}
         />
         <Pole
-          label="Posiadana/planowana pojemność bufora"
+          label={t("UI-BUFCIE-POSIADANA-PLANOWANA-POJEMNOS")}
           unit="l"
           type="number"
           inputMode="decimal"
@@ -78,13 +79,13 @@ export default function BuforCieplaPage() {
       </div>
 
       {result.status === "INVALID_INPUT" ? (
-        <WerdyktPanel poziom="blad" etykieta="Nie da się policzyć — sprawdź wpisane dane">
+        <WerdyktPanel poziom="blad" etykieta={t("UI-BUFCIE-POLICZYC-SPRAWDZ-WPISANE")}>
           <WynikSzczegoly assumptions={[]} warnings={result.warnings} />
         </WerdyktPanel>
       ) : result.status === "INCOMPLETE" ? (
-        <p className="text-small text-muted-foreground">Wypełnij wszystkie pola, żeby zobaczyć wynik.</p>
+        <p className="text-small text-muted-foreground">{t("UI-BUFCIE-WYPELNIJ-WSZYSTKIE-POLA")}</p>
       ) : (
-        <WerdyktPanel poziom={hasWarning ? "uwaga" : "ok"} etykieta="Zalecana pojemność bufora">
+        <WerdyktPanel poziom={hasWarning ? "uwaga" : "ok"} etykieta={t("UI-BUFCIE-ZALECANA-POJEMNOSC-BUFORA")}>
           <WynikGlowny>{result.value.zalecanaPojemnoscL.toFixed(0)} l</WynikGlowny>
           <WynikSzczegoly assumptions={result.assumptions} warnings={result.warnings} formula={result.formula} />
         </WerdyktPanel>

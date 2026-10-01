@@ -50,14 +50,13 @@ export default function CopPompyCieplaPage() {
   return (
     <main className="mx-auto flex max-w-md flex-col gap-6 p-6">
       <NawigacjaEkranu href="/kalkulatory/cop-pompy-ciepla" />
-      <NaglowekEkranu tytul="Pompa ciepła — COP w funkcji temperatury" ekran="cop-pompy-ciepla" wynik={result}>
-        COP to „mnożnik” — pompa ciepła nie produkuje ciepła z niczego, tylko przenosi je z
-        zewnątrz, zużywając mniej prądu niż grzałka elektryczna. Moduł 6, Ekran 5.
+      <NaglowekEkranu tytul={t("UI-COPPOMCIE-POMPA-CIEPLA-COP")} ekran="cop-pompy-ciepla" wynik={result}>
+        {t("UI-COPPOMCIE-COP-MNOZNIK-POMPA")}
       </NaglowekEkranu>
 
       <div className="flex flex-col gap-4">
         <Pole
-          label="Zapotrzebowanie na moc cieplną"
+          label={t("UI-COPPOMCIE-ZAPOTRZEBOWANIE-MOC-CIEPLNA")}
           unit="kW"
           type="number"
           inputMode="decimal"
@@ -66,7 +65,7 @@ export default function CopPompyCieplaPage() {
           pomoc={<PomocPola ekran="cop-pompy-ciepla" pole="moc" params={{ mocMax: MOC_CIEPLNA_KW_MAX }} />}
         />
         <Pole
-          label="COP przy aktualnej temperaturze"
+          label={t("UI-COPPOMCIE-COP-AKTUALNEJ-TEMPERATURZE")}
           unit="-"
           type="number"
           inputMode="decimal"
@@ -78,7 +77,7 @@ export default function CopPompyCieplaPage() {
 
       <WerdyktPanel poziom={poziom}>
         {result.status === "INVALID_INPUT" ? (
-          <p className="mt-1">Nie da się policzyć — sprawdź dane wejściowe powyżej.</p>
+          <p className="mt-1">{t("UI-COPPOMCIE-POLICZYC-SPRAWDZ-DANE")}</p>
         ) : (
           <p className="mt-1 text-h1 font-semibold">
             {result.value.toFixed(2)} {result.unit}
@@ -88,7 +87,7 @@ export default function CopPompyCieplaPage() {
         {result.assumptions.length > 0 && (
           <ul className="mt-2 text-small opacity-90">
             {result.assumptions.map((a, i) => (
-              <li key={typeof a === "string" ? a : a.kod + i}>Założenie: {typeof a === "string" ? a : t(a.kod, a.params)}</li>
+              <li key={typeof a === "string" ? a : a.kod + i}>{t("UI-COPPOMCIE-ZALOZENIE")} {typeof a === "string" ? a : t(a.kod, a.params)}</li>
             ))}
           </ul>
         )}
