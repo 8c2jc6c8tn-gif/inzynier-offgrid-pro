@@ -12,6 +12,7 @@ import { NawigacjaEkranu } from "@/components/nawigacja-ekranu"
 import { NaglowekEkranu } from "@/components/wzorce/naglowek-ekranu"
 import { WynikGlowny } from "@/components/wzorce/wynik-glowny"
 import { WynikSzczegoly } from "@/components/wzorce/wynik-szczegoly"
+import { useTranslate } from "@/lib/i18n/language-context"
 
 type FormularzStan = {
   rezystywnoscGruntuOmM: string
@@ -28,6 +29,7 @@ const STAN_POCZATKOWY: FormularzStan = {
 }
 
 export default function ProjektUziemieniaPage() {
+  const t = useTranslate()
   const [stan, setStan] = usePersistedDraft<FormularzStan>("projekt-uziemienia", STAN_POCZATKOWY)
   const { rezystywnoscGruntuOmM, dlugoscPretaM, srednicaPretaMm, celUziemienia } = stan
 
@@ -67,24 +69,23 @@ export default function ProjektUziemieniaPage() {
   }
 
   const verdictLabel: Record<typeof verdict, string> = {
-    invalid: "Nie da się policzyć",
-    incomplete: "Wypełnij wszystkie pola",
-    outOfScope: "Geometria pręta poza zakresem wzoru — sprawdź długość/średnicę",
-    red: "Zbyt trudny grunt dla prostego liczenia — potrzebny realny projekt",
-    green: "Uziom zaprojektowany",
+    invalid: t("UI-PROUZI-POLICZYC"),
+    incomplete: t("UI-PROUZI-WYPELNIJ-WSZYSTKIE-POLA"),
+    outOfScope: t("UI-PROUZI-GEOMETRIA-PRETA-POZA"),
+    red: t("UI-PROUZI-ZBYT-TRUDNY-GRUNT"),
+    green: t("UI-PROUZI-UZIOM-ZAPROJEKTOWANY"),
   }
 
   return (
     <main className="mx-auto flex max-w-md flex-col gap-6 p-6">
       <NawigacjaEkranu href="/kalkulatory/projekt-uziemienia" />
-      <NaglowekEkranu tytul="Projekt uziemienia" ekran="projekt-uziemienia" wynik={result}>
-        Ziemia to kabel — jeśli jest „za cienki” (za mała powierzchnia styku), prąd zwarciowy nie
-        ucieknie skutecznie i może wrócić do ciebie. Moduł 5, Ekran 9.
+      <NaglowekEkranu tytul={t("UI-PROUZI-PROJEKT-UZIEMIENIA")} ekran="projekt-uziemienia" wynik={result}>
+        {t("UI-PROUZI-ZIEMIA-KABEL-JESLI")}
       </NaglowekEkranu>
 
       <div className="flex flex-col gap-4">
         <Pole
-          label="Rezystywność gruntu"
+          label={t("UI-PROUZI-REZYSTYWNOSC-GRUNTU")}
           unit="Ω·m"
           type="number"
           inputMode="decimal"
@@ -94,7 +95,7 @@ export default function ProjektUziemieniaPage() {
           pomoc={<PomocPola ekran="projekt-uziemienia" pole="rezystywnosc" />}
         />
         <Pole
-          label="Długość pojedynczego pręta uziomowego"
+          label={t("UI-PROUZI-DLUGOSC-POJEDYNCZEGO-PRETA")}
           unit="m"
           type="number"
           inputMode="decimal"
@@ -104,7 +105,7 @@ export default function ProjektUziemieniaPage() {
           pomoc={<PomocPola ekran="projekt-uziemienia" pole="dlugosc" />}
         />
         <Pole
-          label="Średnica pręta uziomowego"
+          label={t("UI-PROUZI-SREDNICA-PRETA-UZIOMOWEGO")}
           unit="mm"
           type="number"
           inputMode="decimal"
@@ -114,12 +115,12 @@ export default function ProjektUziemieniaPage() {
           pomoc={<PomocPola ekran="projekt-uziemienia" pole="srednica" />}
         />
         <PoleSelect
-          label="Cel uziemienia"
+          label={t("UI-PROUZI-CEL-UZIEMIENIA")}
           value={celUziemienia}
           onChange={(e) => setPole("celUziemienia", e.target.value as CelUziemienia | "")}
           pomoc={<PomocPola ekran="projekt-uziemienia" pole="cel" />}
         >
-          <option value="">— wybierz —</option>
+          <option value="">{t("UI-WYBIERZ")}</option>
           {(Object.keys(ETYKIETA_CELU) as CelUziemienia[]).map((cel) => (
             <option key={cel} value={cel}>
               {ETYKIETA_CELU[cel]}
@@ -131,8 +132,7 @@ export default function ProjektUziemieniaPage() {
       <WerdyktPanel poziom={verdictPoziom[verdict]} etykieta={verdictLabel[verdict]}>
         {verdict === "green" && (
           <WynikGlowny>
-            {result.value.liczbaPretowSzacowana} {result.value.liczbaPretowSzacowana === 1 ? "pręt" : "pręty"} (R ≈{" "}
-            {result.value.rezystancjaJednegoPretaOm.toFixed(1)} Ω / pręt)
+            {result.value.liczbaPretowSzacowana} {result.value.liczbaPretowSzacowana === 1 ? t("UI-PROUZI-PRET-2") : t("UI-PROUZI-PRETY")} {t("UI-PROUZI-PRET", { rezystancjaJednegoPretaOm: result.value.rezystancjaJednegoPretaOm.toFixed(1) })}
           </WynikGlowny>
         )}
         <WynikSzczegoly assumptions={result.assumptions} warnings={result.warnings} formula={result.formula} />

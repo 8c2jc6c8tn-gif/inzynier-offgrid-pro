@@ -12,6 +12,7 @@ import { NaglowekEkranu } from "@/components/wzorce/naglowek-ekranu"
 import { WynikGlowny } from "@/components/wzorce/wynik-glowny"
 import { WynikSzczegoly } from "@/components/wzorce/wynik-szczegoly"
 import { PROG_ODLACZENIA_PRIORYTET_2_SOC_PCT, PROG_ODLACZENIA_PRIORYTET_3_SOC_PCT } from "@/lib/core/modules/zapotrzebowanie/load-shedding/constants"
+import { useTranslate } from "@/lib/i18n/language-context"
 
 type FormularzStan = {
   priorytet: LoadSheddingInput["priorytet"]
@@ -26,6 +27,7 @@ const STAN_POCZATKOWY: FormularzStan = {
 }
 
 export default function LoadSheddingPage() {
+  const t = useTranslate()
   const [stan, setStan] = usePersistedDraft<FormularzStan>("load-shedding", STAN_POCZATKOWY)
   const { priorytet, socPct, maNadwyzkePv } = stan
 
@@ -57,29 +59,28 @@ export default function LoadSheddingPage() {
     <main className="mx-auto flex max-w-md flex-col gap-6 p-6">
       <NawigacjaEkranu href="/kalkulatory/load-shedding" />
       <NaglowekEkranu
-        tytul="Macierz priorytetów odłączania"
+        tytul={t("UI-LOASHE-MACIERZ-PRIORYTETOW-ODLACZAN")}
         ekran="load-shedding"
         wynik={result}
         parametry={{ prog2: PROG_ODLACZENIA_PRIORYTET_2_SOC_PCT, prog3: PROG_ODLACZENIA_PRIORYTET_3_SOC_PCT }}
       >
-        To jest system, który sam decyduje, co poświęcić, zanim Ty musiałbyś to robić ręcznie w
-        panice przy niskiej baterii. Moduł 2, Ekran 12.
+        {t("UI-LOASHE-SYSTEM-KTORY-SAM")}
       </NaglowekEkranu>
 
       <div className="flex flex-col gap-4">
         <PoleSelect
-          label="Priorytet odbiornika"
+          label={t("UI-LOASHE-PRIORYTET-ODBIORNIKA")}
           value={priorytet}
           onChange={(e) => setPriorytet(Number(e.target.value) as LoadSheddingInput["priorytet"])}
           pomoc={<PomocPola ekran="load-shedding" pole="priorytet" />}
         >
-          <option value={0}>— wybierz —</option>
-          <option value={1}>1 — krytyczny (nigdy nie odłączany)</option>
-          <option value={2}>2 — komfort (odłączany przy SoC &lt;20%)</option>
-          <option value={3}>3 — nadwyżkowy (odłączany przy SoC &lt;90% lub braku nadwyżki PV)</option>
+          <option value={0}>{t("UI-WYBIERZ")}</option>
+          <option value={1}>{t("UI-LOASHE-KRYTYCZNY-NIGDY-ODLACZANY")}</option>
+          <option value={2}>{t("UI-LOASHE-KOMFORT-ODLACZANY-SOC")}</option>
+          <option value={3}>{t("UI-LOASHE-NADWYZKOWY-ODLACZANY-SOC")}</option>
         </PoleSelect>
         <Pole
-          label="Aktualny SoC baterii"
+          label={t("UI-LOASHE-AKTUALNY-SOC-BATERII")}
           unit="%"
           type="number"
           inputMode="decimal"
@@ -92,7 +93,7 @@ export default function LoadSheddingPage() {
         {priorytet === 3 && (
           <PoleCheckbox
             id="ma-nadwyzke-pv"
-            label="Jest obecnie nadwyżka produkcji PV"
+            label={t("UI-LOASHE-OBECNIE-NADWYZKA-PRODUKCJI")}
             checked={maNadwyzkePv}
             onChange={(e) => setMaNadwyzkePv(e.target.checked)}
           />
@@ -100,15 +101,15 @@ export default function LoadSheddingPage() {
       </div>
 
       {result.status === "INCOMPLETE" ? (
-        <p className="text-small text-muted-foreground">Wybierz priorytet i wpisz SoC, żeby zobaczyć wynik.</p>
+        <p className="text-small text-muted-foreground">{t("UI-LOASHE-WYBIERZ-PRIORYTET-WPISZ")}</p>
       ) : result.status === "INVALID_INPUT" ? (
-        <p className="text-small text-werdykt-blad">SoC musi być z przedziału 0–100%.</p>
+        <p className="text-small text-werdykt-blad">{t("UI-LOASHE-SOC-MUSI-BYC")}</p>
       ) : (
         <WerdyktPanel
           poziom={result.value.odlaczone ? "uwaga" : "ok"}
-          etykieta={result.value.odlaczone ? "Odłączony teraz" : "Aktywny"}
+          etykieta={result.value.odlaczone ? t("UI-LOASHE-ODLACZONY-TERAZ") : t("UI-LOASHE-AKTYWNY")}
         >
-          <WynikGlowny>{result.value.odlaczone ? "Odłączony" : "Aktywny"}</WynikGlowny>
+          <WynikGlowny>{result.value.odlaczone ? t("UI-LOASHE-ODLACZONY") : t("UI-LOASHE-AKTYWNY")}</WynikGlowny>
           <WynikSzczegoly assumptions={result.assumptions} warnings={result.warnings} formula={result.formula} />
         </WerdyktPanel>
       )}

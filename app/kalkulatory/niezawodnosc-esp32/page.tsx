@@ -10,6 +10,7 @@ import { NawigacjaEkranu } from "@/components/nawigacja-ekranu"
 import { NaglowekEkranu } from "@/components/wzorce/naglowek-ekranu"
 import { WynikGlowny } from "@/components/wzorce/wynik-glowny"
 import { WynikSzczegoly } from "@/components/wzorce/wynik-szczegoly"
+import { useTranslate } from "@/lib/i18n/language-context"
 
 const STAN_POCZATKOWY: NiezawodnoscEsp32Input = {
   kartaSd: false,
@@ -26,23 +27,24 @@ const STAN_POCZATKOWY: NiezawodnoscEsp32Input = {
 }
 
 const FUNKCJE: { pole: keyof NiezawodnoscEsp32Input; label: string; hint: string }[] = [
-  { pole: "kartaSd", label: "Karta SD", hint: "Lokalne logowanie danych w CSV." },
-  { pole: "rtc", label: "Zegar RTC", hint: "Czas bez internetu — np. DS3231 z baterią." },
-  { pole: "podtrzymanieZasilania", label: "Podtrzymanie zasilania", hint: "Superkondensator lub akumulator — czas na zapis przy zaniku." },
-  { pole: "watchdog", label: "Watchdog", hint: "Automatyczny reset przy zawieszeniu (programowy + sprzętowy)." },
-  { pole: "izolacjaGalwaniczna", label: "Izolacja galwaniczna", hint: "Transoptory na sygnałach cyfrowych." },
-  { pole: "ochronaPrzepieciowa", label: "Ochrona przepięciowa linii sygnałowych", hint: "Diody TVS lub warystory." },
-  { pole: "redundancjaMasterSlave", label: "Redundancja master/slave", hint: "Drugi ESP32 przejmuje sterowanie." },
-  { pole: "ota", label: "Aktualizacja OTA", hint: "Bezprzewodowa aktualizacja firmware." },
+  { pole: "kartaSd", label: "UI-NIEESP-KARTA", hint: "UI-NIEESP-LOKALNE-LOGOWANIE-DANYCH" },
+  { pole: "rtc", label: "UI-NIEESP-ZEGAR-RTC", hint: "UI-NIEESP-CZAS-BEZ-INTERNETU" },
+  { pole: "podtrzymanieZasilania", label: "UI-NIEESP-PODTRZYMANIE-ZASILANIA", hint: "UI-NIEESP-SUPERKONDENSATOR-AKUMULATOR-" },
+  { pole: "watchdog", label: "UI-NIEESP-WATCHDOG", hint: "UI-NIEESP-AUTOMATYCZNY-RESET-ZAWIESZEN" },
+  { pole: "izolacjaGalwaniczna", label: "UI-NIEESP-IZOLACJA-GALWANICZNA", hint: "UI-NIEESP-TRANSOPTORY-SYGNALACH-CYFROW" },
+  { pole: "ochronaPrzepieciowa", label: "UI-NIEESP-OCHRONA-PRZEPIECIOWA-LINII", hint: "UI-NIEESP-DIODY-TVS-WARYSTORY" },
+  { pole: "redundancjaMasterSlave", label: "UI-NIEESP-REDUNDANCJA-MASTER-SLAVE", hint: "UI-NIEESP-DRUGI-ESP32-PRZEJMUJE" },
+  { pole: "ota", label: "UI-NIEESP-AKTUALIZACJA-OTA", hint: "UI-NIEESP-BEZPRZEWODOWA-AKTUALIZACJA-F" },
 ]
 
 const OTA: { pole: keyof NiezawodnoscEsp32Input; label: string }[] = [
-  { pole: "otaPodpis", label: "OTA weryfikuje podpis cyfrowy" },
-  { pole: "otaSumaKontrolna", label: "OTA sprawdza sumę kontrolną" },
-  { pole: "otaRollback", label: "OTA umożliwia powrót do poprzedniej wersji" },
+  { pole: "otaPodpis", label: "UI-NIEESP-OTA-WERYFIKUJE-PODPIS" },
+  { pole: "otaSumaKontrolna", label: "UI-NIEESP-OTA-SPRAWDZA-SUME" },
+  { pole: "otaRollback", label: "UI-NIEESP-OTA-UMOZLIWIA-POWROT" },
 ]
 
 export default function NiezawodnoscEsp32Page() {
+  const t = useTranslate()
   const [stan, setStan] = usePersistedDraft<NiezawodnoscEsp32Input>("niezawodnosc-esp32", STAN_POCZATKOWY)
   const result = useMemo(() => calculateNiezawodnoscEsp32(stan), [stan])
   const hasCritical = result.warnings.some((w) => w.level === "critical")
@@ -51,8 +53,8 @@ export default function NiezawodnoscEsp32Page() {
     <PoleCheckbox
       key={pole}
       id={`niezawodnosc-${pole}`}
-      label={label}
-      hint={hint}
+      label={t(label)}
+      hint={hint === undefined ? undefined : t(hint)}
       checked={stan[pole]}
       onChange={(e) => setStan((prev) => ({ ...prev, [pole]: e.target.checked }))}
     />
@@ -61,9 +63,8 @@ export default function NiezawodnoscEsp32Page() {
   return (
     <main className="mx-auto flex max-w-md flex-col gap-6 p-6">
       <NawigacjaEkranu href="/kalkulatory/niezawodnosc-esp32" />
-      <NaglowekEkranu tytul="Niezawodność sterownika ESP32" ekran="niezawodnosc-esp32" wynik={result}>
-        „System odpornościowy” ESP32: żeby nie stracił danych przy zaniku prądu, nie zawiesił się na trwałe, nie oberwał
-        przepięciem i dało się go bezpiecznie aktualizować. Moduł 9, Ekran 6.
+      <NaglowekEkranu tytul={t("UI-NIEESP-NIEZAWODNOSC-STEROWNIKA-ESP3")} ekran="niezawodnosc-esp32" wynik={result}>
+        {t("UI-NIEESP-SYSTEM-ODPORNOSCIOWY-ESP32")}
       </NaglowekEkranu>
 
       <div className="flex flex-col gap-3">
@@ -73,9 +74,9 @@ export default function NiezawodnoscEsp32Page() {
 
       <WerdyktPanel
         poziom={hasCritical ? "blad" : hasWarning ? "uwaga" : "ok"}
-        etykieta={hasCritical ? "Niebezpieczna aktualizacja OTA" : hasWarning ? "OTA bez pełnych zabezpieczeń" : "Konfiguracja niezawodności"}
+        etykieta={hasCritical ? t("UI-NIEESP-NIEBEZPIECZNA-AKTUALIZACJA-O") : hasWarning ? t("UI-NIEESP-OTA-BEZ-PELNYCH") : t("UI-NIEESP-KONFIGURACJA-NIEZAWODNOSCI")}
       >
-        <WynikGlowny>Włączone: {result.value.liczbaWlaczonych} z {FUNKCJE.length}</WynikGlowny>
+        <WynikGlowny>{t("UI-NIEESP-WLACZONE", { liczbaWlaczonych: result.value.liczbaWlaczonych, length: FUNKCJE.length })}</WynikGlowny>
         <WynikSzczegoly assumptions={result.assumptions} warnings={result.warnings} formula={result.formula} />
       </WerdyktPanel>
     </main>

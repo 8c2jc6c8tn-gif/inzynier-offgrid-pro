@@ -8587,3 +8587,56 @@ Tryb Audyt (czapka rewidenta). Warstwa „w pełni na końcu” z N.2 — wszyst
   występuje w poleceniu czekającym.
 - **Pułapka (testy):** granica progu liczona ze spadku napięcia (12,6 − 12,0) nie daje dokładnie 0,6 w zmiennoprzecinkowych
   — test „dokładnie na progu 50%” wychodzi 49,999…%. Testy graniczne ustawiać wyraźnie po obu stronach progu.
+
+## Style wyglądu — mechanizm i pierwsza partia (01.10.2026, D67 kroki 1–4, gałąź `work/styles`)
+
+- **Jedna tabela:** `lib/wyglad/style.ts` (grupa, `dostepnosc` bez egzekucji, schemat jasny/ciemny, tokeny, werdykty,
+  warianty: nagłówki, liczby, promień). CSS generowany z tabeli (`generujCssStylow`, `<style id="style-wygladu">` w
+  `app/layout.tsx`), selektor `html:root[data-styl=…]` (0,2,1) — wygrywa z `.dark` i `:root:not(.light)` niezależnie od
+  kolejności arkuszy. W `globals.css` nic per styl, tylko `h1–h3` → `--font-naglowek`, `.tabular-nums` → `--font-liczby`.
+- **Warstwy:** domyślne tokeny < styl < nadpisania kolorów usera (inline na `<html>`, wygrywają). Styl wymusza swój schemat
+  (`data-schemat-stylu`, czytany przez `zastosujTryb` w `lib/theme`), zapisany tryb motywu wraca przy „Domyślny”.
+  Nadpisanie koloru werdyktu przy aktywnym stylu zmienia obramowanie/ikonę; tło i tekst werdyktu zostają z tabeli (testowane) ✅🤖.
+- **Test kontrastu (`lib/wyglad/__tests__/style.test.ts`) od razu złapał prototyp:** jasne werdykty z prototypu
+  (#16A34A/#D97706/#DC2626) mają ~2,8:1 obramowania i 4,3:1 tekstu 🟢 na kremie „Jasnego architektonicznego”, a na szarości
+  RAL 7035 „Rozdzielnicy” jeszcze mniej. Przyjęto te same odcienie o stopień ciemniejsze (700/800, w Rozdzielnicy tekst 900);
+  akcent Jasnego #A47D3C → #8A6A2E (biały tekst przycisku); obrysy pól ze wszystkich 5 stylów podniesione do ≥ 3:1 (prototyp
+  miał linie dekoracyjne ~1,2–1,6:1). Każda zmiana opisana przy wartości w tabeli.
+- **Czcionki:** Source Serif 4 i JetBrains Mono (obie z cyrylicą) przez `next/font`, `preload: false`. OLED: prototyp
+  miał liczby Inter 300 — nie dodano wagi 300 (byłaby preładowana na każdej stronie), liczby zostają bezszeryfowe.
+- **Grupa „Ukryte i sezonowe”:** przełącznik w Ustawieniach (`pokazUkryteStyle` w `offgrid.wyglad.v1`) ✅🤖 — pytanie
+  otwarte D67 (przełącznik vs daty sezonowe) do potwierdzenia przez właściciela.
+
+## D58 — migracja kolejnych modułów + pułapka „useTranslate w Server Component” (01.10.2026, gałąź `work/i18n`)
+
+- **Stan:** lista zapadkowa 168 → 82 plików (M5, M2, M7, M9, pojedyncze M4/M10/M12/M13, ekrany sieci D*/F*). Szczegóły
+  i to, co zostało: `docs/lista-do-zrobienia.md`, wpis „Tłumaczenie samych stron”.
+- **Pułapka (błąd naprawiony):** strona bez `"use client"`, która woła `useTranslate()`, zwraca **HTTP 500**
+  („Attempted to call useTranslate() from the server”). `typecheck`, `lint`, strażnicy i Vitest tego nie widzą —
+  wyszło dopiero na `next dev` + `curl`. Narzędzie `scripts/migracja-i18n-ui.mjs` dopisuje hook bez sprawdzania
+  dyrektywy, więc tak trafiło na `main` 5 ekranów M4/M8 (matryca-alarmow-bms, audyt-pozarowy,
+  przechowywanie-recykling, przechowywanie-recykling-olow, ratowanie-zasiarczenia) i 3 z M5 tej gałęzi (separacja-emc,
+  trasy-kablowe, selektywnosc-zabezpieczen); prognozy i tryb-live przy migracji. Wszystkie dostały `"use client"`.
+  Kontrola po każdej partii: `grep -rl "useTranslate()" app --include=page.tsx | xargs grep -L '"use client"'` musi
+  być puste. Kandydat na strażnika (zgłoszone w `docs/wklad-do-standardu.md`).
+- **Konwencje tej partii:** liczby dziesiętne w EN z kropką (PL/RU przecinek — tak jak `formatujParametr`); jednostki
+  w RU cyrylicą jak w `dictionary-ru.ts` (кВт·ч, А, В, Вт, мм², Ом, зл); symbole techniczne w listach opcji (CAN,
+  Wi-Fi, UART, PWM, jednostki „kWh”, „%”) zostają bez klucza — render `x.startsWith("UI-") ? t(x) : x`.
+  Treść pisma reklamacyjnego (`test-licznika`) celowo zostaje po polsku (adresat: polski OSD).
+
+## M6 — ekrany bez właściciela (01.10.2026, gałąź `work/m6`)
+
+- **Stan:** zbudowane E13, E16, E17, E18, E19, E20, 5.42 (`kolektor-gruntowy`), 2A (`alternatywne-zrodla-ciepla`,
+  rzędy 5.32/5.34/5.35/5.36; 5.33 był już osobno). Wspólna walidacja M6: `lib/core/modules/ogrzewanie/wspolne/walidacja.ts`
+  (kody `M6-*` dopisane jawnie do `scripts/stopy-guard-wyjatki.json` — wzorce `*-UJEMNA`/`*-POZA-ZAKRESEM` ich nie łapały
+  przy prefiksie `M6-`). Teksty UI: `lib/i18n/ui/m06-ogrzewanie.ts`, pomoc: `lib/i18n/pomoc/m06b-ogrzewanie.ts`.
+- **Nowe 🔴:** `DYS-GRZEJNIKI-WYSOKOTEMP-POMPA` (E13), `KOL-PLYCEJ-NIZ-PRZEMARZANIE` (5.42, ta sama reguła co M7/E22).
+  Wybory ✅🤖 do potwierdzenia: wpis ⚠️ w `docs/lista-do-zrobienia.md` (01.10.2026, M6).
+- **Niespójne przykłady źródła (Dyrektywa #5, opisane w silnikach):** E13 „oszczędność 28%” = 1 − 3,2/4,5 ≈ 28,9%;
+  E17 0,8 W/K → 1,2 kWh/dobę wymaga ΔT 62,5 K, a 0,5 W/K daje 0,75 (nie 0,7) i ok. 164 kWh/rok (nie 180);
+  E18 „PV 3 kW → 3 h” przeczy grzałce 2 kW (moc ograniczona grzałką); E20 „8 − 3 − 0,5 = 4,5” zakłada COP 1,
+  a „1600 kWh rocznie” = 4,5 × 365 (zimowa doba × cały rok); 5.42 „8 kW → 400 m² / 1 odwiert 100 m” = 500 m²/10 kW
+  i 80 W/m, poza widełkami tego samego źródła (48–96 m², 114–160 m); 2A PCM „100 l ≈ 300 l wody” tylko przy
+  ρ = 1 kg/l i ΔT ≈ 16 K, kominek „60% zapotrzebowania” bez podanego zapotrzebowania.
+- **Pułapka (stopy-guard):** kod OUT_OF_SCOPE na poziomie `critical` (np. `OSL-SZEROKOSC-POZA-MODELEM`) trzeba dopisać
+  ręcznie do `poza-zakresem-modelu`, nie do `walidacja-danych`.

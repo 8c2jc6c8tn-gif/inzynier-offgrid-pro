@@ -239,6 +239,16 @@
     font-family: var(--font-sans);
     font-weight: var(--waga-tekstu, 400);
   }
+  /* Component variants of an appearance style (lib/wyglad/style.ts): headings and result numbers
+     take the style's font; without a style the variables are unset and nothing changes. */
+  h1,
+  h2,
+  h3 {
+    font-family: var(--font-naglowek, inherit);
+  }
+  .tabular-nums {
+    font-family: var(--font-liczby, inherit);
+  }
 }
 
 /* Waga tekstu — preferencja z lib/wyglad/, przełączana klasą na <html> (ten sam wzorzec co .dark). */

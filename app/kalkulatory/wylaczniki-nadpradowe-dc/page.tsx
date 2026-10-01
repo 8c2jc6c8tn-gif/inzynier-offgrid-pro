@@ -9,6 +9,7 @@ import { WerdyktPanel, type WerdyktPoziom } from "@/components/werdykt"
 import { NawigacjaEkranu } from "@/components/nawigacja-ekranu"
 import { NaglowekEkranu } from "@/components/wzorce/naglowek-ekranu"
 import { WynikSzczegoly } from "@/components/wzorce/wynik-szczegoly"
+import { useTranslate } from "@/lib/i18n/language-context"
 
 type FormularzStan = {
   pradA: string
@@ -29,6 +30,7 @@ const STAN_POCZATKOWY: FormularzStan = {
 }
 
 export default function WylacznikiNadpradoweDcPage() {
+  const t = useTranslate()
   const [stan, setStan] = usePersistedDraft<FormularzStan>("wylaczniki-nadpradowe-dc", STAN_POCZATKOWY)
   const { pradA, napiecieV, liczbaBiegunow, certyfikowanyDoDc, aicA, pradZwarciowyA } = stan
 
@@ -72,23 +74,22 @@ export default function WylacznikiNadpradoweDcPage() {
     green: "ok",
   }
   const verdictLabel: Record<typeof verdict, string> = {
-    invalid: "Nie da się policzyć",
-    incomplete: "Wypełnij prąd i napięcie obwodu",
-    red: "Zabronione — wyłącznik nie spełnia wymagań",
-    green: "Wyłącznik dobrany poprawnie",
+    invalid: t("UI-WYLNADDC-POLICZYC"),
+    incomplete: t("UI-WYLNADDC-WYPELNIJ-PRAD-NAPIECIE"),
+    red: t("UI-WYLNADDC-ZABRONIONE-WYLACZNIK-SPELNIA"),
+    green: t("UI-WYLNADDC-WYLACZNIK-DOBRANY-POPRAWNIE"),
   }
 
   return (
     <main className="mx-auto flex max-w-md flex-col gap-6 p-6">
       <NawigacjaEkranu href="/kalkulatory/wylaczniki-nadpradowe-dc" />
-      <NaglowekEkranu tytul="Wyłączniki nadprądowe DC" ekran="wylaczniki-nadpradowe-dc" wynik={result}>
-        Prąd stały pali się jak spawarka. Wyłącznik musi umieć zgasić ten łuk, inaczej sam
-        zamieni się w źródło pożaru. Moduł 5, Ekran 14.
+      <NaglowekEkranu tytul={t("UI-WYLNADDC-WYLACZNIKI-NADPRADOWE")} ekran="wylaczniki-nadpradowe-dc" wynik={result}>
+        {t("UI-WYLNADDC-PRAD-STALY-PALI")}
       </NaglowekEkranu>
 
       <div className="flex flex-col gap-4">
         <Pole
-          label="Prąd obwodu"
+          label={t("UI-WYLNADDC-PRAD-OBWODU")}
           unit="A"
           type="number"
           inputMode="decimal"
@@ -98,7 +99,7 @@ export default function WylacznikiNadpradoweDcPage() {
           pomoc={<PomocPola ekran="wylaczniki-nadpradowe-dc" pole="prad" />}
         />
         <Pole
-          label="Napięcie DC obwodu"
+          label={t("UI-WYLNADDC-NAPIECIE-OBWODU")}
           unit="V"
           type="number"
           inputMode="decimal"
@@ -108,7 +109,7 @@ export default function WylacznikiNadpradoweDcPage() {
           pomoc={<PomocPola ekran="wylaczniki-nadpradowe-dc" pole="napiecie" />}
         />
         <Pole
-          label="Liczba biegunów"
+          label={t("UI-WYLNADDC-LICZBA-BIEGUNOW")}
           unit=""
           type="number"
           inputMode="decimal"
@@ -119,12 +120,12 @@ export default function WylacznikiNadpradoweDcPage() {
         />
         <PoleCheckbox
           id="certyfikowany-dc"
-          label="Wyłącznik ma certyfikację do pracy w DC"
+          label={t("UI-WYLNADDC-WYLACZNIK-CERTYFIKACJE-PRACY")}
           checked={certyfikowanyDoDc}
           onChange={(e) => setCertyfikowanyDoDc(e.target.checked)}
         />
         <Pole
-          label="Zdolność wyłączania (AIC) — opcjonalnie"
+          label={t("UI-WYLNADDC-ZDOLNOSC-WYLACZANIA-AIC")}
           unit="A"
           type="number"
           inputMode="decimal"
@@ -134,7 +135,7 @@ export default function WylacznikiNadpradoweDcPage() {
           pomoc={<PomocPola ekran="wylaczniki-nadpradowe-dc" pole="aic" />}
         />
         <Pole
-          label="Prąd zwarciowy w tym punkcie — opcjonalnie"
+          label={t("UI-WYLNADDC-PRAD-ZWARCIOWY-TYM")}
           unit="A"
           type="number"
           inputMode="decimal"

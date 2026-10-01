@@ -11,11 +11,13 @@ import { WerdyktPanel } from "@/components/werdykt"
 import { NawigacjaEkranu } from "@/components/nawigacja-ekranu"
 import { NaglowekEkranu } from "@/components/wzorce/naglowek-ekranu"
 import { WynikGlowny } from "@/components/wzorce/wynik-glowny"
+import { useTranslate } from "@/lib/i18n/language-context"
 
 type FormularzStan = { poziomRyzyka: PoziomRyzykaGryzoni | "" }
 const STAN_POCZATKOWY: FormularzStan = { poziomRyzyka: "" }
 
 export default function OchronaPrzedGryzoniamiPage() {
+  const t = useTranslate()
   const [stan, setStan] = usePersistedDraft<FormularzStan>("ochrona-przed-gryzoniami", STAN_POCZATKOWY)
   const { poziomRyzyka } = stan
   const setPoziomRyzyka = (
@@ -34,18 +36,17 @@ export default function OchronaPrzedGryzoniamiPage() {
   return (
     <main className="mx-auto flex max-w-md flex-col gap-6 p-6">
       <NawigacjaEkranu href="/kalkulatory/ochrona-przed-gryzoniami" />
-      <NaglowekEkranu tytul="Ochrona przed gryzoniami" ekran="ochrona-przed-gryzoniami">
-        Mysz nie patrzy, czy kabel jest ładny. Po prostu go przegryzie i zrobi zwarcie. Moduł 5,
-        Ekran 25.
+      <NaglowekEkranu tytul={t("UI-OCHPRZGRY-OCHRONA-PRZED-GRYZONIAMI")} ekran="ochrona-przed-gryzoniami">
+        {t("UI-OCHPRZGRY-MYSZ-PATRZY-KABEL")}
       </NaglowekEkranu>
 
       <PoleSelect
-        label="Ryzyko gryzoni w okolicy"
+        label={t("UI-OCHPRZGRY-RYZYKO-GRYZONI-OKOLICY")}
         value={poziomRyzyka}
         onChange={(e) => setPoziomRyzyka(e.target.value as PoziomRyzykaGryzoni)}
         pomoc={<PomocPola ekran="ochrona-przed-gryzoniami" pole="ryzyko" />}
       >
-        <option value="">— wybierz —</option>
+        <option value="">{t("UI-WYBIERZ")}</option>
         {(Object.keys(ETYKIETY_RYZYKA) as PoziomRyzykaGryzoni[]).map((r) => (
           <option key={r} value={r}>
             {ETYKIETY_RYZYKA[r]}
@@ -54,7 +55,7 @@ export default function OchronaPrzedGryzoniamiPage() {
       </PoleSelect>
 
       {result.status === "VALID" && result.value.zalecanaOslona && (
-        <WerdyktPanel poziom="ok" etykieta="Zalecana osłona">
+        <WerdyktPanel poziom="ok" etykieta={t("UI-OCHPRZGRY-ZALECANA-OSLONA")}>
           <WynikGlowny>{result.value.zalecanaOslona}</WynikGlowny>
         </WerdyktPanel>
       )}

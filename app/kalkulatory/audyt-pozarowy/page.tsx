@@ -1,3 +1,5 @@
+"use client"
+
 import { calculateAuditPozarowy } from "@/lib/core/modules/bezpieczenstwo/audyt-pozarowy/calculator"
 import { SAMPLE_AUDIT_ITEMS } from "@/lib/core/modules/bezpieczenstwo/audyt-pozarowy/constants"
 import { WerdyktPanel, type WerdyktPoziom } from "@/components/werdykt"

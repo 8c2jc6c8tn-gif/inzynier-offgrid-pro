@@ -16,6 +16,7 @@ import {
   type BezpieczenstwoAgregatuStan,
 } from "@/components/agregat/pola-bezpieczenstwa-agregatu"
 import { OPTYMALNE_OBCIAZENIE_PCT } from "@/lib/core/modules/zapotrzebowanie/agregat-pradotworczy/constants"
+import { useTranslate } from "@/lib/i18n/language-context"
 
 type FormularzStan = BezpieczenstwoAgregatuStan & {
   deficytKwh: string
@@ -36,6 +37,7 @@ const STAN_POCZATKOWY: FormularzStan = {
 }
 
 export default function AgregatPradotworczyPage() {
+  const t = useTranslate()
   const [stan, setStan] = usePersistedDraft<FormularzStan>("agregat-pradotworczy", STAN_POCZATKOWY)
   const { deficytKwh, mocAgregatuKw, sredniZuzycieLH, cenaZaLitrZl, maWyjscieSterujaceBms, miejsceAgregatu, podlaczenieAgregatu } =
     stan
@@ -80,19 +82,17 @@ export default function AgregatPradotworczyPage() {
     <main className="mx-auto flex max-w-md flex-col gap-6 p-6">
       <NawigacjaEkranu href="/kalkulatory/agregat-pradotworczy" />
       <NaglowekEkranu
-        tytul="Agregat prądotwórczy — definicja i logika pracy"
+        tytul={t("UI-AGRPRA-AGREGAT-PRADOTWORCZY-DEFINIC")}
         ekran="agregat-pradotworczy"
         wynik={result}
         parametry={{ obciazenie: OPTYMALNE_OBCIAZENIE_PCT }}
       >
-        System porównuje produkcję PV z zapotrzebowaniem w najgorszym miesiącu roku. Jeśli
-        występuje deficyt, agregat musi go pokryć — tu policzysz ile godzin, ile paliwa i ile to
-        będzie kosztować. Moduł 2, Ekran 17.
+        {t("UI-AGRPRA-SYSTEM-POROWNUJE-PRODUKCJE")}
       </NaglowekEkranu>
 
       <div className="flex flex-col gap-4">
         <Pole
-          label="Deficyt energetyczny w najgorszym miesiącu"
+          label={t("UI-AGRPRA-DEFICYT-ENERGETYCZNY-NAJGORS")}
           unit="kWh"
           type="number"
           inputMode="decimal"
@@ -101,7 +101,7 @@ export default function AgregatPradotworczyPage() {
           pomoc={<PomocPola ekran="agregat-pradotworczy" pole="deficyt" />}
         />
         <Pole
-          label="Moc znamionowa agregatu"
+          label={t("UI-AGRPRA-MOC-ZNAMIONOWA-AGREGATU")}
           unit="kW"
           type="number"
           inputMode="decimal"
@@ -110,7 +110,7 @@ export default function AgregatPradotworczyPage() {
           pomoc={<PomocPola ekran="agregat-pradotworczy" pole="moc" />}
         />
         <Pole
-          label="Średnie zużycie paliwa przy optymalnym obciążeniu"
+          label={t("UI-AGRPRA-SREDNIE-ZUZYCIE-PALIWA")}
           unit="l/h"
           type="number"
           inputMode="decimal"
@@ -119,8 +119,8 @@ export default function AgregatPradotworczyPage() {
           pomoc={<PomocPola ekran="agregat-pradotworczy" pole="zuzycie" />}
         />
         <Pole
-          label="Cena paliwa"
-          unit="zł/l"
+          label={t("UI-AGRPRA-CENA-PALIWA")}
+          unit={t("UI-J-ZL-L")}
           type="number"
           inputMode="decimal"
           value={cenaZaLitrZl}
@@ -131,7 +131,7 @@ export default function AgregatPradotworczyPage() {
           id="ma-wyjscie-sterujace"
           checked={maWyjscieSterujaceBms}
           onChange={(e) => setMaWyjscieSterujaceBms(e.target.checked)}
-          label="BMS ma wyjście sterujące do automatycznego startu agregatu"
+          label={t("UI-AGRPRA-BMS-WYJSCIE-STERUJACE")}
         />
       </div>
 
@@ -144,30 +144,29 @@ export default function AgregatPradotworczyPage() {
       {result.status === "INCOMPLETE" ? (
         <>
           <p className="text-small text-muted-foreground">
-            Wypełnij dane, żeby zobaczyć raport pracy agregatu.
+            {t("UI-AGRPRA-WYPELNIJ-DANE-ZEBY")}
           </p>
           {hasCritical && (
-            <WerdyktPanel poziom="blad" etykieta="Zagrożenie życia — agregat w tej konfiguracji jest niebezpieczny">
+            <WerdyktPanel poziom="blad" etykieta={t("UI-AGRPRA-ZAGROZENIE-ZYCIA-AGREGAT")}>
               <WynikSzczegoly assumptions={[]} warnings={result.warnings} />
             </WerdyktPanel>
           )}
         </>
       ) : result.status === "INVALID_INPUT" ? (
-        <WerdyktPanel poziom="blad" etykieta="Nie da się policzyć — sprawdź wpisane dane">
+        <WerdyktPanel poziom="blad" etykieta={t("UI-AGRPRA-POLICZYC-SPRAWDZ-WPISANE")}>
           <WynikSzczegoly assumptions={[]} warnings={result.warnings} />
         </WerdyktPanel>
       ) : (
         poziom !== null && (
           <WerdyktPanel
             poziom={poziom}
-            etykieta={hasCritical ? "Raport pracy agregatu — zagrożenie życia, popraw konfigurację" : "Raport pracy agregatu"}
+            etykieta={hasCritical ? t("UI-AGRPRA-RAPORT-PRACY-AGREGATU") : t("UI-AGRPRA-RAPORT-PRACY-AGREGATU-2")}
           >
             <WynikGlowny>
               {result.value.godzinyPracy.toLocaleString("pl-PL", { maximumFractionDigits: 1 })} h
             </WynikGlowny>
             <p className="mt-1 text-small">
-              Zużycie paliwa: {result.value.zuzyciePaliwaLitry.toLocaleString("pl-PL", { maximumFractionDigits: 1 })} l.
-              Koszt: ok. {result.value.kosztZl.toLocaleString("pl-PL", { maximumFractionDigits: 0 })} zł.
+              {t("UI-AGRPRA-ZUZYCIE-PALIWA-KOSZT", { zuzyciePaliwaLitry: result.value.zuzyciePaliwaLitry.toLocaleString("pl-PL", { maximumFractionDigits: 1 }), kosztZl: result.value.kosztZl.toLocaleString("pl-PL", { maximumFractionDigits: 0 }) })}
             </p>
             <WynikSzczegoly assumptions={result.assumptions} warnings={result.warnings} formula={result.formula} />
           </WerdyktPanel>

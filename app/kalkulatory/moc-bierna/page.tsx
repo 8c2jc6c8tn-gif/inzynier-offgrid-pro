@@ -12,6 +12,7 @@ import { NaglowekEkranu } from "@/components/wzorce/naglowek-ekranu"
 import { WynikGlowny } from "@/components/wzorce/wynik-glowny"
 import { WynikSzczegoly } from "@/components/wzorce/wynik-szczegoly"
 import { liczba, liczbaLubNull, poziomWerdyktu, stawkiDoPomocy, zl } from "@/components/siec/wspolne"
+import { useTranslate } from "@/lib/i18n/language-context"
 
 type Stan = {
   tgFi: string
@@ -27,6 +28,7 @@ type Stan = {
 const TG_FI0 = String(DANE_ROZLICZEN.mocBierna.tgFi0Domyslny.okresy[0].wartosc)
 
 export default function MocBiernaPage() {
+  const t = useTranslate()
   const [stan, setStan] = usePersistedDraft<Stan>("siec-moc-bierna", {
     tgFi: "",
     tgFi0: TG_FI0,
@@ -60,22 +62,20 @@ export default function MocBiernaPage() {
     <main className="mx-auto flex max-w-md flex-col gap-6 p-6">
       <NawigacjaEkranu href="/kalkulatory/moc-bierna" />
       <NaglowekEkranu
-        tytul="Moc bierna — opłata i kompensacja"
+        tytul={t("UI-MOCBIE-MOC-BIERNA-OPLATA")}
         ekran="moc-bierna"
         wynik={result}
         parametry={stawkiDoPomocy()}
       >
-        Ile firma płaci za energię bierną ponad dopuszczalny tgφ₀ i czy opłaca się bateria kondensatorów. Wzór jak w
-        taryfach OSD 2026 (z pierwiastkiem — wersja bez niego zawyża opłatę ok. dwukrotnie). M14 „Firma – sieć”, ekran F3.
+        {t("UI-MOCBIE-ILE-FIRMA-PLACI")}
       </NaglowekEkranu>
 
       <div className="flex flex-col gap-4">
         <p className="text-small text-muted-foreground">
-          Najpierw sprawdź, czy na fakturze masz pozycję za energię bierną. Na niskim napięciu dotyczy to tylko odbiorców, u
-          których przewiduje to umowa.
+          {t("UI-MOCBIE-NAJPIERW-SPRAWDZ-FAKTURZE")}
         </p>
         <Pole
-          label="Zmierzony tgφ (średni)"
+          label={t("UI-MOCBIE-ZMIERZONY-SREDNI")}
           type="number"
           inputMode="decimal"
           value={stan.tgFi}
@@ -83,7 +83,7 @@ export default function MocBiernaPage() {
           pomoc={<PomocPola ekran="moc-bierna" pole="tgPhi" />}
         />
         <Pole
-          label="tgφ₀ z umowy"
+          label={t("UI-MOCBIE-UMOWY")}
           type="number"
           inputMode="decimal"
           value={stan.tgFi0}
@@ -91,8 +91,8 @@ export default function MocBiernaPage() {
           pomoc={<PomocPola ekran="moc-bierna" pole="tgPhi0" />}
         />
         <Pole
-          label="Energia czynna pobrana"
-          unit="kWh/rok"
+          label={t("UI-MOCBIE-ENERGIA-CZYNNA-POBRANA")}
+          unit={t("UI-J-KWH-ROK")}
           type="number"
           inputMode="decimal"
           value={stan.energiaCzynna}
@@ -100,8 +100,8 @@ export default function MocBiernaPage() {
           pomoc={<PomocPola ekran="moc-bierna" pole="energiaCzynna" />}
         />
         <Pole
-          label="Cena C_rk"
-          unit="zł/kWh"
+          label={t("UI-MOCBIE-CENA")}
+          unit={t("UI-J-ZL-KWH")}
           type="number"
           inputMode="decimal"
           value={stan.cRk}
@@ -109,17 +109,17 @@ export default function MocBiernaPage() {
           pomoc={<PomocPola ekran="moc-bierna" pole="crk" />}
         />
         <Pole
-          label="Energia bierna pojemnościowa (opcjonalnie)"
-          unit="kvarh/rok"
+          label={t("UI-MOCBIE-ENERGIA-BIERNA-POJEMNOSCIOWA")}
+          unit={t("UI-MOCBIE-KVARH-ROK")}
           type="number"
           inputMode="decimal"
           value={stan.pojemnosciowa}
           onChange={(e) => ustaw("pojemnosciowa", e.target.value)}
           pomoc={<PomocPola ekran="moc-bierna" pole="pojemnosciowa" />}
         />
-        <h2 className="text-base font-medium">Kompensacja (opcjonalnie)</h2>
+        <h2 className="text-base font-medium">{t("UI-MOCBIE-KOMPENSACJA-OPCJONALNIE")}</h2>
         <Pole
-          label="Średnia moc czynna w czasie pracy"
+          label={t("UI-MOCBIE-SREDNIA-MOC-CZYNNA")}
           unit="kW"
           type="number"
           inputMode="decimal"
@@ -128,7 +128,7 @@ export default function MocBiernaPage() {
           pomoc={<PomocPola ekran="moc-bierna" pole="mocSrednia" />}
         />
         <Pole
-          label="Docelowy tgφ"
+          label={t("UI-MOCBIE-DOCELOWY")}
           type="number"
           inputMode="decimal"
           value={stan.tgFiCel}
@@ -136,8 +136,8 @@ export default function MocBiernaPage() {
           pomoc={<PomocPola ekran="moc-bierna" pole="tgCel" />}
         />
         <Pole
-          label="Koszt baterii kondensatorów"
-          unit="zł"
+          label={t("UI-MOCBIE-KOSZT-BATERII-KONDENSATOROW")}
+          unit={t("UI-J-ZL")}
           type="number"
           inputMode="decimal"
           value={stan.koszt}
@@ -147,24 +147,24 @@ export default function MocBiernaPage() {
       </div>
 
       {result.status === "INVALID_INPUT" ? (
-        <WerdyktPanel poziom="blad" etykieta="Nie da się policzyć — sprawdź wpisane dane">
+        <WerdyktPanel poziom="blad" etykieta={t("UI-MOCBIE-POLICZYC-SPRAWDZ-WPISANE")}>
           <WynikSzczegoly assumptions={[]} warnings={result.warnings} />
         </WerdyktPanel>
       ) : stan.tgFi === "" ? (
-        <p className="text-small text-muted-foreground">Wpisz tgφ, żeby zobaczyć wynik.</p>
+        <p className="text-small text-muted-foreground">{t("UI-MOCBIE-WPISZ-ZEBY-ZOBACZYC")}</p>
       ) : (
-        <WerdyktPanel poziom={poziom ?? "uwaga"} etykieta="Opłata za energię bierną">
+        <WerdyktPanel poziom={poziom ?? "uwaga"} etykieta={t("UI-MOCBIE-OPLATA-ENERGIE-BIERNA")}>
           <WynikGlowny>
-            {v.oplataRazemZl !== null ? `${zl(v.oplataRazemZl)} netto / rok` : `czynnik ${v.czynnik.toLocaleString("pl-PL", { maximumFractionDigits: 4 })}`}
+            {v.oplataRazemZl !== null ? t("UI-MOCBIE-NETTO-ROK", { oplataRazemZl: zl(v.oplataRazemZl) }) : t("UI-MOCBIE-CZYNNIK", { czynnik: v.czynnik.toLocaleString("pl-PL", { maximumFractionDigits: 4 }) })}
           </WynikGlowny>
           <p className="mt-1 text-small">
-            Czynnik nadwyżki: {v.czynnik.toLocaleString("pl-PL", { maximumFractionDigits: 4 })}
-            {v.oplataIndukcyjnaZl !== null && <> · indukcyjna {zl(v.oplataIndukcyjnaZl)} · pojemnościowa {zl(v.oplataPojemnosciowaZl ?? 0)}</>}
+            {t("UI-MOCBIE-CZYNNIK-NADWYZKI", { czynnik: v.czynnik.toLocaleString("pl-PL", { maximumFractionDigits: 4 }) })}
+            {v.oplataIndukcyjnaZl !== null && <> {t("UI-MOCBIE-INDUKCYJNA-POJEMNOSCIOWA", { oplataIndukcyjnaZl: zl(v.oplataIndukcyjnaZl), p: zl(v.oplataPojemnosciowaZl ?? 0) })}</>}
           </p>
           {v.mocKompensacjiKvar !== null && (
             <p className="mt-1 text-small">
-              Potrzebna moc kompensacji: {v.mocKompensacjiKvar.toLocaleString("pl-PL", { maximumFractionDigits: 1 })} kvar
-              {v.zwrotLat !== null && <>, zwrot baterii po ok. {v.zwrotLat.toLocaleString("pl-PL", { maximumFractionDigits: 1 })} lat</>}.
+              {t("UI-MOCBIE-POTRZEBNA-MOC-KOMPENSACJI", { mocKompensacjiKvar: v.mocKompensacjiKvar.toLocaleString("pl-PL", { maximumFractionDigits: 1 }) })}
+              {v.zwrotLat !== null && <>{t("UI-MOCBIE-ZWROT-BATERII-LAT", { zwrotLat: v.zwrotLat.toLocaleString("pl-PL", { maximumFractionDigits: 1 }) })}</>}.
             </p>
           )}
           <WynikSzczegoly assumptions={result.assumptions} warnings={result.warnings} formula={result.formula} />

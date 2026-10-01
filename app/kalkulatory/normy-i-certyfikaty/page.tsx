@@ -37,9 +37,8 @@ export default function NormyICertyfikatyPage() {
   return (
     <main className="mx-auto flex max-w-md flex-col gap-6 p-6">
       <NawigacjaEkranu href="/kalkulatory/normy-i-certyfikaty" />
-      <NaglowekEkranu tytul="Normy i certyfikaty" ekran="normy-i-certyfikaty">
-        Certyfikat to dowód, że coś nie wybuchnie przy normalnym użytkowaniu. Bez niego jesteś
-        testerem beta. Moduł 5, Ekran 21.
+      <NaglowekEkranu tytul={t("UI-NORICER-NORMY-CERTYFIKATY")} ekran="normy-i-certyfikaty">
+        {t("UI-NORICER-CERTYFIKAT-DOWOD-COS")}
       </NaglowekEkranu>
 
       <ListaChecklist
@@ -55,7 +54,7 @@ export default function NormyICertyfikatyPage() {
       />
 
       {poziom ? (
-        <WerdyktPanel poziom={poziom} etykieta={poziom === "ok" ? "Wszystkie certyfikaty potwierdzone" : undefined}>
+        <WerdyktPanel poziom={poziom} etykieta={poziom === "ok" ? t("UI-NORICER-WSZYSTKIE-CERTYFIKATY-POTWIE") : undefined}>
           {result.warnings.map((w) => (
             <p key={w.code} className="mt-1 text-small">
               {w.message ?? t(w.i18nKey ?? w.code, w.params)}
@@ -63,7 +62,7 @@ export default function NormyICertyfikatyPage() {
           ))}
         </WerdyktPanel>
       ) : (
-        <StanPusty tytul={`Potwierdzono ${result.value.potwierdzone} / ${result.value.razem} komponentów`} />
+        <StanPusty tytul={t("UI-NORICER-POTWIERDZONO-KOMPONENTOW", { potwierdzone: result.value.potwierdzone, razem: result.value.razem })} />
       )}
     </main>
   )

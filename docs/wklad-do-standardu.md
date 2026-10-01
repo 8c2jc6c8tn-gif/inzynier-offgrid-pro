@@ -1262,3 +1262,12 @@ Dlaczego warto zgłosić do new-app-standards: przegląd niescalonych gałęzi n
 AI w każdym projekcie rodziny. Propozycja do 15.23: „przed porównaniem gałęzi sprawdź `--is-shallow-repository`;
 `true` → `git fetch --unshallow`”.
 Status: 🔎 nowe
+
+[01.10.2026] PUŁAPKA — hook tłumaczeń w Server Component przechodzi wszystkie kontrole statyczne i daje HTTP 500
+Szczegóły: masowa migracja tekstów do `t()` (D58) dopisała `const t = useTranslate()` do stron bez dyrektywy
+`"use client"`. `tsc`, ESLint, strażnicy i testy jednostkowe były zielone; strona zwracała 500 („Attempted to call
+useTranslate() from the server”) — 8 ekranów, 5 z nich już na `main`. Wykryte dopiero przez `next dev` + `curl`.
+Dlaczego warto zgłosić do new-app-standards: każdy projekt rodziny z i18n po stronie klienta (17.4, offline-first)
+ma ten sam hook i te same masowe migracje. Propozycja do 17.x/11.9: tani strażnik AST „plik bez `"use client"`
+nie wywołuje `use*()` z modułu klienckiego” albo smoke-test HTTP 200 dla każdej trasy w CI.
+Status: 🔎 nowe

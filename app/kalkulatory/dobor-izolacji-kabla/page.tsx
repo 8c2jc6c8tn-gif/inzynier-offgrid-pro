@@ -11,12 +11,13 @@ import { NawigacjaEkranu } from "@/components/nawigacja-ekranu"
 import { NaglowekEkranu } from "@/components/wzorce/naglowek-ekranu"
 import { WynikGlowny } from "@/components/wzorce/wynik-glowny"
 import { WynikSzczegoly } from "@/components/wzorce/wynik-szczegoly"
+import { useTranslate } from "@/lib/i18n/language-context"
 
 const ETYKIETY_MIEJSC: Record<MiejsceTrasy, string> = {
-  ziemia: "W ziemi",
-  "zewnetrznie-blisko-paneli": "Zewnętrznie, blisko paneli",
-  wewnatrz: "Wewnątrz budynku",
-  napowietrznie: "Napowietrznie",
+  ziemia: "UI-DOBIZOKAB-ZIEMI",
+  "zewnetrznie-blisko-paneli": "UI-DOBIZOKAB-ZEWNETRZNIE-BLISKO-PANELI",
+  wewnatrz: "UI-DOBIZOKAB-WEWNATRZ-BUDYNKU",
+  napowietrznie: "UI-DOBIZOKAB-NAPOWIETRZNIE",
 }
 
 type FormularzStan = {
@@ -32,6 +33,7 @@ const STAN_POCZATKOWY: FormularzStan = {
 }
 
 export default function DoborIzolacjiKablaPage() {
+  const t = useTranslate()
   const [stan, setStan] = usePersistedDraft<FormularzStan>("dobor-izolacji-kabla", STAN_POCZATKOWY)
   const { miejsceTrasy, izolacjaWybrana, temperaturaMaksymalnaC } = stan
 
@@ -68,50 +70,49 @@ export default function DoborIzolacjiKablaPage() {
   }
 
   const verdictLabel: Record<typeof verdict, string> = {
-    invalid: "Nie da się policzyć",
-    incomplete: "Wypełnij wszystkie pola",
-    red: "Zabronione — izolacja nie wytrzyma tej temperatury",
-    green: "Izolacja wystarczająca",
+    invalid: t("UI-DOBIZOKAB-POLICZYC"),
+    incomplete: t("UI-DOBIZOKAB-WYPELNIJ-WSZYSTKIE-POLA"),
+    red: t("UI-DOBIZOKAB-ZABRONIONE-IZOLACJA-WYTRZYMA"),
+    green: t("UI-DOBIZOKAB-IZOLACJA-WYSTARCZAJACA"),
   }
 
   return (
     <main className="mx-auto flex max-w-md flex-col gap-6 p-6">
       <NawigacjaEkranu href="/kalkulatory/dobor-izolacji-kabla" />
       <NaglowekEkranu
-        tytul="Dobór izolacji kabla do warunków montażu"
+        tytul={t("UI-DOBIZOKAB-DOBOR-IZOLACJI-KABLA")}
         ekran="dobor-izolacji-kabla"
         wynik={result}
       >
-        Izolacja to skóra kabla — musi być dobrana do pogody i miejsca, inaczej pęka i puszcza
-        wilgoć. Moduł 5, Ekran 28.
+        {t("UI-DOBIZOKAB-IZOLACJA-SKORA-KABLA")}
       </NaglowekEkranu>
 
       <div className="flex flex-col gap-4">
         <PoleSelect
-          label="Miejsce trasy (informacyjnie)"
+          label={t("UI-DOBIZOKAB-MIEJSCE-TRASY-INFORMACYJNIE")}
           value={miejsceTrasy}
           onChange={(e) => setMiejsceTrasy(e.target.value as MiejsceTrasy)}
           pomoc={<PomocPola ekran="dobor-izolacji-kabla" pole="miejsce" />}
         >
-          <option value="">— wybierz —</option>
+          <option value="">{t("UI-WYBIERZ")}</option>
           {(Object.keys(ETYKIETY_MIEJSC) as MiejsceTrasy[]).map((m) => (
             <option key={m} value={m}>
-              {ETYKIETY_MIEJSC[m]}
+              {t(ETYKIETY_MIEJSC[m])}
             </option>
           ))}
         </PoleSelect>
         <PoleSelect
-          label="Rozważana izolacja kabla"
+          label={t("UI-DOBIZOKAB-ROZWAZANA-IZOLACJA-KABLA")}
           value={izolacjaWybrana}
           onChange={(e) => setIzolacjaWybrana(e.target.value as Izolacja)}
           pomoc={<PomocPola ekran="dobor-izolacji-kabla" pole="izolacja" />}
         >
-          <option value="">— wybierz —</option>
-          <option value="PVC">PVC (YKY/YAKY) — do 70°C</option>
-          <option value="XLPE">XLPE — do 90°C</option>
+          <option value="">{t("UI-WYBIERZ")}</option>
+          <option value="PVC">{t("UI-DOBIZOKAB-PVC-DO-70")}</option>
+          <option value="XLPE">{t("UI-DOBIZOKAB-XLPE-DO-90")}</option>
         </PoleSelect>
         <Pole
-          label="Maksymalna spodziewana temperatura"
+          label={t("UI-DOBIZOKAB-MAKSYMALNA-SPODZIEWANA-TEMPE")}
           unit="°C"
           type="number"
           inputMode="decimal"
@@ -124,7 +125,7 @@ export default function DoborIzolacjiKablaPage() {
 
       <WerdyktPanel poziom={verdictPoziom[verdict]} etykieta={verdictLabel[verdict]}>
         {verdict !== "invalid" && verdict !== "incomplete" && (
-          <WynikGlowny>Izolacja wytrzymuje do {result.value.maksTemperaturaIzolacjiC}°C</WynikGlowny>
+          <WynikGlowny>{t("UI-DOBIZOKAB-IZOLACJA-WYTRZYMUJE", { maksTemperaturaIzolacjiC: result.value.maksTemperaturaIzolacjiC })}</WynikGlowny>
         )}
         <WynikSzczegoly assumptions={result.assumptions} warnings={result.warnings} formula={result.formula} />
       </WerdyktPanel>

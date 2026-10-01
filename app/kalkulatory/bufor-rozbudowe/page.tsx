@@ -12,6 +12,7 @@ import { NawigacjaEkranu } from "@/components/nawigacja-ekranu"
 import { NaglowekEkranu } from "@/components/wzorce/naglowek-ekranu"
 import { WynikGlowny } from "@/components/wzorce/wynik-glowny"
 import { WynikSzczegoly } from "@/components/wzorce/wynik-szczegoly"
+import { useTranslate } from "@/lib/i18n/language-context"
 
 type FormularzStan = {
   zapotrzebowanieCalkowiteKwh: string
@@ -24,6 +25,7 @@ const STAN_POCZATKOWY: FormularzStan = {
 }
 
 export default function BuforRozbudowyPage() {
+  const t = useTranslate()
   const [stan, setStan] = usePersistedDraft<FormularzStan>("bufor-rozbudowe", STAN_POCZATKOWY)
   const { zapotrzebowanieCalkowiteKwh, buforPct } = stan
 
@@ -50,15 +52,13 @@ export default function BuforRozbudowyPage() {
   return (
     <main className="mx-auto flex max-w-md flex-col gap-6 p-6">
       <NawigacjaEkranu href="/kalkulatory/bufor-rozbudowe" />
-      <NaglowekEkranu tytul="Bufor na rozbudowę" ekran="bufor-rozbudowe" wynik={result}>
-        Projektując system tylko pod dzisiejsze potrzeby, gwarantujesz sobie, że za 2 lata będzie
-        za mały — bufor to świadoma decyzja, ile „zapasu na przyszłość” wbudować od razu. Moduł 2,
-        Ekran 13.
+      <NaglowekEkranu tytul={t("UI-BUFROZ-BUFOR-ROZBUDOWE")} ekran="bufor-rozbudowe" wynik={result}>
+        {t("UI-BUFROZ-PROJEKTUJAC-SYSTEM-TYLKO")}
       </NaglowekEkranu>
 
       <div className="flex flex-col gap-4">
         <Pole
-          label="Całkowite zapotrzebowanie dobowe (bez bufora)"
+          label={t("UI-BUFROZ-CALKOWITE-ZAPOTRZEBOWANIE-DO")}
           unit="kWh"
           type="number"
           inputMode="decimal"
@@ -67,7 +67,7 @@ export default function BuforRozbudowyPage() {
           pomoc={<PomocPola ekran="bufor-rozbudowe" pole="zapotrzebowanie" />}
         />
         <PoleSelect
-          label="Bufor na rozbudowę"
+          label={t("UI-BUFROZ-BUFOR-ROZBUDOWE")}
           value={buforPct}
           onChange={(e) => setBuforPct(Number(e.target.value) as BuforRozbudowyInput["buforPct"])}
           pomoc={<PomocPola ekran="bufor-rozbudowe" pole="bufor" params={{ opcje: OPCJE_BUFORA_PCT.join(", ") }} />}
@@ -82,14 +82,14 @@ export default function BuforRozbudowyPage() {
 
       {result.status === "INCOMPLETE" ? (
         <p className="text-small text-muted-foreground">
-          Wpisz całkowite zapotrzebowanie, żeby zobaczyć wynik z buforem.
+          {t("UI-BUFROZ-WPISZ-CALKOWITE-ZAPOTRZEBOWA")}
         </p>
       ) : result.status === "INVALID_INPUT" ? (
-        <p className="text-small text-werdykt-blad">Zapotrzebowanie nie może być ujemne.</p>
+        <p className="text-small text-werdykt-blad">{t("UI-BUFROZ-ZAPOTRZEBOWANIE-MOZE-BYC")}</p>
       ) : (
-        <WerdyktPanel poziom="ok" etykieta="Zapotrzebowanie z buforem">
+        <WerdyktPanel poziom="ok" etykieta={t("UI-BUFROZ-ZAPOTRZEBOWANIE-BUFOREM")}>
           <WynikGlowny>
-            {result.value.zapotrzebowanieZBuforemKwh.toLocaleString("pl-PL", { maximumFractionDigits: 1 })} kWh/dobę
+            {t("UI-BUFROZ-KWH-DOBE", { zapotrzebowanieZBuforemKwh: result.value.zapotrzebowanieZBuforemKwh.toLocaleString("pl-PL", { maximumFractionDigits: 1 }) })}
           </WynikGlowny>
           <WynikSzczegoly assumptions={result.assumptions} warnings={result.warnings} formula={result.formula} />
         </WerdyktPanel>

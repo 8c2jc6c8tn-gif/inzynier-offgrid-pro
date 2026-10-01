@@ -63,10 +63,8 @@ export default function SystemyPodtrzymaniaZyciaPage() {
   return (
     <main className="mx-auto flex max-w-md flex-col gap-6 p-6">
       <NawigacjaEkranu href="/kalkulatory/systemy-podtrzymania-zycia" />
-      <NaglowekEkranu tytul="Systemy podtrzymania życia" ekran="systemy-podtrzymania-zycia" wynik={result}>
-        To jest lista rzeczy, bez których dom przestaje być bezpieczny do mieszkania — reszta
-        aplikacji będzie chronić te odbiorniki jako pierwsze, cokolwiek by się działo. Moduł 2,
-        Ekran 1.
+      <NaglowekEkranu tytul={t("UI-SYSPODZYC-SYSTEMY-PODTRZYMANIA-ZYCIA")} ekran="systemy-podtrzymania-zycia" wynik={result}>
+        {t("UI-SYSPODZYC-LISTA-RZECZY-BEZ")}
       </NaglowekEkranu>
 
       <ul className="flex flex-col gap-3">
@@ -85,7 +83,7 @@ export default function SystemyPodtrzymaniaZyciaPage() {
                 {item.label}
                 {def?.defaultPowerW === null && (
                   <span className="block text-caption font-normal text-muted-foreground">
-                    brak wartości domyślnej — wpisz ręcznie
+                    {t("UI-SYSPODZYC-BRAK-WARTOSCI-DOMYSLNEJ")}
                   </span>
                 )}
               </label>
@@ -96,7 +94,7 @@ export default function SystemyPodtrzymaniaZyciaPage() {
                 value={item.powerW}
                 disabled={!item.selected}
                 onChange={(e) => updatePower(item.id, Number(e.target.value))}
-                aria-label={`Moc — ${item.label}`}
+                aria-label={t("UI-SYSPODZYC-MOC", { label: item.label })}
               />
               <span className="w-4 text-caption text-muted-foreground">W</span>
               <PomocPola ekran="systemy-podtrzymania-zycia" pole="moc" />
@@ -111,7 +109,7 @@ export default function SystemyPodtrzymaniaZyciaPage() {
             {result.assumptions.length > 0 && (
               <ul className="mt-2 text-small opacity-90">
                 {result.assumptions.map((a, i) => (
-                  <li key={typeof a === "string" ? a : a.kod + i}>Założenie: {typeof a === "string" ? a : t(a.kod, a.params)}</li>
+                  <li key={typeof a === "string" ? a : a.kod + i}>{t("UI-SYSPODZYC-ZALOZENIE")} {typeof a === "string" ? a : t(a.kod, a.params)}</li>
                 ))}
               </ul>
             )}
@@ -127,12 +125,12 @@ export default function SystemyPodtrzymaniaZyciaPage() {
         )
 
         if (poziom === null) {
-          return <StanPusty tytul="Zaznacz przynajmniej jeden odbiornik krytyczny.">{dodatki}</StanPusty>
+          return <StanPusty tytul={t("UI-SYSPODZYC-ZAZNACZ-PRZYNAJMNIEJ-JEDEN")}>{dodatki}</StanPusty>
         }
         return (
           <WerdyktPanel
             poziom={poziom}
-            etykieta={poziom === "blad" ? "Nie da się policzyć — sprawdź zaznaczone pozycje poniżej" : undefined}
+            etykieta={poziom === "blad" ? t("UI-SYSPODZYC-POLICZYC-SPRAWDZ-ZAZNACZONE") : undefined}
           >
             {poziom !== "blad" && (
               <p className="mt-1 text-h1 font-semibold">

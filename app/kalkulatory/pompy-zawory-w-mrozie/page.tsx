@@ -11,6 +11,7 @@ import { NawigacjaEkranu } from "@/components/nawigacja-ekranu"
 import { NaglowekEkranu } from "@/components/wzorce/naglowek-ekranu"
 import { WynikGlowny } from "@/components/wzorce/wynik-glowny"
 import { WynikSzczegoly } from "@/components/wzorce/wynik-szczegoly"
+import { useTranslate } from "@/lib/i18n/language-context"
 
 type FormularzStan = {
   temperaturaMiejscaC: string
@@ -27,16 +28,17 @@ const STAN_POCZATKOWY: FormularzStan = {
 }
 
 const TYPY: { id: TypArmatury; label: string }[] = [
-  { id: "pompa", label: "Pompa (ciepła, obiegowa, głębinowa)" },
-  { id: "zawor", label: "Zawór" },
-  { id: "silownik", label: "Siłownik" },
-  { id: "inne", label: "Inne" },
+  { id: "pompa", label: "UI-POMZAWWMRO-POMPA-CIEPLA-OBIEGOWA" },
+  { id: "zawor", label: "UI-POMZAWWMRO-ZAWOR" },
+  { id: "silownik", label: "UI-POMZAWWMRO-SILOWNIK" },
+  { id: "inne", label: "UI-POMZAWWMRO-INNE" },
 ]
 
 const f0 = (x: number) => x.toLocaleString("pl-PL", { maximumFractionDigits: 1 })
 const pole = "min-h-10 rounded-md border border-input bg-background px-2"
 
 export default function PompyZaworyWMroziePage() {
+  const t = useTranslate()
   const [stan, setStan] = usePersistedDraft<FormularzStan>("pompy-zawory-w-mrozie", STAN_POCZATKOWY)
   const idZawor = useId()
   const idOprozniony = useId()
@@ -60,12 +62,12 @@ export default function PompyZaworyWMroziePage() {
   return (
     <main className="mx-auto flex max-w-md flex-col gap-6 p-6">
       <NawigacjaEkranu href="/kalkulatory/pompy-zawory-w-mrozie" />
-      <NaglowekEkranu tytul="Pompy i zawory w mrozie" ekran="pompy-zawory-w-mrozie" wynik={result}>
-        Które pompy, zawory i siłowniki mogą się zablokować przy najniższej temperaturze w miejscu montażu. Moduł 7.
+      <NaglowekEkranu tytul={t("UI-POMZAWWMRO-POMPY-ZAWORY-MROZIE")} ekran="pompy-zawory-w-mrozie" wynik={result}>
+        {t("UI-POMZAWWMRO-KTORE-POMPY-ZAWORY")}
       </NaglowekEkranu>
 
       <Pole
-        label="Najniższa temperatura w miejscu montażu"
+        label={t("UI-POMZAWWMRO-NAJNIZSZA-TEMPERATURA-MIEJSC")}
         unit="°C"
         type="number"
         inputMode="decimal"
@@ -75,9 +77,9 @@ export default function PompyZaworyWMroziePage() {
       />
 
       <div className="flex flex-col gap-2">
-        <p className="text-small font-medium">Pompy, zawory i siłowniki w tym miejscu</p>
+        <p className="text-small font-medium">{t("UI-POMZAWWMRO-POMPY-ZAWORY-SILOWNIKI")}</p>
         <p className="text-caption text-muted-foreground">
-          Minimalną temperaturę pracy („operating temperature”) przepisz z karty katalogowej.
+          {t("UI-POMZAWWMRO-MINIMALNA-TEMPERATURE-PRACY")}
         </p>
         <ul className="flex flex-col gap-3">
           {stan.elementy.map((e, i) => {
@@ -85,22 +87,22 @@ export default function PompyZaworyWMroziePage() {
             return (
               <li key={e.id} className="flex flex-wrap items-center gap-2">
                 <input
-                  placeholder="Nazwa"
+                  placeholder={t("UI-POMZAWWMRO-NAZWA")}
                   value={e.nazwa}
                   onChange={(ev) => aktualizuj(e.id, { nazwa: ev.target.value })}
                   className={`${pole} min-w-24 flex-1`}
-                  aria-label={`Nazwa — element ${i + 1}`}
+                  aria-label={t("UI-POMZAWWMRO-NAZWA-ELEMENT", { p: i + 1 })}
                 />
                 <PomocPola ekran="pompy-zawory-w-mrozie" pole="nazwa" />
                 <select
                   value={e.typ}
                   onChange={(ev) => aktualizuj(e.id, { typ: ev.target.value as TypArmatury })}
                   className={`${pole} max-w-full`}
-                  aria-label={`Typ — ${opis}`}
+                  aria-label={t("UI-POMZAWWMRO-TYP", { opis })}
                 >
-                  {TYPY.map((t) => (
-                    <option key={t.id} value={t.id}>
-                      {t.label}
+                  {TYPY.map((typ) => (
+                    <option key={typ.id} value={typ.id}>
+                      {t(typ.label)}
                     </option>
                   ))}
                 </select>
@@ -108,22 +110,22 @@ export default function PompyZaworyWMroziePage() {
                 <input
                   type="number"
                   inputMode="decimal"
-                  placeholder="min °C"
+                  placeholder={t("UI-POMZAWWMRO-MIN-C")}
                   value={e.minTempPracyC ?? ""}
                   onChange={(ev) =>
                     aktualizuj(e.id, { minTempPracyC: ev.target.value === "" ? null : Number(ev.target.value) })
                   }
                   className={`${pole} w-24`}
-                  aria-label={`Minimalna temperatura pracy [°C] — ${opis}`}
+                  aria-label={t("UI-POMZAWWMRO-MINIMALNA-TEMPERATURA-PRACY", { opis })}
                 />
                 <PomocPola ekran="pompy-zawory-w-mrozie" pole="tempMin" />
                 <button
                   type="button"
                   onClick={() => setStan((prev) => ({ ...prev, elementy: prev.elementy.filter((x) => x.id !== e.id) }))}
                   className="text-caption text-muted-foreground underline"
-                  aria-label={`Usuń ${opis}`}
+                  aria-label={t("UI-POMZAWWMRO-USUN-2", { opis })}
                 >
-                  Usuń
+                  {t("UI-POMZAWWMRO-USUN")}
                 </button>
               </li>
             )
@@ -139,21 +141,21 @@ export default function PompyZaworyWMroziePage() {
           }
           className="min-h-11 self-start rounded-md border px-4 text-small font-medium hover:bg-muted"
         >
-          + Dodaj element
+          {t("UI-POMZAWWMRO-DODAJ-ELEMENT")}
         </button>
       </div>
 
       <div className="flex flex-col gap-3">
         <PoleCheckbox
           id={idZawor}
-          label="Mam zawór zewnętrzny do wody ogrodowej"
+          label={t("UI-POMZAWWMRO-MAM-ZAWOR-ZEWNETRZNY")}
           checked={stan.maZaworZewnetrzny}
           onChange={(e) => setStan((prev) => ({ ...prev, maZaworZewnetrzny: e.target.checked }))}
         />
         {stan.maZaworZewnetrzny && (
           <PoleCheckbox
             id={idOprozniony}
-            label="Zawór zewnętrzny jest opróżniony na zimę"
+            label={t("UI-POMZAWWMRO-ZAWOR-ZEWNETRZNY-OPROZNIONY")}
             checked={stan.zaworZewnetrznyOprozniony}
             onChange={(e) => setStan((prev) => ({ ...prev, zaworZewnetrznyOprozniony: e.target.checked }))}
           />
@@ -161,22 +163,22 @@ export default function PompyZaworyWMroziePage() {
       </div>
 
       {result.status === "INCOMPLETE" ? (
-        <p className="text-small text-muted-foreground">Wpisz temperaturę i dodaj co najmniej jeden element.</p>
+        <p className="text-small text-muted-foreground">{t("UI-POMZAWWMRO-WPISZ-TEMPERATURE-DODAJ")}</p>
       ) : (
         <WerdyktPanel
           poziom={hasWarning ? "uwaga" : "ok"}
-          etykieta={hasWarning ? "Przygotuj pompy i zawory na mróz" : "Pompy i zawory w zakresie"}
+          etykieta={hasWarning ? t("UI-POMZAWWMRO-PRZYGOTUJ-POMPY-ZAWORY") : t("UI-POMZAWWMRO-POMPY-ZAWORY-ZAKRESIE")}
         >
           {result.value.oceny.length > 0 && (
             <>
               <WynikGlowny>
-                {result.value.liczbaPonizejMin} z {result.value.oceny.length} poniżej minimum
+                {t("UI-POMZAWWMRO-PONIZEJ-MINIMUM", { liczbaPonizejMin: result.value.liczbaPonizejMin, length: result.value.oceny.length })}
               </WynikGlowny>
               <ul className="mt-2 flex flex-col gap-1 text-small">
                 {result.value.oceny.map((o) => (
                   <li key={o.id}>
                     {o.zapasK === null ? "ℹ️" : o.zapasK < 0 ? "🟡" : "✅"} {o.nazwa}
-                    {o.zapasK === null ? " — brak danych z karty" : ` — zapas ${f0(o.zapasK)} K`}
+                    {o.zapasK === null ? ` ${t("UI-POMZAWWMRO-BRAK-DANYCH-KARTY")}` : ` ${t("UI-POMZAWWMRO-ZAPAS", { zapasK: f0(o.zapasK) })}`}
                   </li>
                 ))}
               </ul>

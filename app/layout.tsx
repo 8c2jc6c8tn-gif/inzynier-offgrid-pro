@@ -1,7 +1,7 @@
 import { Analytics } from '@vercel/analytics/next'
 import type { Metadata, Viewport } from 'next'
 import { headers } from 'next/headers'
-import { Inter, Lato, Roboto, Source_Sans_3 } from 'next/font/google'
+import { Inter, JetBrains_Mono, Lato, Roboto, Source_Sans_3, Source_Serif_4 } from 'next/font/google'
 import { AsystentAi } from '@/components/asystent-ai'
 import { BazaWersjaListener } from '@/components/pwa/baza-wersja-listener'
 import { Powiadomienia } from '@/components/pwa/powiadomienia'
@@ -9,6 +9,7 @@ import { SwRejestracja } from '@/components/pwa/sw-rejestracja'
 import { LanguageProvider } from '@/lib/i18n/language-context'
 import { DEFAULT_LANGUAGE, SUPPORTED_LANGUAGES } from '@/lib/i18n/language'
 import { STORAGE_KEY } from '@/lib/i18n/storage'
+import { generujCssStylow, schematyStylow } from '@/lib/wyglad/style'
 import './globals.css'
 
 // latin-ext = polskie znaki diakrytyczne (ą ć ę ł ń ó ś ź ż) — bez tego subsetu nie renderują się
@@ -17,6 +18,14 @@ const inter = Inter({ subsets: ['latin', 'latin-ext'], weight: ['400', '500', '6
 const sourceSans = Source_Sans_3({ subsets: ['latin', 'latin-ext'], weight: ['400', '500', '600', '700'], variable: '--font-source-sans' })
 const roboto = Roboto({ subsets: ['latin', 'latin-ext'], weight: ['400', '500', '700'], variable: '--font-roboto' })
 const lato = Lato({ subsets: ['latin', 'latin-ext'], weight: ['400', '700'], variable: '--font-lato' })
+// Appearance styles (lib/wyglad/style.ts): serif headings/numbers and mono numbers. Both have Cyrillic
+// (D63 open question — Fraunces/Instrument Serif do not, so the RU UI would fall back to Georgia).
+// Variable fonts, not preloaded: only a page with such a style active downloads them.
+const sourceSerif = Source_Serif_4({ subsets: ['latin', 'latin-ext', 'cyrillic'], variable: '--font-source-serif', preload: false })
+const jetbrainsMono = JetBrains_Mono({ subsets: ['latin', 'latin-ext', 'cyrillic'], variable: '--font-jetbrains-mono', preload: false })
+
+// Every style's tokens, generated from the one table (D65/D67) — nothing per style in globals.css.
+const STYLE_WYGLADU_CSS = generujCssStylow()
 
 export const metadata: Metadata = {
   title: 'Inżynier Offgrid Pro',
@@ -99,6 +108,15 @@ const WYGLAD_INIT_SCRIPT = `
         root.style.setProperty('--font-sans-user', 'var(' + zmienneCzcionek[stan.czcionka] + ')');
       }
       if (stan.waga === 'pogrubiona') root.classList.add('czcionka-pogrubiona');
+      // Appearance style: same logic as lib/wyglad/storage.ts + lib/theme/storage.ts — the style's
+      // fixed scheme replaces the light/dark class set above.
+      var schematy = ${JSON.stringify(schematyStylow())};
+      if (typeof stan.styl === 'string' && schematy.hasOwnProperty(stan.styl)) {
+        root.setAttribute('data-styl', stan.styl);
+        root.setAttribute('data-schemat-stylu', schematy[stan.styl]);
+        root.classList.remove('light', 'dark');
+        root.classList.add(schematy[stan.styl]);
+      }
     }
   } catch (e) {}
 })();
@@ -144,9 +162,10 @@ export default async function RootLayout({
     <html
       lang={DEFAULT_LANGUAGE}
       suppressHydrationWarning
-      className={`${inter.variable} ${sourceSans.variable} ${roboto.variable} ${lato.variable}`}
+      className={`${inter.variable} ${sourceSans.variable} ${roboto.variable} ${lato.variable} ${sourceSerif.variable} ${jetbrainsMono.variable}`}
     >
       <head>
+        <style id="style-wygladu" dangerouslySetInnerHTML={{ __html: STYLE_WYGLADU_CSS }} />
         <script nonce={nonce} dangerouslySetInnerHTML={{ __html: WYGLAD_INIT_SCRIPT }} />
         <script nonce={nonce} dangerouslySetInnerHTML={{ __html: JEZYK_INIT_SCRIPT }} />
       </head>

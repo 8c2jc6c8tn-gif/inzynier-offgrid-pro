@@ -11,6 +11,7 @@ import { NawigacjaEkranu } from "@/components/nawigacja-ekranu"
 import { NaglowekEkranu } from "@/components/wzorce/naglowek-ekranu"
 import { WynikGlowny } from "@/components/wzorce/wynik-glowny"
 import { WynikSzczegoly } from "@/components/wzorce/wynik-szczegoly"
+import { useTranslate } from "@/lib/i18n/language-context"
 
 type FormularzStan = {
   zapotrzebowanieUrzadzeniaW: string
@@ -25,6 +26,7 @@ const STAN_POCZATKOWY: FormularzStan = {
 }
 
 export default function PrzetworniceDcdcPage() {
+  const t = useTranslate()
   const [stan, setStan] = usePersistedDraft<FormularzStan>("przetwornice-dcdc", STAN_POCZATKOWY)
   const { zapotrzebowanieUrzadzeniaW, zasilanieBezposrednie, sprawnoscPrzetwornicyPct } = stan
 
@@ -51,15 +53,13 @@ export default function PrzetworniceDcdcPage() {
   return (
     <main className="mx-auto flex max-w-md flex-col gap-6 p-6">
       <NawigacjaEkranu href="/kalkulatory/przetwornice-dcdc" />
-      <NaglowekEkranu tytul="Przetwornice DC/DC" ekran="przetwornice-dcdc" wynik={result}>
-        Każda zmiana napięcia kosztuje trochę energii — czasem warto zasilić urządzenie
-        bezpośrednio z magistrali w jego natywnym napięciu, zamiast przepuszczać prąd przez
-        dodatkową przetwornicę. Moduł 2, Ekran 11.
+      <NaglowekEkranu tytul={t("UI-PRZDCD-PRZETWORNICE")} ekran="przetwornice-dcdc" wynik={result}>
+        {t("UI-PRZDCD-KAZDA-ZMIANA-NAPIECIA")}
       </NaglowekEkranu>
 
       <div className="flex flex-col gap-4">
         <Pole
-          label="Zapotrzebowanie mocy urządzenia"
+          label={t("UI-PRZDCD-ZAPOTRZEBOWANIE-MOCY-URZADZE")}
           unit="W"
           type="number"
           inputMode="decimal"
@@ -71,11 +71,11 @@ export default function PrzetworniceDcdcPage() {
           id="zasilanie-bezposrednie"
           checked={zasilanieBezposrednie}
           onChange={(e) => setZasilanieBezposrednie(e.target.checked)}
-          label="Zasilanie bezpośrednio z magistrali (bez przetwornicy)"
+          label={t("UI-PRZDCD-ZASILANIE-BEZPOSREDNIO-MAGIS")}
         />
         {!zasilanieBezposrednie && (
           <Pole
-            label="Sprawność przetwornicy DC/DC"
+            label={t("UI-PRZDCD-SPRAWNOSC-PRZETWORNICY")}
             unit="%"
             type="number"
             inputMode="numeric"
@@ -90,14 +90,14 @@ export default function PrzetworniceDcdcPage() {
 
       {result.status === "INCOMPLETE" ? (
         <p className="text-small text-muted-foreground">
-          Wypełnij dane, żeby zobaczyć realne zapotrzebowanie mocy.
+          {t("UI-PRZDCD-WYPELNIJ-DANE-ZEBY")}
         </p>
       ) : result.status === "INVALID_INPUT" ? (
-        <WerdyktPanel poziom="blad" etykieta="Nie da się policzyć — sprawdź wpisane dane">
+        <WerdyktPanel poziom="blad" etykieta={t("UI-PRZDCD-POLICZYC-SPRAWDZ-WPISANE")}>
           <WynikSzczegoly assumptions={[]} warnings={result.warnings} />
         </WerdyktPanel>
       ) : (
-        <WerdyktPanel poziom="ok" etykieta="Realne zapotrzebowanie mocy">
+        <WerdyktPanel poziom="ok" etykieta={t("UI-PRZDCD-REALNE-ZAPOTRZEBOWANIE-MOCY")}>
           <WynikGlowny>
             {result.value.zapotrzebowanieRealneW.toLocaleString("pl-PL", { maximumFractionDigits: 1 })} W
           </WynikGlowny>

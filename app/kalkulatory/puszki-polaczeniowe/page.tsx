@@ -12,6 +12,7 @@ import { NawigacjaEkranu } from "@/components/nawigacja-ekranu"
 import { NaglowekEkranu } from "@/components/wzorce/naglowek-ekranu"
 import { WynikGlowny } from "@/components/wzorce/wynik-glowny"
 import { WynikSzczegoly } from "@/components/wzorce/wynik-szczegoly"
+import { useTranslate } from "@/lib/i18n/language-context"
 
 type FormularzStan = {
   miejsceMontazu: MiejsceMontazu | ""
@@ -22,6 +23,7 @@ const STAN_POCZATKOWY: FormularzStan = {
 }
 
 export default function PuszkiPolaczenioweePage() {
+  const t = useTranslate()
   const [stan, setStan] = usePersistedDraft<FormularzStan>("puszki-polaczeniowe", STAN_POCZATKOWY)
   const { miejsceMontazu } = stan
   const setMiejsceMontazu = (a: (MiejsceMontazu | "") | ((p: MiejsceMontazu | "") => MiejsceMontazu | "")) =>
@@ -35,18 +37,17 @@ export default function PuszkiPolaczenioweePage() {
   return (
     <main className="mx-auto flex max-w-md flex-col gap-6 p-6">
       <NawigacjaEkranu href="/kalkulatory/puszki-polaczeniowe" />
-      <NaglowekEkranu tytul="Puszki połączeniowe" ekran="puszki-polaczeniowe" wynik={result}>
-        Każde połączenie to potencjalny przeciek. Trzeba je zamknąć w szczelnej puszce, żeby woda
-        nie zrobiła zwarcia. Moduł 5, Ekran 27.
+      <NaglowekEkranu tytul={t("UI-PUSPOL-PUSZKI-POLACZENIOWE")} ekran="puszki-polaczeniowe" wynik={result}>
+        {t("UI-PUSPOL-KAZDE-POLACZENIE-POTENCJALNY")}
       </NaglowekEkranu>
 
       <PoleSelect
-        label="Miejsce montażu"
+        label={t("UI-PUSPOL-MIEJSCE-MONTAZU")}
         value={miejsceMontazu}
         onChange={(e) => setMiejsceMontazu(e.target.value as MiejsceMontazu)}
         pomoc={<PomocPola ekran="puszki-polaczeniowe" pole="miejsce" />}
       >
-        <option value="">— wybierz —</option>
+        <option value="">{t("UI-WYBIERZ")}</option>
         {(Object.keys(ETYKIETY_MIEJSC) as MiejsceMontazu[]).map((m) => (
           <option key={m} value={m}>
             {ETYKIETY_MIEJSC[m]}
@@ -55,7 +56,7 @@ export default function PuszkiPolaczenioweePage() {
       </PoleSelect>
 
       {result.status === "VALID" && result.value.wymaganyTyp && (
-        <WerdyktPanel poziom="ok" etykieta="Wymagany typ puszki">
+        <WerdyktPanel poziom="ok" etykieta={t("UI-PUSPOL-WYMAGANY-TYP-PUSZKI")}>
           <WynikGlowny>{result.value.wymaganyTyp}</WynikGlowny>
           <WynikSzczegoly assumptions={result.assumptions} warnings={result.warnings} formula={result.formula} />
         </WerdyktPanel>

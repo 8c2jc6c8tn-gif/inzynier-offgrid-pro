@@ -11,6 +11,7 @@ import { WerdyktPanel } from "@/components/werdykt"
 import { NawigacjaEkranu } from "@/components/nawigacja-ekranu"
 import { NaglowekEkranu } from "@/components/wzorce/naglowek-ekranu"
 import { WynikGlowny } from "@/components/wzorce/wynik-glowny"
+import { useTranslate } from "@/lib/i18n/language-context"
 
 type FormularzStan = {
   miejsceMontazu: MiejsceMontazu | ""
@@ -21,6 +22,7 @@ const STAN_POCZATKOWY: FormularzStan = {
 }
 
 export default function PeszleKorytaRurkiPage() {
+  const t = useTranslate()
   const [stan, setStan] = usePersistedDraft<FormularzStan>("peszle-koryta-rurki", STAN_POCZATKOWY)
   const { miejsceMontazu } = stan
 
@@ -40,18 +42,17 @@ export default function PeszleKorytaRurkiPage() {
   return (
     <main className="mx-auto flex max-w-md flex-col gap-6 p-6">
       <NawigacjaEkranu href="/kalkulatory/peszle-koryta-rurki" />
-      <NaglowekEkranu tytul="Peszle, koryta, rurki" ekran="peszle-koryta-rurki">
-        Osłona to ubranie dla kabla. Musi być dobrane do pogody i miejsca, inaczej kabel się
-        zużyje przedwcześnie. Moduł 5, Ekran 24.
+      <NaglowekEkranu tytul={t("UI-PESKORRUR-PESZLE-KORYTA-RURKI")} ekran="peszle-koryta-rurki">
+        {t("UI-PESKORRUR-OSLONA-UBRANIE-KABLA")}
       </NaglowekEkranu>
 
       <PoleSelect
-        label="Miejsce montażu"
+        label={t("UI-PESKORRUR-MIEJSCE-MONTAZU")}
         value={miejsceMontazu}
         onChange={(e) => setMiejsceMontazu(e.target.value as MiejsceMontazu)}
         pomoc={<PomocPola ekran="peszle-koryta-rurki" pole="miejsce" />}
       >
-        <option value="">— wybierz —</option>
+        <option value="">{t("UI-WYBIERZ")}</option>
         {(Object.keys(ETYKIETY_MIEJSC) as MiejsceMontazu[]).map((m) => (
           <option key={m} value={m}>
             {ETYKIETY_MIEJSC[m]}
@@ -60,19 +61,19 @@ export default function PeszleKorytaRurkiPage() {
       </PoleSelect>
 
       {result.status === "VALID" && result.value.zalecanaOslona && (
-        <WerdyktPanel poziom="ok" etykieta="Zalecana osłona">
+        <WerdyktPanel poziom="ok" etykieta={t("UI-PESKORRUR-ZALECANA-OSLONA")}>
           <WynikGlowny>{result.value.zalecanaOslona.nazwa}</WynikGlowny>
           <p className="mt-1 text-small text-muted-foreground">{result.value.zalecanaOslona.opis}</p>
         </WerdyktPanel>
       )}
 
       <div className="flex flex-col gap-3">
-        <div className="font-medium text-small">Wszystkie osłony</div>
+        <div className="font-medium text-small">{t("UI-PESKORRUR-WSZYSTKIE-OSLONY")}</div>
         {OSLONY.map((o) => (
           <div key={o.id} className="rounded-md border p-3 text-small">
             <span className="block font-medium">{o.nazwa}</span>
             <span className="block text-muted-foreground">{o.opis}</span>
-            <span className="block text-caption text-muted-foreground">Zalecane: {ETYKIETY_MIEJSC[o.zalecaneMiejsce]}</span>
+            <span className="block text-caption text-muted-foreground">{t("UI-PESKORRUR-ZALECANE", { p: ETYKIETY_MIEJSC[o.zalecaneMiejsce] })}</span>
           </div>
         ))}
       </div>

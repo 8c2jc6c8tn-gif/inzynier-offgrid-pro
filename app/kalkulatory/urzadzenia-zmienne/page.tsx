@@ -85,13 +85,12 @@ export default function UrzadzeniaZmiennePage() {
     <main className="mx-auto flex max-w-md flex-col gap-6 p-6">
       <NawigacjaEkranu href="/kalkulatory/urzadzenia-zmienne" />
       <NaglowekEkranu
-        tytul="Urządzenia zmienne i klasa energetyczna"
+        tytul={t("UI-URZZMI-URZADZENIA-ZMIENNE-KLASA")}
         ekran="urzadzenia-zmienne"
         wynik={result}
         parametry={{ nowoczesne: MNOZNIK_KLASY.nowoczesne, standardowe: MNOZNIK_KLASY.standardowe, stare: MNOZNIK_KLASY.stare }}
       >
-        Stare urządzenia to nie tylko wyższy rachunek za prąd w sieci — w off-gridzie to też
-        większa, droższa bateria, żeby je udźwignąć. Moduł 2, Ekran 3.
+        {t("UI-URZZMI-STARE-URZADZENIA-TYLKO")}
       </NaglowekEkranu>
 
       <ul className="flex flex-col gap-3">
@@ -119,7 +118,7 @@ export default function UrzadzeniaZmiennePage() {
                   value={u.mocW}
                   disabled={!u.wybrane}
                   onChange={(e) => aktualizuj(u.id, { mocW: Number(e.target.value) })}
-                  aria-label={`Moc — ${def?.label ?? u.id}`}
+                  aria-label={t("UI-URZZMI-MOC", { p: def?.label ?? u.id })}
                 />
                 <PomocPola ekran="urzadzenia-zmienne" pole="moc" />
                 <span>W ×</span>
@@ -131,20 +130,20 @@ export default function UrzadzeniaZmiennePage() {
                   placeholder="min"
                   disabled={!u.wybrane}
                   onChange={(e) => aktualizuj(u.id, { czasMin: Number(e.target.value) })}
-                  aria-label={`Czas pracy dziennie — ${def?.label ?? u.id}`}
+                  aria-label={t("UI-URZZMI-CZAS-PRACY-DZIENNIE", { p: def?.label ?? u.id })}
                 />
                 <PomocPola ekran="urzadzenia-zmienne" pole="czas" />
-                <span>min/dobę</span>
+                <span>{t("UI-URZZMI-MIN-DOBE")}</span>
                 <select
                   className="min-h-10 rounded-md border border-input bg-background px-2 text-small disabled:opacity-50"
                   value={u.klasa}
                   disabled={!u.wybrane}
                   onChange={(e) => aktualizuj(u.id, { klasa: e.target.value as KlasaEnergetyczna })}
-                  aria-label={`Klasa energetyczna — ${def?.label ?? u.id}`}
+                  aria-label={t("UI-URZZMI-KLASA-ENERGETYCZNA", { p: def?.label ?? u.id })}
                 >
-                  <option value="nowoczesne">Nowoczesne (A+++)</option>
-                  <option value="standardowe">Standardowe (5-10 lat)</option>
-                  <option value="stare">Stare (&gt;10 lat)</option>
+                  <option value="nowoczesne">{t("UI-URZZMI-NOWOCZESNE")}</option>
+                  <option value="standardowe">{t("UI-URZZMI-STANDARDOWE-LAT")}</option>
+                  <option value="stare">{t("UI-URZZMI-STARE-LAT")}</option>
                 </select>
                 <PomocPola
                   ekran="urzadzenia-zmienne"
@@ -165,29 +164,29 @@ export default function UrzadzeniaZmiennePage() {
             checked={plytaIndukcyjnaWybrana}
             onChange={(e) => setPlytaIndukcyjnaWybrana(e.target.checked)}
           />
-          <span className="text-small font-medium">Płyta indukcyjna (wysoki priorytet)</span>
+          <span className="text-small font-medium">{t("UI-URZZMI-PLYTA-INDUKCYJNA-WYSOKI")}</span>
         </label>
         {plytaIndukcyjnaWybrana && (
           <div className="mt-2 flex flex-col gap-2 pl-8">
             <PoleSelect
-              label="Moc palników"
+              label={t("UI-URZZMI-MOC-PALNIKOW")}
               value={plytaIndukcyjnaMocW}
               onChange={(e) => setPlytaIndukcyjnaMocW(e.target.value)}
               pomoc={<PomocPola ekran="urzadzenia-zmienne" pole="mocPlyty" params={{ sugerowana: PLYTA_INDUKCYJNA_MOC_SUGEROWANA_W }} />}
             >
               <option value="3000">3000 W</option>
               <option value="5000">5000 W</option>
-              <option value="7000">7000 W (typowo)</option>
+              <option value="7000">{t("UI-URZZMI-7000-TYPOWO")}</option>
               <option value="9000">9000 W</option>
             </PoleSelect>
             <input
               type="number"
               inputMode="decimal"
               className={INLINE_INPUT_KLASY}
-              placeholder="min/dobę"
+              placeholder={t("UI-URZZMI-MIN-DOBE")}
               value={plytaIndukcyjnaCzasMin}
               onChange={(e) => setPlytaIndukcyjnaCzasMin(e.target.value)}
-              aria-label="Czas gotowania dziennie"
+              aria-label={t("UI-URZZMI-CZAS-GOTOWANIA-DZIENNIE")}
             />
             <PomocPola ekran="urzadzenia-zmienne" pole="czasGotowania" />
           </div>
@@ -195,15 +194,15 @@ export default function UrzadzeniaZmiennePage() {
       </div>
 
       {result.status === "INVALID_INPUT" ? (
-        <WerdyktPanel poziom="blad" etykieta="Nie da się policzyć — sprawdź wpisane dane">
+        <WerdyktPanel poziom="blad" etykieta={t("UI-URZZMI-POLICZYC-SPRAWDZ-WPISANE")}>
           <WynikSzczegoly assumptions={[]} warnings={result.warnings} />
         </WerdyktPanel>
       ) : result.status === "INCOMPLETE" ? (
         <p className="text-small text-muted-foreground">
-          Zaznacz przynajmniej jedno urządzenie albo płytę indukcyjną.
+          {t("UI-URZZMI-ZAZNACZ-PRZYNAJMNIEJ-JEDNO")}
         </p>
       ) : (
-        <WerdyktPanel poziom={result.status === "VALID_WITH_WARNINGS" ? "uwaga" : "ok"} etykieta="Zapotrzebowanie dobowe">
+        <WerdyktPanel poziom={result.status === "VALID_WITH_WARNINGS" ? "uwaga" : "ok"} etykieta={t("UI-URZZMI-ZAPOTRZEBOWANIE-DOBOWE")}>
           <WynikGlowny>{(energiaLacznaWh / 1000).toFixed(2)} kWh</WynikGlowny>
           {result.warnings.map((w) => (
             <p key={w.code} className="mt-1 text-small">

@@ -11,6 +11,7 @@ import { NaglowekEkranu } from "@/components/wzorce/naglowek-ekranu"
 import { WSPOLCZYNNIK_MARGINESU_BEZPIECZNIKA } from "@/lib/core/modules/okablowanie/dobor-bezpiecznika-rozlacznika/constants"
 import { WynikGlowny } from "@/components/wzorce/wynik-glowny"
 import { WynikSzczegoly } from "@/components/wzorce/wynik-szczegoly"
+import { useTranslate } from "@/lib/i18n/language-context"
 
 type FormularzStan = {
   pradZnamionowyA: number
@@ -25,6 +26,7 @@ const STAN_POCZATKOWY: FormularzStan = {
 }
 
 export default function DoborBezpiecznikaRozlacznikaPage() {
+  const t = useTranslate()
   const [stan, setStan] = usePersistedDraft<FormularzStan>("dobor-bezpiecznika-rozlacznika", STAN_POCZATKOWY)
   const { pradZnamionowyA, pradZwarciowyA, aicBezpiecznikaA } = stan
 
@@ -58,26 +60,25 @@ export default function DoborBezpiecznikaRozlacznikaPage() {
 
   const etykieta =
     result.status === "INVALID_INPUT"
-      ? "Nie da się policzyć — sprawdź wpisane dane"
+      ? t("UI-DOBBEZROZ-POLICZYC-SPRAWDZ-WPISANE")
       : hasCritical
-        ? "Zabroniona kombinacja — dobierz bezpiecznik o wyższej zdolności łączeniowej"
-        : "Bezpiecznik dobrany"
+        ? t("UI-DOBBEZROZ-ZABRONIONA-KOMBINACJA-DOBIER")
+        : t("UI-DOBBEZROZ-BEZPIECZNIK-DOBRANY")
 
   return (
     <main className="mx-auto flex max-w-md flex-col gap-6 p-6">
       <NawigacjaEkranu href="/kalkulatory/dobor-bezpiecznika-rozlacznika" />
       <NaglowekEkranu
-        tytul="Dobór bezpieczników i rozłączników"
+        tytul={t("UI-DOBBEZROZ-DOBOR-BEZPIECZNIKOW-ROZLACZN")}
         ekran="dobor-bezpiecznika-rozlacznika"
         wynik={result}
         parametry={{ margines: WSPOLCZYNNIK_MARGINESU_BEZPIECZNIKA }}
       >
-        Bezpiecznik to bezpieczna wkładka topikowa dla całej instalacji — ma przepalić się on,
-        zanim przepali się kabel. Moduł 5, Ekran 6.
+        {t("UI-DOBBEZROZ-BEZPIECZNIK-BEZPIECZNA-WKLAD")}
       </NaglowekEkranu>
 
       <Pole
-        label="Prąd znamionowy obwodu"
+        label={t("UI-DOBBEZROZ-PRAD-ZNAMIONOWY-OBWODU")}
         unit="A"
         type="number"
         inputMode="decimal"
@@ -88,7 +89,7 @@ export default function DoborBezpiecznikaRozlacznikaPage() {
       />
 
       <Pole
-        label="Prąd zwarciowy w tym punkcie"
+        label={t("UI-DOBBEZROZ-PRAD-ZWARCIOWY-TYM")}
         unit="A"
         type="number"
         inputMode="decimal"
@@ -99,7 +100,7 @@ export default function DoborBezpiecznikaRozlacznikaPage() {
       />
 
       <Pole
-        label="Zdolność łączeniowa (AIC) wybranego bezpiecznika"
+        label={t("UI-DOBBEZROZ-ZDOLNOSC-LACZENIOWA-AIC")}
         unit="A"
         type="number"
         inputMode="decimal"
@@ -110,11 +111,11 @@ export default function DoborBezpiecznikaRozlacznikaPage() {
       />
 
       {poziom === null ? (
-        <p className="text-small text-muted-foreground">Wpisz prąd znamionowy obwodu, żeby zobaczyć werdykt.</p>
+        <p className="text-small text-muted-foreground">{t("UI-DOBBEZROZ-WPISZ-PRAD-ZNAMIONOWY")}</p>
       ) : (
         <WerdyktPanel poziom={poziom} etykieta={etykieta}>
           <WynikGlowny>{result.value.pradBezpiecznikaZalecanyA} A</WynikGlowny>
-          <p className="text-small text-muted-foreground">Zalecany prąd znamionowy bezpiecznika (1,25 × prąd obwodu)</p>
+          <p className="text-small text-muted-foreground">{t("UI-DOBBEZROZ-ZALECANY-PRAD-ZNAMIONOWY")}</p>
           <WynikSzczegoly assumptions={result.assumptions} warnings={result.warnings} />
         </WerdyktPanel>
       )}

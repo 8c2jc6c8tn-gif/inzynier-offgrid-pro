@@ -34,11 +34,18 @@ function odczytajRaw(): string | null {
   }
 }
 
+/**
+ * An appearance style (`lib/wyglad/style.ts`) has a fixed scheme, written by `lib/wyglad/storage.ts`
+ * as `data-schemat-stylu` on `<html>` — it wins over the user's mode so the `dark:` variants match
+ * the style's colours. The saved mode is kept and comes back with the default look.
+ */
 export function zastosujTryb(mode: ThemeMode): void {
   if (typeof document === "undefined") return
   const root = document.documentElement
+  const schematStylu = root.dataset.schematStylu
+  const efektywny = schematStylu === "light" || schematStylu === "dark" ? schematStylu : mode
   root.classList.remove("light", "dark")
-  if (mode !== "system") root.classList.add(mode)
+  if (efektywny !== "system") root.classList.add(efektywny)
 }
 
 let cache: { raw: string | null; tryb: ThemeMode } | null = null

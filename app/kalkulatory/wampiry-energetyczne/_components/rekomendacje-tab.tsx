@@ -10,12 +10,13 @@ import { PomocPola } from "@/components/ui/pomoc"
 import { WerdyktPanel, poziomZStatusu } from "@/components/werdykt"
 import { WynikSzczegoly } from "@/components/wzorce/wynik-szczegoly"
 import { StanPusty } from "@/components/ui/stany"
+import { useTranslate } from "@/lib/i18n/language-context"
 
 const ETYKIETA_REKOMENDACJI: Record<EtykietaRekomendacji, string> = {
-  "listwa-z-wylacznikiem": "Listwa z wyłącznikiem",
-  "gniazdo-wifi": "Gniazdo Wi-Fi",
-  "gniazdo-z-timerem": "Gniazdo z timerem",
-  "obwod-w-rozdzielni-ze-stycznikiem": "Obwód w rozdzielni ze stycznikiem",
+  "listwa-z-wylacznikiem": "UI-WAMENE-COMREKTAB-LISTWA-WYLACZNIKIEM",
+  "gniazdo-wifi": "UI-WAMENE-COMREKTAB-GNIAZDO-WIFI",
+  "gniazdo-z-timerem": "UI-WAMENE-COMREKTAB-GNIAZDO-TIMEREM",
+  "obwod-w-rozdzielni-ze-stycznikiem": "UI-WAMENE-COMREKTAB-OBWOD-ROZDZIELNI-STYCZNIKIEM",
 }
 
 export function RekomendacjeTab({
@@ -29,6 +30,7 @@ export function RekomendacjeTab({
   onChangePorownanie: (v: PorownanieMetodInput) => void
   onChangeDobor: (v: DoborMetodyInput) => void
 }) {
+  const t = useTranslate()
   const wynikPorownanie = useMemo(() => calculatePorownanieMetod(porownanie), [porownanie])
   const wynikDobor = useMemo(() => wybierzMetodeDlaKategorii(dobor), [dobor])
 
@@ -50,10 +52,9 @@ export function RekomendacjeTab({
   return (
     <div className="flex flex-col gap-8">
       <section className="flex flex-col gap-3">
-        <h2 className="text-small font-semibold">Porównanie metod odłączania — koszt vs. zysk</h2>
+        <h2 className="text-small font-semibold">{t("UI-WAMENE-COMREKTAB-POROWNANIE-METOD-ODLACZANIA")}</h2>
         <p className="text-caption text-muted-foreground">
-          Wpisz koszt zakupu/montażu i szacowaną roczną oszczędność dla metod, które rozważasz — źródło daje te
-          liczby tylko jako przykład, nie jako normę cenową.
+          {t("UI-WAMENE-COMREKTAB-WPISZ-KOSZT-ZAKUPU")}
         </p>
 
         <ul className="flex flex-col gap-2">
@@ -65,30 +66,30 @@ export function RekomendacjeTab({
                 <input
                   type="number"
                   inputMode="decimal"
-                  placeholder="koszt zł"
+                  placeholder={t("UI-WAMENE-COMREKTAB-KOSZT")}
                   value={m.kosztZakupuZl || ""}
                   onChange={(e) => aktualizujMetode(m.id, { kosztZakupuZl: Number(e.target.value) })}
                   className="min-h-10 w-24 rounded-md border border-input bg-background px-2"
-                  aria-label={`Koszt zakupu — ${def?.label ?? m.id}`}
+                  aria-label={t("UI-WAMENE-COMREKTAB-KOSZT-ZAKUPU", { p: def?.label ?? m.id })}
                 />
                 <PomocPola ekran="wampiry-energetyczne" pole="koszt" />
                 <input
                   type="number"
                   inputMode="decimal"
-                  placeholder="oszcz. zł/rok"
+                  placeholder={t("UI-WAMENE-COMREKTAB-OSZCZ-ROK")}
                   value={m.rocznaOszczednoscZl || ""}
                   onChange={(e) => aktualizujMetode(m.id, { rocznaOszczednoscZl: Number(e.target.value) })}
                   className="min-h-10 w-28 rounded-md border border-input bg-background px-2"
-                  aria-label={`Roczna oszczędność — ${def?.label ?? m.id}`}
+                  aria-label={t("UI-WAMENE-COMREKTAB-ROCZNA-OSZCZEDNOSC", { p: def?.label ?? m.id })}
                 />
                 <PomocPola ekran="wampiry-energetyczne" pole="oszczednosc" />
                 <button
                   type="button"
                   onClick={() => usunMetode(m.id)}
                   className="text-caption text-muted-foreground underline"
-                  aria-label={`Usuń ${def?.label ?? m.id}`}
+                  aria-label={t("UI-WAMENE-COMREKTAB-USUN-2", { p: def?.label ?? m.id })}
                 >
-                  Usuń
+                  {t("UI-WAMENE-COMREKTAB-USUN")}
                 </button>
               </li>
             )
@@ -111,7 +112,7 @@ export function RekomendacjeTab({
         )}
 
         {wynikPorownanie.status === "INCOMPLETE" ? (
-          <StanPusty tytul="Dodaj przynajmniej jedną metodę i wpisz koszt lub oszczędność." />
+          <StanPusty tytul={t("UI-WAMENE-COMREKTAB-DODAJ-PRZYNAJMNIEJ-JEDNA")} />
         ) : (
           <WerdyktPanel poziom={poziomZStatusu(wynikPorownanie.status)}>
             <ul className="flex flex-col gap-1 text-small">
@@ -120,7 +121,7 @@ export function RekomendacjeTab({
                 return (
                   <li key={m.id}>
                     <span className="font-medium">{def?.label ?? m.id}</span>:{" "}
-                    {m.okresZwrotuMiesiecy === null ? "koszt się nie zwróci" : `zwrot po ${m.okresZwrotuMiesiecy.toFixed(1)} mies.`}
+                    {m.okresZwrotuMiesiecy === null ? t("UI-WAMENE-COMREKTAB-KOSZT-ZWROCI") : t("UI-WAMENE-COMREKTAB-ZWROT-MIES", { okresZwrotuMiesiecy: m.okresZwrotuMiesiecy.toFixed(1) })}
                   </li>
                 )
               })}
@@ -131,9 +132,9 @@ export function RekomendacjeTab({
       </section>
 
       <section className="flex flex-col gap-3 border-t pt-6">
-        <h2 className="text-small font-semibold">Dobór metody per kategoria urządzenia</h2>
+        <h2 className="text-small font-semibold">{t("UI-WAMENE-COMREKTAB-DOBOR-METODY-PER")}</h2>
         <PoleSelect
-          label="Kategoria urządzenia"
+          label={t("UI-WAMENE-COMREKTAB-KATEGORIA-URZADZENIA")}
           value={dobor.kategoria}
           onChange={(e) => onChangeDobor({ kategoria: e.target.value as KategoriaUrzadzeniaId })}
           pomoc={<PomocPola ekran="wampiry-energetyczne" pole="kategoria" />}
@@ -145,8 +146,8 @@ export function RekomendacjeTab({
           ))}
         </PoleSelect>
 
-        <WerdyktPanel poziom="ok" etykieta="Rekomendowana metoda">
-          <p className="mt-1 text-h1 font-semibold">{ETYKIETA_REKOMENDACJI[wynikDobor.metoda]}</p>
+        <WerdyktPanel poziom="ok" etykieta={t("UI-WAMENE-COMREKTAB-REKOMENDOWANA-METODA")}>
+          <p className="mt-1 text-h1 font-semibold">{t(ETYKIETA_REKOMENDACJI[wynikDobor.metoda])}</p>
         </WerdyktPanel>
       </section>
     </div>

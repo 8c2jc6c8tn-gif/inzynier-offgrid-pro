@@ -1,28 +1,27 @@
+"use client"
+
 import { NawigacjaEkranu } from "@/components/nawigacja-ekranu"
 import { NaglowekEkranu } from "@/components/wzorce/naglowek-ekranu"
 import { StanPusty } from "@/components/ui/stany"
+import { useTranslate } from "@/lib/i18n/language-context"
 
 export default function TrybLivePage() {
+  const t = useTranslate()
   return (
     <main className="mx-auto flex max-w-md flex-col gap-6 p-6">
       <NawigacjaEkranu href="/kalkulatory/tryb-live" />
-      <NaglowekEkranu tytul="Tryb Live" ekran="tryb-live">
-        Przełącznik między trybem „Projektowanie” (Kafle 1–12) a trybem „Live” (monitoring
-        bieżący). Moduł 13, Ekran 1.
+      <NaglowekEkranu tytul={t("UI-TRYLIV-TRYB-LIVE")} ekran="tryb-live">
+        {t("UI-TRYLIV-PRZELACZNIK-MIEDZY-TRYBEM")}
       </NaglowekEkranu>
 
-      <StanPusty tytul="⚪ Brak połączenia z telemetrią">
+      <StanPusty tytul={t("UI-TRYLIV-BRAK-POLACZENIA-TELEMETRIA")}>
         <p>
-          Tryb Live czerpie dane z falownika/BMS na żywo przez Modbus lub MQTT — to połączenie
-          nie jest jeszcze skonfigurowane. Po podłączeniu ten ekran stanie się bramką do
-          biblioteki widżetów (Ekran 2: dashboard z wybieranymi widżetami — moc PV, SoC baterii,
-          alarmy i inne, docs/zrodla/Tresc_Modul_13_Live_Ekrany.md).
+          {t("UI-TRYLIV-TRYB-LIVE-CZERPIE")}
         </p>
       </StanPusty>
 
       <p className="text-small text-muted-foreground">
-        Do czasu podłączenia telemetrii korzystaj z pozostałych modułów w trybie projektowania —
-        liczą na podstawie danych, które wpisujesz ręcznie, nie na żywo.
+        {t("UI-TRYLIV-CZASU-PODLACZENIA-TELEMETRII")}
       </p>
     </main>
   )

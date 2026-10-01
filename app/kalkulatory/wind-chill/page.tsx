@@ -61,7 +61,7 @@ export default function WindChillPage() {
     <main className="mx-auto flex max-w-md flex-col gap-6 p-6">
       <NawigacjaEkranu href="/kalkulatory/wind-chill" />
       <NaglowekEkranu
-        tytul="Wind Chill — temperatura odczuwalna"
+        tytul={t("UI-WINCHI-WIND-CHILL-TEMPERATURA")}
         ekran="wind-chill"
         wynik={result}
         parametry={{
@@ -74,13 +74,12 @@ export default function WindChillPage() {
           wcE: WIND_CHILL_WYKLADNIK,
         }}
       >
-        Wiatr wywiewa ciepło z domu nawet wtedy, gdy termometr nie pokazuje wcale tak niskiej
-        temperatury — liczy się nie tylko stopień, ale i to, jak mocno wieje. Moduł 7.
+        {t("UI-WINCHI-WIATR-WYWIEWA-CIEPLO")}
       </NaglowekEkranu>
 
       <div className="flex flex-col gap-4">
         <Pole
-          label="Temperatura powietrza"
+          label={t("UI-WINCHI-TEMPERATURA-POWIETRZA")}
           unit="°C"
           type="number"
           inputMode="decimal"
@@ -89,7 +88,7 @@ export default function WindChillPage() {
           pomoc={<PomocPola ekran="wind-chill" pole="temp" params={{ maxT: WIND_CHILL_MAX_TEMP_C }} />}
         />
         <Pole
-          label="Prędkość wiatru"
+          label={t("UI-WINCHI-PREDKOSC-WIATRU")}
           unit="km/h"
           type="number"
           inputMode="decimal"
@@ -101,13 +100,13 @@ export default function WindChillPage() {
       </div>
 
       {result.status === "INVALID_INPUT" ? (
-        <WerdyktPanel poziom="blad" etykieta="Nie da się policzyć — sprawdź wpisane dane">
+        <WerdyktPanel poziom="blad" etykieta={t("UI-WINCHI-POLICZYC-SPRAWDZ-WPISANE")}>
           <WynikSzczegoly assumptions={[]} warnings={result.warnings} />
         </WerdyktPanel>
       ) : result.status === "INCOMPLETE" ? (
-        <p className="text-small text-muted-foreground">Wypełnij oba pola, żeby zobaczyć wynik.</p>
+        <p className="text-small text-muted-foreground">{t("UI-WINCHI-WYPELNIJ-OBA-POLA")}</p>
       ) : result.status === "OUT_OF_SCOPE" ? (
-        <WerdyktPanel poziom="uwaga" etykieta="Poza zakresem wzoru">
+        <WerdyktPanel poziom="uwaga" etykieta={t("UI-WINCHI-POZA-ZAKRESEM-WZORU")}>
           {result.warnings.map((w) => (
             <p key={w.code} className="mt-1 text-small">
               {w.message ?? t(w.i18nKey ?? w.code, w.params)}
@@ -115,7 +114,7 @@ export default function WindChillPage() {
           ))}
         </WerdyktPanel>
       ) : (
-        <WerdyktPanel poziom="ok" etykieta="Temperatura odczuwalna">
+        <WerdyktPanel poziom="ok" etykieta={t("UI-WINCHI-TEMPERATURA-ODCZUWALNA")}>
           <WynikGlowny>{result.value.temperaturaOdczuwalnaC.toFixed(1)} °C</WynikGlowny>
           <WynikSzczegoly assumptions={result.assumptions} formula={result.formula} />
         </WerdyktPanel>

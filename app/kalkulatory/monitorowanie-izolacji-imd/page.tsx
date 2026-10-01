@@ -10,6 +10,7 @@ import { WerdyktPanel, type WerdyktPoziom } from "@/components/werdykt"
 import { NawigacjaEkranu } from "@/components/nawigacja-ekranu"
 import { NaglowekEkranu } from "@/components/wzorce/naglowek-ekranu"
 import { WynikSzczegoly } from "@/components/wzorce/wynik-szczegoly"
+import { useTranslate } from "@/lib/i18n/language-context"
 
 type FormularzStan = {
   ukladIt: boolean
@@ -20,6 +21,7 @@ type FormularzStan = {
 const STAN_POCZATKOWY: FormularzStan = { ukladIt: false, maZainstalowanyImd: false, progAlarmuKOm: "" }
 
 export default function MonitorowanieIzolacjiImdPage() {
+  const t = useTranslate()
   const [stan, setStan] = usePersistedDraft<FormularzStan>("monitorowanie-izolacji-imd", STAN_POCZATKOWY)
   const { ukladIt, maZainstalowanyImd, progAlarmuKOm } = stan
 
@@ -49,29 +51,28 @@ export default function MonitorowanieIzolacjiImdPage() {
   }
 
   const verdictLabel: Record<typeof verdict, string> = {
-    invalid: "Nie da się policzyć",
-    incomplete: "Wpisz próg alarmu IMD",
-    red: "Zabronione — układ IT bez zamontowanego IMD",
-    green: ukladIt ? "IMD zainstalowany poprawnie" : "IMD nie jest wymagany w tym układzie",
+    invalid: t("UI-MONIZOIMD-POLICZYC"),
+    incomplete: t("UI-MONIZOIMD-WPISZ-PROG-ALARMU"),
+    red: t("UI-MONIZOIMD-ZABRONIONE-UKLAD-BEZ"),
+    green: ukladIt ? t("UI-MONIZOIMD-IMD-ZAINSTALOWANY-POPRAWNIE") : t("UI-MONIZOIMD-IMD-WYMAGANY-TYM"),
   }
 
   return (
     <main className="mx-auto flex max-w-md flex-col gap-6 p-6">
       <NawigacjaEkranu href="/kalkulatory/monitorowanie-izolacji-imd" />
       <NaglowekEkranu
-        tytul="Monitorowanie izolacji (IMD)"
+        tytul={t("UI-MONIZOIMD-MONITOROWANIE-IZOLACJI-IMD")}
         ekran="monitorowanie-izolacji-imd"
         wynik={result}
         parametry={{ progPrzyklad: PRZYKLADOWY_PROG_ALARMU_KOM }}
       >
-        W układzie IT nie ma bezpośredniego uziemienia, więc pierwsze doziemienie nie wyłączy
-        bezpiecznika. IMD wyłapie problem, zanim stanie się groźny. Moduł 5, Ekran 18.
+        {t("UI-MONIZOIMD-UKLADZIE-BEZPOSREDNIEGO-UZIE")}
       </NaglowekEkranu>
 
       <div className="flex flex-col gap-4">
         <PoleCheckbox
           id="uklad-it"
-          label="Układ sieci jest typu IT (bez bezpośredniego uziemienia punktu neutralnego)"
+          label={t("UI-MONIZOIMD-UKLAD-SIECI-TYPU")}
           checked={ukladIt}
           onChange={(e) => setPole("ukladIt", e.target.checked)}
         />
@@ -79,13 +80,13 @@ export default function MonitorowanieIzolacjiImdPage() {
           <>
             <PoleCheckbox
               id="ma-imd"
-              label="IMD jest już zainstalowany"
+              label={t("UI-MONIZOIMD-IMD-JUZ-ZAINSTALOWANY")}
               checked={maZainstalowanyImd}
               onChange={(e) => setPole("maZainstalowanyImd", e.target.checked)}
             />
             {maZainstalowanyImd && (
               <Pole
-                label="Próg alarmu IMD"
+                label={t("UI-MONIZOIMD-PROG-ALARMU-IMD")}
                 unit="kΩ"
                 type="number"
                 inputMode="decimal"

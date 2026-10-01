@@ -19,15 +19,16 @@ import { PomiarTab } from "./_components/pomiar-tab"
 import { SymulacjeTab } from "./_components/symulacje-tab"
 import { RekomendacjeTab } from "./_components/rekomendacje-tab"
 import { AutomatyzacjaTab } from "./_components/automatyzacja-tab"
+import { useTranslate } from "@/lib/i18n/language-context"
 
 type Podzakladka = "katalog" | "pomiar" | "symulacje" | "rekomendacje" | "automatyzacja"
 
 const PODZAKLADKI: { id: Podzakladka; label: string }[] = [
-  { id: "katalog", label: "Katalog urządzeń" },
-  { id: "pomiar", label: "Pomiar mocy jałowej" },
-  { id: "symulacje", label: "Symulacje i raporty" },
-  { id: "rekomendacje", label: "Rekomendacje sprzętowe" },
-  { id: "automatyzacja", label: "Automatyzacja" },
+  { id: "katalog", label: "UI-WAMENE-KATALOG-URZADZEN" },
+  { id: "pomiar", label: "UI-WAMENE-POMIAR-MOCY-JALOWEJ" },
+  { id: "symulacje", label: "UI-WAMENE-SYMULACJE-RAPORTY" },
+  { id: "rekomendacje", label: "UI-WAMENE-REKOMENDACJE-SPRZETOWE" },
+  { id: "automatyzacja", label: "UI-WAMENE-AUTOMATYZACJA" },
 ]
 
 type FormularzStan = {
@@ -67,6 +68,7 @@ const STAN_POCZATKOWY: FormularzStan = {
  * dostępna od razu w Symulacjach i Automatyzacji, bez ponownego wpisywania.
  */
 export default function WampiryEnergetycznePage() {
+  const t = useTranslate()
   const [stan, setStan] = usePersistedDraft<FormularzStan>("wampiry-energetyczne", STAN_POCZATKOWY)
 
   function setPole<K extends keyof FormularzStan>(
@@ -89,20 +91,19 @@ export default function WampiryEnergetycznePage() {
   return (
     <main className="mx-auto flex max-w-md flex-col gap-6 p-6">
       <NawigacjaEkranu href="/kalkulatory/wampiry-energetyczne" />
-      <NaglowekEkranu tytul="Wampiry energetyczne" ekran="wampiry-energetyczne">
-        Drobny, ciągły pobór urządzeń w trybie czuwania — pojedynczo niewiele, ale w skali roku i w systemie
-        off-grid regularnie zjada pojemność baterii. Moduł 2.
+      <NaglowekEkranu tytul={t("UI-WAMENE-WAMPIRY-ENERGETYCZNE")} ekran="wampiry-energetyczne">
+        {t("UI-WAMENE-DROBNY-CIAGLY-POBOR")}
       </NaglowekEkranu>
 
       <PoleSelect
-        label="Podzakładka"
+        label={t("UI-WAMENE-PODZAKLADKA")}
         value={stan.podzakladka}
         onChange={(e) => setPole("podzakladka", e.target.value as Podzakladka)}
         pomoc={<PomocPola ekran="wampiry-energetyczne" pole="podzakladka" />}
       >
         {PODZAKLADKI.map((p) => (
           <option key={p.id} value={p.id}>
-            {p.label}
+            {t(p.label)}
           </option>
         ))}
       </PoleSelect>

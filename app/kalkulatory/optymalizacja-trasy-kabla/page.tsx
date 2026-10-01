@@ -12,6 +12,7 @@ import { NaglowekEkranu } from "@/components/wzorce/naglowek-ekranu"
 import { WynikGlowny } from "@/components/wzorce/wynik-glowny"
 import { WynikSzczegoly } from "@/components/wzorce/wynik-szczegoly"
 import { DOMYSLNY_SPADEK_AC_PCT, DOMYSLNY_SPADEK_DC_PCT } from "@/lib/core/modules/okablowanie/dobor-przekroju-kabla/constants"
+import { useTranslate } from "@/lib/i18n/language-context"
 
 type FormularzStan = {
   pradA: string
@@ -50,6 +51,7 @@ const STAN_POCZATKOWY: FormularzStan = {
 }
 
 export default function OptymalizacjaTrasyKablaPage() {
+  const t = useTranslate()
   const [stan, setStan] = usePersistedDraft<FormularzStan>("optymalizacja-trasy-kabla", STAN_POCZATKOWY)
   const {
     pradA,
@@ -152,27 +154,26 @@ export default function OptymalizacjaTrasyKablaPage() {
     green: "ok",
   }
   const verdictLabel: Record<typeof verdict, string> = {
-    invalid: "Nie da się policzyć",
-    incomplete: "Wypełnij dane obu tras",
-    red: "Uwaga — jedna z tras nie spełnia wymagań przekroju",
-    green: "Porównanie gotowe",
+    invalid: t("UI-OPTTRAKAB-POLICZYC"),
+    incomplete: t("UI-OPTTRAKAB-WYPELNIJ-DANE-OBU"),
+    red: t("UI-OPTTRAKAB-UWAGA-JEDNA-TRAS"),
+    green: t("UI-OPTTRAKAB-POROWNANIE-GOTOWE"),
   }
 
   return (
     <main className="mx-auto flex max-w-md flex-col gap-6 p-6">
       <NawigacjaEkranu href="/kalkulatory/optymalizacja-trasy-kabla" />
       <NaglowekEkranu
-        tytul="Optymalizacja trasy i kosztu kabla"
+        tytul={t("UI-OPTTRAKAB-OPTYMALIZACJA-TRASY-KOSZTU")}
         ekran="optymalizacja-trasy-kabla"
         wynik={result}
       >
-        Nie patrz tylko na cenę kabla — grubszy, krótszy kabel często zwraca się w mniejszych
-        stratach przez lata. Moduł 5, Ekran 26.
+        {t("UI-OPTTRAKAB-PATRZ-TYLKO-CENE")}
       </NaglowekEkranu>
 
       <div className="flex flex-col gap-4">
         <Pole
-          label="Prąd obwodu (wspólny dla obu tras)"
+          label={t("UI-OPTTRAKAB-PRAD-OBWODU-WSPOLNY")}
           unit="A"
           type="number"
           inputMode="decimal"
@@ -182,7 +183,7 @@ export default function OptymalizacjaTrasyKablaPage() {
           pomoc={<PomocPola ekran="optymalizacja-trasy-kabla" pole="prad" />}
         />
         <Pole
-          label="Napięcie systemowe"
+          label={t("UI-OPTTRAKAB-NAPIECIE-SYSTEMOWE")}
           unit="V"
           type="number"
           inputMode="decimal"
@@ -192,27 +193,27 @@ export default function OptymalizacjaTrasyKablaPage() {
           pomoc={<PomocPola ekran="optymalizacja-trasy-kabla" pole="napiecie" />}
         />
         <PoleSelect
-          label="Materiał"
+          label={t("UI-OPTTRAKAB-MATERIAL")}
           value={material}
           onChange={(e) => setMaterial(e.target.value as Material)}
           pomoc={<PomocPola ekran="optymalizacja-trasy-kabla" pole="material" />}
         >
-          <option value="Cu">Miedź (Cu)</option>
-          <option value="Al">Aluminium (Al)</option>
+          <option value="Cu">{t("UI-OPTTRAKAB-MIEDZ")}</option>
+          <option value="Al">{t("UI-OPTTRAKAB-ALUMINIUM")}</option>
         </PoleSelect>
         <PoleSelect
-          label="Sposób ułożenia"
+          label={t("UI-OPTTRAKAB-SPOSOB-ULOZENIA")}
           value={sposobUlozenia}
           onChange={(e) => setSposobUlozenia(e.target.value as SposobUlozenia)}
           pomoc={<PomocPola ekran="optymalizacja-trasy-kabla" pole="ulozenie" />}
         >
-          <option value="swobodnie">Swobodnie / na ścianie</option>
-          <option value="w_peszlu">W peszlu</option>
-          <option value="w_ziemi">W ziemi</option>
-          <option value="w_wiazce">W wiązce</option>
+          <option value="swobodnie">{t("UI-OPTTRAKAB-SWOBODNIE-SCIANIE")}</option>
+          <option value="w_peszlu">{t("UI-OPTTRAKAB-PESZLU")}</option>
+          <option value="w_ziemi">{t("UI-OPTTRAKAB-ZIEMI")}</option>
+          <option value="w_wiazce">{t("UI-OPTTRAKAB-WIAZCE")}</option>
         </PoleSelect>
         <Pole
-          label="Temperatura otoczenia"
+          label={t("UI-OPTTRAKAB-TEMPERATURA-OTOCZENIA")}
           unit="°C"
           type="number"
           inputMode="decimal"
@@ -221,8 +222,8 @@ export default function OptymalizacjaTrasyKablaPage() {
           pomoc={<PomocPola ekran="optymalizacja-trasy-kabla" pole="temperatura" />}
         />
         <Pole
-          label="Liczba kabli w wiązce"
-          unit="szt."
+          label={t("UI-OPTTRAKAB-LICZBA-KABLI-WIAZCE")}
+          unit={t("UI-J-SZT")}
           type="number"
           inputMode="decimal"
           min={0}
@@ -231,7 +232,7 @@ export default function OptymalizacjaTrasyKablaPage() {
           pomoc={<PomocPola ekran="optymalizacja-trasy-kabla" pole="wiazka" />}
         />
         <Pole
-          label="Dopuszczalny spadek napięcia"
+          label={t("UI-OPTTRAKAB-DOPUSZCZALNY-SPADEK-NAPIECIA")}
           unit="%"
           type="number"
           inputMode="decimal"
@@ -241,8 +242,8 @@ export default function OptymalizacjaTrasyKablaPage() {
           pomoc={<PomocPola ekran="optymalizacja-trasy-kabla" pole="spadek" params={{ spadekAc: DOMYSLNY_SPADEK_AC_PCT, spadekDc: DOMYSLNY_SPADEK_DC_PCT }} />}
         />
         <Pole
-          label="Cena energii elektrycznej"
-          unit="zł/kWh"
+          label={t("UI-OPTTRAKAB-CENA-ENERGII-ELEKTRYCZNEJ")}
+          unit={t("UI-J-ZL-KWH")}
           type="number"
           inputMode="decimal"
           min={0}
@@ -251,8 +252,8 @@ export default function OptymalizacjaTrasyKablaPage() {
           pomoc={<PomocPola ekran="optymalizacja-trasy-kabla" pole="cenaEnergii" />}
         />
         <Pole
-          label="Horyzont porównania"
-          unit="lat"
+          label={t("UI-OPTTRAKAB-HORYZONT-POROWNANIA")}
+          unit={t("UI-J-LAT")}
           type="number"
           inputMode="decimal"
           min={0}
@@ -263,10 +264,10 @@ export default function OptymalizacjaTrasyKablaPage() {
       </div>
 
       <div className="flex flex-col gap-3 rounded-lg border p-4">
-        <div className="font-medium">Trasa A</div>
+        <div className="font-medium">{t("UI-OPTTRAKAB-TRASA")}</div>
         <Pole
           id="dlugosc-trasy-a"
-          label="Długość trasy"
+          label={t("UI-OPTTRAKAB-DLUGOSC-TRASY")}
           unit="m"
           type="number"
           inputMode="decimal"
@@ -277,7 +278,7 @@ export default function OptymalizacjaTrasyKablaPage() {
         />
         <Pole
           id="przekroj-trasy-a"
-          label="Przekrój rozważany"
+          label={t("UI-OPTTRAKAB-PRZEKROJ-ROZWAZANY")}
           unit="mm²"
           type="number"
           inputMode="decimal"
@@ -288,8 +289,8 @@ export default function OptymalizacjaTrasyKablaPage() {
         />
         <Pole
           id="koszt-trasy-a"
-          label="Koszt zakupu (kabel + osłony + robocizna)"
-          unit="zł"
+          label={t("UI-OPTTRAKAB-KOSZT-ZAKUPU-KABEL")}
+          unit={t("UI-J-ZL")}
           type="number"
           inputMode="decimal"
           min={0}
@@ -300,10 +301,10 @@ export default function OptymalizacjaTrasyKablaPage() {
       </div>
 
       <div className="flex flex-col gap-3 rounded-lg border p-4">
-        <div className="font-medium">Trasa B</div>
+        <div className="font-medium">{t("UI-OPTTRAKAB-TRASA-2")}</div>
         <Pole
           id="dlugosc-trasy-b"
-          label="Długość trasy"
+          label={t("UI-OPTTRAKAB-DLUGOSC-TRASY")}
           unit="m"
           type="number"
           inputMode="decimal"
@@ -314,7 +315,7 @@ export default function OptymalizacjaTrasyKablaPage() {
         />
         <Pole
           id="przekroj-trasy-b"
-          label="Przekrój rozważany"
+          label={t("UI-OPTTRAKAB-PRZEKROJ-ROZWAZANY")}
           unit="mm²"
           type="number"
           inputMode="decimal"
@@ -325,8 +326,8 @@ export default function OptymalizacjaTrasyKablaPage() {
         />
         <Pole
           id="koszt-trasy-b"
-          label="Koszt zakupu (kabel + osłony + robocizna)"
-          unit="zł"
+          label={t("UI-OPTTRAKAB-KOSZT-ZAKUPU-KABEL")}
+          unit={t("UI-J-ZL")}
           type="number"
           inputMode="decimal"
           min={0}
@@ -339,8 +340,7 @@ export default function OptymalizacjaTrasyKablaPage() {
       <WerdyktPanel poziom={verdictPoziom[verdict]} etykieta={verdictLabel[verdict]}>
         {verdict === "green" ? (
           <WynikGlowny>
-            TCO A: {result.value.tcoAZl.toFixed(0)} zł ({result.value.strataRocznaAKwh.toFixed(1)} kWh/rok) · TCO B:{" "}
-            {result.value.tcoBZl.toFixed(0)} zł ({result.value.strataRocznaBKwh.toFixed(1)} kWh/rok)
+            {t("UI-OPTTRAKAB-TCO-KWH-ROK", { tcoAZl: result.value.tcoAZl.toFixed(0), strataRocznaAKwh: result.value.strataRocznaAKwh.toFixed(1), tcoBZl: result.value.tcoBZl.toFixed(0), strataRocznaBKwh: result.value.strataRocznaBKwh.toFixed(1) })}
           </WynikGlowny>
         ) : null}
         <WynikSzczegoly assumptions={result.assumptions} warnings={result.warnings} formula={result.formula} />

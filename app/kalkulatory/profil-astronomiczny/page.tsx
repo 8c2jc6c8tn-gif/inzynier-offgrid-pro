@@ -15,6 +15,7 @@ import { NawigacjaEkranu } from "@/components/nawigacja-ekranu"
 import { NaglowekEkranu } from "@/components/wzorce/naglowek-ekranu"
 import { WynikGlowny } from "@/components/wzorce/wynik-glowny"
 import { WynikSzczegoly } from "@/components/wzorce/wynik-szczegoly"
+import { useTranslate } from "@/lib/i18n/language-context"
 
 type FormularzStan = {
   szerokoscGeograficzna: string
@@ -29,6 +30,7 @@ const STAN_POCZATKOWY: FormularzStan = {
 }
 
 export default function ProfilAstronomicznyPage() {
+  const t = useTranslate()
   const [stan, setStan] = usePersistedDraft<FormularzStan>("profil-astronomiczny", STAN_POCZATKOWY)
   const { szerokoscGeograficzna, dzienRoku, mocOdbiornikaNocnegoW } = stan
 
@@ -56,7 +58,7 @@ export default function ProfilAstronomicznyPage() {
     <main className="mx-auto flex max-w-md flex-col gap-6 p-6">
       <NawigacjaEkranu href="/kalkulatory/profil-astronomiczny" />
       <NaglowekEkranu
-        tytul="Profil dobowy + astronomiczny dzień/noc"
+        tytul={t("UI-PROAST-PROFIL-DOBOWY-ASTRONOMICZNY")}
         ekran="profil-astronomiczny"
         wynik={result}
         parametry={{
@@ -65,14 +67,12 @@ export default function ProfilAstronomicznyPage() {
           dniRoku: DNI_W_ROKU,
         }}
       >
-        Profil dobowy to nie tylko „kiedy używasz najwięcej prądu” — to też kiedy jest ciemno, bo
-        od tego zależy, jak długo pracują urządzenia świecące, a to zmienia się drastycznie między
-        latem a zimą. Moduł 2, Ekran 5.
+        {t("UI-PROAST-PROFIL-DOBOWY-TYLKO")}
       </NaglowekEkranu>
 
       <div className="flex flex-col gap-4">
         <Pole
-          label="Szerokość geograficzna"
+          label={t("UI-PROAST-SZEROKOSC-GEOGRAFICZNA")}
           unit="°"
           type="number"
           inputMode="decimal"
@@ -83,7 +83,7 @@ export default function ProfilAstronomicznyPage() {
           pomoc={<PomocPola ekran="profil-astronomiczny" pole="szerokosc" />}
         />
         <Pole
-          label="Dzień roku"
+          label={t("UI-PROAST-DZIEN-ROKU")}
           unit="1-365"
           type="number"
           inputMode="numeric"
@@ -94,7 +94,7 @@ export default function ProfilAstronomicznyPage() {
           pomoc={<PomocPola ekran="profil-astronomiczny" pole="dzienRoku" />}
         />
         <Pole
-          label="Moc odbiornika działającego tylko w ciemności (opcjonalnie)"
+          label={t("UI-PROAST-MOC-ODBIORNIKA-DZIALAJACEGO")}
           unit="W"
           type="number"
           inputMode="decimal"
@@ -106,15 +106,15 @@ export default function ProfilAstronomicznyPage() {
       </div>
 
       {result.status === "INVALID_INPUT" ? (
-        <WerdyktPanel poziom="blad" etykieta="Nie da się policzyć — sprawdź wpisane dane">
+        <WerdyktPanel poziom="blad" etykieta={t("UI-PROAST-POLICZYC-SPRAWDZ-WPISANE")}>
           <WynikSzczegoly assumptions={[]} warnings={result.warnings} />
         </WerdyktPanel>
       ) : result.status === "INCOMPLETE" ? (
-        <p className="text-small text-muted-foreground">Wypełnij szerokość geograficzną i dzień roku.</p>
+        <p className="text-small text-muted-foreground">{t("UI-PROAST-WYPELNIJ-SZEROKOSC-GEOGRAFIC")}</p>
       ) : (
-        <WerdyktPanel poziom="ok" etykieta="Długość dnia i nocy">
+        <WerdyktPanel poziom="ok" etykieta={t("UI-PROAST-DLUGOSC-DNIA-NOCY")}>
           <WynikGlowny>
-            {result.value.dlugoscDniaH.toFixed(1)} h dnia / {result.value.dlugoscNocyH.toFixed(1)} h nocy
+            {t("UI-PROAST-DNIA-NOCY", { dlugoscDniaH: result.value.dlugoscDniaH.toFixed(1), dlugoscNocyH: result.value.dlugoscNocyH.toFixed(1) })}
           </WynikGlowny>
           <WynikSzczegoly assumptions={result.assumptions} warnings={result.warnings} formula={result.formula} />
         </WerdyktPanel>
