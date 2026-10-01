@@ -1532,4 +1532,11 @@ export const dictionaryEn = {
   "WPOR-MECHANICZNA-NIE-OSZCZEDZA": "The fans will use more electricity than recovery saves on heating — balance {netto} kWh/day. Check the fan power and recovery efficiency, or compute for a colder day.",
   "WPOR-BEZ-COP": "Non-electric heating (no COP entered) — the heat saving and fan electricity are shown separately; no electricity balance.",
   "WPOR-ZALOZENIE-DOBA": "Computed for one day at the entered mean outdoor temperature; the season result = day × season days (colder and warmer days average out only if you enter the season mean).",
+  "KOL-PLYCEJ-NIZ-PRZEMARZANIE": "A horizontal collector at {glebokosc} m is no deeper than the frost depth ({przemarzanie} m) — it will freeze and lose output. Lay the pipes below the frost depth.",
+  "KOL-BRAK-PRZEMARZANIA": "Enter the laying depth and the frost depth — without them we cannot check whether the collector will freeze.",
+  "KOL-GLEBOKOSC-NIETYPOWA": "A laying depth of {glebokosc} m is outside the typical {min}–{max} m. Shallower — freezing risk and weaker heat extraction; deeper — excavation cost grows.",
+  "KOL-ODWIERT-NIETYPOWY": "A {glebokosc} m borehole is outside the typical {min}–{max} m — too deep a borehole raises cost faster than the gain. Check the borehole design.",
+  "KOL-WSKAZNIK-SPOZA-ZRODLA": "The entered index {wartosc} is outside the source's {min}–{max} — the result uses your index; make sure it comes from a design for your soil.",
+  "KOL-SPIRALNY-BEZ-WSKAZNIKA": "A spiral (basket) collector is a compact option when space is short — the source gives no sizing index, so no dimensions are computed. Size it from the manufacturer's data sheet.",
+  "KOL-ZALOZENIE-MOC-POMPY": "The indices are applied to the heat pump power (as in the source), not to the ground extraction power P·(1 − 1/COP). Soil type and moisture are contained in the index you enter.",
 } satisfies Record<KluczTlumaczenia, string>

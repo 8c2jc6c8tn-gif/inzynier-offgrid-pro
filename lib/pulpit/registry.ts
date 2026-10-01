@@ -203,6 +203,7 @@ export const KAFLE: KafelEntry[] = [
       { href: "/kalkulatory/grzalka-cwu", label: "Grzałki elektryczne do C.W.U." },
       { href: "/kalkulatory/oslony-przeciwsloneczne", label: "Ochrona przed przegrzaniem latem — okap" },
       { href: "/kalkulatory/wentylacja-porownanie", label: "Wentylacja naturalna vs mechaniczna" },
+      { href: "/kalkulatory/kolektor-gruntowy", label: "Kolektor gruntowy pompy ciepła" },
     ],
   },
   {

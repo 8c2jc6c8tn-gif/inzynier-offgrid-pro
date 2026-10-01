@@ -7,6 +7,7 @@ import { zasobnikCwuTool } from "../zasobnik-cwu-tool"
 import { grzalkaCwuTool } from "../grzalka-cwu-tool"
 import { oslonyPrzeciwsloneczneTool } from "../oslony-przeciwsloneczne-tool"
 import { wentylacjaPorownanieTool } from "../wentylacja-porownanie-tool"
+import { kolektorGruntowyTool } from "../kolektor-gruntowy-tool"
 
 describe("dystrybucjaCieplaTool (M6/E13, dawne 5.13 + 5.17 + 5.18)", () => {
   it("kontrakt 9.3: 'read', bez potwierdzenia", () => {
@@ -132,5 +133,27 @@ describe("wentylacjaPorownanieTool (M6/E20, dawne 5.26)", () => {
     })
     expect(w.oszczednoscNettoKwh).toBeLessThan(0)
     expect(w.ostrzezenia).toContain(t("pl", "WPOR-MECHANICZNA-NIE-OSZCZEDZA", { netto: Math.round(w.oszczednoscNettoKwh! * 100) / 100 }))
+  })
+})
+
+describe("kolektorGruntowyTool (M6, dawne 5.42)", () => {
+  it("kontrakt 9.3: 'read', bez potwierdzenia", () => {
+    expect(kolektorGruntowyTool.operationType).toBe("read")
+    expect(kolektorGruntowyTool.requiresConfirmation).toBe(false)
+    expect(() => validateAiToolDefinition(kolektorGruntowyTool)).not.toThrow()
+  })
+
+  it("kolektor poziomy 1,2 m przy przemarzaniu 1,4 m → 🔴 jako tekst PL", async () => {
+    const w = await kolektorGruntowyTool.handler({
+      typ: "poziomy",
+      mocPompyKw: 8,
+      m2Na10Kw: 100,
+      glebokoscUlozeniaM: 1.2,
+      glebokoscPrzemarzaniaM: 1.4,
+      wNaMetr: 0,
+      glebokoscOdwiertuM: 0,
+    })
+    expect(w.powierzchniaM2).toBeCloseTo(80, 12)
+    expect(w.ostrzezenia).toContain(t("pl", "KOL-PLYCEJ-NIZ-PRZEMARZANIE", { glebokosc: 1.2, przemarzanie: 1.4 }))
   })
 })

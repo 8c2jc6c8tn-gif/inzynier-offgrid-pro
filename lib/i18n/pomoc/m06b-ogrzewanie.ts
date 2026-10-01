@@ -396,6 +396,58 @@ export const pl = {
       }
     }
   },
+  "kolektor-gruntowy": {
+    "migawka": {
+      "oCoChodzi": "Pompa ciepła pobiera ciepło z gruntu. Trzeba dać jej odpowiedni kolektor, inaczej będzie jak samochód bez paliwa.",
+      "jakDziala": "Wybierz typ kolektora i wpisz moc pompy. Dla poziomego — wskaźnik m² na 10 kW z projektu dla Twojego gruntu, głębokość ułożenia i głębokość przemarzania; dla pionowego — moc z 1 m odwiertu i głębokość jednego odwiertu. Obok wyniku pokazujemy widełki ze źródła.",
+      "poCo": "Za mały kolektor wychładza grunt — pompa traci COP i w mrozy może stanąć; zbyt płytki zamarza. Za duży odwiert to koszt, który się nie zwraca.",
+      "fizyka": "Poziomy: A = P/10 × wskaźnik (źródło: 60–120 m²/10 kW, głębokość 1,2–1,8 m). Pionowy: L = P / q (źródło: 50–70 W/m, odwierty 50–100 m), liczba odwiertów = L / głębokość w górę. Przykład źródła „8 kW → 400 m² albo 1 odwiert 100 m” nie wynika z tych widełek (dałyby 48–96 m² i 114–160 m) — 400 m² to 500 m²/10 kW, 100 m to 80 W/m."
+    },
+    "pola": {
+      "typ": {
+        "nazwa": "Typ kolektora",
+        "cel": "Poziomy potrzebuje dużej działki, pionowy — wiertni, spiralny jest kompaktowy.",
+        "gdzie": "Projekt dolnego źródła albo dostępna powierzchnia działki.",
+        "zakres": "Poziomy / pionowy / spiralny (spiralny bez wymiarowania — źródło nie daje wskaźnika)."
+      },
+      "moc": {
+        "nazwa": "Moc pompy ciepła [kW]",
+        "cel": "Wskaźniki źródła są podane na moc pompy.",
+        "gdzie": "Karta pompy albo Ekran 2 (zapotrzebowanie na ciepło).",
+        "zakres": "Typowo kilka–kilkanaście kW dla domu."
+      },
+      "m2Na10Kw": {
+        "nazwa": "Powierzchnia na 10 kW [m²/10 kW]",
+        "cel": "Zależy od gruntu: suchy piasek wymaga więcej niż wilgotna glina.",
+        "gdzie": "Projekt dolnego źródła / badanie gruntu.",
+        "zakres": "Źródło: 60–120 m² na każde 10 kW."
+      },
+      "glebokosc": {
+        "nazwa": "Głębokość ułożenia rur [m]",
+        "cel": "Kolektor musi leżeć poniżej strefy przemarzania.",
+        "gdzie": "Projekt wykopu.",
+        "zakres": "Źródło: 1,2–1,8 m."
+      },
+      "przemarzanie": {
+        "nazwa": "Głębokość przemarzania [m]",
+        "cel": "Granica, płycej której kolektor zamarza (🔴).",
+        "gdzie": "Mapa stref przemarzania dla Twojej lokalizacji albo projekt.",
+        "zakres": "Zależy od strefy klimatycznej — wpisz wartość z mapy."
+      },
+      "wNaMetr": {
+        "nazwa": "Moc z 1 m odwiertu [W/m]",
+        "cel": "Ile mocy grunt odda z każdego metra odwiertu.",
+        "gdzie": "Projekt odwiertu / badanie gruntu (test reakcji termicznej).",
+        "zakres": "Źródło: ok. 50–70 W/m."
+      },
+      "odwiert": {
+        "nazwa": "Głębokość jednego odwiertu [m]",
+        "cel": "Dzieli łączną długość na liczbę odwiertów.",
+        "gdzie": "Oferta firmy wiertniczej / warunki geologiczne.",
+        "zakres": "Źródło: 50–100 m."
+      }
+    }
+  },
 }
 
 const EN_SHEET = "The device datasheet — the app never assumes a typical value for you."
@@ -790,6 +842,58 @@ export const en: Tlumaczenie<typeof pl> = {
       }
     }
   },
+  "kolektor-gruntowy": {
+    "migawka": {
+      "oCoChodzi": "A heat pump draws heat from the ground. It needs the right collector, otherwise it is like a car without fuel.",
+      "jakDziala": "Choose the collector type and enter the pump power. Horizontal — the m² per 10 kW index from a design for your soil, the laying depth and the frost depth; vertical — power per 1 m of borehole and the depth of one borehole. The source's ranges are shown next to the result.",
+      "poCo": "Too small a collector cools the ground — the pump loses COP and may stop in a frost; too shallow a collector freezes. Too deep a borehole is a cost that never pays back.",
+      "fizyka": "Horizontal: A = P/10 × index (source: 60–120 m²/10 kW, depth 1.2–1.8 m). Vertical: L = P / q (source: 50–70 W/m, boreholes 50–100 m), number of boreholes = L / depth rounded up. The source's example \"8 kW → 400 m² or 1 borehole of 100 m\" does not follow from these ranges (they give 48–96 m² and 114–160 m) — 400 m² is 500 m²/10 kW, 100 m is 80 W/m."
+    },
+    "pola": {
+      "typ": {
+        "nazwa": "Collector type",
+        "cel": "Horizontal needs a large plot, vertical a drilling rig, spiral is compact.",
+        "gdzie": "Ground source design or the available plot area.",
+        "zakres": "Horizontal / vertical / spiral (spiral not sized — the source gives no index)."
+      },
+      "moc": {
+        "nazwa": "Heat pump power [kW]",
+        "cel": "The source's indices are given per pump power.",
+        "gdzie": "Pump data sheet or Screen 2 (heat demand).",
+        "zakres": "Typically a few to a dozen or so kW for a house."
+      },
+      "m2Na10Kw": {
+        "nazwa": "Area per 10 kW [m²/10 kW]",
+        "cel": "Depends on the soil: dry sand needs more than moist clay.",
+        "gdzie": "Ground source design / soil survey.",
+        "zakres": "Source: 60–120 m² per 10 kW."
+      },
+      "glebokosc": {
+        "nazwa": "Pipe laying depth [m]",
+        "cel": "The collector must lie below the frost depth.",
+        "gdzie": "Excavation design.",
+        "zakres": "Source: 1.2–1.8 m."
+      },
+      "przemarzanie": {
+        "nazwa": "Frost depth [m]",
+        "cel": "The limit above which the collector freezes (🔴).",
+        "gdzie": "Frost-zone map for your location or the design.",
+        "zakres": "Depends on the climate zone — enter the value from the map."
+      },
+      "wNaMetr": {
+        "nazwa": "Power per 1 m of borehole [W/m]",
+        "cel": "How much power the ground gives per metre of borehole.",
+        "gdzie": "Borehole design / soil survey (thermal response test).",
+        "zakres": "Source: about 50–70 W/m."
+      },
+      "odwiert": {
+        "nazwa": "Depth of one borehole [m]",
+        "cel": "Splits the total length into a number of boreholes.",
+        "gdzie": "Drilling company quote / geological conditions.",
+        "zakres": "Source: 50–100 m."
+      }
+    }
+  },
 }
 
 const RU_SHEET = "Паспорт устройства — приложение не подставляет типовое значение за вас."
@@ -1181,6 +1285,58 @@ export const ru: Tlumaczenie<typeof pl> = {
         "cel": "Разница в стоимости установки по сравнению с естественной вентиляцией.",
         "gdzie": "Предложения монтажников.",
         "zakres": "Пусто = без окупаемости."
+      }
+    }
+  },
+  "kolektor-gruntowy": {
+    "migawka": {
+      "oCoChodzi": "Тепловой насос берёт тепло из грунта. Ему нужен правильный коллектор, иначе он как автомобиль без топлива.",
+      "jakDziala": "Выберите тип коллектора и введите мощность насоса. Для горизонтального — показатель м² на 10 кВт из проекта для вашего грунта, глубину укладки и глубину промерзания; для вертикального — мощность с 1 м скважины и глубину одной скважины. Рядом с результатом показаны диапазоны источника.",
+      "poCo": "Слишком маленький коллектор выхолаживает грунт — насос теряет COP и в мороз может остановиться; слишком мелкий замерзает. Слишком глубокая скважина — затраты, которые не окупаются.",
+      "fizyka": "Горизонтальный: A = P/10 × показатель (источник: 60–120 м²/10 кВт, глубина 1,2–1,8 м). Вертикальный: L = P / q (источник: 50–70 Вт/м, скважины 50–100 м), число скважин = L / глубина с округлением вверх. Пример источника «8 кВт → 400 м² или 1 скважина 100 м» не следует из этих диапазонов (они дают 48–96 м² и 114–160 м) — 400 м² это 500 м²/10 кВт, 100 м это 80 Вт/м."
+    },
+    "pola": {
+      "typ": {
+        "nazwa": "Тип коллектора",
+        "cel": "Горизонтальному нужен большой участок, вертикальному — буровая, спиральный компактен.",
+        "gdzie": "Проект нижнего источника или доступная площадь участка.",
+        "zakres": "Горизонтальный / вертикальный / спиральный (спиральный без расчёта — источник не даёт показателя)."
+      },
+      "moc": {
+        "nazwa": "Мощность теплового насоса [кВт]",
+        "cel": "Показатели источника даны на мощность насоса.",
+        "gdzie": "Паспорт насоса или Экран 2 (потребность в тепле).",
+        "zakres": "Обычно от нескольких до десятка с лишним кВт для дома."
+      },
+      "m2Na10Kw": {
+        "nazwa": "Площадь на 10 кВт [м²/10 кВт]",
+        "cel": "Зависит от грунта: сухому песку нужно больше, чем влажной глине.",
+        "gdzie": "Проект нижнего источника / изыскания грунта.",
+        "zakres": "Источник: 60–120 м² на каждые 10 кВт."
+      },
+      "glebokosc": {
+        "nazwa": "Глубина укладки труб [м]",
+        "cel": "Коллектор должен лежать ниже зоны промерзания.",
+        "gdzie": "Проект земляных работ.",
+        "zakres": "Источник: 1,2–1,8 м."
+      },
+      "przemarzanie": {
+        "nazwa": "Глубина промерзания [м]",
+        "cel": "Граница, выше которой коллектор замерзает (🔴).",
+        "gdzie": "Карта зон промерзания для вашего места или проект.",
+        "zakres": "Зависит от климатической зоны — введите значение с карты."
+      },
+      "wNaMetr": {
+        "nazwa": "Мощность с 1 м скважины [Вт/м]",
+        "cel": "Сколько мощности грунт отдаёт с каждого метра скважины.",
+        "gdzie": "Проект скважины / изыскания (тест термического отклика).",
+        "zakres": "Источник: около 50–70 Вт/м."
+      },
+      "odwiert": {
+        "nazwa": "Глубина одной скважины [м]",
+        "cel": "Делит общую длину на число скважин.",
+        "gdzie": "Предложение буровой компании / геологические условия.",
+        "zakres": "Источник: 50–100 м."
       }
     }
   },

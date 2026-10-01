@@ -1544,6 +1544,13 @@ export const dictionaryPl = {
   "WPOR-MECHANICZNA-NIE-OSZCZEDZA": "Wentylatory zużyją więcej prądu, niż rekuperacja oszczędzi na ogrzewaniu — bilans {netto} kWh/dobę. Sprawdź pobór wentylatorów i sprawność odzysku albo policz dla zimniejszej doby.",
   "WPOR-BEZ-COP": "Ogrzewanie nieelektryczne (COP nie wpisany) — pokazujemy oszczędność ciepła i prąd wentylatorów osobno; bilansu prądu nie liczymy.",
   "WPOR-ZALOZENIE-DOBA": "Liczone dla jednej doby o wpisanej średniej temperaturze zewnętrznej; wynik sezonowy = doba × dni sezonu (zimniejsze i cieplejsze dni się uśredniają tylko wtedy, gdy wpiszesz średnią sezonu).",
+  "KOL-PLYCEJ-NIZ-PRZEMARZANIE": "Kolektor poziomy na {glebokosc} m leży nie głębiej niż strefa przemarzania ({przemarzanie} m) — zamarznie i straci wydajność. Ułóż rury poniżej strefy przemarzania.",
+  "KOL-BRAK-PRZEMARZANIA": "Wpisz głębokość ułożenia i głębokość przemarzania gruntu — bez nich nie sprawdzimy, czy kolektor nie zamarznie.",
+  "KOL-GLEBOKOSC-NIETYPOWA": "Głębokość ułożenia {glebokosc} m jest poza typowym zakresem {min}–{max} m. Płycej — ryzyko zamarzania i słabszy odbiór ciepła; głębiej — koszt wykopu rośnie.",
+  "KOL-ODWIERT-NIETYPOWY": "Odwiert {glebokosc} m jest poza typowym zakresem {min}–{max} m — zbyt głęboki odwiert podnosi koszt szybciej niż zysk. Sprawdź projekt odwiertu.",
+  "KOL-WSKAZNIK-SPOZA-ZRODLA": "Wpisany wskaźnik {wartosc} jest poza zakresem {min}–{max} podanym w źródle — wynik liczony z Twojego wskaźnika; upewnij się, że pochodzi z projektu dla Twojego gruntu.",
+  "KOL-SPIRALNY-BEZ-WSKAZNIKA": "Kolektor spiralny (koszowy) to rozwiązanie kompaktowe, gdy brakuje miejsca — źródło nie podaje wskaźnika do jego wymiarowania, więc nie liczymy wymiarów. Dobór według karty producenta.",
+  "KOL-ZALOZENIE-MOC-POMPY": "Wskaźniki są liczone na moc pompy ciepła (jak w źródle), nie na moc pobieraną z gruntu P·(1 − 1/COP). Typ i wilgotność gruntu są zawarte we wskaźniku, który wpisujesz.",
 } as const
 
 export type KluczTlumaczenia = keyof typeof dictionaryPl
