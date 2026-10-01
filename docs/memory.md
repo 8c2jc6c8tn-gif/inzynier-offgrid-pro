@@ -8623,3 +8623,20 @@ Tryb Audyt (czapka rewidenta). Warstwa „w pełni na końcu” z N.2 — wszyst
   w RU cyrylicą jak w `dictionary-ru.ts` (кВт·ч, А, В, Вт, мм², Ом, зл); symbole techniczne w listach opcji (CAN,
   Wi-Fi, UART, PWM, jednostki „kWh”, „%”) zostają bez klucza — render `x.startsWith("UI-") ? t(x) : x`.
   Treść pisma reklamacyjnego (`test-licznika`) celowo zostaje po polsku (adresat: polski OSD).
+
+## M6 — ekrany bez właściciela (01.10.2026, gałąź `work/m6`)
+
+- **Stan:** zbudowane E13, E16, E17, E18, E19, E20, 5.42 (`kolektor-gruntowy`), 2A (`alternatywne-zrodla-ciepla`,
+  rzędy 5.32/5.34/5.35/5.36; 5.33 był już osobno). Wspólna walidacja M6: `lib/core/modules/ogrzewanie/wspolne/walidacja.ts`
+  (kody `M6-*` dopisane jawnie do `scripts/stopy-guard-wyjatki.json` — wzorce `*-UJEMNA`/`*-POZA-ZAKRESEM` ich nie łapały
+  przy prefiksie `M6-`). Teksty UI: `lib/i18n/ui/m06-ogrzewanie.ts`, pomoc: `lib/i18n/pomoc/m06b-ogrzewanie.ts`.
+- **Nowe 🔴:** `DYS-GRZEJNIKI-WYSOKOTEMP-POMPA` (E13), `KOL-PLYCEJ-NIZ-PRZEMARZANIE` (5.42, ta sama reguła co M7/E22).
+  Wybory ✅🤖 do potwierdzenia: wpis ⚠️ w `docs/lista-do-zrobienia.md` (01.10.2026, M6).
+- **Niespójne przykłady źródła (Dyrektywa #5, opisane w silnikach):** E13 „oszczędność 28%” = 1 − 3,2/4,5 ≈ 28,9%;
+  E17 0,8 W/K → 1,2 kWh/dobę wymaga ΔT 62,5 K, a 0,5 W/K daje 0,75 (nie 0,7) i ok. 164 kWh/rok (nie 180);
+  E18 „PV 3 kW → 3 h” przeczy grzałce 2 kW (moc ograniczona grzałką); E20 „8 − 3 − 0,5 = 4,5” zakłada COP 1,
+  a „1600 kWh rocznie” = 4,5 × 365 (zimowa doba × cały rok); 5.42 „8 kW → 400 m² / 1 odwiert 100 m” = 500 m²/10 kW
+  i 80 W/m, poza widełkami tego samego źródła (48–96 m², 114–160 m); 2A PCM „100 l ≈ 300 l wody” tylko przy
+  ρ = 1 kg/l i ΔT ≈ 16 K, kominek „60% zapotrzebowania” bez podanego zapotrzebowania.
+- **Pułapka (stopy-guard):** kod OUT_OF_SCOPE na poziomie `critical` (np. `OSL-SZEROKOSC-POZA-MODELEM`) trzeba dopisać
+  ręcznie do `poza-zakresem-modelu`, nie do `walidacja-danych`.

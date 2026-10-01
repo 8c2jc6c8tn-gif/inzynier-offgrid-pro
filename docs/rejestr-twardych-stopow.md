@@ -362,6 +362,13 @@ nie do audytu poprawności formularza webowego.
   (M5/E8 — `lib/core/modules/okablowanie/przepust-powietrza/warnings.ts`, `szczelinaKrytyczna`, kod `SZCZELINA-KRYTYCZNA`)
 - **[29.09.2026] Strategia na zamarzanie: bateria już na minimum SoC, odbiorniki krytyczne bez zasilania**
   (M7/E6 — `lib/core/modules/stress-test/strategia-zamarzanie/warnings.ts`, `socPonizejMinimum`, kod `ZAMARZANIE-SOC-PONIZEJ-MINIMUM`)
+- **[01.10.2026] Zwykłe (wysokotemperaturowe, 75/65/20) grzejniki przy pompie ciepła** — wymagają wysokiej temperatury
+  zasilania i drastycznie obniżają COP (🔴 1:1 ze źródła, Ekran 13 tryb grzejników)
+  (M6/E13 — `lib/core/modules/ogrzewanie/dystrybucja-ciepla/warnings.ts`, `grzejnikiWysokotemperaturoweZPompa`, kod `DYS-GRZEJNIKI-WYSOKOTEMP-POMPA`)
+- **[01.10.2026] Kolektor gruntowy poziomy ułożony nie głębiej niż strefa przemarzania** — zamarznie i straci wydajność
+  (🔴 1:1 ze źródła, dawne 5.42; próg = głębokość przemarzania wpisana przez użytkownika, ta sama reguła co M7/E22
+  `ZAMARZ-PLYCEJ-NIZ-PRZEMARZANIE`; widełki 1,2–1,8 m tylko 🟡 ✅🤖)
+  (M6, 5.42 — `lib/core/modules/ogrzewanie/kolektor-gruntowy/warnings.ts`, `plycejNizPrzemarzanie`, kod `KOL-PLYCEJ-NIZ-PRZEMARZANIE`)
 
 
 ## Bezpieczeństwo życia / montaż
