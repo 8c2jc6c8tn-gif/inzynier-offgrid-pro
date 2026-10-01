@@ -127,6 +127,52 @@ export const pl = {
       }
     }
   },
+  "gwc": {
+    "migawka": {
+      "oCoChodzi": "Grunt na głębokości kilku metrów ma stałą temperaturę przez cały rok — GWC to sposób, żeby to „pożyczyć” na wstępne podgrzanie lub schłodzenie powietrza.",
+      "jakDziala": "Wpisz strumień powietrza, o ile stopni GWC podgrzewa powietrze zimą i ile godzin na dobę pracuje. Aplikacja policzy moc i ciepło na dobę; za rekuperatorem tylko część zysku zostaje w domu. Z zapotrzebowaniem — udział, z COP — mniej prądu.",
+      "poCo": "Wiesz, ile realnie daje GWC w Twoim systemie — szczególnie za rekuperatorem, gdzie zysk jest dużo mniejszy, niż sugeruje sam przyrost temperatury.",
+      "fizyka": "Φ = V̇·ρ·cp·ΔT (ρ = 1,2 kg/m³, cp = 1005 J/(kg·K) — jak Ekrany 3 i 12); Q = Φ·(1 − η)·h. Przykład źródła „+4 °C → −5%” nie podaje strumienia ani zapotrzebowania — sam z siebie nie jest odtwarzalny."
+    },
+    "pola": {
+      "strumien": {
+        "nazwa": "Strumień powietrza przez GWC [m³/h]",
+        "cel": "Ile powietrza podgrzewa grunt.",
+        "gdzie": "Nastawa centrali wentylacyjnej (Ekran 3).",
+        "zakres": "Twoja instalacja."
+      },
+      "przyrost": {
+        "nazwa": "Przyrost temperatury powietrza zimą [K]",
+        "cel": "O ile stopni powietrze za GWC jest cieplejsze niż na zewnątrz.",
+        "gdzie": "Dane producenta GWC dla Twojej długości i głębokości albo pomiar termometrem przed i za wymiennikiem w mroźny dzień.",
+        "zakres": "Karta katalogowa albo Twój pomiar — aplikacja nie ma modelu gruntu."
+      },
+      "godziny": {
+        "nazwa": "Godziny pracy GWC na dobę [h]",
+        "cel": "Mnoży moc na ciepło doby.",
+        "gdzie": "Sterowanie przepustnicą GWC (np. tylko poniżej określonej temperatury).",
+        "zakres": "0–24."
+      },
+      "rekuperator": {
+        "nazwa": "Sprawność rekuperatora za GWC [%]",
+        "cel": "Za rekuperatorem zostaje w domu tylko (1 − sprawność) zysku z GWC.",
+        "gdzie": "Karta rekuperatora.",
+        "zakres": "0–100%. Puste = brak rekuperatora."
+      },
+      "zapotrzebowanie": {
+        "nazwa": "Zapotrzebowanie na ciepło na dobę [kWh]",
+        "cel": "Z nim liczony jest udział GWC.",
+        "gdzie": "Ekran 1 albo 2 dla tej samej temperatury zewnętrznej.",
+        "zakres": "Puste = bez udziału."
+      },
+      "cop": {
+        "nazwa": "COP ogrzewania",
+        "cel": "Zamienia zaoszczędzone ciepło na zaoszczędzony prąd.",
+        "gdzie": "1 = grzałka; pompa ciepła — karta (Ekran 5).",
+        "zakres": "≥ 1. Puste = bez prądu."
+      }
+    }
+  },
 }
 
 export const en: Tlumaczenie<typeof pl> = {
@@ -252,6 +298,52 @@ export const en: Tlumaczenie<typeof pl> = {
       }
     }
   },
+  "gwc": {
+    "migawka": {
+      "oCoChodzi": "The ground a few metres down has a constant temperature all year — a GHE is a way to “borrow” it to pre-heat or pre-cool the air.",
+      "jakDziala": "Enter the air flow, how many degrees the GHE warms the air in winter and how many hours a day it runs. The app computes the power and daily heat; behind a heat recovery unit only part of the gain stays in the house. With the demand — the share; with COP — less electricity.",
+      "poCo": "You know what the GHE really gives in your system — especially behind a recuperator, where the gain is much smaller than the temperature rise suggests.",
+      "fizyka": "Φ = V̇·ρ·cp·ΔT (ρ = 1.2 kg/m³, cp = 1005 J/(kg·K) — as Screens 3 and 12); Q = Φ·(1 − η)·h. The source example “+4 °C → −5%” gives no air flow or demand — it cannot be reproduced by itself."
+    },
+    "pola": {
+      "strumien": {
+        "nazwa": "Air flow through the GHE [m³/h]",
+        "cel": "How much air the ground warms.",
+        "gdzie": "Ventilation unit setting (Screen 3).",
+        "zakres": "Your installation."
+      },
+      "przyrost": {
+        "nazwa": "Winter air temperature rise [K]",
+        "cel": "How many degrees warmer the air after the GHE is than outdoors.",
+        "gdzie": "GHE manufacturer data for your length and depth, or a thermometer before and after the exchanger on a frosty day.",
+        "zakres": "Datasheet or your measurement — the app has no ground model."
+      },
+      "godziny": {
+        "nazwa": "GHE operating hours per day [h]",
+        "cel": "Turns power into daily heat.",
+        "gdzie": "GHE damper control (e.g. only below a set temperature).",
+        "zakres": "0–24."
+      },
+      "rekuperator": {
+        "nazwa": "Heat recovery efficiency behind the GHE [%]",
+        "cel": "Behind a recuperator only (1 − efficiency) of the GHE gain stays in the house.",
+        "gdzie": "Recuperator datasheet.",
+        "zakres": "0–100%. Empty = no recuperator."
+      },
+      "zapotrzebowanie": {
+        "nazwa": "Daily heating demand [kWh]",
+        "cel": "Gives the GHE share.",
+        "gdzie": "Screen 1 or 2 at the same outdoor temperature.",
+        "zakres": "Empty = no share."
+      },
+      "cop": {
+        "nazwa": "Heating COP",
+        "cel": "Turns heat saved into electricity saved.",
+        "gdzie": "1 = heater; heat pump — datasheet (Screen 5).",
+        "zakres": "≥ 1. Empty = no electricity."
+      }
+    }
+  },
 }
 
 export const ru: Tlumaczenie<typeof pl> = {
@@ -374,6 +466,52 @@ export const ru: Tlumaczenie<typeof pl> = {
         "cel": "Умножает суточные потери на период (например, месяц).",
         "gdzie": "Дни периода с похожей средней температурой.",
         "zakres": "Пусто = только за сутки."
+      }
+    }
+  },
+  "gwc": {
+    "migawka": {
+      "oCoChodzi": "Грунт на глубине нескольких метров круглый год имеет постоянную температуру — ГТО позволяет «позаимствовать» её для подогрева или охлаждения воздуха.",
+      "jakDziala": "Введите расход воздуха, на сколько градусов ГТО подогревает воздух зимой и сколько часов в сутки работает. Приложение посчитает мощность и тепло за сутки; после рекуператора в доме остаётся лишь часть выигрыша. С потребностью — доля, с COP — меньше электроэнергии.",
+      "poCo": "Вы знаете, что реально даёт ГТО в вашей системе — особенно после рекуператора, где выигрыш намного меньше, чем кажется по приросту температуры.",
+      "fizyka": "Φ = V̇·ρ·cp·ΔT (ρ = 1,2 кг/м³, cp = 1005 Дж/(кг·К) — как на Экранах 3 и 12); Q = Φ·(1 − η)·h. Пример источника «+4 °C → −5%» не даёт расхода и потребности — сам по себе не воспроизводим."
+    },
+    "pola": {
+      "strumien": {
+        "nazwa": "Расход воздуха через ГТО [м³/ч]",
+        "cel": "Сколько воздуха подогревает грунт.",
+        "gdzie": "Настройка вентустановки (Экран 3).",
+        "zakres": "Ваша установка."
+      },
+      "przyrost": {
+        "nazwa": "Прирост температуры воздуха зимой [K]",
+        "cel": "На сколько градусов воздух после ГТО теплее наружного.",
+        "gdzie": "Данные производителя ГТО для вашей длины и глубины или термометр до и после теплообменника в морозный день.",
+        "zakres": "Паспорт или ваше измерение — модели грунта в приложении нет."
+      },
+      "godziny": {
+        "nazwa": "Часы работы ГТО в сутки [ч]",
+        "cel": "Переводит мощность в тепло за сутки.",
+        "gdzie": "Управление заслонкой ГТО (например, только ниже заданной температуры).",
+        "zakres": "0–24."
+      },
+      "rekuperator": {
+        "nazwa": "КПД рекуператора после ГТО [%]",
+        "cel": "После рекуператора в доме остаётся лишь (1 − КПД) выигрыша ГТО.",
+        "gdzie": "Паспорт рекуператора.",
+        "zakres": "0–100%. Пусто = без рекуператора."
+      },
+      "zapotrzebowanie": {
+        "nazwa": "Суточная потребность в тепле [кВт·ч]",
+        "cel": "Из неё считается доля ГТО.",
+        "gdzie": "Экран 1 или 2 при той же наружной температуре.",
+        "zakres": "Пусто = без доли."
+      },
+      "cop": {
+        "nazwa": "COP отопления",
+        "cel": "Переводит сэкономленное тепло в сэкономленную электроэнергию.",
+        "gdzie": "1 = ТЭН; тепловой насос — паспорт (Экран 5).",
+        "zakres": "≥ 1. Пусто = без электроэнергии."
       }
     }
   },

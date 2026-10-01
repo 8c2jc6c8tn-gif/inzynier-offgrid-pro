@@ -4,6 +4,7 @@ import { validateAiToolDefinition } from "../../types"
 import { deficytyMiesieczneTool } from "../deficyty-miesieczne-tool"
 import { cykleOdszranianiaTool } from "../cykle-odszraniania-tool"
 import { wentylacjaGrawitacyjnaTool } from "../wentylacja-grawitacyjna-tool"
+import { gwcTool } from "../gwc-tool"
 
 describe("deficytyMiesieczneTool (M7/E2, dawne 6.2)", () => {
   it("kontrakt 9.3: 'read', bez potwierdzenia", () => {
@@ -70,5 +71,26 @@ describe("wentylacjaGrawitacyjnaTool (M6/E9, dawne 5.9)", () => {
     })
     expect(w.strumienM3H).toBeCloseTo(100, 9)
     expect(w.ostrzezenia).toContain(t("pl", "WPOR-NATURALNA-SZCZELNY-DOM"))
+  })
+})
+
+describe("gwcTool (M6/E4, dawne 5.4)", () => {
+  it("kontrakt 9.3: 'read', bez potwierdzenia", () => {
+    expect(gwcTool.operationType).toBe("read")
+    expect(gwcTool.requiresConfirmation).toBe(false)
+    expect(() => validateAiToolDefinition(gwcTool)).not.toThrow()
+  })
+
+  it("za rekuperatorem → założenie (1 − sprawność) jako tekst PL", async () => {
+    const w = await gwcTool.handler({
+      strumienM3H: 150,
+      przyrostTempK: 4,
+      godzinyPracyH: 24,
+      sprawnoscRekuperatoraPct: 80,
+      zapotrzebowanieDobaKwh: 0,
+      cop: 0,
+    })
+    expect(w.oszczednoscDobaKwh).toBeGreaterThan(0)
+    expect(w.zalozenia).toContain(t("pl", "GWC-ZALOZENIE-REKUPERATOR"))
   })
 })

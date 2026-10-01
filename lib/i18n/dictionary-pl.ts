@@ -1568,6 +1568,8 @@ export const dictionaryPl = {
   "CYK-POWYZEJ-ZAKRESU-SZRONIENIA": "Przy {tZewn} °C, powyżej typowego zakresu szronienia 5–{prog} °C ze źródła, defrost jest mało prawdopodobny — wynik liczy wpisany cykl, ale sprawdź, czy pompa w ogóle odszrania w tej temperaturze.",
   "CYK-ZALOZENIE-DOLICZONY": "Energia defrostu doliczona ponad normalne grzanie (pompa nadrabia ciepło, którego nie dostarczyła w czasie defrostu); ciepło pobrane z budynku na stopienie szronu pominięte. Cykl (odstęp, czas, moc) wpisujesz z karty albo z obserwacji — źródło nie podaje modelu szronienia w funkcji temperatury i wilgotności.",
   "WGR-ZALOZENIE-WYMIANY": "Liczbę wymian powietrza wpisujesz Ty (test szczelności — Ekran 12 — albo pomiar) dla warunków tej doby: silniejszy wiatr i większa różnica temperatur zwiększają wymianę. Źródło nie podaje wzoru na ciąg kominowy z liczby kominów i nieszczelności. Porównanie z rekuperacją zakłada ten sam strumień powietrza.",
+  "GWC-ZALOZENIE-PRZYROST": "Przyrost temperatury powietrza w GWC wpisujesz z danych producenta albo z pomiaru (termometr przed i za wymiennikiem) — źródło nie podaje wzoru wymiany ciepła z gruntem z długości, głębokości i rodzaju gruntu. Liczone tylko zimowe podgrzanie; chłodzenia latem aplikacja nie liczy.",
+  "GWC-ZALOZENIE-REKUPERATOR": "Za rekuperatorem GWC jest wart tylko (1 − sprawność) surowego zysku — resztę tego ciepła rekuperator odzyskałby i tak z powietrza wywiewanego.",
 } as const
 
 export type KluczTlumaczenia = keyof typeof dictionaryPl

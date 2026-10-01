@@ -207,6 +207,7 @@ export const KAFLE: KafelEntry[] = [
       { href: "/kalkulatory/alternatywne-zrodla-ciepla", label: "Alternatywne źródła ciepła (kominek, IR, maty, PCM)" },
       { href: "/kalkulatory/cykle-odszraniania", label: "Cykle odszraniania (defrost)" },
       { href: "/kalkulatory/wentylacja-grawitacyjna", label: "Straty przez wentylację grawitacyjną" },
+      { href: "/kalkulatory/gwc", label: "Gruntowy wymiennik ciepła (GWC)" },
     ],
   },
   {

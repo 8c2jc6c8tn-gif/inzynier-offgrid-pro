@@ -256,6 +256,7 @@ import { alternatywneZrodlaCieplaTool } from "./tools/alternatywne-zrodla-ciepla
 import { deficytyMiesieczneTool } from "./tools/deficyty-miesieczne-tool"
 import { cykleOdszranianiaTool } from "./tools/cykle-odszraniania-tool"
 import { wentylacjaGrawitacyjnaTool } from "./tools/wentylacja-grawitacyjna-tool"
+import { gwcTool } from "./tools/gwc-tool"
 import { toAnthropicTool } from "./to-anthropic-tool"
 import { validateAiToolDefinition, type AiToolDefinition } from "./types"
 
@@ -502,6 +503,7 @@ const NARZEDZIA: Array<AiToolDefinition<any, any>> = [
   deficytyMiesieczneTool,
   cykleOdszranianiaTool,
   wentylacjaGrawitacyjnaTool,
+  gwcTool,
 ]
 for (const narzedzie of NARZEDZIA) validateAiToolDefinition(narzedzie)
 
