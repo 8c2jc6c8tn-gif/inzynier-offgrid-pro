@@ -8587,3 +8587,22 @@ Tryb Audyt (czapka rewidenta). Warstwa „w pełni na końcu” z N.2 — wszyst
   występuje w poleceniu czekającym.
 - **Pułapka (testy):** granica progu liczona ze spadku napięcia (12,6 − 12,0) nie daje dokładnie 0,6 w zmiennoprzecinkowych
   — test „dokładnie na progu 50%” wychodzi 49,999…%. Testy graniczne ustawiać wyraźnie po obu stronach progu.
+
+## Style wyglądu — mechanizm i pierwsza partia (01.10.2026, D67 kroki 1–4, gałąź `work/styles`)
+
+- **Jedna tabela:** `lib/wyglad/style.ts` (grupa, `dostepnosc` bez egzekucji, schemat jasny/ciemny, tokeny, werdykty,
+  warianty: nagłówki, liczby, promień). CSS generowany z tabeli (`generujCssStylow`, `<style id="style-wygladu">` w
+  `app/layout.tsx`), selektor `html:root[data-styl=…]` (0,2,1) — wygrywa z `.dark` i `:root:not(.light)` niezależnie od
+  kolejności arkuszy. W `globals.css` nic per styl, tylko `h1–h3` → `--font-naglowek`, `.tabular-nums` → `--font-liczby`.
+- **Warstwy:** domyślne tokeny < styl < nadpisania kolorów usera (inline na `<html>`, wygrywają). Styl wymusza swój schemat
+  (`data-schemat-stylu`, czytany przez `zastosujTryb` w `lib/theme`), zapisany tryb motywu wraca przy „Domyślny”.
+  Nadpisanie koloru werdyktu przy aktywnym stylu zmienia obramowanie/ikonę; tło i tekst werdyktu zostają z tabeli (testowane) ✅🤖.
+- **Test kontrastu (`lib/wyglad/__tests__/style.test.ts`) od razu złapał prototyp:** jasne werdykty z prototypu
+  (#16A34A/#D97706/#DC2626) mają ~2,8:1 obramowania i 4,3:1 tekstu 🟢 na kremie „Jasnego architektonicznego”, a na szarości
+  RAL 7035 „Rozdzielnicy” jeszcze mniej. Przyjęto te same odcienie o stopień ciemniejsze (700/800, w Rozdzielnicy tekst 900);
+  akcent Jasnego #A47D3C → #8A6A2E (biały tekst przycisku); obrysy pól ze wszystkich 5 stylów podniesione do ≥ 3:1 (prototyp
+  miał linie dekoracyjne ~1,2–1,6:1). Każda zmiana opisana przy wartości w tabeli.
+- **Czcionki:** Source Serif 4 i JetBrains Mono (obie z cyrylicą) przez `next/font`, `preload: false`. OLED: prototyp
+  miał liczby Inter 300 — nie dodano wagi 300 (byłaby preładowana na każdej stronie), liczby zostają bezszeryfowe.
+- **Grupa „Ukryte i sezonowe”:** przełącznik w Ustawieniach (`pokazUkryteStyle` w `offgrid.wyglad.v1`) ✅🤖 — pytanie
+  otwarte D67 (przełącznik vs daty sezonowe) do potwierdzenia przez właściciela.

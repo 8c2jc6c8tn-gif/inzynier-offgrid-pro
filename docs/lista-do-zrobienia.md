@@ -1543,6 +1543,14 @@ Pełne wyniki audytu: `docs/memory.md`, sekcja "Pełny audyt na polecenie właś
   szeryfowa z cyrylicą. **Priorytet:** średni. **Kolizje:** Ustawienia/pulpit z sesją `large-tiles-presets-m14`.
   **Dopisek D67:** style 1–3 = bazowe w wersji PRO; styl wersji darmowej do wyboru później (razem z decyzją freemium,
   rozdz. 12 standardu). Tabela stylów dostaje pole dostępności, ale bez blokowania, dopóki freemium nie jest wdrożone.
+  🔄 **[01.10.2026] Kroki 1–4 zrobione (gałąź `work/styles`):** tabela `lib/wyglad/style.ts` + walidacja, CSS generowany
+  z tabeli, test kontrastu werdyktów WCAG dla każdego stylu (Vitest), wybór stylu w Ustawieniach i `/wzornik` (4 grupy,
+  „Ukryte i sezonowe” za przełącznikiem ✅🤖), partia 1: Grafit + złoto, Granat + miedź, Jasny architektoniczny,
+  Rozdzielnica, OLED oszczędny. Szczegóły i odstępstwa od prototypu: `docs/memory.md`. **Zostaje:** (5) dalsze partie
+  (22 style, każdy z testem kontrastu i warunkami z D65–D67); użycie wariantów w komponentach (karta „Twój system”, wynik
+  jako bohater, ramki/gradienty kart) — przegląd w `/wzornik`, pulpit i jeden kalkulator do akceptacji właściciela;
+  decyzja o odblokowaniu grupy ukrytej; freemium (`dostepnosc`). **Kolejność:** akceptacja wyglądu partii 1 przed
+  kolejnymi partiami. **Kolizje:** `lib/wyglad/`, `app/layout.tsx`, `app/globals.css`, `app/ustawienia/page.tsx`.
 - ✅ (2026-09-30) **Kafle „duże” M14 + presety pulpitu (TD22 pkt 5, D53/D54).** Kafle „Dom – sieć” / „Firma – sieć”
   zajmują dwie kolumny siatki pulpitu, z opisem. W Ustawieniach sekcja „Co chcesz teraz zrobić?”: 8 presetów z
   `docs/pulpit-i-nawigacja.md` §3, kafle M14 na końcu każdego, kilka zaznaczonych = unia w kolejności domyślnej (✅🤖).
