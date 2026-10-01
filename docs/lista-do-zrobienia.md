@@ -1286,6 +1286,13 @@ Pełne wyniki audytu: `docs/memory.md`, sekcja "Pełny audyt na polecenie właś
   `pnpm test:e2e` (sam robi trzy buildy, ~3–5 min). Kolizja: `.github/workflows/ci.yml`.
   → **[30.09.2026] Pkt (3) zrobiony** — job `e2e-sw` w `ci.yml` (osobny, limit 30 min). Pkt (1) i (2) zostają na 1.10:
   pierwszy przebieg na `main` sprawdzi też nowy job.
+  → **[01.10.2026] Pkt (1) zrobiony** — nota usunięta z `CLAUDE.md` (sekcja „Stan repo” i zdanie o merge), wpis w
+  `docs/memory.md`. Pkt (2) zostaje: pierwszy przebieg CI na `main` po scaleniu PR ze stylami wyglądu (D63–D67).
+  ⚠️ **[01.10.2026, 11:15] Pkt (2): CI nadal nie startuje.** Workflow `CI` jest `active`, Actions `enabled`, repo
+  publiczne, ale `actions/runs` = **0 uruchomień w całej historii**, mimo że dziś na `main` weszły PR z kodem (#237,
+  #238), które nie mieszczą się w `paths-ignore`. PR #243 (same `.md`) poprawnie bez CI. Do sprawdzenia przez właściciela:
+  zakładka Actions / Billing konta (czy limit odnowił się 1.10 i czy nie ma blokady płatności), potem ponowny push
+  na `main` albo `workflow_dispatch`. Do wyjaśnienia merge nadal na pełnym pakiecie lokalnym. **Priorytet:** wysoki.
 - 🔲 (2026-09-29) **Prognozy M10 — Δt przy podłączaniu realnych danych (TD7).** Silnik `ai/prognozy` 1.1.0 zakłada
   stały krok `KROK_PROBKOWANIA_H = 3` (decyzja A). Gdy ekran dostanie prawdziwe źródło (symulacja SoC, pogoda, dane live),
   sprawdzić krok próbkowania tego źródła: inny niż 3 h → krok jako jawne pole wejścia silnika (+ test), nie cicha
@@ -1492,6 +1499,50 @@ Pełne wyniki audytu: `docs/memory.md`, sekcja "Pełny audyt na polecenie właś
   każdy ekran. **Kolizje:** każda sesja zmieniająca te pliki oraz wpis „Tłumaczenie etykiet stron na EN/RU” (inne
   pliki, ale te same ekrany do sprawdzenia wizualnego). **Kolejność:** najpierw prototyp w `/wzornik` + pulpit + jeden
   kalkulator, akceptacja właściciela, dopiero potem reszta.
+  🔄 **[30.09.2026] Kierunek rozszerzony przez właściciela: 5 stylów wyglądu na start** — 3 „Premium” (Grafit + złoto,
+  Granat + miedź, Jasny architektoniczny; wzór: obrazek nr 3 od właściciela) + 2 „Warsztat” (jasny, ciemny — obecne
+  kolory, gęstsze, dopracowane). Prototyp poza kodem (artefakt): https://claude.ai/artifact/JsYnhZYECTQtSTAPAj4kmL —
+  pulpit, kalkulator (baner twardego stopu poza akordeonem), raport. **Czeka na akceptację właściciela**, potem wpis D
+  w `rejestr-decyzji.md`. Otwarte pytania z prototypu: (1) czcionka szeryfowa z cyrylicą — Fraunces/Instrument Serif
+  jej nie mają (RU), w prototypie Source Serif 4; (2) miedź/złoto blisko 🟡 — czy przesunąć miedź; (3) zdjęcie domu vs
+  ilustracja (waga precache, D61). **Kolizja:** sesja `large-tiles-presets-m14` wprowadza „presety pulpitu”
+  (`lib/pulpit/presety.ts`, `app/ustawienia/page.tsx`, `app/page.tsx`) — styl wyglądu nazywać „Styl wyglądu”
+  (`lib/wyglad/`), nie „preset”, a zmiany w Ustawieniach/pulpicie robić po scaleniu tamtej sesji.
+  🔄 **[30.09.2026, D63] 3 style Premium przyjęte do pracy, 2 Warsztat odrzucone („za płaskie”).** Do wyboru przez
+  właściciela 2 z 5 nowych propozycji w tym samym artefakcie: 4. Tytan (grafit + platyna), 5. Las + mosiądz,
+  6. Kreślarski (blueprint), 7. Noc polarna, 8. Beton + mosiądz. **Następny krok:** wybór 2 propozycji → wpis D →
+  wdrożenie tokenów 5 stylów w `app/globals.css` + wybór w Ustawieniach (`lib/wyglad/`) + `/wzornik`, pulpit i jeden
+  kalkulator do akceptacji. **Priorytet:** średni. **Kolizje:** bez zmian (patrz wyżej).
+  🔄 **[30.09.2026, D64] Wybrane kolejne 4 style: Tytan, Las + mosiądz, Kreślarski, Noc polarna (łącznie 7 w pracy).**
+  Lista stylów otwarta. Druga runda w tym samym artefakcie czeka na wybór: 9. Różowe złoto, 10. Pudrowy róż,
+  11. Pomarańcz sygnałowy (⚠️ blisko 🟡), 12. Słoneczny poranek, 13. Zachód słońca. **Następny krok:** wybór z
+  drugiej rundy → dopisek do D64 → wdrożenie tokenów stylów w `app/globals.css` + wybór w Ustawieniach (`lib/wyglad/`),
+  kontrola kontrastu werdyktów dla każdego stylu (szczególnie Las), potem `/wzornik`, pulpit i jeden kalkulator do akceptacji.
+  Priorytet: średni. Kolizja i kolejność bez zmian: Ustawienia/pulpit dopiero po scaleniu sesji `large-tiles-presets-m14`.
+  🔄 **[30.09.2026, D65] Druga runda przyjęta w całości: Różowe złoto, Pudrowy róż, Pomarańcz sygnałowy, Słoneczny poranek,
+  Zachód słońca (łącznie 12 stylów).** Pomarańcz z warunkiem testu czytelności względem 🟡. Runda eksperymentalna 14–20
+  (Holograficzny, Kokpit HUD, Szkło, Brutalizm, Synthwave, Orbita, Neumorfizm) czeka na wybór. **Uwaga wdrożeniowa:** przy 12+
+  stylach tokeny muszą być generowane z jednej tabeli (styl → zestaw tokenów + kilka wariantów komponentów), a nie pisane
+  ręcznie w `app/globals.css`. Każdy styl dostaje automatyczny test kontrastu werdyktów (WCAG), inaczej koszt utrzymania rośnie liniowo.
+  🔄 **[30.09.2026, D66] Runda eksperymentalna przyjęta w całości (łącznie 19 stylów).** Holograficzny, Kokpit HUD, Szkło,
+  Brutalizm, Synthwave, Orbita, Neumorfizm; warunki wdrożenia w D66. Czwarta runda (21–28: Notatnik inżyniera,
+  Rozdzielnica, E-ink, OLED oszczędny, Płynny gradient, Terminal DOS, Marmur i złoto, Zen) czeka na wybór.
+  **Do rozstrzygnięcia przed wdrożeniem:** jak podzielić listę w Ustawieniach (np. grupy: Premium / Jasne / Eksperymentalne /
+  Ukryte-sezonowe), żeby wybór spośród 20+ stylów był czytelny na telefonie. Wdrażać etapami: najpierw mechanizm i tabela
+  tokenów + kilka stylów, reszta partiami, bo każdy styl to test kontrastu i przegląd `/wzornik`.
+  🔄 **[30.09.2026, D67] Czwarta runda przyjęta, łącznie 27 stylów w 4 grupach (Premium 10 / Jasne 7 / Eksperymentalne 8 /
+  Ukryte i sezonowe 2), przydział w D67.** Wybór stylów zamknięty, faza projektowa zakończona. **Następny krok (implementacja,
+  najlepiej w nowej sesji po `/compact`):**
+  1. Tabela stylów w `lib/wyglad/` (styl → grupa, tokeny, warianty komponentów) i jej walidacja.
+  2. Test kontrastu werdyktów dla każdego stylu (Vitest).
+  3. Wybór stylu w Ustawieniach, pogrupowany, po scaleniu sesji `large-tiles-presets-m14`.
+  4. Pierwsza partia stylów: 1–3 + Rozdzielnica + OLED oszczędny.
+  5. Dalsze partie.
+
+  **Otwarte:** mechanizm odblokowania grupy „Ukryte i sezonowe”, zdjęcia domów w pełnej jakości (licencja, D61), czcionka
+  szeryfowa z cyrylicą. **Priorytet:** średni. **Kolizje:** Ustawienia/pulpit z sesją `large-tiles-presets-m14`.
+  **Dopisek D67:** style 1–3 = bazowe w wersji PRO; styl wersji darmowej do wyboru później (razem z decyzją freemium,
+  rozdz. 12 standardu). Tabela stylów dostaje pole dostępności, ale bez blokowania, dopóki freemium nie jest wdrożone.
 - ✅ (2026-09-30) **Kafle „duże” M14 + presety pulpitu (TD22 pkt 5, D53/D54).** Kafle „Dom – sieć” / „Firma – sieć”
   zajmują dwie kolumny siatki pulpitu, z opisem. W Ustawieniach sekcja „Co chcesz teraz zrobić?”: 8 presetów z
   `docs/pulpit-i-nawigacja.md` §3, kafle M14 na końcu każdego, kilka zaznaczonych = unia w kolejności domyślnej (✅🤖).
