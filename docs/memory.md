@@ -6296,6 +6296,10 @@ właściciela projektu. Od teraz merge na zielonym CI, jak przed 24.09. Pierwszy
 ręcznie: krok `check:ai-tools-guard` i job `e2e-sw` jeszcze nigdy nie ruszyły w GitHub Actions (`docs/lista-do-zrobienia.md`,
 wpis „Powrót CI od 1.10.2026”). Pułapka z tego dnia: przy wyczerpanym limicie GraphQL `gh pr create` nie działa, a
 `gh api` (REST) działa.
+Druga pułapka (30.09–01.10.2026): przy obciążonej maszynie (inne sesje budują równolegle) `pnpm test` potrafi
+zakończyć się kodem ≠ 0 mimo „wszystkie testy passed” — `[vitest-pool]: Timeout terminating forks worker`, za każdym
+razem przy innym pliku. To nie błąd testu: ponowne `pnpm test` samo przechodzi z kodem 0. Przed merge zawsze patrzeć na
+liczbę testów i treść błędu, nie tylko na kod wyjścia.
 
 ## TD16 naprawiony — model Muneera w Ekranie 4 Modułu 1 (24.09.2026)
 
