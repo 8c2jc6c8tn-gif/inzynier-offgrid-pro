@@ -1563,6 +1563,10 @@ export const dictionaryPl = {
   "DEFM-PALIWO-PONAD-ZAPAS": "W miesiącu nr {miesiac} agregat przepracuje ok. {godziny} h i zużyje ok. {litry} l paliwa — więcej niż wpisany zapas {zapas} l. Sprawdź zapas paliwa i plan dostaw.",
   "DEFM-SPRAWDZ-ZAPAS": "Najdłużej agregat pracuje w miesiącu nr {miesiac}: ok. {godziny} h, ok. {litry} l paliwa — sprawdź zapas paliwa (wpisz go, żeby aplikacja porównała miesiąc po miesiącu).",
   "DEFM-ZALOZENIE-WPISANE-DEFICYTY": "Deficyty miesięczne wpisujesz Ty (np. produkcja z Modułu 3 minus zapotrzebowanie z Modułu 2) — symulacja dzień po dniu (Ekran 1) jeszcze ich nie podaje. Agregat ładuje dokładnie brakującą energię, bez strat ładowania baterii.",
+  "CYK-DEFROST-DLUZSZY-NIZ-ODSTEP": "Defrost nie może trwać tyle co odstęp między defrostami albo dłużej — sprawdź, czy odstęp to czas od początku jednego defrostu do początku następnego.",
+  "CYK-PONIZEJ-MIN-PRACY": "Przy {tZewn} °C pompa ciepła nie pracuje (minimum z karty: {tMin} °C) — dom grzeją wtedy grzałki awaryjne albo inne źródło. Policz ich moc i prąd osobno.",
+  "CYK-POWYZEJ-ZAKRESU-SZRONIENIA": "Przy {tZewn} °C, powyżej typowego zakresu szronienia 5–{prog} °C ze źródła, defrost jest mało prawdopodobny — wynik liczy wpisany cykl, ale sprawdź, czy pompa w ogóle odszrania w tej temperaturze.",
+  "CYK-ZALOZENIE-DOLICZONY": "Energia defrostu doliczona ponad normalne grzanie (pompa nadrabia ciepło, którego nie dostarczyła w czasie defrostu); ciepło pobrane z budynku na stopienie szronu pominięte. Cykl (odstęp, czas, moc) wpisujesz z karty albo z obserwacji — źródło nie podaje modelu szronienia w funkcji temperatury i wilgotności.",
 } as const
 
 export type KluczTlumaczenia = keyof typeof dictionaryPl

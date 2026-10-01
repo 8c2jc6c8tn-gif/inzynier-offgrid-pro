@@ -118,6 +118,7 @@ const MIGRATED_MODULES = [
   "lib/core/modules/ogrzewanie/grzalka-cwu",
   "lib/core/modules/ogrzewanie/oslony-przeciwsloneczne",
   "lib/core/modules/ogrzewanie/wentylacja-porownanie",
+  "lib/core/modules/ogrzewanie/cykle-odszraniania",
   "lib/core/modules/ogrzewanie/kolektor-gruntowy",
   "lib/core/modules/ogrzewanie/alternatywne-zrodla-ciepla",
   "lib/core/modules/montaz-baterii/balansery-zewnetrzne-olow",

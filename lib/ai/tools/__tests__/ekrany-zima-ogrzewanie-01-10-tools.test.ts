@@ -2,6 +2,7 @@ import { describe, expect, it } from "vitest"
 import { t } from "@/lib/i18n/t"
 import { validateAiToolDefinition } from "../../types"
 import { deficytyMiesieczneTool } from "../deficyty-miesieczne-tool"
+import { cykleOdszranianiaTool } from "../cykle-odszraniania-tool"
 
 describe("deficytyMiesieczneTool (M7/E2, dawne 6.2)", () => {
   it("kontrakt 9.3: 'read', bez potwierdzenia", () => {
@@ -22,5 +23,28 @@ describe("deficytyMiesieczneTool (M7/E2, dawne 6.2)", () => {
     })
     expect(w.sumaGodzin).toBeCloseTo(40, 9)
     expect(w.ostrzezenia).toContain(t("pl", "DEFM-PALIWO-PONAD-ZAPAS", { miesiac: 2, godziny: 40, litry: 60, zapas: 50 }))
+  })
+})
+
+describe("cykleOdszranianiaTool (M6/E6, dawne 5.6 + 1.14 + 6.8)", () => {
+  it("kontrakt 9.3: 'read', bez potwierdzenia", () => {
+    expect(cykleOdszranianiaTool.operationType).toBe("read")
+    expect(cykleOdszranianiaTool.requiresConfirmation).toBe(false)
+    expect(() => validateAiToolDefinition(cykleOdszranianiaTool)).not.toThrow()
+  })
+
+  it("−22 °C przy minimum pracy −20 °C → 🟡 jako tekst PL", async () => {
+    const w = await cykleOdszranianiaTool.handler({
+      tZewnC: -22,
+      wilgotnoscPct: 0,
+      odstepMin: 60,
+      czasDefrostuMin: 5,
+      mocDefrostuKw: 2,
+      mocBazowaKw: 2,
+      godzinySzronieniaH: 0,
+      copKatalogowy: 0,
+      tMinPracyC: -20,
+    })
+    expect(w.ostrzezenia).toContain(t("pl", "CYK-PONIZEJ-MIN-PRACY", { tZewn: -22, tMin: -20 }))
   })
 })

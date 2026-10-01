@@ -1551,4 +1551,8 @@ export const dictionaryEn = {
   "DEFM-PALIWO-PONAD-ZAPAS": "In month no. {miesiac} the generator runs about {godziny} h and uses about {litry} l of fuel — more than the entered stock of {zapas} l. Check the fuel stock and delivery plan.",
   "DEFM-SPRAWDZ-ZAPAS": "The generator runs longest in month no. {miesiac}: about {godziny} h, about {litry} l of fuel — check the fuel stock (enter it and the app compares month by month).",
   "DEFM-ZALOZENIE-WPISANE-DEFICYTY": "You enter the monthly shortfalls (e.g. Module 3 production minus Module 2 demand) — the day-by-day simulation (Screen 1) does not provide them yet. The generator supplies exactly the missing energy, without battery charging losses.",
+  "CYK-DEFROST-DLUZSZY-NIZ-ODSTEP": "A defrost cannot last as long as the interval between defrosts or longer — check that the interval is the time from the start of one defrost to the start of the next.",
+  "CYK-PONIZEJ-MIN-PRACY": "At {tZewn} °C the heat pump does not run (datasheet minimum: {tMin} °C) — backup heaters or another source heat the house then. Compute their power and electricity separately.",
+  "CYK-POWYZEJ-ZAKRESU-SZRONIENIA": "At {tZewn} °C, above the source's typical frosting range of 5–{prog} °C, defrost is unlikely — the result uses the entered cycle, but check whether the pump defrosts at this temperature at all.",
+  "CYK-ZALOZENIE-DOLICZONY": "Defrost energy is added on top of normal heating (the pump makes up the heat it did not deliver during defrost); heat taken from the building to melt the frost is ignored. You enter the cycle (interval, duration, power) from the datasheet or observation — the source gives no frosting model as a function of temperature and humidity.",
 } satisfies Record<KluczTlumaczenia, string>
