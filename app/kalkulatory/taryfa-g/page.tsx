@@ -3,14 +3,15 @@
 import { NawigacjaEkranu } from "@/components/nawigacja-ekranu"
 import { NaglowekEkranu } from "@/components/wzorce/naglowek-ekranu"
 import { PorownywarkaTaryf } from "@/components/siec/porownywarka-taryf"
+import { useTranslate } from "@/lib/i18n/language-context"
 
 export default function TaryfaGPage() {
+  const t = useTranslate()
   return (
     <main className="mx-auto flex max-w-md flex-col gap-6 p-6">
       <NawigacjaEkranu href="/kalkulatory/taryfa-g" />
-      <NaglowekEkranu tytul="Która taryfa G" ekran="taryfa-g">
-        Porównaj roczny koszt w G11, G12 i G12w dla tego samego zużycia. Opłaca się taryfa, której strefy pasują do tego,
-        kiedy naprawdę zużywasz prąd. M14 „Dom – sieć”, ekran D2.
+      <NaglowekEkranu tytul={t("UI-TARG-KTORA-TARYFA")} ekran="taryfa-g">
+        {t("UI-TARG-POROWNAJ-ROCZNY-KOSZT")}
       </NaglowekEkranu>
       <PorownywarkaTaryf segment="dom" />
     </main>
