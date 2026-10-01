@@ -1509,4 +1509,9 @@ export const dictionaryEn = {
   "DYS-COP-TYLKO-POMPA": "The COP comparison applies to a heat pump. With another source (boiler, stove) the supply temperature does not change energy use in the same way — the screen only shows the system match.",
   "DYS-COP-NIE-WYZSZY": "The COP at the lower supply temperature ({cop}) is not higher than with standard radiators ({copOdn}) — check that both values come from the same datasheet at the same outdoor temperature.",
   "DYS-ZALOZENIE-COP-Z-KARTY": "Both COPs come from the same pump's datasheet at the same outdoor temperature — they differ only in the supply temperature.",
+  "STREF-SILOWNIKI-ZJADAJA-ZYSK": "The actuators and controllers use {sterowanie} kWh/day, while zoning saves only {zysk} kWh/day of heating electricity — too many actuators raise electricity use. Balance the heating gain against the cost of powering the actuators (fewer zones, lower-power actuators, shorter powered time).",
+  "STREF-STAN-USTALONY": "The saving is computed in steady state (Q = H·ΔT·t) — it is an upper estimate. The building mass, reheating the zone and heat flowing in from warmer zones reduce the real gain.",
+  "STREF-BEZ-COP": "Non-electric heating (no COP entered) — the heat gain is shown; the balance against the actuators' electricity is not computed, since the heat does not come from electricity.",
+  "STREF-OBNIZONA-POZA-ZAKRESEM": "Zone {n}: the setback temperature cannot be higher than the comfort one.",
+  "STREF-ZALOZENIE-H-STREFY": "A zone's H is the part of the building heat loss (Screen 1) belonging to that zone; the zones' H add up to the building's H.",
 } satisfies Record<KluczTlumaczenia, string>

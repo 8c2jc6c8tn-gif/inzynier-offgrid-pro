@@ -198,6 +198,7 @@ export const KAFLE: KafelEntry[] = [
       { href: "/kalkulatory/ryzyko-zamarzniecia-dolnego-zrodla", label: "Ryzyko zamarznięcia dolnego źródła" },
       { href: "/kalkulatory/halas-i-wibracje", label: "Hałas i wibracje pompy ciepła" },
       { href: "/kalkulatory/dystrybucja-ciepla", label: "Dystrybucja ciepła — wybór systemu" },
+      { href: "/kalkulatory/sterowanie-strefowe", label: "Sterowanie strefowe" },
     ],
   },
   {

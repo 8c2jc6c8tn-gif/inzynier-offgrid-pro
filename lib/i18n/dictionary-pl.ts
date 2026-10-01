@@ -1521,6 +1521,11 @@ export const dictionaryPl = {
   "DYS-COP-TYLKO-POMPA": "Porównanie COP dotyczy pompy ciepła. Przy innym źródle (kocioł, kominek) temperatura zasilania nie zmienia tak zużycia energii — ekran pokazuje tylko dopasowanie systemu.",
   "DYS-COP-NIE-WYZSZY": "COP przy niższej temperaturze zasilania ({cop}) nie jest wyższy niż przy grzejnikach standardowych ({copOdn}) — sprawdź, czy obie wartości są z tej samej karty i przy tej samej temperaturze zewnętrznej.",
   "DYS-ZALOZENIE-COP-Z-KARTY": "Oba COP z karty tej samej pompy, przy tej samej temperaturze zewnętrznej — różnią się tylko temperaturą zasilania.",
+  "STREF-SILOWNIKI-ZJADAJA-ZYSK": "Siłowniki i sterowniki zużywają {sterowanie} kWh/dobę, a sterowanie strefowe oszczędza tylko {zysk} kWh/dobę prądu ogrzewania — zbyt duża liczba siłowników podnosi zużycie prądu. Zbilansuj zyski z ogrzewania i koszt zasilania samych siłowników (mniej stref, siłowniki o mniejszym poborze, krótsze zasilanie).",
+  "STREF-STAN-USTALONY": "Oszczędność liczona w stanie ustalonym (Q = H·ΔT·t) — to górne oszacowanie. Masa budynku i ponowne nagrzewanie strefy, a także ciepło przepływające z cieplejszych stref, zmniejszają realny zysk.",
+  "STREF-BEZ-COP": "Ogrzewanie nieelektryczne (COP nie wpisany) — pokazujemy zysk ciepła; bilansu z prądem siłowników nie liczymy, bo ciepło nie pochodzi z prądu.",
+  "STREF-OBNIZONA-POZA-ZAKRESEM": "Strefa {n}: temperatura obniżona nie może być wyższa niż komfortowa.",
+  "STREF-ZALOZENIE-H-STREFY": "H strefy to część strat ciepła budynku (Ekran 1) przypadająca na tę strefę; suma H stref = H budynku.",
 } as const
 
 export type KluczTlumaczenia = keyof typeof dictionaryPl
