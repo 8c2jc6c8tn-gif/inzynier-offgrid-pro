@@ -1288,6 +1288,11 @@ Pełne wyniki audytu: `docs/memory.md`, sekcja "Pełny audyt na polecenie właś
   pierwszy przebieg na `main` sprawdzi też nowy job.
   → **[01.10.2026] Pkt (1) zrobiony** — nota usunięta z `CLAUDE.md` (sekcja „Stan repo” i zdanie o merge), wpis w
   `docs/memory.md`. Pkt (2) zostaje: pierwszy przebieg CI na `main` po scaleniu PR ze stylami wyglądu (D63–D67).
+  ⚠️ **[01.10.2026, 11:15] Pkt (2): CI nadal nie startuje.** Workflow `CI` jest `active`, Actions `enabled`, repo
+  publiczne, ale `actions/runs` = **0 uruchomień w całej historii**, mimo że dziś na `main` weszły PR z kodem (#237,
+  #238), które nie mieszczą się w `paths-ignore`. PR #243 (same `.md`) poprawnie bez CI. Do sprawdzenia przez właściciela:
+  zakładka Actions / Billing konta (czy limit odnowił się 1.10 i czy nie ma blokady płatności), potem ponowny push
+  na `main` albo `workflow_dispatch`. Do wyjaśnienia merge nadal na pełnym pakiecie lokalnym. **Priorytet:** wysoki.
 - 🔲 (2026-09-29) **Prognozy M10 — Δt przy podłączaniu realnych danych (TD7).** Silnik `ai/prognozy` 1.1.0 zakłada
   stały krok `KROK_PROBKOWANIA_H = 3` (decyzja A). Gdy ekran dostanie prawdziwe źródło (symulacja SoC, pogoda, dane live),
   sprawdzić krok próbkowania tego źródła: inny niż 3 h → krok jako jawne pole wejścia silnika (+ test), nie cicha
