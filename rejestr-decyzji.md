@@ -1,6 +1,6 @@
 # Rejestr decyzji — Inżynier Offgrid Pro
 
-**Wersja:** 1.33 | **Filar:** C | **Data utworzenia:** 04.09.2026 | **Ostatnia aktualizacja:** 30.09.2026 | **Status:** Stabilny (rosnący)
+**Wersja:** 1.34 | **Filar:** C | **Data utworzenia:** 04.09.2026 | **Ostatnia aktualizacja:** 30.09.2026 | **Status:** Stabilny (rosnący)
 **Powiązane dokumenty:** `00_Biblia.md`, `docs/memory.md`, `USTALENIA.md` (historyczny, Część II)
 
 TL;DR: D1, D2, D3… — decyzje **strategiczne/fundamentalne** (blokujące wiele innych rzeczy naraz, Krok 4 GOD BOOK), ponumerowane, nigdy nie kasowane, tylko unieważniane jawnie (F.5). **Nie duplikuje `docs/memory.md`**: tam żyje pełna, szczegółowa historia każdej sesji (setki drobnych decyzji implementacyjnych per ekran) — tu tylko decyzje, które zmieniły kierunek/regułę obowiązującą cały projekt. Gdy wpis niżej odsyła do `docs/memory.md`, tam jest pełne uzasadnienie i przykłady.
@@ -261,6 +261,8 @@ Treść:
 
 **D61 (30.09.2026) — Budżet pierwszego pobrania aplikacji: wariant A (obecny stan przyjęty).** Koszt cofnięcia: tani (brak zmian w kodzie). Decyzja właściciela projektu („budżet wariant A”) z opcji przedstawionych po pomiarze etapu 2 SW (D60): precache 20,85 MB surowo / ≈ 6,8 MB transferu gzip, pobierane raz w tle po pierwszej wizycie — akceptowane, dalsze cięcie nie jest planowane. Wariant B (słowniki per język, ~1–1,5 MB mniej transferu) wraca dopiero przy sygnale z terenu o słabym łączu; wariant C (część ekranów poza precache) odrzucony — łamałby D59 C-3 i 5.3.
 
+**D62 (30.09.2026) — Presety pulpitu: kilka zaznaczonych = unia w kolejności domyślnej; dziewiąty preset „Jestem podłączony do sieci” = kafle M14 na początku, potem 1, 2, 3, 4, 6, 7, 8.** Koszt cofnięcia: tani (dane w `lib/pulpit/presety.ts` + test). Decyzja właściciela projektu z 30.09.2026 („zgadzam się i tam i tam”) na dwie propozycje AI: (1) `docs/pulpit-i-nawigacja.md` §3 każe sumować kafle kilku presetów, ale nie określa kolejności — przyjęta kolejność domyślna z §2 (ta sama reguła co „Pełne menu”); pojedynczy preset zachowuje kolejność z tabeli; (2) skład presetu z D39 — „Dom – sieć”, „Firma – sieć”, a za nimi moduły, z których M14 czyta dane (§2: 1–4 i 6–8); ukryte: 5, 9–13. Presety działają w Ustawieniach; ekran onboardingu przy pierwszym uruchomieniu nadal w `backlog-poza-v1.md`.
+
 ## Założenia robocze (F.7 GOD BOOK)
 
 **Z1 (04.09.2026) — przyjęto:** ID modułów (H.2 GOD BOOK, M#) odpowiadają wprost numeracji "Moduł N" już używanej w całym projekcie (1–13), nie nowej, niezależnej numeracji. **Powód:** ta numeracja jest już stabilna, używana w kodzie, dokumentacji i UI od 29.08.2026 — wprowadzenie równoległej numeracji M# byłoby duplikatem, nie nowym bytem. **Na czym się opiera:** cała struktura `docs/rejestr-pokrycia.md`, `lib/pulpit/registry.ts`, `docs/pulpit-i-nawigacja.md`.
@@ -308,3 +310,4 @@ Treść:
 | 29.09.2026 | Dodano D59 (SW wariant C, etap 1: `sonner`, `playwright` w devDependencies, precache wszystkich stron — rekomendacje planu przyjęte poleceniem „rób dalej nie pytając”). Wersja 1.30→1.31. |
 | 30.09.2026 | Dodano D60 (SW etap 2: widok 3D tylko online, worker mapy z powrotem w precache — spacer GPS offline wg D22) — decyzja właściciela projektu. Wersja 1.31→1.32. |
 | 30.09.2026 | Dodano D61 (budżet pierwszego pobrania: wariant A — obecne ≈ 6,8 MB transferu przyjęte) — decyzja właściciela projektu. Wersja 1.32→1.33. |
+| 30.09.2026 | Dodano D62 (presety pulpitu: unia w kolejności domyślnej, skład presetu „Jestem podłączony do sieci”) — decyzja właściciela projektu. Wersja 1.33→1.34. |

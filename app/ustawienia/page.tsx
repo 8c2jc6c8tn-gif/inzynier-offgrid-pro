@@ -1,14 +1,16 @@
 "use client"
 
 import Link from "next/link"
-import { useSyncExternalStore } from "react"
+import { useState, useSyncExternalStore } from "react"
 import { Button } from "@/components/ui/button"
 import { KontoSekcja } from "@/components/konto-sekcja"
 import { JezykWybor } from "@/components/jezyk-wybor"
 import { CzcionkaEdytor } from "@/components/czcionka-edytor"
 import { KolorGrupaEdytor } from "@/components/kolor-grupa-edytor"
 import { ThemeToggle } from "@/components/theme-toggle"
-import { znajdzKafel } from "@/lib/pulpit/registry"
+import { useTranslate } from "@/lib/i18n/language-context"
+import { PRESETY, stanZPresetow } from "@/lib/pulpit/presety"
+import { USTAWIENIA_KAFEL, znajdzKafel } from "@/lib/pulpit/registry"
 import {
   domyslnyStan,
   getServerSnapshot,
@@ -21,6 +23,9 @@ import { cn } from "@/lib/utils"
 
 export default function UstawieniaPage() {
   const stan = useSyncExternalStore(subscribe, getSnapshot, getServerSnapshot)
+  const tr = useTranslate()
+  const [wybranePresety, setWybranePresety] = useState<string[]>([])
+  const [presetZastosowany, setPresetZastosowany] = useState(false)
 
   function zapisz(nowyStan: PulpitState) {
     zapiszStanPulpitu(nowyStan)
@@ -41,6 +46,16 @@ export default function UstawieniaPage() {
     const order = [...stan.order]
     ;[order[index], order[nowyIndex]] = [order[nowyIndex], order[index]]
     zapisz({ ...stan, order })
+  }
+
+  function przelaczPreset(id: string) {
+    setPresetZastosowany(false)
+    setWybranePresety((obecne) => (obecne.includes(id) ? obecne.filter((x) => x !== id) : [...obecne, id]))
+  }
+
+  function zastosujPresety() {
+    zapisz(stanZPresetow(wybranePresety))
+    setPresetZastosowany(true)
   }
 
   function przywrocDomyslne() {
@@ -65,6 +80,46 @@ export default function UstawieniaPage() {
         </p>
       </div>
 
+      <section className="flex flex-col gap-3" aria-labelledby="presety-tytul">
+        <div>
+          <h2 id="presety-tytul" className="text-h2 font-semibold">
+            {tr("UI-PULPIT-PRESETY-TYTUL")}
+          </h2>
+          <p className="mt-1 text-small text-muted-foreground">{tr("UI-PULPIT-PRESETY-OPIS")}</p>
+        </div>
+        <ul className="flex flex-col gap-2">
+          {PRESETY.map((preset) => (
+            <li key={preset.id}>
+              <label className="flex cursor-pointer items-start gap-3 rounded-md border p-3 has-[:checked]:border-foreground/40 has-[:checked]:bg-muted">
+                <input
+                  type="checkbox"
+                  className="mt-1 size-4"
+                  checked={wybranePresety.includes(preset.id)}
+                  onChange={() => przelaczPreset(preset.id)}
+                />
+                <span className="flex flex-col gap-0.5">
+                  <span className="text-small font-medium">
+                    <span aria-hidden="true">{preset.ikona}</span> {tr(preset.nazwaKlucz)}
+                  </span>
+                  <span className="text-caption text-muted-foreground">{tr(preset.opisKlucz)}</span>
+                </span>
+              </label>
+            </li>
+          ))}
+        </ul>
+        <Button
+          type="button"
+          onClick={zastosujPresety}
+          disabled={wybranePresety.length === 0}
+          className="min-h-11"
+        >
+          {tr("UI-PULPIT-PRESETY-ZASTOSUJ")}
+        </Button>
+        <p role="status" className="text-small text-muted-foreground">
+          {presetZastosowany ? tr("UI-PULPIT-PRESETY-ZASTOSOWANO") : null}
+        </p>
+      </section>
+
       <ul className="flex flex-col gap-2">
         {stan.order.map((id, index) => {
           const kafel = znajdzKafel(id)
@@ -83,7 +138,9 @@ export default function UstawieniaPage() {
                 {kafel.ikona}
               </span>
               <span className="flex-1 text-small font-medium">
-                {kafel.id}. {kafel.nazwa}
+                {/* M14 tiles (15/16) are named, never numbered — "Kafel 14" is the settings (D39). */}
+                {kafel.id < USTAWIENIA_KAFEL.id ? `${kafel.id}. ` : null}
+                {kafel.nazwa}
               </span>
 
               <div className="flex items-center gap-1">

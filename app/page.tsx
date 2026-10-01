@@ -75,7 +75,7 @@ export default function PulpitPage() {
         ) : (
           <ul className="grid grid-cols-2 gap-3 sm:grid-cols-3 md:grid-cols-4">
             {widoczneKafle.map((kafel) => (
-              <li key={kafel.id}>
+              <li key={kafel.id} className={kafel.duzy ? "col-span-2" : undefined}>
                 <Link
                   href={`/moduly/${kafel.id}`}
                   className="flex min-h-28 flex-col justify-between gap-2 rounded-lg border p-4 transition-colors hover:border-foreground/20 hover:bg-muted focus-visible:ring-2 focus-visible:ring-ring/50 focus-visible:outline-none"
@@ -98,6 +98,7 @@ export default function PulpitPage() {
                     </span>
                   )}
                   <span className="text-small font-medium leading-tight">{kafel.nazwa}</span>
+                  {kafel.duzy ? <span className="text-caption text-muted-foreground">{kafel.opis}</span> : null}
                 </Link>
               </li>
             ))}
