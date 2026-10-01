@@ -199,6 +199,7 @@ export const KAFLE: KafelEntry[] = [
       { href: "/kalkulatory/halas-i-wibracje", label: "Hałas i wibracje pompy ciepła" },
       { href: "/kalkulatory/dystrybucja-ciepla", label: "Dystrybucja ciepła — wybór systemu" },
       { href: "/kalkulatory/sterowanie-strefowe", label: "Sterowanie strefowe" },
+      { href: "/kalkulatory/zasobnik-cwu", label: "System C.W.U. — zasobnik i cyrkulacja" },
     ],
   },
   {

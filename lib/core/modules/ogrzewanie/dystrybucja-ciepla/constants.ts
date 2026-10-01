@@ -6,6 +6,3 @@
  */
 export const PARAMETRY_GRZEJNIKOW_STANDARDOWYCH = "75/65/20"
 export const PARAMETRY_GRZEJNIKOW_NISKOTEMPERATUROWYCH = "45/35/20"
-
-/** Floor heating supply temperature range quoted by the source (Ekran 13: „30-35°C”; Biblia §6.13: „30–40°C”). */
-export const ZASILANIE_PODLOGOWKI_C = "30–35"

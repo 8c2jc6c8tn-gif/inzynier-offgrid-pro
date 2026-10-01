@@ -3,6 +3,7 @@ import { t } from "@/lib/i18n/t"
 import { validateAiToolDefinition } from "../../types"
 import { dystrybucjaCieplaTool } from "../dystrybucja-ciepla-tool"
 import { sterowanieStrefoweTool } from "../sterowanie-strefowe-tool"
+import { zasobnikCwuTool } from "../zasobnik-cwu-tool"
 
 describe("dystrybucjaCieplaTool (M6/E13, dawne 5.13 + 5.17 + 5.18)", () => {
   it("kontrakt 9.3: 'read', bez potwierdzenia", () => {
@@ -45,5 +46,34 @@ describe("sterowanieStrefoweTool (M6/E16, dawne 5.16)", () => {
     })
     expect(w.oszczednoscPct).toBeCloseTo(18, 9)
     expect(w.zalozenia).toContain(t("pl", "STREF-ZALOZENIE-H-STREFY"))
+  })
+})
+
+describe("zasobnikCwuTool (M6/E17, dawne 5.19 + 5.20 + 5.21)", () => {
+  it("kontrakt 9.3: 'read', bez potwierdzenia", () => {
+    expect(zasobnikCwuTool.operationType).toBe("read")
+    expect(zasobnikCwuTool.requiresConfirmation).toBe(false)
+    expect(() => validateAiToolDefinition(zasobnikCwuTool)).not.toThrow()
+  })
+
+  it("0,8 W/K przy ΔT 62,5 K → 1,2 kWh/dobę; garaż → 🟡 jako tekst PL", async () => {
+    const w = await zasobnikCwuTool.handler({
+      osoby: 4,
+      litrowNaOsobe: 50,
+      tZimnaC: 10,
+      tCwuC: 70,
+      pojemnoscL: 200,
+      uaWK: 0.8,
+      uaPorownawczyWK: 0,
+      tOtoczeniaC: 7.5,
+      nieogrzewane: true,
+      dlugoscCyrkulacjiM: 0,
+      strataRuryWmK: 0,
+      tOtoczeniaRurC: null,
+      godzinCyrkulacji: 0,
+      mocPompyW: 0,
+    })
+    expect(w.strataPostojowaKwh).toBeCloseTo(1.2, 12)
+    expect(w.ostrzezenia).toContain(t("pl", "ZAS-NIEOGRZEWANE", { strata: 1.2 }))
   })
 })

@@ -1526,6 +1526,10 @@ export const dictionaryPl = {
   "STREF-BEZ-COP": "Ogrzewanie nieelektryczne (COP nie wpisany) — pokazujemy zysk ciepła; bilansu z prądem siłowników nie liczymy, bo ciepło nie pochodzi z prądu.",
   "STREF-OBNIZONA-POZA-ZAKRESEM": "Strefa {n}: temperatura obniżona nie może być wyższa niż komfortowa.",
   "STREF-ZALOZENIE-H-STREFY": "H strefy to część strat ciepła budynku (Ekran 1) przypadająca na tę strefę; suma H stref = H budynku.",
+  "ZAS-CWU-POZA-ZAKRESEM": "Temperatura C.W.U. musi być wyższa niż temperatura zimnej wody.",
+  "ZAS-NIEOGRZEWANE": "Zasobnik w nieogrzewanym pomieszczeniu (garaż, piwnica) traci znacznie więcej ciepła — teraz {strata} kWh/dobę. Przenieś go do ogrzewanej części domu albo dołóż izolację.",
+  "ZAS-CYRKULACJA-UPROSZCZENIE": "Straty rur cyrkulacji liczone tylko w godzinach pracy pompy, przy rurze w temperaturze C.W.U.; ciepło oddane przez rury stygnące po wyłączeniu pompy pominięte. Nieizolowane rury cyrkulacji to grzejnik, którego nie chcesz.",
+  "ZAS-ZALOZENIE-UA-Z-KARTY": "Strata postojowa UA [W/K] z karty zasobnika — obejmuje już izolację, przyłącza, dno i pokrywę. Strata = UA × (temperatura wody − temperatura otoczenia) × 24 h.",
 } as const
 
 export type KluczTlumaczenia = keyof typeof dictionaryPl

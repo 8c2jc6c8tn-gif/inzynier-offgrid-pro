@@ -114,6 +114,7 @@ const MIGRATED_MODULES = [
   "lib/core/modules/ogrzewanie/wspolne",
   "lib/core/modules/ogrzewanie/dystrybucja-ciepla",
   "lib/core/modules/ogrzewanie/sterowanie-strefowe",
+  "lib/core/modules/ogrzewanie/zasobnik-cwu",
   "lib/core/modules/montaz-baterii/balansery-zewnetrzne-olow",
   "lib/core/modules/montaz-baterii/demontaz-pakietu",
   "lib/core/modules/montaz-baterii/gestosc-elektrolitu",

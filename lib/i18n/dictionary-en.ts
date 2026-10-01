@@ -1514,4 +1514,8 @@ export const dictionaryEn = {
   "STREF-BEZ-COP": "Non-electric heating (no COP entered) — the heat gain is shown; the balance against the actuators' electricity is not computed, since the heat does not come from electricity.",
   "STREF-OBNIZONA-POZA-ZAKRESEM": "Zone {n}: the setback temperature cannot be higher than the comfort one.",
   "STREF-ZALOZENIE-H-STREFY": "A zone's H is the part of the building heat loss (Screen 1) belonging to that zone; the zones' H add up to the building's H.",
+  "ZAS-CWU-POZA-ZAKRESEM": "The hot water temperature must be higher than the cold water temperature.",
+  "ZAS-NIEOGRZEWANE": "A tank in an unheated room (garage, basement) loses much more heat — now {strata} kWh/day. Move it into the heated part of the house or add insulation.",
+  "ZAS-CYRKULACJA-UPROSZCZENIE": "Circulation pipe losses are counted only while the pump runs, with the pipe at hot-water temperature; the heat released by pipes cooling after the pump stops is left out. Uninsulated circulation pipes are a radiator you do not want.",
+  "ZAS-ZALOZENIE-UA-Z-KARTY": "Standing loss UA [W/K] from the tank datasheet — it already covers insulation, connections, bottom and lid. Loss = UA × (water temperature − ambient temperature) × 24 h.",
 } satisfies Record<KluczTlumaczenia, string>

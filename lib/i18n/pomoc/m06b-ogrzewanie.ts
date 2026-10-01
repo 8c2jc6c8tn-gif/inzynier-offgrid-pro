@@ -140,6 +140,100 @@ export const pl = {
       }
     }
   },
+  "zasobnik-cwu": {
+    "migawka": {
+      "oCoChodzi": "Bojler to termos — dobry trzyma ciepło, zły wypuszcza je do garażu. A cyrkulacja to luksus natychmiastowej ciepłej wody w kranie, który kosztuje energię non stop, jeśli nie jest sterowany rozsądnie.",
+      "jakDziala": "Wpisz domowników i temperatury wody — aplikacja policzy ciepło na podgrzanie wody. Ze straty UA z karty zasobnika i temperatury otoczenia — stratę postojową (możesz porównać z innym zasobnikiem). Dla cyrkulacji wpisz długość rur, stratę liniową, godziny pracy i moc pompy — zobaczysz koszt Twojego trybu i trybu ciągłego.",
+      "poCo": "Straty postojowe i cyrkulacja potrafią zjeść dużą część energii na ciepłą wodę — w off-gridzie to prąd z baterii albo pompy ciepła, codziennie.",
+      "fizyka": "Q_woda = n·V·ΔT·c (c = 4186 J/(kg·K)). Q_postój = UA·(θ_cwu − θ_ot)·24 h. Q_cyrk = q·L·(θ_cwu − θ_rur)·h, prąd pompy = P·h. Przykład źródła „0,8 W/K → 1,2 kWh/dobę” odpowiada ΔT = 62,5 K; „0,5 W/K → 0,7” i „180 kWh/rok” nie bilansują się przy jednej ΔT (wychodzi 0,75 i ok. 164 kWh/rok)."
+    },
+    "pola": {
+      "osoby": {
+        "nazwa": "Liczba domowników",
+        "cel": "Mnożnik dobowego zużycia ciepłej wody.",
+        "gdzie": "Twój dom (Moduł 2, Ekran 4).",
+        "zakres": "Osoby."
+      },
+      "litrow": {
+        "nazwa": "Zużycie C.W.U. na osobę [l/os./dobę]",
+        "cel": "Dobowe zużycie ciepłej wody na osobę.",
+        "gdzie": "Wartość startowa 50 l ze źródła (Ekran 2); Moduł 2 podaje 50–70 l. Zmień, jeśli znasz swoje zużycie.",
+        "zakres": "Źródło: ok. 50 l/os./dobę."
+      },
+      "tZimna": {
+        "nazwa": "Temperatura zimnej wody [°C]",
+        "cel": "Od tej temperatury woda jest podgrzewana.",
+        "gdzie": "Pomiar na wejściu do zasobnika (studnia, wodociąg).",
+        "zakres": "Twoja instalacja."
+      },
+      "tCwu": {
+        "nazwa": "Temperatura C.W.U. w zasobniku [°C]",
+        "cel": "Do tej temperatury woda jest podgrzewana i z nią liczona strata postojowa.",
+        "gdzie": "Nastawa termostatu zasobnika.",
+        "zakres": "Wyższa niż zimna woda."
+      },
+      "pojemnosc": {
+        "nazwa": "Pojemność zasobnika [l]",
+        "cel": "Porównanie z dobowym zużyciem — za mały zasobnik nie pokryje doby.",
+        "gdzie": "Tabliczka zasobnika.",
+        "zakres": "Źródło: np. 200 l dla 4 osób."
+      },
+      "ua": {
+        "nazwa": "Strata postojowa zasobnika UA [W/K]",
+        "cel": "Ile watów traci zasobnik na każdy stopień różnicy między wodą a otoczeniem.",
+        "gdzie": "Karta zasobnika (strata postojowa); gdy karta podaje stratę w W przy danej różnicy temperatur, podziel ją przez tę różnicę.",
+        "zakres": "Karta katalogowa urządzenia — aplikacja nie przyjmuje typowej wartości za Ciebie."
+      },
+      "uaPorownawczy": {
+        "nazwa": "UA innego zasobnika [W/K]",
+        "cel": "Porównanie z lepszym (albo starszym) modelem — różnica w kWh/rok.",
+        "gdzie": "Karta porównywanego zasobnika.",
+        "zakres": "Puste = bez porównania."
+      },
+      "tOtoczenia": {
+        "nazwa": "Temperatura otoczenia zasobnika [°C]",
+        "cel": "Im zimniej wokół zasobnika, tym większa strata.",
+        "gdzie": "Temperatura pomieszczenia, w którym stoi zasobnik (zimą).",
+        "zakres": "Twoja instalacja."
+      },
+      "nieogrzewane": {
+        "nazwa": "Pomieszczenie nieogrzewane",
+        "cel": "Ostrzeżenie źródła: zasobnik w nieogrzewanym garażu traci znacznie więcej.",
+        "gdzie": "Gdzie stoi Twój zasobnik.",
+        "zakres": "Tak / nie."
+      },
+      "dlugosc": {
+        "nazwa": "Długość rur cyrkulacji [m]",
+        "cel": "Długość pętli, w której krąży ciepła woda.",
+        "gdzie": "Projekt instalacji albo pomiar.",
+        "zakres": "Puste = bez cyrkulacji."
+      },
+      "strataRury": {
+        "nazwa": "Strata liniowa izolowanej rury [W/(m·K)]",
+        "cel": "Ile watów traci metr rury na stopień różnicy temperatur.",
+        "gdzie": "Karta otuliny / producenta rur dla Twojej średnicy.",
+        "zakres": "Karta katalogowa — aplikacja nie przyjmuje typowej wartości za Ciebie."
+      },
+      "tRur": {
+        "nazwa": "Temperatura otoczenia rur [°C]",
+        "cel": "Temperatura wokół rur cyrkulacji.",
+        "gdzie": "Gdzie biegną rury (bruzda w ogrzewanej ścianie, nieogrzewany strych...).",
+        "zakres": "Twoja instalacja."
+      },
+      "godzin": {
+        "nazwa": "Praca cyrkulacji [h/dobę]",
+        "cel": "Ile godzin na dobę pompa utrzymuje ciepłą wodę w rurach.",
+        "gdzie": "Ustawienie: ciągła = 24 h, czasowa (np. rano i wieczorem), na żądanie (czujnik przepływu / przycisk).",
+        "zakres": "0–24 h."
+      },
+      "mocPompy": {
+        "nazwa": "Moc pompy cyrkulacyjnej [W]",
+        "cel": "Prąd zużywany przez pompę w godzinach pracy.",
+        "gdzie": "Tabliczka / karta pompy (Ekran 15).",
+        "zakres": "Karta katalogowa urządzenia."
+      }
+    }
+  },
 }
 
 const EN_SHEET = "The device datasheet — the app never assumes a typical value for you."
@@ -278,6 +372,100 @@ export const en: Tlumaczenie<typeof pl> = {
       }
     }
   },
+  "zasobnik-cwu": {
+    "migawka": {
+      "oCoChodzi": "A water tank is a thermos — a good one keeps the heat, a bad one lets it out into the garage. Circulation is the luxury of instant hot water at the tap, and it costs energy non-stop if not controlled sensibly.",
+      "jakDziala": "Enter the household and the water temperatures — the app computes the heat to warm the water. From the UA loss on the tank datasheet and the ambient temperature — the standing loss (you can compare with another tank). For circulation enter the pipe length, linear loss, running hours and pump power — you will see the cost of your mode and of continuous circulation.",
+      "poCo": "Standing losses and circulation can eat a large part of the hot water energy — off-grid that is battery or heat pump electricity, every day.",
+      "fizyka": "Q_water = n·V·ΔT·c (c = 4186 J/(kg·K)). Q_standing = UA·(θ_hw − θ_amb)·24 h. Q_circ = q·L·(θ_hw − θ_pipe)·h, pump electricity = P·h. The source example “0.8 W/K → 1.2 kWh/day” means ΔT = 62.5 K; “0.5 W/K → 0.7” and “180 kWh/year” do not balance at one ΔT (it gives 0.75 and about 164 kWh/year)."
+    },
+    "pola": {
+      "osoby": {
+        "nazwa": "Household members",
+        "cel": "Multiplier of the daily hot water use.",
+        "gdzie": "Your home (Module 2, Screen 4).",
+        "zakres": "People."
+      },
+      "litrow": {
+        "nazwa": "Hot water per person [l/person/day]",
+        "cel": "Daily hot water use per person.",
+        "gdzie": "Starting value 50 l from the source (Screen 2); Module 2 gives 50–70 l. Change it if you know your use.",
+        "zakres": "Source: approx. 50 l/person/day."
+      },
+      "tZimna": {
+        "nazwa": "Cold water temperature [°C]",
+        "cel": "The water is heated from this temperature.",
+        "gdzie": "Measured at the tank inlet (well, mains).",
+        "zakres": "Your installation."
+      },
+      "tCwu": {
+        "nazwa": "Hot water temperature in the tank [°C]",
+        "cel": "The water is heated to this temperature; the standing loss is computed with it.",
+        "gdzie": "Tank thermostat setting.",
+        "zakres": "Higher than the cold water."
+      },
+      "pojemnosc": {
+        "nazwa": "Tank capacity [l]",
+        "cel": "Compared with the daily use — a tank too small does not cover a day.",
+        "gdzie": "Tank nameplate.",
+        "zakres": "Source: e.g. 200 l for 4 people."
+      },
+      "ua": {
+        "nazwa": "Tank standing loss UA [W/K]",
+        "cel": "How many watts the tank loses per degree between water and surroundings.",
+        "gdzie": "Tank datasheet (standing loss); if it gives the loss in W at a temperature difference, divide by that difference.",
+        "zakres": "The device datasheet — the app never assumes a typical value for you."
+      },
+      "uaPorownawczy": {
+        "nazwa": "UA of another tank [W/K]",
+        "cel": "Comparison with a better (or older) model — the difference in kWh/year.",
+        "gdzie": "Datasheet of the compared tank.",
+        "zakres": "Empty = no comparison."
+      },
+      "tOtoczenia": {
+        "nazwa": "Tank ambient temperature [°C]",
+        "cel": "The colder around the tank, the larger the loss.",
+        "gdzie": "Temperature of the room the tank stands in (in winter).",
+        "zakres": "Your installation."
+      },
+      "nieogrzewane": {
+        "nazwa": "Unheated room",
+        "cel": "Source warning: a tank in an unheated garage loses much more.",
+        "gdzie": "Where your tank stands.",
+        "zakres": "Yes / no."
+      },
+      "dlugosc": {
+        "nazwa": "Circulation pipe length [m]",
+        "cel": "Length of the loop with circulating hot water.",
+        "gdzie": "Installation design or measurement.",
+        "zakres": "Empty = no circulation."
+      },
+      "strataRury": {
+        "nazwa": "Linear loss of the insulated pipe [W/(m·K)]",
+        "cel": "How many watts a metre of pipe loses per degree of temperature difference.",
+        "gdzie": "Pipe insulation / pipe manufacturer's datasheet for your diameter.",
+        "zakres": "The datasheet — the app never assumes a typical value for you."
+      },
+      "tRur": {
+        "nazwa": "Pipe ambient temperature [°C]",
+        "cel": "Temperature around the circulation pipes.",
+        "gdzie": "Where the pipes run (chase in a heated wall, unheated attic...).",
+        "zakres": "Your installation."
+      },
+      "godzin": {
+        "nazwa": "Circulation running [h/day]",
+        "cel": "How many hours a day the pump keeps hot water in the pipes.",
+        "gdzie": "Setting: continuous = 24 h, timed (e.g. morning and evening), on demand (flow sensor / button).",
+        "zakres": "0–24 h."
+      },
+      "mocPompy": {
+        "nazwa": "Circulation pump power [W]",
+        "cel": "Electricity used by the pump while running.",
+        "gdzie": "Pump nameplate / datasheet (Screen 15).",
+        "zakres": "The device datasheet."
+      }
+    }
+  },
 }
 
 const RU_SHEET = "Паспорт устройства — приложение не подставляет типовое значение за вас."
@@ -413,6 +601,100 @@ export const ru: Tlumaczenie<typeof pl> = {
         "cel": "Переводит сэкономленное тепло в сэкономленную электроэнергию для сравнения с потреблением приводов.",
         "gdzie": "1 = ТЭН/электрокотёл; тепловой насос — паспорт (Экран 5).",
         "zakres": "≥ 1. Пусто = неэлектрическое отопление (топливо) — без баланса электроэнергии."
+      }
+    }
+  },
+  "zasobnik-cwu": {
+    "migawka": {
+      "oCoChodzi": "Бойлер — это термос: хороший держит тепло, плохой выпускает его в гараж. А циркуляция — роскошь мгновенной горячей воды из крана, которая без разумного управления постоянно стоит энергии.",
+      "jakDziala": "Введите число жильцов и температуры воды — приложение посчитает тепло на нагрев воды. По потерям UA из паспорта бойлера и температуре окружения — потери в режиме ожидания (можно сравнить с другим бойлером). Для циркуляции введите длину труб, линейные потери, часы работы и мощность насоса — увидите стоимость вашего режима и круглосуточного.",
+      "poCo": "Потери ожидания и циркуляция могут съесть большую часть энергии на горячую воду — в автономной системе это электроэнергия батареи или теплового насоса, каждый день.",
+      "fizyka": "Q_вода = n·V·ΔT·c (c = 4186 Дж/(кг·К)). Q_ожид = UA·(θ_гвс − θ_окр)·24 ч. Q_цирк = q·L·(θ_гвс − θ_труб)·h, электроэнергия насоса = P·h. Пример источника «0,8 Вт/К → 1,2 кВт·ч/сутки» соответствует ΔT = 62,5 К; «0,5 Вт/К → 0,7» и «180 кВт·ч/год» не сходятся при одной ΔT (получается 0,75 и около 164 кВт·ч/год)."
+    },
+    "pola": {
+      "osoby": {
+        "nazwa": "Число жильцов",
+        "cel": "Множитель суточного расхода горячей воды.",
+        "gdzie": "Ваш дом (Модуль 2, Экран 4).",
+        "zakres": "Человек."
+      },
+      "litrow": {
+        "nazwa": "ГВС на человека [л/чел./сутки]",
+        "cel": "Суточный расход горячей воды на человека.",
+        "gdzie": "Начальное значение 50 л из источника (Экран 2); Модуль 2 даёт 50–70 л. Измените, если знаете свой расход.",
+        "zakres": "Источник: ок. 50 л/чел./сутки."
+      },
+      "tZimna": {
+        "nazwa": "Температура холодной воды [°C]",
+        "cel": "От этой температуры вода нагревается.",
+        "gdzie": "Измерение на входе в бойлер (колодец, водопровод).",
+        "zakres": "Ваша установка."
+      },
+      "tCwu": {
+        "nazwa": "Температура ГВС в бойлере [°C]",
+        "cel": "До этой температуры нагревается вода, с ней считаются потери ожидания.",
+        "gdzie": "Настройка термостата бойлера.",
+        "zakres": "Выше, чем холодная вода."
+      },
+      "pojemnosc": {
+        "nazwa": "Объём бойлера [л]",
+        "cel": "Сравнение с суточным расходом — слишком маленький бойлер не покроет сутки.",
+        "gdzie": "Табличка бойлера.",
+        "zakres": "Источник: например, 200 л на 4 человек."
+      },
+      "ua": {
+        "nazwa": "Потери бойлера UA [Вт/К]",
+        "cel": "Сколько ватт теряет бойлер на каждый градус разницы между водой и окружением.",
+        "gdzie": "Паспорт бойлера (потери ожидания); если там потери в Вт при заданной разнице температур, разделите на эту разницу.",
+        "zakres": "Паспорт устройства — приложение не подставляет типовое значение за вас."
+      },
+      "uaPorownawczy": {
+        "nazwa": "UA другого бойлера [Вт/К]",
+        "cel": "Сравнение с лучшей (или старой) моделью — разница в кВт·ч/год.",
+        "gdzie": "Паспорт сравниваемого бойлера.",
+        "zakres": "Пусто = без сравнения."
+      },
+      "tOtoczenia": {
+        "nazwa": "Температура окружения бойлера [°C]",
+        "cel": "Чем холоднее вокруг бойлера, тем больше потери.",
+        "gdzie": "Температура помещения, где стоит бойлер (зимой).",
+        "zakres": "Ваша установка."
+      },
+      "nieogrzewane": {
+        "nazwa": "Неотапливаемое помещение",
+        "cel": "Предупреждение источника: бойлер в неотапливаемом гараже теряет гораздо больше.",
+        "gdzie": "Где стоит ваш бойлер.",
+        "zakres": "Да / нет."
+      },
+      "dlugosc": {
+        "nazwa": "Длина труб циркуляции [м]",
+        "cel": "Длина петли, по которой циркулирует горячая вода.",
+        "gdzie": "Проект установки или замер.",
+        "zakres": "Пусто = без циркуляции."
+      },
+      "strataRury": {
+        "nazwa": "Линейные потери изолированной трубы [Вт/(м·К)]",
+        "cel": "Сколько ватт теряет метр трубы на градус разницы температур.",
+        "gdzie": "Паспорт изоляции / производителя труб для вашего диаметра.",
+        "zakres": "Паспорт — приложение не подставляет типовое значение за вас."
+      },
+      "tRur": {
+        "nazwa": "Температура окружения труб [°C]",
+        "cel": "Температура вокруг труб циркуляции.",
+        "gdzie": "Где проходят трубы (штроба в тёплой стене, холодный чердак...).",
+        "zakres": "Ваша установка."
+      },
+      "godzin": {
+        "nazwa": "Работа циркуляции [ч/сутки]",
+        "cel": "Сколько часов в сутки насос держит горячую воду в трубах.",
+        "gdzie": "Настройка: круглосуточно = 24 ч, по времени (утром и вечером), по запросу (датчик потока / кнопка).",
+        "zakres": "0–24 ч."
+      },
+      "mocPompy": {
+        "nazwa": "Мощность циркуляционного насоса [Вт]",
+        "cel": "Электроэнергия насоса в часы работы.",
+        "gdzie": "Табличка / паспорт насоса (Экран 15).",
+        "zakres": "Паспорт устройства."
       }
     }
   },
