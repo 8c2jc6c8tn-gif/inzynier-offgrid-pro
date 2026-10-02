@@ -26,6 +26,7 @@ import {
   zl,
 } from "./wspolne"
 import { useZuzycieMiesieczne } from "./zuzycie-miesieczne"
+import { useTranslate } from "@/lib/i18n/language-context"
 
 type Strefowe = Partial<Record<Strefa, string>>
 
@@ -128,6 +129,7 @@ export function wejscieRachunku(segment: Segment, stan: StanRachunku, zuzycieMie
  * consumption (TD22 pt 3, closed 28.09.2026) is read from D3/F6 when all 12 months are filled.
  */
 export function FormularzRachunku({ segment }: { segment: Segment }) {
+  const t = useTranslate()
   const [stan, setStan] = usePersistedDraft<StanRachunku>(kluczRachunku(segment), poczatkowyRachunek(segment))
   const { zuzycie: zuzycieMies } = useZuzycieMiesieczne(segment)
   const ustaw = <K extends keyof StanRachunku>(pole: K, v: StanRachunku[K]) => setStan((p) => ({ ...p, [pole]: v }))
@@ -151,7 +153,7 @@ export function FormularzRachunku({ segment }: { segment: Segment }) {
       <div className="flex flex-col gap-4">
         <PoleOsd value={stan.osd} onChange={(osd) => ustaw("osd", osd)} />
         <PoleSelect
-          label="Grupa taryfowa"
+          label={t("UI-FORRAC-GRUPA-TARYFOWA")}
           value={stan.grupa}
           onChange={(e) => ustaw("grupa", e.target.value as Grupa)}
           pomoc={<PomocPola ekran="siec-rachunek" pole="grupa" />}
@@ -164,17 +166,17 @@ export function FormularzRachunku({ segment }: { segment: Segment }) {
         </PoleSelect>
         {g ? (
           <PoleSelect
-            label="Przyłącze"
+            label={t("UI-FORRAC-PRZYLACZE")}
             value={stan.fazy}
             onChange={(e) => ustaw("fazy", e.target.value as Fazy)}
             pomoc={<PomocPola ekran="siec-rachunek" pole="przylacze" />}
           >
-            <option value="jednofazowa">jednofazowe</option>
-            <option value="trojfazowa">trójfazowe</option>
+            <option value="jednofazowa">{t("UI-FORRAC-JEDNOFAZOWE")}</option>
+            <option value="trojfazowa">{t("UI-FORRAC-TROJFAZOWE")}</option>
           </PoleSelect>
         ) : (
           <Pole
-            label="Moc umowna"
+            label={t("UI-FORRAC-MOC-UMOWNA")}
             unit="kW"
             type="number"
             inputMode="decimal"
@@ -184,7 +186,7 @@ export function FormularzRachunku({ segment }: { segment: Segment }) {
           />
         )}
         <Pole
-          label="Rok rozliczenia"
+          label={t("UI-FORRAC-ROK-ROZLICZENIA")}
           type="number"
           inputMode="numeric"
           value={stan.rok}
@@ -192,24 +194,24 @@ export function FormularzRachunku({ segment }: { segment: Segment }) {
           pomoc={<PomocPola ekran="siec-rachunek" pole="rok" />}
         />
         <PoleSelect
-          label="Okres rozliczeniowy"
+          label={t("UI-FORRAC-OKRES-ROZLICZENIOWY")}
           value={stan.okres}
           onChange={(e) => ustaw("okres", e.target.value as OkresRozliczeniowy)}
           pomoc={<PomocPola ekran="siec-rachunek" pole="okres" />}
         >
-          <option value="1">co 1 miesiąc</option>
-          <option value="2">co 2 miesiące</option>
-          <option value="6">co 6 miesięcy</option>
-          <option value="12">co 12 miesięcy</option>
+          <option value="1">{t("UI-FORRAC-MIESIAC")}</option>
+          <option value="2">{t("UI-FORRAC-MIESIACE")}</option>
+          <option value="6">{t("UI-FORRAC-MIESIECY")}</option>
+          <option value="12">{t("UI-FORRAC-MIESIECY-2")}</option>
         </PoleSelect>
 
         <fieldset className="flex flex-col gap-3 rounded-md border p-3">
-          <legend className="px-1 text-small font-medium">Zużycie i cena energii (z faktur)</legend>
+          <legend className="px-1 text-small font-medium">{t("UI-FORRAC-ZUZYCIE-CENA-ENERGII")}</legend>
           {strefy.map((z) => (
             <div key={z} className="grid grid-cols-2 gap-3">
               <Pole
-                label={`Zużycie — ${ETYKIETA_STREFY[z]}`}
-                unit="kWh/rok"
+                label={t("UI-FORRAC-ZUZYCIE", { p: t(ETYKIETA_STREFY[z]) })}
+                unit={t("UI-J-KWH-ROK")}
                 type="number"
                 inputMode="decimal"
                 value={stan.zuzycie[z] ?? ""}
@@ -217,8 +219,8 @@ export function FormularzRachunku({ segment }: { segment: Segment }) {
                 pomoc={<PomocPola ekran="siec-rachunek" pole="zuzycieStrefy" />}
               />
               <Pole
-                label={`Cena energii — ${ETYKIETA_STREFY[z]}`}
-                unit="zł/kWh netto"
+                label={t("UI-FORRAC-CENA-ENERGII", { p: t(ETYKIETA_STREFY[z]) })}
+                unit={t("UI-FORRAC-KWH-NETTO")}
                 type="number"
                 inputMode="decimal"
                 value={stan.ceny[z] ?? ""}
@@ -228,8 +230,8 @@ export function FormularzRachunku({ segment }: { segment: Segment }) {
             </div>
           ))}
           <Pole
-            label="Opłata handlowa sprzedawcy"
-            unit="zł/mies. netto"
+            label={t("UI-FORRAC-OPLATA-HANDLOWA-SPRZEDAWCY")}
+            unit={t("UI-FORRAC-MIES-NETTO")}
             type="number"
             inputMode="decimal"
             value={stan.handlowa}
@@ -238,8 +240,8 @@ export function FormularzRachunku({ segment }: { segment: Segment }) {
           />
           {!g && (
             <Pole
-              label="Energia pobrana w dni robocze 7:00–22:00"
-              unit="kWh/rok"
+              label={t("UI-FORRAC-ENERGIA-POBRANA-DNI")}
+              unit={t("UI-J-KWH-ROK")}
               type="number"
               inputMode="decimal"
               value={stan.energiaMocowa}
@@ -254,17 +256,17 @@ export function FormularzRachunku({ segment }: { segment: Segment }) {
             id={`siec-z-faktury-${segment}`}
             checked={stan.zFaktury}
             onChange={(e) => ustaw("zFaktury", e.target.checked)}
-            label="Wpiszę stawki dystrybucyjne z mojej faktury (puste pole = stawka z taryfy 2026)"
+            label={t("UI-FORRAC-WPISZE-STAWKI-DYSTRYBUCYJNE")}
           />
         )}
         {pokazFaktura && (
           <fieldset className="flex flex-col gap-3 rounded-md border p-3">
-            <legend className="px-1 text-small font-medium">Moje dane z faktury (netto)</legend>
+            <legend className="px-1 text-small font-medium">{t("UI-FORRAC-MOJE-DANE-FAKTURY")}</legend>
             {strefy.map((z) => (
               <Pole
                 key={z}
-                label={`Opłata sieciowa zmienna — ${ETYKIETA_STREFY[z]}`}
-                unit="zł/kWh"
+                label={t("UI-FORRAC-OPLATA-SIECIOWA-ZMIENNA", { p: t(ETYKIETA_STREFY[z]) })}
+                unit={t("UI-J-ZL-KWH")}
                 type="number"
                 inputMode="decimal"
                 value={stan.wlZmienna[z] ?? ""}
@@ -273,8 +275,8 @@ export function FormularzRachunku({ segment }: { segment: Segment }) {
               />
             ))}
             <Pole
-              label="Opłata sieciowa stała"
-              unit={g ? "zł/mies." : "zł/kW/mies."}
+              label={t("UI-FORRAC-OPLATA-SIECIOWA-STALA")}
+              unit={g ? t("UI-J-ZL-MIES") : t("UI-FORRAC-MIES")}
               type="number"
               inputMode="decimal"
               value={stan.wlStala}
@@ -282,8 +284,8 @@ export function FormularzRachunku({ segment }: { segment: Segment }) {
               pomoc={<PomocPola ekran="siec-rachunek" pole="siecStala" />}
             />
             <Pole
-              label="Opłata abonamentowa"
-              unit="zł/mies."
+              label={t("UI-FORRAC-OPLATA-ABONAMENTOWA")}
+              unit={t("UI-J-ZL-MIES")}
               type="number"
               inputMode="decimal"
               value={stan.wlAbonament}
@@ -291,8 +293,8 @@ export function FormularzRachunku({ segment }: { segment: Segment }) {
               pomoc={<PomocPola ekran="siec-rachunek" pole="abonament" />}
             />
             <Pole
-              label="Stawka jakościowa"
-              unit="zł/kWh"
+              label={t("UI-FORRAC-STAWKA-JAKOSCIOWA")}
+              unit={t("UI-J-ZL-KWH")}
               type="number"
               inputMode="decimal"
               value={stan.wlJakosciowa}
@@ -300,8 +302,8 @@ export function FormularzRachunku({ segment }: { segment: Segment }) {
               pomoc={<PomocPola ekran="siec-rachunek" pole="jakosciowa" />}
             />
             <Pole
-              label="Opłata OZE"
-              unit="zł/kWh"
+              label={t("UI-FORRAC-OPLATA-OZE")}
+              unit={t("UI-J-ZL-KWH")}
               type="number"
               inputMode="decimal"
               value={stan.wlOze}
@@ -309,8 +311,8 @@ export function FormularzRachunku({ segment }: { segment: Segment }) {
               pomoc={<PomocPola ekran="siec-rachunek" pole="oze" />}
             />
             <Pole
-              label="Opłata kogeneracyjna"
-              unit="zł/kWh"
+              label={t("UI-FORRAC-OPLATA-KOGENERACYJNA")}
+              unit={t("UI-J-ZL-KWH")}
               type="number"
               inputMode="decimal"
               value={stan.wlKogeneracyjna}
@@ -318,8 +320,8 @@ export function FormularzRachunku({ segment }: { segment: Segment }) {
               pomoc={<PomocPola ekran="siec-rachunek" pole="kogeneracyjna" />}
             />
             <Pole
-              label="Opłata mocowa"
-              unit={g ? "zł/mies." : "zł/kWh"}
+              label={t("UI-FORRAC-OPLATA-MOCOWA")}
+              unit={g ? t("UI-J-ZL-MIES") : t("UI-J-ZL-KWH")}
               type="number"
               inputMode="decimal"
               value={stan.wlMocowa}
@@ -332,50 +334,47 @@ export function FormularzRachunku({ segment }: { segment: Segment }) {
 
       <ZrodloDanych>
         {zuzycieMies
-          ? "Stawki zmienne w ciągu roku ważone zużyciem z 12 miesięcy (ekran „Moje zużycie miesięcznie”)."
-          : "Po wpisaniu 12 miesięcy zużycia (ekran „Moje zużycie miesięcznie”) stawki zmienne w roku zostaną zważone zużyciem."}
+          ? t("UI-FORRAC-STAWKI-ZMIENNE-CIAGU")
+          : t("UI-FORRAC-WPISANIU-MIESIECY-ZUZYCIA")}
       </ZrodloDanych>
 
       {result.status === "INCOMPLETE" ? (
-        <WerdyktPanel poziom="uwaga" etykieta="Brakuje danych — nic nie zgadujemy">
+        <WerdyktPanel poziom="uwaga" etykieta={t("UI-FORRAC-BRAKUJE-DANYCH-NIC")}>
           <WynikSzczegoly assumptions={[]} warnings={result.warnings} />
         </WerdyktPanel>
       ) : result.status === "INVALID_INPUT" ? (
-        <WerdyktPanel poziom="blad" etykieta="Nie da się policzyć — sprawdź wpisane dane">
+        <WerdyktPanel poziom="blad" etykieta={t("UI-FORRAC-POLICZYC-SPRAWDZ-WPISANE")}>
           <WynikSzczegoly assumptions={[]} warnings={result.warnings} />
         </WerdyktPanel>
       ) : (
         poziom !== null && (
-          <WerdyktPanel poziom={poziom} etykieta="Mój rachunek roczny">
-            <WynikGlowny>{zl(v.bruttoZl)} brutto / rok</WynikGlowny>
+          <WerdyktPanel poziom={poziom} etykieta={t("UI-FORRAC-MOJ-RACHUNEK-ROCZNY")}>
+            <WynikGlowny>{t("UI-FORRAC-BRUTTO-ROK", { bruttoZl: zl(v.bruttoZl) })}</WynikGlowny>
             <p className="mt-1 text-small">
-              Netto {zl(v.nettoZl)} + VAT {zl(v.vatZl)}. Średnio {v.sredniaCenaKwhBruttoZl.toLocaleString("pl-PL", { maximumFractionDigits: 2 })} zł
-              za 1 kWh brutto.
+              {t("UI-FORRAC-NETTO-VAT-SREDNIO", { nettoZl: zl(v.nettoZl), vatZl: zl(v.vatZl), sredniaCenaKwhBruttoZl: v.sredniaCenaKwhBruttoZl.toLocaleString("pl-PL", { maximumFractionDigits: 2 }) })}
             </p>
             <p className="mt-2 text-small font-medium">
-              „Cena trzymania sieci”: {zl(v.cenaTrzymaniaSieciBruttoZl)} brutto / rok — tyle kosztuje samo posiadanie
-              przyłącza, nawet przy zużyciu bliskim zera. PV i magazyn obniżają tylko część zmienną (
-              {zl(v.zmienneNettoZl)} netto).
+              {t("UI-FORRAC-CENA-TRZYMANIA-SIECI", { cenaTrzymaniaSieciBruttoZl: zl(v.cenaTrzymaniaSieciBruttoZl), zmienneNettoZl: zl(v.zmienneNettoZl) })}
             </p>
             <table className="mt-3 w-full text-small">
               <thead>
                 <tr className="text-left text-muted-foreground">
-                  <th className="py-1 font-normal">Składnik</th>
-                  <th className="py-1 text-right font-normal">Netto / rok</th>
-                  <th className="py-1 pl-2 font-normal">Charakter</th>
+                  <th className="py-1 font-normal">{t("UI-FORRAC-SKLADNIK")}</th>
+                  <th className="py-1 text-right font-normal">{t("UI-FORRAC-NETTO-ROK")}</th>
+                  <th className="py-1 pl-2 font-normal">{t("UI-FORRAC-CHARAKTER")}</th>
                 </tr>
               </thead>
               <tbody>
                 {v.skladniki.map((s) => (
                   <tr key={s.kod} className="border-t">
                     <td className="py-1">
-                      {ETYKIETA_SKLADNIKA[s.kod]}
+                      {t(ETYKIETA_SKLADNIKA[s.kod])}
                       {s.zrodlo === "faktura" && s.kod !== "energia" && s.kod !== "handlowa" && (
-                        <span className="text-muted-foreground"> (z faktury)</span>
+                        <span className="text-muted-foreground"> {t("UI-FORRAC-FAKTURY")}</span>
                       )}
                     </td>
                     <td className="py-1 text-right tabular-nums">{zl(s.kwotaNettoZl, 2)}</td>
-                    <td className="py-1 pl-2">{s.charakter === "staly" ? "stały" : "zmienny"}</td>
+                    <td className="py-1 pl-2">{s.charakter === "staly" ? t("UI-FORRAC-STALY") : t("UI-FORRAC-ZMIENNY")}</td>
                   </tr>
                 ))}
               </tbody>

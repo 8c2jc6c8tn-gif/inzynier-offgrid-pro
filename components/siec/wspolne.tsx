@@ -14,24 +14,26 @@ import { useTranslate } from "@/lib/i18n/language-context"
 
 /** Shared pieces of the M14 screens (D1/F1, D2/F2, D8, D12, F3–F5). */
 
+/** Zone labels — `UI-STREFA-*` keys, render through `t()`. */
 export const ETYKIETA_STREFY: Record<Strefa, string> = {
-  calodobowa: "całodobowa",
-  dzien: "dzień",
-  noc: "noc",
-  szczyt: "szczyt",
-  pozaszczyt: "pozaszczyt",
+  calodobowa: "UI-STREFA-CALODOBOWA",
+  dzien: "UI-STREFA-DZIEN",
+  noc: "UI-STREFA-NOC",
+  szczyt: "UI-STREFA-SZCZYT",
+  pozaszczyt: "UI-STREFA-POZASZCZYT",
 }
 
+/** Bill component labels — `UI-SKLADNIK-*` keys, render through `t()`. */
 export const ETYKIETA_SKLADNIKA: Record<KodSkladnika, string> = {
-  energia: "Energia czynna (sprzedaż)",
-  handlowa: "Opłata handlowa sprzedawcy",
-  sieciowaZmienna: "Opłata sieciowa zmienna (OSD)",
-  sieciowaStala: "Opłata sieciowa stała (OSD)",
-  abonament: "Opłata abonamentowa (OSD)",
-  mocowa: "Opłata mocowa",
-  jakosciowa: "Stawka jakościowa",
-  oze: "Opłata OZE",
-  kogeneracyjna: "Opłata kogeneracyjna",
+  energia: "UI-SKLADNIK-ENERGIA",
+  handlowa: "UI-SKLADNIK-HANDLOWA",
+  sieciowaZmienna: "UI-SKLADNIK-SIECIOWA-ZMIENNA",
+  sieciowaStala: "UI-SKLADNIK-SIECIOWA-STALA",
+  abonament: "UI-SKLADNIK-ABONAMENT",
+  mocowa: "UI-SKLADNIK-MOCOWA",
+  jakosciowa: "UI-SKLADNIK-JAKOSCIOWA",
+  oze: "UI-SKLADNIK-OZE",
+  kogeneracyjna: "UI-SKLADNIK-KOGENERACYJNA",
 }
 
 export const GRUPY_DOM: Grupa[] = ["G11", "G12", "G12w"]
@@ -88,9 +90,10 @@ export function poziomWerdyktu(status: Status, warnings: Warning[]): WerdyktPozi
 }
 
 export function PoleOsd({ value, onChange }: { value: OsdId; onChange: (v: OsdId) => void }) {
+  const t = useTranslate()
   return (
     <PoleSelect
-      label="Operator sieci (OSD)"
+      label={t("UI-WSP-OPERATOR-SIECI-OSD")}
       value={value}
       onChange={(e) => onChange(e.target.value as OsdId)}
       pomoc={<PomocPola ekran="siec-osd" pole="osd" />}
@@ -105,10 +108,10 @@ export function PoleOsd({ value, onChange }: { value: OsdId; onChange: (v: OsdId
 }
 
 export function ZrodloDanych({ children }: { children?: ReactNode }) {
+  const t = useTranslate()
   return (
     <p className="text-small text-muted-foreground">
-      Stawki: plik „rozliczenia-pl-2026”, stan na {DANE_ROZLICZEN.stanNa}, ważne do {DANE_ROZLICZEN.waznoscDo}. Kwoty
-      netto, VAT doliczany na końcu. {children}
+      {t("UI-WSP-STAWKI-PLIK-ROZLICZENIA", { stanNa: DANE_ROZLICZEN.stanNa, waznoscDo: DANE_ROZLICZEN.waznoscDo })} {children}
     </p>
   )
 }
