@@ -8749,3 +8749,12 @@ Tryb Audyt (czapka rewidenta). Warstwa „w pełni na końcu” z N.2 — wszyst
   łapie jednostki wpisane wprost (`unit="zł/kWh"`) — są klucze `UI-J-ZL-KWH`, `UI-J-ZL`, `UI-J-KWH-ROK`. (3) Sandbox
   worktree odrzuca polecenia z `$ZMIENNA` i długie heredoki — skrypty pomocnicze zapisuj plikiem i uruchamiaj ze stałą ścieżką.
   (4) `liczba()` z `lib/lokalizacja/model-dzialki` zwraca `undefined`, nie `null` — przy polach `number | null` trzeba `?? null`.
+
+## Domknięcia listy + M9/E4 link do Katalogu 3 (02.10.2026, gałąź `work/m9-e4-link-katalog3`)
+
+- Sesja dostała do zbudowania M6/E8 (głębokość czynna EN ISO 13786), Ψ z PN-EN ISO 14683 w M6, M9/E4 link i M7/E18 Pre-Heat.
+  **Trzy z czterech były już zrobione** (E8 i E7 — 27.09.2026, E18 — 28.09.2026), ale ich wpisy 🔲 w liście nie dostały
+  domknięcia. Zamknięte z odsyłaczem, kod nietknięty. Zbudowany tylko link E4 → `katalog-protokolow`.
+- Pułapka: wpis ✅ „zamyka wpisy 🔲 X, Y” nie wystarcza — trzeba też przestawić same wpisy 🔲, inaczej kolejna sesja
+  bierze je jako otwarte. Przed budową zawsze grep kodu + `rejestr-pokrycia.md`, nie tylko lista.
+- Wpis listy wskazywał `lib/i18n/ui/m09-esp32.ts`; klucze E4 są w `m09-ekrany.ts` (ekran już na `t()`).
