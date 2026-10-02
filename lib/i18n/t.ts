@@ -36,9 +36,11 @@ export function t(language: Language, kod: string, params?: Record<string, strin
 function rozwinKlucze(language: Language, params?: Record<string, string | number>) {
   if (!params) return params
   const wynik: Record<string, string | number> = { ...params }
+  const zwykle = Object.fromEntries(Object.entries(params).filter(([n]) => !(n.length > 3 && n.endsWith("Key"))))
   for (const [nazwa, wartosc] of Object.entries(params)) {
     if (nazwa.length > 3 && nazwa.endsWith("Key") && typeof wartosc === "string") {
-      wynik[nazwa.slice(0, -3)] = t(language, wartosc)
+      // Sibling params fill the label's own placeholders (e.g. „Powierzchnia ({przegroda})”).
+      wynik[nazwa.slice(0, -3)] = podstaw(language, t(language, wartosc), zwykle)
     }
   }
   return wynik

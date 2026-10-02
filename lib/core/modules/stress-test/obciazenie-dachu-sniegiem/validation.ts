@@ -8,10 +8,10 @@ export function validateInput(input: ObciazenieDachuSniegiemInput): { errors: Wa
     errors.push(katPozaZakresem(input.katDachuDeg))
   }
   if (input.nosnoscDachuKnM2 < 0) {
-    errors.push(wartoscUjemna("nosnoscDachuKnM2", "Nośność dachu", input.nosnoscDachuKnM2))
+    errors.push(wartoscUjemna("nosnoscDachuKnM2", "POLE-NOSNOSC-DACHU", input.nosnoscDachuKnM2))
   }
   if (input.gruboscWarstwyCm < 0) {
-    errors.push(wartoscUjemna("gruboscWarstwyCm", "Grubość warstwy śniegu", input.gruboscWarstwyCm))
+    errors.push(wartoscUjemna("gruboscWarstwyCm", "POLE-GRUBOSC-WARSTWY-SNIEGU", input.gruboscWarstwyCm))
   }
   return { errors }
 }

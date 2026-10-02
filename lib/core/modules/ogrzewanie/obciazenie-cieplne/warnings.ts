@@ -1,33 +1,33 @@
 import type { Warning } from "@/lib/core/calc-result"
 
-export function wartoscUjemna(field: string, label: string, value: number): Warning {
+export function wartoscUjemna(field: string, labelKey: string, value: number, przegroda?: string): Warning {
   return {
     code: "WARTOSC-UJEMNA",
     level: "critical",
     i18nKey: "WARTOSC-UJEMNA",
-    params: { label },
+    params: { labelKey, ...(przegroda === undefined ? {} : { przegroda }) },
     technicalMessage: `${field} = ${value}, oczekiwano >= 0`,
     field,
   }
 }
 
-export function wartoscNiedodatnia(field: string, label: string, value: number): Warning {
+export function wartoscNiedodatnia(field: string, labelKey: string, value: number, przegroda?: string): Warning {
   return {
     code: `${field.toUpperCase()}-NIEDODATNI`,
     level: "critical",
     i18nKey: "WARTOSC-NIEDODATNIA",
-    params: { label },
+    params: { labelKey, ...(przegroda === undefined ? {} : { przegroda }) },
     technicalMessage: `${field} = ${value}, oczekiwano > 0`,
     field,
   }
 }
 
-export function wartoscPozaZakresem(field: string, label: string, value: number, min: number, max: number): Warning {
+export function wartoscPozaZakresem(field: string, labelKey: string, value: number, min: number, max: number, przegroda?: string): Warning {
   return {
     code: `${field.toUpperCase()}-POZA-ZAKRESEM`,
     level: "critical",
     i18nKey: "WARTOSC-POZA-ZAKRESEM",
-    params: { label, min, max },
+    params: { labelKey, min, max, ...(przegroda === undefined ? {} : { przegroda }) },
     technicalMessage: `${field} = ${value}, oczekiwano [${min}, ${max}]`,
     field,
   }

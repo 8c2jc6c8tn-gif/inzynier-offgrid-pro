@@ -1152,6 +1152,12 @@ describe("konwencja *Key w params", () => {
     expect(t("ru", "WARTOSC-POZA-ZAKRESEM", params)).toContain("альбедо")
   })
 
+  it("podstawia pozostałe params do szablonu etykiety (nazwa przegrody)", () => {
+    const params = { labelKey: "POLE-POWIERZCHNIA-PRZEGRODY", przegroda: "ściana N" }
+    expect(t("pl", "WARTOSC-UJEMNA", params)).toBe("Powierzchnia (ściana N) nie może być ujemna.")
+    expect(t("en", "WARTOSC-UJEMNA", params)).toContain("Area (ściana N)")
+  })
+
   it("każdy klucz POLE-* ma wpis w PL, EN i RU", () => {
     const klucze = Object.keys(dictionaries.pl).filter((k) => k.startsWith("POLE-"))
     expect(klucze.length).toBeGreaterThan(0)

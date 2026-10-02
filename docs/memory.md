@@ -8887,3 +8887,4 @@ strażniki. Kandydat do `docs/wklad-do-standardu.md` (strażnik skanujący ekspo
 - `t()` (`lib/i18n/t.ts`) rozwija każdy parametr `xKey` (string) do `x` przez słownik języka UI; domena podaje `labelKey: "POLE-…"`, szablon używa `{label}`. Zamiast polskiej etykiety w `params` — klucz; nie trzeba zmieniać ~100 stron renderujących ostrzeżenia.
 - Pułapka przy mechanicznej podmianie: nazwa pola (`"albedo"`) i etykieta (`"albedo"`) bywają identyczne — podmieniać tylko argument etykiety, nie pierwszy (`field`).
 - Partia 1: `lokalizacja/*` i 5 modułów `pv/*`; reszta wg wpisu w `docs/lista-do-zrobienia.md`.
+- Partia 2: `stress-test/obciazenie-dachu-sniegiem`, `ogrzewanie/obciazenie-cieplne`. Etykieta z parametrem (np. nazwa przegrody) = klucz z `{przegroda}` + osobny param obok `labelKey`; `rozwinKlucze` podstawia pozostałe params do tekstu etykiety. Pułapka podmiany opisana też w `docs/wklad-do-standardu.md` (02.10).
