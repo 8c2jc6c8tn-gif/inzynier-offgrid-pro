@@ -1,0 +1,192 @@
+﻿nr;fraza;rola;podstrona;typ_strony;intencja;modul_apki;priorytet;tydzien_publikacji;wyszukiwania_PL_mies (do uzupelnienia z Planera);trudnosc_KD (do uzupelnienia);CPC_zl (do uzupelnienia);status
+1;kalkulator off grid;główna;/kalkulator-off-grid;narzędzie (strona główna narzędzia);narzędzie / porównanie;M1/M2/M4;A;0;10;20;0 USD;dane z Ubersuggest 02.10.2026 (Polska)
+2;kalkulator fotowoltaiki off grid;dodatkowa;/kalkulator-off-grid;narzędzie (strona główna narzędzia);narzędzie / porównanie;M1/M2/M4;A;0;30;13;0,31 USD;dane z Ubersuggest 02.10.2026 (Polska)
+3;dobór instalacji off grid kalkulator;dodatkowa;/kalkulator-off-grid;narzędzie (strona główna narzędzia);narzędzie / porównanie;M1/M2/M4;A;0;;;;do zrobienia
+4;kalkulator instalacji off grid pdf;dodatkowa;/kalkulator-off-grid;narzędzie (strona główna narzędzia);narzędzie / porównanie;M1/M2/M4;A;0;;;;do zrobienia
+5;aplikacja do obliczeń instalacji fotowoltaicznej;dodatkowa;/kalkulator-off-grid;narzędzie (strona główna narzędzia);narzędzie / porównanie;M1/M2/M4;A;0;;;;do zrobienia
+6;program do projektowania instalacji off grid;dodatkowa;/kalkulator-off-grid;narzędzie (strona główna narzędzia);narzędzie / porównanie;M1/M2/M4;A;0;;;;do zrobienia
+7;darmowy program do doboru fotowoltaiki;dodatkowa;/kalkulator-off-grid;narzędzie (strona główna narzędzia);narzędzie / porównanie;M1/M2/M4;A;0;;;;do zrobienia
+8;ile akumulatorów do domu off grid;główna;/kalkulator/ile-akumulatorow-do-domu-off-grid;kalkulator + artykuł;narzędzie;M4/M11;A;1;;;;do zrobienia
+9;magazyn energii do domu kalkulator;dodatkowa;/kalkulator/ile-akumulatorow-do-domu-off-grid;kalkulator + artykuł;narzędzie;M4/M11;A;1;0;4;0 USD;dane z Ubersuggest 02.10.2026 (Polska)
+10;pojemność magazynu energii jak obliczyć;dodatkowa;/kalkulator/ile-akumulatorow-do-domu-off-grid;kalkulator + artykuł;narzędzie;M4/M11;A;1;;;;do zrobienia
+11;ile kwh magazyn energii do domu;dodatkowa;/kalkulator/ile-akumulatorow-do-domu-off-grid;kalkulator + artykuł;narzędzie;M4/M11;A;1;;;;do zrobienia
+12;magazyn energii 10 kwh ile wystarczy;dodatkowa;/kalkulator/ile-akumulatorow-do-domu-off-grid;kalkulator + artykuł;narzędzie;M4/M11;A;1;;;;do zrobienia
+13;ile akumulatorów do falownika 5kw;dodatkowa;/kalkulator/ile-akumulatorow-do-domu-off-grid;kalkulator + artykuł;narzędzie;M4/M11;A;1;;;;do zrobienia
+14;ile amperogodzin akumulatora do domu;dodatkowa;/kalkulator/ile-akumulatorow-do-domu-off-grid;kalkulator + artykuł;narzędzie;M4/M11;A;1;;;;do zrobienia
+15;jaki magazyn energii do fotowoltaiki;dodatkowa;/kalkulator/ile-akumulatorow-do-domu-off-grid;kalkulator + artykuł;narzędzie;M4/M11;A;1;;;;do zrobienia
+16;domowy magazyn energii opłacalność;dodatkowa;/kalkulator/ile-akumulatorow-do-domu-off-grid;kalkulator + artykuł;narzędzie;M4/M11;A;1;;;;do zrobienia
+17;magazyn energii na zimę kalkulator;główna;/kalkulator/magazyn-energii-na-zime;kalkulator + artykuł;narzędzie;M7/M2;A;1;;;;do zrobienia
+18;zimowy deficyt energii fotowoltaika;dodatkowa;/kalkulator/magazyn-energii-na-zime;kalkulator + artykuł;narzędzie;M7/M2;A;1;;;;do zrobienia
+19;off grid zimą w polsce;dodatkowa;/kalkulator/magazyn-energii-na-zime;kalkulator + artykuł;narzędzie;M7/M2;A;1;;;;do zrobienia
+20;produkcja fotowoltaiki w grudniu w polsce;dodatkowa;/kalkulator/magazyn-energii-na-zime;kalkulator + artykuł;narzędzie;M7/M2;A;1;;;;do zrobienia
+21;ile prądu zużywa dom zimą;dodatkowa;/kalkulator/magazyn-energii-na-zime;kalkulator + artykuł;narzędzie;M7/M2;A;1;;;;do zrobienia
+22;czy fotowoltaika działa zimą bez sieci;dodatkowa;/kalkulator/magazyn-energii-na-zime;kalkulator + artykuł;narzędzie;M7/M2;A;1;;;;do zrobienia
+23;ile paneli fotowoltaicznych do domu off grid;główna;/kalkulator/ile-paneli-do-domu-off-grid;kalkulator + artykuł;narzędzie;M3/M1;A;2;;;;do zrobienia
+24;ile paneli do domu bez prądu z sieci;dodatkowa;/kalkulator/ile-paneli-do-domu-off-grid;kalkulator + artykuł;narzędzie;M3/M1;A;2;;;;do zrobienia
+25;fotowoltaika bez przyłącza do sieci;dodatkowa;/kalkulator/ile-paneli-do-domu-off-grid;kalkulator + artykuł;narzędzie;M3/M1;A;2;;;;do zrobienia
+26;ile paneli do ładowania akumulatora;dodatkowa;/kalkulator/ile-paneli-do-domu-off-grid;kalkulator + artykuł;narzędzie;M3/M1;A;2;;;;do zrobienia
+27;dobór mocy paneli do zużycia;dodatkowa;/kalkulator/ile-paneli-do-domu-off-grid;kalkulator + artykuł;narzędzie;M3/M1;A;2;;;;do zrobienia
+28;przekrój kabla do akumulatora kalkulator;główna;/kalkulator/przekroj-kabla-do-akumulatora;kalkulator + artykuł;narzędzie;M5;A;2;;;;do zrobienia
+29;przekrój przewodu do falownika;dodatkowa;/kalkulator/przekroj-kabla-do-akumulatora;kalkulator + artykuł;narzędzie;M5;A;2;;;;do zrobienia
+30;spadek napięcia kabel dc kalkulator;dodatkowa;/kalkulator/przekroj-kabla-do-akumulatora;kalkulator + artykuł;narzędzie;M5;A;2;;;;do zrobienia
+31;jaki kabel do falownika 3kw 24v;dodatkowa;/kalkulator/przekroj-kabla-do-akumulatora;kalkulator + artykuł;narzędzie;M5;A;2;;;;do zrobienia
+32;jaki kabel do falownika 5kw 48v;dodatkowa;/kalkulator/przekroj-kabla-do-akumulatora;kalkulator + artykuł;narzędzie;M5;A;2;;;;do zrobienia
+33;jaki kabel do paneli fotowoltaicznych;dodatkowa;/kalkulator/przekroj-kabla-do-akumulatora;kalkulator + artykuł;narzędzie;M5;A;2;;;;do zrobienia
+34;program do projektowania instalacji off grid;główna;/poradnik/program-do-projektowania-off-grid;artykuł porównawczy (uczciwy, z darmowymi opcjami);porównanie / zakup;–;A;3;;;;do zrobienia
+35;pv*sol alternatywa;dodatkowa;/poradnik/program-do-projektowania-off-grid;artykuł porównawczy (uczciwy, z darmowymi opcjami);porównanie / zakup;–;A;3;;;;do zrobienia
+36;darmowy program do projektowania fotowoltaiki;dodatkowa;/poradnik/program-do-projektowania-off-grid;artykuł porównawczy (uczciwy, z darmowymi opcjami);porównanie / zakup;–;A;3;;;;do zrobienia
+37;pvsyst czy coś prostszego;dodatkowa;/poradnik/program-do-projektowania-off-grid;artykuł porównawczy (uczciwy, z darmowymi opcjami);porównanie / zakup;–;A;3;;;;do zrobienia
+38;kalkulator off grid czy program;dodatkowa;/poradnik/program-do-projektowania-off-grid;artykuł porównawczy (uczciwy, z darmowymi opcjami);porównanie / zakup;–;A;3;;;;do zrobienia
+39;lifepo4 czy kwasowy do off grid;główna;/poradnik/lifepo4-czy-kwasowy-off-grid;artykuł + mini-kalkulator kosztu cyklu;informacyjna;M4;B;3;;;;do zrobienia
+40;akumulator żelowy czy lifepo4;dodatkowa;/poradnik/lifepo4-czy-kwasowy-off-grid;artykuł + mini-kalkulator kosztu cyklu;informacyjna;M4;B;3;;;;do zrobienia
+41;żywotność akumulatora lifepo4 cykle;dodatkowa;/poradnik/lifepo4-czy-kwasowy-off-grid;artykuł + mini-kalkulator kosztu cyklu;informacyjna;M4;B;3;;;;do zrobienia
+42;akumulator lifepo4 do fotowoltaiki;dodatkowa;/poradnik/lifepo4-czy-kwasowy-off-grid;artykuł + mini-kalkulator kosztu cyklu;informacyjna;M4;B;3;;;;do zrobienia
+43;jaki akumulator do fotowoltaiki off grid;dodatkowa;/poradnik/lifepo4-czy-kwasowy-off-grid;artykuł + mini-kalkulator kosztu cyklu;informacyjna;M4;B;3;;;;do zrobienia
+44;napięcie stringu zimą voc kalkulator;główna;/kalkulator/napiecie-stringu-zima-voc;kalkulator + artykuł;narzędzie;M3;A;4;;;;do zrobienia
+45;ile paneli w stringu kalkulator;dodatkowa;/kalkulator/napiecie-stringu-zima-voc;kalkulator + artykuł;narzędzie;M3;A;4;;;;do zrobienia
+46;dobór paneli do regulatora mppt;dodatkowa;/kalkulator/napiecie-stringu-zima-voc;kalkulator + artykuł;narzędzie;M3;A;4;;;;do zrobienia
+47;voc panelu w mrozie współczynnik;dodatkowa;/kalkulator/napiecie-stringu-zima-voc;kalkulator + artykuł;narzędzie;M3;A;4;;;;do zrobienia
+48;mppt maksymalne napięcie wejściowe dobór;dodatkowa;/kalkulator/napiecie-stringu-zima-voc;kalkulator + artykuł;narzędzie;M3;A;4;;;;do zrobienia
+49;bezpiecznik stringu fotowoltaika dobór;dodatkowa;/kalkulator/napiecie-stringu-zima-voc;kalkulator + artykuł;narzędzie;M3;A;4;;;;do zrobienia
+50;dioda blokująca panele fotowoltaiczne;dodatkowa;/kalkulator/napiecie-stringu-zima-voc;kalkulator + artykuł;narzędzie;M3;A;4;;;;do zrobienia
+51;czy opłaca się odłączyć od sieci energetycznej;główna;/poradnik/czy-oplaca-sie-odlaczyc-od-sieci;artykuł + kalkulator TCO;decyzyjna;M14;A;4;;;;do zrobienia
+52;rezygnacja z przyłącza energetycznego;dodatkowa;/poradnik/czy-oplaca-sie-odlaczyc-od-sieci;artykuł + kalkulator TCO;decyzyjna;M14;A;4;;;;do zrobienia
+53;off grid koszt domu jednorodzinnego;dodatkowa;/poradnik/czy-oplaca-sie-odlaczyc-od-sieci;artykuł + kalkulator TCO;decyzyjna;M14;A;4;;;;do zrobienia
+54;ile kosztuje instalacja off grid;dodatkowa;/poradnik/czy-oplaca-sie-odlaczyc-od-sieci;artykuł + kalkulator TCO;decyzyjna;M14;A;4;;;;do zrobienia
+55;jak przejść na off grid;dodatkowa;/poradnik/czy-oplaca-sie-odlaczyc-od-sieci;artykuł + kalkulator TCO;decyzyjna;M14;A;4;;;;do zrobienia
+56;dom off grid w polsce;dodatkowa;/poradnik/czy-oplaca-sie-odlaczyc-od-sieci;artykuł + kalkulator TCO;decyzyjna;M14;A;4;;;;do zrobienia
+57;dom bez przyłącza prądu;dodatkowa;/poradnik/czy-oplaca-sie-odlaczyc-od-sieci;artykuł + kalkulator TCO;decyzyjna;M14;A;4;;;;do zrobienia
+58;instalacja off grid krok po kroku;dodatkowa;/poradnik/czy-oplaca-sie-odlaczyc-od-sieci;artykuł + kalkulator TCO;decyzyjna;M14;A;4;;;;do zrobienia
+59;dobór mocy agregatu do domu;główna;/kalkulator/dobor-agregatu-do-domu;kalkulator + artykuł;narzędzie;M2/M7;A;5;;;;do zrobienia
+60;jaki agregat do domu off grid;dodatkowa;/kalkulator/dobor-agregatu-do-domu;kalkulator + artykuł;narzędzie;M2/M7;A;5;;;;do zrobienia
+61;agregat inwertorowy do falownika;dodatkowa;/kalkulator/dobor-agregatu-do-domu;kalkulator + artykuł;narzędzie;M2/M7;A;5;;;;do zrobienia
+62;agregat do ładowania akumulatorów;dodatkowa;/kalkulator/dobor-agregatu-do-domu;kalkulator + artykuł;narzędzie;M2/M7;A;5;;;;do zrobienia
+63;ile paliwa zużywa agregat na dobę;dodatkowa;/kalkulator/dobor-agregatu-do-domu;kalkulator + artykuł;narzędzie;M2/M7;A;5;;;;do zrobienia
+64;napięcie systemu 12v 24v 48v jak wybrać;główna;/poradnik/napiecie-systemu-12-24-48v;artykuł;informacyjna;M5/M3;B;5;;;;do zrobienia
+65;falownik 48v czy 24v;dodatkowa;/poradnik/napiecie-systemu-12-24-48v;artykuł;informacyjna;M5/M3;B;5;;;;do zrobienia
+66;kiedy 12 v a kiedy 48 v w off grid;dodatkowa;/poradnik/napiecie-systemu-12-24-48v;artykuł;informacyjna;M5/M3;B;5;;;;do zrobienia
+67;falownik wyspowy jaki wybrać;główna;/poradnik/falownik-wyspowy-jaki-wybrac;artykuł + lista kontrolna;informacyjna / zakup;M5;A;6;;;;do zrobienia
+68;falownik hybrydowy czy wyspowy;dodatkowa;/poradnik/falownik-wyspowy-jaki-wybrac;artykuł + lista kontrolna;informacyjna / zakup;M5;A;6;;;;do zrobienia
+69;dobór mocy falownika do domu;dodatkowa;/poradnik/falownik-wyspowy-jaki-wybrac;artykuł + lista kontrolna;informacyjna / zakup;M5;A;6;;;;do zrobienia
+70;falownik off grid 230v;dodatkowa;/poradnik/falownik-wyspowy-jaki-wybrac;artykuł + lista kontrolna;informacyjna / zakup;M5;A;6;;;;do zrobienia
+71;falownik wyspowy z agregatem;dodatkowa;/poradnik/falownik-wyspowy-jaki-wybrac;artykuł + lista kontrolna;informacyjna / zakup;M5;A;6;;;;do zrobienia
+72;bilans energetyczny domu kalkulator;główna;/kalkulator/bilans-energetyczny-domu;kalkulator + artykuł;narzędzie;M2;A;6;;;;do zrobienia
+73;zużycie prądu urządzeń kalkulator;dodatkowa;/kalkulator/bilans-energetyczny-domu;kalkulator + artykuł;narzędzie;M2;A;6;;;;do zrobienia
+74;ile prądu zużywa dom dziennie;dodatkowa;/kalkulator/bilans-energetyczny-domu;kalkulator + artykuł;narzędzie;M2;A;6;;;;do zrobienia
+75;ile kwh zużywa dom jednorodzinny;dodatkowa;/kalkulator/bilans-energetyczny-domu;kalkulator + artykuł;narzędzie;M2;A;6;;;;do zrobienia
+76;ładowanie lifepo4 w mrozie;główna;/poradnik/ladowanie-lifepo4-w-mrozie;artykuł (twarda stopa: 0 °C);informacyjna;M4/M8;A;7;;;;do zrobienia
+77;akumulator lifepo4 w zimie;dodatkowa;/poradnik/ladowanie-lifepo4-w-mrozie;artykuł (twarda stopa: 0 °C);informacyjna;M4/M8;A;7;;;;do zrobienia
+78;ogrzewanie akumulatorów lifepo4;dodatkowa;/poradnik/ladowanie-lifepo4-w-mrozie;artykuł (twarda stopa: 0 °C);informacyjna;M4/M8;A;7;;;;do zrobienia
+79;lifepo4 poniżej zera ładowanie bms;dodatkowa;/poradnik/ladowanie-lifepo4-w-mrozie;artykuł (twarda stopa: 0 °C);informacyjna;M4/M8;A;7;;;;do zrobienia
+80;ogranicznik przepięć fotowoltaika typ 1 czy 2;główna;/poradnik/spd-fotowoltaika-typ-1-czy-2;artykuł;informacyjna;M5/M8;B;7;;;;do zrobienia
+81;spd dc fotowoltaika jaki;dodatkowa;/poradnik/spd-fotowoltaika-typ-1-czy-2;artykuł;informacyjna;M5/M8;B;7;;;;do zrobienia
+82;spd typ 1 typ 2 różnica;dodatkowa;/poradnik/spd-fotowoltaika-typ-1-czy-2;artykuł;informacyjna;M5/M8;B;7;;;;do zrobienia
+83;bezpiecznik między akumulatorem a falownikiem;główna;/poradnik/bezpiecznik-miedzy-akumulatorem-a-falownikiem;artykuł + kalkulator;informacyjna;M5;A;8;;;;do zrobienia
+84;dobór bezpiecznika dc;dodatkowa;/poradnik/bezpiecznik-miedzy-akumulatorem-a-falownikiem;artykuł + kalkulator;informacyjna;M5;A;8;;;;do zrobienia
+85;prąd zwarciowy akumulatora lifepo4;dodatkowa;/poradnik/bezpiecznik-miedzy-akumulatorem-a-falownikiem;artykuł + kalkulator;informacyjna;M5;A;8;;;;do zrobienia
+86;bezpiecznik klasy t akumulator;dodatkowa;/poradnik/bezpiecznik-miedzy-akumulatorem-a-falownikiem;artykuł + kalkulator;informacyjna;M5;A;8;;;;do zrobienia
+87;pre charge falownik akumulator;dodatkowa;/poradnik/bezpiecznik-miedzy-akumulatorem-a-falownikiem;artykuł + kalkulator;informacyjna;M5;A;8;;;;do zrobienia
+88;przełącznik sieć agregat jak podłączyć;główna;/poradnik/przelacznik-siec-agregat;artykuł (ostrzeżenie: prace tylko z uprawnieniami);informacyjna;M5/M8;B;8;;;;do zrobienia
+89;przełącznik 1-0-2 fotowoltaika;dodatkowa;/poradnik/przelacznik-siec-agregat;artykuł (ostrzeżenie: prace tylko z uprawnieniami);informacyjna;M5/M8;B;8;;;;do zrobienia
+90;backfeed falownik do sieci niebezpieczne;dodatkowa;/poradnik/przelacznik-siec-agregat;artykuł (ostrzeżenie: prace tylko z uprawnieniami);informacyjna;M5/M8;B;8;;;;do zrobienia
+91;połączenie n pe w falowniku wyspowym;dodatkowa;/poradnik/przelacznik-siec-agregat;artykuł (ostrzeżenie: prace tylko z uprawnieniami);informacyjna;M5/M8;B;8;;;;do zrobienia
+92;fotowoltaika do kampera ile watt;główna;/kalkulator/fotowoltaika-do-kampera;kalkulator + artykuł;narzędzie;M12;B;9;;;;do zrobienia
+93;instalacja 12v w kamperze;dodatkowa;/kalkulator/fotowoltaika-do-kampera;kalkulator + artykuł;narzędzie;M12;B;9;;;;do zrobienia
+94;akumulator do kampera lifepo4;dodatkowa;/kalkulator/fotowoltaika-do-kampera;kalkulator + artykuł;narzędzie;M12;B;9;;;;do zrobienia
+95;prąd na łodzi fotowoltaika;dodatkowa;/kalkulator/fotowoltaika-do-kampera;kalkulator + artykuł;narzędzie;M12;B;9;;;;do zrobienia
+96;prąd na działce bez przyłącza;główna;/poradnik/prad-na-dzialce-bez-przylacza;artykuł + kalkulator;informacyjna;M12/M1;A;9;;;;do zrobienia
+97;fotowoltaika na działkę rekreacyjną;dodatkowa;/poradnik/prad-na-dzialce-bez-przylacza;artykuł + kalkulator;informacyjna;M12/M1;A;9;;;;do zrobienia
+98;domek letniskowy prąd bez przyłącza;dodatkowa;/poradnik/prad-na-dzialce-bez-przylacza;artykuł + kalkulator;informacyjna;M12/M1;A;9;;;;do zrobienia
+99;instalacja fotowoltaiczna na altanę;dodatkowa;/poradnik/prad-na-dzialce-bez-przylacza;artykuł + kalkulator;informacyjna;M12/M1;A;9;;;;do zrobienia
+100;ogrzewanie domu off grid;główna;/poradnik/ogrzewanie-domu-off-grid;artykuł;informacyjna;M6;B;10;;;;do zrobienia
+101;ogrzewanie domu bez prądu z sieci;dodatkowa;/poradnik/ogrzewanie-domu-off-grid;artykuł;informacyjna;M6;B;10;;;;do zrobienia
+102;kominek z płaszczem wodnym bez prądu;dodatkowa;/poradnik/ogrzewanie-domu-off-grid;artykuł;informacyjna;M6;B;10;;;;do zrobienia
+103;ogrzewanie domu zimą bez sieci;dodatkowa;/poradnik/ogrzewanie-domu-off-grid;artykuł;informacyjna;M6;B;10;;;;do zrobienia
+104;pompa ciepła off grid czy się da;główna;/poradnik/pompa-ciepla-off-grid;artykuł (uczciwe 'czy się da');informacyjna;M6/M7;B;10;;;;do zrobienia
+105;pompa ciepła z magazynem energii bez sieci;dodatkowa;/poradnik/pompa-ciepla-off-grid;artykuł (uczciwe 'czy się da');informacyjna;M6/M7;B;10;;;;do zrobienia
+106;pompa ciepła i falownik wyspowy;dodatkowa;/poradnik/pompa-ciepla-off-grid;artykuł (uczciwe 'czy się da');informacyjna;M6/M7;B;10;;;;do zrobienia
+107;mppt czy pwm;główna;/poradnik/mppt-czy-pwm;artykuł;informacyjna;M3;B;11;;;;do zrobienia
+108;regulator mppt jaki wybrać;dodatkowa;/poradnik/mppt-czy-pwm;artykuł;informacyjna;M3;B;11;;;;do zrobienia
+109;regulator ładowania do paneli jaki;dodatkowa;/poradnik/mppt-czy-pwm;artykuł;informacyjna;M3;B;11;;;;do zrobienia
+110;najczęstsze błędy instalacji fotowoltaicznej;główna;/poradnik/najczestsze-bledy-instalacji-off-grid;artykuł + checklista PDF (lead magnet);informacyjna;M8;A;11;;;;do zrobienia
+111;błędy w instalacji off grid;dodatkowa;/poradnik/najczestsze-bledy-instalacji-off-grid;artykuł + checklista PDF (lead magnet);informacyjna;M8;A;11;;;;do zrobienia
+112;jak uniknąć błędów w instalacji fotowoltaicznej;dodatkowa;/poradnik/najczestsze-bledy-instalacji-off-grid;artykuł + checklista PDF (lead magnet);informacyjna;M8;A;11;;;;do zrobienia
+113;gdzie zamontować magazyn energii w domu;główna;/poradnik/magazyn-energii-gdzie-zamontowac;artykuł (twarde stopy bezpieczeństwa);informacyjna;M8;B;12;;;;do zrobienia
+114;magazyn energii w garażu przepisy;dodatkowa;/poradnik/magazyn-energii-gdzie-zamontowac;artykuł (twarde stopy bezpieczeństwa);informacyjna;M8;B;12;;;;do zrobienia
+115;wentylacja pomieszczenia z akumulatorami;dodatkowa;/poradnik/magazyn-energii-gdzie-zamontowac;artykuł (twarde stopy bezpieczeństwa);informacyjna;M8;B;12;;;;do zrobienia
+116;pożar akumulatora lifepo4;dodatkowa;/poradnik/magazyn-energii-gdzie-zamontowac;artykuł (twarde stopy bezpieczeństwa);informacyjna;M8;B;12;;;;do zrobienia
+117;off grid a net billing co się bardziej opłaca;główna;/poradnik/off-grid-a-net-billing;artykuł;decyzyjna;M14;A;12;;;;do zrobienia
+118;przejście z net meteringu na net billing;dodatkowa;/poradnik/off-grid-a-net-billing;artykuł;decyzyjna;M14;A;12;;;;do zrobienia
+119;fotowoltaika z magazynem a odłączenie od sieci;dodatkowa;/poradnik/off-grid-a-net-billing;artykuł;decyzyjna;M14;A;12;;;;do zrobienia
+120;hybrydowa instalacja fotowoltaiczna z magazynem;dodatkowa;/poradnik/off-grid-a-net-billing;artykuł;decyzyjna;M14;A;12;;;;do zrobienia
+121;rachunek za prąd po net billingu;dodatkowa;/poradnik/off-grid-a-net-billing;artykuł;decyzyjna;M14;A;12;;;;do zrobienia
+122;jak obniżyć rachunek za prąd fotowoltaika;dodatkowa;/poradnik/off-grid-a-net-billing;artykuł;decyzyjna;M14;A;12;;;;do zrobienia
+123;grzałka na nadwyżki z fotowoltaiki;główna;/kalkulator/grzalka-na-nadwyzki-pv;kalkulator + artykuł;narzędzie;M6;B;13+;;;;do zrobienia
+124;bufor ciepła do fotowoltaiki;dodatkowa;/kalkulator/grzalka-na-nadwyzki-pv;kalkulator + artykuł;narzędzie;M6;B;13+;;;;do zrobienia
+125;podgrzewanie wody nadwyżką z paneli;dodatkowa;/kalkulator/grzalka-na-nadwyzki-pv;kalkulator + artykuł;narzędzie;M6;B;13+;;;;do zrobienia
+126;uziemienie falownika wyspowego;główna;/poradnik/uziemienie-falownika-wyspowego;artykuł (ostrzeżenie);informacyjna;M5/M8;C;13+;;;;do zrobienia
+127;uziemienie paneli fotowoltaicznych;dodatkowa;/poradnik/uziemienie-falownika-wyspowego;artykuł (ostrzeżenie);informacyjna;M5/M8;C;13+;;;;do zrobienia
+128;szyna wyrównawcza fotowoltaika;dodatkowa;/poradnik/uziemienie-falownika-wyspowego;artykuł (ostrzeżenie);informacyjna;M5/M8;C;13+;;;;do zrobienia
+129;rcd typu b fotowoltaika;dodatkowa;/poradnik/uziemienie-falownika-wyspowego;artykuł (ostrzeżenie);informacyjna;M5/M8;C;13+;;;;do zrobienia
+130;jaki wyłącznik różnicowoprądowy do falownika;dodatkowa;/poradnik/uziemienie-falownika-wyspowego;artykuł (ostrzeżenie);informacyjna;M5/M8;C;13+;;;;do zrobienia
+131;bms do akumulatora lifepo4 jaki;główna;/poradnik/bms-lifepo4-jaki;artykuł;informacyjna;M4;C;13+;;;;do zrobienia
+132;jak połączyć akumulatory szeregowo i równolegle;dodatkowa;/poradnik/bms-lifepo4-jaki;artykuł;informacyjna;M4;C;13+;;;;do zrobienia
+133;balansowanie ogniw lifepo4;dodatkowa;/poradnik/bms-lifepo4-jaki;artykuł;informacyjna;M4;C;13+;;;;do zrobienia
+134;złącza mc4 jak zaciskać;główna;/poradnik/zlacza-mc4-i-okablowanie-dc;artykuł;informacyjna;M5;C;13+;;;;do zrobienia
+135;łączenie miedzi z aluminium fotowoltaika;dodatkowa;/poradnik/zlacza-mc4-i-okablowanie-dc;artykuł;informacyjna;M5;C;13+;;;;do zrobienia
+136;string box fotowoltaika co to;dodatkowa;/poradnik/zlacza-mc4-i-okablowanie-dc;artykuł;informacyjna;M5;C;13+;;;;do zrobienia
+137;rozdzielnica dc fotowoltaika;dodatkowa;/poradnik/zlacza-mc4-i-okablowanie-dc;artykuł;informacyjna;M5;C;13+;;;;do zrobienia
+138;kąt nachylenia paneli zimą;główna;/poradnik/kat-nachylenia-paneli-zima;artykuł + kalkulator;informacyjna;M3;B;13+;;;;do zrobienia
+139;zacienienie paneli fotowoltaicznych straty;dodatkowa;/poradnik/kat-nachylenia-paneli-zima;artykuł + kalkulator;informacyjna;M3;B;13+;;;;do zrobienia
+140;panele na gruncie czy na dachu off grid;dodatkowa;/poradnik/kat-nachylenia-paneli-zima;artykuł + kalkulator;informacyjna;M3;B;13+;;;;do zrobienia
+141;pomiary instalacji fotowoltaicznej protokół;główna;/poradnik/pomiary-instalacji-pv-protokol;"artykuł (dla elektryków; odsyłacz do Elektryk Pro)";informacyjna;M8;C;13+;;;;do zrobienia
+142;imd monitorowanie izolacji fotowoltaika;dodatkowa;/poradnik/pomiary-instalacji-pv-protokol;"artykuł (dla elektryków; odsyłacz do Elektryk Pro)";informacyjna;M8;C;13+;;;;do zrobienia
+143;przenośna stacja zasilania czy warto;główna;/poradnik/przenosna-stacja-zasilania;artykuł porównawczy;porównanie / zakup;M12;B;13+;;;;do zrobienia
+144;powerstation zamiast agregatu;dodatkowa;/poradnik/przenosna-stacja-zasilania;artykuł porównawczy;porównanie / zakup;M12;B;13+;;;;do zrobienia
+145;stacja zasilania do domku letniskowego;dodatkowa;/poradnik/przenosna-stacja-zasilania;artykuł porównawczy;porównanie / zakup;M12;B;13+;;;;do zrobienia
+146;jaki kabel do falownika 1kw 12v;mikro (sekcja huba);/tabele/przekroj-kabla-dc-falownik-moc-napiecie;hub z tabelą liczoną z kalkulatora;informacyjna;M5;B;14+;;;;do zrobienia
+147;jaki kabel do falownika 1kw 24v;mikro (sekcja huba);/tabele/przekroj-kabla-dc-falownik-moc-napiecie;hub z tabelą liczoną z kalkulatora;informacyjna;M5;B;14+;;;;do zrobienia
+148;jaki kabel do falownika 1kw 48v;mikro (sekcja huba);/tabele/przekroj-kabla-dc-falownik-moc-napiecie;hub z tabelą liczoną z kalkulatora;informacyjna;M5;B;14+;;;;do zrobienia
+149;jaki kabel do falownika 2kw 12v;mikro (sekcja huba);/tabele/przekroj-kabla-dc-falownik-moc-napiecie;hub z tabelą liczoną z kalkulatora;informacyjna;M5;B;14+;;;;do zrobienia
+150;jaki kabel do falownika 2kw 24v;mikro (sekcja huba);/tabele/przekroj-kabla-dc-falownik-moc-napiecie;hub z tabelą liczoną z kalkulatora;informacyjna;M5;B;14+;;;;do zrobienia
+151;jaki kabel do falownika 2kw 48v;mikro (sekcja huba);/tabele/przekroj-kabla-dc-falownik-moc-napiecie;hub z tabelą liczoną z kalkulatora;informacyjna;M5;B;14+;;;;do zrobienia
+152;jaki kabel do falownika 3kw 12v;mikro (sekcja huba);/tabele/przekroj-kabla-dc-falownik-moc-napiecie;hub z tabelą liczoną z kalkulatora;informacyjna;M5;B;14+;;;;do zrobienia
+153;jaki kabel do falownika 3kw 24v;mikro (sekcja huba);/tabele/przekroj-kabla-dc-falownik-moc-napiecie;hub z tabelą liczoną z kalkulatora;informacyjna;M5;B;14+;;;;do zrobienia
+154;jaki kabel do falownika 3kw 48v;mikro (sekcja huba);/tabele/przekroj-kabla-dc-falownik-moc-napiecie;hub z tabelą liczoną z kalkulatora;informacyjna;M5;B;14+;;;;do zrobienia
+155;jaki kabel do falownika 5kw 12v;mikro (sekcja huba);/tabele/przekroj-kabla-dc-falownik-moc-napiecie;hub z tabelą liczoną z kalkulatora;informacyjna;M5;B;14+;;;;do zrobienia
+156;jaki kabel do falownika 5kw 24v;mikro (sekcja huba);/tabele/przekroj-kabla-dc-falownik-moc-napiecie;hub z tabelą liczoną z kalkulatora;informacyjna;M5;B;14+;;;;do zrobienia
+157;jaki kabel do falownika 5kw 48v;mikro (sekcja huba);/tabele/przekroj-kabla-dc-falownik-moc-napiecie;hub z tabelą liczoną z kalkulatora;informacyjna;M5;B;14+;;;;do zrobienia
+158;jaki kabel do falownika 8kw 12v;mikro (sekcja huba);/tabele/przekroj-kabla-dc-falownik-moc-napiecie;hub z tabelą liczoną z kalkulatora;informacyjna;M5;B;14+;;;;do zrobienia
+159;jaki kabel do falownika 8kw 24v;mikro (sekcja huba);/tabele/przekroj-kabla-dc-falownik-moc-napiecie;hub z tabelą liczoną z kalkulatora;informacyjna;M5;B;14+;;;;do zrobienia
+160;jaki kabel do falownika 8kw 48v;mikro (sekcja huba);/tabele/przekroj-kabla-dc-falownik-moc-napiecie;hub z tabelą liczoną z kalkulatora;informacyjna;M5;B;14+;;;;do zrobienia
+161;jaki kabel do falownika 10kw 12v;mikro (sekcja huba);/tabele/przekroj-kabla-dc-falownik-moc-napiecie;hub z tabelą liczoną z kalkulatora;informacyjna;M5;B;14+;;;;do zrobienia
+162;jaki kabel do falownika 10kw 24v;mikro (sekcja huba);/tabele/przekroj-kabla-dc-falownik-moc-napiecie;hub z tabelą liczoną z kalkulatora;informacyjna;M5;B;14+;;;;do zrobienia
+163;jaki kabel do falownika 10kw 48v;mikro (sekcja huba);/tabele/przekroj-kabla-dc-falownik-moc-napiecie;hub z tabelą liczoną z kalkulatora;informacyjna;M5;B;14+;;;;do zrobienia
+164;ile akumulatorów do falownika 1kw;mikro (sekcja huba);/tabele/ile-akumulatorow-do-falownika;hub z tabelą liczoną z kalkulatora;informacyjna;M4;B;14+;;;;do zrobienia
+165;ile akumulatorów do falownika 2kw;mikro (sekcja huba);/tabele/ile-akumulatorow-do-falownika;hub z tabelą liczoną z kalkulatora;informacyjna;M4;B;14+;;;;do zrobienia
+166;ile akumulatorów do falownika 3kw;mikro (sekcja huba);/tabele/ile-akumulatorow-do-falownika;hub z tabelą liczoną z kalkulatora;informacyjna;M4;B;14+;;;;do zrobienia
+167;ile akumulatorów do falownika 5kw;mikro (sekcja huba);/tabele/ile-akumulatorow-do-falownika;hub z tabelą liczoną z kalkulatora;informacyjna;M4;B;14+;;;;do zrobienia
+168;ile akumulatorów do falownika 8kw;mikro (sekcja huba);/tabele/ile-akumulatorow-do-falownika;hub z tabelą liczoną z kalkulatora;informacyjna;M4;B;14+;;;;do zrobienia
+169;ile akumulatorów do falownika 10kw;mikro (sekcja huba);/tabele/ile-akumulatorow-do-falownika;hub z tabelą liczoną z kalkulatora;informacyjna;M4;B;14+;;;;do zrobienia
+170;ile prądu zużywa lodówki;mikro (sekcja huba);/tabele/zuzycie-pradu-urzadzen-off-grid;hub z tabelą (moc, kWh/dobę, rozruch);informacyjna;M2;B;14+;;;;do zrobienia
+171;ile prądu zużywa zamrażarki;mikro (sekcja huba);/tabele/zuzycie-pradu-urzadzen-off-grid;hub z tabelą (moc, kWh/dobę, rozruch);informacyjna;M2;B;14+;;;;do zrobienia
+172;ile prądu zużywa pompy głębinowej;mikro (sekcja huba);/tabele/zuzycie-pradu-urzadzen-off-grid;hub z tabelą (moc, kWh/dobę, rozruch);informacyjna;M2;B;14+;;;;do zrobienia
+173;ile prądu zużywa pompy obiegowej c.o.;mikro (sekcja huba);/tabele/zuzycie-pradu-urzadzen-off-grid;hub z tabelą (moc, kWh/dobę, rozruch);informacyjna;M2;B;14+;;;;do zrobienia
+174;ile prądu zużywa pralki;mikro (sekcja huba);/tabele/zuzycie-pradu-urzadzen-off-grid;hub z tabelą (moc, kWh/dobę, rozruch);informacyjna;M2;B;14+;;;;do zrobienia
+175;ile prądu zużywa czajnika;mikro (sekcja huba);/tabele/zuzycie-pradu-urzadzen-off-grid;hub z tabelą (moc, kWh/dobę, rozruch);informacyjna;M2;B;14+;;;;do zrobienia
+176;ile prądu zużywa piekarnika;mikro (sekcja huba);/tabele/zuzycie-pradu-urzadzen-off-grid;hub z tabelą (moc, kWh/dobę, rozruch);informacyjna;M2;B;14+;;;;do zrobienia
+177;ile prądu zużywa płyty indukcyjnej;mikro (sekcja huba);/tabele/zuzycie-pradu-urzadzen-off-grid;hub z tabelą (moc, kWh/dobę, rozruch);informacyjna;M2;B;14+;;;;do zrobienia
+178;ile prądu zużywa telewizora;mikro (sekcja huba);/tabele/zuzycie-pradu-urzadzen-off-grid;hub z tabelą (moc, kWh/dobę, rozruch);informacyjna;M2;B;14+;;;;do zrobienia
+179;ile prądu zużywa laptopa;mikro (sekcja huba);/tabele/zuzycie-pradu-urzadzen-off-grid;hub z tabelą (moc, kWh/dobę, rozruch);informacyjna;M2;B;14+;;;;do zrobienia
+180;ile prądu zużywa routera lte;mikro (sekcja huba);/tabele/zuzycie-pradu-urzadzen-off-grid;hub z tabelą (moc, kWh/dobę, rozruch);informacyjna;M2;B;14+;;;;do zrobienia
+181;ile prądu zużywa oświetlenia led;mikro (sekcja huba);/tabele/zuzycie-pradu-urzadzen-off-grid;hub z tabelą (moc, kWh/dobę, rozruch);informacyjna;M2;B;14+;;;;do zrobienia
+182;ile prądu zużywa sprężarki;mikro (sekcja huba);/tabele/zuzycie-pradu-urzadzen-off-grid;hub z tabelą (moc, kWh/dobę, rozruch);informacyjna;M2;B;14+;;;;do zrobienia
+183;ile prądu zużywa wiertarki;mikro (sekcja huba);/tabele/zuzycie-pradu-urzadzen-off-grid;hub z tabelą (moc, kWh/dobę, rozruch);informacyjna;M2;B;14+;;;;do zrobienia
+184;ile prądu zużywa kotła pelletowego;mikro (sekcja huba);/tabele/zuzycie-pradu-urzadzen-off-grid;hub z tabelą (moc, kWh/dobę, rozruch);informacyjna;M2;B;14+;;;;do zrobienia
+185;ile paneli do ładowania akumulatora 50ah 12v;mikro (sekcja huba);/tabele/ile-paneli-do-ladowania-akumulatora;hub z tabelą liczoną z kalkulatora;informacyjna;M3;B;14+;;;;do zrobienia
+186;ile paneli do ładowania akumulatora 100ah 12v;mikro (sekcja huba);/tabele/ile-paneli-do-ladowania-akumulatora;hub z tabelą liczoną z kalkulatora;informacyjna;M3;B;14+;;;;do zrobienia
+187;ile paneli do ładowania akumulatora 200ah 12v;mikro (sekcja huba);/tabele/ile-paneli-do-ladowania-akumulatora;hub z tabelą liczoną z kalkulatora;informacyjna;M3;B;14+;;;;do zrobienia
+188;ile paneli do ładowania akumulatora 100ah 24v;mikro (sekcja huba);/tabele/ile-paneli-do-ladowania-akumulatora;hub z tabelą liczoną z kalkulatora;informacyjna;M3;B;14+;;;;do zrobienia
+189;ile paneli do ładowania akumulatora 200ah 24v;mikro (sekcja huba);/tabele/ile-paneli-do-ladowania-akumulatora;hub z tabelą liczoną z kalkulatora;informacyjna;M3;B;14+;;;;do zrobienia
+190;ile paneli do ładowania akumulatora 100ah 48v;mikro (sekcja huba);/tabele/ile-paneli-do-ladowania-akumulatora;hub z tabelą liczoną z kalkulatora;informacyjna;M3;B;14+;;;;do zrobienia
+191;ile paneli do ładowania akumulatora 200ah 48v;mikro (sekcja huba);/tabele/ile-paneli-do-ladowania-akumulatora;hub z tabelą liczoną z kalkulatora;informacyjna;M3;B;14+;;;;do zrobienia
