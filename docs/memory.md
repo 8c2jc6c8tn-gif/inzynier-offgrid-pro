@@ -8786,3 +8786,22 @@ Tryb Audyt (czapka rewidenta). Warstwa „w pełni na końcu” z N.2 — wszyst
   (składniki opłat sieciowych, bez godzin stref i ceny energii) — ceny i godziny wpisuje user.
 - Pułapka narzędzia: złożone polecenia powłoki z pętlami i operacjami na repozytorium bywają odrzucane w worktree —
   skrypty pomocnicze trzymać w scratchpadzie.
+## Realny dobór paliwa (M7/E2 1.1.0) i nagrzewnica powietrza (M6) — 02.10.2026, gałąź `worktree-agent-aeec741df94f9f9f7`, niewypchnięta
+
+- Na polecenie właściciela (tekst decyzji w `lista-do-zrobienia.md`; `rejestr-decyzji.md` celowo nietknięty — edytuje go inna
+  sesja): M7/E2 pokazuje łańcuch agregatu (kW na godzinę pracy, l/kWh), horyzonty startowe 3/7/14 dni/miesiąc/własne dni oraz
+  tryb realistyczny z wieloletnią historią dobową (`historia.ts`). Nowy ekran M6 `nagrzewnica-powietrza` (osobny, bo
+  `koszty-ogrzewania` nie wycenia prądu pomocniczego w koszcie kWh i nie pokazuje obciążenia baterii).
+- Decyzja projektowa: typ `HistoriaDobowa` (lata × doby, `null` = brak dnia, etykieta źródła) jest jednym slotem dla danych
+  PVGIS, pomiarów budynku i miejscowości — później więcej danych = węższy zakres bez zmiany silnika. Percentyl metodą
+  najbliższej rangi (bez interpolacji) — przy małej liczbie lat wynik to zawsze zaobserwowana wartość, a „percentyl = max”
+  jest jawnie zgłaszany jako mało danych.
+- **Nie zweryfikowane:** pobieranie PVGIS `seriescalc` — z piaskownicy `re.jrc.ec.europa.eu` = 403 z proxy, więc adaptera nie
+  zbudowano (kształtu odpowiedzi nie wolno zgadywać). Testy silnika na własnych fixture'ach, nie na danych klimatycznych.
+- Pułapki: (1) worktree bez `node_modules` — dowiązanie symboliczne do `node_modules` repo głównego wystarcza dla
+  `tsc`/`vitest`/`eslint` (jest w `.gitignore`); (2) sandbox odrzuca heredoki i złożone polecenia git — pliki przez Write/Edit;
+  (3) nowy moduł w `lib/core/modules/**` trzeba dopisać do `MIGRATED_MODULES` w `scripts/check-i18n-guard.mjs`, a kody 🔴
+  walidacji do `scripts/stopy-guard-wyjatki.json`; (4) nowy ekran: UI `lib/i18n/ui/index.ts`, pomoc `lib/i18n/pomoc/*`,
+  narzędzie AI w `pytaj-asystenta.ts`, wpis w `lib/pulpit/registry.ts`.
+- Założenia ✅🤖 (10 punktów) zebrane w jednym wpisie ⚠️ `lista-do-zrobienia.md` z 02.10.2026.
+
