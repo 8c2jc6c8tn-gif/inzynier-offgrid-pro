@@ -37,7 +37,11 @@ const STOP = new Set(["ORAZ", "LUB", "DLA", "CZY", "JEST", "SIE", "NIE", "TAK", 
 function slugPrefix(file) {
   const parts = file.split(path.sep)
   const idx = parts.indexOf("kalkulatory")
-  const slug = idx >= 0 ? parts[idx + 1] : path.basename(file).replace(/\.tsx?$/, "")
+  // Outside /kalkulatory/ a route file is named after its folder (app/ustawienia/page.tsx → UST, app/page.tsx → PULPIT),
+  // otherwise every page.tsx would share the prefix „PAG” and identical texts would collide.
+  const base = path.basename(file).replace(/\.tsx?$/, "")
+  const dir = path.basename(path.dirname(file))
+  const slug = idx >= 0 ? parts[idx + 1] : base !== "page" ? base : dir === "app" ? "pulpit" : dir
   const rest = idx >= 0 ? parts.slice(idx + 2).join("-").replace(/(^|-)page\.tsx$/, "").replace(/\.tsx?$/, "") : ""
   const abbr = (s) => s.split(/[-_]/).filter(Boolean).map((w) => w.slice(0, 3).toUpperCase()).join("")
   return abbr(slug) + (rest ? "-" + abbr(rest) : "")
@@ -342,8 +346,9 @@ export function analyze(file, src, prefix, sharedByText) {
       manual.push(`${file}:${line(c)} komponent strzałkowy bez bloku — dodaj const t = useTranslate() ręcznie`)
       continue
     }
-    const has = body.statements.some((s) => s.getText(sf).includes("= useTranslate()"))
-    if (has) continue
+    const hook = body.statements.map((s) => /const (\w+) = useTranslate\(\)/.exec(s.getText(sf))).find(Boolean)
+    if (hook && hook[1] !== "t") manual.push(`${file}:${line(c)} hook nazwany „${hook[1]}” — zmień na t (wstawione wywołania to t(...))`)
+    if (hook) continue
     const first = body.statements[0]
     const pos = first ? first.getStart(sf) : body.getStart(sf) + 1
     const indent = first ? src.slice(src.lastIndexOf("\n", pos) + 1, pos) : "  "

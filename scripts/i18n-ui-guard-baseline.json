@@ -1,11 +1,7 @@
 {
-  "app/auth/login/page.tsx": 10,
   "app/kalkulatory/test-licznika/page.tsx": 2,
   "app/layout.tsx": 3,
   "app/manifest.ts": 2,
-  "app/moduly/[id]/page.tsx": 2,
-  "app/page.tsx": 11,
-  "app/ustawienia/page.tsx": 15,
   "app/wzornik/page.tsx": 78,
   "components/kafle-ikony/definicje-symboli.tsx": 1,
   "components/siec/wspolne.tsx": 1,
