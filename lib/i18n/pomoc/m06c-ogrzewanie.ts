@@ -647,6 +647,58 @@ export const pl = {
       }
     }
   },
+  "odzysk-ciepla-sciekow": {
+    "migawka": {
+      "oCoChodzi": "Ciepła woda z prysznica płynie prosto do kanalizacji. Wymiennik na pionie oddaje część tego ciepła zimnej wodzie, która właśnie płynie do bojlera — darmowa energia.",
+      "jakDziala": "Wpisz, ile wody z prysznica spływa na dobę, jej temperaturę, temperaturę zimnej wody i sprawność wymiennika. Aplikacja liczy odzyskane ciepło (ilość × ciepło właściwe wody × różnica temperatur × sprawność), w roku i jako część C.W.U.",
+      "poCo": "Odzysk ma sens tylko przy dużym zużyciu ciepłej wody — ten ekran pokazuje, czy u Ciebie to 2% czy 15% C.W.U., zanim kupisz wymiennik.",
+      "fizyka": "Q = V · 1,163 Wh/(l·K) · (θ_ścieki − θ_zimna) · η. Działa tylko przy równoczesnym przepływie ścieków i zimnej wody."
+    },
+    "pola": {
+      "litry": {
+        "nazwa": "Woda spływająca w czasie poboru zimnej wody [l/dobę]",
+        "cel": "Tylko taka woda oddaje ciepło przez wymiennik — w praktyce prysznice.",
+        "gdzie": "Licznik wody albo: liczba pryszniców × minuty × przepływ słuchawki (l/min).",
+        "zakres": "Twój dom."
+      },
+      "tSciekow": {
+        "nazwa": "Temperatura wody spływającej do odpływu [°C]",
+        "cel": "Im cieplejsza woda odpływa, tym więcej ciepła do odzyskania.",
+        "gdzie": "Termometr przy odpływie prysznica. Źródło: woda z prysznica ma ok. 38–40 °C.",
+        "zakres": "Twój pomiar."
+      },
+      "tZimnej": {
+        "nazwa": "Temperatura zimnej wody [°C]",
+        "cel": "Różnica do temperatury ścieków napędza odzysk.",
+        "gdzie": "Termometr na zimnej wodzie (studnia/sieć).",
+        "zakres": "Twój pomiar."
+      },
+      "sprawnosc": {
+        "nazwa": "Sprawność wymiennika [%]",
+        "cel": "Jaka część możliwego ciepła trafia do zimnej wody.",
+        "gdzie": "Karta wymiennika (sprawność przy danym przepływie).",
+        "zakres": "Źródło: zwykle 20–40% ciepła ze ścieków."
+      },
+      "dni": {
+        "nazwa": "Dni użytkowania w roku",
+        "cel": "Opcjonalne: wynik roczny.",
+        "gdzie": "Ile dni w roku ktoś mieszka w domu.",
+        "zakres": "Twój dom."
+      },
+      "cwu": {
+        "nazwa": "Roczne zapotrzebowanie na ciepło C.W.U. [kWh]",
+        "cel": "Opcjonalne: pokazuje, jaką część C.W.U. pokrywa odzysk.",
+        "gdzie": "Ekran 2 albo Ekran 17.",
+        "zakres": "Wynik Twojego Ekranu 2/17."
+      },
+      "cop": {
+        "nazwa": "COP pompy C.W.U. albo sprawność podgrzewacza [–]",
+        "cel": "Opcjonalne: przelicza zaoszczędzone ciepło na prąd (grzałka = 1).",
+        "gdzie": "Karta pompy C.W.U.; grzałka elektryczna: 1.",
+        "zakres": "Karta urządzenia."
+      }
+    }
+  },
 }
 
 export const en: Tlumaczenie<typeof pl> = {
@@ -1292,6 +1344,58 @@ export const en: Tlumaczenie<typeof pl> = {
       }
     }
   },
+  "odzysk-ciepla-sciekow": {
+    "migawka": {
+      "oCoChodzi": "Warm shower water flows straight into the sewer. An exchanger on the drain stack gives part of that heat to the cold water flowing to the boiler at the same moment — free energy.",
+      "jakDziala": "Enter how much shower water drains per day, its temperature, the cold water temperature and the exchanger efficiency. The app computes the recovered heat (volume × water specific heat × temperature difference × efficiency), per year and as a share of hot water.",
+      "poCo": "Recovery only pays off with high hot-water use — this screen shows whether it is 2% or 15% of your hot water before you buy the exchanger.",
+      "fizyka": "Q = V · 1.163 Wh/(l·K) · (θ_drain − θ_cold) · η. Works only with simultaneous drain and cold water flow."
+    },
+    "pola": {
+      "litry": {
+        "nazwa": "Water draining while cold water is drawn [l/day]",
+        "cel": "Only such water gives heat through the exchanger — in practice showers.",
+        "gdzie": "Water meter, or: number of showers × minutes × shower head flow (l/min).",
+        "zakres": "Your house."
+      },
+      "tSciekow": {
+        "nazwa": "Temperature of the water going down the drain [°C]",
+        "cel": "The warmer the water leaving, the more heat to recover.",
+        "gdzie": "Thermometer at the shower drain. Source: shower water is about 38–40 °C.",
+        "zakres": "Your measurement."
+      },
+      "tZimnej": {
+        "nazwa": "Cold water temperature [°C]",
+        "cel": "The difference to the drain water temperature drives the recovery.",
+        "gdzie": "Thermometer on the cold water (well/mains).",
+        "zakres": "Your measurement."
+      },
+      "sprawnosc": {
+        "nazwa": "Exchanger efficiency [%]",
+        "cel": "What part of the possible heat goes into the cold water.",
+        "gdzie": "Exchanger datasheet (efficiency at the given flow).",
+        "zakres": "Source: usually 20–40% of the drain heat."
+      },
+      "dni": {
+        "nazwa": "Days of use per year",
+        "cel": "Optional: annual result.",
+        "gdzie": "How many days a year someone lives in the house.",
+        "zakres": "Your house."
+      },
+      "cwu": {
+        "nazwa": "Annual domestic hot water heat demand [kWh]",
+        "cel": "Optional: shows what part of the hot water the recovery covers.",
+        "gdzie": "Screen 2 or Screen 17.",
+        "zakres": "Your Screen 2/17 result."
+      },
+      "cop": {
+        "nazwa": "Hot-water heat pump COP or heater efficiency [–]",
+        "cel": "Optional: converts the saved heat into electricity (heater = 1).",
+        "gdzie": "Hot-water heat pump datasheet; electric heater: 1.",
+        "zakres": "Device datasheet."
+      }
+    }
+  },
 }
 
 export const ru: Tlumaczenie<typeof pl> = {
@@ -1934,6 +2038,58 @@ export const ru: Tlumaczenie<typeof pl> = {
         "cel": "Необязательно: сколько тепла нужно каждый день возвращать бассейну.",
         "gdzie": "Замер: температура вечером минус утром. Источник: бассейн без укрытия теряет до 3 °C за ночь.",
         "zakres": "Ваш замер."
+      }
+    }
+  },
+  "odzysk-ciepla-sciekow": {
+    "migawka": {
+      "oCoChodzi": "Тёплая вода из душа уходит прямо в канализацию. Теплообменник на стояке отдаёт часть этого тепла холодной воде, которая в этот момент идёт в бойлер, — бесплатная энергия.",
+      "jakDziala": "Введите, сколько воды из душа стекает в сутки, её температуру, температуру холодной воды и КПД теплообменника. Приложение считает возвращённое тепло (объём × теплоёмкость воды × разница температур × КПД), за год и как долю ГВС.",
+      "poCo": "Рекуперация имеет смысл только при большом расходе горячей воды — экран покажет, это 2% или 15% вашей ГВС, до покупки теплообменника.",
+      "fizyka": "Q = V · 1,163 Вт·ч/(л·К) · (θ_стоки − θ_холодная) · η. Работает только при одновременном потоке стоков и холодной воды."
+    },
+    "pola": {
+      "litry": {
+        "nazwa": "Вода, стекающая во время забора холодной воды [л/сутки]",
+        "cel": "Только такая вода отдаёт тепло через теплообменник — на практике душ.",
+        "gdzie": "Счётчик воды или: число душей × минуты × расход лейки (л/мин).",
+        "zakres": "Ваш дом."
+      },
+      "tSciekow": {
+        "nazwa": "Температура воды, уходящей в слив [°C]",
+        "cel": "Чем теплее уходящая вода, тем больше тепла можно вернуть.",
+        "gdzie": "Термометр у слива душа. Источник: вода из душа около 38–40 °C.",
+        "zakres": "Ваш замер."
+      },
+      "tZimnej": {
+        "nazwa": "Температура холодной воды [°C]",
+        "cel": "Разница с температурой стоков определяет рекуперацию.",
+        "gdzie": "Термометр на холодной воде (скважина/водопровод).",
+        "zakres": "Ваш замер."
+      },
+      "sprawnosc": {
+        "nazwa": "КПД теплообменника [%]",
+        "cel": "Какая часть возможного тепла попадает в холодную воду.",
+        "gdzie": "Паспорт теплообменника (КПД при данном расходе).",
+        "zakres": "Источник: обычно 20–40% тепла стоков."
+      },
+      "dni": {
+        "nazwa": "Дни использования в году",
+        "cel": "Необязательно: годовой результат.",
+        "gdzie": "Сколько дней в году в доме кто-то живёт.",
+        "zakres": "Ваш дом."
+      },
+      "cwu": {
+        "nazwa": "Годовая потребность в тепле на ГВС [кВт·ч]",
+        "cel": "Необязательно: показывает, какую часть ГВС покрывает рекуперация.",
+        "gdzie": "Экран 2 или Экран 17.",
+        "zakres": "Результат вашего Экрана 2/17."
+      },
+      "cop": {
+        "nazwa": "COP насоса ГВС или КПД нагревателя [–]",
+        "cel": "Необязательно: переводит сэкономленное тепло в электричество (ТЭН = 1).",
+        "gdzie": "Паспорт насоса ГВС; электрический ТЭН: 1.",
+        "zakres": "Паспорт устройства."
       }
     }
   },

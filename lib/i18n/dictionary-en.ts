@@ -1624,4 +1624,6 @@ export const dictionaryEn = {
   "ROZ-ZAL-KVA-JAK-KW": "The start apparent power (kVA) is compared with the kW rating as if cos φ = 1 — the datasheet has no power factor at start, and a lower one would only reduce the load, so the result errs on the safe side.",
   "ROZ-ZAL-AGREGAT-KOSZT": "Source: running the pump from a generator is expensive heating — the fuel cost is on the generator screen (Module 2).",
   "BAS-ZAL-BEZ-STRAT": "No losses while heating (evaporation, surface, walls) — the source names them but gives no model, so the real time and electricity will be higher, especially without a cover.",
+  "DWHR-SPRAWNOSC-SPOZA-ZRODLA": "An efficiency of {pct}% is outside the typical {min}–{max}% given in the source — check the exchanger datasheet.",
+  "DWHR-ZAL-ROWNOCZESNIE": "Only water draining while cold water flows to the heater (a shower) is counted — a bath filled earlier or a dishwasher gives almost nothing.",
 } satisfies Record<KluczTlumaczenia, string>

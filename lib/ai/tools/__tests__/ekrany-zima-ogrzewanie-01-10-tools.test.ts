@@ -10,6 +10,7 @@ import { osadNaPvTool } from "../osad-na-pv-tool"
 import { wplywCzynnikaTool } from "../wplyw-czynnika-tool"
 import { rozruchPompyCieplaTool } from "../rozruch-pompy-ciepla-tool"
 import { basenTool } from "../basen-tool"
+import { odzyskCieplaSciekowTool } from "../odzysk-ciepla-sciekow-tool"
 
 describe("deficytyMiesieczneTool (M7/E2, dawne 6.2)", () => {
   it("kontrakt 9.3: 'read', bez potwierdzenia", () => {
@@ -195,5 +196,27 @@ describe("basenTool (M6 Część 2C, dawne 5.48)", () => {
     const w = await basenTool.handler({ objetoscM3: 40, przyrostK: 1, mocPompyKw: 8, cop: 0, spadekNocK: 0 })
     expect(w.czasH).toBeCloseTo(5.81, 2)
     expect(w.zalozenia).toContain(t("pl", "BAS-ZAL-BEZ-STRAT"))
+  })
+})
+
+describe("odzyskCieplaSciekowTool (M6 Część 2C, dawne 5.41)", () => {
+  it("kontrakt 9.3: 'read', bez potwierdzenia", () => {
+    expect(odzyskCieplaSciekowTool.operationType).toBe("read")
+    expect(odzyskCieplaSciekowTool.requiresConfirmation).toBe(false)
+    expect(() => validateAiToolDefinition(odzyskCieplaSciekowTool)).not.toThrow()
+  })
+
+  it("sprawność 55% → ℹ️ poza widełkami źródła jako tekst PL", async () => {
+    const w = await odzyskCieplaSciekowTool.handler({
+      litryDoba: 60,
+      tSciekowC: 38,
+      tZimnejC: 10,
+      sprawnoscPct: 55,
+      dniRok: 0,
+      cwuKwhRok: 0,
+      copPodgrzewacza: 0,
+    })
+    expect(w.cieploDobaKwh).toBeGreaterThan(0)
+    expect(w.ostrzezenia).toContain(t("pl", "DWHR-SPRAWNOSC-SPOZA-ZRODLA", { pct: 55, min: 20, max: 40 }))
   })
 })

@@ -1636,6 +1636,8 @@ export const dictionaryPl = {
   "ROZ-ZAL-KVA-JAK-KW": "Moc pozorna rozruchu (kVA) porównana z mocą w kW tak, jakby cos φ = 1 — w karcie nie ma współczynnika mocy przy starcie, a niższy tylko zmniejszyłby obciążenie, więc wynik jest po bezpiecznej stronie.",
   "ROZ-ZAL-AGREGAT-KOSZT": "Źródło: praca pompy z agregatu to drogie ogrzewanie — koszt paliwa liczy ekran agregatu (Moduł 2).",
   "BAS-ZAL-BEZ-STRAT": "Bez strat w trakcie grzania (parowanie, powierzchnia, ściany) — źródło je wymienia, ale nie podaje modelu, więc realny czas i prąd będą większe, zwłaszcza bez przykrycia.",
+  "DWHR-SPRAWNOSC-SPOZA-ZRODLA": "Sprawność {pct}% jest poza typowymi {min}–{max}% podanymi w źródle — sprawdź kartę wymiennika.",
+  "DWHR-ZAL-ROWNOCZESNIE": "Liczona tylko woda, która spływa w tym samym czasie, gdy zimna woda płynie do podgrzewacza (prysznic) — wanna napuszczana wcześniej czy zmywarka prawie nic nie dają.",
 } as const
 
 export type KluczTlumaczenia = keyof typeof dictionaryPl
