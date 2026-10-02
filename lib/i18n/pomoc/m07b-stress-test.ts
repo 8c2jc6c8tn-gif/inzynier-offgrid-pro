@@ -52,6 +52,64 @@ export const pl = {
       },
     },
   },
+  "okno-sloneczne": {
+    "migawka": {
+      "oCoChodzi": "Zimą słońce jest jak krótka wizyta gościa — trzeba wykorzystać każdą minutę, zanim sobie pójdzie.",
+      "jakDziala": "Wpisz, ile energii PV da okno słoneczne, ile dom zużyje w tym czasie, baterię i bojler. Aplikacja rozdzieli resztę w kolejności ze źródła: grzałki BMS (jeśli bateria wymaga ogrzania), bateria do {prog}%, bojler, bateria do 100%, na końcu odbiorniki nadwyżkowe.",
+      "poCo": "Wiesz przed nocą, ile energii zostanie w baterii i czy pralkę włączyć dziś, czy jutro.",
+      "fizyka": "Bojler: Q = V·ΔT·c (ta sama stała wody co Moduł 2). SoC_k = SoC_0 + E_bat / C. Przykład źródła „4,5 kWh → bateria 65% i bojler 50 °C” przeczy regule „bojler dopiero powyżej 80%” — aplikacja trzyma się reguły."
+    },
+    "pola": {
+      "produkcja": {
+        "nazwa": "Produkcja PV w oknie słonecznym [kWh]",
+        "cel": "Energia do rozdzielenia.",
+        "gdzie": "Moduł 3 (produkcja godzinowa) albo prognoza pogody dla godzin słońca.",
+        "zakres": "Twoja instalacja."
+      },
+      "zuzycie": {
+        "nazwa": "Zużycie domu w czasie okna [kWh]",
+        "cel": "Odbiorniki pracujące w tym czasie są zasilane najpierw.",
+        "gdzie": "Moduł 2 — zużycie w tych godzinach.",
+        "zakres": "Puste = 0."
+      },
+      "pojemnosc": {
+        "nazwa": "Pojemność użyteczna baterii [kWh]",
+        "cel": "Przelicza energię na procent SoC.",
+        "gdzie": "Karta baterii × dopuszczalne DoD (Moduł 4).",
+        "zakres": "Karta katalogowa urządzenia."
+      },
+      "soc": {
+        "nazwa": "Stan naładowania na początku okna [%]",
+        "cel": "Od niego zależy, kiedy energia pójdzie do bojlera.",
+        "gdzie": "Wyświetlacz BMS/falownika.",
+        "zakres": "0–100%."
+      },
+      "grzalki": {
+        "nazwa": "Energia grzałek BMS przed ładowaniem [kWh]",
+        "cel": "Bateria LiFePO4 poniżej 0 °C nie przyjmie ładunku, dopóki grzałki jej nie ogrzeją.",
+        "gdzie": "Moc mat grzewczych × czas ogrzania (Moduł 4).",
+        "zakres": "Puste = bateria nie wymaga ogrzania."
+      },
+      "bojlerL": {
+        "nazwa": "Pojemność bojlera [l]",
+        "cel": "Z nią liczone jest ciepło do podgrzania wody.",
+        "gdzie": "Tabliczka bojlera.",
+        "zakres": "Puste = bez bojlera."
+      },
+      "tStart": {
+        "nazwa": "Temperatura wody teraz [°C]",
+        "cel": "Punkt startowy podgrzewania.",
+        "gdzie": "Termometr/sterownik bojlera.",
+        "zakres": "Twój pomiar."
+      },
+      "tCel": {
+        "nazwa": "Temperatura docelowa wody [°C]",
+        "cel": "Do ilu stopni chcesz podgrzać wodę słońcem.",
+        "gdzie": "Nastawa termostatu.",
+        "zakres": "Twoje ustawienie."
+      }
+    }
+  },
 }
 
 export const en: Tlumaczenie<typeof pl> = {
@@ -101,6 +159,64 @@ export const en: Tlumaczenie<typeof pl> = {
       },
     },
   },
+  "okno-sloneczne": {
+    "migawka": {
+      "oCoChodzi": "In winter the sun is like a short visit — you must use every minute before it leaves.",
+      "jakDziala": "Enter how much PV energy the solar window gives, how much the house uses in that time, the battery and the tank. The app splits the rest in the source's order: BMS heaters (if the battery needs heating), battery to {prog}%, tank, battery to 100%, and finally surplus loads.",
+      "poCo": "Before the night you know how much energy will be in the battery and whether to run the washing machine today or tomorrow.",
+      "fizyka": "Tank: Q = V·ΔT·c (the same water constant as Module 2). SoC_end = SoC_0 + E_bat / C. The source example “4.5 kWh → battery 65% and tank 50 °C” contradicts the rule “tank only above 80%” — the app follows the rule."
+    },
+    "pola": {
+      "produkcja": {
+        "nazwa": "PV production in the solar window [kWh]",
+        "cel": "Energy to split.",
+        "gdzie": "Module 3 (hourly production) or the weather forecast for the sunny hours.",
+        "zakres": "Your installation."
+      },
+      "zuzycie": {
+        "nazwa": "House consumption during the window [kWh]",
+        "cel": "Loads running in that time are supplied first.",
+        "gdzie": "Module 2 — consumption in those hours.",
+        "zakres": "Empty = 0."
+      },
+      "pojemnosc": {
+        "nazwa": "Usable battery capacity [kWh]",
+        "cel": "Turns energy into SoC percent.",
+        "gdzie": "Battery datasheet × allowed DoD (Module 4).",
+        "zakres": "The device datasheet."
+      },
+      "soc": {
+        "nazwa": "State of charge at the start of the window [%]",
+        "cel": "Decides when energy goes to the tank.",
+        "gdzie": "BMS/inverter display.",
+        "zakres": "0–100%."
+      },
+      "grzalki": {
+        "nazwa": "BMS heater energy before charging [kWh]",
+        "cel": "A LiFePO4 battery below 0 °C will not accept charge until the heaters warm it.",
+        "gdzie": "Heating pad power × warm-up time (Module 4).",
+        "zakres": "Empty = the battery needs no heating."
+      },
+      "bojlerL": {
+        "nazwa": "Tank volume [l]",
+        "cel": "Gives the heat to warm the water.",
+        "gdzie": "Tank nameplate.",
+        "zakres": "Empty = no tank."
+      },
+      "tStart": {
+        "nazwa": "Water temperature now [°C]",
+        "cel": "Starting point of heating.",
+        "gdzie": "Tank thermometer/controller.",
+        "zakres": "Your measurement."
+      },
+      "tCel": {
+        "nazwa": "Target water temperature [°C]",
+        "cel": "How warm you want the water from the sun.",
+        "gdzie": "Thermostat setting.",
+        "zakres": "Your setting."
+      }
+    }
+  },
 }
 
 export const ru: Tlumaczenie<typeof pl> = {
@@ -149,5 +265,63 @@ export const ru: Tlumaczenie<typeof pl> = {
         zakres: "Пусто = приложение укажет только месяц с самой долгой работой.",
       },
     },
+  },
+  "okno-sloneczne": {
+    "migawka": {
+      "oCoChodzi": "Зимой солнце — как короткий визит гостя: нужно использовать каждую минуту, пока оно не ушло.",
+      "jakDziala": "Введите, сколько энергии PV даст солнечное окно, сколько дом потребит за это время, батарею и бойлер. Приложение распределит остаток в порядке источника: подогрев BMS (если батарея требует подогрева), батарея до {prog}%, бойлер, батарея до 100%, в конце избыточные нагрузки.",
+      "poCo": "До ночи вы знаете, сколько энергии останется в батарее и включать стирку сегодня или завтра.",
+      "fizyka": "Бойлер: Q = V·ΔT·c (та же константа воды, что в Модуле 2). SoC_к = SoC_0 + E_бат / C. Пример источника «4,5 кВт·ч → батарея 65% и бойлер 50 °C» противоречит правилу «бойлер только выше 80%» — приложение следует правилу."
+    },
+    "pola": {
+      "produkcja": {
+        "nazwa": "Выработка PV в солнечном окне [кВт·ч]",
+        "cel": "Энергия для распределения.",
+        "gdzie": "Модуль 3 (почасовая выработка) или прогноз погоды на солнечные часы.",
+        "zakres": "Ваша установка."
+      },
+      "zuzycie": {
+        "nazwa": "Потребление дома во время окна [кВт·ч]",
+        "cel": "Нагрузки, работающие в это время, питаются в первую очередь.",
+        "gdzie": "Модуль 2 — потребление в эти часы.",
+        "zakres": "Пусто = 0."
+      },
+      "pojemnosc": {
+        "nazwa": "Полезная ёмкость батареи [кВт·ч]",
+        "cel": "Переводит энергию в проценты SoC.",
+        "gdzie": "Паспорт батареи × допустимая DoD (Модуль 4).",
+        "zakres": "Паспорт устройства."
+      },
+      "soc": {
+        "nazwa": "Уровень заряда в начале окна [%]",
+        "cel": "От него зависит, когда энергия пойдёт в бойлер.",
+        "gdzie": "Дисплей BMS/инвертора.",
+        "zakres": "0–100%."
+      },
+      "grzalki": {
+        "nazwa": "Энергия подогрева BMS перед зарядкой [кВт·ч]",
+        "cel": "Батарея LiFePO4 ниже 0 °C не примет заряд, пока подогрев её не согреет.",
+        "gdzie": "Мощность нагревательных матов × время прогрева (Модуль 4).",
+        "zakres": "Пусто = подогрев не нужен."
+      },
+      "bojlerL": {
+        "nazwa": "Объём бойлера [л]",
+        "cel": "Из него считается тепло на нагрев воды.",
+        "gdzie": "Табличка бойлера.",
+        "zakres": "Пусто = без бойлера."
+      },
+      "tStart": {
+        "nazwa": "Температура воды сейчас [°C]",
+        "cel": "Начальная точка нагрева.",
+        "gdzie": "Термометр/контроллер бойлера.",
+        "zakres": "Ваше измерение."
+      },
+      "tCel": {
+        "nazwa": "Целевая температура воды [°C]",
+        "cel": "До скольких градусов нагреть воду солнцем.",
+        "gdzie": "Настройка термостата.",
+        "zakres": "Ваша настройка."
+      }
+    }
   },
 }

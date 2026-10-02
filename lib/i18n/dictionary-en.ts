@@ -1558,4 +1558,11 @@ export const dictionaryEn = {
   "WGR-ZALOZENIE-WYMIANY": "You enter the number of air changes (airtightness test — Screen 12 — or a measurement) for the conditions of the day: stronger wind and a larger temperature difference increase the exchange. The source gives no formula for the stack effect from the number of chimneys and leaks. The heat recovery comparison assumes the same air flow.",
   "GWC-ZALOZENIE-PRZYROST": "You enter the air temperature rise in the GWC from the manufacturer's data or a measurement (thermometer before and after the exchanger) — the source gives no ground heat-exchange formula from length, depth and soil type. Only winter pre-heating is computed; the app does not compute summer cooling.",
   "GWC-ZALOZENIE-REKUPERATOR": "Behind a heat recovery unit the GWC is worth only (1 − efficiency) of the raw gain — the recuperator would recover the rest of that heat from the exhaust air anyway.",
+  "OKNO-WARTOSC-UJEMNA": "The value entered cannot be negative.",
+  "OKNO-SOC-POZA-ZAKRESEM": "The state of charge must be within 0–100%.",
+  "OKNO-NIE-POKRYWA-ZUZYCIA": "The solar window does not even cover the house's current consumption — {brak} kWh short, nothing goes to the battery or the tank. Shift loads or count on the generator.",
+  "OKNO-BRAK-NADWYZKI": "Nothing is left for surplus loads — run the washing machine and dishwasher on a sunnier day.",
+  "OKNO-BOJLER-NIEDOGRZANY": "The tank only reaches {tKoniec} °C (target {tCel} °C). Do not top it up at night from the battery — use the next sun.",
+  "OKNO-ZALOZENIE-KOLEJNOSC": "Order from the source: battery → hot water tank once the battery is above {prog}% → surplus loads. BMS heaters are counted before charging (a battery that needs heating will not accept charge); after the tank the battery charges to 100%. The house's consumption during the window is covered first.",
+  "OKNO-ZALOZENIE-BEZ-STRAT": "No battery charging losses and no tank standing losses — all allocated energy is stored; in reality slightly less.",
 } satisfies Record<KluczTlumaczenia, string>
