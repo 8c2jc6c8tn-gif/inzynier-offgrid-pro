@@ -6,6 +6,7 @@ import { getAccountStatus } from "@/lib/adapters/supabase/get-account-status"
 import { deleteAccount } from "@/lib/adapters/supabase/delete-account"
 import { signOut } from "@/app/auth/signout/actions"
 import { isSupabaseConfigured } from "@/lib/adapters/supabase/config"
+import { useTranslate } from "@/lib/i18n/language-context"
 
 /**
  * docs/standards/18-logowanie.md — widoczny status konta w Ustawieniach. Renderuje się na coś
@@ -17,6 +18,7 @@ import { isSupabaseConfigured } from "@/lib/adapters/supabase/config"
  * `sessionCookieOptions()`).
  */
 export function KontoSekcja() {
+  const t = useTranslate()
   const configured = isSupabaseConfigured()
   const [email, setEmail] = useState<string | null>(null)
   const [wczytano, setWczytano] = useState(!configured)
@@ -34,21 +36,21 @@ export function KontoSekcja() {
 
   return (
     <section className="flex flex-col gap-3 rounded-lg border p-4">
-      <h2 className="text-small font-semibold uppercase tracking-wide text-muted-foreground">Konto</h2>
+      <h2 className="text-small font-semibold uppercase tracking-wide text-muted-foreground">{t("UI-KONSEK-KONTO")}</h2>
       {email ? (
         <>
-          <p className="text-small">Zalogowano jako {email}</p>
+          <p className="text-small">{t("UI-KONSEK-ZALOGOWANO-JAKO", { email })}</p>
           <div className="flex flex-wrap gap-2">
             <form action={signOut}>
               <Button type="submit" variant="outline">
-                Wyloguj się
+                {t("UI-KONSEK-WYLOGUJ")}
               </Button>
             </form>
             <UsunKontoPrzycisk />
           </div>
         </>
       ) : (
-        <p className="text-small text-muted-foreground">Niezalogowano.</p>
+        <p className="text-small text-muted-foreground">{t("UI-KONSEK-NIEZALOGOWANO")}</p>
       )}
     </section>
   )
@@ -60,11 +62,12 @@ export function KontoSekcja() {
  * błędu, patrz `lib/adapters/supabase/delete-account.ts`).
  */
 function UsunKontoPrzycisk() {
+  const t = useTranslate()
   const [usuwam, setUsuwam] = useState(false)
   const [blad, setBlad] = useState<string | null>(null)
 
   async function usun() {
-    if (!window.confirm("Na pewno chcesz trwale usunąć konto? Tej operacji nie można cofnąć.")) return
+    if (!window.confirm(t("UI-KONSEK-PEWNO-CHCESZ-TRWALE"))) return
     setUsuwam(true)
     setBlad(null)
     const wynik = await deleteAccount()
@@ -77,7 +80,7 @@ function UsunKontoPrzycisk() {
   return (
     <div className="flex flex-col gap-1">
       <Button type="button" variant="destructive" onClick={usun} disabled={usuwam}>
-        {usuwam ? "Usuwanie…" : "Usuń konto"}
+        {usuwam ? t("UI-KONSEK-USUWANIE") : t("UI-KONSEK-USUN-KONTO")}
       </Button>
       {blad && <p className="text-small text-destructive">{blad}</p>}
     </div>

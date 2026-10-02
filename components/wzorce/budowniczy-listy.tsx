@@ -1,6 +1,7 @@
 import type { ReactNode } from "react"
 import { Button } from "@/components/ui/button"
 import { StanPusty } from "@/components/ui/stany"
+import { TekstUi } from "@/components/ui/tekst-ui"
 
 export type PozycjaListy = { id: string }
 
@@ -44,10 +45,10 @@ export function BudowniczyListy<T extends PozycjaListy>({
 
 /** Przycisk usuwania pozycji z listy — jeden styl (destructive-ghost) zamiast
  * `text-xs text-red-600 hover:underline dark:text-red-400` kopiowanego per ekran. */
-export function PrzyciskUsun({ onClick, label = "Usuń" }: { onClick: () => void; label?: string }) {
+export function PrzyciskUsun({ onClick, label }: { onClick: () => void; label?: string }) {
   return (
     <Button type="button" variant="ghost" size="sm" onClick={onClick} className="text-werdykt-blad-foreground hover:bg-werdykt-blad-bg">
-      {label}
+      {label ?? <TekstUi kod="UI-BUDLIS-USUN" />}
     </Button>
   )
 }

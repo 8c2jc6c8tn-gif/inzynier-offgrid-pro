@@ -7,20 +7,9 @@
   "app/page.tsx": 11,
   "app/ustawienia/page.tsx": 15,
   "app/wzornik/page.tsx": 78,
-  "components/asystent-ai.tsx": 10,
-  "components/czcionka-edytor.tsx": 4,
-  "components/jezyk-wybor.tsx": 1,
   "components/kafle-ikony/definicje-symboli.tsx": 1,
-  "components/kolor-grupa-edytor.tsx": 10,
-  "components/konto-sekcja.tsx": 7,
-  "components/nawigacja-ekranu.tsx": 3,
   "components/siec/wspolne.tsx": 1,
-  "components/theme-toggle.tsx": 5,
-  "components/ui/chmurka.tsx": 1,
-  "components/ui/stany.tsx": 2,
-  "components/werdykt.tsx": 2,
-  "components/wzorce/budowniczy-listy.tsx": 1,
+  "components/werdykt.tsx": 1,
   "components/wzorce/ekran-checklisty-chemii.tsx": 8,
-  "components/wzorce/ekran-kabli-malej-instalacji.tsx": 25,
-  "components/wzorce/krok-z-media.tsx": 2
+  "components/wzorce/ekran-kabli-malej-instalacji.tsx": 25
 }
