@@ -3,6 +3,7 @@ import { SAMPLE_PROGNOZA_24H } from "@/lib/core/modules/ai/prognozy/constants"
 import { t } from "@/lib/i18n/t"
 import { validateAiToolDefinition } from "../../types"
 import { przesuwanieZadanTool } from "../przesuwanie-zadan-tool"
+import { doborZrodelZasilaniaTool } from "../dobor-zrodel-zasilania-tool"
 
 // Control examples are the engines' own (__tests__ next to each engine) — the tools only echo.
 describe("przesuwanieZadanTool (M10/E5, dawne 12.10)", () => {
@@ -24,5 +25,31 @@ describe("przesuwanieZadanTool (M10/E5, dawne 12.10)", () => {
     expect(w.zadania[0]!.startH).toBe(12)
     expect(w.zadania[0]!.zPvKwh).toBeCloseTo(3, 9)
     expect(w.ostrzezenia).toContain(t("pl", "PRZES-ZADANIE-POZA-OKNEM", { nazwa: "Piec", czas: 3, od: "10:00", do: "12:00" }))
+  })
+})
+
+describe("doborZrodelZasilaniaTool (M10/E4, dawne 12.7 + 12.8)", () => {
+  it("kontrakt 9.3: 'read', bez potwierdzenia", () => {
+    expect(doborZrodelZasilaniaTool.operationType).toBe("read")
+    expect(doborZrodelZasilaniaTool.requiresConfirmation).toBe(false)
+    expect(() => validateAiToolDefinition(doborZrodelZasilaniaTool)).not.toThrow()
+  })
+
+  it("PV przy −5 °C, 100 Ah, możliwe 30 A → 10 A, tekst PL ograniczenia", async () => {
+    const w = await doborZrodelZasilaniaTool.handler({
+      produkcjaPvDostepnaTeraz: true,
+      socAktualnyPct: 50,
+      socProguKrytycznegoPct: 20,
+      prognozaSloncaJutro: false,
+      agregatDostepny: false,
+      siecDostepna: false,
+      taniaTaryfaNocna: false,
+      temperaturaOgniwaC: -5,
+      pojemnoscAh: 100,
+      pradMozliwyA: 30,
+    })
+    expect(w.zrodlo).toBe("PV")
+    expect(w.pradLadowaniaA).toBeCloseTo(10, 9)
+    expect(w.ostrzezenia).toContain(t("pl", "AIZR-PRAD-OGRANICZONY", { mozliwy: 30, max: 10, t: -5 }))
   })
 })

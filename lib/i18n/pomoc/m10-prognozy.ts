@@ -65,6 +65,22 @@ export const pl = {
       },
     },
   },
+  "dobor-zrodel-zasilania": {
+    migawka: {
+      oCoChodzi: "To jest wykonawcza warstwa AI dla zasad, które ustaliłeś ręcznie w Module 4 — system nie wymyśla nowej hierarchii, tylko realizuje ją, uwzględniając prognozy.",
+      jakDziala: "Źródło ładowania wybieram według hierarchii z Modułu 4: PV zawsze pierwsze, agregat dopiero poniżej progu krytycznego SoC i bez słońca jutro, sieć przy taniej taryfie. Prąd ładowania ograniczam według temperatury ogniw z Modułu 4: poniżej {blokada} °C ładowanie zablokowane, w zimnie {cZimno}C albo {cChlodno}C. Przesuwanie zadań na szczyt PV robi Ekran 5.",
+      poCo: "Jedno miejsce z odpowiedzią „z czego i jakim prądem teraz”. Za wczesny agregat pali paliwo na energię, którą za godzinę dałoby słońce; za duży prąd w mrozie trwale uszkadza ogniwa.",
+      fizyka: "I_ład = min(I_możliwy, C_Ah × C-rate(T)).",
+    },
+    pola: {
+      pradMozliwy: {
+        nazwa: "Prąd ładowania, jaki źródło może dać teraz [A]",
+        cel: "Ile prądu dałoby wybrane źródło bez ograniczeń — porównywane z limitem w zimnie.",
+        gdzie: "Nadwyżka PV ÷ napięcie baterii (np. 2400 W ÷ 48 V = 50 A) albo maksymalny prąd ładowarki/agregatu z karty.",
+        zakres: "≥ 0. Puste = pokazany tylko limit z temperatury.",
+      },
+    },
+  },
 }
 
 export const en: Tlumaczenie<typeof pl> = {
@@ -128,6 +144,22 @@ export const en: Tlumaczenie<typeof pl> = {
       },
     },
   },
+  "dobor-zrodel-zasilania": {
+    migawka: {
+      oCoChodzi: "This is the AI's executive layer for the rules you set by hand in Module 4 — the system does not invent a new hierarchy, it carries it out, taking the forecasts into account.",
+      jakDziala: "I pick the charging source by the Module 4 hierarchy: PV always first, the generator only below the critical SoC and with no sun tomorrow, the grid on a cheap tariff. I cap the charging current by the cell temperature from Module 4: below {blokada} °C charging is blocked, in the cold {cZimno}C or {cChlodno}C. Shifting tasks to the PV peak is Screen 5.",
+      poCo: "One place answering “from what and at what current now”. A generator started too early burns fuel for energy the sun would give in an hour; too high a current in frost damages the cells for good.",
+      fizyka: "I_charge = min(I_possible, C_Ah × C-rate(T)).",
+    },
+    pola: {
+      pradMozliwy: {
+        nazwa: "Charging current the source can give now [A]",
+        cel: "How much current the chosen source would give without limits — compared with the cold limit.",
+        gdzie: "PV surplus ÷ battery voltage (e.g. 2400 W ÷ 48 V = 50 A) or the charger's/generator's maximum current from the datasheet.",
+        zakres: "≥ 0. Empty = only the temperature limit is shown.",
+      },
+    },
+  },
 }
 
 export const ru: Tlumaczenie<typeof pl> = {
@@ -188,6 +220,22 @@ export const ru: Tlumaczenie<typeof pl> = {
         cel: "Ваш срок — задача должна закончиться не позже этого часа; план никогда его не превысит.",
         gdzie: "Ваше решение (например, «стирка готова к 18:00»). Пусто = до конца суток.",
         zakres: "0–24, с шагом 0,5 ч, позже, чем «не раньше».",
+      },
+    },
+  },
+  "dobor-zrodel-zasilania": {
+    migawka: {
+      oCoChodzi: "Это исполнительный слой ИИ для правил, которые вы задали вручную в модуле 4, — система не придумывает новую иерархию, а выполняет её с учётом прогнозов.",
+      jakDziala: "Источник заряда выбираю по иерархии модуля 4: PV всегда первым, генератор только ниже критического SoC и без солнца завтра, сеть при дешёвом тарифе. Ток заряда ограничиваю по температуре ячеек из модуля 4: ниже {blokada} °C заряд заблокирован, в холоде {cZimno}C или {cChlodno}C. Перенос задач на пик PV — экран 5.",
+      poCo: "Одно место с ответом «от чего и каким током сейчас». Слишком рано запущенный генератор жжёт топливо на энергию, которую через час дало бы солнце; слишком большой ток в мороз навсегда повреждает ячейки.",
+      fizyka: "I_зар = min(I_возможный, C_Ah × C-rate(T)).",
+    },
+    pola: {
+      pradMozliwy: {
+        nazwa: "Ток заряда, который источник может дать сейчас [А]",
+        cel: "Сколько тока дал бы выбранный источник без ограничений — сравнивается с лимитом в холоде.",
+        gdzie: "Избыток PV ÷ напряжение батареи (например, 2400 Вт ÷ 48 В = 50 А) или максимальный ток зарядного устройства/генератора из паспорта.",
+        zakres: "≥ 0. Пусто = показан только лимит по температуре.",
       },
     },
   },

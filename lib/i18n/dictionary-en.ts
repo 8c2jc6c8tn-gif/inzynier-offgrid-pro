@@ -1678,4 +1678,6 @@ export const dictionaryEn = {
   "UPS-ZAL-KOLEJNOSC": "Shedding order from the source: actuators first, then the router; the fire panel and ESP32 run longest. The plan assumes the controller can cut each level separately (separate outputs/relays).",
   "UPS-ZAL-PROG": "The next level is cut when {prog} min of run time are left at the current load — your threshold; the source gives only the example “the UPS will be empty in 10 minutes”.",
   "UPS-ZAL-FAIL-SAFE": "Cutting the actuators is safe only with fail-safe locks: no power = door open, never the other way round (Screen 3, evacuation door locks).",
+  "AIZR-PRAD-OGRANICZONY": "Charging current limited from {mozliwy} A to {max} A — the cells are at {t} °C (limit from Module 4, Screen 12). Set this limit in the charger/BMS.",
+  "AIZR-BEZ-TEMPERATURY": "Without the cell temperature and pack capacity the cold charging current limit is not checked — enter them from the BMS.",
 } satisfies Record<KluczTlumaczenia, string>

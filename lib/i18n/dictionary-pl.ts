@@ -1690,6 +1690,8 @@ export const dictionaryPl = {
   "UPS-ZAL-KOLEJNOSC": "Kolejność odcinania ze źródła: najpierw siłowniki, potem router; centrala pożarowa i ESP32 działają najdłużej. Plan zakłada, że sterownik umie odciąć każdy poziom osobno (osobne wyjścia/przekaźniki).",
   "UPS-ZAL-PROG": "Odcięcie kolejnego poziomu, gdy przy bieżącym obciążeniu zostaje {prog} min pracy — próg Twój; źródło podaje tylko przykład „UPS rozładuje się za 10 minut”.",
   "UPS-ZAL-FAIL-SAFE": "Odcięcie siłowników jest bezpieczne tylko przy zamkach fail-safe: brak prądu = drzwi otwarte, nigdy odwrotnie (Ekran 3, zamki drzwi ewakuacyjnych).",
+  "AIZR-PRAD-OGRANICZONY": "Prąd ładowania ograniczony z {mozliwy} A do {max} A — ogniwa mają {t} °C (limit z Modułu 4, Ekran 12). Ustaw ten limit w ładowarce/BMS.",
+  "AIZR-BEZ-TEMPERATURY": "Bez temperatury ogniw i pojemności pakietu limit prądu ładowania w zimnie nie jest sprawdzony — wpisz je z BMS.",
 } as const
 
 export type KluczTlumaczenia = keyof typeof dictionaryPl
