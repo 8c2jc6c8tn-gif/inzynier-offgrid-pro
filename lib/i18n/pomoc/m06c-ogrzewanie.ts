@@ -699,6 +699,82 @@ export const pl = {
       }
     }
   },
+  "chlodzenie-pompa-ciepla": {
+    "migawka": {
+      "oCoChodzi": "Pompa ciepła to nie tylko grzejnik, ale też klimatyzator — a z dolnym źródłem w gruncie potrafi chłodzić prawie bez prądu (free cooling).",
+      "jakDziala": "Wpisz, ile ciepła trzeba latem usunąć z domu na dobę, i EER pompy. Aplikacja liczy prąd pompy, klimatyzatora i samej pompy obiegowej przy free coolingu; z temperaturą i wilgotnością w pokoju liczy punkt rosy i sprawdza, czy chłodzona podłoga nie będzie się pocić. Opcjonalnie porównuje grzanie pompą i klimatyzatorem.",
+      "poCo": "Latem w off-gridzie jest nadwyżka PV — chłodzenie pompą ją wykorzystuje; ale chłodzenie podłogowe bez kontroli rosy grozi zawilgoceniem posadzki.",
+      "fizyka": "E = Q / EER; free cooling: E = P_obiegowej · t. Punkt rosy (Magnus-Tetens): α = a·θ/(b + θ) + ln(RH), θ_rosy = b·α/(a − α)."
+    },
+    "pola": {
+      "chlod": {
+        "nazwa": "Ciepło do usunięcia z domu na dobę latem [kWh]",
+        "cel": "Tyle ciepła pompa musi wynieść na zewnątrz; prąd = ciepło ÷ EER.",
+        "gdzie": "Suma letnich zysków: słoneczne (okna), bytowe, wentylacja — np. z ekranu wpływu czynnika (zyski słoneczne) albo pomiaru zużycia klimatyzacji.",
+        "zakres": "Twój dom — źródło nie daje modelu zysków letnich."
+      },
+      "eerPompy": {
+        "nazwa": "EER pompy ciepła w chłodzeniu [–]",
+        "cel": "Ciepło usunięte ÷ prąd.",
+        "gdzie": "Karta pompy rewersyjnej (EER przy np. A35/W18).",
+        "zakres": "Karta katalogowa — aplikacja nie zakłada wartości."
+      },
+      "eerKlima": {
+        "nazwa": "EER klimatyzatora [–]",
+        "cel": "Opcjonalne: porównanie z klimatyzatorem.",
+        "gdzie": "Karta klimatyzatora (EER lub SEER).",
+        "zakres": "Karta katalogowa — aplikacja nie zakłada wartości."
+      },
+      "obiegowa": {
+        "nazwa": "Moc pompy obiegowej dolnego źródła [W]",
+        "cel": "Opcjonalne: przy free coolingu pracuje tylko ona, bez sprężarki.",
+        "gdzie": "Karta pompy obiegowej.",
+        "zakres": "Karta katalogowa — aplikacja nie zakłada wartości."
+      },
+      "godziny": {
+        "nazwa": "Godziny pracy free coolingu na dobę [h]",
+        "cel": "Prąd = moc pompy obiegowej × godziny.",
+        "gdzie": "Sterownik / Twój plan.",
+        "zakres": "0–24 h."
+      },
+      "tZasilania": {
+        "nazwa": "Temperatura zasilania chłodzenia [°C]",
+        "cel": "Porównywana z punktem rosy — niższa oznacza skraplanie na podłodze.",
+        "gdzie": "Nastawa sterownika (źródło: dla podłogówki np. 16–18 °C).",
+        "zakres": "Twoja instalacja."
+      },
+      "tPomieszczenia": {
+        "nazwa": "Temperatura w pomieszczeniu [°C]",
+        "cel": "Z wilgotnością daje punkt rosy.",
+        "gdzie": "Termometr.",
+        "zakres": "Twój pomiar."
+      },
+      "wilgotnosc": {
+        "nazwa": "Wilgotność względna w pomieszczeniu [%]",
+        "cel": "Im wilgotniej, tym wyższy punkt rosy.",
+        "gdzie": "Higrometr.",
+        "zakres": "0–100%."
+      },
+      "cieplo": {
+        "nazwa": "Ciepło na sezon grzewczy [kWh]",
+        "cel": "Opcjonalne: porównanie prądu na grzanie pompą i klimatyzatorem.",
+        "gdzie": "Ekran 2.",
+        "zakres": "Wynik Twojego Ekranu 2."
+      },
+      "copPompy": {
+        "nazwa": "COP pompy ciepła w grzaniu [–]",
+        "cel": "Prąd na grzanie = ciepło ÷ COP.",
+        "gdzie": "Karta pompy albo Ekran 5.",
+        "zakres": "Karta katalogowa — aplikacja nie zakłada wartości."
+      },
+      "copKlima": {
+        "nazwa": "COP klimatyzatora w grzaniu [–]",
+        "cel": "Do porównania z pompą.",
+        "gdzie": "Karta klimatyzatora (COP / SCOP grzania).",
+        "zakres": "Karta katalogowa — aplikacja nie zakłada wartości."
+      }
+    }
+  },
 }
 
 export const en: Tlumaczenie<typeof pl> = {
@@ -1396,6 +1472,82 @@ export const en: Tlumaczenie<typeof pl> = {
       }
     }
   },
+  "chlodzenie-pompa-ciepla": {
+    "migawka": {
+      "oCoChodzi": "A heat pump is not only a heater but also an air conditioner — and with a ground loop it can cool almost without electricity (free cooling).",
+      "jakDziala": "Enter how much heat must be removed from the house per summer day and the pump EER. The app computes the electricity of the pump, the air conditioner and the circulation pump alone in free cooling; with room temperature and humidity it computes the dew point and checks whether a cooled floor will sweat. Optionally it compares heating with the pump and the air conditioner.",
+      "poCo": "Off-grid summers bring a PV surplus — cooling with the pump uses it; but floor cooling without dew point control risks a damp screed.",
+      "fizyka": "E = Q / EER; free cooling: E = P_circulation · t. Dew point (Magnus-Tetens): α = a·θ/(b + θ) + ln(RH), θ_dew = b·α/(a − α)."
+    },
+    "pola": {
+      "chlod": {
+        "nazwa": "Heat to remove from the house per summer day [kWh]",
+        "cel": "The heat the pump has to move outside; electricity = heat ÷ EER.",
+        "gdzie": "Sum of summer gains: solar (windows), internal, ventilation — e.g. from the factor-impact screen (solar gains) or the measured air conditioning use.",
+        "zakres": "Your house — the source gives no summer gain model."
+      },
+      "eerPompy": {
+        "nazwa": "Heat pump EER in cooling [–]",
+        "cel": "Heat removed ÷ electricity.",
+        "gdzie": "Reversible pump datasheet (EER at e.g. A35/W18).",
+        "zakres": "Datasheet — the app assumes no value."
+      },
+      "eerKlima": {
+        "nazwa": "Air conditioner EER [–]",
+        "cel": "Optional: comparison with an air conditioner.",
+        "gdzie": "Air conditioner datasheet (EER or SEER).",
+        "zakres": "Datasheet — the app assumes no value."
+      },
+      "obiegowa": {
+        "nazwa": "Ground loop circulation pump power [W]",
+        "cel": "Optional: with free cooling only this pump runs, no compressor.",
+        "gdzie": "Circulation pump datasheet.",
+        "zakres": "Datasheet — the app assumes no value."
+      },
+      "godziny": {
+        "nazwa": "Free cooling hours per day [h]",
+        "cel": "Electricity = circulation pump power × hours.",
+        "gdzie": "Controller / your plan.",
+        "zakres": "0–24 h."
+      },
+      "tZasilania": {
+        "nazwa": "Cooling flow temperature [°C]",
+        "cel": "Compared with the dew point — lower means condensation on the floor.",
+        "gdzie": "Controller setting (source: e.g. 16–18 °C for underfloor).",
+        "zakres": "Your installation."
+      },
+      "tPomieszczenia": {
+        "nazwa": "Room temperature [°C]",
+        "cel": "With humidity gives the dew point.",
+        "gdzie": "Thermometer.",
+        "zakres": "Your measurement."
+      },
+      "wilgotnosc": {
+        "nazwa": "Room relative humidity [%]",
+        "cel": "The more humid, the higher the dew point.",
+        "gdzie": "Hygrometer.",
+        "zakres": "0–100%."
+      },
+      "cieplo": {
+        "nazwa": "Heat per heating season [kWh]",
+        "cel": "Optional: compares heating electricity of the pump and the air conditioner.",
+        "gdzie": "Screen 2.",
+        "zakres": "Your Screen 2 result."
+      },
+      "copPompy": {
+        "nazwa": "Heat pump COP in heating [–]",
+        "cel": "Heating electricity = heat ÷ COP.",
+        "gdzie": "Pump datasheet or Screen 5.",
+        "zakres": "Datasheet — the app assumes no value."
+      },
+      "copKlima": {
+        "nazwa": "Air conditioner COP in heating [–]",
+        "cel": "To compare with the pump.",
+        "gdzie": "Air conditioner datasheet (heating COP / SCOP).",
+        "zakres": "Datasheet — the app assumes no value."
+      }
+    }
+  },
 }
 
 export const ru: Tlumaczenie<typeof pl> = {
@@ -2090,6 +2242,82 @@ export const ru: Tlumaczenie<typeof pl> = {
         "cel": "Необязательно: переводит сэкономленное тепло в электричество (ТЭН = 1).",
         "gdzie": "Паспорт насоса ГВС; электрический ТЭН: 1.",
         "zakres": "Паспорт устройства."
+      }
+    }
+  },
+  "chlodzenie-pompa-ciepla": {
+    "migawka": {
+      "oCoChodzi": "Тепловой насос — это не только обогреватель, но и кондиционер, а с грунтовым контуром он может охлаждать почти без электричества (фрикулинг).",
+      "jakDziala": "Введите, сколько тепла нужно летом убрать из дома за сутки, и EER насоса. Приложение считает электричество насоса, кондиционера и одного циркуляционного насоса при фрикулинге; по температуре и влажности в комнате считает точку росы и проверяет, не будет ли охлаждаемый пол потеть. Дополнительно сравнивает отопление насосом и кондиционером.",
+      "poCo": "Летом в автономной системе есть излишек PV — охлаждение насосом его использует; но охлаждение пола без контроля росы грозит намоканием стяжки.",
+      "fizyka": "E = Q / EER; фрикулинг: E = P_цирк · t. Точка росы (Магнус-Тетенс): α = a·θ/(b + θ) + ln(RH), θ_росы = b·α/(a − α)."
+    },
+    "pola": {
+      "chlod": {
+        "nazwa": "Тепло, которое нужно убрать из дома за летние сутки [кВт·ч]",
+        "cel": "Столько тепла насос должен вынести наружу; электричество = тепло ÷ EER.",
+        "gdzie": "Сумма летних поступлений: солнечные (окна), бытовые, вентиляция — например, с экрана влияния фактора (солнечные поступления) или по замеру расхода кондиционера.",
+        "zakres": "Ваш дом — источник не даёт модели летних поступлений."
+      },
+      "eerPompy": {
+        "nazwa": "EER теплового насоса в охлаждении [–]",
+        "cel": "Убранное тепло ÷ электричество.",
+        "gdzie": "Паспорт реверсивного насоса (EER при, например, A35/W18).",
+        "zakres": "Паспорт — приложение не подставляет значений."
+      },
+      "eerKlima": {
+        "nazwa": "EER кондиционера [–]",
+        "cel": "Необязательно: сравнение с кондиционером.",
+        "gdzie": "Паспорт кондиционера (EER или SEER).",
+        "zakres": "Паспорт — приложение не подставляет значений."
+      },
+      "obiegowa": {
+        "nazwa": "Мощность циркуляционного насоса грунтового контура [Вт]",
+        "cel": "Необязательно: при фрикулинге работает только он, без компрессора.",
+        "gdzie": "Паспорт циркуляционного насоса.",
+        "zakres": "Паспорт — приложение не подставляет значений."
+      },
+      "godziny": {
+        "nazwa": "Часы фрикулинга в сутки [ч]",
+        "cel": "Электричество = мощность циркуляционного насоса × часы.",
+        "gdzie": "Контроллер / ваш план.",
+        "zakres": "0–24 ч."
+      },
+      "tZasilania": {
+        "nazwa": "Температура подачи охлаждения [°C]",
+        "cel": "Сравнивается с точкой росы — ниже значит конденсат на полу.",
+        "gdzie": "Уставка контроллера (источник: для тёплого пола, например, 16–18 °C).",
+        "zakres": "Ваша установка."
+      },
+      "tPomieszczenia": {
+        "nazwa": "Температура в помещении [°C]",
+        "cel": "Вместе с влажностью даёт точку росы.",
+        "gdzie": "Термометр.",
+        "zakres": "Ваш замер."
+      },
+      "wilgotnosc": {
+        "nazwa": "Относительная влажность в помещении [%]",
+        "cel": "Чем влажнее, тем выше точка росы.",
+        "gdzie": "Гигрометр.",
+        "zakres": "0–100%."
+      },
+      "cieplo": {
+        "nazwa": "Тепло за отопительный сезон [кВт·ч]",
+        "cel": "Необязательно: сравнение электричества на отопление насосом и кондиционером.",
+        "gdzie": "Экран 2.",
+        "zakres": "Результат вашего Экрана 2."
+      },
+      "copPompy": {
+        "nazwa": "COP теплового насоса в отоплении [–]",
+        "cel": "Электричество на отопление = тепло ÷ COP.",
+        "gdzie": "Паспорт насоса или Экран 5.",
+        "zakres": "Паспорт — приложение не подставляет значений."
+      },
+      "copKlima": {
+        "nazwa": "COP кондиционера в отоплении [–]",
+        "cel": "Для сравнения с насосом.",
+        "gdzie": "Паспорт кондиционера (COP / SCOP отопления).",
+        "zakres": "Паспорт — приложение не подставляет значений."
       }
     }
   },

@@ -212,6 +212,7 @@ export const KAFLE: KafelEntry[] = [
       { href: "/kalkulatory/rozruch-pompy-ciepla", label: "Rozruch pompy ciepła z falownika/agregatu" },
       { href: "/kalkulatory/basen", label: "Ogrzewanie basenu pompą ciepła" },
       { href: "/kalkulatory/odzysk-ciepla-sciekow", label: "Odzysk ciepła ze ścieków" },
+      { href: "/kalkulatory/chlodzenie-pompa-ciepla", label: "Chłodzenie latem pompą ciepła" },
     ],
   },
   {

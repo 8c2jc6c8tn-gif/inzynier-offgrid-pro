@@ -1638,6 +1638,8 @@ export const dictionaryPl = {
   "BAS-ZAL-BEZ-STRAT": "Bez strat w trakcie grzania (parowanie, powierzchnia, ściany) — źródło je wymienia, ale nie podaje modelu, więc realny czas i prąd będą większe, zwłaszcza bez przykrycia.",
   "DWHR-SPRAWNOSC-SPOZA-ZRODLA": "Sprawność {pct}% jest poza typowymi {min}–{max}% podanymi w źródle — sprawdź kartę wymiennika.",
   "DWHR-ZAL-ROWNOCZESNIE": "Liczona tylko woda, która spływa w tym samym czasie, gdy zimna woda płynie do podgrzewacza (prysznic) — wanna napuszczana wcześniej czy zmywarka prawie nic nie dają.",
+  "CHL-PONIZEJ-ROSY": "Zasilanie chłodzenia {zasilanie} °C jest na poziomie punktu rosy ({rosa} °C) albo niżej — podłoga lub klimakonwektor będą się pocić. Podnieś temperaturę zasilania albo zastosuj czujnik rosy.",
+  "CHL-ZAL-FREE-COOLING": "Free cooling odbiera całe wpisane ciepło — źródło nie podaje wydajności chłodzenia z gruntu; porównany jest tylko prąd pompy obiegowej i sprężarki. Wymaga niskotemperaturowej dystrybucji (podłogówka, maty).",
 } as const
 
 export type KluczTlumaczenia = keyof typeof dictionaryPl

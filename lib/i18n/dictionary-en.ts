@@ -1626,4 +1626,6 @@ export const dictionaryEn = {
   "BAS-ZAL-BEZ-STRAT": "No losses while heating (evaporation, surface, walls) — the source names them but gives no model, so the real time and electricity will be higher, especially without a cover.",
   "DWHR-SPRAWNOSC-SPOZA-ZRODLA": "An efficiency of {pct}% is outside the typical {min}–{max}% given in the source — check the exchanger datasheet.",
   "DWHR-ZAL-ROWNOCZESNIE": "Only water draining while cold water flows to the heater (a shower) is counted — a bath filled earlier or a dishwasher gives almost nothing.",
+  "CHL-PONIZEJ-ROSY": "The cooling flow {zasilanie} °C is at or below the dew point ({rosa} °C) — the floor or fan coil will sweat. Raise the flow temperature or fit a dew point sensor.",
+  "CHL-ZAL-FREE-COOLING": "Free cooling is assumed to remove all the entered heat — the source gives no ground cooling capacity; only the circulation pump and compressor electricity are compared. It needs low-temperature distribution (underfloor, mats).",
 } satisfies Record<KluczTlumaczenia, string>

@@ -11,6 +11,7 @@ import { wplywCzynnikaTool } from "../wplyw-czynnika-tool"
 import { rozruchPompyCieplaTool } from "../rozruch-pompy-ciepla-tool"
 import { basenTool } from "../basen-tool"
 import { odzyskCieplaSciekowTool } from "../odzysk-ciepla-sciekow-tool"
+import { chlodzeniePompaCieplaTool } from "../chlodzenie-pompa-ciepla-tool"
 
 describe("deficytyMiesieczneTool (M7/E2, dawne 6.2)", () => {
   it("kontrakt 9.3: 'read', bez potwierdzenia", () => {
@@ -218,5 +219,32 @@ describe("odzyskCieplaSciekowTool (M6 Część 2C, dawne 5.41)", () => {
     })
     expect(w.cieploDobaKwh).toBeGreaterThan(0)
     expect(w.ostrzezenia).toContain(t("pl", "DWHR-SPRAWNOSC-SPOZA-ZRODLA", { pct: 55, min: 20, max: 40 }))
+  })
+})
+
+describe("chlodzeniePompaCieplaTool (M6 Część 2C, dawne 5.29/5.47/5.51)", () => {
+  it("kontrakt 9.3: 'read', bez potwierdzenia", () => {
+    expect(chlodzeniePompaCieplaTool.operationType).toBe("read")
+    expect(chlodzeniePompaCieplaTool.requiresConfirmation).toBe(false)
+    expect(() => validateAiToolDefinition(chlodzeniePompaCieplaTool)).not.toThrow()
+  })
+
+  it("zasilanie 16 °C przy rosie ≈ 16,7 °C → 🟡 jako tekst PL", async () => {
+    const w = await chlodzeniePompaCieplaTool.handler({
+      chlodDobaKwh: 16,
+      eerPompy: 4,
+      eerKlimatyzatora: 2,
+      mocObiegowejW: 0,
+      godzinyFreeCoolingH: 0,
+      tZasilaniaC: 16,
+      tPomieszczeniaC: 25,
+      wilgotnoscPct: 60,
+      cieploSezonKwh: 0,
+      copPompy: 0,
+      copKlimatyzatora: 0,
+    })
+    expect(w.pradPompyKwh).toBeCloseTo(4, 9)
+    expect(w.status).toBe("VALID_WITH_WARNINGS")
+    expect(w.ostrzezenia).toContain(t("pl", "CHL-PONIZEJ-ROSY", { zasilanie: 16, rosa: 16.7 }))
   })
 })
