@@ -68,3 +68,12 @@ describe("calculateDystrybucjaCiepla (M6/E13, dawne 5.13 + 5.17 + 5.18)", () => 
     expect(calculateDystrybucjaCiepla({ ...BAZA, cenaPraduZlKwh: -1 }).status).toBe("INVALID_INPUT")
   })
 })
+
+describe("calculateDystrybucjaCiepla — M6 Część 2B, dawne 5.57 (pokryte tym ekranem)", () => {
+  it("przykład 5.57: SCOP 4,2 → 2500 kWh, SCOP 3,0 → 3500 kWh, oszczędność 1000 kWh (spójny: Q = 10 500 kWh)", () => {
+    const w = calculateDystrybucjaCiepla({ ...BAZA, cieploRocznieKwh: 10500, copSystemu: 4.2, copOdniesienia: 3 })
+    expect(w.value.energiaSystemuKwh).toBeCloseTo(2500, 9)
+    expect(w.value.energiaOdniesieniaKwh).toBeCloseTo(3500, 9)
+    expect(w.value.oszczednoscKwh).toBeCloseTo(1000, 9)
+  })
+})
