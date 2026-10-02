@@ -130,7 +130,7 @@ export const pl = {
   "gwc": {
     "migawka": {
       "oCoChodzi": "Grunt na głębokości kilku metrów ma stałą temperaturę przez cały rok — GWC to sposób, żeby to „pożyczyć” na wstępne podgrzanie lub schłodzenie powietrza.",
-      "jakDziala": "Wpisz strumień powietrza, o ile stopni GWC podgrzewa powietrze zimą i ile godzin na dobę pracuje. Aplikacja policzy moc i ciepło na dobę; za rekuperatorem tylko część zysku zostaje w domu. Z zapotrzebowaniem — udział, z COP — mniej prądu.",
+      "jakDziala": "Wpisz strumień powietrza, o ile stopni GWC podgrzewa powietrze zimą i ile godzin na dobę pracuje. Aplikacja policzy moc i ciepło na dobę; za rekuperatorem tylko część zysku zostaje w domu. Z zapotrzebowaniem — udział, z COP — mniej prądu. Niżej: GWC przed parownikiem pompy ciepła — o ile podniesie temperaturę powietrza na wlocie, jaką część dolnego źródła pokryje i ile prądu oszczędzi przy COP z karty.",
       "poCo": "Wiesz, ile realnie daje GWC w Twoim systemie — szczególnie za rekuperatorem, gdzie zysk jest dużo mniejszy, niż sugeruje sam przyrost temperatury.",
       "fizyka": "Φ = V̇·ρ·cp·ΔT (ρ = 1,2 kg/m³, cp = 1005 J/(kg·K) — jak Ekrany 3 i 12); Q = Φ·(1 − η)·h. Przykład źródła „+4 °C → −5%” nie podaje strumienia ani zapotrzebowania — sam z siebie nie jest odtwarzalny."
     },
@@ -903,7 +903,7 @@ export const en: Tlumaczenie<typeof pl> = {
   "gwc": {
     "migawka": {
       "oCoChodzi": "The ground a few metres down has a constant temperature all year — a GHE is a way to “borrow” it to pre-heat or pre-cool the air.",
-      "jakDziala": "Enter the air flow, how many degrees the GHE warms the air in winter and how many hours a day it runs. The app computes the power and daily heat; behind a heat recovery unit only part of the gain stays in the house. With the demand — the share; with COP — less electricity.",
+      "jakDziala": "Enter the air flow, how many degrees the GHE warms the air in winter and how many hours a day it runs. The app computes the power and daily heat; behind a heat recovery unit only part of the gain stays in the house. With the demand — the share; with COP — less electricity. Below: the GHE in front of the heat pump evaporator — how much it raises the intake air temperature, what part of the heat source it covers and how much electricity it saves at the datasheet COP.",
       "poCo": "You know what the GHE really gives in your system — especially behind a recuperator, where the gain is much smaller than the temperature rise suggests.",
       "fizyka": "Φ = V̇·ρ·cp·ΔT (ρ = 1.2 kg/m³, cp = 1005 J/(kg·K) — as Screens 3 and 12); Q = Φ·(1 − η)·h. The source example “+4 °C → −5%” gives no air flow or demand — it cannot be reproduced by itself."
     },
@@ -1676,7 +1676,7 @@ export const ru: Tlumaczenie<typeof pl> = {
   "gwc": {
     "migawka": {
       "oCoChodzi": "Грунт на глубине нескольких метров круглый год имеет постоянную температуру — ГТО позволяет «позаимствовать» её для подогрева или охлаждения воздуха.",
-      "jakDziala": "Введите расход воздуха, на сколько градусов ГТО подогревает воздух зимой и сколько часов в сутки работает. Приложение посчитает мощность и тепло за сутки; после рекуператора в доме остаётся лишь часть выигрыша. С потребностью — доля, с COP — меньше электроэнергии.",
+      "jakDziala": "Введите расход воздуха, на сколько градусов ГТО подогревает воздух зимой и сколько часов в сутки работает. Приложение посчитает мощность и тепло за сутки; после рекуператора в доме остаётся лишь часть выигрыша. С потребностью — доля, с COP — меньше электроэнергии. Ниже: ГТО перед испарителем теплового насоса — на сколько он поднимет температуру воздуха на входе, какую часть низкопотенциального источника покроет и сколько электроэнергии сэкономит при COP из паспорта.",
       "poCo": "Вы знаете, что реально даёт ГТО в вашей системе — особенно после рекуператора, где выигрыш намного меньше, чем кажется по приросту температуры.",
       "fizyka": "Φ = V̇·ρ·cp·ΔT (ρ = 1,2 кг/м³, cp = 1005 Дж/(кг·К) — как на Экранах 3 и 12); Q = Φ·(1 − η)·h. Пример источника «+4 °C → −5%» не даёт расхода и потребности — сам по себе не воспроизводим."
     },

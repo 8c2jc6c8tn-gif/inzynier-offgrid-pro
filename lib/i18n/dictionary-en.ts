@@ -1655,4 +1655,7 @@ export const dictionaryEn = {
   "CWP-Z-BATERII": "The PV surplus does not cover the pump's draw — {kwh} kWh will come from the battery. Source: without a PV surplus heating hot water with the pump (e.g. at night) loads the battery; heat the water in the hours of the largest surplus.",
   "CWP-ZAL-COP-SREDNI": "The hot-water COP is taken as constant over the whole heat-up — in reality it falls as the tank water gets warmer. Enter the average datasheet COP for this water temperature (source: lower than in space heating).",
   "CWP-ZAL-BEZ-PRIORYTETU": "The hot water / space heating priority is not computed: while heating water the pump does not heat the house. Tank losses during heating are ignored (Screen 17).",
+  "GWP-TYLKO-WSPARCIE": "The GHE covers about {pct}% of the power the pump takes from the air — it is not a full heat source, only a support (source).",
+  "GWP-ZAL-MIESZANIE": "The GHE air mixes with outdoor air at the evaporator intake: temperature rise = GHE rise × GHE flow / evaporator flow (mixing balance). When the GHE supplies the whole evaporator flow — the full rise. The brine-to-water variant is not computed.",
+  "GWP-ZAL-COP-Z-KARTY": "The COP gain only from the pump datasheet (COP at the higher air temperature). The source gives no rule — its examples are +3 °C → +6% and 0 → 5 °C → +15%, i.e. 2 and 3 %/K.",
 } satisfies Record<KluczTlumaczenia, string>

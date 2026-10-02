@@ -7,6 +7,7 @@ import { modelSezonowyPompyTool } from "../model-sezonowy-pompy-tool"
 import { buforPracaPompyTool } from "../bufor-praca-pompy-tool"
 import { przeplywPompyCieplaTool } from "../przeplyw-pompy-ciepla-tool"
 import { cwuPompaCieplaTool } from "../cwu-pompa-ciepla-tool"
+import { gwcPompaCieplaTool } from "../gwc-pompa-ciepla-tool"
 
 describe("doborMocyPompyTool (M6 Część 2B, dawne 5.27 + 5.67)", () => {
   it("kontrakt 9.3: 'read', bez potwierdzenia", () => {
@@ -134,5 +135,27 @@ describe("cwuPompaCieplaTool (M6 Część 2B, dawne 5.30 + 5.58)", () => {
     })
     expect(w.energiaRazemKwh).toBeLessThan(w.energiaSamaGrzalkaKwh)
     expect(w.ostrzezenia).toContain(t("pl", "CWP-PRZEGRZEW-GRZALKA", { tmax: 55, kwh: Math.round(w.cieploGrzalkaKwh * 100) / 100 }))
+  })
+})
+
+describe("gwcPompaCieplaTool (M6 Część 2B, dawne 5.54)", () => {
+  it("kontrakt 9.3: 'read', bez potwierdzenia", () => {
+    expect(gwcPompaCieplaTool.operationType).toBe("read")
+    expect(gwcPompaCieplaTool.requiresConfirmation).toBe(false)
+    expect(() => validateAiToolDefinition(gwcPompaCieplaTool)).not.toThrow()
+  })
+
+  it("GWC 600 m³/h +6 K przed parownikiem 1200 m³/h → +3 K; ℹ️ tylko wsparcie jako tekst PL", async () => {
+    const w = await gwcPompaCieplaTool.handler({
+      strumienGwcM3H: 600,
+      przyrostGwcK: 6,
+      strumienParownikaM3H: 1200,
+      mocPompyKw: 6,
+      copBezGwc: 3,
+      copZGwc: 0,
+      cieploKwh: 0,
+    })
+    expect(w.wzrostTempParownikaK).toBeCloseTo(3, 9)
+    expect(w.ostrzezenia).toContain(t("pl", "GWP-TYLKO-WSPARCIE", { pct: Math.round(w.udzialGwcPct) }))
   })
 })

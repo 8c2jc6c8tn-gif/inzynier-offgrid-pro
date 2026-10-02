@@ -12,6 +12,7 @@ import { NawigacjaEkranu } from "@/components/nawigacja-ekranu"
 import { NaglowekEkranu } from "@/components/wzorce/naglowek-ekranu"
 import { WynikGlowny } from "@/components/wzorce/wynik-glowny"
 import { WynikSzczegoly } from "@/components/wzorce/wynik-szczegoly"
+import { SekcjaGwcPompaCiepla } from "./sekcja-pompa-ciepla"
 
 type Pola = "strumien" | "przyrost" | "godziny" | "rekuperator" | "zapotrzebowanie" | "cop"
 type FormularzStan = Record<Pola, string>
@@ -91,6 +92,8 @@ export default function GwcPage() {
           <WynikSzczegoly assumptions={result.assumptions} warnings={result.warnings} formula={result.formula} />
         </WerdyktPanel>
       )}
+
+      <SekcjaGwcPompaCiepla strumienM3H={liczba(stan.strumien)} przyrostK={liczba(stan.przyrost)} />
 
       <Link href="/kalkulatory/wentylacja-odzysk-ciepla" className="text-small underline">
         {t("UI-M6-GWC-LINK-E3")}

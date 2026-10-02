@@ -1667,6 +1667,9 @@ export const dictionaryPl = {
   "CWP-Z-BATERII": "Nadwyżka PV nie pokrywa poboru pompy — {kwh} kWh weźmie z baterii. Źródło: bez nadwyżek PV podgrzewanie C.W.U. pompą (np. w nocy) obciąża baterię; grzej wodę w godzinach największej nadwyżki.",
   "CWP-ZAL-COP-SREDNI": "COP w trybie C.W.U. przyjęty jako stały przez cały podgrzew — w rzeczywistości spada, gdy woda w zasobniku robi się cieplejsza. Wpisz średni COP z karty dla tej temperatury wody (źródło: niższy niż przy ogrzewaniu).",
   "CWP-ZAL-BEZ-PRIORYTETU": "Priorytet C.W.U./ogrzewanie nie jest liczony: w czasie grzania wody pompa nie grzeje domu. Straty zasobnika w czasie grzania pominięte (Ekran 17).",
+  "GWP-TYLKO-WSPARCIE": "GWC pokrywa ok. {pct}% mocy, którą pompa bierze z powietrza — to nie pełne dolne źródło, tylko wsparcie (źródło).",
+  "GWP-ZAL-MIESZANIE": "Powietrze z GWC miesza się na wlocie parownika z powietrzem zewnętrznym: wzrost temperatury = przyrost w GWC × strumień GWC / strumień parownika (bilans mieszania). Gdy GWC daje cały strumień parownika — pełny przyrost. Wariant solanka-woda nie jest liczony.",
+  "GWP-ZAL-COP-Z-KARTY": "Wzrost COP tylko z karty pompy (COP przy wyższej temperaturze powietrza). Źródło nie daje reguły — jego przykłady to +3 °C → +6% i 0 → 5 °C → +15%, czyli 2 i 3 %/K.",
 } as const
 
 export type KluczTlumaczenia = keyof typeof dictionaryPl

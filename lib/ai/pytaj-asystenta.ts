@@ -270,6 +270,7 @@ import { modelSezonowyPompyTool } from "./tools/model-sezonowy-pompy-tool"
 import { buforPracaPompyTool } from "./tools/bufor-praca-pompy-tool"
 import { przeplywPompyCieplaTool } from "./tools/przeplyw-pompy-ciepla-tool"
 import { cwuPompaCieplaTool } from "./tools/cwu-pompa-ciepla-tool"
+import { gwcPompaCieplaTool } from "./tools/gwc-pompa-ciepla-tool"
 import { toAnthropicTool } from "./to-anthropic-tool"
 import { validateAiToolDefinition, type AiToolDefinition } from "./types"
 
@@ -530,6 +531,7 @@ const NARZEDZIA: Array<AiToolDefinition<any, any>> = [
   buforPracaPompyTool,
   przeplywPompyCieplaTool,
   cwuPompaCieplaTool,
+  gwcPompaCieplaTool,
 ]
 for (const narzedzie of NARZEDZIA) validateAiToolDefinition(narzedzie)
 

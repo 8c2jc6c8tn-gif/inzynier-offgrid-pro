@@ -219,6 +219,40 @@ export const pl = {
       },
     },
   },
+  "m6d-gwc-pompa-ciepla": {
+    pola: {
+      parownik: {
+        nazwa: "Strumień powietrza przez parownik pompy [m³/h]",
+        cel: "Im większy w porównaniu ze strumieniem GWC, tym mniej GWC podniesie temperaturę na wlocie.",
+        gdzie: "Karta jednostki zewnętrznej pompy (przepływ powietrza wentylatora).",
+        zakres: "≥ 0. Karta Twojej pompy.",
+      },
+      moc: {
+        nazwa: "Moc grzewcza pompy [kW]",
+        cel: "Z niej i z COP — ile mocy pompa bierze z powietrza: P·(1 − 1/COP).",
+        gdzie: "Karta pompy — moc w warunkach zimowych, w których pracuje GWC.",
+        zakres: "≥ 0. Karta Twojej pompy.",
+      },
+      copBez: {
+        nazwa: "COP bez GWC",
+        cel: "Sprawność pompy przy obecnej temperaturze powietrza.",
+        gdzie: "Karta pompy — COP przy temperaturze powietrza zewnętrznego.",
+        zakres: "≥ 1. Karta Twojej pompy.",
+      },
+      copZ: {
+        nazwa: "COP z GWC",
+        cel: "Opcjonalne: sprawność przy powietrzu cieplejszym o wynik wyżej — z niej wzrost COP i oszczędność.",
+        gdzie: "Karta pompy — COP przy temperaturze powietrza podniesionej o wyliczony wzrost (interpoluj między kolumnami karty).",
+        zakres: "≥ 1. Źródło: tylko przykłady (+3 °C → +6%).",
+      },
+      cieplo: {
+        nazwa: "Ciepło z pompy w okresie pracy GWC [kWh]",
+        cel: "Opcjonalne: przelicza wzrost COP na oszczędność prądu.",
+        gdzie: "Zapotrzebowanie z Ekranu 2 albo modelu sezonowego — tylko z miesięcy/dni, w których GWC pracuje.",
+        zakres: "≥ 0. Twój dom.",
+      },
+    },
+  },
 }
 
 export const en: Tlumaczenie<typeof pl> = {
@@ -436,6 +470,40 @@ export const en: Tlumaczenie<typeof pl> = {
       },
     },
   },
+  "m6d-gwc-pompa-ciepla": {
+    pola: {
+      parownik: {
+        nazwa: "Air flow through the pump evaporator [m³/h]",
+        cel: "The larger compared with the GHE flow, the less the GHE raises the intake temperature.",
+        gdzie: "Outdoor unit datasheet (fan air flow).",
+        zakres: "≥ 0. Your pump's datasheet.",
+      },
+      moc: {
+        nazwa: "Pump heating power [kW]",
+        cel: "From it and the COP — how much power the pump takes from the air: P·(1 − 1/COP).",
+        gdzie: "Pump datasheet — power in the winter conditions in which the GHE runs.",
+        zakres: "≥ 0. Your pump's datasheet.",
+      },
+      copBez: {
+        nazwa: "COP without GHE",
+        cel: "Pump efficiency at the current air temperature.",
+        gdzie: "Pump datasheet — COP at the outdoor air temperature.",
+        zakres: "≥ 1. Your pump's datasheet.",
+      },
+      copZ: {
+        nazwa: "COP with GHE",
+        cel: "Optional: efficiency with air warmer by the result above — the COP gain and saving follow from it.",
+        gdzie: "Pump datasheet — COP at the air temperature raised by the computed rise (interpolate between datasheet columns).",
+        zakres: "≥ 1. Source: examples only (+3 °C → +6%).",
+      },
+      cieplo: {
+        nazwa: "Heat from the pump while the GHE runs [kWh]",
+        cel: "Optional: turns the COP gain into electricity saved.",
+        gdzie: "Demand from Screen 2 or the seasonal model — only for the months/days the GHE runs.",
+        zakres: "≥ 0. Your house.",
+      },
+    },
+  },
 }
 
 export const ru: Tlumaczenie<typeof pl> = {
@@ -650,6 +718,40 @@ export const ru: Tlumaczenie<typeof pl> = {
         cel: "Сколько тепла в час насос отдаёт в бойлер — из неё время нагрева.",
         gdzie: "Паспорт теплового насоса (тепловая мощность в режиме ГВС).",
         zakres: "≥ 0. Паспорт вашего насоса.",
+      },
+    },
+  },
+  "m6d-gwc-pompa-ciepla": {
+    pola: {
+      parownik: {
+        nazwa: "Расход воздуха через испаритель насоса [м³/ч]",
+        cel: "Чем он больше по сравнению с расходом ГТО, тем меньше ГТО поднимет температуру на входе.",
+        gdzie: "Паспорт наружного блока (расход воздуха вентилятора).",
+        zakres: "≥ 0. Паспорт вашего насоса.",
+      },
+      moc: {
+        nazwa: "Тепловая мощность насоса [кВт]",
+        cel: "Из неё и COP — сколько мощности насос берёт из воздуха: P·(1 − 1/COP).",
+        gdzie: "Паспорт насоса — мощность в зимних условиях, в которых работает ГТО.",
+        zakres: "≥ 0. Паспорт вашего насоса.",
+      },
+      copBez: {
+        nazwa: "COP без ГТО",
+        cel: "Эффективность насоса при текущей температуре воздуха.",
+        gdzie: "Паспорт насоса — COP при температуре наружного воздуха.",
+        zakres: "≥ 1. Паспорт вашего насоса.",
+      },
+      copZ: {
+        nazwa: "COP с ГТО",
+        cel: "Необязательно: эффективность при воздухе, тёплом на результат выше — из неё рост COP и экономия.",
+        gdzie: "Паспорт насоса — COP при температуре воздуха, поднятой на вычисленный рост (интерполируйте между колонками паспорта).",
+        zakres: "≥ 1. Источник: только примеры (+3 °C → +6%).",
+      },
+      cieplo: {
+        nazwa: "Тепло от насоса за период работы ГТО [кВт·ч]",
+        cel: "Необязательно: переводит рост COP в экономию электроэнергии.",
+        gdzie: "Потребность с экрана 2 или сезонной модели — только за месяцы/дни работы ГТО.",
+        zakres: "≥ 0. Ваш дом.",
       },
     },
   },
