@@ -267,6 +267,10 @@ import { chlodzeniePompaCieplaTool } from "./tools/chlodzenie-pompa-ciepla-tool"
 import { doborMocyPompyTool } from "./tools/dobor-mocy-pompy-tool"
 import { krzywaGrzewczaTool } from "./tools/krzywa-grzewcza-tool"
 import { modelSezonowyPompyTool } from "./tools/model-sezonowy-pompy-tool"
+import { przesuwanieZadanTool } from "./tools/przesuwanie-zadan-tool"
+import { doborZrodelZasilaniaTool } from "./tools/dobor-zrodel-zasilania-tool"
+import { audytZimowyTool } from "./tools/audyt-zimowy-tool"
+import { wykrywanieAnomaliiTool } from "./tools/wykrywanie-anomalii-tool"
 import { buforPracaPompyTool } from "./tools/bufor-praca-pompy-tool"
 import { przeplywPompyCieplaTool } from "./tools/przeplyw-pompy-ciepla-tool"
 import { cwuPompaCieplaTool } from "./tools/cwu-pompa-ciepla-tool"
@@ -538,6 +542,10 @@ const NARZEDZIA: Array<AiToolDefinition<any, any>> = [
   defrostSezonTool,
   raportEfektywnosciTool,
   planPoprawyTool,
+  przesuwanieZadanTool,
+  doborZrodelZasilaniaTool,
+  audytZimowyTool,
+  wykrywanieAnomaliiTool,
 ]
 for (const narzedzie of NARZEDZIA) validateAiToolDefinition(narzedzie)
 

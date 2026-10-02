@@ -19,6 +19,8 @@ export function validateInput(input: UpsKrytycznyInput): ValidationResult {
 
   if (input.pojemnoscAh < 0) errors.push(wartoscUjemna("pojemnoscAh", input.pojemnoscAh))
   if (input.napiecieV < 0) errors.push(wartoscUjemna("napiecieV", input.napiecieV))
+  const prog = input.progOdcieciaMin ?? 0
+  if (prog < 0) errors.push(wartoscUjemna("progOdcieciaMin", prog))
 
   return { errors, warnings }
 }

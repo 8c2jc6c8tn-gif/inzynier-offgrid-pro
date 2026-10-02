@@ -251,7 +251,7 @@ export const KAFLE: KafelEntry[] = [
     ikona: "🚨",
     ekrany: [
       { href: "/kalkulatory/audyt-pozarowy", label: "Autonomiczny audyt bezpieczeństwa pożarowego" },
-      { href: "/kalkulatory/ups-krytyczny", label: "UPS krytyczny — dobór sprzętowy" },
+      { href: "/kalkulatory/ups-krytyczny", label: "UPS krytyczny — dobór i plan odcinania" },
       {
         href: "/kalkulatory/dogrzewanie-paliwem-stalym",
         label: "Bezpieczeństwo pożarowe — dogrzewanie paliwem stałym",
@@ -288,7 +288,13 @@ export const KAFLE: KafelEntry[] = [
     nazwa: "AI i prognozy",
     opis: "Prognozy produkcji/zużycia, rekomendacje.",
     ikona: "🤖",
-    ekrany: [{ href: "/kalkulatory/prognozy", label: "Prognozy" }],
+    ekrany: [
+      { href: "/kalkulatory/prognozy", label: "Prognozy" },
+      { href: "/kalkulatory/dobor-zrodel-zasilania", label: "Dobór źródła zasilania i prądu ładowania" },
+      { href: "/kalkulatory/przesuwanie-zadan", label: "Przesuwanie zadań domowych na słońce" },
+      { href: "/kalkulatory/wykrywanie-anomalii", label: "Wykrywanie anomalii (PV, zużycie)" },
+      { href: "/kalkulatory/audyt-zimowy", label: "Generalny audyt zimowy" },
+    ],
   },
   {
     id: 11,

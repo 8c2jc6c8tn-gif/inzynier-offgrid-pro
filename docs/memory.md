@@ -8758,3 +8758,19 @@ Tryb Audyt (czapka rewidenta). Warstwa „w pełni na końcu” z N.2 — wszyst
 - Pułapka: wpis ✅ „zamyka wpisy 🔲 X, Y” nie wystarcza — trzeba też przestawić same wpisy 🔲, inaczej kolejna sesja
   bierze je jako otwarte. Przed budową zawsze grep kodu + `rejestr-pokrycia.md`, nie tylko lista.
 - Wpis listy wskazywał `lib/i18n/ui/m09-esp32.ts`; klucze E4 są w `m09-ekrany.ts` (ekran już na `t()`).
+
+## M10 + M8 ekrany bez właściciela (02.10.2026, gałąź `work/ekrany-bez-wlasciciela-m10-m8`, niewypchnięta)
+
+- Zbudowane (5): M10/E5 `przesuwanie-zadan` (12.10), M8/E6 AI — plan odcinania w `ups-krytyczny` 1.1.0 (12.54),
+  M10/E4 `dobor-zrodel-zasilania` (12.7 + 12.8, echo M4 `hierarchia-ladowania` + `cold-c-rate`), M10/E12
+  `audyt-zimowy` (12.36), M10/E7 `wykrywanie-anomalii` (12.13, 12.14, 12.17). Założenia ✅🤖 — jeden wpis ⚠️ w liście.
+- 12.54 było opisane jako niebudowalne „bez progu liczbowego” — rozwiązane progiem odcięcia od usera (źródło daje
+  tylko przykład „10 minut”). 🔴 `UPS-AKUMULATOR-SLABY` dopisany do rejestru stopów, bo źródło oznacza go 🔴 wprost —
+  do potwierdzenia właściciela.
+- Pominięte z powodem (wiersze w `rejestr-pokrycia.md`): M10/E2, E3, E6, E8, E9, E10 (telemetria/ML/historia), E11
+  (brak reguły SoC start/stop i progu temperatury testu; zależne od 12.4/TD7), części E7 (12.15, 12.16, 12.18).
+- Pułapka: wzorzec `*-UJEMNA` w `scripts/stopy-guard-wyjatki.json` nie łapie nowych kodów walidacji — każdy kod
+  🔴 walidacji trzeba dopisać jawnie.
+- Pułapka: komunikat „{od}:00” psuje się przy siatce 30 min — godziny przekazywać jako gotowy tekst (`godzinaTekst()`).
+- Przy okazji odświeżone statusy: `rejestr-pokrycia` 1.15, 1.18, 3.10 oraz trzy nieaktualne wpisy 🔲 listy (M12 ×2, M7).
+

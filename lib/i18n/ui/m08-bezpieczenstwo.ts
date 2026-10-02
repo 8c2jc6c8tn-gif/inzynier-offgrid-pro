@@ -157,7 +157,7 @@ export const pl = {
   "UI-UPSKRY-ZAZNACZ-PRZYNAJMNIEJ-JEDNO":
     "Zaznacz przynajmniej jedno urządzenie z mocą i wypełnij pojemność/napięcie, żeby zobaczyć wynik.",
   "UI-UPSKRY-LACZNY-POBOR-MOCY": "Łączny pobór mocy: {laczonyPoborW} W.",
-  "UI-UPSKRY-UPS-KRYTYCZNY-DOBOR": "UPS krytyczny — dobór sprzętowy",
+  "UI-UPSKRY-UPS-KRYTYCZNY-DOBOR": "UPS krytyczny — dobór i plan odcinania",
   "UI-UPSKRY-MOC": "Moc — {label}",
   "UI-UPSKRY-POJEMNOSC-AKUMULATORA-UPS": "Pojemność akumulatora UPS",
   "UI-UPSKRY-NAPIECIE-SYSTEMU-UPS": "Napięcie systemu UPS",
@@ -342,7 +342,7 @@ export const en: Record<Klucz, string> = {
   "UI-UPSKRY-ZAZNACZ-PRZYNAJMNIEJ-JEDNO":
     "Tick at least one device with a power value and fill in capacity/voltage to see the result.",
   "UI-UPSKRY-LACZNY-POBOR-MOCY": "Total power draw: {laczonyPoborW} W.",
-  "UI-UPSKRY-UPS-KRYTYCZNY-DOBOR": "Critical UPS — hardware sizing",
+  "UI-UPSKRY-UPS-KRYTYCZNY-DOBOR": "Critical UPS — sizing and shedding plan",
   "UI-UPSKRY-MOC": "Power — {label}",
   "UI-UPSKRY-POJEMNOSC-AKUMULATORA-UPS": "UPS battery capacity",
   "UI-UPSKRY-NAPIECIE-SYSTEMU-UPS": "UPS system voltage",
@@ -525,7 +525,7 @@ export const ru: Record<Klucz, string> = {
   "UI-UPSKRY-ZAZNACZ-PRZYNAJMNIEJ-JEDNO":
     "Отметьте хотя бы одно устройство с мощностью и заполните ёмкость/напряжение, чтобы увидеть результат.",
   "UI-UPSKRY-LACZNY-POBOR-MOCY": "Суммарная потребляемая мощность: {laczonyPoborW} Вт.",
-  "UI-UPSKRY-UPS-KRYTYCZNY-DOBOR": "Критический ИБП — подбор оборудования",
+  "UI-UPSKRY-UPS-KRYTYCZNY-DOBOR": "Критический ИБП — подбор и план отключения",
   "UI-UPSKRY-MOC": "Мощность — {label}",
   "UI-UPSKRY-POJEMNOSC-AKUMULATORA-UPS": "Ёмкость аккумулятора ИБП",
   "UI-UPSKRY-NAPIECIE-SYSTEMU-UPS": "Напряжение системы ИБП",
