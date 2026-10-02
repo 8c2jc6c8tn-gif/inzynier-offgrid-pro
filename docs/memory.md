@@ -8805,3 +8805,8 @@ Tryb Audyt (czapka rewidenta). Warstwa „w pełni na końcu” z N.2 — wszyst
   narzędzie AI w `pytaj-asystenta.ts`, wpis w `lib/pulpit/registry.ts`.
 - Założenia ✅🤖 (10 punktów) zebrane w jednym wpisie ⚠️ `lista-do-zrobienia.md` z 02.10.2026.
 
+
+## Audyt i18n poza strażnikami — `pv/czystosc-i-snieg` (02.10.2026)
+- Pułapka: `check:i18n-guard` przepuszczał moduł z polskim tekstem, bo widzi tylko `Warning.message` jako literał w obiekcie i `assumptions` jako gołe stringi — nie widzi pól `string` w `value` wyniku (`opis`, `powod`) ani `message` zbudowanego w funkcji pomocniczej (`outOfRange`). Naprawione w tym module: wynik niesie `opisKey`/`powodKey` + params, ekran i narzędzie AI rozwiązują `t()`. Klucze `KATSTOPNI-/SPADEKPRODUKCJIPCT-POZA-ZAKRESEM` wynikają z `code` (bez `i18nKey`).
+- Do wypromowania (kandydat do `docs/wklad-do-standardu.md`): strażnik silnika powinien flagować polskie litery w literałach zwracanych w `value`, nie tylko w `message`.
+- Zakres pozostały: wpis „Audyt i18n poza strażnikami” w `docs/lista-do-zrobienia.md`.

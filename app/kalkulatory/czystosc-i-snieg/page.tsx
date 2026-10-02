@@ -89,7 +89,7 @@ export default function CzystoscISniegPage() {
                   katResult.status === "VALID_WITH_WARNINGS" && "text-werdykt-uwaga",
                 )}
               >
-                {katResult.value.opis}
+                {t(katResult.value.opisKey, katResult.value.opisParams)}
               </p>
             )}
           </div>
@@ -127,7 +127,7 @@ export default function CzystoscISniegPage() {
                 etykieta={harmonogramResult.value.rekomendacjaMycia ? t("UI-CZYISNI-ZALECANE-MYCIE-PANELI") : t("UI-CZYISNI-MYCIE-NIEPOTRZEBNE")}
                 className="p-3 text-small"
               >
-                <p className="mt-1">{harmonogramResult.value.powod}</p>
+                <p className="mt-1">{t(harmonogramResult.value.powodKey, harmonogramResult.value.powodParams)}</p>
                 {harmonogramResult.assumptions.map((a, i) => (
                   <p key={typeof a === "string" ? a : a.kod + i} className="mt-1 opacity-80">
                     {t("UI-CZYISNI-ZALOZENIE")} {typeof a === "string" ? a : t(a.kod, a.params)}

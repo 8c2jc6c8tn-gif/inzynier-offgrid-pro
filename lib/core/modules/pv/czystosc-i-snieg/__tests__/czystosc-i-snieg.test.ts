@@ -1,3 +1,4 @@
+import { dictionaries } from "@/lib/i18n/dictionaries"
 import { describe, expect, it } from "vitest"
 import { classifyKatSamooczyszczania, ocenHarmonogramCzyszczenia } from "../calculator"
 
@@ -55,7 +56,7 @@ describe("ocenHarmonogramCzyszczenia", () => {
   it("spadek powyżej progu, ale nadchodzi deszcz -> rekomendacja odroczona", () => {
     const result = ocenHarmonogramCzyszczenia({ spadekProdukcjiPct: 12, deszczWCiaguKilkuDni: true })
     expect(result.value.rekomendacjaMycia).toBe(false)
-    expect(result.value.powod).toContain("deszcz")
+    expect(result.value.powodKey).toBe("CZYSNIEG-POWOD-DESZCZ-ODROCZONE")
   })
 
   it("przypadek graniczny: dokładnie na progu (7.5%) -> jeszcze brak rekomendacji (> nie >=)", () => {
@@ -66,5 +67,31 @@ describe("ocenHarmonogramCzyszczenia", () => {
   it("błędne dane: spadek -5% -> INVALID_INPUT", () => {
     const result = ocenHarmonogramCzyszczenia({ spadekProdukcjiPct: -5, deszczWCiaguKilkuDni: false })
     expect(result.status).toBe("INVALID_INPUT")
+  })
+})
+
+describe("i18n — klucze wyników i ostrzeżeń mają tłumaczenia PL/EN/RU", () => {
+  const wyniki = [
+    classifyKatSamooczyszczania({ katStopni: 5 }),
+    classifyKatSamooczyszczania({ katStopni: 12 }),
+    classifyKatSamooczyszczania({ katStopni: 20 }),
+    classifyKatSamooczyszczania({ katStopni: 45 }),
+    classifyKatSamooczyszczania({ katStopni: -1 }),
+    ocenHarmonogramCzyszczenia({ spadekProdukcjiPct: 3, deszczWCiaguKilkuDni: false }),
+    ocenHarmonogramCzyszczenia({ spadekProdukcjiPct: 12, deszczWCiaguKilkuDni: true }),
+    ocenHarmonogramCzyszczenia({ spadekProdukcjiPct: 12, deszczWCiaguKilkuDni: false }),
+    ocenHarmonogramCzyszczenia({ spadekProdukcjiPct: 120, deszczWCiaguKilkuDni: false }),
+  ]
+
+  it.each(["pl", "en", "ru"] as const)("język %s: brak kluczy bez tłumaczenia", (jezyk) => {
+    const klucze = wyniki.flatMap((w) => [
+      "opisKey" in w.value ? w.value.opisKey : "",
+      "powodKey" in w.value ? w.value.powodKey : "",
+      ...w.warnings.map((o) => o.i18nKey ?? o.code),
+      ...w.assumptions.map((a) => (typeof a === "string" ? "" : a.kod)),
+    ])
+    for (const k of klucze.filter(Boolean)) {
+      expect(dictionaries[jezyk][k], k).toBeDefined()
+    }
   })
 })
