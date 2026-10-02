@@ -79,6 +79,7 @@ export default function ChlodzeniePompaCieplaPage() {
   )
   const v = result.value
   const uwaga = result.status === "VALID_WITH_WARNINGS"
+  const stop = result.warnings.some((w) => w.level === "critical")
 
   return (
     <main className="mx-auto flex max-w-md flex-col gap-6 p-6">
@@ -125,7 +126,10 @@ export default function ChlodzeniePompaCieplaPage() {
       ) : result.status === "INCOMPLETE" ? (
         <p className="text-small text-muted-foreground">{t("UI-M6-CHL-UZUPELNIJ")}</p>
       ) : (
-        <WerdyktPanel poziom={uwaga ? "uwaga" : "ok"} etykieta={t(uwaga ? "UI-M6-CHL-W-UWAGA" : "UI-M6-CHL-W-OK")}>
+        <WerdyktPanel
+          poziom={stop ? "blad" : uwaga ? "uwaga" : "ok"}
+          etykieta={t(stop ? "UI-M6-CHL-W-STOP" : uwaga ? "UI-M6-CHL-W-UWAGA" : "UI-M6-CHL-W-OK")}
+        >
           <WynikGlowny>{t("UI-M6-CHL-WYNIK", { kwh: r2(v.pradPompyKwh) })}</WynikGlowny>
           {v.pradKlimatyzatoraKwh !== null && <p className="mt-1 text-small">{t("UI-M6-CHL-KLIMA", { kwh: r2(v.pradKlimatyzatoraKwh) })}</p>}
           {v.pradFreeCoolingKwh !== null && <p className="mt-1 text-small">{t("UI-M6-CHL-FREE", { kwh: r2(v.pradFreeCoolingKwh) })}</p>}

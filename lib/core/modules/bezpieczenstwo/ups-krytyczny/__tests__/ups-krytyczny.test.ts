@@ -33,7 +33,7 @@ describe("calculateUpsKrytyczny", () => {
       efficiency: 1,
     })
     expect(result.value.czasPodtrzymaniaH).toBeCloseTo(4.8, 6)
-    expect(result.assumptions).toEqual([])
+    expect(result.assumptions.some((a) => typeof a !== "string" && a.kod === "SPRAWNOSC-DOMYSLNA")).toBe(false)
   })
 
   it("tylko część urządzeń zaznaczona -> sumuje wyłącznie zaznaczone", () => {

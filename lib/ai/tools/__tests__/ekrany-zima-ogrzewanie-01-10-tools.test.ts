@@ -33,6 +33,37 @@ describe("deficytyMiesieczneTool (M7/E2, dawne 6.2)", () => {
     expect(w.sumaGodzin).toBeCloseTo(40, 9)
     expect(w.ostrzezenia).toContain(t("pl", "DEFM-PALIWO-PONAD-ZAPAS", { miesiac: 2, godziny: 40, litry: 60, zapas: 50 }))
   })
+
+  it("horyzont 14 dni + historia z własnego fixture'a → łańcuch, horyzonty i zapas z percentyla", async () => {
+    const dni = (blok: number) => Array.from({ length: 365 }, (_, i) => (i >= 9 && i < 9 + blok ? 0 : 4))
+    const w = await deficytyMiesieczneTool.handler({
+      deficytyKwh: Array.from({ length: 12 }, () => 0),
+      mocAgregatuKw: 5,
+      zuzyciePaliwaLH: 1.5,
+      cenaPaliwaZlL: 8,
+      kosztSerwisuZlH: 0,
+      zapasPaliwaL: 20,
+      horyzontDni: 14,
+      zapotrzebowanieDobaKwh: Array.from({ length: 12 }, () => 10),
+      historia: {
+        zrodlo: "wpisane-reczne",
+        rodzaj: "produkcja-pv-kwh",
+        lata: [
+          { rok: 2021, dni: dni(10) },
+          { rok: 2022, dni: dni(5) },
+          { rok: 2023, dni: dni(0) },
+        ],
+      },
+      oknoDni: 7,
+      percentylPct: 60,
+      progSlabegoDniaPct: 30,
+    })
+    expect(w.lancuch!.litryNaKwh).toBeCloseTo(0.375, 12)
+    expect(w.horyzonty.find((h) => h.wybrany)!.dni).toBe(14)
+    expect(w.zapasZHistorii!.litryPercentyl).toBeCloseTo(23.25, 9)
+    expect(w.historia!.najdluzszaSeriaSlabychDni).toBe(10)
+    expect(w.ostrzezenia).toContain(t("pl", "DEFM-HISTORIA-ZAPAS-ZA-MALY", { okno: 7, percentyl: 60, litry: 23, zapas: 20, lataPokryte: 1, lata: 3 }))
+  })
 })
 
 describe("cykleOdszranianiaTool (M6/E6, dawne 5.6 + 1.14 + 6.8)", () => {

@@ -30,6 +30,20 @@ describe("doborMocyPompyTool (M6 Część 2B, dawne 5.27 + 5.67)", () => {
     })
     expect(w.dogrzewanieKw).toBeCloseTo(1, 9)
     expect(w.ostrzezenia).toContain(t("pl", "DMP-DEFICYT", { brak: 1, zapotrzebowanie: 6, moc: 5 }))
+    expect(w.ostrzezenia).toContain(t("pl", "DMP-DOGRZEW-NIEZNANY"))
+  })
+
+  it("dogrzew znany → bez prośby o uzupełnienie", async () => {
+    const w = await doborMocyPompyTool.handler({
+      zapotrzebowanieKw: 6,
+      mocPompyProjKw: 5,
+      tProjC: -20,
+      tWewnC: 20,
+      tDrugiC: null,
+      mocPompyDrugiKw: 0,
+      maDogrzew: false,
+    })
+    expect(w.ostrzezenia).not.toContain(t("pl", "DMP-DOGRZEW-NIEZNANY"))
   })
 })
 
@@ -108,7 +122,7 @@ describe("przeplywPompyCieplaTool (M6 Część 2B, dawne 5.65)", () => {
     expect(() => validateAiToolDefinition(przeplywPompyCieplaTool)).not.toThrow()
   })
 
-  it("7 kW przy ΔT 5 K → ok. 1,2 m³/h; pompa obiegowa 0,9 m³/h → 🟡 za mały przepływ jako tekst PL", async () => {
+  it("7 kW przy ΔT 5 K → ok. 1,2 m³/h; pompa obiegowa 0,9 m³/h → 🔴 za mały przepływ jako tekst PL", async () => {
     const w = await przeplywPompyCieplaTool.handler({ mocPompyKw: 7, dTK: 5, przeplywPompyM3H: 0.9, minPrzeplywM3H: 0 })
     expect(w.wymaganyM3H).toBeCloseTo(1.2, 1)
     expect(w.rzeczywistyDTK).not.toBeNull()

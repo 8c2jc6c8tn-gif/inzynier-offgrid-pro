@@ -123,6 +123,10 @@ nie do audytu poprawności formularza webowego.
 - **[28.09.2026] Awaria centrali sygnalizacji pożaru** — dopóki centrala nie działa, system nie dowie się o
   pożarze; status priorytetowy.
   (M8/E5 — `lib/core/modules/bezpieczenstwo/centrala-ssp/warnings.ts`, `awariaCentrali`, kod `SSP-AWARIA-CENTRALI`)
+- **[02.10.2026] UPS krytyczny sygnalizuje słaby akumulator (status zignorowany)** — przy realnej awarii
+  podtrzymanie może nie zadziałać wcale. 🔴 wprost w źródle (`Tresc_Modul_8`, Ekran 6 Sekcja C i lista „Twarde stopy
+  zidentyfikowane w tym module”) — nie nowa decyzja, tylko domknięcie Sekcji C przy budowie 12.54.
+  (M8/E6 — `lib/core/modules/bezpieczenstwo/ups-krytyczny/warnings.ts`, `akumulatorSlaby`, kod `UPS-AKUMULATOR-SLABY`)
 - **[28.09.2026] Niesprawna lampa awaryjna na drodze ewakuacji** — awaria musi być widoczna, zanim będzie potrzebna.
   (M8/E7 — `lib/core/modules/bezpieczenstwo/oswietlenie-awaryjne/warnings.ts`, `lampaNiesprawna`, kod
   `OSW-LAMPA-NIESPRAWNA`)
@@ -371,6 +375,20 @@ nie do audytu poprawności formularza webowego.
   (🔴 1:1 ze źródła, dawne 5.42; próg = głębokość przemarzania wpisana przez użytkownika, ta sama reguła co M7/E22
   `ZAMARZ-PLYCEJ-NIZ-PRZEMARZANIE`; widełki 1,2–1,8 m tylko 🟡 ✅🤖)
   (M6, 5.42 — `lib/core/modules/ogrzewanie/kolektor-gruntowy/warnings.ts`, `plycejNizPrzemarzanie`, kod `KOL-PLYCEJ-NIZ-PRZEMARZANIE`)
+- **[02.10.2026, D71] Za mały przepływ przez pompę ciepła** — przepływ pompy obiegowej poniżej wymaganego V̇ = P/(c·ΔT)
+  albo poniżej minimum z karty pompy ciepła: alarm przepływu i ryzyko zamarznięcia wymiennika (źródło: „alarm pompy
+  ciepła i ryzyko zamarznięcia”). Decyzja właściciela — poziom podniesiony z 🟡 do 🔴. Kategoria: Cieplne.
+  (M6/E15 dokładka 2B, dawne 5.65 — `lib/core/modules/ogrzewanie/przeplyw-pompy-ciepla/calculator.ts`,
+  `zaMalyPrzeplyw` kod `PRZ-PRZEPLYW-ZA-MALY`, `ponizejMinimum` kod `PRZ-PONIZEJ-MINIMUM`)
+- **[02.10.2026, D71] Zasilanie chłodzenia pompą ciepła na poziomie punktu rosy lub niżej** — kondensacja na posadzce /
+  klimakonwektorze, zawilgocenie i szkoda budowlana (źródło: „grozi zawilgoceniem posadzki”). Decyzja właściciela —
+  poziom podniesiony z 🟡 do 🔴. Kategoria: Cieplne.
+  (M6/2C, dawne 5.29 — `lib/core/modules/ogrzewanie/chlodzenie-pompa-ciepla/calculator.ts`, `ponizejRosy`, kod `CHL-PONIZEJ-ROSY`)
+- **[02.10.2026, D71] Deficyt mocy pompy ciepła przy temperaturze projektowej, gdy dom nie ma żadnego zapasowego źródła
+  ciepła** (grzałka, kominek, kocioł) — dom nie utrzyma temperatury w największy mróz. 🔴 **tylko** przy jawnym „brak
+  dogrzewu”; z dogrzewem albo przy nieznanym (domyślnie) pozostaje 🟡 (+ ℹ️ z prośbą o uzupełnienie pola). Kategoria: Cieplne.
+  (M6/E5 dokładka 2B, dawne 5.27 — `lib/core/modules/ogrzewanie/dobor-mocy-pompy/warnings.ts`, `deficytMocy`,
+  kod `DMP-DEFICYT`)
 
 
 ## Bezpieczeństwo życia / montaż

@@ -193,7 +193,8 @@ export const KAFLE: KafelEntry[] = [
       { href: "/kalkulatory/ryzyko-niskiego-napiecia", label: "Ryzyko wyłączenia pompy przy niskim napięciu" },
       { href: "/kalkulatory/kociol-elektryczny", label: "Kocioł elektryczny vs pompa ciepła" },
       { href: "/kalkulatory/koszty-ogrzewania", label: "Porównanie kosztów ogrzewania (paliwa, prąd, nagrzewnica)" },
-      { href: "/kalkulatory/infiltracja-powietrza", label: "Infiltracja powietrza (test szczelności)" },
+      { href: "/kalkulatory/nagrzewnica-powietrza", label: "Nagrzewnica powietrza (typu webasto) vs ogrzewanie prądem" },
+      { href: "/kalkulatory/infiltracja-powietrza",label: "Infiltracja powietrza (test szczelności)" },
       { href: "/kalkulatory/wentylacja-odzysk-ciepla", label: "System wentylacji z odzyskiem ciepła" },
       { href: "/kalkulatory/ryzyko-zamarzniecia-dolnego-zrodla", label: "Ryzyko zamarznięcia dolnego źródła" },
       { href: "/kalkulatory/halas-i-wibracje", label: "Hałas i wibracje pompy ciepła" },
@@ -213,6 +214,7 @@ export const KAFLE: KafelEntry[] = [
       { href: "/kalkulatory/basen", label: "Ogrzewanie basenu pompą ciepła" },
       { href: "/kalkulatory/odzysk-ciepla-sciekow", label: "Odzysk ciepła ze ścieków" },
       { href: "/kalkulatory/chlodzenie-pompa-ciepla", label: "Chłodzenie latem pompą ciepła" },
+      { href: "/kalkulatory/taryfa-nocna-pompy-ciepla", label: "Pompa ciepła w taryfie nocnej (bufor, sieć/agregat)" },
       { href: "/kalkulatory/model-sezonowy-pompy-ciepla", label: "Zużycie pompy ciepła w sezonie" },
       { href: "/kalkulatory/plan-poprawy-efektywnosci", label: "Plan poprawy efektywności" },
     ],
@@ -251,7 +253,7 @@ export const KAFLE: KafelEntry[] = [
     ikona: "🚨",
     ekrany: [
       { href: "/kalkulatory/audyt-pozarowy", label: "Autonomiczny audyt bezpieczeństwa pożarowego" },
-      { href: "/kalkulatory/ups-krytyczny", label: "UPS krytyczny — dobór sprzętowy" },
+      { href: "/kalkulatory/ups-krytyczny", label: "UPS krytyczny — dobór i plan odcinania" },
       {
         href: "/kalkulatory/dogrzewanie-paliwem-stalym",
         label: "Bezpieczeństwo pożarowe — dogrzewanie paliwem stałym",
@@ -288,7 +290,13 @@ export const KAFLE: KafelEntry[] = [
     nazwa: "AI i prognozy",
     opis: "Prognozy produkcji/zużycia, rekomendacje.",
     ikona: "🤖",
-    ekrany: [{ href: "/kalkulatory/prognozy", label: "Prognozy" }],
+    ekrany: [
+      { href: "/kalkulatory/prognozy", label: "Prognozy" },
+      { href: "/kalkulatory/dobor-zrodel-zasilania", label: "Dobór źródła zasilania i prądu ładowania" },
+      { href: "/kalkulatory/przesuwanie-zadan", label: "Przesuwanie zadań domowych na słońce" },
+      { href: "/kalkulatory/wykrywanie-anomalii", label: "Wykrywanie anomalii (PV, zużycie)" },
+      { href: "/kalkulatory/audyt-zimowy", label: "Generalny audyt zimowy" },
+    ],
   },
   {
     id: 11,
