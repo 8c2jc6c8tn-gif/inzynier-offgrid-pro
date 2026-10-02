@@ -1672,6 +1672,7 @@ export const dictionaryPl = {
   "GWP-ZAL-COP-Z-KARTY": "Wzrost COP tylko z karty pompy (COP przy wyższej temperaturze powietrza). Źródło nie daje reguły — jego przykłady to +3 °C → +6% i 0 → 5 °C → +15%, czyli 2 i 3 %/K.",
   "DSZ-UDZIAL-USTAWIENIA": "Defrost to {pct}% zużycia pompy w sezonie. Źródło: złe ustawienia defrostu mogą pochłonąć ok. 10% energii pompy — jeśli Twój wynik jest wysoki, sprawdź ustawienia sterownika (odstęp, warunek startu) z instalatorem.",
   "DSZ-ZAL-BEZ-HARMONOGRAMU": "Planowanie przerw na defrost pod komfort nie jest liczone — źródło nie daje modelu. Scenariusze pogody i ich dni wpisujesz sam (np. z danych pogodowych regionu).",
+  "RAP-ZAL-BEZ-KLASY": "Klasa energetyczna (A, B, C…) i energia pierwotna nie są liczone — źródło nie podaje progów klas ani współczynników nakładu. Ile da poprawa izolacji czy okien, policzy ekran „wpływ czynnika” (Moduł 6). Roczne ciepło z Ekranu 1 nie odejmuje zysków słonecznych i bytowych.",
 } as const
 
 export type KluczTlumaczenia = keyof typeof dictionaryPl

@@ -287,6 +287,28 @@ export const pl = {
       },
     },
   },
+  "m6d-raport-efektywnosci": {
+    pola: {
+      powierzchnia: {
+        nazwa: "Powierzchnia ogrzewana [m²]",
+        cel: "Opcjonalne: dzieli roczne ciepło przez metry — wskaźnik do porównania domów.",
+        gdzie: "Projekt, świadectwo energetyczne albo pomiar pomieszczeń ogrzewanych.",
+        zakres: "≥ 0. Twój dom.",
+      },
+      cieploRok: {
+        nazwa: "Ciepło na ogrzewanie w roku [kWh]",
+        cel: "Z niego wskaźnik na m², prąd i koszt.",
+        gdzie: "Puste = suma miesięcy z Ekranu 1 (jeśli wpisano temperatury miesięcy); albo z rachunków za ogrzewanie.",
+        zakres: "≥ 0. Twój dom.",
+      },
+      cena: {
+        nazwa: "Cena prądu [zł/kWh]",
+        cel: "Opcjonalne: przelicza roczny prąd na złotówki.",
+        gdzie: "Off-grid: koszt kWh z PV/baterii albo z agregatu (Moduł 2); z siecią — rachunek.",
+        zakres: "≥ 0. Twoja cena.",
+      },
+    },
+  },
 }
 
 export const en: Tlumaczenie<typeof pl> = {
@@ -572,6 +594,28 @@ export const en: Tlumaczenie<typeof pl> = {
       },
     },
   },
+  "m6d-raport-efektywnosci": {
+    pola: {
+      powierzchnia: {
+        nazwa: "Heated floor area [m²]",
+        cel: "Optional: divides the yearly heat by the area — an index to compare houses.",
+        gdzie: "Design, energy certificate or measuring the heated rooms.",
+        zakres: "≥ 0. Your house.",
+      },
+      cieploRok: {
+        nazwa: "Heating heat per year [kWh]",
+        cel: "The per-m² index, electricity and cost follow from it.",
+        gdzie: "Empty = sum of months from Screen 1 (if monthly temperatures were entered); or from heating bills.",
+        zakres: "≥ 0. Your house.",
+      },
+      cena: {
+        nazwa: "Electricity price [PLN/kWh]",
+        cel: "Optional: turns the yearly electricity into PLN.",
+        gdzie: "Off-grid: the cost of a kWh from PV/battery or the generator (Module 2); with the grid — the bill.",
+        zakres: "≥ 0. Your price.",
+      },
+    },
+  },
 }
 
 export const ru: Tlumaczenie<typeof pl> = {
@@ -854,6 +898,28 @@ export const ru: Tlumaczenie<typeof pl> = {
         cel: "Необязательно: показывает, какую часть потребления съедает оттайка.",
         gdzie: "Сезонная модель насоса (модуль 6) или счётчик энергии насоса за прошлый сезон.",
         zakres: "≥ 0. Ваш насос.",
+      },
+    },
+  },
+  "m6d-raport-efektywnosci": {
+    pola: {
+      powierzchnia: {
+        nazwa: "Отапливаемая площадь [м²]",
+        cel: "Необязательно: делит годовое тепло на площадь — показатель для сравнения домов.",
+        gdzie: "Проект, энергетический сертификат или замер отапливаемых помещений.",
+        zakres: "≥ 0. Ваш дом.",
+      },
+      cieploRok: {
+        nazwa: "Тепло на отопление в год [кВт·ч]",
+        cel: "Из него — показатель на м², электроэнергия и стоимость.",
+        gdzie: "Пусто = сумма месяцев с экрана 1 (если введены температуры месяцев); или по счетам за отопление.",
+        zakres: "≥ 0. Ваш дом.",
+      },
+      cena: {
+        nazwa: "Цена электроэнергии [зл/кВт·ч]",
+        cel: "Необязательно: переводит годовую электроэнергию в злотые.",
+        gdzie: "Off-grid: стоимость кВт·ч от PV/батареи или генератора (модуль 2); с сетью — счёт.",
+        zakres: "≥ 0. Ваша цена.",
       },
     },
   },

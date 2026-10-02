@@ -118,7 +118,7 @@ export const pl = {
   "obciazenie-cieplne": {
     migawka: {
       oCoChodzi: "Dom zimą to wiadro z dziurami — ogrzewanie musi dolewać tyle, ile wycieka.",
-      jakDziala: "Straty przez przegrody (U × A × różnica temperatur) plus straty z wymienianym powietrzem, w najzimniejszym dniu dla Twojej strefy klimatycznej. Dla miesięcy — ze średniej temperatury miesiąca; z COP przeliczam ciepło na prąd.",
+      jakDziala: "Straty przez przegrody (U × A × różnica temperatur) plus straty z wymienianym powietrzem, w najzimniejszym dniu dla Twojej strefy klimatycznej. Dla miesięcy — ze średniej temperatury miesiąca; z COP przeliczam ciepło na prąd. Pod wynikiem: raport — co traci najwięcej ciepła (ranking z wentylacją), ciepło na m² w roku i roczny koszt ogrzewania.",
       poCo: "To moc, którą musi dać ogrzewanie — w off-gridzie od niej zależy, ile prądu albo paliwa potrzebujesz zimą.",
       fizyka: "Φ = Σ U·A·Δθ + n·V·ρ·c_p/3600·Δθ;  Q = Φ · 24 h;  E_el = Q / COP.",
     },
@@ -351,7 +351,7 @@ export const en: Tlumaczenie<typeof pl> = {
   "obciazenie-cieplne": {
     migawka: {
       oCoChodzi: "A house in winter is a leaky bucket — heating has to top up as much as leaks out.",
-      jakDziala: "Losses through the envelope (U × A × temperature difference) plus losses with exchanged air, on the coldest day for your climate zone. For months — from the monthly mean temperature; with COP I convert heat to electricity.",
+      jakDziala: "Losses through the envelope (U × A × temperature difference) plus losses with exchanged air, on the coldest day for your climate zone. For months — from the monthly mean temperature; with COP I convert heat to electricity. Below the result: a report — what loses the most heat (ranking incl. ventilation), heat per m² per year and the yearly heating cost.",
       poCo: "This is the output heating must deliver — off-grid, it decides how much electricity or fuel you need in winter.",
       fizyka: "Φ = Σ U·A·Δθ + n·V·ρ·c_p/3600·Δθ;  Q = Φ · 24 h;  E_el = Q / COP.",
     },
@@ -584,7 +584,7 @@ export const ru: Tlumaczenie<typeof pl> = {
   "obciazenie-cieplne": {
     migawka: {
       oCoChodzi: "Дом зимой — дырявое ведро: отопление должно доливать столько, сколько вытекает.",
-      jakDziala: "Потери через ограждения (U × A × разница температур) плюс потери с обменным воздухом в самый холодный день для вашей климатической зоны. Для месяцев — по средней температуре месяца; с COP перевожу тепло в электроэнергию.",
+      jakDziala: "Потери через ограждения (U × A × разница температур) плюс потери с обменным воздухом в самый холодный день для вашей климатической зоны. Для месяцев — по средней температуре месяца; с COP перевожу тепло в электроэнергию. Под результатом: отчёт — что теряет больше всего тепла (рейтинг с вентиляцией), тепло на м² в год и годовая стоимость отопления.",
       poCo: "Это мощность, которую должно дать отопление — в автономной системе от неё зависит, сколько электроэнергии или топлива нужно зимой.",
       fizyka: "Φ = Σ U·A·Δθ + n·V·ρ·c_p/3600·Δθ;  Q = Φ · 24 ч;  E_эл = Q / COP.",
     },

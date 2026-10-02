@@ -1660,4 +1660,5 @@ export const dictionaryEn = {
   "GWP-ZAL-COP-Z-KARTY": "The COP gain only from the pump datasheet (COP at the higher air temperature). The source gives no rule — its examples are +3 °C → +6% and 0 → 5 °C → +15%, i.e. 2 and 3 %/K.",
   "DSZ-UDZIAL-USTAWIENIA": "Defrost is {pct}% of the pump's seasonal consumption. Source: bad defrost settings can eat about 10% of the pump's energy — if your result is high, check the controller settings (interval, start condition) with the installer.",
   "DSZ-ZAL-BEZ-HARMONOGRAMU": "Scheduling defrost breaks for comfort is not computed — the source gives no model. You enter the weather scenarios and their days yourself (e.g. from regional weather data).",
+  "RAP-ZAL-BEZ-KLASY": "The energy class (A, B, C…) and primary energy are not computed — the source gives no class thresholds or primary energy factors. What better insulation or windows bring is computed by the “factor impact” screen (Module 6). The yearly heat from Screen 1 does not subtract solar and internal gains.",
 } satisfies Record<KluczTlumaczenia, string>

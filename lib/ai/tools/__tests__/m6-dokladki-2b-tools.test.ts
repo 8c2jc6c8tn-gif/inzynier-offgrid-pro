@@ -9,6 +9,7 @@ import { przeplywPompyCieplaTool } from "../przeplyw-pompy-ciepla-tool"
 import { cwuPompaCieplaTool } from "../cwu-pompa-ciepla-tool"
 import { gwcPompaCieplaTool } from "../gwc-pompa-ciepla-tool"
 import { defrostSezonTool } from "../defrost-sezon-tool"
+import { raportEfektywnosciTool } from "../raport-efektywnosci-budynku-tool"
 
 describe("doborMocyPompyTool (M6 Część 2B, dawne 5.27 + 5.67)", () => {
   it("kontrakt 9.3: 'read', bez potwierdzenia", () => {
@@ -176,5 +177,29 @@ describe("defrostSezonTool (M6 Część 2B, dawne 5.56)", () => {
     })
     expect(w.sumaKwh).toBeCloseTo(2 * (5 / 45) * 12 * 60, 9)
     expect(w.ostrzezenia).toContain(t("pl", "DSZ-UDZIAL-USTAWIENIA", { pct: Math.round(w.udzialPct! * 10) / 10 }))
+  })
+})
+
+describe("raportEfektywnosciTool (M6 Część 2B, dawne 5.40 + 5.67)", () => {
+  it("kontrakt 9.3: 'read', bez potwierdzenia", () => {
+    expect(raportEfektywnosciTool.operationType).toBe("read")
+    expect(raportEfektywnosciTool.requiresConfirmation).toBe(false)
+    expect(() => validateAiToolDefinition(raportEfektywnosciTool)).not.toThrow()
+  })
+
+  it("wentylacja największa; założenie o braku klasy energetycznej jako tekst PL", async () => {
+    const w = await raportEfektywnosciTool.handler({
+      pozycje: [
+        { nazwa: "Ściany", strataW: 3000 },
+        { nazwa: "Wentylacja", strataW: 4000 },
+      ],
+      cieploRokKwh: 12000,
+      powierzchniaM2: 120,
+      cop: 3,
+      cenaZlKwh: 1.2,
+    })
+    expect(w.ranking[0].nazwa).toBe("Wentylacja")
+    expect(w.kosztRokZl).toBeCloseTo(4800, 9)
+    expect(w.zalozenia).toContain(t("pl", "RAP-ZAL-BEZ-KLASY"))
   })
 })

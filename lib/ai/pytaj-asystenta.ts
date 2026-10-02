@@ -272,6 +272,7 @@ import { przeplywPompyCieplaTool } from "./tools/przeplyw-pompy-ciepla-tool"
 import { cwuPompaCieplaTool } from "./tools/cwu-pompa-ciepla-tool"
 import { gwcPompaCieplaTool } from "./tools/gwc-pompa-ciepla-tool"
 import { defrostSezonTool } from "./tools/defrost-sezon-tool"
+import { raportEfektywnosciTool } from "./tools/raport-efektywnosci-budynku-tool"
 import { toAnthropicTool } from "./to-anthropic-tool"
 import { validateAiToolDefinition, type AiToolDefinition } from "./types"
 
@@ -534,6 +535,7 @@ const NARZEDZIA: Array<AiToolDefinition<any, any>> = [
   cwuPompaCieplaTool,
   gwcPompaCieplaTool,
   defrostSezonTool,
+  raportEfektywnosciTool,
 ]
 for (const narzedzie of NARZEDZIA) validateAiToolDefinition(narzedzie)
 
