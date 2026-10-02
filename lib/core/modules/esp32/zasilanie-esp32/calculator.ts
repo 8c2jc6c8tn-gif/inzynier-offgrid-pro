@@ -50,12 +50,12 @@ export function calculateZasilanieEsp32(input: ZasilanieEsp32Input): CalcResult<
   })
 
   const ETYKIETY = {
-    napiecieMagistraliV: "Napięcie magistrali",
-    napiecieMagistraliMaxV: "Maks. napięcie magistrali",
-    poborMocyW: "Pobór mocy",
-    napiecieWyjscioweV: "Napięcie wyjściowe",
-    napiecieWejscioweMaxV: "Maks. napięcie wejściowe przetwornicy",
-    pradWyjsciowyMaxA: "Maks. prąd przetwornicy",
+    napiecieMagistraliV: "POLE-NAPIECIE-MAGISTRALI",
+    napiecieMagistraliMaxV: "POLE-MAKS-NAPIECIE-MAGISTRALI",
+    poborMocyW: "POLE-POBOR-MOCY",
+    napiecieWyjscioweV: "POLE-NAPIECIE-WYJSCIOWE",
+    napiecieWejscioweMaxV: "POLE-MAKS-NAPIECIE-WEJSCIOWE-PRZETWORNICY",
+    pradWyjsciowyMaxA: "POLE-MAKS-PRAD-PRZETWORNICY",
   } as const
   const errors: Warning[] = []
   for (const [pole, etykieta] of Object.entries(ETYKIETY) as [keyof typeof ETYKIETY, string][]) {

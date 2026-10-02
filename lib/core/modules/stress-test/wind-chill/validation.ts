@@ -9,7 +9,7 @@ export type ValidationResult = {
 export function validateInput(input: WindChillInput): ValidationResult {
   const errors: Warning[] = []
   if (input.predkoscWiatruKmh < 0) {
-    errors.push(wartoscUjemna("predkoscWiatruKmh", "Prędkość wiatru", input.predkoscWiatruKmh))
+    errors.push(wartoscUjemna("predkoscWiatruKmh", "POLE-PREDKOSC-WIATRU", input.predkoscWiatruKmh))
   }
   return { errors }
 }

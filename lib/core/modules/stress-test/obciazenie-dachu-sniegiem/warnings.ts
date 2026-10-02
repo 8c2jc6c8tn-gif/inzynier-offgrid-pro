@@ -4,12 +4,12 @@ import { PROG_ZBLIZANIA_DO_NOSNOSCI } from "./constants"
 
 const kn = (x: number) => x.toFixed(2)
 
-export function wartoscUjemna(pole: string, etykieta: string, value: number): Warning {
+export function wartoscUjemna(pole: string, labelKey: string, value: number): Warning {
   return {
     code: "WARTOSC-UJEMNA",
     level: "critical",
     i18nKey: "WARTOSC-UJEMNA",
-    params: { label: etykieta },
+    params: { labelKey },
     technicalMessage: `${pole} = ${value}, oczekiwano >= 0`,
     field: pole,
   }
@@ -20,7 +20,7 @@ export function katPozaZakresem(value: number): Warning {
     code: "WARTOSC-POZA-ZAKRESEM",
     level: "critical",
     i18nKey: "WARTOSC-POZA-ZAKRESEM",
-    params: { label: "Kąt spadku dachu", min: 0, max: 90 },
+    params: { labelKey: "POLE-KAT-SPADKU-DACHU", min: 0, max: 90 },
     technicalMessage: `katDachuDeg = ${value}, oczekiwano 0–90°`,
     field: "katDachuDeg",
   }

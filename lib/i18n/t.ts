@@ -25,7 +25,25 @@ export function t(language: Language, kod: string, params?: Record<string, strin
     })
     return `⚠ [${kod}]`
   }
-  return podstaw(language, szablon, params)
+  return podstaw(language, szablon, rozwinKlucze(language, params))
+}
+
+/**
+ * Konwencja `*Key` (docs/standards/17-i18n.md): parametr `xKey` niesie KLUCZ tłumaczenia, nie
+ * gotowy tekst — silnik podaje np. `labelKey: "POLE-ALBEDO"`, szablon używa `{label}`. Klucz jest
+ * rozwiązywany w języku UI tutaj, więc domena nigdy nie osadza polskiej etykiety w `params`.
+ */
+function rozwinKlucze(language: Language, params?: Record<string, string | number>) {
+  if (!params) return params
+  const wynik: Record<string, string | number> = { ...params }
+  const zwykle = Object.fromEntries(Object.entries(params).filter(([n]) => !(n.length > 3 && n.endsWith("Key"))))
+  for (const [nazwa, wartosc] of Object.entries(params)) {
+    if (nazwa.length > 3 && nazwa.endsWith("Key") && typeof wartosc === "string") {
+      // Sibling params fill the label's own placeholders (e.g. „Powierzchnia ({przegroda})”).
+      wynik[nazwa.slice(0, -3)] = podstaw(language, t(language, wartosc), zwykle)
+    }
+  }
+  return wynik
 }
 
 /** Fills `{name}` placeholders (`{waluta}` defaults to „zł” — Polish-market texts; generic screens pass the chosen currency symbol) — shared by `t()` and the help content (`components/ui/pomoc.tsx`). */

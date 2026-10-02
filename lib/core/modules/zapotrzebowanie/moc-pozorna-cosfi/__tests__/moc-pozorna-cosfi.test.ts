@@ -31,7 +31,7 @@ describe("calculateMocPozornaCosfi", () => {
   it("i18n (17.2): błąd ujemnej mocy reużywa wspólnego klucza WARTOSC-NIEDODATNIA", () => {
     const result = calculateMocPozornaCosfi({ mocCzynnaW: -2000, cosFi: 0.7 })
     expect(result.warnings[0].i18nKey).toBe("WARTOSC-NIEDODATNIA")
-    expect(result.warnings[0].params).toEqual({ label: "moc czynna" })
+    expect(result.warnings[0].params).toEqual({ labelKey: "POLE-MOC-CZYNNA-L" })
     expect(result.warnings[0].message).toBeUndefined()
   })
 

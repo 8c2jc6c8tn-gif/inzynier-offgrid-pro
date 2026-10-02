@@ -9,7 +9,7 @@ export type ValidationResult = {
 export function validateInput(input: SlabeOgniwoInput): ValidationResult {
   const errors: Warning[] = []
   if (input.pojemnoscZnamionowaAh < 0) {
-    errors.push(notPositive("pojemnoscZnamionowaAh", "pojemność znamionowa", input.pojemnoscZnamionowaAh))
+    errors.push(notPositive("pojemnoscZnamionowaAh", "POLE-POJEMNOSC-ZNAMIONOWA-L", input.pojemnoscZnamionowaAh))
   }
   if (input.tolerancjaPct < 0 || input.tolerancjaPct > 100) {
     errors.push(tolerancjaPozaZakresem(input.tolerancjaPct))

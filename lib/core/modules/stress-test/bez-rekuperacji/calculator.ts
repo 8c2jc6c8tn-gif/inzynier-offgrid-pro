@@ -44,7 +44,7 @@ export function calculateBezRekuperacji(input: BezRekuperacjiInput): CalcResult<
   })
 
   const errors: Warning[] = []
-  if (input.strumienM3H !== null && input.strumienM3H < 0) errors.push(wartoscUjemna("strumienM3H", "Wydajność centrali", input.strumienM3H))
+  if (input.strumienM3H !== null && input.strumienM3H < 0) errors.push(wartoscUjemna("strumienM3H", "POLE-WYDAJNOSC-CENTRALI", input.strumienM3H))
   const eta = input.sprawnoscOdzyskuPct
   if (eta !== null && (eta < 0 || eta > 100)) errors.push(sprawnoscPozaZakresem(eta))
   if (errors.length > 0) return wynik("INVALID_INPUT", PUSTY, errors)

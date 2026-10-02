@@ -2402,6 +2402,11 @@ strażniki. Kandydat do `docs/wklad-do-standardu.md` (strażnik skanujący ekspo
 
 - **Kursy walut — trwały zapis na serwerze (02.10.2026, doprecyzowanie właściciela: „kursy muszą być zapisywane”).** Cache Next/CDN nie wystarcza. `/api/kursy` czyta najpierw tabelę `kursy_walut` (Supabase, migracja `supabase/migrations/0002_kursy_walut.sql`, jeden wiersz na datę ECB = historia, RLS bez polityk, dostęp tylko service role przez `lib/adapters/supabase/kursy-store.ts`); świeży zapis (<12 h) jest serwowany bez wołania Frankfurter, inaczej pobranie + zapis, a gdy Frankfurter nie działa — ostatni zapis (`source: zapis-nieaktualny`). **Wymaga uruchomienia migracji 0002 i ustawienia `NEXT_PUBLIC_SUPABASE_*` + `SUPABASE_SERVICE_ROLE_KEY` na hostingu; bez nich trasa degraduje się do samego cache (nic się nie psuje).** Nie rusza to logowania (pozycja 7), używa tylko klienta admin.
 
+## Audyt i18n poza strażnikami — `pv/czystosc-i-snieg` (02.10.2026)
+- Pułapka: `check:i18n-guard` przepuszczał moduł z polskim tekstem, bo widzi tylko `Warning.message` jako literał w obiekcie i `assumptions` jako gołe stringi — nie widzi pól `string` w `value` wyniku (`opis`, `powod`) ani `message` zbudowanego w funkcji pomocniczej (`outOfRange`). Naprawione w tym module: wynik niesie `opisKey`/`powodKey` + params, ekran i narzędzie AI rozwiązują `t()`. Klucze `KATSTOPNI-/SPADEKPRODUKCJIPCT-POZA-ZAKRESEM` wynikają z `code` (bez `i18nKey`).
+- Do wypromowania (kandydat do `docs/wklad-do-standardu.md`): strażnik silnika powinien flagować polskie litery w literałach zwracanych w `value`, nie tylko w `message`.
+- Zakres pozostały: wpis „Audyt i18n poza strażnikami” w `docs/lista-do-zrobienia.md`.
+
 ## M7/E12 + M7/E7/E14 v2.0.0 (02.10.2026)
 
 - **M7/E12 „Współczynnik Bezpieczeństwa Zimowego” zbudowany** (`lib/core/modules/stress-test/wspolczynnik-bezpieczenstwa-zimowego/`,
@@ -2433,6 +2438,14 @@ strażniki. Kandydat do `docs/wklad-do-standardu.md` (strażnik skanujący ekspo
   (ignorowane przez `.gitignore`) wystarcza do `tsc`, `eslint`, `vitest`.
 - **Pułapka (stopy-guard):** nowe kody walidacji 🔴 (`WSP-WAGI-SUMA`, `WSP-SPOF-PONAD-LICZBE`, `WSP-WARTOSC-UJEMNA`) trzeba było
   dopisać jawnie do `scripts/stopy-guard-wyjatki.json`.
+
+## Audyt i18n — konwencja `*Key` w params (02.10.2026)
+- `t()` (`lib/i18n/t.ts`) rozwija każdy parametr `xKey` (string) do `x` przez słownik języka UI; domena podaje `labelKey: "POLE-…"`, szablon używa `{label}`. Zamiast polskiej etykiety w `params` — klucz; nie trzeba zmieniać ~100 stron renderujących ostrzeżenia.
+- Pułapka przy mechanicznej podmianie: nazwa pola (`"albedo"`) i etykieta (`"albedo"`) bywają identyczne — podmieniać tylko argument etykiety, nie pierwszy (`field`).
+- Partia 1: `lokalizacja/*` i 5 modułów `pv/*`; reszta wg wpisu w `docs/lista-do-zrobienia.md`.
+- Partia 2: `stress-test/obciazenie-dachu-sniegiem`, `ogrzewanie/obciazenie-cieplne`. Etykieta z parametrem (np. nazwa przegrody) = klucz z `{przegroda}` + osobny param obok `labelKey`; `rozwinKlucze` podstawia pozostałe params do tekstu etykiety. Pułapka podmiany opisana też w `docs/wklad-do-standardu.md` (02.10).
+- Partia 3 (02.10): 37 plików hurtowo skryptem (wywołania z literałem etykiety, mapy `ETYKIETY`, `params: { label }` → `labelKey`); 95 kluczy `POLE-*`, lowercase-first → sufiks `-L`. Typecheck dopilnował, że żadne `label` nie zostało w sygnaturach. Zostaje kategoria C (etykiety katalogowe/użytkownika, `message` w komunikacja-bms, katalogi `constants.ts`).
+- Kategoria C, krok 1 (02.10): `komunikacja-bms` i `audyt-pozarowy` zmigrowane na `i18nKey` + params (3 nowe klucze PL/EN/RU); strażnik `check-i18n-guard` rozszerzony o `message` jako template literal i o `label:`/`*Key:` z literałem niebędącym kluczem (pusty string dozwolony). Dane demo audytu pożarowego (`SAMPLE_AUDIT_ITEMS`) zostają po polsku — do decyzji właściciela.
 
 ## Archiwizacja memory.md — pierwszy przebieg (02.10.2026, gałąź `claude/amazing-tesla-ovgwya`)
 

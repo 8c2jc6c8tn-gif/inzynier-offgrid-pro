@@ -37,7 +37,7 @@ describe("calculateRyzykoPid", () => {
     const w = result.warnings[0]
     expect(w.code).toBe("WARTOSC-UJEMNA")
     expect(w.i18nKey).toBe("WARTOSC-UJEMNA")
-    expect(w.params).toEqual({ label: "Napięcie systemu DC" })
+    expect(w.params).toEqual({ labelKey: "POLE-NAPIECIE-SYSTEMU-DC" })
     expect(w.message).toBeUndefined()
   })
 

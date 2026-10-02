@@ -3,10 +3,10 @@ import type { AwaryjneZrodloCieplaInput } from "./input"
 import { godzinyPozaDoba, mocDoWodyWiekszaNizMoc, sprawnoscPozaZakresem, wartoscUjemna } from "./warnings"
 
 const ETYKIETY = {
-  mocKw: "Moc cieplna",
-  mocDoWodyKw: "Moc do wody",
-  zapotrzebowanieCieplaKwhDoba: "Zapotrzebowanie na ciepło",
-  wartoscOpalowaKwhKg: "Wartość opałowa",
+  mocKw: "POLE-MOC-CIEPLNA",
+  mocDoWodyKw: "POLE-MOC-DO-WODY",
+  zapotrzebowanieCieplaKwhDoba: "POLE-ZAPOTRZEBOWANIE-NA-CIEPLO",
+  wartoscOpalowaKwhKg: "POLE-WARTOSC-OPALOWA",
 } as const
 
 export function validateInput(input: AwaryjneZrodloCieplaInput): { errors: Warning[] } {

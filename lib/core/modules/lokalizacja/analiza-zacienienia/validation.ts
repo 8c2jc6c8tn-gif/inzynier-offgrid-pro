@@ -43,16 +43,16 @@ export function validateInput(input: AnalizaZacienieniaInput): ValidationResult 
   const errors: Warning[] = []
   const warnings: Warning[] = []
 
-  zakres(errors, "szerokoscGeograficzna", "szerokość geograficzna", input.szerokoscGeograficzna, SZEROKOSC_MIN, SZEROKOSC_MAX)
-  zakres(errors, "dlugoscGeograficzna", "długość geograficzna", input.dlugoscGeograficzna, DLUGOSC_MIN, DLUGOSC_MAX)
-  zakres(errors, "nachyleniePowierzchniDeg", "nachylenie powierzchni", input.nachyleniePowierzchniDeg, NACHYLENIE_MIN_DEG, NACHYLENIE_MAX_DEG)
-  zakres(errors, "azymutPowierzchniDeg", "azymut powierzchni", input.azymutPowierzchniDeg, AZYMUT_MIN_DEG, AZYMUT_MAX_DEG)
+  zakres(errors, "szerokoscGeograficzna", "POLE-SZEROKOSC-GEOGRAFICZNA", input.szerokoscGeograficzna, SZEROKOSC_MIN, SZEROKOSC_MAX)
+  zakres(errors, "dlugoscGeograficzna", "POLE-DLUGOSC-GEOGRAFICZNA", input.dlugoscGeograficzna, DLUGOSC_MIN, DLUGOSC_MAX)
+  zakres(errors, "nachyleniePowierzchniDeg", "POLE-NACHYLENIE-POWIERZCHNI", input.nachyleniePowierzchniDeg, NACHYLENIE_MIN_DEG, NACHYLENIE_MAX_DEG)
+  zakres(errors, "azymutPowierzchniDeg", "POLE-AZYMUT-POWIERZCHNI", input.azymutPowierzchniDeg, AZYMUT_MIN_DEG, AZYMUT_MAX_DEG)
 
   errors.push(...bledyDanychGodzinowych(input.daneGodzinowe))
 
   for (const m of input.miesiaceBezlisci ?? []) {
     if (!Number.isInteger(m) || m < 0 || m >= MIESIECY) {
-      errors.push(outOfRange("miesiaceBezlisci", "miesiąc bez liści", m, 0, MIESIECY - 1))
+      errors.push(outOfRange("miesiaceBezlisci", "POLE-MIESIAC-BEZ-LISCI", m, 0, MIESIECY - 1))
     }
   }
   const lisciasteBezOkresu = (input.przeszkody ?? []).filter((p) => p.typ === "drzewo" && p.lisciaste)

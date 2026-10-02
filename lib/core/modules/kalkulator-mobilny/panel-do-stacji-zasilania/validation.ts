@@ -8,13 +8,13 @@ export type ValidationResult = {
 
 export function validateInput(input: PanelDoStacjiZasilaniaInput): ValidationResult {
   const errors: Warning[] = []
-  if (input.vocStcV < 0) errors.push(wartoscUjemna("vocStcV", "Voc panelu", input.vocStcV))
-  if (input.liczbaSzeregowo < 0) errors.push(wartoscUjemna("liczbaSzeregowo", "Liczba paneli szeregowo", input.liczbaSzeregowo))
+  if (input.vocStcV < 0) errors.push(wartoscUjemna("vocStcV", "POLE-VOC-PANELU", input.vocStcV))
+  if (input.liczbaSzeregowo < 0) errors.push(wartoscUjemna("liczbaSzeregowo", "POLE-LICZBA-PANELI-SZEREGOWO", input.liczbaSzeregowo))
   if (input.maxNapiecieWejsciaV < 0) {
-    errors.push(wartoscUjemna("maxNapiecieWejsciaV", "Max napięcie wejścia stacji", input.maxNapiecieWejsciaV))
+    errors.push(wartoscUjemna("maxNapiecieWejsciaV", "POLE-MAX-NAPIECIE-WEJSCIA-STACJI", input.maxNapiecieWejsciaV))
   }
-  if (input.iscA < 0) errors.push(wartoscUjemna("iscA", "Prąd zwarciowy Isc", input.iscA))
-  if (input.liczbaRownolegle < 0) errors.push(wartoscUjemna("liczbaRownolegle", "Liczba gałęzi równoległych", input.liczbaRownolegle))
-  if (input.maxPradWejsciaA < 0) errors.push(wartoscUjemna("maxPradWejsciaA", "Max prąd wejścia stacji", input.maxPradWejsciaA))
+  if (input.iscA < 0) errors.push(wartoscUjemna("iscA", "POLE-PRAD-ZWARCIOWY-ISC", input.iscA))
+  if (input.liczbaRownolegle < 0) errors.push(wartoscUjemna("liczbaRownolegle", "POLE-LICZBA-GALEZI-ROWNOLEGLYCH", input.liczbaRownolegle))
+  if (input.maxPradWejsciaA < 0) errors.push(wartoscUjemna("maxPradWejsciaA", "POLE-MAX-PRAD-WEJSCIA-STACJI", input.maxPradWejsciaA))
   return { errors }
 }

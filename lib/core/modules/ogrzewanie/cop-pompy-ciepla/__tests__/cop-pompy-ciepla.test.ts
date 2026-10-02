@@ -37,7 +37,7 @@ describe("calculateCopPompyCiepla", () => {
   it("i18n (17.2): warnings mają i18nKey/params, nie gotowy tekst PL", () => {
     const ujemna = calculateCopPompyCiepla({ mocCieplnaKw: -5, cop: 3 })
     expect(ujemna.warnings[0].i18nKey).toBe("WARTOSC-NIEDODATNIA")
-    expect(ujemna.warnings[0].params).toEqual({ label: "moc cieplna" })
+    expect(ujemna.warnings[0].params).toEqual({ labelKey: "POLE-MOC-CIEPLNA-L" })
     expect(ujemna.warnings[0].message).toBeUndefined()
 
     const copZly = calculateCopPompyCiepla({ mocCieplnaKw: 5, cop: 15 })

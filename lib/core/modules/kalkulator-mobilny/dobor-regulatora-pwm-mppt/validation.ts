@@ -9,13 +9,13 @@ export type ValidationResult = {
 export function validateInput(input: ReguRatorPwmMpptInput): ValidationResult {
   const errors: Warning[] = []
   if (input.mocPaneliW < 0) {
-    errors.push(wartoscNiedodatnia("mocPaneliW", "Moc paneli", input.mocPaneliW))
+    errors.push(wartoscNiedodatnia("mocPaneliW", "POLE-MOC-PANELI", input.mocPaneliW))
   }
   if (input.napiecieNominalnePaneluV < 0) {
-    errors.push(wartoscNiedodatnia("napiecieNominalnePaneluV", "Napięcie paneli", input.napiecieNominalnePaneluV))
+    errors.push(wartoscNiedodatnia("napiecieNominalnePaneluV", "POLE-NAPIECIE-PANELI", input.napiecieNominalnePaneluV))
   }
   if (input.napiecieAkumulatoraV < 0) {
-    errors.push(wartoscNiedodatnia("napiecieAkumulatoraV", "Napięcie akumulatora", input.napiecieAkumulatoraV))
+    errors.push(wartoscNiedodatnia("napiecieAkumulatoraV", "POLE-NAPIECIE-AKUMULATORA", input.napiecieAkumulatoraV))
   }
   return { errors }
 }

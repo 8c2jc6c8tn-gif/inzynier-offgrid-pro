@@ -1,12 +1,12 @@
 import type { Warning } from "@/lib/core/calc-result"
 import { PROG_ROZNICY_NAPIEC_V } from "./constants"
 
-export function wartoscUjemna(field: string, label: string, value: number): Warning {
+export function wartoscUjemna(field: string, labelKey: string, value: number): Warning {
   return {
     code: `${field.toUpperCase()}-UJEMNA`,
     level: "critical",
     i18nKey: "WARTOSC-POLA-UJEMNA",
-    params: { label },
+    params: { labelKey },
     technicalMessage: `${field} = ${value}, oczekiwano >= 0`,
     field,
   }

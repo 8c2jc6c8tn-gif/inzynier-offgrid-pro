@@ -11,6 +11,7 @@ import {
 } from "@/lib/core/modules/pv/czystosc-i-snieg/calculator"
 import type { AiToolDefinition } from "../types"
 import { tekstyOstrzezen, tekstyZalozen } from "./teksty-wyniku"
+import { t } from "@/lib/i18n/t"
 
 export const CzystoscISniegToolInput = z.object({
   katStopni: z.number().nullable().describe("Kąt nachylenia paneli [°]; null = bez oceny samooczyszczania"),
@@ -66,7 +67,7 @@ export const czystoscISniegTool: AiToolDefinition<CzystoscISniegToolInputT, Czys
       samooczyszczanie = {
         status: w.status,
         pasmo: w.value.band,
-        opis: w.value.opis,
+        opis: w.value.opisKey ? t("pl", w.value.opisKey, w.value.opisParams) : "",
         ostrzezenia: tekstyOstrzezen(w.warnings),
       }
     }
@@ -82,7 +83,7 @@ export const czystoscISniegTool: AiToolDefinition<CzystoscISniegToolInputT, Czys
       mycie = {
         status: w.status,
         rekomendacjaMycia: w.value.rekomendacjaMycia,
-        powod: w.value.powod,
+        powod: w.value.powodKey ? t("pl", w.value.powodKey, w.value.powodParams) : "",
         ostrzezenia: tekstyOstrzezen(w.warnings),
         zalozenia: tekstyZalozen(w.assumptions),
       }

@@ -8,10 +8,10 @@ export type ValidationResult = {
 }
 
 const POLA: ReadonlyArray<[keyof TrackerVsStalyInput, string]> = [
-  ["liczbaPaneliTracker", "Liczba paneli na trackerze"],
-  ["kosztTrackeraZl", "Koszt trackera"],
-  ["kosztPaneluZl", "Koszt dodatkowego panelu"],
-  ["uzyskPaneluKwh", "Roczny uzysk jednego panelu"],
+  ["liczbaPaneliTracker", "POLE-LICZBA-PANELI-TRACKER"],
+  ["kosztTrackeraZl", "POLE-KOSZT-TRACKERA"],
+  ["kosztPaneluZl", "POLE-KOSZT-PANELU"],
+  ["uzyskPaneluKwh", "POLE-UZYSK-PANELU"],
 ]
 
 export function validateInput(input: TrackerVsStalyInput): ValidationResult {
@@ -20,7 +20,7 @@ export function validateInput(input: TrackerVsStalyInput): ValidationResult {
     if (input[pole] < 0) errors.push(wartoscUjemna(pole, etykieta, input[pole]))
   }
   if (input.liczbaPaneliTracker >= 0 && !Number.isInteger(input.liczbaPaneliTracker)) {
-    errors.push(liczbaNiecalkowita("liczbaPaneliTracker", "Liczba paneli na trackerze", input.liczbaPaneliTracker))
+    errors.push(liczbaNiecalkowita("liczbaPaneliTracker", "POLE-LICZBA-PANELI-TRACKER", input.liczbaPaneliTracker))
   }
   return { errors }
 }

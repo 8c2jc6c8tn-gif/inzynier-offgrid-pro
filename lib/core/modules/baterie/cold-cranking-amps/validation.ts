@@ -9,16 +9,16 @@ export type ValidationResult = {
 export function validateInput(input: ColdCrankingAmpsInput): ValidationResult {
   const errors: Warning[] = []
   if (input.napiecieOtwartegoObwoduV < 0) {
-    errors.push(wartoscUjemna("napiecieOtwartegoObwoduV", "Napięcie pakietu bez obciążenia", input.napiecieOtwartegoObwoduV))
+    errors.push(wartoscUjemna("napiecieOtwartegoObwoduV", "POLE-NAPIECIE-PAKIETU-BEZ-OBCIAZENIA", input.napiecieOtwartegoObwoduV))
   }
   if (input.pradRozruchowyA < 0) {
-    errors.push(wartoscUjemna("pradRozruchowyA", "Prąd rozruchowy", input.pradRozruchowyA))
+    errors.push(wartoscUjemna("pradRozruchowyA", "POLE-PRAD-ROZRUCHOWY", input.pradRozruchowyA))
   }
   if (input.rezystancjaWewnetrznaMOhm < 0) {
-    errors.push(wartoscUjemna("rezystancjaWewnetrznaMOhm", "Rezystancja wewnętrzna", input.rezystancjaWewnetrznaMOhm))
+    errors.push(wartoscUjemna("rezystancjaWewnetrznaMOhm", "POLE-REZYSTANCJA-WEWNETRZNA", input.rezystancjaWewnetrznaMOhm))
   }
   if (input.minimalneNapiecieFalownikaV < 0) {
-    errors.push(wartoscUjemna("minimalneNapiecieFalownikaV", "Minimalne napięcie pracy falownika", input.minimalneNapiecieFalownikaV))
+    errors.push(wartoscUjemna("minimalneNapiecieFalownikaV", "POLE-MINIMALNE-NAPIECIE-PRACY-FALOWNIKA", input.minimalneNapiecieFalownikaV))
   }
   return { errors }
 }

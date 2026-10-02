@@ -5,7 +5,7 @@ export function miesiacPozaZakresem(value: number): Warning {
     code: "LP-MIESIAC-POZA-ZAKRESEM",
     level: "critical",
     i18nKey: "WARTOSC-POZA-ZAKRESEM",
-    params: { label: "miesiąc sezonu grzewczego", min: 0, max: 11 },
+    params: { labelKey: "POLE-MIESIAC-SEZONU-GRZEWCZEGO", min: 0, max: 11 },
     technicalMessage: `miesiaceGrzewcze zawiera ${value}, oczekiwano liczby całkowitej 0–11`,
     field: "miesiaceGrzewcze",
   }

@@ -11,7 +11,7 @@ export type ValidationResult = {
 export function validateKatSamooczyszczania(input: KatSamooczyszczaniaInput): ValidationResult {
   const errors: Warning[] = []
   if (input.katStopni < KAT_MIN || input.katStopni > KAT_MAX) {
-    errors.push(outOfRange("katStopni", "kąt pochylenia panelu", input.katStopni, KAT_MIN, KAT_MAX))
+    errors.push(outOfRange("katStopni", input.katStopni, KAT_MIN, KAT_MAX))
   }
   return { errors, warnings: [] }
 }
@@ -22,7 +22,6 @@ export function validateHarmonogramCzyszczenia(input: HarmonogramCzyszczeniaInpu
     errors.push(
       outOfRange(
         "spadekProdukcjiPct",
-        "spadek produkcji",
         input.spadekProdukcjiPct,
         SPADEK_PCT_MIN,
         SPADEK_PCT_MAX,

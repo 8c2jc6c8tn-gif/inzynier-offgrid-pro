@@ -1,15 +1,17 @@
 import type { Warning } from "@/lib/core/calc-result"
 import { PROTOKOLY } from "./constants"
 
-function etykieta(id: string): string {
-  return PROTOKOLY.find((p) => p.id === id)?.label ?? id
+/** Dictionary key of the protocol label (`UI-STALEBAT-PROTOKOL-<ID>`); unknown ids fall back to the raw id. */
+function kluczProtokolu(id: string): string {
+  return PROTOKOLY.some((p) => p.id === id) ? `UI-STALEBAT-PROTOKOL-${id.toUpperCase()}` : id
 }
 
 export function protokolyNiezgodne(bms: string, falownik: string): Warning {
   return {
     code: "PROTOKOLY-NIEZGODNE",
     level: "warning",
-    message: `BMS mówi ${etykieta(bms)}, a falownik ${etykieta(falownik)} — falownik nie odczyta SoC bezpośrednio. Potrzebny konwerter protokołu między nimi.`,
+    i18nKey: "PROTOKOLY-NIEZGODNE",
+    params: { bmsKey: kluczProtokolu(bms), falownikKey: kluczProtokolu(falownik) },
     technicalMessage: `protokolBms = "${bms}" !== protokolFalownika = "${falownik}"`,
   }
 }
@@ -18,7 +20,8 @@ export function protokolyZgodne(protokol: string): Warning {
   return {
     code: "PROTOKOLY-ZGODNE",
     level: "info",
-    message: `BMS i falownik mówią tym samym protokołem (${etykieta(protokol)}) — komunikacja bezpośrednia, bez konwertera.`,
+    i18nKey: "PROTOKOLY-ZGODNE",
+    params: { protokolKey: kluczProtokolu(protokol) },
     technicalMessage: `protokolBms === protokolFalownika === "${protokol}"`,
   }
 }

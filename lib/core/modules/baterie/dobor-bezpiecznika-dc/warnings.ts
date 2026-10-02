@@ -5,12 +5,12 @@ import { MIN_AIC_LIFEPO4_A } from "./constants"
  * Katalog ostrzeżeń tego kalkulatora (docs/standards/04-walidacja-i-twarde-stopy.md, 4.1).
  */
 
-export function notPositive(field: string, label: string, value: number): Warning {
+export function notPositive(field: string, labelKey: string, value: number): Warning {
   return {
     code: `${field.toUpperCase()}-NIEDODATNI`,
     level: "critical",
     i18nKey: "WARTOSC-NIEDODATNIA",
-    params: { label },
+    params: { labelKey },
     technicalMessage: `${field} = ${value}, oczekiwano > 0`,
     field,
   }

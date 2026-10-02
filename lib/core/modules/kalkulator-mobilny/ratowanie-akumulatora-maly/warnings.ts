@@ -5,7 +5,7 @@ export function napiecieUjemne(value: number): Warning {
     code: "WARTOSC-UJEMNA",
     level: "critical",
     i18nKey: "WARTOSC-UJEMNA",
-    params: { label: "Napięcie spoczynkowe" },
+    params: { labelKey: "POLE-NAPIECIE-SPOCZYNKOWE" },
     technicalMessage: `napiecieSpoczynkoweV = ${value}, oczekiwano >= 0`,
     field: "napiecieSpoczynkoweV",
   }

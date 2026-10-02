@@ -133,6 +133,6 @@ describe("calculateMixingRownolegle", () => {
       rezystancjaWewnetrznaMOhm2: 15,
     })
     expect(ujemna.warnings[0].i18nKey).toBe("WARTOSC-POLA-UJEMNA")
-    expect(ujemna.warnings[0].params).toEqual({ label: "Rezystancja wewnętrzna — bateria 1" })
+    expect(ujemna.warnings[0].params).toEqual({ labelKey: "POLE-REZYSTANCJA-WEWNETRZNA-BATERIA-1" })
   })
 })

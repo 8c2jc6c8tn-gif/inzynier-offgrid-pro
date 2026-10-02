@@ -12,17 +12,26 @@ export const CALCULATOR_VERSION = "1.0.0"
 
 export type KatBand = "zaleganie" | "przejsciowy" | "splukiwanie" | "zsuwanie"
 
+type Params = Record<string, string | number>
+
+/** Opis pasma jako klucz słownika + parametry (17.2) — tekst rozwiązuje warstwa prezentacji. */
 export type KatSamooczyszczaniaResult = {
   band: KatBand
-  opis: string
+  opisKey: string
+  opisParams: Params
 }
 
-const KAT_OPISY: Record<KatBand, string> = {
-  zaleganie: "Kąt <10° — woda i brud będą zalegać na panelu.",
-  przejsciowy:
-    "Zakres 10–15° — źródło nie podaje dla niego jednoznacznej klasyfikacji (luka danych, nie zgadujemy).",
-  splukiwanie: "Kąt 15–30° — deszcz naturalnie spłukuje kurz.",
-  zsuwanie: "Kąt >30° — śnieg i liście zsuwają się łatwiej same.",
+const KAT_OPISY: Record<KatBand, { key: string; params: Params }> = {
+  zaleganie: { key: "CZYSNIEG-KAT-ZALEGANIE", params: { max: KAT_ZALEGANIE_MAX } },
+  przejsciowy: {
+    key: "CZYSNIEG-KAT-PRZEJSCIOWY",
+    params: { min: KAT_ZALEGANIE_MAX, max: KAT_PRZEJSCIOWY_MAX },
+  },
+  splukiwanie: {
+    key: "CZYSNIEG-KAT-SPLUKIWANIE",
+    params: { min: KAT_PRZEJSCIOWY_MAX, max: KAT_SPLUKIWANIE_MAX },
+  },
+  zsuwanie: { key: "CZYSNIEG-KAT-ZSUWANIE", params: { min: KAT_SPLUKIWANIE_MAX } },
 }
 
 /**
@@ -38,7 +47,7 @@ export function classifyKatSamooczyszczania(
 
   if (errors.length > 0) {
     return {
-      value: { band: "zaleganie", opis: "" },
+      value: { band: "zaleganie", opisKey: "", opisParams: {} },
       unit: "",
       status: "INVALID_INPUT",
       formula,
@@ -69,7 +78,7 @@ export function classifyKatSamooczyszczania(
       : []
 
   return {
-    value: { band, opis: KAT_OPISY[band] },
+    value: { band, opisKey: KAT_OPISY[band].key, opisParams: KAT_OPISY[band].params },
     unit: "",
     status: warnings.length > 0 ? "VALID_WITH_WARNINGS" : "VALID",
     formula,
@@ -82,7 +91,8 @@ export function classifyKatSamooczyszczania(
 
 export type HarmonogramCzyszczeniaResult = {
   rekomendacjaMycia: boolean
-  powod: string
+  powodKey: string
+  powodParams: Params
 }
 
 /**
@@ -102,7 +112,7 @@ export function ocenHarmonogramCzyszczenia(
 
   if (errors.length > 0) {
     return {
-      value: { rekomendacjaMycia: false, powod: "" },
+      value: { rekomendacjaMycia: false, powodKey: "", powodParams: {} },
       unit: "",
       status: "INVALID_INPUT",
       formula,
@@ -115,28 +125,27 @@ export function ocenHarmonogramCzyszczenia(
 
   const przekroczonyProg = input.spadekProdukcjiPct > SPADEK_PROG_MYCIA_PCT
   let rekomendacjaMycia: boolean
-  let powod: string
+  let powodKey: string
 
   if (!przekroczonyProg) {
     rekomendacjaMycia = false
-    powod = `Spadek produkcji (${input.spadekProdukcjiPct}%) poniżej progu ${SPADEK_PROG_MYCIA_PCT}% — mycie niepotrzebne.`
+    powodKey = "CZYSNIEG-POWOD-PONIZEJ-PROGU"
   } else if (input.deszczWCiaguKilkuDni) {
     rekomendacjaMycia = false
-    powod = "Próg przekroczony, ale nadchodzący deszcz naturalnie umyje panele — rekomendacja odroczona."
+    powodKey = "CZYSNIEG-POWOD-DESZCZ-ODROCZONE"
   } else {
     rekomendacjaMycia = true
-    powod = `Spadek produkcji (${input.spadekProdukcjiPct}%) przekracza próg ${SPADEK_PROG_MYCIA_PCT}%, brak deszczu w najbliższych dniach.`
+    powodKey = "CZYSNIEG-POWOD-MYCIE"
   }
+  const powodParams: Params = { spadek: input.spadekProdukcjiPct, prog: SPADEK_PROG_MYCIA_PCT }
 
   return {
-    value: { rekomendacjaMycia, powod },
+    value: { rekomendacjaMycia, powodKey, powodParams },
     unit: "",
     status: "VALID",
     formula,
     inputs,
-    assumptions: [
-      `Próg mycia przyjęty jako środek przedziału źródłowego "strata >5-10%" = ${SPADEK_PROG_MYCIA_PCT}%.`,
-    ],
+    assumptions: [{ kod: "CZYSNIEG-ZALOZENIE-PROG-MYCIA", params: { prog: SPADEK_PROG_MYCIA_PCT } }],
     warnings: [],
     calculatorVersion: CALCULATOR_VERSION,
   }

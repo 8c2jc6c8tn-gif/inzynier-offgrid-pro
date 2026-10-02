@@ -42,13 +42,13 @@ export function validateInput(input: OrientacjaPowierzchniInput): ValidationResu
   const { szerokoscGeograficzna: lat, dlugoscGeograficzna: lon, albedo, daneGodzinowe } = input
 
   if (lat !== undefined && !wZakresie(lat, SZEROKOSC_MIN, SZEROKOSC_MAX)) {
-    errors.push(outOfRange("szerokoscGeograficzna", "szerokość geograficzna", lat, SZEROKOSC_MIN, SZEROKOSC_MAX))
+    errors.push(outOfRange("szerokoscGeograficzna", "POLE-SZEROKOSC-GEOGRAFICZNA", lat, SZEROKOSC_MIN, SZEROKOSC_MAX))
   }
   if (lon !== undefined && !wZakresie(lon, DLUGOSC_MIN, DLUGOSC_MAX)) {
-    errors.push(outOfRange("dlugoscGeograficzna", "długość geograficzna", lon, DLUGOSC_MIN, DLUGOSC_MAX))
+    errors.push(outOfRange("dlugoscGeograficzna", "POLE-DLUGOSC-GEOGRAFICZNA", lon, DLUGOSC_MIN, DLUGOSC_MAX))
   }
   if (albedo !== undefined && !wZakresie(albedo, ALBEDO_MIN, ALBEDO_MAX)) {
-    errors.push(outOfRange("albedo", "albedo", albedo, ALBEDO_MIN, ALBEDO_MAX))
+    errors.push(outOfRange("albedo", "POLE-ALBEDO", albedo, ALBEDO_MIN, ALBEDO_MAX))
   }
 
   errors.push(...bledyDanychGodzinowych(daneGodzinowe))

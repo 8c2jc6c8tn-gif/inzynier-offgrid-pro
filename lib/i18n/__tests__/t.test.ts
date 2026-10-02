@@ -1144,3 +1144,25 @@ describe("{waluta}", () => {
     expect(podstaw("en", "{waluta}", { waluta: "€" })).toBe("€")
   })
 })
+
+describe("konwencja *Key w params", () => {
+  it("rozwiązuje labelKey w języku UI i podstawia pod {label}", () => {
+    const params = { labelKey: "POLE-ALBEDO", min: 0, max: 1 }
+    expect(t("pl", "WARTOSC-POZA-ZAKRESEM", params)).toContain('"albedo"')
+    expect(t("ru", "WARTOSC-POZA-ZAKRESEM", params)).toContain("альбедо")
+  })
+
+  it("podstawia pozostałe params do szablonu etykiety (nazwa przegrody)", () => {
+    const params = { labelKey: "POLE-POWIERZCHNIA-PRZEGRODY", przegroda: "ściana N" }
+    expect(t("pl", "WARTOSC-UJEMNA", params)).toBe("Powierzchnia (ściana N) nie może być ujemna.")
+    expect(t("en", "WARTOSC-UJEMNA", params)).toContain("Area (ściana N)")
+  })
+
+  it("każdy klucz POLE-* ma wpis w PL, EN i RU", () => {
+    const klucze = Object.keys(dictionaries.pl).filter((k) => k.startsWith("POLE-"))
+    expect(klucze.length).toBeGreaterThan(0)
+    for (const jezyk of ["en", "ru"] as const) {
+      for (const k of klucze) expect(dictionaries[jezyk][k], `${jezyk}:${k}`).toBeTruthy()
+    }
+  })
+})

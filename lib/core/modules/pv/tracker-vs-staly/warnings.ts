@@ -1,12 +1,12 @@
 import type { Warning } from "@/lib/core/calc-result"
 
 /** Liczba paneli musi być całkowita — ułamek panelu nie istnieje. */
-export function liczbaNiecalkowita(field: string, label: string, value: number): Warning {
+export function liczbaNiecalkowita(field: string, labelKey: string, value: number): Warning {
   return {
     code: `${field.toUpperCase()}-NIECALKOWITA`,
     level: "critical",
     i18nKey: "TVS-LICZBA-NIECALKOWITA",
-    params: { label },
+    params: { labelKey },
     technicalMessage: `${field} = ${value}, oczekiwano liczby całkowitej`,
     field,
   }

@@ -9,10 +9,10 @@ export type ValidationResult = {
 export function validateInput(input: KoniecLadowaniaInput): ValidationResult {
   const errors: Warning[] = []
   if (input.pojemnoscAh < 0) {
-    errors.push(notPositive("pojemnoscAh", "pojemność baterii", input.pojemnoscAh))
+    errors.push(notPositive("pojemnoscAh", "POLE-POJEMNOSC-BATERII-L", input.pojemnoscAh))
   }
   if (input.napiecieAbsorpcjiV < 0) {
-    errors.push(notPositive("napiecieAbsorpcjiV", "napięcie absorpcji", input.napiecieAbsorpcjiV))
+    errors.push(notPositive("napiecieAbsorpcjiV", "POLE-NAPIECIE-ABSORPCJI-L", input.napiecieAbsorpcjiV))
   }
   if (input.progKoncowyC < 0 || input.progKoncowyC > 1) {
     errors.push({
@@ -24,10 +24,10 @@ export function validateInput(input: KoniecLadowaniaInput): ValidationResult {
     })
   }
   if (input.aktualnyPradA !== null && input.aktualnyPradA < 0) {
-    errors.push(ujemnaWartosc("aktualnyPradA", "aktualny prąd", input.aktualnyPradA))
+    errors.push(ujemnaWartosc("aktualnyPradA", "POLE-AKTUALNY-PRAD-L", input.aktualnyPradA))
   }
   if (input.aktualneNapiecieV !== null && input.aktualneNapiecieV < 0) {
-    errors.push(ujemnaWartosc("aktualneNapiecieV", "aktualne napięcie", input.aktualneNapiecieV))
+    errors.push(ujemnaWartosc("aktualneNapiecieV", "POLE-AKTUALNE-NAPIECIE-L", input.aktualneNapiecieV))
   }
   return { errors }
 }

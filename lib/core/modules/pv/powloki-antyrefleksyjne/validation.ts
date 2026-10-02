@@ -9,7 +9,7 @@ export type ValidationResult = {
 export function validateInput(input: PowlokiAntyrefleksyjneInput): ValidationResult {
   const errors: Warning[] = []
   if (input.rocznyUzyskKwh < 0) {
-    errors.push(wartoscUjemna("rocznyUzyskKwh", "Roczny uzysk instalacji", input.rocznyUzyskKwh))
+    errors.push(wartoscUjemna("rocznyUzyskKwh", "POLE-ROCZNY-UZYSK-INSTALACJI", input.rocznyUzyskKwh))
   }
   return { errors }
 }

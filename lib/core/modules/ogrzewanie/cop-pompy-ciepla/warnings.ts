@@ -3,12 +3,12 @@ import { COP_MAX, COP_MIN, MOC_CIEPLNA_KW_MAX } from "./constants"
 
 /** Zmigrowane do i18n (docs/standards/17-i18n.md) — bez `message`, patrz `lib/i18n/dictionary-*.ts`. */
 
-export function notPositive(field: string, label: string, value: number): Warning {
+export function notPositive(field: string, labelKey: string, value: number): Warning {
   return {
     code: `${field.toUpperCase()}-NIEDODATNI`,
     level: "critical",
     i18nKey: "WARTOSC-NIEDODATNIA",
-    params: { label },
+    params: { labelKey },
     technicalMessage: `${field} = ${value}, oczekiwano > 0`,
     field,
   }
