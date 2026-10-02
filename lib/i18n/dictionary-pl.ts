@@ -1659,6 +1659,10 @@ export const dictionaryPl = {
   "MSP-ZAL-COP-MIESIACA": "COP miesiąca z karty przy średniej temperaturze miesiąca. Spadek COP przy częściowym obciążeniu, starty i wahania napięcia off-grid nie są liczone — źródło je wymienia bez modelu. Miesiąc ze szronieniem: wpisz COP z defrostem z Ekranu 6.",
   "MSP-ZAL-TYLKO-CO": "Tylko ogrzewanie — ciepła woda ma inny COP (wyższa temperatura), jej prąd liczy Ekran 18.",
   "BPP-ZAL-BEZ-OSZCZEDNOSCI": "Oszczędności energii z mniejszej liczby startów i dłuższego życia sprężarki ekran nie liczy — źródło podaje tylko przykładowe procenty (15% i 10% dla tego samego przypadku), bez modelu. Liczy starty, zmagazynowane ciepło i straty postojowe.",
+  "PRZ-PRZEPLYW-ZA-MALY": "Pompa obiegowa daje {pompa} m³/h, a pompa ciepła potrzebuje {wymagany} m³/h — różnica temperatur wzrośnie do {dt} K. Za mały przepływ to alarm pompy ciepła i ryzyko zamarznięcia (źródło). Wyższy bieg pompy albo większa pompa obiegowa.",
+  "PRZ-PONIZEJ-MINIMUM": "Przepływ {przeplyw} m³/h jest poniżej minimum z karty pompy ciepła ({min} m³/h) — pompa zgłosi alarm przepływu. Za mały przepływ to ryzyko zamarznięcia wymiennika (źródło).",
+  "PRZ-DT-SPOZA-ZRODLA": "Różnica temperatur {dt} K jest poza przykładem źródła ({min}–{max} K) — sprawdź, jaką ΔT podaje karta Twojej pompy ciepła.",
+  "PRZ-ZAL-BEZ-OPOROW": "Wysokości podnoszenia z oporów rur i górnej granicy przepływu (szumy) ekran nie liczy — źródło nie podaje oporów ani granicy prędkości. Przepływ pompy obiegowej odczytaj z jej krzywej dla oporów Twojej instalacji.",
 } as const
 
 export type KluczTlumaczenia = keyof typeof dictionaryPl

@@ -5,6 +5,7 @@ import { doborMocyPompyTool } from "../dobor-mocy-pompy-tool"
 import { krzywaGrzewczaTool } from "../krzywa-grzewcza-tool"
 import { modelSezonowyPompyTool } from "../model-sezonowy-pompy-tool"
 import { buforPracaPompyTool } from "../bufor-praca-pompy-tool"
+import { przeplywPompyCieplaTool } from "../przeplyw-pompy-ciepla-tool"
 
 describe("doborMocyPompyTool (M6 Część 2B, dawne 5.27 + 5.67)", () => {
   it("kontrakt 9.3: 'read', bez potwierdzenia", () => {
@@ -90,5 +91,24 @@ describe("buforPracaPompyTool (M6 Część 2B, dawne 5.28 + 5.70)", () => {
     })
     expect(w.bez!.startyDoba / w.z!.startyDoba).toBeCloseTo(5, 9)
     expect(w.zalozenia).toContain(t("pl", "BPP-ZAL-BEZ-OSZCZEDNOSCI"))
+  })
+})
+
+describe("przeplywPompyCieplaTool (M6 Część 2B, dawne 5.65)", () => {
+  const r2 = (x: number) => Math.round(x * 100) / 100
+
+  it("kontrakt 9.3: 'read', bez potwierdzenia", () => {
+    expect(przeplywPompyCieplaTool.operationType).toBe("read")
+    expect(przeplywPompyCieplaTool.requiresConfirmation).toBe(false)
+    expect(() => validateAiToolDefinition(przeplywPompyCieplaTool)).not.toThrow()
+  })
+
+  it("7 kW przy ΔT 5 K → ok. 1,2 m³/h; pompa obiegowa 0,9 m³/h → 🟡 za mały przepływ jako tekst PL", async () => {
+    const w = await przeplywPompyCieplaTool.handler({ mocPompyKw: 7, dTK: 5, przeplywPompyM3H: 0.9, minPrzeplywM3H: 0 })
+    expect(w.wymaganyM3H).toBeCloseTo(1.2, 1)
+    expect(w.rzeczywistyDTK).not.toBeNull()
+    expect(w.ostrzezenia).toContain(
+      t("pl", "PRZ-PRZEPLYW-ZA-MALY", { pompa: 0.9, wymagany: r2(w.wymaganyM3H), dt: r2(w.rzeczywistyDTK!) }),
+    )
   })
 })

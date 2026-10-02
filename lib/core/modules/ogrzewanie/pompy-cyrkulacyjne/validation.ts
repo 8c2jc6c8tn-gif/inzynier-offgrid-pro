@@ -11,6 +11,8 @@ export function validateInput(input: PompyCyrkulacyjneInput): ValidationResult {
   if (input.mocObecnejPompyW < 0) errors.push(wartoscUjemna("mocObecnejPompyW", input.mocObecnejPompyW))
   if (input.mocNowejPompyW < 0) errors.push(wartoscUjemna("mocNowejPompyW", input.mocNowejPompyW))
   if (input.godzinyPracyDobowoH < 0) errors.push(wartoscUjemna("godzinyPracyDobowoH", input.godzinyPracyDobowoH))
+  if ((input.dniSezonu ?? 0) < 0) errors.push(wartoscUjemna("dniSezonu", input.dniSezonu ?? 0))
+  if ((input.cenaZlKwh ?? 0) < 0) errors.push(wartoscUjemna("cenaZlKwh", input.cenaZlKwh ?? 0))
   if (input.godzinyPracyDobowoH > 24) {
     errors.push({
       code: "GODZINY-POZA-ZAKRESEM",

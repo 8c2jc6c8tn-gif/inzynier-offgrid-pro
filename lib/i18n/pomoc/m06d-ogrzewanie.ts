@@ -153,6 +153,50 @@ export const pl = {
       },
     },
   },
+  "m6d-pompy-cyrkulacyjne-sezon": {
+    pola: {
+      dni: {
+        nazwa: "Dni pracy pompy w sezonie",
+        cel: "Opcjonalne: zużycie i oszczędność w całym sezonie = wynik dobowy × dni.",
+        gdzie: "Długość sezonu grzewczego (Ekran 2) — albo 365, jeśli pompa (np. cyrkulacja C.W.U.) pracuje cały rok.",
+        zakres: "≥ 0. Twój sezon.",
+      },
+      cena: {
+        nazwa: "Cena energii [zł/kWh]",
+        cel: "Opcjonalne: przelicza oszczędność sezonu na złotówki.",
+        gdzie: "Off-grid: koszt kWh z PV/baterii albo z agregatu (Moduł 2); z siecią — rachunek.",
+        zakres: "≥ 0. Twoja cena.",
+      },
+    },
+  },
+  "m6d-przeplyw-pompy-ciepla": {
+    pola: {
+      moc: {
+        nazwa: "Moc grzewcza pompy ciepła [kW]",
+        cel: "Tyle ciepła woda musi odebrać z pompy.",
+        gdzie: "Karta pompy — moc grzewcza w Twoich warunkach (największa, jaką pompa daje).",
+        zakres: "≥ 0. Karta Twojej pompy.",
+      },
+      dT: {
+        nazwa: "Różnica temperatur zasilanie/powrót na pompie ciepła [K]",
+        cel: "Im mniejsza różnica, tym większy przepływ potrzebny do przeniesienia tej samej mocy.",
+        gdzie: "Karta pompy ciepła (nominalna ΔT) albo projekt instalacji.",
+        zakres: "Źródło: np. {min}–{max} K.",
+      },
+      przeplyw: {
+        nazwa: "Przepływ pompy obiegowej w punkcie pracy [m³/h]",
+        cel: "Opcjonalne: porównanie z wymaganym przepływem i rzeczywista ΔT na pompie ciepła.",
+        gdzie: "Krzywa pompy obiegowej (wybrany bieg) przecięta z oporem instalacji — od instalatora albo z odczytu przepływomierza.",
+        zakres: "≥ 0. Twoja instalacja.",
+      },
+      min: {
+        nazwa: "Minimalny przepływ pompy ciepła [m³/h]",
+        cel: "Opcjonalne: poniżej niego pompa ciepła zgłasza alarm przepływu.",
+        gdzie: "Karta pompy ciepła / instrukcja montażu (minimalny przepływ wody).",
+        zakres: "≥ 0. Karta Twojej pompy.",
+      },
+    },
+  },
 }
 
 export const en: Tlumaczenie<typeof pl> = {
@@ -304,6 +348,50 @@ export const en: Tlumaczenie<typeof pl> = {
       },
     },
   },
+  "m6d-pompy-cyrkulacyjne-sezon": {
+    pola: {
+      dni: {
+        nazwa: "Days of pump operation per season",
+        cel: "Optional: consumption and saving over the whole season = daily result × days.",
+        gdzie: "Length of the heating season (Screen 2) — or 365 if the pump (e.g. hot-water circulation) runs all year.",
+        zakres: "≥ 0. Your season.",
+      },
+      cena: {
+        nazwa: "Energy price [PLN/kWh]",
+        cel: "Optional: turns the season's saving into PLN.",
+        gdzie: "Off-grid: the cost of a kWh from PV/battery or the generator (Module 2); with the grid — the bill.",
+        zakres: "≥ 0. Your price.",
+      },
+    },
+  },
+  "m6d-przeplyw-pompy-ciepla": {
+    pola: {
+      moc: {
+        nazwa: "Heat pump heating power [kW]",
+        cel: "This much heat the water must carry away from the pump.",
+        gdzie: "Pump datasheet — heating capacity in your conditions (the largest the pump gives).",
+        zakres: "≥ 0. Your pump's datasheet.",
+      },
+      dT: {
+        nazwa: "Flow/return temperature difference across the heat pump [K]",
+        cel: "The smaller the difference, the larger the flow needed to carry the same power.",
+        gdzie: "Heat pump datasheet (nominal ΔT) or the installation design.",
+        zakres: "Source: e.g. {min}–{max} K.",
+      },
+      przeplyw: {
+        nazwa: "Circulation pump flow at its operating point [m³/h]",
+        cel: "Optional: comparison with the required flow and the real ΔT across the heat pump.",
+        gdzie: "Circulation pump curve (chosen speed) crossed with the installation resistance — from the installer or a flow meter reading.",
+        zakres: "≥ 0. Your installation.",
+      },
+      min: {
+        nazwa: "Heat pump minimum flow [m³/h]",
+        cel: "Optional: below it the heat pump raises a flow alarm.",
+        gdzie: "Heat pump datasheet / installation manual (minimum water flow).",
+        zakres: "≥ 0. Your pump's datasheet.",
+      },
+    },
+  },
 }
 
 export const ru: Tlumaczenie<typeof pl> = {
@@ -452,6 +540,50 @@ export const ru: Tlumaczenie<typeof pl> = {
         cel: "Необязательно: потери в простое за весь сезон.",
         gdzie: "Длина отопительного сезона (экран 2) или дни, когда буфер горячий.",
         zakres: "≥ 0. Ваш сезон.",
+      },
+    },
+  },
+  "m6d-pompy-cyrkulacyjne-sezon": {
+    pola: {
+      dni: {
+        nazwa: "Дней работы насоса за сезон",
+        cel: "Необязательно: потребление и экономия за весь сезон = суточный результат × дни.",
+        gdzie: "Длина отопительного сезона (экран 2) — или 365, если насос (например, циркуляция ГВС) работает весь год.",
+        zakres: "≥ 0. Ваш сезон.",
+      },
+      cena: {
+        nazwa: "Цена энергии [зл/кВт·ч]",
+        cel: "Необязательно: переводит экономию за сезон в злотые.",
+        gdzie: "Off-grid: стоимость кВт·ч от PV/батареи или генератора (модуль 2); с сетью — счёт.",
+        zakres: "≥ 0. Ваша цена.",
+      },
+    },
+  },
+  "m6d-przeplyw-pompy-ciepla": {
+    pola: {
+      moc: {
+        nazwa: "Тепловая мощность теплового насоса [кВт]",
+        cel: "Столько тепла вода должна забрать от насоса.",
+        gdzie: "Паспорт насоса — тепловая мощность в ваших условиях (наибольшая, которую насос даёт).",
+        zakres: "≥ 0. Паспорт вашего насоса.",
+      },
+      dT: {
+        nazwa: "Разница температур подача/обратка на тепловом насосе [K]",
+        cel: "Чем меньше разница, тем больший расход нужен для переноса той же мощности.",
+        gdzie: "Паспорт теплового насоса (номинальная ΔT) или проект системы.",
+        zakres: "Источник: например {min}–{max} K.",
+      },
+      przeplyw: {
+        nazwa: "Расход циркуляционного насоса в рабочей точке [м³/ч]",
+        cel: "Необязательно: сравнение с требуемым расходом и реальная ΔT на тепловом насосе.",
+        gdzie: "Кривая циркуляционного насоса (выбранная скорость) в пересечении с сопротивлением системы — от монтажника или по расходомеру.",
+        zakres: "≥ 0. Ваша система.",
+      },
+      min: {
+        nazwa: "Минимальный расход теплового насоса [м³/ч]",
+        cel: "Необязательно: ниже него тепловой насос выдаёт аварию расхода.",
+        gdzie: "Паспорт теплового насоса / инструкция по монтажу (минимальный расход воды).",
+        zakres: "≥ 0. Паспорт вашего насоса.",
       },
     },
   },

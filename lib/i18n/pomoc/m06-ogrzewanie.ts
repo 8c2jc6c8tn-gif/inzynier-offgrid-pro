@@ -177,7 +177,7 @@ export const pl = {
   "pompy-cyrkulacyjne": {
     migawka: {
       oCoChodzi: "W off-gridzie pompy cyrkulacyjne to cisi złodzieje energii — pracują 24/7 i łatwo je zlekceważyć, a różnica między starym a nowym modelem to realne kilowatogodziny dziennie.",
-      jakDziala: "Energia = moc × godziny pracy. Porównuję obecną pompę z elektroniczną (PWM) — dziennie i rocznie.",
+      jakDziala: "Energia = moc × godziny pracy. Porównuję obecną pompę z elektroniczną (PWM) — na dobę, a z dniami sezonu także w całym sezonie (kWh i zł). Niżej: przepływ przez pompę ciepła — ile m³/h potrzeba i czy pompa obiegowa go da.",
       poCo: "Wiesz, ile energii z baterii odzyskasz wymianą pompy.",
       fizyka: "E = P · h / 1000.",
     },
@@ -410,7 +410,7 @@ export const en: Tlumaczenie<typeof pl> = {
   "pompy-cyrkulacyjne": {
     migawka: {
       oCoChodzi: "Off-grid, circulation pumps are silent energy thieves — they run 24/7 and are easy to ignore, and the difference between an old and a new model is real kilowatt-hours a day.",
-      jakDziala: "Energy = power × running hours. I compare the current pump with an electronic (PWM) one — per day and per year.",
+      jakDziala: "Energy = power × running hours. I compare the current pump with an electronic (PWM) one — per day, and with the season days also for the whole season (kWh and PLN). Below: the flow through the heat pump — how many m³/h are needed and whether the circulation pump gives them.",
       poCo: "You know how much battery energy you recover by replacing the pump.",
       fizyka: "E = P · h / 1000.",
     },
@@ -643,7 +643,7 @@ export const ru: Tlumaczenie<typeof pl> = {
   "pompy-cyrkulacyjne": {
     migawka: {
       oCoChodzi: "В автономной системе циркуляционные насосы — тихие воры энергии: работают 24/7, их легко недооценить, а разница между старой и новой моделью — реальные киловатт-часы в сутки.",
-      jakDziala: "Энергия = мощность × часы работы. Сравниваю текущий насос с электронным (PWM) — в сутки и в год.",
+      jakDziala: "Энергия = мощность × часы работы. Сравниваю текущий насос с электронным (PWM) — в сутки, а с днями сезона и за весь сезон (кВт·ч и зл). Ниже: расход через тепловой насос — сколько м³/ч нужно и даст ли его циркуляционный насос.",
       poCo: "Вы знаете, сколько энергии батареи вернёт замена насоса.",
       fizyka: "E = P · h / 1000.",
     },

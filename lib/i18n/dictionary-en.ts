@@ -1647,4 +1647,8 @@ export const dictionaryEn = {
   "MSP-ZAL-COP-MIESIACA": "Monthly COP from the datasheet at the month's mean temperature. Part-load COP drop, starts and off-grid voltage swings are not counted — the source lists them without a model. A month with frosting: enter the COP with defrost from Screen 6.",
   "MSP-ZAL-TYLKO-CO": "Space heating only — hot water has another COP (higher temperature), its electricity is on Screen 18.",
   "BPP-ZAL-BEZ-OSZCZEDNOSCI": "The screen does not compute the energy saving from fewer starts or the longer compressor life — the source gives only example percentages (15% and 10% for the same case), without a model. It computes starts, stored heat and standing losses.",
+  "PRZ-PRZEPLYW-ZA-MALY": "The circulation pump gives {pompa} m³/h and the heat pump needs {wymagany} m³/h — the temperature difference rises to {dt} K. Too low a flow means a heat pump alarm and a freezing risk (source). A higher pump speed or a bigger circulation pump.",
+  "PRZ-PONIZEJ-MINIMUM": "The flow {przeplyw} m³/h is below the heat pump datasheet minimum ({min} m³/h) — the pump will raise a flow alarm. Too low a flow is a heat exchanger freezing risk (source).",
+  "PRZ-DT-SPOZA-ZRODLA": "The temperature difference {dt} K is outside the source example ({min}–{max} K) — check which ΔT your heat pump datasheet gives.",
+  "PRZ-ZAL-BEZ-OPOROW": "The screen does not compute the pump head from pipe resistance or the upper flow limit (noise) — the source gives neither resistances nor a velocity limit. Read the circulation pump flow from its curve for your installation's resistance.",
 } satisfies Record<KluczTlumaczenia, string>
