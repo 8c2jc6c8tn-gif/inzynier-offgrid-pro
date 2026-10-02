@@ -135,6 +135,7 @@ const MIGRATED_MODULES = [
   "lib/core/modules/ogrzewanie/model-sezonowy-pompy",
   "lib/core/modules/ai/przesuwanie-zadan",
   "lib/core/modules/ai/dobor-zrodel-zasilania",
+  "lib/core/modules/ai/audyt-zimowy",
   "lib/core/modules/ogrzewanie/dobor-mocy-pompy",
   "lib/core/modules/ogrzewanie/krzywa-grzewcza",
   "lib/core/modules/ogrzewanie/chlodzenie-pompa-ciepla",

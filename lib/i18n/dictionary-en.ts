@@ -1680,4 +1680,11 @@ export const dictionaryEn = {
   "UPS-ZAL-FAIL-SAFE": "Cutting the actuators is safe only with fail-safe locks: no power = door open, never the other way round (Screen 3, evacuation door locks).",
   "AIZR-PRAD-OGRANICZONY": "Charging current limited from {mozliwy} A to {max} A — the cells are at {t} °C (limit from Module 4, Screen 12). Set this limit in the charger/BMS.",
   "AIZR-BEZ-TEMPERATURY": "Without the cell temperature and pack capacity the cold charging current limit is not checked — enter them from the BMS.",
+  "AZIM-TEST-GENERATORA": "Generator test not done — do a trial start now, on a quiet day, not in the middle of a snowstorm when it is the only power source (cold start: Module 7, generator in frost).",
+  "AZIM-TEST-WEBASTO": "Webasto test not done — run the heater before the season; a test planned but not done is still a gap.",
+  "AZIM-PRZEGLAD-GRZEWCZEJ": "Heating system inspection not done — check the heat source and its power supply before the first frost.",
+  "AZIM-ZAPAS-PALIWA": "Fuel stock not checked or too small — work out how much fuel the winter needs (Module 2, generator) and top up before the season.",
+  "AZIM-GRZALKI-BMS": "BMS heaters not verified — check that they switch on in frost and where they take power from (Module 4, BMS heaters).",
+  "AZIM-PALIWA-BRAKUJE": "Fuel stock below need: you have {zapas} l, you need {wymagany} l — {brak} l short.",
+  "AZIM-ZAL-LISTA": "Five-item list 1:1 from the source (generator test, webasto test, heating inspection, fuel stock, BMS heaters). The “recommended minimum” of fuel has no number in the source — you enter the amount needed. This is not the Winter Safety Factor (Module 7) — that one is a risk index, this one is a task list.",
 } satisfies Record<KluczTlumaczenia, string>

@@ -81,6 +81,57 @@ export const pl = {
       },
     },
   },
+  "audyt-zimowy": {
+    migawka: {
+      oCoChodzi: "Lepiej odkryć, że generator nie startuje, w spokojny wtorek, niż w środku śnieżycy. Ten raport zbiera na początku zimy wszystko, co trzeba sprawdzić wcześniej.",
+      jakDziala: "Oceniasz pięć punktów ze źródła: test generatora, test webasto, przegląd instalacji grzewczej, zapasy paliwa i grzałki BMS. Gdy wpiszesz zapas i potrzebę paliwa, punkt paliwa liczy się sam. Wynik to liczba gotowych punktów i lista braków — „zaplanowane, ale niewykonane” to wciąż brak.",
+      poCo: "Zimą każda usterka jest droższa i groźniejsza. Lista z brakami mówi, co zrobić teraz, póki jest czas. Inny raport — Współczynnik Bezpieczeństwa Zimowego (Moduł 7) — patrzy na to samo jako wskaźnik ryzyka.",
+    },
+    pola: {
+      testGeneratora: {
+        nazwa: "Test generatora",
+        cel: "Czy agregat został uruchomiony próbnie przed zimą.",
+        gdzie: "Twój dziennik serwisu; rozruch w mrozie — Moduł 7, agregat w mrozie.",
+        zakres: "gotowe / zaplanowane, niewykonane / niewykonane / nie dotyczy.",
+      },
+      testWebasto: {
+        nazwa: "Test webasto (nagrzewnicy)",
+        cel: "Czy nagrzewnica została uruchomiona przed sezonem.",
+        gdzie: "Twój dziennik serwisu. Bez webasto — „nie dotyczy”.",
+        zakres: "gotowe / zaplanowane, niewykonane / niewykonane / nie dotyczy.",
+      },
+      przegladGrzewczej: {
+        nazwa: "Przegląd instalacji grzewczej",
+        cel: "Czy źródło ciepła i jego zasilanie zostały sprawdzone przed mrozem.",
+        gdzie: "Protokół przeglądu albo Twój dziennik.",
+        zakres: "gotowe / zaplanowane, niewykonane / niewykonane / nie dotyczy.",
+      },
+      zapasPaliwa: {
+        nazwa: "Zapasy paliwa",
+        cel: "Czy paliwa wystarczy na zimę. Gdy wpiszesz liczby niżej, ten punkt ocenia się sam.",
+        gdzie: "Stan zbiorników; potrzebę policzysz w Module 2 (agregat prądotwórczy).",
+        zakres: "gotowe / zaplanowane, niewykonane / niewykonane / nie dotyczy.",
+      },
+      grzalkiBms: {
+        nazwa: "Weryfikacja grzałek BMS",
+        cel: "Czy grzałki baterii włączają się w mrozie i mają skąd brać prąd.",
+        gdzie: "Test w zimną noc albo odczyt z BMS; Moduł 4, grzałki BMS.",
+        zakres: "gotowe / zaplanowane, niewykonane / niewykonane / nie dotyczy.",
+      },
+      zapasL: {
+        nazwa: "Zapas paliwa [l]",
+        cel: "Porównywany z potrzebą na zimę.",
+        gdzie: "Stan zbiorników/kanistrów.",
+        zakres: "≥ 0.",
+      },
+      wymaganyL: {
+        nazwa: "Paliwo potrzebne na zimę [l]",
+        cel: "Twoja potrzeba — źródło mówi o „zalecanym minimum”, ale nie podaje liczby.",
+        gdzie: "Moduł 2, agregat prądotwórczy (paliwo na deficyt) albo Moduł 7 (deficyty miesięczne).",
+        zakres: "≥ 0.",
+      },
+    },
+  },
 }
 
 export const en: Tlumaczenie<typeof pl> = {
@@ -160,6 +211,57 @@ export const en: Tlumaczenie<typeof pl> = {
       },
     },
   },
+  "audyt-zimowy": {
+    migawka: {
+      oCoChodzi: "Better to find out the generator does not start on a quiet Tuesday than in the middle of a snowstorm. This report gathers at the start of winter everything that must be checked in advance.",
+      jakDziala: "You assess the five items of the source: generator test, webasto test, heating system inspection, fuel stock and BMS heaters. If you enter the fuel stock and need, the fuel item is judged by itself. The result is the number of ready items and the list of gaps — “planned but not done” is still a gap.",
+      poCo: "In winter every fault is more expensive and more dangerous. The list of gaps says what to do now, while there is time. Another report — the Winter Safety Factor (Module 7) — looks at the same thing as a risk index.",
+    },
+    pola: {
+      testGeneratora: {
+        nazwa: "Generator test",
+        cel: "Whether the generator was trial-started before winter.",
+        gdzie: "Your service log; cold start — Module 7, generator in frost.",
+        zakres: "done / planned, not done / not done / not applicable.",
+      },
+      testWebasto: {
+        nazwa: "Webasto (heater) test",
+        cel: "Whether the heater was run before the season.",
+        gdzie: "Your service log. Without webasto — “not applicable”.",
+        zakres: "done / planned, not done / not done / not applicable.",
+      },
+      przegladGrzewczej: {
+        nazwa: "Heating system inspection",
+        cel: "Whether the heat source and its power supply were checked before the frost.",
+        gdzie: "Inspection report or your log.",
+        zakres: "done / planned, not done / not done / not applicable.",
+      },
+      zapasPaliwa: {
+        nazwa: "Fuel stock",
+        cel: "Whether there is enough fuel for the winter. If you enter the numbers below, this item is judged by itself.",
+        gdzie: "Tank levels; work out the need in Module 2 (generator).",
+        zakres: "done / planned, not done / not done / not applicable.",
+      },
+      grzalkiBms: {
+        nazwa: "BMS heater check",
+        cel: "Whether the battery heaters switch on in frost and have power to use.",
+        gdzie: "A test on a cold night or a BMS reading; Module 4, BMS heaters.",
+        zakres: "done / planned, not done / not done / not applicable.",
+      },
+      zapasL: {
+        nazwa: "Fuel in stock [l]",
+        cel: "Compared with the need for the winter.",
+        gdzie: "Tank/canister levels.",
+        zakres: "≥ 0.",
+      },
+      wymaganyL: {
+        nazwa: "Fuel needed for the winter [l]",
+        cel: "Your need — the source speaks of a “recommended minimum” but gives no number.",
+        gdzie: "Module 2, generator (fuel for the deficit) or Module 7 (monthly deficits).",
+        zakres: "≥ 0.",
+      },
+    },
+  },
 }
 
 export const ru: Tlumaczenie<typeof pl> = {
@@ -236,6 +338,57 @@ export const ru: Tlumaczenie<typeof pl> = {
         cel: "Сколько тока дал бы выбранный источник без ограничений — сравнивается с лимитом в холоде.",
         gdzie: "Избыток PV ÷ напряжение батареи (например, 2400 Вт ÷ 48 В = 50 А) или максимальный ток зарядного устройства/генератора из паспорта.",
         zakres: "≥ 0. Пусто = показан только лимит по температуре.",
+      },
+    },
+  },
+  "audyt-zimowy": {
+    migawka: {
+      oCoChodzi: "Лучше узнать, что генератор не заводится, в спокойный вторник, чем посреди метели. Этот отчёт собирает в начале зимы всё, что нужно проверить заранее.",
+      jakDziala: "Вы оцениваете пять пунктов из источника: тест генератора, тест вебасто, осмотр отопительной системы, запас топлива и нагреватели BMS. Если ввести запас и потребность в топливе, пункт топлива оценивается сам. Результат — число готовых пунктов и список пробелов; «запланировано, но не выполнено» — всё ещё пробел.",
+      poCo: "Зимой каждая неисправность дороже и опаснее. Список пробелов говорит, что сделать сейчас, пока есть время. Другой отчёт — коэффициент зимней безопасности (модуль 7) — смотрит на то же как на индекс риска.",
+    },
+    pola: {
+      testGeneratora: {
+        nazwa: "Тест генератора",
+        cel: "Был ли генератор пробно запущен до зимы.",
+        gdzie: "Ваш журнал обслуживания; пуск в мороз — модуль 7, генератор в мороз.",
+        zakres: "готово / запланировано, не выполнено / не выполнено / не относится.",
+      },
+      testWebasto: {
+        nazwa: "Тест вебасто (обогревателя)",
+        cel: "Был ли обогреватель запущен до сезона.",
+        gdzie: "Ваш журнал обслуживания. Без вебасто — «не относится».",
+        zakres: "готово / запланировано, не выполнено / не выполнено / не относится.",
+      },
+      przegladGrzewczej: {
+        nazwa: "Осмотр отопительной системы",
+        cel: "Проверены ли источник тепла и его питание до мороза.",
+        gdzie: "Протокол осмотра или ваш журнал.",
+        zakres: "готово / запланировано, не выполнено / не выполнено / не относится.",
+      },
+      zapasPaliwa: {
+        nazwa: "Запас топлива",
+        cel: "Хватит ли топлива на зиму. Если ввести числа ниже, пункт оценивается сам.",
+        gdzie: "Уровень в баках; потребность посчитаете в модуле 2 (генератор).",
+        zakres: "готово / запланировано, не выполнено / не выполнено / не относится.",
+      },
+      grzalkiBms: {
+        nazwa: "Проверка нагревателей BMS",
+        cel: "Включаются ли нагреватели батареи в мороз и есть ли откуда брать ток.",
+        gdzie: "Тест холодной ночью или показания BMS; модуль 4, нагреватели BMS.",
+        zakres: "готово / запланировано, не выполнено / не выполнено / не относится.",
+      },
+      zapasL: {
+        nazwa: "Запас топлива [л]",
+        cel: "Сравнивается с потребностью на зиму.",
+        gdzie: "Уровень в баках/канистрах.",
+        zakres: "≥ 0.",
+      },
+      wymaganyL: {
+        nazwa: "Топливо, нужное на зиму [л]",
+        cel: "Ваша потребность — источник говорит о «рекомендуемом минимуме», но без числа.",
+        gdzie: "Модуль 2, генератор (топливо на дефицит) или модуль 7 (месячные дефициты).",
+        zakres: "≥ 0.",
       },
     },
   },

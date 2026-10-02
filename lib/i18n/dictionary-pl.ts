@@ -1692,6 +1692,13 @@ export const dictionaryPl = {
   "UPS-ZAL-FAIL-SAFE": "Odcięcie siłowników jest bezpieczne tylko przy zamkach fail-safe: brak prądu = drzwi otwarte, nigdy odwrotnie (Ekran 3, zamki drzwi ewakuacyjnych).",
   "AIZR-PRAD-OGRANICZONY": "Prąd ładowania ograniczony z {mozliwy} A do {max} A — ogniwa mają {t} °C (limit z Modułu 4, Ekran 12). Ustaw ten limit w ładowarce/BMS.",
   "AIZR-BEZ-TEMPERATURY": "Bez temperatury ogniw i pojemności pakietu limit prądu ładowania w zimnie nie jest sprawdzony — wpisz je z BMS.",
+  "AZIM-TEST-GENERATORA": "Test generatora niewykonany — zrób rozruch próbny teraz, w spokojny dzień, a nie w środku śnieżycy, gdy będzie jedynym źródłem prądu (rozruch w mrozie: Moduł 7, agregat w mrozie).",
+  "AZIM-TEST-WEBASTO": "Test webasto niewykonany — uruchom nagrzewnicę przed sezonem; zaplanowany, ale niewykonany test to wciąż brak.",
+  "AZIM-PRZEGLAD-GRZEWCZEJ": "Przegląd instalacji grzewczej niewykonany — sprawdź źródło ciepła i jego zasilanie przed pierwszym mrozem.",
+  "AZIM-ZAPAS-PALIWA": "Zapas paliwa niesprawdzony albo za mały — policz, ile paliwa potrzeba na zimę (Moduł 2, agregat prądotwórczy), i uzupełnij przed sezonem.",
+  "AZIM-GRZALKI-BMS": "Grzałki BMS niezweryfikowane — sprawdź, czy włączają się w mrozie i skąd biorą prąd (Moduł 4, grzałki BMS).",
+  "AZIM-PALIWA-BRAKUJE": "Zapas paliwa poniżej potrzeby: masz {zapas} l, potrzebujesz {wymagany} l — brakuje {brak} l.",
+  "AZIM-ZAL-LISTA": "Lista pięciu punktów 1:1 ze źródła (test generatora, test webasto, przegląd instalacji grzewczej, zapasy paliwa, grzałki BMS). „Zalecane minimum” paliwa nie ma liczby w źródle — potrzebną ilość wpisujesz sam. To nie jest Współczynnik Bezpieczeństwa Zimowego (Moduł 7) — tamten to wskaźnik ryzyka, ten to lista zadań.",
 } as const
 
 export type KluczTlumaczenia = keyof typeof dictionaryPl

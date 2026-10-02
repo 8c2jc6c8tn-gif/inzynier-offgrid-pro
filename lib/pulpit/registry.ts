@@ -292,6 +292,7 @@ export const KAFLE: KafelEntry[] = [
       { href: "/kalkulatory/prognozy", label: "Prognozy" },
       { href: "/kalkulatory/dobor-zrodel-zasilania", label: "Dobór źródła zasilania i prądu ładowania" },
       { href: "/kalkulatory/przesuwanie-zadan", label: "Przesuwanie zadań domowych na słońce" },
+      { href: "/kalkulatory/audyt-zimowy", label: "Generalny audyt zimowy" },
     ],
   },
   {

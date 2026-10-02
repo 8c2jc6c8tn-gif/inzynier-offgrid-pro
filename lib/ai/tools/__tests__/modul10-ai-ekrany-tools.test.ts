@@ -4,6 +4,7 @@ import { t } from "@/lib/i18n/t"
 import { validateAiToolDefinition } from "../../types"
 import { przesuwanieZadanTool } from "../przesuwanie-zadan-tool"
 import { doborZrodelZasilaniaTool } from "../dobor-zrodel-zasilania-tool"
+import { audytZimowyTool } from "../audyt-zimowy-tool"
 
 // Control examples are the engines' own (__tests__ next to each engine) — the tools only echo.
 describe("przesuwanieZadanTool (M10/E5, dawne 12.10)", () => {
@@ -51,5 +52,23 @@ describe("doborZrodelZasilaniaTool (M10/E4, dawne 12.7 + 12.8)", () => {
     expect(w.zrodlo).toBe("PV")
     expect(w.pradLadowaniaA).toBeCloseTo(10, 9)
     expect(w.ostrzezenia).toContain(t("pl", "AIZR-PRAD-OGRANICZONY", { mozliwy: 30, max: 10, t: -5 }))
+  })
+})
+
+describe("audytZimowyTool (M10/E12, dawne 12.36)", () => {
+  it("kontrakt 9.3: 'read', bez potwierdzenia", () => {
+    expect(audytZimowyTool.operationType).toBe("read")
+    expect(audytZimowyTool.requiresConfirmation).toBe(false)
+    expect(() => validateAiToolDefinition(audytZimowyTool)).not.toThrow()
+  })
+
+  it("brak paliwa z liczb → 4/5 i tekst PL", async () => {
+    const w = await audytZimowyTool.handler({
+      pozycje: { "test-generatora": "gotowe", "test-webasto": "gotowe", "przeglad-grzewczej": "gotowe", "grzalki-bms": "gotowe" },
+      zapasPaliwaL: 40,
+      wymaganyZapasL: 100,
+    })
+    expect(w.gotowe).toBe(4)
+    expect(w.ostrzezenia).toEqual([t("pl", "AZIM-PALIWA-BRAKUJE", { brak: 60, zapas: 40, wymagany: 100 })])
   })
 })
