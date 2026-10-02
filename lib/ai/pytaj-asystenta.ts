@@ -258,6 +258,7 @@ import { cykleOdszranianiaTool } from "./tools/cykle-odszraniania-tool"
 import { wentylacjaGrawitacyjnaTool } from "./tools/wentylacja-grawitacyjna-tool"
 import { gwcTool } from "./tools/gwc-tool"
 import { oknoSloneczneTool } from "./tools/okno-sloneczne-tool"
+import { osadNaPvTool } from "./tools/osad-na-pv-tool"
 import { toAnthropicTool } from "./to-anthropic-tool"
 import { validateAiToolDefinition, type AiToolDefinition } from "./types"
 
@@ -506,6 +507,7 @@ const NARZEDZIA: Array<AiToolDefinition<any, any>> = [
   wentylacjaGrawitacyjnaTool,
   gwcTool,
   oknoSloneczneTool,
+  osadNaPvTool,
 ]
 for (const narzedzie of NARZEDZIA) validateAiToolDefinition(narzedzie)
 

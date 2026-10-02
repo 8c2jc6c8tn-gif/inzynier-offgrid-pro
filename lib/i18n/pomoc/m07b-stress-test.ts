@@ -110,6 +110,80 @@ export const pl = {
       }
     }
   },
+  "snieg-na-pv": {
+    "migawka": {
+      "oCoChodzi": "Zasypany panel to martwy panel, a wiatr rozkłada śnieg nierównomiernie — trzeba wiedzieć nie tylko ile, ale i gdzie osiądzie.",
+      "jakDziala": "Wybierz rodzaj osadu, wpisz kąt paneli, normalną produkcję na dobę, ile dni osad zostanie i ile produkcji zostaje pod nim. Aplikacja policzy utraconą energię i powie, czy sypki śnieg zsunie się sam (kąt powyżej {prog}°).",
+      "poCo": "Wiesz, ile energii musi zastąpić bateria albo agregat i czy warto odśnieżać.",
+      "fizyka": "E = E_doba · dni · (1 − p). Śnieg sypki zsuwa się przy kącie > {prog}° (ten sam próg co Moduł 3 „Czystość i śnieg”); mokry się przykleja; gołoledź i szron blokują światło całkowicie."
+    },
+    "pola": {
+      "rodzaj": {
+        "nazwa": "Rodzaj osadu",
+        "cel": "Decyduje, czy osad może zejść sam.",
+        "gdzie": "Obserwacja albo prognoza (opad sypki, mokry, marznący deszcz).",
+        "zakres": "Sypki, mokry, gołoledź/szron, szadź."
+      },
+      "kat": {
+        "nazwa": "Kąt nachylenia paneli [°]",
+        "cel": "Przy kącie powyżej {prog}° sypki śnieg może zsunąć się sam.",
+        "gdzie": "Projekt instalacji (Moduł 3).",
+        "zakres": "0–90°."
+      },
+      "produkcja": {
+        "nazwa": "Produkcja na dobę bez osadu [kWh]",
+        "cel": "Energia, którą panele dałyby czyste.",
+        "gdzie": "Moduł 3 — produkcja w tym miesiącu ÷ liczba dni.",
+        "zakres": "Twoja instalacja."
+      },
+      "dni": {
+        "nazwa": "Dni zalegania osadu",
+        "cel": "Mnoży stratę doby.",
+        "gdzie": "Obserwacja albo prognoza odwilży (źródło: przy −5 °C śnieg ok. 3 dni).",
+        "zakres": "Twoja ocena — aplikacja nie ma modelu topnienia."
+      },
+      "pozostala": {
+        "nazwa": "Produkcja pod osadem [% normalnej]",
+        "cel": "Jaka część światła przechodzi przez osad.",
+        "gdzie": "Obserwacja falownika; źródło: śnieg 0%, szadź po 48 h ok. 5%.",
+        "zakres": "0–100%."
+      },
+      "nierowno": {
+        "nazwa": "Stringi zasypane nierówno",
+        "cel": "Różne zasypanie stringów daje różnice napięć (niedopasowanie).",
+        "gdzie": "Połacie o różnych kierunkach, strona zawietrzna, kosze dachu.",
+        "zakres": "Tak / nie."
+      }
+    }
+  },
+  "szadz-na-pv": {
+    "migawka": {
+      "oCoChodzi": "Mgła to cichy zabójca paneli — zamarza na nich jak lukier na szybie i, w przeciwieństwie do śniegu, nie odpada sama.",
+      "jakDziala": "Wpisz normalną produkcję na dobę, ile dni utrzyma się mgła z szadzią i ile produkcji zostaje pod szadzią. Aplikacja policzy utraconą energię — tę samą fizyką co ekran śniegu na PV.",
+      "poCo": "Kilkudniowa mgła potrafi zabrać prawie całą produkcję — wiesz, ile musi pokryć bateria i agregat.",
+      "fizyka": "E = E_doba · dni · (1 − p). Przykład źródła: po 48 h mgły i szadzi produkcja spada do 5% nominalnej (p = 5%)."
+    },
+    "pola": {
+      "produkcja": {
+        "nazwa": "Produkcja na dobę bez szadzi [kWh]",
+        "cel": "Energia, którą panele dałyby czyste.",
+        "gdzie": "Moduł 3 — produkcja w tym miesiącu ÷ liczba dni.",
+        "zakres": "Twoja instalacja."
+      },
+      "dni": {
+        "nazwa": "Dni mgły z szadzią",
+        "cel": "Mnoży stratę doby.",
+        "gdzie": "Prognoza; źródło: scenariusze 3–7 dni.",
+        "zakres": "Twoja ocena."
+      },
+      "pozostala": {
+        "nazwa": "Produkcja pod szadzią [% normalnej]",
+        "cel": "Jaka część światła przechodzi przez szadź.",
+        "gdzie": "Obserwacja falownika; źródło: ok. 5% po 48 h.",
+        "zakres": "0–100%."
+      }
+    }
+  },
 }
 
 export const en: Tlumaczenie<typeof pl> = {
@@ -217,6 +291,80 @@ export const en: Tlumaczenie<typeof pl> = {
       }
     }
   },
+  "snieg-na-pv": {
+    "migawka": {
+      "oCoChodzi": "A covered panel is a dead panel, and wind spreads snow unevenly — you need to know not only how much but where it settles.",
+      "jakDziala": "Choose the deposit type, enter the panel tilt, normal daily production, how many days the deposit stays and how much production is left under it. The app computes the lost energy and says whether dry snow will slide off (tilt above {prog}°).",
+      "poCo": "You know how much energy the battery or generator must replace and whether clearing is worth it.",
+      "fizyka": "E = E_day · days · (1 − p). Dry snow slides off above {prog}° (the same threshold as Module 3 “Cleanliness and snow”); wet snow sticks; glaze and frost block the light completely."
+    },
+    "pola": {
+      "rodzaj": {
+        "nazwa": "Deposit type",
+        "cel": "Decides whether the deposit can clear by itself.",
+        "gdzie": "Observation or forecast (dry snow, wet snow, freezing rain).",
+        "zakres": "Dry, wet, glaze/frost, rime."
+      },
+      "kat": {
+        "nazwa": "Panel tilt [°]",
+        "cel": "Above {prog}° dry snow may slide off by itself.",
+        "gdzie": "Installation design (Module 3).",
+        "zakres": "0–90°."
+      },
+      "produkcja": {
+        "nazwa": "Production per day without deposit [kWh]",
+        "cel": "Energy the clean panels would give.",
+        "gdzie": "Module 3 — this month's production ÷ number of days.",
+        "zakres": "Your installation."
+      },
+      "dni": {
+        "nazwa": "Days the deposit stays",
+        "cel": "Multiplies the daily loss.",
+        "gdzie": "Observation or thaw forecast (source: about 3 days of snow at −5 °C).",
+        "zakres": "Your estimate — the app has no melting model."
+      },
+      "pozostala": {
+        "nazwa": "Production under the deposit [% of normal]",
+        "cel": "What part of the light passes through the deposit.",
+        "gdzie": "Inverter observation; source: snow 0%, rime about 5% after 48 h.",
+        "zakres": "0–100%."
+      },
+      "nierowno": {
+        "nazwa": "Strings covered unevenly",
+        "cel": "Different cover on strings gives voltage differences (mismatch).",
+        "gdzie": "Roof planes facing different ways, leeward side, roof valleys.",
+        "zakres": "Yes / no."
+      }
+    }
+  },
+  "szadz-na-pv": {
+    "migawka": {
+      "oCoChodzi": "Fog is a silent panel killer — it freezes on them like icing on glass and, unlike snow, does not fall off by itself.",
+      "jakDziala": "Enter the normal daily production, how many days the fog with rime lasts and how much production is left under the rime. The app computes the lost energy — the same physics as the snow on PV screen.",
+      "poCo": "A few days of fog can take almost all production — you know how much the battery and generator must cover.",
+      "fizyka": "E = E_day · days · (1 − p). Source example: after 48 h of fog and rime production drops to 5% of nominal (p = 5%)."
+    },
+    "pola": {
+      "produkcja": {
+        "nazwa": "Production per day without rime [kWh]",
+        "cel": "Energy the clean panels would give.",
+        "gdzie": "Module 3 — this month's production ÷ number of days.",
+        "zakres": "Your installation."
+      },
+      "dni": {
+        "nazwa": "Days of fog with rime",
+        "cel": "Multiplies the daily loss.",
+        "gdzie": "Forecast; source: 3–7 day scenarios.",
+        "zakres": "Your estimate."
+      },
+      "pozostala": {
+        "nazwa": "Production under rime [% of normal]",
+        "cel": "What part of the light passes through the rime.",
+        "gdzie": "Inverter observation; source: about 5% after 48 h.",
+        "zakres": "0–100%."
+      }
+    }
+  },
 }
 
 export const ru: Tlumaczenie<typeof pl> = {
@@ -321,6 +469,80 @@ export const ru: Tlumaczenie<typeof pl> = {
         "cel": "До скольких градусов нагреть воду солнцем.",
         "gdzie": "Настройка термостата.",
         "zakres": "Ваша настройка."
+      }
+    }
+  },
+  "snieg-na-pv": {
+    "migawka": {
+      "oCoChodzi": "Засыпанная панель — мёртвая панель, а ветер распределяет снег неравномерно — нужно знать не только сколько, но и где он ляжет.",
+      "jakDziala": "Выберите тип отложения, введите угол панелей, обычную суточную выработку, сколько дней отложение пролежит и сколько выработки остаётся под ним. Приложение посчитает потерянную энергию и скажет, сползёт ли сухой снег (угол больше {prog}°).",
+      "poCo": "Вы знаете, сколько энергии должны заменить батарея или генератор и стоит ли чистить панели.",
+      "fizyka": "E = E_сут · дни · (1 − p). Сухой снег сползает при угле > {prog}° (тот же порог, что в Модуле 3 «Чистота и снег»); мокрый прилипает; гололёд и иней полностью перекрывают свет."
+    },
+    "pola": {
+      "rodzaj": {
+        "nazwa": "Тип отложения",
+        "cel": "Определяет, может ли отложение сойти само.",
+        "gdzie": "Наблюдение или прогноз (сухой снег, мокрый, ледяной дождь).",
+        "zakres": "Сухой, мокрый, гололёд/иней, изморозь."
+      },
+      "kat": {
+        "nazwa": "Угол наклона панелей [°]",
+        "cel": "При угле больше {prog}° сухой снег может сползти сам.",
+        "gdzie": "Проект установки (Модуль 3).",
+        "zakres": "0–90°."
+      },
+      "produkcja": {
+        "nazwa": "Выработка в сутки без отложения [кВт·ч]",
+        "cel": "Энергия, которую дали бы чистые панели.",
+        "gdzie": "Модуль 3 — выработка месяца ÷ число дней.",
+        "zakres": "Ваша установка."
+      },
+      "dni": {
+        "nazwa": "Дни покрытия",
+        "cel": "Умножает суточную потерю.",
+        "gdzie": "Наблюдение или прогноз оттепели (источник: при −5 °C снег около 3 дней).",
+        "zakres": "Ваша оценка — модели таяния в приложении нет."
+      },
+      "pozostala": {
+        "nazwa": "Выработка под отложением [% от обычной]",
+        "cel": "Какая часть света проходит через отложение.",
+        "gdzie": "Наблюдение по инвертору; источник: снег 0%, изморозь через 48 ч около 5%.",
+        "zakres": "0–100%."
+      },
+      "nierowno": {
+        "nazwa": "Стринги засыпаны неравномерно",
+        "cel": "Разное покрытие стрингов даёт разницу напряжений (рассогласование).",
+        "gdzie": "Скаты разной ориентации, подветренная сторона, ендовы.",
+        "zakres": "Да / нет."
+      }
+    }
+  },
+  "szadz-na-pv": {
+    "migawka": {
+      "oCoChodzi": "Туман — тихий убийца панелей: он намерзает на них, как глазурь на стекле, и, в отличие от снега, сам не отпадает.",
+      "jakDziala": "Введите обычную суточную выработку, сколько дней продержится туман с изморозью и сколько выработки остаётся под изморозью. Приложение посчитает потерянную энергию — той же физикой, что экран снега на PV.",
+      "poCo": "Несколько дней тумана могут забрать почти всю выработку — вы знаете, сколько должны покрыть батарея и генератор.",
+      "fizyka": "E = E_сут · дни · (1 − p). Пример источника: через 48 ч тумана и изморози выработка падает до 5% номинальной (p = 5%)."
+    },
+    "pola": {
+      "produkcja": {
+        "nazwa": "Выработка в сутки без изморози [кВт·ч]",
+        "cel": "Энергия, которую дали бы чистые панели.",
+        "gdzie": "Модуль 3 — выработка месяца ÷ число дней.",
+        "zakres": "Ваша установка."
+      },
+      "dni": {
+        "nazwa": "Дни тумана с изморозью",
+        "cel": "Умножает суточную потерю.",
+        "gdzie": "Прогноз; источник: сценарии 3–7 дней.",
+        "zakres": "Ваша оценка."
+      },
+      "pozostala": {
+        "nazwa": "Выработка под изморозью [% от обычной]",
+        "cel": "Какая часть света проходит через изморозь.",
+        "gdzie": "Наблюдение по инвертору; источник: около 5% через 48 ч.",
+        "zakres": "0–100%."
       }
     }
   },

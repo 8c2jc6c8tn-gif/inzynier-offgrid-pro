@@ -1577,6 +1577,15 @@ export const dictionaryPl = {
   "OKNO-BOJLER-NIEDOGRZANY": "Bojler dojdzie tylko do {tKoniec} °C (cel {tCel} °C). Nie dogrzewaj go w nocy z baterii — wykorzystaj kolejne słońce.",
   "OKNO-ZALOZENIE-KOLEJNOSC": "Kolejność ze źródła: bateria → bojler, gdy bateria powyżej {prog}% → odbiorniki nadwyżkowe. Grzałki BMS liczone przed ładowaniem (bateria wymagająca ogrzania nie przyjmie ładunku), po bojlerze bateria ładowana do 100%. Najpierw pokrywane bieżące zużycie domu w oknie.",
   "OKNO-ZALOZENIE-BEZ-STRAT": "Bez strat ładowania baterii i strat postojowych bojlera — do magazynu trafia cała przydzielona energia; realnie trochę mniej.",
+  "OSAD-WARTOSC-UJEMNA": "Wpisana wartość nie może być ujemna.",
+  "OSAD-POZA-ZAKRESEM": "Wartość musi mieścić się w zakresie 0–{max}.",
+  "OSAD-SNIEG-NIE-ZSUNIE": "Przy kącie {kat}° (nie więcej niż {prog}°) śnieg nie zsunie się sam. Rozważ odśnieżanie ręczne albo system grzewczy paneli.",
+  "OSAD-SNIEG-MOZE-ZSUNAC": "Przy kącie {kat}° (powyżej {prog}°) sypki śnieg może zsunąć się sam — szybciej przy cieplejszych panelach. Zostaw miejsce pod panelami na zsuwający się śnieg.",
+  "OSAD-MOKRY-PRZYKLEJA": "Mokry śnieg przykleja się do paneli niezależnie od kąta — jest ciężki i trudny do usunięcia.",
+  "OSAD-LOD-BLOKUJE": "Gołoledź i szron całkowicie blokują światło — produkcja spada praktycznie do zera, a lód nie zsunie się sam.",
+  "OSAD-SZADZ-NIE-ZSUWA": "Szadź jest gorsza od śniegu — nie zsuwa się sama, a mgła nie pozwala jej stopnieć. System będzie musiał polegać na baterii i agregacie.",
+  "OSAD-NIEROWNO-STRINGI": "Nierównomierne zasypanie stringów może wywołać różnice napięć między nimi — sprawdź niedopasowanie (Moduł 3, Ekran 17).",
+  "OSAD-ZALOZENIE-DNI-I-PROCENT": "Liczbę dni zalegania i procent produkcji pod osadem wpisujesz Ty (z obserwacji albo prognozy) — źródło nie podaje modelu topnienia ani przepuszczalności osadu. Przykłady źródła: śnieg 0% produkcji, przy −5 °C ok. 3 dni; szadź po 48 h ok. 5% produkcji.",
 } as const
 
 export type KluczTlumaczenia = keyof typeof dictionaryPl

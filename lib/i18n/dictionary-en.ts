@@ -1565,4 +1565,13 @@ export const dictionaryEn = {
   "OKNO-BOJLER-NIEDOGRZANY": "The tank only reaches {tKoniec} °C (target {tCel} °C). Do not top it up at night from the battery — use the next sun.",
   "OKNO-ZALOZENIE-KOLEJNOSC": "Order from the source: battery → hot water tank once the battery is above {prog}% → surplus loads. BMS heaters are counted before charging (a battery that needs heating will not accept charge); after the tank the battery charges to 100%. The house's consumption during the window is covered first.",
   "OKNO-ZALOZENIE-BEZ-STRAT": "No battery charging losses and no tank standing losses — all allocated energy is stored; in reality slightly less.",
+  "OSAD-WARTOSC-UJEMNA": "The value entered cannot be negative.",
+  "OSAD-POZA-ZAKRESEM": "The value must be within 0–{max}.",
+  "OSAD-SNIEG-NIE-ZSUNIE": "At {kat}° (no more than {prog}°) snow will not slide off by itself. Consider manual clearing or a panel heating system.",
+  "OSAD-SNIEG-MOZE-ZSUNAC": "At {kat}° (above {prog}°) dry snow may slide off by itself — faster on warmer panels. Leave room below the panels for the sliding snow.",
+  "OSAD-MOKRY-PRZYKLEJA": "Wet snow sticks to the panels regardless of tilt — it is heavy and hard to remove.",
+  "OSAD-LOD-BLOKUJE": "Glaze and frost block the light completely — production drops practically to zero, and ice will not slide off by itself.",
+  "OSAD-SZADZ-NIE-ZSUWA": "Rime is worse than snow — it does not slide off and the fog keeps it from melting. The system will have to rely on the battery and the generator.",
+  "OSAD-NIEROWNO-STRINGI": "Uneven snow cover on strings can cause voltage differences between them — check the mismatch (Module 3, Screen 17).",
+  "OSAD-ZALOZENIE-DNI-I-PROCENT": "You enter the days the deposit stays and the production left under it (from observation or forecast) — the source gives no melting or transmission model. Source examples: snow 0% production, about 3 days at −5 °C; rime about 5% production after 48 h.",
 } satisfies Record<KluczTlumaczenia, string>
