@@ -3,6 +3,8 @@
 import { useMemo } from "react"
 import { calculateAgregatPaliwo } from "@/lib/core/modules/kalkulator-mobilny/agregat-paliwo/calculator"
 import { usePersistedDraft } from "@/lib/adapters/use-persisted-draft"
+import { PrzeliczoneInfo } from "@/components/przeliczone-info"
+import { przeliczPola } from "@/lib/waluta/przelicz"
 import { useTranslate } from "@/lib/i18n/language-context"
 import { Pole } from "@/components/ui/pole"
 import { PomocPola } from "@/components/ui/pomoc"
@@ -37,13 +39,15 @@ const STAN_POCZATKOWY: FormularzStan = {
   podlaczenieAgregatu: "",
 }
 
+const KWOTY = przeliczPola<FormularzStan>("cenaZlL", "kosztPorownawczyZlKwh")
+
 const liczba = (s: string) => (s === "" ? 0 : Number(s))
 const r1 = (x: number) => Math.round(x * 10) / 10
 const r2 = (x: number) => Math.round(x * 100) / 100
 
 export default function AgregatPaliwoPage() {
   const t = useTranslate()
-  const [stan, setStan] = usePersistedDraft<FormularzStan>("agregat-paliwo", STAN_POCZATKOWY)
+  const [stan, setStan, info] = usePersistedDraft<FormularzStan>("agregat-paliwo", STAN_POCZATKOWY, KWOTY)
   const ustaw = (pole: keyof FormularzStan) => (e: React.ChangeEvent<HTMLInputElement>) =>
     setStan((prev) => ({ ...prev, [pole]: e.target.value }))
 
@@ -69,6 +73,7 @@ export default function AgregatPaliwoPage() {
       <NaglowekEkranu tytul={t("UI-M12-AP-TYTUL")} ekran="agregat-paliwo" wynik={result}>
         {t("UI-M12-AP-OPIS")}
       </NaglowekEkranu>
+      <PrzeliczoneInfo info={info} />
 
       <div className="flex flex-col gap-4">
         <Pole label={t("UI-M12-AP-MOC")} unit="kW" type="number" inputMode="decimal" min={0} value={stan.mocAgregatuKw} onChange={ustaw("mocAgregatuKw")} pomoc={<PomocPola ekran="agregat-paliwo" pole="moc" />} />

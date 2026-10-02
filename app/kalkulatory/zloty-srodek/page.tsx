@@ -12,6 +12,8 @@ import { NaglowekEkranu } from "@/components/wzorce/naglowek-ekranu"
 import { WynikGlowny } from "@/components/wzorce/wynik-glowny"
 import { WynikSzczegoly } from "@/components/wzorce/wynik-szczegoly"
 import { usePersistedDraft } from "@/lib/adapters/use-persisted-draft"
+import { przeliczPola } from "@/lib/waluta/przelicz"
+import { PrzeliczoneInfo } from "@/components/przeliczone-info"
 import { KATEGORIE_TERENU, type KategoriaTerenu, type StrefaWiatrowa } from "@/lib/core/modules/pv/eurokod-1/wiatr"
 import type { TabelaNapromieniowania } from "@/lib/core/modules/pv/kat-i-azymut/input"
 import { calculateZlotySrodek, type PunktKata } from "@/lib/core/modules/pv/zloty-srodek/calculator"
@@ -54,6 +56,9 @@ const STAN_POCZATKOWY: FormularzStan = {
   lata: "",
   nachylenieDeg: "",
 }
+
+/** Money fields converted when the display currency changes. */
+const PRZELICZ_KWOTY = przeliczPola<FormularzStan>("cenaBalastu", "cenaKwh")
 
 const OPIS_TERENU: Record<KategoriaTerenu, string> = {
   "0": "UI-TYPMON-COMWSP-MORZE",
@@ -134,7 +139,7 @@ function WykresKatowy({
 export default function ZlotySrodekPage() {
   const t = useTranslate()
   const { lokalizacja, dane, tmy, wczytano } = useLokalizacjaProjektu()
-  const [stan, setStan] = usePersistedDraft<FormularzStan>("zloty-srodek", STAN_POCZATKOWY)
+  const [stan, setStan, info] = usePersistedDraft<FormularzStan>("zloty-srodek", STAN_POCZATKOWY, PRZELICZ_KWOTY)
   const { uruchom, stan: obliczenia } = useObliczeniaWTle()
   const [tabela, setTabela] = useState<{ klucz: string; t: TabelaNapromieniowania | null } | null>(null)
   const ustaw = (pole: keyof FormularzStan, v: string) => setStan((prev) => ({ ...prev, [pole]: v }))
@@ -199,6 +204,7 @@ export default function ZlotySrodekPage() {
       <NaglowekEkranu tytul={t("UI-ZLOSRO-ZLOTY-SRODEK-KAT")} ekran="zloty-srodek" wynik={result}>
         {t("UI-ZLOSRO-KAT-KTORY-DAJE")}
       </NaglowekEkranu>
+      <PrzeliczoneInfo info={info} />
 
       <SekcjaDanychNaslonecznienia lokalizacja={lokalizacja} dane={dane} tmy={tmy} />
 

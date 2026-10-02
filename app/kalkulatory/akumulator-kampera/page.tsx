@@ -5,6 +5,8 @@ import { BATTERY_TECHNOLOGIES } from "@/lib/core/modules/baterie/porownanie-tech
 import { calculateAkumulatorKampera } from "@/lib/core/modules/kalkulator-mobilny/akumulator-kampera/calculator"
 import type { AkumulatorKamperaInput } from "@/lib/core/modules/kalkulator-mobilny/akumulator-kampera/input"
 import { usePersistedDraft } from "@/lib/adapters/use-persisted-draft"
+import { PrzeliczoneInfo } from "@/components/przeliczone-info"
+import { przeliczPola } from "@/lib/waluta/przelicz"
 import { useTranslate } from "@/lib/i18n/language-context"
 import { Pole } from "@/components/ui/pole"
 import { PomocPola } from "@/components/ui/pomoc"
@@ -33,6 +35,8 @@ const STAN_POCZATKOWY: FormularzStan = {
   zapasMasyKg: "",
 }
 
+const KWOTY = przeliczPola<FormularzStan>("agmCenaZl", "lfpCenaZl")
+
 // Hints only (Directive #1): the reference cycle counts from M4/E30.
 const opisCykli = (id: string) => BATTERY_TECHNOLOGIES.find((x) => x.id === id)!.cyklePrzyDodOpis
 const PODPOWIEDZ = { cykleAgm: opisCykli("agm"), cykleLfp: opisCykli("lifepo4") }
@@ -42,7 +46,7 @@ const r2 = (x: number) => Math.round(x * 100) / 100
 
 export default function AkumulatorKamperaPage() {
   const t = useTranslate()
-  const [stan, setStan] = usePersistedDraft<FormularzStan>("akumulator-kampera", STAN_POCZATKOWY)
+  const [stan, setStan, info] = usePersistedDraft<FormularzStan>("akumulator-kampera", STAN_POCZATKOWY, KWOTY)
   const pole = (klucz: keyof FormularzStan) => ({
     type: "number",
     inputMode: "decimal" as const,
@@ -67,6 +71,7 @@ export default function AkumulatorKamperaPage() {
       <NaglowekEkranu tytul={t("UI-M12-AKK-TYTUL")} ekran="akumulator-kampera" wynik={result}>
         {t("UI-M12-AKK-OPIS")}
       </NaglowekEkranu>
+      <PrzeliczoneInfo info={info} />
 
       <fieldset className="flex flex-col gap-4">
         <legend className="mb-2 text-small font-medium">{t("UI-M12-AKK-POTRZEBA")}</legend>

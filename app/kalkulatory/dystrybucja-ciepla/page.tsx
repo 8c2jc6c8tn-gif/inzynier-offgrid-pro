@@ -5,6 +5,8 @@ import { useMemo } from "react"
 import { calculateDystrybucjaCiepla } from "@/lib/core/modules/ogrzewanie/dystrybucja-ciepla/calculator"
 import type { SystemDystrybucji, ZrodloCiepla } from "@/lib/core/modules/ogrzewanie/dystrybucja-ciepla/input"
 import { usePersistedDraft } from "@/lib/adapters/use-persisted-draft"
+import { PrzeliczoneInfo } from "@/components/przeliczone-info"
+import { przeliczPola } from "@/lib/waluta/przelicz"
 import { useTranslate } from "@/lib/i18n/language-context"
 import { Button } from "@/components/ui/button"
 import { Pole } from "@/components/ui/pole"
@@ -29,6 +31,8 @@ const STAN_POCZATKOWY: FormularzStan = {
   cenaPraduZlKwh: "",
 }
 
+const KWOTY = przeliczPola<FormularzStan>("doplataZl", "cenaPraduZlKwh")
+
 const ZRODLA: ZrodloCiepla[] = ["pompa-ciepla", "inne"]
 const SYSTEMY: SystemDystrybucji[] = ["podlogowe", "grzejniki-niskotemperaturowe", "grzejniki-standardowe"]
 const POZIOM = { dobre: "ok", zle: "blad", "inne-zrodlo": "ok" } as const
@@ -38,7 +42,7 @@ const r1 = (x: number) => Math.round(x * 10) / 10
 
 export default function DystrybucjaCieplaPage() {
   const t = useTranslate()
-  const [stan, setStan] = usePersistedDraft<FormularzStan>("dystrybucja-ciepla", STAN_POCZATKOWY)
+  const [stan, setStan, info] = usePersistedDraft<FormularzStan>("dystrybucja-ciepla", STAN_POCZATKOWY, KWOTY)
   const pole = (klucz: PolaLiczbowe) => ({
     type: "number",
     inputMode: "decimal" as const,
@@ -69,6 +73,7 @@ export default function DystrybucjaCieplaPage() {
       <NaglowekEkranu tytul={t("UI-M6-DYS-TYTUL")} ekran="dystrybucja-ciepla" wynik={result}>
         {t("UI-M6-DYS-OPIS")}
       </NaglowekEkranu>
+      <PrzeliczoneInfo info={info} />
 
       <fieldset className="flex flex-col gap-2">
         <legend className="mb-2 flex items-center gap-1.5 text-small font-medium">

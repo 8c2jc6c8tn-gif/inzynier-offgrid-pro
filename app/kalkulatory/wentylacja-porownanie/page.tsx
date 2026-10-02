@@ -4,6 +4,8 @@ import Link from "next/link"
 import { useMemo } from "react"
 import { calculateWentylacjaPorownanie } from "@/lib/core/modules/ogrzewanie/wentylacja-porownanie/calculator"
 import { usePersistedDraft } from "@/lib/adapters/use-persisted-draft"
+import { przeliczPola } from "@/lib/waluta/przelicz"
+import { PrzeliczoneInfo } from "@/components/przeliczone-info"
 import { useTranslate } from "@/lib/i18n/language-context"
 import { Pole, PoleCheckbox } from "@/components/ui/pole"
 import { PomocPola } from "@/components/ui/pomoc"
@@ -40,6 +42,9 @@ const STAN_POCZATKOWY: FormularzStan = {
   doplataZl: "",
 }
 
+/** Money fields converted when the display currency changes. */
+const PRZELICZ_KWOTY = przeliczPola<FormularzStan>("cenaPraduZlKwh", "doplataZl")
+
 const liczba = (s: string) => (s === "" ? 0 : Number(s))
 const temperatura = (s: string) => (s === "" ? null : Number(s))
 const r1 = (x: number) => Math.round(x * 10) / 10
@@ -47,7 +52,7 @@ const r2 = (x: number) => Math.round(x * 100) / 100
 
 export default function WentylacjaPorownaniePage() {
   const t = useTranslate()
-  const [stan, setStan] = usePersistedDraft<FormularzStan>("wentylacja-porownanie", STAN_POCZATKOWY)
+  const [stan, setStan, info] = usePersistedDraft<FormularzStan>("wentylacja-porownanie", STAN_POCZATKOWY, PRZELICZ_KWOTY)
   const pole = (klucz: PolaLiczbowe) => ({
     type: "number",
     inputMode: "decimal" as const,
@@ -88,6 +93,7 @@ export default function WentylacjaPorownaniePage() {
       <NaglowekEkranu tytul={t("UI-M6-WPOR-TYTUL")} ekran="wentylacja-porownanie" wynik={result}>
         {t("UI-M6-WPOR-OPIS")}
       </NaglowekEkranu>
+      <PrzeliczoneInfo info={info} />
 
       <div className="grid grid-cols-2 gap-3">
         <Pole label={t("UI-M6-WPOR-T-WEW")} unit="°C" {...poleT("tWewC")} pomoc={<PomocPola ekran="wentylacja-porownanie" pole="tWew" />} />

@@ -4,6 +4,8 @@ import { useMemo } from "react"
 import { calculateSecondLife } from "@/lib/core/modules/baterie/second-life/calculator"
 import type { MetodaSzacunkuSoh } from "@/lib/core/modules/baterie/second-life/input"
 import { usePersistedDraft } from "@/lib/adapters/use-persisted-draft"
+import { przeliczPola } from "@/lib/waluta/przelicz"
+import { PrzeliczoneInfo } from "@/components/przeliczone-info"
 import { Pole, PoleSelect } from "@/components/ui/pole"
 import { PomocPola } from "@/components/ui/pomoc"
 import { WerdyktPanel, type WerdyktPoziom } from "@/components/werdykt"
@@ -32,9 +34,12 @@ const STAN_POCZATKOWY: FormularzStan = {
   cenaNowejLiFePO4ZlZaKwh: "",
 }
 
+/** Money fields converted when the display currency changes. */
+const PRZELICZ_KWOTY = przeliczPola<FormularzStan>("cenaZakupuZl", "cenaNowejLiFePO4ZlZaKwh")
+
 export default function SecondLifePage() {
   const t = useTranslate()
-  const [stan, setStan] = usePersistedDraft<FormularzStan>("second-life", STAN_POCZATKOWY)
+  const [stan, setStan, info] = usePersistedDraft<FormularzStan>("second-life", STAN_POCZATKOWY, PRZELICZ_KWOTY)
   const { pojemnoscDeklarowanaKwh, cenaZakupuZl, metodaSzacunku, wiekLata, przebiegKm, cenaNowejLiFePO4ZlZaKwh } = stan
 
   function setPole<K extends keyof FormularzStan>(
@@ -90,6 +95,7 @@ export default function SecondLifePage() {
       >
         {t("UI-SECLIF-KUPUJESZ-KOTA-WORKU")}
       </NaglowekEkranu>
+      <PrzeliczoneInfo info={info} />
 
       <div className="flex flex-col gap-4">
         <Pole

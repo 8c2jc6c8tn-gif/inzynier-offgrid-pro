@@ -14,6 +14,8 @@ import {
 } from "@/lib/core/modules/baterie/napiecie-systemowe/constants"
 import type { Material, SposobUlozenia } from "@/lib/core/modules/okablowanie/dobor-przekroju-kabla/constants"
 import { usePersistedDraft } from "@/lib/adapters/use-persisted-draft"
+import { przeliczPola } from "@/lib/waluta/przelicz"
+import { PrzeliczoneInfo } from "@/components/przeliczone-info"
 import { Pole, PoleSelect, PoleCheckbox } from "@/components/ui/pole"
 import { PomocPola } from "@/components/ui/pomoc"
 import { WerdyktPanel, WerdyktBadge, type WerdyktPoziom } from "@/components/werdykt"
@@ -134,11 +136,33 @@ const STAN_POCZATKOWY: FormularzStan = {
 const SEKCJA_KLASY = "flex flex-col gap-4 rounded-lg border p-4"
 const SEKCJA_TYTUL_KLASY = "text-small font-semibold uppercase tracking-wide text-muted-foreground"
 
+// Every field of `ceny` is a component price in the display currency.
+const PRZELICZ_CENY = przeliczPola<CenyStan>(
+  "cenaOgniwaZl",
+  "cenaBms4sZl",
+  "cenaBms8sZl",
+  "cenaBms16sZl",
+  "cenaFalownika12vZl",
+  "cenaFalownika24vZl",
+  "cenaFalownika48vZl",
+  "cenaPrzewodow12vZl",
+  "cenaPrzewodow24vZl",
+  "cenaPrzewodow48vZl",
+  "cenaBezpiecznika12vZl",
+  "cenaBezpiecznika24vZl",
+  "cenaBezpiecznika48vZl",
+  "cenaPrzetwornicyDcDcZl",
+)
+const PRZELICZ_KWOTY = (stan: FormularzStan, wspolczynnik: number): FormularzStan => ({
+  ...stan,
+  ceny: PRZELICZ_CENY(stan.ceny, wspolczynnik),
+})
+
 export default function NapiecieSystemowePage() {
   const t = useTranslate()
   // Seed całego formularza — persystowany (IndexedDB) pod jednym kluczem, żeby przeładowanie
   // strony nie gubiło wpisanych danych (zgłoszenie użytkownika, 15.09.2026).
-  const [stan, setStan] = usePersistedDraft<FormularzStan>("napiecie-systemowe", STAN_POCZATKOWY)
+  const [stan, setStan, info] = usePersistedDraft<FormularzStan>("napiecie-systemowe", STAN_POCZATKOWY, PRZELICZ_KWOTY)
   const {
     mocSzczytowaW,
     zastosowanie,
@@ -305,6 +329,8 @@ export default function NapiecieSystemowePage() {
       >
         {t("UI-NAPSYS-WYBIERAMY-NAPIECIA-PODSTAWIE")}
       </NaglowekEkranu>
+
+      <PrzeliczoneInfo info={info} />
 
       {/* Rdzeń — pole ręczne + wynik */}
       <div className={SEKCJA_KLASY}>

@@ -5,6 +5,8 @@ import { useMemo } from "react"
 import { calculatePanelKampera } from "@/lib/core/modules/kalkulator-mobilny/panel-kampera/calculator"
 import type { PanelKamperaInput } from "@/lib/core/modules/kalkulator-mobilny/panel-kampera/input"
 import { usePersistedDraft } from "@/lib/adapters/use-persisted-draft"
+import { przeliczPola } from "@/lib/waluta/przelicz"
+import { PrzeliczoneInfo } from "@/components/przeliczone-info"
 import { useTranslate } from "@/lib/i18n/language-context"
 import { Pole, PoleSelect } from "@/components/ui/pole"
 import { PomocPola } from "@/components/ui/pomoc"
@@ -29,12 +31,15 @@ const STAN_POCZATKOWY: FormularzStan = {
   elastycznyBezSzczeliny: "",
 }
 
+/** Money fields converted when the display currency changes. */
+const PRZELICZ_KWOTY = przeliczPola<FormularzStan>("elastycznyCenaZl", "sztywnyCenaZl")
+
 const liczba = (s: string) => (s === "" ? 0 : Number(s))
 const r2 = (x: number) => Math.round(x * 100) / 100
 
 export default function PanelKamperaPage() {
   const t = useTranslate()
-  const [stan, setStan] = usePersistedDraft<FormularzStan>("panel-kampera", STAN_POCZATKOWY)
+  const [stan, setStan, info] = usePersistedDraft<FormularzStan>("panel-kampera", STAN_POCZATKOWY, PRZELICZ_KWOTY)
   const pole = (klucz: PolaLiczbowe) => ({
     type: "number",
     inputMode: "decimal" as const,
@@ -68,6 +73,7 @@ export default function PanelKamperaPage() {
       <NaglowekEkranu tytul={t("UI-M12-PK-TYTUL")} ekran="panel-kampera" wynik={result}>
         {t("UI-M12-PK-OPIS")}
       </NaglowekEkranu>
+      <PrzeliczoneInfo info={info} />
 
       <fieldset className="flex flex-col gap-4">
         <legend className="mb-2 text-small font-medium">{t("UI-M12-PK-ELASTYCZNY")}</legend>
