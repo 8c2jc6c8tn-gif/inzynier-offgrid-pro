@@ -27,6 +27,9 @@ import { countFile, isUserText } from "./check-i18n-ui-guard.mjs"
 
 const BASELINE_PATH = "scripts/i18n-ui-guard-baseline.json"
 const UI_DIR = "lib/i18n/ui"
+// Attributes whose value is data, not text. The guard keys hits by line + text, so `<option value="LiFePO4">LiFePO4</option>`
+// would otherwise have its `value` rewritten to `t(...)` along with the visible text.
+const DATA_ATTR = /^(key|id|href|src|type|name|value|defaultValue|htmlFor|role)$/
 
 const TRANSLIT = { ą: "A", ć: "C", ę: "E", ł: "L", ń: "N", ó: "O", ś: "S", ź: "Z", ż: "Z" }
 const STOP = new Set(["ORAZ", "LUB", "DLA", "CZY", "JEST", "SIE", "NIE", "TAK", "JAK", "ALE", "PRZY", "PRZEZ", "TWOJ", "TWOJEGO", "TWOJA", "TWOJE"])
@@ -274,7 +277,8 @@ export function analyze(file, src, prefix, sharedByText) {
   // 2./3./4. literals
   const visitLits = (n) => {
     const txt = literalText(n)
-    if (txt !== null && !isCovered(n) && !isCodePosition(n) && isUserText(txt)) {
+    const dataAttr = n.parent && ts.isJsxAttribute(n.parent) && DATA_ATTR.test(n.parent.name.getText(sf))
+    if (txt !== null && !dataAttr && !isCovered(n) && !isCodePosition(n) && isUserText(txt)) {
       if (guardHits.has(`${line(n)}|${txt.trim()}`)) {
         const used = new Map()
         const params = []

@@ -9,7 +9,5 @@
   "app/wzornik/page.tsx": 78,
   "components/kafle-ikony/definicje-symboli.tsx": 1,
   "components/siec/wspolne.tsx": 1,
-  "components/werdykt.tsx": 1,
-  "components/wzorce/ekran-checklisty-chemii.tsx": 8,
-  "components/wzorce/ekran-kabli-malej-instalacji.tsx": 25
+  "components/werdykt.tsx": 1
 }
