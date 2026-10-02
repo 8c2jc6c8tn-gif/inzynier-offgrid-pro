@@ -775,6 +775,70 @@ export const pl = {
       }
     }
   },
+  "taryfa-nocna-pompy-ciepla": {
+    "migawka": {
+      "oCoChodzi": "W nocy prąd bywa tańszy (taryfa nocna z sieci) albo jest dostępny z agregatu. Pompa ciepła może wtedy napełnić bufor, a w dzień ciepło jest oddawane.",
+      "jakDziala": "Wpisz ciepło potrzebne na dobę, długość strefy nocnej z Twojej taryfy, ceny prądu w obu strefach i COP pompy. Z pojemności bufora i jego użytecznej różnicy temperatur aplikacja liczy, ile ciepła strefy dziennej da się przesunąć na noc, i porównuje koszt prądu bez przesunięcia i z nim. Pokazuje też, ile prądu i jaką średnią moc pompa pobierze w nocy.",
+      "poCo": "Dom hybrydowy z przyłączem do sieci może obniżyć rachunek, ładując bufor w tańszej strefie. Bez bufora albo przy zbyt małej różnicy cen ruch się nie opłaca; a nocna praca pompy z baterii off-grid to nie to samo, co z sieci — grozi rozładowaniem.",
+      "fizyka": "Q_bufor = V · c_w · ΔT; Q_przes = min(Q_bufor, Q_dzień); koszt = Q / COP · cena w każdej strefie. Ceny, godziny i COP podajesz Ty.",
+    },
+    "pola": {
+      "zasilanie": {
+        "nazwa": "Skąd jest energia w nocy",
+        "cel": "Decyduje o ostrzeżeniu: z sieci to zwykła taryfa, z agregatu cena nocna to koszt prądu z agregatu, z baterii off-grid grozi rozładowanie.",
+        "gdzie": "Twoja instalacja: dom z przyłączem do sieci (taryfa nocna), agregat pracujący nocą albo sama bateria.",
+        "zakres": "Z sieci / Z agregatu / Z baterii off-grid.",
+      },
+      "godzinyNocy": {
+        "nazwa": "Długość strefy nocnej [h]",
+        "cel": "Tyle godzin na dobę obowiązuje tańsza cena — w tym czasie bufor jest ładowany.",
+        "gdzie": "Umowa lub taryfa operatora (grupa taryfowa z dwiema strefami). Aplikacja nie podaje godzin — różnią się między operatorami.",
+        "zakres": "Od 0 do 24 h. Twoja taryfa.",
+      },
+      "cenaDzien": {
+        "nazwa": "Cena prądu — strefa dzienna [zł/kWh]",
+        "cel": "Cena 1 kWh poza strefą nocną; liczona do ciepła oddawanego z pompy w dzień.",
+        "gdzie": "Faktura lub taryfa operatora — wpisz cenę, którą naprawdę płacisz za 1 kWh (jednolicie netto albo brutto, w obu strefach tak samo).",
+        "zakres": "≥ 0. Twoja cena — aplikacja nie podaje taryf.",
+      },
+      "cenaNoc": {
+        "nazwa": "Cena prądu — strefa nocna [zł/kWh]",
+        "cel": "Cena 1 kWh w nocy; przy agregacie — Twój koszt 1 kWh z agregatu (paliwo, serwis).",
+        "gdzie": "Faktura lub taryfa operatora; dla agregatu: zużycie paliwa × cena paliwa ÷ wyprodukowane kWh.",
+        "zakres": "≥ 0. Twoja cena.",
+      },
+      "cieplo": {
+        "nazwa": "Ciepło na dobę [kWh]",
+        "cel": "Ile ciepła (nie prądu) dom potrzebuje na dobę — z tego liczony jest udział strefy dziennej i nocnej.",
+        "gdzie": "Ekran „Zapotrzebowanie na C.O. i C.W.U.” (ciepło na dobę w miesiącu) lub straty ciepła z ekranu 1, przeliczone na dobę.",
+        "zakres": "≥ 0. Twój budynek. Aplikacja rozkłada je równo na 24 godziny.",
+      },
+      "copDzien": {
+        "nazwa": "COP w dzień",
+        "cel": "Ile ciepła pompa daje z 1 kWh prądu w dzień; prąd = ciepło ÷ COP.",
+        "gdzie": "Karta katalogowa pompy dla Twojej temperatury zasilania i typowej temperatury zewnętrznej, albo ekran COP pompy ciepła.",
+        "zakres": "0 = nie wpisano, w przeciwnym razie ≥ 1.",
+      },
+      "copNoc": {
+        "nazwa": "COP w nocy",
+        "cel": "Nocą powietrze jest zwykle zimniejsze, więc COP pompy powietrznej bywa niższy — wpływa na to, czy przesunięcie się opłaca.",
+        "gdzie": "Karta katalogowa pompy dla nocnych temperatur zewnętrznych. Puste pole = taki sam jak w dzień.",
+        "zakres": "0 = taki sam jak w dzień, w przeciwnym razie ≥ 1.",
+      },
+      "buforL": {
+        "nazwa": "Pojemność bufora [l]",
+        "cel": "Bufor magazynuje ciepło z nocnej pracy pompy na dzień; bez niego nic nie da się przesunąć.",
+        "gdzie": "Dane Twojego bufora albo ekran „Bufor ciepła”.",
+        "zakres": "≥ 0. 0 = brak bufora.",
+      },
+      "buforDT": {
+        "nazwa": "Użyteczna różnica temperatur bufora [K]",
+        "cel": "Różnica między temperaturą naładowanego bufora a najniższą jeszcze użyteczną — z niej i z pojemności liczona jest energia do przesunięcia.",
+        "gdzie": "Maksymalna temperatura ładowania bufora minus najniższa temperatura, przy której nadal grzeje obiegi (np. krzywa grzewcza).",
+        "zakres": "≥ 0. Twoja instalacja.",
+      },
+    },
+  },
 }
 
 export const en: Tlumaczenie<typeof pl> = {
@@ -1548,6 +1612,70 @@ export const en: Tlumaczenie<typeof pl> = {
       }
     }
   },
+  "taryfa-nocna-pompy-ciepla": {
+    "migawka": {
+      "oCoChodzi": "At night electricity is often cheaper (a grid night tariff) or available from a generator. The heat pump can then fill the buffer and the heat is released in the day.",
+      "jakDziala": "Enter the heat needed per day, the night zone length from your tariff, the electricity prices in both zones and the pump COP. From the buffer volume and its usable temperature swing the app computes how much day-zone heat can be shifted to the night and compares the electricity cost with and without shifting. It also shows how much electricity and what average power the pump draws at night.",
+      "poCo": "A hybrid house with a grid connection can lower the bill by charging the buffer in the cheaper zone. Without a buffer or with too small a price difference the move does not pay; and running the pump at night from an off-grid battery is not the same as from the grid — it risks discharge.",
+      "fizyka": "Q_buffer = V · c_w · ΔT; Q_shifted = min(Q_buffer, Q_day); cost = Q / COP · price in each zone. You enter the prices, hours and COP.",
+    },
+    "pola": {
+      "zasilanie": {
+        "nazwa": "Where the night energy comes from",
+        "cel": "Decides the warning: from the grid it is a normal tariff, from a generator the night price is the cost of generator electricity, from an off-grid battery it risks discharge.",
+        "gdzie": "Your installation: a house with a grid connection (night tariff), a generator running at night, or the battery alone.",
+        "zakres": "From the grid / From a generator / From the off-grid battery.",
+      },
+      "godzinyNocy": {
+        "nazwa": "Length of the night zone [h]",
+        "cel": "The number of hours per day the cheaper price applies — the buffer is charged during that time.",
+        "gdzie": "Your contract or the operator's tariff (a two-zone tariff group). The app gives no hours — they differ between operators.",
+        "zakres": "0 to 24 h. Your tariff.",
+      },
+      "cenaDzien": {
+        "nazwa": "Electricity price — day zone [PLN/kWh]",
+        "cel": "Price of 1 kWh outside the night zone; applied to the heat the pump gives in the day.",
+        "gdzie": "Your bill or the operator's tariff — enter the price you really pay per 1 kWh (net or gross, the same in both zones).",
+        "zakres": "≥ 0. Your price — the app gives no tariffs.",
+      },
+      "cenaNoc": {
+        "nazwa": "Electricity price — night zone [PLN/kWh]",
+        "cel": "Price of 1 kWh at night; for a generator — your cost of 1 kWh from it (fuel, service).",
+        "gdzie": "Your bill or the operator's tariff; for a generator: fuel use × fuel price ÷ kWh produced.",
+        "zakres": "≥ 0. Your price.",
+      },
+      "cieplo": {
+        "nazwa": "Heat per day [kWh]",
+        "cel": "How much heat (not electricity) the house needs per day — the day and night zone shares are computed from it.",
+        "gdzie": "The „C.O. and C.W.U. demand” screen (heat per day in a month) or the heat loss from screen 1, converted to a day.",
+        "zakres": "≥ 0. Your building. The app spreads it evenly over 24 hours.",
+      },
+      "copDzien": {
+        "nazwa": "COP in the day",
+        "cel": "How much heat the pump gives from 1 kWh of electricity in the day; electricity = heat ÷ COP.",
+        "gdzie": "The pump datasheet for your flow temperature and a typical outdoor temperature, or the heat pump COP screen.",
+        "zakres": "0 = not entered, otherwise ≥ 1.",
+      },
+      "copNoc": {
+        "nazwa": "COP at night",
+        "cel": "Night air is usually colder, so an air-source pump's COP is often lower — it affects whether shifting pays.",
+        "gdzie": "The pump datasheet for night outdoor temperatures. Empty = the same as in the day.",
+        "zakres": "0 = same as in the day, otherwise ≥ 1.",
+      },
+      "buforL": {
+        "nazwa": "Buffer volume [l]",
+        "cel": "The buffer stores the heat of the night run for the day; without it nothing can be shifted.",
+        "gdzie": "Your buffer data or the „Heat buffer” screen.",
+        "zakres": "≥ 0. 0 = no buffer.",
+      },
+      "buforDT": {
+        "nazwa": "Usable buffer temperature swing [K]",
+        "cel": "The difference between the charged buffer temperature and the lowest still useful one — with the volume it gives the energy to shift.",
+        "gdzie": "Maximum buffer charging temperature minus the lowest temperature at which it still heats the circuits (e.g. the heating curve).",
+        "zakres": "≥ 0. Your installation.",
+      },
+    },
+  },
 }
 
 export const ru: Tlumaczenie<typeof pl> = {
@@ -2320,5 +2448,69 @@ export const ru: Tlumaczenie<typeof pl> = {
         "zakres": "Паспорт — приложение не подставляет значений."
       }
     }
+  },
+  "taryfa-nocna-pompy-ciepla": {
+    "migawka": {
+      "oCoChodzi": "Ночью электричество часто дешевле (ночной тариф сети) или доступно от генератора. Тепловой насос тогда может зарядить буфер, а днём тепло отдаётся.",
+      "jakDziala": "Введите тепло, нужное в сутки, длительность ночной зоны из вашего тарифа, цены электричества в обеих зонах и COP насоса. По объёму буфера и его полезному перепаду температур приложение считает, сколько тепла дневной зоны можно перенести на ночь, и сравнивает стоимость электричества без переноса и с ним. Также показывает, сколько электричества и какую среднюю мощность насос потребляет ночью.",
+      "poCo": "Гибридный дом с подключением к сети может снизить счёт, заряжая буфер в более дешёвой зоне. Без буфера или при слишком малой разнице цен это невыгодно; а работа насоса ночью от автономной батареи — не то же самое, что от сети: грозит разрядом.",
+      "fizyka": "Q_буфера = V · c_w · ΔT; Q_перен = min(Q_буфера, Q_день); стоимость = Q / COP · цена в каждой зоне. Цены, часы и COP вводите вы.",
+    },
+    "pola": {
+      "zasilanie": {
+        "nazwa": "Откуда берётся энергия ночью",
+        "cel": "Определяет предупреждение: из сети — обычный тариф, от генератора ночная цена — это стоимость электричества от генератора, от автономной батареи грозит разряд.",
+        "gdzie": "Ваша установка: дом с подключением к сети (ночной тариф), генератор, работающий ночью, или только батарея.",
+        "zakres": "Из сети / От генератора / От автономной батареи.",
+      },
+      "godzinyNocy": {
+        "nazwa": "Длительность ночной зоны [ч]",
+        "cel": "Столько часов в сутки действует более низкая цена — в это время заряжается буфер.",
+        "gdzie": "Договор или тариф оператора (тарифная группа с двумя зонами). Приложение не даёт часов — они различаются у операторов.",
+        "zakres": "От 0 до 24 ч. Ваш тариф.",
+      },
+      "cenaDzien": {
+        "nazwa": "Цена электричества — дневная зона [зл/кВт·ч]",
+        "cel": "Цена 1 кВт·ч вне ночной зоны; применяется к теплу, которое насос отдаёт днём.",
+        "gdzie": "Ваш счёт или тариф оператора — введите цену, которую вы реально платите за 1 кВт·ч (нетто или брутто, одинаково в обеих зонах).",
+        "zakres": "≥ 0. Ваша цена — приложение не даёт тарифов.",
+      },
+      "cenaNoc": {
+        "nazwa": "Цена электричества — ночная зона [зл/кВт·ч]",
+        "cel": "Цена 1 кВт·ч ночью; для генератора — ваша стоимость 1 кВт·ч от него (топливо, обслуживание).",
+        "gdzie": "Ваш счёт или тариф оператора; для генератора: расход топлива × цена топлива ÷ выработанные кВт·ч.",
+        "zakres": "≥ 0. Ваша цена.",
+      },
+      "cieplo": {
+        "nazwa": "Тепло в сутки [кВт·ч]",
+        "cel": "Сколько тепла (не электричества) нужно дому в сутки — из него считаются доли дневной и ночной зон.",
+        "gdzie": "Экран «Потребность в тепле на отопление и ГВС» (тепло в сутки за месяц) или потери тепла с экрана 1, пересчитанные на сутки.",
+        "zakres": "≥ 0. Ваше здание. Приложение распределяет его равномерно на 24 часа.",
+      },
+      "copDzien": {
+        "nazwa": "COP днём",
+        "cel": "Сколько тепла насос даёт из 1 кВт·ч электричества днём; электричество = тепло ÷ COP.",
+        "gdzie": "Паспорт насоса для вашей температуры подачи и типичной наружной температуры или экран COP теплового насоса.",
+        "zakres": "0 = не введено, иначе ≥ 1.",
+      },
+      "copNoc": {
+        "nazwa": "COP ночью",
+        "cel": "Ночью воздух обычно холоднее, поэтому COP воздушного насоса часто ниже — это влияет на выгодность переноса.",
+        "gdzie": "Паспорт насоса для ночных наружных температур. Пусто = как днём.",
+        "zakres": "0 = как днём, иначе ≥ 1.",
+      },
+      "buforL": {
+        "nazwa": "Объём буфера [л]",
+        "cel": "Буфер хранит тепло ночной работы на день; без него ничего нельзя перенести.",
+        "gdzie": "Данные вашего буфера или экран «Буфер тепла».",
+        "zakres": "≥ 0. 0 = нет буфера.",
+      },
+      "buforDT": {
+        "nazwa": "Полезный перепад температур буфера [К]",
+        "cel": "Разница между температурой заряженного буфера и самой низкой ещё полезной — вместе с объёмом даёт энергию для переноса.",
+        "gdzie": "Максимальная температура зарядки буфера минус самая низкая температура, при которой он ещё греет контуры (например, отопительная кривая).",
+        "zakres": "≥ 0. Ваша установка.",
+      },
+    },
   },
 }
