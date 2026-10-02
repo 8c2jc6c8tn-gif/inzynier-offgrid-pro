@@ -208,6 +208,7 @@ export const KAFLE: KafelEntry[] = [
       { href: "/kalkulatory/cykle-odszraniania", label: "Cykle odszraniania (defrost)" },
       { href: "/kalkulatory/wentylacja-grawitacyjna", label: "Straty przez wentylację grawitacyjną" },
       { href: "/kalkulatory/gwc", label: "Gruntowy wymiennik ciepła (GWC)" },
+      { href: "/kalkulatory/wplyw-czynnika", label: "Wpływ czynnika na pompę ciepła" },
     ],
   },
   {

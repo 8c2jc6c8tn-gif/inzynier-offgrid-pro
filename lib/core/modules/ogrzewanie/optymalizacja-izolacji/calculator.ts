@@ -41,6 +41,14 @@ const FORMULA =
   "U' = \\frac{1}{1/U + d/\\lambda},\\quad \\Delta Q = (U - U')\\,A \\sum_m \\max(0, \\theta_i - \\theta_m)\\,24\\,d_m,\\quad " +
   "k = \\frac{K}{10\\,\\Delta Q}"
 
+/**
+ * U of an element after adding an insulation layer in series: U' = 1/(1/U + d/λ) [W/(m²·K)]. Rsi/Rse are already
+ * inside the current U. Shared with the M6 "wpływ czynnika" engine (roof and floor insulation, 5.78/5.79).
+ */
+export function uPoDociepleniu(uWM2K: number, gruboscCm: number, lambdaWmK: number): number {
+  return 1 / (1 / uWM2K + gruboscCm / CM_NA_M / lambdaWmK)
+}
+
 /** Materials are compared within the same product: same name and λ. */
 const kluczMaterialu = (nazwa: string, lambda: number) => `${nazwa.trim().toLowerCase()}|${lambda}`
 
@@ -92,7 +100,7 @@ export function calculateOptymalizacjaIzolacji(input: OptymalizacjaIzolacjiInput
   const cieploRoczneKwh = (uWM2K: number) => (uWM2K * a * stopniogodzinyKh) / W_NA_KW
 
   const podstawowe = input.warianty.map((w, i) => {
-    const uPoWM2K = 1 / (1 / u + w.gruboscCm! / CM_NA_M / w.lambdaWmK!)
+    const uPoWM2K = uPoDociepleniu(u, w.gruboscCm!, w.lambdaWmK!)
     return {
       nazwa: w.nazwa.trim() || `Wariant ${i + 1}`,
       gruboscCm: w.gruboscCm!,

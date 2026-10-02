@@ -7,6 +7,7 @@ import { wentylacjaGrawitacyjnaTool } from "../wentylacja-grawitacyjna-tool"
 import { gwcTool } from "../gwc-tool"
 import { oknoSloneczneTool } from "../okno-sloneczne-tool"
 import { osadNaPvTool } from "../osad-na-pv-tool"
+import { wplywCzynnikaTool } from "../wplyw-czynnika-tool"
 
 describe("deficytyMiesieczneTool (M7/E2, dawne 6.2)", () => {
   it("kontrakt 9.3: 'read', bez potwierdzenia", () => {
@@ -138,5 +139,22 @@ describe("osadNaPvTool (M7/E7 + E14, dawne 6.7, 6.20, 6.18)", () => {
     })
     expect(w.utrataKwh).toBeCloseTo(12, 9)
     expect(w.ostrzezenia).toContain(t("pl", "OSAD-SNIEG-NIE-ZSUNIE", { kat: 10, prog: 30 }))
+  })
+})
+
+describe("wplywCzynnikaTool (M6 Część 2D, dawne 5.69, 5.73–5.100)", () => {
+  it("kontrakt 9.3: 'read', bez potwierdzenia", () => {
+    expect(wplywCzynnikaTool.operationType).toBe("read")
+    expect(wplywCzynnikaTool.requiresConfirmation).toBe(false)
+    expect(() => validateAiToolDefinition(wplywCzynnikaTool)).not.toThrow()
+  })
+
+  it("5.80 szczelność + pompa 7 kW za mała → wynik i 🟡 jako tekst PL", async () => {
+    const w = await wplywCzynnikaTool.handler({
+      czynnik: "szczelnosc",
+      pola: { kubaturaM3: 112, nPrzed: 0.8, nPo: 0.4, dTK: 40, zapotrzebowanieKw: 8, mocPompyKw: 7 },
+    })
+    expect(w.wynik).toBe(t("pl", "WPC-G-MOC", { przed: 1.2, po: 0.6, zmiana: -0.6 }))
+    expect(w.ostrzezenia).toContain(t("pl", "WPC-POMPA-ZA-MALA", { zapotrzebowanie: 7.4, moc: 7 }))
   })
 })
