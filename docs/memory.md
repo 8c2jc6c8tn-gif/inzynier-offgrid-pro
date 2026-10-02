@@ -2471,3 +2471,8 @@ Właściciel: pismo ma być tłumaczone (wcześniej komentarz w kodzie zakłada�
 - Pułapki PVGIS: (1) zakres lat to **2005–2023** (v5_3) — poza nim 4xx; (2) ok. 0,75 MB/rok (19 lat ≈ 14 MB) → timeout 90 s i agregacja do dób po stronie serwera (klient dostaje kilkadziesiąt KB); (3) moc `P` jest w odpowiedzi tylko z `pvcalculation=1&peakpower=..&loss=..` — nie używamy, produkcję liczy silnik z kWh/m² × kWp × PR podanych przez użytkownika.
 - Decyzja: doba = data UTC znacznika; doba bez kompletu 24 rekordów = `null` (nigdy dopełniana). Nachylenie i azymut użytkownik wpisuje sam (aplikacja żadnych nie zakłada); lata domyślnie cały zakres bazy.
 - Wynik zapisuje się w szkicu ekranu (pole historii), więc po pobraniu działa offline.
+
+## 2026-10-02 — Telemetria partia 2(a): ekran „Źródła danych telemetrii”
+- Ekran składa gotowe funkcje rdzenia (bez nowego silnika): rejestr w `indexedDbStorageAdapter` (klucz `telemetria-rejestr`, osobno od szkicu formularza), import przez `importujCsv` + `IndexedDbMagazynProbek`. Szkic formularza w `usePersistedDraft("zrodla-telemetrii")`; zawartość pliku trzymana tylko w stanie Reacta (nie w szkicu — duże).
+- Mapowanie kolumn z formularza buduje czysta funkcja `zbudujProfil` (`lib/core/telemetria/profil-formularza.ts`): adres kolumny to liczba tylko przy „bez nagłówka” i tekście `^\d+$`; walidacja `ProfilCsvSchema`; niepełne mapowanie = odmowa, nie zgadywanie. Krok próbkowania [s] wpisuje użytkownik (wymagany > 0).
+- Usunięcie źródła kasuje też jego próbki (`usunZrodlo`) po `window.confirm`. Tłumaczenia EN/RU (`m13-telemetria.ts`, pomoc `zrodla-telemetrii`) — moje, do przeglądu właściciela.
