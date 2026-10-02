@@ -1238,6 +1238,29 @@ Pełne wyniki audytu: `docs/memory.md`, sekcja "Pełny audyt na polecenie właś
   ekran robi `t(kod)` — domena nie importuje z UI (`01-architektura`). **Plusy teraz:** mała liczba miejsc, łatwe do
   wyliczenia grepem `label:` w `lib/core`. **Minusy:** dotyka stałych silnika i ich testów. **Kolizje:** z migracją
   etykiet (te same ekrany) — robić po niej. **Kolejność:** po wpisie „Tłumaczenie samych stron”.
+- 🔲 (2026-10-02) **Audyt i18n poza zasięgiem strażników — luki znalezione niezależnym skanem `lib/` (nie z listy zapadkowej).**
+  Strażnik UI skanuje tylko `app/`+`components/`, strażnik silnika tylko `message`/`assumptions` (literały, nie szablony) w 3 nazwach
+  plików; teksty z `lib/` renderowane surowo na ekranie nie są widziane. Lista wg wagi (liczba × widoczność), każda pozycja do
+  rozstrzygnięcia osobno: **(1)** polskie `label` w `params` ostrzeżeń/walidacji (~100 tekstów, ~44 plików `validation.ts`/`warnings.ts`,
+  m.in. pv/typ-montazu 15, pv/liczba-paneli ~12) — w EN powstaje „The value of „moc panelu” must be…”; poprawka: param = klucz/`id`,
+  tłumaczony na ekranie (zmiana kontraktu silnika + testów); **(2)** `formula` z prozą polską (~25 z 62 stałych, ~210 użyć w
+  `WynikSzczegoly`; indeksy symboliczne typu `E_{całkowita}` do decyzji) — propozycja: pole `formulaKey`; **(3)** komunikaty błędów hooków/
+  adapterów renderowane surowo (~15: `dane-tmy.ts` KOMUNIKAT_PVGIS, `use-gps.ts`, `use-obliczenia-w-tle.ts`, `delete-account.ts`) →
+  zwracać kody, `t()` na ekranie; **(4)** `katalog-psi.ts` (76 opisów detali mostków) w `<option>`; **(5)** `przykladowe-urzadzenia.ts`
+  (19 nazw; `nazwa` jest kluczem dopasowania — wymaga `id`); **(6)** `lib/wyglad/storage.ts` GRUPY_KOLOROW (14 tekstów, Ustawienia);
+  **(7)** `pv/czystosc-i-snieg` (KAT_OPISY, `powod`, szablon w warnings — moduł z listy zmigrowanych, strażnik go nie łapie);
+  **(8)** luki strażnika silnika: `message` jako template literal (komunikacja-bms, audyt-pozarowy), `FILES_TO_CHECK` tylko 3 nazwy,
+  ~13 katalogów modułów poza `MIGRATED_MODULES` przy wyniku „OK”; **(9)** `sekwencja-montazu` `generujOkablowanieBms` (etykiety
+  przewodów); **(10)** `model-dzialki.ts` nazwy połaci („Dach wg obrysu budynku”, `Elewacja N…` — nazwa jest też kluczem wyboru);
+  **(11)** asystent AI: `SYSTEM_PROMPT` wymusza polski, `pytajAsystenta` bez parametru języka, 5 błędów zwracanych po polsku
+  (`components/asystent-ai.tsx`), komunikat o `ANTHROPIC_API_KEY` zbyt techniczny dla użytkownika. Dodatkowo z tury stałych silnika:
+  ostrzeżenia `PROTOKOLY-ZGODNE/NIEZGODNE` (komunikacja-bms) i parametr `urzadzenia` (napiecie-systemowe) niosą polskie label-e;
+  `CHECKLIST_ITEMS`/`OSTRZEZENIA_STALE` w demontaz-pakietu; zapisane drafty trzymają polski `label`; dublet kluczy
+  `UI-STALE-IP-*` vs `UI-STALEBAT-IP-*`. **Niewidoczne, bez tłumaczenia:** `technicalMessage` (nie renderowany), `userMessage` w
+  `consoleReporter`. **Priorytet:** (1), (3), (7), (11) wysoki dla EN/RU; (2), (4)–(6), (9), (10) średni; (8) — zrobić przy (1), żeby
+  nowy dług nie przybywał. **Odblokowuje:** realne EN/RU na całej ścieżce i strażnik, któremu można wierzyć. **Plusy teraz:** wpływ
+  na każdy ekran z ostrzeżeniem. **Minusy:** (1) i (2) zmieniają kontrakt silnika i testy ~44 modułów. **Kolizje:** `lib/core/**`
+  (każda sesja nad silnikami), `lib/i18n/ui/*`. **Kolejność:** (8) razem z (1); (1) przed (2); (3) i (7) niezależne, najtańsze.
 - ✅ (2026-09-29) **Opisy narzędzi AI — domknięcie luk (pytanie właściciela: „czy są rozbudowane opisy funkcji dla AI”).**
   Stan 29.09.2026: 183 narzędzia w rejestrze, 181 ma `.describe()` na polach wejścia, 156 ma w `description` zdanie
   „Użyj, gdy…” (kiedy model ma je wywołać) — **27 go nie ma** (m.in. blackout, analiza-spof, typ-montazu, klapy-pozarowe,
