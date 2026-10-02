@@ -48,20 +48,17 @@ export default function MikropeknieciaTermicznePage() {
     <main className="mx-auto flex max-w-md flex-col gap-6 p-6">
       <NawigacjaEkranu href="/kalkulatory/mikropekniecia-termiczne" />
       <NaglowekEkranu
-        tytul="Mikropęknięcia termiczne"
+        tytul={t("UI-MIKTER-MIKROPEKNIECIA-TERMICZNE")}
         ekran="mikropekniecia-termiczne"
         wynik={result}
         parametry={{ tMin: TEMPERATURA_PANELU_MIN_C, tMax: TEMPERATURA_PANELU_MAX_C, schlodzenie: SCHLODZENIE_PRZY_DESZCZU_C, odstepMin: ODSTEP_DYLATACYJNY_MIN_MM, lata: CZAS_DO_MIKROPEKNIEC_LATA }}
       >
-        Panele nagrzewają się w słońcu do {TEMPERATURA_PANELU_MIN_C}–{TEMPERATURA_PANELU_MAX_C}°C, a przy
-        nagłym deszczu chłodzą się o {SCHLODZENIE_PRZY_DESZCZU_C}°C w kilka minut. Aluminium ramy i krzem
-        ogniw rozszerzają się inaczej — przy sztywnym montażu bez dylatacji naprężenia prowadzą do
-        mikropęknięć w ciągu ok. {CZAS_DO_MIKROPEKNIEC_LATA} lat. Moduł 3, Ekran 7.
+        {t("UI-MIKTER-PANELE-NAGRZEWAJA-SLONCU", { TEMPERATURA_PANELU_MIN_C, TEMPERATURA_PANELU_MAX_C, SCHLODZENIE_PRZY_DESZCZU_C, CZAS_DO_MIKROPEKNIEC_LATA })}
       </NaglowekEkranu>
 
       <div className="flex flex-col gap-3">
         <Pole
-          label="Odstęp dylatacyjny między panelami"
+          label={t("UI-MIKTER-ODSTEP-DYLATACYJNY-MIEDZY")}
           unit="mm"
           type="number"
           inputMode="decimal"
@@ -74,18 +71,18 @@ export default function MikropeknieciaTermicznePage() {
           id="podkladki-epdm"
           checked={podkladkiEpdm}
           onChange={(e) => setStan((prev) => ({ ...prev, podkladkiEpdm: e.target.checked }))}
-          label="Podkładki EPDM (gumowe) w mocowaniach"
+          label={t("UI-MIKTER-PODKLADKI-EPDM-GUMOWE")}
         />
       </div>
 
       {result.status === "INVALID_INPUT" ? (
-        <WerdyktPanel poziom="blad" etykieta="Nie da się ocenić — sprawdź wpisane dane">
+        <WerdyktPanel poziom="blad" etykieta={t("UI-MIKTER-OCENIC-SPRAWDZ-WPISANE")}>
           <WynikSzczegoly assumptions={[]} warnings={result.warnings} />
         </WerdyktPanel>
       ) : result.status === "INCOMPLETE" ? (
-        <p className="text-small text-muted-foreground">Wpisz odstęp dylatacyjny, żeby zobaczyć ocenę montażu.</p>
+        <p className="text-small text-muted-foreground">{t("UI-MIKTER-WPISZ-ODSTEP-DYLATACYJNY")}</p>
       ) : (
-        <WerdyktPanel poziom={poziom} etykieta={result.value.montazSztywny ? "Montaż sztywny" : "Montaż elastyczny"}>
+        <WerdyktPanel poziom={poziom} etykieta={result.value.montazSztywny ? t("UI-MIKTER-MONTAZ-SZTYWNY") : t("UI-MIKTER-MONTAZ-ELASTYCZNY")}>
           {result.warnings.map((w) => (
             <p key={w.code} className="mt-1 text-small">
               {w.message ?? t(w.i18nKey ?? w.code, w.params)}
@@ -93,7 +90,7 @@ export default function MikropeknieciaTermicznePage() {
           ))}
           {result.value.montazSztywny && (
             <p className="mt-2 text-small text-muted-foreground">
-              Zalecane: podkładki EPDM w każdym mocowaniu i odstęp dylatacyjny min. {ODSTEP_DYLATACYJNY_MIN_MM} mm.
+              {t("UI-MIKTER-ZALECANE-PODKLADKI-EPDM", { ODSTEP_DYLATACYJNY_MIN_MM })}
             </p>
           )}
           <WynikSzczegoly assumptions={result.assumptions} formula={result.formula} />

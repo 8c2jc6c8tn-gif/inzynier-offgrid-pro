@@ -61,19 +61,18 @@ export default function CzystoscISniegPage() {
     <main className="mx-auto flex max-w-md flex-col gap-6 p-6">
       <NawigacjaEkranu href="/kalkulatory/czystosc-i-snieg" />
       <NaglowekEkranu
-        tytul="Czystość i śnieg na panelach"
+        tytul={t("UI-CZYISNI-CZYSTOSC-SNIEG-PANELACH")}
         ekran="czystosc-i-snieg" wynik={harmonogramResult}
         parametry={{ katZaleganie: KAT_ZALEGANIE_MAX, katPrzejsciowy: KAT_PRZEJSCIOWY_MAX, katSplukiwanie: KAT_SPLUKIWANIE_MAX, progMycia: SPADEK_PROG_MYCIA_PCT }}
       >
-        Zasypany panel to martwy panel, a wiatr rozkłada śnieg jak piasek na pustyni —
-        nierównomiernie. Trzy tematy poniżej uzupełniają się nawzajem. Moduł 3, Ekran 24.
+        {t("UI-CZYISNI-ZASYPANY-PANEL-MARTWY")}
       </NaglowekEkranu>
 
       <div className="flex flex-col gap-3">
-        <SekcjaAkordeon tytul="Kąt a samooczyszczanie" domyslnieOtwarta>
+        <SekcjaAkordeon tytul={t("UI-CZYISNI-KAT-SAMOOCZYSZCZANIE")} domyslnieOtwarta>
           <div className="flex flex-col gap-3">
             <Pole
-              label="Kąt pochylenia panelu"
+              label={t("UI-CZYISNI-KAT-POCHYLENIA-PANELU")}
               unit="°"
               type="number"
               inputMode="decimal"
@@ -82,7 +81,7 @@ export default function CzystoscISniegPage() {
               pomoc={<PomocPola ekran="czystosc-i-snieg" pole="kat" />}
             />
             {katResult.status === "INVALID_INPUT" ? (
-              <p className="text-small text-werdykt-blad">Kąt musi być z przedziału 0–90°.</p>
+              <p className="text-small text-werdykt-blad">{t("UI-CZYISNI-KAT-MUSI-BYC")}</p>
             ) : (
               <p
                 className={cn(
@@ -96,18 +95,16 @@ export default function CzystoscISniegPage() {
           </div>
         </SekcjaAkordeon>
 
-        <SekcjaAkordeon tytul="Śnieg i dostępność serwisowa">
+        <SekcjaAkordeon tytul={t("UI-CZYISNI-SNIEG-DOSTEPNOSC-SERWISOWA")}>
           <p className="text-small">
-            W strefach z częstymi opadami śniegu &gt;10 cm panele dachowe bywają nieproduktywne
-            przez dłuższy czas, a odśnieżanie dachu jest trudne i niebezpieczne. Rozważ 2–3
-            panele naziemne jako łatwo dostępną rezerwę do odśnieżania w sezonie zimowym.
+            {t("UI-CZYISNI-STREFACH-CZESTYMI-OPADAMI")}
           </p>
         </SekcjaAkordeon>
 
-        <SekcjaAkordeon tytul="Harmonogram czyszczenia — live">
+        <SekcjaAkordeon tytul={t("UI-CZYISNI-HARMONOGRAM-CZYSZCZENIA-LIVE")}>
           <div className="flex flex-col gap-3">
             <Pole
-              label="Spadek produkcji względem oczekiwanej"
+              label={t("UI-CZYISNI-SPADEK-PRODUKCJI-WZGLEDEM")}
               unit="%"
               type="number"
               inputMode="decimal"
@@ -117,23 +114,23 @@ export default function CzystoscISniegPage() {
             />
             <PoleCheckbox
               id="deszcz-prognozowany"
-              label="Deszcz prognozowany w ciągu najbliższych kilku dni"
+              label={t("UI-CZYISNI-DESZCZ-PROGNOZOWANY-CIAGU")}
               checked={deszczWCiaguKilkuDni}
               onChange={(e) => setDeszczWCiaguKilkuDni(e.target.checked)}
             />
 
             {harmonogramResult.status === "INVALID_INPUT" ? (
-              <p className="text-small text-werdykt-blad">Spadek musi być z przedziału 0–100%.</p>
+              <p className="text-small text-werdykt-blad">{t("UI-CZYISNI-SPADEK-MUSI-BYC")}</p>
             ) : (
               <WerdyktPanel
                 poziom={harmonogramResult.value.rekomendacjaMycia ? "uwaga" : "ok"}
-                etykieta={harmonogramResult.value.rekomendacjaMycia ? "Zalecane mycie paneli" : "Mycie niepotrzebne"}
+                etykieta={harmonogramResult.value.rekomendacjaMycia ? t("UI-CZYISNI-ZALECANE-MYCIE-PANELI") : t("UI-CZYISNI-MYCIE-NIEPOTRZEBNE")}
                 className="p-3 text-small"
               >
                 <p className="mt-1">{harmonogramResult.value.powod}</p>
                 {harmonogramResult.assumptions.map((a, i) => (
                   <p key={typeof a === "string" ? a : a.kod + i} className="mt-1 opacity-80">
-                    Założenie: {typeof a === "string" ? a : t(a.kod, a.params)}
+                    {t("UI-CZYISNI-ZALOZENIE")} {typeof a === "string" ? a : t(a.kod, a.params)}
                   </p>
                 ))}
               </WerdyktPanel>

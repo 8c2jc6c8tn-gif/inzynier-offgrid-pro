@@ -249,7 +249,11 @@ export function analyze(file, src, prefix, sharedByText) {
           // surrounding whitespace stays in the source, so JSX spacing is unchanged
           const s0 = ts.isJsxText(run[0]) ? run[0].pos + (run[0].text.length - run[0].text.trimStart().length) : start
           const e0 = ts.isJsxText(run.at(-1)) ? end - (run.at(-1).text.length - run.at(-1).text.trimEnd().length) : end
-          edits.push({ start: s0, end: e0, text: `{t("${key}"${paramsObj(params)})}` })
+          // a `{" "}` at either end of the run is a real space next to a sibling element — keep it
+          const spaceExpr = (c) => ts.isJsxExpression(c) && c.expression && /^\s+$/.test(literalText(c.expression) ?? "")
+          const pre = spaceExpr(run[0]) ? '{" "}' : ""
+          const post = run.length > 1 && spaceExpr(run.at(-1)) ? '{" "}' : ""
+          edits.push({ start: s0, end: e0, text: `${pre}{t("${key}"${paramsObj(params)})}${post}` })
           covered.push([start, end])
         }
         run = []
@@ -355,6 +359,14 @@ export function analyze(file, src, prefix, sharedByText) {
       const pos = last ? last.getEnd() : 0
       edits.push({ start: pos, end: pos, text: `\nimport { useTranslate } from "@/lib/i18n/language-context"` })
     }
+    // useTranslate() in a Server Component is HTTP 500 at runtime (docs/memory.md) — the hook needs "use client"
+    const first = sf.statements[0]
+    const isClient = first && ts.isExpressionStatement(first) && ts.isStringLiteral(first.expression) && first.expression.text === "use client"
+    if (!isClient && file.startsWith("app/")) {
+      if (/export (const|async function|function) (metadata|generateMetadata)\b/.test(src))
+        manual.push(`${file}: Server Component z metadata — useTranslate() wymaga osobnego komponentu klienckiego`)
+      else edits.push({ start: 0, end: 0, text: `"use client"\n\n` })
+    }
   }
   return { edits, keys, manual, sf }
 }
@@ -413,7 +425,8 @@ function addToIndex(grupa) {
   const name = camel(grupa)
   if (src.includes(`from "./${grupa}"`)) return
   src = src.replace(/(import \* as pwa from "\.\/pwa"\n)/, `import * as ${name} from "./${grupa}"\n$1`)
-  src = src.replace(/, pwa\] as const/, `, ${name}, pwa] as const`)
+  // append at the end of `czesciUi` — the array no longer ends with `pwa`, so anchor on `] as const`
+  src = src.replace(/\] as const/, `, ${name}] as const`)
   writeFileSync(p, src)
 }
 

@@ -13,16 +13,17 @@ import { TrybPionowy } from "./_components/tryb-pionowy"
 import { TrybPowierzchnie } from "./_components/tryb-powierzchnie"
 import { TrybRegulowany } from "./_components/tryb-regulowany"
 import { TrybWiata } from "./_components/tryb-wiata"
+import { useTranslate } from "@/lib/i18n/language-context"
 
 type Tryb = "" | "pionowy" | "dach-plaski" | "dach-skosny" | "wielopolaciowy" | "wiata" | "regulowany"
 
 const TRYBY: { id: Exclude<Tryb, "">; label: string }[] = [
-  { id: "dach-skosny", label: "Dach skośny — jedna połać" },
-  { id: "wielopolaciowy", label: "Kilka powierzchni (dach, ściany, ogrodzenia)" },
-  { id: "dach-plaski", label: "Dach płaski albo grunt — stelaż pod kątem" },
-  { id: "regulowany", label: "Stelaż naziemny z regulacją kąta" },
-  { id: "pionowy", label: "Pionowo (ogrodzenie, ściana)" },
-  { id: "wiata", label: "Wiata / carport" },
+  { id: "dach-skosny", label: "UI-TYPMON-DACH-SKOSNY-JEDNA" },
+  { id: "wielopolaciowy", label: "UI-TYPMON-KILKA-POWIERZCHNI-DACH" },
+  { id: "dach-plaski", label: "UI-TYPMON-DACH-PLASKI-ALBO" },
+  { id: "regulowany", label: "UI-TYPMON-STELAZ-NAZIEMNY-REGULACJA" },
+  { id: "pionowy", label: "UI-TYPMON-PIONOWO-OGRODZENIE-SCIANA" },
+  { id: "wiata", label: "UI-TYPMON-WIATA-CARPORT" },
 ]
 
 /** Tryby z nasłonecznieniem PVGIS — pokazują sekcję danych lokalizacji. */
@@ -33,6 +34,7 @@ const Z_NASLONECZNIENIEM: Tryb[] = ["pionowy", "dach-skosny", "wielopolaciowy", 
  * Każdy tryb to osobny komponent z własnym szkicem (osobny klucz), żeby przełączanie nie gubiło danych.
  */
 export default function TypMontazuPage() {
+  const t = useTranslate()
   const { lokalizacja, dane, tmy, wczytano } = useLokalizacjaProjektu()
   const [stan, setStan] = usePersistedDraft<{ tryb: Tryb }>("typ-montazu", { tryb: "" })
 
@@ -41,21 +43,20 @@ export default function TypMontazuPage() {
   return (
     <main className="mx-auto flex max-w-2xl flex-col gap-6 p-6">
       <NawigacjaEkranu href="/kalkulatory/typ-montazu" />
-      <NaglowekEkranu tytul="Typ montażu" ekran="typ-montazu">
-        Gdzie i jak staną panele — na dachu, na gruncie, pionowo na ogrodzeniu, na wiacie. Każdy wariant ma swoje liczby: ile
-        energii, jak wysoko, ile balastu, ile paneli się zmieści. Moduł 3, Ekran 2.
+      <NaglowekEkranu tytul={t("UI-TYPMON-TYP-MONTAZU")} ekran="typ-montazu">
+        {t("UI-TYPMON-GDZIE-STANA-PANELE")}
       </NaglowekEkranu>
 
       <PoleSelect
-        label="Jak staną panele?"
+        label={t("UI-TYPMON-STANA-PANELE")}
         value={stan.tryb}
         onChange={(e) => setStan({ tryb: e.target.value as Tryb })}
         pomoc={<PomocPola ekran="typ-montazu" pole="tryb" />}
       >
-        <option value="">— wybierz —</option>
-        {TRYBY.map((t) => (
-          <option key={t.id} value={t.id}>
-            {t.label}
+        <option value="">{t("UI-WYBIERZ")}</option>
+        {TRYBY.map((tryb) => (
+          <option key={tryb.id} value={tryb.id}>
+            {t(tryb.label)}
           </option>
         ))}
       </PoleSelect>

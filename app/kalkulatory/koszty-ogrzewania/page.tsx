@@ -19,16 +19,16 @@ import { useTranslate } from "@/lib/i18n/language-context"
 import { liczba } from "@/lib/lokalizacja/model-dzialki"
 
 const RODZAJE: { id: RodzajZrodla; label: string; jednostka: string }[] = [
-  { id: "drewno", label: "Drewno (kominek, piec)", jednostka: "mp" },
-  { id: "wegiel", label: "Węgiel", jednostka: "kg" },
-  { id: "pellet", label: "Pellet", jednostka: "kg" },
-  { id: "gaz", label: "Gaz (ziemny, LPG)", jednostka: "m³" },
-  { id: "olej", label: "Olej opałowy / napędowy (kocioł)", jednostka: "l" },
-  { id: "inne-paliwo", label: "Inne paliwo", jednostka: "kg" },
-  { id: "nagrzewnica-paliwowa", label: "Nagrzewnica paliwowa (typu webasto)", jednostka: "l" },
-  { id: "kociol-elektryczny", label: "Kocioł elektryczny / grzałka", jednostka: "kWh" },
-  { id: "grzejniki-ir", label: "Promienniki podczerwieni (IR)", jednostka: "kWh" },
-  { id: "pompa-ciepla", label: "Pompa ciepła", jednostka: "kWh" },
+  { id: "drewno", label: "UI-KOSOGR-DREWNO-KOMINEK-PIEC", jednostka: "mp" },
+  { id: "wegiel", label: "UI-KOSOGR-WEGIEL", jednostka: "kg" },
+  { id: "pellet", label: "UI-KOSOGR-PELLET", jednostka: "kg" },
+  { id: "gaz", label: "UI-KOSOGR-GAZ-ZIEMNY-LPG", jednostka: "m³" },
+  { id: "olej", label: "UI-KOSOGR-OLEJ-OPALOWY-NAPEDOWY", jednostka: "l" },
+  { id: "inne-paliwo", label: "UI-KOSOGR-INNE-PALIWO", jednostka: "kg" },
+  { id: "nagrzewnica-paliwowa", label: "UI-KOSOGR-NAGRZEWNICA-PALIWOWA-TYPU", jednostka: "l" },
+  { id: "kociol-elektryczny", label: "UI-KOSOGR-KOCIOL-ELEKTRYCZNY-GRZALKA", jednostka: "kWh" },
+  { id: "grzejniki-ir", label: "UI-KOSOGR-PROMIENNIKI-PODCZERWIENI", jednostka: "kWh" },
+  { id: "pompa-ciepla", label: "UI-KOSOGR-POMPA-CIEPLA", jednostka: "kWh" },
 ]
 const JEDNOSTKI = ["kg", "t", "mp", "m³", "l"]
 
@@ -70,11 +70,12 @@ const n = (s: string) => liczba(s) ?? null
 const f0 = (x: number) => x.toLocaleString("pl-PL", { maximumFractionDigits: 0 })
 const f1 = (x: number) => x.toLocaleString("pl-PL", { maximumFractionDigits: 1 })
 const f2 = (x: number) => x.toLocaleString("pl-PL", { minimumFractionDigits: 2, maximumFractionDigits: 2 })
-const nazwaZrodla = (z: ZrodloSeed, i: number) => z.nazwa.trim() || `${RODZAJE.find((r) => r.id === z.rodzaj)!.label} (${i + 1})`
+const nazwaZrodla = (z: ZrodloSeed, i: number, t: (k: string) => string) =>
+  z.nazwa.trim() || `${t(RODZAJE.find((r) => r.id === z.rodzaj)!.label)} (${i + 1})`
 
-function doWejscia(z: ZrodloSeed, i: number): ZrodloCiepla {
+function doWejscia(z: ZrodloSeed, i: number, t: (k: string) => string): ZrodloCiepla {
   return {
-    nazwa: nazwaZrodla(z, i),
+    nazwa: nazwaZrodla(z, i, t),
     rodzaj: z.rodzaj,
     jednostka: z.jednostka,
     cenaZl: n(z.cenaZl),
@@ -90,6 +91,7 @@ function doWejscia(z: ZrodloSeed, i: number): ZrodloCiepla {
 }
 
 function KartaZrodla({ z, i, ustaw, usun }: { z: ZrodloSeed; i: number; ustaw: (p: Partial<ZrodloSeed>) => void; usun: () => void }) {
+  const t = useTranslate()
   const sposob = SPOSOB_LICZENIA[z.rodzaj]
   const pole = (klucz: keyof ZrodloSeed, label: string, unit?: string) => (
     <Pole
@@ -107,18 +109,18 @@ function KartaZrodla({ z, i, ustaw, usun }: { z: ZrodloSeed; i: number; ustaw: (
   return (
     <div className="flex flex-col gap-3 rounded-lg border p-3">
       <div className="grid gap-3 sm:grid-cols-2">
-        <PoleSelect id={`zrodlo-${i}-rodzaj`} label="Rodzaj" value={z.rodzaj} onChange={(e) => ustaw({ rodzaj: e.target.value as RodzajZrodla, jednostka: RODZAJE.find((r) => r.id === e.target.value)!.jednostka })} pomoc={<PomocPola ekran="koszty-ogrzewania" pole="rodzaj" />}>
+        <PoleSelect id={`zrodlo-${i}-rodzaj`} label={t("UI-KOSOGR-RODZAJ")} value={z.rodzaj} onChange={(e) => ustaw({ rodzaj: e.target.value as RodzajZrodla, jednostka: RODZAJE.find((r) => r.id === e.target.value)!.jednostka })} pomoc={<PomocPola ekran="koszty-ogrzewania" pole="rodzaj" />}>
           {RODZAJE.map((r) => (
             <option key={r.id} value={r.id}>
-              {r.label}
+              {t(r.label)}
             </option>
           ))}
         </PoleSelect>
-        <Pole id={`zrodlo-${i}-nazwa`} label="Nazwa (opcjonalnie)" value={z.nazwa} placeholder={nazwaZrodla({ ...z, nazwa: "" }, i)} onChange={(e) => ustaw({ nazwa: e.target.value })} pomoc={<PomocPola ekran="koszty-ogrzewania" pole="nazwa" />} />
+        <Pole id={`zrodlo-${i}-nazwa`} label={t("UI-KOSOGR-NAZWA-OPCJONALNIE")} value={z.nazwa} placeholder={nazwaZrodla({ ...z, nazwa: "" }, i, t)} onChange={(e) => ustaw({ nazwa: e.target.value })} pomoc={<PomocPola ekran="koszty-ogrzewania" pole="nazwa" />} />
       </div>
       <div className="grid gap-3 sm:grid-cols-2">
         {sposob !== "prad" && (
-          <PoleSelect id={`zrodlo-${i}-jednostka`} label="Jednostka paliwa" value={z.jednostka} onChange={(e) => ustaw({ jednostka: e.target.value })} pomoc={<PomocPola ekran="koszty-ogrzewania" pole="jednostka" />}>
+          <PoleSelect id={`zrodlo-${i}-jednostka`} label={t("UI-KOSOGR-JEDNOSTKA-PALIWA")} value={z.jednostka} onChange={(e) => ustaw({ jednostka: e.target.value })} pomoc={<PomocPola ekran="koszty-ogrzewania" pole="jednostka" />}>
             {JEDNOSTKI.map((j) => (
               <option key={j} value={j}>
                 {j}
@@ -126,19 +128,19 @@ function KartaZrodla({ z, i, ustaw, usun }: { z: ZrodloSeed; i: number; ustaw: (
             ))}
           </PoleSelect>
         )}
-        {pole("cenaZl", "Cena", sposob === "prad" ? "zł/kWh" : `zł/${z.jednostka}`)}
-        {sposob === "paliwo" && pole("wartoscOpalowaKwh", "Wartość opałowa", `kWh/${z.jednostka}`)}
-        {sposob === "paliwo" && pole("sprawnoscPct", "Sprawność urządzenia", "%")}
-        {sposob === "karta" && pole("mocGrzewczaKw", "Moc grzewcza", "kW")}
-        {sposob === "karta" && pole("zuzyciePaliwaNaH", "Zużycie paliwa przy tej mocy", `${z.jednostka}/h`)}
-        {z.rodzaj === "pompa-ciepla" && pole("cop", "COP (średni w sezonie)")}
-        {sposob === "paliwo" && pole("mocGrzewczaKw", "Moc grzewcza (opcjonalnie)", "kW")}
-        {sposob !== "prad" && pole("poborPraduW", "Pobór prądu w pracy (opcjonalnie)", "W")}
-        {pole("kosztInwestycjiZl", "Koszt zakupu i montażu", "zł")}
-        {pole("kosztSerwisuRocznyZl", "Serwis i przeglądy rocznie", "zł")}
+        {pole("cenaZl", "Cena", sposob === "prad" ? t("UI-J-ZL-KWH") : t("UI-KOSOGR-ZL", { jednostka: z.jednostka }))}
+        {sposob === "paliwo" && pole("wartoscOpalowaKwh", t("UI-KOSOGR-WARTOSC-OPALOWA"), `kWh/${z.jednostka}`)}
+        {sposob === "paliwo" && pole("sprawnoscPct", t("UI-KOSOGR-SPRAWNOSC-URZADZENIA"), "%")}
+        {sposob === "karta" && pole("mocGrzewczaKw", t("UI-KOSOGR-MOC-GRZEWCZA"), "kW")}
+        {sposob === "karta" && pole("zuzyciePaliwaNaH", t("UI-KOSOGR-ZUZYCIE-PALIWA-TEJ"), `${z.jednostka}/h`)}
+        {z.rodzaj === "pompa-ciepla" && pole("cop", t("UI-KOSOGR-COP-SREDNI-SEZONIE"))}
+        {sposob === "paliwo" && pole("mocGrzewczaKw", t("UI-KOSOGR-MOC-GRZEWCZA-OPCJONALNIE"), "kW")}
+        {sposob !== "prad" && pole("poborPraduW", t("UI-KOSOGR-POBOR-PRADU-PRACY"), "W")}
+        {pole("kosztInwestycjiZl", t("UI-KOSOGR-KOSZT-ZAKUPU-MONTAZU"), t("UI-J-ZL"))}
+        {pole("kosztSerwisuRocznyZl", t("UI-KOSOGR-SERWIS-PRZEGLADY-ROCZNIE"), t("UI-J-ZL"))}
       </div>
       <Button variant="ghost" className="min-h-11 w-fit" onClick={usun}>
-        Usuń źródło
+        {t("UI-KOSOGR-USUN-ZRODLO")}
       </Button>
     </div>
   )
@@ -154,45 +156,43 @@ export default function KosztyOgrzewaniaPage() {
       calculateKosztyOgrzewania({
         zapotrzebowanieSezonKwh: n(stan.zapotrzebowanieSezonKwh),
         liczbaLat: n(stan.liczbaLat),
-        zrodla: stan.zrodla.map(doWejscia),
+        zrodla: stan.zrodla.map((z, i) => doWejscia(z, i, t)),
       }),
-    [stan],
+    [stan, t],
   )
   const v = wynik.value
   const lata = n(stan.liczbaLat) ?? 0
   const poziom: WerdyktPoziom = wynik.warnings.some((w) => w.level === "critical") ? "blad" : wynik.warnings.some((w) => w.level === "warning") ? "uwaga" : "ok"
 
   const kolumny: Kolumna<WynikZrodla & { id: number }>[] = [
-    { naglowek: "Źródło", render: (r) => <span className="font-medium">{r.nazwa}</span> },
-    { naglowek: "zł/kWh ciepła", render: (r) => f2(r.kosztKwhCieplaZl), liczbowa: true },
+    { naglowek: t("UI-KOSOGR-ZRODLO"), render: (r) => <span className="font-medium">{r.nazwa}</span> },
+    { naglowek: t("UI-KOSOGR-KWH-CIEPLA"), render: (r) => f2(r.kosztKwhCieplaZl), liczbowa: true },
     {
-      naglowek: "Paliwo na sezon",
+      naglowek: t("UI-KOSOGR-PALIWO-SEZON"),
       render: (r) => (r.iloscPaliwaSezon === null ? "—" : `${f1(r.iloscPaliwaSezon)} ${r.jednostka}`),
       liczbowa: true,
     },
     {
-      naglowek: "Prąd na sezon",
-      render: (r) => (r.energiaElektrycznaSezonKwh === null ? "nie policzono" : `${f0(r.energiaElektrycznaSezonKwh)} kWh`),
+      naglowek: t("UI-KOSOGR-PRAD-SEZON"),
+      render: (r) => (r.energiaElektrycznaSezonKwh === null ? t("UI-KOSOGR-NIE-POLICZONO") : `${f0(r.energiaElektrycznaSezonKwh)} kWh`),
       liczbowa: true,
     },
-    { naglowek: "Sezon (z serwisem)", render: (r) => `${f0(r.kosztRocznyZSerwisemZl)} zł`, liczbowa: true },
-    { naglowek: `Razem w ${f0(lata)} lat`, render: (r) => `${f0(r.kosztCalkowityZl)} zł`, liczbowa: true },
-    { naglowek: "Zwrot", render: (r) => (r.zwrotLat === null ? "—" : `${f1(r.zwrotLat)} lat`), liczbowa: true },
+    { naglowek: t("UI-KOSOGR-SEZON-SERWISEM"), render: (r) => t("UI-KOSOGR-ZL-2", { kosztRocznyZSerwisemZl: f0(r.kosztRocznyZSerwisemZl) }), liczbowa: true },
+    { naglowek: t("UI-KOSOGR-RAZEM-LAT", { lata: f0(lata) }), render: (r) => t("UI-KOSOGR-ZL-3", { kosztCalkowityZl: f0(r.kosztCalkowityZl) }), liczbowa: true },
+    { naglowek: t("UI-KOSOGR-ZWROT"), render: (r) => (r.zwrotLat === null ? "—" : `${f1(r.zwrotLat)} lat`), liczbowa: true },
   ]
 
   return (
     <main className="mx-auto flex max-w-2xl flex-col gap-6 p-6">
       <NawigacjaEkranu href="/kalkulatory/koszty-ogrzewania" />
-      <NaglowekEkranu tytul="Porównanie kosztów ogrzewania" ekran="koszty-ogrzewania" wynik={wynik} parametry={{ lata: LICZBA_LAT_ZRODLO }}>
-        Drewno, węgiel, pellet, gaz, olej, nagrzewnica paliwowa, prąd czy pompa ciepła — ile naprawdę kosztuje 1 kWh ciepła z
-        każdego źródła i które wychodzi najtaniej razem z zakupem i serwisem. W off-gridzie liczy się też, ile prądu
-        potrzebuje dane źródło zimą. Moduł 6.
+      <NaglowekEkranu tytul={t("UI-KOSOGR-POROWNANIE-KOSZTOW-OGRZEWANI")} ekran="koszty-ogrzewania" wynik={wynik} parametry={{ lata: LICZBA_LAT_ZRODLO }}>
+        {t("UI-KOSOGR-DREWNO-WEGIEL-PELLET")}
       </NaglowekEkranu>
 
       <section className="flex flex-col gap-3">
         <div className="grid gap-3 sm:grid-cols-2">
           <Pole
-            label="Ciepło potrzebne w sezonie"
+            label={t("UI-KOSOGR-CIEPLO-POTRZEBNE-SEZONIE")}
             unit="kWh"
             type="number"
             inputMode="decimal"
@@ -202,8 +202,8 @@ export default function KosztyOgrzewaniaPage() {
             pomoc={<PomocPola ekran="koszty-ogrzewania" pole="zapotrzebowanie" />}
           />
           <Pole
-            label="Okres analizy"
-            unit="lat"
+            label={t("UI-KOSOGR-OKRES-ANALIZY")}
+            unit={t("UI-J-LAT")}
             type="number"
             inputMode="decimal"
             min={1}
@@ -215,18 +215,18 @@ export default function KosztyOgrzewaniaPage() {
       </section>
 
       <section className="flex flex-col gap-3">
-        <h2 className="font-semibold">Źródła ciepła do porównania</h2>
-        {stan.zrodla.length === 0 && <p className="text-small text-muted-foreground">Dodaj co najmniej jedno źródło.</p>}
+        <h2 className="font-semibold">{t("UI-KOSOGR-ZRODLA-CIEPLA-POROWNANIA")}</h2>
+        {stan.zrodla.length === 0 && <p className="text-small text-muted-foreground">{t("UI-KOSOGR-DODAJ-NAJMNIEJ-JEDNO")}</p>}
         {stan.zrodla.map((z, i) => (
           <KartaZrodla key={i} z={z} i={i} ustaw={(p) => ustawZrodlo(i, p)} usun={() => setStan((s) => ({ ...s, zrodla: s.zrodla.filter((_, j) => j !== i) }))} />
         ))}
         <Button variant="outline" className="min-h-11 w-fit" onClick={() => setStan((s) => ({ ...s, zrodla: [...s.zrodla, noweZrodlo("drewno")] }))}>
-          + Dodaj źródło ciepła
+          {t("UI-KOSOGR-DODAJ-ZRODLO-CIEPLA")}
         </Button>
       </section>
 
       {wynik.status === "INVALID_INPUT" && (
-        <WerdyktPanel poziom="blad" etykieta="Sprawdź dane">
+        <WerdyktPanel poziom="blad" etykieta={t("UI-KOSOGR-SPRAWDZ-DANE")}>
           <ul className="mt-2 space-y-1 text-small">
             {wynik.warnings.map((w, i) => (
               <li key={w.code + i}>{w.message ?? t(w.i18nKey ?? w.code, w.params)}</li>
@@ -236,27 +236,27 @@ export default function KosztyOgrzewaniaPage() {
       )}
       {wynik.status === "INCOMPLETE" && (
         <p className="text-small text-muted-foreground">
-          Wpisz ciepło potrzebne w sezonie, okres analizy i uzupełnij dane co najmniej jednego źródła.
+          {t("UI-KOSOGR-WPISZ-CIEPLO-POTRZEBNE")}
         </p>
       )}
       {v && (
-        <WerdyktPanel poziom={poziom} etykieta={`Najtaniej w ${f0(lata)} lat`}>
+        <WerdyktPanel poziom={poziom} etykieta={t("UI-KOSOGR-NAJTANIEJ-LAT", { lata: f0(lata) })}>
           <WynikGlowny>{v.ranking[0]!.nazwa}</WynikGlowny>
           <p className="mt-1 text-small">
-            {f0(v.ranking[0]!.kosztCalkowityZl)} zł razem, {f2(v.ranking[0]!.kosztKwhCieplaZl)} zł za 1 kWh ciepła.
+            {t("UI-KOSOGR-RAZEM-KWH-CIEPLA", { kosztCalkowityZl: f0(v.ranking[0]!.kosztCalkowityZl), kosztKwhCieplaZl: f2(v.ranking[0]!.kosztKwhCieplaZl) })}
           </p>
           <div className="mt-3">
             <KartaPorownawcza kolumny={kolumny} wiersze={v.ranking.map((r) => ({ ...r, id: r.indeks }))} minWidth={720} />
           </div>
           <WynikSzczegoly assumptions={wynik.assumptions} warnings={wynik.warnings} />
           <p className="mt-2 text-small">
-            Tylko prąd: porównanie kotła z pompą ciepła —{" "}
+            {t("UI-KOSOGR-TYLKO-PRAD-POROWNANIE")}{" "}
             <Link href="/kalkulatory/kociol-elektryczny" className="underline">
-              Kocioł elektryczny vs pompa ciepła
+              {t("UI-KOSOGR-KOCIOL-ELEKTRYCZNY-POMPA")}
             </Link>
-            . Paliwo stałe:{" "}
+            {t("UI-KOSOGR-PALIWO-STALE")}{" "}
             <Link href="/kalkulatory/dogrzewanie-paliwem-stalym" className="underline">
-              bezpieczeństwo pożarowe
+              {t("UI-KOSOGR-BEZPIECZENSTWO-POZAROWE")}
             </Link>
             .
           </p>

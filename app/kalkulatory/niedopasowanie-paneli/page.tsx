@@ -11,6 +11,7 @@ import { NaglowekEkranu } from "@/components/wzorce/naglowek-ekranu"
 import { WynikGlowny } from "@/components/wzorce/wynik-glowny"
 import { WynikSzczegoly } from "@/components/wzorce/wynik-szczegoly"
 import { ROZNICA_MOCY_KRYTYCZNA_PCT, ROZNICA_MOCY_OSTRZEZENIE_PCT } from "@/lib/core/modules/pv/niedopasowanie-paneli/constants"
+import { useTranslate } from "@/lib/i18n/language-context"
 
 type FormularzStan = {
   mocPanel1W: string
@@ -29,6 +30,7 @@ const STAN_POCZATKOWY: FormularzStan = {
 }
 
 export default function NiedopasowaniePaneliPage() {
+  const t = useTranslate()
   const [stan, setStan] = usePersistedDraft<FormularzStan>("niedopasowanie-paneli", STAN_POCZATKOWY)
   const { mocPanel1W, impPanel1A, mocPanel2W, impPanel2A, napiecieWspolneV } = stan
 
@@ -63,18 +65,17 @@ export default function NiedopasowaniePaneliPage() {
     <main className="mx-auto flex max-w-md flex-col gap-6 p-6">
       <NawigacjaEkranu href="/kalkulatory/niedopasowanie-paneli" />
       <NaglowekEkranu
-        tytul="Niedopasowanie mocy paneli (mismatch)"
+        tytul={t("UI-NIEPAN-NIEDOPASOWANIE-MOCY-PANELI")}
         ekran="niedopasowanie-paneli"
         wynik={result}
         parametry={{ ostrzezenie: ROZNICA_MOCY_OSTRZEZENIE_PCT, krytyczna: ROZNICA_MOCY_KRYTYCZNA_PCT }}
       >
-        String działa jak zespół wioślarzy — tempo narzuca najsłabszy. Mieszanie mocnych i słabych
-        paneli w jednym stringu marnuje potencjał tych mocniejszych. Moduł 3, Ekran 17.
+        {t("UI-NIEPAN-STRING-DZIALA-ZESPOL")}
       </NaglowekEkranu>
 
       <div className="flex flex-col gap-4">
         <Pole
-          label="Moc panelu 1"
+          label={t("UI-NIEPAN-MOC-PANELU")}
           unit="W"
           type="number"
           inputMode="decimal"
@@ -84,7 +85,7 @@ export default function NiedopasowaniePaneliPage() {
           pomoc={<PomocPola ekran="niedopasowanie-paneli" pole="moc1" />}
         />
         <Pole
-          label="Prąd roboczy panelu 1 (Imp)"
+          label={t("UI-NIEPAN-PRAD-ROBOCZY-PANELU")}
           unit="A"
           type="number"
           inputMode="decimal"
@@ -94,7 +95,7 @@ export default function NiedopasowaniePaneliPage() {
           pomoc={<PomocPola ekran="niedopasowanie-paneli" pole="imp1" />}
         />
         <Pole
-          label="Moc panelu 2"
+          label={t("UI-NIEPAN-MOC-PANELU-2")}
           unit="W"
           type="number"
           inputMode="decimal"
@@ -104,7 +105,7 @@ export default function NiedopasowaniePaneliPage() {
           pomoc={<PomocPola ekran="niedopasowanie-paneli" pole="moc2" />}
         />
         <Pole
-          label="Prąd roboczy panelu 2 (Imp)"
+          label={t("UI-NIEPAN-PRAD-ROBOCZY-PANELU-2")}
           unit="A"
           type="number"
           inputMode="decimal"
@@ -114,7 +115,7 @@ export default function NiedopasowaniePaneliPage() {
           pomoc={<PomocPola ekran="niedopasowanie-paneli" pole="imp2" />}
         />
         <Pole
-          label="Wspólne napięcie robocze stringu (Vmp)"
+          label={t("UI-NIEPAN-WSPOLNE-NAPIECIE-ROBOCZE")}
           unit="V"
           type="number"
           inputMode="decimal"
@@ -126,18 +127,16 @@ export default function NiedopasowaniePaneliPage() {
       </div>
 
       {result.status === "INVALID_INPUT" ? (
-        <WerdyktPanel poziom="blad" etykieta="Nie da się policzyć — sprawdź wpisane dane">
+        <WerdyktPanel poziom="blad" etykieta={t("UI-NIEPAN-POLICZYC-SPRAWDZ-WPISANE")}>
           <WynikSzczegoly assumptions={[]} warnings={result.warnings} />
         </WerdyktPanel>
       ) : result.status === "INCOMPLETE" ? (
-        <p className="text-small text-muted-foreground">Wypełnij wszystkie pola, żeby zobaczyć wynik.</p>
+        <p className="text-small text-muted-foreground">{t("UI-NIEPAN-WYPELNIJ-WSZYSTKIE-POLA")}</p>
       ) : (
-        <WerdyktPanel poziom={hasCritical ? "blad" : hasWarning ? "uwaga" : "ok"} etykieta="Moc rzeczywista stringu">
+        <WerdyktPanel poziom={hasCritical ? "blad" : hasWarning ? "uwaga" : "ok"} etykieta={t("UI-NIEPAN-MOC-RZECZYWISTA-STRINGU")}>
           <WynikGlowny>{result.value.mocRzeczywistaW.toFixed(0)} W</WynikGlowny>
           <p className="mt-2 text-small">
-            Teoretyczna suma: {result.value.mocTeoretycznaW.toFixed(0)} W · strata:{" "}
-            {result.value.strataPct.toFixed(1)}% · różnica mocy paneli:{" "}
-            {result.value.roznicaMocyPct.toFixed(1)}%.
+            {t("UI-NIEPAN-TEORETYCZNA-SUMA-STRATA", { mocTeoretycznaW: result.value.mocTeoretycznaW.toFixed(0), strataPct: result.value.strataPct.toFixed(1), roznicaMocyPct: result.value.roznicaMocyPct.toFixed(1) })}
           </p>
           <WynikSzczegoly assumptions={result.assumptions} warnings={result.warnings} formula={result.formula} />
         </WerdyktPanel>

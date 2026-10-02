@@ -30,20 +30,22 @@ import {
   type StelazSeed,
   type WiatrSeed,
 } from "./wspolne"
+import { useTranslate } from "@/lib/i18n/language-context"
 
 type Seed = { azymutDeg: string; katMinDeg: string; katMaxDeg: string; stelaz: StelazSeed; wiatr: WiatrSeed }
 const PUSTY: Seed = { azymutDeg: "", katMinDeg: "", katMaxDeg: "", stelaz: STELAZ_PUSTY, wiatr: WIATR_PUSTY }
 
 type Wiersz = MiesiacRegulowany & { id: number }
-const KOLUMNY: Kolumna<Wiersz>[] = [
-  { naglowek: "Miesiąc", render: (r) => MIESIACE[r.miesiac] },
-  { naglowek: "Kąt", render: (r) => `${r.katDeg}°`, liczbowa: true },
-  { naglowek: "Podniesienie", render: (r) => `${f2(r.podniesienieM)} m`, liczbowa: true },
-  { naglowek: "Wiatr", render: (r) => (r.silaWiatruN === null ? "brak danych" : `${f0(r.silaWiatruN)} N`) },
-  { naglowek: "Balast", render: (r) => (r.balastKg === null ? "—" : `${f0(r.balastKg)} kg`) },
+const kolumny = (t: (kod: string) => string): Kolumna<Wiersz>[] => [
+  { naglowek: t("UI-TYPMON-COMTRYREG-MIESIAC"), render: (r) => t(MIESIACE[r.miesiac]) },
+  { naglowek: t("UI-TYPMON-COMTRYREG-KAT"), render: (r) => `${r.katDeg}°`, liczbowa: true },
+  { naglowek: t("UI-TYPMON-COMTRYREG-PODNIESIENIE"), render: (r) => `${f2(r.podniesienieM)} m`, liczbowa: true },
+  { naglowek: t("UI-TYPMON-COMTRYREG-WIATR"), render: (r) => (r.silaWiatruN === null ? t("UI-TYPMON-COMTRYREG-BRAK-DANYCH") : `${f0(r.silaWiatruN)} N`) },
+  { naglowek: t("UI-TYPMON-COMTRYREG-BALAST"), render: (r) => (r.balastKg === null ? "—" : `${f0(r.balastKg)} kg`) },
 ]
 
 export function TrybRegulowany() {
+  const t = useTranslate()
   const [s, setS] = usePersistedDraft<Seed>("typ-montazu-regulowany", PUSTY)
   const tab = useTabelaNapromieniowania(s.azymutDeg)
   const wynik = useMemo(
@@ -62,18 +64,16 @@ export function TrybRegulowany() {
   return (
     <div className="flex flex-col gap-4">
       <p className="text-small text-muted-foreground">
-        Stelaż naziemny, któremu co jakiś czas ręcznie zmieniasz kąt — zimą stromiej, latem płasko. Aplikacja wybiera kąt na
-        każdy miesiąc w granicach, na jakie pozwala Twój stelaż, i pokazuje, co to znaczy dla konstrukcji: jak wysoko
-        podnosi się krawędź i ile balastu trzeba w najgorszym ustawieniu. Sam zysk energii bez konstrukcji pokazuje też{" "}
+        {t("UI-TYPMON-COMTRYREG-STELAZ-NAZIEMNY-KTOREMU")}{" "}
         <Link href="/kalkulatory/kat-i-azymut" className="underline">
-          Ekran 1 (kąt i azymut)
+          {t("UI-TYPMON-COMTRYREG-EKRAN-KAT-AZYMUT")}
         </Link>
         .
       </p>
       <PoleAzymutu wartosc={s.azymutDeg} ustaw={(x) => setS((p) => ({ ...p, azymutDeg: x }))} tab={tab} />
       <div className="grid gap-3 sm:grid-cols-2">
         <Pole
-          label="Najmniejszy kąt regulacji"
+          label={t("UI-TYPMON-COMTRYREG-NAJMNIEJSZY-KAT-REGULACJI")}
           unit="°"
           type="number"
           inputMode="decimal"
@@ -84,7 +84,7 @@ export function TrybRegulowany() {
           pomoc={<PomocPola ekran="typ-montazu-pola" pole="katMin" />}
         />
         <Pole
-          label="Największy kąt regulacji"
+          label={t("UI-TYPMON-COMTRYREG-NAJWIEKSZY-KAT-REGULACJI")}
           unit="°"
           type="number"
           inputMode="decimal"
@@ -103,22 +103,22 @@ export function TrybRegulowany() {
       <PolaWiatru s={s.wiatr} ustaw={(pole, x) => setS((p) => ({ ...p, wiatr: { ...p.wiatr, [pole]: x } }))} wysokoscPvgis={tab.wysokoscPvgis} />
 
       {wynik.status === "INVALID_INPUT" && <BledyDanych warnings={wynik.warnings} />}
-      {wynik.status === "INCOMPLETE" && <p className="text-small text-muted-foreground">Policz nasłonecznienie i uzupełnij zakres regulacji, wymiary stelaża i dane wiatru.</p>}
+      {wynik.status === "INCOMPLETE" && <p className="text-small text-muted-foreground">{t("UI-TYPMON-COMTRYREG-POLICZ-NASLONECZNIENIE-UZUPE")}</p>}
       {v && (
-        <WerdyktPanel poziom={poziomZOstrzezen(wynik.warnings)} etykieta={`Regulacja co miesiąc vs stały kąt ${v.katStalyDeg}°`}>
-          <WynikGlowny>+{f1(v.zyskRegulacjiPct)}% nasłonecznienia</WynikGlowny>
+        <WerdyktPanel poziom={poziomZOstrzezen(wynik.warnings)} etykieta={t("UI-TYPMON-COMTRYREG-REGULACJA-MIESIAC-STALY", { katStalyDeg: v.katStalyDeg })}>
+          <WynikGlowny>{t("UI-TYPMON-COMTRYREG-NASLONECZNIENIA", { zyskRegulacjiPct: f1(v.zyskRegulacjiPct) })}</WynikGlowny>
           <ul className="mt-2 space-y-1 text-small">
             <li>
-              Rocznie {f0(v.napromieniowanieRegulowaneKwhM2)} kWh/m² z regulacją, {f0(v.napromieniowanieStaleKwhM2)} kWh/m² przy stałym {v.katStalyDeg}°.
+              {t("UI-TYPMON-COMTRYREG-ROCZNIE-KWH-REGULACJA", { napromieniowanieRegulowaneKwhM2: f0(v.napromieniowanieRegulowaneKwhM2), napromieniowanieStaleKwhM2: f0(v.napromieniowanieStaleKwhM2), katStalyDeg: v.katStalyDeg })}
             </li>
             <li className="font-medium">
               {v.balastWymaganyKg === null
-                ? "Balast: brak danych normowych dla żadnego z ustawień."
-                : `Balast projektowy (PN-EN 1990, przeciw oderwaniu) dla najgorszego ustawienia${v.liczbaMiesiecyBezDanychWiatru > 0 ? " do 30°" : ""}: ${f0(v.balastWymaganyKg)} kg${dopiskMasyWlasnej(s.stelaz)}.`}
+                ? t("UI-TYPMON-COMTRYREG-BALAST-BRAK-DANYCH")
+                : t("UI-TYPMON-COMTRYREG-BALAST-PROJEKTOWY-1990", { p: v.liczbaMiesiecyBezDanychWiatru > 0 ? t("UI-TYPMON-COMTRYREG-DO-30") : "", balastWymaganyKg: f0(v.balastWymaganyKg), stelaz: dopiskMasyWlasnej(s.stelaz, t) })}
             </li>
           </ul>
           <div className="mt-3">
-            <KartaPorownawcza kolumny={KOLUMNY} wiersze={v.miesiace.map((m) => ({ ...m, id: m.miesiac }))} minWidth={420} />
+            <KartaPorownawcza kolumny={kolumny(t)} wiersze={v.miesiace.map((m) => ({ ...m, id: m.miesiac }))} minWidth={420} />
           </div>
           <WynikSzczegoly assumptions={wynik.assumptions} warnings={wynik.warnings} />
         </WerdyktPanel>

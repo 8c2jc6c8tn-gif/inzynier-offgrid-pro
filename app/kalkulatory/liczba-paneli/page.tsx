@@ -46,12 +46,12 @@ const STAN_POCZATKOWY: FormularzStan = {
   limit: String(LIMIT_MONTAZOWY_PODPOWIEDZ_SZT),
 }
 
-const MIESIACE = ["sty", "lut", "mar", "kwi", "maj", "cze", "lip", "sie", "wrz", "paź", "lis", "gru"]
+const MIESIACE = Array.from({ length: 12 }, (_, i) => `UI-MIESIAC-SKR-${i + 1}`)
 const NAZWA_OKRESU: Record<IdOkresu, string> = {
-  lato: "Tylko lato (cze–sie)",
-  marPaz: "Marzec–październik",
-  lutLis: "Luty–listopad",
-  rok: "Cały rok",
+  lato: "UI-LICPAN-TYLKO-LATO",
+  marPaz: "UI-LICPAN-MARZEC-PAZDZIERNIK",
+  lutLis: "UI-LICPAN-LUTY-LISTOPAD",
+  rok: "UI-LICPAN-CALY-ROK",
 }
 const f0 = (x: number) => x.toLocaleString("pl-PL", { maximumFractionDigits: 0 })
 const f1 = (x: number) => x.toLocaleString("pl-PL", { maximumFractionDigits: 1 })
@@ -115,18 +115,16 @@ export default function LiczbaPaneliPage() {
   return (
     <main className="mx-auto flex max-w-2xl flex-col gap-6 p-6">
       <NawigacjaEkranu href="/kalkulatory/liczba-paneli" />
-      <NaglowekEkranu tytul="Ile paneli potrzebujesz" ekran="liczba-paneli" wynik={result}>
-        Liczba paneli dla czterech okresów: samo lato, marzec–październik, luty–listopad i cały rok — policzona z
-        nasłonecznienia Twojej lokalizacji. Obok: ile paneli realnie zamontujesz i ile energii zabraknie zimą.
-        Moduł 3, Ekran 4.
+      <NaglowekEkranu tytul={t("UI-LICPAN-ILE-PANELI-POTRZEBUJESZ")} ekran="liczba-paneli" wynik={result}>
+        {t("UI-LICPAN-LICZBA-PANELI-CZTERECH")}
       </NaglowekEkranu>
 
       <SekcjaDanychNaslonecznienia lokalizacja={lokalizacja} dane={dane} tmy={tmy} />
 
       <section className="flex flex-col gap-3">
-        <h2 className="font-semibold">1. Ustawienie paneli</h2>
+        <h2 className="font-semibold">{t("UI-LICPAN-USTAWIENIE-PANELI")}</h2>
         <Pole
-          label="Azymut paneli"
+          label={t("UI-LICPAN-AZYMUT-PANELI")}
           unit="°"
           type="number"
           inputMode="decimal"
@@ -137,20 +135,20 @@ export default function LiczbaPaneliPage() {
           pomoc={<PomocPola ekran="liczba-paneli" pole="azymut" />}
         />
         <Button className="min-h-11" disabled={!lokalizacja || !dane || azymut === undefined || obliczenia.liczy} onClick={policzTabele}>
-          {obliczenia.liczy ? "Liczę nasłonecznienie…" : "Policz nasłonecznienie"}
+          {obliczenia.liczy ? t("UI-LICPAN-LICZE-NASLONECZNIENIE") : t("UI-LICPAN-POLICZ-NASLONECZNIENIE")}
         </Button>
         {obliczenia.blad && <p className="text-small text-werdykt-blad-foreground">{obliczenia.blad}</p>}
-        {tabela && !aktualna && !obliczenia.liczy && <StanPusty tytul="Zmieniła się lokalizacja lub azymut — policz ponownie." />}
+        {tabela && !aktualna && !obliczenia.liczy && <StanPusty tytul={t("UI-LICPAN-ZMIENILA-LOKALIZACJA-AZYMUT")} />}
         <PoleCheckbox
           id="stelaz-regulowany"
-          label="Stelaż z ręczną regulacją kąta"
-          hint="Co miesiąc przestawiasz panele na najlepszy kąt tego miesiąca (zimą stromo, latem płasko)."
+          label={t("UI-LICPAN-STELAZ-RECZNA-REGULACJA")}
+          hint={t("UI-LICPAN-MIESIAC-PRZESTAWIASZ-PANELE")}
           checked={stan.stelazRegulowany}
           onChange={(e) => ustaw("stelazRegulowany", e.target.checked)}
         />
         {!stan.stelazRegulowany && (
           <Pole
-            label="Kąt pochylenia"
+            label={t("UI-LICPAN-KAT-POCHYLENIA")}
             unit="°"
             type="number"
             inputMode="decimal"
@@ -164,10 +162,10 @@ export default function LiczbaPaneliPage() {
       </section>
 
       <section className="flex flex-col gap-3">
-        <h2 className="font-semibold">2. Panel</h2>
+        <h2 className="font-semibold">{t("UI-LICPAN-PANEL")}</h2>
         <div className="grid gap-3 sm:grid-cols-2">
           <Pole
-            label="Moc jednego panelu"
+            label={t("UI-LICPAN-MOC-JEDNEGO-PANELU")}
             unit="Wp"
             type="number"
             inputMode="decimal"
@@ -177,7 +175,7 @@ export default function LiczbaPaneliPage() {
             pomoc={<PomocPola ekran="liczba-paneli" pole="mocPanelu" />}
           />
           <Pole
-            label="Powierzchnia jednego panelu"
+            label={t("UI-LICPAN-POWIERZCHNIA-JEDNEGO-PANELU")}
             unit="m²"
             type="number"
             inputMode="decimal"
@@ -188,7 +186,7 @@ export default function LiczbaPaneliPage() {
           />
         </div>
         <Pole
-          label="Współczynnik wydajności PR"
+          label={t("UI-LICPAN-WSPOLCZYNNIK-WYDAJNOSCI")}
           type="number"
           inputMode="decimal"
           min={0}
@@ -201,10 +199,10 @@ export default function LiczbaPaneliPage() {
       </section>
 
       <section className="flex flex-col gap-3">
-        <h2 className="font-semibold">3. Zapotrzebowanie</h2>
+        <h2 className="font-semibold">{t("UI-LICPAN-ZAPOTRZEBOWANIE")}</h2>
         <Pole
-          label="Zużycie energii na dobę"
-          unit="kWh/dzień"
+          label={t("UI-LICPAN-ZUZYCIE-ENERGII-DOBE")}
+          unit={t("UI-LICPAN-KWH-DZIEN")}
           type="number"
           inputMode="decimal"
           min={0}
@@ -213,8 +211,8 @@ export default function LiczbaPaneliPage() {
           pomoc={<PomocPola ekran="liczba-paneli" pole="zuzycie" />}
         />
         <Pole
-          label="Dodatkowe zużycie w sezonie grzewczym"
-          unit="kWh/dzień"
+          label={t("UI-LICPAN-DODATKOWE-ZUZYCIE-SEZONIE")}
+          unit={t("UI-LICPAN-KWH-DZIEN")}
           type="number"
           inputMode="decimal"
           min={0}
@@ -223,13 +221,13 @@ export default function LiczbaPaneliPage() {
           pomoc={<PomocPola ekran="liczba-paneli" pole="ogrzewanie" />}
         />
         <fieldset className="flex flex-col gap-2">
-          <legend className="text-small font-medium">Miesiące, w których grzejesz</legend>
+          <legend className="text-small font-medium">{t("UI-LICPAN-MIESIACE-KTORYCH-GRZEJESZ")}</legend>
           <div className="grid grid-cols-4 gap-2 sm:grid-cols-6">
             {MIESIACE.map((nazwa, m) => (
               <PoleCheckbox
                 key={m}
                 id={`grzanie-${m}`}
-                label={nazwa}
+                label={t(nazwa)}
                 className="p-2"
                 checked={stan.miesiaceGrzewcze.includes(m)}
                 onChange={() => przelaczMiesiac(m)}
@@ -238,8 +236,8 @@ export default function LiczbaPaneliPage() {
           </div>
         </fieldset>
         <Pole
-          label="Ile paneli realnie zamontujesz"
-          unit="szt."
+          label={t("UI-LICPAN-ILE-PANELI-REALNIE")}
+          unit={t("UI-J-SZT")}
           type="number"
           inputMode="numeric"
           min={1}
@@ -251,27 +249,26 @@ export default function LiczbaPaneliPage() {
       </section>
 
       {result.status === "INVALID_INPUT" && (
-        <WerdyktPanel poziom="blad" etykieta="Nie da się policzyć — sprawdź wpisane dane">
+        <WerdyktPanel poziom="blad" etykieta={t("UI-LICPAN-POLICZYC-SPRAWDZ-WPISANE")}>
           <WynikSzczegoly assumptions={[]} warnings={result.warnings} />
         </WerdyktPanel>
       )}
       {result.status === "INCOMPLETE" && aktualna && (
-        <StanPusty tytul="Uzupełnij kąt, panel, PR i zużycie — wtedy pojawi się liczba paneli." />
+        <StanPusty tytul={t("UI-LICPAN-UZUPELNIJ-KAT-PANEL")} />
       )}
 
       {r && (
         <WerdyktPanel
           poziom={poziomZStatusu(result.status)}
-          etykieta={rek ? `Optymalnie w Twoim limicie: ${NAZWA_OKRESU[rek.id]}` : "Liczba paneli dla okresów pokrycia"}
+          etykieta={rek ? t("UI-LICPAN-OPTYMALNIE-TWOIM-LIMICIE", { p: t(NAZWA_OKRESU[rek.id]) }) : t("UI-LICPAN-LICZBA-PANELI-OKRESOW")}
         >
           {rek && (
             <>
               <WynikGlowny>
-                {rek.liczbaPaneli} paneli · {f1(rek.mocKwp!)} kWp
+                {t("UI-LICPAN-PANELI-KWP", { liczbaPaneli: rek.liczbaPaneli ?? "", p: f1(rek.mocKwp!) })}
               </WynikGlowny>
               <p className="text-small">
-                Najszerszy okres, który mieści się w limicie {stan.limit} szt. Pokrywa zużycie w każdym miesiącu okresu
-                „{NAZWA_OKRESU[rek.id]}”; najtrudniejszy miesiąc to {MIESIACE[rek.miesiacDecydujacy!]}.
+                {t("UI-LICPAN-NAJSZERSZY-OKRES-KTORY", { limit: stan.limit, p: t(NAZWA_OKRESU[rek.id]), p2: t(MIESIACE[rek.miesiacDecydujacy!]) })}
               </p>
             </>
           )}
@@ -281,29 +278,29 @@ export default function LiczbaPaneliPage() {
             </p>
           ))}
 
-          <h3 className="mt-3 font-semibold">Ile paneli na każdy okres</h3>
+          <h3 className="mt-3 font-semibold">{t("UI-LICPAN-ILE-PANELI-KAZDY")}</h3>
           <div className="overflow-x-auto rounded-lg border">
             <table className="w-full min-w-[320px] text-small">
               <thead>
                 <tr className="border-b bg-muted/50 text-left">
-                  <th className="p-2 font-medium">Okres</th>
-                  <th className="p-2 text-right font-medium">Paneli</th>
+                  <th className="p-2 font-medium">{t("UI-LICPAN-OKRES")}</th>
+                  <th className="p-2 text-right font-medium">{t("UI-LICPAN-PANELI")}</th>
                   <th className="p-2 text-right font-medium">kWp</th>
                   <th className="p-2 text-right font-medium">m²</th>
-                  <th className="p-2 text-right font-medium">Decyduje</th>
+                  <th className="p-2 text-right font-medium">{t("UI-LICPAN-DECYDUJE")}</th>
                 </tr>
               </thead>
               <tbody>
                 {r.warianty.map((w) => (
                   <tr key={w.id} className={`border-b last:border-0 ${w.id === r.rekomendacja ? "font-semibold" : ""}`}>
                     <td className="p-2">
-                      {NAZWA_OKRESU[w.id]}
-                      {w.miesciSieWLimicie === false && <span className="text-muted-foreground"> · ponad limit</span>}
+                      {t(NAZWA_OKRESU[w.id])}
+                      {w.miesciSieWLimicie === false && <span className="text-muted-foreground"> {t("UI-LICPAN-PONAD-LIMIT")}</span>}
                     </td>
                     <td className="p-2 text-right font-mono">{w.liczbaPaneli ?? "—"}</td>
                     <td className="p-2 text-right font-mono">{w.mocKwp === null ? "—" : f1(w.mocKwp)}</td>
                     <td className="p-2 text-right font-mono">{w.powierzchniaM2 === null ? "—" : f0(w.powierzchniaM2)}</td>
-                    <td className="p-2 text-right">{w.miesiacDecydujacy === null ? "—" : MIESIACE[w.miesiacDecydujacy]}</td>
+                    <td className="p-2 text-right">{w.miesiacDecydujacy === null ? "—" : t(MIESIACE[w.miesiacDecydujacy])}</td>
                   </tr>
                 ))}
               </tbody>
@@ -312,22 +309,22 @@ export default function LiczbaPaneliPage() {
 
           {r.deficytMiesiecznyKwh && nD !== null && (
             <>
-              <h3 className="mt-3 font-semibold">Miesiąc po miesiącu przy {nD} panelach</h3>
+              <h3 className="mt-3 font-semibold">{t("UI-LICPAN-MIESIAC-MIESIACU-PANELACH", { nD })}</h3>
               <div className="overflow-x-auto rounded-lg border">
                 <table className="w-full min-w-[320px] text-small">
                   <thead>
                     <tr className="border-b bg-muted/50 text-left">
-                      <th className="p-2 font-medium">Miesiąc</th>
-                      <th className="p-2 text-right font-medium">Zużycie [kWh]</th>
-                      <th className="p-2 text-right font-medium">Produkcja [kWh]</th>
-                      <th className="p-2 text-right font-medium">Brakuje [kWh]</th>
+                      <th className="p-2 font-medium">{t("UI-LICPAN-MIESIAC")}</th>
+                      <th className="p-2 text-right font-medium">{t("UI-LICPAN-ZUZYCIE-KWH")}</th>
+                      <th className="p-2 text-right font-medium">{t("UI-LICPAN-PRODUKCJA-KWH")}</th>
+                      <th className="p-2 text-right font-medium">{t("UI-LICPAN-BRAKUJE-KWH")}</th>
                     </tr>
                   </thead>
                   <tbody>
                     {MIESIACE.map((nazwa, m) => (
                       <tr key={m} className="border-b last:border-0">
                         <td className="p-2">
-                          {nazwa}
+                          {t(nazwa)}
                           {stan.stelazRegulowany && <span className="text-muted-foreground"> · {r.katMiesiacaDeg[m]}°</span>}
                         </td>
                         <td className="p-2 text-right font-mono">{f0(r.zapotrzebowanieMiesieczneKwh[m]!)}</td>
@@ -341,7 +338,7 @@ export default function LiczbaPaneliPage() {
                 </table>
               </div>
               <p className="text-small text-muted-foreground">
-                Nadwyżka latem nie przechodzi na zimę — akumulator wyrównuje dni i noce, nie pory roku.
+                {t("UI-LICPAN-NADWYZKA-LATEM-PRZECHODZI")}
               </p>
             </>
           )}

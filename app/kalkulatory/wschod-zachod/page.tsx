@@ -36,12 +36,13 @@ const STAN_POCZATKOWY: FormularzStan = {
   udzialWschodPct: "",
 }
 
-const MIESIACE = ["sty", "lut", "mar", "kwi", "maj", "cze", "lip", "sie", "wrz", "paź", "lis", "gru"]
+const MIESIACE = Array.from({ length: 12 }, (_, i) => `UI-MIESIAC-SKR-${i + 1}`)
 const f0 = (x: number) => x.toLocaleString("pl-PL", { maximumFractionDigits: 0 })
 const f1 = (x: number) => x.toLocaleString("pl-PL", { maximumFractionDigits: 1 })
 
 /** Rozkład dobowy — 2 serie: wschód-zachód (linia ciągła) i południe (przerywana) + legenda. */
 function WykresDoby({ wz, poludnie }: { wz: number[]; poludnie: number[] }) {
+  const t = useTranslate()
   const W = 360
   const H = 140
   const max = Math.max(...wz, ...poludnie, 1e-9)
@@ -50,12 +51,12 @@ function WykresDoby({ wz, poludnie }: { wz: number[]; poludnie: number[] }) {
   const linia = (d: number[]) => d.map((v, g) => `${g === 0 ? "M" : "L"}${x(g).toFixed(1)},${y(v).toFixed(1)}`).join(" ")
   return (
     <figure className="flex flex-col gap-1">
-      <svg viewBox={`0 0 ${W} ${H + 16}`} className="w-full text-foreground" role="img" aria-label="Rozkład produkcji w ciągu doby: wschód-zachód i południe">
+      <svg viewBox={`0 0 ${W} ${H + 16}`} className="w-full text-foreground" role="img" aria-label={t("UI-WSCZAC-ROZKLAD-PRODUKCJI-CIAGU")}>
         <path d={linia(poludnie)} className="fill-none stroke-muted-foreground" strokeWidth={2} strokeDasharray="5 4" />
         <path d={linia(wz)} className="fill-none stroke-sky-500" strokeWidth={2} />
         {wz.map((v, g) => (
           <rect key={g} x={x(g) - 7} y={0} width={14} height={H} className="fill-transparent">
-            <title>{`${g}:00–${g + 1}:00 — wschód-zachód ${v.toFixed(1)}%, południe ${poludnie[g]!.toFixed(1)}%`}</title>
+            <title>{t("UI-WSCZAC-WSCHOD-ZACHOD-POLUDNIE", { g, p: g + 1, v: v.toFixed(1), p2: poludnie[g]!.toFixed(1) })}</title>
           </rect>
         ))}
         {[0, 6, 12, 18, 23].map((g) => (
@@ -67,13 +68,13 @@ function WykresDoby({ wz, poludnie }: { wz: number[]; poludnie: number[] }) {
       <figcaption className="flex gap-4 text-small text-muted-foreground">
         <span>
           <span className="mr-1 inline-block h-0.5 w-5 bg-sky-500 align-middle" />
-          wschód-zachód
+          {t("UI-WSCZAC-WSCHOD-ZACHOD")}
         </span>
         <span>
           <span className="mr-1 inline-block w-5 border-t-2 border-dashed border-muted-foreground align-middle" />
-          południe
+          {t("UI-WSCZAC-POLUDNIE")}
         </span>
-        <span>(czas słoneczny, % energii rocznej w danej godzinie)</span>
+        <span>{t("UI-WSCZAC-CZAS-SLONECZNY-ENERGII")}</span>
       </figcaption>
     </figure>
   )
@@ -123,20 +124,19 @@ export default function WschodZachodPage() {
     <main className="mx-auto flex max-w-2xl flex-col gap-6 p-6">
       <NawigacjaEkranu href="/kalkulatory/wschod-zachod" />
       <NaglowekEkranu
-        tytul="Orientacja wschód-zachód"
+        tytul={t("UI-WSCZAC-ORIENTACJA-WSCHOD-ZACHOD")}
         ekran="wschod-zachod"
         wynik={result}
         parametry={{ stosunekMin: TYPOWY_STOSUNEK_MIN_PCT, stosunekMax: TYPOWY_STOSUNEK_MAX_PCT }}
       >
-        Panele na dwóch połaciach — wschodniej i zachodniej — w porównaniu z panelami skierowanymi na południe: ile
-        energii w roku i jak rozkłada się ona w ciągu dnia. Moduł 3, Ekran 20.
+        {t("UI-WSCZAC-PANELE-DWOCH-POLACIACH")}
       </NaglowekEkranu>
 
       <SekcjaDanychNaslonecznienia lokalizacja={lokalizacja} dane={dane} tmy={tmy} />
 
       <section className="grid grid-cols-2 gap-3">
         <Pole
-          label="Wschód — nachylenie"
+          label={t("UI-WSCZAC-WSCHOD-NACHYLENIE")}
           unit="°"
           type="number"
           inputMode="decimal"
@@ -147,7 +147,7 @@ export default function WschodZachodPage() {
           pomoc={<PomocPola ekran="wschod-zachod" pole="wschodKat" />}
         />
         <Pole
-          label="Wschód — azymut"
+          label={t("UI-WSCZAC-WSCHOD-AZYMUT")}
           unit="°"
           type="number"
           inputMode="decimal"
@@ -158,7 +158,7 @@ export default function WschodZachodPage() {
           pomoc={<PomocPola ekran="wschod-zachod" pole="wschodAzymut" />}
         />
         <Pole
-          label="Zachód — nachylenie"
+          label={t("UI-WSCZAC-ZACHOD-NACHYLENIE")}
           unit="°"
           type="number"
           inputMode="decimal"
@@ -169,7 +169,7 @@ export default function WschodZachodPage() {
           pomoc={<PomocPola ekran="wschod-zachod" pole="zachodKat" />}
         />
         <Pole
-          label="Zachód — azymut"
+          label={t("UI-WSCZAC-ZACHOD-AZYMUT")}
           unit="°"
           type="number"
           inputMode="decimal"
@@ -180,16 +180,16 @@ export default function WschodZachodPage() {
           pomoc={<PomocPola ekran="wschod-zachod" pole="zachodAzymut" />}
         />
       </section>
-      <p className="-mt-3 text-small text-muted-foreground">Kąty i azymuty połaci znajdziesz w Module 1 (Bryła budynku i orientacja ścian).</p>
+      <p className="-mt-3 text-small text-muted-foreground">{t("UI-WSCZAC-KATY-AZYMUTY-POLACI")}</p>
       <Button className="min-h-11" disabled={!lokalizacja || !dane || !kompletne || obliczenia.liczy} onClick={policz}>
-        {obliczenia.liczy ? "Liczę…" : "Porównaj z południem"}
+        {obliczenia.liczy ? t("UI-WSCZAC-LICZE") : t("UI-WSCZAC-POROWNAJ-POLUDNIEM")}
       </Button>
       {obliczenia.blad && <p className="text-small text-werdykt-blad-foreground">{obliczenia.blad}</p>}
-      {baza && !aktualna && !obliczenia.liczy && <StanPusty tytul="Zmieniły się dane połaci lub lokalizacji — policz ponownie." />}
+      {baza && !aktualna && !obliczenia.liczy && <StanPusty tytul={t("UI-WSCZAC-ZMIENILY-DANE-POLACI")} />}
 
       {aktualna && (
         <Pole
-          label="Udział mocy paneli na połaci wschodniej"
+          label={t("UI-WSCZAC-UDZIAL-MOCY-PANELI")}
           unit="%"
           type="number"
           inputMode="decimal"
@@ -202,45 +202,42 @@ export default function WschodZachodPage() {
       )}
 
       {result.status === "INVALID_INPUT" && (
-        <WerdyktPanel poziom="blad" etykieta="Nie da się policzyć — sprawdź wpisane dane">
+        <WerdyktPanel poziom="blad" etykieta={t("UI-WSCZAC-POLICZYC-SPRAWDZ-WPISANE")}>
           <WynikSzczegoly assumptions={[]} warnings={result.warnings} />
         </WerdyktPanel>
       )}
       {aktualna && result.status === "INCOMPLETE" && (
-        <p className="text-small text-muted-foreground">Wpisz udział mocy na wschodzie, żeby zobaczyć wynik.</p>
+        <p className="text-small text-muted-foreground">{t("UI-WSCZAC-WPISZ-UDZIAL-MOCY")}</p>
       )}
 
       {v && (
-        <WerdyktPanel poziom="ok" etykieta="Wschód-zachód względem południa">
-          <WynikGlowny>{f0(v.stosunekRocznyPct)}% energii południa</WynikGlowny>
+        <WerdyktPanel poziom="ok" etykieta={t("UI-WSCZAC-WSCHOD-ZACHOD-WZGLEDEM")}>
+          <WynikGlowny>{t("UI-WSCZAC-ENERGII-POLUDNIA", { stosunekRocznyPct: f0(v.stosunekRocznyPct) })}</WynikGlowny>
           <p className="text-small">
-            Rocznie {f0(v.rocznieWz)} kWh/m² paneli wobec {f0(v.rocznieP)} kWh/m² na południu pod kątem{" "}
-            {v.nachylenieOdniesieniaDeg}°. Przed południem słonecznym powstaje {f0(v.udzialRanoWzPct)}% energii
-            (południe: {f0(v.udzialRanoPoludniePct)}%). W najlepszej godzinie doby: {f1(Math.max(...v.dobaWzPct))}% energii
-            (południe: {f1(Math.max(...v.dobaPoludniePct))}%) — im mniej, tym równiej produkcja rozkłada się w ciągu dnia.
+            {t("UI-WSCZAC-ROCZNIE-KWH-PANELI", { rocznieWz: f0(v.rocznieWz), rocznieP: f0(v.rocznieP), nachylenieOdniesieniaDeg: v.nachylenieOdniesieniaDeg, udzialRanoWzPct: f0(v.udzialRanoWzPct), udzialRanoPoludniePct: f0(v.udzialRanoPoludniePct), p: f1(Math.max(...v.dobaWzPct)), p2: f1(Math.max(...v.dobaPoludniePct)) })}
           </p>
           {result.warnings.map((w) => (
             <p key={w.code} className="mt-1 text-small">
               {w.message ?? t(w.i18nKey ?? w.code, w.params)}
             </p>
           ))}
-          <h3 className="mt-3 font-semibold">Jak rozkłada się produkcja w ciągu doby</h3>
+          <h3 className="mt-3 font-semibold">{t("UI-WSCZAC-ROZKLADA-PRODUKCJA-CIAGU")}</h3>
           <WykresDoby wz={v.dobaWzPct} poludnie={v.dobaPoludniePct} />
-          <h3 className="mt-3 font-semibold">Każdy miesiąc</h3>
+          <h3 className="mt-3 font-semibold">{t("UI-WSCZAC-KAZDY-MIESIAC")}</h3>
           <div className="overflow-x-auto rounded-lg border">
             <table className="w-full text-small">
               <thead>
                 <tr className="border-b bg-muted/50 text-left">
-                  <th className="p-2 font-medium">Miesiąc</th>
-                  <th className="p-2 text-right font-medium">Wschód-zachód</th>
-                  <th className="p-2 text-right font-medium">Południe</th>
+                  <th className="p-2 font-medium">{t("UI-WSCZAC-MIESIAC")}</th>
+                  <th className="p-2 text-right font-medium">{t("UI-WSCZAC-WSCHOD-ZACHOD-2")}</th>
+                  <th className="p-2 text-right font-medium">{t("UI-WSCZAC-POLUDNIE-2")}</th>
                   <th className="p-2 text-right font-medium">%</th>
                 </tr>
               </thead>
               <tbody>
                 {v.miesiaceWz.map((h, m) => (
                   <tr key={m} className="border-b last:border-0">
-                    <td className="p-2">{MIESIACE[m]}</td>
+                    <td className="p-2">{t(MIESIACE[m])}</td>
                     <td className="p-2 text-right font-mono">{f0(h)}</td>
                     <td className="p-2 text-right font-mono">{f0(v.miesiacePoludnie[m]!)}</td>
                     <td className="p-2 text-right font-mono">{f0(v.stosunekMiesiecznyPct[m]!)}%</td>
@@ -249,7 +246,7 @@ export default function WschodZachodPage() {
               </tbody>
             </table>
           </div>
-          <p className="text-small text-muted-foreground">Wartości w kWh/m² powierzchni paneli.</p>
+          <p className="text-small text-muted-foreground">{t("UI-WSCZAC-WARTOSCI-KWH-POWIERZCHNI")}</p>
           <WynikSzczegoly assumptions={result.assumptions} formula={result.formula} />
         </WerdyktPanel>
       )}

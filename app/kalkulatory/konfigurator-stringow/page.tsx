@@ -12,13 +12,14 @@ import { NaglowekEkranu } from "@/components/wzorce/naglowek-ekranu"
 import { WynikGlowny } from "@/components/wzorce/wynik-glowny"
 import { WynikSzczegoly } from "@/components/wzorce/wynik-szczegoly"
 import { LICZBA_PANELI_SANITY_MAX } from "@/lib/core/modules/pv/konfigurator-stringow/constants"
+import { useTranslate } from "@/lib/i18n/language-context"
 
 type Mode = KonfiguratorStringowInput["mode"]
 
 const MODE_LABELS: Record<Mode, string> = {
-  szereg: "Szereg",
-  rownolegle: "Równolegle",
-  mieszany: "Mieszany (grupy szeregowe równolegle)",
+  szereg: "UI-KONSTR-SZEREG",
+  rownolegle: "UI-KONSTR-ROWNOLEGLE",
+  mieszany: "UI-KONSTR-MIESZANY-GRUPY-SZEREGOWE",
 }
 
 type FormularzStan = {
@@ -40,6 +41,7 @@ const STAN_POCZATKOWY: FormularzStan = {
 }
 
 export default function KonfiguratorStringowPage() {
+  const t = useTranslate()
   const [stan, setStan] = usePersistedDraft<FormularzStan>("konfigurator-stringow", STAN_POCZATKOWY)
   const { mode, vmpV, impA, liczbaPaneli, panelWGrupie, liczbaGrup } = stan
 
@@ -84,27 +86,26 @@ export default function KonfiguratorStringowPage() {
   return (
     <main className="mx-auto flex max-w-md flex-col gap-6 p-6">
       <NawigacjaEkranu href="/kalkulatory/konfigurator-stringow" />
-      <NaglowekEkranu tytul="Konfigurator stringów" ekran="konfigurator-stringow" wynik={result}>
-        Szereg dodaje napięcia, równoległe dodaje prądy — to jak łączenie ogniw latarki: jedna za
-        drugą (szereg) albo obok siebie (równolegle). Moduł 3, Ekran 11.
+      <NaglowekEkranu tytul={t("UI-KONSTR-KONFIGURATOR-STRINGOW")} ekran="konfigurator-stringow" wynik={result}>
+        {t("UI-KONSTR-SZEREG-DODAJE-NAPIECIA")}
       </NaglowekEkranu>
 
       <PoleSelect
-        label="Tryb"
+        label={t("UI-KONSTR-TRYB")}
         value={mode}
         onChange={(e) => setMode(e.target.value as Mode)}
         pomoc={<PomocPola ekran="konfigurator-stringow" pole="tryb" />}
       >
         {Object.entries(MODE_LABELS).map(([value, label]) => (
           <option key={value} value={value}>
-            {label}
+            {t(label)}
           </option>
         ))}
       </PoleSelect>
 
       <div className="flex flex-col gap-4">
         <Pole
-          label="Napięcie Vmp panelu"
+          label={t("UI-KONSTR-NAPIECIE-VMP-PANELU")}
           unit="V"
           type="number"
           inputMode="decimal"
@@ -113,7 +114,7 @@ export default function KonfiguratorStringowPage() {
           pomoc={<PomocPola ekran="konfigurator-stringow" pole="vmp" />}
         />
         <Pole
-          label="Prąd Imp panelu"
+          label={t("UI-KONSTR-PRAD-IMP-PANELU")}
           unit="A"
           type="number"
           inputMode="decimal"
@@ -125,8 +126,8 @@ export default function KonfiguratorStringowPage() {
         {mode === "mieszany" ? (
           <>
             <Pole
-              label="Paneli w grupie (szereg)"
-              unit="szt."
+              label={t("UI-KONSTR-PANELI-GRUPIE-SZEREG")}
+              unit={t("UI-J-SZT")}
               type="number"
               inputMode="decimal"
               value={panelWGrupie}
@@ -134,8 +135,8 @@ export default function KonfiguratorStringowPage() {
               pomoc={<PomocPola ekran="konfigurator-stringow" pole="szereg" />}
             />
             <Pole
-              label="Liczba grup (równolegle)"
-              unit="szt."
+              label={t("UI-KONSTR-LICZBA-GRUP-ROWNOLEGLE")}
+              unit={t("UI-J-SZT")}
               type="number"
               inputMode="decimal"
               value={liczbaGrup}
@@ -145,8 +146,8 @@ export default function KonfiguratorStringowPage() {
           </>
         ) : (
           <Pole
-            label="Liczba paneli"
-            unit="szt."
+            label={t("UI-KONSTR-LICZBA-PANELI")}
+            unit={t("UI-J-SZT")}
             type="number"
             inputMode="decimal"
             value={liczbaPaneli}
@@ -158,7 +159,7 @@ export default function KonfiguratorStringowPage() {
 
       <WerdyktPanel poziom={poziom}>
         {result.status === "INVALID_INPUT" ? (
-          <p className="mt-1">Nie da się policzyć — sprawdź dane wejściowe powyżej.</p>
+          <p className="mt-1">{t("UI-KONSTR-POLICZYC-SPRAWDZ-DANE")}</p>
         ) : (
           <WynikGlowny>
             {result.value.voltageV.toFixed(1)} V &nbsp;/&nbsp; {result.value.currentA.toFixed(2)} A
