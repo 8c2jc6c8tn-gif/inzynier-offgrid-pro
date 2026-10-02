@@ -2,18 +2,17 @@
  * Display-currency preference + cached exchange rates. Same pattern as lib/i18n/storage.ts
  * (`useSyncExternalStore` + localStorage, no cookie — 17.4, offline-first). Rates are fetched from
  * the ECB reference feed (Frankfurter) when online and cached, so the last known rate keeps
- * working offline. Revolut publishes no public rates API, so its rate can only be entered by hand
- * (`reczne`) or approximated with `narzutProc`.
+ * working offline. A rate can also be entered by hand (`reczne`) or widened with `narzutProc`.
  */
 import { consoleReporter } from "@/lib/core/reporter"
-import { czyKodWaluty, WALUTA_BAZOWA, WALUTY, type KodWaluty } from "./waluty"
+import { czyKodWaluty, WALUTA_BAZOWA, type KodWaluty } from "./waluty"
+import { liczbyDodatnie, parsujOdpowiedzKursow, URL_KURSOW_SERWER, urlKursowEbc, type OdpowiedzKursow } from "./kursy-zrodlo"
 import type { Kursy } from "./przelicz"
 
 export const KLUCZ_PREFERENCJI = "offgrid.waluta.v1"
 export const KLUCZ_KURSOW = "offgrid.kursy.v1"
 const CHANGE_EVENT = "offgrid-waluta-change"
 export const WAZNOSC_KURSOW_MS = 12 * 60 * 60 * 1000
-export const URL_KURSOW = "https://api.frankfurter.dev/v1/latest"
 
 export interface PreferencjaWaluty {
   kod: KodWaluty
@@ -51,16 +50,6 @@ function zapisz(klucz: string, wartosc: string): void {
       cause: err,
     })
   }
-}
-
-function liczbyDodatnie(v: unknown): Kursy {
-  const wynik: Kursy = {}
-  if (v && typeof v === "object") {
-    for (const [k, x] of Object.entries(v)) {
-      if (typeof x === "number" && Number.isFinite(x) && x > 0) wynik[k] = x
-    }
-  }
-  return wynik
 }
 
 export function parsujPreferencje(raw: string | null): PreferencjaWaluty {
@@ -117,18 +106,25 @@ export function zapiszPreferencje(p: PreferencjaWaluty): void {
 
 let wToku: Promise<boolean> | null = null
 
-/** Fetch ECB rates (base PLN) and cache them. Resolves false on any failure (offline → cached rate stays). */
+async function pobierzJson(url: string): Promise<OdpowiedzKursow> {
+  const odp = await fetch(url)
+  if (!odp.ok) throw new Error(`HTTP ${odp.status}`)
+  const dane = parsujOdpowiedzKursow(await odp.json())
+  if (!dane) throw new Error("pusta odpowiedź")
+  return dane
+}
+
+/**
+ * Fetch ECB rates (base PLN) and cache them locally. Order: our server copy (`/api/kursy`), then
+ * Frankfurter directly. Resolves false on any failure (offline → the last saved rate stays, with its date).
+ */
 export function odswiezKursy(): Promise<boolean> {
   if (typeof window === "undefined") return Promise.resolve(false)
   if (wToku) return wToku
-  const symbole = WALUTY.filter((w) => w.automatyczny && w.kod !== WALUTA_BAZOWA).map((w) => w.kod).join(",")
-  wToku = fetch(`${URL_KURSOW}?base=${WALUTA_BAZOWA}&symbols=${symbole}`)
-    .then(async (odp) => {
-      if (!odp.ok) throw new Error(`HTTP ${odp.status}`)
-      const json = (await odp.json()) as { date?: string; rates?: unknown }
-      const kursy = liczbyDodatnie(json.rates)
-      if (Object.keys(kursy).length === 0) throw new Error("pusta odpowiedź")
-      const zapis: KursyZapisane = { pobranoMs: Date.now(), dataEcb: json.date ?? "", kursy }
+  wToku = pobierzJson(URL_KURSOW_SERWER)
+    .catch(() => pobierzJson(urlKursowEbc()))
+    .then((dane) => {
+      const zapis: KursyZapisane = { pobranoMs: Date.now(), dataEcb: dane.date, kursy: dane.rates }
       zapisz(KLUCZ_KURSOW, JSON.stringify(zapis))
       window.dispatchEvent(new Event(CHANGE_EVENT))
       return true
@@ -136,7 +132,7 @@ export function odswiezKursy(): Promise<boolean> {
     .catch((err) => {
       consoleReporter.reportError({
         userMessage: "Nie udało się pobrać kursów walut — używam ostatnich zapisanych.",
-        technicalDetails: "pobranie kursów Frankfurter/ECB nie powiodło się",
+        technicalDetails: "pobranie kursów (serwer aplikacji i Frankfurter/ECB) nie powiodło się",
         source: "lib/waluta/storage.odswiezKursy",
         cause: err,
       })
