@@ -16,7 +16,8 @@ import { WerdyktPanel } from "@/components/werdykt"
 import { NaglowekEkranu } from "@/components/wzorce/naglowek-ekranu"
 import { WynikGlowny } from "@/components/wzorce/wynik-glowny"
 import { WynikSzczegoly } from "@/components/wzorce/wynik-szczegoly"
-import { liczba, liczbaLubNull, poziomWerdyktu, zl } from "@/components/siec/wspolne"
+import { liczba, liczbaLubNull, poziomWerdyktu } from "@/components/siec/wspolne"
+import { useZl } from "@/lib/waluta/use-waluta"
 import { useTranslate } from "@/lib/i18n/language-context"
 
 /** Draft of M4/E23 „Analiza opłacalności magazynu” — read-only echo (same field names). */
@@ -48,6 +49,7 @@ const NAZWA: Record<IdStrumienia, string> = {
  */
 export default function MagazynFirmyPage() {
   const t = useTranslate()
+  const zl = useZl()
   const [stan, setStan] = usePersistedDraft<Stan>("siec-magazyn-firmy", POCZATKOWY)
   const ustaw = (z: Partial<Stan>) => setStan((p) => ({ ...p, ...z }))
   const { dane: e23, wczytano } = useOdczytDraftu<StanE23>("oplacalnosc-magazynu")

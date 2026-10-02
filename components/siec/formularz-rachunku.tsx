@@ -23,9 +23,9 @@ import {
   liczbaLubNull,
   nadpisanie,
   poziomWerdyktu,
-  zl,
-} from "./wspolne"
+  } from "./wspolne"
 import { useZuzycieMiesieczne } from "./zuzycie-miesieczne"
+import { useZl } from "@/lib/waluta/use-waluta"
 import { useTranslate } from "@/lib/i18n/language-context"
 
 type Strefowe = Partial<Record<Strefa, string>>
@@ -130,6 +130,7 @@ export function wejscieRachunku(segment: Segment, stan: StanRachunku, zuzycieMie
  */
 export function FormularzRachunku({ segment }: { segment: Segment }) {
   const t = useTranslate()
+  const zl = useZl()
   const [stan, setStan] = usePersistedDraft<StanRachunku>(kluczRachunku(segment), poczatkowyRachunek(segment))
   const { zuzycie: zuzycieMies } = useZuzycieMiesieczne(segment)
   const ustaw = <K extends keyof StanRachunku>(pole: K, v: StanRachunku[K]) => setStan((p) => ({ ...p, [pole]: v }))

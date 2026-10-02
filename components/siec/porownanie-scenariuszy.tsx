@@ -21,8 +21,9 @@ import { type StanRachunku, kluczRachunku, wejscieRachunku } from "./formularz-r
 import { POCZATKOWY_WZROSTU, PoleWzrostuCen, type StanWzrostuCen, trybZeStanu } from "./pole-wzrostu-cen"
 import { type StanPvMagazynu, kluczPv } from "./pv-magazyn"
 import { uzyskZeStanu } from "./uzysk-pv"
-import { liczbaLubNull, poziomWerdyktu, stawkiDoPomocy, zl } from "./wspolne"
+import { liczbaLubNull, poziomWerdyktu, stawkiDoPomocy } from "./wspolne"
 import { useZuzycieMiesieczne } from "./zuzycie-miesieczne"
+import { useZl } from "@/lib/waluta/use-waluta"
 import { useTranslate } from "@/lib/i18n/language-context"
 
 type StanScenariusza = { inwestycja: string; dotacja: string; moc: string; pojemnosc: string; kosztMagazynu: string; serwis: string }
@@ -86,6 +87,7 @@ const f0 = (x: number) => x.toLocaleString("pl-PL", { maximumFractionDigits: 0 }
  */
 export function PorownanieScenariuszy({ segment }: { segment: Segment }) {
   const t = useTranslate()
+  const zl = useZl()
   const firma = segment === "firma"
   const [stan, setStan] = usePersistedDraft<Stan>(`siec-scenariusze-${segment}`, POCZATKOWY)
   const ustaw = (z: Partial<Stan>) => setStan((p) => ({ ...p, ...z }))

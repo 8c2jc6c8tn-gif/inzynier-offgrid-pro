@@ -10,13 +10,15 @@ import { NawigacjaEkranu } from "@/components/nawigacja-ekranu"
 import { NaglowekEkranu } from "@/components/wzorce/naglowek-ekranu"
 import { WynikGlowny } from "@/components/wzorce/wynik-glowny"
 import { WynikSzczegoly } from "@/components/wzorce/wynik-szczegoly"
-import { liczba, liczbaLubNull, nadpisanie, poziomWerdyktu, zl } from "@/components/siec/wspolne"
+import { liczba, liczbaLubNull, nadpisanie, poziomWerdyktu } from "@/components/siec/wspolne"
+import { useZl } from "@/lib/waluta/use-waluta"
 import { useTranslate } from "@/lib/i18n/language-context"
 
 type Stan = { roczna: string; wGodzinach: string; przesuniecie: string; stawka: string }
 
 export default function OplataMocowaPage() {
   const t = useTranslate()
+  const zl = useZl()
   const [stan, setStan] = usePersistedDraft<Stan>("siec-oplata-mocowa", { roczna: "", wGodzinach: "", przesuniecie: "0", stawka: "" })
   const ustaw = <K extends keyof Stan>(pole: K, v: string) => setStan((p) => ({ ...p, [pole]: v }))
 

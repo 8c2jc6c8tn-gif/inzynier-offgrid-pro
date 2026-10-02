@@ -77,10 +77,6 @@ export function nadpisanie(s: string): number | undefined {
   return s === "" ? undefined : Number(s)
 }
 
-export function zl(v: number, cyfry = 0): string {
-  return v.toLocaleString("pl-PL", { minimumFractionDigits: cyfry, maximumFractionDigits: cyfry }) + " zł"
-}
-
 /** Verdict colour from warnings, never from status alone (D14, `kontrakty-rdzenia.md` §6). */
 export function poziomWerdyktu(status: Status, warnings: Warning[]): WerdyktPoziom | null {
   if (status === "INVALID_INPUT" || warnings.some((w) => w.level === "critical")) return "blad"

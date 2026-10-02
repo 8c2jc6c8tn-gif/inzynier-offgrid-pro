@@ -7,7 +7,8 @@ import { BazaWersjaListener } from '@/components/pwa/baza-wersja-listener'
 import { Powiadomienia } from '@/components/pwa/powiadomienia'
 import { SwRejestracja } from '@/components/pwa/sw-rejestracja'
 import { LanguageProvider } from '@/lib/i18n/language-context'
-import { DEFAULT_LANGUAGE, SUPPORTED_LANGUAGES } from '@/lib/i18n/language'
+import { SUPPORTED_LANGUAGES, negocjujJezyk } from '@/lib/i18n/language'
+import { t } from '@/lib/i18n/t'
 import { STORAGE_KEY } from '@/lib/i18n/storage'
 import { generujCssStylow, schematyStylow } from '@/lib/wyglad/style'
 import './globals.css'
@@ -29,10 +30,14 @@ const caveat = Caveat({ subsets: ['latin', 'latin-ext', 'cyrillic'], variable: '
 // Every style's tokens, generated from the one table (D65/D67) — nothing per style in globals.css.
 const STYLE_WYGLADU_CSS = generujCssStylow()
 
-export const metadata: Metadata = {
-  title: 'Inżynier Offgrid Pro',
-  description:
-    'Kalkulator/doradca inżynierski dla systemów off-grid PV (panele, magazyn energii, ogrzewanie, bezpieczeństwo).',
+// Metadata per market language: the server only sees Accept-Language (a stored preference lives in
+// localStorage, invisible here) — the one place 17.4 allows the header, for tags the browser reads
+// before any script runs (title, description, PWA name).
+export async function generateMetadata(): Promise<Metadata> {
+  const jezyk = negocjujJezyk((await headers()).get('accept-language'))
+  return {
+  title: t(jezyk, 'UI-META-NAZWA'),
+  description: t(jezyk, 'UI-META-OPIS'),
   icons: {
     icon: [
       {
@@ -55,8 +60,9 @@ export const metadata: Metadata = {
   appleWebApp: {
     capable: true,
     statusBarStyle: 'default',
-    title: 'Offgrid Pro',
+    title: t(jezyk, 'UI-META-NAZWA-KROTKA'),
   },
+  }
 }
 
 export const viewport: Viewport = {
@@ -167,11 +173,13 @@ export default async function RootLayout({
   // Nonce wygenerowany per żądanie w proxy.ts (docs/standards/07-bezpieczenstwo.md, 7.3) —
   // dokładany do WŁASNYCH inline-skryptów tego layoutu; Next.js dokłada go automatycznie do
   // swoich własnych (RSC streaming), bo wykrywa go w nagłówku Content-Security-Policy.
-  const nonce = (await headers()).get('x-nonce') ?? undefined
+  const naglowki = await headers()
+  const nonce = naglowki.get('x-nonce') ?? undefined
+  const jezykSerwera = negocjujJezyk(naglowki.get('accept-language'))
 
   return (
     <html
-      lang={DEFAULT_LANGUAGE}
+      lang={jezykSerwera}
       suppressHydrationWarning
       className={`${inter.variable} ${sourceSans.variable} ${roboto.variable} ${lato.variable} ${sourceSerif.variable} ${jetbrainsMono.variable} ${caveat.variable}`}
     >

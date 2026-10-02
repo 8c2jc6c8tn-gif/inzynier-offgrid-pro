@@ -5,6 +5,7 @@ import { useState, useSyncExternalStore } from "react"
 import { Button } from "@/components/ui/button"
 import { KontoSekcja } from "@/components/konto-sekcja"
 import { JezykWybor } from "@/components/jezyk-wybor"
+import { WalutaWybor } from "@/components/waluta-wybor"
 import { CzcionkaEdytor } from "@/components/czcionka-edytor"
 import { KolorGrupaEdytor } from "@/components/kolor-grupa-edytor"
 import { StylWygladuWybor } from "@/components/styl-wygladu-wybor"
@@ -213,6 +214,8 @@ export default function UstawieniaPage() {
         </p>
         <JezykWybor />
       </div>
+
+      <WalutaWybor />
 
       <KontoSekcja />
     </main>

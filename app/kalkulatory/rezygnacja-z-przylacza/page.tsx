@@ -20,8 +20,8 @@ import {
   liczba,
   liczbaLubNull,
   poziomWerdyktu,
-  zl,
-} from "@/components/siec/wspolne"
+  } from "@/components/siec/wspolne"
+import { useZl } from "@/lib/waluta/use-waluta"
 import { useTranslate } from "@/lib/i18n/language-context"
 
 type Stan = { stawka: string; moc: string; odleglosc: "" | "tak" | "nie" }
@@ -34,6 +34,7 @@ const POCZATKOWY: Stan = { stawka: "", moc: "", odleglosc: "" }
  */
 export default function RezygnacjaZPrzylaczaPage() {
   const t = useTranslate()
+  const zl = useZl()
   const [{ segment }, setSegment] = usePersistedDraft(KLUCZ_SEGMENTU_PRZEJSCIA, POCZATKOWY_SEGMENTU)
   const [stan, setStan] = usePersistedDraft<Stan>("siec-koszt-powrotu", POCZATKOWY)
   const ustaw = (z: Partial<Stan>) => setStan((p) => ({ ...p, ...z }))

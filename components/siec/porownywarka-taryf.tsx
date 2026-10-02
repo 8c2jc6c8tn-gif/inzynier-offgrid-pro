@@ -12,7 +12,8 @@ import { PomocPola } from "@/components/ui/pomoc"
 import { WerdyktPanel } from "@/components/werdykt"
 import { WynikGlowny } from "@/components/wzorce/wynik-glowny"
 import { WynikSzczegoly } from "@/components/wzorce/wynik-szczegoly"
-import { ETYKIETA_STREFY, GRUPY_DOM, GRUPY_FIRMA, PoleOsd, ZrodloDanych, liczba, liczbaLubNull, poziomWerdyktu, zl } from "./wspolne"
+import { ETYKIETA_STREFY, GRUPY_DOM, GRUPY_FIRMA, PoleOsd, ZrodloDanych, liczba, liczbaLubNull, poziomWerdyktu } from "./wspolne"
+import { useZl } from "@/lib/waluta/use-waluta"
 import { useTranslate } from "@/lib/i18n/language-context"
 
 type WariantStan = { aktywny: boolean; zuzycie: Partial<Record<Strefa, string>>; ceny: Partial<Record<Strefa, string>> }
@@ -44,6 +45,7 @@ const POWOD: Record<PowodWylaczenia, string> = {
  */
 export function PorownywarkaTaryf({ segment }: { segment: Segment }) {
   const t = useTranslate()
+  const zl = useZl()
   const grupy = segment === "dom" ? GRUPY_DOM : GRUPY_FIRMA
   const [stan, setStan] = usePersistedDraft<Stan>(`siec-porownanie-${segment}`, {
     osd: "tauron",

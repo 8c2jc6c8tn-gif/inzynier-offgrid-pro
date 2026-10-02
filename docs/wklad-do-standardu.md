@@ -1276,3 +1276,6 @@ Status: 🔎 nowe
 Strażnik UI skanował tylko `app/`+`components/` i raportował „OK”, podczas gdy ~100+ polskich tekstów z `lib/` (rejestr nawigacji, label-e stałych,
 komunikaty błędów hooków, parametry ostrzeżeń) trafiało na ekran surowo. Rekomendacja: strażnik skanujący eksportowane literały z polskimi znakami w `lib/`
 (poza promptami AI, testami) przypisane do pól tekstowych, oraz test „każdy wpis rejestru ma klucze we wszystkich językach” generowany z rejestru.
+
+## 2026-10-02 — waluta wyświetlania i metadane per język jako część i18n
+Rekomendacja: standard 17 powinien mówić, że „język” i „waluta” to dwie osobne preferencje (nie „zł” w kodzie), z formatterem `Intl` na granicy wyświetlania i domeną liczoną w jednej walucie bazowej; oraz że metadane serwerowe (title/description/manifest) idą z `Accept-Language`, bo serwer nie widzi localStorage — wyjątek od „zero serwera” z 17.4 uzasadniony tylko tagami czytanymi przed JS. Dodatkowo: brak publicznego API kursów banku/fintechu → ECB + kurs ręczny + narzut, nie udawanie źródła.
