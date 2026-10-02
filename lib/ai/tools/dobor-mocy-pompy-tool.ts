@@ -15,6 +15,11 @@ export const DoborMocyPompyToolInput = z.object({
   tWewnC: z.number().nullable().describe("Temperatura w domu [°C]; null = nie podano (bez punktu biwalentnego)"),
   tDrugiC: z.number().nullable().describe("Drugi punkt karty: temperatura zewnętrzna [°C]; null = nie podano"),
   mocPompyDrugiKw: z.number().describe("Drugi punkt karty: moc grzewcza pompy [kW]; 0 = nie podano"),
+  maDogrzew: z
+    .boolean()
+    .nullable()
+    .optional()
+    .describe("Czy dom ma zapasowe źródło ciepła (grzałka, kominek, kocioł): true = tak, false = nie, null = nie podano"),
 })
 export type DoborMocyPompyToolInputT = z.infer<typeof DoborMocyPompyToolInput>
 
@@ -38,7 +43,7 @@ export const doborMocyPompyTool: AiToolDefinition<DoborMocyPompyToolInputT, Dobo
     "Czy pompa ciepła utrzyma dom w największy mróz: zapas albo brak mocy przy temperaturze projektowej, ile kW " +
     "dogrzewania (grzałka, kominek) potrzeba, jaki procent obciążenia pokrywa pompa, a jaki dogrzewanie, oraz punkt " +
     "biwalentny z dwóch punktów karty. Użyj, gdy user pyta, jaką moc pompy ciepła wybrać, czy jego pompa wystarczy przy " +
-    "−20 °C, czy pompa jest przewymiarowana albo ile grzałki awaryjnej dołożyć.",
+    "−20 °C, czy pompa jest przewymiarowana albo ile grzałki awaryjnej dołożyć. Brak mocy bez żadnego dogrzewu w domu to stop 🔴; z dogrzewem albo przy nieznanym — ostrzeżenie 🟡.",
   inputSchema: DoborMocyPompyToolInput,
   outputSchema: DoborMocyPompyToolOutput,
   operationType: "read",

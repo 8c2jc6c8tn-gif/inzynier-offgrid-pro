@@ -1629,6 +1629,7 @@ export const dictionaryEn = {
   "CHL-PONIZEJ-ROSY": "The cooling flow {zasilanie} °C is at or below the dew point ({rosa} °C) — the floor or fan coil will sweat. Raise the flow temperature or fit a dew point sensor.",
   "CHL-ZAL-FREE-COOLING": "Free cooling is assumed to remove all the entered heat — the source gives no ground cooling capacity; only the circulation pump and compressor electricity are compared. It needs low-temperature distribution (underfloor, mats).",
   "DMP-DEFICYT": "At the design temperature the pump gives {moc} kW and the house needs {zapotrzebowanie} kW — {brak} kW is missing. You need backup heating (heater, stove) of at least {brak} kW or a bigger pump.",
+  "DMP-DOGREW-NIEZNANY": "The warning level depends on whether the house has a backup heat source (heater, stove, boiler) — please fill in that field. With no backup heating, a pump power deficit is a 🔴 stop.",
   "DMP-ZAPAS": "The pump has a {pct}% power margin at the design temperature. The source gives no oversizing threshold — remember that the bigger the margin, the more frequent the starts in milder frost (count the starts on the buffer screen).",
   "DMP-BIWALENTNY-EKSTRAPOLACJA": "The balance point lies outside the two datasheet points — the line is extended, the result is approximate. Enter a datasheet point closer to that temperature.",
   "DMP-TEMPERATURY-POZA-ZAKRESEM": "Check the temperatures: the indoor temperature must be above the outdoor design temperature, and the second datasheet point must have a different temperature than the design one.",

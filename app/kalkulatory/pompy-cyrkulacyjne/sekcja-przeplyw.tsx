@@ -40,6 +40,7 @@ export function SekcjaPrzeplyw() {
     [stan],
   )
   const v = result.value
+  const stop = result.warnings.some((w) => w.level === "critical")
 
   return (
     <section className="flex flex-col gap-4 rounded-lg border p-4">
@@ -66,7 +67,10 @@ export function SekcjaPrzeplyw() {
       ) : result.status === "INCOMPLETE" ? (
         <p className="text-small text-muted-foreground">{t("UI-M6D-PRZ-UZUPELNIJ")}</p>
       ) : (
-        <WerdyktPanel poziom={result.status === "VALID_WITH_WARNINGS" ? "uwaga" : "ok"} etykieta={t("UI-M6D-PRZ-W-OK")}>
+        <WerdyktPanel
+          poziom={stop ? "blad" : result.status === "VALID_WITH_WARNINGS" ? "uwaga" : "ok"}
+          etykieta={t(stop ? "UI-M6D-PRZ-W-STOP" : "UI-M6D-PRZ-W-OK")}
+        >
           <WynikGlowny>{t("UI-M6D-PRZ-WYNIK", { m3h: r2(v.wymaganyM3H), lmin: r1(v.wymaganyLMin) })}</WynikGlowny>
           {v.rzeczywistyDTK !== null && <p className="mt-1 text-small">{t("UI-M6D-PRZ-RZECZYWISTE-DT", { dt: r1(v.rzeczywistyDTK) })}</p>}
           <WynikSzczegoly assumptions={result.assumptions} warnings={result.warnings} formula={result.formula} />

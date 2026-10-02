@@ -13,10 +13,11 @@ describe("przepływ przez pompę ciepła (dawne 5.65)", () => {
     expect(r.status).toBe("VALID")
   })
 
-  it("pompa obiegowa daje 0,9 m³/h → 🟡 za mały przepływ, ΔT rośnie do 6,7 K; minimum karty 1,0 → 🟡", () => {
+  it("pompa obiegowa daje 0,9 m³/h → 🔴 za mały przepływ, ΔT rośnie do 6,7 K; minimum karty 1,0 → 🔴", () => {
     const r = calculatePrzeplywPompyCiepla({ ...baza, przeplywPompyM3H: 0.9, minPrzeplywM3H: 1 })
     expect(r.value.rzeczywistyDTK).toBeCloseTo(7 / (WSPOLCZYNNIK_KWH_NA_L_K * 900), 9)
     expect(r.warnings.map((w) => w.code)).toEqual(["PRZ-PRZEPLYW-ZA-MALY", "PRZ-PONIZEJ-MINIMUM"])
+    expect(r.warnings.filter((w) => w.level === "critical").map((w) => w.code)).toEqual(["PRZ-PRZEPLYW-ZA-MALY", "PRZ-PONIZEJ-MINIMUM"])
     expect(r.status).toBe("VALID_WITH_WARNINGS")
   })
 

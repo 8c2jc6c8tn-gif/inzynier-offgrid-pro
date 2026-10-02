@@ -1641,6 +1641,7 @@ export const dictionaryPl = {
   "CHL-PONIZEJ-ROSY": "Zasilanie chłodzenia {zasilanie} °C jest na poziomie punktu rosy ({rosa} °C) albo niżej — podłoga lub klimakonwektor będą się pocić. Podnieś temperaturę zasilania albo zastosuj czujnik rosy.",
   "CHL-ZAL-FREE-COOLING": "Free cooling odbiera całe wpisane ciepło — źródło nie podaje wydajności chłodzenia z gruntu; porównany jest tylko prąd pompy obiegowej i sprężarki. Wymaga niskotemperaturowej dystrybucji (podłogówka, maty).",
   "DMP-DEFICYT": "Przy temperaturze projektowej pompa da {moc} kW, a dom potrzebuje {zapotrzebowanie} kW — brakuje {brak} kW. Potrzebujesz dogrzewania (grzałka, kominek) co najmniej {brak} kW albo większej pompy.",
+  "DMP-DOGREW-NIEZNANY": "Poziom ostrzeżenia zależy od tego, czy w domu jest zapasowe źródło ciepła (grzałka, kominek, kocioł) — uzupełnij to pole. Bez dogrzewania brak mocy pompy to stop 🔴.",
   "DMP-ZAPAS": "Pompa ma {pct}% zapasu mocy przy temperaturze projektowej. Źródło nie podaje progu przewymiarowania — pamiętaj, że im większy zapas, tym częstsze starty przy lżejszym mrozie (liczbę startów policzysz na ekranie bufora).",
   "DMP-BIWALENTNY-EKSTRAPOLACJA": "Punkt biwalentny leży poza dwoma punktami karty — prosta jest przedłużona, wynik orientacyjny. Wpisz punkt karty bliżej tej temperatury.",
   "DMP-TEMPERATURY-POZA-ZAKRESEM": "Sprawdź temperatury: temperatura w domu musi być wyższa od projektowej zewnętrznej, a drugi punkt karty musi mieć inną temperaturę niż projektowa.",

@@ -12,12 +12,23 @@ const baza: DoborMocyPompyInput = {
 }
 
 describe("dobór mocy pompy ciepła (dawne 5.27 + 5.67)", () => {
-  it("przykład 5.27: 6 kW przy −20 °C, pompa 5 kW → brakuje 1 kW (źródło: grzałka 2 kW — niespójność), 🟡", () => {
+  it("przykład 5.27: 6 kW przy −20 °C, pompa 5 kW → brakuje 1 kW (źródło: grzałka 2 kW — niespójność), 🟡 + ℹ️ dogrzew nieznany", () => {
     const r = calculateDoborMocyPompy(baza)
     expect(r.value.dogrzewanieKw).toBeCloseTo(1, 9)
     expect(r.value.zapasKw).toBeCloseTo(-1, 9)
-    expect(r.warnings.map((w) => w.code)).toEqual(["DMP-DEFICYT"])
+    expect(r.warnings.map((w) => w.code)).toEqual(["DMP-DEFICYT", "DMP-DOGRZEW-NIEZNANY"])
     expect(r.status).toBe("VALID_WITH_WARNINGS")
+  })
+
+  it("D71: deficyt bez dogrzewu → 🔴; z dogrzewem → 🟡 bez info; nieznany → 🟡 + ℹ️", () => {
+    const poziomy = (maDogrzew: boolean | null | undefined) =>
+      calculateDoborMocyPompy({ ...baza, maDogrzew }).warnings.map((w) => `${w.code}:${w.level}`)
+    expect(poziomy(false)).toEqual(["DMP-DEFICYT:critical"])
+    expect(poziomy(true)).toEqual(["DMP-DEFICYT:warning"])
+    expect(poziomy(null)).toEqual(["DMP-DEFICYT:warning", "DMP-DOGRZEW-NIEZNANY:info"])
+    expect(poziomy(undefined)).toEqual(poziomy(null))
+    // No deficit → the backup field is irrelevant.
+    expect(calculateDoborMocyPompy({ ...baza, mocPompyProjKw: 8, maDogrzew: false }).warnings.map((w) => w.level)).toEqual(["info"])
   })
 
   it("pompa 8 kW → zapas 33,3% (ℹ️), bez dogrzewania", () => {
@@ -40,7 +51,7 @@ describe("dobór mocy pompy ciepła (dawne 5.27 + 5.67)", () => {
     expect((6 * (20 - th)) / 40).toBeCloseTo(5 + (3 / 27) * (th + 20), 9)
     expect(th).toBeGreaterThan(-20)
     expect(th).toBeLessThan(7)
-    expect(r.warnings.map((w) => w.code)).toEqual(["DMP-DEFICYT"])
+    expect(r.warnings.map((w) => w.code)).toEqual(["DMP-DEFICYT", "DMP-DOGRZEW-NIEZNANY"])
   })
 
   it("punkt biwalentny poniżej θe (pompa z zapasem) → ℹ️ ekstrapolacja; równoległe proste → null", () => {
