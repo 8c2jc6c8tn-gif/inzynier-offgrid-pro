@@ -259,6 +259,7 @@ import { cykleOdszranianiaTool } from "./tools/cykle-odszraniania-tool"
 import { wentylacjaGrawitacyjnaTool } from "./tools/wentylacja-grawitacyjna-tool"
 import { gwcTool } from "./tools/gwc-tool"
 import { oknoSloneczneTool } from "./tools/okno-sloneczne-tool"
+import { wspolczynnikBezpieczenstwaZimowegoTool } from "./tools/wspolczynnik-bezpieczenstwa-zimowego-tool"
 import { osadNaPvTool } from "./tools/osad-na-pv-tool"
 import { wplywCzynnikaTool } from "./tools/wplyw-czynnika-tool"
 import { rozruchPompyCieplaTool } from "./tools/rozruch-pompy-ciepla-tool"
@@ -530,6 +531,7 @@ const NARZEDZIA: Array<AiToolDefinition<any, any>> = [
   gwcTool,
   oknoSloneczneTool,
   osadNaPvTool,
+  wspolczynnikBezpieczenstwaZimowegoTool,
   wplywCzynnikaTool,
   rozruchPompyCieplaTool,
   basenTool,
