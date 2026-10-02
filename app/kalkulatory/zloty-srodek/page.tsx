@@ -12,6 +12,7 @@ import { NaglowekEkranu } from "@/components/wzorce/naglowek-ekranu"
 import { WynikGlowny } from "@/components/wzorce/wynik-glowny"
 import { WynikSzczegoly } from "@/components/wzorce/wynik-szczegoly"
 import { usePersistedDraft } from "@/lib/adapters/use-persisted-draft"
+import { useDenominacja } from "@/lib/waluta/use-waluta"
 import { przeliczPola } from "@/lib/waluta/przelicz"
 import { PrzeliczoneInfo } from "@/components/przeliczone-info"
 import { KATEGORIE_TERENU, type KategoriaTerenu, type StrefaWiatrowa } from "@/lib/core/modules/pv/eurokod-1/wiatr"
@@ -139,6 +140,7 @@ function WykresKatowy({
 export default function ZlotySrodekPage() {
   const t = useTranslate()
   const { lokalizacja, dane, tmy, wczytano } = useLokalizacjaProjektu()
+  const denominacja = useDenominacja()
   const [stan, setStan, info] = usePersistedDraft<FormularzStan>("zloty-srodek", STAN_POCZATKOWY, PRZELICZ_KWOTY)
   const { uruchom, stan: obliczenia } = useObliczeniaWTle()
   const [tabela, setTabela] = useState<{ klucz: string; t: TabelaNapromieniowania | null } | null>(null)
@@ -322,7 +324,7 @@ export default function ZlotySrodekPage() {
           step={0.1}
           value={stan.cenaBalastu}
           onChange={(e) => ustaw("cenaBalastu", e.target.value)}
-          pomoc={<PomocPola ekran="zloty-srodek" pole="cenaBalastu" params={{ cena: CENA_BALASTU_PODPOWIEDZ_ZL_KG }} />}
+          pomoc={<PomocPola ekran="zloty-srodek" pole="cenaBalastu" params={{ cena: Number((CENA_BALASTU_PODPOWIEDZ_ZL_KG * denominacja.kurs).toPrecision(3)) }} />}
         />
         <p className="text-small text-muted-foreground">
           {t("UI-ZLOSRO-ZEBY-APLIKACJA-WSKAZALA")}

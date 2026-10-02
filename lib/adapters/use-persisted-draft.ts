@@ -64,7 +64,8 @@ export function usePersistedDraft<T>(
   const key = PREFIX + kluczEkranu
   const keyWaluty = PREFIX_WALUTY + kluczEkranu
   const [stan, setStanWewn] = useState<T>(poczatkowy)
-  const [wczytano, setWczytano] = useState(false)
+  const [wczytanoKlucz, setWczytanoKlucz] = useState<string | null>(null)
+  const wczytano = wczytanoKlucz === key
   const [info, setInfo] = useState<InfoPrzeliczenia | null>(null)
   const poczatkowyRef = useRef(poczatkowy)
   const wczytanoRef = useRef(false)
@@ -75,7 +76,6 @@ export function usePersistedDraft<T>(
   useEffect(() => {
     let aktywny = true
     wczytanoRef.current = false
-    setWczytano(false)
     Promise.all([indexedDbStorageAdapter.getItem<T>(key), indexedDbStorageAdapter.getItem<unknown>(keyWaluty)])
       .then(([zapisany, zapisanaWaluta]) => {
         if (!aktywny) return
@@ -93,7 +93,7 @@ export function usePersistedDraft<T>(
       .finally(() => {
         if (!aktywny) return
         wczytanoRef.current = true
-        setWczytano(true)
+        setWczytanoKlucz(key)
       })
     return () => {
       aktywny = false
