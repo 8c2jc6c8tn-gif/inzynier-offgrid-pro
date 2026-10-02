@@ -27,6 +27,16 @@ Jeden format dla każdego transportu. Wybór WiFi / Bluetooth / USB zapada póź
 | CSV | profil mapowania kolumn (`lib/core/telemetria/csv.ts`) | separator wykrywany, przecinek dziesiętny, błędy z numerem wiersza |
 | MQTT przez WebSocket | — | niezbudowane; wymaga zależności (budżet SW, D61) — decyzja po wyborze sprzętu |
 
+## CSV: plik z danymi osobno, legenda osobno
+
+Profil (`ProfilCsv`) opisuje plik; zapisuje się go w rejestrze (`lib/core/telemetria/rejestr.ts`) i używa ponownie.
+- `bezNaglowka: true` — kolumny adresowane numerem (od 0); legenda nie jest czytana przez aplikację, z niej powstaje profil.
+- Czas: `iso`, `epoch-s`, `epoch-ms`, `dmy` (DD.MM.RRRR) albo `data-godzina` (data i godzina w osobnych kolumnach, `kolumnaGodziny`).
+  Czas bez strefy jest traktowany jako UTC, chyba że profil podaje `przesuniecieMin` (stałe przesunięcie zegara pliku względem UTC;
+  nie zgadywane, bo błędna wartość przesuwa wszystkie próbki).
+- `znacznikiBraku` — teksty oznaczające „brak pomiaru” (np. `-999`) stają się jawnym stanem „brak”, nie liczbą.
+- Wielkości pogodowe: `predkoscWiatru` (m/s), `wilgotnosc` (%RH), `cisnienie` (hPa), `opad` (mm), `zachmurzenie` (okta).
+
 ## Dane demo
 
 `generujDemo` / `ZrodloSymulator` dają ten sam strumień próbek co prawdziwe urządzenie (`demo: true` w konfiguracji —

@@ -14,6 +14,12 @@ export const WIELKOSCI = {
   soc: { jednostka: "%", min: 0, max: 100 },
   czestotliwosc: { jednostka: "Hz", min: 0, max: 1000 },
   naswietlenie: { jednostka: "W/m²", min: 0, max: 2000 },
+  // Weather quantities (e.g. station exports). Canonical units are physical SI-style choices; the ranges are sanity bounds, not norms.
+  predkoscWiatru: { jednostka: "m/s", min: 0, max: 120 },
+  wilgotnosc: { jednostka: "%RH", min: 0, max: 100 },
+  cisnienie: { jednostka: "hPa", min: 300, max: 1100 },
+  opad: { jednostka: "mm", min: 0, max: 1000 },
+  zachmurzenie: { jednostka: "okta", min: 0, max: 8 },
 } as const
 
 export type Wielkosc = keyof typeof WIELKOSCI
@@ -60,6 +66,9 @@ export function przeliczJednostke(wielkosc: Wielkosc, wartosc: number, jednostka
     moc: { kW: 1000, mW: 0.001, MW: 1_000_000 },
     energia: { kWh: 1000, MWh: 1_000_000, Ah: NaN },
     czestotliwosc: { kHz: 1000 },
+    predkoscWiatru: { "km/h": 1 / 3.6, kt: 0.514444, mph: 0.44704 },
+    cisnienie: { Pa: 0.01, kPa: 10, mbar: 1 },
+    opad: { cm: 10 },
   }
   const f = tabela[wielkosc]?.[j]
   if (f === undefined || Number.isNaN(f)) {

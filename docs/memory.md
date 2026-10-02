@@ -8814,4 +8814,8 @@ Tryb Audyt (czapka rewidenta). Warstwa „w pełni na końcu” z N.2 — wszyst
 - Progi „zakres fizyczny” w `WIELKOSCI` to szerokie granice sensowności czujnika, nie normy. Wartości symulatora są poglądowe.
 - **Nie zweryfikowane:** Web Serial / Web Bluetooth na prawdziwym sprzęcie (testy na atrapach); UUID BLE do ustalenia z firmware;
   MQTT-WS niezbudowany (zależność vs budżet SW, D61). Ekrany live (M13) jeszcze nie podpięte do źródeł.
+- (02.10.2026, uzupełnienie) CSV bez nagłówka + osobna legenda: profil adresuje kolumny numerem, obsługuje czas w osobnych
+  kolumnach / DD.MM.RRRR, stałe przesunięcie strefy i znaczniki braku; rejestr źródeł i zapisanych profili (zod, odczyt odporny
+  na uszkodzone dane); `importujCsv` (parsowanie → dedup → magazyn → raport jakości). Wielkości pogodowe dodane z jednostkami
+  SI — **legenda Pogodynki jeszcze niedostarczona**: jednostki i znaczniki braku z jej plików trzeba potwierdzić, nie zakładać.
 

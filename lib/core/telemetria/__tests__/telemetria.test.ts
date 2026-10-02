@@ -69,6 +69,45 @@ describe("csv", () => {
   })
 })
 
+describe("csv bez nagłówka (dane osobno od legendy)", () => {
+  const profil: ProfilCsv = {
+    bezNaglowka: true,
+    kolumnaCzasu: 0,
+    kolumnaGodziny: 1,
+    formatCzasu: "data-godzina",
+    przesuniecieMin: 60,
+    znacznikiBraku: ["-999"],
+    kolumny: [
+      { kolumna: 2, kanal: "stacja", wielkosc: "temperatura", jednostka: "°C" },
+      { kolumna: 3, kanal: "stacja", wielkosc: "predkoscWiatru", jednostka: "km/h" },
+    ],
+  }
+  it("addresses columns by position, applies fixed UTC offset, turns markers into no-data", () => {
+    const r = parsujCsv("2026-01-31;14:00;-2,5;36\n2026-01-31;15:00;-999;18\n", profil, "pg")
+    expect(r.bledy).toEqual([])
+    expect(r.probki).toHaveLength(4)
+    expect(r.probki[0].czas).toBe(Date.UTC(2026, 0, 31, 13, 0))
+    expect(r.probki[0].wartosc).toBe(-2.5)
+    expect(r.probki[1].wartosc).toBeCloseTo(10)
+    expect(r.probki[2].jakosc).toBe("brak")
+  })
+  it("reports rows that are too short, with the line number counted from 1", () => {
+    const r = parsujCsv("2026-01-31;14:00;1\n", profil, "pg")
+    expect(r.bledy).toEqual([{ wiersz: 1, powod: "zla-liczba-kolumn" }])
+  })
+  it("parses DD.MM.YYYY and zone-less ISO as UTC unless an offset is declared", () => {
+    const dmy: ProfilCsv = { ...profil, formatCzasu: "dmy", kolumnaGodziny: undefined, przesuniecieMin: 0, kolumny: [profil.kolumny[0]], kolumnaCzasu: 0 }
+    expect(parsujCsv("31.01.2026 14:00;5\n", { ...dmy, kolumny: [{ ...dmy.kolumny[0], kolumna: 1 }] }, "pg").probki[0].czas).toBe(Date.UTC(2026, 0, 31, 14))
+    const iso: ProfilCsv = { ...dmy, formatCzasu: "iso" }
+    expect(parsujCsv("2026-01-31 14:00;5\n", { ...iso, kolumny: [{ ...iso.kolumny[0], kolumna: 1 }] }, "pg").probki[0].czas).toBe(Date.UTC(2026, 0, 31, 14))
+    expect(parsujCsv("2026-01-31T14:00:00+02:00;5\n", { ...iso, kolumny: [{ ...iso.kolumny[0], kolumna: 1 }] }, "pg").probki[0].czas).toBe(Date.UTC(2026, 0, 31, 12))
+  })
+  it("weather units convert to canonical", () => {
+    expect(przeliczJednostke("cisnienie", 101325, "Pa")).toBeCloseTo(1013.25)
+    expect(przeliczJednostke("opad", 1.2, "cm")).toBeCloseTo(12)
+  })
+})
+
 describe("jakosc", () => {
   const p = (czas: number, wartosc: number) => zbudujProbke({ zrodloId: "z", kanal: "k", czas, wielkosc: "napiecie", wartosc })
   it("finds gaps, duplicates, frozen series", () => {
