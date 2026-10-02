@@ -7,6 +7,7 @@ import { wentylacjaGrawitacyjnaTool } from "../wentylacja-grawitacyjna-tool"
 import { gwcTool } from "../gwc-tool"
 import { oknoSloneczneTool } from "../okno-sloneczne-tool"
 import { osadNaPvTool } from "../osad-na-pv-tool"
+import { wspolczynnikBezpieczenstwaZimowegoTool } from "../wspolczynnik-bezpieczenstwa-zimowego-tool"
 import { wplywCzynnikaTool } from "../wplyw-czynnika-tool"
 import { rozruchPompyCieplaTool } from "../rozruch-pompy-ciepla-tool"
 import { basenTool } from "../basen-tool"
@@ -168,12 +169,39 @@ describe("osadNaPvTool (M7/E7 + E14, dawne 6.7, 6.20, 6.18)", () => {
       rodzaj: "sypki",
       katDeg: 10,
       produkcjaDobaKwh: 4,
-      dniZalegania: 3,
-      pozostalaProdukcjaPct: 0,
+      dniWlasne: null,
+      pozostalaWlasnaPct: null,
       nierownoStringi: false,
+      powierzchniaM2: 0,
+      kabel: { mocWNaM2: 0, godziny: 0 },
+      folia: { mocWNaM2: 0, godziny: 0 },
+      automat: { mocW: 0, godziny: 0 },
     })
-    expect(w.utrataKwh).toBeCloseTo(12, 9)
+    expect(w.scenariusze.map((s) => [s.dni, s.utrataKwh])).toEqual([
+      [1, 4],
+      [3, 12],
+      [5, 20],
+      [7, 28],
+    ])
     expect(w.ostrzezenia).toContain(t("pl", "OSAD-SNIEG-NIE-ZSUNIE", { kat: 10, prog: 30 }))
+  })
+
+  it("kabel grzewczy 200 W/m² × 10 m² × 2 h przy 1 dniu zalegania → 🟡 nie zwraca się jako tekst PL", async () => {
+    const w = await osadNaPvTool.handler({
+      rodzaj: "sypki",
+      katDeg: 40,
+      produkcjaDobaKwh: 4,
+      dniWlasne: 1,
+      pozostalaWlasnaPct: null,
+      nierownoStringi: false,
+      powierzchniaM2: 10,
+      kabel: { mocWNaM2: 200, godziny: 2 },
+      folia: { mocWNaM2: 0, godziny: 0 },
+      automat: { mocW: 0, godziny: 0 },
+    })
+    expect(w.opcjeAktywne[0]!.oplacaWReferencji).toBe(false)
+    expect(w.ostrzezenia).toContain(t("pl", "OSAD-GRZANIE-NIE-ZWRACA-KABEL", { energia: 4, odzysk: 3.67, dni: 1 }))
+    expect(w.ostrzezenia).toContain(t("pl", "OSAD-GWARANCJA"))
   })
 })
 
@@ -277,5 +305,33 @@ describe("chlodzeniePompaCieplaTool (M6 Część 2C, dawne 5.29/5.47/5.51)", () 
     expect(w.pradPompyKwh).toBeCloseTo(4, 9)
     expect(w.status).toBe("VALID_WITH_WARNINGS")
     expect(w.ostrzezenia).toContain(t("pl", "CHL-PONIZEJ-ROSY", { zasilanie: 16, rosa: 16.7 }))
+  })
+})
+
+describe("wspolczynnikBezpieczenstwaZimowegoTool (M7/E12, dawne 6.14)", () => {
+  it("kontrakt 9.3: 'read', bez potwierdzenia", () => {
+    expect(wspolczynnikBezpieczenstwaZimowegoTool.operationType).toBe("read")
+    expect(wspolczynnikBezpieczenstwaZimowegoTool.requiresConfirmation).toBe(false)
+    expect(() => validateAiToolDefinition(wspolczynnikBezpieczenstwaZimowegoTool)).not.toThrow()
+  })
+
+  it("domyślne wagi → 74%, najsłabsza autonomia, informacja o wstępnych wagach jako tekst PL", async () => {
+    const w = await wspolczynnikBezpieczenstwaZimowegoTool.handler({
+      produkcjaNajgorszyMiesiacKwh: 80,
+      zapotrzebowanieNajgorszyMiesiacKwh: 100,
+      autonomiaDni: 6,
+      wymaganaAutonomiaDni: 10,
+      liczbaKomponentow: 10,
+      liczbaSpof: 1,
+      brakAgregatu: false,
+      mocAgregatuKw: 3.5,
+      mocWymaganaAgregatuKw: 5,
+      oknoReakcjiH: 6.5,
+      wymaganyCzasReakcjiH: 10,
+      wagiWlasne: null,
+    })
+    expect(w.wskaznikPct).toBeCloseTo(74, 9)
+    expect(w.najslabsza).toEqual({ id: "autonomia", wynikPct: 60 })
+    expect(w.ostrzezenia).toContain(t("pl", "WSP-WAGI-WSTEPNE"))
   })
 })

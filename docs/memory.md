@@ -8700,7 +8700,7 @@ Tryb Audyt (czapka rewidenta). Warstwa „w pełni na końcu” z N.2 — wszyst
   E6 „co 45 min, 5 min → 8%” = 11,1% przy równej mocy (8% tylko przy P_def = 0,72·P_baz); E9 „15% → 5%” tylko przy
   η ≈ 70%; E4 „+4 °C → −5%” nieodtwarzalne (brak strumienia/zapotrzebowania); E15 „bateria 65% i bojler 50 °C”
   sprzeczne z regułą źródła (bojler dopiero > 80% SoC).
-- **Nie zbudowane:** M7/E1, E3, E9, E12, E16, E24, E25, M6/E11 — powody w `docs/rejestr-pokrycia.md`. E12 jest blocked
+- **Nie zbudowane:** M7/E1, E3, E9, E12, E16, E24, E25, M6/E11 — powody w `docs/rejestr-pokrycia.md`. E12 jest blocked (→ zbudowany 02.10.2026, patrz sekcja „M7/E12 + M7/E7/E14 v2.0.0”)
   (źródło nie podaje wag składowych), E9 powielałby M3/E16 bifacjalne.
 - **Pułapka (i18n-ui-guard):** jednostka z małymi literami w `unit=` (np. „zł/l”, „zł/h”) jest łapana jako tekst —
   przez klucz `t()` (`UI-J-ZL-L`). Porównanie nadwyżki energii z zerem po odejmowaniach — z tolerancją 1e-9, nie `=== 0`.
@@ -8810,3 +8810,35 @@ Tryb Audyt (czapka rewidenta). Warstwa „w pełni na końcu” z N.2 — wszyst
 - Pułapka: `check:i18n-guard` przepuszczał moduł z polskim tekstem, bo widzi tylko `Warning.message` jako literał w obiekcie i `assumptions` jako gołe stringi — nie widzi pól `string` w `value` wyniku (`opis`, `powod`) ani `message` zbudowanego w funkcji pomocniczej (`outOfRange`). Naprawione w tym module: wynik niesie `opisKey`/`powodKey` + params, ekran i narzędzie AI rozwiązują `t()`. Klucze `KATSTOPNI-/SPADEKPRODUKCJIPCT-POZA-ZAKRESEM` wynikają z `code` (bez `i18nKey`).
 - Do wypromowania (kandydat do `docs/wklad-do-standardu.md`): strażnik silnika powinien flagować polskie litery w literałach zwracanych w `value`, nie tylko w `message`.
 - Zakres pozostały: wpis „Audyt i18n poza strażnikami” w `docs/lista-do-zrobienia.md`.
+
+## M7/E12 + M7/E7/E14 v2.0.0 (02.10.2026)
+
+- **M7/E12 „Współczynnik Bezpieczeństwa Zimowego” zbudowany** (`lib/core/modules/stress-test/wspolczynnik-bezpieczenstwa-zimowego/`,
+  ekran `wspolczynnik-bezpieczenstwa-zimowego`, narzędzie AI `policz_wspolczynnik_bezpieczenstwa_zimowego`). Wagi 30/25/20/15/10%
+  (pokrycie/autonomia/odporność/agregat/reakcja) to propozycja asystenta zaakceptowana przez właściciela „na razie” — **wstępne,
+  do dopracowania**; ekran zawsze pokazuje je obok wyniku z notą PL/EN/RU i pozwala wpisać własne (suma 100%). Agregacja w jednej
+  funkcji (`aggregation.ts`) — łatwa zamiana na regułę najsłabszego ogniwa. Nie dodano żadnych 🔴.
+- **Skąd składowe** (ta sama tabela na ekranie i w `docs/lista-do-zrobienia.md`); odsyłacze źródła 6.1 → E1 (nie zbudowany),
+  6.4 → E4, 6.7 → E7, 6.9 → E8, 6.11 → M6/E8:
+
+  | Składowa (waga) | Wczytuje z | Zależy też od |
+  |---|---|---|
+  | Pokrycie energetyczne (30%) | E2 `deficyty-miesieczne` (produkcja = zapotrzebowanie − największy deficyt) | M2 `zuzycie-miesieczne`, M3 `liczba-paneli`, E7/E14 (strata śniegu/szadzi) |
+  | Czas autonomii (25%) | E4 `blackout` (dni przetrwania, długość scenariusza) | M4 `dni-autonomii`, E6 `strategia-zamarzanie`, E2 (agregat) |
+  | Odporność na awarie (20%) | E10 `analiza-spof` | E19 `elektronika-w-mrozie`, E21 `pompy-zawory-w-mrozie` |
+  | Zapas mocy agregatu (15%) | E2 (moc agregatu) | M2 `agregat-pradotworczy`, E8 `agregat-w-mrozie` |
+  | Czas reakcji na zamarznięcie (10%) | E6 `strategia-zamarzanie` (czas zasilania krytycznych) | M6/E8 `pojemnosc-cieplna`, E18 `pre-heat`, E22 `ryzyko-zamarzniecia` |
+
+- **Mechanizm:** ekran czyta zapisane szkice innych ekranów przez `useOdczytDraftu` (tylko odczyt, jeden właściciel zapisu) i
+  przelicza je silnikami tamtych ekranów (`zrodla.ts`) — nic nie jest powielone; wartość trafia do pola dopiero po kliknięciu.
+- **✅🤖 (jeden wpis ⚠️ w liście zadań):** odwzorowanie wartości na 0–100% (stosunek obcięty do 100%, SPOF jako udział komponentów
+  z redundancją), próg słabego punktu 70%, wynik tylko przy komplecie pięciu składowych, definicja czasu reakcji.
+- **M7/E7 + E14 v2.0.0 (CALCULATOR_VERSION 2.0.0):** tabela „co jeśli” (1/3/5/7 dni + przykłady źródła), własne dni/% opcjonalne;
+  sekcja „co z tym zrobić” (pięć opcji) z bilansem energii dla kabla, folii i automatu: zużycie = P × h, odzysk = strata dobowa ×
+  (dni − h/24), 🟡 gdy grzanie zużywa więcej, niż odzyska; moc zawsze z karty katalogowej od usera; ℹ️ o gwarancji producenta.
+  Wspólny komponent `components/wzorce/osad-na-pv.tsx`. Rekomendacja: kąt i ręczne zgarnianie najpierw; grzanie tylko gdy się
+  zwraca, na żądanie, z nadwyżki/agregatu, nigdy z niskiej baterii.
+- **Pułapka (środowisko):** w worktree nie ma `node_modules` — dowiązanie symboliczne do `node_modules` repozytorium głównego
+  (ignorowane przez `.gitignore`) wystarcza do `tsc`, `eslint`, `vitest`.
+- **Pułapka (stopy-guard):** nowe kody walidacji 🔴 (`WSP-WAGI-SUMA`, `WSP-SPOF-PONAD-LICZBE`, `WSP-WARTOSC-UJEMNA`) trzeba było
+  dopisać jawnie do `scripts/stopy-guard-wyjatki.json`.

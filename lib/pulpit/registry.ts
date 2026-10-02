@@ -244,6 +244,7 @@ export const KAFLE: KafelEntry[] = [
       { href: "/kalkulatory/okno-sloneczne", label: "Krótkie okno słoneczne" },
       { href: "/kalkulatory/snieg-na-pv", label: "Śnieg i oblodzenie na PV" },
       { href: "/kalkulatory/szadz-na-pv", label: "Wieczna mgła i szadź" },
+      { href: "/kalkulatory/wspolczynnik-bezpieczenstwa-zimowego", label: "Współczynnik Bezpieczeństwa Zimowego" },
     ],
   },
   {
