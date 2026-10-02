@@ -1,19 +1,22 @@
 "use client"
 
 import Link from "next/link"
-import { useMemo } from "react"
+import { useMemo, useState } from "react"
 import { calculateDeficytyMiesieczne } from "@/lib/core/modules/stress-test/deficyty-miesieczne/calculator"
 import type {
   DeficytyMiesieczneInput,
   RodzajDanychHistorii,
   ZrodloHistorii,
 } from "@/lib/core/modules/stress-test/deficyty-miesieczne/input"
+import { formatujHistorie } from "@/lib/core/modules/stress-test/deficyty-miesieczne/formatuj-historie"
 import { parsujHistorie } from "@/lib/core/modules/stress-test/deficyty-miesieczne/parsuj-historie"
+import { KLUCZ_BLEDU_SERIESCALC, odczytajOdpowiedzSeriescalc } from "@/lib/lokalizacja/dane-seriescalc"
 import { OPTYMALNE_OBCIAZENIE_PCT } from "@/lib/core/modules/zapotrzebowanie/agregat-pradotworczy/constants"
 import { usePersistedDraft } from "@/lib/adapters/use-persisted-draft"
 import { PrzeliczoneInfo } from "@/components/przeliczone-info"
 import { przeliczPola } from "@/lib/waluta/przelicz"
 import { useTranslate } from "@/lib/i18n/language-context"
+import { Button } from "@/components/ui/button"
 import { Pole, PoleSelect, PoleTekst } from "@/components/ui/pole"
 import { PomocPola } from "@/components/ui/pomoc"
 import { WerdyktPanel } from "@/components/werdykt"
@@ -25,7 +28,8 @@ import { KLUCZE_MIESIECY } from "@/components/siec/zuzycie-miesieczne"
 
 type PolaAgregatu = "moc" | "zuzycie" | "cena" | "serwis" | "zapas"
 type PolaHistorii = "horyzontDni" | "histKwp" | "histPr" | "histPopyt" | "histOkno" | "histPercentyl" | "histProg"
-type FormularzStan = Record<PolaAgregatu | PolaHistorii, string> & {
+type PolaPvgis = "pvgisLat" | "pvgisLon" | "pvgisNach" | "pvgisAzym" | "pvgisOd" | "pvgisDo"
+type FormularzStan = Record<PolaAgregatu | PolaHistorii | PolaPvgis, string> & {
   deficyty: string[]
   /** "" = month by month; "3" | "7" | "14" | "miesiac" | "wlasny". */
   horyzont: string
@@ -52,6 +56,13 @@ const STAN_POCZATKOWY: FormularzStan = {
   histOkno: "",
   histPercentyl: "",
   histProg: "",
+  // Full range of the PVGIS-SARAH3 database (2005–2023); tilt and azimuth are never assumed.
+  pvgisLat: "",
+  pvgisLon: "",
+  pvgisNach: "",
+  pvgisAzym: "",
+  pvgisOd: "2005",
+  pvgisDo: "2023",
 }
 
 const KWOTY = przeliczPola<FormularzStan>("cena", "serwis")
@@ -82,6 +93,14 @@ const HORYZONTY: { wartosc: string; label: string }[] = [
 
 const liczba = (s: string) => (s === "" ? 0 : Number(s))
 const r1 = (x: number) => Math.round(x * 10) / 10
+const POLA_PVGIS: { pole: PolaPvgis; label: string; unit: string; min: number; max: number; krok?: number }[] = [
+  { pole: "pvgisLat", label: "UI-M7-DEFM-PVGIS-LAT", unit: "°", min: -90, max: 90, krok: 0.0001 },
+  { pole: "pvgisLon", label: "UI-M7-DEFM-PVGIS-LON", unit: "°", min: -180, max: 180, krok: 0.0001 },
+  { pole: "pvgisNach", label: "UI-M7-DEFM-PVGIS-NACH", unit: "°", min: 0, max: 90 },
+  { pole: "pvgisAzym", label: "UI-M7-DEFM-PVGIS-AZYM", unit: "°", min: -180, max: 180 },
+  { pole: "pvgisOd", label: "UI-M7-DEFM-PVGIS-OD", unit: "", min: 2005, max: 2023 },
+  { pole: "pvgisDo", label: "UI-M7-DEFM-PVGIS-DO", unit: "", min: 2005, max: 2023 },
+]
 
 export default function DeficytyMiesiecznePage() {
   const t = useTranslate()
@@ -89,6 +108,8 @@ export default function DeficytyMiesiecznePage() {
   // A draft saved before the history fields existed lacks them — fill from the defaults.
   const stan = useMemo<FormularzStan>(() => ({ ...STAN_POCZATKOWY, ...zapisany }), [zapisany])
   const wklejone = useMemo(() => parsujHistorie(stan.histDane), [stan.histDane])
+  const [pvgisPobiera, setPvgisPobiera] = useState(false)
+  const [pvgisKomunikat, setPvgisKomunikat] = useState<{ blad: boolean; tekst: string } | null>(null)
 
   const result = useMemo(() => {
     const wejscie: DeficytyMiesieczneInput = {
@@ -128,6 +149,48 @@ export default function DeficytyMiesiecznePage() {
   const zh = v.zapasZHistorii
   const ustaw = <K extends keyof FormularzStan>(pole: K, wartosc: FormularzStan[K]) =>
     setStan((prev) => ({ ...STAN_POCZATKOWY, ...prev, [pole]: wartosc }))
+
+  const pvgisKompletne = POLA_PVGIS.every(({ pole }) => stan[pole].trim() !== "")
+
+  const pobierzZPvgis = async () => {
+    if (!pvgisKompletne) {
+      setPvgisKomunikat({ blad: true, tekst: t("UI-M7-DEFM-PVGIS-BRAK-DANYCH") })
+      return
+    }
+    setPvgisPobiera(true)
+    setPvgisKomunikat(null)
+    try {
+      const q = new URLSearchParams({
+        lat: stan.pvgisLat,
+        lon: stan.pvgisLon,
+        od: stan.pvgisOd,
+        do: stan.pvgisDo,
+        nachylenie: stan.pvgisNach,
+        azymut: stan.pvgisAzym,
+      })
+      const odp = await fetch(`/api/pvgis/seriescalc?${q}`)
+      const w = odczytajOdpowiedzSeriescalc(await odp.json().catch(() => null))
+      if (!w.ok) {
+        setPvgisKomunikat({ blad: true, tekst: t(KLUCZ_BLEDU_SERIESCALC[w.kod]) })
+        return
+      }
+      setStan((prev) => ({
+        ...STAN_POCZATKOWY,
+        ...prev,
+        histDane: formatujHistorie(w.dane.lata),
+        histZrodlo: "pvgis-seriescalc",
+        histRodzaj: "naswietlenie-kwh-m2",
+      }))
+      setPvgisKomunikat({
+        blad: false,
+        tekst: t("UI-M7-DEFM-PVGIS-OK", { lata: w.dane.lata.length, baza: w.dane.meta.bazaPromieniowania }),
+      })
+    } catch {
+      setPvgisKomunikat({ blad: true, tekst: t(KLUCZ_BLEDU_SERIESCALC.SIEC) })
+    } finally {
+      setPvgisPobiera(false)
+    }
+  }
 
   return (
     <main className="mx-auto flex max-w-md flex-col gap-6 p-6">
@@ -212,6 +275,33 @@ export default function DeficytyMiesiecznePage() {
 
       <fieldset className="flex flex-col gap-4">
         <legend className="mb-2 text-small font-medium">{t("UI-M7-DEFM-HIST-TYTUL")}</legend>
+        <section className="flex flex-col gap-3 rounded-md border border-border p-3">
+          <p className="text-small font-medium">{t("UI-M7-DEFM-PVGIS-TYTUL")}</p>
+          <p className="text-caption text-muted-foreground">{t("UI-M7-DEFM-PVGIS-NOTATKA")}</p>
+          <div className="grid grid-cols-2 gap-3">
+            {POLA_PVGIS.map(({ pole, label, unit, min, max, krok }) => (
+              <Pole
+                key={pole}
+                label={t(label)}
+                unit={unit}
+                type="number"
+                inputMode="decimal"
+                min={min}
+                max={max}
+                step={krok}
+                value={stan[pole]}
+                onChange={(e) => ustaw(pole, e.target.value)}
+                pomoc={<PomocPola ekran="deficyty-miesieczne" pole={pole} />}
+              />
+            ))}
+          </div>
+          <Button className="min-h-11" disabled={pvgisPobiera} onClick={pobierzZPvgis}>
+            {pvgisPobiera ? t("UI-M7-DEFM-PVGIS-POBIERA") : t("UI-M7-DEFM-PVGIS-PRZYCISK")}
+          </Button>
+          {pvgisKomunikat && (
+            <p className={pvgisKomunikat.blad ? "text-small text-werdykt-blad-foreground" : "text-small"}>{pvgisKomunikat.tekst}</p>
+          )}
+        </section>
         <PoleTekst
           label={t("UI-M7-DEFM-HIST-DANE")}
           podpis={t("UI-M7-DEFM-HIST-DANE-PODPIS")}

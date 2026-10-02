@@ -2465,3 +2465,9 @@ Skan `label:` w `constants.ts` pokazał, że etykiety katalogowe są już tłuma
 
 ## 2026-10-02 — Pismo reklamacyjne w `test-licznika` przestało być wyjątkiem
 Właściciel: pismo ma być tłumaczone (wcześniej komentarz w kodzie zakładał treść zawsze po polsku dla polskiego OSD). Wzorzec: pole edytowalne z wartością domyślną zależną od języka trzymaj jako `null` do pierwszej edycji, nie jako wpisany tekst — inaczej zmiana języka nie zmieni domyślnej treści.
+
+## 2026-10-02 — PVGIS `seriescalc` zbudowany (M7/E2 „deficyty-miesieczne”)
+- Dostęp do `re.jrc.ec.europa.eu` wrócił (HTTP 200), więc kształt odpowiedzi zweryfikowano na żywo: `outputs.hourly[]` z `time:"YYYYMMDD:HH10"` (UTC, średnia godzinowa), `G(i)` [W/m²] przy zadanym `angle`/`aspect` (0 = południe), baza PVGIS-SARAH3 + ERA5.
+- Pułapki PVGIS: (1) zakres lat to **2005–2023** (v5_3) — poza nim 4xx; (2) ok. 0,75 MB/rok (19 lat ≈ 14 MB) → timeout 90 s i agregacja do dób po stronie serwera (klient dostaje kilkadziesiąt KB); (3) moc `P` jest w odpowiedzi tylko z `pvcalculation=1&peakpower=..&loss=..` — nie używamy, produkcję liczy silnik z kWh/m² × kWp × PR podanych przez użytkownika.
+- Decyzja: doba = data UTC znacznika; doba bez kompletu 24 rekordów = `null` (nigdy dopełniana). Nachylenie i azymut użytkownik wpisuje sam (aplikacja żadnych nie zakłada); lata domyślnie cały zakres bazy.
+- Wynik zapisuje się w szkicu ekranu (pole historii), więc po pobraniu działa offline.
