@@ -531,6 +531,7 @@ const NARZEDZIA: Array<AiToolDefinition<any, any>> = [
   gwcTool,
   oknoSloneczneTool,
   osadNaPvTool,
+  wspolczynnikBezpieczenstwaZimowegoTool,
   wplywCzynnikaTool,
   rozruchPompyCieplaTool,
   basenTool,
