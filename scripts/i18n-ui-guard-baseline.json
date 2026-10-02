@@ -1,10 +1,6 @@
 {
   "app/auth/login/page.tsx": 10,
-  "app/kalkulatory/analiza-zacienienia/page.tsx": 54,
   "app/kalkulatory/konfigurator-stringow/page.tsx": 1,
-  "app/kalkulatory/lokalizacja-i-klimat/page.tsx": 10,
-  "app/kalkulatory/orientacja-powierzchni/page.tsx": 31,
-  "app/kalkulatory/skaner-dzialki/page.tsx": 89,
   "app/kalkulatory/test-licznika/page.tsx": 2,
   "app/layout.tsx": 3,
   "app/manifest.ts": 2,

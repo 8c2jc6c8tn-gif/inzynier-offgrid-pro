@@ -61,7 +61,7 @@ export default function LokalizacjaIKlimatPage() {
       {result.assumptions.length > 0 && (
         <ul className="mt-2 text-small opacity-90">
           {result.assumptions.map((a, i) => (
-            <li key={typeof a === "string" ? a : a.kod + i}>Założenie: {typeof a === "string" ? a : t(a.kod, a.params)}</li>
+            <li key={typeof a === "string" ? a : a.kod + i}>{t("UI-LOKIKLI-ZALOZENIE")} {typeof a === "string" ? a : t(a.kod, a.params)}</li>
           ))}
         </ul>
       )}
@@ -79,16 +79,14 @@ export default function LokalizacjaIKlimatPage() {
   return (
     <main className="mx-auto flex max-w-md flex-col gap-6 p-6">
       <NawigacjaEkranu href="/kalkulatory/lokalizacja-i-klimat" />
-      <NaglowekEkranu tytul="Lokalizacja i dane klimatyczne" ekran="lokalizacja-i-klimat" wynik={result}>
-        Dane stąd zasilają niemal wszystkie pozostałe moduły — kąt padania słońca, strefę
-        wiatrową i śniegową, minima temperaturowe do stress-testów zimowych. Moduł 1, Ekran 1.
-        Tryb offline: wpisz dane ręcznie.
+      <NaglowekEkranu tytul={t("UI-LOKIKLI-LOKALIZACJA-DANE-KLIMATYCZNE")} ekran="lokalizacja-i-klimat" wynik={result}>
+        {t("UI-LOKIKLI-DANE-STAD-ZASILAJA")}
       </NaglowekEkranu>
 
       <div className="flex flex-col gap-4">
-        <Pole label="Adres / działka (opcjonalnie)" value={adres} onChange={(e) => setAdres(e.target.value)} pomoc={<PomocPola ekran="lokalizacja-i-klimat" pole="adres" />} />
+        <Pole label={t("UI-LOKIKLI-ADRES-DZIALKA-OPCJONALNIE")} value={adres} onChange={(e) => setAdres(e.target.value)} pomoc={<PomocPola ekran="lokalizacja-i-klimat" pole="adres" />} />
         <Pole
-          label="Szerokość geograficzna"
+          label={t("UI-LOKIKLI-SZEROKOSC-GEOGRAFICZNA")}
           unit="°"
           type="number"
           inputMode="decimal"
@@ -98,7 +96,7 @@ export default function LokalizacjaIKlimatPage() {
           pomoc={<PomocPola ekran="lokalizacja-i-klimat" pole="szerokosc" />}
         />
         <Pole
-          label="Długość geograficzna"
+          label={t("UI-LOKIKLI-DLUGOSC-GEOGRAFICZNA")}
           unit="°"
           type="number"
           inputMode="decimal"
@@ -108,7 +106,7 @@ export default function LokalizacjaIKlimatPage() {
           pomoc={<PomocPola ekran="lokalizacja-i-klimat" pole="dlugosc" />}
         />
         <Pole
-          label="Temperatura minimalna w lokalizacji"
+          label={t("UI-LOKIKLI-TEMPERATURA-MINIMALNA-LOKALI")}
           unit="°C"
           type="number"
           inputMode="decimal"
@@ -120,14 +118,14 @@ export default function LokalizacjaIKlimatPage() {
       </div>
 
       {result.status === "INCOMPLETE" ? (
-        <StanPusty tytul="Uzupełnij współrzędne i temperaturę minimalną.">{dodatki}</StanPusty>
+        <StanPusty tytul={t("UI-LOKIKLI-UZUPELNIJ-WSPOLRZEDNE-TEMPER")}>{dodatki}</StanPusty>
       ) : (
         <WerdyktPanel
           poziom={result.status === "INVALID_INPUT" ? "blad" : "ok"}
           etykieta={
             result.status === "INVALID_INPUT"
-              ? "Sprawdź dane — jedna z wartości jest poza możliwym zakresem"
-              : "Profil lokalizacji zapisany"
+              ? t("UI-LOKIKLI-SPRAWDZ-DANE-JEDNA")
+              : t("UI-LOKIKLI-PROFIL-LOKALIZACJI-ZAPISANY")
           }
         >
           {dodatki}
