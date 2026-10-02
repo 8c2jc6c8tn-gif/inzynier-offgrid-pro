@@ -13,6 +13,7 @@ import {
   przywrocDomyslneKolory,
 } from "@/lib/wyglad/storage"
 import { cn } from "@/lib/utils"
+import { useTranslate } from "@/lib/i18n/language-context"
 
 /**
  * Edytor kolorów — pojedynczo (swatch + HEX per grupa) albo grupowo (zaznacz kilka grup, wybierz
@@ -20,6 +21,7 @@ import { cn } from "@/lib/utils"
  * (ten sam komponent — patrz docs/brief-dla-v0.md, "szablon per wzorzec, nie ekran per ekran").
  */
 export function KolorGrupaEdytor() {
+  const t = useTranslate()
   const stan = useSyncExternalStore(subscribe, getSnapshot, getServerSnapshot)
   const [zaznaczone, setZaznaczone] = useState<GrupaKolorow[]>([])
   const [kolorGrupowy, setKolorGrupowy] = useState("#3366ff")
@@ -42,7 +44,7 @@ export function KolorGrupaEdytor() {
                 type="checkbox"
                 checked={zaznaczone.includes(grupa.id)}
                 onChange={() => przelaczZaznaczenie(grupa.id)}
-                aria-label={`Zaznacz „${grupa.etykieta}” do zmiany grupowej`}
+                aria-label={t("UI-KOLGRUEDY-ZAZNACZ-ZMIANY-GRUPOWEJ", { etykieta: grupa.etykieta })}
                 className="h-4 w-4"
               />
               <div className="min-w-0 flex-1">
@@ -53,18 +55,18 @@ export function KolorGrupaEdytor() {
                 type="color"
                 value={aktualny ?? "#888888"}
                 onChange={(e) => ustawKolor(grupa.id, e.target.value)}
-                aria-label={`Kolor: ${grupa.etykieta}`}
+                aria-label={t("UI-KOLGRUEDY-KOLOR", { etykieta: grupa.etykieta })}
                 className="h-8 w-10 cursor-pointer rounded border"
               />
               <input
                 type="text"
                 value={aktualny ?? ""}
-                placeholder="domyślny"
+                placeholder={t("UI-KOLGRUEDY-DOMYSLNY")}
                 onChange={(e) => {
                   const v = e.target.value
                   if (/^#[0-9a-fA-F]{6}$/.test(v)) ustawKolor(grupa.id, v)
                 }}
-                aria-label={`Kod HEX: ${grupa.etykieta}`}
+                aria-label={t("UI-KOLGRUEDY-KOD-HEX", { etykieta: grupa.etykieta })}
                 className="min-h-8 w-24 rounded-md border border-input bg-background px-2 font-mono text-xs"
               />
               {aktualny && (
@@ -73,7 +75,7 @@ export function KolorGrupaEdytor() {
                   onClick={() => usunKolor(grupa.id)}
                   className="text-xs text-muted-foreground underline"
                 >
-                  Reset
+                  {t("UI-KOLGRUEDY-RESET")}
                 </button>
               )}
             </li>
@@ -82,18 +84,18 @@ export function KolorGrupaEdytor() {
       </ul>
 
       <div className="flex flex-wrap items-center gap-3 rounded-md border border-dashed p-3 text-sm">
-        <span className="font-medium">Zmiana grupowa:</span>
+        <span className="font-medium">{t("UI-KOLGRUEDY-ZMIANA-GRUPOWA")}</span>
         <input
           type="color"
           value={kolorGrupowy}
           onChange={(e) => setKolorGrupowy(e.target.value)}
-          aria-label="Kolor do zastosowania grupowo"
+          aria-label={t("UI-KOLGRUEDY-KOLOR-ZASTOSOWANIA-GRUPOWO")}
           className="h-8 w-10 cursor-pointer rounded border"
         />
         <input
           type="text"
           value={kolorGrupowy}
-          aria-label="Kod HEX koloru do zastosowania grupowo"
+          aria-label={t("UI-KOLGRUEDY-KOD-HEX-KOLORU")}
           onChange={(e) => {
             const v = e.target.value
             setKolorGrupowy(v)
@@ -109,7 +111,7 @@ export function KolorGrupaEdytor() {
             zaznaczone.length === 0 ? "opacity-40" : "hover:bg-muted",
           )}
         >
-          Zastosuj do zaznaczonych ({zaznaczone.length})
+          {t("UI-KOLGRUEDY-ZASTOSUJ-ZAZNACZONYCH", { length: zaznaczone.length })}
         </button>
       </div>
 
@@ -118,7 +120,7 @@ export function KolorGrupaEdytor() {
         onClick={przywrocDomyslneKolory}
         className="min-h-9 self-start rounded-md border px-3 text-xs font-medium hover:bg-muted"
       >
-        Przywróć domyślne kolory
+        {t("UI-KOLGRUEDY-PRZYWROC-DOMYSLNE-KOLORY")}
       </button>
     </div>
   )

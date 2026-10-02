@@ -27,6 +27,9 @@ import { countFile, isUserText } from "./check-i18n-ui-guard.mjs"
 
 const BASELINE_PATH = "scripts/i18n-ui-guard-baseline.json"
 const UI_DIR = "lib/i18n/ui"
+// Attributes whose value is data, not text. The guard keys hits by line + text, so `<option value="LiFePO4">LiFePO4</option>`
+// would otherwise have its `value` rewritten to `t(...)` along with the visible text.
+const DATA_ATTR = /^(key|id|href|src|type|name|value|defaultValue|htmlFor|role)$/
 
 const TRANSLIT = { ą: "A", ć: "C", ę: "E", ł: "L", ń: "N", ó: "O", ś: "S", ź: "Z", ż: "Z" }
 const STOP = new Set(["ORAZ", "LUB", "DLA", "CZY", "JEST", "SIE", "NIE", "TAK", "JAK", "ALE", "PRZY", "PRZEZ", "TWOJ", "TWOJEGO", "TWOJA", "TWOJE"])
@@ -34,7 +37,11 @@ const STOP = new Set(["ORAZ", "LUB", "DLA", "CZY", "JEST", "SIE", "NIE", "TAK", 
 function slugPrefix(file) {
   const parts = file.split(path.sep)
   const idx = parts.indexOf("kalkulatory")
-  const slug = idx >= 0 ? parts[idx + 1] : path.basename(file).replace(/\.tsx?$/, "")
+  // Outside /kalkulatory/ a route file is named after its folder (app/ustawienia/page.tsx → UST, app/page.tsx → PULPIT),
+  // otherwise every page.tsx would share the prefix „PAG” and identical texts would collide.
+  const base = path.basename(file).replace(/\.tsx?$/, "")
+  const dir = path.basename(path.dirname(file))
+  const slug = idx >= 0 ? parts[idx + 1] : base !== "page" ? base : dir === "app" ? "pulpit" : dir
   const rest = idx >= 0 ? parts.slice(idx + 2).join("-").replace(/(^|-)page\.tsx$/, "").replace(/\.tsx?$/, "") : ""
   const abbr = (s) => s.split(/[-_]/).filter(Boolean).map((w) => w.slice(0, 3).toUpperCase()).join("")
   return abbr(slug) + (rest ? "-" + abbr(rest) : "")
@@ -274,7 +281,8 @@ export function analyze(file, src, prefix, sharedByText) {
   // 2./3./4. literals
   const visitLits = (n) => {
     const txt = literalText(n)
-    if (txt !== null && !isCovered(n) && !isCodePosition(n) && isUserText(txt)) {
+    const dataAttr = n.parent && ts.isJsxAttribute(n.parent) && DATA_ATTR.test(n.parent.name.getText(sf))
+    if (txt !== null && !dataAttr && !isCovered(n) && !isCodePosition(n) && isUserText(txt)) {
       if (guardHits.has(`${line(n)}|${txt.trim()}`)) {
         const used = new Map()
         const params = []
@@ -338,8 +346,9 @@ export function analyze(file, src, prefix, sharedByText) {
       manual.push(`${file}:${line(c)} komponent strzałkowy bez bloku — dodaj const t = useTranslate() ręcznie`)
       continue
     }
-    const has = body.statements.some((s) => s.getText(sf).includes("= useTranslate()"))
-    if (has) continue
+    const hook = body.statements.map((s) => /const (\w+) = useTranslate\(\)/.exec(s.getText(sf))).find(Boolean)
+    if (hook && hook[1] !== "t") manual.push(`${file}:${line(c)} hook nazwany „${hook[1]}” — zmień na t (wstawione wywołania to t(...))`)
+    if (hook) continue
     const first = body.statements[0]
     const pos = first ? first.getStart(sf) : body.getStart(sf) + 1
     const indent = first ? src.slice(src.lastIndexOf("\n", pos) + 1, pos) : "  "
@@ -356,8 +365,10 @@ export function analyze(file, src, prefix, sharedByText) {
       }
     } else {
       const last = imps.at(-1)
-      const pos = last ? last.getEnd() : 0
-      edits.push({ start: pos, end: pos, text: `\nimport { useTranslate } from "@/lib/i18n/language-context"` })
+      // No imports: put it before the first statement (after a leading doc comment), not glued to offset 0.
+      const pos = last ? last.getEnd() : sf.statements[0] ? sf.statements[0].getStart(sf) : 0
+      const imp = `import { useTranslate } from "@/lib/i18n/language-context"`
+      edits.push({ start: pos, end: pos, text: last ? `\n${imp}` : `${imp}\n\n` })
     }
     // useTranslate() in a Server Component is HTTP 500 at runtime (docs/memory.md) — the hook needs "use client"
     const first = sf.statements[0]

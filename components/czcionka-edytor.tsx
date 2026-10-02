@@ -10,16 +10,20 @@ import {
   ustawWage,
 } from "@/lib/wyglad/storage"
 import { cn } from "@/lib/utils"
+import { useTranslate } from "@/lib/i18n/language-context"
 
-const PANGRAM = "Zażółć gęślą jaźń — polskie znaki: ą ć ę ł ń ó ś ź ż"
+/** Font preview sample — `UI-CZCEDY-PANGRAM` key (per-language sample text), render through `t()`. */
+const PANGRAM = "UI-CZCEDY-PANGRAM"
+const zmiennaCss = (zmienna: string) => `var(${zmienna})`
 
 export function CzcionkaEdytor() {
+  const t = useTranslate()
   const stan = useSyncExternalStore(subscribe, getSnapshot, getServerSnapshot)
 
   return (
     <div className="flex flex-col gap-4">
       <div className="flex flex-col gap-2">
-        <span className="text-sm font-medium">Czcionka</span>
+        <span className="text-sm font-medium">{t("UI-CZCEDY-CZCIONKA")}</span>
         <div className="flex flex-col gap-2">
           {CZCIONKI.map((c) => (
             <label
@@ -38,8 +42,8 @@ export function CzcionkaEdytor() {
                 />
                 <span className="text-sm text-muted-foreground">{c.etykieta}</span>
               </span>
-              <span style={{ fontFamily: `var(${c.zmienna})` }} className="text-base">
-                {PANGRAM}
+              <span style={{ fontFamily: zmiennaCss(c.zmienna) }} className="text-base">
+                {t(PANGRAM)}
               </span>
             </label>
           ))}
@@ -47,7 +51,7 @@ export function CzcionkaEdytor() {
       </div>
 
       <div className="flex flex-col gap-2">
-        <span className="text-sm font-medium">Waga tekstu</span>
+        <span className="text-sm font-medium">{t("UI-CZCEDY-WAGA-TEKSTU")}</span>
         <div className="flex gap-2">
           {(["normalna", "pogrubiona"] as const).map((waga) => (
             <button

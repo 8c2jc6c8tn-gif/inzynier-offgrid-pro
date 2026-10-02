@@ -24,7 +24,7 @@ import { cn } from "@/lib/utils"
 
 export default function UstawieniaPage() {
   const stan = useSyncExternalStore(subscribe, getSnapshot, getServerSnapshot)
-  const tr = useTranslate()
+  const t = useTranslate()
   const [wybranePresety, setWybranePresety] = useState<string[]>([])
   const [presetZastosowany, setPresetZastosowany] = useState(false)
 
@@ -70,23 +70,22 @@ export default function UstawieniaPage() {
           href="/"
           className="rounded-md text-small text-muted-foreground transition-colors hover:text-foreground focus-visible:ring-2 focus-visible:ring-ring/50 focus-visible:outline-none"
         >
-          ← Pulpit
+          {t("UI-UST-PULPIT")}
         </Link>
         <h1 className="mt-2 text-h1 font-semibold">
-          <span aria-hidden="true">⚙️</span> Ustawienia — Skonfiguruj pulpit
+          <span aria-hidden="true">⚙️</span> {t("UI-UST-USTAWIENIA-SKONFIGURUJ-PULPI")}
         </h1>
         <p className="mt-1 text-small text-muted-foreground">
-          Pokaż/ukryj moduł, zmień kolejność (↑/↓). Ukrycie nie usuwa modułu — zawsze możesz go
-          przywrócić. Zmiany zapisują się automatycznie w tej przeglądarce.
+          {t("UI-UST-POKAZ-UKRYJ-MODUL")}
         </p>
       </div>
 
       <section className="flex flex-col gap-3" aria-labelledby="presety-tytul">
         <div>
           <h2 id="presety-tytul" className="text-h2 font-semibold">
-            {tr("UI-PULPIT-PRESETY-TYTUL")}
+            {t("UI-PULPIT-PRESETY-TYTUL")}
           </h2>
-          <p className="mt-1 text-small text-muted-foreground">{tr("UI-PULPIT-PRESETY-OPIS")}</p>
+          <p className="mt-1 text-small text-muted-foreground">{t("UI-PULPIT-PRESETY-OPIS")}</p>
         </div>
         <ul className="flex flex-col gap-2">
           {PRESETY.map((preset) => (
@@ -100,9 +99,9 @@ export default function UstawieniaPage() {
                 />
                 <span className="flex flex-col gap-0.5">
                   <span className="text-small font-medium">
-                    <span aria-hidden="true">{preset.ikona}</span> {tr(preset.nazwaKlucz)}
+                    <span aria-hidden="true">{preset.ikona}</span> {t(preset.nazwaKlucz)}
                   </span>
-                  <span className="text-caption text-muted-foreground">{tr(preset.opisKlucz)}</span>
+                  <span className="text-caption text-muted-foreground">{t(preset.opisKlucz)}</span>
                 </span>
               </label>
             </li>
@@ -114,10 +113,10 @@ export default function UstawieniaPage() {
           disabled={wybranePresety.length === 0}
           className="min-h-11"
         >
-          {tr("UI-PULPIT-PRESETY-ZASTOSUJ")}
+          {t("UI-PULPIT-PRESETY-ZASTOSUJ")}
         </Button>
         <p role="status" className="text-small text-muted-foreground">
-          {presetZastosowany ? tr("UI-PULPIT-PRESETY-ZASTOSOWANO") : null}
+          {presetZastosowany ? t("UI-PULPIT-PRESETY-ZASTOSOWANO") : null}
         </p>
       </section>
 
@@ -151,7 +150,7 @@ export default function UstawieniaPage() {
                   size="icon-sm"
                   onClick={() => przesun(id, -1)}
                   disabled={index === 0}
-                  aria-label="Przenieś wyżej"
+                  aria-label={t("UI-UST-PRZENIES-WYZEJ")}
                 >
                   ↑
                 </Button>
@@ -161,12 +160,12 @@ export default function UstawieniaPage() {
                   size="icon-sm"
                   onClick={() => przesun(id, 1)}
                   disabled={index === stan.order.length - 1}
-                  aria-label="Przenieś niżej"
+                  aria-label={t("UI-UST-PRZENIES-NIZEJ")}
                 >
                   ↓
                 </Button>
                 <Button type="button" variant="outline" size="sm" className="ml-1" onClick={() => przelaczWidocznosc(id)}>
-                  {ukryty ? "Pokaż" : "Ukryj"}
+                  {ukryty ? t("UI-UST-POKAZ") : t("UI-UST-UKRYJ")}
                 </Button>
               </div>
             </li>
@@ -175,17 +174,17 @@ export default function UstawieniaPage() {
       </ul>
 
       <Button type="button" variant="outline" onClick={przywrocDomyslne} className="min-h-11">
-        Przywróć domyślne
+        {t("UI-UST-PRZYWROC-DOMYSLNE")}
       </Button>
 
       <div className="flex flex-col gap-6 border-t pt-6">
         <div className="flex items-center justify-between">
           <div>
-            <h2 className="text-h2 font-semibold">Personalizacja wyglądu</h2>
+            <h2 className="text-h2 font-semibold">{t("UI-UST-PERSONALIZACJA-WYGLADU")}</h2>
             <p className="text-small text-muted-foreground">
-              Motyw, kolory i czcionka. Podgląd wszystkich elementów naraz:{" "}
+              {t("UI-UST-MOTYW-KOLORY-CZCIONKA")}{" "}
               <Link href="/wzornik" className="underline">
-                /wzornik
+                {t("UI-UST-WZORNIK")}
               </Link>
               .
             </p>
@@ -196,21 +195,20 @@ export default function UstawieniaPage() {
         <StylWygladuWybor />
 
         <div>
-          <h3 className="mb-2 text-small font-semibold">Kolory</h3>
+          <h3 className="mb-2 text-small font-semibold">{t("UI-UST-KOLORY")}</h3>
           <KolorGrupaEdytor />
         </div>
 
         <div>
-          <h3 className="mb-2 text-small font-semibold">Czcionka</h3>
+          <h3 className="mb-2 text-small font-semibold">{t("UI-UST-CZCIONKA")}</h3>
           <CzcionkaEdytor />
         </div>
       </div>
 
       <div className="flex flex-col gap-2 border-t pt-6">
-        <h2 className="text-h2 font-semibold">Język</h2>
+        <h2 className="text-h2 font-semibold">{t("UI-UST-JEZYK")}</h2>
         <p className="text-small text-muted-foreground">
-          Dotyczy komunikatów, które mają dziś tłumaczenie (rozdz. 17 standardu — migracja trwa
-          moduł po module). Pozostałe teksty wciąż pokazują się po polsku.
+          {t("UI-UST-DOTYCZY-KOMUNIKATOW-KTORE")}
         </p>
         <JezykWybor />
       </div>

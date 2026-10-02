@@ -1,5 +1,8 @@
+"use client"
+
 import type { ReactNode } from "react"
 import { cn } from "@/lib/utils"
+import { useTranslate } from "@/lib/i18n/language-context"
 
 /**
  * Trzy stany brzegowe, których brakowało jako nazwanych komponentów (docs/brief-dla-v0.md,
@@ -67,10 +70,11 @@ export function StanBledu({
  * podłączeniu telemetrii przez Modbus/MQTT). Dziś większość kalkulatorów liczy synchronicznie
  * (useMemo), więc to głównie token gotowy do użycia, nie coś widoczne na co dzień. */
 export function StanLadowania({ linie = 3, className }: { linie?: number; className?: string }) {
+  const t = useTranslate()
   return (
     <div
       role="status"
-      aria-label="Wczytywanie danych"
+      aria-label={t("UI-STA-WCZYTYWANIE-DANYCH")}
       className={cn("flex flex-col gap-2 rounded-lg border p-4", className)}
     >
       {Array.from({ length: linie }).map((_, i) => (
@@ -80,7 +84,7 @@ export function StanLadowania({ linie = 3, className }: { linie?: number; classN
           style={{ width: `${85 - i * 15}%` }}
         />
       ))}
-      <span className="sr-only">Wczytywanie…</span>
+      <span className="sr-only">{t("UI-STA-WCZYTYWANIE")}</span>
     </div>
   )
 }

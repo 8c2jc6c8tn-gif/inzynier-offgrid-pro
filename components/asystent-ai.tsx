@@ -15,8 +15,10 @@ import { Button } from "@/components/ui/button"
 import { Pole } from "@/components/ui/pole"
 import { isAiAvailable } from "@/lib/ai/is-ai-available"
 import { pytajAsystenta } from "@/lib/ai/pytaj-asystenta"
+import { useTranslate } from "@/lib/i18n/language-context"
 
 export function AsystentAi() {
+  const t = useTranslate()
   const [dostepny, setDostepny] = useState(false)
   const [sprawdzono, setSprawdzono] = useState(false)
   const [otwarty, setOtwarty] = useState(false)
@@ -58,31 +60,31 @@ export function AsystentAi() {
           <div className="flex items-start justify-between gap-2">
             <div>
               <h2 className="text-small font-semibold uppercase tracking-wide text-muted-foreground">
-                Zapytaj asystenta
+                {t("UI-ASYAI-ZAPYTAJ-ASYSTENTA")}
               </h2>
               <p className="text-caption text-muted-foreground">
-                Asystent liczy wyłącznie przez prawdziwy kalkulator — nie zgaduje wartości.
+                {t("UI-ASYAI-ASYSTENT-LICZY-WYLACZNIE")}
               </p>
             </div>
             <Button
               type="button"
               variant="ghost"
               size="icon-sm"
-              aria-label="Zamknij asystenta"
+              aria-label={t("UI-ASYAI-ZAMKNIJ-ASYSTENTA")}
               onClick={() => setOtwarty(false)}
             >
               ✕
             </Button>
           </div>
           <Pole
-            label="Pytanie"
-            placeholder="np. Jaki prąd popłynie przy mocy 400W i napięciu 24V?"
+            label={t("UI-ASYAI-PYTANIE")}
+            placeholder={t("UI-ASYAI-JAKI-PRAD-POPLYNIE")}
             value={pytanie}
             onChange={(e) => setPytanie(e.target.value)}
             disabled={wysylanie}
           />
           <Button type="button" onClick={wyslij} disabled={wysylanie || !pytanie.trim()}>
-            {wysylanie ? "Pytam…" : "Zapytaj"}
+            {wysylanie ? t("UI-ASYAI-PYTAM") : t("UI-ASYAI-ZAPYTAJ")}
           </Button>
           {blad && (
             <p role="alert" className="text-small text-werdykt-blad-foreground">
@@ -92,7 +94,7 @@ export function AsystentAi() {
           {odpowiedz && (
             <div className="flex flex-col gap-1 rounded-md bg-muted/60 p-3 text-small">
               <p>{odpowiedz}</p>
-              {zrodlo && <p className="text-caption text-muted-foreground">Źródło: kalkulator v{zrodlo}</p>}
+              {zrodlo && <p className="text-caption text-muted-foreground">{t("UI-ASYAI-ZRODLO-KALKULATOR", { zrodlo })}</p>}
             </div>
           )}
         </section>
@@ -101,7 +103,7 @@ export function AsystentAi() {
         type="button"
         size="icon-lg"
         className="rounded-full shadow-lg"
-        aria-label={otwarty ? "Zwiń asystenta AI" : "Otwórz asystenta AI"}
+        aria-label={otwarty ? t("UI-ASYAI-ZWIN-ASYSTENTA") : t("UI-ASYAI-OTWORZ-ASYSTENTA")}
         aria-expanded={otwarty}
         onClick={() => setOtwarty((v) => !v)}
       >

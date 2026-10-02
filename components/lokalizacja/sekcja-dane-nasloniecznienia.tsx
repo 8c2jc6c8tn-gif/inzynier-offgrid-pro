@@ -6,6 +6,7 @@ import { StanPusty } from "@/components/ui/stany"
 import type { ZapisTmy } from "@/lib/lokalizacja/dane-tmy"
 import type { LokalizacjaProjektu } from "@/lib/lokalizacja/use-lokalizacja-projektu"
 import { useOnline } from "@/lib/lokalizacja/use-online"
+import { useTranslate } from "@/lib/i18n/language-context"
 
 const f3 = (x: number) => x.toLocaleString("pl-PL", { maximumFractionDigits: 3 })
 
@@ -22,35 +23,34 @@ export function SekcjaDanychNaslonecznienia({
   dane: ZapisTmy | null
   tmy: { pobiera: boolean; blad: string | null; pobierz: (szerokosc: number, dlugosc: number) => Promise<void> }
 }) {
+  const t = useTranslate()
   const online = useOnline()
   return (
     <section className="flex flex-col gap-2 rounded-lg border p-4">
-      <h2 className="font-semibold">Dane nasłonecznienia</h2>
+      <h2 className="font-semibold">{t("UI-SEKDANNAS-DANE-NASLONECZNIENIA")}</h2>
       {!lokalizacja ? (
-        <StanPusty tytul="Brak lokalizacji — zbierz model działki (Ekran 2) albo wpisz współrzędne na Ekranie 1.">
+        <StanPusty tytul={t("UI-SEKDANNAS-BRAK-LOKALIZACJI-ZBIERZ")}>
           <div className="flex gap-3">
             <Link href="/kalkulatory/skaner-dzialki" className="underline">
-              → Ekran 2
+              {t("UI-SEKDANNAS-EKRAN")}
             </Link>
             <Link href="/kalkulatory/lokalizacja-i-klimat" className="underline">
-              → Ekran 1
+              {t("UI-SEKDANNAS-EKRAN-2")}
             </Link>
           </div>
         </StanPusty>
       ) : (
         <>
           <p className="text-small">
-            Lokalizacja: {f3(lokalizacja.szerokosc)}°, {f3(lokalizacja.dlugosc)}° — z: {lokalizacja.zrodlo}
+            {t("UI-SEKDANNAS-LOKALIZACJA", { szerokosc: f3(lokalizacja.szerokosc), dlugosc: f3(lokalizacja.dlugosc), zrodlo: lokalizacja.zrodlo })}
           </p>
           {dane ? (
             <p className="text-small text-muted-foreground">
-              Typowy rok meteorologiczny PVGIS ({dane.dane.meta.bazaPromieniowania}, lata {dane.dane.meta.rokOd}–{dane.dane.meta.rokDo}),
-              zapisany na urządzeniu {new Date(dane.pobrano).toLocaleDateString("pl-PL")} — działa offline.
+              {t("UI-SEKDANNAS-TYPOWY-ROK-METEOROLOGICZNY", { bazaPromieniowania: dane.dane.meta.bazaPromieniowania, rokOd: dane.dane.meta.rokOd, rokDo: dane.dane.meta.rokDo, p: new Date(dane.pobrano).toLocaleDateString("pl-PL") })}
             </p>
           ) : (
             <p className="text-small text-muted-foreground">
-              Potrzebne godzinowe dane nasłonecznienia z PVGIS (Komisja Europejska) — pobierane raz, potem zapisane na
-              urządzeniu.
+              {t("UI-SEKDANNAS-POTRZEBNE-GODZINOWE-DANE")}
             </p>
           )}
           <Button
@@ -59,9 +59,9 @@ export function SekcjaDanychNaslonecznienia({
             disabled={tmy.pobiera || !online}
             onClick={() => tmy.pobierz(lokalizacja.szerokosc, lokalizacja.dlugosc)}
           >
-            {tmy.pobiera ? "Pobieram z PVGIS…" : dane ? "Pobierz ponownie" : "Pobierz dane nasłonecznienia (PVGIS)"}
+            {tmy.pobiera ? t("UI-SEKDANNAS-POBIERAM-PVGIS") : dane ? t("UI-SEKDANNAS-POBIERZ-PONOWNIE") : t("UI-SEKDANNAS-POBIERZ-DANE-NASLONECZNIENIA")}
           </Button>
-          {!online && !dane && <p className="text-small">Brak połączenia — pobierz dane, gdy będziesz online.</p>}
+          {!online && !dane && <p className="text-small">{t("UI-SEKDANNAS-BRAK-POLACZENIA-POBIERZ")}</p>}
           {tmy.blad && <p className="text-small text-werdykt-blad-foreground">{tmy.blad}</p>}
         </>
       )}

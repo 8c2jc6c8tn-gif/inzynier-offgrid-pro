@@ -1207,6 +1207,23 @@ Pełne wyniki audytu: `docs/memory.md`, sekcja "Pełny audyt na polecenie właś
   `docs/memory.md`). **Zostało:** M3 (31 plików, ~610 tekstów), M1 (4), M6 ogrzewanie (15 — pominięte, bo równolegle
   trwa praca nad nowymi ekranami M6; robić po jej merge), `app/` poza kalkulatorami, `components/**`.
   **Kolizje:** M6 — sesja nowych ekranów ogrzewania; M3 — dowolna sesja zmieniająca ekrany PV.
+  → **[02.10.2026] ✅ migracja ekranów zakończona — gałąź `work/i18n2`.** Lista zapadkowa **82 → 6 plików** (1503 →
+  10 tekstów). Zrobione: stare ekrany M6 (15, `m06-stare-ekrany.ts`), M3 (31: `m03-pv-a.ts`, `m03-typ-montazu.ts`,
+  `m03-pv-b.ts`), M1 (`m01-lokalizacja.ts`), `components/lokalizacja` (6), `components/siec` (3,
+  `komponenty-siec.ts`), komponenty wspólne (`komponenty-wspolne.ts`, `komponenty-wzorce.ts`), pulpit / ustawienia /
+  logowanie / lista modułu (`app-strony.ts`), `/wzornik` (`app-wzornik.ts`). Nowy `components/ui/tekst-ui.tsx` —
+  tekst `UI-*` w module, który musi zostać serwerowy (`werdykt.tsx`, `/moduly/[id]`). **Zostaje na liście celowo
+  (6 plików, 10 trafień):** `test-licznika` (2 — pismo do polskiego OSD); `app/layout.tsx` (3) i `app/manifest.ts`
+  (2) — nazwa marki + statyczne `metadata`/manifest, generowane bez znajomości języka (język żyje tylko w
+  `localStorage`, standard 17.4 — zero cookie), więc `t()` nie ma tam zastosowania; `definicje-symboli.tsx` (1 — znaczniki
+  SVG, fałszywe trafienie); `werdykt.tsx` (1 — nazwa klasy z tokenem `werdykt-uwaga`, fałszywe trafienie);
+  `siec/wspolne.tsx` (1 — przyrostek „ zł” we wspólnym formaterze `zl()`, używanym też przez ekrany spoza listy).
+  **Zostało (osobne decyzje):** (a) czy opis w `metadata`/manifeście ma być po angielsku (jedna wersja dla
+  wszystkich), (b) czy `zl()` ma zwracać „PLN”/„зл” w EN/RU (dotyka ~10 ekranów M14), (c) stałe silnika — wpis
+  niżej. Narzędzie `scripts/migracja-i18n-ui.mjs` zostaje do czasu (b)/(c) — potem usunąć. **Priorytet (a)/(b):**
+  niski — kosmetyka EN/RU, nie liczby. **Odblokowuje:** pustą listę zapadkową poza wyjątkami. **Plusy teraz:** małe.
+  **Minusy:** (b) zmienia wspólny formater M14 — kolizja z każdą sesją nad ekranami sieci. **Kolejność:** (c) przed (b).
+  Do przeglądu merytorycznego właściciela: tłumaczenia EN/RU tej partii (≈ 1500 tekstów, terminy jak w `dictionary-*`).
 - 🔲 (2026-09-30) **Polskie teksty ze stałych silnika wyświetlane na ekranach (luka i18n poza strażnikiem).** Wyszło
   przy migracji etykiet: część tekstów na ekranach pochodzi ze stałych w `lib/core/**/constants.ts` (np. `label`
   opcji/technologii/protokołów: `OPCJE_IP_MALE_INSTALACJE`, `WYMAGANE_WYPOSAZENIE` demontażu pakietu,

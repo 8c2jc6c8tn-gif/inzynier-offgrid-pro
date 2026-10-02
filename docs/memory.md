@@ -8646,6 +8646,30 @@ Tryb Audyt (czapka rewidenta). Warstwa „w pełni na końcu” z N.2 — wszyst
   Wi-Fi, UART, PWM, jednostki „kWh”, „%”) zostają bez klucza — render `x.startsWith("UI-") ? t(x) : x`.
   Treść pisma reklamacyjnego (`test-licznika`) celowo zostaje po polsku (adresat: polski OSD).
 
+## D58 — domknięcie migracji ekranów + pułapki narzędzia (02.10.2026, gałąź `work/i18n2`)
+
+- **Stan:** lista zapadkowa 82 → 6 plików (1503 → 10 tekstów); co zostało i dlaczego — `docs/lista-do-zrobienia.md`,
+  wpis „Tłumaczenie samych stron”.
+- **Moduł, który musi zostać serwerowy** (eksportuje funkcje wołane przez Server Components, np. `poziomZStatusu` w
+  `components/werdykt.tsx`, albo sam jest stroną serwerową `/moduly/[id]`): nie dopisywać `"use client"` — tekst przez
+  `<TekstUi kod="UI-…" />` (`components/ui/tekst-ui.tsx`). Na atrybut (aria-label, title) to nie działa — tam
+  komponent kliencki. Komponenty o samych serializowalnych propsach (`nawigacja-ekranu`, `stany`, `krok-z-media`)
+  dostały `"use client"` — strony serwerowe mogą je dalej importować.
+- **Pułapki `scripts/migracja-i18n-ui.mjs` (naprawione w narzędziu):** (1) gubił `{" "}` na brzegu przebiegu JSX
+  (spacja przy `<Link>`); (2) trafienia strażnika są kluczowane linią + tekstem, więc
+  `<option value="LiFePO4">LiFePO4</option>` dostawało `value={t(…)}` — atrybuty danych są teraz pomijane (dwa takie
+  miejsca z wcześniejszych partii: `ochrona-przed-rozladowaniem`, `ratowanie-akumulatora-maly` — działają, bo klucz ma
+  ten sam tekst w 3 językach, ale do poprawki przy najbliższej zmianie tych ekranów); (3) każdy `page.tsx` poza
+  `/kalkulatory/` dostawał prefiks `PAG` — „Pulpit” i „← Pulpit” z dwóch stron zlały się w jeden klucz; teraz prefiks
+  z nazwy folderu; (4) hook pod inną nazwą (`const tr = useTranslate()`) był traktowany jak obecny, a wstawione `t(…)`
+  nie miały definicji — teraz zgłoszenie RĘCZNIE; (5) plik bez importów dostawał import doklejony przed komentarzem
+  na pozycji 0.
+- **Strażnik liczy też:** szablon w atrybucie `style` i encje `&nbsp;` w tekście JSX (zamiana na `{" "}`), oraz
+  słowa polskie w nazwach klas (`werdykt-uwaga`) i znacznikach SVG w stringu — dwa ostatnie to fałszywe trafienia,
+  zostają na liście.
+- **Tablica kolumn / stan początkowy na poziomie modułu z `t()`:** zamienić na funkcję przyjmującą `t`
+  (`kolumny(t)`, `stanPoczatkowy(t)`), stałe etykiet trzymają klucze, `t()` przy renderze.
+
 ## M6 — ekrany bez właściciela (01.10.2026, gałąź `work/m6`)
 
 - **Stan:** zbudowane E13, E16, E17, E18, E19, E20, 5.42 (`kolektor-gruntowy`), 2A (`alternatywne-zrodla-ciepla`,

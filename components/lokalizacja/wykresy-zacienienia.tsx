@@ -3,10 +3,13 @@
  * ciemnym motywie (`currentColor`). Tylko rysowanie wyników kalkulatora.
  */
 
+import { useTranslate } from "@/lib/i18n/language-context"
+
 export const MIESIACE = ["I", "II", "III", "IV", "V", "VI", "VII", "VIII", "IX", "X", "XI", "XII"]
 const f1 = (x: number) => x.toLocaleString("pl-PL", { maximumFractionDigits: 1 })
 
 export function WykresMiesiecy({ obecnie, prognoza }: { obecnie: number[]; prognoza: number[] | null }) {
+  const t = useTranslate()
   const max = Math.max(1, ...obecnie, ...(prognoza ?? []))
   const W = 360
   const H = 140
@@ -15,8 +18,8 @@ export function WykresMiesiecy({ obecnie, prognoza }: { obecnie: number[]; progn
   const y = (v: number) => dol - (v / max) * (dol - 14)
   return (
     <figure className="flex flex-col gap-1">
-      <figcaption className="font-medium">Strata w miesiącach [%]{prognoza ? " — obecnie (pełne) i prognoza (obrys)" : ""}</figcaption>
-      <svg viewBox={`0 0 ${W} ${H}`} className="w-full" role="img" aria-label="Strata promieniowania w kolejnych miesiącach">
+      <figcaption className="font-medium">{t("UI-WYKZAC-STRATA-MIESIACACH")}{prognoza ? ` ${t("UI-WYKZAC-OBECNIE-PELNE-PROGNOZA")}` : ""}</figcaption>
+      <svg viewBox={`0 0 ${W} ${H}`} className="w-full" role="img" aria-label={t("UI-WYKZAC-STRATA-PROMIENIOWANIA-KOLEJN")}>
         {obecnie.map((v, m) => (
           <g key={m}>
             <rect x={m * szer + 4} y={y(v)} width={szer - 8} height={dol - y(v)} className="fill-current opacity-70">
@@ -24,7 +27,7 @@ export function WykresMiesiecy({ obecnie, prognoza }: { obecnie: number[]; progn
             </rect>
             {prognoza && (
               <rect x={m * szer + 4} y={y(prognoza[m]!)} width={szer - 8} height={dol - y(prognoza[m]!)} fill="none" stroke="currentColor" strokeDasharray="3 2">
-                <title>{`${MIESIACE[m]} (prognoza): ${f1(prognoza[m]!)}%`}</title>
+                <title>{t("UI-WYKZAC-PROGNOZA", { p: MIESIACE[m], p2: f1(prognoza[m]!) })}</title>
               </rect>
             )}
             <text x={m * szer + szer / 2} y={H - 6} textAnchor="middle" className="fill-current text-[10px]">
@@ -34,7 +37,7 @@ export function WykresMiesiecy({ obecnie, prognoza }: { obecnie: number[]; progn
         ))}
         <line x1={0} x2={W} y1={dol} y2={dol} stroke="currentColor" strokeOpacity={0.4} />
         <text x={2} y={10} className="fill-current text-[10px]">
-          maks. {f1(max)}%
+          {t("UI-WYKZAC-MAKS", { max: f1(max) })}
         </text>
       </svg>
     </figure>
@@ -43,6 +46,7 @@ export function WykresMiesiecy({ obecnie, prognoza }: { obecnie: number[]; progn
 
 /** Profil horyzontu przeszkód: kąt wzniesienia [°] w funkcji azymutu (co 1°, od północy). */
 export function WykresHoryzontu({ profilDeg }: { profilDeg: number[] }) {
+  const t = useTranslate()
   const max = Math.max(10, ...profilDeg)
   const W = 360
   const H = 130
@@ -52,8 +56,8 @@ export function WykresHoryzontu({ profilDeg }: { profilDeg: number[] }) {
   const d = `M0,${dol} ` + profilDeg.map((v, i) => `L${(i * krok).toFixed(1)},${y(v).toFixed(1)}`).join(" ") + ` L${W},${dol} Z`
   return (
     <figure className="flex flex-col gap-1">
-      <figcaption className="font-medium">Profil horyzontu przeszkód (wzniesienie nad horyzontem)</figcaption>
-      <svg viewBox={`0 0 ${W} ${H}`} className="w-full" role="img" aria-label="Profil horyzontu przeszkód w funkcji azymutu">
+      <figcaption className="font-medium">{t("UI-WYKZAC-PROFIL-HORYZONTU-PRZESZKOD")}</figcaption>
+      <svg viewBox={`0 0 ${W} ${H}`} className="w-full" role="img" aria-label={t("UI-WYKZAC-PROFIL-HORYZONTU-PRZESZKOD-2")}>
         <path d={d} className="fill-current opacity-40" />
         {["N", "E", "S", "W", "N"].map((k, i) => (
           <g key={i}>

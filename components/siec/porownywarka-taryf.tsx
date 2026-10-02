@@ -13,6 +13,7 @@ import { WerdyktPanel } from "@/components/werdykt"
 import { WynikGlowny } from "@/components/wzorce/wynik-glowny"
 import { WynikSzczegoly } from "@/components/wzorce/wynik-szczegoly"
 import { ETYKIETA_STREFY, GRUPY_DOM, GRUPY_FIRMA, PoleOsd, ZrodloDanych, liczba, liczbaLubNull, poziomWerdyktu, zl } from "./wspolne"
+import { useTranslate } from "@/lib/i18n/language-context"
 
 type WariantStan = { aktywny: boolean; zuzycie: Partial<Record<Strefa, string>>; ceny: Partial<Record<Strefa, string>> }
 
@@ -27,12 +28,13 @@ type Stan = {
   warianty: Partial<Record<Grupa, WariantStan>>
 }
 
+/** Exclusion reasons — `UI-PORTAR-POWOD-*` keys, render through `t()`. */
 const POWOD: Record<PowodWylaczenia, string> = {
-  moc: "niedostępna przy tej mocy umownej",
-  segment: "nie dla tego kafla",
-  "brak-stawek": "brak stawek 2026 tego OSD w aplikacji",
-  niekompletne: "brakuje danych (zużycie lub ceny energii)",
-  blad: "błędne dane",
+  moc: "UI-PORTAR-POWOD-MOC",
+  segment: "UI-PORTAR-POWOD-SEGMENT",
+  "brak-stawek": "UI-PORTAR-POWOD-BRAK-STAWEK",
+  niekompletne: "UI-PORTAR-POWOD-NIEKOMPLETNE",
+  blad: "UI-PORTAR-POWOD-BLAD",
 }
 
 /**
@@ -41,6 +43,7 @@ const POWOD: Record<PowodWylaczenia, string> = {
  * the app does not have yet — no assumed split).
  */
 export function PorownywarkaTaryf({ segment }: { segment: Segment }) {
+  const t = useTranslate()
   const grupy = segment === "dom" ? GRUPY_DOM : GRUPY_FIRMA
   const [stan, setStan] = usePersistedDraft<Stan>(`siec-porownanie-${segment}`, {
     osd: "tauron",
@@ -92,18 +95,18 @@ export function PorownywarkaTaryf({ segment }: { segment: Segment }) {
         <PoleOsd value={stan.osd} onChange={(osd) => ustaw("osd", osd)} />
         {segment === "dom" ? (
           <PoleSelect
-            label="Przyłącze"
+            label={t("UI-PORTAR-PRZYLACZE")}
             value={stan.fazy}
             onChange={(e) => ustaw("fazy", e.target.value as Fazy)}
             pomoc={<PomocPola ekran="siec-rachunek" pole="przylacze" />}
           >
-            <option value="jednofazowa">jednofazowe</option>
-            <option value="trojfazowa">trójfazowe</option>
+            <option value="jednofazowa">{t("UI-PORTAR-JEDNOFAZOWE")}</option>
+            <option value="trojfazowa">{t("UI-PORTAR-TROJFAZOWE")}</option>
           </PoleSelect>
         ) : (
           <>
             <Pole
-              label="Moc umowna"
+              label={t("UI-PORTAR-MOC-UMOWNA")}
               unit="kW"
               type="number"
               inputMode="decimal"
@@ -112,8 +115,8 @@ export function PorownywarkaTaryf({ segment }: { segment: Segment }) {
               pomoc={<PomocPola ekran="siec-rachunek" pole="mocUmowna" />}
             />
             <Pole
-              label="Energia pobrana w dni robocze 7:00–22:00"
-              unit="kWh/rok"
+              label={t("UI-PORTAR-ENERGIA-POBRANA-DNI")}
+              unit={t("UI-J-KWH-ROK")}
               type="number"
               inputMode="decimal"
               value={stan.energiaMocowa}
@@ -123,7 +126,7 @@ export function PorownywarkaTaryf({ segment }: { segment: Segment }) {
           </>
         )}
         <Pole
-          label="Rok rozliczenia"
+          label={t("UI-PORTAR-ROK-ROZLICZENIA")}
           type="number"
           inputMode="numeric"
           value={stan.rok}
@@ -131,19 +134,19 @@ export function PorownywarkaTaryf({ segment }: { segment: Segment }) {
           pomoc={<PomocPola ekran="siec-rachunek" pole="rok" />}
         />
         <PoleSelect
-          label="Okres rozliczeniowy"
+          label={t("UI-PORTAR-OKRES-ROZLICZENIOWY")}
           value={stan.okres}
           onChange={(e) => ustaw("okres", e.target.value as OkresRozliczeniowy)}
           pomoc={<PomocPola ekran="siec-rachunek" pole="okres" />}
         >
-          <option value="1">co 1 miesiąc</option>
-          <option value="2">co 2 miesiące</option>
-          <option value="6">co 6 miesięcy</option>
-          <option value="12">co 12 miesięcy</option>
+          <option value="1">{t("UI-PORTAR-MIESIAC")}</option>
+          <option value="2">{t("UI-PORTAR-MIESIACE")}</option>
+          <option value="6">{t("UI-PORTAR-MIESIECY")}</option>
+          <option value="12">{t("UI-PORTAR-MIESIECY-2")}</option>
         </PoleSelect>
         <Pole
-          label="Opłata handlowa sprzedawcy"
-          unit="zł/mies. netto"
+          label={t("UI-PORTAR-OPLATA-HANDLOWA-SPRZEDAWCY")}
+          unit={t("UI-PORTAR-MIES-NETTO")}
           type="number"
           inputMode="decimal"
           value={stan.handlowa}
@@ -152,9 +155,7 @@ export function PorownywarkaTaryf({ segment }: { segment: Segment }) {
         />
 
         <p className="text-small text-muted-foreground">
-          Zaznacz grupy do porównania. Dla każdej podaj, jak to samo roczne zużycie rozkłada się na jej strefy (z faktur
-          albo portalu OSD), i cenę energii sprzedawcy w tej grupie. Godziny stref różnią się między OSD — aplikacja ich nie
-          zakłada.
+          {t("UI-PORTAR-ZAZNACZ-GRUPY-POROWNANIA")}
         </p>
         {grupy.map((gr) => {
           const w = wariant(gr)
@@ -164,14 +165,14 @@ export function PorownywarkaTaryf({ segment }: { segment: Segment }) {
                 id={`siec-wariant-${segment}-${gr}`}
                 checked={w.aktywny}
                 onChange={(e) => ustawWariant(gr, { aktywny: e.target.checked })}
-                label={`Porównaj ${gr}`}
+                label={t("UI-PORTAR-POROWNAJ", { gr })}
               />
               {w.aktywny &&
                 STREFY_GRUPY[gr].map((z) => (
                   <div key={z} className="grid grid-cols-2 gap-3 pl-4">
                     <Pole
-                      label={`${gr} — zużycie, ${ETYKIETA_STREFY[z]}`}
-                      unit="kWh/rok"
+                      label={t("UI-PORTAR-ZUZYCIE", { gr, p: t(ETYKIETA_STREFY[z]) })}
+                      unit={t("UI-J-KWH-ROK")}
                       type="number"
                       inputMode="decimal"
                       value={w.zuzycie[z] ?? ""}
@@ -179,8 +180,8 @@ export function PorownywarkaTaryf({ segment }: { segment: Segment }) {
                       pomoc={<PomocPola ekran="siec-rachunek" pole="zuzycieStrefy" />}
                     />
                     <Pole
-                      label={`${gr} — cena energii, ${ETYKIETA_STREFY[z]}`}
-                      unit="zł/kWh netto"
+                      label={t("UI-PORTAR-CENA-ENERGII", { gr, p: t(ETYKIETA_STREFY[z]) })}
+                      unit={t("UI-PORTAR-KWH-NETTO")}
                       type="number"
                       inputMode="decimal"
                       value={w.ceny[z] ?? ""}
@@ -194,18 +195,18 @@ export function PorownywarkaTaryf({ segment }: { segment: Segment }) {
         })}
       </div>
 
-      <ZrodloDanych>Porównanie tylko na stawkach z taryf — bez stawek z faktury.</ZrodloDanych>
+      <ZrodloDanych>{t("UI-PORTAR-POROWNANIE-TYLKO-STAWKACH")}</ZrodloDanych>
 
       {result.status === "INVALID_INPUT" ? (
-        <WerdyktPanel poziom="blad" etykieta="Nie da się porównać — sprawdź wpisane dane">
+        <WerdyktPanel poziom="blad" etykieta={t("UI-PORTAR-POROWNAC-SPRAWDZ-WPISANE")}>
           <WynikSzczegoly assumptions={[]} warnings={result.warnings} />
         </WerdyktPanel>
       ) : (
         <WerdyktPanel
           poziom={poziom ?? "uwaga"}
-          etykieta={najtansza ? `Najtańsza: ${result.value.najtanszaGrupa}` : "Brak grupy do porównania"}
+          etykieta={najtansza ? t("UI-PORTAR-NAJTANSZA", { najtanszaGrupa: result.value.najtanszaGrupa ?? "" }) : t("UI-PORTAR-BRAK-GRUPY-POROWNANIA")}
         >
-          {najtansza && <WynikGlowny>{zl(najtansza.bruttoZl)} brutto / rok</WynikGlowny>}
+          {najtansza && <WynikGlowny>{t("UI-PORTAR-BRUTTO-ROK", { bruttoZl: zl(najtansza.bruttoZl) })}</WynikGlowny>}
           <table className="mt-3 w-full text-small">
             <tbody>
               {result.value.pozycje.map((p) => (
@@ -220,7 +221,7 @@ export function PorownywarkaTaryf({ segment }: { segment: Segment }) {
                         )}
                       </>
                     ) : (
-                      <span className="text-muted-foreground">wyłączona: {POWOD[p.wylaczona!]}</span>
+                      <span className="text-muted-foreground">{t("UI-PORTAR-WYLACZONA", { p: t(POWOD[p.wylaczona!]) })}</span>
                     )}
                   </td>
                 </tr>

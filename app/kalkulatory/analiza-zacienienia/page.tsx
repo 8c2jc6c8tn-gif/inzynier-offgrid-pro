@@ -83,6 +83,9 @@ type WynikE3 = {
 
 const f1 = (x: number) => x.toLocaleString("pl-PL", { maximumFractionDigits: 1 })
 
+/** CSS gradient of the heat-map legend (not user text). */
+const TLO_LEGENDY = `linear-gradient(to right, ${kolorStraty(0, 1)}, ${kolorStraty(0.5, 1)}, ${kolorStraty(1, 1)})`
+
 export default function AnalizaZacienieniaPage() {
   const t = useTranslate()
   const { dane: zapisanyModel, wczytano } = useOdczytDraftu<ModelDzialki>(KLUCZ_MODELU_DZIALKI)
@@ -176,15 +179,14 @@ export default function AnalizaZacienieniaPage() {
   return (
     <main className="mx-auto flex max-w-2xl flex-col gap-6 p-6">
       <NawigacjaEkranu href="/kalkulatory/analiza-zacienienia" />
-      <NaglowekEkranu tytul="Analiza zacienienia" ekran="analiza-zacienienia" wynik={aktualny ? wynikE3 : null} parametry={{ tau: PRZEPUSZCZALNOSC_KORONY_BEZLISTNEJ * 100 }}>
-        Dla każdej godziny roku sprawdza, czy przeszkoda zasłania słońce, i sumuje roczną stratę energii. Cień to niewidoczny złodziej energii — jedno drzewo, które dziś ledwo sięga dachu, za 10 lat może
-        zasłaniać połowę instalacji, jeśli się z tym nie policzy od razu. Moduł 1, Ekran 3.
+      <NaglowekEkranu tytul={t("UI-ANAZAC-ANALIZA-ZACIENIENIA")} ekran="analiza-zacienienia" wynik={aktualny ? wynikE3 : null} parametry={{ tau: PRZEPUSZCZALNOSC_KORONY_BEZLISTNEJ * 100 }}>
+        {t("UI-ANAZAC-KAZDEJ-GODZINY-ROKU")}
       </NaglowekEkranu>
 
       {!w.odniesienie ? (
-        <StanPusty tytul="Najpierw zbierz model działki na Ekranie 2.">
+        <StanPusty tytul={t("UI-ANAZAC-NAJPIERW-ZBIERZ-MODEL")}>
           <Link href="/kalkulatory/skaner-dzialki" className="underline">
-            → Skaner działki
+            {t("UI-ANAZAC-SKANER-DZIALKI")}
           </Link>
         </StanPusty>
       ) : (
@@ -199,46 +201,45 @@ export default function AnalizaZacienieniaPage() {
             skalaMaxProcent={skalaMax}
           />
           {probki.length > 0 && (
-            <div className="flex items-center gap-2 text-small" aria-label="Legenda mapy cieplnej">
+            <div className="flex items-center gap-2 text-small" aria-label={t("UI-ANAZAC-LEGENDA-MAPY-CIEPLNEJ")}>
               <span>0%</span>
               <span
                 className="h-3 flex-1 rounded"
-                style={{ background: `linear-gradient(to right, ${kolorStraty(0, 1)}, ${kolorStraty(0.5, 1)}, ${kolorStraty(1, 1)})` }}
+                style={{ background: TLO_LEGENDY }}
               />
-              <span>{f1(skalaMax)}% straty rocznej</span>
+              <span>{t("UI-ANAZAC-STRATY-ROCZNEJ", { skalaMax: f1(skalaMax) })}</span>
             </div>
           )}
 
           {powierzchnie.length === 0 && (
             <section className="flex flex-col gap-2 rounded-lg border p-4">
-              <h2 className="font-semibold">Dach płaski wg obrysu budynku</h2>
+              <h2 className="font-semibold">{t("UI-ANAZAC-DACH-PLASKI-OBRYSU")}</h2>
               <p className="text-small text-muted-foreground">
-                Model nie ma połaci z wysokościami (np. obrys budynku z Geoportalu). Podaj wysokość dachu i planowane
-                ustawienie paneli — analiza obejmie cały obrys na tej wysokości.
+                {t("UI-ANAZAC-MODEL-POLACI-WYSOKOSCIAMI")}
               </p>
               <div className="grid grid-cols-3 gap-2">
-                <Pole label="Wysokość dachu" unit="m" inputMode="decimal" value={stan.dach.wysokoscM} onChange={(e) => ustawDach({ wysokoscM: e.target.value })} pomoc={<PomocPola ekran="analiza-zacienienia" pole="wysokoscDachu" />} />
-                <Pole label="Nachylenie paneli" unit="°" inputMode="decimal" value={stan.dach.nachyleniePaneliDeg} onChange={(e) => ustawDach({ nachyleniePaneliDeg: e.target.value })} pomoc={<PomocPola ekran="analiza-zacienienia" pole="nachylenie" />} />
-                <Pole label="Azymut paneli" unit="°" inputMode="decimal" value={stan.dach.azymutPaneliDeg} onChange={(e) => ustawDach({ azymutPaneliDeg: e.target.value })} pomoc={<PomocPola ekran="analiza-zacienienia" pole="azymut" />} />
+                <Pole label={t("UI-ANAZAC-WYSOKOSC-DACHU")} unit="m" inputMode="decimal" value={stan.dach.wysokoscM} onChange={(e) => ustawDach({ wysokoscM: e.target.value })} pomoc={<PomocPola ekran="analiza-zacienienia" pole="wysokoscDachu" />} />
+                <Pole label={t("UI-ANAZAC-NACHYLENIE-PANELI")} unit="°" inputMode="decimal" value={stan.dach.nachyleniePaneliDeg} onChange={(e) => ustawDach({ nachyleniePaneliDeg: e.target.value })} pomoc={<PomocPola ekran="analiza-zacienienia" pole="nachylenie" />} />
+                <Pole label={t("UI-ANAZAC-AZYMUT-PANELI")} unit="°" inputMode="decimal" value={stan.dach.azymutPaneliDeg} onChange={(e) => ustawDach({ azymutPaneliDeg: e.target.value })} pomoc={<PomocPola ekran="analiza-zacienienia" pole="azymut" />} />
               </div>
             </section>
           )}
 
           <section className="flex flex-col gap-2 rounded-lg border p-4">
-            <h2 className="font-semibold">Przeszkody i prognoza wzrostu</h2>
+            <h2 className="font-semibold">{t("UI-ANAZAC-PRZESZKODY-PROGNOZA-WZROSTU")}</h2>
             {w.przeszkody.length === 0 ? (
               <p className="text-small text-muted-foreground">
-                Model nie ma przeszkód — dodaj drzewa i sąsiednie budynki na Ekranie 2.
+                {t("UI-ANAZAC-MODEL-PRZESZKOD-DODAJ")}
               </p>
             ) : drzewa.length === 0 ? (
               <p className="text-small text-muted-foreground">
-                Przeszkody w modelu to bryły o stałej wysokości (budynki, ściany) — prognoza wzrostu dotyczy tylko drzew.
+                {t("UI-ANAZAC-PRZESZKODY-MODELU-BRYLY")}
               </p>
             ) : (
               <>
                 <Pole
-                  label="Horyzont prognozy"
-                  unit="lata"
+                  label={t("UI-ANAZAC-HORYZONT-PROGNOZY")}
+                  unit={t("UI-ANAZAC-LATA")}
                   inputMode="numeric"
                   value={stan.prognoza.lat}
                   onChange={(e) => ustawPrognoze({ lat: e.target.value })}
@@ -248,7 +249,7 @@ export default function AnalizaZacienieniaPage() {
                 {drzewa.map((p) => (
                   <div key={p.nazwa} className="flex flex-col gap-1">
                     <Pole
-                      label={`${p.nazwa} — wysokość za ${stan.prognoza.lat || "…"} lat (dziś ${f1(p.wysokoscM)} m)`}
+                      label={t("UI-ANAZAC-WYSOKOSC-LAT-DZIS", { nazwa: p.nazwa, p: stan.prognoza.lat || "…", wysokoscM: f1(p.wysokoscM) })}
                       unit="m"
                       inputMode="decimal"
                       value={stan.prognoza.wysokosci[p.nazwa] ?? ""}
@@ -263,7 +264,7 @@ export default function AnalizaZacienieniaPage() {
                           checked={stan.prognoza.lisciaste?.[p.nazwa] ?? false}
                           onChange={(e) => ustawPrognoze({ lisciaste: { ...stan.prognoza.lisciaste, [p.nazwa]: e.target.checked } })}
                         />
-                        <span className="text-small">Drzewo liściaste (zimą bez liści)</span>
+                        <span className="text-small">{t("UI-ANAZAC-DRZEWO-LISCIASTE-ZIMA")}</span>
                       </label>
                       <PomocPola ekran="analiza-zacienienia" pole="lisciaste" params={{ tau: PRZEPUSZCZALNOSC_KORONY_BEZLISTNEJ * 100 }} />
                     </div>
@@ -272,7 +273,7 @@ export default function AnalizaZacienieniaPage() {
                 {Object.values(stan.prognoza.lisciaste ?? {}).some(Boolean) && (
                   <fieldset className="flex flex-col gap-1">
                     <legend className="flex items-center gap-2 text-small font-medium">
-                      Miesiące bez liści w Twojej okolicy
+                      {t("UI-ANAZAC-MIESIACE-BEZ-LISCI")}
                       <PomocPola ekran="analiza-zacienienia" pole="miesiaceBezlisci" params={{ tau: PRZEPUSZCZALNOSC_KORONY_BEZLISTNEJ * 100 }} />
                     </legend>
                     <div className="flex flex-wrap gap-x-4 gap-y-1">
@@ -289,8 +290,7 @@ export default function AnalizaZacienieniaPage() {
                       ))}
                     </div>
                     <p className="text-small text-muted-foreground">
-                      W zaznaczonych miesiącach korona drzewa liściastego przepuszcza 40% promieniowania bezpośredniego
-                      (dolna granica pomiarów, Konarska i in. 2014). Okres bez liści zależy od gatunku i okolicy — aplikacja go nie zakłada.
+                      {t("UI-ANAZAC-ZAZNACZONYCH-MIESIACACH-KORO")}
                     </p>
                   </fieldset>
                 )}
@@ -299,16 +299,14 @@ export default function AnalizaZacienieniaPage() {
           </section>
 
           <section className="flex flex-col gap-2 rounded-lg border p-4">
-            <h2 className="font-semibold">Dane nasłonecznienia</h2>
+            <h2 className="font-semibold">{t("UI-ANAZAC-DANE-NASLONECZNIENIA")}</h2>
             {dane ? (
               <p className="text-small text-muted-foreground">
-                Typowy rok meteorologiczny PVGIS ({dane.dane.meta.bazaPromieniowania}, lata {dane.dane.meta.rokOd}–{dane.dane.meta.rokDo}),
-                zapisany na urządzeniu — strata całkowitej energii, z rzeczywistym zachmurzeniem. Działa offline.
+                {t("UI-ANAZAC-TYPOWY-ROK-METEOROLOGICZNY", { bazaPromieniowania: dane.dane.meta.bazaPromieniowania, rokOd: dane.dane.meta.rokOd, rokDo: dane.dane.meta.rokDo })}
               </p>
             ) : (
               <p className="text-small text-muted-foreground">
-                Bez danych PVGIS liczę wariant zapasowy: stratę samego promieniowania bezpośredniego przy bezchmurnym
-                niebie. Pobierz dane (raz, potem działają offline), żeby policzyć stratę całkowitej energii.
+                {t("UI-ANAZAC-BEZ-DANYCH-PVGIS")}
               </p>
             )}
             {odn && (
@@ -318,30 +316,30 @@ export default function AnalizaZacienieniaPage() {
                 disabled={tmy.pobiera || !online}
                 onClick={() => tmy.pobierz(odn.szerokosc, odn.dlugosc)}
               >
-                {tmy.pobiera ? "Pobieram z PVGIS…" : dane ? "Pobierz ponownie" : "Pobierz dane nasłonecznienia (PVGIS)"}
+                {tmy.pobiera ? t("UI-ANAZAC-POBIERAM-PVGIS") : dane ? t("UI-ANAZAC-POBIERZ-PONOWNIE") : t("UI-ANAZAC-POBIERZ-DANE-NASLONECZNIENIA")}
               </Button>
             )}
-            {!online && !dane && <p className="text-small">Brak połączenia — pobierz dane, gdy będziesz online.</p>}
+            {!online && !dane && <p className="text-small">{t("UI-ANAZAC-BRAK-POLACZENIA-POBIERZ")}</p>}
             {tmy.blad && <p className="text-small text-werdykt-blad-foreground">{tmy.blad}</p>}
           </section>
 
           <Button className="min-h-11" disabled={obliczenia.liczy || powierzchnie.length === 0} onClick={policz}>
             {obliczenia.liczy
-              ? `Liczę… ${obliczenia.wszystkie > 0 ? `${obliczenia.gotowe}/${obliczenia.wszystkie} punktów` : ""}`
+              ? t("UI-ANAZAC-LICZE", { p: obliczenia.wszystkie > 0 ? t("UI-ANAZAC-PUNKTOW", { gotowe: obliczenia.gotowe, wszystkie: obliczenia.wszystkie }) : "" })
               : aktualny
-                ? "Przelicz ponownie"
-                : "Policz zacienienie"}
+                ? t("UI-ANAZAC-PRZELICZ-PONOWNIE")
+                : t("UI-ANAZAC-POLICZ-ZACIENIENIE")}
           </Button>
           {obliczenia.blad && <p className="text-small text-werdykt-blad-foreground">{obliczenia.blad}</p>}
           {powierzchnie.length === 0 && (
-            <StanPusty tytul="Brak powierzchni do analizy — dodaj połacie z wysokościami na Ekranie 2 albo podaj dach płaski wyżej." />
+            <StanPusty tytul={t("UI-ANAZAC-BRAK-POWIERZCHNI-ANALIZY")} />
           )}
-          {wynikE3 && !aktualny && !obliczenia.liczy && <StanPusty tytul="Dane zmieniły się od ostatniego obliczenia — policz ponownie." />}
+          {wynikE3 && !aktualny && !obliczenia.liczy && <StanPusty tytul={t("UI-ANAZAC-DANE-ZMIENILY-OSTATNIEGO")} />}
 
           {aktualny && (
             <>
               {powierzchnie.length > 1 && (
-                <div role="tablist" aria-label="Powierzchnia" className="flex flex-wrap gap-2">
+                <div role="tablist" aria-label={t("UI-ANAZAC-POWIERZCHNIA")} className="flex flex-wrap gap-2">
                   {polaczone.map((x, i) => (
                     <Button key={i} role="tab" aria-selected={i === wybor} variant={i === wybor ? "default" : "outline"} onClick={() => setWybrana(i)}>
                       {x.nazwa}
@@ -351,45 +349,44 @@ export default function AnalizaZacienieniaPage() {
                 </div>
               )}
               {pod === null ? (
-                <StanPusty tytul="Dla tej powierzchni nie powstał żaden wynik — każdy punkt leży w obrysie przeszkody." />
+                <StanPusty tytul={t("UI-ANAZAC-TEJ-POWIERZCHNI-POWSTAL")} />
               ) : (
                 <WerdyktPanel
                   poziom={pod.obecnie.strataRocznaProcent === 0 ? "ok" : "uwaga"}
-                  etykieta={`${polaczone[wybor]!.nazwa}: strata ok. ${f1(pod.obecnie.strataRocznaProcent)}% rocznie`}
+                  etykieta={t("UI-ANAZAC-STRATA-ROCZNIE", { nazwa: polaczone[wybor]!.nazwa, strataRocznaProcent: f1(pod.obecnie.strataRocznaProcent) })}
                 >
                   <div className="mt-2 flex flex-col gap-3 text-small">
                     {pod.obecnie.udzialPrzeszkod.length > 0 ? (
                       <p>
-                        Główna przyczyna: {pod.obecnie.udzialPrzeszkod[0]!.nazwa} ({f1(pod.obecnie.udzialPrzeszkod[0]!.procent)} p.p.)
+                        {t("UI-ANAZAC-GLOWNA-PRZYCZYNA", { nazwa: pod.obecnie.udzialPrzeszkod[0]!.nazwa, procent: f1(pod.obecnie.udzialPrzeszkod[0]!.procent) })}
                         {pod.obecnie.udzialPrzeszkod.length > 1 &&
-                          `; dalej: ${pod.obecnie.udzialPrzeszkod
+                          t("UI-ANAZAC-DALEJ", { p: pod.obecnie.udzialPrzeszkod
                             .slice(1)
                             .map((u) => `${u.nazwa} ${f1(u.procent)} p.p.`)
-                            .join(", ")}`}
+                            .join(", ") })}
                         .
                       </p>
                     ) : (
-                      <p>Żadna z przeszkód nie zasłania słońca w ciągu roku.</p>
+                      <p>{t("UI-ANAZAC-ZADNA-PRZESZKOD-ZASLANIA")}</p>
                     )}
                     {pod.prognoza && (
                       <p>
-                        Za {stan.prognoza.lat || "…"} lat (prognozowana wysokość drzew): strata ok.{" "}
-                        <strong>{f1(pod.prognoza.strataRocznaProcent)}%</strong> rocznie.
+                        {t("UI-ANAZAC-LAT-PROGNOZOWANA-WYSOKOSC", { p: stan.prognoza.lat || "…" })}{" "}
+                        <strong>{f1(pod.prognoza.strataRocznaProcent)}%</strong> {t("UI-ANAZAC-ROCZNIE")}
                       </p>
                     )}
                     {najlepsza && najlepsza.nazwa !== polaczone[wybor]!.nazwa && najlepsza.pod!.obecnie.strataRocznaProcent < pod.obecnie.strataRocznaProcent && (
                       <p>
-                        Najmniej zacieniona: {najlepsza.nazwa} ({f1(najlepsza.pod!.obecnie.strataRocznaProcent)}%) — rozważ montaż tam.
+                        {t("UI-ANAZAC-NAJMNIEJ-ZACIENIONA-ROZWAZ", { nazwa: najlepsza.nazwa, strataRocznaProcent: f1(najlepsza.pod!.obecnie.strataRocznaProcent) })}
                       </p>
                     )}
-                    {pod.pominiete > 0 && <p>{pod.pominiete} punkt(y) siatki leżą w obrysie przeszkody — pominięte.</p>}
+                    {pod.pominiete > 0 && <p>{t("UI-ANAZAC-PUNKT-SIATKI-LEZA", { pominiete: pod.pominiete })}</p>}
                     <WykresMiesiecy obecnie={pod.obecnie.strataMiesiecznaProcent} prognoza={pod.prognoza?.strataMiesiecznaProcent ?? null} />
                     <WykresHoryzontu profilDeg={pod.profilHoryzontuDeg} />
                     <p className="text-muted-foreground">
                       {wynikE3.zrodlo === "pvgis-tmy"
-                        ? "Zakres: strata całkowitego napromieniowania (dane PVGIS, rzeczywiste zachmurzenie)."
-                        : "Zakres (wariant zapasowy, bez danych PVGIS): strata promieniowania bezpośredniego przy bezchmurnym niebie — nie całkowitej energii."}{" "}
-                      Mapa cieplna: średnia z siatki {SIATKA}×{SIATKA} punktów na powierzchnię.
+                        ? t("UI-ANAZAC-ZAKRES-STRATA-CALKOWITEGO")
+                        : t("UI-ANAZAC-ZAKRES-WARIANT-ZAPASOWY")}{" "}{t("UI-ANAZAC-MAPA-CIEPLNA-SREDNIA", { SIATKA })}
                     </p>
                     {wynikE3.warnings.length > 0 && (
                       <ul className="flex flex-col gap-1">
@@ -407,12 +404,12 @@ export default function AnalizaZacienieniaPage() {
         </>
       )}
 
-      <nav className="flex flex-wrap gap-2" aria-label="Sąsiednie ekrany">
+      <nav className="flex flex-wrap gap-2" aria-label={t("UI-ANAZAC-SASIEDNIE-EKRANY")}>
         <Link href="/kalkulatory/skaner-dzialki" className="rounded-md border px-3 py-2 text-small hover:bg-muted">
-          ← Ekran 2: Skaner działki
+          {t("UI-ANAZAC-EKRAN-SKANER-DZIALKI")}
         </Link>
         <Link href="/kalkulatory/orientacja-powierzchni" className="rounded-md border px-3 py-2 text-small hover:bg-muted">
-          → Ekran 4: Orientacja powierzchni
+          {t("UI-ANAZAC-EKRAN-ORIENTACJA-POWIERZCHNI")}
         </Link>
       </nav>
     </main>

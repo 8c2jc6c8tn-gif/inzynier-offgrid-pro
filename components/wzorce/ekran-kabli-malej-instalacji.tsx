@@ -11,6 +11,7 @@ import { PomocPola } from "@/components/ui/pomoc"
 import { WerdyktPanel, type WerdyktPoziom } from "@/components/werdykt"
 import { WynikGlowny } from "@/components/wzorce/wynik-glowny"
 import { WynikSzczegoly } from "@/components/wzorce/wynik-szczegoly"
+import { useTranslate } from "@/lib/i18n/language-context"
 
 type FormularzStan = {
   pradA: string
@@ -42,6 +43,7 @@ const f2 = (x: number) => x.toLocaleString("pl-PL", { maximumFractionDigits: 2 }
 
 /** Form + verdict shared by M12/E2 (small installation) and M12/E15 (camper/vehicle, `pojazd`). */
 export function EkranKabliMalejInstalacji({ kluczSzkicu, pojazd }: { kluczSzkicu: string; pojazd: boolean }) {
+  const t = useTranslate()
   const [stan, setStan] = usePersistedDraft<FormularzStan>(kluczSzkicu, STAN_POCZATKOWY)
   const idWlasny = useId()
   const ustaw = (pole: keyof FormularzStan) => (e: React.ChangeEvent<HTMLInputElement>) =>
@@ -73,34 +75,34 @@ export function EkranKabliMalejInstalacji({ kluczSzkicu, pojazd }: { kluczSzkicu
   return (
     <>
       <div className="flex flex-col gap-4">
-        <Pole label="Prąd obciążenia" unit="A" type="number" inputMode="decimal" min={0} value={stan.pradA} onChange={ustaw("pradA")} pomoc={<PomocPola ekran="kable-male-instalacje" pole="prad" />} />
+        <Pole label={t("UI-EKRKABMALINS-PRAD-OBCIAZENIA")} unit="A" type="number" inputMode="decimal" min={0} value={stan.pradA} onChange={ustaw("pradA")} pomoc={<PomocPola ekran="kable-male-instalacje" pole="prad" />} />
         <PoleSelect
-          label="Napięcie instalacji"
+          label={t("UI-EKRKABMALINS-NAPIECIE-INSTALACJI")}
           value={stan.napiecieV}
           onChange={(e) => setStan((prev) => ({ ...prev, napiecieV: Number(e.target.value) as FormularzStan["napiecieV"] }))}
           pomoc={<PomocPola ekran="kable-male-instalacje" pole="napiecie" />}
         >
-          <option value={0}>— wybierz —</option>
+          <option value={0}>{t("UI-WYBIERZ")}</option>
           <option value={12}>12 V</option>
           <option value={24}>24 V</option>
         </PoleSelect>
-        <Pole label="Długość trasy (w jedną stronę)" unit="m" type="number" inputMode="decimal" min={0} value={stan.dlugoscTrasyM} onChange={ustaw("dlugoscTrasyM")} pomoc={<PomocPola ekran="kable-male-instalacje" pole="dlugosc" />} />
+        <Pole label={t("UI-EKRKABMALINS-DLUGOSC-TRASY-JEDNA")} unit="m" type="number" inputMode="decimal" min={0} value={stan.dlugoscTrasyM} onChange={ustaw("dlugoscTrasyM")} pomoc={<PomocPola ekran="kable-male-instalacje" pole="dlugosc" />} />
         <PoleSelect
-          label="Sposób ułożenia"
+          label={t("UI-EKRKABMALINS-SPOSOB-ULOZENIA")}
           value={stan.sposobUlozenia}
           onChange={(e) => setStan((prev) => ({ ...prev, sposobUlozenia: e.target.value as SposobUlozenia }))}
           pomoc={<PomocPola ekran="kable-male-instalacje" pole="ulozenie" />}
         >
-          <option value="swobodnie">Swobodnie (na ścianie, w powietrzu)</option>
-          <option value="w_peszlu">W peszlu / rurze instalacyjnej</option>
-          <option value="w_ziemi">W ziemi</option>
-          <option value="w_wiazce">W wiązce z innymi kablami</option>
+          <option value="swobodnie">{t("UI-EKRKABMALINS-SWOBODNIE-SCIANIE-POWIETRZU")}</option>
+          <option value="w_peszlu">{t("UI-EKRKABMALINS-PESZLU-RURZE-INSTALACYJNEJ")}</option>
+          <option value="w_ziemi">{t("UI-EKRKABMALINS-ZIEMI")}</option>
+          <option value="w_wiazce">{t("UI-EKRKABMALINS-WIAZCE-INNYMI-KABLAMI")}</option>
         </PoleSelect>
         {stan.sposobUlozenia !== "swobodnie" && (
-          <Pole label="Liczba kabli w wiązce" unit="szt." type="number" inputMode="numeric" min={0} value={stan.liczbaKabliWWiazce} onChange={ustaw("liczbaKabliWWiazce")} pomoc={<PomocPola ekran="kable-male-instalacje" pole="wiazka" />} />
+          <Pole label={t("UI-EKRKABMALINS-LICZBA-KABLI-WIAZCE")} unit={t("UI-J-SZT")} type="number" inputMode="numeric" min={0} value={stan.liczbaKabliWWiazce} onChange={ustaw("liczbaKabliWWiazce")} pomoc={<PomocPola ekran="kable-male-instalacje" pole="wiazka" />} />
         )}
         <Pole
-          label="Temperatura otoczenia"
+          label={t("UI-EKRKABMALINS-TEMPERATURA-OTOCZENIA")}
           unit="°C"
           type="number"
           inputMode="decimal"
@@ -109,7 +111,7 @@ export function EkranKabliMalejInstalacji({ kluczSzkicu, pojazd }: { kluczSzkicu
           pomoc={<PomocPola ekran="kable-male-instalacje" pole={pojazd ? "temperaturaPojazd" : "temperatura"} />}
         />
         <Pole
-          label="Dopuszczalny spadek napięcia"
+          label={t("UI-EKRKABMALINS-DOPUSZCZALNY-SPADEK-NAPIECIA")}
           unit="%"
           type="number"
           inputMode="decimal"
@@ -120,36 +122,36 @@ export function EkranKabliMalejInstalacji({ kluczSzkicu, pojazd }: { kluczSzkicu
         />
         <PoleCheckbox
           id={idWlasny}
-          label="Sprawdź mój przekrój zamiast dobierać automatycznie"
+          label={t("UI-EKRKABMALINS-SPRAWDZ-MOJ-PRZEKROJ")}
           checked={stan.sprawdzamWlasny}
           onChange={(e) => setStan((prev) => ({ ...prev, sprawdzamWlasny: e.target.checked }))}
         />
         {stan.sprawdzamWlasny && (
-          <Pole label="Mój przekrój" unit="mm²" type="number" inputMode="decimal" min={0} value={stan.sprawdzanyPrzekrojMm2} onChange={ustaw("sprawdzanyPrzekrojMm2")} pomoc={<PomocPola ekran="kable-male-instalacje" pole="przekroj" />} />
+          <Pole label={t("UI-EKRKABMALINS-MOJ-PRZEKROJ")} unit="mm²" type="number" inputMode="decimal" min={0} value={stan.sprawdzanyPrzekrojMm2} onChange={ustaw("sprawdzanyPrzekrojMm2")} pomoc={<PomocPola ekran="kable-male-instalacje" pole="przekroj" />} />
         )}
       </div>
 
       {result.status === "INVALID_INPUT" ? (
-        <WerdyktPanel poziom="blad" etykieta="Nie da się policzyć — sprawdź wpisane dane">
+        <WerdyktPanel poziom="blad" etykieta={t("UI-EKRKABMALINS-POLICZYC-SPRAWDZ-WPISANE")}>
           <WynikSzczegoly assumptions={[]} warnings={result.warnings} />
         </WerdyktPanel>
       ) : result.status === "INCOMPLETE" ? (
-        <p className="text-small text-muted-foreground">Wypełnij prąd, napięcie, długość, temperaturę i dopuszczalny spadek.</p>
+        <p className="text-small text-muted-foreground">{t("UI-EKRKABMALINS-WYPELNIJ-PRAD-NAPIECIE")}</p>
       ) : result.status === "OUT_OF_SCOPE" ? (
-        <WerdyktPanel poziom="blad" etykieta="Poza zakresem tablic">
+        <WerdyktPanel poziom="blad" etykieta={t("UI-EKRKABMALINS-POZA-ZAKRESEM-TABLIC")}>
           <WynikSzczegoly assumptions={result.assumptions} warnings={result.warnings} />
         </WerdyktPanel>
       ) : (
         <WerdyktPanel
           poziom={poziom}
-          etykieta={poziom === "blad" ? "Przekrój poniżej minimum" : stan.sprawdzamWlasny ? "Twój przekrój" : "Minimalny przekrój"}
+          etykieta={poziom === "blad" ? t("UI-EKRKABMALINS-PRZEKROJ-PONIZEJ-MINIMUM") : stan.sprawdzamWlasny ? t("UI-EKRKABMALINS-PRZEKROJ") : t("UI-EKRKABMALINS-MINIMALNY-PRZEKROJ")}
         >
           <WynikGlowny>
-            {f1(v.przekrojMm2)} mm² · bezpiecznik ≥ {f2(v.bezpiecznikMinA)} A
+            {t("UI-EKRKABMALINS-BEZPIECZNIK", { przekrojMm2: f1(v.przekrojMm2), bezpiecznikMinA: f2(v.bezpiecznikMinA) })}
           </WynikGlowny>
           <p className="mt-1 text-small">
-            Obciążalność {f1(v.obciazalnoscA)} A · spadek napięcia {f2(v.spadekNapieciaPct)}%
-            {v.wymaganyMm2 !== v.przekrojMm2 && ` · minimum ${f1(v.wymaganyMm2)} mm²`}
+            {t("UI-EKRKABMALINS-OBCIAZALNOSC-SPADEK-NAPIECIA", { obciazalnoscA: f1(v.obciazalnoscA), spadekNapieciaPct: f2(v.spadekNapieciaPct) })}
+            {v.wymaganyMm2 !== v.przekrojMm2 && ` ${t("UI-EKRKABMALINS-MINIMUM", { wymaganyMm2: f1(v.wymaganyMm2) })}`}
           </p>
           <WynikSzczegoly assumptions={result.assumptions} warnings={result.warnings} formula={result.formula} />
         </WerdyktPanel>

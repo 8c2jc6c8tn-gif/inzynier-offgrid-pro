@@ -1,6 +1,7 @@
 import type { ReactNode } from "react"
 import type { Status } from "@/lib/core/calc-result"
 import { cn } from "@/lib/utils"
+import { TekstUi } from "@/components/ui/tekst-ui"
 
 /**
  * Werdykt trójstopniowy 🟢🟡🔴 (docs/standards/04-walidacja-i-twarde-stopy.md, 4.1) jako jeden
@@ -19,10 +20,11 @@ const STYL: Record<WerdyktPoziom, string> = {
 
 export const WERDYKT_IKONA: Record<WerdyktPoziom, string> = { ok: "🟢", uwaga: "🟡", blad: "🔴" }
 
+/** Default labels — `UI-WERDYKT-*` keys, rendered through `TekstUi` (this module stays server-safe). */
 const DOMYSLNA_ETYKIETA: Record<WerdyktPoziom, string> = {
-  ok: "Zalecane",
-  uwaga: "Dopuszczalne",
-  blad: "Zabronione",
+  ok: "UI-WERDYKT-ZALECANE",
+  uwaga: "UI-WERDYKT-DOPUSZCZALNE",
+  blad: "UI-WERDYKT-ZABRONIONE",
 }
 
 /** Ogólna reguła: VALID → ok, VALID_WITH_WARNINGS → uwaga, reszta (brak/błędne dane) → blad.
@@ -48,7 +50,7 @@ export function WerdyktPanel({
     <div role="status" className={cn("rounded-lg border-2 p-4", STYL[poziom], className)}>
       <p className="flex items-center gap-2 font-medium">
         <span aria-hidden="true">{WERDYKT_IKONA[poziom]}</span>
-        <span>{etykieta ?? DOMYSLNA_ETYKIETA[poziom]}</span>
+        <span>{etykieta ?? <TekstUi kod={DOMYSLNA_ETYKIETA[poziom]} />}</span>
       </p>
       {children}
     </div>
@@ -65,7 +67,7 @@ export function WerdyktBadge({ poziom, etykieta }: { poziom: WerdyktPoziom; etyk
       )}
     >
       <span aria-hidden="true">{WERDYKT_IKONA[poziom]}</span>
-      {etykieta ?? DOMYSLNA_ETYKIETA[poziom]}
+      {etykieta ?? <TekstUi kod={DOMYSLNA_ETYKIETA[poziom]} />}
     </span>
   )
 }

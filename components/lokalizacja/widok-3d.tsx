@@ -13,6 +13,7 @@ import * as THREE from "three"
 import { OrbitControls } from "three/examples/jsm/controls/OrbitControls.js"
 import type { Przeszkoda, Punkt2D, Punkt3D, PrzeszkodaDrzewo } from "@/lib/core/modules/lokalizacja/analiza-zacienienia/input"
 import { kolorStraty, type ProbkaMapy } from "./mapa-cieplna"
+import { useTranslate } from "@/lib/i18n/language-context"
 
 export type Widok3dProps = {
   dzialka: Punkt2D[]
@@ -119,6 +120,7 @@ function Probka({ p, skalaMax }: { p: ProbkaMapy; skalaMax: number }) {
 }
 
 export default function Widok3d(props: Widok3dProps) {
+  const t = useTranslate()
   const { cel, odleglosc } = useMemo(() => {
     const pk: Punkt2D[] = [...props.budynek, ...props.polacie.flat(), ...props.przeszkody.flatMap((d) => (d.typ === "bryla" ? d.obrys : [d.srodek]))]
     const zrodlo = pk.length > 0 ? pk : props.dzialka
@@ -131,7 +133,7 @@ export default function Widok3d(props: Widok3dProps) {
   }, [props.budynek, props.polacie, props.przeszkody, props.dzialka])
 
   return (
-    <div className="h-80 w-full overflow-hidden rounded-lg border bg-sky-100 sm:h-96 dark:bg-slate-800" role="img" aria-label="Widok 3D działki z mapą cieplną zacienienia">
+    <div className="h-80 w-full overflow-hidden rounded-lg border bg-sky-100 sm:h-96 dark:bg-slate-800" role="img" aria-label={t("UI-WID3D-WIDOK-DZIALKI-MAPA")}>
       <Canvas camera={{ fov: 45, near: 0.1, far: 5000 }}>
         <ambientLight intensity={0.6} />
         <directionalLight position={[50, 100, 80]} intensity={1.1} />

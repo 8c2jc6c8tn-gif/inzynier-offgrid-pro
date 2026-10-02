@@ -1,5 +1,8 @@
+"use client"
+
 import type { ReactNode } from "react"
 import { cn } from "@/lib/utils"
+import { useTranslate } from "@/lib/i18n/language-context"
 
 /**
  * Krok poradnika z opcjonalnym zdjęciem/nagraniem (na wyraźną prośbę właściciela projektu,
@@ -23,6 +26,7 @@ export function KrokZMedia({
   media?: { typ: "zdjecie" | "nagranie"; url: string; opis: string }
   className?: string
 }) {
+  const t = useTranslate()
   return (
     <li className={cn("flex flex-col gap-2 rounded-lg border bg-card p-3", className)}>
       <p className="flex items-baseline gap-2">
@@ -43,11 +47,11 @@ export function KrokZMedia({
       ) : (
         <div
           role="img"
-          aria-label={`Brak zdjęcia lub nagrania dla kroku: ${typeof tytul === "string" ? tytul : numer}`}
+          aria-label={t("UI-KROZMED-BRAK-ZDJECIA-NAGRANIA", { p: typeof tytul === "string" ? tytul : numer })}
           className="flex items-center justify-center gap-2 rounded-md border-2 border-dashed border-muted-foreground/30 bg-muted/40 p-4 text-caption text-muted-foreground"
         >
           <span aria-hidden="true">📷</span>
-          Miejsce na zdjęcie/nagranie tego kroku — do dodania
+          {t("UI-KROZMED-MIEJSCE-ZDJECIE-NAGRANIE")}
         </div>
       )}
     </li>
