@@ -2,7 +2,7 @@
 
 import { useMemo } from "react"
 import { calculateDemontazPakietu } from "@/lib/core/modules/montaz-baterii/demontaz-pakietu/calculator"
-import { CHECKLIST_ITEMS, OSTRZEZENIA_STALE, WYMAGANE_WYPOSAZENIE } from "@/lib/core/modules/montaz-baterii/demontaz-pakietu/constants"
+import { CHECKLIST_ITEMS, OSTRZEZENIA_STALE } from "@/lib/core/modules/montaz-baterii/demontaz-pakietu/constants"
 import { OCZEKIWANA_LICZBA_OGNIW } from "@/lib/core/modules/montaz-baterii/weryfikacja-ogniw/constants"
 import type { NapiecieSystemu } from "@/lib/core/modules/montaz-baterii/weryfikacja-ogniw/input"
 import { usePersistedDraft } from "@/lib/adapters/use-persisted-draft"
@@ -145,7 +145,7 @@ export default function DemontazPakietuPage() {
     <main className="mx-auto flex max-w-md flex-col gap-6 p-6">
       <NawigacjaEkranu href="/kalkulatory/demontaz-pakietu" />
       <NaglowekEkranu tytul={t("UI-DEMPAK-DEMONTAZ-PAKIETU")} ekran="demontaz-pakietu" wynik={result}>
-        {t("UI-DEMPAK-KOLEJNOSC-SUGESTIA-DOKLADNA", { WYMAGANE_WYPOSAZENIE })}
+        {t("UI-DEMPAK-KOLEJNOSC-SUGESTIA-DOKLADNA", { WYMAGANE_WYPOSAZENIE: t("UI-STALE-DEMPAK-WYPOSAZENIE") })}
       </NaglowekEkranu>
 
       <DemontazIlustracja />

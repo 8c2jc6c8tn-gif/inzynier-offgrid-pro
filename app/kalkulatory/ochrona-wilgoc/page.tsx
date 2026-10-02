@@ -123,7 +123,7 @@ export default function OchronaWilgocPage() {
           <option value="">{t("UI-WYBIERZ")}</option>
           {OPCJE_IP.map((o) => (
             <option key={o.kod} value={o.kod}>
-              {o.label}
+              {t(`UI-STALEBAT-IP-${o.kod}`)}
             </option>
           ))}
         </PoleSelect>

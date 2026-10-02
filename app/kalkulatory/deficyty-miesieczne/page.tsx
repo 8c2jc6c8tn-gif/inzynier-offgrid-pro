@@ -11,6 +11,8 @@ import type {
 import { parsujHistorie } from "@/lib/core/modules/stress-test/deficyty-miesieczne/parsuj-historie"
 import { OPTYMALNE_OBCIAZENIE_PCT } from "@/lib/core/modules/zapotrzebowanie/agregat-pradotworczy/constants"
 import { usePersistedDraft } from "@/lib/adapters/use-persisted-draft"
+import { PrzeliczoneInfo } from "@/components/przeliczone-info"
+import { przeliczPola } from "@/lib/waluta/przelicz"
 import { useTranslate } from "@/lib/i18n/language-context"
 import { Pole, PoleSelect, PoleTekst } from "@/components/ui/pole"
 import { PomocPola } from "@/components/ui/pomoc"
@@ -52,6 +54,8 @@ const STAN_POCZATKOWY: FormularzStan = {
   histProg: "",
 }
 
+const KWOTY = przeliczPola<FormularzStan>("cena", "serwis")
+
 const POLA: { pole: PolaAgregatu; label: string; unit: string }[] = [
   { pole: "moc", label: "UI-M7-DEFM-MOC", unit: "kW" },
   { pole: "zuzycie", label: "UI-M7-DEFM-ZUZYCIE", unit: "l/h" },
@@ -81,7 +85,7 @@ const r1 = (x: number) => Math.round(x * 10) / 10
 
 export default function DeficytyMiesiecznePage() {
   const t = useTranslate()
-  const [zapisany, setStan] = usePersistedDraft<FormularzStan>("deficyty-miesieczne", STAN_POCZATKOWY)
+  const [zapisany, setStan, info] = usePersistedDraft<FormularzStan>("deficyty-miesieczne", STAN_POCZATKOWY, KWOTY)
   // A draft saved before the history fields existed lacks them — fill from the defaults.
   const stan = useMemo<FormularzStan>(() => ({ ...STAN_POCZATKOWY, ...zapisany }), [zapisany])
   const wklejone = useMemo(() => parsujHistorie(stan.histDane), [stan.histDane])
@@ -136,6 +140,7 @@ export default function DeficytyMiesiecznePage() {
       >
         {t("UI-M7-DEFM-OPIS")}
       </NaglowekEkranu>
+      <PrzeliczoneInfo info={info} />
 
       <fieldset className="flex flex-col gap-3">
         <legend className="mb-2 text-small font-medium">{t("UI-M7-DEFM-DEFICYTY")}</legend>

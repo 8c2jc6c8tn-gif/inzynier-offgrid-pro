@@ -3,6 +3,8 @@
 import { useMemo } from "react"
 import { calculateKociolElektryczny } from "@/lib/core/modules/ogrzewanie/kociol-elektryczny/calculator"
 import { usePersistedDraft } from "@/lib/adapters/use-persisted-draft"
+import { przeliczPola } from "@/lib/waluta/przelicz"
+import { PrzeliczoneInfo } from "@/components/przeliczone-info"
 import { Pole } from "@/components/ui/pole"
 import { PomocPola } from "@/components/ui/pomoc"
 import { WerdyktPanel } from "@/components/werdykt"
@@ -24,9 +26,11 @@ const STAN_POCZATKOWY: FormularzStan = {
   cenaZaKwhZl: "",
 }
 
+const PRZELICZ_KWOTY = przeliczPola<FormularzStan>("cenaZaKwhZl")
+
 export default function KociolElektrycznyPage() {
   const t = useTranslate()
-  const [stan, setStan] = usePersistedDraft<FormularzStan>("kociol-elektryczny", STAN_POCZATKOWY)
+  const [stan, setStan, info] = usePersistedDraft<FormularzStan>("kociol-elektryczny", STAN_POCZATKOWY, PRZELICZ_KWOTY)
   const { zapotrzebowanieCieplneKwh, copPompy, cenaZaKwhZl } = stan
 
   function setPole<K extends keyof FormularzStan>(
@@ -58,6 +62,8 @@ export default function KociolElektrycznyPage() {
       <NaglowekEkranu tytul={t("UI-KOCELE-KOCIOL-ELEKTRYCZNY-POMPA")} ekran="kociol-elektryczny" wynik={result}>
         {t("UI-KOCELE-KOCIOL-ELEKTRYCZNY-SPRAWNOSC")}
       </NaglowekEkranu>
+
+      <PrzeliczoneInfo info={info} />
 
       <div className="flex flex-col gap-4">
         <Pole

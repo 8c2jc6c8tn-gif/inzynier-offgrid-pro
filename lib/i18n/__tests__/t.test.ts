@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest"
-import { t } from "../t"
+import { podstaw, t } from "../t"
 import { SUPPORTED_LANGUAGES } from "../language"
 import { dictionaries } from "../dictionaries"
 
@@ -1134,5 +1134,13 @@ describe("dictionaries — parytet kluczy", () => {
     for (const jezyk of SUPPORTED_LANGUAGES) {
       expect(Object.keys(dictionaries[jezyk]).sort()).toEqual(kluczePl)
     }
+  })
+})
+
+describe("{waluta}", () => {
+  it("domyślnie „zł”, nadpisywalne parametrem", () => {
+    expect(podstaw("pl", "{x} {waluta}/kWh", { x: 1 })).toBe("1 zł/kWh")
+    expect(podstaw("pl", "{x} {waluta}/kWh")).toBe("{x} zł/kWh")
+    expect(podstaw("en", "{waluta}", { waluta: "€" })).toBe("€")
   })
 })

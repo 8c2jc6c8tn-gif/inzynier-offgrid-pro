@@ -5,6 +5,8 @@ import { calculateStacjaVsDiy } from "@/lib/core/modules/kalkulator-mobilny/stac
 import type { StacjaVsDiyInput } from "@/lib/core/modules/kalkulator-mobilny/stacja-vs-diy/input"
 import { DOD_LIFEPO4_TYPOWY_MAX_PCT, DOD_LIFEPO4_TYPOWY_MIN_PCT } from "@/lib/core/modules/baterie/dobor-pojemnosci/constants"
 import { usePersistedDraft } from "@/lib/adapters/use-persisted-draft"
+import { przeliczPola } from "@/lib/waluta/przelicz"
+import { PrzeliczoneInfo } from "@/components/przeliczone-info"
 import { useTranslate } from "@/lib/i18n/language-context"
 import { Pole } from "@/components/ui/pole"
 import { PomocPola } from "@/components/ui/pomoc"
@@ -28,13 +30,16 @@ const STAN_POCZATKOWY: FormularzStan = {
   masaDiyKg: "",
 }
 
+/** Money fields converted when the display currency changes. */
+const PRZELICZ_KWOTY = przeliczPola<FormularzStan>("cenaStacjiZl", "cenaDiyZl")
+
 const liczba = (s: string) => (s === "" ? 0 : Number(s))
 const r1 = (x: number) => Math.round(x * 10) / 10
 const r2 = (x: number) => Math.round(x * 100) / 100
 
 export default function StacjaVsDiyPage() {
   const t = useTranslate()
-  const [stan, setStan] = usePersistedDraft<FormularzStan>("stacja-vs-diy", STAN_POCZATKOWY)
+  const [stan, setStan, info] = usePersistedDraft<FormularzStan>("stacja-vs-diy", STAN_POCZATKOWY, PRZELICZ_KWOTY)
   const pole = (klucz: keyof FormularzStan) => ({
     type: "number",
     inputMode: "decimal" as const,
@@ -58,6 +63,7 @@ export default function StacjaVsDiyPage() {
       <NaglowekEkranu tytul={t("UI-M12-SD-TYTUL")} ekran="stacja-vs-diy" wynik={result}>
         {t("UI-M12-SD-OPIS")}
       </NaglowekEkranu>
+      <PrzeliczoneInfo info={info} />
 
       <fieldset className="flex flex-col gap-4">
         <legend className="mb-2 text-small font-medium">{t("UI-M12-SD-STACJA")}</legend>

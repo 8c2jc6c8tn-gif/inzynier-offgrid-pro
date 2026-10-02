@@ -4,6 +4,8 @@ import { useMemo } from "react"
 import { calculateSolarVsPrzedluzacz } from "@/lib/core/modules/kalkulator-mobilny/solar-vs-przedluzacz/calculator"
 import type { SolarVsPrzedluzaczInput } from "@/lib/core/modules/kalkulator-mobilny/solar-vs-przedluzacz/input"
 import { usePersistedDraft } from "@/lib/adapters/use-persisted-draft"
+import { przeliczPola } from "@/lib/waluta/przelicz"
+import { PrzeliczoneInfo } from "@/components/przeliczone-info"
 import { useTranslate } from "@/lib/i18n/language-context"
 import { Pole } from "@/components/ui/pole"
 import { PomocPola } from "@/components/ui/pomoc"
@@ -28,9 +30,12 @@ const STAN_POCZATKOWY: FormularzStan = {
 const liczba = (s: string) => (s === "" ? 0 : Number(s))
 const r1 = (x: number) => Math.round(x * 10) / 10
 
+/** Money fields converted when the display currency changes. */
+const PRZELICZ_KWOTY = przeliczPola<FormularzStan>("kosztPrzedluzaczaZl", "cenaEnergiiZlKwh", "oplatyStaleZlRok", "kosztZestawuZl", "eksploatacjaZestawuZlRok")
+
 export default function SolarVsPrzedluzaczPage() {
   const t = useTranslate()
-  const [stan, setStan] = usePersistedDraft<FormularzStan>("solar-vs-przedluzacz", STAN_POCZATKOWY)
+  const [stan, setStan, info] = usePersistedDraft<FormularzStan>("solar-vs-przedluzacz", STAN_POCZATKOWY, PRZELICZ_KWOTY)
   const ustaw = (pole: keyof FormularzStan) => (e: React.ChangeEvent<HTMLInputElement>) =>
     setStan((prev) => ({ ...prev, [pole]: e.target.value }))
 
@@ -56,6 +61,7 @@ export default function SolarVsPrzedluzaczPage() {
       <NaglowekEkranu tytul={t("UI-M12-SP-TYTUL")} ekran="solar-vs-przedluzacz" wynik={result}>
         {t("UI-M12-SP-OPIS")}
       </NaglowekEkranu>
+      <PrzeliczoneInfo info={info} />
 
       <div className="flex flex-col gap-4">
         <Pole label={t("UI-M12-SP-PRZEDLUZACZ")} unit={t("UI-M12-J-ZL")} type="number" inputMode="decimal" min={0} value={stan.kosztPrzedluzaczaZl} onChange={ustaw("kosztPrzedluzaczaZl")} pomoc={<PomocPola ekran="solar-vs-przedluzacz" pole="przedluzacz" />} />

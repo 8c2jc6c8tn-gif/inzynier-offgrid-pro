@@ -14,6 +14,8 @@ import {
 } from "@/lib/core/modules/baterie/napiecie-systemowe/constants"
 import type { Material, SposobUlozenia } from "@/lib/core/modules/okablowanie/dobor-przekroju-kabla/constants"
 import { usePersistedDraft } from "@/lib/adapters/use-persisted-draft"
+import { przeliczPola } from "@/lib/waluta/przelicz"
+import { PrzeliczoneInfo } from "@/components/przeliczone-info"
 import { Pole, PoleSelect, PoleCheckbox } from "@/components/ui/pole"
 import { PomocPola } from "@/components/ui/pomoc"
 import { WerdyktPanel, WerdyktBadge, type WerdyktPoziom } from "@/components/werdykt"
@@ -24,6 +26,19 @@ import { WynikSzczegoly } from "@/components/wzorce/wynik-szczegoly"
 import { useTranslate } from "@/lib/i18n/language-context"
 import { PROG_12V_MAX_W, PROG_48V_MIN_W } from "@/lib/core/modules/baterie/napiecie-systemowe/constants"
 import { DOMYSLNY_SPADEK_DC_PCT } from "@/lib/core/modules/okablowanie/dobor-przekroju-kabla/constants"
+
+/** Catalog category (PL text from the engine constants) -> translation key suffix. */
+const KATEGORIA_KLUCZ: Record<string, string> = {
+  "Oświetlenie": "OSWIETLENIE",
+  "Chłodzenie": "CHLODZENIE",
+  Elektronika: "ELEKTRONIKA",
+  "AGD (wysokie moce)": "AGD",
+  "Ciepła woda": "CIEPLA-WODA",
+  "Narzędzia": "NARZEDZIA",
+  Klimatyzacja: "KLIMATYZACJA",
+  Pompy: "POMPY",
+  Ogrzewanie: "OGRZEWANIE",
+}
 
 const num = (s: string) => (s === "" ? 0 : Number(s))
 
@@ -121,11 +136,33 @@ const STAN_POCZATKOWY: FormularzStan = {
 const SEKCJA_KLASY = "flex flex-col gap-4 rounded-lg border p-4"
 const SEKCJA_TYTUL_KLASY = "text-small font-semibold uppercase tracking-wide text-muted-foreground"
 
+// Every field of `ceny` is a component price in the display currency.
+const PRZELICZ_CENY = przeliczPola<CenyStan>(
+  "cenaOgniwaZl",
+  "cenaBms4sZl",
+  "cenaBms8sZl",
+  "cenaBms16sZl",
+  "cenaFalownika12vZl",
+  "cenaFalownika24vZl",
+  "cenaFalownika48vZl",
+  "cenaPrzewodow12vZl",
+  "cenaPrzewodow24vZl",
+  "cenaPrzewodow48vZl",
+  "cenaBezpiecznika12vZl",
+  "cenaBezpiecznika24vZl",
+  "cenaBezpiecznika48vZl",
+  "cenaPrzetwornicyDcDcZl",
+)
+const PRZELICZ_KWOTY = (stan: FormularzStan, wspolczynnik: number): FormularzStan => ({
+  ...stan,
+  ceny: PRZELICZ_CENY(stan.ceny, wspolczynnik),
+})
+
 export default function NapiecieSystemowePage() {
   const t = useTranslate()
   // Seed całego formularza — persystowany (IndexedDB) pod jednym kluczem, żeby przeładowanie
   // strony nie gubiło wpisanych danych (zgłoszenie użytkownika, 15.09.2026).
-  const [stan, setStan] = usePersistedDraft<FormularzStan>("napiecie-systemowe", STAN_POCZATKOWY)
+  const [stan, setStan, info] = usePersistedDraft<FormularzStan>("napiecie-systemowe", STAN_POCZATKOWY, PRZELICZ_KWOTY)
   const {
     mocSzczytowaW,
     zastosowanie,
@@ -293,6 +330,8 @@ export default function NapiecieSystemowePage() {
         {t("UI-NAPSYS-WYBIERAMY-NAPIECIA-PODSTAWIE")}
       </NaglowekEkranu>
 
+      <PrzeliczoneInfo info={info} />
+
       {/* Rdzeń — pole ręczne + wynik */}
       <div className={SEKCJA_KLASY}>
         <Pole
@@ -338,11 +377,11 @@ export default function NapiecieSystemowePage() {
             <option value="">{t("UI-WYBIERZ")}</option>
             {ZASTOSOWANIA.map((z) => (
               <option key={z.id} value={z.id}>
-                {z.label}
+                {t(`UI-STALEBAT-ZAST-${z.id.toUpperCase().replaceAll("_", "-")}`)}
               </option>
             ))}
           </PoleSelect>
-          {zastosowanie !== "" && <p className="text-caption text-muted-foreground">{ZASTOSOWANIA.find((z) => z.id === zastosowanie)?.filozofia}</p>}
+          {zastosowanie !== "" && <p className="text-caption text-muted-foreground">{t(`UI-STALEBAT-ZAST-${zastosowanie.toUpperCase().replaceAll("_", "-")}-FIL`)}</p>}
 
           <PoleSelect
             label={t("UI-NAPSYS-CIEBIE-WAZNIEJSZE")}
@@ -353,7 +392,7 @@ export default function NapiecieSystemowePage() {
             <option value="">{t("UI-WYBIERZ")}</option>
             {PRIORYTETY.map((p) => (
               <option key={p.id} value={p.id}>
-                {p.label}
+                {t(`UI-STALEBAT-PRIOR-${p.id.toUpperCase().replaceAll("_", "-")}`)}
               </option>
             ))}
           </PoleSelect>
@@ -386,10 +425,11 @@ export default function NapiecieSystemowePage() {
         <div className="mt-4 flex flex-col gap-5">
           {kategorie.map(([kategoria, pozycje]) => (
             <div key={kategoria} className="flex flex-col gap-2">
-              <p className="text-small font-medium">{kategoria}</p>
+              <p className="text-small font-medium">{t(`UI-STALEBAT-KAT-${KATEGORIA_KLUCZ[kategoria]}`)}</p>
               <ul className="flex flex-col gap-2">
                 {pozycje.map((o) => {
                   const stan = odbiorniki[o.id]
+                  const nazwaOdbiornika = t(`UI-STALEBAT-ODB-${o.id.toUpperCase()}`)
                   return (
                     <li key={o.id} className="flex flex-col gap-2 rounded-md border p-2">
                       <label htmlFor={`odb-${o.id}`} className="flex items-start gap-2 text-small cursor-pointer">
@@ -401,15 +441,15 @@ export default function NapiecieSystemowePage() {
                           onChange={() => toggleOdbiornik(o.id)}
                         />
                         <span>
-                          {o.label}
-                          <span className="block text-caption text-muted-foreground">{o.uwagi}</span>
+                          {nazwaOdbiornika}
+                          <span className="block text-caption text-muted-foreground">{t(`UI-STALEBAT-ODB-${o.id.toUpperCase()}-UWAGI`)}</span>
                         </span>
                       </label>
                       <div className="flex flex-nowrap items-center gap-2">
                         <input
                           type="number"
                           inputMode="decimal"
-                          aria-label={t("UI-NAPSYS-MOC", { label: o.label })}
+                          aria-label={t("UI-NAPSYS-MOC", { label: nazwaOdbiornika })}
                           className="w-16 min-h-9 shrink-0 rounded-md border border-input bg-background px-2 text-small"
                           value={stan.mocW}
                           onChange={(e) => aktualizujOdbiornik(o.id, "mocW", e.target.value)}
@@ -418,13 +458,13 @@ export default function NapiecieSystemowePage() {
                         <input
                           type="number"
                           inputMode="decimal"
-                          aria-label={t("UI-NAPSYS-CZAS-PRACY-JEDNORAZOWO", { label: o.label })}
+                          aria-label={t("UI-NAPSYS-CZAS-PRACY-JEDNORAZOWO", { label: nazwaOdbiornika })}
                           className="w-14 min-h-9 shrink-0 rounded-md border border-input bg-background px-2 text-small"
                           value={stan.czasWartosc}
                           onChange={(e) => aktualizujOdbiornik(o.id, "czasWartosc", e.target.value)}
                         />
                         <select
-                          aria-label={t("UI-NAPSYS-JEDNOSTKA-CZASU", { label: o.label })}
+                          aria-label={t("UI-NAPSYS-JEDNOSTKA-CZASU", { label: nazwaOdbiornika })}
                           className="shrink-0 min-h-9 rounded-md border border-input bg-background px-1 text-caption"
                           value={stan.czasJednostka}
                           onChange={(e) => zmienJednostkeCzasu(o.id, e.target.value as JednostkaCzasu)}

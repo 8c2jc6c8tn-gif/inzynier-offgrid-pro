@@ -8,6 +8,8 @@ import { WerdyktPanel } from "@/components/werdykt"
 import { WynikGlowny } from "@/components/wzorce/wynik-glowny"
 import { WynikSzczegoly } from "@/components/wzorce/wynik-szczegoly"
 import { usePersistedDraft } from "@/lib/adapters/use-persisted-draft"
+import { przeliczPola } from "@/lib/waluta/przelicz"
+import { PrzeliczoneInfo } from "@/components/przeliczone-info"
 import type { ObciazenieCieplneResult } from "@/lib/core/modules/ogrzewanie/obciazenie-cieplne/calculator"
 import { calculateRaportEfektywnosci } from "@/lib/core/modules/ogrzewanie/raport-efektywnosci-budynku/calculator"
 import { useTranslate } from "@/lib/i18n/language-context"
@@ -17,6 +19,8 @@ type Pola = "powierzchnia" | "cieploRok" | "cena"
 type Stan = Record<Pola, string>
 
 const STAN_POCZATKOWY: Stan = { powierzchnia: "", cieploRok: "", cena: "" }
+const PRZELICZ_KWOTY = przeliczPola<Stan>("cena")
+
 const r0 = (x: number) => Math.round(x)
 
 /**
@@ -25,7 +29,7 @@ const r0 = (x: number) => Math.round(x)
  */
 export function SekcjaRaportEfektywnosci({ wynik, cop }: { wynik: ObciazenieCieplneResult; cop: number }) {
   const t = useTranslate()
-  const [stan, setStan] = usePersistedDraft<Stan>("obciazenie-cieplne.raport", STAN_POCZATKOWY)
+  const [stan, setStan, info] = usePersistedDraft<Stan>("obciazenie-cieplne.raport", STAN_POCZATKOWY, PRZELICZ_KWOTY)
   const pole = (klucz: Pola) => ({
     type: "number",
     inputMode: "decimal" as const,
@@ -56,6 +60,7 @@ export function SekcjaRaportEfektywnosci({ wynik, cop }: { wynik: ObciazenieCiep
     <section className="flex flex-col gap-4 rounded-lg border p-4">
       <h2 className="font-semibold">{t("UI-M6D-RAP-TYTUL")}</h2>
       <p className="text-small text-muted-foreground">{t("UI-M6D-RAP-OPIS")}</p>
+      <PrzeliczoneInfo info={info} />
       <div className="grid grid-cols-2 gap-3">
         <Pole label={t("UI-M6D-RAP-POWIERZCHNIA")} unit="m²" {...pole("powierzchnia")} pomoc={<PomocPola ekran="m6d-raport-efektywnosci" pole="powierzchnia" />} />
         <Pole

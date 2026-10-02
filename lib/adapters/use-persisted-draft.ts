@@ -14,9 +14,24 @@
 import { useEffect, useRef, useState } from "react"
 import { indexedDbStorageAdapter } from "./indexeddb-storage-adapter"
 import { consoleReporter } from "@/lib/core/reporter"
+import { wspolczynnikPrzeliczenia, type DenominacjaKwot } from "@/lib/waluta/przelicz"
+import { useDenominacja } from "@/lib/waluta/use-waluta"
+import { WALUTA_BAZOWA } from "@/lib/waluta/waluty"
 
 const PREFIX = "offgrid.draft."
+const PREFIX_WALUTY = "offgrid.draftwaluta."
 const DEBOUNCE_MS = 500
+const DENOMINACJA_PLN: DenominacjaKwot = { kod: WALUTA_BAZOWA, kurs: 1, dataEcb: null, reczny: false, narzutProc: 0 }
+
+/** What the user is told after the amounts of this screen were converted. */
+export interface InfoPrzeliczenia {
+  z: DenominacjaKwot
+  na: DenominacjaKwot
+}
+
+function czyDenominacja(v: unknown): v is DenominacjaKwot {
+  return zwyklyObiekt(v) && typeof v.kod === "string" && typeof v.kurs === "number" && v.kurs > 0
+}
 
 type Aktualizator<T> = T | ((poprzedni: T) => T)
 
@@ -34,20 +49,38 @@ export function scalSzkic<T>(poczatkowy: T, zapisany: T): T {
   return zwyklyObiekt(poczatkowy) && zwyklyObiekt(zapisany) ? ({ ...poczatkowy, ...zapisany } as T) : zapisany
 }
 
-export function usePersistedDraft<T>(kluczEkranu: string, poczatkowy: T): [T, (aktualizator: Aktualizator<T>) => void] {
+/**
+ * `konwersjaKwot` (optional) lists the money fields of the form: when the display currency changes,
+ * the typed amounts (and the PLN defaults of a fresh form) are converted at the effective rate
+ * (ECB via Frankfurter, own rate, markup) — the third tuple element then says how, so the screen
+ * can show it. The currency the draft is denominated in is stored next to the draft and written
+ * together with it; a screen that is not open during the change converts on its next visit.
+ */
+export function usePersistedDraft<T>(
+  kluczEkranu: string,
+  poczatkowy: T,
+  konwersjaKwot?: (stan: T, wspolczynnik: number) => T,
+): [T, (aktualizator: Aktualizator<T>) => void, InfoPrzeliczenia | null] {
   const key = PREFIX + kluczEkranu
+  const keyWaluty = PREFIX_WALUTY + kluczEkranu
   const [stan, setStanWewn] = useState<T>(poczatkowy)
+  const [wczytanoKlucz, setWczytanoKlucz] = useState<string | null>(null)
+  const wczytano = wczytanoKlucz === key
+  const [info, setInfo] = useState<InfoPrzeliczenia | null>(null)
   const poczatkowyRef = useRef(poczatkowy)
   const wczytanoRef = useRef(false)
+  const konwersjaRef = useRef(konwersjaKwot)
+  const denominacjaStanuRef = useRef<DenominacjaKwot>(DENOMINACJA_PLN)
+  const teraz = useDenominacja()
 
   useEffect(() => {
     let aktywny = true
     wczytanoRef.current = false
-    indexedDbStorageAdapter
-      .getItem<T>(key)
-      .then((zapisany) => {
+    Promise.all([indexedDbStorageAdapter.getItem<T>(key), indexedDbStorageAdapter.getItem<unknown>(keyWaluty)])
+      .then(([zapisany, zapisanaWaluta]) => {
         if (!aktywny) return
         if (zapisany !== null) setStanWewn(scalSzkic(poczatkowyRef.current, zapisany))
+        denominacjaStanuRef.current = czyDenominacja(zapisanaWaluta) ? zapisanaWaluta : DENOMINACJA_PLN
       })
       .catch((err) => {
         consoleReporter.reportError({
@@ -58,17 +91,33 @@ export function usePersistedDraft<T>(kluczEkranu: string, poczatkowy: T): [T, (a
         })
       })
       .finally(() => {
-        if (aktywny) wczytanoRef.current = true
+        if (!aktywny) return
+        wczytanoRef.current = true
+        setWczytanoKlucz(key)
       })
     return () => {
       aktywny = false
     }
-  }, [key])
+  }, [key, keyWaluty])
+
+  // Display currency changed (or a screen opened after a change): convert the money fields once.
+  useEffect(() => {
+    const konwersja = konwersjaRef.current
+    const z = denominacjaStanuRef.current
+    if (!wczytano || !konwersja || z.kod === teraz.kod) return
+    const wspolczynnik = wspolczynnikPrzeliczenia(z, teraz)
+    setStanWewn((prev) => konwersja(prev, wspolczynnik))
+    denominacjaStanuRef.current = teraz
+    setInfo({ z, na: teraz })
+  }, [wczytano, teraz])
 
   useEffect(() => {
     if (!wczytanoRef.current) return
     const handle = setTimeout(() => {
-      indexedDbStorageAdapter.setItem(key, stan).catch((err) => {
+      Promise.all([
+        indexedDbStorageAdapter.setItem(key, stan),
+        konwersjaRef.current ? indexedDbStorageAdapter.setItem(keyWaluty, denominacjaStanuRef.current) : Promise.resolve(),
+      ]).catch((err) => {
         consoleReporter.reportError({
           userMessage: "Nie udało się zapisać wpisanych danych — mogą nie przetrwać przeładowania strony.",
           technicalDetails: `IndexedDbStorageAdapter.setItem(${key}) nie powiódł się`,
@@ -78,13 +127,13 @@ export function usePersistedDraft<T>(kluczEkranu: string, poczatkowy: T): [T, (a
       })
     }, DEBOUNCE_MS)
     return () => clearTimeout(handle)
-  }, [key, stan])
+  }, [key, keyWaluty, stan, info])
 
   function setStan(aktualizator: Aktualizator<T>) {
     setStanWewn((prev) => (typeof aktualizator === "function" ? (aktualizator as (p: T) => T)(prev) : aktualizator))
   }
 
-  return [stan, setStan]
+  return [stan, setStan, info]
 }
 
 /**

@@ -46,7 +46,7 @@ export function uzyskZeStanu(s: StanUzysku | null | undefined): number[] | null 
 const nn = (s: string) => (s === "" ? null : Number(s))
 
 export function SekcjaUzyskuPv({ stan, onChange }: { stan: StanUzysku; onChange: (z: Partial<StanUzysku>) => void }): ReactNode {
-  const t = useTranslate()
+  const t = useTranslate(true)
   const { lokalizacja, dane, tmy } = useLokalizacjaProjektu()
   const { uruchom, stan: obliczenia } = useObliczeniaWTle()
   const [tabela, setTabela] = useState<TabelaNapromieniowania | null>(null)

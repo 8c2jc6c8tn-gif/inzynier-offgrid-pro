@@ -10,6 +10,7 @@ import { NawigacjaEkranu } from "@/components/nawigacja-ekranu"
 import { NaglowekEkranu } from "@/components/wzorce/naglowek-ekranu"
 import { StanPusty } from "@/components/ui/stany"
 import { PomocPola } from "@/components/ui/pomoc"
+import { KLUCZ_ODBIORNIKA_KRYTYCZNEGO, WPISY_SYSTEMY, etykieta, tlumaczParamsEtykiet } from "@/components/zapotrzebowanie/etykiety-stalych"
 import { useTranslate } from "@/lib/i18n/language-context"
 
 const initialItems: CriticalLoadItem[] = DEFAULT_CRITICAL_LOADS.map((def) => ({
@@ -70,6 +71,7 @@ export default function SystemyPodtrzymaniaZyciaPage() {
       <ul className="flex flex-col gap-3">
         {items.map((item) => {
           const def = DEFAULT_CRITICAL_LOADS.find((d) => d.id === item.id)
+          const nazwa = etykieta(t, KLUCZ_ODBIORNIKA_KRYTYCZNEGO, item.id, item.label)
           return (
             <li key={item.id} className="flex items-center gap-3 rounded-md border p-3 transition-colors hover:bg-muted/60">
               <input
@@ -80,7 +82,7 @@ export default function SystemyPodtrzymaniaZyciaPage() {
                 id={`item-${item.id}`}
               />
               <label htmlFor={`item-${item.id}`} className="flex-1 text-small font-medium">
-                {item.label}
+                {nazwa}
                 {def?.defaultPowerW === null && (
                   <span className="block text-caption font-normal text-muted-foreground">
                     {t("UI-SYSPODZYC-BRAK-WARTOSCI-DOMYSLNEJ")}
@@ -94,7 +96,7 @@ export default function SystemyPodtrzymaniaZyciaPage() {
                 value={item.powerW}
                 disabled={!item.selected}
                 onChange={(e) => updatePower(item.id, Number(e.target.value))}
-                aria-label={t("UI-SYSPODZYC-MOC", { label: item.label })}
+                aria-label={t("UI-SYSPODZYC-MOC", { label: nazwa })}
               />
               <span className="w-4 text-caption text-muted-foreground">W</span>
               <PomocPola ekran="systemy-podtrzymania-zycia" pole="moc" />
@@ -109,7 +111,7 @@ export default function SystemyPodtrzymaniaZyciaPage() {
             {result.assumptions.length > 0 && (
               <ul className="mt-2 text-small opacity-90">
                 {result.assumptions.map((a, i) => (
-                  <li key={typeof a === "string" ? a : a.kod + i}>{t("UI-SYSPODZYC-ZALOZENIE")} {typeof a === "string" ? a : t(a.kod, a.params)}</li>
+                  <li key={typeof a === "string" ? a : a.kod + i}>{t("UI-SYSPODZYC-ZALOZENIE")} {typeof a === "string" ? a : t(a.kod, tlumaczParamsEtykiet(t, a.params, WPISY_SYSTEMY))}</li>
                 ))}
               </ul>
             )}
@@ -117,7 +119,7 @@ export default function SystemyPodtrzymaniaZyciaPage() {
             {result.warnings.length > 0 && (
               <ul className="mt-2 space-y-1 text-small">
                 {result.warnings.map((w) => (
-                  <li key={w.code}>{w.message ?? t(w.i18nKey ?? w.code, w.params)}</li>
+                  <li key={w.code}>{w.message ?? t(w.i18nKey ?? w.code, tlumaczParamsEtykiet(t, w.params, WPISY_SYSTEMY))}</li>
                 ))}
               </ul>
             )}

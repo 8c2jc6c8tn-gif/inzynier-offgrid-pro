@@ -506,7 +506,7 @@ export const pl = {
         "zakres": "Źródło (5.42): typowo 50–100 m."
       },
       "cenaZlM": {
-        "nazwa": "Cena metra odwiertu [zł/m]",
+        "nazwa": "Cena metra odwiertu [{waluta}/m]",
         "cel": "Koszt = długość × cena; źródło zakłada koszt rosnący liniowo z długością.",
         "gdzie": "Oferta wiertnicza.",
         "zakres": "Oferta wykonawcy."
@@ -796,13 +796,13 @@ export const pl = {
         "zakres": "Od 0 do 24 h. Twoja taryfa.",
       },
       "cenaDzien": {
-        "nazwa": "Cena prądu — strefa dzienna [zł/kWh]",
+        "nazwa": "Cena prądu — strefa dzienna [{waluta}/kWh]",
         "cel": "Cena 1 kWh poza strefą nocną; liczona do ciepła oddawanego z pompy w dzień.",
         "gdzie": "Faktura lub taryfa operatora — wpisz cenę, którą naprawdę płacisz za 1 kWh (jednolicie netto albo brutto, w obu strefach tak samo).",
         "zakres": "≥ 0. Twoja cena — aplikacja nie podaje taryf.",
       },
       "cenaNoc": {
-        "nazwa": "Cena prądu — strefa nocna [zł/kWh]",
+        "nazwa": "Cena prądu — strefa nocna [{waluta}/kWh]",
         "cel": "Cena 1 kWh w nocy; przy agregacie — Twój koszt 1 kWh z agregatu (paliwo, serwis).",
         "gdzie": "Faktura lub taryfa operatora; dla agregatu: zużycie paliwa × cena paliwa ÷ wyprodukowane kWh.",
         "zakres": "≥ 0. Twoja cena.",
@@ -1343,7 +1343,7 @@ export const en: Tlumaczenie<typeof pl> = {
         "zakres": "Source (5.42): typically 50–100 m."
       },
       "cenaZlM": {
-        "nazwa": "Price per metre drilled [zł/m]",
+        "nazwa": "Price per metre drilled [{waluta}/m]",
         "cel": "Cost = length × price; the source assumes cost growing linearly with length.",
         "gdzie": "Drilling offer.",
         "zakres": "Contractor's offer."
@@ -1633,13 +1633,13 @@ export const en: Tlumaczenie<typeof pl> = {
         "zakres": "0 to 24 h. Your tariff.",
       },
       "cenaDzien": {
-        "nazwa": "Electricity price — day zone [PLN/kWh]",
+        "nazwa": "Electricity price — day zone [{waluta}/kWh]",
         "cel": "Price of 1 kWh outside the night zone; applied to the heat the pump gives in the day.",
         "gdzie": "Your bill or the operator's tariff — enter the price you really pay per 1 kWh (net or gross, the same in both zones).",
         "zakres": "≥ 0. Your price — the app gives no tariffs.",
       },
       "cenaNoc": {
-        "nazwa": "Electricity price — night zone [PLN/kWh]",
+        "nazwa": "Electricity price — night zone [{waluta}/kWh]",
         "cel": "Price of 1 kWh at night; for a generator — your cost of 1 kWh from it (fuel, service).",
         "gdzie": "Your bill or the operator's tariff; for a generator: fuel use × fuel price ÷ kWh produced.",
         "zakres": "≥ 0. Your price.",
@@ -2180,7 +2180,7 @@ export const ru: Tlumaczenie<typeof pl> = {
         "zakres": "Источник (5.42): обычно 50–100 м."
       },
       "cenaZlM": {
-        "nazwa": "Цена метра бурения [зл/м]",
+        "nazwa": "Цена метра бурения [{waluta}/м]",
         "cel": "Стоимость = длина × цена; источник считает, что стоимость растёт линейно с длиной.",
         "gdzie": "Предложение буровой компании.",
         "zakres": "Предложение подрядчика."
@@ -2470,13 +2470,13 @@ export const ru: Tlumaczenie<typeof pl> = {
         "zakres": "От 0 до 24 ч. Ваш тариф.",
       },
       "cenaDzien": {
-        "nazwa": "Цена электричества — дневная зона [зл/кВт·ч]",
+        "nazwa": "Цена электричества — дневная зона [{waluta}/кВт·ч]",
         "cel": "Цена 1 кВт·ч вне ночной зоны; применяется к теплу, которое насос отдаёт днём.",
         "gdzie": "Ваш счёт или тариф оператора — введите цену, которую вы реально платите за 1 кВт·ч (нетто или брутто, одинаково в обеих зонах).",
         "zakres": "≥ 0. Ваша цена — приложение не даёт тарифов.",
       },
       "cenaNoc": {
-        "nazwa": "Цена электричества — ночная зона [зл/кВт·ч]",
+        "nazwa": "Цена электричества — ночная зона [{waluta}/кВт·ч]",
         "cel": "Цена 1 кВт·ч ночью; для генератора — ваша стоимость 1 кВт·ч от него (топливо, обслуживание).",
         "gdzie": "Ваш счёт или тариф оператора; для генератора: расход топлива × цена топлива ÷ выработанные кВт·ч.",
         "zakres": "≥ 0. Ваша цена.",

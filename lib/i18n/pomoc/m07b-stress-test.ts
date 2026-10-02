@@ -33,13 +33,13 @@ export const pl = {
         zakres: "Karta katalogowa urządzenia.",
       },
       cena: {
-        nazwa: "Cena paliwa [zł/l]",
+        nazwa: "Cena paliwa [{waluta}/l]",
         cel: "Zamienia litry na złotówki.",
         gdzie: "Cena na stacji / z ostatniego zakupu.",
         zakres: "Twoja cena.",
       },
       serwis: {
-        nazwa: "Serwis i olej na motogodzinę [zł/h]",
+        nazwa: "Serwis i olej na motogodzinę [{waluta}/h]",
         cel: "Koszt oleju, filtrów i przeglądów rozłożony na godzinę pracy.",
         gdzie: "Koszt przeglądu ÷ interwał serwisowy z instrukcji (np. wymiana oleju co X h).",
         zakres: "Puste = koszt serwisu nie jest liczony.",
@@ -452,13 +452,13 @@ export const en: Tlumaczenie<typeof pl> = {
         zakres: "The device datasheet.",
       },
       cena: {
-        nazwa: "Fuel price [PLN/l]",
+        nazwa: "Fuel price [{waluta}/l]",
         cel: "Turns litres into money.",
         gdzie: "Pump price / your last purchase.",
         zakres: "Your price.",
       },
       serwis: {
-        nazwa: "Service and oil per running hour [PLN/h]",
+        nazwa: "Service and oil per running hour [{waluta}/h]",
         cel: "Cost of oil, filters and services spread over an hour of running.",
         gdzie: "Service cost ÷ service interval from the manual (e.g. oil change every X h).",
         zakres: "Empty = service cost not counted.",
@@ -871,13 +871,13 @@ export const ru: Tlumaczenie<typeof pl> = {
         zakres: "Паспорт устройства.",
       },
       cena: {
-        nazwa: "Цена топлива [зл/л]",
+        nazwa: "Цена топлива [{waluta}/л]",
         cel: "Переводит литры в деньги.",
         gdzie: "Цена на заправке / последней покупки.",
         zakres: "Ваша цена.",
       },
       serwis: {
-        nazwa: "Сервис и масло на моточас [зл/ч]",
+        nazwa: "Сервис и масло на моточас [{waluta}/ч]",
         cel: "Стоимость масла, фильтров и обслуживания на час работы.",
         gdzie: "Стоимость обслуживания ÷ сервисный интервал из инструкции (например, замена масла каждые X ч).",
         zakres: "Пусто = стоимость сервиса не учитывается.",
