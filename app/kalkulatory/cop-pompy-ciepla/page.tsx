@@ -1,5 +1,6 @@
 "use client"
 
+import Link from "next/link"
 import { useMemo } from "react"
 import { calculateCopPompyCiepla } from "@/lib/core/modules/ogrzewanie/cop-pompy-ciepla/calculator"
 import { usePersistedDraft } from "@/lib/adapters/use-persisted-draft"
@@ -107,6 +108,14 @@ export default function CopPompyCieplaPage() {
 
       <SekcjaDoborMocy />
       <SekcjaKrzywaGrzewcza />
+
+      <section className="flex flex-col gap-2 rounded-lg border p-4">
+        <h2 className="font-semibold">{t("UI-M6D-SCOP-TYTUL")}</h2>
+        <p className="text-small text-muted-foreground">{t("UI-M6D-SCOP-OPIS")}</p>
+        <Link href="/kalkulatory/model-sezonowy-pompy-ciepla" className="text-small underline">
+          {t("UI-M6D-SCOP-LINK")}
+        </Link>
+      </section>
     </main>
   )
 }

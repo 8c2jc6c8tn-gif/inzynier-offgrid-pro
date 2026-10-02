@@ -3,6 +3,7 @@ import { t } from "@/lib/i18n/t"
 import { validateAiToolDefinition } from "../../types"
 import { doborMocyPompyTool } from "../dobor-mocy-pompy-tool"
 import { krzywaGrzewczaTool } from "../krzywa-grzewcza-tool"
+import { modelSezonowyPompyTool } from "../model-sezonowy-pompy-tool"
 
 describe("doborMocyPompyTool (M6 Część 2B, dawne 5.27 + 5.67)", () => {
   it("kontrakt 9.3: 'read', bez potwierdzenia", () => {
@@ -46,5 +47,24 @@ describe("krzywaGrzewczaTool (M6 Część 2B, dawne 5.71)", () => {
     })
     expect(w.zasilanieC).toBeCloseTo(33, 9)
     expect(w.zalozenia).toContain(t("pl", "KRZ-ZAL-BEZ-GRZEJNIKOW"))
+  })
+})
+
+describe("modelSezonowyPompyTool (M6 Część 2C, dawne 5.64 + 5.43)", () => {
+  it("kontrakt 9.3: 'read', bez potwierdzenia", () => {
+    expect(modelSezonowyPompyTool.operationType).toBe("read")
+    expect(modelSezonowyPompyTool.requiresConfirmation).toBe(false)
+    expect(() => validateAiToolDefinition(modelSezonowyPompyTool)).not.toThrow()
+  })
+
+  it("jeden miesiąc 3100 kWh przy COP 3,1 → 1000 kWh, ℹ️ zapas zimowy jako tekst PL", async () => {
+    const pusty = Array<number | null>(12).fill(null)
+    const w = await modelSezonowyPompyTool.handler({
+      cieploKwh: pusty.map((x, i) => (i === 0 ? 3100 : x)),
+      cop: pusty.map((x, i) => (i === 0 ? 3.1 : x)),
+      scopKatalogowy: 0,
+    })
+    expect(w.energiaSumaKwh).toBeCloseTo(1000, 9)
+    expect(w.ostrzezenia).toContain(t("pl", "MSP-ZIMA-ZAPAS", { kwh: 1000, doba: 32.26 }))
   })
 })

@@ -85,6 +85,34 @@ export const pl = {
       },
     },
   },
+  "model-sezonowy-pompy-ciepla": {
+    migawka: {
+      oCoChodzi: "Pompa to Twój zimowy apetyt — trzeba go znać, żeby nie zabrakło jedzenia. Katalog to marketing, rzeczywistość to Twoja instalacja i Twoja pogoda.",
+      jakDziala: "Dla każdego miesiąca: prąd = ciepło miesiąca ÷ COP pompy w tym miesiącu. Suma to zużycie sezonu, a ciepło sezonu ÷ prąd sezonu to realny SCOP Twojego domu. Ciepło miesięcy bierze się z Ekranu 1, COP z karty pompy przy średniej temperaturze miesiąca.",
+      poCo: "Wiesz, ile prądu pompa weźmie w styczniu i na dobę w najgorszym miesiącu — tyle energii musi dać bateria, PV albo agregat. Porównanie z katalogowym SCOP pokazuje, ile realnie tracisz.",
+      fizyka: "E_m = Q_m / COP_m, SCOP = ΣQ / ΣE.",
+    },
+    pola: {
+      cieplo: {
+        nazwa: "Ciepło do ogrzewania w miesiącu [kWh]",
+        cel: "Ile ciepła pompa ma dostarczyć w tym miesiącu.",
+        gdzie: "Ekran 1 (miesiące) — puste pole bierze jego wynik; albo Ekran 2 × liczba dni.",
+        zakres: "≥ 0. Puste albo 0 = w tym miesiącu nie grzejesz.",
+      },
+      cop: {
+        nazwa: "COP pompy w miesiącu [–]",
+        cel: "Dzieli ciepło miesiąca — wynik to prąd pompy w tym miesiącu.",
+        gdzie: "Karta pompy: COP przy średniej temperaturze miesiąca (Moduł 1) i Twojej temperaturze zasilania. Miesiące ze szronieniem: COP z defrostem z Ekranu 6.",
+        zakres: "≥ 1. Karta Twojej pompy.",
+      },
+      scop: {
+        nazwa: "SCOP katalogowy [–]",
+        cel: "Opcjonalne: porównanie z realnym SCOP Twojego domu.",
+        gdzie: "Karta pompy / etykieta energetyczna (SCOP dla klimatu umiarkowanego i Twojej temperatury zasilania).",
+        zakres: "≥ 1. Karta Twojej pompy.",
+      },
+    },
+  },
 }
 
 export const en: Tlumaczenie<typeof pl> = {
@@ -168,6 +196,34 @@ export const en: Tlumaczenie<typeof pl> = {
       },
     },
   },
+  "model-sezonowy-pompy-ciepla": {
+    migawka: {
+      oCoChodzi: "The pump is your winter appetite — you need to know it so the food does not run out. The catalogue is marketing, reality is your installation and your weather.",
+      jakDziala: "For each month: electricity = the month's heat ÷ the pump's COP that month. The sum is the season's consumption, and the season's heat ÷ the season's electricity is your house's real SCOP. Monthly heat comes from Screen 1, COP from the pump datasheet at the month's mean temperature.",
+      poCo: "You know how much electricity the pump takes in January and per day in the worst month — the battery, PV or generator must supply that. The comparison with the catalogue SCOP shows what you really lose.",
+      fizyka: "E_m = Q_m / COP_m, SCOP = ΣQ / ΣE.",
+    },
+    pola: {
+      cieplo: {
+        nazwa: "Space heating heat in the month [kWh]",
+        cel: "How much heat the pump must deliver that month.",
+        gdzie: "Screen 1 (months) — an empty field takes its result; or Screen 2 × the number of days.",
+        zakres: "≥ 0. Empty or 0 = no heating that month.",
+      },
+      cop: {
+        nazwa: "Pump COP in the month [–]",
+        cel: "Divides the month's heat — the result is the pump's electricity that month.",
+        gdzie: "Pump datasheet: COP at the month's mean temperature (Module 1) and your flow temperature. Months with frosting: COP with defrost from Screen 6.",
+        zakres: "≥ 1. Your pump's datasheet.",
+      },
+      scop: {
+        nazwa: "Catalogue SCOP [–]",
+        cel: "Optional: comparison with your house's real SCOP.",
+        gdzie: "Pump datasheet / energy label (SCOP for the average climate and your flow temperature).",
+        zakres: "≥ 1. Your pump's datasheet.",
+      },
+    },
+  },
 }
 
 export const ru: Tlumaczenie<typeof pl> = {
@@ -248,6 +304,34 @@ export const ru: Tlumaczenie<typeof pl> = {
         cel: "Необязательно: переводит изменение COP в кВт·ч электричества за сезон.",
         gdzie: "Экран 2 (сумма месяцев отопления) или экран 1.",
         zakres: "≥ 0. Результат вашего экрана 1/2.",
+      },
+    },
+  },
+  "model-sezonowy-pompy-ciepla": {
+    migawka: {
+      oCoChodzi: "Насос — ваш зимний аппетит: его нужно знать, чтобы еды хватило. Каталог — это маркетинг, реальность — ваша установка и ваша погода.",
+      jakDziala: "Для каждого месяца: электричество = тепло месяца ÷ COP насоса в этом месяце. Сумма — потребление за сезон, а тепло сезона ÷ электричество сезона — реальный SCOP вашего дома. Тепло месяцев берётся с экрана 1, COP — из паспорта насоса при средней температуре месяца.",
+      poCo: "Вы знаете, сколько электричества насос возьмёт в январе и за сутки в худший месяц — столько должны дать батарея, PV или генератор. Сравнение с каталожным SCOP показывает, сколько вы реально теряете.",
+      fizyka: "E_m = Q_m / COP_m, SCOP = ΣQ / ΣE.",
+    },
+    pola: {
+      cieplo: {
+        nazwa: "Тепло на отопление за месяц [кВт·ч]",
+        cel: "Сколько тепла насос должен дать в этом месяце.",
+        gdzie: "Экран 1 (месяцы) — пустое поле берёт его результат; или экран 2 × число дней.",
+        zakres: "≥ 0. Пусто или 0 = в этом месяце не отапливаете.",
+      },
+      cop: {
+        nazwa: "COP насоса в месяце [–]",
+        cel: "Делит тепло месяца — результат это электричество насоса за месяц.",
+        gdzie: "Паспорт насоса: COP при средней температуре месяца (модуль 1) и вашей температуре подачи. Месяцы с обмерзанием: COP с оттайкой с экрана 6.",
+        zakres: "≥ 1. Паспорт вашего насоса.",
+      },
+      scop: {
+        nazwa: "Каталожный SCOP [–]",
+        cel: "Необязательно: сравнение с реальным SCOP вашего дома.",
+        gdzie: "Паспорт насоса / энергетическая этикетка (SCOP для умеренного климата и вашей температуры подачи).",
+        zakres: "≥ 1. Паспорт вашего насоса.",
       },
     },
   },

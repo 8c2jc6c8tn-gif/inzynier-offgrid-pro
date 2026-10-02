@@ -1641,4 +1641,9 @@ export const dictionaryEn = {
   "KRZ-ZAL-LINIOWO": "The curve as a straight line through two points (as in the source example) — controllers set slope and shift, a real curve may bend slightly.",
   "KRZ-ZAL-BEZ-GRZEJNIKOW": "The screen does not check whether the radiators or floor heating still deliver the required power at the lower curve — that needs the emitter characteristic (PN-EN 442, PN-EN 1264, not in the app). Lower the curve step by step and watch the indoor temperature — source: never below comfort.",
   "KRZ-ZAL-COP-REGULA": "COP after the change from the source's rule: every °C of lower flow temperature is +{min}–{max}% COP, linearly — use the datasheet COP if you know it.",
+  "MSP-ZIMA-ZAPAS": "In winter the pump is the biggest load — {kwh} kWh of electricity in the worst month, {doba} kWh per day on average. Plan an energy reserve for it (battery, PV, generator).",
+  "MSP-SCOP-NIZSZY": "The real SCOP {realny} is {pct}% below the catalogue {kat} — the catalogue assumes other conditions (climate, flow temperature) than your house.",
+  "MSP-SCOP-WYZSZY": "The real SCOP {realny} is not below the catalogue {kat} — check that the monthly COPs come from the datasheet for your flow temperature and that winter months use the COP with defrost.",
+  "MSP-ZAL-COP-MIESIACA": "Monthly COP from the datasheet at the month's mean temperature. Part-load COP drop, starts and off-grid voltage swings are not counted — the source lists them without a model. A month with frosting: enter the COP with defrost from Screen 6.",
+  "MSP-ZAL-TYLKO-CO": "Space heating only — hot water has another COP (higher temperature), its electricity is on Screen 18.",
 } satisfies Record<KluczTlumaczenia, string>

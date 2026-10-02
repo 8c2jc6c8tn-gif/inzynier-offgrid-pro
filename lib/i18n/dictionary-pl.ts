@@ -1653,6 +1653,11 @@ export const dictionaryPl = {
   "KRZ-ZAL-LINIOWO": "Krzywa jako prosta przez dwa punkty (jak w przykładzie źródła) — sterowniki ustawiają nachylenie i przesunięcie, realna krzywa bywa lekko wygięta.",
   "KRZ-ZAL-BEZ-GRZEJNIKOW": "Ekran nie sprawdza, czy przy niższej krzywej grzejniki albo podłogówka oddadzą wymaganą moc — to wymaga charakterystyki grzejnika (PN-EN 442, PN-EN 1264, brak w aplikacji). Obniżaj krzywą stopniowo i obserwuj temperaturę w domu — źródło: nie poniżej komfortu.",
   "KRZ-ZAL-COP-REGULA": "COP po zmianie z reguły źródła: każdy °C niższego zasilania to +{min}–{max}% COP, liniowo — wpisz COP z karty, jeśli go znasz.",
+  "MSP-ZIMA-ZAPAS": "Zimą pompa to największy odbiornik — w najgorszym miesiącu {kwh} kWh prądu, średnio {doba} kWh na dobę. Zaplanuj na to zapas energii (bateria, PV, agregat).",
+  "MSP-SCOP-NIZSZY": "Realny SCOP {realny} jest o {pct}% niższy od katalogowego {kat} — katalog liczy inne warunki (klimat, temperaturę zasilania) niż Twój dom.",
+  "MSP-SCOP-WYZSZY": "Realny SCOP {realny} nie jest niższy od katalogowego {kat} — sprawdź, czy COP miesięcy są z karty dla Twojej temperatury zasilania i czy zimowe miesiące mają COP z defrostem.",
+  "MSP-ZAL-COP-MIESIACA": "COP miesiąca z karty przy średniej temperaturze miesiąca. Spadek COP przy częściowym obciążeniu, starty i wahania napięcia off-grid nie są liczone — źródło je wymienia bez modelu. Miesiąc ze szronieniem: wpisz COP z defrostem z Ekranu 6.",
+  "MSP-ZAL-TYLKO-CO": "Tylko ogrzewanie — ciepła woda ma inny COP (wyższa temperatura), jej prąd liczy Ekran 18.",
 } as const
 
 export type KluczTlumaczenia = keyof typeof dictionaryPl
