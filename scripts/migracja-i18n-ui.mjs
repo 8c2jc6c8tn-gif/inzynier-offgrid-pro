@@ -365,8 +365,10 @@ export function analyze(file, src, prefix, sharedByText) {
       }
     } else {
       const last = imps.at(-1)
-      const pos = last ? last.getEnd() : 0
-      edits.push({ start: pos, end: pos, text: `\nimport { useTranslate } from "@/lib/i18n/language-context"` })
+      // No imports: put it before the first statement (after a leading doc comment), not glued to offset 0.
+      const pos = last ? last.getEnd() : sf.statements[0] ? sf.statements[0].getStart(sf) : 0
+      const imp = `import { useTranslate } from "@/lib/i18n/language-context"`
+      edits.push({ start: pos, end: pos, text: last ? `\n${imp}` : `${imp}\n\n` })
     }
     // useTranslate() in a Server Component is HTTP 500 at runtime (docs/memory.md) — the hook needs "use client"
     const first = sf.statements[0]

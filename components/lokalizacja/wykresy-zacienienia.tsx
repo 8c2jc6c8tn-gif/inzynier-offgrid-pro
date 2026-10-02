@@ -1,8 +1,9 @@
-
-import { useTranslate } from "@/lib/i18n/language-context"/**
+/**
  * Wykresy Ekranu 3 (Moduł 1) jako czyste SVG — bez biblioteki wykresów, działają offline i w
  * ciemnym motywie (`currentColor`). Tylko rysowanie wyników kalkulatora.
  */
+
+import { useTranslate } from "@/lib/i18n/language-context"
 
 export const MIESIACE = ["I", "II", "III", "IV", "V", "VI", "VII", "VIII", "IX", "X", "XI", "XII"]
 const f1 = (x: number) => x.toLocaleString("pl-PL", { maximumFractionDigits: 1 })
