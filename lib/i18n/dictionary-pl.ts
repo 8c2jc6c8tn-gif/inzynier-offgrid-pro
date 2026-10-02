@@ -1699,6 +1699,17 @@ export const dictionaryPl = {
   "AZIM-GRZALKI-BMS": "Grzałki BMS niezweryfikowane — sprawdź, czy włączają się w mrozie i skąd biorą prąd (Moduł 4, grzałki BMS).",
   "AZIM-PALIWA-BRAKUJE": "Zapas paliwa poniżej potrzeby: masz {zapas} l, potrzebujesz {wymagany} l — brakuje {brak} l.",
   "AZIM-ZAL-LISTA": "Lista pięciu punktów 1:1 ze źródła (test generatora, test webasto, przegląd instalacji grzewczej, zapasy paliwa, grzałki BMS). „Zalecane minimum” paliwa nie ma liczby w źródle — potrzebną ilość wpisujesz sam. To nie jest Współczynnik Bezpieczeństwa Zimowego (Moduł 7) — tamten to wskaźnik ryzyka, ten to lista zadań.",
+  "ANOM-ODCHYLENIE": "Odchylenie od oczekiwanego: {pct}% ({kwh} kWh). Bez progu alarmu ekran nie ocenia, czy to anomalia — wpisz próg, jeśli chcesz werdykt.",
+  "ANOM-PV-SPADEK": "Produkcja o {pct}% niższa niż oczekiwana (próg {prog}%) — sprawdź po kolei: pogoda, brud, śnieg, cień, a na końcu uszkodzenie.",
+  "ANOM-ZUZYCIE-WZROST": "Zużycie o {pct}% wyższe niż zwykle (próg {prog}%) — sprawdź, czy jakieś urządzenie nie zostało włączone albo nie pracuje w dziwnych porach.",
+  "ANOM-ZUZYCIE-SPADEK": "Zużycie o {pct}% niższe niż zwykle (próg {prog}%) — sprawdź, czy któreś urządzenie (np. pompa, lodówka) nie przestało działać.",
+  "ANOM-PRZYCZYNA-POGODA": "Spadek tłumaczy pogoda — instalacja w porządku, oczekiwana produkcja była liczona dla innych warunków.",
+  "ANOM-PRZYCZYNA-BRUD": "Prawdopodobna przyczyna: brud na panelach — mycie i jego opłacalność: Moduł 3, czystość i śnieg.",
+  "ANOM-PRZYCZYNA-SNIEG": "Prawdopodobna przyczyna: śnieg na panelach — czy odśnieżać: Moduł 3, czystość i śnieg.",
+  "ANOM-PRZYCZYNA-CIEN": "Prawdopodobna przyczyna: cień — sprawdź nowe przeszkody (Moduł 1, analiza zacienienia).",
+  "ANOM-PRZYCZYNA-USZKODZENIE": "Spadek nie wynika z pogody, brudu, śniegu ani cienia — prawdopodobne uszkodzenie (np. stringu), zalecana kontrola instalacji.",
+  "ANOM-ZAL-PV": "Oczekiwana produkcja musi być liczona dla faktycznego nasłonecznienia tego okresu (prognoza, symulacja albo pomiar referencyjny) — inaczej odchylenie pokaże pogodę, nie usterkę. Progi z przykładów źródła („o 20% niższa”) to ilustracje, próg alarmu jest Twój.",
+  "ANOM-ZAL-ZUZYCIE": "Oczekiwane zużycie to Twoje typowe dla tego samego okresu (np. ten sam dzień tygodnia). Przykład źródła „+40% w nocy” to ilustracja, próg alarmu jest Twój.",
 } as const
 
 export type KluczTlumaczenia = keyof typeof dictionaryPl

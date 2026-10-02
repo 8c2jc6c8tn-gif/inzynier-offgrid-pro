@@ -5,6 +5,7 @@ import { validateAiToolDefinition } from "../../types"
 import { przesuwanieZadanTool } from "../przesuwanie-zadan-tool"
 import { doborZrodelZasilaniaTool } from "../dobor-zrodel-zasilania-tool"
 import { audytZimowyTool } from "../audyt-zimowy-tool"
+import { wykrywanieAnomaliiTool } from "../wykrywanie-anomalii-tool"
 
 // Control examples are the engines' own (__tests__ next to each engine) — the tools only echo.
 describe("przesuwanieZadanTool (M10/E5, dawne 12.10)", () => {
@@ -70,5 +71,26 @@ describe("audytZimowyTool (M10/E12, dawne 12.36)", () => {
     })
     expect(w.gotowe).toBe(4)
     expect(w.ostrzezenia).toEqual([t("pl", "AZIM-PALIWA-BRAKUJE", { brak: 60, zapas: 40, wymagany: 100 })])
+  })
+})
+
+describe("wykrywanieAnomaliiTool (M10/E7, dawne 12.13, 12.14, 12.17)", () => {
+  it("kontrakt 9.3: 'read', bez potwierdzenia", () => {
+    expect(wykrywanieAnomaliiTool.operationType).toBe("read")
+    expect(wykrywanieAnomaliiTool.requiresConfirmation).toBe(false)
+    expect(() => validateAiToolDefinition(wykrywanieAnomaliiTool)).not.toThrow()
+  })
+
+  it("spadek PV 20% przy progu 15%, kaskada: 4× nie → uszkodzenie, tekst PL", async () => {
+    const w = await wykrywanieAnomaliiTool.handler({
+      podsystem: "pv",
+      oczekiwanaKwh: 20,
+      zmierzonaKwh: 16,
+      progAlarmuPct: 15,
+      kaskada: { pogoda: false, brud: false, snieg: false, cien: false },
+    })
+    expect(w.odchyleniePct).toBeCloseTo(-20, 9)
+    expect(w.przyczyna).toBe("uszkodzenie")
+    expect(w.ostrzezenia).toEqual([t("pl", "ANOM-PV-SPADEK", { pct: 20, prog: 15 }), t("pl", "ANOM-PRZYCZYNA-USZKODZENIE")])
   })
 })

@@ -132,6 +132,63 @@ export const pl = {
       },
     },
   },
+  "wykrywanie-anomalii": {
+    migawka: {
+      oCoChodzi: "Panele dały dziś mniej, niż powinny, albo dom zużył więcej niż zwykle. Ten ekran mówi, o ile, i pomaga ustalić dlaczego.",
+      jakDziala: "Odejmujesz energię oczekiwaną od zmierzonej z tego samego okresu i dostajesz odchylenie w kWh i w procentach. Gdy wpiszesz próg alarmu, ekran oceni, czy to anomalia. Przy spadku produkcji PV prowadzi przez przyczyny w stałej kolejności: pogoda, brud, śnieg, cień — pierwsze „tak” kończy szukanie, a cztery „nie” wskazują prawdopodobne uszkodzenie.",
+      poCo: "Spadek produkcji najczęściej ma zwykłą przyczynę, którą widać gołym okiem. Kolejność od najprostszej do najrzadszej oszczędza wyjazd serwisu, a nietypowe zużycie wcześnie zdradza urządzenie, które zostało włączone albo przestało działać.",
+    },
+    pola: {
+      podsystem: {
+        nazwa: "Co sprawdzasz",
+        cel: "Produkcja PV — szukasz spadku i jego przyczyny. Zużycie — szukasz nietypowego wzrostu albo spadku.",
+        gdzie: "Wybierasz sam.",
+        zakres: "produkcja PV / zużycie energii.",
+      },
+      oczekiwana: {
+        nazwa: "Energia oczekiwana [kWh]",
+        cel: "Punkt odniesienia. Dla PV: ile instalacja powinna dać przy faktycznym nasłonecznieniu tego okresu. Dla zużycia: ile zwykle zużywasz w takim samym okresie.",
+        gdzie: "PV: prognoza (Moduł 10), symulacja albo instalacja referencyjna obok. Zużycie: odczyty z wcześniejszych tygodni.",
+        zakres: "Liczba dodatnia, ten sam okres co energia zmierzona.",
+      },
+      zmierzona: {
+        nazwa: "Energia zmierzona [kWh]",
+        cel: "Ile faktycznie wyprodukowano albo zużyto.",
+        gdzie: "Falownik, regulator, licznik albo aplikacja monitoringu.",
+        zakres: "Liczba nieujemna, ten sam okres co energia oczekiwana.",
+      },
+      prog: {
+        nazwa: "Próg alarmu [%]",
+        cel: "Od jakiego odchylenia uznajesz wynik za anomalię. Bez progu ekran pokazuje samo odchylenie.",
+        gdzie: "Twoja decyzja. Liczby z przykładów („o 20% mniej”, „o 40% więcej w nocy”) to ilustracje, nie normy.",
+        zakres: "Liczba nieujemna w procentach; puste = bez werdyktu.",
+      },
+      pogoda: {
+        nazwa: "Pogoda",
+        cel: "Pierwszy krok: czy oczekiwana produkcja była liczona dla innej pogody niż faktyczna (chmury, mgła, krótszy dzień).",
+        gdzie: "Obserwacja nieba, prognoza albo instalacja sąsiada.",
+        zakres: "tak / nie / niesprawdzone.",
+      },
+      brud: {
+        nazwa: "Brud",
+        cel: "Drugi krok: kurz, pyłek, liście albo ptasie odchody na panelach.",
+        gdzie: "Oględziny paneli; mycie — Moduł 3, czystość i śnieg.",
+        zakres: "tak / nie / niesprawdzone.",
+      },
+      snieg: {
+        nazwa: "Śnieg",
+        cel: "Trzeci krok: czy panele są całkiem lub częściowo przykryte śniegiem albo szronem.",
+        gdzie: "Oględziny paneli; odśnieżanie — Moduł 3, czystość i śnieg.",
+        zakres: "tak / nie / niesprawdzone.",
+      },
+      cien: {
+        nazwa: "Cień",
+        cel: "Czwarty krok: nowa przeszkoda — urosłe drzewo, budynek, antena, sopel na krawędzi.",
+        gdzie: "Oględziny w godzinach spadku; Moduł 1, analiza zacienienia.",
+        zakres: "tak / nie / niesprawdzone.",
+      },
+    },
+  },
 }
 
 export const en: Tlumaczenie<typeof pl> = {
@@ -262,6 +319,63 @@ export const en: Tlumaczenie<typeof pl> = {
       },
     },
   },
+  "wykrywanie-anomalii": {
+    migawka: {
+      oCoChodzi: "The panels gave less today than they should, or the house used more than usual. This screen says by how much and helps work out why.",
+      jakDziala: "You subtract the expected energy from the measured one for the same period and get the deviation in kWh and percent. Once you enter an alarm threshold, the screen judges whether it is an anomaly. For a PV production drop it walks through the causes in a fixed order: weather, dirt, snow, shade — the first “yes” ends the search, and four “no” answers point to likely damage.",
+      poCo: "A production drop most often has an ordinary cause you can see with the naked eye. Going from the simplest to the rarest saves a service visit, and unusual consumption gives away early a device that was left on or has stopped working.",
+    },
+    pola: {
+      podsystem: {
+        nazwa: "What you are checking",
+        cel: "PV production — you look for a drop and its cause. Consumption — you look for an unusual rise or fall.",
+        gdzie: "Your choice.",
+        zakres: "PV production / energy consumption.",
+      },
+      oczekiwana: {
+        nazwa: "Expected energy [kWh]",
+        cel: "The reference point. For PV: how much the installation should give at the actual sunshine of this period. For consumption: how much you usually use in a similar period.",
+        gdzie: "PV: forecast (Module 10), a simulation or a reference installation nearby. Consumption: readings from earlier weeks.",
+        zakres: "A positive number, the same period as the measured energy.",
+      },
+      zmierzona: {
+        nazwa: "Measured energy [kWh]",
+        cel: "How much was actually produced or consumed.",
+        gdzie: "Inverter, charge controller, meter or monitoring app.",
+        zakres: "A non-negative number, the same period as the expected energy.",
+      },
+      prog: {
+        nazwa: "Alarm threshold [%]",
+        cel: "From what deviation you treat the result as an anomaly. Without a threshold the screen shows the deviation only.",
+        gdzie: "Your decision. The example figures (“20% less”, “40% more at night”) are illustrations, not norms.",
+        zakres: "A non-negative percentage; empty = no verdict.",
+      },
+      pogoda: {
+        nazwa: "Weather",
+        cel: "Step one: was the expected production computed for different weather than the actual one (clouds, fog, a shorter day).",
+        gdzie: "Looking at the sky, the forecast or a neighbour's installation.",
+        zakres: "yes / no / not checked.",
+      },
+      brud: {
+        nazwa: "Dirt",
+        cel: "Step two: dust, pollen, leaves or bird droppings on the panels.",
+        gdzie: "Inspecting the panels; cleaning — Module 3, cleanliness and snow.",
+        zakres: "yes / no / not checked.",
+      },
+      snieg: {
+        nazwa: "Snow",
+        cel: "Step three: are the panels fully or partly covered with snow or frost.",
+        gdzie: "Inspecting the panels; clearing snow — Module 3, cleanliness and snow.",
+        zakres: "yes / no / not checked.",
+      },
+      cien: {
+        nazwa: "Shade",
+        cel: "Step four: a new obstacle — a grown tree, a building, an antenna, an icicle on the edge.",
+        gdzie: "Inspection during the hours of the drop; Module 1, shading analysis.",
+        zakres: "yes / no / not checked.",
+      },
+    },
+  },
 }
 
 export const ru: Tlumaczenie<typeof pl> = {
@@ -389,6 +503,63 @@ export const ru: Tlumaczenie<typeof pl> = {
         cel: "Ваша потребность — источник говорит о «рекомендуемом минимуме», но без числа.",
         gdzie: "Модуль 2, генератор (топливо на дефицит) или модуль 7 (месячные дефициты).",
         zakres: "≥ 0.",
+      },
+    },
+  },
+  "wykrywanie-anomalii": {
+    migawka: {
+      oCoChodzi: "Панели дали сегодня меньше, чем должны, или дом потребил больше обычного. Этот экран показывает, насколько, и помогает понять почему.",
+      jakDziala: "Вы вычитаете ожидаемую энергию из измеренной за один и тот же период и получаете отклонение в кВт·ч и процентах. Если ввести порог тревоги, экран оценит, аномалия ли это. При спаде выработки PV он проводит по причинам в постоянном порядке: погода, грязь, снег, тень — первое «да» заканчивает поиск, а четыре «нет» указывают на вероятное повреждение.",
+      poCo: "Спад выработки чаще всего имеет обычную причину, видимую невооружённым глазом. Порядок от самой простой к самой редкой экономит выезд сервиса, а необычное потребление рано выдаёт устройство, которое осталось включённым или перестало работать.",
+    },
+    pola: {
+      podsystem: {
+        nazwa: "Что проверяете",
+        cel: "Выработка PV — ищете спад и его причину. Потребление — ищете необычный рост или спад.",
+        gdzie: "Выбираете сами.",
+        zakres: "выработка PV / потребление энергии.",
+      },
+      oczekiwana: {
+        nazwa: "Ожидаемая энергия [кВт·ч]",
+        cel: "Точка отсчёта. Для PV: сколько установка должна дать при фактической инсоляции этого периода. Для потребления: сколько вы обычно потребляете за такой же период.",
+        gdzie: "PV: прогноз (модуль 10), симуляция или опорная установка рядом. Потребление: показания за прошлые недели.",
+        zakres: "Положительное число, тот же период, что и измеренная энергия.",
+      },
+      zmierzona: {
+        nazwa: "Измеренная энергия [кВт·ч]",
+        cel: "Сколько фактически выработано или потреблено.",
+        gdzie: "Инвертор, контроллер заряда, счётчик или приложение мониторинга.",
+        zakres: "Неотрицательное число, тот же период, что и ожидаемая энергия.",
+      },
+      prog: {
+        nazwa: "Порог тревоги [%]",
+        cel: "С какого отклонения вы считаете результат аномалией. Без порога экран показывает только отклонение.",
+        gdzie: "Ваше решение. Цифры из примеров («на 20% меньше», «на 40% больше ночью») — иллюстрации, а не нормы.",
+        zakres: "Неотрицательное число в процентах; пусто = без вердикта.",
+      },
+      pogoda: {
+        nazwa: "Погода",
+        cel: "Первый шаг: не считалась ли ожидаемая выработка для другой погоды, чем фактическая (облака, туман, более короткий день).",
+        gdzie: "Наблюдение за небом, прогноз или установка соседа.",
+        zakres: "да / нет / не проверено.",
+      },
+      brud: {
+        nazwa: "Грязь",
+        cel: "Второй шаг: пыль, пыльца, листья или птичий помёт на панелях.",
+        gdzie: "Осмотр панелей; мойка — модуль 3, чистота и снег.",
+        zakres: "да / нет / не проверено.",
+      },
+      snieg: {
+        nazwa: "Снег",
+        cel: "Третий шаг: покрыты ли панели полностью или частично снегом или инеем.",
+        gdzie: "Осмотр панелей; уборка снега — модуль 3, чистота и снег.",
+        zakres: "да / нет / не проверено.",
+      },
+      cien: {
+        nazwa: "Тень",
+        cel: "Четвёртый шаг: новое препятствие — выросшее дерево, здание, антенна, сосулька на краю.",
+        gdzie: "Осмотр в часы спада; модуль 1, анализ затенения.",
+        zakres: "да / нет / не проверено.",
       },
     },
   },
