@@ -1635,6 +1635,7 @@ export const dictionaryPl = {
   "ROZ-PRACA-PONAD-MOC": "W pracy pompa z innymi odbiornikami pobiera {praca} kW, a moc ciągła źródła to {moc} kW.",
   "ROZ-ZAL-KVA-JAK-KW": "Moc pozorna rozruchu (kVA) porównana z mocą w kW tak, jakby cos φ = 1 — w karcie nie ma współczynnika mocy przy starcie, a niższy tylko zmniejszyłby obciążenie, więc wynik jest po bezpiecznej stronie.",
   "ROZ-ZAL-AGREGAT-KOSZT": "Źródło: praca pompy z agregatu to drogie ogrzewanie — koszt paliwa liczy ekran agregatu (Moduł 2).",
+  "BAS-ZAL-BEZ-STRAT": "Bez strat w trakcie grzania (parowanie, powierzchnia, ściany) — źródło je wymienia, ale nie podaje modelu, więc realny czas i prąd będą większe, zwłaszcza bez przykrycia.",
 } as const
 
 export type KluczTlumaczenia = keyof typeof dictionaryPl

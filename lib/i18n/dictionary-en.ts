@@ -1623,4 +1623,5 @@ export const dictionaryEn = {
   "ROZ-PRACA-PONAD-MOC": "While running, the pump with the other loads draws {praca} kW and the source's continuous power is {moc} kW.",
   "ROZ-ZAL-KVA-JAK-KW": "The start apparent power (kVA) is compared with the kW rating as if cos φ = 1 — the datasheet has no power factor at start, and a lower one would only reduce the load, so the result errs on the safe side.",
   "ROZ-ZAL-AGREGAT-KOSZT": "Source: running the pump from a generator is expensive heating — the fuel cost is on the generator screen (Module 2).",
+  "BAS-ZAL-BEZ-STRAT": "No losses while heating (evaporation, surface, walls) — the source names them but gives no model, so the real time and electricity will be higher, especially without a cover.",
 } satisfies Record<KluczTlumaczenia, string>

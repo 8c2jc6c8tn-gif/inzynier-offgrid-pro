@@ -123,6 +123,7 @@ const MIGRATED_MODULES = [
   "lib/core/modules/ogrzewanie/gwc",
   "lib/core/modules/ogrzewanie/wplyw-czynnika",
   "lib/core/modules/ogrzewanie/rozruch-pompy-ciepla",
+  "lib/core/modules/ogrzewanie/basen",
   "lib/core/modules/ogrzewanie/kolektor-gruntowy",
   "lib/core/modules/ogrzewanie/alternatywne-zrodla-ciepla",
   "lib/core/modules/montaz-baterii/balansery-zewnetrzne-olow",

@@ -9,6 +9,7 @@ import { oknoSloneczneTool } from "../okno-sloneczne-tool"
 import { osadNaPvTool } from "../osad-na-pv-tool"
 import { wplywCzynnikaTool } from "../wplyw-czynnika-tool"
 import { rozruchPompyCieplaTool } from "../rozruch-pompy-ciepla-tool"
+import { basenTool } from "../basen-tool"
 
 describe("deficytyMiesieczneTool (M7/E2, dawne 6.2)", () => {
   it("kontrakt 9.3: 'read', bez potwierdzenia", () => {
@@ -180,5 +181,19 @@ describe("rozruchPompyCieplaTool (M6 Część 2C, dawne 5.52, 5.61, 5.66)", () =
       mocSzczytowaKw: 7.5,
     })
     expect(w.ostrzezenia).toContain(t("pl", "ROZ-START-PONAD-SZCZYT", { start: 9.2, szczyt: 7.5 }))
+  })
+})
+
+describe("basenTool (M6 Część 2C, dawne 5.48)", () => {
+  it("kontrakt 9.3: 'read', bez potwierdzenia", () => {
+    expect(basenTool.operationType).toBe("read")
+    expect(basenTool.requiresConfirmation).toBe(false)
+    expect(() => validateAiToolDefinition(basenTool)).not.toThrow()
+  })
+
+  it("40 m³ +1 K przy 8 kW → ok. 5,8 h i założenie o stratach jako tekst PL", async () => {
+    const w = await basenTool.handler({ objetoscM3: 40, przyrostK: 1, mocPompyKw: 8, cop: 0, spadekNocK: 0 })
+    expect(w.czasH).toBeCloseTo(5.81, 2)
+    expect(w.zalozenia).toContain(t("pl", "BAS-ZAL-BEZ-STRAT"))
   })
 })

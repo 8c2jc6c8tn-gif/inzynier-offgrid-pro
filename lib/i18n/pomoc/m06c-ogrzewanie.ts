@@ -607,6 +607,46 @@ export const pl = {
       }
     }
   },
+  "basen": {
+    "migawka": {
+      "oCoChodzi": "Basen to ogromny bojler bez izolacji. Pompa ciepła grzeje go taniej niż grzałka, ale ilość ciepła i tak jest duża — warto ją znać przed sezonem.",
+      "jakDziala": "Wpisz objętość wody, o ile ją podgrzać i moc pompy. Aplikacja liczy ciepło (objętość × ciepło właściwe wody × przyrost), czas pracy pompy i — z COP — prąd; z nocnym spadkiem temperatury liczy codzienne dogrzanie.",
+      "poCo": "W off-gridzie basen może zjeść całą letnią nadwyżkę PV — a bez przykrycia grzanie basenu to jak grzanie ulicy.",
+      "fizyka": "Q = V · 1,163 kWh/(m³·K) · ΔT, t = Q / P, E = Q / COP. Straty przez parowanie nie są liczone (brak modelu w źródle)."
+    },
+    "pola": {
+      "objetosc": {
+        "nazwa": "Objętość wody w basenie [m³]",
+        "cel": "Każdy m³ wody to ok. 1,16 kWh na każdy stopień podgrzania.",
+        "gdzie": "Długość × szerokość × średnia głębokość albo dokumentacja basenu.",
+        "zakres": "Twój basen."
+      },
+      "przyrost": {
+        "nazwa": "O ile podgrzać wodę [K]",
+        "cel": "Różnica między temperaturą obecną a docelową.",
+        "gdzie": "Termometr w basenie i Twoja temperatura docelowa.",
+        "zakres": "Twój wybór."
+      },
+      "moc": {
+        "nazwa": "Moc grzewcza pompy w trybie basenowym [kW]",
+        "cel": "Ciepło ÷ moc = czas pracy (bez strat).",
+        "gdzie": "Karta pompy basenowej (moc w warunkach basenowych, np. powietrze 15 °C / woda 26 °C).",
+        "zakres": "Karta katalogowa — aplikacja nie zakłada wartości."
+      },
+      "cop": {
+        "nazwa": "COP w trybie basenowym [–]",
+        "cel": "Opcjonalne: prąd = ciepło ÷ COP.",
+        "gdzie": "Karta pompy basenowej.",
+        "zakres": "Karta katalogowa — aplikacja nie zakłada wartości."
+      },
+      "spadek": {
+        "nazwa": "Spadek temperatury wody przez noc [K]",
+        "cel": "Opcjonalne: ile ciepła trzeba co dzień oddać basenowi z powrotem.",
+        "gdzie": "Pomiar: temperatura wieczorem minus rano. Źródło: basen bez przykrycia traci nawet 3 °C na noc.",
+        "zakres": "Twój pomiar."
+      }
+    }
+  },
 }
 
 export const en: Tlumaczenie<typeof pl> = {
@@ -1212,6 +1252,46 @@ export const en: Tlumaczenie<typeof pl> = {
       }
     }
   },
+  "basen": {
+    "migawka": {
+      "oCoChodzi": "A pool is a huge uninsulated boiler. A heat pump heats it cheaper than a heater, but the amount of heat is still large — worth knowing before the season.",
+      "jakDziala": "Enter the water volume, how much to warm it and the pump power. The app computes the heat (volume × water specific heat × rise), the pump running time and — with COP — the electricity; with the overnight drop it computes the daily make-up.",
+      "poCo": "Off-grid, a pool can eat the whole summer PV surplus — and heating an uncovered pool is like heating the street.",
+      "fizyka": "Q = V · 1.163 kWh/(m³·K) · ΔT, t = Q / P, E = Q / COP. Evaporation losses are not counted (no model in the source)."
+    },
+    "pola": {
+      "objetosc": {
+        "nazwa": "Pool water volume [m³]",
+        "cel": "Each m³ of water takes about 1.16 kWh per degree of heating.",
+        "gdzie": "Length × width × average depth, or the pool documentation.",
+        "zakres": "Your pool."
+      },
+      "przyrost": {
+        "nazwa": "How much to warm the water [K]",
+        "cel": "Difference between the current and the target temperature.",
+        "gdzie": "Pool thermometer and your target temperature.",
+        "zakres": "Your choice."
+      },
+      "moc": {
+        "nazwa": "Pump heating power in pool mode [kW]",
+        "cel": "Heat ÷ power = running time (no losses).",
+        "gdzie": "Pool heat pump datasheet (power at pool conditions, e.g. air 15 °C / water 26 °C).",
+        "zakres": "Datasheet — the app assumes no value."
+      },
+      "cop": {
+        "nazwa": "COP in pool mode [–]",
+        "cel": "Optional: electricity = heat ÷ COP.",
+        "gdzie": "Pool heat pump datasheet.",
+        "zakres": "Datasheet — the app assumes no value."
+      },
+      "spadek": {
+        "nazwa": "Water temperature drop overnight [K]",
+        "cel": "Optional: how much heat has to go back into the pool every day.",
+        "gdzie": "Measurement: evening temperature minus morning. Source: an uncovered pool loses up to 3 °C overnight.",
+        "zakres": "Your measurement."
+      }
+    }
+  },
 }
 
 export const ru: Tlumaczenie<typeof pl> = {
@@ -1814,6 +1894,46 @@ export const ru: Tlumaczenie<typeof pl> = {
         "cel": "Предел для момента пуска.",
         "gdzie": "Паспорт инвертора (пиковая мощность на несколько секунд) / табличка генератора (максимальная мощность).",
         "zakres": "Паспорт — приложение не подставляет значений."
+      }
+    }
+  },
+  "basen": {
+    "migawka": {
+      "oCoChodzi": "Бассейн — огромный бойлер без изоляции. Тепловой насос греет его дешевле нагревателя, но тепла всё равно нужно много — это стоит знать до сезона.",
+      "jakDziala": "Введите объём воды, на сколько её нагреть и мощность насоса. Приложение считает тепло (объём × теплоёмкость воды × прирост), время работы насоса и — с COP — электричество; с ночным падением температуры — ежедневный догрев.",
+      "poCo": "В автономной системе бассейн может съесть весь летний излишек PV, а нагрев бассейна без укрытия — как обогрев улицы.",
+      "fizyka": "Q = V · 1,163 кВт·ч/(м³·К) · ΔT, t = Q / P, E = Q / COP. Потери на испарение не учитываются (в источнике нет модели)."
+    },
+    "pola": {
+      "objetosc": {
+        "nazwa": "Объём воды в бассейне [м³]",
+        "cel": "Каждый м³ воды — около 1,16 кВт·ч на каждый градус нагрева.",
+        "gdzie": "Длина × ширина × средняя глубина или документация бассейна.",
+        "zakres": "Ваш бассейн."
+      },
+      "przyrost": {
+        "nazwa": "На сколько нагреть воду [К]",
+        "cel": "Разница между текущей и целевой температурой.",
+        "gdzie": "Термометр в бассейне и ваша целевая температура.",
+        "zakres": "Ваш выбор."
+      },
+      "moc": {
+        "nazwa": "Тепловая мощность насоса в режиме бассейна [кВт]",
+        "cel": "Тепло ÷ мощность = время работы (без потерь).",
+        "gdzie": "Паспорт бассейнового насоса (мощность в бассейновых условиях, например воздух 15 °C / вода 26 °C).",
+        "zakres": "Паспорт — приложение не подставляет значений."
+      },
+      "cop": {
+        "nazwa": "COP в режиме бассейна [–]",
+        "cel": "Необязательно: электричество = тепло ÷ COP.",
+        "gdzie": "Паспорт бассейнового насоса.",
+        "zakres": "Паспорт — приложение не подставляет значений."
+      },
+      "spadek": {
+        "nazwa": "Падение температуры воды за ночь [К]",
+        "cel": "Необязательно: сколько тепла нужно каждый день возвращать бассейну.",
+        "gdzie": "Замер: температура вечером минус утром. Источник: бассейн без укрытия теряет до 3 °C за ночь.",
+        "zakres": "Ваш замер."
       }
     }
   },
