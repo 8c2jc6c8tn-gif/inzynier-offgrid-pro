@@ -1,7 +1,7 @@
 import { Analytics } from '@vercel/analytics/next'
 import type { Metadata, Viewport } from 'next'
 import { headers } from 'next/headers'
-import { Inter, JetBrains_Mono, Lato, Roboto, Source_Sans_3, Source_Serif_4 } from 'next/font/google'
+import { Caveat, Inter, JetBrains_Mono, Lato, Roboto, Source_Sans_3, Source_Serif_4 } from 'next/font/google'
 import { AsystentAi } from '@/components/asystent-ai'
 import { BazaWersjaListener } from '@/components/pwa/baza-wersja-listener'
 import { Powiadomienia } from '@/components/pwa/powiadomienia'
@@ -23,6 +23,8 @@ const lato = Lato({ subsets: ['latin', 'latin-ext'], weight: ['400', '700'], var
 // Variable fonts, not preloaded: only a page with such a style active downloads them.
 const sourceSerif = Source_Serif_4({ subsets: ['latin', 'latin-ext', 'cyrillic'], variable: '--font-source-serif', preload: false })
 const jetbrainsMono = JetBrains_Mono({ subsets: ['latin', 'latin-ext', 'cyrillic'], variable: '--font-jetbrains-mono', preload: false })
+// Handwriting for „Notatnik inżyniera” headings and result only (D67) — Caveat has Cyrillic. Not preloaded.
+const caveat = Caveat({ subsets: ['latin', 'latin-ext', 'cyrillic'], variable: '--font-caveat', preload: false })
 
 // Every style's tokens, generated from the one table (D65/D67) — nothing per style in globals.css.
 const STYLE_WYGLADU_CSS = generujCssStylow()
@@ -119,6 +121,15 @@ const WYGLAD_INIT_SCRIPT = `
       }
     }
   } catch (e) {}
+
+  // Glass styles (lib/wyglad/style.ts, D66): no backdrop blur on a weak device — little memory or
+  // cores, or data saver on. Thresholds are an AI choice (to confirm), not a measured limit.
+  try {
+    var n = window.navigator;
+    if ((n.deviceMemory && n.deviceMemory < 4) || (n.hardwareConcurrency && n.hardwareConcurrency < 4) || (n.connection && n.connection.saveData)) {
+      document.documentElement.setAttribute('data-bez-rozmycia', '');
+    }
+  } catch (e) {}
 })();
 `
 
@@ -162,7 +173,7 @@ export default async function RootLayout({
     <html
       lang={DEFAULT_LANGUAGE}
       suppressHydrationWarning
-      className={`${inter.variable} ${sourceSans.variable} ${roboto.variable} ${lato.variable} ${sourceSerif.variable} ${jetbrainsMono.variable}`}
+      className={`${inter.variable} ${sourceSans.variable} ${roboto.variable} ${lato.variable} ${sourceSerif.variable} ${jetbrainsMono.variable} ${caveat.variable}`}
     >
       <head>
         <style id="style-wygladu" dangerouslySetInnerHTML={{ __html: STYLE_WYGLADU_CSS }} />
