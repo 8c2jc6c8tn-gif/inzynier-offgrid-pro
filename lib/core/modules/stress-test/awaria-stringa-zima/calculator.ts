@@ -45,10 +45,10 @@ export function calculateAwariaStringaZima(input: AwariaStringaZimaInput): CalcR
   })
 
   const ETYKIETY = {
-    produkcjaCalkowitaKwhDoba: "Produkcja instalacji",
-    produkcjaStringuKwhDoba: "Produkcja stringu",
-    zapotrzebowanieKwhDoba: "Zapotrzebowanie",
-    pojemnoscBateriiKwh: "Pojemność baterii",
+    produkcjaCalkowitaKwhDoba: "POLE-PRODUKCJA-INSTALACJI",
+    produkcjaStringuKwhDoba: "POLE-PRODUKCJA-STRINGU",
+    zapotrzebowanieKwhDoba: "POLE-ZAPOTRZEBOWANIE",
+    pojemnoscBateriiKwh: "POLE-POJEMNOSC-BATERII",
   } as const
   const errors: Warning[] = []
   for (const [pole, etykieta] of Object.entries(ETYKIETY) as [keyof typeof ETYKIETY, string][]) {

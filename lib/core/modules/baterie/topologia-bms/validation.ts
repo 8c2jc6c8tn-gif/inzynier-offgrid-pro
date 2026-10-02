@@ -9,10 +9,10 @@ export type ValidationResult = {
 export function validateInput(input: TopologiaBmsInput): ValidationResult {
   const errors: Warning[] = []
   if (input.bmsCommonPortA < 0) {
-    errors.push(notPositive("bmsCommonPortA", "prąd znamionowy Common Port", input.bmsCommonPortA))
+    errors.push(notPositive("bmsCommonPortA", "POLE-PRAD-ZNAMIONOWY-COMMON-PORT-L", input.bmsCommonPortA))
   }
   if (input.falownikPradRozruchuA < 0) {
-    errors.push(notPositive("falownikPradRozruchuA", "szczytowy prąd rozruchu falownika", input.falownikPradRozruchuA))
+    errors.push(notPositive("falownikPradRozruchuA", "POLE-SZCZYTOWY-PRAD-ROZRUCHU-FALOWNIKA-L", input.falownikPradRozruchuA))
   }
   return { errors }
 }

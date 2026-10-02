@@ -9,13 +9,13 @@ export type ValidationResult = {
 export function validateInput(input: OplacalnoscMagazynuInput): ValidationResult {
   const errors: Warning[] = []
   if (input.cenaBateriiZl < 0) {
-    errors.push(notPositive("cenaBateriiZl", "cena baterii", input.cenaBateriiZl))
+    errors.push(notPositive("cenaBateriiZl", "POLE-CENA-BATERII-L", input.cenaBateriiZl))
   }
   if (input.pojemnoscUzytecznaKwh < 0) {
-    errors.push(notPositive("pojemnoscUzytecznaKwh", "pojemność użyteczna", input.pojemnoscUzytecznaKwh))
+    errors.push(notPositive("pojemnoscUzytecznaKwh", "POLE-POJEMNOSC-UZYTECZNA-L", input.pojemnoscUzytecznaKwh))
   }
   if (input.liczbaCykli < 0) {
-    errors.push(notPositive("liczbaCykli", "liczba cykli", input.liczbaCykli))
+    errors.push(notPositive("liczbaCykli", "POLE-LICZBA-CYKLI-L", input.liczbaCykli))
   }
   if (input.sprawnoscPct < 0 || input.sprawnoscPct > 100) {
     errors.push(sprawnoscPozaZakresem(input.sprawnoscPct))

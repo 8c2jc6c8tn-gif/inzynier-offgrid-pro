@@ -8,9 +8,9 @@ export type ValidationResult = {
 
 export function validateInput(input: GniazdoZapalniczkiInput): ValidationResult {
   const errors: Warning[] = []
-  if (input.pradBezpiecznikaA < 0) errors.push(wartoscUjemna("pradBezpiecznikaA", "Prąd bezpiecznika", input.pradBezpiecznikaA))
+  if (input.pradBezpiecznikaA < 0) errors.push(wartoscUjemna("pradBezpiecznikaA", "POLE-PRAD-BEZPIECZNIKA", input.pradBezpiecznikaA))
   input.urzadzenia.forEach((u, i) => {
-    if (u.mocW < 0) errors.push(wartoscUjemna(`urzadzenia.${i}.mocW`, "Moc urządzenia", u.mocW))
+    if (u.mocW < 0) errors.push(wartoscUjemna(`urzadzenia.${i}.mocW`, "POLE-MOC-URZADZENIA", u.mocW))
   })
   return { errors }
 }

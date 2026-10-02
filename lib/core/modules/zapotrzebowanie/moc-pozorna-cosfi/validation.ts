@@ -9,7 +9,7 @@ export type ValidationResult = {
 export function validateInput(input: MocPozornaCosfiInput): ValidationResult {
   const errors: Warning[] = []
   if (input.mocCzynnaW < 0) {
-    errors.push(notPositive("mocCzynnaW", "moc czynna", input.mocCzynnaW))
+    errors.push(notPositive("mocCzynnaW", "POLE-MOC-CZYNNA-L", input.mocCzynnaW))
   }
   if (input.cosFi < 0 || input.cosFi > 1) {
     errors.push(cosFiPozaZakresem(input.cosFi))

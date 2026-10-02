@@ -49,12 +49,12 @@ export function calculatePreHeat(input: PreHeatInput): CalcResult<PreHeatResult>
   })
 
   const ETYKIETY = {
-    pojemnoscCieplnaKwhK: "Pojemność cieplna budynku",
-    podniesienieTempDomuK: "Podniesienie temperatury w domu",
-    stratyCieplaKw: "Straty ciepła",
-    pojemnoscBojleraL: "Pojemność bojlera",
-    podniesienieTempBojleraK: "Podniesienie temperatury bojlera",
-    nadwyzkaPvKwh: "Nadwyżka PV",
+    pojemnoscCieplnaKwhK: "POLE-POJEMNOSC-CIEPLNA-BUDYNKU",
+    podniesienieTempDomuK: "POLE-PODNIESIENIE-TEMPERATURY-W-DOMU",
+    stratyCieplaKw: "POLE-STRATY-CIEPLA",
+    pojemnoscBojleraL: "POLE-POJEMNOSC-BOJLERA",
+    podniesienieTempBojleraK: "POLE-PODNIESIENIE-TEMPERATURY-BOJLERA",
+    nadwyzkaPvKwh: "POLE-NADWYZKA-PV",
   } as const
   const errors: Warning[] = []
   for (const [pole, etykieta] of Object.entries(ETYKIETY) as [keyof typeof ETYKIETY, string][]) {

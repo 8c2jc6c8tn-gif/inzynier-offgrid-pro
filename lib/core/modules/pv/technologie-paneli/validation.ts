@@ -9,7 +9,7 @@ export type ValidationResult = {
 export function validateInput(input: TechnologiePaneliInput): ValidationResult {
   const errors: Warning[] = []
   if (input.mocInstalacjiKwp < 0) {
-    errors.push(wartoscUjemna("mocInstalacjiKwp", "Moc instalacji", input.mocInstalacjiKwp))
+    errors.push(wartoscUjemna("mocInstalacjiKwp", "POLE-MOC-INSTALACJI", input.mocInstalacjiKwp))
   }
   return { errors }
 }

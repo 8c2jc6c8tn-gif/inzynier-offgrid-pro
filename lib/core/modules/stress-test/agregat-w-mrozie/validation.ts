@@ -3,12 +3,12 @@ import type { AgregatWMrozieInput } from "./input"
 import { wartoscUjemna } from "./warnings"
 
 const ETYKIETY = {
-  wymaganyCzasPracyH: "Wymagany czas pracy",
-  maxPracaCiaglaH: "Maksymalny czas pracy ciągłej",
-  przerwaH: "Przerwa",
-  zuzyciePaliwaLH: "Zużycie paliwa",
-  interwalWymianyOlejuH: "Interwał wymiany oleju",
-  dniPostoju: "Dni postoju",
+  wymaganyCzasPracyH: "POLE-WYMAGANY-CZAS-PRACY",
+  maxPracaCiaglaH: "POLE-MAKSYMALNY-CZAS-PRACY-CIAGLEJ",
+  przerwaH: "POLE-PRZERWA",
+  zuzyciePaliwaLH: "POLE-ZUZYCIE-PALIWA",
+  interwalWymianyOlejuH: "POLE-INTERWAL-WYMIANY-OLEJU",
+  dniPostoju: "POLE-DNI-POSTOJU",
 } as const
 
 export function validateInput(input: AgregatWMrozieInput): { errors: Warning[] } {

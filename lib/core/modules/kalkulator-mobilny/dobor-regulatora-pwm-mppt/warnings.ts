@@ -6,7 +6,7 @@ export function wartoscNiedodatnia(pole: string, etykieta: string, value: number
     code: "WARTOSC-NIEDODATNIA",
     level: "critical",
     i18nKey: "WARTOSC-NIEDODATNIA",
-    params: { label: etykieta },
+    params: { labelKey: etykieta },
     technicalMessage: `${pole} = ${value}, oczekiwano > 0`,
     field: pole,
   }

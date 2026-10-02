@@ -27,7 +27,7 @@ export function wartoscUjemna(pole: string, etykieta: string, value: number): Wa
     code: "WARTOSC-UJEMNA",
     level: "critical",
     i18nKey: "WARTOSC-UJEMNA",
-    params: { label: etykieta },
+    params: { labelKey: etykieta },
     technicalMessage: `${pole} = ${value}, oczekiwano >= 0`,
     field: pole,
   }

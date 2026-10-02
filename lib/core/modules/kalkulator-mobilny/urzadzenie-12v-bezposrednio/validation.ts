@@ -9,14 +9,14 @@ export type ValidationResult = {
 export function validateInput(input: Urzadzenie12vBezposrednioInput): ValidationResult {
   const errors: Warning[] = []
   if (input.napiecieUrzadzeniaV < 0) {
-    errors.push(wartoscUjemna("napiecieUrzadzeniaV", "Napięcie urządzenia", input.napiecieUrzadzeniaV))
+    errors.push(wartoscUjemna("napiecieUrzadzeniaV", "POLE-NAPIECIE-URZADZENIA", input.napiecieUrzadzeniaV))
   }
   if (input.tolerancjaPct !== null && (input.tolerancjaPct < 0 || input.tolerancjaPct >= 100)) {
     errors.push(tolerancjaPozaZakresem(input.tolerancjaPct))
   }
   if (input.maksNapiecieLadowaniaV !== null) {
     if (input.maksNapiecieLadowaniaV < 0) {
-      errors.push(wartoscUjemna("maksNapiecieLadowaniaV", "Maks. napięcie ładowania", input.maksNapiecieLadowaniaV))
+      errors.push(wartoscUjemna("maksNapiecieLadowaniaV", "POLE-MAKS-NAPIECIE-LADOWANIA", input.maksNapiecieLadowaniaV))
     } else if (input.napiecieSystemuV !== 0 && input.maksNapiecieLadowaniaV < input.napiecieSystemuV) {
       // Charging voltage is always above the nominal one — e.g. 14,6 V typed for a 24 V system is a data error.
       errors.push(maksLadowaniaPonizejZnamionowego(input.maksNapiecieLadowaniaV, input.napiecieSystemuV))

@@ -15,23 +15,23 @@ export function validateInput(input: KalkulatoryPomocniczeInput): ValidationResu
   const warnings: Warning[] = []
 
   if ("voltageV" in input && input.voltageV <= 0) {
-    errors.push(notPositive("voltageV", "napięcie systemu", input.voltageV))
+    errors.push(notPositive("voltageV", "POLE-NAPIECIE-SYSTEMU-L", input.voltageV))
   }
 
   if ("powerW" in input) {
     if (input.powerW <= 0) {
-      errors.push(notPositive("powerW", "moc urządzenia", input.powerW))
+      errors.push(notPositive("powerW", "POLE-MOC-URZADZENIA-L", input.powerW))
     } else if (input.powerW > POWER_W_SANITY_MAX) {
       warnings.push(powerUnusuallyHigh(input.powerW))
     }
   }
 
   if ("capacityAh" in input && input.capacityAh <= 0) {
-    errors.push(notPositive("capacityAh", "pojemność", input.capacityAh))
+    errors.push(notPositive("capacityAh", "POLE-POJEMNOSC-L", input.capacityAh))
   }
 
   if ("energyWh" in input && input.energyWh <= 0) {
-    errors.push(notPositive("energyWh", "energia", input.energyWh))
+    errors.push(notPositive("energyWh", "POLE-ENERGIA-L", input.energyWh))
   }
 
   if ("efficiency" in input && input.efficiency !== undefined) {

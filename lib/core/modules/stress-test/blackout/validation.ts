@@ -3,10 +3,10 @@ import type { BlackoutInput } from "./input"
 import { procentPozaZakresem, socMinNieMniejszyNizStart, wartoscUjemna } from "./warnings"
 
 const ETYKIETY = {
-  pojemnoscKwh: "Pojemność baterii",
-  zuzycieDoboweKwh: "Zużycie dobowe",
-  dniScenariusza: "Liczba dni",
-  agregatKwhDoba: "Energia z agregatu",
+  pojemnoscKwh: "POLE-POJEMNOSC-BATERII",
+  zuzycieDoboweKwh: "POLE-ZUZYCIE-DOBOWE",
+  dniScenariusza: "POLE-LICZBA-DNI",
+  agregatKwhDoba: "POLE-ENERGIA-Z-AGREGATU",
 } as const
 
 export function validateInput(input: BlackoutInput): { errors: Warning[] } {

@@ -1,12 +1,12 @@
 import type { Warning } from "@/lib/core/calc-result"
 import { PROG_KRYTYCZNY_WZROSTU_PCT } from "./constants"
 
-export function notPositive(field: string, label: string, value: number): Warning {
+export function notPositive(field: string, labelKey: string, value: number): Warning {
   return {
     code: `${field.toUpperCase()}-NIEDODATNI`,
     level: "critical",
     i18nKey: "WARTOSC-NIEDODATNIA",
-    params: { label },
+    params: { labelKey },
     technicalMessage: `${field} = ${value}, oczekiwano > 0`,
     field,
   }

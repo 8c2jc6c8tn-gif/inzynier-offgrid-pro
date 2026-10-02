@@ -9,7 +9,7 @@ export type ValidationResult = {
 export function validateInput(input: MikropeknieciaTermiczneInput): ValidationResult {
   const errors: Warning[] = []
   if (input.odstepDylatacyjnyMm !== null && input.odstepDylatacyjnyMm < 0) {
-    errors.push(wartoscUjemna("odstepDylatacyjnyMm", "Odstęp dylatacyjny między panelami", input.odstepDylatacyjnyMm))
+    errors.push(wartoscUjemna("odstepDylatacyjnyMm", "POLE-ODSTEP-DYLATACYJNY-MIEDZY-PANELAMI", input.odstepDylatacyjnyMm))
   }
   return { errors }
 }

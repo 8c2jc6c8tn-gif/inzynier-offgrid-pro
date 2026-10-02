@@ -9,7 +9,7 @@ export type ValidationResult = {
 export function validateInput(input: RyzykoPidInput): ValidationResult {
   const errors: Warning[] = []
   if (input.napiecieDcV < 0) {
-    errors.push(wartoscUjemna("napiecieDcV", "Napięcie systemu DC", input.napiecieDcV))
+    errors.push(wartoscUjemna("napiecieDcV", "POLE-NAPIECIE-SYSTEMU-DC", input.napiecieDcV))
   }
   return { errors }
 }

@@ -15,7 +15,7 @@ export function pojemnoscUjemna(value: number): Warning {
     code: "WARTOSC-UJEMNA",
     level: "critical",
     i18nKey: "WARTOSC-UJEMNA",
-    params: { label: "Pojemność baterii" },
+    params: { labelKey: "POLE-POJEMNOSC-BATERII" },
     technicalMessage: `pojemnoscKwh = ${value}, oczekiwano >= 0`,
     field: "pojemnoscKwh",
   }
@@ -26,7 +26,7 @@ export function mocUjemna(indeks: number, value: number): Warning {
     code: "WARTOSC-UJEMNA",
     level: "critical",
     i18nKey: "WARTOSC-UJEMNA",
-    params: { label: "Moc odbiornika" },
+    params: { labelKey: "POLE-MOC-ODBIORNIKA" },
     technicalMessage: `odbiorniki[${indeks}].mocW = ${value}, oczekiwano >= 0`,
     field: `odbiorniki.${indeks}`,
   }

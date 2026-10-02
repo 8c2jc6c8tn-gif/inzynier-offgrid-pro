@@ -11,15 +11,15 @@ export function validateInput(input: DoborBezpiecznikaInput): ValidationResult {
   const errors: Warning[] = []
 
   if (input.napiecieBateriiV <= 0) {
-    errors.push(notPositive("napiecieBateriiV", "napięcie baterii", input.napiecieBateriiV))
+    errors.push(notPositive("napiecieBateriiV", "POLE-NAPIECIE-BATERII-L", input.napiecieBateriiV))
   }
   if (input.rezystancjaWewnetrznaOhm <= 0) {
     errors.push(
-      notPositive("rezystancjaWewnetrznaOhm", "rezystancja wewnętrzna", input.rezystancjaWewnetrznaOhm),
+      notPositive("rezystancjaWewnetrznaOhm", "POLE-REZYSTANCJA-WEWNETRZNA-L", input.rezystancjaWewnetrznaOhm),
     )
   }
   if (input.aicBezpiecznikaA <= 0) {
-    errors.push(notPositive("aicBezpiecznikaA", "AIC bezpiecznika", input.aicBezpiecznikaA))
+    errors.push(notPositive("aicBezpiecznikaA", "POLE-AIC-BEZPIECZNIKA", input.aicBezpiecznikaA))
   }
 
   return { errors, warnings: [] }

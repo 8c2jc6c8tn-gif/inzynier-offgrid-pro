@@ -3,10 +3,10 @@ import type { GrzalkiDachoweInput } from "./input"
 import { godzinyPonadDobe, wartoscUjemna } from "./warnings"
 
 const ETYKIETY: Record<Exclude<keyof GrzalkiDachoweInput, "godzinyPracyNaDobe">, string> = {
-  dlugoscKablaM: "Długość kabla",
-  mocNaMetrW: "Moc kabla na metr",
-  mocPompyCieplaW: "Moc pompy ciepła",
-  zapasMocyW: "Zapas mocy",
+  dlugoscKablaM: "POLE-DLUGOSC-KABLA",
+  mocNaMetrW: "POLE-MOC-KABLA-NA-METR",
+  mocPompyCieplaW: "POLE-MOC-POMPY-CIEPLA",
+  zapasMocyW: "POLE-ZAPAS-MOCY",
 }
 
 export function validateInput(input: GrzalkiDachoweInput): { errors: Warning[] } {

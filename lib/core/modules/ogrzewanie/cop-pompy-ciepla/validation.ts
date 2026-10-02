@@ -13,7 +13,7 @@ export function validateInput(input: CopPompyCieplaInput): ValidationResult {
   const warnings: Warning[] = []
 
   if (input.mocCieplnaKw <= 0) {
-    errors.push(notPositive("mocCieplnaKw", "moc cieplna", input.mocCieplnaKw))
+    errors.push(notPositive("mocCieplnaKw", "POLE-MOC-CIEPLNA-L", input.mocCieplnaKw))
   } else if (input.mocCieplnaKw > MOC_CIEPLNA_KW_MAX) {
     warnings.push(mocCieplnaUnusuallyHigh(input.mocCieplnaKw))
   }

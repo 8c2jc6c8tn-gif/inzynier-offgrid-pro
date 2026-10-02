@@ -9,14 +9,14 @@ export type ValidationResult = {
 export function validateInput(input: DetekcjaZwarciaEFuseInput): ValidationResult {
   const errors: Warning[] = []
   if (input.napiecieBateriiV < 0) {
-    errors.push(notPositive("napiecieBateriiV", "napięcie baterii", input.napiecieBateriiV))
+    errors.push(notPositive("napiecieBateriiV", "POLE-NAPIECIE-BATERII-L", input.napiecieBateriiV))
   }
   if (input.rezystancjaWewnetrznaOhm < 0) {
-    errors.push(notPositive("rezystancjaWewnetrznaOhm", "rezystancja wewnętrzna", input.rezystancjaWewnetrznaOhm))
+    errors.push(notPositive("rezystancjaWewnetrznaOhm", "POLE-REZYSTANCJA-WEWNETRZNA-L", input.rezystancjaWewnetrznaOhm))
   }
   if (input.zdolnoscLaczeniowaTranzystorowA < 0) {
     errors.push(
-      notPositive("zdolnoscLaczeniowaTranzystorowA", "zdolność łączeniowa tranzystorów", input.zdolnoscLaczeniowaTranzystorowA),
+      notPositive("zdolnoscLaczeniowaTranzystorowA", "POLE-ZDOLNOSC-LACZENIOWA-TRANZYSTOROW-L", input.zdolnoscLaczeniowaTranzystorowA),
     )
   }
   return { errors }
