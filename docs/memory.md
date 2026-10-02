@@ -8693,3 +8693,23 @@ Tryb Audyt (czapka rewidenta). Warstwa „w pełni na końcu” z N.2 — wszyst
 - **Pułapka do unikania:** każda prośba o „pogłębienie” rozdzielnicy AC (obwód po obwodzie, selektywność dla całego mieszkania, pomiary okresowe) to materiał dla Elektryk Pro, nie dla Offgrid — ale twardy stop bezpieczeństwa zawsze zostaje w Offgrid.
 - Cel finansowy właściciela: **min. 5000 zł netto miesięcznie z każdej apki rodziny**; ceny jeszcze nieustalone. Analiza rynku (ceny konkurencji, progi liczby klientów): `/mnt/project-files/analizy/ceny-apek-rodziny.md`.
 
+
+## M7/M6 — ekrany zimowe (01–02.10.2026, gałąź `work/screens`)
+
+- **Stan:** zbudowane M7/E2 `deficyty-miesieczne`, E15 `okno-sloneczne`, E7 `snieg-na-pv` + E14 `szadz-na-pv`
+  (wspólny silnik `stress-test/osad-na-pv`), M6/E4 `gwc`, E6 `cykle-odszraniania` (zamyka 1.14 i 6.8), E9
+  `wentylacja-grawitacyjna`. Teksty UI: `lib/i18n/ui/m07b-zima.ts`, `m06c-ogrzewanie.ts`; pomoc: `lib/i18n/pomoc/m07b-stress-test.ts`,
+  `m06c-ogrzewanie.ts`; testy narzędzi AI: `lib/ai/tools/__tests__/ekrany-zima-ogrzewanie-01-10-tools.test.ts`.
+  Brak nowych 🔴. Wybory ✅🤖: wpis ⚠️ w `docs/lista-do-zrobienia.md` (02.10.2026).
+- **Refaktor:** `obliczPraceAgregatu` wydzielona z `zapotrzebowanie/agregat-pradotworczy/calculator.ts` (M2/E17) i użyta
+  w M7/E2 — testy M2/E17 bez zmian.
+- **Niespójne przykłady źródła (Dyrektywa #5, opisane w silnikach):** E2 45 l / 350 zł implikuje 1,5 l/h i 7,78 zł/l;
+  E6 „co 45 min, 5 min → 8%” = 11,1% przy równej mocy (8% tylko przy P_def = 0,72·P_baz); E9 „15% → 5%” tylko przy
+  η ≈ 70%; E4 „+4 °C → −5%” nieodtwarzalne (brak strumienia/zapotrzebowania); E15 „bateria 65% i bojler 50 °C”
+  sprzeczne z regułą źródła (bojler dopiero > 80% SoC).
+- **Nie zbudowane:** M7/E1, E3, E9, E12, E16, E24, E25, M6/E11 — powody w `docs/rejestr-pokrycia.md`. E12 jest blocked
+  (źródło nie podaje wag składowych), E9 powielałby M3/E16 bifacjalne.
+- **Pułapka (i18n-ui-guard):** jednostka z małymi literami w `unit=` (np. „zł/l”, „zł/h”) jest łapana jako tekst —
+  przez klucz `t()` (`UI-J-ZL-L`). Porównanie nadwyżki energii z zerem po odejmowaniach — z tolerancją 1e-9, nie `=== 0`.
+- **Pułapka (środowisko):** trzy agenty z testami/serwerem dev naraz → OOM i restart kontenera (dwa razy). Przy pracy
+  równoległej: bez `next dev`, vitest tylko na swoich ścieżkach z `--maxWorkers=1`, commit po każdym ekranie.
