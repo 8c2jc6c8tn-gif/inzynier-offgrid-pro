@@ -31,7 +31,7 @@ export const pl = {
   "cop-pompy-ciepla": {
     migawka: {
       oCoChodzi: "COP to „mnożnik” — pompa ciepła nie produkuje ciepła z niczego, tylko przenosi je z zewnątrz, zużywając mniej prądu niż grzałka elektryczna.",
-      jakDziala: "Moc elektryczna = zapotrzebowanie na moc cieplną ÷ COP przy aktualnej temperaturze.",
+      jakDziala: "Moc elektryczna = zapotrzebowanie na moc cieplną ÷ COP przy aktualnej temperaturze. Niżej: dobór mocy pompy do budynku (zapas albo brak mocy w największy mróz, ile dogrzewania, punkt biwalentny) i krzywa grzewcza (o ile niższe zasilanie i jaki COP po jej obniżeniu).",
       poCo: "Wiesz, ile prądu z baterii albo PV pobierze pompa w danych warunkach — i ile więcej w mróz, gdy COP spada.",
       fizyka: "P_el = P_ciepl / COP.",
     },
@@ -264,7 +264,7 @@ export const en: Tlumaczenie<typeof pl> = {
   "cop-pompy-ciepla": {
     migawka: {
       oCoChodzi: "COP is a “multiplier” — a heat pump does not make heat out of nothing, it moves it from outside, using less electricity than an electric heater.",
-      jakDziala: "Electrical power = heat demand ÷ COP at the current temperature.",
+      jakDziala: "Electrical power = heat demand ÷ COP at the current temperature. Below: sizing the pump to the building (margin or deficit in the hardest frost, how much backup heating, balance point) and the heating curve (how much lower the flow and what COP after lowering it).",
       poCo: "You know how much power from the battery or PV the pump draws in given conditions — and how much more in frost, when COP drops.",
       fizyka: "P_el = P_heat / COP.",
     },
@@ -497,7 +497,7 @@ export const ru: Tlumaczenie<typeof pl> = {
   "cop-pompy-ciepla": {
     migawka: {
       oCoChodzi: "COP — это «множитель»: тепловой насос не производит тепло из ничего, а переносит его снаружи, потребляя меньше электроэнергии, чем электронагреватель.",
-      jakDziala: "Электрическая мощность = потребность в тепловой мощности ÷ COP при текущей температуре.",
+      jakDziala: "Электрическая мощность = потребность в тепловой мощности ÷ COP при текущей температуре. Ниже: подбор мощности насоса к дому (запас или дефицит в самый сильный мороз, сколько догрева, бивалентная точка) и отопительная кривая (насколько ниже подача и какой COP после её снижения).",
       poCo: "Вы знаете, сколько энергии от батареи или PV потребит насос в данных условиях — и насколько больше в мороз, когда COP падает.",
       fizyka: "P_эл = P_тепл / COP.",
     },

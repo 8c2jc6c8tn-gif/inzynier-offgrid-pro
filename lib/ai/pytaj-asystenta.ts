@@ -264,6 +264,8 @@ import { rozruchPompyCieplaTool } from "./tools/rozruch-pompy-ciepla-tool"
 import { basenTool } from "./tools/basen-tool"
 import { odzyskCieplaSciekowTool } from "./tools/odzysk-ciepla-sciekow-tool"
 import { chlodzeniePompaCieplaTool } from "./tools/chlodzenie-pompa-ciepla-tool"
+import { doborMocyPompyTool } from "./tools/dobor-mocy-pompy-tool"
+import { krzywaGrzewczaTool } from "./tools/krzywa-grzewcza-tool"
 import { toAnthropicTool } from "./to-anthropic-tool"
 import { validateAiToolDefinition, type AiToolDefinition } from "./types"
 
@@ -518,6 +520,8 @@ const NARZEDZIA: Array<AiToolDefinition<any, any>> = [
   basenTool,
   odzyskCieplaSciekowTool,
   chlodzeniePompaCieplaTool,
+  doborMocyPompyTool,
+  krzywaGrzewczaTool,
 ]
 for (const narzedzie of NARZEDZIA) validateAiToolDefinition(narzedzie)
 

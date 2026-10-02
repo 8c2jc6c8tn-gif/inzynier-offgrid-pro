@@ -1640,6 +1640,19 @@ export const dictionaryPl = {
   "DWHR-ZAL-ROWNOCZESNIE": "Liczona tylko woda, która spływa w tym samym czasie, gdy zimna woda płynie do podgrzewacza (prysznic) — wanna napuszczana wcześniej czy zmywarka prawie nic nie dają.",
   "CHL-PONIZEJ-ROSY": "Zasilanie chłodzenia {zasilanie} °C jest na poziomie punktu rosy ({rosa} °C) albo niżej — podłoga lub klimakonwektor będą się pocić. Podnieś temperaturę zasilania albo zastosuj czujnik rosy.",
   "CHL-ZAL-FREE-COOLING": "Free cooling odbiera całe wpisane ciepło — źródło nie podaje wydajności chłodzenia z gruntu; porównany jest tylko prąd pompy obiegowej i sprężarki. Wymaga niskotemperaturowej dystrybucji (podłogówka, maty).",
+  "DMP-DEFICYT": "Przy temperaturze projektowej pompa da {moc} kW, a dom potrzebuje {zapotrzebowanie} kW — brakuje {brak} kW. Potrzebujesz dogrzewania (grzałka, kominek) co najmniej {brak} kW albo większej pompy.",
+  "DMP-ZAPAS": "Pompa ma {pct}% zapasu mocy przy temperaturze projektowej. Źródło nie podaje progu przewymiarowania — pamiętaj, że im większy zapas, tym częstsze starty przy lżejszym mrozie (liczbę startów policzysz na ekranie bufora).",
+  "DMP-BIWALENTNY-EKSTRAPOLACJA": "Punkt biwalentny leży poza dwoma punktami karty — prosta jest przedłużona, wynik orientacyjny. Wpisz punkt karty bliżej tej temperatury.",
+  "DMP-TEMPERATURY-POZA-ZAKRESEM": "Sprawdź temperatury: temperatura w domu musi być wyższa od projektowej zewnętrznej, a drugi punkt karty musi mieć inną temperaturę niż projektowa.",
+  "DMP-ZAL-MOC-Z-KARTY": "Moc pompy przy temperaturze projektowej z tabeli karty (dla Twojej temperatury zasilania) — nie moc nominalna z warunku A7, która w mróz jest wyraźnie wyższa od realnej.",
+  "DMP-ZAL-BEZ-STARTOW": "Liczby startów na dobę z samego przewymiarowania ekran nie liczy — źródło nie podaje takiego modelu. Starty dla danej ilości wody w instalacji i histerezy liczy sekcja pracy z buforem (Ekran 14).",
+  "DMP-ZAL-LINIOWO": "Punkt biwalentny: zapotrzebowanie maleje liniowo do zera przy temperaturze w domu (straty jak na Ekranie 1, bez zysków), moc pompy liniowo między dwoma punktami karty.",
+  "KRZ-ROSNIE": "Krzywa daje wyższe zasilanie przy cieplejszej pogodzie — sprawdź, czy punkty nie są zamienione. Krzywa grzewcza obniża zasilanie, gdy na zewnątrz robi się cieplej.",
+  "KRZ-OCENA-POZA-PUNKTAMI": "Temperatura porównania leży poza dwoma punktami krzywej — prosta jest przedłużona, wynik orientacyjny.",
+  "KRZ-TEMPERATURY-POZA-ZAKRESEM": "Dwa punkty krzywej muszą mieć różne temperatury zewnętrzne.",
+  "KRZ-ZAL-LINIOWO": "Krzywa jako prosta przez dwa punkty (jak w przykładzie źródła) — sterowniki ustawiają nachylenie i przesunięcie, realna krzywa bywa lekko wygięta.",
+  "KRZ-ZAL-BEZ-GRZEJNIKOW": "Ekran nie sprawdza, czy przy niższej krzywej grzejniki albo podłogówka oddadzą wymaganą moc — to wymaga charakterystyki grzejnika (PN-EN 442, PN-EN 1264, brak w aplikacji). Obniżaj krzywą stopniowo i obserwuj temperaturę w domu — źródło: nie poniżej komfortu.",
+  "KRZ-ZAL-COP-REGULA": "COP po zmianie z reguły źródła: każdy °C niższego zasilania to +{min}–{max}% COP, liniowo — wpisz COP z karty, jeśli go znasz.",
 } as const
 
 export type KluczTlumaczenia = keyof typeof dictionaryPl

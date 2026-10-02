@@ -10,6 +10,8 @@ import { PomocPola } from "@/components/ui/pomoc"
 import { NaglowekEkranu } from "@/components/wzorce/naglowek-ekranu"
 import { useTranslate } from "@/lib/i18n/language-context"
 import { COP_MAX, COP_MIN, MOC_CIEPLNA_KW_MAX } from "@/lib/core/modules/ogrzewanie/cop-pompy-ciepla/constants"
+import { SekcjaDoborMocy } from "./sekcja-dobor-mocy"
+import { SekcjaKrzywaGrzewcza } from "./sekcja-krzywa-grzewcza"
 
 type FormularzStan = {
   mocCieplnaKw: string
@@ -102,6 +104,9 @@ export default function CopPompyCieplaPage() {
 
         <p className="mt-3 font-mono text-caption opacity-70">{result.formula}</p>
       </WerdyktPanel>
+
+      <SekcjaDoborMocy />
+      <SekcjaKrzywaGrzewcza />
     </main>
   )
 }

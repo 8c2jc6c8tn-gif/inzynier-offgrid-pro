@@ -125,6 +125,8 @@ const MIGRATED_MODULES = [
   "lib/core/modules/ogrzewanie/rozruch-pompy-ciepla",
   "lib/core/modules/ogrzewanie/basen",
   "lib/core/modules/ogrzewanie/odzysk-ciepla-sciekow",
+  "lib/core/modules/ogrzewanie/dobor-mocy-pompy",
+  "lib/core/modules/ogrzewanie/krzywa-grzewcza",
   "lib/core/modules/ogrzewanie/chlodzenie-pompa-ciepla",
   "lib/core/modules/ogrzewanie/kolektor-gruntowy",
   "lib/core/modules/ogrzewanie/alternatywne-zrodla-ciepla",
