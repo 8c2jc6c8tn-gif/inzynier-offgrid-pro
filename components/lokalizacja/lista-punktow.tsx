@@ -2,6 +2,7 @@
 
 import type { PunktGps } from "@/lib/core/modules/lokalizacja/skaner-dzialki/input"
 import { liczba } from "@/lib/lokalizacja/model-dzialki"
+import { useTranslate } from "@/lib/i18n/language-context"
 
 /**
  * Lista punktów jednego zbioru Skanera (działka / budynek / połać): numer (ten sam co znacznik
@@ -17,7 +18,8 @@ export function ListaPunktow({
   pokazWysokosc: boolean
   onZmien: (punkty: PunktGps[]) => void
 }) {
-  if (punkty.length === 0) return <p className="text-small text-muted-foreground">Brak punktów.</p>
+  const t = useTranslate()
+  if (punkty.length === 0) return <p className="text-small text-muted-foreground">{t("UI-LISPUN-BRAK-PUNKTOW")}</p>
   // Długie obrysy (np. 70 wierzchołków budynku z ULDK) — lista zwinięta, geometria i tak jest na mapie.
   const zwin = punkty.length > 12
   const tresc = (
@@ -30,12 +32,12 @@ export function ListaPunktow({
           </span>
           {pokazWysokosc && (
             <label className="flex items-center gap-1">
-              <span className="sr-only">Wysokość punktu {i + 1}</span>
+              <span className="sr-only">{t("UI-LISPUN-WYSOKOSC-PUNKTU", { p: i + 1 })}</span>
               <input
                 type="text"
                 inputMode="decimal"
                 defaultValue={p.wysokoscM === undefined ? "" : String(Math.round(p.wysokoscM * 100) / 100)}
-                placeholder="wys."
+                placeholder={t("UI-LISPUN-WYS")}
                 className="w-20 rounded border border-input bg-background px-1 py-0.5"
                 onBlur={(e) => {
                   const z = liczba(e.target.value)
@@ -48,7 +50,7 @@ export function ListaPunktow({
           <button
             type="button"
             className="ml-auto rounded px-2 text-muted-foreground hover:bg-muted hover:text-foreground"
-            aria-label={`Usuń punkt ${i + 1}`}
+            aria-label={t("UI-LISPUN-USUN-PUNKT", { p: i + 1 })}
             onClick={() => onZmien(punkty.filter((_, j) => j !== i))}
           >
             ✕
@@ -59,7 +61,7 @@ export function ListaPunktow({
   )
   return zwin ? (
     <details>
-      <summary className="cursor-pointer text-small">{punkty.length} punktów — pokaż listę</summary>
+      <summary className="cursor-pointer text-small">{t("UI-LISPUN-PUNKTOW-POKAZ-LISTE", { length: punkty.length })}</summary>
       <div className="mt-2">{tresc}</div>
     </details>
   ) : (
