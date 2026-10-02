@@ -8,6 +8,7 @@ import { centralaSspTool } from "../centrala-ssp-tool"
 import { oswietlenieAwaryjneTool } from "../oswietlenie-awaryjne-tool"
 import { klapyPozaroweTool } from "../klapy-pozarowe-tool"
 import { powiadomieniaAlarmoweTool } from "../powiadomienia-alarmowe-tool"
+import { upsKrytycznyTool } from "../ups-krytyczny-tool"
 
 describe("zamkiDrzwiEwakuacyjnychTool (M8/E3, dawne 11.51)", () => {
   it("kontrakt 9.3: 'read', bez potwierdzenia", () => {
@@ -132,5 +133,31 @@ describe("powiadomieniaAlarmoweTool (M8/E10, dawne 12.55)", () => {
     })
     expect(w.autoWezwanieAktywne).toBe(false)
     expect(w.ostrzezenia).toEqual([t("pl", "ALARM-WEZWANIE-BEZ-ZGODY")])
+  })
+})
+
+describe("upsKrytycznyTool (M8/E6, dawne 11.54 + 12.54)", () => {
+  it("kontrakt 9.3: 'read', bez potwierdzenia", () => {
+    expect(upsKrytycznyTool.operationType).toBe("read")
+    expect(upsKrytycznyTool.requiresConfirmation).toBe(false)
+    expect(() => validateAiToolDefinition(upsKrytycznyTool)).not.toThrow()
+  })
+
+  it("plan odcinania z domyślnej kolejności źródła + 🔴 słaby akumulator jako tekst PL", async () => {
+    const w = await upsKrytycznyTool.handler({
+      urzadzenia: [
+        { id: "centrala-pozarowa", label: "Centrala", powerW: 10, selected: true },
+        { id: "router", label: "Router", powerW: 10, selected: true },
+        { id: "silowniki", label: "Siłowniki", powerW: 20, selected: true },
+      ],
+      pojemnoscAh: 10,
+      napiecieV: 12,
+      efficiency: 1,
+      progOdcieciaMin: 10,
+      akumulatorSlaby: true,
+    })
+    expect(w.planOdciecia!.map((e) => e.mocW)).toEqual([40, 20, 10])
+    expect(w.czasPriorytetu1H!).toBeGreaterThan(w.czasPodtrzymaniaH)
+    expect(w.ostrzezenia[0]).toBe(t("pl", "UPS-AKUMULATOR-SLABY"))
   })
 })

@@ -1684,6 +1684,12 @@ export const dictionaryPl = {
   "PRZES-ZAL-PROGNOZA": "Prognoza jak na Ekranie Prognozy: punkt co {krok} h to średnia moc w swoim oknie, więc nadwyżka (produkcja − zużycie bazowe) jest w tym oknie stała. Dziś to dane wpisane albo przykładowe — nie prognoza pogody live.",
   "PRZES-ZAL-KOLEJNOSC": "Zadania układane po kolei według listy — wyższe na liście zabiera nadwyżkę pierwsze. Przy równym pokryciu z PV wybierany najwcześniejszy start. Siatka 30 min. Zadania mogą się nakładać — łączna moc nie jest tu sprawdzana z mocą falownika.",
   "PRZES-ZAL-BATERIA": "Energia zadania ponad nadwyżkę PV idzie z baterii (albo innego źródła); straty ładowania i rozładowania nie są liczone.",
+  "UPS-BRAK-PRIORYTETU": "Plan odcinania czeka na priorytet: {nazwy}. Źródło szereguje tylko centralę pożarową i ESP32 (do końca), router i siłowniki (pierwsze do odcięcia) — resztę ustawiasz sam.",
+  "UPS-PROG-OD-RAZU": "Próg {prog} min jest dłuższy niż cały czas pracy przy pełnym obciążeniu — odcinanie zaczyna się od razu po zaniku zasilania.",
+  "UPS-AKUMULATOR-SLABY": "UPS sygnalizuje słaby akumulator — nie ignoruj tego. Przy realnej awarii podtrzymanie może nie zadziałać wcale: sprawdź albo wymień akumulator, zanim policzony czas cokolwiek znaczy.",
+  "UPS-ZAL-KOLEJNOSC": "Kolejność odcinania ze źródła: najpierw siłowniki, potem router; centrala pożarowa i ESP32 działają najdłużej. Plan zakłada, że sterownik umie odciąć każdy poziom osobno (osobne wyjścia/przekaźniki).",
+  "UPS-ZAL-PROG": "Odcięcie kolejnego poziomu, gdy przy bieżącym obciążeniu zostaje {prog} min pracy — próg Twój; źródło podaje tylko przykład „UPS rozładuje się za 10 minut”.",
+  "UPS-ZAL-FAIL-SAFE": "Odcięcie siłowników jest bezpieczne tylko przy zamkach fail-safe: brak prądu = drzwi otwarte, nigdy odwrotnie (Ekran 3, zamki drzwi ewakuacyjnych).",
 } as const
 
 export type KluczTlumaczenia = keyof typeof dictionaryPl

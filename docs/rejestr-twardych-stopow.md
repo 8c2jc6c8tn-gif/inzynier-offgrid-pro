@@ -123,6 +123,10 @@ nie do audytu poprawności formularza webowego.
 - **[28.09.2026] Awaria centrali sygnalizacji pożaru** — dopóki centrala nie działa, system nie dowie się o
   pożarze; status priorytetowy.
   (M8/E5 — `lib/core/modules/bezpieczenstwo/centrala-ssp/warnings.ts`, `awariaCentrali`, kod `SSP-AWARIA-CENTRALI`)
+- **[02.10.2026] UPS krytyczny sygnalizuje słaby akumulator (status zignorowany)** — przy realnej awarii
+  podtrzymanie może nie zadziałać wcale. 🔴 wprost w źródle (`Tresc_Modul_8`, Ekran 6 Sekcja C i lista „Twarde stopy
+  zidentyfikowane w tym module”) — nie nowa decyzja, tylko domknięcie Sekcji C przy budowie 12.54.
+  (M8/E6 — `lib/core/modules/bezpieczenstwo/ups-krytyczny/warnings.ts`, `akumulatorSlaby`, kod `UPS-AKUMULATOR-SLABY`)
 - **[28.09.2026] Niesprawna lampa awaryjna na drodze ewakuacji** — awaria musi być widoczna, zanim będzie potrzebna.
   (M8/E7 — `lib/core/modules/bezpieczenstwo/oswietlenie-awaryjne/warnings.ts`, `lampaNiesprawna`, kod
   `OSW-LAMPA-NIESPRAWNA`)

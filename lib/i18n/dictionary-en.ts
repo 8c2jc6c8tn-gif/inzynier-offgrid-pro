@@ -1672,4 +1672,10 @@ export const dictionaryEn = {
   "PRZES-ZAL-PROGNOZA": "Forecast as on the Forecasts screen: a point every {krok} h is the average power over its window, so the surplus (production − base consumption) is constant within that window. Today these are entered or sample data — not a live weather forecast.",
   "PRZES-ZAL-KOLEJNOSC": "Tasks are placed one by one in list order — a task higher on the list takes the surplus first. On equal PV coverage the earliest start is chosen. 30-minute grid. Tasks may overlap — their combined power is not checked against the inverter here.",
   "PRZES-ZAL-BATERIA": "A task's energy above the PV surplus comes from the battery (or another source); charge and discharge losses are not counted.",
+  "UPS-BRAK-PRIORYTETU": "The shedding plan needs a priority for: {nazwy}. The source ranks only the fire panel and ESP32 (kept to the end), the router and the actuators (cut first) — you set the rest.",
+  "UPS-PROG-OD-RAZU": "The {prog} min threshold is longer than the whole run time at full load — shedding starts right after the power cut.",
+  "UPS-AKUMULATOR-SLABY": "The UPS signals a weak battery — do not ignore it. In a real failure the backup may not work at all: check or replace the battery before the computed time means anything.",
+  "UPS-ZAL-KOLEJNOSC": "Shedding order from the source: actuators first, then the router; the fire panel and ESP32 run longest. The plan assumes the controller can cut each level separately (separate outputs/relays).",
+  "UPS-ZAL-PROG": "The next level is cut when {prog} min of run time are left at the current load — your threshold; the source gives only the example “the UPS will be empty in 10 minutes”.",
+  "UPS-ZAL-FAIL-SAFE": "Cutting the actuators is safe only with fail-safe locks: no power = door open, never the other way round (Screen 3, evacuation door locks).",
 } satisfies Record<KluczTlumaczenia, string>

@@ -233,7 +233,7 @@ export const pl = {
       oCoChodzi:
         "W pożarze często pada normalne zasilanie — UPS daje systemowi te kluczowe minuty na wykonanie sekwencji bezpieczeństwa, zamiast zamilknąć w najgorszym momencie.",
       jakDziala:
-        "Zaznaczasz urządzenia krytyczne (sterownik, router, zamki, centrala, oświetlenie awaryjne) i wpisujesz ich moc. Aplikacja sumuje moc i liczy czas pracy: pojemność × napięcie × sprawność ÷ moc.",
+        "Zaznaczasz urządzenia krytyczne (sterownik, router, zamki, centrala, oświetlenie awaryjne) i wpisujesz ich moc. Aplikacja sumuje moc i liczy czas pracy: pojemność × napięcie × sprawność ÷ moc. Potem plan odcinania (źródło: najpierw siłowniki, potem router, centrala pożarowa i ESP32 do końca): ile pracuje każdy etap i — gdy wpiszesz próg — o ile dłużej pracują urządzenia z priorytetem 1.",
       poCo:
         "Żeby UPS wystarczył na zwolnienie zamków, powiadomienia i oświetlenie ewakuacji. Za mały UPS padnie po kilku minutach — dokładnie wtedy, gdy jest potrzebny.",
       fizyka: "t = (C [Ah] × U [V] × η) / P [W]. Moc urządzeń sprawdzasz na ich tabliczkach — aplikacja nie ma domyślnych mocy.",
@@ -256,6 +256,24 @@ export const pl = {
         cel: "Napięcie akumulatorów UPS — zamienia Ah na Wh.",
         gdzie: "Z karty UPS (napięcie baterii, np. 12, 24 albo 48 V).",
         zakres: Z_KARTY,
+      },
+      priorytet: {
+        nazwa: "Priorytet odcinania urządzenia",
+        cel: "Kolejność odcinania przy kończącym się UPS: 3 odcinane najpierw, 1 pracuje do końca.",
+        gdzie: "Domyślnie ze źródła: centrala pożarowa i ESP32 — 1, router — 2, siłowniki — 3. Oświetlenia awaryjnego źródło nie szereguje — wybierz sam.",
+        zakres: "1, 2 albo 3.",
+      },
+      prog: {
+        nazwa: "Próg odcięcia [min]",
+        cel: "Gdy przy bieżącym obciążeniu zostaje tyle minut pracy, odcinany jest kolejny poziom priorytetu.",
+        gdzie: "Twoja decyzja — źródło podaje tylko przykład „UPS rozładuje się za 10 minut”. Puste = plan pokazuje tylko czasy etapów od pełnego UPS.",
+        zakres: "≥ 0 min; nie dłużej niż czas pracy przy pełnym obciążeniu (inaczej odcinanie od razu).",
+      },
+      akumulatorSlaby: {
+        nazwa: "UPS sygnalizuje słaby akumulator",
+        cel: "Status „słaby akumulator” zignorowany to twardy stop źródła — przy realnej awarii podtrzymanie może nie zadziałać wcale.",
+        gdzie: "Dioda/komunikat UPS albo wynik autotestu UPS.",
+        zakres: "Tak / nie.",
       },
     },
   },
@@ -513,7 +531,7 @@ export const en: Tlumaczenie<typeof pl> = {
       oCoChodzi:
         "In a fire normal power often fails — a UPS gives the system those key minutes to carry out the safety sequence instead of going silent at the worst moment.",
       jakDziala:
-        "You tick the critical devices (controller, router, locks, control panel, emergency lighting) and enter their power. The app adds up the power and calculates run time: capacity × voltage × efficiency ÷ power.",
+        "You tick the critical devices (controller, router, locks, control panel, emergency lighting) and enter their power. The app adds up the power and calculates run time: capacity × voltage × efficiency ÷ power. Then the shedding plan (source: actuators first, then the router, the fire panel and ESP32 to the end): how long each stage runs and — once you enter a threshold — how much longer the priority 1 devices run.",
       poCo:
         "So the UPS is enough to release the locks, send notifications and light the escape routes. Too small a UPS dies after a few minutes — exactly when it is needed.",
       fizyka: "t = (C [Ah] × U [V] × η) / P [W]. Check the device powers on their nameplates — the app has no default powers.",
@@ -536,6 +554,24 @@ export const en: Tlumaczenie<typeof pl> = {
         cel: "The voltage of the UPS batteries — converts Ah to Wh.",
         gdzie: "From the UPS datasheet (battery voltage, e.g. 12, 24 or 48 V).",
         zakres: Z_KARTY_EN,
+      },
+      priorytet: {
+        nazwa: "Device shedding priority",
+        cel: "The order of cutting when the UPS runs low: 3 is cut first, 1 runs to the end.",
+        gdzie: "Default from the source: fire panel and ESP32 — 1, router — 2, actuators — 3. The source does not rank emergency lighting — choose yourself.",
+        zakres: "1, 2 or 3.",
+      },
+      prog: {
+        nazwa: "Shedding threshold [min]",
+        cel: "When this many minutes of run time remain at the current load, the next priority level is cut.",
+        gdzie: "Your decision — the source gives only the example “the UPS will be empty in 10 minutes”. Empty = the plan shows only the stage times from a full UPS.",
+        zakres: "≥ 0 min; not longer than the run time at full load (otherwise shedding starts at once).",
+      },
+      akumulatorSlaby: {
+        nazwa: "The UPS signals a weak battery",
+        cel: "An ignored “weak battery” status is a hard stop of the source — in a real failure the backup may not work at all.",
+        gdzie: "UPS LED/message or the result of the UPS self-test.",
+        zakres: "Yes / no.",
       },
     },
   },
@@ -792,7 +828,7 @@ export const ru: Tlumaczenie<typeof pl> = {
       oCoChodzi:
         "При пожаре обычное питание часто пропадает — ИБП даёт системе ключевые минуты на выполнение последовательности безопасности, вместо того чтобы замолчать в худший момент.",
       jakDziala:
-        "Вы отмечаете критические устройства (контроллер, роутер, замки, пожарный прибор, аварийное освещение) и вводите их мощность. Приложение суммирует мощность и считает время работы: ёмкость × напряжение × КПД ÷ мощность.",
+        "Вы отмечаете критические устройства (контроллер, роутер, замки, пожарный прибор, аварийное освещение) и вводите их мощность. Приложение суммирует мощность и считает время работы: ёмкость × напряжение × КПД ÷ мощность. Затем план отключения (источник: сначала приводы, потом роутер, пожарный прибор и ESP32 до конца): сколько работает каждый этап и — если ввести порог — насколько дольше работают устройства с приоритетом 1.",
       poCo:
         "Чтобы ИБП хватило на разблокировку замков, уведомления и освещение эвакуации. Слишком маленький ИБП сядет через несколько минут — именно тогда, когда нужен.",
       fizyka: "t = (C [А·ч] × U [В] × η) / P [Вт]. Мощность устройств смотрите на их табличках — в приложении нет мощностей по умолчанию.",
@@ -815,6 +851,24 @@ export const ru: Tlumaczenie<typeof pl> = {
         cel: "Напряжение аккумуляторов ИБП — переводит А·ч в Вт·ч.",
         gdzie: "Из документации ИБП (напряжение батареи, например 12, 24 или 48 В).",
         zakres: Z_KARTY_RU,
+      },
+      priorytet: {
+        nazwa: "Приоритет отключения устройства",
+        cel: "Порядок отключения при разряжающемся ИБП: 3 отключается первым, 1 работает до конца.",
+        gdzie: "По умолчанию из источника: пожарный прибор и ESP32 — 1, роутер — 2, приводы — 3. Аварийное освещение источник не ранжирует — выберите сами.",
+        zakres: "1, 2 или 3.",
+      },
+      prog: {
+        nazwa: "Порог отключения [мин]",
+        cel: "Когда при текущей нагрузке остаётся столько минут работы, отключается следующий уровень приоритета.",
+        gdzie: "Ваше решение — источник даёт только пример «ИБП разрядится через 10 минут». Пусто = план показывает только время этапов от полного ИБП.",
+        zakres: "≥ 0 мин; не больше времени работы при полной нагрузке (иначе отключение сразу).",
+      },
+      akumulatorSlaby: {
+        nazwa: "ИБП сигнализирует о слабом аккумуляторе",
+        cel: "Проигнорированный статус «слабый аккумулятор» — жёсткий стоп источника: при реальной аварии резерв может не сработать вовсе.",
+        gdzie: "Светодиод/сообщение ИБП или результат самотеста ИБП.",
+        zakres: "Да / нет.",
       },
     },
   },
