@@ -313,6 +313,7 @@ Obie sprawy należą do decyzji o modelu freemium (rozdz. 12 standardu), która 
 - (10) Czcionka szeryfowa stylów: **Source Serif 4** (ma cyrylicę) — zamyka pytanie o czcionkę z D63.
 - (11) M6 ekran 2A: kominek z płaszczem wodnym bez schładzania grawitacyjnego / wężownicy przy braku prądu = 🔴 `ALT-KOMINEK-PRZEGRZANIE` (kalkulator 1.0.0 → 1.1.0).
 - (12) M6: uproszczenia E16 (stan ustalony — górna granica), E17 (cyrkulacja bez stygnięcia poza godzinami pracy), E18 (stała moc PV), E19 (🟡 przy każdym zacienieniu w południe przesilenia), 5.42 (widełki źródła jako progi 🟡, głębokość przemarzania od użytkownika) — przyjęte. ✅🤖 → ✅.
+- *Dopisek (02.10.2026, właściciel):* **Pomarańcz sygnałowy zostaje** („mi się bardzo podoba”) z rozjaśnionym 🟡 tylko w tym stylu (#FBBF24, tekst #FCD34D) — wymóg testu dla daltonistów z D65 spełniony. ✅🤖 → ✅.
 
 ## Założenia robocze (F.7 GOD BOOK)
 
