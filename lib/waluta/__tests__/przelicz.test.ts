@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest"
-import { formatujKwote, kursEfektywny, przeliczZPln, symbolWaluty } from "../przelicz"
+import { formatujKwote, kursEfektywny, przeliczPola, przeliczPoleTekst, przeliczZPln, symbolWaluty, wspolczynnikPrzeliczenia } from "../przelicz"
 import { parsujKursy, parsujPreferencje, kursyPrzeterminowane } from "../storage"
 
 describe("kursEfektywny", () => {
@@ -40,5 +40,27 @@ describe("symbolWaluty", () => {
   it("inne waluty: symbol wąski lub kod", () => {
     expect(symbolWaluty("EUR", "pl")).toBe("€")
     expect(symbolWaluty("USD", "en")).toBe("$")
+  })
+})
+
+describe("przeliczanie wartości pól", () => {
+  const z = { kurs: 1 }
+  const na = { kurs: 0.25 }
+
+  it("wspolczynnikPrzeliczenia: PLN → waluta o kursie 0,25 i z powrotem", () => {
+    expect(wspolczynnikPrzeliczenia(z, na)).toBe(0.25)
+    expect(wspolczynnikPrzeliczenia(na, z)).toBe(4)
+  })
+
+  it("przeliczPoleTekst: liczy, przyjmuje przecinek, zostawia puste i tekst bez zmian", () => {
+    expect(przeliczPoleTekst("2,40", 0.25)).toBe("0.6")
+    expect(przeliczPoleTekst("", 0.25)).toBe("")
+    expect(przeliczPoleTekst("abc", 0.25)).toBe("abc")
+    expect(przeliczPoleTekst("1", 1 / 3)).toBe("0.333333")
+  })
+
+  it("przeliczPola: mnoży tylko wskazane pola (string i number)", () => {
+    const konwersja = przeliczPola<{ cena: string; moc: string; ilosc: number }>("cena", "ilosc")
+    expect(konwersja({ cena: "100", moc: "5", ilosc: 8 }, 0.5)).toEqual({ cena: "50", moc: "5", ilosc: 4 })
   })
 })

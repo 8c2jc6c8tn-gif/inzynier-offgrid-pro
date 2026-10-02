@@ -1,7 +1,7 @@
 /** Currency settings (`components/waluta-wybor.tsx`, section in `app/ustawienia/page.tsx`). */
 export const pl = {
   "UI-WAL-TYTUL": "Waluta wyświetlania",
-  "UI-WAL-OPIS": "Kwoty wyników (koszty, rachunki, zwroty) pokazujemy w wybranej walucie, przeliczone z PLN. Stawki i opłaty w danych to polskie stawki w PLN — zmienia się tylko sposób pokazania wyniku. Pola, w które wpisujesz kwoty, nadal przyjmują PLN.",
+  "UI-WAL-OPIS": "Kwoty wyników (koszty, rachunki, zwroty) pokazujemy w wybranej walucie, przeliczone z PLN. Stawki i opłaty w danych to polskie stawki w PLN — zmienia się tylko sposób pokazania wyniku. Kwoty wpisane w polach przeliczamy przy zmianie waluty po kursie z dnia pobrania.",
   "UI-WAL-WYBOR": "Waluta",
   "UI-WAL-NARZUT": "Narzut na kursie (%)",
   "UI-WAL-NARZUT-OPIS": "Poszerza kurs jak spread karty lub kantoru (kurs × (1 + narzut)). Domyślnie 0 — czysty kurs referencyjny.",
@@ -13,11 +13,14 @@ export const pl = {
   "UI-WAL-ODSWIEZONO": "Kursy odświeżone.",
   "UI-WAL-ODSWIEZ-BLAD": "Nie udało się pobrać kursów (offline?) — używam ostatnich zapisanych.",
   "UI-WAL-RECZNY-TYLKO": "Dla {waluta} nie ma kursu automatycznego — wpisz kurs ręcznie.",
+  "UI-WAL-PRZELICZONO-ECB": "Kwoty w polach przeliczono z {z} na {na} zgodnie z kursem Europejskiego Banku Centralnego (Frankfurter) na dzień {data}{narzut}.",
+  "UI-WAL-PRZELICZONO-RECZNY": "Kwoty w polach przeliczono z {z} na {na} zgodnie z Twoim własnym kursem{narzut}.",
+  "UI-WAL-NARZUT-DOPISEK": ", z narzutem {narzut}%",
 } as const
 
 export const en: Record<keyof typeof pl, string> = {
   "UI-WAL-TYTUL": "Display currency",
-  "UI-WAL-OPIS": "Result amounts (costs, bills, refunds) are shown in the chosen currency, converted from PLN. The rates and fees in the data are Polish PLN rates — only how the result is displayed changes. Fields where you type amounts still take PLN.",
+  "UI-WAL-OPIS": "Result amounts (costs, bills, refunds) are shown in the chosen currency, converted from PLN. The rates and fees in the data are Polish PLN rates — only how the result is displayed changes. Amounts typed in fields are converted when you change the currency, at the rate of the fetch date.",
   "UI-WAL-WYBOR": "Currency",
   "UI-WAL-NARZUT": "Rate markup (%)",
   "UI-WAL-NARZUT-OPIS": "Widens the rate like a card or exchange-office spread (rate × (1 + markup)). Default 0 — the plain reference rate.",
@@ -29,11 +32,14 @@ export const en: Record<keyof typeof pl, string> = {
   "UI-WAL-ODSWIEZONO": "Rates refreshed.",
   "UI-WAL-ODSWIEZ-BLAD": "Could not fetch rates (offline?) — using the last saved ones.",
   "UI-WAL-RECZNY-TYLKO": "There is no automatic rate for {waluta} — enter one by hand.",
+  "UI-WAL-PRZELICZONO-ECB": "Amounts in the fields were converted from {z} to {na} at the European Central Bank rate (Frankfurter) of {data}{narzut}.",
+  "UI-WAL-PRZELICZONO-RECZNY": "Amounts in the fields were converted from {z} to {na} at your own rate{narzut}.",
+  "UI-WAL-NARZUT-DOPISEK": ", with a {narzut}% markup",
 }
 
 export const ru: Record<keyof typeof pl, string> = {
   "UI-WAL-TYTUL": "Валюта отображения",
-  "UI-WAL-OPIS": "Суммы результатов (затраты, счета, возвраты) показываются в выбранной валюте, пересчитанной из PLN. Ставки и платежи в данных — польские, в PLN; меняется только способ показа результата. Поля, куда вы вводите суммы, по-прежнему принимают PLN.",
+  "UI-WAL-OPIS": "Суммы результатов (затраты, счета, возвраты) показываются в выбранной валюте, пересчитанной из PLN. Ставки и платежи в данных — польские, в PLN; меняется только способ показа результата. Суммы, введённые в полях, пересчитываются при смене валюты по курсу на дату загрузки.",
   "UI-WAL-WYBOR": "Валюта",
   "UI-WAL-NARZUT": "Наценка на курс (%)",
   "UI-WAL-NARZUT-OPIS": "Расширяет курс, как спред карты или обменного пункта (курс × (1 + наценка)). По умолчанию 0 — чистый справочный курс.",
@@ -45,4 +51,7 @@ export const ru: Record<keyof typeof pl, string> = {
   "UI-WAL-ODSWIEZONO": "Курсы обновлены.",
   "UI-WAL-ODSWIEZ-BLAD": "Не удалось загрузить курсы (офлайн?) — используются последние сохранённые.",
   "UI-WAL-RECZNY-TYLKO": "Для {waluta} нет автоматического курса — введите курс вручную.",
+  "UI-WAL-PRZELICZONO-ECB": "Суммы в полях пересчитаны из {z} в {na} по курсу Европейского центрального банка (Frankfurter) на {data}{narzut}.",
+  "UI-WAL-PRZELICZONO-RECZNY": "Суммы в полях пересчитаны из {z} в {na} по вашему собственному курсу{narzut}.",
+  "UI-WAL-NARZUT-DOPISEK": ", с наценкой {narzut}%",
 }

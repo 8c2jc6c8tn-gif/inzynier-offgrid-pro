@@ -38,3 +38,42 @@ export function symbolWaluty(kod: KodWaluty, jezyk: Language): string {
     .find((c) => c.type === "currency")
   return czesc?.value ?? kod
 }
+
+/** Currency a stored amount is denominated in, with the effective rate (units per 1 PLN) it was converted at. */
+export interface DenominacjaKwot {
+  kod: KodWaluty
+  kurs: number
+  /** ECB date of the rate (`null` for a manual rate or PLN). */
+  dataEcb: string | null
+  reczny: boolean
+  narzutProc: number
+}
+
+/** Factor that turns an amount in `z` into the same value in `na` (via PLN). */
+export function wspolczynnikPrzeliczenia(z: Pick<DenominacjaKwot, "kurs">, na: Pick<DenominacjaKwot, "kurs">): number {
+  return na.kurs / z.kurs
+}
+
+/** Converts one numeric form string; empty / non-numeric text stays untouched (the user's own text is never invented). */
+export function przeliczPoleTekst(tekst: string, wspolczynnik: number): string {
+  if (tekst.trim() === "") return tekst
+  const x = Number(tekst.replace(",", "."))
+  if (!Number.isFinite(x)) return tekst
+  return String(Number((x * wspolczynnik).toPrecision(6)))
+}
+
+/**
+ * Builds a draft converter for flat form state: multiplies the listed string fields.
+ * Nested state (rows, lists) writes its own converter and may reuse `przeliczPoleTekst`.
+ */
+export function przeliczPola<T>(...klucze: (keyof T)[]): (stan: T, wspolczynnik: number) => T {
+  return (stan, wspolczynnik) => {
+    const kopia = { ...stan } as Record<keyof T, unknown>
+    for (const k of klucze) {
+      const v = kopia[k]
+      if (typeof v === "string") kopia[k] = przeliczPoleTekst(v, wspolczynnik)
+      else if (typeof v === "number") kopia[k] = Number((v * wspolczynnik).toPrecision(6))
+    }
+    return kopia as T
+  }
+}

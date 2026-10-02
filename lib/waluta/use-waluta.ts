@@ -2,7 +2,7 @@
 
 import { useCallback, useEffect, useSyncExternalStore } from "react"
 import { useLanguage } from "@/lib/i18n/language-context"
-import { formatujKwote, kursEfektywny, przeliczZPln } from "./przelicz"
+import { formatujKwote, kursEfektywny, przeliczZPln, type DenominacjaKwot } from "./przelicz"
 import { getServerSnapshot, getSnapshot, kursyPrzeterminowane, odswiezKursy, subscribe } from "./storage"
 import { WALUTA_BAZOWA, type KodWaluty } from "./waluty"
 
@@ -31,4 +31,13 @@ export function useZl() {
       formatujKwote(przeliczZPln(kwotaPln, wyswietlanaWaluta === WALUTA_BAZOWA ? 1 : (kurs ?? 1)), wyswietlanaWaluta, jezyk, cyfry),
     [jezyk, kurs, wyswietlanaWaluta],
   )
+}
+
+/** Effective denomination of amounts the user types now (PLN when the chosen currency has no known rate). */
+export function useDenominacja(): DenominacjaKwot {
+  const { stan, kurs, wyswietlanaWaluta } = useWaluta()
+  const { narzutProc, reczne } = stan.preferencja
+  if (wyswietlanaWaluta === WALUTA_BAZOWA) return { kod: WALUTA_BAZOWA, kurs: 1, dataEcb: null, reczny: false, narzutProc: 0 }
+  const reczny = reczne[wyswietlanaWaluta] !== undefined
+  return { kod: wyswietlanaWaluta, kurs: kurs ?? 1, dataEcb: reczny ? null : (stan.kursy?.dataEcb ?? null), reczny, narzutProc }
 }
