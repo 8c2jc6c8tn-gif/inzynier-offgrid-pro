@@ -8882,3 +8882,8 @@ strażniki. Kandydat do `docs/wklad-do-standardu.md` (strażnik skanujący ekspo
   (ignorowane przez `.gitignore`) wystarcza do `tsc`, `eslint`, `vitest`.
 - **Pułapka (stopy-guard):** nowe kody walidacji 🔴 (`WSP-WAGI-SUMA`, `WSP-SPOF-PONAD-LICZBE`, `WSP-WARTOSC-UJEMNA`) trzeba było
   dopisać jawnie do `scripts/stopy-guard-wyjatki.json`.
+
+## Audyt i18n — konwencja `*Key` w params (02.10.2026)
+- `t()` (`lib/i18n/t.ts`) rozwija każdy parametr `xKey` (string) do `x` przez słownik języka UI; domena podaje `labelKey: "POLE-…"`, szablon używa `{label}`. Zamiast polskiej etykiety w `params` — klucz; nie trzeba zmieniać ~100 stron renderujących ostrzeżenia.
+- Pułapka przy mechanicznej podmianie: nazwa pola (`"albedo"`) i etykieta (`"albedo"`) bywają identyczne — podmieniać tylko argument etykiety, nie pierwszy (`field`).
+- Partia 1: `lokalizacja/*` i 5 modułów `pv/*`; reszta wg wpisu w `docs/lista-do-zrobienia.md`.

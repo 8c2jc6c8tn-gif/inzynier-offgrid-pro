@@ -1,22 +1,22 @@
 import type { Warning } from "@/lib/core/calc-result"
 
-export function wartoscPozaZakresem(field: string, label: string, value: number, min: number, max: number): Warning {
+export function wartoscPozaZakresem(field: string, labelKey: string, value: number, min: number, max: number): Warning {
   return {
     code: `${field.toUpperCase()}-POZA-ZAKRESEM`,
     level: "critical",
     i18nKey: "WARTOSC-POZA-ZAKRESEM",
-    params: { label, min, max },
+    params: { labelKey, min, max },
     technicalMessage: `${field} = ${value}, oczekiwano [${min}, ${max}]`,
     field,
   }
 }
 
-export function wartoscUjemna(field: string, label: string, value: number): Warning {
+export function wartoscUjemna(field: string, labelKey: string, value: number): Warning {
   return {
     code: "WARTOSC-UJEMNA",
     level: "critical",
     i18nKey: "WARTOSC-UJEMNA",
-    params: { label },
+    params: { labelKey },
     technicalMessage: `${field} = ${value}, oczekiwano >= 0`,
     field,
   }

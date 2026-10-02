@@ -21,7 +21,7 @@ export function validateInput(input: LokalizacjaInput): ValidationResult {
   if (input.szerokoscGeograficzna !== undefined) {
     if (input.szerokoscGeograficzna < SZEROKOSC_MIN || input.szerokoscGeograficzna > SZEROKOSC_MAX) {
       errors.push(
-        outOfRange("szerokoscGeograficzna", "szerokość geograficzna", input.szerokoscGeograficzna, SZEROKOSC_MIN, SZEROKOSC_MAX),
+        outOfRange("szerokoscGeograficzna", "POLE-SZEROKOSC-GEOGRAFICZNA", input.szerokoscGeograficzna, SZEROKOSC_MIN, SZEROKOSC_MAX),
       )
     }
   }
@@ -29,7 +29,7 @@ export function validateInput(input: LokalizacjaInput): ValidationResult {
   if (input.dlugoscGeograficzna !== undefined) {
     if (input.dlugoscGeograficzna < DLUGOSC_MIN || input.dlugoscGeograficzna > DLUGOSC_MAX) {
       errors.push(
-        outOfRange("dlugoscGeograficzna", "długość geograficzna", input.dlugoscGeograficzna, DLUGOSC_MIN, DLUGOSC_MAX),
+        outOfRange("dlugoscGeograficzna", "POLE-DLUGOSC-GEOGRAFICZNA", input.dlugoscGeograficzna, DLUGOSC_MIN, DLUGOSC_MAX),
       )
     }
   }
@@ -37,7 +37,7 @@ export function validateInput(input: LokalizacjaInput): ValidationResult {
   if (input.temperaturaMinimalnaC !== undefined) {
     if (input.temperaturaMinimalnaC < TEMPERATURA_MIN_C || input.temperaturaMinimalnaC > TEMPERATURA_MAX_C) {
       errors.push(
-        outOfRange("temperaturaMinimalnaC", "temperatura minimalna", input.temperaturaMinimalnaC, TEMPERATURA_MIN_C, TEMPERATURA_MAX_C),
+        outOfRange("temperaturaMinimalnaC", "POLE-TEMPERATURA-MINIMALNA", input.temperaturaMinimalnaC, TEMPERATURA_MIN_C, TEMPERATURA_MAX_C),
       )
     }
   }

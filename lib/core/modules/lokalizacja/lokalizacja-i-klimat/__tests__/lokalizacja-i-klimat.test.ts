@@ -57,7 +57,7 @@ describe("calculateLokalizacja", () => {
       temperaturaMinimalnaC: -22,
     })
     expect(result.warnings[0].i18nKey).toBe("WARTOSC-POZA-ZAKRESEM")
-    expect(result.warnings[0].params).toEqual({ label: "szerokość geograficzna", min: -90, max: 90 })
+    expect(result.warnings[0].params).toEqual({ labelKey: "POLE-SZEROKOSC-GEOGRAFICZNA", min: -90, max: 90 })
     expect(result.warnings[0].message).toBeUndefined()
   })
 

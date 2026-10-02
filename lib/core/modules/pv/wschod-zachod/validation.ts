@@ -21,23 +21,23 @@ export function validateDane(input: DaneWschodZachodInput): Warning[] {
   const errors: Warning[] = []
   const { szerokoscGeograficzna: lat, dlugoscGeograficzna: lon, albedo } = input
   if (lat !== undefined && !wZakresie(lat, SZEROKOSC_MIN, SZEROKOSC_MAX)) {
-    errors.push(wartoscPozaZakresem("szerokoscGeograficzna", "szerokość geograficzna", lat, SZEROKOSC_MIN, SZEROKOSC_MAX))
+    errors.push(wartoscPozaZakresem("szerokoscGeograficzna", "POLE-SZEROKOSC-GEOGRAFICZNA", lat, SZEROKOSC_MIN, SZEROKOSC_MAX))
   }
   if (lon !== undefined && !wZakresie(lon, DLUGOSC_MIN, DLUGOSC_MAX)) {
-    errors.push(wartoscPozaZakresem("dlugoscGeograficzna", "długość geograficzna", lon, DLUGOSC_MIN, DLUGOSC_MAX))
+    errors.push(wartoscPozaZakresem("dlugoscGeograficzna", "POLE-DLUGOSC-GEOGRAFICZNA", lon, DLUGOSC_MIN, DLUGOSC_MAX))
   }
   if (albedo !== undefined && !wZakresie(albedo, ALBEDO_MIN, ALBEDO_MAX)) {
-    errors.push(wartoscPozaZakresem("albedo", "albedo", albedo, ALBEDO_MIN, ALBEDO_MAX))
+    errors.push(wartoscPozaZakresem("albedo", "POLE-ALBEDO", albedo, ALBEDO_MIN, ALBEDO_MAX))
   }
-  for (const [nazwa, etykieta, p] of [
-    ["wschod", "połać wschodnia", input.wschod],
-    ["zachod", "połać zachodnia", input.zachod],
+  for (const [nazwa, kluczNachylenia, kluczAzymutu, p] of [
+    ["wschod", "POLE-WSCHOD-NACHYLENIE", "POLE-WSCHOD-AZYMUT", input.wschod],
+    ["zachod", "POLE-ZACHOD-NACHYLENIE", "POLE-ZACHOD-AZYMUT", input.zachod],
   ] as const) {
     if (!wZakresie(p.nachylenieDeg, NACHYLENIE_MIN_DEG, NACHYLENIE_MAX_DEG)) {
-      errors.push(wartoscPozaZakresem(`${nazwa}Nachylenie`, `${etykieta} — nachylenie`, p.nachylenieDeg, NACHYLENIE_MIN_DEG, NACHYLENIE_MAX_DEG))
+      errors.push(wartoscPozaZakresem(`${nazwa}Nachylenie`, kluczNachylenia, p.nachylenieDeg, NACHYLENIE_MIN_DEG, NACHYLENIE_MAX_DEG))
     }
     if (!wZakresie(p.azymutDeg, AZYMUT_MIN_DEG, AZYMUT_MAX_DEG)) {
-      errors.push(wartoscPozaZakresem(`${nazwa}Azymut`, `${etykieta} — azymut`, p.azymutDeg, AZYMUT_MIN_DEG, AZYMUT_MAX_DEG))
+      errors.push(wartoscPozaZakresem(`${nazwa}Azymut`, kluczAzymutu, p.azymutDeg, AZYMUT_MIN_DEG, AZYMUT_MAX_DEG))
     }
   }
   errors.push(...bledyDanychGodzinowych(input.daneGodzinowe))
@@ -46,7 +46,7 @@ export function validateDane(input: DaneWschodZachodInput): Warning[] {
 
 export function validateInput(input: WschodZachodInput): Warning[] {
   if (input.udzialWschodPct !== null && !wZakresie(input.udzialWschodPct, 0, 100)) {
-    return [wartoscPozaZakresem("udzialWschodPct", "udział mocy na wschodzie", input.udzialWschodPct, 0, 100)]
+    return [wartoscPozaZakresem("udzialWschodPct", "POLE-UDZIAL-MOCY-WSCHOD", input.udzialWschodPct, 0, 100)]
   }
   return []
 }

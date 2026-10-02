@@ -20,16 +20,16 @@ export function validateTabela(input: TabelaNapromieniowaniaInput): Warning[] {
   const errors: Warning[] = []
   const { szerokoscGeograficzna: lat, dlugoscGeograficzna: lon, albedo } = input
   if (lat !== undefined && !wZakresie(lat, SZEROKOSC_MIN, SZEROKOSC_MAX)) {
-    errors.push(wartoscPozaZakresem("szerokoscGeograficzna", "szerokość geograficzna", lat, SZEROKOSC_MIN, SZEROKOSC_MAX))
+    errors.push(wartoscPozaZakresem("szerokoscGeograficzna", "POLE-SZEROKOSC-GEOGRAFICZNA", lat, SZEROKOSC_MIN, SZEROKOSC_MAX))
   }
   if (lon !== undefined && !wZakresie(lon, DLUGOSC_MIN, DLUGOSC_MAX)) {
-    errors.push(wartoscPozaZakresem("dlugoscGeograficzna", "długość geograficzna", lon, DLUGOSC_MIN, DLUGOSC_MAX))
+    errors.push(wartoscPozaZakresem("dlugoscGeograficzna", "POLE-DLUGOSC-GEOGRAFICZNA", lon, DLUGOSC_MIN, DLUGOSC_MAX))
   }
   if (!wZakresie(input.azymutDeg, AZYMUT_MIN_DEG, AZYMUT_MAX_DEG)) {
-    errors.push(wartoscPozaZakresem("azymutDeg", "azymut", input.azymutDeg, AZYMUT_MIN_DEG, AZYMUT_MAX_DEG))
+    errors.push(wartoscPozaZakresem("azymutDeg", "POLE-AZYMUT", input.azymutDeg, AZYMUT_MIN_DEG, AZYMUT_MAX_DEG))
   }
   if (albedo !== undefined && !wZakresie(albedo, ALBEDO_MIN, ALBEDO_MAX)) {
-    errors.push(wartoscPozaZakresem("albedo", "albedo", albedo, ALBEDO_MIN, ALBEDO_MAX))
+    errors.push(wartoscPozaZakresem("albedo", "POLE-ALBEDO", albedo, ALBEDO_MIN, ALBEDO_MAX))
   }
   errors.push(...bledyDanychGodzinowych(input.daneGodzinowe))
   return errors
@@ -38,9 +38,9 @@ export function validateTabela(input: TabelaNapromieniowaniaInput): Warning[] {
 export function validateInput(input: KatIAzymutInput): Warning[] {
   const errors: Warning[] = []
   if (input.nachylenieDeg !== null && !wZakresie(input.nachylenieDeg, KAT_MIN_DEG, KAT_MAX_DEG)) {
-    errors.push(wartoscPozaZakresem("nachylenieDeg", "kąt pochylenia", input.nachylenieDeg, KAT_MIN_DEG, KAT_MAX_DEG))
+    errors.push(wartoscPozaZakresem("nachylenieDeg", "POLE-KAT-POCHYLENIA", input.nachylenieDeg, KAT_MIN_DEG, KAT_MAX_DEG))
   }
-  if (input.mocInstalacjiKwp < 0) errors.push(wartoscUjemna("mocInstalacjiKwp", "Moc instalacji", input.mocInstalacjiKwp))
+  if (input.mocInstalacjiKwp < 0) errors.push(wartoscUjemna("mocInstalacjiKwp", "POLE-MOC-INSTALACJI", input.mocInstalacjiKwp))
   if (input.wspolczynnikPr !== null && !(input.wspolczynnikPr > PR_MIN_WYLACZNIE && input.wspolczynnikPr <= PR_MAX)) {
     errors.push(prPozaZakresem(input.wspolczynnikPr))
   }
