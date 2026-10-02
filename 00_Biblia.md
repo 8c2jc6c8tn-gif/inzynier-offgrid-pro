@@ -1,6 +1,6 @@
 # 00. Biblia — Inżynier Offgrid Pro
 
-**Wersja:** 1.9 | **Filar:** — (indeks, poza podziałem na filary) | **Data utworzenia:** 04.09.2026 | **Ostatnia aktualizacja:** 29.09.2026 | **Status:** Stabilny
+**Wersja:** 1.10 | **Filar:** — (indeks, poza podziałem na filary) | **Data utworzenia:** 04.09.2026 | **Ostatnia aktualizacja:** 02.10.2026 | **Status:** Stabilny
 **Powiązane dokumenty:** wszystkie poniżej (tabela dokumentów)
 
 TL;DR: Indeks kanonicznej Biblii projektu w formacie GOD BOOK (`docs/god-book/instrukcja-uniwersalna-biblii-projektu-v2_39.md`, Część S). Migracja z `ZASADY_APLIKACJI.md`/`USTALENIA.md`, które pełniły tę rolę wcześniej pod inną nazwą — treść tamtych plików **zachowana, nie usunięta** (oznaczone jako historyczne, patrz "Relacja ze starą konstytucją" niżej).
@@ -53,6 +53,7 @@ Do 04.09.2026 rolę Biblii pełniły `ZASADY_APLIKACJI.md` (pełna) i `USTALENIA
 | 01 | `01_Zasady_Pracy_i_Konwencje.md` | C | 1.0 | Stabilny | Wyciąg operacyjny z GOD BOOK dla tego projektu |
 | 02 | `02_Dyrektywy_AI_Projektu.md` | C | 1.1 | Stabilny | Twarde reguły zachowania AI specyficzne dla domeny off-grid |
 | 03 | `03_M14_Dom_i_Firma_Siec.md` | B | 1.10 | Stabilny (kod zbudowany, bramka DANE-1) | M14 „Dom – sieć” / „Firma – sieć” — rachunek za prąd, prosument, taryfy G/C, potem scenariusze przejścia A–D, ryzyka i procedura odłączenia (D35–D43). Pierwszy moduł opisany w Biblii, a nie w `docs/zrodla/Tresc_*` |
+| 04 | `04_Plan_Rozwoju_i_Sprzedazy.md` | C | 1.0 | Roboczy (D70 postanowione, ceny i sprzedaż do decyzji) | Plan rozwoju i sprzedaży: ceny, drabina oferty, start pierwszego miesiąca, 27 ścieżek sprzedaży, program partnerski, mentorzy; Część I uniwersalna dla rodziny (kandydat do `docs/wklad-do-standardu.md`) |
 | — | `zlote-zasady.md` | C | 1.0 | Stabilny | Kompas projektu — 4 filozofie + 14 zasad architektonicznych |
 | — | `rejestr-decyzji.md` | C | 1.29 | Stabilny | D1, D2, D3… decyzje strategiczne, ponumerowane, rosnące |
 | — | `slownik-pojec.md` | C | 1.1 | Stabilny | Terminy branżowe (SoC, DoD, MPPT, Voc, C-rate...) |
@@ -97,3 +98,4 @@ Do 04.09.2026 rolę Biblii pełniły `ZASADY_APLIKACJI.md` (pełna) i `USTALENIA
 | 28.09.2026 | Start kodu M14: rozdział 03 1.6→1.7, kontrakty rdzenia 1.1→1.2 (§9 pliki danych), mapa 1.5→1.6, dług 2.3→2.4 (TD22), przekazanie 1.3→1.4. Wersja indeksu 1.6→1.7. |
 | 28.09.2026 | Zamknięcie kodu M14: rozdział 03 1.7→1.8, mapa 1.6→1.7, dług 2.4→2.5 (TD23), przekazanie 1.4→1.5. Wersja indeksu 1.7→1.8. |
 | 29.09.2026 | D51: ekran tylko w komplecie (autosave + tłumaczenia + „?” + „i”), strażnik `check:pomoc-guard`. Rejestr decyzji 1.23→1.24, dyrektywy 1.1→1.2 (#15). Wersja indeksu 1.8→1.9. |
+| 02.10.2026 | Dodano rozdział 04 „Plan rozwoju i sprzedaży” (D70) do tabeli dokumentów. Wersja indeksu 1.9→1.10. |
