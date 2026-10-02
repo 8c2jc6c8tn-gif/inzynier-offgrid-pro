@@ -14,7 +14,10 @@ Oznaczenia: ✅ ustalone · 💡 rekomendacja · 🔎 niezweryfikowane
 | `04-facebook-i-spolecznosci.md` | Grupy, własna grupa, test reklam Meta, fora, filmy |
 | `05-long-tail-grafik.md` | Grafik 12 tygodni: 2 strony tygodniowo, rodzaje stron, pomiar |
 | `06-menu-strategii.md` | **Ponad 40 strategii** z kosztem, pracą, czasem i spodziewanym efektem; 4 pakiety do wyboru |
-| `hasla-long-tail-grafik.csv` | 191 fraz przypisanych do 36 podstron, z kolumnami na dane z Planera |
+| `hasla-long-tail-grafik.csv` | 191 fraz przypisanych do 36 podstron, z kolumnami na dane z Planera (3 frazy już uzupełnione z Ubersuggest) |
+| `frazy-do-planera-google.txt`, `frazy-do-planera-szerokie.txt` | Listy fraz do wklejenia w Planerze słów kluczowych Google: 187 wąskich i 48 szerokich (rynek prosumentów, magazyny energii) |
+| `ubersuggest-wyniki.csv` | Surowy wynik z Ubersuggest (plan darmowy dał 3 z 187 fraz) |
+| `tresci/` | Gotowe szkice: 2 strony narzędzi, 5 maili, checklista „10 błędów”, grupa FB i posty. Wymagają sprawdzenia liczb i akceptacji mentora |
 
 ## Najważniejsze wnioski (pięć zdań)
 
