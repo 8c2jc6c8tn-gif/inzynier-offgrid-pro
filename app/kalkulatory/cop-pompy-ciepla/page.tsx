@@ -1,5 +1,6 @@
 "use client"
 
+import Link from "next/link"
 import { useMemo } from "react"
 import { calculateCopPompyCiepla } from "@/lib/core/modules/ogrzewanie/cop-pompy-ciepla/calculator"
 import { usePersistedDraft } from "@/lib/adapters/use-persisted-draft"
@@ -10,6 +11,8 @@ import { PomocPola } from "@/components/ui/pomoc"
 import { NaglowekEkranu } from "@/components/wzorce/naglowek-ekranu"
 import { useTranslate } from "@/lib/i18n/language-context"
 import { COP_MAX, COP_MIN, MOC_CIEPLNA_KW_MAX } from "@/lib/core/modules/ogrzewanie/cop-pompy-ciepla/constants"
+import { SekcjaDoborMocy } from "./sekcja-dobor-mocy"
+import { SekcjaKrzywaGrzewcza } from "./sekcja-krzywa-grzewcza"
 
 type FormularzStan = {
   mocCieplnaKw: string
@@ -102,6 +105,17 @@ export default function CopPompyCieplaPage() {
 
         <p className="mt-3 font-mono text-caption opacity-70">{result.formula}</p>
       </WerdyktPanel>
+
+      <SekcjaDoborMocy />
+      <SekcjaKrzywaGrzewcza />
+
+      <section className="flex flex-col gap-2 rounded-lg border p-4">
+        <h2 className="font-semibold">{t("UI-M6D-SCOP-TYTUL")}</h2>
+        <p className="text-small text-muted-foreground">{t("UI-M6D-SCOP-OPIS")}</p>
+        <Link href="/kalkulatory/model-sezonowy-pompy-ciepla" className="text-small underline">
+          {t("UI-M6D-SCOP-LINK")}
+        </Link>
+      </section>
     </main>
   )
 }

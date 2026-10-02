@@ -3,6 +3,9 @@
  * shared by E1 and by screens that take E1 "auto" (M6/E2, source: "straty ciepła (auto z Ekranu 1)").
  * UI layer (like `lib/lokalizacja/model-dzialki.ts`), not domain.
  */
+import { useMemo } from "react"
+import { useOdczytDraftu } from "@/lib/adapters/use-persisted-draft"
+import { calculateObciazenieCieplne, type ObciazenieCieplneResult } from "@/lib/core/modules/ogrzewanie/obciazenie-cieplne/calculator"
 import type { ObciazenieCieplneInput } from "@/lib/core/modules/ogrzewanie/obciazenie-cieplne/input"
 import { STREFY_KLIMATYCZNE } from "@/lib/core/modules/ogrzewanie/obciazenie-cieplne/constants"
 import { liczba } from "@/lib/lokalizacja/model-dzialki"
@@ -39,4 +42,20 @@ export function wejscieObciazenia(stan: SeedObciazenia): ObciazenieCieplneInput 
     // Drafts saved before the months section existed have no `miesiace`.
     srednieTemperaturyMiesieczneC: (stan.miesiace ?? []).map(n),
   }
+}
+
+export type WynikEkranu1 = ObciazenieCieplneResult & { temperaturaWewnetrznaC: number }
+
+/**
+ * Screen 1 result read from its draft — for the Part 2B additions that take the design load, θe/θi or the monthly heat
+ * "auto z Ekranu 1" (an empty field = this value). Null until Screen 1 is complete and valid.
+ */
+export function useWynikEkranu1(): WynikEkranu1 | null {
+  const ekran1 = useOdczytDraftu<SeedObciazenia>(KLUCZ_DRAFTU_OBCIAZENIA)
+  return useMemo(() => {
+    if (!ekran1.dane) return null
+    const wejscie = wejscieObciazenia(ekran1.dane)
+    const w = calculateObciazenieCieplne(wejscie)
+    return w.value && wejscie.temperaturaWewnetrznaC !== null ? { ...w.value, temperaturaWewnetrznaC: wejscie.temperaturaWewnetrznaC } : null
+  }, [ekran1.dane])
 }

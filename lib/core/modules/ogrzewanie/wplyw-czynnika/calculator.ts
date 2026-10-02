@@ -1,8 +1,8 @@
 import type { Assumption, CalcResult, Warning } from "@/lib/core/calc-result"
-import { WSPOLCZYNNIK_KWH_NA_L_K } from "../../zapotrzebowanie/bojler-cwu/constants"
 import { wspolczynnikStratWentylacyjnychWK } from "../infiltracja-powietrza/calculator"
 import { uPoDociepleniu } from "../optymalizacja-izolacji/calculator"
 import { obliczStrumienCieplaPowietrzaW } from "../wentylacja-odzysk-ciepla/calculator"
+import { cyklStartStop, przeplywWodyLH } from "../wspolne/hydraulika"
 import { COP_NA_STOPIEN_ZASILANIA, L_NA_M3, MIN_NA_H, POLA_CZYNNIKA, W_NA_KW } from "./constants"
 import type { Czynnik, KluczPola, WplywCzynnikaInput } from "./input"
 import { validateInput } from "./validation"
@@ -205,7 +205,7 @@ function oblicz(czynnik: Czynnik, v: (k: KluczPola) => number): Obliczenie {
       }
     }
     case "przeplyw": {
-      const lH = v("mocPompyKw") / (WSPOLCZYNNIK_KWH_NA_L_K * v("dTObieguK"))
+      const lH = przeplywWodyLH(v("mocPompyKw"), v("dTObieguK"))
       return { glowny: w("WPC-G-PRZEPLYW", { m3h: lH / L_NA_M3, lmin: lH / MIN_NA_H }), wiersze: [], warnings: [], assumptions: [] }
     }
     case "odwierty": {
@@ -232,16 +232,11 @@ function oblicz(czynnik: Czynnik, v: (k: KluczPola) => number): Obliczenie {
       const l = v("obciazenieKw")
       const assumptions: Assumption[] = [{ kod: "WPC-ZAL-START-STOP" }]
       if (l >= p) return { glowny: w("WPC-G-STARTY", { bez: 0, z: 0 }), wiersze: [], warnings: [buforPracaCiagla()], assumptions }
-      const cykl = (litry: number) => {
-        const energia = litry * WSPOLCZYNNIK_KWH_NA_L_K * v("histerezaK")
-        return { prac: (energia / (p - l)) * MIN_NA_H, postoj: (energia / l) * MIN_NA_H }
-      }
-      const bez = cykl(v("wodaInstalacjiL"))
-      const z = cykl(v("wodaInstalacjiL") + v("buforL"))
-      const starty = (c: { prac: number; postoj: number }) => (24 * MIN_NA_H) / (c.prac + c.postoj)
+      const bez = cyklStartStop(v("wodaInstalacjiL"), v("histerezaK"), p, l)
+      const z = cyklStartStop(v("wodaInstalacjiL") + v("buforL"), v("histerezaK"), p, l)
       return {
-        glowny: w("WPC-G-STARTY", { bez: starty(bez), z: starty(z) }),
-        wiersze: [w("WPC-W-CYKL", { pracBez: bez.prac, postojBez: bez.postoj, pracZ: z.prac, postojZ: z.postoj })],
+        glowny: w("WPC-G-STARTY", { bez: bez.startyDoba, z: z.startyDoba }),
+        wiersze: [w("WPC-W-CYKL", { pracBez: bez.pracaMin, postojBez: bez.postojMin, pracZ: z.pracaMin, postojZ: z.postojMin })],
         warnings: [],
         assumptions,
       }

@@ -12,6 +12,7 @@ import { WynikGlowny } from "@/components/wzorce/wynik-glowny"
 import { WynikSzczegoly } from "@/components/wzorce/wynik-szczegoly"
 import { ZALECANA_POJEMNOSC_L_NA_KW } from "@/lib/core/modules/ogrzewanie/bufor-ciepla/constants"
 import { useTranslate } from "@/lib/i18n/language-context"
+import { SekcjaPracaZBuforem } from "./sekcja-praca-z-buforem"
 
 type FormularzStan = {
   mocPompyKw: string
@@ -90,6 +91,11 @@ export default function BuforCieplaPage() {
           <WynikSzczegoly assumptions={result.assumptions} warnings={result.warnings} formula={result.formula} />
         </WerdyktPanel>
       )}
+
+      <SekcjaPracaZBuforem
+        mocPompyKw={mocPompyKw === "" ? 0 : Number(mocPompyKw)}
+        buforL={pojemnoscBuforaL === "" ? 0 : Number(pojemnoscBuforaL)}
+      />
     </main>
   )
 }

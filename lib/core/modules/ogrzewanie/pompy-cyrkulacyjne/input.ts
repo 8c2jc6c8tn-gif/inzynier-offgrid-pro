@@ -15,4 +15,11 @@ export type PompyCyrkulacyjneInput = {
    * podpowiedzią "24 dla pracy ciągłej (24/7)". 0 = jeszcze nie wpisano.
    */
   godzinyPracyDobowoH: number
+  /**
+   * Dni pracy w sezonie grzewczym — dokładka 2B (dawne 5.72, Biblia §6.27.46: „ile energii zużyje pompa cyrkulacyjna
+   * przez cały sezon”). Opcjonalne; brak/0 = bez wyniku sezonowego.
+   */
+  dniSezonu?: number
+  /** Cena energii [zł/kWh] — dawne 5.72 („z taryfy energii”). Opcjonalna; brak/0 = bez kwoty. */
+  cenaZlKwh?: number
 }

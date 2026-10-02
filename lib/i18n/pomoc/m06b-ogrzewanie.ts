@@ -237,7 +237,7 @@ export const pl = {
   "grzalka-cwu": {
     "migawka": {
       "oCoChodzi": "Grzałka elektryczna to prosty i tani sposób na ciepłą wodę, ale bardzo „głodny” — latem grzanie z nadwyżki PV jest praktycznie darmowe, zimą lepiej dogrzewać pompą ciepła, bo grzałka szybko wyczerpuje baterię.",
-      "jakDziala": "Wpisz pojemność zasobnika, temperatury i moc grzałki — aplikacja policzy energię i czas grzania. Z nadwyżką PV i sposobem sterowania pokaże, ile energii da słońce, a ile bateria; z mocą falownika — czy ją udźwignie.",
+      "jakDziala": "Wpisz pojemność zasobnika, temperatury i moc grzałki — aplikacja policzy energię i czas grzania. Z nadwyżką PV i sposobem sterowania pokaże, ile energii da słońce, a ile bateria; z mocą falownika — czy ją udźwignie. Niżej: pompa ciepła w grzaniu wody — ile prądu i czasu do jej temperatury maksymalnej, resztę grzałką, i ile mniej niż sama grzałka.",
       "poCo": "Grzałka to jeden z największych odbiorników w domu off-grid. Źle zaplanowana grzeje z baterii albo przeciąża falownik.",
       "fizyka": "Q = V·ΔT·c (c = 4186 J/(kg·K)), t = Q / P. Stała moc: grzałka pobiera P niezależnie od słońca, brak z PV pokrywa bateria. Regulator PV: P_ef = min(P, P_PV), grzeje dłużej, 0 z baterii. Przykład źródła: 2 kW, 200 l, 10 → 50 °C → 9,3 kWh i 4,65 h (źródło: 9,2 kWh, 4,6 h). „Przy PV 3 kW — 3 h” nie zgadza się: grzałka 2 kW nie pobierze 3 kW."
     },
@@ -783,7 +783,7 @@ export const en: Tlumaczenie<typeof pl> = {
   "grzalka-cwu": {
     "migawka": {
       "oCoChodzi": "An electric heater is a simple and cheap way to get hot water, but very “hungry” — in summer heating from the PV surplus is practically free, in winter it is better to top up with a heat pump, because a heater drains the battery quickly.",
-      "jakDziala": "Enter the tank capacity, temperatures and heater power — the app computes the energy and heating time. With the PV surplus and the control type it shows how much comes from the sun and how much from the battery; with the inverter power — whether it can carry the heater.",
+      "jakDziala": "Enter the tank capacity, temperatures and heater power — the app computes the energy and heating time. With the PV surplus and the control type it shows how much comes from the sun and how much from the battery; with the inverter power — whether it can carry the heater. Below: the heat pump heating water — how much electricity and time up to its maximum temperature, the rest by the heater, and how much less than the heater alone.",
       "poCo": "A heater is one of the largest loads in an off-grid home. Badly planned, it heats from the battery or overloads the inverter.",
       "fizyka": "Q = V·ΔT·c (c = 4186 J/(kg·K)), t = Q / P. Fixed power: the heater draws P regardless of the sun, the battery covers what PV lacks. PV controller: P_ef = min(P, P_PV), heats longer, 0 from the battery. Source example: 2 kW, 200 l, 10 → 50 °C → 9.3 kWh and 4.65 h (source: 9.2 kWh, 4.6 h). “With 3 kW of PV — 3 h” does not hold: a 2 kW heater cannot draw 3 kW."
     },
@@ -1329,7 +1329,7 @@ export const ru: Tlumaczenie<typeof pl> = {
   "grzalka-cwu": {
     "migawka": {
       "oCoChodzi": "Электрический ТЭН — простой и дешёвый способ получить горячую воду, но очень «прожорливый»: летом нагрев от излишков PV практически бесплатен, зимой лучше догревать тепловым насосом, потому что ТЭН быстро разряжает батарею.",
-      "jakDziala": "Введите объём бойлера, температуры и мощность ТЭНа — приложение посчитает энергию и время нагрева. С излишком PV и способом управления покажет, сколько даст солнце, а сколько батарея; с мощностью инвертора — выдержит ли он.",
+      "jakDziala": "Введите объём бойлера, температуры и мощность ТЭНа — приложение посчитает энергию и время нагрева. С излишком PV и способом управления покажет, сколько даст солнце, а сколько батарея; с мощностью инвертора — выдержит ли он. Ниже: тепловой насос в нагреве воды — сколько электричества и времени до его максимальной температуры, остальное ТЭНом, и насколько меньше, чем один ТЭН.",
       "poCo": "ТЭН — одна из самых больших нагрузок в автономном доме. При плохом планировании он греет от батареи или перегружает инвертор.",
       "fizyka": "Q = V·ΔT·c (c = 4186 Дж/(кг·К)), t = Q / P. Постоянная мощность: ТЭН берёт P независимо от солнца, недостаток покрывает батарея. Регулятор PV: P_эф = min(P, P_PV), греет дольше, 0 из батареи. Пример источника: 2 кВт, 200 л, 10 → 50 °C → 9,3 кВт·ч и 4,65 ч (в источнике 9,2 кВт·ч, 4,6 ч). «При PV 3 кВт — 3 ч» не сходится: ТЭН 2 кВт не возьмёт 3 кВт."
     },

@@ -19,7 +19,7 @@ export const pl = {
   "bufor-ciepla": {
     migawka: {
       oCoChodzi: "Bufor to termos dla ciepła — gromadzi je, gdy jest „tanio” (słońce świeci), i oddaje, gdy jest „drogo” (noc, chmury).",
-      jakDziala: "Zalecana pojemność = moc pompy ciepła × {lkw} l/kW. Porównuję ją z pojemnością, którą masz albo planujesz.",
+      jakDziala: "Zalecana pojemność = moc pompy ciepła × {lkw} l/kW. Porównuję ją z pojemnością, którą masz albo planujesz. Niżej: ile startów na dobę pompa robi bez bufora i z nim, ile ciepła bufor zmagazynuje z PV i ile traci postojowo.",
       poCo: "Wiesz, czy bufor pozwoli pompie pracować w dzień na prądzie z PV i oddać ciepło w nocy — i czy nie będzie taktować.",
       fizyka: "V_zal = P · {lkw} l/kW.",
     },
@@ -31,7 +31,7 @@ export const pl = {
   "cop-pompy-ciepla": {
     migawka: {
       oCoChodzi: "COP to „mnożnik” — pompa ciepła nie produkuje ciepła z niczego, tylko przenosi je z zewnątrz, zużywając mniej prądu niż grzałka elektryczna.",
-      jakDziala: "Moc elektryczna = zapotrzebowanie na moc cieplną ÷ COP przy aktualnej temperaturze.",
+      jakDziala: "Moc elektryczna = zapotrzebowanie na moc cieplną ÷ COP przy aktualnej temperaturze. Niżej: dobór mocy pompy do budynku (zapas albo brak mocy w największy mróz, ile dogrzewania, punkt biwalentny) i krzywa grzewcza (o ile niższe zasilanie i jaki COP po jej obniżeniu).",
       poCo: "Wiesz, ile prądu z baterii albo PV pobierze pompa w danych warunkach — i ile więcej w mróz, gdy COP spada.",
       fizyka: "P_el = P_ciepl / COP.",
     },
@@ -118,7 +118,7 @@ export const pl = {
   "obciazenie-cieplne": {
     migawka: {
       oCoChodzi: "Dom zimą to wiadro z dziurami — ogrzewanie musi dolewać tyle, ile wycieka.",
-      jakDziala: "Straty przez przegrody (U × A × różnica temperatur) plus straty z wymienianym powietrzem, w najzimniejszym dniu dla Twojej strefy klimatycznej. Dla miesięcy — ze średniej temperatury miesiąca; z COP przeliczam ciepło na prąd.",
+      jakDziala: "Straty przez przegrody (U × A × różnica temperatur) plus straty z wymienianym powietrzem, w najzimniejszym dniu dla Twojej strefy klimatycznej. Dla miesięcy — ze średniej temperatury miesiąca; z COP przeliczam ciepło na prąd. Pod wynikiem: raport — co traci najwięcej ciepła (ranking z wentylacją), ciepło na m² w roku i roczny koszt ogrzewania.",
       poCo: "To moc, którą musi dać ogrzewanie — w off-gridzie od niej zależy, ile prądu albo paliwa potrzebujesz zimą.",
       fizyka: "Φ = Σ U·A·Δθ + n·V·ρ·c_p/3600·Δθ;  Q = Φ · 24 h;  E_el = Q / COP.",
     },
@@ -177,7 +177,7 @@ export const pl = {
   "pompy-cyrkulacyjne": {
     migawka: {
       oCoChodzi: "W off-gridzie pompy cyrkulacyjne to cisi złodzieje energii — pracują 24/7 i łatwo je zlekceważyć, a różnica między starym a nowym modelem to realne kilowatogodziny dziennie.",
-      jakDziala: "Energia = moc × godziny pracy. Porównuję obecną pompę z elektroniczną (PWM) — dziennie i rocznie.",
+      jakDziala: "Energia = moc × godziny pracy. Porównuję obecną pompę z elektroniczną (PWM) — na dobę, a z dniami sezonu także w całym sezonie (kWh i zł). Niżej: przepływ przez pompę ciepła — ile m³/h potrzeba i czy pompa obiegowa go da.",
       poCo: "Wiesz, ile energii z baterii odzyskasz wymianą pompy.",
       fizyka: "E = P · h / 1000.",
     },
@@ -252,7 +252,7 @@ export const en: Tlumaczenie<typeof pl> = {
   "bufor-ciepla": {
     migawka: {
       oCoChodzi: "A buffer is a thermos for heat — it stores it when it is “cheap” (sun shining) and releases it when it is “expensive” (night, clouds).",
-      jakDziala: "Recommended volume = heat pump output × {lkw} l/kW. I compare it with the volume you have or plan.",
+      jakDziala: "Recommended volume = heat pump output × {lkw} l/kW. I compare it with the volume you have or plan. Below: how many starts per day the pump makes without and with the buffer, how much heat the buffer stores from PV and how much it loses standing.",
       poCo: "You know whether the buffer lets the pump run on PV power by day and release heat at night — and whether it will short-cycle.",
       fizyka: "V_rec = P · {lkw} l/kW.",
     },
@@ -264,7 +264,7 @@ export const en: Tlumaczenie<typeof pl> = {
   "cop-pompy-ciepla": {
     migawka: {
       oCoChodzi: "COP is a “multiplier” — a heat pump does not make heat out of nothing, it moves it from outside, using less electricity than an electric heater.",
-      jakDziala: "Electrical power = heat demand ÷ COP at the current temperature.",
+      jakDziala: "Electrical power = heat demand ÷ COP at the current temperature. Below: sizing the pump to the building (margin or deficit in the hardest frost, how much backup heating, balance point) and the heating curve (how much lower the flow and what COP after lowering it).",
       poCo: "You know how much power from the battery or PV the pump draws in given conditions — and how much more in frost, when COP drops.",
       fizyka: "P_el = P_heat / COP.",
     },
@@ -351,7 +351,7 @@ export const en: Tlumaczenie<typeof pl> = {
   "obciazenie-cieplne": {
     migawka: {
       oCoChodzi: "A house in winter is a leaky bucket — heating has to top up as much as leaks out.",
-      jakDziala: "Losses through the envelope (U × A × temperature difference) plus losses with exchanged air, on the coldest day for your climate zone. For months — from the monthly mean temperature; with COP I convert heat to electricity.",
+      jakDziala: "Losses through the envelope (U × A × temperature difference) plus losses with exchanged air, on the coldest day for your climate zone. For months — from the monthly mean temperature; with COP I convert heat to electricity. Below the result: a report — what loses the most heat (ranking incl. ventilation), heat per m² per year and the yearly heating cost.",
       poCo: "This is the output heating must deliver — off-grid, it decides how much electricity or fuel you need in winter.",
       fizyka: "Φ = Σ U·A·Δθ + n·V·ρ·c_p/3600·Δθ;  Q = Φ · 24 h;  E_el = Q / COP.",
     },
@@ -410,7 +410,7 @@ export const en: Tlumaczenie<typeof pl> = {
   "pompy-cyrkulacyjne": {
     migawka: {
       oCoChodzi: "Off-grid, circulation pumps are silent energy thieves — they run 24/7 and are easy to ignore, and the difference between an old and a new model is real kilowatt-hours a day.",
-      jakDziala: "Energy = power × running hours. I compare the current pump with an electronic (PWM) one — per day and per year.",
+      jakDziala: "Energy = power × running hours. I compare the current pump with an electronic (PWM) one — per day, and with the season days also for the whole season (kWh and PLN). Below: the flow through the heat pump — how many m³/h are needed and whether the circulation pump gives them.",
       poCo: "You know how much battery energy you recover by replacing the pump.",
       fizyka: "E = P · h / 1000.",
     },
@@ -485,7 +485,7 @@ export const ru: Tlumaczenie<typeof pl> = {
   "bufor-ciepla": {
     migawka: {
       oCoChodzi: "Буфер — это термос для тепла: накапливает его, когда оно «дешёвое» (светит солнце), и отдаёт, когда «дорогое» (ночь, облака).",
-      jakDziala: "Рекомендуемый объём = мощность теплового насоса × {lkw} л/кВт. Сравниваю его с объёмом, который у вас есть или планируется.",
+      jakDziala: "Рекомендуемый объём = мощность теплового насоса × {lkw} л/кВт. Сравниваю его с объёмом, который у вас есть или планируется. Ниже: сколько пусков в сутки насос делает без буфера и с ним, сколько тепла буфер запасает от PV и сколько теряет в простое.",
       poCo: "Вы знаете, позволит ли буфер насосу работать днём на энергии PV и отдавать тепло ночью — и не будет ли он тактовать.",
       fizyka: "V_рек = P · {lkw} л/кВт.",
     },
@@ -497,7 +497,7 @@ export const ru: Tlumaczenie<typeof pl> = {
   "cop-pompy-ciepla": {
     migawka: {
       oCoChodzi: "COP — это «множитель»: тепловой насос не производит тепло из ничего, а переносит его снаружи, потребляя меньше электроэнергии, чем электронагреватель.",
-      jakDziala: "Электрическая мощность = потребность в тепловой мощности ÷ COP при текущей температуре.",
+      jakDziala: "Электрическая мощность = потребность в тепловой мощности ÷ COP при текущей температуре. Ниже: подбор мощности насоса к дому (запас или дефицит в самый сильный мороз, сколько догрева, бивалентная точка) и отопительная кривая (насколько ниже подача и какой COP после её снижения).",
       poCo: "Вы знаете, сколько энергии от батареи или PV потребит насос в данных условиях — и насколько больше в мороз, когда COP падает.",
       fizyka: "P_эл = P_тепл / COP.",
     },
@@ -584,7 +584,7 @@ export const ru: Tlumaczenie<typeof pl> = {
   "obciazenie-cieplne": {
     migawka: {
       oCoChodzi: "Дом зимой — дырявое ведро: отопление должно доливать столько, сколько вытекает.",
-      jakDziala: "Потери через ограждения (U × A × разница температур) плюс потери с обменным воздухом в самый холодный день для вашей климатической зоны. Для месяцев — по средней температуре месяца; с COP перевожу тепло в электроэнергию.",
+      jakDziala: "Потери через ограждения (U × A × разница температур) плюс потери с обменным воздухом в самый холодный день для вашей климатической зоны. Для месяцев — по средней температуре месяца; с COP перевожу тепло в электроэнергию. Под результатом: отчёт — что теряет больше всего тепла (рейтинг с вентиляцией), тепло на м² в год и годовая стоимость отопления.",
       poCo: "Это мощность, которую должно дать отопление — в автономной системе от неё зависит, сколько электроэнергии или топлива нужно зимой.",
       fizyka: "Φ = Σ U·A·Δθ + n·V·ρ·c_p/3600·Δθ;  Q = Φ · 24 ч;  E_эл = Q / COP.",
     },
@@ -643,7 +643,7 @@ export const ru: Tlumaczenie<typeof pl> = {
   "pompy-cyrkulacyjne": {
     migawka: {
       oCoChodzi: "В автономной системе циркуляционные насосы — тихие воры энергии: работают 24/7, их легко недооценить, а разница между старой и новой моделью — реальные киловатт-часы в сутки.",
-      jakDziala: "Энергия = мощность × часы работы. Сравниваю текущий насос с электронным (PWM) — в сутки и в год.",
+      jakDziala: "Энергия = мощность × часы работы. Сравниваю текущий насос с электронным (PWM) — в сутки, а с днями сезона и за весь сезон (кВт·ч и зл). Ниже: расход через тепловой насос — сколько м³/ч нужно и даст ли его циркуляционный насос.",
       poCo: "Вы знаете, сколько энергии батареи вернёт замена насоса.",
       fizyka: "E = P · h / 1000.",
     },
