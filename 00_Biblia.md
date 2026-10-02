@@ -1,6 +1,6 @@
 # 00. Biblia — Inżynier Offgrid Pro
 
-**Wersja:** 1.10 | **Filar:** — (indeks, poza podziałem na filary) | **Data utworzenia:** 04.09.2026 | **Ostatnia aktualizacja:** 02.10.2026 | **Status:** Stabilny
+**Wersja:** 1.11 | **Filar:** — (indeks, poza podziałem na filary) | **Data utworzenia:** 04.09.2026 | **Ostatnia aktualizacja:** 02.10.2026 | **Status:** Stabilny
 **Powiązane dokumenty:** wszystkie poniżej (tabela dokumentów)
 
 TL;DR: Indeks kanonicznej Biblii projektu w formacie GOD BOOK (`docs/god-book/instrukcja-uniwersalna-biblii-projektu-v2_39.md`, Część S). Migracja z `ZASADY_APLIKACJI.md`/`USTALENIA.md`, które pełniły tę rolę wcześniej pod inną nazwą — treść tamtych plików **zachowana, nie usunięta** (oznaczone jako historyczne, patrz "Relacja ze starą konstytucją" niżej).
@@ -69,7 +69,8 @@ Do 04.09.2026 rolę Biblii pełniły `ZASADY_APLIKACJI.md` (pełna) i `USTALENIA
 | — | `docs/pulpit-i-nawigacja.md` | B | — | Stabilny (rosnący) | Kafle pulpitu, domyślna kolejność, presety onboardingu — **już istniało**, dopisane do indeksu przy audycie końcowym 28.09.2026 |
 | — | `docs/normy-brakujace.md` | C | — | Stabilny (rosnący) | Normy potrzebne, a nieobecne w `docs/zrodla/` — **już istniało**, dopisane do indeksu przy audycie końcowym 28.09.2026 |
 | — | `docs/lista-do-zrobienia.md` | C | — | Stabilny (rosnący) | Bieżąca lista zadań — **już istniało** przed migracją |
-| — | `docs/memory.md` | C | — | Stabilny (rosnący) | Żywy, szczegółowy log decyzji/pułapek — **już istniało**, zostaje główny dziennik roboczy (patrz rozróżnienie w `rejestr-decyzji.md`) |
+| — | `docs/memory.md` | C | — | Stabilny (rosnący) | Plik aktywny: „Skrót aktywny” (obowiązujące pułapki, konwencje, decyzje) + sekcje z ostatnich 7 dni; od 02.10.2026 starsza historia w `docs/memory-archiwum/` — **już istniało**, zostaje główny dziennik roboczy (patrz rozróżnienie w `rejestr-decyzji.md`) |
+| — | `docs/memory-archiwum/` | C | 1.0 | Stabilny (append-only) | Dosłowna kopia 1:1 sekcji `docs/memory.md` z 05–24.09.2026 (10 plików + `INDEKS.md`); procedura i dowód bezstratności: sekcja „Archiwizacja” w `docs/memory.md` |
 
 ## Kluczowe wyróżniki projektu
 
@@ -99,3 +100,4 @@ Do 04.09.2026 rolę Biblii pełniły `ZASADY_APLIKACJI.md` (pełna) i `USTALENIA
 | 28.09.2026 | Zamknięcie kodu M14: rozdział 03 1.7→1.8, mapa 1.6→1.7, dług 2.4→2.5 (TD23), przekazanie 1.4→1.5. Wersja indeksu 1.7→1.8. |
 | 29.09.2026 | D51: ekran tylko w komplecie (autosave + tłumaczenia + „?” + „i”), strażnik `check:pomoc-guard`. Rejestr decyzji 1.23→1.24, dyrektywy 1.1→1.2 (#15). Wersja indeksu 1.8→1.9. |
 | 02.10.2026 | Dodano rozdział 04 „Plan rozwoju i sprzedaży” (D70) do tabeli dokumentów. Wersja indeksu 1.9→1.10. |
+| 02.10.2026 | Archiwizacja `docs/memory.md` (lokalna procedura, zgłoszona do standardu w `docs/wklad-do-standardu.md`): nowy katalog `docs/memory-archiwum/` w tabeli dokumentów, opis `docs/memory.md` zaktualizowany. Wersja indeksu 1.10→1.11. |
