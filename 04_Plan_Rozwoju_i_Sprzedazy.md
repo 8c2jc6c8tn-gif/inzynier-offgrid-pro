@@ -226,3 +226,4 @@ TL;DR: Jeden plan, jak apka zarabia i rośnie. **Część I** jest uniwersalna: 
 | Data | Zmiana |
 |---|---|
 | 02.10.2026 | Utworzono — zebranie ustaleń z wątku z właścicielem (granica z Elektryk Pro D70, analiza cen, strategia pierwszego miesiąca, plan sprzedaży, program partnerski, mentorzy). Wersja 1.0. |
+| 02.10.2026 | Dodano odsyłacz do planu marketingu online (etap 1): `docs/marketing/` — ekonomia i bramki G0–G3, strona, Google, Facebook, frazy long tail, menu 40+ strategii. Treść planu 1.0 bez zmian. |
