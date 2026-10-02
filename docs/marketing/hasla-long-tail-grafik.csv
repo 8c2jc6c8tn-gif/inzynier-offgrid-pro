@@ -1,13 +1,13 @@
 ﻿nr;fraza;rola;podstrona;typ_strony;intencja;modul_apki;priorytet;tydzien_publikacji;wyszukiwania_PL_mies (do uzupelnienia z Planera);trudnosc_KD (do uzupelnienia);CPC_zl (do uzupelnienia);status
-1;kalkulator off grid;główna;/kalkulator-off-grid;narzędzie (strona główna narzędzia);narzędzie / porównanie;M1/M2/M4;A;0;;;;do zrobienia
-2;kalkulator fotowoltaiki off grid;dodatkowa;/kalkulator-off-grid;narzędzie (strona główna narzędzia);narzędzie / porównanie;M1/M2/M4;A;0;;;;do zrobienia
+1;kalkulator off grid;główna;/kalkulator-off-grid;narzędzie (strona główna narzędzia);narzędzie / porównanie;M1/M2/M4;A;0;10;20;0 USD;dane z Ubersuggest 02.10.2026 (Polska)
+2;kalkulator fotowoltaiki off grid;dodatkowa;/kalkulator-off-grid;narzędzie (strona główna narzędzia);narzędzie / porównanie;M1/M2/M4;A;0;30;13;0,31 USD;dane z Ubersuggest 02.10.2026 (Polska)
 3;dobór instalacji off grid kalkulator;dodatkowa;/kalkulator-off-grid;narzędzie (strona główna narzędzia);narzędzie / porównanie;M1/M2/M4;A;0;;;;do zrobienia
 4;kalkulator instalacji off grid pdf;dodatkowa;/kalkulator-off-grid;narzędzie (strona główna narzędzia);narzędzie / porównanie;M1/M2/M4;A;0;;;;do zrobienia
 5;aplikacja do obliczeń instalacji fotowoltaicznej;dodatkowa;/kalkulator-off-grid;narzędzie (strona główna narzędzia);narzędzie / porównanie;M1/M2/M4;A;0;;;;do zrobienia
 6;program do projektowania instalacji off grid;dodatkowa;/kalkulator-off-grid;narzędzie (strona główna narzędzia);narzędzie / porównanie;M1/M2/M4;A;0;;;;do zrobienia
 7;darmowy program do doboru fotowoltaiki;dodatkowa;/kalkulator-off-grid;narzędzie (strona główna narzędzia);narzędzie / porównanie;M1/M2/M4;A;0;;;;do zrobienia
 8;ile akumulatorów do domu off grid;główna;/kalkulator/ile-akumulatorow-do-domu-off-grid;kalkulator + artykuł;narzędzie;M4/M11;A;1;;;;do zrobienia
-9;magazyn energii do domu kalkulator;dodatkowa;/kalkulator/ile-akumulatorow-do-domu-off-grid;kalkulator + artykuł;narzędzie;M4/M11;A;1;;;;do zrobienia
+9;magazyn energii do domu kalkulator;dodatkowa;/kalkulator/ile-akumulatorow-do-domu-off-grid;kalkulator + artykuł;narzędzie;M4/M11;A;1;0;4;0 USD;dane z Ubersuggest 02.10.2026 (Polska)
 10;pojemność magazynu energii jak obliczyć;dodatkowa;/kalkulator/ile-akumulatorow-do-domu-off-grid;kalkulator + artykuł;narzędzie;M4/M11;A;1;;;;do zrobienia
 11;ile kwh magazyn energii do domu;dodatkowa;/kalkulator/ile-akumulatorow-do-domu-off-grid;kalkulator + artykuł;narzędzie;M4/M11;A;1;;;;do zrobienia
 12;magazyn energii 10 kwh ile wystarczy;dodatkowa;/kalkulator/ile-akumulatorow-do-domu-off-grid;kalkulator + artykuł;narzędzie;M4/M11;A;1;;;;do zrobienia

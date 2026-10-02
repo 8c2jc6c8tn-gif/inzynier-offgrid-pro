@@ -74,3 +74,16 @@ Dlaczego taka kolejność:
 - **Nie powielaj strony na wiele fraz** (patrz zasady spamu w `02`). Lepiej jedna mocna strona niż trzy podobne.
 - **Rzeczy, których apka jeszcze nie robi:** sprawdź w `docs/rejestr-pokrycia.md`, zanim zaprosisz na stronę z obietnicą. Według `docs/memory.md` do dużych luk należą m.in. M12 (szybkie kalkulatory), M6 (ogrzewanie) i M7 (stres zimowy). Tytuł „magazyn na zimę” trzeba oprzeć na tym, co już działa (np. `dni-bez-slonca`, `deficyty-miesieczne`, `awaria-stringa-zima` istnieją w `app/kalkulatory`), a nie na zapowiedzi.
 - **Temat rozdzielnic i szczegółów AC** zostaje w Elektryk Pro (D70). Na tych stronach: poziom wymagań i twarde stopy, odsyłacz do tej apki dopiero, gdy będzie gotowa.
+
+## 8. Pierwsze dane (02.10.2026, Ubersuggest, plan darmowy: 3 z 187 fraz)
+
+| Fraza | Wyszukiwania w Polsce / mies. | Trudność SEO | CPC |
+|---|---|---|---|
+| kalkulator off grid | 10 | 20 | 0 USD |
+| kalkulator fotowoltaiki off grid | 30 | 13 | 0,31 USD |
+| magazyn energii do domu kalkulator | 0 (brak danych w narzędziu) | 4 | 0 USD |
+
+Surowe dane: `ubersuggest-wyniki.csv`. **Co z tego wynika (ostrożnie, to 3 próbki):**
+- Frazy „off grid” mają w Polsce dziesiątki, nie tysiące wyszukiwań miesięcznie. Nisza jest mała, a sam długi ogon w Google **nie wystarczy** do ~200 klientów, więc pozostałe kanały z `06` (grupy, lista e‑mail, partnerzy, szersze frazy o magazynach energii i prosumentach z modułu M14) nie są dodatkiem, tylko połową planu.
+- Niska trudność (4–20) i CPC bliskie zera oznaczają, że konkurencja jest słaba: wejście na szczyt jest tanie, ale ruch będzie mały.
+- Narzędzia często zaniżają polskie frazy o małym wolumenie (🔎), więc „0” nie znaczy „nikt nie szuka”. Pełny obraz da eksport z Planera Google lub płatny Ubersuggest dla wszystkich fraz.
