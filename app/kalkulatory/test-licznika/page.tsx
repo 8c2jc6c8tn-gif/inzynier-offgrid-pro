@@ -13,7 +13,7 @@ import { SekcjaAkordeon } from "@/components/wzorce/sekcja-akordeon"
 import { WynikGlowny } from "@/components/wzorce/wynik-glowny"
 import { WynikSzczegoly } from "@/components/wzorce/wynik-szczegoly"
 import { liczba, liczbaLubNull, poziomWerdyktu } from "@/components/siec/wspolne"
-import { useTranslate } from "@/lib/i18n/language-context"
+import { useLanguage, useTranslate } from "@/lib/i18n/language-context"
 
 type Pomiar = { impulsy: string; czas: string; stala: string; odbiornik: string }
 
@@ -25,45 +25,46 @@ type Pismo = {
   ppe: string
   faktura: string
   opis: string
-  zadanie: string
+  zadanie: string | null
   miejscowoscData: string
 }
 
 /**
  * Elements of the complaint letter — material „Przedsiębiorcy…” §7.2 (✅ list of elements). The letter
- * goes to a Polish DSO, so its content stays Polish in every UI language (only the form is translated,
- * D58) — these strings stay on the i18n ratchet list on purpose.
+ * text follows the UI language (owner decision 02.10.2026); user-typed fields are copied as entered.
+ * `zadanie` is null until the user edits it, so the default wording follows the language.
  */
-const ZADANIE_DOMYSLNE = "Wnoszę o weryfikację poprawności działania układu pomiarowego oraz korektę faktury."
+type Tlumacz = (kod: string, params?: Record<string, string | number>) => string
 
-function trescPisma(p: Pismo, mocKw: number | null): string {
+function trescPisma(t: Tlumacz, p: Pismo, mocKw: number | null, jezyk: string): string {
   const linie = [
     p.miejscowoscData,
     "",
     p.nadawca,
     p.adres,
-    p.nip ? `NIP: ${p.nip}` : "",
-    `Numer klienta: ${p.numerKlienta}`,
-    `Numer punktu poboru energii (PPE): ${p.ppe}`,
+    p.nip ? t("UI-TESLIC-PISMO-NIP", { v: p.nip }) : "",
+    t("UI-TESLIC-PISMO-NUMER-KLIENTA", { v: p.numerKlienta }),
+    t("UI-TESLIC-PISMO-PPE", { v: p.ppe }),
     "",
-    "REKLAMACJA",
+    t("UI-TESLIC-PISMO-REKLAMACJA"),
     "",
-    `Dotyczy faktury: ${p.faktura}`,
+    t("UI-TESLIC-PISMO-FAKTURA", { v: p.faktura }),
     "",
     p.opis,
     mocKw !== null
-      ? `Przy teście diody licznika zarejestrowana moc wyniosła ${mocKw.toLocaleString("pl-PL", { maximumFractionDigits: 3 })} kW.`
+      ? t("UI-TESLIC-PISMO-MOC", { moc: mocKw.toLocaleString(jezyk, { maximumFractionDigits: 3 }) })
       : "",
     "",
-    p.zadanie,
+    p.zadanie ?? t("UI-TESLIC-PISMO-ZADANIE-DOMYSLNE"),
     "",
-    "Podpis: ____________________",
+    t("UI-TESLIC-PISMO-PODPIS"),
   ]
   return linie.filter((l, i, a) => !(l === "" && a[i - 1] === "")).join("\n")
 }
 
 export default function TestLicznikaPage() {
   const t = useTranslate()
+  const jezyk = useLanguage()
   const [pomiar, setPomiar] = usePersistedDraft<Pomiar>("siec-test-licznika", { impulsy: "", czas: "", stala: "", odbiornik: "" })
   // Letter data (personal) is kept only in memory, not in the saved draft.
   const [pismo, setPismo] = useState<Pismo>({
@@ -74,7 +75,7 @@ export default function TestLicznikaPage() {
     ppe: "",
     faktura: "",
     opis: "",
-    zadanie: ZADANIE_DOMYSLNE,
+    zadanie: null,
     miejscowoscData: "",
   })
   const [skopiowano, setSkopiowano] = useState(false)
@@ -92,7 +93,7 @@ export default function TestLicznikaPage() {
     [pomiar],
   )
   const poziom = poziomWerdyktu(result.status, result.warnings)
-  const tekst = trescPisma(pismo, result.status === "VALID" ? result.value.mocZLicznikaKw : null)
+  const tekst = trescPisma(t, pismo, result.status === "VALID" ? result.value.mocZLicznikaKw : null, jezyk)
 
   async function kopiuj() {
     try {
@@ -227,7 +228,7 @@ export default function TestLicznikaPage() {
         />
         <Pole
           label={t("UI-TESLIC-ZADANIE")}
-          value={pismo.zadanie}
+          value={pismo.zadanie ?? t("UI-TESLIC-PISMO-ZADANIE-DOMYSLNE")}
           onChange={(e) => ustawL("zadanie", e.target.value)}
           pomoc={<PomocPola ekran="test-licznika" pole="zadanie" />}
         />

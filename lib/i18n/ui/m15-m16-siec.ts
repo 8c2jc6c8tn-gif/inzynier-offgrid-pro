@@ -145,6 +145,14 @@ export const pl = {
   "UI-TARC-ROCZNY-KOSZT-TARYFACH":
     "Roczny koszt w taryfach C11–C22b dla Twojej mocy umownej i zużycia. Taryfy niedostępne dla tej mocy są wyłączone z porównania (C1x do 40 kW, C2x powyżej). M14 „Firma – sieć”, ekran F2.",
   "UI-TARC-POROWNYWARKA-TARYF": "Porównywarka taryf C",
+  "UI-TESLIC-PISMO-NIP": "NIP: {v}",
+  "UI-TESLIC-PISMO-NUMER-KLIENTA": "Numer klienta: {v}",
+  "UI-TESLIC-PISMO-PPE": "Numer punktu poboru energii (PPE): {v}",
+  "UI-TESLIC-PISMO-REKLAMACJA": "REKLAMACJA",
+  "UI-TESLIC-PISMO-FAKTURA": "Dotyczy faktury: {v}",
+  "UI-TESLIC-PISMO-MOC": "Przy teście diody licznika zarejestrowana moc wyniosła {moc} kW.",
+  "UI-TESLIC-PISMO-ZADANIE-DOMYSLNE": "Wnoszę o weryfikację poprawności działania układu pomiarowego oraz korektę faktury.",
+  "UI-TESLIC-PISMO-PODPIS": "Podpis: ____________________",
 } as const
 
 type Klucz = keyof typeof pl
@@ -293,6 +301,14 @@ export const en: Record<Klucz, string> = {
   "UI-TARC-ROCZNY-KOSZT-TARYFACH":
     "Annual cost in tariffs C11–C22b for your contracted capacity and consumption. Tariffs not available for this capacity are excluded from the comparison (C1x up to 40 kW, C2x above). M14 “Business – grid”, screen F2.",
   "UI-TARC-POROWNYWARKA-TARYF": "Tariff C comparison",
+  "UI-TESLIC-PISMO-NIP": "Tax ID (NIP): {v}",
+  "UI-TESLIC-PISMO-NUMER-KLIENTA": "Customer number: {v}",
+  "UI-TESLIC-PISMO-PPE": "Energy supply point number (PPE): {v}",
+  "UI-TESLIC-PISMO-REKLAMACJA": "COMPLAINT",
+  "UI-TESLIC-PISMO-FAKTURA": "Regarding invoice: {v}",
+  "UI-TESLIC-PISMO-MOC": "During the meter LED test, the recorded power was {moc} kW.",
+  "UI-TESLIC-PISMO-ZADANIE-DOMYSLNE": "I request verification of the metering system and a correction of the invoice.",
+  "UI-TESLIC-PISMO-PODPIS": "Signature: ____________________",
 }
 
 export const ru: Record<Klucz, string> = {
@@ -440,4 +456,12 @@ export const ru: Record<Klucz, string> = {
   "UI-TARC-ROCZNY-KOSZT-TARYFACH":
     "Годовая стоимость в тарифах C11–C22b для вашей договорной мощности и потребления. Тарифы, недоступные для этой мощности, исключены из сравнения (C1x до 40 кВт, C2x выше). M14 «Фирма – сеть», экран F2.",
   "UI-TARC-POROWNYWARKA-TARYF": "Сравнение тарифов C",
+  "UI-TESLIC-PISMO-NIP": "ИНН (NIP): {v}",
+  "UI-TESLIC-PISMO-NUMER-KLIENTA": "Номер клиента: {v}",
+  "UI-TESLIC-PISMO-PPE": "Номер точки учёта энергии (PPE): {v}",
+  "UI-TESLIC-PISMO-REKLAMACJA": "РЕКЛАМАЦИЯ",
+  "UI-TESLIC-PISMO-FAKTURA": "Касается счёта: {v}",
+  "UI-TESLIC-PISMO-MOC": "При проверке светодиода счётчика зафиксированная мощность составила {moc} кВт.",
+  "UI-TESLIC-PISMO-ZADANIE-DOMYSLNE": "Прошу проверить правильность работы измерительной системы и скорректировать счёт.",
+  "UI-TESLIC-PISMO-PODPIS": "Подпись: ____________________",
 }
