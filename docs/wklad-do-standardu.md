@@ -1271,3 +1271,8 @@ Dlaczego warto zgłosić do new-app-standards: każdy projekt rodziny z i18n po 
 ma ten sam hook i te same masowe migracje. Propozycja do 17.x/11.9: tani strażnik AST „plik bez `"use client"`
 nie wywołuje `use*()` z modułu klienckiego” albo smoke-test HTTP 200 dla każdej trasy w CI.
 Status: 🔎 nowe
+
+## 2026-10-02 — strażnik i18n musi widzieć teksty z `lib/` wstawiane w JSX
+Strażnik UI skanował tylko `app/`+`components/` i raportował „OK”, podczas gdy ~100+ polskich tekstów z `lib/` (rejestr nawigacji, label-e stałych,
+komunikaty błędów hooków, parametry ostrzeżeń) trafiało na ekran surowo. Rekomendacja: strażnik skanujący eksportowane literały z polskimi znakami w `lib/`
+(poza promptami AI, testami) przypisane do pól tekstowych, oraz test „każdy wpis rejestru ma klucze we wszystkich językach” generowany z rejestru.

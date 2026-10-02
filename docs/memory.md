@@ -8819,3 +8819,9 @@ Tryb Audyt (czapka rewidenta). Warstwa „w pełni na końcu” z N.2 — wszyst
   na uszkodzone dane); `importujCsv` (parsowanie → dedup → magazyn → raport jakości). Wielkości pogodowe dodane z jednostkami
   SI — **legenda Pogodynki jeszcze niedostarczona**: jednostki i znaczniki braku z jej plików trzeba potwierdzić, nie zakładać.
 
+
+## i18n poza zasięgiem strażników (02.10.2026)
+Lista zapadkowa strażnika UI (`app/`+`components/`) pokazywała 6 plików, ale niezależny skan `lib/` znalazł polskie teksty renderowane surowo:
+rejestr pulpitu (zrobione — `lib/i18n/ui/pulpit-rejestr.ts`, test z rejestru), stałe silnika (zrobione — `stale-*.ts`) i 11 grup luk (wpis „Audyt i18n
+poza zasięgiem strażników” na liście). Wniosek: „strażnik OK” ≠ „EN/RU kompletne”; tekst z `lib/` wstawiany w JSX (`{x.label}`, `{x.blad}`) omija oba
+strażniki. Kandydat do `docs/wklad-do-standardu.md` (strażnik skanujący eksportowane literały `lib/`).

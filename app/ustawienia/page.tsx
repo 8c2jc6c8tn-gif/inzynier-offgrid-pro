@@ -10,6 +10,7 @@ import { KolorGrupaEdytor } from "@/components/kolor-grupa-edytor"
 import { StylWygladuWybor } from "@/components/styl-wygladu-wybor"
 import { ThemeToggle } from "@/components/theme-toggle"
 import { useTranslate } from "@/lib/i18n/language-context"
+import { NazwaKafla } from "@/components/tekst-rejestru"
 import { PRESETY, stanZPresetow } from "@/lib/pulpit/presety"
 import { USTAWIENIA_KAFEL, znajdzKafel } from "@/lib/pulpit/registry"
 import {
@@ -140,7 +141,7 @@ export default function UstawieniaPage() {
               <span className="flex-1 text-small font-medium">
                 {/* M14 tiles (15/16) are named, never numbered — "Kafel 14" is the settings (D39). */}
                 {kafel.id < USTAWIENIA_KAFEL.id ? `${kafel.id}. ` : null}
-                {kafel.nazwa}
+                <NazwaKafla kafel={kafel} />
               </span>
 
               <div className="flex items-center gap-1">

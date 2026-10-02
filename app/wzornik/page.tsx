@@ -11,6 +11,7 @@ import { StylWygladuWybor } from "@/components/styl-wygladu-wybor"
 import { ThemeToggle } from "@/components/theme-toggle"
 import { WerdyktBadge, WerdyktPanel } from "@/components/werdykt"
 import { KAFLE, USTAWIENIA_KAFEL } from "@/lib/pulpit/registry"
+import { useTekstyRejestru } from "@/components/tekst-rejestru"
 import { ustawKoloryGrupowo } from "@/lib/wyglad/storage"
 import { useTranslate } from "@/lib/i18n/language-context"
 
@@ -41,8 +42,9 @@ function Sekcja({ tytul, opis, children }: { tytul: string; opis?: string; child
 
 export default function WzornikPage() {
   const t = useTranslate()
+  const { nazwaKafla } = useTekstyRejestru()
   const ikonyNawigacji = ["☰", "📍", "📡", "⚙️", "🔔", "☀️", "🌙", "🖥️"]
-  const ikonyModulow = KAFLE.map((k) => ({ ikona: k.ikona, nazwa: k.nazwa }))
+  const ikonyModulow = KAFLE.map((k) => ({ ikona: k.ikona, nazwa: nazwaKafla(k) }))
 
   return (
     <div className="min-h-screen bg-background text-foreground">

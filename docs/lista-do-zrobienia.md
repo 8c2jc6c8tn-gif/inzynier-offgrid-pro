@@ -1238,6 +1238,11 @@ Pełne wyniki audytu: `docs/memory.md`, sekcja "Pełny audyt na polecenie właś
   ekran robi `t(kod)` — domena nie importuje z UI (`01-architektura`). **Plusy teraz:** mała liczba miejsc, łatwe do
   wyliczenia grepem `label:` w `lib/core`. **Minusy:** dotyka stałych silnika i ich testów. **Kolizje:** z migracją
   etykiet (te same ekrany) — robić po niej. **Kolejność:** po wpisie „Tłumaczenie samych stron”.
+- ✅ (2026-10-02) **Polskie teksty ze stałych silnika (wpis 30.09) — zamknięty dla ekranów** (commit `fe913e0`): `stale-baterie.ts` (112 kluczy),
+  `stale-zapotrzebowanie.ts` (35), `stale-rozne.ts` (17); silnik bez zmian, ekrany tłumaczą po `id`. Reszta — wpis „Audyt i18n” niżej.
+- ✅ (2026-10-02) **Rejestr pulpitu (`lib/pulpit/registry.ts`) — nazwy/opisy kafli i etykiety 281 ekranów w EN/RU** (`pulpit-rejestr.ts`, 311 kluczy;
+  klucz ekranu `UI-EKRAN-<idKafla>-<SLUG>`, bo ten sam href bywa w kilku kaflach). Test `lib/pulpit/__tests__/tlumaczenia.test.ts` wywala się, gdy
+  nowy ekran w rejestrze nie ma pl/en/ru. **Do przeglądu merytorycznego właściciela:** EN/RU 282 etykiet. Nie sprawdzone w przeglądarce w EN/RU.
 - 🔲 (2026-10-02) **Audyt i18n poza zasięgiem strażników — luki znalezione niezależnym skanem `lib/` (nie z listy zapadkowej).**
   Strażnik UI skanuje tylko `app/`+`components/`, strażnik silnika tylko `message`/`assumptions` (literały, nie szablony) w 3 nazwach
   plików; teksty z `lib/` renderowane surowo na ekranie nie są widziane. Lista wg wagi (liczba × widoczność), każda pozycja do

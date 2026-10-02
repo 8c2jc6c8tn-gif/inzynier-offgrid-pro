@@ -3,6 +3,7 @@
 import Link from "next/link"
 import { znajdzKafelIEkranPoHref } from "@/lib/pulpit/registry"
 import { useTranslate } from "@/lib/i18n/language-context"
+import { EtykietaEkranu, NazwaKafla } from "@/components/tekst-rejestru"
 
 /**
  * Przycisk "Wstecz" + okruszki (Pulpit / Moduł / Ekran) — docs/standards/08-ui-ux.md, 8.7:
@@ -28,10 +29,10 @@ export function NawigacjaEkranu({ href }: { href: string }) {
           <>
             <span aria-hidden="true">/</span>
             <Link href={wstecz} className="hover:text-foreground hover:underline">
-              {wynik.kafel.nazwa}
+              <NazwaKafla kafel={wynik.kafel} />
             </Link>
             <span aria-hidden="true">/</span>
-            <span className="text-foreground">{wynik.ekran.label}</span>
+            <span className="text-foreground"><EtykietaEkranu kafel={wynik.kafel} ekran={wynik.ekran} /></span>
           </>
         )}
       </nav>

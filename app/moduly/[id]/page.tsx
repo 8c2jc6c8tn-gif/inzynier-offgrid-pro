@@ -3,6 +3,7 @@ import { notFound } from "next/navigation"
 import { MASKOTKA_PO_ID_KAFLA } from "@/lib/pulpit/maskotki"
 import { KAFLE, znajdzKafel } from "@/lib/pulpit/registry"
 import { TekstUi } from "@/components/ui/tekst-ui"
+import { EtykietaEkranu, OpisKafla, TytulModulu } from "@/components/tekst-rejestru"
 
 export function generateStaticParams() {
   return KAFLE.map((k) => ({ id: String(k.id) }))
@@ -34,9 +35,9 @@ export default async function ModulPage({ params }: { params: Promise<{ id: stri
           />
         ) : null}
         <h1 className="mt-2 text-h1 font-semibold">
-          <span aria-hidden="true">{kafel.ikona}</span> <TekstUi kod="UI-MOD-TYTUL" params={{ id: kafel.id, nazwa: kafel.nazwa }} />
+          <span aria-hidden="true">{kafel.ikona}</span> <TytulModulu kafel={kafel} />
         </h1>
-        <p className="mt-1 text-small text-muted-foreground">{kafel.opis}</p>
+        <p className="mt-1 text-small text-muted-foreground"><OpisKafla kafel={kafel} /></p>
       </div>
 
       <ul className="flex flex-col gap-2">
@@ -46,7 +47,7 @@ export default async function ModulPage({ params }: { params: Promise<{ id: stri
               href={ekran.href}
               className="flex min-h-11 items-center justify-between rounded-md border p-3 text-small font-medium transition-colors hover:border-foreground/20 hover:bg-muted focus-visible:ring-2 focus-visible:ring-ring/50 focus-visible:outline-none"
             >
-              {ekran.label}
+              <EtykietaEkranu kafel={kafel} ekran={ekran} />
               <span aria-hidden="true" className="text-muted-foreground">
                 →
               </span>
