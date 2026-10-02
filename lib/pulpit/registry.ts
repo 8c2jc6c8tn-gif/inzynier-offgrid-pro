@@ -205,6 +205,9 @@ export const KAFLE: KafelEntry[] = [
       { href: "/kalkulatory/wentylacja-porownanie", label: "Wentylacja naturalna vs mechaniczna" },
       { href: "/kalkulatory/kolektor-gruntowy", label: "Kolektor gruntowy pompy ciepła" },
       { href: "/kalkulatory/alternatywne-zrodla-ciepla", label: "Alternatywne źródła ciepła (kominek, IR, maty, PCM)" },
+      { href: "/kalkulatory/cykle-odszraniania", label: "Cykle odszraniania (defrost)" },
+      { href: "/kalkulatory/wentylacja-grawitacyjna", label: "Straty przez wentylację grawitacyjną" },
+      { href: "/kalkulatory/gwc", label: "Gruntowy wymiennik ciepła (GWC)" },
     ],
   },
   {
@@ -228,6 +231,7 @@ export const KAFLE: KafelEntry[] = [
       { href: "/kalkulatory/pre-heat", label: "Pre-Heat — ciepło na zapas przed mrozem" },
       { href: "/kalkulatory/bez-rekuperacji", label: "Rekuperacja zamarzła — straty bez odzysku" },
       { href: "/kalkulatory/awaria-stringa-zima", label: "Awaria stringa PV zimą" },
+      { href: "/kalkulatory/deficyty-miesieczne", label: "Deficyty miesięczne i agregat" },
     ],
   },
   {

@@ -1559,6 +1559,18 @@ export const dictionaryPl = {
   "ALT-KOCIOL-OSOBNY-EKRAN": "Kocioł elektryczny ma osobny ekran z porównaniem kosztu względem pompy ciepła — przejdź do niego linkiem poniżej.",
   "ALT-ZALOZENIE-KOMINEK": "Moc nominalna kominka przy ciągłym paleniu; podział woda/pomieszczenie wg udziału z karty. Pokrycie liczone z mocy do wody (trafia do instalacji) oraz osobno z całej mocy.",
   "ALT-ZALOZENIE-PCM": "Liczone tylko ciepło utajone przy pełnym stopieniu (V × ρ × L); ciepło jawne PCM pominięte. Bufor wodny: 1 l ≈ 1 kg, ciepło właściwe wody, wpisana różnica temperatur.",
+  "DEFM-WARTOSC-UJEMNA": "Wpisana wartość nie może być ujemna.",
+  "DEFM-MIESIACE-NIE-12": "Deficyty trzeba podać dla 12 miesięcy (styczeń–grudzień).",
+  "DEFM-PALIWO-PONAD-ZAPAS": "W miesiącu nr {miesiac} agregat przepracuje ok. {godziny} h i zużyje ok. {litry} l paliwa — więcej niż wpisany zapas {zapas} l. Sprawdź zapas paliwa i plan dostaw.",
+  "DEFM-SPRAWDZ-ZAPAS": "Najdłużej agregat pracuje w miesiącu nr {miesiac}: ok. {godziny} h, ok. {litry} l paliwa — sprawdź zapas paliwa (wpisz go, żeby aplikacja porównała miesiąc po miesiącu).",
+  "DEFM-ZALOZENIE-WPISANE-DEFICYTY": "Deficyty miesięczne wpisujesz Ty (np. produkcja z Modułu 3 minus zapotrzebowanie z Modułu 2) — symulacja dzień po dniu (Ekran 1) jeszcze ich nie podaje. Agregat ładuje dokładnie brakującą energię, bez strat ładowania baterii.",
+  "CYK-DEFROST-DLUZSZY-NIZ-ODSTEP": "Defrost nie może trwać tyle co odstęp między defrostami albo dłużej — sprawdź, czy odstęp to czas od początku jednego defrostu do początku następnego.",
+  "CYK-PONIZEJ-MIN-PRACY": "Przy {tZewn} °C pompa ciepła nie pracuje (minimum z karty: {tMin} °C) — dom grzeją wtedy grzałki awaryjne albo inne źródło. Policz ich moc i prąd osobno.",
+  "CYK-POWYZEJ-ZAKRESU-SZRONIENIA": "Przy {tZewn} °C, powyżej typowego zakresu szronienia 5–{prog} °C ze źródła, defrost jest mało prawdopodobny — wynik liczy wpisany cykl, ale sprawdź, czy pompa w ogóle odszrania w tej temperaturze.",
+  "CYK-ZALOZENIE-DOLICZONY": "Energia defrostu doliczona ponad normalne grzanie (pompa nadrabia ciepło, którego nie dostarczyła w czasie defrostu); ciepło pobrane z budynku na stopienie szronu pominięte. Cykl (odstęp, czas, moc) wpisujesz z karty albo z obserwacji — źródło nie podaje modelu szronienia w funkcji temperatury i wilgotności.",
+  "WGR-ZALOZENIE-WYMIANY": "Liczbę wymian powietrza wpisujesz Ty (test szczelności — Ekran 12 — albo pomiar) dla warunków tej doby: silniejszy wiatr i większa różnica temperatur zwiększają wymianę. Źródło nie podaje wzoru na ciąg kominowy z liczby kominów i nieszczelności. Porównanie z rekuperacją zakłada ten sam strumień powietrza.",
+  "GWC-ZALOZENIE-PRZYROST": "Przyrost temperatury powietrza w GWC wpisujesz z danych producenta albo z pomiaru (termometr przed i za wymiennikiem) — źródło nie podaje wzoru wymiany ciepła z gruntem z długości, głębokości i rodzaju gruntu. Liczone tylko zimowe podgrzanie; chłodzenia latem aplikacja nie liczy.",
+  "GWC-ZALOZENIE-REKUPERATOR": "Za rekuperatorem GWC jest wart tylko (1 − sprawność) surowego zysku — resztę tego ciepła rekuperator odzyskałby i tak z powietrza wywiewanego.",
 } as const
 
 export type KluczTlumaczenia = keyof typeof dictionaryPl

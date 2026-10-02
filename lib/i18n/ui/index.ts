@@ -29,6 +29,8 @@ import * as pulpit from "./pulpit"
 import * as m05Elektryka from "./m05-elektryka"
 import * as m02Zapotrzebowanie from "./m02-zapotrzebowanie"
 import * as m07Zima from "./m07-zima"
+import * as m07bZima from "./m07b-zima"
+import * as m06cOgrzewanie from "./m06c-ogrzewanie"
 import * as m09Ekrany from "./m09-ekrany"
 import * as ekranyRozne from "./ekrany-rozne"
 import * as m15M16Siec from "./m15-m16-siec"
@@ -40,7 +42,7 @@ import * as pwa from "./pwa"
 import * as wspolne from "./wspolne"
 import * as wyglad from "./wyglad"
 
-export const czesciUi = [wspolne, dopiskiStarychEkranow, m09Esp32, m12Ekrany, m12Uziemienie, m14Agregat, m14Bess, m14Ekrany, m14Faq, m14Przejscie, m14PrzejscieEkrany, m14Przelacznik, m14Pv, m14Scenariusze, m14Sciezka, m14Zima, m11MontazBaterii, m08Bezpieczenstwo, m12Mobilny, m04Baterie, pulpit, m05Elektryka, m02Zapotrzebowanie, m07Zima, m09Ekrany, ekranyRozne, m15M16Siec, pwa, wyglad, m06Ogrzewanie, m06StareEkrany, m03PvA, m03TypMontazu, m03PvB] as const
+export const czesciUi = [wspolne, dopiskiStarychEkranow, m09Esp32, m12Ekrany, m12Uziemienie, m14Agregat, m14Bess, m14Ekrany, m14Faq, m14Przejscie, m14PrzejscieEkrany, m14Przelacznik, m14Pv, m14Scenariusze, m14Sciezka, m14Zima, m11MontazBaterii, m08Bezpieczenstwo, m12Mobilny, m04Baterie, pulpit, m05Elektryka, m02Zapotrzebowanie, m07Zima, m09Ekrany, ekranyRozne, m15M16Siec, pwa, wyglad, m06Ogrzewanie, m06StareEkrany, m03PvA, m03TypMontazu, m03PvB, m07bZima, m06cOgrzewanie] as const
 
 export const uiPl = Object.assign({}, ...czesciUi.map((c) => c.pl)) as Record<string, string>
 export const uiEn = Object.assign({}, ...czesciUi.map((c) => c.en)) as Record<string, string>
