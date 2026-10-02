@@ -14,6 +14,7 @@ import { NawigacjaEkranu } from "@/components/nawigacja-ekranu"
 import { NaglowekEkranu } from "@/components/wzorce/naglowek-ekranu"
 import { WynikGlowny } from "@/components/wzorce/wynik-glowny"
 import { WynikSzczegoly } from "@/components/wzorce/wynik-szczegoly"
+import { SekcjaPompaCwu } from "./sekcja-pompa-cwu"
 
 type PolaLiczbowe = "pojemnoscL" | "mocGrzalkiKw" | "mocPvKw" | "mocFalownikaKw"
 type PolaTemperatur = "tStartC" | "tKoniecC"
@@ -118,6 +119,14 @@ export default function GrzalkaCwuPage() {
           <WynikSzczegoly assumptions={result.assumptions} warnings={result.warnings} formula={result.formula} />
         </WerdyktPanel>
       )}
+
+      <SekcjaPompaCwu
+        pojemnoscL={liczba(stan.pojemnoscL)}
+        tStartC={temperatura(stan.tStartC)}
+        tKoniecC={temperatura(stan.tKoniecC)}
+        mocGrzalkiKw={liczba(stan.mocGrzalkiKw)}
+        mocPvKw={liczba(stan.mocPvKw)}
+      />
 
       <div className="flex flex-col gap-2">
         <Link href="/kalkulatory/zasobnik-cwu" className="text-small underline">

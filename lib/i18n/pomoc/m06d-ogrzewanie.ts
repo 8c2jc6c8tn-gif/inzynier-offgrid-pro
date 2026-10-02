@@ -197,6 +197,28 @@ export const pl = {
       },
     },
   },
+  "m6d-cwu-pompa-ciepla": {
+    pola: {
+      tMax: {
+        nazwa: "Najwyższa temperatura C.W.U. z pompy ciepła [°C]",
+        cel: "Do tej temperatury grzeje pompa, wyżej — grzałka.",
+        gdzie: "Karta pompy ciepła (tryb C.W.U.) albo ustawienie sterownika.",
+        zakres: "Źródło: zwykle 55–60 °C. Karta Twojej pompy.",
+      },
+      cop: {
+        nazwa: "COP pompy w trybie C.W.U.",
+        cel: "Ile kWh ciepła z 1 kWh prądu przy grzaniu wody — zwykle mniej niż przy ogrzewaniu domu (źródło).",
+        gdzie: "Karta pompy — COP dla C.W.U. przy temperaturze wody i powietrza zbliżonej do Twojej (średni dla całego podgrzewu).",
+        zakres: "≥ 1. Źródło: COP 3–4 (przykład).",
+      },
+      moc: {
+        nazwa: "Moc grzewcza pompy w trybie C.W.U. [kW]",
+        cel: "Ile ciepła na godzinę pompa daje do zasobnika — z niej czas grzania.",
+        gdzie: "Karta pompy ciepła (moc grzewcza w trybie C.W.U.).",
+        zakres: "≥ 0. Karta Twojej pompy.",
+      },
+    },
+  },
 }
 
 export const en: Tlumaczenie<typeof pl> = {
@@ -392,6 +414,28 @@ export const en: Tlumaczenie<typeof pl> = {
       },
     },
   },
+  "m6d-cwu-pompa-ciepla": {
+    pola: {
+      tMax: {
+        nazwa: "Highest hot-water temperature from the heat pump [°C]",
+        cel: "Up to this temperature the pump heats, above it — the heater.",
+        gdzie: "Heat pump datasheet (hot-water mode) or the controller setting.",
+        zakres: "Source: usually 55–60 °C. Your pump's datasheet.",
+      },
+      cop: {
+        nazwa: "Heat pump COP in hot-water mode",
+        cel: "How many kWh of heat from 1 kWh of electricity when heating water — usually less than when heating the house (source).",
+        gdzie: "Pump datasheet — hot-water COP at water and air temperatures close to yours (average over the whole heat-up).",
+        zakres: "≥ 1. Source: COP 3–4 (example).",
+      },
+      moc: {
+        nazwa: "Heat pump heating power in hot-water mode [kW]",
+        cel: "How much heat per hour the pump gives to the tank — the heating time follows from it.",
+        gdzie: "Heat pump datasheet (heating power in hot-water mode).",
+        zakres: "≥ 0. Your pump's datasheet.",
+      },
+    },
+  },
 }
 
 export const ru: Tlumaczenie<typeof pl> = {
@@ -583,6 +627,28 @@ export const ru: Tlumaczenie<typeof pl> = {
         nazwa: "Минимальный расход теплового насоса [м³/ч]",
         cel: "Необязательно: ниже него тепловой насос выдаёт аварию расхода.",
         gdzie: "Паспорт теплового насоса / инструкция по монтажу (минимальный расход воды).",
+        zakres: "≥ 0. Паспорт вашего насоса.",
+      },
+    },
+  },
+  "m6d-cwu-pompa-ciepla": {
+    pola: {
+      tMax: {
+        nazwa: "Наибольшая температура ГВС от теплового насоса [°C]",
+        cel: "До этой температуры греет насос, выше — ТЭН.",
+        gdzie: "Паспорт теплового насоса (режим ГВС) или настройка контроллера.",
+        zakres: "Источник: обычно 55–60 °C. Паспорт вашего насоса.",
+      },
+      cop: {
+        nazwa: "COP насоса в режиме ГВС",
+        cel: "Сколько кВт·ч тепла из 1 кВт·ч электричества при нагреве воды — обычно меньше, чем при отоплении дома (источник).",
+        gdzie: "Паспорт насоса — COP для ГВС при температурах воды и воздуха, близких к вашим (средний за весь нагрев).",
+        zakres: "≥ 1. Источник: COP 3–4 (пример).",
+      },
+      moc: {
+        nazwa: "Тепловая мощность насоса в режиме ГВС [кВт]",
+        cel: "Сколько тепла в час насос отдаёт в бойлер — из неё время нагрева.",
+        gdzie: "Паспорт теплового насоса (тепловая мощность в режиме ГВС).",
         zakres: "≥ 0. Паспорт вашего насоса.",
       },
     },

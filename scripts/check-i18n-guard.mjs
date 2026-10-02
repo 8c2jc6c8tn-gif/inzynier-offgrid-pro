@@ -125,6 +125,7 @@ const MIGRATED_MODULES = [
   "lib/core/modules/ogrzewanie/rozruch-pompy-ciepla",
   "lib/core/modules/ogrzewanie/basen",
   "lib/core/modules/ogrzewanie/odzysk-ciepla-sciekow",
+  "lib/core/modules/ogrzewanie/cwu-pompa-ciepla",
   "lib/core/modules/ogrzewanie/przeplyw-pompy-ciepla",
   "lib/core/modules/ogrzewanie/bufor-praca-pompy",
   "lib/core/modules/ogrzewanie/model-sezonowy-pompy",

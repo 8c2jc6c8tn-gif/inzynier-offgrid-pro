@@ -1663,6 +1663,10 @@ export const dictionaryPl = {
   "PRZ-PONIZEJ-MINIMUM": "Przepływ {przeplyw} m³/h jest poniżej minimum z karty pompy ciepła ({min} m³/h) — pompa zgłosi alarm przepływu. Za mały przepływ to ryzyko zamarznięcia wymiennika (źródło).",
   "PRZ-DT-SPOZA-ZRODLA": "Różnica temperatur {dt} K jest poza przykładem źródła ({min}–{max} K) — sprawdź, jaką ΔT podaje karta Twojej pompy ciepła.",
   "PRZ-ZAL-BEZ-OPOROW": "Wysokości podnoszenia z oporów rur i górnej granicy przepływu (szumy) ekran nie liczy — źródło nie podaje oporów ani granicy prędkości. Przepływ pompy obiegowej odczytaj z jej krzywej dla oporów Twojej instalacji.",
+  "CWP-PRZEGRZEW-GRZALKA": "Powyżej {tmax} °C pompa nie grzeje — {kwh} kWh dogrzeje grzałka. Źródło: grzanie wody pompą powyżej ok. 60 °C jest mało efektywne; grzałkę zostaw do przegrzewu antybakteryjnego.",
+  "CWP-Z-BATERII": "Nadwyżka PV nie pokrywa poboru pompy — {kwh} kWh weźmie z baterii. Źródło: bez nadwyżek PV podgrzewanie C.W.U. pompą (np. w nocy) obciąża baterię; grzej wodę w godzinach największej nadwyżki.",
+  "CWP-ZAL-COP-SREDNI": "COP w trybie C.W.U. przyjęty jako stały przez cały podgrzew — w rzeczywistości spada, gdy woda w zasobniku robi się cieplejsza. Wpisz średni COP z karty dla tej temperatury wody (źródło: niższy niż przy ogrzewaniu).",
+  "CWP-ZAL-BEZ-PRIORYTETU": "Priorytet C.W.U./ogrzewanie nie jest liczony: w czasie grzania wody pompa nie grzeje domu. Straty zasobnika w czasie grzania pominięte (Ekran 17).",
 } as const
 
 export type KluczTlumaczenia = keyof typeof dictionaryPl

@@ -269,6 +269,7 @@ import { krzywaGrzewczaTool } from "./tools/krzywa-grzewcza-tool"
 import { modelSezonowyPompyTool } from "./tools/model-sezonowy-pompy-tool"
 import { buforPracaPompyTool } from "./tools/bufor-praca-pompy-tool"
 import { przeplywPompyCieplaTool } from "./tools/przeplyw-pompy-ciepla-tool"
+import { cwuPompaCieplaTool } from "./tools/cwu-pompa-ciepla-tool"
 import { toAnthropicTool } from "./to-anthropic-tool"
 import { validateAiToolDefinition, type AiToolDefinition } from "./types"
 
@@ -528,6 +529,7 @@ const NARZEDZIA: Array<AiToolDefinition<any, any>> = [
   modelSezonowyPompyTool,
   buforPracaPompyTool,
   przeplywPompyCieplaTool,
+  cwuPompaCieplaTool,
 ]
 for (const narzedzie of NARZEDZIA) validateAiToolDefinition(narzedzie)
 

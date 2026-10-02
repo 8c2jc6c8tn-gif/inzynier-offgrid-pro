@@ -6,6 +6,7 @@ import { krzywaGrzewczaTool } from "../krzywa-grzewcza-tool"
 import { modelSezonowyPompyTool } from "../model-sezonowy-pompy-tool"
 import { buforPracaPompyTool } from "../bufor-praca-pompy-tool"
 import { przeplywPompyCieplaTool } from "../przeplyw-pompy-ciepla-tool"
+import { cwuPompaCieplaTool } from "../cwu-pompa-ciepla-tool"
 
 describe("doborMocyPompyTool (M6 Część 2B, dawne 5.27 + 5.67)", () => {
   it("kontrakt 9.3: 'read', bez potwierdzenia", () => {
@@ -110,5 +111,28 @@ describe("przeplywPompyCieplaTool (M6 Część 2B, dawne 5.65)", () => {
     expect(w.ostrzezenia).toContain(
       t("pl", "PRZ-PRZEPLYW-ZA-MALY", { pompa: 0.9, wymagany: r2(w.wymaganyM3H), dt: r2(w.rzeczywistyDTK!) }),
     )
+  })
+})
+
+describe("cwuPompaCieplaTool (M6 Część 2B, dawne 5.30 + 5.58)", () => {
+  it("kontrakt 9.3: 'read', bez potwierdzenia", () => {
+    expect(cwuPompaCieplaTool.operationType).toBe("read")
+    expect(cwuPompaCieplaTool.requiresConfirmation).toBe(false)
+    expect(() => validateAiToolDefinition(cwuPompaCieplaTool)).not.toThrow()
+  })
+
+  it("200 l do 60 °C przy pompie do 55 °C → ℹ️ dogrzew grzałką jako tekst PL", async () => {
+    const w = await cwuPompaCieplaTool.handler({
+      pojemnoscL: 200,
+      tStartC: 30,
+      tKoniecC: 60,
+      tMaxPompyC: 55,
+      copCwu: 3.2,
+      mocCieplnaPompyKw: 2.9,
+      mocGrzalkiKw: 2,
+      mocPvKw: 0,
+    })
+    expect(w.energiaRazemKwh).toBeLessThan(w.energiaSamaGrzalkaKwh)
+    expect(w.ostrzezenia).toContain(t("pl", "CWP-PRZEGRZEW-GRZALKA", { tmax: 55, kwh: Math.round(w.cieploGrzalkaKwh * 100) / 100 }))
   })
 })

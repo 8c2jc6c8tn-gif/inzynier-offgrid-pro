@@ -1651,4 +1651,8 @@ export const dictionaryEn = {
   "PRZ-PONIZEJ-MINIMUM": "The flow {przeplyw} m³/h is below the heat pump datasheet minimum ({min} m³/h) — the pump will raise a flow alarm. Too low a flow is a heat exchanger freezing risk (source).",
   "PRZ-DT-SPOZA-ZRODLA": "The temperature difference {dt} K is outside the source example ({min}–{max} K) — check which ΔT your heat pump datasheet gives.",
   "PRZ-ZAL-BEZ-OPOROW": "The screen does not compute the pump head from pipe resistance or the upper flow limit (noise) — the source gives neither resistances nor a velocity limit. Read the circulation pump flow from its curve for your installation's resistance.",
+  "CWP-PRZEGRZEW-GRZALKA": "Above {tmax} °C the heat pump does not heat — the heater adds {kwh} kWh. Source: heating water with the pump above about 60 °C is inefficient; leave the heater for the anti-legionella boost.",
+  "CWP-Z-BATERII": "The PV surplus does not cover the pump's draw — {kwh} kWh will come from the battery. Source: without a PV surplus heating hot water with the pump (e.g. at night) loads the battery; heat the water in the hours of the largest surplus.",
+  "CWP-ZAL-COP-SREDNI": "The hot-water COP is taken as constant over the whole heat-up — in reality it falls as the tank water gets warmer. Enter the average datasheet COP for this water temperature (source: lower than in space heating).",
+  "CWP-ZAL-BEZ-PRIORYTETU": "The hot water / space heating priority is not computed: while heating water the pump does not heat the house. Tank losses during heating are ignored (Screen 17).",
 } satisfies Record<KluczTlumaczenia, string>
