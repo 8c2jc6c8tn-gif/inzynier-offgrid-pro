@@ -39,6 +39,7 @@ import { liczbaPaneliTool } from "./tools/liczba-paneli-tool"
 import { trackerVsStalyTool } from "./tools/tracker-vs-staly-tool"
 import { typMontazuTool } from "./tools/typ-montazu-tool"
 import { kosztyOgrzewaniaTool } from "./tools/koszty-ogrzewania-tool"
+import { nagrzewnicaPowietrzaTool } from "./tools/nagrzewnica-powietrza-tool"
 import { obciazenieCieplneTool } from "./tools/obciazenie-cieplne-tool"
 import { zapotrzebowanieCoCwuTool } from "./tools/zapotrzebowanie-co-cwu-tool"
 import { mostkiTermiczneTool } from "./tools/mostki-termiczne-tool"
@@ -307,6 +308,7 @@ const NARZEDZIA: Array<AiToolDefinition<any, any>> = [
   trackerVsStalyTool,
   typMontazuTool,
   kosztyOgrzewaniaTool,
+  nagrzewnicaPowietrzaTool,
   obciazenieCieplneTool,
   zapotrzebowanieCoCwuTool,
   mostkiTermiczneTool,

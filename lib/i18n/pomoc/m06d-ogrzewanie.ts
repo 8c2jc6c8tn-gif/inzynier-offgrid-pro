@@ -349,6 +349,82 @@ export const pl = {
       },
     },
   },
+  "nagrzewnica-powietrza": {
+    migawka: {
+      oCoChodzi: "Nagrzewnica powietrza na paliwo (typu webasto) bierze mało prądu i może być tańszym sposobem dogrzewania niż prąd z baterii — tu liczysz to na swoich danych z karty, a nie na obietnicach.",
+      jakDziala: "Koszt 1 kWh ciepła z nagrzewnicy = cena paliwa × zużycie [l/h] ÷ moc cieplna [kW] + własny prąd (pobór [W] ÷ 1000 ÷ moc) × cena prądu. Ogrzewanie prądem = cena prądu ÷ COP (grzałka: COP 1). Aplikacja pokazuje też cenę prądu równowagi i — dla ciepła na dobę — godziny pracy, litry, prąd własny (z rozruchami) oraz jaki to procent baterii w porównaniu z ogrzewaniem prądem.",
+      poCo: "Widzisz, czy dogrzewanie nagrzewnicą naprawdę wychodzi taniej niż prądem i ile baterii zabiera — zanim cokolwiek kupisz.",
+      fizyka: "c_Q = c_pal·V̇/P + c_el·P_el/(1000·P);  c_el/COP;  c_el* = c_Q,pal / (1/COP − P_el/(1000·P)). Spaliny zawierają tlenek węgla — patrz ostrzeżenia.",
+    },
+    pola: {
+      moc: {
+        nazwa: "Moc cieplna na wybranym ustawieniu [kW]",
+        cel: "Dzieli zużycie paliwa i pobór prądu na 1 kWh ciepła oraz daje godziny pracy.",
+        gdzie: "Karta katalogowa nagrzewnicy — moc cieplna dla ustawienia, na którym będzie pracować.",
+        zakres: "Karta katalogowa urządzenia; aplikacja żadnej mocy nie zakłada.",
+      },
+      zuzycie: {
+        nazwa: "Zużycie paliwa przy tej mocy [l/h]",
+        cel: "Razem z mocą daje litry i koszt paliwa na 1 kWh ciepła.",
+        gdzie: "Karta katalogowa — zużycie dla tego samego ustawienia mocy.",
+        zakres: "Karta katalogowa urządzenia.",
+      },
+      cenaPaliwa: {
+        nazwa: "Cena paliwa [zł/l]",
+        cel: "Zamienia litry na złotówki.",
+        gdzie: "Cena na stacji / z ostatniego zakupu (zimą — paliwo arktyczne).",
+        zakres: "Twoja cena.",
+      },
+      pobor: {
+        nazwa: "Pobór prądu w pracy [W]",
+        cel: "Własny prąd nagrzewnicy (wentylator, pompka paliwa, świeca w pracy) — w off-gridzie bierze go bateria.",
+        gdzie: "Karta katalogowa; często podawany osobno dla ustawień mocy.",
+        zakres: "Puste lub 0 = prąd własny nie jest liczony.",
+      },
+      rozruch: {
+        nazwa: "Energia jednego rozruchu [Wh]",
+        cel: "Świeca żarowa pobiera najwięcej przy rozruchu; energia rozruchu jest doliczana do prądu własnego na dobę.",
+        gdzie: "Karta katalogowa (moc świecy × czas rozruchu) albo pomiar.",
+        zakres: "Puste lub 0 = rozruchy nie są liczone.",
+      },
+      rozruchy: {
+        nazwa: "Liczba rozruchów na dobę",
+        cel: "Mnoży energię jednego rozruchu.",
+        gdzie: "Zależy od sposobu sterowania (termostat, ręcznie) — z doświadczenia albo z założenia użytkownika.",
+        zakres: "Puste lub 0 = rozruchy nie są liczone.",
+      },
+      cenaPradu: {
+        nazwa: "Koszt 1 kWh prądu zimą [zł/kWh]",
+        cel: "Wycenia prąd własny nagrzewnicy i ogrzewanie elektryczne, z którym jest porównywana.",
+        gdzie: "Twój koszt prądu zimą: z agregatu (litry na kWh × cena paliwa z ekranu „Deficyty miesięczne i agregat”), z sieci albo wyceniony z PV.",
+        zakres: "Puste = brak porównania i brak kosztu prądu własnego.",
+      },
+      cop: {
+        nazwa: "COP ogrzewania elektrycznego [–]",
+        cel: "Ile kWh ciepła daje 1 kWh prądu w alternatywie, z którą porównujesz nagrzewnicę.",
+        gdzie: "Pompa ciepła: SCOP z karty albo z ekranu „COP pompy ciepła”. Grzałka, kocioł, promiennik: zostaw puste (COP = 1).",
+        zakres: "Puste = grzanie oporowe, COP 1 (jak w porównaniu kosztów ogrzewania).",
+      },
+      zapotrzebowanie: {
+        nazwa: "Ciepło potrzebne na dobę [kWh]",
+        cel: "Pokazuje godziny pracy, litry, prąd własny i procent baterii na dobę.",
+        gdzie: "Ekran „Zapotrzebowanie na C.O. i C.W.U.” albo „Straty ciepła budynku”, albo z własnych rachunków.",
+        zakres: "Puste = tylko wartości na 1 kWh ciepła.",
+      },
+      dni: {
+        nazwa: "Liczba dni ogrzewania [dni]",
+        cel: "Mnoży wynik doby, żeby dać paliwo i koszt w sezonie.",
+        gdzie: "Twoje założenie — ile dni nagrzewnica ma dogrzewać w zimie.",
+        zakres: "Puste = bez sumy sezonu. Działa tylko z wpisanym ciepłem na dobę.",
+      },
+      bateria: {
+        nazwa: "Użyteczna pojemność baterii [kWh]",
+        cel: "Pokazuje, jaki procent baterii zabiera prąd własny nagrzewnicy, a jaki ogrzewanie prądem.",
+        gdzie: "Moduł 4 (baterie) albo karta baterii — pojemność użyteczna, nie nominalna.",
+        zakres: "Puste = bez wartości w procentach.",
+      },
+    },
+  },
 }
 
 export const en: Tlumaczenie<typeof pl> = {
@@ -696,6 +772,82 @@ export const en: Tlumaczenie<typeof pl> = {
       },
     },
   },
+  "nagrzewnica-powietrza": {
+    migawka: {
+      oCoChodzi: "A fuel-fired air heater (Webasto type) draws little electricity and can be a cheaper way to top up the heating than battery power — here you work it out with your own datasheet figures, not promises.",
+      jakDziala: "Cost of 1 kWh of heat from the heater = fuel price × use [l/h] ÷ heat output [kW] + own electricity (draw [W] ÷ 1000 ÷ output) × electricity price. Electric heating = electricity price ÷ COP (heating element: COP 1). The app also shows the break-even electricity price and — for a daily heat demand — running hours, litres, own electricity (with starts) and what percent of the battery it is compared with electric heating.",
+      poCo: "You see whether topping up with the heater really is cheaper than electricity and how much battery it takes — before you buy anything.",
+      fizyka: "c_Q = c_fuel·V̇/P + c_el·P_el/(1000·P);  c_el/COP;  c_el* = c_Q,fuel / (1/COP − P_el/(1000·P)). The exhaust contains carbon monoxide — see the warnings.",
+    },
+    pola: {
+      moc: {
+        nazwa: "Heat output at the chosen setting [kW]",
+        cel: "Divides fuel use and electric draw per 1 kWh of heat and gives the running hours.",
+        gdzie: "Heater datasheet — the heat output of the setting it will run at.",
+        zakres: "The device datasheet; the app assumes no output.",
+      },
+      zuzycie: {
+        nazwa: "Fuel use at this output [l/h]",
+        cel: "Together with the output gives litres and fuel cost per 1 kWh of heat.",
+        gdzie: "Datasheet — use at the same output setting.",
+        zakres: "The device datasheet.",
+      },
+      cenaPaliwa: {
+        nazwa: "Fuel price [PLN/l]",
+        cel: "Turns litres into money.",
+        gdzie: "Pump price / your last purchase (in winter — arctic-grade fuel).",
+        zakres: "Your price.",
+      },
+      pobor: {
+        nazwa: "Electric draw while running [W]",
+        cel: "The heater's own electricity (fan, fuel pump, glow plug while running) — in an off-grid system the battery supplies it.",
+        gdzie: "Datasheet; often given separately per output setting.",
+        zakres: "Empty or 0 = own electricity is not counted.",
+      },
+      rozruch: {
+        nazwa: "Energy of one start [Wh]",
+        cel: "The glow plug draws the most at start-up; the start energy is added to the own electricity per day.",
+        gdzie: "Datasheet (plug power × start time) or a measurement.",
+        zakres: "Empty or 0 = starts are not counted.",
+      },
+      rozruchy: {
+        nazwa: "Starts per day",
+        cel: "Multiplies the energy of one start.",
+        gdzie: "Depends on the control (thermostat, manual) — from experience or the user's own assumption.",
+        zakres: "Empty or 0 = starts are not counted.",
+      },
+      cenaPradu: {
+        nazwa: "Cost of 1 kWh of electricity in winter [PLN/kWh]",
+        cel: "Prices the heater's own electricity and the electric heating it is compared with.",
+        gdzie: "Your winter cost of electricity: from a generator (litres per kWh × fuel price from the “Monthly shortfalls and the generator” screen), from the grid or valued from PV.",
+        zakres: "Empty = no comparison and no cost of own electricity.",
+      },
+      cop: {
+        nazwa: "COP of electric heating [–]",
+        cel: "How many kWh of heat 1 kWh of electricity gives in the alternative the heater is compared with.",
+        gdzie: "Heat pump: SCOP from the datasheet or from the “Heat pump COP” screen. Heating element, boiler, panel: leave empty (COP = 1).",
+        zakres: "Empty = resistive heating, COP 1 (as in the heating cost comparison).",
+      },
+      zapotrzebowanie: {
+        nazwa: "Heat needed per day [kWh]",
+        cel: "Shows running hours, litres, own electricity and percent of the battery per day.",
+        gdzie: "The “Space heating and DHW demand” or “Building heat loss” screen, or your own bills.",
+        zakres: "Empty = only the values per 1 kWh of heat.",
+      },
+      dni: {
+        nazwa: "Number of heating days [days]",
+        cel: "Multiplies the daily result to give fuel and cost over the season.",
+        gdzie: "Your assumption — how many days the heater is to top up the heating in winter.",
+        zakres: "Empty = no season total. Works only with the daily heat entered.",
+      },
+      bateria: {
+        nazwa: "Usable battery capacity [kWh]",
+        cel: "Shows what percent of the battery the heater's own electricity takes and what percent electric heating would take.",
+        gdzie: "Module 4 (batteries) or the battery datasheet — usable, not nominal capacity.",
+        zakres: "Empty = no percent values.",
+      },
+    },
+  },
 }
 
 export const ru: Tlumaczenie<typeof pl> = {
@@ -1040,6 +1192,82 @@ export const ru: Tlumaczenie<typeof pl> = {
         cel: "Из неё — деньги в год и окупаемость.",
         gdzie: "Off-grid: стоимость кВт·ч от PV/батареи или генератора (модуль 2); с сетью — счёт.",
         zakres: "≥ 0. Ваша цена.",
+      },
+    },
+  },
+  "nagrzewnica-powietrza": {
+    migawka: {
+      oCoChodzi: "Топливный воздушный отопитель (типа Webasto) потребляет мало электричества и может быть дешевле для догрева, чем электричество из батареи — здесь вы считаете это на своих паспортных данных, а не на обещаниях.",
+      jakDziala: "Стоимость 1 кВт·ч тепла от отопителя = цена топлива × расход [л/ч] ÷ тепловая мощность [кВт] + собственное электричество (потребление [Вт] ÷ 1000 ÷ мощность) × цена электричества. Электрообогрев = цена электричества ÷ COP (ТЭН: COP 1). Приложение показывает также цену электричества безубыточности и — для суточной потребности в тепле — часы работы, литры, собственное электричество (с запусками) и какой это процент батареи по сравнению с электрообогревом.",
+      poCo: "Вы видите, действительно ли догрев отопителем дешевле электричества и сколько батареи он забирает — до любой покупки.",
+      fizyka: "c_Q = c_топл·V̇/P + c_эл·P_эл/(1000·P);  c_эл/COP;  c_эл* = c_Q,топл / (1/COP − P_эл/(1000·P)). Выхлоп содержит угарный газ — см. предупреждения.",
+    },
+    pola: {
+      moc: {
+        nazwa: "Тепловая мощность на выбранной ступени [кВт]",
+        cel: "Делит расход топлива и потребление электричества на 1 кВт·ч тепла и даёт часы работы.",
+        gdzie: "Паспорт отопителя — тепловая мощность ступени, на которой он будет работать.",
+        zakres: "Паспорт устройства; приложение никакую мощность не предполагает.",
+      },
+      zuzycie: {
+        nazwa: "Расход топлива при этой мощности [л/ч]",
+        cel: "Вместе с мощностью даёт литры и стоимость топлива на 1 кВт·ч тепла.",
+        gdzie: "Паспорт — расход на той же ступени мощности.",
+        zakres: "Паспорт устройства.",
+      },
+      cenaPaliwa: {
+        nazwa: "Цена топлива [зл/л]",
+        cel: "Переводит литры в деньги.",
+        gdzie: "Цена на заправке / последней покупки (зимой — арктическое топливо).",
+        zakres: "Ваша цена.",
+      },
+      pobor: {
+        nazwa: "Потребление электричества в работе [Вт]",
+        cel: "Собственное электричество отопителя (вентилятор, топливный насос, свеча в работе) — в off-grid его даёт батарея.",
+        gdzie: "Паспорт; часто указывается отдельно для ступеней мощности.",
+        zakres: "Пусто или 0 = собственное электричество не учитывается.",
+      },
+      rozruch: {
+        nazwa: "Энергия одного запуска [Вт·ч]",
+        cel: "Свеча накаливания потребляет больше всего при запуске; энергия запуска добавляется к собственному электричеству за сутки.",
+        gdzie: "Паспорт (мощность свечи × время запуска) или измерение.",
+        zakres: "Пусто или 0 = запуски не учитываются.",
+      },
+      rozruchy: {
+        nazwa: "Число запусков в сутки",
+        cel: "Умножает энергию одного запуска.",
+        gdzie: "Зависит от управления (термостат, вручную) — из опыта или допущения пользователя.",
+        zakres: "Пусто или 0 = запуски не учитываются.",
+      },
+      cenaPradu: {
+        nazwa: "Стоимость 1 кВт·ч электричества зимой [зл/кВт·ч]",
+        cel: "Оценивает собственное электричество отопителя и электрообогрев, с которым он сравнивается.",
+        gdzie: "Ваша зимняя стоимость электричества: от генератора (литры на кВт·ч × цена топлива с экрана «Месячные дефициты и генератор»), из сети или оценённая из PV.",
+        zakres: "Пусто = нет сравнения и нет стоимости собственного электричества.",
+      },
+      cop: {
+        nazwa: "COP электрообогрева [–]",
+        cel: "Сколько кВт·ч тепла даёт 1 кВт·ч электричества в альтернативе, с которой сравнивается отопитель.",
+        gdzie: "Тепловой насос: SCOP из паспорта или с экрана «COP теплового насоса». ТЭН, котёл, панель: оставьте пустым (COP = 1).",
+        zakres: "Пусто = резистивный нагрев, COP 1 (как в сравнении стоимости отопления).",
+      },
+      zapotrzebowanie: {
+        nazwa: "Тепло, нужное в сутки [кВт·ч]",
+        cel: "Показывает часы работы, литры, собственное электричество и процент батареи за сутки.",
+        gdzie: "Экран «Потребность в тепле на отопление и ГВС» или «Потери тепла здания», либо ваши счета.",
+        zakres: "Пусто = только значения на 1 кВт·ч тепла.",
+      },
+      dni: {
+        nazwa: "Число дней отопления [дн.]",
+        cel: "Умножает суточный результат, чтобы получить топливо и стоимость за сезон.",
+        gdzie: "Ваше допущение — сколько дней отопитель должен догревать зимой.",
+        zakres: "Пусто = без суммы за сезон. Работает только при введённом тепле на сутки.",
+      },
+      bateria: {
+        nazwa: "Полезная ёмкость батареи [кВт·ч]",
+        cel: "Показывает, какой процент батареи забирает собственное электричество отопителя, а какой — электрообогрев.",
+        gdzie: "Модуль 4 (батареи) или паспорт батареи — полезная, а не номинальная ёмкость.",
+        zakres: "Пусто = без значений в процентах.",
       },
     },
   },
