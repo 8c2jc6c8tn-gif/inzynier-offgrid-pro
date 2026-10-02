@@ -8728,3 +8728,24 @@ Tryb Audyt (czapka rewidenta). Warstwa „w pełni na końcu” z N.2 — wszyst
 - **Pułapka (kolizja slugów):** `chlodzenie-latem` istnieje już w M4 (chłodzenie baterii) — `register.py` i zapis strony
   nadpisały cudzy ekran i narzędzie. Przed nowym slugiem: `ls app/kalkulatory/<slug>` i grep po `lib/ai/tools/`;
   `check:ai-tools-guard` i test „no screen id is defined in two module files” złapały to od razu.
+
+## M6 Część 2B — dokładki do ekranów Części 1 + 2C 5.64/5.68 (02.10.2026, gałąź `work/m6-2b-dokladki`)
+
+- **Stan:** wszystkie 14 pozycji 2B + 5.64 i 5.68. Dokładki to sekcje `app/kalkulatory/<ekran>/sekcja-*.tsx` z własnym
+  kluczem autosave `<slug>.<sekcja>` (szkic ekranu nietknięty), pomoc w grupach `m6d-*` (`lib/i18n/pomoc/m06d-ogrzewanie.ts`),
+  klucze UI `UI-M6D-*` (`lib/i18n/ui/m06d-dokladki.ts`). Pola, które ekran już ma (moc pompy, zasobnik, temperatury,
+  strumień GWC, moc defrostu, wynik Ekranu 1), sekcja dostaje propsami — bez wpisywania drugi raz. Nowe ekrany 2C:
+  `model-sezonowy-pompy-ciepla`, `plan-poprawy-efektywnosci`. Mapa pozycji → silnik: `docs/rejestr-pokrycia.md` 5.27–5.72.
+- **Zmiana wyników istniejącego kalkulatora:** tylko `pompy-cyrkulacyjne` → 1.1.0 (nowe pola opcjonalne). Silnik Ekranu 1
+  świadomie bez zmian (raport 5.40/5.67 to osobny silnik na wyniku E1).
+- **Refaktor (wyniki bez zmian):** `wspolne/hydraulika.ts` (`przeplywWodyLH`, `cyklStartStop`, używa ich 2D),
+  `energiaDefrostuNaGodzineKwh` z Ekranu 6, hook `useWynikEkranu1()` w `lib/ogrzewanie/draft-obciazenia-cieplnego.ts`.
+- **Niespójne przykłady (Dyrektywa #5, w komentarzach silników):** 5.27 deficyt 1 kW, nie 2; 5.43 3,1 → 3,8 przy 15 K
+  = 1,5 %/K vs reguła 2–3 %/K; 5.28 4×40 min vs 20×5 min, 15% vs 10% w 5.70; 5.71 „10%” = krzywa za wysoka o 3,7–5,6 K;
+  5.30 „1,8 kWh przy COP 3,2” = start ok. 30 °C; 5.54 2 %/K vs 5.93 3 %/K; 5.56 „0,3 kWh/dobę” = 0,11 kW całą dobę.
+- **Pułapki:** (1) `check:stopy-guard` liczy każdy kod `critical` — kody walidacji wieloczłonowe (`DMP-TEMPERATURY-POZA-ZAKRESEM`)
+  trzeba dopisać jawnie do `scripts/stopy-guard-wyjatki.json` (wzorzec `*-POZA-ZAKRESEM` ich nie łapie); nowy silnik
+  może też użyć istniejącego kodu (np. `GRZ-TEMPERATURA-POZA-ZAKRESEM`), gdy reguła jest ta sama. (2) `check:i18n-ui-guard`
+  łapie jednostki wpisane wprost (`unit="zł/kWh"`) — są klucze `UI-J-ZL-KWH`, `UI-J-ZL`, `UI-J-KWH-ROK`. (3) Sandbox
+  worktree odrzuca polecenia z `$ZMIENNA` i długie heredoki — skrypty pomocnicze zapisuj plikiem i uruchamiaj ze stałą ścieżką.
+  (4) `liczba()` z `lib/lokalizacja/model-dzialki` zwraca `undefined`, nie `null` — przy polach `number | null` trzeba `?? null`.
