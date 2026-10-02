@@ -2459,3 +2459,9 @@ strażniki. Kandydat do `docs/wklad-do-standardu.md` (strażnik skanujący ekspo
 
 ## Zasada stała od właściciela: ważne rzeczy do standardu bez pytania (02.10.2026)
 - Polecenie właściciela: „zawsze jak coś ważne jest, dodawaj do standardu i nie pytaj mnie”. Znaczy: pułapki, wzorce i luki strażników zapisywać od razu w `docs/wklad-do-standardu.md` (kanał zwrotny; `docs/standards/*` i GOD BOOK nadal nietykalne) i tylko poinformować w podsumowaniu. Dziś dopisane: strażnik i18n a `message` jako template literal i `label`/`*Key`, dane użytkownika w `params`.
+
+## 2026-10-02 — Audyt i18n, kategoria C: katalogi `label:` nie wymagają migracji
+Skan `label:` w `constants.ts` pokazał, że etykiety katalogowe są już tłumaczone na ekranie po id (`components/zapotrzebowanie/etykiety-stalych.ts`, `UI-STALEBAT-*`); silnik trzyma PL jako fallback i do zapisu szkiców. Nie migrować do `labelKey` — zmieniłoby to format zapisanych szkiców bez zysku. Lista zapadkowa 3/4: 1 fałszywy alarm (SVG), 1 `werdykt.tsx`, 2 w piśmie reklamacyjnym `test-licznika` (pytanie do właściciela o język pisma).
+
+## 2026-10-02 — Pismo reklamacyjne w `test-licznika` przestało być wyjątkiem
+Właściciel: pismo ma być tłumaczone (wcześniej komentarz w kodzie zakładał treść zawsze po polsku dla polskiego OSD). Wzorzec: pole edytowalne z wartością domyślną zależną od języka trzymaj jako `null` do pierwszej edycji, nie jako wpisany tekst — inaczej zmiana języka nie zmieni domyślnej treści.
