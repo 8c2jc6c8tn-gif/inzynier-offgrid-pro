@@ -1,4 +1,11 @@
-import { isValidElement, useId, type InputHTMLAttributes, type ReactNode, type SelectHTMLAttributes } from "react"
+import {
+  isValidElement,
+  useId,
+  type InputHTMLAttributes,
+  type ReactNode,
+  type SelectHTMLAttributes,
+  type TextareaHTMLAttributes,
+} from "react"
 import { PomocPole } from "@/components/ui/chmurka"
 import { PomocPola } from "@/components/ui/pomoc"
 import { cn } from "@/lib/utils"
@@ -99,7 +106,29 @@ export function PoleSelect({ label, pomoc, className, id, children, ...props }: 
   )
 }
 
-type PoleCheckboxProps = Omit<InputHTMLAttributes<HTMLInputElement>, "className" | "id" | "type"> & {
+type PoleTekstProps = Omit<TextareaHTMLAttributes<HTMLTextAreaElement>, "className" | "id"> & {
+  label: string
+  /** Short caption under the field (e.g. the expected format). */
+  podpis?: string
+  pomoc?: ReactNode
+  className?: string
+  id?: string
+}
+
+/** Multi-line text field (pasted tables) in the same state scale as `Pole`. */
+export function PoleTekst({ label, podpis, pomoc, className, id, ...props }: PoleTekstProps) {
+  const autoId = useId()
+  const textId = id ?? autoId
+  return (
+    <div className="flex flex-col gap-1 text-small">
+      <Etykieta label={label} pomoc={pomoc} htmlFor={textId} />
+      <textarea id={textId} className={cn(STAN_KLASY, "min-h-28 py-2 font-mono text-small", className)} {...props} />
+      {podpis && <span className="text-caption text-muted-foreground">{podpis}</span>}
+    </div>
+  )
+}
+
+type PoleCheckboxProps =Omit<InputHTMLAttributes<HTMLInputElement>, "className" | "id" | "type"> & {
   label: ReactNode
   hint?: string
   className?: string

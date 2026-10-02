@@ -103,6 +103,7 @@ const MIGRATED_MODULES = [
   "lib/core/modules/ogrzewanie/infiltracja-powietrza",
   "lib/core/modules/ogrzewanie/kociol-elektryczny",
   "lib/core/modules/ogrzewanie/koszty-ogrzewania",
+  "lib/core/modules/ogrzewanie/nagrzewnica-powietrza",
   "lib/core/modules/ogrzewanie/obciazenie-cieplne",
   "lib/core/modules/ogrzewanie/zapotrzebowanie-co-cwu",
   "lib/core/modules/ogrzewanie/mostki-termiczne",
