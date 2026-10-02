@@ -264,6 +264,16 @@ import { rozruchPompyCieplaTool } from "./tools/rozruch-pompy-ciepla-tool"
 import { basenTool } from "./tools/basen-tool"
 import { odzyskCieplaSciekowTool } from "./tools/odzysk-ciepla-sciekow-tool"
 import { chlodzeniePompaCieplaTool } from "./tools/chlodzenie-pompa-ciepla-tool"
+import { doborMocyPompyTool } from "./tools/dobor-mocy-pompy-tool"
+import { krzywaGrzewczaTool } from "./tools/krzywa-grzewcza-tool"
+import { modelSezonowyPompyTool } from "./tools/model-sezonowy-pompy-tool"
+import { buforPracaPompyTool } from "./tools/bufor-praca-pompy-tool"
+import { przeplywPompyCieplaTool } from "./tools/przeplyw-pompy-ciepla-tool"
+import { cwuPompaCieplaTool } from "./tools/cwu-pompa-ciepla-tool"
+import { gwcPompaCieplaTool } from "./tools/gwc-pompa-ciepla-tool"
+import { defrostSezonTool } from "./tools/defrost-sezon-tool"
+import { raportEfektywnosciTool } from "./tools/raport-efektywnosci-budynku-tool"
+import { planPoprawyTool } from "./tools/plan-poprawy-efektywnosci-tool"
 import { toAnthropicTool } from "./to-anthropic-tool"
 import { validateAiToolDefinition, type AiToolDefinition } from "./types"
 
@@ -518,6 +528,16 @@ const NARZEDZIA: Array<AiToolDefinition<any, any>> = [
   basenTool,
   odzyskCieplaSciekowTool,
   chlodzeniePompaCieplaTool,
+  doborMocyPompyTool,
+  krzywaGrzewczaTool,
+  modelSezonowyPompyTool,
+  buforPracaPompyTool,
+  przeplywPompyCieplaTool,
+  cwuPompaCieplaTool,
+  gwcPompaCieplaTool,
+  defrostSezonTool,
+  raportEfektywnosciTool,
+  planPoprawyTool,
 ]
 for (const narzedzie of NARZEDZIA) validateAiToolDefinition(narzedzie)
 

@@ -105,4 +105,26 @@ describe("calculatePompyCyrkulacyjne", () => {
     })
     expect(result.assumptions).toEqual([{ kod: "GODZINY-PRACY-WPISANE-RECZNIE" }])
   })
+
+  it("dokładka 2B (dawne 5.72): 75 W vs 15 W, 24 h × 100 dni → 180 / 36 kWh, oszczędność 144 kWh, × 1,2 zł = 172,8 zł", () => {
+    const result = calculatePompyCyrkulacyjne({
+      mocObecnejPompyW: 75,
+      mocNowejPompyW: 15,
+      godzinyPracyDobowoH: 24,
+      dniSezonu: 100,
+      cenaZlKwh: 1.2,
+    })
+    expect(result.value.energiaSezonObecnaKwh).toBeCloseTo(180, 9)
+    expect(result.value.energiaSezonNowaKwh).toBeCloseTo(36, 9)
+    expect(result.value.oszczednoscSezonKwh).toBeCloseTo(144, 9)
+    expect(result.value.oszczednoscSezonZl).toBeCloseTo(172.8, 9)
+    expect(result.calculatorVersion).toBe("1.1.0")
+  })
+
+  it("dokładka 2B: bez dni sezonu wyniki sezonowe = null (wynik dobowy bez zmian)", () => {
+    const result = calculatePompyCyrkulacyjne({ mocObecnejPompyW: 45, mocNowejPompyW: 8, godzinyPracyDobowoH: 24 })
+    expect(result.value.energiaSezonObecnaKwh).toBeNull()
+    expect(result.value.oszczednoscSezonZl).toBeNull()
+    expect(result.value.energiaObecnaKwh).toBeCloseTo(1.08, 9)
+  })
 })

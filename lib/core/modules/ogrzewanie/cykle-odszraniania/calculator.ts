@@ -30,6 +30,11 @@ const PUSTY: CykleOdszranianiaResult = {
   copEfektywny: null,
 }
 
+/** Extra electricity per hour of frosting conditions [kWh/h] = P_def · t_def / T (shared with the seasonal 2B section). */
+export function energiaDefrostuNaGodzineKwh(mocDefrostuKw: number, czasDefrostuMin: number, odstepMin: number): number {
+  return (mocDefrostuKw * czasDefrostuMin) / odstepMin
+}
+
 /**
  * Ekran 6, Moduł 6 — "Cykle odszraniania (defrost)" (dawne 5.6 + 1.14 + 6.8). The source gives no frosting model
  * (temperature/humidity → defrost frequency), only examples, so the cycle (interval T, duration t_def, power during
@@ -68,7 +73,7 @@ export function calculateCykleOdszraniania(input: CykleOdszranianiaInput): CalcR
   }
 
   const udzial = input.czasDefrostuMin / input.odstepMin
-  const energiaNaGodzineKwh = input.mocDefrostuKw * udzial
+  const energiaNaGodzineKwh = energiaDefrostuNaGodzineKwh(input.mocDefrostuKw, input.czasDefrostuMin, input.odstepMin)
   const narzut = (input.mocDefrostuKw * input.czasDefrostuMin) / (input.mocBazowaKw * input.odstepMin)
   const value: CykleOdszranianiaResult = {
     udzialCzasuPct: udzial * 100,

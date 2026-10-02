@@ -21,6 +21,7 @@ import {
 } from "@/lib/core/modules/ogrzewanie/obciazenie-cieplne/constants"
 import { useTranslate } from "@/lib/i18n/language-context"
 import { KLUCZ_DRAFTU_OBCIAZENIA, wejscieObciazenia, type PrzegrodaSeed, type SeedObciazenia as Seed } from "@/lib/ogrzewanie/draft-obciazenia-cieplnego"
+import { SekcjaRaportEfektywnosci } from "./sekcja-raport-efektywnosci"
 
 const RZYMSKIE: Record<StrefaKlimatyczna, string> = { 1: "I", 2: "II", 3: "III", 4: "IV", 5: "V" }
 const MIESIACE = Array.from({ length: 12 }, (_, i) => `UI-MIESIAC-${i + 1}`)
@@ -267,8 +268,7 @@ export default function ObciazenieCieplnePage() {
           </p>
         </WerdyktPanel>
       )}
-
-      
+      {v && <SekcjaRaportEfektywnosci wynik={v} cop={wejscieObciazenia(stan).cop ?? 0} />}
     </main>
   )
 }
