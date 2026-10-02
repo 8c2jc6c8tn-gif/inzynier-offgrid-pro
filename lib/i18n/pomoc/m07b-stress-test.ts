@@ -184,6 +184,94 @@ export const pl = {
       }
     }
   },
+  "wspolczynnik-bezpieczenstwa-zimowego": {
+    "migawka": {
+      "oCoChodzi": "To ocena z egzaminu — pokazuje, czy system zda zimę, czy będzie miał poprawkę, i dokładnie z czego.",
+      "jakDziala": "Wpisz (albo wstaw z innych ekranów zimowych) pięć grup danych: pokrycie energii w najgorszym miesiącu, dni autonomii, liczbę pojedynczych punktów awarii, moc agregatu i czas ochrony przed zamarznięciem. Każda składowa dostaje wynik 0–100%, a wskaźnik to średnia ważona. Obok widzisz najsłabszą składową i listę słabych punktów.",
+      "poCo": "Jedna liczba mówi, czy jest dobrze; lista słabych punktów — co poprawić najpierw.",
+      "fizyka": "W = Σ wᵢ·sᵢ / Σ wᵢ, gdzie sᵢ = min(100%, co system ma ÷ czego wymaga scenariusz). Wagi (30/25/20/15/10%) są wstępne — do dopracowania przez właściciela aplikacji; możesz wpisać własne (suma 100%). Składowa poniżej {prog}% to słaby punkt."
+    },
+    "pola": {
+      "produkcja": {
+        "nazwa": "Produkcja PV w najgorszym miesiącu [kWh]",
+        "cel": "Ile energii dadzą panele w najtrudniejszym miesiącu zimy.",
+        "gdzie": "Moduł 3 — produkcja miesięczna (zwykle grudzień lub styczeń); albo przycisk z Ekranu 2.",
+        "zakres": "Twoja instalacja; 0 = brak produkcji."
+      },
+      "zapotrzebowanie": {
+        "nazwa": "Zapotrzebowanie w tym samym miesiącu [kWh]",
+        "cel": "Z tym porównujemy produkcję.",
+        "gdzie": "Moduł 2 — zużycie miesięczne (zimą razem z ogrzewaniem).",
+        "zakres": "Większe od zera."
+      },
+      "autonomia": {
+        "nazwa": "Dni pracy bez słońca [dni]",
+        "cel": "Jak długo system działa z baterii (i agregatu), gdy PV nie produkuje.",
+        "gdzie": "Ekran 4 „Blackout” (przycisk wstawia wynik) albo Moduł 4 „Dni autonomii”.",
+        "zakres": "Od 0 do wymaganej liczby dni; więcej nie podnosi oceny."
+      },
+      "wymaganaAutonomia": {
+        "nazwa": "Wymagana liczba dni bez słońca [dni]",
+        "cel": "Ile dni bez słońca system ma przetrwać.",
+        "gdzie": "Twoja decyzja; scenariusz Blackout w źródle to 10–14 dni.",
+        "zakres": "Większa od zera."
+      },
+      "komponenty": {
+        "nazwa": "Liczba sprawdzonych komponentów",
+        "cel": "Podstawa do policzenia udziału komponentów z redundancją.",
+        "gdzie": "Ekran 10 „Analiza SPOF” (przycisk wstawia liczby) — lista: BMS, falownik, bezpieczniki, MPPT, pompy, czujniki.",
+        "zakres": "Liczba całkowita, co najmniej 1."
+      },
+      "spof": {
+        "nazwa": "Komponenty bez redundancji (SPOF)",
+        "cel": "Im ich mniej, tym wyższa odporność na awarie.",
+        "gdzie": "Ekran 10 — komponenty bez zaznaczonej redundancji.",
+        "zakres": "Od 0 do liczby sprawdzonych komponentów."
+      },
+      "brakAgregatu": {
+        "nazwa": "Nie mam agregatu",
+        "cel": "Bez agregatu składowa „zapas mocy agregatu” wynosi 0%.",
+        "gdzie": "Twoja instalacja.",
+        "zakres": "Tak albo nie."
+      },
+      "mocAgregatu": {
+        "nazwa": "Moc agregatu [kW]",
+        "cel": "Ile mocy da agregat.",
+        "gdzie": "Tabliczka znamionowa agregatu; Ekran 2 (przycisk).",
+        "zakres": "Większa od zera."
+      },
+      "mocWymagana": {
+        "nazwa": "Moc, którą agregat musi udźwignąć [kW]",
+        "cel": "Z tym porównujemy moc agregatu.",
+        "gdzie": "Szczytowa moc odbiorników zasilanych z agregatu plus ładowarka baterii — Moduł 2.",
+        "zakres": "Większa od zera."
+      },
+      "okno": {
+        "nazwa": "Czas ochrony przed zamarznięciem [h]",
+        "cel": "Jak długo instalacja sama utrzymuje ochronę przed zamarznięciem (odbiorniki krytyczne).",
+        "gdzie": "Ekran 6 „Zamarzanie” (przycisk wstawia czas zasilania odbiorników krytycznych).",
+        "zakres": "Co najmniej 0; więcej niż czas reakcji nie podnosi oceny."
+      },
+      "wymaganyCzas": {
+        "nazwa": "Czas potrzebny na Twoją reakcję [h]",
+        "cel": "Ile czasu potrzebujesz, żeby zareagować: dojechać, uruchomić agregat, spuścić wodę.",
+        "gdzie": "Twoja ocena — zależy od tego, gdzie jesteś, gdy system padnie.",
+        "zakres": "Większy od zera."
+      },
+      "wlasneWagi": {
+        "nazwa": "Własne wagi",
+        "cel": "Pozwala zastąpić wstępne wagi swoimi.",
+        "gdzie": "Twoja decyzja — jak ważna jest dla Ciebie każda składowa.",
+        "zakres": "Suma wag musi wynosić 100%."
+      },
+      "waga": {
+        "nazwa": "Waga składowej [%]",
+        "cel": "Jak mocno składowa wpływa na wynik końcowy.",
+        "gdzie": "Domyślnie 30/25/20/15/10% (wstępne, do dopracowania przez właściciela aplikacji); tu wpisujesz własne.",
+        "zakres": "0–100%, wszystkie razem 100%."
+      }
+    }
+  },
 }
 
 export const en: Tlumaczenie<typeof pl> = {
@@ -365,6 +453,94 @@ export const en: Tlumaczenie<typeof pl> = {
       }
     }
   },
+  "wspolczynnik-bezpieczenstwa-zimowego": {
+    "migawka": {
+      "oCoChodzi": "It is an exam grade — it shows whether the system will pass the winter or need a retake, and exactly because of what.",
+      "jakDziala": "Enter (or insert from the other winter screens) five groups of data: energy coverage in the worst month, days of autonomy, the number of single points of failure, generator power and the freeze-protection time. Each component gets a 0–100% score and the factor is a weighted mean. Next to it you see the weakest component and the list of weak points.",
+      "poCo": "One number tells whether things are fine; the list of weak points tells what to fix first.",
+      "fizyka": "W = Σ wᵢ·sᵢ / Σ wᵢ, where sᵢ = min(100%, what the system has ÷ what the scenario needs). The weights (30/25/20/15/10%) are provisional — to be refined by the app owner; you can enter your own (sum 100%). A component below {prog}% is a weak point."
+    },
+    "pola": {
+      "produkcja": {
+        "nazwa": "PV production in the worst month [kWh]",
+        "cel": "How much energy the panels give in the hardest month of winter.",
+        "gdzie": "Module 3 — monthly production (usually December or January); or the button from Screen 2.",
+        "zakres": "Your installation; 0 = no production."
+      },
+      "zapotrzebowanie": {
+        "nazwa": "Demand in the same month [kWh]",
+        "cel": "What the production is compared with.",
+        "gdzie": "Module 2 — monthly consumption (in winter including heating).",
+        "zakres": "Greater than zero."
+      },
+      "autonomia": {
+        "nazwa": "Days of operation without sun [days]",
+        "cel": "How long the system runs from the battery (and generator) when PV produces nothing.",
+        "gdzie": "Screen 4 “Blackout” (the button inserts the result) or Module 4 “Days of autonomy”.",
+        "zakres": "From 0 to the required days; more does not raise the score."
+      },
+      "wymaganaAutonomia": {
+        "nazwa": "Required days without sun [days]",
+        "cel": "How many days without sun the system has to survive.",
+        "gdzie": "Your decision; the Blackout scenario in the source is 10–14 days.",
+        "zakres": "Greater than zero."
+      },
+      "komponenty": {
+        "nazwa": "Number of components checked",
+        "cel": "The base for the share of components with redundancy.",
+        "gdzie": "Screen 10 “SPOF analysis” (the button inserts the numbers) — list: BMS, inverter, fuses, MPPT, pumps, sensors.",
+        "zakres": "A whole number, at least 1."
+      },
+      "spof": {
+        "nazwa": "Components without redundancy (SPOF)",
+        "cel": "The fewer there are, the higher the resistance to failures.",
+        "gdzie": "Screen 10 — components without redundancy ticked.",
+        "zakres": "From 0 to the number of components checked."
+      },
+      "brakAgregatu": {
+        "nazwa": "I have no generator",
+        "cel": "Without a generator the “generator power margin” component is 0%.",
+        "gdzie": "Your installation.",
+        "zakres": "Yes or no."
+      },
+      "mocAgregatu": {
+        "nazwa": "Generator power [kW]",
+        "cel": "How much power the generator gives.",
+        "gdzie": "The generator's rating plate; Screen 2 (button).",
+        "zakres": "Greater than zero."
+      },
+      "mocWymagana": {
+        "nazwa": "Power the generator must carry [kW]",
+        "cel": "What the generator power is compared with.",
+        "gdzie": "Peak power of the loads fed from the generator plus the battery charger — Module 2.",
+        "zakres": "Greater than zero."
+      },
+      "okno": {
+        "nazwa": "Freeze protection time [h]",
+        "cel": "How long the installation itself keeps freeze protection running (critical loads).",
+        "gdzie": "Screen 6 “Freeze protection” (the button inserts the supply time of the critical loads).",
+        "zakres": "At least 0; more than the reaction time does not raise the score."
+      },
+      "wymaganyCzas": {
+        "nazwa": "Time you need to react [h]",
+        "cel": "How much time you need to react: arrive, start the generator, drain the water.",
+        "gdzie": "Your estimate — depends on where you are when the system fails.",
+        "zakres": "Greater than zero."
+      },
+      "wlasneWagi": {
+        "nazwa": "Own weights",
+        "cel": "Lets you replace the provisional weights with your own.",
+        "gdzie": "Your decision — how important each component is to you.",
+        "zakres": "The weights must add up to 100%."
+      },
+      "waga": {
+        "nazwa": "Component weight [%]",
+        "cel": "How strongly the component affects the final result.",
+        "gdzie": "Default 30/25/20/15/10% (provisional, to be refined by the app owner); here you enter your own.",
+        "zakres": "0–100%, all together 100%."
+      }
+    }
+  },
 }
 
 export const ru: Tlumaczenie<typeof pl> = {
@@ -543,6 +719,94 @@ export const ru: Tlumaczenie<typeof pl> = {
         "cel": "Какая часть света проходит через изморозь.",
         "gdzie": "Наблюдение по инвертору; источник: около 5% через 48 ч.",
         "zakres": "0–100%."
+      }
+    }
+  },
+  "wspolczynnik-bezpieczenstwa-zimowego": {
+    "migawka": {
+      "oCoChodzi": "Это оценка на экзамене — она показывает, сдаст ли система зиму или будет пересдача, и из-за чего именно.",
+      "jakDziala": "Введите (или подставьте с других зимних экранов) пять групп данных: покрытие энергии в худшем месяце, дни автономии, число единичных точек отказа, мощность генератора и время защиты от замерзания. Каждая составляющая получает оценку 0–100%, а коэффициент — это средневзвешенное. Рядом видны самая слабая составляющая и список слабых мест.",
+      "poCo": "Одно число говорит, всё ли хорошо; список слабых мест — что исправлять в первую очередь.",
+      "fizyka": "W = Σ wᵢ·sᵢ / Σ wᵢ, где sᵢ = min(100%, что есть у системы ÷ что требует сценарий). Веса (30/25/20/15/10%) предварительные — требуют доработки владельцем приложения; можно ввести свои (сумма 100%). Составляющая ниже {prog}% — слабое место."
+    },
+    "pola": {
+      "produkcja": {
+        "nazwa": "Выработка PV в худшем месяце [кВт·ч]",
+        "cel": "Сколько энергии дадут панели в самый тяжёлый месяц зимы.",
+        "gdzie": "Модуль 3 — месячная выработка (обычно декабрь или январь); или кнопка с Экрана 2.",
+        "zakres": "Ваша установка; 0 = нет выработки."
+      },
+      "zapotrzebowanie": {
+        "nazwa": "Потребление в том же месяце [кВт·ч]",
+        "cel": "С этим сравнивается выработка.",
+        "gdzie": "Модуль 2 — месячное потребление (зимой вместе с отоплением).",
+        "zakres": "Больше нуля."
+      },
+      "autonomia": {
+        "nazwa": "Дни работы без солнца [дни]",
+        "cel": "Как долго система работает от батареи (и генератора), когда PV ничего не вырабатывает.",
+        "gdzie": "Экран 4 «Блэкаут» (кнопка подставляет результат) или Модуль 4 «Дни автономии».",
+        "zakres": "От 0 до требуемого числа дней; больше оценку не повышает."
+      },
+      "wymaganaAutonomia": {
+        "nazwa": "Требуемое число дней без солнца [дни]",
+        "cel": "Сколько дней без солнца система должна пережить.",
+        "gdzie": "Ваше решение; сценарий «Блэкаут» в источнике — 10–14 дней.",
+        "zakres": "Больше нуля."
+      },
+      "komponenty": {
+        "nazwa": "Число проверенных компонентов",
+        "cel": "База для расчёта доли компонентов с резервированием.",
+        "gdzie": "Экран 10 «Анализ SPOF» (кнопка подставляет числа) — список: BMS, инвертор, предохранители, MPPT, насосы, датчики.",
+        "zakres": "Целое число, не менее 1."
+      },
+      "spof": {
+        "nazwa": "Компоненты без резервирования (SPOF)",
+        "cel": "Чем их меньше, тем выше устойчивость к отказам.",
+        "gdzie": "Экран 10 — компоненты без отмеченного резервирования.",
+        "zakres": "От 0 до числа проверенных компонентов."
+      },
+      "brakAgregatu": {
+        "nazwa": "У меня нет генератора",
+        "cel": "Без генератора составляющая «запас мощности генератора» равна 0%.",
+        "gdzie": "Ваша установка.",
+        "zakres": "Да или нет."
+      },
+      "mocAgregatu": {
+        "nazwa": "Мощность генератора [кВт]",
+        "cel": "Сколько мощности даёт генератор.",
+        "gdzie": "Табличка генератора; Экран 2 (кнопка).",
+        "zakres": "Больше нуля."
+      },
+      "mocWymagana": {
+        "nazwa": "Мощность, которую генератор должен тянуть [кВт]",
+        "cel": "С этим сравнивается мощность генератора.",
+        "gdzie": "Пиковая мощность нагрузок, питаемых от генератора, плюс зарядное устройство батареи — Модуль 2.",
+        "zakres": "Больше нуля."
+      },
+      "okno": {
+        "nazwa": "Время защиты от замерзания [ч]",
+        "cel": "Как долго установка сама поддерживает защиту от замерзания (критичные нагрузки).",
+        "gdzie": "Экран 6 «Защита от замерзания» (кнопка подставляет время питания критичных нагрузок).",
+        "zakres": "Не менее 0; больше времени реакции оценку не повышает."
+      },
+      "wymaganyCzas": {
+        "nazwa": "Время, нужное вам на реакцию [ч]",
+        "cel": "Сколько времени вам нужно, чтобы среагировать: приехать, запустить генератор, слить воду.",
+        "gdzie": "Ваша оценка — зависит от того, где вы находитесь, когда система откажет.",
+        "zakres": "Больше нуля."
+      },
+      "wlasneWagi": {
+        "nazwa": "Собственные веса",
+        "cel": "Позволяет заменить предварительные веса своими.",
+        "gdzie": "Ваше решение — насколько важна для вас каждая составляющая.",
+        "zakres": "Сумма весов должна быть 100%."
+      },
+      "waga": {
+        "nazwa": "Вес составляющей [%]",
+        "cel": "Насколько сильно составляющая влияет на итоговый результат.",
+        "gdzie": "По умолчанию 30/25/20/15/10% (предварительные, требуют доработки владельцем приложения); здесь вводятся свои.",
+        "zakres": "0–100%, все вместе 100%."
       }
     }
   },

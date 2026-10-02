@@ -7,6 +7,7 @@ import { wentylacjaGrawitacyjnaTool } from "../wentylacja-grawitacyjna-tool"
 import { gwcTool } from "../gwc-tool"
 import { oknoSloneczneTool } from "../okno-sloneczne-tool"
 import { osadNaPvTool } from "../osad-na-pv-tool"
+import { wspolczynnikBezpieczenstwaZimowegoTool } from "../wspolczynnik-bezpieczenstwa-zimowego-tool"
 import { wplywCzynnikaTool } from "../wplyw-czynnika-tool"
 import { rozruchPompyCieplaTool } from "../rozruch-pompy-ciepla-tool"
 import { basenTool } from "../basen-tool"
@@ -246,5 +247,33 @@ describe("chlodzeniePompaCieplaTool (M6 Część 2C, dawne 5.29/5.47/5.51)", () 
     expect(w.pradPompyKwh).toBeCloseTo(4, 9)
     expect(w.status).toBe("VALID_WITH_WARNINGS")
     expect(w.ostrzezenia).toContain(t("pl", "CHL-PONIZEJ-ROSY", { zasilanie: 16, rosa: 16.7 }))
+  })
+})
+
+describe("wspolczynnikBezpieczenstwaZimowegoTool (M7/E12, dawne 6.14)", () => {
+  it("kontrakt 9.3: 'read', bez potwierdzenia", () => {
+    expect(wspolczynnikBezpieczenstwaZimowegoTool.operationType).toBe("read")
+    expect(wspolczynnikBezpieczenstwaZimowegoTool.requiresConfirmation).toBe(false)
+    expect(() => validateAiToolDefinition(wspolczynnikBezpieczenstwaZimowegoTool)).not.toThrow()
+  })
+
+  it("domyślne wagi → 74%, najsłabsza autonomia, informacja o wstępnych wagach jako tekst PL", async () => {
+    const w = await wspolczynnikBezpieczenstwaZimowegoTool.handler({
+      produkcjaNajgorszyMiesiacKwh: 80,
+      zapotrzebowanieNajgorszyMiesiacKwh: 100,
+      autonomiaDni: 6,
+      wymaganaAutonomiaDni: 10,
+      liczbaKomponentow: 10,
+      liczbaSpof: 1,
+      brakAgregatu: false,
+      mocAgregatuKw: 3.5,
+      mocWymaganaAgregatuKw: 5,
+      oknoReakcjiH: 6.5,
+      wymaganyCzasReakcjiH: 10,
+      wagiWlasne: null,
+    })
+    expect(w.wskaznikPct).toBeCloseTo(74, 9)
+    expect(w.najslabsza).toEqual({ id: "autonomia", wynikPct: 60 })
+    expect(w.ostrzezenia).toContain(t("pl", "WSP-WAGI-WSTEPNE"))
   })
 })

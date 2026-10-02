@@ -1710,6 +1710,19 @@ export const dictionaryPl = {
   "ANOM-PRZYCZYNA-USZKODZENIE": "Spadek nie wynika z pogody, brudu, śniegu ani cienia — prawdopodobne uszkodzenie (np. stringu), zalecana kontrola instalacji.",
   "ANOM-ZAL-PV": "Oczekiwana produkcja musi być liczona dla faktycznego nasłonecznienia tego okresu (prognoza, symulacja albo pomiar referencyjny) — inaczej odchylenie pokaże pogodę, nie usterkę. Progi z przykładów źródła („o 20% niższa”) to ilustracje, próg alarmu jest Twój.",
   "ANOM-ZAL-ZUZYCIE": "Oczekiwane zużycie to Twoje typowe dla tego samego okresu (np. ten sam dzień tygodnia). Przykład źródła „+40% w nocy” to ilustracja, próg alarmu jest Twój.",
+  "WSP-WARTOSC-UJEMNA": "Wpisana wartość nie może być ujemna.",
+  "WSP-SPOF-PONAD-LICZBE": "Komponentów bez redundancji ({spof}) nie może być więcej niż wszystkich sprawdzonych komponentów ({n}).",
+  "WSP-WAGI-SUMA": "Wagi muszą sumować się do 100% — teraz jest {suma}%. Popraw wagi albo wróć do domyślnych.",
+  "WSP-WAGI-WSTEPNE": "Używasz wag domyślnych: to WSTĘPNA propozycja (źródło nie podaje wag), przyjęta „na razie” przez właściciela aplikacji i do dopracowania. Wynik jest orientacyjny — możesz wpisać własne wagi.",
+  "WSP-WAGI-WLASNE": "Używasz własnych wag, wpisanych przez Ciebie — wynik zależy od nich, aplikacja nie ocenia, czy są słuszne.",
+  "WSP-SLABY-POKRYCIE": "Pokrycie energetyczne: {wynik}% (próg słabego punktu {prog}%). Produkcja PV w najgorszym miesiącu nie pokrywa zapotrzebowania — zwiększ produkcję (Moduł 3), ogranicz zużycie (Moduł 2) albo licz na agregat (Ekran 2).",
+  "WSP-SLABY-AUTONOMIA": "Czas autonomii: {wynik}% (próg {prog}%). Bateria nie wystarcza na wymaganą liczbę dni bez słońca — dołóż pojemność albo ogranicz zużycie (Ekran 4 „Blackout” liczy, ile brakuje).",
+  "WSP-SLABY-ODPORNOSC": "Odporność na awarie: {wynik}% (próg {prog}%). Część komponentów to pojedyncze punkty awarii — dodaj redundancję albo obejście (Ekran 10).",
+  "WSP-SLABY-AGREGAT": "Zapas mocy agregatu: {wynik}% (próg {prog}%). Agregat jest za słaby albo go nie ma — dobierz większy (Moduł 2) i sprawdź jego rozruch w mrozie (Ekran 8).",
+  "WSP-SLABY-REAKCJA": "Czas reakcji na zamarznięcie: {wynik}% (próg {prog}%). Instalacja chroni przed zamarznięciem krócej, niż potrzebujesz na reakcję — wydłuż ten czas (odłączanie odbiorników — Ekran 6, ciepło na zapas — Ekran 18) albo skróć czas reakcji.",
+  "WSP-ZALOZENIE-MAPOWANIE": "Źródło nie podaje, jak przeliczyć wartości na procenty — przyjęto stosunek „co system ma ÷ czego wymaga scenariusz”, obcięty do 100% (nadmiar nie jest nagradzany): pokrycie = produkcja ÷ zapotrzebowanie w najgorszym miesiącu, autonomia = dni pracy ÷ wymagane dni, odporność = udział komponentów z redundancją, agregat = moc ÷ wymagana moc (brak agregatu = 0%), reakcja = czas ochrony przed zamarznięciem ÷ czas potrzebny na reakcję. Do potwierdzenia przez właściciela.",
+  "WSP-ZALOZENIE-PROG": "Składowa poniżej {prog}% jest pokazana jako słaby punkt. Źródło nie podaje progu (jego przykład: 74% = „dobrze, ale są słabe punkty”) — {prog}% to wartość przyjęta.",
+  "WSP-ZALOZENIE-WAGI": "Wagi składowych (30/25/20/15/10%) to propozycja asystenta, przyjęta „na razie” przez właściciela; źródło mówi tylko, że każda składowa ma wagę. Do dopracowania i przeliczenia przez właściciela.",
 } as const
 
 export type KluczTlumaczenia = keyof typeof dictionaryPl
