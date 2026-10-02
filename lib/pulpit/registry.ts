@@ -209,6 +209,7 @@ export const KAFLE: KafelEntry[] = [
       { href: "/kalkulatory/wentylacja-grawitacyjna", label: "Straty przez wentylację grawitacyjną" },
       { href: "/kalkulatory/gwc", label: "Gruntowy wymiennik ciepła (GWC)" },
       { href: "/kalkulatory/wplyw-czynnika", label: "Wpływ czynnika na pompę ciepła" },
+      { href: "/kalkulatory/rozruch-pompy-ciepla", label: "Rozruch pompy ciepła z falownika/agregatu" },
     ],
   },
   {

@@ -1617,4 +1617,10 @@ export const dictionaryEn = {
   "WPC-ZAL-COP-REGULA": "No COP after the change entered — range from the source's rule: each °C lower flow temperature gives +{min}–{max}% COP, linearly.",
   "WPC-ZAL-START-STOP": "The pump runs start/stop, without power modulation and without a minimum running time.",
   "WPC-ZAL-ODWIERTY-LINIOWO": "Borehole power = length × W/m (as on the ground collector screen); warmer ground deeper down is not counted — the source gives no model.",
+  "ROZ-START-PONAD-SZCZYT": "The pump start with the other loads is {start} kVA while the source gives {szczyt} kW peak — it cannot carry the start. Use a soft starter or a stronger source.",
+  "ROZ-SOFTSTART-PONAD-SZCZYT": "Even with the soft starter the start is {start} kVA while the source gives {szczyt} kW peak — a stronger source is needed, or switch other loads off during the start.",
+  "ROZ-SOFTSTART-WYSTARCZY": "Without a soft starter the source could not carry the start; with it the start is {start} kVA and fits within {szczyt} kW.",
+  "ROZ-PRACA-PONAD-MOC": "While running, the pump with the other loads draws {praca} kW and the source's continuous power is {moc} kW.",
+  "ROZ-ZAL-KVA-JAK-KW": "The start apparent power (kVA) is compared with the kW rating as if cos φ = 1 — the datasheet has no power factor at start, and a lower one would only reduce the load, so the result errs on the safe side.",
+  "ROZ-ZAL-AGREGAT-KOSZT": "Source: running the pump from a generator is expensive heating — the fuel cost is on the generator screen (Module 2).",
 } satisfies Record<KluczTlumaczenia, string>

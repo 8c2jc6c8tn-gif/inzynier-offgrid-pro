@@ -543,6 +543,70 @@ export const pl = {
       }
     }
   },
+  "rozruch-pompy-ciepla": {
+    "migawka": {
+      "oCoChodzi": "Sprężarka pompy ciepła przy starcie bierze kilka razy więcej prądu niż w pracy. W off-gridzie to ten moment decyduje, czy falownik albo agregat się nie wyłączy.",
+      "jakDziala": "Wpisz prąd rozruchowy z karty pompy, napięcie i liczbę faz. Aplikacja liczy moc rozruchu (kVA), dodaje inne odbiorniki i porównuje z mocą szczytową źródła; pracę pompy porównuje z mocą ciągłą. Jeśli wpiszesz prąd z softstartem — sprawdza, czy wystarczy.",
+      "poCo": "Pompa bez softstartu to jak młot na falownik — lepiej wiedzieć przed zakupem niż po pierwszym mrozie.",
+      "fizyka": "S = U·I (1 faza), S = √3·U·I (3 fazy). Warunki: S_start + P_inne ≤ P_szczyt, P_pracy + P_inne ≤ P_ciągła."
+    },
+    "pola": {
+      "zrodlo": {
+        "nazwa": "Źródło zasilania pompy",
+        "cel": "Falownik ma krótką moc szczytową (sekundy), agregat — moc maksymalną; obu dotyczy to samo porównanie.",
+        "gdzie": "Twój system.",
+        "zakres": "Falownik albo agregat."
+      },
+      "fazy": {
+        "nazwa": "Liczba faz zasilania pompy",
+        "cel": "Moc pozorna: 1 faza U·I, 3 fazy √3·U·I.",
+        "gdzie": "Karta pompy / tabliczka znamionowa.",
+        "zakres": "Karta katalogowa — aplikacja nie zakłada wartości."
+      },
+      "napiecie": {
+        "nazwa": "Napięcie zasilania [V]",
+        "cel": "Dla 1 fazy napięcie fazowe, dla 3 faz międzyfazowe.",
+        "gdzie": "Tabliczka znamionowa pompy.",
+        "zakres": "Karta katalogowa — aplikacja nie zakłada wartości."
+      },
+      "prad": {
+        "nazwa": "Prąd rozruchowy sprężarki LRA [A]",
+        "cel": "Prąd w chwili startu — z niego moc rozruchu.",
+        "gdzie": "Karta pompy: LRA (Locked Rotor Amps) albo „prąd rozruchowy”. Pompa z inwerterem ma go małego.",
+        "zakres": "Karta katalogowa — aplikacja nie zakłada wartości."
+      },
+      "softstart": {
+        "nazwa": "Prąd rozruchu z softstartem [A]",
+        "cel": "Opcjonalne: sprawdza, czy softstart wystarczy (rada źródła).",
+        "gdzie": "Karta softstartu albo producenta pompy.",
+        "zakres": "Karta katalogowa — aplikacja nie zakłada wartości."
+      },
+      "pobor": {
+        "nazwa": "Pobór elektryczny pompy w pracy [kW]",
+        "cel": "Porównywany z mocą ciągłą źródła.",
+        "gdzie": "Karta pompy (moc elektryczna w punkcie pracy) albo Ekran 5 (moc ÷ COP).",
+        "zakres": "Karta katalogowa — aplikacja nie zakłada wartości."
+      },
+      "inne": {
+        "nazwa": "Inne odbiorniki w tym samym czasie [kW]",
+        "cel": "Pracują dalej, gdy sprężarka startuje — dodane do szczytu i do pracy.",
+        "gdzie": "Moduł 2 (bilans odbiorników).",
+        "zakres": "Twój dom."
+      },
+      "ciagla": {
+        "nazwa": "Moc ciągła falownika / znamionowa agregatu [kW]",
+        "cel": "Limit dla pracy pompy z innymi odbiornikami.",
+        "gdzie": "Karta falownika / tabliczka agregatu.",
+        "zakres": "Karta katalogowa — aplikacja nie zakłada wartości."
+      },
+      "szczytowa": {
+        "nazwa": "Moc szczytowa falownika / maksymalna agregatu [kW]",
+        "cel": "Limit dla chwili rozruchu.",
+        "gdzie": "Karta falownika (moc szczytowa przez kilka sekund) / tabliczka agregatu (moc maksymalna).",
+        "zakres": "Karta katalogowa — aplikacja nie zakłada wartości."
+      }
+    }
+  },
 }
 
 export const en: Tlumaczenie<typeof pl> = {
@@ -1084,6 +1148,70 @@ export const en: Tlumaczenie<typeof pl> = {
       }
     }
   },
+  "rozruch-pompy-ciepla": {
+    "migawka": {
+      "oCoChodzi": "At start a heat pump compressor draws several times more current than when running. Off-grid, that moment decides whether the inverter or generator trips.",
+      "jakDziala": "Enter the start current from the pump datasheet, the voltage and the phases. The app computes the start power (kVA), adds the other loads and compares with the source's peak power; it compares running with the continuous power. With a soft-start current entered it checks whether that is enough.",
+      "poCo": "A pump without a soft starter is a hammer on the inverter — better to know before buying than after the first frost.",
+      "fizyka": "S = U·I (single phase), S = √3·U·I (three phase). Conditions: S_start + P_other ≤ P_peak, P_run + P_other ≤ P_continuous."
+    },
+    "pola": {
+      "zrodlo": {
+        "nazwa": "Pump power source",
+        "cel": "An inverter has a short peak power (seconds), a generator a maximum power; the same comparison applies to both.",
+        "gdzie": "Your system.",
+        "zakres": "Inverter or generator."
+      },
+      "fazy": {
+        "nazwa": "Number of pump supply phases",
+        "cel": "Apparent power: single phase U·I, three phase √3·U·I.",
+        "gdzie": "Pump datasheet / nameplate.",
+        "zakres": "Datasheet — the app assumes no value."
+      },
+      "napiecie": {
+        "nazwa": "Supply voltage [V]",
+        "cel": "Phase voltage for single phase, line-to-line for three phase.",
+        "gdzie": "Pump nameplate.",
+        "zakres": "Datasheet — the app assumes no value."
+      },
+      "prad": {
+        "nazwa": "Compressor start current LRA [A]",
+        "cel": "Current at the moment of start — the start power comes from it.",
+        "gdzie": "Pump datasheet: LRA (Locked Rotor Amps) or \"start current\". An inverter pump has a small one.",
+        "zakres": "Datasheet — the app assumes no value."
+      },
+      "softstart": {
+        "nazwa": "Start current with soft starter [A]",
+        "cel": "Optional: checks whether a soft starter is enough (the source's advice).",
+        "gdzie": "Soft starter or pump maker's datasheet.",
+        "zakres": "Datasheet — the app assumes no value."
+      },
+      "pobor": {
+        "nazwa": "Pump electrical draw while running [kW]",
+        "cel": "Compared with the source's continuous power.",
+        "gdzie": "Pump datasheet (electrical power at the operating point) or Screen 5 (power ÷ COP).",
+        "zakres": "Datasheet — the app assumes no value."
+      },
+      "inne": {
+        "nazwa": "Other loads at the same time [kW]",
+        "cel": "They keep running while the compressor starts — added to the peak and to running.",
+        "gdzie": "Module 2 (load balance).",
+        "zakres": "Your house."
+      },
+      "ciagla": {
+        "nazwa": "Inverter continuous / generator rated power [kW]",
+        "cel": "Limit for the pump running with other loads.",
+        "gdzie": "Inverter datasheet / generator nameplate.",
+        "zakres": "Datasheet — the app assumes no value."
+      },
+      "szczytowa": {
+        "nazwa": "Inverter peak / generator maximum power [kW]",
+        "cel": "Limit for the moment of start.",
+        "gdzie": "Inverter datasheet (peak power for a few seconds) / generator nameplate (maximum power).",
+        "zakres": "Datasheet — the app assumes no value."
+      }
+    }
+  },
 }
 
 export const ru: Tlumaczenie<typeof pl> = {
@@ -1622,6 +1750,70 @@ export const ru: Tlumaczenie<typeof pl> = {
         "cel": "На сколько остывает вода, прежде чем насос снова запустится.",
         "gdzie": "Уставка контроллера насоса.",
         "zakres": "Инструкция контроллера."
+      }
+    }
+  },
+  "rozruch-pompy-ciepla": {
+    "migawka": {
+      "oCoChodzi": "При пуске компрессор теплового насоса берёт в несколько раз больше тока, чем в работе. В автономной системе именно этот момент решает, не отключится ли инвертор или генератор.",
+      "jakDziala": "Введите пусковой ток из паспорта насоса, напряжение и число фаз. Приложение считает мощность пуска (кВА), добавляет другие нагрузки и сравнивает с пиковой мощностью источника; работу насоса — с длительной мощностью. Если ввести ток с плавным пуском — проверяет, хватит ли его.",
+      "poCo": "Насос без плавного пуска — как молот по инвертору; лучше знать до покупки, чем после первого мороза.",
+      "fizyka": "S = U·I (1 фаза), S = √3·U·I (3 фазы). Условия: S_пуск + P_другие ≤ P_пик, P_работа + P_другие ≤ P_длительная."
+    },
+    "pola": {
+      "zrodlo": {
+        "nazwa": "Источник питания насоса",
+        "cel": "У инвертора короткая пиковая мощность (секунды), у генератора — максимальная; к обоим применяется одно и то же сравнение.",
+        "gdzie": "Ваша система.",
+        "zakres": "Инвертор или генератор."
+      },
+      "fazy": {
+        "nazwa": "Число фаз питания насоса",
+        "cel": "Полная мощность: 1 фаза U·I, 3 фазы √3·U·I.",
+        "gdzie": "Паспорт насоса / табличка.",
+        "zakres": "Паспорт — приложение не подставляет значений."
+      },
+      "napiecie": {
+        "nazwa": "Напряжение питания [В]",
+        "cel": "Для 1 фазы — фазное, для 3 фаз — линейное.",
+        "gdzie": "Табличка насоса.",
+        "zakres": "Паспорт — приложение не подставляет значений."
+      },
+      "prad": {
+        "nazwa": "Пусковой ток компрессора LRA [А]",
+        "cel": "Ток в момент пуска — из него мощность пуска.",
+        "gdzie": "Паспорт насоса: LRA (ток заторможенного ротора) или «пусковой ток». У инверторного насоса он мал.",
+        "zakres": "Паспорт — приложение не подставляет значений."
+      },
+      "softstart": {
+        "nazwa": "Пусковой ток с плавным пуском [А]",
+        "cel": "Необязательно: проверяет, хватит ли плавного пуска (совет источника).",
+        "gdzie": "Паспорт устройства плавного пуска или производителя насоса.",
+        "zakres": "Паспорт — приложение не подставляет значений."
+      },
+      "pobor": {
+        "nazwa": "Электрическое потребление насоса в работе [кВт]",
+        "cel": "Сравнивается с длительной мощностью источника.",
+        "gdzie": "Паспорт насоса (электрическая мощность в рабочей точке) или Экран 5 (мощность ÷ COP).",
+        "zakres": "Паспорт — приложение не подставляет значений."
+      },
+      "inne": {
+        "nazwa": "Другие нагрузки в это же время [кВт]",
+        "cel": "Продолжают работать при пуске компрессора — добавляются к пику и к работе.",
+        "gdzie": "Модуль 2 (баланс нагрузок).",
+        "zakres": "Ваш дом."
+      },
+      "ciagla": {
+        "nazwa": "Длительная мощность инвертора / номинальная генератора [кВт]",
+        "cel": "Предел для работы насоса с другими нагрузками.",
+        "gdzie": "Паспорт инвертора / табличка генератора.",
+        "zakres": "Паспорт — приложение не подставляет значений."
+      },
+      "szczytowa": {
+        "nazwa": "Пиковая мощность инвертора / максимальная генератора [кВт]",
+        "cel": "Предел для момента пуска.",
+        "gdzie": "Паспорт инвертора (пиковая мощность на несколько секунд) / табличка генератора (максимальная мощность).",
+        "zakres": "Паспорт — приложение не подставляет значений."
       }
     }
   },

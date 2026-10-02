@@ -1629,6 +1629,12 @@ export const dictionaryPl = {
   "WPC-ZAL-COP-REGULA": "Nie wpisano COP po zmianie — widełki z reguły źródła: każdy °C niższego zasilania to +{min}–{max}% COP, liniowo.",
   "WPC-ZAL-START-STOP": "Pompa pracuje start/stop, bez modulacji mocy i bez minimalnego czasu pracy.",
   "WPC-ZAL-ODWIERTY-LINIOWO": "Moc z odwiertu = długość × W/m (jak na ekranie kolektora gruntowego); cieplejszy grunt głębiej nie jest liczony — źródło nie daje modelu.",
+  "ROZ-START-PONAD-SZCZYT": "Rozruch pompy z innymi odbiornikami to {start} kVA, a źródło daje szczytowo {szczyt} kW — nie udźwignie startu. Zastosuj softstart albo mocniejsze źródło.",
+  "ROZ-SOFTSTART-PONAD-SZCZYT": "Nawet z softstartem rozruch to {start} kVA, a źródło daje szczytowo {szczyt} kW — potrzebne mocniejsze źródło albo wyłączenie innych odbiorników na czas startu.",
+  "ROZ-SOFTSTART-WYSTARCZY": "Bez softstartu źródło by nie udźwignęło startu; z softstartem rozruch to {start} kVA i mieści się w {szczyt} kW.",
+  "ROZ-PRACA-PONAD-MOC": "W pracy pompa z innymi odbiornikami pobiera {praca} kW, a moc ciągła źródła to {moc} kW.",
+  "ROZ-ZAL-KVA-JAK-KW": "Moc pozorna rozruchu (kVA) porównana z mocą w kW tak, jakby cos φ = 1 — w karcie nie ma współczynnika mocy przy starcie, a niższy tylko zmniejszyłby obciążenie, więc wynik jest po bezpiecznej stronie.",
+  "ROZ-ZAL-AGREGAT-KOSZT": "Źródło: praca pompy z agregatu to drogie ogrzewanie — koszt paliwa liczy ekran agregatu (Moduł 2).",
 } as const
 
 export type KluczTlumaczenia = keyof typeof dictionaryPl

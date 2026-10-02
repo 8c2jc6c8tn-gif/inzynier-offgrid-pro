@@ -8,6 +8,7 @@ import { gwcTool } from "../gwc-tool"
 import { oknoSloneczneTool } from "../okno-sloneczne-tool"
 import { osadNaPvTool } from "../osad-na-pv-tool"
 import { wplywCzynnikaTool } from "../wplyw-czynnika-tool"
+import { rozruchPompyCieplaTool } from "../rozruch-pompy-ciepla-tool"
 
 describe("deficytyMiesieczneTool (M7/E2, dawne 6.2)", () => {
   it("kontrakt 9.3: 'read', bez potwierdzenia", () => {
@@ -156,5 +157,28 @@ describe("wplywCzynnikaTool (M6 Część 2D, dawne 5.69, 5.73–5.100)", () => {
     })
     expect(w.wynik).toBe(t("pl", "WPC-G-MOC", { przed: 1.2, po: 0.6, zmiana: -0.6 }))
     expect(w.ostrzezenia).toContain(t("pl", "WPC-POMPA-ZA-MALA", { zapotrzebowanie: 7.4, moc: 7 }))
+  })
+})
+
+describe("rozruchPompyCieplaTool (M6 Część 2C, dawne 5.52, 5.61, 5.66)", () => {
+  it("kontrakt 9.3: 'read', bez potwierdzenia", () => {
+    expect(rozruchPompyCieplaTool.operationType).toBe("read")
+    expect(rozruchPompyCieplaTool.requiresConfirmation).toBe(false)
+    expect(() => validateAiToolDefinition(rozruchPompyCieplaTool)).not.toThrow()
+  })
+
+  it("40 A × 230 V przy szczycie 7,5 kW → 🟡 nie udźwignie jako tekst PL", async () => {
+    const w = await rozruchPompyCieplaTool.handler({
+      zrodlo: "falownik",
+      fazy: 1,
+      napiecieV: 230,
+      pradRozruchuA: 40,
+      pradSoftstartA: 0,
+      poborPracyKw: 2,
+      inneObciazenieKw: 0,
+      mocCiaglaKw: 5,
+      mocSzczytowaKw: 7.5,
+    })
+    expect(w.ostrzezenia).toContain(t("pl", "ROZ-START-PONAD-SZCZYT", { start: 9.2, szczyt: 7.5 }))
   })
 })
