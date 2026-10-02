@@ -4,6 +4,7 @@ import { validateAiToolDefinition } from "../../types"
 import { doborMocyPompyTool } from "../dobor-mocy-pompy-tool"
 import { krzywaGrzewczaTool } from "../krzywa-grzewcza-tool"
 import { modelSezonowyPompyTool } from "../model-sezonowy-pompy-tool"
+import { buforPracaPompyTool } from "../bufor-praca-pompy-tool"
 
 describe("doborMocyPompyTool (M6 Część 2B, dawne 5.27 + 5.67)", () => {
   it("kontrakt 9.3: 'read', bez potwierdzenia", () => {
@@ -66,5 +67,28 @@ describe("modelSezonowyPompyTool (M6 Część 2C, dawne 5.64 + 5.43)", () => {
     })
     expect(w.energiaSumaKwh).toBeCloseTo(1000, 9)
     expect(w.ostrzezenia).toContain(t("pl", "MSP-ZIMA-ZAPAS", { kwh: 1000, doba: 32.26 }))
+  })
+})
+
+describe("buforPracaPompyTool (M6 Część 2B, dawne 5.28 + 5.70)", () => {
+  it("kontrakt 9.3: 'read', bez potwierdzenia", () => {
+    expect(buforPracaPompyTool.operationType).toBe("read")
+    expect(buforPracaPompyTool.requiresConfirmation).toBe(false)
+    expect(() => validateAiToolDefinition(buforPracaPompyTool)).not.toThrow()
+  })
+
+  it("bufor 400 l przy 100 l wody → 5× mniej startów; założenie o oszczędnościach jako tekst PL", async () => {
+    const w = await buforPracaPompyTool.handler({
+      mocPompyKw: 8,
+      obciazenieKw: 2,
+      wodaInstalacjiL: 100,
+      histerezaK: 5,
+      buforL: 400,
+      dTMagazynK: 0,
+      stratyPostojoweW: 0,
+      dniPracy: 0,
+    })
+    expect(w.bez!.startyDoba / w.z!.startyDoba).toBeCloseTo(5, 9)
+    expect(w.zalozenia).toContain(t("pl", "BPP-ZAL-BEZ-OSZCZEDNOSCI"))
   })
 })

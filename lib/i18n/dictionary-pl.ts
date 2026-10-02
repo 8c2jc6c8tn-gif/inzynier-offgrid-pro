@@ -1658,6 +1658,7 @@ export const dictionaryPl = {
   "MSP-SCOP-WYZSZY": "Realny SCOP {realny} nie jest niższy od katalogowego {kat} — sprawdź, czy COP miesięcy są z karty dla Twojej temperatury zasilania i czy zimowe miesiące mają COP z defrostem.",
   "MSP-ZAL-COP-MIESIACA": "COP miesiąca z karty przy średniej temperaturze miesiąca. Spadek COP przy częściowym obciążeniu, starty i wahania napięcia off-grid nie są liczone — źródło je wymienia bez modelu. Miesiąc ze szronieniem: wpisz COP z defrostem z Ekranu 6.",
   "MSP-ZAL-TYLKO-CO": "Tylko ogrzewanie — ciepła woda ma inny COP (wyższa temperatura), jej prąd liczy Ekran 18.",
+  "BPP-ZAL-BEZ-OSZCZEDNOSCI": "Oszczędności energii z mniejszej liczby startów i dłuższego życia sprężarki ekran nie liczy — źródło podaje tylko przykładowe procenty (15% i 10% dla tego samego przypadku), bez modelu. Liczy starty, zmagazynowane ciepło i straty postojowe.",
 } as const
 
 export type KluczTlumaczenia = keyof typeof dictionaryPl

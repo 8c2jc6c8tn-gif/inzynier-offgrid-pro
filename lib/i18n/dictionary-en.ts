@@ -1646,4 +1646,5 @@ export const dictionaryEn = {
   "MSP-SCOP-WYZSZY": "The real SCOP {realny} is not below the catalogue {kat} — check that the monthly COPs come from the datasheet for your flow temperature and that winter months use the COP with defrost.",
   "MSP-ZAL-COP-MIESIACA": "Monthly COP from the datasheet at the month's mean temperature. Part-load COP drop, starts and off-grid voltage swings are not counted — the source lists them without a model. A month with frosting: enter the COP with defrost from Screen 6.",
   "MSP-ZAL-TYLKO-CO": "Space heating only — hot water has another COP (higher temperature), its electricity is on Screen 18.",
+  "BPP-ZAL-BEZ-OSZCZEDNOSCI": "The screen does not compute the energy saving from fewer starts or the longer compressor life — the source gives only example percentages (15% and 10% for the same case), without a model. It computes starts, stored heat and standing losses.",
 } satisfies Record<KluczTlumaczenia, string>

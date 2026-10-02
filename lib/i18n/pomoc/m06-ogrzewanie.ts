@@ -19,7 +19,7 @@ export const pl = {
   "bufor-ciepla": {
     migawka: {
       oCoChodzi: "Bufor to termos dla ciepła — gromadzi je, gdy jest „tanio” (słońce świeci), i oddaje, gdy jest „drogo” (noc, chmury).",
-      jakDziala: "Zalecana pojemność = moc pompy ciepła × {lkw} l/kW. Porównuję ją z pojemnością, którą masz albo planujesz.",
+      jakDziala: "Zalecana pojemność = moc pompy ciepła × {lkw} l/kW. Porównuję ją z pojemnością, którą masz albo planujesz. Niżej: ile startów na dobę pompa robi bez bufora i z nim, ile ciepła bufor zmagazynuje z PV i ile traci postojowo.",
       poCo: "Wiesz, czy bufor pozwoli pompie pracować w dzień na prądzie z PV i oddać ciepło w nocy — i czy nie będzie taktować.",
       fizyka: "V_zal = P · {lkw} l/kW.",
     },
@@ -252,7 +252,7 @@ export const en: Tlumaczenie<typeof pl> = {
   "bufor-ciepla": {
     migawka: {
       oCoChodzi: "A buffer is a thermos for heat — it stores it when it is “cheap” (sun shining) and releases it when it is “expensive” (night, clouds).",
-      jakDziala: "Recommended volume = heat pump output × {lkw} l/kW. I compare it with the volume you have or plan.",
+      jakDziala: "Recommended volume = heat pump output × {lkw} l/kW. I compare it with the volume you have or plan. Below: how many starts per day the pump makes without and with the buffer, how much heat the buffer stores from PV and how much it loses standing.",
       poCo: "You know whether the buffer lets the pump run on PV power by day and release heat at night — and whether it will short-cycle.",
       fizyka: "V_rec = P · {lkw} l/kW.",
     },
@@ -485,7 +485,7 @@ export const ru: Tlumaczenie<typeof pl> = {
   "bufor-ciepla": {
     migawka: {
       oCoChodzi: "Буфер — это термос для тепла: накапливает его, когда оно «дешёвое» (светит солнце), и отдаёт, когда «дорогое» (ночь, облака).",
-      jakDziala: "Рекомендуемый объём = мощность теплового насоса × {lkw} л/кВт. Сравниваю его с объёмом, который у вас есть или планируется.",
+      jakDziala: "Рекомендуемый объём = мощность теплового насоса × {lkw} л/кВт. Сравниваю его с объёмом, который у вас есть или планируется. Ниже: сколько пусков в сутки насос делает без буфера и с ним, сколько тепла буфер запасает от PV и сколько теряет в простое.",
       poCo: "Вы знаете, позволит ли буфер насосу работать днём на энергии PV и отдавать тепло ночью — и не будет ли он тактовать.",
       fizyka: "V_рек = P · {lkw} л/кВт.",
     },

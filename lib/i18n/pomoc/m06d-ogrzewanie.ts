@@ -113,6 +113,46 @@ export const pl = {
       },
     },
   },
+  "m6d-bufor-praca-pompy": {
+    pola: {
+      obciazenie: {
+        nazwa: "Średnie zapotrzebowanie na ciepło w analizowanym okresie [kW]",
+        cel: "Tyle ciepła dom zabiera z wody, gdy pompa stoi — od tego zależy długość postoju i liczba startów.",
+        gdzie: "Ekran 2 (kWh na dobę ÷ 24) dla miesiąca, który sprawdzasz — np. przejściowego, gdy taktowanie jest największe.",
+        zakres: "≥ 0. Twój dom. Równe mocy pompy lub większe = praca ciągła.",
+      },
+      woda: {
+        nazwa: "Woda w instalacji bez bufora [l]",
+        cel: "Bez bufora tylko ta woda magazynuje ciepło między startami.",
+        gdzie: "Projekt instalacji albo pojemność rur + grzejników/pętli podłogówki + wymiennika pompy (karty).",
+        zakres: "≥ 0. Twoja instalacja — aplikacja nie przyjmuje typowej wartości za Ciebie.",
+      },
+      histereza: {
+        nazwa: "Histereza sterownika [K]",
+        cel: "O ile woda stygnie, zanim pompa znowu ruszy — razem z ilością wody daje ciepło jednego cyklu.",
+        gdzie: "Ustawienia sterownika pompy (różnica załączenia/wyłączenia).",
+        zakres: "> 0. Twój sterownik.",
+      },
+      dTMagazyn: {
+        nazwa: "Ładowanie bufora ponad minimum [K]",
+        cel: "Opcjonalne: o ile stopni możesz „naładować” bufor nadwyżką PV — daje zmagazynowane ciepło.",
+        gdzie: "Najwyższa temperatura, do której pompa grzeje bufor, minus najniższa temperatura, przy której bufor jeszcze grzeje dom.",
+        zakres: "≥ 0. Twoja instalacja.",
+      },
+      straty: {
+        nazwa: "Straty postojowe bufora [W]",
+        cel: "Opcjonalne: cena większego bufora — ciepło, które ucieka przez izolację.",
+        gdzie: "Karta / etykieta energetyczna zbiornika (straty postojowe S w W).",
+        zakres: "≥ 0. Karta Twojego bufora.",
+      },
+      dni: {
+        nazwa: "Dni pracy w sezonie",
+        cel: "Opcjonalne: straty postojowe w całym sezonie.",
+        gdzie: "Długość sezonu grzewczego (Ekran 2) albo dni, gdy bufor jest gorący.",
+        zakres: "≥ 0. Twój sezon.",
+      },
+    },
+  },
 }
 
 export const en: Tlumaczenie<typeof pl> = {
@@ -224,6 +264,46 @@ export const en: Tlumaczenie<typeof pl> = {
       },
     },
   },
+  "m6d-bufor-praca-pompy": {
+    pola: {
+      obciazenie: {
+        nazwa: "Average heat load in the analysed period [kW]",
+        cel: "How much heat the house takes from the water while the pump stands — it sets the standstill and the number of starts.",
+        gdzie: "Screen 2 (kWh per day ÷ 24) for the month you check — e.g. a mild one, when cycling is worst.",
+        zakres: "≥ 0. Your house. Equal to the pump power or more = continuous run.",
+      },
+      woda: {
+        nazwa: "Water in the installation without a buffer [l]",
+        cel: "Without a buffer only this water stores heat between starts.",
+        gdzie: "Installation design, or the volume of pipes + radiators/floor loops + the pump's heat exchanger (datasheets).",
+        zakres: "≥ 0. Your installation — the app never assumes a typical value for you.",
+      },
+      histereza: {
+        nazwa: "Controller hysteresis [K]",
+        cel: "How much the water cools before the pump starts again — with the water volume it gives the heat of one cycle.",
+        gdzie: "Pump controller settings (switch-on/switch-off difference).",
+        zakres: "> 0. Your controller.",
+      },
+      dTMagazyn: {
+        nazwa: "Buffer charge above minimum [K]",
+        cel: "Optional: how many degrees you can „charge” the buffer with PV surplus — gives the stored heat.",
+        gdzie: "The highest temperature the pump heats the buffer to, minus the lowest temperature at which the buffer still heats the house.",
+        zakres: "≥ 0. Your installation.",
+      },
+      straty: {
+        nazwa: "Buffer standing loss [W]",
+        cel: "Optional: the price of a bigger buffer — heat leaking through the insulation.",
+        gdzie: "Tank datasheet / energy label (standing loss S in W).",
+        zakres: "≥ 0. Your buffer's datasheet.",
+      },
+      dni: {
+        nazwa: "Days of operation per season",
+        cel: "Optional: standing losses over the whole season.",
+        gdzie: "Length of the heating season (Screen 2), or the days the buffer is hot.",
+        zakres: "≥ 0. Your season.",
+      },
+    },
+  },
 }
 
 export const ru: Tlumaczenie<typeof pl> = {
@@ -332,6 +412,46 @@ export const ru: Tlumaczenie<typeof pl> = {
         cel: "Необязательно: сравнение с реальным SCOP вашего дома.",
         gdzie: "Паспорт насоса / энергетическая этикетка (SCOP для умеренного климата и вашей температуры подачи).",
         zakres: "≥ 1. Паспорт вашего насоса.",
+      },
+    },
+  },
+  "m6d-bufor-praca-pompy": {
+    pola: {
+      obciazenie: {
+        nazwa: "Средняя тепловая нагрузка в анализируемый период [кВт]",
+        cel: "Столько тепла дом забирает из воды, пока насос стоит, — от этого зависят длина простоя и число пусков.",
+        gdzie: "Экран 2 (кВт·ч в сутки ÷ 24) для проверяемого месяца — например, межсезонного, когда тактование сильнее всего.",
+        zakres: "≥ 0. Ваш дом. Равно мощности насоса или больше = непрерывная работа.",
+      },
+      woda: {
+        nazwa: "Вода в системе без буфера [л]",
+        cel: "Без буфера только эта вода запасает тепло между пусками.",
+        gdzie: "Проект системы или объём труб + радиаторов/петель тёплого пола + теплообменника насоса (паспорта).",
+        zakres: "≥ 0. Ваша система — приложение не подставляет типичное значение за вас.",
+      },
+      histereza: {
+        nazwa: "Гистерезис контроллера [K]",
+        cel: "На сколько остывает вода, прежде чем насос снова запустится, — вместе с объёмом воды даёт тепло одного цикла.",
+        gdzie: "Настройки контроллера насоса (разница включения/выключения).",
+        zakres: "> 0. Ваш контроллер.",
+      },
+      dTMagazyn: {
+        nazwa: "Зарядка буфера выше минимума [K]",
+        cel: "Необязательно: на сколько градусов можно «зарядить» буфер избытком PV — даёт запасённое тепло.",
+        gdzie: "Максимальная температура, до которой насос греет буфер, минус минимальная, при которой буфер ещё отапливает дом.",
+        zakres: "≥ 0. Ваша система.",
+      },
+      straty: {
+        nazwa: "Потери буфера в простое [Вт]",
+        cel: "Необязательно: цена большего буфера — тепло, уходящее через изоляцию.",
+        gdzie: "Паспорт / энергетическая этикетка бака (потери в простое S, Вт).",
+        zakres: "≥ 0. Паспорт вашего буфера.",
+      },
+      dni: {
+        nazwa: "Дней работы за сезон",
+        cel: "Необязательно: потери в простое за весь сезон.",
+        gdzie: "Длина отопительного сезона (экран 2) или дни, когда буфер горячий.",
+        zakres: "≥ 0. Ваш сезон.",
       },
     },
   },
