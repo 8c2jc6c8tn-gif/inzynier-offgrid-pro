@@ -21,10 +21,10 @@ import { useTranslate } from "@/lib/i18n/language-context"
 type Zakladka = "sprawnosc" | "degradacja" | "uzysk" | "cienkowarstwowe"
 
 const ZAKLADKI: { id: Zakladka; etykieta: string }[] = [
-  { id: "sprawnosc", etykieta: "Sprawność" },
-  { id: "degradacja", etykieta: "Degradacja" },
-  { id: "uzysk", etykieta: "Uzysk roczny" },
-  { id: "cienkowarstwowe", etykieta: "Cienkowarstwowe" },
+  { id: "sprawnosc", etykieta: "UI-TECPAN-SPRAWNOSC" },
+  { id: "degradacja", etykieta: "UI-TECPAN-DEGRADACJA" },
+  { id: "uzysk", etykieta: "UI-TECPAN-UZYSK-ROCZNY" },
+  { id: "cienkowarstwowe", etykieta: "UI-TECPAN-CIENKOWARSTWOWE" },
 ]
 
 type FormularzStan = { zakladka: Zakladka; mocInstalacjiKwp: string }
@@ -62,44 +62,43 @@ export default function TechnologiePaneliPage() {
 
   type Wiersz = (typeof TECHNOLOGIE_KRYSTALICZNE)[number]
   const kolumnySprawnosc: Kolumna<Wiersz>[] = [
-    { naglowek: "Technologia", render: (r) => <span className="font-medium">{r.nazwa}</span> },
-    { naglowek: "Sprawność", render: (r) => opisSprawnosci(r.sprawnosc), liczbowa: true },
-    { naglowek: "Powierzchnia modułów", render: (r) => opisPowierzchni(r.id), liczbowa: true },
-    { naglowek: "Na czym polega", render: (r) => r.opis },
+    { naglowek: t("UI-TECPAN-TECHNOLOGIA"), render: (r) => <span className="font-medium">{r.nazwa}</span> },
+    { naglowek: t("UI-TECPAN-SPRAWNOSC"), render: (r) => opisSprawnosci(r.sprawnosc), liczbowa: true },
+    { naglowek: t("UI-TECPAN-POWIERZCHNIA-MODULOW"), render: (r) => opisPowierzchni(r.id), liczbowa: true },
+    { naglowek: t("UI-TECPAN-CZYM-POLEGA"), render: (r) => r.opis },
   ]
   const kolumnyDegradacja: Kolumna<Wiersz>[] = [
-    { naglowek: "Technologia", render: (r) => <span className="font-medium">{r.nazwa}</span> },
+    { naglowek: t("UI-TECPAN-TECHNOLOGIA"), render: (r) => <span className="font-medium">{r.nazwa}</span> },
     {
-      naglowek: "Degradacja roczna",
-      render: (r) => (r.degradacjaRocznaPct === null ? "brak danych" : `${f1(r.degradacjaRocznaPct)}%/rok`),
+      naglowek: t("UI-TECPAN-DEGRADACJA-ROCZNA"),
+      render: (r) => (r.degradacjaRocznaPct === null ? t("UI-TECPAN-BRAK-DANYCH") : t("UI-TECPAN-PCT-ROK", { p: f1(r.degradacjaRocznaPct) })),
       liczbowa: true,
     },
-    { naglowek: "LID", render: (r) => r.lidOpis ?? "brak danych" },
-    { naglowek: "PID", render: (r) => r.pidOpis ?? "brak danych" },
+    { naglowek: "LID", render: (r) => r.lidOpis ?? t("UI-TECPAN-BRAK-DANYCH") },
+    { naglowek: "PID", render: (r) => r.pidOpis ?? t("UI-TECPAN-BRAK-DANYCH") },
   ]
   const kolumnyUzysk: Kolumna<Wiersz>[] = [
-    { naglowek: "Technologia", render: (r) => <span className="font-medium">{r.nazwa}</span> },
-    { naglowek: "Uzysk względem PERC (wg źródła)", render: (r) => r.uzyskWzgledemPercOpis, liczbowa: true },
+    { naglowek: t("UI-TECPAN-TECHNOLOGIA"), render: (r) => <span className="font-medium">{r.nazwa}</span> },
+    { naglowek: t("UI-TECPAN-UZYSK-WZGLEDEM-PERC"), render: (r) => r.uzyskWzgledemPercOpis, liczbowa: true },
   ]
   type Grupa = (typeof GRUPY_TECHNOLOGII)[number]
   const kolumnyGrupy: Kolumna<Grupa>[] = [
-    { naglowek: "Rodzaj", render: (r) => <span className="font-medium">{r.nazwa}</span> },
-    { naglowek: "Sprawność", render: (r) => opisSprawnosci(r.sprawnosc), liczbowa: true },
-    { naglowek: "Powierzchnia modułów", render: (r) => opisPowierzchni(r.id), liczbowa: true },
-    { naglowek: "Zalety", render: (r) => r.zalety },
-    { naglowek: "Gdzie się sprawdzi", render: (r) => r.zastosowanie },
+    { naglowek: t("UI-TECPAN-RODZAJ"), render: (r) => <span className="font-medium">{r.nazwa}</span> },
+    { naglowek: t("UI-TECPAN-SPRAWNOSC"), render: (r) => opisSprawnosci(r.sprawnosc), liczbowa: true },
+    { naglowek: t("UI-TECPAN-POWIERZCHNIA-MODULOW"), render: (r) => opisPowierzchni(r.id), liczbowa: true },
+    { naglowek: t("UI-TECPAN-ZALETY"), render: (r) => r.zalety },
+    { naglowek: t("UI-TECPAN-GDZIE-SPRAWDZI"), render: (r) => r.zastosowanie },
   ]
 
   return (
     <main className="mx-auto flex max-w-md flex-col gap-6 p-6">
       <NawigacjaEkranu href="/kalkulatory/technologie-paneli" />
-      <NaglowekEkranu tytul="Technologie paneli" ekran="technologie-paneli" wynik={result}>
-        Half-Cut, PERC, TOPCon, HJT i panele cienkowarstwowe różnią się sprawnością, tempem starzenia i
-        tym, gdzie się sprawdzą. Moduł 3, Ekran 15.
+      <NaglowekEkranu tytul={t("UI-TECPAN-TECHNOLOGIE-PANELI")} ekran="technologie-paneli" wynik={result}>
+        {t("UI-TECPAN-HALF-CUT-PERC")}
       </NaglowekEkranu>
 
       <Pole
-        label="Planowana moc instalacji"
+        label={t("UI-TECPAN-PLANOWANA-MOC-INSTALACJI")}
         unit="kWp"
         type="number"
         inputMode="decimal"
@@ -109,12 +108,12 @@ export default function TechnologiePaneliPage() {
         pomoc={<PomocPola ekran="technologie-paneli" pole="moc" />}
       />
       {result.status === "INVALID_INPUT" && (
-        <WerdyktPanel poziom="blad" etykieta="Nie da się policzyć — sprawdź wpisane dane">
+        <WerdyktPanel poziom="blad" etykieta={t("UI-TECPAN-POLICZYC-SPRAWDZ-WPISANE")}>
           <WynikSzczegoly assumptions={[]} warnings={result.warnings} />
         </WerdyktPanel>
       )}
 
-      <div role="tablist" aria-label="Porównanie technologii" className="flex flex-wrap gap-2">
+      <div role="tablist" aria-label={t("UI-TECPAN-POROWNANIE-TECHNOLOGII")} className="flex flex-wrap gap-2">
         {ZAKLADKI.map((z) => (
           <Button
             key={z.id}
@@ -123,7 +122,7 @@ export default function TechnologiePaneliPage() {
             variant={z.id === zakladka ? "default" : "outline"}
             onClick={() => setStan((prev) => ({ ...prev, zakladka: z.id }))}
           >
-            {z.etykieta}
+            {t(z.etykieta)}
           </Button>
         ))}
       </div>
@@ -132,16 +131,14 @@ export default function TechnologiePaneliPage() {
         {zakladka === "sprawnosc" && (
           <>
             <KartaPorownawcza kolumny={kolumnySprawnosc} wiersze={TECHNOLOGIE_KRYSTALICZNE} />
-            <p className="text-small text-muted-foreground">Rekomendacja źródła: do off-gridu wybierz TOPCon lub HJT.</p>
+            <p className="text-small text-muted-foreground">{t("UI-TECPAN-REKOMENDACJA-ZRODLA-OFF")}</p>
           </>
         )}
         {zakladka === "degradacja" && (
           <>
             <KartaPorownawcza kolumny={kolumnyDegradacja} wiersze={TECHNOLOGIE_KRYSTALICZNE} minWidth={480} />
             <p className="text-small text-muted-foreground">
-              LID — utrata mocy w pierwszych godzinach pracy pod wpływem światła. LETID — powolna degradacja
-              pod wpływem światła i temperatury. PID — degradacja indukowana napięciem. Rekomendacja źródła:
-              do off-gridu panele z certyfikatem anty-PID i niskim LID.
+              {t("UI-TECPAN-LID-UTRATA-MOCY")}
             </p>
           </>
         )}
@@ -157,7 +154,7 @@ export default function TechnologiePaneliPage() {
           <>
             <KartaPorownawcza kolumny={kolumnyGrupy} wiersze={GRUPY_TECHNOLOGII} minWidth={640} />
             <p className="text-small text-muted-foreground">
-              Rekomendacja źródła: na dach — krystaliczne; cienkowarstwowe na dużą, równą powierzchnię gruntu.
+              {t("UI-TECPAN-REKOMENDACJA-ZRODLA-DACH")}
             </p>
           </>
         )}

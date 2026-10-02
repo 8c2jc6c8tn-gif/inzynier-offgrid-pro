@@ -11,6 +11,7 @@ import { WynikGlowny } from "@/components/wzorce/wynik-glowny"
 import { WynikSzczegoly } from "@/components/wzorce/wynik-szczegoly"
 import { usePersistedDraft } from "@/lib/adapters/use-persisted-draft"
 import { POBOR_WENTYLATOROW_MAX_W, POBOR_WENTYLATOROW_MIN_W } from "@/lib/core/modules/ogrzewanie/wentylacja-odzysk-ciepla/constants"
+import { useTranslate } from "@/lib/i18n/language-context"
 
 type FormularzStan = {
   wydajnoscCentraliM3H: string
@@ -27,6 +28,7 @@ const STAN_POCZATKOWY: FormularzStan = {
 }
 
 export default function WentylacjaOdzyskCieplaPage() {
+  const t = useTranslate()
   const [stan, setStan] = usePersistedDraft<FormularzStan>("wentylacja-odzysk-ciepla", STAN_POCZATKOWY)
   const { wydajnoscCentraliM3H, sprawnoscRekuperatoraPct, deltaTK, poborWentylatorowW } = stan
 
@@ -58,14 +60,13 @@ export default function WentylacjaOdzyskCieplaPage() {
   return (
     <main className="mx-auto flex max-w-md flex-col gap-6 p-6">
       <NawigacjaEkranu href="/kalkulatory/wentylacja-odzysk-ciepla" />
-      <NaglowekEkranu tytul="System wentylacji z odzyskiem ciepła" ekran="wentylacja-odzysk-ciepla" wynik={result}>
-        Wentylacja to płuca domu. Rekuperacja sprawia, że płuca oddychają, ale nie tracą przy tym
-        ciepła. Moduł 6, Ekran 3.
+      <NaglowekEkranu tytul={t("UI-WENODZCIE-SYSTEM-WENTYLACJI-ODZYSKIEM")} ekran="wentylacja-odzysk-ciepla" wynik={result}>
+        {t("UI-WENODZCIE-WENTYLACJA-PLUCA-DOMU")}
       </NaglowekEkranu>
 
       <div className="flex flex-col gap-4">
         <Pole
-          label="Wydajność centrali wentylacyjnej"
+          label={t("UI-WENODZCIE-WYDAJNOSC-CENTRALI-WENTYLACY")}
           unit="m³/h"
           type="number"
           inputMode="decimal"
@@ -75,7 +76,7 @@ export default function WentylacjaOdzyskCieplaPage() {
           pomoc={<PomocPola ekran="wentylacja-odzysk-ciepla" pole="przeplyw" />}
         />
         <Pole
-          label="Sprawność rekuperatora"
+          label={t("UI-WENODZCIE-SPRAWNOSC-REKUPERATORA")}
           unit="%"
           type="number"
           inputMode="decimal"
@@ -86,7 +87,7 @@ export default function WentylacjaOdzyskCieplaPage() {
           pomoc={<PomocPola ekran="wentylacja-odzysk-ciepla" pole="sprawnosc" />}
         />
         <Pole
-          label="Różnica temperatur wewnątrz/na zewnątrz"
+          label={t("UI-WENODZCIE-ROZNICA-TEMPERATUR-WEWNATRZ")}
           unit="K"
           type="number"
           inputMode="decimal"
@@ -96,7 +97,7 @@ export default function WentylacjaOdzyskCieplaPage() {
           pomoc={<PomocPola ekran="wentylacja-odzysk-ciepla" pole="deltaT" />}
         />
         <Pole
-          label="Stały pobór mocy wentylatorów"
+          label={t("UI-WENODZCIE-STALY-POBOR-MOCY")}
           unit="W"
           type="number"
           inputMode="decimal"
@@ -108,13 +109,13 @@ export default function WentylacjaOdzyskCieplaPage() {
       </div>
 
       {result.status === "INVALID_INPUT" ? (
-        <WerdyktPanel poziom="blad" etykieta="Nie da się policzyć — sprawdź wpisane dane">
+        <WerdyktPanel poziom="blad" etykieta={t("UI-WENODZCIE-POLICZYC-SPRAWDZ-WPISANE")}>
           <WynikSzczegoly assumptions={[]} warnings={result.warnings} />
         </WerdyktPanel>
       ) : result.status === "INCOMPLETE" ? (
-        <p className="text-small text-muted-foreground">Wypełnij wszystkie pola, żeby zobaczyć wynik.</p>
+        <p className="text-small text-muted-foreground">{t("UI-WENODZCIE-WYPELNIJ-WSZYSTKIE-POLA")}</p>
       ) : (
-        <WerdyktPanel poziom="ok" etykieta="Odzyskane ciepło">
+        <WerdyktPanel poziom="ok" etykieta={t("UI-WENODZCIE-ODZYSKANE-CIEPLO")}>
           <WynikGlowny>{result.value.odzyskaneCieploKw.toFixed(2)} kW</WynikGlowny>
           <WynikSzczegoly assumptions={result.assumptions} warnings={result.warnings} formula={result.formula} />
         </WerdyktPanel>

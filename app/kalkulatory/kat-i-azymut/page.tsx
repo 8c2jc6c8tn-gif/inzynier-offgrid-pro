@@ -28,28 +28,29 @@ type FormularzStan = {
 
 const STAN_POCZATKOWY: FormularzStan = { azymutDeg: "", nachylenieDeg: "", mocInstalacjiKwp: "", wspolczynnikPr: "" }
 
-const MIESIACE = ["sty", "lut", "mar", "kwi", "maj", "cze", "lip", "sie", "wrz", "paź", "lis", "gru"]
+const MIESIACE = Array.from({ length: 12 }, (_, i) => `UI-MIESIAC-SKR-${i + 1}`)
 const f0 = (x: number) => x.toLocaleString("pl-PL", { maximumFractionDigits: 0 })
 const f1 = (x: number) => x.toLocaleString("pl-PL", { maximumFractionDigits: 1 })
 
 /** Słupki 12 miesięcy — jedna seria (bez legendy, tytuł nazywa serię), dymek natywny `<title>`. */
 function WykresMiesieczny({ wartosci, jednostka }: { wartosci: number[]; jednostka: string }) {
+  const t = useTranslate()
   const max = Math.max(...wartosci, 1)
   const W = 360
   const H = 160
   const szer = W / 12
   return (
-    <svg viewBox={`0 0 ${W} ${H + 18}`} className="w-full text-foreground" role="img" aria-label={`Wykres miesięczny (${jednostka})`}>
+    <svg viewBox={`0 0 ${W} ${H + 18}`} className="w-full text-foreground" role="img" aria-label={t("UI-KATIAZY-WYKRES-MIESIECZNY", { jednostka })}>
       <line x1={0} y1={H} x2={W} y2={H} className="stroke-muted-foreground/40" strokeWidth={1} />
       {wartosci.map((v, m) => {
         const h = (v / max) * (H - 8)
         return (
           <g key={m}>
             <rect x={m * szer + 2} y={H - h} width={szer - 4} height={h} rx={3} className="fill-sky-500/80">
-              <title>{`${MIESIACE[m]}: ${f0(v)} ${jednostka}`}</title>
+              <title>{`${t(MIESIACE[m])}: ${f0(v)} ${jednostka}`}</title>
             </rect>
             <text x={m * szer + szer / 2} y={H + 13} textAnchor="middle" className="fill-muted-foreground text-[9px]">
-              {MIESIACE[m]}
+              {t(MIESIACE[m])}
             </text>
           </g>
         )
@@ -60,6 +61,7 @@ function WykresMiesieczny({ wartosci, jednostka }: { wartosci: number[]; jednost
 
 /** Suma roczna w funkcji kąta — linia 2px, znacznik wybranego kąta i optimum. */
 function WykresKata({ wartosci, wybrany, optimum }: { wartosci: number[]; wybrany: number; optimum: number }) {
+  const t = useTranslate()
   const W = 360
   const H = 140
   const max = Math.max(...wartosci)
@@ -68,13 +70,13 @@ function WykresKata({ wartosci, wybrany, optimum }: { wartosci: number[]; wybran
   const y = (v: number) => H - 10 - ((v - min) / Math.max(max - min, 1e-9)) * (H - 30)
   const d = wartosci.map((v, k) => `${k === 0 ? "M" : "L"}${x(k).toFixed(1)},${y(v).toFixed(1)}`).join(" ")
   return (
-    <svg viewBox={`0 0 ${W} ${H + 16}`} className="w-full text-foreground" role="img" aria-label="Roczne nasłonecznienie w zależności od kąta pochylenia">
+    <svg viewBox={`0 0 ${W} ${H + 16}`} className="w-full text-foreground" role="img" aria-label={t("UI-KATIAZY-ROCZNE-NASLONECZNIENIE-ZALEZ")}>
       <path d={d} className="fill-none stroke-sky-500" strokeWidth={2} />
       <circle cx={x(optimum)} cy={y(wartosci[optimum]!)} r={5} className="fill-background stroke-sky-600" strokeWidth={2}>
-        <title>{`Najlepszy stały kąt: ${optimum}° — ${f0(wartosci[optimum]!)} kWh/m²`}</title>
+        <title>{t("UI-KATIAZY-NAJLEPSZY-STALY-KAT", { optimum, p: f0(wartosci[optimum]!) })}</title>
       </circle>
       <circle cx={x(wybrany)} cy={y(wartosci[wybrany]!)} r={5} className="fill-foreground stroke-background" strokeWidth={2}>
-        <title>{`Twój kąt: ${wybrany}° — ${f0(wartosci[wybrany]!)} kWh/m²`}</title>
+        <title>{t("UI-KATIAZY-KAT-KWH", { wybrany, p: f0(wartosci[wybrany]!) })}</title>
       </circle>
       {[0, 30, 60, 90].map((k) => (
         <text key={k} x={x(k)} y={H + 12} textAnchor="middle" className="fill-muted-foreground text-[9px]">
@@ -110,11 +112,11 @@ export default function KatIAzymutPage() {
     })
     if (!r) return
     setTabela({ klucz, t: r.wynik.value, blad: r.wynik.status !== "VALID" })
-    const t = r.wynik.value
-    if (t) {
+    const tab = r.wynik.value
+    if (tab) {
       // Start suwaka na najlepszym kącie stałym — tylko gdy użytkownik nie ustawił kąta w trakcie liczenia (16.7).
-      const roczne = t.miesiace.map((w) => w.reduce((a, b) => a + b, 0))
-      const optimum = String(t.katyDeg[roczne.indexOf(Math.max(...roczne))])
+      const roczne = tab.miesiace.map((w) => w.reduce((a, b) => a + b, 0))
+      const optimum = String(tab.katyDeg[roczne.indexOf(Math.max(...roczne))])
       setStan((prev) => (prev.nachylenieDeg === "" ? { ...prev, nachylenieDeg: optimum } : prev))
     }
   }
@@ -138,16 +140,15 @@ export default function KatIAzymutPage() {
   return (
     <main className="mx-auto flex max-w-2xl flex-col gap-6 p-6">
       <NawigacjaEkranu href="/kalkulatory/kat-i-azymut" />
-      <NaglowekEkranu tytul="Kąt pochylenia i azymut" ekran="kat-i-azymut" wynik={result}>
-        Ile słońca złapią panele w każdym miesiącu przy wybranym kącie i kierunku — policzone z godzinowych danych
-        PVGIS dla Twojej lokalizacji. Dla stelaża z regulacją: najlepszy kąt na każdy miesiąc. Moduł 3, Ekran 1.
+      <NaglowekEkranu tytul={t("UI-KATIAZY-KAT-POCHYLENIA-AZYMUT")} ekran="kat-i-azymut" wynik={result}>
+        {t("UI-KATIAZY-ILE-SLONCA-ZLAPIA")}
       </NaglowekEkranu>
 
       <SekcjaDanychNaslonecznienia lokalizacja={lokalizacja} dane={dane} tmy={tmy} />
 
       <section className="flex flex-col gap-3">
         <Pole
-          label="Azymut paneli"
+          label={t("UI-KATIAZY-AZYMUT-PANELI")}
           unit="°"
           type="number"
           inputMode="decimal"
@@ -158,10 +159,10 @@ export default function KatIAzymutPage() {
           pomoc={<PomocPola ekran="kat-i-azymut" pole="azymut" />}
         />
         <Button className="min-h-11" disabled={!lokalizacja || !dane || azymut === undefined || obliczenia.liczy} onClick={policzTabele}>
-          {obliczenia.liczy ? "Liczę nasłonecznienie dla kątów 0–90°…" : "Policz nasłonecznienie"}
+          {obliczenia.liczy ? t("UI-KATIAZY-LICZE-NASLONECZNIENIE-KATOW") : t("UI-KATIAZY-POLICZ-NASLONECZNIENIE")}
         </Button>
         {obliczenia.blad && <p className="text-small text-werdykt-blad-foreground">{obliczenia.blad}</p>}
-        {tabela && !aktualna && !obliczenia.liczy && <StanPusty tytul="Zmieniła się lokalizacja lub azymut — policz ponownie." />}
+        {tabela && !aktualna && !obliczenia.liczy && <StanPusty tytul={t("UI-KATIAZY-ZMIENILA-LOKALIZACJA-AZYMUT")} />}
       </section>
 
       {aktualna && (
@@ -169,11 +170,11 @@ export default function KatIAzymutPage() {
           <div className="flex flex-col gap-1 text-small font-medium">
             <div className="flex items-center gap-1">
               <label htmlFor="suwak-kata">
-                Kąt pochylenia: {stan.nachylenieDeg === "" ? "—" : `${stan.nachylenieDeg}°`}
+                {t("UI-KATIAZY-KAT-POCHYLENIA", { p: stan.nachylenieDeg === "" ? "—" : `${stan.nachylenieDeg}°` })}
               </label>
               <PomocPola ekran="kat-i-azymut" pole="kat" />
             </div>
-            <span className="font-normal text-muted-foreground">0° = panel leży płasko, 90° = panel stoi pionowo.</span>
+            <span className="font-normal text-muted-foreground">{t("UI-KATIAZY-PANEL-LEZY-PLASKO")}</span>
             <input
               id="suwak-kata"
               type="range"
@@ -187,7 +188,7 @@ export default function KatIAzymutPage() {
           </div>
           <div className="grid gap-3 sm:grid-cols-2">
             <Pole
-              label="Moc instalacji"
+              label={t("UI-KATIAZY-MOC-INSTALACJI")}
               unit="kWp"
               type="number"
               inputMode="decimal"
@@ -197,7 +198,7 @@ export default function KatIAzymutPage() {
               pomoc={<PomocPola ekran="kat-i-azymut" pole="moc" />}
             />
             <Pole
-              label="Współczynnik wydajności PR"
+              label={t("UI-KATIAZY-WSPOLCZYNNIK-WYDAJNOSCI")}
               type="number"
               inputMode="decimal"
               min={0}
@@ -212,18 +213,18 @@ export default function KatIAzymutPage() {
       )}
 
       {result.status === "INVALID_INPUT" && (
-        <WerdyktPanel poziom="blad" etykieta="Nie da się policzyć — sprawdź wpisane dane">
+        <WerdyktPanel poziom="blad" etykieta={t("UI-KATIAZY-POLICZYC-SPRAWDZ-WPISANE")}>
           <WynikSzczegoly assumptions={[]} warnings={result.warnings} />
         </WerdyktPanel>
       )}
 
       {r && (
-        <WerdyktPanel poziom="ok" etykieta={`Kąt ${r.nachylenieDeg}°, azymut ${aktualna?.t?.azymutDeg}°`}>
+        <WerdyktPanel poziom="ok" etykieta={t("UI-KATIAZY-KAT-AZYMUT", { nachylenieDeg: r.nachylenieDeg, azymutDeg: aktualna?.t?.azymutDeg ?? "" })}>
           <WynikGlowny>
-            {zProdukcja ? `${f0(r.produkcjaRocznaKwh!)} kWh/rok` : `${f0(r.napromieniowanieRoczneKwhM2)} kWh/m² rocznie`}
+            {zProdukcja ? t("UI-KATIAZY-KWH-ROK", { p: f0(r.produkcjaRocznaKwh!) }) : t("UI-KATIAZY-KWH-ROCZNIE", { napromieniowanieRoczneKwhM2: f0(r.napromieniowanieRoczneKwhM2) })}
           </WynikGlowny>
           <p className="text-small text-muted-foreground">
-            {zProdukcja ? "Roczna produkcja" : "Roczne nasłonecznienie paneli"} — każdy miesiąc:
+            {zProdukcja ? t("UI-KATIAZY-ROCZNA-PRODUKCJA") : t("UI-KATIAZY-ROCZNE-NASLONECZNIENIE-PANEL")} {t("UI-KATIAZY-KAZDY-MIESIAC")}
           </p>
           <WykresMiesieczny
             wartosci={zProdukcja ?? r.napromieniowanieMiesieczneKwhM2}
@@ -235,33 +236,31 @@ export default function KatIAzymutPage() {
             </p>
           ))}
 
-          <h3 className="mt-3 font-semibold">Który kąt jest najlepszy?</h3>
+          <h3 className="mt-3 font-semibold">{t("UI-KATIAZY-KTORY-KAT-NAJLEPSZY")}</h3>
           <WykresKata
             wartosci={r.napromieniowanieRoczneWgKataKwhM2}
             wybrany={r.nachylenieDeg}
             optimum={r.optimumRoczne.nachylenieDeg}
           />
           <p className="text-small">
-            Najlepszy <strong>stały</strong> kąt przy tym azymucie: <strong>{r.optimumRoczne.nachylenieDeg}°</strong> (
-            {f0(r.optimumRoczne.napromieniowanieRoczneKwhM2)} kWh/m² rocznie). Twój kąt daje{" "}
-            {f1((100 * r.napromieniowanieRoczneKwhM2) / r.optimumRoczne.napromieniowanieRoczneKwhM2)}% tej wartości.
+            {t("UI-KATIAZY-NAJLEPSZY")} <strong>{t("UI-KATIAZY-STALY")}</strong> {t("UI-KATIAZY-KAT-TYM-AZYMUCIE")} <strong>{r.optimumRoczne.nachylenieDeg}°</strong> {t("UI-KATIAZY-KWH-ROCZNIE-KAT", { napromieniowanieRoczneKwhM2: f0(r.optimumRoczne.napromieniowanieRoczneKwhM2), p: f1((100 * r.napromieniowanieRoczneKwhM2) / r.optimumRoczne.napromieniowanieRoczneKwhM2) })}
           </p>
 
-          <h3 className="mt-3 font-semibold">Stelaż z regulacją kąta — najlepszy kąt w każdym miesiącu</h3>
+          <h3 className="mt-3 font-semibold">{t("UI-KATIAZY-STELAZ-REGULACJA-KATA")}</h3>
           <div className="overflow-x-auto rounded-lg border">
             <table className="w-full text-small">
               <thead>
                 <tr className="border-b bg-muted/50 text-left">
-                  <th className="p-2 font-medium">Miesiąc</th>
-                  <th className="p-2 text-right font-medium">Najlepszy kąt</th>
-                  <th className="p-2 text-right font-medium">kWh/m² przy nim</th>
-                  <th className="p-2 text-right font-medium">kWh/m² przy {r.nachylenieDeg}°</th>
+                  <th className="p-2 font-medium">{t("UI-KATIAZY-MIESIAC")}</th>
+                  <th className="p-2 text-right font-medium">{t("UI-KATIAZY-NAJLEPSZY-KAT")}</th>
+                  <th className="p-2 text-right font-medium">{t("UI-KATIAZY-KWH-NIM")}</th>
+                  <th className="p-2 text-right font-medium">{t("UI-KATIAZY-KWH", { nachylenieDeg: r.nachylenieDeg })}</th>
                 </tr>
               </thead>
               <tbody>
                 {r.optimumMiesieczne.map((o, m) => (
                   <tr key={m} className="border-b last:border-0">
-                    <td className="p-2">{MIESIACE[m]}</td>
+                    <td className="p-2">{t(MIESIACE[m])}</td>
                     <td className="p-2 text-right font-mono">{o.nachylenieDeg}°</td>
                     <td className="p-2 text-right font-mono">{f0(o.napromieniowanieKwhM2)}</td>
                     <td className="p-2 text-right font-mono">{f0(r.napromieniowanieMiesieczneKwhM2[m]!)}</td>
@@ -271,8 +270,7 @@ export default function KatIAzymutPage() {
             </table>
           </div>
           <p className="text-small">
-            Przestawiając stelaż co miesiąc zyskasz <strong>{f1(r.zyskRegulacjiWzgledemWybranegoPct)}%</strong> względem
-            kąta {r.nachylenieDeg}° i {f1(r.zyskRegulacjiWzgledemOptimumPct)}% względem najlepszego kąta stałego.
+            {t("UI-KATIAZY-PRZESTAWIAJAC-STELAZ-MIESIAC")} <strong>{f1(r.zyskRegulacjiWzgledemWybranegoPct)}%</strong> {t("UI-KATIAZY-WZGLEDEM-KATA-WZGLEDEM", { nachylenieDeg: r.nachylenieDeg, zyskRegulacjiWzgledemOptimumPct: f1(r.zyskRegulacjiWzgledemOptimumPct) })}
           </p>
           <WynikSzczegoly assumptions={result.assumptions} formula={result.formula} />
         </WerdyktPanel>

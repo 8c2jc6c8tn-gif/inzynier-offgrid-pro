@@ -23,13 +23,18 @@ type Seed = { przegroda: string; powierzchniaM2: string; uWM2K: string; warianty
 
 const nowyWariant = (nazwa: string): WariantSeed => ({ nazwa, lambda: "", grubosc: "", cena: "" })
 /** Materials named by the source: wełna, styropian, piana PUR, celuloza. */
-const STAN_POCZATKOWY: Seed = {
+const stanPoczatkowy = (t: (k: string) => string): Seed => ({
   przegroda: "",
   powierzchniaM2: "",
   uWM2K: "",
-  warianty: [nowyWariant("Wełna mineralna"), nowyWariant("Styropian"), nowyWariant("Piana PUR"), nowyWariant("Celuloza")],
+  warianty: [
+    nowyWariant(t("UI-OPTIZO-WELNA-MINERALNA")),
+    nowyWariant(t("UI-OPTIZO-STYROPIAN")),
+    nowyWariant(t("UI-OPTIZO-PIANA-PUR")),
+    nowyWariant(t("UI-OPTIZO-CELULOZA")),
+  ],
   cenaCiepla: "",
-}
+})
 
 const n = (s: string) => liczba(s) ?? null
 const f0 = (x: number) => x.toLocaleString("pl-PL", { maximumFractionDigits: 0 })
@@ -37,9 +42,10 @@ const f2 = (x: number) => x.toLocaleString("pl-PL", { minimumFractionDigits: 2, 
 const f3 = (x: number) => x.toLocaleString("pl-PL", { maximumFractionDigits: 3 })
 
 function KartaWariantu({ w, i, ustaw, usun }: { w: WariantSeed; i: number; ustaw: (z: Partial<WariantSeed>) => void; usun: () => void }) {
+  const t = useTranslate()
   return (
     <div className="flex flex-col gap-3 rounded-lg border p-3">
-      <Pole id={`wariant-${i}-nazwa`} label="Materiał" value={w.nazwa} onChange={(e) => ustaw({ nazwa: e.target.value })} pomoc={<PomocPola ekran="optymalizacja-izolacji" pole="material" />} />
+      <Pole id={`wariant-${i}-nazwa`} label={t("UI-OPTIZO-MATERIAL")} value={w.nazwa} onChange={(e) => ustaw({ nazwa: e.target.value })} pomoc={<PomocPola ekran="optymalizacja-izolacji" pole="material" />} />
       <div className="grid gap-3 sm:grid-cols-3">
         <Pole
           id={`wariant-${i}-lambda`}
@@ -54,7 +60,7 @@ function KartaWariantu({ w, i, ustaw, usun }: { w: WariantSeed; i: number; ustaw
         />
         <Pole
           id={`wariant-${i}-grubosc`}
-          label="Grubość"
+          label={t("UI-OPTIZO-GRUBOSC")}
           unit="cm"
           type="number"
           inputMode="decimal"
@@ -65,8 +71,8 @@ function KartaWariantu({ w, i, ustaw, usun }: { w: WariantSeed; i: number; ustaw
         />
         <Pole
           id={`wariant-${i}-cena`}
-          label="Cena"
-          unit="zł/m²"
+          label={t("UI-OPTIZO-CENA")}
+          unit={t("UI-OPTIZO-ZL-M")}
           type="number"
           inputMode="decimal"
           min={0}
@@ -76,7 +82,7 @@ function KartaWariantu({ w, i, ustaw, usun }: { w: WariantSeed; i: number; ustaw
         />
       </div>
       <Button variant="ghost" className="min-h-11 w-fit" onClick={usun}>
-        Usuń wariant
+        {t("UI-OPTIZO-USUN-WARIANT")}
       </Button>
     </div>
   )
@@ -84,7 +90,7 @@ function KartaWariantu({ w, i, ustaw, usun }: { w: WariantSeed; i: number; ustaw
 
 export default function OptymalizacjaIzolacjiPage() {
   const t = useTranslate()
-  const [stan, setStan] = usePersistedDraft<Seed>("optymalizacja-izolacji", STAN_POCZATKOWY)
+  const [stan, setStan] = usePersistedDraft<Seed>("optymalizacja-izolacji", stanPoczatkowy(t))
   const ustaw = (z: Partial<Seed>) => setStan((s) => ({ ...s, ...z }))
   const ustawWariant = (i: number, z: Partial<WariantSeed>) =>
     setStan((s) => ({ ...s, warianty: s.warianty.map((w, j) => (j === i ? { ...w, ...z } : w)) }))
@@ -112,44 +118,41 @@ export default function OptymalizacjaIzolacjiPage() {
   const poziom: WerdyktPoziom = wynik.warnings.some((w) => w.level === "warning") ? "uwaga" : "ok"
 
   const kolumny: Kolumna<WynikWariantu & { id: number }>[] = [
-    { naglowek: "Wariant", render: (r) => <span className="font-medium">{`${r.nazwa} ${f0(r.gruboscCm)} cm`}</span> },
+    { naglowek: t("UI-OPTIZO-WARIANT"), render: (r) => <span className="font-medium">{`${r.nazwa} ${f0(r.gruboscCm)} cm`}</span> },
     { naglowek: "U po [W/(m²·K)]", render: (r) => f3(r.uPoWM2K), liczbowa: true },
-    { naglowek: "Oszczędność [kWh/rok]", render: (r) => f0(r.oszczednoscKwhRok), liczbowa: true },
-    { naglowek: "Koszt [zł]", render: (r) => f0(r.kosztZl), liczbowa: true },
-    { naglowek: `zł za kWh (${LAT_ANALIZY} lat)`, render: (r) => (r.kosztZaKwhZl === null ? "—" : f2(r.kosztZaKwhZl)), liczbowa: true },
-    { naglowek: "Dodatkowe cm [zł/kWh]", render: (r) => (r.kosztKrancowyZaKwhZl === null ? "—" : f2(r.kosztKrancowyZaKwhZl)), liczbowa: true },
+    { naglowek: t("UI-OPTIZO-OSZCZEDNOSC-KWH-ROK"), render: (r) => f0(r.oszczednoscKwhRok), liczbowa: true },
+    { naglowek: t("UI-OPTIZO-KOSZT"), render: (r) => f0(r.kosztZl), liczbowa: true },
+    { naglowek: t("UI-OPTIZO-KWH-LAT", { LAT_ANALIZY }), render: (r) => (r.kosztZaKwhZl === null ? "—" : f2(r.kosztZaKwhZl)), liczbowa: true },
+    { naglowek: t("UI-OPTIZO-DODATKOWE-KWH"), render: (r) => (r.kosztKrancowyZaKwhZl === null ? "—" : f2(r.kosztKrancowyZaKwhZl)), liczbowa: true },
   ]
 
   return (
     <main className="mx-auto flex max-w-2xl flex-col gap-6 p-6">
       <NawigacjaEkranu href="/kalkulatory/optymalizacja-izolacji" />
-      <NaglowekEkranu tytul="Optymalizacja izolacji" ekran="optymalizacja-izolacji" wynik={wynik} parametry={{ lata: LAT_ANALIZY }}>
-        Porównanie materiałów i grubości docieplenia jednej przegrody: ile ciepła oszczędza każdy wariant i ile kosztuje jedna
-        zaoszczędzona kWh w {LAT_ANALIZY} lat. Moduł 6, Ekran 10.
+      <NaglowekEkranu tytul={t("UI-OPTIZO-OPTYMALIZACJA-IZOLACJI")} ekran="optymalizacja-izolacji" wynik={wynik} parametry={{ lata: LAT_ANALIZY }}>
+        {t("UI-OPTIZO-POROWNANIE-MATERIALOW-GRUBOS", { LAT_ANALIZY })}
       </NaglowekEkranu>
 
       <section className="flex flex-col gap-3 rounded-lg border p-4">
-        <h2 className="font-semibold">1. Przegroda i klimat — z Ekranu 1</h2>
+        <h2 className="font-semibold">{t("UI-OPTIZO-PRZEGRODA-KLIMAT-EKRANU")}</h2>
         {!ekran1.wczytano ? null : ti === null || !miesiaceKompletne ? (
           <p className="text-small text-muted-foreground">
-            Na{" "}
+            {t("UI-OPTIZO-NA")}{" "}
             <Link href="/kalkulatory/obciazenie-cieplne" className="underline">
-              Ekranie 1 „Straty ciepła budynku”
-            </Link>{" "}
-            wpisz temperaturę w domu i średnie temperatury wszystkich 12 miesięcy (można je wstawić z PVGIS) — z nich liczy się
-            roczna oszczędność.
+              {t("UI-OPTIZO-EKRANIE-STRATY-CIEPLA")}
+            </Link>{" "}{t("UI-OPTIZO-WPISZ-TEMPERATURE-DOMU")}
           </p>
         ) : (
           <p className="text-small">
-            Temperatura w domu {ti} °C, temperatury 12 miesięcy z Ekranu 1.{" "}
+            {t("UI-OPTIZO-TEMPERATURA-DOMU-TEMPERATURY", { ti })}{" "}
             <Link href="/kalkulatory/obciazenie-cieplne" className="underline">
-              Zmień na Ekranie 1
+              {t("UI-OPTIZO-ZMIEN-EKRANIE")}
             </Link>
           </p>
         )}
         {przegrodyZewnetrzne.length > 0 && (
           <PoleSelect
-            label="Przegroda z Ekranu 1"
+            label={t("UI-OPTIZO-PRZEGRODA-EKRANU")}
             value={stan.przegroda}
             onChange={(e) => {
               const p = przegrodyZewnetrzne.find((x) => String(x.i) === e.target.value)
@@ -157,17 +160,17 @@ export default function OptymalizacjaIzolacjiPage() {
             }}
             pomoc={<PomocPola ekran="optymalizacja-izolacji" pole="przegroda" />}
           >
-            <option value="">— wybierz —</option>
+            <option value="">{t("UI-WYBIERZ")}</option>
             {przegrodyZewnetrzne.map((p) => (
               <option key={p.i} value={String(p.i)}>
-                {p.nazwa || `Przegroda ${p.i + 1}`}
+                {p.nazwa || t("UI-OPTIZO-PRZEGRODA", { p: p.i + 1 })}
               </option>
             ))}
           </PoleSelect>
         )}
         <div className="grid gap-3 sm:grid-cols-2">
           <Pole
-            label="Powierzchnia przegrody"
+            label={t("UI-OPTIZO-POWIERZCHNIA-PRZEGRODY")}
             unit="m²"
             type="number"
             inputMode="decimal"
@@ -177,7 +180,7 @@ export default function OptymalizacjaIzolacjiPage() {
             pomoc={<PomocPola ekran="optymalizacja-izolacji" pole="powierzchnia" />}
           />
           <Pole
-            label="Obecne U"
+            label={t("UI-OPTIZO-OBECNE")}
             unit="W/(m²·K)"
             type="number"
             inputMode="decimal"
@@ -190,10 +193,9 @@ export default function OptymalizacjaIzolacjiPage() {
       </section>
 
       <section className="flex flex-col gap-3">
-        <h2 className="font-semibold">2. Warianty izolacji</h2>
+        <h2 className="font-semibold">{t("UI-OPTIZO-WARIANTY-IZOLACJI")}</h2>
         <p className="text-small text-muted-foreground">
-          Dla każdego wariantu wpisz λ, grubość i cenę. Aplikacja nie ma bazy cen — weź je z karty produktu i sklepu. Ten sam
-          materiał w kilku grubościach pokaże, ile kosztują dodatkowe centymetry.
+          {t("UI-OPTIZO-KAZDEGO-WARIANTU-WPISZ")}
         </p>
         {stan.warianty.map((w, i) => (
           <KartaWariantu
@@ -205,11 +207,11 @@ export default function OptymalizacjaIzolacjiPage() {
           />
         ))}
         <Button variant="outline" className="min-h-11 w-fit" onClick={() => setStan((s) => ({ ...s, warianty: [...s.warianty, nowyWariant("")] }))}>
-          + Dodaj wariant
+          {t("UI-OPTIZO-DODAJ-WARIANT")}
         </Button>
         <Pole
-          label="Cena ciepła (opcjonalnie)"
-          unit="zł/kWh"
+          label={t("UI-OPTIZO-CENA-CIEPLA-OPCJONALNIE")}
+          unit={t("UI-J-ZL-KWH")}
           type="number"
           inputMode="decimal"
           min={0}
@@ -220,7 +222,7 @@ export default function OptymalizacjaIzolacjiPage() {
       </section>
 
       {wynik.status === "INVALID_INPUT" && (
-        <WerdyktPanel poziom="blad" etykieta="Sprawdź dane">
+        <WerdyktPanel poziom="blad" etykieta={t("UI-OPTIZO-SPRAWDZ-DANE")}>
           <ul className="mt-2 space-y-1 text-small">
             {wynik.warnings.map((w, i) => (
               <li key={w.code + i}>{w.message ?? t(w.i18nKey ?? w.code, w.params)}</li>
@@ -230,21 +232,20 @@ export default function OptymalizacjaIzolacjiPage() {
       )}
       {wynik.status === "INCOMPLETE" && ti !== null && miesiaceKompletne && (
         <p className="text-small text-muted-foreground">
-          Wpisz powierzchnię i U przegrody oraz λ, grubość i cenę każdego wariantu (albo usuń te, których nie rozważasz).
+          {t("UI-OPTIZO-WPISZ-POWIERZCHNIE-PRZEGRODY")}
         </p>
       )}
       {v && (
         <WerdyktPanel
           poziom={poziom}
-          etykieta={najtanszy ? `Najtańsza zaoszczędzona kWh: ${najtanszy.nazwa} ${f0(najtanszy.gruboscCm)} cm` : "Brak oszczędności"}
+          etykieta={najtanszy ? t("UI-OPTIZO-NAJTANSZA-ZAOSZCZEDZONA-KWH", { nazwa: najtanszy.nazwa, gruboscCm: f0(najtanszy.gruboscCm) }) : t("UI-OPTIZO-BRAK-OSZCZEDNOSCI")}
         >
-          {najtanszy && najtanszy.kosztZaKwhZl !== null && <WynikGlowny>{f2(najtanszy.kosztZaKwhZl)} zł/kWh</WynikGlowny>}
+          {najtanszy && najtanszy.kosztZaKwhZl !== null && <WynikGlowny>{t("UI-OPTIZO-KWH", { kosztZaKwhZl: f2(najtanszy.kosztZaKwhZl) })}</WynikGlowny>}
           <p className="mt-1 text-small">
-            Dziś przez tę przegrodę ucieka {f0(v.strataRocznaPrzedKwh)} kWh ciepła rocznie.
+            {t("UI-OPTIZO-DZIS-PRZEGRODE-UCIEKA", { strataRocznaPrzedKwh: f0(v.strataRocznaPrzedKwh) })}
             {najtanszy && (
               <>
-                {" "}
-                Ten wariant oszczędza {f0(najtanszy.oszczednoscKwhRok)} kWh/rok za {f0(najtanszy.kosztZl)} zł.
+                {" "}{t("UI-OPTIZO-TEN-WARIANT-OSZCZEDZA", { oszczednoscKwhRok: f0(najtanszy.oszczednoscKwhRok), kosztZl: f0(najtanszy.kosztZl) })}
               </>
             )}
           </p>

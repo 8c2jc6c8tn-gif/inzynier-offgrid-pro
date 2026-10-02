@@ -18,6 +18,22 @@ const FORMULA =
   `t_{h} = deficyt / (P_{agregat} \\times ${latexLiczba(OPTYMALNE_OBCIAZENIE_PCT / 100)}); \\ paliwo = t_{h} \\times zużycie_{l/h}; \\ koszt = paliwo \\times cena_{zł/l}`
 
 /**
+ * Generator run for one energy shortfall at the optimal load (`OPTYMALNE_OBCIAZENIE_PCT`): hours, fuel and
+ * fuel cost. Shared with M7/E2 "Deficyty miesięczne i agregat" (applied month by month) — one generator model.
+ */
+export function obliczPraceAgregatu(
+  deficytKwh: number,
+  mocAgregatuKw: number,
+  zuzycieLH: number,
+  cenaZlL: number,
+): AgregatPradotworczyResult {
+  const mocEfektywnaKw = mocAgregatuKw * (OPTYMALNE_OBCIAZENIE_PCT / 100)
+  const godzinyPracy = deficytKwh / mocEfektywnaKw
+  const zuzyciePaliwaLitry = godzinyPracy * zuzycieLH
+  return { godzinyPracy, zuzyciePaliwaLitry, kosztZl: zuzyciePaliwaLitry * cenaZlL }
+}
+
+/**
  * Ekran 17, Moduł 2 "Zapotrzebowanie energetyczne" — "Agregat prądotwórczy – definicja i logika
  * pracy" (Biblia, funkcja 1.19/2.19). Godziny pracy przy optymalnym obciążeniu (górna granica
  * zakresu 70-80% ze źródła — patrz `constants.ts`), zużycie paliwa i koszt — cały łańcuch
@@ -70,10 +86,12 @@ export function calculateAgregatPradotworczy(
     }
   }
 
-  const mocEfektywnaKw = input.mocAgregatuKw * (OPTYMALNE_OBCIAZENIE_PCT / 100)
-  const godzinyPracy = input.deficytKwh / mocEfektywnaKw
-  const zuzyciePaliwaLitry = godzinyPracy * input.sredniZuzycieLH
-  const kosztZl = zuzyciePaliwaLitry * input.cenaZaLitrZl
+  const { godzinyPracy, zuzyciePaliwaLitry, kosztZl } = obliczPraceAgregatu(
+    input.deficytKwh,
+    input.mocAgregatuKw,
+    input.sredniZuzycieLH,
+    input.cenaZaLitrZl,
+  )
 
   const warnings = [
     input.maWyjscieSterujaceBms ? maWyjscieSterujace() : brakWyjsciaSterujacego(),

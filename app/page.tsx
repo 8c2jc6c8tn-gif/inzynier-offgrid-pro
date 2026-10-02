@@ -19,7 +19,8 @@ export default function PulpitPage() {
     .filter((k): k is NonNullable<typeof k> => k !== undefined)
 
   return (
-    <div className="min-h-screen bg-background text-foreground">
+    // data-pulpit: the only screen where an appearance style's background may move (D67, Płynny gradient).
+    <div data-pulpit className="min-h-screen bg-background text-foreground">
       <KafleIkonySymbole />
       <header className="flex flex-wrap items-center justify-between gap-3 border-b px-4 py-3 text-small">
         <span className="font-mono text-caption uppercase tracking-widest text-muted-foreground">
@@ -78,6 +79,7 @@ export default function PulpitPage() {
               <li key={kafel.id} className={kafel.duzy ? "col-span-2" : undefined}>
                 <Link
                   href={`/moduly/${kafel.id}`}
+                  data-karta
                   className="flex min-h-28 flex-col justify-between gap-2 rounded-lg border p-4 transition-colors hover:border-foreground/20 hover:bg-muted focus-visible:ring-2 focus-visible:ring-ring/50 focus-visible:outline-none"
                 >
                   {MASKOTKA_PO_ID_KAFLA[kafel.id] ? (

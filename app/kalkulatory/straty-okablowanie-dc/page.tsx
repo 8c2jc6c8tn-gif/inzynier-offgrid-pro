@@ -11,6 +11,7 @@ import { NaglowekEkranu } from "@/components/wzorce/naglowek-ekranu"
 import { WynikGlowny } from "@/components/wzorce/wynik-glowny"
 import { WynikSzczegoly } from "@/components/wzorce/wynik-szczegoly"
 import { CEL_STRATY_MAX_PCT, REZYSTYWNOSC_MIEDZI_OHM_MM2_NA_M } from "@/lib/core/modules/pv/straty-okablowanie-dc/constants"
+import { useTranslate } from "@/lib/i18n/language-context"
 
 type FormularzStan = {
   dlugoscKablaM: string
@@ -27,6 +28,7 @@ const STAN_POCZATKOWY: FormularzStan = {
 }
 
 export default function StratyOkablowanieDcPage() {
+  const t = useTranslate()
   const [stan, setStan] = usePersistedDraft<FormularzStan>("straty-okablowanie-dc", STAN_POCZATKOWY)
   const { dlugoscKablaM, pradA, napiecieV, przekrojMm2 } = stan
 
@@ -59,18 +61,17 @@ export default function StratyOkablowanieDcPage() {
     <main className="mx-auto flex max-w-md flex-col gap-6 p-6">
       <NawigacjaEkranu href="/kalkulatory/straty-okablowanie-dc" />
       <NaglowekEkranu
-        tytul="Straty na okablowaniu DC"
+        tytul={t("UI-STROKADC-STRATY-OKABLOWANIU")}
         ekran="straty-okablowanie-dc"
         wynik={result}
         parametry={{ cel: CEL_STRATY_MAX_PCT, rhoCu: REZYSTYWNOSC_MIEDZI_OHM_MM2_NA_M }}
       >
-        Prąd płynący kablem zawsze trochę „grzeje” po drodze — to normalne, ale zbyt cienki kabel
-        zamienia w ciepło więcej energii niż powinien. Moduł 3, Ekran 8.
+        {t("UI-STROKADC-PRAD-PLYNACY-KABLEM")}
       </NaglowekEkranu>
 
       <div className="flex flex-col gap-4">
         <Pole
-          label="Długość kabla panel→falownik (jedna strona)"
+          label={t("UI-STROKADC-DLUGOSC-KABLA-PANEL")}
           unit="m"
           type="number"
           inputMode="decimal"
@@ -80,7 +81,7 @@ export default function StratyOkablowanieDcPage() {
           pomoc={<PomocPola ekran="straty-okablowanie-dc" pole="dlugosc" />}
         />
         <Pole
-          label="Prąd roboczy (Imp)"
+          label={t("UI-STROKADC-PRAD-ROBOCZY-IMP")}
           unit="A"
           type="number"
           inputMode="decimal"
@@ -90,7 +91,7 @@ export default function StratyOkablowanieDcPage() {
           pomoc={<PomocPola ekran="straty-okablowanie-dc" pole="prad" />}
         />
         <Pole
-          label="Napięcie robocze (Vmp)"
+          label={t("UI-STROKADC-NAPIECIE-ROBOCZE-VMP")}
           unit="V"
           type="number"
           inputMode="decimal"
@@ -100,7 +101,7 @@ export default function StratyOkablowanieDcPage() {
           pomoc={<PomocPola ekran="straty-okablowanie-dc" pole="napiecie" />}
         />
         <Pole
-          label="Przekrój kabla"
+          label={t("UI-STROKADC-PRZEKROJ-KABLA")}
           unit="mm²"
           type="number"
           inputMode="decimal"
@@ -112,23 +113,22 @@ export default function StratyOkablowanieDcPage() {
       </div>
 
       {result.status === "INVALID_INPUT" ? (
-        <WerdyktPanel poziom="blad" etykieta="Nie da się policzyć — sprawdź wpisane dane">
+        <WerdyktPanel poziom="blad" etykieta={t("UI-STROKADC-POLICZYC-SPRAWDZ-WPISANE")}>
           <WynikSzczegoly assumptions={[]} warnings={result.warnings} />
         </WerdyktPanel>
       ) : result.status === "INCOMPLETE" ? (
-        <p className="text-small text-muted-foreground">Wypełnij wszystkie pola, żeby zobaczyć wynik.</p>
+        <p className="text-small text-muted-foreground">{t("UI-STROKADC-WYPELNIJ-WSZYSTKIE-POLA")}</p>
       ) : (
         <WerdyktPanel
           poziom={result.status === "VALID_WITH_WARNINGS" ? "uwaga" : "ok"}
-          etykieta="Strata mocy na kablu"
+          etykieta={t("UI-STROKADC-STRATA-MOCY-KABLU")}
         >
           <WynikGlowny>{result.value.strataProcentowa.toFixed(1)}%</WynikGlowny>
           <p className="mt-2 text-small">
-            Spadek napięcia: {result.value.spadekNapieciaV.toFixed(2)} V · strata mocy:{" "}
-            {result.value.strataMocyW.toFixed(1)} W.
+            {t("UI-STROKADC-SPADEK-NAPIECIA-STRATA", { spadekNapieciaV: result.value.spadekNapieciaV.toFixed(2), strataMocyW: result.value.strataMocyW.toFixed(1) })}
           </p>
           <div className="mt-3 flex flex-col gap-1 text-small">
-            <p className="font-medium">Porównanie przekrojów:</p>
+            <p className="font-medium">{t("UI-STROKADC-POROWNANIE-PRZEKROJOW")}</p>
             {result.value.porownaniePrzekrojow.map((p) => (
               <p key={p.przekrojMm2}>
                 {p.przekrojMm2} mm² → {p.strataProcentowa.toFixed(1)}%

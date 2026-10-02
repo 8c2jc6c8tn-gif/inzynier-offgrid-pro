@@ -12,6 +12,7 @@ import { NawigacjaEkranu } from "@/components/nawigacja-ekranu"
 import { NaglowekEkranu } from "@/components/wzorce/naglowek-ekranu"
 import { WynikGlowny } from "@/components/wzorce/wynik-glowny"
 import { WynikSzczegoly } from "@/components/wzorce/wynik-szczegoly"
+import { useTranslate } from "@/lib/i18n/language-context"
 
 type FormularzStan = {
   mocRocznaBazowaKwh: string
@@ -26,6 +27,7 @@ const STAN_POCZATKOWY: FormularzStan = {
 }
 
 export default function PaneleBifacjalnePage() {
+  const t = useTranslate()
   const [stan, setStan] = usePersistedDraft<FormularzStan>("panele-bifacjalne", STAN_POCZATKOWY)
   const { mocRocznaBazowaKwh, typPowierzchni, dodatkowyUzyskPct } = stan
 
@@ -57,14 +59,13 @@ export default function PaneleBifacjalnePage() {
   return (
     <main className="mx-auto flex max-w-md flex-col gap-6 p-6">
       <NawigacjaEkranu href="/kalkulatory/panele-bifacjalne" />
-      <NaglowekEkranu tytul="Panele bifacjalne" ekran="panele-bifacjalne" wynik={result}>
-        Panele bifacjalne zbierają światło także z dołu — ale tylko jeśli dasz im jasne tło, od
-        którego światło się odbije. Moduł 3, Ekran 16.
+      <NaglowekEkranu tytul={t("UI-PANBIF-PANELE-BIFACJALNE")} ekran="panele-bifacjalne" wynik={result}>
+        {t("UI-PANBIF-PANELE-BIFACJALNE-ZBIERAJA")}
       </NaglowekEkranu>
 
       <div className="flex flex-col gap-4">
         <Pole
-          label="Roczny uzysk z przedniej strony (bez efektu bifacjalnego)"
+          label={t("UI-PANBIF-ROCZNY-UZYSK-PRZEDNIEJ")}
           unit="kWh"
           type="number"
           inputMode="decimal"
@@ -74,12 +75,12 @@ export default function PaneleBifacjalnePage() {
           pomoc={<PomocPola ekran="panele-bifacjalne" pole="uzyskPrzod" />}
         />
         <PoleSelect
-          label="Typ powierzchni pod spodem"
+          label={t("UI-PANBIF-TYP-POWIERZCHNI-POD")}
           value={typPowierzchni}
           onChange={(e) => setTypPowierzchni(e.target.value as TypPowierzchniPodSpodem)}
           pomoc={<PomocPola ekran="panele-bifacjalne" pole="powierzchnia" />}
         >
-          <option value="">— wybierz —</option>
+          <option value="">{t("UI-WYBIERZ")}</option>
           {(Object.entries(ZAKRESY_UZYSKU_PCT) as [TypPowierzchniPodSpodem, (typeof ZAKRESY_UZYSKU_PCT)[TypPowierzchniPodSpodem]][]).map(
             ([klucz, opcja]) => (
               <option key={klucz} value={klucz}>
@@ -89,7 +90,7 @@ export default function PaneleBifacjalnePage() {
           )}
         </PoleSelect>
         <Pole
-          label="Dodatkowy uzysk z tylnej strony"
+          label={t("UI-PANBIF-DODATKOWY-UZYSK-TYLNEJ-2")}
           unit="%"
           type="number"
           inputMode="decimal"
@@ -100,21 +101,21 @@ export default function PaneleBifacjalnePage() {
         />
         {zakres && (
           <p className="text-small text-muted-foreground">
-            Typowy zakres dla „{zakres.label}”: {zakres.minPct}–{zakres.maxPct}%.
+            {t("UI-PANBIF-TYPOWY-ZAKRES", { label: zakres.label, minPct: zakres.minPct, maxPct: zakres.maxPct })}
           </p>
         )}
       </div>
 
       {result.status === "INVALID_INPUT" ? (
-        <WerdyktPanel poziom="blad" etykieta="Nie da się policzyć — sprawdź wpisane dane">
+        <WerdyktPanel poziom="blad" etykieta={t("UI-PANBIF-POLICZYC-SPRAWDZ-WPISANE")}>
           <WynikSzczegoly assumptions={[]} warnings={result.warnings} />
         </WerdyktPanel>
       ) : result.status === "INCOMPLETE" ? (
-        <p className="text-small text-muted-foreground">Wypełnij wszystkie pola, żeby zobaczyć wynik.</p>
+        <p className="text-small text-muted-foreground">{t("UI-PANBIF-WYPELNIJ-WSZYSTKIE-POLA")}</p>
       ) : (
-        <WerdyktPanel poziom={hasCritical ? "blad" : hasWarning ? "uwaga" : "ok"} etykieta="Całkowity roczny uzysk">
+        <WerdyktPanel poziom={hasCritical ? "blad" : hasWarning ? "uwaga" : "ok"} etykieta={t("UI-PANBIF-CALKOWITY-ROCZNY-UZYSK")}>
           <WynikGlowny>{result.value.calkowityUzyskKwh.toFixed(0)} kWh</WynikGlowny>
-          <p className="mt-2 text-small">Dodatkowy uzysk z tylnej strony: {result.value.dodatkowyUzyskKwh.toFixed(0)} kWh.</p>
+          <p className="mt-2 text-small">{t("UI-PANBIF-DODATKOWY-UZYSK-TYLNEJ", { dodatkowyUzyskKwh: result.value.dodatkowyUzyskKwh.toFixed(0) })}</p>
           <WynikSzczegoly assumptions={result.assumptions} warnings={result.warnings} formula={result.formula} />
         </WerdyktPanel>
       )}
