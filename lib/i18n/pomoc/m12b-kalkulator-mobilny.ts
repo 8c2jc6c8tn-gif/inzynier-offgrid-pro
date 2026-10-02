@@ -133,7 +133,7 @@ export const pl = {
       poCo:
         "Agregat pracuje zwykle tylko wtedy, gdy akumulator jest niski. Wiedząc, ile kosztuje kWh z paliwa, łatwiej zdecydować, czy dołożyć panel albo akumulator zamiast palić benzynę.",
       fizyka:
-        "Przykład ze źródła: agregat 2 kW przy obciążeniu 50% zużywa 0,5 l/h; przy 3 h/dobę spali 1,5 l (ok. 10 zł/dobę) i odda 2 × 0,5 × 3 = 3 kWh.",
+        "Przykład ze źródła: agregat 2 kW przy obciążeniu 50% zużywa 0,5 l/h; przy 3 h/dobę spali 1,5 l (ok. 10 {waluta}/dobę) i odda 2 × 0,5 × 3 = 3 kWh.",
     },
     pola: {
       moc: {
@@ -162,13 +162,13 @@ export const pl = {
         zakres: "0–24 h.",
       },
       cena: {
-        nazwa: "Cena paliwa [zł/l]",
+        nazwa: "Cena paliwa [{waluta}/l]",
         cel: "Zamienia litry na złotówki.",
         gdzie: "Aktualna cena na stacji.",
         zakres: "Aktualna cena.",
       },
       porownanie: {
-        nazwa: "Koszt 1 kWh z innego źródła [zł/kWh] (opcjonalnie)",
+        nazwa: "Koszt 1 kWh z innego źródła [{waluta}/kWh] (opcjonalnie)",
         cel: "Porównanie: ile razy drożej kosztuje kWh z agregatu.",
         gdzie: "Rachunek za prąd (cena brutto za kWh) albo koszt kWh z Twojego zestawu PV z innych ekranów.",
         zakres: "Puste = bez porównania.",
@@ -188,7 +188,7 @@ export const pl = {
     },
     pola: {
       przedluzacz: {
-        nazwa: "Koszt przedłużacza / linii [zł]",
+        nazwa: "Koszt przedłużacza / linii [{waluta}]",
         cel: "Jednorazowy wydatek po stronie kabla.",
         gdzie: "Wycena: kabel (ziemny przy układaniu w ziemi), wykop, osłona, gniazda i zabezpieczenia.",
         zakres: "Z wyceny lub cennika sklepu.",
@@ -200,26 +200,26 @@ export const pl = {
         zakres: "Twoje zużycie.",
       },
       cena: {
-        nazwa: "Cena energii z sieci [zł/kWh]",
+        nazwa: "Cena energii z sieci [{waluta}/kWh]",
         cel: "Zamienia kWh na złotówki.",
         gdzie: "Rachunek za prąd — cena brutto za kWh z opłatami zmiennymi; albo stawka umówiona z sąsiadem.",
         zakres: "Z rachunku.",
       },
       oplaty: {
-        nazwa: "Stałe opłaty sieciowe [zł/rok] (opcjonalnie)",
+        nazwa: "Stałe opłaty sieciowe [{waluta}/rok] (opcjonalnie)",
         cel:
           "Opłaty niezależne od zużycia (abonament, opłata stała) — przy małym zużyciu potrafią być większe niż sama energia.",
         gdzie: "Rachunek za prąd, pozycje stałe × liczba okresów w roku.",
         zakres: "Puste = brak.",
       },
       zestaw: {
-        nazwa: "Koszt zestawu solarnego [zł]",
+        nazwa: "Koszt zestawu solarnego [{waluta}]",
         cel: "Jednorazowy wydatek po stronie słońca.",
         gdzie: "Suma cen: panel, akumulator, regulator, przewody, montaż.",
         zakres: "Z wyceny lub cennika.",
       },
       eksploatacja: {
-        nazwa: "Roczny koszt utrzymania zestawu [zł/rok] (opcjonalnie)",
+        nazwa: "Roczny koszt utrzymania zestawu [{waluta}/rok] (opcjonalnie)",
         cel: "Np. odkładane pieniądze na wymianę akumulatora po latach — cena akumulatora ÷ jego żywotność w latach.",
         gdzie: "Karta akumulatora (żywotność) i jego cena.",
         zakres: "Puste = brak.",
@@ -237,15 +237,15 @@ export const pl = {
       oCoChodzi:
         "Stacja to telefon, DIY to komputer: jedno wygodne, drugie wydajne. Tu porównujesz, ile płacisz za energię, którą naprawdę wykorzystasz.",
       jakDziala:
-        "Dla stacji: pojemność producenta × część do wykorzystania. Dla DIY: pojemność akumulatora [Ah] × napięcie × dopuszczalna głębokość rozładowania. Cena ÷ energia = zł za 1 Wh. Opcjonalnie masa na 1 kWh.",
+        "Dla stacji: pojemność producenta × część do wykorzystania. Dla DIY: pojemność akumulatora [Ah] × napięcie × dopuszczalna głębokość rozładowania. Cena ÷ energia = {waluta} za 1 Wh. Opcjonalnie masa na 1 kWh.",
       poCo:
         "Stacja jest gotowa do pracy, ma gwarancję i serwis, ale płacisz więcej za każdą Wh. DIY jest tańszy i łatwiej go rozbudować, ale wymaga wiedzy (bezpieczniki, przewody) i pracy. Jeśli nie chcesz się bawić w kable — stacja. Jeśli lubisz majsterkować — DIY.",
       fizyka:
-        "Energia akumulatora E = C [Ah] × U [V]. Użyteczna = E × DoD. Przykład ze źródła: stacja 500 Wh za 1200 zł to 2,4 zł/Wh; akumulator ołowiowy 100 Ah 12 V (przy DoD 50% ok. 600 Wh) z osprzętem za 700 zł to ok. 1,17 zł/Wh — ok. 2× więcej energii za te same pieniądze.",
+        "Energia akumulatora E = C [Ah] × U [V]. Użyteczna = E × DoD. Przykład ze źródła: stacja 500 Wh za 1200 {waluta} to 2,4 {waluta}/Wh; akumulator ołowiowy 100 Ah 12 V (przy DoD 50% ok. 600 Wh) z osprzętem za 700 {waluta} to ok. 1,17 {waluta}/Wh — ok. 2× więcej energii za te same pieniądze.",
     },
     pola: {
       cenaStacji: {
-        nazwa: "Cena stacji [zł]",
+        nazwa: "Cena stacji [{waluta}]",
         cel: "Mianownik porównania — ile płacisz za gotowe urządzenie.",
         gdzie: "Oferta sklepu.",
         zakres: "Z oferty.",
@@ -269,7 +269,7 @@ export const pl = {
         zakres: "Puste = bez porównania masy.",
       },
       cenaDiy: {
-        nazwa: "Cena elementów DIY [zł]",
+        nazwa: "Cena elementów DIY [{waluta}]",
         cel: "Wszystko, co trzeba kupić, żeby zestaw działał jak stacja.",
         gdzie: "Suma: akumulator, regulator ładowania, przetwornica, przewody, bezpieczniki, obudowa.",
         zakres: "Z ofert sklepów.",
@@ -647,7 +647,7 @@ export const pl = {
         zakres: "Z karty.",
       },
       agmCena: {
-        nazwa: "AGM: cena [zł]",
+        nazwa: "AGM: cena [{waluta}]",
         cel: "Koszt zakupu i koszt kWh.",
         gdzie: "Oferta sklepu.",
         zakres: "Twoja oferta.",
@@ -677,7 +677,7 @@ export const pl = {
         zakres: "Z karty.",
       },
       lfpCena: {
-        nazwa: "LiFePO4: cena [zł]",
+        nazwa: "LiFePO4: cena [{waluta}]",
         cel: "Koszt zakupu i koszt kWh.",
         gdzie: "Oferta sklepu.",
         zakres: "Twoja oferta.",
@@ -772,7 +772,7 @@ export const pl = {
       poCo:
         "Elastyczny jest lekki i pasuje do zaokrąglonego dachu, ale gorzej się chłodzi i zwykle krócej wytrzymuje. Sztywny jest cięższy, ale trwalszy i lepiej wentylowany od spodu.",
       fizyka:
-        "W/kg = P ÷ m. zł/W = cena ÷ P. zł/(W·rok) = cena ÷ (P × lata gwarancji). Strata z nagrzewania = współczynnik temperaturowy × wzrost temperatury ogniw (Moduł 3).",
+        "W/kg = P ÷ m. {waluta}/W = cena ÷ P. {waluta}/(W·rok) = cena ÷ (P × lata gwarancji). Strata z nagrzewania = współczynnik temperaturowy × wzrost temperatury ogniw (Moduł 3).",
     },
     pola: {
       moc: {
@@ -788,7 +788,7 @@ export const pl = {
         zakres: "Z karty.",
       },
       cena: {
-        nazwa: "Cena [zł]",
+        nazwa: "Cena [{waluta}]",
         cel: "Cena za wat.",
         gdzie: "Oferta sklepu.",
         zakres: "Twoja oferta.",
@@ -1616,7 +1616,7 @@ export const en: Tlumaczenie<typeof pl> = {
       poCo:
         "A generator usually runs only when the battery is low. Knowing what a kWh from fuel costs makes it easier to decide whether to add a panel or a battery instead of burning petrol.",
       fizyka:
-        "Example from the source: a 2 kW generator at 50% load uses 0.5 l/h; at 3 h/day it burns 1.5 l (about 10 PLN/day) and delivers 2 × 0.5 × 3 = 3 kWh.",
+        "Example from the source: a 2 kW generator at 50% load uses 0.5 l/h; at 3 h/day it burns 1.5 l (about 10 {waluta}/day) and delivers 2 × 0.5 × 3 = 3 kWh.",
     },
     pola: {
       moc: {
@@ -1645,13 +1645,13 @@ export const en: Tlumaczenie<typeof pl> = {
         zakres: "0–24 h.",
       },
       cena: {
-        nazwa: "Fuel price [PLN/l]",
+        nazwa: "Fuel price [{waluta}/l]",
         cel: "Turns litres into money.",
         gdzie: "Current price at the filling station.",
         zakres: "Current price.",
       },
       porownanie: {
-        nazwa: "Cost of 1 kWh from another source [PLN/kWh] (optional)",
+        nazwa: "Cost of 1 kWh from another source [{waluta}/kWh] (optional)",
         cel: "Comparison: how many times more a kWh from the generator costs.",
         gdzie: "Electricity bill (gross price per kWh) or the cost of a kWh from your PV set from other screens.",
         zakres: "Empty = no comparison.",
@@ -1671,7 +1671,7 @@ export const en: Tlumaczenie<typeof pl> = {
     },
     pola: {
       przedluzacz: {
-        nazwa: "Extension cord / line cost [PLN]",
+        nazwa: "Extension cord / line cost [{waluta}]",
         cel: "The one-off expense on the cable side.",
         gdzie: "Quote: cable (direct-burial if laid in the ground), trench, conduit, sockets and protection.",
         zakres: "From a quote or shop price list.",
@@ -1683,25 +1683,25 @@ export const en: Tlumaczenie<typeof pl> = {
         zakres: "Your consumption.",
       },
       cena: {
-        nazwa: "Grid energy price [PLN/kWh]",
+        nazwa: "Grid energy price [{waluta}/kWh]",
         cel: "Turns kWh into money.",
         gdzie: "Electricity bill — gross price per kWh with variable charges; or the rate agreed with a neighbour.",
         zakres: "From the bill.",
       },
       oplaty: {
-        nazwa: "Fixed grid charges [PLN/year] (optional)",
+        nazwa: "Fixed grid charges [{waluta}/year] (optional)",
         cel: "Charges independent of use (subscription, fixed fee) — with low use they can exceed the energy itself.",
         gdzie: "Electricity bill, fixed items × billing periods per year.",
         zakres: "Empty = none.",
       },
       zestaw: {
-        nazwa: "Solar set cost [PLN]",
+        nazwa: "Solar set cost [{waluta}]",
         cel: "The one-off expense on the solar side.",
         gdzie: "Sum of prices: panel, battery, charge controller, cables, mounting.",
         zakres: "From a quote or price list.",
       },
       eksploatacja: {
-        nazwa: "Yearly upkeep of the set [PLN/year] (optional)",
+        nazwa: "Yearly upkeep of the set [{waluta}/year] (optional)",
         cel: "E.g. money set aside to replace the battery after years — battery price ÷ its life in years.",
         gdzie: "Battery datasheet (service life) and its price.",
         zakres: "Empty = none.",
@@ -1719,15 +1719,15 @@ export const en: Tlumaczenie<typeof pl> = {
       oCoChodzi:
         "A station is a phone, DIY is a computer: one convenient, the other efficient. Here you compare what you pay for the energy you can really use.",
       jakDziala:
-        "For the station: manufacturer capacity × usable share. For DIY: battery capacity [Ah] × voltage × allowed depth of discharge. Price ÷ energy = PLN per 1 Wh. Optionally mass per 1 kWh.",
+        "For the station: manufacturer capacity × usable share. For DIY: battery capacity [Ah] × voltage × allowed depth of discharge. Price ÷ energy = {waluta} per 1 Wh. Optionally mass per 1 kWh.",
       poCo:
         "A station is ready to work and has warranty and service, but you pay more for every Wh. DIY is cheaper and easier to expand, but it needs knowledge (fuses, cables) and work. If you do not want to deal with cables — station. If you like tinkering — DIY.",
       fizyka:
-        "Battery energy E = C [Ah] × U [V]. Usable = E × DoD. Example from the source: a 500 Wh station for 1200 PLN is 2.4 PLN/Wh; a 100 Ah 12 V lead-acid battery (about 600 Wh at 50% DoD) with accessories for 700 PLN is about 1.17 PLN/Wh — about 2× more energy for the same money.",
+        "Battery energy E = C [Ah] × U [V]. Usable = E × DoD. Example from the source: a 500 Wh station for 1200 {waluta} is 2.4 {waluta}/Wh; a 100 Ah 12 V lead-acid battery (about 600 Wh at 50% DoD) with accessories for 700 {waluta} is about 1.17 {waluta}/Wh — about 2× more energy for the same money.",
     },
     pola: {
       cenaStacji: {
-        nazwa: "Station price [PLN]",
+        nazwa: "Station price [{waluta}]",
         cel: "What you pay for the ready-made device.",
         gdzie: "Shop offer.",
         zakres: "From the offer.",
@@ -1751,7 +1751,7 @@ export const en: Tlumaczenie<typeof pl> = {
         zakres: "Empty = no mass comparison.",
       },
       cenaDiy: {
-        nazwa: "DIY parts price [PLN]",
+        nazwa: "DIY parts price [{waluta}]",
         cel: "Everything you must buy for the set to work like a station.",
         gdzie: "Sum: battery, charge controller, inverter, cables, fuses, enclosure.",
         zakres: "From shop offers.",
@@ -2130,7 +2130,7 @@ export const en: Tlumaczenie<typeof pl> = {
         zakres: "From the datasheet.",
       },
       agmCena: {
-        nazwa: "AGM: price [PLN]",
+        nazwa: "AGM: price [{waluta}]",
         cel: "Purchase cost and kWh cost.",
         gdzie: "Shop offer.",
         zakres: "Your offer.",
@@ -2160,7 +2160,7 @@ export const en: Tlumaczenie<typeof pl> = {
         zakres: "From the datasheet.",
       },
       lfpCena: {
-        nazwa: "LiFePO4: price [PLN]",
+        nazwa: "LiFePO4: price [{waluta}]",
         cel: "Purchase cost and kWh cost.",
         gdzie: "Shop offer.",
         zakres: "Your offer.",
@@ -2254,7 +2254,7 @@ export const en: Tlumaczenie<typeof pl> = {
       poCo:
         "A flexible panel is light and fits a curved roof but cools worse and usually lasts less. A rigid one is heavier but more durable and better ventilated from below.",
       fizyka:
-        "W/kg = P ÷ m. PLN/W = price ÷ P. PLN/(W·year) = price ÷ (P × warranty years). Heat loss = temperature coefficient × cell temperature rise (Module 3).",
+        "W/kg = P ÷ m. {waluta}/W = price ÷ P. {waluta}/(W·year) = price ÷ (P × warranty years). Heat loss = temperature coefficient × cell temperature rise (Module 3).",
     },
     pola: {
       moc: {
@@ -2270,7 +2270,7 @@ export const en: Tlumaczenie<typeof pl> = {
         zakres: "From the datasheet.",
       },
       cena: {
-        nazwa: "Price [PLN]",
+        nazwa: "Price [{waluta}]",
         cel: "Price per watt.",
         gdzie: "Shop offer.",
         zakres: "Your offer.",
@@ -3094,7 +3094,7 @@ export const ru: Tlumaczenie<typeof pl> = {
       poCo:
         "Генератор обычно работает только когда аккумулятор разряжен. Зная цену кВт·ч из топлива, проще решить, не добавить ли панель или аккумулятор вместо сжигания бензина.",
       fizyka:
-        "Пример из источника: генератор 2 кВт при нагрузке 50% расходует 0,5 л/ч; при 3 ч/сутки сожжёт 1,5 л (около 10 зл/сутки) и отдаст 2 × 0,5 × 3 = 3 кВт·ч.",
+        "Пример из источника: генератор 2 кВт при нагрузке 50% расходует 0,5 л/ч; при 3 ч/сутки сожжёт 1,5 л (около 10 {waluta}/сутки) и отдаст 2 × 0,5 × 3 = 3 кВт·ч.",
     },
     pola: {
       moc: {
@@ -3124,13 +3124,13 @@ export const ru: Tlumaczenie<typeof pl> = {
         zakres: "0–24 ч.",
       },
       cena: {
-        nazwa: "Цена топлива [зл/л]",
+        nazwa: "Цена топлива [{waluta}/л]",
         cel: "Переводит литры в деньги.",
         gdzie: "Текущая цена на заправке.",
         zakres: "Текущая цена.",
       },
       porownanie: {
-        nazwa: "Стоимость 1 кВт·ч из другого источника [зл/кВт·ч] (необязательно)",
+        nazwa: "Стоимость 1 кВт·ч из другого источника [{waluta}/кВт·ч] (необязательно)",
         cel: "Сравнение: во сколько раз дороже кВт·ч от генератора.",
         gdzie: "Счёт за электричество (цена брутто за кВт·ч) или стоимость кВт·ч вашего набора PV с других экранов.",
         zakres: "Пусто = без сравнения.",
@@ -3150,7 +3150,7 @@ export const ru: Tlumaczenie<typeof pl> = {
     },
     pola: {
       przedluzacz: {
-        nazwa: "Стоимость удлинителя / линии [зл]",
+        nazwa: "Стоимость удлинителя / линии [{waluta}]",
         cel: "Разовый расход на стороне кабеля.",
         gdzie: "Смета: кабель (подземного типа при прокладке в земле), траншея, защитная труба, розетки и защита.",
         zakres: "Из сметы или прайса магазина.",
@@ -3162,27 +3162,27 @@ export const ru: Tlumaczenie<typeof pl> = {
         zakres: "Ваше потребление.",
       },
       cena: {
-        nazwa: "Цена электроэнергии из сети [зл/кВт·ч]",
+        nazwa: "Цена электроэнергии из сети [{waluta}/кВт·ч]",
         cel: "Переводит кВт·ч в деньги.",
         gdzie:
           "Счёт за электричество — цена брутто за кВт·ч с переменными платежами; или ставка, согласованная с соседом.",
         zakres: "Из счёта.",
       },
       oplaty: {
-        nazwa: "Постоянные сетевые платежи [зл/год] (необязательно)",
+        nazwa: "Постоянные сетевые платежи [{waluta}/год] (необязательно)",
         cel:
           "Платежи, не зависящие от потребления (абонентская плата) — при малом потреблении могут превышать саму энергию.",
         gdzie: "Счёт за электричество, постоянные позиции × число периодов в году.",
         zakres: "Пусто = нет.",
       },
       zestaw: {
-        nazwa: "Стоимость солнечного комплекта [зл]",
+        nazwa: "Стоимость солнечного комплекта [{waluta}]",
         cel: "Разовый расход на солнечной стороне.",
         gdzie: "Сумма цен: панель, аккумулятор, контроллер, провода, монтаж.",
         zakres: "Из сметы или прайса.",
       },
       eksploatacja: {
-        nazwa: "Годовые расходы на содержание комплекта [зл/год] (необязательно)",
+        nazwa: "Годовые расходы на содержание комплекта [{waluta}/год] (необязательно)",
         cel:
           "Напр. деньги, откладываемые на замену аккумулятора через годы — цена аккумулятора ÷ его срок службы в годах.",
         gdzie: "Паспорт аккумулятора (срок службы) и его цена.",
@@ -3201,15 +3201,15 @@ export const ru: Tlumaczenie<typeof pl> = {
       oCoChodzi:
         "Станция — это телефон, самоделка — компьютер: одно удобно, другое эффективно. Здесь вы сравниваете, сколько платите за реально доступную энергию.",
       jakDziala:
-        "Для станции: ёмкость производителя × доступная часть. Для самодельного: ёмкость аккумулятора [А·ч] × напряжение × допустимая глубина разряда. Цена ÷ энергия = зл за 1 Вт·ч. Дополнительно масса на 1 кВт·ч.",
+        "Для станции: ёмкость производителя × доступная часть. Для самодельного: ёмкость аккумулятора [А·ч] × напряжение × допустимая глубина разряда. Цена ÷ энергия = {waluta} за 1 Вт·ч. Дополнительно масса на 1 кВт·ч.",
       poCo:
         "Станция готова к работе, есть гарантия и сервис, но каждый Вт·ч дороже. Самодельный комплект дешевле и легче расширяется, но требует знаний (предохранители, провода) и работы. Не хотите возиться с кабелями — станция. Любите мастерить — самоделка.",
       fizyka:
-        "Энергия аккумулятора E = C [А·ч] × U [В]. Полезная = E × DoD. Пример из источника: станция 500 Вт·ч за 1200 зл — 2,4 зл/Вт·ч; свинцовый аккумулятор 100 А·ч 12 В (около 600 Вт·ч при DoD 50%) с оснасткой за 700 зл — около 1,17 зл/Вт·ч, т.е. примерно в 2 раза больше энергии за те же деньги.",
+        "Энергия аккумулятора E = C [А·ч] × U [В]. Полезная = E × DoD. Пример из источника: станция 500 Вт·ч за 1200 {waluta} — 2,4 {waluta}/Вт·ч; свинцовый аккумулятор 100 А·ч 12 В (около 600 Вт·ч при DoD 50%) с оснасткой за 700 {waluta} — около 1,17 {waluta}/Вт·ч, т.е. примерно в 2 раза больше энергии за те же деньги.",
     },
     pola: {
       cenaStacji: {
-        nazwa: "Цена станции [зл]",
+        nazwa: "Цена станции [{waluta}]",
         cel: "Сколько вы платите за готовое устройство.",
         gdzie: "Предложение магазина.",
         zakres: "Из предложения.",
@@ -3233,7 +3233,7 @@ export const ru: Tlumaczenie<typeof pl> = {
         zakres: "Пусто = без сравнения массы.",
       },
       cenaDiy: {
-        nazwa: "Цена элементов комплекта [зл]",
+        nazwa: "Цена элементов комплекта [{waluta}]",
         cel: "Всё, что нужно купить, чтобы комплект работал как станция.",
         gdzie: "Сумма: аккумулятор, контроллер заряда, инвертор, провода, предохранители, корпус.",
         zakres: "Из предложений магазинов.",
@@ -3610,7 +3610,7 @@ export const ru: Tlumaczenie<typeof pl> = {
         zakres: "Из паспорта.",
       },
       agmCena: {
-        nazwa: "AGM: цена [зл]",
+        nazwa: "AGM: цена [{waluta}]",
         cel: "Стоимость покупки и стоимость кВт·ч.",
         gdzie: "Предложение магазина.",
         zakres: "Ваше предложение.",
@@ -3641,7 +3641,7 @@ export const ru: Tlumaczenie<typeof pl> = {
         zakres: "Из паспорта.",
       },
       lfpCena: {
-        nazwa: "LiFePO4: цена [зл]",
+        nazwa: "LiFePO4: цена [{waluta}]",
         cel: "Стоимость покупки и стоимость кВт·ч.",
         gdzie: "Предложение магазина.",
         zakres: "Ваше предложение.",
@@ -3736,7 +3736,7 @@ export const ru: Tlumaczenie<typeof pl> = {
       poCo:
         "Гибкая лёгкая и подходит к скруглённой крыше, но хуже охлаждается и обычно служит меньше. Жёсткая тяжелее, но долговечнее и лучше вентилируется снизу.",
       fizyka:
-        "Вт/кг = P ÷ m. зл/Вт = цена ÷ P. зл/(Вт·год) = цена ÷ (P × годы гарантии). Потеря от нагрева = температурный коэффициент × рост температуры элементов (Модуль 3).",
+        "Вт/кг = P ÷ m. {waluta}/Вт = цена ÷ P. {waluta}/(Вт·год) = цена ÷ (P × годы гарантии). Потеря от нагрева = температурный коэффициент × рост температуры элементов (Модуль 3).",
     },
     pola: {
       moc: {
@@ -3752,7 +3752,7 @@ export const ru: Tlumaczenie<typeof pl> = {
         zakres: "Из паспорта.",
       },
       cena: {
-        nazwa: "Цена [зл]",
+        nazwa: "Цена [{waluta}]",
         cel: "Цена за ватт.",
         gdzie: "Предложение магазина.",
         zakres: "Ваше предложение.",

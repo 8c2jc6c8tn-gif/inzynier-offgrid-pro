@@ -5,6 +5,8 @@ import { useMemo } from "react"
 import { calculateTrackerVsStaly } from "@/lib/core/modules/pv/tracker-vs-staly/calculator"
 import { ZYSK_TRACKERA_MAX_PCT, ZYSK_TRACKERA_MIN_PCT } from "@/lib/core/modules/pv/tracker-vs-staly/constants"
 import { usePersistedDraft } from "@/lib/adapters/use-persisted-draft"
+import { przeliczPola } from "@/lib/waluta/przelicz"
+import { PrzeliczoneInfo } from "@/components/przeliczone-info"
 import { Pole } from "@/components/ui/pole"
 import { PomocPola } from "@/components/ui/pomoc"
 import { WerdyktPanel } from "@/components/werdykt"
@@ -23,6 +25,9 @@ type FormularzStan = {
 }
 
 const STAN_POCZATKOWY: FormularzStan = { liczbaPaneliTracker: "", kosztTrackeraZl: "", kosztPaneluZl: "", uzyskPaneluKwh: "" }
+
+/** Money fields converted when the display currency changes. */
+const PRZELICZ_KWOTY = przeliczPola<FormularzStan>("kosztTrackeraZl", "kosztPaneluZl")
 
 type WierszPorownania = { id: string; parametr: string; tracker: string; staly: string }
 
@@ -47,7 +52,7 @@ const ETYKIETA_WERDYKTU = {
 
 export default function TrackerVsStalyPage() {
   const t = useTranslate()
-  const [stan, setStan] = usePersistedDraft<FormularzStan>("tracker-vs-staly", STAN_POCZATKOWY)
+  const [stan, setStan, info] = usePersistedDraft<FormularzStan>("tracker-vs-staly", STAN_POCZATKOWY, PRZELICZ_KWOTY)
   const ustaw = (pole: keyof FormularzStan) => (e: React.ChangeEvent<HTMLInputElement>) =>
     setStan({ ...stan, [pole]: e.target.value })
 
@@ -81,6 +86,7 @@ export default function TrackerVsStalyPage() {
       >
         {t("UI-TRAVSSTA-TRACKER-OBRACA-PANELE", { ZYSK_TRACKERA_MIN_PCT, ZYSK_TRACKERA_MAX_PCT })}
       </NaglowekEkranu>
+      <PrzeliczoneInfo info={info} />
 
       <Pole label={t("UI-TRAVSSTA-LICZBA-PANELI-TRACKERZE")} unit={t("UI-J-SZT")} type="number" inputMode="numeric" min={0} step={1}
         value={stan.liczbaPaneliTracker} onChange={ustaw("liczbaPaneliTracker")} pomoc={<PomocPola ekran="tracker-vs-staly" pole="liczbaPaneli" />} />

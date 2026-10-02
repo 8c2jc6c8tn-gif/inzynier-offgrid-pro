@@ -2,7 +2,6 @@
 
 import { useMemo } from "react"
 import { calculatePorownanieTechnologii } from "@/lib/core/modules/baterie/porownanie-technologii/calculator"
-import { CENA_STARTOWA_LABELS } from "@/lib/core/modules/baterie/porownanie-technologii/constants"
 import { usePersistedDraft } from "@/lib/adapters/use-persisted-draft"
 import { Pole } from "@/components/ui/pole"
 import { PomocPola } from "@/components/ui/pomoc"
@@ -14,13 +13,13 @@ import { useTranslate } from "@/lib/i18n/language-context"
 
 type Tech = ReturnType<typeof calculatePorownanieTechnologii>["value"][number]
 
-const KOLUMNY: Kolumna<Tech>[] = [
-  { naglowek: "UI-PORTECMAG-TECHNOLOGIA", render: (tech) => <span className="font-medium">{tech.label}</span> },
-  { naglowek: "UI-PORTECMAG-CENA-STARTOWA", render: (tech) => CENA_STARTOWA_LABELS[tech.cenaStartowa] },
-  { naglowek: "UI-PORTECMAG-CYKLE-DOD", render: (tech) => tech.cyklePrzyDodOpis },
+const kolumny = (t: (kod: string) => string): Kolumna<Tech>[] => [
+  { naglowek: "UI-PORTECMAG-TECHNOLOGIA", render: (tech) => <span className="font-medium">{t(`UI-STALEBAT-TECH-${tech.id.toUpperCase()}`)}</span> },
+  { naglowek: "UI-PORTECMAG-CENA-STARTOWA", render: (tech) => t(`UI-STALEBAT-CENA-${tech.cenaStartowa.toUpperCase()}`) },
+  { naglowek: "UI-PORTECMAG-CYKLE-DOD", render: (tech) => (tech.id === "trakcyjna" ? t("UI-STALEBAT-TECH-TRAKCYJNA-CYKLE") : tech.cyklePrzyDodOpis) },
   { naglowek: "UI-PORTECMAG-SPRAWNOSC", render: (tech) => (tech.sprawnoscPct === null ? "—" : `${tech.sprawnoscPct}%`) },
-  { naglowek: "UI-PORTECMAG-WAGA-KWH", render: (tech) => tech.wagaKgPerKwhOpis },
-  { naglowek: "UI-PORTECMAG-OBSLUGA", render: (tech) => tech.obsluga },
+  { naglowek: "UI-PORTECMAG-WAGA-KWH", render: (tech) => t(`UI-STALEBAT-TECH-${tech.id.toUpperCase()}-WAGA`) },
+  { naglowek: "UI-PORTECMAG-OBSLUGA", render: (tech) => t(`UI-STALEBAT-TECH-${tech.id.toUpperCase()}-OBSLUGA`) },
   {
     naglowek: "UI-PORTECMAG-ENERGIA-CYKLU-ZYCIA",
     render: (tech) => `${tech.energiaCalkowitaKwh.toLocaleString("pl-PL")} kWh`,
@@ -80,7 +79,7 @@ export default function PorownanieTechnologiiMagazynowPage() {
       {isInvalid ? (
         <WerdyktPanel poziom="blad" etykieta={blad && (blad.message ?? t(blad.i18nKey ?? blad.code, blad.params))} />
       ) : (
-        <KartaPorownawcza kolumny={KOLUMNY.map((k) => ({ ...k, naglowek: t(k.naglowek) }))} wiersze={result.value} minWidth={640} />
+        <KartaPorownawcza kolumny={kolumny(t).map((k) => ({ ...k, naglowek: t(k.naglowek) }))} wiersze={result.value} minWidth={640} />
       )}
 
       {result.assumptions.length > 0 && (

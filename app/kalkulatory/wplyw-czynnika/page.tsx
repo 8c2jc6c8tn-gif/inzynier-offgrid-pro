@@ -6,6 +6,8 @@ import { calculateWplywCzynnika, paramsDoWyswietlenia } from "@/lib/core/modules
 import { CZYNNIKI, NUMERY_ZRODLA, POLA_CZYNNIKA } from "@/lib/core/modules/ogrzewanie/wplyw-czynnika/constants"
 import type { Czynnik, KluczPola } from "@/lib/core/modules/ogrzewanie/wplyw-czynnika/input"
 import { usePersistedDraft } from "@/lib/adapters/use-persisted-draft"
+import { przeliczPoleTekst } from "@/lib/waluta/przelicz"
+import { PrzeliczoneInfo } from "@/components/przeliczone-info"
 import { useTranslate } from "@/lib/i18n/language-context"
 import { Pole, PoleSelect } from "@/components/ui/pole"
 import { PomocPola } from "@/components/ui/pomoc"
@@ -18,6 +20,12 @@ import { WynikSzczegoly } from "@/components/wzorce/wynik-szczegoly"
 type FormularzStan = { czynnik: Czynnik | ""; pola: Partial<Record<KluczPola, string>> }
 
 const STAN_POCZATKOWY: FormularzStan = { czynnik: "", pola: {} }
+
+/** Money field (price per metre of pipe) converted when the display currency changes. */
+const PRZELICZ_KWOTY = (stan: FormularzStan, wspolczynnik: number): FormularzStan => {
+  const cena = stan.pola.cenaZlM
+  return cena === undefined ? stan : { ...stan, pola: { ...stan.pola, cenaZlM: przeliczPoleTekst(cena, wspolczynnik) } }
+}
 
 /** Units shown next to the fields; `UI-` entries are translated (they contain words, not symbols). */
 const JEDNOSTKI: Record<KluczPola, string> = {
@@ -85,7 +93,7 @@ const JEDNOSTKI: Record<KluczPola, string> = {
 /** Moduł 6, Część 2D — one screen for the "wpływ czynnika X" family (dawne 5.69, 5.73–5.100). */
 export default function WplywCzynnikaPage() {
   const t = useTranslate()
-  const [stan, setStan] = usePersistedDraft<FormularzStan>("wplyw-czynnika", STAN_POCZATKOWY)
+  const [stan, setStan, info] = usePersistedDraft<FormularzStan>("wplyw-czynnika", STAN_POCZATKOWY, PRZELICZ_KWOTY)
   const czynnik = stan.czynnik === "" ? null : stan.czynnik
   const definicje = czynnik ? POLA_CZYNNIKA[czynnik] : []
 
@@ -106,6 +114,7 @@ export default function WplywCzynnikaPage() {
       <NaglowekEkranu tytul={t("UI-M6-WPC-TYTUL")} ekran="wplyw-czynnika" wynik={result}>
         {t("UI-M6-WPC-OPIS")}
       </NaglowekEkranu>
+      <PrzeliczoneInfo info={info} />
 
       <div className="flex flex-col gap-4">
         <PoleSelect

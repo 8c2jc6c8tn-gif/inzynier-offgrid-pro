@@ -3,6 +3,8 @@
 import { useMemo } from "react"
 import { calculatePompyCyrkulacyjne } from "@/lib/core/modules/ogrzewanie/pompy-cyrkulacyjne/calculator"
 import { usePersistedDraft } from "@/lib/adapters/use-persisted-draft"
+import { przeliczPola } from "@/lib/waluta/przelicz"
+import { PrzeliczoneInfo } from "@/components/przeliczone-info"
 import { Pole } from "@/components/ui/pole"
 import { PomocPola } from "@/components/ui/pomoc"
 import { WerdyktPanel } from "@/components/werdykt"
@@ -31,9 +33,12 @@ const STAN_POCZATKOWY: FormularzStan = {
   cenaZlKwh: "",
 }
 
+/** Money fields converted when the display currency changes. */
+const PRZELICZ_KWOTY = przeliczPola<FormularzStan>("cenaZlKwh")
+
 export default function PompyCyrkulacyjnePage() {
   const t = useTranslate()
-  const [stan, setStan] = usePersistedDraft<FormularzStan>("pompy-cyrkulacyjne", STAN_POCZATKOWY)
+  const [stan, setStan, info] = usePersistedDraft<FormularzStan>("pompy-cyrkulacyjne", STAN_POCZATKOWY, PRZELICZ_KWOTY)
   const { mocObecnejPompyW, mocNowejPompyW, godzinyPracyDobowoH, dniSezonu, cenaZlKwh } = stan
 
   function setPole<K extends keyof FormularzStan>(
@@ -71,6 +76,7 @@ export default function PompyCyrkulacyjnePage() {
       <NaglowekEkranu tytul={t("UI-POMCYR-POMPY-CYRKULACYJNE-DOBOR")} ekran="pompy-cyrkulacyjne" wynik={result}>
         {t("UI-POMCYR-OFF-GRIDZIE-POMPY")}
       </NaglowekEkranu>
+      <PrzeliczoneInfo info={info} />
 
       <div className="flex flex-col gap-4">
         <Pole

@@ -12,7 +12,8 @@ import { NaglowekEkranu } from "@/components/wzorce/naglowek-ekranu"
 import { SekcjaAkordeon } from "@/components/wzorce/sekcja-akordeon"
 import { WynikGlowny } from "@/components/wzorce/wynik-glowny"
 import { WynikSzczegoly } from "@/components/wzorce/wynik-szczegoly"
-import { liczba, liczbaLubNull, poziomWerdyktu, stawkiDoPomocy, zl } from "@/components/siec/wspolne"
+import { liczba, liczbaLubNull, poziomWerdyktu, stawkiDoPomocy } from "@/components/siec/wspolne"
+import { useZl } from "@/lib/waluta/use-waluta"
 import { useTranslate } from "@/lib/i18n/language-context"
 
 type Stan = {
@@ -27,7 +28,8 @@ type Stan = {
 const POCZATKOWY: Stan = { miesiac: "2026-06", energia: "", cena: "", system: "rce", wykorzystano: "", pelnyKoszt: "" }
 
 export default function DepozytProsumenckiPage() {
-  const t = useTranslate()
+  const t = useTranslate(true)
+  const zl = useZl()
   const [stan, setStan] = usePersistedDraft<Stan>("siec-depozyt-prosumencki", POCZATKOWY)
   const ustaw = <K extends keyof Stan>(pole: K, v: Stan[K]) => setStan((p) => ({ ...p, [pole]: v }))
 

@@ -13,7 +13,7 @@ export const pl = {
       oCoChodzi:
         "To jak wybór butów — do biegania inne, do wspinaczki inne. Do pompy ciepła pasuje podłogówka albo duże grzejniki niskotemperaturowe, nie małe grzejniki „na wysoką temperaturę”.",
       jakDziala:
-        "Wybierz źródło ciepła i system. Przy pompie ciepła wpisz z jej karty COP przy temperaturze zasilania Twojego systemu i przy temperaturze grzejników standardowych — aplikacja policzy, o ile mniej prądu zużyje pompa, a z zapotrzebowaniem i ceną prądu — oszczędność w zł i zwrot dopłaty.",
+        "Wybierz źródło ciepła i system. Przy pompie ciepła wpisz z jej karty COP przy temperaturze zasilania Twojego systemu i przy temperaturze grzejników standardowych — aplikacja policzy, o ile mniej prądu zużyje pompa, a z zapotrzebowaniem i ceną prądu — oszczędność w {waluta} i zwrot dopłaty.",
       poCo:
         "Im niższa temperatura zasilania, tym wyższy COP pompy. Zwykłe grzejniki wymagają wysokiej temperatury i potrafią zjeść dużą część zysku z pompy ciepła.",
       fizyka:
@@ -51,13 +51,13 @@ export const pl = {
         zakres: OPCJA,
       },
       doplata: {
-        nazwa: "Dopłata za wybrany system [zł]",
+        nazwa: "Dopłata za wybrany system [{waluta}]",
         cel: "Różnica kosztu względem grzejników standardowych — do policzenia zwrotu.",
         gdzie: "Oferty instalatorów, ceny grzejników.",
         zakres: OPCJA,
       },
       cena: {
-        nazwa: "Cena prądu [zł/kWh]",
+        nazwa: "Cena prądu [{waluta}/kWh]",
         cel: "Zamienia kWh oszczędności na złotówki.",
         gdzie: "Rachunek za prąd albo koszt kWh z Twojego systemu off-grid.",
         zakres: OPCJA,
@@ -383,13 +383,13 @@ export const pl = {
         "zakres": "Do 366. Puste = bez wyniku sezonowego."
       },
       "cena": {
-        "nazwa": "Cena prądu [zł/kWh]",
+        "nazwa": "Cena prądu [{waluta}/kWh]",
         "cel": "Zamienia kWh na złotówki.",
         "gdzie": "Rachunek albo koszt kWh z Twojego systemu.",
-        "zakres": "Puste = bez zł i zwrotu."
+        "zakres": "Puste = bez {waluta} i zwrotu."
       },
       "doplata": {
-        "nazwa": "Dopłata za rekuperację [zł]",
+        "nazwa": "Dopłata za rekuperację [{waluta}]",
         "cel": "Różnica kosztu instalacji względem wentylacji naturalnej.",
         "gdzie": "Oferty instalatorów.",
         "zakres": "Puste = bez zwrotu."
@@ -559,7 +559,7 @@ export const en: Tlumaczenie<typeof pl> = {
       oCoChodzi:
         "It is like choosing shoes — different for running, different for climbing. A heat pump suits underfloor heating or large low-temperature radiators, not small “high-temperature” radiators.",
       jakDziala:
-        "Choose the heat source and the system. With a heat pump, enter from its datasheet the COP at your system's supply temperature and at the standard radiators' temperature — the app shows how much less electricity the pump uses, and with the demand and price, the saving in PLN and the payback of the extra cost.",
+        "Choose the heat source and the system. With a heat pump, enter from its datasheet the COP at your system's supply temperature and at the standard radiators' temperature — the app shows how much less electricity the pump uses, and with the demand and price, the saving in {waluta} and the payback of the extra cost.",
       poCo:
         "The lower the supply temperature, the higher the pump's COP. Ordinary radiators need a high temperature and can eat a large part of the heat pump's gain.",
       fizyka:
@@ -597,13 +597,13 @@ export const en: Tlumaczenie<typeof pl> = {
         zakres: EN_OPT,
       },
       doplata: {
-        nazwa: "Extra cost of the chosen system [PLN]",
+        nazwa: "Extra cost of the chosen system [{waluta}]",
         cel: "Cost difference against standard radiators — for the payback.",
         gdzie: "Installer quotes, radiator prices.",
         zakres: EN_OPT,
       },
       cena: {
-        nazwa: "Electricity price [PLN/kWh]",
+        nazwa: "Electricity price [{waluta}/kWh]",
         cel: "Turns the kWh saved into money.",
         gdzie: "Your electricity bill or the cost of a kWh from your off-grid system.",
         zakres: EN_OPT,
@@ -929,13 +929,13 @@ export const en: Tlumaczenie<typeof pl> = {
         "zakres": "Up to 366. Empty = no season result."
       },
       "cena": {
-        "nazwa": "Electricity price [PLN/kWh]",
+        "nazwa": "Electricity price [{waluta}/kWh]",
         "cel": "Turns kWh into money.",
         "gdzie": "Bill or the cost of a kWh from your system.",
-        "zakres": "Empty = no PLN and payback."
+        "zakres": "Empty = no {waluta} and payback."
       },
       "doplata": {
-        "nazwa": "Extra cost of heat recovery [PLN]",
+        "nazwa": "Extra cost of heat recovery [{waluta}]",
         "cel": "Installation cost difference against natural ventilation.",
         "gdzie": "Installer quotes.",
         "zakres": "Empty = no payback."
@@ -1105,7 +1105,7 @@ export const ru: Tlumaczenie<typeof pl> = {
       oCoChodzi:
         "Это как выбор обуви — для бега одна, для скалолазания другая. Тепловому насосу подходит тёплый пол или большие низкотемпературные радиаторы, а не маленькие «высокотемпературные».",
       jakDziala:
-        "Выберите источник тепла и систему. Для теплового насоса введите из паспорта COP при температуре подачи вашей системы и при температуре стандартных радиаторов — приложение покажет, насколько меньше электроэнергии потребит насос, а с потребностью и ценой — экономию в злотых и окупаемость доплаты.",
+        "Выберите источник тепла и систему. Для теплового насоса введите из паспорта COP при температуре подачи вашей системы и при температуре стандартных радиаторов — приложение покажет, насколько меньше электроэнергии потребит насос, а с потребностью и ценой — экономию в {waluta} и окупаемость доплаты.",
       poCo:
         "Чем ниже температура подачи, тем выше COP насоса. Обычным радиаторам нужна высокая температура, и они могут съесть большую часть выгоды от теплового насоса.",
       fizyka:
@@ -1143,13 +1143,13 @@ export const ru: Tlumaczenie<typeof pl> = {
         zakres: RU_OPT,
       },
       doplata: {
-        nazwa: "Доплата за выбранную систему [зл]",
+        nazwa: "Доплата за выбранную систему [{waluta}]",
         cel: "Разница в стоимости по сравнению со стандартными радиаторами — для окупаемости.",
         gdzie: "Предложения монтажников, цены радиаторов.",
         zakres: RU_OPT,
       },
       cena: {
-        nazwa: "Цена электроэнергии [зл/кВт·ч]",
+        nazwa: "Цена электроэнергии [{waluta}/кВт·ч]",
         cel: "Переводит сэкономленные кВт·ч в деньги.",
         gdzie: "Счёт за электричество или стоимость кВт·ч вашей автономной системы.",
         zakres: RU_OPT,
@@ -1475,13 +1475,13 @@ export const ru: Tlumaczenie<typeof pl> = {
         "zakres": "До 366. Пусто = без сезонного результата."
       },
       "cena": {
-        "nazwa": "Цена электроэнергии [зл/кВт·ч]",
+        "nazwa": "Цена электроэнергии [{waluta}/кВт·ч]",
         "cel": "Переводит кВт·ч в деньги.",
         "gdzie": "Счёт или стоимость кВт·ч вашей системы.",
-        "zakres": "Пусто = без злотых и окупаемости."
+        "zakres": "Пусто = без {waluta} и окупаемости."
       },
       "doplata": {
-        "nazwa": "Доплата за рекуперацию [зл]",
+        "nazwa": "Доплата за рекуперацию [{waluta}]",
         "cel": "Разница в стоимости установки по сравнению с естественной вентиляцией.",
         "gdzie": "Предложения монтажников.",
         "zakres": "Пусто = без окупаемости."

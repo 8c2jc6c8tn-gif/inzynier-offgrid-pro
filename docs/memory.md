@@ -8805,6 +8805,46 @@ Tryb Audyt (czapka rewidenta). Warstwa „w pełni na końcu” z N.2 — wszyst
   narzędzie AI w `pytaj-asystenta.ts`, wpis w `lib/pulpit/registry.ts`.
 - Założenia ✅🤖 (10 punktów) zebrane w jednym wpisie ⚠️ `lista-do-zrobienia.md` z 02.10.2026.
 
+## Telemetria — kontrakt i transporty (02.10.2026)
+
+- Zbudowano `lib/core/telemetria/*` (próbka, koperta ESP32 v1 w zod, CSV z profilem kolumn, jakość danych, symulator) i
+  `lib/adapters/telemetria/*` (magazyn próbek IDB + pamięć, źródła: symulator, HTTP, Web Serial, Web Bluetooth). Kontrakt:
+  `docs/telemetria-kontrakt-esp32.md`. Powód: WiFi/BLE nieznane przez miesiące — transport to wymienny adapter za portem `TelemetrySource`.
+- `DB_VERSION` IndexedDB 1→2 (nowy store `telemetria-probki`, migracja addytywna, standard 5.4). Testy wersji nie wymagały zmian.
+- Progi „zakres fizyczny” w `WIELKOSCI` to szerokie granice sensowności czujnika, nie normy. Wartości symulatora są poglądowe.
+- **Nie zweryfikowane:** Web Serial / Web Bluetooth na prawdziwym sprzęcie (testy na atrapach); UUID BLE do ustalenia z firmware;
+  MQTT-WS niezbudowany (zależność vs budżet SW, D61). Ekrany live (M13) jeszcze nie podpięte do źródeł.
+- (02.10.2026, uzupełnienie) CSV bez nagłówka + osobna legenda: profil adresuje kolumny numerem, obsługuje czas w osobnych
+  kolumnach / DD.MM.RRRR, stałe przesunięcie strefy i znaczniki braku; rejestr źródeł i zapisanych profili (zod, odczyt odporny
+  na uszkodzone dane); `importujCsv` (parsowanie → dedup → magazyn → raport jakości). Wielkości pogodowe dodane z jednostkami
+  SI — **legenda Pogodynki jeszcze niedostarczona**: jednostki i znaczniki braku z jej plików trzeba potwierdzić, nie zakładać.
+
+
+## i18n poza zasięgiem strażników (02.10.2026)
+Lista zapadkowa strażnika UI (`app/`+`components/`) pokazywała 6 plików, ale niezależny skan `lib/` znalazł polskie teksty renderowane surowo:
+rejestr pulpitu (zrobione — `lib/i18n/ui/pulpit-rejestr.ts`, test z rejestru), stałe silnika (zrobione — `stale-*.ts`) i 11 grup luk (wpis „Audyt i18n
+poza zasięgiem strażników” na liście). Wniosek: „strażnik OK” ≠ „EN/RU kompletne”; tekst z `lib/` wstawiany w JSX (`{x.label}`, `{x.blad}`) omija oba
+strażniki. Kandydat do `docs/wklad-do-standardu.md` (strażnik skanujący eksportowane literały `lib/`).
+
+## 2026-10-02 — waluta wyświetlania i metadane per rynek
+- **Waluta (`lib/waluta/`, `components/waluta-wybor.tsx`, Ustawienia).** Silnik i dane (taryfy, opłaty) zostają w PLN — to polskie stawki prawne. Wybrana waluta (dowolna z listy, także w PL) zmienia tylko *wyświetlanie* wyników: `useZl()` zastąpił `zl()` (29 użyć). Kursy: ECB przez Frankfurter (`api.frankfurter.dev`, CSP `connect-src` w `proxy.ts`), bufor 12 h w localStorage (działa offline), kurs ręczny > automatyczny, narzut % (kurs × (1+p/100), domyślnie 0). **Revolut nie ma publicznego API kursów (revolut.com → 403)** — „kurs Revolut” = wpis ręczny + narzut; UAH tylko ręcznie (brak w ECB). Brak kursu → pokazujemy PLN, nie błędną liczbę.
+- **Świadome ograniczenia (patrz lista):** pola wejściowe kwot nadal w PLN; „zł” wpisane wprost w słownikach/`lib/core` (opisy, jednostki „zł/kWh”) nie jest jeszcze sparametryzowane.
+- **Metadane per rynek.** `generateMetadata()` + `app/manifest.ts` (dynamiczny) biorą język z `Accept-Language` (PL/EN/RU; teksty `lib/i18n/ui/meta.ts`), `<html lang>` renderowany wg tego samego. Jedyne miejsce, gdzie 17.4 dopuszcza nagłówek: serwer nie widzi localStorage, a title/manifest czyta przeglądarka przed skryptem. Zweryfikowane na `pnpm start` (ru → manifest po rosyjsku, en → `<title>Offgrid Engineer Pro</title>`). Baseline strażnika UI: layout/manifest/wspolne usunięte (3 pliki/4 teksty zostały).
+
+## 2026-10-02 — parametryzacja `{waluta}` w słownikach (decyzja właściciela: rynek PL = PLN, inny = wybrana waluta)
+
+`podstaw()` zawsze podstawia `{waluta}` (domyślnie „zł”); `useTranslate(stalaPln?)` dokłada symbol wybranej waluty (`useSymbolWaluty()` w `language-context.tsx` — tam, a nie w `use-waluta.ts`, żeby uniknąć cyklu importów; brak znanego kursu → PLN, ta sama reguła co `useZl`). `PomocPola`/`MigawkaInfo` dokładają `waluta` do parametrów. Migracja skryptowa (regex z lookaroundami na litery — omija „złącza/złączki”): skróty „zł”/„PLN”/„зл” → `{waluta}` w `lib/i18n/{ui,pomoc}/*` i `dictionary-{pl,en,ru}.ts`, z WYŁĄCZENIEM rynku PL (`m14-*`, `m15-m16-siec`, `komponenty-siec`, `pomoc/m14-siec`, klucze `SIEC-*`) — te zostają „zł” na sztywno, a ekrany PL wołają `useTranslate(true)`. Pułapka: test zgodności `{params}` PL/EN/RU w `pomoc.test.ts` wyłapał miejsca, gdzie jeden język miał prozę („в злотых”, „na złotówki”) a inny `{waluta}` — ujednolicone. Ograniczenie: wartości domyślne pól to PLN, bez konwersji (patrz `lista-do-zrobienia.md`).
+
+## 2026-10-02 — przeliczanie wartości pól przy zmianie waluty (decyzja właściciela: przeliczać)
+
+- `usePersistedDraft(klucz, poczatkowy, konwersjaKwot?)` zwraca `[stan, setStan, info]`; przy zmianie waluty mnoży pola kwotowe przez `kurs_nowy / kurs_stary` (`wspolczynnikPrzeliczenia`), 6 cyfr znaczących (`przeliczPoleTekst`, `przeliczPola`). Waluta, w której jest szkic, leży obok szkicu (`offgrid.draftwaluta.<ekran>`, zapisywana razem) — ekran nieotwarty w chwili zmiany przelicza się przy następnej wizycie. Brak kursu → PLN (bez konwersji).
+- `components/przeliczone-info.tsx` pokazuje: „przeliczono z X na Y zgodnie z kursem EBC (Frankfurter) na dzień …” (albo „własnym kursem”, + narzut). Klucze `UI-WAL-PRZELICZONO-*`.
+- Pola kwotowe weryfikowane po jednostkach `{waluta}` w UI/pomocy, nie po nazwach; ekrany rynku PL (`useTranslate(true)`) nie przeliczają. Pułapka: wielokrotne zaokrąglanie przy kolejnych zmianach waluty kumuluje błąd rzędu 1e-6 (akceptowalne).
+- Lint `react-hooks/set-state-in-effect`: znacznik „wczytano” trzymany jako klucz (`wczytanoKlucz === key`), bez synchronicznego `setState` w efekcie.
+
+- **Kursy walut — serwerowa kopia (02.10.2026, decyzja właściciela: zamiast Revolut).** `app/api/kursy/route.ts` pobiera Frankfurter/EBC (`next.revalidate` 12 h, `s-maxage` CDN) i oddaje `{ok,date,rates}`; `odswiezKursy()` w `lib/waluta/storage.ts` próbuje najpierw `/api/kursy` (same-origin), potem Frankfurter bezpośrednio (CSP `KURSY_SRC` zostaje jako fallback), zapisuje `{pobranoMs,dataEcb,kursy}` w localStorage (offline działa na ostatnich). Wspólny parser/URL: `lib/waluta/kursy-zrodlo.ts`. UI pokazuje datę kursu i moment pobrania (`UI-WAL-STAN-KURSOW`). Cache serwera = cache Next/CDN, nie trwała baza.
+
+- **Kursy walut — trwały zapis na serwerze (02.10.2026, doprecyzowanie właściciela: „kursy muszą być zapisywane”).** Cache Next/CDN nie wystarcza. `/api/kursy` czyta najpierw tabelę `kursy_walut` (Supabase, migracja `supabase/migrations/0002_kursy_walut.sql`, jeden wiersz na datę ECB = historia, RLS bez polityk, dostęp tylko service role przez `lib/adapters/supabase/kursy-store.ts`); świeży zapis (<12 h) jest serwowany bez wołania Frankfurter, inaczej pobranie + zapis, a gdy Frankfurter nie działa — ostatni zapis (`source: zapis-nieaktualny`). **Wymaga uruchomienia migracji 0002 i ustawienia `NEXT_PUBLIC_SUPABASE_*` + `SUPABASE_SERVICE_ROLE_KEY` na hostingu; bez nich trasa degraduje się do samego cache (nic się nie psuje).** Nie rusza to logowania (pozycja 7), używa tylko klienta admin.
 
 ## Audyt i18n poza strażnikami — `pv/czystosc-i-snieg` (02.10.2026)
 - Pułapka: `check:i18n-guard` przepuszczał moduł z polskim tekstem, bo widzi tylko `Warning.message` jako literał w obiekcie i `assumptions` jako gołe stringi — nie widzi pól `string` w `value` wyniku (`opis`, `powod`) ani `message` zbudowanego w funkcji pomocniczej (`outOfRange`). Naprawione w tym module: wynik niesie `opisKey`/`powodKey` + params, ekran i narzędzie AI rozwiązują `t()`. Klucze `KATSTOPNI-/SPADEKPRODUKCJIPCT-POZA-ZAKRESEM` wynikają z `code` (bez `i18nKey`).

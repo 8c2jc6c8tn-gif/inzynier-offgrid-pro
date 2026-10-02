@@ -24,7 +24,7 @@ function useDzis(stanNa: string): string {
 
 /** M14 — D13/F12 list of subsidies with date, confidence and automatic „nabór zakończony” (§9). */
 export function ListaDotacji({ segment }: { segment: Segment }) {
-  const t = useTranslate()
+  const t = useTranslate(true)
   const dzis = useDzis(DOTACJE[0].stanNa)
   const pozycje = DOTACJE.filter((d) => d.dotyczy.includes(segment))
   return (

@@ -16,6 +16,7 @@ import { NawigacjaEkranu } from "@/components/nawigacja-ekranu"
 import { NaglowekEkranu } from "@/components/wzorce/naglowek-ekranu"
 import { WynikGlowny } from "@/components/wzorce/wynik-glowny"
 import { WynikSzczegoly } from "@/components/wzorce/wynik-szczegoly"
+import { KLUCZ_URZADZENIA_ZMIENNEGO, WPISY_URZADZENIA_ZMIENNE, etykieta, tlumaczParamsEtykiet } from "@/components/zapotrzebowanie/etykiety-stalych"
 import { useTranslate } from "@/lib/i18n/language-context"
 
 const INLINE_INPUT_KLASY =
@@ -96,6 +97,7 @@ export default function UrzadzeniaZmiennePage() {
       <ul className="flex flex-col gap-3">
         {urzadzenia.map((u) => {
           const def = KATALOG_URZADZEN_ZMIENNYCH.find((d) => d.id === u.id)
+          const nazwa = etykieta(t, KLUCZ_URZADZENIA_ZMIENNEGO, u.id, def?.label ?? u.id)
           return (
             <li key={u.id} className="flex flex-col gap-2 rounded-md border p-3">
               <div className="flex items-center gap-3">
@@ -107,7 +109,7 @@ export default function UrzadzeniaZmiennePage() {
                   id={`urz-${u.id}`}
                 />
                 <label htmlFor={`urz-${u.id}`} className="flex-1 text-small font-medium">
-                  {def?.label ?? u.id}
+                  {nazwa}
                 </label>
               </div>
               <div className="flex flex-wrap items-center gap-2 pl-8 text-caption">
@@ -118,7 +120,7 @@ export default function UrzadzeniaZmiennePage() {
                   value={u.mocW}
                   disabled={!u.wybrane}
                   onChange={(e) => aktualizuj(u.id, { mocW: Number(e.target.value) })}
-                  aria-label={t("UI-URZZMI-MOC", { p: def?.label ?? u.id })}
+                  aria-label={t("UI-URZZMI-MOC", { p: nazwa })}
                 />
                 <PomocPola ekran="urzadzenia-zmienne" pole="moc" />
                 <span>W ×</span>
@@ -130,7 +132,7 @@ export default function UrzadzeniaZmiennePage() {
                   placeholder="min"
                   disabled={!u.wybrane}
                   onChange={(e) => aktualizuj(u.id, { czasMin: Number(e.target.value) })}
-                  aria-label={t("UI-URZZMI-CZAS-PRACY-DZIENNIE", { p: def?.label ?? u.id })}
+                  aria-label={t("UI-URZZMI-CZAS-PRACY-DZIENNIE", { p: nazwa })}
                 />
                 <PomocPola ekran="urzadzenia-zmienne" pole="czas" />
                 <span>{t("UI-URZZMI-MIN-DOBE")}</span>
@@ -139,7 +141,7 @@ export default function UrzadzeniaZmiennePage() {
                   value={u.klasa}
                   disabled={!u.wybrane}
                   onChange={(e) => aktualizuj(u.id, { klasa: e.target.value as KlasaEnergetyczna })}
-                  aria-label={t("UI-URZZMI-KLASA-ENERGETYCZNA", { p: def?.label ?? u.id })}
+                  aria-label={t("UI-URZZMI-KLASA-ENERGETYCZNA", { p: nazwa })}
                 >
                   <option value="nowoczesne">{t("UI-URZZMI-NOWOCZESNE")}</option>
                   <option value="standardowe">{t("UI-URZZMI-STANDARDOWE-LAT")}</option>
@@ -195,7 +197,7 @@ export default function UrzadzeniaZmiennePage() {
 
       {result.status === "INVALID_INPUT" ? (
         <WerdyktPanel poziom="blad" etykieta={t("UI-URZZMI-POLICZYC-SPRAWDZ-WPISANE")}>
-          <WynikSzczegoly assumptions={[]} warnings={result.warnings} />
+          <WynikSzczegoly assumptions={[]} warnings={result.warnings.map((w) => ({ ...w, params: tlumaczParamsEtykiet(t, w.params, WPISY_URZADZENIA_ZMIENNE) }))} />
         </WerdyktPanel>
       ) : result.status === "INCOMPLETE" ? (
         <p className="text-small text-muted-foreground">
@@ -206,7 +208,7 @@ export default function UrzadzeniaZmiennePage() {
           <WynikGlowny>{(energiaLacznaWh / 1000).toFixed(2)} kWh</WynikGlowny>
           {result.warnings.map((w) => (
             <p key={w.code} className="mt-1 text-small">
-              {w.message ?? t(w.i18nKey ?? w.code, w.params)}
+              {w.message ?? t(w.i18nKey ?? w.code, tlumaczParamsEtykiet(t, w.params, WPISY_URZADZENIA_ZMIENNE))}
             </p>
           ))}
           <WynikSzczegoly assumptions={result.assumptions} formula={result.formula} />

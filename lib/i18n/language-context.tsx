@@ -11,6 +11,9 @@ import { createContext, useCallback, useContext, useSyncExternalStore, type Reac
 import { DEFAULT_LANGUAGE, type Language } from "./language"
 import { getServerSnapshot, getSnapshot, subscribe } from "./storage"
 import { t } from "./t"
+import { kursEfektywny, symbolWaluty } from "@/lib/waluta/przelicz"
+import { getServerSnapshot as walutaServer, getSnapshot as walutaSnapshot, subscribe as walutaSubscribe } from "@/lib/waluta/storage"
+import { WALUTA_BAZOWA } from "@/lib/waluta/waluty"
 
 const LanguageContext = createContext<Language>(DEFAULT_LANGUAGE)
 
@@ -23,10 +26,25 @@ export function useLanguage(): Language {
   return useContext(LanguageContext)
 }
 
-export function useTranslate() {
+/** Symbol of the currency the user displays money in (PLN when the chosen currency has no known rate yet — same rule as `useZl`). */
+export function useSymbolWaluty(): string {
   const language = useLanguage()
+  const stan = useSyncExternalStore(walutaSubscribe, walutaSnapshot, walutaServer)
+  const { kod, narzutProc, reczne } = stan.preferencja
+  const kurs = kursEfektywny(kod, stan.kursy?.kursy ?? {}, reczne, narzutProc)
+  return symbolWaluty(kurs === null ? WALUTA_BAZOWA : kod, language)
+}
+
+/**
+ * `stalaPln = true` pins `{waluta}` to „zł” — for Polish-market screens (OSD tariffs, URE fees,
+ * prosumer deposit) whose data and amounts are legally PLN whatever display currency is chosen.
+ */
+export function useTranslate(stalaPln = false) {
+  const language = useLanguage()
+  const symbol = useSymbolWaluty()
+  const waluta = stalaPln ? "zł" : symbol
   return useCallback(
-    (kod: string, params?: Record<string, string | number>) => t(language, kod, params),
-    [language],
+    (kod: string, params?: Record<string, string | number>) => t(language, kod, { waluta, ...params }),
+    [language, waluta],
   )
 }

@@ -11,7 +11,8 @@ import { NawigacjaEkranu } from "@/components/nawigacja-ekranu"
 import { NaglowekEkranu } from "@/components/wzorce/naglowek-ekranu"
 import { WynikGlowny } from "@/components/wzorce/wynik-glowny"
 import { WynikSzczegoly } from "@/components/wzorce/wynik-szczegoly"
-import { liczba, liczbaLubNull, poziomWerdyktu, stawkiDoPomocy, zl } from "@/components/siec/wspolne"
+import { liczba, liczbaLubNull, poziomWerdyktu, stawkiDoPomocy } from "@/components/siec/wspolne"
+import { useZl } from "@/lib/waluta/use-waluta"
 import { useTranslate } from "@/lib/i18n/language-context"
 
 type Stan = {
@@ -28,7 +29,8 @@ type Stan = {
 const TG_FI0 = String(DANE_ROZLICZEN.mocBierna.tgFi0Domyslny.okresy[0].wartosc)
 
 export default function MocBiernaPage() {
-  const t = useTranslate()
+  const t = useTranslate(true)
+  const zl = useZl()
   const [stan, setStan] = usePersistedDraft<Stan>("siec-moc-bierna", {
     tgFi: "",
     tgFi0: TG_FI0,

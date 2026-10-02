@@ -5,6 +5,8 @@ import { useMemo } from "react"
 import { calculateTaryfaNocnaPompyCiepla } from "@/lib/core/modules/ogrzewanie/taryfa-nocna-pompy-ciepla/calculator"
 import type { ZasilanieNocy } from "@/lib/core/modules/ogrzewanie/taryfa-nocna-pompy-ciepla/input"
 import { usePersistedDraft } from "@/lib/adapters/use-persisted-draft"
+import { przeliczPola } from "@/lib/waluta/przelicz"
+import { PrzeliczoneInfo } from "@/components/przeliczone-info"
 import { useTranslate } from "@/lib/i18n/language-context"
 import { Pole, PoleSelect } from "@/components/ui/pole"
 import { PomocPola } from "@/components/ui/pomoc"
@@ -29,6 +31,9 @@ const STAN_POCZATKOWY: FormularzStan = {
   zasilanie: "siec",
 }
 
+/** Money fields converted when the display currency changes. */
+const PRZELICZ_KWOTY = przeliczPola<FormularzStan>("cenaDzien", "cenaNoc")
+
 const ZASILANIA: ZasilanieNocy[] = ["siec", "agregat", "bateria"]
 const KLUCZ_ZASILANIA: Record<ZasilanieNocy, string> = {
   siec: "UI-M6-TAN-ZAS-SIEC",
@@ -46,7 +51,7 @@ const r2 = (x: number) => Math.round(x * 100) / 100
 /** Moduł 6, Część 2C — dawne 5.59: heat pump on a night tariff (grid, generator or battery), buffer shifts the heat. */
 export default function TaryfaNocnaPompyCieplaPage() {
   const t = useTranslate()
-  const [stan, setStan] = usePersistedDraft<FormularzStan>("taryfa-nocna-pompy-ciepla", STAN_POCZATKOWY)
+  const [stan, setStan, info] = usePersistedDraft<FormularzStan>("taryfa-nocna-pompy-ciepla", STAN_POCZATKOWY, PRZELICZ_KWOTY)
   const pole = (klucz: Pola) => ({
     type: "number",
     inputMode: "decimal" as const,
@@ -79,6 +84,7 @@ export default function TaryfaNocnaPompyCieplaPage() {
       <NaglowekEkranu tytul={t("UI-M6-TAN-TYTUL")} ekran="taryfa-nocna-pompy-ciepla" wynik={result}>
         {t("UI-M6-TAN-OPIS")}
       </NaglowekEkranu>
+      <PrzeliczoneInfo info={info} />
 
       <section className={SEKCJA_KLASY}>
         <h2 className={SEKCJA_TYTUL_KLASY}>{t("UI-M6-TAN-SEKCJA-TARYFA")}</h2>

@@ -53,6 +53,10 @@ const ULDK_CONNECT_SRC = "https://uldk.gugik.gov.pl"
 // kafle przez fetch (connect-src) i rysuje je jako obrazy (img-src). Tylko w trybie online.
 const GEOPORTAL_SRC = "https://mapy.geoportal.gov.pl"
 
+// Kursy walut (ECB przez Frankfurter) — wołane z przeglądarki, tylko gdy użytkownik wybrał walutę
+// inną niż PLN; bufor w localStorage działa offline (lib/waluta/storage.ts).
+const KURSY_SRC = "https://api.frankfurter.dev"
+
 function buildCsp(nonce: string): string {
   // Next.js dev mode (React Refresh/HMR) wstrzykuje własne inline skrypty i wymaga
   // 'unsafe-eval' — osłabienie CSP tylko w dev, produkcja zostaje ściśle ograniczona do
@@ -64,7 +68,7 @@ function buildCsp(nonce: string): string {
     `style-src 'self' 'unsafe-inline'`,
     `img-src 'self' data: blob: ${GEOPORTAL_SRC}`,
     `font-src 'self'`,
-    `connect-src 'self' ${ULDK_CONNECT_SRC} ${GEOPORTAL_SRC}${SUPABASE_CONNECT_SRC ? ` ${SUPABASE_CONNECT_SRC}` : ""}`,
+    `connect-src 'self' ${ULDK_CONNECT_SRC} ${GEOPORTAL_SRC} ${KURSY_SRC}${SUPABASE_CONNECT_SRC ? ` ${SUPABASE_CONNECT_SRC}` : ""}`,
     // MapLibre GL uruchamia swój worker z blob: URL; Web Worker obliczeń Modułu 1 — z 'self'.
     `worker-src 'self' blob:`,
     `frame-ancestors 'none'`,

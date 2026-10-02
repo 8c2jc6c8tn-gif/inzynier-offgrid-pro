@@ -23,6 +23,15 @@ const initialItems: UrzadzenieKrytyczne[] = DOMYSLNE_URZADZENIA_KRYTYCZNE.map((d
   powerW: 0,
 }))
 
+// Display names of the default devices; the stored `label` (Polish) stays untouched in the draft.
+const KLUCZE_URZADZEN: Record<string, string> = {
+  esp32: "UI-STALE-UPS-ESP32",
+  router: "UI-STALE-UPS-ROUTER",
+  silowniki: "UI-STALE-UPS-SILOWNIKI",
+  "centrala-pozarowa": "UI-STALE-UPS-CENTRALA-POZAROWA",
+  "oswietlenie-awaryjne": "UI-STALE-UPS-OSWIETLENIE-AWARYJNE",
+}
+
 const INLINE_INPUT_KLASY =
   "w-24 min-h-11 rounded-md border border-input bg-background px-2 text-body outline-none transition-colors " +
   "hover:not-disabled:border-foreground/30 focus-visible:border-ring focus-visible:ring-2 focus-visible:ring-ring/50 " +
@@ -77,7 +86,11 @@ export default function UpsKrytycznyPage() {
 
   const hasWarning = result.warnings.some((w) => w.level === "warning")
   const hasCritical = result.warnings.some((w) => w.level === "critical")
-  const etykietaUrzadzenia = (id: string) => urzadzenia.find((u) => u.id === id)?.label ?? id
+  const nazwaUrzadzenia = (u: { id: string; label: string }) => (KLUCZE_URZADZEN[u.id] ? t(KLUCZE_URZADZEN[u.id]) : u.label)
+  const etykietaUrzadzenia = (id: string) => {
+    const u = urzadzenia.find((x) => x.id === id)
+    return u ? nazwaUrzadzenia(u) : id
+  }
   const r2 = (x: number) => Math.round(x * 100) / 100
   const kolumnyPlanu: Kolumna<EtapOdciecia & { id: number }>[] = [
     {
@@ -121,7 +134,7 @@ export default function UpsKrytycznyPage() {
               id={`urzadzenie-${u.id}`}
             />
             <label htmlFor={`urzadzenie-${u.id}`} className="flex-1 text-small font-medium">
-              {u.label}
+              {nazwaUrzadzenia(u)}
               <span className="block text-caption font-normal text-muted-foreground">
                 {t("UI-UPSKRY-BRAK-WARTOSCI-DOMYSLNEJ")}
               </span>
@@ -133,7 +146,7 @@ export default function UpsKrytycznyPage() {
               value={u.powerW}
               disabled={!u.selected}
               onChange={(e) => updatePower(u.id, Number(e.target.value))}
-              aria-label={t("UI-UPSKRY-MOC", { label: u.label })}
+              aria-label={t("UI-UPSKRY-MOC", { label: nazwaUrzadzenia(u) })}
             />
             <span className="w-4 text-caption text-muted-foreground">W</span>
             <PomocPola ekran="ups-krytyczny" pole="mocUrzadzenia" />
@@ -143,7 +156,7 @@ export default function UpsKrytycznyPage() {
                 value={String(u.priorytet !== undefined ? (u.priorytet ?? "") : (PRIORYTET_ZRODLA[u.id] ?? ""))}
                 disabled={!u.selected}
                 onChange={(e) => updatePriorytet(u.id, e.target.value)}
-                aria-label={t("UI-M8-UPS-PRIORYTET", { label: u.label })}
+                aria-label={t("UI-M8-UPS-PRIORYTET", { label: nazwaUrzadzenia(u) })}
               >
                 <option value="">{t("UI-WYBIERZ")}</option>
                 <option value="1">{t("UI-M8-UPS-PRIORYTET-1")}</option>

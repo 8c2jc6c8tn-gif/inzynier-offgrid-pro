@@ -29,6 +29,16 @@ type FormularzStan = {
 
 const STAN_POCZATKOWY: FormularzStan = { miejsce: "", narazone: "", ipKod: 0 }
 
+const KLUCZE_IP: Record<number, string> = {
+  20: "UI-STALE-IP-20",
+  54: "UI-STALE-IP-54",
+  55: "UI-STALE-IP-55",
+  65: "UI-STALE-IP-65",
+  66: "UI-STALE-IP-66",
+  67: "UI-STALE-IP-67",
+  68: "UI-STALE-IP-68",
+}
+
 const MIEJSCA: { id: MiejsceMalejInstalacji; label: string }[] = [
   { id: "garaz", label: "UI-WILMALINS-GARAZ" },
   { id: "piwnica", label: "UI-WILMALINS-PIWNICA" },
@@ -116,7 +126,7 @@ export default function WilgocMaleInstalacjePage() {
           <option value={0}>{t("UI-WYBIERZ")}</option>
           {OPCJE_IP_MALE_INSTALACJE.map((o) => (
             <option key={o.kod} value={o.kod}>
-              {o.label}
+              {KLUCZE_IP[o.kod] ? t(KLUCZE_IP[o.kod]) : o.label}
             </option>
           ))}
         </PoleSelect>

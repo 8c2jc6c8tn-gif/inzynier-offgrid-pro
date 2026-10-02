@@ -10,6 +10,7 @@ import type { AutonomiaStandbyInput, KosztRocznyStandbyInput, WplywNaDoborInput 
 import type { DoborMetodyInput, PorownanieMetodInput } from "@/lib/core/modules/zapotrzebowanie/wampiry-energetyczne/rekomendacje-sprzetowe/input"
 import type { ScenariuszAutomatyzacjiInput } from "@/lib/core/modules/zapotrzebowanie/wampiry-energetyczne/automatyzacja/input"
 import { usePersistedDraft } from "@/lib/adapters/use-persisted-draft"
+import { PrzeliczoneInfo } from "@/components/przeliczone-info"
 import { PoleSelect } from "@/components/ui/pole"
 import { PomocPola } from "@/components/ui/pomoc"
 import { NawigacjaEkranu } from "@/components/nawigacja-ekranu"
@@ -62,6 +63,22 @@ const STAN_POCZATKOWY: FormularzStan = {
   automatyzacja: { standbyReferencyjnyW: 0, standbyWScenariuszuW: 0 },
 }
 
+const przeliczKwote = (kwota: number, wspolczynnik: number) => Number((kwota * wspolczynnik).toPrecision(6))
+
+/** Money fields (energy price, purchase cost and yearly saving of the disconnect methods) converted on a currency change. */
+const PRZELICZ_KWOTY = (stan: FormularzStan, wspolczynnik: number): FormularzStan => ({
+  ...stan,
+  kosztRoczny: { ...stan.kosztRoczny, cenaEnergiiZlZaKwh: przeliczKwote(stan.kosztRoczny.cenaEnergiiZlZaKwh, wspolczynnik) },
+  porownanieMetod: {
+    ...stan.porownanieMetod,
+    metody: stan.porownanieMetod.metody.map((m) => ({
+      ...m,
+      kosztZakupuZl: przeliczKwote(m.kosztZakupuZl, wspolczynnik),
+      rocznaOszczednoscZl: przeliczKwote(m.rocznaOszczednoscZl, wspolczynnik),
+    })),
+  },
+})
+
 /**
  * Moduł zbiorczy "Wampiry energetyczne" (Moduł 2) — 5 podzakładek, jeden `usePersistedDraft`
  * na cały ekran (nie 5 osobnych kluczy), żeby suma standby wyliczona w Katalogu/Pomiarze była
@@ -69,7 +86,7 @@ const STAN_POCZATKOWY: FormularzStan = {
  */
 export default function WampiryEnergetycznePage() {
   const t = useTranslate()
-  const [stan, setStan] = usePersistedDraft<FormularzStan>("wampiry-energetyczne", STAN_POCZATKOWY)
+  const [stan, setStan, info] = usePersistedDraft<FormularzStan>("wampiry-energetyczne", STAN_POCZATKOWY, PRZELICZ_KWOTY)
 
   function setPole<K extends keyof FormularzStan>(
     pole: K,
@@ -94,6 +111,7 @@ export default function WampiryEnergetycznePage() {
       <NaglowekEkranu tytul={t("UI-WAMENE-WAMPIRY-ENERGETYCZNE")} ekran="wampiry-energetyczne">
         {t("UI-WAMENE-DROBNY-CIAGLY-POBOR")}
       </NaglowekEkranu>
+      <PrzeliczoneInfo info={info} />
 
       <PoleSelect
         label={t("UI-WAMENE-PODZAKLADKA")}

@@ -77,10 +77,6 @@ export function nadpisanie(s: string): number | undefined {
   return s === "" ? undefined : Number(s)
 }
 
-export function zl(v: number, cyfry = 0): string {
-  return v.toLocaleString("pl-PL", { minimumFractionDigits: cyfry, maximumFractionDigits: cyfry }) + " zł"
-}
-
 /** Verdict colour from warnings, never from status alone (D14, `kontrakty-rdzenia.md` §6). */
 export function poziomWerdyktu(status: Status, warnings: Warning[]): WerdyktPoziom | null {
   if (status === "INVALID_INPUT" || warnings.some((w) => w.level === "critical")) return "blad"
@@ -90,7 +86,7 @@ export function poziomWerdyktu(status: Status, warnings: Warning[]): WerdyktPozi
 }
 
 export function PoleOsd({ value, onChange }: { value: OsdId; onChange: (v: OsdId) => void }) {
-  const t = useTranslate()
+  const t = useTranslate(true)
   return (
     <PoleSelect
       label={t("UI-WSP-OPERATOR-SIECI-OSD")}
@@ -108,7 +104,7 @@ export function PoleOsd({ value, onChange }: { value: OsdId; onChange: (v: OsdId
 }
 
 export function ZrodloDanych({ children }: { children?: ReactNode }) {
-  const t = useTranslate()
+  const t = useTranslate(true)
   return (
     <p className="text-small text-muted-foreground">
       {t("UI-WSP-STAWKI-PLIK-ROZLICZENIA", { stanNa: DANE_ROZLICZEN.stanNa, waznoscDo: DANE_ROZLICZEN.waznoscDo })} {children}
@@ -135,7 +131,7 @@ export function PrzyciskSegmentu({ aktywny, onClick, children }: { aktywny: bool
 
 /** Dom/Firma switch of the shared screens D9–D11 / F9–F10 and the „Ścieżka przejścia” wizard. */
 export function PrzelacznikSegmentu({ value, onChange }: { value: SegmentSieci; onChange: (s: SegmentSieci) => void }) {
-  const t = useTranslate()
+  const t = useTranslate(true)
   return (
     <div className="flex gap-1 rounded-lg border p-1" role="group" aria-label={t("UI-DOM-CZY-FIRMA")}>
       <PrzyciskSegmentu aktywny={value === "dom"} onClick={() => onChange("dom")}>

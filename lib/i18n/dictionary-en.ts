@@ -184,9 +184,9 @@ export const dictionaryEn = {
     "given directly in the source — independently verified against the source's example (-5°C/85% → -7°C).",
   "SPRAWNOSC-OGOLNA-POZA-ZAKRESEM": "Efficiency must be within the range 0–100%.",
   "TANSZE-NIZ-ALTERNATYWA":
-    "The cost of energy from storage ({koszt} PLN/kWh) is lower than the alternative's cost ({alt} PLN/kWh) — storage pays off.",
+    "The cost of energy from storage ({koszt} {waluta}/kWh) is lower than the alternative's cost ({alt} {waluta}/kWh) — storage pays off.",
   "DROZSZE-NIZ-ALTERNATYWA":
-    "The cost of energy from storage ({koszt} PLN/kWh) is higher than the alternative's cost ({alt} PLN/kWh) — " +
+    "The cost of energy from storage ({koszt} {waluta}/kWh) is higher than the alternative's cost ({alt} {waluta}/kWh) — " +
     "at these parameters, storage doesn't pay for itself.",
   "LICZBA-CYKLI-SPRAWNOSC-OD-UZYTKOWNIKA":
     "Number of cycles and efficiency entered by the user (e.g. from a datasheet or Screen 30) — not recalculated on this screen.",
@@ -201,11 +201,11 @@ export const dictionaryEn = {
     "Clamping force ({docisk} kgf) is within the recommended range of {min}-{max} kgf, with slack left for expansion.",
   "DOCISK-UJEMNY": "Clamping force cannot be negative.",
   "TANSZA-NIZ-NOWA":
-    "The cost of 1 usable kWh from this battery ({koszt} PLN/kWh) is lower than a new LiFePO4's " +
-    "({nowa} PLN/kWh) — but the new one has 100% SoH and a longer lifespan.",
+    "The cost of 1 usable kWh from this battery ({koszt} {waluta}/kWh) is lower than a new LiFePO4's " +
+    "({nowa} {waluta}/kWh) — but the new one has 100% SoH and a longer lifespan.",
   "DROZSZA-NIZ-NOWA":
-    "The cost of 1 usable kWh from this battery ({koszt} PLN/kWh) is higher than a new LiFePO4's " +
-    "({nowa} PLN/kWh) — at this purchase price, a new battery pays off better.",
+    "The cost of 1 usable kWh from this battery ({koszt} {waluta}/kWh) is higher than a new LiFePO4's " +
+    "({nowa} {waluta}/kWh) — at this purchase price, a new battery pays off better.",
   "SOH-ZEROWY":
     "Estimated SoH dropped to 0% under this degradation model — the battery is practically useless, don't buy it.",
   "SOH-SZACUNEK-Z-WIEKU": "SoH estimated linearly from age, the lower bound of the source's range ({rate}%/year out of a 2-3%/year range).",
@@ -352,7 +352,7 @@ export const dictionaryEn = {
     "STC conditions — otherwise a surge arrester sized for summer won't cope in winter.",
   "TRASA-NIE-SPELNIA-WYMAGAN-PRZEKROJU": "Route {oznaczenie} doesn't meet cross-section requirements — see details below.",
   "POROWNANIE-KOSZTOW-TRAS":
-    "After {lata} years, route {tansza} is cheaper by {roznica} PLN (purchase cost + energy losses combined).",
+    "After {lata} years, route {tansza} is cheaper by {roznica} {waluta} (purchase cost + energy losses combined).",
   "WYNIK-ZALEZY-OD-ECHA-TRASY":
     "The result depends on the calculateDoborPrzekrojuKabla echo for both routes — one of the routes " +
     "returned a status that prevents further calculation (see warnings).",
@@ -638,7 +638,7 @@ export const dictionaryEn = {
     "That's an unusually high number of air changes per hour (>{max}) — check the airtightness test data.",
   "STRATA-INFILTRACJI": "Heat loss through infiltration: {strata} kW.",
   "OSZCZEDNOSC-KOCIOL-VS-POMPA":
-    "The heat pump is cheaper by {oszczednosc} zł — the electric boiler will use {mnoznik}× more power " +
+    "The heat pump is cheaper by {oszczednosc} {waluta} — the electric boiler will use {mnoznik}× more power " +
     "for the same heat.",
   "OSZCZEDNOSC-POMPA-CYRKULACYJNA":
     "Switching to an electronic pump will save {oszczednoscKwh} kWh/day ({oszczednoscPct}%).",
@@ -1108,7 +1108,7 @@ export const dictionaryEn = {
   "CRL-ZALOZENIE-OBCIECIE": "Only the first {limit} km of the network counted (1 km or up to the first SPD in the network). The order of sections from the building is unknown — the app keeps the highest-weight ones first (typical layout: LV at the house, MV beyond the transformer; conservative result). Give the order to count from the building.",
   "CRL-ZALOZENIE-OBCIECIE-OD-BUDYNKU": "Only the first {limit} km of the network counted (1 km or up to the first SPD in the network), from the building outward — in the section order you gave (D54).",
   "CRL-ZALOZENIE-NG-Z-TD": "Flash density from thunderstorm days: Ng = 0.1 · Td (HD 60364-4-443, 443.5 Note 2).",
-  "ZS-ZALOZENIE-CENA-BALASTU": "Ballast price {cena} PLN/kg — the 1 PLN/kg hint is the project owner's value for self-cast blocks (not from a source or standard); you can enter your own.",
+  "ZS-ZALOZENIE-CENA-BALASTU": "Ballast price {cena} {waluta}/kg — the 1 {waluta}/kg hint is the project owner's value for self-cast blocks (not from a source or standard); you can enter your own.",
   "ZS-ZALOZENIE-SNIEG-MU1": "Snow: shape coefficient μ1 from PN-EN 1991-1-3, Table 5.2 — valid when nothing stops snow sliding off the lower panel edge.",
   "LP-SEZON-BEZ-MIESIECY": "You entered extra winter demand — also tick the months when you heat, so the app knows when to add it.",
   "LP-LIMIT-ZA-MALY-NAWET-LATO": "Even summer alone (June–August) needs {n} panels, and you can mount {limit}. Reduce consumption, find more space for panels or plan a permanent second energy source.",
@@ -1192,7 +1192,7 @@ export const dictionaryEn = {
   "CZYSNIEG-ZALOZENIE-PROG-MYCIA": "Cleaning threshold taken as the midpoint of the source range “loss >5–10%” = {prog}%.",
   "KATSTOPNI-POZA-ZAKRESEM": "Panel tilt angle must be within {min}–{max}°.",
   "SPADEKPRODUKCJIPCT-POZA-ZAKRESEM": "Production drop must be within {min}–{max}%.",
-  "IZOL-GRUBOSC-NIE-ZWRACA-SIE": "{nazwa} {grubosc} cm: the extra centimetres over the thinner variant cost {krancowy} zł per saved kWh — more than the heat price of {cena} zł/kWh. With too thick insulation the cost of each additional centimetre stops paying back.",
+  "IZOL-GRUBOSC-NIE-ZWRACA-SIE": "{nazwa} {grubosc} cm: the extra centimetres over the thinner variant cost {krancowy} {waluta} per saved kWh — more than the heat price of {cena} {waluta}/kWh. With too thick insulation the cost of each additional centimetre stops paying back.",
   "IZOL-BRAK-SEZONU-GRZEWCZEGO": "No month is colder than the indoor temperature — this model has no heating season, so insulation saves nothing. Check the monthly temperatures on Screen 1.",
   "IZOL-ZALOZENIE-WARSTWA-SZEREGOWA": "U after insulating = 1/(1/U + d/λ): the new layer adds its resistance to the existing element (surface resistances are already contained in the current U). Without mechanical fixings, gaps and bridges at layer joints — the real U will be somewhat higher.",
   "IZOL-ZALOZENIE-10-LAT": "Cost-effectiveness over {lata} years (horizon from the source): insulation cost ÷ heat saved in that time, with no price changes and no discounting.",
@@ -1623,7 +1623,7 @@ export const dictionaryEn = {
   "WPC-G-DEFROST": "Defrost over the season: {kwh} kWh of electricity",
   "WPC-G-OGRANICZENIE": "Power after the limit: {kw} kW — running time {razy}× longer (+{pct}%)",
   "WPC-G-PRZEPLYW": "Circuit flow: {m3h} m³/h ({lmin} l/min)",
-  "WPC-G-ODWIERTY": "Cost difference of variant B versus A: {roznica} zł",
+  "WPC-G-ODWIERTY": "Cost difference of variant B versus A: {roznica} {waluta}",
   "WPC-G-STARTY": "Compressor starts per day: without buffer {bez}, with buffer {z}",
   "WPC-W-ZAPOTRZEBOWANIE-PO": "House demand after the change: {kw} kW ({pct}%)",
   "WPC-W-ZAPAS-POMPY": "Margin of the {moc} kW pump: {zapas} kW",
@@ -1639,8 +1639,8 @@ export const dictionaryEn = {
   "WPC-W-POBOR-PRZED": "Electrical draw at full power: {kw} kW",
   "WPC-W-POBOR-PO": "Electrical draw after the limit: {kw} kW",
   "WPC-W-ENERGIA-ZMIANA": "Electricity for the same heat: {pct}%",
-  "WPC-W-WARIANT-A": "Variant A: {liczba} × {glebokosc} m = {dlugosc} m, {koszt} zł, about {moc} kW of pump ({zlNaKw} zł/kW)",
-  "WPC-W-WARIANT-B": "Variant B: {liczba} × {glebokosc} m = {dlugosc} m, {koszt} zł, about {moc} kW of pump ({zlNaKw} zł/kW)",
+  "WPC-W-WARIANT-A": "Variant A: {liczba} × {glebokosc} m = {dlugosc} m, {koszt} {waluta}, about {moc} kW of pump ({zlNaKw} {waluta}/kW)",
+  "WPC-W-WARIANT-B": "Variant B: {liczba} × {glebokosc} m = {dlugosc} m, {koszt} {waluta}, about {moc} kW of pump ({zlNaKw} {waluta}/kW)",
   "WPC-W-CYKL": "One cycle without buffer: {pracBez} min running + {postojBez} min off; with buffer: {pracZ} + {postojZ} min",
   "WPC-ZAL-STAN-USTALONY": "Power in steady state at the entered temperature difference, as on Screen 1; the entered house demand already contains the \"before\" state.",
   "WPC-ZAL-WYSOKOSC": "The volume (air change) and the wall area change; ceiling, floor and windows stay the same.",
@@ -1669,7 +1669,7 @@ export const dictionaryEn = {
   "DMP-ZAL-BEZ-STARTOW": "The screen does not compute starts per day from oversizing alone — the source gives no such model. Starts for a given water volume and hysteresis are computed in the buffer section (Screen 14).",
   "DMP-ZAL-LINIOWO": "Balance point: the load falls linearly to zero at the indoor temperature (losses as on Screen 1, no gains), the pump capacity linearly between the two datasheet points.",
   "TAN-NOC-Z-BATERII": "Running the pump at night from an off-grid battery is not the same as from the grid — expect discharge: at night the pump will draw {kwh} kWh, {kw} kW on average. Check that the battery and inverter can take it (low-voltage risk screen).",
-  "TAN-BRAK-OSZCZEDNOSCI": "At these prices and COP, shifting the pump to the night does not lower the cost (difference {zl} PLN per day). The night zone is not cheap enough or the night COP is too low.",
+  "TAN-BRAK-OSZCZEDNOSCI": "At these prices and COP, shifting the pump to the night does not lower the cost (difference {zl} {waluta} per day). The night zone is not cheap enough or the night COP is too low.",
   "TAN-BEZ-BUFORA": "Without a buffer (or without a buffer temperature swing) heat cannot be stored for the night — nothing is shifted. Enter the buffer volume and its usable temperature swing.",
   "TAN-BUFOR-NIE-POKRYWA-DNIA": "The buffer holds {bufor} kWh of heat and the house needs {dzien} kWh in the day zone — at night you shift only {pct}% of the daytime demand. A bigger buffer shifts more.",
   "TAN-NOC-Z-AGREGATU": "For night running from a generator, enter your real cost of 1 kWh from it (fuel, service) as the night price — the app does not know it.",

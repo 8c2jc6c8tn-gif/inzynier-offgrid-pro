@@ -30,3 +30,27 @@ Stan kodu: `main` @ `5b51c6e` (po PR #221). Faza projektu: przedpremierowa (17.7
 **[29.09.2026] Dopisek po decyzji właściciela (A + B, D58):** 1b naprawione — ekrany M14 i E38 przez klucze `UI-*` PL/EN/RU,
 strażnik UI w `pnpm check:i18n-guard` z listą zapadkową. Korekta zakresu: nowe teksty były w ~40 plikach, nie w ≈15
 (`docs/memory.md`, sekcja „D58”).
+
+---
+
+## Przebieg 2 — 02.10.2026 (na żądanie właściciela: „zrób Y11 audyt”)
+
+Stan kodu: gałąź `claude/wizardly-brahmagupta-df8tzb` @ `af5503b` (230 commitów po stanie z przebiegu 1; `origin/main` @ `3e71fed`).
+Faza przedpremierowa (17.7c (a)). Rejestr świadomych wyjątków — pusty (brak wpisu „WYJĄTEK OD REGUŁY RODZINY”).
+`new-app-standards` nie jest dostępne w tej sesji — pozycja 4 sprawdzona tylko lokalnie (patrz niżej).
+
+| # | Reguła | Wynik | Dowód (odtwarzalny) |
+|---|---|---|---|
+| 1a | 17.1a — mechanizm i18n | ✅ | `pnpm check:i18n-guard`: 265 zmigrowanych modułów silnika bez regresji; `t.ts`, słowniki PL/EN/RU, `language-context.tsx` |
+| 1b | 17.1a — brak nowych twardych stringów w UI | ✅ z zastrzeżeniem ➕ | `check:i18n-ui-guard`: lista zapadkowa 6 plików / 10 tekstów (`layout.tsx` 3, `manifest.ts` 2 — metadane; `test-licznika` 2; po 1: `definicje-symboli`, `siec/wspolne`, `werdykt`). **➕ Strażnik nie widzi `lib/`** — niezależny skan 02.10 znalazł 11 grup polskich tekstów poza jego zasięgiem (wpis w `docs/lista-do-zrobienia.md`); część domknięta (stałe ekranów, rejestr pulpitu), reszta otwarta. To luka narzędzia, nie nowe naruszenie ekranów |
+| 1c | 17.7b — selektor tylko kompletnych języków | ✅ (faza przedpremierowa) | `components/jezyk-wybor.tsx` mapuje całe `SUPPORTED_LANGUAGES` bez filtra — dopuszczalne wg 17.7c (a) i decyzji 23.09.2026. **Do ponownej oceny przed premierą:** EN/RU nie mają przeglądu merytorycznego, a kompletność nie obejmuje jeszcze grup z audytu |
+| 2 | 5.7 — autosave | ✅ | 248 `page.tsx` z `usePersistedDraft` na 277 katalogów w `app/kalkulatory`; reszta to wzorce przez wspólne komponenty i ekrany statyczne (jak w przebiegu 1); egzekwuje `check:pomoc-guard` |
+| 3 | 9.0a — rejestracja narzędzi AI | ✅ | `check:ai-tools-guard`: 262 narzędzia z „Użyj, gdy”, 262/262 kalkulatorów z narzędziem albo adnotacją „nie dotyczy” (przebieg 1: 200) |
+| 4 | Część Y — kategorie plików | ✅ (tylko lokalnie) | `docs/standards/`, `docs/god-book/`, `PROMPT_STARTOWY.md` obecne; `git status` czysty, brak zmian w NIETYKALNYCH od sync 25.09 (v2_39). Porównanie `diff -rq` ze źródłem niewykonalne w tej sesji (brak klonu `new-app-standards`) |
+| 5 | K7 — czystość jądra | ✅ | Grep importów `@/app`, `@/components`, `react`, `next`, `window.`, `document.`, `localStorage` w `lib/core`: 2 trafienia, oba w komentarzach (słowo „window” = okno czasowe: `ai/przesuwanie-zadan/input.ts:25`, `stress-test/okno-sloneczne/warnings.ts:48`); importy `@/lib/adapters`, `@/lib/ai` z `lib/core`: 0 |
+| 6 | 9.0 — AI żywe w UI | ✅ | `components/asystent-ai.tsx:46` woła `pytajAsystenta`; `<AsystentAi />` w `app/layout.tsx:186` |
+| 7 | 18.1 — logowanie od pierwszego uruchomienia | ⚠️ (znane, zablokowane) | Mechanizm w **`proxy.ts`** (Next 16 zastąpił `middleware.ts`; raport z 29.09 odsyłał do starej nazwy): matcher obejmuje wszystkie trasy poza zasobami statycznymi, redirect na `/auth/login` (l. 116). Przy `!isSupabaseConfigured()` (l. 90) przepuszcza — bramka nieaktywna do czasu projektu Supabase (akcja właściciela). Bez zmian od przebiegu 1 |
+
+**Podsumowanie:** 6 ✅, 1 ⚠️ (poz. 7 — znane), 1 ➕ (luka strażnika 1b). Kodu nie zmieniono (Y.11). Poprawka do przebiegu 1: plik bramki to `proxy.ts`, nie `middleware.ts`.
+
+**Do decyzji właściciela:** (1) czy zamknąć ➕ strażnikiem skanującym `lib/` (zapisane też w `docs/wklad-do-standardu.md`); (2) poz. 7 — bez zmian, czeka na Supabase; (3) przed premierą: przegląd EN/RU i ponowna ocena 1c.

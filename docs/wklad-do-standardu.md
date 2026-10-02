@@ -1271,3 +1271,21 @@ Dlaczego warto zgłosić do new-app-standards: każdy projekt rodziny z i18n po 
 ma ten sam hook i te same masowe migracje. Propozycja do 17.x/11.9: tani strażnik AST „plik bez `"use client"`
 nie wywołuje `use*()` z modułu klienckiego” albo smoke-test HTTP 200 dla każdej trasy w CI.
 Status: 🔎 nowe
+
+## 2026-10-02 — strażnik i18n musi widzieć teksty z `lib/` wstawiane w JSX
+Strażnik UI skanował tylko `app/`+`components/` i raportował „OK”, podczas gdy ~100+ polskich tekstów z `lib/` (rejestr nawigacji, label-e stałych,
+komunikaty błędów hooków, parametry ostrzeżeń) trafiało na ekran surowo. Rekomendacja: strażnik skanujący eksportowane literały z polskimi znakami w `lib/`
+(poza promptami AI, testami) przypisane do pól tekstowych, oraz test „każdy wpis rejestru ma klucze we wszystkich językach” generowany z rejestru.
+
+## 2026-10-02 — waluta wyświetlania i metadane per język jako część i18n
+Rekomendacja: standard 17 powinien mówić, że „język” i „waluta” to dwie osobne preferencje (nie „zł” w kodzie), z formatterem `Intl` na granicy wyświetlania i domeną liczoną w jednej walucie bazowej; oraz że metadane serwerowe (title/description/manifest) idą z `Accept-Language`, bo serwer nie widzi localStorage — wyjątek od „zero serwera” z 17.4 uzasadniony tylko tagami czytanymi przed JS. Dodatkowo: brak publicznego API kursów banku/fintechu → ECB + kurs ręczny + narzut, nie udawanie źródła.
+
+[02.10.2026] KATEGORIA: DOBRA PRAKTYKA — waluta wyświetlania, przeliczanie kwot w polach po zmianie waluty i źródło kursów (EBC/Frankfurter + serwerowa kopia)
+Szczegóły: pełna, samodzielna instrukcja w `docs/propozycje-do-new-app-standards/waluta-i-kursy.md`. Streszczenie: domena w jednej walucie bazowej, wybór waluty tylko na granicy wyświetlania (`useZl`, `{waluta}` w tekstach, ekrany rynku bazowego przypięte do bazowej); wartości w polach kwotowych **przeliczane** przy zmianie waluty (szkic zapisany ze znacznikiem waluty, współczynnik kursNowy/kursStary, 6 cyfr znaczących, komunikat „przeliczono kursem EBC z dnia …”); kurs efektywny = ręczny > automatyczny × (1+narzut); automatycznie Frankfurter (kursy referencyjne EBC, bez klucza), łańcuch `/api/kursy` (trwały zapis w tabeli z historią, świeży <12 h, zapis nieaktualny gdy źródło padnie) → Frankfurter bezpośrednio → ostatni zapis lokalny z widoczną datą aktualizacji; brak kursu → waluta bazowa, nigdy błędna liczba.
+Dlaczego warto zgłosić do new-app-standards: każda aplikacja rodziny z kwotami i wieloma rynkami ma ten sam problem (u nas „zł” zaszyte w słownikach i polach przez cały projekt, naprawa objęła ~26 ekranów i setki tekstów); wcześniejsze wpisy z 02.10 zawierały tylko rekomendację — tu jest gotowy wzorzec do wzięcia 1:1. Propozycja do 17.x: osobna sekcja „waluta” obok „języka”.
+Status: 🔎 nowe
+
+[02.10.2026] KATEGORIA: BŁĄD — strażnik i18n „OK” przy niekompletnych tłumaczeniach EN/RU (zasięg skanu węższy niż powierzchnia tekstów)
+Szczegóły: strażnik UI skanował `app/`+`components/`; teksty z `lib/` wstawiane w JSX, teksty bez polskich liter i „zł” w słownikach/nazwach pól omijały go, więc zielone CI przykrywało surowy polski w EN/RU. Realnie pomogły: niezależny skan `lib/`, test z rejestru (klucze we wszystkich językach) i test zgodności `{params}` PL/EN/RU (złapał brak `{waluta}` w jednym tłumaczeniu RU). Dodatkowa pułapka tego samego rodzaju: test trasy `app/api/**` leżał poza `include` runnera (`lib/**`) i po cichu się nie uruchamiał — logikę trzymać w `lib/`, trasę robić cienką.
+Dlaczego warto zgłosić do new-app-standards: „strażnik zielony” bywa fałszywym poczuciem bezpieczeństwa w każdym projekcie z ratchetem. Propozycja do 17.9/10.x: (a) strażnik raportuje swój zasięg i liczbę skanowanych plików, (b) skan literałów z `lib/`, (c) obowiązkowy test zgodności `{params}` między językami, (d) kontrola, że każdy plik testowy mieści się w `include` runnera.
+Status: 🔎 nowe

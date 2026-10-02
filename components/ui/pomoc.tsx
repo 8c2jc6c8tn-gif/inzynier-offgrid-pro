@@ -6,7 +6,7 @@ import { ZalozeniaLista } from "@/components/zalozenia-lista"
 import type { CalcResult } from "@/lib/core/calc-result"
 import { pomoc, type EkranPomocy, type GrupaPomocy, type PolePomocy } from "@/lib/i18n/pomoc"
 import type { MigawkaTresc, PomocPolaTresc } from "@/lib/i18n/pomoc/typy"
-import { useLanguage, useTranslate } from "@/lib/i18n/language-context"
+import { useLanguage, useSymbolWaluty, useTranslate } from "@/lib/i18n/language-context"
 import { podstaw } from "@/lib/i18n/t"
 import { cn } from "@/lib/utils"
 
@@ -53,12 +53,14 @@ export function PomocPola<G extends GrupaPomocy>({
 }) {
   const language = useLanguage()
   const t = useTranslate()
+  const waluta = useSymbolWaluty()
+  const parametry = { waluta, ...params }
   const surowa = (pomoc[language][ekran].pola as Record<string, PomocPolaTresc>)[pole]!
   const tresc: PomocPolaTresc = {
-    nazwa: podstaw(language, surowa.nazwa, params),
-    cel: podstaw(language, surowa.cel, params),
-    gdzie: podstaw(language, surowa.gdzie, params),
-    zakres: podstaw(language, surowa.zakres, params),
+    nazwa: podstaw(language, surowa.nazwa, parametry),
+    cel: podstaw(language, surowa.cel, parametry),
+    gdzie: podstaw(language, surowa.gdzie, parametry),
+    zakres: podstaw(language, surowa.zakres, parametry),
   }
   return <PomocPole tresc={<TrescPola tresc={tresc} />} aria={t("POMOC-UI-ARIA-POLE", { nazwa: tresc.nazwa })} />
 }
@@ -85,13 +87,15 @@ export function MigawkaInfo({
 }) {
   const language = useLanguage()
   const t = useTranslate()
+  const waluta = useSymbolWaluty()
+  const parametry = { waluta, ...params }
   const [zakladka, setZakladka] = useState<Zakladka>("po-ludzku")
   const surowa = (pomoc[language][ekran] as { migawka: MigawkaTresc }).migawka
   const m: MigawkaTresc = {
-    oCoChodzi: podstaw(language, surowa.oCoChodzi, params),
-    jakDziala: podstaw(language, surowa.jakDziala, params),
-    poCo: podstaw(language, surowa.poCo, params),
-    fizyka: surowa.fizyka && podstaw(language, surowa.fizyka, params),
+    oCoChodzi: podstaw(language, surowa.oCoChodzi, parametry),
+    jakDziala: podstaw(language, surowa.jakDziala, parametry),
+    poCo: podstaw(language, surowa.poCo, parametry),
+    fizyka: surowa.fizyka && podstaw(language, surowa.fizyka, parametry),
   }
   const wzor = wynik?.formula
   const zalozenia = wynik?.assumptions ?? []

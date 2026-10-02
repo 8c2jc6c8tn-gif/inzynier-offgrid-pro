@@ -168,8 +168,8 @@ export const pl = {
         zakres: "≥ 0. Twój sezon.",
       },
       cena: {
-        nazwa: "Cena energii [zł/kWh]",
-        cel: "Opcjonalne: przelicza oszczędność sezonu na złotówki.",
+        nazwa: "Cena energii [{waluta}/kWh]",
+        cel: "Opcjonalne: przelicza oszczędność sezonu na {waluta}.",
         gdzie: "Off-grid: koszt kWh z PV/baterii albo z agregatu (Moduł 2); z siecią — rachunek.",
         zakres: "≥ 0. Twoja cena.",
       },
@@ -308,8 +308,8 @@ export const pl = {
         zakres: "≥ 0. Twój dom.",
       },
       cena: {
-        nazwa: "Cena prądu [zł/kWh]",
-        cel: "Opcjonalne: przelicza roczny prąd na złotówki.",
+        nazwa: "Cena prądu [{waluta}/kWh]",
+        cel: "Opcjonalne: przelicza roczny prąd na {waluta}.",
         gdzie: "Off-grid: koszt kWh z PV/baterii albo z agregatu (Moduł 2); z siecią — rachunek.",
         zakres: "≥ 0. Twoja cena.",
       },
@@ -336,7 +336,7 @@ export const pl = {
         zakres: "≥ 0. Twój dom.",
       },
       koszt: {
-        nazwa: "Koszt działania [zł]",
+        nazwa: "Koszt działania [{waluta}]",
         cel: "Z niego okres zwrotu. Puste = bez zwrotu (działanie na końcu listy).",
         gdzie: "Oferta wykonawcy albo koszt materiałów, jeśli robisz sam.",
         zakres: "≥ 0. Twoja oferta.",
@@ -348,7 +348,7 @@ export const pl = {
         zakres: "≥ 1. Twoje źródło ciepła.",
       },
       cena: {
-        nazwa: "Cena prądu [zł/kWh]",
+        nazwa: "Cena prądu [{waluta}/kWh]",
         cel: "Z niej złotówki na rok i zwrot.",
         gdzie: "Off-grid: koszt kWh z PV/baterii albo z agregatu (Moduł 2); z siecią — rachunek.",
         zakres: "≥ 0. Twoja cena.",
@@ -376,7 +376,7 @@ export const pl = {
         zakres: "Karta katalogowa urządzenia.",
       },
       cenaPaliwa: {
-        nazwa: "Cena paliwa [zł/l]",
+        nazwa: "Cena paliwa [{waluta}/l]",
         cel: "Zamienia litry na złotówki.",
         gdzie: "Cena na stacji / z ostatniego zakupu (zimą — paliwo arktyczne).",
         zakres: "Twoja cena.",
@@ -400,7 +400,7 @@ export const pl = {
         zakres: "Puste lub 0 = rozruchy nie są liczone.",
       },
       cenaPradu: {
-        nazwa: "Koszt 1 kWh prądu zimą [zł/kWh]",
+        nazwa: "Koszt 1 kWh prądu zimą [{waluta}/kWh]",
         cel: "Wycenia prąd własny nagrzewnicy i ogrzewanie elektryczne, z którym jest porównywana.",
         gdzie: "Twój koszt prądu zimą: z agregatu (litry na kWh × cena paliwa z ekranu „Deficyty miesięczne i agregat”), z sieci albo wyceniony z PV.",
         zakres: "Puste = brak porównania i brak kosztu prądu własnego.",
@@ -597,8 +597,8 @@ export const en: Tlumaczenie<typeof pl> = {
         zakres: "≥ 0. Your season.",
       },
       cena: {
-        nazwa: "Energy price [PLN/kWh]",
-        cel: "Optional: turns the season's saving into PLN.",
+        nazwa: "Energy price [{waluta}/kWh]",
+        cel: "Optional: turns the season's saving into {waluta}.",
         gdzie: "Off-grid: the cost of a kWh from PV/battery or the generator (Module 2); with the grid — the bill.",
         zakres: "≥ 0. Your price.",
       },
@@ -737,8 +737,8 @@ export const en: Tlumaczenie<typeof pl> = {
         zakres: "≥ 0. Your house.",
       },
       cena: {
-        nazwa: "Electricity price [PLN/kWh]",
-        cel: "Optional: turns the yearly electricity into PLN.",
+        nazwa: "Electricity price [{waluta}/kWh]",
+        cel: "Optional: turns the yearly electricity into {waluta}.",
         gdzie: "Off-grid: the cost of a kWh from PV/battery or the generator (Module 2); with the grid — the bill.",
         zakres: "≥ 0. Your price.",
       },
@@ -765,7 +765,7 @@ export const en: Tlumaczenie<typeof pl> = {
         zakres: "≥ 0. Your house.",
       },
       koszt: {
-        nazwa: "Cost of the measure [PLN]",
+        nazwa: "Cost of the measure [{waluta}]",
         cel: "The payback follows from it. Empty = no payback (the measure goes to the end).",
         gdzie: "A contractor's quote or the material cost if you do it yourself.",
         zakres: "≥ 0. Your quote.",
@@ -777,7 +777,7 @@ export const en: Tlumaczenie<typeof pl> = {
         zakres: "≥ 1. Your heat source.",
       },
       cena: {
-        nazwa: "Electricity price [PLN/kWh]",
+        nazwa: "Electricity price [{waluta}/kWh]",
         cel: "Money per year and the payback follow from it.",
         gdzie: "Off-grid: the cost of a kWh from PV/battery or the generator (Module 2); with the grid — the bill.",
         zakres: "≥ 0. Your price.",
@@ -805,7 +805,7 @@ export const en: Tlumaczenie<typeof pl> = {
         zakres: "The device datasheet.",
       },
       cenaPaliwa: {
-        nazwa: "Fuel price [PLN/l]",
+        nazwa: "Fuel price [{waluta}/l]",
         cel: "Turns litres into money.",
         gdzie: "Pump price / your last purchase (in winter — arctic-grade fuel).",
         zakres: "Your price.",
@@ -829,7 +829,7 @@ export const en: Tlumaczenie<typeof pl> = {
         zakres: "Empty or 0 = starts are not counted.",
       },
       cenaPradu: {
-        nazwa: "Cost of 1 kWh of electricity in winter [PLN/kWh]",
+        nazwa: "Cost of 1 kWh of electricity in winter [{waluta}/kWh]",
         cel: "Prices the heater's own electricity and the electric heating it is compared with.",
         gdzie: "Your winter cost of electricity: from a generator (litres per kWh × fuel price from the “Monthly shortfalls and the generator” screen), from the grid or valued from PV.",
         zakres: "Empty = no comparison and no cost of own electricity.",
@@ -1026,8 +1026,8 @@ export const ru: Tlumaczenie<typeof pl> = {
         zakres: "≥ 0. Ваш сезон.",
       },
       cena: {
-        nazwa: "Цена энергии [зл/кВт·ч]",
-        cel: "Необязательно: переводит экономию за сезон в злотые.",
+        nazwa: "Цена энергии [{waluta}/кВт·ч]",
+        cel: "Необязательно: переводит экономию за сезон в {waluta}.",
         gdzie: "Off-grid: стоимость кВт·ч от PV/батареи или генератора (модуль 2); с сетью — счёт.",
         zakres: "≥ 0. Ваша цена.",
       },
@@ -1166,8 +1166,8 @@ export const ru: Tlumaczenie<typeof pl> = {
         zakres: "≥ 0. Ваш дом.",
       },
       cena: {
-        nazwa: "Цена электроэнергии [зл/кВт·ч]",
-        cel: "Необязательно: переводит годовую электроэнергию в злотые.",
+        nazwa: "Цена электроэнергии [{waluta}/кВт·ч]",
+        cel: "Необязательно: переводит годовую электроэнергию в {waluta}.",
         gdzie: "Off-grid: стоимость кВт·ч от PV/батареи или генератора (модуль 2); с сетью — счёт.",
         zakres: "≥ 0. Ваша цена.",
       },
@@ -1194,7 +1194,7 @@ export const ru: Tlumaczenie<typeof pl> = {
         zakres: "≥ 0. Ваш дом.",
       },
       koszt: {
-        nazwa: "Стоимость мероприятия [зл]",
+        nazwa: "Стоимость мероприятия [{waluta}]",
         cel: "Из неё — срок окупаемости. Пусто = без окупаемости (мероприятие в конце списка).",
         gdzie: "Предложение подрядчика или стоимость материалов, если делаете сами.",
         zakres: "≥ 0. Ваше предложение.",
@@ -1206,7 +1206,7 @@ export const ru: Tlumaczenie<typeof pl> = {
         zakres: "≥ 1. Ваш источник тепла.",
       },
       cena: {
-        nazwa: "Цена электроэнергии [зл/кВт·ч]",
+        nazwa: "Цена электроэнергии [{waluta}/кВт·ч]",
         cel: "Из неё — деньги в год и окупаемость.",
         gdzie: "Off-grid: стоимость кВт·ч от PV/батареи или генератора (модуль 2); с сетью — счёт.",
         zakres: "≥ 0. Ваша цена.",
@@ -1234,7 +1234,7 @@ export const ru: Tlumaczenie<typeof pl> = {
         zakres: "Паспорт устройства.",
       },
       cenaPaliwa: {
-        nazwa: "Цена топлива [зл/л]",
+        nazwa: "Цена топлива [{waluta}/л]",
         cel: "Переводит литры в деньги.",
         gdzie: "Цена на заправке / последней покупки (зимой — арктическое топливо).",
         zakres: "Ваша цена.",
@@ -1258,7 +1258,7 @@ export const ru: Tlumaczenie<typeof pl> = {
         zakres: "Пусто или 0 = запуски не учитываются.",
       },
       cenaPradu: {
-        nazwa: "Стоимость 1 кВт·ч электричества зимой [зл/кВт·ч]",
+        nazwa: "Стоимость 1 кВт·ч электричества зимой [{waluta}/кВт·ч]",
         cel: "Оценивает собственное электричество отопителя и электрообогрев, с которым он сравнивается.",
         gdzie: "Ваша зимняя стоимость электричества: от генератора (литры на кВт·ч × цена топлива с экрана «Месячные дефициты и генератор»), из сети или оценённая из PV.",
         zakres: "Пусто = нет сравнения и нет стоимости собственного электричества.",

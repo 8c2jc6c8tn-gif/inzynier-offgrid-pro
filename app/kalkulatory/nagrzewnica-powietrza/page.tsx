@@ -4,6 +4,8 @@ import Link from "next/link"
 import { useMemo } from "react"
 import { calculateNagrzewnicaPowietrza } from "@/lib/core/modules/ogrzewanie/nagrzewnica-powietrza/calculator"
 import { usePersistedDraft } from "@/lib/adapters/use-persisted-draft"
+import { przeliczPola } from "@/lib/waluta/przelicz"
+import { PrzeliczoneInfo } from "@/components/przeliczone-info"
 import { useTranslate } from "@/lib/i18n/language-context"
 import { Pole } from "@/components/ui/pole"
 import { PomocPola } from "@/components/ui/pomoc"
@@ -58,6 +60,8 @@ const POLA_PRADU: { pole: Pola; label: string; unit: string }[] = [
   { pole: "bateria", label: "UI-NP-BATERIA", unit: "kWh" },
 ]
 
+const PRZELICZ_KWOTY = przeliczPola<FormularzStan>("cenaPaliwa", "cenaPradu")
+
 const liczba = (s: string) => (s === "" ? 0 : Number(s))
 const r1 = (x: number) => Math.round(x * 10) / 10
 const r2 = (x: number) => Math.round(x * 100) / 100
@@ -65,7 +69,7 @@ const r3 = (x: number) => Math.round(x * 1000) / 1000
 
 export default function NagrzewnicaPowietrzaPage() {
   const t = useTranslate()
-  const [stan, setStan] = usePersistedDraft<FormularzStan>("nagrzewnica-powietrza", STAN_POCZATKOWY)
+  const [stan, setStan, info] = usePersistedDraft<FormularzStan>("nagrzewnica-powietrza", STAN_POCZATKOWY, PRZELICZ_KWOTY)
   const result = useMemo(
     () =>
       calculateNagrzewnicaPowietrza({
@@ -109,6 +113,8 @@ export default function NagrzewnicaPowietrzaPage() {
       <NaglowekEkranu tytul={t("UI-NP-TYTUL")} ekran="nagrzewnica-powietrza" wynik={result}>
         {t("UI-NP-OPIS")}
       </NaglowekEkranu>
+
+      <PrzeliczoneInfo info={info} />
 
       <fieldset className="flex flex-col gap-4">
         <legend className="mb-2 text-small font-medium">{t("UI-NP-NAGRZEWNICA")}</legend>
