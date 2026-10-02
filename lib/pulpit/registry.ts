@@ -288,7 +288,10 @@ export const KAFLE: KafelEntry[] = [
     nazwa: "AI i prognozy",
     opis: "Prognozy produkcji/zużycia, rekomendacje.",
     ikona: "🤖",
-    ekrany: [{ href: "/kalkulatory/prognozy", label: "Prognozy" }],
+    ekrany: [
+      { href: "/kalkulatory/prognozy", label: "Prognozy" },
+      { href: "/kalkulatory/przesuwanie-zadan", label: "Przesuwanie zadań domowych na słońce" },
+    ],
   },
   {
     id: 11,

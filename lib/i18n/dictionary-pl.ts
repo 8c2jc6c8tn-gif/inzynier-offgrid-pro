@@ -1675,6 +1675,15 @@ export const dictionaryPl = {
   "RAP-ZAL-BEZ-KLASY": "Klasa energetyczna (A, B, C…) i energia pierwotna nie są liczone — źródło nie podaje progów klas ani współczynników nakładu. Ile da poprawa izolacji czy okien, policzy ekran „wpływ czynnika” (Moduł 6). Roczne ciepło z Ekranu 1 nie odejmuje zysków słonecznych i bytowych.",
   "PLAN-NIE-SUMUJ": "Oszczędności działań nie sumują się wprost — po jednym działaniu następne oszczędza mniej (np. po wymianie źródła ciepła każda kWh ciepła jest tańsza). Suma to górna granica; dokładniej: licz kolejne działanie na ekranie „Wpływ czynnika” ze stanem po poprzednim.",
   "PLAN-ZAL-PROSTY-ZWROT": "Prosty okres zwrotu = koszt ÷ oszczędność roczna, przy dzisiejszej cenie prądu — bez zmian cen, inflacji, dotacji i kosztu kapitału. Źródło: zacznij od najtańszych i najszybszych poprawek.",
+  "PRZES-WARTOSC-UJEMNA": "Pole „{pole}” nie może być ujemne.",
+  "PRZES-GODZINA-POZA-DOBA": "Pole „{pole}” musi być godziną od 0 do {max}.",
+  "PRZES-POZA-SIATKA": "Pole „{pole}” wpisz w krokach co {krokMin} minut (np. 11,5 = 11:30).",
+  "PRZES-TERMIN-PRZED-STARTEM": "„{nazwa}”: termin „gotowe do” ({do}) musi być później niż „najwcześniej od” ({od}). Plan obejmuje jedną dobę, bez przejścia przez północ.",
+  "PRZES-ZADANIE-POZA-OKNEM": "„{nazwa}” trwa {czas} h i nie zmieści się między {od} a {do} — poszerz okno albo skróć zadanie. Plan nie przesuwa zadania poza Twoje okno.",
+  "PRZES-ZADANIE-BEZ-NADWYZKI": "„{nazwa}”: w Twoim oknie prognoza nie daje nadwyżki PV — start o {start}, całe zadanie z baterii.",
+  "PRZES-ZAL-PROGNOZA": "Prognoza jak na Ekranie Prognozy: punkt co {krok} h to średnia moc w swoim oknie, więc nadwyżka (produkcja − zużycie bazowe) jest w tym oknie stała. Dziś to dane wpisane albo przykładowe — nie prognoza pogody live.",
+  "PRZES-ZAL-KOLEJNOSC": "Zadania układane po kolei według listy — wyższe na liście zabiera nadwyżkę pierwsze. Przy równym pokryciu z PV wybierany najwcześniejszy start. Siatka 30 min. Zadania mogą się nakładać — łączna moc nie jest tu sprawdzana z mocą falownika.",
+  "PRZES-ZAL-BATERIA": "Energia zadania ponad nadwyżkę PV idzie z baterii (albo innego źródła); straty ładowania i rozładowania nie są liczone.",
 } as const
 
 export type KluczTlumaczenia = keyof typeof dictionaryPl

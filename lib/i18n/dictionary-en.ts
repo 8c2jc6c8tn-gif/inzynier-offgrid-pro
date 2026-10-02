@@ -1663,4 +1663,13 @@ export const dictionaryEn = {
   "RAP-ZAL-BEZ-KLASY": "The energy class (A, B, C…) and primary energy are not computed — the source gives no class thresholds or primary energy factors. What better insulation or windows bring is computed by the “factor impact” screen (Module 6). The yearly heat from Screen 1 does not subtract solar and internal gains.",
   "PLAN-NIE-SUMUJ": "The savings of the measures do not add up directly — after one measure the next saves less (e.g. after replacing the heat source every kWh of heat is cheaper). The sum is an upper bound; more precisely: compute each next measure on the “factor impact” screen with the state after the previous one.",
   "PLAN-ZAL-PROSTY-ZWROT": "Simple payback = cost ÷ yearly saving, at today's electricity price — without price changes, inflation, subsidies or cost of capital. Source: start with the cheapest and quickest improvements.",
+  "PRZES-WARTOSC-UJEMNA": "Field “{pole}” cannot be negative.",
+  "PRZES-GODZINA-POZA-DOBA": "Field “{pole}” must be an hour from 0 to {max}.",
+  "PRZES-POZA-SIATKA": "Enter field “{pole}” in steps of {krokMin} minutes (e.g. 11.5 = 11:30).",
+  "PRZES-TERMIN-PRZED-STARTEM": "“{nazwa}”: the “ready by” time ({do}) must be later than “earliest from” ({od}). The plan covers one day, without crossing midnight.",
+  "PRZES-ZADANIE-POZA-OKNEM": "“{nazwa}” takes {czas} h and does not fit between {od} and {do} — widen the window or shorten the task. The plan never moves a task outside your window.",
+  "PRZES-ZADANIE-BEZ-NADWYZKI": "“{nazwa}”: the forecast gives no PV surplus in your window — start at {start}, the whole task from the battery.",
+  "PRZES-ZAL-PROGNOZA": "Forecast as on the Forecasts screen: a point every {krok} h is the average power over its window, so the surplus (production − base consumption) is constant within that window. Today these are entered or sample data — not a live weather forecast.",
+  "PRZES-ZAL-KOLEJNOSC": "Tasks are placed one by one in list order — a task higher on the list takes the surplus first. On equal PV coverage the earliest start is chosen. 30-minute grid. Tasks may overlap — their combined power is not checked against the inverter here.",
+  "PRZES-ZAL-BATERIA": "A task's energy above the PV surplus comes from the battery (or another source); charge and discharge losses are not counted.",
 } satisfies Record<KluczTlumaczenia, string>
