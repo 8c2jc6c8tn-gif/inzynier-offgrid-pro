@@ -380,6 +380,10 @@ nie do audytu poprawności formularza webowego.
   ciepła i ryzyko zamarznięcia”). Decyzja właściciela — poziom podniesiony z 🟡 do 🔴. Kategoria: Cieplne.
   (M6/E15 dokładka 2B, dawne 5.65 — `lib/core/modules/ogrzewanie/przeplyw-pompy-ciepla/calculator.ts`,
   `zaMalyPrzeplyw` kod `PRZ-PRZEPLYW-ZA-MALY`, `ponizejMinimum` kod `PRZ-PONIZEJ-MINIMUM`)
+- **[02.10.2026, D71] Zasilanie chłodzenia pompą ciepła na poziomie punktu rosy lub niżej** — kondensacja na posadzce /
+  klimakonwektorze, zawilgocenie i szkoda budowlana (źródło: „grozi zawilgoceniem posadzki”). Decyzja właściciela —
+  poziom podniesiony z 🟡 do 🔴. Kategoria: Cieplne.
+  (M6/2C, dawne 5.29 — `lib/core/modules/ogrzewanie/chlodzenie-pompa-ciepla/calculator.ts`, `ponizejRosy`, kod `CHL-PONIZEJ-ROSY`)
 - **[02.10.2026, D71] Deficyt mocy pompy ciepła przy temperaturze projektowej, gdy dom nie ma żadnego zapasowego źródła
   ciepła** (grzałka, kominek, kocioł) — dom nie utrzyma temperatury w największy mróz. 🔴 **tylko** przy jawnym „brak
   dogrzewu”; z dogrzewem albo przy nieznanym (domyślnie) pozostaje 🟡 (+ ℹ️ z prośbą o uzupełnienie pola). Kategoria: Cieplne.
