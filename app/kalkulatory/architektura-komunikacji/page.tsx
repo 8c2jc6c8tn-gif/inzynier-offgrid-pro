@@ -1,5 +1,6 @@
 "use client"
 
+import Link from "next/link"
 import { useMemo } from "react"
 import { calculateArchitekturaKomunikacji } from "@/lib/core/modules/esp32/architektura-komunikacji/calculator"
 import type { PolaczenieEsp32, ProtokolPolaczenia } from "@/lib/core/modules/esp32/architektura-komunikacji/input"
@@ -156,6 +157,11 @@ export default function ArchitekturaKomunikacjiPage() {
           <WynikSzczegoly assumptions={result.assumptions} warnings={result.warnings} formula={result.formula} />
         </WerdyktPanel>
       )}
+
+      {/* Source (M9/E4): "Link: prowadzi do katalogu protokołów komunikacji" — Katalog 3. */}
+      <Link href="/kalkulatory/katalog-protokolow" className="text-small underline">
+        {t("UI-ARCKOM-LINK-KATALOG-PROTOKOLOW")}
+      </Link>
     </main>
   )
 }
