@@ -138,12 +138,39 @@ describe("osadNaPvTool (M7/E7 + E14, dawne 6.7, 6.20, 6.18)", () => {
       rodzaj: "sypki",
       katDeg: 10,
       produkcjaDobaKwh: 4,
-      dniZalegania: 3,
-      pozostalaProdukcjaPct: 0,
+      dniWlasne: null,
+      pozostalaWlasnaPct: null,
       nierownoStringi: false,
+      powierzchniaM2: 0,
+      kabel: { mocWNaM2: 0, godziny: 0 },
+      folia: { mocWNaM2: 0, godziny: 0 },
+      automat: { mocW: 0, godziny: 0 },
     })
-    expect(w.utrataKwh).toBeCloseTo(12, 9)
+    expect(w.scenariusze.map((s) => [s.dni, s.utrataKwh])).toEqual([
+      [1, 4],
+      [3, 12],
+      [5, 20],
+      [7, 28],
+    ])
     expect(w.ostrzezenia).toContain(t("pl", "OSAD-SNIEG-NIE-ZSUNIE", { kat: 10, prog: 30 }))
+  })
+
+  it("kabel grzewczy 200 W/m² × 10 m² × 2 h przy 1 dniu zalegania → 🟡 nie zwraca się jako tekst PL", async () => {
+    const w = await osadNaPvTool.handler({
+      rodzaj: "sypki",
+      katDeg: 40,
+      produkcjaDobaKwh: 4,
+      dniWlasne: 1,
+      pozostalaWlasnaPct: null,
+      nierownoStringi: false,
+      powierzchniaM2: 10,
+      kabel: { mocWNaM2: 200, godziny: 2 },
+      folia: { mocWNaM2: 0, godziny: 0 },
+      automat: { mocW: 0, godziny: 0 },
+    })
+    expect(w.opcjeAktywne[0]!.oplacaWReferencji).toBe(false)
+    expect(w.ostrzezenia).toContain(t("pl", "OSAD-GRZANIE-NIE-ZWRACA-KABEL", { energia: 4, odzysk: 3.67, dni: 1 }))
+    expect(w.ostrzezenia).toContain(t("pl", "OSAD-GWARANCJA"))
   })
 })
 

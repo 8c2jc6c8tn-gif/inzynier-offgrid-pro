@@ -113,9 +113,9 @@ export const pl = {
   "snieg-na-pv": {
     "migawka": {
       "oCoChodzi": "Zasypany panel to martwy panel, a wiatr rozkłada śnieg nierównomiernie — trzeba wiedzieć nie tylko ile, ale i gdzie osiądzie.",
-      "jakDziala": "Wybierz rodzaj osadu, wpisz kąt paneli, normalną produkcję na dobę, ile dni osad zostanie i ile produkcji zostaje pod nim. Aplikacja policzy utraconą energię i powie, czy sypki śnieg zsunie się sam (kąt powyżej {prog}°).",
-      "poCo": "Wiesz, ile energii musi zastąpić bateria albo agregat i czy warto odśnieżać.",
-      "fizyka": "E = E_doba · dni · (1 − p). Śnieg sypki zsuwa się przy kącie > {prog}° (ten sam próg co Moduł 3 „Czystość i śnieg”); mokry się przykleja; gołoledź i szron blokują światło całkowicie."
+      "jakDziala": "Wybierz rodzaj osadu, wpisz kąt paneli i normalną produkcję na dobę. Aplikacja pokaże tabelę „co jeśli” — stratę energii przy 1, 3, 5 i 7 dniach zalegania (nie musisz znać dni ani procentu; własne liczby są opcjonalne), powie, czy sypki śnieg zsunie się sam (kąt powyżej {prog}°) i porówna sposoby radzenia sobie: kąt, ręczne zgarnianie, automaty oraz kabel i folię grzewczą z bilansem energii.",
+      "poCo": "Wiesz, ile energii musi zastąpić bateria albo agregat i co faktycznie warto zrobić z panelami — zanim kupisz grzanie, które zje więcej, niż odzyska.",
+      "fizyka": "E = E_doba · dni · (1 − p). Procent p to przykład ze źródła (śnieg i lód 0%, szadź ok. 5%), chyba że wpiszesz własny. Śnieg sypki zsuwa się przy kącie > {prog}° (ten sam próg co Moduł 3 „Czystość i śnieg”). Grzanie: zużycie = P · h, odzysk = E_doba · (1 − p) · (dni − h/24); zwraca się, gdy odzysk ≥ zużycie."
     },
     "pola": {
       "rodzaj": {
@@ -137,16 +137,58 @@ export const pl = {
         "zakres": "Twoja instalacja."
       },
       "dni": {
-        "nazwa": "Dni zalegania osadu",
-        "cel": "Mnoży stratę doby.",
-        "gdzie": "Obserwacja albo prognoza odwilży (źródło: przy −5 °C śnieg ok. 3 dni).",
-        "zakres": "Twoja ocena — aplikacja nie ma modelu topnienia."
+        "nazwa": "Własna liczba dni zalegania [dni] (opcjonalnie)",
+        "cel": "Dodaje własny wiersz do tabeli i jest scenariuszem, według którego oceniane są opcje z grzaniem.",
+        "gdzie": "Obserwacja albo prognoza odwilży; zostaw puste, jeśli nie wiesz (przykład źródła: przy −5 °C śnieg ok. 3 dni).",
+        "zakres": "Większa od zera; puste = tabela dla 1, 3, 5 i 7 dni."
       },
       "pozostala": {
-        "nazwa": "Produkcja pod osadem [% normalnej]",
-        "cel": "Jaka część światła przechodzi przez osad.",
-        "gdzie": "Obserwacja falownika; źródło: śnieg 0%, szadź po 48 h ok. 5%.",
+        "nazwa": "Własna produkcja pod osadem [% normalnej] (opcjonalnie)",
+        "cel": "Jaka część światła przechodzi przez osad; zastępuje przykład ze źródła.",
+        "gdzie": "Obserwacja falownika; zostaw puste, jeśli nie wiesz (przykład źródła: śnieg 0%, szadź po 48 h ok. 5%).",
         "zakres": "0–100%."
+      },
+      "powierzchnia": {
+        "nazwa": "Łączna powierzchnia paneli [m²]",
+        "cel": "Mnoży moc w W/m² kabla i folii.",
+        "gdzie": "Projekt instalacji (Moduł 3) albo wymiary jednego panelu × liczba paneli.",
+        "zakres": "Większa od zera dla kabla i folii."
+      },
+      "kabelMoc": {
+        "nazwa": "Moc kabla grzewczego [W/m²]",
+        "cel": "Z niej liczymy energię potrzebną na oczyszczenie paneli.",
+        "gdzie": "Karta katalogowa kabla — aplikacja nie zgaduje tej wartości.",
+        "zakres": "Większa od zera."
+      },
+      "kabelGodz": {
+        "nazwa": "Godziny pracy kabla do oczyszczenia [h]",
+        "cel": "Mnoży moc — im dłużej grzeje, tym więcej energii zje.",
+        "gdzie": "Instrukcja producenta albo własne doświadczenie.",
+        "zakres": "Większa od zera."
+      },
+      "foliaMoc": {
+        "nazwa": "Moc folii grzewczej [W/m²]",
+        "cel": "Z niej liczymy energię potrzebną na oczyszczenie paneli.",
+        "gdzie": "Karta katalogowa folii — aplikacja nie zgaduje tej wartości.",
+        "zakres": "Większa od zera."
+      },
+      "foliaGodz": {
+        "nazwa": "Godziny pracy folii do oczyszczenia [h]",
+        "cel": "Mnoży moc — im dłużej grzeje, tym więcej energii zje.",
+        "gdzie": "Instrukcja producenta albo własne doświadczenie.",
+        "zakres": "Większa od zera."
+      },
+      "automatMoc": {
+        "nazwa": "Moc automatycznego systemu czyszczenia [W]",
+        "cel": "Z niej liczymy energię potrzebną na oczyszczenie paneli.",
+        "gdzie": "Karta katalogowa systemu — to moc łączna, nie na m².",
+        "zakres": "Większa od zera."
+      },
+      "automatGodz": {
+        "nazwa": "Godziny pracy systemu do oczyszczenia [h]",
+        "cel": "Mnoży moc — im dłużej pracuje, tym więcej energii zje.",
+        "gdzie": "Instrukcja producenta albo własne doświadczenie.",
+        "zakres": "Większa od zera."
       },
       "nierowno": {
         "nazwa": "Stringi zasypane nierówno",
@@ -159,9 +201,9 @@ export const pl = {
   "szadz-na-pv": {
     "migawka": {
       "oCoChodzi": "Mgła to cichy zabójca paneli — zamarza na nich jak lukier na szybie i, w przeciwieństwie do śniegu, nie odpada sama.",
-      "jakDziala": "Wpisz normalną produkcję na dobę, ile dni utrzyma się mgła z szadzią i ile produkcji zostaje pod szadzią. Aplikacja policzy utraconą energię — tę samą fizyką co ekran śniegu na PV.",
-      "poCo": "Kilkudniowa mgła potrafi zabrać prawie całą produkcję — wiesz, ile musi pokryć bateria i agregat.",
-      "fizyka": "E = E_doba · dni · (1 − p). Przykład źródła: po 48 h mgły i szadzi produkcja spada do 5% nominalnej (p = 5%)."
+      "jakDziala": "Wpisz normalną produkcję na dobę. Aplikacja pokaże tabelę „co jeśli” — stratę energii przy 1, 2 (48 h z przykładu źródła), 3, 5 i 7 dniach mgły z szadzią — i porówna sposoby radzenia sobie, w tym bilans energii grzania. Własne dni i procent produkcji są opcjonalne.",
+      "poCo": "Kilkudniowa mgła potrafi zabrać prawie całą produkcję — wiesz, ile musi pokryć bateria i agregat, i czy grzanie paneli w ogóle się opłaca.",
+      "fizyka": "E = E_doba · dni · (1 − p). Przykład źródła: po 48 h mgły i szadzi produkcja spada do 5% nominalnej (p = 5%). Szadź nie zsuwa się sama, więc większy kąt nie pomaga. Grzanie: zużycie = P · h, odzysk = E_doba · (1 − p) · (dni − h/24)."
     },
     "pola": {
       "produkcja": {
@@ -171,16 +213,58 @@ export const pl = {
         "zakres": "Twoja instalacja."
       },
       "dni": {
-        "nazwa": "Dni mgły z szadzią",
-        "cel": "Mnoży stratę doby.",
-        "gdzie": "Prognoza; źródło: scenariusze 3–7 dni.",
-        "zakres": "Twoja ocena."
+        "nazwa": "Własna liczba dni zalegania [dni] (opcjonalnie)",
+        "cel": "Dodaje własny wiersz do tabeli i jest scenariuszem, według którego oceniane są opcje z grzaniem.",
+        "gdzie": "Obserwacja albo prognoza odwilży; zostaw puste, jeśli nie wiesz (przykład źródła: przy −5 °C śnieg ok. 3 dni).",
+        "zakres": "Większa od zera; puste = tabela dla 1, 3, 5 i 7 dni."
       },
       "pozostala": {
-        "nazwa": "Produkcja pod szadzią [% normalnej]",
-        "cel": "Jaka część światła przechodzi przez szadź.",
-        "gdzie": "Obserwacja falownika; źródło: ok. 5% po 48 h.",
+        "nazwa": "Własna produkcja pod osadem [% normalnej] (opcjonalnie)",
+        "cel": "Jaka część światła przechodzi przez osad; zastępuje przykład ze źródła.",
+        "gdzie": "Obserwacja falownika; zostaw puste, jeśli nie wiesz (przykład źródła: śnieg 0%, szadź po 48 h ok. 5%).",
         "zakres": "0–100%."
+      },
+      "powierzchnia": {
+        "nazwa": "Łączna powierzchnia paneli [m²]",
+        "cel": "Mnoży moc w W/m² kabla i folii.",
+        "gdzie": "Projekt instalacji (Moduł 3) albo wymiary jednego panelu × liczba paneli.",
+        "zakres": "Większa od zera dla kabla i folii."
+      },
+      "kabelMoc": {
+        "nazwa": "Moc kabla grzewczego [W/m²]",
+        "cel": "Z niej liczymy energię potrzebną na oczyszczenie paneli.",
+        "gdzie": "Karta katalogowa kabla — aplikacja nie zgaduje tej wartości.",
+        "zakres": "Większa od zera."
+      },
+      "kabelGodz": {
+        "nazwa": "Godziny pracy kabla do oczyszczenia [h]",
+        "cel": "Mnoży moc — im dłużej grzeje, tym więcej energii zje.",
+        "gdzie": "Instrukcja producenta albo własne doświadczenie.",
+        "zakres": "Większa od zera."
+      },
+      "foliaMoc": {
+        "nazwa": "Moc folii grzewczej [W/m²]",
+        "cel": "Z niej liczymy energię potrzebną na oczyszczenie paneli.",
+        "gdzie": "Karta katalogowa folii — aplikacja nie zgaduje tej wartości.",
+        "zakres": "Większa od zera."
+      },
+      "foliaGodz": {
+        "nazwa": "Godziny pracy folii do oczyszczenia [h]",
+        "cel": "Mnoży moc — im dłużej grzeje, tym więcej energii zje.",
+        "gdzie": "Instrukcja producenta albo własne doświadczenie.",
+        "zakres": "Większa od zera."
+      },
+      "automatMoc": {
+        "nazwa": "Moc automatycznego systemu czyszczenia [W]",
+        "cel": "Z niej liczymy energię potrzebną na oczyszczenie paneli.",
+        "gdzie": "Karta katalogowa systemu — to moc łączna, nie na m².",
+        "zakres": "Większa od zera."
+      },
+      "automatGodz": {
+        "nazwa": "Godziny pracy systemu do oczyszczenia [h]",
+        "cel": "Mnoży moc — im dłużej pracuje, tym więcej energii zje.",
+        "gdzie": "Instrukcja producenta albo własne doświadczenie.",
+        "zakres": "Większa od zera."
       }
     }
   },
@@ -382,9 +466,9 @@ export const en: Tlumaczenie<typeof pl> = {
   "snieg-na-pv": {
     "migawka": {
       "oCoChodzi": "A covered panel is a dead panel, and wind spreads snow unevenly — you need to know not only how much but where it settles.",
-      "jakDziala": "Choose the deposit type, enter the panel tilt, normal daily production, how many days the deposit stays and how much production is left under it. The app computes the lost energy and says whether dry snow will slide off (tilt above {prog}°).",
-      "poCo": "You know how much energy the battery or generator must replace and whether clearing is worth it.",
-      "fizyka": "E = E_day · days · (1 − p). Dry snow slides off above {prog}° (the same threshold as Module 3 “Cleanliness and snow”); wet snow sticks; glaze and frost block the light completely."
+      "jakDziala": "Choose the deposit type, enter the panel tilt and the normal daily production. The app shows a “what if” table — the energy lost for 1, 3, 5 and 7 days of cover (you do not have to know the days or the percentage; own numbers are optional), says whether dry snow will slide off (tilt above {prog}°) and compares ways to deal with it: tilt, manual clearing, automatic systems, and a heating cable and film with an energy balance.",
+      "poCo": "You know how much energy the battery or generator must replace and what is actually worth doing with the panels — before you buy heating that uses more than it recovers.",
+      "fizyka": "E = E_day · days · (1 − p). The percentage p is a source example (snow and ice 0%, rime about 5%) unless you enter your own. Dry snow slides off above {prog}° (the same threshold as Module 3 “Cleanliness and snow”). Heating: use = P · h, recovery = E_day · (1 − p) · (days − h/24); it pays back when recovery ≥ use."
     },
     "pola": {
       "rodzaj": {
@@ -406,21 +490,63 @@ export const en: Tlumaczenie<typeof pl> = {
         "zakres": "Your installation."
       },
       "dni": {
-        "nazwa": "Days the deposit stays",
-        "cel": "Multiplies the daily loss.",
-        "gdzie": "Observation or thaw forecast (source: about 3 days of snow at −5 °C).",
-        "zakres": "Your estimate — the app has no melting model."
+        "nazwa": "Your own days covered [days] (optional)",
+        "cel": "Adds your own row to the table and is the scenario the heating options are judged against.",
+        "gdzie": "Observation or thaw forecast; leave empty if you do not know (source example: at −5 °C snow stays about 3 days).",
+        "zakres": "Greater than zero; empty = the table for 1, 3, 5 and 7 days."
       },
       "pozostala": {
-        "nazwa": "Production under the deposit [% of normal]",
-        "cel": "What part of the light passes through the deposit.",
-        "gdzie": "Inverter observation; source: snow 0%, rime about 5% after 48 h.",
+        "nazwa": "Your own production under the deposit [% of normal] (optional)",
+        "cel": "What part of the light passes through the deposit; replaces the source example.",
+        "gdzie": "Inverter observation; leave empty if you do not know (source example: snow 0%, rime after 48 h about 5%).",
         "zakres": "0–100%."
+      },
+      "powierzchnia": {
+        "nazwa": "Total panel area [m²]",
+        "cel": "Multiplies the W/m² power of the cable and the film.",
+        "gdzie": "Installation design (Module 3) or the size of one panel × number of panels.",
+        "zakres": "Greater than zero for the cable and the film."
+      },
+      "kabelMoc": {
+        "nazwa": "Heating cable power [W/m²]",
+        "cel": "It gives the energy needed to clear the panels.",
+        "gdzie": "The cable's datasheet — the app does not guess this value.",
+        "zakres": "Greater than zero."
+      },
+      "kabelGodz": {
+        "nazwa": "Cable hours of operation to clear [h]",
+        "cel": "Multiplies the power — the longer it heats, the more energy it uses.",
+        "gdzie": "Manufacturer's instructions or your own experience.",
+        "zakres": "Greater than zero."
+      },
+      "foliaMoc": {
+        "nazwa": "Heating film power [W/m²]",
+        "cel": "It gives the energy needed to clear the panels.",
+        "gdzie": "The film's datasheet — the app does not guess this value.",
+        "zakres": "Greater than zero."
+      },
+      "foliaGodz": {
+        "nazwa": "Film hours of operation to clear [h]",
+        "cel": "Multiplies the power — the longer it heats, the more energy it uses.",
+        "gdzie": "Manufacturer's instructions or your own experience.",
+        "zakres": "Greater than zero."
+      },
+      "automatMoc": {
+        "nazwa": "Automatic cleaning system power [W]",
+        "cel": "It gives the energy needed to clear the panels.",
+        "gdzie": "The system's datasheet — this is the total power, not per m².",
+        "zakres": "Greater than zero."
+      },
+      "automatGodz": {
+        "nazwa": "System hours of operation to clear [h]",
+        "cel": "Multiplies the power — the longer it runs, the more energy it uses.",
+        "gdzie": "Manufacturer's instructions or your own experience.",
+        "zakres": "Greater than zero."
       },
       "nierowno": {
         "nazwa": "Strings covered unevenly",
-        "cel": "Different cover on strings gives voltage differences (mismatch).",
-        "gdzie": "Roof planes facing different ways, leeward side, roof valleys.",
+        "cel": "Uneven cover of the strings causes voltage differences (mismatch).",
+        "gdzie": "Roof planes facing different directions, the leeward side, roof valleys.",
         "zakres": "Yes / no."
       }
     }
@@ -428,9 +554,9 @@ export const en: Tlumaczenie<typeof pl> = {
   "szadz-na-pv": {
     "migawka": {
       "oCoChodzi": "Fog is a silent panel killer — it freezes on them like icing on glass and, unlike snow, does not fall off by itself.",
-      "jakDziala": "Enter the normal daily production, how many days the fog with rime lasts and how much production is left under the rime. The app computes the lost energy — the same physics as the snow on PV screen.",
-      "poCo": "A few days of fog can take almost all production — you know how much the battery and generator must cover.",
-      "fizyka": "E = E_day · days · (1 − p). Source example: after 48 h of fog and rime production drops to 5% of nominal (p = 5%)."
+      "jakDziala": "Enter the normal daily production. The app shows a “what if” table — the energy lost for 1, 2 (the 48 h of the source example), 3, 5 and 7 days of fog with rime — and compares ways to deal with it, including the energy balance of heating. Own days and own production percentage are optional.",
+      "poCo": "A few days of fog can take almost all production — you know how much the battery and generator must cover, and whether heating the panels pays off at all.",
+      "fizyka": "E = E_day · days · (1 − p). Source example: after 48 h of fog and rime production drops to 5% of nominal (p = 5%). Rime does not slide off by itself, so a steeper tilt does not help. Heating: use = P · h, recovery = E_day · (1 − p) · (days − h/24)."
     },
     "pola": {
       "produkcja": {
@@ -440,16 +566,58 @@ export const en: Tlumaczenie<typeof pl> = {
         "zakres": "Your installation."
       },
       "dni": {
-        "nazwa": "Days of fog with rime",
-        "cel": "Multiplies the daily loss.",
-        "gdzie": "Forecast; source: 3–7 day scenarios.",
-        "zakres": "Your estimate."
+        "nazwa": "Your own days covered [days] (optional)",
+        "cel": "Adds your own row to the table and is the scenario the heating options are judged against.",
+        "gdzie": "Observation or thaw forecast; leave empty if you do not know (source example: at −5 °C snow stays about 3 days).",
+        "zakres": "Greater than zero; empty = the table for 1, 3, 5 and 7 days."
       },
       "pozostala": {
-        "nazwa": "Production under rime [% of normal]",
-        "cel": "What part of the light passes through the rime.",
-        "gdzie": "Inverter observation; source: about 5% after 48 h.",
+        "nazwa": "Your own production under the deposit [% of normal] (optional)",
+        "cel": "What part of the light passes through the deposit; replaces the source example.",
+        "gdzie": "Inverter observation; leave empty if you do not know (source example: snow 0%, rime after 48 h about 5%).",
         "zakres": "0–100%."
+      },
+      "powierzchnia": {
+        "nazwa": "Total panel area [m²]",
+        "cel": "Multiplies the W/m² power of the cable and the film.",
+        "gdzie": "Installation design (Module 3) or the size of one panel × number of panels.",
+        "zakres": "Greater than zero for the cable and the film."
+      },
+      "kabelMoc": {
+        "nazwa": "Heating cable power [W/m²]",
+        "cel": "It gives the energy needed to clear the panels.",
+        "gdzie": "The cable's datasheet — the app does not guess this value.",
+        "zakres": "Greater than zero."
+      },
+      "kabelGodz": {
+        "nazwa": "Cable hours of operation to clear [h]",
+        "cel": "Multiplies the power — the longer it heats, the more energy it uses.",
+        "gdzie": "Manufacturer's instructions or your own experience.",
+        "zakres": "Greater than zero."
+      },
+      "foliaMoc": {
+        "nazwa": "Heating film power [W/m²]",
+        "cel": "It gives the energy needed to clear the panels.",
+        "gdzie": "The film's datasheet — the app does not guess this value.",
+        "zakres": "Greater than zero."
+      },
+      "foliaGodz": {
+        "nazwa": "Film hours of operation to clear [h]",
+        "cel": "Multiplies the power — the longer it heats, the more energy it uses.",
+        "gdzie": "Manufacturer's instructions or your own experience.",
+        "zakres": "Greater than zero."
+      },
+      "automatMoc": {
+        "nazwa": "Automatic cleaning system power [W]",
+        "cel": "It gives the energy needed to clear the panels.",
+        "gdzie": "The system's datasheet — this is the total power, not per m².",
+        "zakres": "Greater than zero."
+      },
+      "automatGodz": {
+        "nazwa": "System hours of operation to clear [h]",
+        "cel": "Multiplies the power — the longer it runs, the more energy it uses.",
+        "gdzie": "Manufacturer's instructions or your own experience.",
+        "zakres": "Greater than zero."
       }
     }
   },
@@ -651,9 +819,9 @@ export const ru: Tlumaczenie<typeof pl> = {
   "snieg-na-pv": {
     "migawka": {
       "oCoChodzi": "Засыпанная панель — мёртвая панель, а ветер распределяет снег неравномерно — нужно знать не только сколько, но и где он ляжет.",
-      "jakDziala": "Выберите тип отложения, введите угол панелей, обычную суточную выработку, сколько дней отложение пролежит и сколько выработки остаётся под ним. Приложение посчитает потерянную энергию и скажет, сползёт ли сухой снег (угол больше {prog}°).",
-      "poCo": "Вы знаете, сколько энергии должны заменить батарея или генератор и стоит ли чистить панели.",
-      "fizyka": "E = E_сут · дни · (1 − p). Сухой снег сползает при угле > {prog}° (тот же порог, что в Модуле 3 «Чистота и снег»); мокрый прилипает; гололёд и иней полностью перекрывают свет."
+      "jakDziala": "Выберите тип отложения, введите угол панелей и обычную суточную выработку. Приложение покажет таблицу «что если» — потерю энергии при 1, 3, 5 и 7 днях покрытия (знать дни и процент не обязательно; свои числа необязательны), скажет, сползёт ли сухой снег (угол больше {prog}°), и сравнит способы справиться: угол, ручную очистку, автоматические системы, а также греющий кабель и плёнку с балансом энергии.",
+      "poCo": "Вы знаете, сколько энергии должны заменить батарея или генератор и что действительно стоит делать с панелями — прежде чем покупать обогрев, который потратит больше, чем вернёт.",
+      "fizyka": "E = E_сут · дни · (1 − p). Процент p — пример из источника (снег и лёд 0%, изморозь около 5%), если не введёте свой. Сухой снег сползает при угле > {prog}° (тот же порог, что в Модуле 3 «Чистота и снег»). Обогрев: затраты = P · h, возврат = E_сут · (1 − p) · (дни − h/24); окупается, когда возврат ≥ затраты."
     },
     "pola": {
       "rodzaj": {
@@ -671,54 +839,138 @@ export const ru: Tlumaczenie<typeof pl> = {
       "produkcja": {
         "nazwa": "Выработка в сутки без отложения [кВт·ч]",
         "cel": "Энергия, которую дали бы чистые панели.",
-        "gdzie": "Модуль 3 — выработка месяца ÷ число дней.",
+        "gdzie": "Модуль 3 — выработка в этом месяце ÷ число дней.",
         "zakres": "Ваша установка."
       },
       "dni": {
-        "nazwa": "Дни покрытия",
-        "cel": "Умножает суточную потерю.",
-        "gdzie": "Наблюдение или прогноз оттепели (источник: при −5 °C снег около 3 дней).",
-        "zakres": "Ваша оценка — модели таяния в приложении нет."
+        "nazwa": "Своё число дней покрытия [дни] (необязательно)",
+        "cel": "Добавляет свою строку в таблицу и служит сценарием, по которому оцениваются варианты с обогревом.",
+        "gdzie": "Наблюдение или прогноз оттепели; оставьте пустым, если не знаете (пример источника: при −5 °C снег держится около 3 дней).",
+        "zakres": "Больше нуля; пусто = таблица для 1, 3, 5 и 7 дней."
       },
       "pozostala": {
-        "nazwa": "Выработка под отложением [% от обычной]",
-        "cel": "Какая часть света проходит через отложение.",
-        "gdzie": "Наблюдение по инвертору; источник: снег 0%, изморозь через 48 ч около 5%.",
+        "nazwa": "Своя выработка под отложением [% от нормы] (необязательно)",
+        "cel": "Какая часть света проходит через отложение; заменяет пример из источника.",
+        "gdzie": "Наблюдение по инвертору; оставьте пустым, если не знаете (пример источника: снег 0%, изморозь через 48 ч около 5%).",
         "zakres": "0–100%."
+      },
+      "powierzchnia": {
+        "nazwa": "Общая площадь панелей [м²]",
+        "cel": "Умножает мощность кабеля и плёнки в Вт/м².",
+        "gdzie": "Проект установки (Модуль 3) или размер одной панели × число панелей.",
+        "zakres": "Больше нуля для кабеля и плёнки."
+      },
+      "kabelMoc": {
+        "nazwa": "Мощность греющего кабеля [Вт/м²]",
+        "cel": "По ней считается энергия, нужная для очистки панелей.",
+        "gdzie": "Паспорт кабеля — приложение это значение не угадывает.",
+        "zakres": "Больше нуля."
+      },
+      "kabelGodz": {
+        "nazwa": "Часы работы кабеля до очистки [ч]",
+        "cel": "Умножает мощность — чем дольше греет, тем больше энергии потребит.",
+        "gdzie": "Инструкция производителя или собственный опыт.",
+        "zakres": "Больше нуля."
+      },
+      "foliaMoc": {
+        "nazwa": "Мощность греющей плёнки [Вт/м²]",
+        "cel": "По ней считается энергия, нужная для очистки панелей.",
+        "gdzie": "Паспорт плёнки — приложение это значение не угадывает.",
+        "zakres": "Больше нуля."
+      },
+      "foliaGodz": {
+        "nazwa": "Часы работы плёнки до очистки [ч]",
+        "cel": "Умножает мощность — чем дольше греет, тем больше энергии потребит.",
+        "gdzie": "Инструкция производителя или собственный опыт.",
+        "zakres": "Больше нуля."
+      },
+      "automatMoc": {
+        "nazwa": "Мощность автоматической системы очистки [Вт]",
+        "cel": "По ней считается энергия, нужная для очистки панелей.",
+        "gdzie": "Паспорт системы — это общая мощность, а не на м².",
+        "zakres": "Больше нуля."
+      },
+      "automatGodz": {
+        "nazwa": "Часы работы системы до очистки [ч]",
+        "cel": "Умножает мощность — чем дольше работает, тем больше энергии потребит.",
+        "gdzie": "Инструкция производителя или собственный опыт.",
+        "zakres": "Больше нуля."
       },
       "nierowno": {
         "nazwa": "Стринги засыпаны неравномерно",
-        "cel": "Разное покрытие стрингов даёт разницу напряжений (рассогласование).",
-        "gdzie": "Скаты разной ориентации, подветренная сторона, ендовы.",
+        "cel": "Разное засыпание стрингов даёт разницу напряжений (рассогласование).",
+        "gdzie": "Скаты разных направлений, подветренная сторона, ендовы крыши.",
         "zakres": "Да / нет."
       }
     }
   },
   "szadz-na-pv": {
     "migawka": {
-      "oCoChodzi": "Туман — тихий убийца панелей: он намерзает на них, как глазурь на стекле, и, в отличие от снега, сам не отпадает.",
-      "jakDziala": "Введите обычную суточную выработку, сколько дней продержится туман с изморозью и сколько выработки остаётся под изморозью. Приложение посчитает потерянную энергию — той же физикой, что экран снега на PV.",
-      "poCo": "Несколько дней тумана могут забрать почти всю выработку — вы знаете, сколько должны покрыть батарея и генератор.",
-      "fizyka": "E = E_сут · дни · (1 − p). Пример источника: через 48 ч тумана и изморози выработка падает до 5% номинальной (p = 5%)."
+      "oCoChodzi": "Туман — тихий убийца панелей: он замерзает на них, как глазурь на стекле, и, в отличие от снега, сам не опадает.",
+      "jakDziala": "Введите обычную суточную выработку. Приложение покажет таблицу «что если» — потерю энергии при 1, 2 (48 ч из примера источника), 3, 5 и 7 днях тумана с изморозью — и сравнит способы справиться, включая баланс энергии обогрева. Свои дни и процент выработки необязательны.",
+      "poCo": "Несколько дней тумана могут забрать почти всю выработку — вы знаете, сколько должны покрыть батарея и генератор, и окупается ли вообще обогрев панелей.",
+      "fizyka": "E = E_сут · дни · (1 − p). Пример источника: после 48 ч тумана и изморози выработка падает до 5% номинальной (p = 5%). Изморозь сама не сползает, поэтому больший угол не помогает. Обогрев: затраты = P · h, возврат = E_сут · (1 − p) · (дни − h/24)."
     },
     "pola": {
       "produkcja": {
         "nazwa": "Выработка в сутки без изморози [кВт·ч]",
         "cel": "Энергия, которую дали бы чистые панели.",
-        "gdzie": "Модуль 3 — выработка месяца ÷ число дней.",
+        "gdzie": "Модуль 3 — выработка в этом месяце ÷ число дней.",
         "zakres": "Ваша установка."
       },
       "dni": {
-        "nazwa": "Дни тумана с изморозью",
-        "cel": "Умножает суточную потерю.",
-        "gdzie": "Прогноз; источник: сценарии 3–7 дней.",
-        "zakres": "Ваша оценка."
+        "nazwa": "Своё число дней покрытия [дни] (необязательно)",
+        "cel": "Добавляет свою строку в таблицу и служит сценарием, по которому оцениваются варианты с обогревом.",
+        "gdzie": "Наблюдение или прогноз оттепели; оставьте пустым, если не знаете (пример источника: при −5 °C снег держится около 3 дней).",
+        "zakres": "Больше нуля; пусто = таблица для 1, 3, 5 и 7 дней."
       },
       "pozostala": {
-        "nazwa": "Выработка под изморозью [% от обычной]",
-        "cel": "Какая часть света проходит через изморозь.",
-        "gdzie": "Наблюдение по инвертору; источник: около 5% через 48 ч.",
+        "nazwa": "Своя выработка под отложением [% от нормы] (необязательно)",
+        "cel": "Какая часть света проходит через отложение; заменяет пример из источника.",
+        "gdzie": "Наблюдение по инвертору; оставьте пустым, если не знаете (пример источника: снег 0%, изморозь через 48 ч около 5%).",
         "zakres": "0–100%."
+      },
+      "powierzchnia": {
+        "nazwa": "Общая площадь панелей [м²]",
+        "cel": "Умножает мощность кабеля и плёнки в Вт/м².",
+        "gdzie": "Проект установки (Модуль 3) или размер одной панели × число панелей.",
+        "zakres": "Больше нуля для кабеля и плёнки."
+      },
+      "kabelMoc": {
+        "nazwa": "Мощность греющего кабеля [Вт/м²]",
+        "cel": "По ней считается энергия, нужная для очистки панелей.",
+        "gdzie": "Паспорт кабеля — приложение это значение не угадывает.",
+        "zakres": "Больше нуля."
+      },
+      "kabelGodz": {
+        "nazwa": "Часы работы кабеля до очистки [ч]",
+        "cel": "Умножает мощность — чем дольше греет, тем больше энергии потребит.",
+        "gdzie": "Инструкция производителя или собственный опыт.",
+        "zakres": "Больше нуля."
+      },
+      "foliaMoc": {
+        "nazwa": "Мощность греющей плёнки [Вт/м²]",
+        "cel": "По ней считается энергия, нужная для очистки панелей.",
+        "gdzie": "Паспорт плёнки — приложение это значение не угадывает.",
+        "zakres": "Больше нуля."
+      },
+      "foliaGodz": {
+        "nazwa": "Часы работы плёнки до очистки [ч]",
+        "cel": "Умножает мощность — чем дольше греет, тем больше энергии потребит.",
+        "gdzie": "Инструкция производителя или собственный опыт.",
+        "zakres": "Больше нуля."
+      },
+      "automatMoc": {
+        "nazwa": "Мощность автоматической системы очистки [Вт]",
+        "cel": "По ней считается энергия, нужная для очистки панелей.",
+        "gdzie": "Паспорт системы — это общая мощность, а не на м².",
+        "zakres": "Больше нуля."
+      },
+      "automatGodz": {
+        "nazwa": "Часы работы системы до очистки [ч]",
+        "cel": "Умножает мощность — чем дольше работает, тем больше энергии потребит.",
+        "gdzie": "Инструкция производителя или собственный опыт.",
+        "zakres": "Больше нуля."
       }
     }
   },

@@ -90,3 +90,48 @@ export function nierownoStringi(): Warning {
     field: "nierownoStringi",
   }
 }
+
+/** Id of an active mitigation option (heating or automatic cleaning). */
+export type IdOpcjiAktywnej = "kabel" | "folia" | "automat"
+
+const KLUCZ_NIE_ZWRACA: Record<IdOpcjiAktywnej, string> = {
+  kabel: "OSAD-GRZANIE-NIE-ZWRACA-KABEL",
+  folia: "OSAD-GRZANIE-NIE-ZWRACA-FOLIA",
+  automat: "OSAD-GRZANIE-NIE-ZWRACA-AUTOMAT",
+}
+
+/** 🟡 (owner's rule): the active option uses more energy than the cleared panels recover. */
+export function grzanieNieZwracaSie(id: IdOpcjiAktywnej, energiaKwh: number, odzyskKwh: number, dni: number): Warning {
+  const r2 = (x: number) => Math.round(x * 100) / 100
+  const klucz = KLUCZ_NIE_ZWRACA[id]
+  return {
+    code: klucz,
+    level: "warning",
+    i18nKey: klucz,
+    params: { energia: r2(energiaKwh), odzysk: r2(odzyskKwh), dni },
+    technicalMessage: `${id}: energia ${r2(energiaKwh)} kWh > odzysk ${r2(odzyskKwh)} kWh przy ${dni} d zalegania`,
+    field: id,
+  }
+}
+
+/** Info: only part of an active option's data is entered, so it is not evaluated. */
+export function opcjaNiepelna(id: IdOpcjiAktywnej): Warning {
+  return {
+    code: "OSAD-OPCJA-NIEPELNA",
+    level: "info",
+    i18nKey: "OSAD-OPCJA-NIEPELNA",
+    technicalMessage: `${id}: wpisano tylko część danych (moc/godziny/powierzchnia) — opcja nieoceniona`,
+    field: id,
+  }
+}
+
+/** Info (owner's caution): modifying or gluing anything on a panel usually affects the manufacturer's warranty. */
+export function gwarancjaProducenta(): Warning {
+  return {
+    code: "OSAD-GWARANCJA",
+    level: "info",
+    i18nKey: "OSAD-GWARANCJA",
+    technicalMessage: "kabel/folia/automat na panelu — przeróbki zwykle wpływają na gwarancję producenta, sprawdź jego warunki",
+    field: "opcje",
+  }
+}

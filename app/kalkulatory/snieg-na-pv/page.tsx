@@ -14,11 +14,18 @@ import { NawigacjaEkranu } from "@/components/nawigacja-ekranu"
 import { NaglowekEkranu } from "@/components/wzorce/naglowek-ekranu"
 import { WynikGlowny } from "@/components/wzorce/wynik-glowny"
 import { WynikSzczegoly } from "@/components/wzorce/wynik-szczegoly"
+import {
+  PolaProdukcjiIWlasne,
+  SekcjaCoZTymZrobic,
+  STAN_OSADU,
+  TabelaCoJesli,
+  wejscieOsaduZeStanu,
+  type StanOsadu,
+} from "@/components/wzorce/osad-na-pv"
 
-type Pola = "kat" | "produkcja" | "dni" | "pozostala"
-type FormularzStan = Record<Pola, string> & { rodzaj: RodzajOsadu | ""; nierowno: boolean }
+type FormularzStan = StanOsadu & { rodzaj: RodzajOsadu | ""; kat: string; nierowno: boolean }
 
-const STAN_POCZATKOWY: FormularzStan = { rodzaj: "", kat: "", produkcja: "", dni: "", pozostala: "", nierowno: false }
+const STAN_POCZATKOWY: FormularzStan = { ...STAN_OSADU, rodzaj: "", kat: "", nierowno: false }
 
 const RODZAJE: { v: RodzajOsadu; k: string }[] = [
   { v: "sypki", k: "UI-M7-OSAD-SYPKI" },
@@ -27,28 +34,18 @@ const RODZAJE: { v: RodzajOsadu; k: string }[] = [
   { v: "szadz", k: "UI-M7-OSAD-SZADZ" },
 ]
 
-const liczba = (s: string) => (s === "" ? 0 : Number(s))
 const r2 = (x: number) => Math.round(x * 100) / 100
 
 export default function SniegNaPvPage() {
   const t = useTranslate()
   const [stan, setStan] = usePersistedDraft<FormularzStan>("snieg-na-pv", STAN_POCZATKOWY)
-  const pole = (klucz: Pola) => ({
-    type: "number",
-    inputMode: "decimal" as const,
-    min: 0,
-    value: stan[klucz],
-    onChange: (e: React.ChangeEvent<HTMLInputElement>) => setStan((prev) => ({ ...prev, [klucz]: e.target.value })),
-  })
 
   const result = useMemo(
     () =>
       calculateOsadNaPv({
+        ...wejscieOsaduZeStanu(stan),
         rodzaj: stan.rodzaj === "" ? null : stan.rodzaj,
         katDeg: stan.kat === "" ? null : Number(stan.kat),
-        produkcjaDobaKwh: liczba(stan.produkcja),
-        dniZalegania: liczba(stan.dni),
-        pozostalaProdukcjaPct: liczba(stan.pozostala),
         nierownoStringi: stan.nierowno,
       }),
     [stan],
@@ -78,14 +75,18 @@ export default function SniegNaPvPage() {
             </option>
           ))}
         </PoleSelect>
-        <div className="grid grid-cols-2 gap-3">
-          <Pole label={t("UI-M7-OSAD-KAT")} unit="°" max={90} {...pole("kat")} pomoc={<PomocPola ekran="snieg-na-pv" pole="kat" params={{ prog: KAT_SPLUKIWANIE_MAX }} />} />
-          <Pole label={t("UI-M7-OSAD-PRODUKCJA")} unit="kWh" {...pole("produkcja")} pomoc={<PomocPola ekran="snieg-na-pv" pole="produkcja" />} />
-        </div>
-        <div className="grid grid-cols-2 gap-3">
-          <Pole label={t("UI-M7-OSAD-DNI")} {...pole("dni")} pomoc={<PomocPola ekran="snieg-na-pv" pole="dni" />} />
-          <Pole label={t("UI-M7-OSAD-POZOSTALA")} unit="%" max={100} {...pole("pozostala")} pomoc={<PomocPola ekran="snieg-na-pv" pole="pozostala" />} />
-        </div>
+        <Pole
+          label={t("UI-M7-OSAD-KAT")}
+          unit="°"
+          type="number"
+          inputMode="decimal"
+          min={0}
+          max={90}
+          value={stan.kat}
+          onChange={(e) => setStan((prev) => ({ ...prev, kat: e.target.value }))}
+          pomoc={<PomocPola ekran="snieg-na-pv" pole="kat" params={{ prog: KAT_SPLUKIWANIE_MAX }} />}
+        />
+        <PolaProdukcjiIWlasne ekran="snieg-na-pv" stan={stan} setStan={setStan} />
         <div className="flex items-center gap-2">
           <PoleCheckbox
             id="snieg-na-pv-nierowno"
@@ -106,11 +107,13 @@ export default function SniegNaPvPage() {
         <p className="text-small text-muted-foreground">{t("UI-M7-OSAD-UZUPELNIJ")}</p>
       ) : (
         <WerdyktPanel poziom={uwaga ? "uwaga" : "ok"} etykieta={t(uwaga ? "UI-M7-OSAD-W-UWAGA" : "UI-M7-OSAD-W-OK")}>
-          <WynikGlowny>{t("UI-M7-OSAD-WYNIK", { kwh: r2(v.utrataKwh) })}</WynikGlowny>
-          {v.produkcjaPodOsademKwh > 0 && <p className="mt-1 text-small">{t("UI-M7-OSAD-POD", { kwh: r2(v.produkcjaPodOsademKwh) })}</p>}
+          <WynikGlowny>{t("UI-M7-OSAD-WYNIK", { kwh: r2(v.utrataNaDobeKwh) })}</WynikGlowny>
+          <TabelaCoJesli wynik={result} szadz={stan.rodzaj === "szadz"} />
           <WynikSzczegoly assumptions={result.assumptions} warnings={result.warnings} formula={result.formula} />
         </WerdyktPanel>
       )}
+
+      <SekcjaCoZTymZrobic ekran="snieg-na-pv" stan={stan} setStan={setStan} wynik={result} />
 
       <div className="flex flex-col gap-2">
         <Link href="/kalkulatory/czystosc-i-snieg" className="text-small underline">
