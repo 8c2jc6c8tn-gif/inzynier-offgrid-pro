@@ -1,6 +1,6 @@
 # Rejestr decyzji — Inżynier Offgrid Pro
 
-**Wersja:** 1.41 | **Filar:** C | **Data utworzenia:** 04.09.2026 | **Ostatnia aktualizacja:** 01.10.2026 | **Status:** Stabilny (rosnący)
+**Wersja:** 1.42 | **Filar:** C | **Data utworzenia:** 04.09.2026 | **Ostatnia aktualizacja:** 02.10.2026 | **Status:** Stabilny (rosnący)
 **Powiązane dokumenty:** `00_Biblia.md`, `docs/memory.md`, `USTALENIA.md` (historyczny, Część II)
 
 TL;DR: D1, D2, D3… — decyzje **strategiczne/fundamentalne** (blokujące wiele innych rzeczy naraz, Krok 4 GOD BOOK), ponumerowane, nigdy nie kasowane, tylko unieważniane jawnie (F.5). **Nie duplikuje `docs/memory.md`**: tam żyje pełna, szczegółowa historia każdej sesji (setki drobnych decyzji implementacyjnych per ekran) — tu tylko decyzje, które zmieniły kierunek/regułę obowiązującą cały projekt. Gdy wpis niżej odsyła do `docs/memory.md`, tam jest pełne uzasadnienie i przykłady.
@@ -314,6 +314,15 @@ Obie sprawy należą do decyzji o modelu freemium (rozdz. 12 standardu), która 
 - (11) M6 ekran 2A: kominek z płaszczem wodnym bez schładzania grawitacyjnego / wężownicy przy braku prądu = 🔴 `ALT-KOMINEK-PRZEGRZANIE` (kalkulator 1.0.0 → 1.1.0).
 - (12) M6: uproszczenia E16 (stan ustalony — górna granica), E17 (cyrkulacja bez stygnięcia poza godzinami pracy), E18 (stała moc PV), E19 (🟡 przy każdym zacienieniu w południe przesilenia), 5.42 (widełki źródła jako progi 🟡, głębokość przemarzania od użytkownika) — przyjęte. ✅🤖 → ✅.
 
+**D70 (02.10.2026) — Granica z przyszłą apką „Elektryk Pro”: PV celowo w obu apkach, w innym zakresie; Offgrid nie ucina potrzebnej informacji; bezpieczeństwo nigdy „w drugiej apce”.** Koszt cofnięcia: średni (kształtuje zakres przyszłych ekranów M5/M14 i treść odesłań między apkami; dziś bez kodu). Decyzja właściciela projektu („Rozdział Pv zapisz”, 02.10.2026, po analizie `/mnt/project-files/analizy/granica-rozdzielnice-offgrid-vs-elektryk.md`; model PV zaproponował właściciel, zastępuje strefę C audytora w części PV).
+- (1) **Offgrid Pro** pozostaje kompletny w PV, magazynach energii i obliczeniach przejścia na off-grid (dobór, bilans, zima, TCO, M14). Nie ukrywa informacji potrzebnej do własnego systemu, żeby sprzedać drugą apkę.
+- (2) **Elektryk Pro** (osobna apka rodziny, poza tym repo) ma pełny, głęboki rozdział PV, czysto techniczny: podłączenie, zabezpieczenia, dobór przewodów, wprowadzenie do rozdzielnicy, pomiary, mikrofarmy; obok całej elektryki 230/400 V (rozdzielnice AC obwód po obwodzie, silniki, soft start, usterki, szkolenie). Nie liczy doboru PV i magazynu pod off-grid ani akumulatorów.
+- (3) Dublowanie wiedzy o PV jest **celowe** — ukrywanie jej po to, żeby klient płacił dwa razy, właściciel uznaje za naciąganie.
+- (4) Apki polecają się nawzajem jako **inny zakres**, nie ukrytą część: Offgrid → „zbuduj swoją rozdzielnicę AC, poznaj elektrykę” (Elektryk Pro); Elektryk Pro → „policz realne przejście na off-grid” (Offgrid Pro).
+- (5) W Offgrid strefy z analizy (A: źródło PV/bateria/falownik/uziemienie/przełącznik sieć–wyspa w pełnej głębokości; B: rozdzielnica AC za falownikiem i rozdzielnica u częściowo podłączonych do sieci — wymagania, podział obwodów rezerwowanych, twarde stopy, bez projektu obwód po obwodzie) służą pilnowaniu, żeby nic potrzebnego nie zostało ucięte. Głęboka elektryka AC należy do Elektryk Pro.
+- (6) **Twarde stopy i ostrzeżenia bezpieczeństwa są w obu apkach.** Odesłanie do drugiej apki dotyczy pogłębienia wiedzy, nigdy ostrzeżenia (zgodne ze standardem 12.7).
+- (7) Ceny i promocja krzyżowa — **nierozstrzygnięte** (właściciel: „ceny muszę jeszcze przemyśleć”). Cel właściciela: minimum 5000 zł netto miesięcznie z każdej apki. Analiza: `/mnt/project-files/analizy/ceny-apek-rodziny.md`.
+
 ## Założenia robocze (F.7 GOD BOOK)
 
 **Z1 (04.09.2026) — przyjęto:** ID modułów (H.2 GOD BOOK, M#) odpowiadają wprost numeracji "Moduł N" już używanej w całym projekcie (1–13), nie nowej, niezależnej numeracji. **Powód:** ta numeracja jest już stabilna, używana w kodzie, dokumentacji i UI od 29.08.2026 — wprowadzenie równoległej numeracji M# byłoby duplikatem, nie nowym bytem. **Na czym się opiera:** cała struktura `docs/rejestr-pokrycia.md`, `lib/pulpit/registry.ts`, `docs/pulpit-i-nawigacja.md`.
@@ -370,3 +379,4 @@ Obie sprawy należą do decyzji o modelu freemium (rozdz. 12 standardu), która 
 | 01.10.2026 | Kolizja numeracji (przypadek H.3): sesja presetów pulpitu scaliła D62 pierwsza, więc decyzje o stylach wyglądu przenumerowane z D62–D66 na D63–D67 (z wersjami 1.35–1.39). Treść bez zmian. |
 | 01.10.2026 | Dodano D68 (potwierdzenia M12/E33, E3, E25, M8/E4; 🔴 bezpiecznik większy niż przewód w M12/E14 i brak izolacji ESP32 w M9/E3) — decyzja właściciela projektu. Wersja 1.39→1.40. |
 | 01.10.2026 | Dodano D69 (potwierdzenia stylów partii 1 i uproszczeń M6; przełącznik grupy ukrytej; Source Serif 4; 🔴 kominek bez schładzania grawitacyjnego) — decyzja właściciela projektu. Wersja 1.40→1.41. |
+| 02.10.2026 | Dodano D70 (granica z apką Elektryk Pro: PV celowo w obu apkach w innym zakresie, Offgrid nie ucina potrzebnej informacji, bezpieczeństwo w obu apkach; ceny nierozstrzygnięte) — decyzja właściciela projektu. Wersja 1.41→1.42. |

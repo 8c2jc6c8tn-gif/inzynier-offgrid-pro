@@ -8662,3 +8662,10 @@ Tryb Audyt (czapka rewidenta). Warstwa „w pełni na końcu” z N.2 — wszyst
   ρ = 1 kg/l i ΔT ≈ 16 K, kominek „60% zapotrzebowania” bez podanego zapotrzebowania.
 - **Pułapka (stopy-guard):** kod OUT_OF_SCOPE na poziomie `critical` (np. `OSL-SZEROKOSC-POZA-MODELEM`) trzeba dopisać
   ręcznie do `poza-zakresem-modelu`, nie do `walidacja-danych`.
+
+## D70 — granica z apką „Elektryk Pro” i cel przychodu (02.10.2026, wątek analizy rozdzielnic)
+
+- Decyzja: PV celowo w obu apkach (Offgrid: PV + magazyn + przejście na off-grid; Elektryk Pro: techniczne PV + cała elektryka AC). Szczegóły w D70.
+- **Pułapka do unikania:** każda prośba o „pogłębienie” rozdzielnicy AC (obwód po obwodzie, selektywność dla całego mieszkania, pomiary okresowe) to materiał dla Elektryk Pro, nie dla Offgrid — ale twardy stop bezpieczeństwa zawsze zostaje w Offgrid.
+- Cel finansowy właściciela: **min. 5000 zł netto miesięcznie z każdej apki rodziny**; ceny jeszcze nieustalone. Analiza rynku (ceny konkurencji, progi liczby klientów): `/mnt/project-files/analizy/ceny-apek-rodziny.md`.
+
