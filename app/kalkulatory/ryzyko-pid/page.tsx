@@ -51,19 +51,17 @@ export default function RyzykoPidPage() {
     <main className="mx-auto flex max-w-md flex-col gap-6 p-6">
       <NawigacjaEkranu href="/kalkulatory/ryzyko-pid" />
       <NaglowekEkranu
-        tytul="Ryzyko PID (degradacja indukowana napięciem)"
+        tytul={t("UI-RYZPID-RYZYKO-PID-DEGRADACJA")}
         ekran="ryzyko-pid"
         wynik={result}
         parametry={{ prog: PROG_NAPIECIA_PID_V }}
       >
-        W długich stringach napięcie panelu względem ramy/ziemi może przekroczyć kilkaset wolt.
-        Przy wilgotnej pogodzie jony sodu ze szkła migrują pod wpływem tego napięcia, powodując
-        trwałą utratę mocy panelu. Moduł 3.
+        {t("UI-RYZPID-DLUGICH-STRINGACH-NAPIECIE")}
       </NaglowekEkranu>
 
       <div className="flex flex-col gap-3">
         <Pole
-          label="Napięcie systemu DC względem ziemi"
+          label={t("UI-RYZPID-NAPIECIE-SYSTEMU-WZGLEDEM")}
           unit="V"
           type="number"
           inputMode="decimal"
@@ -76,18 +74,18 @@ export default function RyzykoPidPage() {
           id="wilgotnosc-wysoka"
           checked={wilgotnoscWysoka}
           onChange={(e) => setWilgotnoscWysoka(e.target.checked)}
-          label="Wysoka wilgotność w miejscu montażu"
+          label={t("UI-RYZPID-WYSOKA-WILGOTNOSC-MIEJSCU")}
         />
       </div>
 
       {result.status === "INVALID_INPUT" ? (
-        <WerdyktPanel poziom="blad" etykieta="Nie da się policzyć — sprawdź wpisane dane">
+        <WerdyktPanel poziom="blad" etykieta={t("UI-RYZPID-POLICZYC-SPRAWDZ-WPISANE")}>
           <WynikSzczegoly assumptions={[]} warnings={result.warnings} />
         </WerdyktPanel>
       ) : result.status === "INCOMPLETE" ? (
-        <p className="text-small text-muted-foreground">Wpisz napięcie systemu DC, żeby zobaczyć wynik.</p>
+        <p className="text-small text-muted-foreground">{t("UI-RYZPID-WPISZ-NAPIECIE-SYSTEMU")}</p>
       ) : (
-        <WerdyktPanel poziom={poziom} etykieta={result.value.ryzykoPid ? "Ryzyko PID" : "Brak ryzyka PID"}>
+        <WerdyktPanel poziom={poziom} etykieta={result.value.ryzykoPid ? t("UI-RYZPID-RYZYKO-PID") : t("UI-RYZPID-BRAK-RYZYKA-PID")}>
           {result.warnings.map((w) => (
             <p key={w.code} className="mt-1 text-small">
               {w.message ?? t(w.i18nKey ?? w.code, w.params)}
@@ -95,7 +93,7 @@ export default function RyzykoPidPage() {
           ))}
           {result.value.ryzykoPid && (
             <p className="mt-2 text-small text-muted-foreground">
-              Zalecane: uziemienie konstrukcji montażowej lub panele z certyfikatem anty-PID.
+              {t("UI-RYZPID-ZALECANE-UZIEMIENIE-KONSTRUK")}
             </p>
           )}
           <WynikSzczegoly assumptions={result.assumptions} formula={result.formula} />

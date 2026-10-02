@@ -101,38 +101,37 @@ export function TrybPowierzchnie({ tylkoJednaPolac }: { tylkoJednaPolac: boolean
     <div className="flex flex-col gap-4">
       <p className="text-small text-muted-foreground">
         {tylkoJednaPolac
-          ? "Wybierz połać dachu z modelu budynku — kąt i azymut aplikacja bierze z Modułu 1, Ty podajesz moc paneli."
-          : "Zaznacz wszystkie powierzchnie, na których staną panele (dach, ściany, ogrodzenia), i wpisz moc na każdej — suma liczy się na żywo."}{" "}
-        Powierzchnie zmienisz w{" "}
+          ? t("UI-TYPMON-COMTRYPOW-WYBIERZ-POLAC-DACHU")
+          : t("UI-TYPMON-COMTRYPOW-ZAZNACZ-WSZYSTKIE-POWIERZCHN")}{" "}{t("UI-TYPMON-COMTRYPOW-POWIERZCHNIE-ZMIENISZ")}{" "}
         <Link href="/kalkulatory/orientacja-powierzchni" className="underline">
-          Module 1, Ekran 4
+          {t("UI-TYPMON-COMTRYPOW-MODULE-EKRAN")}
         </Link>
         .
       </p>
 
       {powierzchnie.length === 0 ? (
-        <StanPusty tytul={tylkoJednaPolac ? "Model budynku nie ma jeszcze połaci dachu." : "Brak powierzchni do oceny."}>
+        <StanPusty tytul={tylkoJednaPolac ? t("UI-TYPMON-COMTRYPOW-MODEL-BUDYNKU-JESZCZE") : t("UI-TYPMON-COMTRYPOW-BRAK-POWIERZCHNI-OCENY")}>
           <p className="text-small">
-            Zbierz budynek w{" "}
+            {t("UI-TYPMON-COMTRYPOW-ZBIERZ-BUDYNEK")}{" "}
             <Link href="/kalkulatory/skaner-dzialki" className="underline">
-              Skanerze działki
+              {t("UI-TYPMON-COMTRYPOW-SKANERZE-DZIALKI")}
             </Link>
-            {tylkoJednaPolac ? "." : " albo dopisz powierzchnie ręcznie w Module 1, Ekran 4."}
+            {tylkoJednaPolac ? "." : ` ${t("UI-TYPMON-COMTRYPOW-ALBO-DOPISZ-POWIERZCHNIE")}`}
           </p>
         </StanPusty>
       ) : (
         <Button className="min-h-11" disabled={obliczenia.liczy || !dane} onClick={ocen}>
-          {obliczenia.liczy ? "Liczę (ok. 3 s)…" : aktualna ? "Oceń ponownie" : "Oceń powierzchnie"}
+          {obliczenia.liczy ? t("UI-TYPMON-COMTRYPOW-LICZE") : aktualna ? t("UI-TYPMON-COMTRYPOW-OCEN-PONOWNIE") : t("UI-TYPMON-COMTRYPOW-OCEN-POWIERZCHNIE")}
         </Button>
       )}
-      {!dane && <p className="text-small text-muted-foreground">Najpierw pobierz dane nasłonecznienia w Module 1, Ekran 1.</p>}
+      {!dane && <p className="text-small text-muted-foreground">{t("UI-TYPMON-COMTRYPOW-NAJPIERW-POBIERZ-DANE")}</p>}
       {obliczenia.blad && <p className="text-small text-werdykt-blad-foreground">{obliczenia.blad}</p>}
-      {ocena && !aktualna && !obliczenia.liczy && <StanPusty tytul="Dane zmieniły się od ostatniej oceny — oceń ponownie." />}
+      {ocena && !aktualna && !obliczenia.liczy && <StanPusty tytul={t("UI-TYPMON-COMTRYPOW-DANE-ZMIENILY-OSTATNIEJ")} />}
       {aktualna?.status === "INVALID_INPUT" && <BledyDanych warnings={aktualna.warnings} />}
 
       {oceny && (
         <fieldset className="flex flex-col gap-2">
-          <legend className="mb-1 font-semibold">{tylkoJednaPolac ? "Połać" : "Powierzchnie"}</legend>
+          <legend className="mb-1 font-semibold">{tylkoJednaPolac ? t("UI-TYPMON-COMTRYPOW-POLAC") : t("UI-TYPMON-COMTRYPOW-POWIERZCHNIE")}</legend>
           {oceny.map((o, idx) => {
             const zaznaczona = wybrane.includes(o.nazwa)
             return (
@@ -150,14 +149,14 @@ export function TrybPowierzchnie({ tylkoJednaPolac }: { tylkoJednaPolac: boolean
                       {o.nazwa} — {f0(o.wskaznikProcent)}%
                     </span>
                     <span className="text-muted-foreground">
-                      {o.nachylenieDeg}°, azymut {o.azymutDeg}° ({kierunek(o.azymutDeg)}) · {f0(o.napromieniowanieRoczneKwhM2)} kWh/m²
+                      {t("UI-TYPMON-COMTRYPOW-AZYMUT-KWH", { nachylenieDeg: o.nachylenieDeg, azymutDeg: o.azymutDeg, azymutDeg2: kierunek(o.azymutDeg), napromieniowanieRoczneKwhM2: f0(o.napromieniowanieRoczneKwhM2) })}
                     </span>
                   </span>
                 </label>
                 {zaznaczona && (
                   <Pole
                     id={`moc-powierzchni-${idx}`}
-                    label="Moc paneli na tej powierzchni"
+                    label={t("UI-TYPMON-COMTRYPOW-MOC-PANELI-TEJ")}
                     unit="kWp"
                     type="number"
                     inputMode="decimal"
@@ -171,7 +170,7 @@ export function TrybPowierzchnie({ tylkoJednaPolac }: { tylkoJednaPolac: boolean
             )
           })}
           <Pole
-            label="Współczynnik wydajności PR"
+            label={t("UI-TYPMON-COMTRYPOW-WSPOLCZYNNIK-WYDAJNOSCI")}
             type="number"
             inputMode="decimal"
             min={0}
@@ -194,16 +193,16 @@ export function TrybPowierzchnie({ tylkoJednaPolac }: { tylkoJednaPolac: boolean
       {wynik.status === "INVALID_INPUT" && <BledyDanych warnings={wynik.warnings} />}
       {oceny && wynik.status === "INCOMPLETE" && (
         <p className="text-small text-muted-foreground">
-          {tylkoJednaPolac ? "Wybierz połać" : "Zaznacz powierzchnie"}, wpisz moc paneli i współczynnik PR.
+          {tylkoJednaPolac ? t("UI-TYPMON-COMTRYPOW-WYBIERZ-POLAC") : t("UI-TYPMON-COMTRYPOW-ZAZNACZ-POWIERZCHNIE")}{t("UI-TYPMON-COMTRYPOW-WPISZ-MOC-PANELI")}
         </p>
       )}
       {v && (
-        <WerdyktPanel poziom="ok" etykieta={tylkoJednaPolac ? "Roczny uzysk z połaci" : `Suma z ${v.pozycje.length} powierzchni (${f1(v.sumaMocyKwp)} kWp)`}>
-          <WynikGlowny>{f0(v.sumaUzyskuKwh)} kWh/rok</WynikGlowny>
+        <WerdyktPanel poziom="ok" etykieta={tylkoJednaPolac ? t("UI-TYPMON-COMTRYPOW-ROCZNY-UZYSK-POLACI") : t("UI-TYPMON-COMTRYPOW-SUMA-POWIERZCHNI-KWP", { length: v.pozycje.length, sumaMocyKwp: f1(v.sumaMocyKwp) })}>
+          <WynikGlowny>{t("UI-TYPMON-COMTRYPOW-KWH-ROK", { sumaUzyskuKwh: f0(v.sumaUzyskuKwh) })}</WynikGlowny>
           <ul className="mt-2 space-y-1 text-small">
             {v.pozycje.map((p) => (
               <li key={p.nazwa}>
-                {p.nazwa}: {f0(p.uzyskRocznyKwh)} kWh ({f0(p.wskaznikProcent)}%) — {p.nachylenieDeg}°, azymut {p.azymutDeg}°
+                {t("UI-TYPMON-COMTRYPOW-KWH-AZYMUT", { nazwa: p.nazwa, uzyskRocznyKwh: f0(p.uzyskRocznyKwh), wskaznikProcent: f0(p.wskaznikProcent), nachylenieDeg: p.nachylenieDeg, azymutDeg: p.azymutDeg })}
               </li>
             ))}
           </ul>

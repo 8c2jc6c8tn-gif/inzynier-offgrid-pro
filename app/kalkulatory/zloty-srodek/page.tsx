@@ -56,11 +56,11 @@ const STAN_POCZATKOWY: FormularzStan = {
 }
 
 const OPIS_TERENU: Record<KategoriaTerenu, string> = {
-  "0": "0 — morze, brzeg otwarty na morze",
-  I: "I — jeziora, teren płaski bez przeszkód",
-  II: "II — niska roślinność, pojedyncze drzewa/budynki daleko od siebie",
-  III: "III — wieś, przedmieścia, las, regularna zabudowa",
-  IV: "IV — miasto (min. 15% zabudowy wyższej niż 15 m)",
+  "0": "UI-TYPMON-COMWSP-MORZE",
+  I: "UI-TYPMON-COMWSP-JEZIORA-TEREN-PLASKI",
+  II: "UI-TYPMON-COMWSP-NISKA-ROSLINNOSC-POJEDYNCZE",
+  III: "UI-TYPMON-COMWSP-III-WIES-PRZEDMIESCIA",
+  IV: "UI-TYPMON-COMWSP-MIASTO-MIN-ZABUDOWY",
 }
 
 const f0 = (x: number) => x.toLocaleString("pl-PL", { maximumFractionDigits: 0 })
@@ -86,6 +86,7 @@ function WykresKatowy({
   rekomendacja: number | null
   wybrany: number | null
 }) {
+  const t = useTranslate()
   const W = 360
   const H = 110
   const liczby = wartosci.filter((v): v is number => v !== null)
@@ -108,7 +109,7 @@ function WykresKatowy({
       <figcaption className="text-small font-medium">
         {tytul} <span className="text-muted-foreground">[{jednostka}]</span>
       </figcaption>
-      <svg viewBox={`0 0 ${W} ${H + 16}`} className="w-full text-foreground" role="img" aria-label={`${tytul} w zależności od kąta`}>
+      <svg viewBox={`0 0 ${W} ${H + 16}`} className="w-full text-foreground" role="img" aria-label={t("UI-ZLOSRO-ZALEZNOSCI-KATA", { tytul })}>
         <line x1={10} y1={H - 8} x2={W - 10} y2={H - 8} className="stroke-muted-foreground/40" strokeWidth={1} />
         <path d={d} className="fill-none stroke-sky-500" strokeWidth={2} />
         {wartosci.map((v, k) =>
@@ -119,7 +120,7 @@ function WykresKatowy({
           ) : null,
         )}
         {znacznik(rekomendacja, "fill-background stroke-sky-700", "Rekomendacja")}
-        {znacznik(wybrany, "fill-foreground stroke-background", "Twój kąt")}
+        {znacznik(wybrany, "fill-foreground stroke-background", t("UI-ZLOSRO-KAT-2"))}
         {[0, 30, 60, 90].map((k) => (
           <text key={k} x={x(k)} y={H + 10} textAnchor="middle" className="fill-muted-foreground text-[9px]">
             {k}°
@@ -195,18 +196,16 @@ export default function ZlotySrodekPage() {
   return (
     <main className="mx-auto flex max-w-2xl flex-col gap-6 p-6">
       <NawigacjaEkranu href="/kalkulatory/zloty-srodek" />
-      <NaglowekEkranu tytul="Złoty środek — kąt, wiatr i balast" ekran="zloty-srodek" wynik={result}>
-        Kąt, który daje najwięcej energii, zwykle nie jest najtańszy w utrzymaniu: im bardziej stromy stelaż, tym
-        mocniej wiatr próbuje go poderwać i tym więcej balastu trzeba. Ten ekran liczy obie strony z Twoich danych i
-        normy wiatrowej PN-EN 1991-1-4. Moduł 3, Ekran 9.
+      <NaglowekEkranu tytul={t("UI-ZLOSRO-ZLOTY-SRODEK-KAT")} ekran="zloty-srodek" wynik={result}>
+        {t("UI-ZLOSRO-KAT-KTORY-DAJE")}
       </NaglowekEkranu>
 
       <SekcjaDanychNaslonecznienia lokalizacja={lokalizacja} dane={dane} tmy={tmy} />
 
       <section className="flex flex-col gap-3">
-        <h2 className="font-semibold">1. Kierunek paneli</h2>
+        <h2 className="font-semibold">{t("UI-ZLOSRO-KIERUNEK-PANELI")}</h2>
         <Pole
-          label="Azymut paneli"
+          label={t("UI-ZLOSRO-AZYMUT-PANELI")}
           unit="°"
           type="number"
           inputMode="decimal"
@@ -217,28 +216,28 @@ export default function ZlotySrodekPage() {
           pomoc={<PomocPola ekran="zloty-srodek" pole="azymut" />}
         />
         <Button className="min-h-11" disabled={!lokalizacja || !dane || azymut === undefined || obliczenia.liczy} onClick={policzTabele}>
-          {obliczenia.liczy ? "Liczę nasłonecznienie dla kątów 0–90°…" : "Policz nasłonecznienie"}
+          {obliczenia.liczy ? t("UI-ZLOSRO-LICZE-NASLONECZNIENIE-KATOW") : t("UI-ZLOSRO-POLICZ-NASLONECZNIENIE")}
         </Button>
         {obliczenia.blad && <p className="text-small text-werdykt-blad-foreground">{obliczenia.blad}</p>}
-        {tabela && !aktualna && !obliczenia.liczy && <StanPusty tytul="Zmieniła się lokalizacja lub azymut — policz ponownie." />}
+        {tabela && !aktualna && !obliczenia.liczy && <StanPusty tytul={t("UI-ZLOSRO-ZMIENILA-LOKALIZACJA-AZYMUT")} />}
       </section>
 
       <section className="flex flex-col gap-3">
-        <h2 className="font-semibold">2. Wiatr w miejscu montażu</h2>
+        <h2 className="font-semibold">{t("UI-ZLOSRO-WIATR-MIEJSCU-MONTAZU")}</h2>
         <div className="grid gap-3 sm:grid-cols-2">
           <PoleSelect
-            label="Strefa wiatrowa"
+            label={t("UI-ZLOSRO-STREFA-WIATROWA")}
             value={stan.strefa}
             onChange={(e) => ustaw("strefa", e.target.value)}
             pomoc={<PomocPola ekran="typ-montazu-pola" pole="strefa" />}
           >
-            <option value="">— wybierz —</option>
-            <option value="1">Strefa 1</option>
-            <option value="2">Strefa 2</option>
-            <option value="3">Strefa 3</option>
+            <option value="">{t("UI-WYBIERZ")}</option>
+            <option value="1">{t("UI-ZLOSRO-STREFA")}</option>
+            <option value="2">{t("UI-ZLOSRO-STREFA-2")}</option>
+            <option value="3">{t("UI-ZLOSRO-STREFA-3")}</option>
           </PoleSelect>
           <Pole
-            label="Wysokość terenu n.p.m."
+            label={t("UI-ZLOSRO-WYSOKOSC-TERENU")}
             unit="m"
             type="number"
             inputMode="decimal"
@@ -249,21 +248,21 @@ export default function ZlotySrodekPage() {
           />
         </div>
         <PoleSelect
-          label="Teren wokół (kategoria terenu)"
+          label={t("UI-ZLOSRO-TEREN-WOKOL-KATEGORIA")}
           value={stan.kategoria}
           onChange={(e) => ustaw("kategoria", e.target.value)}
           pomoc={<PomocPola ekran="typ-montazu-pola" pole="teren" />}
         >
-          <option value="">— wybierz —</option>
+          <option value="">{t("UI-WYBIERZ")}</option>
           {KATEGORIE_TERENU.map((k) => (
             <option key={k} value={k}>
-              {OPIS_TERENU[k]}
+              {t(OPIS_TERENU[k])}
             </option>
           ))}
         </PoleSelect>
         <div className="grid gap-3 sm:grid-cols-2">
           <Pole
-            label="Wysokość górnej krawędzi stelaża"
+            label={t("UI-ZLOSRO-WYSOKOSC-GORNEJ-KRAWEDZI")}
             unit="m"
             type="number"
             inputMode="decimal"
@@ -273,7 +272,7 @@ export default function ZlotySrodekPage() {
             pomoc={<PomocPola ekran="zloty-srodek" pole="wysokoscStelaza" />}
           />
           <Pole
-            label="Powierzchnia paneli na stelażu"
+            label={t("UI-ZLOSRO-POWIERZCHNIA-PANELI-STELAZU")}
             unit="m²"
             type="number"
             inputMode="decimal"
@@ -284,7 +283,7 @@ export default function ZlotySrodekPage() {
           />
         </div>
         <Pole
-          label="Zabudowa pod stelażem φ"
+          label={t("UI-ZLOSRO-ZABUDOWA-POD-STELAZEM")}
           type="number"
           inputMode="decimal"
           min={0}
@@ -297,9 +296,9 @@ export default function ZlotySrodekPage() {
       </section>
 
       <section className="flex flex-col gap-3">
-        <h2 className="font-semibold">3. Balast i wycena energii</h2>
+        <h2 className="font-semibold">{t("UI-ZLOSRO-BALAST-WYCENA-ENERGII")}</h2>
         <Pole
-          label="Masa paneli i stelaża (opcjonalnie)"
+          label={t("UI-ZLOSRO-MASA-PANELI-STELAZA")}
           unit="kg"
           type="number"
           inputMode="decimal"
@@ -309,8 +308,8 @@ export default function ZlotySrodekPage() {
           pomoc={<PomocPola ekran="typ-montazu-pola" pole="masa" />}
         />
         <Pole
-          label="Cena balastu"
-          unit="zł/kg"
+          label={t("UI-ZLOSRO-CENA-BALASTU")}
+          unit={t("UI-ZLOSRO-ZL-KG")}
           type="number"
           inputMode="decimal"
           min={0}
@@ -320,12 +319,11 @@ export default function ZlotySrodekPage() {
           pomoc={<PomocPola ekran="zloty-srodek" pole="cenaBalastu" params={{ cena: CENA_BALASTU_PODPOWIEDZ_ZL_KG }} />}
         />
         <p className="text-small text-muted-foreground">
-          Żeby aplikacja wskazała najlepszy kąt, podaj też, ile warta jest energia. Bez tego zobaczysz wykresy i możesz
-          sprawdzić dowolny kąt.
+          {t("UI-ZLOSRO-ZEBY-APLIKACJA-WSKAZALA")}
         </p>
         <div className="grid gap-3 sm:grid-cols-2">
           <Pole
-            label="Moc paneli na stelażu"
+            label={t("UI-ZLOSRO-MOC-PANELI-STELAZU")}
             unit="kWp"
             type="number"
             inputMode="decimal"
@@ -335,7 +333,7 @@ export default function ZlotySrodekPage() {
             pomoc={<PomocPola ekran="zloty-srodek" pole="moc" />}
           />
           <Pole
-            label="Współczynnik wydajności PR"
+            label={t("UI-ZLOSRO-WSPOLCZYNNIK-WYDAJNOSCI")}
             type="number"
             inputMode="decimal"
             min={0}
@@ -346,8 +344,8 @@ export default function ZlotySrodekPage() {
             pomoc={<PomocPola ekran="zloty-srodek" pole="pr" />}
           />
           <Pole
-            label="Wartość 1 kWh"
-            unit="zł"
+            label={t("UI-ZLOSRO-WARTOSC-KWH")}
+            unit={t("UI-J-ZL")}
             type="number"
             inputMode="decimal"
             min={0}
@@ -357,8 +355,8 @@ export default function ZlotySrodekPage() {
             pomoc={<PomocPola ekran="zloty-srodek" pole="wartoscKwh" />}
           />
           <Pole
-            label="Okres analizy"
-            unit="lat"
+            label={t("UI-ZLOSRO-OKRES-ANALIZY")}
+            unit={t("UI-J-LAT")}
             type="number"
             inputMode="numeric"
             min={1}
@@ -370,29 +368,27 @@ export default function ZlotySrodekPage() {
       </section>
 
       {result.status === "INVALID_INPUT" && (
-        <WerdyktPanel poziom="blad" etykieta="Nie da się policzyć — sprawdź wpisane dane">
+        <WerdyktPanel poziom="blad" etykieta={t("UI-ZLOSRO-POLICZYC-SPRAWDZ-WPISANE")}>
           <WynikSzczegoly assumptions={[]} warnings={result.warnings} />
         </WerdyktPanel>
       )}
       {result.status === "INCOMPLETE" && aktualna && (
-        <StanPusty tytul="Uzupełnij dane wiatru i cenę balastu — wtedy pojawią się wykresy i balast." />
+        <StanPusty tytul={t("UI-ZLOSRO-UZUPELNIJ-DANE-WIATRU")} />
       )}
 
       {r && (
-        <WerdyktPanel poziom="uwaga" etykieta={rek ? `Złoty środek: ${rek.nachylenieDeg}°` : "Porównanie kątów"}>
+        <WerdyktPanel poziom="uwaga" etykieta={rek ? t("UI-ZLOSRO-ZLOTY-SRODEK", { nachylenieDeg: rek.nachylenieDeg }) : t("UI-ZLOSRO-POROWNANIE-KATOW")}>
           {rek ? (
             <>
               <WynikGlowny>{rek.nachylenieDeg}°</WynikGlowny>
               <p className="text-small">
-                Przy {rek.nachylenieDeg}° masz {f1((100 * rek.napromieniowanieRoczneKwhM2) / hMax)}% energii najlepszego
-                kąta ({r.optimumEnergiiDeg}°), siła wiatru to {f0(rek.silaWiatruN!)} N, a balast projektowy (PN-EN 1990)
-                {stan.masaPaneliStelaza ? " ponad ciężar paneli i stelaża" : ""}{" "}
-                <strong>{f0(rek.balastKg!)} kg</strong> ≈ {f0(rek.kosztBalastuZl!)} zł. Bilans w okresie analizy
-                (wartość energii minus balast): {f0(rek.bilansZl!)} zł — najwyższy spośród kątów 0–30°.
+                {t("UI-ZLOSRO-MASZ-ENERGII-NAJLEPSZEGO", { nachylenieDeg: rek.nachylenieDeg, p: f1((100 * rek.napromieniowanieRoczneKwhM2) / hMax), optimumEnergiiDeg: r.optimumEnergiiDeg, p2: f0(rek.silaWiatruN!) })}
+                {stan.masaPaneliStelaza ? ` ${t("UI-ZLOSRO-PONAD-CIEZAR-PANELI")}` : ""}{" "}
+                <strong>{f0(rek.balastKg!)} kg</strong> {t("UI-ZLOSRO-BILANS-OKRESIE-ANALIZY", { p: f0(rek.kosztBalastuZl!), p2: f0(rek.bilansZl!) })}
               </p>
             </>
           ) : (
-            <p className="text-small">Najwięcej energii daje kąt {r.optimumEnergiiDeg}°.</p>
+            <p className="text-small">{t("UI-ZLOSRO-NAJWIECEJ-ENERGII-DAJE", { optimumEnergiiDeg: r.optimumEnergiiDeg })}</p>
           )}
           {result.warnings.map((w) => (
             <p key={w.code} className="mt-1 text-small">
@@ -403,7 +399,7 @@ export default function ZlotySrodekPage() {
           <div className="mt-3 flex flex-col gap-1 text-small font-medium">
             <div className="flex items-center gap-1">
               <label htmlFor="suwak-zs">
-                Sprawdź dowolny kąt: {stan.nachylenieDeg === "" ? "—" : `${stan.nachylenieDeg}°`}
+                {t("UI-ZLOSRO-SPRAWDZ-DOWOLNY-KAT", { p: stan.nachylenieDeg === "" ? "—" : `${stan.nachylenieDeg}°` })}
               </label>
               <PomocPola ekran="zloty-srodek" pole="katSprawdz" />
             </div>
@@ -420,24 +416,23 @@ export default function ZlotySrodekPage() {
           </div>
           {wyb && (
             <p className="text-small">
-              {wyb.nachylenieDeg}°: energia {f1((100 * wyb.napromieniowanieRoczneKwhM2) / hMax)}% maksimum, śnieg μ1 ={" "}
-              {f2(wyb.mu1)}
-              {wyb.silaWiatruN !== null ? `, wiatr ${f0(wyb.silaWiatruN)} N (${f0(wyb.procentSilyMaks!)}% najgorszego ustawienia)` : ", wiatr — brak danych normy"}
-              {wyb.balastKg !== null ? `, balast ${f0(wyb.balastKg)} kg ≈ ${f0(wyb.kosztBalastuZl!)} zł` : ""}.
+              {t("UI-ZLOSRO-ENERGIA-MAKSIMUM-SNIEG", { nachylenieDeg: wyb.nachylenieDeg, p: f1((100 * wyb.napromieniowanieRoczneKwhM2) / hMax), mu1: f2(wyb.mu1) })}
+              {wyb.silaWiatruN !== null ? t("UI-ZLOSRO-WIATR-NAJGORSZEGO-USTAWIENIA", { silaWiatruN: f0(wyb.silaWiatruN), p: f0(wyb.procentSilyMaks!) }) : t("UI-ZLOSRO-WIATR-BRAK-DANYCH")}
+              {wyb.balastKg !== null ? t("UI-ZLOSRO-BALAST", { balastKg: f0(wyb.balastKg), p: f0(wyb.kosztBalastuZl!) }) : ""}.
             </p>
           )}
 
           <div className="mt-3 flex flex-col gap-4">
             <WykresKatowy
-              tytul="Energia w roku"
+              tytul={t("UI-ZLOSRO-ENERGIA-ROKU")}
               wartosci={r.punkty.map((p) => (100 * p.napromieniowanieRoczneKwhM2) / hMax)}
-              jednostka="% maksimum"
+              jednostka={t("UI-ZLOSRO-MAKSIMUM")}
               formatuj={f1}
               rekomendacja={r.rekomendacjaDeg}
               wybrany={r.wybranyDeg}
             />
             <WykresKatowy
-              tytul="Siła wiatru odrywająca stelaż (0–30°) i pchająca pion (90°)"
+              tytul={t("UI-ZLOSRO-SILA-WIATRU-ODRYWAJACA")}
               wartosci={r.punkty.map((p) => p.silaWiatruN)}
               jednostka="N"
               formatuj={f0}
@@ -445,29 +440,28 @@ export default function ZlotySrodekPage() {
               wybrany={r.wybranyDeg}
             />
             <WykresKatowy
-              tytul="Śnieg zostający na panelu (μ1)"
+              tytul={t("UI-ZLOSRO-SNIEG-ZOSTAJACY-PANELU")}
               wartosci={r.punkty.map((p) => p.mu1)}
-              jednostka="× obciążenie gruntu"
+              jednostka={t("UI-ZLOSRO-OBCIAZENIE-GRUNTU")}
               formatuj={f2}
               rekomendacja={r.rekomendacjaDeg}
               wybrany={r.wybranyDeg}
             />
             <p className="text-caption text-muted-foreground">
-              Wykres wiatru ma przerwę 31–89°: norma nie podaje dla tych kątów siły na wiatę, więc aplikacja jej nie
-              zgaduje. Śnieg nie różnicuje kątów 0–30° (μ1 = 0,8) — zaczyna zsuwać się dopiero przy większym nachyleniu.
+              {t("UI-ZLOSRO-WYKRES-WIATRU-PRZERWE")}
             </p>
           </div>
 
-          <h3 className="mt-3 font-semibold">Tabela kątów</h3>
+          <h3 className="mt-3 font-semibold">{t("UI-ZLOSRO-TABELA-KATOW")}</h3>
           <div className="overflow-x-auto rounded-lg border">
             <table className="w-full min-w-[320px] text-small">
               <thead>
                 <tr className="border-b bg-muted/50 text-left">
-                  <th className="p-2 font-medium">Kąt</th>
-                  <th className="p-2 text-right font-medium">Energia</th>
-                  <th className="p-2 text-right font-medium">Wiatr [N]</th>
-                  <th className="p-2 text-right font-medium">Balast proj. [kg]</th>
-                  <th className="p-2 text-right font-medium">Koszt [zł]</th>
+                  <th className="p-2 font-medium">{t("UI-ZLOSRO-KAT")}</th>
+                  <th className="p-2 text-right font-medium">{t("UI-ZLOSRO-ENERGIA")}</th>
+                  <th className="p-2 text-right font-medium">{t("UI-ZLOSRO-WIATR")}</th>
+                  <th className="p-2 text-right font-medium">{t("UI-ZLOSRO-BALAST-PROJ")}</th>
+                  <th className="p-2 text-right font-medium">{t("UI-ZLOSRO-KOSZT")}</th>
                 </tr>
               </thead>
               <tbody>
@@ -487,19 +481,16 @@ export default function ZlotySrodekPage() {
             </table>
           </div>
           <p className="text-caption">
-            Ciśnienie wiatru przy stelażu: qp = {f0(r.qpPa)} Pa (qb = {f0(r.qbPa)} Pa × ce = {f2(r.ce)}).
+            {t("UI-ZLOSRO-CISNIENIE-WIATRU-STELAZU", { qpPa: f0(r.qpPa), qbPa: f0(r.qbPa), ce: f2(r.ce) })}
           </p>
 
-          <h3 className="mt-3 font-semibold">Jak zrobić balast lub kotwienie samemu</h3>
+          <h3 className="mt-3 font-semibold">{t("UI-ZLOSRO-ZROBIC-BALAST-KOTWIENIE")}</h3>
           <ul className="list-disc pl-5 text-small">
             <li>
-              <strong>Bloczki balastowe odlane samodzielnie</strong> — beton w prostych szalunkach (skrzynki z desek,
-              wiadra), z zatopionym prętem lub śrubą do mocowania stelaża. Najtańsza droga do potrzebnych kilogramów.
+              <strong>{t("UI-ZLOSRO-BLOCZKI-BALASTOWE-ODLANE")}</strong> {t("UI-ZLOSRO-BETON-PROSTYCH-SZALUNKACH")}
             </li>
             <li>
-              <strong>Słupki kotwiczące w gruncie</strong> — zamiast ciężaru: słupki betonowane w ziemi albo śruby
-              gruntowe, a stelaż przykręcony do kotew. Ile utrzymają, zależy od gruntu — aplikacja tego nie liczy
-              (brak danych geotechnicznych); zapytaj wykonawcę lub konstruktora.
+              <strong>{t("UI-ZLOSRO-SLUPKI-KOTWICZACE-GRUNCIE")}</strong> {t("UI-ZLOSRO-ZAMIAST-CIEZARU-SLUPKI")}
             </li>
           </ul>
           <WynikSzczegoly assumptions={result.assumptions} formula={result.formula} />

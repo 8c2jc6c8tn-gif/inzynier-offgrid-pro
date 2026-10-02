@@ -12,6 +12,7 @@ import { WynikGlowny } from "@/components/wzorce/wynik-glowny"
 import { WynikSzczegoly } from "@/components/wzorce/wynik-szczegoly"
 import { DC_AC_RATIO_ZALECANE_MAX, DC_AC_RATIO_ZALECANE_MIN } from "@/lib/core/modules/pv/dopasowanie-tablicy-falownika/constants"
 import { BETA_TYPOWA_MAX_PCT_NA_C, BETA_TYPOWA_MIN_PCT_NA_C } from "@/lib/core/modules/pv/stress-test-mppt/constants"
+import { useTranslate } from "@/lib/i18n/language-context"
 
 type FormularzStan = {
   vocStcV: string
@@ -42,6 +43,7 @@ const STAN_POCZATKOWY: FormularzStan = {
 }
 
 export default function DopasowanieTablicyFalownikaPage() {
+  const t = useTranslate()
   const [stan, setStan] = usePersistedDraft<FormularzStan>("dopasowanie-tablicy-falownika", STAN_POCZATKOWY)
   const {
     vocStcV,
@@ -115,20 +117,18 @@ export default function DopasowanieTablicyFalownikaPage() {
     <main className="mx-auto flex max-w-md flex-col gap-6 p-6">
       <NawigacjaEkranu href="/kalkulatory/dopasowanie-tablicy-falownika" />
       <NaglowekEkranu
-        tytul="Dopasowanie tablicy PV do falownika"
+        tytul={t("UI-DOPTABFAL-DOPASOWANIE-TABLICY-FALOWNIK")}
         ekran="dopasowanie-tablicy-falownika"
         wynik={result}
         parametry={{ dcacMin: DC_AC_RATIO_ZALECANE_MIN, dcacMax: DC_AC_RATIO_ZALECANE_MAX }}
       >
-        Nie wystarczy sprawdzić jednego parametru — falownik i panele muszą pasować do siebie na
-        kilku frontach naraz: napięcie zimą, napięcie latem, prąd i stosunek mocy. Moduł 3, Ekran
-        14.
+        {t("UI-DOPTABFAL-WYSTARCZY-SPRAWDZIC-JEDNEGO")}
       </NaglowekEkranu>
 
       <div className="flex flex-col gap-4">
-        <p className="text-small font-medium text-muted-foreground">Panel i string</p>
+        <p className="text-small font-medium text-muted-foreground">{t("UI-DOPTABFAL-PANEL-STRING")}</p>
         <Pole
-          label="Voc panelu (STC)"
+          label={t("UI-DOPTABFAL-VOC-PANELU-STC")}
           unit="V"
           type="number"
           inputMode="decimal"
@@ -138,7 +138,7 @@ export default function DopasowanieTablicyFalownikaPage() {
           pomoc={<PomocPola ekran="dopasowanie-tablicy-falownika" pole="voc" />}
         />
         <Pole
-          label="Vmp panelu (STC)"
+          label={t("UI-DOPTABFAL-VMP-PANELU-STC")}
           unit="V"
           type="number"
           inputMode="decimal"
@@ -148,7 +148,7 @@ export default function DopasowanieTablicyFalownikaPage() {
           pomoc={<PomocPola ekran="dopasowanie-tablicy-falownika" pole="vmp" />}
         />
         <Pole
-          label="Prąd roboczy panelu (Imp)"
+          label={t("UI-DOPTABFAL-PRAD-ROBOCZY-PANELU")}
           unit="A"
           type="number"
           inputMode="decimal"
@@ -158,7 +158,7 @@ export default function DopasowanieTablicyFalownikaPage() {
           pomoc={<PomocPola ekran="dopasowanie-tablicy-falownika" pole="imp" />}
         />
         <Pole
-          label="Współczynnik temperaturowy Voc (β)"
+          label={t("UI-DOPTABFAL-WSPOLCZYNNIK-TEMPERATUROWY-V")}
           unit="%/°C"
           type="number"
           inputMode="decimal"
@@ -168,7 +168,7 @@ export default function DopasowanieTablicyFalownikaPage() {
           pomoc={<PomocPola ekran="dopasowanie-tablicy-falownika" pole="beta" params={{ betaMin: BETA_TYPOWA_MIN_PCT_NA_C, betaMax: BETA_TYPOWA_MAX_PCT_NA_C }} />}
         />
         <Pole
-          label="Minimalna temperatura w lokalizacji (Tmin)"
+          label={t("UI-DOPTABFAL-MINIMALNA-TEMPERATURA-LOKALI")}
           unit="°C"
           type="number"
           inputMode="decimal"
@@ -177,8 +177,8 @@ export default function DopasowanieTablicyFalownikaPage() {
           pomoc={<PomocPola ekran="dopasowanie-tablicy-falownika" pole="tmin" />}
         />
         <Pole
-          label="Liczba paneli w stringu"
-          unit="szt."
+          label={t("UI-DOPTABFAL-LICZBA-PANELI-STRINGU")}
+          unit={t("UI-J-SZT")}
           type="number"
           inputMode="numeric"
           min={0}
@@ -187,9 +187,9 @@ export default function DopasowanieTablicyFalownikaPage() {
           pomoc={<PomocPola ekran="dopasowanie-tablicy-falownika" pole="liczbaPaneli" />}
         />
 
-        <p className="text-small font-medium text-muted-foreground">Falownik</p>
+        <p className="text-small font-medium text-muted-foreground">{t("UI-DOPTABFAL-FALOWNIK")}</p>
         <Pole
-          label="Maksymalne napięcie DC falownika"
+          label={t("UI-DOPTABFAL-MAKSYMALNE-NAPIECIE-FALOWNIK")}
           unit="V"
           type="number"
           inputMode="decimal"
@@ -199,7 +199,7 @@ export default function DopasowanieTablicyFalownikaPage() {
           pomoc={<PomocPola ekran="dopasowanie-tablicy-falownika" pole="maxDc" />}
         />
         <Pole
-          label="Okno MPPT — dolna granica"
+          label={t("UI-DOPTABFAL-OKNO-MPPT-DOLNA")}
           unit="V"
           type="number"
           inputMode="decimal"
@@ -209,7 +209,7 @@ export default function DopasowanieTablicyFalownikaPage() {
           pomoc={<PomocPola ekran="dopasowanie-tablicy-falownika" pole="mpptMin" />}
         />
         <Pole
-          label="Okno MPPT — górna granica"
+          label={t("UI-DOPTABFAL-OKNO-MPPT-GORNA")}
           unit="V"
           type="number"
           inputMode="decimal"
@@ -219,7 +219,7 @@ export default function DopasowanieTablicyFalownikaPage() {
           pomoc={<PomocPola ekran="dopasowanie-tablicy-falownika" pole="mpptMax" />}
         />
         <Pole
-          label="Maksymalny prąd MPPT"
+          label={t("UI-DOPTABFAL-MAKSYMALNY-PRAD-MPPT")}
           unit="A"
           type="number"
           inputMode="decimal"
@@ -229,7 +229,7 @@ export default function DopasowanieTablicyFalownikaPage() {
           pomoc={<PomocPola ekran="dopasowanie-tablicy-falownika" pole="maxPrad" />}
         />
         <Pole
-          label="Moc znamionowa AC falownika"
+          label={t("UI-DOPTABFAL-MOC-ZNAMIONOWA-FALOWNIKA")}
           unit="W"
           type="number"
           inputMode="decimal"
@@ -241,21 +241,19 @@ export default function DopasowanieTablicyFalownikaPage() {
       </div>
 
       {result.status === "INVALID_INPUT" ? (
-        <WerdyktPanel poziom="blad" etykieta="Nie da się policzyć — sprawdź wpisane dane">
+        <WerdyktPanel poziom="blad" etykieta={t("UI-DOPTABFAL-POLICZYC-SPRAWDZ-WPISANE")}>
           <WynikSzczegoly assumptions={[]} warnings={result.warnings} />
         </WerdyktPanel>
       ) : result.status === "INCOMPLETE" ? (
-        <p className="text-small text-muted-foreground">Wypełnij wszystkie pola, żeby zobaczyć wynik.</p>
+        <p className="text-small text-muted-foreground">{t("UI-DOPTABFAL-WYPELNIJ-WSZYSTKIE-POLA")}</p>
       ) : (
         <WerdyktPanel
           poziom={hasCritical ? "blad" : hasWarning ? "uwaga" : "ok"}
-          etykieta={hasCritical ? "Konfiguracja niedopasowana" : "Konfiguracja dopasowana"}
+          etykieta={hasCritical ? t("UI-DOPTABFAL-KONFIGURACJA-NIEDOPASOWANA") : t("UI-DOPTABFAL-KONFIGURACJA-DOPASOWANA")}
         >
           <WynikGlowny>{result.value.dcAcRatio.toFixed(2)} DC/AC</WynikGlowny>
           <p className="mt-2 text-small">
-            Napięcie zimowe: {result.value.vStringColdV.toFixed(1)} V · napięcie robocze:{" "}
-            {result.value.vStringStcV.toFixed(1)} V · prąd: {result.value.iStringA.toFixed(1)} A ·
-            moc PV: {result.value.mocPvW.toFixed(0)} W.
+            {t("UI-DOPTABFAL-NAPIECIE-ZIMOWE-NAPIECIE", { vStringColdV: result.value.vStringColdV.toFixed(1), vStringStcV: result.value.vStringStcV.toFixed(1), iStringA: result.value.iStringA.toFixed(1), mocPvW: result.value.mocPvW.toFixed(0) })}
           </p>
           <WynikSzczegoly assumptions={result.assumptions} warnings={result.warnings} formula={result.formula} />
         </WerdyktPanel>

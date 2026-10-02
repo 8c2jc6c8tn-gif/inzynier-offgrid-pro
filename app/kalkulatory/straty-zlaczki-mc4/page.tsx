@@ -11,6 +11,7 @@ import { NaglowekEkranu } from "@/components/wzorce/naglowek-ekranu"
 import { WynikGlowny } from "@/components/wzorce/wynik-glowny"
 import { WynikSzczegoly } from "@/components/wzorce/wynik-szczegoly"
 import { MNOZNIK_ZLY_STYK, REZYSTANCJA_DOBRY_STAN_MAX_MOHM, REZYSTANCJA_DOBRY_STAN_MIN_MOHM } from "@/lib/core/modules/pv/straty-zlaczki-mc4/constants"
+import { useTranslate } from "@/lib/i18n/language-context"
 
 type FormularzStan = {
   rezystancjaZlaczkiMOhm: string
@@ -25,6 +26,7 @@ const STAN_POCZATKOWY: FormularzStan = {
 }
 
 export default function StratyZlaczkiMc4Page() {
+  const t = useTranslate()
   const [stan, setStan] = usePersistedDraft<FormularzStan>("straty-zlaczki-mc4", STAN_POCZATKOWY)
   const { rezystancjaZlaczkiMOhm, liczbaZlaczek, pradA } = stan
 
@@ -58,18 +60,17 @@ export default function StratyZlaczkiMc4Page() {
     <main className="mx-auto flex max-w-md flex-col gap-6 p-6">
       <NawigacjaEkranu href="/kalkulatory/straty-zlaczki-mc4" />
       <NaglowekEkranu
-        tytul="Straty na złączkach MC4 w praktyce"
+        tytul={t("UI-STRZLAMC4-STRATY-ZLACZKACH-MC4")}
         ekran="straty-zlaczki-mc4"
         wynik={result}
         parametry={{ rMin: REZYSTANCJA_DOBRY_STAN_MIN_MOHM, rMax: REZYSTANCJA_DOBRY_STAN_MAX_MOHM, mnoznik: MNOZNIK_ZLY_STYK }}
       >
-        Małe złączki, duże znaczenie — luźny styk MC4 to jedna z najczęstszych przyczyn awarii i
-        pożarów w instalacjach PV, mimo że wygląda niepozornie. Moduł 3, Ekran 26.
+        {t("UI-STRZLAMC4-MALE-ZLACZKI-DUZE")}
       </NaglowekEkranu>
 
       <div className="flex flex-col gap-4">
         <Pole
-          label="Rezystancja jednej złączki"
+          label={t("UI-STRZLAMC4-REZYSTANCJA-JEDNEJ-ZLACZKI")}
           unit="mΩ"
           type="number"
           inputMode="decimal"
@@ -80,8 +81,8 @@ export default function StratyZlaczkiMc4Page() {
           pomoc={<PomocPola ekran="straty-zlaczki-mc4" pole="rezystancja" params={{ rMin: REZYSTANCJA_DOBRY_STAN_MIN_MOHM, rMax: REZYSTANCJA_DOBRY_STAN_MAX_MOHM, mnoznik: MNOZNIK_ZLY_STYK }} />}
         />
         <Pole
-          label="Liczba złączek"
-          unit="szt."
+          label={t("UI-STRZLAMC4-LICZBA-ZLACZEK")}
+          unit={t("UI-J-SZT")}
           type="number"
           inputMode="numeric"
           min={0}
@@ -90,7 +91,7 @@ export default function StratyZlaczkiMc4Page() {
           pomoc={<PomocPola ekran="straty-zlaczki-mc4" pole="liczba" />}
         />
         <Pole
-          label="Prąd"
+          label={t("UI-STRZLAMC4-PRAD")}
           unit="A"
           type="number"
           inputMode="decimal"
@@ -102,15 +103,15 @@ export default function StratyZlaczkiMc4Page() {
       </div>
 
       {result.status === "INVALID_INPUT" ? (
-        <WerdyktPanel poziom="blad" etykieta="Nie da się policzyć — sprawdź wpisane dane">
+        <WerdyktPanel poziom="blad" etykieta={t("UI-STRZLAMC4-POLICZYC-SPRAWDZ-WPISANE")}>
           <WynikSzczegoly assumptions={[]} warnings={result.warnings} />
         </WerdyktPanel>
       ) : result.status === "INCOMPLETE" ? (
-        <p className="text-small text-muted-foreground">Wypełnij wszystkie pola, żeby zobaczyć wynik.</p>
+        <p className="text-small text-muted-foreground">{t("UI-STRZLAMC4-WYPELNIJ-WSZYSTKIE-POLA")}</p>
       ) : (
-        <WerdyktPanel poziom={hasCritical ? "blad" : hasWarning ? "uwaga" : "ok"} etykieta="Strata całkowita na złączkach">
+        <WerdyktPanel poziom={hasCritical ? "blad" : hasWarning ? "uwaga" : "ok"} etykieta={t("UI-STRZLAMC4-STRATA-CALKOWITA-ZLACZKACH")}>
           <WynikGlowny>{result.value.strataCalkowitaW.toFixed(1)} W</WynikGlowny>
-          <p className="mt-2 text-small">Strata na jedną złączkę: {result.value.strataNaZlaczkeW.toFixed(2)} W.</p>
+          <p className="mt-2 text-small">{t("UI-STRZLAMC4-STRATA-JEDNA-ZLACZKE", { strataNaZlaczkeW: result.value.strataNaZlaczkeW.toFixed(2) })}</p>
           <WynikSzczegoly assumptions={result.assumptions} warnings={result.warnings} formula={result.formula} />
         </WerdyktPanel>
       )}

@@ -10,21 +10,23 @@ import { usePersistedDraft } from "@/lib/adapters/use-persisted-draft"
 import { WIATA_KAT_SAMOOCZYSZCZANIA_MAX_DEG, WIATA_KAT_SAMOOCZYSZCZANIA_MIN_DEG } from "@/lib/core/modules/pv/typ-montazu/constants"
 import { calculateWiata, type BlokPaneli, type Podzial } from "@/lib/core/modules/pv/typ-montazu/wiata"
 import { BledyDanych, f0, f2, n, poziomZOstrzezen } from "./wspolne"
+import { useTranslate } from "@/lib/i18n/language-context"
 
 type Seed = { dlugoscM: string; szerokoscM: string; dlugoscPaneluM: string; szerokoscPaneluM: string; mocPaneluW: string; nachylenieDeg: string }
 const PUSTY: Seed = { dlugoscM: "", szerokoscM: "", dlugoscPaneluM: "", szerokoscPaneluM: "", mocPaneluW: "", nachylenieDeg: "" }
 
 const POLA: { pole: keyof Seed; label: string; unit: string }[] = [
-  { pole: "dlugoscM", label: "Długość wiaty", unit: "m" },
-  { pole: "szerokoscM", label: "Szerokość wiaty", unit: "m" },
-  { pole: "dlugoscPaneluM", label: "Długość panelu", unit: "m" },
-  { pole: "szerokoscPaneluM", label: "Szerokość panelu", unit: "m" },
-  { pole: "mocPaneluW", label: "Moc jednego panelu", unit: "Wp" },
-  { pole: "nachylenieDeg", label: "Kąt nachylenia dachu wiaty", unit: "°" },
+  { pole: "dlugoscM", label: "UI-TYPMON-COMTRYWIA-DLUGOSC-WIATY", unit: "m" },
+  { pole: "szerokoscM", label: "UI-TYPMON-COMTRYWIA-SZEROKOSC-WIATY", unit: "m" },
+  { pole: "dlugoscPaneluM", label: "UI-TYPMON-COMTRYWIA-DLUGOSC-PANELU", unit: "m" },
+  { pole: "szerokoscPaneluM", label: "UI-TYPMON-COMTRYWIA-SZEROKOSC-PANELU", unit: "m" },
+  { pole: "mocPaneluW", label: "UI-TYPMON-COMTRYWIA-MOC-JEDNEGO-PANELU", unit: "Wp" },
+  { pole: "nachylenieDeg", label: "UI-TYPMON-COMTRYWIA-KAT-NACHYLENIA-DACHU", unit: "°" },
 ]
 
 /** Rzut połaci z blokami paneli (skala wspólna); długość wiaty poziomo. */
 function Rzut({ L, W, dl, sz, bloki, podzial }: { L: number; W: number; dl: number; sz: number; bloki: BlokPaneli[]; podzial: Podzial }) {
+  const t = useTranslate()
   const skala = 340 / Math.max(L, W)
   const prostokaty: { x: number; y: number; w: number; h: number }[] = []
   let x0 = 0
@@ -36,7 +38,7 @@ function Rzut({ L, W, dl, sz, bloki, podzial }: { L: number; W: number; dl: numb
     else y0 += b.rzedy * ph
   }
   return (
-    <svg viewBox={`-2 -2 ${L * skala + 4} ${W * skala + 4}`} className="w-full max-w-sm text-foreground" role="img" aria-label="Rzut połaci wiaty z ułożeniem paneli">
+    <svg viewBox={`-2 -2 ${L * skala + 4} ${W * skala + 4}`} className="w-full max-w-sm text-foreground" role="img" aria-label={t("UI-TYPMON-COMTRYWIA-RZUT-POLACI-WIATY")}>
       <rect x={0} y={0} width={L * skala} height={W * skala} className="fill-muted stroke-muted-foreground" strokeWidth={1} />
       {prostokaty.map((p, i) => (
         <rect key={i} x={p.x * skala + 1} y={p.y * skala + 1} width={p.w * skala - 2} height={p.h * skala - 2} rx={2} className="fill-sky-600/80" />
@@ -46,6 +48,7 @@ function Rzut({ L, W, dl, sz, bloki, podzial }: { L: number; W: number; dl: numb
 }
 
 export function TrybWiata() {
+  const t = useTranslate()
   const [s, setS] = usePersistedDraft<Seed>("typ-montazu-wiata", PUSTY)
   const wynik = useMemo(
     () =>
@@ -66,14 +69,13 @@ export function TrybWiata() {
   return (
     <div className="flex flex-col gap-4">
       <p className="text-small text-muted-foreground">
-        Wiata albo carport z panelami zamiast pokrycia. Aplikacja szuka ułożenia, które zmieści najwięcej paneli na
-        prostokątnej połaci, i sprawdza, czy spadek wystarczy, żeby deszcz sam mył panele.
+        {t("UI-TYPMON-COMTRYWIA-WIATA-ALBO-CARPORT")}
       </p>
       <div className="grid gap-3 sm:grid-cols-2">
         {POLA.map((p) => (
           <Pole
             key={p.pole}
-            label={p.label}
+            label={t(p.label)}
             unit={p.unit}
             type="number"
             inputMode="decimal"
@@ -88,19 +90,19 @@ export function TrybWiata() {
       </div>
 
       {wynik.status === "INVALID_INPUT" && <BledyDanych warnings={wynik.warnings} />}
-      {wynik.status === "INCOMPLETE" && <p className="text-small text-muted-foreground">Uzupełnij wymiary, moc panelu i kąt.</p>}
+      {wynik.status === "INCOMPLETE" && <p className="text-small text-muted-foreground">{t("UI-TYPMON-COMTRYWIA-UZUPELNIJ-WYMIARY-MOC")}</p>}
       {v && (
-        <WerdyktPanel poziom={poziomZOstrzezen(wynik.warnings)} etykieta={`Na wiacie ${f2(n(s.dlugoscM)!)} × ${f2(n(s.szerokoscM)!)} m zmieścisz`}>
+        <WerdyktPanel poziom={poziomZOstrzezen(wynik.warnings)} etykieta={t("UI-TYPMON-COMTRYWIA-WIACIE-ZMIESCISZ", { p: f2(n(s.dlugoscM)!), p2: f2(n(s.szerokoscM)!) })}>
           <WynikGlowny>
             {v.liczbaPaneli} {odmianaPanel(v.liczbaPaneli)} — {f2(v.mocKwp)} kWp
           </WynikGlowny>
           <ul className="mt-2 space-y-1 text-small">
             {v.bloki.map((b, i) => (
               <li key={i}>
-                {b.kolumny} × {b.rzedy} — dłuższy bok panelu wzdłuż {b.orientacja === "wzdluzDlugosci" ? "długości" : "szerokości"} wiaty
+                {t("UI-TYPMON-COMTRYWIA-DLUZSZY-BOK-PANELU", { kolumny: b.kolumny, rzedy: b.rzedy })} {b.orientacja === "wzdluzDlugosci" ? t("UI-TYPMON-COMTRYWIA-DLUGOSCI") : t("UI-TYPMON-COMTRYWIA-SZEROKOSCI")} {t("UI-TYPMON-COMTRYWIA-WIATY")}
               </li>
             ))}
-            <li>Panele pokrywają {f0(v.pokryciePct)}% połaci.</li>
+            <li>{t("UI-TYPMON-COMTRYWIA-PANELE-POKRYWAJA-POLACI", { pokryciePct: f0(v.pokryciePct) })}</li>
           </ul>
           {v.liczbaPaneli > 0 && (
             <div className="mt-3">

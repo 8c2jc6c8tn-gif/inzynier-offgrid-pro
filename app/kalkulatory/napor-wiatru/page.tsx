@@ -11,6 +11,7 @@ import { NawigacjaEkranu } from "@/components/nawigacja-ekranu"
 import { NaglowekEkranu } from "@/components/wzorce/naglowek-ekranu"
 import { WynikGlowny } from "@/components/wzorce/wynik-glowny"
 import { WynikSzczegoly } from "@/components/wzorce/wynik-szczegoly"
+import { useTranslate } from "@/lib/i18n/language-context"
 
 type FormularzStan = {
   predkoscWiatruMS: string
@@ -29,6 +30,7 @@ const STAN_POCZATKOWY: FormularzStan = {
 }
 
 export default function NaporWiatruPage() {
+  const t = useTranslate()
   const [stan, setStan] = usePersistedDraft<FormularzStan>("napor-wiatru", STAN_POCZATKOWY)
   // Drafts saved before 26.09.2026 have no `balastPlanowanyKg` — treat as empty.
   const { predkoscWiatruMS, powierzchniaM2, cd } = stan
@@ -66,18 +68,17 @@ export default function NaporWiatruPage() {
     <main className="mx-auto flex max-w-md flex-col gap-6 p-6">
       <NawigacjaEkranu href="/kalkulatory/napor-wiatru" />
       <NaglowekEkranu
-        tytul="Aerodynamika — napór wiatru"
+        tytul={t("UI-NAPWIA-AERODYNAMIKA-NAPOR-WIATRU")}
         ekran="napor-wiatru"
         wynik={result}
         parametry={{ rho: GESTOSC_POWIETRZA_KG_M3 }}
       >
-        Panel działa trochę jak żagiel — wiatr może go pchać, ale też może pod niego „zajrzeć” i
-        ciągnąć do góry jak skrzydło samolotu. Moduł 3, Ekran 6.
+        {t("UI-NAPWIA-PANEL-DZIALA-TROCHE")}
       </NaglowekEkranu>
 
       <div className="flex flex-col gap-4">
         <Pole
-          label="Prędkość wiatru"
+          label={t("UI-NAPWIA-PREDKOSC-WIATRU")}
           unit="m/s"
           type="number"
           inputMode="decimal"
@@ -87,7 +88,7 @@ export default function NaporWiatruPage() {
           pomoc={<PomocPola ekran="napor-wiatru" pole="predkosc" />}
         />
         <Pole
-          label="Powierzchnia panelu"
+          label={t("UI-NAPWIA-POWIERZCHNIA-PANELU")}
           unit="m²"
           type="number"
           inputMode="decimal"
@@ -97,7 +98,7 @@ export default function NaporWiatruPage() {
           pomoc={<PomocPola ekran="napor-wiatru" pole="powierzchnia" />}
         />
         <Pole
-          label="Współczynnik oporu Cd"
+          label={t("UI-NAPWIA-WSPOLCZYNNIK-OPORU")}
           unit="—"
           type="number"
           inputMode="decimal"
@@ -107,7 +108,7 @@ export default function NaporWiatruPage() {
           pomoc={<PomocPola ekran="napor-wiatru" pole="cd" params={{ cdMin: CD_TYPOWY_MIN, cdMax: CD_TYPOWY_MAX }} />}
         />
         <Pole
-          label="Planowany balast (opcjonalnie)"
+          label={t("UI-NAPWIA-PLANOWANY-BALAST-OPCJONALNIE")}
           unit="kg"
           type="number"
           inputMode="decimal"
@@ -117,7 +118,7 @@ export default function NaporWiatruPage() {
           pomoc={<PomocPola ekran="napor-wiatru" pole="balast" />}
         />
         <Pole
-          label="Masa panelu i stelaża (opcjonalnie)"
+          label={t("UI-NAPWIA-MASA-PANELU-STELAZA")}
           unit="kg"
           type="number"
           inputMode="decimal"
@@ -129,20 +130,20 @@ export default function NaporWiatruPage() {
       </div>
 
       {result.status === "INVALID_INPUT" ? (
-        <WerdyktPanel poziom="blad" etykieta="Nie da się policzyć — sprawdź wpisane dane">
+        <WerdyktPanel poziom="blad" etykieta={t("UI-NAPWIA-POLICZYC-SPRAWDZ-WPISANE")}>
           <WynikSzczegoly assumptions={[]} warnings={result.warnings} />
         </WerdyktPanel>
       ) : result.status === "INCOMPLETE" ? (
-        <p className="text-small text-muted-foreground">Wypełnij wszystkie pola, żeby zobaczyć wynik.</p>
+        <p className="text-small text-muted-foreground">{t("UI-NAPWIA-WYPELNIJ-WSZYSTKIE-POLA")}</p>
       ) : (
         <WerdyktPanel
           poziom={balastZaMaly ? "blad" : "uwaga"}
-          etykieta={balastZaMaly ? "Za mały balast — stelaż może zostać oderwany" : "Siła naporu i balast projektowy"}
+          etykieta={balastZaMaly ? t("UI-NAPWIA-MALY-BALAST-STELAZ") : t("UI-NAPWIA-SILA-NAPORU-BALAST")}
         >
           <WynikGlowny>{result.value.silaNaporuN.toFixed(0)} N</WynikGlowny>
           <p className="text-small">
-            Balast projektowy przeciw oderwaniu (PN-EN 1990)
-            {masaPaneliStelazaKg !== "" ? " ponad ciężar panelu i stelaża" : ""}: co najmniej{" "}
+            {t("UI-NAPWIA-BALAST-PROJEKTOWY-PRZECIW")}
+            {masaPaneliStelazaKg !== "" ? ` ${t("UI-NAPWIA-PONAD-CIEZAR-PANELU")}` : ""}{t("UI-NAPWIA-NAJMNIEJ")}{" "}
             <strong>{Math.ceil(result.value.balastProjektowyKg).toLocaleString("pl-PL")} kg</strong>
           </p>
           <WynikSzczegoly assumptions={result.assumptions} warnings={result.warnings} formula={result.formula} />

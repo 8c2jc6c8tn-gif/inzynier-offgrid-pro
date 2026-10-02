@@ -11,6 +11,7 @@ import { NaglowekEkranu } from "@/components/wzorce/naglowek-ekranu"
 import { WynikGlowny } from "@/components/wzorce/wynik-glowny"
 import { WynikSzczegoly } from "@/components/wzorce/wynik-szczegoly"
 import { K1_ISC_MAX, PROG_LICZBY_STRINGOW } from "@/lib/core/modules/pv/ochrona-stringow/constants"
+import { useTranslate } from "@/lib/i18n/language-context"
 
 type FormularzStan = {
   iscStcA: string
@@ -31,6 +32,7 @@ const STAN_POCZATKOWY: FormularzStan = {
 }
 
 export default function OchronaStringowPage() {
+  const t = useTranslate()
   const [stan, setStan] = usePersistedDraft<FormularzStan>("ochrona-stringow", STAN_POCZATKOWY)
   const {
     iscStcA,
@@ -84,28 +86,27 @@ export default function OchronaStringowPage() {
   }
 
   const verdictLabel: Record<typeof verdict, string> = {
-    invalid: "Nie da się policzyć",
-    incomplete: "Wypełnij wszystkie pola",
-    red: "Zabronione — norma HD 60364-7-712 nie jest spełniona",
-    green: "Zgodne z normą HD 60364-7-712",
+    invalid: t("UI-OCHSTR-POLICZYC"),
+    incomplete: t("UI-OCHSTR-WYPELNIJ-WSZYSTKIE-POLA"),
+    red: t("UI-OCHSTR-ZABRONIONE-NORMA-60364"),
+    green: t("UI-OCHSTR-ZGODNE-NORMA-60364"),
   }
 
   return (
     <main className="mx-auto flex max-w-md flex-col gap-6 p-6">
       <NawigacjaEkranu href="/kalkulatory/ochrona-stringow" />
       <NaglowekEkranu
-        tytul="Ochrona stringów"
+        tytul={t("UI-OCHSTR-OCHRONA-STRINGOW")}
         ekran="ochrona-stringow"
         wynik={result}
         parametry={{ progStringow: PROG_LICZBY_STRINGOW, k1: K1_ISC_MAX }}
       >
-        Chroń każdy string osobno, żeby awaria jednego nie pociągnęła za sobą reszty instalacji.
-        Moduł 3, Ekran 22. Wg normy HD 60364-7-712 (§712.431-433, Załącznik B.2).
+        {t("UI-OCHSTR-CHRON-KAZDY-STRING")}
       </NaglowekEkranu>
 
       <div className="flex flex-col gap-4">
         <Pole
-          label="Prąd zwarciowy panelu w STC (Isc)"
+          label={t("UI-OCHSTR-PRAD-ZWARCIOWY-PANELU")}
           unit="A"
           type="number"
           inputMode="decimal"
@@ -115,7 +116,7 @@ export default function OchronaStringowPage() {
           pomoc={<PomocPola ekran="ochrona-stringow" pole="isc" />}
         />
         <Pole
-          label="Maks. prąd zabezpieczenia nadprądowego modułu (I_MOD_MAX_OCPR, karta katalogowa)"
+          label={t("UI-OCHSTR-MAKS-PRAD-ZABEZPIECZENIA")}
           unit="A"
           type="number"
           inputMode="decimal"
@@ -125,8 +126,8 @@ export default function OchronaStringowPage() {
           pomoc={<PomocPola ekran="ochrona-stringow" pole="ocpr" />}
         />
         <Pole
-          label="Liczba stringów równoległych"
-          unit="szt."
+          label={t("UI-OCHSTR-LICZBA-STRINGOW-ROWNOLEGLYCH")}
+          unit={t("UI-J-SZT")}
           type="number"
           inputMode="numeric"
           min={0}
@@ -136,19 +137,19 @@ export default function OchronaStringowPage() {
         />
         <PoleCheckbox
           id="ma-zabezpieczenia"
-          label="Zainstalowane jest zabezpieczenie nadprądowe per string"
+          label={t("UI-OCHSTR-ZAINSTALOWANE-ZABEZPIECZENIE")}
           checked={maZabezpieczeniaPerString}
           onChange={(e) => setMaZabezpieczeniaPerString(e.target.checked)}
         />
         <PoleCheckbox
           id="sprawdzam-wybrany"
-          label="Sprawdzam już wybrany bezpiecznik"
+          label={t("UI-OCHSTR-SPRAWDZAM-JUZ-WYBRANY")}
           checked={sprawdzamWybrany}
           onChange={(e) => setSprawdzamWybrany(e.target.checked)}
         />
         {sprawdzamWybrany && (
           <Pole
-            label="Prąd znamionowy wybranego bezpiecznika"
+            label={t("UI-OCHSTR-PRAD-ZNAMIONOWY-WYBRANEGO")}
             unit="A"
             type="number"
             inputMode="decimal"

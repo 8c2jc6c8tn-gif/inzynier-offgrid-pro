@@ -24,9 +24,9 @@ type FormularzStan = { regularneZacienienie: Odpowiedz; falownikWyspowyAcCouplin
 const STAN_POCZATKOWY: FormularzStan = { regularneZacienienie: "", falownikWyspowyAcCoupling: "" }
 
 const KOLUMNY: Kolumna<KryteriumPorownania>[] = [
-  { naglowek: "Kryterium", render: (r) => <span className="font-medium">{r.kryterium}</span> },
-  { naglowek: "Mikroinwerter", render: (r) => r.mikroinwerter },
-  { naglowek: "Inwerter centralny", render: (r) => r.centralny },
+  { naglowek: "UI-MIKVSCEN-KRYTERIUM", render: (r) => <span className="font-medium">{r.kryterium}</span> },
+  { naglowek: "UI-MIKVSCEN-MIKROINWERTER", render: (r) => r.mikroinwerter },
+  { naglowek: "UI-MIKVSCEN-INWERTER-CENTRALNY", render: (r) => r.centralny },
 ]
 
 export default function MikroinwerteryVsCentralnyPage() {
@@ -54,54 +54,53 @@ export default function MikroinwerteryVsCentralnyPage() {
   return (
     <main className="mx-auto flex max-w-md flex-col gap-6 p-6">
       <NawigacjaEkranu href="/kalkulatory/mikroinwertery-vs-centralny" />
-      <NaglowekEkranu tytul="Mikroinwertery vs inwerter centralny" ekran="mikroinwertery-vs-centralny">
-        Mikroinwerter to osobny falownik przy każdym panelu. Inwerter centralny obsługuje cały string naraz.
-        Moduł 3, Ekran 21.
+      <NaglowekEkranu tytul={t("UI-MIKVSCEN-MIKROINWERTERY-INWERTER-CENT")} ekran="mikroinwertery-vs-centralny">
+        {t("UI-MIKVSCEN-MIKROINWERTER-OSOBNY-FALOWNI")}
       </NaglowekEkranu>
 
-      <KartaPorownawcza kolumny={KOLUMNY} wiersze={KRYTERIA_POROWNANIA} minWidth={320} />
+      <KartaPorownawcza kolumny={KOLUMNY.map((k) => ({ ...k, naglowek: t(k.naglowek) }))} wiersze={KRYTERIA_POROWNANIA} minWidth={320} />
 
       <PoleSelect
-        label="Czy panele będą częściowo lub regularnie zacienione?"
+        label={t("UI-MIKVSCEN-PANELE-BEDA-CZESCIOWO")}
         value={regularneZacienienie}
         onChange={(e) => setStan({ ...stan, regularneZacienienie: e.target.value as Odpowiedz })}
         pomoc={<PomocPola ekran="mikroinwertery-vs-centralny" pole="cien" />}
       >
-        <option value="">— wybierz —</option>
-        <option value="tak">Tak</option>
-        <option value="nie">Nie</option>
+        <option value="">{t("UI-WYBIERZ")}</option>
+        <option value="tak">{t("UI-TAK-DUZE")}</option>
+        <option value="nie">{t("UI-NIE-DUZE")}</option>
       </PoleSelect>
 
       {regularneZacienienie === "tak" && (
         <PoleSelect
-          label="Czy masz falownik wyspowy obsługujący sprzężenie AC mikroinwerterów?"
+          label={t("UI-MIKVSCEN-MASZ-FALOWNIK-WYSPOWY")}
           value={falownikWyspowyAcCoupling}
           onChange={(e) => setStan({ ...stan, falownikWyspowyAcCoupling: e.target.value as OdpowiedzFalownik })}
           pomoc={<PomocPola ekran="mikroinwertery-vs-centralny" pole="acCoupling" />}
         >
-          <option value="">— wybierz —</option>
-          <option value="tak">Tak</option>
-          <option value="nie">Nie</option>
-          <option value="nie-wiem">Nie wiem</option>
+          <option value="">{t("UI-WYBIERZ")}</option>
+          <option value="tak">{t("UI-TAK-DUZE")}</option>
+          <option value="nie">{t("UI-NIE-DUZE")}</option>
+          <option value="nie-wiem">{t("UI-NIE-WIEM")}</option>
         </PoleSelect>
       )}
 
       {result.value.rekomendacja === null ? (
         <p className="text-small text-muted-foreground">
-          Odpowiedz na pytanie o zacienienie, żeby zobaczyć rekomendację. Nie wiesz? Sprawdź w{" "}
+          {t("UI-MIKVSCEN-ODPOWIEDZ-PYTANIE-ZACIENIENI")}{" "}
           <Link href="/kalkulatory/analiza-zacienienia" className="underline">
-            analizie zacienienia
+            {t("UI-MIKVSCEN-ANALIZIE-ZACIENIENIA")}
           </Link>
           .
         </p>
       ) : (
         <WerdyktPanel
           poziom={poziom}
-          etykieta={result.value.rekomendacja === "mikroinwertery" ? "Rekomendacja: mikroinwertery" : "Rekomendacja: inwerter centralny"}
+          etykieta={result.value.rekomendacja === "mikroinwertery" ? t("UI-MIKVSCEN-REKOMENDACJA-MIKROINWERTERY") : t("UI-MIKVSCEN-REKOMENDACJA-INWERTER-CENTRA")}
         >
           {result.status === "INCOMPLETE" && (
             <p className="mt-1 text-small text-muted-foreground">
-              Odpowiedz na pytanie o falownik wyspowy — bez niego mikroinwertery w off-gridzie nie ruszą.
+              {t("UI-MIKVSCEN-ODPOWIEDZ-PYTANIE-FALOWNIK")}
             </p>
           )}
           {result.warnings.map((w) => (
@@ -111,9 +110,9 @@ export default function MikroinwerteryVsCentralnyPage() {
           ))}
           {result.value.rekomendacja === "mikroinwertery" && (
             <p className="mt-2 text-small text-muted-foreground">
-              Ile traci string przy zacienieniu, policzysz w ekranie{" "}
+              {t("UI-MIKVSCEN-ILE-TRACI-STRING")}{" "}
               <Link href="/kalkulatory/zacienienie-diody-bocznikujace" className="underline">
-                Zacienienie i diody bocznikujące
+                {t("UI-MIKVSCEN-ZACIENIENIE-DIODY-BOCZNIKUJA")}
               </Link>
               .
             </p>

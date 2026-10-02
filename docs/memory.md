@@ -8607,6 +8607,28 @@ Tryb Audyt (czapka rewidenta). Warstwa „w pełni na końcu” z N.2 — wszyst
 - **Grupa „Ukryte i sezonowe”:** przełącznik w Ustawieniach (`pokazUkryteStyle` w `offgrid.wyglad.v1`) ✅🤖 — pytanie
   otwarte D67 (przełącznik vs daty sezonowe) do potwierdzenia przez właściciela.
 
+## Style wyglądu — partia 2: pozostałe 22 style (01.10.2026, D67 krok 5, gałąź `work/styles2`)
+
+- **Efekty poza tokenami** (`efekty` w tabeli, CSS z `cssEfektow`): warunki D66/D67 wbudowane w generator, nie w wpisy —
+  efekty kart tylko na `SELEKTOR_KARTY` (`.bg-card`/`[data-karta]` z wyłączeniem `role=status|alert`, czyli nigdy
+  `WerdyktPanel`/`StanBledu`); każda animacja w `prefers-reduced-motion: no-preference`; ruch tła tylko przy
+  `[data-pulpit]` (`app/page.tsx`); szkło: nieprzezroczyste tło karty domyślnie, rozmycie tylko w `@supports`, bez
+  `prefers-reduced-transparency` i bez `data-bez-rozmycia` (skrypt w layoucie: `deviceMemory < 4`,
+  `hardwareConcurrency < 4` albo `saveData` — progi ✅🤖 do potwierdzenia).
+- **Test kontrastu rozszerzony:** kolory dekoracji tła (`efekty.tlo.kolory`) i szkło nad każdym z nich liczą się jako
+  podłoże tekstu, obrysów, akcentu i werdyktów. Złapał: plamy Płynnego gradientu w pełnej mocy (🔴/🟢 < 3:1 → plamy 35%),
+  poświatę Szkła 14% (🔴 obrys 2,8:1 → 8%), żyłki Marmuru (tekst przygaszony i obrys o stopień ciemniej).
+- **Test widzenia barw** (Machado 2009 + CIEDE2000, w `style.test.ts`): akcent nie może być bliżej żadnego koloru werdyktu
+  niż 🟢/🟡/🔴 między sobą (deuteranopia/protanopia). Pomarańcz #FF6B1A vs 🟡 #F59E0B = ΔE 5,6 dla deuteranopii < 7,7
+  (🟢 vs 🔴) — **prototyp nie przechodził**; 🟡 tego stylu rozjaśnione w swoim odcieniu (#FBBF24 / tekst #FCD34D),
+  pomarańcz akcentu bez zmian, pierścień neutralny szary #A0A4AA. Kokpit HUD: turkus vs 🟢 przechodzi bez zmian.
+- **Odstępstwa od prototypu (poza obrysami ≥ 3:1 we wszystkich stylach):** Marmur akcent #A8843D → #907234; Słoneczny
+  tekst przygaszony #5E6878 → #5B6574; brak gradientowego tekstu wyniku (Różowe złoto, Holograficzny — brak jednego koloru
+  do testu); brak zdjęć domów (Szkło: zastępcze tło z kolorów prototypu; Orbita bez planety; D61); Synthwave siatka płaska
+  (bez perspektywy 3D); tęcza Holograficznego jako przesuwany gradient liniowy zamiast stożkowego z `@property`.
+- **Czcionka Caveat** (cyrylica, `preload: false`) tylko nagłówki i `.wynik-glowny` Notatnika; liczby tabel `--font-sans-user`.
+  Terminal DOS: `--font-tekst` mono na całe body (wygrywa z wyborem czcionki usera), wynik `#FFFFFF`.
+
 ## D58 — migracja kolejnych modułów + pułapka „useTranslate w Server Component” (01.10.2026, gałąź `work/i18n`)
 
 - **Stan:** lista zapadkowa 168 → 82 plików (M5, M2, M7, M9, pojedyncze M4/M10/M12/M13, ekrany sieci D*/F*). Szczegóły
@@ -8660,3 +8682,9 @@ Tryb Audyt (czapka rewidenta). Warstwa „w pełni na końcu” z N.2 — wszyst
   przez klucz `t()` (`UI-J-ZL-L`). Porównanie nadwyżki energii z zerem po odejmowaniach — z tolerancją 1e-9, nie `=== 0`.
 - **Pułapka (środowisko):** trzy agenty z testami/serwerem dev naraz → OOM i restart kontenera (dwa razy). Przy pracy
   równoległej: bez `next dev`, vitest tylko na swoich ścieżkach z `--maxWorkers=1`, commit po każdym ekranie.
+## D70 — granica z apką „Elektryk Pro” i cel przychodu (02.10.2026, wątek analizy rozdzielnic)
+
+- Decyzja: PV celowo w obu apkach (Offgrid: PV + magazyn + przejście na off-grid; Elektryk Pro: techniczne PV + cała elektryka AC). Szczegóły w D70.
+- **Pułapka do unikania:** każda prośba o „pogłębienie” rozdzielnicy AC (obwód po obwodzie, selektywność dla całego mieszkania, pomiary okresowe) to materiał dla Elektryk Pro, nie dla Offgrid — ale twardy stop bezpieczeństwa zawsze zostaje w Offgrid.
+- Cel finansowy właściciela: **min. 5000 zł netto miesięcznie z każdej apki rodziny**; ceny jeszcze nieustalone. Analiza rynku (ceny konkurencji, progi liczby klientów): `/mnt/project-files/analizy/ceny-apek-rodziny.md`.
+

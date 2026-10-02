@@ -10,6 +10,7 @@ import { NawigacjaEkranu } from "@/components/nawigacja-ekranu"
 import { NaglowekEkranu } from "@/components/wzorce/naglowek-ekranu"
 import { WynikGlowny } from "@/components/wzorce/wynik-glowny"
 import { WynikSzczegoly } from "@/components/wzorce/wynik-szczegoly"
+import { useTranslate } from "@/lib/i18n/language-context"
 
 type FormularzStan = {
   minNapiecieRoboczeV: string
@@ -22,6 +23,7 @@ const STAN_POCZATKOWY: FormularzStan = {
 }
 
 export default function RyzykoNiskiegoNapieciaPage() {
+  const t = useTranslate()
   const [stan, setStan] = usePersistedDraft<FormularzStan>("ryzyko-niskiego-napiecia", STAN_POCZATKOWY)
   const { minNapiecieRoboczeV, aktualneNapiecieSystemuV } = stan
 
@@ -48,15 +50,13 @@ export default function RyzykoNiskiegoNapieciaPage() {
   return (
     <main className="mx-auto flex max-w-md flex-col gap-6 p-6">
       <NawigacjaEkranu href="/kalkulatory/ryzyko-niskiego-napiecia" />
-      <NaglowekEkranu tytul="Ryzyko wyłączenia pompy przy niskim napięciu" ekran="ryzyko-niskiego-napiecia" wynik={result}>
-        Niskie napięcie to cichy zabójca pomp — nie zepsuje się od razu, po prostu przestanie
-        działać dokładnie wtedy, gdy jest najbardziej potrzebna. Moduł 6, ekran dodatkowy (dawne
-        5.63).
+      <NaglowekEkranu tytul={t("UI-RYZNISNAP-RYZYKO-WYLACZENIA-POMPY")} ekran="ryzyko-niskiego-napiecia" wynik={result}>
+        {t("UI-RYZNISNAP-NISKIE-NAPIECIE-CICHY")}
       </NaglowekEkranu>
 
       <div className="flex flex-col gap-4">
         <Pole
-          label="Minimalne napięcie pracy pompy"
+          label={t("UI-RYZNISNAP-MINIMALNE-NAPIECIE-PRACY")}
           unit="V"
           type="number"
           inputMode="decimal"
@@ -66,7 +66,7 @@ export default function RyzykoNiskiegoNapieciaPage() {
           pomoc={<PomocPola ekran="ryzyko-niskiego-napiecia" pole="vMin" />}
         />
         <Pole
-          label="Aktualne napięcie systemu off-grid"
+          label={t("UI-RYZNISNAP-AKTUALNE-NAPIECIE-SYSTEMU")}
           unit="V"
           type="number"
           inputMode="decimal"
@@ -78,13 +78,13 @@ export default function RyzykoNiskiegoNapieciaPage() {
       </div>
 
       {result.status === "INVALID_INPUT" ? (
-        <WerdyktPanel poziom="blad" etykieta="Nie da się policzyć — sprawdź wpisane dane">
+        <WerdyktPanel poziom="blad" etykieta={t("UI-RYZNISNAP-POLICZYC-SPRAWDZ-WPISANE")}>
           <WynikSzczegoly assumptions={[]} warnings={result.warnings} />
         </WerdyktPanel>
       ) : result.status === "INCOMPLETE" ? (
-        <p className="text-small text-muted-foreground">Wypełnij wszystkie pola, żeby zobaczyć wynik.</p>
+        <p className="text-small text-muted-foreground">{t("UI-RYZNISNAP-WYPELNIJ-WSZYSTKIE-POLA")}</p>
       ) : (
-        <WerdyktPanel poziom={hasCritical ? "blad" : "ok"} etykieta={hasCritical ? "Pompa się wyłączy" : "Margines do progu wyłączenia"}>
+        <WerdyktPanel poziom={hasCritical ? "blad" : "ok"} etykieta={hasCritical ? t("UI-RYZNISNAP-POMPA-WYLACZY") : t("UI-RYZNISNAP-MARGINES-PROGU-WYLACZENIA")}>
           <WynikGlowny>{result.value.marginesV.toFixed(1)} V</WynikGlowny>
           <WynikSzczegoly assumptions={result.assumptions} warnings={result.warnings} formula={result.formula} />
         </WerdyktPanel>

@@ -6,5 +6,6 @@ import type { ReactNode } from "react"
  * rozmiaru (text-display) zamiast powtarzanego `text-2xl font-semibold` na każdym ekranie.
  */
 export function WynikGlowny({ children }: { children: ReactNode }) {
-  return <p className="mt-1 text-display font-semibold">{children}</p>
+  // `wynik-glowny`: hook for an appearance style's result font/colour (app/globals.css, lib/wyglad/style.ts).
+  return <p className="wynik-glowny mt-1 text-display font-semibold">{children}</p>
 }

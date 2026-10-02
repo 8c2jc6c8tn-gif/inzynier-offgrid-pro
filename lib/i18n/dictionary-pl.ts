@@ -1304,6 +1304,7 @@ export const dictionaryPl = {
   "TA-ZALOZENIE-SPOCZYNEK": "Napięcie spoczynkowe mierzone po co najmniej {h} h bez obciążenia i bez ładowania — wcześniej jest zawyżone lub zaniżone.",
   "TA-ZALOZENIE-POMIAR-NA-ZACISKACH": "Rezystancja liczona z pomiaru na zaciskach akumulatora — mierząc dalej, doliczasz kable i styki.",
   "RB-BRAK-BEZPIECZNIKA-AKUMULATORA": "Brak bezpiecznika przy akumulatorze! To niebezpieczne — zwarcie przewodu może spowodować pożar. Zamontuj bezpiecznik na plusie, jak najbliżej zacisku, dobrany do przekroju przewodu.",
+  "RB-BEZPIECZNIK-WIEKSZY-NIZ-PRZEWOD": "Bezpiecznik większy niż obciążalność przewodu! Przy przeciążeniu przewód przegrzeje się i może zapalić, zanim bezpiecznik zadziała. Zmniejsz bezpiecznik albo pogrub przewód — dobierz je kalkulatorem kabli i bezpieczników.",
   "RB-NAPRAWA-DOBOR-BEZPIECZNIKOW": "Bezpieczniki do poprawy: prąd bezpiecznika musi być większy od prądu odbiorników, ale nie większy niż obciążalność przewodu, który chroni. Dobierz je kalkulatorem kabli i bezpieczników.",
   "RB-NAPRAWA-PRZEKROJE-PRZEWODOW": "Przewody do poprawy: sprawdź przekrój na prąd i spadek napięcia (w instalacji 12 V liczy się każdy metr). Za cienki przewód grzeje się i obniża napięcie na odbiorniku.",
   "RB-NAPRAWA-OCHRONA-ROZLADOWANIA": "Dodaj ochronę przed głębokim rozładowaniem: BMS (LiFePO4), odłącznik niskiego napięcia (LVD) albo odbiorniki na wyjściu obciążenia regulatora.",

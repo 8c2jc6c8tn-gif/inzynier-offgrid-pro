@@ -1,6 +1,6 @@
 # Backlog poza v1 — Inżynier Offgrid Pro
 
-**Wersja:** 1.6 | **Filar:** C | **Data utworzenia:** 04.09.2026 | **Ostatnia aktualizacja:** 28.09.2026 | **Status:** Stabilny (rosnący)
+**Wersja:** 1.7 | **Filar:** C | **Data utworzenia:** 04.09.2026 | **Ostatnia aktualizacja:** 02.10.2026 | **Status:** Stabilny (rosnący)
 **Powiązane dokumenty:** `00_Biblia.md`, `docs/rejestr-pokrycia.md`, `docs/lista-do-zrobienia.md`, `mapa-wdrozenia.md`
 
 TL;DR: Rzeczy świadomie odłożone poza zakres pierwszej wersji — decyzje o skali/fazowaniu (N.2 GOD BOOK), zbierane tutaj przy audycie. **Nie to samo, co `docs/lista-do-zrobienia.md`** (bieżący stan pracy, inny rytm — patrz B.6 GOD BOOK). Dwie kategorie: (1) **⚠️ blocked** — ekran/funkcja sprawdzona i odrzucona jako niebuildowalna bez wymyślania danych, jawne uzasadnienie; (2) **⏳ poza zakresem v1** — świadomie odłożone całe obszary produktu (infrastruktura, płatności, i18n), nie kwestia brakujących danych.
@@ -9,6 +9,7 @@ TL;DR: Rzeczy świadomie odłożone poza zakres pierwszej wersji — decyzje o s
 
 ## ⏳ Poza zakresem v1 — całe obszary
 
+- **Głęboka elektryka AC → osobna apka „Elektryk Pro”** (02.10.2026, D70) — projekt rozdzielnicy AC obwód po obwodzie, schemat jednokreskowy, rozpływ na fazy, pomiary okresowe całej instalacji, szukanie usterek, stare instalacje, silniki i soft start, szkolenie elektryków. Nie budujemy tego w Offgrid; Offgrid daje wymagania dla rozdzielnicy za falownikiem i twarde stopy (D70 pkt 5–6) oraz odesłanie do Elektryk Pro jako innego zakresu.
 - **`IndexedDBStorageAdapter`** — implementacja trwałego zapisu (interfejs `StorageAdapter` istnieje, `kontrakty-rdzenia.md` §3). Powód: kod dziś trzyma stan tylko w React state, wystarcza do zweryfikowania logiki domenowej każdego ekranu; trwały zapis to osobny, duży krok.
 - **i18n wielojęzyczne** — profil `PL` jako jedyny start (Zasada 4, `zlote-zasady.md`). Nowy kraj = nowy plik JSON, bez zmian w jądrze, gdy będzie potrzebny.
 - **Preset onboardingu „Jestem podłączony do sieci”** (28.09.2026, D39) — wysuwa kafle M14 na początek pulpitu. Odłożony razem z całym ekranem onboardingu (`docs/pulpit-i-nawigacja.md` §3 — osiem presetów to wersja robocza, onboarding jeszcze nie istnieje). Zebrane tu przy audycie końcowym N.3 (dotąd tylko w D39 i w „Otwartych sprawach” pulpitu). **[30.09.2026, D62] Preset zbudowany** (Ustawienia, `lib/pulpit/presety.ts`); w backlogu zostaje sam ekran onboardingu przy pierwszym uruchomieniu.
@@ -92,3 +93,4 @@ Pełne wyliczenie per-funkcja nierozpoczęte (rozpoczęto pojedyncze buildowalne
 | 28.09.2026 | Dodano pozycję „FREE/PRO dla M14” (D37) — integracja rozdziału M14 do Biblii. |
 | 28.09.2026 | **Wynik audytu końcowego N.3:** dodano pozycję „Preset onboardingu »Jestem podłączony do sieci«” (D39), dotąd poza backlogiem (N.1 pkt 2). Nagłówek zsynchronizowany: 1.4→1.5, data 28.09.2026. |
 | 28.09.2026 | Dodano pozycję „Rozdział »Oświetlenie LED« — kandydat poza Biblią” (D49, decyzja właściciela z audytu N.3). Wersja 1.5→1.6. |
+| 02.10.2026 | Dodano pozycję „Głęboka elektryka AC → osobna apka Elektryk Pro” (D70). Wersja 1.6→1.7. |

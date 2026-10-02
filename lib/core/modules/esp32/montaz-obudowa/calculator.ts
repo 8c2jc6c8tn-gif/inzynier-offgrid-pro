@@ -7,7 +7,7 @@ import { IP_SUCHA_ROZDZIELNIA, MIN_ODSTEP_OD_SZYN_CM } from "./constants"
 import type { MontazObudowaInput } from "./input"
 import { brakIzolacji, brakWentylacji, montazZalecanyDin, odstepOdSzynZaMaly } from "./warnings"
 
-export const CALCULATOR_VERSION = "1.0.0"
+export const CALCULATOR_VERSION = "1.1.0"
 
 const FORMULA = "IP_{obudowy} \\ge IP_{min};\\quad d_{szyny} \\ge 2\\,\\mathrm{cm}"
 

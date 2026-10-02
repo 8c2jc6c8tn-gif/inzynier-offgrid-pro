@@ -16,6 +16,7 @@ import { NawigacjaEkranu } from "@/components/nawigacja-ekranu"
 import { NaglowekEkranu } from "@/components/wzorce/naglowek-ekranu"
 import { WynikGlowny } from "@/components/wzorce/wynik-glowny"
 import { WynikSzczegoly } from "@/components/wzorce/wynik-szczegoly"
+import { useTranslate } from "@/lib/i18n/language-context"
 
 type FormularzStan = {
   vocStcV: string
@@ -34,6 +35,7 @@ const STAN_POCZATKOWY: FormularzStan = {
 }
 
 export default function StressTestMpptPage() {
+  const t = useTranslate()
   const [stan, setStan] = usePersistedDraft<FormularzStan>("stress-test-mppt", STAN_POCZATKOWY)
   const { vocStcV, betaPctNaC, tminC, liczbaPaneliWStringu, limitMpptV } = stan
 
@@ -87,18 +89,18 @@ export default function StressTestMpptPage() {
   }
 
   const verdictLabel: Record<typeof verdict, string> = {
-    invalid: "Nie da się policzyć",
-    incomplete: "Wypełnij wszystkie pola",
-    red: "Zabronione — ryzyko trwałego uszkodzenia falownika",
-    yellow: "Dopuszczalne, ale mały margines",
-    green: "Bezpieczny margines",
+    invalid: t("UI-STRTESMPP-POLICZYC"),
+    incomplete: t("UI-STRTESMPP-WYPELNIJ-WSZYSTKIE-POLA"),
+    red: t("UI-STRTESMPP-ZABRONIONE-RYZYKO-TRWALEGO"),
+    yellow: t("UI-STRTESMPP-DOPUSZCZALNE-MALY-MARGINES"),
+    green: t("UI-STRTESMPP-BEZPIECZNY-MARGINES"),
   }
 
   return (
     <main className="mx-auto flex max-w-md flex-col gap-6 p-6">
       <NawigacjaEkranu href="/kalkulatory/stress-test-mppt" />
       <NaglowekEkranu
-        tytul="Zimowy stress-test napięciowy MPPT"
+        tytul={t("UI-STRTESMPP-ZIMOWY-STRESS-TEST")}
         ekran="stress-test-mppt"
         wynik={result}
         parametry={{
@@ -106,15 +108,12 @@ export default function StressTestMpptPage() {
           tStc: TEMPERATURA_REFERENCYJNA_STC_C,
         }}
       >
-        Panele PV zachowują się odwrotnie niż można by się spodziewać — im zimniej, tym WYŻSZE
-        napięcie dają na biegu jałowym. Mroźny, słoneczny poranek to najbardziej niebezpieczny
-        moment dla falownika, nie upalne lato. To jeden z najważniejszych twardych stopów w
-        aplikacji — przekroczenie limitu MPPT to gwarantowane uszkodzenie sprzętu. Moduł 3, Ekran 5.
+        {t("UI-STRTESMPP-PANELE-ZACHOWUJA-ODWROTNIE")}
       </NaglowekEkranu>
 
       <div className="flex flex-col gap-4">
         <Pole
-          label="Voc panelu (STC, 25°C)"
+          label={t("UI-STRTESMPP-VOC-PANELU-STC")}
           unit="V"
           type="number"
           inputMode="decimal"
@@ -124,7 +123,7 @@ export default function StressTestMpptPage() {
           pomoc={<PomocPola ekran="stress-test-mppt" pole="voc" />}
         />
         <Pole
-          label="Współczynnik temperaturowy Voc (β)"
+          label={t("UI-STRTESMPP-WSPOLCZYNNIK-TEMPERATUROWY-V")}
           unit="%/°C"
           type="number"
           inputMode="decimal"
@@ -133,7 +132,7 @@ export default function StressTestMpptPage() {
           pomoc={<PomocPola ekran="stress-test-mppt" pole="beta" params={{ betaMin: BETA_TYPOWA_MIN_PCT_NA_C, betaMax: BETA_TYPOWA_MAX_PCT_NA_C }} />}
         />
         <Pole
-          label="Minimalna temperatura w lokalizacji (Tmin)"
+          label={t("UI-STRTESMPP-MINIMALNA-TEMPERATURA-LOKALI")}
           unit="°C"
           type="number"
           inputMode="decimal"
@@ -142,8 +141,8 @@ export default function StressTestMpptPage() {
           pomoc={<PomocPola ekran="stress-test-mppt" pole="tmin" />}
         />
         <Pole
-          label="Liczba paneli w stringu"
-          unit="szt."
+          label={t("UI-STRTESMPP-LICZBA-PANELI-STRINGU")}
+          unit={t("UI-J-SZT")}
           type="number"
           inputMode="numeric"
           min={0}
@@ -152,7 +151,7 @@ export default function StressTestMpptPage() {
           pomoc={<PomocPola ekran="stress-test-mppt" pole="liczbaPaneli" />}
         />
         <Pole
-          label="Max napięcie wejściowe MPPT/falownika"
+          label={t("UI-STRTESMPP-MAX-NAPIECIE-WEJSCIOWE")}
           unit="V"
           type="number"
           inputMode="decimal"
@@ -165,7 +164,7 @@ export default function StressTestMpptPage() {
 
       <WerdyktPanel poziom={verdictPoziom[verdict]} etykieta={verdictLabel[verdict]}>
         {verdict !== "invalid" && verdict !== "incomplete" && (
-          <WynikGlowny>V_string = {result.value.vStringV.toFixed(0)} V</WynikGlowny>
+          <WynikGlowny>{t("UI-STRTESMPP-STRING", { vStringV: result.value.vStringV.toFixed(0) })}</WynikGlowny>
         )}
         <WynikSzczegoly assumptions={result.assumptions} warnings={result.warnings} formula={result.formula} />
       </WerdyktPanel>

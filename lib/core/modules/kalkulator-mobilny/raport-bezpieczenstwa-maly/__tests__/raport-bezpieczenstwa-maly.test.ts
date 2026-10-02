@@ -4,6 +4,7 @@ import { calculateRaportBezpieczenstwa } from "../calculator"
 const WSZYSTKO_OK = {
   "bezpiecznik-akumulatora": "ok",
   "dobor-bezpiecznikow": "ok",
+  "bezpiecznik-a-przewod": "ok",
   "przekroje-przewodow": "ok",
   "ochrona-rozladowania": "ok",
   "wentylacja-akumulatora": "ok",
@@ -15,7 +16,7 @@ describe("calculateRaportBezpieczenstwa (M12/E14, dawne 8.22)", () => {
     const w = calculateRaportBezpieczenstwa({ odpowiedzi: {} })
     expect(w.status).toBe("INCOMPLETE")
     expect(w.value.procentBezpieczenstwa).toBe(0)
-    expect(w.value.razem).toBe(6)
+    expect(w.value.razem).toBe(7)
   })
 
   it("wszystko OK → 100%, VALID, bez ostrzeżeń", () => {
@@ -28,7 +29,17 @@ describe("calculateRaportBezpieczenstwa (M12/E14, dawne 8.22)", () => {
   it("brak bezpiecznika przy akumulatorze → 🔴 (alert Biblii §12.22)", () => {
     const w = calculateRaportBezpieczenstwa({ odpowiedzi: { ...WSZYSTKO_OK, "bezpiecznik-akumulatora": "blad" } })
     expect(w.warnings.map((x) => [x.code, x.level])).toEqual([["RB-BRAK-BEZPIECZNIKA-AKUMULATORA", "critical"]])
-    expect(w.value.procentBezpieczenstwa).toBeCloseTo((5 / 6) * 100, 12)
+    expect(w.value.procentBezpieczenstwa).toBeCloseTo((6 / 7) * 100, 12)
+  })
+
+  it("bezpiecznik większy niż obciążalność przewodu → 🔴 (D68)", () => {
+    const w = calculateRaportBezpieczenstwa({ odpowiedzi: { ...WSZYSTKO_OK, "bezpiecznik-a-przewod": "blad" } })
+    expect(w.warnings.map((x) => [x.code, x.level])).toEqual([["RB-BEZPIECZNIK-WIEKSZY-NIZ-PRZEWOD", "critical"]])
+  })
+
+  it("bezpiecznik za mały względem odbiorników → tylko 🟡 krok naprawczy", () => {
+    const w = calculateRaportBezpieczenstwa({ odpowiedzi: { ...WSZYSTKO_OK, "dobor-bezpiecznikow": "blad" } })
+    expect(w.warnings.map((x) => [x.code, x.level])).toEqual([["RB-NAPRAWA-DOBOR-BEZPIECZNIKOW", "warning"]])
   })
 
   it("błąd przewodów → 🟡 krok naprawczy; niesprawdzone → ℹ️ i nie liczą się jako OK", () => {
@@ -38,8 +49,8 @@ describe("calculateRaportBezpieczenstwa (M12/E14, dawne 8.22)", () => {
       ["RB-NAPRAWA-PRZEKROJE-PRZEWODOW", "warning"],
       ["RB-NIESPRAWDZONE", "info"],
     ])
-    expect(w.value.liczbaNiesprawdzonych).toBe(4)
-    expect(w.value.procentBezpieczenstwa).toBeCloseTo((1 / 6) * 100, 12)
+    expect(w.value.liczbaNiesprawdzonych).toBe(5)
+    expect(w.value.procentBezpieczenstwa).toBeCloseTo((1 / 7) * 100, 12)
   })
 
   it("same OK, część niesprawdzona → VALID (ℹ️ nie podnosi statusu)", () => {

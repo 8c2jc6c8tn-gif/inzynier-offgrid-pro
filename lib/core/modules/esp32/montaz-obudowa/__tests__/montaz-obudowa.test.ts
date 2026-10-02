@@ -32,13 +32,13 @@ describe("calculateMontazObudowa (M9/E3, dawne 11.3)", () => {
     })
   })
 
-  it("odstęp < 2 cm, brak wentylacji i izolacji → 🟡; inny montaż → info", () => {
+  it("odstęp < 2 cm, brak wentylacji → 🟡; brak izolacji → 🔴 (D68); inny montaż → info", () => {
     const w = calculateMontazObudowa({ ...PRZYKLAD, odstepOdSzynCm: 1.5, wentylacja: false, izolacjaOdCzesciPodNapieciem: false, montaz: "inny" })
     expect(w.status).toBe("VALID_WITH_WARNINGS")
     expect(w.warnings.map((x) => [x.code, x.level])).toEqual([
       ["ESP-ODSTEP-OD-SZYN", "warning"],
       ["ESP-OBUDOWA-BEZ-WENTYLACJI", "warning"],
-      ["ESP-OBUDOWA-BEZ-IZOLACJI", "warning"],
+      ["ESP-OBUDOWA-BEZ-IZOLACJI", "critical"],
       ["ESP-MONTAZ-ZALECANY-DIN", "info"],
     ])
   })

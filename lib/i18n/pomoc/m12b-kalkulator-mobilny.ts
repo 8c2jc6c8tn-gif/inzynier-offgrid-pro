@@ -1436,11 +1436,11 @@ export const pl = {
     migawka: {
       oCoChodzi: "Bezpieczeństwo to podstawa. Raport pokazuje, gdzie są słabe punkty.",
       jakDziala:
-        "Przejdź sześć punktów z Biblii (bezpiecznik przy akumulatorze, dobór bezpieczników, przewody, ochrona przed rozładowaniem, wentylacja, połączenia) i zaznacz OK albo Błąd. Przy każdym błędzie dostajesz krok naprawczy i link do kalkulatora.",
+        "Przejdź siedem punktów z Biblii (bezpiecznik przy akumulatorze, dobór bezpieczników, bezpiecznik a przewód, przewody, ochrona przed rozładowaniem, wentylacja, połączenia) i zaznacz OK albo Błąd. Przy każdym błędzie dostajesz krok naprawczy i link do kalkulatora.",
       poCo:
         "W małych instalacjach najczęstszą przyczyną pożaru jest brak bezpiecznika przy akumulatorze i luźny styk — nie sam akumulator.",
       fizyka:
-        "Bezpieczeństwo = OK ÷ wszystkie punkty × 100%. Niesprawdzony punkt nie liczy się jako OK. Brak bezpiecznika przy akumulatorze = stop 🔴.",
+        "Bezpieczeństwo = OK ÷ wszystkie punkty × 100%. Niesprawdzony punkt nie liczy się jako OK. Brak bezpiecznika przy akumulatorze albo bezpiecznik większy niż obciążalność przewodu = stop 🔴.",
     },
     pola: {
       bezpiecznikAkumulatora: {
@@ -1451,9 +1451,15 @@ export const pl = {
       },
       doborBezpiecznikow: {
         nazwa: "Dobór bezpieczników",
-        cel: "Bezpiecznik ma chronić przewód, nie tylko odbiornik.",
-        gdzie: "Porównaj prąd bezpiecznika z obciążalnością przewodu.",
+        cel: "Bezpiecznik nie może wyzwalać przy normalnej pracy odbiorników.",
+        gdzie: "Porównaj prąd bezpiecznika z prądem odbiorników na tym obwodzie.",
         zakres: "OK / Błąd.",
+      },
+      bezpiecznikAPrzewod: {
+        nazwa: "Bezpiecznik a przewód",
+        cel: "Bezpiecznik ma chronić przewód: większy niż obciążalność przewodu nie zadziała, zanim przewód się przegrzeje.",
+        gdzie: "Porównaj prąd bezpiecznika z obciążalnością przewodu (kalkulator kabli i bezpieczników).",
+        zakres: "OK / Błąd. Błąd = stop 🔴.",
       },
       przekrojePrzewodow: {
         nazwa: "Przekroje przewodów",
@@ -2909,7 +2915,7 @@ export const en: Tlumaczenie<typeof pl> = {
     migawka: {
       oCoChodzi: "Safety comes first. The report shows where the weak points are.",
       jakDziala:
-        "Go through the six points from the Bible (battery fuse, fuse sizing, cables, discharge protection, ventilation, connections) and mark OK or Fault. Each fault gives a repair step and a link to a calculator.",
+        "Go through the seven points from the Bible (battery fuse, fuse sizing, fuse vs cable, cables, discharge protection, ventilation, connections) and mark OK or Fault. Each fault gives a repair step and a link to a calculator.",
       poCo:
         "In small installations the most common fire cause is a missing battery fuse and a loose contact — not the battery itself.",
       fizyka:
@@ -2924,9 +2930,15 @@ export const en: Tlumaczenie<typeof pl> = {
       },
       doborBezpiecznikow: {
         nazwa: "Fuse sizing",
-        cel: "A fuse must protect the cable, not only the load.",
-        gdzie: "Compare the fuse rating with the cable ampacity.",
+        cel: "A fuse must not trip during normal operation of the loads.",
+        gdzie: "Compare the fuse rating with the load current on that circuit.",
         zakres: "OK / Fault.",
+      },
+      bezpiecznikAPrzewod: {
+        nazwa: "Fuse vs cable",
+        cel: "The fuse protects the cable: one rated above the cable ampacity will not open before the cable overheats.",
+        gdzie: "Compare the fuse rating with the cable ampacity (cables and fuses calculator).",
+        zakres: "OK / Fault. Fault = stop 🔴.",
       },
       przekrojePrzewodow: {
         nazwa: "Cable cross-sections",
@@ -4389,7 +4401,7 @@ export const ru: Tlumaczenie<typeof pl> = {
     migawka: {
       oCoChodzi: "Безопасность — основа. Отчёт показывает слабые места.",
       jakDziala:
-        "Пройдите шесть пунктов из Библии (предохранитель у аккумулятора, подбор предохранителей, провода, защита от разряда, вентиляция, соединения) и отметьте «OK» или «Ошибка». Для каждой ошибки — шаг исправления и ссылка на калькулятор.",
+        "Пройдите семь пунктов из Библии (предохранитель у аккумулятора, подбор предохранителей, предохранитель и провод, провода, защита от разряда, вентиляция, соединения) и отметьте «OK» или «Ошибка». Для каждой ошибки — шаг исправления и ссылка на калькулятор.",
       poCo:
         "В малых установках чаще всего пожар вызывают отсутствие предохранителя у аккумулятора и слабый контакт, а не сам аккумулятор.",
       fizyka:
@@ -4404,9 +4416,15 @@ export const ru: Tlumaczenie<typeof pl> = {
       },
       doborBezpiecznikow: {
         nazwa: "Подбор предохранителей",
-        cel: "Предохранитель защищает провод, а не только нагрузку.",
-        gdzie: "Сравните номинал с допустимым током провода.",
+        cel: "Предохранитель не должен срабатывать при нормальной работе нагрузки.",
+        gdzie: "Сравните номинал с током нагрузки этой цепи.",
         zakres: "OK / Ошибка.",
+      },
+      bezpiecznikAPrzewod: {
+        nazwa: "Предохранитель и провод",
+        cel: "Предохранитель защищает провод: номинал выше допустимого тока провода не сработает до перегрева провода.",
+        gdzie: "Сравните номинал с допустимым током провода (калькулятор кабелей и предохранителей).",
+        zakres: "OK / Ошибка. Ошибка = стоп 🔴.",
       },
       przekrojePrzewodow: {
         nazwa: "Сечения проводов",

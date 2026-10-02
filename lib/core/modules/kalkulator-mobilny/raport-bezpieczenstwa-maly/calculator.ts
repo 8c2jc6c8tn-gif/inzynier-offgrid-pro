@@ -1,9 +1,9 @@
 import type { CalcResult, Warning } from "@/lib/core/calc-result"
 import { PUNKTY_RAPORTU, type IdPunktuRaportu } from "./constants"
 import type { OdpowiedzRaportu, RaportBezpieczenstwaInput } from "./input"
-import { brakBezpiecznikaAkumulatora, doNaprawy, niesprawdzone } from "./warnings"
+import { bezpiecznikWiekszyNizPrzewod, brakBezpiecznikaAkumulatora, doNaprawy, niesprawdzone } from "./warnings"
 
-export const CALCULATOR_VERSION = "1.0.0"
+export const CALCULATOR_VERSION = "1.1.0"
 
 const FORMULA = "bezpieczeństwo = \\dfrac{n_{OK}}{n_{punktów}} \\times 100\\%"
 
@@ -39,7 +39,13 @@ export function calculateRaportBezpieczenstwa(input: RaportBezpieczenstwaInput):
 
   const warnings: Warning[] = punkty
     .filter((p) => p.odpowiedz === "blad")
-    .map((p) => (p.id === "bezpiecznik-akumulatora" ? brakBezpiecznikaAkumulatora() : doNaprawy(p.id)))
+    .map((p) =>
+      p.id === "bezpiecznik-akumulatora"
+        ? brakBezpiecznikaAkumulatora()
+        : p.id === "bezpiecznik-a-przewod"
+          ? bezpiecznikWiekszyNizPrzewod()
+          : doNaprawy(p.id),
+    )
   if (liczbaNiesprawdzonych > 0) warnings.push(niesprawdzone(liczbaNiesprawdzonych))
 
   return {

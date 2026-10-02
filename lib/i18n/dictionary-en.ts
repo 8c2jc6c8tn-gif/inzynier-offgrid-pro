@@ -1292,6 +1292,7 @@ export const dictionaryEn = {
   "TA-ZALOZENIE-SPOCZYNEK": "Rest voltage measured after at least {h} h without load and without charging — earlier it reads too high or too low.",
   "TA-ZALOZENIE-POMIAR-NA-ZACISKACH": "Resistance computed from a measurement at the battery terminals — measuring further away adds the cables and contacts.",
   "RB-BRAK-BEZPIECZNIKA-AKUMULATORA": "No fuse at the battery! This is dangerous — a cable short can start a fire. Fit a fuse on the positive, as close to the terminal as possible, sized to the cable cross-section.",
+  "RB-BEZPIECZNIK-WIEKSZY-NIZ-PRZEWOD": "Fuse rated above the cable ampacity! On overload the cable overheats and can catch fire before the fuse opens. Use a smaller fuse or a thicker cable — size them with the cables and fuses calculator.",
   "RB-NAPRAWA-DOBOR-BEZPIECZNIKOW": "Fuses to fix: the fuse rating must exceed the load current but not the ampacity of the cable it protects. Size them with the cables and fuses calculator.",
   "RB-NAPRAWA-PRZEKROJE-PRZEWODOW": "Cables to fix: check the cross-section for current and voltage drop (in a 12 V system every metre counts). A cable that is too thin heats up and lowers the voltage at the load.",
   "RB-NAPRAWA-OCHRONA-ROZLADOWANIA": "Add deep-discharge protection: a BMS (LiFePO4), a low-voltage disconnect (LVD) or loads on the controller's load output.",
