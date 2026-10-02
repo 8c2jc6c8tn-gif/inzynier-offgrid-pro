@@ -213,6 +213,7 @@ export const KAFLE: KafelEntry[] = [
       { href: "/kalkulatory/basen", label: "Ogrzewanie basenu pompą ciepła" },
       { href: "/kalkulatory/odzysk-ciepla-sciekow", label: "Odzysk ciepła ze ścieków" },
       { href: "/kalkulatory/chlodzenie-pompa-ciepla", label: "Chłodzenie latem pompą ciepła" },
+      { href: "/kalkulatory/taryfa-nocna-pompy-ciepla", label: "Pompa ciepła w taryfie nocnej (bufor, sieć/agregat)" },
       { href: "/kalkulatory/model-sezonowy-pompy-ciepla", label: "Zużycie pompy ciepła w sezonie" },
       { href: "/kalkulatory/plan-poprawy-efektywnosci", label: "Plan poprawy efektywności" },
     ],

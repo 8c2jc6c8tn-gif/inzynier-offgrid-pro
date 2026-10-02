@@ -2,7 +2,7 @@
 
 import Link from "next/link"
 import { useMemo } from "react"
-import { Pole } from "@/components/ui/pole"
+import { Pole, PoleSelect } from "@/components/ui/pole"
 import { PomocPola } from "@/components/ui/pomoc"
 import { WerdyktPanel } from "@/components/werdykt"
 import { WynikGlowny } from "@/components/wzorce/wynik-glowny"
@@ -13,10 +13,10 @@ import { useTranslate } from "@/lib/i18n/language-context"
 import { liczba } from "@/lib/lokalizacja/model-dzialki"
 import { useWynikEkranu1 } from "@/lib/ogrzewanie/draft-obciazenia-cieplnego"
 
-type Pola = "zapotrzebowanie" | "mocProj" | "tProj" | "tWewn" | "tDrugi" | "mocDrugi"
+type Pola = "zapotrzebowanie" | "mocProj" | "tProj" | "tWewn" | "tDrugi" | "mocDrugi" | "dogrzew"
 type Stan = Record<Pola, string>
 
-const STAN_POCZATKOWY: Stan = { zapotrzebowanie: "", mocProj: "", tProj: "", tWewn: "", tDrugi: "", mocDrugi: "" }
+const STAN_POCZATKOWY: Stan = { zapotrzebowanie: "", mocProj: "", tProj: "", tWewn: "", tDrugi: "", mocDrugi: "", dogrzew: "" }
 const r1 = (x: number) => Math.round(x * 10) / 10
 const r2 = (x: number) => Math.round(x * 100) / 100
 
@@ -38,6 +38,8 @@ export function SekcjaDoborMocy() {
   const zapotrzebowanie = liczba(stan.zapotrzebowanie) ?? zE1 ?? 0
   const tProj = liczba(stan.tProj) ?? e1?.temperaturaZewnetrznaC ?? null
   const tWewn = liczba(stan.tWewn) ?? e1?.temperaturaWewnetrznaC ?? null
+  // "" = unknown (also for drafts saved before this field existed).
+  const dogrzew = stan.dogrzew === "jest" ? true : stan.dogrzew === "brak" ? false : null
   const result = useMemo(
     () =>
       calculateDoborMocyPompy({
@@ -47,10 +49,12 @@ export function SekcjaDoborMocy() {
         tWewnC: tWewn,
         tDrugiC: liczba(stan.tDrugi) ?? null,
         mocPompyDrugiKw: liczba(stan.mocDrugi) ?? 0,
+        maDogrzew: dogrzew,
       }),
-    [zapotrzebowanie, tProj, tWewn, stan.mocProj, stan.tDrugi, stan.mocDrugi],
+    [zapotrzebowanie, tProj, tWewn, stan.mocProj, stan.tDrugi, stan.mocDrugi, dogrzew],
   )
   const v = result.value
+  const stop = result.warnings.some((w) => w.level === "critical")
 
   return (
     <section className="flex flex-col gap-4 rounded-lg border p-4">
@@ -86,6 +90,16 @@ export function SekcjaDoborMocy() {
         <Pole label={t("UI-M6D-DMP-T-DRUGI")} unit="°C" {...pole("tDrugi", undefined)} pomoc={<PomocPola ekran="m6d-dobor-mocy-pompy" pole="tDrugi" />} />
         <Pole label={t("UI-M6D-DMP-MOC-DRUGI")} unit="kW" {...pole("mocDrugi")} pomoc={<PomocPola ekran="m6d-dobor-mocy-pompy" pole="mocDrugi" />} />
       </div>
+      <PoleSelect
+        label={t("UI-M6D-DMP-DOGREW")}
+        value={stan.dogrzew ?? ""}
+        onChange={(e) => setStan((prev) => ({ ...prev, dogrzew: e.target.value }))}
+        pomoc={<PomocPola ekran="m6d-dobor-mocy-pompy" pole="maDogrzew" />}
+      >
+        <option value="">{t("UI-M6D-DMP-DOGREW-NIEZNANY")}</option>
+        <option value="jest">{t("UI-M6D-DMP-DOGREW-JEST")}</option>
+        <option value="brak">{t("UI-M6D-DMP-DOGREW-BRAK")}</option>
+      </PoleSelect>
 
       {result.status === "INVALID_INPUT" ? (
         <WerdyktPanel poziom="blad" etykieta={t("UI-M6-BLAD-DANYCH")}>
@@ -94,7 +108,10 @@ export function SekcjaDoborMocy() {
       ) : result.status === "INCOMPLETE" ? (
         <p className="text-small text-muted-foreground">{t("UI-M6D-DMP-UZUPELNIJ")}</p>
       ) : (
-        <WerdyktPanel poziom={v.dogrzewanieKw > 0 ? "uwaga" : "ok"} etykieta={t(v.dogrzewanieKw > 0 ? "UI-M6D-DMP-W-UWAGA" : "UI-M6D-DMP-W-OK")}>
+        <WerdyktPanel
+          poziom={stop ? "blad" : v.dogrzewanieKw > 0 ? "uwaga" : "ok"}
+          etykieta={t(stop ? "UI-M6D-DMP-W-STOP" : v.dogrzewanieKw > 0 ? "UI-M6D-DMP-W-UWAGA" : "UI-M6D-DMP-W-OK")}
+        >
           <WynikGlowny>
             {v.dogrzewanieKw > 0
               ? t("UI-M6D-DMP-WYNIK-BRAK", { kw: r2(v.dogrzewanieKw) })

@@ -140,6 +140,7 @@ const MIGRATED_MODULES = [
   "lib/core/modules/ogrzewanie/dobor-mocy-pompy",
   "lib/core/modules/ogrzewanie/krzywa-grzewcza",
   "lib/core/modules/ogrzewanie/chlodzenie-pompa-ciepla",
+  "lib/core/modules/ogrzewanie/taryfa-nocna-pompy-ciepla",
   "lib/core/modules/ogrzewanie/kolektor-gruntowy",
   "lib/core/modules/ogrzewanie/alternatywne-zrodla-ciepla",
   "lib/core/modules/montaz-baterii/balansery-zewnetrzne-olow",

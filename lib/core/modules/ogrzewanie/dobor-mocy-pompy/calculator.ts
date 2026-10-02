@@ -1,9 +1,9 @@
 import type { Assumption, CalcResult, Warning } from "@/lib/core/calc-result"
 import { ujemneWartosci } from "../wspolne/walidacja"
 import type { DoborMocyPompyInput } from "./input"
-import { biwalentnyEkstrapolacja, deficytMocy, temperaturyPozaZakresem, zapasMocy } from "./warnings"
+import { biwalentnyEkstrapolacja, deficytMocy, dogrzewNieznany, temperaturyPozaZakresem, zapasMocy } from "./warnings"
 
-export const CALCULATOR_VERSION = "1.0.0"
+export const CALCULATOR_VERSION = "1.1.0"
 
 const FORMULA =
   "\\Delta P = P_{pompy}(\\theta_e) - \\Phi,\\quad pokrycie = \\min(P, \\Phi)/\\Phi,\\quad " +
@@ -58,6 +58,8 @@ export function punktBiwalentny(
  * temperature, check whether backup heat is needed, show the oversizing, remember that pump capacity falls and the
  * load rises with the cold — all of it is a comparison of two user numbers plus the balance point of two lines.
  *
+ * Deficit level (D71): 🔴 only with no backup heat source in the house, 🟡 with one or while it is unknown (+ info).
+ *
  * Not computed (Dyrektywa #1): starts per day from oversizing („przewymiarowana o 40% → 20 razy na dobę”) — the source
  * gives no model; the start count for a given water volume and hysteresis is on Screen 14 (`bufor-praca-pompy`).
  *
@@ -97,7 +99,11 @@ export function calculateDoborMocyPompy(input: DoborMocyPompyInput): CalcResult<
   const pokryciePompaPct = (Math.min(moc, zap) / zap) * 100
   const warnings: Warning[] = []
   const assumptions: Assumption[] = [{ kod: "DMP-ZAL-MOC-Z-KARTY" }, { kod: "DMP-ZAL-BEZ-STARTOW" }]
-  if (moc < zap) warnings.push(deficytMocy(zap - moc, zap, moc))
+  const maDogrzew = input.maDogrzew ?? null
+  if (moc < zap) {
+    warnings.push(deficytMocy(zap - moc, zap, moc, maDogrzew))
+    if (maDogrzew === null) warnings.push(dogrzewNieznany())
+  }
   if (moc > zap) warnings.push(zapasMocy((moc / zap - 1) * 100))
 
   let punktBiwalentnyC: number | null = null

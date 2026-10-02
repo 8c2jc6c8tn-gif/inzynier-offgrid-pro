@@ -264,6 +264,7 @@ import { rozruchPompyCieplaTool } from "./tools/rozruch-pompy-ciepla-tool"
 import { basenTool } from "./tools/basen-tool"
 import { odzyskCieplaSciekowTool } from "./tools/odzysk-ciepla-sciekow-tool"
 import { chlodzeniePompaCieplaTool } from "./tools/chlodzenie-pompa-ciepla-tool"
+import { taryfaNocnaPompyCieplaTool } from "./tools/taryfa-nocna-pompy-ciepla-tool"
 import { doborMocyPompyTool } from "./tools/dobor-mocy-pompy-tool"
 import { krzywaGrzewczaTool } from "./tools/krzywa-grzewcza-tool"
 import { modelSezonowyPompyTool } from "./tools/model-sezonowy-pompy-tool"
@@ -532,6 +533,7 @@ const NARZEDZIA: Array<AiToolDefinition<any, any>> = [
   basenTool,
   odzyskCieplaSciekowTool,
   chlodzeniePompaCieplaTool,
+  taryfaNocnaPompyCieplaTool,
   doborMocyPompyTool,
   krzywaGrzewczaTool,
   modelSezonowyPompyTool,

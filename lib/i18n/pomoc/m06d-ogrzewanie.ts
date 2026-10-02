@@ -43,6 +43,12 @@ export const pl = {
         gdzie: "Karta katalogowa — ta sama tabela i ta sama temperatura zasilania.",
         zakres: "≥ 0. Karta Twojej pompy.",
       },
+      maDogrzew: {
+        nazwa: "Zapasowe źródło ciepła w domu (grzałka, kominek, kocioł)",
+        cel: "Decyduje o poziomie ostrzeżenia przy braku mocy pompy: bez żadnego dogrzewania to stop 🔴, z dogrzewaniem — ostrzeżenie 🟡.",
+        gdzie: "Twój dom: czy jest grzałka elektryczna w buforze/na zasilaniu, kominek (najlepiej z płaszczem wodnym) albo kocioł.",
+        zakres: "Jest / Brak / Nie wiem. „Nie wiem” liczy się jak 🟡 i prosi o uzupełnienie.",
+      },
     },
   },
   "m6d-krzywa-grzewcza": {
@@ -390,6 +396,12 @@ export const en: Tlumaczenie<typeof pl> = {
         gdzie: "Datasheet — the same table and the same flow temperature.",
         zakres: "≥ 0. Your pump's datasheet.",
       },
+      maDogrzew: {
+        nazwa: "Backup heat source in the house (heater, stove, boiler)",
+        cel: "Sets the level of the warning when the pump lacks power: with no backup heating at all it is a 🔴 stop, with backup — a 🟡 warning.",
+        gdzie: "Your house: is there an electric heater in the buffer/on the flow, a stove (best with a water jacket) or a boiler.",
+        zakres: "Yes / None / Don't know. „Don't know” counts as 🟡 and asks you to fill it in.",
+      },
     },
   },
   "m6d-krzywa-grzewcza": {
@@ -736,6 +748,12 @@ export const ru: Tlumaczenie<typeof pl> = {
         cel: "Мощность насоса при второй температуре — обычно выше, чем в мороз.",
         gdzie: "Паспорт — та же таблица и та же температура подачи.",
         zakres: "≥ 0. Паспорт вашего насоса.",
+      },
+      maDogrzew: {
+        nazwa: "Резервный источник тепла в доме (ТЭН, камин, котёл)",
+        cel: "Определяет уровень предупреждения при нехватке мощности насоса: без догрева — стоп 🔴, с догревом — предупреждение 🟡.",
+        gdzie: "Ваш дом: есть ли электрический ТЭН в буфере/на подаче, камин (лучше с водяной рубашкой) или котёл.",
+        zakres: "Есть / Нет / Не знаю. «Не знаю» считается как 🟡 и просит указать.",
       },
     },
   },

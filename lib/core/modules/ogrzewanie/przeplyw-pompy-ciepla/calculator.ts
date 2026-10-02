@@ -4,7 +4,7 @@ import { przeplywWodyLH } from "../wspolne/hydraulika"
 import { ujemneWartosci } from "../wspolne/walidacja"
 import type { PrzeplywPompyCieplaInput } from "./input"
 
-export const CALCULATOR_VERSION = "1.0.0"
+export const CALCULATOR_VERSION = "1.1.0"
 
 /** Source example range (Biblia §6.27.39): „optymalną różnicę temperatur (np. 5–7°C)” — info only, not a limit. */
 export const DT_ZRODLO_K = { min: 5, max: 7 } as const
@@ -29,7 +29,7 @@ const PUSTY: PrzeplywPompyCieplaResult = { wymaganyM3H: 0, wymaganyLMin: 0, rzec
 function zaMalyPrzeplyw(pompa: number, wymagany: number, dT: number): Warning {
   return {
     code: "PRZ-PRZEPLYW-ZA-MALY",
-    level: "warning",
+    level: "critical",
     params: { pompa: r2(pompa), wymagany: r2(wymagany), dt: r2(dT) },
     technicalMessage: `przeplywPompyM3H ${pompa} < wymagany ${wymagany}`,
     field: "przeplywPompyM3H",
@@ -39,7 +39,7 @@ function zaMalyPrzeplyw(pompa: number, wymagany: number, dT: number): Warning {
 function ponizejMinimum(przeplyw: number, min: number): Warning {
   return {
     code: "PRZ-PONIZEJ-MINIMUM",
-    level: "warning",
+    level: "critical",
     params: { przeplyw: r2(przeplyw), min: r2(min) },
     technicalMessage: `przepływ ${przeplyw} < minimum z karty ${min}`,
     field: "minPrzeplywM3H",
@@ -60,8 +60,9 @@ function dtSpozaZrodla(dT: number): Warning {
  * Moduł 6, Część 2B — dokładka do Ekranu 15: dobór przepływu przez pompę ciepła (dawne 5.65, Biblia §6.27.39). Required
  * flow V̇ = P / (c_w·ΔT) — the same formula as the 2D factor „przeplyw” 5.94 (`przeplywWodyLH`, Dyrektywa #8). The
  * circulation pump's flow at its operating point (read from its curve for the installation's resistance) is compared
- * with it: a smaller flow raises the real ΔT over the heat pump. 🟡 from the source warning „Za mały przepływ to alarm
- * pompy ciepła i ryzyko zamarznięcia” — below the required flow, or below the datasheet minimum flow.
+ * with it: a smaller flow raises the real ΔT over the heat pump. 🔴 (owner decision D71, 02.10.2026; was 🟡) from the
+ * source warning „Za mały przepływ to alarm pompy ciepła i ryzyko zamarznięcia” — risk of freezing the exchanger —
+ * below the required flow, or below the datasheet minimum flow.
  *
  * Not computed (Dyrektywa #1): pump head from pipe resistance (the source names „długości rur, opory” but gives no
  * resistance model) and the upper limit „za wysoki (szumy, zużycie)” — no velocity limit in the source.

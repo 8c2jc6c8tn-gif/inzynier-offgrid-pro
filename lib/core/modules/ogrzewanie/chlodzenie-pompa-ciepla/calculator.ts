@@ -3,7 +3,7 @@ import { obliczPunktRosyC } from "../../baterie/ochrona-wilgoc/calculator"
 import { copPonizejJednosci, godzinyPozaDoba, procentPozaZakresem, ujemneWartosci } from "../wspolne/walidacja"
 import type { ChlodzeniePompaCieplaInput } from "./input"
 
-export const CALCULATOR_VERSION = "1.0.0"
+export const CALCULATOR_VERSION = "1.1.0"
 
 const W_NA_KW = 1000
 
@@ -38,11 +38,11 @@ const PUSTY: ChlodzeniePompaCieplaResult = {
 
 const r1 = (x: number) => Math.round(x * 10) / 10
 
-/** 🟡 Cooling flow at or below the dew point — the floor or fan coil sweats (source: „grozi zawilgoceniem posadzki”). */
+/** 🔴 (owner decision D71, 02.10.2026; was 🟡) Cooling flow at or below the dew point — condensation on the floor or fan coil, building damage (source: „grozi zawilgoceniem posadzki”). */
 function ponizejRosy(tZasilania: number, rosa: number): Warning {
   return {
     code: "CHL-PONIZEJ-ROSY",
-    level: "warning",
+    level: "critical",
     params: { zasilanie: r1(tZasilania), rosa: r1(rosa) },
     technicalMessage: `tZasilaniaC ${tZasilania} <= punkt rosy ${rosa}`,
     field: "tZasilaniaC",

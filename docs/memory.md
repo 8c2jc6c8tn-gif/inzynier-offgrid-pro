@@ -8774,3 +8774,15 @@ Tryb Audyt (czapka rewidenta). Warstwa „w pełni na końcu” z N.2 — wszyst
 - Pułapka: komunikat „{od}:00” psuje się przy siatce 30 min — godziny przekazywać jako gotowy tekst (`godzinaTekst()`).
 - Przy okazji odświeżone statusy: `rejestr-pokrycia` 1.15, 1.18, 3.10 oraz trzy nieaktualne wpisy 🔲 listy (M12 ×2, M7).
 
+## D71 — potwierdzenia ✅🤖 i nowe stopy cieplne + taryfa nocna (02.10.2026, gałąź lokalna, niewypchnięta)
+
+- Właściciel potwierdził założenia partii M7/M6/M10/M8 (pkt 14–16, 20, 23, 25, 24), poza otwartymi: pkt 13 (M7/E2
+  zapas paliwa), pkt 17 (M7/E7/E14 dni zalegania) i pytaniem o wagi M7/E12. Numeracja pytań 13–25 odtworzona z kolejności
+  punktów wpisów listy — zapisana w D71 jako do sprostowania.
+- Trzy poziomy do 🔴: `PRZ-PRZEPLYW-ZA-MALY`, `PRZ-PONIZEJ-MINIMUM` (1.1.0), `CHL-PONIZEJ-ROSY` (1.1.0);
+  `DMP-DEFICYT` 🔴 tylko przy `maDogrzew === false` (nowe opcjonalne pole, domyślnie „nie wiem” → 🟡 + ℹ️; 1.1.0).
+  Wpisy w `rejestr-twardych-stopow.md` (strażnik rozpoznaje poziom warunkowy `x ? "critical" : "warning"`).
+- Taryfa nocna (5.59) zbudowana: `ogrzewanie/taryfa-nocna-pompy-ciepla`. Dane M14 (`rozliczenia-pl-2026`) nie pasują
+  (składniki opłat sieciowych, bez godzin stref i ceny energii) — ceny i godziny wpisuje user.
+- Pułapka narzędzia: złożone polecenia powłoki z pętlami i operacjami na repozytorium bywają odrzucane w worktree —
+  skrypty pomocnicze trzymać w scratchpadzie.

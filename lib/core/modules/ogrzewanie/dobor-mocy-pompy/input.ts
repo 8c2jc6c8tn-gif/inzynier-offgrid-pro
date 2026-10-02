@@ -16,4 +16,9 @@ export type DoborMocyPompyInput = {
   tDrugiC: number | null
   /** Second datasheet point: pump heating capacity at `tDrugiC` [kW]. 0 = not entered. */
   mocPompyDrugiKw: number
+  /**
+   * Is there a backup heat source in the house (heater, stove, boiler)? true = yes, false = none, null/omitted = not
+   * entered (unknown). Decides the level of the power-deficit warning (D71).
+   */
+  maDogrzew?: boolean | null
 }

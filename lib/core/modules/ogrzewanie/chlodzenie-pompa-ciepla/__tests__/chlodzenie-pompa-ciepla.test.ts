@@ -30,10 +30,11 @@ describe("chłodzenie latem (dawne 5.29, 5.47, 5.51, 5.53)", () => {
     expect(r.assumptions).toContainEqual({ kod: "CHL-ZAL-FREE-COOLING" })
   })
 
-  it("punkt rosy 25 °C / 60% ≈ 16,7 °C — zasilanie 16 °C → 🟡, 18 °C → bez ostrzeżenia", () => {
+  it("punkt rosy 25 °C / 60% ≈ 16,7 °C — zasilanie 16 °C → 🔴, 18 °C → bez ostrzeżenia", () => {
     const zimno = calculateChlodzeniePompaCiepla({ ...baza, tZasilaniaC: 16, tPomieszczeniaC: 25, wilgotnoscPct: 60 })
     expect(zimno.value.punktRosyC).toBeCloseTo(16.7, 1)
     expect(zimno.warnings.map((w) => w.code)).toEqual(["CHL-PONIZEJ-ROSY"])
+    expect(zimno.warnings[0].level).toBe("critical")
     expect(calculateChlodzeniePompaCiepla({ ...baza, tZasilaniaC: 18, tPomieszczeniaC: 25, wilgotnoscPct: 60 }).warnings).toEqual([])
   })
 
