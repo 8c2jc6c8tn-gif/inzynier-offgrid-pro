@@ -8805,3 +8805,13 @@ Tryb Audyt (czapka rewidenta). Warstwa „w pełni na końcu” z N.2 — wszyst
   narzędzie AI w `pytaj-asystenta.ts`, wpis w `lib/pulpit/registry.ts`.
 - Założenia ✅🤖 (10 punktów) zebrane w jednym wpisie ⚠️ `lista-do-zrobienia.md` z 02.10.2026.
 
+## Telemetria — kontrakt i transporty (02.10.2026)
+
+- Zbudowano `lib/core/telemetria/*` (próbka, koperta ESP32 v1 w zod, CSV z profilem kolumn, jakość danych, symulator) i
+  `lib/adapters/telemetria/*` (magazyn próbek IDB + pamięć, źródła: symulator, HTTP, Web Serial, Web Bluetooth). Kontrakt:
+  `docs/telemetria-kontrakt-esp32.md`. Powód: WiFi/BLE nieznane przez miesiące — transport to wymienny adapter za portem `TelemetrySource`.
+- `DB_VERSION` IndexedDB 1→2 (nowy store `telemetria-probki`, migracja addytywna, standard 5.4). Testy wersji nie wymagały zmian.
+- Progi „zakres fizyczny” w `WIELKOSCI` to szerokie granice sensowności czujnika, nie normy. Wartości symulatora są poglądowe.
+- **Nie zweryfikowane:** Web Serial / Web Bluetooth na prawdziwym sprzęcie (testy na atrapach); UUID BLE do ustalenia z firmware;
+  MQTT-WS niezbudowany (zależność vs budżet SW, D61). Ekrany live (M13) jeszcze nie podpięte do źródeł.
+
