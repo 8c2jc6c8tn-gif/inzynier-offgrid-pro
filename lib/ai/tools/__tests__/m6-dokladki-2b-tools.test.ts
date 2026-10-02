@@ -10,6 +10,7 @@ import { cwuPompaCieplaTool } from "../cwu-pompa-ciepla-tool"
 import { gwcPompaCieplaTool } from "../gwc-pompa-ciepla-tool"
 import { defrostSezonTool } from "../defrost-sezon-tool"
 import { raportEfektywnosciTool } from "../raport-efektywnosci-budynku-tool"
+import { planPoprawyTool } from "../plan-poprawy-efektywnosci-tool"
 
 describe("doborMocyPompyTool (M6 Część 2B, dawne 5.27 + 5.67)", () => {
   it("kontrakt 9.3: 'read', bez potwierdzenia", () => {
@@ -201,5 +202,26 @@ describe("raportEfektywnosciTool (M6 Część 2B, dawne 5.40 + 5.67)", () => {
     expect(w.ranking[0].nazwa).toBe("Wentylacja")
     expect(w.kosztRokZl).toBeCloseTo(4800, 9)
     expect(w.zalozenia).toContain(t("pl", "RAP-ZAL-BEZ-KLASY"))
+  })
+})
+
+describe("planPoprawyTool (M6 Część 2C, dawne 5.68)", () => {
+  it("kontrakt 9.3: 'read', bez potwierdzenia", () => {
+    expect(planPoprawyTool.operationType).toBe("read")
+    expect(planPoprawyTool.requiresConfirmation).toBe(false)
+    expect(() => validateAiToolDefinition(planPoprawyTool)).not.toThrow()
+  })
+
+  it("dach (3 lata) przed oknami (8 lat); ℹ️ brak sumowania jako tekst PL", async () => {
+    const w = await planPoprawyTool.handler({
+      dzialania: [
+        { nazwa: "Okna", oszczednoscCieplaKwh: 800, kosztZl: 6400 },
+        { nazwa: "Dach", oszczednoscCieplaKwh: 2000, kosztZl: 6000 },
+      ],
+      cop: 1,
+      cenaZlKwh: 1,
+    })
+    expect(w.plan.map((p) => p.nazwa)).toEqual(["Dach", "Okna"])
+    expect(w.ostrzezenia).toContain(t("pl", "PLAN-NIE-SUMUJ"))
   })
 })

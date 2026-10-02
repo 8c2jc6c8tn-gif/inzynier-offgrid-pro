@@ -1673,6 +1673,8 @@ export const dictionaryPl = {
   "DSZ-UDZIAL-USTAWIENIA": "Defrost to {pct}% zużycia pompy w sezonie. Źródło: złe ustawienia defrostu mogą pochłonąć ok. 10% energii pompy — jeśli Twój wynik jest wysoki, sprawdź ustawienia sterownika (odstęp, warunek startu) z instalatorem.",
   "DSZ-ZAL-BEZ-HARMONOGRAMU": "Planowanie przerw na defrost pod komfort nie jest liczone — źródło nie daje modelu. Scenariusze pogody i ich dni wpisujesz sam (np. z danych pogodowych regionu).",
   "RAP-ZAL-BEZ-KLASY": "Klasa energetyczna (A, B, C…) i energia pierwotna nie są liczone — źródło nie podaje progów klas ani współczynników nakładu. Ile da poprawa izolacji czy okien, policzy ekran „wpływ czynnika” (Moduł 6). Roczne ciepło z Ekranu 1 nie odejmuje zysków słonecznych i bytowych.",
+  "PLAN-NIE-SUMUJ": "Oszczędności działań nie sumują się wprost — po jednym działaniu następne oszczędza mniej (np. po wymianie źródła ciepła każda kWh ciepła jest tańsza). Suma to górna granica; dokładniej: licz kolejne działanie na ekranie „Wpływ czynnika” ze stanem po poprzednim.",
+  "PLAN-ZAL-PROSTY-ZWROT": "Prosty okres zwrotu = koszt ÷ oszczędność roczna, przy dzisiejszej cenie prądu — bez zmian cen, inflacji, dotacji i kosztu kapitału. Źródło: zacznij od najtańszych i najszybszych poprawek.",
 } as const
 
 export type KluczTlumaczenia = keyof typeof dictionaryPl

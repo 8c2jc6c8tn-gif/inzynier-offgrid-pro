@@ -309,6 +309,46 @@ export const pl = {
       },
     },
   },
+  "plan-poprawy-efektywnosci": {
+    migawka: {
+      oCoChodzi: "To jak plan naprawczy domu: wiesz, od czego zacząć. Najpierw to, co tanie i szybko się zwraca.",
+      jakDziala: "Dla każdego działania: prąd zaoszczędzony = ciepło ÷ COP, złotówki = prąd × cena, zwrot = koszt ÷ złotówki na rok. Lista ułożona od najszybszego zwrotu; działania bez kosztu — na końcu, od największej oszczędności.",
+      poCo: "Pieniądze na modernizację są ograniczone — kolejność decyduje, ile zaoszczędzisz w pierwszych latach. Off-grid każda kWh mniej to też mniejsza bateria i mniej pracy agregatu.",
+      fizyka: "E = Q / COP, Z = E · c, T = K / Z.",
+    },
+    pola: {
+      nazwa: {
+        nazwa: "Nazwa działania",
+        cel: "Żeby wiedzieć, co jest na której pozycji listy.",
+        gdzie: "Np. „Izolacja dachu 20 cm”, „Wymiana okien”, „Rekuperator”.",
+        zakres: "Dowolny tekst.",
+      },
+      oszczednosc: {
+        nazwa: "Oszczędność ciepła w roku [kWh]",
+        cel: "Ile mniej ciepła dom zużyje po tym działaniu.",
+        gdzie: "Ekran „Wpływ czynnika” (Moduł 6) — wynik „przed/po” dla danego czynnika; albo audyt energetyczny.",
+        zakres: "≥ 0. Twój dom.",
+      },
+      koszt: {
+        nazwa: "Koszt działania [zł]",
+        cel: "Z niego okres zwrotu. Puste = bez zwrotu (działanie na końcu listy).",
+        gdzie: "Oferta wykonawcy albo koszt materiałów, jeśli robisz sam.",
+        zakres: "≥ 0. Twoja oferta.",
+      },
+      cop: {
+        nazwa: "COP źródła ciepła",
+        cel: "Przelicza zaoszczędzone ciepło na prąd: przy pompie ciepła 1 kWh ciepła to mniej niż 1 kWh prądu.",
+        gdzie: "Sezonowy COP (SCOP) z modelu sezonowego pompy; grzałka albo kocioł elektryczny = 1.",
+        zakres: "≥ 1. Twoje źródło ciepła.",
+      },
+      cena: {
+        nazwa: "Cena prądu [zł/kWh]",
+        cel: "Z niej złotówki na rok i zwrot.",
+        gdzie: "Off-grid: koszt kWh z PV/baterii albo z agregatu (Moduł 2); z siecią — rachunek.",
+        zakres: "≥ 0. Twoja cena.",
+      },
+    },
+  },
 }
 
 export const en: Tlumaczenie<typeof pl> = {
@@ -616,6 +656,46 @@ export const en: Tlumaczenie<typeof pl> = {
       },
     },
   },
+  "plan-poprawy-efektywnosci": {
+    migawka: {
+      oCoChodzi: "It is like a repair plan for the house: you know where to start. First what is cheap and pays back quickly.",
+      jakDziala: "For each measure: electricity saved = heat ÷ COP, money = electricity × price, payback = cost ÷ money per year. The list is ordered from the quickest payback; measures without a cost go last, from the largest saving.",
+      poCo: "Money for upgrades is limited — the order decides how much you save in the first years. Off-grid every kWh less also means a smaller battery and less generator running.",
+      fizyka: "E = Q / COP, Z = E · c, T = K / Z.",
+    },
+    pola: {
+      nazwa: {
+        nazwa: "Measure name",
+        cel: "So you know what is where on the list.",
+        gdzie: "E.g. “Roof insulation 20 cm”, “Window replacement”, “Heat recovery unit”.",
+        zakres: "Any text.",
+      },
+      oszczednosc: {
+        nazwa: "Heat saving per year [kWh]",
+        cel: "How much less heat the house uses after this measure.",
+        gdzie: "The “factor impact” screen (Module 6) — the before/after result for that factor; or an energy audit.",
+        zakres: "≥ 0. Your house.",
+      },
+      koszt: {
+        nazwa: "Cost of the measure [PLN]",
+        cel: "The payback follows from it. Empty = no payback (the measure goes to the end).",
+        gdzie: "A contractor's quote or the material cost if you do it yourself.",
+        zakres: "≥ 0. Your quote.",
+      },
+      cop: {
+        nazwa: "Heat source COP",
+        cel: "Turns the heat saved into electricity: with a heat pump 1 kWh of heat is less than 1 kWh of electricity.",
+        gdzie: "Seasonal COP (SCOP) from the pump's seasonal model; heater or electric boiler = 1.",
+        zakres: "≥ 1. Your heat source.",
+      },
+      cena: {
+        nazwa: "Electricity price [PLN/kWh]",
+        cel: "Money per year and the payback follow from it.",
+        gdzie: "Off-grid: the cost of a kWh from PV/battery or the generator (Module 2); with the grid — the bill.",
+        zakres: "≥ 0. Your price.",
+      },
+    },
+  },
 }
 
 export const ru: Tlumaczenie<typeof pl> = {
@@ -918,6 +998,46 @@ export const ru: Tlumaczenie<typeof pl> = {
       cena: {
         nazwa: "Цена электроэнергии [зл/кВт·ч]",
         cel: "Необязательно: переводит годовую электроэнергию в злотые.",
+        gdzie: "Off-grid: стоимость кВт·ч от PV/батареи или генератора (модуль 2); с сетью — счёт.",
+        zakres: "≥ 0. Ваша цена.",
+      },
+    },
+  },
+  "plan-poprawy-efektywnosci": {
+    migawka: {
+      oCoChodzi: "Это как план ремонта дома: понятно, с чего начать. Сначала то, что дёшево и быстро окупается.",
+      jakDziala: "Для каждого мероприятия: сэкономленная электроэнергия = тепло ÷ COP, деньги = электроэнергия × цена, окупаемость = стоимость ÷ деньги в год. Список упорядочен по самой быстрой окупаемости; мероприятия без стоимости — в конце, по наибольшей экономии.",
+      poCo: "Деньги на модернизацию ограничены — порядок решает, сколько вы сэкономите в первые годы. В автономном доме каждый кВт·ч меньше — это ещё и меньшая батарея и меньше работы генератора.",
+      fizyka: "E = Q / COP, Z = E · c, T = K / Z.",
+    },
+    pola: {
+      nazwa: {
+        nazwa: "Название мероприятия",
+        cel: "Чтобы знать, что на какой позиции списка.",
+        gdzie: "Например, «Утепление крыши 20 см», «Замена окон», «Рекуператор».",
+        zakres: "Любой текст.",
+      },
+      oszczednosc: {
+        nazwa: "Экономия тепла в год [кВт·ч]",
+        cel: "Насколько меньше тепла дом потребит после этого мероприятия.",
+        gdzie: "Экран «влияние фактора» (модуль 6) — результат «до/после» для этого фактора; или энергоаудит.",
+        zakres: "≥ 0. Ваш дом.",
+      },
+      koszt: {
+        nazwa: "Стоимость мероприятия [зл]",
+        cel: "Из неё — срок окупаемости. Пусто = без окупаемости (мероприятие в конце списка).",
+        gdzie: "Предложение подрядчика или стоимость материалов, если делаете сами.",
+        zakres: "≥ 0. Ваше предложение.",
+      },
+      cop: {
+        nazwa: "COP источника тепла",
+        cel: "Переводит сэкономленное тепло в электроэнергию: с тепловым насосом 1 кВт·ч тепла — это меньше 1 кВт·ч электроэнергии.",
+        gdzie: "Сезонный COP (SCOP) из сезонной модели насоса; ТЭН или электрокотёл = 1.",
+        zakres: "≥ 1. Ваш источник тепла.",
+      },
+      cena: {
+        nazwa: "Цена электроэнергии [зл/кВт·ч]",
+        cel: "Из неё — деньги в год и окупаемость.",
         gdzie: "Off-grid: стоимость кВт·ч от PV/батареи или генератора (модуль 2); с сетью — счёт.",
         zakres: "≥ 0. Ваша цена.",
       },
