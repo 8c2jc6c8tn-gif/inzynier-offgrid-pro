@@ -3,6 +3,8 @@
 import { useMemo } from "react"
 import { calculateAgregatPradotworczy } from "@/lib/core/modules/zapotrzebowanie/agregat-pradotworczy/calculator"
 import { usePersistedDraft } from "@/lib/adapters/use-persisted-draft"
+import { PrzeliczoneInfo } from "@/components/przeliczone-info"
+import { przeliczPola } from "@/lib/waluta/przelicz"
 import { Pole, PoleCheckbox } from "@/components/ui/pole"
 import { PomocPola } from "@/components/ui/pomoc"
 import { WerdyktPanel, type WerdyktPoziom } from "@/components/werdykt"
@@ -36,9 +38,11 @@ const STAN_POCZATKOWY: FormularzStan = {
   podlaczenieAgregatu: "",
 }
 
+const KWOTY = przeliczPola<FormularzStan>("cenaZaLitrZl")
+
 export default function AgregatPradotworczyPage() {
   const t = useTranslate()
-  const [stan, setStan] = usePersistedDraft<FormularzStan>("agregat-pradotworczy", STAN_POCZATKOWY)
+  const [stan, setStan, info] = usePersistedDraft<FormularzStan>("agregat-pradotworczy", STAN_POCZATKOWY, KWOTY)
   const { deficytKwh, mocAgregatuKw, sredniZuzycieLH, cenaZaLitrZl, maWyjscieSterujaceBms, miejsceAgregatu, podlaczenieAgregatu } =
     stan
 
@@ -89,6 +93,7 @@ export default function AgregatPradotworczyPage() {
       >
         {t("UI-AGRPRA-SYSTEM-POROWNUJE-PRODUKCJE")}
       </NaglowekEkranu>
+      <PrzeliczoneInfo info={info} />
 
       <div className="flex flex-col gap-4">
         <Pole

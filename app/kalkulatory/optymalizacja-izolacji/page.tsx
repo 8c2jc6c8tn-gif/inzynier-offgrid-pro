@@ -16,6 +16,8 @@ import { calculateOptymalizacjaIzolacji, type WynikWariantu } from "@/lib/core/m
 import { LAT_ANALIZY } from "@/lib/core/modules/ogrzewanie/optymalizacja-izolacji/constants"
 import { useTranslate } from "@/lib/i18n/language-context"
 import { liczba } from "@/lib/lokalizacja/model-dzialki"
+import { przeliczPoleTekst } from "@/lib/waluta/przelicz"
+import { PrzeliczoneInfo } from "@/components/przeliczone-info"
 import { KLUCZ_DRAFTU_OBCIAZENIA, wejscieObciazenia, type SeedObciazenia } from "@/lib/ogrzewanie/draft-obciazenia-cieplnego"
 
 type WariantSeed = { nazwa: string; lambda: string; grubosc: string; cena: string }
@@ -34,6 +36,13 @@ const stanPoczatkowy = (t: (k: string) => string): Seed => ({
     nowyWariant(t("UI-OPTIZO-CELULOZA")),
   ],
   cenaCiepla: "",
+})
+
+/** Money fields: price per m² of each variant and the heat price. */
+const przeliczKwotySeed = (s: Seed, wsp: number): Seed => ({
+  ...s,
+  warianty: s.warianty.map((w) => ({ ...w, cena: przeliczPoleTekst(w.cena, wsp) })),
+  cenaCiepla: przeliczPoleTekst(s.cenaCiepla, wsp),
 })
 
 const n = (s: string) => liczba(s) ?? null
@@ -90,7 +99,7 @@ function KartaWariantu({ w, i, ustaw, usun }: { w: WariantSeed; i: number; ustaw
 
 export default function OptymalizacjaIzolacjiPage() {
   const t = useTranslate()
-  const [stan, setStan] = usePersistedDraft<Seed>("optymalizacja-izolacji", stanPoczatkowy(t))
+  const [stan, setStan, info] = usePersistedDraft<Seed>("optymalizacja-izolacji", stanPoczatkowy(t), przeliczKwotySeed)
   const ustaw = (z: Partial<Seed>) => setStan((s) => ({ ...s, ...z }))
   const ustawWariant = (i: number, z: Partial<WariantSeed>) =>
     setStan((s) => ({ ...s, warianty: s.warianty.map((w, j) => (j === i ? { ...w, ...z } : w)) }))
@@ -132,6 +141,7 @@ export default function OptymalizacjaIzolacjiPage() {
       <NaglowekEkranu tytul={t("UI-OPTIZO-OPTYMALIZACJA-IZOLACJI")} ekran="optymalizacja-izolacji" wynik={wynik} parametry={{ lata: LAT_ANALIZY }}>
         {t("UI-OPTIZO-POROWNANIE-MATERIALOW-GRUBOS", { LAT_ANALIZY })}
       </NaglowekEkranu>
+      <PrzeliczoneInfo info={info} />
 
       <section className="flex flex-col gap-3 rounded-lg border p-4">
         <h2 className="font-semibold">{t("UI-OPTIZO-PRZEGRODA-KLIMAT-EKRANU")}</h2>

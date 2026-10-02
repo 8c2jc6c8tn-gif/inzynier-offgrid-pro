@@ -14,8 +14,9 @@ import type { StorageAdapter } from "./storage-adapter"
 import { poprosOTrwalyMagazyn } from "./trwaly-magazyn"
 
 const DB_NAME = "offgrid-storage"
-const DB_VERSION = 1
+const DB_VERSION = 2 // v2: added the telemetry samples store (additive migration, standard 5.4)
 const STORE_NAME = "kv"
+export const STORE_PROBEK = "telemetria-probki"
 
 /**
  * Schema version conflicts between tabs (standard 5.11):
@@ -54,13 +55,18 @@ export function _resetZdarzenWersjiBazy() {
   sluchaczeWersjiBazy.clear()
 }
 
-function openDb(): Promise<IDBDatabase> {
+export function openDb(): Promise<IDBDatabase> {
   return new Promise((resolve, reject) => {
     const req = indexedDB.open(DB_NAME, DB_VERSION)
     req.onupgradeneeded = () => {
       const db = req.result
       if (!db.objectStoreNames.contains(STORE_NAME)) {
         db.createObjectStore(STORE_NAME)
+      }
+      if (!db.objectStoreNames.contains(STORE_PROBEK)) {
+        // key = [source, channel, quantity, time] → one record per sample, naturally de-duplicated
+        const st = db.createObjectStore(STORE_PROBEK, { keyPath: ["zrodloId", "kanal", "wielkosc", "czas"] })
+        st.createIndex("po-zrodle-i-czasie", ["zrodloId", "czas"])
       }
     }
     req.onblocked = () => powiadom("upgrade-zablokowany")

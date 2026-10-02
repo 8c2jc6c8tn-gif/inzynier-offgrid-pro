@@ -158,7 +158,7 @@ export const pl = {
   "UI-OPTTRAKAB-TRASA": "Trasa A",
   "UI-OPTTRAKAB-TRASA-2": "Trasa B",
   "UI-OPTTRAKAB-TCO-KWH-ROK":
-    "TCO A: {tcoAZl} zł ({strataRocznaAKwh} kWh/rok) · TCO B: {tcoBZl} zł ({strataRocznaBKwh} kWh/rok)",
+    "TCO A: {tcoAZl} {waluta} ({strataRocznaAKwh} kWh/rok) · TCO B: {tcoBZl} {waluta} ({strataRocznaBKwh} kWh/rok)",
   "UI-OPTTRAKAB-POLICZYC": "Nie da się policzyć",
   "UI-OPTTRAKAB-WYPELNIJ-DANE-OBU": "Wypełnij dane obu tras",
   "UI-OPTTRAKAB-UWAGA-JEDNA-TRAS": "Uwaga — jedna z tras nie spełnia wymagań przekroju",
@@ -531,7 +531,7 @@ export const en: Record<Klucz, string> = {
   "UI-OPTTRAKAB-TRASA": "Route A",
   "UI-OPTTRAKAB-TRASA-2": "Route B",
   "UI-OPTTRAKAB-TCO-KWH-ROK":
-    "TCO A: {tcoAZl} zł ({strataRocznaAKwh} kWh/year) · TCO B: {tcoBZl} zł ({strataRocznaBKwh} kWh/year)",
+    "TCO A: {tcoAZl} {waluta} ({strataRocznaAKwh} kWh/year) · TCO B: {tcoBZl} {waluta} ({strataRocznaBKwh} kWh/year)",
   "UI-OPTTRAKAB-POLICZYC": "Can't calculate",
   "UI-OPTTRAKAB-WYPELNIJ-DANE-OBU": "Fill in the data for both routes",
   "UI-OPTTRAKAB-UWAGA-JEDNA-TRAS": "Warning — one of the routes does not meet the cross-section requirements",
@@ -903,7 +903,7 @@ export const ru: Record<Klucz, string> = {
   "UI-OPTTRAKAB-TRASA": "Трасса A",
   "UI-OPTTRAKAB-TRASA-2": "Трасса B",
   "UI-OPTTRAKAB-TCO-KWH-ROK":
-    "TCO A: {tcoAZl} зл ({strataRocznaAKwh} кВт·ч/год) · TCO B: {tcoBZl} зл ({strataRocznaBKwh} кВт·ч/год)",
+    "TCO A: {tcoAZl} {waluta} ({strataRocznaAKwh} кВт·ч/год) · TCO B: {tcoBZl} {waluta} ({strataRocznaBKwh} кВт·ч/год)",
   "UI-OPTTRAKAB-POLICZYC": "Невозможно рассчитать",
   "UI-OPTTRAKAB-WYPELNIJ-DANE-OBU": "Заполните данные обеих трасс",
   "UI-OPTTRAKAB-UWAGA-JEDNA-TRAS": "Внимание — одна из трасс не соответствует требованиям по сечению",

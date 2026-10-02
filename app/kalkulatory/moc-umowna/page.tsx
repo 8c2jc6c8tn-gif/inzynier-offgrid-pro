@@ -12,7 +12,8 @@ import { NawigacjaEkranu } from "@/components/nawigacja-ekranu"
 import { NaglowekEkranu } from "@/components/wzorce/naglowek-ekranu"
 import { WynikGlowny } from "@/components/wzorce/wynik-glowny"
 import { WynikSzczegoly } from "@/components/wzorce/wynik-szczegoly"
-import { GRUPY_FIRMA, PoleOsd, liczba, nadpisanie, poziomWerdyktu, zl } from "@/components/siec/wspolne"
+import { GRUPY_FIRMA, PoleOsd, liczba, nadpisanie, poziomWerdyktu } from "@/components/siec/wspolne"
+import { useZl } from "@/lib/waluta/use-waluta"
 import { useTranslate } from "@/lib/i18n/language-context"
 
 const MIESIACE = ["UI-MIES-01", "UI-MIES-02", "UI-MIES-03", "UI-MIES-04", "UI-MIES-05", "UI-MIES-06", "UI-MIES-07", "UI-MIES-08", "UI-MIES-09", "UI-MIES-10", "UI-MIES-11", "UI-MIES-12"]
@@ -27,7 +28,8 @@ type Stan = {
 }
 
 export default function MocUmownaPage() {
-  const t = useTranslate()
+  const t = useTranslate(true)
+  const zl = useZl()
   const [stan, setStan] = usePersistedDraft<Stan>("siec-moc-umowna", {
     osd: "tauron",
     grupa: "C21",

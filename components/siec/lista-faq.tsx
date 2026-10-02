@@ -7,7 +7,7 @@ import type { PytanieFaq } from "./tresci-faq"
 
 /** M14 FAQ (D14/F13), Wzorzec C — one collapsible section per question. */
 export function ListaFaq({ pytania }: { pytania: PytanieFaq[] }) {
-  const t = useTranslate()
+  const t = useTranslate(true)
   return (
     <div className="flex flex-col gap-3">
       {pytania.map((p) => (

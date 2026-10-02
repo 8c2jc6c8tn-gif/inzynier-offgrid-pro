@@ -26,6 +26,13 @@ const STAN_POCZATKOWY: FormularzStan = {
   dodatkowyUzyskPct: "",
 }
 
+const KLUCZE_POWIERZCHNI: Record<TypPowierzchniPodSpodem, string> = {
+  biala_membrana: "UI-STALE-BIFACJ-BIALA-MEMBRANA",
+  jasny_beton: "UI-STALE-BIFACJ-JASNY-BETON",
+  piasek: "UI-STALE-BIFACJ-PIASEK",
+  trawa: "UI-STALE-BIFACJ-TRAWA",
+}
+
 export default function PaneleBifacjalnePage() {
   const t = useTranslate()
   const [stan, setStan] = usePersistedDraft<FormularzStan>("panele-bifacjalne", STAN_POCZATKOWY)
@@ -84,7 +91,7 @@ export default function PaneleBifacjalnePage() {
           {(Object.entries(ZAKRESY_UZYSKU_PCT) as [TypPowierzchniPodSpodem, (typeof ZAKRESY_UZYSKU_PCT)[TypPowierzchniPodSpodem]][]).map(
             ([klucz, opcja]) => (
               <option key={klucz} value={klucz}>
-                {opcja.label} ({opcja.minPct}-{opcja.maxPct}%)
+                {t(KLUCZE_POWIERZCHNI[klucz])} ({opcja.minPct}-{opcja.maxPct}%)
               </option>
             ),
           )}
@@ -101,7 +108,7 @@ export default function PaneleBifacjalnePage() {
         />
         {zakres && (
           <p className="text-small text-muted-foreground">
-            {t("UI-PANBIF-TYPOWY-ZAKRES", { label: zakres.label, minPct: zakres.minPct, maxPct: zakres.maxPct })}
+            {t("UI-PANBIF-TYPOWY-ZAKRES", { label: t(KLUCZE_POWIERZCHNI[typPowierzchni as TypPowierzchniPodSpodem]), minPct: zakres.minPct, maxPct: zakres.maxPct })}
           </p>
         )}
       </div>

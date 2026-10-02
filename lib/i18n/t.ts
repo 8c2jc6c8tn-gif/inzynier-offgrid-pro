@@ -28,11 +28,11 @@ export function t(language: Language, kod: string, params?: Record<string, strin
   return podstaw(language, szablon, params)
 }
 
-/** Fills `{name}` placeholders — shared by `t()` and the help content (`components/ui/pomoc.tsx`). */
+/** Fills `{name}` placeholders (`{waluta}` defaults to „zł” — Polish-market texts; generic screens pass the chosen currency symbol) — shared by `t()` and the help content (`components/ui/pomoc.tsx`). */
 export function podstaw(language: Language, szablon: string, params?: Record<string, string | number>): string {
-  if (!params) return szablon
+  const wszystkie: Record<string, string | number> = { waluta: "zł", ...params }
   return szablon.replace(/\{(\w+)\}/g, (dopasowanie, nazwa: string) =>
-    nazwa in params ? formatujParametr(language, params[nazwa]!) : dopasowanie,
+    nazwa in wszystkie ? formatujParametr(language, wszystkie[nazwa]!) : dopasowanie,
   )
 }
 

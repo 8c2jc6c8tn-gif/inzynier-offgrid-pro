@@ -12,6 +12,7 @@ import { NawigacjaEkranu } from "@/components/nawigacja-ekranu"
 import { NaglowekEkranu } from "@/components/wzorce/naglowek-ekranu"
 import { WynikGlowny } from "@/components/wzorce/wynik-glowny"
 import { WynikSzczegoly } from "@/components/wzorce/wynik-szczegoly"
+import { KLUCZ_KATEGORII, KLUCZE_PRZYKLADOWYCH_WARSZTAT, etykieta } from "@/components/zapotrzebowanie/etykiety-stalych"
 import { useTranslate } from "@/lib/i18n/language-context"
 
 type FormularzStan = {
@@ -70,7 +71,7 @@ export default function KategorieSpecjalnePage() {
       >
         {KATEGORIE.map((k) => (
           <option key={k.id} value={k.id}>
-            {k.label}
+            {etykieta(t, KLUCZ_KATEGORII, k.id, k.label)}
           </option>
         ))}
       </PoleSelect>
@@ -78,16 +79,19 @@ export default function KategorieSpecjalnePage() {
       {kategoria === "warsztat" && pozycje.length === 0 && (
         <div className="rounded-md border border-dashed p-3 text-small text-muted-foreground">
           {t("UI-KATSPE-TYPOWE-URZADZENIA-TEJ")}
-          {PRZYKLADOWE_URZADZENIA_WARSZTAT.map((nazwa) => (
+          {PRZYKLADOWE_URZADZENIA_WARSZTAT.map((nazwaPl, i) => {
+            const nazwa = KLUCZE_PRZYKLADOWYCH_WARSZTAT[i] ? t(KLUCZE_PRZYKLADOWYCH_WARSZTAT[i]) : nazwaPl
+            return (
             <button
-              key={nazwa}
+              key={nazwaPl}
               type="button"
               onClick={() => dodajPozycje(nazwa)}
               className="mr-2 mt-1 inline-block rounded-full border px-3 py-1 hover:bg-muted"
             >
               + {nazwa}
             </button>
-          ))}
+            )
+          })}
           <p className="mt-2 text-caption">{t("UI-KATSPE-MOC-PODANA-ZRODLE")}</p>
         </div>
       )}

@@ -51,8 +51,14 @@ import * as appWzornik from "./app-wzornik"
 import * as pwa from "./pwa"
 import * as wspolne from "./wspolne"
 import * as wyglad from "./wyglad"
+import * as staleBaterie from "./stale-baterie"
+import * as staleRozne from "./stale-rozne"
+import * as staleZapotrzebowanie from "./stale-zapotrzebowanie"
+import * as pulpitRejestr from "./pulpit-rejestr"
+import * as waluta from "./waluta"
+import * as meta from "./meta"
 
-export const czesciUi = [wspolne, dopiskiStarychEkranow, m09Esp32, m12Ekrany, m12Uziemienie, m14Agregat, m14Bess, m14Ekrany, m14Faq, m14Przejscie, m14PrzejscieEkrany, m14Przelacznik, m14Pv, m14Scenariusze, m14Sciezka, m14Zima, m11MontazBaterii, m08Bezpieczenstwo, m12Mobilny, m04Baterie, pulpit, m05Elektryka, m02Zapotrzebowanie, m07Zima, m09Ekrany, ekranyRozne, m15M16Siec, pwa, wyglad, m06Ogrzewanie, m06StareEkrany, m03PvA, m03TypMontazu, m03PvB, m07bZima, m06cOgrzewanie, m06dDokladki, m06eNagrzewnica, m10Ai, m01Lokalizacja, komponentyLokalizacja, komponentySiec, komponentyWspolne, komponentyWzorce, appStrony, appWzornik] as const
+export const czesciUi = [wspolne, dopiskiStarychEkranow, m09Esp32, m12Ekrany, m12Uziemienie, m14Agregat, m14Bess, m14Ekrany, m14Faq, m14Przejscie, m14PrzejscieEkrany, m14Przelacznik, m14Pv, m14Scenariusze, m14Sciezka, m14Zima, m11MontazBaterii, m08Bezpieczenstwo, m12Mobilny, m04Baterie, pulpit, m05Elektryka, m02Zapotrzebowanie, m07Zima, m09Ekrany, ekranyRozne, m15M16Siec, pwa, wyglad, m06Ogrzewanie, m06StareEkrany, m03PvA, m03TypMontazu, m03PvB, m07bZima, m06cOgrzewanie, m06dDokladki, m06eNagrzewnica, m10Ai, m01Lokalizacja, komponentyLokalizacja, komponentySiec, komponentyWspolne, komponentyWzorce, appStrony, appWzornik, staleBaterie, staleRozne, staleZapotrzebowanie, pulpitRejestr, waluta, meta] as const
 
 export const uiPl = Object.assign({}, ...czesciUi.map((c) => c.pl)) as Record<string, string>
 export const uiEn = Object.assign({}, ...czesciUi.map((c) => c.en)) as Record<string, string>

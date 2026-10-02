@@ -18,9 +18,10 @@ import {
   naWejscieBezpieczenstwa,
   type BezpieczenstwoAgregatuStan,
 } from "@/components/agregat/pola-bezpieczenstwa-agregatu"
-import { liczba, poziomWerdyktu, zl } from "@/components/siec/wspolne"
+import { liczba, poziomWerdyktu } from "@/components/siec/wspolne"
 import { useDaneBilansu, wejscieBilansu } from "@/components/siec/pv-magazyn"
 import { KLUCZE_MIESIECY } from "@/components/siec/zuzycie-miesieczne"
+import { useZl } from "@/lib/waluta/use-waluta"
 import { useTranslate } from "@/lib/i18n/language-context"
 
 type Stan = BezpieczenstwoAgregatuStan & { moc: string; zuzycieLH: string; cena: string; bms: boolean }
@@ -34,7 +35,8 @@ const f1 = (x: number) => x.toLocaleString("pl-PL", { maximumFractionDigits: 1 }
  * island balance (D4 installation without the grid) — no second generator model.
  */
 export default function AgregatJakoZapasPage() {
-  const t = useTranslate()
+  const t = useTranslate(true)
+  const zl = useZl()
   const { zuzycie, pv, wczytano } = useDaneBilansu("dom")
   const [stan, setStan] = usePersistedDraft<Stan>("siec-agregat-dom", POCZATKOWY)
   const ustaw = (z: Partial<Stan>) => setStan((p) => ({ ...p, ...z }))

@@ -123,7 +123,7 @@ export default function MixingRownoleglePage() {
           <option value="">{t("UI-WYBIERZ")}</option>
           {BATTERY_TECHNOLOGIES.map((tech) => (
             <option key={tech.id} value={tech.id}>
-              {tech.label}
+              {t(`UI-STALEBAT-TECH-${tech.id.toUpperCase()}`)}
             </option>
           ))}
         </PoleSelect>
@@ -158,7 +158,7 @@ export default function MixingRownoleglePage() {
           <option value="">{t("UI-WYBIERZ")}</option>
           {BATTERY_TECHNOLOGIES.map((tech) => (
             <option key={tech.id} value={tech.id}>
-              {tech.label}
+              {t(`UI-STALEBAT-TECH-${tech.id.toUpperCase()}`)}
             </option>
           ))}
         </PoleSelect>

@@ -10,6 +10,7 @@ import { MASKOTKA_PO_ID_KAFLA } from "@/lib/pulpit/maskotki"
 import { KAFLE, USTAWIENIA_KAFEL, znajdzKafel } from "@/lib/pulpit/registry"
 import { getServerSnapshot, getSnapshot, subscribe } from "@/lib/pulpit/storage"
 import { useTranslate } from "@/lib/i18n/language-context"
+import { NazwaKafla, OpisKafla } from "@/components/tekst-rejestru"
 
 export default function PulpitPage() {
   const t = useTranslate()
@@ -101,8 +102,8 @@ export default function PulpitPage() {
                       {kafel.ikona}
                     </span>
                   )}
-                  <span className="text-small font-medium leading-tight">{kafel.nazwa}</span>
-                  {kafel.duzy ? <span className="text-caption text-muted-foreground">{kafel.opis}</span> : null}
+                  <span className="text-small font-medium leading-tight"><NazwaKafla kafel={kafel} /></span>
+                  {kafel.duzy ? <span className="text-caption text-muted-foreground"><OpisKafla kafel={kafel} /></span> : null}
                 </Link>
               </li>
             ))}

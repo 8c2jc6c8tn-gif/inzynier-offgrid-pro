@@ -32,7 +32,7 @@ export function useZuzycieMiesieczne(segment: Segment): { zuzycie: number[] | nu
 }
 
 export function PolaZuzycia({ stan, onChange }: { stan: StanZuzycia; onChange: (s: StanZuzycia) => void }) {
-  const t = useTranslate()
+  const t = useTranslate(true)
   return (
     <fieldset className="grid grid-cols-3 gap-3 rounded-md border p-3">
       <legend className="px-1 text-small font-medium">{t("UI-ZUZ-LEGENDA")}</legend>

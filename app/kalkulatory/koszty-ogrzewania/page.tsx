@@ -17,6 +17,8 @@ import { LICZBA_LAT_ZRODLO, SPOSOB_LICZENIA } from "@/lib/core/modules/ogrzewani
 import type { RodzajZrodla, ZrodloCiepla } from "@/lib/core/modules/ogrzewanie/koszty-ogrzewania/input"
 import { useTranslate } from "@/lib/i18n/language-context"
 import { liczba } from "@/lib/lokalizacja/model-dzialki"
+import { przeliczPola } from "@/lib/waluta/przelicz"
+import { PrzeliczoneInfo } from "@/components/przeliczone-info"
 
 const RODZAJE: { id: RodzajZrodla; label: string; jednostka: string }[] = [
   { id: "drewno", label: "UI-KOSOGR-DREWNO-KOMINEK-PIEC", jednostka: "mp" },
@@ -65,6 +67,13 @@ const noweZrodlo = (rodzaj: RodzajZrodla): ZrodloSeed => ({
 
 // Okres 10 lat — wartość ze źródła ("ranking opłacalności w skali 10 lat"), edytowalna (D28).
 const STAN_POCZATKOWY: Seed = { zapotrzebowanieSezonKwh: "", liczbaLat: String(LICZBA_LAT_ZRODLO), zrodla: [] }
+
+// Money fields of every heat source (price per unit, purchase + installation, yearly service).
+const PRZELICZ_ZRODLO = przeliczPola<ZrodloSeed>("cenaZl", "kosztInwestycjiZl", "kosztSerwisuRocznyZl")
+const PRZELICZ_KWOTY = (stan: Seed, wspolczynnik: number): Seed => ({
+  ...stan,
+  zrodla: stan.zrodla.map((z) => PRZELICZ_ZRODLO(z, wspolczynnik)),
+})
 
 const n = (s: string) => liczba(s) ?? null
 const f0 = (x: number) => x.toLocaleString("pl-PL", { maximumFractionDigits: 0 })
@@ -148,7 +157,7 @@ function KartaZrodla({ z, i, ustaw, usun }: { z: ZrodloSeed; i: number; ustaw: (
 
 export default function KosztyOgrzewaniaPage() {
   const t = useTranslate()
-  const [stan, setStan] = usePersistedDraft<Seed>("koszty-ogrzewania", STAN_POCZATKOWY)
+  const [stan, setStan, info] = usePersistedDraft<Seed>("koszty-ogrzewania", STAN_POCZATKOWY, PRZELICZ_KWOTY)
   const ustawZrodlo = (i: number, p: Partial<ZrodloSeed>) => setStan((s) => ({ ...s, zrodla: s.zrodla.map((z, j) => (j === i ? { ...z, ...p } : z)) }))
 
   const wynik = useMemo(
@@ -188,6 +197,8 @@ export default function KosztyOgrzewaniaPage() {
       <NaglowekEkranu tytul={t("UI-KOSOGR-POROWNANIE-KOSZTOW-OGRZEWANI")} ekran="koszty-ogrzewania" wynik={wynik} parametry={{ lata: LICZBA_LAT_ZRODLO }}>
         {t("UI-KOSOGR-DREWNO-WEGIEL-PELLET")}
       </NaglowekEkranu>
+
+      <PrzeliczoneInfo info={info} />
 
       <section className="flex flex-col gap-3">
         <div className="grid gap-3 sm:grid-cols-2">

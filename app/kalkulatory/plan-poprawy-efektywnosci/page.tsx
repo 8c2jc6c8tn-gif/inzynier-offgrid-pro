@@ -4,6 +4,8 @@ import Link from "next/link"
 import { useMemo } from "react"
 import { calculatePlanPoprawy } from "@/lib/core/modules/ogrzewanie/plan-poprawy-efektywnosci/calculator"
 import { usePersistedDraft } from "@/lib/adapters/use-persisted-draft"
+import { przeliczPoleTekst } from "@/lib/waluta/przelicz"
+import { PrzeliczoneInfo } from "@/components/przeliczone-info"
 import { useTranslate } from "@/lib/i18n/language-context"
 import { liczba } from "@/lib/lokalizacja/model-dzialki"
 import { Button } from "@/components/ui/button"
@@ -25,9 +27,16 @@ const r0 = (x: number) => Math.round(x)
 const r1 = (x: number) => Math.round(x * 10) / 10
 
 /** Moduł 6, Część 2C — dawne 5.68: rekomendacje poprawy efektywności posortowane po zwrocie (Wzorzec G). */
+/** Money fields: cost of each action and the heat price. */
+const PRZELICZ_KWOTY = (s: Stan, wsp: number): Stan => ({
+  ...s,
+  dzialania: s.dzialania.map((d) => ({ ...d, koszt: przeliczPoleTekst(d.koszt, wsp) })),
+  cena: przeliczPoleTekst(s.cena, wsp),
+})
+
 export default function PlanPoprawyEfektywnosciPage() {
   const t = useTranslate()
-  const [stan, setStan] = usePersistedDraft<Stan>("plan-poprawy-efektywnosci", STAN_POCZATKOWY)
+  const [stan, setStan, info] = usePersistedDraft<Stan>("plan-poprawy-efektywnosci", STAN_POCZATKOWY, PRZELICZ_KWOTY)
   const ustawWiersz = (i: number, klucz: keyof Wiersz, wartosc: string) =>
     setStan((s) => ({ ...s, dzialania: s.dzialania.map((d, j) => (j === i ? { ...d, [klucz]: wartosc } : d)) }))
   const liczbowe = { type: "number", inputMode: "decimal" as const, min: 0 }
@@ -53,6 +62,7 @@ export default function PlanPoprawyEfektywnosciPage() {
       <NaglowekEkranu tytul={t("UI-M6D-PLAN-TYTUL")} ekran="plan-poprawy-efektywnosci" wynik={result}>
         {t("UI-M6D-PLAN-OPIS")}
       </NaglowekEkranu>
+      <PrzeliczoneInfo info={info} />
 
       {stan.dzialania.map((d, i) => (
         <fieldset key={i} className="flex flex-col gap-3 rounded-md border p-3">

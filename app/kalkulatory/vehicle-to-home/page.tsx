@@ -10,6 +10,8 @@ import { NaglowekEkranu } from "@/components/wzorce/naglowek-ekranu"
 import { WynikGlowny } from "@/components/wzorce/wynik-glowny"
 import { WynikSzczegoly } from "@/components/wzorce/wynik-szczegoly"
 import { usePersistedDraft } from "@/lib/adapters/use-persisted-draft"
+import { przeliczPola } from "@/lib/waluta/przelicz"
+import { PrzeliczoneInfo } from "@/components/przeliczone-info"
 import { useTranslate } from "@/lib/i18n/language-context"
 
 type FormularzStan = {
@@ -30,9 +32,12 @@ const STAN_POCZATKOWY: FormularzStan = {
   liczbaCykli: "",
 }
 
+/** Money fields converted when the display currency changes. */
+const PRZELICZ_KWOTY = przeliczPola<FormularzStan>("kosztWymianyBateriiZl")
+
 export default function VehicleToHomePage() {
   const t = useTranslate()
-  const [stan, setStan] = usePersistedDraft<FormularzStan>("vehicle-to-home", STAN_POCZATKOWY)
+  const [stan, setStan, info] = usePersistedDraft<FormularzStan>("vehicle-to-home", STAN_POCZATKOWY, PRZELICZ_KWOTY)
   const { wspieraV2h, pojemnoscBaterEvKwh, rezerwaNaDojazdKwh, sprawnoscEfektywnaPct, kosztWymianyBateriiZl, liczbaCykli } = stan
 
   function setPole<K extends keyof FormularzStan>(
@@ -70,6 +75,7 @@ export default function VehicleToHomePage() {
       <NaglowekEkranu tytul={t("UI-VEHTOHOM-VEHICLE-HOME-V2H")} ekran="vehicle-to-home" wynik={result}>
         {t("UI-VEHTOHOM-AUTO-MOZE-BYC")}
       </NaglowekEkranu>
+      <PrzeliczoneInfo info={info} />
 
       <div className="flex flex-col gap-4">
         <PoleCheckbox

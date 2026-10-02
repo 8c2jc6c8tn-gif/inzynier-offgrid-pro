@@ -3,6 +3,8 @@
 import { useMemo } from "react"
 import { calculateOplacalnoscMagazynu } from "@/lib/core/modules/baterie/oplacalnosc-magazynu/calculator"
 import { usePersistedDraft } from "@/lib/adapters/use-persisted-draft"
+import { przeliczPola } from "@/lib/waluta/przelicz"
+import { PrzeliczoneInfo } from "@/components/przeliczone-info"
 import { Pole } from "@/components/ui/pole"
 import { PomocPola } from "@/components/ui/pomoc"
 import { WerdyktPanel, type WerdyktPoziom } from "@/components/werdykt"
@@ -28,9 +30,11 @@ const STAN_POCZATKOWY: FormularzStan = {
   kosztAlternatywyZlZaKwh: "",
 }
 
+const PRZELICZ_KWOTY = przeliczPola<FormularzStan>("cenaBateriiZl", "kosztAlternatywyZlZaKwh")
+
 export default function OplacalnoscMagazynuPage() {
   const t = useTranslate()
-  const [stan, setStan] = usePersistedDraft<FormularzStan>("oplacalnosc-magazynu", STAN_POCZATKOWY)
+  const [stan, setStan, info] = usePersistedDraft<FormularzStan>("oplacalnosc-magazynu", STAN_POCZATKOWY, PRZELICZ_KWOTY)
   const { cenaBateriiZl, pojemnoscUzytecznaKwh, liczbaCykli, sprawnoscPct, kosztAlternatywyZlZaKwh } = stan
 
   function setPole<K extends keyof FormularzStan>(pole: K, akcja: FormularzStan[K] | ((prev: FormularzStan[K]) => FormularzStan[K])) {
@@ -76,6 +80,8 @@ export default function OplacalnoscMagazynuPage() {
       >
         {t("UI-OPLMAG-BATERIA-SKARBONKA-ENERGII")}
       </NaglowekEkranu>
+
+      <PrzeliczoneInfo info={info} />
 
       <div className="flex flex-col gap-4">
         <Pole

@@ -714,7 +714,7 @@ export const pl = {
         zakres: "Domyślnie {spadekAc}% AC / {spadekDc}% DC.",
       },
       cenaEnergii: {
-        nazwa: "Cena energii elektrycznej [zł/kWh]",
+        nazwa: "Cena energii elektrycznej [{waluta}/kWh]",
         cel: "Wycenia stratę energii w kablu.",
         gdzie: "Z rachunku (koszt 1 kWh) albo koszt energii z instalacji.",
         zakres: "Twoja cena.",
@@ -738,7 +738,7 @@ export const pl = {
         zakres: "Przekroje handlowe.",
       },
       koszt: {
-        nazwa: "Koszt zakupu wariantu [zł]",
+        nazwa: "Koszt zakupu wariantu [{waluta}]",
         cel: "Kabel, osłony i robocizna dla tego wariantu.",
         gdzie: "Z oferty.",
         zakres: "Twoja cena.",
@@ -1519,7 +1519,7 @@ export const en: Tlumaczenie<typeof pl> = {
         zakres: "Default {spadekAc}% AC / {spadekDc}% DC.",
       },
       cenaEnergii: {
-        nazwa: "Electricity price [PLN/kWh]",
+        nazwa: "Electricity price [{waluta}/kWh]",
         cel: "Values the energy lost in the cable.",
         gdzie: "From the bill (cost of 1 kWh) or the cost of energy from the installation.",
         zakres: "Your price.",
@@ -1543,7 +1543,7 @@ export const en: Tlumaczenie<typeof pl> = {
         zakres: "Standard sizes.",
       },
       koszt: {
-        nazwa: "Purchase cost of the variant [PLN]",
+        nazwa: "Purchase cost of the variant [{waluta}]",
         cel: "Cable, protection and labour for this variant.",
         gdzie: "From the offer.",
         zakres: "Your price.",
@@ -2324,7 +2324,7 @@ export const ru: Tlumaczenie<typeof pl> = {
         zakres: "По умолчанию {spadekAc}% AC / {spadekDc}% DC.",
       },
       cenaEnergii: {
-        nazwa: "Цена электроэнергии [зл/кВт·ч]",
+        nazwa: "Цена электроэнергии [{waluta}/кВт·ч]",
         cel: "Оценивает потери энергии в кабеле.",
         gdzie: "Из счёта (стоимость 1 кВт·ч) или стоимость энергии от установки.",
         zakres: "Ваша цена.",
@@ -2348,7 +2348,7 @@ export const ru: Tlumaczenie<typeof pl> = {
         zakres: "Стандартные сечения.",
       },
       koszt: {
-        nazwa: "Стоимость покупки варианта [зл]",
+        nazwa: "Стоимость покупки варианта [{waluta}]",
         cel: "Кабель, защита и работа для этого варианта.",
         gdzie: "Из предложения.",
         zakres: "Ваша цена.",
