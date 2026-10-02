@@ -16,6 +16,15 @@ export type OchronaWilgocResult = {
 const FORMULA = "T_d = \\frac{b \\cdot \\alpha}{a - \\alpha}, \\ \\alpha = \\frac{aT}{b+T} + \\ln(RH/100)"
 
 /**
+ * Dew point [°C] from air temperature and relative humidity — Magnus-Tetens (MAGNUS_A, MAGNUS_B). Shared with the M6
+ * summer cooling screen (floor cooling below the dew point condenses).
+ */
+export function obliczPunktRosyC(temperaturaC: number, wilgotnoscPct: number): number {
+  const alpha = (MAGNUS_A * temperaturaC) / (MAGNUS_B + temperaturaC) + Math.log(wilgotnoscPct / 100)
+  return (MAGNUS_B * alpha) / (MAGNUS_A - alpha)
+}
+
+/**
  * Ekran 10, Moduł 4 "Magazyn energii / baterie" — "Ochrona przed wilgocią i kondensacją"
  * (dawne 3.11, docs/zrodla/Tresc_Modul_4_Baterie_Ekrany.md, Sekcja B). Punkt rosy liczony
  * standardowym wzorem Magnusa-Tetensa (a,b — patrz constants.ts), porównanie z temperaturą
@@ -77,9 +86,7 @@ export function calculateOchronaWilgoc(input: OchronaWilgocInput): CalcResult<Oc
 
   const temperaturaOtoczeniaC = input.temperaturaOtoczeniaC
   const temperaturaObudowyC = input.temperaturaObudowyC
-  const alpha =
-    (MAGNUS_A * temperaturaOtoczeniaC) / (MAGNUS_B + temperaturaOtoczeniaC) + Math.log(input.wilgotnoscPct / 100)
-  const punktRosyC = (MAGNUS_B * alpha) / (MAGNUS_A - alpha)
+  const punktRosyC = obliczPunktRosyC(temperaturaOtoczeniaC, input.wilgotnoscPct)
 
   const kondensacja = temperaturaObudowyC <= punktRosyC
   const ipWystarczajace = !input.srodowiskoWilgotne || input.ipKod >= MIN_IP_KOD_WILGOTNE

@@ -8687,13 +8687,6 @@ Tryb Audyt (czapka rewidenta). Warstwa „w pełni na końcu” z N.2 — wszyst
 - **Pułapka (stopy-guard):** kod OUT_OF_SCOPE na poziomie `critical` (np. `OSL-SZEROKOSC-POZA-MODELEM`) trzeba dopisać
   ręcznie do `poza-zakresem-modelu`, nie do `walidacja-danych`.
 
-## D70 — granica z apką „Elektryk Pro” i cel przychodu (02.10.2026, wątek analizy rozdzielnic)
-
-- Decyzja: PV celowo w obu apkach (Offgrid: PV + magazyn + przejście na off-grid; Elektryk Pro: techniczne PV + cała elektryka AC). Szczegóły w D70.
-- **Pułapka do unikania:** każda prośba o „pogłębienie” rozdzielnicy AC (obwód po obwodzie, selektywność dla całego mieszkania, pomiary okresowe) to materiał dla Elektryk Pro, nie dla Offgrid — ale twardy stop bezpieczeństwa zawsze zostaje w Offgrid.
-- Cel finansowy właściciela: **min. 5000 zł netto miesięcznie z każdej apki rodziny**; ceny jeszcze nieustalone. Analiza rynku (ceny konkurencji, progi liczby klientów): `/mnt/project-files/analizy/ceny-apek-rodziny.md`.
-
-
 ## M7/M6 — ekrany zimowe (01–02.10.2026, gałąź `work/screens`)
 
 - **Stan:** zbudowane M7/E2 `deficyty-miesieczne`, E15 `okno-sloneczne`, E7 `snieg-na-pv` + E14 `szadz-na-pv`
@@ -8713,3 +8706,25 @@ Tryb Audyt (czapka rewidenta). Warstwa „w pełni na końcu” z N.2 — wszyst
   przez klucz `t()` (`UI-J-ZL-L`). Porównanie nadwyżki energii z zerem po odejmowaniach — z tolerancją 1e-9, nie `=== 0`.
 - **Pułapka (środowisko):** trzy agenty z testami/serwerem dev naraz → OOM i restart kontenera (dwa razy). Przy pracy
   równoległej: bez `next dev`, vitest tylko na swoich ścieżkach z `--maxWorkers=1`, commit po każdym ekranie.
+## D70 — granica z apką „Elektryk Pro” i cel przychodu (02.10.2026, wątek analizy rozdzielnic)
+
+- Decyzja: PV celowo w obu apkach (Offgrid: PV + magazyn + przejście na off-grid; Elektryk Pro: techniczne PV + cała elektryka AC). Szczegóły w D70.
+- **Pułapka do unikania:** każda prośba o „pogłębienie” rozdzielnicy AC (obwód po obwodzie, selektywność dla całego mieszkania, pomiary okresowe) to materiał dla Elektryk Pro, nie dla Offgrid — ale twardy stop bezpieczeństwa zawsze zostaje w Offgrid.
+- Cel finansowy właściciela: **min. 5000 zł netto miesięcznie z każdej apki rodziny**; ceny jeszcze nieustalone. Analiza rynku (ceny konkurencji, progi liczby klientów): `/mnt/project-files/analizy/ceny-apek-rodziny.md`.
+
+## M6 Część 2 — silnik 2D „wpływ czynnika X” + ekrany 2C (02.10.2026, gałąź `work/screens`)
+
+- **Stan:** 2D — jeden silnik `lib/core/modules/ogrzewanie/wplyw-czynnika/` (18 czynników, 21 pozycji źródła; mapa w
+  `NUMERY_ZRODLA`, pozycje bez fizyki w `CZYNNIKI_NIEBUDOWANE`), ekran `wplyw-czynnika` z polami zależnymi od czynnika.
+  2C — `rozruch-pompy-ciepla` (5.52/5.61/5.66), `basen` (5.48), `odzysk-ciepla-sciekow` (5.41), `chlodzenie-pompa-ciepla`
+  (5.29/5.47/5.51/część 5.53). Wybory ✅🤖: wpis ⚠️ w `docs/lista-do-zrobienia.md` (02.10.2026). Brak nowych 🔴
+  (`CHL-PONIZEJ-ROSY` 🟡 — kandydat).
+- **Refaktor (wyniki bez zmian):** `uPoDociepleniu` wyeksportowana z `optymalizacja-izolacji/calculator.ts` (E7);
+  `obliczPunktRosyC` (Magnus) wydzielona z M4 `baterie/ochrona-wilgoc/calculator.ts`.
+- **Niespójne przykłady źródła (Dyrektywa #5, w komentarzach silników):** 5.69 „500 kWh” wymaga Q ≈ 7125 kWh; 5.81 i
+  5.86 implikują 3000 h vs 1000 h; 5.82 2,5 kWh/d = 0,104 kW, nie 0,3 kW; 5.98 limit 60% → +67% czasu, nie +40%; 5.90
+  +50% długości → +50% mocy, nie 20%, 5.91 porównuje różne długości; 5.48 46,5 kWh → 5,8 h, nie 5 h; 5.41 0,5 × 365 =
+  182,5, nie 180; 5.51 1 − 3/4,5 = 33%, nie 40%; 5.52 przykład 40 A zależy od niepodanej mocy szczytowej falownika.
+- **Pułapka (kolizja slugów):** `chlodzenie-latem` istnieje już w M4 (chłodzenie baterii) — `register.py` i zapis strony
+  nadpisały cudzy ekran i narzędzie. Przed nowym slugiem: `ls app/kalkulatory/<slug>` i grep po `lib/ai/tools/`;
+  `check:ai-tools-guard` i test „no screen id is defined in two module files” złapały to od razu.
