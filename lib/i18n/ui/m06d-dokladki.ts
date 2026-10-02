@@ -112,6 +112,17 @@ export const pl = {
   "UI-M6D-GWP-UDZIAL": "GWC daje {gwc} kW z {dolne} kW, które pompa bierze z powietrza ({pct}%)",
   "UI-M6D-GWP-COP": "COP wyższy o {pct}% (karta)",
   "UI-M6D-GWP-OSZCZEDNOSC": "Oszczędność prądu: {kwh} kWh",
+  "UI-M6D-DSZ-TYTUL": "Defrost w sezonie — scenariusze pogody",
+  "UI-M6D-DSZ-OPIS": "Przy lekkim mrozie i wilgoci defrost jest częstszy niż w suchy mróz. Wpisz do trzech pogód z ich cyklem, godzinami na dobę i dniami — aplikacja zsumuje energię defrostu w sezonie (moc defrostu z pola wyżej).",
+  "UI-M6D-DSZ-SCENARIUSZ": "Pogoda {n} (np. mgła −2 °C)",
+  "UI-M6D-DSZ-GODZINY": "Godzin na dobę",
+  "UI-M6D-DSZ-DNI": "Dni w sezonie",
+  "UI-M6D-DSZ-ZUZYCIE": "Zużycie pompy w sezonie (opcjonalnie)",
+  "UI-M6D-DSZ-UZUPELNIJ": "Wpisz wyżej moc defrostu, a tu co najmniej jedną pogodę ze wszystkimi czterema polami.",
+  "UI-M6D-DSZ-W-OK": "Defrost w sezonie",
+  "UI-M6D-DSZ-WYNIK": "Defrost zużyje w sezonie ok. {kwh} kWh",
+  "UI-M6D-DSZ-WIERSZ": "Pogoda {n}: {ile} defrostów na dobę, {udzial}% czasu, {doba} kWh/dobę, {sezon} kWh w sezonie",
+  "UI-M6D-DSZ-UDZIAL": "To {pct}% zużycia pompy w sezonie",
 }
 
 export const en: Record<keyof typeof pl, string> = {
@@ -224,6 +235,17 @@ export const en: Record<keyof typeof pl, string> = {
   "UI-M6D-GWP-UDZIAL": "The GHE gives {gwc} kW of the {dolne} kW the pump takes from the air ({pct}%)",
   "UI-M6D-GWP-COP": "COP higher by {pct}% (datasheet)",
   "UI-M6D-GWP-OSZCZEDNOSC": "Electricity saved: {kwh} kWh",
+  "UI-M6D-DSZ-TYTUL": "Defrost over the season — weather scenarios",
+  "UI-M6D-DSZ-OPIS": "In light frost and humidity defrost is more frequent than in dry frost. Enter up to three weathers with their cycle, hours per day and days — the app adds up the defrost energy over the season (defrost power from the field above).",
+  "UI-M6D-DSZ-SCENARIUSZ": "Weather {n} (e.g. fog −2 °C)",
+  "UI-M6D-DSZ-GODZINY": "Hours per day",
+  "UI-M6D-DSZ-DNI": "Days per season",
+  "UI-M6D-DSZ-ZUZYCIE": "Pump consumption per season (optional)",
+  "UI-M6D-DSZ-UZUPELNIJ": "Enter the defrost power above, and here at least one weather with all four fields.",
+  "UI-M6D-DSZ-W-OK": "Defrost over the season",
+  "UI-M6D-DSZ-WYNIK": "Defrost will use about {kwh} kWh per season",
+  "UI-M6D-DSZ-WIERSZ": "Weather {n}: {ile} defrosts per day, {udzial}% of the time, {doba} kWh/day, {sezon} kWh per season",
+  "UI-M6D-DSZ-UDZIAL": "That is {pct}% of the pump's seasonal consumption",
 }
 
 export const ru: Record<keyof typeof pl, string> = {
@@ -336,4 +358,15 @@ export const ru: Record<keyof typeof pl, string> = {
   "UI-M6D-GWP-UDZIAL": "ГТО даёт {gwc} кВт из {dolne} кВт, которые насос берёт из воздуха ({pct}%)",
   "UI-M6D-GWP-COP": "COP выше на {pct}% (паспорт)",
   "UI-M6D-GWP-OSZCZEDNOSC": "Экономия электроэнергии: {kwh} кВт·ч",
+  "UI-M6D-DSZ-TYTUL": "Оттайка за сезон — сценарии погоды",
+  "UI-M6D-DSZ-OPIS": "При лёгком морозе и влажности оттайка чаще, чем при сухом морозе. Введите до трёх погод с их циклом, часами в сутки и днями — приложение сложит энергию оттайки за сезон (мощность оттайки из поля выше).",
+  "UI-M6D-DSZ-SCENARIUSZ": "Погода {n} (например, туман −2 °C)",
+  "UI-M6D-DSZ-GODZINY": "Часов в сутки",
+  "UI-M6D-DSZ-DNI": "Дней за сезон",
+  "UI-M6D-DSZ-ZUZYCIE": "Потребление насоса за сезон (необязательно)",
+  "UI-M6D-DSZ-UZUPELNIJ": "Введите выше мощность оттайки, а здесь хотя бы одну погоду со всеми четырьмя полями.",
+  "UI-M6D-DSZ-W-OK": "Оттайка за сезон",
+  "UI-M6D-DSZ-WYNIK": "Оттайка потратит за сезон около {kwh} кВт·ч",
+  "UI-M6D-DSZ-WIERSZ": "Погода {n}: {ile} оттаек в сутки, {udzial}% времени, {doba} кВт·ч/сутки, {sezon} кВт·ч за сезон",
+  "UI-M6D-DSZ-UDZIAL": "Это {pct}% потребления насоса за сезон",
 }

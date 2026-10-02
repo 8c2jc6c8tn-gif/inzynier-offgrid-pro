@@ -1670,6 +1670,8 @@ export const dictionaryPl = {
   "GWP-TYLKO-WSPARCIE": "GWC pokrywa ok. {pct}% mocy, którą pompa bierze z powietrza — to nie pełne dolne źródło, tylko wsparcie (źródło).",
   "GWP-ZAL-MIESZANIE": "Powietrze z GWC miesza się na wlocie parownika z powietrzem zewnętrznym: wzrost temperatury = przyrost w GWC × strumień GWC / strumień parownika (bilans mieszania). Gdy GWC daje cały strumień parownika — pełny przyrost. Wariant solanka-woda nie jest liczony.",
   "GWP-ZAL-COP-Z-KARTY": "Wzrost COP tylko z karty pompy (COP przy wyższej temperaturze powietrza). Źródło nie daje reguły — jego przykłady to +3 °C → +6% i 0 → 5 °C → +15%, czyli 2 i 3 %/K.",
+  "DSZ-UDZIAL-USTAWIENIA": "Defrost to {pct}% zużycia pompy w sezonie. Źródło: złe ustawienia defrostu mogą pochłonąć ok. 10% energii pompy — jeśli Twój wynik jest wysoki, sprawdź ustawienia sterownika (odstęp, warunek startu) z instalatorem.",
+  "DSZ-ZAL-BEZ-HARMONOGRAMU": "Planowanie przerw na defrost pod komfort nie jest liczone — źródło nie daje modelu. Scenariusze pogody i ich dni wpisujesz sam (np. z danych pogodowych regionu).",
 } as const
 
 export type KluczTlumaczenia = keyof typeof dictionaryPl

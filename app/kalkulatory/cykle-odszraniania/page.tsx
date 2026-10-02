@@ -13,6 +13,7 @@ import { NawigacjaEkranu } from "@/components/nawigacja-ekranu"
 import { NaglowekEkranu } from "@/components/wzorce/naglowek-ekranu"
 import { WynikGlowny } from "@/components/wzorce/wynik-glowny"
 import { WynikSzczegoly } from "@/components/wzorce/wynik-szczegoly"
+import { SekcjaDefrostSezon } from "./sekcja-defrost-sezon"
 
 type PolaTemperatur = "tZewn" | "tMin"
 type PolaLiczbowe = "wilgotnosc" | "odstep" | "czas" | "mocDefrostu" | "mocBazowa" | "godziny" | "cop"
@@ -124,6 +125,8 @@ export default function CykleOdszranianiaPage() {
           <WynikSzczegoly assumptions={result.assumptions} warnings={result.warnings} formula={result.formula} />
         </WerdyktPanel>
       )}
+
+      <SekcjaDefrostSezon mocDefrostuKw={liczba(stan.mocDefrostu)} />
 
       <Link href="/kalkulatory/cop-pompy-ciepla" className="text-small underline">
         {t("UI-M6-CYK-LINK-E5")}

@@ -253,6 +253,40 @@ export const pl = {
       },
     },
   },
+  "m6d-defrost-sezon": {
+    pola: {
+      odstep: {
+        nazwa: "Odstęp między defrostami w tej pogodzie [min]",
+        cel: "Im częściej defrost, tym więcej energii — przy lekkim mrozie i wilgoci odstęp jest krótszy (źródło).",
+        gdzie: "Historia pracy sterownika pompy, obserwacja albo karta producenta dla tych warunków.",
+        zakres: "> czas defrostu. Źródło: np. co 35 min przy mgle i −2 °C.",
+      },
+      czas: {
+        nazwa: "Czas jednego defrostu [min]",
+        cel: "Przez ten czas pompa nie grzeje domu i pobiera moc defrostu.",
+        gdzie: "Historia sterownika albo obserwacja (jednostka zewnętrzna paruje, wentylator stoi).",
+        zakres: "> 0. Źródło: np. 4 min.",
+      },
+      godziny: {
+        nazwa: "Godzin na dobę w tej pogodzie [h]",
+        cel: "Defrost działa tylko wtedy, gdy parownik szronieje.",
+        gdzie: "Twoja ocena albo dane pogodowe regionu (np. ile godzin trwa poranna mgła).",
+        zakres: "0–24. Twoja lokalizacja.",
+      },
+      dni: {
+        nazwa: "Dni w sezonie z tą pogodą",
+        cel: "Mnoży energię na dobę na cały sezon.",
+        gdzie: "Dane pogodowe regionu albo Twoje doświadczenie z poprzednich zim.",
+        zakres: "≥ 0. Twoja lokalizacja.",
+      },
+      zuzycie: {
+        nazwa: "Zużycie prądu przez pompę w sezonie [kWh]",
+        cel: "Opcjonalne: pokazuje, jaką część zużycia zjada defrost.",
+        gdzie: "Model sezonowy pompy (Moduł 6) albo licznik energii pompy z poprzedniego sezonu.",
+        zakres: "≥ 0. Twoja pompa.",
+      },
+    },
+  },
 }
 
 export const en: Tlumaczenie<typeof pl> = {
@@ -504,6 +538,40 @@ export const en: Tlumaczenie<typeof pl> = {
       },
     },
   },
+  "m6d-defrost-sezon": {
+    pola: {
+      odstep: {
+        nazwa: "Interval between defrosts in this weather [min]",
+        cel: "The more often the defrost, the more energy — in light frost and humidity the interval is shorter (source).",
+        gdzie: "The pump controller's operating history, observation or the manufacturer's datasheet for these conditions.",
+        zakres: "> defrost time. Source: e.g. every 35 min in fog at −2 °C.",
+      },
+      czas: {
+        nazwa: "Duration of one defrost [min]",
+        cel: "During this time the pump does not heat the house and draws the defrost power.",
+        gdzie: "Controller history or observation (the outdoor unit steams, the fan stops).",
+        zakres: "> 0. Source: e.g. 4 min.",
+      },
+      godziny: {
+        nazwa: "Hours per day in this weather [h]",
+        cel: "Defrost only runs while the evaporator frosts up.",
+        gdzie: "Your estimate or regional weather data (e.g. how many hours the morning fog lasts).",
+        zakres: "0–24. Your location.",
+      },
+      dni: {
+        nazwa: "Days per season with this weather",
+        cel: "Multiplies the daily energy over the season.",
+        gdzie: "Regional weather data or your experience from previous winters.",
+        zakres: "≥ 0. Your location.",
+      },
+      zuzycie: {
+        nazwa: "Pump electricity consumption per season [kWh]",
+        cel: "Optional: shows what part of the consumption the defrost eats.",
+        gdzie: "The pump's seasonal model (Module 6) or the pump's energy meter from the previous season.",
+        zakres: "≥ 0. Your pump.",
+      },
+    },
+  },
 }
 
 export const ru: Tlumaczenie<typeof pl> = {
@@ -752,6 +820,40 @@ export const ru: Tlumaczenie<typeof pl> = {
         cel: "Необязательно: переводит рост COP в экономию электроэнергии.",
         gdzie: "Потребность с экрана 2 или сезонной модели — только за месяцы/дни работы ГТО.",
         zakres: "≥ 0. Ваш дом.",
+      },
+    },
+  },
+  "m6d-defrost-sezon": {
+    pola: {
+      odstep: {
+        nazwa: "Интервал между оттайками в этой погоде [мин]",
+        cel: "Чем чаще оттайка, тем больше энергии — при лёгком морозе и влажности интервал короче (источник).",
+        gdzie: "История работы контроллера насоса, наблюдение или паспорт производителя для этих условий.",
+        zakres: "> времени оттайки. Источник: например, каждые 35 мин при тумане и −2 °C.",
+      },
+      czas: {
+        nazwa: "Длительность одной оттайки [мин]",
+        cel: "В это время насос не греет дом и потребляет мощность оттайки.",
+        gdzie: "История контроллера или наблюдение (наружный блок парит, вентилятор стоит).",
+        zakres: "> 0. Источник: например, 4 мин.",
+      },
+      godziny: {
+        nazwa: "Часов в сутки в этой погоде [ч]",
+        cel: "Оттайка работает, только пока испаритель обмерзает.",
+        gdzie: "Ваша оценка или погодные данные региона (например, сколько часов длится утренний туман).",
+        zakres: "0–24. Ваше местоположение.",
+      },
+      dni: {
+        nazwa: "Дней за сезон с этой погодой",
+        cel: "Умножает суточную энергию на весь сезон.",
+        gdzie: "Погодные данные региона или ваш опыт прошлых зим.",
+        zakres: "≥ 0. Ваше местоположение.",
+      },
+      zuzycie: {
+        nazwa: "Потребление электроэнергии насосом за сезон [кВт·ч]",
+        cel: "Необязательно: показывает, какую часть потребления съедает оттайка.",
+        gdzie: "Сезонная модель насоса (модуль 6) или счётчик энергии насоса за прошлый сезон.",
+        zakres: "≥ 0. Ваш насос.",
       },
     },
   },

@@ -8,7 +8,7 @@ export const pl = {
   "cykle-odszraniania": {
     migawka: {
       oCoChodzi: "To jak rozmrażanie zamrażarki — pompa ciepła od czasu do czasu musi „oczyścić się” ze szronu, żeby dalej efektywnie pracować, i to też kosztuje energię.",
-      jakDziala: "Wpisz cykl defrostu: co ile minut, jak długo i z jaką mocą, oraz pobór przy normalnym grzaniu. Aplikacja policzy, jaką część czasu zajmuje defrost, ile energii dokłada na godzinę i na dobę oraz o ile procent rośnie zużycie — a z COP z katalogu realny COP z defrostem.",
+      jakDziala: "Wpisz cykl defrostu: co ile minut, jak długo i z jaką mocą, oraz pobór przy normalnym grzaniu. Aplikacja policzy, jaką część czasu zajmuje defrost, ile energii dokłada na godzinę i na dobę oraz o ile procent rośnie zużycie — a z COP z katalogu realny COP z defrostem. Niżej: kilka scenariuszy pogody (np. mgła, lekki mróz, sucho) z własnym cyklem — energia defrostu w całym sezonie i jej udział w zużyciu pompy.",
       poCo: "Zimą w wilgotny mróz pompa zużywa więcej prądu, niż wynika z katalogowego COP — bez tego bilans baterii jest zbyt optymistyczny.",
       fizyka: "Szron osadza się na parowniku typowo poniżej 5–{prog} °C przy wysokiej wilgotności (źródło). E_h = P_def · t_def / T; narzut = P_def·t_def / (P_baz·T); COP_ef = COP_kat / (1 + narzut). Przykład źródła „co 45 min, 5 min → +8%” wymaga mocy defrostu 0,72 × mocy pracy (przy równej mocy wychodzi 11%).",
     },
@@ -781,7 +781,7 @@ export const en: Tlumaczenie<typeof pl> = {
   "cykle-odszraniania": {
     migawka: {
       oCoChodzi: "Like defrosting a freezer — a heat pump from time to time has to “clean itself” of frost to keep working efficiently, and that costs energy too.",
-      jakDziala: "Enter the defrost cycle: every how many minutes, how long and at what power, and the power in normal heating. The app computes the share of time spent defrosting, the extra energy per hour and per day, and the percentage increase in consumption — and with the catalogue COP, the real COP including defrost.",
+      jakDziala: "Enter the defrost cycle: every how many minutes, how long and at what power, and the power in normal heating. The app computes the share of time spent defrosting, the extra energy per hour and per day, and the percentage increase in consumption — and with the catalogue COP, the real COP including defrost. Below: several weather scenarios (e.g. fog, light frost, dry) each with its own cycle — defrost energy over the whole season and its share of the pump's consumption.",
       poCo: "In humid frost the pump uses more electricity than the catalogue COP suggests — without this the battery balance is too optimistic.",
       fizyka: "Frost forms on the evaporator typically below 5–{prog} °C at high humidity (source). E_h = P_def · t_def / T; overhead = P_def·t_def / (P_base·T); COP_eff = COP_cat / (1 + overhead). The source example “every 45 min, 5 min → +8%” needs a defrost power of 0.72 × the running power (equal power gives 11%).",
     },
@@ -1554,7 +1554,7 @@ export const ru: Tlumaczenie<typeof pl> = {
   "cykle-odszraniania": {
     migawka: {
       oCoChodzi: "Как разморозка морозилки — тепловой насос время от времени должен «очиститься» от инея, чтобы дальше работать эффективно, и это тоже стоит энергии.",
-      jakDziala: "Введите цикл оттайки: каждые сколько минут, как долго и с какой мощностью, а также потребление при обычном отоплении. Приложение посчитает долю времени на оттайку, дополнительную энергию за час и за сутки и рост потребления в процентах — а с каталожным COP реальный COP с оттайкой.",
+      jakDziala: "Введите цикл оттайки: каждые сколько минут, как долго и с какой мощностью, а также потребление при обычном отоплении. Приложение посчитает долю времени на оттайку, дополнительную энергию за час и за сутки и рост потребления в процентах — а с каталожным COP реальный COP с оттайкой. Ниже: несколько сценариев погоды (например, туман, лёгкий мороз, сухо) со своим циклом — энергия оттайки за весь сезон и её доля в потреблении насоса.",
       poCo: "Во влажный мороз насос потребляет больше электроэнергии, чем следует из каталожного COP, — без этого баланс батареи слишком оптимистичен.",
       fizyka: "Иней образуется на испарителе обычно ниже 5–{prog} °C при высокой влажности (источник). E_ч = P_отт · t_отт / T; надбавка = P_отт·t_отт / (P_баз·T); COP_эф = COP_кат / (1 + надбавка). Пример источника «каждые 45 мин, 5 мин → +8%» требует мощности оттайки 0,72 × рабочей (при равной мощности выходит 11%).",
     },

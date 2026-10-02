@@ -1658,4 +1658,6 @@ export const dictionaryEn = {
   "GWP-TYLKO-WSPARCIE": "The GHE covers about {pct}% of the power the pump takes from the air — it is not a full heat source, only a support (source).",
   "GWP-ZAL-MIESZANIE": "The GHE air mixes with outdoor air at the evaporator intake: temperature rise = GHE rise × GHE flow / evaporator flow (mixing balance). When the GHE supplies the whole evaporator flow — the full rise. The brine-to-water variant is not computed.",
   "GWP-ZAL-COP-Z-KARTY": "The COP gain only from the pump datasheet (COP at the higher air temperature). The source gives no rule — its examples are +3 °C → +6% and 0 → 5 °C → +15%, i.e. 2 and 3 %/K.",
+  "DSZ-UDZIAL-USTAWIENIA": "Defrost is {pct}% of the pump's seasonal consumption. Source: bad defrost settings can eat about 10% of the pump's energy — if your result is high, check the controller settings (interval, start condition) with the installer.",
+  "DSZ-ZAL-BEZ-HARMONOGRAMU": "Scheduling defrost breaks for comfort is not computed — the source gives no model. You enter the weather scenarios and their days yourself (e.g. from regional weather data).",
 } satisfies Record<KluczTlumaczenia, string>

@@ -8,6 +8,7 @@ import { buforPracaPompyTool } from "../bufor-praca-pompy-tool"
 import { przeplywPompyCieplaTool } from "../przeplyw-pompy-ciepla-tool"
 import { cwuPompaCieplaTool } from "../cwu-pompa-ciepla-tool"
 import { gwcPompaCieplaTool } from "../gwc-pompa-ciepla-tool"
+import { defrostSezonTool } from "../defrost-sezon-tool"
 
 describe("doborMocyPompyTool (M6 Część 2B, dawne 5.27 + 5.67)", () => {
   it("kontrakt 9.3: 'read', bez potwierdzenia", () => {
@@ -157,5 +158,23 @@ describe("gwcPompaCieplaTool (M6 Część 2B, dawne 5.54)", () => {
     })
     expect(w.wzrostTempParownikaK).toBeCloseTo(3, 9)
     expect(w.ostrzezenia).toContain(t("pl", "GWP-TYLKO-WSPARCIE", { pct: Math.round(w.udzialGwcPct) }))
+  })
+})
+
+describe("defrostSezonTool (M6 Część 2B, dawne 5.56)", () => {
+  it("kontrakt 9.3: 'read', bez potwierdzenia", () => {
+    expect(defrostSezonTool.operationType).toBe("read")
+    expect(defrostSezonTool.requiresConfirmation).toBe(false)
+    expect(() => validateAiToolDefinition(defrostSezonTool)).not.toThrow()
+  })
+
+  it("2 kW, co 45 min na 5 min, 12 h × 60 dni przy 4000 kWh pompy → ℹ️ udział jako tekst PL", async () => {
+    const w = await defrostSezonTool.handler({
+      mocDefrostuKw: 2,
+      scenariusze: [{ odstepMin: 45, czasDefrostuMin: 5, godzinyDobaH: 12, dni: 60 }],
+      zuzyciePompySezonKwh: 4000,
+    })
+    expect(w.sumaKwh).toBeCloseTo(2 * (5 / 45) * 12 * 60, 9)
+    expect(w.ostrzezenia).toContain(t("pl", "DSZ-UDZIAL-USTAWIENIA", { pct: Math.round(w.udzialPct! * 10) / 10 }))
   })
 })
