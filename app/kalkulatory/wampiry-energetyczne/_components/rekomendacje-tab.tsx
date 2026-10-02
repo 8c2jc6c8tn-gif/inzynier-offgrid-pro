@@ -10,6 +10,7 @@ import { PomocPola } from "@/components/ui/pomoc"
 import { WerdyktPanel, poziomZStatusu } from "@/components/werdykt"
 import { WynikSzczegoly } from "@/components/wzorce/wynik-szczegoly"
 import { StanPusty } from "@/components/ui/stany"
+import { KLUCZ_KATEGORII_URZADZEN, KLUCZ_METODY_ODLACZANIA, WPISY_METODY, etykieta, tlumaczParamsEtykiet } from "@/components/zapotrzebowanie/etykiety-stalych"
 import { useTranslate } from "@/lib/i18n/language-context"
 
 const ETYKIETA_REKOMENDACJI: Record<EtykietaRekomendacji, string> = {
@@ -62,7 +63,7 @@ export function RekomendacjeTab({
             const def = METODY_ODLACZANIA.find((d) => d.id === m.id)
             return (
               <li key={m.id} className="flex flex-wrap items-center gap-2 rounded-md border p-3 text-small">
-                <span className="min-w-24 flex-1 font-medium">{def?.label ?? m.id}</span>
+                <span className="min-w-24 flex-1 font-medium">{etykieta(t, KLUCZ_METODY_ODLACZANIA, m.id, def?.label ?? m.id)}</span>
                 <input
                   type="number"
                   inputMode="decimal"
@@ -70,7 +71,7 @@ export function RekomendacjeTab({
                   value={m.kosztZakupuZl || ""}
                   onChange={(e) => aktualizujMetode(m.id, { kosztZakupuZl: Number(e.target.value) })}
                   className="min-h-10 w-24 rounded-md border border-input bg-background px-2"
-                  aria-label={t("UI-WAMENE-COMREKTAB-KOSZT-ZAKUPU", { p: def?.label ?? m.id })}
+                  aria-label={t("UI-WAMENE-COMREKTAB-KOSZT-ZAKUPU", { p: etykieta(t, KLUCZ_METODY_ODLACZANIA, m.id, def?.label ?? m.id) })}
                 />
                 <PomocPola ekran="wampiry-energetyczne" pole="koszt" />
                 <input
@@ -80,14 +81,14 @@ export function RekomendacjeTab({
                   value={m.rocznaOszczednoscZl || ""}
                   onChange={(e) => aktualizujMetode(m.id, { rocznaOszczednoscZl: Number(e.target.value) })}
                   className="min-h-10 w-28 rounded-md border border-input bg-background px-2"
-                  aria-label={t("UI-WAMENE-COMREKTAB-ROCZNA-OSZCZEDNOSC", { p: def?.label ?? m.id })}
+                  aria-label={t("UI-WAMENE-COMREKTAB-ROCZNA-OSZCZEDNOSC", { p: etykieta(t, KLUCZ_METODY_ODLACZANIA, m.id, def?.label ?? m.id) })}
                 />
                 <PomocPola ekran="wampiry-energetyczne" pole="oszczednosc" />
                 <button
                   type="button"
                   onClick={() => usunMetode(m.id)}
                   className="text-caption text-muted-foreground underline"
-                  aria-label={t("UI-WAMENE-COMREKTAB-USUN-2", { p: def?.label ?? m.id })}
+                  aria-label={t("UI-WAMENE-COMREKTAB-USUN-2", { p: etykieta(t, KLUCZ_METODY_ODLACZANIA, m.id, def?.label ?? m.id) })}
                 >
                   {t("UI-WAMENE-COMREKTAB-USUN")}
                 </button>
@@ -105,7 +106,7 @@ export function RekomendacjeTab({
                 onClick={() => dodajMetode(m.id)}
                 className="rounded-full border px-3 py-1 text-caption hover:bg-muted"
               >
-                + {m.label}
+                + {etykieta(t, KLUCZ_METODY_ODLACZANIA, m.id, m.label)}
               </button>
             ))}
           </div>
@@ -120,13 +121,17 @@ export function RekomendacjeTab({
                 const def = METODY_ODLACZANIA.find((d) => d.id === m.id)
                 return (
                   <li key={m.id}>
-                    <span className="font-medium">{def?.label ?? m.id}</span>:{" "}
+                    <span className="font-medium">{etykieta(t, KLUCZ_METODY_ODLACZANIA, m.id, def?.label ?? m.id)}</span>:{" "}
                     {m.okresZwrotuMiesiecy === null ? t("UI-WAMENE-COMREKTAB-KOSZT-ZWROCI") : t("UI-WAMENE-COMREKTAB-ZWROT-MIES", { okresZwrotuMiesiecy: m.okresZwrotuMiesiecy.toFixed(1) })}
                   </li>
                 )
               })}
             </ul>
-            <WynikSzczegoly assumptions={wynikPorownanie.assumptions} warnings={wynikPorownanie.warnings} formula={wynikPorownanie.formula} />
+            <WynikSzczegoly
+              assumptions={wynikPorownanie.assumptions}
+              warnings={wynikPorownanie.warnings.map((w) => ({ ...w, params: tlumaczParamsEtykiet(t, w.params, WPISY_METODY) }))}
+              formula={wynikPorownanie.formula}
+            />
           </WerdyktPanel>
         )}
       </section>
@@ -141,7 +146,7 @@ export function RekomendacjeTab({
         >
           {KATEGORIE_URZADZEN.map((k) => (
             <option key={k.id} value={k.id}>
-              {k.label}
+              {etykieta(t, KLUCZ_KATEGORII_URZADZEN, k.id, k.label)}
             </option>
           ))}
         </PoleSelect>

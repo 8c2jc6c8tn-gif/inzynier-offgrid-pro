@@ -69,7 +69,7 @@ export default function KomunikacjaBmsPage() {
           <option value="">{t("UI-WYBIERZ")}</option>
           {PROTOKOLY.map((p) => (
             <option key={p.id} value={p.id}>
-              {p.label}
+              {t(`UI-STALEBAT-PROTOKOL-${p.id.toUpperCase()}`)}
             </option>
           ))}
         </PoleSelect>
@@ -82,7 +82,7 @@ export default function KomunikacjaBmsPage() {
           <option value="">{t("UI-WYBIERZ")}</option>
           {PROTOKOLY.map((p) => (
             <option key={p.id} value={p.id}>
-              {p.label}
+              {t(`UI-STALEBAT-PROTOKOL-${p.id.toUpperCase()}`)}
             </option>
           ))}
         </PoleSelect>

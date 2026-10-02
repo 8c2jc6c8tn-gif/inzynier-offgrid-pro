@@ -9,6 +9,7 @@ import { WynikGlowny } from "@/components/wzorce/wynik-glowny"
 import { WynikSzczegoly } from "@/components/wzorce/wynik-szczegoly"
 import { StanPusty } from "@/components/ui/stany"
 import { PomocPola } from "@/components/ui/pomoc"
+import { KLUCZ_URZADZENIA_STANDBY, WPISY_STANDBY, etykieta, tlumaczParamsEtykiet } from "@/components/zapotrzebowanie/etykiety-stalych"
 import { useTranslate } from "@/lib/i18n/language-context"
 
 const INLINE_INPUT_KLASY =
@@ -43,6 +44,7 @@ export function KatalogTab({
       <ul className="flex flex-col gap-3">
         {input.items.map((item) => {
           const def = KATALOG_URZADZEN_STANDBY.find((d) => d.id === item.id)
+          const nazwa = etykieta(t, KLUCZ_URZADZENIA_STANDBY, item.id, item.label)
           return (
             <li key={item.id} className="flex items-center gap-3 rounded-md border p-3 transition-colors hover:bg-muted/60">
               <input
@@ -53,7 +55,7 @@ export function KatalogTab({
                 id={`katalog-${item.id}`}
               />
               <label htmlFor={`katalog-${item.id}`} className="flex-1 text-small font-medium">
-                {item.label}
+                {nazwa}
                 {def && (
                   <span className="block text-caption font-normal text-muted-foreground">
                     {t("UI-WAMENE-COMKATTAB-ZAKRES-ZRODLA", { minPowerW: def.minPowerW, maxPowerW: def.maxPowerW })}
@@ -67,7 +69,7 @@ export function KatalogTab({
                 value={item.powerW}
                 disabled={!item.selected}
                 onChange={(e) => updatePower(item.id, Number(e.target.value))}
-                aria-label={t("UI-WAMENE-COMKATTAB-MOC-CZUWANIA", { label: item.label })}
+                aria-label={t("UI-WAMENE-COMKATTAB-MOC-CZUWANIA", { label: nazwa })}
               />
               <span className="w-4 text-caption text-muted-foreground">W</span>
               <PomocPola ekran="wampiry-energetyczne" pole="mocCzuwania" />
@@ -84,7 +86,11 @@ export function KatalogTab({
           <p className="mt-1 text-small">
             {t("UI-WAMENE-COMKATTAB-KWH-DOBE-KWH", { energiaDobowaKwh: result.value.energiaDobowaKwh.toFixed(2), energiaRocznaKwh: result.value.energiaRocznaKwh.toFixed(0) })}
           </p>
-          <WynikSzczegoly assumptions={result.assumptions} warnings={result.warnings} formula={result.formula} />
+          <WynikSzczegoly
+            assumptions={result.assumptions.map((a) => (typeof a === "string" ? a : { ...a, params: tlumaczParamsEtykiet(t, a.params, WPISY_STANDBY) }))}
+            warnings={result.warnings.map((w) => ({ ...w, params: tlumaczParamsEtykiet(t, w.params, WPISY_STANDBY) }))}
+            formula={result.formula}
+          />
         </WerdyktPanel>
       )}
     </div>

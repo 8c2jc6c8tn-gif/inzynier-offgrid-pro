@@ -25,6 +25,19 @@ import { useTranslate } from "@/lib/i18n/language-context"
 import { PROG_12V_MAX_W, PROG_48V_MIN_W } from "@/lib/core/modules/baterie/napiecie-systemowe/constants"
 import { DOMYSLNY_SPADEK_DC_PCT } from "@/lib/core/modules/okablowanie/dobor-przekroju-kabla/constants"
 
+/** Catalog category (PL text from the engine constants) -> translation key suffix. */
+const KATEGORIA_KLUCZ: Record<string, string> = {
+  "Oświetlenie": "OSWIETLENIE",
+  "Chłodzenie": "CHLODZENIE",
+  Elektronika: "ELEKTRONIKA",
+  "AGD (wysokie moce)": "AGD",
+  "Ciepła woda": "CIEPLA-WODA",
+  "Narzędzia": "NARZEDZIA",
+  Klimatyzacja: "KLIMATYZACJA",
+  Pompy: "POMPY",
+  Ogrzewanie: "OGRZEWANIE",
+}
+
 const num = (s: string) => (s === "" ? 0 : Number(s))
 
 type JednostkaCzasu = "min" | "h"
@@ -338,11 +351,11 @@ export default function NapiecieSystemowePage() {
             <option value="">{t("UI-WYBIERZ")}</option>
             {ZASTOSOWANIA.map((z) => (
               <option key={z.id} value={z.id}>
-                {z.label}
+                {t(`UI-STALEBAT-ZAST-${z.id.toUpperCase().replaceAll("_", "-")}`)}
               </option>
             ))}
           </PoleSelect>
-          {zastosowanie !== "" && <p className="text-caption text-muted-foreground">{ZASTOSOWANIA.find((z) => z.id === zastosowanie)?.filozofia}</p>}
+          {zastosowanie !== "" && <p className="text-caption text-muted-foreground">{t(`UI-STALEBAT-ZAST-${zastosowanie.toUpperCase().replaceAll("_", "-")}-FIL`)}</p>}
 
           <PoleSelect
             label={t("UI-NAPSYS-CIEBIE-WAZNIEJSZE")}
@@ -353,7 +366,7 @@ export default function NapiecieSystemowePage() {
             <option value="">{t("UI-WYBIERZ")}</option>
             {PRIORYTETY.map((p) => (
               <option key={p.id} value={p.id}>
-                {p.label}
+                {t(`UI-STALEBAT-PRIOR-${p.id.toUpperCase().replaceAll("_", "-")}`)}
               </option>
             ))}
           </PoleSelect>
@@ -386,10 +399,11 @@ export default function NapiecieSystemowePage() {
         <div className="mt-4 flex flex-col gap-5">
           {kategorie.map(([kategoria, pozycje]) => (
             <div key={kategoria} className="flex flex-col gap-2">
-              <p className="text-small font-medium">{kategoria}</p>
+              <p className="text-small font-medium">{t(`UI-STALEBAT-KAT-${KATEGORIA_KLUCZ[kategoria]}`)}</p>
               <ul className="flex flex-col gap-2">
                 {pozycje.map((o) => {
                   const stan = odbiorniki[o.id]
+                  const nazwaOdbiornika = t(`UI-STALEBAT-ODB-${o.id.toUpperCase()}`)
                   return (
                     <li key={o.id} className="flex flex-col gap-2 rounded-md border p-2">
                       <label htmlFor={`odb-${o.id}`} className="flex items-start gap-2 text-small cursor-pointer">
@@ -401,15 +415,15 @@ export default function NapiecieSystemowePage() {
                           onChange={() => toggleOdbiornik(o.id)}
                         />
                         <span>
-                          {o.label}
-                          <span className="block text-caption text-muted-foreground">{o.uwagi}</span>
+                          {nazwaOdbiornika}
+                          <span className="block text-caption text-muted-foreground">{t(`UI-STALEBAT-ODB-${o.id.toUpperCase()}-UWAGI`)}</span>
                         </span>
                       </label>
                       <div className="flex flex-nowrap items-center gap-2">
                         <input
                           type="number"
                           inputMode="decimal"
-                          aria-label={t("UI-NAPSYS-MOC", { label: o.label })}
+                          aria-label={t("UI-NAPSYS-MOC", { label: nazwaOdbiornika })}
                           className="w-16 min-h-9 shrink-0 rounded-md border border-input bg-background px-2 text-small"
                           value={stan.mocW}
                           onChange={(e) => aktualizujOdbiornik(o.id, "mocW", e.target.value)}
@@ -418,13 +432,13 @@ export default function NapiecieSystemowePage() {
                         <input
                           type="number"
                           inputMode="decimal"
-                          aria-label={t("UI-NAPSYS-CZAS-PRACY-JEDNORAZOWO", { label: o.label })}
+                          aria-label={t("UI-NAPSYS-CZAS-PRACY-JEDNORAZOWO", { label: nazwaOdbiornika })}
                           className="w-14 min-h-9 shrink-0 rounded-md border border-input bg-background px-2 text-small"
                           value={stan.czasWartosc}
                           onChange={(e) => aktualizujOdbiornik(o.id, "czasWartosc", e.target.value)}
                         />
                         <select
-                          aria-label={t("UI-NAPSYS-JEDNOSTKA-CZASU", { label: o.label })}
+                          aria-label={t("UI-NAPSYS-JEDNOSTKA-CZASU", { label: nazwaOdbiornika })}
                           className="shrink-0 min-h-9 rounded-md border border-input bg-background px-1 text-caption"
                           value={stan.czasJednostka}
                           onChange={(e) => zmienJednostkeCzasu(o.id, e.target.value as JednostkaCzasu)}
