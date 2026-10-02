@@ -5,6 +5,8 @@ import { deficytyMiesieczneTool } from "../deficyty-miesieczne-tool"
 import { cykleOdszranianiaTool } from "../cykle-odszraniania-tool"
 import { wentylacjaGrawitacyjnaTool } from "../wentylacja-grawitacyjna-tool"
 import { gwcTool } from "../gwc-tool"
+import { oknoSloneczneTool } from "../okno-sloneczne-tool"
+import { osadNaPvTool } from "../osad-na-pv-tool"
 
 describe("deficytyMiesieczneTool (M7/E2, dawne 6.2)", () => {
   it("kontrakt 9.3: 'read', bez potwierdzenia", () => {
@@ -92,5 +94,49 @@ describe("gwcTool (M6/E4, dawne 5.4)", () => {
     })
     expect(w.oszczednoscDobaKwh).toBeGreaterThan(0)
     expect(w.zalozenia).toContain(t("pl", "GWC-ZALOZENIE-REKUPERATOR"))
+  })
+})
+
+describe("oknoSloneczneTool (M7/E15, dawne 6.22)", () => {
+  it("kontrakt 9.3: 'read', bez potwierdzenia", () => {
+    expect(oknoSloneczneTool.operationType).toBe("read")
+    expect(oknoSloneczneTool.requiresConfirmation).toBe(false)
+    expect(() => validateAiToolDefinition(oknoSloneczneTool)).not.toThrow()
+  })
+
+  it("4,5 kWh przy SoC 20% → bateria 65%, bez nadwyżki jako tekst PL", async () => {
+    const w = await oknoSloneczneTool.handler({
+      energiaOknaKwh: 4.5,
+      zuzycieWOknieKwh: 0,
+      pojemnoscBateriiKwh: 10,
+      socStartPct: 20,
+      grzalkiBmsKwh: 0,
+      bojlerL: 0,
+      bojlerTStartC: null,
+      bojlerTCelC: null,
+    })
+    expect(w.socKoniecPct).toBeCloseTo(65, 9)
+    expect(w.ostrzezenia).toContain(t("pl", "OKNO-BRAK-NADWYZKI"))
+  })
+})
+
+describe("osadNaPvTool (M7/E7 + E14, dawne 6.7, 6.20, 6.18)", () => {
+  it("kontrakt 9.3: 'read', bez potwierdzenia", () => {
+    expect(osadNaPvTool.operationType).toBe("read")
+    expect(osadNaPvTool.requiresConfirmation).toBe(false)
+    expect(() => validateAiToolDefinition(osadNaPvTool)).not.toThrow()
+  })
+
+  it("śnieg sypki przy 10° → 🟡 nie zsunie się jako tekst PL", async () => {
+    const w = await osadNaPvTool.handler({
+      rodzaj: "sypki",
+      katDeg: 10,
+      produkcjaDobaKwh: 4,
+      dniZalegania: 3,
+      pozostalaProdukcjaPct: 0,
+      nierownoStringi: false,
+    })
+    expect(w.utrataKwh).toBeCloseTo(12, 9)
+    expect(w.ostrzezenia).toContain(t("pl", "OSAD-SNIEG-NIE-ZSUNIE", { kat: 10, prog: 30 }))
   })
 })

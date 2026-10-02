@@ -89,19 +89,17 @@ export default function OrientacjaPowierzchniPage() {
   return (
     <main className="mx-auto flex max-w-2xl flex-col gap-6 p-6">
       <NawigacjaEkranu href="/kalkulatory/orientacja-powierzchni" />
-      <NaglowekEkranu tytul="Bryła budynku i orientacja ścian" ekran="orientacja-powierzchni" wynik={r}>
-        Nie każda ściana i połać dachu są tak samo warte montażu paneli — ten wskaźnik pozwala od razu zobaczyć,
-        gdzie inwestycja się najbardziej opłaci, zanim przejdziesz do szczegółowego projektowania w Module 3. Moduł 1,
-        Ekran 4.
+      <NaglowekEkranu tytul={t("UI-ORIPOW-BRYLA-BUDYNKU-ORIENTACJA")} ekran="orientacja-powierzchni" wynik={r}>
+        {t("UI-ORIPOW-KAZDA-SCIANA-POLAC")}
       </NaglowekEkranu>
 
       <SekcjaDanychNaslonecznienia lokalizacja={lokalizacja} dane={dane} tmy={tmy} />
 
       <section className="flex flex-col gap-3">
-        <h2 className="font-semibold">Powierzchnie</h2>
+        <h2 className="font-semibold">{t("UI-ORIPOW-POWIERZCHNIE")}</h2>
         {zModelu.length === 0 && (
           <p className="text-small text-muted-foreground">
-            Model działki nie ma budynku ani połaci — dopisz powierzchnie ręcznie albo zbierz je na Ekranie 2.
+            {t("UI-ORIPOW-MODEL-DZIALKI-BUDYNKU")}
           </p>
         )}
         {powierzchnie
@@ -114,16 +112,16 @@ export default function OrientacjaPowierzchniPage() {
                 <div className="col-span-2 text-small sm:col-span-1">
                   <p className="font-medium">
                     {p.nazwa}
-                    {p.skorygowana && <span className="ml-1 text-muted-foreground">(korekta ręczna)</span>}
+                    {p.skorygowana && <span className="ml-1 text-muted-foreground">{t("UI-ORIPOW-KOREKTA-RECZNA")}</span>}
                   </p>
                   <p className="text-muted-foreground">
-                    Ze Skanera: {z.nachylenieDeg}°, azymut {z.azymutDeg}° ({kierunek(z.azymutDeg)}) ·{" "}
-                    {p.zrodlo === "polac" ? `${f1(p.wymiar)} m²` : `${f1(p.wymiar)} m ścian`}
+                    {t("UI-ORIPOW-SKANERA-AZYMUT", { nachylenieDeg: z.nachylenieDeg, azymutDeg: z.azymutDeg, azymutDeg2: kierunek(z.azymutDeg) })}{" "}
+                    {p.zrodlo === "polac" ? `${f1(p.wymiar)} m²` : t("UI-ORIPOW-SCIAN", { wymiar: f1(p.wymiar) })}
                   </p>
                 </div>
                 <Pole
                   id={`korekta-${p.id}-nachylenie`}
-                  label="Nachylenie"
+                  label={t("UI-ORIPOW-NACHYLENIE")}
                   unit="°"
                   inputMode="decimal"
                   placeholder={String(z.nachylenieDeg)}
@@ -133,7 +131,7 @@ export default function OrientacjaPowierzchniPage() {
                 />
                 <Pole
                   id={`korekta-${p.id}-azymut`}
-                  label="Azymut"
+                  label={t("UI-ORIPOW-AZYMUT")}
                   unit="°"
                   inputMode="decimal"
                   placeholder={String(z.azymutDeg)}
@@ -146,11 +144,11 @@ export default function OrientacjaPowierzchniPage() {
           })}
         {stan.reczne.map((r, i) => (
           <div key={i} className="grid grid-cols-2 gap-2 rounded-md border p-3 sm:grid-cols-[1fr_8rem_8rem_auto]">
-            <Pole id={`reczna-${i}-nazwa`} className="col-span-2 sm:col-span-1" label="Nazwa" value={r.nazwa} onChange={(e) => ustawReczna(i, { nazwa: e.target.value })} placeholder={`Powierzchnia ${i + 1}`} pomoc={<PomocPola ekran="orientacja-powierzchni" pole="nazwa" />} />
-            <Pole id={`reczna-${i}-nachylenie`} label="Nachylenie" unit="°" inputMode="decimal" value={r.nachylenieDeg} onChange={(e) => ustawReczna(i, { nachylenieDeg: e.target.value })} pomoc={<PomocPola ekran="orientacja-powierzchni" pole="nachylenieReczne" />} />
-            <Pole id={`reczna-${i}-azymut`} label="Azymut" unit="°" inputMode="decimal" value={r.azymutDeg} onChange={(e) => ustawReczna(i, { azymutDeg: e.target.value })} pomoc={<PomocPola ekran="orientacja-powierzchni" pole="azymutReczny" />} />
+            <Pole id={`reczna-${i}-nazwa`} className="col-span-2 sm:col-span-1" label={t("UI-ORIPOW-NAZWA")} value={r.nazwa} onChange={(e) => ustawReczna(i, { nazwa: e.target.value })} placeholder={t("UI-ORIPOW-POWIERZCHNIA", { p: i + 1 })} pomoc={<PomocPola ekran="orientacja-powierzchni" pole="nazwa" />} />
+            <Pole id={`reczna-${i}-nachylenie`} label={t("UI-ORIPOW-NACHYLENIE")} unit="°" inputMode="decimal" value={r.nachylenieDeg} onChange={(e) => ustawReczna(i, { nachylenieDeg: e.target.value })} pomoc={<PomocPola ekran="orientacja-powierzchni" pole="nachylenieReczne" />} />
+            <Pole id={`reczna-${i}-azymut`} label={t("UI-ORIPOW-AZYMUT")} unit="°" inputMode="decimal" value={r.azymutDeg} onChange={(e) => ustawReczna(i, { azymutDeg: e.target.value })} pomoc={<PomocPola ekran="orientacja-powierzchni" pole="azymutReczny" />} />
             <Button variant="ghost" className="mt-auto min-h-11" onClick={() => setStan((s) => ({ ...s, reczne: s.reczne.filter((_, j) => j !== i) }))}>
-              Usuń
+              {t("UI-ORIPOW-USUN")}
             </Button>
           </div>
         ))}
@@ -159,10 +157,10 @@ export default function OrientacjaPowierzchniPage() {
           className="w-fit"
           onClick={() => setStan((s) => ({ ...s, reczne: [...s.reczne, { nazwa: "", nachylenieDeg: "", azymutDeg: "" }] }))}
         >
-          + Dodaj powierzchnię ręcznie
+          {t("UI-ORIPOW-DODAJ-POWIERZCHNIE-RECZNIE")}
         </Button>
         <Pole
-          label="Albedo gruntu (opcjonalnie)"
+          label={t("UI-ORIPOW-ALBEDO-GRUNTU-OPCJONALNIE")}
           inputMode="decimal"
           value={stan.albedo}
           onChange={(e) => setStan((s) => ({ ...s, albedo: e.target.value }))}
@@ -171,18 +169,18 @@ export default function OrientacjaPowierzchniPage() {
       </section>
 
       <Button className="min-h-11" disabled={obliczenia.liczy || !dane || powierzchnie.length === 0} onClick={ocen}>
-        {obliczenia.liczy ? "Liczę (ok. 3 s)…" : aktualny ? "Oceń ponownie" : "Oceń powierzchnie"}
+        {obliczenia.liczy ? t("UI-ORIPOW-LICZE") : aktualny ? t("UI-ORIPOW-OCEN-PONOWNIE") : t("UI-ORIPOW-OCEN-POWIERZCHNIE")}
       </Button>
       {obliczenia.blad && <p className="text-small text-werdykt-blad-foreground">{obliczenia.blad}</p>}
-      {wynik && !aktualny && !obliczenia.liczy && <StanPusty tytul="Dane zmieniły się od ostatniej oceny — oceń ponownie." />}
+      {wynik && !aktualny && !obliczenia.liczy && <StanPusty tytul={t("UI-ORIPOW-DANE-ZMIENILY-OSTATNIEJ")} />}
 
       {r && (
         <WerdyktPanel
           poziom={poziomZStatusu(r.status)}
           etykieta={
             r.status === "INVALID_INPUT"
-              ? "Sprawdź dane"
-              : `Optimum tutaj: nachylenie ${r.value.optimum.nachylenieDeg}°, azymut ${r.value.optimum.azymutDeg}° — ${f0(r.value.optimum.napromieniowanieRoczneKwhM2)} kWh/m² rocznie`
+              ? t("UI-ORIPOW-SPRAWDZ-DANE")
+              : t("UI-ORIPOW-OPTIMUM-TUTAJ-NACHYLENIE", { nachylenieDeg: r.value.optimum.nachylenieDeg, azymutDeg: r.value.optimum.azymutDeg, napromieniowanieRoczneKwhM2: f0(r.value.optimum.napromieniowanieRoczneKwhM2) })
           }
         >
           <div className="mt-2 flex flex-col gap-3 text-small">
@@ -200,10 +198,10 @@ export default function OrientacjaPowierzchniPage() {
                     <div className="h-full rounded bg-current opacity-70" style={{ width: `${Math.min(100, p.wskaznikProcent)}%` }} />
                   </div>
                   <span className="text-muted-foreground">
-                    {p.nachylenieDeg}°, azymut {p.azymutDeg}° ({kierunek(p.azymutDeg)}) · {f0(p.napromieniowanieRoczneKwhM2)} kWh/m² rocznie
+                    {t("UI-ORIPOW-AZYMUT-KWH-ROCZNIE", { nachylenieDeg: p.nachylenieDeg, azymutDeg: p.azymutDeg, azymutDeg2: kierunek(p.azymutDeg), napromieniowanieRoczneKwhM2: f0(p.napromieniowanieRoczneKwhM2) })}
                     {p.strataZacienieniaProcent === null
-                      ? " · bez zacienienia"
-                      : ` · zacienienie −${f1(p.strataZacienieniaProcent)}% (bez przeszkód ${f0((100 * p.napromieniowanieBezZacienieniaKwhM2) / r.value.optimum.napromieniowanieRoczneKwhM2)}%)`}
+                      ? ` ${t("UI-ORIPOW-BEZ-ZACIENIENIA")}`
+                      : ` ${t("UI-ORIPOW-ZACIENIENIE-BEZ-PRZESZKOD", { strataZacienieniaProcent: f1(p.strataZacienieniaProcent), p: f0((100 * p.napromieniowanieBezZacienieniaKwhM2) / r.value.optimum.napromieniowanieRoczneKwhM2) })}`}
                   </span>
                 </li>
               ))}
@@ -216,20 +214,19 @@ export default function OrientacjaPowierzchniPage() {
               </ul>
             )}
             <p className="text-muted-foreground">
-              Połacie uwzględniają przeszkody ze Skanera (drzewa, sąsiednie budynki) — szczegóły miesiąc po miesiącu
-              pokazuje Ekran 3. Elewacje i powierzchnie dopisane ręcznie — bez zacienienia (brak wysokości punktu).
+              {t("UI-ORIPOW-POLACIE-UWZGLEDNIAJA-PRZESZK")}
             </p>
             <ZalozeniaLista assumptions={r.assumptions} />
           </div>
         </WerdyktPanel>
       )}
 
-      <nav className="flex flex-wrap gap-2" aria-label="Sąsiednie ekrany">
+      <nav className="flex flex-wrap gap-2" aria-label={t("UI-ORIPOW-SASIEDNIE-EKRANY")}>
         <Link href="/kalkulatory/skaner-dzialki" className="rounded-md border px-3 py-2 text-small hover:bg-muted">
-          ← Ekran 2: Skaner działki
+          {t("UI-ORIPOW-EKRAN-SKANER-DZIALKI")}
         </Link>
         <Link href="/kalkulatory/analiza-zacienienia" className="rounded-md border px-3 py-2 text-small hover:bg-muted">
-          ← Ekran 3: Analiza zacienienia
+          {t("UI-ORIPOW-EKRAN-ANALIZA-ZACIENIENIA")}
         </Link>
       </nav>
     </main>

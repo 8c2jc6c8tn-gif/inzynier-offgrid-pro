@@ -7,11 +7,12 @@
  * useSyncExternalStore od razu po zapisie.
  */
 import { LANGUAGE_LABELS, SUPPORTED_LANGUAGES, type Language } from "@/lib/i18n/language"
-import { useLanguage } from "@/lib/i18n/language-context"
+import { useLanguage, useTranslate } from "@/lib/i18n/language-context"
 import { zapiszJezyk } from "@/lib/i18n/storage"
 import { cn } from "@/lib/utils"
 
 export function JezykWybor() {
+  const t = useTranslate()
   const jezyk = useLanguage()
 
   function wybierz(nastepny: Language) {
@@ -20,7 +21,7 @@ export function JezykWybor() {
   }
 
   return (
-    <div className="flex gap-2" role="radiogroup" aria-label="Wybór języka">
+    <div className="flex gap-2" role="radiogroup" aria-label={t("UI-JEZWYB-WYBOR-JEZYKA")}>
       {SUPPORTED_LANGUAGES.map((kod) => (
         <button
           key={kod}

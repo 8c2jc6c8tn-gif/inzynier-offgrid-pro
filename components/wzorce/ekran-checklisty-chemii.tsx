@@ -10,6 +10,7 @@ import { WerdyktPanel } from "@/components/werdykt"
 import { StanPusty } from "@/components/ui/stany"
 import { ListaChecklist } from "@/components/wzorce/lista-checklist"
 import { WynikSzczegoly } from "@/components/wzorce/wynik-szczegoly"
+import { useTranslate } from "@/lib/i18n/language-context"
 
 type FormularzStan = { chemia: ChemiaChecklisty | ""; potwierdzoneIds: string[] }
 
@@ -25,6 +26,7 @@ export function EkranChecklistyChemii({
   oblicz: (input: ChecklistaChemiiInput) => CalcResult<ChecklistaChemiiResult>
   etykietaGotowe: string
 }) {
+  const t = useTranslate()
   const [stan, setStan] = usePersistedDraft<FormularzStan>(kluczSzkicu, STAN_POCZATKOWY)
   const result = oblicz({ chemia: stan.chemia === "" ? null : stan.chemia, potwierdzoneIds: stan.potwierdzoneIds })
   const { pozycje, potwierdzone, razem } = result.value
@@ -42,15 +44,15 @@ export function EkranChecklistyChemii({
   return (
     <>
       <PoleSelect
-        label="Typ akumulatora"
+        label={t("UI-EKRCHECHE-TYP-AKUMULATORA")}
         value={stan.chemia}
         onChange={(e) => setStan((prev) => ({ ...prev, chemia: e.target.value as FormularzStan["chemia"] }))}
         pomoc={<PomocPola ekran="checklista-chemii" pole="typ" />}
       >
-        <option value="">— wybierz —</option>
-        <option value="AGM">AGM (VRLA, szczelny)</option>
-        <option value="kwasowy">Kwasowy (zalewowy)</option>
-        <option value="LiFePO4">LiFePO4</option>
+        <option value="">{t("UI-WYBIERZ")}</option>
+        <option value="AGM">{t("UI-EKRCHECHE-AGM-VRLA-SZCZELNY")}</option>
+        <option value="kwasowy">{t("UI-EKRCHECHE-KWASOWY-ZALEWOWY")}</option>
+        <option value="LiFePO4">{t("UI-EKRCHECHE-LIFEPO4")}</option>
       </PoleSelect>
 
       {stan.chemia !== "" && (
@@ -68,17 +70,17 @@ export function EkranChecklistyChemii({
       )}
 
       {stan.chemia === "" ? (
-        <p className="text-small text-muted-foreground">Wybierz typ akumulatora, żeby zobaczyć listę kontrolną.</p>
+        <p className="text-small text-muted-foreground">{t("UI-EKRCHECHE-WYBIERZ-TYP-AKUMULATORA")}</p>
       ) : result.status === "VALID" && !maOstrzezenie ? (
         <WerdyktPanel poziom="ok" etykieta={etykietaGotowe}>
           <WynikSzczegoly assumptions={[]} warnings={result.warnings} />
         </WerdyktPanel>
       ) : maOstrzezenie ? (
-        <WerdyktPanel poziom={maTwardyStop ? "blad" : "uwaga"} etykieta={`Potwierdzono ${potwierdzone} / ${razem}`}>
+        <WerdyktPanel poziom={maTwardyStop ? "blad" : "uwaga"} etykieta={t("UI-EKRCHECHE-POTWIERDZONO", { potwierdzone, razem })}>
           <WynikSzczegoly assumptions={[]} warnings={result.warnings} />
         </WerdyktPanel>
       ) : (
-        <StanPusty tytul={`Potwierdzono ${potwierdzone} / ${razem} pozycji`} />
+        <StanPusty tytul={t("UI-EKRCHECHE-POTWIERDZONO-POZYCJI", { potwierdzone, razem })} />
       )}
     </>
   )

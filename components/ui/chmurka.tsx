@@ -101,10 +101,11 @@ export function Chmurka({
 }
 
 export function PomocPole({ tresc, aria }: { tresc: ReactNode; aria?: string }) {
+  const t = useTranslate()
   return (
     <Chmurka
       tresc={tresc}
-      aria={aria ?? "Więcej informacji o tym polu"}
+      aria={aria ?? t("UI-CHM-WIECEJ-INFORMACJI-TYM")}
       className="max-h-[70vh] max-w-[min(20rem,calc(100vw-2rem))] overflow-y-auto"
     >
       <span className="inline-flex h-4 w-4 items-center justify-center rounded-full border text-[10px] text-muted-foreground hover:bg-muted">

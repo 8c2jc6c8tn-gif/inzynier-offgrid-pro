@@ -162,7 +162,7 @@ export default function KonfiguratorStringowPage() {
           <p className="mt-1">{t("UI-KONSTR-POLICZYC-SPRAWDZ-DANE")}</p>
         ) : (
           <WynikGlowny>
-            {result.value.voltageV.toFixed(1)} V &nbsp;/&nbsp; {result.value.currentA.toFixed(2)} A
+            {result.value.voltageV.toFixed(1)} V{" \u00a0/\u00a0 "}{result.value.currentA.toFixed(2)} A
           </WynikGlowny>
         )}
         <WynikSzczegoly assumptions={result.assumptions} warnings={result.warnings} formula={result.formula} />

@@ -9,8 +9,10 @@ import { KafelIkonaSvg, KAFLE_ZE_ZBUDOWANA_IKONA } from "@/components/kafle-ikon
 import { MASKOTKA_PO_ID_KAFLA } from "@/lib/pulpit/maskotki"
 import { KAFLE, USTAWIENIA_KAFEL, znajdzKafel } from "@/lib/pulpit/registry"
 import { getServerSnapshot, getSnapshot, subscribe } from "@/lib/pulpit/storage"
+import { useTranslate } from "@/lib/i18n/language-context"
 
 export default function PulpitPage() {
+  const t = useTranslate()
   const stan = useSyncExternalStore(subscribe, getSnapshot, getServerSnapshot)
 
   const widoczneKafle = stan.order
@@ -24,31 +26,31 @@ export default function PulpitPage() {
       <KafleIkonySymbole />
       <header className="flex flex-wrap items-center justify-between gap-3 border-b px-4 py-3 text-small">
         <span className="font-mono text-caption uppercase tracking-widest text-muted-foreground">
-          ☰ Inżynier Offgrid Pro
+          {t("UI-PUL-INZYNIER-OFFGRID-PRO")}
         </span>
         <nav className="flex items-center gap-1">
           <Link
             href="/moduly/1"
             className="rounded-md px-2 py-1.5 transition-colors hover:bg-muted focus-visible:ring-2 focus-visible:ring-ring/50 focus-visible:outline-none"
           >
-            📍 Lokalizacja i teren
+            {t("UI-PUL-LOKALIZACJA-TEREN")}
           </Link>
           <Link
             href="/moduly/13"
             className="rounded-md px-2 py-1.5 transition-colors hover:bg-muted focus-visible:ring-2 focus-visible:ring-ring/50 focus-visible:outline-none"
           >
-            📡 Tryb Live
+            {t("UI-PUL-TRYB-LIVE")}
           </Link>
           <Link
             href={USTAWIENIA_KAFEL.href}
             className="rounded-md px-2 py-1.5 transition-colors hover:bg-muted focus-visible:ring-2 focus-visible:ring-ring/50 focus-visible:outline-none"
           >
-            {USTAWIENIA_KAFEL.ikona} Ustawienia
+            {t("UI-PUL-USTAWIENIA", { ikona: USTAWIENIA_KAFEL.ikona })}
           </Link>
           <span
             className="px-1 text-muted-foreground"
-            title="Brak powiadomień"
-            aria-label="Brak powiadomień"
+            title={t("UI-PUL-BRAK-POWIADOMIEN")}
+            aria-label={t("UI-PUL-BRAK-POWIADOMIEN")}
           >
             🔔
           </span>
@@ -58,19 +60,19 @@ export default function PulpitPage() {
 
       <main className="mx-auto max-w-4xl px-4 py-8">
         <div className="mb-6 flex flex-col gap-1">
-          <h1 className="text-display font-semibold">Pulpit</h1>
+          <h1 className="text-display font-semibold">{t("UI-PUL-PULPIT")}</h1>
           <p className="text-small text-muted-foreground">
-            {widoczneKafle.length} z {KAFLE.length} modułów widocznych.{" "}
+            {t("UI-PUL-MODULOW-WIDOCZNYCH", { length: widoczneKafle.length, length2: KAFLE.length })}{" "}
             <Link href={USTAWIENIA_KAFEL.href} className="underline decoration-muted-foreground/50 hover:decoration-foreground">
-              Skonfiguruj pulpit
+              {t("UI-PUL-SKONFIGURUJ-PULPIT")}
             </Link>
           </p>
         </div>
 
         {widoczneKafle.length === 0 ? (
-          <StanPusty tytul="Wszystkie kafle są ukryte.">
+          <StanPusty tytul={t("UI-PUL-WSZYSTKIE-KAFLE-UKRYTE")}>
             <Link href={USTAWIENIA_KAFEL.href} className="underline">
-              Przywróć domyślne w ustawieniach
+              {t("UI-PUL-PRZYWROC-DOMYSLNE-USTAWIENIA")}
             </Link>
           </StanPusty>
         ) : (

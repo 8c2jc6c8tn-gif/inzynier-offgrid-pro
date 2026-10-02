@@ -4,6 +4,7 @@ import Link from "next/link"
 import { Button } from "@/components/ui/button"
 import { useLokalizacjaProjektu } from "@/lib/lokalizacja/use-lokalizacja-projektu"
 import { useOnline } from "@/lib/lokalizacja/use-online"
+import { useTranslate } from "@/lib/i18n/language-context"
 
 const f1 = (x: number) => x.toLocaleString("pl-PL", { maximumFractionDigits: 1 })
 
@@ -13,6 +14,7 @@ const f1 = (x: number) => x.toLocaleString("pl-PL", { maximumFractionDigits: 1 }
  * into editable fields, never used silently: the user sees and can correct them.
  */
 export function TemperaturyZPvgis({ onWstaw }: { onWstaw: (temperatury: number[]) => void }) {
+  const t = useTranslate()
   const { lokalizacja, dane, tmy, wczytano } = useLokalizacjaProjektu()
   const online = useOnline()
   if (!wczytano) return null
@@ -20,13 +22,12 @@ export function TemperaturyZPvgis({ onWstaw }: { onWstaw: (temperatury: number[]
   if (!lokalizacja) {
     return (
       <p className="text-small text-muted-foreground">
-        Temperatury może wstawić aplikacja z danych PVGIS dla Twojej lokalizacji — najpierw wpisz współrzędne na{" "}
+        {t("UI-TEMZPVG-TEMPERATURY-MOZE-WSTAWIC")}{" "}
         <Link href="/kalkulatory/lokalizacja-i-klimat" className="underline">
-          Ekranie 1 Lokalizacji
-        </Link>{" "}
-        albo zbierz{" "}
+          {t("UI-TEMZPVG-EKRANIE-LOKALIZACJI")}
+        </Link>{" "}{t("UI-TEMZPVG-ALBO-ZBIERZ")}{" "}
         <Link href="/kalkulatory/skaner-dzialki" className="underline">
-          model działki
+          {t("UI-TEMZPVG-MODEL-DZIALKI")}
         </Link>
         .
       </p>
@@ -38,12 +39,10 @@ export function TemperaturyZPvgis({ onWstaw }: { onWstaw: (temperatury: number[]
     return (
       <div className="flex flex-col gap-2 rounded-lg border p-3">
         <p className="text-small">
-          Średnie miesięczne temperatury powietrza z typowego roku meteorologicznego PVGIS (baza {dane.dane.meta.bazaMeteo},
-          lata {dane.dane.meta.rokOd}–{dane.dane.meta.rokDo}) dla lokalizacji projektu: od {f1(Math.min(...temperatury))} do{" "}
-          {f1(Math.max(...temperatury))} °C.
+          {t("UI-TEMZPVG-SREDNIE-MIESIECZNE-TEMPERATU", { bazaMeteo: dane.dane.meta.bazaMeteo, rokOd: dane.dane.meta.rokOd, rokDo: dane.dane.meta.rokDo, p: f1(Math.min(...temperatury)), p2: f1(Math.max(...temperatury)) })}
         </p>
         <Button variant="outline" className="min-h-11 w-fit" onClick={() => onWstaw(temperatury)}>
-          Wstaw temperatury z PVGIS
+          {t("UI-TEMZPVG-WSTAW-TEMPERATURY-PVGIS")}
         </Button>
       </div>
     )
@@ -53,8 +52,8 @@ export function TemperaturyZPvgis({ onWstaw }: { onWstaw: (temperatury: number[]
     <div className="flex flex-col gap-2 rounded-lg border p-3">
       <p className="text-small text-muted-foreground">
         {dane
-          ? `Dane PVGIS zapisane ${new Date(dane.pobrano).toLocaleDateString("pl-PL")} nie zawierają temperatur (starsza wersja zapisu) — pobierz je ponownie.`
-          : "Temperatury może wstawić aplikacja z danych PVGIS (Komisja Europejska) dla lokalizacji projektu — pobierane raz, potem zapisane na urządzeniu."}
+          ? t("UI-TEMZPVG-DANE-PVGIS-ZAPISANE", { p: new Date(dane.pobrano).toLocaleDateString("pl-PL") })
+          : t("UI-TEMZPVG-TEMPERATURY-MOZE-WSTAWIC-2")}
       </p>
       <Button
         variant="outline"
@@ -62,9 +61,9 @@ export function TemperaturyZPvgis({ onWstaw }: { onWstaw: (temperatury: number[]
         disabled={tmy.pobiera || !online}
         onClick={() => tmy.pobierz(lokalizacja.szerokosc, lokalizacja.dlugosc)}
       >
-        {tmy.pobiera ? "Pobieram z PVGIS…" : "Pobierz dane PVGIS"}
+        {tmy.pobiera ? t("UI-TEMZPVG-POBIERAM-PVGIS") : t("UI-TEMZPVG-POBIERZ-DANE-PVGIS")}
       </Button>
-      {!online && <p className="text-small">Brak połączenia — pobierz dane, gdy będziesz online.</p>}
+      {!online && <p className="text-small">{t("UI-TEMZPVG-BRAK-POLACZENIA-POBIERZ")}</p>}
       {tmy.blad && <p className="text-small text-werdykt-blad-foreground">{tmy.blad}</p>}
     </div>
   )

@@ -2,6 +2,7 @@ import Link from "next/link"
 import { notFound } from "next/navigation"
 import { MASKOTKA_PO_ID_KAFLA } from "@/lib/pulpit/maskotki"
 import { KAFLE, znajdzKafel } from "@/lib/pulpit/registry"
+import { TekstUi } from "@/components/ui/tekst-ui"
 
 export function generateStaticParams() {
   return KAFLE.map((k) => ({ id: String(k.id) }))
@@ -22,7 +23,7 @@ export default async function ModulPage({ params }: { params: Promise<{ id: stri
           href="/"
           className="rounded-md text-small text-muted-foreground transition-colors hover:text-foreground focus-visible:ring-2 focus-visible:ring-ring/50 focus-visible:outline-none"
         >
-          ← Pulpit
+          <TekstUi kod="UI-MOD-PULPIT" />
         </Link>
         {maskotka ? (
           <img
@@ -33,7 +34,7 @@ export default async function ModulPage({ params }: { params: Promise<{ id: stri
           />
         ) : null}
         <h1 className="mt-2 text-h1 font-semibold">
-          <span aria-hidden="true">{kafel.ikona}</span> Moduł {kafel.id} — {kafel.nazwa}
+          <span aria-hidden="true">{kafel.ikona}</span> <TekstUi kod="UI-MOD-TYTUL" params={{ id: kafel.id, nazwa: kafel.nazwa }} />
         </h1>
         <p className="mt-1 text-small text-muted-foreground">{kafel.opis}</p>
       </div>

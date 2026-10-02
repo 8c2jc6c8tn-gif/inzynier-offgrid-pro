@@ -22,6 +22,7 @@ import {
 } from "maplibre-gl"
 import { useEffect, useRef } from "react"
 import type { PunktGps } from "@/lib/core/modules/lokalizacja/skaner-dzialki/input"
+import { useTranslate } from "@/lib/i18n/language-context"
 
 /**
  * WMS ortofotomapy (Geoportal, PZGiK). GetCapabilities deklaruje tylko EPSG:2180/4326, ale serwer
@@ -163,6 +164,7 @@ function odswiez(map: MapaGl, p: MapaDzialkiProps, stare: Marker[]): Marker[] {
 }
 
 export default function MapaDzialki(props: MapaDzialkiProps) {
+  const t = useTranslate()
   const kontenerRef = useRef<HTMLDivElement>(null)
   const mapRef = useRef<MapaGl | null>(null)
   const gotowaRef = useRef(false)
@@ -240,5 +242,5 @@ export default function MapaDzialki(props: MapaDzialkiProps) {
     map.fitBounds(b, { padding: 40, maxZoom: ZOOM_DZIALKI, duration: 600 })
   }, [props.dopasujWidok])
 
-  return <div ref={kontenerRef} className="h-80 w-full overflow-hidden rounded-lg border sm:h-96" aria-label="Mapa działki" role="region" />
+  return <div ref={kontenerRef} className="h-80 w-full overflow-hidden rounded-lg border sm:h-96" aria-label={t("UI-MAPDZI-MAPA-DZIALKI")} role="region" />
 }

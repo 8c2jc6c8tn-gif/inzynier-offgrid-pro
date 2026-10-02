@@ -1571,6 +1571,22 @@ export const dictionaryPl = {
   "WGR-ZALOZENIE-WYMIANY": "Liczbę wymian powietrza wpisujesz Ty (test szczelności — Ekran 12 — albo pomiar) dla warunków tej doby: silniejszy wiatr i większa różnica temperatur zwiększają wymianę. Źródło nie podaje wzoru na ciąg kominowy z liczby kominów i nieszczelności. Porównanie z rekuperacją zakłada ten sam strumień powietrza.",
   "GWC-ZALOZENIE-PRZYROST": "Przyrost temperatury powietrza w GWC wpisujesz z danych producenta albo z pomiaru (termometr przed i za wymiennikiem) — źródło nie podaje wzoru wymiany ciepła z gruntem z długości, głębokości i rodzaju gruntu. Liczone tylko zimowe podgrzanie; chłodzenia latem aplikacja nie liczy.",
   "GWC-ZALOZENIE-REKUPERATOR": "Za rekuperatorem GWC jest wart tylko (1 − sprawność) surowego zysku — resztę tego ciepła rekuperator odzyskałby i tak z powietrza wywiewanego.",
+  "OKNO-WARTOSC-UJEMNA": "Wpisana wartość nie może być ujemna.",
+  "OKNO-SOC-POZA-ZAKRESEM": "Stan naładowania musi mieścić się w zakresie 0–100%.",
+  "OKNO-NIE-POKRYWA-ZUZYCIA": "Okno słoneczne nie pokrywa nawet bieżącego zużycia domu — brakuje {brak} kWh, nic nie trafi do baterii ani bojlera. Przesuń odbiorniki albo licz na agregat.",
+  "OKNO-BRAK-NADWYZKI": "Nie zostaje nic na odbiorniki nadwyżkowe — pralkę i zmywarkę włącz w dzień z większym słońcem.",
+  "OKNO-BOJLER-NIEDOGRZANY": "Bojler dojdzie tylko do {tKoniec} °C (cel {tCel} °C). Nie dogrzewaj go w nocy z baterii — wykorzystaj kolejne słońce.",
+  "OKNO-ZALOZENIE-KOLEJNOSC": "Kolejność ze źródła: bateria → bojler, gdy bateria powyżej {prog}% → odbiorniki nadwyżkowe. Grzałki BMS liczone przed ładowaniem (bateria wymagająca ogrzania nie przyjmie ładunku), po bojlerze bateria ładowana do 100%. Najpierw pokrywane bieżące zużycie domu w oknie.",
+  "OKNO-ZALOZENIE-BEZ-STRAT": "Bez strat ładowania baterii i strat postojowych bojlera — do magazynu trafia cała przydzielona energia; realnie trochę mniej.",
+  "OSAD-WARTOSC-UJEMNA": "Wpisana wartość nie może być ujemna.",
+  "OSAD-POZA-ZAKRESEM": "Wartość musi mieścić się w zakresie 0–{max}.",
+  "OSAD-SNIEG-NIE-ZSUNIE": "Przy kącie {kat}° (nie więcej niż {prog}°) śnieg nie zsunie się sam. Rozważ odśnieżanie ręczne albo system grzewczy paneli.",
+  "OSAD-SNIEG-MOZE-ZSUNAC": "Przy kącie {kat}° (powyżej {prog}°) sypki śnieg może zsunąć się sam — szybciej przy cieplejszych panelach. Zostaw miejsce pod panelami na zsuwający się śnieg.",
+  "OSAD-MOKRY-PRZYKLEJA": "Mokry śnieg przykleja się do paneli niezależnie od kąta — jest ciężki i trudny do usunięcia.",
+  "OSAD-LOD-BLOKUJE": "Gołoledź i szron całkowicie blokują światło — produkcja spada praktycznie do zera, a lód nie zsunie się sam.",
+  "OSAD-SZADZ-NIE-ZSUWA": "Szadź jest gorsza od śniegu — nie zsuwa się sama, a mgła nie pozwala jej stopnieć. System będzie musiał polegać na baterii i agregacie.",
+  "OSAD-NIEROWNO-STRINGI": "Nierównomierne zasypanie stringów może wywołać różnice napięć między nimi — sprawdź niedopasowanie (Moduł 3, Ekran 17).",
+  "OSAD-ZALOZENIE-DNI-I-PROCENT": "Liczbę dni zalegania i procent produkcji pod osadem wpisujesz Ty (z obserwacji albo prognozy) — źródło nie podaje modelu topnienia ani przepuszczalności osadu. Przykłady źródła: śnieg 0% produkcji, przy −5 °C ok. 3 dni; szadź po 48 h ok. 5% produkcji.",
 } as const
 
 export type KluczTlumaczenia = keyof typeof dictionaryPl
