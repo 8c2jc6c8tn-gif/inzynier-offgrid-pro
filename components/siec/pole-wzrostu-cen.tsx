@@ -57,7 +57,7 @@ export function PoleWzrostuCen({
   rokBazowy: number
   horyzontLat: number
 }) {
-  const t = useTranslate()
+  const t = useTranslate(true)
   const sciezka = useMemo(
     () => calculateSciezkaCen({ rokBazowy, horyzontLat, kosztRocznyZl: 1, tryb: trybZeStanu(stan) }),
     [stan, rokBazowy, horyzontLat],

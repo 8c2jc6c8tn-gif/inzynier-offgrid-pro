@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest"
-import { formatujKwote, kursEfektywny, przeliczZPln } from "../przelicz"
+import { formatujKwote, kursEfektywny, przeliczZPln, symbolWaluty } from "../przelicz"
 import { parsujKursy, parsujPreferencje, kursyPrzeterminowane } from "../storage"
 
 describe("kursEfektywny", () => {
@@ -29,5 +29,16 @@ describe("parsing stored state", () => {
     expect(k?.kursy).toEqual({ EUR: 0.23 })
     expect(kursyPrzeterminowane(k, 13 * 3600 * 1000)).toBe(true)
     expect(kursyPrzeterminowane(k, 1000)).toBe(false)
+  })
+})
+
+describe("symbolWaluty", () => {
+  it("PLN: „zł” po polsku, kod w pozostałych językach", () => {
+    expect(symbolWaluty("PLN", "pl")).toBe("zł")
+    expect(symbolWaluty("PLN", "en")).toBe("PLN")
+  })
+  it("inne waluty: symbol wąski lub kod", () => {
+    expect(symbolWaluty("EUR", "pl")).toBe("€")
+    expect(symbolWaluty("USD", "en")).toBe("$")
   })
 })

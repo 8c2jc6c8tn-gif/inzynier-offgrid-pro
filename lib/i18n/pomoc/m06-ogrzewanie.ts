@@ -71,7 +71,7 @@ export const pl = {
     pola: {
       zapotrzebowanie: { nazwa: "Zapotrzebowanie na ciepło do pokrycia [kWh]", cel: "Ciepło, które ma dostarczyć kocioł albo pompa.", gdzie: "Z ekranu „Zapotrzebowanie na C.O. i C.W.U.” albo z zużycia w poprzednich sezonach.", zakres: "≥ 0. " + TWOJ },
       cop: { nazwa: "COP pompy ciepła [–]", cel: "Ile kWh ciepła pompa daje z 1 kWh prądu.", gdzie: "Karta katalogowa albo ekran „COP pompy ciepła”. Typowe pompy powietrze-woda: 1,5–6, zależnie od temperatury.", zakres: "≥ 0. " + TWOJ },
-      cena: { nazwa: "Cena energii elektrycznej [zł/kWh]", cel: "Przelicza kWh na złotówki.", gdzie: "Rachunek, koszt z agregatu albo wycena prądu z PV.", zakres: "≥ 0. " + TWOJ },
+      cena: { nazwa: "Cena energii elektrycznej [{waluta}/kWh]", cel: "Przelicza kWh na złotówki.", gdzie: "Rachunek, koszt z agregatu albo wycena prądu z PV.", zakres: "≥ 0. " + TWOJ },
     },
   },
   "koszty-ogrzewania": {
@@ -94,8 +94,8 @@ export const pl = {
       zuzyciePaliwaNaH: { nazwa: "Zużycie paliwa przy tej mocy [jedn./h]", cel: "Razem z mocą daje koszt 1 kWh ciepła z nagrzewnicy.", gdzie: "Z karty katalogowej.", zakres: "≥ 0. " + TWOJ },
       cop: { nazwa: "COP (średni w sezonie) [–]", cel: "Ile kWh ciepła pompa daje z 1 kWh prądu średnio w sezonie.", gdzie: "SCOP z karty albo z ekranu „COP pompy ciepła”.", zakres: "≥ 0. " + TWOJ },
       poborPraduW: { nazwa: "Pobór prądu w pracy [W] (opcjonalnie)", cel: "Prąd pomocniczy źródła paliwowego — w off-gridzie musi go dać Twoja instalacja.", gdzie: "Wentylator, podajnik, pompa, świeca — z karty.", zakres: "Puste = prąd pomocniczy nie jest liczony." },
-      kosztInwestycjiZl: { nazwa: "Koszt zakupu i montażu [zł]", cel: "Jednorazowy koszt, doliczany do kosztu całkowitego i zwrotu.", gdzie: "Oferta. 0 — jeśli już masz to urządzenie.", zakres: "≥ 0." },
-      kosztSerwisuRocznyZl: { nazwa: "Serwis i przeglądy rocznie [zł]", cel: "Koszt stały doliczany za każdy rok analizy.", gdzie: "Np. przegląd, czyszczenie komina, części.", zakres: "≥ 0." },
+      kosztInwestycjiZl: { nazwa: "Koszt zakupu i montażu [{waluta}]", cel: "Jednorazowy koszt, doliczany do kosztu całkowitego i zwrotu.", gdzie: "Oferta. 0 — jeśli już masz to urządzenie.", zakres: "≥ 0." },
+      kosztSerwisuRocznyZl: { nazwa: "Serwis i przeglądy rocznie [{waluta}]", cel: "Koszt stały doliczany za każdy rok analizy.", gdzie: "Np. przegląd, czyszczenie komina, części.", zakres: "≥ 0." },
     },
   },
   "mostki-termiczne": {
@@ -147,11 +147,11 @@ export const pl = {
       przegroda: { nazwa: "Przegroda z Ekranu 1", cel: "Wstawia powierzchnię i U — możesz je poprawić niżej.", gdzie: "Lista przegród zewnętrznych z ekranu „Straty ciepła budynku”.", zakres: "Opcjonalnie." },
       powierzchnia: { nazwa: "Powierzchnia przegrody [m²]", cel: "Oszczędność rośnie z powierzchnią docieplenia.", gdzie: "Z projektu, pomiaru albo Ekranu 1.", zakres: "≥ 0. " + TWOJ },
       u: { nazwa: "Obecne U [W/(m²·K)]", cel: "Punkt wyjścia — od niego liczona jest poprawa.", gdzie: "Przed dociepleniem — z projektu, świadectwa albo Ekranu 1.", zakres: "≥ 0. " + TWOJ },
-      cenaCiepla: { nazwa: "Cena ciepła [zł/kWh] (opcjonalnie)", cel: "Pozwala ocenić, od której grubości kolejne centymetry się nie zwracają.", gdzie: "Np. z ekranu „Porównanie kosztów ogrzewania”.", zakres: "Puste = bez oceny opłacalności." },
+      cenaCiepla: { nazwa: "Cena ciepła [{waluta}/kWh] (opcjonalnie)", cel: "Pozwala ocenić, od której grubości kolejne centymetry się nie zwracają.", gdzie: "Np. z ekranu „Porównanie kosztów ogrzewania”.", zakres: "Puste = bez oceny opłacalności." },
       material: { ...NAZWA, nazwa: "Materiał" },
       lambda: { nazwa: "λ [W/(m·K)]", cel: "Przewodność cieplna materiału — im mniejsza, tym lepiej izoluje.", gdzie: "λ deklarowane z karty produktu (np. 0,035).", zakres: "> 0. " + TWOJ },
       grubosc: { nazwa: "Grubość [cm]", cel: "Grubość dodawanej warstwy izolacji.", gdzie: "Oferowana grubość płyt lub warstwy.", zakres: "≥ 0. " + TWOJ },
-      cena: { nazwa: "Cena [zł/m²]", cel: "Koszt wariantu — z niego liczony jest koszt zaoszczędzonej kWh.", gdzie: "Za m² warstwy tej grubości (z robocizną, jeśli ją liczysz).", zakres: "≥ 0. " + TWOJ },
+      cena: { nazwa: "Cena [{waluta}/m²]", cel: "Koszt wariantu — z niego liczony jest koszt zaoszczędzonej kWh.", gdzie: "Za m² warstwy tej grubości (z robocizną, jeśli ją liczysz).", zakres: "≥ 0. " + TWOJ },
     },
   },
   "pojemnosc-cieplna": {
@@ -177,7 +177,7 @@ export const pl = {
   "pompy-cyrkulacyjne": {
     migawka: {
       oCoChodzi: "W off-gridzie pompy cyrkulacyjne to cisi złodzieje energii — pracują 24/7 i łatwo je zlekceważyć, a różnica między starym a nowym modelem to realne kilowatogodziny dziennie.",
-      jakDziala: "Energia = moc × godziny pracy. Porównuję obecną pompę z elektroniczną (PWM) — na dobę, a z dniami sezonu także w całym sezonie (kWh i zł). Niżej: przepływ przez pompę ciepła — ile m³/h potrzeba i czy pompa obiegowa go da.",
+      jakDziala: "Energia = moc × godziny pracy. Porównuję obecną pompę z elektroniczną (PWM) — na dobę, a z dniami sezonu także w całym sezonie (kWh i {waluta}). Niżej: przepływ przez pompę ciepła — ile m³/h potrzeba i czy pompa obiegowa go da.",
       poCo: "Wiesz, ile energii z baterii odzyskasz wymianą pompy.",
       fizyka: "E = P · h / 1000.",
     },
@@ -304,7 +304,7 @@ export const en: Tlumaczenie<typeof pl> = {
     pola: {
       zapotrzebowanie: { nazwa: "Heat demand to cover [kWh]", cel: "Heat the boiler or the pump has to deliver.", gdzie: "From the “Space heating and hot water demand” screen or from past seasons' consumption.", zakres: "≥ 0. " + EN_YOURS },
       cop: { nazwa: "Heat pump COP [–]", cel: "How many kWh of heat the pump gives from 1 kWh of electricity.", gdzie: "Datasheet or the “Heat pump COP” screen. Typical air-to-water pumps: 1.5–6, depending on temperature.", zakres: "≥ 0. " + EN_YOURS },
-      cena: { nazwa: "Electricity price [PLN/kWh]", cel: "Converts kWh to money.", gdzie: "Bill, generator cost or the valued cost of PV power.", zakres: "≥ 0. " + EN_YOURS },
+      cena: { nazwa: "Electricity price [{waluta}/kWh]", cel: "Converts kWh to money.", gdzie: "Bill, generator cost or the valued cost of PV power.", zakres: "≥ 0. " + EN_YOURS },
     },
   },
   "koszty-ogrzewania": {
@@ -327,8 +327,8 @@ export const en: Tlumaczenie<typeof pl> = {
       zuzyciePaliwaNaH: { nazwa: "Fuel consumption at this output [unit/h]", cel: "Together with output gives the cost of 1 kWh of heat from the heater.", gdzie: "From the datasheet.", zakres: "≥ 0. " + EN_YOURS },
       cop: { nazwa: "COP (seasonal average) [–]", cel: "How many kWh of heat the pump gives from 1 kWh of electricity on average over the season.", gdzie: "SCOP from the datasheet or from the “Heat pump COP” screen.", zakres: "≥ 0. " + EN_YOURS },
       poborPraduW: { nazwa: "Power draw while running [W] (optional)", cel: "Auxiliary power of a fuel source — off-grid, your system must supply it.", gdzie: "Fan, feeder, pump, glow plug — from the datasheet.", zakres: "Empty = auxiliary power is not counted." },
-      kosztInwestycjiZl: { nazwa: "Purchase and installation cost [PLN]", cel: "One-off cost added to the total cost and payback.", gdzie: "Offer. 0 — if you already own the device.", zakres: "≥ 0." },
-      kosztSerwisuRocznyZl: { nazwa: "Service and inspections per year [PLN]", cel: "Fixed cost added for every year of the analysis.", gdzie: "E.g. inspection, chimney sweeping, parts.", zakres: "≥ 0." },
+      kosztInwestycjiZl: { nazwa: "Purchase and installation cost [{waluta}]", cel: "One-off cost added to the total cost and payback.", gdzie: "Offer. 0 — if you already own the device.", zakres: "≥ 0." },
+      kosztSerwisuRocznyZl: { nazwa: "Service and inspections per year [{waluta}]", cel: "Fixed cost added for every year of the analysis.", gdzie: "E.g. inspection, chimney sweeping, parts.", zakres: "≥ 0." },
     },
   },
   "mostki-termiczne": {
@@ -380,11 +380,11 @@ export const en: Tlumaczenie<typeof pl> = {
       przegroda: { nazwa: "Element from Screen 1", cel: "Inserts area and U — you can adjust them below.", gdzie: "List of external elements from the “Building heat loss” screen.", zakres: "Optional." },
       powierzchnia: { nazwa: "Element area [m²]", cel: "Savings grow with the insulated area.", gdzie: "From the design, measurement or Screen 1.", zakres: "≥ 0. " + EN_YOURS },
       u: { nazwa: "Current U [W/(m²·K)]", cel: "Starting point — the improvement is calculated from it.", gdzie: "Before insulating — from the design, certificate or Screen 1.", zakres: "≥ 0. " + EN_YOURS },
-      cenaCiepla: { nazwa: "Heat price [PLN/kWh] (optional)", cel: "Lets the app judge from which thickness further centimetres stop paying back.", gdzie: "E.g. from the “Heating cost comparison” screen.", zakres: "Empty = no cost-effectiveness verdict." },
+      cenaCiepla: { nazwa: "Heat price [{waluta}/kWh] (optional)", cel: "Lets the app judge from which thickness further centimetres stop paying back.", gdzie: "E.g. from the “Heating cost comparison” screen.", zakres: "Empty = no cost-effectiveness verdict." },
       material: { ...EN_NAME, nazwa: "Material" },
       lambda: { nazwa: "λ [W/(m·K)]", cel: "Thermal conductivity of the material — the lower, the better it insulates.", gdzie: "Declared λ from the product datasheet (e.g. 0.035).", zakres: "> 0. " + EN_YOURS },
       grubosc: { nazwa: "Thickness [cm]", cel: "Thickness of the added insulation layer.", gdzie: "Offered board or layer thickness.", zakres: "≥ 0. " + EN_YOURS },
-      cena: { nazwa: "Price [PLN/m²]", cel: "Cost of the variant — the cost of a saved kWh is based on it.", gdzie: "Per m² of a layer of this thickness (with labour, if you count it).", zakres: "≥ 0. " + EN_YOURS },
+      cena: { nazwa: "Price [{waluta}/m²]", cel: "Cost of the variant — the cost of a saved kWh is based on it.", gdzie: "Per m² of a layer of this thickness (with labour, if you count it).", zakres: "≥ 0. " + EN_YOURS },
     },
   },
   "pojemnosc-cieplna": {
@@ -410,7 +410,7 @@ export const en: Tlumaczenie<typeof pl> = {
   "pompy-cyrkulacyjne": {
     migawka: {
       oCoChodzi: "Off-grid, circulation pumps are silent energy thieves — they run 24/7 and are easy to ignore, and the difference between an old and a new model is real kilowatt-hours a day.",
-      jakDziala: "Energy = power × running hours. I compare the current pump with an electronic (PWM) one — per day, and with the season days also for the whole season (kWh and PLN). Below: the flow through the heat pump — how many m³/h are needed and whether the circulation pump gives them.",
+      jakDziala: "Energy = power × running hours. I compare the current pump with an electronic (PWM) one — per day, and with the season days also for the whole season (kWh and {waluta}). Below: the flow through the heat pump — how many m³/h are needed and whether the circulation pump gives them.",
       poCo: "You know how much battery energy you recover by replacing the pump.",
       fizyka: "E = P · h / 1000.",
     },
@@ -537,7 +537,7 @@ export const ru: Tlumaczenie<typeof pl> = {
     pola: {
       zapotrzebowanie: { nazwa: "Потребность в тепле [кВт·ч]", cel: "Тепло, которое должен дать котёл или насос.", gdzie: "С экрана «Потребность в отоплении и ГВС» или по расходу прошлых сезонов.", zakres: "≥ 0. " + RU_YOURS },
       cop: { nazwa: "COP теплового насоса [–]", cel: "Сколько кВт·ч тепла насос даёт из 1 кВт·ч электроэнергии.", gdzie: "Паспорт или экран «COP теплового насоса». Типичные насосы воздух-вода: 1,5–6 в зависимости от температуры.", zakres: "≥ 0. " + RU_YOURS },
-      cena: { nazwa: "Цена электроэнергии [зл/кВт·ч]", cel: "Переводит кВт·ч в деньги.", gdzie: "Счёт, стоимость от генератора или оценка энергии PV.", zakres: "≥ 0. " + RU_YOURS },
+      cena: { nazwa: "Цена электроэнергии [{waluta}/кВт·ч]", cel: "Переводит кВт·ч в деньги.", gdzie: "Счёт, стоимость от генератора или оценка энергии PV.", zakres: "≥ 0. " + RU_YOURS },
     },
   },
   "koszty-ogrzewania": {
@@ -560,8 +560,8 @@ export const ru: Tlumaczenie<typeof pl> = {
       zuzyciePaliwaNaH: { nazwa: "Расход топлива при этой мощности [ед./ч]", cel: "Вместе с мощностью даёт стоимость 1 кВт·ч тепла от нагревателя.", gdzie: "Из паспорта.", zakres: "≥ 0. " + RU_YOURS },
       cop: { nazwa: "COP (средний за сезон) [–]", cel: "Сколько кВт·ч тепла насос в среднем за сезон даёт из 1 кВт·ч электроэнергии.", gdzie: "SCOP из паспорта или с экрана «COP теплового насоса».", zakres: "≥ 0. " + RU_YOURS },
       poborPraduW: { nazwa: "Потребление при работе [Вт] (необязательно)", cel: "Вспомогательная электроэнергия топливного источника — в автономной системе её должна дать ваша установка.", gdzie: "Вентилятор, подача, насос, свеча — из паспорта.", zakres: "Пусто = вспомогательная энергия не учитывается." },
-      kosztInwestycjiZl: { nazwa: "Стоимость покупки и монтажа [зл]", cel: "Разовая стоимость, добавляемая к полной стоимости и окупаемости.", gdzie: "Предложение. 0 — если устройство уже есть.", zakres: "≥ 0." },
-      kosztSerwisuRocznyZl: { nazwa: "Сервис и осмотры в год [зл]", cel: "Постоянные затраты, добавляемые за каждый год анализа.", gdzie: "Напр. осмотр, чистка дымохода, запчасти.", zakres: "≥ 0." },
+      kosztInwestycjiZl: { nazwa: "Стоимость покупки и монтажа [{waluta}]", cel: "Разовая стоимость, добавляемая к полной стоимости и окупаемости.", gdzie: "Предложение. 0 — если устройство уже есть.", zakres: "≥ 0." },
+      kosztSerwisuRocznyZl: { nazwa: "Сервис и осмотры в год [{waluta}]", cel: "Постоянные затраты, добавляемые за каждый год анализа.", gdzie: "Напр. осмотр, чистка дымохода, запчасти.", zakres: "≥ 0." },
     },
   },
   "mostki-termiczne": {
@@ -613,11 +613,11 @@ export const ru: Tlumaczenie<typeof pl> = {
       przegroda: { nazwa: "Ограждение с Экрана 1", cel: "Подставляет площадь и U — их можно поправить ниже.", gdzie: "Список наружных ограждений с экрана «Теплопотери здания».", zakres: "Необязательно." },
       powierzchnia: { nazwa: "Площадь ограждения [м²]", cel: "Экономия растёт с площадью утепления.", gdzie: "Из проекта, замера или с Экрана 1.", zakres: "≥ 0. " + RU_YOURS },
       u: { nazwa: "Текущее U [Вт/(м²·K)]", cel: "Исходная точка — от неё считается улучшение.", gdzie: "До утепления — из проекта, сертификата или с Экрана 1.", zakres: "≥ 0. " + RU_YOURS },
-      cenaCiepla: { nazwa: "Цена тепла [зл/кВт·ч] (необязательно)", cel: "Позволяет оценить, с какой толщины следующие сантиметры перестают окупаться.", gdzie: "Напр. с экрана «Сравнение затрат на отопление».", zakres: "Пусто = без оценки окупаемости." },
+      cenaCiepla: { nazwa: "Цена тепла [{waluta}/кВт·ч] (необязательно)", cel: "Позволяет оценить, с какой толщины следующие сантиметры перестают окупаться.", gdzie: "Напр. с экрана «Сравнение затрат на отопление».", zakres: "Пусто = без оценки окупаемости." },
       material: { ...RU_NAME, nazwa: "Материал" },
       lambda: { nazwa: "λ [Вт/(м·K)]", cel: "Теплопроводность материала — чем меньше, тем лучше утепляет.", gdzie: "Декларируемая λ из паспорта продукта (напр. 0,035).", zakres: "> 0. " + RU_YOURS },
       grubosc: { nazwa: "Толщина [см]", cel: "Толщина добавляемого слоя утеплителя.", gdzie: "Предлагаемая толщина плит или слоя.", zakres: "≥ 0. " + RU_YOURS },
-      cena: { nazwa: "Цена [зл/м²]", cel: "Стоимость варианта — по ней считается стоимость сэкономленного кВт·ч.", gdzie: "За м² слоя этой толщины (с работой, если вы её учитываете).", zakres: "≥ 0. " + RU_YOURS },
+      cena: { nazwa: "Цена [{waluta}/м²]", cel: "Стоимость варианта — по ней считается стоимость сэкономленного кВт·ч.", gdzie: "За м² слоя этой толщины (с работой, если вы её учитываете).", zakres: "≥ 0. " + RU_YOURS },
     },
   },
   "pojemnosc-cieplna": {
@@ -643,7 +643,7 @@ export const ru: Tlumaczenie<typeof pl> = {
   "pompy-cyrkulacyjne": {
     migawka: {
       oCoChodzi: "В автономной системе циркуляционные насосы — тихие воры энергии: работают 24/7, их легко недооценить, а разница между старой и новой моделью — реальные киловатт-часы в сутки.",
-      jakDziala: "Энергия = мощность × часы работы. Сравниваю текущий насос с электронным (PWM) — в сутки, а с днями сезона и за весь сезон (кВт·ч и зл). Ниже: расход через тепловой насос — сколько м³/ч нужно и даст ли его циркуляционный насос.",
+      jakDziala: "Энергия = мощность × часы работы. Сравниваю текущий насос с электронным (PWM) — в сутки, а с днями сезона и за весь сезон (кВт·ч и {waluta}). Ниже: расход через тепловой насос — сколько м³/ч нужно и даст ли его циркуляционный насос.",
       poCo: "Вы знаете, сколько энергии батареи вернёт замена насоса.",
       fizyka: "E = P · h / 1000.",
     },

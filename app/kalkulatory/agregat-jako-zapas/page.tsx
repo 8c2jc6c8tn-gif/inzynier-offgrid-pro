@@ -35,7 +35,7 @@ const f1 = (x: number) => x.toLocaleString("pl-PL", { maximumFractionDigits: 1 }
  * island balance (D4 installation without the grid) — no second generator model.
  */
 export default function AgregatJakoZapasPage() {
-  const t = useTranslate()
+  const t = useTranslate(true)
   const zl = useZl()
   const { zuzycie, pv, wczytano } = useDaneBilansu("dom")
   const [stan, setStan] = usePersistedDraft<Stan>("siec-agregat-dom", POCZATKOWY)

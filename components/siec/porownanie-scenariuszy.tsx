@@ -86,7 +86,7 @@ const f0 = (x: number) => x.toLocaleString("pl-PL", { maximumFractionDigits: 0 }
  * never writes their drafts. Always the full A–D table — never one „best” verdict.
  */
 export function PorownanieScenariuszy({ segment }: { segment: Segment }) {
-  const t = useTranslate()
+  const t = useTranslate(true)
   const zl = useZl()
   const firma = segment === "firma"
   const [stan, setStan] = usePersistedDraft<Stan>(`siec-scenariusze-${segment}`, POCZATKOWY)

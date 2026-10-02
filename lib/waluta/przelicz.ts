@@ -29,3 +29,12 @@ export function formatujKwote(kwota: number, kod: KodWaluty, jezyk: Language, cy
     maximumFractionDigits: cyfry,
   }).format(kwota)
 }
+
+/** Short symbol/label for unit strings (`zł/kWh` → `€/kWh`): PLN keeps the Polish „zł”, others use the narrow symbol, falling back to the code. */
+export function symbolWaluty(kod: KodWaluty, jezyk: Language): string {
+  if (kod === WALUTA_BAZOWA) return jezyk === "pl" ? "zł" : "PLN"
+  const czesc = new Intl.NumberFormat(LOCALE[jezyk], { style: "currency", currency: kod, currencyDisplay: "narrowSymbol" })
+    .formatToParts(0)
+    .find((c) => c.type === "currency")
+  return czesc?.value ?? kod
+}

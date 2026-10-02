@@ -79,7 +79,7 @@ export function useDaneBilansu(segment: Segment) {
 const f0 = (x: number) => x.toLocaleString("pl-PL", { maximumFractionDigits: 0 })
 
 export function TabelaBilansu({ wynik, tryb }: { wynik: BilansMiesiecznyResult; tryb: TrybBilansu }) {
-  const t = useTranslate()
+  const t = useTranslate(true)
   return (
     <table className="mt-3 w-full text-small tabular-nums">
       <thead>
@@ -124,7 +124,7 @@ function PvFirmy() {
 }
 
 function PvDomu() {
-  const t = useTranslate()
+  const t = useTranslate(true)
   const { zuzycie, wczytano } = useZuzycieMiesieczne("dom")
   if (!wczytano) return <StanLadowania linie={6} />
   return (
@@ -142,7 +142,7 @@ function PvDomu() {
 }
 
 function PvIMagazyn({ segment, zuzycie }: { segment: Segment; zuzycie: number[] | null }) {
-  const t = useTranslate()
+  const t = useTranslate(true)
   const firma = segment === "firma"
   const [pv, setPv] = usePersistedDraft<StanPvMagazynu>(kluczPv(segment), POCZATKOWY_PV)
   const ustaw = <K extends keyof StanPvMagazynu>(k: K, v: StanPvMagazynu[K]) => setPv((p) => ({ ...p, [k]: v }))

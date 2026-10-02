@@ -44,7 +44,7 @@ const POWOD: Record<PowodWylaczenia, string> = {
  * the app does not have yet — no assumed split).
  */
 export function PorownywarkaTaryf({ segment }: { segment: Segment }) {
-  const t = useTranslate()
+  const t = useTranslate(true)
   const zl = useZl()
   const grupy = segment === "dom" ? GRUPY_DOM : GRUPY_FIRMA
   const [stan, setStan] = usePersistedDraft<Stan>(`siec-porownanie-${segment}`, {

@@ -48,7 +48,7 @@ const NAZWA: Record<IdStrumienia, string> = {
  * the capacity charge ✅ from the data file. No BESS prices from the source material (🔎B).
  */
 export default function MagazynFirmyPage() {
-  const t = useTranslate()
+  const t = useTranslate(true)
   const zl = useZl()
   const [stan, setStan] = usePersistedDraft<Stan>("siec-magazyn-firmy", POCZATKOWY)
   const ustaw = (z: Partial<Stan>) => setStan((p) => ({ ...p, ...z }))

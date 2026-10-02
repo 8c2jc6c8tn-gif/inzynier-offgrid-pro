@@ -142,7 +142,7 @@ export const pl = {
         zakres: "Twoja instalacja.",
       },
       cenaSkladnika: {
-        nazwa: "Cena składnika wariantu [zł]",
+        nazwa: "Cena składnika wariantu [{waluta}]",
         cel: "Cena ogniwa, falownika, przewodów, bezpiecznika albo przetwornicy do kosztorysu wariantów.",
         gdzie: "Z ofert sklepów.",
         zakres: TWOJA_CENA,
@@ -577,7 +577,7 @@ export const pl = {
         zakres: "Deklaracja sprzedawcy.",
       },
       cena: {
-        nazwa: "Cena zakupu [zł]",
+        nazwa: "Cena zakupu [{waluta}]",
         cel: "Dzielona przez realną pojemność daje koszt kWh.",
         gdzie: "Z oferty.",
         zakres: TWOJA_CENA,
@@ -601,7 +601,7 @@ export const pl = {
         zakres: "Degradacja przyjęta: {degKm}% na 10 000 km.",
       },
       cenaNowej: {
-        nazwa: "Cena nowej baterii LiFePO4 [zł/kWh] (opcjonalnie)",
+        nazwa: "Cena nowej baterii LiFePO4 [{waluta}/kWh] (opcjonalnie)",
         cel: "Do porównania — czy używana się opłaca.",
         gdzie: "Z aktualnych ofert.",
         zakres: TWOJA_CENA,
@@ -667,7 +667,7 @@ export const pl = {
         zakres: "0–100%.",
       },
       kosztWymiany: {
-        nazwa: "Koszt wymiany baterii trakcyjnej [zł]",
+        nazwa: "Koszt wymiany baterii trakcyjnej [{waluta}]",
         cel: "Do obliczenia kosztu zużycia na kWh.",
         gdzie: "Z serwisu albo cennika producenta.",
         zakres: TWOJA_CENA,
@@ -751,7 +751,7 @@ export const pl = {
     },
     pola: {
       cena: {
-        nazwa: "Cena baterii [zł]",
+        nazwa: "Cena baterii [{waluta}]",
         cel: "Nakład na magazyn.",
         gdzie: "Z oferty (z montażem, jeśli chcesz pełny koszt).",
         zakres: TWOJA_CENA,
@@ -775,7 +775,7 @@ export const pl = {
         zakres: "0–100%.",
       },
       alternatywa: {
-        nazwa: "Koszt alternatywy [zł/kWh] (opcjonalnie)",
+        nazwa: "Koszt alternatywy [{waluta}/kWh] (opcjonalnie)",
         cel: "Koszt kWh z agregatu albo sieci — do porównania.",
         gdzie: "Z rachunku albo ekranu agregatu. Puste = sam koszt magazynu.",
         zakres: "Twoja wartość.",
@@ -1042,13 +1042,13 @@ export const pl = {
         zakres: "Twoje dane.",
       },
       zyskKwh: {
-        nazwa: "Zysk na 1 kWh z autokonsumpcji [zł/kWh]",
+        nazwa: "Zysk na 1 kWh z autokonsumpcji [{waluta}/kWh]",
         cel: "Ile zyskujesz na każdej kWh zużytej z magazynu zamiast z sieci.",
         gdzie: "Cena zakupu kWh − wartość kWh oddanej do sieci, bez opłaty mocowej.",
         zakres: "Twoje ceny.",
       },
       roznicaCen: {
-        nazwa: "Różnica cen dla arbitrażu [zł/kWh]",
+        nazwa: "Różnica cen dla arbitrażu [{waluta}/kWh]",
         cel: "Zysk z kupowania w tanich godzinach i zużywania w drogich.",
         gdzie: "Drogie − tanie godziny w Twojej taryfie albo umowie dynamicznej, bez opłaty mocowej.",
         zakres: "Twoje ceny.",
@@ -1066,7 +1066,7 @@ export const pl = {
         zakres: "C1x albo C2x.",
       },
       mocUmowna: {
-        nazwa: "Oszczędność na mocy umownej i przekroczeniach [zł/rok]",
+        nazwa: "Oszczędność na mocy umownej i przekroczeniach [{waluta}/rok]",
         cel: "Roczna oszczędność dzięki obniżeniu mocy umownej albo uniknięciu przekroczeń.",
         gdzie: "Z kalkulatora mocy umownej (ekran F4). Puste = nie liczymy.",
         zakres: "Wynik z ekranu F4.",
@@ -1213,7 +1213,7 @@ export const en: Tlumaczenie<typeof pl> = {
         zakres: "Your installation.",
       },
       cenaSkladnika: {
-        nazwa: "Price of a variant component [PLN]",
+        nazwa: "Price of a variant component [{waluta}]",
         cel: "The price of a cell, inverter, cables, fuse or converter for the variant estimates.",
         gdzie: "From shop offers.",
         zakres: TWOJA_CENA_EN,
@@ -1648,7 +1648,7 @@ export const en: Tlumaczenie<typeof pl> = {
         zakres: "The seller's declaration.",
       },
       cena: {
-        nazwa: "Purchase price [PLN]",
+        nazwa: "Purchase price [{waluta}]",
         cel: "Divided by the real capacity it gives the cost per kWh.",
         gdzie: "From the offer.",
         zakres: TWOJA_CENA_EN,
@@ -1672,7 +1672,7 @@ export const en: Tlumaczenie<typeof pl> = {
         zakres: "Assumed degradation: {degKm}% per 10,000 km.",
       },
       cenaNowej: {
-        nazwa: "New LiFePO4 battery price [PLN/kWh] (optional)",
+        nazwa: "New LiFePO4 battery price [{waluta}/kWh] (optional)",
         cel: "For comparison — whether the used one pays off.",
         gdzie: "From current offers.",
         zakres: TWOJA_CENA_EN,
@@ -1738,7 +1738,7 @@ export const en: Tlumaczenie<typeof pl> = {
         zakres: "0–100%.",
       },
       kosztWymiany: {
-        nazwa: "Traction battery replacement cost [PLN]",
+        nazwa: "Traction battery replacement cost [{waluta}]",
         cel: "For calculating the wear cost per kWh.",
         gdzie: "From the service or the manufacturer's price list.",
         zakres: TWOJA_CENA_EN,
@@ -1822,7 +1822,7 @@ export const en: Tlumaczenie<typeof pl> = {
     },
     pola: {
       cena: {
-        nazwa: "Battery price [PLN]",
+        nazwa: "Battery price [{waluta}]",
         cel: "The storage investment.",
         gdzie: "From the offer (with installation, if you want the full cost).",
         zakres: TWOJA_CENA_EN,
@@ -1846,7 +1846,7 @@ export const en: Tlumaczenie<typeof pl> = {
         zakres: "0–100%.",
       },
       alternatywa: {
-        nazwa: "Alternative cost [PLN/kWh] (optional)",
+        nazwa: "Alternative cost [{waluta}/kWh] (optional)",
         cel: "The cost of a kWh from a generator or the grid — for comparison.",
         gdzie: "From the bill or the generator screen. Empty = storage cost only.",
         zakres: "Your value.",
@@ -2113,13 +2113,13 @@ export const en: Tlumaczenie<typeof pl> = {
         zakres: "Your data.",
       },
       zyskKwh: {
-        nazwa: "Gain per 1 kWh from self-consumption [PLN/kWh]",
+        nazwa: "Gain per 1 kWh from self-consumption [{waluta}/kWh]",
         cel: "What you gain on each kWh used from storage instead of the grid.",
         gdzie: "Purchase price per kWh − value of an exported kWh, without the capacity charge.",
         zakres: "Your prices.",
       },
       roznicaCen: {
-        nazwa: "Price spread for arbitrage [PLN/kWh]",
+        nazwa: "Price spread for arbitrage [{waluta}/kWh]",
         cel: "The gain from buying at cheap hours and using at expensive ones.",
         gdzie: "Expensive − cheap hours in your tariff or dynamic contract, without the capacity charge.",
         zakres: "Your prices.",
@@ -2137,7 +2137,7 @@ export const en: Tlumaczenie<typeof pl> = {
         zakres: "C1x or C2x.",
       },
       mocUmowna: {
-        nazwa: "Contracted power and excess savings [PLN/year]",
+        nazwa: "Contracted power and excess savings [{waluta}/year]",
         cel: "Annual saving from lowering contracted power or avoiding excesses.",
         gdzie: "From the contracted power calculator (screen F4). Empty = not counted.",
         zakres: "The screen F4 result.",
@@ -2284,7 +2284,7 @@ export const ru: Tlumaczenie<typeof pl> = {
         zakres: "Ваша установка.",
       },
       cenaSkladnika: {
-        nazwa: "Цена компонента варианта [зл]",
+        nazwa: "Цена компонента варианта [{waluta}]",
         cel: "Цена элемента, инвертора, проводов, предохранителя или преобразователя для смет вариантов.",
         gdzie: "Из предложений магазинов.",
         zakres: TWOJA_CENA_RU,
@@ -2719,7 +2719,7 @@ export const ru: Tlumaczenie<typeof pl> = {
         zakres: "Заявление продавца.",
       },
       cena: {
-        nazwa: "Цена покупки [зл]",
+        nazwa: "Цена покупки [{waluta}]",
         cel: "Делённая на реальную ёмкость, даёт стоимость кВт·ч.",
         gdzie: "Из предложения.",
         zakres: TWOJA_CENA_RU,
@@ -2743,7 +2743,7 @@ export const ru: Tlumaczenie<typeof pl> = {
         zakres: "Принятая деградация: {degKm}% на 10 000 км.",
       },
       cenaNowej: {
-        nazwa: "Цена новой батареи LiFePO4 [зл/кВт·ч] (необязательно)",
+        nazwa: "Цена новой батареи LiFePO4 [{waluta}/кВт·ч] (необязательно)",
         cel: "Для сравнения — окупается ли б/у.",
         gdzie: "Из текущих предложений.",
         zakres: TWOJA_CENA_RU,
@@ -2809,7 +2809,7 @@ export const ru: Tlumaczenie<typeof pl> = {
         zakres: "0–100%.",
       },
       kosztWymiany: {
-        nazwa: "Стоимость замены тяговой батареи [зл]",
+        nazwa: "Стоимость замены тяговой батареи [{waluta}]",
         cel: "Для расчёта стоимости износа на кВт·ч.",
         gdzie: "Из сервиса или прайс-листа производителя.",
         zakres: TWOJA_CENA_RU,
@@ -2893,7 +2893,7 @@ export const ru: Tlumaczenie<typeof pl> = {
     },
     pola: {
       cena: {
-        nazwa: "Цена батареи [зл]",
+        nazwa: "Цена батареи [{waluta}]",
         cel: "Затраты на накопитель.",
         gdzie: "Из предложения (с монтажом, если нужна полная стоимость).",
         zakres: TWOJA_CENA_RU,
@@ -2917,7 +2917,7 @@ export const ru: Tlumaczenie<typeof pl> = {
         zakres: "0–100%.",
       },
       alternatywa: {
-        nazwa: "Стоимость альтернативы [зл/кВт·ч] (необязательно)",
+        nazwa: "Стоимость альтернативы [{waluta}/кВт·ч] (необязательно)",
         cel: "Стоимость кВт·ч от генератора или сети — для сравнения.",
         gdzie: "Из счёта или экрана генератора. Пусто = только стоимость накопителя.",
         zakres: "Ваше значение.",
@@ -3184,13 +3184,13 @@ export const ru: Tlumaczenie<typeof pl> = {
         zakres: "Ваши данные.",
       },
       zyskKwh: {
-        nazwa: "Выгода на 1 кВт·ч от самопотребления [зл/кВт·ч]",
+        nazwa: "Выгода на 1 кВт·ч от самопотребления [{waluta}/кВт·ч]",
         cel: "Сколько вы выигрываете на каждом кВт·ч из накопителя вместо сети.",
         gdzie: "Цена покупки кВт·ч − стоимость отданного кВт·ч, без платы за мощность.",
         zakres: "Ваши цены.",
       },
       roznicaCen: {
-        nazwa: "Разница цен для арбитража [зл/кВт·ч]",
+        nazwa: "Разница цен для арбитража [{waluta}/кВт·ч]",
         cel: "Выгода от покупки в дешёвые часы и потребления в дорогие.",
         gdzie: "Дорогие − дешёвые часы в вашем тарифе или динамическом договоре, без платы за мощность.",
         zakres: "Ваши цены.",
@@ -3208,7 +3208,7 @@ export const ru: Tlumaczenie<typeof pl> = {
         zakres: "C1x или C2x.",
       },
       mocUmowna: {
-        nazwa: "Экономия на договорной мощности и превышениях [зл/год]",
+        nazwa: "Экономия на договорной мощности и превышениях [{waluta}/год]",
         cel: "Годовая экономия за счёт снижения договорной мощности или избежания превышений.",
         gdzie: "Из калькулятора договорной мощности (экран F4). Пусто = не учитывается.",
         zakres: "Результат экрана F4.",

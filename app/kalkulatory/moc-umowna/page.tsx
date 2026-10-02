@@ -28,7 +28,7 @@ type Stan = {
 }
 
 export default function MocUmownaPage() {
-  const t = useTranslate()
+  const t = useTranslate(true)
   const zl = useZl()
   const [stan, setStan] = usePersistedDraft<Stan>("siec-moc-umowna", {
     osd: "tauron",

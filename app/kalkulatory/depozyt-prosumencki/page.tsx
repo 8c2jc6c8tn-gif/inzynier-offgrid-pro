@@ -28,7 +28,7 @@ type Stan = {
 const POCZATKOWY: Stan = { miesiac: "2026-06", energia: "", cena: "", system: "rce", wykorzystano: "", pelnyKoszt: "" }
 
 export default function DepozytProsumenckiPage() {
-  const t = useTranslate()
+  const t = useTranslate(true)
   const zl = useZl()
   const [stan, setStan] = usePersistedDraft<Stan>("siec-depozyt-prosumencki", POCZATKOWY)
   const ustaw = <K extends keyof Stan>(pole: K, v: Stan[K]) => setStan((p) => ({ ...p, [pole]: v }))

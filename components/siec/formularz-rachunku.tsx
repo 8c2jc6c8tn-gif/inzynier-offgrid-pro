@@ -129,7 +129,7 @@ export function wejscieRachunku(segment: Segment, stan: StanRachunku, zuzycieMie
  * consumption (TD22 pt 3, closed 28.09.2026) is read from D3/F6 when all 12 months are filled.
  */
 export function FormularzRachunku({ segment }: { segment: Segment }) {
-  const t = useTranslate()
+  const t = useTranslate(true)
   const zl = useZl()
   const [stan, setStan] = usePersistedDraft<StanRachunku>(kluczRachunku(segment), poczatkowyRachunek(segment))
   const { zuzycie: zuzycieMies } = useZuzycieMiesieczne(segment)

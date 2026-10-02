@@ -33,7 +33,7 @@ const POCZATKOWY: Stan = { stawka: "", moc: "", odleglosc: "" }
  * back (`siec/koszt-powrotu`). The connection rate is always a user entry from the DSO tariff.
  */
 export default function RezygnacjaZPrzylaczaPage() {
-  const t = useTranslate()
+  const t = useTranslate(true)
   const zl = useZl()
   const [{ segment }, setSegment] = usePersistedDraft(KLUCZ_SEGMENTU_PRZEJSCIA, POCZATKOWY_SEGMENTU)
   const [stan, setStan] = usePersistedDraft<Stan>("siec-koszt-powrotu", POCZATKOWY)

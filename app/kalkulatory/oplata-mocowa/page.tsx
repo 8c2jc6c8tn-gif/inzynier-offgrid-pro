@@ -17,7 +17,7 @@ import { useTranslate } from "@/lib/i18n/language-context"
 type Stan = { roczna: string; wGodzinach: string; przesuniecie: string; stawka: string }
 
 export default function OplataMocowaPage() {
-  const t = useTranslate()
+  const t = useTranslate(true)
   const zl = useZl()
   const [stan, setStan] = usePersistedDraft<Stan>("siec-oplata-mocowa", { roczna: "", wGodzinach: "", przesuniecie: "0", stawka: "" })
   const ustaw = <K extends keyof Stan>(pole: K, v: string) => setStan((p) => ({ ...p, [pole]: v }))

@@ -190,9 +190,9 @@ export const dictionaryPl = {
     "wprost w źródle — zweryfikowany niezależnie względem przykładu źródła (-5°C/85% → -7°C).",
   "SPRAWNOSC-OGOLNA-POZA-ZAKRESEM": "Sprawność musi być z przedziału 0–100%.",
   "TANSZE-NIZ-ALTERNATYWA":
-    "Koszt energii z magazynu ({koszt} zł/kWh) jest niższy niż koszt alternatywy ({alt} zł/kWh) — magazyn się opłaca.",
+    "Koszt energii z magazynu ({koszt} {waluta}/kWh) jest niższy niż koszt alternatywy ({alt} {waluta}/kWh) — magazyn się opłaca.",
   "DROZSZE-NIZ-ALTERNATYWA":
-    "Koszt energii z magazynu ({koszt} zł/kWh) jest wyższy niż koszt alternatywy ({alt} zł/kWh) — " +
+    "Koszt energii z magazynu ({koszt} {waluta}/kWh) jest wyższy niż koszt alternatywy ({alt} {waluta}/kWh) — " +
     "przy tych parametrach magazyn się nie zwraca.",
   "LICZBA-CYKLI-SPRAWNOSC-OD-UZYTKOWNIKA":
     "Liczba cykli i sprawność wpisane przez użytkownika (np. z karty katalogowej lub Ekranu 30) — " +
@@ -208,10 +208,10 @@ export const dictionaryPl = {
     "Docisk ({docisk} kgf) mieści się w zalecanym zakresie {min}-{max} kgf, z zostawionym luzem na dylatację.",
   "DOCISK-UJEMNY": "Docisk nie może być ujemny.",
   "TANSZA-NIZ-NOWA":
-    "Koszt 1 kWh użytecznej z tej baterii ({koszt} zł/kWh) jest niższy niż nowej LiFePO4 ({nowa} zł/kWh) " +
+    "Koszt 1 kWh użytecznej z tej baterii ({koszt} {waluta}/kWh) jest niższy niż nowej LiFePO4 ({nowa} {waluta}/kWh) " +
     "— ale nowa ma 100% SoH i dłuższą żywotność.",
   "DROZSZA-NIZ-NOWA":
-    "Koszt 1 kWh użytecznej z tej baterii ({koszt} zł/kWh) jest wyższy niż nowej LiFePO4 ({nowa} zł/kWh) " +
+    "Koszt 1 kWh użytecznej z tej baterii ({koszt} {waluta}/kWh) jest wyższy niż nowej LiFePO4 ({nowa} {waluta}/kWh) " +
     "— przy tej cenie zakupu nowa bateria się bardziej opłaca.",
   "SOH-ZEROWY":
     "Szacowany SoH spadł do 0% przy tym modelu degradacji — bateria praktycznie bezużyteczna, nie kupuj.",
@@ -361,7 +361,7 @@ export const dictionaryPl = {
     "warunkami STC — inaczej ochronnik dobrany latem nie da rady zimą.",
   "TRASA-NIE-SPELNIA-WYMAGAN-PRZEKROJU": "Trasa {oznaczenie} nie spełnia wymagań przekroju — zobacz szczegóły poniżej.",
   "POROWNANIE-KOSZTOW-TRAS":
-    "Po {lata} latach trasa {tansza} jest tańsza o {roznica} zł (koszt zakupu + straty energii razem).",
+    "Po {lata} latach trasa {tansza} jest tańsza o {roznica} {waluta} (koszt zakupu + straty energii razem).",
   "WYNIK-ZALEZY-OD-ECHA-TRASY":
     "Wynik zależy od echa calculateDoborPrzekrojuKabla dla obu tras — jedna z tras zwróciła status, " +
     "który uniemożliwia dalsze wyliczenie (patrz ostrzeżenia).",
@@ -647,7 +647,7 @@ export const dictionaryPl = {
     "To nietypowo wysoka liczba wymian powietrza na godzinę (>{max}) — sprawdź dane z testu szczelności.",
   "STRATA-INFILTRACJI": "Strata ciepła przez infiltrację: {strata} kW.",
   "OSZCZEDNOSC-KOCIOL-VS-POMPA":
-    "Pompa ciepła jest tańsza o {oszczednosc} zł — kocioł elektryczny zużyje {mnoznik}× więcej prądu na " +
+    "Pompa ciepła jest tańsza o {oszczednosc} {waluta} — kocioł elektryczny zużyje {mnoznik}× więcej prądu na " +
     "to samo ciepło.",
   "OSZCZEDNOSC-POMPA-CYRKULACYJNA":
     "Wymiana na pompę elektroniczną zaoszczędzi {oszczednoscKwh} kWh/dobę ({oszczednoscPct}%).",
@@ -1120,7 +1120,7 @@ export const dictionaryPl = {
   "CRL-ZALOZENIE-OBCIECIE": "Liczone tylko pierwsze {limit} km sieci (1 km albo do pierwszego SPD w sieci). Kolejność odcinków od budynku nieznana — aplikacja zostawia najpierw te o największej wadze (typowy układ: nn przy domu, SN za transformatorem; wynik ostrożny). Podaj kolejność, żeby liczyć od budynku.",
   "CRL-ZALOZENIE-OBCIECIE-OD-BUDYNKU": "Liczone tylko pierwsze {limit} km sieci (1 km albo do pierwszego SPD w sieci), od budynku na zewnątrz — w podanej kolejności odcinków (D54).",
   "CRL-ZALOZENIE-NG-Z-TD": "Gęstość wyładowań z dni burzowych: Ng = 0,1 · Td (HD 60364-4-443, 443.5 Uwaga 2).",
-  "ZS-ZALOZENIE-CENA-BALASTU": "Cena balastu {cena} zł/kg — podpowiedź 1 zł/kg to wartość właściciela projektu dla bloczków odlewanych samodzielnie (nie ze źródła ani normy); możesz wpisać swoją.",
+  "ZS-ZALOZENIE-CENA-BALASTU": "Cena balastu {cena} {waluta}/kg — podpowiedź 1 {waluta}/kg to wartość właściciela projektu dla bloczków odlewanych samodzielnie (nie ze źródła ani normy); możesz wpisać swoją.",
   "ZS-ZALOZENIE-SNIEG-MU1": "Śnieg: współczynnik kształtu μ1 z PN-EN 1991-1-3, Tablica 5.2 — obowiązuje, gdy nic nie blokuje zsuwania się śniegu z dolnej krawędzi paneli.",
   "LP-SEZON-BEZ-MIESIECY": "Wpisałeś dodatkowe zapotrzebowanie zimą — zaznacz też, w których miesiącach grzejesz, żeby aplikacja wiedziała, kiedy je doliczyć.",
   "LP-LIMIT-ZA-MALY-NAWET-LATO": "Nawet samo lato (czerwiec–sierpień) wymaga {n} paneli, a możesz zamontować {limit}. Zmniejsz zużycie, zwiększ miejsce na panele albo zaplanuj stałe drugie źródło energii.",
@@ -1194,7 +1194,7 @@ export const dictionaryPl = {
   "PUSZKI-ZALOZENIE-BRAK-LISTY-Z-TRAS": "Automatyczna lista punktów połączeniowych z tras (Ekran 19) NIE zbudowana — Ekran 19 nie ma modelu danych tras, nie ma skąd wygenerować listy bez wymyślania struktury.",
   "SZYNY-ZALOZENIE-BRAK-DOBORU-PRZEKROJU": "Dobór przekroju szyny wg wytrzymałości zwarciowej (górna sekcja D źródła) NIE zbudowany — źródło nie podaje wzoru/tabeli.",
   "KAT-ZAKRES-PRZEJSCIOWY": "Dla tego zakresu kąta źródło nie podaje jednoznacznej klasyfikacji.",
-  "IZOL-GRUBOSC-NIE-ZWRACA-SIE": "{nazwa} {grubosc} cm: dodatkowe centymetry względem cieńszego wariantu kosztują {krancowy} zł za zaoszczędzoną kWh — więcej niż cena ciepła {cena} zł/kWh. Przy zbyt grubej izolacji koszt dodatkowego centymetra przestaje się zwracać.",
+  "IZOL-GRUBOSC-NIE-ZWRACA-SIE": "{nazwa} {grubosc} cm: dodatkowe centymetry względem cieńszego wariantu kosztują {krancowy} {waluta} za zaoszczędzoną kWh — więcej niż cena ciepła {cena} {waluta}/kWh. Przy zbyt grubej izolacji koszt dodatkowego centymetra przestaje się zwracać.",
   "IZOL-BRAK-SEZONU-GRZEWCZEGO": "Żaden miesiąc nie jest chłodniejszy niż temperatura w domu — w tym modelu nie ma sezonu grzewczego, więc izolacja nic nie oszczędza. Sprawdź temperatury miesięcy na Ekranie 1.",
   "IZOL-ZALOZENIE-WARSTWA-SZEREGOWA": "U po dociepleniu = 1/(1/U + d/λ): nowa warstwa dokłada swój opór do obecnej przegrody (opory przejmowania ciepła są już w obecnym U). Bez łączników mechanicznych, szczelin i mostków na styku warstw — rzeczywiste U będzie nieco wyższe.",
   "IZOL-ZALOZENIE-10-LAT": "Opłacalność liczona na {lata} lat (horyzont ze źródła): koszt izolacji ÷ ciepło zaoszczędzone w tym czasie, bez zmiany cen i bez dyskontowania.",
@@ -1625,7 +1625,7 @@ export const dictionaryPl = {
   "WPC-G-DEFROST": "Defrost w sezonie: {kwh} kWh prądu",
   "WPC-G-OGRANICZENIE": "Moc po ograniczeniu: {kw} kW — czas pracy {razy}× dłuższy (+{pct}%)",
   "WPC-G-PRZEPLYW": "Przepływ obiegu: {m3h} m³/h ({lmin} l/min)",
-  "WPC-G-ODWIERTY": "Różnica kosztu wariantu B względem A: {roznica} zł",
+  "WPC-G-ODWIERTY": "Różnica kosztu wariantu B względem A: {roznica} {waluta}",
   "WPC-G-STARTY": "Starty sprężarki na dobę: bez bufora {bez}, z buforem {z}",
   "WPC-W-ZAPOTRZEBOWANIE-PO": "Zapotrzebowanie domu po zmianie: {kw} kW ({pct}%)",
   "WPC-W-ZAPAS-POMPY": "Zapas pompy {moc} kW: {zapas} kW",
@@ -1641,8 +1641,8 @@ export const dictionaryPl = {
   "WPC-W-POBOR-PRZED": "Pobór prądu przy pełnej mocy: {kw} kW",
   "WPC-W-POBOR-PO": "Pobór prądu po ograniczeniu: {kw} kW",
   "WPC-W-ENERGIA-ZMIANA": "Zużycie prądu na to samo ciepło: {pct}%",
-  "WPC-W-WARIANT-A": "Wariant A: {liczba} × {glebokosc} m = {dlugosc} m, {koszt} zł, ok. {moc} kW pompy ({zlNaKw} zł/kW)",
-  "WPC-W-WARIANT-B": "Wariant B: {liczba} × {glebokosc} m = {dlugosc} m, {koszt} zł, ok. {moc} kW pompy ({zlNaKw} zł/kW)",
+  "WPC-W-WARIANT-A": "Wariant A: {liczba} × {glebokosc} m = {dlugosc} m, {koszt} {waluta}, ok. {moc} kW pompy ({zlNaKw} {waluta}/kW)",
+  "WPC-W-WARIANT-B": "Wariant B: {liczba} × {glebokosc} m = {dlugosc} m, {koszt} {waluta}, ok. {moc} kW pompy ({zlNaKw} {waluta}/kW)",
   "WPC-W-CYKL": "Jeden cykl bez bufora: {pracBez} min pracy + {postojBez} min postoju; z buforem: {pracZ} + {postojZ} min",
   "WPC-ZAL-STAN-USTALONY": "Moc liczona w stanie ustalonym przy wpisanej różnicy temperatur, jak na Ekranie 1; wpisane zapotrzebowanie domu zawiera stan „przed”.",
   "WPC-ZAL-WYSOKOSC": "Zmienia się kubatura (wymiana powietrza) i powierzchnia ścian; strop, podłoga i okna bez zmian.",
@@ -1671,7 +1671,7 @@ export const dictionaryPl = {
   "DMP-ZAL-BEZ-STARTOW": "Liczby startów na dobę z samego przewymiarowania ekran nie liczy — źródło nie podaje takiego modelu. Starty dla danej ilości wody w instalacji i histerezy liczy sekcja pracy z buforem (Ekran 14).",
   "DMP-ZAL-LINIOWO": "Punkt biwalentny: zapotrzebowanie maleje liniowo do zera przy temperaturze w domu (straty jak na Ekranie 1, bez zysków), moc pompy liniowo między dwoma punktami karty.",
   "TAN-NOC-Z-BATERII": "Nocna praca pompy z baterii off-grid to nie to samo, co z sieci — licz się z rozładowaniem: w nocy pompa pobierze {kwh} kWh, średnio {kw} kW. Sprawdź, czy bateria i falownik to wytrzymają (ekran ryzyka niskiego napięcia).",
-  "TAN-BRAK-OSZCZEDNOSCI": "Przy tych cenach i COP przesunięcie pracy pompy na noc nie obniża kosztu (różnica {zl} zł na dobę). Strefa nocna nie jest wystarczająco tańsza albo COP w nocy jest za niski.",
+  "TAN-BRAK-OSZCZEDNOSCI": "Przy tych cenach i COP przesunięcie pracy pompy na noc nie obniża kosztu (różnica {zl} {waluta} na dobę). Strefa nocna nie jest wystarczająco tańsza albo COP w nocy jest za niski.",
   "TAN-BEZ-BUFORA": "Bez bufora (albo bez różnicy temperatur bufora) ciepła nie da się zmagazynować na noc — nic nie zostaje przesunięte. Wpisz pojemność i użyteczną różnicę temperatur bufora.",
   "TAN-BUFOR-NIE-POKRYWA-DNIA": "Bufor mieści {bufor} kWh ciepła, a dom potrzebuje w strefie dziennej {dzien} kWh — nocą przesuwasz tylko {pct}% dziennego zapotrzebowania. Większy bufor przesunie więcej.",
   "TAN-NOC-Z-AGREGATU": "Przy pracy nocnej z agregatu wpisz w cenie nocnej swój rzeczywisty koszt 1 kWh z agregatu (paliwo, serwis) — aplikacja go nie zna.",

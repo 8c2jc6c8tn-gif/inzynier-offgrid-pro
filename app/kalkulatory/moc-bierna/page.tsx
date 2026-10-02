@@ -29,7 +29,7 @@ type Stan = {
 const TG_FI0 = String(DANE_ROZLICZEN.mocBierna.tgFi0Domyslny.okresy[0].wartosc)
 
 export default function MocBiernaPage() {
-  const t = useTranslate()
+  const t = useTranslate(true)
   const zl = useZl()
   const [stan, setStan] = usePersistedDraft<Stan>("siec-moc-bierna", {
     tgFi: "",
