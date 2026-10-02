@@ -52,7 +52,9 @@ export function calculateAuditPozarowy(items: AuditCheckItem[]): CalcResult<Audi
       .map((i) => ({
         code: `AUDYT-${i.id.toUpperCase()}`,
         level: i.status === "critical" ? ("critical" as const) : ("warning" as const),
-        message: `${i.kategoria} — ${i.element}: ${i.opis}`,
+        i18nKey: "AUDYT-POZYCJA",
+        // Category/element/description are installation data (user or live feed), not engine text.
+        params: { kategoria: i.kategoria, element: i.element, opis: i.opis },
         technicalMessage: `id=${i.id}, status=${i.status}`,
         field: i.id,
       })),

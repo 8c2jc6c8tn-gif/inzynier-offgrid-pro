@@ -343,9 +343,26 @@ function checkFile(filePath, source) {
       ts.isPropertyAssignment(node) &&
       ts.isIdentifier(node.name) &&
       node.name.text === "message" &&
-      ts.isStringLiteralLike(node.initializer)
+      (ts.isStringLiteralLike(node.initializer) || ts.isTemplateExpression(node.initializer))
     ) {
       report(node, `"message" z gotowym tekstem PL — użyj "i18nKey"/"params" i słownika (17.2).`)
+    }
+
+    // Gap found 02.10.2026: a Polish literal slipped into a label param (`label: "Moc"`) or a
+    // `*Key` param that is not a dictionary key (`labelKey: "Moc"`). Keys are UPPER-CASE with dashes
+    // (optionally `UI-…`); `label` holding a literal is a ready text in disguise.
+    if (
+      ts.isPropertyAssignment(node) &&
+      (ts.isIdentifier(node.name) || ts.isStringLiteralLike(node.name)) &&
+      ts.isStringLiteralLike(node.initializer)
+    ) {
+      const name = node.name.text
+      const value = node.initializer.text
+      if (name.length > 3 && name.endsWith("Key") && value !== "" && !/^[A-Z0-9][A-Z0-9-]*$/.test(value)) {
+        report(node, `"${name}" ma wartość "${value}", która nie jest kluczem słownika (UPPER-CASE-Z-MYSLNIKAMI) — dodaj klucz POLE-*/UI-* (17.2).`)
+      } else if (name === "label" && /[\p{L}]{3,}/u.test(value)) {
+        report(node, `"label" z literałem "${value}" — przekaż klucz w "labelKey" i rozwiń w t() (17.2).`)
+      }
     }
 
     // `const assumptions = [...]` / `assumptions: [...]` — wartość bindowana pod nazwą
