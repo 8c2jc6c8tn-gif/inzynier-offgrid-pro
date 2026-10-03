@@ -2489,3 +2489,6 @@ Właściciel: pismo ma być tłumaczone (wcześniej komentarz w kodzie zakłada�
 - Rdzeń `epizodyAlarmow` (alarmy.ts): per próg i seria próbki `ok` po czasie; przekroczenie otwiera epizod, pierwsza próbka w limicie zamyka (`doMs = null` = trwa); wartość równa progowi nie jest przekroczeniem (spójnie z `ocenAlarmy`); braki i poza-zakresem nie otwierają ani nie zamykają. `probkiDoChwili` + `ostatnieWartosci`/`ocenAlarmy` dają stan z chwili t.
 - Ekran `historia-zdarzen` NIE ma własnych progów: czyta draft `pomiary-na-zywo` przez `useOdczytDraftu` (jeden właściciel zapisu progów). Własny szkic: źródło, zakres (6/24/168 h), pozycja suwaka 0–1000.
 - Tłumaczenia EN/RU i pomoc ekranu — moje, do przeglądu właściciela.
+
+## 2026-10-03 — Telemetria: powiadomienia przeglądarki (7.7)
+- `noweAlarmyDoPowiadomienia` (czysta funkcja): jedno powiadomienie na trwający alarm (klucz `progId|kanał`), po ustąpieniu klucz zapomniany → kolejne przekroczenie powiadamia znowu; minimalny priorytet z szkicu (`powiadomieniaMin`, domyślnie wyłączone). Zgoda przeglądarki prosi o osobny przycisk (nigdy automatycznie). SMS/e-mail/web-push w tle wymagają serwera — poza zakresem aplikacji offline-first.

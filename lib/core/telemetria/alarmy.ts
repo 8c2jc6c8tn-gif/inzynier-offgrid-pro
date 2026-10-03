@@ -161,3 +161,25 @@ export function epizodyAlarmow(probki: ProbkaTelemetrii[], progi: ProgAlarmu[]):
 export function probkiDoChwili(probki: ProbkaTelemetrii[], t: number): ProbkaTelemetrii[] {
   return probki.filter((p) => p.czas <= t)
 }
+
+/** Minimum priority that triggers a notification; "wylaczone" = notifications off. */
+export type MinPriorytetPowiadomien = PriorytetAlarmu | "wylaczone"
+
+const kluczPowiadomienia = (a: AlarmAktywny) => `${a.progId}|${a.kanal}`
+
+/**
+ * Which active alarms deserve a NEW notification (Biblia 7.7, browser channel). An alarm notifies once while it stays
+ * active; when it clears it is forgotten, so the next breach notifies again. `znane` = keys notified so far.
+ */
+export function noweAlarmyDoPowiadomienia(
+  aktywne: AlarmAktywny[],
+  znane: ReadonlySet<string>,
+  min: MinPriorytetPowiadomien,
+): { nowe: AlarmAktywny[]; znane: Set<string> } {
+  const aktualne = new Set(aktywne.map(kluczPowiadomienia))
+  const zachowane = new Set([...znane].filter((k) => aktualne.has(k)))
+  if (min === "wylaczone") return { nowe: [], znane: zachowane }
+  const nowe = aktywne.filter((a) => WAGA[a.priorytet] >= WAGA[min] && !zachowane.has(kluczPowiadomienia(a)))
+  for (const a of nowe) zachowane.add(kluczPowiadomienia(a))
+  return { nowe, znane: zachowane }
+}

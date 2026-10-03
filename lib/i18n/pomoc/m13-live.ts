@@ -185,6 +185,7 @@ export const pl = {
         gdzie: "Weź ją z dokumentacji akumulatora/BMS lub falownika — aplikacja żadnej nie podpowiada, bo zależy od Twojego sprzętu.",
         zakres: "Liczba w jednostce wybranej wielkości; pusta nie tworzy alarmu.",
       },
+      powiadomieniaMin: { nazwa: "Powiadamiaj od priorytetu", cel: "Od jakiego priorytetu alarmu przeglądarka ma pokazać powiadomienie o nowym alarmie.", gdzie: "Lista przy sekcji powiadomień; zgodę przeglądarki dajesz osobnym przyciskiem.", zakres: "Wyłączone, informacja, ostrzeżenie lub krytyczny." },
       progPriorytet: {
         nazwa: "Priorytet alarmu",
         cel: "Pokazuje, jak pilna jest reakcja: informacja, ostrzeżenie (wkrótce) albo krytyczny (natychmiast).",
@@ -388,6 +389,7 @@ export const en: Tlumaczenie<typeof pl> = {
         gdzie: "Take it from the battery/BMS or inverter documentation — the app suggests none, because it depends on your equipment.",
         zakres: "A number in the unit of the chosen quantity; empty creates no alarm.",
       },
+      powiadomieniaMin: { nazwa: "Notify from priority", cel: "From which alarm priority the browser should show a notification about a new alarm.", gdzie: "The list in the notifications section; you grant browser permission with a separate button.", zakres: "Off, info, warning or critical." },
       progPriorytet: {
         nazwa: "Alarm priority",
         cel: "Shows how urgent the reaction is: information, warning (soon) or critical (immediately).",
@@ -591,6 +593,7 @@ export const ru: Tlumaczenie<typeof pl> = {
         gdzie: "Возьмите её из документации аккумулятора/BMS или инвертора — приложение ничего не подсказывает, так как это зависит от вашего оборудования.",
         zakres: "Число в единице выбранной величины; пусто не создаёт тревоги.",
       },
+      powiadomieniaMin: { nazwa: "Уведомлять с приоритета", cel: "С какого приоритета тревоги браузер должен показывать уведомление о новой тревоге.", gdzie: "Список в разделе уведомлений; разрешение браузера даётся отдельной кнопкой.", zakres: "Выключено, информация, предупреждение или критический." },
       progPriorytet: {
         nazwa: "Приоритет тревоги",
         cel: "Показывает срочность реакции: информация, предупреждение (скоро) или критический (немедленно).",

@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest"
-import { daneNieaktualne, epizodyAlarmow, ocenAlarmy, probkiDoChwili, ostatnieWartosci, seriaDoWykresu, type ProgAlarmu } from "./alarmy"
+import { daneNieaktualne, epizodyAlarmow, noweAlarmyDoPowiadomienia, ocenAlarmy, probkiDoChwili, ostatnieWartosci, seriaDoWykresu, type ProgAlarmu } from "./alarmy"
 import { zbudujProbke } from "./probka"
 
 const p = (kanal: string, wielkosc: Parameters<typeof zbudujProbke>[0]["wielkosc"], czas: number, wartosc: number | null) =>
@@ -66,5 +66,28 @@ describe("epizodyAlarmow / probkiDoChwili", () => {
   })
   it("cuts samples at the replay moment", () => {
     expect(probkiDoChwili([p("bms", "soc", 1, 1), p("bms", "soc", 5, 1)], 3)).toHaveLength(1)
+  })
+})
+
+describe("noweAlarmyDoPowiadomienia", () => {
+  const progi: ProgAlarmu[] = [
+    { id: "a", wielkosc: "soc", kierunek: "ponizej", wartosc: 25, priorytet: "ostrzezenie" },
+    { id: "b", wielkosc: "temperatura", kierunek: "powyzej", wartosc: 55, priorytet: "krytyczny" },
+  ]
+  const aktywne = ocenAlarmy([p("bms", "soc", 1, 10), p("bms", "temperatura", 1, 70)], progi)
+  it("notifies once per active alarm and filters by minimum priority", () => {
+    const r1 = noweAlarmyDoPowiadomienia(aktywne, new Set(), "krytyczny")
+    expect(r1.nowe.map((a) => a.progId)).toEqual(["b"])
+    expect(noweAlarmyDoPowiadomienia(aktywne, r1.znane, "krytyczny").nowe).toEqual([])
+    expect(noweAlarmyDoPowiadomienia(aktywne, r1.znane, "ostrzezenie").nowe.map((a) => a.progId)).toEqual(["a"])
+  })
+  it("forgets cleared alarms so a repeated breach notifies again", () => {
+    const r1 = noweAlarmyDoPowiadomienia(aktywne, new Set(), "info")
+    const r2 = noweAlarmyDoPowiadomienia([], r1.znane, "info")
+    expect(r2.znane.size).toBe(0)
+    expect(noweAlarmyDoPowiadomienia(aktywne, r2.znane, "info").nowe).toHaveLength(2)
+  })
+  it("sends nothing when switched off", () => {
+    expect(noweAlarmyDoPowiadomienia(aktywne, new Set(), "wylaczone").nowe).toEqual([])
   })
 })
