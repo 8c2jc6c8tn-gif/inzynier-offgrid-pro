@@ -20,14 +20,14 @@ import { jestStylem, znajdzStyl, type StylId } from "./style"
 
 export type GrupaKolorow = "tlo" | "karty" | "tekst" | "akcent" | "sukces" | "uwaga" | "blad"
 
-export const GRUPY_KOLOROW: { id: GrupaKolorow; etykieta: string; opis: string }[] = [
-  { id: "tlo", etykieta: "Tło aplikacji", opis: "Główne tło strony" },
-  { id: "karty", etykieta: "Karty i panele", opis: "Tło kart, popoverów, list" },
-  { id: "tekst", etykieta: "Tekst", opis: "Kolor tekstu na tle i kartach" },
-  { id: "akcent", etykieta: "Akcent (przyciski, aktywne stany)", opis: "Kolor główny UI" },
-  { id: "sukces", etykieta: "Werdykt 🟢 Zalecane", opis: "Bezpiecznie, z marginesem" },
-  { id: "uwaga", etykieta: "Werdykt 🟡 Dopuszczalne", opis: "Blisko limitu" },
-  { id: "blad", etykieta: "Werdykt 🔴 Zabronione", opis: "Ryzyko uszkodzenia/pożaru" },
+export const GRUPY_KOLOROW: { id: GrupaKolorow; etykietaKey: string; opisKey: string }[] = [
+  { id: "tlo", etykietaKey: "UI-WYGLAD-KOLOR-TLO", opisKey: "UI-WYGLAD-KOLOR-TLO-OPIS" },
+  { id: "karty", etykietaKey: "UI-WYGLAD-KOLOR-KARTY", opisKey: "UI-WYGLAD-KOLOR-KARTY-OPIS" },
+  { id: "tekst", etykietaKey: "UI-WYGLAD-KOLOR-TEKST", opisKey: "UI-WYGLAD-KOLOR-TEKST-OPIS" },
+  { id: "akcent", etykietaKey: "UI-WYGLAD-KOLOR-AKCENT", opisKey: "UI-WYGLAD-KOLOR-AKCENT-OPIS" },
+  { id: "sukces", etykietaKey: "UI-WYGLAD-KOLOR-SUKCES", opisKey: "UI-WYGLAD-KOLOR-SUKCES-OPIS" },
+  { id: "uwaga", etykietaKey: "UI-WYGLAD-KOLOR-UWAGA", opisKey: "UI-WYGLAD-KOLOR-UWAGA-OPIS" },
+  { id: "blad", etykietaKey: "UI-WYGLAD-KOLOR-BLAD", opisKey: "UI-WYGLAD-KOLOR-BLAD-OPIS" },
 ]
 
 const MAPA_ZMIENNYCH: Record<GrupaKolorow, string[]> = {

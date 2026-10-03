@@ -44,18 +44,18 @@ export function KolorGrupaEdytor() {
                 type="checkbox"
                 checked={zaznaczone.includes(grupa.id)}
                 onChange={() => przelaczZaznaczenie(grupa.id)}
-                aria-label={t("UI-KOLGRUEDY-ZAZNACZ-ZMIANY-GRUPOWEJ", { etykieta: grupa.etykieta })}
+                aria-label={t("UI-KOLGRUEDY-ZAZNACZ-ZMIANY-GRUPOWEJ", { etykieta: t(grupa.etykietaKey) })}
                 className="h-4 w-4"
               />
               <div className="min-w-0 flex-1">
-                <p className="font-medium">{grupa.etykieta}</p>
-                <p className="text-xs text-muted-foreground">{grupa.opis}</p>
+                <p className="font-medium">{t(grupa.etykietaKey)}</p>
+                <p className="text-xs text-muted-foreground">{t(grupa.opisKey)}</p>
               </div>
               <input
                 type="color"
                 value={aktualny ?? "#888888"}
                 onChange={(e) => ustawKolor(grupa.id, e.target.value)}
-                aria-label={t("UI-KOLGRUEDY-KOLOR", { etykieta: grupa.etykieta })}
+                aria-label={t("UI-KOLGRUEDY-KOLOR", { etykieta: t(grupa.etykietaKey) })}
                 className="h-8 w-10 cursor-pointer rounded border"
               />
               <input
@@ -66,7 +66,7 @@ export function KolorGrupaEdytor() {
                   const v = e.target.value
                   if (/^#[0-9a-fA-F]{6}$/.test(v)) ustawKolor(grupa.id, v)
                 }}
-                aria-label={t("UI-KOLGRUEDY-KOD-HEX", { etykieta: grupa.etykieta })}
+                aria-label={t("UI-KOLGRUEDY-KOD-HEX", { etykieta: t(grupa.etykietaKey) })}
                 className="min-h-8 w-24 rounded-md border border-input bg-background px-2 font-mono text-xs"
               />
               {aktualny && (

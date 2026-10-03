@@ -95,6 +95,20 @@ export const pl = {
   "UI-STYL-DOS": "Terminal DOS",
   "UI-STYL-DOS-OPIS":
     "Niebieski ekran jak menedżer plików z lat 90., pismo maszynowe wszędzie. Wynik zawsze biały.",
+  "UI-WYGLAD-KOLOR-TLO": "Tło aplikacji",
+  "UI-WYGLAD-KOLOR-TLO-OPIS": "Główne tło strony",
+  "UI-WYGLAD-KOLOR-KARTY": "Karty i panele",
+  "UI-WYGLAD-KOLOR-KARTY-OPIS": "Tło kart, popoverów, list",
+  "UI-WYGLAD-KOLOR-TEKST": "Tekst",
+  "UI-WYGLAD-KOLOR-TEKST-OPIS": "Kolor tekstu na tle i kartach",
+  "UI-WYGLAD-KOLOR-AKCENT": "Akcent (przyciski, aktywne stany)",
+  "UI-WYGLAD-KOLOR-AKCENT-OPIS": "Kolor główny UI",
+  "UI-WYGLAD-KOLOR-SUKCES": "Werdykt 🟢 Zalecane",
+  "UI-WYGLAD-KOLOR-SUKCES-OPIS": "Bezpiecznie, z marginesem",
+  "UI-WYGLAD-KOLOR-UWAGA": "Werdykt 🟡 Dopuszczalne",
+  "UI-WYGLAD-KOLOR-UWAGA-OPIS": "Blisko limitu",
+  "UI-WYGLAD-KOLOR-BLAD": "Werdykt 🔴 Zabronione",
+  "UI-WYGLAD-KOLOR-BLAD-OPIS": "Ryzyko uszkodzenia/pożaru",
 } as const
 
 type Klucz = keyof typeof pl
@@ -191,6 +205,20 @@ export const en: Record<Klucz, string> = {
   "UI-STYL-DOS": "DOS terminal",
   "UI-STYL-DOS-OPIS":
     "A blue screen like a 1990s file manager, a monospaced font everywhere. The result is always white.",
+  "UI-WYGLAD-KOLOR-TLO": "Application background",
+  "UI-WYGLAD-KOLOR-TLO-OPIS": "Main page background",
+  "UI-WYGLAD-KOLOR-KARTY": "Cards and panels",
+  "UI-WYGLAD-KOLOR-KARTY-OPIS": "Background of cards, popovers, lists",
+  "UI-WYGLAD-KOLOR-TEKST": "Text",
+  "UI-WYGLAD-KOLOR-TEKST-OPIS": "Text colour on the background and cards",
+  "UI-WYGLAD-KOLOR-AKCENT": "Accent (buttons, active states)",
+  "UI-WYGLAD-KOLOR-AKCENT-OPIS": "Main UI colour",
+  "UI-WYGLAD-KOLOR-SUKCES": "Verdict 🟢 Recommended",
+  "UI-WYGLAD-KOLOR-SUKCES-OPIS": "Safe, with margin",
+  "UI-WYGLAD-KOLOR-UWAGA": "Verdict 🟡 Acceptable",
+  "UI-WYGLAD-KOLOR-UWAGA-OPIS": "Close to the limit",
+  "UI-WYGLAD-KOLOR-BLAD": "Verdict 🔴 Forbidden",
+  "UI-WYGLAD-KOLOR-BLAD-OPIS": "Risk of damage/fire",
 }
 
 export const ru: Record<Klucz, string> = {
@@ -285,4 +313,18 @@ export const ru: Record<Klucz, string> = {
   "UI-STYL-DOS": "Терминал DOS",
   "UI-STYL-DOS-OPIS":
     "Синий экран, как файловый менеджер 90-х, моноширинный шрифт везде. Результат всегда белый.",
+  "UI-WYGLAD-KOLOR-TLO": "Фон приложения",
+  "UI-WYGLAD-KOLOR-TLO-OPIS": "Основной фон страницы",
+  "UI-WYGLAD-KOLOR-KARTY": "Карточки и панели",
+  "UI-WYGLAD-KOLOR-KARTY-OPIS": "Фон карточек, всплывающих окон, списков",
+  "UI-WYGLAD-KOLOR-TEKST": "Текст",
+  "UI-WYGLAD-KOLOR-TEKST-OPIS": "Цвет текста на фоне и карточках",
+  "UI-WYGLAD-KOLOR-AKCENT": "Акцент (кнопки, активные состояния)",
+  "UI-WYGLAD-KOLOR-AKCENT-OPIS": "Основной цвет интерфейса",
+  "UI-WYGLAD-KOLOR-SUKCES": "Вердикт 🟢 Рекомендуется",
+  "UI-WYGLAD-KOLOR-SUKCES-OPIS": "Безопасно, с запасом",
+  "UI-WYGLAD-KOLOR-UWAGA": "Вердикт 🟡 Допустимо",
+  "UI-WYGLAD-KOLOR-UWAGA-OPIS": "Близко к пределу",
+  "UI-WYGLAD-KOLOR-BLAD": "Вердикт 🔴 Запрещено",
+  "UI-WYGLAD-KOLOR-BLAD-OPIS": "Риск повреждения/пожара",
 }
