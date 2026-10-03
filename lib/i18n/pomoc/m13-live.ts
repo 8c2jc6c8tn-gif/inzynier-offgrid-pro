@@ -118,6 +118,69 @@ export const pl = {
       },
     },
   },
+  "pomiary-na-zywo": {
+    migawka: {
+      oCoChodzi: "Tu widzisz, co Twoja instalacja robi teraz: ostatnie wartości pomiarów, wykres mocy z wybranego okna czasu i alarmy, gdy pomiar przekroczy próg, który sam ustawisz.",
+      jakDziala: "Aplikacja czyta zapisane próbki wybranego źródła i co kilka sekund odświeża widok. Dla każdego pomiaru pokazuje najnowszą poprawną wartość (braki i wartości spoza zakresu czujnika są pomijane, nigdy nie zamieniane na zero). Alarm powstaje, gdy ostatnia wartość jest poniżej albo powyżej progu, który wpisałeś — aplikacja nie ma własnych progów, bo zależą od Twojego akumulatora i instalacji.",
+      poCo: "Żeby od razu zobaczyć, czy coś wymaga reakcji, i żeby alarmy opierały się na limitach z dokumentacji Twojego sprzętu, a nie na ogólnych założeniach.",
+    },
+    pola: {
+      zrodloId: {
+        nazwa: "Źródło danych",
+        cel: "Z którego źródła pokazać pomiary.",
+        gdzie: "Lista źródeł dodanych na ekranie „Źródła danych telemetrii”.",
+        zakres: "Jedno źródło z listy.",
+      },
+      oknoH: {
+        nazwa: "Okno czasu wykresu",
+        cel: "Jak szeroki fragment ostatniej historii obejmuje wykres i lista pomiarów.",
+        gdzie: "Krótkie okno pokazuje szczegóły chwili, długie — przebieg doby.",
+        zakres: "1, 6 lub 24 godziny wstecz od teraz.",
+      },
+      maxWiekS: {
+        nazwa: "Po ilu sekundach dane uznać za nieaktualne",
+        cel: "Po przekroczeniu tego czasu bez nowej próbki aplikacja ostrzeże, że widok może nie odpowiadać stanowi instalacji.",
+        gdzie: "Wpisz zgodnie z tym, jak często urządzenie wysyła pomiary (kilka razy częściej niż jego okres). Puste = bez kontroli.",
+        zakres: "Dodatnia liczba sekund; pusta wyłącza ostrzeżenie.",
+      },
+      scenariusz: {
+        nazwa: "Scenariusz symulatora",
+        cel: "Wybiera, jakie dane demonstracyjne wygeneruje symulator.",
+        gdzie: "Tylko do oglądania ekranów bez sprzętu; dane są ilustracją, nie pomiarem.",
+        zakres: "Normalna praca, zima bez słońca, alarm BMS lub zwarcie.",
+      },
+      progWielkosc: {
+        nazwa: "Wielkość progu",
+        cel: "Mówi, którego pomiaru dotyczy alarm (np. stan naładowania, temperatura).",
+        gdzie: "Wybierz wielkość, którą chcesz pilnować.",
+        zakres: "Jedna z wielkości fizycznych aplikacji.",
+      },
+      progKanal: {
+        nazwa: "Kanał (opcjonalnie)",
+        cel: "Zawęża alarm do jednego urządzenia, np. „bms”.",
+        gdzie: "Nazwa kanału widoczna na kafelkach „Teraz” nad wartością; puste = każdy kanał tej wielkości.",
+        zakres: "Dowolny tekst albo puste.",
+      },
+      progKierunek: {
+        nazwa: "Kierunek progu",
+        cel: "Określa, czy alarm ma się włączyć poniżej progu (np. niski SoC), czy powyżej (np. wysoka temperatura).",
+        gdzie: "Wybierz zależnie od zagrożenia, które pilnujesz.",
+        zakres: "Poniżej lub powyżej; wartość równa progowi nie wywołuje alarmu.",
+      },
+      progWartosc: {
+        nazwa: "Wartość progu",
+        cel: "Granica, po przekroczeniu której pojawia się alarm.",
+        gdzie: "Weź ją z dokumentacji akumulatora/BMS lub falownika — aplikacja żadnej nie podpowiada, bo zależy od Twojego sprzętu.",
+        zakres: "Liczba w jednostce wybranej wielkości; pusta nie tworzy alarmu.",
+      },
+      progPriorytet: {
+        nazwa: "Priorytet alarmu",
+        cel: "Pokazuje, jak pilna jest reakcja: informacja, ostrzeżenie (wkrótce) albo krytyczny (natychmiast).",
+        gdzie: "Krytyczny wybierz dla zagrożeń bezpieczeństwa, np. przegrzania; ostrzeżenie dla spraw, które mogą poczekać.",
+        zakres: "Informacja, ostrzeżenie lub krytyczny.",
+      },
+    },
+  },
 }
 
 export const en: Tlumaczenie<typeof pl> = {
@@ -234,6 +297,69 @@ export const en: Tlumaczenie<typeof pl> = {
       },
     },
   },
+  "pomiary-na-zywo": {
+    migawka: {
+      oCoChodzi: "Here you see what your installation is doing now: the latest measurement values, a power chart for the chosen time window and alarms when a measurement crosses a threshold you set yourself.",
+      jakDziala: "The app reads the stored samples of the chosen source and refreshes the view every few seconds. For every measurement it shows the newest valid value (missing values and values outside the sensor range are skipped, never turned into zero). An alarm appears when the latest value is below or above the threshold you entered — the app has no thresholds of its own, because they depend on your battery and installation.",
+      poCo: "So you see at once whether anything needs a reaction, and so alarms rest on the limits from your equipment's documentation rather than on generic assumptions.",
+    },
+    pola: {
+      zrodloId: {
+        nazwa: "Data source",
+        cel: "Which source to show measurements from.",
+        gdzie: "The list of sources added on the “Telemetry data sources” screen.",
+        zakres: "One source from the list.",
+      },
+      oknoH: {
+        nazwa: "Chart time window",
+        cel: "How wide a slice of recent history the chart and measurement list cover.",
+        gdzie: "A short window shows the detail of the moment, a long one the course of the day.",
+        zakres: "1, 6 or 24 hours back from now.",
+      },
+      maxWiekS: {
+        nazwa: "After how many seconds data counts as stale",
+        cel: "Once this time passes without a new sample the app warns that the view may not match the installation's state.",
+        gdzie: "Enter it according to how often the device sends measurements (a few times its period). Empty = no check.",
+        zakres: "A positive number of seconds; empty turns the warning off.",
+      },
+      scenariusz: {
+        nazwa: "Simulator scenario",
+        cel: "Chooses what demonstration data the simulator generates.",
+        gdzie: "Only for looking at the screens without hardware; the data is an illustration, not a measurement.",
+        zakres: "Normal operation, winter without sun, BMS alarm or short circuit.",
+      },
+      progWielkosc: {
+        nazwa: "Threshold quantity",
+        cel: "Says which measurement the alarm concerns (e.g. state of charge, temperature).",
+        gdzie: "Pick the quantity you want to watch.",
+        zakres: "One of the app's physical quantities.",
+      },
+      progKanal: {
+        nazwa: "Channel (optional)",
+        cel: "Narrows the alarm to one device, e.g. “bms”.",
+        gdzie: "The channel name shown on the “Now” tiles above the value; empty = every channel of that quantity.",
+        zakres: "Any text or empty.",
+      },
+      progKierunek: {
+        nazwa: "Threshold direction",
+        cel: "Decides whether the alarm fires below the threshold (e.g. low SoC) or above it (e.g. high temperature).",
+        gdzie: "Choose according to the hazard you are watching.",
+        zakres: "Below or above; a value equal to the threshold raises no alarm.",
+      },
+      progWartosc: {
+        nazwa: "Threshold value",
+        cel: "The limit beyond which an alarm appears.",
+        gdzie: "Take it from the battery/BMS or inverter documentation — the app suggests none, because it depends on your equipment.",
+        zakres: "A number in the unit of the chosen quantity; empty creates no alarm.",
+      },
+      progPriorytet: {
+        nazwa: "Alarm priority",
+        cel: "Shows how urgent the reaction is: information, warning (soon) or critical (immediately).",
+        gdzie: "Choose critical for safety hazards such as overheating; warning for matters that can wait.",
+        zakres: "Information, warning or critical.",
+      },
+    },
+  },
 }
 
 export const ru: Tlumaczenie<typeof pl> = {
@@ -347,6 +473,69 @@ export const ru: Tlumaczenie<typeof pl> = {
         cel: "В ней записаны числа в файле; приложение приводит их к базовой единице.",
         gdzie: "Заголовок столбца или документация логгера (например, kW, mA, °F).",
         zakres: "Известная единица этой величины; неизвестная приводит к отклонению строки, а не к угадыванию.",
+      },
+    },
+  },
+  "pomiary-na-zywo": {
+    migawka: {
+      oCoChodzi: "Здесь вы видите, что делает ваша установка сейчас: последние значения измерений, график мощности за выбранный период и тревоги, когда измерение выходит за порог, который вы задали сами.",
+      jakDziala: "Приложение читает сохранённые измерения выбранного источника и обновляет вид каждые несколько секунд. Для каждого измерения показывает последнее корректное значение (пропуски и значения вне диапазона датчика пропускаются, но никогда не заменяются нулём). Тревога возникает, когда последнее значение ниже или выше введённого вами порога — собственных порогов у приложения нет, потому что они зависят от вашего аккумулятора и установки.",
+      poCo: "Чтобы сразу видеть, требуется ли реакция, и чтобы тревоги опирались на пределы из документации вашего оборудования, а не на общие допущения.",
+    },
+    pola: {
+      zrodloId: {
+        nazwa: "Источник данных",
+        cel: "Из какого источника показывать измерения.",
+        gdzie: "Список источников, добавленных на экране «Источники данных телеметрии».",
+        zakres: "Один источник из списка.",
+      },
+      oknoH: {
+        nazwa: "Период графика",
+        cel: "Какой фрагмент недавней истории охватывают график и список измерений.",
+        gdzie: "Короткий период показывает детали момента, длинный — ход суток.",
+        zakres: "1, 6 или 24 часа назад от текущего момента.",
+      },
+      maxWiekS: {
+        nazwa: "Через сколько секунд данные считать устаревшими",
+        cel: "Если за это время нет новых измерений, приложение предупредит, что вид может не соответствовать состоянию установки.",
+        gdzie: "Укажите с учётом того, как часто устройство присылает измерения (в несколько раз больше его периода). Пусто = без проверки.",
+        zakres: "Положительное число секунд; пусто отключает предупреждение.",
+      },
+      scenariusz: {
+        nazwa: "Сценарий симулятора",
+        cel: "Определяет, какие демонстрационные данные создаст симулятор.",
+        gdzie: "Только для просмотра экранов без оборудования; данные — иллюстрация, а не измерение.",
+        zakres: "Обычная работа, зима без солнца, тревога BMS или короткое замыкание.",
+      },
+      progWielkosc: {
+        nazwa: "Величина порога",
+        cel: "Указывает, какого измерения касается тревога (например, уровень заряда, температура).",
+        gdzie: "Выберите величину, за которой хотите следить.",
+        zakres: "Одна из физических величин приложения.",
+      },
+      progKanal: {
+        nazwa: "Канал (необязательно)",
+        cel: "Ограничивает тревогу одним устройством, например «bms».",
+        gdzie: "Название канала над значением на плитках «Сейчас»; пусто = любой канал этой величины.",
+        zakres: "Любой текст или пусто.",
+      },
+      progKierunek: {
+        nazwa: "Направление порога",
+        cel: "Определяет, срабатывает ли тревога ниже порога (например, низкий SoC) или выше (например, высокая температура).",
+        gdzie: "Выберите в зависимости от опасности, за которой следите.",
+        zakres: "Ниже или выше; значение, равное порогу, тревогу не вызывает.",
+      },
+      progWartosc: {
+        nazwa: "Значение порога",
+        cel: "Граница, при пересечении которой появляется тревога.",
+        gdzie: "Возьмите её из документации аккумулятора/BMS или инвертора — приложение ничего не подсказывает, так как это зависит от вашего оборудования.",
+        zakres: "Число в единице выбранной величины; пусто не создаёт тревоги.",
+      },
+      progPriorytet: {
+        nazwa: "Приоритет тревоги",
+        cel: "Показывает срочность реакции: информация, предупреждение (скоро) или критический (немедленно).",
+        gdzie: "Критический выбирайте для угроз безопасности, например перегрева; предупреждение — для вопросов, которые могут подождать.",
+        zakres: "Информация, предупреждение или критический.",
       },
     },
   },

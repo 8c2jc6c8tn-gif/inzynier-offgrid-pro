@@ -562,10 +562,10 @@ Już z wierszem wcześniej: 7.1 (wejście w tryb Live, `done`), 7.7 (powiadomien
 
 | ID (dawne) | Widżet / funkcja | Grupa źródła | Status | Notatka |
 |---|---|---|---|---|
-| 7.4 | Widok "Teraz" | Podstawowy monitoring | todo | Widżet. |
-| 7.5 | Wykresy mocy na żywo | Podstawowy monitoring | todo | Widżet. |
-| 7.6 | Centrum powiadomień i alarmów | Podstawowy monitoring | todo | Widżet. |
-| 7.8 | Priorytety alarmów | Podstawowy monitoring | todo | Widżet. |
+| 7.4 | Widok "Teraz" | Podstawowy monitoring | **done** (03.10.2026, częściowo) | `app/kalkulatory/pomiary-na-zywo/page.tsx`, `lib/core/telemetria/alarmy.ts` (7 testów) + narzędzie AI `ocen_alarmy_telemetrii`. Kafelki „Teraz” z ostatnią poprawną próbką serii (kolor wg alarmu). Nie zrobione: kanały powiadomień (7.7), historia zdarzeń (7.43). |
+| 7.5 | Wykresy mocy na żywo | Podstawowy monitoring | **done** (03.10.2026, częściowo) | `app/kalkulatory/pomiary-na-zywo/page.tsx`, `lib/core/telemetria/alarmy.ts` (7 testów) + narzędzie AI `ocen_alarmy_telemetrii`. Wykres SVG mocy (PV, obciążenie) w oknie 1/6/24 h. Nie zrobione: kanały powiadomień (7.7), historia zdarzeń (7.43). |
+| 7.6 | Centrum powiadomień i alarmów | Podstawowy monitoring | **done** (03.10.2026, częściowo) | `app/kalkulatory/pomiary-na-zywo/page.tsx`, `lib/core/telemetria/alarmy.ts` (7 testów) + narzędzie AI `ocen_alarmy_telemetrii`. Lista aktywnych alarmów (ocena na ostatnich poprawnych próbkach). Nie zrobione: kanały powiadomień (7.7), historia zdarzeń (7.43). |
+| 7.8 | Priorytety alarmów | Podstawowy monitoring | **done** (03.10.2026, częściowo) | `app/kalkulatory/pomiary-na-zywo/page.tsx`, `lib/core/telemetria/alarmy.ts` (7 testów) + narzędzie AI `ocen_alarmy_telemetrii`. Trzy priorytety: info / ostrzeżenie / krytyczny; progi wyłącznie od użytkownika (brak domyślnych, Dyrektywa #1). Nie zrobione: kanały powiadomień (7.7), historia zdarzeń (7.43). |
 | 7.43 | Historia zdarzeń i logi | Podstawowy monitoring | todo | Widżet. |
 | 7.34 | Tryb odtwarzania historycznego | Podstawowy monitoring | todo | Widżet. |
 | 7.28 | Jakość zasilania AC | Jakość i stan instalacji | todo | Widżet. |

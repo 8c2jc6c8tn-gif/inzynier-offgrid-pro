@@ -389,6 +389,7 @@ export const KAFLE: KafelEntry[] = [
     ekrany: [
       { href: "/kalkulatory/tryb-live", label: "Wejście w tryb Live" },
       { href: "/kalkulatory/zrodla-telemetrii", label: "Źródła danych telemetrii" },
+      { href: "/kalkulatory/pomiary-na-zywo", label: "Pomiary na żywo i alarmy" },
     ],
   },
   // M14 (D35, D39): two tiles after tile 13. Ids 15/16 are internal only — "Kafel 14" is Settings
