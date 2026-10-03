@@ -264,6 +264,7 @@ import { podsumowanieTelemetriiTool } from "./tools/podsumowanie-telemetrii-tool
 import { wentylacjaGrawitacyjnaTool } from "./tools/wentylacja-grawitacyjna-tool"
 import { gwcTool } from "./tools/gwc-tool"
 import { oknoSloneczneTool } from "./tools/okno-sloneczne-tool"
+import { deepWinterBudgetTool } from "./tools/deep-winter-budget-tool"
 import { wspolczynnikBezpieczenstwaZimowegoTool } from "./tools/wspolczynnik-bezpieczenstwa-zimowego-tool"
 import { osadNaPvTool } from "./tools/osad-na-pv-tool"
 import { wplywCzynnikaTool } from "./tools/wplyw-czynnika-tool"
@@ -539,6 +540,7 @@ const NARZEDZIA: Array<AiToolDefinition<any, any>> = [
   wentylacjaGrawitacyjnaTool,
   gwcTool,
   oknoSloneczneTool,
+  deepWinterBudgetTool,
   osadNaPvTool,
   wspolczynnikBezpieczenstwaZimowegoTool,
   wplywCzynnikaTool,

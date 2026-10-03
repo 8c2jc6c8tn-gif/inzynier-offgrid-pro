@@ -6,6 +6,7 @@ import { cykleOdszranianiaTool } from "../cykle-odszraniania-tool"
 import { wentylacjaGrawitacyjnaTool } from "../wentylacja-grawitacyjna-tool"
 import { gwcTool } from "../gwc-tool"
 import { oknoSloneczneTool } from "../okno-sloneczne-tool"
+import { deepWinterBudgetTool } from "../deep-winter-budget-tool"
 import { osadNaPvTool } from "../osad-na-pv-tool"
 import { wspolczynnikBezpieczenstwaZimowegoTool } from "../wspolczynnik-bezpieczenstwa-zimowego-tool"
 import { wplywCzynnikaTool } from "../wplyw-czynnika-tool"
@@ -333,5 +334,30 @@ describe("wspolczynnikBezpieczenstwaZimowegoTool (M7/E12, dawne 6.14)", () => {
     expect(w.wskaznikPct).toBeCloseTo(74, 9)
     expect(w.najslabsza).toEqual({ id: "autonomia", wynikPct: 60 })
     expect(w.ostrzezenia).toContain(t("pl", "WSP-WAGI-WSTEPNE"))
+  })
+})
+
+describe("deepWinterBudgetTool (M7/E25, dawne 6.39→7.37)", () => {
+  it("kontrakt 9.3: 'read', bez potwierdzenia", () => {
+    expect(deepWinterBudgetTool.operationType).toBe("read")
+    expect(deepWinterBudgetTool.requiresConfirmation).toBe(false)
+    expect(() => validateAiToolDefinition(deepWinterBudgetTool)).not.toThrow()
+  })
+
+  it("plan 700 kWh, dzień 20 z 31, zużyto 500 → zostało 200, ograniczenie 27,27%, 🟡 ponad budżet jako tekst PL", async () => {
+    const w = await deepWinterBudgetTool.handler({
+      dniMiesiaca: 31,
+      biezacyDzien: 20,
+      planPvKwh: 400,
+      planAgregatKwh: 200,
+      planMagazynKwh: 100,
+      zuzycieNarastajaceKwh: 500,
+      cele: [],
+      udzialOgrzewaniaPct: 0,
+      roznicaTemperaturK: 0,
+    })
+    expect(w.zostaloKwh).toBeCloseTo(200, 9)
+    expect(w.wymaganeOgraniczeniePct).toBeCloseTo(27.2727, 3)
+    expect(w.ostrzezenia).toContain(t("pl", "DWB-PONAD-BUDZET", { odchylenie: 10.7, dzien: 28, ograniczenie: 27.3 }))
   })
 })

@@ -242,6 +242,7 @@ export const KAFLE: KafelEntry[] = [
       { href: "/kalkulatory/awaria-stringa-zima", label: "Awaria stringa PV zimą" },
       { href: "/kalkulatory/deficyty-miesieczne", label: "Deficyty miesięczne i agregat" },
       { href: "/kalkulatory/okno-sloneczne", label: "Krótkie okno słoneczne" },
+      { href: "/kalkulatory/deep-winter-budget", label: "Deep Winter Energy Budget — budżet energii na zimowy miesiąc" },
       { href: "/kalkulatory/snieg-na-pv", label: "Śnieg i oblodzenie na PV" },
       { href: "/kalkulatory/szadz-na-pv", label: "Wieczna mgła i szadź" },
       { href: "/kalkulatory/wspolczynnik-bezpieczenstwa-zimowego", label: "Współczynnik Bezpieczeństwa Zimowego" },

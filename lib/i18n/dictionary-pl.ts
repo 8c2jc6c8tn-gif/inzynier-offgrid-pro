@@ -1925,6 +1925,23 @@ export const dictionaryPl = {
   "POLE-KOSZT-TRACKERA": "Koszt trackera",
   "POLE-KOSZT-PANELU": "Koszt dodatkowego panelu",
   "POLE-UZYSK-PANELU": "Roczny uzysk jednego panelu",
+  "DWB-WARTOSC-UJEMNA": "Wpisana wartość nie może być ujemna.",
+  "DWB-DNI-MIESIACA-POZA-ZAKRESEM": "Liczba dni miesiąca musi być liczbą całkowitą od 28 do 31.",
+  "DWB-DZIEN-POZA-ZAKRESEM": "Bieżący dzień musi być liczbą całkowitą od 1 do {dni} (liczby dni miesiąca).",
+  "DWB-PROCENT-POZA-ZAKRESEM": "Udział w procentach musi mieścić się w przedziale 0–100%.",
+  "DWB-UDZIALY-POWYZEJ-100": "Udziały celów w planie sumują się do {suma}% — razem nie mogą przekraczać 100%.",
+  "DWB-CEL-POWTORZONY": "Ten sam cel został wpisany więcej niż raz.",
+  "DWB-PLAN-WYCZERPANY": "Plan miesiąca jest już wyczerpany: zużyto {zuzycie} kWh z {plan} kWh, a do końca miesiąca zostało jeszcze {dniZostalo} dni. Energii na resztę miesiąca nie ma w planie — potrzebne dodatkowe źródło (agregat, dłuższa praca) albo ograniczenie do niezbędnego minimum.",
+  "DWB-PLAN-PRZEKROCZONY-KONIEC": "Plan miesiąca został przekroczony: zużyto {zuzycie} kWh przy planie {plan} kWh. Różnicę trzeba było pokryć spoza planu (np. dodatkowym paliwem) — uwzględnij to w planie na kolejny miesiąc.",
+  "DWB-OGRZEWANIE-NIE-WYSTARCZY": "Potrzebne ograniczenie zużycia ({wymagane}%) jest większe niż udział ogrzewania w zużyciu ({udzial}%) — nawet całkowite wyłączenie ogrzewania nie wystarczy. Trzeba ograniczyć także inne odbiorniki albo dołożyć energię z innego źródła.",
+  "DWB-PONAD-BUDZET": "Zużycie przekracza budżet narastający o {odchylenie}%. Przy obecnym tempie plan wyczerpie się około {dzien}. dnia miesiąca. Ogranicz zużycie o ok. {ograniczenie}% na pozostałe dni.",
+  "DWB-OGRANICZ-OGRZEWANIE": "Ogranicz ogrzewanie: obniż temperaturę w pomieszczeniach o ok. {k} K (przybliżenie stacjonarne — traktuj jako rząd wielkości).",
+  "DWB-CELE-WIECEJ-NIZ-RAZEM": "Zużycie wpisane przy celach ({cele} kWh) jest większe niż zużycie narastające razem ({razem} kWh) — sprawdź wpisane liczby.",
+  "DWB-PLAN-NIE-W-CALOSCI-PRZYDZIELONY": "Udziały celów nie dają 100% — {reszta}% planu nie jest przypisane do żadnego celu.",
+  "DWB-OGRZEWANIE-NIEKOMPLETNE": "Do przeliczenia na stopnie potrzebne są oba pola: udział ogrzewania w zużyciu i średnia różnica temperatur. Wpisano tylko jedno z nich.",
+  "DWB-ZALOZENIE-BUDZET-PROPORCJONALNY": "Budżet narastający B = plan × (dzień ÷ liczba dni miesiąca), czyli energia rozłożona równo na wszystkie dni. W zimie zużycie bywa nierówne (mrozy, zbiorcze pranie) — traktuj budżet jako prostą linię odniesienia, nie prognozę.",
+  "DWB-ZALOZENIE-TEMPO-STALE": "Prognoza końca miesiąca = dotychczasowe zużycie dzienne × liczba dni miesiąca, czyli zakłada, że reszta miesiąca będzie taka jak dotychczasowa. Plan to suma źródeł wpisanych przez Ciebie (PV + agregat + użyteczna rezerwa magazynu).",
+  "DWB-ZALOZENIE-OGRZEWANIE-STACJONARNE": "Przybliżenie stacjonarne: moc ogrzewania jest proporcjonalna do różnicy temperatur wewnątrz–na zewnątrz, więc obniżenie temperatury o 1 K zmniejsza energię ogrzewania o udział ÷ ΔT. Pomija zyski wewnętrzne, bezwładność budynku i zmianę sprawności źródła ciepła.",
 } as const
 
 export type KluczTlumaczenia = keyof typeof dictionaryPl

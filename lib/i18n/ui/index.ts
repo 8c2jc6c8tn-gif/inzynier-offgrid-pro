@@ -31,6 +31,7 @@ import * as m05Elektryka from "./m05-elektryka"
 import * as m02Zapotrzebowanie from "./m02-zapotrzebowanie"
 import * as m07Zima from "./m07-zima"
 import * as m07bZima from "./m07b-zima"
+import * as m07cZima from "./m07c-zima"
 import * as m13Telemetria from "./m13-telemetria"
 import * as m13Pomiary from "./m13-pomiary"
 import * as m13Historia from "./m13-historia"
@@ -64,7 +65,7 @@ import * as pulpitRejestr from "./pulpit-rejestr"
 import * as waluta from "./waluta"
 import * as meta from "./meta"
 
-export const czesciUi = [wspolne, dopiskiStarychEkranow, m09Esp32, m12Ekrany, m12Uziemienie, m14Agregat, m14Bess, m14Ekrany, m14Faq, m14Przejscie, m14PrzejscieEkrany, m14Przelacznik, m14Pv, m14Scenariusze, m14Sciezka, m14Zima, m11MontazBaterii, m08Bezpieczenstwo, m12Mobilny, m04Baterie, pulpit, m05Elektryka, m02Zapotrzebowanie, m07Zima, m09Ekrany, ekranyRozne, m15M16Siec, pwa, wyglad, m06Ogrzewanie, m06StareEkrany, m03PvA, m03TypMontazu, m03PvB, m07bZima, m13Telemetria, m13Pomiary, m13Historia, m13Podsumowanie, m06cOgrzewanie, m06dDokladki, m06eNagrzewnica, m10Ai, m01Lokalizacja, komponentyLokalizacja, komponentySiec, komponentyWspolne, komponentyWzorce, bledyHookow, appStrony, appWzornik, staleBaterie, staleRozne, staleZapotrzebowanie, pulpitRejestr, waluta, meta, formuly] as const
+export const czesciUi = [wspolne, dopiskiStarychEkranow, m09Esp32, m12Ekrany, m12Uziemienie, m14Agregat, m14Bess, m14Ekrany, m14Faq, m14Przejscie, m14PrzejscieEkrany, m14Przelacznik, m14Pv, m14Scenariusze, m14Sciezka, m14Zima, m11MontazBaterii, m08Bezpieczenstwo, m12Mobilny, m04Baterie, pulpit, m05Elektryka, m02Zapotrzebowanie, m07Zima, m09Ekrany, ekranyRozne, m15M16Siec, pwa, wyglad, m06Ogrzewanie, m06StareEkrany, m03PvA, m03TypMontazu, m03PvB, m07bZima, m07cZima, m13Telemetria, m13Pomiary, m13Historia, m13Podsumowanie, m06cOgrzewanie, m06dDokladki, m06eNagrzewnica, m10Ai, m01Lokalizacja, komponentyLokalizacja, komponentySiec, komponentyWspolne, komponentyWzorce, bledyHookow, appStrony, appWzornik, staleBaterie, staleRozne, staleZapotrzebowanie, pulpitRejestr, waluta, meta, formuly] as const
 
 export const uiPl = Object.assign({}, ...czesciUi.map((c) => c.pl)) as Record<string, string>
 export const uiEn = Object.assign({}, ...czesciUi.map((c) => c.en)) as Record<string, string>
