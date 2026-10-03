@@ -396,7 +396,7 @@ Pełne wyniki audytu: `docs/memory.md`, sekcja "Pełny audyt na polecenie właś
   tłumaczony na ekranie (zmiana kontraktu silnika + testów); **(2)** `formula` z prozą polską (~25 z 62 stałych, ~210 użyć w
   `WynikSzczegoly`; indeksy symboliczne typu `E_{całkowita}` do decyzji) — propozycja: pole `formulaKey`; **(3)** komunikaty błędów hooków/
   adapterów renderowane surowo (~15: `dane-tmy.ts` KOMUNIKAT_PVGIS, `use-gps.ts`, `use-obliczenia-w-tle.ts`, `delete-account.ts`) →
-  zwracać kody, `t()` na ekranie; **(4)** `katalog-psi.ts` (76 opisów detali mostków) w `<option>`; **(5)** ✅ (03.10.2026, `nazwaKey` + klucze `UI-PRZYKURZ-*`, datalista w języku UI, `znajdzPrzyklad` dopasowuje obie nazwy) `przykladowe-urzadzenia.ts`
+  zwracać kody, `t()` na ekranie; **(4)** ✅ (03.10.2026, klucze `UI-PSI-<kod>`, test spójności z katalogiem; EN/RU do przeglądu) `katalog-psi.ts` (76 opisów detali mostków) w `<option>`; **(5)** ✅ (03.10.2026, `nazwaKey` + klucze `UI-PRZYKURZ-*`, datalista w języku UI, `znajdzPrzyklad` dopasowuje obie nazwy) `przykladowe-urzadzenia.ts`
   (19 nazw; `nazwa` jest kluczem dopasowania — wymaga `id`); **(6)** ✅ `lib/wyglad/storage.ts` GRUPY_KOLOROW → klucze `UI-WYGLAD-KOLOR-*` (03.10.2026);
   **(7)** `pv/czystosc-i-snieg` (KAT_OPISY, `powod`, szablon w warnings — moduł z listy zmigrowanych, strażnik go nie łapie);
   **(8)** luki strażnika silnika: `message` jako template literal (komunikacja-bms, audyt-pozarowy), `FILES_TO_CHECK` tylko 3 nazwy,
