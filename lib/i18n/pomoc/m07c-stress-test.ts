@@ -119,6 +119,46 @@ export const pl = {
       },
     },
   },
+  "turbina-wiatrowa": {
+    migawka: {
+      oCoChodzi: "Turbina wiatrowa na tabliczce ma moc w kilowatach, ale oddaje ją tylko przy odpowiednio silnym wietrze. Ten ekran szacuje, ile energii dziennie da turbina, gdy znasz średnią prędkość wiatru, a nie każdy podmuch.",
+      jakDziala: "1) Wpisujesz średnią prędkość wiatru na wysokości piasty turbiny. 2) Wpisujesz z karty turbiny krzywą mocy: kilka punktów „przy tej prędkości wiatru turbina oddaje tyle kW” (min. 3, prędkość rosnąco). 3) Wpisujesz prędkość wyłączenia (powyżej niej turbina staje) i współczynnik dostępności i strat od 0 do 1 (postoje, zacienienie przez zabudowę, straty w przewodach i regulatorze). 4) Aplikacja zakłada typowy rozkład prędkości wiatru (Rayleigha) o Twojej średniej, przemnaża go przez krzywą mocy i sumuje. 5) Pokazuje energię na dobę i średnią moc.",
+      poCo: "Turbina z katalogu „5 kW” potrafi dać dobowo kilka razy mniej, niż sugeruje liczba na tabliczce. Wynik pozwala ocenić, czy turbina realnie uzupełni zimowy bilans, zanim ją kupisz.",
+      fizyka: "Co i jak liczymy — i dlaczego. Moc turbiny zależy od prędkości wiatru w sposób silnie nieliniowy, więc nie wolno mnożyć mocy przy średniej prędkości przez 24 godziny: liczy się to, jak często wieje z każdą prędkością. Ten rozkład aplikacja przyjmuje jako rozkład Rayleigha: f(v) = (π/2)·(v/v̄²)·exp(−π·v²/(4·v̄²)), gdzie v̄ to Twoja średnia prędkość. Energia doby: E = 24·A·∫P(v)·f(v)dv, całka od 0 do prędkości wyłączenia, liczona numerycznie z krokiem 0,1 m/s; A to współczynnik dostępności i strat. Krzywą mocy znasz tylko w punktach — między nimi interpolujemy po prostej, poniżej pierwszego punktu moc to 0, powyżej ostatniego jest równa mocy ostatniego punktu aż do prędkości wyłączenia, a potem 0. Ważne: rozkład jest założony, nie zmierzony. Na prawdziwej działce wiatr może wiać inaczej (osłonięta dolina, wzgórze), a wynik zależy od rozkładu — dlatego traktuj go jako szacunek. Przykład z literatury (1 kW przy 6 m/s → ok. 3 kWh na dobę) to ilustracja, nie reguła: bez krzywej mocy nie da się go odtworzyć. Oblodzenie łopat przy mrozie i wysokiej wilgotności nie jest tu liczone.",
+    },
+    pola: {
+      sredniaPredkosc: {
+        nazwa: "Średnia prędkość wiatru na wysokości piasty [m/s]",
+        cel: "Parametr rozkładu Rayleigha, z którego liczona jest częstość poszczególnych prędkości wiatru.",
+        gdzie: "Pomiar anemometrem na wysokości piasty, atlas wiatrowy dla lokalizacji albo dane stacji meteo — pamiętaj, że wiatr rośnie z wysokością.",
+        zakres: "Większa od zera.",
+      },
+      krzywaV: {
+        nazwa: "Prędkość wiatru w punkcie krzywej [m/s]",
+        cel: "Punkt krzywej mocy podany przez producenta.",
+        gdzie: "Karta katalogowa turbiny: wykres lub tabela „moc a prędkość wiatru”.",
+        zakres: "Co najmniej 3 punkty, prędkość rosnąco.",
+      },
+      krzywaP: {
+        nazwa: "Moc turbiny w punkcie krzywej [kW]",
+        cel: "Moc elektryczna, jaką turbina oddaje przy danej prędkości wiatru.",
+        gdzie: "Ta sama karta katalogowa, kolumna lub oś mocy.",
+        zakres: "Zero lub więcej.",
+      },
+      predkoscWylaczenia: {
+        nazwa: "Prędkość wyłączenia [m/s]",
+        cel: "Prędkość, od której turbina staje (ochrona przed wichurą); powyżej niej moc to 0.",
+        gdzie: "Karta turbiny: „cut-out wind speed”.",
+        zakres: "Nie mniejsza niż ostatni punkt krzywej; do 100 m/s (limit obliczeń).",
+      },
+      wspolczynnikDostepnosci: {
+        nazwa: "Współczynnik dostępności i strat (0–1)",
+        cel: "Uwzględnia postoje, zaburzenia wiatru przez zabudowę i drzewa oraz straty elektryczne.",
+        gdzie: "Wpisujesz sam: z danych producenta albo własnej oceny (np. 0,8 = 80% energii dociera do instalacji). Aplikacja nie zakłada żadnej wartości.",
+        zakres: "Od 0 do 1.",
+      },
+    },
+  },
 }
 
 export const en: Tlumaczenie<typeof pl> = {
@@ -235,6 +275,46 @@ export const en: Tlumaczenie<typeof pl> = {
       },
     },
   },
+  "turbina-wiatrowa": {
+    migawka: {
+      oCoChodzi: "A wind turbine has a power in kilowatts on its plate, but it delivers it only in a sufficiently strong wind. This screen estimates how much energy per day the turbine gives when you know the mean wind speed, not every gust.",
+      jakDziala: "1) You enter the mean wind speed at the turbine's hub height. 2) From the turbine datasheet you enter the power curve: several points „at this wind speed the turbine delivers this many kW” (at least 3, speed ascending). 3) You enter the cut-out speed (above it the turbine stops) and the availability and loss factor from 0 to 1 (downtime, shading by buildings, losses in cables and the controller). 4) The app assumes a typical wind-speed distribution (Rayleigh) with your mean, multiplies it by the power curve and sums up. 5) It shows the energy per day and the mean power.",
+      poCo: "A „5 kW” turbine from a catalogue may give several times less per day than the number on the plate suggests. The result lets you judge whether the turbine will really add to the winter balance before you buy it.",
+      fizyka: "What we compute — and why. The turbine's power depends on wind speed in a strongly nonlinear way, so you must not multiply the power at the mean speed by 24 hours: what counts is how often each speed occurs. The app takes this distribution as a Rayleigh distribution: f(v) = (π/2)·(v/v̄²)·exp(−π·v²/(4·v̄²)), where v̄ is your mean speed. Energy per day: E = 24·A·∫P(v)·f(v)dv, the integral from 0 to the cut-out speed, computed numerically with a step of 0.1 m/s; A is the availability and loss factor. The power curve is known only at points — between them we interpolate along a straight line, below the first point the power is 0, above the last one it equals the power of the last point up to the cut-out speed, and then 0. Important: the distribution is assumed, not measured. At a real site the wind may blow differently (a sheltered valley, a hill), and the result depends on the distribution — so treat it as an estimate. The literature example (1 kW at 6 m/s → about 3 kWh per day) is an illustration, not a rule: it cannot be reproduced without a power curve. Icing of the blades in frost and high humidity is not computed here.",
+    },
+    pola: {
+      sredniaPredkosc: {
+        nazwa: "Mean wind speed at hub height [m/s]",
+        cel: "The parameter of the Rayleigh distribution from which the frequency of each wind speed is computed.",
+        gdzie: "Anemometer measurement at hub height, a wind atlas for the location or weather-station data — remember that wind grows with height.",
+        zakres: "Greater than zero.",
+      },
+      krzywaV: {
+        nazwa: "Wind speed at the curve point [m/s]",
+        cel: "A point of the power curve given by the manufacturer.",
+        gdzie: "Turbine datasheet: the „power vs. wind speed” chart or table.",
+        zakres: "At least 3 points, speed ascending.",
+      },
+      krzywaP: {
+        nazwa: "Turbine power at the curve point [kW]",
+        cel: "The electrical power the turbine delivers at the given wind speed.",
+        gdzie: "The same datasheet, the power column or axis.",
+        zakres: "Zero or more.",
+      },
+      predkoscWylaczenia: {
+        nazwa: "Cut-out speed [m/s]",
+        cel: "The speed from which the turbine stops (storm protection); above it the power is 0.",
+        gdzie: "Turbine datasheet: „cut-out wind speed”.",
+        zakres: "Not lower than the last curve point; up to 100 m/s (calculation limit).",
+      },
+      wspolczynnikDostepnosci: {
+        nazwa: "Availability and loss factor (0–1)",
+        cel: "Accounts for downtime, wind disturbance by buildings and trees, and electrical losses.",
+        gdzie: "You enter it yourself: from manufacturer data or your own assessment (e.g. 0.8 = 80% of the energy reaches the installation). The app assumes no value.",
+        zakres: "From 0 to 1.",
+      },
+    },
+  },
 }
 
 export const ru: Tlumaczenie<typeof pl> = {
@@ -347,6 +427,46 @@ export const ru: Tlumaczenie<typeof pl> = {
         nazwa: "Коэффициент мощности в таблице (0–1)",
         cel: "Какую долю номинальной мощности инвертор может отдать при данном THD (например 0,9 = 90%).",
         gdzie: "Тот же паспорт; если производитель даёт мощность в кВт, разделите её на номинальную.",
+        zakres: "От 0 до 1.",
+      },
+    },
+  },
+  "turbina-wiatrowa": {
+    migawka: {
+      oCoChodzi: "У ветрогенератора на табличке указана мощность в киловаттах, но он отдаёт её только при достаточно сильном ветре. Этот экран оценивает, сколько энергии в сутки даст турбина, когда вы знаете среднюю скорость ветра, а не каждый порыв.",
+      jakDziala: "1) Вводите среднюю скорость ветра на высоте ступицы турбины. 2) Из паспорта турбины вводите кривую мощности: несколько точек «при этой скорости ветра турбина отдаёт столько кВт» (минимум 3, скорость по возрастанию). 3) Вводите скорость отключения (выше неё турбина останавливается) и коэффициент доступности и потерь от 0 до 1 (простои, затенение застройкой, потери в проводах и контроллере). 4) Приложение предполагает типичное распределение скорости ветра (Рэлея) с вашей средней, умножает его на кривую мощности и суммирует. 5) Показывает энергию за сутки и среднюю мощность.",
+      poCo: "Турбина «5 кВт» из каталога может давать в сутки в несколько раз меньше, чем подсказывает число на табличке. Результат позволяет оценить, действительно ли турбина дополнит зимний баланс, до покупки.",
+      fizyka: "Что и как считаем — и почему. Мощность турбины сильно нелинейно зависит от скорости ветра, поэтому нельзя умножать мощность при средней скорости на 24 часа: важно, как часто бывает каждая скорость. Это распределение приложение принимает как распределение Рэлея: f(v) = (π/2)·(v/v̄²)·exp(−π·v²/(4·v̄²)), где v̄ — ваша средняя скорость. Энергия за сутки: E = 24·A·∫P(v)·f(v)dv, интеграл от 0 до скорости отключения, считается численно с шагом 0,1 м/с; A — коэффициент доступности и потерь. Кривая мощности известна только в точках — между ними интерполируем по прямой, ниже первой точки мощность 0, выше последней равна мощности последней точки до скорости отключения, затем 0. Важно: распределение предположено, а не измерено. На реальном участке ветер может дуть иначе (защищённая долина, холм), а результат зависит от распределения — поэтому считайте его оценкой. Пример из литературы (1 кВт при 6 м/с → около 3 кВт·ч в сутки) — иллюстрация, а не правило: без кривой мощности его не воспроизвести. Обледенение лопастей при морозе и высокой влажности здесь не считается.",
+    },
+    pola: {
+      sredniaPredkosc: {
+        nazwa: "Средняя скорость ветра на высоте ступицы [м/с]",
+        cel: "Параметр распределения Рэлея, по которому считается частота каждой скорости ветра.",
+        gdzie: "Измерение анемометром на высоте ступицы, ветровой атлас местности или данные метеостанции — помните, что ветер растёт с высотой.",
+        zakres: "Больше нуля.",
+      },
+      krzywaV: {
+        nazwa: "Скорость ветра в точке кривой [м/с]",
+        cel: "Точка кривой мощности от производителя.",
+        gdzie: "Паспорт турбины: график или таблица «мощность от скорости ветра».",
+        zakres: "Не менее 3 точек, скорость по возрастанию.",
+      },
+      krzywaP: {
+        nazwa: "Мощность турбины в точке кривой [кВт]",
+        cel: "Электрическая мощность, которую турбина отдаёт при данной скорости ветра.",
+        gdzie: "Тот же паспорт, столбец или ось мощности.",
+        zakres: "Ноль или больше.",
+      },
+      predkoscWylaczenia: {
+        nazwa: "Скорость отключения [м/с]",
+        cel: "Скорость, с которой турбина останавливается (защита от бури); выше неё мощность 0.",
+        gdzie: "Паспорт турбины: «cut-out wind speed».",
+        zakres: "Не меньше последней точки кривой; до 100 м/с (предел расчёта).",
+      },
+      wspolczynnikDostepnosci: {
+        nazwa: "Коэффициент доступности и потерь (0–1)",
+        cel: "Учитывает простои, искажение ветра застройкой и деревьями, электрические потери.",
+        gdzie: "Вводите сами: из данных производителя или собственной оценки (например 0,8 = 80% энергии доходит до установки). Приложение не предполагает никакого значения.",
         zakres: "От 0 до 1.",
       },
     },

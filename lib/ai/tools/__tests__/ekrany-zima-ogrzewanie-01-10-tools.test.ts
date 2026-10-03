@@ -8,6 +8,7 @@ import { gwcTool } from "../gwc-tool"
 import { oknoSloneczneTool } from "../okno-sloneczne-tool"
 import { deepWinterBudgetTool } from "../deep-winter-budget-tool"
 import { falownikThdTool } from "../falownik-thd-tool"
+import { turbinaWiatrowaTool } from "../turbina-wiatrowa-tool"
 import { osadNaPvTool } from "../osad-na-pv-tool"
 import { wspolczynnikBezpieczenstwaZimowegoTool } from "../wspolczynnik-bezpieczenstwa-zimowego-tool"
 import { wplywCzynnikaTool } from "../wplyw-czynnika-tool"
@@ -385,5 +386,28 @@ describe("falownikThdTool (M7/E24, dawne 6.38→7.36)", () => {
     expect(w.dostepnaKw).toBeCloseTo(4, 12)
     expect(w.przekroczone).toBe(true)
     expect(w.ostrzezenia).toContain(t("pl", "FTHD-OBCIAZENIE-PRZEKRACZA-DOSTEPNA", { obciazenie: 4.5, dostepna: 4, brak: 0.5 }))
+  })
+})
+
+describe("turbinaWiatrowaTool (M7/E16, dawne 6.24→7.23)", () => {
+  it("kontrakt 9.3: 'read', bez potwierdzenia", () => {
+    expect(turbinaWiatrowaTool.operationType).toBe("read")
+    expect(turbinaWiatrowaTool.requiresConfirmation).toBe(false)
+    expect(() => validateAiToolDefinition(turbinaWiatrowaTool)).not.toThrow()
+  })
+
+  it("stała moc 2 kW na [4, 8] m/s, v̄=6, A=0,8 → ok. 17,6 kWh/dobę + ostrzeżenie o średniej bez rozkładu", async () => {
+    const w = await turbinaWiatrowaTool.handler({
+      sredniaPredkoscMs: 6,
+      krzywa: [
+        { predkoscMs: 4, mocKw: 2 },
+        { predkoscMs: 6, mocKw: 2 },
+        { predkoscMs: 8, mocKw: 2 },
+      ],
+      predkoscWylaczeniaMs: 8,
+      wspolczynnikDostepnosciStrat: 0.8,
+    })
+    expect(w.energiaDobaKwh).toBeCloseTo(24 * 0.8 * 0.9157, 1)
+    expect(w.ostrzezenia).toContain(t("pl", "TURBW-SREDNIA-BEZ-ROZKLADU", { srednia: 6 }))
   })
 })

@@ -1937,4 +1937,12 @@ export const dictionaryEn = {
   "FTHD-OBCIAZENIE-PRZEKRACZA-DOSTEPNA": "The load of {obciazenie} kW is higher than the power the inverter delivers at this THD ({dostepna} kW) — {brak} kW is missing. Reduce the load, use a bigger inverter or reduce the THD (harmonic filter, a different appliance).",
   "FTHD-ZALOZENIE-TABELA-PRODUCENTA": "The derating coefficient comes only from the table you typed in from the inverter datasheet — the app assumes no values of its own.",
   "FTHD-ZALOZENIE-INTERPOLACJA-LINIOWA": "Between two table points the coefficient is interpolated linearly; there is no extrapolation outside the table.",
+  "TURBW-WARTOSC-UJEMNA": "The entered value cannot be negative.",
+  "TURBW-WSPOLCZYNNIK-POZA-ZAKRESEM": "The availability and loss factor must be between 0 and 1.",
+  "TURBW-KRZYWA-NIEROSNACA": "The speed in power-curve row {wiersz} must be greater than in the previous row — enter the rows in ascending order.",
+  "TURBW-WYLACZENIE-PONIZEJ-KRZYWEJ": "The cut-out speed ({wylaczenie} m/s) is lower than the last point of the power curve ({ostatni} m/s). Enter a cut-out speed not lower than the last curve point or shorten the curve.",
+  "TURBW-WYLACZENIE-POZA-ZAKRESEM": "The cut-out speed {wylaczenie} m/s exceeds the calculation limit ({maks} m/s). Check the entered value.",
+  "TURBW-SREDNIA-BEZ-ROZKLADU": "You know only the mean wind speed ({srednia} m/s), not its distribution — the app assumes a typical Rayleigh distribution. The real distribution at your site may give a different result, because the power curve is not a straight line; this is an estimate, not a guarantee. A wind measurement at hub height is needed for certainty.",
+  "TURBW-ZALOZENIE-RAYLEIGH": "The wind speed distribution over time is assumed to be a Rayleigh distribution with the mean you entered; numerical integration with a step of 0.1 m/s.",
+  "TURBW-ZALOZENIE-KRZYWA-PRODUCENTA": "The power curve, the cut-out speed and the availability and loss factor come only from you (turbine datasheet); below the first curve point the power is 0, between points it is interpolated linearly, above the last one it equals the power of the last point up to the cut-out speed.",
 } satisfies Record<KluczTlumaczenia, string>

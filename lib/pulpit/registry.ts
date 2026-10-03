@@ -244,6 +244,7 @@ export const KAFLE: KafelEntry[] = [
       { href: "/kalkulatory/okno-sloneczne", label: "Krótkie okno słoneczne" },
       { href: "/kalkulatory/deep-winter-budget", label: "Deep Winter Energy Budget — budżet energii na zimowy miesiąc" },
       { href: "/kalkulatory/falownik-thd", label: "Falownik przy odkształconych obciążeniach (THD)" },
+      { href: "/kalkulatory/turbina-wiatrowa", label: "Turbina wiatrowa jako wsparcie zimowe" },
       { href: "/kalkulatory/snieg-na-pv", label: "Śnieg i oblodzenie na PV" },
       { href: "/kalkulatory/szadz-na-pv", label: "Wieczna mgła i szadź" },
       { href: "/kalkulatory/wspolczynnik-bezpieczenstwa-zimowego", label: "Współczynnik Bezpieczeństwa Zimowego" },

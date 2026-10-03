@@ -1949,6 +1949,14 @@ export const dictionaryPl = {
   "FTHD-OBCIAZENIE-PRZEKRACZA-DOSTEPNA": "Obciążenie {obciazenie} kW jest większe niż moc, jaką falownik odda przy tym THD ({dostepna} kW) — brakuje {brak} kW. Zmniejsz obciążenie, zwiększ moc falownika albo zmniejsz THD (filtr harmonicznych, inny odbiornik).",
   "FTHD-ZALOZENIE-TABELA-PRODUCENTA": "Współczynnik obniżenia mocy pochodzi wyłącznie z tabeli wpisanej przez Ciebie z karty katalogowej falownika — aplikacja nie zakłada żadnych własnych wartości.",
   "FTHD-ZALOZENIE-INTERPOLACJA-LINIOWA": "Między dwoma punktami tabeli współczynnik jest interpolowany liniowo; poza tabelą nie ma ekstrapolacji.",
+  "TURBW-WARTOSC-UJEMNA": "Wpisana wartość nie może być ujemna.",
+  "TURBW-WSPOLCZYNNIK-POZA-ZAKRESEM": "Współczynnik dostępności i strat musi mieścić się w przedziale od 0 do 1.",
+  "TURBW-KRZYWA-NIEROSNACA": "Prędkość w wierszu {wiersz} krzywej mocy musi być większa niż w wierszu poprzednim — wpisz wiersze rosnąco.",
+  "TURBW-WYLACZENIE-PONIZEJ-KRZYWEJ": "Prędkość wyłączenia ({wylaczenie} m/s) jest mniejsza niż ostatni punkt krzywej mocy ({ostatni} m/s). Podaj prędkość wyłączenia nie mniejszą niż ostatni punkt krzywej albo skróć krzywą.",
+  "TURBW-WYLACZENIE-POZA-ZAKRESEM": "Prędkość wyłączenia {wylaczenie} m/s przekracza limit obliczeń ({maks} m/s). Sprawdź wpisaną wartość.",
+  "TURBW-SREDNIA-BEZ-ROZKLADU": "Znasz tylko średnią prędkość wiatru ({srednia} m/s), nie jej rozkład — aplikacja zakłada typowy rozkład Rayleigha. Rzeczywisty rozkład na Twojej działce może dać inny wynik, bo krzywa mocy nie jest linią prostą; to szacunek, nie gwarancja. Dla pewności potrzebny jest pomiar wiatru na wysokości piasty.",
+  "TURBW-ZALOZENIE-RAYLEIGH": "Rozkład prędkości wiatru w czasie przyjęty jako rozkład Rayleigha ze średnią podaną przez Ciebie; całkowanie numeryczne z krokiem 0,1 m/s.",
+  "TURBW-ZALOZENIE-KRZYWA-PRODUCENTA": "Krzywa mocy, prędkość wyłączenia oraz współczynnik dostępności i strat pochodzą wyłącznie od Ciebie (karta turbiny); poniżej pierwszego punktu krzywej moc wynosi 0, między punktami jest interpolowana liniowo, powyżej ostatniego równa mocy ostatniego punktu aż do prędkości wyłączenia.",
 } as const
 
 export type KluczTlumaczenia = keyof typeof dictionaryPl
