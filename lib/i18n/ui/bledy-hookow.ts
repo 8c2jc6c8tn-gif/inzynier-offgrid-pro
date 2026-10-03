@@ -1,6 +1,6 @@
 /**
  * bledy-hookow — user-facing error texts returned by client hooks and adapters (GPS, PVGIS, background
- * calculations, account deletion). The hooks keep a key and translate it on return, so screens render
+ * calculations, account deletion, AI assistant). The hooks keep a key and translate it on return, so screens render
  * `blad` unchanged. EN/RU are drafts for native-speaker review.
  */
 export const pl = {
@@ -18,6 +18,11 @@ export const pl = {
   "UI-BLAD-OBLICZENIA-NIEPOWODZENIE": "Obliczenia nie powiodły się — spróbuj ponownie.",
   "UI-BLAD-KONTO-NIEZALOGOWANY": "Nie jesteś zalogowany.",
   "UI-BLAD-KONTO-USUWANIE-NIESKONFIGUROWANE": "Usuwanie konta nie jest jeszcze skonfigurowane (brak klucza service role w .env.local).",
+  "UI-ASYAI-BLAD-PUSTE-PYTANIE": "Napisz pytanie.",
+  "UI-ASYAI-BLAD-NIESKONFIGUROWANY": "Asystent AI nie jest jeszcze skonfigurowany — dodaj klucz ANTHROPIC_API_KEY do zmiennych środowiska serwera.",
+  "UI-ASYAI-BLAD-ODMOWA": "Asystent odmówił odpowiedzi na to pytanie.",
+  "UI-ASYAI-BLAD-ZA-DLUGO": "Asystent nie zakończył odpowiedzi w rozsądnej liczbie kroków — spróbuj zadać pytanie prościej.",
+  "UI-ASYAI-BLAD-OGOLNY": "Asystent AI napotkał błąd — spróbuj ponownie.",
 } as const
 
 type Klucz = keyof typeof pl
@@ -37,6 +42,11 @@ export const en: Record<Klucz, string> = {
   "UI-BLAD-OBLICZENIA-NIEPOWODZENIE": "The calculation failed — try again.",
   "UI-BLAD-KONTO-NIEZALOGOWANY": "You are not signed in.",
   "UI-BLAD-KONTO-USUWANIE-NIESKONFIGUROWANE": "Account deletion is not configured yet (missing service role key in .env.local).",
+  "UI-ASYAI-BLAD-PUSTE-PYTANIE": "Write a question.",
+  "UI-ASYAI-BLAD-NIESKONFIGUROWANY": "The AI assistant is not configured yet — add the ANTHROPIC_API_KEY to the server environment variables.",
+  "UI-ASYAI-BLAD-ODMOWA": "The assistant declined to answer this question.",
+  "UI-ASYAI-BLAD-ZA-DLUGO": "The assistant did not finish within a reasonable number of steps — try asking a simpler question.",
+  "UI-ASYAI-BLAD-OGOLNY": "The AI assistant ran into an error — try again.",
 }
 
 export const ru: Record<Klucz, string> = {
@@ -54,4 +64,9 @@ export const ru: Record<Klucz, string> = {
   "UI-BLAD-OBLICZENIA-NIEPOWODZENIE": "Расчёт не удался — повторите попытку.",
   "UI-BLAD-KONTO-NIEZALOGOWANY": "Вы не вошли в систему.",
   "UI-BLAD-KONTO-USUWANIE-NIESKONFIGUROWANE": "Удаление аккаунта ещё не настроено (нет ключа service role в .env.local).",
+  "UI-ASYAI-BLAD-PUSTE-PYTANIE": "Напишите вопрос.",
+  "UI-ASYAI-BLAD-NIESKONFIGUROWANY": "ИИ-ассистент ещё не настроен — добавьте ключ ANTHROPIC_API_KEY в переменные окружения сервера.",
+  "UI-ASYAI-BLAD-ODMOWA": "Ассистент отказался отвечать на этот вопрос.",
+  "UI-ASYAI-BLAD-ZA-DLUGO": "Ассистент не завершил ответ за разумное число шагов — задайте вопрос проще.",
+  "UI-ASYAI-BLAD-OGOLNY": "ИИ-ассистент столкнулся с ошибкой — повторите попытку.",
 }

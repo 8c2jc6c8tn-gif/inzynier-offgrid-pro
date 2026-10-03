@@ -18,6 +18,7 @@ import Anthropic from "@anthropic-ai/sdk"
 import { createAnthropicClient } from "@/lib/adapters/ai/client"
 import { isAiConfigured } from "@/lib/adapters/ai/config"
 import { consoleReporter } from "@/lib/core/reporter"
+import { DEFAULT_LANGUAGE, isLanguage, type Language } from "@/lib/i18n/language"
 import { kalkulatoryPomocniczeTool } from "./tools/kalkulatory-pomocnicze-tool"
 import { zlaczaMc4Tool } from "./tools/zlacza-mc4-tool"
 import { przepustPowietrzaTool } from "./tools/przepust-powietrza-tool"
@@ -563,8 +564,15 @@ const NARZEDZIA: Array<AiToolDefinition<any, any>> = [
 ]
 for (const narzedzie of NARZEDZIA) validateAiToolDefinition(narzedzie)
 
+// The prompt itself stays Polish (the project's working language); only the reply language follows the UI.
+const JEZYK_ODPOWIEDZI: Record<Language, string> = {
+  pl: "w prostym, konkretnym języku polskim",
+  en: "in plain, concrete English",
+  ru: "на простом, конкретном русском языке (in plain, concrete Russian)",
+}
+
 const SYSTEM_PROMPT = `Jesteś asystentem w aplikacji inżynierskiej do projektowania systemów off-grid PV.
-Odpowiadasz w prostym, konkretnym języku polskim (docs/standards/08-ui-ux.md, 8.8) — bez straszenia,
+Odpowiadasz {JEZYK} (docs/standards/08-ui-ux.md, 8.8) — bez straszenia,
 bez udawania pewności, której nie masz.
 
 Zasady twarde (docs/standards/09-ai-w-produkcie.md, 9.1-9.2):
@@ -581,12 +589,14 @@ Zasady twarde (docs/standards/09-ai-w-produkcie.md, 9.1-9.2):
 
 const MAX_ITERACJI = 4
 
-export type WynikAsystenta = { odpowiedz: string; zrodlo?: string } | { blad: string }
+/** `bladKey` is a translation key (`UI-ASYAI-BLAD-*`), resolved to the UI language by the screen. */
+export type WynikAsystenta = { odpowiedz: string; zrodlo?: string } | { bladKey: string }
 
-export async function pytajAsystenta(pytanie: string): Promise<WynikAsystenta> {
-  if (!pytanie.trim()) return { blad: "Napisz pytanie." }
+export async function pytajAsystenta(pytanie: string, jezyk: string = DEFAULT_LANGUAGE): Promise<WynikAsystenta> {
+  const jezykOdpowiedzi: Language = isLanguage(jezyk) ? jezyk : DEFAULT_LANGUAGE
+  if (!pytanie.trim()) return { bladKey: "UI-ASYAI-BLAD-PUSTE-PYTANIE" }
   if (!isAiConfigured()) {
-    return { blad: "Asystent AI nie jest jeszcze skonfigurowany (brak ANTHROPIC_API_KEY w .env.local)." }
+    return { bladKey: "UI-ASYAI-BLAD-NIESKONFIGUROWANY" }
   }
 
   const client = createAnthropicClient()
@@ -600,13 +610,13 @@ export async function pytajAsystenta(pytanie: string): Promise<WynikAsystenta> {
         model: "claude-opus-5",
         max_tokens: 4096,
         output_config: { effort: "low" },
-        system: SYSTEM_PROMPT,
+        system: SYSTEM_PROMPT.replace("{JEZYK}", JEZYK_ODPOWIEDZI[jezykOdpowiedzi]),
         tools,
         messages,
       })
 
       if (response.stop_reason === "refusal") {
-        return { blad: "Asystent odmówił odpowiedzi na to pytanie." }
+        return { bladKey: "UI-ASYAI-BLAD-ODMOWA" }
       }
 
       const blokiNarzedzi = response.content.filter(
@@ -652,7 +662,7 @@ export async function pytajAsystenta(pytanie: string): Promise<WynikAsystenta> {
       messages.push({ role: "user", content: wynikiNarzedzi })
     }
 
-    return { blad: "Asystent nie zakończył odpowiedzi w rozsądnej liczbie kroków — spróbuj zadać pytanie prościej." }
+    return { bladKey: "UI-ASYAI-BLAD-ZA-DLUGO" }
   } catch (err) {
     consoleReporter.reportError({
       userMessage: "Asystent AI napotkał błąd — spróbuj ponownie.",
@@ -660,6 +670,6 @@ export async function pytajAsystenta(pytanie: string): Promise<WynikAsystenta> {
       source: "lib/ai/pytaj-asystenta",
       cause: err,
     })
-    return { blad: "Asystent AI napotkał błąd — spróbuj ponownie." }
+    return { bladKey: "UI-ASYAI-BLAD-OGOLNY" }
   }
 }
