@@ -2512,3 +2512,9 @@ Właściciel: pismo ma być tłumaczone (wcześniej komentarz w kodzie zakłada�
 
 - Krok 4: `check-i18n-guard` skanuje wszystkie `.ts` silników i katalogi pomocnicze (`e2af58bb`). Krok 2: tylko pomiar wierszy rejestru (322 `done`, nie ekrany) — T.1 nieprzeliczone.
 - Commit `9554a389` (zasada „najpierw lista gałęzi”) zniknął z gałęzi po przestawieniu na `origin/main` i nie był w `main`; przywrócony cherry-pickiem (`fe00ff77`).
+
+## 2026-10-03 — Archiwizacja `docs/lista-do-zrobienia.md` (pierwszy przebieg)
+
+- Procedura jak przy memory: 144 wpisy ✅, w których najpóźniejsza data wzmianki ≤ 26.09.2026, przeniesione 1:1 do `docs/lista-do-zrobienia-archiwum/` (5 plików + `INDEKS.md`). Lista aktywna: 326 → 213 KB; w niej zostają wszystkie wpisy otwarte (🔲 ⚠️ 🔄 ⏳ ✏️ itd.) niezależnie od wieku i ✅ z datą po 26.09.
+- Dowód bezstratności: multizbiór linii przed = po + archiwum, różnica tylko wskaźnik w nagłówku.
+- Pułapka: data w nagłówku wpisu to data otwarcia, a dopiski z późniejszymi datami (`[02.10]`) są w treści — dlatego kryterium to NAJPÓŹNIEJSZA data w całym wpisie, nie pierwsza. Wpisy 🔲/⚠️ z zamknięciem tylko w dopisku (dryf) nie były ruszane — wymagają ręcznej oceny.
