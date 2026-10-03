@@ -2507,3 +2507,8 @@ Właściciel: pismo ma być tłumaczone (wcześniej komentarz w kodzie zakłada�
 - Po poleceniu „sprawdź niescalone commity” sesja policzyła gałęzie od zera (po `--unshallow`: 5 gałęzi z łatkami spoza `main`) i ręcznie porównywała pliki, choć lista gałęzi-śmieci istniała w tym samym pliku (27.09/29.09). 4 z 5 sprawdzonych gałęzi były na liście (`laughing-faraday-lp6ytt`, `youthful-fermat-tbxoxg`, `sync-offgrid-standard-ucgqok`, `screen-fixes-new-documents-80kzcm`); wynik zgodny z listą (treść już w `main` w nowszej strukturze, scalenie cofnęłoby dokumenty).
 - Jedyna gałąź poza listą: `claude/pensive-noether-jq72ja` (02.10.2026, i18n `pv/czystosc-i-snieg`, 1 commit kodu `be47430c` + 2 scalenia `main`; scala się z `main` bez konfliktów) — praca innej sesji w toku, nie scalana bez decyzji właściciela.
 - Przyczyna powtórzenia: zasada „najpierw lista” leżała w sekcji z 27.09/29.09, nie w miejscu czytanym na starcie. Poprawka: punkt „Gałęzie zdalne” w Skrócie aktywnym (sekcja 1).
+
+## 2026-10-03 — Kroki 2 i 4 przekazania, przywrócenie zasady o gałęziach
+
+- Krok 4: `check-i18n-guard` skanuje wszystkie `.ts` silników i katalogi pomocnicze (`e2af58bb`). Krok 2: tylko pomiar wierszy rejestru (322 `done`, nie ekrany) — T.1 nieprzeliczone.
+- Commit `9554a389` (zasada „najpierw lista gałęzi”) zniknął z gałęzi po przestawieniu na `origin/main` i nie był w `main`; przywrócony cherry-pickiem (`fe00ff77`).
