@@ -44,7 +44,7 @@ export function calculateMocBierna(input: MocBiernaInput, dane: Rozliczenia = DA
   const k = wartoscNajdluzej(mb.krotnoscKNn.okresy, rok) as number
   const tgFi0Min = wartoscNajdluzej(mb.tgFi0Minimalny.okresy, rok) as number
   const inputs = { tgFi0: input.tgFi0, k, energiaCzynnaKwh: input.energiaCzynnaKwh }
-  const base = { unit: "zł", formula: FORMULA, inputs, calculatorVersion: CALCULATOR_VERSION }
+  const base = { unit: "zł", formula: FORMULA, formulaKey: "UI-FORMULA-SIEC-MOC-BIERNA", inputs, calculatorVersion: CALCULATOR_VERSION }
 
   const errors = validateInput(input, tgFi0Min)
   if (errors.length > 0) return { ...base, value: pusty, status: "INVALID_INPUT", assumptions: [], warnings: errors }

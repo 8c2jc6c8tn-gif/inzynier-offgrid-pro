@@ -49,7 +49,7 @@ function wariant(potrzebaWh: number, napiecieV: number, ah: number, cena: number
 export function calculateAkumulatorKampera(input: AkumulatorKamperaInput): CalcResult<AkumulatorKamperaResult> {
   const { errors } = validateInput(input)
   const inputs = { ...input }
-  const baza = { unit: "zł/kWh", formula: FORMULA, inputs, calculatorVersion: CALCULATOR_VERSION }
+  const baza = { unit: "zł/kWh", formula: FORMULA, formulaKey: "UI-FORMULA-KALKULATOR-MOBILNY-AKUMULATOR-KAMPERA", inputs, calculatorVersion: CALCULATOR_VERSION }
   if (errors.length > 0) return { ...baza, value: PUSTY_WYNIK, status: "INVALID_INPUT", assumptions: [], warnings: errors }
 
   const { zapasMasyKg, ...wymagane } = input

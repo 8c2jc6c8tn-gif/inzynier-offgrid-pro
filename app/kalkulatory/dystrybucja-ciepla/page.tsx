@@ -128,7 +128,7 @@ export default function DystrybucjaCieplaPage() {
           )}
           {v.oszczednoscZlRok !== null && <p className="mt-1 text-small">{t("UI-M6-DYS-WYNIK-ZL", { zl: Math.round(v.oszczednoscZlRok) })}</p>}
           {v.zwrotLat !== null && <p className="mt-1 text-small">{t("UI-M6-DYS-WYNIK-ZWROT", { lat: r1(v.zwrotLat) })}</p>}
-          <WynikSzczegoly assumptions={result.assumptions} warnings={result.warnings} formula={result.formula} />
+          <WynikSzczegoly assumptions={result.assumptions} warnings={result.warnings} formula={result.formula} formulaKey={result.formulaKey} formulaParams={result.formulaParams} />
         </WerdyktPanel>
       )}
 

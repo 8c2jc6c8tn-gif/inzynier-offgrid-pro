@@ -36,7 +36,7 @@ export function calculateDniAutonomii(input: DniAutonomiiInput): CalcResult<DniA
       value: pustyWynik,
       unit: "dni",
       status: "INVALID_INPUT",
-      formula: FORMULA,
+      formula: FORMULA, formulaKey: "UI-FORMULA-ZAPOTRZEBOWANIE-DNI-AUTONOMII",
       inputs,
       assumptions: [],
       warnings: errors,
@@ -49,7 +49,7 @@ export function calculateDniAutonomii(input: DniAutonomiiInput): CalcResult<DniA
       value: pustyWynik,
       unit: "dni",
       status: "INCOMPLETE",
-      formula: FORMULA,
+      formula: FORMULA, formulaKey: "UI-FORMULA-ZAPOTRZEBOWANIE-DNI-AUTONOMII",
       inputs,
       assumptions: [],
       warnings: [],
@@ -73,7 +73,7 @@ export function calculateDniAutonomii(input: DniAutonomiiInput): CalcResult<DniA
     value: { dniAutonomii: input.dniAutonomii, pojemnoscUzytecznaSzacowanaKwh },
     unit: "dni",
     status: "VALID",
-    formula: FORMULA,
+    formula: FORMULA, formulaKey: "UI-FORMULA-ZAPOTRZEBOWANIE-DNI-AUTONOMII",
     inputs,
     assumptions: (maDanePodMagazyn
       ? []

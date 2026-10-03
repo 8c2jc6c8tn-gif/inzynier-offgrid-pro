@@ -152,7 +152,7 @@ export default function WykrywanieAnomaliiPage() {
           <WynikGlowny>{t("UI-M10-AN-WYNIK", { pct: r1(v.odchyleniePct), kwh: r1(v.odchylenieKwh) })}</WynikGlowny>
           {v.przyczyna && <p className="mt-2 text-small">{t("UI-M10-AN-PRZYCZYNA", { p: t(ETYKIETA_PRZYCZYNY[v.przyczyna]) })}</p>}
           {v.nastepnyKrok && <p className="mt-2 text-small">{t("UI-M10-AN-NASTEPNY", { k: t(PYTANIE[v.nastepnyKrok]) })}</p>}
-          <WynikSzczegoly assumptions={result.assumptions} warnings={result.warnings} formula={result.formula} />
+          <WynikSzczegoly assumptions={result.assumptions} warnings={result.warnings} formula={result.formula} formulaKey={result.formulaKey} formulaParams={result.formulaParams} />
         </WerdyktPanel>
       )}
 

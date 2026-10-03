@@ -119,7 +119,7 @@ export default function ModelSezonowyPompyCieplaPage() {
           <div className="mt-3">
             <KartaPorownawcza kolumny={kolumny} wiersze={v.miesiace.map((m) => ({ ...m, id: m.miesiac }))} minWidth={360} />
           </div>
-          <WynikSzczegoly assumptions={result.assumptions} warnings={result.warnings} formula={result.formula} />
+          <WynikSzczegoly assumptions={result.assumptions} warnings={result.warnings} formula={result.formula} formulaKey={result.formulaKey} formulaParams={result.formulaParams} />
         </WerdyktPanel>
       )}
 

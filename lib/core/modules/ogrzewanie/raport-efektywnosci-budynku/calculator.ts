@@ -49,7 +49,7 @@ export function calculateRaportEfektywnosci(input: RaportEfektywnosciInput): Cal
     cenaZlKwh: input.cenaZlKwh,
     pozycje: input.pozycje.length,
   }
-  const baza = { unit: "%", formula: FORMULA, inputs, calculatorVersion: CALCULATOR_VERSION }
+  const baza = { unit: "%", formula: FORMULA, formulaKey: "UI-FORMULA-OGRZEWANIE-RAPORT-EFEKTYWNOSCI-BUDYNKU", inputs, calculatorVersion: CALCULATOR_VERSION }
   if (errors.length > 0) return { ...baza, value: PUSTY, status: "INVALID_INPUT", assumptions: [], warnings: errors }
   const sumaW = input.pozycje.reduce((s, p) => s + p.strataW, 0)
   if (sumaW === 0) return { ...baza, value: PUSTY, status: "INCOMPLETE", assumptions: [], warnings: [] }

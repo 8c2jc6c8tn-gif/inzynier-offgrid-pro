@@ -69,7 +69,7 @@ export function calculateWentylacjaPorownanie(input: WentylacjaPorownanieInput):
     cenaPraduZlKwh: input.cenaPraduZlKwh,
     doplataZl: input.doplataZl,
   }
-  const baza = { unit: "kWh/doba", formula: FORMULA, inputs, calculatorVersion: CALCULATOR_VERSION }
+  const baza = { unit: "kWh/doba", formula: FORMULA, formulaKey: "UI-FORMULA-OGRZEWANIE-WENTYLACJA-POROWNANIE", inputs, calculatorVersion: CALCULATOR_VERSION }
   if (errors.length > 0) return { ...baza, value: PUSTY, status: "INVALID_INPUT", assumptions: [], warnings: errors }
   if (input.tWewC === null || input.tZewnC === null || input.strumienNaturalnyM3H === 0 || input.strumienMechanicznyM3H === 0) {
     return { ...baza, value: PUSTY, status: "INCOMPLETE", assumptions: [], warnings: [] }

@@ -165,7 +165,7 @@ export default function KonfiguratorStringowPage() {
             {result.value.voltageV.toFixed(1)} V{" \u00a0/\u00a0 "}{result.value.currentA.toFixed(2)} A
           </WynikGlowny>
         )}
-        <WynikSzczegoly assumptions={result.assumptions} warnings={result.warnings} formula={result.formula} />
+        <WynikSzczegoly assumptions={result.assumptions} warnings={result.warnings} formula={result.formula} formulaKey={result.formulaKey} formulaParams={result.formulaParams} />
       </WerdyktPanel>
     </main>
   )

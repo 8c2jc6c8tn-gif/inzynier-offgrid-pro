@@ -127,7 +127,7 @@ export default function DoborIzolacjiKablaPage() {
         {verdict !== "invalid" && verdict !== "incomplete" && (
           <WynikGlowny>{t("UI-DOBIZOKAB-IZOLACJA-WYTRZYMUJE", { maksTemperaturaIzolacjiC: result.value.maksTemperaturaIzolacjiC })}</WynikGlowny>
         )}
-        <WynikSzczegoly assumptions={result.assumptions} warnings={result.warnings} formula={result.formula} />
+        <WynikSzczegoly assumptions={result.assumptions} warnings={result.warnings} formula={result.formula} formulaKey={result.formulaKey} formulaParams={result.formulaParams} />
       </WerdyktPanel>
     </main>
   )

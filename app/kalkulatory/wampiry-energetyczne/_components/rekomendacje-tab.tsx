@@ -130,7 +130,7 @@ export function RekomendacjeTab({
             <WynikSzczegoly
               assumptions={wynikPorownanie.assumptions}
               warnings={wynikPorownanie.warnings.map((w) => ({ ...w, params: tlumaczParamsEtykiet(t, w.params, WPISY_METODY) }))}
-              formula={wynikPorownanie.formula}
+              formula={wynikPorownanie.formula} formulaKey={wynikPorownanie.formulaKey} formulaParams={wynikPorownanie.formulaParams}
             />
           </WerdyktPanel>
         )}

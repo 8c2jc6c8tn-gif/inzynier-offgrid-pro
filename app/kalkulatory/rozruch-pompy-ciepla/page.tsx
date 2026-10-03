@@ -118,7 +118,7 @@ export default function RozruchPompyCieplaPage() {
           {v.softstartKva !== null && <p className="mt-1 text-small">{t("UI-M6-ROZ-WYNIK-SOFT", { soft: r2(v.softstartKva) })}</p>}
           <p className="mt-1 text-small">{t("UI-M6-ROZ-WYNIK-SZCZYT", { kva: r2(v.szczytWymaganyKva) })}</p>
           <p className="mt-1 text-small">{t("UI-M6-ROZ-WYNIK-PRACA", { kw: r2(v.pracaKw) })}</p>
-          <WynikSzczegoly assumptions={result.assumptions} warnings={result.warnings} formula={result.formula} />
+          <WynikSzczegoly assumptions={result.assumptions} warnings={result.warnings} formula={result.formula} formulaKey={result.formulaKey} formulaParams={result.formulaParams} />
         </WerdyktPanel>
       )}
 

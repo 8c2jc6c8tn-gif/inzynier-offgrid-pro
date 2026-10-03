@@ -82,7 +82,7 @@ export default function RaportBezpieczenstwaMalyPage() {
         >
           <WynikGlowny>{t("UI-M12-RB-WYNIK", { pct: Math.round(v.procentBezpieczenstwa) })}</WynikGlowny>
           <p className="mt-1 text-small">{t("UI-M12-RB-LICZNIKI", { ok: v.liczbaOk, bledy: v.liczbaBledow, brak: v.liczbaNiesprawdzonych })}</p>
-          <WynikSzczegoly assumptions={result.assumptions} warnings={result.warnings} formula={result.formula} />
+          <WynikSzczegoly assumptions={result.assumptions} warnings={result.warnings} formula={result.formula} formulaKey={result.formulaKey} formulaParams={result.formulaParams} />
         </WerdyktPanel>
       )}
     </main>

@@ -18,10 +18,14 @@ export function WynikSzczegoly({
   assumptions,
   warnings,
   formula,
+  formulaKey,
+  formulaParams,
 }: {
   assumptions: Assumption[]
   warnings?: Warning[]
   formula?: string
+  formulaKey?: string
+  formulaParams?: Record<string, string | number>
 }) {
   const t = useTranslate()
 
@@ -41,7 +45,7 @@ export function WynikSzczegoly({
         </ul>
       )}
 
-      {formula && <p className="mt-3 font-mono text-caption opacity-70">{formula}</p>}
+      {formula && <p className="mt-3 font-mono text-caption opacity-70">{formulaKey ? t(formulaKey, formulaParams) : formula}</p>}
     </>
   )
 }

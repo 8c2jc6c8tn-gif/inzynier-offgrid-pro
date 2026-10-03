@@ -154,7 +154,7 @@ export default function ArchitekturaKomunikacjiPage() {
           etykieta={hasCritical ? t("UI-ARCKOM-PORT-ESP32-ZOSTANIE") : hasWarning ? t("UI-ARCKOM-KONFLIKTY-MAGISTRALI") : t("UI-ARCKOM-ARCHITEKTURA-POPRAWNA")}
         >
           <WynikGlowny>{t("UI-ARCKOM-PROBLEMY", { liczbaProblemow: result.value.liczbaProblemow })}</WynikGlowny>
-          <WynikSzczegoly assumptions={result.assumptions} warnings={result.warnings} formula={result.formula} />
+          <WynikSzczegoly assumptions={result.assumptions} warnings={result.warnings} formula={result.formula} formulaKey={result.formulaKey} formulaParams={result.formulaParams} />
         </WerdyktPanel>
       )}
 

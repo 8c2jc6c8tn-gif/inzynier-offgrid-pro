@@ -42,7 +42,7 @@ export function calculateWyborPlytki(input: WyborPlytkiInput): CalcResult<WyborP
     unit: "",
     // Info never raises the status (Directive #6).
     status: input.zasilanie === null ? "INCOMPLETE" : "VALID",
-    formula: FORMULA,
+    formula: FORMULA, formulaKey: "UI-FORMULA-ESP32-WYBOR-PLYTKI",
     inputs: { liczbaPotrzeb, dopasowaniaMax: najlepsze },
     assumptions: [],
     warnings,

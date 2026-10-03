@@ -128,7 +128,7 @@ export default function ColdCrankingAmpsPage() {
           etykieta={poziom === "ok" ? t("UI-COLCRAAMP-FALOWNIK-UTRZYMA-NAPIECIE") : t("UI-COLCRAAMP-FALOWNIK-WYLACZY")}
         >
           <WynikGlowny>{result.value.vSagV.toFixed(1)} V</WynikGlowny>
-          <WynikSzczegoly assumptions={result.assumptions} warnings={result.warnings} formula={result.formula} />
+          <WynikSzczegoly assumptions={result.assumptions} warnings={result.warnings} formula={result.formula} formulaKey={result.formulaKey} formulaParams={result.formulaParams} />
         </WerdyktPanel>
       )}
     </main>

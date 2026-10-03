@@ -93,7 +93,7 @@ export default function NapiecieOdcieciaAZywotnoscPage() {
           <p className="mt-1 text-small">
             {t("UI-NAPODCAZYW-OGNIWO", { napiecieOgniwaV: result.value.napiecieOgniwaV.toFixed(3), liczbaOgniwSzeregowo: stan.liczbaOgniwSzeregowo })}
           </p>
-          <WynikSzczegoly assumptions={result.assumptions} warnings={result.warnings} formula={result.formula} />
+          <WynikSzczegoly assumptions={result.assumptions} warnings={result.warnings} formula={result.formula} formulaKey={result.formulaKey} formulaParams={result.formulaParams} />
         </WerdyktPanel>
       )}
     </main>

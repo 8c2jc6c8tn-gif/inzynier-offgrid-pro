@@ -90,7 +90,7 @@ export default function BlackoutPage() {
             {padnie && dodatkowaPojemnoscKwh !== null && <li>{t("UI-BLA-BRAKUJE-KWH-BATERII", { p: f0(Math.ceil(dodatkowaPojemnoscKwh)) })}</li>}
             {padnie && redukcjaZuzyciaPct !== null && <li>{t("UI-BLA-ALBO-OGRANICZENIE-ZUZYCIA", { p: f0(Math.ceil(redukcjaZuzyciaPct)) })}</li>}
           </ul>
-          <WynikSzczegoly assumptions={result.assumptions} warnings={result.warnings} formula={result.formula} />
+          <WynikSzczegoly assumptions={result.assumptions} warnings={result.warnings} formula={result.formula} formulaKey={result.formulaKey} formulaParams={result.formulaParams} />
         </WerdyktPanel>
       )}
     </main>

@@ -151,7 +151,7 @@ export default function LaczeniePaneliPrzenosnychPage() {
           poziom={hasCritical ? "blad" : hasWarning ? "uwaga" : "ok"}
           etykieta={t(hasCritical ? "UI-M12-LPP-W-STOP" : hasWarning ? "UI-M12-LPP-W-UWAGA" : "UI-M12-LPP-W-OK")}
         >
-          <WynikSzczegoly assumptions={result.assumptions} warnings={result.warnings} formula={result.formula} />
+          <WynikSzczegoly assumptions={result.assumptions} warnings={result.warnings} formula={result.formula} formulaKey={result.formulaKey} formulaParams={result.formulaParams} />
           <p className="mt-2 text-small">
             <Link className="underline" href="/kalkulatory/panel-do-stacji-zasilania">
               {t("UI-M12-LPP-LINK-E39")}

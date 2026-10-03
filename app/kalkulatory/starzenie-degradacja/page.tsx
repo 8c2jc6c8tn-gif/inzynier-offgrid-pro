@@ -142,7 +142,7 @@ export default function StarzenieDegradacjaPage() {
             </Link>
             .
           </p>
-          <WynikSzczegoly assumptions={result.assumptions} formula={result.formula} />
+          <WynikSzczegoly assumptions={result.assumptions} formula={result.formula} formulaKey={result.formulaKey} formulaParams={result.formulaParams} />
         </WerdyktPanel>
       )}
     </main>

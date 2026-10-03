@@ -93,7 +93,7 @@ export default function WyborPlytkiEsp32Page() {
           )}
         >
           <WynikGlowny>{rekomendacja.length === 0 ? t("UI-M9-E1-DOWOLNA") : rekomendacja.map(nazwa).join(" / ")}</WynikGlowny>
-          <WynikSzczegoly assumptions={result.assumptions} warnings={result.warnings} formula={result.formula} />
+          <WynikSzczegoly assumptions={result.assumptions} warnings={result.warnings} formula={result.formula} formulaKey={result.formulaKey} formulaParams={result.formulaParams} />
         </WerdyktPanel>
       )}
 

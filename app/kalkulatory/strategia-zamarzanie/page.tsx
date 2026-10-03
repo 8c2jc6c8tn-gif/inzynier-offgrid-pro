@@ -170,7 +170,7 @@ export default function StrategiaZamarzaniePage() {
             {czasEtapuAH !== null && <li>{t("UI-STRZAM-WAZNYMI-SOC", { czasEtapuAH: f1(czasEtapuAH) })}</li>}
             {czasEtapuBH !== null && <li>{t("UI-STRZAM-SAME-KRYTYCZNE", { czasEtapuBH: f1(czasEtapuBH) })}</li>}
           </ul>
-          <WynikSzczegoly assumptions={result.assumptions} warnings={result.warnings} formula={result.formula} />
+          <WynikSzczegoly assumptions={result.assumptions} warnings={result.warnings} formula={result.formula} formulaKey={result.formulaKey} formulaParams={result.formulaParams} />
         </WerdyktPanel>
       )}
     </main>

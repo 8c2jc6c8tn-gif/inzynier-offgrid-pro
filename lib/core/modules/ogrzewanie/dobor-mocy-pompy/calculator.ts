@@ -88,7 +88,7 @@ export function calculateDoborMocyPompy(input: DoborMocyPompyInput): CalcResult<
     tDrugiC: input.tDrugiC ?? 0,
     mocPompyDrugiKw: input.mocPompyDrugiKw,
   }
-  const baza = { unit: "kW", formula: FORMULA, inputs, calculatorVersion: CALCULATOR_VERSION }
+  const baza = { unit: "kW", formula: FORMULA, formulaKey: "UI-FORMULA-OGRZEWANIE-DOBOR-MOCY-POMPY", inputs, calculatorVersion: CALCULATOR_VERSION }
   if (errors.length > 0) return { ...baza, value: PUSTY, status: "INVALID_INPUT", assumptions: [], warnings: errors }
   if (input.zapotrzebowanieKw === 0 || input.mocPompyProjKw === 0) {
     return { ...baza, value: PUSTY, status: "INCOMPLETE", assumptions: [], warnings: [] }

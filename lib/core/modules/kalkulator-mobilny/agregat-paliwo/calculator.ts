@@ -51,7 +51,7 @@ export function calculateAgregatPaliwo(input: AgregatPaliwoInput): CalcResult<Ag
     cenaZlL: input.cenaZlL,
     kosztPorownawczyZlKwh: input.kosztPorownawczyZlKwh,
   }
-  const baza = { unit: "l", formula: FORMULA, inputs, calculatorVersion: CALCULATOR_VERSION }
+  const baza = { unit: "l", formula: FORMULA, formulaKey: "UI-FORMULA-KALKULATOR-MOBILNY-AGREGAT-PALIWO", inputs, calculatorVersion: CALCULATOR_VERSION }
   if (errors.length > 0) return { ...baza, value: PUSTY_WYNIK, status: "INVALID_INPUT", assumptions: [], warnings: errors }
 
   if (

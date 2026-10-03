@@ -167,7 +167,7 @@ export default function OchronaStringowPage() {
             {result.value.inMinA.toFixed(2)}–{result.value.inMaxA.toFixed(2)} A
           </WynikGlowny>
         )}
-        <WynikSzczegoly assumptions={result.assumptions} warnings={result.warnings} formula={result.formula} />
+        <WynikSzczegoly assumptions={result.assumptions} warnings={result.warnings} formula={result.formula} formulaKey={result.formulaKey} formulaParams={result.formulaParams} />
       </WerdyktPanel>
     </main>
   )

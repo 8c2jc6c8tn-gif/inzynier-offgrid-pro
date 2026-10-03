@@ -165,7 +165,7 @@ export default function WplywCzynnikaPage() {
               {t(w.klucz, paramsDoWyswietlenia(w.params))}
             </p>
           ))}
-          <WynikSzczegoly assumptions={result.assumptions} warnings={result.warnings} formula={result.formula} />
+          <WynikSzczegoly assumptions={result.assumptions} warnings={result.warnings} formula={result.formula} formulaKey={result.formulaKey} formulaParams={result.formulaParams} />
         </WerdyktPanel>
       )}
 

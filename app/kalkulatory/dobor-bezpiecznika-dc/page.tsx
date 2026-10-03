@@ -122,7 +122,7 @@ export default function DoborBezpiecznikaDcPage() {
         {result.status !== "INVALID_INPUT" && (
           <WynikGlowny>I_zw = {result.value.pradZwarciowyA.toLocaleString("pl-PL")} A</WynikGlowny>
         )}
-        <WynikSzczegoly assumptions={result.assumptions} warnings={result.warnings} formula={result.formula} />
+        <WynikSzczegoly assumptions={result.assumptions} warnings={result.warnings} formula={result.formula} formulaKey={result.formulaKey} formulaParams={result.formulaParams} />
       </WerdyktPanel>
     </main>
   )

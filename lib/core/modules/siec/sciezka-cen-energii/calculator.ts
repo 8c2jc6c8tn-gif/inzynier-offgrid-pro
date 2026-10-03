@@ -98,7 +98,7 @@ export function calculateSciezkaCen(
     inflacjaProcent: null,
   }
   const inputs = { rokBazowy: input.rokBazowy, horyzontLat: input.horyzontLat, kosztRocznyZl: input.kosztRocznyZl }
-  const base = { unit: "zł", formula: FORMULA, inputs, calculatorVersion: CALCULATOR_VERSION }
+  const base = { unit: "zł", formula: FORMULA, formulaKey: "UI-FORMULA-SIEC-SCIEZKA-CEN-ENERGII", inputs, calculatorVersion: CALCULATOR_VERSION }
 
   const errors = validateInput(input)
   if (errors.length > 0) {

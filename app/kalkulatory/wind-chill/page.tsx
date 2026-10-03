@@ -116,7 +116,7 @@ export default function WindChillPage() {
       ) : (
         <WerdyktPanel poziom="ok" etykieta={t("UI-WINCHI-TEMPERATURA-ODCZUWALNA")}>
           <WynikGlowny>{result.value.temperaturaOdczuwalnaC.toFixed(1)} °C</WynikGlowny>
-          <WynikSzczegoly assumptions={result.assumptions} formula={result.formula} />
+          <WynikSzczegoly assumptions={result.assumptions} formula={result.formula} formulaKey={result.formulaKey} formulaParams={result.formulaParams} />
         </WerdyktPanel>
       )}
     </main>

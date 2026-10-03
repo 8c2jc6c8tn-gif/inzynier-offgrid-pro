@@ -24,7 +24,7 @@ export function calculateOswietlenieAwaryjne(input: OswietlenieAwaryjneInput): C
     value,
     unit: "szt.",
     status,
-    formula: FORMULA,
+    formula: FORMULA, formulaKey: "UI-FORMULA-BEZPIECZENSTWO-OSWIETLENIE-AWARYJNE",
     inputs,
     assumptions: [],
     warnings,

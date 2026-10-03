@@ -187,7 +187,7 @@ export function SekcjaCrl() {
       {wynik.status === "INCOMPLETE" && <p className="text-small text-muted-foreground">{t("UI-OCHPRZSPD-SEKCRL-WYBIERZ-OTOCZENIE-WPISZ")}</p>}
       {wynik.status === "INVALID_INPUT" && (
         <WerdyktPanel poziom="blad" etykieta={t("UI-OCHPRZSPD-SEKCRL-SPRAWDZ-DANE")}>
-          <WynikSzczegoly assumptions={[]} warnings={wynik.warnings} formula={wynik.formula} />
+          <WynikSzczegoly assumptions={[]} warnings={wynik.warnings} formula={wynik.formula} formulaKey={wynik.formulaKey} formulaParams={wynik.formulaParams} />
         </WerdyktPanel>
       )}
       {v && (
@@ -205,7 +205,7 @@ export function SekcjaCrl() {
               <strong>{t("UI-CRL-ZALECENIE-S")}</strong> {t("UI-CRL-ZALECENIE")}
             </p>
           )}
-          <WynikSzczegoly assumptions={wynik.assumptions} warnings={wynik.warnings} formula={wynik.formula} />
+          <WynikSzczegoly assumptions={wynik.assumptions} warnings={wynik.warnings} formula={wynik.formula} formulaKey={wynik.formulaKey} formulaParams={wynik.formulaParams} />
         </WerdyktPanel>
       )}
     </section>

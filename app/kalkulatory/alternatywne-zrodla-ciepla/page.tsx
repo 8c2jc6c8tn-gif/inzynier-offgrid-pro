@@ -195,7 +195,7 @@ export default function AlternatywneZrodlaCieplaPage() {
           {v.pokrycieZapotrzebowaniaPct !== null && <p className="mt-1 text-small">{t("UI-M6-ALT-POKRYCIE", { pct: Math.round(v.pokrycieZapotrzebowaniaPct) })}</p>}
           {v.kominekPokrycieRazemPct !== null && <p className="mt-1 text-small">{t("UI-M6-ALT-POKRYCIE-RAZEM", { pct: Math.round(v.kominekPokrycieRazemPct) })}</p>}
           {v.rownowaznikWodyL !== null && <p className="mt-1 text-small">{t("UI-M6-ALT-PCM-WODA", { l: Math.round(v.rownowaznikWodyL), dt: r1(liczba(stan.buforDeltaTK)) })}</p>}
-          <WynikSzczegoly assumptions={result.assumptions} warnings={result.warnings} formula={result.formula} />
+          <WynikSzczegoly assumptions={result.assumptions} warnings={result.warnings} formula={result.formula} formulaKey={result.formulaKey} formulaParams={result.formulaParams} />
         </WerdyktPanel>
       )}
 

@@ -61,7 +61,7 @@ export function calculateWentylacjaGrawitacyjna(
     sprawnoscOdzyskuPct: input.sprawnoscOdzyskuPct,
     dni: input.dni,
   }
-  const baza = { unit: "kWh/doba", formula: FORMULA, inputs, calculatorVersion: CALCULATOR_VERSION }
+  const baza = { unit: "kWh/doba", formula: FORMULA, formulaKey: "UI-FORMULA-OGRZEWANIE-WENTYLACJA-GRAWITACYJNA", inputs, calculatorVersion: CALCULATOR_VERSION }
   if (errors.length > 0) return { ...baza, value: PUSTY, status: "INVALID_INPUT", assumptions: [], warnings: errors }
   if (input.tWewC === null || input.tZewnC === null || input.kubaturaM3 === 0 || input.wymianyNaDobe === 0) {
     return { ...baza, value: PUSTY, status: "INCOMPLETE", assumptions: [], warnings: [] }

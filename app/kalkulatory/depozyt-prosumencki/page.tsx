@@ -164,7 +164,7 @@ export default function DepozytProsumenckiPage() {
               {t("UI-DEPPRO-KWH-ODDANA-WART", { p: (v.wspolczynnikBilansowania * 100).toLocaleString("pl-PL", { maximumFractionDigits: 0 }) })}
             </p>
           )}
-          <WynikSzczegoly assumptions={result.assumptions} warnings={result.warnings} formula={result.formula} />
+          <WynikSzczegoly assumptions={result.assumptions} warnings={result.warnings} formula={result.formula} formulaKey={result.formulaKey} formulaParams={result.formulaParams} />
         </WerdyktPanel>
       )}
     </main>

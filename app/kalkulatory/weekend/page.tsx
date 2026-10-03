@@ -159,7 +159,7 @@ export default function WeekendPage() {
           {v.produkcjaPaneluDobaWh > 0 && (
             <p className="mt-1 text-small">{t("UI-M12-WK-PANEL-WYNIK", { wh: Math.round(v.produkcjaPaneluDobaWh), bilans: Math.round(v.bilansPobytuWh) })}</p>
           )}
-          <WynikSzczegoly assumptions={result.assumptions} warnings={result.warnings} formula={result.formula} />
+          <WynikSzczegoly assumptions={result.assumptions} warnings={result.warnings} formula={result.formula} formulaKey={result.formulaKey} formulaParams={result.formulaParams} />
         </WerdyktPanel>
       )}
     </main>

@@ -91,7 +91,7 @@ export default function OslonyPrzeciwslonecznePage() {
           <WynikGlowny>{t("UI-M6-OSL-WYNIK", { lato: Math.round(v.zacienienieLatoPct), zima: Math.round(v.zacienienieZimaPct) })}</WynikGlowny>
           <p className="mt-1 text-small">{t("UI-M6-OSL-SLONCE", { lato: r1(v.wysokoscLatoDeg), zima: r1(v.wysokoscZimaDeg) })}</p>
           <p className="mt-1 text-small">{t("UI-M6-OSL-WYSIEGI", { pelny: r2(v.wysiegPelnyCienLatoM), max: r2(v.wysiegMaxBezCieniaZimaM) })}</p>
-          <WynikSzczegoly assumptions={result.assumptions} warnings={result.warnings} formula={result.formula} />
+          <WynikSzczegoly assumptions={result.assumptions} warnings={result.warnings} formula={result.formula} formulaKey={result.formulaKey} formulaParams={result.formulaParams} />
         </WerdyktPanel>
       )}
 

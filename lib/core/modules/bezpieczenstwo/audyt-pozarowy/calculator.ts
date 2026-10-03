@@ -25,7 +25,7 @@ export function calculateAuditPozarowy(items: AuditCheckItem[]): CalcResult<Audi
       value: { procentGotowosci: 0, liczbaOk: 0, liczbaOstrzezen: 0, liczbaKrytycznych: 0, razem: 0 },
       unit: "%",
       status: "INCOMPLETE",
-      formula: "gotowość = OK / razem",
+      formula: "gotowość = OK / razem", formulaKey: "UI-FORMULA-BEZPIECZENSTWO-AUDYT-POZAROWY",
       inputs: { razem: 0 },
       assumptions: [],
       warnings: [],
@@ -42,7 +42,7 @@ export function calculateAuditPozarowy(items: AuditCheckItem[]): CalcResult<Audi
     value: { procentGotowosci, liczbaOk, liczbaOstrzezen, liczbaKrytycznych, razem },
     unit: "%",
     status: liczbaOstrzezen + liczbaKrytycznych > 0 ? "VALID_WITH_WARNINGS" : "VALID",
-    formula: "gotowość = OK / razem",
+    formula: "gotowość = OK / razem", formulaKey: "UI-FORMULA-BEZPIECZENSTWO-AUDYT-POZAROWY",
     inputs: { razem, liczbaOk, liczbaOstrzezen, liczbaKrytycznych },
     assumptions: [
       { kod: "AUDYT-ZALOZENIE-DANE-DEMO" },

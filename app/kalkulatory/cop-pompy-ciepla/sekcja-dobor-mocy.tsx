@@ -121,7 +121,7 @@ export function SekcjaDoborMocy() {
             <li>{t("UI-M6D-DMP-POKRYCIE", { pompa: r1(v.pokryciePompaPct), dogrzewanie: r1(v.pokrycieDogrzewaniePct) })}</li>
             {v.punktBiwalentnyC !== null && <li>{t("UI-M6D-DMP-BIWALENTNY", { t: r1(v.punktBiwalentnyC) })}</li>}
           </ul>
-          <WynikSzczegoly assumptions={result.assumptions} warnings={result.warnings} formula={result.formula} />
+          <WynikSzczegoly assumptions={result.assumptions} warnings={result.warnings} formula={result.formula} formulaKey={result.formulaKey} formulaParams={result.formulaParams} />
         </WerdyktPanel>
       )}
       <Link href="/kalkulatory/bufor-ciepla" className="text-small underline">

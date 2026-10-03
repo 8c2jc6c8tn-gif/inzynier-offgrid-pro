@@ -73,7 +73,7 @@ export function SekcjaPrzeplyw() {
         >
           <WynikGlowny>{t("UI-M6D-PRZ-WYNIK", { m3h: r2(v.wymaganyM3H), lmin: r1(v.wymaganyLMin) })}</WynikGlowny>
           {v.rzeczywistyDTK !== null && <p className="mt-1 text-small">{t("UI-M6D-PRZ-RZECZYWISTE-DT", { dt: r1(v.rzeczywistyDTK) })}</p>}
-          <WynikSzczegoly assumptions={result.assumptions} warnings={result.warnings} formula={result.formula} />
+          <WynikSzczegoly assumptions={result.assumptions} warnings={result.warnings} formula={result.formula} formulaKey={result.formulaKey} formulaParams={result.formulaParams} />
         </WerdyktPanel>
       )}
     </section>

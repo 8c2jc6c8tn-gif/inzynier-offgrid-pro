@@ -119,7 +119,7 @@ export default function RezygnacjaZPrzylaczaPage() {
         ) : (
           <WerdyktPanel poziom={poziomWerdyktu(result.status, result.warnings) ?? "uwaga"} etykieta={t("UI-REZ-POWROT")}>
             <WynikGlowny>{v.kosztNettoZl === null ? t("UI-REZ-WYCENA-INDYW") : t("UI-REZ-OK-NETTO", { kwota: zl(v.kosztNettoZl) })}</WynikGlowny>
-            <WynikSzczegoly assumptions={result.assumptions} warnings={result.warnings} formula={result.formula} />
+            <WynikSzczegoly assumptions={result.assumptions} warnings={result.warnings} formula={result.formula} formulaKey={result.formulaKey} formulaParams={result.formulaParams} />
           </WerdyktPanel>
         )}
         <p className="text-small text-muted-foreground">

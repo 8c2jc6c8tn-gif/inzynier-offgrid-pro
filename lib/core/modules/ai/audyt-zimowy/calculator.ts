@@ -36,7 +36,7 @@ export function calculateAudytZimowy(input: AudytZimowyInput): CalcResult<AudytZ
     zapasPaliwaL: input.zapasPaliwaL ?? Number.NaN,
     wymaganyZapasL: input.wymaganyZapasL ?? Number.NaN,
   }
-  const baza = { unit: "", formula: FORMULA, inputs, calculatorVersion: CALCULATOR_VERSION }
+  const baza = { unit: "", formula: FORMULA, formulaKey: "UI-FORMULA-AI-AUDYT-ZIMOWY", inputs, calculatorVersion: CALCULATOR_VERSION }
   const errors = validateInput(input)
   if (errors.length > 0) return { ...baza, value: PUSTY, status: "INVALID_INPUT", assumptions: [], warnings: errors }
 

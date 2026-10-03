@@ -106,7 +106,7 @@ export default function ArchitekturaFazowaPage() {
           <p className="mt-2 text-small text-muted-foreground">
             {t("UI-ARCFAZ-ZRODLO-PODAJE-LICZBOWEGO")}
           </p>
-          <WynikSzczegoly assumptions={result.assumptions} formula={result.formula} />
+          <WynikSzczegoly assumptions={result.assumptions} formula={result.formula} formulaKey={result.formulaKey} formulaParams={result.formulaParams} />
         </WerdyktPanel>
       )}
     </main>

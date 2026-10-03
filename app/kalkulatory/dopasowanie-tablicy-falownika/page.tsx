@@ -255,7 +255,7 @@ export default function DopasowanieTablicyFalownikaPage() {
           <p className="mt-2 text-small">
             {t("UI-DOPTABFAL-NAPIECIE-ZIMOWE-NAPIECIE", { vStringColdV: result.value.vStringColdV.toFixed(1), vStringStcV: result.value.vStringStcV.toFixed(1), iStringA: result.value.iStringA.toFixed(1), mocPvW: result.value.mocPvW.toFixed(0) })}
           </p>
-          <WynikSzczegoly assumptions={result.assumptions} warnings={result.warnings} formula={result.formula} />
+          <WynikSzczegoly assumptions={result.assumptions} warnings={result.warnings} formula={result.formula} formulaKey={result.formulaKey} formulaParams={result.formulaParams} />
         </WerdyktPanel>
       )}
     </main>

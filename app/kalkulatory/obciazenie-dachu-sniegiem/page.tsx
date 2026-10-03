@@ -196,7 +196,7 @@ export default function ObciazenieDachuSniegiemPage() {
               {v.wykorzystanieAktualnePct !== null && ` ${t("UI-OBCDACSNI-NOSNOSCI", { wykorzystanieAktualnePct: f0(v.wykorzystanieAktualnePct) })}`}
             </p>
           )}
-          <WynikSzczegoly assumptions={result.assumptions} warnings={result.warnings} formula={result.formula} />
+          <WynikSzczegoly assumptions={result.assumptions} warnings={result.warnings} formula={result.formula} formulaKey={result.formulaKey} formulaParams={result.formulaParams} />
         </WerdyktPanel>
       )}
     </main>

@@ -157,7 +157,7 @@ export default function SezonowoscPage() {
       ) : (
         <WerdyktPanel poziom="ok" etykieta={result.value.aktywne ? t("UI-SEZ-AKTYWNE-TYM-OKRESIE") : t("UI-SEZ-NIEAKTYWNE-TYM-OKRESIE")}>
           <WynikGlowny>{t("UI-SEZ-KWH-DOBE", { zapotrzebowanieWliczoneKwhDoba: result.value.zapotrzebowanieWliczoneKwhDoba.toFixed(2) })}</WynikGlowny>
-          <WynikSzczegoly assumptions={result.assumptions} warnings={result.warnings} formula={result.formula} />
+          <WynikSzczegoly assumptions={result.assumptions} warnings={result.warnings} formula={result.formula} formulaKey={result.formulaKey} formulaParams={result.formulaParams} />
         </WerdyktPanel>
       )}
     </main>

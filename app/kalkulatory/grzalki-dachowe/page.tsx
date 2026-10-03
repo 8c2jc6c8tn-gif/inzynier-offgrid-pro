@@ -125,7 +125,7 @@ export default function GrzalkiDachowePage() {
         >
           <WynikGlowny>{f0(result.value.mocW)} W</WynikGlowny>
           <p className="mt-1 text-small">{t("UI-GRZDAC-KWH-DOBE-PRACY", { energiaKwhDoba: f2(result.value.energiaKwhDoba) })}</p>
-          <WynikSzczegoly assumptions={result.assumptions} warnings={result.warnings} formula={result.formula} />
+          <WynikSzczegoly assumptions={result.assumptions} warnings={result.warnings} formula={result.formula} formulaKey={result.formulaKey} formulaParams={result.formulaParams} />
         </WerdyktPanel>
       )}
     </main>

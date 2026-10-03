@@ -158,7 +158,7 @@ export default function OchronaPrzepieciowaSpdPage() {
             {result.value.typWymagany}, Uc ≥ {result.value.ucMinimalneV.toFixed(0)} V
           </WynikGlowny>
         )}
-        <WynikSzczegoly assumptions={result.assumptions} warnings={result.warnings} formula={result.formula} />
+        <WynikSzczegoly assumptions={result.assumptions} warnings={result.warnings} formula={result.formula} formulaKey={result.formulaKey} formulaParams={result.formulaParams} />
       </WerdyktPanel>
 
       <SekcjaCrl />

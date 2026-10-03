@@ -111,7 +111,7 @@ export default function PanelKamperaPage() {
         <WerdyktPanel poziom={hasWarning ? "uwaga" : "ok"} etykieta={t(hasWarning ? "UI-M12-PK-W-UWAGA" : "UI-M12-PK-W-OK")}>
           <p className="text-small">{t("UI-M12-PK-WIERSZ-ELASTYCZNY", wiersz(v.elastyczny))}</p>
           <p className="mt-1 text-small">{t("UI-M12-PK-WIERSZ-SZTYWNY", wiersz(v.sztywny))}</p>
-          <WynikSzczegoly assumptions={result.assumptions} warnings={result.warnings} formula={result.formula} />
+          <WynikSzczegoly assumptions={result.assumptions} warnings={result.warnings} formula={result.formula} formulaKey={result.formulaKey} formulaParams={result.formulaParams} />
           <p className="mt-2 text-small">
             <Link className="underline" href="/kalkulatory/wplyw-temperatury">
               {t("UI-M12-PK-LINK-TEMPERATURA")}

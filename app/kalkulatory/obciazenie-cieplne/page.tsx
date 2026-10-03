@@ -250,7 +250,7 @@ export default function ObciazenieCieplnePage() {
               <KartaPorownawcza kolumny={kolumnyMiesiecy} wiersze={v.miesiace.map((m) => ({ ...m, id: m.miesiac }))} minWidth={320} />
             </div>
           )}
-          <WynikSzczegoly assumptions={wynik.assumptions} warnings={wynik.warnings} formula={wynik.formula} />
+          <WynikSzczegoly assumptions={wynik.assumptions} warnings={wynik.warnings} formula={wynik.formula} formulaKey={wynik.formulaKey} formulaParams={wynik.formulaParams} />
           <p className="mt-2 text-small">
             {t("UI-OBCCIE-DALEJ")}{" "}
             <Link href="/kalkulatory/zapotrzebowanie-co-cwu" className="underline">

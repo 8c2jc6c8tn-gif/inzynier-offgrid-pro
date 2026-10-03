@@ -68,7 +68,7 @@ export function PomocPola<G extends GrupaPomocy>({
 type Zakladka = "po-ludzku" | "fizyka"
 
 /** The part of the current result the „Fizyka” tab shows; `null`/absent before the first calculation. */
-export type WynikMigawki = Partial<Pick<CalcResult<unknown>, "formula" | "assumptions">> | null | undefined
+export type WynikMigawki = Partial<Pick<CalcResult<unknown>, "formula" | "formulaKey" | "formulaParams" | "assumptions">> | null | undefined
 
 /**
  * „i” next to the screen title. Click/tap only (no hover) — the popup has tabs the user clicks.
@@ -97,7 +97,7 @@ export function MigawkaInfo({
     poCo: podstaw(language, surowa.poCo, parametry),
     fizyka: surowa.fizyka && podstaw(language, surowa.fizyka, parametry),
   }
-  const wzor = wynik?.formula
+  const wzor = wynik?.formulaKey ? t(wynik.formulaKey, wynik.formulaParams) : wynik?.formula
   const zalozenia = wynik?.assumptions ?? []
   const fizykaDostepna = Boolean(wzor || zalozenia.length > 0 || m.fizyka)
 

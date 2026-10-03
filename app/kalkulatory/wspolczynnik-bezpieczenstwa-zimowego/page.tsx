@@ -377,7 +377,7 @@ export default function WspolczynnikBezpieczenstwaZimowegoPage() {
           <div role="note" className="mt-2 rounded-md border border-current p-2 text-small font-medium">
             {t(v.zestawWag === "wlasne" ? "UI-M7-WSP-NOTA-WLASNE" : "UI-M7-WSP-NOTA-WSTEPNE")}
           </div>
-          <WynikSzczegoly assumptions={result.assumptions} warnings={result.warnings} formula={result.formula} />
+          <WynikSzczegoly assumptions={result.assumptions} warnings={result.warnings} formula={result.formula} formulaKey={result.formulaKey} formulaParams={result.formulaParams} />
         </WerdyktPanel>
       )}
 

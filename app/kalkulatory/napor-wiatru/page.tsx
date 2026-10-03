@@ -146,7 +146,7 @@ export default function NaporWiatruPage() {
             {masaPaneliStelazaKg !== "" ? ` ${t("UI-NAPWIA-PONAD-CIEZAR-PANELU")}` : ""}{t("UI-NAPWIA-NAJMNIEJ")}{" "}
             <strong>{Math.ceil(result.value.balastProjektowyKg).toLocaleString("pl-PL")} kg</strong>
           </p>
-          <WynikSzczegoly assumptions={result.assumptions} warnings={result.warnings} formula={result.formula} />
+          <WynikSzczegoly assumptions={result.assumptions} warnings={result.warnings} formula={result.formula} formulaKey={result.formulaKey} formulaParams={result.formulaParams} />
         </WerdyktPanel>
       )}
     </main>

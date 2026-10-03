@@ -95,7 +95,7 @@ export default function CentralaSspPage() {
           etykieta={hasCritical ? t("UI-CENSSP-CENTRALA-NIESPRAWNA") : hasWarning ? t("UI-CENSSP-SYSTEM-MOZE-DOWIEDZIEC") : t("UI-CENSSP-INTEGRACJA-KOMPLETNA")}
         >
           <WynikGlowny>{t("UI-CENSSP-BRAKI", { liczbaBrakow: result.value.liczbaBrakow })}</WynikGlowny>
-          <WynikSzczegoly assumptions={result.assumptions} warnings={result.warnings} formula={result.formula} />
+          <WynikSzczegoly assumptions={result.assumptions} warnings={result.warnings} formula={result.formula} formulaKey={result.formulaKey} formulaParams={result.formulaParams} />
         </WerdyktPanel>
       )}
     </main>

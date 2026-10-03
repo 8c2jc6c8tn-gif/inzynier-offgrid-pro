@@ -129,7 +129,7 @@ export default function BlackoutMinimumPage() {
           <p className="mt-1 text-small">{t("UI-M12-BM-SZCZEGOLY", { doba: Math.round(v.zuzycieDobaWh), wh: Math.round(v.energiaBlackoutWh) })}</p>
           <p className="mt-1 text-small">{t("UI-M12-BM-REFERENCYJNE", { a: e12, b: e24, c: e48 })}</p>
           {v.posiadanyStarczyH > 0 && <p className="mt-1 text-small">{t("UI-M12-BM-POSIADANY-WYNIK", { h: r1(v.posiadanyStarczyH) })}</p>}
-          <WynikSzczegoly assumptions={result.assumptions} warnings={result.warnings} formula={result.formula} />
+          <WynikSzczegoly assumptions={result.assumptions} warnings={result.warnings} formula={result.formula} formulaKey={result.formulaKey} formulaParams={result.formulaParams} />
         </WerdyktPanel>
       )}
     </main>

@@ -26,7 +26,8 @@ describe("UI dictionaries (lib/i18n/ui)", () => {
         for (const [key, text] of Object.entries(pl)) {
           expect(text.trim(), key).not.toBe("")
           expect(lang[key]!.trim(), key).not.toBe("")
-          expect(placeholders(lang[key]!), key).toEqual(placeholders(text))
+          // Formula keys hold LaTeX braces (translated subscripts) — their placeholders are checked in formuly.test.ts.
+          if (!key.startsWith("UI-FORMULA-")) expect(placeholders(lang[key]!), key).toEqual(placeholders(text))
         }
       }
     }

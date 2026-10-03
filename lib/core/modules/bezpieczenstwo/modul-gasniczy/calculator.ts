@@ -41,7 +41,7 @@ export function calculateModulGasniczy(input: ModulGasniczyInput): CalcResult<Mo
     value,
     unit: "",
     status,
-    formula: FORMULA,
+    formula: FORMULA, formulaKey: "UI-FORMULA-BEZPIECZENSTWO-MODUL-GASNICZY",
     inputs,
     assumptions: [],
     warnings,

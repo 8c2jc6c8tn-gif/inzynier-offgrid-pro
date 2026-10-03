@@ -69,7 +69,7 @@ export function calculateOslonyPrzeciwsloneczne(input: OslonyPrzeciwsloneczneInp
     odstepM: input.odstepM,
     wysokoscOknaM: input.wysokoscOknaM,
   }
-  const baza = { unit: "%", formula: FORMULA, inputs, calculatorVersion: CALCULATOR_VERSION }
+  const baza = { unit: "%", formula: FORMULA, formulaKey: "UI-FORMULA-OGRZEWANIE-OSLONY-PRZECIWSLONECZNE", inputs, calculatorVersion: CALCULATOR_VERSION }
   if (errors.length > 0) return { ...baza, value: PUSTY, status: "INVALID_INPUT", assumptions: [], warnings: errors }
   if (input.szerokoscDeg === null || input.wysiegM === 0 || input.wysokoscOknaM === 0) {
     return { ...baza, value: PUSTY, status: "INCOMPLETE", assumptions: [], warnings: [] }

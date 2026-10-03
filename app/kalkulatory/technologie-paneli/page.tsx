@@ -160,7 +160,7 @@ export default function TechnologiePaneliPage() {
         )}
       </div>
 
-      {result.status === "VALID" && <WynikSzczegoly assumptions={result.assumptions} formula={result.formula} />}
+      {result.status === "VALID" && <WynikSzczegoly assumptions={result.assumptions} formula={result.formula} formulaKey={result.formulaKey} formulaParams={result.formulaParams} />}
 
       
     </main>

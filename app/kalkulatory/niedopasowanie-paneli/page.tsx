@@ -138,7 +138,7 @@ export default function NiedopasowaniePaneliPage() {
           <p className="mt-2 text-small">
             {t("UI-NIEPAN-TEORETYCZNA-SUMA-STRATA", { mocTeoretycznaW: result.value.mocTeoretycznaW.toFixed(0), strataPct: result.value.strataPct.toFixed(1), roznicaMocyPct: result.value.roznicaMocyPct.toFixed(1) })}
           </p>
-          <WynikSzczegoly assumptions={result.assumptions} warnings={result.warnings} formula={result.formula} />
+          <WynikSzczegoly assumptions={result.assumptions} warnings={result.warnings} formula={result.formula} formulaKey={result.formulaKey} formulaParams={result.formulaParams} />
         </WerdyktPanel>
       )}
     </main>

@@ -61,7 +61,7 @@ export function calculateDystrybucjaCiepla(input: DystrybucjaCieplaInput): CalcR
     doplataZl: input.doplataZl,
     cenaPraduZlKwh: input.cenaPraduZlKwh,
   }
-  const baza = { unit: "%", formula: FORMULA, inputs, calculatorVersion: CALCULATOR_VERSION }
+  const baza = { unit: "%", formula: FORMULA, formulaKey: "UI-FORMULA-OGRZEWANIE-DYSTRYBUCJA-CIEPLA", inputs, calculatorVersion: CALCULATOR_VERSION }
   if (errors.length > 0) return { ...baza, value: PUSTY, status: "INVALID_INPUT", assumptions: [], warnings: errors }
   if (input.zrodloCiepla === null || input.system === null) {
     return { ...baza, value: PUSTY, status: "INCOMPLETE", assumptions: [], warnings: [] }

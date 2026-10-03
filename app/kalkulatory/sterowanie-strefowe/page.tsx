@@ -139,7 +139,7 @@ export default function SterowanieStrefowePage() {
               ? t("UI-M6-STR-PRAD", { zysk: r2(v.oszczednoscPraduKwh), ster: r2(v.pradSterowaniaKwh), bilans: r2(v.bilansPraduKwh) })
               : t("UI-M6-STR-STEROWANIE-PRAD", { ster: r2(v.pradSterowaniaKwh) })}
           </p>
-          <WynikSzczegoly assumptions={result.assumptions} warnings={result.warnings} formula={result.formula} />
+          <WynikSzczegoly assumptions={result.assumptions} warnings={result.warnings} formula={result.formula} formulaKey={result.formulaKey} formulaParams={result.formulaParams} />
         </WerdyktPanel>
       )}
 

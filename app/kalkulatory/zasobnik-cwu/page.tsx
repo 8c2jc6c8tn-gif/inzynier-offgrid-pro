@@ -159,7 +159,7 @@ export default function ZasobnikCwuPage() {
               {t("UI-M6-ZAS-CYRK", { cieplo: r2(v.cyrkulacjaCieploKwh), prad: r2(v.cyrkulacjaPradKwh), ciagla: r2(v.cyrkulacjaCiaglaKwh) })}
             </p>
           )}
-          <WynikSzczegoly assumptions={result.assumptions} warnings={result.warnings} formula={result.formula} />
+          <WynikSzczegoly assumptions={result.assumptions} warnings={result.warnings} formula={result.formula} formulaKey={result.formulaKey} formulaParams={result.formulaParams} />
         </WerdyktPanel>
       )}
 

@@ -8,7 +8,7 @@ export function statusZOstrzezen(warnings: Warning[]): Status {
 }
 
 /** Wspólna fabryka CalcResult dla trybów Ekranu 2 — liczbowe pola wejścia trafiają do `inputs`. */
-export function fabrykaWyniku<T>(input: object, formula: string, unit: string) {
+export function fabrykaWyniku<T>(input: object, formula: string, unit: string, formulaKey?: string) {
   const inputs: Record<string, number> = {}
   for (const [k, v] of Object.entries(input)) if (typeof v === "number") inputs[k] = v
   return (status: Status, value: T | null, warnings: Warning[] = [], assumptions: Assumption[] = []): CalcResult<T | null> => ({
@@ -16,6 +16,7 @@ export function fabrykaWyniku<T>(input: object, formula: string, unit: string) {
     unit,
     status,
     formula,
+    formulaKey,
     inputs,
     assumptions,
     warnings,

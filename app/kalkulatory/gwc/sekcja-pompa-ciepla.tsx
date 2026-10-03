@@ -76,7 +76,7 @@ export function SekcjaGwcPompaCiepla({ strumienM3H, przyrostK }: { strumienM3H: 
           </p>
           {v.wzrostCopPct !== null && <p className="mt-1 text-small">{t("UI-M6D-GWP-COP", { pct: r1(v.wzrostCopPct) })}</p>}
           {v.oszczednoscKwh !== null && <p className="mt-1 text-small">{t("UI-M6D-GWP-OSZCZEDNOSC", { kwh: r0(v.oszczednoscKwh) })}</p>}
-          <WynikSzczegoly assumptions={result.assumptions} warnings={result.warnings} formula={result.formula} />
+          <WynikSzczegoly assumptions={result.assumptions} warnings={result.warnings} formula={result.formula} formulaKey={result.formulaKey} formulaParams={result.formulaParams} />
         </WerdyktPanel>
       )}
     </section>

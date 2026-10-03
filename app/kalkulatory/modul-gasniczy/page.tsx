@@ -138,7 +138,7 @@ export default function ModulGasniczyPage() {
           etykieta={hasCritical ? t("UI-MODGAS-GASZENIE-MOZE-ZADZIALAC") : hasWarning ? t("UI-MODGAS-BRAKI-KONFIGURACJI") : t("UI-MODGAS-KONFIGURACJA-ZGODNA")}
         >
           <WynikGlowny>{t("UI-MODGAS-BRAKI", { liczbaBrakow: result.value.liczbaBrakow })}</WynikGlowny>
-          <WynikSzczegoly assumptions={result.assumptions} warnings={result.warnings} formula={result.formula} />
+          <WynikSzczegoly assumptions={result.assumptions} warnings={result.warnings} formula={result.formula} formulaKey={result.formulaKey} formulaParams={result.formulaParams} />
         </WerdyktPanel>
       )}
 

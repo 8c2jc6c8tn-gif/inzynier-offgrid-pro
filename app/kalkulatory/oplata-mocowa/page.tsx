@@ -94,7 +94,7 @@ export default function OplataMocowaPage() {
           <p className="mt-1 text-small">
             {t("UI-OPLMOC-ENERGII-POBIERASZ-GODZINACH", { udzialProcent: v.udzialProcent.toLocaleString("pl-PL", { maximumFractionDigits: 1 }), oplataPoPrzesunieciuZl: zl(v.oplataPoPrzesunieciuZl), oszczednoscRokZl: zl(v.oszczednoscRokZl) })}
           </p>
-          <WynikSzczegoly assumptions={result.assumptions} warnings={result.warnings} formula={result.formula} />
+          <WynikSzczegoly assumptions={result.assumptions} warnings={result.warnings} formula={result.formula} formulaKey={result.formulaKey} formulaParams={result.formulaParams} />
         </WerdyktPanel>
       )}
     </main>

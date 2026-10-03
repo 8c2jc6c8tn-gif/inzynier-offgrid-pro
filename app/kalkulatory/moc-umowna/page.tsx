@@ -143,7 +143,7 @@ export default function MocUmownaPage() {
             {t("UI-MOCUMO-NAJNIZSZY-KOSZT-ROK", { optymalnaMocKw: v.optymalnaMocKw, kosztOptymalnyRokZl: zl(v.kosztOptymalnyRokZl) })}
             {v.kosztOptymalnyRokZl < v.kosztRazemRokZl && <> {t("UI-MOCUMO-MNIEJ", { p: zl(v.kosztRazemRokZl - v.kosztOptymalnyRokZl) })}</>}.
           </p>
-          <WynikSzczegoly assumptions={result.assumptions} warnings={result.warnings} formula={result.formula} />
+          <WynikSzczegoly assumptions={result.assumptions} warnings={result.warnings} formula={result.formula} formulaKey={result.formulaKey} formulaParams={result.formulaParams} />
         </WerdyktPanel>
       )}
     </main>

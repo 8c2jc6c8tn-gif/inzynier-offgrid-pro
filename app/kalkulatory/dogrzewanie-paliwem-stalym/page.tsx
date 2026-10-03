@@ -116,7 +116,7 @@ export default function DogrzewaniePaliwemStalymPage() {
         <WerdyktPanel poziom={hasCritical ? "blad" : "ok"} etykieta={hasCritical ? t("UI-DOGPALSTA-WYKRYTO-BRAKI-BEZPIECZENSTWA") : t("UI-DOGPALSTA-INSTALACJA-ZGODNA-MINIMALNYM")}>
           <WynikGlowny>{result.value.marginesOdlegloscCm >= 0 ? "+" : ""}{result.value.marginesOdlegloscCm.toFixed(0)} cm</WynikGlowny>
           <p className="mt-2 text-small">{t("UI-DOGPALSTA-MARGINES-WZGLEDEM-MINIMALNEJ")}</p>
-          <WynikSzczegoly assumptions={result.assumptions} warnings={result.warnings} formula={result.formula} />
+          <WynikSzczegoly assumptions={result.assumptions} warnings={result.warnings} formula={result.formula} formulaKey={result.formulaKey} formulaParams={result.formulaParams} />
         </WerdyktPanel>
       )}
     </main>

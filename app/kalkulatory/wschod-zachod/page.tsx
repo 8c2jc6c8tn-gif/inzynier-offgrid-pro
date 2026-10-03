@@ -247,7 +247,7 @@ export default function WschodZachodPage() {
             </table>
           </div>
           <p className="text-small text-muted-foreground">{t("UI-WSCZAC-WARTOSCI-KWH-POWIERZCHNI")}</p>
-          <WynikSzczegoly assumptions={result.assumptions} formula={result.formula} />
+          <WynikSzczegoly assumptions={result.assumptions} formula={result.formula} formulaKey={result.formulaKey} formulaParams={result.formulaParams} />
         </WerdyktPanel>
       )}
 

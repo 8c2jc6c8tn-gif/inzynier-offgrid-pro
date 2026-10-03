@@ -114,7 +114,7 @@ export default function ZacienienieDiodyBocznikujacePage() {
           <p className="mt-2 text-small">
             {t("UI-ZACDIOBOC-MOC-RZECZYWISTA-PANELU", { mocPaneluRzeczywistaW: result.value.mocPaneluRzeczywistaW.toFixed(0), p: Number(mocPaneluNominalnaW || 0).toFixed(0) })}
           </p>
-          <WynikSzczegoly assumptions={result.assumptions} warnings={result.warnings} formula={result.formula} />
+          <WynikSzczegoly assumptions={result.assumptions} warnings={result.warnings} formula={result.formula} formulaKey={result.formulaKey} formulaParams={result.formulaParams} />
         </WerdyktPanel>
       )}
     </main>

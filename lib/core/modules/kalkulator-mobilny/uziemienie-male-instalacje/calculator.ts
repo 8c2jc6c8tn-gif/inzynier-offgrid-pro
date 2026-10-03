@@ -64,7 +64,7 @@ export function calculateUziemienieMaleInstalacje(
     value,
     unit: "",
     status,
-    formula: FORMULA,
+    formula: FORMULA, formulaKey: "UI-FORMULA-KALKULATOR-MOBILNY-UZIEMIENIE-MALE-INSTALACJE",
     inputs,
     assumptions,
     warnings,

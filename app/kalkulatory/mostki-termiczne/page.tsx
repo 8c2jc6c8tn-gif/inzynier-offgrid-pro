@@ -304,7 +304,7 @@ export default function MostkiTermicznePage() {
           <div className="mt-3">
             <KartaPorownawcza kolumny={kolumny} wiersze={v.mostki.map((m, i) => ({ ...m, id: i }))} minWidth={320} />
           </div>
-          <WynikSzczegoly assumptions={wynik.assumptions} warnings={wynik.warnings} formula={wynik.formula} />
+          <WynikSzczegoly assumptions={wynik.assumptions} warnings={wynik.warnings} formula={wynik.formula} formulaKey={wynik.formulaKey} formulaParams={wynik.formulaParams} />
         </WerdyktPanel>
       )}
 

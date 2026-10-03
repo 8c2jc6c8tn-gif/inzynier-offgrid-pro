@@ -148,7 +148,7 @@ export default function AnalizaZwarciowaPage() {
             {t("UI-ANAZWA-BATERIA", { pradZwarciowyBateriaA: result.value.pradZwarciowyBateriaA.toLocaleString("pl-PL"), pradZwarciowyPvA: result.value.pradZwarciowyPvA.toLocaleString("pl-PL") })}
           </p>
         )}
-        <WynikSzczegoly assumptions={result.assumptions} warnings={result.warnings} formula={result.formula} />
+        <WynikSzczegoly assumptions={result.assumptions} warnings={result.warnings} formula={result.formula} formulaKey={result.formulaKey} formulaParams={result.formulaParams} />
       </WerdyktPanel>
     </main>
   )

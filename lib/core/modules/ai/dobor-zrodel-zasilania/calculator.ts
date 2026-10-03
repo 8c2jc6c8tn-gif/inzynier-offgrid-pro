@@ -46,7 +46,7 @@ export function calculateDoborZrodelZasilania(input: DoborZrodelZasilaniaInput):
     pojemnoscAh: input.pojemnoscAh,
     pradMozliwyA: input.pradMozliwyA,
   }
-  const baza = { unit: "A", formula: FORMULA, inputs, calculatorVersion: CALCULATOR_VERSION }
+  const baza = { unit: "A", formula: FORMULA, formulaKey: "UI-FORMULA-AI-DOBOR-ZRODEL-ZASILANIA", inputs, calculatorVersion: CALCULATOR_VERSION }
 
   const errors = [
     ...validateInput(input),

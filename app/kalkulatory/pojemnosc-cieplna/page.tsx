@@ -265,7 +265,7 @@ export default function PojemnoscCieplnaPage() {
             <KartaPorownawcza kolumny={kolumny} wiersze={v.warstwy.map((w, i) => ({ ...w, id: i }))} minWidth={340} />
           </div>
           {v.pojemnoscPowietrzaKwhK > 0 && <p className="mt-2 text-small text-muted-foreground">{t("UI-POJCIE-POWIETRZE-KWH", { pojemnoscPowietrzaKwhK: f2(v.pojemnoscPowietrzaKwhK) })}</p>}
-          <WynikSzczegoly assumptions={wynik.assumptions} warnings={wynik.warnings} formula={wynik.formula} />
+          <WynikSzczegoly assumptions={wynik.assumptions} warnings={wynik.warnings} formula={wynik.formula} formulaKey={wynik.formulaKey} formulaParams={wynik.formulaParams} />
         </WerdyktPanel>
       )}
 

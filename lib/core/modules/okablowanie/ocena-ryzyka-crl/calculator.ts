@@ -63,7 +63,7 @@ export function calculateOcenaRyzykaCrl(input: OcenaRyzykaCrlInput): CalcResult<
     value,
     unit: "—",
     status,
-    formula: FORMULA,
+    formula: FORMULA, formulaKey: "UI-FORMULA-OKABLOWANIE-OCENA-RYZYKA-CRL", formulaParams: { p1: WAGI_LP.napowietrznaNn, p2: latexLiczba(WAGI_LP.napowietrznaSn), p3: latexLiczba(WAGI_LP.kablowaSn), p4: F_ENV_BAZOWE.wiejskie, p5: F_ENV_BAZOWE.miejskie, p6: CRL_PROG },
     inputs,
     assumptions,
     warnings,

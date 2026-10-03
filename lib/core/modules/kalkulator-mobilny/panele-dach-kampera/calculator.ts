@@ -62,7 +62,7 @@ export function calculatePaneleDachKampera(input: PaneleDachKamperaInput): CalcR
     panelSzerokoscM: input.panelSzerokoscM,
     panelMocW: input.panelMocW,
   }
-  const baza = { unit: "szt.", formula: FORMULA, inputs, calculatorVersion: CALCULATOR_VERSION }
+  const baza = { unit: "szt.", formula: FORMULA, formulaKey: "UI-FORMULA-KALKULATOR-MOBILNY-PANELE-DACH-KAMPERA", inputs, calculatorVersion: CALCULATOR_VERSION }
   if (errors.length > 0) return { ...baza, value: PUSTY_WYNIK, status: "INVALID_INPUT", assumptions: [], warnings: errors }
 
   const wpisane = input.odcinki.filter((o) => o.dlugoscM > 0)

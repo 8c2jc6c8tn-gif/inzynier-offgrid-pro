@@ -195,7 +195,7 @@ export default function ZapotrzebowanieCoCwuPage() {
               <KartaPorownawcza kolumny={kolumny} wiersze={v.miesiace.map((m) => ({ ...m, id: m.miesiac }))} minWidth={320} />
             </div>
           )}
-          <WynikSzczegoly assumptions={wynik.assumptions} warnings={wynik.warnings} formula={wynik.formula} />
+          <WynikSzczegoly assumptions={wynik.assumptions} warnings={wynik.warnings} formula={wynik.formula} formulaKey={wynik.formulaKey} formulaParams={wynik.formulaParams} />
           <p className="mt-2 text-small">
             {t("UI-ZAPCOCWU-DALEJ")}{" "}
             <Link href="/kalkulatory/bojler-cwu" className="underline">

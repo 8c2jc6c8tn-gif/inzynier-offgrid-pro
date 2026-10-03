@@ -89,7 +89,7 @@ export function SekcjaPracaZBuforem({ mocPompyKw, buforL }: { mocPompyKw: number
             {v.stratyDobaKwh !== null && <li>{t("UI-M6D-BPP-STRATY-DOBA", { kwh: r2(v.stratyDobaKwh) })}</li>}
             {v.stratySezonKwh !== null && <li>{t("UI-M6D-BPP-STRATY-SEZON", { kwh: r0(v.stratySezonKwh) })}</li>}
           </ul>
-          <WynikSzczegoly assumptions={result.assumptions} warnings={result.warnings} formula={result.formula} />
+          <WynikSzczegoly assumptions={result.assumptions} warnings={result.warnings} formula={result.formula} formulaKey={result.formulaKey} formulaParams={result.formulaParams} />
         </WerdyktPanel>
       )}
     </section>

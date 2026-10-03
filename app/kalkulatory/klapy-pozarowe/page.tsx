@@ -76,7 +76,7 @@ export default function KlapyPozarowePage() {
       ) : (
         <WerdyktPanel poziom={hasWarning ? "uwaga" : "ok"} etykieta={hasWarning ? t("UI-KLAPOZ-DYM-MOZE-ROZEJSC") : t("UI-KLAPOZ-REAKCJA-WENTYLACJI-POZAR")}>
           <WynikGlowny>{t("UI-KLAPOZ-BRAKI", { liczbaBrakow: result.value.liczbaBrakow })}</WynikGlowny>
-          <WynikSzczegoly assumptions={result.assumptions} warnings={result.warnings} formula={result.formula} />
+          <WynikSzczegoly assumptions={result.assumptions} warnings={result.warnings} formula={result.formula} formulaKey={result.formulaKey} formulaParams={result.formulaParams} />
         </WerdyktPanel>
       )}
     </main>

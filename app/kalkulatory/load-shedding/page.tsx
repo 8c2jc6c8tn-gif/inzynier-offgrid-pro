@@ -110,7 +110,7 @@ export default function LoadSheddingPage() {
           etykieta={result.value.odlaczone ? t("UI-LOASHE-ODLACZONY-TERAZ") : t("UI-LOASHE-AKTYWNY")}
         >
           <WynikGlowny>{result.value.odlaczone ? t("UI-LOASHE-ODLACZONY") : t("UI-LOASHE-AKTYWNY")}</WynikGlowny>
-          <WynikSzczegoly assumptions={result.assumptions} warnings={result.warnings} formula={result.formula} />
+          <WynikSzczegoly assumptions={result.assumptions} warnings={result.warnings} formula={result.formula} formulaKey={result.formulaKey} formulaParams={result.formulaParams} />
         </WerdyktPanel>
       )}
     </main>

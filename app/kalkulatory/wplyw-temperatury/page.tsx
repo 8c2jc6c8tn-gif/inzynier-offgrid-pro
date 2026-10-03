@@ -128,7 +128,7 @@ export default function WplywTemperaturyPage() {
           <p className="mt-2 text-small">
             {t("UI-WPLTEM-TEMPERATURA-PANELU-STRATA", { temperaturaPanelaC: result.value.temperaturaPanelaC.toFixed(0), strataPct: result.value.strataPct.toFixed(1) })}
           </p>
-          <WynikSzczegoly assumptions={result.assumptions} warnings={result.warnings} formula={result.formula} />
+          <WynikSzczegoly assumptions={result.assumptions} warnings={result.warnings} formula={result.formula} formulaKey={result.formulaKey} formulaParams={result.formulaParams} />
         </WerdyktPanel>
       )}
     </main>

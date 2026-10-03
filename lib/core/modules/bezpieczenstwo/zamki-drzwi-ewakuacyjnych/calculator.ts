@@ -43,7 +43,7 @@ export function calculateZamkiDrzwiEwakuacyjnych(
     value,
     unit: "",
     status,
-    formula: FORMULA,
+    formula: FORMULA, formulaKey: "UI-FORMULA-BEZPIECZENSTWO-ZAMKI-DRZWI-EWAKUACYJNYCH",
     inputs,
     assumptions: [],
     warnings,

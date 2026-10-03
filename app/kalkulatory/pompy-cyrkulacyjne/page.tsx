@@ -158,7 +158,7 @@ export default function PompyCyrkulacyjnePage() {
           {result.value.oszczednoscSezonZl !== null && (
             <p className="mt-1 text-small">{t("UI-M6D-PCS-ZL", { zl: result.value.oszczednoscSezonZl.toFixed(0) })}</p>
           )}
-          <WynikSzczegoly assumptions={result.assumptions} warnings={result.warnings} formula={result.formula} />
+          <WynikSzczegoly assumptions={result.assumptions} warnings={result.warnings} formula={result.formula} formulaKey={result.formulaKey} formulaParams={result.formulaParams} />
         </WerdyktPanel>
       )}
 

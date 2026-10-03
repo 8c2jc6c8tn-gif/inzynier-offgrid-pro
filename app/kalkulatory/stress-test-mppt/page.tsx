@@ -166,7 +166,7 @@ export default function StressTestMpptPage() {
         {verdict !== "invalid" && verdict !== "incomplete" && (
           <WynikGlowny>{t("UI-STRTESMPP-STRING", { vStringV: result.value.vStringV.toFixed(0) })}</WynikGlowny>
         )}
-        <WynikSzczegoly assumptions={result.assumptions} warnings={result.warnings} formula={result.formula} />
+        <WynikSzczegoly assumptions={result.assumptions} warnings={result.warnings} formula={result.formula} formulaKey={result.formulaKey} formulaParams={result.formulaParams} />
       </WerdyktPanel>
     </main>
   )

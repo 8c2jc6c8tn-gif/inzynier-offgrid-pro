@@ -135,7 +135,7 @@ export default function ProjektUziemieniaPage() {
             {result.value.liczbaPretowSzacowana} {result.value.liczbaPretowSzacowana === 1 ? t("UI-PROUZI-PRET-2") : t("UI-PROUZI-PRETY")} {t("UI-PROUZI-PRET", { rezystancjaJednegoPretaOm: result.value.rezystancjaJednegoPretaOm.toFixed(1) })}
           </WynikGlowny>
         )}
-        <WynikSzczegoly assumptions={result.assumptions} warnings={result.warnings} formula={result.formula} />
+        <WynikSzczegoly assumptions={result.assumptions} warnings={result.warnings} formula={result.formula} formulaKey={result.formulaKey} formulaParams={result.formulaParams} />
       </WerdyktPanel>
     </main>
   )

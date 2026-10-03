@@ -114,7 +114,7 @@ export default function AkumulatorKamperaPage() {
           <p className="mt-1 text-small">
             {t("UI-M12-AKK-WIERSZ-LFP", { kg: Math.round(v.lfp.masaKg), zl: Math.round(v.lfp.cenaZl), kwh: r2(v.lfp.kosztKwhZyciaZl) })}
           </p>
-          <WynikSzczegoly assumptions={result.assumptions} warnings={result.warnings} formula={result.formula} />
+          <WynikSzczegoly assumptions={result.assumptions} warnings={result.warnings} formula={result.formula} formulaKey={result.formulaKey} formulaParams={result.formulaParams} />
         </WerdyktPanel>
       )}
     </main>

@@ -109,7 +109,7 @@ export default function OknoSlonecznePage() {
             {v.bojlerTKoniecC !== null && <li>{t("UI-M7-OKNO-L-BOJLER", { kwh: r2(v.naBojlerKwh), t: r1(v.bojlerTKoniecC) })}</li>}
             <li>{t("UI-M7-OKNO-L-NADWYZKA", { kwh: r2(v.nadwyzkaKwh) })}</li>
           </ul>
-          <WynikSzczegoly assumptions={result.assumptions} warnings={result.warnings} formula={result.formula} />
+          <WynikSzczegoly assumptions={result.assumptions} warnings={result.warnings} formula={result.formula} formulaKey={result.formulaKey} formulaParams={result.formulaParams} />
         </WerdyktPanel>
       )}
 

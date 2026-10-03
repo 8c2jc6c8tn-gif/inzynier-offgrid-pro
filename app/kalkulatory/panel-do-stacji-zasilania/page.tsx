@@ -116,7 +116,7 @@ export default function PanelDoStacjiZasilaniaPage() {
             {t("UI-PANDOSTAZAS-LIMITU-WEJSCIA", { udzialLimituPct: f0(result.value.udzialLimituPct) })}
             {result.value.pradZwarciowyA !== null && ` ${t("UI-PANDOSTAZAS-PRAD-ZWARCIOWY", { pradZwarciowyA: f1(result.value.pradZwarciowyA) })}`}
           </p>
-          <WynikSzczegoly assumptions={result.assumptions} warnings={result.warnings} formula={result.formula} />
+          <WynikSzczegoly assumptions={result.assumptions} warnings={result.warnings} formula={result.formula} formulaKey={result.formulaKey} formulaParams={result.formulaParams} />
         </WerdyktPanel>
       )}
     </main>

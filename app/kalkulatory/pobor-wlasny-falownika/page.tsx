@@ -59,7 +59,7 @@ export default function PoborWlasnyFalownikaPage() {
           <WynikGlowny>
             {t("UI-POBWLAFAL-KWH-DOBE", { strataDobowaKwh: result.value.strataDobowaKwh.toLocaleString("pl-PL", { maximumFractionDigits: 2 }) })}
           </WynikGlowny>
-          <WynikSzczegoly assumptions={result.assumptions} warnings={result.warnings} formula={result.formula} />
+          <WynikSzczegoly assumptions={result.assumptions} warnings={result.warnings} formula={result.formula} formulaKey={result.formulaKey} formulaParams={result.formulaParams} />
         </WerdyktPanel>
       )}
     </main>

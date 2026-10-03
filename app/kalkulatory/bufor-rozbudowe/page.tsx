@@ -91,7 +91,7 @@ export default function BuforRozbudowyPage() {
           <WynikGlowny>
             {t("UI-BUFROZ-KWH-DOBE", { zapotrzebowanieZBuforemKwh: result.value.zapotrzebowanieZBuforemKwh.toLocaleString("pl-PL", { maximumFractionDigits: 1 }) })}
           </WynikGlowny>
-          <WynikSzczegoly assumptions={result.assumptions} warnings={result.warnings} formula={result.formula} />
+          <WynikSzczegoly assumptions={result.assumptions} warnings={result.warnings} formula={result.formula} formulaKey={result.formulaKey} formulaParams={result.formulaParams} />
         </WerdyktPanel>
       )}
     </main>

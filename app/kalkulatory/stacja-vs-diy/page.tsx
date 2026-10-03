@@ -104,7 +104,7 @@ export default function StacjaVsDiyPage() {
           {v.kgNaKwhStacja > 0 && v.kgNaKwhDiy > 0 && (
             <p className="mt-1 text-small">{t("UI-M12-SD-MASA-WIERSZ", { st: r1(v.kgNaKwhStacja), diy: r1(v.kgNaKwhDiy) })}</p>
           )}
-          <WynikSzczegoly assumptions={result.assumptions} warnings={result.warnings} formula={result.formula} />
+          <WynikSzczegoly assumptions={result.assumptions} warnings={result.warnings} formula={result.formula} formulaKey={result.formulaKey} formulaParams={result.formulaParams} />
         </WerdyktPanel>
       )}
     </main>

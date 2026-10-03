@@ -82,7 +82,7 @@ export default function BezRekuperacjiPage() {
             {dodatkowaEnergiaKwhDoba !== null && <li>{t("UI-BEZREK-DOBE-KWH-CIEPLA", { dodatkowaEnergiaKwhDoba: f2(dodatkowaEnergiaKwhDoba) })}</li>}
             {mocNagrzewnicyW !== null && <li>{t("UI-BEZREK-NAGRZEWNICA-WSTEPNA", { mocNagrzewnicyW: f0(mocNagrzewnicyW) })}</li>}
           </ul>
-          <WynikSzczegoly assumptions={result.assumptions} warnings={result.warnings} formula={result.formula} />
+          <WynikSzczegoly assumptions={result.assumptions} warnings={result.warnings} formula={result.formula} formulaKey={result.formulaKey} formulaParams={result.formulaParams} />
         </WerdyktPanel>
       )}
     </main>

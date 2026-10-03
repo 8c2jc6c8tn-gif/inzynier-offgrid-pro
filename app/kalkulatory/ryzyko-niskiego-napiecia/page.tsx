@@ -86,7 +86,7 @@ export default function RyzykoNiskiegoNapieciaPage() {
       ) : (
         <WerdyktPanel poziom={hasCritical ? "blad" : "ok"} etykieta={hasCritical ? t("UI-RYZNISNAP-POMPA-WYLACZY") : t("UI-RYZNISNAP-MARGINES-PROGU-WYLACZENIA")}>
           <WynikGlowny>{result.value.marginesV.toFixed(1)} V</WynikGlowny>
-          <WynikSzczegoly assumptions={result.assumptions} warnings={result.warnings} formula={result.formula} />
+          <WynikSzczegoly assumptions={result.assumptions} warnings={result.warnings} formula={result.formula} formulaKey={result.formulaKey} formulaParams={result.formulaParams} />
         </WerdyktPanel>
       )}
     </main>

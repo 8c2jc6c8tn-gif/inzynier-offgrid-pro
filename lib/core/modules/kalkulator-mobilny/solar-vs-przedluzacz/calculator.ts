@@ -40,7 +40,7 @@ const PUSTY_WYNIK: SolarVsPrzedluzaczResult = {
 export function calculateSolarVsPrzedluzacz(input: SolarVsPrzedluzaczInput): CalcResult<SolarVsPrzedluzaczResult> {
   const { errors } = validateInput(input)
   const inputs = { ...input }
-  const baza = { unit: "zł", formula: FORMULA, inputs, calculatorVersion: CALCULATOR_VERSION }
+  const baza = { unit: "zł", formula: FORMULA, formulaKey: "UI-FORMULA-KALKULATOR-MOBILNY-SOLAR-VS-PRZEDLUZACZ", inputs, calculatorVersion: CALCULATOR_VERSION }
   if (errors.length > 0) return { ...baza, value: PUSTY_WYNIK, status: "INVALID_INPUT", assumptions: [], warnings: errors }
 
   if (

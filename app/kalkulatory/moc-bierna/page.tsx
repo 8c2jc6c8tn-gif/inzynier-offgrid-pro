@@ -169,7 +169,7 @@ export default function MocBiernaPage() {
               {v.zwrotLat !== null && <>{t("UI-MOCBIE-ZWROT-BATERII-LAT", { zwrotLat: v.zwrotLat.toLocaleString("pl-PL", { maximumFractionDigits: 1 }) })}</>}.
             </p>
           )}
-          <WynikSzczegoly assumptions={result.assumptions} warnings={result.warnings} formula={result.formula} />
+          <WynikSzczegoly assumptions={result.assumptions} warnings={result.warnings} formula={result.formula} formulaKey={result.formulaKey} formulaParams={result.formulaParams} />
         </WerdyktPanel>
       )}
     </main>

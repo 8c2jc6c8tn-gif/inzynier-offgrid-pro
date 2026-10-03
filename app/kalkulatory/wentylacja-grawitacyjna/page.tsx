@@ -115,7 +115,7 @@ export default function WentylacjaGrawitacyjnaPage() {
             {v.stratyRekuperacjaDobaKwh !== null && <li>{t("UI-M6-WGR-REK", { kwh: r2(v.stratyRekuperacjaDobaKwh) })}</li>}
             {v.udzialRekuperacjaPct !== null && <li>{t("UI-M6-WGR-REK-UDZIAL", { pct: r1(v.udzialRekuperacjaPct) })}</li>}
           </ul>
-          <WynikSzczegoly assumptions={result.assumptions} warnings={result.warnings} formula={result.formula} />
+          <WynikSzczegoly assumptions={result.assumptions} warnings={result.warnings} formula={result.formula} formulaKey={result.formulaKey} formulaParams={result.formulaParams} />
         </WerdyktPanel>
       )}
 

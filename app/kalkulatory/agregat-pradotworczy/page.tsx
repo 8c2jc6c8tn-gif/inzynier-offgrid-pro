@@ -173,7 +173,7 @@ export default function AgregatPradotworczyPage() {
             <p className="mt-1 text-small">
               {t("UI-AGRPRA-ZUZYCIE-PALIWA-KOSZT", { zuzyciePaliwaLitry: result.value.zuzyciePaliwaLitry.toLocaleString("pl-PL", { maximumFractionDigits: 1 }), kosztZl: result.value.kosztZl.toLocaleString("pl-PL", { maximumFractionDigits: 0 }) })}
             </p>
-            <WynikSzczegoly assumptions={result.assumptions} warnings={result.warnings} formula={result.formula} />
+            <WynikSzczegoly assumptions={result.assumptions} warnings={result.warnings} formula={result.formula} formulaKey={result.formulaKey} formulaParams={result.formulaParams} />
           </WerdyktPanel>
         )
       )}

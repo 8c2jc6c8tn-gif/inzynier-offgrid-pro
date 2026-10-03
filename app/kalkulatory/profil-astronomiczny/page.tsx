@@ -116,7 +116,7 @@ export default function ProfilAstronomicznyPage() {
           <WynikGlowny>
             {t("UI-PROAST-DNIA-NOCY", { dlugoscDniaH: result.value.dlugoscDniaH.toFixed(1), dlugoscNocyH: result.value.dlugoscNocyH.toFixed(1) })}
           </WynikGlowny>
-          <WynikSzczegoly assumptions={result.assumptions} warnings={result.warnings} formula={result.formula} />
+          <WynikSzczegoly assumptions={result.assumptions} warnings={result.warnings} formula={result.formula} formulaKey={result.formulaKey} formulaParams={result.formulaParams} />
         </WerdyktPanel>
       )}
     </main>

@@ -501,7 +501,7 @@ export default function ZlotySrodekPage() {
               <strong>{t("UI-ZLOSRO-SLUPKI-KOTWICZACE-GRUNCIE")}</strong> {t("UI-ZLOSRO-ZAMIAST-CIEZARU-SLUPKI")}
             </li>
           </ul>
-          <WynikSzczegoly assumptions={result.assumptions} formula={result.formula} />
+          <WynikSzczegoly assumptions={result.assumptions} formula={result.formula} formulaKey={result.formulaKey} formulaParams={result.formulaParams} />
         </WerdyktPanel>
       )}
 

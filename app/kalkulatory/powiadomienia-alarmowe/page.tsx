@@ -94,7 +94,7 @@ export default function PowiadomieniaAlarmowePage() {
         >
           <WynikGlowny>{result.value.autoWezwanieAktywne ? t("UI-POWALA-AUTO-WEZWANIE-SLUZB") : t("UI-POWALA-AUTO-WEZWANIE-SLUZB-2")}</WynikGlowny>
           <p className="mt-2 text-small">{t("UI-POWALA-BRAKI", { liczbaBrakow: result.value.liczbaBrakow })}</p>
-          <WynikSzczegoly assumptions={result.assumptions} warnings={result.warnings} formula={result.formula} />
+          <WynikSzczegoly assumptions={result.assumptions} warnings={result.warnings} formula={result.formula} formulaKey={result.formulaKey} formulaParams={result.formulaParams} />
         </WerdyktPanel>
       )}
     </main>

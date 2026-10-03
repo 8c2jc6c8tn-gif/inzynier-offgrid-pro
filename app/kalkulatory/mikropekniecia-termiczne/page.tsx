@@ -93,7 +93,7 @@ export default function MikropeknieciaTermicznePage() {
               {t("UI-MIKTER-ZALECANE-PODKLADKI-EPDM", { ODSTEP_DYLATACYJNY_MIN_MM })}
             </p>
           )}
-          <WynikSzczegoly assumptions={result.assumptions} formula={result.formula} />
+          <WynikSzczegoly assumptions={result.assumptions} formula={result.formula} formulaKey={result.formulaKey} formulaParams={result.formulaParams} />
         </WerdyktPanel>
       )}
 

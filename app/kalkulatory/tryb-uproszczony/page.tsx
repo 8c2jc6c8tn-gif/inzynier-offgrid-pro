@@ -104,7 +104,7 @@ export default function TrybUproszczonyPage() {
           </ul>
         )}
 
-        <p className="mt-3 font-mono text-caption opacity-70">{result.formula}</p>
+        <p className="mt-3 font-mono text-caption opacity-70">{result.formulaKey ? t(result.formulaKey, result.formulaParams) : result.formula}</p>
       </WerdyktPanel>
     </main>
   )

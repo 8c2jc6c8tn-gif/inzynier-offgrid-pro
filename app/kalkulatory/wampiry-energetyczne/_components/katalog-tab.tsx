@@ -89,7 +89,7 @@ export function KatalogTab({
           <WynikSzczegoly
             assumptions={result.assumptions.map((a) => (typeof a === "string" ? a : { ...a, params: tlumaczParamsEtykiet(t, a.params, WPISY_STANDBY) }))}
             warnings={result.warnings.map((w) => ({ ...w, params: tlumaczParamsEtykiet(t, w.params, WPISY_STANDBY) }))}
-            formula={result.formula}
+            formula={result.formula} formulaKey={result.formulaKey} formulaParams={result.formulaParams}
           />
         </WerdyktPanel>
       )}

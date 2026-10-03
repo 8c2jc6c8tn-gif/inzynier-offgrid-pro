@@ -117,7 +117,7 @@ export default function WentylacjaOdzyskCieplaPage() {
       ) : (
         <WerdyktPanel poziom="ok" etykieta={t("UI-WENODZCIE-ODZYSKANE-CIEPLO")}>
           <WynikGlowny>{result.value.odzyskaneCieploKw.toFixed(2)} kW</WynikGlowny>
-          <WynikSzczegoly assumptions={result.assumptions} warnings={result.warnings} formula={result.formula} />
+          <WynikSzczegoly assumptions={result.assumptions} warnings={result.warnings} formula={result.formula} formulaKey={result.formulaKey} formulaParams={result.formulaParams} />
         </WerdyktPanel>
       )}
     </main>

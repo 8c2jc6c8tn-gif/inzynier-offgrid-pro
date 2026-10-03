@@ -66,7 +66,7 @@ function walidacja(input: DefrostSezonInput): Warning[] {
 export function calculateDefrostSezon(input: DefrostSezonInput): CalcResult<DefrostSezonResult> {
   const errors = walidacja(input)
   const inputs = { mocDefrostuKw: input.mocDefrostuKw, zuzyciePompySezonKwh: input.zuzyciePompySezonKwh, scenariusze: input.scenariusze.length }
-  const baza = { unit: "kWh", formula: FORMULA, inputs, calculatorVersion: CALCULATOR_VERSION }
+  const baza = { unit: "kWh", formula: FORMULA, formulaKey: "UI-FORMULA-OGRZEWANIE-DEFROST-SEZON", inputs, calculatorVersion: CALCULATOR_VERSION }
   if (errors.length > 0) return { ...baza, value: PUSTY, status: "INVALID_INPUT", assumptions: [], warnings: errors }
   const wypelnione = input.scenariusze.filter((s) => !pusty(s))
   if (input.mocDefrostuKw === 0 || wypelnione.length === 0 || !wypelnione.every(pelny)) {

@@ -64,7 +64,7 @@ export function AutomatyzacjaTab({
         <WerdyktPanel poziom={poziomZStatusu(result.status)}>
           <WynikGlowny>{t("UI-WAMENE-COMAUTTAB-KWH-DOBE-MNIEJ", { redukcjaDobowaKwh: result.value.redukcjaDobowaKwh.toFixed(2) })}</WynikGlowny>
           <p className="mt-1 text-small">{t("UI-WAMENE-COMAUTTAB-REDUKCJA-POBORU", { redukcjaW: result.value.redukcjaW.toFixed(1) })}</p>
-          <WynikSzczegoly assumptions={result.assumptions} warnings={result.warnings} formula={result.formula} />
+          <WynikSzczegoly assumptions={result.assumptions} warnings={result.warnings} formula={result.formula} formulaKey={result.formulaKey} formulaParams={result.formulaParams} />
         </WerdyktPanel>
       )}
 

@@ -127,7 +127,7 @@ export default function KolektorGruntowyPage() {
           {v.dlugoscZakresM !== null && (
             <p className="mt-1 text-small">{t("UI-M6-KOL-ZAKRES-PION", { min: Math.round(v.dlugoscZakresM.min), max: Math.round(v.dlugoscZakresM.max) })}</p>
           )}
-          <WynikSzczegoly assumptions={result.assumptions} warnings={result.warnings} formula={result.formula} />
+          <WynikSzczegoly assumptions={result.assumptions} warnings={result.warnings} formula={result.formula} formulaKey={result.formulaKey} formulaParams={result.formulaParams} />
         </WerdyktPanel>
       )}
 
