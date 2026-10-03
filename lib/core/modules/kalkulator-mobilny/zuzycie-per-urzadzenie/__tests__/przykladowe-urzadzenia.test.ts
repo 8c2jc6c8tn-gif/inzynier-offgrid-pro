@@ -11,6 +11,7 @@ describe("PRZYKLADOWE_URZADZENIA (M12/E11, D33 — podpowiedź, nie dane katalog
   it("przykład ze źródła: lodówka turystyczna 45 W, cykliczna", () => {
     expect(znajdzPrzyklad("  lodówka turystyczna sprężarkowa 12 v ")).toEqual({
       nazwa: "Lodówka turystyczna sprężarkowa 12 V",
+      nazwaKey: "UI-PRZYKURZ-LODOWKA-TURYSTYCZNA",
       mocW: 45,
       cykliczne: true,
     })
@@ -19,5 +20,11 @@ describe("PRZYKLADOWE_URZADZENIA (M12/E11, D33 — podpowiedź, nie dane katalog
   it("nieznana albo pusta nazwa → null (bez zgadywania)", () => {
     expect(znajdzPrzyklad("moja lodówka")).toBeNull()
     expect(znajdzPrzyklad("")).toBeNull()
+  })
+
+  it("dopasowuje też nazwę w języku UI (wstawioną z datalisty)", () => {
+    const tlumacz = (p: { nazwa: string }) => (p.nazwa === "Zamrażarka" ? "Freezer" : p.nazwa)
+    expect(znajdzPrzyklad("freezer", tlumacz)?.nazwa).toBe("Zamrażarka")
+    expect(znajdzPrzyklad("freezer")).toBeNull()
   })
 })
