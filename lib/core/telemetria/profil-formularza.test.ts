@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest"
-import { zbudujProfil, type FormularzProfilu } from "./profil-formularza"
+import { profilDoFormularza, zbudujProfil, type FormularzProfilu } from "./profil-formularza"
 
 const baza: FormularzProfilu = {
   bezNaglowka: false,
@@ -40,5 +40,26 @@ describe("zbudujProfil", () => {
   it("requires the hour column for the date+hour format", () => {
     expect(zbudujProfil({ ...baza, formatCzasu: "data-godzina" }).ok).toBe(false)
     expect(zbudujProfil({ ...baza, formatCzasu: "data-godzina", kolumnaGodziny: "godz" }).ok).toBe(true)
+  })
+})
+
+describe("profilDoFormularza", () => {
+  it("round-trips a header-addressed profile", () => {
+    const f: FormularzProfilu = { ...baza, przesuniecieMin: "60", znaczniki: "-999, ///" }
+    const r = zbudujProfil(f)
+    expect(r.ok && profilDoFormularza(r.profil)).toEqual(f)
+  })
+
+  it("round-trips a positional profile with a separate hour column", () => {
+    const f: FormularzProfilu = {
+      ...baza,
+      bezNaglowka: true,
+      formatCzasu: "data-godzina",
+      kolumnaCzasu: "0",
+      kolumnaGodziny: "1",
+      kolumny: [{ kolumna: "2", kanal: "bat", wielkosc: "napiecie", jednostka: "V" }],
+    }
+    const r = zbudujProfil(f)
+    expect(r.ok && profilDoFormularza(r.profil)).toEqual(f)
   })
 })

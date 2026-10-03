@@ -89,3 +89,97 @@ export function seriaDoWykresu(
     .map((p) => ({ czas: p.czas, wartosc: p.wartosc as number }))
     .sort((a, b) => a.czas - b.czas)
 }
+
+/** One continuous breach of a threshold on one series (alarm history, Biblia 7.43). */
+export interface EpizodAlarmu {
+  progId: string
+  priorytet: PriorytetAlarmu
+  kanal: string
+  wielkosc: Wielkosc
+  kierunek: ProgAlarmu["kierunek"]
+  prog: number
+  /** Time of the first breaching sample. */
+  odMs: number
+  /** Time of the first sample back within the limit; null = still breached at the last valid sample. */
+  doMs: number | null
+  /** Worst value of the episode (minimum for "ponizej", maximum for "powyzej"). */
+  ekstremum: number
+}
+
+/**
+ * Alarm episodes found in recorded samples. Per threshold and series, valid samples are walked in
+ * time order: a breach opens an episode, the first sample within the limit closes it. Missing and
+ * out-of-range samples neither open nor close an episode. Newest first.
+ */
+export function epizodyAlarmow(probki: ProbkaTelemetrii[], progi: ProgAlarmu[]): EpizodAlarmu[] {
+  const serie = new Map<string, ProbkaTelemetrii[]>()
+  for (const p of probki) {
+    if (p.jakosc !== "ok" || p.wartosc === null) continue
+    const k = kluczSerii(p)
+    const lista = serie.get(k)
+    if (lista) lista.push(p)
+    else serie.set(k, [p])
+  }
+  const epizody: EpizodAlarmu[] = []
+  for (const prog of progi) {
+    if (!Number.isFinite(prog.wartosc)) continue
+    for (const lista of serie.values()) {
+      const pierwsza = lista[0]
+      if (pierwsza.wielkosc !== prog.wielkosc || (prog.kanal && pierwsza.kanal !== prog.kanal)) continue
+      let otwarty: EpizodAlarmu | null = null
+      for (const p of [...lista].sort((a, b) => a.czas - b.czas)) {
+        const w = p.wartosc as number
+        const przekroczony = prog.kierunek === "ponizej" ? w < prog.wartosc : w > prog.wartosc
+        if (przekroczony) {
+          if (!otwarty) {
+            otwarty = {
+              progId: prog.id,
+              priorytet: prog.priorytet,
+              kanal: p.kanal,
+              wielkosc: p.wielkosc,
+              kierunek: prog.kierunek,
+              prog: prog.wartosc,
+              odMs: p.czas,
+              doMs: null,
+              ekstremum: w,
+            }
+            epizody.push(otwarty)
+          } else {
+            otwarty.ekstremum = prog.kierunek === "ponizej" ? Math.min(otwarty.ekstremum, w) : Math.max(otwarty.ekstremum, w)
+          }
+        } else if (otwarty) {
+          otwarty.doMs = p.czas
+          otwarty = null
+        }
+      }
+    }
+  }
+  return epizody.sort((a, b) => b.odMs - a.odMs)
+}
+
+/** Samples recorded up to and including `t` — the state of the system at that moment (replay). */
+export function probkiDoChwili(probki: ProbkaTelemetrii[], t: number): ProbkaTelemetrii[] {
+  return probki.filter((p) => p.czas <= t)
+}
+
+/** Minimum priority that triggers a notification; "wylaczone" = notifications off. */
+export type MinPriorytetPowiadomien = PriorytetAlarmu | "wylaczone"
+
+const kluczPowiadomienia = (a: AlarmAktywny) => `${a.progId}|${a.kanal}`
+
+/**
+ * Which active alarms deserve a NEW notification (Biblia 7.7, browser channel). An alarm notifies once while it stays
+ * active; when it clears it is forgotten, so the next breach notifies again. `znane` = keys notified so far.
+ */
+export function noweAlarmyDoPowiadomienia(
+  aktywne: AlarmAktywny[],
+  znane: ReadonlySet<string>,
+  min: MinPriorytetPowiadomien,
+): { nowe: AlarmAktywny[]; znane: Set<string> } {
+  const aktualne = new Set(aktywne.map(kluczPowiadomienia))
+  const zachowane = new Set([...znane].filter((k) => aktualne.has(k)))
+  if (min === "wylaczone") return { nowe: [], znane: zachowane }
+  const nowe = aktywne.filter((a) => WAGA[a.priorytet] >= WAGA[min] && !zachowane.has(kluczPowiadomienia(a)))
+  for (const a of nowe) zachowane.add(kluczPowiadomienia(a))
+  return { nowe, znane: zachowane }
+}

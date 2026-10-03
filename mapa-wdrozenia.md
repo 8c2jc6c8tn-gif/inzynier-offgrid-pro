@@ -1,6 +1,6 @@
 # Mapa wdrożenia — Inżynier Offgrid Pro
 
-**Wersja:** 1.7 | **Filar:** C | **Data utworzenia:** 04.09.2026 | **Ostatnia aktualizacja:** 28.09.2026 | **Status:** Stabilny (rosnący)
+**Wersja:** 1.7 | **Filar:** C | **Data utworzenia:** 04.09.2026 | **Ostatnia aktualizacja:** 03.10.2026 | **Status:** Stabilny (rosnący)
 **Powiązane dokumenty:** `00_Biblia.md`, `docs/rejestr-pokrycia.md`, `zlote-zasady.md` (Zasada 14 — kolejność budowy)
 
 TL;DR: Status opisany/zaimplementowany/przetestowany per moduł (M1–M13, Część T.2 GOD BOOK; **[28.09.2026]** + M14, opisany w Biblii `03_M14_Dom_i_Firma_Siec.md`, nie w `docs/zrodla/`) — status *kodu*, w odróżnieniu od statusu *opisu* w `docs/zrodla/` (które jest kompletne dla wszystkich 13 modułów od 29.08.2026). Budowana z `docs/rejestr-pokrycia.md`, aktualizowana przy każdej sesji implementacyjnej, nie tylko przy audycie.
@@ -29,6 +29,8 @@ TL;DR: Status opisany/zaimplementowany/przetestowany per moduł (M1–M13, Czę�
 | M14 | Dom – sieć / Firma – sieć (rozliczenia energii → przejście na off-grid) | ✅ (Biblia `03_M14_Dom_i_Firma_Siec.md`, 28.09.2026 — nie w `Tresc_*`) | ~~— (bramka N.3 + DANE-1)~~ **[28.09.2026]** 🔄 część Sieć | ✅ (testy jądra, w tym przykłady kontrolne rozdziału) | ~~0/25~~ **[28.09.2026] 9/25 ekranów unikalnych:** D1, D2, D8, D12 (= F11), F1–F5; plik danych `rozliczenia-pl-2026` (tylko ✅) i silnik ścieżki cen (D40–D43) gotowe. ~~Reszta Sieci (D3, D13, D14, F6, F7, F12, F13), cała część Przejście i kreator — `todo`.~~ **[28.09.2026] 25/25 ekranów unikalnych + kreator** — cały rozdział zbudowany (uproszczenia TD22, TD23). (28 wierszy w `docs/rejestr-pokrycia.md`, 3 pary ekranów wspólnych Dom/Firma liczone raz). Czyta z M1–M4, M6–M8. |
 
 **Łącznie [26.09.2026, przeliczone]:** **153 z 314 ekranów docelowych `done`** (w tym częściowo; + 3 ekrany dodatkowe poza numeracją źródła: PID, A3b, kocioł elektryczny) — 163 wiersze `done` w `docs/rejestr-pokrycia.md` minus 7 duplikatów (wzorce M4 ×3 i M5, Black Start w M7, Katalog 1 w M9, A7 w M11). Metryka zmieniona na ekrany (wcześniej wiersze rejestru), żeby liczba nie rosła od duplikatów. Moduły domknięte w 100%: M1, M2, M4, M5, M11.
+
+**[03.10.2026] Uwaga o aktualności:** wiersze M6–M13 powyżej odzwierciedlają stan z 26–30.09.2026 i nie obejmują późniejszych prac (m.in. M12 i M13 — telemetria, partie 1–2, 7.x). Ostatni zapisany bilans łączny to 195/314 (30.09, `docs/lista-do-zrobienia.md`, wpis „M9 — blok 6”). Źródłem prawdy o statusie per ekran jest `docs/rejestr-pokrycia.md`; pełne przeliczenie tej tabeli (rubryka T.1) wymaga osobnego przebiegu i nie zostało tu zrobione.
 
 **Łącznie (stan 07.09.2026):** 101 pozycji ze statusem `done` w `docs/rejestr-pokrycia.md` (stan na 07.09.2026, zweryfikowane przeliczeniem, nie z metryczki — poprzednia wartość 92 była z 04.09.2026), rozłożone głównie na M2/M3/M4/M11.
 
@@ -95,3 +97,4 @@ TL;DR: Status opisany/zaimplementowany/przetestowany per moduł (M1–M13, Czę�
 | 28.09.2026 | M14: start kodu po D50 — plik danych `rozliczenia-pl-2026`, część Sieć 9/25 ekranów unikalnych (D1, D2, D8, D12=F11, F1–F5), dwa kafle w rejestrze pulpitu. Wersja 1.5→1.6. |
 | 28.09.2026 | M14: rozdział zbudowany w całości — 25/25 ekranów unikalnych i kreator „Ścieżka przejścia”, oba kafle kompletne. Wersja 1.6→1.7. |
 | 30.09.2026 | M9: E1 (wybór płytki — dopasowanie po cechach ze źródła; częściowo), E3 (montaż i obudowa — echo 🔴 IP55 z M4/E10, 🟡 odstęp 2 cm/wentylacja/izolacja), Katalogi 2–4 (wspólny silnik i komponent Wzorca H) → 10/10, moduł kompletny; łącznie 195/314. |
+| 03.10.2026 | Dopisano uwagę o aktualności tabeli (wiersze M6–M13 z 26–30.09, bilans 195/314 z 30.09); pełne przeliczenie z `rejestr-pokrycia.md` pozostaje do zrobienia. |

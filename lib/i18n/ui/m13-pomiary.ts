@@ -54,6 +54,15 @@ export const pl = {
   "UI-M13-LIVE-ALARMY-BRAK": "Żaden próg nie jest przekroczony.",
   "UI-M13-LIVE-ALARM-PONIZEJ": "poniżej progu {prog} {jednostka}",
   "UI-M13-LIVE-ALARM-POWYZEJ": "powyżej progu {prog} {jednostka}",
+  "UI-M13-LIVE-POWIADOM-TYTUL": "Powiadomienia w przeglądarce",
+  "UI-M13-LIVE-POWIADOM-OPIS": "Gdy ten ekran jest otwarty, przeglądarka może pokazać powiadomienie o nowym alarmie. SMS i e-mail wymagają serwera i nie są jeszcze dostępne.",
+  "UI-M13-LIVE-POWIADOM-MIN": "Powiadamiaj od priorytetu",
+  "UI-M13-LIVE-POWIADOM-WYLACZONE": "Wyłączone",
+  "UI-M13-LIVE-POWIADOM-ZEZWOL": "Zezwól na powiadomienia",
+  "UI-M13-LIVE-POWIADOM-BRAK-OBSLUGI": "Ta przeglądarka nie obsługuje powiadomień.",
+  "UI-M13-LIVE-POWIADOM-ZABLOKOWANE": "Powiadomienia są zablokowane w ustawieniach przeglądarki.",
+  "UI-M13-LIVE-POWIADOM-GOTOWE": "Powiadomienia dozwolone.",
+  "UI-M13-LIVE-POWIADOM-TRESC": "{kanal} · {wielkosc}: {wartosc} {jednostka}",
 }
 
 export const en: Record<keyof typeof pl, string> = {
@@ -108,6 +117,15 @@ export const en: Record<keyof typeof pl, string> = {
   "UI-M13-LIVE-ALARMY-BRAK": "No threshold is exceeded.",
   "UI-M13-LIVE-ALARM-PONIZEJ": "below the threshold {prog} {jednostka}",
   "UI-M13-LIVE-ALARM-POWYZEJ": "above the threshold {prog} {jednostka}",
+  "UI-M13-LIVE-POWIADOM-TYTUL": "Browser notifications",
+  "UI-M13-LIVE-POWIADOM-OPIS": "While this screen is open the browser can show a notification about a new alarm. SMS and e-mail need a server and are not available yet.",
+  "UI-M13-LIVE-POWIADOM-MIN": "Notify from priority",
+  "UI-M13-LIVE-POWIADOM-WYLACZONE": "Off",
+  "UI-M13-LIVE-POWIADOM-ZEZWOL": "Allow notifications",
+  "UI-M13-LIVE-POWIADOM-BRAK-OBSLUGI": "This browser does not support notifications.",
+  "UI-M13-LIVE-POWIADOM-ZABLOKOWANE": "Notifications are blocked in the browser settings.",
+  "UI-M13-LIVE-POWIADOM-GOTOWE": "Notifications allowed.",
+  "UI-M13-LIVE-POWIADOM-TRESC": "{kanal} · {wielkosc}: {wartosc} {jednostka}",
 }
 
 export const ru: Record<keyof typeof pl, string> = {
@@ -162,4 +180,13 @@ export const ru: Record<keyof typeof pl, string> = {
   "UI-M13-LIVE-ALARMY-BRAK": "Ни один порог не превышен.",
   "UI-M13-LIVE-ALARM-PONIZEJ": "ниже порога {prog} {jednostka}",
   "UI-M13-LIVE-ALARM-POWYZEJ": "выше порога {prog} {jednostka}",
+  "UI-M13-LIVE-POWIADOM-TYTUL": "Уведомления в браузере",
+  "UI-M13-LIVE-POWIADOM-OPIS": "Пока этот экран открыт, браузер может показывать уведомление о новой тревоге. SMS и e-mail требуют сервера и пока недоступны.",
+  "UI-M13-LIVE-POWIADOM-MIN": "Уведомлять с приоритета",
+  "UI-M13-LIVE-POWIADOM-WYLACZONE": "Выключено",
+  "UI-M13-LIVE-POWIADOM-ZEZWOL": "Разрешить уведомления",
+  "UI-M13-LIVE-POWIADOM-BRAK-OBSLUGI": "Этот браузер не поддерживает уведомления.",
+  "UI-M13-LIVE-POWIADOM-ZABLOKOWANE": "Уведомления заблокированы в настройках браузера.",
+  "UI-M13-LIVE-POWIADOM-GOTOWE": "Уведомления разрешены.",
+  "UI-M13-LIVE-POWIADOM-TRESC": "{kanal} · {wielkosc}: {wartosc} {jednostka}",
 }

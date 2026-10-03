@@ -2481,3 +2481,22 @@ Właściciel: pismo ma być tłumaczone (wcześniej komentarz w kodzie zakłada�
 - Rdzeń `lib/core/telemetria/alarmy.ts`: `ocenAlarmy` liczy na NAJNOWSZEJ poprawnej próbce serii (źródło|kanał|wielkość); braki i poza-zakresem pomijane, nigdy zero; alarm gdy wartość ściśle poniżej/powyżej progu; sortowanie: priorytet, potem czas. Progi nie mają wartości domyślnych (Biblia daje tylko przykłady typu SoC < 25%) — wszystkie od użytkownika, Dyrektywa #1. Limit „po ilu sekundach dane nieaktualne” też od użytkownika (puste = bez kontroli).
 - Ekran `app/kalkulatory/pomiary-na-zywo/` odświeża się co 3 s z `IndexedDbMagazynProbek.zakres`; dane CSV starsze niż okno nie są pokazywane (komunikat zamiast pustego wykresu). Przy zmianie źródła/wyjściu źródło jest rozłączane. Narzędzie AI `ocen_alarmy_telemetrii` (read). Tłumaczenia EN/RU i pomoc — moje, do przeglądu właściciela.
 - Pułapka: nowy ekran wymaga wpisu w `EkranPomocy` (`lib/i18n/pomoc/*`), inaczej tsc odrzuca `ekran="..."`.
+
+## 2026-10-03 — Telemetria: zapisane profile mapowania CSV
+- Ekran „Źródła danych telemetrii” zapisuje mapowanie jako nazwany profil (`zapiszProfil`), wczytuje je do formularza (`profilDoFormularza` = odwrotność `zbudujProfil`, test round-trip) i usuwa (`usunProfil`). Ta sama nazwa nadpisuje profil. Krok próbkowania NIE jest częścią profilu — użytkownik podaje go przy każdym imporcie (Dyrektywa #1).
+
+## 2026-10-03 — Telemetria: historia zdarzeń i odtwarzanie (7.43, 7.34)
+- Rdzeń `epizodyAlarmow` (alarmy.ts): per próg i seria próbki `ok` po czasie; przekroczenie otwiera epizod, pierwsza próbka w limicie zamyka (`doMs = null` = trwa); wartość równa progowi nie jest przekroczeniem (spójnie z `ocenAlarmy`); braki i poza-zakresem nie otwierają ani nie zamykają. `probkiDoChwili` + `ostatnieWartosci`/`ocenAlarmy` dają stan z chwili t.
+- Ekran `historia-zdarzen` NIE ma własnych progów: czyta draft `pomiary-na-zywo` przez `useOdczytDraftu` (jeden właściciel zapisu progów). Własny szkic: źródło, zakres (6/24/168 h), pozycja suwaka 0–1000.
+- Tłumaczenia EN/RU i pomoc ekranu — moje, do przeglądu właściciela.
+
+## 2026-10-03 — Telemetria: powiadomienia przeglądarki (7.7)
+- `noweAlarmyDoPowiadomienia` (czysta funkcja): jedno powiadomienie na trwający alarm (klucz `progId|kanał`), po ustąpieniu klucz zapomniany → kolejne przekroczenie powiadamia znowu; minimalny priorytet z szkicu (`powiadomieniaMin`, domyślnie wyłączone). Zgoda przeglądarki prosi o osobny przycisk (nigdy automatycznie). SMS/e-mail/web-push w tle wymagają serwera — poza zakresem aplikacji offline-first.
+
+## 2026-10-03 — Telemetria: podsumowanie i eksport CSV (7.50, 7.30)
+- `podsumujSerie`: tylko próbki `ok`; pominięte (braki, poza zakresem) raportowane osobno, nigdy jako zero. Energia z mocy metodą trapezów TYLKO dla par próbek o odstępie ≤ limitu wpisanego przez użytkownika (`maxPrzerwaMin`, bez wartości domyślnej — Dyrektywa #1); bez limitu energia = null i ekran tłumaczy dlaczego. Średnia jest zwykła, nie ważona czasem.
+- `probkiDoCsv`: czas ISO, wartości w jednostce podstawowej, braki jako puste komórki. PDF/API poza zakresem (serwer).
+- Tłumaczenia EN/RU i pomoc ekranu — moje, do przeglądu właściciela.
+
+## 2026-10-03 — Przekazanie sesji (telemetria i jakość)
+- Telemetria zamknięta w zakresie bez sprzętu/serwera; jakość: odświeżone przestarzałe wpisy listy (dryf stopów M5, przegląd z 27.09), uwaga o aktualności w `mapa-wdrozenia.md`. Dalsze kroki (migracja `*Key`, przeliczenie mapy, CI po 1.10) spisane w jednym wpisie „PRZEKAZANIE SESJI” w `docs/lista-do-zrobienia.md`.

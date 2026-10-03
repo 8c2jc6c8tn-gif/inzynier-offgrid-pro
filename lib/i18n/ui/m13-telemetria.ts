@@ -3,6 +3,17 @@
  * with column mapping and a data-quality report. Contract: docs/telemetria-kontrakt-esp32.md.
  */
 export const pl = {
+  "UI-M13-TEL-PROFIL-WYBOR": "Zapisany profil mapowania",
+  "UI-M13-TEL-PROFIL-NIE-WYBRANO": "— nie wybrano —",
+  "UI-M13-TEL-PROFIL-WCZYTAJ": "Wczytaj profil do formularza",
+  "UI-M13-TEL-PROFIL-USUN": "Usuń profil",
+  "UI-M13-TEL-PROFIL-NAZWA": "Nazwa profilu",
+  "UI-M13-TEL-PROFIL-ZAPISZ": "Zapisz mapowanie jako profil",
+  "UI-M13-TEL-PROFIL-BRAK-NAZWY": "Podaj nazwę profilu.",
+  "UI-M13-TEL-PROFIL-BRAK-WYBORU": "Najpierw wybierz zapisany profil.",
+  "UI-M13-TEL-PROFIL-ZAPISANO": "Zapisano profil „{nazwa}”. Krok próbkowania nie jest częścią profilu — podaj go przy każdym imporcie.",
+  "UI-M13-TEL-PROFIL-WCZYTANO": "Wczytano profil „{nazwa}” do formularza.",
+  "UI-M13-TEL-PROFIL-USUN-POTWIERDZ": "Usunąć zapisany profil „{nazwa}”? Wczytane wcześniej próbki zostają.",
   "UI-M13-TEL-TYTUL": "Źródła danych telemetrii",
   "UI-M13-TEL-OPIS": "Zarejestruj skąd płyną pomiary (plik CSV, symulator, urządzenie po HTTP) i wczytaj dane z pliku z mapowaniem kolumn. Moduł 13.",
   "UI-M13-TEL-ZRODLA": "Zarejestrowane źródła",
@@ -84,6 +95,17 @@ export const pl = {
 }
 
 export const en: Record<keyof typeof pl, string> = {
+  "UI-M13-TEL-PROFIL-WYBOR": "Saved mapping profile",
+  "UI-M13-TEL-PROFIL-NIE-WYBRANO": "— none selected —",
+  "UI-M13-TEL-PROFIL-WCZYTAJ": "Load profile into the form",
+  "UI-M13-TEL-PROFIL-USUN": "Delete profile",
+  "UI-M13-TEL-PROFIL-NAZWA": "Profile name",
+  "UI-M13-TEL-PROFIL-ZAPISZ": "Save the mapping as a profile",
+  "UI-M13-TEL-PROFIL-BRAK-NAZWY": "Enter a profile name.",
+  "UI-M13-TEL-PROFIL-BRAK-WYBORU": "Select a saved profile first.",
+  "UI-M13-TEL-PROFIL-ZAPISANO": "Profile “{nazwa}” saved. The sampling step is not part of the profile — enter it on every import.",
+  "UI-M13-TEL-PROFIL-WCZYTANO": "Profile “{nazwa}” loaded into the form.",
+  "UI-M13-TEL-PROFIL-USUN-POTWIERDZ": "Delete the saved profile “{nazwa}”? Samples imported earlier are kept.",
   "UI-M13-TEL-TYTUL": "Telemetry data sources",
   "UI-M13-TEL-OPIS": "Register where measurements come from (CSV file, simulator, a device over HTTP) and load data from a file with column mapping. Module 13.",
   "UI-M13-TEL-ZRODLA": "Registered sources",
@@ -165,6 +187,17 @@ export const en: Record<keyof typeof pl, string> = {
 }
 
 export const ru: Record<keyof typeof pl, string> = {
+  "UI-M13-TEL-PROFIL-WYBOR": "Сохранённый профиль сопоставления",
+  "UI-M13-TEL-PROFIL-NIE-WYBRANO": "— не выбран —",
+  "UI-M13-TEL-PROFIL-WCZYTAJ": "Загрузить профиль в форму",
+  "UI-M13-TEL-PROFIL-USUN": "Удалить профиль",
+  "UI-M13-TEL-PROFIL-NAZWA": "Название профиля",
+  "UI-M13-TEL-PROFIL-ZAPISZ": "Сохранить сопоставление как профиль",
+  "UI-M13-TEL-PROFIL-BRAK-NAZWY": "Укажите название профиля.",
+  "UI-M13-TEL-PROFIL-BRAK-WYBORU": "Сначала выберите сохранённый профиль.",
+  "UI-M13-TEL-PROFIL-ZAPISANO": "Профиль «{nazwa}» сохранён. Шаг измерений не входит в профиль — указывайте его при каждом импорте.",
+  "UI-M13-TEL-PROFIL-WCZYTANO": "Профиль «{nazwa}» загружен в форму.",
+  "UI-M13-TEL-PROFIL-USUN-POTWIERDZ": "Удалить сохранённый профиль «{nazwa}»? Ранее импортированные измерения сохранятся.",
   "UI-M13-TEL-TYTUL": "Источники данных телеметрии",
   "UI-M13-TEL-OPIS": "Зарегистрируйте, откуда приходят измерения (файл CSV, симулятор, устройство по HTTP), и загрузите данные из файла с сопоставлением столбцов. Модуль 13.",
   "UI-M13-TEL-ZRODLA": "Зарегистрированные источники",

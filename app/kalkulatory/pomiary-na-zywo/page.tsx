@@ -12,7 +12,7 @@ import { indexedDbStorageAdapter } from "@/lib/adapters/indexeddb-storage-adapte
 import { IndexedDbMagazynProbek } from "@/lib/adapters/telemetria/magazyn-probek"
 import { wczytajRejestr } from "@/lib/adapters/telemetria/rejestr-zrodel"
 import { utworzZrodlo } from "@/lib/adapters/telemetria/zrodla"
-import { daneNieaktualne, ocenAlarmy, ostatnieWartosci, seriaDoWykresu, type PriorytetAlarmu, type ProgAlarmu } from "@/lib/core/telemetria/alarmy"
+import { daneNieaktualne, noweAlarmyDoPowiadomienia, ocenAlarmy, ostatnieWartosci, seriaDoWykresu, type MinPriorytetPowiadomien, type PriorytetAlarmu, type ProgAlarmu } from "@/lib/core/telemetria/alarmy"
 import { WIELKOSCI, WIELKOSCI_LISTA, type ProbkaTelemetrii, type Wielkosc } from "@/lib/core/telemetria/probka"
 import { pustyRejestr, type Rejestr } from "@/lib/core/telemetria/rejestr"
 import { generujDemo, type ScenariuszSymulatora } from "@/lib/core/telemetria/symulator"
@@ -34,9 +34,10 @@ interface Szkic {
   maxWiekS: string
   scenariusz: ScenariuszSymulatora
   progi: WierszProgu[]
+  powiadomieniaMin: MinPriorytetPowiadomien
 }
 
-const SZKIC_POCZATKOWY: Szkic = { zrodloId: "", oknoH: "1", maxWiekS: "", scenariusz: "normalna-praca", progi: [] }
+const SZKIC_POCZATKOWY: Szkic = { zrodloId: "", oknoH: "1", maxWiekS: "", scenariusz: "normalna-praca", progi: [], powiadomieniaMin: "wylaczone" }
 const NOWY_PROG: WierszProgu = { wielkosc: "soc", kanal: "", kierunek: "ponizej", wartosc: "", priorytet: "ostrzezenie" }
 const SCENARIUSZE: ScenariuszSymulatora[] = ["normalna-praca", "zima-brak-slonca", "alarm-bms", "zwarcie"]
 const ODSWIEZANIE_MS = 3000
@@ -161,6 +162,23 @@ export default function PomiaryNaZywoPage() {
   const x = (czas: number) => ((czas - (teraz - oknoMs)) / oknoMs) * W
   const y = (w: number) => H - ((w - yMin) / (yMax - yMin)) * H
 
+  const [zgoda, setZgoda] = useState<NotificationPermission | "brak-obslugi">("default")
+  const znaneRef = useRef<Set<string>>(new Set())
+  useEffect(() => {
+    const start = setTimeout(() => setZgoda(typeof Notification === "undefined" ? "brak-obslugi" : Notification.permission), 0)
+    return () => clearTimeout(start)
+  }, [])
+  // Browser notification (7.7): once per alarm while it stays active; only with permission and a chosen minimum priority.
+  useEffect(() => {
+    const { nowe, znane } = noweAlarmyDoPowiadomienia(alarmy, znaneRef.current, szkic.powiadomieniaMin)
+    znaneRef.current = znane
+    if (zgoda !== "granted" || typeof Notification === "undefined") return
+    for (const a of nowe) {
+      new Notification(t(`UI-M13-LIVE-PR-${a.priorytet.toUpperCase()}`), {
+        body: t("UI-M13-LIVE-POWIADOM-TRESC", { kanal: a.kanal, wielkosc: t(`UI-M13-TEL-W-${a.wielkosc.toUpperCase()}`), wartosc: formatuj(a.wartosc), jednostka: WIELKOSCI[a.wielkosc].jednostka }),
+      })
+    }
+  }, [alarmy, szkic.powiadomieniaMin, zgoda, t])
   const priorytetNaKanale = (p: ProbkaTelemetrii): PriorytetAlarmu | null => {
     const a = alarmy.filter((al) => al.kanal === p.kanal && al.wielkosc === p.wielkosc)
     return a.length === 0 ? null : a[0].priorytet
@@ -294,6 +312,25 @@ export default function PomiaryNaZywoPage() {
         <Button type="button" variant="outline" onClick={() => setSzkic((s) => ({ ...s, progi: [...s.progi, NOWY_PROG] }))}>
           {t("UI-M13-LIVE-DODAJ-PROG")}
         </Button>
+      </section>
+
+      <section className="flex flex-col gap-3" aria-labelledby="live-powiadom">
+        <h2 id="live-powiadom" className="text-base font-semibold">{t("UI-M13-LIVE-POWIADOM-TYTUL")}</h2>
+        <p className="text-small text-muted-foreground">{t("UI-M13-LIVE-POWIADOM-OPIS")}</p>
+        <PoleSelect label={t("UI-M13-LIVE-POWIADOM-MIN")} pomoc={<PomocPola ekran="pomiary-na-zywo" pole="powiadomieniaMin" />} value={szkic.powiadomieniaMin} onChange={(e) => ustaw("powiadomieniaMin", e.target.value as MinPriorytetPowiadomien)}>
+          <option value="wylaczone">{t("UI-M13-LIVE-POWIADOM-WYLACZONE")}</option>
+          <option value="info">{t("UI-M13-LIVE-PR-INFO")}</option>
+          <option value="ostrzezenie">{t("UI-M13-LIVE-PR-OSTRZEZENIE")}</option>
+          <option value="krytyczny">{t("UI-M13-LIVE-PR-KRYTYCZNY")}</option>
+        </PoleSelect>
+        {zgoda === "brak-obslugi" && <p className="text-small text-muted-foreground">{t("UI-M13-LIVE-POWIADOM-BRAK-OBSLUGI")}</p>}
+        {zgoda === "denied" && <p role="alert" className="text-small text-werdykt-uwaga-foreground">{t("UI-M13-LIVE-POWIADOM-ZABLOKOWANE")}</p>}
+        {zgoda === "granted" && <p role="status" className="text-small">{t("UI-M13-LIVE-POWIADOM-GOTOWE")}</p>}
+        {zgoda === "default" && (
+          <Button type="button" variant="outline" onClick={() => void Notification.requestPermission().then(setZgoda)}>
+            {t("UI-M13-LIVE-POWIADOM-ZEZWOL")}
+          </Button>
+        )}
       </section>
 
       <section className="flex flex-col gap-2" aria-labelledby="live-alarmy">

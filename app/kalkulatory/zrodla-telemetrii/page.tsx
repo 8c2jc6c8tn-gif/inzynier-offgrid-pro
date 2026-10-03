@@ -13,8 +13,9 @@ import { indexedDbStorageAdapter } from "@/lib/adapters/indexeddb-storage-adapte
 import { importujCsv, type WynikImportu } from "@/lib/adapters/telemetria/import-csv"
 import { IndexedDbMagazynProbek } from "@/lib/adapters/telemetria/magazyn-probek"
 import { wczytajRejestr, zapiszRejestr } from "@/lib/adapters/telemetria/rejestr-zrodel"
-import { pustyRejestr, usunZrodloZRejestru, zapiszZrodlo, type Rejestr } from "@/lib/core/telemetria/rejestr"
-import { zbudujProfil, type FormularzProfilu } from "@/lib/core/telemetria/profil-formularza"
+import { pustyRejestr, usunProfil, usunZrodloZRejestru, zapiszProfil, zapiszZrodlo, type Rejestr } from "@/lib/core/telemetria/rejestr"
+import type { ProfilCsv } from "@/lib/core/telemetria/csv"
+import { profilDoFormularza, zbudujProfil, type FormularzProfilu } from "@/lib/core/telemetria/profil-formularza"
 import { WIELKOSCI_LISTA } from "@/lib/core/telemetria/probka"
 import { useTranslate } from "@/lib/i18n/language-context"
 
@@ -27,6 +28,8 @@ interface Szkic extends FormularzProfilu {
   coS: string
   zrodloDocelowe: string
   krokS: string
+  nazwaProfilu: string
+  profilWybrany: string
 }
 
 const PUSTA_KOLUMNA = { kolumna: "", kanal: "", wielkosc: "napiecie", jednostka: "" }
@@ -38,6 +41,8 @@ const SZKIC_POCZATKOWY: Szkic = {
   coS: "5",
   zrodloDocelowe: "",
   krokS: "",
+  nazwaProfilu: "",
+  profilWybrany: "",
   bezNaglowka: false,
   kolumnaCzasu: "",
   formatCzasu: "iso",
@@ -153,6 +158,37 @@ export default function ZrodlaTelemetriiPage() {
     }
   }
 
+  const [komunikatProfilu, setKomunikatProfilu] = useState<{ blad: boolean; tekst: string } | null>(null)
+
+  async function zapiszProfilZFormularza() {
+    const nazwa = szkic.nazwaProfilu.trim()
+    if (nazwa === "") return setKomunikatProfilu({ blad: true, tekst: t("UI-M13-TEL-PROFIL-BRAK-NAZWY") })
+    const profil = zbudujProfil(szkic)
+    if (!profil.ok) return setKomunikatProfilu({ blad: true, tekst: t("UI-M13-TEL-IMPORT-PROFIL-BLAD") })
+    // same name = overwrite the earlier profile (one profile per name), otherwise a new id
+    const istniejacy = rejestr.profile.find((p) => p.nazwa === nazwa)
+    const id = istniejacy?.id ?? crypto.randomUUID()
+    await zapiszZmiane(zapiszProfil(rejestr, { id, nazwa, profil: profil.profil }))
+    setSzkic((s) => ({ ...s, profilWybrany: id }))
+    setKomunikatProfilu({ blad: false, tekst: t("UI-M13-TEL-PROFIL-ZAPISANO", { nazwa }) })
+  }
+
+  function wczytajProfil() {
+    const wybrany = rejestr.profile.find((p) => p.id === szkic.profilWybrany)
+    if (!wybrany) return setKomunikatProfilu({ blad: true, tekst: t("UI-M13-TEL-PROFIL-BRAK-WYBORU") })
+    setSzkic((s) => ({ ...s, ...profilDoFormularza(wybrany.profil as ProfilCsv), nazwaProfilu: wybrany.nazwa }))
+    setKomunikatProfilu({ blad: false, tekst: t("UI-M13-TEL-PROFIL-WCZYTANO", { nazwa: wybrany.nazwa }) })
+  }
+
+  async function usunWybranyProfil() {
+    const wybrany = rejestr.profile.find((p) => p.id === szkic.profilWybrany)
+    if (!wybrany) return setKomunikatProfilu({ blad: true, tekst: t("UI-M13-TEL-PROFIL-BRAK-WYBORU") })
+    if (!window.confirm(t("UI-M13-TEL-PROFIL-USUN-POTWIERDZ", { nazwa: wybrany.nazwa }))) return
+    await zapiszZmiane(usunProfil(rejestr, wybrany.id))
+    setSzkic((s) => ({ ...s, profilWybrany: "" }))
+    setKomunikatProfilu(null)
+  }
+
   const ustawKolumne = (i: number, zmiana: Partial<Szkic["kolumny"][number]>) =>
     setSzkic((s) => ({ ...s, kolumny: s.kolumny.map((k, j) => (j === i ? { ...k, ...zmiana } : k)) }))
 
@@ -228,6 +264,20 @@ export default function ZrodlaTelemetriiPage() {
             {komunikatPliku && (
               <p role={komunikatPliku.blad ? "alert" : "status"} className="text-caption text-muted-foreground">{komunikatPliku.tekst}</p>
             )}
+            {rejestr.profile.length > 0 && (
+              <div className="flex flex-col gap-2 rounded-md border p-3">
+                <PoleSelect label={t("UI-M13-TEL-PROFIL-WYBOR")} pomoc={<PomocPola ekran="zrodla-telemetrii" pole="profilWybor" />} value={szkic.profilWybrany} onChange={(e) => ustaw("profilWybrany", e.target.value)}>
+                  <option value="">{t("UI-M13-TEL-PROFIL-NIE-WYBRANO")}</option>
+                  {rejestr.profile.map((p) => (
+                    <option key={p.id} value={p.id}>{p.nazwa}</option>
+                  ))}
+                </PoleSelect>
+                <div className="flex gap-2">
+                  <Button type="button" variant="outline" onClick={wczytajProfil}>{t("UI-M13-TEL-PROFIL-WCZYTAJ")}</Button>
+                  <Button type="button" variant="outline" onClick={usunWybranyProfil}>{t("UI-M13-TEL-PROFIL-USUN")}</Button>
+                </div>
+              </div>
+            )}
             <PoleCheckbox
               id="tel-bez-naglowka"
               label={
@@ -273,6 +323,14 @@ export default function ZrodlaTelemetriiPage() {
             <Button type="button" variant="outline" onClick={() => setSzkic((s) => ({ ...s, kolumny: [...s.kolumny, PUSTA_KOLUMNA] }))}>
               {t("UI-M13-TEL-DODAJ-KOLUMNE")}
             </Button>
+
+            <div className="flex flex-col gap-2 rounded-md border p-3">
+              <Pole label={t("UI-M13-TEL-PROFIL-NAZWA")} pomoc={<PomocPola ekran="zrodla-telemetrii" pole="profilNazwa" />} value={szkic.nazwaProfilu} onChange={(e) => ustaw("nazwaProfilu", e.target.value)} />
+              <Button type="button" variant="outline" onClick={zapiszProfilZFormularza}>{t("UI-M13-TEL-PROFIL-ZAPISZ")}</Button>
+              {komunikatProfilu && (
+                <p role={komunikatProfilu.blad ? "alert" : "status"} className={komunikatProfilu.blad ? "text-small text-werdykt-blad-foreground" : "text-caption text-muted-foreground"}>{komunikatProfilu.tekst}</p>
+              )}
+            </div>
 
             {bladImportu && <p role="alert" className="text-small text-werdykt-blad-foreground">{bladImportu}</p>}
             <Button type="button" onClick={importuj} disabled={trwa}>

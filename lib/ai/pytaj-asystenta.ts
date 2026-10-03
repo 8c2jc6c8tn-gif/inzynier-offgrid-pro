@@ -258,6 +258,8 @@ import { deficytyMiesieczneTool } from "./tools/deficyty-miesieczne-tool"
 import { cykleOdszranianiaTool } from "./tools/cykle-odszraniania-tool"
 import { jakoscCsvTelemetriiTool } from "./tools/jakosc-csv-telemetrii-tool"
 import { alarmyTelemetriiTool } from "./tools/alarmy-telemetrii-tool"
+import { historiaAlarmowTool } from "./tools/historia-alarmow-tool"
+import { podsumowanieTelemetriiTool } from "./tools/podsumowanie-telemetrii-tool"
 import { wentylacjaGrawitacyjnaTool } from "./tools/wentylacja-grawitacyjna-tool"
 import { gwcTool } from "./tools/gwc-tool"
 import { oknoSloneczneTool } from "./tools/okno-sloneczne-tool"
@@ -530,6 +532,8 @@ const NARZEDZIA: Array<AiToolDefinition<any, any>> = [
   deficytyMiesieczneTool,
   jakoscCsvTelemetriiTool,
   alarmyTelemetriiTool,
+  historiaAlarmowTool,
+  podsumowanieTelemetriiTool,
   cykleOdszranianiaTool,
   wentylacjaGrawitacyjnaTool,
   gwcTool,

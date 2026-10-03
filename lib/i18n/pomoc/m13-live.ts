@@ -20,6 +20,18 @@ export const pl = {
       poCo: "Żeby wykresy i alarmy trybu Live oraz analizy historii opierały się na Twoich rzeczywistych pomiarach, a nie na założeniach — i żebyś od razu widział, czy dane z pliku nadają się do użycia.",
     },
     pola: {
+      profilWybor: {
+        nazwa: "Zapisany profil mapowania",
+        cel: "Szybko wypełniasz mapowanie kolumn dla pliku, który już kiedyś wczytywałeś.",
+        gdzie: "Lista profili zapisanych przyciskiem „Zapisz mapowanie jako profil”.",
+        zakres: "Jeden z zapisanych profili. Profil nie zawiera kroku próbkowania — tego nie zgadujemy.",
+      },
+      profilNazwa: {
+        nazwa: "Nazwa profilu",
+        cel: "Pod tą nazwą zapiszesz bieżące mapowanie kolumn, żeby użyć go przy kolejnym pliku z tego samego urządzenia.",
+        gdzie: "Dowolna, np. „Falownik – eksport z portalu”.",
+        zakres: "Dowolny niepusty tekst; ta sama nazwa nadpisuje wcześniejszy profil.",
+      },
       nazwa: {
         nazwa: "Nazwa źródła",
         cel: "Rozpoznajesz po niej źródło na listach i na wykresach.",
@@ -173,12 +185,37 @@ export const pl = {
         gdzie: "Weź ją z dokumentacji akumulatora/BMS lub falownika — aplikacja żadnej nie podpowiada, bo zależy od Twojego sprzętu.",
         zakres: "Liczba w jednostce wybranej wielkości; pusta nie tworzy alarmu.",
       },
+      powiadomieniaMin: { nazwa: "Powiadamiaj od priorytetu", cel: "Od jakiego priorytetu alarmu przeglądarka ma pokazać powiadomienie o nowym alarmie.", gdzie: "Lista przy sekcji powiadomień; zgodę przeglądarki dajesz osobnym przyciskiem.", zakres: "Wyłączone, informacja, ostrzeżenie lub krytyczny." },
       progPriorytet: {
         nazwa: "Priorytet alarmu",
         cel: "Pokazuje, jak pilna jest reakcja: informacja, ostrzeżenie (wkrótce) albo krytyczny (natychmiast).",
         gdzie: "Krytyczny wybierz dla zagrożeń bezpieczeństwa, np. przegrzania; ostrzeżenie dla spraw, które mogą poczekać.",
         zakres: "Informacja, ostrzeżenie lub krytyczny.",
       },
+    },
+  },
+  "historia-zdarzen": {
+    migawka: {
+      oCoChodzi: 'Tu sprawdzasz, kiedy i jak długo Twoje progi alarmowe były przekraczane w przeszłości oraz jak wyglądała instalacja w dowolnej wybranej chwili.',
+      jakDziala: 'Aplikacja czyta zapisane próbki wybranego źródła z wybranego zakresu i dla każdego progu z ekranu „Pomiary na żywo i alarmy” szuka ciągłych przekroczeń: początek to pierwsza próbka poza limitem, koniec to pierwsza próbka z powrotem w limicie. Braki danych i wartości spoza zakresu czujnika nie otwierają ani nie kończą zdarzenia. Suwak odtwarzania pokazuje ostatnie poprawne wartości i aktywne alarmy z wybranej chwili.',
+      poCo: 'Żeby zrozumieć, co się działo w nocy lub podczas Twojej nieobecności, i ocenić, czy progi są dobrane sensownie.',
+    },
+    pola: {
+      zrodloId: { nazwa: 'Źródło danych', cel: 'Z którego źródła czytać historię.', gdzie: 'Lista źródeł dodanych na ekranie „Źródła danych telemetrii”.', zakres: 'Jedno źródło z listy.' },
+      oknoH: { nazwa: 'Zakres historii', cel: 'Jak daleko wstecz od teraz szukać zdarzeń i odtwarzać stan.', gdzie: 'Krótszy zakres daje dokładniejszy suwak, dłuższy — pełny obraz.', zakres: '6 godzin, 24 godziny lub 7 dni.' },
+      chwila: { nazwa: 'Chwila w historii', cel: 'Moment, dla którego pokazać stan instalacji.', gdzie: 'Suwak — lewy kraniec to początek zakresu, prawy to teraz.', zakres: 'Od początku zakresu do teraz.' },
+    },
+  },
+  "podsumowanie-telemetrii": {
+    migawka: {
+      oCoChodzi: "Tu widzisz zbiorcze liczby z wybranego zakresu — najmniejszą, największą i średnią wartość każdej serii oraz energię z mocy — i możesz pobrać próbki jako plik CSV.",
+      jakDziala: "Aplikacja czyta zapisane próbki źródła i dla każdej serii liczy statystyki tylko z poprawnych próbek; braki i wartości spoza zakresu czujnika są pomijane (i policzone), nigdy zamieniane na zero. Energię liczy z mocy metodą trapezów między kolejnymi poprawnymi próbkami, ale tylko tam, gdzie przerwa nie przekracza limitu, który sam wpiszesz — bez limitu aplikacja nie zgaduje, czy brak próbek to postój, czy awaria. Średnia jest zwykłą średnią próbek, nie ważoną czasem.",
+      poCo: "Żeby szybko ocenić dzień, tydzień lub miesiąc pracy instalacji i móc przenieść dane do arkusza lub raportu.",
+    },
+    pola: {
+      zrodloId: { nazwa: "Źródło danych", cel: "Z którego źródła zrobić podsumowanie i eksport.", gdzie: "Lista źródeł dodanych na ekranie „Źródła danych telemetrii”.", zakres: "Jedno źródło z listy." },
+      oknoH: { nazwa: "Zakres", cel: "Jak daleko wstecz od teraz objąć podsumowanie i eksport.", gdzie: "Dłuższy zakres daje obraz trendu, krótszy — ostatnią dobę.", zakres: "24 godziny, 7 dni lub 30 dni." },
+      maxPrzerwaMin: { nazwa: "Największa przerwa wliczana do energii", cel: "Maksymalny odstęp między dwiema próbkami mocy, który nadal uznajesz za ciągły pomiar.", gdzie: "Zależy od rejestratora — sprawdź w dokumentacji urządzenia krok zapisu i dodaj zapas (np. 2–3 kroki).", zakres: "Dodatnia liczba minut; puste = energia nieliczona." },
     },
   },
 }
@@ -199,6 +236,18 @@ export const en: Tlumaczenie<typeof pl> = {
       poCo: "So that Live mode charts and alarms and the history analyses rest on your real measurements rather than assumptions — and so that you immediately see whether the file's data is usable.",
     },
     pola: {
+      profilWybor: {
+        nazwa: "Saved mapping profile",
+        cel: "Quickly fills in the column mapping for a file you have loaded before.",
+        gdzie: "The list of profiles saved with the “Save the mapping as a profile” button.",
+        zakres: "One of the saved profiles. A profile does not hold the sampling step — that is never guessed.",
+      },
+      profilNazwa: {
+        nazwa: "Profile name",
+        cel: "Under this name you save the current column mapping to reuse it for the next file from the same device.",
+        gdzie: "Any, e.g. “Inverter – portal export”.",
+        zakres: "Any non-empty text; the same name overwrites the earlier profile.",
+      },
       nazwa: {
         nazwa: "Source name",
         cel: "You recognise the source by it in lists and on charts.",
@@ -352,12 +401,37 @@ export const en: Tlumaczenie<typeof pl> = {
         gdzie: "Take it from the battery/BMS or inverter documentation — the app suggests none, because it depends on your equipment.",
         zakres: "A number in the unit of the chosen quantity; empty creates no alarm.",
       },
+      powiadomieniaMin: { nazwa: "Notify from priority", cel: "From which alarm priority the browser should show a notification about a new alarm.", gdzie: "The list in the notifications section; you grant browser permission with a separate button.", zakres: "Off, info, warning or critical." },
       progPriorytet: {
         nazwa: "Alarm priority",
         cel: "Shows how urgent the reaction is: information, warning (soon) or critical (immediately).",
         gdzie: "Choose critical for safety hazards such as overheating; warning for matters that can wait.",
         zakres: "Information, warning or critical.",
       },
+    },
+  },
+  "historia-zdarzen": {
+    migawka: {
+      oCoChodzi: 'Here you check when and for how long your alarm thresholds were breached in the past and what the installation looked like at any chosen moment.',
+      jakDziala: 'The app reads the stored samples of the selected source from the selected range and, for each threshold from the “Live measurements and alarms” screen, looks for continuous breaches: the start is the first sample outside the limit, the end is the first sample back within it. Gaps and out-of-range readings neither open nor end an event. The replay slider shows the latest valid values and the alarms active at the chosen moment.',
+      poCo: 'To understand what happened overnight or while you were away, and to judge whether the thresholds are sensible.',
+    },
+    pola: {
+      zrodloId: { nazwa: 'Data source', cel: 'Which source to read the history from.', gdzie: 'List of sources added on the “Telemetry data sources” screen.', zakres: 'One source from the list.' },
+      oknoH: { nazwa: 'History range', cel: 'How far back from now to look for events and replay the state.', gdzie: 'A shorter range gives a finer slider, a longer one the full picture.', zakres: '6 hours, 24 hours or 7 days.' },
+      chwila: { nazwa: 'Moment in history', cel: 'The moment for which to show the state of the installation.', gdzie: 'The slider — the left end is the start of the range, the right end is now.', zakres: 'From the start of the range to now.' },
+    },
+  },
+  "podsumowanie-telemetrii": {
+    migawka: {
+      oCoChodzi: "Here you see summary figures for the selected range — the minimum, maximum and mean of each series and the energy from power — and can download the samples as a CSV file.",
+      jakDziala: "The app reads the source's stored samples and computes statistics for each series from valid samples only; missing and out-of-range readings are skipped (and counted), never turned into zero. Energy is integrated from power with the trapezoid rule between consecutive valid samples, but only where the gap does not exceed a limit you enter — without it the app does not guess whether missing samples mean standstill or failure. The mean is the plain mean of samples, not time-weighted.",
+      poCo: "To quickly judge a day, week or month of operation and move the data to a spreadsheet or report.",
+    },
+    pola: {
+      zrodloId: { nazwa: "Data source", cel: "Which source to summarise and export.", gdzie: "List of sources added on the “Telemetry data sources” screen.", zakres: "One source from the list." },
+      oknoH: { nazwa: "Range", cel: "How far back from now the summary and export reach.", gdzie: "A longer range shows the trend, a shorter one the last day.", zakres: "24 hours, 7 days or 30 days." },
+      maxPrzerwaMin: { nazwa: "Longest gap counted into energy", cel: "The maximum spacing between two power samples that you still treat as continuous measurement.", gdzie: "Depends on the logger — check the device's logging step in its documentation and add a margin (e.g. 2–3 steps).", zakres: "Positive number of minutes; empty = energy not computed." },
     },
   },
 }
@@ -378,6 +452,18 @@ export const ru: Tlumaczenie<typeof pl> = {
       poCo: "Чтобы графики и тревоги режима Live и анализ истории опирались на ваши реальные измерения, а не на допущения, — и чтобы сразу видеть, пригодны ли данные из файла.",
     },
     pola: {
+      profilWybor: {
+        nazwa: "Сохранённый профиль сопоставления",
+        cel: "Быстро заполняет сопоставление столбцов для файла, который вы уже загружали.",
+        gdzie: "Список профилей, сохранённых кнопкой «Сохранить сопоставление как профиль».",
+        zakres: "Один из сохранённых профилей. Профиль не содержит шага измерений — он никогда не угадывается.",
+      },
+      profilNazwa: {
+        nazwa: "Название профиля",
+        cel: "Под этим названием вы сохраняете текущее сопоставление столбцов, чтобы использовать его для следующего файла с того же устройства.",
+        gdzie: "Любое, например «Инвертор – экспорт с портала».",
+        zakres: "Любой непустой текст; такое же название перезаписывает прежний профиль.",
+      },
       nazwa: {
         nazwa: "Название источника",
         cel: "По нему вы узнаёте источник в списках и на графиках.",
@@ -531,12 +617,37 @@ export const ru: Tlumaczenie<typeof pl> = {
         gdzie: "Возьмите её из документации аккумулятора/BMS или инвертора — приложение ничего не подсказывает, так как это зависит от вашего оборудования.",
         zakres: "Число в единице выбранной величины; пусто не создаёт тревоги.",
       },
+      powiadomieniaMin: { nazwa: "Уведомлять с приоритета", cel: "С какого приоритета тревоги браузер должен показывать уведомление о новой тревоге.", gdzie: "Список в разделе уведомлений; разрешение браузера даётся отдельной кнопкой.", zakres: "Выключено, информация, предупреждение или критический." },
       progPriorytet: {
         nazwa: "Приоритет тревоги",
         cel: "Показывает срочность реакции: информация, предупреждение (скоро) или критический (немедленно).",
         gdzie: "Критический выбирайте для угроз безопасности, например перегрева; предупреждение — для вопросов, которые могут подождать.",
         zakres: "Информация, предупреждение или критический.",
       },
+    },
+  },
+  "historia-zdarzen": {
+    migawka: {
+      oCoChodzi: 'Здесь вы проверяете, когда и как долго превышались ваши пороги тревог в прошлом и как выглядела установка в любой выбранный момент.',
+      jakDziala: 'Приложение читает сохранённые выборки выбранного источника за выбранный диапазон и для каждого порога с экрана «Измерения в реальном времени и тревоги» ищет непрерывные превышения: начало — первая выборка за пределом, конец — первая выборка, вернувшаяся в предел. Пропуски и значения вне диапазона датчика не открывают и не завершают событие. Ползунок воспроизведения показывает последние корректные значения и активные тревоги в выбранный момент.',
+      poCo: 'Чтобы понять, что происходило ночью или в ваше отсутствие, и оценить, разумно ли выбраны пороги.',
+    },
+    pola: {
+      zrodloId: { nazwa: 'Источник данных', cel: 'Из какого источника читать историю.', gdzie: 'Список источников, добавленных на экране «Источники данных телеметрии».', zakres: 'Один источник из списка.' },
+      oknoH: { nazwa: 'Диапазон истории', cel: 'Как далеко назад от сейчас искать события и воспроизводить состояние.', gdzie: 'Короткий диапазон даёт более точный ползунок, длинный — полную картину.', zakres: '6 часов, 24 часа или 7 дней.' },
+      chwila: { nazwa: 'Момент в истории', cel: 'Момент, для которого показать состояние установки.', gdzie: 'Ползунок: левый край — начало диапазона, правый — сейчас.', zakres: 'От начала диапазона до сейчас.' },
+    },
+  },
+  "podsumowanie-telemetrii": {
+    migawka: {
+      oCoChodzi: "Здесь вы видите сводные цифры за выбранный диапазон — минимум, максимум и среднее каждой серии и энергию из мощности — и можете скачать выборки в виде CSV.",
+      jakDziala: "Приложение читает сохранённые выборки источника и считает статистику по каждой серии только из корректных выборок; пропуски и значения вне диапазона датчика пропускаются (и подсчитываются), но никогда не заменяются нулём. Энергия считается из мощности методом трапеций между соседними корректными выборками, но только там, где пауза не превышает введённый вами лимит — без него приложение не гадает, означает ли отсутствие выборок простой или сбой. Среднее — обычное среднее выборок, без взвешивания по времени.",
+      poCo: "Чтобы быстро оценить день, неделю или месяц работы установки и перенести данные в таблицу или отчёт.",
+    },
+    pola: {
+      zrodloId: { nazwa: "Источник данных", cel: "Для какого источника делать сводку и экспорт.", gdzie: "Список источников, добавленных на экране «Источники данных телеметрии».", zakres: "Один источник из списка." },
+      oknoH: { nazwa: "Диапазон", cel: "Как далеко назад от сейчас охватывают сводка и экспорт.", gdzie: "Длинный диапазон показывает тренд, короткий — последние сутки.", zakres: "24 часа, 7 дней или 30 дней." },
+      maxPrzerwaMin: { nazwa: "Наибольший пропуск, учитываемый в энергии", cel: "Максимальный интервал между двумя выборками мощности, который вы ещё считаете непрерывным измерением.", gdzie: "Зависит от регистратора — проверьте шаг записи в документации устройства и добавьте запас (например, 2–3 шага).", zakres: "Положительное число минут; пусто = энергия не считается." },
     },
   },
 }
