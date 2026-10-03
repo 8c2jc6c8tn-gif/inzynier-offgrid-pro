@@ -2518,3 +2518,7 @@ Właściciel: pismo ma być tłumaczone (wcześniej komentarz w kodzie zakłada�
 - Procedura jak przy memory: 144 wpisy ✅, w których najpóźniejsza data wzmianki ≤ 26.09.2026, przeniesione 1:1 do `docs/lista-do-zrobienia-archiwum/` (5 plików + `INDEKS.md`). Lista aktywna: 326 → 213 KB; w niej zostają wszystkie wpisy otwarte (🔲 ⚠️ 🔄 ⏳ ✏️ itd.) niezależnie od wieku i ✅ z datą po 26.09.
 - Dowód bezstratności: multizbiór linii przed = po + archiwum, różnica tylko wskaźnik w nagłówku.
 - Pułapka: data w nagłówku wpisu to data otwarcia, a dopiski z późniejszymi datami (`[02.10]`) są w treści — dlatego kryterium to NAJPÓŹNIEJSZA data w całym wpisie, nie pierwsza. Wpisy 🔲/⚠️ z zamknięciem tylko w dopisku (dryf) nie były ruszane — wymagają ręcznej oceny.
+
+## 2026-10-03 — Archiwizacja `docs/wklad-do-standardu.md` (GOD BOOK Y.8)
+
+13 wpisów ze statusem „✅ skonsolidowane w standardzie” (24–29.09) przeniesione 1:1 do `docs/wklad-do-standardu-archiwum.md`; w żywym pliku wskaźnik w nagłówku. Dowód bezstratności: multizbiór linii przed = po + archiwum (różnica tylko wskaźnik). Świadomie ZOSTAWIONE w żywym pliku: wpisy ze statusem „🔎 nowe”, nawet te z dopiskiem „✅ potwierdzone skonsolidowane” (06.09, 14.09, 16.09, 23.09) — status nagłówkowy nie został zmieniony przez sesję nad standardem, więc nie rozstrzygałem samodzielnie. Przeniesienie odnotowane tu zgodnie z Y.8 pkt 5.

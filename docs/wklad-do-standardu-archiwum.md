@@ -1,568 +1,245 @@
 # docs/wklad-do-standardu-archiwum.md — Inżynier Offgrid Pro
 
-Archiwum wpisów `docs/wklad-do-standardu.md` w pełni zamkniętych (status `✅ skonsolidowane`/`✅ przekazane do new-app-standards`, bez żadnej otwartej dalszej akcji), przeniesionych stąd zgodnie z nową regułą **GOD BOOK Y.8** (`AKTUALIZACJE.md` new-app-standards, wiersz 84, 20.09.2026) — `docs/wklad-do-standardu.md` jest append-only i rośnie bez końca, ta reguła utrzymuje go czytelnym, przenosząc w pełni skonsolidowaną treść tutaj zamiast usuwając ją.
-
-**Ten plik też jest append-only** — nie usuwamy stąd wpisów. Kolejne archiwizacje dopisują się na końcu.
+Archiwum w pełni zamkniętych wpisów `docs/wklad-do-standardu.md` (GOD BOOK Y.8, archiwizacja). Zawiera dosłowne kopie 1:1 (treść, data, status) wpisów ze statusem „✅ skonsolidowane w standardzie” bez otwartej dalszej akcji. Plik append-only — nic nie edytujemy wstecz. Ostatnie przeniesienie: 03.10.2026 (13 wpisów).
 
 ---
 
-## Wpisy przeniesione 20.09.2026 (pierwsza archiwizacja, przy okazji sync-u GOD BOOK v2.19→v2.20)
-
-[14.09.2026] KATEGORIA: POMYSŁ NA REGUŁĘ — rozdział 09 (AI w produkcie) ma zasady, ale brak
-konkretnego kontraktu narzędzia, wzorca UX i budżetu/kosztu
-
-Szczegóły: `docs/standards/09-ai-w-produkcie.md` opisuje dobre, spójne zasady etyczne/architektoniczne
-(co AI może/nie może, tryby OFFLINE/HYBRID/CLOUD_ASSISTED, obrona przed prompt injection), ale w
-przeciwieństwie do rozdziału 03 (konkretny typ `CalcResult`) nie daje żadnego konkretnego kształtu
-narzędzia (function calling), żadnego wzorca UX dla obecności AI w interfejsie (rozdział 08 ma pełną
-taksonomię Wzorców A-H dla ekranów, zero dla AI), i nie porusza budżetu/kosztu wywołań modelu mimo
-istniejącej warstwy freemium (rozdział 12). Każdy projekt rodziny, który zacznie faktycznie budować
-funkcję AI, wymyśli te trzy rzeczy od nowa, niespójnie z resztą rodziny.
-
-Pełna propozycja (wersja z pełnym uzasadnieniem/kontekstem zostaje dodatkowo, nieusunięta, w
-`docs/propozycje-do-new-app-standards/ai-w-produkcie-rozbudowa.md` w tym repo):
-
-**1. Konkretny kontrakt narzędzia (uzupełnienie 9.3)** — ten sam duch co `CalcResult` z rozdziału 03,
-jeden nazwany typ, żeby narzędzia były wzajemnie kompatybilne między projektami rodziny:
-
-```ts
-type AiToolDefinition<TInput, TOutput> = {
-  name: string                       // np. "run_calculator.dobor_przekroju_kabla"
-  description: string                // po ludzku, do czego służy — model to czyta
-  inputSchema: ZodSchema<TInput>     // Zod, zgodnie z rozdziałem 02 (dane nie kod)
-  outputSchema: ZodSchema<TOutput>   // typowo = CalcResult<T> albo jego podzbiór
-  operationType: "read" | "write"
-  requiresConfirmation: boolean      // obowiązkowe true dla "write" (9.3)
-  scope: string[]                    // np. ["project:current"], nigdy "*"
-  handler: (input: TInput) => Promise<TOutput>
-}
-```
-
-Reguła: `handler` dla narzędzi typu "wywołaj kalkulator" zawsze deleguje do już istniejącej,
-niezależnie przetestowanej funkcji domenowej (rozdział 03) — nigdy nie zawiera logiki obliczeniowej
-samodzielnie. To czyni regułę 9.1 ("obliczenia nigdy nie zależą od AI") sprawdzalną maszynowo, nie
-tylko deklaratywną.
-
-**2. Budżet i koszt** — rozdział 9.6 opisuje tryby OFFLINE/HYBRID/CLOUD_ASSISTED wg dostępności
-sieci, nie wg kosztu. Każde wywołanie modelu w trybie CLOUD_ASSISTED ma koszt per token — potrzebny
-jawny budżet per użytkownik/projekt (limit miesięczny w warstwie freemium), egzekwowany server-side.
-Degradacja przy wyczerpanym budżecie musi być łagodna i jawna (echo zasady z rozdziału 06): AI
-przechodzi do trybu HYBRID/OFFLINE i mówi o tym wprost ("Wyczerpano miesięczny limit asystenta AI —
-nadal możesz korzystać ze wszystkich kalkulatorów ręcznie"), nigdy nie ukrywa degradacji.
-
-**3. Wzorce UX dla AI w produkcie (uzupełnienie rozdziału 08)** — dwa nazwane, rozróżnialne tryby
-(decyzja per projekt, który wdrożyć):
-- **Asystent wbudowany w ekran (inline)** — AI sugeruje wypełnienie konkretnych pól na już
-  istniejącym ekranie Wzorca D, nigdy nie zastępuje samego ekranu; widoczne jako odznaczalna sugestia
-  przy polu ("AI proponuje: 25% — użyj/odrzuć"), zgodnie z 9.2.
-- **Czat/asystent rozmowny (osobny panel)** — dla pytań nieprzypisanych do jednego ekranu; zawsze
-  kończy odpowiedź dotyczącą wyniku liczbowego linkiem do właściwego ekranu Doradcy, nie samą liczbą
-  wygenerowaną przez model.
-- W obu przypadkach: każda sugestia AI pokazuje źródło (`traceId`/`calculatorVersion`, rozdz. 03) —
-  użytkownik zawsze może zweryfikować, skąd wzięła się liczba.
-
-**4. Miejsce w procesie wersjonowania Biblii (uzupełnienie rozdziału 14)** — każda decyzja projektowa
-zaakceptowana przez użytkownika na podstawie sugestii AI w produkcie zapisuje się w stanie projektu z
-polem `zaproponowaneBy: "ai"` obok zwykłych zapisów — czysto informacyjne, nie zmienia procesu
-zatwierdzania (wciąż wymaga zgody użytkownika, 9.2), pozwala odróżnić "user wpisał sam" od "user
-zaakceptował sugestię AI" przy audycie/debugowaniu.
-
-**5. Otwarte pytania dla sesji `new-app-standards`:** czy `AiToolDefinition` (punkt 1) żyje w
-`03-jadro-obliczeniowe.md` (obok `CalcResult`) czy w `09-ai-w-produkcie.md`; czy budżet/koszt (punkt
-2) to osobna sekcja w 09 czy dopisek do 12 (freemium) z odnośnikiem zwrotnym; ten dokument celowo nie
-rozstrzyga "jakiego dostawcy modelu/architektury hostingu użyć" — decyzja produktowa per projekt.
-
-Dlaczego warto zgłosić do new-app-standards: AI-w-produkcie to nie specyfika Offgrid — każda apka
-rodziny prędzej czy później dostanie funkcję asystenta, a bez wspólnego kontraktu narzędzia i
-wzorca UX każdy projekt zbuduje niekompatybilną, jednorazową implementację, tak jak dziś dzieje się
-z i18n i logowaniem (patrz dwa zgłoszenia niżej).
-
-Status: ✅ skonsolidowane (15.09.2026, `docs/standards/09-ai-w-produkcie.md` 9.3/9.6/9.9/9.10 —
-kontrakt `AiToolDefinition`, budżet/koszt, dwa wzorce UX inline/czat, pole `zaproponowaneBy`;
-zweryfikowane 20.09.2026 przy okazji kolejnej aktualizacji — wszystkie cztery punkty propozycji
-faktycznie obecne w źródle, nie tylko zadeklarowane). Wpis wcześniej nieoznaczony mimo konsolidacji
-tego samego dnia następnego sync-u — poprawione teraz, zgodnie z zasadą "zweryfikowane
-programistycznie, nie z metryczki".
-
----
-
----
-
-[14.09.2026] KATEGORIA: POMYSŁ NA REGUŁĘ — brak w standardzie/GOD BOOK jakiegokolwiek rozdziału o
-logowaniu i kontach użytkownika
-
-Szczegóły: Sprawdzone wprost (nie zgadywane) — zero trafień na "logowanie"/"konto użytkownika"/
-"uwierzytelnianie"/"autoryzacja" w całym pakiecie `docs/standards/00`-`16` i w GOD BOOK. To nie jest
-luka tylko tego projektu (ten też nie ma żadnego kodu auth) — to luka na poziomie samego pakietu.
-Właściciel projektu wskazał apkę `zero-waste` (siostrzany projekt rodziny) jako wzorzec, na którym
-mają bazować rekomendacje — ta sesja nie miała dostępu do tamtego repo, więc zgłoszenie jest
-świadomie niedokończone (szkielet + pytania, nie gotowa specyfikacja).
-
-Co już ustalone bez zero-waste — echo istniejących zasad standardu (wersja z pełnym uzasadnieniem
-zostaje dodatkowo, nieusunięta, w `docs/propozycje-do-new-app-standards/logowanie-i-konta.md` w tym
-repo, oznaczona tam jako **celowo niedokończona**, bo miała bazować na kodzie `zero-waste`, do
-którego ta sesja nie miała dostępu):
-1. Offline-first (rozdział 05) musi przetrwać brak konta — logowanie nie może być bramką blokującą
-   dostęp do rdzenia aplikacji, najwyżej do funkcji wymagających synchronizacji/chmury. Konto =
-   opcjonalne rozszerzenie, nie warunek wejścia.
-2. Prywatność lokalna-domyślna (rozdział 07) — logowanie/konto to dokładnie moment zgody na chmurę,
-   nowy rozdział powinien się do 07 odwoływać, nie duplikować.
-3. Egzekwowanie freemium wyłącznie server-side (rozdział 12) — jeśli konto odblokowuje płatne
-   funkcje, sprawdzanie uprawnień nigdy nie może żyć tylko w kliencie.
-4. `StorageAdapter` (rozdział 05) — naturalne miejsce na dane sesji/tokenu, nie nowy równoległy
-   mechanizm przechowywania.
-5. Droga web→mobile (rozdział 13) — mechanizm auth powinien żyć za tym samym punktem wymiany
-   (adapters), nie być wpleciony bezpośrednio w kod web.
-
-Pytania wciąż czekające na odpowiedź z realnego kodu zero-waste (nierozstrzygnięte, nie zgadywane):
-dostawca/mechanizm auth (własna implementacja vs Supabase/Clerk/NextAuth/Firebase); model konta
-(jedno konto per apka, czy jedno konto rodziny na wszystkie apki); co dokładnie wymaga logowania
-(cała apka, czy tylko synchronizacja/chmura/płatności zgodnie z punktem 1); spięcie offline↔online
-(scenariusz "user pracował offline bez konta, potem się zalogował" — merge, nadpisanie, ręczny
-wybór — dotyka rozdziału 05, Seed vs Wynik); role/uprawnienia (poza pojedynczym typem użytkownika,
-np. instalator + klient); zakres bezpieczeństwa faktycznie wdrożony (reset hasła/weryfikacja
-email/2FA, do rozdziału 07).
-
-Dlaczego warto zgłosić do new-app-standards: logowanie to jeden z tych tematów, które "zawsze są
-zakładane, nigdy nie są nigdzie zapisane" — dokładnie to odkryła ta sesja, sprawdzając wprost zamiast
-zakładać. Dotyczy każdej apki rodziny, która kiedykolwiek doda konta użytkownika.
-
-Status: ✅ skonsolidowane (15.09.2026, `docs/standards/18-logowanie.md` — pełny nowy rozdział 18
-powstał, nie tylko szkielet; ten projekt zbudował własną implementację Supabase Auth na jego
-podstawie, patrz zadanie "Rozdz. 18: audyt i zamknięcie realnych luk"). Zweryfikowane 20.09.2026.
-
-
----
-
-[16.09.2026] KATEGORIA: BŁĄD — 18.4 (Supabase Auth jako wymóg) i 18.5 (token sesji wyłącznie w
-`HttpOnly` cookie) kolidują w praktyce dla "oczywistego" sposobu użycia biblioteki
-
-Szczegóły: Przy porządkowaniu szkieletu logowania (bez realnych kluczy, patrz `docs/memory.md`)
-sprawdzone wprost w `node_modules/@supabase/ssr` (nie zgadywane): `DEFAULT_COOKIE_OPTIONS`
-biblioteki to `{ path: "/", sameSite: "lax", httpOnly: **false** }`. Powód: `createBrowserClient()`
-(klient dla komponentów klienckich, dokumentowany jako standardowy sposób odczytu stanu logowania
-po stronie przeglądarki) musi umieć zapisać/odświeżyć tę samą cookie z poziomu JS — a `HttpOnly`
-jest z definicji niemożliwy do ustawienia przez JS w przeglądarce (ograniczenie platformy, nie
-wybór biblioteki). Skutek: każdy projekt, który podąży za "oczywistym" wzorcem (Server Component
-loguje przez `createServerClient`, komponent kliencki czyta status logowania przez
-`createBrowserClient().auth.getUser()` — dokładnie to, co ten projekt miał do 16.09.2026,
-`components/konto-sekcja.tsx`) **cicho łamie 18.5** przy pierwszym odświeżeniu tokenu przez klienta
-przeglądarkowego, mimo poprawnie ustawionych opcji po stronie serwera — sama obecność
-`createBrowserClient` gdziekolwiek w kodzie wystarczy, żeby zepsuć całą resztę.
-
-Naprawione w tym projekcie: `createBrowserClient`/`lib/adapters/supabase/client.ts` usunięte
-całkowicie (jedyne użycie zastąpione Server Actionem, `lib/adapters/supabase/get-account-status.ts`
-— stan logowania czytany server-side, nigdy przez klienta Supabase w przeglądarce). Dopiero bez
-żadnego `createBrowserClient` w kodzie jawne `cookieOptions: { httpOnly: true, secure: ..., sameSite:
-"lax" }` przekazane do `createServerClient` (sprawdzone w `node_modules`: biblioteka poprawnie
-nadpisuje `DEFAULT_COOKIE_OPTIONS` przekazanymi opcjami) faktycznie działa zgodnie z 18.5, bez
-ryzyka cichego nadpisania przez inny fragment kodu.
-
-Dlaczego warto zgłosić do new-app-standards: 18.4 nakazuje Supabase Auth "spójnie z 6.5", 18.5
-nakazuje czyste `HttpOnly` — żaden z dwóch punktów nie ostrzega, że najbardziej oczywisty,
-udokumentowany wzorzec użycia narzędzia z 18.4 (klient przeglądarkowy do odczytu stanu logowania)
-łamie 18.5 po cichu. Każdy kolejny projekt rodziny, który zacznie od klienta przeglądarkowego (bo
-to jest to, co pokazuje oficjalna dokumentacja Supabase), odkryje to dopiero przy audycie
-bezpieczeństwa, nie przy pisaniu kodu. Warta dopisania jako jawna, nazwana pułapka w 18.5 (albo
-nowy podpunkt): "nigdy nie używaj `createBrowserClient`/klienta Supabase w przeglądarce do odczytu
-stanu sesji — stan logowania czytany wyłącznie server-side (Server Component/Server Action), nawet
-kosztem dodatkowego round-tripu do serwera przy każdym odczycie w komponencie klienckim".
-
-Status: ✅ skonsolidowane (16.09.2026, `AKTUALIZACJE.md` wiersz 67 — nowa 18.5, "pułapka nazwana
-wprost": `createBrowserClient()` ma domyślnie `httpOnly:false`, stan logowania czytany wyłącznie
-server-side). Dokładnie ta pułapka, dokładnie to rozwiązanie.
-
-
----
-
-[16.09.2026] KATEGORIA: POMYSŁ NA REGUŁĘ — 18.5 wymaga "tokenu CSRF" na każdym endpoincie
-zmieniającym stan, ale nie rozstrzyga, czy wbudowana ochrona Next.js Server Actions to spełnia
-
-Szczegóły: 18.5 (dopisek 15.09.2026) mówi wprost: "Token CSRF (synchronizer token albo
-double-submit cookie) na każdym endpoincie zmieniającym stan, niezależnie od `SameSite` — obrona w
-głąb, nie zamiennik." Ten projekt miał `/auth/signout` jako zwykły Route Handler (`POST`) bez
-żadnego tokenu — zamieniony na Server Action (`app/auth/signout/actions.ts`), bo Next.js
-weryfikuje nagłówek Origin/Host przy każdym wywołaniu Server Action (mechanizm wbudowany w
-framework, nie kod tego projektu). To realna, sprawdzalna ochrona — ale **nie jest to dosłownie
-"synchronizer token" ani "double-submit cookie"**, tylko porównanie nagłówków żądania. Nie znaleziono
-w tej sesji jednoznacznej odpowiedzi (bez zgadywania), czy sprawdzenie Origin/Host przez framework
-ma być traktowane jako spełniające literę 18.5, czy 18.5 wymaga dodatkowo prawdziwego tokenu nawet
-na Server Actions. Świadomie NIE rozstrzygnięte samodzielnie w tym projekcie — Server Actions
-zamiast Route Handlerów to i tak poprawa względem stanu wyjściowego (zero ochrony → ochrona
-frameworkowa), niezależnie od odpowiedzi na to pytanie.
-
-Dlaczego warto zgłosić do new-app-standards: każdy projekt rodziny na Next.js App Router używający
-Server Actions do logowania/wylogowania (ten wzorzec już jest w 18.2/18.5 przykładach) natrafi na
-to samo pytanie. Jednoznaczne rozstrzygnięcie w rozdziale 18 (czy ochrona Origin/Host Next.js
-Server Actions wystarcza, czy zawsze wymagany jest dodatkowy token) oszczędzi każdej kolejnej
-sesji tę samą niepewność.
-
-Status: ✅ skonsolidowane (16.09.2026, `AKTUALIZACJE.md` wiersz 67 — rozstrzygnięcie: ochrona
-Origin/Host wbudowana we frameworku dla prawdziwych Server Actions spełnia wymóg "tokenu CSRF" z
-18.5; zwykłe Route Handlery nadal wymagają jawnego tokenu). Dokładnie to pytanie, dokładnie ta
-odpowiedź.
-
-
----
-
-[16.09.2026] KATEGORIA: BŁĄD — 7.3 (hash CSP dla inline `<script>`) jest architektonicznie
-niekompatybilny z Next.js App Router: produkcyjna CSP psuje hydrację Reacta na KAŻDEJ stronie
-
-Szczegóły: Przy pracy nad 5.3 (PWA offline-first, ten sam dzień) — pierwsza w tej sesji realna
-weryfikacja produkcyjnej CSP w prawdziwej przeglądarce (`pnpm build && pnpm start` + Playwright,
-nie `pnpm dev`, gdzie CSP jest celowo złagodzona o `unsafe-inline`/`unsafe-eval` dla HMR) —
-odkryto, że **hydracja Reacta psuje się na każdym ekranie aplikacji**, zawsze, w każdej produkcji:
-`Uncaught (in promise) Minified React error #412` w konsoli, poprzedzony seriami `Refused to
-execute inline script because it violates the following Content Security Policy directive`, za
-każdym razem z INNYM wymaganym hashem SHA-256.
-
-Przyczyna źródłowa: `script-src` tej CSP (wzorzec z rozdz. 7.3 tego standardu, wpis 16.09.2026,
-wiersz 70 — "hash liczony automatycznie, nigdy ręcznie") dopuszcza inline-skrypty wyłącznie przez
-jawnie wymieniony, stały hash — poprawne i wystarczające dla JEDNEGO, statycznego, znanego z góry
-skryptu (np. `WYGLAD_INIT_SCRIPT` tego projektu, ustawiający motyw przed pierwszym malowaniem).
-Next.js App Router (13+, w tym wersja tego projektu — 16) generuje jednak WŁASNE, dodatkowe
-inline `<script>` do przesłania payloadu RSC streaming (`self.__next_f.push([...])`) — jeden lub
-więcej PER ŻĄDANIE, z treścią zależną od danych renderowanej strony. Taka treść z definicji nie
-może mieć stałego hasha z góry — każde żądanie generuje inny hash, więc żaden statyczny wpis w
-`script-src` nigdy go nie obejmie. Rezultat: CSP oparta wyłącznie o statyczne hashe blokuje
-hydrację na KAŻDEJ stronie z jakąkolwiek dynamiczną treścią (czyli praktycznie każdej), nie tylko
-teoretycznie — potwierdzone jako **obecny, aktywny stan produkcji** tego projektu, nie ryzyko.
-
-Zweryfikowane jako niezwiązane z konkretną zmianą tej sesji (PWA) — identyczny błąd reprodukuje
-się na czystym `main` sprzed PWA (commit `b5fb177`), sprawdzone w izolowanym `git worktree`.
-Najpewniej niewykryte wcześniej, bo cała dotychczasowa weryfikacja w przeglądarce w tej sesji szła
-przez `pnpm dev` (złagodzona CSP) — nigdy przez `pnpm start` z prawdziwą produkcyjną CSP w
-rzeczywistej przeglądarce, dopóki nie zaszła potrzeba realnie sprawdzić rejestrację service
-workera.
-
-Rozwiązanie standardowe dla tej klasy problemu (nieprzetestowane jeszcze w praktyce w żadnym
-projekcie rodziny, ale to udokumentowany, oficjalny wzorzec Next.js): **CSP oparta o nonce
-generowany per żądanie w middleware**, nie o stałe hashe. Middleware generuje losowy nonce
-(`crypto.randomUUID()`/`crypto.randomBytes`), dokłada go do nagłówka CSP (`script-src 'self'
-'nonce-{wartość}'`) ustawianego DYNAMICZNIE w middleware (nie w statycznej funkcji `headers()`
-w `next.config.mjs`, bo ta nie ma dostępu do per-request nonce'u), i przekazuje ten sam nonce do
-`<html>` przez nagłówek `x-nonce` odczytywany w Server Component roota — Next.js automatycznie
-dokłada ten nonce do WSZYSTKICH generowanych przez siebie inline-skryptów (w tym RSC streaming),
-jeśli wykryje go w nagłówku odpowiedzi zgodnie z własnym mechanizmem. To eliminuje potrzebę
-ręcznego wyliczania hasha dla własnych inline-skryptów (jak `WYGLAD_INIT_SCRIPT`) — te też dostają
-ten sam nonce zamiast osobnego hasha.
-
-Dlaczego warto zgłosić do new-app-standards: **7.3 dziś opisuje wyłącznie wzorzec hash-based CSP**
-(ostatnio wzmocniony wiersza 70 AKTUALIZACJE.md o automatyczne liczenie hasha) — ten wzorzec
-działa poprawnie tylko dla stron w pełni statycznych, bez żadnego dynamicznego contentu
-renderowanego przez RSC/Suspense. Każdy przyszły i obecny projekt rodziny na Next.js App Router
-(dziś: ten projekt, potencjalnie inzynier-szkieletowy-pro), który wdroży hash-based CSP dosłownie
-wg dzisiejszego brzmienia 7.3, odziedziczy dokładnie ten sam błąd — całkowicie zepsutą hydrację w
-produkcji, cichą (bez błędu widocznego zwykłemu userowi, tylko w konsoli deweloperskiej), i bardzo
-łatwą do przeoczyć, bo `pnpm dev`/testy lokalne z reguły nie używają identycznej, ścisłej CSP co
-produkcja. Rekomendacja: 7.3 powinna jawnie rozróżnić dwa reżimy — (a) hash-based, tylko dla
-projektów BEZ App Routera Next.js albo ze stronami w pełni statycznymi (`output: "export"`), (b)
-nonce-per-request jako WYMAGANY wzorzec dla każdego projektu Next.js App Router z jakąkolwiek
-stroną renderowaną dynamicznie (czyli w praktyce: prawie zawsze) — z konkretnym przykładem
-middleware + odczytu nonce'u w root layout, analogicznym do już istniejących przykładów w
-`docs/przyklady/`.
-
-Świadomie NIE naprawione w tym projekcie na razie — właściciel repo zdecydował poczekać na
-rozstrzygnięcie przez tę konsolidację, zamiast budować naprawę lokalnie przed nią. Bieżący,
-częściowy obejście w tym projekcie: rejestracja service workera (5.3/PWA) zaprojektowana tak, by
-NIE zależeć od hydracji Reacta (zewnętrzny plik `public/register-sw.js` przez zwykły `<script
-src>`, nie komponent kliencki) — działa mimo błędu, ale to obejście jednego symptomu, nie
-naprawa przyczyny; reszta interaktywności aplikacji zależnej od hydracji pozostaje dotknięta.
-
-Status: ✅ skonsolidowane i naprawione (20.09.2026). `docs/standards/07-bezpieczenstwo.md` 7.3 ma
-teraz oba reżimy CSP jawnie rozróżnione (hash-based tylko dla projektów bez App Routera/w pełni
-statycznych; nonce-per-request wymagany dla Next.js App Router z dowolną stroną dynamiczną).
-**Ten projekt też naprawiony** — zweryfikowane wprost w `middleware.ts`: nonce generowany per
-żądanie (`crypto.randomUUID()`), przekazywany przez nagłówek `x-nonce` do Server Componentów i
-przez `Content-Security-Policy` do przeglądarki, `app/layout.tsx` odczytuje go i wstawia do
-`WYGLAD_INIT_SCRIPT`. Obejście serwis-workera opisane wyżej nie jest już potrzebne jako jedyna
-ochrona — pozostaje jako dodatkowa odporność, nie jako jedyny mechanizm.
-
-
----
-
-[20.09.2026] KATEGORIA: POMYSŁ NA REGUŁĘ — "kompletny szablon sekcji" w audycie pokrycia funkcji ≠ "ma computable wzór"
-
-Szczegóły: Wcześniejszy audyt (05.09.2026) oznaczył dwie funkcje (5.46 "ryzyko zamarznięcia
-dolnego źródła", 5.31 "hałas i wibracje", oba Moduł 6) jako "gotowe do budowy — pełna treść
-Doradcy z formułą", na podstawie tego, że źródło miało wypełniony pełny szablon sekcji A/B/C/D
-(Wejście/Silnik/Wynik/Migawka). Przy faktycznej implementacji (20.09.2026) okazało się, że
-źródło ma w Sekcji B (Silnik) tylko narrację słowną + jeden ilustracyjny przykład liczbowy —
-BEZ wzoru wiążącego wejścia z wynikiem. Etykieta "kompletny szablon" w audycie źle przewidziała
-budowalność — audyt sprawdzał obecność struktury (czy sekcje A/B/C/D są wypełnione tekstem),
-nie obecność faktycznie odtwarzalnego wzoru wewnątrz Sekcji B. Skutek: dwie funkcje błędnie
-zaklasyfikowane jako "todo, gotowe" zamiast "todo, wymaga Wzorca C (informacyjny, bez
-kalkulatora)" — poprawione dopiero przy realizacji, nie przy audycie.
-
-Dlaczego warto zgłosić do new-app-standards: to ogólny błąd metodologiczny audytu pokrycia
-funkcji w KAŻDYM projekcie rodziny opartym o szablon Doradcy A/B/C/D — łatwo pomylić "sekcja
-ma treść" z "sekcja ma wzór". Rekomendacja: standard (rozdział o Procesie/Audycie, albo
-09-AI/03-jądro-obliczeniowe) powinien doprecyzować kryterium klasyfikacji "gotowe do budowy"
-przy audycie pokrycia — wymagać jawnego potwierdzenia, że Sekcja B zawiera odtwarzalny wzór
-matematyczny (nie tylko opis słowny + przykład), zanim funkcja dostanie status "gotowe do
-budowy, pełna treść z formułą". Sam przykład liczbowy w źródle, bez ogólnego wzoru, powinien
-z automatu klasyfikować funkcję jako kandydata do Wzorca C (informacyjny), nie D (kalkulator).
-
-Status: ✅ skonsolidowane (20.09.2026, `docs/standards/08-ui-ux.md` — doprecyzowanie 8.2: audyt
-pokrycia musi potwierdzić odtwarzalny wzór w Sekcji B, nie tylko wypełnioną treść, zanim funkcja
-dostanie status "gotowe do budowy, Wzorzec D"). Zweryfikowane wprost w treści rozdziału.
-
-**Korekta numeracji (20.09.2026, przy archiwizacji):** ta reguła faktycznie żyje pod **8.4a**
-(`AKTUALIZACJE.md` new-app-standards, wiersz 77), nie 8.2 — pomyłka w cytowaniu numeru sekcji w
-oryginalnym wpisie status, treść merytoryczna poprawna i skonsolidowana.
-
-
----
-
-[20.09.2026] KATEGORIA: BŁĄD — nowy wzorzec ustalony w połowie projektu nie był retroaktywnie stosowany do kolejnych nowych modułów
-
-Szczegóły: Hook `usePersistedDraft` (autosave draftu formularza do IndexedDB) powstał
-15.09.2026 dla jednego ekranu (`napiecie-systemowe`), po zgłoszeniu użytkownika o utracie
-wpisanych danych. Od tego dnia to był lepszy, ustalony wzorzec dla KAŻDEGO nowego ekranu
-formularza w tym repo. Mimo to w tej samej sesji, już PO 15.09, zbudowano kolejnych 8 nowych
-modułów (`ryzyko-pid`, `dobor-regulatora-pwm-mppt`, `wind-chill`, `urzadzenia-zmienne`,
-`sprawnosc-inwertera-niskie-obciazenie`, `architektura-fazowa`, `kategorie-specjalne`,
-`systemy-podtrzymania-zycia`) zwykłym `useState`, bez autosave — bo AI kopiowało stary
-szablon plikowy (z czasów sprzed hooka) z przyzwyczajenia, zamiast za każdym razem sprawdzić,
-czy wzorzec, który powiela, jest wciąż aktualny. Błąd wykryty dopiero przy osobnym zadaniu
-rolloutu (punkt 8 z listy zaległości), które i tak musiało objąć te "świeże" moduły razem ze
-starymi — koszt: 8 modułów zbudowanych od razu źle, do poprawki później, zamiast raz dobrze.
-
-Dlaczego warto zgłosić do new-app-standards: to nie specyfika tego projektu — to ogólny problem
-procesowy przy pracy AI nad długim, wielosesyjnym projektem: gdy w trakcie projektu powstaje
-nowy, lepszy wzorzec dla klasy plików (nie tylko autosave — dowolny: nowy hook, nowa konwencja
-walidacji, nowy komponent bazowy), nic nie wymusza sprawdzenia "czy szablon, który zaraz
-skopiuję, jest nadal aktualny" przy KAŻDYM kolejnym pliku tej klasy, nawet w tej samej sesji.
-Rekomendacja dla standardu: gdy AI ustala nowy wzorzec dla całej klasy plików (nie
-jednorazowa decyzja), powinno od razu dopisać jedno zdanie w `docs/memory.md` w formie
-jawnej, przeszukiwalnej reguły ("od DD.MM: każdy nowy ekran typu X używa Y, nie starego Z") —
-i AI powinno mieć nawyk, żeby przed kopiowaniem istniejącego pliku jako szablonu dla nowego,
-sprawdzić `docs/memory.md` pod kątem takich reguł nowszych niż plik-źródło szablonu.
-
-Status: ✅ skonsolidowane (20.09.2026, `docs/standards/15-wspolpraca-z-ai.md` 15.19 — nowy wzorzec
-ustalony w trakcie sesji musi trafić do `docs/memory.md` od razu, sprawdzane przed kopiowaniem
-szablonu). Zweryfikowane wprost w treści rozdziału.
-
-
----
-
-[20.09.2026] KATEGORIA: DOBRA PRAKTYKA — kontrakt `AiToolDefinition` z 9.3 ma teraz działającą
-implementację referencyjną (nie tylko typ na papierze), plus jedna reguła kolejności warta
-dopisania obok niej
-
-Szczegóły: Wpis z 14.09.2026 (wyżej w tym pliku) zgłosił brak konkretnego kształtu narzędzia AI —
-skonsolidowany 15.09.2026 jako 9.3 (`docs/standards/09-ai-w-produkcie.md`). Od tego czasu w tym
-projekcie powstała pierwsza realna, przetestowana implementacja tego kontraktu (nie szkic):
-`lib/ai/types.ts` (typ + `validateAiToolDefinition()`), `lib/ai/tools/kalkulatory-pomocnicze-tool.ts`
-(pierwsze narzędzie), `lib/ai/to-anthropic-tool.ts` (adapter), `lib/ai/pytaj-asystenta.ts` (pętla
-agentowa). Dwa elementy tej implementacji są transferowalne i dziś nigdzie w standardzie nieopisane:
-
-1. **Most JSON Schema jako punkt przenośności między dostawcami AI.** `z.toJSONSchema()` (Zod v4,
-   natywne, bez dodatkowej biblioteki) generuje z `inputSchema` obiekt JSON Schema, który Anthropic
-   przyjmuje wprost jako `Tool.input_schema` — ale to DOKŁADNIE ten sam artefakt, którego zażąda
-   `function.parameters` OpenAI i `FunctionDeclaration.parameters` Gemini. Konsekwencja dla każdego
-   projektu rodziny planującego BYOK (podłączenie własnego klucza usera do wybranego dostawcy —
-   temat poruszony wprost przez właściciela tego projektu, jeszcze nie zbudowany): rejestr narzędzi
-   (9.3) pisany raz, w jednym miejscu, nie wymaga przepisania per dostawca — tylko cienkiego
-   adaptera per dostawca (~15-20 linii, sama zmiana koperty wokół tego samego JSON Schema), nie
-   powielenia opisów. Wart dopisania jako konkretna wskazówka architektoniczna obok samego typu
-   `AiToolDefinition` w 9.3 — dziś typ jest tam, ale nic nie mówi, że to, co w niego wpiszesz, jest
-   już z natury gotowe pod wielu dostawców, jeśli tylko trzyma się na Zod/schemacie generującym
-   standardowy JSON Schema.
-2. **Kolejność pisania: opis narzędzia AI na końcu, nie na początku.** Przy planowaniu, jak
-   efektywnie dobudować opisy AI do pozostałych kalkulatorów tego projektu (116 z 117 nie ma dziś
-   żadnego), ustalona rekomendacja: kalkulator (input/calculator/validation/warnings + testy) →
-   i18n (klucze tłumaczeń) → dopiero na końcu `AiToolDefinition`. Powód: dokładny opis narzędzia
-   (pola `.describe()` w Zod, treść `description` narzędzia) wymaga znajomości OSTATECZNEGO,
-   przetestowanego kształtu wejścia/wyjścia — pisanie go przed ustabilizowaniem kalkulatora ryzykuje,
-   że opis skłamie o kształcie danych po pierwszej zmianie w trakcie testowania. To osobna,
-   dodatkowa reguła obok już istniejącej 17.1a (i18n jako założenie architektoniczne od Etapu 1) —
-   ta ostatnia mówi "buduj razem od początku", ta tutaj doprecyzowuje wewnętrzną kolejność KROKÓW
-   w ramach tego samego, jednosesyjnego podejścia, żeby nie była to dowolna kolejność trzech
-   rzeczy naraz.
-
-Kod referencyjny (pierwsze narzędzie end-to-end, gotowe do skopiowania jako wzorzec): pliki
-wymienione wyżej, `lib/ai/` w tym repo.
-
-Dlaczego warto zgłosić do new-app-standards: AI w produkcie jest już dziś obowiązkowym elementem
-każdej apki rodziny (9.0) — każdy kolejny projekt, który zacznie budować rejestr narzędzi, odkryje
-te same dwie rzeczy (przenośność JSON Schema, kolejność pisania opisu) samodzielnie, chyba że
-zostaną nazwane raz, tutaj. To dokładnie ten sam wzorzec zgłoszenia, co CI referencyjny/i18n guard
-(wpis 16.09.2026 wyżej) — reguła bez przykładu kodu jest dużo łatwiejsza do błędnego wdrożenia niż
-reguła z gotowym, zweryfikowanym wzorcem obok.
-
-Status: ✅ skonsolidowane (20.09.2026, `docs/standards/09-ai-w-produkcie.md` — doprecyzowanie 9.3:
-Zod/JSON Schema jako most przenośności między dostawcami AI, reguła kolejności "opis na końcu").
-Zweryfikowane wprost w treści rozdziału.
-
-
----
-
-[20.09.2026] KATEGORIA: DOBRA PRAKTYKA — weryfikacja zainstalowanej wersji SDK wprost w
-`node_modules` (nie z pamięci treningowej modelu) przed wyborem konkretnego wzorca integracji,
-z konkretnym, udokumentowanym przykładem decyzji
-
-Szczegóły: Przy budowie `lib/ai/pytaj-asystenta.ts` (16.09.2026, PR #98 — pierwsza realna
-integracja rozdziału 09) padła konkretna decyzja techniczna: "pętla agentowa ręczna (manual
-agentic loop), nie beta Tool Runner SDK (`client.beta.messages.toolRunner`/`betaZodTool`)".
-Powód nie był domysłem — sprawdzone wprost `find`/`grep` w `node_modules`, że zainstalowana
-wersja `@anthropic-ai/sdk` (0.126.0) jeszcze nie ma tej bety. Zapisane w `docs/memory.md`
-(wpis z 16.09.2026) z jawną notatką na przyszłość: "jeśli SDK zostanie zaktualizowane, warto
-rozważyć migrację na Tool Runner — nie zrobione teraz świadomie, nie przeoczenie".
-
-To zastosowanie reguły "Never guess SDK usage" ze skilla `claude-api` (bundlowany skill Claude
-Code, nie część `new-app-standards`) — ale sam mechanizm, który tę regułę wymusił (sprawdzenie
-`node_modules` PRZED napisaniem kodu, zamiast polegania na tym, co model "pamięta" z treningu
-o danym SDK), jest ogólniejszy niż jeden konkretny skill i dotyczy **każdej** biblioteki
-zewnętrznej w **każdym** projekcie rodziny, nie tylko integracji AI. SDK-i i biblioteki
-zewnętrzne driftują między wersjami szybciej, niż aktualizuje się wiedza treningowa modelu —
-to samo ryzyko dotyczy Next.js (patrz już istniejący blok w `CLAUDE.md`/`generate-agent-files.js`:
-"This is NOT the Next.js you know"), Supabase, Zod, i każdej kolejnej biblioteki, którą projekt
-rodziny kiedykolwiek zaktualizuje.
-
-Rozdział 15 ma dziś **generyczną** wersję tej zasady (15.7, "nie wiem zamiast wymyślania" — nie
-zgaduj brakujących DANYCH), ale nie ma jej **konkretnej odmiany dla kodu integrującego bibliotekę
-zewnętrzną**: "nie zgaduj API/metod/kształtu wywołania biblioteki z pamięci treningowej — zweryfikuj
-wprost w zainstalowanej wersji (`node_modules`/`vendor`/odpowiednik stosu) przed napisaniem kodu,
-zwłaszcza gdy bibliotieka ma szybki cykl wydań (SDK dostawców AI, frameworki webowe)". Propozycja:
-dopisać to jako **15.7a**, z tym konkretnym przykładem (Anthropic SDK 0.126.0 vs beta Tool Runner)
-jako gotowa ilustracja "jak to wygląda w praktyce", analogicznie do już zgłoszonego wzorca
-(wpis 16.09.2026 wyżej — "reguła bez przykładu kodu jest łatwiejsza do błędnego wdrożenia niż
-reguła z gotowym wzorcem obok").
-
-Dlaczego warto zgłosić do new-app-standards: to nie jest specyfika AI czy jednego SDK — to ogólny
-problem każdej sesji AI piszącej kod na bibliotece, która aktualizuje się częściej niż wiedza
-treningowa modelu. Bez jawnie nazwanej reguły z konkretnym przykładem, kolejny projekt rodziny
-(albo ta samo, po aktualizacji zależności) ryzykuje napisanie kodu na nieistniejące/przestarzałe
-API biblioteki, wykryte dopiero przy `pnpm build`/`pnpm typecheck`, a nie przed napisaniem kodu.
-
-Status: ✅ skonsolidowane (20.09.2026, `docs/standards/15-wspolpraca-z-ai.md` 15.7a — nie zgaduj
-API biblioteki zewnętrznej z pamięci treningowej, zweryfikuj zainstalowaną wersję wprost).
-Zweryfikowane wprost w treści rozdziału.
-
-
----
-
-[20.09.2026] KATEGORIA: POMYSŁ NA REGUŁĘ — rejestr narzędzi AI powinien być architektonicznym
-domyślnym od Etapu 1 (jak 17.1a i18n oraz 5.7 autosave), nie dobudowywany reaktywnie
-
-Szczegóły: Na wyraźną prośbę właściciela projektu ("róbmy to od razu, nie tylko dla
-wielojęzyczności, ale i dla AI") — rozszerzenie wpisu bezpośrednio wyżej (referencyjna
-implementacja `AiToolDefinition`) o formalną propozycję reguły w tym samym kształcie, co dwie już
-skonsolidowane reguły tego standardu: [17.1a](../standards/17-i18n.md) (wielojęzyczność od Etapu 1)
-i [5.7](../standards/05-baza-danych-offline.md) (autosave od Etapu 1). Ten projekt ma dziś **trzeci
-niezależny przypadek tego samego wzorca kosztu**: warstwa dobudowana reaktywnie do już istniejących
-ekranów (i18n — dziesiątki ekranów z twardym polskim tekstem; autosave — ~90 ekranów bez
-persystencji; teraz AI — 116 ze 117 kalkulatorów bez zarejestrowanego narzędzia) zawsze kończy się
-osobną, kosztowną kampanią retrofitu zamiast kosztem rozłożonym na każdy ekran budowany od razu
-poprawnie. Trzecie wystąpienie tego samego kształtu w jednym projekcie to silny sygnał ogólnej
-prawidłowości, nie przypadku.
-
-Gotowa, pełna treść proponowanej reguły (wzorowana 1:1 na strukturze 17.1a/5.7, z jednym świadomie
-nazwanym odstępstwem — inną kolejnością pisania wewnątrz pojedynczego ekranu niż przy i18n, bo opis
-narzędzia AI wymaga ustabilizowanego kontraktu I/O, więc musi powstać na końcu, nie na początku;
-wersja z pełnym uzasadnieniem zostaje dodatkowo, nieusunięta, w
-`docs/propozycje-do-new-app-standards/ai-w-produkcie-rozbudowa.md`, sekcja 6, w tym repo) — proponowany
-podpunkt **9.0a**, obok 9.0 "Obowiązkowość AI w produkcie":
-
-> Każdy nowy projekt rodziny zakłada od **Etapu 1** (szkielet architektury, zanim powstanie pierwszy
-> ekran kalkulatora), że każdy kalkulator dostanie zarejestrowane narzędzie AI (`AiToolDefinition`,
-> patrz zgłoszenie 14.09.2026 wyżej) — nigdy "AI dodamy do interfejsu później, jako osobny projekt
-> nad już gotowymi ekranami". Konkretnie, od pierwszego dnia:
->
-> - Szkielet ma gotowy, generyczny rejestr narzędzi (`NARZEDZIA`/`AiToolDefinition[]`) i adapter do
->   wybranego dostawcy modelu (most JSON Schema, patrz zgłoszenie 20.09.2026 wyżej) — zbudowane razem
->   z Kernelem, nie po fakcie.
-> - **Kolejność wewnątrz jednego ekranu pozostaje świadomie inna niż dla i18n**: kalkulator →
->   struktura i18n → dopiero na końcu opis narzędzia AI, bo dokładny opis (`.describe()` na polach
->   Zod, treść `description`) wymaga znajomości OSTATECZNEGO, przetestowanego kształtu
->   wejścia/wyjścia — w odróżnieniu od i18n (gdzie struktura kluczy powstaje pierwsza, bo kalkulator
->   i tak musi zwracać klucze, nie gotowy tekst), tutaj struktura rejestru powstaje pierwsza (na
->   poziomie szkieletu), ale WPIS per-kalkulator powstaje ostatni (na poziomie pojedynczego ekranu).
-> - `handler` każdego nowego narzędzia deleguje 1:1 do już istniejącej funkcji domenowej (9.2) —
->   nigdy nowa logika pisana specjalnie pod AI.
-
-Dowód z tego projektu: w chwili zgłoszenia 116 ze 117 zbudowanych kalkulatorów
-(`lib/core/modules/*/calculator.ts`) nie miało żadnego zarejestrowanego narzędzia AI — dokładnie ten
-sam kształt zaległości, co ~90 ekranów bez autosave przed 5.7 i dziesiątki ekranów z twardo wpisanym
-polskim tekstem przed 17.1a.
-
-Dlaczego warto zgłosić do new-app-standards: dokładnie ten sam argument, co przy konsolidacji
-17.1a/5.7 — trzy niezależne projekty/warstwy odkryły ten sam koszt osobno, w różnym czasie, co było
-wystarczającym sygnałem, żeby podnieść autosave i i18n do rangi reguły. AI w produkcie jest już
-dziś obowiązkowa dla każdej apki rodziny (9.0) — bez tej reguły każdy kolejny projekt powtórzy
-dokładnie ten sam błąd sekwencji po raz czwarty.
-
-Status: ✅ skonsolidowane (20.09.2026, `docs/standards/09-ai-w-produkcie.md` 9.0a — rejestr
-narzędzi AI jako architektoniczny domyślny od Etapu 1, z zastrzeżeniem o kolejności "opis na
-końcu" przeniesionym 1:1 z propozycji). Zweryfikowane wprost w treści rozdziału.
-
-
----
-
-[20.09.2026] KATEGORIA: BŁĄD — równoległe uruchomienie wielu subagentów wyczerpało limit sesji API szybciej niż praca sekwencyjna
-
-Szczegóły: Duży mechaniczny rollout (114 plików, ta sama transformacja `useState` →
-`usePersistedDraft` w każdym) podzielony na 8 batchy po ~15 plików, uruchomionych jako 8
-niezależnych agentów w tle RÓWNOCZEŚNIE (jedno wywołanie narzędzia z 8 blokami). Wszystkie 8
-padło w trakcie pracy na błąd 429 "session limit" — konto wyczerpało limit zanim którykolwiek
-agent skończył, zostawiając 75 ze 114 plików przekonwertowanych, resztę trzeba było dokończyć
-bezpośrednio (bez kolejnych subagentów, żeby nie powtórzyć błędu). Koszt: przerwana praca,
-dodatkowa runda diagnozy (`pnpm typecheck`/`lint` na częściowym stanie, żeby upewnić się, że
-żaden agent nie zostawił pliku w połowie edycji) zanim dokończenie było możliwe.
-
-Dlaczego warto zgłosić do new-app-standards: 8 subagentów naraz, każdy robiący dziesiątki
-wywołań API w krótkim czasie, może wyczerpać limit sesji konta znacznie szybciej niż ta sama
-praca rozłożona sekwencyjnie/mniejszymi turami — to nieoczywiste, bo intuicyjnie
-"równoległe = szybsze i bezpieczniejsze". Dla zadań w pełni mechanicznych (bez potrzeby
-kreatywnej oceny per plik, jak w tym przypadku) sekwencyjna praca bezpośrednia bywa
-bezpieczniejsza niż orkiestracja wielu subagentów. Rekomendacja: standard powinien zawierać
-wytyczną o rozsądnym limicie równoległych subagentów (np. 2-4 na raz) dla dużych mechanicznych
-rolloutów, z sugestią sprawdzenia typecheck/lint na częściowym stanie przed kontynuacją, gdyby
-któryś padł w trakcie.
-
-Status: ✅ skonsolidowane (20.09.2026, `docs/standards/15-wspolpraca-z-ai.md` 15.20 — limit 2-4
-równoległych subagentów dla dużych mechanicznych rolloutów). Zweryfikowane wprost w treści rozdziału.
-
-
----
-
-[20.09.2026] KATEGORIA: POMYSŁ NA REGUŁĘ — autosave draftu formularza powinien być architektonicznym domyślnym od pierwszego ekranu, nie dobudowywanym reaktywnie po zgłoszeniu
-
-Szczegóły: W tym projekcie autosave (`usePersistedDraft`, zapis draftu formularza do
-IndexedDB przy każdej zmianie) powstał 15.09.2026 — dopiero po tym, jak użytkownik zgłosił
-realną utratę danych (przeglądarka mobilna odświeżyła kartę w tle, formularz wrócił pusty).
-Do tego dnia zbudowano już ~90 ekranów kalkulatorów zwykłym `useState`, bez żadnej persystencji
-— wszystkie wymagały późniejszego, osobnego zadania konwersji (114 plików, jedna sesja, viz.
-powiązany wpis BŁĄD wyżej o nowym wzorcu nie stosowanym retroaktywnie — to jest jego pierwotna
-przyczyna: gdyby autosave był domyślny od Ekranu 1, tamten błąd w ogóle nie mógłby powstać).
-Koszt: dziesiątki ekranów budowanych dwa razy (raz bez autosave, raz z konwersją), zamiast raz
-z automatycznym mechanizmem od początku.
-
-Dlaczego warto zgłosić do new-app-standards: to nie specyfika tego projektu — **każda** aplikacja
-offline-first z formularzami wielopolowymi (dokładnie profil całej rodziny "Inżynier Pro", patrz
-`docs/standards/05-baza-danych-offline.md`, "Seed nie Wynik") ma ten sam ryzyko: użytkownik traci
-wpisane dane przy odświeżeniu/zamknięciu karty, zanim ktoś to zgłosi jako bug. To przewidywalne
-z góry, nie coś, co trzeba było odkryć w praktyce. Rekomendacja dwuczęściowa:
-1. **Architektoniczna:** standard (rozdział 05 lub 03-jądro-obliczeniowe) powinien wymagać, żeby
-   każdy nowy projekt rodziny miał gotowy, generyczny hook/wzorzec autosave draftu formularza
-   (Seed → `StorageAdapter`, debounce'owany zapis, async odczyt przy montowaniu) **zbudowany
-   razem ze szkieletem architektury (Etap 1), zanim powstanie pierwszy ekran kalkulatora** — nie
-   jako osobne zadanie dobudowywane później per zgłoszenie. Ten sam hook/wzorzec używany od
-   pierwszego dnia przez KAŻDY nowy ekran z polami formularza, bez wyjątków.
-2. **Procesowa (uzupełnienie wcześniejszego wpisu o kopiowaniu nieaktualnych szablonów):** dopóki
-   punkt 1 nie jest jeszcze zaimplementowany w danym projekcie, standard/`CLAUDE.md` powinien
-   jawnie nakazywać: przed napisaniem nowego ekranu/pliku wg istniejącego wzorca, AI **musi**
-   sprawdzić `docs/memory.md`/`docs/standards/` pod kątem najnowszej, aktualnej wersji tego
-   wzorca — nigdy nie kopiować z pamięci/z najbliższego przykładu w kodzie bez tej weryfikacji,
-   nawet w obrębie tej samej sesji. Powtarzalny koszt tego zaniedbania (ten projekt: 8 nowych
-   modułów zbudowanych bez autosave w tej samej sesji, w której autosave już istniał) pokazuje,
-   że "AI pamięta niedawno ustalony wzorzec" nie jest wystarczającym zabezpieczeniem — potrzebna
-   jest jawna, wymuszona checklista, nie poleganie na pamięci kontekstu.
-
-Status: ✅ skonsolidowane (20.09.2026, `docs/standards/05-baza-danych-offline.md` 5.7 — autosave
-draftu formularza jako architektoniczny domyślny od Etapu 1, ten sam wzorzec co 17.1a).
-Zweryfikowane wprost w treści rozdziału.
-
----
-
+[24.09.2026] KATEGORIA: DOBRA PRAKTYKA — biblioteki z własnym Web Workerem (MapLibre GL 6 i podobne)
+po zbundlowaniu przez Next.js: kopia workera w `public/` robiona w `predev`/`prebuild`, nie w repo
+
+Szczegóły: MapLibre GL 6 tworzy worker z pliku leżącego obok własnego modułu (`new URL("./maplibre-gl-worker.mjs",
+import.meta.url)`). Po zbundlowaniu (Turbopack) ten plik nie istnieje pod wyliczoną ścieżką — mapa
+rysowała tło, ale nic więcej, a w konsoli było tylko "Worker failed to load". Rozwiązanie, które
+zadziałało: skrypt `scripts/kopiuj-maplibre-worker.mjs` uruchamiany jako `predev` i `prebuild` kopiuje
+worker (i moduł, który worker importuje względnie) z `node_modules` do `public/maplibre/`, katalog jest
+w `.gitignore`, a kod wskazuje kopię przez `setWorkerUrl`. Kopia zawsze pasuje do wersji z lockfile'a,
+w repo nie ma skopiowanego kodu biblioteki. Do tego CSP potrzebuje `worker-src 'self' blob:`. Przy tej
+samej pracy: szablonowy nagłówek `Permissions-Policy: geolocation=()` po cichu wyłączał GPS w całej
+aplikacji — nowa funkcja korzystająca z API przeglądarki (GPS, kamera, mikrofon) musi zacząć od
+sprawdzenia nagłówków bezpieczeństwa, bo przeglądarka odmawia bez czytelnego błędu w UI.
+
+Dlaczego warto zgłosić do new-app-standards: każdy projekt rodziny z mapą, PDF.js, edytorem kodu albo
+inną biblioteką z workerem trafi na ten sam problem, a "Worker failed to load" nie wskazuje przyczyny.
+Rozdział 11 (CI/deployment) albo 07 (bezpieczeństwo — CSP `worker-src`, Permissions-Policy) mógłby mieć
+krótką notę: "biblioteka z workerem → kopia w prebuild do public/ + `worker-src`; nowe API przeglądarki →
+najpierw Permissions-Policy".
+
+Status: ✅ skonsolidowane w standardzie (24.09.2026) — `docs/standards/11-ci-deployment.md` nowa
+**11.7** (kopiowanie pliku zależnego od `node_modules` do `public/` skryptem `predev`/`prebuild`,
+nigdy commitowane) + `docs/standards/07-bezpieczenstwo.md` dopisek do **7.3** (`worker-src 'self'
+blob:`) i nowy punkt checklisty **7.4** (nowa funkcja API przeglądarki zaczyna od sprawdzenia
+`Permissions-Policy`). Źródło potwierdzenia: `AKTUALIZACJE.md` w `new-app-standards`, wiersz
+2026-09-24, GOD BOOK bez zmiany numeru wersji dla tego wiersza. Sprawdzone przy Y.6 24.09.2026
+(sesja `claude/y6-adaptive-20260924`) — do zastosowania w tym projekcie przy pełnej synchronizacji
+NIETYKALNE (`docs/standards/11`, `07`), jeszcze nie zaaplikowane lokalnie, patrz `docs/memory.md`.
+
+[25.09.2026] KATEGORIA: POMYSŁ NA REGUŁĘ — zapowiedź "pełne wyliczenie później" w rejestrze pokrycia jako sposób, w jaki Dyrektywa #14 (rejestruj natychmiast) jest omijana po cichu
+
+Szczegóły: sekcja rejestru pokrycia Modułu 3 (04.09.2026) zawierała zdanie "pełne wyliczenie
+per-funkcja całego modułu — nadal osobny, nie rozpoczęty krok". Zdanie było uczciwe, ale przez 3
+tygodnie nikt go nie wykonał, a audyt kompletności (GOD BOOK Część N, 05.09.2026) je przepuścił —
+sprawdzał, czy istniejące wiersze zgadzają się ze źródłem, a nie czy KAŻDA pozycja źródła ma wiersz.
+Skutek: 17 z 30 pozycji źródła bez wiersza (niewidoczne, niepoliczalne), odkryte dopiero na starcie
+sesji budowy tego modułu, prostym grepem nazw ekranów źródła w rejestrze.
+
+Dlaczego warto zgłosić do new-app-standards: każdy projekt z rejestrem pokrycia (14.1) i dużą
+specyfikacją źródłową może mieć tę samą lukę — zapowiedź odroczonego wyliczenia wygląda jak
+świadome, udokumentowane "todo", a działa jak brak wiersza. Propozycja: (a) w GOD BOOK N.1 dodać
+krok "dla każdego modułu: liczba pozycji źródła = liczba wierszy rejestru (grep nazw/ID), a nie
+tylko zgodność istniejących wierszy"; (b) zdanie typu "pełne wyliczenie później" w rejestrze
+traktować jako otwartą pozycję listy zadań z terminem (B.6/15.22), nie jako stan akceptowalny.
+
+Status: ✅ skonsolidowane w standardzie (25.09.2026) — GOD BOOK v2.39 **N.1** (kompletność źródło → rejestr, liczbowo; placeholder "wyliczenie później" = brak wiersza) + dopisek w standardzie **14.1**. Źródło: `AKTUALIZACJE.md` `new-app-standards`, wiersz 2026-09-25.
+
+[25.09.2026] KATEGORIA: POMYSŁ NA REGUŁĘ — materiały źródłowe chronione prawem autorskim (normy PKN/IEC) a publiczne repozytorium
+
+Szczegóły: GOD BOOK B.5 każe trzymać każdy oryginalny materiał źródłowy w `docs/zrodla/` w
+niezmienionej formie. W tym projekcie repozytorium jest publiczne, a `docs/zrodla/` zawiera PDF-y norm
+PKN/IEC oraz `.md` z przepisaną treścią rozdziałów — dosłowne wykonanie B.5 publikuje materiały
+licencjonowane. Nowa norma (25.09.2026) miała dodatkowo nadruk licencji jednostanowiskowej z zakazem
+umieszczania w sieci i znak wodny z danymi osobowymi pobierającego. AI zatrzymało zapis i zapytało
+właściciela; oryginał został poza repo, w repo tylko notatka robocza z liczbami używanymi w kodzie.
+
+Dlaczego warto zgłosić do new-app-standards: każdy projekt rodziny liczący wg norm trafi na to samo.
+Propozycja do B.5: przed zapisem materiału do `docs/zrodla/` sprawdzić (1) widoczność repozytorium,
+(2) nadruki licencji/praw autorskich, (3) dane osobowe w znakach wodnych; dla materiału chronionego w
+repo publicznym — oryginał poza repo, w repo notatka robocza (numer punktu/tablicy + liczby używane w
+kodzie), z odnotowaniem, gdzie przechowywany jest oryginał. Przepisanie całości do `.md` nie jest
+obejściem — chroniona jest treść, nie format.
+
+Status: ✅ skonsolidowane w standardzie (25.09.2026) — GOD BOOK v2.39 **B.5**, rozstrzygnięte inaczej niż propozycja: do startu aplikacji wszystkie oryginały w `docs/zrodla/` repo projektu (bez wyjątków ze względu na rodzaj materiału), po starcie przeniesione do `new-app-standards` (`docs/biblioteka-norm/` dla norm). Źródło: `AKTUALIZACJE.md`, wiersz 2026-09-25.
+
+[25.09.2026] KATEGORIA: POMYSŁ NA REGUŁĘ — komponent pola formularza nie może budować `id` wyłącznie z etykiety
+
+Szczegóły: wspólny komponent `Pole`/`PoleSelect` generuje `id` z tekstu etykiety. Gdy ten sam formularz
+powtarza się w liście (karty źródeł ciepła, powierzchnie, pozycje), N pól dostaje to samo `id` — `<label
+for>` wiąże się tylko z pierwszym, czytnik ekranu i kliknięcie w etykietę trafiają w złe pole, a testy
+Playwright `getByLabel` znajdują jeden element. Błąd niewidoczny w typecheck, lint i testach jednostkowych;
+wyszedł dopiero w teście przeglądarkowym nowego ekranu. Wstępny skan statyczny wskazał kilkadziesiąt
+ekranów z polami w `.map()` bez jawnego `id` (do weryfikacji w przeglądarce).
+
+Dlaczego warto zgłosić do new-app-standards: każdy projekt rodziny ma ten sam wzorzec komponentu pola
+(standard, rozdział UI). Propozycja: (a) komponent pola generuje `id` przez `useId()` (React 18+),
+etykieta tylko jako czytelny prefiks; (b) albo reguła: pole w liście zawsze z jawnym `id`; (c) w
+checkliście testów przeglądarkowych — sprawdzenie zduplikowanych `id` na stronie
+(`document.querySelectorAll('[id]')` → duplikaty = błąd).
+
+Status: ✅ skonsolidowane w standardzie (25.09.2026) — `docs/standards/08-ui-ux.md` dopisek do **8.10** (`id` pola z `useId()`, nigdy z etykiety). Źródło: `AKTUALIZACJE.md`, wiersz 2026-09-25.
+
+[26.09.2026] KATEGORIA: DOBRA PRAKTYKA — strażnik i18n sprawdza też kompletność własnej listy modułów
+
+Szczegóły: 17.9 opisuje strażnika z listą zmigrowanych modułów, a zasada „dopisz moduł w tej samej sesji” była w tym projekcie
+dwukrotnie pomijana (M6/E1 i 19 modułów w pełni zmigrowanych, ale bez ochrony). Teraz skrypt przechodzi po katalogach modułów
+i kończy się błędem, gdy katalog z plikiem silnika nie jest na liście. Przy okazji: reguła AST łapała tylko
+`assumptions: [...]` / `const assumptions = [...]`, a nie `assumptions.push("tekst")` — jeden moduł przemycał tak gotowy tekst.
+
+Dlaczego warto zgłosić do new-app-standards: lista „ręcznie dopisywana” rozjeżdża się w każdym projekcie; 17.9 mogłoby
+zalecać odwrócenie domyślności (po zakończeniu migracji: wszystkie moduły objęte, wyjątki jawne) oraz wymienić wzorzec
+`push` wśród konstrukcji, które strażnik musi rozpoznawać.
+
+Status: ✅ skonsolidowane w standardzie (29.09.2026) — `docs/standards/17-i18n.md` dopisek do **17.9** (strażnik sprawdza kompletność własnego zakresu) + **11.9** pkt 3. Źródło: `AKTUALIZACJE.md` `new-app-standards`, wiersze 2026-09-29.
+
+[27.09.2026] KATEGORIA: POMYSŁ NA REGUŁĘ — brak wprost sformułowanego obowiązku commit→push→PR→merge po każdym zamkniętym module/zadaniu (tylko obowiązek zadeklarowania stanu)
+
+Szczegóły: sprawdzone wprost na żądanie właściciela repo, czy standard/GOD BOOK nakazuje commit+push+PR+merge po każdej
+większej pracy/module. Wynik: **nie ma takiej reguły** — jest tylko 15.21 (deklaracja stanu commit/push/PR/merge zawsze
+jako ostatnie zdanie odpowiedzi) i osobno GOD BOOK v2.39 dopisek "od wersji 2.19" (U.4), który mówi wyłącznie, że w
+środowisku z wyznaczonym branchem (Claude Code Remote) intencja self-bind Routine "commit+push na main" realizuje się
+jako PR+merge tej samej sesji — to opisuje jeden konkretny mechanizm (Routine Y.6), nie ogólną zasadę dla zwykłej pracy
+nad modułami. W praktyce zaobserwowanej w tym repo: gałęzie robocze potrafią rosnąć przez wiele sesji/dni bez PR-a i
+mergea do `main` (np. `claude/prep-work-kppxeb` przed tym wpisem: 12 commitów, kilka dni pracy, PR dopiero na wyraźne
+polecenie właściciela), podczas gdy równolegle powstawały osobne krótkotrwałe gałęzie (`claude/y6-check-*`,
+`claude/sync-*`) merge'owane szybciej. Efekt uboczny braku jawnej reguły: w repo narosło ~15 nigdy niescalonych gałęzi,
+z których część (5 gałęzi `y6-check`/`sync-*`/`app-rules-*`) okazała się już martwa — ich jedyna unikalna treść była
+później i tak zapisana inną drogą do `main`, więc same gałęzie stały się śmieciem wymagającym ręcznego audytu
+(`git branch -r --no-merged`, sprawdzenie każdej pod kątem czy to nie regres).
+
+Dlaczego warto zgłosić do new-app-standards: 15.21 zakłada, że *ktoś* (właściciel albo AI z własnej inicjatywy) i tak
+zdecyduje o momencie push/PR/merge — ale bez jawnego progu ("po zamknięciu każdego zadania z listy `docs/lista-do-
+zrobienia.md`", "po każdym module", albo "na koniec sesji") decyzja o kiedy scalić zostaje całkowicie do uznania,
+co w projektach wielosesyjnych/wielogałęziowych (ta sama rodzina co self-bind Routine) prowadzi do narastania martwych
+gałęzi i utrudnia orientację "co jest już w `main`, a co nie". Propozycja: 15.21 albo nowa podsekcja mogłaby dodać
+zalecenie domyślnego progu (np. "po zamknięciu pozycji `docs/lista-do-zrobienia.md`, chyba że właściciel prosi o
+wsadowanie kilku naraz") oraz rutynowe czyszczenie gałęzi już w pełni pokrytych przez `main` (`git branch -r
+--merged`) jako część higieny repo (14.x?), nie tylko ad-hoc audyt na żądanie.
+
+Status: ✅ skonsolidowane w standardzie (29.09.2026) — `docs/standards/15-wspolpraca-z-ai.md` nowa **15.23** + dopisek do 15.21 (commit→push→PR→merge obowiązkowy po większej pracy). Źródło: `AKTUALIZACJE.md` `new-app-standards`, wiersze 2026-09-29.
+
+[28.09.2026] KATEGORIA: BŁĄD — chmurka pomocy „?” (8.4) zbudowana na komponencie Tooltip nie otwiera się na ekranie dotykowym
+
+Szczegóły: `components/ui/chmurka.tsx` (`Chmurka`/`PomocPole`, realizacja 8.4 — „?” obok etykiety pola z nazwą,
+zastosowaniem i zakresem) był zbudowany na `Tooltip` z Base UI. Na desktopie działał (hover/focus), więc przeszedł
+przez wzornik i pierwszy ekran bez uwag. Test Playwright z emulacją telefonu (`devices["Pixel 5"]`, `tap`) pokazał,
+że na dotyk chmurka **w ogóle się nie otwiera** — Tooltip z założenia nie reaguje na tap (tak działa większość
+bibliotek: tooltip = hover-only). W aplikacji mobile-first to oznacza, że cała warstwa wyjaśnień 8.4 była
+niewidoczna dla głównej grupy użytkowników. Naprawa: `Popover` z `openOnHover` (hover zostaje na desktopie,
+tap/klik/Enter działają wszędzie), API komponentu bez zmian. Wykryte przypadkiem, przy dodawaniu nowego `pomoc`.
+Dlaczego warto zgłosić do new-app-standards: 8.4 każe dać „?” przy każdym polu liczbowym, ale nie mówi, jakim
+prymitywem — naturalny wybór („to przecież tooltip”) jest błędny dla każdej aplikacji rodziny działającej na
+telefonie (wszystkie, rozdz. 13). Propozycja: 8.4 dopowiada „popover otwierany dotknięciem, nie tooltip hover-only”
++ 10.x: weryfikacja chmurek e2e także z emulacją dotyku, nie tylko myszy.
+Status: ✅ skonsolidowane w standardzie (29.09.2026) — `docs/standards/08-ui-ux.md` dopisek do **8.4** (`?` otwierany kliknięciem/dotknięciem, nigdy tooltip hover-only). Źródło: `AKTUALIZACJE.md` `new-app-standards`, wiersze 2026-09-29.
+
+[28.09.2026] KATEGORIA: BŁĄD / PUŁAPKA — notatka przekazania na niescalonej gałęzi: kolejna sesja powtarza zrobioną pracę
+
+Szczegóły: sesja A zakończyła pracę na własnej gałęzi (bez PR, bez merge), zostawiając w `docs/lista-do-zrobienia.md`
+wpis ✅ i notatkę „PRZEKAZANIE DLA KOLEJNEJ SESJI”. Sesja B (nowa gałąź z `main`) przeczytała listę z `main`, gdzie ten
+sam wpis był nadal 🔲, i zrobiła identyczną zmianę (D29 — trzy kalkulatory, testy, UI, dokumentacja) drugi raz.
+Standard (14.x, GOD BOOK P.2/Y.4) każe czytać listę zadań na starcie, ale zakłada, że lista na `main` jest aktualna —
+przy pracy wielu równoległych sesji w chmurze, każda na własnej gałęzi, tak nie jest. Propozycja: (1) krok startu
+sesji „`git fetch` + gałęzie `claude/*` zmienione w ostatniej dobie + `git log origin/main..origin/<gałąź>`, a notatkę
+przekazania czytać z najnowszej gałęzi, nie z `main`”; (2) sesja kończąca bez merge zapisuje notatkę przekazania także
+w miejscu widocznym z `main` (np. PR w stanie draft), albo wprost w prompcie dla kolejnej sesji podaje nazwę gałęzi.
+Status: ✅ skonsolidowane w standardzie (29.09.2026) — `docs/standards/15-wspolpraca-z-ai.md` **15.23** pkt 3–4 (lista zadań i ślad gałęzi na gałęzi domyślnej, start z przeglądem niescalonych gałęzi). Źródło: `AKTUALIZACJE.md` `new-app-standards`, wiersze 2026-09-29.
+
+[28.09.2026] KATEGORIA: POMYSŁ NA REGUŁĘ (zgłoszenie właściciela repo) — lista zadań zawsze aktualna na `main` + ślad ostatniej gałęzi + obowiązkowy commit→push→PR→merge po skończonej pracy
+
+Szczegóły: bezpośrednia reakcja właściciela repo na wpis wyżej (28.09.2026, duplikat D29) i rozwinięcie wpisu z
+27.09.2026 (brak obowiązku commit→push→PR→merge). Właściciel prosi o trzy reguły, które razem zamykają tę klasę błędów:
+(1) **`docs/lista-do-zrobienia.md` aktualizowana zawsze na `main`**, niezależnie od gałęzi, na której toczy się praca —
+zmiana statusu zadania (🔲→🔄→✅) i notatka „PRZEKAZANIE DLA KOLEJNEJ SESJI” trafiają na `main` od razu, a nie dopiero
+razem z kodem przy (ewentualnym) merge'u; (2) **ślad ostatniej gałęzi** — lista na `main` zawsze podaje, na jakiej gałęzi
+pracowała ostatnia sesja i co tam leży niescalone (nazwa gałęzi, ostatni commit, co zrobione, co jest następnym
+krokiem), także gdy gałąź nie została scalona, żeby kolejna sesja startująca z `main` wiedziała, skąd przejąć pracę,
+zamiast ją powtarzać; (3) **commit → push → PR → merge po skończonej pracy jest obowiązkowy**, nie „do uznania” — po
+zamknięciu zadania z listy sesja scala swoją gałąź do `main` (z pełnym lokalnym pakietem kontroli przed merge'em, gdy CI
+jest niedostępne), więc niescalona gałąź staje się wyjątkiem (praca realnie przerwana w połowie), a nie stanem domyślnym.
+Reguła (3) sama w dużej mierze usuwa potrzebę (2); (2) zostaje jako zabezpieczenie na przypadek przerwanej sesji.
+Dlaczego warto zgłosić do new-app-standards: problem nie jest specyficzny dla tego repo — dotyczy każdego projektu
+rodziny prowadzonego równoległymi sesjami w chmurze, z których każda dostaje własną gałąź. Obecnie 15.21 wymaga tylko
+*zadeklarowania* stanu commit/push/PR/merge, a GOD BOOK P.2/Y.4 każe czytać listę zadań na starcie, zakładając milcząco,
+że `main` jest aktualny — obie reguły razem dopuszczają dokładnie scenariusz z wpisu wyżej. Propozycja brzmienia do
+rozważenia w sesji nad `new-app-standards`: 14.x — „lista zadań i notatka przekazania żyją na gałęzi domyślnej; każda
+zmiana statusu zadania trafia tam od razu, razem z nazwą gałęzi roboczej”; 15.21 — z „zadeklaruj stan” na „po zamknięciu
+zadania wykonaj commit→push→PR→merge, chyba że właściciel wprost każe wstrzymać; wtedy zapisz na gałęzi domyślnej, gdzie
+leży niescalona praca”. Uwaga praktyczna: w środowisku, w którym sesja ma prawo pushu tylko na wyznaczoną gałąź,
+reguła (1) realizuje się przez mały PR+merge samej listy zadań (albo razem z kodem przez regułę (3)).
+Status: ✅ skonsolidowane w standardzie (29.09.2026) — `docs/standards/15-wspolpraca-z-ai.md` nowa **15.23** + dopisek do 15.21 (wpis wcześniej bez linii `Status:`). Źródło: `AKTUALIZACJE.md` `new-app-standards`, wiersze 2026-09-29.
+
+[28.09.2026] KATEGORIA: BŁĄD — autozapis szkicu formularza nadpisuje cały stan, więc nowe pole po aktualizacji ma `undefined`
+
+Szczegóły: `lib/adapters/use-persisted-draft.ts` (realizacja 5.1 — zapis Seed formularza do IndexedDB) po odczycie
+robi `setStan(zapisany)`, bez scalania z `poczatkowy`. Gdy ekran dostaje nowe pole (tu: pytania o bezpieczeństwo
+agregatu, D48), użytkownik ze starym szkicem dostaje `undefined` zamiast `""`. Porównanie `=== ""` przepuszcza wtedy
+`undefined` do jądra, a lookup `MAPA[undefined]()` wywala ekran. Testy jednostkowe tego nie łapią (zaczynają od
+`STAN_POCZATKOWY`). Wyłapane przy przeglądzie własnego diffu; zabezpieczone lokalnie (`|| null`, `!= null`).
+Dlaczego warto zgłosić do new-app-standards: każda aplikacja rodziny z autozapisem 5.1 trafi na to przy pierwszym
+nowym polu formularza. Propozycja do 5.1: odczyt szkicu scala `{ ...poczatkowy, ...zapisany }` (albo wersjonuje
+kształt Seed), plus 10.x: test „stary szkic bez nowego pola” przy każdej zmianie kształtu formularza.
+Status: ✅ skonsolidowane w standardzie (29.09.2026) — `docs/standards/05-baza-danych-offline.md` dopisek do **5.5** (odczyt starego szkicu scala stan początkowy) + 8.12. Źródło: `AKTUALIZACJE.md` `new-app-standards`, wiersze 2026-09-29.
+
+[28.09.2026] KATEGORIA: DOBRA PRAKTYKA — mechaniczne sprawdzanie kompletności rejestru twardych stopów (4.3) zamiast polegania na dyscyplinie „dopisz przy każdym module”
+
+Szczegóły: przy budowie M12/E38 okazało się, że żaden stop `critical` całego Modułu 5 (ok. 20 realnych warunków, budowane
+13–20.09.2026) nie trafił do `docs/rejestr-twardych-stopow.md`, mimo że reguła 4.3 i nagłówek rejestru każą dopisywać
+stop przy każdym nowym module. Nikt tego nie zauważył przez 2 tygodnie — audyt N.1 sprawdzał rejestr pokrycia, nie
+rejestr stopów. Wykrycie zajęło minutę: pętla po `lib/core/modules/<moduł>/*/warnings.ts`, wyciągnięcie kodów z
+`level: "critical"` i `grep` każdego kodu w rejestrze (generyczne kody walidacji formularza odfiltrować ręcznie).
+Dlaczego warto zgłosić do new-app-standards: 4.3 opisuje rejestr jako indeks, ale nie daje mechanizmu kontroli jego
+kompletności — w każdym projekcie rodziny z wieloma modułami ten dryf powstaje tak samo (moduł budowany seriami, rejestr
+zapominany). Propozycja do rozważenia: w 4.3 lub 10.x — „kompletność rejestru twardych stopów sprawdzana mechanicznie
+(skrypt kod `critical` ↔ wpis w rejestrze, z listą świadomych wyjątków), najlepiej jako krok `audit:*` w pakiecie przed
+merge'em”, analogicznie do dwukierunkowego `grep` markerów TD# (GOD BOOK X.4).
+Status: ✅ skonsolidowane w standardzie (29.09.2026) — `docs/standards/04-walidacja-i-twarde-stopy.md` dopisek do **4.3** + `11-ci-deployment.md` nowa **11.9** (strażnik „każdy X ma Y”, lista zapadkowa tylko dla starego kodu). Źródło: `AKTUALIZACJE.md` `new-app-standards`, wiersze 2026-09-29.
+
+[29.09.2026] KATEGORIA: POMYSŁ NA REGUŁĘ (zgłoszenie właściciela repo) + BŁĄD — „Definicja ukończenia ekranu” musi obejmować komplet warstw użytkowych (autosave, tłumaczenia, „?” przy polach, „i” przy tytule) i mieć strażnika w CI, inaczej reguła nie działa
+
+Szczegóły: standard 8.4 od dawna wymaga „?” przy każdym parametrze liczbowym, a decyzja projektu D34 (28.09.2026)
+dodała „nowe ekrany od teraz od razu z chmurkami”. Nikt tego nie sprawdzał mechanicznie. Wynik po jednym dniu: z 220
+ekranów tylko 7 miało „?”, a 30 z 36 ekranów zbudowanych **po** D34 (cały nowy moduł M14) znowu bez chmurek — każda
+sesja kopiowała sąsiedni ekran, który ich nie miał. Teraz ta sama praca jest robiona drugi raz na ~640 polach, w trzech
+językach. Właściciel repo: „wraz z autosave, tłumaczeniem na inne języki musi od razu być dodawana migawka ? i »i«, bo
+teraz robimy robotę drugi raz, a to już było mówione, ale nikt tego nie pilnuje”. Rozwiązanie w tym repo (D51):
+(1) treść pomocy jako typowany obiekt per ekran w `lib/i18n/pomoc/<moduł>.ts`, EN/RU typowane z kształtu PL — brak
+tłumaczenia = błąd kompilacji; liczby ze stałych silnika wchodzą przez parametry `{nazwa}`, nie przepisane;
+(2) `scripts/check-pomoc-guard.mjs` (AST TypeScript): każde `<Pole>` ma `pomoc={<PomocPola …/>}` i nie ma `hint=`, każde
+surowe `<input>`/`<select>` ma `<PomocPola>` obok, każdy `<NaglowekEkranu>` ma `ekran=` („i”), każda strona z polami ma
+`usePersistedDraft` albo komentarz z powodem; (3) **lista zapadkowa** (`pomoc-guard-baseline.json`): stare niezgodne pliki
+są na liście, która może tylko maleć (strażnik odrzuca także plik, który już spełnia regułę, a wciąż jest na liście), nowy
+plik musi przejść od razu — reguła działa od pierwszego dnia bez „big bang” na 220 ekranach.
+Dlaczego warto zgłosić do new-app-standards: to ogólny wzorzec, nie domena off-grid. (a) Każda reguła UI typu „każdy X
+ma Y” bez mechanicznego strażnika dryfuje w ciągu dni, bo nowy kod powstaje przez kopiowanie sąsiedniego — ten sam
+mechanizm co 17.9 (strażnik i18n), tylko dla pomocy i autosave. (b) 10.4 „Definicja ukończenia” powinna wprost wymieniać
+warstwy użytkowe ekranu (autozapis, i18n, pomoc per pole, migawka ekranu), nie tylko „testy przechodzą”. (c) Lista
+zapadkowa to sposób na wprowadzenie nowej reguły do istniejącego projektu bez blokowania pracy — warto opisać ją raz
+w rozdziale 11 (CI) jako wzorzec dla każdego nowego strażnika. (d) **Kolejność budowy ekranu w 9.0a/17.1a nie wymienia
+pomocy** — jest tam „kalkulator → klucze i18n → opis narzędzia AI”, a autosave jest osobno w 5.7. Właściciel repo
+(29.09.2026): „tam w zasadach już była kolejność, jak budować ekrany — do tej reguły trzeba dopisać migawki”. Propozycja
+jednej, pełnej kolejności dla ekranu: kalkulator + testy → klucze i18n → ekran z autosave → „?” przy każdym polu + migawka
+„i”, od razu we wszystkich językach → opis narzędzia AI na końcu. Migawka „i” i `description` narzędzia AI opisują to samo
+(do czego służy ekran, kiedy go użyć) — warto zalecić pisanie ich razem. Lokalnie wpisane w Dyrektywę #15 (v1.3).
+Status: ✅ skonsolidowane w standardzie (29.09.2026) — `docs/standards/08-ui-ux.md` nowa **8.12** (kolejność budowy i DoD ekranu) + **8.4b** (forma „i”: zakładki „Po ludzku”/„Fizyka”) + dopiski 9.0a/5.7/17.1a/10.4 + **11.9**. Źródło: `AKTUALIZACJE.md` `new-app-standards`, wiersze 2026-09-29.
+
+[29.09.2026] KATEGORIA: BŁĄD + DOBRA PRAKTYKA — reguła 9.0a („opis narzędzia AI mówi, kiedy go użyć; każdy kalkulator ma narzędzie”) bez strażnika dryfuje tak samo jak pomoc przy polach
+Szczegóły: pytanie właściciela repo „czy są rozbudowane opisy funkcji dla AI, żeby dokładnie wiedziało, do czego to służy
+i w jakich przypadkach używać”. Stan: 183 narzędzia, 27 bez zdania „kiedy wywołać” (model widzi, co narzędzie liczy, ale
+nie, na jakie pytanie usera odpowiada — wybiera gorzej przy ~180 narzędziach naraz), 18 kalkulatorów w ogóle bez
+narzędzia (asystent nie może ich użyć i musiałby liczyć sam, co 9.1 zabrania). Wszystkie luki powstały po rolloucie, który
+„domknął” opisy — nowe moduły (M7–M9, M14) kopiowały narzędzia bez tego zdania. Rozwiązanie w tym repo:
+`scripts/check-ai-tools-guard.mjs` (AST TypeScript, skleja konkatenację literałów): każde `*-tool.ts` ma `description`
+z „Użyj, gdy …”, każde jest zarejestrowane w rejestrze narzędzi, każdy `calculator.ts` jest importowany przez jakieś
+narzędzie albo ma komentarz `ai-tool: nie dotyczy — <powód>`; brakujące kalkulatory na liście zapadkowej (tylko maleje).
+Dlaczego warto zgłosić do new-app-standards: 9.0a warto uzupełnić o (a) obowiązkowe zdanie „kiedy użyć” w stałej,
+wykrywalnej formie (tu „Użyj, gdy …”), bo to ono decyduje o wyborze narzędzia przez model, oraz (b) strażnika pokrycia
+„kalkulator ↔ narzędzie ↔ rejestr” w CI — ten sam wzorzec co 17.9 i strażnik pomocy (wpis wyżej).
+Status: ✅ skonsolidowane w standardzie (29.09.2026) — `docs/standards/09-ai-w-produkcie.md` dopisek do **9.0a** („kiedy użyć” w opisie narzędzia + strażnik 11.9). Źródło: `AKTUALIZACJE.md` `new-app-standards`, wiersze 2026-09-29.
