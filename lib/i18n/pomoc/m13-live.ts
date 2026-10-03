@@ -20,6 +20,18 @@ export const pl = {
       poCo: "Żeby wykresy i alarmy trybu Live oraz analizy historii opierały się na Twoich rzeczywistych pomiarach, a nie na założeniach — i żebyś od razu widział, czy dane z pliku nadają się do użycia.",
     },
     pola: {
+      profilWybor: {
+        nazwa: "Zapisany profil mapowania",
+        cel: "Szybko wypełniasz mapowanie kolumn dla pliku, który już kiedyś wczytywałeś.",
+        gdzie: "Lista profili zapisanych przyciskiem „Zapisz mapowanie jako profil”.",
+        zakres: "Jeden z zapisanych profili. Profil nie zawiera kroku próbkowania — tego nie zgadujemy.",
+      },
+      profilNazwa: {
+        nazwa: "Nazwa profilu",
+        cel: "Pod tą nazwą zapiszesz bieżące mapowanie kolumn, żeby użyć go przy kolejnym pliku z tego samego urządzenia.",
+        gdzie: "Dowolna, np. „Falownik – eksport z portalu”.",
+        zakres: "Dowolny niepusty tekst; ta sama nazwa nadpisuje wcześniejszy profil.",
+      },
       nazwa: {
         nazwa: "Nazwa źródła",
         cel: "Rozpoznajesz po niej źródło na listach i na wykresach.",
@@ -199,6 +211,18 @@ export const en: Tlumaczenie<typeof pl> = {
       poCo: "So that Live mode charts and alarms and the history analyses rest on your real measurements rather than assumptions — and so that you immediately see whether the file's data is usable.",
     },
     pola: {
+      profilWybor: {
+        nazwa: "Saved mapping profile",
+        cel: "Quickly fills in the column mapping for a file you have loaded before.",
+        gdzie: "The list of profiles saved with the “Save the mapping as a profile” button.",
+        zakres: "One of the saved profiles. A profile does not hold the sampling step — that is never guessed.",
+      },
+      profilNazwa: {
+        nazwa: "Profile name",
+        cel: "Under this name you save the current column mapping to reuse it for the next file from the same device.",
+        gdzie: "Any, e.g. “Inverter – portal export”.",
+        zakres: "Any non-empty text; the same name overwrites the earlier profile.",
+      },
       nazwa: {
         nazwa: "Source name",
         cel: "You recognise the source by it in lists and on charts.",
@@ -378,6 +402,18 @@ export const ru: Tlumaczenie<typeof pl> = {
       poCo: "Чтобы графики и тревоги режима Live и анализ истории опирались на ваши реальные измерения, а не на допущения, — и чтобы сразу видеть, пригодны ли данные из файла.",
     },
     pola: {
+      profilWybor: {
+        nazwa: "Сохранённый профиль сопоставления",
+        cel: "Быстро заполняет сопоставление столбцов для файла, который вы уже загружали.",
+        gdzie: "Список профилей, сохранённых кнопкой «Сохранить сопоставление как профиль».",
+        zakres: "Один из сохранённых профилей. Профиль не содержит шага измерений — он никогда не угадывается.",
+      },
+      profilNazwa: {
+        nazwa: "Название профиля",
+        cel: "Под этим названием вы сохраняете текущее сопоставление столбцов, чтобы использовать его для следующего файла с того же устройства.",
+        gdzie: "Любое, например «Инвертор – экспорт с портала».",
+        zakres: "Любой непустой текст; такое же название перезаписывает прежний профиль.",
+      },
       nazwa: {
         nazwa: "Название источника",
         cel: "По нему вы узнаёте источник в списках и на графиках.",

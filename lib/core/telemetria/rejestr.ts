@@ -52,3 +52,6 @@ export function usunZrodloZRejestru(r: Rejestr, id: string): Rejestr {
 export function zapiszProfil(r: Rejestr, p: Rejestr["profile"][number]): Rejestr {
   return { ...r, profile: [...r.profile.filter((x) => x.id !== p.id), p] }
 }
+export function usunProfil(r: Rejestr, id: string): Rejestr {
+  return { ...r, profile: r.profile.filter((x) => x.id !== id) }
+}

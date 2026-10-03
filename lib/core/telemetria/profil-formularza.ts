@@ -44,3 +44,18 @@ export function zbudujProfil(f: FormularzProfilu): WynikProfilu {
   const r = ProfilCsvSchema.safeParse(kandydat)
   return r.success ? { ok: true, profil: r.data as ProfilCsv } : { ok: false }
 }
+
+const tekstAdresu = (a: string | number): string => String(a)
+
+/** Inverse of `zbudujProfil`: fills the form from a saved profile (a saved profile is untrusted storage — validated before use). */
+export function profilDoFormularza(p: ProfilCsv): FormularzProfilu {
+  return {
+    bezNaglowka: p.bezNaglowka === true,
+    kolumnaCzasu: tekstAdresu(p.kolumnaCzasu),
+    formatCzasu: p.formatCzasu,
+    kolumnaGodziny: p.kolumnaGodziny === undefined ? "" : tekstAdresu(p.kolumnaGodziny),
+    przesuniecieMin: p.przesuniecieMin === undefined ? "" : String(p.przesuniecieMin),
+    znaczniki: (p.znacznikiBraku ?? []).join(", "),
+    kolumny: p.kolumny.map((k) => ({ kolumna: tekstAdresu(k.kolumna), kanal: k.kanal, wielkosc: k.wielkosc, jednostka: k.jednostka })),
+  }
+}
