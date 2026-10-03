@@ -393,7 +393,7 @@ Pełne wyniki audytu: `docs/memory.md`, sekcja "Pełny audyt na polecenie właś
   plików; teksty z `lib/` renderowane surowo na ekranie nie są widziane. Lista wg wagi (liczba × widoczność), każda pozycja do
   rozstrzygnięcia osobno: **(1)** polskie `label` w `params` ostrzeżeń/walidacji (~100 tekstów, ~44 plików `validation.ts`/`warnings.ts`,
   m.in. pv/typ-montazu 15, pv/liczba-paneli ~12) — w EN powstaje „The value of „moc panelu” must be…”; poprawka: param = klucz/`id`,
-  tłumaczony na ekranie (zmiana kontraktu silnika + testów); **(2)** `formula` z prozą polską (~25 z 62 stałych, ~210 użyć w
+  tłumaczony na ekranie (zmiana kontraktu silnika + testów); **(2)** ✅ (03.10.2026, `formulaKey`/`formulaParams`, 91 formuł, `lib/i18n/ui/formuly.ts`, test `formuly.test.ts`; EN/RU do przeglądu native; indeks 51 `model-sezonowy-pompy` czysto symboliczny — bez klucza) `formula` z prozą polską (~25 z 62 stałych, ~210 użyć w
   `WynikSzczegoly`; indeksy symboliczne typu `E_{całkowita}` do decyzji) — propozycja: pole `formulaKey`; **(3)** komunikaty błędów hooków/
   adapterów renderowane surowo (~15: `dane-tmy.ts` KOMUNIKAT_PVGIS, `use-gps.ts`, `use-obliczenia-w-tle.ts`, `delete-account.ts`) →
   zwracać kody, `t()` na ekranie; **(4)** ✅ (03.10.2026, klucze `UI-PSI-<kod>`, test spójności z katalogiem; EN/RU do przeglądu) `katalog-psi.ts` (76 opisów detali mostków) w `<option>`; **(5)** ✅ (03.10.2026, `nazwaKey` + klucze `UI-PRZYKURZ-*`, datalista w języku UI, `znajdzPrzyklad` dopasowuje obie nazwy) `przykladowe-urzadzenia.ts`

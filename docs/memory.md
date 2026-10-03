@@ -2527,8 +2527,15 @@ Właściciel: pismo ma być tłumaczone (wcześniej komentarz w kodzie zakłada�
 - Wzorzec dla danych będących jednocześnie kluczem zapisanego stanu (nazwy powierzchni: `Dach wg obrysu budynku`, `Elewacja X`): **nazwa zostaje stabilnym kluczem PL, tłumaczy się tylko wyświetlanie** (`etykietaPowierzchni`, `UI-NAZWAPOW-*`) — zmiana samej nazwy złamałaby zapisane `wysokosci[nazwa]`, `moc[nazwa]`, id powierzchni.
 - Wzorzec dla podpowiedzi z `<datalist>`: pole przyjmuje tekst w języku UI, więc dopasowanie (`znajdzPrzyklad`) musi znać nazwę PL i wyświetlaną.
 - Katalog normowy (`katalog-psi.ts`): `opis` PL zostaje źródłem, ekran bierze `UI-PSI-<kod>`; test pilnuje zgodności PL z katalogiem i kompletności EN/RU. EN/RU wszystkich nowych kluczy to szkice do przeglądu native.
-- Otwarta z audytu została tylko (2) `formulaKey` (~25 stałych z prozą w `formula`, ~210 użyć) — wymaga decyzji o indeksach symbolicznych.
+- (Zamknięte tego samego dnia, patrz wpis „formulaKey” niżej.) Otwarta z audytu została tylko (2) `formulaKey` (~25 stałych z prozą w `formula`, ~210 użyć) — wymaga decyzji o indeksach symbolicznych.
 
 ## 2026-10-03 — Zasada współpracy: pytania do właściciela tylko w pełnej formie (polecenie właściciela, obowiązuje stale)
 - Każde pytanie do właściciela musi zawierać: (1) **czego dotyczy** (jednoznacznie, bez skrótów myślowych), (2) **gdzie** (plik/ekran/moduł/wpis listy z numerem linii lub ścieżką), (3) **opcje rozwiązania** (A/B/…, z konsekwencjami każdej i moją rekomendacją). Bez pytań „ogólnych” typu „co dalej?”.
 - Dotyczy też listy „do rozstrzygnięcia” na końcu odpowiedzi — każda pozycja w tym samym formacie.
+
+## 2026-10-03 — Audyt i18n luka (2): `formulaKey` / `formulaParams` (decyzja właściciela 1 A, 2 B)
+- `CalcResult` ma opcjonalne `formulaKey` (klucz `UI-FORMULA-<ŚCIEŻKA-MODUŁU>[-SUFIKS]`) i `formulaParams` (`{p1…}` dla stałych interpolowanych w `formula`). `formula` (PL) zostaje stabilnym kontraktem dla narzędzi AI (`wzor`) i testów; tłumaczy tylko prezentacja: `WynikSzczegoly`, `MigawkaInfo` (`pomoc.tsx`) i 4 ekrany z bezpośrednim wzorem. Symbole matematyczne zostają, tłumaczona jest proza i indeksy opisowe (`n_{gotowe}` → `n_{ready}`).
+- Zakres: 91 formuł w 89 plikach (szacunek „~25” był zaniżony; reguła: formuła z polskimi słowami poza makrami LaTeX). Wyjątek: `ogrzewanie/model-sezonowy-pompy` (symboliczna). Przypadki specjalne: `czystosc-i-snieg` (2 formuły, jedna z progiem w `p1`), `depozyt-prosumencki` (wariant `-STAWKI` z `{kdep}`, `{p}` ustawiany w locie), `fabrykaWyniku` (pv/typ-montazu) dostaje 4. argument `formulaKey`.
+- Pułapka: ogólny test `ui.test.ts` traktuje `{ready}` w indeksie LaTeX jako placeholder; klucze `UI-FORMULA-*` są z niego wyłączone, a zgodność placeholderów pilnuje `lib/i18n/__tests__/formuly.test.ts` (także: każdy użyty klucz istnieje, każdy klucz jest użyty). Znane ograniczenie: test nie porównuje PL słownika z aktualnym `FORMULA` w module — zmiana wzoru w module wymaga ręcznej zmiany klucza (do rozważenia test dryfu).
+- Decyzja 2 B: CI na GitHubie nie czeka; jedyną bramką przed merge jest lokalny pakiet (typecheck, lint, test, strażniki).
+
