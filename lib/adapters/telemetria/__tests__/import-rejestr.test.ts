@@ -1,6 +1,6 @@
 import { describe, expect, it } from "vitest"
 import type { StorageAdapter } from "../../storage-adapter"
-import { zapiszProfil, zapiszZrodlo, pustyRejestr, ProfilCsvSchema } from "@/lib/core/telemetria/rejestr"
+import { zapiszProfil, usunProfil, zapiszZrodlo, pustyRejestr, ProfilCsvSchema } from "@/lib/core/telemetria/rejestr"
 import { importujCsv } from "../import-csv"
 import { PamiecMagazynProbek } from "../magazyn-probek"
 import { KLUCZ_REJESTRU, wczytajRejestr, zapiszRejestr } from "../rejestr-zrodel"
@@ -45,5 +45,15 @@ describe("import CSV", () => {
     expect(w.jakosc.duplikaty).toBe(1)
     expect(w.jakosc.luki).toHaveLength(1)
     expect(await mag.zakres("z", 0, Date.now())).toHaveLength(2)
+  })
+  it("saving a profile with the same id overwrites it, and deleting removes only that one", () => {
+    const profil = (kanal: string) => ({ kolumnaCzasu: 0, formatCzasu: "iso" as const, kolumny: [{ kolumna: "t", kanal, wielkosc: "temperatura" as const, jednostka: "°C" }] })
+    let r = zapiszProfil(pustyRejestr(), { id: "a", nazwa: "A", profil: profil("k1") })
+    r = zapiszProfil(r, { id: "b", nazwa: "B", profil: profil("k2") })
+    r = zapiszProfil(r, { id: "a", nazwa: "A", profil: profil("k3") })
+    expect(r.profile).toHaveLength(2)
+    expect(r.profile.find((x) => x.id === "a")?.profil.kolumny[0].kanal).toBe("k3")
+    expect(usunProfil(r, "a").profile.map((x) => x.id)).toEqual(["b"])
+    expect(usunProfil(r, "nie-ma").profile).toHaveLength(2)
   })
 })
