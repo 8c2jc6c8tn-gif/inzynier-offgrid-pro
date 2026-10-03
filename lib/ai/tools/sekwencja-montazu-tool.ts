@@ -7,6 +7,7 @@
 import { z } from "zod"
 import { calculateSekwencjaMontazu } from "@/lib/core/modules/montaz-baterii/sekwencja-montazu/calculator"
 import type { AiToolDefinition } from "../types"
+import { t } from "@/lib/i18n/t"
 import { tekstyOstrzezen, tekstyZalozen } from "./teksty-wyniku"
 
 export const SekwencjaMontazuToolInput = z.object({
@@ -59,7 +60,12 @@ export const sekwencjaMontazuTool: AiToolDefinition<SekwencjaMontazuToolInputT, 
     return {
       status: wynik.status,
       polaczeniaBusbarow: wynik.value.polaczeniaBusbarow,
-      okablowanieBms: wynik.value.okablowanieBms,
+      okablowanieBms: wynik.value.okablowanieBms.map((w) => ({
+        numer: w.numer,
+        etykieta: t("pl", w.etykietaKey, w.etykietaParams),
+        punkt: t("pl", w.punktKey, w.punktParams),
+        napiecieNominalneV: w.napiecieNominalneV,
+      })),
       liczbaRzedow: wynik.value.polaczeniaBusbarow.length > 0 ? wynik.value.liczbaRzedow : null,
       ogniwWRzedzie: wynik.value.ogniwWRzedzie,
       napiecieCalkowiteNominalneV: wynik.value.napiecieCalkowiteNominalneV,

@@ -400,7 +400,7 @@ Pełne wyniki audytu: `docs/memory.md`, sekcja "Pełny audyt na polecenie właś
   (19 nazw; `nazwa` jest kluczem dopasowania — wymaga `id`); **(6)** ✅ `lib/wyglad/storage.ts` GRUPY_KOLOROW → klucze `UI-WYGLAD-KOLOR-*` (03.10.2026);
   **(7)** `pv/czystosc-i-snieg` (KAT_OPISY, `powod`, szablon w warnings — moduł z listy zmigrowanych, strażnik go nie łapie);
   **(8)** luki strażnika silnika: `message` jako template literal (komunikacja-bms, audyt-pozarowy), `FILES_TO_CHECK` tylko 3 nazwy,
-  ~13 katalogów modułów poza `MIGRATED_MODULES` przy wyniku „OK”; **(9)** `sekwencja-montazu` `generujOkablowanieBms` (etykiety
+  ~13 katalogów modułów poza `MIGRATED_MODULES` przy wyniku „OK”; **(9)** ✅ (03.10.2026, klucze `UI-SEKMON-BMS-*`, narzędzie AI tłumaczy po PL) `sekwencja-montazu` `generujOkablowanieBms` (etykiety
   przewodów); **(10)** `model-dzialki.ts` nazwy połaci („Dach wg obrysu budynku”, `Elewacja N…` — nazwa jest też kluczem wyboru);
   **(11)** asystent AI: `SYSTEM_PROMPT` wymusza polski, `pytajAsystenta` bez parametru języka, 5 błędów zwracanych po polsku
   (`components/asystent-ai.tsx`), komunikat o `ANTHROPIC_API_KEY` zbyt techniczny dla użytkownika. Dodatkowo z tury stałych silnika:

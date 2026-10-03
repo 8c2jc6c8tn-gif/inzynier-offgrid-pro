@@ -33,14 +33,15 @@ describe("generujOkablowanieBms", () => {
     const wynik = generujOkablowanieBms(4)
     expect(wynik).toHaveLength(5)
     expect(wynik.map((w) => w.napiecieNominalneV)).toEqual([0, 3.2, 6.4, 9.6, 12.8])
-    expect(wynik[4].punkt).toContain("B+ pakietu")
+    expect(wynik[4].punktKey).toBe("UI-SEKMON-BMS-BN-PUNKT-BPLUS")
+    expect(wynik[3].punktKey).toBe("UI-SEKMON-BMS-BN-PUNKT")
   })
 
   it("16S: B0..B16, ostatni = 51,2V (B+ pakietu)", () => {
     const wynik = generujOkablowanieBms(16)
     expect(wynik).toHaveLength(17)
     expect(wynik[16].napiecieNominalneV).toBeCloseTo(51.2, 9)
-    expect(wynik[16].punkt).toContain("B+ pakietu")
+    expect(wynik[16].punktKey).toBe("UI-SEKMON-BMS-BN-PUNKT-BPLUS")
   })
 })
 

@@ -126,7 +126,7 @@ export default function SekwencjaMontazuPage() {
             </h2>
             <ol className="flex flex-col gap-2">
               {result.value.okablowanieBms.map((w) => (
-                <KrokZMedia key={w.numer} numer={w.numer} tytul={`${w.etykieta} → ${w.punkt}`}>
+                <KrokZMedia key={w.numer} numer={w.numer} tytul={`${t(w.etykietaKey, w.etykietaParams)} → ${t(w.punktKey, w.punktParams)}`}>
                   {t("UI-SEKMON-NAPIECIE-NOMINALNE-WZGLEDEM", { napiecieNominalneV: w.napiecieNominalneV.toFixed(1) })}
                 </KrokZMedia>
               ))}
