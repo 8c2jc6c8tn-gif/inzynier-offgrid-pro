@@ -2539,3 +2539,7 @@ Właściciel: pismo ma być tłumaczone (wcześniej komentarz w kodzie zakłada�
 - Pułapka: ogólny test `ui.test.ts` traktuje `{ready}` w indeksie LaTeX jako placeholder; klucze `UI-FORMULA-*` są z niego wyłączone, a zgodność placeholderów pilnuje `lib/i18n/__tests__/formuly.test.ts` (także: każdy użyty klucz istnieje, każdy klucz jest użyty). Znane ograniczenie: test nie porównuje PL słownika z aktualnym `FORMULA` w module — zmiana wzoru w module wymaga ręcznej zmiany klucza (do rozważenia test dryfu).
 - Decyzja 2 B: CI na GitHubie nie czeka; jedyną bramką przed merge jest lokalny pakiet (typecheck, lint, test, strażniki).
 
+## 2026-10-03 — Decyzje właściciela po `formulaKey` (1A + akceptacje)
+- **1A:** dodany test dryfu w `lib/i18n/__tests__/formuly.test.ts` — dla każdego klucza `UI-FORMULA-*` polski wpis słownika musi równać się literałowi wzoru w module, który go używa (stałe interpolowane `${…}` porównywane jako `{pN}`; wariant `-STAWKI` pominięty). Sprawdzone, że test faktycznie pada po zmianie wpisu.
+- **Zaakceptowane przez właściciela w obecnym stanie:** dane demonstracyjne `SAMPLE_AUDIT_ITEMS` (ostrzeżenia audytu pożarowego — dane demo, nie tekst silnika) oraz pismo reklamacyjne `test-licznika` (tłumaczone kluczami `UI-TESLIC-PISMO-*`, EN/RU do przeglądu native). Nie ma tu już nic otwartego do rozstrzygania.
+

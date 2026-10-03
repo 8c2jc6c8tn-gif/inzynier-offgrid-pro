@@ -36,4 +36,26 @@ describe("formula translations (formulaKey)", () => {
     for (const k of used) expect(keys as string[], k).toContain(k)
     for (const k of keys) expect(used.has(k), `unused ${k}`).toBe(true)
   })
+
+  it("PL text of each key equals a formula literal in the module that uses it (drift guard)", () => {
+    const literal = /(?:"((?:[^"\\\n]|\\.)*)"|`((?:[^`\\]|\\.)*)`)(?:\s*\+\s*(?:"((?:[^"\\\n]|\\.)*)"|`((?:[^`\\]|\\.)*)`))*/g
+    const unescape = (raw: string) => raw.replace(/\\(.)/g, "$1")
+    const joined = (src: string) =>
+      [...src.matchAll(literal)].map((m) => {
+        const parts = [...m[0].matchAll(/"((?:[^"\\\n]|\\.)*)"|`((?:[^`\\]|\\.)*)`/g)].map((x) => x[1] ?? x[2] ?? "")
+        let n = 0
+        return unescape(parts.join("").replace(/\$\{[^}]*(?:\([^)]*\)[^}]*)*\}/g, () => `{p${++n}}`))
+      })
+    for (const f of sources(MODULES)) {
+      const src = readFileSync(f, "utf8")
+      const ids = [...src.matchAll(/(UI-FORMULA-[A-Z0-9-]+)"/g)].map((m) => m[1]!)
+      if (ids.length === 0) continue
+      const texts = joined(src)
+      for (const id of new Set(ids)) {
+        const plText = pl[id as keyof typeof pl]
+        if (id.endsWith("-STAWKI")) continue
+        expect(texts, `${id} PL drifted from ${path.relative(MODULES, f)}`).toContain(plText)
+      }
+    }
+  })
 })
