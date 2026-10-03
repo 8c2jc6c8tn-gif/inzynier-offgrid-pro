@@ -2522,3 +2522,9 @@ Właściciel: pismo ma być tłumaczone (wcześniej komentarz w kodzie zakłada�
 ## 2026-10-03 — Archiwizacja `docs/wklad-do-standardu.md` (GOD BOOK Y.8)
 
 13 wpisów ze statusem „✅ skonsolidowane w standardzie” (24–29.09) przeniesione 1:1 do `docs/wklad-do-standardu-archiwum.md`; w żywym pliku wskaźnik w nagłówku. Dowód bezstratności: multizbiór linii przed = po + archiwum (różnica tylko wskaźnik). Świadomie ZOSTAWIONE w żywym pliku: wpisy ze statusem „🔎 nowe”, nawet te z dopiskiem „✅ potwierdzone skonsolidowane” (06.09, 14.09, 16.09, 23.09) — status nagłówkowy nie został zmieniony przez sesję nad standardem, więc nie rozstrzygałem samodzielnie. Przeniesienie odnotowane tu zgodnie z Y.8 pkt 5.
+
+## 2026-10-03 — Audyt i18n: zamknięte luki (4), (5), (6), (9), (10)
+- Wzorzec dla danych będących jednocześnie kluczem zapisanego stanu (nazwy powierzchni: `Dach wg obrysu budynku`, `Elewacja X`): **nazwa zostaje stabilnym kluczem PL, tłumaczy się tylko wyświetlanie** (`etykietaPowierzchni`, `UI-NAZWAPOW-*`) — zmiana samej nazwy złamałaby zapisane `wysokosci[nazwa]`, `moc[nazwa]`, id powierzchni.
+- Wzorzec dla podpowiedzi z `<datalist>`: pole przyjmuje tekst w języku UI, więc dopasowanie (`znajdzPrzyklad`) musi znać nazwę PL i wyświetlaną.
+- Katalog normowy (`katalog-psi.ts`): `opis` PL zostaje źródłem, ekran bierze `UI-PSI-<kod>`; test pilnuje zgodności PL z katalogiem i kompletności EN/RU. EN/RU wszystkich nowych kluczy to szkice do przeglądu native.
+- Otwarta z audytu została tylko (2) `formulaKey` (~25 stałych z prozą w `formula`, ~210 użyć) — wymaga decyzji o indeksach symbolicznych.
