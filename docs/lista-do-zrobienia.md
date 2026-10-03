@@ -411,6 +411,7 @@ Pełne wyniki audytu: `docs/memory.md`, sekcja "Pełny audyt na polecenie właś
   nowy dług nie przybywał. **Odblokowuje:** realne EN/RU na całej ścieżce i strażnik, któremu można wierzyć. **Plusy teraz:** wpływ
   na każdy ekran z ostrzeżeniem. **Minusy:** (1) i (2) zmieniają kontrakt silnika i testy ~44 modułów. **Kolizje:** `lib/core/**`
   (każda sesja nad silnikami), `lib/i18n/ui/*`. **Kolejność:** (8) razem z (1); (1) przed (2); (3) i (7) niezależne, najtańsze.
+- ✅ (2026-10-03) **Audyt i18n luka (3) — komunikaty błędów hooków/adapterów przez klucze.** `use-gps`, `use-dane-tmy`, `use-obliczenia-w-tle` trzymają klucz `UI-BLAD-*` i zwracają tekst w języku UI (ekrany bez zmian, `blad` nadal string); `deleteAccount` zwraca `errorKey`, `konto-sekcja` tłumaczy. `KLUCZ_BLEDU_PVGIS` obok `KOMUNIKAT_PVGIS` (ten zostaje dla wyjść narzędzi AI); nowy plik `lib/i18n/ui/bledy-hookow.ts` PL/EN/RU (EN/RU do przeglądu), test spójności kluczy. Zostają z audytu: (2), (4)–(6), (9)–(11).
 - ✅ (2026-09-29) **Opisy narzędzi AI — domknięcie luk (pytanie właściciela: „czy są rozbudowane opisy funkcji dla AI”).**
   Stan 29.09.2026: 183 narzędzia w rejestrze, 181 ma `.describe()` na polach wejścia, 156 ma w `description` zdanie
   „Użyj, gdy…” (kiedy model ma je wywołać) — **27 go nie ma** (m.in. blackout, analiza-spof, typ-montazu, klapy-pozarowe,

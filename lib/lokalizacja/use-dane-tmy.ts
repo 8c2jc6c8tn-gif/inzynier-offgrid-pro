@@ -6,15 +6,17 @@
  * pobrana lokalizacja; `zapisPasuje` decyduje, czy nadaje się do bieżącej.
  */
 import { useCallback, useEffect, useState } from "react"
+import { useTranslate } from "@/lib/i18n/language-context"
 import { indexedDbStorageAdapter } from "@/lib/adapters/indexeddb-storage-adapter"
 import { consoleReporter } from "@/lib/core/reporter"
-import { KLUCZ_TMY, KOMUNIKAT_PVGIS, odczytajOdpowiedzProxy, type ZapisTmy } from "./dane-tmy"
+import { KLUCZ_BLEDU_PVGIS, KLUCZ_TMY, KOMUNIKAT_PVGIS, odczytajOdpowiedzProxy, type ZapisTmy } from "./dane-tmy"
 
 export function useDaneTmy() {
+  const t = useTranslate()
   const [zapis, setZapis] = useState<ZapisTmy | null>(null)
   const [wczytano, setWczytano] = useState(false)
   const [pobiera, setPobiera] = useState(false)
-  const [blad, setBlad] = useState<string | null>(null)
+  const [kluczBledu, setKluczBledu] = useState<string | null>(null)
 
   useEffect(() => {
     let aktywny = true
@@ -41,12 +43,12 @@ export function useDaneTmy() {
 
   const pobierz = useCallback(async (szerokosc: number, dlugosc: number) => {
     setPobiera(true)
-    setBlad(null)
+    setKluczBledu(null)
     try {
       const odp = await fetch(`/api/pvgis/tmy?lat=${szerokosc}&lon=${dlugosc}`)
       const w = odczytajOdpowiedzProxy(await odp.json().catch(() => null))
       if (!w.ok) {
-        setBlad(KOMUNIKAT_PVGIS[w.kod])
+        setKluczBledu(KLUCZ_BLEDU_PVGIS[w.kod])
         return
       }
       const nowy: ZapisTmy = { szerokosc, dlugosc, pobrano: new Date().toISOString(), dane: w.dane }
@@ -66,11 +68,11 @@ export function useDaneTmy() {
         source: "lib/lokalizacja/use-dane-tmy",
         cause: err,
       })
-      setBlad(KOMUNIKAT_PVGIS.SIEC)
+      setKluczBledu(KLUCZ_BLEDU_PVGIS.SIEC)
     } finally {
       setPobiera(false)
     }
   }, [])
 
-  return { zapis, wczytano, pobiera, blad, pobierz }
+  return { zapis, wczytano, pobiera, blad: kluczBledu ? t(kluczBledu) : null, pobierz }
 }

@@ -39,6 +39,16 @@ export const KOMUNIKAT_PVGIS: Record<KodBleduPvgis | "SIEC", string> = {
   SIEC: "Brak połączenia — dane nasłonecznienia trzeba pobrać raz online, potem działają offline.",
 }
 
+/** Translation keys of the same messages for screens (`lib/i18n/ui/bledy-hookow.ts`); `KOMUNIKAT_PVGIS` stays for AI tool output. */
+export const KLUCZ_BLEDU_PVGIS: Record<KodBleduPvgis | "SIEC", string> = {
+  "PVGIS-PARAMETRY-NIEPOPRAWNE": "UI-BLAD-PVGIS-PARAMETRY-NIEPOPRAWNE",
+  "PVGIS-ODRZUCIL-ZAPYTANIE": "UI-BLAD-PVGIS-ODRZUCIL-ZAPYTANIE",
+  "PVGIS-TIMEOUT": "UI-BLAD-PVGIS-TIMEOUT",
+  "PVGIS-NIEDOSTEPNY": "UI-BLAD-PVGIS-NIEDOSTEPNY",
+  "PVGIS-NIEOCZEKIWANY-FORMAT": "UI-BLAD-PVGIS-NIEOCZEKIWANY-FORMAT",
+  SIEC: "UI-BLAD-PVGIS-SIEC",
+}
+
 /** Odpowiedź `/api/pvgis/tmy` → dane albo kod błędu (kształt z route.ts). */
 export function odczytajOdpowiedzProxy(json: unknown): { ok: true; dane: DaneTmy } | { ok: false; kod: KodBleduPvgis } {
   const o = json as { ok?: unknown; dane?: DaneTmy; kod?: KodBleduPvgis }

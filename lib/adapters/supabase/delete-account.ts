@@ -16,19 +16,16 @@ import { createSupabaseServerClient } from "./server"
 import { createSupabaseAdminClient } from "./admin"
 import { isServiceRoleConfigured } from "./config"
 
-export async function deleteAccount(): Promise<{ error?: string } | void> {
+export async function deleteAccount(): Promise<{ error?: string; errorKey?: string } | void> {
   const supabase = await createSupabaseServerClient()
   const {
     data: { user },
   } = await supabase.auth.getUser()
 
-  if (!user) return { error: "Nie jesteś zalogowany." }
+  if (!user) return { errorKey: "UI-BLAD-KONTO-NIEZALOGOWANY" }
 
   if (!isServiceRoleConfigured()) {
-    return {
-      error:
-        "Usuwanie konta nie jest jeszcze skonfigurowane (brak klucza service role w .env.local).",
-    }
+    return { errorKey: "UI-BLAD-KONTO-USUWANIE-NIESKONFIGUROWANE" }
   }
 
   const admin = createSupabaseAdminClient()
