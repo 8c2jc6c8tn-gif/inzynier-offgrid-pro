@@ -256,6 +256,7 @@ import { kolektorGruntowyTool } from "./tools/kolektor-gruntowy-tool"
 import { alternatywneZrodlaCieplaTool } from "./tools/alternatywne-zrodla-ciepla-tool"
 import { deficytyMiesieczneTool } from "./tools/deficyty-miesieczne-tool"
 import { cykleOdszranianiaTool } from "./tools/cykle-odszraniania-tool"
+import { jakoscCsvTelemetriiTool } from "./tools/jakosc-csv-telemetrii-tool"
 import { wentylacjaGrawitacyjnaTool } from "./tools/wentylacja-grawitacyjna-tool"
 import { gwcTool } from "./tools/gwc-tool"
 import { oknoSloneczneTool } from "./tools/okno-sloneczne-tool"
@@ -526,6 +527,7 @@ const NARZEDZIA: Array<AiToolDefinition<any, any>> = [
   kolektorGruntowyTool,
   alternatywneZrodlaCieplaTool,
   deficytyMiesieczneTool,
+  jakoscCsvTelemetriiTool,
   cykleOdszranianiaTool,
   wentylacjaGrawitacyjnaTool,
   gwcTool,

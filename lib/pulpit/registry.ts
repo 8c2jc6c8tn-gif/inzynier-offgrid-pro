@@ -386,7 +386,10 @@ export const KAFLE: KafelEntry[] = [
     nazwa: "Tryb Live",
     opis: "Monitoring bieżący — ma sens dopiero, gdy reszta jest zbudowana.",
     ikona: "📡",
-    ekrany: [{ href: "/kalkulatory/tryb-live", label: "Wejście w tryb Live" }],
+    ekrany: [
+      { href: "/kalkulatory/tryb-live", label: "Wejście w tryb Live" },
+      { href: "/kalkulatory/zrodla-telemetrii", label: "Źródła danych telemetrii" },
+    ],
   },
   // M14 (D35, D39): two tiles after tile 13. Ids 15/16 are internal only — "Kafel 14" is Settings
   // (D9), so these tiles are named "Dom – sieć" / "Firma – sieć" (M14-D / M14-F), never by number.
