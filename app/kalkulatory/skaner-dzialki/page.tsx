@@ -17,6 +17,7 @@ import { usePersistedDraft } from "@/lib/adapters/use-persisted-draft"
 import { calculateSkanerDzialki } from "@/lib/core/modules/lokalizacja/skaner-dzialki/calculator"
 import type { PunktGps } from "@/lib/core/modules/lokalizacja/skaner-dzialki/input"
 import { useTranslate } from "@/lib/i18n/language-context"
+import { etykietaPowierzchni } from "@/lib/lokalizacja/nazwa-powierzchni"
 import {
   elewacje,
   KLUCZ_MODELU_DZIALKI,
@@ -188,7 +189,7 @@ export default function SkanerDzialkiPage() {
           <option value="budynek">{t("UI-SKADZI-OBRYS-BUDYNKU-NAROZNIKI")}</option>
           {model.polacie.map((p, i) => (
             <option key={i} value={`polac:${i}`}>
-              {t("UI-SKADZI-DACH", { nazwa: p.nazwa })}
+              {t("UI-SKADZI-DACH", { nazwa: etykietaPowierzchni(p.nazwa, t) })}
             </option>
           ))}
           <option value="przeszkoda">{t("UI-SKADZI-NOWA-PRZESZKODA-WALEC")}</option>
@@ -427,12 +428,12 @@ export default function SkanerDzialkiPage() {
             {w.budynek && (
               <p>
                 {t("UI-SKADZI-BUDYNEK-RZUTU-ELEWACJE", { powierzchniaM2: f1(w.budynek.powierzchniaM2) })}{" "}
-                {elew.map((e) => `${e.nazwa.replace("Elewacja ", "")} ${e.azymutDeg}° (${f1(e.wymiar)} m)`).join(", ")}
+                {elew.map((e) => `${kierunek(e.azymutDeg)} ${e.azymutDeg}° (${f1(e.wymiar)} m)`).join(", ")}
               </p>
             )}
             {w.polacie.map((p) => (
               <p key={p.nazwa}>
-                {t("UI-SKADZI-NACHYLENIE", { nazwa: p.nazwa, nachylenieDeg: f1(p.nachylenieDeg) })}{" "}
+                {t("UI-SKADZI-NACHYLENIE", { nazwa: etykietaPowierzchni(p.nazwa, t), nachylenieDeg: f1(p.nachylenieDeg) })}{" "}
                 {p.azymutDeg === null ? t("UI-SKADZI-PLASKA") : t("UI-SKADZI-AZYMUT", { azymutDeg: f0(p.azymutDeg), azymutDeg2: kierunek(p.azymutDeg) })}, {f1(p.poleRzeczywisteM2)} m²
                 {p.odchylenieOdPlaszczyznyM > 0.05 ? t("UI-SKADZI-PUNKTY-ODSTAJA-PLASZCZYZNY", { odchylenieOdPlaszczyznyM: f1(p.odchylenieOdPlaszczyznyM) }) : ""}
               </p>
