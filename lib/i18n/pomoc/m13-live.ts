@@ -206,6 +206,18 @@ export const pl = {
       chwila: { nazwa: 'Chwila w historii', cel: 'Moment, dla którego pokazać stan instalacji.', gdzie: 'Suwak — lewy kraniec to początek zakresu, prawy to teraz.', zakres: 'Od początku zakresu do teraz.' },
     },
   },
+  "podsumowanie-telemetrii": {
+    migawka: {
+      oCoChodzi: "Tu widzisz zbiorcze liczby z wybranego zakresu — najmniejszą, największą i średnią wartość każdej serii oraz energię z mocy — i możesz pobrać próbki jako plik CSV.",
+      jakDziala: "Aplikacja czyta zapisane próbki źródła i dla każdej serii liczy statystyki tylko z poprawnych próbek; braki i wartości spoza zakresu czujnika są pomijane (i policzone), nigdy zamieniane na zero. Energię liczy z mocy metodą trapezów między kolejnymi poprawnymi próbkami, ale tylko tam, gdzie przerwa nie przekracza limitu, który sam wpiszesz — bez limitu aplikacja nie zgaduje, czy brak próbek to postój, czy awaria. Średnia jest zwykłą średnią próbek, nie ważoną czasem.",
+      poCo: "Żeby szybko ocenić dzień, tydzień lub miesiąc pracy instalacji i móc przenieść dane do arkusza lub raportu.",
+    },
+    pola: {
+      zrodloId: { nazwa: "Źródło danych", cel: "Z którego źródła zrobić podsumowanie i eksport.", gdzie: "Lista źródeł dodanych na ekranie „Źródła danych telemetrii”.", zakres: "Jedno źródło z listy." },
+      oknoH: { nazwa: "Zakres", cel: "Jak daleko wstecz od teraz objąć podsumowanie i eksport.", gdzie: "Dłuższy zakres daje obraz trendu, krótszy — ostatnią dobę.", zakres: "24 godziny, 7 dni lub 30 dni." },
+      maxPrzerwaMin: { nazwa: "Największa przerwa wliczana do energii", cel: "Maksymalny odstęp między dwiema próbkami mocy, który nadal uznajesz za ciągły pomiar.", gdzie: "Zależy od rejestratora — sprawdź w dokumentacji urządzenia krok zapisu i dodaj zapas (np. 2–3 kroki).", zakres: "Dodatnia liczba minut; puste = energia nieliczona." },
+    },
+  },
 }
 
 export const en: Tlumaczenie<typeof pl> = {
@@ -410,6 +422,18 @@ export const en: Tlumaczenie<typeof pl> = {
       chwila: { nazwa: 'Moment in history', cel: 'The moment for which to show the state of the installation.', gdzie: 'The slider — the left end is the start of the range, the right end is now.', zakres: 'From the start of the range to now.' },
     },
   },
+  "podsumowanie-telemetrii": {
+    migawka: {
+      oCoChodzi: "Here you see summary figures for the selected range — the minimum, maximum and mean of each series and the energy from power — and can download the samples as a CSV file.",
+      jakDziala: "The app reads the source's stored samples and computes statistics for each series from valid samples only; missing and out-of-range readings are skipped (and counted), never turned into zero. Energy is integrated from power with the trapezoid rule between consecutive valid samples, but only where the gap does not exceed a limit you enter — without it the app does not guess whether missing samples mean standstill or failure. The mean is the plain mean of samples, not time-weighted.",
+      poCo: "To quickly judge a day, week or month of operation and move the data to a spreadsheet or report.",
+    },
+    pola: {
+      zrodloId: { nazwa: "Data source", cel: "Which source to summarise and export.", gdzie: "List of sources added on the “Telemetry data sources” screen.", zakres: "One source from the list." },
+      oknoH: { nazwa: "Range", cel: "How far back from now the summary and export reach.", gdzie: "A longer range shows the trend, a shorter one the last day.", zakres: "24 hours, 7 days or 30 days." },
+      maxPrzerwaMin: { nazwa: "Longest gap counted into energy", cel: "The maximum spacing between two power samples that you still treat as continuous measurement.", gdzie: "Depends on the logger — check the device's logging step in its documentation and add a margin (e.g. 2–3 steps).", zakres: "Positive number of minutes; empty = energy not computed." },
+    },
+  },
 }
 
 export const ru: Tlumaczenie<typeof pl> = {
@@ -612,6 +636,18 @@ export const ru: Tlumaczenie<typeof pl> = {
       zrodloId: { nazwa: 'Источник данных', cel: 'Из какого источника читать историю.', gdzie: 'Список источников, добавленных на экране «Источники данных телеметрии».', zakres: 'Один источник из списка.' },
       oknoH: { nazwa: 'Диапазон истории', cel: 'Как далеко назад от сейчас искать события и воспроизводить состояние.', gdzie: 'Короткий диапазон даёт более точный ползунок, длинный — полную картину.', zakres: '6 часов, 24 часа или 7 дней.' },
       chwila: { nazwa: 'Момент в истории', cel: 'Момент, для которого показать состояние установки.', gdzie: 'Ползунок: левый край — начало диапазона, правый — сейчас.', zakres: 'От начала диапазона до сейчас.' },
+    },
+  },
+  "podsumowanie-telemetrii": {
+    migawka: {
+      oCoChodzi: "Здесь вы видите сводные цифры за выбранный диапазон — минимум, максимум и среднее каждой серии и энергию из мощности — и можете скачать выборки в виде CSV.",
+      jakDziala: "Приложение читает сохранённые выборки источника и считает статистику по каждой серии только из корректных выборок; пропуски и значения вне диапазона датчика пропускаются (и подсчитываются), но никогда не заменяются нулём. Энергия считается из мощности методом трапеций между соседними корректными выборками, но только там, где пауза не превышает введённый вами лимит — без него приложение не гадает, означает ли отсутствие выборок простой или сбой. Среднее — обычное среднее выборок, без взвешивания по времени.",
+      poCo: "Чтобы быстро оценить день, неделю или месяц работы установки и перенести данные в таблицу или отчёт.",
+    },
+    pola: {
+      zrodloId: { nazwa: "Источник данных", cel: "Для какого источника делать сводку и экспорт.", gdzie: "Список источников, добавленных на экране «Источники данных телеметрии».", zakres: "Один источник из списка." },
+      oknoH: { nazwa: "Диапазон", cel: "Как далеко назад от сейчас охватывают сводка и экспорт.", gdzie: "Длинный диапазон показывает тренд, короткий — последние сутки.", zakres: "24 часа, 7 дней или 30 дней." },
+      maxPrzerwaMin: { nazwa: "Наибольший пропуск, учитываемый в энергии", cel: "Максимальный интервал между двумя выборками мощности, который вы ещё считаете непрерывным измерением.", gdzie: "Зависит от регистратора — проверьте шаг записи в документации устройства и добавьте запас (например, 2–3 шага).", zakres: "Положительное число минут; пусто = энергия не считается." },
     },
   },
 }

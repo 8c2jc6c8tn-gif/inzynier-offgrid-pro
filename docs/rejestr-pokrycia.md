@@ -582,8 +582,8 @@ Już z wierszem wcześniej: 7.1 (wejście w tryb Live, `done`), 7.7 (powiadomien
 | 7.27 | Tryb wakacyjny/nieobecności | Automatyzacja i tryby pracy | todo | Widżet. |
 | 7.46 | Dynamiczne zarządzanie priorytetami | Automatyzacja i tryby pracy | todo | Widżet. |
 | 7.49 | Tryb nocny — minimalne zużycie i cisza | Automatyzacja i tryby pracy | todo | Widżet. |
-| 7.30 | Eksport danych CSV/PDF/API | Raporty i podsumowania | todo | Widżet. |
-| 7.50 | Interaktywne podsumowanie dnia/tygodnia | Raporty i podsumowania | todo | Widżet. |
+| 7.30 | Eksport danych CSV/PDF/API | Raporty i podsumowania | **done** (03.10.2026, częściowo) | `probkiDoCsv` (`lib/core/telemetria/podsumowanie.ts`), UI: `app/kalkulatory/podsumowanie-telemetrii/page.tsx` (przycisk „Pobierz CSV”, Blob). Braki puste, nigdy zerem. PDF i API poza zakresem (serwer/generator). |
+| 7.50 | Interaktywne podsumowanie dnia/tygodnia | Raporty i podsumowania | **done** (03.10.2026, częściowo) | `podsumujSerie` (`lib/core/telemetria/podsumowanie.ts`, 5 testów), UI: `app/kalkulatory/podsumowanie-telemetrii/page.tsx` (24 h / 7 dni / 30 dni), narzędzie AI `podsumuj_pomiary_telemetrii` (+test). Min/max/średnia per seria; energia z mocy (trapezy) tylko dla przerw ≤ limitu wpisanego przez użytkownika, bez limitu — brak energii (nie zgadujemy). Porównanie z poprzednim okresem nieliczone. |
 | 7.32 | Przypomnienia o przeglądach i serwisie | Raporty i podsumowania | todo | Widżet. |
 | 7.35 | Role i uprawnienia dostępu | Dostęp i administracja | — | → przeniesione do Modułu 14 (ustawienia), źródło: to ustawienie konta, nie widżet danych live. |
 | 7.36 | Kopia zapasowa konfiguracji | Dostęp i administracja | — | → przeniesione do Modułu 14 (ustawienia), źródło: to ustawienie aplikacji. |

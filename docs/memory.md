@@ -2492,3 +2492,8 @@ Właściciel: pismo ma być tłumaczone (wcześniej komentarz w kodzie zakłada�
 
 ## 2026-10-03 — Telemetria: powiadomienia przeglądarki (7.7)
 - `noweAlarmyDoPowiadomienia` (czysta funkcja): jedno powiadomienie na trwający alarm (klucz `progId|kanał`), po ustąpieniu klucz zapomniany → kolejne przekroczenie powiadamia znowu; minimalny priorytet z szkicu (`powiadomieniaMin`, domyślnie wyłączone). Zgoda przeglądarki prosi o osobny przycisk (nigdy automatycznie). SMS/e-mail/web-push w tle wymagają serwera — poza zakresem aplikacji offline-first.
+
+## 2026-10-03 — Telemetria: podsumowanie i eksport CSV (7.50, 7.30)
+- `podsumujSerie`: tylko próbki `ok`; pominięte (braki, poza zakresem) raportowane osobno, nigdy jako zero. Energia z mocy metodą trapezów TYLKO dla par próbek o odstępie ≤ limitu wpisanego przez użytkownika (`maxPrzerwaMin`, bez wartości domyślnej — Dyrektywa #1); bez limitu energia = null i ekran tłumaczy dlaczego. Średnia jest zwykła, nie ważona czasem.
+- `probkiDoCsv`: czas ISO, wartości w jednostce podstawowej, braki jako puste komórki. PDF/API poza zakresem (serwer).
+- Tłumaczenia EN/RU i pomoc ekranu — moje, do przeglądu właściciela.
