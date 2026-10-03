@@ -475,8 +475,6 @@ describe("t — klucze zmigrowane 18.09.2026, partia 8 (okablowanie: analiza-zwa
 
 describe("t — klucze zmigrowane 18.09.2026, partia 9 (okablowanie: glowna-szyna-wyrownawcza, laczenie-cu-al, ochrona-odwrotna-polaryzacja, ochrona-przepieciowa-spd, optymalizacja-trasy-kabla)", () => {
   const kluczeZParametrami: Record<string, Record<string, string | number>> = {
-    "PARA-METALI-OK": { etykieta: "Miedź (Cu) + Aluminium (Al)" },
-    "PARA-POZA-ZAKRESEM": { etykieta: "Mosiądz + Aluminium (Al)" },
     "ZA-BLISKO-ZWODU": { odleglosc: 0.3, min: 0.5 },
     "UC-PONIZEJ-MINIMUM": { uc: 350, ucMin: "400" },
     "SPD-DOBRANY-POPRAWNIE": { typ: "Typ 2" },
@@ -1164,5 +1162,15 @@ describe("konwencja *Key w params", () => {
     for (const jezyk of ["en", "ru"] as const) {
       for (const k of klucze) expect(dictionaries[jezyk][k], `${jezyk}:${k}`).toBeTruthy()
     }
+  })
+})
+
+describe("t — laczenie-cu-al: nazwy materiałów przez klucze (`material1Key`/`material2Key`)", () => {
+  const params = { material1Key: "MATERIAL-MOSIADZ", material2Key: "MATERIAL-AL" }
+  it.each(["PARA-METALI-OK", "PARA-POZA-ZAKRESEM"])("%s: nazwy materiałów w języku UI, bez surowych kluczy", (kod) => {
+    expect(t("pl", kod, params)).toContain("Mosiądz + Aluminium (Al)")
+    expect(t("en", kod, params)).toContain("Brass + Aluminium (Al)")
+    expect(t("ru", kod, params)).toContain("Латунь + Алюминий (Al)")
+    for (const jezyk of SUPPORTED_LANGUAGES) expect(t(jezyk, kod, params)).not.toMatch(/MATERIAL-|\{material/)
   })
 })

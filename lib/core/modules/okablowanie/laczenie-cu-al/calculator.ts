@@ -9,7 +9,7 @@ import {
   paraPozaZakresem,
   wymagaPodkladkiISmaru,
 } from "./warnings"
-import { ETYKIETY_MATERIALOW, kluczPary, WSPOLCZYNNIK_PRZEKROJU_AL_WZGLEDEM_CU } from "./constants"
+import { KLUCZE_MATERIALOW, kluczPary, WSPOLCZYNNIK_PRZEKROJU_AL_WZGLEDEM_CU } from "./constants"
 
 export const CALCULATOR_VERSION = "1.0.1"
 
@@ -66,7 +66,8 @@ export function calculateLaczenieCuAl(input: LaczenieCuAlInput): CalcResult<Lacz
     }
   }
 
-  const etykieta = `${ETYKIETY_MATERIALOW[input.material1]} + ${ETYKIETY_MATERIALOW[input.material2]}`
+  const klucz1 = KLUCZE_MATERIALOW[input.material1]
+  const klucz2 = KLUCZE_MATERIALOW[input.material2]
   const klucz = kluczPary(input.material1, input.material2)
 
   let warnings: Warning[]
@@ -74,13 +75,13 @@ export function calculateLaczenieCuAl(input: LaczenieCuAlInput): CalcResult<Lacz
 
   if (klucz === kluczPary("Cu", "Al")) {
     bezpieczna = input.maZlaczkeBimetaliczna
-    warnings = [bezpieczna ? paraOk(etykieta) : korozjaGalwanicznaCuAl()]
+    warnings = [bezpieczna ? paraOk(klucz1, klucz2) : korozjaGalwanicznaCuAl()]
   } else if (klucz === kluczPary("stal-ocynkowana", "Cu")) {
     bezpieczna = input.maPodkladkeISmar
-    warnings = [bezpieczna ? paraOk(etykieta) : wymagaPodkladkiISmaru()]
+    warnings = [bezpieczna ? paraOk(klucz1, klucz2) : wymagaPodkladkiISmaru()]
   } else if (klucz === kluczPary("stal-nierdzewna", "Al") && input.srodowisko === "suche") {
     bezpieczna = true
-    warnings = [paraOk(etykieta)]
+    warnings = [paraOk(klucz1, klucz2)]
   } else if (klucz === kluczPary("stal-nierdzewna", "Al") && input.srodowisko === "slone") {
     bezpieczna = true
     warnings = [kontrolujOkresowo()]
@@ -92,7 +93,7 @@ export function calculateLaczenieCuAl(input: LaczenieCuAlInput): CalcResult<Lacz
       formula: FORMULA,
       inputs,
       assumptions: [],
-      warnings: [paraPozaZakresem(etykieta)],
+      warnings: [paraPozaZakresem(klucz1, klucz2)],
       calculatorVersion: CALCULATOR_VERSION,
     }
   }

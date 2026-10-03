@@ -321,14 +321,29 @@ export const dictionaryEn = {
   "KOROZJA-GALWANICZNA-CU-AL":
     "A direct copper-aluminum connection without a barrier corrodes and heats up — use a bimetallic " +
     "connector and anti-corrosion paste.",
-  "PARA-METALI-OK": "{etykieta} — connection safe under these conditions.",
+  "PARA-METALI-OK": "{material1} + {material2} — connection safe under these conditions.",
   "WYMAGA-PODKLADKI-I-SMARU":
     "Galvanized steel + copper without a washer and grease — add both to limit corrosion.",
   "KONTROLUJ-OKRESOWO":
     "Stainless steel + aluminum in a salty environment — inspect the connection periodically for corrosion.",
   "PARA-POZA-ZAKRESEM":
-    'The source doesn\'t evaluate the pair "{etykieta}" in this environment — check compatibility with ' +
+    'The source doesn\'t evaluate the pair "{material1} + {material2}" in this environment — check compatibility with ' +
     "the connector manufacturer, we don't guess.",
+  "MATERIAL-CU": "Copper (Cu)",
+  "MATERIAL-AL": "Aluminium (Al)",
+  "MATERIAL-STAL-OCYNKOWANA": "Galvanised steel",
+  "MATERIAL-STAL-NIERDZEWNA": "Stainless steel",
+  "MATERIAL-MOSIADZ": "Brass",
+  "POLE-KO-WARTOSC-OPALOWA": "Calorific value ({zrodlo})",
+  "POLE-KO-SPRAWNOSC": "Efficiency ({zrodlo})",
+  "POLE-KO-MOC-GRZEWCZA": "Heating power ({zrodlo})",
+  "POLE-KO-ZUZYCIE-PALIWA": "Fuel consumption ({zrodlo})",
+  "POLE-KO-COP": "COP ({zrodlo})",
+  "POLE-KO-CENA": "Price ({zrodlo})",
+  "POLE-KO-POBOR-PRADU": "Power draw ({zrodlo})",
+  "POLE-KO-KOSZT-INWESTYCJI": "Investment cost ({zrodlo})",
+  "POLE-KO-KOSZT-SERWISU": "Service cost ({zrodlo})",
+  "POLE-KO-OKRES-ANALIZY": "Analysis period",
   "BRAK-OCHRONY":
     "No protection against reverse polarity on a circuit where plus and minus are easy to mix up.",
   "OCHRONA-ZASTOSOWANA": "Reverse-polarity protection applied.",

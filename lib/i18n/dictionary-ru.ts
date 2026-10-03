@@ -321,14 +321,29 @@ export const dictionaryRu = {
   "KOROZJA-GALWANICZNA-CU-AL":
     "Прямое соединение медь-алюминий без барьера корродирует и нагревается — используйте " +
     "биметаллический зажим и антикоррозионную пасту.",
-  "PARA-METALI-OK": "{etykieta} — соединение безопасно в этих условиях.",
+  "PARA-METALI-OK": "{material1} + {material2} — соединение безопасно в этих условиях.",
   "WYMAGA-PODKLADKI-I-SMARU":
     "Оцинкованная сталь + медь без шайбы и смазки — добавьте оба, чтобы ограничить коррозию.",
   "KONTROLUJ-OKRESOWO":
     "Нержавеющая сталь + алюминий в солёной среде — периодически проверяйте соединение на коррозию.",
   "PARA-POZA-ZAKRESEM":
-    'Источник не оценивает пару "{etykieta}" в этой среде — проверьте совместимость у производителя ' +
+    'Источник не оценивает пару "{material1} + {material2}" в этой среде — проверьте совместимость у производителя ' +
     "зажима, мы не угадываем.",
+  "MATERIAL-CU": "Медь (Cu)",
+  "MATERIAL-AL": "Алюминий (Al)",
+  "MATERIAL-STAL-OCYNKOWANA": "Оцинкованная сталь",
+  "MATERIAL-STAL-NIERDZEWNA": "Нержавеющая сталь",
+  "MATERIAL-MOSIADZ": "Латунь",
+  "POLE-KO-WARTOSC-OPALOWA": "Теплотворная способность ({zrodlo})",
+  "POLE-KO-SPRAWNOSC": "КПД ({zrodlo})",
+  "POLE-KO-MOC-GRZEWCZA": "Тепловая мощность ({zrodlo})",
+  "POLE-KO-ZUZYCIE-PALIWA": "Расход топлива ({zrodlo})",
+  "POLE-KO-COP": "COP ({zrodlo})",
+  "POLE-KO-CENA": "Цена ({zrodlo})",
+  "POLE-KO-POBOR-PRADU": "Потребляемая мощность ({zrodlo})",
+  "POLE-KO-KOSZT-INWESTYCJI": "Инвестиционные затраты ({zrodlo})",
+  "POLE-KO-KOSZT-SERWISU": "Затраты на обслуживание ({zrodlo})",
+  "POLE-KO-OKRES-ANALIZY": "Период анализа",
   "BRAK-OCHRONY":
     "Отсутствует какая-либо защита от обратной полярности на цепи, где легко перепутать плюс и минус.",
   "OCHRONA-ZASTOSOWANA": "Защита от обратной полярности применена.",

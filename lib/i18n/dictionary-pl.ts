@@ -330,14 +330,29 @@ export const dictionaryPl = {
   "KOROZJA-GALWANICZNA-CU-AL":
     "Bezpośrednie połączenie miedź-aluminium bez bariery koroduje i grzeje się — użyj złączki " +
     "bimetalicznej i pasty antykorozyjnej.",
-  "PARA-METALI-OK": "{etykieta} — połączenie bezpieczne w tych warunkach.",
+  "PARA-METALI-OK": "{material1} + {material2} — połączenie bezpieczne w tych warunkach.",
   "WYMAGA-PODKLADKI-I-SMARU":
     "Stal ocynkowana + miedź bez podkładki i smaru — dodaj oba, żeby ograniczyć korozję.",
   "KONTROLUJ-OKRESOWO":
     "Stal nierdzewna + aluminium w środowisku słonym — kontroluj połączenie okresowo pod kątem korozji.",
   "PARA-POZA-ZAKRESEM":
-    'Źródło nie ocenia pary "{etykieta}" w tym środowisku — sprawdź kompatybilność u producenta ' +
+    'Źródło nie ocenia pary "{material1} + {material2}" w tym środowisku — sprawdź kompatybilność u producenta ' +
     "złączki, nie zgadujemy.",
+  "MATERIAL-CU": "Miedź (Cu)",
+  "MATERIAL-AL": "Aluminium (Al)",
+  "MATERIAL-STAL-OCYNKOWANA": "Stal ocynkowana",
+  "MATERIAL-STAL-NIERDZEWNA": "Stal nierdzewna",
+  "MATERIAL-MOSIADZ": "Mosiądz",
+  "POLE-KO-WARTOSC-OPALOWA": "Wartość opałowa ({zrodlo})",
+  "POLE-KO-SPRAWNOSC": "Sprawność ({zrodlo})",
+  "POLE-KO-MOC-GRZEWCZA": "Moc grzewcza ({zrodlo})",
+  "POLE-KO-ZUZYCIE-PALIWA": "Zużycie paliwa ({zrodlo})",
+  "POLE-KO-COP": "COP ({zrodlo})",
+  "POLE-KO-CENA": "Cena ({zrodlo})",
+  "POLE-KO-POBOR-PRADU": "Pobór prądu ({zrodlo})",
+  "POLE-KO-KOSZT-INWESTYCJI": "Koszt inwestycji ({zrodlo})",
+  "POLE-KO-KOSZT-SERWISU": "Koszt serwisu ({zrodlo})",
+  "POLE-KO-OKRES-ANALIZY": "Okres analizy",
   "BRAK-OCHRONY":
     "Brak jakiejkolwiek ochrony przed odwrotną polaryzacją na obwodzie, gdzie łatwo pomylić plus i minus.",
   "OCHRONA-ZASTOSOWANA": "Ochrona przed odwrotną polaryzacją zastosowana.",

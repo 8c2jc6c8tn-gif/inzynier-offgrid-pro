@@ -36,6 +36,7 @@ Bieżące zadania i otwarte pytania: `docs/lista-do-zrobienia.md` (nie tutaj). D
 - **Pierwszeństwo własnych kalkulatorów (13.09).** Gdy aplikacja ma precyzyjniejszy kalkulator niż uproszczenie z materiału źródłowego, wygrywa kalkulator aplikacji; materiał = „pierwsze przybliżenie”. `[A:04]`
 - **Konflikt numeracji D# (H.3):** przed nadaniem numeru sprawdź najwyższy na `origin/main`; pierwszy scalony zachowuje numer (D22/D23 = MapLibre/ULDK, adaptacyjny Y.6 przenumerowany na D24). `[A:08]`
 - **Duże mechaniczne rollouty:** 2–4 subagentów albo sekwencyjnie. Osiem naraz wyczerpało limit sesji API (429) przy rolloucie autosave (część plików niedokończona; sprawdzić typecheck/lint na zmienionych). `[A:07]`
+- **Gałęzie zdalne — NAJPIERW LISTA, potem ewentualne sprawdzanie (powtórzone 3× przez różne sesje: 27.09, 29.09, 02.10).** Lista gałęzi-śmieci jest w sekcji „Porządki gałęzi na GitHubie” (27.09.2026, uzupełniona 01.10) i „Przegląd niescalonych gałęzi zdalnych” (29.09.2026) w tym pliku: stan od 29.09 = **każda gałąź zdalna poza `main` jest do usunięcia**, nie weryfikuj, nie scalaj, nie porównuj; gałęzie zastąpione nowszymi PR-ami (m.in. `laughing-faraday-lp6ytt`, `youthful-fermat-tbxoxg`, `sync-offgrid-standard-ucgqok`, `screen-fixes-new-documents-80kzcm`) scalone cofnęłyby dokumenty. Sprawdzaj wyłącznie gałęzie spoza listy i nowsze niż ostatnia kontrola (np. gałąź innej sesji z dzisiejszą datą — to praca w toku, nie śmieć). Przed jakimkolwiek porównaniem `git rev-parse --is-shallow-repository` → jeśli `true`, `git fetch --unshallow origin` (płytki klon pokazuje setki fałszywych „niescalonych” commitów). Kasowanie gałęzi z sesji jest niemożliwe (HTTP 403) — robi to właściciel w GitHubie (*Branches* → kosz; ustawienie repo „Automatically delete head branches”). `[sekcje 27.09 i 29.09 niżej]`
 - **`rejestr-decyzji.md`** = decyzje strategiczne; drobne decyzje implementacyjne per ekran zostają w memory. Nie re-transkrybować per-moduł specyfikacji do Biblii (rejestr-pokrycia + docs/zrodla pełnią tę rolę, I.2). `[A:03]`
 - **Merge/PR:** „405 merge conflicts mimo identycznej treści” = gałąź z presquash commitami — `git merge origin/main` + `git checkout --ours` na jedynym realnym konflikcie, najpierw porównać `git diff <sha>:<plik> origin/main:<plik>`. Po squash: `git fetch origin main && git merge origin/main` (Dyrektywa #9). Plik dostarczony luzem do `docs/zrodla/` zawsze do katalogu `norma-*` + indeks + README + `normy-brakujace.md` (I.3). `[A:07]`, `[A:03]`
 
@@ -2500,3 +2501,14 @@ Właściciel: pismo ma być tłumaczone (wcześniej komentarz w kodzie zakłada�
 
 ## 2026-10-03 — Przekazanie sesji (telemetria i jakość)
 - Telemetria zamknięta w zakresie bez sprzętu/serwera; jakość: odświeżone przestarzałe wpisy listy (dryf stopów M5, przegląd z 27.09), uwaga o aktualności w `mapa-wdrozenia.md`. Dalsze kroki (migracja `*Key`, przeliczenie mapy, CI po 1.10) spisane w jednym wpisie „PRZEKAZANIE SESJI” w `docs/lista-do-zrobienia.md`.
+
+## Przegląd gałęzi 02.10.2026 — powtórzony błąd procesu (zapis w Skrócie aktywnym)
+
+- Po poleceniu „sprawdź niescalone commity” sesja policzyła gałęzie od zera (po `--unshallow`: 5 gałęzi z łatkami spoza `main`) i ręcznie porównywała pliki, choć lista gałęzi-śmieci istniała w tym samym pliku (27.09/29.09). 4 z 5 sprawdzonych gałęzi były na liście (`laughing-faraday-lp6ytt`, `youthful-fermat-tbxoxg`, `sync-offgrid-standard-ucgqok`, `screen-fixes-new-documents-80kzcm`); wynik zgodny z listą (treść już w `main` w nowszej strukturze, scalenie cofnęłoby dokumenty).
+- Jedyna gałąź poza listą: `claude/pensive-noether-jq72ja` (02.10.2026, i18n `pv/czystosc-i-snieg`, 1 commit kodu `be47430c` + 2 scalenia `main`; scala się z `main` bez konfliktów) — praca innej sesji w toku, nie scalana bez decyzji właściciela.
+- Przyczyna powtórzenia: zasada „najpierw lista” leżała w sekcji z 27.09/29.09, nie w miejscu czytanym na starcie. Poprawka: punkt „Gałęzie zdalne” w Skrócie aktywnym (sekcja 1).
+
+## 2026-10-03 — Kroki 2 i 4 przekazania, przywrócenie zasady o gałęziach
+
+- Krok 4: `check-i18n-guard` skanuje wszystkie `.ts` silników i katalogi pomocnicze (`e2af58bb`). Krok 2: tylko pomiar wierszy rejestru (322 `done`, nie ekrany) — T.1 nieprzeliczone.
+- Commit `9554a389` (zasada „najpierw lista gałęzi”) zniknął z gałęzi po przestawieniu na `origin/main` i nie był w `main`; przywrócony cherry-pickiem (`fe00ff77`).
