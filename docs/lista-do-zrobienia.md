@@ -459,7 +459,7 @@ Pełne wyniki audytu: `docs/memory.md`, sekcja "Pełny audyt na polecenie właś
   6. 🔲 **Tłumaczenie etykiet stron na EN/RU** (wpis z 29.09 wyżej) — dotyczy też nowej listy „Kolejność odcinków od
      budynku” w M5/E2 (etykiety tylko PL, jak reszta tego ekranu).
   7. ⚠️ **Inne decyzje właściciela nadal otwarte** (wpisy wyżej, bez zmian): M7/E8 parafinizacja diesla, M7/E19, M7/E23,
-     M7/E24 + E16, M7/E25, M8 blok 2 (E10), M12 pakiet 2 (E27), duplikat ZIAD, licencje norm w repo, M9/E2 przykład
+     ~~M7/E24 + E16, M7/E25~~ (✅ 03.10.2026 zbudowane, liczby ✅🤖 w `docs/memory.md`), M8 blok 2 (E10), M12 pakiet 2 (E27), duplikat ZIAD, licencje norm w repo, M9/E2 przykład
      MP1584, M6/E11 progi okien, M3–M6 drobne ✅🤖 z 27.09 pkt (2) i (4).
   8. 🔲 **Zablokowane brakiem norm/danych** (wpisy wyżej): M5/E1 + M11/B5 + M4/E25 (tabela obciążalności), M12/E41
      (PN-EN 50565-1), szkic LED (karta taśmy), M6 obciążenie cieplne (PN-EN 12831).
