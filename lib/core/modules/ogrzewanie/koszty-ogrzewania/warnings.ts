@@ -1,22 +1,22 @@
 import type { Warning } from "@/lib/core/calc-result"
 
-export function wartoscNiedodatnia(field: string, label: string, value: number): Warning {
+export function wartoscNiedodatnia(field: string, labelKey: string, value: number, zrodlo?: string): Warning {
   return {
     code: `KO-${field.toUpperCase()}-NIEDODATNI`,
     level: "critical",
     i18nKey: "WARTOSC-NIEDODATNIA",
-    params: { label },
+    params: zrodlo === undefined ? { labelKey } : { labelKey, zrodlo },
     technicalMessage: `${field} = ${value}, oczekiwano > 0`,
     field,
   }
 }
 
-export function wartoscUjemna(field: string, label: string, value: number): Warning {
+export function wartoscUjemna(field: string, labelKey: string, value: number, zrodlo?: string): Warning {
   return {
     code: `KO-${field.toUpperCase()}-UJEMNY`,
     level: "critical",
     i18nKey: "WARTOSC-UJEMNA",
-    params: { label },
+    params: zrodlo === undefined ? { labelKey } : { labelKey, zrodlo },
     technicalMessage: `${field} = ${value}, oczekiwano >= 0`,
     field,
   }

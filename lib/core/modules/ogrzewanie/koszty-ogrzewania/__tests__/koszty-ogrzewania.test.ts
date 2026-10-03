@@ -98,6 +98,6 @@ describe("calculateKosztyOgrzewania (M6, dawne 5.39 + D28)", () => {
     expect(calculateKosztyOgrzewania({ ...bazowe, zrodla: [{ ...pompa, cop: 0 }] }).status).toBe("INVALID_INPUT")
     const r = calculateKosztyOgrzewania({ ...bazowe, zrodla: [{ ...pellet, cenaZl: -1 }] })
     expect(r.status).toBe("INVALID_INPUT")
-    expect(r.warnings[0]!.params).toEqual({ label: "Cena (Pellet)" })
+    expect(r.warnings[0]!.params).toEqual({ labelKey: "POLE-KO-CENA", zrodlo: "Pellet" })
   })
 })

@@ -139,7 +139,7 @@ describe("calculateLaczenieCuAl", () => {
       przekrojCuMm2: 0,
     })
     expect(result.warnings[0].i18nKey).toBe("PARA-METALI-OK")
-    expect(result.warnings[0].params).toEqual({ etykieta: "Aluminium (Al) + Miedź (Cu)" })
+    expect(result.warnings[0].params).toEqual({ material1Key: "MATERIAL-AL", material2Key: "MATERIAL-CU" })
     expect(result.warnings[0].message).toBeUndefined()
   })
 
@@ -164,7 +164,7 @@ describe("calculateLaczenieCuAl", () => {
       przekrojCuMm2: 0,
     })
     expect(pozaZakresem.warnings[0].i18nKey).toBe("PARA-POZA-ZAKRESEM")
-    expect(pozaZakresem.warnings[0].params).toEqual({ etykieta: "Miedź (Cu) + Miedź (Cu)" })
+    expect(pozaZakresem.warnings[0].params).toEqual({ material1Key: "MATERIAL-CU", material2Key: "MATERIAL-CU" })
     expect(pozaZakresem.warnings[0].message).toBeUndefined()
   })
 })

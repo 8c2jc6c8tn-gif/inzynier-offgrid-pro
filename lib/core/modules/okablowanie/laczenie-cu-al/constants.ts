@@ -13,6 +13,15 @@ export const ETYKIETY_MATERIALOW: Record<Material, string> = {
   mosiadz: "Mosiądz",
 }
 
+/** Klucze tłumaczeń nazw materiałów — silnik podaje je w `params` (`material1Key`), nie gotowy tekst PL. */
+export const KLUCZE_MATERIALOW: Record<Material, string> = {
+  Cu: "MATERIAL-CU",
+  Al: "MATERIAL-AL",
+  "stal-ocynkowana": "MATERIAL-STAL-OCYNKOWANA",
+  "stal-nierdzewna": "MATERIAL-STAL-NIERDZEWNA",
+  mosiadz: "MATERIAL-MOSIADZ",
+}
+
 export const ETYKIETY_SRODOWISK: Record<Srodowisko, string> = {
   suche: "Suche",
   wilgotne: "Wilgotne",

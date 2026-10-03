@@ -19,12 +19,12 @@ export function korozjaGalwanicznaCuAl(): Warning {
   }
 }
 
-export function paraOk(etykieta: string): Warning {
+export function paraOk(material1Key: string, material2Key: string): Warning {
   return {
     code: "PARA-METALI-OK",
     level: "info",
     i18nKey: "PARA-METALI-OK",
-    params: { etykieta },
+    params: { material1Key, material2Key },
     technicalMessage: "para metali zweryfikowana",
   }
 }
@@ -47,12 +47,12 @@ export function kontrolujOkresowo(): Warning {
   }
 }
 
-export function paraPozaZakresem(etykieta: string): Warning {
+export function paraPozaZakresem(material1Key: string, material2Key: string): Warning {
   return {
     code: "PARA-POZA-ZAKRESEM",
     level: "critical",
     i18nKey: "PARA-POZA-ZAKRESEM",
-    params: { etykieta },
+    params: { material1Key, material2Key },
     technicalMessage: "para/środowisko spoza tabeli źródła",
   }
 }
