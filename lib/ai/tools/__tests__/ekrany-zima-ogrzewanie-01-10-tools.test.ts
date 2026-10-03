@@ -7,6 +7,7 @@ import { wentylacjaGrawitacyjnaTool } from "../wentylacja-grawitacyjna-tool"
 import { gwcTool } from "../gwc-tool"
 import { oknoSloneczneTool } from "../okno-sloneczne-tool"
 import { deepWinterBudgetTool } from "../deep-winter-budget-tool"
+import { falownikThdTool } from "../falownik-thd-tool"
 import { osadNaPvTool } from "../osad-na-pv-tool"
 import { wspolczynnikBezpieczenstwaZimowegoTool } from "../wspolczynnik-bezpieczenstwa-zimowego-tool"
 import { wplywCzynnikaTool } from "../wplyw-czynnika-tool"
@@ -359,5 +360,30 @@ describe("deepWinterBudgetTool (M7/E25, dawne 6.39→7.37)", () => {
     expect(w.zostaloKwh).toBeCloseTo(200, 9)
     expect(w.wymaganeOgraniczeniePct).toBeCloseTo(27.2727, 3)
     expect(w.ostrzezenia).toContain(t("pl", "DWB-PONAD-BUDZET", { odchylenie: 10.7, dzien: 28, ograniczenie: 27.3 }))
+  })
+})
+
+describe("falownikThdTool (M7/E24, dawne 6.38→7.36)", () => {
+  it("kontrakt 9.3: 'read', bez potwierdzenia", () => {
+    expect(falownikThdTool.operationType).toBe("read")
+    expect(falownikThdTool.requiresConfirmation).toBe(false)
+    expect(() => validateAiToolDefinition(falownikThdTool)).not.toThrow()
+  })
+
+  it("THD 30% między 20% (0,9) i 40% (0,7) → k=0,8, dostępna 4 kW; obciążenie 4,5 kW → 🔴 jako tekst PL", async () => {
+    const w = await falownikThdTool.handler({
+      mocZnamionowaKw: 5,
+      mocObciazeniaKw: 4.5,
+      thdPct: 30,
+      tabela: [
+        { thdPct: 0, wspolczynnik: 1 },
+        { thdPct: 20, wspolczynnik: 0.9 },
+        { thdPct: 40, wspolczynnik: 0.7 },
+      ],
+    })
+    expect(w.wspolczynnik).toBeCloseTo(0.8, 12)
+    expect(w.dostepnaKw).toBeCloseTo(4, 12)
+    expect(w.przekroczone).toBe(true)
+    expect(w.ostrzezenia).toContain(t("pl", "FTHD-OBCIAZENIE-PRZEKRACZA-DOSTEPNA", { obciazenie: 4.5, dostepna: 4, brak: 0.5 }))
   })
 })

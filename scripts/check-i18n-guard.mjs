@@ -224,6 +224,7 @@ const MIGRATED_MODULES = [
   "lib/core/modules/stress-test/deficyty-miesieczne",
   "lib/core/modules/stress-test/okno-sloneczne",
   "lib/core/modules/stress-test/deep-winter-budget",
+  "lib/core/modules/stress-test/falownik-thd",
   "lib/core/modules/stress-test/wspolczynnik-bezpieczenstwa-zimowego",
   "lib/core/modules/stress-test/osad-na-pv",
   "lib/core/modules/zapotrzebowanie/urzadzenia-zmienne",

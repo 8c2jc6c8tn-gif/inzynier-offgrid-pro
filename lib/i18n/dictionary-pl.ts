@@ -1942,6 +1942,13 @@ export const dictionaryPl = {
   "DWB-ZALOZENIE-BUDZET-PROPORCJONALNY": "Budżet narastający B = plan × (dzień ÷ liczba dni miesiąca), czyli energia rozłożona równo na wszystkie dni. W zimie zużycie bywa nierówne (mrozy, zbiorcze pranie) — traktuj budżet jako prostą linię odniesienia, nie prognozę.",
   "DWB-ZALOZENIE-TEMPO-STALE": "Prognoza końca miesiąca = dotychczasowe zużycie dzienne × liczba dni miesiąca, czyli zakłada, że reszta miesiąca będzie taka jak dotychczasowa. Plan to suma źródeł wpisanych przez Ciebie (PV + agregat + użyteczna rezerwa magazynu).",
   "DWB-ZALOZENIE-OGRZEWANIE-STACJONARNE": "Przybliżenie stacjonarne: moc ogrzewania jest proporcjonalna do różnicy temperatur wewnątrz–na zewnątrz, więc obniżenie temperatury o 1 K zmniejsza energię ogrzewania o udział ÷ ΔT. Pomija zyski wewnętrzne, bezwładność budynku i zmianę sprawności źródła ciepła.",
+  "FTHD-WARTOSC-UJEMNA": "Wpisana wartość nie może być ujemna.",
+  "FTHD-WSPOLCZYNNIK-POZA-ZAKRESEM": "Współczynnik w wierszu {wiersz} tabeli musi mieścić się w przedziale od 0 do 1.",
+  "FTHD-TABELA-NIEROSNACA": "THD w wierszu {wiersz} tabeli musi być większe niż w wierszu poprzednim — wpisz wiersze rosnąco.",
+  "FTHD-THD-POZA-TABELA": "THD {thd}% leży poza tabelą producenta ({min}–{max}%). Nie wyliczam poza tabelą — dopisz do tabeli punkt z karty falownika albo sprawdź wpisane THD.",
+  "FTHD-OBCIAZENIE-PRZEKRACZA-DOSTEPNA": "Obciążenie {obciazenie} kW jest większe niż moc, jaką falownik odda przy tym THD ({dostepna} kW) — brakuje {brak} kW. Zmniejsz obciążenie, zwiększ moc falownika albo zmniejsz THD (filtr harmonicznych, inny odbiornik).",
+  "FTHD-ZALOZENIE-TABELA-PRODUCENTA": "Współczynnik obniżenia mocy pochodzi wyłącznie z tabeli wpisanej przez Ciebie z karty katalogowej falownika — aplikacja nie zakłada żadnych własnych wartości.",
+  "FTHD-ZALOZENIE-INTERPOLACJA-LINIOWA": "Między dwoma punktami tabeli współczynnik jest interpolowany liniowo; poza tabelą nie ma ekstrapolacji.",
 } as const
 
 export type KluczTlumaczenia = keyof typeof dictionaryPl

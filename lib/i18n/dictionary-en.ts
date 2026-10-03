@@ -1930,4 +1930,11 @@ export const dictionaryEn = {
   "DWB-ZALOZENIE-BUDZET-PROPORCJONALNY": "Cumulative budget B = plan × (day ÷ days in the month), i.e. the energy spread evenly over all days. In winter consumption is uneven (frosts, batch laundry) — treat the budget as a plain reference line, not a forecast.",
   "DWB-ZALOZENIE-TEMPO-STALE": "Month-end forecast = consumption per day so far × days in the month, i.e. it assumes the rest of the month will be like the days so far. The plan is the sum of the sources you entered (PV + generator + usable battery reserve).",
   "DWB-ZALOZENIE-OGRZEWANIE-STACJONARNE": "Stationary approximation: heating power is proportional to the indoor–outdoor temperature difference, so lowering the temperature by 1 K cuts heating energy by share ÷ ΔT. It ignores internal gains, the building's thermal inertia and the change in heat-source efficiency.",
+  "FTHD-WARTOSC-UJEMNA": "The entered value cannot be negative.",
+  "FTHD-WSPOLCZYNNIK-POZA-ZAKRESEM": "The coefficient in table row {wiersz} must be between 0 and 1.",
+  "FTHD-TABELA-NIEROSNACA": "The THD in table row {wiersz} must be greater than in the previous row — enter the rows in ascending order.",
+  "FTHD-THD-POZA-TABELA": "THD {thd}% is outside the manufacturer's table ({min}–{max}%). Nothing is computed outside the table — add a point from the inverter datasheet or check the entered THD.",
+  "FTHD-OBCIAZENIE-PRZEKRACZA-DOSTEPNA": "The load of {obciazenie} kW is higher than the power the inverter delivers at this THD ({dostepna} kW) — {brak} kW is missing. Reduce the load, use a bigger inverter or reduce the THD (harmonic filter, a different appliance).",
+  "FTHD-ZALOZENIE-TABELA-PRODUCENTA": "The derating coefficient comes only from the table you typed in from the inverter datasheet — the app assumes no values of its own.",
+  "FTHD-ZALOZENIE-INTERPOLACJA-LINIOWA": "Between two table points the coefficient is interpolated linearly; there is no extrapolation outside the table.",
 } satisfies Record<KluczTlumaczenia, string>

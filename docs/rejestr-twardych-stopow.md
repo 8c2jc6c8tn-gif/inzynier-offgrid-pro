@@ -398,6 +398,11 @@ nie do audytu poprawności formularza webowego.
 - **[03.10.2026] Samo wyłączenie ogrzewania nie obniży tempa zużycia do dopuszczalnego** — wymagane ograniczenie r większe niż
   udział ogrzewania w zużyciu: nawet przy zerowym ogrzewaniu plan się nie spina. Poziom z bilansu ✅🤖 (do potwierdzenia).
   (M7/E25 — `lib/core/modules/stress-test/deep-winter-budget/warnings.ts`, `ogrzewanieNieWystarczy`, kod `DWB-OGRZEWANIE-NIE-WYSTARCZY`)
+- **[03.10.2026] Falownik przy odkształconym prądzie: obciążenie większe niż moc dostępna przy danym THD** — moc dostępna
+  P_nom·k, gdzie k pochodzi z tabeli producenta wpisanej przez użytkownika (interpolacja liniowa, bez ekstrapolacji).
+  Falownik przeciążony zimą przy pracującej pompie ciepła się wyłączy lub przegrzeje. Poziom: tylko 🔴 albo 🟢, bez progu 🟡
+  (źródło go nie podaje). Kategoria: Elektryczne / systemowe.
+  (M7/E24 — `lib/core/modules/stress-test/falownik-thd/warnings.ts`, `obciazeniePrzekraczaDostepna`, kod `FTHD-OBCIAZENIE-PRZEKRACZA-DOSTEPNA`)
 
 
 ## Bezpieczeństwo życia / montaż

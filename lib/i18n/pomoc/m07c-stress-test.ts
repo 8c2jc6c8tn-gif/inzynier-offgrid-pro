@@ -79,6 +79,46 @@ export const pl = {
       },
     },
   },
+  "falownik-thd": {
+    migawka: {
+      oCoChodzi: "Falownik ma na tabliczce moc w kilowatach, ale to moc dla „gładkiego” prądu. Gdy odbiornik (pompa ciepła, silniki, zasilacze) zniekształca prąd, falownik grzeje się bardziej i producent każe mu oddawać mniej. Ten ekran sprawdza, czy mimo to wystarczy mocy.",
+      jakDziala: "1) Wpisujesz moc znamionową falownika i moc czynną obciążenia. 2) Wpisujesz THD prądu obciążenia (z analizatora sieci albo z karty odbiornika). 3) Wpisujesz z karty katalogowej falownika tabelę: dla kilku wartości THD — jaką część mocy znamionowej falownik może wtedy oddać (0–1); minimum 2 wiersze, THD rosnąco. 4) Aplikacja odczytuje współczynnik dla Twojego THD (między wierszami liczy po prostej), mnoży przez moc znamionową i porównuje z obciążeniem. 5) Pokazuje zapas w kW i w procentach albo — gdy obciążenie jest większe — czerwony stop.",
+      poCo: "Falownik dobrany „na styk” według tabliczki może zimą, przy pracującej pompie ciepła, wyłączać się na przeciążeniu. Lepiej zobaczyć to przy planowaniu niż w środku mrozu.",
+      fizyka: "Co i jak liczymy — i dlaczego. Odkształcony prąd zawiera harmoniczne: poza składową podstawową (50 Hz) płyną składowe o wielokrotnościach tej częstotliwości. Zwiększają one wartość skuteczną prądu i straty w falowniku (nagrzewanie tranzystorów, dławików, kondensatorów) bez dodawania mocy czynnej. THD to stosunek wartości skutecznej harmonicznych do składowej podstawowej. Producent podaje, jak bardzo trzeba obniżyć dopuszczalną moc przy danym THD — tej zależności aplikacja nie zna i nie zgaduje, dlatego wpisujesz ją z karty. Współczynnik k dla Twojego THD to interpolacja liniowa między dwoma sąsiednimi wierszami tabeli: k = k1 + (THD − THD1)/(THD2 − THD1)·(k2 − k1). Poza tabelą nie ekstrapolujemy — krzywa jest producenta, nie nasza. Moc dostępna = P_nom·k. Zapas = P_dostępna − P_obciążenia; w procentach względem mocy dostępnej. Czerwono jest tylko wtedy, gdy obciążenie jest większe niż moc dostępna; źródło nie podaje progu „żółtego”, więc go nie ma. Przykład z literatury (THD 25% → 4,1 kW z 5 kW) to ilustracja, nie reguła: Twój falownik może mieć inną krzywą.",
+    },
+    pola: {
+      mocZnamionowa: {
+        nazwa: "Moc znamionowa falownika [kW]",
+        cel: "Moc czynna, od której liczone jest obniżenie przy odkształconym prądzie.",
+        gdzie: "Tabliczka znamionowa albo karta katalogowa falownika (ciągła moc czynna, nie chwilowa).",
+        zakres: "Większa od zera.",
+      },
+      mocObciazenia: {
+        nazwa: "Moc czynna obciążenia [kW]",
+        cel: "Porównywana z mocą, jaką falownik realnie odda przy Twoim THD.",
+        gdzie: "Suma mocy odbiorników pracujących jednocześnie (Moduł 2) albo pomiar z licznika/falownika w szczycie.",
+        zakres: "Większa od zera; moc czynna w kW, nie pozorna w kVA.",
+      },
+      thd: {
+        nazwa: "THD prądu obciążenia [%]",
+        cel: "Wybiera z tabeli współczynnik obniżenia mocy.",
+        gdzie: "Analizator jakości energii, dane odbiornika od producenta (pompa ciepła, napęd) albo pomiar elektryka.",
+        zakres: "Musi mieścić się w zakresie THD z tabeli — poza nią nie liczymy.",
+      },
+      tabelaThd: {
+        nazwa: "THD w tabeli falownika [%]",
+        cel: "Punkt krzywej obniżania mocy podany przez producenta.",
+        gdzie: "Karta katalogowa falownika: wykres lub tabela „moc a THD” (derating).",
+        zakres: "Co najmniej 2 wiersze, THD rosnąco, od 0.",
+      },
+      tabelaK: {
+        nazwa: "Współczynnik mocy w tabeli (0–1)",
+        cel: "Jaką część mocy znamionowej falownik może oddać przy danym THD (np. 0,9 = 90%).",
+        gdzie: "Ta sama karta katalogowa; jeśli producent podaje moc w kW, podziel ją przez moc znamionową.",
+        zakres: "Od 0 do 1.",
+      },
+    },
+  },
 }
 
 export const en: Tlumaczenie<typeof pl> = {
@@ -155,6 +195,46 @@ export const en: Tlumaczenie<typeof pl> = {
       },
     },
   },
+  "falownik-thd": {
+    migawka: {
+      oCoChodzi: "An inverter has a power in kilowatts on its plate, but that is the power for a „smooth” current. When a load (heat pump, motors, power supplies) distorts the current, the inverter runs hotter and the manufacturer makes it deliver less. This screen checks whether the power is still enough.",
+      jakDziala: "1) You enter the inverter's rated power and the active power of the load. 2) You enter the THD of the load current (from a power analyser or the appliance datasheet). 3) From the inverter datasheet you enter a table: for several THD values, what share of the rated power the inverter can then deliver (0–1); at least 2 rows, THD ascending. 4) The app reads the coefficient for your THD (between rows it follows a straight line), multiplies it by the rated power and compares it with the load. 5) It shows the margin in kW and in percent or — when the load is higher — a red stop.",
+      poCo: "An inverter sized „to the limit” by its plate may trip on overload in winter while the heat pump runs. It is better to see this during planning than in the middle of a frost.",
+      fizyka: "What we compute — and why. A distorted current contains harmonics: besides the fundamental component (50 Hz) there are components at multiples of that frequency. They increase the RMS value of the current and the losses in the inverter (heating of transistors, chokes, capacitors) without adding any active power. THD is the ratio of the RMS value of the harmonics to the fundamental component. The manufacturer states how much the permissible power must be reduced at a given THD — the app does not know this relation and does not guess it, so you type it in from the datasheet. The coefficient k for your THD is a linear interpolation between two neighbouring table rows: k = k1 + (THD − THD1)/(THD2 − THD1)·(k2 − k1). Outside the table we do not extrapolate — the curve is the manufacturer's, not ours. Available power = P_nom·k. Margin = P_available − P_load; in percent relative to the available power. It is red only when the load is higher than the available power; the source gives no „yellow” limit, so there is none. The literature example (THD 25% → 4.1 kW of 5 kW) is an illustration, not a rule: your inverter may have a different curve.",
+    },
+    pola: {
+      mocZnamionowa: {
+        nazwa: "Inverter rated power [kW]",
+        cel: "The active power from which the derating at a distorted current is counted.",
+        gdzie: "Rating plate or datasheet of the inverter (continuous active power, not peak).",
+        zakres: "Greater than zero.",
+      },
+      mocObciazenia: {
+        nazwa: "Active power of the load [kW]",
+        cel: "Compared with the power the inverter will really deliver at your THD.",
+        gdzie: "Sum of the appliances running at the same time (Module 2) or a meter/inverter reading at the peak.",
+        zakres: "Greater than zero; active power in kW, not apparent power in kVA.",
+      },
+      thd: {
+        nazwa: "THD of the load current [%]",
+        cel: "Selects the derating coefficient from the table.",
+        gdzie: "Power quality analyser, the appliance manufacturer's data (heat pump, drive) or an electrician's measurement.",
+        zakres: "Must lie within the THD range of the table — nothing is computed outside it.",
+      },
+      tabelaThd: {
+        nazwa: "THD in the inverter table [%]",
+        cel: "A point of the manufacturer's derating curve.",
+        gdzie: "Inverter datasheet: the „power vs. THD” chart or table (derating).",
+        zakres: "At least 2 rows, THD ascending, starting from 0.",
+      },
+      tabelaK: {
+        nazwa: "Power coefficient in the table (0–1)",
+        cel: "What share of the rated power the inverter can deliver at the given THD (e.g. 0.9 = 90%).",
+        gdzie: "The same datasheet; if the manufacturer gives power in kW, divide it by the rated power.",
+        zakres: "From 0 to 1.",
+      },
+    },
+  },
 }
 
 export const ru: Tlumaczenie<typeof pl> = {
@@ -228,6 +308,46 @@ export const ru: Tlumaczenie<typeof pl> = {
         cel: "От неё зависит, насколько уменьшится отопление при снижении температуры на 1 К (на 1/ΔT).",
         gdzie: "Температура в доме минус средняя наружная температура последних дней.",
         zakres: "Больше нуля; зимой обычно от десятка до нескольких десятков кельвинов.",
+      },
+    },
+  },
+  "falownik-thd": {
+    migawka: {
+      oCoChodzi: "У инвертора на табличке указана мощность в киловаттах, но это мощность для «гладкого» тока. Когда потребитель (тепловой насос, двигатели, блоки питания) искажает ток, инвертор сильнее нагревается, и производитель требует от него отдавать меньше. Этот экран проверяет, хватит ли мощности при этом.",
+      jakDziala: "1) Вводите номинальную мощность инвертора и активную мощность нагрузки. 2) Вводите THD тока нагрузки (с анализатора сети или из паспорта потребителя). 3) Из паспорта инвертора вводите таблицу: для нескольких значений THD — какую долю номинальной мощности инвертор может отдать (0–1); минимум 2 строки, THD по возрастанию. 4) Приложение считывает коэффициент для вашего THD (между строками — по прямой), умножает на номинальную мощность и сравнивает с нагрузкой. 5) Показывает запас в кВт и в процентах или — если нагрузка больше — красный стоп.",
+      poCo: "Инвертор, подобранный «впритык» по табличке, зимой при работающем тепловом насосе может отключаться по перегрузке. Лучше увидеть это при планировании, чем посреди мороза.",
+      fizyka: "Что и как считаем — и почему. Искажённый ток содержит гармоники: кроме основной составляющей (50 Гц) текут составляющие с кратными частотами. Они увеличивают действующее значение тока и потери в инверторе (нагрев транзисторов, дросселей, конденсаторов), не добавляя активной мощности. THD — отношение действующего значения гармоник к основной составляющей. Производитель указывает, насколько надо снизить допустимую мощность при данном THD — эту зависимость приложение не знает и не угадывает, поэтому вы вводите её из паспорта. Коэффициент k для вашего THD — линейная интерполяция между двумя соседними строками таблицы: k = k1 + (THD − THD1)/(THD2 − THD1)·(k2 − k1). Вне таблицы не экстраполируем — кривая принадлежит производителю, а не нам. Доступная мощность = P_ном·k. Запас = P_доступная − P_нагрузки; в процентах относительно доступной мощности. Красным — только если нагрузка больше доступной мощности; источник не даёт «жёлтого» порога, поэтому его нет. Пример из литературы (THD 25% → 4,1 кВт из 5 кВт) — иллюстрация, а не правило: у вашего инвертора кривая может быть другой.",
+    },
+    pola: {
+      mocZnamionowa: {
+        nazwa: "Номинальная мощность инвертора [кВт]",
+        cel: "Активная мощность, от которой считается снижение при искажённом токе.",
+        gdzie: "Табличка или паспорт инвертора (длительная активная мощность, не пиковая).",
+        zakres: "Больше нуля.",
+      },
+      mocObciazenia: {
+        nazwa: "Активная мощность нагрузки [кВт]",
+        cel: "Сравнивается с мощностью, которую инвертор реально отдаст при вашем THD.",
+        gdzie: "Сумма одновременно работающих потребителей (Модуль 2) или показание счётчика/инвертора в пике.",
+        zakres: "Больше нуля; активная мощность в кВт, не полная в кВА.",
+      },
+      thd: {
+        nazwa: "THD тока нагрузки [%]",
+        cel: "Выбирает из таблицы коэффициент снижения мощности.",
+        gdzie: "Анализатор качества электроэнергии, данные производителя потребителя (тепловой насос, привод) или измерение электрика.",
+        zakres: "Должно лежать в диапазоне THD таблицы — вне него расчёт не выполняется.",
+      },
+      tabelaThd: {
+        nazwa: "THD в таблице инвертора [%]",
+        cel: "Точка кривой снижения мощности от производителя.",
+        gdzie: "Паспорт инвертора: график или таблица «мощность от THD» (derating).",
+        zakres: "Не менее 2 строк, THD по возрастанию, начиная с 0.",
+      },
+      tabelaK: {
+        nazwa: "Коэффициент мощности в таблице (0–1)",
+        cel: "Какую долю номинальной мощности инвертор может отдать при данном THD (например 0,9 = 90%).",
+        gdzie: "Тот же паспорт; если производитель даёт мощность в кВт, разделите её на номинальную.",
+        zakres: "От 0 до 1.",
       },
     },
   },
