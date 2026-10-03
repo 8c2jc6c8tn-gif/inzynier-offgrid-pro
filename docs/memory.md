@@ -2528,3 +2528,7 @@ Właściciel: pismo ma być tłumaczone (wcześniej komentarz w kodzie zakłada�
 - Wzorzec dla podpowiedzi z `<datalist>`: pole przyjmuje tekst w języku UI, więc dopasowanie (`znajdzPrzyklad`) musi znać nazwę PL i wyświetlaną.
 - Katalog normowy (`katalog-psi.ts`): `opis` PL zostaje źródłem, ekran bierze `UI-PSI-<kod>`; test pilnuje zgodności PL z katalogiem i kompletności EN/RU. EN/RU wszystkich nowych kluczy to szkice do przeglądu native.
 - Otwarta z audytu została tylko (2) `formulaKey` (~25 stałych z prozą w `formula`, ~210 użyć) — wymaga decyzji o indeksach symbolicznych.
+
+## 2026-10-03 — Zasada współpracy: pytania do właściciela tylko w pełnej formie (polecenie właściciela, obowiązuje stale)
+- Każde pytanie do właściciela musi zawierać: (1) **czego dotyczy** (jednoznacznie, bez skrótów myślowych), (2) **gdzie** (plik/ekran/moduł/wpis listy z numerem linii lub ścieżką), (3) **opcje rozwiązania** (A/B/…, z konsekwencjami każdej i moją rekomendacją). Bez pytań „ogólnych” typu „co dalej?”.
+- Dotyczy też listy „do rozstrzygnięcia” na końcu odpowiedzi — każda pozycja w tym samym formacie.
