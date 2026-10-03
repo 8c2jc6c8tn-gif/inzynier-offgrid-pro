@@ -193,6 +193,18 @@ export const pl = {
       },
     },
   },
+  "historia-zdarzen": {
+    migawka: {
+      oCoChodzi: 'Tu sprawdzasz, kiedy i jak długo Twoje progi alarmowe były przekraczane w przeszłości oraz jak wyglądała instalacja w dowolnej wybranej chwili.',
+      jakDziala: 'Aplikacja czyta zapisane próbki wybranego źródła z wybranego zakresu i dla każdego progu z ekranu „Pomiary na żywo i alarmy” szuka ciągłych przekroczeń: początek to pierwsza próbka poza limitem, koniec to pierwsza próbka z powrotem w limicie. Braki danych i wartości spoza zakresu czujnika nie otwierają ani nie kończą zdarzenia. Suwak odtwarzania pokazuje ostatnie poprawne wartości i aktywne alarmy z wybranej chwili.',
+      poCo: 'Żeby zrozumieć, co się działo w nocy lub podczas Twojej nieobecności, i ocenić, czy progi są dobrane sensownie.',
+    },
+    pola: {
+      zrodloId: { nazwa: 'Źródło danych', cel: 'Z którego źródła czytać historię.', gdzie: 'Lista źródeł dodanych na ekranie „Źródła danych telemetrii”.', zakres: 'Jedno źródło z listy.' },
+      oknoH: { nazwa: 'Zakres historii', cel: 'Jak daleko wstecz od teraz szukać zdarzeń i odtwarzać stan.', gdzie: 'Krótszy zakres daje dokładniejszy suwak, dłuższy — pełny obraz.', zakres: '6 godzin, 24 godziny lub 7 dni.' },
+      chwila: { nazwa: 'Chwila w historii', cel: 'Moment, dla którego pokazać stan instalacji.', gdzie: 'Suwak — lewy kraniec to początek zakresu, prawy to teraz.', zakres: 'Od początku zakresu do teraz.' },
+    },
+  },
 }
 
 export const en: Tlumaczenie<typeof pl> = {
@@ -384,6 +396,18 @@ export const en: Tlumaczenie<typeof pl> = {
       },
     },
   },
+  "historia-zdarzen": {
+    migawka: {
+      oCoChodzi: 'Here you check when and for how long your alarm thresholds were breached in the past and what the installation looked like at any chosen moment.',
+      jakDziala: 'The app reads the stored samples of the selected source from the selected range and, for each threshold from the “Live measurements and alarms” screen, looks for continuous breaches: the start is the first sample outside the limit, the end is the first sample back within it. Gaps and out-of-range readings neither open nor end an event. The replay slider shows the latest valid values and the alarms active at the chosen moment.',
+      poCo: 'To understand what happened overnight or while you were away, and to judge whether the thresholds are sensible.',
+    },
+    pola: {
+      zrodloId: { nazwa: 'Data source', cel: 'Which source to read the history from.', gdzie: 'List of sources added on the “Telemetry data sources” screen.', zakres: 'One source from the list.' },
+      oknoH: { nazwa: 'History range', cel: 'How far back from now to look for events and replay the state.', gdzie: 'A shorter range gives a finer slider, a longer one the full picture.', zakres: '6 hours, 24 hours or 7 days.' },
+      chwila: { nazwa: 'Moment in history', cel: 'The moment for which to show the state of the installation.', gdzie: 'The slider — the left end is the start of the range, the right end is now.', zakres: 'From the start of the range to now.' },
+    },
+  },
 }
 
 export const ru: Tlumaczenie<typeof pl> = {
@@ -573,6 +597,18 @@ export const ru: Tlumaczenie<typeof pl> = {
         gdzie: "Критический выбирайте для угроз безопасности, например перегрева; предупреждение — для вопросов, которые могут подождать.",
         zakres: "Информация, предупреждение или критический.",
       },
+    },
+  },
+  "historia-zdarzen": {
+    migawka: {
+      oCoChodzi: 'Здесь вы проверяете, когда и как долго превышались ваши пороги тревог в прошлом и как выглядела установка в любой выбранный момент.',
+      jakDziala: 'Приложение читает сохранённые выборки выбранного источника за выбранный диапазон и для каждого порога с экрана «Измерения в реальном времени и тревоги» ищет непрерывные превышения: начало — первая выборка за пределом, конец — первая выборка, вернувшаяся в предел. Пропуски и значения вне диапазона датчика не открывают и не завершают событие. Ползунок воспроизведения показывает последние корректные значения и активные тревоги в выбранный момент.',
+      poCo: 'Чтобы понять, что происходило ночью или в ваше отсутствие, и оценить, разумно ли выбраны пороги.',
+    },
+    pola: {
+      zrodloId: { nazwa: 'Источник данных', cel: 'Из какого источника читать историю.', gdzie: 'Список источников, добавленных на экране «Источники данных телеметрии».', zakres: 'Один источник из списка.' },
+      oknoH: { nazwa: 'Диапазон истории', cel: 'Как далеко назад от сейчас искать события и воспроизводить состояние.', gdzie: 'Короткий диапазон даёт более точный ползунок, длинный — полную картину.', zakres: '6 часов, 24 часа или 7 дней.' },
+      chwila: { nazwa: 'Момент в истории', cel: 'Момент, для которого показать состояние установки.', gdzie: 'Ползунок: левый край — начало диапазона, правый — сейчас.', zakres: 'От начала диапазона до сейчас.' },
     },
   },
 }

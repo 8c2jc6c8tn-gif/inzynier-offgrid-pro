@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest"
-import { daneNieaktualne, ocenAlarmy, ostatnieWartosci, seriaDoWykresu, type ProgAlarmu } from "./alarmy"
+import { daneNieaktualne, epizodyAlarmow, ocenAlarmy, probkiDoChwili, ostatnieWartosci, seriaDoWykresu, type ProgAlarmu } from "./alarmy"
 import { zbudujProbke } from "./probka"
 
 const p = (kanal: string, wielkosc: Parameters<typeof zbudujProbke>[0]["wielkosc"], czas: number, wartosc: number | null) =>
@@ -45,5 +45,26 @@ describe("daneNieaktualne / seriaDoWykresu", () => {
   it("returns a time-ordered series inside the window", () => {
     const s = seriaDoWykresu([p("pv", "moc", 30, 3), p("pv", "moc", 10, 1), p("pv", "moc", 1, 9), p("x", "moc", 20, 7)], "pv", "moc", 40, 35)
     expect(s).toEqual([{ czas: 10, wartosc: 1 }, { czas: 30, wartosc: 3 }])
+  })
+})
+
+describe("epizodyAlarmow / probkiDoChwili", () => {
+  const prog: ProgAlarmu[] = [{ id: "a", wielkosc: "soc", kierunek: "ponizej", wartosc: 25, priorytet: "krytyczny" }]
+  it("opens on breach, closes on the first sample within the limit, tracks the extreme", () => {
+    const e = epizodyAlarmow([p("bms", "soc", 1, 50), p("bms", "soc", 2, 20), p("bms", "soc", 3, 10), p("bms", "soc", 4, 40)], prog)
+    expect(e).toHaveLength(1)
+    expect(e[0]).toMatchObject({ odMs: 2, doMs: 4, ekstremum: 10 })
+  })
+  it("leaves an ongoing episode open and ignores missing / out-of-range samples", () => {
+    const e = epizodyAlarmow([p("bms", "soc", 1, 20), p("bms", "soc", 2, null), p("bms", "soc", 3, 500)], prog)
+    expect(e).toHaveLength(1)
+    expect(e[0].doMs).toBeNull()
+  })
+  it("finds separate episodes newest first and no episode at the threshold", () => {
+    const e = epizodyAlarmow([p("bms", "soc", 1, 10), p("bms", "soc", 2, 60), p("bms", "soc", 3, 5), p("bms", "soc", 4, 25)], prog)
+    expect(e.map((x) => x.odMs)).toEqual([3, 1])
+  })
+  it("cuts samples at the replay moment", () => {
+    expect(probkiDoChwili([p("bms", "soc", 1, 1), p("bms", "soc", 5, 1)], 3)).toHaveLength(1)
   })
 })
