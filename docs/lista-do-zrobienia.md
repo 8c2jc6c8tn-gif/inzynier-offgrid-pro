@@ -1344,6 +1344,9 @@ Pełne wyniki audytu: `docs/memory.md`, sekcja "Pełny audyt na polecenie właś
   `pnpm test:e2e` (sam robi trzy buildy, ~3–5 min). Kolizja: `.github/workflows/ci.yml`.
   → **[30.09.2026] Pkt (3) zrobiony** — job `e2e-sw` w `ci.yml` (osobny, limit 30 min). Pkt (1) i (2) zostają na 1.10:
   pierwszy przebieg na `main` sprawdzi też nowy job.
+  → **[03.10.2026] Stan:** nota z `CLAUDE.md` już usunięta (pkt 1 zrobiony). Ostatni przebieg CI na `main` to 20.09.2026
+  (success); od tego czasu GitHub Actions nie startował, więc pkt (2) czeka na pierwszy push/PR po 1.10 — wtedy sprawdzić
+  `check:ai-tools-guard` i job `e2e-sw`.
   → **[01.10.2026] Pkt (1) zrobiony** — nota usunięta z `CLAUDE.md` (sekcja „Stan repo” i zdanie o merge), wpis w
   `docs/memory.md`. Pkt (2) zostaje: pierwszy przebieg CI na `main` po scaleniu PR ze stylami wyglądu (D63–D67).
   ⚠️ **[01.10.2026, 11:15] Pkt (2): CI nadal nie startuje.** Workflow `CI` jest `active`, Actions `enabled`, repo
