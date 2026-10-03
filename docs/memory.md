@@ -2497,3 +2497,6 @@ Właściciel: pismo ma być tłumaczone (wcześniej komentarz w kodzie zakłada�
 - `podsumujSerie`: tylko próbki `ok`; pominięte (braki, poza zakresem) raportowane osobno, nigdy jako zero. Energia z mocy metodą trapezów TYLKO dla par próbek o odstępie ≤ limitu wpisanego przez użytkownika (`maxPrzerwaMin`, bez wartości domyślnej — Dyrektywa #1); bez limitu energia = null i ekran tłumaczy dlaczego. Średnia jest zwykła, nie ważona czasem.
 - `probkiDoCsv`: czas ISO, wartości w jednostce podstawowej, braki jako puste komórki. PDF/API poza zakresem (serwer).
 - Tłumaczenia EN/RU i pomoc ekranu — moje, do przeglądu właściciela.
+
+## 2026-10-03 — Przekazanie sesji (telemetria i jakość)
+- Telemetria zamknięta w zakresie bez sprzętu/serwera; jakość: odświeżone przestarzałe wpisy listy (dryf stopów M5, przegląd z 27.09), uwaga o aktualności w `mapa-wdrozenia.md`. Dalsze kroki (migracja `*Key`, przeliczenie mapy, CI po 1.10) spisane w jednym wpisie „PRZEKAZANIE SESJI” w `docs/lista-do-zrobienia.md`.
