@@ -292,6 +292,18 @@ const MIGRATED_MODULES = [
 
 const FILES_TO_CHECK = ["warnings.ts", "calculator.ts", "validation.ts"]
 
+// Besides FILES_TO_CHECK, every other engine helper in a module directory (e.g. snieg.ts, scoring.ts)
+// is scanned too: a message built there reaches the user exactly like one from warnings.ts.
+// Excluded: constants/input (catalogue labels are translated on the screen side, see memory.md 02.10),
+// index.ts, and pure data files.
+const NOT_ENGINE_FILES = new Set(["constants.ts", "input.ts", "index.ts", "katalog-psi.ts", "przykladowe-urzadzenia.ts"])
+function filesToCheck(moduleDir) {
+  const extra = readdirSync(moduleDir).filter(
+    (f) => f.endsWith(".ts") && !FILES_TO_CHECK.includes(f) && !NOT_ENGINE_FILES.has(f),
+  )
+  return [...FILES_TO_CHECK, ...extra]
+}
+
 /** @type {{filePath: string, line: number, message: string}[]} */
 const violations = []
 
@@ -399,7 +411,7 @@ function checkFile(filePath, source) {
 }
 
 for (const moduleDir of MIGRATED_MODULES) {
-  for (const file of FILES_TO_CHECK) {
+  for (const file of filesToCheck(moduleDir)) {
     const filePath = path.join(moduleDir, file)
     if (!existsSync(filePath)) continue // np. moduł bez calculator.ts — pomiń, nie błąd
     checkFile(filePath, readFileSync(filePath, "utf8"))
@@ -417,6 +429,22 @@ function findModules(dir) {
   for (const e of entries) if (e.isDirectory() && e.name !== "__tests__") findModules(path.posix.join(dir, e.name))
 }
 findModules("lib/core/modules")
+
+// Helper directories without their own calculator/warnings/validation (e.g. pv/eurokod-1) are not
+// modules, but their code runs in the same engines — scan them with the same rules.
+function scanHelperDirs(dir) {
+  const entries = readdirSync(dir, { withFileTypes: true })
+  if (!listed.has(dir)) {
+    for (const e of entries) {
+      if (e.isFile() && e.name.endsWith(".ts") && !NOT_ENGINE_FILES.has(e.name)) {
+        const filePath = path.posix.join(dir, e.name)
+        checkFile(filePath, readFileSync(filePath, "utf8"))
+      }
+    }
+  }
+  for (const e of entries) if (e.isDirectory() && e.name !== "__tests__") scanHelperDirs(path.posix.join(dir, e.name))
+}
+scanHelperDirs("lib/core/modules")
 
 if (unlisted.length > 0) {
   console.error("Mechanizm strażniczy i18n (17.9) — moduły spoza listy MIGRATED_MODULES:\n")
