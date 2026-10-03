@@ -2543,3 +2543,15 @@ Właściciel: pismo ma być tłumaczone (wcześniej komentarz w kodzie zakłada�
 - **1A:** dodany test dryfu w `lib/i18n/__tests__/formuly.test.ts` — dla każdego klucza `UI-FORMULA-*` polski wpis słownika musi równać się literałowi wzoru w module, który go używa (stałe interpolowane `${…}` porównywane jako `{pN}`; wariant `-STAWKI` pominięty). Sprawdzone, że test faktycznie pada po zmianie wpisu.
 - **Zaakceptowane przez właściciela w obecnym stanie:** dane demonstracyjne `SAMPLE_AUDIT_ITEMS` (ostrzeżenia audytu pożarowego — dane demo, nie tekst silnika) oraz pismo reklamacyjne `test-licznika` (tłumaczone kluczami `UI-TESLIC-PISMO-*`, EN/RU do przeglądu native). Nie ma tu już nic otwartego do rozstrzygania.
 
+
+## 2026-10-03 — M7: E25 Deep Winter Budget, E24 Falownik THD, E16 Turbina wiatrowa (zbudowane)
+- Trzy ekrany w pełnej „Definicji ukończenia” (silnik + testy, PL/EN/RU, „?”/„i”, narzędzie AI, pulpit, rejestr pokrycia `done`): commity 4f42624c (E25), 6dca2f6c (E24), 9dc2b5f4 (E16). Dane producenta (tabela THD→k, krzywa mocy turbiny, prędkość wyłączenia, współczynnik dostępności i strat) wpisuje użytkownik — aplikacja niczego nie zakłada (Dyrektywa #1). Przykłady źródła (4,1 kW przy THD 25%, 1 kW/6 m/s → 3 kWh/dobę) tylko w opisach ekranów.
+- **Do potwierdzenia przez właściciela (✅🤖):**
+  1. E25 próg 🔴: 🟡 „z > B_d” i 🔴 „prognoza > plan” są tą samą nierównością, więc 🟡 = ponad budżet do nadrobienia, 🔴 = plan wyczerpany (z ≥ P przy pozostałych dniach) albo samo wyłączenie ogrzewania nie wystarcza (r > udział ogrzewania).
+  2. E25 budżet narastający proporcjonalny B_d = P·d/N oraz przybliżenie stacjonarne ogrzewania (1 K ≈ 1/ΔT energii grzania).
+  3. E25 przykład źródła niespójny (700 − 280 ≠ 170) — ekran liczy z samego bilansu.
+  4. E24 brak progu 🟡 (źródło go nie podaje): tylko 🔴/🟢 + zapas w kW i %; tabela < 2 punkty = INCOMPLETE; poza zakresem THD tabeli = OUT_OF_SCOPE (bez ekstrapolacji).
+  5. E16 walidacja: prędkość wyłączenia nie mniejsza niż ostatni punkt krzywej; limit obliczeń 100 m/s to limit techniczny pętli całkowania, nie norma; współczynnik dostępności i strat wymagany jawnie (null = INCOMPLETE).
+  6. E16 ostrzeżenie „średnia bez rozkładu” celowo ostrożne (krzywa mocy nieliniowa — nie twierdzimy, że średnia zawsze zawyża/zaniża).
+  7. E16 niezbudowane 🟡 ze źródła o oblodzeniu łopat (mróz, wysoka wilgotność) — brak modelu, tylko wzmianka w opisie ekranu.
+- Pułapki: label kafla w `lib/pulpit/registry.ts` musi równać się pełnemu polskiemu `UI-EKRAN-7-*`; wzór w `formula` tylko symbolami (test dryfu `formuly.test.ts` wymaga zgodności z kluczem `UI-FORMULA-*`); nowe kody 🔴 walidacyjne trzeba dopisać do `scripts/stopy-guard-wyjatki.json` (`walidacja-danych` / `poza-zakresem-modelu`), merytoryczne do `docs/rejestr-twardych-stopow.md`.
