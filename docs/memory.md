@@ -2555,3 +2555,7 @@ Właściciel: pismo ma być tłumaczone (wcześniej komentarz w kodzie zakłada�
   6. E16 ostrzeżenie „średnia bez rozkładu” celowo ostrożne (krzywa mocy nieliniowa — nie twierdzimy, że średnia zawsze zawyża/zaniża).
   7. E16 niezbudowane 🟡 ze źródła o oblodzeniu łopat (mróz, wysoka wilgotność) — brak modelu, tylko wzmianka w opisie ekranu.
 - Pułapki: label kafla w `lib/pulpit/registry.ts` musi równać się pełnemu polskiemu `UI-EKRAN-7-*`; wzór w `formula` tylko symbolami (test dryfu `formuly.test.ts` wymaga zgodności z kluczem `UI-FORMULA-*`); nowe kody 🔴 walidacyjne trzeba dopisać do `scripts/stopy-guard-wyjatki.json` (`walidacja-danych` / `poza-zakresem-modelu`), merytoryczne do `docs/rejestr-twardych-stopow.md`.
+
+## 2026-10-04 — Decyzje właściciela: E25 próg 🔴 i E16 oblodzenie łopat
+- **E25 (`stress-test/deep-winter-budget`) — 1A potwierdzone:** 🟡 = zużycie ponad budżet narastający (do nadrobienia); 🔴 = plan wyczerpany albo samo wyłączenie ogrzewania nie wystarcza. Kod bez zmian. Zdejmuje ✅🤖 z punktu 1 wpisu z 03.10.2026 (punkty 2–7 tamtego wpisu nadal czekają).
+- **E16 (`stress-test/turbina-wiatrowa`) — 2A potwierdzone:** oblodzenie łopat zostaje samym opisem i wzmianką (źródło nie podaje modelu; Dyrektywa #1 — brak zgadywania). Bez pola na własny współczynnik strat zimowych. Kod bez zmian.
