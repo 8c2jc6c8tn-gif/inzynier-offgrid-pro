@@ -26,6 +26,9 @@ export const DeepWinterBudgetToolInput = z.object({
     .describe("Opcjonalny podział planu na kategorie; pusta lista = bez podziału"),
   udzialOgrzewaniaPct: z.number().describe("Opcjonalnie: udział ogrzewania w zużyciu [%]; 0 = brak"),
   roznicaTemperaturK: z.number().describe("Opcjonalnie: średnia różnica temperatur wewnątrz–na zewnątrz [K]; 0 = brak"),
+  oszczednoscKwhDobaNaK: z
+    .number()
+    .describe("Opcjonalnie: własna zmierzona oszczędność energii na 1 K niższej temperatury w domu [kWh/dobę]; 0 = brak (wtedy przybliżenie stacjonarne)"),
 })
 export type DeepWinterBudgetToolInputT = z.infer<typeof DeepWinterBudgetToolInput>
 

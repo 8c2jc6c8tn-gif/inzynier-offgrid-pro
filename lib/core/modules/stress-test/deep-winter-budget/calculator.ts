@@ -80,7 +80,8 @@ const FORMULA =
  *  - plan P = PV + generator + battery reserve; cumulative budget B_d = P·d/N (proportional — stated assumption);
  *  - left = P − z; current pace z/d vs allowed pace (P − z)/(N − d); forecast z/d·N;
  *  - required cut r = 1 − allowed/current; heating: 1 K lower indoor temperature cuts the heating energy by ≈ 1/ΔT
- *    (stationary approximation), so the heating share u covers r with ΔT_needed = r·ΔT/u.
+ *    (stationary approximation), so the heating share u covers r with ΔT_needed = r·ΔT/u;
+ *    with the user's own saving s [kWh/day per K] instead: ΔT_needed = (z/d − allowed pace)/s.
  *
  * Verdicts. „forecast > P” and „z > B_d” are the SAME inequality (z/d·N > P ⇔ z > P·d/N), so the two source verdicts
  * cannot be told apart by that test. Hence: 🟡 = over the budget, still recoverable by cutting consumption;
@@ -97,6 +98,7 @@ export function calculateDeepWinterBudget(input: DeepWinterBudgetInput): CalcRes
     zuzycieNarastajaceKwh: input.zuzycieNarastajaceKwh,
     udzialOgrzewaniaPct: input.udzialOgrzewaniaPct,
     roznicaTemperaturK: input.roznicaTemperaturK,
+    oszczednoscKwhDobaNaK: input.oszczednoscKwhDobaNaK,
   }
   const baza = { unit: "kWh", formula: FORMULA, formulaKey: "UI-FORMULA-STRESS-TEST-DEEP-WINTER-BUDGET", inputs, calculatorVersion: CALCULATOR_VERSION }
   if (errors.length > 0) return { ...baza, value: PUSTY, status: "INVALID_INPUT", assumptions: [], warnings: errors }
@@ -124,11 +126,15 @@ export function calculateDeepWinterBudget(input: DeepWinterBudgetInput): CalcRes
   if (wyczerpany) warnings.push(planWyczerpany(z, plan, dniDoKonca))
 
   const maOgrz = input.udzialOgrzewaniaPct > 0 && input.roznicaTemperaturK > 0
-  const czesciowoOgrz = (input.udzialOgrzewaniaPct > 0) !== (input.roznicaTemperaturK > 0)
+  // The user's own measured saving per 1 K (owner decision 04.10.2026, option B) replaces the stationary 1/ΔT.
+  const maWlasna = input.oszczednoscKwhDobaNaK > 0
+  const czesciowoOgrz = !maWlasna && (input.udzialOgrzewaniaPct > 0) !== (input.roznicaTemperaturK > 0)
   let potrzebneK: number | null = null
-  if (maOgrz && wymaganePct !== null && wymaganePct > 0) {
-    if (wymaganePct > input.udzialOgrzewaniaPct + EPS) {
+  if ((maOgrz || maWlasna) && wymaganePct !== null && wymaganePct > 0 && tempoDopuszczalne !== null) {
+    if (input.udzialOgrzewaniaPct > 0 && wymaganePct > input.udzialOgrzewaniaPct + EPS) {
       warnings.push(ogrzewanieNieWystarczy(wymaganePct, input.udzialOgrzewaniaPct))
+    } else if (maWlasna) {
+      potrzebneK = (tempoBiezace - tempoDopuszczalne) / input.oszczednoscKwhDobaNaK
     } else {
       potrzebneK = (wymaganePct * input.roznicaTemperaturK) / input.udzialOgrzewaniaPct
     }
@@ -161,7 +167,8 @@ export function calculateDeepWinterBudget(input: DeepWinterBudgetInput): CalcRes
   }
 
   const assumptions: Assumption[] = [{ kod: "DWB-ZALOZENIE-BUDZET-PROPORCJONALNY" }, { kod: "DWB-ZALOZENIE-TEMPO-STALE" }]
-  if (maOgrz) assumptions.push({ kod: "DWB-ZALOZENIE-OGRZEWANIE-STACJONARNE" })
+  if (maWlasna) assumptions.push({ kod: "DWB-ZALOZENIE-OGRZEWANIE-WLASNE" })
+  else if (maOgrz) assumptions.push({ kod: "DWB-ZALOZENIE-OGRZEWANIE-STACJONARNE" })
 
   return {
     ...baza,

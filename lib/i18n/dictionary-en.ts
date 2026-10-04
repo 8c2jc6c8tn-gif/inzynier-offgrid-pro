@@ -1929,6 +1929,7 @@ export const dictionaryEn = {
   "DWB-OGRZEWANIE-NIEKOMPLETNE": "Converting to degrees needs both fields: the heating share of consumption and the mean temperature difference. Only one of them was entered.",
   "DWB-ZALOZENIE-BUDZET-PROPORCJONALNY": "Cumulative budget B = plan × (day ÷ days in the month), i.e. the energy spread evenly over all days. In winter consumption is uneven (frosts, batch laundry) — treat the budget as a plain reference line, not a forecast.",
   "DWB-ZALOZENIE-TEMPO-STALE": "Month-end forecast = consumption per day so far × days in the month, i.e. it assumes the rest of the month will be like the days so far. The plan is the sum of the sources you entered (PV + generator + usable battery reserve).",
+  "DWB-ZALOZENIE-OGRZEWANIE-WLASNE": "Conversion to degrees uses your own saving per 1 K (kWh/day) instead of the stationary approximation. The result is only as good as that measurement; it assumes the saving is linear over the size of the reduction.",
   "DWB-ZALOZENIE-OGRZEWANIE-STACJONARNE": "Stationary approximation: heating power is proportional to the indoor–outdoor temperature difference, so lowering the temperature by 1 K cuts heating energy by share ÷ ΔT. It ignores internal gains, the building's thermal inertia and the change in heat-source efficiency.",
   "FTHD-WARTOSC-UJEMNA": "The entered value cannot be negative.",
   "FTHD-WSPOLCZYNNIK-POZA-ZAKRESEM": "The coefficient in table row {wiersz} must be between 0 and 1.",

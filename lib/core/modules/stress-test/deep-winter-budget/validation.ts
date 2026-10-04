@@ -20,6 +20,7 @@ export function validateInput(input: DeepWinterBudgetInput): { errors: Warning[]
     planMagazynKwh: input.planMagazynKwh,
     zuzycieNarastajaceKwh: input.zuzycieNarastajaceKwh,
     roznicaTemperaturK: input.roznicaTemperaturK,
+    oszczednoscKwhDobaNaK: input.oszczednoscKwhDobaNaK,
   }
   input.cele.forEach((c, i) => {
     nieujemne[`cele[${i}].zuzycieKwh`] = c.zuzycieKwh

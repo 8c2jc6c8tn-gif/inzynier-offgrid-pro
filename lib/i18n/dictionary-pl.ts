@@ -1941,6 +1941,7 @@ export const dictionaryPl = {
   "DWB-OGRZEWANIE-NIEKOMPLETNE": "Do przeliczenia na stopnie potrzebne są oba pola: udział ogrzewania w zużyciu i średnia różnica temperatur. Wpisano tylko jedno z nich.",
   "DWB-ZALOZENIE-BUDZET-PROPORCJONALNY": "Budżet narastający B = plan × (dzień ÷ liczba dni miesiąca), czyli energia rozłożona równo na wszystkie dni. W zimie zużycie bywa nierówne (mrozy, zbiorcze pranie) — traktuj budżet jako prostą linię odniesienia, nie prognozę.",
   "DWB-ZALOZENIE-TEMPO-STALE": "Prognoza końca miesiąca = dotychczasowe zużycie dzienne × liczba dni miesiąca, czyli zakłada, że reszta miesiąca będzie taka jak dotychczasowa. Plan to suma źródeł wpisanych przez Ciebie (PV + agregat + użyteczna rezerwa magazynu).",
+  "DWB-ZALOZENIE-OGRZEWANIE-WLASNE": "Przeliczenie na stopnie z Twojej własnej oszczędności na 1 K (kWh/dobę), zamiast przybliżenia stacjonarnego. Wynik jest tak dobry, jak ten pomiar; zakłada, że oszczędność jest liniowa w zakresie obniżki.",
   "DWB-ZALOZENIE-OGRZEWANIE-STACJONARNE": "Przybliżenie stacjonarne: moc ogrzewania jest proporcjonalna do różnicy temperatur wewnątrz–na zewnątrz, więc obniżenie temperatury o 1 K zmniejsza energię ogrzewania o udział ÷ ΔT. Pomija zyski wewnętrzne, bezwładność budynku i zmianę sprawności źródła ciepła.",
   "FTHD-WARTOSC-UJEMNA": "Wpisana wartość nie może być ujemna.",
   "FTHD-WSPOLCZYNNIK-POZA-ZAKRESEM": "Współczynnik w wierszu {wiersz} tabeli musi mieścić się w przedziale od 0 do 1.",

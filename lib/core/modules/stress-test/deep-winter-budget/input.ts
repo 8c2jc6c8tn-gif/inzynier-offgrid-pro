@@ -38,4 +38,9 @@ export type DeepWinterBudgetInput = {
   udzialOgrzewaniaPct: number
   /** Optional: mean indoor–outdoor temperature difference [K]; 0 = not entered. */
   roznicaTemperaturK: number
+  /**
+   * Optional: the user's own measured saving per 1 K lower indoor temperature [kWh/day]; 0 = not entered.
+   * When given, it replaces the stationary approximation 1/ΔT (needs no ΔT).
+   */
+  oszczednoscKwhDobaNaK: number
 }

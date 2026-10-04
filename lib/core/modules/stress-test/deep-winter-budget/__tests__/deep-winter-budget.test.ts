@@ -13,6 +13,7 @@ const BAZA: DeepWinterBudgetInput = {
   cele: [],
   udzialOgrzewaniaPct: 0,
   roznicaTemperaturK: 0,
+  oszczednoscKwhDobaNaK: 0,
 }
 
 describe("calculateDeepWinterBudget (M7/E25, dawne 6.39)", () => {
@@ -153,5 +154,23 @@ describe("calculateDeepWinterBudget (M7/E25, dawne 6.39)", () => {
     const w = calculateDeepWinterBudget(BAZA)
     expect(w.assumptions).toEqual([{ kod: "DWB-ZALOZENIE-BUDZET-PROPORCJONALNY" }, { kod: "DWB-ZALOZENIE-TEMPO-STALE" }])
     expect(w.warnings.every((x) => x.message === undefined)).toBe(true)
+  })
+  it("własna oszczędność na 1 K zastępuje przybliżenie 1/ΔT: K = (25 − 200/11)/s", () => {
+    const w = calculateDeepWinterBudget({ ...BAZA, oszczednoscKwhDobaNaK: 3 })
+    expect(w.value.potrzebneObnizenieK).toBeCloseTo((25 - 200 / 11) / 3, 9)
+    expect(w.assumptions.map((a) => (typeof a === "string" ? a : a.kod))).toContain("DWB-ZALOZENIE-OGRZEWANIE-WLASNE")
+    expect(w.assumptions.map((a) => (typeof a === "string" ? a : a.kod))).not.toContain("DWB-ZALOZENIE-OGRZEWANIE-STACJONARNE")
+  })
+
+  it("własna oszczędność ma pierwszeństwo przed ΔT, ale udział ogrzewania nadal wykrywa 🔴 „samo wyłączenie nie wystarcza”", () => {
+    const ok = calculateDeepWinterBudget({ ...BAZA, udzialOgrzewaniaPct: 50, roznicaTemperaturK: 20, oszczednoscKwhDobaNaK: 3 })
+    expect(ok.value.potrzebneObnizenieK).toBeCloseTo((25 - 200 / 11) / 3, 9)
+    const za = calculateDeepWinterBudget({ ...BAZA, udzialOgrzewaniaPct: 10, oszczednoscKwhDobaNaK: 3 })
+    expect(za.value.potrzebneObnizenieK).toBeNull()
+    expect(za.warnings.some((x) => x.level === "critical")).toBe(true)
+  })
+
+  it("ujemna własna oszczędność → INVALID_INPUT", () => {
+    expect(calculateDeepWinterBudget({ ...BAZA, oszczednoscKwhDobaNaK: -1 }).status).toBe("INVALID_INPUT")
   })
 })

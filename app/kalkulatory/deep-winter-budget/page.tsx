@@ -23,6 +23,7 @@ type Pola =
   | "zuzycie"
   | "udzialOgrz"
   | "roznicaT"
+  | "oszczednoscK"
 type FormularzStan = Record<Pola, string> & {
   /** Per category: share of the plan [%] and consumption [kWh], both as text; a row with both empty is skipped. */
   celeUdzial: Record<CelBudzetu, string>
@@ -40,6 +41,7 @@ const STAN_POCZATKOWY: FormularzStan = {
   zuzycie: "",
   udzialOgrz: "",
   roznicaT: "",
+  oszczednoscK: "",
   celeUdzial: PUSTE_CELE(),
   celeZuzycie: PUSTE_CELE(),
 }
@@ -92,6 +94,7 @@ export default function DeepWinterBudgetPage() {
         })),
         udzialOgrzewaniaPct: liczba(stan.udzialOgrz),
         roznicaTemperaturK: liczba(stan.roznicaT),
+        oszczednoscKwhDobaNaK: liczba(stan.oszczednoscK),
       }),
     [stan],
   )
@@ -144,6 +147,7 @@ export default function DeepWinterBudgetPage() {
           <Pole label={t("UI-M7-DWB-OGRZ-UDZIAL")} unit="%" max={100} {...pole("udzialOgrz")} pomoc={<PomocPola ekran="deep-winter-budget" pole="udzialOgrzewania" />} />
           <Pole label={t("UI-M7-DWB-OGRZ-DT")} unit="K" {...pole("roznicaT")} pomoc={<PomocPola ekran="deep-winter-budget" pole="roznicaTemperatur" />} />
         </div>
+        <Pole label={t("UI-M7-DWB-OGRZ-WLASNA")} unit="kWh/d" {...pole("oszczednoscK")} pomoc={<PomocPola ekran="deep-winter-budget" pole="oszczednoscNaK" />} />
       </fieldset>
 
       {result.status === "INVALID_INPUT" ? (

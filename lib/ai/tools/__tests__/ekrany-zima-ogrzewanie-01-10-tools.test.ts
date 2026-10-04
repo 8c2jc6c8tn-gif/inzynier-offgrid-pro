@@ -357,6 +357,7 @@ describe("deepWinterBudgetTool (M7/E25, dawne 6.39→7.37)", () => {
       cele: [],
       udzialOgrzewaniaPct: 0,
       roznicaTemperaturK: 0,
+      oszczednoscKwhDobaNaK: 0,
     })
     expect(w.zostaloKwh).toBeCloseTo(200, 9)
     expect(w.wymaganeOgraniczeniePct).toBeCloseTo(27.2727, 3)

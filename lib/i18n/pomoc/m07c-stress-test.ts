@@ -77,6 +77,12 @@ export const pl = {
         gdzie: "Temperatura w domu minus średnia temperatura zewnętrzna z ostatnich dni.",
         zakres: "Większa od zera; zimą zwykle kilkanaście do kilkudziesięciu kelwinów.",
       },
+      oszczednoscNaK: {
+        nazwa: "Własna oszczędność na 1 K niższej temperatury [kWh/dobę]",
+        cel: "Zastępuje przybliżenie „1/ΔT”, gdy znasz ją z własnych pomiarów.",
+        gdzie: "Z podlicznika: o ile kWh na dobę spadło zużycie, gdy obniżyłeś temperaturę w domu o 1 K (porównaj podobne doby).",
+        zakres: "Większa od zera; puste = przybliżenie stacjonarne z różnicy temperatur.",
+      },
     },
   },
   "falownik-thd": {
@@ -233,6 +239,12 @@ export const en: Tlumaczenie<typeof pl> = {
         gdzie: "Indoor temperature minus the mean outdoor temperature of recent days.",
         zakres: "Greater than zero; in winter typically from over ten to a few dozen kelvins.",
       },
+      oszczednoscNaK: {
+        nazwa: "Own saving per 1 K lower temperature [kWh/day]",
+        cel: "Replaces the „1/ΔT” approximation when you know it from your own measurements.",
+        gdzie: "From the meter: by how many kWh per day consumption fell when you lowered the indoor temperature by 1 K (compare similar days).",
+        zakres: "Greater than zero; empty = the stationary approximation from the temperature difference.",
+      },
     },
   },
   "falownik-thd": {
@@ -388,6 +400,12 @@ export const ru: Tlumaczenie<typeof pl> = {
         cel: "От неё зависит, насколько уменьшится отопление при снижении температуры на 1 К (на 1/ΔT).",
         gdzie: "Температура в доме минус средняя наружная температура последних дней.",
         zakres: "Больше нуля; зимой обычно от десятка до нескольких десятков кельвинов.",
+      },
+      oszczednoscNaK: {
+        nazwa: "Собственная экономия на 1 К более низкой температуры [кВт·ч/сутки]",
+        cel: "Заменяет приближение «1/ΔT», если вы знаете её по собственным измерениям.",
+        gdzie: "По счётчику: на сколько кВт·ч в сутки упало потребление, когда вы снизили температуру в доме на 1 К (сравнивайте похожие сутки).",
+        zakres: "Больше нуля; пусто = стационарное приближение по разности температур.",
       },
     },
   },
