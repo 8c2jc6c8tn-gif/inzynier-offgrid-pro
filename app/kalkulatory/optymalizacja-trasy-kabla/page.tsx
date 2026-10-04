@@ -349,7 +349,7 @@ export default function OptymalizacjaTrasyKablaPage() {
             {t("UI-OPTTRAKAB-TCO-KWH-ROK", { tcoAZl: result.value.tcoAZl.toFixed(0), strataRocznaAKwh: result.value.strataRocznaAKwh.toFixed(1), tcoBZl: result.value.tcoBZl.toFixed(0), strataRocznaBKwh: result.value.strataRocznaBKwh.toFixed(1) })}
           </WynikGlowny>
         ) : null}
-        <WynikSzczegoly assumptions={result.assumptions} warnings={result.warnings} formula={result.formula} />
+        <WynikSzczegoly assumptions={result.assumptions} warnings={result.warnings} formula={result.formula} formulaKey={result.formulaKey} formulaParams={result.formulaParams} />
       </WerdyktPanel>
     </main>
   )

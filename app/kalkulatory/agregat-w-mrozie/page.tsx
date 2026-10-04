@@ -193,7 +193,7 @@ export default function AgregatWMroziePage() {
             {liczbaPrzerw !== null && <li>{t("UI-AGRWMRO-PRZERWY", { liczbaPrzerw })}</li>}
             {czasKalendarzowyH !== null && <li>{t("UI-AGRWMRO-PRACA-PRZERWAMI", { czasKalendarzowyH: f0(czasKalendarzowyH) })}</li>}
           </ul>
-          <WynikSzczegoly assumptions={result.assumptions} warnings={result.warnings} formula={result.formula} />
+          <WynikSzczegoly assumptions={result.assumptions} warnings={result.warnings} formula={result.formula} formulaKey={result.formulaKey} formulaParams={result.formulaParams} />
         </WerdyktPanel>
       )}
     </main>

@@ -48,7 +48,7 @@ export function calculateWilgocMaleInstalacje(input: WilgocMaleInstalacjeInput):
     value,
     unit: "IP",
     status,
-    formula: FORMULA,
+    formula: FORMULA, formulaKey: "UI-FORMULA-KALKULATOR-MOBILNY-WILGOC-MALE-INSTALACJE",
     inputs,
     assumptions,
     warnings,

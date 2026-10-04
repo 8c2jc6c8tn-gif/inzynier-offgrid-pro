@@ -186,7 +186,7 @@ export default function LaczenieCuAlPage() {
         {result.value.wymaganyPrzekrojAlMm2 > 0 && (
           <p className="font-medium">{t("UI-LACCUAL-WYMAGANY-PRZEKROJ", { wymaganyPrzekrojAlMm2: result.value.wymaganyPrzekrojAlMm2.toFixed(1) })}</p>
         )}
-        <WynikSzczegoly assumptions={result.assumptions} warnings={result.warnings} formula={result.formula} />
+        <WynikSzczegoly assumptions={result.assumptions} warnings={result.warnings} formula={result.formula} formulaKey={result.formulaKey} formulaParams={result.formulaParams} />
       </WerdyktPanel>
     </main>
   )

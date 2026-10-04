@@ -164,7 +164,7 @@ export default function TestLicznikaPage() {
               {t("UI-TESLIC-ROZNICA-WZGLEDEM-ODBIORNIKA", { p: result.value.roznicaProcent > 0 ? "+" : "", roznicaProcent: result.value.roznicaProcent.toLocaleString("pl-PL", { maximumFractionDigits: 1 }) })}
             </p>
           )}
-          <WynikSzczegoly assumptions={result.assumptions} warnings={result.warnings} formula={result.formula} />
+          <WynikSzczegoly assumptions={result.assumptions} warnings={result.warnings} formula={result.formula} formulaKey={result.formulaKey} formulaParams={result.formulaParams} />
         </WerdyktPanel>
       ) : (
         <p className="text-small text-muted-foreground">{t("UI-TESLIC-WPISZ-IMPULSY-CZAS")}</p>

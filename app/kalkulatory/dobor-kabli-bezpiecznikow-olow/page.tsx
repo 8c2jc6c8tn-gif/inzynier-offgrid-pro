@@ -246,7 +246,7 @@ export default function DoborKabliBezpiecznikowOlowPage() {
             {t("UI-DOBKABBEZOLO-PRZEKROJ-BEZPIECZNIK", { przekrojMm2: result.value.przekrojMm2, pradBezpiecznikaZalecanyA: result.value.pradBezpiecznikaZalecanyA.toFixed(1) })}
           </WynikGlowny>
         ) : null}
-        <WynikSzczegoly assumptions={result.assumptions} warnings={result.warnings} formula={result.formula} />
+        <WynikSzczegoly assumptions={result.assumptions} warnings={result.warnings} formula={result.formula} formulaKey={result.formulaKey} formulaParams={result.formulaParams} />
       </WerdyktPanel>
     </main>
   )

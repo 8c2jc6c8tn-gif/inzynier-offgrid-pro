@@ -87,7 +87,7 @@ export function PomiarTab({
           <p className="mt-1 text-small">
             {t("UI-WAMENE-COMPOMTAB-KWH-DOBE-KWH", { energiaDobowaKwh: result.value.energiaDobowaKwh.toFixed(2), energiaRocznaKwh: result.value.energiaRocznaKwh.toFixed(0) })}
           </p>
-          <WynikSzczegoly assumptions={result.assumptions} warnings={result.warnings} formula={result.formula} />
+          <WynikSzczegoly assumptions={result.assumptions} warnings={result.warnings} formula={result.formula} formulaKey={result.formulaKey} formulaParams={result.formulaParams} />
         </WerdyktPanel>
       )}
     </div>

@@ -146,7 +146,7 @@ export default function MontazObudowaEsp32Page() {
           {result.value.zalecaneIp !== null && (
             <WynikGlowny>{t("UI-M9-E3-ZALECANA", { ip: result.value.zalecaneIp })}</WynikGlowny>
           )}
-          <WynikSzczegoly assumptions={result.assumptions} warnings={result.warnings} formula={result.formula} />
+          <WynikSzczegoly assumptions={result.assumptions} warnings={result.warnings} formula={result.formula} formulaKey={result.formulaKey} formulaParams={result.formulaParams} />
         </WerdyktPanel>
       )}
     </main>

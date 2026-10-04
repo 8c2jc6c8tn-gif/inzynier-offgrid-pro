@@ -152,7 +152,7 @@ export default function VehicleToHomePage() {
           <p className="mt-2 text-small">
             {t("UI-VEHTOHOM-KOSZT-KWH-BATERII", { kosztZaKwh: result.value.kosztZaKwh.toFixed(2) })}
           </p>
-          <WynikSzczegoly assumptions={result.assumptions} warnings={result.warnings} formula={result.formula} />
+          <WynikSzczegoly assumptions={result.assumptions} warnings={result.warnings} formula={result.formula} formulaKey={result.formulaKey} formulaParams={result.formulaParams} />
         </WerdyktPanel>
       )}
     </main>

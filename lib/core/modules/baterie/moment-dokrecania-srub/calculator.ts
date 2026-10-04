@@ -26,7 +26,7 @@ export function calculateMomentDokrecania(
     value: { potwierdzone, razem },
     unit: "kroków potwierdzonych",
     status: potwierdzone === razem ? "VALID" : "INCOMPLETE",
-    formula: "postęp = liczba\\_potwierdzonych / liczba\\_kroków",
+    formula: "postęp = liczba\\_potwierdzonych / liczba\\_kroków", formulaKey: "UI-FORMULA-BATERIE-MOMENT-DOKRECANIA-SRUB",
     inputs: { potwierdzone, razem },
     assumptions: [],
     warnings: [],

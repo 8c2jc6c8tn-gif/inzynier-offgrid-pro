@@ -63,7 +63,7 @@ export function calculateMostkiTermiczne(input: MostkiTermiczneInput): CalcResul
     value,
     unit: "W",
     status,
-    formula: FORMULA,
+    formula: FORMULA, formulaKey: "UI-FORMULA-OGRZEWANIE-MOSTKI-TERMICZNE",
     inputs,
     assumptions,
     warnings,

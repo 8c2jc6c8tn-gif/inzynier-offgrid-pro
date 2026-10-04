@@ -53,7 +53,7 @@ export default function SzadzNaPvPage() {
         <WerdyktPanel poziom="uwaga" etykieta={t("UI-M7-OSAD-W-UWAGA")}>
           <WynikGlowny>{t("UI-M7-OSAD-WYNIK", { kwh: r2(v.utrataNaDobeKwh) })}</WynikGlowny>
           <TabelaCoJesli wynik={result} szadz />
-          <WynikSzczegoly assumptions={result.assumptions} warnings={result.warnings} formula={result.formula} />
+          <WynikSzczegoly assumptions={result.assumptions} warnings={result.warnings} formula={result.formula} formulaKey={result.formulaKey} formulaParams={result.formulaParams} />
         </WerdyktPanel>
       )}
 

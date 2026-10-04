@@ -38,7 +38,7 @@ export function calculateNiezawodnoscEsp32(input: NiezawodnoscEsp32Input): CalcR
     value: { liczbaWlaczonych },
     unit: "",
     status: warnings.length > 0 ? "VALID_WITH_WARNINGS" : "VALID",
-    formula: FORMULA,
+    formula: FORMULA, formulaKey: "UI-FORMULA-ESP32-NIEZAWODNOSC-ESP32",
     inputs: { liczbaWlaczonych },
     assumptions: [],
     warnings,

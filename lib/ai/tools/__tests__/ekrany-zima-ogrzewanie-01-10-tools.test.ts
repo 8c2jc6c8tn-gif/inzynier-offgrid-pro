@@ -6,6 +6,9 @@ import { cykleOdszranianiaTool } from "../cykle-odszraniania-tool"
 import { wentylacjaGrawitacyjnaTool } from "../wentylacja-grawitacyjna-tool"
 import { gwcTool } from "../gwc-tool"
 import { oknoSloneczneTool } from "../okno-sloneczne-tool"
+import { deepWinterBudgetTool } from "../deep-winter-budget-tool"
+import { falownikThdTool } from "../falownik-thd-tool"
+import { turbinaWiatrowaTool } from "../turbina-wiatrowa-tool"
 import { osadNaPvTool } from "../osad-na-pv-tool"
 import { wspolczynnikBezpieczenstwaZimowegoTool } from "../wspolczynnik-bezpieczenstwa-zimowego-tool"
 import { wplywCzynnikaTool } from "../wplyw-czynnika-tool"
@@ -333,5 +336,79 @@ describe("wspolczynnikBezpieczenstwaZimowegoTool (M7/E12, dawne 6.14)", () => {
     expect(w.wskaznikPct).toBeCloseTo(74, 9)
     expect(w.najslabsza).toEqual({ id: "autonomia", wynikPct: 60 })
     expect(w.ostrzezenia).toContain(t("pl", "WSP-WAGI-WSTEPNE"))
+  })
+})
+
+describe("deepWinterBudgetTool (M7/E25, dawne 6.39→7.37)", () => {
+  it("kontrakt 9.3: 'read', bez potwierdzenia", () => {
+    expect(deepWinterBudgetTool.operationType).toBe("read")
+    expect(deepWinterBudgetTool.requiresConfirmation).toBe(false)
+    expect(() => validateAiToolDefinition(deepWinterBudgetTool)).not.toThrow()
+  })
+
+  it("plan 700 kWh, dzień 20 z 31, zużyto 500 → zostało 200, ograniczenie 27,27%, 🟡 ponad budżet jako tekst PL", async () => {
+    const w = await deepWinterBudgetTool.handler({
+      dniMiesiaca: 31,
+      biezacyDzien: 20,
+      planPvKwh: 400,
+      planAgregatKwh: 200,
+      planMagazynKwh: 100,
+      zuzycieNarastajaceKwh: 500,
+      cele: [],
+      udzialOgrzewaniaPct: 0,
+      roznicaTemperaturK: 0,
+      oszczednoscKwhDobaNaK: 0,
+    })
+    expect(w.zostaloKwh).toBeCloseTo(200, 9)
+    expect(w.wymaganeOgraniczeniePct).toBeCloseTo(27.2727, 3)
+    expect(w.ostrzezenia).toContain(t("pl", "DWB-PONAD-BUDZET", { odchylenie: 10.7, dzien: 28, ograniczenie: 27.3 }))
+  })
+})
+
+describe("falownikThdTool (M7/E24, dawne 6.38→7.36)", () => {
+  it("kontrakt 9.3: 'read', bez potwierdzenia", () => {
+    expect(falownikThdTool.operationType).toBe("read")
+    expect(falownikThdTool.requiresConfirmation).toBe(false)
+    expect(() => validateAiToolDefinition(falownikThdTool)).not.toThrow()
+  })
+
+  it("THD 30% między 20% (0,9) i 40% (0,7) → k=0,8, dostępna 4 kW; obciążenie 4,5 kW → 🔴 jako tekst PL", async () => {
+    const w = await falownikThdTool.handler({
+      mocZnamionowaKw: 5,
+      mocObciazeniaKw: 4.5,
+      thdPct: 30,
+      tabela: [
+        { thdPct: 0, wspolczynnik: 1 },
+        { thdPct: 20, wspolczynnik: 0.9 },
+        { thdPct: 40, wspolczynnik: 0.7 },
+      ],
+    })
+    expect(w.wspolczynnik).toBeCloseTo(0.8, 12)
+    expect(w.dostepnaKw).toBeCloseTo(4, 12)
+    expect(w.przekroczone).toBe(true)
+    expect(w.ostrzezenia).toContain(t("pl", "FTHD-OBCIAZENIE-PRZEKRACZA-DOSTEPNA", { obciazenie: 4.5, dostepna: 4, brak: 0.5 }))
+  })
+})
+
+describe("turbinaWiatrowaTool (M7/E16, dawne 6.24→7.23)", () => {
+  it("kontrakt 9.3: 'read', bez potwierdzenia", () => {
+    expect(turbinaWiatrowaTool.operationType).toBe("read")
+    expect(turbinaWiatrowaTool.requiresConfirmation).toBe(false)
+    expect(() => validateAiToolDefinition(turbinaWiatrowaTool)).not.toThrow()
+  })
+
+  it("stała moc 2 kW na [4, 8] m/s, v̄=6, A=0,8 → ok. 17,6 kWh/dobę + ostrzeżenie o średniej bez rozkładu", async () => {
+    const w = await turbinaWiatrowaTool.handler({
+      sredniaPredkoscMs: 6,
+      krzywa: [
+        { predkoscMs: 4, mocKw: 2 },
+        { predkoscMs: 6, mocKw: 2 },
+        { predkoscMs: 8, mocKw: 2 },
+      ],
+      predkoscWylaczeniaMs: 8,
+      wspolczynnikDostepnosciStrat: 0.8,
+    })
+    expect(w.energiaDobaKwh).toBeCloseTo(24 * 0.8 * 0.9157, 1)
+    expect(w.ostrzezenia).toContain(t("pl", "TURBW-SREDNIA-BEZ-ROZKLADU", { srednia: 6 }))
   })
 })

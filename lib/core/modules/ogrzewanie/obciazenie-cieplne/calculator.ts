@@ -76,7 +76,7 @@ export function calculateObciazenieCieplne(input: ObciazenieCieplneInput): CalcR
     value,
     unit: "W",
     status,
-    formula: FORMULA,
+    formula: FORMULA, formulaKey: "UI-FORMULA-OGRZEWANIE-OBCIAZENIE-CIEPLNE",
     inputs,
     assumptions,
     warnings,

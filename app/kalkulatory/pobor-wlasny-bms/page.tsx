@@ -93,7 +93,7 @@ export default function PoborWlasnyBmsPage() {
           <p className="mt-1 text-small">
             {t("UI-POBWLABMS-TRYBIE-USPIENIA-KWH", { strataDoboweUspienieKwh: result.value.strataDoboweUspienieKwh.toLocaleString("pl-PL"), strataRocznaUspienieKwh: result.value.strataRocznaUspienieKwh.toLocaleString("pl-PL"), oszczednoscRocznaKwh: result.value.oszczednoscRocznaKwh.toLocaleString("pl-PL") })}
           </p>
-          <WynikSzczegoly assumptions={result.assumptions} formula={result.formula} />
+          <WynikSzczegoly assumptions={result.assumptions} formula={result.formula} formulaKey={result.formulaKey} formulaParams={result.formulaParams} />
         </WerdyktPanel>
       )}
     </main>

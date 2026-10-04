@@ -127,7 +127,7 @@ export default function PaneleDachKamperaPage() {
               {t(o.panelWzdluz ? "UI-M12-DK-WIERSZ-WZDLUZ" : "UI-M12-DK-WIERSZ-POPRZEK", { n: i + 1, wzdluz: o.wzdluz, poprzek: o.wPoprzek, paneli: o.paneli })}
             </p>
           ))}
-          <WynikSzczegoly assumptions={result.assumptions} warnings={result.warnings} formula={result.formula} />
+          <WynikSzczegoly assumptions={result.assumptions} warnings={result.warnings} formula={result.formula} formulaKey={result.formulaKey} formulaParams={result.formulaParams} />
         </WerdyktPanel>
       )}
     </main>

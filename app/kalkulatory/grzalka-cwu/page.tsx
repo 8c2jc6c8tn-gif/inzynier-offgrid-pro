@@ -116,7 +116,7 @@ export default function GrzalkaCwuPage() {
           {v.energiaZPvKwh !== null && v.energiaZBateriiKwh !== null && (
             <p className="mt-1 text-small">{t("UI-M6-GRZ-ZRODLA", { pv: r2(v.energiaZPvKwh), bat: r2(v.energiaZBateriiKwh) })}</p>
           )}
-          <WynikSzczegoly assumptions={result.assumptions} warnings={result.warnings} formula={result.formula} />
+          <WynikSzczegoly assumptions={result.assumptions} warnings={result.warnings} formula={result.formula} formulaKey={result.formulaKey} formulaParams={result.formulaParams} />
         </WerdyktPanel>
       )}
 

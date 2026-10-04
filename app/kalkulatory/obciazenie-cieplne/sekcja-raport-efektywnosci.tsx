@@ -88,7 +88,7 @@ export function SekcjaRaportEfektywnosci({ wynik, cop }: { wynik: ObciazenieCiep
           {v.wskaznikKwhM2Rok !== null && <p className="mt-2 text-small">{t("UI-M6D-RAP-WSKAZNIK", { kwh: r0(v.wskaznikKwhM2Rok) })}</p>}
           {v.energiaElRokKwh !== null && <p className="mt-1 text-small">{t("UI-M6D-RAP-PRAD", { kwh: r0(v.energiaElRokKwh) })}</p>}
           {v.kosztRokZl !== null && <p className="mt-1 text-small">{t("UI-M6D-RAP-KOSZT", { zl: r0(v.kosztRokZl) })}</p>}
-          <WynikSzczegoly assumptions={result.assumptions} warnings={result.warnings} formula={result.formula} />
+          <WynikSzczegoly assumptions={result.assumptions} warnings={result.warnings} formula={result.formula} formulaKey={result.formulaKey} formulaParams={result.formulaParams} />
           <p className="mt-2 text-small">
             <Link href="/kalkulatory/cop-pompy-ciepla" className="underline">
               {t("UI-M6D-RAP-LINK-POKRYCIE")}

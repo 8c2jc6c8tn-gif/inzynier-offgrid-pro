@@ -142,7 +142,7 @@ export default function Urzadzenie12vBezposrednioPage() {
           <p className="mt-1 text-small">
             {t("UI-URZ12VBEZ-URZADZENIE-ZNOSI-AKUMULATOR", { urzadzenieMinV: f1(v.urzadzenieMinV), urzadzenieMaxV: f1(v.urzadzenieMaxV), akuMinV: f1(v.akuMinV), akuMaxV: f1(v.akuMaxV) })}
           </p>
-          <WynikSzczegoly assumptions={result.assumptions} warnings={result.warnings} formula={result.formula} />
+          <WynikSzczegoly assumptions={result.assumptions} warnings={result.warnings} formula={result.formula} formulaKey={result.formulaKey} formulaParams={result.formulaParams} />
         </WerdyktPanel>
       )}
     </main>

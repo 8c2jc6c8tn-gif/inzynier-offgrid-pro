@@ -27,7 +27,7 @@ export function calculateCentralaSsp(input: CentralaSspInput): CalcResult<Centra
     value: { liczbaBrakow },
     unit: "",
     status,
-    formula: FORMULA,
+    formula: FORMULA, formulaKey: "UI-FORMULA-BEZPIECZENSTWO-CENTRALA-SSP",
     inputs,
     assumptions: [],
     warnings,

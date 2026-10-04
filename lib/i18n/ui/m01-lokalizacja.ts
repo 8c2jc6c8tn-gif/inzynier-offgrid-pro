@@ -197,6 +197,8 @@ export const pl = {
     "Obiekt składa się z kilku oddzielnych części — tej geometrii nie wczytujemy automatycznie, obejdź go z GPS.",
   "UI-SKADZI-ULDK-FORMAT": "Usługa ULDK zwróciła odpowiedź w nieoczekiwanym formacie.",
   "UI-ANAZAC-PUNKTOW": "{gotowe}/{wszystkie} punktów",
+  "UI-NAZWAPOW-DACH-OBRYS": "Dach wg obrysu budynku",
+  "UI-NAZWAPOW-ELEWACJA": "Elewacja {kierunek}",
 } as const
 
 type Klucz = keyof typeof pl
@@ -397,6 +399,8 @@ export const en: Record<Klucz, string> = {
     "The object consists of several separate parts — this geometry is not loaded automatically, walk around it with GPS.",
   "UI-SKADZI-ULDK-FORMAT": "The ULDK service returned a response in an unexpected format.",
   "UI-ANAZAC-PUNKTOW": "{gotowe}/{wszystkie} points",
+  "UI-NAZWAPOW-DACH-OBRYS": "Roof from building outline",
+  "UI-NAZWAPOW-ELEWACJA": "Facade {kierunek}",
 }
 
 export const ru: Record<Klucz, string> = {
@@ -594,4 +598,6 @@ export const ru: Record<Klucz, string> = {
     "Объект состоит из нескольких отдельных частей — такую геометрию мы не загружаем автоматически, обойдите его с GPS.",
   "UI-SKADZI-ULDK-FORMAT": "Сервис ULDK вернул ответ в неожиданном формате.",
   "UI-ANAZAC-PUNKTOW": "{gotowe}/{wszystkie} точек",
+  "UI-NAZWAPOW-DACH-OBRYS": "Крыша по контуру здания",
+  "UI-NAZWAPOW-ELEWACJA": "Фасад {kierunek}",
 }

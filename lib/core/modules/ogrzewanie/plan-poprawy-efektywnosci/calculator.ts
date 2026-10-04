@@ -56,7 +56,7 @@ export function calculatePlanPoprawy(input: PlanPoprawyInput): CalcResult<PlanPo
     ...copPonizejJednosci("cop", input.cop),
   ]
   const inputs = { cop: input.cop, cenaZlKwh: input.cenaZlKwh, dzialania: input.dzialania.length }
-  const baza = { unit: "lata", formula: FORMULA, inputs, calculatorVersion: CALCULATOR_VERSION }
+  const baza = { unit: "lata", formula: FORMULA, formulaKey: "UI-FORMULA-OGRZEWANIE-PLAN-POPRAWY-EFEKTYWNOSCI", inputs, calculatorVersion: CALCULATOR_VERSION }
   if (errors.length > 0) return { ...baza, value: PUSTY, status: "INVALID_INPUT", assumptions: [], warnings: errors }
   const wpisane = input.dzialania.map((d, indeks) => ({ ...d, indeks })).filter((d) => d.oszczednoscCieplaKwh > 0)
   if (input.cop === 0 || wpisane.length === 0) return { ...baza, value: PUSTY, status: "INCOMPLETE", assumptions: [], warnings: [] }

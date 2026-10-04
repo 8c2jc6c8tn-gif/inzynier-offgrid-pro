@@ -49,6 +49,12 @@ export type CalcResult<T> = {
   status: Status
   /** Wzór (np. LaTeX), np. "I = P / (V \\cdot \\eta)". */
   formula: string
+  /** Klucz `UI-FORMULA-*` z tłumaczeniem `formula` (17.2) — tylko dla wzorów z opisową prozą PL; symbole matematyczne
+   *  zostają. `formula` (PL) pozostaje stabilnym kontraktem dla narzędzi AI i testów; warstwa prezentacji tłumaczy
+   *  przez `tekstWzoru`. */
+  formulaKey?: string
+  /** Stałe liczbowe podstawiane w szablonie `{p1}…` wzoru (np. progi), gdy `formula` je interpoluje. */
+  formulaParams?: Record<string, string | number>
   /** Wartości wejściowe faktycznie użyte do obliczenia. */
   inputs: Record<string, number>
   /** Przyjęte założenia, np. "η falownika = 0,92 (wartość domyślna)". */

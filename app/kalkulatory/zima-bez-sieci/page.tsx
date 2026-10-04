@@ -60,7 +60,7 @@ export default function ZimaBezSieciPage() {
             {t("UI-ZIMA-ROK", { brak: f0(v.niedoborRokKwh), nadwyzka: f0(v.nadwyzkaRokKwh) })}
           </p>
           <TabelaBilansu wynik={v} tryb="wyspa" />
-          <WynikSzczegoly assumptions={result.assumptions} warnings={result.warnings} formula={result.formula} />
+          <WynikSzczegoly assumptions={result.assumptions} warnings={result.warnings} formula={result.formula} formulaKey={result.formulaKey} formulaParams={result.formulaParams} />
         </WerdyktPanel>
       )}
 

@@ -101,7 +101,7 @@ export default function ZasilanieEsp32Page() {
         >
           {pradWejsciowyA !== null && <WynikGlowny>{t("UI-ZASESP-MAGISTRALI", { pradWejsciowyA: f2(pradWejsciowyA) })}</WynikGlowny>}
           {pradWyjsciowyA !== null && <p className="mt-2 text-small">{t("UI-ZASESP-STRONIE-ESP32", { pradWyjsciowyA: f2(pradWyjsciowyA) })}</p>}
-          <WynikSzczegoly assumptions={result.assumptions} warnings={result.warnings} formula={result.formula} />
+          <WynikSzczegoly assumptions={result.assumptions} warnings={result.warnings} formula={result.formula} formulaKey={result.formulaKey} formulaParams={result.formulaParams} />
         </WerdyktPanel>
       )}
     </main>

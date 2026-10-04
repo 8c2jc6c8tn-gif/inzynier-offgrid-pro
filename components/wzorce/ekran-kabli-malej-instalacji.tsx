@@ -153,7 +153,7 @@ export function EkranKabliMalejInstalacji({ kluczSzkicu, pojazd }: { kluczSzkicu
             {t("UI-EKRKABMALINS-OBCIAZALNOSC-SPADEK-NAPIECIA", { obciazalnoscA: f1(v.obciazalnoscA), spadekNapieciaPct: f2(v.spadekNapieciaPct) })}
             {v.wymaganyMm2 !== v.przekrojMm2 && ` ${t("UI-EKRKABMALINS-MINIMUM", { wymaganyMm2: f1(v.wymaganyMm2) })}`}
           </p>
-          <WynikSzczegoly assumptions={result.assumptions} warnings={result.warnings} formula={result.formula} />
+          <WynikSzczegoly assumptions={result.assumptions} warnings={result.warnings} formula={result.formula} formulaKey={result.formulaKey} formulaParams={result.formulaParams} />
         </WerdyktPanel>
       )}
     </>

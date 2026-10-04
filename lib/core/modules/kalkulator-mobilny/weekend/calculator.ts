@@ -51,7 +51,7 @@ export function calculateWeekend(input: WeekendInput): CalcResult<WeekendResult>
     godzinSlonca: input.godzinSlonca,
     sprawnoscToruPct: input.sprawnoscToruPct,
   }
-  const baza = { unit: "Wh", formula: FORMULA, inputs, calculatorVersion: CALCULATOR_VERSION }
+  const baza = { unit: "Wh", formula: FORMULA, formulaKey: "UI-FORMULA-KALKULATOR-MOBILNY-WEEKEND", inputs, calculatorVersion: CALCULATOR_VERSION }
   if (errors.length > 0) return { ...baza, value: PUSTY_WYNIK, status: "INVALID_INPUT", assumptions: [], warnings: errors }
 
   const wpisane = input.urzadzenia.filter((u) => u.mocW > 0 && u.godzinNaDobe > 0)

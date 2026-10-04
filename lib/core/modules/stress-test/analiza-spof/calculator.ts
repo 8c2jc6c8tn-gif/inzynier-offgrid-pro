@@ -23,7 +23,7 @@ export function calculateAnalizaSpof(input: AnalizaSpofInput): CalcResult<Analiz
     value,
     unit: "szt.",
     status,
-    formula: FORMULA,
+    formula: FORMULA, formulaKey: "UI-FORMULA-STRESS-TEST-ANALIZA-SPOF",
     inputs: { liczbaKomponentow: value.liczbaKomponentow },
     assumptions: [],
     warnings,

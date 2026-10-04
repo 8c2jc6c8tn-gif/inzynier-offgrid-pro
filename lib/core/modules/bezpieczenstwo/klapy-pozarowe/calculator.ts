@@ -33,7 +33,7 @@ export function calculateKlapyPozarowe(input: KlapyPozaroweInput): CalcResult<Kl
     value: { liczbaBrakow },
     unit: "",
     status,
-    formula: FORMULA,
+    formula: FORMULA, formulaKey: "UI-FORMULA-BEZPIECZENSTWO-KLAPY-POZAROWE",
     inputs,
     assumptions: [],
     warnings,

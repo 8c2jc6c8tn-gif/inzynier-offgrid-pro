@@ -36,7 +36,7 @@ const wariant = (moc: number, masa: number, cena: number, lata: number): Wariant
 export function calculatePanelKampera(input: PanelKamperaInput): CalcResult<PanelKamperaResult> {
   const { errors } = validateInput(input)
   const { elastycznyBezSzczeliny, ...liczby } = input
-  const baza = { unit: "zł/W", formula: FORMULA, inputs: liczby, calculatorVersion: CALCULATOR_VERSION }
+  const baza = { unit: "zł/W", formula: FORMULA, formulaKey: "UI-FORMULA-KALKULATOR-MOBILNY-PANEL-KAMPERA", inputs: liczby, calculatorVersion: CALCULATOR_VERSION }
   if (errors.length > 0) return { ...baza, value: PUSTY_WYNIK, status: "INVALID_INPUT", assumptions: [], warnings: errors }
 
   if (Object.values(liczby).some((v) => v === 0) || elastycznyBezSzczeliny === null) {

@@ -142,7 +142,7 @@ export default function BlackoutBalkonPage() {
           <p className="mt-1 text-small">{t("UI-M12-BB-SZCZEGOLY", { doba: Math.round(v.zuzycieDobaWh), wh: Math.round(v.energiaBlackoutWh), mag: Math.round(v.energiaMagazynuWh) })}</p>
           {v.liczbaPaneli > 0 && <p className="mt-1 text-small">{t("UI-M12-BB-PANELE", { n: v.liczbaPaneli, w: v.mocPaneliW, wh: Math.round(v.energiaPaneliDobaWh) })}</p>}
           <p className="mt-1 text-small">{t("UI-M12-BB-BILANS", { wh: Math.round(v.bilansWh) })}</p>
-          <WynikSzczegoly assumptions={result.assumptions} warnings={result.warnings} formula={result.formula} />
+          <WynikSzczegoly assumptions={result.assumptions} warnings={result.warnings} formula={result.formula} formulaKey={result.formulaKey} formulaParams={result.formulaParams} />
         </WerdyktPanel>
       )}
     </main>

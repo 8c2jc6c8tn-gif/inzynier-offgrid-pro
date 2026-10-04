@@ -99,7 +99,7 @@ export function SymulacjeTab({
                 {t("UI-WAMENE-COMSYMTAB-REDUKCJI", { godzinyDoWyczerpaniaZredukowany: wynikAutonomia.value.godzinyDoWyczerpaniaZredukowany.toFixed(1) })}
               </p>
             )}
-            <WynikSzczegoly assumptions={wynikAutonomia.assumptions} warnings={wynikAutonomia.warnings} formula={wynikAutonomia.formula} />
+            <WynikSzczegoly assumptions={wynikAutonomia.assumptions} warnings={wynikAutonomia.warnings} formula={wynikAutonomia.formula} formulaKey={wynikAutonomia.formulaKey} formulaParams={wynikAutonomia.formulaParams} />
           </WerdyktPanel>
         )}
       </section>
@@ -144,7 +144,7 @@ export function SymulacjeTab({
               {t("UI-WAMENE-COMSYMTAB-KWH-ROK", { energiaRocznaKwh: wynikKoszt.value.energiaRocznaKwh.toFixed(0) })}
               {wynikKoszt.value.udzialProcentowy !== null && ` ${t("UI-WAMENE-COMSYMTAB-CALKOWITEGO-ZUZYCIA", { udzialProcentowy: wynikKoszt.value.udzialProcentowy.toFixed(1) })}`}
             </p>
-            <WynikSzczegoly assumptions={wynikKoszt.assumptions} warnings={wynikKoszt.warnings} formula={wynikKoszt.formula} />
+            <WynikSzczegoly assumptions={wynikKoszt.assumptions} warnings={wynikKoszt.warnings} formula={wynikKoszt.formula} formulaKey={wynikKoszt.formulaKey} formulaParams={wynikKoszt.formulaParams} />
           </WerdyktPanel>
         )}
       </section>
@@ -202,7 +202,7 @@ export function SymulacjeTab({
           <WerdyktPanel poziom={poziomZStatusu(wynikDobor.status)}>
             <WynikGlowny>{t("UI-WAMENE-COMSYMTAB-KWH-MNIEJ", { redukcjaPojemnosciKwh: wynikDobor.value.redukcjaPojemnosciKwh.toFixed(2) })}</WynikGlowny>
             <p className="mt-1 text-small">{t("UI-WAMENE-COMSYMTAB-REDUKCJA-POBORU-KWH", { redukcjaDobowaKwh: wynikDobor.value.redukcjaDobowaKwh.toFixed(2) })}</p>
-            <WynikSzczegoly assumptions={wynikDobor.assumptions} warnings={wynikDobor.warnings} formula={wynikDobor.formula} />
+            <WynikSzczegoly assumptions={wynikDobor.assumptions} warnings={wynikDobor.warnings} formula={wynikDobor.formula} formulaKey={wynikDobor.formulaKey} formulaParams={wynikDobor.formulaParams} />
           </WerdyktPanel>
         )}
       </section>

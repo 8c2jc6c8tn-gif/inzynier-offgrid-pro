@@ -33,7 +33,7 @@ export function calculateRaportBezpieczenstwa(input: RaportBezpieczenstwaInput):
   const liczbaBledow = punkty.filter((p) => p.odpowiedz === "blad").length
   const liczbaNiesprawdzonych = razem - liczbaOk - liczbaBledow
   const value = { procentBezpieczenstwa: (liczbaOk / razem) * 100, liczbaOk, liczbaBledow, liczbaNiesprawdzonych, razem, punkty }
-  const baza = { unit: "%", formula: FORMULA, inputs: { razem, liczbaOk, liczbaBledow, liczbaNiesprawdzonych }, calculatorVersion: CALCULATOR_VERSION }
+  const baza = { unit: "%", formula: FORMULA, formulaKey: "UI-FORMULA-KALKULATOR-MOBILNY-RAPORT-BEZPIECZENSTWA-MALY", inputs: { razem, liczbaOk, liczbaBledow, liczbaNiesprawdzonych }, calculatorVersion: CALCULATOR_VERSION }
 
   if (liczbaOk + liczbaBledow === 0) return { ...baza, value, status: "INCOMPLETE", assumptions: [], warnings: [] }
 

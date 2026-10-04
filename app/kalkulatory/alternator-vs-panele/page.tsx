@@ -135,7 +135,7 @@ export default function AlternatorVsPanelePage() {
           </WynikGlowny>
           {v.czasLadowaniaH > 0 && <p className="mt-1 text-small">{t("UI-M12-AL-CZAS", { h: r1(v.czasLadowaniaH) })}</p>}
           {v.oknoNapieciaV && <p className="mt-1 text-small">{t("UI-M12-AL-OKNO", { min: v.oknoNapieciaV.minV, max: v.oknoNapieciaV.maxV })}</p>}
-          <WynikSzczegoly assumptions={result.assumptions} warnings={result.warnings} formula={result.formula} />
+          <WynikSzczegoly assumptions={result.assumptions} warnings={result.warnings} formula={result.formula} formulaKey={result.formulaKey} formulaParams={result.formulaParams} />
         </WerdyktPanel>
       )}
     </main>

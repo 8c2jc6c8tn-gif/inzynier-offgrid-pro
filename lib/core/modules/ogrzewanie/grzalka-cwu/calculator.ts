@@ -47,7 +47,7 @@ export function calculateGrzalkaCwu(input: GrzalkaCwuInput): CalcResult<GrzalkaC
     mocPvKw: input.mocPvKw,
     mocFalownikaKw: input.mocFalownikaKw,
   }
-  const baza = { unit: "h", formula: FORMULA, inputs, calculatorVersion: CALCULATOR_VERSION }
+  const baza = { unit: "h", formula: FORMULA, formulaKey: "UI-FORMULA-OGRZEWANIE-GRZALKA-CWU", inputs, calculatorVersion: CALCULATOR_VERSION }
   if (errors.length > 0) return { ...baza, value: PUSTY, status: "INVALID_INPUT", assumptions: [], warnings: errors }
   const zPv = input.mocPvKw > 0
   if (

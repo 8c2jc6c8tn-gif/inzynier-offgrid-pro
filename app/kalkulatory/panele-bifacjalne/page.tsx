@@ -123,7 +123,7 @@ export default function PaneleBifacjalnePage() {
         <WerdyktPanel poziom={hasCritical ? "blad" : hasWarning ? "uwaga" : "ok"} etykieta={t("UI-PANBIF-CALKOWITY-ROCZNY-UZYSK")}>
           <WynikGlowny>{result.value.calkowityUzyskKwh.toFixed(0)} kWh</WynikGlowny>
           <p className="mt-2 text-small">{t("UI-PANBIF-DODATKOWY-UZYSK-TYLNEJ", { dodatkowyUzyskKwh: result.value.dodatkowyUzyskKwh.toFixed(0) })}</p>
-          <WynikSzczegoly assumptions={result.assumptions} warnings={result.warnings} formula={result.formula} />
+          <WynikSzczegoly assumptions={result.assumptions} warnings={result.warnings} formula={result.formula} formulaKey={result.formulaKey} formulaParams={result.formulaParams} />
         </WerdyktPanel>
       )}
     </main>

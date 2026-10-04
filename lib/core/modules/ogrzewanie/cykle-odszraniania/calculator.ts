@@ -60,7 +60,7 @@ export function calculateCykleOdszraniania(input: CykleOdszranianiaInput): CalcR
     godzinySzronieniaH: input.godzinySzronieniaH,
     copKatalogowy: input.copKatalogowy,
   }
-  const baza = { unit: "%", formula: FORMULA, inputs, calculatorVersion: CALCULATOR_VERSION }
+  const baza = { unit: "%", formula: FORMULA, formulaKey: "UI-FORMULA-OGRZEWANIE-CYKLE-ODSZRANIANIA", inputs, calculatorVersion: CALCULATOR_VERSION }
   if (errors.length > 0) return { ...baza, value: PUSTY, status: "INVALID_INPUT", assumptions: [], warnings: errors }
   if (
     input.tZewnC === null ||

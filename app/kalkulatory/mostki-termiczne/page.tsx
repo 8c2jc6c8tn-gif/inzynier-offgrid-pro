@@ -66,7 +66,7 @@ function WyborDetalu({ id, label, value, onChange }: { id: string; label: string
         <optgroup key={k.kategoria} label={t(k.nazwa)}>
           {KATALOG_PSI_14683.filter((x) => x.kategoria === k.kategoria).map((x) => (
             <option key={x.kod} value={x.kod}>
-              {x.kod} — {x.opis}
+              {x.kod} — {t(`UI-PSI-${x.kod}`)}
             </option>
           ))}
         </optgroup>
@@ -304,7 +304,7 @@ export default function MostkiTermicznePage() {
           <div className="mt-3">
             <KartaPorownawcza kolumny={kolumny} wiersze={v.mostki.map((m, i) => ({ ...m, id: i }))} minWidth={320} />
           </div>
-          <WynikSzczegoly assumptions={wynik.assumptions} warnings={wynik.warnings} formula={wynik.formula} />
+          <WynikSzczegoly assumptions={wynik.assumptions} warnings={wynik.warnings} formula={wynik.formula} formulaKey={wynik.formulaKey} formulaParams={wynik.formulaParams} />
         </WerdyktPanel>
       )}
 

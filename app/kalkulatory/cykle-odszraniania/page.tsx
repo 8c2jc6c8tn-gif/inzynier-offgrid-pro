@@ -122,7 +122,7 @@ export default function CykleOdszranianiaPage() {
             {v.energiaDobaKwh !== null && <li>{t("UI-M6-CYK-DOBA", { kwh: r2(v.energiaDobaKwh) })}</li>}
             {v.copEfektywny !== null && <li>{t("UI-M6-CYK-COP-EF", { cop: r2(v.copEfektywny), kat: stan.cop })}</li>}
           </ul>
-          <WynikSzczegoly assumptions={result.assumptions} warnings={result.warnings} formula={result.formula} />
+          <WynikSzczegoly assumptions={result.assumptions} warnings={result.warnings} formula={result.formula} formulaKey={result.formulaKey} formulaParams={result.formulaParams} />
         </WerdyktPanel>
       )}
 

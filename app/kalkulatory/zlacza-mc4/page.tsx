@@ -92,7 +92,7 @@ export default function ZlaczaMc4Page() {
         {verdict !== "invalid" && verdict !== "incomplete" && (
           <WynikGlowny>{result.value.zgodne ? t("UI-ZLAMC4-KOMPLET-JEDNEGO-PRODUCENTA") : t("UI-ZLAMC4-LACZ-ROZNYCH-PRODUCENTOW")}</WynikGlowny>
         )}
-        <WynikSzczegoly assumptions={result.assumptions} warnings={result.warnings} formula={result.formula} />
+        <WynikSzczegoly assumptions={result.assumptions} warnings={result.warnings} formula={result.formula} formulaKey={result.formulaKey} formulaParams={result.formulaParams} />
       </WerdyktPanel>
     </main>
   )

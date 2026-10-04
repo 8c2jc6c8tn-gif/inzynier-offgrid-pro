@@ -233,6 +233,11 @@ export const pl = {
   "UI-DOBKABBEZOLO-DOBRANE-POPRAWNIE": "Kabel i bezpiecznik dobrane poprawnie",
   "UI-RATOGN-NIE-RATUJ": "Nie ratuj — zalecana utylizacja",
   "UI-RATOGN-OPCJONALNY": "Ratunek opcjonalny, nie zalecany",
+  "UI-SEKMON-BMS-B0-ETYKIETA": "B0 (czarny)",
+  "UI-SEKMON-BMS-B0-PUNKT": "Minus ogniwa 1 (ten sam punkt co B−)",
+  "UI-SEKMON-BMS-BN-ETYKIETA": "B{numer}",
+  "UI-SEKMON-BMS-BN-PUNKT": "Plus ogniwa {numer}",
+  "UI-SEKMON-BMS-BN-PUNKT-BPLUS": "Plus ogniwa {numer} (to jest B+ pakietu)",
 } as const
 
 type Klucz = keyof typeof pl
@@ -469,6 +474,11 @@ export const en: Record<Klucz, string> = {
   "UI-DOBKABBEZOLO-DOBRANE-POPRAWNIE": "Cable and fuse sized correctly",
   "UI-RATOGN-NIE-RATUJ": "Do not rescue — disposal recommended",
   "UI-RATOGN-OPCJONALNY": "Rescue optional, not recommended",
+  "UI-SEKMON-BMS-B0-ETYKIETA": "B0 (black)",
+  "UI-SEKMON-BMS-B0-PUNKT": "Cell 1 negative (same point as B−)",
+  "UI-SEKMON-BMS-BN-ETYKIETA": "B{numer}",
+  "UI-SEKMON-BMS-BN-PUNKT": "Cell {numer} positive",
+  "UI-SEKMON-BMS-BN-PUNKT-BPLUS": "Cell {numer} positive (this is the pack B+)",
 }
 
 export const ru: Record<Klucz, string> = {
@@ -705,4 +715,9 @@ export const ru: Record<Klucz, string> = {
   "UI-DOBKABBEZOLO-DOBRANE-POPRAWNIE": "Кабель и предохранитель подобраны правильно",
   "UI-RATOGN-NIE-RATUJ": "Не спасайте — рекомендуется утилизация",
   "UI-RATOGN-OPCJONALNY": "Спасение возможно, но не рекомендуется",
+  "UI-SEKMON-BMS-B0-ETYKIETA": "B0 (чёрный)",
+  "UI-SEKMON-BMS-B0-PUNKT": "Минус ячейки 1 (та же точка, что B−)",
+  "UI-SEKMON-BMS-BN-ETYKIETA": "B{numer}",
+  "UI-SEKMON-BMS-BN-PUNKT": "Плюс ячейки {numer}",
+  "UI-SEKMON-BMS-BN-PUNKT-BPLUS": "Плюс ячейки {numer} (это B+ батареи)",
 }

@@ -77,7 +77,7 @@ export default function NiezawodnoscEsp32Page() {
         etykieta={hasCritical ? t("UI-NIEESP-NIEBEZPIECZNA-AKTUALIZACJA-O") : hasWarning ? t("UI-NIEESP-OTA-BEZ-PELNYCH") : t("UI-NIEESP-KONFIGURACJA-NIEZAWODNOSCI")}
       >
         <WynikGlowny>{t("UI-NIEESP-WLACZONE", { liczbaWlaczonych: result.value.liczbaWlaczonych, length: FUNKCJE.length })}</WynikGlowny>
-        <WynikSzczegoly assumptions={result.assumptions} warnings={result.warnings} formula={result.formula} />
+        <WynikSzczegoly assumptions={result.assumptions} warnings={result.warnings} formula={result.formula} formulaKey={result.formulaKey} formulaParams={result.formulaParams} />
       </WerdyktPanel>
     </main>
   )

@@ -142,7 +142,7 @@ export default function WylacznikiRcdPage() {
         {verdict !== "invalid" && verdict !== "incomplete" && (
           <WynikGlowny>{t("UI-WYLRCD-WYMAGANY-PROG", { progWymaganyMa: result.value.progWymaganyMa })}</WynikGlowny>
         )}
-        <WynikSzczegoly assumptions={result.assumptions} warnings={result.warnings} formula={result.formula} />
+        <WynikSzczegoly assumptions={result.assumptions} warnings={result.warnings} formula={result.formula} formulaKey={result.formulaKey} formulaParams={result.formulaParams} />
       </WerdyktPanel>
     </main>
   )

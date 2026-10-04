@@ -168,7 +168,7 @@ export default function SymulacjaLadowaniaRozladowaniaPage() {
             {t("UI-SYMLADROZ-PROG-SOC-OSIAGNIE", { socProgPct: stan.socProgPct })}
             <strong>{t("UI-SYMLADROZ-GODZ", { godzinDoProguWNocy: result.value.godzinDoProguWNocy.toFixed(1) })}</strong> {t("UI-SYMLADROZ-ZACHODU-SLONCA")}
           </p>
-          <WynikSzczegoly assumptions={result.assumptions} warnings={result.warnings} formula={result.formula} />
+          <WynikSzczegoly assumptions={result.assumptions} warnings={result.warnings} formula={result.formula} formulaKey={result.formulaKey} formulaParams={result.formulaParams} />
         </WerdyktPanel>
       )}
     </main>

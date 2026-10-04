@@ -262,7 +262,7 @@ export default function OptymalizacjaIzolacjiPage() {
           <div className="mt-3">
             <KartaPorownawcza kolumny={kolumny} wiersze={v.warianty.map((w, i) => ({ ...w, id: i }))} minWidth={560} />
           </div>
-          <WynikSzczegoly assumptions={wynik.assumptions} warnings={wynik.warnings} formula={wynik.formula} />
+          <WynikSzczegoly assumptions={wynik.assumptions} warnings={wynik.warnings} formula={wynik.formula} formulaKey={wynik.formulaKey} formulaParams={wynik.formulaParams} />
         </WerdyktPanel>
       )}
 

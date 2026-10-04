@@ -115,7 +115,7 @@ export default function AgregatPaliwoPage() {
           {result.value.krotnoscPorownania > 0 && (
             <p className="mt-1 text-small">{t("UI-M12-AP-KROTNOSC", { x: r1(result.value.krotnoscPorownania) })}</p>
           )}
-          <WynikSzczegoly assumptions={result.assumptions} warnings={result.warnings} formula={result.formula} />
+          <WynikSzczegoly assumptions={result.assumptions} warnings={result.warnings} formula={result.formula} formulaKey={result.formulaKey} formulaParams={result.formulaParams} />
         </WerdyktPanel>
       )}
     </main>

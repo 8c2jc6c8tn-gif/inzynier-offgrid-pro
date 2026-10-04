@@ -71,8 +71,8 @@ function UsunKontoPrzycisk() {
     setUsuwam(true)
     setBlad(null)
     const wynik = await deleteAccount()
-    if (wynik?.error) {
-      setBlad(wynik.error)
+    if (wynik?.errorKey || wynik?.error) {
+      setBlad(wynik.errorKey ? t(wynik.errorKey) : (wynik.error ?? null))
       setUsuwam(false)
     }
   }

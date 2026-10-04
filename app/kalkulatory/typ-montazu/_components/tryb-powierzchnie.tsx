@@ -14,6 +14,7 @@ import type { CalcResult } from "@/lib/core/calc-result"
 import type { OrientacjaPowierzchniResult } from "@/lib/core/modules/lokalizacja/orientacja-powierzchni/calculator"
 import { calculatePowierzchnie } from "@/lib/core/modules/pv/typ-montazu/powierzchnie"
 import { useTranslate } from "@/lib/i18n/language-context"
+import { etykietaPowierzchni } from "@/lib/lokalizacja/nazwa-powierzchni"
 import {
   horyzontyPolaci,
   kierunek,
@@ -146,7 +147,7 @@ export function TrybPowierzchnie({ tylkoJednaPolac }: { tylkoJednaPolac: boolean
                   />
                   <span className="flex flex-col text-small">
                     <span className="font-medium">
-                      {o.nazwa} — {f0(o.wskaznikProcent)}%
+                      {etykietaPowierzchni(o.nazwa, t)} — {f0(o.wskaznikProcent)}%
                     </span>
                     <span className="text-muted-foreground">
                       {t("UI-TYPMON-COMTRYPOW-AZYMUT-KWH", { nachylenieDeg: o.nachylenieDeg, azymutDeg: o.azymutDeg, azymutDeg2: kierunek(o.azymutDeg), napromieniowanieRoczneKwhM2: f0(o.napromieniowanieRoczneKwhM2) })}
@@ -202,7 +203,7 @@ export function TrybPowierzchnie({ tylkoJednaPolac }: { tylkoJednaPolac: boolean
           <ul className="mt-2 space-y-1 text-small">
             {v.pozycje.map((p) => (
               <li key={p.nazwa}>
-                {t("UI-TYPMON-COMTRYPOW-KWH-AZYMUT", { nazwa: p.nazwa, uzyskRocznyKwh: f0(p.uzyskRocznyKwh), wskaznikProcent: f0(p.wskaznikProcent), nachylenieDeg: p.nachylenieDeg, azymutDeg: p.azymutDeg })}
+                {t("UI-TYPMON-COMTRYPOW-KWH-AZYMUT", { nazwa: etykietaPowierzchni(p.nazwa, t), uzyskRocznyKwh: f0(p.uzyskRocznyKwh), wskaznikProcent: f0(p.wskaznikProcent), nachylenieDeg: p.nachylenieDeg, azymutDeg: p.azymutDeg })}
               </li>
             ))}
           </ul>

@@ -88,7 +88,7 @@ export default function BuforCieplaPage() {
       ) : (
         <WerdyktPanel poziom={hasWarning ? "uwaga" : "ok"} etykieta={t("UI-BUFCIE-ZALECANA-POJEMNOSC-BUFORA")}>
           <WynikGlowny>{result.value.zalecanaPojemnoscL.toFixed(0)} l</WynikGlowny>
-          <WynikSzczegoly assumptions={result.assumptions} warnings={result.warnings} formula={result.formula} />
+          <WynikSzczegoly assumptions={result.assumptions} warnings={result.warnings} formula={result.formula} formulaKey={result.formulaKey} formulaParams={result.formulaParams} />
         </WerdyktPanel>
       )}
 

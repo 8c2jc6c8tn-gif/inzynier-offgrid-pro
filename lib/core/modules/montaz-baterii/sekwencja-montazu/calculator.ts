@@ -18,8 +18,11 @@ export type PolaczenieBusbar = {
 export type PrzewodBms = {
   /** Numer przewodu balansującego, B0..B{liczbaOgniw}. */
   numer: number
-  etykieta: string
-  punkt: string
+  /** UI i18n keys (`UI-SEKMON-BMS-*`); `punktParams` carries the cell number. */
+  etykietaKey: string
+  etykietaParams?: Record<string, string | number>
+  punktKey: string
+  punktParams?: Record<string, string | number>
   napiecieNominalneV: number
 }
 
@@ -58,13 +61,15 @@ export function generujPolaczeniaBusbarow(liczbaOgniw: number): PolaczenieBusbar
  */
 export function generujOkablowanieBms(liczbaOgniw: number): PrzewodBms[] {
   const przewody: PrzewodBms[] = [
-    { numer: 0, etykieta: "B0 (czarny)", punkt: "Minus ogniwa 1 (ten sam punkt co B−)", napiecieNominalneV: 0 },
+    { numer: 0, etykietaKey: "UI-SEKMON-BMS-B0-ETYKIETA", punktKey: "UI-SEKMON-BMS-B0-PUNKT", napiecieNominalneV: 0 },
   ]
   for (let ogniwo = 1; ogniwo <= liczbaOgniw; ogniwo++) {
     przewody.push({
       numer: ogniwo,
-      etykieta: `B${ogniwo}`,
-      punkt: `Plus ogniwa ${ogniwo}${ogniwo === liczbaOgniw ? " (to jest B+ pakietu)" : ""}`,
+      etykietaKey: "UI-SEKMON-BMS-BN-ETYKIETA",
+      etykietaParams: { numer: ogniwo },
+      punktKey: ogniwo === liczbaOgniw ? "UI-SEKMON-BMS-BN-PUNKT-BPLUS" : "UI-SEKMON-BMS-BN-PUNKT",
+      punktParams: { numer: ogniwo },
       napiecieNominalneV: Math.round(MAX_ZALECANE_NAPIECIE_OGNIWA_V * ogniwo * 100) / 100,
     })
   }

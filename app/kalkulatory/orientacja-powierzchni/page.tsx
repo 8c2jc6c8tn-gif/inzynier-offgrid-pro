@@ -15,6 +15,7 @@ import { usePersistedDraft } from "@/lib/adapters/use-persisted-draft"
 import type { CalcResult } from "@/lib/core/calc-result"
 import type { OrientacjaPowierzchniResult } from "@/lib/core/modules/lokalizacja/orientacja-powierzchni/calculator"
 import { useTranslate } from "@/lib/i18n/language-context"
+import { etykietaPowierzchni } from "@/lib/lokalizacja/nazwa-powierzchni"
 import {
   horyzontyPolaci,
   kierunek,
@@ -111,7 +112,7 @@ export default function OrientacjaPowierzchniPage() {
               <div key={p.id} className="grid grid-cols-2 gap-2 rounded-md border p-3 sm:grid-cols-[1fr_8rem_8rem]">
                 <div className="col-span-2 text-small sm:col-span-1">
                   <p className="font-medium">
-                    {p.nazwa}
+                    {etykietaPowierzchni(p.nazwa, t)}
                     {p.skorygowana && <span className="ml-1 text-muted-foreground">{t("UI-ORIPOW-KOREKTA-RECZNA")}</span>}
                   </p>
                   <p className="text-muted-foreground">
@@ -185,13 +186,13 @@ export default function OrientacjaPowierzchniPage() {
         >
           <div className="mt-2 flex flex-col gap-3 text-small">
             {ranking.length > 0 && (
-              <p>{ranking.map((p) => `${p.nazwa}: ${f0(p.wskaznikProcent)}%`).join(". ")}.</p>
+              <p>{ranking.map((p) => `${etykietaPowierzchni(p.nazwa, t)}: ${f0(p.wskaznikProcent)}%`).join(". ")}.</p>
             )}
             <ol className="flex flex-col gap-2">
               {ranking.map((p, i) => (
                 <li key={p.nazwa + i} className="flex flex-col gap-1">
                   <div className="flex justify-between gap-2">
-                    <span className="font-medium">{p.nazwa}</span>
+                    <span className="font-medium">{etykietaPowierzchni(p.nazwa, t)}</span>
                     <span className="tabular-nums">{f0(p.wskaznikProcent)}%</span>
                   </div>
                   <div className="h-2 w-full overflow-hidden rounded bg-muted" aria-hidden="true">

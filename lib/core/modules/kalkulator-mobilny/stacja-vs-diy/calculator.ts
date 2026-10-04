@@ -41,7 +41,7 @@ const PUSTY_WYNIK: StacjaVsDiyResult = {
 export function calculateStacjaVsDiy(input: StacjaVsDiyInput): CalcResult<StacjaVsDiyResult> {
   const { errors } = validateInput(input)
   const inputs = { ...input }
-  const baza = { unit: "zł/Wh", formula: FORMULA, inputs, calculatorVersion: CALCULATOR_VERSION }
+  const baza = { unit: "zł/Wh", formula: FORMULA, formulaKey: "UI-FORMULA-KALKULATOR-MOBILNY-STACJA-VS-DIY", inputs, calculatorVersion: CALCULATOR_VERSION }
   if (errors.length > 0) return { ...baza, value: PUSTY_WYNIK, status: "INVALID_INPUT", assumptions: [], warnings: errors }
 
   if (

@@ -18,6 +18,7 @@ import type { Assumption, Warning } from "@/lib/core/calc-result"
 import type { Punkt3D } from "@/lib/core/modules/lokalizacja/analiza-zacienienia/input"
 import { calculateSkanerDzialki } from "@/lib/core/modules/lokalizacja/skaner-dzialki/calculator"
 import { useTranslate } from "@/lib/i18n/language-context"
+import { etykietaPowierzchni } from "@/lib/lokalizacja/nazwa-powierzchni"
 import {
   dachWedlugObrysu,
   KLUCZ_MODELU_DZIALKI,
@@ -342,7 +343,7 @@ export default function AnalizaZacienieniaPage() {
                 <div role="tablist" aria-label={t("UI-ANAZAC-POWIERZCHNIA")} className="flex flex-wrap gap-2">
                   {polaczone.map((x, i) => (
                     <Button key={i} role="tab" aria-selected={i === wybor} variant={i === wybor ? "default" : "outline"} onClick={() => setWybrana(i)}>
-                      {x.nazwa}
+                      {etykietaPowierzchni(x.nazwa, t)}
                       {x.pod ? ` · ${f1(x.pod.obecnie.strataRocznaProcent)}%` : ""}
                     </Button>
                   ))}
@@ -353,7 +354,7 @@ export default function AnalizaZacienieniaPage() {
               ) : (
                 <WerdyktPanel
                   poziom={pod.obecnie.strataRocznaProcent === 0 ? "ok" : "uwaga"}
-                  etykieta={t("UI-ANAZAC-STRATA-ROCZNIE", { nazwa: polaczone[wybor]!.nazwa, strataRocznaProcent: f1(pod.obecnie.strataRocznaProcent) })}
+                  etykieta={t("UI-ANAZAC-STRATA-ROCZNIE", { nazwa: etykietaPowierzchni(polaczone[wybor]!.nazwa, t), strataRocznaProcent: f1(pod.obecnie.strataRocznaProcent) })}
                 >
                   <div className="mt-2 flex flex-col gap-3 text-small">
                     {pod.obecnie.udzialPrzeszkod.length > 0 ? (
@@ -377,7 +378,7 @@ export default function AnalizaZacienieniaPage() {
                     )}
                     {najlepsza && najlepsza.nazwa !== polaczone[wybor]!.nazwa && najlepsza.pod!.obecnie.strataRocznaProcent < pod.obecnie.strataRocznaProcent && (
                       <p>
-                        {t("UI-ANAZAC-NAJMNIEJ-ZACIENIONA-ROZWAZ", { nazwa: najlepsza.nazwa, strataRocznaProcent: f1(najlepsza.pod!.obecnie.strataRocznaProcent) })}
+                        {t("UI-ANAZAC-NAJMNIEJ-ZACIENIONA-ROZWAZ", { nazwa: etykietaPowierzchni(najlepsza.nazwa, t), strataRocznaProcent: f1(najlepsza.pod!.obecnie.strataRocznaProcent) })}
                       </p>
                     )}
                     {pod.pominiete > 0 && <p>{t("UI-ANAZAC-PUNKT-SIATKI-LEZA", { pominiete: pod.pominiete })}</p>}

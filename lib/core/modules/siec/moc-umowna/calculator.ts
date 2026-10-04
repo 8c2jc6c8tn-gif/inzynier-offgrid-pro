@@ -60,7 +60,7 @@ export function calculateMocUmowna(input: MocUmownaInput, dane: Rozliczenia = DA
     kosztOptymalnyRokZl: 0,
   }
   const inputs = { mocUmownaKw: input.mocUmownaKw }
-  const base = { unit: "zł", formula: FORMULA, inputs, calculatorVersion: CALCULATOR_VERSION }
+  const base = { unit: "zł", formula: FORMULA, formulaKey: "UI-FORMULA-SIEC-MOC-UMOWNA", inputs, calculatorVersion: CALCULATOR_VERSION }
 
   const errors = validateInput(input)
   if (errors.length > 0) return { ...base, value: pusty, status: "INVALID_INPUT", assumptions: [], warnings: errors }

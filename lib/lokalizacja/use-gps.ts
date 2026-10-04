@@ -7,30 +7,32 @@
  * mogłyby dostać te same współrzędne. Dokładność z urządzenia zawsze pokazywana użytkownikowi.
  */
 import { useCallback, useState } from "react"
+import { useTranslate } from "@/lib/i18n/language-context"
 import type { PunktGps } from "@/lib/core/modules/lokalizacja/skaner-dzialki/input"
 
 export type OdczytGps = { punkt: PunktGps; dokladnoscM: number; dokladnoscWysokosciM: number | null }
 
 const OPCJE: PositionOptions = { enableHighAccuracy: true, maximumAge: 0, timeout: 30_000 }
 
-const KOMUNIKAT_BLEDU: Record<number, string> = {
-  1: "Brak zgody na lokalizację — zezwól tej stronie na dostęp do położenia w ustawieniach przeglądarki.",
-  2: "Urządzenie nie ustaliło położenia — wyjdź na otwartą przestrzeń i spróbuj ponownie.",
-  3: "Upłynął czas oczekiwania na sygnał GPS — spróbuj ponownie.",
+const KLUCZ_BLEDU: Record<number, string> = {
+  1: "UI-BLAD-GPS-BRAK-ZGODY",
+  2: "UI-BLAD-GPS-BRAK-POLOZENIA",
+  3: "UI-BLAD-GPS-TIMEOUT",
 }
 
 export function useGps() {
+  const t = useTranslate()
   const [odczyt, setOdczyt] = useState<OdczytGps | null>(null)
   const [czeka, setCzeka] = useState(false)
-  const [blad, setBlad] = useState<string | null>(null)
+  const [kluczBledu, setKluczBledu] = useState<string | null>(null)
 
   const odczytaj = useCallback((): Promise<OdczytGps | null> => {
     if (typeof navigator === "undefined" || !navigator.geolocation) {
-      setBlad("Ta przeglądarka nie udostępnia GPS.")
+      setKluczBledu("UI-BLAD-GPS-NIEDOSTEPNY")
       return Promise.resolve(null)
     }
     setCzeka(true)
-    setBlad(null)
+    setKluczBledu(null)
     return new Promise((resolve) => {
       navigator.geolocation.getCurrentPosition(
         (poz) => {
@@ -49,7 +51,7 @@ export function useGps() {
           resolve(o)
         },
         (err) => {
-          setBlad(KOMUNIKAT_BLEDU[err.code] ?? err.message)
+          setKluczBledu(KLUCZ_BLEDU[err.code] ?? "UI-BLAD-GPS-INNY")
           setCzeka(false)
           resolve(null)
         },
@@ -58,5 +60,5 @@ export function useGps() {
     })
   }, [])
 
-  return { odczyt, czeka, blad, odczytaj }
+  return { odczyt, czeka, blad: kluczBledu ? t(kluczBledu) : null, odczytaj }
 }

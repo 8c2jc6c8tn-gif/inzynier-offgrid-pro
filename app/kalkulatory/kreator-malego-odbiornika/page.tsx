@@ -175,7 +175,7 @@ export default function KreatorMalegoOdbiornikaPage() {
           {stan.przezFalownik === "tak" && <p className="mt-1 text-small">{t("UI-M12-KZ-FALOWNIK-WYNIK", { w: Math.ceil(v.sumaMocyW), szczyt: Math.ceil(v.szczytW) })}</p>}
           {v.posiadanyStarczyH > 0 && <p className="mt-1 text-small">{t("UI-M12-BM-POSIADANY-WYNIK", { h: r1(v.posiadanyStarczyH) })}</p>}
           {v.energiaPaneluWh > 0 && <p className="mt-1 text-small">{t("UI-M12-KZ-PANEL-WYNIK", { wh: Math.round(v.energiaPaneluWh) })}</p>}
-          <WynikSzczegoly assumptions={result.assumptions} warnings={result.warnings} formula={result.formula} />
+          <WynikSzczegoly assumptions={result.assumptions} warnings={result.warnings} formula={result.formula} formulaKey={result.formulaKey} formulaParams={result.formulaParams} />
         </WerdyktPanel>
       )}
     </main>

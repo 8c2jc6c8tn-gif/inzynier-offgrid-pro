@@ -120,7 +120,7 @@ export default function UrzadzeniaZabronioneFalownikPage() {
           etykieta={t(hasCritical ? "UI-M12-UZF-W-STOP" : hasWarning ? "UI-M12-UZF-W-UWAGA" : "UI-M12-UZF-W-OK")}
         >
           <WynikGlowny>{t("UI-M12-UZF-WYNIK", { ciagla: Math.ceil(v.potrzebnaMocCiaglaW), szczyt: Math.ceil(v.potrzebnaMocSzczytowaW) })}</WynikGlowny>
-          <WynikSzczegoly assumptions={result.assumptions} warnings={result.warnings} formula={result.formula} />
+          <WynikSzczegoly assumptions={result.assumptions} warnings={result.warnings} formula={result.formula} formulaKey={result.formulaKey} formulaParams={result.formulaParams} />
         </WerdyktPanel>
       )}
 

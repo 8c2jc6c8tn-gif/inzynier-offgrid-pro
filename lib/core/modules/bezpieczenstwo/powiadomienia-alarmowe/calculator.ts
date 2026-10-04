@@ -32,7 +32,7 @@ export function calculatePowiadomieniaAlarmowe(input: PowiadomieniaAlarmoweInput
     value,
     unit: "",
     status,
-    formula: FORMULA,
+    formula: FORMULA, formulaKey: "UI-FORMULA-BEZPIECZENSTWO-POWIADOMIENIA-ALARMOWE",
     inputs,
     assumptions: [],
     warnings,

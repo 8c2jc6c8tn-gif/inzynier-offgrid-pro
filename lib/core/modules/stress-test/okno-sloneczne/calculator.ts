@@ -58,7 +58,7 @@ export function calculateOknoSloneczne(input: OknoSloneczneInput): CalcResult<Ok
     grzalkiBmsKwh: input.grzalkiBmsKwh,
     bojlerL: input.bojlerL,
   }
-  const baza = { unit: "kWh", formula: FORMULA, inputs, calculatorVersion: CALCULATOR_VERSION }
+  const baza = { unit: "kWh", formula: FORMULA, formulaKey: "UI-FORMULA-STRESS-TEST-OKNO-SLONECZNE", inputs, calculatorVersion: CALCULATOR_VERSION }
   if (errors.length > 0) return { ...baza, value: PUSTY, status: "INVALID_INPUT", assumptions: [], warnings: errors }
   const zBojlerem = input.bojlerL > 0
   if (

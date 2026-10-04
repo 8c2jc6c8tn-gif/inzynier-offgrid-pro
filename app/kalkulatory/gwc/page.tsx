@@ -89,7 +89,7 @@ export default function GwcPage() {
             {v.udzialPct !== null && <li>{t("UI-M6-GWC-UDZIAL", { pct: r1(v.udzialPct) })}</li>}
             {v.oszczednoscPraduKwh !== null && <li>{t("UI-M6-GWC-PRAD", { kwh: r2(v.oszczednoscPraduKwh) })}</li>}
           </ul>
-          <WynikSzczegoly assumptions={result.assumptions} warnings={result.warnings} formula={result.formula} />
+          <WynikSzczegoly assumptions={result.assumptions} warnings={result.warnings} formula={result.formula} formulaKey={result.formulaKey} formulaParams={result.formulaParams} />
         </WerdyktPanel>
       )}
 

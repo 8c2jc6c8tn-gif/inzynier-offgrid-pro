@@ -115,7 +115,7 @@ export default function PreHeatPage() {
             {cieploBojleraKwh !== null && <li>{t("UI-PREHEA-CIEPLO-BOJLERZE-KWH", { cieploBojleraKwh: f1(cieploBojleraKwh) })}</li>}
             {energiaElektrycznaKwh !== null && <li>{t("UI-PREHEA-ZUZYJESZ-PRADU-KWH", { energiaElektrycznaKwh: f1(energiaElektrycznaKwh) })}</li>}
           </ul>
-          <WynikSzczegoly assumptions={result.assumptions} warnings={result.warnings} formula={result.formula} />
+          <WynikSzczegoly assumptions={result.assumptions} warnings={result.warnings} formula={result.formula} formulaKey={result.formulaKey} formulaParams={result.formulaParams} />
         </WerdyktPanel>
       )}
     </main>

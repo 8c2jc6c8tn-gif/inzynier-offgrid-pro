@@ -68,7 +68,7 @@ export function bilansMiesiaca(
 
 export function calculateBilansMiesieczny(input: BilansMiesiecznyInput): CalcResult<BilansMiesiecznyResult | null> {
   const inputs = { mocPvKwp: input.mocPvKwp, pojemnoscMagazynuKwh: input.pojemnoscMagazynuKwh }
-  const base = { unit: "kWh", formula: FORMULA, inputs, calculatorVersion: CALCULATOR_VERSION }
+  const base = { unit: "kWh", formula: FORMULA, formulaKey: "UI-FORMULA-SIEC-BILANS-MIESIECZNY", inputs, calculatorVersion: CALCULATOR_VERSION }
 
   const errors = validateInput(input)
   if (errors.length > 0) return { ...base, value: null, status: "INVALID_INPUT", assumptions: [], warnings: errors }

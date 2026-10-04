@@ -84,7 +84,7 @@ export default function OdzyskCieplaSciekowPage() {
           {v.cieploRokKwh !== null && <p className="mt-1 text-small">{t("UI-M6-DWHR-ROK", { kwh: r2(v.cieploRokKwh) })}</p>}
           {v.udzialCwuPct !== null && <p className="mt-1 text-small">{t("UI-M6-DWHR-UDZIAL", { pct: r2(v.udzialCwuPct) })}</p>}
           {v.pradDobaKwh !== null && <p className="mt-1 text-small">{t("UI-M6-DWHR-PRAD", { kwh: r2(v.pradDobaKwh) })}</p>}
-          <WynikSzczegoly assumptions={result.assumptions} warnings={result.warnings} formula={result.formula} />
+          <WynikSzczegoly assumptions={result.assumptions} warnings={result.warnings} formula={result.formula} formulaKey={result.formulaKey} formulaParams={result.formulaParams} />
         </WerdyktPanel>
       )}
 

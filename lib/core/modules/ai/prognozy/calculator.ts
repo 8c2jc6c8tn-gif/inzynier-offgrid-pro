@@ -54,7 +54,7 @@ export function calculatePrognozy(punkty: GodzinaPrognozy[]): CalcResult<Prognoz
     },
     unit: "kWh",
     status: "VALID",
-    formula: FORMULA,
+    formula: FORMULA, formulaKey: "UI-FORMULA-AI-PROGNOZY",
     inputs: { liczbaPunktow: punkty.length, krokProbkowaniaH: KROK_PROBKOWANIA_H },
     assumptions: [
       { kod: "PROGNOZY-ZALOZENIE-DANE-DEMO" },

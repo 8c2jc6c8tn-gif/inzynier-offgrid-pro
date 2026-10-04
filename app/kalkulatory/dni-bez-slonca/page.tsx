@@ -129,7 +129,7 @@ export default function DniBezSloncaPage() {
           <p className="mt-1 text-small">
             {t("UI-DNIBEZSLO-PELNYCH-DOB-ENERGIA", { pelneDoby: f0(result.value.pelneDoby), energiaDostepnaWh: f0(result.value.energiaDostepnaWh) })}
           </p>
-          <WynikSzczegoly assumptions={result.assumptions} formula={result.formula} />
+          <WynikSzczegoly assumptions={result.assumptions} formula={result.formula} formulaKey={result.formulaKey} formulaParams={result.formulaParams} />
         </WerdyktPanel>
       )}
     </main>

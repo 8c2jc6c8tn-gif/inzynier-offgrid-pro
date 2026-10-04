@@ -25,7 +25,7 @@ export function calculateArchitekturaKomunikacji(input: ArchitekturaKomunikacjiI
     value,
     unit: "",
     status,
-    formula: FORMULA,
+    formula: FORMULA, formulaKey: "UI-FORMULA-ESP32-ARCHITEKTURA-KOMUNIKACJI",
     inputs: { liczbaPolaczen: value.liczbaPolaczen },
     assumptions,
     warnings,

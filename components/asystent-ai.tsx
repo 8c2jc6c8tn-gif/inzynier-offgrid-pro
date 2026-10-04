@@ -15,10 +15,11 @@ import { Button } from "@/components/ui/button"
 import { Pole } from "@/components/ui/pole"
 import { isAiAvailable } from "@/lib/ai/is-ai-available"
 import { pytajAsystenta } from "@/lib/ai/pytaj-asystenta"
-import { useTranslate } from "@/lib/i18n/language-context"
+import { useLanguage, useTranslate } from "@/lib/i18n/language-context"
 
 export function AsystentAi() {
   const t = useTranslate()
+  const jezyk = useLanguage()
   const [dostepny, setDostepny] = useState(false)
   const [sprawdzono, setSprawdzono] = useState(false)
   const [otwarty, setOtwarty] = useState(false)
@@ -43,10 +44,10 @@ export function AsystentAi() {
     setWysylanie(true)
     setBlad(null)
     setOdpowiedz(null)
-    const wynik = await pytajAsystenta(pytanie)
+    const wynik = await pytajAsystenta(pytanie, jezyk)
     setWysylanie(false)
-    if ("blad" in wynik) {
-      setBlad(wynik.blad)
+    if ("bladKey" in wynik) {
+      setBlad(wynik.bladKey)
       return
     }
     setOdpowiedz(wynik.odpowiedz)
@@ -88,7 +89,7 @@ export function AsystentAi() {
           </Button>
           {blad && (
             <p role="alert" className="text-small text-werdykt-blad-foreground">
-              {blad}
+              {t(blad)}
             </p>
           )}
           {odpowiedz && (

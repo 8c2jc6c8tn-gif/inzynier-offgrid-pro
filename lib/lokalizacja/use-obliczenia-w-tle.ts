@@ -5,7 +5,8 @@
  * zadanie przerywa poprzednie (worker zamykany i tworzony od nowa) — wynik nieaktualnych danych
  * nigdy nie nadpisze wyniku aktualnych. Worker zamykany przy odmontowaniu ekranu.
  */
-import { useCallback, useEffect, useRef, useState } from "react"
+import { useCallback, useEffect, useMemo, useRef, useState } from "react"
+import { useTranslate } from "@/lib/i18n/language-context"
 import { consoleReporter } from "@/lib/core/reporter"
 import type { WiadomoscWorkera, ZadanieWorkera } from "./obliczenia-typy"
 
@@ -17,6 +18,7 @@ export type StanObliczen = { liczy: boolean; gotowe: number; wszystkie: number; 
 const STAN_SPOCZYNKU: StanObliczen = { liczy: false, gotowe: 0, wszystkie: 0, blad: null }
 
 export function useObliczeniaWTle() {
+  const t = useTranslate()
   const workerRef = useRef<Worker | null>(null)
   const idRef = useRef(0)
   const [stan, setStan] = useState<StanObliczen>(STAN_SPOCZYNKU)
@@ -50,12 +52,14 @@ export function useObliczeniaWTle() {
           source: "lib/lokalizacja/use-obliczenia-w-tle",
           cause: e,
         })
-        setStan({ ...STAN_SPOCZYNKU, blad: "Obliczenia nie powiodły się — spróbuj ponownie." })
+        setStan({ ...STAN_SPOCZYNKU, blad: "UI-BLAD-OBLICZENIA-NIEPOWODZENIE" })
         resolve(null)
       }
       worker.postMessage({ ...zadanie, id } as ZadanieWorkera)
     })
   }, [])
 
-  return { uruchom, stan }
+  // `stan.blad` holds a translation key; screens get the text in the current UI language.
+  const stanTekst = useMemo(() => (stan.blad ? { ...stan, blad: t(stan.blad) } : stan), [stan, t])
+  return { uruchom, stan: stanTekst }
 }

@@ -90,7 +90,7 @@ export default function PorownanieTechnologiiMagazynowPage() {
         </ul>
       )}
 
-      <p className="font-mono text-caption text-muted-foreground">{result.formula}</p>
+      <p className="font-mono text-caption text-muted-foreground">{result.formulaKey ? t(result.formulaKey, result.formulaParams) : result.formula}</p>
     </main>
   )
 }

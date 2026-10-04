@@ -116,7 +116,7 @@ export default function UrzadzeniaMedycznePage() {
           <WynikGlowny>{t("UI-M12-MED-WYNIK", { ah: Math.ceil(v.minimalnyAh), doby: MINIMUM_DOB_MEDYCZNE })}</WynikGlowny>
           <p className="mt-1 text-small">{t("UI-M12-MED-ZUZYCIE", { wh: Math.round(v.zuzycieDobaWh) })}</p>
           {v.dobyPosiadany > 0 && <p className="mt-1 text-small">{t("UI-M12-MED-POSIADANY-WYNIK", { doby: r1(v.dobyPosiadany) })}</p>}
-          <WynikSzczegoly assumptions={result.assumptions} warnings={result.warnings} formula={result.formula} />
+          <WynikSzczegoly assumptions={result.assumptions} warnings={result.warnings} formula={result.formula} formulaKey={result.formulaKey} formulaParams={result.formulaParams} />
         </WerdyktPanel>
       )}
 

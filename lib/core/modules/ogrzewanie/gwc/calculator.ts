@@ -42,7 +42,7 @@ export function calculateGwc(input: GwcInput): CalcResult<GwcResult> {
     zapotrzebowanieDobaKwh: input.zapotrzebowanieDobaKwh,
     cop: input.cop,
   }
-  const baza = { unit: "kWh/doba", formula: FORMULA, inputs, calculatorVersion: CALCULATOR_VERSION }
+  const baza = { unit: "kWh/doba", formula: FORMULA, formulaKey: "UI-FORMULA-OGRZEWANIE-GWC", inputs, calculatorVersion: CALCULATOR_VERSION }
   if (errors.length > 0) return { ...baza, value: PUSTY, status: "INVALID_INPUT", assumptions: [], warnings: errors }
   if (input.strumienM3H === 0 || input.przyrostTempK === 0 || input.godzinyPracyH === 0) {
     return { ...baza, value: PUSTY, status: "INCOMPLETE", assumptions: [], warnings: [] }

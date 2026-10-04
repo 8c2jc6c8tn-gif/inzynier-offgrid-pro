@@ -153,7 +153,7 @@ export default function TaryfaNocnaPompyCieplaPage() {
           <p className="mt-1 text-small">{t("UI-M6-TAN-KOSZTY", { bez: r2(v.kosztBezPrzesuniecaZl), z: r2(v.kosztZPrzesunieciemZl) })}</p>
           <p className="mt-1 text-small">{t("UI-M6-TAN-PRZESUNIETE", { kwh: r2(v.przesunieteKwh), bufor: r2(v.pojemnoscBuforaKwh) })}</p>
           <p className="mt-1 text-small">{t("UI-M6-TAN-NOC", { kwh: r2(v.pradNocKwh), kw: r2(v.mocNocSredniaKw) })}</p>
-          <WynikSzczegoly assumptions={result.assumptions} warnings={result.warnings} formula={result.formula} />
+          <WynikSzczegoly assumptions={result.assumptions} warnings={result.warnings} formula={result.formula} formulaKey={result.formulaKey} formulaParams={result.formulaParams} />
         </WerdyktPanel>
       )}
 

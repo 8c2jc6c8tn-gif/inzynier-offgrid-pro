@@ -24,7 +24,7 @@ export function calculateLaczeniePaneliPrzenosnych(
 ): CalcResult<LaczeniePaneliPrzenosnychResult> {
   const { errors } = validateInput(input)
   const inputs = { liczbaPaneli: input.liczbaPaneli }
-  const baza = { unit: "-", formula: FORMULA, inputs, calculatorVersion: CALCULATOR_VERSION }
+  const baza = { unit: "-", formula: FORMULA, formulaKey: "UI-FORMULA-KALKULATOR-MOBILNY-LACZENIE-PANELI-PRZENOSNYCH", inputs, calculatorVersion: CALCULATOR_VERSION }
   if (errors.length > 0) return { ...baza, value: { moznaLaczyc: false }, status: "INVALID_INPUT", assumptions: [], warnings: errors }
 
   if (input.typ === null || input.liczbaPaneli === 0 || input.zlaczePaneli === null || input.zlaczeWejscia === null) {

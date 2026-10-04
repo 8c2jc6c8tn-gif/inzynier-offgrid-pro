@@ -237,7 +237,7 @@ export default function MagazynFirmyPage() {
           {v.prostyZwrotLat !== null && (
             <p className="mt-2 text-small">{t("UI-BESS-ZWROT", { lat: v.prostyZwrotLat.toFixed(1) })}</p>
           )}
-          <WynikSzczegoly assumptions={result.assumptions} warnings={result.warnings} formula={result.formula} />
+          <WynikSzczegoly assumptions={result.assumptions} warnings={result.warnings} formula={result.formula} formulaKey={result.formulaKey} formulaParams={result.formulaParams} />
         </WerdyktPanel>
       )}
     </main>

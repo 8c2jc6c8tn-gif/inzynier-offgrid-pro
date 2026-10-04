@@ -126,7 +126,7 @@ export default function OchronaPrzedRozladowaniemPage() {
               {t("UI-OCHPRZROZ-OGNIWO-OGNIW-SZEREGU", { progNaOgniwoV: f2(progNaOgniwoV), liczbaOgniw })}
             </p>
           )}
-          <WynikSzczegoly assumptions={result.assumptions} warnings={result.warnings} formula={result.formula} />
+          <WynikSzczegoly assumptions={result.assumptions} warnings={result.warnings} formula={result.formula} formulaKey={result.formulaKey} formulaParams={result.formulaParams} />
         </WerdyktPanel>
       )}
     </main>

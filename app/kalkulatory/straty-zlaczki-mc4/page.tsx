@@ -112,7 +112,7 @@ export default function StratyZlaczkiMc4Page() {
         <WerdyktPanel poziom={hasCritical ? "blad" : hasWarning ? "uwaga" : "ok"} etykieta={t("UI-STRZLAMC4-STRATA-CALKOWITA-ZLACZKACH")}>
           <WynikGlowny>{result.value.strataCalkowitaW.toFixed(1)} W</WynikGlowny>
           <p className="mt-2 text-small">{t("UI-STRZLAMC4-STRATA-JEDNA-ZLACZKE", { strataNaZlaczkeW: result.value.strataNaZlaczkeW.toFixed(2) })}</p>
-          <WynikSzczegoly assumptions={result.assumptions} warnings={result.warnings} formula={result.formula} />
+          <WynikSzczegoly assumptions={result.assumptions} warnings={result.warnings} formula={result.formula} formulaKey={result.formulaKey} formulaParams={result.formulaParams} />
         </WerdyktPanel>
       )}
     </main>

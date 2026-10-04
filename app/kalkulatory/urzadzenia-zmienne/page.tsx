@@ -211,7 +211,7 @@ export default function UrzadzeniaZmiennePage() {
               {w.message ?? t(w.i18nKey ?? w.code, tlumaczParamsEtykiet(t, w.params, WPISY_URZADZENIA_ZMIENNE))}
             </p>
           ))}
-          <WynikSzczegoly assumptions={result.assumptions} formula={result.formula} />
+          <WynikSzczegoly assumptions={result.assumptions} formula={result.formula} formulaKey={result.formulaKey} formulaParams={result.formulaParams} />
         </WerdyktPanel>
       )}
     </main>

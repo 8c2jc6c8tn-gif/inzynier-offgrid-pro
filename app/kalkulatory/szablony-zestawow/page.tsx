@@ -145,7 +145,7 @@ export default function SzablonyZestawowPage() {
           <WynikGlowny>{t("UI-M12-SZ-WYNIK", { doba: Math.round(v.zuzycieDobaWh), szczyt: Math.round(v.szczytW) })}</WynikGlowny>
           <p className="mt-1 text-small">{t("UI-M12-SZ-AKUMULATOR", { pobyt: Math.ceil(v.minimalnyAhPobyt), doba: Math.ceil(v.minimalnyAhDoba) })}</p>
           {v.minimalnyPanelW > 0 && <p className="mt-1 text-small">{t("UI-M12-SZ-PANEL", { w: Math.ceil(v.minimalnyPanelW), a: r1(v.pradRegulatoraA) })}</p>}
-          <WynikSzczegoly assumptions={result.assumptions} warnings={result.warnings} formula={result.formula} />
+          <WynikSzczegoly assumptions={result.assumptions} warnings={result.warnings} formula={result.formula} formulaKey={result.formulaKey} formulaParams={result.formulaParams} />
         </WerdyktPanel>
       )}
 

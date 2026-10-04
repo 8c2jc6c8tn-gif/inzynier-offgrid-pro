@@ -272,7 +272,7 @@ export default function KatIAzymutPage() {
           <p className="text-small">
             {t("UI-KATIAZY-PRZESTAWIAJAC-STELAZ-MIESIAC")} <strong>{f1(r.zyskRegulacjiWzgledemWybranegoPct)}%</strong> {t("UI-KATIAZY-WZGLEDEM-KATA-WZGLEDEM", { nachylenieDeg: r.nachylenieDeg, zyskRegulacjiWzgledemOptimumPct: f1(r.zyskRegulacjiWzgledemOptimumPct) })}
           </p>
-          <WynikSzczegoly assumptions={result.assumptions} formula={result.formula} />
+          <WynikSzczegoly assumptions={result.assumptions} formula={result.formula} formulaKey={result.formulaKey} formulaParams={result.formulaParams} />
         </WerdyktPanel>
       )}
 

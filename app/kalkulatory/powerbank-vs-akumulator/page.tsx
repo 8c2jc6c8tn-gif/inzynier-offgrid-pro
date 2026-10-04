@@ -96,7 +96,7 @@ export default function PowerbankVsAkumulatorPage() {
           <p className="mt-1 text-small">
             {t("UI-M12-PBA-SZCZEGOLY", { pb: Math.round(v.energiaPowerbankuWh), ak: Math.round(v.energiaAkumulatoraWh) })}
           </p>
-          <WynikSzczegoly assumptions={result.assumptions} warnings={result.warnings} formula={result.formula} />
+          <WynikSzczegoly assumptions={result.assumptions} warnings={result.warnings} formula={result.formula} formulaKey={result.formulaKey} formulaParams={result.formulaParams} />
         </WerdyktPanel>
       )}
     </main>

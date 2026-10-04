@@ -30,7 +30,7 @@ export function calculatePrzydzialPinow(input: PrzydzialPinowInput): CalcResult<
     value,
     unit: "",
     status,
-    formula: FORMULA,
+    formula: FORMULA, formulaKey: "UI-FORMULA-ESP32-PRZYDZIAL-PINOW",
     inputs: { liczbaPrzypisan: value.liczbaPrzypisan, wifiAktywne: input.wifiAktywne ? 1 : 0 },
     assumptions: [],
     warnings,

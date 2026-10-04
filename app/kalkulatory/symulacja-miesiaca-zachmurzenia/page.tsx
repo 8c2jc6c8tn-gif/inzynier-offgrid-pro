@@ -180,7 +180,7 @@ export default function SymulacjaMiesiacaZachmurzeniaPage() {
               ? t("UI-SYMMIEZAC-DEFICYT-ENERGII-KWH", { dobowyDeficytKwh: result.value.dobowyDeficytKwh.toFixed(1) })
               : t("UI-SYMMIEZAC-NADWYZKA-ENERGII-NAWET", { p: Math.abs(result.value.dobowyDeficytKwh).toFixed(1) })}
           </p>
-          <WynikSzczegoly assumptions={result.assumptions} warnings={result.warnings} formula={result.formula} />
+          <WynikSzczegoly assumptions={result.assumptions} warnings={result.warnings} formula={result.formula} formulaKey={result.formulaKey} formulaParams={result.formulaParams} />
         </WerdyktPanel>
       )}
     </main>

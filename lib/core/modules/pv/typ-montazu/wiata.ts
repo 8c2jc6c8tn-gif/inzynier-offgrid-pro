@@ -72,7 +72,7 @@ export function ulozPanele(L: number, W: number, dlPanelu: number, szPanelu: num
  * wymiarów panelu — test odtwarza go dla panelu 1,5 × 2,0 m / 400 Wp (założenie testu, nie źródła).
  */
 export function calculateWiata(input: WiataInput): CalcResult<WiataResult | null> {
-  const wynik = fabrykaWyniku<WiataResult>(input, FORMULA, "szt.")
+  const wynik = fabrykaWyniku<WiataResult>(input, FORMULA, "szt.", "UI-FORMULA-PV-TYP-MONTAZU-WIATA")
   const errors = validateWiata(input)
   if (errors.length > 0) return wynik("INVALID_INPUT", null, errors)
 

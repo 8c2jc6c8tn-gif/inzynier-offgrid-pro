@@ -60,20 +60,20 @@ export default function ZuzyciePerUrzadzeniePage() {
         <ul className="mt-2 flex flex-col gap-1 text-muted-foreground">
           {PRZYKLADOWE_URZADZENIA.map((p) => (
             <li key={p.nazwa}>
-              {p.nazwa}: ok. {f0(p.mocW)} W{p.cykliczne ? ` ${t("UI-ZUZPERURZ-PRACUJE-CYKLICZNIE")}` : ""}
+              {t(p.nazwaKey)}: ok. {f0(p.mocW)} W{p.cykliczne ? ` ${t("UI-ZUZPERURZ-PRACUJE-CYKLICZNIE")}` : ""}
             </li>
           ))}
         </ul>
       </details>
       <datalist id={LISTA_PRZYKLADOW}>
         {PRZYKLADOWE_URZADZENIA.map((p) => (
-          <option key={p.nazwa} value={p.nazwa} />
+          <option key={p.nazwa} value={t(p.nazwaKey)} />
         ))}
       </datalist>
 
       <ul className="flex flex-col gap-4">
         {urzadzenia.map((u, i) => {
-          const przyklad = znajdzPrzyklad(u.nazwa)
+          const przyklad = znajdzPrzyklad(u.nazwa, (p) => t(p.nazwaKey))
           return (
             <li key={u.id} className="flex flex-col gap-3 rounded-md border p-3">
               <Pole
@@ -151,7 +151,7 @@ export default function ZuzyciePerUrzadzeniePage() {
               </li>
             ))}
           </ul>
-          <WynikSzczegoly assumptions={result.assumptions} warnings={result.warnings} formula={result.formula} />
+          <WynikSzczegoly assumptions={result.assumptions} warnings={result.warnings} formula={result.formula} formulaKey={result.formulaKey} formulaParams={result.formulaParams} />
         </WerdyktPanel>
       )}
     </main>

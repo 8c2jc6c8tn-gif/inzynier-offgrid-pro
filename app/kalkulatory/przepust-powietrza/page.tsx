@@ -87,7 +87,7 @@ export default function PrzepustPowietrzaPage() {
         {verdict !== "invalid" && verdict !== "incomplete" && result.value.strataOrientacyjnaPct !== null && (
           <WynikGlowny>{t("UI-PRZPOW-STRATY-MOCY-ORIENTACYJNIE", { strataOrientacyjnaPct: result.value.strataOrientacyjnaPct.toFixed(0) })}</WynikGlowny>
         )}
-        <WynikSzczegoly assumptions={result.assumptions} warnings={result.warnings} formula={result.formula} />
+        <WynikSzczegoly assumptions={result.assumptions} warnings={result.warnings} formula={result.formula} formulaKey={result.formulaKey} formulaParams={result.formulaParams} />
       </WerdyktPanel>
     </main>
   )

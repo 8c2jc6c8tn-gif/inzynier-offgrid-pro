@@ -155,7 +155,7 @@ export default function MamAkumulatorPage() {
               {t("UI-M12-MA-RAZEM", { czas: r1(result.value.czasRazemH), prad: r1(result.value.pradRazemA) })}
             </p>
           )}
-          <WynikSzczegoly assumptions={result.assumptions} warnings={result.warnings} formula={result.formula} />
+          <WynikSzczegoly assumptions={result.assumptions} warnings={result.warnings} formula={result.formula} formulaKey={result.formulaKey} formulaParams={result.formulaParams} />
         </WerdyktPanel>
       )}
     </main>

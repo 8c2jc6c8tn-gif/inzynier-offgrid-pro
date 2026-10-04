@@ -101,7 +101,7 @@ export default function TestAkumulatoraPage() {
             <WynikGlowny>{t("UI-M12-TA-WYNIK", { r: r1(v.rezystancjaMOhm), a: r1(v.pradA), du: Math.round(v.spadekV * 100) / 100 })}</WynikGlowny>
           )}
           {v.wzrostPct !== null && <p className="mt-1 text-small">{t("UI-M12-TA-WZROST", { pct: Math.round(v.wzrostPct) })}</p>}
-          <WynikSzczegoly assumptions={result.assumptions} warnings={result.warnings} formula={result.formula} />
+          <WynikSzczegoly assumptions={result.assumptions} warnings={result.warnings} formula={result.formula} formulaKey={result.formulaKey} formulaParams={result.formulaParams} />
         </WerdyktPanel>
       )}
 

@@ -42,7 +42,13 @@ export function calculateDepozyt(input: DepozytInput, dane: Rozliczenia = DANE_R
     wspolczynnikBilansowania: null,
   }
   const inputs = { energiaOddanaKwh: input.energiaOddanaKwh, cenaRynkowaZlMwh: input.cenaRynkowaZlMwh }
-  const base = { unit: "zł", formula: FORMULA, inputs, calculatorVersion: CALCULATOR_VERSION }
+  const base: Pick<CalcResult<DepozytResult>, "unit" | "formula" | "formulaKey" | "formulaParams" | "inputs" | "calculatorVersion"> = {
+    unit: "zł",
+    formula: FORMULA,
+    formulaKey: "UI-FORMULA-SIEC-DEPOZYT-PROSUMENCKI",
+    inputs,
+    calculatorVersion: CALCULATOR_VERSION,
+  }
 
   const errors = validateInput(input)
   if (errors.length > 0) return { ...base, value: pusty, status: "INVALID_INPUT", assumptions: [], warnings: errors }
@@ -57,6 +63,8 @@ export function calculateDepozyt(input: DepozytInput, dane: Rozliczenia = DANE_R
     return { ...base, value: pusty, status: "OUT_OF_SCOPE", assumptions: [], warnings: [poza123(input.dataMiesiaca)] }
   }
   base.formula = formulaZeStawkami(wsp, zwrotStawka)
+  base.formulaKey = "UI-FORMULA-SIEC-DEPOZYT-PROSUMENCKI-STAWKI"
+  base.formulaParams = { kdep: latexLiczba(wsp.toFixed(2)), p: Math.round(zwrotStawka * 100) }
   if (input.energiaOddanaKwh === 0 || input.cenaRynkowaZlMwh === 0) {
     return { ...base, value: pusty, status: "INCOMPLETE", assumptions: [], warnings: [] }
   }

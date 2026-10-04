@@ -37,7 +37,7 @@ export function calculatePorownanieTaryf(
   dane: Rozliczenia = DANE_ROZLICZEN,
 ): CalcResult<PorownanieTaryfResult> {
   const inputs = { liczbaWariantow: input.warianty.length, mocUmownaKw: input.mocUmownaKw }
-  const base = { unit: "zł", formula: FORMULA, inputs, calculatorVersion: CALCULATOR_VERSION }
+  const base = { unit: "zł", formula: FORMULA, formulaKey: "UI-FORMULA-SIEC-POROWNANIE-TARYF", inputs, calculatorVersion: CALCULATOR_VERSION }
   const pusty: PorownanieTaryfResult = { pozycje: [], najtanszaGrupa: null }
 
   const errors = validateInput(input)

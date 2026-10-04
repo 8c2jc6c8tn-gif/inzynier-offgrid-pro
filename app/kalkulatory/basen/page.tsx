@@ -82,7 +82,7 @@ export default function BasenPage() {
                 : t("UI-M6-BAS-NOC-PRAD", { cieplo: r2(v.cieploNocKwh), prad: r2(v.pradNocKwh) })}
             </p>
           )}
-          <WynikSzczegoly assumptions={result.assumptions} warnings={result.warnings} formula={result.formula} />
+          <WynikSzczegoly assumptions={result.assumptions} warnings={result.warnings} formula={result.formula} formulaKey={result.formulaKey} formulaParams={result.formulaParams} />
         </WerdyktPanel>
       )}
 

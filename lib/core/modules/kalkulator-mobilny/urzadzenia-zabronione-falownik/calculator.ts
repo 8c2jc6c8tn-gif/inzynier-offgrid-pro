@@ -40,7 +40,7 @@ export function calculateUrzadzeniaZabronione(input: UrzadzeniaZabronioneInput):
     liczby[`urzadzenia[${i}].krotnoscRozruchu`] = u.krotnoscRozruchu
   })
   const errors = ujemneWartosci(liczby)
-  const baza = { unit: "W", formula: FORMULA, inputs: liczby, calculatorVersion: CALCULATOR_VERSION }
+  const baza = { unit: "W", formula: FORMULA, formulaKey: "UI-FORMULA-KALKULATOR-MOBILNY-URZADZENIA-ZABRONIONE-FALOWNIK", inputs: liczby, calculatorVersion: CALCULATOR_VERSION }
   if (errors.length > 0) return { ...baza, value: PUSTY_WYNIK, status: "INVALID_INPUT", assumptions: [], warnings: errors }
   const wpisane = input.urzadzenia.filter((u) => u.mocW > 0)
   if (input.mocFalownikaW === 0 || input.mocSzczytowaW === 0 || wpisane.length === 0) {

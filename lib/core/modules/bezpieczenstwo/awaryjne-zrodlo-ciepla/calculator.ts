@@ -45,7 +45,7 @@ export function calculateAwaryjneZrodloCiepla(input: AwaryjneZrodloCieplaInput):
     value,
     unit: "kWh",
     status,
-    formula: FORMULA,
+    formula: FORMULA, formulaKey: "UI-FORMULA-BEZPIECZENSTWO-AWARYJNE-ZRODLO-CIEPLA",
     inputs,
     assumptions,
     warnings,

@@ -110,7 +110,7 @@ export default function KociolElektrycznyPage() {
           <p className="mt-2 text-small">
             {t("UI-KOCELE-POMPA-KWH-KOCIOL", { energiaPompyKwh: result.value.energiaPompyKwh.toFixed(1), kosztPompyZl: result.value.kosztPompyZl.toFixed(2), energiaKotlaKwh: result.value.energiaKotlaKwh.toFixed(1), kosztKotlaZl: result.value.kosztKotlaZl.toFixed(2), mnoznikZuzycia: result.value.mnoznikZuzycia.toFixed(1) })}
           </p>
-          <WynikSzczegoly assumptions={result.assumptions} warnings={result.warnings} formula={result.formula} />
+          <WynikSzczegoly assumptions={result.assumptions} warnings={result.warnings} formula={result.formula} formulaKey={result.formulaKey} formulaParams={result.formulaParams} />
         </WerdyktPanel>
       )}
     </main>

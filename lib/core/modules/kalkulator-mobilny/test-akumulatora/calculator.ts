@@ -58,7 +58,7 @@ export function calculateTestAkumulatora(input: TestAkumulatoraInput): CalcResul
     napiecieObciazenieV: input.napiecieObciazenieV,
     rezystancjaKartaMOhm: input.rezystancjaKartaMOhm,
   }
-  const baza = { unit: "mΩ", formula: FORMULA, inputs, calculatorVersion: CALCULATOR_VERSION }
+  const baza = { unit: "mΩ", formula: FORMULA, formulaKey: "UI-FORMULA-KALKULATOR-MOBILNY-TEST-AKUMULATORA", inputs, calculatorVersion: CALCULATOR_VERSION }
   if (errors.length > 0) return { ...baza, value: PUSTY_WYNIK, status: "INVALID_INPUT", assumptions: [], warnings: errors }
 
   const zTestem = input.mocObciazeniaW > 0 || input.napiecieObciazenieV > 0

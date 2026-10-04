@@ -2512,3 +2512,54 @@ Właściciel: pismo ma być tłumaczone (wcześniej komentarz w kodzie zakłada�
 
 - Krok 4: `check-i18n-guard` skanuje wszystkie `.ts` silników i katalogi pomocnicze (`e2af58bb`). Krok 2: tylko pomiar wierszy rejestru (322 `done`, nie ekrany) — T.1 nieprzeliczone.
 - Commit `9554a389` (zasada „najpierw lista gałęzi”) zniknął z gałęzi po przestawieniu na `origin/main` i nie był w `main`; przywrócony cherry-pickiem (`fe00ff77`).
+
+## 2026-10-03 — Archiwizacja `docs/lista-do-zrobienia.md` (pierwszy przebieg)
+
+- Procedura jak przy memory: 144 wpisy ✅, w których najpóźniejsza data wzmianki ≤ 26.09.2026, przeniesione 1:1 do `docs/lista-do-zrobienia-archiwum/` (5 plików + `INDEKS.md`). Lista aktywna: 326 → 213 KB; w niej zostają wszystkie wpisy otwarte (🔲 ⚠️ 🔄 ⏳ ✏️ itd.) niezależnie od wieku i ✅ z datą po 26.09.
+- Dowód bezstratności: multizbiór linii przed = po + archiwum, różnica tylko wskaźnik w nagłówku.
+- Pułapka: data w nagłówku wpisu to data otwarcia, a dopiski z późniejszymi datami (`[02.10]`) są w treści — dlatego kryterium to NAJPÓŹNIEJSZA data w całym wpisie, nie pierwsza. Wpisy 🔲/⚠️ z zamknięciem tylko w dopisku (dryf) nie były ruszane — wymagają ręcznej oceny.
+
+## 2026-10-03 — Archiwizacja `docs/wklad-do-standardu.md` (GOD BOOK Y.8)
+
+13 wpisów ze statusem „✅ skonsolidowane w standardzie” (24–29.09) przeniesione 1:1 do `docs/wklad-do-standardu-archiwum.md`; w żywym pliku wskaźnik w nagłówku. Dowód bezstratności: multizbiór linii przed = po + archiwum (różnica tylko wskaźnik). Świadomie ZOSTAWIONE w żywym pliku: wpisy ze statusem „🔎 nowe”, nawet te z dopiskiem „✅ potwierdzone skonsolidowane” (06.09, 14.09, 16.09, 23.09) — status nagłówkowy nie został zmieniony przez sesję nad standardem, więc nie rozstrzygałem samodzielnie. Przeniesienie odnotowane tu zgodnie z Y.8 pkt 5.
+
+## 2026-10-03 — Audyt i18n: zamknięte luki (4), (5), (6), (9), (10)
+- Wzorzec dla danych będących jednocześnie kluczem zapisanego stanu (nazwy powierzchni: `Dach wg obrysu budynku`, `Elewacja X`): **nazwa zostaje stabilnym kluczem PL, tłumaczy się tylko wyświetlanie** (`etykietaPowierzchni`, `UI-NAZWAPOW-*`) — zmiana samej nazwy złamałaby zapisane `wysokosci[nazwa]`, `moc[nazwa]`, id powierzchni.
+- Wzorzec dla podpowiedzi z `<datalist>`: pole przyjmuje tekst w języku UI, więc dopasowanie (`znajdzPrzyklad`) musi znać nazwę PL i wyświetlaną.
+- Katalog normowy (`katalog-psi.ts`): `opis` PL zostaje źródłem, ekran bierze `UI-PSI-<kod>`; test pilnuje zgodności PL z katalogiem i kompletności EN/RU. EN/RU wszystkich nowych kluczy to szkice do przeglądu native.
+- (Zamknięte tego samego dnia, patrz wpis „formulaKey” niżej.) Otwarta z audytu została tylko (2) `formulaKey` (~25 stałych z prozą w `formula`, ~210 użyć) — wymaga decyzji o indeksach symbolicznych.
+
+## 2026-10-03 — Zasada współpracy: pytania do właściciela tylko w pełnej formie (polecenie właściciela, obowiązuje stale)
+- Każde pytanie do właściciela musi zawierać: (1) **czego dotyczy** (jednoznacznie, bez skrótów myślowych), (2) **gdzie** (plik/ekran/moduł/wpis listy z numerem linii lub ścieżką), (3) **opcje rozwiązania** (A/B/…, z konsekwencjami każdej i moją rekomendacją). Bez pytań „ogólnych” typu „co dalej?”.
+- Dotyczy też listy „do rozstrzygnięcia” na końcu odpowiedzi — każda pozycja w tym samym formacie.
+
+## 2026-10-03 — Audyt i18n luka (2): `formulaKey` / `formulaParams` (decyzja właściciela 1 A, 2 B)
+- `CalcResult` ma opcjonalne `formulaKey` (klucz `UI-FORMULA-<ŚCIEŻKA-MODUŁU>[-SUFIKS]`) i `formulaParams` (`{p1…}` dla stałych interpolowanych w `formula`). `formula` (PL) zostaje stabilnym kontraktem dla narzędzi AI (`wzor`) i testów; tłumaczy tylko prezentacja: `WynikSzczegoly`, `MigawkaInfo` (`pomoc.tsx`) i 4 ekrany z bezpośrednim wzorem. Symbole matematyczne zostają, tłumaczona jest proza i indeksy opisowe (`n_{gotowe}` → `n_{ready}`).
+- Zakres: 91 formuł w 89 plikach (szacunek „~25” był zaniżony; reguła: formuła z polskimi słowami poza makrami LaTeX). Wyjątek: `ogrzewanie/model-sezonowy-pompy` (symboliczna). Przypadki specjalne: `czystosc-i-snieg` (2 formuły, jedna z progiem w `p1`), `depozyt-prosumencki` (wariant `-STAWKI` z `{kdep}`, `{p}` ustawiany w locie), `fabrykaWyniku` (pv/typ-montazu) dostaje 4. argument `formulaKey`.
+- Pułapka: ogólny test `ui.test.ts` traktuje `{ready}` w indeksie LaTeX jako placeholder; klucze `UI-FORMULA-*` są z niego wyłączone, a zgodność placeholderów pilnuje `lib/i18n/__tests__/formuly.test.ts` (także: każdy użyty klucz istnieje, każdy klucz jest użyty). Znane ograniczenie: test nie porównuje PL słownika z aktualnym `FORMULA` w module — zmiana wzoru w module wymaga ręcznej zmiany klucza (do rozważenia test dryfu).
+- Decyzja 2 B: CI na GitHubie nie czeka; jedyną bramką przed merge jest lokalny pakiet (typecheck, lint, test, strażniki).
+
+## 2026-10-03 — Decyzje właściciela po `formulaKey` (1A + akceptacje)
+- **1A:** dodany test dryfu w `lib/i18n/__tests__/formuly.test.ts` — dla każdego klucza `UI-FORMULA-*` polski wpis słownika musi równać się literałowi wzoru w module, który go używa (stałe interpolowane `${…}` porównywane jako `{pN}`; wariant `-STAWKI` pominięty). Sprawdzone, że test faktycznie pada po zmianie wpisu.
+- **Zaakceptowane przez właściciela w obecnym stanie:** dane demonstracyjne `SAMPLE_AUDIT_ITEMS` (ostrzeżenia audytu pożarowego — dane demo, nie tekst silnika) oraz pismo reklamacyjne `test-licznika` (tłumaczone kluczami `UI-TESLIC-PISMO-*`, EN/RU do przeglądu native). Nie ma tu już nic otwartego do rozstrzygania.
+
+
+## 2026-10-03 — M7: E25 Deep Winter Budget, E24 Falownik THD, E16 Turbina wiatrowa (zbudowane)
+- Trzy ekrany w pełnej „Definicji ukończenia” (silnik + testy, PL/EN/RU, „?”/„i”, narzędzie AI, pulpit, rejestr pokrycia `done`): commity 4f42624c (E25), 6dca2f6c (E24), 9dc2b5f4 (E16). Dane producenta (tabela THD→k, krzywa mocy turbiny, prędkość wyłączenia, współczynnik dostępności i strat) wpisuje użytkownik — aplikacja niczego nie zakłada (Dyrektywa #1). Przykłady źródła (4,1 kW przy THD 25%, 1 kW/6 m/s → 3 kWh/dobę) tylko w opisach ekranów.
+- **Do potwierdzenia przez właściciela (✅🤖):**
+  1. E25 próg 🔴: 🟡 „z > B_d” i 🔴 „prognoza > plan” są tą samą nierównością, więc 🟡 = ponad budżet do nadrobienia, 🔴 = plan wyczerpany (z ≥ P przy pozostałych dniach) albo samo wyłączenie ogrzewania nie wystarcza (r > udział ogrzewania).
+  2. E25 budżet narastający proporcjonalny B_d = P·d/N oraz przybliżenie stacjonarne ogrzewania (1 K ≈ 1/ΔT energii grzania).
+  3. E25 przykład źródła niespójny (700 − 280 ≠ 170) — ekran liczy z samego bilansu.
+  4. E24 brak progu 🟡 (źródło go nie podaje): tylko 🔴/🟢 + zapas w kW i %; tabela < 2 punkty = INCOMPLETE; poza zakresem THD tabeli = OUT_OF_SCOPE (bez ekstrapolacji).
+  5. E16 walidacja: prędkość wyłączenia nie mniejsza niż ostatni punkt krzywej; limit obliczeń 100 m/s to limit techniczny pętli całkowania, nie norma; współczynnik dostępności i strat wymagany jawnie (null = INCOMPLETE).
+  6. E16 ostrzeżenie „średnia bez rozkładu” celowo ostrożne (krzywa mocy nieliniowa — nie twierdzimy, że średnia zawsze zawyża/zaniża).
+  7. E16 niezbudowane 🟡 ze źródła o oblodzeniu łopat (mróz, wysoka wilgotność) — brak modelu, tylko wzmianka w opisie ekranu.
+- Pułapki: label kafla w `lib/pulpit/registry.ts` musi równać się pełnemu polskiemu `UI-EKRAN-7-*`; wzór w `formula` tylko symbolami (test dryfu `formuly.test.ts` wymaga zgodności z kluczem `UI-FORMULA-*`); nowe kody 🔴 walidacyjne trzeba dopisać do `scripts/stopy-guard-wyjatki.json` (`walidacja-danych` / `poza-zakresem-modelu`), merytoryczne do `docs/rejestr-twardych-stopow.md`.
+
+## 2026-10-04 — Decyzje właściciela: E25 próg 🔴 i E16 oblodzenie łopat
+- **E25 (`stress-test/deep-winter-budget`) — 1A potwierdzone:** 🟡 = zużycie ponad budżet narastający (do nadrobienia); 🔴 = plan wyczerpany albo samo wyłączenie ogrzewania nie wystarcza. Kod bez zmian. Zdejmuje ✅🤖 z punktu 1 wpisu z 03.10.2026 (punkty 2–7 tamtego wpisu nadal czekają).
+- **E16 (`stress-test/turbina-wiatrowa`) — 2A potwierdzone:** oblodzenie łopat zostaje samym opisem i wzmianką (źródło nie podaje modelu; Dyrektywa #1 — brak zgadywania). Bez pola na własny współczynnik strat zimowych. Kod bez zmian.
+
+## 2026-10-04 — Decyzje właściciela do punktów 2–6 (M7 E25/E24/E16)
+- **E25 pkt 2 → B (wdrożone):** nowe opcjonalne pole „Własna oszczędność na 1 K niższej temperatury [kWh/dobę]” (`oszczednoscKwhDobaNaK`, 0 = brak). Gdy podane, zastępuje przybliżenie stacjonarne 1/ΔT: K = (z/d − tempo dopuszczalne) / s, założenie `DWB-ZALOZENIE-OGRZEWANIE-WLASNE`; bez ΔT. Udział ogrzewania nadal wykrywa 🔴 „samo wyłączenie nie wystarcza”. Budżet proporcjonalny B_d = P·d/N bez zmian. Silnik, ekran, PL/EN/RU, „?”, narzędzie AI i 3 testy; `CALCULATOR_VERSION` bez zmiany (pole opcjonalne, wynik bez niego identyczny).
+- **Pkt 3, 4, 5, 6 → A (bez zmian w kodzie):** E25 liczy z samego bilansu (przykład źródła tylko ilustracją); E24 tylko 🔴/🟢 + zapas, brak ekstrapolacji; E16 współczynnik dostępności i strat wymagany jawnie, bez wartości domyślnej; ostrzeżenie „średnia bez rozkładu” zostaje ostrożne. Wszystkie ✅🤖 z wpisu 03.10.2026 (pkt 1–7) rozstrzygnięte.
