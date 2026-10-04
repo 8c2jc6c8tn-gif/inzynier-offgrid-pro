@@ -99,6 +99,7 @@ export const DeficytyMiesieczneToolOutput = z.object({
     }),
   ),
   deficytyZHistorii: z.boolean(),
+  miesiaceBezDanych: z.array(z.number()).describe("Miesiące (1–12) bez pełnych danych w historii — brak wyniku, nie 0"),
   historia: z
     .object({
       zrodlo: z.string(),
@@ -182,6 +183,7 @@ export const deficytyMiesieczneTool: AiToolDefinition<DeficytyMiesieczneToolInpu
       lancuch: w.lancuch,
       horyzonty: w.horyzonty,
       deficytyZHistorii: w.deficytyZHistorii,
+      miesiaceBezDanych: w.miesiaceBezDanych,
       historia: w.historia && {
         zrodlo: w.historia.zrodlo,
         liczbaLat: w.historia.liczbaLat,

@@ -12,6 +12,17 @@ export function wartoscUjemnaWsp(pole: string, wartosc: number): Warning {
   }
 }
 
+/** Form validation: the weak-point threshold outside 0–100%. */
+export function progPozaZakresem(prog: number): Warning {
+  return {
+    code: "WSP-PROG-POZA-ZAKRESEM",
+    level: "critical",
+    i18nKey: "WSP-PROG-POZA-ZAKRESEM",
+    technicalMessage: `progSlabegoPunktuPct = ${prog}, oczekiwano 0–100`,
+    field: "progSlabegoPunktuPct",
+  }
+}
+
 /** Form validation: more components without redundancy than components checked. */
 export function spofPonadLiczbe(spof: number, n: number): Warning {
   return {

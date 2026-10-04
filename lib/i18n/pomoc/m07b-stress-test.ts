@@ -94,9 +94,21 @@ export const pl = {
       },
       histPopyt: {
         nazwa: "Średnie dobowe zapotrzebowanie domu [kWh/dobę]",
-        cel: "Dobowy deficyt = zapotrzebowanie − produkcja PV tej doby (nie mniej niż 0). Ta sama wartość jest użyta dla każdego miesiąca.",
+        cel: "Dobowy deficyt = zapotrzebowanie − produkcja PV tej doby (nie mniej niż 0). Ta sama wartość jest użyta dla każdego miesiąca, chyba że wybierzesz wpis osobno dla każdego miesiąca.",
         gdzie: "Moduł 2 (zapotrzebowanie energetyczne) albo licznik: roczne zużycie ÷ 365, najlepiej dla zimy.",
         zakres: "Twój dom; zimą zwykle wyższe niż średnia roczna.",
+      },
+      histPopytTryb: {
+        nazwa: "Jak wpisać zapotrzebowanie",
+        cel: "Zimą dom off-grid zużywa zwykle więcej (światło, pompy obiegów, ogrzewanie) — jedna średnia roczna zaniża zimowy deficyt. Wpis osobno dla każdego miesiąca daje dokładniejszy wynik.",
+        gdzie: "Wybierz „osobno”, gdy znasz zużycie w poszczególnych miesiącach (faktury, licznik, ekran „Zużycie miesięczne”).",
+        zakres: "Jedna średnia / osobno dla każdego miesiąca.",
+      },
+      histPopytMiesiac: {
+        nazwa: "Średnie dobowe zapotrzebowanie w miesiącu [kWh/dobę]",
+        cel: "Dobowy deficyt tego miesiąca = zapotrzebowanie − produkcja PV doby (nie mniej niż 0).",
+        gdzie: "Zużycie miesiąca (faktura, licznik, ekran „Zużycie miesięczne”) ÷ liczba dni miesiąca — przycisk „Wstaw” robi to za Ciebie.",
+        zakres: "≥ 0. Potrzebne wszystkie 12 miesięcy.",
       },
       histOkno: {
         nazwa: "Okno między dostawami paliwa [dni]",
@@ -373,11 +385,17 @@ export const pl = {
   "wspolczynnik-bezpieczenstwa-zimowego": {
     "migawka": {
       "oCoChodzi": "To ocena z egzaminu — pokazuje, czy system zda zimę, czy będzie miał poprawkę, i dokładnie z czego.",
-      "jakDziala": "Wpisz (albo wstaw z innych ekranów zimowych) pięć grup danych: pokrycie energii w najgorszym miesiącu, dni autonomii, liczbę pojedynczych punktów awarii, moc agregatu i czas ochrony przed zamarznięciem. Każda składowa dostaje wynik 0–100%, a wskaźnik to średnia ważona. Obok widzisz najsłabszą składową i listę słabych punktów.",
+      "jakDziala": "Wpisz (albo wstaw z innych ekranów zimowych) pięć grup danych: pokrycie energii w najgorszym miesiącu, dni autonomii, liczbę pojedynczych punktów awarii, moc agregatu i czas ochrony przed zamarznięciem. Każda składowa dostaje wynik 0–100%, a wskaźnik to średnia ważona. Obok wyniku widzisz najsłabszą składową (najsłabsze ogniwo) i kolejność składowych; słabe punkty — gdy wpiszesz próg.",
       "poCo": "Jedna liczba mówi, czy jest dobrze; lista słabych punktów — co poprawić najpierw.",
-      "fizyka": "W = Σ wᵢ·sᵢ / Σ wᵢ, gdzie sᵢ = min(100%, co system ma ÷ czego wymaga scenariusz). Wagi (30/25/20/15/10%) są wstępne — do dopracowania przez właściciela aplikacji; możesz wpisać własne (suma 100%). Składowa poniżej {prog}% to słaby punkt."
+      "fizyka": "W = Σ wᵢ·sᵢ / Σ wᵢ, gdzie sᵢ = min(100%, co system ma ÷ czego wymaga scenariusz). Wagi (30/25/20/15/10%) są wstępne — do dopracowania przez właściciela aplikacji; możesz wpisać własne (suma 100%). Składowa poniżej progu, który wpiszesz, to słaby punkt; bez progu widzisz tylko kolejność od najsłabszej."
     },
     "pola": {
+      "prog": {
+        "nazwa": "Próg słabego punktu [%]",
+        "cel": "Składowa z wynikiem poniżej tego progu jest oznaczona jako słaby punkt (🟡). Bez progu widzisz tylko kolejność składowych od najsłabszej.",
+        "gdzie": "Twoja decyzja — jak ostrożnie chcesz oceniać instalację. Źródło nie podaje progu (przykład: 74% = „dobrze, ale są słabe punkty”).",
+        "zakres": "Od 0 do 100%. Puste = bez progu.",
+      },
       "produkcja": {
         "nazwa": "Produkcja PV w najgorszym miesiącu [kWh]",
         "cel": "Ile energii dadzą panele w najtrudniejszym miesiącu zimy.",
@@ -549,9 +567,21 @@ export const en: Tlumaczenie<typeof pl> = {
       },
       histPopyt: {
         nazwa: "Average daily demand of the house [kWh/day]",
-        cel: "Daily shortfall = demand − PV production of that day (not below 0). The same value is used for every month.",
+        cel: "Daily shortfall = demand − PV production of that day (not below 0). The same value is used for every month unless you choose to enter each month separately.",
         gdzie: "Module 2 (energy demand) or the meter: annual use ÷ 365, preferably for winter.",
         zakres: "Your house; usually higher in winter than the annual average.",
+      },
+      histPopytTryb: {
+        nazwa: "How to enter the demand",
+        cel: "In winter an off-grid house usually uses more (lighting, circulation pumps, heating) — one annual average understates the winter shortfall. Entering each month separately gives a more accurate result.",
+        gdzie: "Choose „separately” when you know the consumption of each month (invoices, meter, the „Monthly consumption” screen).",
+        zakres: "One average / separately for each month.",
+      },
+      histPopytMiesiac: {
+        nazwa: "Average daily demand in the month [kWh/day]",
+        cel: "The month's daily shortfall = demand − PV production of the day (not below 0).",
+        gdzie: "The month's consumption (invoice, meter, the „Monthly consumption” screen) ÷ days in the month — the „Insert” button does it for you.",
+        zakres: "≥ 0. All 12 months are needed.",
       },
       histOkno: {
         nazwa: "Window between fuel deliveries [days]",
@@ -828,11 +858,17 @@ export const en: Tlumaczenie<typeof pl> = {
   "wspolczynnik-bezpieczenstwa-zimowego": {
     "migawka": {
       "oCoChodzi": "It is an exam grade — it shows whether the system will pass the winter or need a retake, and exactly because of what.",
-      "jakDziala": "Enter (or insert from the other winter screens) five groups of data: energy coverage in the worst month, days of autonomy, the number of single points of failure, generator power and the freeze-protection time. Each component gets a 0–100% score and the factor is a weighted mean. Next to it you see the weakest component and the list of weak points.",
+      "jakDziala": "Enter (or insert from the other winter screens) five groups of data: energy coverage in the worst month, days of autonomy, the number of single points of failure, generator power and the freeze-protection time. Each component gets a 0–100% score and the factor is a weighted mean. Next to the result you see the weakest component (the weakest link) and the order of the components; weak points — when you enter a threshold.",
       "poCo": "One number tells whether things are fine; the list of weak points tells what to fix first.",
-      "fizyka": "W = Σ wᵢ·sᵢ / Σ wᵢ, where sᵢ = min(100%, what the system has ÷ what the scenario needs). The weights (30/25/20/15/10%) are provisional — to be refined by the app owner; you can enter your own (sum 100%). A component below {prog}% is a weak point."
+      "fizyka": "W = Σ wᵢ·sᵢ / Σ wᵢ, where sᵢ = min(100%, what the system has ÷ what the scenario needs). The weights (30/25/20/15/10%) are provisional — to be refined by the app owner; you can enter your own (sum 100%). A component below the threshold you enter is a weak point; without a threshold you only see the order from the weakest."
     },
     "pola": {
+      "prog": {
+        "nazwa": "Weak-point threshold [%]",
+        "cel": "A component scoring below this threshold is marked as a weak point (🟡). Without a threshold you only see the components ordered from the weakest.",
+        "gdzie": "Your decision — how cautiously you want to rate the installation. The source gives no threshold (example: 74% = “good, but there are weak points”).",
+        "zakres": "From 0 to 100%. Empty = no threshold.",
+      },
       "produkcja": {
         "nazwa": "PV production in the worst month [kWh]",
         "cel": "How much energy the panels give in the hardest month of winter.",
@@ -1004,9 +1040,21 @@ export const ru: Tlumaczenie<typeof pl> = {
       },
       histPopyt: {
         nazwa: "Среднесуточное потребление дома [кВт·ч/сут]",
-        cel: "Суточный дефицит = потребление − выработка PV этих суток (не меньше 0). Одно и то же значение используется для каждого месяца.",
+        cel: "Суточный дефицит = потребление − выработка PV этих суток (не меньше 0). Одно и то же значение используется для каждого месяца, если вы не выберете ввод отдельно для каждого месяца.",
         gdzie: "Модуль 2 (потребление энергии) или счётчик: годовой расход ÷ 365, лучше для зимы.",
         zakres: "Ваш дом; зимой обычно выше среднегодового.",
+      },
+      histPopytTryb: {
+        nazwa: "Как ввести потребление",
+        cel: "Зимой автономный дом обычно потребляет больше (свет, циркуляционные насосы, отопление) — одно среднегодовое значение занижает зимний дефицит. Ввод отдельно для каждого месяца даёт более точный результат.",
+        gdzie: "Выберите «отдельно», если знаете потребление по месяцам (счета, счётчик, экран «Помесячное потребление»).",
+        zakres: "Одно среднее / отдельно для каждого месяца.",
+      },
+      histPopytMiesiac: {
+        nazwa: "Среднесуточное потребление в месяце [кВт·ч/сут]",
+        cel: "Суточный дефицит месяца = потребление − выработка PV суток (не меньше 0).",
+        gdzie: "Потребление месяца (счёт, счётчик, экран «Помесячное потребление») ÷ число дней месяца — кнопка «Вставить» сделает это за вас.",
+        zakres: "≥ 0. Нужны все 12 месяцев.",
       },
       histOkno: {
         nazwa: "Окно между поставками топлива [дн.]",
@@ -1283,11 +1331,17 @@ export const ru: Tlumaczenie<typeof pl> = {
   "wspolczynnik-bezpieczenstwa-zimowego": {
     "migawka": {
       "oCoChodzi": "Это оценка на экзамене — она показывает, сдаст ли система зиму или будет пересдача, и из-за чего именно.",
-      "jakDziala": "Введите (или подставьте с других зимних экранов) пять групп данных: покрытие энергии в худшем месяце, дни автономии, число единичных точек отказа, мощность генератора и время защиты от замерзания. Каждая составляющая получает оценку 0–100%, а коэффициент — это средневзвешенное. Рядом видны самая слабая составляющая и список слабых мест.",
+      "jakDziala": "Введите (или подставьте с других зимних экранов) пять групп данных: покрытие энергии в худшем месяце, дни автономии, число единичных точек отказа, мощность генератора и время защиты от замерзания. Каждая составляющая получает оценку 0–100%, а коэффициент — это средневзвешенное. Рядом с результатом видны самая слабая составляющая (самое слабое звено) и очерёдность составляющих; слабые места — когда введёте порог.",
       "poCo": "Одно число говорит, всё ли хорошо; список слабых мест — что исправлять в первую очередь.",
-      "fizyka": "W = Σ wᵢ·sᵢ / Σ wᵢ, где sᵢ = min(100%, что есть у системы ÷ что требует сценарий). Веса (30/25/20/15/10%) предварительные — требуют доработки владельцем приложения; можно ввести свои (сумма 100%). Составляющая ниже {prog}% — слабое место."
+      "fizyka": "W = Σ wᵢ·sᵢ / Σ wᵢ, где sᵢ = min(100%, что есть у системы ÷ что требует сценарий). Веса (30/25/20/15/10%) предварительные — требуют доработки владельцем приложения; можно ввести свои (сумма 100%). Составляющая ниже введённого вами порога — слабое место; без порога видна только очерёдность от самой слабой."
     },
     "pola": {
+      "prog": {
+        "nazwa": "Порог слабого места [%]",
+        "cel": "Составляющая с оценкой ниже этого порога отмечается как слабое место (🟡). Без порога видна только очерёдность составляющих от самой слабой.",
+        "gdzie": "Ваше решение — насколько осторожно вы хотите оценивать установку. Источник порога не даёт (пример: 74% = «хорошо, но есть слабые места»).",
+        "zakres": "От 0 до 100%. Пусто = без порога.",
+      },
       "produkcja": {
         "nazwa": "Выработка PV в худшем месяце [кВт·ч]",
         "cel": "Сколько энергии дадут панели в самый тяжёлый месяц зимы.",

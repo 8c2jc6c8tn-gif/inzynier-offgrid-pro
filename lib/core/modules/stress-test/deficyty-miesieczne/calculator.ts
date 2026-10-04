@@ -22,8 +22,11 @@ import {
  * START horizons 3/7/14 days / month / own days, optional multi-year daily history (distribution of monthly
  * shortfalls, worst resupply window per year, streaks of low days, stock sized from a user percentile).
  * Without the new optional inputs the result and warnings are the 1.0.0 ones.
+ * 1.2.0 (04.10.2026, owner decision D74 pkt 5): a month with no complete data in any year of the history is
+ * not a zero shortfall — it is listed in `miesiaceBezDanych` (no result for it) and raises 🟡 (was ℹ️), because
+ * a missing winter month would make the fuel stock too small.
  */
-export const CALCULATOR_VERSION = "1.1.0"
+export const CALCULATOR_VERSION = "1.2.0"
 
 const FORMULA =
   `t_m = \\dfrac{D_m}{P_{agr} \\cdot ${latexLiczba(OPTYMALNE_OBCIAZENIE_PCT / 100)}},\\quad V_m = t_m \\cdot q,\\quad K_m = V_m \\cdot c_{pal} + t_m \\cdot c_{serw}`
@@ -98,6 +101,8 @@ export type DeficytyMiesieczneResult = {
   zapasZHistorii: ZapasZHistorii | null
   /** True when the monthly shortfalls were derived from the history instead of being entered. */
   deficytyZHistorii: boolean
+  /** Months (1–12) with no complete data in the history when the shortfalls come from it — no result, not 0. */
+  miesiaceBezDanych: number[]
 }
 
 const PUSTY: DeficytyMiesieczneResult = {
@@ -112,6 +117,7 @@ const PUSTY: DeficytyMiesieczneResult = {
   historia: null,
   zapasZHistorii: null,
   deficytyZHistorii: false,
+  miesiaceBezDanych: [],
 }
 
 /**
@@ -294,6 +300,7 @@ export function calculateDeficytyMiesieczne(input: DeficytyMiesieczneInput): Cal
       historia,
       zapasZHistorii,
       deficytyZHistorii,
+      miesiaceBezDanych: deficytyZHistorii && historia ? historia.miesiaceBezDanych : [],
     },
     status: warnings.some((w) => w.level !== "info") ? "VALID_WITH_WARNINGS" : "VALID",
     assumptions,

@@ -24,7 +24,8 @@ import { NawigacjaEkranu } from "@/components/nawigacja-ekranu"
 import { NaglowekEkranu } from "@/components/wzorce/naglowek-ekranu"
 import { WynikGlowny } from "@/components/wzorce/wynik-glowny"
 import { WynikSzczegoly } from "@/components/wzorce/wynik-szczegoly"
-import { KLUCZE_MIESIECY } from "@/components/siec/zuzycie-miesieczne"
+import { KLUCZE_MIESIECY, useZuzycieMiesieczne } from "@/components/siec/zuzycie-miesieczne"
+import { DNI_W_MIESIACU } from "@/lib/core/modules/stress-test/deficyty-miesieczne/constants"
 
 type PolaAgregatu = "moc" | "zuzycie" | "cena" | "serwis" | "zapas"
 type PolaHistorii = "horyzontDni" | "histKwp" | "histPr" | "histPopyt" | "histOkno" | "histPercentyl" | "histProg"
@@ -36,6 +37,9 @@ type FormularzStan = Record<PolaAgregatu | PolaHistorii | PolaPvgis, string> & {
   histDane: string
   histZrodlo: ZrodloHistorii
   histRodzaj: RodzajDanychHistorii
+  /** Demand entry mode (owner decision D74 pkt 6): one annual average or 12 monthly values. */
+  histPopytTryb: "jeden" | "miesiace"
+  histPopytMiesiace: string[]
 }
 
 const STAN_POCZATKOWY: FormularzStan = {
@@ -53,6 +57,8 @@ const STAN_POCZATKOWY: FormularzStan = {
   histKwp: "",
   histPr: "",
   histPopyt: "",
+  histPopytTryb: "jeden",
+  histPopytMiesiace: Array.from({ length: 12 }, () => ""),
   histOkno: "",
   histPercentyl: "",
   histProg: "",
@@ -108,6 +114,7 @@ export default function DeficytyMiesiecznePage() {
   // A draft saved before the history fields existed lacks them — fill from the defaults.
   const stan = useMemo<FormularzStan>(() => ({ ...STAN_POCZATKOWY, ...zapisany }), [zapisany])
   const wklejone = useMemo(() => parsujHistorie(stan.histDane), [stan.histDane])
+  const { zuzycie: zuzycieMiesieczne } = useZuzycieMiesieczne("dom")
   const [pvgisPobiera, setPvgisPobiera] = useState(false)
   const [pvgisKomunikat, setPvgisKomunikat] = useState<{ blad: boolean; tekst: string } | null>(null)
 
@@ -134,7 +141,9 @@ export default function DeficytyMiesiecznePage() {
           ? { przeliczenie: { mocPvKwp: liczba(stan.histKwp), wspolczynnikPr: liczba(stan.histPr) } }
           : {}),
       }
-      if (stan.histPopyt !== "") wejscie.zapotrzebowanieDobaKwh = Array.from({ length: 12 }, () => liczba(stan.histPopyt))
+      if (stan.histPopytTryb === "miesiace") {
+        if (stan.histPopytMiesiace.every((x) => x !== "")) wejscie.zapotrzebowanieDobaKwh = stan.histPopytMiesiace.map(liczba)
+      } else if (stan.histPopyt !== "") wejscie.zapotrzebowanieDobaKwh = Array.from({ length: 12 }, () => liczba(stan.histPopyt))
       wejscie.analizaHistorii = {
         oknoDni: liczba(stan.histOkno),
         percentylPct: liczba(stan.histPercentyl),
@@ -361,16 +370,67 @@ export default function DeficytyMiesiecznePage() {
             />
           </>
         )}
-        <Pole
-          label={t("UI-M7-DEFM-HIST-POPYT")}
-          unit={t("UI-J-KWH-DOBA")}
-          type="number"
-          inputMode="decimal"
-          min={0}
-          value={stan.histPopyt}
-          onChange={(e) => ustaw("histPopyt", e.target.value)}
-          pomoc={<PomocPola ekran="deficyty-miesieczne" pole="histPopyt" />}
-        />
+        <PoleSelect
+          label={t("UI-M7-DEFM-POPYT-TRYB")}
+          value={stan.histPopytTryb}
+          onChange={(e) => ustaw("histPopytTryb", e.target.value as FormularzStan["histPopytTryb"])}
+          pomoc={<PomocPola ekran="deficyty-miesieczne" pole="histPopytTryb" />}
+        >
+          <option value="jeden">{t("UI-M7-DEFM-POPYT-JEDNO")}</option>
+          <option value="miesiace">{t("UI-M7-DEFM-POPYT-MIESIACE")}</option>
+        </PoleSelect>
+        {stan.histPopytTryb === "miesiace" ? (
+          <>
+            {zuzycieMiesieczne && (
+              <Button
+                type="button"
+                variant="outline"
+                onClick={() =>
+                  ustaw(
+                    "histPopytMiesiace",
+                    zuzycieMiesieczne.map((kwh, i) => String(Math.round((kwh / DNI_W_MIESIACU[i]!) * 100) / 100)),
+                  )
+                }
+              >
+                {t("UI-M7-DEFM-POPYT-WSTAW")}
+              </Button>
+            )}
+            <div className="grid grid-cols-3 gap-3">
+              {KLUCZE_MIESIECY.map((klucz, i) => (
+                <Pole
+                  key={klucz}
+                  label={t(klucz)}
+                  unit={t("UI-J-KWH-DOBA")}
+                  type="number"
+                  inputMode="decimal"
+                  min={0}
+                  value={stan.histPopytMiesiace[i] ?? ""}
+                  onChange={(e) =>
+                    ustaw(
+                      "histPopytMiesiace",
+                      stan.histPopytMiesiace.map((d, j) => (j === i ? e.target.value : d)),
+                    )
+                  }
+                  pomoc={<PomocPola ekran="deficyty-miesieczne" pole="histPopytMiesiac" />}
+                />
+              ))}
+            </div>
+            {stan.histPopytMiesiace.some((x) => x === "") && (
+              <p className="text-caption text-muted-foreground">{t("UI-M7-DEFM-POPYT-NIEPELNE")}</p>
+            )}
+          </>
+        ) : (
+          <Pole
+            label={t("UI-M7-DEFM-HIST-POPYT")}
+            unit={t("UI-J-KWH-DOBA")}
+            type="number"
+            inputMode="decimal"
+            min={0}
+            value={stan.histPopyt}
+            onChange={(e) => ustaw("histPopyt", e.target.value)}
+            pomoc={<PomocPola ekran="deficyty-miesieczne" pole="histPopyt" />}
+          />
+        )}
         <Pole
           label={t("UI-M7-DEFM-HIST-OKNO")}
           unit={t("UI-J-DNI")}
@@ -458,6 +518,12 @@ export default function DeficytyMiesiecznePage() {
                   <td>{r1(m.godzinyPracy)}</td>
                   <td>{r1(m.paliwoL)}</td>
                   <td>{Math.round(m.kosztZl)}</td>
+                </tr>
+              ))}
+              {v.miesiaceBezDanych.map((m) => (
+                <tr key={`brak-${m}`} className="text-muted-foreground">
+                  <td>{t(KLUCZE_MIESIECY[m - 1]!)}</td>
+                  <td colSpan={4}>{t("UI-M7-DEFM-BRAK-DANYCH")}</td>
                 </tr>
               ))}
             </tbody>

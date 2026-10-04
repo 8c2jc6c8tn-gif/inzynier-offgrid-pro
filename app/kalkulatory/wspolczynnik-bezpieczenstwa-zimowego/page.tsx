@@ -5,7 +5,6 @@ import { useMemo } from "react"
 import { calculateWspolczynnik } from "@/lib/core/modules/stress-test/wspolczynnik-bezpieczenstwa-zimowego/calculator"
 import {
   DOMYSLNE_WAGI_PCT,
-  PROG_SLABY_PUNKT_PCT,
   SKLADOWE,
   type SkladowaId,
   type WagiPct,
@@ -43,6 +42,7 @@ type Pola =
   | "mocWymagana"
   | "okno"
   | "wymaganyCzas"
+  | "prog"
 type FormularzStan = Record<Pola, string> & {
   brakAgregatu: boolean
   wlasneWagi: boolean
@@ -63,6 +63,7 @@ const STAN_POCZATKOWY: FormularzStan = {
   mocWymagana: "",
   okno: "",
   wymaganyCzas: "",
+  prog: "",
   brakAgregatu: false,
   wlasneWagi: false,
   wagi: wagiJakTekst(DOMYSLNE_WAGI_PCT),
@@ -167,6 +168,7 @@ export default function WspolczynnikBezpieczenstwaZimowegoPage() {
         oknoReakcjiH: liczba(stan.okno),
         wymaganyCzasReakcjiH: liczba(stan.wymaganyCzas),
         wagiWlasne: wagiZeStanu(stan),
+        progSlabegoPunktuPct: liczba(stan.prog ?? ""),
       }),
     [stan],
   )
@@ -177,7 +179,7 @@ export default function WspolczynnikBezpieczenstwaZimowegoPage() {
   return (
     <main className="mx-auto flex max-w-md flex-col gap-6 p-6">
       <NawigacjaEkranu href={`/kalkulatory/${EKRAN}`} />
-      <NaglowekEkranu tytul={t("UI-M7-WSP-TYTUL")} ekran={EKRAN} wynik={result} parametry={{ prog: PROG_SLABY_PUNKT_PCT }}>
+      <NaglowekEkranu tytul={t("UI-M7-WSP-TYTUL")} ekran={EKRAN} wynik={result}>
         {t("UI-M7-WSP-OPIS")}
       </NaglowekEkranu>
 
@@ -336,6 +338,18 @@ export default function WspolczynnikBezpieczenstwaZimowegoPage() {
         )}
       </fieldset>
 
+      <Pole
+        label={t("UI-M7-WSP-PROG")}
+        unit="%"
+        type="number"
+        inputMode="decimal"
+        min={0}
+        max={100}
+        value={stan.prog ?? ""}
+        onChange={(e) => setStan((prev) => ({ ...prev, prog: e.target.value }))}
+        pomoc={<PomocPola ekran={EKRAN} pole="prog" />}
+      />
+
       {result.status === "INVALID_INPUT" ? (
         <WerdyktPanel poziom="blad" etykieta={t("UI-M7-WSP-BLAD")}>
           <WynikSzczegoly assumptions={[]} warnings={result.warnings} />
@@ -345,14 +359,19 @@ export default function WspolczynnikBezpieczenstwaZimowegoPage() {
           {t("UI-M7-WSP-UZUPELNIJ", { lista: v.brakujace.map(nazwa).join(", ") })}
         </p>
       ) : (
-        <WerdyktPanel poziom={v.slabePunkty.length > 0 ? "uwaga" : "ok"} etykieta={t(v.slabePunkty.length > 0 ? "UI-M7-WSP-W-UWAGA" : "UI-M7-WSP-W-OK")}>
+        <WerdyktPanel
+          poziom={v.slabePunkty.length > 0 ? "uwaga" : "ok"}
+          etykieta={t(v.slabePunkty.length > 0 ? "UI-M7-WSP-W-UWAGA" : stan.prog ? "UI-M7-WSP-W-OK" : "UI-M7-WSP-W-BEZ-PROGU")}
+        >
           <WynikGlowny>{t("UI-M7-WSP-WYNIK", { proc: r0(v.wskaznikPct!) })}</WynikGlowny>
           {v.najslabsza && (
-            <p className="mt-1 text-small">{t("UI-M7-WSP-NAJSLABSZA", { nazwa: nazwa(v.najslabsza.id), proc: r0(v.najslabsza.wynikPct) })}</p>
+            /* D75: the weakest link stands next to the weighted mean, as visible as it — a 0% component must not hide. */
+            <p className="mt-1 text-h3 font-semibold">{t("UI-M7-WSP-NAJSLABSZA", { nazwa: nazwa(v.najslabsza.id), proc: r0(v.najslabsza.wynikPct) })}</p>
           )}
           {v.slabePunkty.length > 0 && (
             <p className="mt-1 text-small">{t("UI-M7-WSP-SLABE-LISTA", { lista: v.slabePunkty.map(nazwa).join(", ") })}</p>
           )}
+          <p className="mt-1 text-small">{t("UI-M7-WSP-RANKING", { lista: v.ranking.map(nazwa).join(" → ") })}</p>
           <p className="mt-2 text-small font-medium">{t(v.zestawWag === "wlasne" ? "UI-M7-WSP-ZESTAW-WLASNY" : "UI-M7-WSP-ZESTAW-DOMYSLNY")}</p>
           <table className="mt-1 w-full text-small">
             <thead>

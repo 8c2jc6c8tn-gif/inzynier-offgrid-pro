@@ -19,6 +19,7 @@ const BAZA: WspolczynnikInput = {
   oknoReakcjiH: 6.5,
   wymaganyCzasReakcjiH: 10,
   wagiWlasne: null,
+  progSlabegoPunktuPct: 70, // the user's threshold in these tests (D75: no default)
 }
 
 describe("calculateWspolczynnik (M7/E12, dawne 6.14)", () => {
@@ -157,5 +158,21 @@ describe("zrodla — wartości z zapisanych formularzy istniejących ekranów", 
     })
     expect(s!.czasKrytycznychH).toBeGreaterThan(0)
     expect(zStrategiiZamarzanie({ pojemnoscKwh: "", odbiorniki: [] })).toBeNull()
+  })
+
+  it("D75: bez progu wpisanego przez usera nie ma słabych punktów, tylko ranking od najsłabszej", () => {
+    const w = calculateWspolczynnik({ ...BAZA, progSlabegoPunktuPct: null })
+    expect(w.value.wskaznikPct).toBeCloseTo(74, 9)
+    expect(w.value.slabePunkty).toEqual([])
+    expect(w.value.ranking).toEqual(["autonomia", "reakcja", "agregat", "pokrycie", "odpornosc"])
+    expect(w.value.najslabsza).toEqual({ id: "autonomia", wynikPct: 60 })
+    expect(w.assumptions).toContainEqual({ kod: "WSP-ZALOZENIE-BEZ-PROGU" })
+    expect(w.warnings.map((x) => x.code)).toEqual(["WSP-WAGI-WSTEPNE"])
+  })
+
+  it("D75: próg usera decyduje o słabych punktach; próg poza 0–100% → INVALID_INPUT", () => {
+    expect(calculateWspolczynnik({ ...BAZA, progSlabegoPunktuPct: 62 }).value.slabePunkty).toEqual(["autonomia"])
+    expect(calculateWspolczynnik({ ...BAZA, progSlabegoPunktuPct: 101 }).status).toBe("INVALID_INPUT")
+    expect(calculateWspolczynnik({ ...BAZA, progSlabegoPunktuPct: -1 }).status).toBe("INVALID_INPUT")
   })
 })

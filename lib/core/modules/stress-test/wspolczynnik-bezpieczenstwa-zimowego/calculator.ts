@@ -1,12 +1,13 @@
 import type { Assumption, CalcResult, Warning } from "@/lib/core/calc-result"
 import { agregujWskaznik } from "./aggregation"
-import { DOMYSLNE_WAGI_PCT, PROG_SLABY_PUNKT_PCT, SKLADOWE, type SkladowaId, type WagiPct } from "./constants"
+import { DOMYSLNE_WAGI_PCT, SKLADOWE, type SkladowaId, type WagiPct } from "./constants"
 import type { WspolczynnikInput } from "./input"
 import { punktacjaSkladowych } from "./scoring"
 import { validateInput } from "./validation"
 import { slabyPunkt, zestawWagWlasny, zestawWagWstepny } from "./warnings"
 
-export const CALCULATOR_VERSION = "1.0.0"
+/** 1.1.0 (04.10.2026, D75): weak-point threshold entered by the user (was a fixed 70%); components ranked. */
+export const CALCULATOR_VERSION = "1.1.0"
 
 const FORMULA = "W = \\dfrac{\\sum_i w_i \\cdot s_i}{\\sum_i w_i}"
 
@@ -28,8 +29,10 @@ export type WspolczynnikResult = {
   skladowe: SkladowaWyniku[]
   /** Weakest component; null while the result is incomplete. */
   najslabsza: { id: SkladowaId; wynikPct: number } | null
-  /** Components below `PROG_SLABY_PUNKT_PCT`, weakest first. */
+  /** Components below the user's threshold, weakest first; [] without a threshold. */
   slabePunkty: SkladowaId[]
+  /** All components from the weakest to the strongest (D75: shown next to the total); [] while incomplete. */
+  ranking: SkladowaId[]
   /** Components whose inputs are missing. */
   brakujace: SkladowaId[]
 }
@@ -64,6 +67,7 @@ export function calculateWspolczynnik(input: WspolczynnikInput): CalcResult<Wspo
     skladowe: skladoweBez(),
     najslabsza: null,
     slabePunkty: [],
+    ranking: [],
     brakujace,
   })
 
@@ -80,19 +84,21 @@ export function calculateWspolczynnik(input: WspolczynnikInput): CalcResult<Wspo
     wagaPct: wagi[id],
     wkladPkt: (wagi[id] * wyniki[id]) / sumaWag,
   }))
-  const slabePunkty = SKLADOWE.filter((id) => wyniki[id] < PROG_SLABY_PUNKT_PCT).sort((a, b) => wyniki[a] - wyniki[b])
+  const ranking = [...SKLADOWE].sort((a, b) => wyniki[a] - wyniki[b])
+  const prog = input.progSlabegoPunktuPct
+  const slabePunkty = prog === null ? [] : ranking.filter((id) => wyniki[id] < prog)
 
   const warnings: Warning[] = [zestawWag === "domyslne" ? zestawWagWstepny() : zestawWagWlasny()]
-  for (const id of slabePunkty) warnings.push(slabyPunkt(id, wyniki[id], PROG_SLABY_PUNKT_PCT))
+  for (const id of slabePunkty) warnings.push(slabyPunkt(id, wyniki[id], prog!))
   const assumptions: Assumption[] = [
     { kod: "WSP-ZALOZENIE-MAPOWANIE" },
-    { kod: "WSP-ZALOZENIE-PROG", params: { prog: PROG_SLABY_PUNKT_PCT } },
+    prog === null ? { kod: "WSP-ZALOZENIE-BEZ-PROGU" } : { kod: "WSP-ZALOZENIE-PROG", params: { prog } },
   ]
   if (zestawWag === "domyslne") assumptions.push({ kod: "WSP-ZALOZENIE-WAGI" })
 
   return {
     ...baza,
-    value: { wskaznikPct, zestawWag, wagiPct: wagi, skladowe, najslabsza, slabePunkty, brakujace },
+    value: { wskaznikPct, zestawWag, wagiPct: wagi, skladowe, najslabsza, slabePunkty, ranking, brakujace },
     status: slabePunkty.length > 0 ? "VALID_WITH_WARNINGS" : "VALID",
     assumptions,
     warnings,

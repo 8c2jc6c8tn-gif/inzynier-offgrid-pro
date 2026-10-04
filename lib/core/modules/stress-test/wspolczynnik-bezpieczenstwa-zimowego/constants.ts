@@ -26,7 +26,6 @@ export const DOMYSLNE_WAGI_PCT: WagiPct = {
 export const TOLERANCJA_SUMY_WAG_PKT = 0.01
 
 /**
- * ✅🤖 A component scoring below this [%] is listed as a weak point (🟡). The source gives no threshold — its
- * example is only „74% (dobrze, ale są słabe punkty)”. 70% is a self-chosen threshold, easy to change here.
+ * The weak-point threshold is entered by the user (owner decision D75, 04.10.2026): the source gives none — its
+ * example is only „74% (dobrze, ale są słabe punkty)” — so the former self-chosen 70% was removed.
  */
-export const PROG_SLABY_PUNKT_PCT = 70

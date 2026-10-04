@@ -2572,3 +2572,11 @@ Właściciel: pismo ma być tłumaczone (wcześniej komentarz w kodzie zakłada�
 ## 2026-10-04 — Taryfa nocna (5.59) po decyzjach właściciela (D73)
 - Kalkulator `ogrzewanie/taryfa-nocna-pompy-ciepla` 1.1.0: pola `profilGodzinowy` (24 wagi), `godzinyStrefyNocnej` (indeksy godzin, parser `parsuj.ts`: `22-6; 13-15`, zakres przez północ), `stratyBuforaKwhDoba`; ℹ️ `TAN-COP-NOC-NIE-PODANY`. Puste pola = dawne zachowanie (płaski profil daje ten sam wynik — test).
 - Pułapki: (1) wzorzec `*-POZA-ZAKRESEM` w `stopy-guard-wyjatki.json` nie łapie kodów z prefiksem modułu — `TAN-PROFIL-POZA-ZAKRESEM`/`TAN-STREFA-POZA-ZAKRESEM` trzeba dopisać jawnie; (2) nie sortuj tej listy przy dopisywaniu (przestawia cudze wpisy) — dopisz na końcu; (3) w `formula` bez polskich słów („lub”) — test dryfu `formuly.test.ts`; użyto `\vee`.
+
+## 2026-10-04 — M7/E2 1.2.0 i nagrzewnica po decyzjach właściciela (D74)
+- Miesiąc bez danych w historii: `miesiaceBezDanych` w wyniku, wiersz „brak danych” w tabeli, 🟡 `DEFM-HISTORIA-BRAK-MIESIECY`. Zasada ogólna warta pamiętania: **brak danych nigdy nie jest zerem w wyniku, który wymiaruje zapas** (zero = zaniżenie = niebezpiecznie).
+- Zapotrzebowanie 12 miesięcy w UI (`histPopytTryb`, `histPopytMiesiace`) — silnik bez zmian (już przyjmował 12 wartości). „Wstaw” czyta szkic M14 D3 (`useZuzycieMiesieczne("dom")`, tylko odczyt, jeden właściciel zapisu).
+
+## 2026-10-04 — M7/E12 1.1.0 po decyzji właściciela (D75)
+- `PROG_SLABY_PUNKT_PCT` (70%) usunięty — próg słabego punktu to pole usera `progSlabegoPunktuPct` (null = tylko `ranking`). Najsłabsze ogniwo na ekranie `text-h3` tuż pod wynikiem głównym.
+- Wzorzec audytora, który powtórzył się 3× w tej rundzie (5.59 COP/straty, E2 brak danych = 0, E12 próg 70% i średnia chowająca zero): **szukaj w założeniach ✅🤖 (a) liczb bez źródła, (b) miejsc, gdzie brak danych albo zero znika w agregacie** — to one zawyżają bezpieczeństwo. Kandydat do `wklad-do-standardu.md`.

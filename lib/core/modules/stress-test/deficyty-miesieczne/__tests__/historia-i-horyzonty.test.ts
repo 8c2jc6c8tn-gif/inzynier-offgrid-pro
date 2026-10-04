@@ -27,8 +27,8 @@ const HIST: HistoriaDobowa = {
 const POPYT = Array.from({ length: 12 }, () => 10)
 
 describe("łańcuch agregatu i stałe horyzonty (M7/E2, 1.1.0)", () => {
-  it("wersja kalkulatora podniesiona do 1.1.0", () => {
-    expect(CALCULATOR_VERSION).toBe("1.1.0")
+  it("wersja kalkulatora podniesiona do 1.2.0 (D74: miesiąc bez danych to brak wyniku, nie 0)", () => {
+    expect(CALCULATOR_VERSION).toBe("1.2.0")
   })
 
   it("łańcuch: 5 kW × 0,8 = 4 kW na godzinę, 0,375 l/kWh, 124 kWh → 31 h → 46,5 l", () => {
@@ -123,6 +123,22 @@ describe("historia wieloletnia (M7/E2, tryb realistyczny)", () => {
     expect(w.assumptions.map((a) => (typeof a === "string" ? a : a.kod))).toContain("DEFM-ZALOZENIE-DEFICYTY-Z-HISTORII")
     expect(w.value.historia!.liczbaLat).toBe(3)
     expect(w.value.historia!.liczbaDniZDanymi).toBe(3 * 365)
+  })
+
+  it("D74 pkt 5: miesiąc bez pełnych danych w żadnym roku → brak wyniku (nie 0) i 🟡", () => {
+    // Every year cut after 31 January → only January has complete data.
+    const krotka: HistoriaDobowa = { ...HIST, lata: [rok(2021, [9, 10], 31), rok(2022, [9, 5], 31)] }
+    const w = zHist({}, { historia: krotka })
+    expect(w.value.deficytyZHistorii).toBe(true)
+    expect(w.value.miesiaceBezDanych).toEqual([2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12])
+    expect(w.value.miesiace.map((m) => m.miesiac)).toEqual([1])
+    const ost = w.warnings.find((x) => x.code === "DEFM-HISTORIA-BRAK-MIESIECY")!
+    expect(ost.level).toBe("warning")
+    expect(w.status).toBe("VALID_WITH_WARNINGS")
+    // Shortfalls entered by hand → the history does not decide the months, nothing listed.
+    const reczne = zHist({}, { historia: krotka, deficytyKwh: dwanascie({ 12: 124 }) })
+    expect(reczne.value.miesiaceBezDanych).toEqual([])
+    expect(reczne.warnings.map((x) => x.code)).not.toContain("DEFM-HISTORIA-BRAK-MIESIECY")
   })
 
   it("wpisane deficyty mają pierwszeństwo przed historią", () => {
