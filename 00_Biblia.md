@@ -1,6 +1,6 @@
 # 00. Biblia — Inżynier Offgrid Pro
 
-**Wersja:** 1.11 | **Filar:** — (indeks, poza podziałem na filary) | **Data utworzenia:** 04.09.2026 | **Ostatnia aktualizacja:** 02.10.2026 | **Status:** Stabilny
+**Wersja:** 1.12 | **Filar:** — (indeks, poza podziałem na filary) | **Data utworzenia:** 04.09.2026 | **Ostatnia aktualizacja:** 05.10.2026 | **Status:** Stabilny
 **Powiązane dokumenty:** wszystkie poniżej (tabela dokumentów)
 
 TL;DR: Indeks kanonicznej Biblii projektu w formacie GOD BOOK (`docs/god-book/instrukcja-uniwersalna-biblii-projektu-v2_39.md`, Część S). Migracja z `ZASADY_APLIKACJI.md`/`USTALENIA.md`, które pełniły tę rolę wcześniej pod inną nazwą — treść tamtych plików **zachowana, nie usunięta** (oznaczone jako historyczne, patrz "Relacja ze starą konstytucją" niżej).
@@ -61,7 +61,7 @@ Do 04.09.2026 rolę Biblii pełniły `ZASADY_APLIKACJI.md` (pełna) i `USTALENIA
 | — | `kontrakty-rdzenia.md` | A | 1.2 | Stabilny | `CalcResult<T>`, Status, Warning, warstwy, wzorzec echo — konkretne kontrakty tego projektu |
 | — | `docs/zrodla/` | C | — | Stabilny | Materiały źródłowe, niezmienione, tylko do odczytu (Filar C, B.5 GOD BOOK) — **już istniało** przed migracją |
 | — | `docs/rejestr-pokrycia.md` | B | — | Stabilny (rosnący) | Per-moduł/ekran: status, wzór, przykład, notatki — pełni rolę "osobnego pliku per moduł" (Część S poz. 9) — **już istniało** przed migracją, nie duplikowane w nowym formacie |
-| — | `mapa-wdrozenia.md` | C | 1.7 | Stabilny (rosnący) | M#, opisany/zaimplementowany/przetestowany, gotowość — zbudowana z `docs/rejestr-pokrycia.md` |
+| — | `mapa-wdrozenia.md` | C | 1.8 | Stabilny (rosnący) | M#, opisany/zaimplementowany/przetestowany, gotowość — zbudowana z `docs/rejestr-pokrycia.md` |
 | — | `backlog-poza-v1.md` | C | 1.6 | Stabilny (rosnący) | Świadomie odłożone/blocked — ekstrakcja z `docs/rejestr-pokrycia.md` i `docs/lista-do-zrobienia.md` |
 | — | `dlug-techniczny.md` | C | 2.5 | Stabilny (rosnący) | Świadome uproszczenia kodu względem specyfikacji źródła |
 | — | `docs/rejestr-twardych-stopow.md` | B | — | Stabilny (rosnący) | Twarde stopy (🔴) per moduł, z plikiem i kodem ostrzeżenia; sekcja M14 wyprzedza kod świadomie — **już istniało**, dopisane do indeksu przy audycie końcowym 28.09.2026 |
@@ -101,3 +101,4 @@ Do 04.09.2026 rolę Biblii pełniły `ZASADY_APLIKACJI.md` (pełna) i `USTALENIA
 | 29.09.2026 | D51: ekran tylko w komplecie (autosave + tłumaczenia + „?” + „i”), strażnik `check:pomoc-guard`. Rejestr decyzji 1.23→1.24, dyrektywy 1.1→1.2 (#15). Wersja indeksu 1.8→1.9. |
 | 02.10.2026 | Dodano rozdział 04 „Plan rozwoju i sprzedaży” (D70) do tabeli dokumentów. Wersja indeksu 1.9→1.10. |
 | 02.10.2026 | Archiwizacja `docs/memory.md` (lokalna procedura, zgłoszona do standardu w `docs/wklad-do-standardu.md`): nowy katalog `docs/memory-archiwum/` w tabeli dokumentów, opis `docs/memory.md` zaktualizowany. Wersja indeksu 1.10→1.11. |
+| 05.10.2026 | Pełne przeliczenie `mapa-wdrozenia.md` (1.7→1.8, 260 ekranów `done`, ⚠️ rozjazd mianownika 286/314 do decyzji). Wersja indeksu 1.11→1.12. |
