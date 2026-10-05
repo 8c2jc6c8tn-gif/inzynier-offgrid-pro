@@ -14,6 +14,7 @@ import { analizaSpofTool } from "../analiza-spof-tool"
 import { bezRekuperacjiTool } from "../bez-rekuperacji-tool"
 import { preHeatTool } from "../pre-heat-tool"
 import { awariaStringaZimaTool } from "../awaria-stringa-zima-tool"
+import { ladowanieZAgregatuTool } from "../ladowanie-z-agregatu-tool"
 
 describe("obciazenieDachuSniegiemTool (M7/E23, dawne 6.34→7.32)", () => {
   it("kontrakt 9.3: 'read', bez potwierdzenia", () => {
@@ -257,5 +258,29 @@ describe("awariaStringaZimaTool (M7/E26, dawne 6.40)", () => {
     })
     expect(w.deficytDobowyKwh).toBe(8)
     expect(w.ostrzezenia[0]).toBe(t("pl", "STRING-DEFICYT", { deficyt: "8.0" }))
+  })
+})
+
+describe("ladowanieZAgregatuTool (M7, decyzja 1A z 05.10.2026)", () => {
+  it("kontrakt 9.3 ('read', bez potwierdzenia)", () => {
+    expect(ladowanieZAgregatuTool.operationType).toBe("read")
+    expect(ladowanieZAgregatuTool.requiresConfirmation).toBe(false)
+    expect(() => validateAiToolDefinition(ladowanieZAgregatuTool)).not.toThrow()
+  })
+
+  it("ładowarka + odbiorniki > agregat → ładowanie zapasem i ostrzeżenie PL", async () => {
+    const w = await ladowanieZAgregatuTool.handler({
+      mocAgregatuKw: 6,
+      mocLadowarkiKw: 6,
+      mocOdbiornikowKw: 1,
+      pojemnoscKwh: 20,
+      socStartPct: 20,
+      socStopPct: 80,
+      sprawnoscLadowaniaPct: 95,
+      zuzyciePaliwaLH: 2,
+      cenaPaliwaZlL: null,
+    })
+    expect(w.mocLadowaniaKw).toBe(5)
+    expect(w.ostrzezenia).toEqual([t("pl", "LADAG-LADOWANIE-OGRANICZONE", { ladowarka: 6, odbiorniki: 1, agregat: 6, zapas: 5 })])
   })
 })
