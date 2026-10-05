@@ -35,6 +35,16 @@ export function validateInput(input: DeficytyMiesieczneInput): { errors: Warning
     if (!(a.oknoDni >= 0 && a.oknoDni <= MAX_DNI && Number.isInteger(a.oknoDni))) errors.push(poleHistoriiPozaZakresem("oknoDni", a.oknoDni, `0..${MAX_DNI}`))
     if (!(a.percentylPct >= 0 && a.percentylPct <= 100)) errors.push(poleHistoriiPozaZakresem("percentylPct", a.percentylPct, "0..100"))
     if (!(a.progSlabegoDniaPct >= 0 && a.progSlabegoDniaPct <= 100)) errors.push(poleHistoriiPozaZakresem("progSlabegoDniaPct", a.progSlabegoDniaPct, "0..100"))
+    const m = a.magazyn
+    if (m) {
+      if (!(Number.isFinite(m.pojemnoscUzytecznaKwh) && m.pojemnoscUzytecznaKwh >= 0)) {
+        errors.push(poleHistoriiPozaZakresem("magazyn.pojemnoscUzytecznaKwh", m.pojemnoscUzytecznaKwh, ">= 0"))
+      }
+      if (!(m.sprawnoscPct >= 0 && m.sprawnoscPct <= 100)) errors.push(poleHistoriiPozaZakresem("magazyn.sprawnoscPct", m.sprawnoscPct, "0..100"))
+      if (!(m.stanPoczatkowyPct >= 0 && m.stanPoczatkowyPct <= 100)) {
+        errors.push(poleHistoriiPozaZakresem("magazyn.stanPoczatkowyPct", m.stanPoczatkowyPct, "0..100"))
+      }
+    }
   }
   if (input.historia) for (const powod of walidujHistorie(input.historia)) errors.push(historiaPozaZakresem(powod))
   return { errors }

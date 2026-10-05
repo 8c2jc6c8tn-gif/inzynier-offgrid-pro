@@ -128,6 +128,24 @@ export const pl = {
         gdzie: "Twoja decyzja — np. doby, w których PV daje mniej niż połowę potrzeb.",
         zakres: "Od 1 do 100; aplikacja żadnego progu nie narzuca.",
       },
+      histMagPoj: {
+        nazwa: "Magazyn energii — pojemność użyteczna [kWh]",
+        cel: "Nadwyżka PV z dobrej doby ładuje magazyn i pokrywa deficyt kolejnych dób, zanim ruszy agregat — zapas paliwa wychodzi mniejszy niż w bilansie bez magazynu. Puste = bilans bez magazynu (górna granica).",
+        gdzie: "Pojemność, którą wolno realnie zużyć (po odjęciu dopuszczalnej głębokości rozładowania) — karta katalogowa albo ekrany Modułu 4.",
+        zakres: "≥ 0 kWh. Agregat nie ładuje magazynu, a dzień bez danych zeruje jego stan.",
+      },
+      histMagSpr: {
+        nazwa: "Sprawność cyklu magazynu [%]",
+        cel: "Jaka część nadwyżki PV wraca z magazynu jako energia (ładowanie + rozładowanie). Aplikacja nie przyjmuje żadnej wartości za Ciebie — bez niej wynik czeka.",
+        gdzie: "Karta katalogowa magazynu / falownika (sprawność „round-trip”).",
+        zakres: "Od 1 do 100%.",
+      },
+      histMagStan: {
+        nazwa: "Stan magazynu 1 stycznia [% pojemności]",
+        cel: "Od jakiego naładowania liczony jest każdy rok historii. Puste lub 0 = pusty magazyn — strona bezpieczna.",
+        gdzie: "Twoje założenie o typowym stanie na przełomie roku.",
+        zakres: "Od 0 do 100%.",
+      },
       pvgisLat: {
         nazwa: "Szerokość geograficzna działki [°]",
         cel: "Miejsce, dla którego PVGIS poda archiwalne nasłonecznienie doba po dobie.",
@@ -601,6 +619,24 @@ export const en: Tlumaczenie<typeof pl> = {
         gdzie: "Your decision — e.g. days when PV gives less than half the need.",
         zakres: "From 1 to 100; the app imposes no threshold.",
       },
+      histMagPoj: {
+        nazwa: "Energy store — usable capacity [kWh]",
+        cel: "PV surplus from a good day charges the store and covers the shortfall of the following days before the generator starts — the fuel stock comes out smaller than in the balance without a store. Empty = balance without a store (upper bound).",
+        gdzie: "The capacity you may really use (after the allowed depth of discharge) — datasheet or the Module 4 screens.",
+        zakres: "≥ 0 kWh. The generator does not charge the store, and a day without data empties it.",
+      },
+      histMagSpr: {
+        nazwa: "Store round-trip efficiency [%]",
+        cel: "What share of the PV surplus comes back from the store as energy (charge + discharge). The app assumes no value for you — without it the result waits.",
+        gdzie: "Store / inverter datasheet (round-trip efficiency).",
+        zakres: "From 1 to 100%.",
+      },
+      histMagStan: {
+        nazwa: "Store state on 1 January [% of capacity]",
+        cel: "The state of charge every year of the history starts from. Empty or 0 = empty store — safe side.",
+        gdzie: "Your assumption about the typical state at the turn of the year.",
+        zakres: "From 0 to 100%.",
+      },
       pvgisLat: {
         nazwa: "Latitude of the plot [°]",
         cel: "The place for which PVGIS will give the archived irradiation day by day.",
@@ -1073,6 +1109,24 @@ export const ru: Tlumaczenie<typeof pl> = {
         cel: "Сутки «слабые», когда PV покрыла меньше этого процента потребления этих суток. Из этого считаются серии подряд слабых суток. Пусто = серии не считаются.",
         gdzie: "Ваше решение — например, сутки, когда PV даёт меньше половины потребности.",
         zakres: "От 1 до 100; приложение не навязывает порог.",
+      },
+      histMagPoj: {
+        nazwa: "Накопитель энергии — полезная ёмкость [кВт·ч]",
+        cel: "Избыток PV хороших суток заряжает накопитель и покрывает дефицит следующих суток до запуска генератора — запас топлива получается меньше, чем в балансе без накопителя. Пусто = баланс без накопителя (верхняя граница).",
+        gdzie: "Ёмкость, которую реально можно использовать (с учётом допустимой глубины разряда) — паспорт или экраны Модуля 4.",
+        zakres: "≥ 0 кВт·ч. Генератор не заряжает накопитель, а день без данных обнуляет его состояние.",
+      },
+      histMagSpr: {
+        nazwa: "КПД цикла накопителя [%]",
+        cel: "Какая доля избытка PV возвращается из накопителя в виде энергии (заряд + разряд). Приложение не подставляет значение за вас — без него результат ждёт.",
+        gdzie: "Паспорт накопителя / инвертора (КПД «round-trip»).",
+        zakres: "От 1 до 100%.",
+      },
+      histMagStan: {
+        nazwa: "Состояние накопителя на 1 января [% ёмкости]",
+        cel: "С какого заряда начинается расчёт каждого года истории. Пусто или 0 = пустой накопитель — в запас надёжности.",
+        gdzie: "Ваше допущение о типичном состоянии на рубеже года.",
+        zakres: "От 0 до 100%.",
       },
       pvgisLat: {
         nazwa: "Широта участка [°]",

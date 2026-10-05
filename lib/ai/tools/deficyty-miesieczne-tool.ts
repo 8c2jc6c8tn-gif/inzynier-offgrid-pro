@@ -55,6 +55,12 @@ export const DeficytyMiesieczneToolInput = z.object({
   oknoDni: z.number().optional().describe("Do historii: okno między dostawami paliwa [dni], 1..366"),
   percentylPct: z.number().optional().describe("Do historii: percentyl [%] najgorszych okien rocznych do doboru zapasu, 1..100; 0/brak = tylko min, mediana, max"),
   progSlabegoDniaPct: z.number().optional().describe("Do historii: doba słaba, gdy PV < tyle % zapotrzebowania [%]; 0/brak = bez serii"),
+  magazynPojemnoscKwh: z
+    .number()
+    .optional()
+    .describe("Do historii: pojemność użyteczna magazynu energii [kWh] przenosząca nadwyżkę PV na kolejne doby; 0/brak = bilans bez magazynu"),
+  magazynSprawnoscPct: z.number().optional().describe("Do historii z magazynem: sprawność cyklu magazynu [%] z karty katalogowej, 1..100 (wymagana przy pojemności > 0)"),
+  magazynStanPoczatkowyPct: z.number().optional().describe("Do historii z magazynem: stan naładowania 1 stycznia [% pojemności użytecznej]; 0/brak = pusty"),
 })
 export type DeficytyMiesieczneToolInputT = z.infer<typeof DeficytyMiesieczneToolInput>
 
@@ -143,17 +149,29 @@ export const deficytyMiesieczneTool: AiToolDefinition<DeficytyMiesieczneToolInpu
     "optymalnym obciążeniu 80% mocy, litry na kWh), godziny pracy, litry paliwa, koszt paliwa i serwisu, sumy sezonu, " +
     "paliwo na stały horyzont (3/7/14 dni, miesiąc, własna liczba dni) oraz porównanie z zapasem paliwa. Z wieloletnią " +
     "historią dobową (produkcja PV albo nasłonecznienie z poprzednich lat) liczy realnie: rozkład deficytów, najgorsze " +
-    "okno między dostawami w każdym roku, serie słabych dób i zapas z wybranego percentyla. " +
+    "okno między dostawami w każdym roku, serie słabych dób i zapas z wybranego percentyla; opcjonalnie z magazynem " +
+    "energii przenoszącym nadwyżkę PV na kolejne doby (pojemność, sprawność, stan 1 stycznia od usera). " +
     "Użyj, gdy user pyta, ile godzin agregat przepracuje w grudniu/styczniu/lutym, ile paliwa kupić na zimę albo na " +
     "3/7/14 dni, ile kWh daje agregat na godzinę i ile litrów to kosztuje, ile zima kosztuje w paliwie, czy zapas " +
-    "paliwa wystarczy na najgorszy miesiąc albo jaki zapas wynika z danych z poprzednich lat.",
+    "paliwa wystarczy na najgorszy miesiąc, jaki zapas wynika z danych z poprzednich lat albo o ile magazyn energii " +
+    "zmniejsza zapas paliwa.",
   inputSchema: DeficytyMiesieczneToolInput,
   outputSchema: DeficytyMiesieczneToolOutput,
   operationType: "read",
   requiresConfirmation: false,
   scope: "stress-test/deficyty-miesieczne",
   handler: async (input) => {
-    const { horyzontDni, horyzontCalyMiesiac, oknoDni, percentylPct, progSlabegoDniaPct, ...baza } = input
+    const {
+      horyzontDni,
+      horyzontCalyMiesiac,
+      oknoDni,
+      percentylPct,
+      progSlabegoDniaPct,
+      magazynPojemnoscKwh,
+      magazynSprawnoscPct,
+      magazynStanPoczatkowyPct,
+      ...baza
+    } = input
     const wynik = calculateDeficytyMiesieczne({
       ...baza,
       ...(horyzontCalyMiesiac
@@ -167,6 +185,15 @@ export const deficytyMiesieczneTool: AiToolDefinition<DeficytyMiesieczneToolInpu
               oknoDni: oknoDni ?? 0,
               percentylPct: percentylPct ?? 0,
               progSlabegoDniaPct: progSlabegoDniaPct ?? 0,
+              ...(magazynPojemnoscKwh
+                ? {
+                    magazyn: {
+                      pojemnoscUzytecznaKwh: magazynPojemnoscKwh,
+                      sprawnoscPct: magazynSprawnoscPct ?? 0,
+                      stanPoczatkowyPct: magazynStanPoczatkowyPct ?? 0,
+                    },
+                  }
+                : {}),
             },
           }
         : {}),
