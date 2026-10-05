@@ -25,8 +25,11 @@ import {
  * 1.2.0 (04.10.2026, owner decision D74 pkt 5): a month with no complete data in any year of the history is
  * not a zero shortfall — it is listed in `miesiaceBezDanych` (no result for it) and raises 🟡 (was ℹ️), because
  * a missing winter month would make the fuel stock too small.
+ * 1.3.0 (05.10.2026, list entry M7/E2 (a)): optional energy store in the daily balance of the history
+ * (`analizaHistorii.magazyn`: usable capacity, round-trip efficiency, state on 1 January — all from the user).
+ * Without it the result is the 1.2.0 one; a capacity without efficiency → INCOMPLETE (nothing assumed).
  */
-export const CALCULATOR_VERSION = "1.2.0"
+export const CALCULATOR_VERSION = "1.3.0"
 
 const FORMULA =
   `t_m = \\dfrac{D_m}{P_{agr} \\cdot ${latexLiczba(OPTYMALNE_OBCIAZENIE_PCT / 100)}},\\quad V_m = t_m \\cdot q,\\quad K_m = V_m \\cdot c_{pal} + t_m \\cdot c_{serw}`
@@ -154,6 +157,11 @@ export function calculateDeficytyMiesieczne(input: DeficytyMiesieczneInput): Cal
   const a = input.analizaHistorii
   const maParametry =
     !!input.historia && !!input.zapotrzebowanieDobaKwh && input.zapotrzebowanieDobaKwh.length === 12 && !!a && a.oknoDni > 0
+  // A store with a capacity but no efficiency: nothing is assumed, the result waits for the value.
+  const magazynBezSprawnosci = !!a?.magazyn && a.magazyn.pojemnoscUzytecznaKwh > 0 && a.magazyn.sprawnoscPct === 0
+  if (maParametry && magazynBezSprawnosci) {
+    return { ...baza, value: PUSTY, status: "INCOMPLETE", assumptions: [], warnings: [] }
+  }
   const historia =
     maParametry && input.historia && input.zapotrzebowanieDobaKwh && a
       ? analizujHistorie(input.historia, input.zapotrzebowanieDobaKwh, a)
@@ -284,7 +292,17 @@ export function calculateDeficytyMiesieczne(input: DeficytyMiesieczneInput): Cal
     { kod: deficytyZHistorii ? "DEFM-ZALOZENIE-DEFICYTY-Z-HISTORII" : "DEFM-ZALOZENIE-WPISANE-DEFICYTY" },
   ]
   if (wybrany) assumptions.push({ kod: "DEFM-ZALOZENIE-HORYZONT" })
-  if (historia) assumptions.push({ kod: "DEFM-ZALOZENIE-HISTORIA", params: { zrodlo: historia.zrodlo } })
+  if (historia) {
+    const m = a?.magazyn
+    assumptions.push(
+      historia.zMagazynem && m
+        ? {
+            kod: "DEFM-ZALOZENIE-HISTORIA-MAGAZYN",
+            params: { zrodlo: historia.zrodlo, pojemnosc: m.pojemnoscUzytecznaKwh, sprawnosc: m.sprawnoscPct, stan: m.stanPoczatkowyPct },
+          }
+        : { kod: "DEFM-ZALOZENIE-HISTORIA", params: { zrodlo: historia.zrodlo } },
+    )
+  }
 
   return {
     ...baza,

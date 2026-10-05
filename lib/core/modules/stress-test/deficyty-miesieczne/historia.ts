@@ -1,5 +1,5 @@
 import { dniWMiesiacuRoku, MAX_DNI, czyRokPrzestepny } from "./constants"
-import type { AnalizaHistorii, HistoriaDobowa, ZrodloHistorii } from "./input"
+import type { AnalizaHistorii, HistoriaDobowa, MagazynHistorii, ZrodloHistorii } from "./input"
 
 /**
  * History analysis for the fuel stock (owner decision 02.10.2026: "realistically analyse and forecast from
@@ -8,7 +8,13 @@ import type { AnalizaHistorii, HistoriaDobowa, ZrodloHistorii } from "./input"
  * Pure functions over a typed multi-year daily history. No climate data lives here — the history is always
  * an input (PVGIS series, the building's own measurements, hand-entered). Method:
  *  - daily shortfall = max(0, demand of that calendar month − PV of that day), a day without a value stays `null`;
- *  - NO battery in the balance (every kWh PV does not cover goes to the generator) — an upper bound, safe side;
+ *  - without `analiza.magazyn`: NO battery in the balance (every kWh PV does not cover goes to the generator) —
+ *    an upper bound, safe side;
+ *  - with `analiza.magazyn` (list entry M7/E2 (a)): the day's surplus charges the store (× round-trip
+ *    efficiency, up to the usable capacity), a shortfall is drawn from it first; the store starts every year at
+ *    the user's state on 1 January, the generator never charges it, and a missing day empties it (its state is
+ *    unknown — safe side). The daily balance itself already nets day and night of one day, so the carried
+ *    capacity is on top of the intra-day shift (stated in the assumption);
  *  - per calendar month: the shortfall total of every year in which that month is complete → distribution;
  *  - per year: the worst sliding window of `oknoDni` days (annual maximum) → distribution over years;
  *  - per year: the longest run of "low" days (PV < threshold share of that day's demand) → distribution over years;
@@ -51,6 +57,8 @@ export type WynikHistorii = {
   okno: { dni: number; lata: RokOkna[]; rozklad: Rozklad } | null
   /** Runs of low days; null when the threshold was not entered. */
   serie: { progPct: number; najdluzszaDni: number; najdluzszaWRoku: { rok: number; dni: number }[]; rozklad: Rozklad } | null
+  /** True when an energy store took part in the daily balance. */
+  zMagazynem: boolean
   /** True when the history rests on a single year, or the chosen percentile equals the maximum. */
   malo: "jeden-rok" | "percentyl-to-maksimum" | null
 }
@@ -94,6 +102,35 @@ function miesiaceDni(rok: number): number[] {
  * The analysis. Preconditions (checked by `walidujHistorie`): non-empty, year lengths ≤ days of the year,
  * values finite and ≥ 0, `zapotrzebowanieDobaKwh` has 12 values ≥ 0, `analiza.oknoDni` in 1..366.
  */
+/**
+ * Daily shortfalls of one year [kWh]; `null` stays `null`. Without a store (or capacity 0): max(0, demand − PV).
+ * With a store: surplus × η charges it up to the capacity, a shortfall is drawn from it first.
+ */
+export function dobowyDeficyt(
+  kwh: (number | null)[],
+  popyt: (i: number) => number,
+  magazyn?: MagazynHistorii,
+): (number | null)[] {
+  const C = magazyn?.pojemnoscUzytecznaKwh ?? 0
+  if (!magazyn || C <= 0) return kwh.map((p, i) => (p === null ? null : Math.max(0, popyt(i) - p)))
+  const eta = magazyn.sprawnoscPct / 100
+  let stan = (C * magazyn.stanPoczatkowyPct) / 100
+  return kwh.map((p, i) => {
+    if (p === null) {
+      stan = 0
+      return null
+    }
+    const bilans = p - popyt(i)
+    if (bilans >= 0) {
+      stan = Math.min(C, stan + bilans * eta)
+      return 0
+    }
+    const zMagazynu = Math.min(-bilans, stan)
+    stan -= zMagazynu
+    return -bilans - zMagazynu
+  })
+}
+
 export function analizujHistorie(h: HistoriaDobowa, zapotrzebowanieDobaKwh: number[], analiza: AnalizaHistorii): WynikHistorii {
   const lata = dobowaProdukcjaKwh(h)
   const miesiaceRoku = new Map<number, number[]>(lata.map((r) => [r.rok, miesiaceDni(r.rok)]))
@@ -108,8 +145,8 @@ export function analizujHistorie(h: HistoriaDobowa, zapotrzebowanieDobaKwh: numb
   for (const { rok, kwh } of lata) {
     const mies = miesiaceRoku.get(rok)!
     const popyt = (i: number) => zapotrzebowanieDobaKwh[mies[i]!]!
-    // Daily shortfall; null stays null.
-    const def = kwh.map((p, i) => (p === null ? null : Math.max(0, popyt(i) - p)))
+    // Daily shortfall (after the store, when entered); null stays null.
+    const def = dobowyDeficyt(kwh, popyt, analiza.magazyn)
     liczbaDniZDanymi += kwh.filter((p) => p !== null).length
 
     // Complete months → monthly totals.
@@ -175,6 +212,7 @@ export function analizujHistorie(h: HistoriaDobowa, zapotrzebowanieDobaKwh: numb
     analiza.percentylPct > 0 && analiza.percentylPct < 100 && nLat > 1 && Math.ceil((analiza.percentylPct / 100) * nLat) === nLat
   return {
     zrodlo: h.zrodlo,
+    zMagazynem: (analiza.magazyn?.pojemnoscUzytecznaKwh ?? 0) > 0,
     liczbaLat: nLat,
     liczbaDniZDanymi,
     lataPominiete,

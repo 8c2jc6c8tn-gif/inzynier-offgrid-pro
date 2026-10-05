@@ -2590,3 +2590,8 @@ Właściciel: pismo ma być tłumaczone (wcześniej komentarz w kodzie zakłada�
 
 - D78 domyka D76: plan dożywotni 1797 zł / 50 miejsc, partnerzy 50/25 (10 założycieli × 50 klientów), druga apka „Elektryk Pro” (🔎 znak towarowy i domena).
 - D79: mapa `kafel → tier` w `lib/dostep/tier.ts` (12.1). Przypisano tylko to, co rozstrzyga D2 (M7, M13 = PRO; M12 = FREE), reszta `nieprzypisane`. Plakietka „PRO” na pulpicie, bez blokady. **Pułapka:** nie dodawać `if (pro)` w ekranach — blokada ma czytać tę mapę i działać po stronie serwera (12.2), dopiero z kontami. Test `lib/dostep/__tests__/tier.test.ts` wymusza wpis dla każdego nowego kafla.
+
+## 2026-10-05 — M7/E2 1.3.0: magazyn energii w historii (lista, pkt (a))
+- `historia.ts` → `dobowyDeficyt(kwh, popyt, magazyn?)`: nadwyżka × η ładuje do pojemności, deficyt najpierw z magazynu. Stan startowy co rok 1 stycznia (od usera, puste = 0), agregat nie ładuje, **dzień bez danych zeruje magazyn** (stan nieznany → strona bezpieczna). Bez magazynu / pojemność 0 = wynik 1.2.0 co do liczby (test).
+- Sprawność bez wartości domyślnej: pojemność > 0 i sprawność 0 → INCOMPLETE (ten sam wzorzec co M14 `bilans-miesieczny`, `sprawnoscMagazynu: null`).
+- 🔎 Uwaga audytora: bilans dobowy (także bez magazynu) już netuje dzień i noc jednej doby, czyli zakłada darmowe przesunięcie dzień→noc. Z małym magazynem wynik może być zaniżony — zapisane wprost w `DEFM-ZALOZENIE-HISTORIA-MAGAZYN`. Dawne `DEFM-ZALOZENIE-HISTORIA` nazywa bilans bez magazynu „górną, bezpieczną granicą” — prawdziwe względem przenoszenia między dobami, nie względem nocy; do ewentualnej korekty tekstu przy kroku (c) (symulacja godzinowa M7/E1).

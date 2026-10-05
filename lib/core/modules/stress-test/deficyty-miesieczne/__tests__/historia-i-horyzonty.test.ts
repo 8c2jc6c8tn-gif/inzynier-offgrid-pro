@@ -1,7 +1,7 @@
 import { describe, expect, it } from "vitest"
 import { calculateDeficytyMiesieczne, CALCULATOR_VERSION } from "../calculator"
 import type { DeficytyMiesieczneInput, HistoriaDobowa, RokHistorii } from "../input"
-import { percentylNajblizszejRangi } from "../historia"
+import { dobowyDeficyt, percentylNajblizszejRangi } from "../historia"
 
 const dwanascie = (zmiany: Record<number, number>) => Array.from({ length: 12 }, (_, i) => zmiany[i + 1] ?? 0)
 
@@ -27,8 +27,8 @@ const HIST: HistoriaDobowa = {
 const POPYT = Array.from({ length: 12 }, () => 10)
 
 describe("łańcuch agregatu i stałe horyzonty (M7/E2, 1.1.0)", () => {
-  it("wersja kalkulatora podniesiona do 1.2.0 (D74: miesiąc bez danych to brak wyniku, nie 0)", () => {
-    expect(CALCULATOR_VERSION).toBe("1.2.0")
+  it("wersja kalkulatora podniesiona do 1.3.0 (1.2.0 D74: miesiąc bez danych to brak wyniku; 1.3.0: magazyn w historii)", () => {
+    expect(CALCULATOR_VERSION).toBe("1.3.0")
   })
 
   it("łańcuch: 5 kW × 0,8 = 4 kW na godzinę, 0,375 l/kWh, 124 kWh → 31 h → 46,5 l", () => {
@@ -212,5 +212,79 @@ describe("historia wieloletnia (M7/E2, tryb realistyczny)", () => {
     expect(percentylNajblizszejRangi([1, 2, 3, 4, 5, 6, 7, 8, 9, 10], 90)).toBe(9)
     expect(percentylNajblizszejRangi([10, 20], 1)).toBe(10)
     expect(percentylNajblizszejRangi([10, 20], 100)).toBe(20)
+  })
+})
+
+describe("magazyn energii w bilansie dobowym historii (M7/E2 (a), 1.3.0)", () => {
+  const popyt10 = () => 10
+  // PV 14, 14, 0, 0, (missing), 0 at demand 10 → balances +4, +4, −10, −10, ?, −10.
+  const PV = [14, 14, 0, 0, null, 0]
+
+  it("bez magazynu albo przy pojemności 0: deficyt = max(0, popyt − PV), jak w 1.2.0", () => {
+    expect(dobowyDeficyt(PV, popyt10)).toEqual([0, 0, 10, 10, null, 10])
+    expect(dobowyDeficyt(PV, popyt10, { pojemnoscUzytecznaKwh: 0, sprawnoscPct: 90, stanPoczatkowyPct: 50 })).toEqual([0, 0, 10, 10, null, 10])
+  })
+
+  it("6 kWh, 80%, start 50%: 3 → min(6; 3 + 3,2) = 6 → 6, doba 3 bierze 6 z magazynu (deficyt 4), potem pusty; brak dnia zeruje stan", () => {
+    const m = { pojemnoscUzytecznaKwh: 6, sprawnoscPct: 80, stanPoczatkowyPct: 50 }
+    const d = dobowyDeficyt(PV, popyt10, m)
+    expect(d[0]).toBe(0)
+    expect(d[1]).toBe(0)
+    expect(d[2]).toBeCloseTo(4, 12)
+    expect(d.slice(3)).toEqual([10, null, 10])
+  })
+
+  it("brak dnia przy pełnym magazynie: stan po przerwie = 0 (strona bezpieczna)", () => {
+    const m = { pojemnoscUzytecznaKwh: 20, sprawnoscPct: 100, stanPoczatkowyPct: 100 }
+    expect(dobowyDeficyt([null, 0], popyt10, m)).toEqual([null, 10])
+    expect(dobowyDeficyt([10, 0], popyt10, m)).toEqual([0, 0])
+  })
+
+  // One year: PV 14 kWh every day except 3 dark days (index 40–42), demand 10 kWh/day, window 3 days.
+  const ROK: HistoriaDobowa = {
+    zrodlo: "wpisane-reczne",
+    rodzaj: "produkcja-pv-kwh",
+    lata: [{ rok: 2023, dni: Array.from({ length: 365 }, (_, i) => (i >= 40 && i < 43 ? 0 : 14)) }],
+  }
+  const wejscie = (magazyn?: { pojemnoscUzytecznaKwh: number; sprawnoscPct: number; stanPoczatkowyPct: number }): DeficytyMiesieczneInput => ({
+    ...BAZA,
+    deficytyKwh: dwanascie({}),
+    zapotrzebowanieDobaKwh: POPYT,
+    historia: ROK,
+    analizaHistorii: { oknoDni: 3, percentylPct: 0, progSlabegoDniaPct: 0, ...(magazyn ? { magazyn } : {}) },
+  })
+
+  it("okno 3 ciemnych dób: bez magazynu 30 kWh → 11,25 l; z magazynem 8 kWh (100%) 22 kWh → 8,25 l", () => {
+    const bez = calculateDeficytyMiesieczne(wejscie())
+    expect(bez.value.zapasZHistorii!.litryMax).toBeCloseTo(11.25, 12)
+    const kod = (a: (typeof bez.assumptions)[number]) => (typeof a === "string" ? a : a.kod)
+    expect(bez.assumptions.map(kod)).toContain("DEFM-ZALOZENIE-HISTORIA")
+    const z = calculateDeficytyMiesieczne(wejscie({ pojemnoscUzytecznaKwh: 8, sprawnoscPct: 100, stanPoczatkowyPct: 0 }))
+    expect(z.value.zapasZHistorii!.litryMax).toBeCloseTo(8.25, 12)
+    expect(z.value.historia!.zMagazynem).toBe(true)
+    const zal = z.assumptions.find((a) => kod(a) === "DEFM-ZALOZENIE-HISTORIA-MAGAZYN")
+    expect(typeof zal === "object" ? zal.params : null).toEqual({
+      zrodlo: "wpisane-reczne",
+      pojemnosc: 8,
+      sprawnosc: 100,
+      stan: 0,
+    })
+  })
+
+  it("pojemność bez sprawności → INCOMPLETE (nic nie przyjmujemy); pojemność 0 → wynik jak bez magazynu", () => {
+    expect(calculateDeficytyMiesieczne(wejscie({ pojemnoscUzytecznaKwh: 8, sprawnoscPct: 0, stanPoczatkowyPct: 0 })).status).toBe("INCOMPLETE")
+    const zero = calculateDeficytyMiesieczne(wejscie({ pojemnoscUzytecznaKwh: 0, sprawnoscPct: 0, stanPoczatkowyPct: 0 }))
+    expect(zero.value.zapasZHistorii!.litryMax).toBeCloseTo(11.25, 12)
+    expect(zero.value.historia!.zMagazynem).toBe(false)
+  })
+
+  it("wartości poza zakresem → INVALID_INPUT", () => {
+    for (const m of [
+      { pojemnoscUzytecznaKwh: -1, sprawnoscPct: 90, stanPoczatkowyPct: 0 },
+      { pojemnoscUzytecznaKwh: 8, sprawnoscPct: 101, stanPoczatkowyPct: 0 },
+      { pojemnoscUzytecznaKwh: 8, sprawnoscPct: 90, stanPoczatkowyPct: 120 },
+    ]) {
+      expect(calculateDeficytyMiesieczne(wejscie(m)).status).toBe("INVALID_INPUT")
+    }
   })
 })

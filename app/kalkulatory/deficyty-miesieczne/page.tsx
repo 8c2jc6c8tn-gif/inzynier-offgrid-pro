@@ -28,7 +28,17 @@ import { KLUCZE_MIESIECY, useZuzycieMiesieczne } from "@/components/siec/zuzycie
 import { DNI_W_MIESIACU } from "@/lib/core/modules/stress-test/deficyty-miesieczne/constants"
 
 type PolaAgregatu = "moc" | "zuzycie" | "cena" | "serwis" | "zapas"
-type PolaHistorii = "horyzontDni" | "histKwp" | "histPr" | "histPopyt" | "histOkno" | "histPercentyl" | "histProg"
+type PolaHistorii =
+  | "horyzontDni"
+  | "histKwp"
+  | "histPr"
+  | "histPopyt"
+  | "histOkno"
+  | "histPercentyl"
+  | "histProg"
+  | "histMagPoj"
+  | "histMagSpr"
+  | "histMagStan"
 type PolaPvgis = "pvgisLat" | "pvgisLon" | "pvgisNach" | "pvgisAzym" | "pvgisOd" | "pvgisDo"
 type FormularzStan = Record<PolaAgregatu | PolaHistorii | PolaPvgis, string> & {
   deficyty: string[]
@@ -62,6 +72,9 @@ const STAN_POCZATKOWY: FormularzStan = {
   histOkno: "",
   histPercentyl: "",
   histProg: "",
+  histMagPoj: "",
+  histMagSpr: "",
+  histMagStan: "",
   // Full range of the PVGIS-SARAH3 database (2005–2023); tilt and azimuth are never assumed.
   pvgisLat: "",
   pvgisLon: "",
@@ -148,6 +161,15 @@ export default function DeficytyMiesiecznePage() {
         oknoDni: liczba(stan.histOkno),
         percentylPct: liczba(stan.histPercentyl),
         progSlabegoDniaPct: liczba(stan.histProg),
+        ...(liczba(stan.histMagPoj) > 0
+          ? {
+              magazyn: {
+                pojemnoscUzytecznaKwh: liczba(stan.histMagPoj),
+                sprawnoscPct: liczba(stan.histMagSpr),
+                stanPoczatkowyPct: liczba(stan.histMagStan),
+              },
+            }
+          : {}),
       }
     }
     return calculateDeficytyMiesieczne(wejscie)
@@ -464,6 +486,42 @@ export default function DeficytyMiesiecznePage() {
           onChange={(e) => ustaw("histProg", e.target.value)}
           pomoc={<PomocPola ekran="deficyty-miesieczne" pole="histProg" />}
         />
+        <Pole
+          label={t("UI-M7-DEFM-HIST-MAG-POJ")}
+          unit="kWh"
+          type="number"
+          inputMode="decimal"
+          min={0}
+          value={stan.histMagPoj}
+          onChange={(e) => ustaw("histMagPoj", e.target.value)}
+          pomoc={<PomocPola ekran="deficyty-miesieczne" pole="histMagPoj" />}
+        />
+        {liczba(stan.histMagPoj) > 0 && (
+          <>
+            <Pole
+              label={t("UI-M7-DEFM-HIST-MAG-SPR")}
+              unit="%"
+              type="number"
+              inputMode="numeric"
+              min={1}
+              max={100}
+              value={stan.histMagSpr}
+              onChange={(e) => ustaw("histMagSpr", e.target.value)}
+              pomoc={<PomocPola ekran="deficyty-miesieczne" pole="histMagSpr" />}
+            />
+            <Pole
+              label={t("UI-M7-DEFM-HIST-MAG-STAN")}
+              unit="%"
+              type="number"
+              inputMode="numeric"
+              min={0}
+              max={100}
+              value={stan.histMagStan}
+              onChange={(e) => ustaw("histMagStan", e.target.value)}
+              pomoc={<PomocPola ekran="deficyty-miesieczne" pole="histMagStan" />}
+            />
+          </>
+        )}
       </fieldset>
 
       {result.status === "INVALID_INPUT" ? (

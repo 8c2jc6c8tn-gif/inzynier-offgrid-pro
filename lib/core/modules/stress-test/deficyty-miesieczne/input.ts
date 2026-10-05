@@ -35,6 +35,20 @@ export type HistoriaDobowa = {
 /** Choice of the fixed horizon the stock is compared against. */
 export type HoryzontZapasu = { rodzaj: "dni"; dni: number } | { rodzaj: "miesiac" }
 
+/**
+ * Optional energy store in the daily balance of the history (list entry M7/E2 (a)): PV surplus of a day is
+ * carried to the following days instead of being lost. All three values come from the user (datasheet / own
+ * decision) — the engine assumes none of them.
+ */
+export type MagazynHistorii = {
+  /** Usable capacity [kWh] (already within the allowed depth of discharge). 0 = no store. */
+  pojemnoscUzytecznaKwh: number
+  /** Round-trip efficiency [%] applied when charging (as in M14 `bilans-miesieczny`). Required when capacity > 0. */
+  sprawnoscPct: number
+  /** State of charge on 1 January of every year [% of usable capacity]; 0 = empty (safe side). */
+  stanPoczatkowyPct: number
+}
+
 /** User parameters of the history analysis. */
 export type AnalizaHistorii = {
   /** Resupply gap [days]: the window whose fuel need is sized (1..366). 0 = not entered. */
@@ -43,6 +57,8 @@ export type AnalizaHistorii = {
   percentylPct: number
   /** A day is "low" when PV < this share [%] of that day's demand (0..100). 0 = streak statistics off. */
   progSlabegoDniaPct: number
+  /** Optional energy store carried between days; absent or capacity 0 = balance without a store (upper bound). */
+  magazyn?: MagazynHistorii
 }
 
 export type DeficytyMiesieczneInput = {
