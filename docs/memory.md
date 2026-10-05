@@ -2585,3 +2585,8 @@ Właściciel: pismo ma być tłumaczone (wcześniej komentarz w kodzie zakłada�
 - Nowy moduł `stress-test/albedo-snieg` 1.0.0 (prefiks `ALBS`): `E_alb = E·z/100`; procent od usera, przykłady źródła (+25/+20/+30%) tylko jako podpowiedź zależna od typu montażu; 🟡 `ALBS-DACH-MALO-ALBEDO` = zdanie źródła. `zyskPct = 0` to poprawny wpis (null = brak danych).
 - Pułapki: (1) wzorzec `*-UJEMNA` w `stopy-guard-wyjatki.json` nie łapie `ALBS-WARTOSC-UJEMNA` — dopisany jawnie na końcu listy `walidacja-danych` (jak `TAN-*-POZA-ZAKRESEM`); (2) nowy kafel w `registry.ts` wymaga też `UI-EKRAN-7-*` ×3 w `lib/i18n/ui/pulpit-rejestr.ts` (test `lib/pulpit/__tests__/tlumaczenia.test.ts`) — łatwo przeoczyć, strażniki tego nie łapią, tylko `pnpm test`.
 
+
+## 2026-10-05 — D78, D79: decyzje sprzedażowe i mapa FREE/PRO jako dane
+
+- D78 domyka D76: plan dożywotni 1797 zł / 50 miejsc, partnerzy 50/25 (10 założycieli × 50 klientów), druga apka „Elektryk Pro” (🔎 znak towarowy i domena).
+- D79: mapa `kafel → tier` w `lib/dostep/tier.ts` (12.1). Przypisano tylko to, co rozstrzyga D2 (M7, M13 = PRO; M12 = FREE), reszta `nieprzypisane`. Plakietka „PRO” na pulpicie, bez blokady. **Pułapka:** nie dodawać `if (pro)` w ekranach — blokada ma czytać tę mapę i działać po stronie serwera (12.2), dopiero z kontami. Test `lib/dostep/__tests__/tier.test.ts` wymusza wpis dla każdego nowego kafla.

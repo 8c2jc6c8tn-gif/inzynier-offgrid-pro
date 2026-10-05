@@ -1,6 +1,6 @@
 # Rejestr decyzji — Inżynier Offgrid Pro
 
-**Wersja:** 1.50 | **Filar:** C | **Data utworzenia:** 04.09.2026 | **Ostatnia aktualizacja:** 05.10.2026 | **Status:** Stabilny (rosnący)
+**Wersja:** 1.51 | **Filar:** C | **Data utworzenia:** 04.09.2026 | **Ostatnia aktualizacja:** 05.10.2026 | **Status:** Stabilny (rosnący)
 **Powiązane dokumenty:** `00_Biblia.md`, `docs/memory.md`, `USTALENIA.md` (historyczny, Część II)
 
 TL;DR: D1, D2, D3… — decyzje **strategiczne/fundamentalne** (blokujące wiele innych rzeczy naraz, Krok 4 GOD BOOK), ponumerowane, nigdy nie kasowane, tylko unieważniane jawnie (F.5). **Nie duplikuje `docs/memory.md`**: tam żyje pełna, szczegółowa historia każdej sesji (setki drobnych decyzji implementacyjnych per ekran) — tu tylko decyzje, które zmieniły kierunek/regułę obowiązującą cały projekt. Gdy wpis niżej odsyła do `docs/memory.md`, tam jest pełne uzasadnienie i przykłady.
@@ -371,6 +371,8 @@ Obie sprawy należą do decyzji o modelu freemium (rozdz. 12 standardu), która 
 - (2) **Program partnerski:** partner‑założyciel — maks. 10 osób, 50% od pierwszej płatności pierwszych 50 klientów każdego partnera, potem 25% od odnowień; zwykły partner — 25%. Łącznie najwyżej 500 pierwszych płatności objętych 50% prowizji. Zasady z sekcji 7 planu (prowizja od kwoty bez VAT, wypłata po 30 dniach, próg 499 zł, rabat klienta do 10%, nie łączyć 50% z ceną założycielską) bez zmian; forma umowy i rozliczenie — 🔎 księgowa.
 - (3) **Nazwa drugiej apki: „Elektryk Pro”.** Znak towarowy i domena niezweryfikowane (🔎) — sprawdzić przed publikacją.
 
+**D79 (05.10.2026) — Mapa FREE/PRO modułów odłożona; wdrożenie = mapa jako dane + plakietka „PRO”, bez blokady.** Koszt cofnięcia: tani (jeden plik danych `lib/dostep/tier.ts` i plakietka na pulpicie). Decyzja właściciela projektu (05.10.2026): przypisanie modułów M1–M6, M8, M9, M10, M11 — „później”; sposób wdrożenia przed kontami — „mapa + plakietka, bez blokady”. Rozwiązanie tej pary odpowiedzi (do potwierdzenia przy kolejnej decyzji o podziale): mapa zawiera tylko to, co już rozstrzyga D2 — M7 stress‑test i M13 Live = PRO, M12 = FREE; pozostałe kafle jawnie `nieprzypisane`, M14 (15/16) `nieprzypisane` wg D37. Blokada dopiero z kontami i egzekwowaniem po stronie serwera (standard 12.2, 12.5); do tego czasu wszystko działa bez ograniczeń, a plakietka mówi to wprost.
+
 ## Założenia robocze (F.7 GOD BOOK)
 
 **Z1 (04.09.2026) — przyjęto:** ID modułów (H.2 GOD BOOK, M#) odpowiadają wprost numeracji "Moduł N" już używanej w całym projekcie (1–13), nie nowej, niezależnej numeracji. **Powód:** ta numeracja jest już stabilna, używana w kodzie, dokumentacji i UI od 29.08.2026 — wprowadzenie równoległej numeracji M# byłoby duplikatem, nie nowym bytem. **Na czym się opiera:** cała struktura `docs/rejestr-pokrycia.md`, `lib/pulpit/registry.ts`, `docs/pulpit-i-nawigacja.md`.
@@ -436,3 +438,4 @@ Obie sprawy należą do decyzji o modelu freemium (rozdz. 12 standardu), która 
 | 05.10.2026 | Dodano D76 (ceny Offgrid Pro, plan dożywotni z limitem, polecenia 3 miesiące) — decyzja właściciela projektu. Wersja 1.47→1.48. |
 | 05.10.2026 | Dodano D77 (M7/E9 albedo jako osobny ekran M7, procent zysku od usera) — decyzja właściciela projektu, zamyka otwarte pytanie D72 pkt (4). Wersja 1.48→1.49. |
 | 05.10.2026 | Dodano D78 (plan dożywotni 1797 zł/50 miejsc, partnerzy 50/25 — 10×50, nazwa „Elektryk Pro”) — decyzja właściciela projektu, domyka D76. Wersja 1.49→1.50. |
+| 05.10.2026 | Dodano D79 (mapa FREE/PRO odłożona; mapa jako dane z przypisaniami z D2 + plakietka PRO bez blokady) — decyzja właściciela projektu. Wersja 1.50→1.51. |

@@ -6,6 +6,7 @@ import { ThemeToggle } from "@/components/theme-toggle"
 import { StanPusty } from "@/components/ui/stany"
 import { KafleIkonySymbole } from "@/components/kafle-ikony/definicje-symboli"
 import { KafelIkonaSvg, KAFLE_ZE_ZBUDOWANA_IKONA } from "@/components/kafle-ikony/ikona"
+import { tierKafla } from "@/lib/dostep/tier"
 import { MASKOTKA_PO_ID_KAFLA } from "@/lib/pulpit/maskotki"
 import { KAFLE, USTAWIENIA_KAFEL, znajdzKafel } from "@/lib/pulpit/registry"
 import { getServerSnapshot, getSnapshot, subscribe } from "@/lib/pulpit/storage"
@@ -103,6 +104,14 @@ export default function PulpitPage() {
                     </span>
                   )}
                   <span className="text-small font-medium leading-tight"><NazwaKafla kafel={kafel} /></span>
+                  {tierKafla(kafel.id) === "PRO" ? (
+                    <span
+                      className="self-start rounded border px-1.5 text-caption font-medium text-muted-foreground"
+                      title={t("UI-PUL-PLAKIETKA-PRO-OPIS")}
+                    >
+                      {t("UI-PUL-PLAKIETKA-PRO")}
+                    </span>
+                  ) : null}
                   {kafel.duzy ? <span className="text-caption text-muted-foreground"><OpisKafla kafel={kafel} /></span> : null}
                 </Link>
               </li>
