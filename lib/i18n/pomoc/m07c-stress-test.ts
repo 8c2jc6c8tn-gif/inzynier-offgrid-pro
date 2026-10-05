@@ -165,6 +165,34 @@ export const pl = {
       },
     },
   },
+  "albedo-snieg": {
+    migawka: {
+      oCoChodzi: "Śnieg działa jak lustro — odbija 70–90% światła. Panele pionowe i bifacjalne dostają wtedy światło z dwóch stron naraz, z góry i z dołu. Ten ekran liczy, ile kWh doda to odbite światło w okresie, gdy leży śnieg.",
+      jakDziala: "1) Wpisujesz produkcję PV z okresu ze śniegiem — taką, jaką liczysz bez odbitego światła. 2) Wybierasz typ montażu; aplikacja pokazuje przykłady z literatury dla tego typu. 3) Wpisujesz swój procent dodatkowej produkcji. 4) Aplikacja pokazuje zysk w kWh i produkcję razem z zyskiem; przy montażu na dachu ostrzega, że zysk będzie bliski zera.",
+      poCo: "Zimą każda kilowatogodzina się liczy. Wynik pokazuje, czy panele pionowe albo bifacjalne przy śniegu realnie zmniejszą zimowy deficyt, zanim je kupisz lub przestawisz.",
+      fizyka: "Co i jak liczymy — i dlaczego. Śnieg odbija 70–90% padającego światła (albedo). Panel pionowy albo stromy widzi duży kawałek zaśnieżonego terenu przed sobą, panel bifacjalny łapie odbite światło także tylną stroną — dlatego to one zyskują najwięcej. Panel na dachu widzi głównie niebo, a śnieg przed budynkiem szybko się brudzi, więc zysk jest prawie zerowy. Literatura podaje tylko przykłady: +25% dla paneli pionowych na ogrodzeniu, +20% dla bifacjalnych przy 30 cm śniegu, +30% dla bifacjalnych montowanych pionowo; zysk rośnie z wysokością montażu. Wzoru, który z wysokości, kąta i stanu śniegu dawałby procent, źródło nie podaje — dlatego procent wpisujesz sam, a aplikacja liczy tylko E_alb = E·z/100 oraz E_razem = E + E_alb. Wpisz produkcję z samych dni ze śniegiem, bo poza nimi albedo jest zwykłe.",
+    },
+    pola: {
+      produkcja: {
+        nazwa: "Produkcja w okresie ze śniegiem, bez albedo [kWh]",
+        cel: "Podstawa, od której liczony jest procent zysku z odbitego światła.",
+        gdzie: "Wynik prognozy produkcji PV dla miesięcy zimowych (np. Moduł 7, deficyty miesięczne) — tylko dni, gdy leży śnieg.",
+        zakres: "Większa od zera.",
+      },
+      typMontazu: {
+        nazwa: "Typ montażu",
+        cel: "Pokazuje przykłady z literatury dla Twojego montażu i ostrzega przy montażu na dachu.",
+        gdzie: "Twoja instalacja: dach, stromy stelaż, panele pionowe (ogrodzenie, ściana) albo panele bifacjalne.",
+        zakres: "Jedna z czterech opcji.",
+      },
+      zysk: {
+        nazwa: "Dodatkowa produkcja od albedo [%]",
+        cel: "O ile procent odbite od śniegu światło zwiększa produkcję w tym okresie.",
+        gdzie: "Karta panelu bifacjalnego (współczynnik bifacjalności i zysk tylnej strony), pomiar na własnej instalacji albo przykład z literatury pokazany przy typie montażu. Aplikacja nie zakłada żadnej wartości.",
+        zakres: "Zero lub więcej.",
+      },
+    },
+  },
 }
 
 export const en: Tlumaczenie<typeof pl> = {
@@ -327,6 +355,34 @@ export const en: Tlumaczenie<typeof pl> = {
       },
     },
   },
+  "albedo-snieg": {
+    migawka: {
+      oCoChodzi: "Snow works like a mirror — it reflects 70–90% of the light. Vertical and bifacial panels then get light from two sides at once, from above and below. This screen computes how many kWh that reflected light adds in the period when snow is on the ground.",
+      jakDziala: "1) You enter the PV production of the snow period — as you compute it without the reflected light. 2) You choose the mounting type; the app shows examples from the literature for that type. 3) You enter your own percentage of extra production. 4) The app shows the gain in kWh and the production including the gain; for rooftop mounting it warns that the gain will be close to zero.",
+      poCo: "In winter every kilowatt-hour counts. The result shows whether vertical or bifacial panels in snow really shrink the winter deficit, before you buy or move them.",
+      fizyka: "What we compute and how — and why. Snow reflects 70–90% of the incoming light (albedo). A vertical or steep panel sees a large patch of snowy ground in front of it, a bifacial panel also catches reflected light with its rear side — that is why they gain the most. A rooftop panel mostly sees the sky, and the snow in front of the building gets dirty quickly, so the gain is almost zero. The literature gives only examples: +25% for vertical panels on a fence, +20% for bifacial at 30 cm of snow, +30% for bifacial mounted vertically; the gain grows with mounting height. The source gives no formula that would turn height, tilt and snow condition into a percentage — so you enter the percentage yourself, and the app only computes E_alb = E·z/100 and E_total = E + E_alb. Enter the production of the snow days only, because outside them the albedo is ordinary.",
+    },
+    pola: {
+      produkcja: {
+        nazwa: "Production in the snow period, without albedo [kWh]",
+        cel: "The base the gain percentage is applied to.",
+        gdzie: "The PV production forecast for the winter months (e.g. Module 7, monthly deficits) — only the days with snow on the ground.",
+        zakres: "Greater than zero.",
+      },
+      typMontazu: {
+        nazwa: "Mounting type",
+        cel: "Shows the literature examples for your mounting and warns for rooftop mounting.",
+        gdzie: "Your installation: roof, steep rack, vertical panels (fence, wall) or bifacial panels.",
+        zakres: "One of four options.",
+      },
+      zysk: {
+        nazwa: "Extra production from albedo [%]",
+        cel: "By how many percent the light reflected by the snow increases the production in that period.",
+        gdzie: "The bifacial panel datasheet (bifaciality factor and rear-side gain), a measurement on your own installation, or the literature example shown with the mounting type. The app assumes no value.",
+        zakres: "Zero or more.",
+      },
+    },
+  },
 }
 
 export const ru: Tlumaczenie<typeof pl> = {
@@ -486,6 +542,34 @@ export const ru: Tlumaczenie<typeof pl> = {
         cel: "Учитывает простои, искажение ветра застройкой и деревьями, электрические потери.",
         gdzie: "Вводите сами: из данных производителя или собственной оценки (например 0,8 = 80% энергии доходит до установки). Приложение не предполагает никакого значения.",
         zakres: "От 0 до 1.",
+      },
+    },
+  },
+  "albedo-snieg": {
+    migawka: {
+      oCoChodzi: "Снег работает как зеркало — он отражает 70–90% света. Вертикальные и двусторонние панели тогда получают свет сразу с двух сторон, сверху и снизу. Этот экран считает, сколько кВт·ч добавит отражённый свет в период, когда лежит снег.",
+      jakDziala: "1) Вы вводите выработку ФЭ за снежный период — такую, какую считаете без отражённого света. 2) Выбираете тип монтажа; приложение показывает примеры из литературы для этого типа. 3) Вводите свой процент дополнительной выработки. 4) Приложение показывает прирост в кВт·ч и выработку вместе с приростом; при монтаже на крыше предупреждает, что прирост будет близок к нулю.",
+      poCo: "Зимой важен каждый киловатт-час. Результат показывает, действительно ли вертикальные или двусторонние панели на снегу уменьшат зимний дефицит, до того как вы их купите или переставите.",
+      fizyka: "Что и как считаем — и почему. Снег отражает 70–90% падающего света (альбедо). Вертикальная или крутая панель видит перед собой большой участок заснеженной земли, двусторонняя панель ловит отражённый свет ещё и тыльной стороной — поэтому именно они выигрывают больше всего. Панель на крыше видит в основном небо, а снег перед зданием быстро загрязняется, поэтому прирост почти нулевой. Литература даёт только примеры: +25% для вертикальных панелей на заборе, +20% для двусторонних при 30 см снега, +30% для двусторонних при вертикальном монтаже; прирост растёт с высотой монтажа. Формулы, которая по высоте, углу и состоянию снега давала бы процент, источник не приводит — поэтому процент вы вводите сами, а приложение считает только E_alb = E·z/100 и E_всего = E + E_alb. Вводите выработку только за снежные дни, потому что вне их альбедо обычное.",
+    },
+    pola: {
+      produkcja: {
+        nazwa: "Выработка в снежный период, без альбедо [кВт·ч]",
+        cel: "База, к которой применяется процент прироста.",
+        gdzie: "Прогноз выработки ФЭ на зимние месяцы (например, Модуль 7, месячные дефициты) — только дни, когда лежит снег.",
+        zakres: "Больше нуля.",
+      },
+      typMontazu: {
+        nazwa: "Тип монтажа",
+        cel: "Показывает примеры из литературы для вашего монтажа и предупреждает при монтаже на крыше.",
+        gdzie: "Ваша установка: крыша, крутая рама, вертикальные панели (забор, стена) или двусторонние панели.",
+        zakres: "Один из четырёх вариантов.",
+      },
+      zysk: {
+        nazwa: "Дополнительная выработка от альбедо [%]",
+        cel: "На сколько процентов отражённый снегом свет увеличивает выработку в этот период.",
+        gdzie: "Паспорт двусторонней панели (коэффициент бифациальности и прирост тыльной стороны), измерение на собственной установке или пример из литературы, показанный рядом с типом монтажа. Приложение не принимает никакого значения по умолчанию.",
+        zakres: "Ноль или больше.",
       },
     },
   },

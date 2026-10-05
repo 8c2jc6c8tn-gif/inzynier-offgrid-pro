@@ -1967,6 +1967,10 @@ export const dictionaryPl = {
   "TURBW-SREDNIA-BEZ-ROZKLADU": "Znasz tylko średnią prędkość wiatru ({srednia} m/s), nie jej rozkład — aplikacja zakłada typowy rozkład Rayleigha. Rzeczywisty rozkład na Twojej działce może dać inny wynik, bo krzywa mocy nie jest linią prostą; to szacunek, nie gwarancja. Dla pewności potrzebny jest pomiar wiatru na wysokości piasty.",
   "TURBW-ZALOZENIE-RAYLEIGH": "Rozkład prędkości wiatru w czasie przyjęty jako rozkład Rayleigha ze średnią podaną przez Ciebie; całkowanie numeryczne z krokiem 0,1 m/s.",
   "TURBW-ZALOZENIE-KRZYWA-PRODUCENTA": "Krzywa mocy, prędkość wyłączenia oraz współczynnik dostępności i strat pochodzą wyłącznie od Ciebie (karta turbiny); poniżej pierwszego punktu krzywej moc wynosi 0, między punktami jest interpolowana liniowo, powyżej ostatniego równa mocy ostatniego punktu aż do prędkości wyłączenia.",
+  "ALBS-WARTOSC-UJEMNA": "Wpisana wartość nie może być ujemna.",
+  "ALBS-DACH-MALO-ALBEDO": "Panele na dachu prawie nie korzystają z albedo — śnieg przed budynkiem szybko się brudzi. Przy montażu dachowym licz się z zyskiem bliskim zera.",
+  "ALBS-ZAL-PROCENT-USERA": "Procent dodatkowej produkcji od światła odbitego od śniegu pochodzi wyłącznie od Ciebie. Przykłady z literatury (+25% panele pionowe na ogrodzeniu, +20% bifacjalne przy 30 cm śniegu, +30% bifacjalne pionowo) to ilustracje, nie reguła. Wysokość montażu, kąt i czystość śniegu nie są modelowane.",
+  "ALBS-ZAL-OKRES-ZE-SNIEGIEM": "Zysk dotyczy tylko dni, gdy leży śnieg — wpisz produkcję z samego okresu ze śniegiem, nie z całego roku.",
 } as const
 
 export type KluczTlumaczenia = keyof typeof dictionaryPl

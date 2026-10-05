@@ -1,6 +1,6 @@
 # Rejestr decyzji — Inżynier Offgrid Pro
 
-**Wersja:** 1.48 | **Filar:** C | **Data utworzenia:** 04.09.2026 | **Ostatnia aktualizacja:** 05.10.2026 | **Status:** Stabilny (rosnący)
+**Wersja:** 1.49 | **Filar:** C | **Data utworzenia:** 04.09.2026 | **Ostatnia aktualizacja:** 05.10.2026 | **Status:** Stabilny (rosnący)
 **Powiązane dokumenty:** `00_Biblia.md`, `docs/memory.md`, `USTALENIA.md` (historyczny, Część II)
 
 TL;DR: D1, D2, D3… — decyzje **strategiczne/fundamentalne** (blokujące wiele innych rzeczy naraz, Krok 4 GOD BOOK), ponumerowane, nigdy nie kasowane, tylko unieważniane jawnie (F.5). **Nie duplikuje `docs/memory.md`**: tam żyje pełna, szczegółowa historia każdej sesji (setki drobnych decyzji implementacyjnych per ekran) — tu tylko decyzje, które zmieniły kierunek/regułę obowiązującą cały projekt. Gdy wpis niżej odsyła do `docs/memory.md`, tam jest pełne uzasadnienie i przykłady.
@@ -364,6 +364,8 @@ Obie sprawy należą do decyzji o modelu freemium (rozdz. 12 standardu), która 
 - (3) **Polecenia: 3 miesiące gratis dla obu stron** (wariant 6 miesięcy odrzucony).
 - Otwarte nadal (plan sprzedaży, sekcja 13): stawki i limity programu partnerskiego, nazwa drugiej apki.
 
+**D77 (05.10.2026) — M7/E9 „Albedo i bifacjalne w śniegu” jako osobny ekran M7, nie preset M3/E16.** Koszt cofnięcia: tani (jeden moduł `lib/core/modules/stress-test/albedo-snieg/`, jeden ekran). Decyzja właściciela projektu (04.10.2026, odpowiedź „B: osobny ekran w M7”), zamyka pytanie otwarte w D72 pkt (4) („E9 jako preset M3/E16”). Treść: źródło (EKRAN 9) podaje fizykę (śnieg odbija 70–90% światła) i tylko przykładowe zyski (+25% pionowe na ogrodzeniu, +20% bifacjalne przy 30 cm śniegu, +30% bifacjalne pionowo), bez wzoru — dlatego procent zysku wpisuje user (D16, Dyrektywa #1), przykłady są podpowiedzią przy typie montażu, silnik liczy `E_alb = E·z/100`; 🟡 dla montażu na dachu = zdanie źródła; wysokość montażu, kąt i czystość śniegu nie są modelowane. Link do M3/E16 `panele-bifacjalne` i M7/E7 `snieg-na-pv`.
+
 ## Założenia robocze (F.7 GOD BOOK)
 
 **Z1 (04.09.2026) — przyjęto:** ID modułów (H.2 GOD BOOK, M#) odpowiadają wprost numeracji "Moduł N" już używanej w całym projekcie (1–13), nie nowej, niezależnej numeracji. **Powód:** ta numeracja jest już stabilna, używana w kodzie, dokumentacji i UI od 29.08.2026 — wprowadzenie równoległej numeracji M# byłoby duplikatem, nie nowym bytem. **Na czym się opiera:** cała struktura `docs/rejestr-pokrycia.md`, `lib/pulpit/registry.ts`, `docs/pulpit-i-nawigacja.md`.
@@ -427,3 +429,4 @@ Obie sprawy należą do decyzji o modelu freemium (rozdz. 12 standardu), która 
 | 04.10.2026 | Dodano D74 (M7/E2: miesiąc bez danych = brak wyniku + 🟡, zapotrzebowanie 12 miesięcy; założenia nagrzewnicy potwierdzone) — decyzja właściciela projektu. Wersja 1.45→1.46. |
 | 04.10.2026 | Dodano D75 (M7/E12: najsłabsze ogniwo obok średniej, próg słabego punktu od usera; E7/E14 potwierdzone) — decyzja właściciela projektu. Wersja 1.46→1.47. |
 | 05.10.2026 | Dodano D76 (ceny Offgrid Pro, plan dożywotni z limitem, polecenia 3 miesiące) — decyzja właściciela projektu. Wersja 1.47→1.48. |
+| 05.10.2026 | Dodano D77 (M7/E9 albedo jako osobny ekran M7, procent zysku od usera) — decyzja właściciela projektu, zamyka otwarte pytanie D72 pkt (4). Wersja 1.48→1.49. |

@@ -1955,4 +1955,8 @@ export const dictionaryEn = {
   "TURBW-SREDNIA-BEZ-ROZKLADU": "You know only the mean wind speed ({srednia} m/s), not its distribution — the app assumes a typical Rayleigh distribution. The real distribution at your site may give a different result, because the power curve is not a straight line; this is an estimate, not a guarantee. A wind measurement at hub height is needed for certainty.",
   "TURBW-ZALOZENIE-RAYLEIGH": "The wind speed distribution over time is assumed to be a Rayleigh distribution with the mean you entered; numerical integration with a step of 0.1 m/s.",
   "TURBW-ZALOZENIE-KRZYWA-PRODUCENTA": "The power curve, the cut-out speed and the availability and loss factor come only from you (turbine datasheet); below the first curve point the power is 0, between points it is interpolated linearly, above the last one it equals the power of the last point up to the cut-out speed.",
+  "ALBS-WARTOSC-UJEMNA": "The value entered cannot be negative.",
+  "ALBS-DACH-MALO-ALBEDO": "Rooftop panels barely use the albedo — the snow in front of the building gets dirty quickly. With rooftop mounting expect a gain close to zero.",
+  "ALBS-ZAL-PROCENT-USERA": "The percentage of extra production from light reflected by the snow comes only from you. The examples from the literature (+25% vertical panels on a fence, +20% bifacial at 30 cm of snow, +30% bifacial vertical) are illustrations, not a rule. Mounting height, tilt and snow cleanliness are not modelled.",
+  "ALBS-ZAL-OKRES-ZE-SNIEGIEM": "The gain applies only to days with snow on the ground — enter the production of the snow period only, not of the whole year.",
 } satisfies Record<KluczTlumaczenia, string>
