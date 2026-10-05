@@ -318,7 +318,7 @@ export const pl = {
   "plan-poprawy-efektywnosci": {
     migawka: {
       oCoChodzi: "To jak plan naprawczy domu: wiesz, od czego zacząć. Najpierw to, co tanie i szybko się zwraca.",
-      jakDziala: "Dla każdego działania: prąd zaoszczędzony = ciepło ÷ COP, złotówki = prąd × cena, zwrot = koszt ÷ złotówki na rok. Lista ułożona od najszybszego zwrotu; działania bez kosztu — na końcu, od największej oszczędności.",
+      jakDziala: "Dla każdego działania: prąd zaoszczędzony = ciepło ÷ COP, oszczędność = prąd × cena, zwrot = koszt ÷ oszczędność na rok. Lista ułożona od najszybszego zwrotu; działania bez kosztu — na końcu, od największej oszczędności.",
       poCo: "Pieniądze na modernizację są ograniczone — kolejność decyduje, ile zaoszczędzisz w pierwszych latach. Off-grid każda kWh mniej to też mniejsza bateria i mniej pracy agregatu.",
       fizyka: "E = Q / COP, Z = E · c, T = K / Z.",
     },
@@ -349,7 +349,7 @@ export const pl = {
       },
       cena: {
         nazwa: "Cena prądu [{waluta}/kWh]",
-        cel: "Z niej złotówki na rok i zwrot.",
+        cel: "Z niej oszczędność na rok i zwrot.",
         gdzie: "Off-grid: koszt kWh z PV/baterii albo z agregatu (Moduł 2); z siecią — rachunek.",
         zakres: "≥ 0. Twoja cena.",
       },
@@ -377,7 +377,7 @@ export const pl = {
       },
       cenaPaliwa: {
         nazwa: "Cena paliwa [{waluta}/l]",
-        cel: "Zamienia litry na złotówki.",
+        cel: "Zamienia litry na pieniądze.",
         gdzie: "Cena na stacji / z ostatniego zakupu (zimą — paliwo arktyczne).",
         zakres: "Twoja cena.",
       },

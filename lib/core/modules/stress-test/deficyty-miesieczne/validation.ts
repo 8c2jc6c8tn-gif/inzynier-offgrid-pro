@@ -35,6 +35,8 @@ export function validateInput(input: DeficytyMiesieczneInput): { errors: Warning
     if (!(a.oknoDni >= 0 && a.oknoDni <= MAX_DNI && Number.isInteger(a.oknoDni))) errors.push(poleHistoriiPozaZakresem("oknoDni", a.oknoDni, `0..${MAX_DNI}`))
     if (!(a.percentylPct >= 0 && a.percentylPct <= 100)) errors.push(poleHistoriiPozaZakresem("percentylPct", a.percentylPct, "0..100"))
     if (!(a.progSlabegoDniaPct >= 0 && a.progSlabegoDniaPct <= 100)) errors.push(poleHistoriiPozaZakresem("progSlabegoDniaPct", a.progSlabegoDniaPct, "0..100"))
+    const nocy = a.udzialNocyPct
+    if (nocy !== undefined && !(nocy >= 0 && nocy <= 100)) errors.push(poleHistoriiPozaZakresem("udzialNocyPct", nocy, "0..100"))
     const m = a.magazyn
     if (m) {
       if (!(Number.isFinite(m.pojemnoscUzytecznaKwh) && m.pojemnoscUzytecznaKwh >= 0)) {

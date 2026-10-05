@@ -57,8 +57,14 @@ export type AnalizaHistorii = {
   percentylPct: number
   /** A day is "low" when PV < this share [%] of that day's demand (0..100). 0 = streak statistics off. */
   progSlabegoDniaPct: number
-  /** Optional energy store carried between days; absent or capacity 0 = balance without a store (upper bound). */
+  /** Optional energy store carried between days; absent or capacity 0 = balance without a store. */
   magazyn?: MagazynHistorii
+  /**
+   * Share [%] of the daily demand used in hours without PV production (night) — from the user's meter or
+   * consumption profile, never assumed (0..100). Absent / 0 = not entered: the day's PV surplus is netted against
+   * the same night (may understate the shortfall; stated in the assumption).
+   */
+  udzialNocyPct?: number
 }
 
 export type DeficytyMiesieczneInput = {

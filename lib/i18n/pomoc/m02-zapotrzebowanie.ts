@@ -235,7 +235,7 @@ export const pl = {
     migawka: {
       oCoChodzi: "Jeśli w najgorszym miesiącu PV nie pokrywa zapotrzebowania, deficyt pokrywa agregat.",
       jakDziala: "Godziny pracy = deficyt ÷ (moc agregatu × {obciazenie}% optymalnego obciążenia); paliwo = godziny × zużycie; koszt = paliwo × cena.",
-      poCo: "Wiesz, ile godzin, litrów i złotych kosztuje zima — i czy warto dołożyć paneli lub baterii.",
+      poCo: "Wiesz, ile godzin, litrów i pieniędzy kosztuje zima — i czy warto dołożyć paneli lub baterii.",
       fizyka: "t = deficyt / (P · {obciazenie}%); paliwo = t · zużycie; koszt = paliwo · cena.",
     },
     pola: {
@@ -507,7 +507,7 @@ export const en: Tlumaczenie<typeof pl> = {
     migawka: {
       oCoChodzi: "If PV does not cover demand in the worst month, a generator covers the deficit.",
       jakDziala: "Running hours = deficit ÷ (generator power × {obciazenie}% optimal load); fuel = hours × consumption; cost = fuel × price.",
-      poCo: "You know how many hours, litres and zloty winter costs — and whether adding panels or battery is worth it.",
+      poCo: "You know how many hours, litres and how much money winter costs — and whether adding panels or battery is worth it.",
       fizyka: "t = deficit / (P · {obciazenie}%); fuel = t · consumption; cost = fuel · price.",
     },
     pola: {
@@ -779,7 +779,7 @@ export const ru: Tlumaczenie<typeof pl> = {
     migawka: {
       oCoChodzi: "Если в худший месяц PV не покрывает потребность, дефицит покрывает генератор.",
       jakDziala: "Часы работы = дефицит ÷ (мощность генератора × {obciazenie}% оптимальной нагрузки); топливо = часы × расход; стоимость = топливо × цена.",
-      poCo: "Вы знаете, сколько часов, литров и злотых стоит зима — и стоит ли добавить панелей или батарею.",
+      poCo: "Вы знаете, сколько часов, литров и денег стоит зима — и стоит ли добавить панелей или батарею.",
       fizyka: "t = дефицит / (P · {obciazenie}%); топливо = t · расход; стоимость = топливо · цена.",
     },
     pola: {

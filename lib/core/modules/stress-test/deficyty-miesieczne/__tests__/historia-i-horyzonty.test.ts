@@ -27,8 +27,8 @@ const HIST: HistoriaDobowa = {
 const POPYT = Array.from({ length: 12 }, () => 10)
 
 describe("łańcuch agregatu i stałe horyzonty (M7/E2, 1.1.0)", () => {
-  it("wersja kalkulatora podniesiona do 1.3.0 (1.2.0 D74: miesiąc bez danych to brak wyniku; 1.3.0: magazyn w historii)", () => {
-    expect(CALCULATOR_VERSION).toBe("1.3.0")
+  it("wersja kalkulatora podniesiona do 1.4.0 (1.2.0 D74: miesiąc bez danych to brak wyniku; 1.3.0: magazyn w historii; 1.4.0: dzień/noc)", () => {
+    expect(CALCULATOR_VERSION).toBe("1.4.0")
   })
 
   it("łańcuch: 5 kW × 0,8 = 4 kW na godzinę, 0,375 l/kWh, 124 kWh → 31 h → 46,5 l", () => {
@@ -286,5 +286,63 @@ describe("magazyn energii w bilansie dobowym historii (M7/E2 (a), 1.3.0)", () =>
     ]) {
       expect(calculateDeficytyMiesieczne(wejscie(m)).status).toBe("INVALID_INPUT")
     }
+  })
+})
+
+describe("podział doby na dzień i noc w bilansie historii (M7/E2, 1.4.0)", () => {
+  const popyt10 = () => 10
+  // Night share 40% at demand 10 → day part 6, night part 4.
+
+  it("bez magazynu: deficyt = max(0, część dzienna − PV) + część nocna", () => {
+    expect(dobowyDeficyt([14, 3, null], popyt10, undefined, 40)).toEqual([4, 7, null])
+  })
+
+  it("z magazynem 5 kWh, 100%, start 0: noc bierze z magazynu tylko to, co dzień do niego włożył", () => {
+    const m = { pojemnoscUzytecznaKwh: 5, sprawnoscPct: 100, stanPoczatkowyPct: 0 }
+    // day 0: +8 → store 5, night 4 → store 1, shortfall 0; day 1: −3 → 1 from store, 2 short, night 4 → 6; day 2: 6 + 4.
+    expect(dobowyDeficyt([14, 3, 0], popyt10, m, 40)).toEqual([0, 6, 10])
+  })
+
+  it("udział 0 = wynik jak w 1.3.0 (dzień i noc razem)", () => {
+    const m = { pojemnoscUzytecznaKwh: 6, sprawnoscPct: 80, stanPoczatkowyPct: 50 }
+    const PV = [14, 14, 0, 0, null, 0]
+    expect(dobowyDeficyt(PV, popyt10, m, 0)).toEqual(dobowyDeficyt(PV, popyt10, m))
+    expect(dobowyDeficyt(PV, popyt10, undefined, 0)).toEqual(dobowyDeficyt(PV, popyt10))
+  })
+
+  const ROK: HistoriaDobowa = {
+    zrodlo: "wpisane-reczne",
+    rodzaj: "produkcja-pv-kwh",
+    lata: [{ rok: 2023, dni: Array.from({ length: 365 }, (_, i) => (i >= 40 && i < 43 ? 0 : 14)) }],
+  }
+  const wejscie = (udzialNocyPct?: number): DeficytyMiesieczneInput => ({
+    ...BAZA,
+    deficytyKwh: dwanascie({}),
+    zapotrzebowanieDobaKwh: POPYT,
+    historia: ROK,
+    analizaHistorii: {
+      oknoDni: 3,
+      percentylPct: 0,
+      progSlabegoDniaPct: 0,
+      magazyn: { pojemnoscUzytecznaKwh: 8, sprawnoscPct: 100, stanPoczatkowyPct: 0 },
+      ...(udzialNocyPct !== undefined ? { udzialNocyPct } : {}),
+    },
+  })
+  const kod = (a: string | { kod: string }) => (typeof a === "string" ? a : a.kod)
+
+  it("magazyn 8 kWh, noc 40%: przed ciemnymi dobami w magazynie zostaje 4 kWh → okno 26 kWh → 9,75 l (bez podziału 22 kWh → 8,25 l)", () => {
+    const netto = calculateDeficytyMiesieczne(wejscie())
+    expect(netto.value.zapasZHistorii!.litryMax).toBeCloseTo(8.25, 12)
+    expect(netto.assumptions.map(kod)).toContain("DEFM-ZALOZENIE-HISTORIA-DOBA-NETTO")
+    const dzienNoc = calculateDeficytyMiesieczne(wejscie(40))
+    expect(dzienNoc.value.zapasZHistorii!.litryMax).toBeCloseTo(9.75, 12)
+    const zal = dzienNoc.assumptions.find((a) => kod(a) === "DEFM-ZALOZENIE-HISTORIA-DZIEN-NOC")
+    expect(typeof zal === "object" ? zal.params : null).toEqual({ noc: 40 })
+    expect(dzienNoc.assumptions.map(kod)).not.toContain("DEFM-ZALOZENIE-HISTORIA-DOBA-NETTO")
+  })
+
+  it("udział poza 0..100 → INVALID_INPUT", () => {
+    expect(calculateDeficytyMiesieczne(wejscie(120)).status).toBe("INVALID_INPUT")
+    expect(calculateDeficytyMiesieczne(wejscie(-1)).status).toBe("INVALID_INPUT")
   })
 })

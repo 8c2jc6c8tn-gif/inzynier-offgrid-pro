@@ -58,7 +58,7 @@ export const pl = {
       },
       cena: {
         nazwa: "Cena prądu [{waluta}/kWh]",
-        cel: "Zamienia kWh oszczędności na złotówki.",
+        cel: "Zamienia kWh oszczędności na pieniądze.",
         gdzie: "Rachunek za prąd albo koszt kWh z Twojego systemu off-grid.",
         zakres: OPCJA,
       },
@@ -384,7 +384,7 @@ export const pl = {
       },
       "cena": {
         "nazwa": "Cena prądu [{waluta}/kWh]",
-        "cel": "Zamienia kWh na złotówki.",
+        "cel": "Zamienia kWh na pieniądze.",
         "gdzie": "Rachunek albo koszt kWh z Twojego systemu.",
         "zakres": "Puste = bez {waluta} i zwrotu."
       },
