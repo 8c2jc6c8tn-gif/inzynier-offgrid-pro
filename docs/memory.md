@@ -2568,3 +2568,15 @@ Właściciel: pismo ma być tłumaczone (wcześniej komentarz w kodzie zakłada�
 - Wg Skrótu aktywnego: najpierw lista gałęzi-śmieci (27.09/29.09/01.10), bez weryfikowania pozycji z listy. Po `git fetch --unshallow` jedyną gałęzią spoza listy z niescaloną pracą była `claude/amazing-tesla-ovgwya` (24 commity po PR #273: M7/E16, E24, E25, luki audytu i18n, archiwizacja listy i wkładu). Brak aktywnej sesji nad nią (ostatni commit ~4 h wcześniej), brak otwartych PR.
 - Pakiet kontroli na head + `main` (bez konfliktu): typecheck, lint, 4 strażniki, `pnpm test` 3191/3191, `pnpm build` — wszystko ✅. PR [#274](https://github.com/8c2jc6c8tn-gif/inzynier-offgrid-pro/pull/274) zmergowany (`a4a3fed3`). CI nadal bez check-runów (wpis listy „CI — status”).
 - Pozostałe gałęzie z łatkami spoza `main` (`screen-fixes-new-documents-80kzcm`, `youthful-fermat-tbxoxg`, `laughing-faraday-lp6ytt`, `sync-offgrid-standard-ucgqok`) = znane śmieci, niescalane. Stan 04.10: **każda gałąź zdalna poza `main` jest do usunięcia** (także `amazing-tesla-ovgwya` — w całości w `main`); kasuje właściciel w GitHubie.
+
+## 2026-10-04 — Taryfa nocna (5.59) po decyzjach właściciela (D73)
+- Kalkulator `ogrzewanie/taryfa-nocna-pompy-ciepla` 1.1.0: pola `profilGodzinowy` (24 wagi), `godzinyStrefyNocnej` (indeksy godzin, parser `parsuj.ts`: `22-6; 13-15`, zakres przez północ), `stratyBuforaKwhDoba`; ℹ️ `TAN-COP-NOC-NIE-PODANY`. Puste pola = dawne zachowanie (płaski profil daje ten sam wynik — test).
+- Pułapki: (1) wzorzec `*-POZA-ZAKRESEM` w `stopy-guard-wyjatki.json` nie łapie kodów z prefiksem modułu — `TAN-PROFIL-POZA-ZAKRESEM`/`TAN-STREFA-POZA-ZAKRESEM` trzeba dopisać jawnie; (2) nie sortuj tej listy przy dopisywaniu (przestawia cudze wpisy) — dopisz na końcu; (3) w `formula` bez polskich słów („lub”) — test dryfu `formuly.test.ts`; użyto `\vee`.
+
+## 2026-10-04 — M7/E2 1.2.0 i nagrzewnica po decyzjach właściciela (D74)
+- Miesiąc bez danych w historii: `miesiaceBezDanych` w wyniku, wiersz „brak danych” w tabeli, 🟡 `DEFM-HISTORIA-BRAK-MIESIECY`. Zasada ogólna warta pamiętania: **brak danych nigdy nie jest zerem w wyniku, który wymiaruje zapas** (zero = zaniżenie = niebezpiecznie).
+- Zapotrzebowanie 12 miesięcy w UI (`histPopytTryb`, `histPopytMiesiace`) — silnik bez zmian (już przyjmował 12 wartości). „Wstaw” czyta szkic M14 D3 (`useZuzycieMiesieczne("dom")`, tylko odczyt, jeden właściciel zapisu).
+
+## 2026-10-04 — M7/E12 1.1.0 po decyzji właściciela (D75)
+- `PROG_SLABY_PUNKT_PCT` (70%) usunięty — próg słabego punktu to pole usera `progSlabegoPunktuPct` (null = tylko `ranking`). Najsłabsze ogniwo na ekranie `text-h3` tuż pod wynikiem głównym.
+- Wzorzec audytora, który powtórzył się 3× w tej rundzie (5.59 COP/straty, E2 brak danych = 0, E12 próg 70% i średnia chowająca zero): **szukaj w założeniach ✅🤖 (a) liczb bez źródła, (b) miejsc, gdzie brak danych albo zero znika w agregacie** — to one zawyżają bezpieczeństwo. Kandydat do `wklad-do-standardu.md`.

@@ -1,6 +1,6 @@
 # Rejestr decyzji — Inżynier Offgrid Pro
 
-**Wersja:** 1.44 | **Filar:** C | **Data utworzenia:** 04.09.2026 | **Ostatnia aktualizacja:** 02.10.2026 | **Status:** Stabilny (rosnący)
+**Wersja:** 1.47 | **Filar:** C | **Data utworzenia:** 04.09.2026 | **Ostatnia aktualizacja:** 04.10.2026 | **Status:** Stabilny (rosnący)
 **Powiązane dokumenty:** `00_Biblia.md`, `docs/memory.md`, `USTALENIA.md` (historyczny, Część II)
 
 TL;DR: D1, D2, D3… — decyzje **strategiczne/fundamentalne** (blokujące wiele innych rzeczy naraz, Krok 4 GOD BOOK), ponumerowane, nigdy nie kasowane, tylko unieważniane jawnie (F.5). **Nie duplikuje `docs/memory.md`**: tam żyje pełna, szczegółowa historia każdej sesji (setki drobnych decyzji implementacyjnych per ekran) — tu tylko decyzje, które zmieniły kierunek/regułę obowiązującą cały projekt. Gdy wpis niżej odsyła do `docs/memory.md`, tam jest pełne uzasadnienie i przykłady.
@@ -342,6 +342,22 @@ Obie sprawy należą do decyzji o modelu freemium (rozdz. 12 standardu), która 
 - (3) **Pkt 18 — `CHL-PONIZEJ-ROSY` 🔴** (potwierdzone; wdrożone w D71).
 - (4) **Pkt 26 — wagi M7/E12:** pokrycie 30%, autonomia 25%, odporność 20%, agregat 15%, reakcja 10% — propozycja asystenta przyjęta „na razie”; ekran zawsze pokazuje wagi obok wyniku z notą „wstępne, do dopracowania na trzeźwo”, pozwala wpisać własne (suma 100%) i pokazuje, które moduły zasilają którą składową. Możliwa późniejsza zmiana na regułę najsłabszego ogniwa (agregacja w jednej funkcji). Pozostaje otwarte: E9 (śnieg) jako preset M3/E16 zamiast osobnego ekranu.
 
+**D73 (04.10.2026) — Pompa ciepła w taryfie nocnej (dawne 5.59): profil godzinowy, straty bufora, ℹ️ COP nocny; poziomy ostrzeżeń potwierdzone.** Koszt cofnięcia: tani (trzy opcjonalne pola, puste = dawne zachowanie). Decyzja właściciela projektu (04.10.2026, odpowiedzi na wpis ⚠️ listy z 02.10.2026, pkt 1–5).
+- (1) **Pkt 1 i 5 → B:** opcjonalny profil godzinowy zapotrzebowania (24 wagi, liczą się proporcje) i godziny strefy nocnej (np. `22-6; 13-15`, liczba godzin = długość strefy); udział nocy = udział profilu w tych godzinach. Puste = równo przez 24 h. Harmonogram godzina po godzinie nadal nie jest liczony.
+- (2) **Pkt 2 → B:** opcjonalne pole „straty ciepła bufora [kWh/dobę]” od usera (karta bufora), bez wartości domyślnej; doliczane do ciepła strefy nocnej tylko w wariancie z przesunięciem. Puste = nie liczone (założenie jawne).
+- (3) **Pkt 3 → C:** pusty COP nocny = COP dzienny, plus ℹ️ `TAN-COP-NOC-NIE-PODANY` (oszczędność zawyżona); żadnej liczby nie przyjmujemy.
+- (4) **Pkt 4 → A:** bateria 🟡, agregat ℹ️, brak oszczędności 🟡 — bez zmian.
+
+**D74 (04.10.2026) — Założenia M7/E2 „Deficyty miesięczne” 1.1.0 i M6 „Nagrzewnica powietrza”: dwie zmiany, reszta potwierdzona.** Koszt cofnięcia: tani (poziom jednego ostrzeżenia, tryb wpisu w UI). Decyzja właściciela projektu (04.10.2026, odpowiedzi na wpis ⚠️ listy z 02.10.2026, pkt 1–10).
+- (1) **Pkt 5 → B:** miesiąc bez pełnych danych w żadnym roku historii nie jest deficytem 0 — brak wyniku (wiersz „brak danych”, pole `miesiaceBezDanych`) i 🟡 zamiast ℹ️ (zimowy brak zaniżyłby zapas paliwa). Kalkulator 1.2.0.
+- (2) **Pkt 6 → B:** zapotrzebowanie do analizy historii jedną średnią (jak dotąd) albo osobno dla 12 miesięcy; przycisk „Wstaw” z ekranu M14 „Zużycie miesięczne” (kWh miesiąca ÷ dni miesiąca, kalendarz nieprzestępny). Bez kompletu 12 wartości analiza historii jest pominięta (jak przy pustym polu).
+- (3) **Pkt 1–4, 7, 8, 10 → A** (potwierdzone bez zmian) oraz **pkt 9 (nagrzewnica) → A**.
+
+**D75 (04.10.2026) — M7/E12 Współczynnik Bezpieczeństwa Zimowego: najsłabsze ogniwo obok średniej, próg słabego punktu od usera; M7/E7/E14 potwierdzone.** Koszt cofnięcia: tani (jedno pole, prezentacja). Decyzja właściciela projektu (04.10.2026, odpowiedzi na wpis ⚠️ listy z 02.10.2026, pkt 1–13).
+- (1) **Pkt 6 → C:** wynik główny = średnia ważona, a obok, równie widoczne, „najsłabsze ogniwo: X%” i kolejność składowych od najsłabszej — zero jednej składowej (np. brak agregatu) nie chowa się w dobrym wyniku. Reguła najsłabszego ogniwa jako wynik główny — odrzucona.
+- (2) **Pkt 3 → B:** próg słabego punktu wpisuje user (0–100%, bez wartości domyślnej); stała 70% usunięta (była wymyślona — źródło podaje tylko przykład 74%). Puste = bez oznaczania słabych punktów, tylko ranking. Kalkulator 1.1.0.
+- (3) **Pkt 1, 2, 4, 5, 7 (E12) i 8–13 (E7/E14) → A** — potwierdzone bez zmian. Wagi 30/25/20/15/10% bez zmian (nadal wstępne, D72 pkt 4).
+
 ## Założenia robocze (F.7 GOD BOOK)
 
 **Z1 (04.09.2026) — przyjęto:** ID modułów (H.2 GOD BOOK, M#) odpowiadają wprost numeracji "Moduł N" już używanej w całym projekcie (1–13), nie nowej, niezależnej numeracji. **Powód:** ta numeracja jest już stabilna, używana w kodzie, dokumentacji i UI od 29.08.2026 — wprowadzenie równoległej numeracji M# byłoby duplikatem, nie nowym bytem. **Na czym się opiera:** cała struktura `docs/rejestr-pokrycia.md`, `lib/pulpit/registry.ts`, `docs/pulpit-i-nawigacja.md`.
@@ -401,3 +417,6 @@ Obie sprawy należą do decyzji o modelu freemium (rozdz. 12 standardu), która 
 | 02.10.2026 | Dodano D70 (granica z apką Elektryk Pro: PV celowo w obu apkach w innym zakresie, Offgrid nie ucina potrzebnej informacji, bezpieczeństwo w obu apkach; ceny nierozstrzygnięte) — decyzja właściciela projektu. Wersja 1.41→1.42. |
 | 02.10.2026 | Dodano D71 (potwierdzenia partii M7/M6/M10/M8 z otwartymi pkt 13, 17; 🔴 przepływ pompy ciepła, deficyt mocy bez dogrzewu i punkt rosy przy chłodzeniu; 🔴 `UPS-AKUMULATOR-SLABY` potwierdzony; budowa ekranu taryfy nocnej, domy hybrydowe obsługiwane) — decyzja właściciela projektu. Wersja 1.42→1.43. |
 | 02.10.2026 | Dodano D72 (realny dobór paliwa agregatu i nagrzewnica powietrza; wagi wstępne M7/E12; śnieg bez wpisywania dni; pkt rosy 🔴) — decyzja właściciela projektu. Wersja 1.43→1.44. |
+| 04.10.2026 | Dodano D73 (taryfa nocna 5.59: profil godzinowy, straty bufora, ℹ️ COP nocny, poziomy potwierdzone) — decyzja właściciela projektu. Wersja 1.44→1.45. |
+| 04.10.2026 | Dodano D74 (M7/E2: miesiąc bez danych = brak wyniku + 🟡, zapotrzebowanie 12 miesięcy; założenia nagrzewnicy potwierdzone) — decyzja właściciela projektu. Wersja 1.45→1.46. |
+| 04.10.2026 | Dodano D75 (M7/E12: najsłabsze ogniwo obok średniej, próg słabego punktu od usera; E7/E14 potwierdzone) — decyzja właściciela projektu. Wersja 1.46→1.47. |

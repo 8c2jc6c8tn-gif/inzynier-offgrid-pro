@@ -17,6 +17,15 @@ export const TaryfaNocnaPompyCieplaToolInput = z.object({
   pojemnoscBuforaL: z.number().describe("Pojemność bufora ładowanego w nocy [l]; 0 = brak bufora"),
   deltaTBuforaK: z.number().describe("Użyteczna różnica temperatur bufora [K]; 0 = nie podano"),
   zasilanieNocy: z.enum(["siec", "agregat", "bateria"]).describe("Skąd jest energia w nocy: sieć (taryfa nocna), agregat albo bateria off-grid"),
+  profilGodzinowy: z
+    .array(z.number())
+    .default([])
+    .describe("Opcjonalny profil zapotrzebowania na ciepło: 24 wagi dla godzin 0–23 (liczą się proporcje); [] = równo przez dobę"),
+  godzinyStrefyNocnej: z
+    .array(z.number())
+    .default([])
+    .describe("Godziny (0–23, początek każdej godziny) w strefie nocnej — wymagane tylko z profilem; ich liczba = godzinyNocH"),
+  stratyBuforaKwhDoba: z.number().default(0).describe("Straty ciepła bufora [kWh/dobę] z karty bufora; 0 = nie liczone"),
 })
 export type TaryfaNocnaPompyCieplaToolInputT = z.infer<typeof TaryfaNocnaPompyCieplaToolInput>
 
@@ -24,6 +33,8 @@ export const TaryfaNocnaPompyCieplaToolOutput = z.object({
   status: z.enum(["VALID", "VALID_WITH_WARNINGS", "INCOMPLETE", "OUT_OF_SCOPE", "INVALID_INPUT"]),
   pojemnoscBuforaKwh: z.number(),
   przesunieteKwh: z.number(),
+  udzialNocyPct: z.number(),
+  stratyBuforaKwh: z.number(),
   kosztBezPrzesuniecaZl: z.number(),
   kosztZPrzesunieciemZl: z.number(),
   oszczednoscDobaZl: z.number(),

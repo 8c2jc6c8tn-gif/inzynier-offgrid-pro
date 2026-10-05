@@ -54,3 +54,16 @@ export function nocZAgregatu(): Warning {
     field: "cenaNocZlKwh",
   }
 }
+
+/**
+ * ℹ️ Night COP not entered, so the day COP is used (owner decision 04.10.2026, point 3 → C). Night air is usually
+ * colder, so an air-source pump's COP is lower and the saving shown is too high — no number is assumed for it.
+ */
+export function copNocNiePodany(): Warning {
+  return {
+    code: "TAN-COP-NOC-NIE-PODANY",
+    level: "info",
+    technicalMessage: "copNoc = 0 — przyjęto COP dzienny; oszczędność może być zawyżona",
+    field: "copNoc",
+  }
+}

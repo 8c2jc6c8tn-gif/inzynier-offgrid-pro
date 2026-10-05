@@ -30,4 +30,9 @@ export type WspolczynnikInput = {
   wymaganyCzasReakcjiH: number | null
   /** The user's own weights [%]; null = the provisional default set. */
   wagiWlasne: WagiPct | null
+  /**
+   * Weak-point threshold [%] entered by the user (D75): a component below it is a weak point (🟡). null = not
+   * entered → no weak points are flagged, the components are only ranked from the weakest.
+   */
+  progSlabegoPunktuPct: number | null
 }

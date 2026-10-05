@@ -32,6 +32,11 @@ export const WspolczynnikToolInput = z.object({
     })
     .nullable()
     .describe("Własne wagi składowych [%], suma 100; null = wagi domyślne 30/25/20/15/10 (wstępne, do dopracowania)"),
+  progSlabegoPunktuPct: z
+    .number()
+    .nullable()
+    .default(null)
+    .describe("Próg słabego punktu [%] podany przez usera; null = brak progu (tylko ranking składowych od najsłabszej)"),
 })
 export type WspolczynnikToolInputT = z.infer<typeof WspolczynnikToolInput>
 
@@ -41,6 +46,7 @@ export const WspolczynnikToolOutput = z.object({
   zestawWag: z.enum(["domyslne", "wlasne"]),
   najslabsza: z.object({ id: z.string(), wynikPct: z.number() }).nullable(),
   slabePunkty: z.array(z.string()),
+  ranking: z.array(z.string()),
   brakujace: z.array(z.string()),
   skladowe: z.array(z.object({ id: z.string(), wynikPct: z.number().nullable(), wagaPct: z.number() })),
   ostrzezenia: z.array(z.string()),
@@ -71,6 +77,7 @@ export const wspolczynnikBezpieczenstwaZimowegoTool: AiToolDefinition<Wspolczynn
       zestawWag: v.zestawWag,
       najslabsza: v.najslabsza,
       slabePunkty: v.slabePunkty,
+      ranking: v.ranking,
       brakujace: v.brakujace,
       skladowe: v.skladowe.map((c) => ({ id: c.id, wynikPct: c.wynikPct, wagaPct: c.wagaPct })),
       ostrzezenia: tekstyOstrzezen(wynik.warnings),

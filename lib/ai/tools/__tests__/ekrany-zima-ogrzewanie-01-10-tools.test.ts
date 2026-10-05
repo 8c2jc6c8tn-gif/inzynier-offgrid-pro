@@ -332,8 +332,10 @@ describe("wspolczynnikBezpieczenstwaZimowegoTool (M7/E12, dawne 6.14)", () => {
       oknoReakcjiH: 6.5,
       wymaganyCzasReakcjiH: 10,
       wagiWlasne: null,
+      progSlabegoPunktuPct: null,
     })
     expect(w.wskaznikPct).toBeCloseTo(74, 9)
+    expect(w.ranking[0]).toBe("autonomia")
     expect(w.najslabsza).toEqual({ id: "autonomia", wynikPct: 60 })
     expect(w.ostrzezenia).toContain(t("pl", "WSP-WAGI-WSTEPNE"))
   })

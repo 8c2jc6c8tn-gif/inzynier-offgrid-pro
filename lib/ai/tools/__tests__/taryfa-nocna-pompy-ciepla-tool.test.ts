@@ -16,6 +16,9 @@ const wejscie = {
   pojemnoscBuforaL: 5000,
   deltaTBuforaK: 20,
   zasilanieNocy: "siec" as const,
+  profilGodzinowy: [],
+  godzinyStrefyNocnej: [],
+  stratyBuforaKwhDoba: 0,
 }
 
 describe("taryfaNocnaPompyCieplaTool (M6 Część 2C, dawne 5.59)", () => {
@@ -35,5 +38,14 @@ describe("taryfaNocnaPompyCieplaTool (M6 Część 2C, dawne 5.59)", () => {
   it("z baterii off-grid: 🟡 ostrzeżenie o rozładowaniu jako tekst PL", async () => {
     const w = await taryfaNocnaPompyCieplaTool.handler({ ...wejscie, zasilanieNocy: "bateria" })
     expect(w.ostrzezenia).toContain(t("pl", "TAN-NOC-Z-BATERII", { kwh: r2(w.pradNocKwh), kw: r2(w.mocNocSredniaKw) }))
+  })
+
+  it("pola z decyzji 04.10 (profil, godziny strefy, straty bufora) są opcjonalne w schemacie — domyślnie puste", () => {
+    const { profilGodzinowy, godzinyStrefyNocnej, stratyBuforaKwhDoba, ...stare } = wejscie
+    void profilGodzinowy
+    void godzinyStrefyNocnej
+    void stratyBuforaKwhDoba
+    const sparsowane = taryfaNocnaPompyCieplaTool.inputSchema.parse(stare)
+    expect(sparsowane).toMatchObject({ profilGodzinowy: [], godzinyStrefyNocnej: [], stratyBuforaKwhDoba: 0 })
   })
 })

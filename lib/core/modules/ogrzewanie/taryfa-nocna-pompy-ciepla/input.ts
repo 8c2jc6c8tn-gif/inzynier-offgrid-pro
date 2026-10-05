@@ -26,4 +26,20 @@ export type TaryfaNocnaPompyCieplaInput = {
   deltaTBuforaK: number
   /** Source of the night energy. */
   zasilanieNocy: ZasilanieNocy
+  /**
+   * Optional hourly heat-demand profile: 24 relative weights for hours 0–23 (any unit — kWh, kW, %; only the shares
+   * matter). [] = not entered → the daily heat is spread evenly over 24 h (owner decision 04.10.2026, point 1 → B).
+   */
+  profilGodzinowy: number[]
+  /**
+   * Hours (0–23, the start hour of each one-hour slot) in the cheap zone — needed only with `profilGodzinowy`, because
+   * with an uneven profile it matters WHICH hours are cheap (e.g. G12: 22–6 and 13–15). Their count must equal
+   * `godzinyNocH`. [] = not entered.
+   */
+  godzinyStrefyNocnej: number[]
+  /**
+   * Buffer heat loss per day [kWh thermal/day] while it is kept charged — the user's figure (buffer datasheet, standing
+   * loss). 0 = not entered → losses not counted (owner decision 04.10.2026, point 2 → B).
+   */
+  stratyBuforaKwhDoba: number
 }

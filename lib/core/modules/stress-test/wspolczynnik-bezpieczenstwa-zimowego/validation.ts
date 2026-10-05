@@ -1,7 +1,7 @@
 import type { Warning } from "@/lib/core/calc-result"
 import { SKLADOWE, TOLERANCJA_SUMY_WAG_PKT } from "./constants"
 import type { WspolczynnikInput } from "./input"
-import { spofPonadLiczbe, wagiNieSumujaSie, wartoscUjemnaWsp } from "./warnings"
+import { progPozaZakresem, spofPonadLiczbe, wagiNieSumujaSie, wartoscUjemnaWsp } from "./warnings"
 
 export function validateInput(input: WspolczynnikInput): { errors: Warning[] } {
   const errors: Warning[] = []
@@ -21,6 +21,8 @@ export function validateInput(input: WspolczynnikInput): { errors: Warning[] } {
   if (input.liczbaSpof !== null && input.liczbaKomponentow !== null && input.liczbaSpof > input.liczbaKomponentow) {
     errors.push(spofPonadLiczbe(input.liczbaSpof, input.liczbaKomponentow))
   }
+  const prog = input.progSlabegoPunktuPct
+  if (prog !== null && (prog < 0 || prog > 100)) errors.push(progPozaZakresem(prog))
   if (input.wagiWlasne !== null) {
     for (const id of SKLADOWE) if (input.wagiWlasne[id] < 0) errors.push(wartoscUjemnaWsp(`wagiWlasne.${id}`, input.wagiWlasne[id]))
     const suma = SKLADOWE.reduce((s, id) => s + input.wagiWlasne![id], 0)

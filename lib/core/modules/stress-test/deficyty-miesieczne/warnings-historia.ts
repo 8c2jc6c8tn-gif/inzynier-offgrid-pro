@@ -102,11 +102,14 @@ export function historiaPominieteLata(lata: number[]): Warning {
   }
 }
 
-/** ℹ️ Months without a complete month of data in any year — their shortfall was taken as 0 in the table. */
+/**
+ * 🟡 Months without a complete month of data in any year — no result for them (not 0), so the stock may be too
+ * small (owner decision D74 pkt 5, 04.10.2026; was ℹ️ with 0).
+ */
 export function historiaBrakMiesiecy(miesiace: number[]): Warning {
   return {
     code: "DEFM-HISTORIA-BRAK-MIESIECY",
-    level: "info",
+    level: "warning",
     i18nKey: "DEFM-HISTORIA-BRAK-MIESIECY",
     params: { miesiace: miesiace.join(", ") },
     technicalMessage: `miesiące bez pełnych danych: ${miesiace.join(", ")}`,

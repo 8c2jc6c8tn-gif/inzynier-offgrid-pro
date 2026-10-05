@@ -4,11 +4,12 @@ import Link from "next/link"
 import { useMemo } from "react"
 import { calculateTaryfaNocnaPompyCiepla } from "@/lib/core/modules/ogrzewanie/taryfa-nocna-pompy-ciepla/calculator"
 import type { ZasilanieNocy } from "@/lib/core/modules/ogrzewanie/taryfa-nocna-pompy-ciepla/input"
+import { parsujGodzinyStrefy, parsujProfil } from "@/lib/core/modules/ogrzewanie/taryfa-nocna-pompy-ciepla/parsuj"
 import { usePersistedDraft } from "@/lib/adapters/use-persisted-draft"
 import { przeliczPola } from "@/lib/waluta/przelicz"
 import { PrzeliczoneInfo } from "@/components/przeliczone-info"
 import { useTranslate } from "@/lib/i18n/language-context"
-import { Pole, PoleSelect } from "@/components/ui/pole"
+import { Pole, PoleSelect, PoleTekst } from "@/components/ui/pole"
 import { PomocPola } from "@/components/ui/pomoc"
 import { WerdyktPanel } from "@/components/werdykt"
 import { NawigacjaEkranu } from "@/components/nawigacja-ekranu"
@@ -16,8 +17,8 @@ import { NaglowekEkranu } from "@/components/wzorce/naglowek-ekranu"
 import { WynikGlowny } from "@/components/wzorce/wynik-glowny"
 import { WynikSzczegoly } from "@/components/wzorce/wynik-szczegoly"
 
-type Pola = "cieplo" | "godziny" | "cenaDzien" | "cenaNoc" | "copDzien" | "copNoc" | "buforL" | "buforDT"
-type FormularzStan = Record<Pola, string> & { zasilanie: ZasilanieNocy }
+type Pola = "cieplo" | "godziny" | "cenaDzien" | "cenaNoc" | "copDzien" | "copNoc" | "buforL" | "buforDT" | "straty"
+type FormularzStan = Record<Pola, string> & { zasilanie: ZasilanieNocy; profil: string; strefa: string }
 
 const STAN_POCZATKOWY: FormularzStan = {
   cieplo: "",
@@ -28,7 +29,10 @@ const STAN_POCZATKOWY: FormularzStan = {
   copNoc: "",
   buforL: "",
   buforDT: "",
+  straty: "",
   zasilanie: "siec",
+  profil: "",
+  strefa: "",
 }
 
 /** Money fields converted when the display currency changes. */
@@ -60,6 +64,10 @@ export default function TaryfaNocnaPompyCieplaPage() {
     onChange: (e: React.ChangeEvent<HTMLInputElement>) => setStan((prev) => ({ ...prev, [klucz]: e.target.value })),
   })
 
+  const profil = useMemo(() => parsujProfil(stan.profil), [stan.profil])
+  const strefa = useMemo(() => parsujGodzinyStrefy(stan.strefa), [stan.strefa])
+  const nieczytelne = [profil.blad && t("UI-M6-TAN-PROFIL"), strefa.blad && t("UI-M6-TAN-STREFA")].filter(Boolean).join(", ")
+
   const result = useMemo(
     () =>
       calculateTaryfaNocnaPompyCiepla({
@@ -72,8 +80,11 @@ export default function TaryfaNocnaPompyCieplaPage() {
         pojemnoscBuforaL: liczba(stan.buforL),
         deltaTBuforaK: liczba(stan.buforDT),
         zasilanieNocy: stan.zasilanie,
+        profilGodzinowy: profil.wartosci,
+        godzinyStrefyNocnej: strefa.godziny,
+        stratyBuforaKwhDoba: liczba(stan.straty),
       }),
-    [stan],
+    [stan, profil, strefa],
   )
   const v = result.value
   const uwaga = result.status === "VALID_WITH_WARNINGS"
@@ -139,9 +150,38 @@ export default function TaryfaNocnaPompyCieplaPage() {
           <Pole label={t("UI-M6-TAN-BUFOR-L")} unit="l" {...pole("buforL")} pomoc={<PomocPola ekran="taryfa-nocna-pompy-ciepla" pole="buforL" />} />
           <Pole label={t("UI-M6-TAN-BUFOR-DT")} unit="K" {...pole("buforDT")} pomoc={<PomocPola ekran="taryfa-nocna-pompy-ciepla" pole="buforDT" />} />
         </div>
+        <Pole
+          label={t("UI-M6-TAN-STRATY")}
+          unit={t("UI-J-KWH-DOBA")}
+          {...pole("straty")}
+          pomoc={<PomocPola ekran="taryfa-nocna-pompy-ciepla" pole="straty" />}
+        />
       </section>
 
-      {result.status === "INVALID_INPUT" ? (
+      <section className={SEKCJA_KLASY}>
+        <h2 className={SEKCJA_TYTUL_KLASY}>{t("UI-M6-TAN-SEKCJA-PROFIL")}</h2>
+        <PoleTekst
+          label={t("UI-M6-TAN-PROFIL")}
+          podpis={t("UI-M6-TAN-PROFIL-PODPIS")}
+          value={stan.profil}
+          onChange={(e) => setStan((prev) => ({ ...prev, profil: e.target.value }))}
+          pomoc={<PomocPola ekran="taryfa-nocna-pompy-ciepla" pole="profil" />}
+        />
+        <Pole
+          label={t("UI-M6-TAN-STREFA")}
+          type="text"
+          value={stan.strefa}
+          onChange={(e: React.ChangeEvent<HTMLInputElement>) => setStan((prev) => ({ ...prev, strefa: e.target.value }))}
+          pomoc={<PomocPola ekran="taryfa-nocna-pompy-ciepla" pole="strefa" />}
+        />
+        <p className="text-caption text-muted-foreground">{t("UI-M6-TAN-STREFA-PODPIS")}</p>
+      </section>
+
+      {nieczytelne ? (
+        <WerdyktPanel poziom="blad" etykieta={t("UI-M6-TAN-BLAD")}>
+          <p className="text-small">{t("UI-M6-TAN-NIECZYTELNE", { pole: nieczytelne })}</p>
+        </WerdyktPanel>
+      ) : result.status === "INVALID_INPUT" ? (
         <WerdyktPanel poziom="blad" etykieta={t("UI-M6-TAN-BLAD")}>
           <WynikSzczegoly assumptions={[]} warnings={result.warnings} />
         </WerdyktPanel>
@@ -153,6 +193,7 @@ export default function TaryfaNocnaPompyCieplaPage() {
           <p className="mt-1 text-small">{t("UI-M6-TAN-KOSZTY", { bez: r2(v.kosztBezPrzesuniecaZl), z: r2(v.kosztZPrzesunieciemZl) })}</p>
           <p className="mt-1 text-small">{t("UI-M6-TAN-PRZESUNIETE", { kwh: r2(v.przesunieteKwh), bufor: r2(v.pojemnoscBuforaKwh) })}</p>
           <p className="mt-1 text-small">{t("UI-M6-TAN-NOC", { kwh: r2(v.pradNocKwh), kw: r2(v.mocNocSredniaKw) })}</p>
+          <p className="mt-1 text-small">{t("UI-M6-TAN-UDZIAL-NOCY", { pct: r1(v.udzialNocyPct), straty: r2(v.stratyBuforaKwh) })}</p>
           <WynikSzczegoly assumptions={result.assumptions} warnings={result.warnings} formula={result.formula} formulaKey={result.formulaKey} formulaParams={result.formulaParams} />
         </WerdyktPanel>
       )}
