@@ -1,6 +1,6 @@
 # Rejestr decyzji — Inżynier Offgrid Pro
 
-**Wersja:** 1.49 | **Filar:** C | **Data utworzenia:** 04.09.2026 | **Ostatnia aktualizacja:** 05.10.2026 | **Status:** Stabilny (rosnący)
+**Wersja:** 1.50 | **Filar:** C | **Data utworzenia:** 04.09.2026 | **Ostatnia aktualizacja:** 05.10.2026 | **Status:** Stabilny (rosnący)
 **Powiązane dokumenty:** `00_Biblia.md`, `docs/memory.md`, `USTALENIA.md` (historyczny, Część II)
 
 TL;DR: D1, D2, D3… — decyzje **strategiczne/fundamentalne** (blokujące wiele innych rzeczy naraz, Krok 4 GOD BOOK), ponumerowane, nigdy nie kasowane, tylko unieważniane jawnie (F.5). **Nie duplikuje `docs/memory.md`**: tam żyje pełna, szczegółowa historia każdej sesji (setki drobnych decyzji implementacyjnych per ekran) — tu tylko decyzje, które zmieniły kierunek/regułę obowiązującą cały projekt. Gdy wpis niżej odsyła do `docs/memory.md`, tam jest pełne uzasadnienie i przykłady.
@@ -366,6 +366,11 @@ Obie sprawy należą do decyzji o modelu freemium (rozdz. 12 standardu), która 
 
 **D77 (05.10.2026) — M7/E9 „Albedo i bifacjalne w śniegu” jako osobny ekran M7, nie preset M3/E16.** Koszt cofnięcia: tani (jeden moduł `lib/core/modules/stress-test/albedo-snieg/`, jeden ekran). Decyzja właściciela projektu (04.10.2026, odpowiedź „B: osobny ekran w M7”), zamyka pytanie otwarte w D72 pkt (4) („E9 jako preset M3/E16”). Treść: źródło (EKRAN 9) podaje fizykę (śnieg odbija 70–90% światła) i tylko przykładowe zyski (+25% pionowe na ogrodzeniu, +20% bifacjalne przy 30 cm śniegu, +30% bifacjalne pionowo), bez wzoru — dlatego procent zysku wpisuje user (D16, Dyrektywa #1), przykłady są podpowiedzią przy typie montażu, silnik liczy `E_alb = E·z/100`; 🟡 dla montażu na dachu = zdanie źródła; wysokość montażu, kąt i czystość śniegu nie są modelowane. Link do M3/E16 `panele-bifacjalne` i M7/E7 `snieg-na-pv`.
 
+**D78 (05.10.2026) — Plan dożywotni 1797 zł / 50 miejsc, program partnerski 50/25 (10 partnerów‑założycieli × 50 klientów), druga apka „Elektryk Pro”.** Koszt cofnięcia: tani do startu sprzedaży (nic nie jest jeszcze publiczne), potem drogi (zobowiązania wobec klientów i partnerów). Decyzja właściciela projektu (05.10.2026, odpowiedzi na `04_Plan_Rozwoju_i_Sprzedazy.md` sekcja 13 pkt 1, 2, 4), domyka otwarte punkty D76.
+- (1) **Plan dożywotni:** ok. 1797 zł (3× roczny), limit 50 miejsc. Kwota brutto/netto i VAT — do ustalenia z księgową przy wdrożeniu płatności (🔎, jak w D76 pkt 1).
+- (2) **Program partnerski:** partner‑założyciel — maks. 10 osób, 50% od pierwszej płatności pierwszych 50 klientów każdego partnera, potem 25% od odnowień; zwykły partner — 25%. Łącznie najwyżej 500 pierwszych płatności objętych 50% prowizji. Zasady z sekcji 7 planu (prowizja od kwoty bez VAT, wypłata po 30 dniach, próg 499 zł, rabat klienta do 10%, nie łączyć 50% z ceną założycielską) bez zmian; forma umowy i rozliczenie — 🔎 księgowa.
+- (3) **Nazwa drugiej apki: „Elektryk Pro”.** Znak towarowy i domena niezweryfikowane (🔎) — sprawdzić przed publikacją.
+
 ## Założenia robocze (F.7 GOD BOOK)
 
 **Z1 (04.09.2026) — przyjęto:** ID modułów (H.2 GOD BOOK, M#) odpowiadają wprost numeracji "Moduł N" już używanej w całym projekcie (1–13), nie nowej, niezależnej numeracji. **Powód:** ta numeracja jest już stabilna, używana w kodzie, dokumentacji i UI od 29.08.2026 — wprowadzenie równoległej numeracji M# byłoby duplikatem, nie nowym bytem. **Na czym się opiera:** cała struktura `docs/rejestr-pokrycia.md`, `lib/pulpit/registry.ts`, `docs/pulpit-i-nawigacja.md`.
@@ -430,3 +435,4 @@ Obie sprawy należą do decyzji o modelu freemium (rozdz. 12 standardu), która 
 | 04.10.2026 | Dodano D75 (M7/E12: najsłabsze ogniwo obok średniej, próg słabego punktu od usera; E7/E14 potwierdzone) — decyzja właściciela projektu. Wersja 1.46→1.47. |
 | 05.10.2026 | Dodano D76 (ceny Offgrid Pro, plan dożywotni z limitem, polecenia 3 miesiące) — decyzja właściciela projektu. Wersja 1.47→1.48. |
 | 05.10.2026 | Dodano D77 (M7/E9 albedo jako osobny ekran M7, procent zysku od usera) — decyzja właściciela projektu, zamyka otwarte pytanie D72 pkt (4). Wersja 1.48→1.49. |
+| 05.10.2026 | Dodano D78 (plan dożywotni 1797 zł/50 miejsc, partnerzy 50/25 — 10×50, nazwa „Elektryk Pro”) — decyzja właściciela projektu, domyka D76. Wersja 1.49→1.50. |
