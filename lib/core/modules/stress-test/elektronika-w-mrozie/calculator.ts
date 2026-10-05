@@ -1,14 +1,18 @@
 import type { Assumption, CalcResult, Warning } from "@/lib/core/calc-result"
+import { nazwaElementu } from "@/lib/core/nazwa-elementu"
 import type { ElektronikaWMrozieInput, TypElektroniki } from "./input"
 import { bmsPonizejMin, brakMinTemp, przetwornicaPonizejMin, urzadzeniePonizejMin } from "./warnings"
 
-export const CALCULATOR_VERSION = "1.1.0"
+export const CALCULATOR_VERSION = "1.1.1"
 
 const FORMULA = "T_{min,miejsca} \\ge T_{min,pracy}"
 
 export type OcenaUrzadzenia = {
   id: string
+  /** User's name, trimmed; "" when left blank — the screen shows the numbered fallback in the UI language. */
   nazwa: string
+  /** 1-based position on the list (fallback label „urządzenie {nr}”). */
+  nr: number
   typ: TypElektroniki
   /** T miejsca − T min pracy [K]; null = brak danych z karty. Ujemny = poniżej zakresu pracy. */
   zapasK: number | null
@@ -45,22 +49,24 @@ export function calculateElektronikaWMrozie(input: ElektronikaWMrozieInput): Cal
   const t = input.temperaturaMiejscaC
   const warnings: Warning[] = []
   const oceny: OcenaUrzadzenia[] = input.urzadzenia.map((u, i) => {
-    const nazwa = u.nazwa.trim() === "" ? `urządzenie ${i + 1}` : u.nazwa.trim()
+    const nazwa = u.nazwa.trim()
+    const nr = i + 1
+    const etykieta = nazwaElementu("nazwa", nazwa, "NAZWA-URZADZENIE-NR", nr)
     if (u.minTempPracyC === null) {
-      warnings.push(brakMinTemp(nazwa))
-      return { id: u.id, nazwa, typ: u.typ, zapasK: null }
+      warnings.push(brakMinTemp(etykieta))
+      return { id: u.id, nazwa, nr, typ: u.typ, zapasK: null }
     }
     const zapasK = t - u.minTempPracyC
     if (zapasK < 0) {
       warnings.push(
         u.typ === "BMS"
-          ? bmsPonizejMin(nazwa, t, u.minTempPracyC)
+          ? bmsPonizejMin(etykieta, t, u.minTempPracyC)
           : u.typ === "przetwornica"
-            ? przetwornicaPonizejMin(nazwa, t, u.minTempPracyC)
-            : urzadzeniePonizejMin(u.typ, nazwa, t, u.minTempPracyC),
+            ? przetwornicaPonizejMin(etykieta, t, u.minTempPracyC)
+            : urzadzeniePonizejMin(u.typ, etykieta, t, u.minTempPracyC),
       )
     }
-    return { id: u.id, nazwa, typ: u.typ, zapasK }
+    return { id: u.id, nazwa, nr, typ: u.typ, zapasK }
   })
 
   const assumptions: Assumption[] = [{ kod: "ELEKTRONIKA-ZALOZENIE-TEMP-MIEJSCA" }]

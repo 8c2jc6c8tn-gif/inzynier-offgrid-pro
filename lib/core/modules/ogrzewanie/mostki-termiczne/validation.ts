@@ -1,4 +1,5 @@
 import type { Warning } from "@/lib/core/calc-result"
+import { nazwaElementu } from "@/lib/core/nazwa-elementu"
 import { PSI_SANITY_MAX } from "./constants"
 import type { MostkiTermiczneInput } from "./input"
 import { pozycjaKatalogu } from "./katalog-psi"
@@ -7,7 +8,7 @@ import { nieznanyKodKatalogu, wartoscPozaZakresem, wartoscUjemna } from "./warni
 export function validateInput(input: MostkiTermiczneInput): Warning[] {
   const e: Warning[] = []
   input.mostki.forEach((m, i) => {
-    const etykieta = m.nazwa || `mostek ${i + 1}`
+    const etykieta = nazwaElementu("przegroda", m.nazwa, "NAZWA-MOSTEK-NR", i + 1)
     if (m.dlugoscM !== null && m.dlugoscM < 0) e.push(wartoscUjemna(`mostki.${i}.dlugoscM`, "POLE-DLUGOSC-MOSTKA", m.dlugoscM, etykieta))
     for (const [pole, psi] of [
       ["psiWmK", m.psiWmK],

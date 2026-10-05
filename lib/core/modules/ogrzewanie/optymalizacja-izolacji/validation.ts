@@ -1,4 +1,5 @@
 import type { Warning } from "@/lib/core/calc-result"
+import { nazwaElementu } from "@/lib/core/nazwa-elementu"
 import { GRUBOSC_SANITY_MAX_CM, LAMBDA_SANITY_MAX, U_SANITY_MAX } from "./constants"
 import type { OptymalizacjaIzolacjiInput } from "./input"
 import { wartoscNiedodatnia, wartoscPozaZakresem, wartoscUjemna } from "./warnings"
@@ -10,7 +11,7 @@ export function validateInput(input: OptymalizacjaIzolacjiInput): Warning[] {
   if (u !== null && u <= 0) e.push(wartoscNiedodatnia("uWM2K", "POLE-U-IZOLOWANEJ-PRZEGRODY", u))
   else if (u !== null && u > U_SANITY_MAX) e.push(wartoscPozaZakresem("uWM2K", "POLE-U-IZOLOWANEJ-PRZEGRODY", u, 0, U_SANITY_MAX))
   input.warianty.forEach((w, i) => {
-    const etykieta = w.nazwa || `wariant ${i + 1}`
+    const etykieta = nazwaElementu("przegroda", w.nazwa, "NAZWA-WARIANT-NR", i + 1)
     if (w.lambdaWmK !== null && (w.lambdaWmK <= 0 || w.lambdaWmK > LAMBDA_SANITY_MAX)) {
       e.push(wartoscPozaZakresem(`warianty.${i}.lambdaWmK`, "POLE-LAMBDA-WARIANTU", w.lambdaWmK, 0, LAMBDA_SANITY_MAX, etykieta))
     }

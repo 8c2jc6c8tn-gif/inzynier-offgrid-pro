@@ -1,4 +1,5 @@
 import type { Warning } from "@/lib/core/calc-result"
+import type { NazwaElementu } from "@/lib/core/nazwa-elementu"
 
 export { wartoscNiedodatnia, wartoscPozaZakresem } from "../obciazenie-cieplne/warnings"
 
@@ -17,12 +18,12 @@ export function zalacznikAPrzyblizenie(): Warning {
 }
 
 /** Element thinner than its own massive layer. */
-export function elementCienszyNizWarstwa(field: string, nazwa: string, element: number, warstwa: number): Warning {
+export function elementCienszyNizWarstwa(field: string, nazwa: NazwaElementu, element: number, warstwa: number): Warning {
   return {
     code: "POJC-ELEMENT-CIENSZY-NIZ-WARSTWA",
     level: "critical",
     i18nKey: "POJC-ELEMENT-CIENSZY-NIZ-WARSTWA",
-    params: { nazwa, element, warstwa },
+    params: { ...nazwa, element, warstwa },
     technicalMessage: `gruboscElementuCm = ${element} < gruboscCm = ${warstwa}`,
     field,
   }

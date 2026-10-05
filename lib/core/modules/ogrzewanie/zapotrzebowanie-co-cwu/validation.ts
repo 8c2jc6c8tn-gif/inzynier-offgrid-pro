@@ -14,7 +14,7 @@ export function validateInput(input: ZapotrzebowanieCoCwuInput): Warning[] {
     e.push(wartoscPozaZakresem("cwuLitrowNaOsobeDoba", "POLE-CWU-NA-OSOBE", l, 0, LITROW_NA_OSOBE_SANITY_MAX))
   }
   input.cieploCoMiesiaceKwh.forEach((q, i) => {
-    if (q !== null && q < 0) e.push(wartoscUjemna(`cieploCoMiesiaceKwh.${i}`, "POLE-CIEPLO-CO-MIESIAC", q, String(i + 1)))
+    if (q !== null && q < 0) e.push(wartoscUjemna(`cieploCoMiesiaceKwh.${i}`, "POLE-CIEPLO-CO-MIESIAC", q, { przegroda: i + 1 }))
   })
   if (input.copCo !== null && input.copCo <= 0) e.push(wartoscNiedodatnia("copCo", "POLE-COP-OGRZEWANIA", input.copCo))
   if (input.copCwu !== null && input.copCwu <= 0) e.push(wartoscNiedodatnia("copCwu", "POLE-COP-CWU", input.copCwu))
