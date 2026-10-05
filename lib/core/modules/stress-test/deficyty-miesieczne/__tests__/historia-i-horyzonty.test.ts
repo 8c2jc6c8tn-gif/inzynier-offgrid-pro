@@ -27,8 +27,8 @@ const HIST: HistoriaDobowa = {
 const POPYT = Array.from({ length: 12 }, () => 10)
 
 describe("łańcuch agregatu i stałe horyzonty (M7/E2, 1.1.0)", () => {
-  it("wersja kalkulatora podniesiona do 1.4.0 (1.2.0 D74: miesiąc bez danych to brak wyniku; 1.3.0: magazyn w historii; 1.4.0: dzień/noc)", () => {
-    expect(CALCULATOR_VERSION).toBe("1.4.0")
+  it("wersja kalkulatora podniesiona do 1.5.0 (1.2.0 D74: miesiąc bez danych to brak wyniku; 1.3.0: magazyn w historii; 1.4.0: dzień/noc; 1.5.0: brakujące dni)", () => {
+    expect(CALCULATOR_VERSION).toBe("1.5.0")
   })
 
   it("łańcuch: 5 kW × 0,8 = 4 kW na godzinę, 0,375 l/kWh, 124 kWh → 31 h → 46,5 l", () => {

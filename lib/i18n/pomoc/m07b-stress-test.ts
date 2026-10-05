@@ -138,7 +138,7 @@ export const pl = {
         nazwa: "Magazyn energii — pojemność użyteczna [kWh]",
         cel: "Nadwyżka PV z dobrej doby ładuje magazyn i pokrywa deficyt kolejnych dób, zanim ruszy agregat — zapas paliwa wychodzi mniejszy niż w bilansie bez magazynu. Puste = bilans bez magazynu.",
         gdzie: "Pojemność, którą wolno realnie zużyć (po odjęciu dopuszczalnej głębokości rozładowania) — karta katalogowa albo ekrany Modułu 4.",
-        zakres: "≥ 0 kWh. Agregat nie ładuje magazynu, a dzień bez danych zeruje jego stan.",
+        zakres: "≥ 0 kWh. W tym bilansie agregat nie ładuje magazynu (ładowanie z agregatu policzysz na ekranie „Ładowanie magazynu z agregatu”); dzień bez danych zeruje stan magazynu — uzupełnij brakujące dni, jeśli masz z nich dane.",
       },
       histMagSpr: {
         nazwa: "Sprawność cyklu magazynu [%]",
@@ -151,6 +151,30 @@ export const pl = {
         cel: "Od jakiego naładowania liczony jest każdy rok historii. Puste lub 0 = pusty magazyn — strona bezpieczna.",
         gdzie: "Twoje założenie o typowym stanie na przełomie roku.",
         zakres: "Od 0 do 100%.",
+      },
+      histBrak: {
+        nazwa: "Brakujący dzień historii",
+        cel: "Wartość dnia, którego brakuje w danych (z PVGIS, z pliku albo z telemetrii). Po „Uzupełnij” trafia do historii w miejsce „-”, a okna i serie z tym dniem przestają być pomijane.",
+        gdzie: "Tylko jeśli masz realną wartość: licznik dzienny falownika, aplikacja producenta, własne notatki. Bez danych zostaw puste — aplikacja niczego nie wstawia za Ciebie.",
+        zakres: "≥ 0, w jednostce historii (kWh/dobę dla produkcji PV, kWh/m²/dobę dla nasłonecznienia).",
+      },
+      telZrodlo: {
+        nazwa: "Źródło telemetrii",
+        cel: "Źródło pomiarów zapisanych w aplikacji (import CSV, urządzenie, tryb na żywo), z którego zostanie złożona historia dobowa produkcji PV budynku.",
+        gdzie: "Źródła dodajesz na ekranie „Źródła telemetrii”, a pomiary zbiera import CSV lub odczyt na żywo.",
+        zakres: "Jedno ze źródeł z listy.",
+      },
+      telKanal: {
+        nazwa: "Kanał mocy PV",
+        cel: "Kanał, którego moc [W] jest produkcją PV (np. wyjście MPPT albo falownika PV). Energia doby to całka tej mocy po czasie.",
+        gdzie: "Nazwa kanału z pliku lub urządzenia — taka sama jak na ekranie „Podsumowanie telemetrii”.",
+        zakres: "Kanał z próbkami mocy.",
+      },
+      telPrzerwa: {
+        nazwa: "Najdłuższa przerwa między próbkami [min]",
+        cel: "Do tej przerwy energia jest liczona między sąsiednimi próbkami; dłuższa przerwa jest nieznana i nie jest mostkowana. Doba ma wartość tylko wtedy, gdy próbki pokrywają ją w całości — inaczej zostaje brakującym dniem do uzupełnienia.",
+        gdzie: "Krok zapisu Twojego loggera z zapasem na pojedyncze zgubione próbki — to zależy od urządzenia, aplikacja go nie zgaduje.",
+        zakres: "> 0 min.",
       },
       pvgisLat: {
         nazwa: "Szerokość geograficzna działki [°]",
@@ -189,6 +213,70 @@ export const pl = {
         zakres: "Od 2005 do 2023 i nie wcześniej niż rok początkowy.",
       },
     },
+  },
+  "ladowanie-z-agregatu": {
+    "migawka": {
+      "oCoChodzi": "Agregat ładujący magazyn to jak kran napełniający wannę, z którego ktoś w tym samym czasie nabiera wodę wiadrem — do wanny płynie tylko to, co zostanie.",
+      "jakDziala": "Wpisz moc agregatu, moc ładowania ładowarki/falownika, moc odbiorników na linii awaryjnej, pojemność magazynu, progi SOC startu i zatrzymania oraz sprawność ładowania. Aplikacja policzy moc ładowania, obciążenie agregatu, czas pracy na cykl i — gdy podasz zużycie z karty — paliwo i koszt.",
+      "poCo": "Bilans dobowy (Deficyty miesięczne) nie wie, ile kW zostaje na ładowanie w danej chwili. Tu widać, czy agregat w ogóle ma zapas na ładowanie, przy jakim obciążeniu pracuje (od tego zależy zużycie l/h z karty) i ile godzin oraz litrów kosztuje jeden cykl.",
+      "fizyka": "P_ład = min(P_ładowarki, P_agregatu − P_odbiorników); E = (SOC_stop − SOC_start)/100 · C; energia AC = E/η; t = E_AC / P_ład; paliwo = t · q [l/h]. Obciążenie = (P_odb + P_ład)/P_agregatu. Pod koniec ładowania (faza stałego napięcia) moc ładowania spada — rzeczywisty czas jest dłuższy."
+    },
+    "pola": {
+      "mocAgregatuKw": {
+        "nazwa": "Moc znamionowa (ciągła) agregatu [kW]",
+        "cel": "Górna granica mocy, którą agregat odda odbiornikom i ładowarce razem.",
+        "gdzie": "Tabliczka znamionowa / karta katalogowa — moc ciągła (nie szczytowa).",
+        "zakres": "Twój agregat; wymagane > 0."
+      },
+      "mocLadowarkiKw": {
+        "nazwa": "Moc ładowania z agregatu [kW]",
+        "cel": "Ile maksymalnie ładowarka/falownik pobiera z agregatu na ładowanie magazynu.",
+        "gdzie": "Karta falownika/ładowarki (maks. prąd ładowania × napięcie magazynu, albo ustawiony limit prądu wejścia AC).",
+        "zakres": "Twoje urządzenie; wymagane > 0."
+      },
+      "mocOdbiornikowKw": {
+        "nazwa": "Moc odbiorników na linii awaryjnej [kW]",
+        "cel": "Odbiorniki pracujące w czasie ładowania zabierają część mocy agregatu.",
+        "gdzie": "Suma mocy odbiorników linii awaryjnej pracujących w tym czasie (Moduł 2, pomiar).",
+        "zakres": "0 = brak odbiorników; wartość stała przez cały cykl."
+      },
+      "pojemnoscKwh": {
+        "nazwa": "Pojemność użyteczna magazynu [kWh]",
+        "cel": "Przelicza różnicę progów SOC na energię do naładowania.",
+        "gdzie": "Karta magazynu × dopuszczalne DoD (Moduł 4).",
+        "zakres": "Twój magazyn; wymagane > 0."
+      },
+      "socStartPct": {
+        "nazwa": "Próg SOC startu agregatu [%]",
+        "cel": "Przy tym stanie naładowania agregat się uruchamia.",
+        "gdzie": "Ustawienia falownika/sterownika agregatu.",
+        "zakres": "0–100%, mniejszy niż próg zatrzymania."
+      },
+      "socStopPct": {
+        "nazwa": "Próg SOC zatrzymania agregatu [%]",
+        "cel": "Do tego stanu naładowania agregat ładuje magazyn.",
+        "gdzie": "Ustawienia falownika/sterownika agregatu.",
+        "zakres": "0–100%, większy niż próg startu."
+      },
+      "sprawnoscLadowaniaPct": {
+        "nazwa": "Sprawność ładowania AC → magazyn [%]",
+        "cel": "Część energii z agregatu tracona w ładowarce i magazynie przy ładowaniu.",
+        "gdzie": "Karta ładowarki/falownika — sprawność ładowania (nie sprawność cyklu ładowanie+rozładowanie).",
+        "zakres": "Większa od 0, najwyżej 100%."
+      },
+      "zuzyciePaliwaLH": {
+        "nazwa": "Zużycie paliwa [l/h]",
+        "cel": "Liczy paliwo i koszt cyklu.",
+        "gdzie": "Karta katalogowa agregatu — wiersz dla obciążenia najbliższego temu, które pokazuje wynik.",
+        "zakres": "Puste = paliwo nie jest liczone (aplikacja pokaże, przy jakim obciążeniu odczytać)."
+      },
+      "cenaPaliwaZlL": {
+        "nazwa": "Cena paliwa [{waluta}/l]",
+        "cel": "Liczy koszt cyklu.",
+        "gdzie": "Twoja cena zakupu.",
+        "zakres": "Puste = koszt nie jest liczony."
+      }
+    }
   },
   "okno-sloneczne": {
     "migawka": {
@@ -635,7 +723,7 @@ export const en: Tlumaczenie<typeof pl> = {
         nazwa: "Energy store — usable capacity [kWh]",
         cel: "PV surplus from a good day charges the store and covers the shortfall of the following days before the generator starts — the fuel stock comes out smaller than in the balance without a store. Empty = balance without a store.",
         gdzie: "The capacity you may really use (after the allowed depth of discharge) — datasheet or the Module 4 screens.",
-        zakres: "≥ 0 kWh. The generator does not charge the store, and a day without data empties it.",
+        zakres: "≥ 0 kWh. In this balance the generator does not charge the store (generator charging is calculated on the \"Charging the store from the generator\" screen); a day without data empties the store — fill in missing days if you have data for them.",
       },
       histMagSpr: {
         nazwa: "Store round-trip efficiency [%]",
@@ -648,6 +736,30 @@ export const en: Tlumaczenie<typeof pl> = {
         cel: "The state of charge every year of the history starts from. Empty or 0 = empty store — safe side.",
         gdzie: "Your assumption about the typical state at the turn of the year.",
         zakres: "From 0 to 100%.",
+      },
+      histBrak: {
+        nazwa: "Missing day of the history",
+        cel: "The value of a day missing from the data (PVGIS, a file or telemetry). After \"Fill in\" it replaces the \"-\" in the history, and windows and streaks with this day are no longer skipped.",
+        gdzie: "Only if you have a real value: the inverter's daily counter, the manufacturer's app, your own notes. Without data leave it empty — the app inserts nothing for you.",
+        zakres: "≥ 0, in the unit of the history (kWh/day for PV production, kWh/m²/day for irradiation).",
+      },
+      telZrodlo: {
+        nazwa: "Telemetry source",
+        cel: "The source of measurements stored in the app (CSV import, device, live mode) from which the building's daily PV production history is built.",
+        gdzie: "Sources are added on the \"Telemetry sources\" screen; measurements come from a CSV import or live reading.",
+        zakres: "One of the sources on the list.",
+      },
+      telKanal: {
+        nazwa: "PV power channel",
+        cel: "The channel whose power [W] is the PV production (e.g. the MPPT or PV inverter output). A day's energy is the integral of this power over time.",
+        gdzie: "The channel name from the file or device — the same as on the \"Telemetry summary\" screen.",
+        zakres: "A channel with power samples.",
+      },
+      telPrzerwa: {
+        nazwa: "Longest gap between samples [min]",
+        cel: "Up to this gap energy is counted between neighbouring samples; a longer gap is unknown and is not bridged. A day gets a value only when the samples cover all of it — otherwise it stays a missing day to fill in.",
+        gdzie: "Your logger's recording step with a margin for single lost samples — it depends on the device, the app does not guess it.",
+        zakres: "> 0 min.",
       },
       pvgisLat: {
         nazwa: "Latitude of the plot [°]",
@@ -686,6 +798,70 @@ export const en: Tlumaczenie<typeof pl> = {
         zakres: "From 2005 to 2023 and not earlier than the first year.",
       },
     },
+  },
+  "ladowanie-z-agregatu": {
+    "migawka": {
+      "oCoChodzi": "A generator charging the store is like a tap filling a bathtub while someone scoops water out with a bucket — only what is left flows into the tub.",
+      "jakDziala": "Enter the generator power, the charger/inverter charging power, the emergency-line load power, the store capacity, the start and stop SOC thresholds and the charging efficiency. The app calculates the charging power, the generator load, the run time per cycle and — once you give the datasheet consumption — the fuel and cost.",
+      "poCo": "The daily balance (Monthly deficits) does not know how many kW are left for charging at a given moment. Here you see whether the generator has any margin for charging at all, at what load it runs (the datasheet l/h depends on it) and how many hours and litres one cycle costs.",
+      "fizyka": "P_ch = min(P_charger, P_generator − P_loads); E = (SOC_stop − SOC_start)/100 · C; AC energy = E/η; t = E_AC / P_ch; fuel = t · q [l/h]. Load = (P_loads + P_ch)/P_generator. Near the end of charging (constant-voltage phase) the charging power drops — the real time is longer."
+    },
+    "pola": {
+      "mocAgregatuKw": {
+        "nazwa": "Generator rated (continuous) power [kW]",
+        "cel": "Upper limit of the power the generator gives the loads and the charger together.",
+        "gdzie": "Rating plate / datasheet — continuous power (not peak).",
+        "zakres": "Your generator; required > 0."
+      },
+      "mocLadowarkiKw": {
+        "nazwa": "Charging power from the generator [kW]",
+        "cel": "The maximum the charger/inverter draws from the generator to charge the store.",
+        "gdzie": "Inverter/charger datasheet (max charging current × store voltage, or the set AC-input current limit).",
+        "zakres": "Your device; required > 0."
+      },
+      "mocOdbiornikowKw": {
+        "nazwa": "Power of the emergency-line loads [kW]",
+        "cel": "Loads running during charging take part of the generator's power.",
+        "gdzie": "Sum of the emergency-line loads running at that time (Module 2, measurement).",
+        "zakres": "0 = no loads; constant throughout the cycle."
+      },
+      "pojemnoscKwh": {
+        "nazwa": "Usable store capacity [kWh]",
+        "cel": "Converts the SOC threshold difference into the energy to charge.",
+        "gdzie": "Store datasheet × permitted DoD (Module 4).",
+        "zakres": "Your store; required > 0."
+      },
+      "socStartPct": {
+        "nazwa": "Generator start SOC threshold [%]",
+        "cel": "The generator starts at this state of charge.",
+        "gdzie": "Inverter/generator controller settings.",
+        "zakres": "0–100%, lower than the stop threshold."
+      },
+      "socStopPct": {
+        "nazwa": "Generator stop SOC threshold [%]",
+        "cel": "The generator charges the store up to this state of charge.",
+        "gdzie": "Inverter/generator controller settings.",
+        "zakres": "0–100%, higher than the start threshold."
+      },
+      "sprawnoscLadowaniaPct": {
+        "nazwa": "Charging efficiency AC → store [%]",
+        "cel": "Part of the generator energy lost in the charger and store while charging.",
+        "gdzie": "Charger/inverter datasheet — charging efficiency (not the charge+discharge round-trip efficiency).",
+        "zakres": "Greater than 0, at most 100%."
+      },
+      "zuzyciePaliwaLH": {
+        "nazwa": "Fuel consumption [l/h]",
+        "cel": "Calculates the fuel and cost of the cycle.",
+        "gdzie": "Generator datasheet — the row for the load closest to the one shown in the result.",
+        "zakres": "Empty = fuel is not calculated (the app shows at what load to read it)."
+      },
+      "cenaPaliwaZlL": {
+        "nazwa": "Fuel price [{waluta}/l]",
+        "cel": "Calculates the cost of the cycle.",
+        "gdzie": "Your purchase price.",
+        "zakres": "Empty = cost is not calculated."
+      }
+    }
   },
   "okno-sloneczne": {
     "migawka": {
@@ -1132,7 +1308,7 @@ export const ru: Tlumaczenie<typeof pl> = {
         nazwa: "Накопитель энергии — полезная ёмкость [кВт·ч]",
         cel: "Избыток PV хороших суток заряжает накопитель и покрывает дефицит следующих суток до запуска генератора — запас топлива получается меньше, чем в балансе без накопителя. Пусто = баланс без накопителя.",
         gdzie: "Ёмкость, которую реально можно использовать (с учётом допустимой глубины разряда) — паспорт или экраны Модуля 4.",
-        zakres: "≥ 0 кВт·ч. Генератор не заряжает накопитель, а день без данных обнуляет его состояние.",
+        zakres: "≥ 0 кВт·ч. В этом балансе генератор не заряжает накопитель (заряд от генератора считается на экране «Заряд накопителя от генератора»); день без данных обнуляет состояние накопителя — дополните пропущенные дни, если у вас есть данные.",
       },
       histMagSpr: {
         nazwa: "КПД цикла накопителя [%]",
@@ -1145,6 +1321,30 @@ export const ru: Tlumaczenie<typeof pl> = {
         cel: "С какого заряда начинается расчёт каждого года истории. Пусто или 0 = пустой накопитель — в запас надёжности.",
         gdzie: "Ваше допущение о типичном состоянии на рубеже года.",
         zakres: "От 0 до 100%.",
+      },
+      histBrak: {
+        nazwa: "Пропущенный день истории",
+        cel: "Значение дня, которого нет в данных (PVGIS, файл или телеметрия). После «Дополнить» оно заменяет «-» в истории, и окна и серии с этим днём больше не пропускаются.",
+        gdzie: "Только если у вас есть реальное значение: суточный счётчик инвертора, приложение производителя, свои записи. Без данных оставьте пустым — приложение ничего не подставляет за вас.",
+        zakres: "≥ 0, в единице истории (кВт·ч/сутки для выработки PV, кВт·ч/м²/сутки для инсоляции).",
+      },
+      telZrodlo: {
+        nazwa: "Источник телеметрии",
+        cel: "Источник измерений, сохранённых в приложении (импорт CSV, устройство, режим онлайн), из которого строится суточная история выработки PV здания.",
+        gdzie: "Источники добавляются на экране «Источники телеметрии», измерения — импортом CSV или онлайн-чтением.",
+        zakres: "Один из источников списка.",
+      },
+      telKanal: {
+        nazwa: "Канал мощности PV",
+        cel: "Канал, мощность [Вт] которого — выработка PV (напр. выход MPPT или PV-инвертора). Энергия суток — интеграл этой мощности по времени.",
+        gdzie: "Имя канала из файла или устройства — такое же, как на экране «Сводка телеметрии».",
+        zakres: "Канал с выборками мощности.",
+      },
+      telPrzerwa: {
+        nazwa: "Наибольший перерыв между выборками [мин]",
+        cel: "До этого перерыва энергия считается между соседними выборками; более длинный перерыв неизвестен и не перекрывается. Сутки получают значение, только если выборки покрывают их полностью — иначе остаются пропущенным днём для дополнения.",
+        gdzie: "Шаг записи вашего логгера с запасом на отдельные потерянные выборки — зависит от устройства, приложение его не угадывает.",
+        zakres: "> 0 мин.",
       },
       pvgisLat: {
         nazwa: "Широта участка [°]",
@@ -1183,6 +1383,70 @@ export const ru: Tlumaczenie<typeof pl> = {
         zakres: "От 2005 до 2023 и не раньше первого года.",
       },
     },
+  },
+  "ladowanie-z-agregatu": {
+    "migawka": {
+      "oCoChodzi": "Генератор, заряжающий накопитель, — как кран, наполняющий ванну, из которой кто-то одновременно черпает воду ведром: в ванну попадает только то, что остаётся.",
+      "jakDziala": "Введите мощность генератора, мощность заряда зарядного устройства/инвертора, мощность нагрузок аварийной линии, ёмкость накопителя, пороги SOC запуска и остановки и КПД заряда. Приложение рассчитает мощность заряда, нагрузку генератора, время работы за цикл и — если укажете расход по паспорту — топливо и стоимость.",
+      "poCo": "Суточный баланс (Месячные дефициты) не знает, сколько кВт остаётся на заряд в данный момент. Здесь видно, есть ли у генератора вообще запас для заряда, при какой нагрузке он работает (от неё зависит расход л/ч по паспорту) и сколько часов и литров стоит один цикл.",
+      "fizyka": "P_зар = min(P_зарядного, P_генератора − P_нагрузок); E = (SOC_стоп − SOC_старт)/100 · C; энергия AC = E/η; t = E_AC / P_зар; топливо = t · q [л/ч]. Нагрузка = (P_нагр + P_зар)/P_генератора. В конце заряда (фаза постоянного напряжения) мощность заряда падает — реальное время больше."
+    },
+    "pola": {
+      "mocAgregatuKw": {
+        "nazwa": "Номинальная (длительная) мощность генератора [кВт]",
+        "cel": "Верхний предел мощности, которую генератор отдаёт нагрузкам и зарядному устройству вместе.",
+        "gdzie": "Табличка / паспорт — длительная мощность (не пиковая).",
+        "zakres": "Ваш генератор; требуется > 0."
+      },
+      "mocLadowarkiKw": {
+        "nazwa": "Мощность заряда от генератора [кВт]",
+        "cel": "Сколько максимум зарядное устройство/инвертор берёт от генератора на заряд накопителя.",
+        "gdzie": "Паспорт инвертора/зарядного (макс. ток заряда × напряжение накопителя или установленный предел тока входа AC).",
+        "zakres": "Ваше устройство; требуется > 0."
+      },
+      "mocOdbiornikowKw": {
+        "nazwa": "Мощность нагрузок аварийной линии [кВт]",
+        "cel": "Нагрузки, работающие во время заряда, забирают часть мощности генератора.",
+        "gdzie": "Сумма нагрузок аварийной линии, работающих в это время (Модуль 2, измерение).",
+        "zakres": "0 = нагрузок нет; постоянна весь цикл."
+      },
+      "pojemnoscKwh": {
+        "nazwa": "Полезная ёмкость накопителя [кВт·ч]",
+        "cel": "Переводит разницу порогов SOC в энергию для заряда.",
+        "gdzie": "Паспорт накопителя × допустимая DoD (Модуль 4).",
+        "zakres": "Ваш накопитель; требуется > 0."
+      },
+      "socStartPct": {
+        "nazwa": "Порог SOC запуска генератора [%]",
+        "cel": "При этом уровне заряда генератор запускается.",
+        "gdzie": "Настройки инвертора/контроллера генератора.",
+        "zakres": "0–100%, меньше порога остановки."
+      },
+      "socStopPct": {
+        "nazwa": "Порог SOC остановки генератора [%]",
+        "cel": "До этого уровня заряда генератор заряжает накопитель.",
+        "gdzie": "Настройки инвертора/контроллера генератора.",
+        "zakres": "0–100%, больше порога запуска."
+      },
+      "sprawnoscLadowaniaPct": {
+        "nazwa": "КПД заряда AC → накопитель [%]",
+        "cel": "Часть энергии генератора, теряемая в зарядном устройстве и накопителе при заряде.",
+        "gdzie": "Паспорт зарядного/инвертора — КПД заряда (не КПД полного цикла заряд+разряд).",
+        "zakres": "Больше 0, не более 100%."
+      },
+      "zuzyciePaliwaLH": {
+        "nazwa": "Расход топлива [л/ч]",
+        "cel": "Рассчитывает топливо и стоимость цикла.",
+        "gdzie": "Паспорт генератора — строка для нагрузки, ближайшей к показанной в результате.",
+        "zakres": "Пусто = топливо не считается (приложение покажет, при какой нагрузке смотреть)."
+      },
+      "cenaPaliwaZlL": {
+        "nazwa": "Цена топлива [{waluta}/л]",
+        "cel": "Рассчитывает стоимость цикла.",
+        "gdzie": "Ваша цена покупки.",
+        "zakres": "Пусто = стоимость не считается."
+      }
+    }
   },
   "okno-sloneczne": {
     "migawka": {

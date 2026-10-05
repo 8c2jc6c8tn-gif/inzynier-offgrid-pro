@@ -24,6 +24,7 @@ nie do audytu poprawności formularza webowego.
 
 ## Elektryczne / pożarowe
 
+- **[05.10.2026] Odbiorniki linii awaryjnej zabierają całą moc agregatu przy ładowaniu magazynu** — brak zapasu na ładowanie, agregat na granicy lub ponad moc znamionową (przeciążenie). (M7 „Ładowanie magazynu z agregatu” — `lib/core/modules/stress-test/ladowanie-z-agregatu/warnings.ts`, `brakZapasuMocy`, kod `LADAG-BRAK-ZAPASU-MOCY`)
 - **[28.09.2026] Biegun DC uziemiony, gdy falownik wymaga układu izolowanego (IT)** — ryzyko uszkodzenia MPPT. (M5/E11 — `lib/core/modules/okablowanie/uziemienie-funkcjonalne-ochronne/warnings.ts`, `biegunUziemionyWbrewIt`, kod `BIEGUN-UZIEMIONY-WBREW-IT`) — dopisany przy budowie M12/E38 (dryf M5 — patrz wpis M5/E11 w sekcji „Bezpieczeństwo życia / montaż”).
 - **Zdolność wyłączania (AIC) bezpiecznika niższa niż prąd zwarciowy pakietu** — bezpiecznik
   rozerwie się, tworząc łuk plazmowy, zamiast bezpiecznie przerwać obwód.

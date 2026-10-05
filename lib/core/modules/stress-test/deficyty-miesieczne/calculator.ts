@@ -3,11 +3,13 @@ import { latexLiczba } from "@/lib/core/latex"
 import { OPTYMALNE_OBCIAZENIE_PCT } from "@/lib/core/modules/zapotrzebowanie/agregat-pradotworczy/constants"
 import { obliczPraceAgregatu } from "@/lib/core/modules/zapotrzebowanie/agregat-pradotworczy/calculator"
 import { DNI_W_MIESIACU, HORYZONTY_STALE_DNI } from "./constants"
+import { brakujaceDni, dataDnia } from "./brakujace-dni"
 import { analizujHistorie, type WynikHistorii } from "./historia"
 import type { DeficytyMiesieczneInput } from "./input"
 import { validateInput } from "./validation"
 import { paliwoPonadZapas, sprawdzZapas } from "./warnings"
 import {
+  historiaBrakDni,
   historiaBrakMiesiecy,
   historiaBrakParametrow,
   historiaMaloDanych,
@@ -31,8 +33,11 @@ import {
  * 1.4.0 (05.10.2026, owner: "niech liczy"): optional night share of the daily demand (`analizaHistorii.udzialNocyPct`,
  * from the user) — the night part is covered only from the store or the generator, not by the same day's PV.
  * Without it the numbers are the 1.3.0 ones; an assumption now says that day and night are netted then.
+ * 1.5.0 (05.10.2026, owner decision 2 A+B): days marked as missing in the history raise 🟡
+ * `DEFM-HISTORIA-BRAK-DNI` with their count and first dates (the screen lets the user fill them by hand).
+ * The numbers are the 1.4.0 ones.
  */
-export const CALCULATOR_VERSION = "1.4.0"
+export const CALCULATOR_VERSION = "1.5.0"
 
 const FORMULA =
   `t_m = \\dfrac{D_m}{P_{agr} \\cdot ${latexLiczba(OPTYMALNE_OBCIAZENIE_PCT / 100)}},\\quad V_m = t_m \\cdot q,\\quad K_m = V_m \\cdot c_{pal} + t_m \\cdot c_{serw}`
@@ -281,7 +286,9 @@ export function calculateDeficytyMiesieczne(input: DeficytyMiesieczneInput): Cal
     }
   }
   if (input.historia && !maParametry) warnings.push(historiaBrakParametrow())
-  if (historia) {
+  if (historia && input.historia) {
+    const braki = brakujaceDni(input.historia.lata)
+    if (braki.length > 0) warnings.push(historiaBrakDni(braki.length, braki.slice(0, 5).map((b) => dataDnia(b.rok, b.dzien))))
     if (historia.lataPominiete.length > 0) warnings.push(historiaPominieteLata(historia.lataPominiete))
     if (deficytyZHistorii && historia.miesiaceBezDanych.length > 0) warnings.push(historiaBrakMiesiecy(historia.miesiaceBezDanych))
     if (historia.malo === "jeden-rok") warnings.push(historiaMaloDanych(historia.liczbaLat, historia.liczbaDniZDanymi))

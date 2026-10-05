@@ -116,3 +116,20 @@ export function historiaBrakMiesiecy(miesiace: number[]): Warning {
     field: "historia",
   }
 }
+
+/**
+ * 🟡 The history has days marked as missing (owner decision 05.10.2026, "niech pisze brak danych z możliwością
+ * ręcznego uzupełnienia"): a window or streak containing such a day is skipped, so the worst window may be
+ * understated; with a store its state after the gap restarts from 0. `przyklady` = the first dates (ISO).
+ */
+export function historiaBrakDni(liczba: number, przyklady: string[]): Warning {
+  const dni = przyklady.join(", ") + (liczba > przyklady.length ? ", …" : "")
+  return {
+    code: "DEFM-HISTORIA-BRAK-DNI",
+    level: "warning",
+    i18nKey: "DEFM-HISTORIA-BRAK-DNI",
+    params: { liczba, dni },
+    technicalMessage: `dni bez danych: ${liczba} (${dni})`,
+    field: "historia",
+  }
+}
