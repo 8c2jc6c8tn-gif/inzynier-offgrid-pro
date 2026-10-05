@@ -1,6 +1,6 @@
 # 04. Plan rozwoju i sprzedaży — Inżynier Offgrid Pro (wzór dla rodziny „Inżynier … Pro”)
 
-**Wersja:** 1.1 | **Filar:** C | **Data utworzenia:** 02.10.2026 | **Ostatnia aktualizacja:** 05.10.2026 | **Status:** Roboczy — granica PV postanowiona (D70), ceny i plan sprzedaży to rekomendacje czekające na decyzje właściciela
+**Wersja:** 1.2 | **Filar:** C | **Data utworzenia:** 02.10.2026 | **Ostatnia aktualizacja:** 05.10.2026 | **Status:** Roboczy — granica PV postanowiona (D70), ceny i plan sprzedaży to rekomendacje czekające na decyzje właściciela
 **Powiązane dokumenty:** `rejestr-decyzji.md` D70, `backlog-poza-v1.md`, `docs/standards/12-freemium.md`, `docs/lista-do-zrobienia.md`; analizy źródłowe z rozmowy z właścicielem: `/mnt/project-files/analizy/` (`granica-rozdzielnice-offgrid-vs-elektryk.md`, `ceny-apek-rodziny.md`, `strategia-startu-pierwszy-miesiac.md`, `plan-sprzedazy.md`)
 
 TL;DR: Jeden plan, jak apka zarabia i rośnie. **Część I** jest uniwersalna: ten sam schemat ma działać dla każdej apki rodziny i to ją zgłosimy do `docs/wklad-do-standardu.md`, gdy będzie dopracowana. **Część II** to wartości dla Offgrid Pro. Cel właściciela: **minimum 5000 zł netto miesięcznie z każdej apki**, a w pierwszym miesiącu 5–10 tys. zł. Oznaczenia: ✅ postanowione przez właściciela · 💡 rekomendacja audytora, czeka na decyzję · 🔎 niezweryfikowane, sprawdzić przed wdrożeniem.
@@ -114,8 +114,8 @@ TL;DR: Jeden plan, jak apka zarabia i rośnie. **Część I** jest uniwersalna: 
 ## 7. Program partnerski i polecenia
 
 - ✅ **Polecenia użytkowników:** 3 miesiące gratis dla obu stron (sekcja 4; D76).
-- ✅/💡 **Partner‑założyciel** (pomysł właściciela, np. maks. 10–20 osób): 50% od pierwszej płatności pierwszych 50–100 klientów, potem 25% od każdego odnowienia, dopóki klient płaci.
-- **Zwykły partner:** 25% od pierwszej płatności i od odnowień, dopóki klient płaci.
+- ✅ **Partner‑założyciel** (D78): maks. 10 osób, 50% od pierwszej płatności pierwszych 50 klientów, potem 25% od każdego odnowienia, dopóki klient płaci.
+- ✅ **Zwykły partner** (D78): 25% od pierwszej płatności i od odnowień, dopóki klient płaci.
 - ✅ **Próg wypłaty:** 499 zł.
 - 💡 **Zasady:**
   - prowizja od kwoty bez VAT;
@@ -173,7 +173,7 @@ TL;DR: Jeden plan, jak apka zarabia i rośnie. **Część I** jest uniwersalna: 
 - **Elektryk Pro** (osobna apka): pełne, techniczne PV oraz cała elektryka 230/400 V, rozdzielnice obwód po obwodzie, silniki, soft start, usterki i szkolenie. Bez doboru PV i magazynów pod off‑grid.
 - Polecenia między apkami jako inny zakres. Ostrzeżenia bezpieczeństwa w obu.
 
-## 11. Ceny i oferta (✅ D76, 05.10.2026 — kwoty jak w rekomendacji; plan dożywotni: kwota i limit do potwierdzenia)
+## 11. Ceny i oferta (✅ D76 + D78, 05.10.2026)
 
 | Opcja | Cena | Zostaje (strona) |
 |---|---|---|
@@ -182,7 +182,7 @@ TL;DR: Jeden plan, jak apka zarabia i rośnie. **Część I** jest uniwersalna: 
 | Pakiet projektowy 3 mies. | ✅ 299 zł | ~238 zł |
 | Instalator / Firma | ✅ 1490 zł/rok | ~1187 zł |
 | Członek założyciel | ✅ 399 zł/rok, limit 200 | ~318 zł |
-| Dożywotni | ✅ tak, z limitem; 💡 ok. 1797 zł (3× roczny), ok. 50 miejsc — do potwierdzenia | ~1432 zł |
+| Dożywotni | ✅ 1797 zł (3× roczny), limit 50 miejsc (D78) | ~1432 zł |
 | Elektryk Pro (dla porównania) | 299–349 zł/rok, 49 zł/mies. | — |
 
 **Progi dla Offgrid Pro:**
@@ -216,10 +216,10 @@ TL;DR: Jeden plan, jak apka zarabia i rośnie. **Część I** jest uniwersalna: 
 
 ## 13. Otwarte decyzje właściciela
 
-1. ~~Ostateczne kwoty planów (sekcja 11) i to, czy wprowadzić plan dożywotni.~~ ✅ D76: kwoty jak w rekomendacji, plan dożywotni tak z limitem. **Zostaje:** kwota i liczba miejsc planu dożywotniego.
-2. Stawki i limity programu partnerskiego (50/25, liczba partnerów‑założycieli, 50 czy 100 klientów).
+1. ~~Ostateczne kwoty planów (sekcja 11) i to, czy wprowadzić plan dożywotni.~~ ✅ D76: kwoty jak w rekomendacji, plan dożywotni tak z limitem. ✅ D78: 1797 zł, 50 miejsc.
+2. ~~Stawki i limity programu partnerskiego.~~ ✅ D78: 50/25, 10 partnerów‑założycieli, 50 klientów każdy; zwykły partner 25%.
 3. ~~Polecenia: 3 czy 6 miesięcy.~~ ✅ D76: 3 miesiące obu stronom.
-4. Nazwa drugiej apki: rekomendacja „Elektryk Pro” (dostępność nazwy 🔎).
+4. ~~Nazwa drugiej apki.~~ ✅ D78: „Elektryk Pro” (znak towarowy i domena 🔎 przed publikacją).
 5. Kiedy zgłosić Część I do `docs/wklad-do-standardu.md` — właściciel: po dopracowaniu planu.
 
 ## Log zmian
@@ -229,3 +229,4 @@ TL;DR: Jeden plan, jak apka zarabia i rośnie. **Część I** jest uniwersalna: 
 | 02.10.2026 | Utworzono — zebranie ustaleń z wątku z właścicielem (granica z Elektryk Pro D70, analiza cen, strategia pierwszego miesiąca, plan sprzedaży, program partnerski, mentorzy). Wersja 1.0. |
 | 02.10.2026 | Dodano odsyłacz do planu marketingu online (etap 1): `docs/marketing/` — ekonomia i bramki G0–G3, strona, Google, Facebook, frazy long tail, menu 40+ strategii. Treść planu 1.0 bez zmian. |
 | 05.10.2026 | Decyzje właściciela D76: kwoty planów (sekcja 11), plan dożywotni z limitem, polecenia 3 miesiące (sekcje 7, 13). Wersja 1.0→1.1. |
+| 05.10.2026 | Decyzje właściciela D78: plan dożywotni 1797 zł/50 miejsc, partnerzy 50/25 (10×50), nazwa „Elektryk Pro” (sekcje 7, 11, 13). Wersja 1.1→1.2. |
