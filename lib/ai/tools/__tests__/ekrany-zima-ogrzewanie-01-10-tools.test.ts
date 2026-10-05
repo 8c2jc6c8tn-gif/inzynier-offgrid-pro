@@ -9,6 +9,7 @@ import { oknoSloneczneTool } from "../okno-sloneczne-tool"
 import { deepWinterBudgetTool } from "../deep-winter-budget-tool"
 import { falownikThdTool } from "../falownik-thd-tool"
 import { turbinaWiatrowaTool } from "../turbina-wiatrowa-tool"
+import { albedoSniegTool } from "../albedo-snieg-tool"
 import { osadNaPvTool } from "../osad-na-pv-tool"
 import { wspolczynnikBezpieczenstwaZimowegoTool } from "../wspolczynnik-bezpieczenstwa-zimowego-tool"
 import { wplywCzynnikaTool } from "../wplyw-czynnika-tool"
@@ -412,5 +413,21 @@ describe("turbinaWiatrowaTool (M7/E16, dawne 6.24→7.23)", () => {
     })
     expect(w.energiaDobaKwh).toBeCloseTo(24 * 0.8 * 0.9157, 1)
     expect(w.ostrzezenia).toContain(t("pl", "TURBW-SREDNIA-BEZ-ROZKLADU", { srednia: 6 }))
+  })
+})
+
+describe("albedoSniegTool (M7/E9, dawne 6.10, 6.21)", () => {
+  it("kontrakt 9.3: 'read', bez potwierdzenia", () => {
+    expect(albedoSniegTool.operationType).toBe("read")
+    expect(albedoSniegTool.requiresConfirmation).toBe(false)
+    expect(() => validateAiToolDefinition(albedoSniegTool)).not.toThrow()
+  })
+
+  it("dach, 400 kWh, 2% → 8 kWh zysku + ostrzeżenie o dachu, założenia po polsku", async () => {
+    const w = await albedoSniegTool.handler({ produkcjaOkresKwh: 400, typMontazu: "dach", zyskPct: 2 })
+    expect(w.status).toBe("VALID_WITH_WARNINGS")
+    expect(w.zyskKwh).toBeCloseTo(8, 12)
+    expect(w.ostrzezenia).toContain(t("pl", "ALBS-DACH-MALO-ALBEDO"))
+    expect(w.zalozenia).toContain(t("pl", "ALBS-ZAL-PROCENT-USERA"))
   })
 })

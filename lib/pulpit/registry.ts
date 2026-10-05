@@ -246,6 +246,7 @@ export const KAFLE: KafelEntry[] = [
       { href: "/kalkulatory/falownik-thd", label: "Falownik przy odkształconych obciążeniach (THD)" },
       { href: "/kalkulatory/turbina-wiatrowa", label: "Turbina wiatrowa jako wsparcie zimowe" },
       { href: "/kalkulatory/snieg-na-pv", label: "Śnieg i oblodzenie na PV" },
+      { href: "/kalkulatory/albedo-snieg", label: "Analiza albedo i wydajność bifacjalna w śniegu" },
       { href: "/kalkulatory/szadz-na-pv", label: "Wieczna mgła i szadź" },
       { href: "/kalkulatory/wspolczynnik-bezpieczenstwa-zimowego", label: "Współczynnik Bezpieczeństwa Zimowego" },
     ],

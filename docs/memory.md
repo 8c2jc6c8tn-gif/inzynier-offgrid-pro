@@ -2580,3 +2580,8 @@ Właściciel: pismo ma być tłumaczone (wcześniej komentarz w kodzie zakłada�
 ## 2026-10-04 — M7/E12 1.1.0 po decyzji właściciela (D75)
 - `PROG_SLABY_PUNKT_PCT` (70%) usunięty — próg słabego punktu to pole usera `progSlabegoPunktuPct` (null = tylko `ranking`). Najsłabsze ogniwo na ekranie `text-h3` tuż pod wynikiem głównym.
 - Wzorzec audytora, który powtórzył się 3× w tej rundzie (5.59 COP/straty, E2 brak danych = 0, E12 próg 70% i średnia chowająca zero): **szukaj w założeniach ✅🤖 (a) liczb bez źródła, (b) miejsc, gdzie brak danych albo zero znika w agregacie** — to one zawyżają bezpieczeństwo. Kandydat do `wklad-do-standardu.md`.
+
+## 2026-10-05 — M7/E9 albedo w śniegu jako osobny ekran (D77)
+- Nowy moduł `stress-test/albedo-snieg` 1.0.0 (prefiks `ALBS`): `E_alb = E·z/100`; procent od usera, przykłady źródła (+25/+20/+30%) tylko jako podpowiedź zależna od typu montażu; 🟡 `ALBS-DACH-MALO-ALBEDO` = zdanie źródła. `zyskPct = 0` to poprawny wpis (null = brak danych).
+- Pułapki: (1) wzorzec `*-UJEMNA` w `stopy-guard-wyjatki.json` nie łapie `ALBS-WARTOSC-UJEMNA` — dopisany jawnie na końcu listy `walidacja-danych` (jak `TAN-*-POZA-ZAKRESEM`); (2) nowy kafel w `registry.ts` wymaga też `UI-EKRAN-7-*` ×3 w `lib/i18n/ui/pulpit-rejestr.ts` (test `lib/pulpit/__tests__/tlumaczenia.test.ts`) — łatwo przeoczyć, strażniki tego nie łapią, tylko `pnpm test`.
+
