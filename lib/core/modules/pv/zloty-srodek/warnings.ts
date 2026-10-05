@@ -11,12 +11,13 @@ export function wartoscPozaZakresem(field: string, labelKey: string, value: numb
   }
 }
 
-export function wartoscNiedodatnia(field: string, labelKey: string, value: number): Warning {
+/** `nazwa` fills a `{nazwa}` placeholder in the label (e.g. „moc paneli ({nazwa})”). */
+export function wartoscNiedodatnia(field: string, labelKey: string, value: number, nazwa?: string): Warning {
   return {
     code: `${field.toUpperCase()}-NIEDODATNI`,
     level: "critical",
     i18nKey: "WARTOSC-NIEDODATNIA",
-    params: { labelKey },
+    params: { labelKey, ...(nazwa === undefined ? {} : { nazwa }) },
     technicalMessage: `${field} = ${value}, oczekiwano > 0`,
     field,
   }

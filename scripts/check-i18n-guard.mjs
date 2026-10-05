@@ -346,6 +346,46 @@ function findRawStringArrayElements(expr, report) {
   visit(expr)
 }
 
+// Gap found 05.10.2026: helpers changed their signature to `labelKey` (02.10) but some callers kept
+// passing a Polish label positionally — `wartoscUjemna(field, "Kubatura", v)` — and the property
+// rule below never saw it (no `labelKey:` in the call). Map every function in lib/core declaring a
+// `*Key` parameter to the positions of those parameters, then check literal arguments at them.
+/** @type {Map<string, Set<number>>} */
+const keyParamPositions = new Map()
+function collectKeyParams(dir) {
+  for (const e of readdirSync(dir, { withFileTypes: true })) {
+    const p = path.posix.join(dir, e.name)
+    if (e.isDirectory()) {
+      if (e.name !== "__tests__") collectKeyParams(p)
+      continue
+    }
+    if (!e.name.endsWith(".ts") || e.name.endsWith(".test.ts")) continue
+    const sf = ts.createSourceFile(p, readFileSync(p, "utf8"), ts.ScriptTarget.Latest, true)
+    const add = (name, params) => {
+      params.forEach((param, i) => {
+        if (ts.isIdentifier(param.name) && param.name.text.length > 3 && param.name.text.endsWith("Key")) {
+          if (!keyParamPositions.has(name)) keyParamPositions.set(name, new Set())
+          keyParamPositions.get(name).add(i)
+        }
+      })
+    }
+    const visit = (node) => {
+      if (ts.isFunctionDeclaration(node) && node.name) add(node.name.text, node.parameters)
+      if (
+        ts.isVariableDeclaration(node) &&
+        ts.isIdentifier(node.name) &&
+        node.initializer &&
+        (ts.isArrowFunction(node.initializer) || ts.isFunctionExpression(node.initializer))
+      ) {
+        add(node.name.text, node.initializer.parameters)
+      }
+      ts.forEachChild(node, visit)
+    }
+    visit(sf)
+  }
+}
+collectKeyParams("lib/core")
+
 function checkFile(filePath, source) {
   const sf = ts.createSourceFile(filePath, source, ts.ScriptTarget.Latest, true)
 
@@ -379,6 +419,17 @@ function checkFile(filePath, source) {
         report(node, `"${name}" ma wartość "${value}", która nie jest kluczem słownika (UPPER-CASE-Z-MYSLNIKAMI) — dodaj klucz POLE-*/UI-* (17.2).`)
       } else if (name === "label" && /[\p{L}]{3,}/u.test(value)) {
         report(node, `"label" z literałem "${value}" — przekaż klucz w "labelKey" i rozwiń w t() (17.2).`)
+      }
+    }
+
+    // Positional argument for a `*Key` parameter (see keyParamPositions above).
+    if (ts.isCallExpression(node) && ts.isIdentifier(node.expression) && keyParamPositions.has(node.expression.text)) {
+      for (const i of keyParamPositions.get(node.expression.text)) {
+        const arg = node.arguments[i]
+        if (!arg) continue
+        if (ts.isTemplateExpression(arg) || (ts.isStringLiteralLike(arg) && !/^[A-Z0-9][A-Z0-9-]*$/.test(arg.text))) {
+          report(arg, `argument ${i + 1} wywołania "${node.expression.text}" trafia do parametru "*Key", ale nie jest kluczem słownika (UPPER-CASE-Z-MYSLNIKAMI) — dodaj klucz POLE-*/UI-* (17.2).`)
+        }
       }
     }
 
