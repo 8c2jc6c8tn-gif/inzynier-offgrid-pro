@@ -55,6 +55,10 @@ export const DeficytyMiesieczneToolInput = z.object({
   oknoDni: z.number().optional().describe("Do historii: okno między dostawami paliwa [dni], 1..366"),
   percentylPct: z.number().optional().describe("Do historii: percentyl [%] najgorszych okien rocznych do doboru zapasu, 1..100; 0/brak = tylko min, mediana, max"),
   progSlabegoDniaPct: z.number().optional().describe("Do historii: doba słaba, gdy PV < tyle % zapotrzebowania [%]; 0/brak = bez serii"),
+  udzialNocyPct: z
+    .number()
+    .optional()
+    .describe("Do historii: udział dobowego zużycia w godzinach bez produkcji PV [%] z licznika/profilu użytkownika, 0..100; brak = dzień i noc liczone razem (wynik może być zaniżony). Nie zgaduj — tylko wartość podana przez użytkownika"),
   magazynPojemnoscKwh: z
     .number()
     .optional()
@@ -167,6 +171,7 @@ export const deficytyMiesieczneTool: AiToolDefinition<DeficytyMiesieczneToolInpu
       oknoDni,
       percentylPct,
       progSlabegoDniaPct,
+      udzialNocyPct,
       magazynPojemnoscKwh,
       magazynSprawnoscPct,
       magazynStanPoczatkowyPct,
@@ -185,6 +190,7 @@ export const deficytyMiesieczneTool: AiToolDefinition<DeficytyMiesieczneToolInpu
               oknoDni: oknoDni ?? 0,
               percentylPct: percentylPct ?? 0,
               progSlabegoDniaPct: progSlabegoDniaPct ?? 0,
+              ...(udzialNocyPct !== undefined ? { udzialNocyPct } : {}),
               ...(magazynPojemnoscKwh
                 ? {
                     magazyn: {

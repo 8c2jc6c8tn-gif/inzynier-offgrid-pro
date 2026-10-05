@@ -36,6 +36,7 @@ type PolaHistorii =
   | "histOkno"
   | "histPercentyl"
   | "histProg"
+  | "histNoc"
   | "histMagPoj"
   | "histMagSpr"
   | "histMagStan"
@@ -72,6 +73,7 @@ const STAN_POCZATKOWY: FormularzStan = {
   histOkno: "",
   histPercentyl: "",
   histProg: "",
+  histNoc: "",
   histMagPoj: "",
   histMagSpr: "",
   histMagStan: "",
@@ -161,6 +163,7 @@ export default function DeficytyMiesiecznePage() {
         oknoDni: liczba(stan.histOkno),
         percentylPct: liczba(stan.histPercentyl),
         progSlabegoDniaPct: liczba(stan.histProg),
+        ...(stan.histNoc !== "" ? { udzialNocyPct: liczba(stan.histNoc) } : {}),
         ...(liczba(stan.histMagPoj) > 0
           ? {
               magazyn: {
@@ -485,6 +488,17 @@ export default function DeficytyMiesiecznePage() {
           value={stan.histProg}
           onChange={(e) => ustaw("histProg", e.target.value)}
           pomoc={<PomocPola ekran="deficyty-miesieczne" pole="histProg" />}
+        />
+        <Pole
+          label={t("UI-M7-DEFM-HIST-NOC")}
+          unit="%"
+          type="number"
+          inputMode="numeric"
+          min={0}
+          max={100}
+          value={stan.histNoc}
+          onChange={(e) => ustaw("histNoc", e.target.value)}
+          pomoc={<PomocPola ekran="deficyty-miesieczne" pole="histNoc" />}
         />
         <Pole
           label={t("UI-M7-DEFM-HIST-MAG-POJ")}

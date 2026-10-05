@@ -133,7 +133,7 @@ export const pl = {
       poCo:
         "Agregat pracuje zwykle tylko wtedy, gdy akumulator jest niski. Wiedząc, ile kosztuje kWh z paliwa, łatwiej zdecydować, czy dołożyć panel albo akumulator zamiast palić benzynę.",
       fizyka:
-        "Przykład ze źródła: agregat 2 kW przy obciążeniu 50% zużywa 0,5 l/h; przy 3 h/dobę spali 1,5 l (ok. 10 {waluta}/dobę) i odda 2 × 0,5 × 3 = 3 kWh.",
+        "Przykład ze źródła: agregat 2 kW przy obciążeniu 50% zużywa 0,5 l/h; przy 3 h/dobę spali 1,5 l (ok. 10 zł/dobę) i odda 2 × 0,5 × 3 = 3 kWh.",
     },
     pola: {
       moc: {
@@ -163,7 +163,7 @@ export const pl = {
       },
       cena: {
         nazwa: "Cena paliwa [{waluta}/l]",
-        cel: "Zamienia litry na złotówki.",
+        cel: "Zamienia litry na pieniądze.",
         gdzie: "Aktualna cena na stacji.",
         zakres: "Aktualna cena.",
       },
@@ -201,7 +201,7 @@ export const pl = {
       },
       cena: {
         nazwa: "Cena energii z sieci [{waluta}/kWh]",
-        cel: "Zamienia kWh na złotówki.",
+        cel: "Zamienia kWh na pieniądze.",
         gdzie: "Rachunek za prąd — cena brutto za kWh z opłatami zmiennymi; albo stawka umówiona z sąsiadem.",
         zakres: "Z rachunku.",
       },
@@ -241,7 +241,7 @@ export const pl = {
       poCo:
         "Stacja jest gotowa do pracy, ma gwarancję i serwis, ale płacisz więcej za każdą Wh. DIY jest tańszy i łatwiej go rozbudować, ale wymaga wiedzy (bezpieczniki, przewody) i pracy. Jeśli nie chcesz się bawić w kable — stacja. Jeśli lubisz majsterkować — DIY.",
       fizyka:
-        "Energia akumulatora E = C [Ah] × U [V]. Użyteczna = E × DoD. Przykład ze źródła: stacja 500 Wh za 1200 {waluta} to 2,4 {waluta}/Wh; akumulator ołowiowy 100 Ah 12 V (przy DoD 50% ok. 600 Wh) z osprzętem za 700 {waluta} to ok. 1,17 {waluta}/Wh — ok. 2× więcej energii za te same pieniądze.",
+        "Energia akumulatora E = C [Ah] × U [V]. Użyteczna = E × DoD. Przykład ze źródła: stacja 500 Wh za 1200 zł to 2,4 zł/Wh; akumulator ołowiowy 100 Ah 12 V (przy DoD 50% ok. 600 Wh) z osprzętem za 700 zł to ok. 1,17 zł/Wh — ok. 2× więcej energii za te same pieniądze.",
     },
     pola: {
       cenaStacji: {
@@ -1616,7 +1616,7 @@ export const en: Tlumaczenie<typeof pl> = {
       poCo:
         "A generator usually runs only when the battery is low. Knowing what a kWh from fuel costs makes it easier to decide whether to add a panel or a battery instead of burning petrol.",
       fizyka:
-        "Example from the source: a 2 kW generator at 50% load uses 0.5 l/h; at 3 h/day it burns 1.5 l (about 10 {waluta}/day) and delivers 2 × 0.5 × 3 = 3 kWh.",
+        "Example from the source: a 2 kW generator at 50% load uses 0.5 l/h; at 3 h/day it burns 1.5 l (about 10 PLN/day) and delivers 2 × 0.5 × 3 = 3 kWh.",
     },
     pola: {
       moc: {
@@ -1723,7 +1723,7 @@ export const en: Tlumaczenie<typeof pl> = {
       poCo:
         "A station is ready to work and has warranty and service, but you pay more for every Wh. DIY is cheaper and easier to expand, but it needs knowledge (fuses, cables) and work. If you do not want to deal with cables — station. If you like tinkering — DIY.",
       fizyka:
-        "Battery energy E = C [Ah] × U [V]. Usable = E × DoD. Example from the source: a 500 Wh station for 1200 {waluta} is 2.4 {waluta}/Wh; a 100 Ah 12 V lead-acid battery (about 600 Wh at 50% DoD) with accessories for 700 {waluta} is about 1.17 {waluta}/Wh — about 2× more energy for the same money.",
+        "Battery energy E = C [Ah] × U [V]. Usable = E × DoD. Example from the source: a 500 Wh station for 1200 PLN is 2.4 PLN/Wh; a 100 Ah 12 V lead-acid battery (about 600 Wh at 50% DoD) with accessories for 700 PLN is about 1.17 PLN/Wh — about 2× more energy for the same money.",
     },
     pola: {
       cenaStacji: {
@@ -3094,7 +3094,7 @@ export const ru: Tlumaczenie<typeof pl> = {
       poCo:
         "Генератор обычно работает только когда аккумулятор разряжен. Зная цену кВт·ч из топлива, проще решить, не добавить ли панель или аккумулятор вместо сжигания бензина.",
       fizyka:
-        "Пример из источника: генератор 2 кВт при нагрузке 50% расходует 0,5 л/ч; при 3 ч/сутки сожжёт 1,5 л (около 10 {waluta}/сутки) и отдаст 2 × 0,5 × 3 = 3 кВт·ч.",
+        "Пример из источника: генератор 2 кВт при нагрузке 50% расходует 0,5 л/ч; при 3 ч/сутки сожжёт 1,5 л (около 10 зл/сутки) и отдаст 2 × 0,5 × 3 = 3 кВт·ч.",
     },
     pola: {
       moc: {
@@ -3205,7 +3205,7 @@ export const ru: Tlumaczenie<typeof pl> = {
       poCo:
         "Станция готова к работе, есть гарантия и сервис, но каждый Вт·ч дороже. Самодельный комплект дешевле и легче расширяется, но требует знаний (предохранители, провода) и работы. Не хотите возиться с кабелями — станция. Любите мастерить — самоделка.",
       fizyka:
-        "Энергия аккумулятора E = C [А·ч] × U [В]. Полезная = E × DoD. Пример из источника: станция 500 Вт·ч за 1200 {waluta} — 2,4 {waluta}/Вт·ч; свинцовый аккумулятор 100 А·ч 12 В (около 600 Вт·ч при DoD 50%) с оснасткой за 700 {waluta} — около 1,17 {waluta}/Вт·ч, т.е. примерно в 2 раза больше энергии за те же деньги.",
+        "Энергия аккумулятора E = C [А·ч] × U [В]. Полезная = E × DoD. Пример из источника: станция 500 Вт·ч за 1200 зл — 2,4 зл/Вт·ч; свинцовый аккумулятор 100 А·ч 12 В (около 600 Вт·ч при DoD 50%) с оснасткой за 700 зл — около 1,17 зл/Вт·ч, т.е. примерно в 2 раза больше энергии за те же деньги.",
     },
     pola: {
       cenaStacji: {

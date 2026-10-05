@@ -28,8 +28,11 @@ import {
  * 1.3.0 (05.10.2026, list entry M7/E2 (a)): optional energy store in the daily balance of the history
  * (`analizaHistorii.magazyn`: usable capacity, round-trip efficiency, state on 1 January — all from the user).
  * Without it the result is the 1.2.0 one; a capacity without efficiency → INCOMPLETE (nothing assumed).
+ * 1.4.0 (05.10.2026, owner: "niech liczy"): optional night share of the daily demand (`analizaHistorii.udzialNocyPct`,
+ * from the user) — the night part is covered only from the store or the generator, not by the same day's PV.
+ * Without it the numbers are the 1.3.0 ones; an assumption now says that day and night are netted then.
  */
-export const CALCULATOR_VERSION = "1.3.0"
+export const CALCULATOR_VERSION = "1.4.0"
 
 const FORMULA =
   `t_m = \\dfrac{D_m}{P_{agr} \\cdot ${latexLiczba(OPTYMALNE_OBCIAZENIE_PCT / 100)}},\\quad V_m = t_m \\cdot q,\\quad K_m = V_m \\cdot c_{pal} + t_m \\cdot c_{serw}`
@@ -302,6 +305,8 @@ export function calculateDeficytyMiesieczne(input: DeficytyMiesieczneInput): Cal
           }
         : { kod: "DEFM-ZALOZENIE-HISTORIA", params: { zrodlo: historia.zrodlo } },
     )
+    const noc = a?.udzialNocyPct ?? 0
+    assumptions.push(noc > 0 ? { kod: "DEFM-ZALOZENIE-HISTORIA-DZIEN-NOC", params: { noc } } : { kod: "DEFM-ZALOZENIE-HISTORIA-DOBA-NETTO" })
   }
 
   return {

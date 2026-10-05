@@ -65,13 +65,13 @@ export const pl = {
     migawka: {
       oCoChodzi: "Kocioł elektryczny ma sprawność blisko 100%, ale to nie to samo co tanie ogrzewanie — pompa ciepła nie produkuje ciepła z prądu, tylko przenosi je z zewnątrz, więc zużywa kilka razy mniej.",
       jakDziala: "Prąd = ciepło ÷ COP (kocioł: COP = 1, pompa: Twój COP). Koszt = prąd × cena energii.",
-      poCo: "Widzisz różnicę w kWh i złotówkach — w off-gridzie to różnica w wielkości PV i baterii.",
+      poCo: "Widzisz różnicę w kWh i pieniądzach — w off-gridzie to różnica w wielkości PV i baterii.",
       fizyka: "E = Q / COP; K = E · c.",
     },
     pola: {
       zapotrzebowanie: { nazwa: "Zapotrzebowanie na ciepło do pokrycia [kWh]", cel: "Ciepło, które ma dostarczyć kocioł albo pompa.", gdzie: "Z ekranu „Zapotrzebowanie na C.O. i C.W.U.” albo z zużycia w poprzednich sezonach.", zakres: "≥ 0. " + TWOJ },
       cop: { nazwa: "COP pompy ciepła [–]", cel: "Ile kWh ciepła pompa daje z 1 kWh prądu.", gdzie: "Karta katalogowa albo ekran „COP pompy ciepła”. Typowe pompy powietrze-woda: 1,5–6, zależnie od temperatury.", zakres: "≥ 0. " + TWOJ },
-      cena: { nazwa: "Cena energii elektrycznej [{waluta}/kWh]", cel: "Przelicza kWh na złotówki.", gdzie: "Rachunek, koszt z agregatu albo wycena prądu z PV.", zakres: "≥ 0. " + TWOJ },
+      cena: { nazwa: "Cena energii elektrycznej [{waluta}/kWh]", cel: "Przelicza kWh na pieniądze.", gdzie: "Rachunek, koszt z agregatu albo wycena prądu z PV.", zakres: "≥ 0. " + TWOJ },
     },
   },
   "koszty-ogrzewania": {
