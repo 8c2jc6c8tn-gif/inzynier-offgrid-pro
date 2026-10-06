@@ -35,14 +35,18 @@ export function t(language: Language, kod: string, params?: Record<string, strin
  */
 function rozwinKlucze(language: Language, params?: Record<string, string | number>) {
   if (!params) return params
+  const jestKluczem = (n: string) => n.length > 3 && n.endsWith("Key")
+  const zwykle = Object.fromEntries(Object.entries(params).filter(([n]) => !jestKluczem(n)))
+  const szablony = Object.entries(params)
+    .filter((e): e is [string, string] => jestKluczem(e[0]) && typeof e[1] === "string")
+    .map(([nazwa, kod]) => [nazwa.slice(0, -3), t(language, kod)] as const)
+  // Pass 1: sibling params fill each label's own placeholders (e.g. „Powierzchnia ({przegroda})”, „przegroda {nr}”).
+  const pierwsze = Object.fromEntries(szablony.map(([cel, szablon]) => [cel, podstaw(language, szablon, zwykle)]))
+  // Pass 2: one level of nesting — a label may reference another resolved key, e.g. `labelKey` „Powierzchnia
+  // ({przegroda})” + `przegrodaKey` „przegroda {nr}” for an element the user left unnamed.
+  const kontekst = { ...zwykle, ...pierwsze }
   const wynik: Record<string, string | number> = { ...params }
-  const zwykle = Object.fromEntries(Object.entries(params).filter(([n]) => !(n.length > 3 && n.endsWith("Key"))))
-  for (const [nazwa, wartosc] of Object.entries(params)) {
-    if (nazwa.length > 3 && nazwa.endsWith("Key") && typeof wartosc === "string") {
-      // Sibling params fill the label's own placeholders (e.g. „Powierzchnia ({przegroda})”).
-      wynik[nazwa.slice(0, -3)] = podstaw(language, t(language, wartosc), zwykle)
-    }
-  }
+  for (const [cel, szablon] of szablony) wynik[cel] = podstaw(language, szablon, kontekst)
   return wynik
 }
 

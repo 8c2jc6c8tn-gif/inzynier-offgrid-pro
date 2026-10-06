@@ -9,15 +9,12 @@
  * (docs/standards/09-ai-w-produkcie.md 9.2 / 15-wspolpraca-z-ai.md 15.7, stosowane analogicznie do
  * kodu). Pozostałe komponenty dostają jeden, jawnie opisany wpis zbiorczy.
  */
-export type PozycjaCertyfikatu = { id: string; komponent: string; norma: string }
+export type PozycjaCertyfikatu = { id: string; komponentKey: string; normaKey: string }
 
+/** Labels are i18n keys (docs/standards/17-i18n.md, 17.2) — the screen resolves them in the UI language. */
 export const CHECKLIST_ITEMS: PozycjaCertyfikatu[] = [
-  { id: "panele", komponent: "Panele fotowoltaiczne", norma: "IEC 61730 (bezpieczeństwo modułów PV)" },
-  { id: "falownik", komponent: "Falownik / przetwornica", norma: "IEC 62109 (bezpieczeństwo przetwornic PV)" },
-  { id: "baterie-litowe", komponent: "Baterie litowe", norma: "IEC 62619 (bezpieczeństwo ogniw/baterii litowych)" },
-  {
-    id: "pozostale",
-    komponent: "Pozostałe komponenty (złącza, kable, SPD, wyłączniki, BMS)",
-    norma: "Sprawdź wymagany certyfikat u producenta — źródło nie precyzuje normy dla każdego typu",
-  },
+  { id: "panele", komponentKey: "CERT-KOMPONENT-PANELE", normaKey: "CERT-NORMA-PANELE" },
+  { id: "falownik", komponentKey: "CERT-KOMPONENT-FALOWNIK", normaKey: "CERT-NORMA-FALOWNIK" },
+  { id: "baterie-litowe", komponentKey: "CERT-KOMPONENT-BATERIE-LITOWE", normaKey: "CERT-NORMA-BATERIE-LITOWE" },
+  { id: "pozostale", komponentKey: "CERT-KOMPONENT-POZOSTALE", normaKey: "CERT-NORMA-POZOSTALE" },
 ]

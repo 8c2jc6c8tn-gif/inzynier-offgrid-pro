@@ -1174,3 +1174,12 @@ describe("t — laczenie-cu-al: nazwy materiałów przez klucze (`material1Key`/
     for (const jezyk of SUPPORTED_LANGUAGES) expect(t(jezyk, kod, params)).not.toMatch(/MATERIAL-|\{material/)
   })
 })
+
+describe("t — nested *Key (unnamed element fallback)", () => {
+  it("resolves a label key that references another resolved key in the UI language", () => {
+    const params = { labelKey: "POLE-POWIERZCHNIA-PRZEGRODY", przegrodaKey: "NAZWA-PRZEGRODA-NR", nr: 2, value: -1 }
+    expect(t("en", "WARTOSC-UJEMNA", params)).toContain("Area (partition 2)")
+    expect(t("pl", "WARTOSC-UJEMNA", params)).toContain("Powierzchnia (przegroda 2)")
+    for (const jezyk of SUPPORTED_LANGUAGES) expect(t(jezyk, "WARTOSC-UJEMNA", params)).not.toMatch(/\{|⚠/)
+  })
+})

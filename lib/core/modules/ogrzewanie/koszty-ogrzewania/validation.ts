@@ -1,4 +1,5 @@
 import type { Warning } from "@/lib/core/calc-result"
+import { nazwaElementu } from "@/lib/core/nazwa-elementu"
 import type { KosztyOgrzewaniaInput, ZrodloCiepla } from "./input"
 import { wartoscNiedodatnia, wartoscUjemna } from "./warnings"
 
@@ -25,11 +26,12 @@ export function validateInput(input: KosztyOgrzewaniaInput): Warning[] {
   if (liczbaZle(q, true)) e.push(wartoscNiedodatnia("zapotrzebowanieSezonKwh", "POLE-ZAPOTRZEBOWANIE-NA-CIEPLO", q!))
   if (liczbaZle(lata, true)) e.push(wartoscNiedodatnia("liczbaLat", "POLE-KO-OKRES-ANALIZY", lata!))
   input.zrodla.forEach((z, i) => {
+    const zrodlo = nazwaElementu("zrodlo", z.nazwa, "NAZWA-ZRODLO-NR", i + 1)
     for (const [pole, labelKey] of DODATNIE) {
-      if (liczbaZle(z[pole], true)) e.push(wartoscNiedodatnia(`${pole}-${i}`, labelKey, z[pole] as number, z.nazwa))
+      if (liczbaZle(z[pole], true)) e.push(wartoscNiedodatnia(`${pole}-${i}`, labelKey, z[pole] as number, zrodlo))
     }
     for (const [pole, labelKey] of NIEUJEMNE) {
-      if (liczbaZle(z[pole], false)) e.push(wartoscUjemna(`${pole}-${i}`, labelKey, z[pole] as number, z.nazwa))
+      if (liczbaZle(z[pole], false)) e.push(wartoscUjemna(`${pole}-${i}`, labelKey, z[pole] as number, zrodlo))
     }
   })
   return e

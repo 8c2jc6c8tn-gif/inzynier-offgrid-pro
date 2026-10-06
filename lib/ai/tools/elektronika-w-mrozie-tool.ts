@@ -26,7 +26,8 @@ export type ElektronikaWMrozieToolInputT = z.infer<typeof ElektronikaWMrozieTool
 
 export const ElektronikaWMrozieToolOutput = z.object({
   status: z.enum(["VALID", "VALID_WITH_WARNINGS", "INCOMPLETE", "OUT_OF_SCOPE", "INVALID_INPUT"]),
-  oceny: z.array(z.object({ nazwa: z.string(), typ: Typ, zapasK: z.number().nullable() })),
+  /** `nazwa` is "" for an unnamed device — `nr` is its 1-based position on the input list. */
+  oceny: z.array(z.object({ nazwa: z.string(), nr: z.number(), typ: Typ, zapasK: z.number().nullable() })),
   liczbaPonizejMin: z.number(),
   ostrzezenia: z.array(z.string()),
   zalozenia: z.array(z.string()),
@@ -52,7 +53,7 @@ export const elektronikaWMrozieTool: AiToolDefinition<ElektronikaWMrozieToolInpu
     })
     return {
       status: wynik.status,
-      oceny: wynik.value.oceny.map(({ nazwa, typ, zapasK }) => ({ nazwa, typ, zapasK })),
+      oceny: wynik.value.oceny.map(({ nazwa, nr, typ, zapasK }) => ({ nazwa, nr, typ, zapasK })),
       liczbaPonizejMin: wynik.value.liczbaPonizejMin,
       ostrzezenia: tekstyOstrzezen(wynik.warnings),
       zalozenia: tekstyZalozen(wynik.assumptions),

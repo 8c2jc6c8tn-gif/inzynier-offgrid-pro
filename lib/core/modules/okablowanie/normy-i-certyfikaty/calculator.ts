@@ -23,7 +23,7 @@ export function calculateNormyICertyfikaty(input: NormyICertyfikatyInput): CalcR
   const razem = CHECKLIST_ITEMS.length
 
   const warnings: Warning[] = CHECKLIST_ITEMS.filter((item) => !potwierdzoneUnikalne.has(item.id)).map((item) =>
-    brakCertyfikatu(item.komponent),
+    brakCertyfikatu(item.komponentKey),
   )
 
   return {

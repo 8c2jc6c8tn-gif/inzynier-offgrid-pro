@@ -47,8 +47,8 @@ export default function NormyICertyfikatyPage() {
         onToggle={toggle}
         renderLabel={(item) => (
           <>
-            <span className="block font-medium">{item.komponent}</span>
-            <span className="block text-muted-foreground">{item.norma}</span>
+            <span className="block font-medium">{t(item.komponentKey)}</span>
+            <span className="block text-muted-foreground">{t(item.normaKey)}</span>
           </>
         )}
       />

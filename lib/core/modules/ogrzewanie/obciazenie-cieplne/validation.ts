@@ -1,4 +1,5 @@
 import type { Warning } from "@/lib/core/calc-result"
+import { nazwaElementu } from "@/lib/core/nazwa-elementu"
 import { U_SANITY_MAX, WYMIANY_SANITY_MAX } from "./constants"
 import type { ObciazenieCieplneInput } from "./input"
 import { wartoscNiedodatnia, wartoscPozaZakresem, wartoscUjemna } from "./warnings"
@@ -6,7 +7,7 @@ import { wartoscNiedodatnia, wartoscPozaZakresem, wartoscUjemna } from "./warnin
 export function validateInput(input: ObciazenieCieplneInput): Warning[] {
   const e: Warning[] = []
   input.przegrody.forEach((p, i) => {
-    const etykieta = p.nazwa || `przegroda ${i + 1}`
+    const etykieta = nazwaElementu("przegroda", p.nazwa, "NAZWA-PRZEGRODA-NR", i + 1)
     if (p.powierzchniaM2 !== null && p.powierzchniaM2 < 0) {
       e.push(wartoscUjemna(`przegrody.${i}.powierzchniaM2`, "POLE-POWIERZCHNIA-PRZEGRODY", p.powierzchniaM2, etykieta))
     }

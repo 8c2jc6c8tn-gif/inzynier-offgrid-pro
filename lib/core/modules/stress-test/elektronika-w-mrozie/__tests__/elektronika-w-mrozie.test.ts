@@ -1,4 +1,5 @@
 import { describe, expect, it } from "vitest"
+import { t } from "@/lib/i18n/t"
 import { calculateElektronikaWMrozie } from "../calculator"
 import type { UrzadzenieElektroniczne } from "../input"
 
@@ -44,14 +45,16 @@ describe("calculateElektronikaWMrozie (M7/E19, dawne 6.29→7.27)", () => {
     expect(w.value.liczbaPonizejMin).toBe(2)
   })
 
-  it("brak danych z karty → info, status nie rośnie; pusta nazwa → „urządzenie N”", () => {
+  it("brak danych z karty → info, status nie rośnie; pusta nazwa → numer + klucz, tekst w języku UI", () => {
     const w = calculateElektronikaWMrozie({
       temperaturaMiejscaC: -30,
       urzadzenia: [{ id: "3", nazwa: " ", typ: "czujnik", minTempPracyC: null }],
     })
     expect(w.status).toBe("VALID")
     expect(w.warnings[0]!.code).toBe("ELEKTRONIKA-BRAK-MIN-TEMP")
-    expect(w.value.oceny[0]!.nazwa).toBe("urządzenie 1")
+    expect(w.value.oceny[0]).toMatchObject({ nazwa: "", nr: 1 })
+    expect(w.warnings[0]!.params).toEqual({ nazwaKey: "NAZWA-URZADZENIE-NR", nr: 1 })
+    expect(t("en", w.warnings[0]!.i18nKey!, w.warnings[0]!.params)).not.toMatch(/urządzenie|⚠/)
   })
 
   it("brak temperatury albo urządzeń → INCOMPLETE", () => {

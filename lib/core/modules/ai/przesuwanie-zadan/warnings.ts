@@ -1,30 +1,33 @@
 import type { Warning } from "@/lib/core/calc-result"
 
-export function wartoscUjemna(field: string, value: number): Warning {
+/** Field label as a dictionary key + its own params (`poleKey` „{nazwa}: czas pracy”) — never a ready Polish text (17.2). */
+export type EtykietaPola = { poleKey: string } & Record<string, string | number>
+
+export function wartoscUjemna(field: string, pole: EtykietaPola, value: number): Warning {
   return {
     code: "PRZES-WARTOSC-UJEMNA",
     level: "critical",
-    params: { pole: field },
+    params: { ...pole },
     technicalMessage: `${field} = ${value}, expected >= 0`,
     field,
   }
 }
 
-export function godzinaPozaDoba(field: string, value: number, max: number): Warning {
+export function godzinaPozaDoba(field: string, pole: EtykietaPola, value: number, max: number): Warning {
   return {
     code: "PRZES-GODZINA-POZA-DOBA",
     level: "critical",
-    params: { pole: field, max },
+    params: { ...pole, max },
     technicalMessage: `${field} = ${value}, expected 0..${max}`,
     field,
   }
 }
 
-export function pozaSiatka(field: string, value: number, krok: number): Warning {
+export function pozaSiatka(field: string, pole: EtykietaPola, value: number, krok: number): Warning {
   return {
     code: "PRZES-POZA-SIATKA",
     level: "critical",
-    params: { pole: field, krokMin: krok * 60 },
+    params: { ...pole, krokMin: krok * 60 },
     technicalMessage: `${field} = ${value} is not a multiple of ${krok} h`,
     field,
   }
