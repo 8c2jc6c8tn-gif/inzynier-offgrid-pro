@@ -12,11 +12,16 @@ export const pl = {
       oCoChodzi:
         "Regularny przegląd, czy w razie pożaru wszystko zadziała tak, jak powinno — żeby nie odkryć zepsutego czujnika dopiero w trakcie prawdziwego pożaru.",
       jakDziala:
-        "Aplikacja zestawia elementy ochrony (czujniki, centrala, oświetlenie awaryjne, zasilanie awaryjne, gaszenie) i pokazuje, które są sprawne, które wymagają uwagi, a które są niesprawne. Na razie działa na danych demonstracyjnych — prawdziwy stan przyjdzie z telemetrii (Tryb Live).",
+        "Sam dodajesz sprawdzone elementy w pięciu kategoriach (czujniki dymu, gaśnice, drogi ewakuacyjne, klapy pożarowe, historia testów i przeglądów) i po własnej kontroli wpisujesz ich stan: sprawne, do sprawdzenia albo niesprawne. Gotowość = sprawne ÷ wszystkie. Docelowo stan przyjdzie sam z telemetrii (Tryb Live).",
       poCo:
         "Każdy element ochrony pożarowej psuje się po cichu: bateria w czujce, lampa awaryjna, akumulator UPS. Audyt znajduje to, zanim będzie potrzebne.",
     },
-    pola: {},
+    pola: {
+      kategoria: { nazwa: "Kategoria", cel: "Grupa, do której należy element — tylko porządkuje listę i komunikaty, nie zmienia wyniku.", gdzie: "Wybierz z listy.", zakres: "Czujniki dymu, gaśnice, drogi ewakuacyjne, klapy pożarowe, historia testów i przeglądów." },
+      element: { nazwa: "Nazwa elementu", cel: "Twoja nazwa, żeby wiedzieć, którego elementu dotyczy brak — nie wpływa na wynik.", gdzie: "Dowolna, np. „czujka salon”, „gaśnica kuchnia”.", zakres: "Tekst; puste = numer pozycji." },
+      status: { nazwa: "Status", cel: "Stan elementu po Twojej kontroli — sprawne liczą się do gotowości, pozostałe trafiają na listę braków.", gdzie: "Z własnego testu (przycisk TEST czujki, manometr i data ważności gaśnicy, przejście drogą ewakuacyjną, próba klapy, dziennik przeglądów). Nie zgaduj — w razie wątpliwości „do sprawdzenia”.", zakres: "Sprawne, do sprawdzenia, niesprawne/krytyczne." },
+      opis: { nazwa: "Notatka", cel: "Co konkretnie nie działa — pojawia się w komunikacie o braku.", gdzie: "Twoja obserwacja z kontroli.", zakres: "Tekst; może być pusta." },
+    },
   },
   "awaryjne-zrodlo-ciepla": {
     migawka: {
@@ -311,11 +316,16 @@ export const en: Tlumaczenie<typeof pl> = {
       oCoChodzi:
         "A regular check that everything will work as it should in a fire — so you don't discover a broken detector only during a real fire.",
       jakDziala:
-        "The app lists the protection elements (detectors, control panel, emergency lighting, backup power, extinguishing) and shows which are working, which need attention and which are faulty. For now it works on demonstration data — the real state will come from telemetry (Live mode).",
+        "You add the checked items yourself in five categories (smoke detectors, fire extinguishers, escape routes, fire dampers, history of tests and inspections) and after your own inspection enter their state: working, to check or faulty. Readiness = working ÷ all. Eventually the state will come by itself from telemetry (Live mode).",
       poCo:
         "Every fire protection element fails silently: a detector battery, an emergency lamp, a UPS battery. The audit finds it before it is needed.",
     },
-    pola: {},
+    pola: {
+      kategoria: { nazwa: "Category", cel: "The group the item belongs to — it only orders the list and messages, it does not change the result.", gdzie: "Pick from the list.", zakres: "Smoke detectors, fire extinguishers, escape routes, fire dampers, history of tests and inspections." },
+      element: { nazwa: "Item name", cel: "Your name, so you know which item a gap refers to — it does not affect the result.", gdzie: "Anything, e.g. “living-room detector”, “kitchen extinguisher”.", zakres: "Text; empty = item number." },
+      status: { nazwa: "Status", cel: "The item's state after your inspection — working items count towards readiness, the rest go on the gap list.", gdzie: "From your own test (detector TEST button, extinguisher gauge and expiry date, walking the escape route, damper trial, inspection log). Don't guess — if in doubt, “to check”.", zakres: "Working, to check, faulty/critical." },
+      opis: { nazwa: "Note", cel: "What exactly is wrong — it appears in the gap message.", gdzie: "Your observation from the inspection.", zakres: "Text; may be empty." },
+    },
   },
   "awaryjne-zrodlo-ciepla": {
     migawka: {
@@ -608,11 +618,16 @@ export const ru: Tlumaczenie<typeof pl> = {
       oCoChodzi:
         "Регулярная проверка того, что при пожаре всё сработает как надо, — чтобы не обнаружить неисправный датчик только во время настоящего пожара.",
       jakDziala:
-        "Приложение перечисляет элементы защиты (датчики, пожарный прибор, аварийное освещение, резервное питание, пожаротушение) и показывает, какие исправны, какие требуют внимания, а какие неисправны. Пока работает на демонстрационных данных — реальное состояние придёт из телеметрии (Режим Live).",
+        "Вы сами добавляете проверенные элементы в пяти категориях (датчики дыма, огнетушители, пути эвакуации, противопожарные клапаны, история испытаний и осмотров) и после собственной проверки указываете их состояние: исправен, требует проверки или неисправен. Готовность = исправные ÷ все. В дальнейшем состояние будет приходить само из телеметрии (Режим Live).",
       poCo:
         "Любой элемент пожарной защиты выходит из строя незаметно: батарея в датчике, аварийная лампа, аккумулятор ИБП. Аудит находит это до того, как понадобится.",
     },
-    pola: {},
+    pola: {
+      kategoria: { nazwa: "Категория", cel: "Группа, к которой относится элемент, — только упорядочивает список и сообщения, на результат не влияет.", gdzie: "Выберите из списка.", zakres: "Датчики дыма, огнетушители, пути эвакуации, противопожарные клапаны, история испытаний и осмотров." },
+      element: { nazwa: "Название элемента", cel: "Ваше название, чтобы знать, к какому элементу относится недостаток, — на результат не влияет.", gdzie: "Любое, напр. «датчик в гостиной», «огнетушитель на кухне».", zakres: "Текст; пусто = номер позиции." },
+      status: { nazwa: "Статус", cel: "Состояние элемента после вашей проверки — исправные учитываются в готовности, остальные попадают в список недостатков.", gdzie: "Из собственной проверки (кнопка TEST датчика, манометр и срок годности огнетушителя, проход по пути эвакуации, проба клапана, журнал осмотров). Не угадывайте — при сомнении «требует проверки».", zakres: "Исправен, требует проверки, неисправен/критично." },
+      opis: { nazwa: "Заметка", cel: "Что именно не работает — появляется в сообщении о недостатке.", gdzie: "Ваше наблюдение при проверке.", zakres: "Текст; может быть пустой." },
+    },
   },
   "awaryjne-zrodlo-ciepla": {
     migawka: {

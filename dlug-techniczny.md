@@ -87,7 +87,7 @@ TL;DR: Rejestr świadomych uproszczeń kodu względem specyfikacji źródła (Cz
 ## Uproszczenia infrastrukturalne (świadome, nie "luki")
 
 - **Brak trwałego zapisu** — patrz `backlog-poza-v1.md`. Wszystkie ekrany liczą poprawnie z inputu w danej sesji, ale nic nie przeżywa odświeżenia strony.
-- **Dane demonstracyjne w M8/M10** — jawnie oznaczone w kodzie i UI (`SAMPLE_AUDIT_ITEMS` i odpowiednik w Prognozach) jako placeholder do podłączenia z modułów źródłowych.
+- **Dane demonstracyjne w M8/M10** — jawnie oznaczone w kodzie i UI (`SAMPLE_AUDIT_ITEMS` i odpowiednik w Prognozach) jako placeholder do podłączenia z modułów źródłowych. **[06.10.2026]** M8 spłacone częściowo: `SAMPLE_AUDIT_ITEMS` usunięte, ręczna checklista użytkownika (zostaje podłączenie do telemetrii); M10 bez zmian.
 - **Pola "docelowo auto z Modułu X" wpisywane ręcznie** — bardzo częsty wzorzec (np. szerokość geograficzna z M1, liczba domowników z M2/E4, produkcja PV z M3) — każdy taki ekran ma hint w UI wprost mówiący, skąd wartość ma docelowo pochodzić, gdy zbuduje się współdzielony stan projektu (Kontrakt zapisu, `kontrakty-rdzenia.md` §3).
 
 ---

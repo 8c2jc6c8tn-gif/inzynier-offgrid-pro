@@ -1,7 +1,10 @@
 import type { CalcResult } from "@/lib/core/calc-result"
+import { nazwaElementu } from "@/lib/core/nazwa-elementu"
+import { kategoriaKey } from "./constants"
 import type { AuditCheckItem } from "./input"
 
-export const CALCULATOR_VERSION = "1.0.0"
+// 2.0.0: category is an id (label as a key), list entered by the user — demo data removed.
+export const CALCULATOR_VERSION = "2.0.0"
 
 export type AuditPozarowyResult = {
   procentGotowosci: number
@@ -45,16 +48,21 @@ export function calculateAuditPozarowy(items: AuditCheckItem[]): CalcResult<Audi
     formula: "gotowość = OK / razem", formulaKey: "UI-FORMULA-BEZPIECZENSTWO-AUDYT-POZAROWY",
     inputs: { razem, liczbaOk, liczbaOstrzezen, liczbaKrytycznych },
     assumptions: [
-      { kod: "AUDYT-ZALOZENIE-DANE-DEMO" },
+      { kod: "AUDYT-ZALOZENIE-WPIS-RECZNY" },
     ],
     warnings: items
-      .filter((i) => i.status !== "ok")
-      .map((i) => ({
+      .map((i, idx) => ({ i, nr: idx + 1 }))
+      .filter(({ i }) => i.status !== "ok")
+      .map(({ i, nr }) => ({
         code: `AUDYT-${i.id.toUpperCase()}`,
         level: i.status === "critical" ? ("critical" as const) : ("warning" as const),
-        i18nKey: "AUDYT-POZYCJA",
-        // Category/element/description are installation data (user or live feed), not engine text.
-        params: { kategoria: i.kategoria, element: i.element, opis: i.opis },
+        i18nKey: i.opis.trim() === "" ? "AUDYT-POZYCJA-BEZ-OPISU" : "AUDYT-POZYCJA",
+        // Element name and description are installation data (user or live feed), not engine text.
+        params: {
+          kategoriaKey: kategoriaKey(i.kategoria),
+          ...nazwaElementu("element", i.element, "NAZWA-ELEMENT-NR", nr),
+          opis: i.opis.trim(),
+        },
         technicalMessage: `id=${i.id}, status=${i.status}`,
         field: i.id,
       })),

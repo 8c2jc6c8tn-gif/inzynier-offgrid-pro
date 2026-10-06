@@ -15,8 +15,10 @@ export const AudytPozarowyToolInput = z.object({
     .array(
       z.object({
         id: z.string().describe("Identyfikator pozycji audytu"),
-        kategoria: z.string().describe("Kategoria kontrolowanego elementu — od usera/danych instalacji"),
-        element: z.string().describe("Nazwa kontrolowanego elementu — od usera/danych instalacji"),
+        kategoria: z
+          .enum(["czujniki-dymu", "gasnice", "drogi-ewakuacyjne", "klapy-pozarowe", "przeglady"])
+          .describe("Kategoria kontrolowanego elementu (5 kategorii ze źródła, Ekran 11) — od usera/danych instalacji"),
+        element: z.string().describe("Nazwa kontrolowanego elementu — od usera/danych instalacji; puste = numer pozycji"),
         status: z
           .enum(["ok", "warning", "critical"])
           .describe(
