@@ -17,7 +17,7 @@ TL;DR: Rzeczy świadomie odłożone poza zakres pierwszej wersji — decyzje o s
 - **FREE/PRO dla M14 „Dom – sieć” / „Firma – sieć”** (28.09.2026, D37) — ekrany M14 bez przypisania, podział wróci osobną decyzją właściciela. D2 dla M1–M13 bez zmian.
 - **Freemium/Stripe** — podział FREE/PRO zdecydowany (D2, `rejestr-decyzji.md`), egzekwowanie i integracja płatności nie zaimplementowane.
 - **Tryb Live z realną telemetrią** (M13) — dziś czysta brama informacyjna bez połączenia; sensowny dopiero, gdy M8/M9 mają dane na żywo do pokazania.
-- **Dane demonstracyjne → dane na żywo** (M8 Audyt pożarowy, M10 Prognozy) — oba ekrany jawnie oznaczają w kodzie i UI, że dziś czerpią z przykładowych danych (`SAMPLE_AUDIT_ITEMS` itp.), docelowo z modułów źródłowych.
+- **Dane demonstracyjne → dane na żywo** (M8 Audyt pożarowy, M10 Prognozy) — oba ekrany jawnie oznaczają w kodzie i UI, że dziś czerpią z przykładowych danych (`SAMPLE_AUDIT_ITEMS` itp.), docelowo z modułów źródłowych. **[06.10.2026]** M8 Audyt pożarowy: dane demo usunięte, do Trybu Live ręczna checklista użytkownika; pozycja zostaje dla M10 Prognozy i dla podłączenia audytu do telemetrii M8/M9/M13.
 - **Migracja przekazania na mobile** (React Native) — architektura `core`/`adapters`/`app` przygotowana pod to od początku (Zasada 1), sama migracja nie rozpoczęta.
 
 ## ⚠️ Blocked — ekrany sprawdzone i odrzucone (brak danych, nie przeoczenie)

@@ -1,49 +1,20 @@
-import type { AuditCheckItem } from "./input"
+import type { AuditKategoria } from "./input"
 
 /**
- * PRZYKŁADOWE dane demonstracyjne — w docelowej implementacji ten ekran czerpie na żywo
- * z Modułu 8 (czujniki/klapy/UPS), Modułu 9 (ESP32/czujniki) i Modułu 13 (Tryb Live),
- * które nie są jeszcze zbudowane (docs/rejestr-pokrycia.md). Lista kategorii sprawdzanych
- * elementów jest 1:1 ze źródła (docs/zrodla/Tresc_Modul_8_Bezpieczenstwo_Ekrany.md, Ekran 11):
- * czujniki dymu, obecność i sprawność gaśnic, drożność dróg ewakuacyjnych, poprawna reakcja
- * klap pożarowych, historia testów i przeglądów — konkretne wpisy poniżej są ilustracyjne,
- * nie realnym audytem żadnej instalacji.
+ * Categories of checked elements, 1:1 with the source (docs/zrodla/Tresc_Modul_8_Bezpieczenstwo_Ekrany.md,
+ * Ekran 11): smoke detectors, presence and condition of extinguishers, clear escape routes, correct
+ * response of fire dampers, history of tests and inspections. The list of items itself is the user's
+ * (entered after their own inspection) until Modules 8/9/13 feed it live — no sample data here
+ * (owner decision 06.10.2026, docs/memory.md).
  */
-export const SAMPLE_AUDIT_ITEMS: AuditCheckItem[] = [
-  { id: "dym-salon", kategoria: "Czujniki dymu", element: "Salon", status: "ok", opis: "" },
-  {
-    id: "dym-sypialnia",
-    kategoria: "Czujniki dymu",
-    element: "Sypialnia",
-    status: "warning",
-    opis: "Czujnik nie odpowiada — sprawdź baterię.",
-  },
-  { id: "dym-kuchnia", kategoria: "Czujniki dymu", element: "Kuchnia", status: "ok", opis: "" },
-  { id: "co-kotlownia", kategoria: "Czujniki CO", element: "Kotłownia", status: "ok", opis: "" },
-  {
-    id: "gasnica-kuchnia",
-    kategoria: "Gaśnice",
-    element: "Kuchnia",
-    status: "warning",
-    opis: "Termin ważności minął — wymagana wymiana.",
-  },
-  { id: "gasnica-garaz", kategoria: "Gaśnice", element: "Garaż", status: "ok", opis: "" },
-  { id: "droga-glowna", kategoria: "Drogi ewakuacyjne", element: "Wyjście główne", status: "ok", opis: "" },
-  { id: "droga-boczna", kategoria: "Drogi ewakuacyjne", element: "Wyjście boczne", status: "ok", opis: "" },
-  { id: "klapa-strefa1", kategoria: "Klapy pożarowe", element: "Strefa 1 (bateria)", status: "ok", opis: "" },
-  { id: "klapa-strefa2", kategoria: "Klapy pożarowe", element: "Strefa 2 (rozdzielnia)", status: "ok", opis: "" },
-  {
-    id: "przeglad-instalacji",
-    kategoria: "Historia testów i przeglądów",
-    element: "Instalacja p.poż.",
-    status: "ok",
-    opis: "",
-  },
-  {
-    id: "przeglad-gasnice",
-    kategoria: "Historia testów i przeglądów",
-    element: "Coroczny przegląd gaśnic",
-    status: "critical",
-    opis: "Przegląd przeterminowany o ponad 6 miesięcy.",
-  },
+export const AUDIT_KATEGORIE: { id: AuditKategoria; labelKey: string }[] = [
+  { id: "czujniki-dymu", labelKey: "AUDYT-KAT-CZUJNIKI-DYMU" },
+  { id: "gasnice", labelKey: "AUDYT-KAT-GASNICE" },
+  { id: "drogi-ewakuacyjne", labelKey: "AUDYT-KAT-DROGI-EWAKUACYJNE" },
+  { id: "klapy-pozarowe", labelKey: "AUDYT-KAT-KLAPY-POZAROWE" },
+  { id: "przeglady", labelKey: "AUDYT-KAT-PRZEGLADY" },
 ]
+
+export function kategoriaKey(kategoria: AuditKategoria): string {
+  return AUDIT_KATEGORIE.find((k) => k.id === kategoria)!.labelKey
+}

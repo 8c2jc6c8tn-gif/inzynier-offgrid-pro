@@ -535,6 +535,9 @@ części Przejście (D6, D7, D11, F8) — ~~nadal bez kodu M14~~. **[28.09.2026]
   demonstracyjne, nie realnym zestawem twardych stopów instalacji. Realne kryteria (np. "brak
   czujnika dymu w sypialni", "gaśnica po terminie ważności") do zdefiniowania, gdy ekran zostanie
   spięty z Modułami 8/9/13 (`docs/rejestr-pokrycia.md`).
+  **[06.10.2026]** Dane demo usunięte — listę wpisuje użytkownik po własnej kontroli (status
+  `critical` ustawia on sam). Luka bez zmian: realne kryteria twardych stopów nadal do zdefiniowania
+  przy spięciu z Modułami 8/9/13 — nie wymyślane.
 - ~~**`KROK-POZA-KOLEJNOSCIA` (Black Start) jest `warning`, nie `critical`**~~ — **[07.09.2026]
   ROZSTRZYGNIĘTE**: właściciel projektu potwierdził podniesienie do `critical` (pytanie otwarte od
   03.09.2026, zgłoszone bez samodzielnego rozstrzygania — `docs/standards/15`, 15.4). Wpis
