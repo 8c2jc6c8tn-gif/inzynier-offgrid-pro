@@ -1,0 +1,391 @@
+# Porównywarka paneli PV — specyfikacja i plan dla następnej sesji
+
+> **Status: SPECYFIKACJA ZATWIERDZONA PRZEZ WŁAŚCICIELA (08.10.2026), KOD NIE ISTNIEJE.** Ten dokument jest jedynym
+> kompletnym zapisem ustaleń z rozmowy właściciela z asystentem (sesja 08.10.2026). Inna sesja ma z niego zbudować moduł.
+> Decyzja strategiczna: `rejestr-decyzji.md` D81. Wpis na liście: `docs/lista-do-zrobienia.md` („Porównywarka paneli PV”).
+> Zasada nadrzędna tego dokumentu: **nigdy nie zgaduj danych katalogowych, norm ani współczynników** (Dyrektywa #1,
+> `docs/standards/00-filozofia.md`). Gdzie brak liczby — pole `null` i jawny komunikat „brak danych”, nie wartość domyślna.
+
+## 0. Jak zacząć (kolejność pracy dla wykonującej sesji)
+
+1. Przeczytaj `CLAUDE.md` → `docs/lista-do-zrobienia.md` (wpis o porównywarce) → ten dokument w całości.
+2. Wykonaj **Etap A0** (sekcja 14) — audyt istniejącego stanu (dziś wiemy tylko to, co w sekcji 3) i projekt wspólnego
+   modelu danych. Dopiero potem silnik.
+3. Katalog paneli: właściciel dostarcza **PDF-y kart katalogowych** (10–15 szt.). Umieść je w
+   `docs/zrodla/karty-katalogowe-paneli-pv/` + `INDEKS.md` (konwencja katalogów `docs/zrodla/*`, memory.md §1).
+   Dane do katalogu **wyłącznie z tych PDF-ów**; każdy parametr ze stroną źródła. Brak PDF-a = brak panelu w katalogu.
+4. Jeden etap = jedna partia + commit (Dyrektywa #14). Po każdym etapie: pakiet kontroli z CLAUDE.md (typecheck, lint,
+   i18n-guard, pomoc-guard, ai-tools-guard, stopy-guard, test, build) i wpis w `docs/memory.md`.
+
+## 1. Cel produktu (słowami właściciela)
+
+Użytkownik „zielony” nie umie porównać paneli PV, a „tańsze i więcej watów” w katalogu bywa w rzeczywistości gorsze.
+Moduł ma rzetelnie pokazać, **który panel lepiej się opłaca — szczególnie zimą**, bo różnica zimą jest najważniejsza dla
+off-gridu. Aplikacja **rekomenduje**, użytkownik **sam decyduje**.
+
+## 2. Ustalenia właściciela (numerowane — nie zmieniać bez pytania)
+
+| # | Ustalenie |
+|---|---|
+| U1 | Porównanie miesiąc po miesiącu (12 miesięcy), zima (XI–II) wyróżniona i podana osobno, średnia zimowa. |
+| U2 | Wartość kWh do wyceny wybiera użytkownik z listy: **sieć (taryfa całodobowa), sieć dzienna i nocna, generator (agregat), stawka wpisana ręcznie**. |
+| U3 | Ocena w skali **10 gwiazdek**; kryteria jako **oddzielne pola z zaznaczeniem**: zaznaczone = liczone, odznaczone = pomijane. **Wagi zawsze widoczne dla użytkownika**, przeliczane do 100% z zaznaczonych kryteriów. |
+| U4 | Każda technologia ma **dokładny opis: jakie daje plusy i jaki ma wpływ na produkcję prądu**. |
+| U5 | Wejście: **liczba paneli, jeśli znana**; albo **maksymalny wymiar panelu**, albo **wymiary miejsca** — system sam liczy, ile paneli się zmieści. |
+| U6 | **Pole wymagane: cena panelu**, którą znalazł użytkownik (brutto za sztukę). Bez niej brak części „zł”. |
+| U7 | **Koszty dodatkowe (stelaż, kable, złączki, zabezpieczenia, montaż) liczymy MY, szacunkowo** — użytkownik „zielony” nie poda ich poprawnie. Szczegóły i ograniczenie (cennik) w sekcji 9. |
+| U8 | **Opisy producentów tworzy asystent** (z wyszukiwania w sieci, źródło + data przy każdym fakcie, do akceptacji właściciela). Zakres: czy firma znana, kraj, dystrybutor/serwis w Polsce, certyfikaty, czy panele są dobre. |
+| U9 | **Informacja o wadze panelu** i na co zwrócić uwagę przy montażu/obciążeniu (jasne ostrzeżenia). |
+| U10 | **Scenariusz „tańszy panel = oszczędność = dokupisz X paneli = Y kWh więcej rocznie, co wartościowo przewyższa różnicę”** — zawsze pokazywany, żeby użytkownik zrozumiał, że za te same pieniądze może mieć więcej paneli. To **sugestia** (nie każdy ma miejsce). |
+| U11 | Brak miejsca → **sugestia dodatkowych paneli na ogrodzeniu / ścianie budynku skierowanej na południe** z policzonym uzyskiem kWh/rok (w tym zimą). Panele pionowe są propozycją dla **paneli dodatkowych (nadwyżka)**, nie dla bazowych. |
+| U12 | Oprócz kWh/dzień: **sumy napięć i prądów** i inne parametry decydujące o doborze falownika/regulatora. System **rekomenduje połączenie**: 1/2/3 stringi, szeregowo/równolegle, zalecane V i A. |
+| U13 | Później: wpisanie parametrów falownika/regulatora → system pokazuje, ile paneli i jak można podłączyć; następnie powiązanie z **ładowaniem akumulatora** (zależnie od typu). Moduł ma być **spięty z resztą aplikacji**. |
+| U14 | Po wyborze: **zapytać użytkownika, czy zapisać wybrany panel w systemie jako podstawowy** (nigdy automatycznie). |
+| U15 | **Energia użyteczna**: liczona tylko gdy zaznaczone „użyj danych zużycia z systemu” i dane istnieją; gdy ich brak — **zaproponować wprowadzenie** (dokładniejsza analiza), ale **liczyć także bez nich** („suchy” tryb produkcja vs cena, bez wyceny energii użytecznej). |
+| U16 | **Nadwyżka energii, której nie da się wykorzystać, nie jest „straconą oszczędnością”** — pokazujemy jej ilość i **proponujemy zagospodarowanie**: ogrzewanie basenu, grządki w szklarni, inne odbiorniki nadwyżkowe. |
+| U17 | Rekomendacja **systemu pomocniczego 24 V** (tani falownik + tani zestaw akumulatorów) do kamer, alarmu, oświetlenia terenu — jako propozycja, użytkownik decyduje. |
+| U18 | Panele bazowe liczone z **danych już wprowadzonych w aplikacji** (miejscowość, kierunek/nachylenie). W module można wpisać **inne dane niż w systemie** i **porównać kilka kierunków i umiejscowień** paneli. |
+| U19 | **Miejsca instalacji** (garaż, ogrodzenie, dom…): możliwość przełączania; użytkownik nadaje własną nazwę, z podpowiedziami typu „ściana północna garażu”. |
+| U20 | Porównanie **maksymalnie 4 paneli naraz**; **wiele zapisanych zestawów porównań**, do których można wracać (sposób obsługi 12 paneli — sekcja 12). |
+| U21 | UX: dużo informacji, ale **przejrzyście, nie „nawalone”**, a z „game changerami” (sekcja 11). |
+| U22 | Funkcja **OCR/AI**: zdjęcie naklejki lub karty katalogowej → AI rozpoznaje dane i wypełnia pola; użytkownik na początku mówi, o jaki panel chodzi. Właściciel: „nie wiem czy to dobry pomysł, ale zróbmy” → Etap B, z zabezpieczeniami (sekcja 13). |
+| U23 | **Pogoda**: wkrótce podłączona baza danych pogodowych — silnik ma pobierać dane przez interfejs wymienny (sekcja 6.1), nie na sztywno z PVGIS. |
+| U24 | Rekomendujemy; **użytkownik sam decyduje** (brak twardych blokad poza bezpieczeństwem elektrycznym). |
+
+## 3. Co już jest w repo (stan na 08.10.2026, `origin/main`)
+
+Nie budować od zera — **echo (Dyrektywa #8)**: najpierw sprawdź i wywołaj istniejące silniki. Ścieżki zweryfikowane 08.10.2026.
+
+| Potrzeba | Istniejący element |
+|---|---|
+| Ogólne technologie (PERC/Half-Cut/TOPCon/HJT), powierzchnia na kWp | `lib/core/modules/pv/technologie-paneli/` (dane 1:1 ze źródła; „+5–8% uzysku” **nie jest mnożnikiem** — memory.md 25.09.2026) |
+| Nasłonecznienie na powierzchni (nachylenie, azymut, horyzont, albedo; model Muneera jak PVGIS) | `lib/core/modules/lokalizacja/orientacja-powierzchni/` (wejście godzinowe TMY `RekordGodzinowy`), `lib/lokalizacja/dane-tmy.ts`, `use-dane-tmy.ts`, proxy `app/api/pvgis/tmy/route.ts` |
+| Lokalizacja projektu | `lib/lokalizacja/use-lokalizacja-projektu.ts` (model działki ma pierwszeństwo przed M1/E1) |
+| Powierzchnie o nazwach (dach wg obrysu, Elewacja N…NW, nazwy użytkownika) | `lib/lokalizacja/model-dzialki.ts`, `nazwa-powierzchni.ts` |
+| Optymalny kąt/azymut | `pv/kat-i-azymut`, `pv/zloty-srodek`, `pv/wschod-zachod`, `pv/typ-montazu` (tryb pionowy: bilans lato/zima), `pv/tracker-vs-staly` |
+| Temperatura (γ) | `pv/wplyw-temperatury` (γ i przyrost podawane jako zakres — pola wpisywane, bez cichych domyślnych) |
+| Bifacjalność, AR, PID, mikropęknięcia, zacienienie/diody, niedopasowanie | `pv/panele-bifacjalne`, `pv/powloki-antyrefleksyjne`, `pv/ryzyko-pid`, `pv/mikropekniecia-termiczne`, `pv/zacienienie-diody-bocznikujace`, `pv/niedopasowanie-paneli` |
+| Stringi, napięcia, falownik | `pv/konfigurator-stringow`, `pv/dopasowanie-tablicy-falownika`, `pv/ochrona-stringow` (margines Isc 1,25 — D20 uzasadnienie normatywne), `pv/stress-test-mppt`, `pv/straty-okablowanie-dc` |
+| Liczba paneli / bilans | `pv/liczba-paneli`, `bilans-miesieczny` (narzędzie AI), `stress-test/deficyty-miesieczne`, `zapotrzebowanie/*` (`zuzycie-miesieczne`) |
+| Wycena kWh | `siec/porownanie-taryf`, `taryfa-g`, `taryfa-nocna-pompy-ciepla`, `lib/core/dane/rozliczenia-pl-2026`, `app/kalkulatory/agregat-paliwo` (koszt kWh z agregatu) |
+| Odbiorniki nadwyżek | `app/kalkulatory/basen`, `grzalki-dachowe`, `grzalka-cwu`, `bojler-cwu` (szklarnia/grządki — **brak**, patrz sekcja 8.3) |
+| Regulator/napięcie systemu/bateria | `dobor-regulatora-pwm-mppt`, `napiecie-systemowe`, `hierarchia-ladowania`, `dobor-pojemnosci-baterii`, `dobor-zrodel-zasilania` |
+| Wspólny profil danych | **Tylko** `lib/profil-sprzetu/` — dziś wyłącznie sekcja `bateria` (decyzja memory.md 19.09.2026: pełna wizja świadomie niezbudowana). **Nie ma profilu panelu ani „miejsc instalacji”.** |
+| AI | `lib/adapters/ai/{client,config}.ts`, `lib/ai/*` (narzędzia, `pytaj-asystenta.ts`, `is-ai-available.ts`) |
+| Telemetria / pogoda | `docs/wklad-do-standardu.md` (kontrakt wspólnych danych pogodowych rodziny, commit 5363500f), `docs/telemetria-kontrakt-esp32.md` |
+
+**Odpowiedź na pytanie właściciela „gdzie jest wspólny profil paneli i dane o budynku?”:** takiego ekranu/profilu dziś **nie ma**.
+Są: (a) lokalizacja i model działki z nazwanymi powierzchniami (M1), (b) minimalny `profil-sprzetu` tylko dla baterii.
+Dlatego Etap A0 projektuje **profil panelu** i **miejsca instalacji** (sekcja 5) jako rozszerzenie `profil-sprzetu`
+i modelu działki — z `schema_version` (standard 02).
+
+## 4. Zasady twarde dla tego modułu
+
+1. **Dane panelu tylko z karty katalogowej/naklejki.** Brak parametru → `null`, kryterium „nie do porównania” (reguła
+   porównywalności, 6.4). Zakaz uzupełniania „typowymi” wartościami technologii.
+2. **Żadnych mnożników z reklam** („+X% uzysku TOPCon”). Uzysk z fizyki i parametrów (sekcja 6).
+3. **Reguła porównywalności:** kryterium wchodzi do porównania i gwiazdek tylko, gdy **wszystkie** porównywane panele
+   mają dane do jego policzenia. Inaczej: wiersz „nie da się porównać — brakuje: [panel X: γ]”, waga ignorowana.
+4. **Żadnych „bezpiecznych” zgadywanek** dla luk — `OUT_OF_SCOPE`/INCOMPLETE z jawnym komunikatem (memory.md §3).
+5. **AI/OCR nigdy nie wpisuje po cichu** i nigdy nie deklaruje zgodności/bezpieczeństwa (standard 9.4, 9.5).
+6. **Język:** kod po angielsku (polska nazwa domenowa dopuszczalna konsekwentnie w module), UI i dokumenty po polsku,
+   tłumaczenia PL/EN/RU (`lib/i18n/*`), „?” przy każdym polu, „i” przy tytule, narzędzie AI z „Użyj, gdy…”, autosave.
+7. `lib/core` nie importuje z `app/`/`components/`. Silnik w `lib/core/modules/pv/porownywarka-paneli/` (nazwa robocza).
+
+## 5. Model danych (projekt do doprecyzowania w A0)
+
+```ts
+// lib/core/modules/pv/porownywarka-paneli/ — typy domenowe (czyste, bez UI)
+type DanePanelu = {
+  id: string; producent: string; model: string
+  zrodlo: { rodzaj: "karta-katalogowa" | "naklejka" | "ogloszenie"; plik?: string; strona?: number; dataKarty?: string }
+  technologia?: "perc" | "half-cut" | "topcon" | "hjt" | "inna"   // etykieta opisowa; NIGDY nie jest mnożnikiem
+  // STC (naklejka ma tylko to + max napięcie systemowe + bezpiecznik):
+  pmaxW: number; vocV: number; iscA: number; vmpV: number; impA: number
+  maxNapiecieSystemoweV?: number; maxBezpiecznikSzeregowyA?: number
+  dlugoscMm: number; szerokoscMm: number; grubosc?: number; masaKg: number
+  // Zależne od temperatury/światła (opcjonalne — brak = null, kryterium wyłączone):
+  gammaPmaxPctNaC?: number; betaVocPctNaC?: number; alfaIscPctNaC?: number; noctC?: number
+  sprawnoscPrzy200WPct?: number      // low-light, jeśli karta podaje
+  bifacjalnosc?: { wspolczynnikPct: number }   // φ z karty; model zysku — istniejący pv/panele-bifacjalne
+  liczbaDiodBocznikujacych?: number; liczbaOgniw?: number; polowkiOgniw?: boolean
+  szklo?: "pojedyncze" | "podwojne"; rama?: boolean
+  obciazenieSniegPa?: number; obciazenieWiatrPa?: number
+  tolerancjaMocy?: string            // np. "0/+5 W" albo "±3%" — jako tekst z karty + sparsowane granice
+  degradacjaPierwszyRokPct?: number; degradacjaLiniowaPctNaRok?: number   // z gwarancji — GÓRNA granica, nie oczekiwanie
+  gwarancjaProduktuLat?: number; gwarancjaMocyLat?: number; gwarancjaMocyKoniecPct?: number
+  certyfikaty?: string[]; lidOpis?: string; letidOpis?: string; pidOpis?: string
+  cenaBruttoZl: number | null        // WYMAGANE przy porównaniu (U6) — wpisuje użytkownik albo katalog z datą
+  cenaData?: string
+}
+type MiejsceInstalacji = {              // U19, U18
+  id: string; nazwa: string; podpowiedzNazwy?: string       // własna nazwa + podpowiedź, np. „ściana północna garażu”
+  zrodlo: "z-projektu" | "wlasne"                           // z-projektu = z M1/M3, wlasne = nadpisane w module
+  nachylenieDeg: number; azymutDeg: number; horyzontDeg?: number[]; albedo?: number
+  rola: "bazowe" | "dodatkowe-nadwyzka"                    // U11: pionowe tylko jako dodatkowe
+  liczbaPaneli?: number                                     // jeśli znana
+  miejsce?: { dlugoscMm: number; szerokoscMm: number }       // albo wymiary miejsca → system liczy ile się zmieści
+  maxWymiarPaneluMm?: { dlugosc?: number; szerokosc?: number }
+}
+type ZestawPorownania = {               // U20 — zapisywany, nazwany, wersjonowany
+  id: string; nazwa: string; schemaVersion: number
+  panele: string[]                      // 1–4 id (max 4)
+  miejsceId: string[]                   // jedno lub kilka miejsc do porównania
+  wycenaKwh: WycenaKwh                  // sekcja 7.1
+  kryteria: Record<KryteriumId, { wlaczone: boolean; waga: number }>
+  uzywajDanychZuzycia: boolean          // U15
+}
+```
+
+Rozszerzenie `lib/profil-sprzetu/types.ts`: sekcja `panel?: { daneId: string; ... }` — **zapis tylko po jawnym potwierdzeniu
+użytkownika** („Zapisać wybrany panel jako podstawowy w systemie?”, U14). Sekcja `miejscaInstalacji` — patrz A0.
+
+## 6. Silnik obliczeń
+
+### 6.1 Dane wejściowe pogodowe — interfejs wymienny (U23)
+Silnik przyjmuje **godzinowy rok TMY** (`RekordGodzinowy`: GHI, DNI, DHI + temperatura otoczenia, wiatr jeśli dostępny)
+przez interfejs `ZrodloDanychPogodowych` (adapter). Dziś: PVGIS TMY (`lib/lokalizacja/dane-tmy.ts`). Później: baza pogodowa
+(kontrakt rodziny — `docs/wklad-do-standardu.md`). **Sprawdź w A0, czy TMY niesie temperaturę otoczenia** (PVGIS TMY ma T2m;
+zweryfikować kształt na żywo — wzorzec wkładu z 02.10.2026, nie z pamięci). Silnik nie zna źródła; zmiana źródła nie zmienia silnika.
+
+### 6.2 Łańcuch obliczeń (godzinowo → miesiąc)
+Dla każdej godziny i miejsca: nasłonecznienie w płaszczyźnie panelu `G_poa` (istniejący silnik `orientacja-powierzchni`:
+Muneer + horyzont + albedo, **bez zmian modelu**) →
+
+- temperatura ogniwa: `T_c = T_otocz + (NOCT − 20)/800 · G_poa` (standardowa definicja NOCT: 800 W/m², 20 °C; fizyka bez
+  wolnego parametru); gdy karta nie podaje NOCT → kryterium temperaturowe „nie do porównania” (nie zgadujemy NOCT);
+- moc: `P = P_stc · (G_poa/1000) · [1 + γ·(T_c − 25)] · η_rel(G_poa)`; `η_rel` wyłącznie z danych karty (sprawność przy
+  200 W/m²) — **brak danych → η_rel = 1 i kryterium low-light wyłączone**, bez interpolacji z technologii;
+- bifacjalność (tylko gdy `bifacjalnosc` podane): zysk tylna strona z istniejącego `pv/panele-bifacjalne`
+  (albedo śniegu zimą z `orientacja-powierzchni`/`czystosc-i-snieg` — sprawdzić, nie wymyślać);
+- degradacja: rok 1 + liniowa z karty/gwarancji; **etykieta „wartość gwarancyjna = górna granica degradacji”** (nie
+  prognoza rzeczywista) — uwaga audytora: producenci gwarantują więcej niż zwykle zachodzi, ale tego nie liczymy z pamięci;
+- straty systemowe (kable, MPPT, zabrudzenie): **te same dla wszystkich porównywanych paneli** — wpływają na bezwzględne
+  kWh, nie na ranking; wartości z istniejących modułów (`straty-okablowanie-dc`, `czystosc-i-snieg`), nie nowe stałe;
+- suma miesięczna kWh (12 wartości) dla każdego panelu × miejsca; zima = XI, XII, I, II (oraz wyświetl wariant „XII–II”,
+  jeśli moduły sezonowe projektu używają innej definicji — **sprawdzić `zapotrzebowanie/sezonowosc`**, trzymać jedną).
+
+**Testy:** każdy wzór niezależnie w Pythonie/Node przed kodem (Dyrektywa #3); referencje ręczne; przypadki graniczne
+(γ=0, brak NOCT, panel bifacjalny bez albedo, noc, śnieg).
+
+### 6.3 Ilość paneli z miejsca (U5)
+Wejście: `liczbaPaneli` (jeśli znana) **albo** wymiary miejsca **albo** maks. wymiar panelu. Silnik pakowania: sprawdź
+w A0, czy istnieje ekran/silnik „pakowania paneli” (rejestr M3/E2, `typ-montazu/powierzchnie.ts`, `dach-plaski.ts`,
+`wiata.ts`; rejestr-pokrycia wspomina M12/E19 „pakowanie paneli”) — **użyj, nie dubluj**. Parametry: orientacja panelu
+(pion/poziom), odstępy, marginesy brzegowe, cień międzyrzędowy przy nachyleniu (reguły w istniejącym kodzie). Wynik:
+liczba paneli dla **każdego** z porównywanych modeli (różne wymiary → różna liczba mieści się w tym samym miejscu —
+to jest sedno uczciwego porównania „na tę samą powierzchnię”).
+
+### 6.4 Reguła porównywalności i kryteria (U3)
+Kryteria (id → źródło danych → warunek wejścia). Wszystkie z checkboxem; domyślnie zaznaczone te, do których wszystkie
+panele mają dane:
+
+| Kryterium | Dane | Typ |
+|---|---|---|
+| Uzysk zimowy (kWh XI–II) | silnik 6.2 | liczba |
+| Uzysk roczny (kWh) | silnik 6.2 | liczba |
+| Koszt zimowej kWh (zł/kWh zimowej w 25 latach) | cena + BOS + uzysk zimowy | liczba |
+| Cena za Wp / za zainstalowany Wp | cena, BOS | liczba |
+| Degradacja i gwarancja mocy | karta | liczba |
+| Słabe światło | sprawność 200 W/m² | liczba |
+| Temperatura (γ, NOCT) | karta | liczba |
+| Zacienienie i śnieg (diody, half-cut, Pa) | karta | opis + liczba |
+| Odporność (PID/LID/LeTID, szkło-szkło) | karta | opis |
+| Tolerancja mocy | karta | opis |
+| Wiarygodność danych i producenta | źródło danych, opis producenta | opis |
+
+**Wagi startowe (propozycja z 08.10.2026, „wstępne, do dopracowania” — jak M7/E12, D71/D72):**
+uzysk zimowy 30%, koszt zimowej kWh 20%, degradacja i gwarancja 15%, słabe światło + temperatura 10%, zacienienie i
+śnieg 10%, odporność 10%, tolerancja mocy i wiarygodność 5%. Po odznaczeniu kryterium wagi **przeliczają się**
+(suma 100%) i ekran pokazuje, **które kryteria policzono, a które pominięto i dlaczego**.
+
+**Otwarte (D81 pkt A):** odwzorowanie wartości → punkty 0–10. Źródło go nie podaje. Propozycja: skala **względna w
+obrębie porównywanego zestawu** (najlepszy w zestawie = 10 na danym kryterium, reszta proporcjonalnie), z jawną notą na
+ekranie „gwiazdki są względne do wybranych paneli”. Alternatywa (absolutne progi) wymaga liczb od właściciela. **Do
+potwierdzenia przez właściciela (✅🤖)** — do czasu decyzji przyjąć względną i oznaczyć wpis na liście ⚠️.
+
+## 7. Wycena i ekonomia
+
+### 7.1 Wartość kWh (U2) — `WycenaKwh`
+Źródła do wyboru: (a) sieć — taryfa całodobowa (np. G11), (b) sieć — dzienna/nocna (G12; użyć istniejących
+`porownanie-taryf`/`taryfa-nocna-pompy-ciepla`/`rozliczenia-pl-2026`), (c) agregat — koszt kWh z `agregat-paliwo`
+(spalanie, cena paliwa; wpisywane przez użytkownika, bez domyślnych), (d) stawka ręczna zł/kWh (tryb ostatecznej
+pewności, jedyne pole wpisywane przez użytkownika bez źródła). **Otwarte (D81 pkt B):** dla taryfy dziennej/nocnej wartość
+zależy od pory dobowej braku produkcji — sprawdzić w A0, jak `porownanie-taryf` wystawia cenę kWh per godzina/miesiąc;
+jeśli nie wystawia, uprościć do „średnia ważona zgodnie z godzinami strefy” **po akceptacji właściciela**, nie ukrytą stałą.
+Jeśli użytkownik wybierze agregat jako zapas na zimę, zimowa kWh = koszt kWh z agregatu (U2) — to wartość „kWh brakującej”.
+
+### 7.2 Energia użyteczna vs nadwyżka (U15, U16)
+- Przełącznik „Użyj danych zużycia z systemu” (domyślnie włączony, gdy `zuzycie-miesieczne` ma dane; **jeśli brak —
+  baner z propozycją uzupełnienia danych i przyciskiem do ekranu zużycia**; moduł liczy też bez tego).
+- Z danymi: `E_uzyteczna,m = min(produkcja_m, zapotrzebowanie_m)`; tylko ona wchodzi do wyceny w złotówkach.
+  `Nadwyżka_m = max(0, produkcja_m − zapotrzebowanie_m)` — **pokazana jako ilość kWh/rok i ułamek**, nie jako strata.
+  Uwaga: dokładniejszy bilans (godzinowy, ograniczenia baterii/falownika) to Etap A5 — w A1/A2 bilans miesięczny z jawnym
+  założeniem „bez ograniczeń baterii” (`assumptions`).
+- Bez danych: tryb „suchy” — sama produkcja miesięczna i koszt zł/kWh; ekran mówi wprost, że nie ocenia użyteczności.
+
+### 7.3 Zagospodarowanie nadwyżki (U16)
+Karta „Co zrobić z nadwyżką”: ilość kWh/rok → propozycje (z odnośnikami do istniejących ekranów): podgrzew wody
+(`grzalka-cwu`, `bojler-cwu`, `grzalki-dachowe`), **ogrzewanie basenu** (`basen`), **grządki/szklarnia** (ekran
+nie istnieje — wpisać do `backlog-poza-v1.md`/listy jako propozycja nowego ekranu; do czasu budowy tylko tekst bez
+liczb), ładowanie dodatkowego systemu 24 V (U17). Zasady: sugestia, nie zalecenie; **żadnych liczb efektu bez silnika**.
+
+### 7.4 Scenariusz „tańszy panel = więcej paneli” (U10) — game changer #1
+Dla pary (droższy A, tańszy B): `oszczędność = N·(cenaA − cenaB)` (+ różnica BOS, sekcja 9) → `X = floor(oszczędność /
+koszt jednego dodatkowego panelu B z BOS)` → dodatkowe `X` paneli B daje **ΔE rok i ΔE zima** (z silnika, w tym samym
+miejscu **albo** w miejscu „dodatkowym”) → porównanie wartości w zł z tym, co daje A ponad B. Tekst gotowy do czytania
+przez „zielonego”: „Wybierając B zamiast A, zostaje Ci X zł — to X dodatkowych paneli, +Y kWh rocznie (w tym Z kWh zimą),
+czyli o W zł więcej/mniej niż daje droższy A.” **Warunki ograniczające sprawdzane od razu** (sekcje 6.3 i 10): brak miejsca,
+limit wejść MPPT/falownika/regulatora (A4), pojemność baterii (A5). Przy braku miejsca → U11: panele na ogrodzeniu /
+ścianie południowej (rola `dodatkowe-nadwyzka`) z uzyskiem kWh/rok z silnika pionowego (`typ-montazu/pionowy.ts`).
+Zawsze **rekomendacja + zastrzeżenia**; decyzja użytkownika (U24).
+
+## 8. Elektryka: napięcia, prądy, stringi, falownik, bateria (U12, U13)
+
+### 8.1 Parametry panelu → system (A3)
+Dla każdego panelu: `Voc(T_min)` ze wzoru z `β_Voc` i **najniższej temperatury lokalizacji (M1)**, `Vmp(T_max)`, `Isc`, `Imp`,
+margines Isc (istniejąca stała M3/E22 — **użyć, nie redefiniować**), limit napięcia systemowego, limit bezpiecznika
+szeregowego. Suma dla N paneli: moc, napięcia szeregowo, prądy równolegle. **Rekomendacja podłączenia** (1/2/3 stringi,
+szereg/równoległe) z uzasadnieniem — **silnik `pv/konfigurator-stringow` + `ochrona-stringow` + `niedopasowanie-paneli`**;
+reguły normatywne (np. zabezpieczenia stringów od określonej liczby gałęzi równoległych) brać z tych modułów i
+`docs/zrodla/norma-HD-60364-7-712`, **nie z pamięci**. Zakaz mieszania różnych paneli w jednym stringu (ostrzeżenie).
+
+### 8.2 Falownik / regulator (A4)
+Wejście: parametry falownika/regulatora (okno MPPT, max Voc, max Isc na wejście, liczba wejść, moc DC) — wpisywane albo z
+istniejących ekranów (`dopasowanie-tablicy-falownika`, `dobor-regulatora-pwm-mppt`). Wynik: ile paneli i w jakiej
+konfiguracji można podłączyć; co z nadmiarem (clipping — tylko informacja z istniejących wzorów).
+
+### 8.3 Bateria i ładowanie (A5)
+Prąd ładowania przy napięciu systemu, współpraca z `hierarchia-ladowania`, `dobor-pojemnosci-baterii`,
+`napiecie-systemowe`; bilans godzinowy → dokładniejsza energia użyteczna (podmienia założenie z 7.2).
+
+### 8.4 System pomocniczy 24 V (U17)
+Karta rekomendacji: mały niezależny system (tani falownik 24 V + tani zestaw akumulatorów) do kamer, alarmu,
+oświetlenia terenu — zasilany nadwyżką lub dodatkowymi panelami. Powiązanie: `dobor-zrodel-zasilania`,
+`napiecie-systemowe`, `panel-dla-urzadzenia`, `blackout-minimum`. Bez cen i mocy „z głowy” — wartości z odpowiednich
+ekranów lub wpisywane.
+
+## 9. Koszty dodatkowe BOS szacowane przez aplikację (U7)
+
+Konflikt z zasadą „nie zgaduj” rozstrzygnięty tak: **ILOŚCI liczy silnik** (długość stelaża w m z geometrii/miejsca,
+długość kabla DC z `optymalizacja-trasy-kabla`/`dobor-przekroju-kabla`, liczba złączek MC4, liczba zabezpieczeń z
+`ochrona-stringow`, ewentualnie większy falownik/MPPT z A4), a **CENY JEDNOSTKOWE pochodzą z edytowalnego „cennika
+orientacyjnego”**: wartości z datą, źródłem i flagą „orientacyjny — zweryfikuj w ofercie”, pokazywane jako **zakres**
+min–max, zawsze nadpisywalne. **Skąd cennik (D81 pkt C — do ustalenia z właścicielem):** (1) właściciel dostarcza,
+(2) asystent zbiera z wyszukiwania w sieci ze źródłami i datami do akceptacji właściciela. **Nie wolno** wpisać cen z
+pamięci. Robocizna: pole opcjonalne („montuję sam” = 0). Do czasu cennika: moduł działa na samej cenie panelu (U6) i
+pokazuje baner „koszty dodatkowe nieuwzględnione — wynik uproszczony”.
+
+## 10. Uwagi montażowe: waga (U9)
+
+Przy każdym panelu: masa (kg) z karty, masa na m² dachu/konstrukcji, liczba osób do montażu (**tylko jako ostrzeżenie
+ogólne bez liczby, jeśli brak źródła**), obciążenie Pa śniegiem/wiatrem z karty vs wymagania z `eurokod-1/snieg.ts`,
+`wiatr.ts`, `napor-wiatru`, `zloty-srodek` (balast, D29). Ostrzeżenie 🟡/🔴 według istniejących poziomów — **nie wymyślać
+nowych 🔴**; każdy nowy kod ostrzeżenia dopisać do `docs/rejestr-twardych-stopow.md` (strażnik stopów).
+
+## 11. UX: jak ująć dużo informacji przejrzyście (U21)
+
+**Zasada:** warstwy (progressive disclosure), nie jedna ściana liczb. Propozycja do zatwierdzenia w A0 (prototyp
+w przeglądarce, wzorce `components/wzorce/*`, `KartaPorownawcza`, `WerdyktPanel`, `WynikSzczegoly`):
+
+1. **Krok 1 – Gdzie i ile:** wybór miejsca instalacji (z projektu / własne; przełącznik garaż·ogrodzenie·dom z nazwami
+   i podpowiedziami), liczba paneli albo wymiary miejsca. Komplet wymaganych pól: cena panelu (U6).
+2. **Krok 2 – Wybór paneli:** katalog (filtr) lub ręcznie/OCR; max 4 (zestaw).
+3. **Krok 3 – Wynik:** na górze **karta werdyktu** (3 „game changery” w zwykłym języku), niżej zakładki:
+   **Miesiące** (wykres 12 miesięcy × panele, zima wyróżniona; `dataviz` skill) · **Opłacalność** (zł, zwrot dopłaty,
+   25 lat) · **Więcej paneli?** (7.4 + U11) · **Gwiazdki** (10★, wagi z checkboxami, opisy technologii z plusami i
+   wpływem na produkcję) · **Elektryka** (stringi, V/A) · **Producent i waga** · **Założenia** (lista pod wynikiem,
+   standard UI).
+4. **Game changery (karta werdyktu):** (1) „W zimie ten panel da X kWh więcej niż tamten — warte Y zł rocznie”; (2) „Za
+   oszczędność z tańszego panelu dokupisz N paneli = +Z kWh, w tym W zimą”; (3) „Nadwyżka latem U kWh — oto co z nią
+   zrobić (basen/szklarnia/system 24 V)”. Reszta za rozwinięciem.
+5. Mobile: zakładki jako przełączniki, wykres poziomo przewijany, „i”/„?” jako dolny panel (istniejący `Chmurka`).
+
+## 12. Zestawy porównań i 12 paneli (U20)
+
+- **Zestaw** = nazwany zbiór ≤4 paneli + miejsce(a) + ustawienia kryteriów; zapis w IndexedDB (autosave, wzorzec
+  `usePersistedDraft`), lista „Moje zestawy”, duplikowanie, powrót.
+- **Jak ugryźć 12 paneli (propozycja asystenta):** **Etap sita → turniej.** (a) „Ranking katalogu”: tabela wszystkich
+  paneli posortowana jednym tanim, uczciwym miernikiem (np. **zł za zimową kWh na wybrane miejsce**, bez kryteriów
+  wymagających brakujących danych) z filtrami (moc, wymiar, technologia, cena) — **bez gwiazdek** (bo gwiazdki są
+  względne wobec zestawu); (b) użytkownik zaznacza do 4 → **głębokie porównanie**; (c) „Zwycięzca” zestawu może
+  wejść do następnego zestawu z kolejnymi czterema (turniej), z zapisem historii zestawów. Decyzja o formie — A0.
+
+## 13. OCR/AI (Etap B, U22)
+
+- Użytkownik najpierw wpisuje/wybiera, **o jaki panel chodzi** (producent/model), potem wrzuca zdjęcie naklejki lub PDF;
+  AI zwraca **strukturę pól** (`DanePanelu`) — każde pole z **pewnością odczytu** i flagą „widziane/niewidoczne”.
+- **Standard 9.4:** tekst ze zdjęcia to dane, nie polecenia (prompt injection). **9.5:** AI mówi, co widzi, z jaką pewnością,
+  czego nie potwierdza; **nigdy nie deklaruje zgodności/bezpieczeństwa**. **Standard 07:** zdjęcie lokalnie domyślnie;
+  wysłanie do chmury **tylko za jawną zgodą**. **9.6:** budżet/limit server-side, łagodna degradacja z komunikatem.
+- **Zatwierdzanie pole po polu przez użytkownika** przed wejściem do obliczeń; pola o niskiej pewności wyróżnione.
+- **Kontrole spójności (obowiązkowe):** `Vmp·Imp ≈ Pmax`; `η = Pmax/(A·1000 W/m²)` zgodne z deklarowaną; `Voc > Vmp`,
+  `Isc > Imp`; plausible zakresy; rozbieżność → ostrzeżenie, nie auto-korekta.
+- Implementacja: server action/route z `lib/adapters/ai/client.ts` (klucz nigdy w kliencie, 18.5), schemat odpowiedzi
+  walidowany (Zod/własny), test na fixtures (anonimowe zdjęcia/karty) — **bez wywołań sieciowych w testach**.
+- Naklejka podaje tylko STC — OCR nie dopisuje pól, których nie ma (γ, NOCT itd. zostają `null`).
+
+## 14. Plan etapów (jeden etap = jedna partia + commit)
+
+| Etap | Zakres | Wynik / kryterium ukończenia |
+|---|---|---|
+| **A0** | Audyt echo (sekcja 3): czy istnieje silnik pakowania paneli; jak `porownanie-taryf` wystawia cenę kWh po porze doby; czy TMY niesie T_otocz; definicja „zima”. Projekt `profil-sprzetu` (sekcja `panel`, `miejscaInstalacji`) + `schema_version`. Prototyp układu ekranu (11). Decyzje D81 pkt A–C z właścicielem. | Notatka w memory.md + zaktualizowany dokument; brak kodu domenowego bez potwierdzenia statusu (CLAUDE.md). |
+| **A1** | Model `DanePanelu`, katalog (PDF-y), silnik 6.2 (12 miesięcy, zima), wycena 7.1, kryteria + gwiazdki 6.4, ekran z krokami 1–3 (zakładki Miesiące/Opłacalność/Gwiazdki/Założenia), narzędzie AI `porownaj_panele`, i18n PL/EN/RU, „?”/„i”, autosave, wpis w `pulpit/registry`, `rejestr-pokrycia`, `opis-ekranow-dla-ai`. | Pakiet kontroli zielony; testy silnika z referencjami ręcznymi; weryfikacja w przeglądarce (desktop + 375 px). |
+| **A2** | Miejsca instalacji (przełącznik, nazwy, podpowiedzi), liczba paneli z wymiarów miejsca, scenariusz 7.4, panele dodatkowe na ścianie/ogrodzeniu (U11), energia użyteczna + nadwyżka (7.2/7.3), pytanie „zapisać jako podstawowy?” (U14), zestawy i ranking katalogu (12). | j.w. + testy pakowania. |
+| **A3** | Elektryka bez falownika (8.1), waga i obciążenia (10). | Odsyłacze do konfiguratora stringów; testy. |
+| **A4** | Falownik/regulator (8.2), BOS (po decyzji o cenniku, sekcja 9), system pomocniczy 24 V (8.4). | j.w. |
+| **A5** | Bateria i ładowanie (8.3), bilans godzinowy zamiast miesięcznego. | Podmiana założenia 7.2. |
+| **B** | OCR (sekcja 13). | Test fixtures, brak sieci w testach, strażnik `ai-tools`. |
+| **C** | Opisy producentów (U8) — mogą iść równolegle z A1 po otrzymaniu nazw marek z PDF-ów. | Każdy fakt: źródło + data + status „do akceptacji”. |
+
+## 15. Opisy producentów (U8, Etap C)
+
+Asystent tworzy opisy: kraj i rok założenia, dystrybutor/serwis w Polsce, certyfikaty, niezależne testy (jeśli
+publicznie dostępne), czy firma jest znana na rynku, czy panele są oceniane dobrze. **Wyłącznie z wyszukiwania w sieci**
+(`WebSearch`) ze **źródłem i datą przy każdym fakcie**; fakty niepotwierdzone oznaczone; ocena subiektywna („dobre
+panele”) zawsze jako „według [źródło, data]” albo pominięta — nie jako własny osąd asystenta. Dla marek nieznanych: jawne
+„brak wiarygodnych źródeł” (to samo w sobie sygnał ryzyka dla no-name). Tekst PL/EN/RU, aktualizowalny (data
+przeglądu). Wchodzi do kryterium „wiarygodność danych i producenta” tylko jako opis, **bez automatycznych punktów**
+(punkty z faktów weryfikowalnych: certyfikaty, gwarancja, dystrybutor — decyzja w A0).
+
+## 16. Powiązania z innymi modułami (podsumowanie)
+
+Wybrany panel (po zgodzie użytkownika) zasila: `wplyw-temperatury` (γ), `konfigurator-stringow`, `niedopasowanie-paneli`,
+`stress-test-mppt`, `dopasowanie-tablicy-falownika`, `dobor-regulatora-pwm-mppt`, `liczba-paneli`, `bilans-miesieczny`,
+`panel-do-stacji-zasilania`. Zużycie z `zuzycie-miesieczne` zasila 7.2. Agregat/taryfy zasilają 7.1. Pionowe — `typ-montazu`.
+Narzędzie AI i raport (M10, wydruk/PDF) obejmują wynik zestawu. Dane pogodowe — adapter 6.1.
+
+## 17. Otwarte decyzje (D81) — kto i kiedy
+
+| # | Pytanie | Propozycja asystenta | Kto |
+|---|---|---|---|
+| A | Skala punktów 0–10 per kryterium | względna w obrębie zestawu + nota (6.4) | właściciel (✅🤖 do potwierdzenia) |
+| B | Wycena kWh w taryfie dziennej/nocnej | wg godzin strefy, jawnie opisana (7.1) | właściciel po A0 |
+| C | Źródło cennika BOS (ceny jednostkowe) | właściciel dostarcza LUB asystent zbiera ze źródłami do akceptacji (9) | właściciel |
+| D | „Zima” = XI–II czy zgodnie z `sezonowosc` | zgodnie z istniejącym modułem | A0 |
+| E | Forma „12 paneli”: ranking → ≤4 → turniej | sekcja 12 | właściciel po prototypie |
+| F | Punktowanie wiarygodności producenta | tylko fakty weryfikowalne | A0/C |
+
+## 18. Ryzyka i pułapki (audytor)
+
+1. **Dodatkowe panele latem są bez wartości w off-gridzie** (bateria pełna). Dlatego energia użyteczna i U16; bez danych
+   zużycia ekran **nie obiecuje** oszczędności z „dokupionych paneli”, tylko pokazuje produkcję i zimę.
+2. **Dokupienie paneli ograniczone elektryką** (MPPT/falownik/regulator/bateria) — sprawdzane w A4/A5; do tego czasu
+   scenariusz 7.4 pokazuje zastrzeżenie „wymaga sprawdzenia kompatybilności”.
+3. **Gwiazdki względne** zmieniają się po zmianie zestawu — nota na ekranie.
+4. **Dane no-name:** moc zaniżona względem naklejki — test „co, jeśli panel ma o X% mniej mocy” z X wpisywanym przez
+   użytkownika (**bez** wartości domyślnej).
+5. **OCR myli cyfry** (Voc, γ) — kontrole spójności + zatwierdzenie pole po polu.
+6. **Zima jako XI–II** vs inne definicje — jedno źródło prawdy.
+7. **Konflikt numeracji D#** — przed nadaniem sprawdź najwyższy na `origin/main` (H.3); D81 nadano 08.10.2026.
+8. Pliki wspólne z innymi sesjami: `lib/pulpit/registry.ts`, `lib/i18n/dictionary-*.ts`, `lib/i18n/ui/*`,
+   `scripts/check-i18n-guard.mjs`, `lib/ai/pytaj-asystenta.ts` — tylko dopisywać, nie przestawiać.
+9. **Brak zgadywania cen** — patrz sekcja 9; to najłatwiejsze miejsce na złamanie zasady.
+
+## 19. Definicja ukończenia (zgodna z CLAUDE.md)
+
+Kod działa · testy przechodzą · typecheck czysty · ekran w komplecie: autosave + PL/EN/RU + „?” przy każdym polu + „i” przy
+tytule + narzędzie AI z „Użyj, gdy…” (D51, Dyrektywa #15) · strażniki zielone · brak martwego kodu · `docs/memory.md`,
+`docs/rejestr-pokrycia.md`, `docs/lista-do-zrobienia.md` zaktualizowane · zmiana nie narusza innych modułów ·
+weryfikacja w przeglądarce (desktop + 375 px, wykresy, kolory werdyktu) · kanał zwrotny do standardu
+(`docs/wklad-do-standardu.md`) uzupełniony, jeśli powstała reguła uniwersalna.
