@@ -661,4 +661,4 @@ tylko w trybie „moje dane z faktury” (D36). Ekrany wspólne Dom/Firma to jed
 
 | Nr | Źródło | Funkcja | Status | Uwagi |
 |---|---|---|---|---|
-| M3 | decyzja D81 | Porównywarka paneli PV (zimowy uzysk godzinowy, 10 gwiazdek, wagi, BOS, stringi, zestawy do 4 paneli, OCR kart) | **todo** | Specyfikacja zatwierdzona: `docs/porownywarka-paneli-pv-specyfikacja.md`. Kodu brak. Etap A0 (profil panelu + miejsca instalacji) przed UI. |
+| M3 | decyzja D81 | Porównywarka paneli PV (zimowy uzysk godzinowy, 10 gwiazdek, wagi, BOS, stringi, zestawy do 4 paneli, OCR kart) | **todo** | Specyfikacja zatwierdzona: `docs/porownywarka-paneli-pv-specyfikacja.md`. Kodu brak. Etap A0 (audyt echo + projekt danych) **wykonany 08.10.2026** — sekcja 20 specyfikacji; kod nadal brak, następny: A1 (po decyzjach A–C i kartach katalogowych). |

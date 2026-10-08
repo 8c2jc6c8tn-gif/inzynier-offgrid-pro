@@ -1,6 +1,6 @@
 # Porównywarka paneli PV — specyfikacja i plan dla następnej sesji
 
-> **Status: SPECYFIKACJA ZATWIERDZONA PRZEZ WŁAŚCICIELA (08.10.2026), KOD NIE ISTNIEJE.** Ten dokument jest jedynym
+> **Status: SPECYFIKACJA ZATWIERDZONA PRZEZ WŁAŚCICIELA (08.10.2026), KOD NIE ISTNIEJE; ETAP A0 (audyt) WYKONANY 08.10.2026 — wyniki w sekcji 20.** Ten dokument jest jedynym
 > kompletnym zapisem ustaleń z rozmowy właściciela z asystentem (sesja 08.10.2026). Inna sesja ma z niego zbudować moduł.
 > Decyzja strategiczna: `rejestr-decyzji.md` D81. Wpis na liście: `docs/lista-do-zrobienia.md` („Porównywarka paneli PV”).
 > Zasada nadrzędna tego dokumentu: **nigdy nie zgaduj danych katalogowych, norm ani współczynników** (Dyrektywa #1,
@@ -389,3 +389,64 @@ tytule + narzędzie AI z „Użyj, gdy…” (D51, Dyrektywa #15) · strażniki 
 `docs/rejestr-pokrycia.md`, `docs/lista-do-zrobienia.md` zaktualizowane · zmiana nie narusza innych modułów ·
 weryfikacja w przeglądarce (desktop + 375 px, wykresy, kolory werdyktu) · kanał zwrotny do standardu
 (`docs/wklad-do-standardu.md`) uzupełniony, jeśli powstała reguła uniwersalna.
+
+## 20. Wyniki Etapu A0 (audyt echo i projekt danych) — 08.10.2026
+
+> Status: **A0 wykonany (dokumentacja, bez kodu domenowego).** Sekcje 1–19 powyżej zostają bez zmian (zatwierdzone przez
+> właściciela); tu tylko wyniki audytu, które je uszczegóławiają albo z nimi się rozchodzą. Rozbieżności z sekcjami 6–9 są
+> oznaczone ⚠️ i **nie** są rozstrzygnięte na własną rękę (CLAUDE.md, zasada konfliktów).
+
+### 20.1 Audyt — odpowiedzi na cztery pytania z sekcji 14
+
+| Pytanie | Wynik (zweryfikowane w kodzie 08.10.2026) | Konsekwencja |
+|---|---|---|
+| Czy istnieje silnik pakowania paneli? | **Tak, jeden:** `ulozPanele(L, W, dlPanelu, szPanelu)` w `lib/core/modules/pv/typ-montazu/wiata.ts` (eksportowany; dziś używany tylko przez tryb „Wiata”). Układy „gilotynowe” z ≤2 blokami, dwie orientacje panelu, **bez odstępów, marginesów brzegowych i cienia międzyrzędowego** (`TM-ZALOZENIE-BEZ-SZCZELIN`; w `assumptions`: nie jest dowodem optimum). **Nie ma** ekranu „M12/E19 pakowanie” — `rejestr-pokrycia.md` nie zawiera takiej pozycji. `dach-plaski.ts` liczy wysokość i napór, ale **nie** odstęp między rzędami. | A2 **wywołuje** `ulozPanele`, nie pisze własnego. Marginesy brzegowe = wpisywane przez użytkownika, **bez wartości domyślnej** (zmniejszenie L i W; jawne w `assumptions`). Panele pochylone na gruncie/płaskim dachu (cień międzyrzędowy) — **poza zakresem A2**: wynik `INCOMPLETE` z komunikatem, dopóki właściciel nie poda reguły odstępu. Panele równoległe do połaci/ściany/ogrodzenia (jak na dachu skośnym, elewacji) — liczone bez tego problemu. ⚠️ „Maksymalny wymiar panelu” (U5) to **filtr katalogu**, nie pakowanie. |
+| Jak `porownanie-taryf` wystawia cenę kWh po porze doby? | **Nie wystawia.** Silnik (`siec/porownanie-taryf`, echo `rachunek-za-prad`) przyjmuje od użytkownika **podział zużycia na strefy** i **ceny energii na strefę** (`zuzycieStrefKwh`, `cenaEnergiiZlKwh`); godziny stref nie istnieją w pliku `rozliczenia-pl-2026` (komentarz w kodzie: „OSD data that the rates file does not have yet”). Strefy w schemacie: `calodobowa, dzien, noc, szczyt, pozaszczyt`. | **Decyzja B zostaje otwarta** i dostaje trzy konkretne warianty (20.4). Nic nie liczymy „wg godzin strefy”, bo godzin nie mamy. |
+| Czy TMY niesie temperaturę otoczenia? | ⚠️ **Odpowiedź częściowa — to zmienia zakres A1.** PVGIS TMY zwraca `T2m` (adapter `lib/adapters/pvgis/tmy.ts` ma je w schemacie Zod jako pole **opcjonalne**), **ale** `RekordGodzinowy` (`orientacja-powierzchni/input.ts`) **nie ma pola temperatury** i adapter zapisuje wyłącznie 12 średnich miesięcznych (`temperaturyMiesieczneC`; `docs/memory.md` 26.09.2026: „godzinowe temperatury NIE są zapisywane”). Zapis lokalny `offgrid.pvgis-tmy.v1` nie zawiera godzinowej temperatury. Silnik 6.2 (temperatura ogniwa godzina po godzinie) **nie może więc działać na dzisiejszych danych.** Nie dało się też sprawdzić kształtu odpowiedzi na żywo — z kontenera chmurowego host `re.jrc.ec.europa.eu` jest blokowany przez proxy (403); podstawą są schemat Zod, test adaptera i wpis z 26.09.2026. | A1 zaczyna od **rozszerzenia wstecznie zgodnego**: opcjonalne `tempC?: number` w `RekordGodzinowy`, wypełniane z `T2m` przez adapter; `Godzina` w `muneer.ts` przenosi je dalej; zapisy bez godzinowej temperatury → ekran prosi o ponowne pobranie (ten sam wzorzec co `temperaturyMiesieczneC`, bez zmiany klucza zapisu). **Do zweryfikowania na żywo przy pierwszym pobraniu** (urządzenie właściciela albo CI z dostępem do PVGIS). Do czasu pobrania: kryterium temperaturowe „nie do porównania”, nie średnia miesięczna jako zamiennik. |
+| Definicja „zimy”? | **U1 jest jednoznaczne: XI–II** (listopad, grudzień, styczeń, luty). `zapotrzebowanie/sezonowosc` **nie ma** uniwersalnej definicji zimy (okres wpisuje się per urządzenie — komentarz w kodzie). Jedyna stała w repo, `MIESIACE_ZIMOWE = [11, 0]` w `siec/bilans-miesieczny/constants.ts`, to grudzień–styczeń i służy innemu celowi (warunek scenariusza D, M14). | **Pkt D zamknięty przez U1.** Stała lokalna modułu `MIESIACE_ZIMOWE_PORÓWNYWARKI = [10, 11, 0, 1]` (indeksy 0 = styczeń); nie importować stałej z M14 (inna definicja, inny cel). Notka w `assumptions`. |
+
+### 20.2 Co silnik może wywołać bez przepisywania (echo, sprawdzone)
+
+- **Godzinowe napromieniowanie płaszczyzny (G_poa):** `przygotujGodziny` → `plaszczyzna(nachylenie, azymut, albedo)` → `natezenieGodziny(godzina, plaszczyzna, zaHoryzontem(godzina, horyzont))` w `lib/core/modules/lokalizacja/orientacja-powierzchni/muneer.ts`. Wszystko eksportowane; model Muneera i horyzont bez zmian, jak w sekcji 6.2. Miesiąc rekordu (UTC) jest w `Godzina.miesiac`.
+- **Ułożenie paneli:** `ulozPanele` (tabela wyżej).
+- **Powierzchnie projektu o nazwach:** `lib/lokalizacja/model-dzialki.ts` — `powierzchnieZModelu`, `powierzchnieDoOceny` (nakłada ręczne korekty i powierzchnie dopisane); typ `PowierzchniaZModelu` ma **stałe `id`**. Nazwy generowane („Elewacja N”, „Dach wg obrysu budynku”) tłumaczy `etykietaPowierzchni`.
+- **Koszt kWh z agregatu:** `kalkulator-mobilny/agregat-paliwo` (`calculateAgregatPaliwo`: moc, obciążenie, l/h z karty, cena paliwa — wszystko od użytkownika, bez domyślnych) — pasuje do U2(c).
+- **Karta katalogowa już w repo:** `docs/zrodla/karta-katalogowa-JA-Solar-JAM60D41-LB/` (seria 485–510 W; Pmax/Voc/Vmp/Isc/Imp, α/β/γ, **NOCT 45±2 °C**, masa 27,3 kg, wymiary 1953×1134×30 mm, bezpiecznik 30 A, bifacjalna). To **pierwszy panel katalogu** (dane 1:1 z `00-INDEKS.md`, ze zwróconą uwagą o etykiecie Vmp). **Nie ma w niej sprawności przy 200 W/m²** → kryterium „słabe światło” dla tego panelu = „nie do porównania” (reguła 6.4), bez uzupełniania typowymi wartościami.
+- **Nie audytowane w A0, do A1:** bifacjalność i albedo śniegu (`panele-bifacjalne`, `czystosc-i-snieg`), straty systemowe (`straty-okablowanie-dc`), sparowanie tolerancji mocy.
+
+### 20.3 Projekt danych — poprawki względem sekcji 5
+
+1. **Profil panelu przechowuje migawkę danych, nie samo `daneId`.** Panel wprowadzony ręcznie albo z OCR (Etap B) nie istnieje w katalogu, więc `daneId` wskazywałoby w próżnię. Zapis: `panel?: { podstawowy: DanePanelu; zapisanoIso: string }` — kopia wartości z momentu zgody użytkownika (U14); katalog wskazuje tylko źródło.
+2. **Miejsce „z projektu” przechowuje odwołanie, nie kopię kątów.** Przy `zrodlo: "z-projektu"` zapisujemy `powierzchniaId` (stałe `id` z `PowierzchniaZModelu`) i opcjonalną korektę; nachylenie i azymut rozwiązuje się przy odczycie z modelu działki. Kopia liczb zestarzałaby się po zmianie modelu działki (standard 5.1: zapisujemy Seed, nie Wynik). Dla `zrodlo: "wlasne"` zapisujemy liczby. Typ jako unia dyskryminowana — nie dwa opcjonalne pola.
+3. **`schema_version` (standard 02, 2.4):** dziś `offgrid.profil-sprzetu.v1` **nie ma** pola wersji w danych (`v1` jest tylko w kluczu). Dodajemy `schemaVersion: 2` w danych; brak pola = wersja 1 (zapisy sprzed zmiany: tylko `bateria`). Migracja 1→2 jest czysto addytywna (nowe sekcje opcjonalne), w jednej funkcji `migrujProfil` z testem; **klucz zapisu bez zmian** (żeby nie osierocić danych baterii). Dług „klucz z sufiksem `.v1` przy wersji danych 2” — do `docs/memory.md` jako znany.
+4. **Gdzie leżą „miejsca instalacji”:** propozycja: **osobny Seed** `miejsca-instalacji` (`usePersistedDraft`, jak `skaner-dzialki`), nie sekcja `profil-sprzetu` — to dane o *miejscu*, nie o *sprzęcie*, a `useProfilSprzetu` ma dziś API wąskie (`zapiszBaterie`). Sekcja 5 mówi „rozszerzenie profil-sprzetu **i** modelu działki”; to odchylenie jest techniczne i odwracalne — **do potwierdzenia przy przeglądzie A1**, nie blokuje.
+5. **Katalog paneli** jako dane walidowane Zod przy starcie modułu (wzorzec `lib/core/dane/rozliczenia-pl-2026`, D36): `lib/core/dane/katalog-paneli-pv/` — każdy parametr ze stroną źródła, brak pliku źródłowego = brak wpisu.
+
+### 20.4 Decyzje do właściciela po A0 (krótko; rekomendacja pierwsza)
+
+| # | Pytanie | Opcje |
+|---|---|---|
+| A | Skala 0–10 gwiazdek | **(1) względna w obrębie zestawu + nota** (rekomendacja) · (2) absolutne progi (wymaga liczb od właściciela) |
+| B | Wycena kWh „dzienna/nocna” — godzin stref w danych nie ma | **(1) użytkownik wpisuje ceny stref i udział brakującej energii przypadający na strefę dzienną** (z faktury; jawne pole, bez ukrytej stałej) · (2) odłożyć do A5 (bilans godzinowy) i do tego czasu oferować tylko całodobową/agregat/ręczną · (3) dodać godziny stref OSD do pliku stawek (osobne zadanie) |
+| C | Cennik BOS | **(1) właściciel dostarcza ceny jednostkowe** · (2) asystent zbiera z sieci ze źródłami i datami do akceptacji · do czasu decyzji moduł działa na samej cenie panelu z banerem (sekcja 9) |
+| E | Forma „12 paneli” | decyzja po prototypie układu (sekcja 20.5) |
+| F | Punkty za wiarygodność producenta | tylko fakty weryfikowalne (certyfikaty, gwarancja, dystrybutor) — rekomendacja, do potwierdzenia przy Etapie C |
+
+Nowe, techniczne (bez decyzji właściciela, do wiadomości): rozszerzenie TMY o godzinową temperaturę (20.1) oznacza, że **po wdrożeniu A1 użytkownik musi raz pobrać dane pogodowe ponownie** — ekran mówi to wprost.
+
+### 20.5 Układ ekranu (szkic do akceptacji przed A1)
+
+Warstwy zgodne z sekcją 11; jeden ekran, trzy kroki, wynik w zakładkach:
+
+```
+[i] Porównywarka paneli PV                      [Moje zestawy ▾]
+ Krok 1  Gdzie i ile      ● ─── ○ Krok 2 Panele ─── ○ Krok 3 Wynik
+ ┌ Miejsce: [Dach południowy ▾]  [+ własne miejsce]  podpowiedź nazwy
+ │ Ile paneli? [ 8 ]  albo  wymiary miejsca [ ] × [ ] m (policzę ile wejdzie)
+ └ Wartość kWh: (•) sieć całodobowa ( ) dzienna/nocna ( ) agregat ( ) ręcznie
+ Krok 2  Wybierz do 4 paneli:  [z katalogu ▾] [wpisz ręcznie]   Cena brutto*: [ ] zł
+ Krok 3  ┌ WERDYKT: 3 karty „game changer” (zima · więcej paneli · nadwyżka)
+         └ zakładki: Miesiące | Opłacalność | Więcej paneli? | Gwiazdki | Elektryka | Producent i waga | Założenia
+```
+
+Prototyp graficzny (bez danych — wyłącznie układ) opublikowany w wątku projektu; dane liczbowe w nim są **atrapami układu**, nie danymi paneli.
