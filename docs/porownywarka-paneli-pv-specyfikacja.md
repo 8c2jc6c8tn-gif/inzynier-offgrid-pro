@@ -485,3 +485,14 @@ Zakres: liczba paneli z wymiarów miejsca (6.3), energia wykorzystana i nadwyżk
 - **Energia użyteczna:** bilans miesięczny bez ograniczeń baterii i falownika, do wyceny tylko energia wykorzystana; strefy taryfy skalowane proporcjonalnie — uproszczenie do czasu A5.
 - **Scenariusz 7.4:** porównanie z najdroższym zestawem (cena × liczba sztuk); koszt dodatkowej sztuki = cena panelu bez BOS (do czasu akceptacji cennika, sekcja 9).
 - **Zostaje w A2:** miejsca instalacji z przełączaniem i nazwami (U19), „zapisać jako podstawowy?” (U14), zestawy i ranking katalogu (sekcja 12).
+
+## 23. Etap A2, część 2 — wykonany (08.10.2026)
+
+Zakres: miejsca instalacji (U19), pytanie „zapisać jako podstawowy?” (U14), zestawy porównań i ranking katalogu (sekcja 12, filtr U5), to samo porównanie w kilku miejscach (U18), parametry w narzędziu AI. Szczegóły i pułapki: `docs/memory.md`, wpis z 08.10.2026 „Etap A2, część 2”.
+
+- **Miejsca (U19):** formularz trzyma listę miejsc z własnymi nazwami (podpowiedzi w `datalist`, nazwa dowolna), przełączanie jedno aktywne; każde ma kąty, albedo, liczbę paneli albo wymiary + margines + sposób montażu. Panele i wycena są wspólne dla miejsc. Zakładka „Miejsca” (≥2 miejsca) pokazuje tabelę miejsca × panele (zima, rok, liczba sztuk) — te same panele w każdym miejscu (U18).
+- **Panel podstawowy (U14):** po wyniku przycisk „Zapisz … jako podstawowy…” → potwierdzenie Tak/Nie; zapis wyłącznie za zgodą, bez ceny, jako migawka danych (`katalogId`, data). Profil sprzętu ma `schemaVersion: 2` z migracją addytywną (zapis sprzed zmiany czyta się bez straty).
+- **Zestawy (sekcja 12):** zapis bieżącego stanu (miejsca, panele, wycena, kryteria) pod nazwą, wczytanie, nadpisanie, duplikat, usunięcie z potwierdzeniem; autosave jak reszta ekranu.
+- **Ranking katalogu:** wszystkie panele katalogu na aktywnym miejscu według energii zimowej; filtry: moc od/do i najdłuższy bok (U5); sortowanie: zima z 1 szt. / na m² / w całym miejscu. Bez gwiazdek i bez ceny (katalog jej nie zna). Temperatura w rankingu tylko wtedy, gdy KAŻDY panel z listy ma γ i NOCT (reguła porównywalności) — ekran mówi, który wariant zastosowano. Zaznaczone (maks. 4) wstawiają się do porównania.
+- **Narzędzie AI `porownaj_panele`:** przyjmuje wymiary paneli i masę, wymiary miejsca z marginesem i sposobem montażu oraz 12-miesięczne zużycie; zwraca liczbę sztuk, ile się mieści, energię wykorzystaną i ułamek nadwyżki.
+- **Nadal poza zakresem:** reguła odstępu rzędów paneli pochylonych (czeka na właściciela), BOS i elektryka (A3), bilans godzinowy (A5).

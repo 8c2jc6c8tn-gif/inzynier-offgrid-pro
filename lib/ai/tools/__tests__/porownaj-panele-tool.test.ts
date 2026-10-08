@@ -127,6 +127,38 @@ describe("porownajPaneleTool (M3, D81)", () => {
     expect(z.zalozenia.some((x) => x.includes("czasie urzędowym"))).toBe(true)
   })
 
+  it("A2: liczba paneli z wymiarów miejsca (osobno dla każdego modelu) i energia wykorzystana ze zużycia", async () => {
+    const json = odpowiedzPvgis(true)
+    const { liczbaPaneli: _pomijam, ...baza } = wejscie
+    void _pomijam
+    const w = await utworzPorownajPaneleTool(fetchZ(json)).handler({
+      ...baza,
+      wymiaryMiejsca: { dlugoscM: 6, szerokoscM: 4, marginesM: 0, montaz: "rownolegly" },
+      zuzycieMiesieczneKwh: Array(12).fill(5),
+      panele: [
+        { ...baza.panele[0]!, dlugoscMm: 1762, szerokoscMm: 1134 },
+        { ...baza.panele[1]!, dlugoscMm: 2278, szerokoscMm: 1134 },
+      ],
+    })
+    expect(["VALID", "VALID_WITH_WARNINGS"]).toContain(w.status)
+    expect(w.panele[0]!.liczbaPaneli).toBeGreaterThan(w.panele[1]!.liczbaPaneli)
+    expect(w.panele[0]!.mieszcaSieSzt).toBe(w.panele[0]!.liczbaPaneli)
+    // Consumption of 5 kWh a month is far below the yield → the useful energy is capped by it, the rest is surplus.
+    expect(w.panele[0]!.uzytecznaRokKwh).toBeCloseTo(60, 9)
+    expect(w.panele[0]!.nadwyzkaUlamek!).toBeGreaterThan(0)
+  })
+
+  it("A2: montaż pochylony na konstrukcji bez liczby paneli → INCOMPLETE (bez zgadywania odstępu między rzędami)", async () => {
+    const { liczbaPaneli: _pomijam, ...baza } = wejscie
+    void _pomijam
+    const w = await utworzPorownajPaneleTool(fetchZ(odpowiedzPvgis(true))).handler({
+      ...baza,
+      wymiaryMiejsca: { dlugoscM: 6, szerokoscM: 4, marginesM: 0.5, montaz: "pochylony-na-konstrukcji" },
+      panele: baza.panele.map((p) => ({ ...p, dlugoscMm: 1762, szerokoscMm: 1134 })),
+    })
+    expect(w.status).toBe("INCOMPLETE")
+  })
+
   it("PVGIS odrzuca → INCOMPLETE z komunikatem", async () => {
     const zly = (async () => new Response("location over the sea", { status: 400 })) as unknown as typeof fetch
     const w = await utworzPorownajPaneleTool(zly).handler(wejscie)

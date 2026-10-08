@@ -1,7 +1,9 @@
 "use client"
 
 import Link from "next/link"
-import { useMemo, useState } from "react"
+import { useEffect, useMemo, useState } from "react"
+import { RankingKatalogu } from "@/components/porownywarka-paneli/ranking"
+import { ZestawyPorownan } from "@/components/porownywarka-paneli/zestawy"
 import { SekcjaDanychNaslonecznienia } from "@/components/lokalizacja/sekcja-dane-nasloniecznienia"
 import { NawigacjaEkranu } from "@/components/nawigacja-ekranu"
 import { Button } from "@/components/ui/button"
@@ -15,125 +17,45 @@ import { WynikSzczegoly } from "@/components/wzorce/wynik-szczegoly"
 import { usePersistedDraft } from "@/lib/adapters/use-persisted-draft"
 import { useZuzycieMiesieczne } from "@/components/siec/zuzycie-miesieczne"
 import { KATALOG_PANELI_PV } from "@/lib/core/dane/katalog-paneli-pv"
-import { KRYTERIA, MAKS_PANELI_W_ZESTAWIE, MIESIACE_ZIMOWE_POROWNYWARKI, PRZYKLADOWE_OKNA_TANIE_G12, type KryteriumId } from "@/lib/core/modules/pv/porownywarka-paneli/constants"
-import type { DanePanelu, KryteriaWybor, OknoStrefy, PorownywarkaInput, WycenaKwh, WymiaryMiejsca } from "@/lib/core/modules/pv/porownywarka-paneli/input"
+import { KRYTERIA, MAKS_PANELI_W_ZESTAWIE, MIESIACE_ZIMOWE_POROWNYWARKI, type KryteriumId } from "@/lib/core/modules/pv/porownywarka-paneli/constants"
 import { calculatePorownywarkaPaneli, type ScenariuszWiecejPaneli, type WynikPanelu } from "@/lib/core/modules/pv/porownywarka-paneli/calculator"
-import { domyslnyWyborKryteriow } from "@/lib/core/modules/pv/porownywarka-paneli/kryteria"
 import { useSymbolWaluty, useTranslate } from "@/lib/i18n/language-context"
+import type { ProfilSprzetuPanelu } from "@/lib/profil-sprzetu/types"
+import { useProfilSprzetu } from "@/lib/profil-sprzetu/use-profil-sprzetu"
+import {
+  aktywneMiejsce,
+  budujWejscie,
+  kolejnyId,
+  KWOTY,
+  MIEJSCE_PUSTE,
+  migrujStarySzkic,
+  PANEL_PUSTY,
+  seedZDanych,
+  seedZKatalogu,
+  STAN_POCZATKOWY,
+  type FormularzStan,
+  type MiejsceSeed,
+  type PanelSeed,
+  type RodzajWyceny,
+} from "@/lib/porownywarka-paneli/stan"
 import { liczba, powierzchnieZModelu } from "@/lib/lokalizacja/model-dzialki"
 import { useLokalizacjaProjektu } from "@/lib/lokalizacja/use-lokalizacja-projektu"
-import { przeliczPola, przeliczPoleTekst } from "@/lib/waluta/przelicz"
-
-type PanelSeed = {
-  id: string
-  /** Catalogue entry the numbers were taken from; cleared when a datasheet number is edited by hand. */
-  katalogId: string
-  nazwa: string
-  moc: string
-  cena: string
-  gamma: string
-  noct: string
-  spr200: string
-  deg1: string
-  degLin: string
-  /** Size and mass from the datasheet [mm, mm, kg] — needed to count how many fit the place. */
-  dlugosc: string
-  szerokosc: string
-  masa: string
-  bifacjalny: boolean
-}
-
-type RodzajWyceny = "" | "siec" | "dzienNoc" | "reczna" | "agregat"
-
-type FormularzStan = {
-  powierzchniaId: string
-  nachylenie: string
-  azymut: string
-  albedo: string
-  liczbaPaneli: string
-  wymDlugosc: string
-  wymSzerokosc: string
-  wymMargines: string
-  montaz: WymiaryMiejsca["montaz"]
-  uzyjZuzycia: boolean
-  panele: PanelSeed[]
-  wycena: RodzajWyceny
-  stawka: string
-  cenaDzien: string
-  cenaNoc: string
-  okno1Od: string
-  okno1Do: string
-  okno2Od: string
-  okno2Do: string
-  agrMoc: string
-  agrObc: string
-  agrLh: string
-  agrCena: string
-  kryteria: KryteriaWybor
-}
-
-const PANEL_PUSTY = (id: string): PanelSeed => ({
-  id,
-  katalogId: "",
-  nazwa: "",
-  moc: "",
-  cena: "",
-  gamma: "",
-  noct: "",
-  spr200: "",
-  deg1: "",
-  degLin: "",
-  dlugosc: "",
-  szerokosc: "",
-  masa: "",
-  bifacjalny: false,
-})
-
-const STAN_POCZATKOWY: FormularzStan = {
-  powierzchniaId: "",
-  nachylenie: "",
-  azymut: "",
-  albedo: "",
-  liczbaPaneli: "",
-  wymDlugosc: "",
-  wymSzerokosc: "",
-  wymMargines: "",
-  montaz: "rownolegly",
-  uzyjZuzycia: true,
-  panele: [PANEL_PUSTY("p1"), PANEL_PUSTY("p2")],
-  wycena: "",
-  stawka: "",
-  cenaDzien: "",
-  cenaNoc: "",
-  okno1Od: String(PRZYKLADOWE_OKNA_TANIE_G12[0].odH),
-  okno1Do: String(PRZYKLADOWE_OKNA_TANIE_G12[0].doH),
-  okno2Od: String(PRZYKLADOWE_OKNA_TANIE_G12[1].odH),
-  okno2Do: String(PRZYKLADOWE_OKNA_TANIE_G12[1].doH),
-  agrMoc: "",
-  agrObc: "",
-  agrLh: "",
-  agrCena: "",
-  kryteria: domyslnyWyborKryteriow(),
-}
-
-/** Money typed in the display currency follows the currency switch (the panel prices live in a list, so a custom converter). */
-const KWOTY_PROSTE = przeliczPola<FormularzStan>("stawka", "cenaDzien", "cenaNoc", "agrCena")
-const KWOTY = (stan: FormularzStan, wspolczynnik: number): FormularzStan => ({
-  ...KWOTY_PROSTE(stan, wspolczynnik),
-  panele: stan.panele.map((p) => ({ ...p, cena: przeliczPoleTekst(p.cena, wspolczynnik) })),
-})
 
 const f0 = (x: number) => x.toLocaleString("pl-PL", { maximumFractionDigits: 0 })
 const f1 = (x: number) => x.toLocaleString("pl-PL", { maximumFractionDigits: 1 })
 const f2 = (x: number) => x.toLocaleString("pl-PL", { maximumFractionDigits: 2 })
 
-type Zakladka = "miesiace" | "oplacalnosc" | "wiecej" | "nadwyzka" | "gwiazdki" | "zalozenia"
-const ZAKLADKI: Zakladka[] = ["miesiace", "oplacalnosc", "wiecej", "nadwyzka", "gwiazdki", "zalozenia"]
+type Zakladka = "miesiace" | "oplacalnosc" | "wiecej" | "nadwyzka" | "miejsca" | "gwiazdki" | "zalozenia"
+const ZAKLADKI: Zakladka[] = ["miesiace", "oplacalnosc", "wiecej", "nadwyzka", "miejsca", "gwiazdki", "zalozenia"]
+
+/** Name suggestions for an installation place (U19) — translated keys, offered through a datalist. */
+const PODPOWIEDZI_MIEJSC = ["UI-PORP-MIEJSCE-POD-1", "UI-PORP-MIEJSCE-POD-2", "UI-PORP-MIEJSCE-POD-3", "UI-PORP-MIEJSCE-POD-4", "UI-PORP-MIEJSCE-POD-5", "UI-PORP-MIEJSCE-POD-6", "UI-PORP-MIEJSCE-POD-7", "UI-PORP-MIEJSCE-POD-8"]
 const ETYKIETY_ZAKLADEK: Record<Zakladka, string> = {
   miesiace: "UI-PORP-TAB-MIESIACE",
   oplacalnosc: "UI-PORP-TAB-OPLACALNOSC",
   wiecej: "UI-PORP-TAB-WIECEJ",
   nadwyzka: "UI-PORP-TAB-NADWYZKA",
+  miejsca: "UI-PORP-TAB-MIEJSCA",
   gwiazdki: "UI-PORP-TAB-GWIAZDKI",
   zalozenia: "UI-PORP-TAB-ZALOZENIA",
 }
@@ -249,7 +171,17 @@ export default function PorownywarkaPaneliPage() {
   const [stan, setStan] = usePersistedDraft<FormularzStan>("porownywarka-paneli", STAN_POCZATKOWY, KWOTY)
   const { zuzycie } = useZuzycieMiesieczne("dom")
   const [zakladka, setZakladka] = useState<Zakladka>("miesiace")
+  const { profil, zapiszPanel } = useProfilSprzetu()
+  /** U14: saving the primary panel is always asked first, never automatic. */
+  const [doZapisuId, setDoZapisuId] = useState<string | null>(null)
+  const [zapisanoId, setZapisanoId] = useState<string | null>(null)
   const ustaw = <K extends keyof FormularzStan>(pole: K, v: FormularzStan[K]) => setStan((prev) => ({ ...prev, [pole]: v }))
+  /** Edits the active place (U19): every field of step 1 belongs to the place, not to the form. */
+  const ustawMiejsce = <K extends keyof MiejsceSeed>(pole: K, v: MiejsceSeed[K]) =>
+    setStan((prev) => {
+      const id = aktywneMiejsce(prev).id
+      return { ...prev, miejsca: prev.miejsca.map((m) => (m.id === id ? { ...m, [pole]: v } : m)) }
+    })
   const ustawPanel = (id: string, z: Partial<PanelSeed>) =>
     setStan((prev) => ({
       ...prev,
@@ -261,74 +193,25 @@ export default function PorownywarkaPaneliPage() {
       }),
     }))
 
+  // A draft saved before A2 kept the angles and the number of panels on the form itself (one place) — move them into place 1.
+  useEffect(() => {
+    const przeniesiony = migrujStarySzkic(stan)
+    if (przeniesiony) setStan(przeniesiony)
+  }, [stan, setStan])
+
+  const miejsce = aktywneMiejsce(stan)
   const powierzchnie = useMemo(() => powierzchnieZModelu(skaner.value), [skaner.value])
 
-  const wejscie: PorownywarkaInput = useMemo(() => {
-    const nachylenie = liczba(stan.nachylenie)
-    const azymut = liczba(stan.azymut)
-    const albedo = liczba(stan.albedo)
-    const panele: DanePanelu[] = stan.panele.flatMap((p, i) => {
-      const moc = liczba(p.moc)
-      if (moc === undefined) return []
-      return [
-        {
-          id: p.id,
-          nazwa: p.nazwa.trim() || t("UI-PORP-PANEL-N", { n: i + 1 }),
-          pmaxW: moc,
-          cenaBruttoZl: liczba(p.cena) ?? null,
-          gammaPctNaC: liczba(p.gamma) ?? null,
-          noctC: liczba(p.noct) ?? null,
-          sprawnoscWzglednaPrzy200WPct: liczba(p.spr200) ?? null,
-          degradacjaPierwszyRokPct: liczba(p.deg1) ?? null,
-          degradacjaLiniowaPctNaRok: liczba(p.degLin) ?? null,
-          dlugoscMm: liczba(p.dlugosc) ?? null,
-          szerokoscMm: liczba(p.szerokosc) ?? null,
-          masaKg: liczba(p.masa) ?? null,
-          bifacjalny: p.bifacjalny,
-        },
-      ]
-    })
-    const wymDl = liczba(stan.wymDlugosc)
-    const wymSz = liczba(stan.wymSzerokosc)
-    const wymMar = liczba(stan.wymMargines)
-    // The margin has no default: the place counts only once the user typed all three numbers (0 is a number).
-    const wymiaryMiejsca: WymiaryMiejsca | null =
-      wymDl !== undefined && wymSz !== undefined && wymMar !== undefined ? { dlugoscM: wymDl, szerokoscM: wymSz, marginesM: wymMar, montaz: stan.montaz } : null
-    const stawka = liczba(stan.stawka)
-    const mocKw = liczba(stan.agrMoc)
-    const obc = liczba(stan.agrObc)
-    const lh = liczba(stan.agrLh)
-    const cenaPaliwa = liczba(stan.agrCena)
-    const cenaDzien = liczba(stan.cenaDzien)
-    const cenaNoc = liczba(stan.cenaNoc)
-    // A window with only one hour typed is incomplete (never guessed); both empty = no such window.
-    const okno = (od: string, do_: string): OknoStrefy | null | "niekompletne" => {
-      const a = liczba(od)
-      const b = liczba(do_)
-      return a !== undefined && b !== undefined ? { odH: a, doH: b } : a === undefined && b === undefined ? null : "niekompletne"
-    }
-    const okna = [okno(stan.okno1Od, stan.okno1Do), okno(stan.okno2Od, stan.okno2Do)]
-    const oknaTanie = okna.filter((o): o is OknoStrefy => o !== null && o !== "niekompletne")
-    const wycena: WycenaKwh | null =
-      stan.wycena === "dzienNoc" && cenaDzien !== undefined && cenaNoc !== undefined && !okna.includes("niekompletne")
-        ? { rodzaj: "dzienNoc", zlKwhDzien: cenaDzien, zlKwhNoc: cenaNoc, oknaTanie }
-        : (stan.wycena === "siec" || stan.wycena === "reczna") && stawka !== undefined
-        ? { rodzaj: stan.wycena, zlKwh: stawka }
-        : stan.wycena === "agregat" && mocKw !== undefined && obc !== undefined && lh !== undefined && cenaPaliwa !== undefined
-          ? { rodzaj: "agregat", mocKw, obciazeniePct: obc, zuzycieLH: lh, cenaPaliwaZlL: cenaPaliwa }
-          : null
-    return {
-      ...(lokalizacja ? { szerokoscGeograficzna: lokalizacja.szerokosc, dlugoscGeograficzna: lokalizacja.dlugosc } : {}),
-      ...(dane ? { daneGodzinowe: dane.dane.rekordy } : {}),
-      miejsce: nachylenie !== undefined && azymut !== undefined ? { nachylenieDeg: nachylenie, azymutDeg: azymut, ...(albedo !== undefined ? { albedo } : {}) } : null,
-      liczbaPaneli: liczba(stan.liczbaPaneli) ?? null,
-      wymiaryMiejsca,
-      zapotrzebowanieMiesiaceKwh: stan.uzyjZuzycia ? zuzycie : null,
-      panele,
-      wycena,
-      kryteria: stan.kryteria,
-    }
-  }, [stan, lokalizacja, dane, t, zuzycie])
+  const wejscie = useMemo(() => budujWejscie({ stan, miejsce: aktywneMiejsce(stan), lokalizacja, dane, zuzycie, t }), [stan, lokalizacja, dane, zuzycie, t])
+
+  /** The same panels in every saved place (U18) — computed only while that tab is open. */
+  const wynikiMiejsc = useMemo(
+    () =>
+      zakladka === "miejsca"
+        ? stan.miejsca.map((m) => ({ id: m.id, wynik: calculatePorownywarkaPaneli(budujWejscie({ stan, miejsce: m, lokalizacja, dane, zuzycie, t })) }))
+        : [],
+    [zakladka, stan, lokalizacja, dane, zuzycie, t],
+  )
 
   const result = useMemo(() => calculatePorownywarkaPaneli(wejscie), [wejscie])
 
@@ -341,38 +224,68 @@ export default function PorownywarkaPaneliPage() {
 
   function wybierzPowierzchnie(id: string) {
     const p = powierzchnie.find((x) => x.id === id)
-    setStan((prev) => ({
-      ...prev,
-      powierzchniaId: id,
-      ...(p ? { nachylenie: String(p.nachylenieDeg), azymut: String(p.azymutDeg) } : {}),
-    }))
+    ustawMiejsce("powierzchniaId", id)
+    if (p) {
+      ustawMiejsce("nachylenie", String(p.nachylenieDeg))
+      ustawMiejsce("azymut", String(p.azymutDeg))
+    }
+  }
+
+  const nazwaMiejsca = (m: MiejsceSeed) => m.nazwa.trim() || t("UI-PORP-MIEJSCE-N", { n: stan.miejsca.findIndex((x) => x.id === m.id) + 1 })
+
+  function dodajMiejsce() {
+    setStan((prev) => {
+      const id = kolejnyId("m", prev.miejsca)
+      return { ...prev, miejsca: [...prev.miejsca, MIEJSCE_PUSTE(id)], aktywneMiejsceId: id }
+    })
+  }
+
+  function usunMiejsce() {
+    setStan((prev) => {
+      if (prev.miejsca.length < 2) return prev
+      const id = aktywneMiejsce(prev).id
+      const reszta = prev.miejsca.filter((m) => m.id !== id)
+      return { ...prev, miejsca: reszta, aktywneMiejsceId: reszta[0]!.id }
+    })
   }
 
   function wstawZKatalogu(idPanelu: string, idKatalogu: string) {
     const k = KATALOG_PANELI_PV.find((x) => x.id === idKatalogu)
-    if (!k) return
-    const tekst = (x: number | null) => (x === null ? "" : String(x))
-    ustawPanel(idPanelu, {
-      nazwa: k.nazwa,
-      moc: String(k.pmaxW),
-      gamma: tekst(k.gammaPctNaC),
-      noct: tekst(k.noctC),
-      spr200: tekst(k.sprawnoscWzglednaPrzy200WPct),
-      deg1: tekst(k.degradacjaPierwszyRokPct),
-      degLin: tekst(k.degradacjaLiniowaPctNaRok),
-      dlugosc: tekst(k.dlugoscMm),
-      szerokosc: tekst(k.szerokoscMm),
-      masa: tekst(k.masaKg),
-      bifacjalny: k.bifacjalny,
-      katalogId: k.id,
-    })
+    if (k) ustawPanel(idPanelu, seedZKatalogu(k))
+  }
+
+  /** Ranking → comparison: the chosen catalogue panels replace the panel list (a price already typed for the same panel stays). */
+  function wstawZRankingu(idKatalogu: string[]) {
+    setStan((prev) => ({
+      ...prev,
+      panele: idKatalogu.flatMap((id, i) => {
+        const k = KATALOG_PANELI_PV.find((x) => x.id === id)
+        if (!k) return []
+        return [{ ...PANEL_PUSTY(`p${i + 1}`), ...seedZKatalogu(k), cena: prev.panele.find((x) => x.katalogId === id)?.cena ?? "" }]
+      }),
+    }))
   }
 
   function dodajPanel() {
-    setStan((prev) => {
-      const numer = Math.max(0, ...prev.panele.map((p) => Number(p.id.slice(1)))) + 1
-      return { ...prev, panele: [...prev.panele, PANEL_PUSTY(`p${numer}`)] }
-    })
+    setStan((prev) => ({ ...prev, panele: [...prev.panele, PANEL_PUSTY(kolejnyId("p", prev.panele))] }))
+  }
+
+  /** The primary panel saved in the equipment profile goes into the comparison as one more panel (U14, the way back). */
+  function dodajPanelPodstawowy() {
+    const pod = profil.panel
+    if (!pod) return
+    setStan((prev) => ({ ...prev, panele: [...prev.panele, { ...PANEL_PUSTY(kolejnyId("p", prev.panele)), ...seedZDanych(pod.podstawowy, pod.katalogId ?? "") }] }))
+  }
+
+  /** Only after the user confirmed: a snapshot of the panel (without the price) goes to the equipment profile. */
+  function zapiszJakoPodstawowy(id: string) {
+    const dane = wejscie.panele.find((p) => p.id === id)
+    if (!dane) return
+    const bezCeny: Partial<typeof dane> = { ...dane }
+    delete bezCeny.cenaBruttoZl
+    zapiszPanel({ podstawowy: bezCeny as ProfilSprzetuPanelu["podstawowy"], katalogId: stan.panele.find((p) => p.id === id)?.katalogId || null, zapisanoIso: new Date().toISOString() })
+    setDoZapisuId(null)
+    setZapisanoId(id)
   }
 
   /** "o 12,3 kWh więcej" / "o 4,5 kWh mniej" — the sign sits in the wording, so the year and the winter may differ in direction. */
@@ -402,12 +315,51 @@ export default function PorownywarkaPaneliPage() {
         </p>
       )}
 
+      <ZestawyPorownan stan={stan} onWczytaj={(zapisany) => setStan(zapisany)} />
+
       <section className="flex flex-col gap-4">
         <h2 className="font-semibold">{t("UI-PORP-KROK-MIEJSCE")}</h2>
+        <div className="flex flex-col gap-3 rounded-lg border p-4">
+          <PoleSelect
+            label={t("UI-PORP-MIEJSCE-AKTYWNE")}
+            value={miejsce.id}
+            onChange={(e) => ustaw("aktywneMiejsceId", e.target.value)}
+            pomoc={<PomocPola ekran="porownywarka-paneli" pole="miejsceWybor" />}
+          >
+            {stan.miejsca.map((m) => (
+              <option key={m.id} value={m.id}>
+                {nazwaMiejsca(m)}
+              </option>
+            ))}
+          </PoleSelect>
+          <Pole
+            label={t("UI-PORP-MIEJSCE-NAZWA")}
+            type="text"
+            list="porp-nazwy-miejsc"
+            value={miejsce.nazwa}
+            onChange={(e) => ustawMiejsce("nazwa", e.target.value)}
+            pomoc={<PomocPola ekran="porownywarka-paneli" pole="miejsceNazwa" />}
+          />
+          <datalist id="porp-nazwy-miejsc">
+            {PODPOWIEDZI_MIEJSC.map((k) => (
+              <option key={k} value={t(k)} />
+            ))}
+          </datalist>
+          <div className="flex flex-wrap gap-2">
+            <Button variant="outline" className="min-h-11" onClick={dodajMiejsce}>
+              {t("UI-PORP-MIEJSCE-DODAJ")}
+            </Button>
+            {stan.miejsca.length > 1 && (
+              <Button variant="outline" className="min-h-11" onClick={usunMiejsce}>
+                {t("UI-PORP-MIEJSCE-USUN")}
+              </Button>
+            )}
+          </div>
+        </div>
         {powierzchnie.length > 0 && (
           <PoleSelect
             label={t("UI-PORP-MIEJSCE-Z-PROJEKTU")}
-            value={stan.powierzchniaId}
+            value={miejsce.powierzchniaId}
             onChange={(e) => wybierzPowierzchnie(e.target.value)}
             pomoc={<PomocPola ekran="porownywarka-paneli" pole="miejsce" />}
           >
@@ -428,8 +380,8 @@ export default function PorownywarkaPaneliPage() {
             min={0}
             max={90}
             step="any"
-            value={stan.nachylenie}
-            onChange={(e) => ustaw("nachylenie", e.target.value)}
+            value={miejsce.nachylenie}
+            onChange={(e) => ustawMiejsce("nachylenie", e.target.value)}
             pomoc={<PomocPola ekran="porownywarka-paneli" pole="nachylenie" />}
           />
           <Pole
@@ -440,8 +392,8 @@ export default function PorownywarkaPaneliPage() {
             min={0}
             max={360}
             step="any"
-            value={stan.azymut}
-            onChange={(e) => ustaw("azymut", e.target.value)}
+            value={miejsce.azymut}
+            onChange={(e) => ustawMiejsce("azymut", e.target.value)}
             pomoc={<PomocPola ekran="porownywarka-paneli" pole="azymut" />}
           />
         </div>
@@ -452,8 +404,8 @@ export default function PorownywarkaPaneliPage() {
           min={0}
           max={1}
           step="any"
-          value={stan.albedo}
-          onChange={(e) => ustaw("albedo", e.target.value)}
+          value={miejsce.albedo}
+          onChange={(e) => ustawMiejsce("albedo", e.target.value)}
           pomoc={<PomocPola ekran="porownywarka-paneli" pole="albedo" />}
         />
         <p className="-mt-2 text-caption text-muted-foreground">{t("UI-PORP-ALBEDO-PODPIS")}</p>
@@ -463,8 +415,8 @@ export default function PorownywarkaPaneliPage() {
           inputMode="numeric"
           min={1}
           step={1}
-          value={stan.liczbaPaneli}
-          onChange={(e) => ustaw("liczbaPaneli", e.target.value)}
+          value={miejsce.liczbaPaneli}
+          onChange={(e) => ustawMiejsce("liczbaPaneli", e.target.value)}
           pomoc={<PomocPola ekran="porownywarka-paneli" pole="liczbaPaneli" />}
         />
         <p className="-mt-2 text-caption text-muted-foreground">{t("UI-PORP-LICZBA-PODPIS")}</p>
@@ -478,8 +430,8 @@ export default function PorownywarkaPaneliPage() {
               inputMode="decimal"
               min={0}
               step="any"
-              value={stan.wymDlugosc}
-              onChange={(e) => ustaw("wymDlugosc", e.target.value)}
+              value={miejsce.wymDlugosc}
+              onChange={(e) => ustawMiejsce("wymDlugosc", e.target.value)}
               pomoc={<PomocPola ekran="porownywarka-paneli" pole="miejsceDlugosc" />}
             />
             <Pole
@@ -489,8 +441,8 @@ export default function PorownywarkaPaneliPage() {
               inputMode="decimal"
               min={0}
               step="any"
-              value={stan.wymSzerokosc}
-              onChange={(e) => ustaw("wymSzerokosc", e.target.value)}
+              value={miejsce.wymSzerokosc}
+              onChange={(e) => ustawMiejsce("wymSzerokosc", e.target.value)}
               pomoc={<PomocPola ekran="porownywarka-paneli" pole="miejsceSzerokosc" />}
             />
             <Pole
@@ -500,15 +452,15 @@ export default function PorownywarkaPaneliPage() {
               inputMode="decimal"
               min={0}
               step="any"
-              value={stan.wymMargines}
-              onChange={(e) => ustaw("wymMargines", e.target.value)}
+              value={miejsce.wymMargines}
+              onChange={(e) => ustawMiejsce("wymMargines", e.target.value)}
               pomoc={<PomocPola ekran="porownywarka-paneli" pole="miejsceMargines" />}
             />
           </div>
           <PoleSelect
             label={t("UI-PORP-WYM-MONTAZ")}
-            value={stan.montaz}
-            onChange={(e) => ustaw("montaz", e.target.value as FormularzStan["montaz"])}
+            value={miejsce.montaz}
+            onChange={(e) => ustawMiejsce("montaz", e.target.value as MiejsceSeed["montaz"])}
             pomoc={<PomocPola ekran="porownywarka-paneli" pole="montaz" />}
           >
             <option value="rownolegly">{t("UI-PORP-MONTAZ-ROWNOLEGLY")}</option>
@@ -544,6 +496,23 @@ export default function PorownywarkaPaneliPage() {
 
       <section className="flex flex-col gap-4">
         <h2 className="font-semibold">{t("UI-PORP-KROK-PANELE")}</h2>
+        <RankingKatalogu
+          szerokosc={lokalizacja?.szerokosc}
+          dlugosc={lokalizacja?.dlugosc}
+          dane={dane?.dane.rekordy}
+          miejsce={wejscie.miejsce}
+          wymiary={wejscie.wymiaryMiejsca ?? null}
+          maks={MAKS_PANELI_W_ZESTAWIE}
+          onWstaw={wstawZRankingu}
+        />
+        {profil.panel && (
+          <div className="flex flex-wrap items-center gap-2 rounded-lg border p-3 text-small">
+            <span className="flex-1">{t("UI-PORP-PODSTAWOWY-JEST", { nazwa: profil.panel.podstawowy.nazwa })}</span>
+            <Button variant="outline" className="min-h-11" disabled={stan.panele.length >= MAKS_PANELI_W_ZESTAWIE} onClick={dodajPanelPodstawowy}>
+              {t("UI-PORP-PODSTAWOWY-DODAJ")}
+            </Button>
+          </div>
+        )}
         {stan.panele.map((p, i) => (
           <fieldset key={p.id} className="flex flex-col gap-3 rounded-lg border p-4">
             <legend className="px-1 text-small font-medium">{t("UI-PORP-PANEL-N", { n: i + 1 })}</legend>
@@ -1115,6 +1084,56 @@ export default function PorownywarkaPaneliPage() {
               </div>
             )}
 
+            {zakladka === "miejsca" && (
+              <div className="flex flex-col gap-3 text-small">
+                {stan.miejsca.length < 2 && <p className="text-muted-foreground">{t("UI-PORP-MIEJSCA-JEDNO")}</p>}
+                {(() => {
+                  const kompletne = wynikiMiejsc.filter((x) => x.wynik.value.panele.length > 0)
+                  const naglowek = kompletne[0]?.wynik.value.panele
+                  return (
+                    <div className="overflow-x-auto">
+                      <table className="w-full text-small">
+                        <thead>
+                          <tr className="text-left">
+                            <th className="p-1" />
+                            {(naglowek ?? []).map((p) => (
+                              <th key={p.id} className="p-1 font-medium">
+                                {p.nazwa}
+                              </th>
+                            ))}
+                          </tr>
+                        </thead>
+                        <tbody>
+                          {stan.miejsca.map((m) => {
+                            const w = wynikiMiejsc.find((x) => x.id === m.id)?.wynik
+                            const gotowe = w && w.value.panele.length > 0
+                            const najZima = gotowe ? Math.max(...w.value.panele.map((p) => p.zimaKwh)) : 0
+                            return (
+                              <tr key={m.id} className="border-t align-top">
+                                <th className="p-1 text-left font-normal">{nazwaMiejsca(m)}</th>
+                                {gotowe ? (
+                                  w.value.panele.map((p) => (
+                                    <td key={p.id} className={`p-1 tabular-nums ${p.zimaKwh === najZima ? "font-semibold" : ""}`}>
+                                      {t("UI-PORP-MIEJSCA-KOMORKA", { zima: f0(p.zimaKwh), rok: f0(p.rokKwh), n: p.liczbaPaneli })}
+                                    </td>
+                                  ))
+                                ) : (
+                                  <td colSpan={Math.max(1, naglowek?.length ?? 1)} className="p-1 text-muted-foreground">
+                                    {t("UI-PORP-MIEJSCA-UZUPELNIJ")}
+                                  </td>
+                                )}
+                              </tr>
+                            )
+                          })}
+                        </tbody>
+                      </table>
+                    </div>
+                  )
+                })()}
+                <p className="text-caption text-muted-foreground">{t("UI-PORP-MIEJSCA-NOTA")}</p>
+              </div>
+            )}
+
             {zakladka === "gwiazdki" && (
               <div className="flex flex-col gap-4">
                 {v.panele.length < 2 ? (
@@ -1218,6 +1237,33 @@ export default function PorownywarkaPaneliPage() {
                 <WynikSzczegoly assumptions={result.assumptions} formula={result.formula} formulaKey={result.formulaKey} formulaParams={result.formulaParams} />
               </div>
             )}
+
+            <div className="flex flex-col gap-2 rounded-lg border p-4 text-small">
+              <p className="font-medium">{t("UI-PORP-ZAPISZ-TYTUL")}</p>
+              <p className="text-muted-foreground">{t("UI-PORP-ZAPISZ-OPIS")}</p>
+              {v.panele.map((p) => (
+                <div key={p.id} className="flex flex-col gap-2">
+                  {doZapisuId === p.id ? (
+                    <div role="alert" className="flex flex-col gap-2 rounded-md border p-3">
+                      <p>{t("UI-PORP-ZAPISZ-PYTANIE", { nazwa: p.nazwa })}</p>
+                      <div className="flex flex-wrap gap-2">
+                        <Button className="min-h-11" onClick={() => zapiszJakoPodstawowy(p.id)}>
+                          {t("UI-PORP-ZAPISZ-TAK")}
+                        </Button>
+                        <Button variant="outline" className="min-h-11" onClick={() => setDoZapisuId(null)}>
+                          {t("UI-PORP-ZAPISZ-NIE")}
+                        </Button>
+                      </div>
+                    </div>
+                  ) : (
+                    <Button variant="outline" className="h-auto min-h-11 max-w-full self-start whitespace-normal py-2 text-left" onClick={() => { setZapisanoId(null); setDoZapisuId(p.id) }}>
+                      {t("UI-PORP-ZAPISZ-PRZYCISK", { nazwa: p.nazwa })}
+                    </Button>
+                  )}
+                  {zapisanoId === p.id && <p role="status">{t("UI-PORP-ZAPISZ-GOTOWE", { nazwa: p.nazwa })}</p>}
+                </div>
+              ))}
+            </div>
           </>
         )}
       </section>
