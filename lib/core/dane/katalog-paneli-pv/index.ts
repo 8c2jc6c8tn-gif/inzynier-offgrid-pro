@@ -35,7 +35,33 @@ function jaSolar(pmaxW: number): PozycjaKatalogu {
   }
 }
 
-export const KATALOG_PANELI_PV: readonly PozycjaKatalogu[] = [485, 490, 495, 500, 505, 510].map(jaSolar)
+const ASTRONERGY_KARTA = "docs/zrodla/karta-katalogowa-Astronergy-N5-CHSM72N-DG-F-BH/00-INDEKS.md"
+
+/**
+ * Astronergy ASTRO N5 CHSM72N(DG)/F-BH (seria dwustronna 570–595 W). Karta: γ(Pmpp) −0,29%/°C, NMOT 41±2 °C (warunki 800 W/m², 20 °C, 1 m/s
+ * — jak definicja NOCT, więc wpisane jako `noctC`), degradacja ≤1,0% w pierwszym roku i ≤0,4%/rok w latach 2–30 (gwarancja liniowa 30 lat,
+ * górna granica), moduł dwustronny. Karta NIE podaje sprawności przy 200 W/m² → `null`.
+ */
+function astronergyN5(pmaxW: number): PozycjaKatalogu {
+  return {
+    id: `astronergy-n5-chsm72n-${pmaxW}`,
+    nazwa: `Astronergy ASTRO N5 CHSM72N(DG)/F-BH ${pmaxW} W`,
+    pmaxW,
+    gammaPctNaC: -0.29,
+    noctC: 41,
+    sprawnoscWzglednaPrzy200WPct: null,
+    degradacjaPierwszyRokPct: 1.0,
+    degradacjaLiniowaPctNaRok: 0.4,
+    bifacjalny: true,
+    zrodlo: ASTRONERGY_KARTA,
+    kartaObrazy: ["/zrodla/paneli/astronergy-n5-chsm72n-1.webp", "/zrodla/paneli/astronergy-n5-chsm72n-2.webp"],
+  }
+}
+
+export const KATALOG_PANELI_PV: readonly PozycjaKatalogu[] = [
+  ...[485, 490, 495, 500, 505, 510].map(jaSolar),
+  ...[570, 575, 580, 585, 590, 595].map(astronergyN5),
+]
 
 export function znajdzPanelKatalogu(id: string): PozycjaKatalogu | undefined {
   return KATALOG_PANELI_PV.find((p) => p.id === id)
