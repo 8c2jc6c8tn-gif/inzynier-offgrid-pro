@@ -17,7 +17,8 @@ const JA_SOLAR_KARTA = "docs/zrodla/karta-katalogowa-JA-Solar-JAM60D41-LB/00-IND
 
 /**
  * JA Solar JAM60D41 LB „Deep Blue 4.0” (seria 485–510 W). Karta: γ(Pmax) −0,290 %/°C, NOCT 45±2 °C, wspólne dla serii;
- * tolerancja mocy 0~+3%; moduł dwustronny. Karta NIE podaje sprawności przy 200 W/m² ani degradacji → `null`.
+ * tolerancja mocy 0~+3%; moduł dwustronny. Okładka (wersja polska, uzupełnienie 08.10.2026): degradacja 1% w pierwszym roku i 0,4%/rok
+ * (gwarancja liniowa 30 lat, górna granica). Karta NIE podaje sprawności przy 200 W/m² → `null`.
  */
 function jaSolar(pmaxW: number): PozycjaKatalogu {
   return {
@@ -27,11 +28,11 @@ function jaSolar(pmaxW: number): PozycjaKatalogu {
     gammaPctNaC: -0.29,
     noctC: 45,
     sprawnoscWzglednaPrzy200WPct: null,
-    degradacjaPierwszyRokPct: null,
-    degradacjaLiniowaPctNaRok: null,
+    degradacjaPierwszyRokPct: 1.0,
+    degradacjaLiniowaPctNaRok: 0.4,
     bifacjalny: true,
     zrodlo: JA_SOLAR_KARTA,
-    kartaObrazy: ["/zrodla/paneli/ja-solar-jam60d41-lb.webp"],
+    kartaObrazy: ["/zrodla/paneli/ja-solar-jam60d41-lb.webp", "/zrodla/paneli/ja-solar-jam60d41-lb-2.webp"],
   }
 }
 
@@ -58,9 +59,341 @@ function astronergyN5(pmaxW: number): PozycjaKatalogu {
   }
 }
 
+const JA_SOLAR_54_KARTA = "docs/zrodla/karta-katalogowa-JA-Solar-JAM54D41-LB/00-INDEKS.md"
+
+/**
+ * JA Solar JAM54D41 LB „Deep Blue 4.0 Pro” (seria 440–465 W, 108 ogniw half-cut). Karta: γ(Pmax) −0,290 %/°C, NOCT 45±2 °C, wspólne dla serii;
+ * degradacja ≤1% w pierwszym roku i ≤0,4%/rok (gwarancja liniowa 30 lat, górna granica); moduł dwustronny (80±10%).
+ * Karta NIE podaje sprawności przy 200 W/m² → `null`.
+ */
+function jaSolar54(pmaxW: number): PozycjaKatalogu {
+  return {
+    id: `ja-solar-jam54d41-lb-${pmaxW}`,
+    nazwa: `JA Solar JAM54D41-${pmaxW}/LB`,
+    pmaxW,
+    gammaPctNaC: -0.29,
+    noctC: 45,
+    sprawnoscWzglednaPrzy200WPct: null,
+    degradacjaPierwszyRokPct: 1.0,
+    degradacjaLiniowaPctNaRok: 0.4,
+    bifacjalny: true,
+    zrodlo: JA_SOLAR_54_KARTA,
+    kartaObrazy: ["/zrodla/paneli/ja-solar-jam54d41-lb-1.webp", "/zrodla/paneli/ja-solar-jam54d41-lb-2.webp"],
+  }
+}
+
+const HYUNDAI_KARTA = "docs/zrodla/karta-katalogowa-Hyundai-HiT-H5xxCF-BF-ZB/00-INDEKS.md"
+
+/**
+ * HD Hyundai HeteroMax HiT-H5xxCF-BF(ZB) (seria dwustronna 500–520 W, HJT, 108 ogniw half-cut). Karta: γ(Pmax) −0,24 %/°C, NMOT 44±2 °C
+ * (karta nie drukuje warunków; definicja IEC 61215 = 800 W/m², 20 °C, 1 m/s, jak NOCT — wpisane jako `noctC`), degradacja 1% w pierwszym roku
+ * i 0,3 p.p./rok po nim (gwarancja mocy 30 lat → 90,3%). Karta NIE podaje sprawności przy 200 W/m² → `null`.
+ */
+function hyundaiHit(pmaxW: number): PozycjaKatalogu {
+  return {
+    id: `hyundai-hit-h5xxcf-bf-zb-${pmaxW}`,
+    nazwa: `HD Hyundai HiT-H${pmaxW}CF-BF(ZB)`,
+    pmaxW,
+    gammaPctNaC: -0.24,
+    noctC: 44,
+    sprawnoscWzglednaPrzy200WPct: null,
+    degradacjaPierwszyRokPct: 1.0,
+    degradacjaLiniowaPctNaRok: 0.3,
+    bifacjalny: true,
+    zrodlo: HYUNDAI_KARTA,
+    kartaObrazy: ["/zrodla/paneli/hyundai-hit-h5xxcf-bf-zb-1.webp", "/zrodla/paneli/hyundai-hit-h5xxcf-bf-zb-2.webp"],
+  }
+}
+
+const JA_SOLAR_54D40_KARTA = "docs/zrodla/karta-katalogowa-JA-Solar-JAM54D40-LR/00-INDEKS.md"
+
+/** Moc przy 200 W/m², 25 °C z karty JAM54D40 LR [W] (pełne waty, kolumna „200 W/m²”), klucz = Pmax w STC. */
+const JA_54D40_MOC_200: Readonly<Record<number, number>> = { 450: 87, 455: 88, 460: 89, 465: 90, 470: 91, 475: 92 }
+
+/**
+ * JA Solar JAM54D40 LR „Deep Blue 4.0 Pro” (seria JEDNOSTRONNA 450–475 W, 108 ogniw half-cut). Karta: γ(Pmax) −0,290 %/°C, NOCT 45±2 °C
+ * (800 W/m², 20 °C, 1 m/s), degradacja ≤1% w pierwszym roku i ≤0,4%/rok (gwarancja liniowa 30 lat, górna granica). Karta podaje moc przy
+ * 200 W/m² i 25 °C → sprawność względna = P200 / (0,2 · Pmax_STC), zaokrąglona do 0,1 (moc w pełnych watach: ±0,5 p.p.).
+ */
+function jaSolar54d40(pmaxW: number): PozycjaKatalogu {
+  const p200 = JA_54D40_MOC_200[pmaxW]!
+  return {
+    id: `ja-solar-jam54d40-lr-${pmaxW}`,
+    nazwa: `JA Solar JAM54D40-${pmaxW}/LR`,
+    pmaxW,
+    gammaPctNaC: -0.29,
+    noctC: 45,
+    sprawnoscWzglednaPrzy200WPct: Math.round((p200 / (0.2 * pmaxW)) * 1000) / 10,
+    degradacjaPierwszyRokPct: 1.0,
+    degradacjaLiniowaPctNaRok: 0.4,
+    bifacjalny: false,
+    zrodlo: JA_SOLAR_54D40_KARTA,
+    kartaObrazy: ["/zrodla/paneli/ja-solar-jam54d40-lr-1.webp", "/zrodla/paneli/ja-solar-jam54d40-lr-2.webp"],
+  }
+}
+
+const JA_SOLAR_60D40_KARTA = "docs/zrodla/karta-katalogowa-JA-Solar-JAM60D40-LB/00-INDEKS.md"
+
+/**
+ * JA Solar JAM60D40 LB „Deep Blue 4.0” (seria dwustronna 485–510 W; te same liczby co JAM60D41 LB; karta w wersji polskiej i angielskiej „Black Frame”). Karta: γ(Pmax) −0,290 %/°C,
+ * NOCT 45±2 °C, degradacja ≤1% w pierwszym roku i ≤0,4%/rok (gwarancja liniowa 30 lat, górna granica), bifacjalność 80±5%.
+ * Karta NIE podaje sprawności przy 200 W/m² → `null`.
+ */
+function jaSolar60d40(pmaxW: number): PozycjaKatalogu {
+  return {
+    id: `ja-solar-jam60d40-lb-${pmaxW}`,
+    nazwa: `JA Solar JAM60D40-${pmaxW}/LB`,
+    pmaxW,
+    gammaPctNaC: -0.29,
+    noctC: 45,
+    sprawnoscWzglednaPrzy200WPct: null,
+    degradacjaPierwszyRokPct: 1.0,
+    degradacjaLiniowaPctNaRok: 0.4,
+    bifacjalny: true,
+    zrodlo: JA_SOLAR_60D40_KARTA,
+    kartaObrazy: [
+      "/zrodla/paneli/ja-solar-jam60d40-lb-1.webp",
+      "/zrodla/paneli/ja-solar-jam60d40-lb-2.webp",
+      "/zrodla/paneli/ja-solar-jam60d40-lb-3.webp",
+      "/zrodla/paneli/ja-solar-jam60d40-lb-4.webp",
+    ],
+  }
+}
+
+const JA_SOLAR_66D46_KARTA = "docs/zrodla/karta-katalogowa-JA-Solar-JAM66D46-LB/00-INDEKS.md"
+const JA_SOLAR_66D46_NOWSZA_KARTA = "docs/zrodla/karta-katalogowa-JA-Solar-JAM66D46-LB-695-720/00-INDEKS.md"
+
+/**
+ * JA Solar JAM66D46 LB „Deep Blue 4.0 Pro” (seria dwustronna 690–720 W: karta 690–715 W oraz nowsza 695–720 W, 132 ogniwa half-cut, 2384×1303 mm). Karta: γ(Pmax) −0,290 %/°C,
+ * NOCT 45±2 °C, degradacja ≤1% w pierwszym roku i ≤0,4%/rok (gwarancja liniowa 30 lat, górna granica; gwarancja produktowa 12 lat),
+ * bifacjalność 80±10%. Karta NIE podaje sprawności przy 200 W/m² → `null`.
+ */
+function jaSolar66d46(pmaxW: number): PozycjaKatalogu {
+  return {
+    id: `ja-solar-jam66d46-lb-${pmaxW}`,
+    nazwa: `JA Solar JAM66D46-${pmaxW}/LB`,
+    pmaxW,
+    gammaPctNaC: -0.29,
+    noctC: 45,
+    sprawnoscWzglednaPrzy200WPct: null,
+    degradacjaPierwszyRokPct: 1.0,
+    degradacjaLiniowaPctNaRok: 0.4,
+    bifacjalny: true,
+    zrodlo: pmaxW === 720 ? JA_SOLAR_66D46_NOWSZA_KARTA : JA_SOLAR_66D46_KARTA,
+    // 690 W: tylko starsza karta; 720 W: tylko nowsza; 695–715 W są na obu (te same liczby)
+    kartaObrazy: [
+      ...(pmaxW === 720 ? [] : ["/zrodla/paneli/ja-solar-jam66d46-lb-1.webp", "/zrodla/paneli/ja-solar-jam66d46-lb-2.webp"]),
+      ...(pmaxW === 690 ? [] : ["/zrodla/paneli/ja-solar-jam66d46-lb-695-720-1.webp", "/zrodla/paneli/ja-solar-jam66d46-lb-695-720-2.webp"]),
+    ],
+  }
+}
+
+const JA_SOLAR_72D40_KARTA = "docs/zrodla/karta-katalogowa-JA-Solar-JAM72D40-MB/00-INDEKS.md"
+
+/**
+ * JA Solar JAM72D40 MB „Deep Blue 4.0 Pro” (seria dwustronna 580–605 W, 144 ogniwa half-cut, 2278×1134 mm). Karta: γ(Pmax) −0,290 %/°C,
+ * NOCT 45±2 °C, degradacja ≤1% w pierwszym roku i ≤0,4%/rok (gwarancja liniowa 30 lat, górna granica; gwarancja produktowa 12 lat),
+ * bifacjalność 80±5%. Karta NIE podaje sprawności przy 200 W/m² → `null`.
+ */
+function jaSolar72d40(pmaxW: number): PozycjaKatalogu {
+  return {
+    id: `ja-solar-jam72d40-mb-${pmaxW}`,
+    nazwa: `JA Solar JAM72D40-${pmaxW}/MB`,
+    pmaxW,
+    gammaPctNaC: -0.29,
+    noctC: 45,
+    sprawnoscWzglednaPrzy200WPct: null,
+    degradacjaPierwszyRokPct: 1.0,
+    degradacjaLiniowaPctNaRok: 0.4,
+    bifacjalny: true,
+    zrodlo: JA_SOLAR_72D40_KARTA,
+    kartaObrazy: ["/zrodla/paneli/ja-solar-jam72d40-mb-1.webp", "/zrodla/paneli/ja-solar-jam72d40-mb-2.webp"],
+  }
+}
+
+const JINKO_KARTA = "docs/zrodla/karta-katalogowa-Jinko-Tiger-Neo-48HL4M-BDV/00-INDEKS.md"
+
+/**
+ * Jinko Tiger Neo 48HL4M-BDV (seria dwustronna 445–470 W, 96 ogniw half-cut). Karta: γ(Pmax) −0,29 %/°C, degradacja ≤1% w pierwszym roku
+ * i ≤0,40%/rok (gwarancja liniowa 30 lat, górna granica; gwarancja produktowa 15 lat). Karta NIE podaje NOCT/NMOT ani sprawności przy 200 W/m²
+ * → `null` (brak wartości typowej).
+ */
+function jinkoTigerNeo(pmaxW: number): PozycjaKatalogu {
+  return {
+    id: `jinko-tiger-neo-48hl4m-bdv-${pmaxW}`,
+    nazwa: `Jinko Tiger Neo 48HL4M-BDV ${pmaxW} W`,
+    pmaxW,
+    gammaPctNaC: -0.29,
+    noctC: null,
+    sprawnoscWzglednaPrzy200WPct: null,
+    degradacjaPierwszyRokPct: 1.0,
+    degradacjaLiniowaPctNaRok: 0.4,
+    bifacjalny: true,
+    zrodlo: JINKO_KARTA,
+    kartaObrazy: ["/zrodla/paneli/jinko-tiger-neo-48hl4m-bdv-1.webp", "/zrodla/paneli/jinko-tiger-neo-48hl4m-bdv-2.webp"],
+  }
+}
+
+const JINKO_66_KARTA = "docs/zrodla/karta-katalogowa-Jinko-Tiger-Neo-66HL4M-BDV/00-INDEKS.md"
+
+/**
+ * Jinko Tiger Neo 66HL4M-BDV (seria dwustronna 605–630 W, 132 ogniwa half-cut, 2382×1134 mm). Karta: γ(Pmax) −0,29 %/°C, degradacja ≤1%
+ * w pierwszym roku i ≤0,40%/rok (gwarancja liniowa 30 lat, górna granica; gwarancja produktowa 12 lat). Karta NIE podaje NOCT/NMOT ani
+ * sprawności przy 200 W/m² → `null`.
+ */
+function jinkoTigerNeo66(pmaxW: number): PozycjaKatalogu {
+  return {
+    id: `jinko-tiger-neo-66hl4m-bdv-${pmaxW}`,
+    nazwa: `Jinko Tiger Neo 66HL4M-BDV ${pmaxW} W`,
+    pmaxW,
+    gammaPctNaC: -0.29,
+    noctC: null,
+    sprawnoscWzglednaPrzy200WPct: null,
+    degradacjaPierwszyRokPct: 1.0,
+    degradacjaLiniowaPctNaRok: 0.4,
+    bifacjalny: true,
+    zrodlo: JINKO_66_KARTA,
+    kartaObrazy: ["/zrodla/paneli/jinko-tiger-neo-66hl4m-bdv-1.webp", "/zrodla/paneli/jinko-tiger-neo-66hl4m-bdv-2.webp"],
+  }
+}
+
+const JINKO_72_KARTA = "docs/zrodla/karta-katalogowa-Jinko-Tiger-Neo-72HL4-BDV/00-INDEKS.md"
+
+/**
+ * Jinko Tiger Neo 72HL4-BDV (seria dwustronna 575–600 W, 144 ogniwa half-cut, 2278×1134 mm). Karta: γ(Pmax) −0,29 %/°C, degradacja ≤1%
+ * w pierwszym roku i ≤0,40%/rok (gwarancja liniowa 30 lat, górna granica; gwarancja produktowa 12 lat). Karta NIE podaje NOCT/NMOT ani
+ * sprawności przy 200 W/m² → `null`.
+ */
+function jinkoTigerNeo72(pmaxW: number): PozycjaKatalogu {
+  return {
+    id: `jinko-tiger-neo-72hl4-bdv-${pmaxW}`,
+    nazwa: `Jinko Tiger Neo 72HL4-BDV ${pmaxW} W`,
+    pmaxW,
+    gammaPctNaC: -0.29,
+    noctC: null,
+    sprawnoscWzglednaPrzy200WPct: null,
+    degradacjaPierwszyRokPct: 1.0,
+    degradacjaLiniowaPctNaRok: 0.4,
+    bifacjalny: true,
+    zrodlo: JINKO_72_KARTA,
+    kartaObrazy: ["/zrodla/paneli/jinko-tiger-neo-72hl4-bdv-1.webp", "/zrodla/paneli/jinko-tiger-neo-72hl4-bdv-2.webp"],
+  }
+}
+
+const LONGI_KARTA = "docs/zrodla/karta-katalogowa-LONGi-Hi-MO-X10-LR7-54HVH/00-INDEKS.md"
+
+/**
+ * LONGi Hi-MO X10 Explorer LR7-54HVH (seria JEDNOSTRONNA BC, 475–490 W, 108 ogniw, 1800×1134 mm). Karta: γ(Pmax) −0,260 %/°C, NOCT 45±2 °C
+ * (800 W/m², 20 °C, 1 m/s), degradacja <1% w pierwszym roku (granica górna 1,0%; spójne z 88,85% po 30 latach) i 0,35%/rok w latach 2–30.
+ * Karta NIE podaje sprawności przy 200 W/m² → `null`. Stopka karty ma oznaczenie „Draft”.
+ */
+function longiHimoX10(pmaxW: number): PozycjaKatalogu {
+  return {
+    id: `longi-himo-x10-lr7-54hvh-${pmaxW}`,
+    nazwa: `LONGi Hi-MO X10 LR7-54HVH-${pmaxW}M`,
+    pmaxW,
+    gammaPctNaC: -0.26,
+    noctC: 45,
+    sprawnoscWzglednaPrzy200WPct: null,
+    degradacjaPierwszyRokPct: 1.0,
+    degradacjaLiniowaPctNaRok: 0.35,
+    bifacjalny: false,
+    zrodlo: LONGI_KARTA,
+    kartaObrazy: ["/zrodla/paneli/longi-himo-x10-lr7-54hvh-1.webp", "/zrodla/paneli/longi-himo-x10-lr7-54hvh-2.webp"],
+  }
+}
+
+const LONGI_60_KARTA = "docs/zrodla/karta-katalogowa-LONGi-Hi-MO-X10-LR7-60HVH/00-INDEKS.md"
+
+/**
+ * LONGi Hi-MO X10 Scientist LR7-60HVH (seria JEDNOSTRONNA BC, 535–560 W, 120 ogniw, 1990×1134 mm). Karta: γ(Pmax) −0,260 %/°C, NOCT 45±2 °C
+ * (800 W/m², 20 °C, 1 m/s), degradacja <1% w pierwszym roku (granica górna 1,0%; spójne z 88,85% po 30 latach) i 0,35%/rok w latach 2–30.
+ * Karta NIE podaje sprawności przy 200 W/m² → `null`.
+ */
+function longiHimoX10Scientist(pmaxW: number): PozycjaKatalogu {
+  return {
+    id: `longi-himo-x10-lr7-60hvh-${pmaxW}`,
+    nazwa: `LONGi Hi-MO X10 LR7-60HVH-${pmaxW}M`,
+    pmaxW,
+    gammaPctNaC: -0.26,
+    noctC: 45,
+    sprawnoscWzglednaPrzy200WPct: null,
+    degradacjaPierwszyRokPct: 1.0,
+    degradacjaLiniowaPctNaRok: 0.35,
+    bifacjalny: false,
+    zrodlo: LONGI_60_KARTA,
+    kartaObrazy: ["/zrodla/paneli/longi-himo-x10-lr7-60hvh-1.webp", "/zrodla/paneli/longi-himo-x10-lr7-60hvh-2.webp"],
+  }
+}
+
+const TRINA_KARTA = "docs/zrodla/karta-katalogowa-Trina-Vertex-S-plus-TSM-NEG9R-28/00-INDEKS.md"
+const TRINA_NOWSZA_KARTA = "docs/zrodla/karta-katalogowa-Trina-Vertex-S-plus-TSM-NEG9R-28-450-475/00-INDEKS.md"
+
+/**
+ * Trina Solar Vertex S+ TSM-NEG9R.28 (podwójne szkło, n-type i-TOPCon, 430–475 W: karta 430–460 W i nowsza 450–475 W, 144 ogniwa, 1762×1134 mm). Karta: γ(Pmax) −0,29 %/°C,
+ * NOCT 43 (±2) °C (800 W/m², 20 °C, 1 m/s), degradacja ≤1% w pierwszym roku i ≤0,4%/rok (87,4% po 30 latach; gwarancja produktowa 25 lat).
+ * Karta nie podaje bifacjalności (brak współczynnika i tabeli zysku od tyłu) → `bifacjalny: false` (wyłącznie flaga ostrzeżenia, nie wpływa na uzysk)
+ * oraz sprawności przy 200 W/m² → `null`.
+ */
+function trinaVertexSPlus(pmaxW: number): PozycjaKatalogu {
+  return {
+    id: `trina-vertex-s-plus-neg9r28-${pmaxW}`,
+    nazwa: `Trina Vertex S+ TSM-${pmaxW}-NEG9R.28`,
+    pmaxW,
+    gammaPctNaC: -0.29,
+    noctC: 43,
+    sprawnoscWzglednaPrzy200WPct: null,
+    degradacjaPierwszyRokPct: 1.0,
+    degradacjaLiniowaPctNaRok: 0.4,
+    bifacjalny: false,
+    zrodlo: pmaxW >= 465 ? TRINA_NOWSZA_KARTA : TRINA_KARTA,
+    // 430–445 W: tylko starsza karta (2024_C); 465–475 W: tylko nowsza (2026_A); 450–460 W są na obu (te same liczby)
+    kartaObrazy: [
+      ...(pmaxW >= 465 ? [] : ["/zrodla/paneli/trina-vertex-s-plus-neg9r28-1.webp", "/zrodla/paneli/trina-vertex-s-plus-neg9r28-2.webp"]),
+      ...(pmaxW <= 445 ? [] : ["/zrodla/paneli/trina-vertex-s-plus-neg9r28-450-475-1.webp", "/zrodla/paneli/trina-vertex-s-plus-neg9r28-450-475-2.webp"]),
+    ],
+  }
+}
+
+const JA_SOLAR_54D40_LB_KARTA = "docs/zrodla/karta-katalogowa-JA-Solar-JAM54D40-LB/00-INDEKS.md"
+
+/**
+ * JA Solar JAM54D40 LB „Deep Blue 4.0 Pro” (seria DWUSTRONNA 435–460 W, 108 ogniw half-cut; inny model niż jednostronny JAM54D40 LR). Karta:
+ * γ(Pmax) −0,290 %/°C, NOCT 45±2 °C, degradacja ≤1% w pierwszym roku i ≤0,4%/rok (gwarancja liniowa 30 lat, górna granica), bifacjalność 80±5%.
+ * Karta NIE podaje sprawności przy 200 W/m² → `null`.
+ */
+function jaSolar54d40Lb(pmaxW: number): PozycjaKatalogu {
+  return {
+    id: `ja-solar-jam54d40-lb-${pmaxW}`,
+    nazwa: `JA Solar JAM54D40-${pmaxW}/LB`,
+    pmaxW,
+    gammaPctNaC: -0.29,
+    noctC: 45,
+    sprawnoscWzglednaPrzy200WPct: null,
+    degradacjaPierwszyRokPct: 1.0,
+    degradacjaLiniowaPctNaRok: 0.4,
+    bifacjalny: true,
+    zrodlo: JA_SOLAR_54D40_LB_KARTA,
+    kartaObrazy: ["/zrodla/paneli/ja-solar-jam54d40-lb-1.webp", "/zrodla/paneli/ja-solar-jam54d40-lb-2.webp"],
+  }
+}
+
 export const KATALOG_PANELI_PV: readonly PozycjaKatalogu[] = [
   ...[485, 490, 495, 500, 505, 510].map(jaSolar),
+  ...[485, 490, 495, 500, 505, 510].map(jaSolar60d40),
   ...[570, 575, 580, 585, 590, 595].map(astronergyN5),
+  ...[440, 445, 450, 455, 460, 465].map(jaSolar54),
+  ...[450, 455, 460, 465, 470, 475].map(jaSolar54d40),
+  ...[435, 440, 445, 450, 455, 460].map(jaSolar54d40Lb),
+  ...[690, 695, 700, 705, 710, 715, 720].map(jaSolar66d46),
+  ...[580, 585, 590, 595, 600, 605].map(jaSolar72d40),
+  ...[445, 450, 455, 460, 465, 470].map(jinkoTigerNeo),
+  ...[605, 610, 615, 620, 625, 630].map(jinkoTigerNeo66),
+  ...[575, 580, 585, 590, 595, 600].map(jinkoTigerNeo72),
+  ...[475, 480, 485, 490].map(longiHimoX10),
+  ...[535, 540, 545, 550, 555, 560].map(longiHimoX10Scientist),
+  ...[430, 435, 440, 445, 450, 455, 460, 465, 470, 475].map(trinaVertexSPlus),
+  ...[500, 505, 510, 515, 520].map(hyundaiHit),
 ]
 
 export function znajdzPanelKatalogu(id: string): PozycjaKatalogu | undefined {

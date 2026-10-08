@@ -68,3 +68,20 @@ odbicia promieniowania" (zysk bifacjalny z tyłu modułu) — pominięta tu celo
 do doboru stringu/MPPT używa się wartości STC (przedniej strony) jako bezpiecznego, zachowawczego
 punktu odniesienia; zysk bifacjalny podnosiłby Isc/Imp/Pmax, nie obniżał, więc pomijanie go nie
 jest ryzykiem bezpieczeństwa (margines rośnie, nie maleje).
+
+## Uzupełnienie 08.10.2026 — okładka karty w wersji polskiej (`karta-pl-okladka-gwarancja.webp`)
+
+Właściciel dostarczył zrzut okładki polskiej wersji karty (pvzenit.pl), serwowany w aplikacji jako drugi obraz katalogu
+(`public/zrodla/paneli/ja-solar-jam60d41-lb-2.webp`). Tabele polskiej wersji (STC, 10% odbicia, warunki pracy) zawierają te same liczby, co
+transkrypcja wyżej. Nowa informacja z okładki — **gwarancje i degradacja**:
+
+| Pozycja | Wartość |
+|---|---|
+| Gwarancja na produkt | 15 lat |
+| Gwarancja liniowa mocy | 30 lat |
+| Degradacja w pierwszym roku | 1% |
+| Degradacja roczna | 0,4% przez 30 lat |
+| Gwarantowana moc po 30 latach | 87,4% (wykres: 99% na starcie) |
+
+Spójność: 100% − 1% − 29 × 0,4% = 87,4%. Wcześniej katalog miał tu `null` (stara fotografia nie zawierała okładki); teraz 1,0% + 0,4%/rok.
+Karta podaje też współczynnik bifacjalności 80% ± 10% (w warunkach pracy) — niewykorzystywany w Etapie A1.
