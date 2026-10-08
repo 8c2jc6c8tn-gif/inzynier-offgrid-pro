@@ -5,7 +5,7 @@ import type { DanePanelu, PorownywarkaInput, WycenaKwh } from "./input"
 import { ocenKryteria, type KryteriumWynik } from "./kryteria"
 import {
   maParametryTemperaturowe,
-  miesiecznaEnergiaPanelu,
+  miesiecznaEnergiaWgStref,
   profilNaslonecznienia,
   type ZakresModelu,
 } from "./uzysk"
@@ -23,6 +23,8 @@ export type WynikPanelu = {
   /** Energia N paneli w miesiącach [kWh], styczeń pierwszy. */
   miesiaceKwh: number[]
   zimaKwh: number
+  /** Część energii zimowej z godzin taniej strefy [kWh]; `null`, gdy wycena nie jest dzienno-nocna. */
+  zimaTaniaKwh: number | null
   rokKwh: number
   /** Cena N paneli [zł]; `null` bez ceny. */
   cenaRazemZl: number | null
@@ -53,8 +55,10 @@ export type PorownywarkaResult = {
   /** Gwiazdki 0–10 per panel (kolejność wejścia); `null`, gdy mniej niż 2 panele albo żadne kryterium nie jest policzone. */
   gwiazdki: (number | null)[]
   roznicaZimowa: RoznicaZimowa | null
-  /** Użyta stawka 1 kWh [zł]; `null` = tryb „suchy”. */
+  /** Użyta stawka 1 kWh [zł]; `null` = tryb „suchy” albo wycena dzienno-nocna. */
   stawkaZlKwh: number | null
+  /** Ceny wyceny dzienno-nocnej [zł/kWh]; `null` w pozostałych trybach. */
+  wycenaStrefowa: { zlKwhDzien: number; zlKwhNoc: number } | null
 }
 
 const PUSTY: PorownywarkaResult = {
@@ -64,13 +68,14 @@ const PUSTY: PorownywarkaResult = {
   gwiazdki: [],
   roznicaZimowa: null,
   stawkaZlKwh: null,
+  wycenaStrefowa: null,
 }
 
 const suma = (xs: number[]) => xs.reduce((a, b) => a + b, 0)
 
 /** Stawka 1 kWh [zł]; agregat przez istniejący kalkulator „Agregat przenośny” (koszt kWh = koszt paliwa / energia). */
 export function stawkaKwh(w: WycenaKwh | null): number | null {
-  if (w === null) return null
+  if (w === null || w.rodzaj === "dzienNoc") return null
   if (w.rodzaj !== "agregat") return w.zlKwh > 0 ? w.zlKwh : null
   const r = calculateAgregatPaliwo({
     mocAgregatuKw: w.mocKw,
@@ -139,22 +144,30 @@ export function calculatePorownywarkaPaneli(input: PorownywarkaInput): CalcResul
   for (const p of input.panele) if (p.bifacjalny) warnings.push(bifacjalnyPominietyPorp(p.nazwa))
 
   const stawka = stawkaKwh(input.wycena)
+  const strefy = input.wycena?.rodzaj === "dzienNoc" ? input.wycena : null
+  /** Wartość energii [zł]: stawka płaska albo energia z taniej strefy po cenie nocnej, reszta po dziennej. */
+  const wartosc = (kwh: number, taniaKwh: number): number | null =>
+    strefy ? (kwh - taniaKwh) * strefy.zlKwhDzien + taniaKwh * strefy.zlKwhNoc : stawka === null ? null : kwh * stawka
   const panele: WynikPanelu[] = input.panele.map((p) => {
-    const miesiaceKwh = miesiecznaEnergiaPanelu(p, profil, zakresModelu).map((e) => e * liczbaPaneli)
+    const energia = miesiecznaEnergiaWgStref(p, profil, zakresModelu, strefy?.oknaTanie ?? [])
+    const miesiaceKwh = energia.wszystkie.map((e) => e * liczbaPaneli)
+    const taniaMiesiaceKwh = energia.tania.map((e) => e * liczbaPaneli)
     const zimaKwh = suma(MIESIACE_ZIMOWE_POROWNYWARKI.map((m) => miesiaceKwh[m]!))
+    const zimaTaniaKwh = suma(MIESIACE_ZIMOWE_POROWNYWARKI.map((m) => taniaMiesiaceKwh[m]!))
     const rokKwh = suma(miesiaceKwh)
     const cenaRazemZl = p.cenaBruttoZl === null ? null : p.cenaBruttoZl * liczbaPaneli
     if (p.cenaBruttoZl === null) warnings.push(brakCenyPorp(p.nazwa))
-    const wartoscRokZl = stawka === null ? null : rokKwh * stawka
+    const wartoscRokZl = wartosc(rokKwh, suma(taniaMiesiaceKwh))
     return {
       id: p.id,
       nazwa: p.nazwa,
       miesiaceKwh,
       zimaKwh,
+      zimaTaniaKwh: strefy ? zimaTaniaKwh : null,
       rokKwh,
       cenaRazemZl,
       cenaZaWpZl: p.cenaBruttoZl === null ? null : p.cenaBruttoZl / p.pmaxW,
-      wartoscZimaZl: stawka === null ? null : zimaKwh * stawka,
+      wartoscZimaZl: wartosc(zimaKwh, zimaTaniaKwh),
       wartoscRokZl,
       kosztZimowejKwhZl:
         cenaRazemZl === null || zimaKwh <= 0 ? null : cenaRazemZl / (zimaKwh * sumaWspolczynnikowLat(p)),
@@ -186,7 +199,10 @@ export function calculatePorownywarkaPaneli(input: PorownywarkaInput): CalcResul
           liderId: posortowane[0]!.id,
           drugiId: posortowane[1]!.id,
           roznicaKwh: posortowane[0]!.zimaKwh - posortowane[1]!.zimaKwh,
-          roznicaZl: stawka === null ? null : (posortowane[0]!.zimaKwh - posortowane[1]!.zimaKwh) * stawka,
+          roznicaZl:
+            posortowane[0]!.wartoscZimaZl === null || posortowane[1]!.wartoscZimaZl === null
+              ? null
+              : posortowane[0]!.wartoscZimaZl - posortowane[1]!.wartoscZimaZl,
         }
       : null
 
@@ -204,12 +220,13 @@ export function calculatePorownywarkaPaneli(input: PorownywarkaInput): CalcResul
   if (input.panele.some((p) => p.degradacjaPierwszyRokPct !== null && p.degradacjaLiniowaPctNaRok !== null)) {
     assumptions.push({ kod: "PORP-ZAL-DEGRADACJA-GWARANCYJNA" })
   }
-  if (stawka !== null) assumptions.push({ kod: "PORP-ZAL-WYCENA-BEZ-UZYTECZNOSCI" })
+  if (stawka !== null || strefy) assumptions.push({ kod: "PORP-ZAL-WYCENA-BEZ-UZYTECZNOSCI" })
+  if (strefy) assumptions.push({ kod: "PORP-ZAL-STREFY-CZAS-PL" })
   if (miejsce.albedo === undefined) assumptions.push({ kod: "PORP-ZAL-ALBEDO-DOMYSLNE" })
 
   return {
     ...baza,
-    value: { zakresModelu, panele, kryteria, gwiazdki, roznicaZimowa, stawkaZlKwh: stawka },
+    value: { zakresModelu, panele, kryteria, gwiazdki, roznicaZimowa, stawkaZlKwh: stawka, wycenaStrefowa: strefy ? { zlKwhDzien: strefy.zlKwhDzien, zlKwhNoc: strefy.zlKwhNoc } : null },
     status: warnings.some((w) => w.level === "warning" || w.level === "critical") ? "VALID_WITH_WARNINGS" : "VALID",
     assumptions,
     warnings,

@@ -44,8 +44,19 @@ export function validateInput(input: PorownywarkaInput): { errors: Warning[] } {
     const liczby: [string, number][] =
       w.rodzaj === "agregat"
         ? [["mocKw", w.mocKw], ["obciazeniePct", w.obciazeniePct], ["zuzycieLH", w.zuzycieLH], ["cenaPaliwaZlL", w.cenaPaliwaZlL]]
-        : [["zlKwh", w.zlKwh]]
+        : w.rodzaj === "dzienNoc"
+          ? [["zlKwhDzien", w.zlKwhDzien], ["zlKwhNoc", w.zlKwhNoc]]
+          : [["zlKwh", w.zlKwh]]
     for (const [pole, v] of liczby) if (!nieujemna(v)) errors.push(wartoscUjemnaPorp(pole, v))
+    if (w.rodzaj === "dzienNoc") {
+      if (w.oknaTanie.length === 0) errors.push(porpPozaZakresem("PORP-OKNA-STREFY-POZA-ZAKRESEM", "oknaTanie", 0, "co najmniej jedno okno"))
+      for (const o of w.oknaTanie) {
+        const poprawna = (h: number) => Number.isInteger(h) && h >= 0 && h <= 24
+        if (!poprawna(o.odH) || !poprawna(o.doH) || o.odH === o.doH) {
+          errors.push(porpPozaZakresem("PORP-GODZINA-STREFY-POZA-ZAKRESEM", "oknaTanie", o.odH, "całkowite godziny 0–24, początek różny od końca"))
+        }
+      }
+    }
   }
   return { errors }
 }

@@ -1129,3 +1129,8 @@ Status: 🔎 nowe
 ## [08.10.2026] Kryteria porównania jako pola z zaznaczeniem + reguła porównywalności
 Przy porównywarkach (np. paneli PV) każde kryterium jest osobnym polem z checkboxem: zaznaczone = liczone, odznaczone = pomijane; wagi zawsze widoczne i automatycznie przeliczane do 100%. Dodatkowo reguła porównywalności: brak parametru w karcie katalogowej = `null` i kryterium oznaczone „nie do porównania” dla tego elementu (nigdy 0 ani wartość domyślna), a gwiazdki informują, że skala jest względna w obrębie zestawu. Dlaczego do standardu: każda aplikacja rodziny z „rankingiem opcji” trafi na tę samą pułapkę zgadywania brakujących danych i niewidocznych wag. Źródło wzorca: `docs/porownywarka-paneli-pv-specyfikacja.md`.
 Status: 🔎 nowe
+
+## [08.10.2026] Źródło danych katalogowych jako klikalny obraz w aplikacji
+Dane z kart katalogowych (panele, falowniki, baterie) niech niosą w katalogu ścieżki obrazów karty serwowanych przez aplikację, a ekran pokazuje link „Zobacz kartę katalogową” przy każdym wpisie wstawionym z katalogu — użytkownik sam sprawdza, że liczba pochodzi z karty. Link znika, gdy użytkownik ręcznie zmieni liczbę z karty (dane przestają być potwierdzone). Test pilnuje, że pliki obrazów istnieją. Dlaczego do standardu: zasada „źródło każdej liczby” (brak danych = `null`, nie wartość typowa) jest weryfikowalna tylko wtedy, gdy użytkownik ma źródło pod ręką.
+Status: 🔎 nowe
+

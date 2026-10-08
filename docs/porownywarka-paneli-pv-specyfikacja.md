@@ -450,3 +450,29 @@ Warstwy zgodne z sekcją 11; jeden ekran, trzy kroki, wynik w zakładkach:
 ```
 
 Prototyp graficzny (bez danych — wyłącznie układ) opublikowany w wątku projektu; dane liczbowe w nim są **atrapami układu**, nie danymi paneli.
+
+## 21. Etap A1 — wykonany (08.10.2026) i decyzje A–C właściciela
+
+### 21.1 Decyzje właściciela z 08.10.2026
+
+| # | Decyzja | Skutek w kodzie / planie |
+|---|---|---|
+| A | **Opcja 1 — skala względna w zestawie** | Wdrożone w A1 (`PORP-ZAL-SKALA-WZGLEDNA`); bez zmian. |
+| B | Cena kWh dzienna/nocna: **udział brakującej energii w strefach bierzemy z aplikacji** (zapotrzebowanie, pojemność akumulatora itd.); jeśli ekran-źródło nie jest uzupełniony, użytkownik ma go uzupełnić **w odpowiednim istniejącym ekranie**, nie w porównywarce | **Etap A5** (bilans godzinowy): podłączenie profilu zapotrzebowania i magazynu. A1 ma tryb pośredni — patrz 21.2. Nie dodajemy w porównywarce pola „udział energii w strefie dziennej”. |
+| C | **Opcja 2 — asystent zbiera ceny BOS z sieci ze źródłami i datami, do akceptacji właściciela** | Zadanie na liście (przed Etapem A3). Do akceptacji ceny nie wchodzą do kodu. |
+
+### 21.2 Taryfa dzienna i nocna w A1 (tryb pośredni, do czasu A5)
+
+W systemie **są** stawki dystrybucyjne G12 per OSD (`rozliczenia-pl-2026`, grupy G12/G12w, strefy `dzien`/`noc`), ale **nie ma** godzin stref ani ceny energii sprzedażnej; godzin stref nie wolno zgadywać, bo operatorzy publikują je różnie: Energa, PGE i E.ON — 22–6 i 13–15; Tauron i Enea wyznaczają je w przedziałach (noc w oknie 22–7, południe w 13–16/17). Źródła: enerad.pl/taryfa-g12 (stan na 08.10.2026, odczyt zbiorczy), akademia-fotowoltaiki.pl/jaka-taryfe-pradu-wybrac (przykład 22–6 i 13–15). Wdrożone:
+- wycena „Sieć (taryfa dzienna i nocna)”: użytkownik wpisuje **całkowite ceny kWh** dzienną i nocną (z faktury) oraz **okna taniej strefy** (do dwóch, `od–do`, okno `22→6` przechodzi przez północ); formularz podpowiada **przykład G12** (22–6 i 13–15) widoczny i edytowalny, silnik dostaje okna zawsze od użytkownika;
+- energia panelu jest rozdzielana **według godziny produkcji w czasie urzędowym PL** (UTC+1/UTC+2 wg reguły UE, funkcja bez `Intl`) i wyceniana: tania strefa po cenie nocnej, reszta po dziennej; `PORP-ZAL-STREFY-CZAS-PL` w założeniach; taryfy z innymi zasadami w weekendy (G12w) nie są odwzorowane;
+- to jest wycena **wyprodukowanej** energii (po godzinie produkcji), nie wycena **brakującej** energii z decyzji B — ta druga przyjdzie w A5 razem z profilem zapotrzebowania i magazynem; wtedy wycena stref będzie liczona na deficycie, a tryb pośredni zostanie opisany jako uproszczenie.
+
+### 21.3 Co zawiera A1
+
+Silnik `lib/core/modules/pv/porownywarka-paneli/` (uzysk godzinowy z temperaturą ogniwa i sprawnością przy słabym świetle, zima XI–II, wycena kWh: sieć/dzienna-nocna/agregat/ręczna/bez wyceny, koszt zimowej kWh w 25 latach, kryteria i gwiazdki względne, reguła porównywalności), katalog JA Solar JAM60D41-485…510/LB z kartą jako obrazem (`public/zrodla/paneli/`, link „Zobacz kartę katalogową” przy panelu z katalogu — potwierdzenie danych klikane w aplikacji), ekran `/kalkulatory/porownywarka-paneli` (kroki 1–3, zakładki Miesiące / Opłacalność / Gwiazdki / Założenia, wykres miesięczny z podświetloną zimą), narzędzie AI `porownaj_panele`, kafelek w M3, tłumaczenia PL/EN/RU, pomoc „?” i „i”, autosave. **Poza A1** (zgodnie z planem): pakowanie paneli w miejscu (A2), dane elektryczne i stringi (A3), „więcej paneli?” i nadwyżka (A4), bilans godzinowy z zapotrzebowaniem (A5), OCR (B), opisy producentów (C). Wagi 5% dla „uzysk roczny” i „cena za Wp” to propozycja asystenta (spec 6.4 ich nie ma) — do potwierdzenia.
+
+### 21.4 Karty katalogowe jako źródła widoczne w aplikacji
+
+Prośba właściciela: zdjęcia kart zapisywać jako źródła i pozwolić je otworzyć w aplikacji. Każdy wpis katalogu ma `kartaObrazy` (ścieżki obrazów w `public/zrodla/paneli/`, kopia pliku z `docs/zrodla/karta-katalogowa-*`); test pilnuje, że pliki istnieją. Link znika, gdy użytkownik ręcznie zmieni liczbę z karty (dane przestają być wtedy potwierdzone kartą). Linki do zdjęć na zewnętrznych serwerach nie działają z chmurowego środowiska asystenta (host pvzenit.pl zablokowany) — karty przesyłać jako załączniki w wątku. Astro N5 CHSM72N 595 W: czeka na pliki.
+

@@ -3,7 +3,7 @@ import type { RekordGodzinowy } from "@/lib/core/modules/lokalizacja/orientacja-
 import { calculatePorownywarkaPaneli } from "../calculator"
 import { domyslnyWyborKryteriow, punktyWzgledne } from "../kryteria"
 import type { DanePanelu, PorownywarkaInput } from "../input"
-import { sprawnoscWzgledna } from "../uzysk"
+import { godzinaLokalnaPl, sprawnoscWzgledna, wOknieStrefy } from "../uzysk"
 
 /**
  * Rok syntetyczny, który da się policzyć ręcznie: płaszczyzna pozioma (nachylenie 0°), dni = 0, ghi = dhi = G, więc
@@ -249,5 +249,56 @@ describe("walidacja i kompletność", () => {
     const ujemna = calculatePorownywarkaPaneli(wejscie([panel({ id: "A", cenaBruttoZl: -1 })]))
     expect(ujemna.status).toBe("INVALID_INPUT")
     expect(ujemna.warnings.map((x) => x.code)).toContain("PORP-WARTOSC-UJEMNA")
+  })
+})
+
+describe("wycena dzienna i nocna (taryfa dwustrefowa)", () => {
+  const okna = [
+    { odH: 22, doH: 6 },
+    { odH: 13, doH: 15 },
+  ]
+
+  it("godzina lokalna PL: UTC+1 zimą, UTC+2 latem, granice zmiany czasu wg reguły UE (01:00 UTC)", () => {
+    expect(godzinaLokalnaPl(Date.UTC(2018, 0, 15, 10))).toBe(11)
+    expect(godzinaLokalnaPl(Date.UTC(2018, 6, 15, 10))).toBe(12)
+    expect(godzinaLokalnaPl(Date.UTC(2018, 2, 25, 0, 59))).toBe(1)
+    expect(godzinaLokalnaPl(Date.UTC(2018, 2, 25, 1, 0))).toBe(3)
+    expect(godzinaLokalnaPl(Date.UTC(2018, 9, 28, 0, 59))).toBe(2)
+    expect(godzinaLokalnaPl(Date.UTC(2018, 9, 28, 1, 0))).toBe(2)
+  })
+
+  it("okno przez północ i okno południowe: [od, do)", () => {
+    for (const h of [22, 23, 0, 5, 13, 14]) expect(wOknieStrefy(h, okna)).toBe(true)
+    for (const h of [6, 12, 15, 21]) expect(wOknieStrefy(h, okna)).toBe(false)
+  })
+
+  it("styczeń płaski w dobie: 10 z 24 godzin lokalnych jest tanie → wartość = dzień·434/744 + noc·310/744 energii", () => {
+    const w = calculatePorownywarkaPaneli(
+      wejscie([panel({ id: "A", cenaBruttoZl: 600 })], { wycena: { rodzaj: "dzienNoc", zlKwhDzien: 1, zlKwhNoc: 0.4, oknaTanie: okna } }),
+    )
+    expect(w.status).toBe("VALID")
+    const a = w.value.panele[0]!
+    expect(a.zimaTaniaKwh).toBeCloseTo((a.zimaKwh * 310) / 744, 9)
+    expect(a.wartoscZimaZl).toBeCloseTo((a.zimaKwh * 434) / 744 + (a.zimaKwh * 310 * 0.4) / 744, 9)
+    expect(w.value.stawkaZlKwh).toBeNull()
+    expect(w.value.wycenaStrefowa).toEqual({ zlKwhDzien: 1, zlKwhNoc: 0.4 })
+    expect(w.assumptions.map((x) => (typeof x === "string" ? x : x.kod))).toContain("PORP-ZAL-STREFY-CZAS-PL")
+  })
+
+  it("równe ceny dzień i noc → wynik jak stawka płaska; różnica zimowa w zł z wartości stref", () => {
+    const panele = [panel({ id: "A" }), panel({ id: "B", pmaxW: 400 })]
+    const strefy = calculatePorownywarkaPaneli(wejscie(panele, { wycena: { rodzaj: "dzienNoc", zlKwhDzien: 0.8, zlKwhNoc: 0.8, oknaTanie: okna } }))
+    const plaska = calculatePorownywarkaPaneli(wejscie(panele, { wycena: { rodzaj: "reczna", zlKwh: 0.8 } }))
+    expect(strefy.value.panele[0]!.wartoscRokZl).toBeCloseTo(plaska.value.panele[0]!.wartoscRokZl!, 9)
+    expect(strefy.value.roznicaZimowa!.roznicaZl).toBeCloseTo(plaska.value.roznicaZimowa!.roznicaZl!, 9)
+  })
+
+  it("brak okien albo okno o równym początku i końcu → INVALID_INPUT z kodem", () => {
+    const baza = wejscie([panel({ id: "A" })])
+    const bez = calculatePorownywarkaPaneli({ ...baza, wycena: { rodzaj: "dzienNoc", zlKwhDzien: 1, zlKwhNoc: 0.5, oknaTanie: [] } })
+    expect(bez.status).toBe("INVALID_INPUT")
+    expect(bez.warnings.map((x) => x.code)).toContain("PORP-OKNA-STREFY-POZA-ZAKRESEM")
+    const rowne = calculatePorownywarkaPaneli({ ...baza, wycena: { rodzaj: "dzienNoc", zlKwhDzien: 1, zlKwhNoc: 0.5, oknaTanie: [{ odH: 6, doH: 6 }] } })
+    expect(rowne.warnings.map((x) => x.code)).toContain("PORP-GODZINA-STREFY-POZA-ZAKRESEM")
   })
 })

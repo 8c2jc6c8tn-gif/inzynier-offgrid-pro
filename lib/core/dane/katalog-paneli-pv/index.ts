@@ -9,6 +9,8 @@ import type { DanePanelu } from "@/lib/core/modules/pv/porownywarka-paneli/input
 export type PozycjaKatalogu = Omit<DanePanelu, "cenaBruttoZl"> & {
   /** Plik źródłowy w repo (karta albo jej transkrypcja). */
   zrodlo: string
+  /** Strony karty jako obrazy serwowane przez aplikację (`public/zrodla/paneli/`) — użytkownik otwiera je z ekranu jako potwierdzenie danych. */
+  kartaObrazy: readonly string[]
 }
 
 const JA_SOLAR_KARTA = "docs/zrodla/karta-katalogowa-JA-Solar-JAM60D41-LB/00-INDEKS.md"
@@ -29,6 +31,7 @@ function jaSolar(pmaxW: number): PozycjaKatalogu {
     degradacjaLiniowaPctNaRok: null,
     bifacjalny: true,
     zrodlo: JA_SOLAR_KARTA,
+    kartaObrazy: ["/zrodla/paneli/ja-solar-jam60d41-lb.webp"],
   }
 }
 

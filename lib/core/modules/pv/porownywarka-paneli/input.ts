@@ -37,9 +37,13 @@ export type MiejsceInput = {
   albedo?: number
 }
 
-/** Skąd bierzemy wartość 1 kWh (U2). Taryfa dzienna/nocna czeka na decyzję B właściciela. */
+/** Okno taniej strefy taryfy dwustrefowej w czasie urzędowym Polski [godziny 0–24]; `odH > doH` = okno przez północ (22–6). */
+export type OknoStrefy = { odH: number; doH: number }
+
+/** Skąd bierzemy wartość 1 kWh (U2, decyzja B: taryfa dzienna i nocna z godzinami stref wpisanymi przez użytkownika). */
 export type WycenaKwh =
   | { rodzaj: "siec"; zlKwh: number }
+  | { rodzaj: "dzienNoc"; zlKwhDzien: number; zlKwhNoc: number; oknaTanie: OknoStrefy[] }
   | { rodzaj: "reczna"; zlKwh: number }
   | { rodzaj: "agregat"; mocKw: number; obciazeniePct: number; zuzycieLH: number; cenaPaliwaZlL: number }
 

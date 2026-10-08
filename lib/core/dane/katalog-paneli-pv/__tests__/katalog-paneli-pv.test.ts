@@ -8,6 +8,13 @@ describe("katalog paneli PV", () => {
     for (const p of KATALOG_PANELI_PV) expect(existsSync(p.zrodlo), p.zrodlo).toBe(true)
   })
 
+  it("każdy wpis ma obrazy karty serwowane z public/ (potwierdzenie danych klikane w aplikacji)", () => {
+    for (const p of KATALOG_PANELI_PV) {
+      expect(p.kartaObrazy.length, p.id).toBeGreaterThan(0)
+      for (const obraz of p.kartaObrazy) expect(existsSync(`public${obraz}`), obraz).toBe(true)
+    }
+  })
+
   it("JA Solar: moc, γ i NOCT zgodne z transkrypcją karty; brakujące parametry karty to null, nie wartości typowe", () => {
     const zrodlo = readFileSync(KATALOG_PANELI_PV[0]!.zrodlo, "utf8")
     expect(zrodlo).toContain("γ (Pmax): **−0,290%/°C**")

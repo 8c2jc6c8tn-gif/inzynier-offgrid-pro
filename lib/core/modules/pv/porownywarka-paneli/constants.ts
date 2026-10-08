@@ -6,6 +6,16 @@
 /** „Zima” wg U1 właściciela: XI, XII, I, II (indeksy miesięcy, 0 = styczeń). To NIE jest stała M14 (`MIESIACE_ZIMOWE = [11, 0]`). */
 export const MIESIACE_ZIMOWE_POROWNYWARKI: readonly number[] = [10, 11, 0, 1]
 
+/**
+ * Przykładowe okna taniej strefy taryfy G12: 22:00–6:00 i 13:00–15:00. Takie godziny publikują m.in. Energa, PGE i E.ON;
+ * Tauron i Enea wyznaczają okna w przedziałach (noc w 22–7, południe w 13–16/17) — wartość z faktury ma pierwszeństwo.
+ * To podpowiedź w formularzu, nie wartość ukryta w obliczeniach: silnik dostaje okna zawsze od użytkownika.
+ */
+export const PRZYKLADOWE_OKNA_TANIE_G12 = [
+  { odH: 22, doH: 6 },
+  { odH: 13, doH: 15 },
+] as const
+
 /** Maksymalna liczba paneli porównywanych naraz (U20). */
 export const MAKS_PANELI_W_ZESTAWIE = 4
 

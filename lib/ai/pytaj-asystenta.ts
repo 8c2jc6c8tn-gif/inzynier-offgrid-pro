@@ -35,6 +35,7 @@ import { mikroinwerteryVsCentralnyTool } from "./tools/mikroinwertery-vs-central
 import { warunkiNadmorskiePylisteTool } from "./tools/warunki-nadmorskie-pyliste-tool"
 import { katIAzymutTool } from "./tools/kat-i-azymut-tool"
 import { wschodZachodTool } from "./tools/wschod-zachod-tool"
+import { porownajPaneleTool } from "./tools/porownaj-panele-tool"
 import { zlotySrodekTool } from "./tools/zloty-srodek-tool"
 import { liczbaPaneliTool } from "./tools/liczba-paneli-tool"
 import { trackerVsStalyTool } from "./tools/tracker-vs-staly-tool"
@@ -315,6 +316,7 @@ const NARZEDZIA: Array<AiToolDefinition<any, any>> = [
   warunkiNadmorskiePylisteTool,
   katIAzymutTool,
   wschodZachodTool,
+  porownajPaneleTool,
   zlotySrodekTool,
   liczbaPaneliTool,
   trackerVsStalyTool,
