@@ -656,3 +656,9 @@ tylko w trybie „moje dane z faktury” (D36). Ekrany wspólne Dom/Firma to jed
 | F11 | Test licznika, reklamacja, badanie laboratoryjne | Sieć | done | **Wspólny z D12**. **[28.09.2026] done:** ekran wspólny z D12 (`/kalkulatory/test-licznika`, w obu kaflach). |
 | F12 | Dotacje i podatki — informacja, nie porada | Sieć | done | Artykuł; podatki bez wyliczeń (✏️ K5). **[28.09.2026] done:** `app/kalkulatory/dotacje-firma` — dotacje firmowe z pliku `dotacje` + zdanie o podatkach bez wyliczeń (K5). |
 | F13 | FAQ firm | Sieć | done | Artykuł — pytania z materiału z poprawkami ✏️. **[28.09.2026] done:** `app/kalkulatory/faq-firma` (11 pytań z poprawkami K1/K3/K7/K7b/K9/K13/K14, bez cen materiałów). |
+
+## Moduł 3 — Porównywarka paneli PV (08.10.2026, D81)
+
+| Nr | Źródło | Funkcja | Status | Uwagi |
+|---|---|---|---|---|
+| M3 | decyzja D81 | Porównywarka paneli PV (zimowy uzysk godzinowy, 10 gwiazdek, wagi, BOS, stringi, zestawy do 4 paneli, OCR kart) | **todo** | Specyfikacja zatwierdzona: `docs/porownywarka-paneli-pv-specyfikacja.md`. Kodu brak. Etap A0 (profil panelu + miejsca instalacji) przed UI. |
