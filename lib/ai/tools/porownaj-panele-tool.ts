@@ -119,6 +119,9 @@ export function utworzPorownajPaneleTool(
         sprawnoscWzglednaPrzy200WPct: p.sprawnoscWzglednaPrzy200WPct ?? null,
         degradacjaPierwszyRokPct: p.degradacjaPierwszyRokPct ?? null,
         degradacjaLiniowaPctNaRok: p.degradacjaLiniowaPctNaRok ?? null,
+        dlugoscMm: null,
+        szerokoscMm: null,
+        masaKg: null,
         bifacjalny: p.bifacjalny ?? false,
       }))
       const wynik = calculatePorownywarkaPaneli({

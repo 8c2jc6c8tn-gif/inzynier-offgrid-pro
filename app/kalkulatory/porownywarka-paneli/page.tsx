@@ -13,10 +13,11 @@ import { NaglowekEkranu } from "@/components/wzorce/naglowek-ekranu"
 import { WynikGlowny } from "@/components/wzorce/wynik-glowny"
 import { WynikSzczegoly } from "@/components/wzorce/wynik-szczegoly"
 import { usePersistedDraft } from "@/lib/adapters/use-persisted-draft"
+import { useZuzycieMiesieczne } from "@/components/siec/zuzycie-miesieczne"
 import { KATALOG_PANELI_PV } from "@/lib/core/dane/katalog-paneli-pv"
 import { KRYTERIA, MAKS_PANELI_W_ZESTAWIE, MIESIACE_ZIMOWE_POROWNYWARKI, PRZYKLADOWE_OKNA_TANIE_G12, type KryteriumId } from "@/lib/core/modules/pv/porownywarka-paneli/constants"
-import type { DanePanelu, KryteriaWybor, OknoStrefy, PorownywarkaInput, WycenaKwh } from "@/lib/core/modules/pv/porownywarka-paneli/input"
-import { calculatePorownywarkaPaneli, type WynikPanelu } from "@/lib/core/modules/pv/porownywarka-paneli/calculator"
+import type { DanePanelu, KryteriaWybor, OknoStrefy, PorownywarkaInput, WycenaKwh, WymiaryMiejsca } from "@/lib/core/modules/pv/porownywarka-paneli/input"
+import { calculatePorownywarkaPaneli, type ScenariuszWiecejPaneli, type WynikPanelu } from "@/lib/core/modules/pv/porownywarka-paneli/calculator"
 import { domyslnyWyborKryteriow } from "@/lib/core/modules/pv/porownywarka-paneli/kryteria"
 import { useSymbolWaluty, useTranslate } from "@/lib/i18n/language-context"
 import { liczba, powierzchnieZModelu } from "@/lib/lokalizacja/model-dzialki"
@@ -35,6 +36,10 @@ type PanelSeed = {
   spr200: string
   deg1: string
   degLin: string
+  /** Size and mass from the datasheet [mm, mm, kg] — needed to count how many fit the place. */
+  dlugosc: string
+  szerokosc: string
+  masa: string
   bifacjalny: boolean
 }
 
@@ -46,6 +51,11 @@ type FormularzStan = {
   azymut: string
   albedo: string
   liczbaPaneli: string
+  wymDlugosc: string
+  wymSzerokosc: string
+  wymMargines: string
+  montaz: WymiaryMiejsca["montaz"]
+  uzyjZuzycia: boolean
   panele: PanelSeed[]
   wycena: RodzajWyceny
   stawka: string
@@ -73,6 +83,9 @@ const PANEL_PUSTY = (id: string): PanelSeed => ({
   spr200: "",
   deg1: "",
   degLin: "",
+  dlugosc: "",
+  szerokosc: "",
+  masa: "",
   bifacjalny: false,
 })
 
@@ -82,6 +95,11 @@ const STAN_POCZATKOWY: FormularzStan = {
   azymut: "",
   albedo: "",
   liczbaPaneli: "",
+  wymDlugosc: "",
+  wymSzerokosc: "",
+  wymMargines: "",
+  montaz: "rownolegly",
+  uzyjZuzycia: true,
   panele: [PANEL_PUSTY("p1"), PANEL_PUSTY("p2")],
   wycena: "",
   stawka: "",
@@ -109,11 +127,13 @@ const f0 = (x: number) => x.toLocaleString("pl-PL", { maximumFractionDigits: 0 }
 const f1 = (x: number) => x.toLocaleString("pl-PL", { maximumFractionDigits: 1 })
 const f2 = (x: number) => x.toLocaleString("pl-PL", { maximumFractionDigits: 2 })
 
-type Zakladka = "miesiace" | "oplacalnosc" | "gwiazdki" | "zalozenia"
-const ZAKLADKI: Zakladka[] = ["miesiace", "oplacalnosc", "gwiazdki", "zalozenia"]
+type Zakladka = "miesiace" | "oplacalnosc" | "wiecej" | "nadwyzka" | "gwiazdki" | "zalozenia"
+const ZAKLADKI: Zakladka[] = ["miesiace", "oplacalnosc", "wiecej", "nadwyzka", "gwiazdki", "zalozenia"]
 const ETYKIETY_ZAKLADEK: Record<Zakladka, string> = {
   miesiace: "UI-PORP-TAB-MIESIACE",
   oplacalnosc: "UI-PORP-TAB-OPLACALNOSC",
+  wiecej: "UI-PORP-TAB-WIECEJ",
+  nadwyzka: "UI-PORP-TAB-NADWYZKA",
   gwiazdki: "UI-PORP-TAB-GWIAZDKI",
   zalozenia: "UI-PORP-TAB-ZALOZENIA",
 }
@@ -227,6 +247,7 @@ export default function PorownywarkaPaneliPage() {
   const waluta = useSymbolWaluty()
   const { skaner, lokalizacja, dane, tmy, wczytano } = useLokalizacjaProjektu()
   const [stan, setStan] = usePersistedDraft<FormularzStan>("porownywarka-paneli", STAN_POCZATKOWY, KWOTY)
+  const { zuzycie } = useZuzycieMiesieczne("dom")
   const [zakladka, setZakladka] = useState<Zakladka>("miesiace")
   const ustaw = <K extends keyof FormularzStan>(pole: K, v: FormularzStan[K]) => setStan((prev) => ({ ...prev, [pole]: v }))
   const ustawPanel = (id: string, z: Partial<PanelSeed>) =>
@@ -235,7 +256,7 @@ export default function PorownywarkaPaneliPage() {
       panele: prev.panele.map((p) => {
         if (p.id !== id) return p
         // A hand-edited datasheet number no longer matches the catalogue card, so the card stops being shown as its source.
-        const zmienionaDana = (["moc", "gamma", "noct", "spr200", "deg1", "degLin"] as const).some((k) => k in z && z[k] !== p[k])
+        const zmienionaDana = (["moc", "gamma", "noct", "spr200", "deg1", "degLin", "dlugosc", "szerokosc", "masa"] as const).some((k) => k in z && z[k] !== p[k])
         return { ...p, ...z, ...(zmienionaDana && !("katalogId" in z) ? { katalogId: "" } : {}) }
       }),
     }))
@@ -260,10 +281,19 @@ export default function PorownywarkaPaneliPage() {
           sprawnoscWzglednaPrzy200WPct: liczba(p.spr200) ?? null,
           degradacjaPierwszyRokPct: liczba(p.deg1) ?? null,
           degradacjaLiniowaPctNaRok: liczba(p.degLin) ?? null,
+          dlugoscMm: liczba(p.dlugosc) ?? null,
+          szerokoscMm: liczba(p.szerokosc) ?? null,
+          masaKg: liczba(p.masa) ?? null,
           bifacjalny: p.bifacjalny,
         },
       ]
     })
+    const wymDl = liczba(stan.wymDlugosc)
+    const wymSz = liczba(stan.wymSzerokosc)
+    const wymMar = liczba(stan.wymMargines)
+    // The margin has no default: the place counts only once the user typed all three numbers (0 is a number).
+    const wymiaryMiejsca: WymiaryMiejsca | null =
+      wymDl !== undefined && wymSz !== undefined && wymMar !== undefined ? { dlugoscM: wymDl, szerokoscM: wymSz, marginesM: wymMar, montaz: stan.montaz } : null
     const stawka = liczba(stan.stawka)
     const mocKw = liczba(stan.agrMoc)
     const obc = liczba(stan.agrObc)
@@ -292,11 +322,13 @@ export default function PorownywarkaPaneliPage() {
       ...(dane ? { daneGodzinowe: dane.dane.rekordy } : {}),
       miejsce: nachylenie !== undefined && azymut !== undefined ? { nachylenieDeg: nachylenie, azymutDeg: azymut, ...(albedo !== undefined ? { albedo } : {}) } : null,
       liczbaPaneli: liczba(stan.liczbaPaneli) ?? null,
+      wymiaryMiejsca,
+      zapotrzebowanieMiesiaceKwh: stan.uzyjZuzycia ? zuzycie : null,
       panele,
       wycena,
       kryteria: stan.kryteria,
     }
-  }, [stan, lokalizacja, dane, t])
+  }, [stan, lokalizacja, dane, t, zuzycie])
 
   const result = useMemo(() => calculatePorownywarkaPaneli(wejscie), [wejscie])
 
@@ -328,6 +360,9 @@ export default function PorownywarkaPaneliPage() {
       spr200: tekst(k.sprawnoscWzglednaPrzy200WPct),
       deg1: tekst(k.degradacjaPierwszyRokPct),
       degLin: tekst(k.degradacjaLiniowaPctNaRok),
+      dlugosc: tekst(k.dlugoscMm),
+      szerokosc: tekst(k.szerokoscMm),
+      masa: tekst(k.masaKg),
       bifacjalny: k.bifacjalny,
       katalogId: k.id,
     })
@@ -339,6 +374,13 @@ export default function PorownywarkaPaneliPage() {
       return { ...prev, panele: [...prev.panele, PANEL_PUSTY(`p${numer}`)] }
     })
   }
+
+  /** "o 12,3 kWh więcej" / "o 4,5 kWh mniej" — the sign sits in the wording, so the year and the winter may differ in direction. */
+  const roznicaKwhTekst = (x: number) => t(x >= 0 ? "UI-PORP-SC-WIECEJ" : "UI-PORP-SC-MNIEJ", { kwh: f1(Math.abs(x)) })
+  const roznicaZlTekst = (x: number) => t(x >= 0 ? "UI-PORP-SC-ZL-WIECEJ" : "UI-PORP-SC-ZL-MNIEJ", { zl: f0(Math.abs(x)), waluta })
+  const najlepszyScenariusz: ScenariuszWiecejPaneli | null =
+    v.scenariusze.filter((x) => x.dodatkowePanele > 0).sort((a, b) => b.przewagaZimaKwh - a.przewagaZimaKwh)[0] ?? null
+  const panelZNadwyzka = v.panele.find((p) => p.id === v.roznicaZimowa?.liderId) ?? v.panele[0] ?? null
 
   const naglowekWyniku = (() => {
     if (!v.roznicaZimowa) return t("UI-PORP-GC-JEDEN-PANEL")
@@ -426,6 +468,78 @@ export default function PorownywarkaPaneliPage() {
           pomoc={<PomocPola ekran="porownywarka-paneli" pole="liczbaPaneli" />}
         />
         <p className="-mt-2 text-caption text-muted-foreground">{t("UI-PORP-LICZBA-PODPIS")}</p>
+        <fieldset className="flex flex-col gap-3 rounded-lg border p-4">
+          <legend className="px-1 text-small font-medium">{t("UI-PORP-WYM-TYTUL")}</legend>
+          <div className="grid grid-cols-3 gap-3">
+            <Pole
+              label={t("UI-PORP-WYM-DLUGOSC")}
+              unit="m"
+              type="number"
+              inputMode="decimal"
+              min={0}
+              step="any"
+              value={stan.wymDlugosc}
+              onChange={(e) => ustaw("wymDlugosc", e.target.value)}
+              pomoc={<PomocPola ekran="porownywarka-paneli" pole="miejsceDlugosc" />}
+            />
+            <Pole
+              label={t("UI-PORP-WYM-SZEROKOSC")}
+              unit="m"
+              type="number"
+              inputMode="decimal"
+              min={0}
+              step="any"
+              value={stan.wymSzerokosc}
+              onChange={(e) => ustaw("wymSzerokosc", e.target.value)}
+              pomoc={<PomocPola ekran="porownywarka-paneli" pole="miejsceSzerokosc" />}
+            />
+            <Pole
+              label={t("UI-PORP-WYM-MARGINES")}
+              unit="m"
+              type="number"
+              inputMode="decimal"
+              min={0}
+              step="any"
+              value={stan.wymMargines}
+              onChange={(e) => ustaw("wymMargines", e.target.value)}
+              pomoc={<PomocPola ekran="porownywarka-paneli" pole="miejsceMargines" />}
+            />
+          </div>
+          <PoleSelect
+            label={t("UI-PORP-WYM-MONTAZ")}
+            value={stan.montaz}
+            onChange={(e) => ustaw("montaz", e.target.value as FormularzStan["montaz"])}
+            pomoc={<PomocPola ekran="porownywarka-paneli" pole="montaz" />}
+          >
+            <option value="rownolegly">{t("UI-PORP-MONTAZ-ROWNOLEGLY")}</option>
+            <option value="pochylony-na-konstrukcji">{t("UI-PORP-MONTAZ-POCHYLONY")}</option>
+          </PoleSelect>
+          <p className="text-caption text-muted-foreground">{t("UI-PORP-WYM-PODPIS")}</p>
+        </fieldset>
+        <div className="flex flex-col gap-2">
+          <div className="flex items-start gap-2">
+            <div className="flex-1">
+              <PoleCheckbox
+                id="uzyj-zuzycia"
+                label={t("UI-PORP-ZUZYCIE-UZYJ")}
+                checked={stan.uzyjZuzycia}
+                onChange={(e) => ustaw("uzyjZuzycia", e.target.checked)}
+              />
+            </div>
+            <PomocPola ekran="porownywarka-paneli" pole="uzyjZuzycia" />
+          </div>
+          {stan.uzyjZuzycia &&
+            (zuzycie ? (
+              <p className="text-caption text-muted-foreground">{t("UI-PORP-ZUZYCIE-JEST", { kwh: f0(zuzycie.reduce((a, b) => a + b, 0)) })}</p>
+            ) : (
+              <p role="status" className="rounded-md border border-werdykt-uwaga-border bg-werdykt-uwaga-bg p-3 text-small text-werdykt-uwaga-foreground">
+                {t("UI-PORP-ZUZYCIE-BRAK")}{" "}
+                <Link href="/kalkulatory/zuzycie-miesieczne" className="underline">
+                  {t("UI-PORP-ZUZYCIE-LINK")}
+                </Link>
+              </p>
+            ))}
+        </div>
       </section>
 
       <section className="flex flex-col gap-4">
@@ -540,6 +654,41 @@ export default function PorownywarkaPaneliPage() {
                 value={p.degLin}
                 onChange={(e) => ustawPanel(p.id, { degLin: e.target.value })}
                 pomoc={<PomocPola ekran="porownywarka-paneli" pole="degradacjaLiniowa" />}
+              />
+            </div>
+            <div className="grid grid-cols-3 gap-3">
+              <Pole
+                label={t("UI-PORP-DLUGOSC-PANELU")}
+                unit="mm"
+                type="number"
+                inputMode="decimal"
+                min={0}
+                step="any"
+                value={p.dlugosc}
+                onChange={(e) => ustawPanel(p.id, { dlugosc: e.target.value })}
+                pomoc={<PomocPola ekran="porownywarka-paneli" pole="dlugoscPanelu" />}
+              />
+              <Pole
+                label={t("UI-PORP-SZEROKOSC-PANELU")}
+                unit="mm"
+                type="number"
+                inputMode="decimal"
+                min={0}
+                step="any"
+                value={p.szerokosc}
+                onChange={(e) => ustawPanel(p.id, { szerokosc: e.target.value })}
+                pomoc={<PomocPola ekran="porownywarka-paneli" pole="szerokoscPanelu" />}
+              />
+              <Pole
+                label={t("UI-PORP-MASA-PANELU")}
+                unit="kg"
+                type="number"
+                inputMode="decimal"
+                min={0}
+                step="any"
+                value={p.masa}
+                onChange={(e) => ustawPanel(p.id, { masa: e.target.value })}
+                pomoc={<PomocPola ekran="porownywarka-paneli" pole="masaPanelu" />}
               />
             </div>
             <div className="flex items-start gap-2">
@@ -741,7 +890,10 @@ export default function PorownywarkaPaneliPage() {
             <WynikSzczegoly assumptions={[]} warnings={result.warnings} />
           </WerdyktPanel>
         ) : result.status === "INCOMPLETE" ? (
-          <p className="text-small text-muted-foreground">{t("UI-PORP-UZUPELNIJ")}</p>
+          <div className="flex flex-col gap-2">
+            <p className="text-small text-muted-foreground">{t("UI-PORP-UZUPELNIJ")}</p>
+            {result.warnings.length > 0 && <WynikSzczegoly assumptions={[]} warnings={result.warnings} />}
+          </div>
         ) : (
           <>
             <WerdyktPanel poziom={result.status === "VALID" ? "ok" : "uwaga"} etykieta={t("UI-PORP-WERDYKT")}>
@@ -757,6 +909,21 @@ export default function PorownywarkaPaneliPage() {
                     : v.roznicaZimowa.roznicaZl !== null && v.stawkaZlKwh !== null
                       ? t("UI-PORP-GC-ZIMA-ZL", { stawka: f2(v.stawkaZlKwh), zl: f0(v.roznicaZimowa.roznicaZl) })
                       : t("UI-PORP-GC-ZIMA-BRAK-STAWKI")}
+                </p>
+              )}
+              {najlepszyScenariusz && (
+                <p className="mt-1 text-small">
+                  {t("UI-PORP-GC-WIECEJ", {
+                    tanszy: nazwaPanelu(najlepszyScenariusz.tanszyId),
+                    drozszy: nazwaPanelu(najlepszyScenariusz.drozszyId),
+                    x: najlepszyScenariusz.dodatkowePanele,
+                    zima: roznicaKwhTekst(najlepszyScenariusz.przewagaZimaKwh),
+                  })}
+                </p>
+              )}
+              {panelZNadwyzka && panelZNadwyzka.nadwyzkaRokKwh !== null && panelZNadwyzka.nadwyzkaRokKwh > 0 && panelZNadwyzka.nadwyzkaUlamek !== null && (
+                <p className="mt-1 text-small">
+                  {t("UI-PORP-GC-NADWYZKA", { kwh: f0(panelZNadwyzka.nadwyzkaRokKwh), proc: f0(panelZNadwyzka.nadwyzkaUlamek * 100) })}
                 </p>
               )}
               <div className="mt-2 text-small">
@@ -803,9 +970,20 @@ export default function PorownywarkaPaneliPage() {
                     <tbody>
                       {(
                         [
+                          ["UI-PORP-LICZBA-SZTUK", (p: WynikPanelu) => `${p.liczbaPaneli}`],
+                          ["UI-PORP-MOC-KWP", (p: WynikPanelu) => `${f2(p.mocKwp)} kWp`],
+                          ["UI-PORP-MASA-RAZEM", (p: WynikPanelu) => (p.masaRazemKg === null ? null : `${f0(p.masaRazemKg)} kg`)],
                           ["UI-PORP-ZIMA-KWH", (p: WynikPanelu) => `${f1(p.zimaKwh)} kWh`],
                           ["UI-PORP-ZIMA-TANIA", (p: WynikPanelu) => (p.zimaTaniaKwh === null ? null : `${f1(p.zimaTaniaKwh)} kWh`)],
                           ["UI-PORP-ROK-KWH", (p: WynikPanelu) => `${f0(p.rokKwh)} kWh`],
+                          ["UI-PORP-UZYTECZNA-ROK", (p: WynikPanelu) => (p.uzytecznaRokKwh === null ? null : `${f0(p.uzytecznaRokKwh)} kWh`)],
+                          [
+                            "UI-PORP-NADWYZKA-ROK",
+                            (p: WynikPanelu) =>
+                              p.nadwyzkaRokKwh === null || p.nadwyzkaUlamek === null
+                                ? null
+                                : t("UI-PORP-NADWYZKA-WART", { kwh: f0(p.nadwyzkaRokKwh), proc: f0(p.nadwyzkaUlamek * 100) }),
+                          ],
                           ["UI-PORP-CENA-RAZEM", (p: WynikPanelu) => (p.cenaRazemZl === null ? null : `${f0(p.cenaRazemZl)} ${waluta}`)],
                           ["UI-PORP-CENA-ZA-WP", (p: WynikPanelu) => (p.cenaZaWpZl === null ? null : `${f2(p.cenaZaWpZl)} ${waluta}/Wp`)],
                           ["UI-PORP-KOSZT-ZIMOWEJ-KWH", (p: WynikPanelu) => (p.kosztZimowejKwhZl === null ? null : `${f2(p.kosztZimowejKwhZl)} ${waluta}/kWh`)],
@@ -827,7 +1005,113 @@ export default function PorownywarkaPaneliPage() {
                     </tbody>
                   </table>
                 </div>
-                <p className="text-caption text-muted-foreground">{t("UI-PORP-OPLACALNOSC-NOTA")}</p>
+                <p className="text-caption text-muted-foreground">{t(v.zUzytecznoscia ? "UI-PORP-OPLACALNOSC-NOTA-UZYT" : "UI-PORP-OPLACALNOSC-NOTA")}</p>
+              </div>
+            )}
+
+            {zakladka === "wiecej" && (
+              <div className="flex flex-col gap-4">
+                {v.panele.length < 2 ? (
+                  <p className="text-small text-muted-foreground">{t("UI-PORP-SC-JEDEN")}</p>
+                ) : v.scenariusze.length === 0 ? (
+                  <p className="text-small text-muted-foreground">{t("UI-PORP-SC-BRAK")}</p>
+                ) : (
+                  v.scenariusze.map((sc) => {
+                    const tanszy = nazwaPanelu(sc.tanszyId)
+                    const drozszy = nazwaPanelu(sc.drozszyId)
+                    return (
+                      <div key={sc.tanszyId} className="flex flex-col gap-1 rounded-lg border p-4 text-small">
+                        <p className="font-medium">
+                          {sc.dodatkowePanele > 0
+                            ? t("UI-PORP-SC-ZOSTAJE", { tanszy, drozszy, zl: f0(sc.oszczednoscZl), waluta, x: sc.dodatkowePanele })
+                            : t("UI-PORP-SC-ZA-MALO", { tanszy, drozszy, zl: f0(sc.oszczednoscZl), waluta, cena: f0(sc.cenaSztukiTanszegoZl) })}
+                        </p>
+                        {sc.dodatkowePanele > 0 && (
+                          <>
+                            <p>{t("UI-PORP-SC-ENERGIA", { rok: f0(sc.dodatkoweRokKwh), zima: f0(sc.dodatkoweZimaKwh) })}</p>
+                            <p>
+                              {t("UI-PORP-SC-POROWNANIE", {
+                                tanszy,
+                                drozszy,
+                                rok: roznicaKwhTekst(sc.przewagaRokKwh),
+                                zima: roznicaKwhTekst(sc.przewagaZimaKwh),
+                              })}
+                            </p>
+                            {sc.przewagaRokZl !== null && sc.przewagaZimaZl !== null && (
+                              <p>{t("UI-PORP-SC-ZL", { rok: roznicaZlTekst(sc.przewagaRokZl), zima: roznicaZlTekst(sc.przewagaZimaZl) })}</p>
+                            )}
+                            <p className="text-muted-foreground">
+                              {!sc.miejsceSprawdzone
+                                ? t("UI-PORP-SC-MIEJSCE-NIEZNANE")
+                                : sc.naScianie > 0 && sc.wTymSamymMiejscu === 0
+                                  ? t("UI-PORP-SC-SCIANA-WSZYSTKIE", { sciana: sc.naScianie })
+                                  : sc.naScianie > 0
+                                    ? t("UI-PORP-SC-SCIANA", { miejsce: sc.wTymSamymMiejscu, sciana: sc.naScianie })
+                                    : t("UI-PORP-SC-MIEJSCE-OK")}
+                            </p>
+                          </>
+                        )}
+                      </div>
+                    )
+                  })
+                )}
+                <p className="text-caption text-muted-foreground">{t("UI-PORP-SC-NOTA")}</p>
+              </div>
+            )}
+
+            {zakladka === "nadwyzka" && (
+              <div className="flex flex-col gap-3 text-small">
+                {!v.zUzytecznoscia ? (
+                  <>
+                    <p className="text-muted-foreground">{t("UI-PORP-NADW-SUCHY")}</p>
+                    <Link href="/kalkulatory/zuzycie-miesieczne" className="underline">
+                      {t("UI-PORP-ZUZYCIE-LINK")}
+                    </Link>
+                  </>
+                ) : (
+                  <>
+                    <ul className="flex flex-col gap-1">
+                      {v.panele.map((p) =>
+                        p.uzytecznaRokKwh === null || p.nadwyzkaRokKwh === null || p.nadwyzkaUlamek === null ? null : (
+                          <li key={p.id}>
+                            {t("UI-PORP-NADW-TEKST", {
+                              panel: p.nazwa,
+                              uzyt: f0(p.uzytecznaRokKwh),
+                              rok: f0(p.rokKwh),
+                              nadw: f0(p.nadwyzkaRokKwh),
+                              proc: f0(p.nadwyzkaUlamek * 100),
+                            })}
+                          </li>
+                        ),
+                      )}
+                    </ul>
+                    <p>{t("UI-PORP-NADW-NIE-STRATA")}</p>
+                    <ul className="flex list-disc flex-col gap-1 pl-5">
+                      <li>
+                        <Link href="/kalkulatory/grzalka-cwu" className="underline">
+                          {t("UI-PORP-NADW-L-CWU")}
+                        </Link>
+                      </li>
+                      <li>
+                        <Link href="/kalkulatory/bojler-cwu" className="underline">
+                          {t("UI-PORP-NADW-L-BOJLER")}
+                        </Link>
+                      </li>
+                      <li>
+                        <Link href="/kalkulatory/grzalki-dachowe" className="underline">
+                          {t("UI-PORP-NADW-L-DACH")}
+                        </Link>
+                      </li>
+                      <li>
+                        <Link href="/kalkulatory/basen" className="underline">
+                          {t("UI-PORP-NADW-L-BASEN")}
+                        </Link>
+                      </li>
+                      <li>{t("UI-PORP-NADW-SZKLARNIA")}</li>
+                      <li>{t("UI-PORP-NADW-SYSTEM24")}</li>
+                    </ul>
+                  </>
+                )}
               </div>
             )}
 

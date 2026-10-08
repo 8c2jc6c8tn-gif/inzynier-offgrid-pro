@@ -42,3 +42,23 @@ export function bifacjalnyPominietyPorp(nazwa: string): Warning {
 export function brakKryteriowPorp(): Warning {
   return ostrzezenie("PORP-BRAK-KRYTERIOW", "info", "żadne zaznaczone kryterium nie ma danych wszystkich paneli — gwiazdki pominięte")
 }
+
+/** A2: number of panels is to come from the place's dimensions, but the datasheet of this panel gives no size. */
+export function brakWymiarowPaneluPorp(nazwa: string): Warning {
+  return ostrzezenie("PORP-BRAK-WYMIAROW-PANELU", "warning", `panel „${nazwa}” bez wymiarów — nie da się policzyć, ile się zmieści`, { nazwa }, "dlugoscMm")
+}
+
+/** A2: panels tilted on a structure shade each other; we have no spacing rule yet, so we do not guess. */
+export function montazPochylonyBezRegulyPorp(): Warning {
+  return ostrzezenie("PORP-MONTAZ-POCHYLONY-BEZ-REGULY", "warning", "panele pochylone na konstrukcji: brak reguły odstępu między rzędami — podaj liczbę paneli", undefined, "wymiaryMiejsca")
+}
+
+/** A2: with the given margins not a single panel of this model fits. */
+export function panelSieNieMiesciPorp(nazwa: string): Warning {
+  return ostrzezenie("PORP-PANEL-SIE-NIE-MIESCI", "warning", `panel „${nazwa}” nie mieści się w podanym miejscu`, { nazwa }, "wymiaryMiejsca")
+}
+
+/** A2: the typed number of panels is larger than what fits in the typed dimensions. */
+export function liczbaPrzekraczaMiejscePorp(nazwa: string, wpisano: number, miesci: number): Warning {
+  return ostrzezenie("PORP-LICZBA-PRZEKRACZA-MIEJSCE", "warning", `„${nazwa}”: wpisano ${wpisano} szt., w podanych wymiarach mieści się ${miesci}`, { nazwa, wpisano, miesci }, "liczbaPaneli")
+}

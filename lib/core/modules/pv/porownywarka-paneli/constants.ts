@@ -22,6 +22,10 @@ export const MAKS_PANELI_W_ZESTAWIE = 4
 /** Horyzont liczenia kosztu zimowej kWh [lata] — „zł/kWh zimowej w 25 latach” ze specyfikacji, sekcja 6.4. */
 export const HORYZONT_LAT = 25
 
+/** Ściana pod dodatkowe panele (U11): pion, południe — jedyna ściana, którą moduł proponuje (spec 7.4). */
+export const SCIANA_NACHYLENIE_DEG = 90
+export const SCIANA_AZYMUT_DEG = 180
+
 /** Nasłonecznienie, od którego (w górę) sprawność względna = 1: punkt odniesienia STC [W/m²]. */
 export const G_STC_W_M2 = 1000
 /** Punkt karty „sprawność względna przy 200 W/m²” [W/m²]. */

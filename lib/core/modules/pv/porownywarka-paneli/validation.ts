@@ -23,7 +23,21 @@ export function validateInput(input: PorownywarkaInput): { errors: Warning[] } {
       errors.push(porpPozaZakresem("PORP-ALBEDO-POZA-ZAKRESEM", "albedo", m.albedo, "0–1"))
     }
   }
+  const wm = input.wymiaryMiejsca
+  if (wm) {
+    const dodatnie: [string, number][] = [["dlugoscM", wm.dlugoscM], ["szerokoscM", wm.szerokoscM]]
+    for (const [pole, v] of dodatnie) if (!(Number.isFinite(v) && v > 0)) errors.push(porpPozaZakresem("PORP-WYMIARY-MIEJSCA-POZA-ZAKRESEM", pole, v, "> 0 m"))
+    if (!nieujemna(wm.marginesM)) errors.push(wartoscUjemnaPorp("marginesM", wm.marginesM))
+  }
+  const zap = input.zapotrzebowanieMiesiaceKwh
+  if (zap) {
+    if (zap.length !== 12) errors.push(porpPozaZakresem("PORP-ZAPOTRZEBOWANIE-POZA-ZAKRESEM", "zapotrzebowanieMiesiaceKwh", zap.length, "12 liczb >= 0"))
+    for (const v of zap) if (!nieujemna(v)) errors.push(wartoscUjemnaPorp("zapotrzebowanieMiesiaceKwh", v))
+  }
   for (const p of input.panele) {
+    for (const [pole, v] of [["dlugoscMm", p.dlugoscMm], ["szerokoscMm", p.szerokoscMm], ["masaKg", p.masaKg]] as [string, number | null][]) {
+      if (v !== null && !(Number.isFinite(v) && v > 0)) errors.push(porpPozaZakresem("PORP-WYMIARY-PANELU-POZA-ZAKRESEM", pole, v, "> 0"))
+    }
     if (!Number.isFinite(p.pmaxW) || p.pmaxW <= 0) errors.push(porpPozaZakresem("PORP-MOC-PANELU-POZA-ZAKRESEM", "pmaxW", p.pmaxW, "> 0 W"))
     const nieujemne: [string, number | null][] = [
       ["cenaBruttoZl", p.cenaBruttoZl],

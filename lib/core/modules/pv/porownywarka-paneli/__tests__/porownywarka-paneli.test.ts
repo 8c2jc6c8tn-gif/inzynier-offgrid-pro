@@ -29,6 +29,9 @@ const panel = (p: Partial<DanePanelu> & { id: string }): DanePanelu => ({
   sprawnoscWzglednaPrzy200WPct: null,
   degradacjaPierwszyRokPct: null,
   degradacjaLiniowaPctNaRok: null,
+  dlugoscMm: null,
+  szerokoscMm: null,
+  masaKg: null,
   bifacjalny: false,
   ...p,
 })
