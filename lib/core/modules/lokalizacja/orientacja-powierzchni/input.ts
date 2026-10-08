@@ -16,6 +16,11 @@ export type RekordGodzinowy = {
   dni: number
   /** Promieniowanie rozproszone na płaszczyznę poziomą. */
   dhi: number
+  /**
+   * Temperatura powietrza 2 m nad gruntem [°C] (PVGIS TMY: `T2m`). Opcjonalna — zapisy sprzed 08.10.2026 jej nie niosą
+   * (wtedy ekran prosi o ponowne pobranie danych); brak temperatury nigdy nie blokuje liczenia nasłonecznienia.
+   */
+  tempC?: number
 }
 
 export type Powierzchnia = {
