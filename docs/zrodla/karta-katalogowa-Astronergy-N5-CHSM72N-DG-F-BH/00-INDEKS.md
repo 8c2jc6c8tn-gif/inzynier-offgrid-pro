@@ -2,16 +2,16 @@
 
 **Status:** materiał źródłowy, dostarczony przez właściciela projektu (08.10.2026) jako dwa zrzuty ekranu strony sklepu pvzenit.pl
 (karta producenta Chint New Energy Technology Co., Ltd., oznaczenie wersji karty „202401”). Zapisane jako obrazy
-(z przyciętym tylko paskiem stanu telefonu u góry; reszta bez zmian):
+(przycięte do samej karty: bez paska stanu telefonu, nagłówka sklepu i nakładek przeglądarki; okładka kończy się nad paskiem podsumowania, który powtarza się na początku strony 2):
 
-- `karta-1-okladka-gwarancja.webp` — okładka: gwarancje (15 lat produktowa, 30 lat liniowa moc), cechy, certyfikaty, pasek podsumowania;
+- `karta-1-okladka-gwarancja.webp` — okładka: gwarancje (15 lat produktowa, 30 lat liniowa moc), cechy, certyfikaty;
 - `karta-2-parametry.webp` — parametry mechaniczne, elektryczne (STC i NMOT), współczynniki temperaturowe, parametry pracy, krzywe.
 
 Te same obrazy są serwowane przez aplikację (`public/zrodla/paneli/astronergy-n5-chsm72n-1.webp`, `-2.webp`) jako klikalne
-potwierdzenie danych katalogu (`lib/core/dane/katalog-paneli-pv`). Zrzut zasłania na dole okładki początek tabeli mechanicznej;
+potwierdzenie danych katalogu (`lib/core/dane/katalog-paneli-pv`). Okładka nie zawiera początku tabeli mechanicznej;
 komplet tabeli jest na drugim obrazie.
 
-## Pasek podsumowania (okładka i strona 2)
+## Pasek podsumowania (początek strony 2; na zdjęciu okładki odcięty)
 
 | Pozycja | Wartość |
 |---|---|
