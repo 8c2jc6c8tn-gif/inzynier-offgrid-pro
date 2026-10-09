@@ -206,6 +206,26 @@ describe("porownajPaneleTool (M3, D81)", () => {
     expect(bez.obciazeniaMiejsca).toBeNull()
   })
 
+  it("A5: bilans godzinowy z baterią — bilans zamknięty, bateria zmniejsza brak, bez zużycia albo bez baterii w wejściu null", async () => {
+    const zuzycie = Array(12).fill(300)
+    const h = (bilansGodzinowy?: { pojemnoscKwh: number; sprawnoscCyklu?: number }) =>
+      utworzPorownajPaneleTool(fetchZ(odpowiedzPvgis(true))).handler({ ...wejscie, zuzycieMiesieczneKwh: zuzycie, ...(bilansGodzinowy ? { bilansGodzinowy } : {}) })
+    const bez = await h({ pojemnoscKwh: 0 })
+    const z = await h({ pojemnoscKwh: 5, sprawnoscCyklu: 0.9 })
+    const b0 = bez.panele[0]!.bilansGodzinowy!
+    const b = z.panele[0]!.bilansGodzinowy!
+    expect(b.bezposrednioRokKwh + b.zBateriiRokKwh + b.brakRokKwh).toBeCloseTo(3600, 6)
+    expect(b0.zBateriiRokKwh).toBe(0)
+    expect(b0.cykleRok).toBeNull()
+    expect(b.brakRokKwh).toBeLessThan(b0.brakRokKwh)
+    expect(b.cykleRok).toBeGreaterThan(0)
+    expect(b.kosztBrakuRokZl).toBeCloseTo(b.brakRokKwh * 1, 6)
+    expect(z.zalozenia.length).toBeGreaterThan(bez.zalozenia.length)
+    expect((await h()).panele[0]!.bilansGodzinowy).toBeNull()
+    const bezZuzycia = await utworzPorownajPaneleTool(fetchZ(odpowiedzPvgis(true))).handler({ ...wejscie, bilansGodzinowy: { pojemnoscKwh: 5 } })
+    expect(bezZuzycia.panele[0]!.bilansGodzinowy).toBeNull()
+  })
+
   it("PVGIS odrzuca → INCOMPLETE z komunikatem", async () => {
     const zly = (async () => new Response("location over the sea", { status: 400 })) as unknown as typeof fetch
     const w = await utworzPorownajPaneleTool(zly).handler(wejscie)

@@ -8,7 +8,7 @@ import type { BosId } from "@/lib/core/dane/cennik-bos"
 import { PRZYKLADOWE_OKNA_TANIE_G12 } from "@/lib/core/modules/pv/porownywarka-paneli/constants"
 import type { EkspozycjaTerenu, StrefaSniegowa } from "@/lib/core/modules/pv/eurokod-1/snieg"
 import type { KategoriaTerenu, StrefaWiatrowa } from "@/lib/core/modules/pv/eurokod-1/wiatr"
-import type { DaneElektryczne, DanePanelu, KryteriaWybor, ObciazeniePaneluKarta, OknoStrefy, PorownywarkaInput, WarunkiObciazen, WycenaKwh, WymiaryMiejsca } from "@/lib/core/modules/pv/porownywarka-paneli/input"
+import type { BilansGodzinowyInput, DaneElektryczne, DanePanelu, KryteriaWybor, ObciazeniePaneluKarta, OknoStrefy, PorownywarkaInput, WarunkiObciazen, WycenaKwh, WymiaryMiejsca } from "@/lib/core/modules/pv/porownywarka-paneli/input"
 import { domyslnyWyborKryteriow } from "@/lib/core/modules/pv/porownywarka-paneli/kryteria"
 import type { ZapisTmy } from "@/lib/lokalizacja/dane-tmy"
 import { liczba } from "@/lib/lokalizacja/model-dzialki"
@@ -59,6 +59,18 @@ export type ObciazeniaSeed = {
   ekspozycjaSniegu: EkspozycjaTerenu
 }
 
+/** Battery of the hourly balance (spec 34), as form texts: usable capacity [kWh] and cycle efficiency [%]; drafts saved before have no key (= both empty). */
+export type BilansSeed = { pojemnosc: string; sprawnosc: string }
+export const BILANS_PUSTY: BilansSeed = { pojemnosc: "", sprawnosc: "" }
+
+/** Hourly-balance settings from the form texts; `null` while the capacity is empty (0 is a valid answer: no battery). Efficiency empty = not given. */
+export function bilansZFormularza(b: BilansSeed | undefined): BilansGodzinowyInput | null {
+  const pojemnosc = liczba(b?.pojemnosc ?? "")
+  if (pojemnosc === undefined) return null
+  const sprawnosc = liczba(b?.sprawnosc ?? "")
+  return { pojemnoscKwh: pojemnosc, sprawnoscCyklu: sprawnosc === undefined ? null : sprawnosc / 100 }
+}
+
 export const OBCIAZENIA_PUSTE: ObciazeniaSeed = {
   strefaSniegowa: "",
   strefaWiatrowa: "",
@@ -102,6 +114,7 @@ export type FormularzStan = {
   tmin?: string
   /** Snow and wind conditions for the "Loads" tab (spec 32). */
   obc?: ObciazeniaSeed
+  bil?: BilansSeed
   /**
    * Inverter / MPPT controller / micro-inverter chosen from the device catalogue for the "Inverter and accessories" tab (A4); empty = none.
    * The fields below belong to that tab; drafts saved before A4 have no keys.
@@ -409,6 +422,7 @@ export function budujWejscie(a: {
     zapotrzebowanieMiesiaceKwh: stan.uzyjZuzycia ? zuzycie : null,
     tminC: liczba(stan.tmin ?? "") ?? null,
     obciazenia: warunkiObciazenZFormularza(stan.obc, m.montaz),
+    bilansGodzinowy: bilansZFormularza(stan.bil),
     panele,
     wycena,
     kryteria: stan.kryteria,

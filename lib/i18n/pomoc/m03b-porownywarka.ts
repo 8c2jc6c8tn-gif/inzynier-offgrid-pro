@@ -317,6 +317,18 @@ export const pl = {
         gdzie: "Zaznacz pole przy przycisku „Odczytaj dane”.",
         zakres: "Bez zgody plik nie zostanie wysłany. Możesz zawsze wpisać liczby ręcznie.",
       },
+      bilPojemnosc: {
+        nazwa: "Pojemność użyteczna baterii [kWh]",
+        cel: "Od niej zależy, ile nadwyżki z południa przejdzie na wieczór i noc; 0 oznacza instalację bez baterii.",
+        gdzie: "Karta baterii („pojemność użyteczna”, nie nominalna) albo wynik ekranu „Dobór pojemności baterii”.",
+        zakres: "Liczba od 0 (bez baterii). Użyteczna jest mniejsza od nominalnej o głębokość rozładowania zalecaną przez producenta.",
+      },
+      bilSprawnosc: {
+        nazwa: "Sprawność cyklu baterii [%]",
+        cel: "Część energii, która po naładowaniu i rozładowaniu wraca z baterii; resztę zabierają straty. Bez niej liczę 100%, co zawyża wynik.",
+        gdzie: "Karta baterii: „sprawność cyklu”, „round-trip efficiency” albo „sprawność energetyczna”.",
+        zakres: "Liczba większa od 0 i najwyżej 100. Zostaw puste, jeśli karta jej nie podaje (wtedy 100% i ostrzeżenie w założeniach).",
+      },
       ofertaUwagi: {
         nazwa: "Uwagi do zestawienia",
         cel: "Własne zdania, które trafią na wydruk pod porównaniem (np. termin, warunki, co jest poza zestawieniem).",
@@ -796,6 +808,18 @@ export const en: Tlumaczenie<typeof pl> = {
         gdzie: "Tick the box next to the “Read the data” button.",
         zakres: "Without consent the file is not sent. You can always type the numbers by hand.",
       },
+      bilPojemnosc: {
+        nazwa: "Usable battery capacity [kWh]",
+        cel: "It decides how much of the midday surplus passes on to the evening and night; 0 means an installation without a battery.",
+        gdzie: "Battery datasheet (“usable capacity”, not nominal) or the result of the “Battery capacity sizing” screen.",
+        zakres: "A number from 0 (no battery). The usable capacity is lower than the nominal one by the depth of discharge the manufacturer recommends.",
+      },
+      bilSprawnosc: {
+        nazwa: "Battery cycle efficiency [%]",
+        cel: "The part of the energy that comes back from the battery after charging and discharging; the rest is lost. Without it I count 100%, which overstates the result.",
+        gdzie: "Battery datasheet: “cycle efficiency”, “round-trip efficiency” or “energy efficiency”.",
+        zakres: "A number greater than 0 and at most 100. Leave empty if the datasheet does not give it (then 100% and a warning in the assumptions).",
+      },
       ofertaUwagi: {
         nazwa: "Notes to the summary",
         cel: "Your own sentences printed under the comparison (e.g. the deadline, terms, what is outside the summary).",
@@ -1274,6 +1298,18 @@ export const ru: Tlumaczenie<typeof pl> = {
         cel: "Считывание делает помощник ИИ в облаке, поэтому файл покидает ваше устройство. Поэтому я спрашиваю согласие при каждом считывании.",
         gdzie: "Отметьте поле рядом с кнопкой «Считать данные».",
         zakres: "Без согласия файл не отправляется. Числа всегда можно ввести вручную.",
+      },
+      bilPojemnosc: {
+        nazwa: "Полезная ёмкость батареи [кВт·ч]",
+        cel: "От неё зависит, сколько дневного излишка перейдёт на вечер и ночь; 0 означает установку без батареи.",
+        gdzie: "Паспорт батареи («полезная ёмкость», а не номинальная) или результат экрана «Подбор ёмкости батареи».",
+        zakres: "Число от 0 (без батареи). Полезная ёмкость меньше номинальной на глубину разряда, рекомендуемую производителем.",
+      },
+      bilSprawnosc: {
+        nazwa: "КПД цикла батареи [%]",
+        cel: "Доля энергии, которая возвращается из батареи после заряда и разряда; остальное теряется. Без него я считаю 100%, что завышает результат.",
+        gdzie: "Паспорт батареи: «КПД цикла», «round-trip efficiency» или «энергетический КПД».",
+        zakres: "Число больше 0 и не больше 100. Оставьте пустым, если паспорт его не указывает (тогда 100% и предупреждение в допущениях).",
       },
       ofertaUwagi: {
         nazwa: "Примечания к сводке",

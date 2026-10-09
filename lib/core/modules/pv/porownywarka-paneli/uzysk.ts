@@ -86,8 +86,24 @@ export type ZakresModelu = { temperatura: boolean; slabeSwiatlo: boolean }
 export type EnergiaWgStref = { wszystkie: number[]; tania: number[] }
 
 /**
- * Energia jednego panelu w miesiącach [kWh]: P_STC · G_poa / 1000, a gdy `zakres` tego wymaga — z temperaturą ogniwa
- * (NOCT, γ) i sprawnością względną przy słabym świetle. `okna` (opcjonalnie) wydziela energię z godzin taniej strefy.
+ * Moc jednego panelu [W] w rekordzie TMY o nasłonecznieniu płaszczyzny `g` [W/m²] (0 przy `g <= 0`): P_STC · G/1000, a gdy `zakres`
+ * tego wymaga — z temperaturą ogniwa (NOCT, γ) i sprawnością względną przy słabym świetle. Jedno źródło wzoru dla energii miesięcznej
+ * i godzinowej, żeby bilans godzinowy sumował się do tych samych kWh.
+ */
+function mocRekorduW(p: DanePanelu, g: number, tempC: number | null, zakres: ZakresModelu): number {
+  if (g <= 0) return 0
+  let moc = (p.pmaxW * g) / G_STC_W_M2
+  if (zakres.temperatura && tempC !== null) {
+    const gamma = (p.gammaPctNaC ?? 0) / 100
+    const przyrostNoct = ((p.noctC ?? NOCT_T_OTOCZENIA_C) - NOCT_T_OTOCZENIA_C) / NOCT_G_W_M2
+    moc *= Math.max(0, 1 + gamma * (tempC + przyrostNoct * g - T_STC_C))
+  }
+  if (zakres.slabeSwiatlo) moc *= sprawnoscWzgledna(p, g)
+  return moc
+}
+
+/**
+ * Energia jednego panelu w miesiącach [kWh] (model mocy: `mocRekorduW`). `okna` (opcjonalnie) wydziela energię z godzin taniej strefy.
  */
 export function miesiecznaEnergiaWgStref(
   p: DanePanelu,
@@ -97,18 +113,11 @@ export function miesiecznaEnergiaWgStref(
 ): EnergiaWgStref {
   const sumyWh = new Array<number>(LICZBA_MIESIECY).fill(0)
   const taniaWh = new Array<number>(LICZBA_MIESIECY).fill(0)
-  const gamma = (p.gammaPctNaC ?? 0) / 100
-  const przyrostNoct = ((p.noctC ?? NOCT_T_OTOCZENIA_C) - NOCT_T_OTOCZENIA_C) / NOCT_G_W_M2
-  const zTemperatura = zakres.temperatura && profil.tempC !== null
   const tania = new Uint8Array(24)
   for (let h = 0; h < 24; h++) tania[h] = wOknieStrefy(h, okna) ? 1 : 0
   for (let i = 0; i < profil.gPoa.length; i++) {
-    const g = profil.gPoa[i]!
-    if (g <= 0) continue
-    let moc = (p.pmaxW * g) / G_STC_W_M2
-    if (zTemperatura) moc *= Math.max(0, 1 + gamma * (profil.tempC![i]! + przyrostNoct * g - T_STC_C))
-    if (zakres.slabeSwiatlo) moc *= sprawnoscWzgledna(p, g)
-    const wh = moc * KROK_GODZIN
+    const wh = mocRekorduW(p, profil.gPoa[i]!, profil.tempC ? profil.tempC[i]! : null, zakres) * KROK_GODZIN
+    if (wh === 0) continue
     sumyWh[profil.miesiac[i]!]! += wh
     if (tania[profil.godzinaLokalna[i]!]) taniaWh[profil.miesiac[i]!]! += wh
   }
@@ -118,4 +127,13 @@ export function miesiecznaEnergiaWgStref(
 /** Energia jednego panelu w miesiącach [kWh] (bez podziału na strefy). */
 export function miesiecznaEnergiaPanelu(p: DanePanelu, profil: ProfilNaslonecznienia, zakres: ZakresModelu): number[] {
   return miesiecznaEnergiaWgStref(p, profil, zakres).wszystkie
+}
+
+/** Energia jednego panelu w każdym rekordzie TMY [kWh] (A5: bilans godzinowy); suma po miesiącach = `miesiecznaEnergiaPanelu`. */
+export function godzinowaEnergiaPanelu(p: DanePanelu, profil: ProfilNaslonecznienia, zakres: ZakresModelu): Float64Array {
+  const wynik = new Float64Array(profil.gPoa.length)
+  for (let i = 0; i < wynik.length; i++) {
+    wynik[i] = (mocRekorduW(p, profil.gPoa[i]!, profil.tempC ? profil.tempC[i]! : null, zakres) * KROK_GODZIN) / W_NA_KW
+  }
+  return wynik
 }
