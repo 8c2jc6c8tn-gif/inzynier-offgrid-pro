@@ -251,6 +251,8 @@ reguły normatywne (np. zabezpieczenia stringów od określonej liczby gałęzi 
 `docs/zrodla/norma-HD-60364-7-712`, **nie z pamięci**. Zakaz mieszania różnych paneli w jednym stringu (ostrzeżenie).
 
 ### 8.2 Falownik / regulator (A4)
+> **Decyzja właściciela 09.10.2026:** w A4 powstaje mała baza popularnych falowników (ok. 10–15 modeli off-grid/hybrydowych, karta jako obraz, tylko pola potrzebne do doboru, bez cen); pełnej bazy nie budujemy. Lista modeli i karty PDF — od właściciela.
+
 Wejście: parametry falownika/regulatora (okno MPPT, max Voc, max Isc na wejście, liczba wejść, moc DC) — wpisywane albo z
 istniejących ekranów (`dopasowanie-tablicy-falownika`, `dobor-regulatora-pwm-mppt`). Wynik: ile paneli i w jakiej
 konfiguracji można podłączyć; co z nadmiarem (clipping — tylko informacja z istniejących wzorów).
