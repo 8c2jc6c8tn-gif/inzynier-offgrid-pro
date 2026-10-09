@@ -1156,3 +1156,7 @@ Status: 🔎 nowe
 Ekran z wieloma polami warto dać w dwóch trybach (prosty: kilka pytań i jedna rekomendacja po ludzku; pełny: wszystkie ustawienia) na tym samym szkicu, żeby przełączanie niczego nie gubiło. Pułapka: domyślny tryb wyliczany z zawartości szkicu („puste = prosty, są dane = pełny”) przeskakuje w trakcie wpisywania pierwszej liczby; wyliczenie trzeba wykonać raz przy pierwszym renderze szkicu i zapisać w nim. Rekomendacja trybu prostego ma być tabelą decyzyjną na liczbach, które ekran pełny też pokazuje (bez nowych wag), a przy sprzeczności kryteriów pokazywać kompromis zamiast wskazywać zwycięzcę.
 Status: 🔎 nowe
 
+## [09.10.2026] Numer wersji programu z regułą podbijania opartą na wpływie na liczby, plus test spójności z historią
+Dla aplikacji liczących twarde fakty numer wersji ma służyć do ustalenia, czy stary wynik jest jeszcze aktualny. Reguła: pierwsza cyfra = zmiana zasad liczenia albo formatu danych użytkownika; druga = nowa funkcja, nowe dane albo poprawka błędu zmieniającego wynik; trzecia = bez wpływu na liczby. Każdy wpis historii ma linię „Wpływ na liczby”, a test sprawdza, że `package.json` zgadza się z najnowszym wpisem (podbicie bez wpisu albo odwrotnie przestaje przechodzić). Sam skrót commita nie wystarcza: nie mówi, czy cokolwiek zmieniło się w liczbach.
+Status: 🔎 nowe
+
