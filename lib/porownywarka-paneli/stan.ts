@@ -94,6 +94,8 @@ export type FormularzStan = {
   ofertaDla?: string
   ofertaWykonawca?: string
   ofertaUwagi?: string
+  /** Profitability tab: add the device and accessories (tab "Inverter and accessories") to the panel price in payback and winter-kWh cost; absent = off. */
+  zwrotZOsprzetem?: boolean
   /** Offer versions A/B/C: the compared panel and a short label per slot (always three entries once edited); absent = the first three panels. */
   ofertaWersje?: WersjaOfertySeed[]
   /** Letter of the version marked "recommended" on the printout; empty or absent = none. */

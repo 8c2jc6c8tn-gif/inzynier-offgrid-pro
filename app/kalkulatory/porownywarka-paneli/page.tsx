@@ -5,6 +5,7 @@ import { useEffect, useMemo, useState } from "react"
 import { ElektrykaPaneli } from "@/components/porownywarka-paneli/elektryka"
 import { OfertaPaneli } from "@/components/porownywarka-paneli/oferta"
 import { podsumujUrzadzenie } from "@/lib/porownywarka-paneli/urzadzenie"
+import { zwrotyZOsprzetem } from "@/lib/porownywarka-paneli/zwrot-z-osprzetem"
 import { useDenominacja } from "@/lib/waluta/use-waluta"
 import { UrzadzenieIBos } from "@/components/porownywarka-paneli/urzadzenie-bos"
 import { wierszeWyniku } from "@/components/porownywarka-paneli/wiersze-wyniku"
@@ -237,10 +238,19 @@ export default function PorownywarkaPaneliPage() {
   const result = useMemo(() => calculatePorownywarkaPaneli(wejscie), [wejscie])
   const { kurs } = useDenominacja()
   /** The device and accessories summary goes onto the printed offer, so it is computed only while that tab is open. */
+  const zwrotZOsprzetem = stan.zwrotZOsprzetem === true
   const podsumowanie = useMemo(
-    () => (zakladka === "oferta" ? podsumujUrzadzenie({ stan, panele: result.value.panele, dane: wejscie.panele, kurs }) : null),
-    [zakladka, stan, result, wejscie, kurs],
+    () => (zakladka === "oferta" || (zakladka === "oplacalnosc" && zwrotZOsprzetem) ? podsumujUrzadzenie({ stan, panele: result.value.panele, dane: wejscie.panele, kurs }) : null),
+    [zakladka, zwrotZOsprzetem, stan, result, wejscie, kurs],
   )
+  /** Payback and winter-kWh cost with the device and accessories added (opt-in); `undefined` = the switch is off. */
+  const zwroty = useMemo(
+    () => (zwrotZOsprzetem ? zwrotyZOsprzetem(result.value.panele, podsumowanie?.panele ?? []) : undefined),
+    [zwrotZOsprzetem, result, podsumowanie],
+  )
+  const zwrotyDziala = zwroty !== undefined && [...zwroty.values()].some((z) => z !== null)
+  // The "without accessories" assumption would contradict the table once accessories are included.
+  const zalozenia = zwrotyDziala ? result.assumptions.map((a) => (typeof a !== "string" && a.kod === "PORP-ZAL-BEZ-BOS" ? { ...a, kod: "PORP-ZAL-Z-BOS" } : a)) : result.assumptions
 
   if (!wczytano) return <StanLadowania linie={6} />
 
@@ -1070,7 +1080,7 @@ export default function PorownywarkaPaneliPage() {
                       </tr>
                     </thead>
                     <tbody>
-                      {wierszeWyniku(t, waluta)
+                      {wierszeWyniku(t, waluta, zwroty)
                         .filter(([klucz]) => klucz !== "UI-PORP-UKLAD-RZEDOW" || v.panele.some((p) => p.rozmieszczenie !== null))
                         .map(([klucz, wartosc]) => (
                         <tr key={klucz} className="border-t">
@@ -1085,7 +1095,27 @@ export default function PorownywarkaPaneliPage() {
                     </tbody>
                   </table>
                 </div>
-                <p className="text-caption text-muted-foreground">{t(v.zUzytecznoscia ? "UI-PORP-OPLACALNOSC-NOTA-UZYT" : "UI-PORP-OPLACALNOSC-NOTA")}</p>
+                <p className="text-caption text-muted-foreground">
+                  {t(`UI-PORP-OPLACALNOSC-NOTA${v.zUzytecznoscia ? "-UZYT" : ""}${zwrotyDziala ? "-Z-OSPRZETEM" : ""}`)}
+                </p>
+                <div className="flex items-start gap-2">
+                  <div className="flex-1">
+                    <PoleCheckbox
+                      id="zwrot-z-osprzetem"
+                      label={t("UI-PORP-OSPRZET-WLACZ")}
+                      checked={zwrotZOsprzetem}
+                      onChange={(e) => ustaw("zwrotZOsprzetem", e.target.checked)}
+                    />
+                  </div>
+                  <PomocPola ekran="porownywarka-paneli" pole="zwrotZOsprzetem" />
+                </div>
+                {zwrotZOsprzetem && !podsumowanie && (
+                  <p role="status" className="rounded-md border border-werdykt-uwaga-border bg-werdykt-uwaga-bg p-3 text-small text-werdykt-uwaga-foreground">
+                    {t("UI-PORP-OSPRZET-BRAK-URZADZENIA")}
+                  </p>
+                )}
+                {zwrotyDziala && [...zwroty.values()].some((z) => z?.niepelny) && <p className="text-caption text-muted-foreground">{t("UI-PORP-OSPRZET-NIEPELNY")}</p>}
+                {zwrotyDziala && [...zwroty.values()].some((z) => z === null) && <p className="text-caption text-muted-foreground">{t("UI-PORP-OSPRZET-BRAK-WYNIKU")}</p>}
               </div>
             )}
 
@@ -1110,7 +1140,8 @@ export default function PorownywarkaPaneliPage() {
                   panele: v.panele,
                   wniosek: v.roznicaZimowa ? naglowekWyniku : "",
                   podsumowanie,
-                  zalozenia: result.assumptions,
+                  zalozenia,
+                  zwroty,
                   szerokosc: lokalizacja?.szerokosc ?? null,
                   dlugosc: lokalizacja?.dlugosc ?? null,
                   nachylenie: miejsce.nachylenie,
@@ -1397,7 +1428,7 @@ export default function PorownywarkaPaneliPage() {
 
             {zakladka === "zalozenia" && (
               <div className="rounded-lg border p-4 text-small">
-                <WynikSzczegoly assumptions={result.assumptions} formula={result.formula} formulaKey={result.formulaKey} formulaParams={result.formulaParams} />
+                <WynikSzczegoly assumptions={zalozenia} formula={result.formula} formulaKey={result.formulaKey} formulaParams={result.formulaParams} />
               </div>
             )}
 

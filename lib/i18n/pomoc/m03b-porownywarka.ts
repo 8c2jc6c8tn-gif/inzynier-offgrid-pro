@@ -263,6 +263,12 @@ export const pl = {
         gdzie: "Twoja firma albo imię i nazwisko.",
         zakres: "Opcjonalnie; puste = linia nie pojawia się na wydruku.",
       },
+      zwrotZOsprzetem: {
+        nazwa: "Wliczenie urządzenia i osprzętu",
+        cel: "Dolicza do ceny paneli wybrane urządzenie (jeśli wpisano jego cenę) i orientacyjny osprzęt z zakładki „Falownik i osprzęt”, żeby okres zwrotu i koszt zimowej kWh pokazywały cenę całej instalacji DC, a nie samych paneli.",
+        gdzie: "Włącz po wybraniu urządzenia w zakładce „Falownik i osprzęt”. Wynik jest zakresem, bo cennik osprzętu jest zakresem cen; montaż i podłączenie nie są wliczone.",
+        zakres: "Domyślnie wyłączone; bez wybranego urządzenia nie ma co doliczyć.",
+      },
       ofertaUwagi: {
         nazwa: "Uwagi do zestawienia",
         cel: "Własne zdania, które trafią na wydruk pod porównaniem (np. termin, warunki, co jest poza zestawieniem).",
@@ -688,6 +694,12 @@ export const en: Tlumaczenie<typeof pl> = {
         gdzie: "Your company or your name.",
         zakres: "Optional; empty = the line does not appear on the printout.",
       },
+      zwrotZOsprzetem: {
+        nazwa: "Including the device and accessories",
+        cel: "Adds to the panel price the chosen device (if its price was typed) and the rough accessories from the “Inverter and accessories” tab, so the payback and the cost of a winter kWh show the price of the whole DC installation, not of the panels alone.",
+        gdzie: "Turn on after choosing a device in the “Inverter and accessories” tab. The result is a range because the accessory price list is a range of prices; installation and connection are not included.",
+        zakres: "Off by default; without a chosen device there is nothing to add.",
+      },
       ofertaUwagi: {
         nazwa: "Notes to the summary",
         cel: "Your own sentences printed under the comparison (e.g. the deadline, terms, what is outside the summary).",
@@ -1112,6 +1124,12 @@ export const ru: Tlumaczenie<typeof pl> = {
         cel: "Текст, печатаемый в шапке сводки; показывает, кто подготовил сравнение.",
         gdzie: "Ваша компания или ваше имя.",
         zakres: "Необязательно; пусто = строка в печати не появляется.",
+      },
+      zwrotZOsprzetem: {
+        nazwa: "Учёт устройства и комплектующих",
+        cel: "Добавляет к цене панелей выбранное устройство (если указана его цена) и ориентировочные комплектующие из вкладки «Инвертор и комплектующие», чтобы срок окупаемости и стоимость зимнего кВт·ч отражали цену всей DC-установки, а не одних панелей.",
+        gdzie: "Включите после выбора устройства во вкладке «Инвертор и комплектующие». Результат — диапазон, потому что прайс-лист комплектующих задаёт диапазон цен; монтаж и подключение не включены.",
+        zakres: "По умолчанию выключено; без выбранного устройства добавлять нечего.",
       },
       ofertaUwagi: {
         nazwa: "Примечания к сводке",

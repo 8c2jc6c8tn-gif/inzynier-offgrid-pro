@@ -15,6 +15,7 @@ import { linieKontaktuFirmy, PROFIL_FIRMY_PUSTY, type ProfilFirmy } from "@/lib/
 import { useLanguage, useTranslate } from "@/lib/i18n/language-context"
 import { LITERY_WERSJI, slotyWersji, wersjeOferty, type WersjaOferty } from "@/lib/porownywarka-paneli/oferta"
 import type { FormularzStan } from "@/lib/porownywarka-paneli/stan"
+import type { ZwrotZOsprzetem } from "@/lib/porownywarka-paneli/zwrot-z-osprzetem"
 import { wersjaZeZnacznikiem } from "@/lib/wersja"
 import type { PodsumowanieUrzadzenia } from "@/lib/porownywarka-paneli/urzadzenie"
 import { PozycjeBos } from "./urzadzenie-bos"
@@ -28,6 +29,7 @@ const WIERSZE_OFERTY = [
   "UI-PORP-ZIMA-KWH",
   "UI-PORP-ROK-KWH",
   "UI-PORP-CENA-RAZEM",
+  "UI-PORP-CENA-Z-OSPRZETEM",
   "UI-PORP-CENA-ZA-WP",
   "UI-PORP-WARTOSC-ROK",
   "UI-PORP-ZWROT",
@@ -54,6 +56,8 @@ export type DaneOferty = {
   waluta: string
   /** ISO time the weather data were downloaded (traceability stamp); `null` when the data carry no such time. */
   pogodaPobrano: string | null
+  /** Payback and winter-kWh cost with accessories (the switch in "Profitability"); `undefined` = the switch is off. */
+  zwroty: ReadonlyMap<string, ZwrotZOsprzetem | null> | undefined
 }
 
 /**
@@ -176,7 +180,7 @@ function ArkuszOferty({ dane, stan, firma, wersje }: PropsArkusza) {
   const t = useTranslate()
   const jezyk = useLanguage()
   const panele = wersje.map((w) => w.panel)
-  const wiersze = wierszeWyniku(t, dane.waluta).filter(([klucz, wartosc]) => WIERSZE_OFERTY.includes(klucz) && panele.some((x) => wartosc(x) !== null))
+  const wiersze = wierszeWyniku(t, dane.waluta, dane.zwroty).filter(([klucz, wartosc]) => WIERSZE_OFERTY.includes(klucz) && panele.some((x) => wartosc(x) !== null))
   const dla = (stan.ofertaDla ?? "").trim()
   const wykonawca = (stan.ofertaWykonawca ?? "").trim()
   const uwagi = (stan.ofertaUwagi ?? "").trim()
