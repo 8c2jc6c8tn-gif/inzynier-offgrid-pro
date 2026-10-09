@@ -299,6 +299,24 @@ export const pl = {
         gdzie: "Opis przy pozycji w karcie („test load”, „współczynnik bezpieczeństwa 1,5”). Gdy karta wprost mówi o wartości obliczeniowej (design load), wybierz „wartość obliczeniowa”.",
         zakres: "Gdy nie masz pewności, zostaw „wartość testowa” — to ostrożniejsze założenie.",
       },
+      ocrPodpowiedz: {
+        nazwa: "O jaki panel chodzi (podpowiedź dla odczytu)",
+        cel: "Karta katalogowa ma zwykle kilka kolumn z różną mocą; po tej podpowiedzi asystent wybiera właściwą kolumnę i sprawdza, czy plik dotyczy tego panelu.",
+        gdzie: "Wpisz tak, jak jest na naklejce albo w nagłówku karty: producent, model i moc w watach.",
+        zakres: "Do 200 znaków. Bez mocy w podpowiedzi, przy karcie z kilkoma kolumnami, moc i napięcia zostaną nieodczytane.",
+      },
+      ocrPlik: {
+        nazwa: "Zdjęcie naklejki albo karta katalogowa (PDF)",
+        cel: "Z tego pliku asystent AI przepisuje liczby panelu; do formularza trafiają dopiero po Twoim zatwierdzeniu.",
+        gdzie: "Naklejka jest z tyłu panelu; kartę katalogową zwykle da się pobrać ze strony producenta albo dostać od sprzedawcy.",
+        zakres: "JPEG, PNG, WebP lub PDF, do 3,5 MB (większe zdjęcie z telefonu zmniejszę przed wysłaniem). Zdjęcie ostre, w całości, bez odblasków.",
+      },
+      ocrZgoda: {
+        nazwa: "Zgoda na wysłanie pliku do AI",
+        cel: "Odczyt robi asystent AI w chmurze, więc plik opuszcza Twoje urządzenie. Dlatego pytam o zgodę przy każdym odczycie.",
+        gdzie: "Zaznacz pole przy przycisku „Odczytaj dane”.",
+        zakres: "Bez zgody plik nie zostanie wysłany. Możesz zawsze wpisać liczby ręcznie.",
+      },
       ofertaUwagi: {
         nazwa: "Uwagi do zestawienia",
         cel: "Własne zdania, które trafią na wydruk pod porównaniem (np. termin, warunki, co jest poza zestawieniem).",
@@ -760,6 +778,24 @@ export const en: Tlumaczenie<typeof pl> = {
         gdzie: "The note next to the row (“test load”, “safety factor 1.5”). When the datasheet explicitly says design load, choose “design value”.",
         zakres: "When unsure, leave “test value” — it is the more cautious assumption.",
       },
+      ocrPodpowiedz: {
+        nazwa: "Which panel it is (hint for the reading)",
+        cel: "A datasheet usually has several columns with different power; with this hint the assistant picks the right column and checks whether the file is about this panel.",
+        gdzie: "Type it as on the label or in the datasheet header: manufacturer, model and power in watts.",
+        zakres: "Up to 200 characters. Without the power in the hint, on a datasheet with several columns, power and voltages are left unread.",
+      },
+      ocrPlik: {
+        nazwa: "Photo of the label or the datasheet (PDF)",
+        cel: "The AI assistant copies the panel's numbers from this file; they go into the form only after you approve them.",
+        gdzie: "The label is on the back of the panel; the datasheet can usually be downloaded from the manufacturer's site or obtained from the seller.",
+        zakres: "JPEG, PNG, WebP or PDF, up to 3.5 MB (I shrink a larger phone photo before sending). A sharp photo, whole, without glare.",
+      },
+      ocrZgoda: {
+        nazwa: "Consent to send the file to the AI",
+        cel: "The reading is done by an AI assistant in the cloud, so the file leaves your device. That is why I ask for consent every time.",
+        gdzie: "Tick the box next to the “Read the data” button.",
+        zakres: "Without consent the file is not sent. You can always type the numbers by hand.",
+      },
       ofertaUwagi: {
         nazwa: "Notes to the summary",
         cel: "Your own sentences printed under the comparison (e.g. the deadline, terms, what is outside the summary).",
@@ -1220,6 +1256,24 @@ export const ru: Tlumaczenie<typeof pl> = {
         cel: "В паспортах обычно указано испытательное значение (испытание IEC 61215); расчётную несущую способность я получаю, деля его на 1,5.",
         gdzie: "Пометка рядом со строкой («test load», «коэффициент безопасности 1,5»). Если в паспорте прямо сказано о расчётном значении (design load), выберите «расчётное значение».",
         zakres: "Если не уверены, оставьте «испытательное значение» — это более осторожное допущение.",
+      },
+      ocrPodpowiedz: {
+        nazwa: "О какой панели речь (подсказка для считывания)",
+        cel: "В паспорте обычно несколько столбцов с разной мощностью; по этой подсказке помощник выбирает нужный столбец и проверяет, что файл относится к этой панели.",
+        gdzie: "Впишите как на наклейке или в заголовке паспорта: производитель, модель и мощность в ваттах.",
+        zakres: "До 200 символов. Если мощность не указана, а в паспорте несколько столбцов, мощность и напряжения останутся несчитанными.",
+      },
+      ocrPlik: {
+        nazwa: "Фото наклейки или паспорт (PDF)",
+        cel: "Из этого файла помощник ИИ переписывает числа панели; в форму они попадают только после вашего подтверждения.",
+        gdzie: "Наклейка находится на обратной стороне панели; паспорт обычно можно скачать на сайте производителя или получить у продавца.",
+        zakres: "JPEG, PNG, WebP или PDF, до 3,5 МБ (большое фото с телефона я уменьшу перед отправкой). Фото чёткое, целиком, без бликов.",
+      },
+      ocrZgoda: {
+        nazwa: "Согласие на отправку файла в ИИ",
+        cel: "Считывание делает помощник ИИ в облаке, поэтому файл покидает ваше устройство. Поэтому я спрашиваю согласие при каждом считывании.",
+        gdzie: "Отметьте поле рядом с кнопкой «Считать данные».",
+        zakres: "Без согласия файл не отправляется. Числа всегда можно ввести вручную.",
       },
       ofertaUwagi: {
         nazwa: "Примечания к сводке",

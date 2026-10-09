@@ -4,6 +4,7 @@ import Link from "next/link"
 import { useEffect, useMemo, useState } from "react"
 import { ElektrykaPaneli } from "@/components/porownywarka-paneli/elektryka"
 import { ObciazeniaPaneli } from "@/components/porownywarka-paneli/obciazenia"
+import { OdczytKarty } from "@/components/porownywarka-paneli/odczyt-karty"
 import { OfertaPaneli } from "@/components/porownywarka-paneli/oferta"
 import { PrzelacznikTrybu, PytaniaProste, WerdyktProstyKarta } from "@/components/porownywarka-paneli/tryb-prosty"
 import { podsumujUrzadzenie } from "@/lib/porownywarka-paneli/urzadzenie"
@@ -814,6 +815,7 @@ export default function PorownywarkaPaneliPage() {
               </div>
               <PomocPola ekran="porownywarka-paneli" pole="bifacjalny" />
             </div>
+            {p.katalogId === "" && <OdczytKarty idPanelu={p.id} nazwaPanelu={p.nazwa} onZastosuj={(poprawka) => ustawPanel(p.id, poprawka)} />}
             {p.katalogId === "" && (
               <details className="rounded-md border p-3">
                 <summary className="cursor-pointer text-small font-medium">{t("UI-PORP-ELE-RECZNE-TYTUL")}</summary>
