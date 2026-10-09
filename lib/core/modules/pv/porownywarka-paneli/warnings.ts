@@ -91,3 +91,19 @@ export function elektrykaNiespojnaPorp(nazwa: string, vmpImpW: number, pmaxW: nu
     "elektryka",
   )
 }
+
+/** Spec 32: the design load on the panel (Eurocode snow and wind) exceeds its design resistance from the datasheet. A warning, not a hard stop: the resistance rests on the test-to-design factor assumption. */
+export function obciazeniePrzekraczaNosnoscPorp(nazwa: string, wykorzystaniePct: number): Warning {
+  return ostrzezenie(
+    "PORP-OBC-PRZEKROCZONE",
+    "warning",
+    `„${nazwa}”: obciążenie obliczeniowe (Eurokod) to ${wykorzystaniePct.toFixed(0)}% nośności obliczeniowej panelu z karty`,
+    { nazwa, wykorzystanie: Math.round(wykorzystaniePct) },
+    "obciazenie",
+  )
+}
+
+/** Spec 32: the panel's datasheet gives no mechanical load rating — the Eurocode load is shown without a comparison. */
+export function obciazenieBrakNosnosciPorp(nazwa: string): Warning {
+  return ostrzezenie("PORP-OBC-BRAK-NOSNOSCI", "info", `panel „${nazwa}” bez nośności mechanicznej z karty — obciążenie pokazane bez porównania`, { nazwa }, "obciazenie")
+}

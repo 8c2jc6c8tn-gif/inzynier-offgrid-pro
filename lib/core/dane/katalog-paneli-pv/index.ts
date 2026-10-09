@@ -6,6 +6,7 @@
  */
 import type { DanePanelu } from "@/lib/core/modules/pv/porownywarka-paneli/input"
 import { elektrykaPanelu } from "./elektryka"
+import { obciazenieWpisu } from "./obciazenia"
 
 export type PozycjaKatalogu = Omit<DanePanelu, "cenaBruttoZl"> & {
   /** Producent i seria/model do wyboru kaskadowego na ekranie (producent → seria → moc). */
@@ -556,8 +557,8 @@ const KATALOG_BEZ_ELEKTRYKI: readonly PozycjaKatalogu[] = [
   ...[500, 505, 510, 515, 520].map(hyundaiHit),
 ]
 
-/** Katalog z danymi elektrycznymi z tabel STC kart (A3) dołączonymi po identyfikatorze wpisu. */
-export const KATALOG_PANELI_PV: readonly PozycjaKatalogu[] = KATALOG_BEZ_ELEKTRYKI.map((p) => ({ ...p, elektryka: elektrykaPanelu(p.id) }))
+/** Katalog z danymi elektrycznymi z tabel STC kart (A3) i obciążeniem mechanicznym z kart (spec 32) dołączonymi po identyfikatorze wpisu. */
+export const KATALOG_PANELI_PV: readonly PozycjaKatalogu[] = KATALOG_BEZ_ELEKTRYKI.map((p) => ({ ...p, elektryka: elektrykaPanelu(p.id), obciazenie: obciazenieWpisu(p.id, p.odpowiednik !== undefined) }))
 
 export function znajdzPanelKatalogu(id: string): PozycjaKatalogu | undefined {
   return KATALOG_PANELI_PV.find((p) => p.id === id)

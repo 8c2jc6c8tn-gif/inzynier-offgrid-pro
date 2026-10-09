@@ -96,3 +96,48 @@ export function cfOdrywaniaWiaty(katDeg: number, phi: number): number | null {
 export function silaWiatruN(cscd: number, cf: number, qpPa: number, powierzchniaM2: number): number {
   return cscd * cf * qpPa * powierzchniaM2
 }
+
+/**
+ * Tablica 7.6 — wiaty jednospadowe, współczynniki ciśnienia netto cp,net (pola A, B, C — maksymalne ciśnienie lokalne ze wszystkich
+ * kierunków wiatru, 7.3 (5): do elementów pokrycia i łączników). Skan zweryfikowany wizualnie (`01-tresc-ocr.txt`, strona 56).
+ * ⚠️ Poprawka PN-EN 1991-1-4:2008/AC:2009: α = 10°, pole A, minimum φ = 1: −2,1 → **−1,6** (skan jej nie zawiera) — użyta wartość poprawiona.
+ * Znak + = obciążenie netto ku dołowi (docisk), − = ku górze (odrywanie). Zakres normy: 0–30°, węzły co 5°.
+ */
+type CpNetPola = { A: number; B: number; C: number }
+const CP_NET_WIATA_JEDNOSPADOWA: readonly { katDeg: number; maks: CpNetPola; minPhi0: CpNetPola; minPhi1: CpNetPola }[] = [
+  { katDeg: 0, maks: { A: 0.5, B: 1.8, C: 1.1 }, minPhi0: { A: -0.6, B: -1.3, C: -1.4 }, minPhi1: { A: -1.5, B: -1.8, C: -2.2 } },
+  { katDeg: 5, maks: { A: 0.8, B: 2.1, C: 1.3 }, minPhi0: { A: -1.1, B: -1.7, C: -1.8 }, minPhi1: { A: -1.6, B: -2.2, C: -2.5 } },
+  { katDeg: 10, maks: { A: 1.2, B: 2.4, C: 1.6 }, minPhi0: { A: -1.5, B: -2.0, C: -2.1 }, minPhi1: { A: -1.6, B: -2.6, C: -2.7 } },
+  { katDeg: 15, maks: { A: 1.4, B: 2.7, C: 1.8 }, minPhi0: { A: -1.8, B: -2.4, C: -2.5 }, minPhi1: { A: -1.6, B: -2.9, C: -3.0 } },
+  { katDeg: 20, maks: { A: 1.7, B: 2.9, C: 2.1 }, minPhi0: { A: -2.2, B: -2.8, C: -2.9 }, minPhi1: { A: -1.6, B: -2.9, C: -3.0 } },
+  { katDeg: 25, maks: { A: 2.0, B: 3.1, C: 2.3 }, minPhi0: { A: -2.6, B: -3.2, C: -3.2 }, minPhi1: { A: -1.5, B: -2.5, C: -2.8 } },
+  { katDeg: 30, maks: { A: 2.2, B: 3.2, C: 2.4 }, minPhi0: { A: -3.0, B: -3.8, C: -3.6 }, minPhi1: { A: -1.5, B: -2.2, C: -2.7 } },
+]
+
+/** Współczynniki ciśnienia netto wiaty jednospadowej do oceny panelu: docisk (+) i odrywanie (wartość bezwzględna), pole środkowe A i krawędziowe B/C. */
+export type CpNetWiaty = {
+  dociskSrodek: number
+  dociskKrawedz: number
+  odrywanieSrodek: number
+  odrywanieKrawedz: number
+}
+
+/**
+ * cp,net wiaty jednospadowej dla kąta α, najbardziej niekorzystny z przypadków: (1) między węzłami tablicy — gorszy z dwóch sąsiednich węzłów
+ * (jak `cfOdrywaniaWiaty`: norma nie mówi o interpolacji po α; zachowawczo); (2) współczynnik blokowania φ — gorszy z φ = 0 i φ = 1 (norma dopuszcza
+ * wartości pośrednie, więc skrajne ograniczają; nie wiemy, co jest pod konstrukcją); (3) „krawędź” = gorsze z pól B i C. α poza 0–30° → `null` (norma nie podaje).
+ */
+export function cpNetWiatyJednospadowej(katDeg: number): CpNetWiaty | null {
+  if (!Number.isFinite(katDeg) || katDeg < 0 || katDeg > CF_WIATA_MAX_KAT_DEG) return null
+  const dolny = Math.floor(katDeg / CF_WIATA_KROK_DEG)
+  const gorny = Math.ceil(katDeg / CF_WIATA_KROK_DEG)
+  const wezly = [...new Set([dolny, gorny])].map((i) => CP_NET_WIATA_JEDNOSPADOWA[i]!)
+  const maks = (f: (w: (typeof wezly)[number]) => number) => Math.max(...wezly.map(f))
+  const odrywanie = (pole: keyof CpNetPola) => maks((w) => Math.max(Math.abs(w.minPhi0[pole]), Math.abs(w.minPhi1[pole])))
+  return {
+    dociskSrodek: maks((w) => w.maks.A),
+    dociskKrawedz: maks((w) => Math.max(w.maks.B, w.maks.C)),
+    odrywanieSrodek: odrywanie("A"),
+    odrywanieKrawedz: Math.max(odrywanie("B"), odrywanie("C")),
+  }
+}

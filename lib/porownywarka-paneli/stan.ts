@@ -6,7 +6,9 @@
 import { znajdzPanelKatalogu, type PozycjaKatalogu } from "@/lib/core/dane/katalog-paneli-pv"
 import type { BosId } from "@/lib/core/dane/cennik-bos"
 import { PRZYKLADOWE_OKNA_TANIE_G12 } from "@/lib/core/modules/pv/porownywarka-paneli/constants"
-import type { DaneElektryczne, DanePanelu, KryteriaWybor, OknoStrefy, PorownywarkaInput, WycenaKwh, WymiaryMiejsca } from "@/lib/core/modules/pv/porownywarka-paneli/input"
+import type { EkspozycjaTerenu, StrefaSniegowa } from "@/lib/core/modules/pv/eurokod-1/snieg"
+import type { KategoriaTerenu, StrefaWiatrowa } from "@/lib/core/modules/pv/eurokod-1/wiatr"
+import type { DaneElektryczne, DanePanelu, KryteriaWybor, ObciazeniePaneluKarta, OknoStrefy, PorownywarkaInput, WarunkiObciazen, WycenaKwh, WymiaryMiejsca } from "@/lib/core/modules/pv/porownywarka-paneli/input"
 import { domyslnyWyborKryteriow } from "@/lib/core/modules/pv/porownywarka-paneli/kryteria"
 import type { ZapisTmy } from "@/lib/lokalizacja/dane-tmy"
 import { liczba } from "@/lib/lokalizacja/model-dzialki"
@@ -41,6 +43,29 @@ export type PanelSeed = {
   betaVoc?: string
   maxV?: string
   maxBezp?: string
+  /** Hand-typed mechanical load rating from the datasheet [Pa] (front, back) and its kind; used only while `katalogId` is empty. Drafts saved before spec 32 have no keys. */
+  obcPrzod?: string
+  obcTyl?: string
+  obcRodzaj?: ObciazeniePaneluKarta["rodzaj"]
+}
+
+/** Snow and wind conditions of the site for the "Loads" tab (spec 32), as form texts; drafts saved before have no key (= all empty). */
+export type ObciazeniaSeed = {
+  strefaSniegowa: string
+  strefaWiatrowa: string
+  wysokoscNpm: string
+  kategoriaTerenu: string
+  wysokoscKonstrukcji: string
+  ekspozycjaSniegu: EkspozycjaTerenu
+}
+
+export const OBCIAZENIA_PUSTE: ObciazeniaSeed = {
+  strefaSniegowa: "",
+  strefaWiatrowa: "",
+  wysokoscNpm: "",
+  kategoriaTerenu: "",
+  wysokoscKonstrukcji: "",
+  ekspozycjaSniegu: "normalny",
 }
 
 /** Miejsce instalacji (U19): własna nazwa, kąty (z projektu albo wpisane), liczba paneli albo wymiary miejsca. */
@@ -75,6 +100,8 @@ export type FormularzStan = {
   uzyjZuzycia: boolean
   /** Najniższa temperatura powietrza w miejscu [°C] do napięcia stringów zimą (A3); puste = nie podano. Szkice sprzed A3 nie mają klucza. */
   tmin?: string
+  /** Snow and wind conditions for the "Loads" tab (spec 32). */
+  obc?: ObciazeniaSeed
   /**
    * Inverter / MPPT controller / micro-inverter chosen from the device catalogue for the "Inverter and accessories" tab (A4); empty = none.
    * The fields below belong to that tab; drafts saved before A4 have no keys.
@@ -140,6 +167,9 @@ export const PANEL_PUSTY = (id: string): PanelSeed => ({
   betaVoc: "",
   maxV: "",
   maxBezp: "",
+  obcPrzod: "",
+  obcTyl: "",
+  obcRodzaj: "testowe",
 })
 
 export const MIEJSCE_PUSTE = (id: string): MiejsceSeed => ({
@@ -283,6 +313,16 @@ export function elektrykaRecznaZPanelu(p: PanelSeed): DaneElektryczne | null {
   return { vocV: voc, vmpV: vmp, iscA: isc, impA: imp, betaVocPctNaC: beta, maxNapieciaSystemuV: maxV, maxBezpiecznikSzeregowyA: liczba(p.maxBezp ?? "") ?? null }
 }
 
+/**
+ * Mechanical load rating typed by hand for a panel outside the catalogue: the front value is required, the back value optional
+ * (`null` = the card does not give it); nothing is completed from a "typical" panel.
+ */
+export function obciazenieRecznePanelu(p: PanelSeed): ObciazeniePaneluKarta | null {
+  const przod = liczba(p.obcPrzod ?? "")
+  if (przod === undefined) return null
+  return { przodPa: przod, tylPa: liczba(p.obcTyl ?? "") ?? null, rodzaj: p.obcRodzaj ?? "testowe" }
+}
+
 export function panelDoSilnika(p: PanelSeed, nazwaDomyslna: string): DanePanelu | null {
   const moc = liczba(p.moc)
   if (moc === undefined) return null
@@ -302,7 +342,26 @@ export function panelDoSilnika(p: PanelSeed, nazwaDomyslna: string): DanePanelu 
     bifacjalny: p.bifacjalny,
     // Electrical data come only from the catalogue card; a hand-edited datasheet number clears `katalogId`, so they never outlive a changed panel.
     elektryka: p.katalogId === "" ? elektrykaRecznaZPanelu(p) : (znajdzPanelKatalogu(p.katalogId)?.elektryka ?? null),
+    obciazenie: p.katalogId === "" ? obciazenieRecznePanelu(p) : (znajdzPanelKatalogu(p.katalogId)?.obciazenie ?? null),
   }
+}
+
+/** Snow and wind conditions from the form texts; `null` when nothing was typed (the tab shows only the prompt). */
+export function warunkiObciazenZFormularza(o: ObciazeniaSeed | undefined, montaz: WarunkiObciazen["montaz"]): WarunkiObciazen | null {
+  if (!o) return null
+  const strefaS = liczba(o.strefaSniegowa)
+  const strefaW = liczba(o.strefaWiatrowa)
+  const warunki: WarunkiObciazen = {
+    strefaSniegowa: strefaS === undefined ? null : (strefaS as StrefaSniegowa),
+    strefaWiatrowa: strefaW === undefined ? null : (strefaW as StrefaWiatrowa),
+    wysokoscNpmM: liczba(o.wysokoscNpm) ?? null,
+    kategoriaTerenu: o.kategoriaTerenu === "" ? null : (o.kategoriaTerenu as KategoriaTerenu),
+    wysokoscKonstrukcjiM: liczba(o.wysokoscKonstrukcji) ?? null,
+    ekspozycjaSniegu: o.ekspozycjaSniegu,
+    montaz,
+  }
+  const cokolwiek = warunki.strefaSniegowa !== null || warunki.strefaWiatrowa !== null || warunki.wysokoscNpmM !== null || warunki.kategoriaTerenu !== null || warunki.wysokoscKonstrukcjiM !== null
+  return cokolwiek ? warunki : null
 }
 
 export function budujWejscie(a: {
@@ -349,6 +408,7 @@ export function budujWejscie(a: {
     wymiaryMiejsca: wymiaryZMiejsca(m),
     zapotrzebowanieMiesiaceKwh: stan.uzyjZuzycia ? zuzycie : null,
     tminC: liczba(stan.tmin ?? "") ?? null,
+    obciazenia: warunkiObciazenZFormularza(stan.obc, m.montaz),
     panele,
     wycena,
     kryteria: stan.kryteria,
