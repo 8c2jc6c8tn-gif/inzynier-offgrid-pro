@@ -50,6 +50,7 @@ inna interpretacja tego wiersza nie ma sensu fizycznego).
 | Maksymalne napięcie układu | 1500V DC |
 | Temperatura pracy | −40°C ~ +85°C |
 | Maks. prąd znamionowy bezpiecznika (połączenia szeregowe) | 30A |
+| Maks. obciążenie statyczne przód / tył (dopisane 09.10.2026 z obrazu karty, ramka „Warunki pracy”) | 5400 Pa (112 lb/ft²) / 2400 Pa (50 lb/ft²) |
 | NOCT | 45±2°C |
 | Klasa bezpieczeństwa | Class II |
 | Odporność na ogień | UL Typ 29 / klasa C |

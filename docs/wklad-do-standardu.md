@@ -1160,3 +1160,7 @@ Status: 🔎 nowe
 Dla aplikacji liczących twarde fakty numer wersji ma służyć do ustalenia, czy stary wynik jest jeszcze aktualny. Reguła: pierwsza cyfra = zmiana zasad liczenia albo formatu danych użytkownika; druga = nowa funkcja, nowe dane albo poprawka błędu zmieniającego wynik; trzecia = bez wpływu na liczby. Każdy wpis historii ma linię „Wpływ na liczby”, a test sprawdza, że `package.json` zgadza się z najnowszym wpisem (podbicie bez wpisu albo odwrotnie przestaje przechodzić). Sam skrót commita nie wystarcza: nie mówi, czy cokolwiek zmieniło się w liczbach.
 Status: 🔎 nowe
 
+## [09.10.2026] Dane z kart katalogowych: test „każda liczba występuje w transkrypcji karty” i jawne założenie przy porównaniu z normą
+Gdy katalog danych jest przepisywany z kart, test może sprawdzać, że każda liczba wpisu występuje w tekście transkrypcji karty (wzorzec z granicami cyfr). W jednym przebiegu wychwycił on dwie karty, których transkrypcja nie zawierała wiersza z obciążeniem mechanicznym, choć obraz karty go miał — a tym samym uniemożliwił zaufanie liczbie „z serii”. Druga rzecz: porównując wartość z karty z wartością z normy (obciążenie testowe a obliczeniowe), trzeba przy wyniku pokazać, co jest czyje i skąd współczynnik przeliczenia; gdy współczynnik wynika tylko z jednej karty, a dla reszty jest założeniem, ostrzeżenie o przekroczeniu zostaje poziomem niższym niż twardy stop do decyzji właściciela.
+Status: 🔎 nowe
+

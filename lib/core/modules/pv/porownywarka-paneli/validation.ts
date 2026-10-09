@@ -1,5 +1,5 @@
 import type { Warning } from "@/lib/core/calc-result"
-import { MAKS_PANELI_W_ZESTAWIE, NOCT_T_OTOCZENIA_C, TMIN_ZAKRES_C } from "./constants"
+import { MAKS_PANELI_W_ZESTAWIE, NOCT_T_OTOCZENIA_C, TMIN_ZAKRES_C, WYSOKOSC_KONSTRUKCJI_ZAKRES_M, WYSOKOSC_NPM_ZAKRES_M } from "./constants"
 import type { PorownywarkaInput } from "./input"
 import { porpPozaZakresem, wartoscUjemnaPorp, zaDuzoPanelowPorp } from "./warnings"
 
@@ -38,6 +38,17 @@ export function validateInput(input: PorownywarkaInput): { errors: Warning[] } {
   if (input.tminC !== undefined && input.tminC !== null && !(Number.isFinite(input.tminC) && input.tminC >= TMIN_ZAKRES_C[0] && input.tminC <= TMIN_ZAKRES_C[1])) {
     errors.push(porpPozaZakresem("PORP-TMIN-POZA-ZAKRESEM", "tminC", input.tminC, `${TMIN_ZAKRES_C[0]}…${TMIN_ZAKRES_C[1]} °C`))
   }
+  const obc = input.obciazenia
+  if (obc) {
+    const [npmMin, npmMax] = WYSOKOSC_NPM_ZAKRES_M
+    if (obc.wysokoscNpmM !== null && !(Number.isFinite(obc.wysokoscNpmM) && obc.wysokoscNpmM >= npmMin && obc.wysokoscNpmM <= npmMax)) {
+      errors.push(porpPozaZakresem("PORP-WYSOKOSC-NPM-POZA-ZAKRESEM", "wysokoscNpmM", obc.wysokoscNpmM, `${npmMin}…${npmMax} m`))
+    }
+    const [hMin, hMax] = WYSOKOSC_KONSTRUKCJI_ZAKRES_M
+    if (obc.wysokoscKonstrukcjiM !== null && !(Number.isFinite(obc.wysokoscKonstrukcjiM) && obc.wysokoscKonstrukcjiM >= hMin && obc.wysokoscKonstrukcjiM <= hMax)) {
+      errors.push(porpPozaZakresem("PORP-WYSOKOSC-KONSTRUKCJI-POZA-ZAKRESEM", "wysokoscKonstrukcjiM", obc.wysokoscKonstrukcjiM, `${hMin}…${hMax} m`))
+    }
+  }
   const zap = input.zapotrzebowanieMiesiaceKwh
   if (zap) {
     if (zap.length !== 12) errors.push(porpPozaZakresem("PORP-ZAPOTRZEBOWANIE-POZA-ZAKRESEM", "zapotrzebowanieMiesiaceKwh", zap.length, "12 liczb >= 0"))
@@ -56,6 +67,11 @@ export function validateInput(input: PorownywarkaInput): { errors: Warning[] } {
     for (const [pole, v] of nieujemne) if (v !== null && !nieujemna(v)) errors.push(wartoscUjemnaPorp(pole, v))
     if (p.sprawnoscWzglednaPrzy200WPct !== null && !(p.sprawnoscWzglednaPrzy200WPct > 0 && p.sprawnoscWzglednaPrzy200WPct <= 100)) {
       errors.push(porpPozaZakresem("PORP-SPRAWNOSC-200-POZA-ZAKRESEM", "sprawnoscWzglednaPrzy200WPct", p.sprawnoscWzglednaPrzy200WPct, "(0–100] %"))
+    }
+    const ob = p.obciazenie
+    if (ob) {
+      const liczby: [string, number | null | undefined][] = [["przodPa", ob.przodPa], ["tylPa", ob.tylPa], ["wiatrPrzodPa", ob.wiatrPrzodPa]]
+      for (const [pole, v] of liczby) if (v !== null && v !== undefined && !(Number.isFinite(v) && v > 0)) errors.push(porpPozaZakresem("PORP-OBCIAZENIE-PANELU-POZA-ZAKRESEM", pole, v, "> 0 Pa"))
     }
     const el = p.elektryka
     if (el) {

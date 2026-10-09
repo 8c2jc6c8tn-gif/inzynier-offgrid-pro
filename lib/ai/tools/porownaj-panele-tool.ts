@@ -7,7 +7,7 @@ import { z } from "zod"
 import { pobierzTmy } from "@/lib/adapters/pvgis/tmy"
 import { MAKS_PANELI_W_ZESTAWIE } from "@/lib/core/modules/pv/porownywarka-paneli/constants"
 import { calculatePorownywarkaPaneli } from "@/lib/core/modules/pv/porownywarka-paneli/calculator"
-import type { DanePanelu } from "@/lib/core/modules/pv/porownywarka-paneli/input"
+import type { DanePanelu, WarunkiObciazen } from "@/lib/core/modules/pv/porownywarka-paneli/input"
 import { domyslnyWyborKryteriow } from "@/lib/core/modules/pv/porownywarka-paneli/kryteria"
 import { KOMUNIKAT_PVGIS } from "@/lib/lokalizacja/dane-tmy"
 import type { AiToolDefinition } from "../types"
@@ -38,6 +38,15 @@ const Panel = z.object({
     })
     .optional()
     .describe("Dane elektryczne z karty (wszystkie z karty, nie zgaduj) — razem z tminC pozwalają ocenić stringi"),
+  obciazenie: z
+    .object({
+      przodPa: z.number().describe("Maks. obciążenie statyczne od przodu z karty [Pa]"),
+      tylPa: z.number().optional().describe("Maks. obciążenie od tyłu z karty [Pa]; pomiń, jeśli karta go nie podaje"),
+      wiatrPrzodPa: z.number().optional().describe("Tylko gdy karta podaje osobno niższą wartość dla wiatru od przodu niż dla śniegu (np. śnieg 5400, wiatr 4000)"),
+      rodzaj: z.enum(["testowe", "obliczeniowe"]).describe("testowe = wartość z badania IEC 61215 (obliczeniowa to 1/1,5 tej liczby); obliczeniowe = karta wprost mówi o wartości obliczeniowej. Gdy karta tego nie rozstrzyga, wybierz testowe"),
+    })
+    .optional()
+    .describe("Obciążenie mechaniczne z karty (nie zgaduj) — razem z obciazenia pozwala porównać panel z Eurokodem"),
 })
 
 const WymiaryMiejsca = z.object({
@@ -49,6 +58,16 @@ const WymiaryMiejsca = z.object({
     .describe("rownolegly = panele leżą w płaszczyźnie dachu/ściany; pochylony-na-konstrukcji = grunt/płaski dach: ustawię rzędy w odstępie bez cienia w oknie godzin i z tego policzę sztuki"),
   oknoOdH: z.number().optional().describe("Montaż pochylony: początek okna bez cienia [godz. czasu słonecznego, 21 grudnia]; podaj razem z oknoDoH, bez nich okno domyślne 9–15 (praktyka, nie norma — zapytaj usera)"),
   oknoDoH: z.number().optional().describe("Montaż pochylony: koniec okna bez cienia [godz. czasu słonecznego]"),
+})
+
+const Obciazenia = z.object({
+  strefaSniegowa: z.number().int().min(1).max(5).optional().describe("Strefa obciążenia śniegiem gruntu 1–5 (mapa NB.1) — tylko od usera, aplikacja nie wyznacza stref z lokalizacji"),
+  strefaWiatrowa: z.number().int().min(1).max(3).optional().describe("Strefa wiatrowa 1–3 (rysunek NA.1) — tylko od usera"),
+  wysokoscNpmM: z.number().optional().describe("Wysokość miejsca nad poziomem morza [m]"),
+  kategoriaTerenu: z.enum(["0", "I", "II", "III", "IV"]).optional().describe("Kategoria terenu wokół (0 morze … IV miasto) — do wiatru"),
+  wysokoscKonstrukcjiM: z.number().optional().describe("Wysokość górnej krawędzi paneli nad gruntem [m] — do wiatru"),
+  ekspozycjaSniegu: z.enum(["wystawiony", "normalny", "osloniety"]).optional().describe("Otoczenie pod kątem zwiewania śniegu; bez podania „normalny”"),
+  montaz: z.enum(["rownolegly", "pochylony-na-konstrukcji"]).describe("Wiatr liczę tylko dla paneli pochylonych na konstrukcji (0–30°); równoległe do połaci/ściany — tylko śnieg"),
 })
 
 export const PorownajPaneleToolInput = z.object({
@@ -63,6 +82,7 @@ export const PorownajPaneleToolInput = z.object({
     .describe("Liczba paneli na miejscu — ta sama dla każdego porównywanego modelu; bez niej podaj wymiaryMiejsca i wymiary paneli, a policzę, ile sztuk każdego modelu się zmieści"),
   tminC: z.number().optional().describe("Najniższa temperatura powietrza w miejscu [°C] do napięcia stringów zimą — tylko od usera (rok typowy z PVGIS nie jest temperaturą projektową), dopytaj"),
   wymiaryMiejsca: WymiaryMiejsca.optional().describe("Wymiary miejsca montażu — tylko od usera, nie zgaduj"),
+  obciazenia: Obciazenia.optional().describe("Warunki śniegu i wiatru miejsca do porównania obciążenia z nośnością paneli z karty (Eurokod) — tylko od usera"),
   zuzycieMiesieczneKwh: z
     .array(z.number())
     .length(12)
@@ -109,6 +129,21 @@ export const PorownajPaneleToolOutput = z.object({
         })
         .nullable()
         .describe("Równe układy stringów mieszczące się w limicie napięcia panelu; null bez danych elektrycznych albo bez tminC. Bez falownika nie wskazuję najlepszego układu — okno MPPT i Voc wejścia sprawdza kolejny etap"),
+      obciazenia: z
+        .object({
+          ciezarWlasnyPa: z.number().nullable().describe("Ciężar własny panelu prostopadle do powierzchni [Pa]; null bez masy lub wymiarów"),
+          oceny: z.array(
+            z.object({
+              sytuacja: z.enum(["docisk", "docisk-srodek", "docisk-krawedz", "odrywanie-srodek", "odrywanie-krawedz"]),
+              edPa: z.number().describe("Obciążenie obliczeniowe wg Eurokodu (STR, wzór 6.10) [Pa]"),
+              rdPa: z.number().nullable().describe("Nośność obliczeniowa z karty [Pa] (testowa ÷ 1,5); null bez karty"),
+              wykorzystaniePct: z.number().nullable(),
+              przekroczone: z.boolean().nullable(),
+            }),
+          ),
+        })
+        .nullable()
+        .describe("Porównanie z Eurokodem; null bez warunków miejsca. To nie projekt konstrukcji — nie sprawdza stelaża ani dachu"),
       zimaKwh: z.number().describe("Energia zimą XI–II [kWh] dla podanej liczby paneli"),
       rokKwh: z.number(),
       uzytecznaRokKwh: z.number().nullable().describe("Energia wykorzystana w roku [kWh]; null bez zużycia"),
@@ -120,6 +155,13 @@ export const PorownajPaneleToolOutput = z.object({
   wykluczone: z
     .array(z.object({ nazwa: z.string(), brakuje: z.array(z.enum(["gamma", "noct"])) }))
     .describe("Panele wykluczone z porównania, bo karta nie podaje γ albo NOCT, a inne panele je mają (nie ma ich w `panele`); wpisz brakującą wartość z karty"),
+  obciazeniaMiejsca: z
+    .object({
+      sniegNaPaneluPa: z.number().nullable().describe("Śnieg prostopadle do panelu s·cos²α [Pa]; null bez strefy albo wysokości"),
+      wiatrQpPa: z.number().nullable().describe("Szczytowe ciśnienie wiatru q_p [Pa]; null, gdy wiatru nie policzono"),
+      powodBrakuWiatru: z.enum(["brak-danych", "montaz-rownolegly", "kat-poza-zakresem"]).nullable(),
+    })
+    .nullable(),
   liderZimowyNazwa: z.string().nullable(),
   przewagaZimowaKwh: z.number().nullable().describe("O ile kWh lider zimowy wyprzedza drugi panel"),
   przewagaZimowaZl: z.number().nullable().describe("Wartość tej przewagi w zł rocznie przy podanej wartości kWh"),
@@ -136,6 +178,7 @@ export type PorownajPaneleToolOutputT = z.infer<typeof PorownajPaneleToolOutput>
 const PUSTY = {
   panele: [],
   wykluczone: [],
+  obciazeniaMiejsca: null,
   liderZimowyNazwa: null,
   przewagaZimowaKwh: null,
   przewagaZimowaZl: null,
@@ -156,6 +199,7 @@ export function utworzPorownajPaneleTool(
       "Liczbę paneli podaje user albo wynika z wymiarów miejsca (wtedy każdy model ma własną liczbę sztuk); z miesięcznym zużyciem wycenia tylko energię wykorzystaną. " +
       "Przy taryfie dwustrefowej (G12) wycenia energię z godzin taniej strefy po cenie nocnej. " +
       "Z danymi elektrycznymi z karty i najniższą temperaturą miejsca ocenia też napięcie stringów zimą, limit paneli w szeregu i ochronę stringów. " +
+      "Z obciążeniem mechanicznym z karty i warunkami miejsca (strefa śniegowa i wiatrowa, wysokość, teren) porównuje obciążenie śniegiem i wiatrem wg Eurokodu z nośnością panelu. " +
       "Użyj, gdy user waha się między dwoma lub więcej modelami paneli, pyta, który panel da więcej zimą, albo ile paneli wolno połączyć w jednym stringu.",
     inputSchema: PorownajPaneleToolInput,
     outputSchema: PorownajPaneleToolOutput,
@@ -192,7 +236,9 @@ export function utworzPorownajPaneleTool(
         masaKg: p.masaKg ?? null,
         bifacjalny: p.bifacjalny ?? false,
         elektryka: p.elektryka ? { ...p.elektryka, maxBezpiecznikSzeregowyA: p.elektryka.maxBezpiecznikSzeregowyA ?? null } : null,
+        obciazenie: p.obciazenie ? { ...p.obciazenie, tylPa: p.obciazenie.tylPa ?? null } : null,
       }))
+      const o = input.obciazenia
       const wynik = calculatePorownywarkaPaneli({
         szerokoscGeograficzna: input.szerokoscGeograficzna,
         dlugoscGeograficzna: input.dlugoscGeograficzna,
@@ -202,6 +248,17 @@ export function utworzPorownajPaneleTool(
         wymiaryMiejsca: input.wymiaryMiejsca ?? null,
         zapotrzebowanieMiesiaceKwh: input.zuzycieMiesieczneKwh ?? null,
         tminC: input.tminC ?? null,
+        obciazenia: o
+          ? {
+              strefaSniegowa: (o.strefaSniegowa ?? null) as WarunkiObciazen["strefaSniegowa"],
+              strefaWiatrowa: (o.strefaWiatrowa ?? null) as WarunkiObciazen["strefaWiatrowa"],
+              wysokoscNpmM: o.wysokoscNpmM ?? null,
+              kategoriaTerenu: o.kategoriaTerenu ?? null,
+              wysokoscKonstrukcjiM: o.wysokoscKonstrukcjiM ?? null,
+              ekspozycjaSniegu: o.ekspozycjaSniegu ?? "normalny",
+              montaz: o.montaz,
+            }
+          : null,
         panele,
         wycena: strefowa
           ? { rodzaj: "dzienNoc", zlKwhDzien: input.cenaDzienZlKwh!, zlKwhNoc: input.cenaNocZlKwh!, oknaTanie: input.oknaTanie! }
@@ -235,6 +292,13 @@ export function utworzPorownajPaneleTool(
                     alternatywaKablowa: w.ochrona === null ? null : w.ochrona.alternatywaKablowa,
                   })),
                 },
+          obciazenia:
+            p.obciazenia === null
+              ? null
+              : {
+                  ciezarWlasnyPa: p.obciazenia.ciezarWlasnyPa,
+                  oceny: p.obciazenia.oceny.map((x) => ({ sytuacja: x.sytuacja, edPa: x.edPa, rdPa: x.rdPa, wykorzystaniePct: x.wykorzystaniePct, przekroczone: x.przekroczone })),
+                },
           zimaKwh: p.zimaKwh,
           rokKwh: p.rokKwh,
           uzytecznaRokKwh: p.uzytecznaRokKwh,
@@ -243,6 +307,9 @@ export function utworzPorownajPaneleTool(
           gwiazdki: v.gwiazdki[i] ?? null,
         })),
         wykluczone: v.wykluczone.map((w) => ({ nazwa: w.nazwa, brakuje: w.brakuje })),
+        obciazeniaMiejsca: v.obciazeniaMiejsca
+          ? { sniegNaPaneluPa: v.obciazeniaMiejsca.snieg?.sNormalnaPa ?? null, wiatrQpPa: v.obciazeniaMiejsca.wiatr?.qpPa ?? null, powodBrakuWiatru: v.obciazeniaMiejsca.powodBrakuWiatru }
+          : null,
         liderZimowyNazwa: roznica ? (v.panele.find((p) => p.id === roznica.liderId)?.nazwa ?? null) : null,
         przewagaZimowaKwh: roznica?.roznicaKwh ?? null,
         przewagaZimowaZl: roznica?.roznicaZl ?? null,

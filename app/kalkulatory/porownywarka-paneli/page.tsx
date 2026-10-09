@@ -3,6 +3,7 @@
 import Link from "next/link"
 import { useEffect, useMemo, useState } from "react"
 import { ElektrykaPaneli } from "@/components/porownywarka-paneli/elektryka"
+import { ObciazeniaPaneli } from "@/components/porownywarka-paneli/obciazenia"
 import { OfertaPaneli } from "@/components/porownywarka-paneli/oferta"
 import { PrzelacznikTrybu, PytaniaProste, WerdyktProstyKarta } from "@/components/porownywarka-paneli/tryb-prosty"
 import { podsumujUrzadzenie } from "@/lib/porownywarka-paneli/urzadzenie"
@@ -42,6 +43,7 @@ import {
   KWOTY,
   MIEJSCE_PUSTE,
   migrujStarySzkic,
+  OBCIAZENIA_PUSTE,
   PANEL_PUSTY,
   seedZDanych,
   seedZKatalogu,
@@ -58,8 +60,8 @@ const f0 = (x: number) => x.toLocaleString("pl-PL", { maximumFractionDigits: 0 }
 const f1 = (x: number) => x.toLocaleString("pl-PL", { maximumFractionDigits: 1 })
 const f2 = (x: number) => x.toLocaleString("pl-PL", { maximumFractionDigits: 2 })
 
-type Zakladka = "miesiace" | "oplacalnosc" | "elektryka" | "urzadzenie" | "oferta" | "wiecej" | "nadwyzka" | "miejsca" | "gwiazdki" | "zalozenia"
-const ZAKLADKI: Zakladka[] = ["miesiace", "oplacalnosc", "elektryka", "urzadzenie", "oferta", "wiecej", "nadwyzka", "miejsca", "gwiazdki", "zalozenia"]
+type Zakladka = "miesiace" | "oplacalnosc" | "elektryka" | "obciazenia" | "urzadzenie" | "oferta" | "wiecej" | "nadwyzka" | "miejsca" | "gwiazdki" | "zalozenia"
+const ZAKLADKI: Zakladka[] = ["miesiace", "oplacalnosc", "elektryka", "obciazenia", "urzadzenie", "oferta", "wiecej", "nadwyzka", "miejsca", "gwiazdki", "zalozenia"]
 
 /** Name suggestions for an installation place (U19) — translated keys, offered through a datalist. */
 const PODPOWIEDZI_MIEJSC = ["UI-PORP-MIEJSCE-POD-1", "UI-PORP-MIEJSCE-POD-2", "UI-PORP-MIEJSCE-POD-3", "UI-PORP-MIEJSCE-POD-4", "UI-PORP-MIEJSCE-POD-5", "UI-PORP-MIEJSCE-POD-6", "UI-PORP-MIEJSCE-POD-7", "UI-PORP-MIEJSCE-POD-8"]
@@ -67,6 +69,7 @@ const ETYKIETY_ZAKLADEK: Record<Zakladka, string> = {
   miesiace: "UI-PORP-TAB-MIESIACE",
   oplacalnosc: "UI-PORP-TAB-OPLACALNOSC",
   elektryka: "UI-PORP-TAB-ELEKTRYKA",
+  obciazenia: "UI-PORP-TAB-OBCIAZENIA",
   urzadzenie: "UI-PORP-TAB-URZADZENIE",
   oferta: "UI-PORP-TAB-OFERTA",
   wiecej: "UI-PORP-TAB-WIECEJ",
@@ -842,6 +845,47 @@ export default function PorownywarkaPaneliPage() {
                 </div>
               </details>
             )}
+            {p.katalogId === "" && (
+              <details className="rounded-md border p-3">
+                <summary className="cursor-pointer text-small font-medium">{t("UI-PORP-OBC-RECZNE-TYTUL")}</summary>
+                <p className="mt-2 text-caption text-muted-foreground">{t("UI-PORP-OBC-RECZNE-OPIS")}</p>
+                <div className="mt-3 grid grid-cols-2 gap-3">
+                  <Pole
+                    label={t("UI-PORP-OBC-F-PRZOD")}
+                    unit="Pa"
+                    type="number"
+                    inputMode="decimal"
+                    min={0}
+                    step="any"
+                    value={p.obcPrzod ?? ""}
+                    onChange={(e) => ustawPanel(p.id, { obcPrzod: e.target.value })}
+                    pomoc={<PomocPola ekran="porownywarka-paneli" pole="obcPrzod" />}
+                  />
+                  <Pole
+                    label={t("UI-PORP-OBC-F-TYL")}
+                    unit="Pa"
+                    type="number"
+                    inputMode="decimal"
+                    min={0}
+                    step="any"
+                    value={p.obcTyl ?? ""}
+                    onChange={(e) => ustawPanel(p.id, { obcTyl: e.target.value })}
+                    pomoc={<PomocPola ekran="porownywarka-paneli" pole="obcTyl" />}
+                  />
+                </div>
+                <div className="mt-3">
+                  <PoleSelect
+                    label={t("UI-PORP-OBC-F-RODZAJ")}
+                    value={p.obcRodzaj ?? "testowe"}
+                    onChange={(e) => ustawPanel(p.id, { obcRodzaj: e.target.value as PanelSeed["obcRodzaj"] })}
+                    pomoc={<PomocPola ekran="porownywarka-paneli" pole="obcRodzaj" />}
+                  >
+                    <option value="testowe">{t("UI-PORP-OBC-RODZAJ-TESTOWE")}</option>
+                    <option value="obliczeniowe">{t("UI-PORP-OBC-RODZAJ-OBLICZENIOWE")}</option>
+                  </PoleSelect>
+                </div>
+              </details>
+            )}
             {stan.panele.length > 1 && (
               <Button
                 variant="outline"
@@ -1170,6 +1214,17 @@ export default function PorownywarkaPaneliPage() {
                 onTmin={(w) => ustaw("tmin", w)}
                 tmyMinC={tmyMinC}
                 brakTmin={wejscie.tminC == null && wejscie.panele.some((x) => x.elektryka)}
+              />
+            )}
+
+            {zakladka === "obciazenia" && (
+              <ObciazeniaPaneli
+                panele={v.panele}
+                miejsce={v.obciazeniaMiejsca}
+                obc={stan.obc ?? OBCIAZENIA_PUSTE}
+                onObc={(zmiana) => setStan((prev) => ({ ...prev, obc: { ...(prev.obc ?? OBCIAZENIA_PUSTE), ...zmiana } }))}
+                wysokoscPodpowiedz={dane?.dane.meta.wysokoscNpmM}
+                nachylenieDeg={wejscie.miejsce?.nachylenieDeg ?? null}
               />
             )}
 

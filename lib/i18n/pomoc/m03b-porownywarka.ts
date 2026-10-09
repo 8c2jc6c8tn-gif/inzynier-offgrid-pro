@@ -275,6 +275,30 @@ export const pl = {
         gdzie: "Kompas w telefonie albo mapa: w którą stronę patrzy przód panelu (dla dachu: w którą stronę opada połać).",
         zakres: "Osiem kierunków co 45°. Inny azymut ustawisz w trybie pełnym.",
       },
+      obcWysokoscPaneli: {
+        nazwa: "Wysokość górnej krawędzi paneli nad gruntem [m]",
+        cel: "Wiatr jest tym silniejszy, im wyżej stoją panele; z tej wysokości liczę szczytowe ciśnienie wiatru.",
+        gdzie: "Zmierz od gruntu do górnej krawędzi paneli. Panele na dachu: wysokość kalenicy lub attyki plus wysokość stelaża.",
+        zakres: "Liczba od 0,1 do 200 m. Bez niej nie policzę wiatru (śnieg liczę bez niej).",
+      },
+      obcPrzod: {
+        nazwa: "Obciążenie mechaniczne od przodu [Pa]",
+        cel: "Z tej liczby wynika, ile śniegu i wiatru panel wytrzyma od strony ogniw; porównuję ją z obciążeniem z Eurokodu.",
+        gdzie: "Karta katalogowa, wiersz „maksymalne obciążenie statyczne” lub „mechanical load”, wartość „przód / front”.",
+        zakres: "Liczba większa od zera (typowo 2400–5400 Pa). Bez niej pokażę tylko obciążenie, bez oceny.",
+      },
+      obcTyl: {
+        nazwa: "Obciążenie mechaniczne od tyłu [Pa]",
+        cel: "Dotyczy odrywania wiatrem (ssanie od tyłu); bywa niższe niż od przodu.",
+        gdzie: "Karta katalogowa, ta sama pozycja co obciążenie od przodu, wartość „tył / back / rear”.",
+        zakres: "Opcjonalnie. Gdy karta go nie podaje, zostaw puste — odrywania nie ocenię.",
+      },
+      obcRodzaj: {
+        nazwa: "Rodzaj wartości na karcie",
+        cel: "Karty podają zwykle wartość testową (badanie IEC 61215); nośność obliczeniową dostaję, dzieląc ją przez 1,5.",
+        gdzie: "Opis przy pozycji w karcie („test load”, „współczynnik bezpieczeństwa 1,5”). Gdy karta wprost mówi o wartości obliczeniowej (design load), wybierz „wartość obliczeniowa”.",
+        zakres: "Gdy nie masz pewności, zostaw „wartość testowa” — to ostrożniejsze założenie.",
+      },
       ofertaUwagi: {
         nazwa: "Uwagi do zestawienia",
         cel: "Własne zdania, które trafią na wydruk pod porównaniem (np. termin, warunki, co jest poza zestawieniem).",
@@ -712,6 +736,30 @@ export const en: Tlumaczenie<typeof pl> = {
         gdzie: "A compass on the phone or a map: which way the front of the panel faces (for a roof: which way the slope falls).",
         zakres: "Eight directions every 45°. You can set another azimuth in the full mode.",
       },
+      obcWysokoscPaneli: {
+        nazwa: "Height of the top edge of the panels above the ground [m]",
+        cel: "The higher the panels stand, the stronger the wind; I compute the peak wind pressure from this height.",
+        gdzie: "Measure from the ground to the top edge of the panels. Panels on a roof: the ridge or parapet height plus the height of the frame.",
+        zakres: "A number from 0.1 to 200 m. Without it I cannot compute wind (snow does not need it).",
+      },
+      obcPrzod: {
+        nazwa: "Mechanical load on the front [Pa]",
+        cel: "This number says how much snow and wind the panel withstands from the cell side; I compare it with the Eurocode load.",
+        gdzie: "Datasheet, the row “maximum static load” or “mechanical load”, the “front” value.",
+        zakres: "A number greater than zero (typically 2400–5400 Pa). Without it I show only the load, without an assessment.",
+      },
+      obcTyl: {
+        nazwa: "Mechanical load on the back [Pa]",
+        cel: "Applies to wind uplift (suction from behind); it is often lower than on the front.",
+        gdzie: "Datasheet, the same row as the front load, the “back / rear” value.",
+        zakres: "Optional. If the datasheet does not give it, leave it empty — I will not assess uplift.",
+      },
+      obcRodzaj: {
+        nazwa: "Kind of value on the datasheet",
+        cel: "Datasheets usually give a test value (IEC 61215 test); I get the design resistance by dividing it by 1.5.",
+        gdzie: "The note next to the row (“test load”, “safety factor 1.5”). When the datasheet explicitly says design load, choose “design value”.",
+        zakres: "When unsure, leave “test value” — it is the more cautious assumption.",
+      },
       ofertaUwagi: {
         nazwa: "Notes to the summary",
         cel: "Your own sentences printed under the comparison (e.g. the deadline, terms, what is outside the summary).",
@@ -1148,6 +1196,30 @@ export const ru: Tlumaczenie<typeof pl> = {
         cel: "Вы выбираете направление вместо ввода азимута в градусах; приложение переводит его в азимут (север 0°, восток 90°, юг 180°, запад 270°). Юг даёт больше всего энергии зимой.",
         gdzie: "Компас в телефоне или карта: куда смотрит лицевая сторона панели (для крыши: в какую сторону опускается скат).",
         zakres: "Восемь направлений через 45°. Другой азимут можно задать в полном режиме.",
+      },
+      obcWysokoscPaneli: {
+        nazwa: "Высота верхнего края панелей над землёй [м]",
+        cel: "Чем выше стоят панели, тем сильнее ветер; по этой высоте я считаю пиковое давление ветра.",
+        gdzie: "Измерьте от земли до верхнего края панелей. Панели на крыше: высота конька или парапета плюс высота каркаса.",
+        zakres: "Число от 0,1 до 200 м. Без него ветер не посчитать (снегу оно не нужно).",
+      },
+      obcPrzod: {
+        nazwa: "Механическая нагрузка спереди [Па]",
+        cel: "Это число показывает, какой снег и ветер выдержит панель со стороны ячеек; я сравниваю его с нагрузкой по Еврокоду.",
+        gdzie: "Паспорт, строка «максимальная статическая нагрузка» или «mechanical load», значение «спереди / front».",
+        zakres: "Число больше нуля (обычно 2400–5400 Па). Без него покажу только нагрузку, без оценки.",
+      },
+      obcTyl: {
+        nazwa: "Механическая нагрузка сзади [Па]",
+        cel: "Относится к отрыву ветром (разрежение сзади); часто ниже, чем спереди.",
+        gdzie: "Паспорт, та же строка, что и нагрузка спереди, значение «сзади / back / rear».",
+        zakres: "Необязательно. Если в паспорте нет, оставьте пустым — отрыв не оценю.",
+      },
+      obcRodzaj: {
+        nazwa: "Вид значения в паспорте",
+        cel: "В паспортах обычно указано испытательное значение (испытание IEC 61215); расчётную несущую способность я получаю, деля его на 1,5.",
+        gdzie: "Пометка рядом со строкой («test load», «коэффициент безопасности 1,5»). Если в паспорте прямо сказано о расчётном значении (design load), выберите «расчётное значение».",
+        zakres: "Если не уверены, оставьте «испытательное значение» — это более осторожное допущение.",
       },
       ofertaUwagi: {
         nazwa: "Примечания к сводке",

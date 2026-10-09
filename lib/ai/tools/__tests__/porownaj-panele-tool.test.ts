@@ -190,6 +190,22 @@ describe("porownajPaneleTool (M3, D81)", () => {
     expect(bez.ostrzezenia.some((x) => x.includes("temperatur"))).toBe(true)
   })
 
+  it("obciążenia: panel z kartą 5400/2400 Pa i warunki miejsca dają oceny wg Eurokodu (te same liczby co silnik) oraz podsumowanie śniegu i wiatru", async () => {
+    const panele = [{ nazwa: "Panel A", pmaxW: 450, dlugoscMm: 1762, szerokoscMm: 1134, masaKg: 22, obciazenie: { przodPa: 5400, tylPa: 2400, rodzaj: "testowe" as const } }]
+    const obciazenia = { strefaSniegowa: 3, strefaWiatrowa: 1, wysokoscNpmM: 300, kategoriaTerenu: "II" as const, wysokoscKonstrukcjiM: 5, montaz: "pochylony-na-konstrukcji" as const }
+    const z = await utworzPorownajPaneleTool(fetchZ(odpowiedzPvgis(true))).handler({ ...wejscie, nachylenieDeg: 30, liczbaPaneli: 4, panele, obciazenia })
+    const o = z.panele[0]!.obciazenia!
+    expect(o.oceny.map((x) => x.sytuacja)).toEqual(["docisk-srodek", "docisk-krawedz", "odrywanie-srodek", "odrywanie-krawedz"])
+    expect(o.oceny[0]!.edPa).toBeCloseTo(2594.28, 1)
+    expect(o.oceny[3]).toMatchObject({ przekroczone: true })
+    expect(z.obciazeniaMiejsca!.sniegNaPaneluPa).toBeCloseTo(720, 6)
+    expect(z.obciazeniaMiejsca!.wiatrQpPa).toBeCloseTo(584.254, 3)
+    expect(z.ostrzezenia.some((x) => x.includes("Eurokod"))).toBe(true)
+    const bez = await utworzPorownajPaneleTool(fetchZ(odpowiedzPvgis(true))).handler({ ...wejscie, nachylenieDeg: 30, liczbaPaneli: 4, panele })
+    expect(bez.panele[0]!.obciazenia).toBeNull()
+    expect(bez.obciazeniaMiejsca).toBeNull()
+  })
+
   it("PVGIS odrzuca → INCOMPLETE z komunikatem", async () => {
     const zly = (async () => new Response("location over the sea", { status: 400 })) as unknown as typeof fetch
     const w = await utworzPorownajPaneleTool(zly).handler(wejscie)

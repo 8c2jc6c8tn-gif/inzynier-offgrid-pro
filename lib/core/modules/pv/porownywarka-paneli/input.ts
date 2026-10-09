@@ -4,6 +4,8 @@
  * Zakres A1: parametry potrzebne silnikowi uzysku, wyceny i gwiazdek. Wymiary, masa i dane elektryczne dojdą w A2/A3.
  */
 import type { RekordGodzinowy } from "@/lib/core/modules/lokalizacja/orientacja-powierzchni/input"
+import type { EkspozycjaTerenu, StrefaSniegowa } from "@/lib/core/modules/pv/eurokod-1/snieg"
+import type { KategoriaTerenu, StrefaWiatrowa } from "@/lib/core/modules/pv/eurokod-1/wiatr"
 import type { KryteriumId } from "./constants"
 
 /**
@@ -25,6 +27,38 @@ export type DaneElektryczne = {
   maxNapieciaSystemuV: number
   /** Maksymalny prąd bezpiecznika szeregowego z karty (I_MOD_MAX_OCPR) [A]; `null` = karta nie podaje. */
   maxBezpiecznikSzeregowyA: number | null
+}
+
+/**
+ * Maksymalne obciążenie mechaniczne panelu z karty [Pa] (statyczne, prostopadle do powierzchni). `rodzaj`: „testowe” = wartość badana wg
+ * IEC 61215 (obliczeniowa to 1/1,5 tej liczby — tak podaje karta JA Solar JAM54D40 LR: 3600/1600 Pa przy współczynniku bezpieczeństwa 1,5, czyli
+ * 5400/2400 Pa testowe); „obliczeniowe” = karta podaje już wartość obliczeniową. Brak liczby na karcie = brak obiektu (`null`), nigdy „typowa” wartość.
+ */
+export type ObciazeniePaneluKarta = {
+  /** Od strony przedniej (docisk: śnieg, nawietrzna strona wiatru) [Pa]. */
+  przodPa: number
+  /** Od strony tylnej (odrywanie: ssanie wiatru) [Pa]; `null` = karta nie podaje. */
+  tylPa: number | null
+  /** Gdy karta podaje osobno niższą wartość dla wiatru od przodu niż dla śniegu (Trina: śnieg 5400, wiatr 4000) [Pa]; brak = jak `przodPa`. */
+  wiatrPrzodPa?: number | null
+  rodzaj: "testowe" | "obliczeniowe"
+}
+
+/**
+ * Warunki obciążenia śniegiem i wiatrem miejsca (Eurokod 1: PN-EN 1991-1-3 i 1991-1-4 z załącznikami krajowymi). Strefy i wysokość wpisuje użytkownik
+ * (aplikacja nie wyznacza stref z mapy). `null` = nie wpisano; brak pola wyłącza tylko to, co od niego zależy (śnieg albo wiatr).
+ */
+export type WarunkiObciazen = {
+  strefaSniegowa: StrefaSniegowa | null
+  strefaWiatrowa: StrefaWiatrowa | null
+  /** Wysokość miejsca nad poziomem morza [m] — dla stref obu norm i ψ0 śniegu. */
+  wysokoscNpmM: number | null
+  kategoriaTerenu: KategoriaTerenu | null
+  /** Wysokość górnej krawędzi paneli nad gruntem [m] (wysokość odniesienia wiatru ze = h, 7.3 (8)). */
+  wysokoscKonstrukcjiM: number | null
+  ekspozycjaSniegu: EkspozycjaTerenu
+  /** Wiatr wg Tablicy 7.6 (wiata jednospadowa) dotyczy tylko paneli pochylonych na konstrukcji; panele równoległe do połaci/ściany — poza zakresem. */
+  montaz: "rownolegly" | "pochylony-na-konstrukcji"
 }
 
 export type DanePanelu = {
@@ -54,6 +88,8 @@ export type DanePanelu = {
   bifacjalny: boolean
   /** Dane elektryczne w STC (A3); brak pola albo `null` = nie wpisano / karta nie podaje → bez oceny napięć i stringów. */
   elektryka?: DaneElektryczne | null
+  /** Obciążenie mechaniczne z karty (spec 32); brak pola albo `null` = karta nie podaje → bez porównania z Eurokodem. */
+  obciazenie?: ObciazeniePaneluKarta | null
 }
 
 export type MiejsceInput = {
@@ -114,6 +150,8 @@ export type PorownywarkaInput = {
   panele: DanePanelu[]
   /** Najniższa temperatura powietrza w miejscu [°C] do napięcia stringów zimą (A3); wpisuje użytkownik (TMY nie jest temperaturą projektową); `null` = nie podano. */
   tminC?: number | null
+  /** Warunki obciążenia śniegiem i wiatrem do porównania z nośnością paneli (spec 32); brak albo `null` = nie wpisano. */
+  obciazenia?: WarunkiObciazen | null
   /** `null` = bez wyceny (tryb „suchy”: sama produkcja). */
   wycena: WycenaKwh | null
   kryteria: KryteriaWybor

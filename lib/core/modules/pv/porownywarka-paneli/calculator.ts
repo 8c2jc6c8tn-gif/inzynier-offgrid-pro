@@ -3,6 +3,7 @@ import { calculateAgregatPaliwo } from "@/lib/core/modules/kalkulator-mobilny/ag
 import { ELEKTRYKA_ZGODNOSC_VMP_IMP_TOL, HORYZONT_LAT, MIESIACE_ZIMOWE_POROWNYWARKI, SCIANA_AZYMUT_DEG, SCIANA_NACHYLENIE_DEG, type KryteriumId } from "./constants"
 import type { DanePanelu, PorownywarkaInput, WycenaKwh } from "./input"
 import { ocenElektryke, type WynikElektryki } from "./elektryka"
+import { najwyzszeWykorzystaniePct, obciazeniaMiejsca, ocenPanelObciazenia, type ObciazeniaMiejsca, type ObciazeniaPanelu } from "./obciazenia"
 import { ocenKryteria, type KryteriumWynik } from "./kryteria"
 import { oknoMiejsca, pojemnoscMiejsca, pojemnoscPochylona, wspolczynnikOknaMiejsca, wymiaryUzytkowe, type Pojemnosc, type RozmieszczeniePochylone } from "./pakowanie"
 import {
@@ -23,12 +24,14 @@ import {
   elektrykaBrakTminPorp,
   liczbaPrzekraczaMiejscePorp,
   modelUproszczonyPorp,
+  obciazenieBrakNosnosciPorp,
+  obciazeniePrzekraczaNosnoscPorp,
   oknoOdstepuBezSloncaPorp,
   panelSieNieMiesciPorp,
   panelWykluczonyPorp,
 } from "./warnings"
 
-export const CALCULATOR_VERSION = "1.1.0"
+export const CALCULATOR_VERSION = "1.2.0"
 
 const FORMULA =
   "E_m = N \\sum_{t \\in m} \\frac{P_{STC}\\,G_{POA}(t)}{1000}\\,[1 + \\gamma (T_c(t) - 25)]\\,\\eta_{rel}(G_{POA}),\\quad T_c = T_a + \\frac{NOCT - 20}{800}\\,G_{POA}"
@@ -50,6 +53,8 @@ export type WynikPanelu = {
   masaNaM2Kg: number | null
   /** Elektryka bez falownika (A3); `null` = brak danych elektrycznych panelu albo nie podano najniższej temperatury. */
   elektryka: WynikElektryki | null
+  /** Obciążenie paneli śniegiem i wiatrem wg Eurokodu zestawione z nośnością z karty (spec 32); `null` = nie wpisano warunków miejsca. */
+  obciazenia: ObciazeniaPanelu | null
   /** Energia N paneli w miesiącach [kWh], styczeń pierwszy. */
   miesiaceKwh: number[]
   zimaKwh: number
@@ -120,6 +125,8 @@ export type PorownywarkaResult = {
   /** Gwiazdki 0–10 per panel (kolejność wejścia); `null`, gdy mniej niż 2 panele albo żadne kryterium nie jest policzone. */
   gwiazdki: (number | null)[]
   roznicaZimowa: RoznicaZimowa | null
+  /** Śnieg i wiatr w miejscu wg Eurokodu (wspólne dla paneli); `null` = nie wpisano warunków albo nie ma kąta paneli. */
+  obciazeniaMiejsca: ObciazeniaMiejsca | null
   /** Użyta stawka 1 kWh [zł]; `null` = tryb „suchy” albo wycena dzienno-nocna. */
   stawkaZlKwh: number | null
   /** Ceny wyceny dzienno-nocnej [zł/kWh]; `null` w pozostałych trybach. */
@@ -137,6 +144,7 @@ const PUSTY: PorownywarkaResult = {
   kryteria: [],
   gwiazdki: [],
   roznicaZimowa: null,
+  obciazeniaMiejsca: null,
   stawkaZlKwh: null,
   wycenaStrefowa: null,
   zUzytecznoscia: false,
@@ -302,6 +310,7 @@ function policzPorownanie(input: PorownywarkaInput): CalcResult<PorownywarkaResu
     }
   }
 
+  const obcMiejsca = input.obciazenia ? obciazeniaMiejsca(input.obciazenia, miejsce.nachylenieDeg) : null
   const energiaJednego = new Map<string, { wszystkie: number[]; tania: number[] }>()
   const panele: WynikPanelu[] = input.panele.map((p) => {
     const energia = miesiecznaEnergiaWgStref(p, profil, zakresModelu, okna)
@@ -314,6 +323,12 @@ function policzPorownanie(input: PorownywarkaInput): CalcResult<PorownywarkaResu
     const ps = podsumuj(miesiaceKwh, energia.tania.map((e) => e * n))
     const cenaRazemZl = p.cenaBruttoZl === null ? null : p.cenaBruttoZl * n
     if (p.cenaBruttoZl === null) warnings.push(brakCenyPorp(p.nazwa))
+    const obciazenia = obcMiejsca ? ocenPanelObciazenia(p, obcMiejsca) : null
+    if (obciazenia) {
+      const maks = najwyzszeWykorzystaniePct(obciazenia)
+      if (maks === null) warnings.push(obciazenieBrakNosnosciPorp(p.nazwa))
+      else if (maks > 100) warnings.push(obciazeniePrzekraczaNosnoscPorp(p.nazwa, maks))
+    }
     return {
       id: p.id,
       nazwa: p.nazwa,
@@ -325,6 +340,7 @@ function policzPorownanie(input: PorownywarkaInput): CalcResult<PorownywarkaResu
       masaRazemKg: p.masaKg === null ? null : p.masaKg * n,
       masaNaM2Kg: p.masaKg === null || p.dlugoscMm === null || p.szerokoscMm === null ? null : p.masaKg / ((p.dlugoscMm / 1000) * (p.szerokoscMm / 1000)),
       elektryka: ocenElektryke(p, n, input.tminC),
+      obciazenia,
       miesiaceKwh,
       zimaKwh: ps.zimaKwh,
       zimaTaniaKwh: strefy ? ps.zimaTaniaKwh : null,
@@ -419,6 +435,11 @@ function policzPorownanie(input: PorownywarkaInput): CalcResult<PorownywarkaResu
     if (scenariusze.some((sc) => sc.naScianie > 0)) assumptions.push({ kod: "PORP-ZAL-SCIANA-POLUDNIOWA" })
   }
   if (miejsce.albedo === undefined) assumptions.push({ kod: "PORP-ZAL-ALBEDO-DOMYSLNE" })
+  if (obcMiejsca) {
+    if (obcMiejsca.snieg) assumptions.push({ kod: "PORP-ZAL-OBC-SNIEG" })
+    if (obcMiejsca.wiatr) assumptions.push({ kod: "PORP-ZAL-OBC-WIATR" })
+    assumptions.push({ kod: "PORP-ZAL-OBC-KOMBINACJA" }, { kod: "PORP-ZAL-OBC-NOSNOSC" })
+  }
 
   return {
     ...baza,
@@ -429,6 +450,7 @@ function policzPorownanie(input: PorownywarkaInput): CalcResult<PorownywarkaResu
       kryteria,
       gwiazdki,
       roznicaZimowa,
+      obciazeniaMiejsca: obcMiejsca,
       stawkaZlKwh: stawka,
       wycenaStrefowa: strefy ? { zlKwhDzien: strefy.zlKwhDzien, zlKwhNoc: strefy.zlKwhNoc } : null,
       zUzytecznoscia: zapotrzebowanie !== null,

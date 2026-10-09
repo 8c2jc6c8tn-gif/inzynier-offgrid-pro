@@ -46,6 +46,7 @@ Zakres mocy: do +3% (starsza karta: 0/+5 W). Liczby dla 450–460 W identyczne z
 | Temperatura pracy | −40 do **+70 °C** (przypis: 98. percentyl temperatury pracy modułu PV: 70 °C) |
 | Maks. napięcie układu / zabezpieczenie prądowe | 1500 V DC (IEC) / 25 A |
 | Pakowanie | 36 szt./paleta, 936 szt./kontener 40' |
+| Wytrzymałość (okładka, dopisane 09.10.2026 z obrazu karty) | śnieg do 5400 Pa, wiatr do 4000 Pa |
 
 Mechanika jak w starszej karcie (144 ogniwa i-TOPCon, 1762 × 1134 × 30 mm, 21,0 kg, szkło 1,6 / 1,6 mm, IP68).
 
