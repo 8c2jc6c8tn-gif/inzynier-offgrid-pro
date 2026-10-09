@@ -12,6 +12,9 @@ import { WynikGlowny } from "@/components/wzorce/wynik-glowny"
 import { WynikSzczegoly } from "@/components/wzorce/wynik-szczegoly"
 import { DC_AC_RATIO_ZALECANE_MAX, DC_AC_RATIO_ZALECANE_MIN } from "@/lib/core/modules/pv/dopasowanie-tablicy-falownika/constants"
 import { BETA_TYPOWA_MAX_PCT_NA_C, BETA_TYPOWA_MIN_PCT_NA_C } from "@/lib/core/modules/pv/stress-test-mppt/constants"
+import { WyborUrzadzeniaPv } from "@/components/urzadzenia-pv/wybor-urzadzenia"
+import { znajdzUrzadzeniePv } from "@/lib/core/dane/katalog-urzadzen-pv"
+import { parametryWejsciaPv } from "@/lib/core/dane/katalog-urzadzen-pv/wybor"
 import { useTranslate } from "@/lib/i18n/language-context"
 
 type FormularzStan = {
@@ -26,6 +29,8 @@ type FormularzStan = {
   mpptMaxV: string
   iMaxMpptA: string
   mocFalownikaAcW: string
+  /** Id urządzenia z katalogu, z którego wstawiono dane falownika; puste po ręcznej zmianie któregokolwiek z tych pól. */
+  urzadzenieId?: string
 }
 
 const STAN_POCZATKOWY: FormularzStan = {
@@ -40,6 +45,7 @@ const STAN_POCZATKOWY: FormularzStan = {
   mpptMaxV: "",
   iMaxMpptA: "",
   mocFalownikaAcW: "",
+  urzadzenieId: "",
 }
 
 export default function DopasowanieTablicyFalownikaPage() {
@@ -68,17 +74,41 @@ export default function DopasowanieTablicyFalownikaPage() {
       [pole]: typeof akcja === "function" ? (akcja as (p: FormularzStan[K]) => FormularzStan[K])(prev[pole]) : akcja,
     }))
   }
+  /** Ręczna zmiana pola falownika oznacza, że dane nie pochodzą już w całości z katalogu. */
+  function setPoleUrzadzenia<K extends keyof FormularzStan>(pole: K, akcja: FormularzStan[K] | ((prev: FormularzStan[K]) => FormularzStan[K])) {
+    setStan((prev) => ({
+      ...prev,
+      [pole]: typeof akcja === "function" ? (akcja as (p: FormularzStan[K]) => FormularzStan[K])(prev[pole]) : akcja,
+      urzadzenieId: "",
+    }))
+  }
+  function wybierzUrzadzenie(id: string) {
+    const u = znajdzUrzadzeniePv(id)
+    if (!u) return
+    const w = parametryWejsciaPv(u)
+    const tekst = (x: number | null) => (x === null ? "" : String(x))
+    // Fields the source does not state are cleared, so values of the previously chosen device never stay behind.
+    setStan((prev) => ({
+      ...prev,
+      vMaxFalownikaV: tekst(w.vMaxFalownikaV),
+      mpptMinV: tekst(w.mpptMinV),
+      mpptMaxV: tekst(w.mpptMaxV),
+      iMaxMpptA: tekst(w.iMaxMpptA),
+      mocFalownikaAcW: tekst(w.mocFalownikaAcW),
+      urzadzenieId: id,
+    }))
+  }
   const setVocStcV = (a: string | ((p: string) => string)) => setPole("vocStcV", a)
   const setVmpStcV = (a: string | ((p: string) => string)) => setPole("vmpStcV", a)
   const setImpA = (a: string | ((p: string) => string)) => setPole("impA", a)
   const setBetaPctNaC = (a: string | ((p: string) => string)) => setPole("betaPctNaC", a)
   const setTminC = (a: string | ((p: string) => string)) => setPole("tminC", a)
   const setLiczbaPaneliWStringu = (a: string | ((p: string) => string)) => setPole("liczbaPaneliWStringu", a)
-  const setVMaxFalownikaV = (a: string | ((p: string) => string)) => setPole("vMaxFalownikaV", a)
-  const setMpptMinV = (a: string | ((p: string) => string)) => setPole("mpptMinV", a)
-  const setMpptMaxV = (a: string | ((p: string) => string)) => setPole("mpptMaxV", a)
-  const setIMaxMpptA = (a: string | ((p: string) => string)) => setPole("iMaxMpptA", a)
-  const setMocFalownikaAcW = (a: string | ((p: string) => string)) => setPole("mocFalownikaAcW", a)
+  const setVMaxFalownikaV = (a: string | ((p: string) => string)) => setPoleUrzadzenia("vMaxFalownikaV", a)
+  const setMpptMinV = (a: string | ((p: string) => string)) => setPoleUrzadzenia("mpptMinV", a)
+  const setMpptMaxV = (a: string | ((p: string) => string)) => setPoleUrzadzenia("mpptMaxV", a)
+  const setIMaxMpptA = (a: string | ((p: string) => string)) => setPoleUrzadzenia("iMaxMpptA", a)
+  const setMocFalownikaAcW = (a: string | ((p: string) => string)) => setPoleUrzadzenia("mocFalownikaAcW", a)
 
   const result = useMemo(
     () =>
@@ -188,6 +218,7 @@ export default function DopasowanieTablicyFalownikaPage() {
         />
 
         <p className="text-small font-medium text-muted-foreground">{t("UI-DOPTABFAL-FALOWNIK")}</p>
+        <WyborUrzadzeniaPv urzadzenieId={stan.urzadzenieId ?? ""} onWybierz={wybierzUrzadzenie} />
         <Pole
           label={t("UI-DOPTABFAL-MAKSYMALNE-NAPIECIE-FALOWNIK")}
           unit="V"
