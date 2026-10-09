@@ -148,15 +148,18 @@ describe("porownajPaneleTool (M3, D81)", () => {
     expect(w.panele[0]!.nadwyzkaUlamek!).toBeGreaterThan(0)
   })
 
-  it("A2: montaż pochylony na konstrukcji bez liczby paneli → INCOMPLETE (bez zgadywania odstępu między rzędami)", async () => {
+  it("A2: montaż pochylony na konstrukcji bez liczby paneli → sztuki z odstępu rzędów (okno z wejścia), układ rzędów w wyniku", async () => {
     const { liczbaPaneli: _pomijam, ...baza } = wejscie
     void _pomijam
     const w = await utworzPorownajPaneleTool(fetchZ(odpowiedzPvgis(true))).handler({
       ...baza,
-      wymiaryMiejsca: { dlugoscM: 6, szerokoscM: 4, marginesM: 0.5, montaz: "pochylony-na-konstrukcji" },
+      wymiaryMiejsca: { dlugoscM: 20, szerokoscM: 20, marginesM: 0.5, montaz: "pochylony-na-konstrukcji", oknoOdH: 10, oknoDoH: 14 },
       panele: baza.panele.map((p) => ({ ...p, dlugoscMm: 1762, szerokoscMm: 1134 })),
     })
-    expect(w.status).toBe("INCOMPLETE")
+    expect(["VALID", "VALID_WITH_WARNINGS"]).toContain(w.status)
+    expect(w.panele[0]!.liczbaPaneli).toBeGreaterThan(0)
+    expect(w.panele[0]!.rozmieszczenie!.odstepM).toBeGreaterThan(0)
+    expect(w.zalozenia.some((x) => x.includes("10") && x.includes("14"))).toBe(true)
   })
 
   it("PVGIS odrzuca → INCOMPLETE z komunikatem", async () => {

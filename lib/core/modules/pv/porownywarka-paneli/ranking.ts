@@ -1,12 +1,13 @@
 /**
  * Ranking katalogu (spec 12, krok „sito”): wszystkie panele z katalogu na jednym miejscu, jednym tanim i uczciwym
  * miernikiem — zimowa energia — bez gwiazdek (te są względne wobec wybranego zestawu) i bez ceny (katalog jej nie ma).
- * Reguła porównywalności ta sama co w porównaniu: zjawisko (temperatura, słabe światło) jest liczone tylko wtedy, gdy
- * WSZYSTKIE panele w rankingu mają jego dane.
+ * Reguła porównywalności: wpływ temperatury ogniwa liczymy, gdy dane pogodowe mają temperaturę i choć jeden panel ma γ i NOCT;
+ * wtedy panele BEZ γ albo NOCT nie są punktowane (wiersz „brak danych”, wartości `null`, na końcu listy) — nie wyłączają
+ * temperatury pozostałym (decyzja właściciela 09.10.2026). Słabe światło: tylko gdy wszystkie ocenione panele mają daną z karty.
  */
 import { MIESIACE_ZIMOWE_POROWNYWARKI } from "./constants"
 import type { DanePanelu, MiejsceInput, WymiaryMiejsca } from "./input"
-import { pojemnoscMiejsca } from "./pakowanie"
+import { pojemnoscMiejsca, pojemnoscPochylona, wspolczynnikOknaMiejsca } from "./pakowanie"
 import { maParametryTemperaturowe, miesiecznaEnergiaPanelu, profilNaslonecznienia, type ZakresModelu } from "./uzysk"
 import type { RekordGodzinowy } from "@/lib/core/modules/lokalizacja/orientacja-powierzchni/input"
 
@@ -25,9 +26,11 @@ export type WierszRankingu = {
   pmaxW: number
   dlugoscMm: number | null
   szerokoscMm: number | null
-  /** Zimowa energia jednego panelu [kWh] i roczna. */
-  zimaNaPanelKwh: number
-  rokNaPanelKwh: number
+  /** Brakujące dane temperaturowe z karty (`gamma`, `noct`) — niepusta lista = panel wykluczony z oceny (wartości `null`). */
+  brakuje: ("gamma" | "noct")[]
+  /** Zimowa energia jednego panelu [kWh] i roczna; `null` = panel wykluczony (brak danych temperaturowych). */
+  zimaNaPanelKwh: number | null
+  rokNaPanelKwh: number | null
   /** Zima na 1 m² powierzchni panelu [kWh/m²]; `null` bez wymiarów. */
   zimaNaM2Kwh: number | null
   /** Ile sztuk mieści się w podanych wymiarach miejsca i zimowa/roczna energia tylu sztuk; `null` bez wymiarów miejsca lub panelu. */
@@ -74,23 +77,41 @@ export function rankingKatalogu(a: {
   panele: readonly DanePanelu[]
 }): WynikRankingu {
   const profil = profilNaslonecznienia(a.szerokoscGeograficzna, a.dlugoscGeograficzna, a.daneGodzinowe, a.miejsce)
+  const temperatura = profil.tempC !== null && a.panele.some(maParametryTemperaturowe)
+  /** Panele, które w ogóle oceniamy: przy modelu z temperaturą tylko te z γ i NOCT. */
+  const ocenione = temperatura ? a.panele.filter(maParametryTemperaturowe) : a.panele
   const zakresModelu: ZakresModelu = {
-    temperatura: profil.tempC !== null && a.panele.every(maParametryTemperaturowe),
-    slabeSwiatlo: a.panele.every((p) => p.sprawnoscWzglednaPrzy200WPct !== null),
+    temperatura,
+    slabeSwiatlo: ocenione.length > 0 && ocenione.every((p) => p.sprawnoscWzglednaPrzy200WPct !== null),
   }
-  const rownolegle = a.wymiaryMiejsca !== null && a.wymiaryMiejsca.montaz === "rownolegly" ? a.wymiaryMiejsca : null
+  const wymiary = a.wymiaryMiejsca
+  const pochylone = wymiary !== null && wymiary.montaz === "pochylony-na-konstrukcji"
+  const fOkna = pochylone ? wspolczynnikOknaMiejsca(wymiary, a.szerokoscGeograficzna, a.dlugoscGeograficzna, a.miejsce.azymutDeg) : null
+  /** Liczba sztuk w miejscu: pakowanie równoległe albo rzędy w odstępie bez cienia; `null`, gdy się nie da policzyć. */
+  const pojemnosc = (p: DanePanelu): number | null => {
+    if (wymiary === null) return null
+    if (!pochylone) return pojemnoscMiejsca(wymiary, p)?.liczba ?? null
+    return fOkna === null ? null : (pojemnoscPochylona(wymiary, p, a.miejsce.nachylenieDeg, fOkna)?.liczba ?? null)
+  }
   const wiersze = a.panele.map((p): WierszRankingu => {
+    const brakuje: WierszRankingu["brakuje"] = []
+    if (temperatura && !maParametryTemperaturowe(p)) {
+      if (p.gammaPctNaC === null) brakuje.push("gamma")
+      if (p.noctC === null) brakuje.push("noct")
+      return { id: p.id, nazwa: p.nazwa, pmaxW: p.pmaxW, dlugoscMm: p.dlugoscMm, szerokoscMm: p.szerokoscMm, brakuje, zimaNaPanelKwh: null, rokNaPanelKwh: null, zimaNaM2Kwh: null, liczbaWMiejscu: null, zimaWMiejscuKwh: null, rokWMiejscuKwh: null }
+    }
     const mies = miesiecznaEnergiaPanelu(p, profil, zakresModelu)
     const zima = suma(MIESIACE_ZIMOWE_POROWNYWARKI.map((m) => mies[m]!))
     const rok = suma(mies)
     const pole = p.dlugoscMm !== null && p.szerokoscMm !== null ? (p.dlugoscMm / 1000) * (p.szerokoscMm / 1000) : null
-    const n = rownolegle ? (pojemnoscMiejsca(rownolegle, p)?.liczba ?? null) : null
+    const n = pojemnosc(p)
     return {
       id: p.id,
       nazwa: p.nazwa,
       pmaxW: p.pmaxW,
       dlugoscMm: p.dlugoscMm,
       szerokoscMm: p.szerokoscMm,
+      brakuje,
       zimaNaPanelKwh: zima,
       rokNaPanelKwh: rok,
       zimaNaM2Kwh: pole === null ? null : zima / pole,

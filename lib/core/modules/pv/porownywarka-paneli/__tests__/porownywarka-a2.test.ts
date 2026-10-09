@@ -111,12 +111,67 @@ describe("calculatePorownywarkaPaneli — liczba paneli z wymiarów miejsca", ()
     expect(w.warnings.map((x) => x.code)).toEqual(["PORP-BRAK-WYMIAROW-PANELU"])
   })
 
-  it("panele pochylone na konstrukcji bez liczby paneli → INCOMPLETE (brak reguły odstępu)", () => {
-    const w = calculatePorownywarkaPaneli(
-      wejscie([panel({ id: "A" })], { liczbaPaneli: null, wymiaryMiejsca: { ...miejsce(6, 4), montaz: "pochylony-na-konstrukcji" } }),
-    )
-    expect(w.status).toBe("INCOMPLETE")
-    expect(w.warnings.map((x) => x.code)).toContain("PORP-MONTAZ-POCHYLONY-BEZ-REGULY")
+  describe("montaż pochylony na konstrukcji — liczba sztuk z odstępu rzędów", () => {
+    const pochylone = (dlugoscM: number, szerokoscM: number, okno?: [number, number]): Partial<PorownywarkaInput> => ({
+      liczbaPaneli: null,
+      miejsce: { nachylenieDeg: 35, azymutDeg: 180, albedo: 0.2 },
+      wymiaryMiejsca: {
+        dlugoscM,
+        szerokoscM,
+        marginesM: 0,
+        montaz: "pochylony-na-konstrukcji",
+        ...(okno ? { oknoOdH: okno[0], oknoDoH: okno[1] } : {}),
+      },
+    })
+
+    it("6 × 4 m, okno w południe: jeden rząd, stół 2 paneli w pionie, 5 stołów = 10 sztuk; odstęp ≈ L·(cosβ + sinβ/tgα) ≈ 3,06·L", () => {
+      const w = calculatePorownywarkaPaneli(wejscie([panel({ id: "A" })], pochylone(6, 4, [12, 12.1])))
+      expect(w.status).not.toBe("INCOMPLETE")
+      const a = w.value.panele[0]!
+      expect(a.liczbaPaneli).toBe(10)
+      expect(a.zrodloLiczby).toBe("z-wymiarow")
+      expect(a.rozmieszczenie).toMatchObject({ rzedy: 1, panelowNaStole: 2, stolowWRzedzie: 5 })
+      expect(a.rozmieszczenie!.odstepM / a.rozmieszczenie!.stolM).toBeGreaterThan(3.0)
+      expect(a.rozmieszczenie!.odstepM / a.rozmieszczenie!.stolM).toBeLessThan(3.12)
+    })
+
+    it("duże miejsce: pochylone mieści mniej sztuk niż równoległe, a węższe okno (więcej rzędów) — więcej niż szersze", () => {
+      const rownolegle = calculatePorownywarkaPaneli(wejscie([panel({ id: "A" })], { liczbaPaneli: null, wymiaryMiejsca: miejsce(20, 20) })).value.panele[0]!.liczbaPaneli
+      const szerokie = calculatePorownywarkaPaneli(wejscie([panel({ id: "A" })], pochylone(20, 20, [9, 15]))).value.panele[0]!.liczbaPaneli
+      const waskie = calculatePorownywarkaPaneli(wejscie([panel({ id: "A" })], pochylone(20, 20, [11, 13]))).value.panele[0]!.liczbaPaneli
+      expect(szerokie).toBeGreaterThan(0)
+      expect(szerokie).toBeLessThan(rownolegle)
+      expect(waskie).toBeGreaterThan(szerokie)
+      expect(waskie).toBeLessThan(rownolegle)
+    })
+
+    it("założenia: odstęp rzędów z oknem; okno domyślne tylko, gdy użytkownik go nie wpisał", () => {
+      const domyslne = calculatePorownywarkaPaneli(wejscie([panel({ id: "A" })], pochylone(20, 20)))
+      expect(kody(domyslne.assumptions)).toContain("PORP-ZAL-ODSTEP-RZEDOW")
+      expect(kody(domyslne.assumptions)).toContain("PORP-ZAL-OKNO-DOMYSLNE")
+      expect(kody(domyslne.assumptions)).not.toContain("PORP-ZAL-PAKOWANIE-BEZ-SZCZELIN")
+      const wpisane = calculatePorownywarkaPaneli(wejscie([panel({ id: "A" })], pochylone(20, 20, [10, 14])))
+      expect(kody(wpisane.assumptions)).not.toContain("PORP-ZAL-OKNO-DOMYSLNE")
+      expect(wpisane.assumptions).toContainEqual({ kod: "PORP-ZAL-ODSTEP-RZEDOW", params: { odH: 10, doH: 14 } })
+    })
+
+    it("okno bez słońca (21 grudnia po zachodzie) → INCOMPLETE z prośbą o przesunięcie okna", () => {
+      const w = calculatePorownywarkaPaneli(wejscie([panel({ id: "A" })], pochylone(20, 20, [20, 22])))
+      expect(w.status).toBe("INCOMPLETE")
+      expect(w.warnings.map((x) => x.code)).toEqual(["PORP-ODSTEP-OKNO-BEZ-SLONCA"])
+    })
+
+    it("okno poza zakresem (początek po końcu) → INVALID_INPUT", () => {
+      const w = calculatePorownywarkaPaneli(wejscie([panel({ id: "A" })], pochylone(20, 20, [15, 9])))
+      expect(w.status).toBe("INVALID_INPUT")
+      expect(w.warnings.map((x) => x.code)).toContain("PORP-OKNO-ODSTEPU-POZA-ZAKRESEM")
+    })
+
+    it("wpisana liczba paneli przy montażu pochylonym: liczymy ją, a przekroczenie miejsca zgłasza ostrzeżenie", () => {
+      const w = calculatePorownywarkaPaneli(wejscie([panel({ id: "A" })], { ...pochylone(6, 4, [12, 12.1]), liczbaPaneli: 30 }))
+      expect(w.value.panele[0]!.liczbaPaneli).toBe(30)
+      expect(w.warnings.map((x) => x.code)).toContain("PORP-LICZBA-PRZEKRACZA-MIEJSCE")
+    })
   })
 
   it("ani liczby paneli, ani wymiarów miejsca → INCOMPLETE", () => {

@@ -128,27 +128,39 @@ export function RankingKatalogu(p: {
                     </tr>
                   </thead>
                   <tbody>
-                    {wiersze.map((w) => (
-                      <tr key={w.id} className="border-t align-top">
+                    {wiersze.map((w) => {
+                      const brak = w.brakuje.length > 0
+                      return (
+                      <tr key={w.id} className={`border-t align-top ${brak ? "bg-muted/50 text-muted-foreground" : ""}`}>
                         <td className="p-1">
                           <input
                             type="checkbox"
                             aria-label={w.nazwa}
                             className="h-5 w-5"
+                            disabled={brak}
                             checked={zaznaczone.includes(w.id)}
                             onChange={(e) => setZaznaczone((prev) => (e.target.checked ? [...prev, w.id] : prev.filter((x) => x !== w.id)))}
                           />
                         </td>
                         <td className="p-1">{w.nazwa}</td>
-                        <td className="p-1 tabular-nums">{f1(w.zimaNaPanelKwh)}</td>
-                        <td className="p-1 tabular-nums">{w.zimaNaM2Kwh === null ? "—" : f1(w.zimaNaM2Kwh)}</td>
-                        {znaMiejsce && (
-                          <td className="p-1 tabular-nums">
-                            {w.zimaWMiejscuKwh === null || w.liczbaWMiejscu === null ? "—" : `${f0(w.zimaWMiejscuKwh)} (${w.liczbaWMiejscu} ${t("UI-PORP-RANK-SZT")})`}
+                        {brak ? (
+                          <td className="p-1 italic" colSpan={znaMiejsce ? 3 : 2}>
+                            {t("UI-PORP-RANK-BRAK", { czego: w.brakuje.map((b) => (b === "gamma" ? "γ" : "NOCT")).join(", ") })}
                           </td>
+                        ) : (
+                          <>
+                            <td className="p-1 tabular-nums">{w.zimaNaPanelKwh === null ? "—" : f1(w.zimaNaPanelKwh)}</td>
+                            <td className="p-1 tabular-nums">{w.zimaNaM2Kwh === null ? "—" : f1(w.zimaNaM2Kwh)}</td>
+                            {znaMiejsce && (
+                              <td className="p-1 tabular-nums">
+                                {w.zimaWMiejscuKwh === null || w.liczbaWMiejscu === null ? "—" : `${f0(w.zimaWMiejscuKwh)} (${w.liczbaWMiejscu} ${t("UI-PORP-RANK-SZT")})`}
+                              </td>
+                            )}
+                          </>
                         )}
                       </tr>
-                    ))}
+                      )
+                    })}
                   </tbody>
                 </table>
               </div>

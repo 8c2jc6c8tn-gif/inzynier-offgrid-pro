@@ -1134,3 +1134,7 @@ Status: 🔎 nowe
 Dane z kart katalogowych (panele, falowniki, baterie) niech niosą w katalogu ścieżki obrazów karty serwowanych przez aplikację, a ekran pokazuje link „Zobacz kartę katalogową” przy każdym wpisie wstawionym z katalogu — użytkownik sam sprawdza, że liczba pochodzi z karty. Link znika, gdy użytkownik ręcznie zmieni liczbę z karty (dane przestają być potwierdzone). Test pilnuje, że pliki obrazów istnieją. Dlaczego do standardu: zasada „źródło każdej liczby” (brak danych = `null`, nie wartość typowa) jest weryfikowalna tylko wtedy, gdy użytkownik ma źródło pod ręką.
 Status: 🔎 nowe
 
+
+## [09.10.2026] Próg numeryczny zamiast „> 0” przy funkcjach trygonometrycznych w warunkach granicznych
+Przy cieniu międzyrzędowym warunek „słońce przed panelami” `cos(Δ) > 0` przepuścił Δ = 90°, bo `cos(π/2)` w zmiennoprzecinkowym to ~6e-17, nie 0 — tangens profilowy wyszedł gigantyczny, a odstęp rzędów „nieskończony”. Reguła do rozważenia: w kalkulatorach geometrycznych warunki typu „kierunek w półprzestrzeni” zapisywać z jawnym progiem (np. `<= 1e-9`) i mieć test na kąt dokładnie 90°/270°.
+Status: 🔎 nowe

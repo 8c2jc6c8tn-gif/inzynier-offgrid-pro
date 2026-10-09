@@ -171,6 +171,7 @@ const MIGRATED_MODULES = [
   "lib/core/modules/pv/tracker-vs-staly",
   "lib/core/modules/pv/typ-montazu",
   "lib/core/modules/pv/porownywarka-paneli",
+  "lib/core/modules/pv/odstep-rzedow",
   "lib/core/modules/kalkulator-mobilny/dobor-regulatora-pwm-mppt",
   "lib/core/modules/kalkulator-mobilny/dni-bez-slonca",
   "lib/core/modules/kalkulator-mobilny/ochrona-przed-rozladowaniem",

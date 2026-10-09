@@ -36,6 +36,14 @@ describe("wymiaryZMiejsca i budujWejscie", () => {
     expect(wymiaryZMiejsca({ ...m, wymMargines: "0" })).toEqual({ dlugoscM: 6, szerokoscM: 4, marginesM: 0, montaz: "rownolegly" })
   })
 
+  it("okno bez cienia trafia do wymiarów tylko przy montażu pochylonym i tylko, gdy wpisano oba końce", () => {
+    const m = { ...MIEJSCE_PUSTE("m1"), wymDlugosc: "6", wymSzerokosc: "4", wymMargines: "0", oknoOd: "10", oknoDo: "14" }
+    expect(wymiaryZMiejsca(m)).toEqual({ dlugoscM: 6, szerokoscM: 4, marginesM: 0, montaz: "rownolegly" })
+    const p = { ...m, montaz: "pochylony-na-konstrukcji" as const }
+    expect(wymiaryZMiejsca(p)).toEqual({ dlugoscM: 6, szerokoscM: 4, marginesM: 0, montaz: "pochylony-na-konstrukcji", oknoOdH: 10, oknoDoH: 14 })
+    expect(wymiaryZMiejsca({ ...p, oknoDo: "" })).toEqual({ dlugoscM: 6, szerokoscM: 4, marginesM: 0, montaz: "pochylony-na-konstrukcji" })
+  })
+
   it("wejście silnika z miejsca i panelu; puste pole = null; pusta moc = panel pominięty; zużycie tylko przy zaznaczeniu", () => {
     const k = KATALOG_PANELI_PV[0]!
     const stan: FormularzStan = {

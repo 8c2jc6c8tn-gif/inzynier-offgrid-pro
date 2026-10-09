@@ -3,7 +3,7 @@ import { calculateAgregatPaliwo } from "@/lib/core/modules/kalkulator-mobilny/ag
 import { HORYZONT_LAT, MIESIACE_ZIMOWE_POROWNYWARKI, SCIANA_AZYMUT_DEG, SCIANA_NACHYLENIE_DEG, type KryteriumId } from "./constants"
 import type { DanePanelu, PorownywarkaInput, WycenaKwh } from "./input"
 import { ocenKryteria, type KryteriumWynik } from "./kryteria"
-import { pojemnoscMiejsca, wymiaryUzytkowe, type Pojemnosc } from "./pakowanie"
+import { oknoMiejsca, pojemnoscMiejsca, pojemnoscPochylona, wspolczynnikOknaMiejsca, wymiaryUzytkowe, type Pojemnosc, type RozmieszczeniePochylone } from "./pakowanie"
 import {
   maParametryTemperaturowe,
   miesiecznaEnergiaWgStref,
@@ -19,7 +19,7 @@ import {
   brakWymiarowPaneluPorp,
   liczbaPrzekraczaMiejscePorp,
   modelUproszczonyPorp,
-  montazPochylonyBezRegulyPorp,
+  oknoOdstepuBezSloncaPorp,
   panelSieNieMiesciPorp,
 } from "./warnings"
 
@@ -36,6 +36,8 @@ export type WynikPanelu = {
   zrodloLiczby: "podana" | "z-wymiarow"
   /** Ile sztuk mieści się w podanych wymiarach miejsca; `null` = wymiarów miejsca albo panelu brak (nie sprawdzono). */
   mieszcaSie: number | null
+  /** Montaż pochylony: układ rzędów, z którego wynika liczba sztuk (`null` przy montażu równoległym albo gdy liczbę wpisano). */
+  rozmieszczenie: RozmieszczeniePochylone | null
   mocKwp: number
   /** Masa N paneli [kg]; `null`, gdy karta nie podaje masy. */
   masaRazemKg: number | null
@@ -194,12 +196,27 @@ export function calculatePorownywarkaPaneli(input: PorownywarkaInput): CalcResul
   const wspolneBrakLiczby: Warning[] = []
   if (zWymiarow) {
     if (wymiary === null) return { ...baza, value: PUSTY, status: "INCOMPLETE", assumptions: [], warnings: [] }
-    if (wymiary.montaz === "pochylony-na-konstrukcji") wspolneBrakLiczby.push(montazPochylonyBezRegulyPorp())
     for (const p of input.panele) if (p.dlugoscMm === null || p.szerokoscMm === null) wspolneBrakLiczby.push(brakWymiarowPaneluPorp(p.nazwa))
     if (wspolneBrakLiczby.length > 0) return { ...baza, value: PUSTY, status: "INCOMPLETE", assumptions: [], warnings: wspolneBrakLiczby }
   }
+  // Tilted mount: rows are spaced so that there is no shadow in the design window on 21 Dec (module „odstęp rzędów”).
+  const pochylone = wymiary !== null && wymiary.montaz === "pochylony-na-konstrukcji"
+  const fOkna = pochylone ? wspolczynnikOknaMiejsca(wymiary, lat, lon, miejsce.azymutDeg) : null
+  if (pochylone && fOkna === null && zWymiarow) {
+    const okno = oknoMiejsca(wymiary)
+    return { ...baza, value: PUSTY, status: "INCOMPLETE", assumptions: [], warnings: [oknoOdstepuBezSloncaPorp(okno.odH, okno.doH)] }
+  }
   const pojemnosci = new Map<string, Pojemnosc | null>(
-    input.panele.map((p) => [p.id, wymiary !== null && wymiary.montaz === "rownolegly" ? pojemnoscMiejsca(wymiary, p) : null]),
+    input.panele.map((p) => [
+      p.id,
+      wymiary === null
+        ? null
+        : pochylone
+          ? fOkna === null
+            ? null
+            : pojemnoscPochylona(wymiary, p, miejsce.nachylenieDeg, fOkna)
+          : pojemnoscMiejsca(wymiary, p),
+    ]),
   )
 
   const warnings: Warning[] = []
@@ -264,6 +281,7 @@ export function calculatePorownywarkaPaneli(input: PorownywarkaInput): CalcResul
       liczbaPaneli: n,
       zrodloLiczby: zWymiarow ? "z-wymiarow" : "podana",
       mieszcaSie: pojemnosc?.liczba ?? null,
+      rozmieszczenie: pojemnosc?.pochylone ?? null,
       mocKwp: (n * p.pmaxW) / 1000,
       masaRazemKg: p.masaKg === null ? null : p.masaKg * n,
       miesiaceKwh,
@@ -339,7 +357,11 @@ export function calculatePorownywarkaPaneli(input: PorownywarkaInput): CalcResul
     { kod: "PORP-ZAL-BEZ-BOS" },
     { kod: "PORP-ZAL-HORYZONT-LAT", params: { lata: HORYZONT_LAT } },
   ]
-  if (zWymiarow || uzyt !== null) assumptions.push({ kod: "PORP-ZAL-PAKOWANIE-BEZ-SZCZELIN" })
+  if (pochylone && fOkna !== null && wymiary !== null) {
+    const okno = oknoMiejsca(wymiary)
+    assumptions.push({ kod: "PORP-ZAL-ODSTEP-RZEDOW", params: { odH: okno.odH, doH: okno.doH } })
+    if (okno.domyslne) assumptions.push({ kod: "PORP-ZAL-OKNO-DOMYSLNE" })
+  } else if (zWymiarow || uzyt !== null) assumptions.push({ kod: "PORP-ZAL-PAKOWANIE-BEZ-SZCZELIN" })
   if (zakresModelu.temperatura) assumptions.push({ kod: "PORP-ZAL-TEMPERATURA-OGNIWA" })
   if (zakresModelu.slabeSwiatlo) assumptions.push({ kod: "PORP-ZAL-SWIATLO-INTERPOLACJA" })
   if (input.panele.some((p) => p.degradacjaPierwszyRokPct !== null && p.degradacjaLiniowaPctNaRok !== null)) {

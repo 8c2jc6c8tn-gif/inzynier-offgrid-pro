@@ -34,7 +34,9 @@ const WymiaryMiejsca = z.object({
   marginesM: z.number().describe("Margines od każdej krawędzi [m]; 0, jeśli user mówi, że nie ma — dopytaj, nie zakładaj"),
   montaz: z
     .enum(["rownolegly", "pochylony-na-konstrukcji"])
-    .describe("rownolegly = panele leżą w płaszczyźnie dachu/ściany; pochylony-na-konstrukcji wymaga podania liczby paneli (brak reguły odstępu między rzędami)"),
+    .describe("rownolegly = panele leżą w płaszczyźnie dachu/ściany; pochylony-na-konstrukcji = grunt/płaski dach: ustawię rzędy w odstępie bez cienia w oknie godzin i z tego policzę sztuki"),
+  oknoOdH: z.number().optional().describe("Montaż pochylony: początek okna bez cienia [godz. czasu słonecznego, 21 grudnia]; podaj razem z oknoDoH, bez nich okno domyślne 9–15 (praktyka, nie norma — zapytaj usera)"),
+  oknoDoH: z.number().optional().describe("Montaż pochylony: koniec okna bez cienia [godz. czasu słonecznego]"),
 })
 
 export const PorownajPaneleToolInput = z.object({
@@ -72,6 +74,10 @@ export const PorownajPaneleToolOutput = z.object({
       nazwa: z.string(),
       liczbaPaneli: z.number().describe("Liczba sztuk, dla której policzono wynik (podana albo z wymiarów miejsca)"),
       mieszcaSieSzt: z.number().nullable().describe("Ile sztuk mieści się w podanych wymiarach miejsca; null bez wymiarów"),
+      rozmieszczenie: z
+        .object({ rzedy: z.number(), panelowNaStole: z.number(), stolowWRzedzie: z.number(), odstepM: z.number() })
+        .nullable()
+        .describe("Montaż pochylony: liczba rzędów, paneli nad sobą, stołów w rzędzie i odstęp rzędów [m]; null przy montażu równoległym"),
       zimaKwh: z.number().describe("Energia zimą XI–II [kWh] dla podanej liczby paneli"),
       rokKwh: z.number(),
       uzytecznaRokKwh: z.number().nullable().describe("Energia wykorzystana w roku [kWh]; null bez zużycia"),
@@ -174,6 +180,7 @@ export function utworzPorownajPaneleTool(
           nazwa: p.nazwa,
           liczbaPaneli: p.liczbaPaneli,
           mieszcaSieSzt: p.mieszcaSie,
+          rozmieszczenie: p.rozmieszczenie === null ? null : { rzedy: p.rozmieszczenie.rzedy, panelowNaStole: p.rozmieszczenie.panelowNaStole, stolowWRzedzie: p.rozmieszczenie.stolowWRzedzie, odstepM: p.rozmieszczenie.odstepM },
           zimaKwh: p.zimaKwh,
           rokKwh: p.rokKwh,
           uzytecznaRokKwh: p.uzytecznaRokKwh,

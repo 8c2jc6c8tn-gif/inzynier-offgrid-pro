@@ -466,6 +466,39 @@ export default function PorownywarkaPaneliPage() {
             <option value="rownolegly">{t("UI-PORP-MONTAZ-ROWNOLEGLY")}</option>
             <option value="pochylony-na-konstrukcji">{t("UI-PORP-MONTAZ-POCHYLONY")}</option>
           </PoleSelect>
+          {miejsce.montaz === "pochylony-na-konstrukcji" && (
+            <>
+              <div className="grid grid-cols-2 gap-3">
+                <Pole
+                  label={t("UI-PORP-OKNO-OD")}
+                  unit="h"
+                  type="number"
+                  inputMode="decimal"
+                  min={0}
+                  max={24}
+                  step="any"
+                  placeholder="9"
+                  value={miejsce.oknoOd ?? ""}
+                  onChange={(e) => ustawMiejsce("oknoOd", e.target.value)}
+                  pomoc={<PomocPola ekran="porownywarka-paneli" pole="oknoOdstepu" />}
+                />
+                <Pole
+                  label={t("UI-PORP-OKNO-DO")}
+                  unit="h"
+                  type="number"
+                  inputMode="decimal"
+                  min={0}
+                  max={24}
+                  step="any"
+                  placeholder="15"
+                  value={miejsce.oknoDo ?? ""}
+                  onChange={(e) => ustawMiejsce("oknoDo", e.target.value)}
+                  pomoc={<PomocPola ekran="porownywarka-paneli" pole="oknoOdstepu" />}
+                />
+              </div>
+              <p className="text-caption text-muted-foreground">{t("UI-PORP-OKNO-PODPIS")}</p>
+            </>
+          )}
           <p className="text-caption text-muted-foreground">{t("UI-PORP-WYM-PODPIS")}</p>
         </fieldset>
         <div className="flex flex-col gap-2">
@@ -940,6 +973,18 @@ export default function PorownywarkaPaneliPage() {
                       {(
                         [
                           ["UI-PORP-LICZBA-SZTUK", (p: WynikPanelu) => `${p.liczbaPaneli}`],
+                          [
+                            "UI-PORP-UKLAD-RZEDOW",
+                            (p: WynikPanelu) =>
+                              p.rozmieszczenie === null
+                                ? null
+                                : t("UI-PORP-UKLAD-RZEDOW-WART", {
+                                    rzedy: p.rozmieszczenie.rzedy,
+                                    stoly: p.rozmieszczenie.stolowWRzedzie,
+                                    k: p.rozmieszczenie.panelowNaStole,
+                                    odstep: f2(p.rozmieszczenie.odstepM),
+                                  }),
+                          ],
                           ["UI-PORP-MOC-KWP", (p: WynikPanelu) => `${f2(p.mocKwp)} kWp`],
                           ["UI-PORP-MASA-RAZEM", (p: WynikPanelu) => (p.masaRazemKg === null ? null : `${f0(p.masaRazemKg)} kg`)],
                           ["UI-PORP-ZIMA-KWH", (p: WynikPanelu) => `${f1(p.zimaKwh)} kWh`],
@@ -961,7 +1006,9 @@ export default function PorownywarkaPaneliPage() {
                           ["UI-PORP-ZWROT", (p: WynikPanelu) => (p.okresZwrotuLat === null ? null : t("UI-PORP-LATA", { x: f1(p.okresZwrotuLat) }))],
                           ["UI-PORP-MOC-25", (p: WynikPanelu) => (p.moc25LatPct === null ? null : `${f1(p.moc25LatPct)}%`)],
                         ] as [string, (p: WynikPanelu) => string | null][]
-                      ).map(([klucz, wartosc]) => (
+                      )
+                        .filter(([klucz]) => klucz !== "UI-PORP-UKLAD-RZEDOW" || v.panele.some((p) => p.rozmieszczenie !== null))
+                        .map(([klucz, wartosc]) => (
                         <tr key={klucz} className="border-t">
                           <th className="p-1 text-left font-normal">{t(klucz)}</th>
                           {v.panele.map((p) => (

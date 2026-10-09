@@ -48,9 +48,9 @@ export function brakWymiarowPaneluPorp(nazwa: string): Warning {
   return ostrzezenie("PORP-BRAK-WYMIAROW-PANELU", "warning", `panel „${nazwa}” bez wymiarów — nie da się policzyć, ile się zmieści`, { nazwa }, "dlugoscMm")
 }
 
-/** A2: panels tilted on a structure shade each other; we have no spacing rule yet, so we do not guess. */
-export function montazPochylonyBezRegulyPorp(): Warning {
-  return ostrzezenie("PORP-MONTAZ-POCHYLONY-BEZ-REGULY", "warning", "panele pochylone na konstrukcji: brak reguły odstępu między rzędami — podaj liczbę paneli", undefined, "wymiaryMiejsca")
+/** A2: the design window of a tilted mount has no sun above the horizon on 21 Dec — the row spacing cannot be derived. */
+export function oknoOdstepuBezSloncaPorp(odH: number, doH: number): Warning {
+  return ostrzezenie("PORP-ODSTEP-OKNO-BEZ-SLONCA", "warning", `okno ${odH}–${doH} (czas słoneczny, 21 grudnia): słońce pod horyzontem — odstęp rzędów niewyznaczalny`, { odH, doH }, "wymiaryMiejsca")
 }
 
 /** A2: with the given margins not a single panel of this model fits. */

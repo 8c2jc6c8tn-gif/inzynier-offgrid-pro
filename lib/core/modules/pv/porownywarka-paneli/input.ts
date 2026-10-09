@@ -65,9 +65,15 @@ export type WymiaryMiejsca = {
   marginesM: number
   /**
    * `rownolegly` — panele leżą w płaszczyźnie powierzchni (nie zacieniają się rzędami). `pochylony-na-konstrukcji` — panele
-   * pochylone na gruncie/płaskim dachu: cień międzyrzędowy wymaga reguły odstępu, której nie mamy → wynik `INCOMPLETE`.
+   * pochylone na gruncie/płaskim dachu: rzędy stoją w odstępie bez cienia w oknie `oknoOdH…oknoDoH` (moduł „odstęp rzędów”).
    */
   montaz: "rownolegly" | "pochylony-na-konstrukcji"
+  /**
+   * Okno „bez cienia” 21 grudnia w czasie słonecznym [godz.] — tylko dla montażu pochylonego; brak = domyślne okno
+   * modułu odstępu rzędów (praktyka projektowa, nie norma).
+   */
+  oknoOdH?: number
+  oknoDoH?: number
 }
 
 export type KryteriaWybor = Record<KryteriumId, boolean>

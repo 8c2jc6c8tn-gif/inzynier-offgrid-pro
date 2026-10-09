@@ -36,8 +36,8 @@ describe("rankingKatalogu", () => {
   it("zima i rok jednego panelu = wartości z referencji; zima na m² = zima / pole panelu", () => {
     const w = rankingKatalogu({ ...wspolne, wymiaryMiejsca: null, panele: [panel({ id: "A" })] })
     const a = w.wiersze[0]!
-    expect(a.zimaNaPanelKwh).toBeCloseTo(79.5243, 3)
-    expect(a.rokNaPanelKwh).toBeCloseTo(79.5243 + 214.2999, 3)
+    expect(a.zimaNaPanelKwh!).toBeCloseTo(79.5243, 3)
+    expect(a.rokNaPanelKwh!).toBeCloseTo(79.5243 + 214.2999, 3)
     expect(a.zimaNaM2Kwh).toBeCloseTo(79.5243 / (1.762 * 1.134), 3)
     expect(a.liczbaWMiejscu).toBeNull()
     expect(a.zimaWMiejscuKwh).toBeNull()
@@ -53,15 +53,36 @@ describe("rankingKatalogu", () => {
     expect(w.wiersze[0]!.zimaWMiejscuKwh).toBeCloseTo(10 * 79.5243, 2)
   })
 
-  it("montaż pochylony na konstrukcji: bez liczby sztuk (brak reguły odstępu)", () => {
-    const w = rankingKatalogu({ ...wspolne, wymiaryMiejsca: { dlugoscM: 6, szerokoscM: 4, marginesM: 0, montaz: "pochylony-na-konstrukcji" }, panele: [panel({ id: "A" })] })
-    expect(w.wiersze[0]!.liczbaWMiejscu).toBeNull()
+  it("montaż pochylony na konstrukcji: liczba sztuk z odstępu rzędów (mniej niż przy montażu równoległym), okno bez słońca → bez liczby", () => {
+    const pochylone = { dlugoscM: 20, szerokoscM: 20, marginesM: 0, montaz: "pochylony-na-konstrukcji" } as const
+    const w = rankingKatalogu({ ...wspolne, wymiaryMiejsca: pochylone, panele: [panel({ id: "A" })] })
+    const r = rankingKatalogu({ ...wspolne, wymiaryMiejsca: { ...pochylone, montaz: "rownolegly" }, panele: [panel({ id: "A" })] })
+    expect(w.wiersze[0]!.liczbaWMiejscu).toBeGreaterThan(0)
+    expect(w.wiersze[0]!.liczbaWMiejscu!).toBeLessThan(r.wiersze[0]!.liczbaWMiejscu!)
+    const bezSlonca = rankingKatalogu({ ...wspolne, wymiaryMiejsca: { ...pochylone, oknoOdH: 20, oknoDoH: 22 }, panele: [panel({ id: "A" })] })
+    expect(bezSlonca.wiersze[0]!.liczbaWMiejscu).toBeNull()
   })
 
-  it("reguła porównywalności: jeden panel bez NOCT wyłącza temperaturę dla wszystkich (uzysk = P · G / 1000 · 744 h)", () => {
+  it("panel bez NOCT nie wyłącza temperatury pozostałym: jest wykluczony („brak danych”, wartości null), reszta liczona z temperaturą", () => {
     const w = rankingKatalogu({ ...wspolne, wymiaryMiejsca: null, panele: [panel({ id: "A" }), panel({ id: "B", noctC: null })] })
+    expect(w.zakresModelu.temperatura).toBe(true)
+    expect(w.wiersze[0]!.zimaNaPanelKwh).toBeCloseTo(79.5243, 3)
+    expect(w.wiersze[1]).toMatchObject({ brakuje: ["noct"], zimaNaPanelKwh: null, rokNaPanelKwh: null, zimaNaM2Kwh: null, zimaWMiejscuKwh: null })
+    expect(posortujRanking(w.wiersze, "zimaNaPanel").map((x) => x.id)).toEqual(["A", "B"])
+  })
+
+  it("brak γ i NOCT u wszystkich → nikt nie jest wykluczony, model prosty (uzysk = P · G / 1000 · 744 h)", () => {
+    const w = rankingKatalogu({ ...wspolne, wymiaryMiejsca: null, panele: [panel({ id: "A", noctC: null }), panel({ id: "B", gammaPctNaC: null })] })
     expect(w.zakresModelu.temperatura).toBe(false)
+    expect(w.wiersze.every((x) => x.brakuje.length === 0)).toBe(true)
     expect(w.wiersze[0]!.zimaNaPanelKwh).toBeCloseTo(74.4, 6)
+  })
+
+  it("dane pogodowe bez temperatury → model prosty i nikt nie jest wykluczony", () => {
+    const bezT = rok().map(({ tempC: _t, ...r }) => r)
+    const w = rankingKatalogu({ ...wspolne, daneGodzinowe: bezT, wymiaryMiejsca: null, panele: [panel({ id: "A" }), panel({ id: "B", noctC: null })] })
+    expect(w.zakresModelu.temperatura).toBe(false)
+    expect(w.wiersze.every((x) => x.zimaNaPanelKwh !== null)).toBe(true)
   })
 })
 

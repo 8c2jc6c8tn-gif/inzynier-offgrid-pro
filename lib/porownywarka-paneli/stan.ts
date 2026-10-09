@@ -45,6 +45,9 @@ export type MiejsceSeed = {
   wymSzerokosc: string
   wymMargines: string
   montaz: WymiaryMiejsca["montaz"]
+  /** Okno bez cienia 21 grudnia [godz., czas słoneczny] — tylko montaż pochylony; puste = okno domyślne. Szkice sprzed tego pola nie mają kluczy. */
+  oknoOd?: string
+  oknoDo?: string
 }
 
 export type RodzajWyceny = "" | "siec" | "dzienNoc" | "reczna" | "agregat"
@@ -98,6 +101,8 @@ export const MIEJSCE_PUSTE = (id: string): MiejsceSeed => ({
   wymSzerokosc: "",
   wymMargines: "",
   montaz: "rownolegly",
+  oknoOd: "",
+  oknoDo: "",
 })
 
 export const STAN_POCZATKOWY: FormularzStan = {
@@ -190,7 +195,12 @@ export function wymiaryZMiejsca(m: MiejsceSeed): WymiaryMiejsca | null {
   const dl = liczba(m.wymDlugosc)
   const sz = liczba(m.wymSzerokosc)
   const mar = liczba(m.wymMargines)
-  return dl !== undefined && sz !== undefined && mar !== undefined ? { dlugoscM: dl, szerokoscM: sz, marginesM: mar, montaz: m.montaz } : null
+  if (dl === undefined || sz === undefined || mar === undefined) return null
+  const wymiary: WymiaryMiejsca = { dlugoscM: dl, szerokoscM: sz, marginesM: mar, montaz: m.montaz }
+  const od = liczba(m.oknoOd ?? "")
+  const doH = liczba(m.oknoDo ?? "")
+  // Both ends or none: half a window would silently mix a typed number with the default one.
+  return m.montaz === "pochylony-na-konstrukcji" && od !== undefined && doH !== undefined ? { ...wymiary, oknoOdH: od, oknoDoH: doH } : wymiary
 }
 
 export function panelDoSilnika(p: PanelSeed, nazwaDomyslna: string): DanePanelu | null {

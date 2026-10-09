@@ -19,6 +19,9 @@ export const PRZYKLADOWE_OKNA_TANIE_G12 = [
 /** Maksymalna liczba paneli porównywanych naraz (U20). */
 export const MAKS_PANELI_W_ZESTAWIE = 4
 
+/** Montaż pochylony: stoły z 1…2 paneli jeden nad drugim (typowe konstrukcje 1P/2P); wybieram układ z największą liczbą sztuk. */
+export const PANELI_NAD_SOBA_MAKS = 2
+
 /** Horyzont liczenia kosztu zimowej kWh [lata] — „zł/kWh zimowej w 25 latach” ze specyfikacji, sekcja 6.4. */
 export const HORYZONT_LAT = 25
 

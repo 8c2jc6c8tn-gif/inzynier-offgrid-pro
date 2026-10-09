@@ -28,6 +28,12 @@ export function validateInput(input: PorownywarkaInput): { errors: Warning[] } {
     const dodatnie: [string, number][] = [["dlugoscM", wm.dlugoscM], ["szerokoscM", wm.szerokoscM]]
     for (const [pole, v] of dodatnie) if (!(Number.isFinite(v) && v > 0)) errors.push(porpPozaZakresem("PORP-WYMIARY-MIEJSCA-POZA-ZAKRESEM", pole, v, "> 0 m"))
     if (!nieujemna(wm.marginesM)) errors.push(wartoscUjemnaPorp("marginesM", wm.marginesM))
+    const { oknoOdH: od, oknoDoH: doH } = wm
+    if (od !== undefined || doH !== undefined) {
+      if (od === undefined || doH === undefined || !(Number.isFinite(od) && Number.isFinite(doH) && od >= 0 && doH <= 24 && od < doH)) {
+        errors.push(porpPozaZakresem("PORP-OKNO-ODSTEPU-POZA-ZAKRESEM", "oknoOdH", od ?? Number.NaN, "oba końce w 0–24 godz., początek przed końcem"))
+      }
+    }
   }
   const zap = input.zapotrzebowanieMiesiaceKwh
   if (zap) {

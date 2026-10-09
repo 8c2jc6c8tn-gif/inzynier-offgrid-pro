@@ -103,9 +103,15 @@ export const pl = {
       },
       montaz: {
         nazwa: "Sposób montażu",
-        cel: "Panele równoległe do powierzchni (dach skośny, ściana, ogrodzenie) leżą obok siebie bez cienia; panele pochylone na gruncie lub płaskim dachu zacieniają się rzędami, a aplikacja nie ma jeszcze reguły odstępu — nie zgaduję i prosi o liczbę paneli.",
+        cel: "Panele równoległe do powierzchni (dach skośny, ściana, ogrodzenie) leżą obok siebie bez cienia; panele pochylone na gruncie lub płaskim dachu zacieniają się rzędami, więc ustawiam rzędy w takim odstępie, żeby w oknie bez cienia (poniżej) rząd przed nimi ich nie zacieniał, i z tego liczę sztuki.",
         gdzie: "Zależy od tego, jak będą zamontowane panele.",
         zakres: "Jedna z dwóch opcji.",
+      },
+      oknoOdstepu: {
+        nazwa: "Okno bez cienia [godz.]",
+        cel: "Godziny (czas słoneczny, 21 grudnia), w których rząd przed panelami nie ma ich zacieniać. Z nich liczę odstęp rzędów, a z odstępu — ile sztuk zmieści się w miejscu. Szersze okno = większy odstęp = mniej paneli. Puste = okno domyślne aplikacji (9–15).",
+        gdzie: "To decyzja projektowa, nie norma: zwykle 9–15 albo węższe. W grudniu słońce na szerokości Polski stoi nisko, więc szerokie okno daje bardzo duże odstępy; tabelę strat dla różnych okien pokazuje kalkulator odstępu rzędów.",
+        zakres: "Oba końce 0–24 godz., początek przed końcem; tylko dla montażu pochylonego.",
       },
       dlugoscPanelu: {
         nazwa: "Długość panelu [mm]",
@@ -354,9 +360,15 @@ export const en: Tlumaczenie<typeof pl> = {
       },
       montaz: {
         nazwa: "Mounting",
-        cel: "Panels parallel to the surface (pitched roof, wall, fence) lie side by side with no shading; panels tilted on the ground or a flat roof shade each other row by row, and the app has no spacing rule yet — I do not guess and ask for the number of panels.",
+        cel: "Panels parallel to the surface (pitched roof, wall, fence) lie side by side with no shading; panels tilted on the ground or a flat roof shade each other row by row, so I space the rows so that in the shadow-free window (below) the row in front does not shade them, and count the pieces from that.",
         gdzie: "Depends on how the panels will be mounted.",
         zakres: "One of two options.",
+      },
+      oknoOdstepu: {
+        nazwa: "Shadow-free window [h]",
+        cel: "Hours (solar time, 21 December) in which the row in front must not shade the panels. From them I derive the row spacing and, from the spacing, how many pieces fit the place. A wider window = larger spacing = fewer panels. Empty = the application default window (9–15).",
+        gdzie: "A design decision, not a standard: usually 9–15 or narrower. In December the sun at Polish latitudes is low, so a wide window gives very large spacing; the row-spacing calculator shows a loss table for different windows.",
+        zakres: "Both ends within 0–24 h, start before end; tilted mounting only.",
       },
       dlugoscPanelu: {
         nazwa: "Panel length [mm]",
@@ -605,9 +617,15 @@ export const ru: Tlumaczenie<typeof pl> = {
       },
       montaz: {
         nazwa: "Способ монтажа",
-        cel: "Панели параллельно поверхности (скатная крыша, стена, забор) лежат рядом без затенения; панели, наклонённые на земле или плоской крыше, затеняют друг друга по рядам, а правила шага в приложении пока нет — я не угадываю и прошу число панелей.",
+        cel: "Панели параллельно поверхности (скатная крыша, стена, забор) лежат рядом без затенения; панели, наклонённые на земле или плоской крыше, затеняют друг друга по рядам, поэтому я расставляю ряды так, чтобы в окне без тени (ниже) ряд впереди их не затенял, и по этому считаю штуки.",
         gdzie: "Зависит от того, как будут установлены панели.",
         zakres: "Один из двух вариантов.",
+      },
+      oknoOdstepu: {
+        nazwa: "Окно без тени [ч]",
+        cel: "Часы (солнечное время, 21 декабря), в которые ряд впереди не должен затенять панели. По ним я считаю шаг рядов, а по шагу — сколько штук поместится на месте. Шире окно = больше шаг = меньше панелей. Пусто = окно приложения по умолчанию (9–15).",
+        gdzie: "Проектное решение, а не норма: обычно 9–15 или уже. В декабре солнце на широтах Польши низко, поэтому широкое окно даёт очень большой шаг; таблицу потерь для разных окон показывает калькулятор шага рядов.",
+        zakres: "Оба конца в пределах 0–24 ч, начало раньше конца; только для наклонного монтажа.",
       },
       dlugoscPanelu: {
         nazwa: "Длина панели [мм]",

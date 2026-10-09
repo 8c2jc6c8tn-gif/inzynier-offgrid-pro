@@ -96,6 +96,7 @@ export const KAFLE: KafelEntry[] = [
       { href: "/kalkulatory/mikroinwertery-vs-centralny", label: "Mikroinwertery vs inwerter centralny" },
       { href: "/kalkulatory/warunki-nadmorskie-pyliste", label: "Warunki nadmorskie i pyliste" },
       { href: "/kalkulatory/porownywarka-paneli", label: "Porównywarka paneli PV" },
+      { href: "/kalkulatory/odstep-rzedow", label: "Odstęp rzędów paneli" },
     ],
   },
   {
